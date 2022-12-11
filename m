@@ -1,46 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4909264957F
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Dec 2022 19:02:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0441D649580
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Dec 2022 19:02:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DA0110E147;
-	Sun, 11 Dec 2022 18:02:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E50410E14A;
+	Sun, 11 Dec 2022 18:02:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 315 seconds by postgrey-1.36 at gabe;
- Sat, 10 Dec 2022 18:07:07 UTC
-Received: from forward103j.mail.yandex.net (forward103j.mail.yandex.net
- [5.45.198.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 501B810E0DC;
- Sat, 10 Dec 2022 18:07:07 +0000 (UTC)
-Received: from forward101q.mail.yandex.net (forward101q.mail.yandex.net
- [IPv6:2a02:6b8:c0e:4b:0:640:4012:bb98])
- by forward103j.mail.yandex.net (Yandex) with ESMTP id 798FF101AF4;
- Sat, 10 Dec 2022 21:01:47 +0300 (MSK)
-Received: from vla5-1ef2161cc1d7.qloud-c.yandex.net
- (vla5-1ef2161cc1d7.qloud-c.yandex.net
- [IPv6:2a02:6b8:c18:3607:0:640:1ef2:161c])
- by forward101q.mail.yandex.net (Yandex) with ESMTP id 74E1F13E80002;
- Sat, 10 Dec 2022 21:01:47 +0300 (MSK)
-Received: by vla5-1ef2161cc1d7.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
- id j1gRoFCZEOs1-LYqGIaIh; Sat, 10 Dec 2022 21:01:46 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skif-web.ru; s=mail;
- t=1670695306; bh=d4LSP210pPsizDp0BFbLhYh/xU1PF2q/gTxyraEFraM=;
- h=Message-Id:Date:Cc:Subject:To:From;
- b=ojObATcgxbhAkntM7e5z327TbthRoYz/QbiRZaEzjRc/gdDlqzt+2mMwf+bH6tCnQ
- aiT/mHwkFWCPVDO9y0VNtBV1qdKqZmaz5qI1EgmFTP7ASBPo7fOZ5vjvzGMyri4vwk
- cwWcU+jaVX5kLFh9NaPyO7arokanAosSrZLiHHHc=
-Authentication-Results: vla5-1ef2161cc1d7.qloud-c.yandex.net;
- dkim=pass header.i=@skif-web.ru
-From: Alexey Lukyanchuk <skif@skif-web.ru>
-To: tvrtko.ursulin@linux.intel.com
-Subject: [PATCH RFC] fix dell wyse 3040 poweroff 
-Date: Sat, 10 Dec 2022 21:01:19 +0300
-Message-Id: <20221210180118.22087-1-skif@skif-web.ru>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB61910E11A;
+ Sun, 11 Dec 2022 14:09:11 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id p24so9520694plw.1;
+ Sun, 11 Dec 2022 06:09:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=nhSojJ9yRAAYuIv29QcWwuo3qzXukFj1p0NiP/vbUAU=;
+ b=KgvzcVH6VhLTX0T0yUhpBIYGBPo5c7zDiH5COSkrWoYp1cWtEJ1oCv1Da9OuEROKXx
+ 2FJOkLlt/C1oCwA/Vl2yzKYEZ9Ziyrh0Jkyi+zk7Gq/dFHfC6id/u4wpOVXH6RUjOcUJ
+ FATR08gCW+6VmuvkdFB5xqmpbA9/9j022gFPev+CIzk7axVyc+MSQu5oSZ4Mz5AT0f+i
+ SU37RfpmD3hLVp6B8jWuNMYQR3q2JPaCdMQ5YsoTll9HG+psE9HrVQgKSWDxYlY0IwW7
+ fzqeDvLPg0zTGszU2TnTHMVfXZl7G8NsAVKO21MxEgZ52X3zK/SjYMdjLcQ0uWQcMrLU
+ 5KsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nhSojJ9yRAAYuIv29QcWwuo3qzXukFj1p0NiP/vbUAU=;
+ b=CSZcCHbIEF9GZAZjKd5Eqi3Q6w9Qaaa3c7GgGxe+rHGqqlDeecP+rkZFtQ92qyVYe1
+ uYjW/vUlCaMa297dozwzlz5Be14FXPSG7s+xa6WrrVl+1MSNtUljR5kRIFMk5eQf+V+G
+ 4rb8d3oLYSNSeqZmHEQVdv4e3ush5aA/A08O3N6y3Fs8slDo1IzGNt/kFy6VNJ/I7BGF
+ 1mCRwKQQCwBzOBXR6xYjZ02dnZSlzM6bOnKjBTpBads85I36zugKqgnRhYHY5RacyPqN
+ +eSfQ7xyXcA5YasMoOs03HhWA2q7g2rYV8aW/dkgClIqIfqvN84In5E8AobnwB06Kon5
+ N+JQ==
+X-Gm-Message-State: ANoB5pksD09k0Y2ryJBJZFhiiTyh07n2FEJ1jHUj3xQl8W2/dsTvkf8B
+ rwutGmz3OigurIUjhngpvy8nsX/JB8WIL02qxJY=
+X-Google-Smtp-Source: AA0mqf6zImP1+m963p8Iku+ggiohU+Xgzv3zEPE29G5VfW7nDYqOiGwm9V6ehWybc9wu/Y1IqyzQZw==
+X-Received: by 2002:a17:902:da8c:b0:189:da3b:17a4 with SMTP id
+ j12-20020a170902da8c00b00189da3b17a4mr17818599plx.18.1670767751142; 
+ Sun, 11 Dec 2022 06:09:11 -0800 (PST)
+Received: from localhost.localdomain ([14.5.161.132])
+ by smtp.gmail.com with ESMTPSA id
+ d6-20020a170902654600b00186b8752a78sm4390118pln.80.2022.12.11.06.09.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 11 Dec 2022 06:09:10 -0800 (PST)
+From: Kang Minchul <tegongkang@gmail.com>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/etnaviv: Remove redundant dev_err()
+Date: Sun, 11 Dec 2022 23:09:05 +0900
+Message-Id: <20221211140905.752805-1-tegongkang@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sun, 11 Dec 2022 18:02:33 +0000
@@ -56,105 +72,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexey Lukyanchuk <skif@skif-web.ru>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Kang Minchul <tegongkang@gmail.com>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dell wyse 3040 cat't poweroff aftet kernel 5.11.
-It happens  because i915_driver_shutdown function.
-Disabling of this function mitigate this problem.
+Function dev_err() is redundant because platform_get_irq()
+already prints an error.
 
-Fixes: 440b354f3 ("drivers/gpu/drm:power off troubles on dell wyse 3040") 
-Signed-off-by: Alexey Lukyanchuk <skif@skif-web.ru> 
+Signed-off-by: Kang Minchul <tegongkang@gmail.com>
 ---
-There is trouble with i915_driver_shutdown function. After some diving I found that trouble looks like race condition in drm_atomic_get_connector_state function (drivers/gpu/drm/drm_atomic.c), maybe it linked to iterators. Now I fully exclude i915_driver_shutdown for wyse 3040 device.
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Can any one comment on this one please ? 
----
- drivers/gpu/drm/i915/display/intel_quirks.c | 25 +++++++++++++++++++++
- drivers/gpu/drm/i915/i915_driver.c          |  3 +++
- drivers/gpu/drm/i915/i915_drv.h             |  1 +
- 3 files changed, 29 insertions(+)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c b/drivers/gpu/drm/i915/display/intel_quirks.c
-index e415cd7c0..a6a549d48 100644
---- a/drivers/gpu/drm/i915/display/intel_quirks.c
-+++ b/drivers/gpu/drm/i915/display/intel_quirks.c
-@@ -60,6 +60,12 @@ static void quirk_no_pps_backlight_power_hook(struct drm_i915_private *i915)
- 	drm_info(&i915->drm, "Applying no pps backlight power quirk\n");
- }
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index a31eeff2b297..097fa9034ee8 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1771,7 +1771,6 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+ 	/* Get Interrupt: */
+ 	gpu->irq = platform_get_irq(pdev, 0);
+ 	if (gpu->irq < 0) {
+-		dev_err(dev, "failed to get irq: %d\n", gpu->irq);
+ 		return gpu->irq;
+ 	}
  
-+static void quirk_wyse_3040_shutdown_fix(struct drm_i915_private *i915)
-+{
-+	i915->quirks |= QUIRK_WYSE_3040_SHUTDOWN_FIX;
-+	drm_info(&i915->drm, "Applying wyse 3040 shutdown fix\n");
-+}
-+
- struct intel_quirk {
- 	int device;
- 	int subsystem_vendor;
-@@ -85,6 +91,12 @@ static int intel_dmi_no_pps_backlight(const struct dmi_system_id *id)
- 	return 1;
- }
- 
-+static int wyse_3040_shutdown_fix(const struct dmi_system_id *id)
-+{
-+	DRM_INFO("This device need help with poweroff %s\n", id->ident);
-+	return 1;
-+}
-+
- static const struct intel_dmi_quirk intel_dmi_quirks[] = {
- 	{
- 		.dmi_id_list = &(const struct dmi_system_id[]) {
-@@ -131,6 +143,19 @@ static const struct intel_dmi_quirk intel_dmi_quirks[] = {
- 		},
- 		.hook = quirk_no_pps_backlight_power_hook,
- 	},
-+	{
-+		.dmi_id_list = &(const struct dmi_system_id[]) {
-+			{
-+				.callback = wyse_3040_shutdown_fix,
-+				.ident = "Dell Inc. 0G56C0",
-+				.matches = {DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Dell Inc."),
-+					    DMI_EXACT_MATCH(DMI_BOARD_NAME, "0G56C0"),
-+				},
-+			},
-+			{ }
-+		},
-+		.hook = quirk_wyse_3040_shutdown_fix,
-+	},
- };
- 
- static struct intel_quirk intel_quirks[] = {
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index deb8a8b76..af60fb79a 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -1079,6 +1079,9 @@ static void intel_shutdown_encoders(struct drm_i915_private *dev_priv)
- 
- void i915_driver_shutdown(struct drm_i915_private *i915)
- {
-+	if (!(i915->quirks & QUIRK_WYSE_3040_SHUTDOWN_FIX))
-+		return;
-+
- 	disable_rpm_wakeref_asserts(&i915->runtime_pm);
- 	intel_runtime_pm_disable(&i915->runtime_pm);
- 	intel_power_domains_disable(i915);
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 086bbe894..fdd6866e7 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -200,6 +200,7 @@ struct drm_i915_display_funcs {
- #define QUIRK_INCREASE_T12_DELAY (1<<6)
- #define QUIRK_INCREASE_DDI_DISABLED_TIME (1<<7)
- #define QUIRK_NO_PPS_BACKLIGHT_POWER_HOOK (1<<8)
-+#define QUIRK_WYSE_3040_SHUTDOWN_FIX (1<<9)
- 
- struct i915_suspend_saved_registers {
- 	u32 saveDSPARB;
 -- 
-2.25.1
+2.34.1
 
