@@ -2,57 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C5AA649474
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Dec 2022 14:31:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B309649492
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Dec 2022 14:55:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B85E10E129;
-	Sun, 11 Dec 2022 13:31:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E94610E130;
+	Sun, 11 Dec 2022 13:55:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3638410E129
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Dec 2022 13:31:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1670765493; x=1702301493;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=mzHG/pVGmg236g4ocCottXwf/Vck+AOplcQMPTkzoug=;
- b=LFRuBEdhdHhddmTY9KdMavYFbOK4EmjwhccQC5PxLgLjjwLXiC62Z4Yv
- +Y0mXzfPRqIYX+lxZzSMbxKxTY8NbJcaiKTHJPKEXR6YXznIyDUrfnfpr
- nMqT025Aet/Fy8TAZD7UbhC5nnyeMIJ5iaSB1ZqTccZ5Wy08pc5XtZNGG
- HZw/gg6VA65Yh2u+PF6lNzx50VkKAgUK0mhba1CuBehktJ/+qgEuC1DQK
- 7dnUN+T7C1I7UhjBm/yZSfrC3Fncei9s0ZkCMvF/Iw+RMjGAin2B4LFln
- rxxU9oNBF5rJ0qPkvU6sXSEZ7uvhADQy1wo1B496Qy419Ossn53F3M8fM g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10558"; a="318847054"
-X-IronPort-AV: E=Sophos;i="5.96,236,1665471600"; d="scan'208";a="318847054"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2022 05:31:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10558"; a="678628772"
-X-IronPort-AV: E=Sophos;i="5.96,236,1665471600"; d="scan'208";a="678628772"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orsmga008.jf.intel.com with ESMTP; 11 Dec 2022 05:31:28 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
- (envelope-from <andriy.shevchenko@intel.com>) id 1p4MQQ-0080Nz-0b;
- Sun, 11 Dec 2022 15:31:26 +0200
-Date: Sun, 11 Dec 2022 15:31:25 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v2 00/11] pwm: Allow .get_state to fail
-Message-ID: <Y5XbrWTicuTxPLwN@smile.fi.intel.com>
-References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
- <Y5OtCjQOQjjltGPa@smile.fi.intel.com>
- <20221210091833.vdfir63nq4kpj5cm@pengutronix.de>
- <Y5TyrO5maz5VYic3@smile.fi.intel.com>
- <20221210224154.733cd5qnrkpexq22@pengutronix.de>
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2C1B10E130
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Dec 2022 13:55:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+ t=1670766913; bh=xq+tOsyd0WnEBYZsDftkiZ/K0hXxhKqmak3ozClnAhA=;
+ h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
+ Content-Type;
+ b=Lw7qSXIeqY0zeGmSKrp3dOZ2ty0Y08YgUu/NU5OcVnZmRzmnrbv3QgL2NPJrD69rM
+ zqjp4YLX3kM8FyRwyTwpBfS+vT/ECHRIHWCBGJhzXIk0YPdsMGeM0+icZpxRXX6Lnw
+ dDZZujg51h0XESzbuOdd96640l5W2EFTrqla60nI=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
+ via ip-206.mailobj.net [213.182.55.206]
+ Sun, 11 Dec 2022 14:55:13 +0100 (CET)
+X-EA-Auth: 1vJpOd6xvyZUc0g7UMKSJAb/DUIrntROzP0Ci/lss0NuJBvm6qAzgGmuTPxapEaAUk3yo/Bjo0fCa7hkbNJRkqgJMiaiOOVj
+Date: Sun, 11 Dec 2022 19:25:08 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/sprd: remove redundant error logging
+Message-ID: <Y5XhPJ39ipMCcctq@qemulion>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221210224154.733cd5qnrkpexq22@pengutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,47 +47,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-sunxi@lists.linux.dev, linux-gpio@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, linux-mediatek@lists.infradead.org,
- linux-leds@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-riscv@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org
+Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>, drv@mailo.com,
+ Saurabh Singh Sengar <ssengar@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Dec 10, 2022 at 11:41:54PM +0100, Uwe Kleine-König wrote:
-> On Sat, Dec 10, 2022 at 10:57:16PM +0200, Andy Shevchenko wrote:
-> > On Sat, Dec 10, 2022 at 10:18:33AM +0100, Uwe Kleine-König wrote:
-> > > On Fri, Dec 09, 2022 at 11:47:54PM +0200, Andy Shevchenko wrote:
-> > > > On Wed, Nov 30, 2022 at 04:21:37PM +0100, Uwe Kleine-König wrote:
+A call to platform_get_irq() already prints an error on failure within
+its own implementation. So printing another error based on its return
+value in the caller is redundant and should be removed. The clean up
+also makes if condition block braces unnecessary. Remove that as well.
 
-...
+Issue identified using platform_get_irq.cocci coccicheck script.
 
-> > > > I'm wondering why we didn't see a compiler warning about mistyped function
-> > > > prototypes in some drivers.
-> > > 
-> > > I don't understand where you expected a warning. Care to elaborate?
-> > 
-> > intel-lpss.c has the prototype that returns an int. IIRC it was like this
-> 
-> Do you mean drivers/mfd/intel-lpss.c? That one doesn't implement a PWM?!
+Signed-off-by: Deepak R Varma <drv@mailo.com>
+---
+ drivers/gpu/drm/sprd/sprd_dpu.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Nope, I meant pwm-lpss.c.
+diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c b/drivers/gpu/drm/sprd/sprd_dpu.c
+index 88f4259680f1..db0bcea1d9f4 100644
+--- a/drivers/gpu/drm/sprd/sprd_dpu.c
++++ b/drivers/gpu/drm/sprd/sprd_dpu.c
+@@ -803,10 +803,8 @@ static int sprd_dpu_context_init(struct sprd_dpu *dpu,
+ 	}
 
-> And drivers/pwm/pwm-lpss.c is adapted by this series.
+ 	ctx->irq = platform_get_irq(pdev, 0);
+-	if (ctx->irq < 0) {
+-		dev_err(dev, "failed to get dpu irq\n");
++	if (ctx->irq < 0)
+ 		return ctx->irq;
+-	}
 
-That's what I didn't see how.
+ 	/* disable and clear interrupts before register dpu IRQ. */
+ 	writel(0x00, ctx->base + REG_DPU_INT_EN);
+--
+2.34.1
 
-> One of us is confused ...
-
-Yes, because when I have checked the branch based on Linux Next I already saw
-that get_state() returns a code and I wasn't aware that the series is already
-there.
-
--- 
-With Best Regards,
-Andy Shevchenko
 
 
