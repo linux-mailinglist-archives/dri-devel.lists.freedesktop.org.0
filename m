@@ -2,93 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11836493FC
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Dec 2022 12:43:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0B07649439
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Dec 2022 13:45:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E78310E13F;
-	Sun, 11 Dec 2022 11:42:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A13710E119;
+	Sun, 11 Dec 2022 12:45:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2063.outbound.protection.outlook.com [40.107.244.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4045410E115;
- Sun, 11 Dec 2022 11:42:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nSGkv8QR/bLyhomCnPRwHfn5GncrdOIxgsIqxlfo0+E1qHdXXwyWYiGGs4A6SCGZnpfgKlwdWrnPFMbrHO8MXxBRBNcshWgPA2sxgb/SkWFzIMmTwHlrOIX/L8bP60pgLo6SFEtQoi66/Ix8fnfu/QTROIxpSYz/kIHJZnKPm4BwxFXyy2Qd43Wvie0YhXeC6brycT8uuEOSaRY2dQtaw1rxU6rYvkZ0+lIxD1AhiMMversunBK258DX3iMdbVL0af2rdvGSuGa/wN4wUX9tTzNFGiPCbQsMgL7x0XAuDiKfk2mE1jGDwVhmkvmS9gGITrM8QuReHUdXIvkbRyzIFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Hot4QXe91jHab25CUQ3zKQRJqu/0YaK3Q5DNlGmpOVw=;
- b=I9tkZAjWmZ7Frckmo8/KOzY5Eo8yETKvoO8gqC1bVCi9QqNaIAORmSqCkf145xhdhwbcXe61/VXOLtluKcoecRza3OMdbHZomFTRYLNq03vWlqH+LbmHPfnhk7FzTFRx/G1FiVrJ+xpr75s8QApTg/hPk+m7OSOufuU0UbfxBto8fnU+6KwWbfsnI4esUddrJ8tlEK8FGGLq3D7GM4v8ZBiJYysM3L6nakfKeq8MAo9Pi5tj5VgKYd+0Bwqr92wTPPY5WFi6VZdVF07Uxt4iEiN+8fv3sRuQRvkqvl3YJ1GEh9gIDETQPHMJ2uHea1jwgQdzyN993F02BbnELpv/Pg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hot4QXe91jHab25CUQ3zKQRJqu/0YaK3Q5DNlGmpOVw=;
- b=MMlOiBkF0dcwNg2wM6T7w2n9ST4h9p50twSnZhiekWXYGmzhMB8fDZBO0HBsMVAwdVIFZYJLauOAYm8FhPZPoL6tIgM8XzRyyb2tPTCWOFjBEnMjvo5xIsXpnRyg6d4N776d+5KHdTA58sFYNCnrDxE5dxVkyAABg9lHu9oF0Sc=
-Received: from DM6PR02CA0122.namprd02.prod.outlook.com (2603:10b6:5:1b4::24)
- by CY5PR12MB6347.namprd12.prod.outlook.com (2603:10b6:930:20::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.18; Sun, 11 Dec
- 2022 11:42:42 +0000
-Received: from DS1PEPF0000E657.namprd02.prod.outlook.com
- (2603:10b6:5:1b4:cafe::91) by DM6PR02CA0122.outlook.office365.com
- (2603:10b6:5:1b4::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.19 via Frontend
- Transport; Sun, 11 Dec 2022 11:42:41 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS1PEPF0000E657.mail.protection.outlook.com (10.167.18.69) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5924.7 via Frontend Transport; Sun, 11 Dec 2022 11:42:41 +0000
-Received: from localhost.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Sun, 11 Dec
- 2022 05:42:40 -0600
-From: Luben Tuikov <luben.tuikov@amd.com>
-To: AMD Graphics <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH] drm/radeon: Fix screen corruption
-Date: Sun, 11 Dec 2022 06:42:26 -0500
-Message-ID: <20221211114226.57398-1-luben.tuikov@amd.com>
-X-Mailer: git-send-email 2.39.0.rc2
-In-Reply-To: <2b7cdb48-303c-2de0-60db-95d2fa204150@amd.com>
-References: <2b7cdb48-303c-2de0-60db-95d2fa204150@amd.com>
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE25F10E119
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Dec 2022 12:44:58 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id
+ fa4-20020a17090af0c400b002198d1328a0so11776136pjb.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Dec 2022 04:44:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/BIynU2NWG7vKdIOfvZ+4asmhXgFyDxZr8sjMOqoFm8=;
+ b=VLTR7S/5ahNq29JrLlj5T02niU5r0jRh5WDqvlUJIfcTSpIEpzp81s8kGrBPHDXP0B
+ tOZN0FlJjcKYQwFlxGliUGZTkgXsKcQc3RbSg3t9HqcCLJ2sYbN65lsRdjEv4d3Ieipd
+ /++8MJEOed7jHqmpcLZRBpL6fxIgF5bnecqhSUejVteb9/vPQW06qcwOHn0sok3JZoOO
+ js6Jk/GGYyV3M2lHhJ5Tae1CGHfTY8+Nvz1idEjTvRwOEq++Zj4MFSLqu8XwLTqyxX8c
+ v8dbXeurnS/gLdxLUrM/xLQhp8LQwFg2BTGpf47mhbi20bXhzX+IdV9hoRhu5vfwW1qM
+ fKog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/BIynU2NWG7vKdIOfvZ+4asmhXgFyDxZr8sjMOqoFm8=;
+ b=2oVyTandUnwR1RGzdVu1cihVLiVYD793ogjuh3av0mfr7hRUbmcS9vmbRGIFJ0IbDt
+ IuOyvjYHr81FLAMC+TV/T7OsXRRTQdzxFCDdDQVeCLUxuwmp2eM9FIioSGYTiMVcqzhl
+ v5c32Edtth+aSWFAqfF8M/d657hxvvhWUY5nGZ600gjVkPIpV4d5LBuLRx2Qog8xnphe
+ zOL81+lUOoFOeiHfjrW3nCEZyufsxlOUvf0XQoJClC44c+XtLhH51lpelVXNHR8P8Mgf
+ ovUUzKz9oN/H8pe000J3A15ZWrvZDjPX4evJgbuoZCNYW1wgQrVuPPRpJXYZT1UGELo+
+ ZQng==
+X-Gm-Message-State: ANoB5pkShlCswx9kek89xXw4E8PK59NbzXKmxTUZFAs1LY/UPsGyYh6r
+ L1NGHI7uWkCecHLNH4dxJ88=
+X-Google-Smtp-Source: AA0mqf7yK/8RDsOO7DyGcjv6lNtY/SWehdEVnXgQu3jHlPDi09fOM7Wba1DgYdpDPCZKOaXs9yAeeA==
+X-Received: by 2002:a05:6a20:ce4a:b0:a4:69a2:6dd7 with SMTP id
+ id10-20020a056a20ce4a00b000a469a26dd7mr15160149pzb.0.1670762698199; 
+ Sun, 11 Dec 2022 04:44:58 -0800 (PST)
+Received: from [192.168.43.80] (subs03-180-214-233-66.three.co.id.
+ [180.214.233.66]) by smtp.gmail.com with ESMTPSA id
+ w15-20020a17090a4f4f00b00218fb3bec27sm3620808pjl.56.2022.12.11.04.44.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 11 Dec 2022 04:44:57 -0800 (PST)
+Message-ID: <38ad5cab-bcb1-bb23-b141-7ffc07acde78@gmail.com>
+Date: Sun, 11 Dec 2022 19:44:50 +0700
 MIME-Version: 1.0
-X-check-string-leak: v1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH] Documentation: gpu: vc4: add blank line separator before
+ KUnit code block
+Content-Language: en-US
+To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+References: <202212102116.A10vg3jG-lkp@intel.com>
+ <20221211053051.18125-1-bagasdotme@gmail.com>
+ <fb978a9e-43af-865a-00c6-d98499414ec5@igalia.com>
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <fb978a9e-43af-865a-00c6-d98499414ec5@igalia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF0000E657:EE_|CY5PR12MB6347:EE_
-X-MS-Office365-Filtering-Correlation-Id: 11a5d9fb-0785-44d4-37e5-08dadb6ccfef
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Z10R5Cprqt5BBwgIZ/niwi0v29Y6fDkhcXw4/u7J5lRjntjk8G8whp6CiInLUY6NzyOwamwLNCTS06jFkmAEmeWSVObt4nvHlamYU91s9zyF58//heVyXLIL4Qx7y13vWVlvr/xkbL+cUr0DFBi1s9xqChFAUX5kZ/eitHpgtq4N3nxz6tVaXwVpq9pV85nqUC58Tw2DDq8iBkJGap0Wg1AxUVQV8q/vOGauYRNNCP0cfy0qdD/gh3b6cFXnnlpFgoNrQ26Vdp802MOFfbkVEBxhDz2Ff6uOGKhVC//peWOh+RxVTWx2vQTegVq1j823ZrkEpOqmRA/qbpn5sZrpD2ZW/OpeCUt/SVHHmg3wESH/FGSbxubEN2g58D1sothgr5J3gBMuWyRoCDtLpb+7YeJKxMOlTETtMy/Ps3KkRE8XB2NubQUQD/jIMnRFdIM1zTfdw4AZKCU0GULVxe00EmyI+17QO0aCQdx2PDOwX9Yx7orY4wH1nzr6KvpK9BqabIkCux1DA+rR+HwK3E/TRsVoUEj2Za+LQ3/JA9v7+REdncwXcY9ZX/gFM/JC/PjhUAWiWcQZBMfRsL9yEGzgjyRyHTfhC6QYgoYnqI/jitqE2JVfgXDonNDZLCCCxvwRoEgO/4F4KER43bIuuRDWAw0dVW+qU0tvBFGwZVv/BhbNGIBxaWk2A5UB52iHywyLutf9elr0S1kNctRd/lmbH7CWOx/6IyLvM8DG7AmZ2Yw=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:CA; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(396003)(39860400002)(376002)(346002)(136003)(451199015)(36840700001)(40470700004)(46966006)(6916009)(6666004)(16526019)(336012)(86362001)(41300700001)(478600001)(40460700003)(54906003)(36756003)(186003)(2906002)(26005)(7696005)(316002)(81166007)(47076005)(40480700001)(426003)(4326008)(2616005)(1076003)(8676002)(5660300002)(8936002)(70206006)(70586007)(82310400005)(356005)(83380400001)(44832011)(82740400003)(36860700001)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2022 11:42:41.6921 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11a5d9fb-0785-44d4-37e5-08dadb6ccfef
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E657.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6347
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,70 +80,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <Alexander.Deucher@amd.com>,
- Mikhail Krylov <sqarert@gmail.com>, Luben Tuikov <luben.tuikov@amd.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix screen corruption on older 32-bit systems using AGP chips. Partially
-revert commit 33b3ad3788aba846fc8b9a065fe2685a0b64f713.
+On 12/11/22 18:32, Maíra Canal wrote:
+> I believe Maxime fixed this issue on [1], but it hasn't been yet merged
+> into drm-misc-next.
+> 
+> [1]
+> https://lore.kernel.org/dri-devel/20221208094727.2848310-1-maxime@cerno.tech/
+> 
 
-Cc: Mikhail Krylov <sqarert@gmail.com>
-Cc: Alex Deucher <Alexander.Deucher@amd.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Direct Rendering Infrastructure - Development <dri-devel@lists.freedesktop.org>
-Cc: AMD Graphics <amd-gfx@lists.freedesktop.org>
-Fixes: 33b3ad3788aba8 ("drm/radeon: handle PCIe root ports with addressing limitations")
-Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
----
- drivers/gpu/drm/radeon/radeon.h        | 1 +
- drivers/gpu/drm/radeon/radeon_device.c | 2 +-
- drivers/gpu/drm/radeon/radeon_ttm.c    | 2 +-
- 3 files changed, 3 insertions(+), 2 deletions(-)
+Ah! I don't see that!
 
-diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
-index 37dec92339b16a..4fe38fd9be3267 100644
---- a/drivers/gpu/drm/radeon/radeon.h
-+++ b/drivers/gpu/drm/radeon/radeon.h
-@@ -2426,6 +2426,7 @@ struct radeon_device {
- 	struct radeon_wb		wb;
- 	struct radeon_dummy_page	dummy_page;
- 	bool				shutdown;
-+	bool                            need_dma32;
- 	bool				need_swiotlb;
- 	bool				accel_working;
- 	bool				fastfb_working; /* IGP feature*/
-diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
-index 6344454a772172..3643a3cfe061bd 100644
---- a/drivers/gpu/drm/radeon/radeon_device.c
-+++ b/drivers/gpu/drm/radeon/radeon_device.c
-@@ -1370,7 +1370,7 @@ int radeon_device_init(struct radeon_device *rdev,
- 	if (rdev->family == CHIP_CEDAR)
- 		dma_bits = 32;
- #endif
--
-+	rdev->need_dma32 = dma_bits == 32;
- 	r = dma_set_mask_and_coherent(&rdev->pdev->dev, DMA_BIT_MASK(dma_bits));
- 	if (r) {
- 		pr_warn("radeon: No suitable DMA available\n");
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index bdb4c0e0736ba2..3debaeb720d173 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -696,7 +696,7 @@ int radeon_ttm_init(struct radeon_device *rdev)
- 			       rdev->ddev->anon_inode->i_mapping,
- 			       rdev->ddev->vma_offset_manager,
- 			       rdev->need_swiotlb,
--			       dma_addressing_limited(&rdev->pdev->dev));
-+			       rdev->need_dma32);
- 	if (r) {
- 		DRM_ERROR("failed initializing buffer object driver(%d).\n", r);
- 		return r;
+Thanks anyway.
 
-base-commit: 20e03e7f6e8efd42168db6d3fe044b804e0ede8f
 -- 
-2.39.0.rc2
+An old man doll... just what I always wanted! - Clara
 
