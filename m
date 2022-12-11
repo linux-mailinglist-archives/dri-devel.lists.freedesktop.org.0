@@ -2,49 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5B8649587
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Dec 2022 19:07:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8242764958E
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Dec 2022 19:18:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA07710E14E;
-	Sun, 11 Dec 2022 18:07:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFDF210E152;
+	Sun, 11 Dec 2022 18:18:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7509510E14E
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Dec 2022 18:07:14 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id BDF1F853A9;
- Sun, 11 Dec 2022 19:07:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1670782033;
- bh=2AtcgXnsxhHlHGiQYvXRaF8zbcbDFUcFUSSeX6nTRq8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=SZaj1WGXGNe4T7vvtOpJsVVmUTi/aegSDIb5pEhwRdBn/OrBKvDSGeXxHzYC63AzU
- s60mUruAR81KJoq8wYbHxTYEKEiACfuKp3X4deAkByHcSTzkcQuhQbOfQxxMHx1D78
- GffZA7/Tfgtd2pJuc1oHIA0pNUd8CIbflOEvnhU5HrLQRMFuoF2bzfuNkLATUuOEhe
- L/vE/DHCV6kLkhK3+F30pAZqtJJPeO3N/u6FoYPTLTRDQj/PeSdsJAB9//m5vXNBKw
- C6May2T4IclH5/U+q1P7xtn99IvM6ZOSqZ0UEkKI48yosL1eLTTW6XmEsG1Q4idruk
- 9MKOsT03grfHQ==
-Message-ID: <0276d7f4-5768-09c8-56fc-e738b4fadf9b@denx.de>
-Date: Sun, 11 Dec 2022 19:07:11 +0100
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B43AA10E150;
+ Sun, 11 Dec 2022 18:18:09 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id o12so9720349pjo.4;
+ Sun, 11 Dec 2022 10:18:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=DJWMq3v8mXb4JS75SBa9sdQFtIcG130S3cGcKyzpabI=;
+ b=VrMaPTLDjlE25NNedRFoqUUwGARQLKkm+rJeysHbF8/tjNrsjBQ3IS/2LecONLWMrI
+ lq+TOAiwLBAtBg9INXbqkJraEscsJo3PWOWkCZauLxTnE1YW2358/b644Ywey0gGF3Dw
+ y9tD+Ulpv2HZ53H+GcS6Mpb2XbDrHtDmxLL2GyXypVZwKK+gUaxRTw1s2rcu6MwKmjx9
+ iN5X/OWqn+MKJO1+IF11e+038nLkraFMVCF0Z3FShD1SfOQsSWegSYz1DkI8qNqsHzIL
+ 4ozX3z4IzeKQ4uSDLd89qauTHGTKyC8sH8gMMxNLXvgiIgJCOhA8UQnG+ABeF/RDwcJP
+ Nzzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DJWMq3v8mXb4JS75SBa9sdQFtIcG130S3cGcKyzpabI=;
+ b=lvqG0WLNQ4k200sA5VZrrgd2n+wXW4e3TxAM+dxAJRnThmg6GUKqISoKcmnhRCRPvS
+ mUhjd9Z5SInn/Fl/hf5j0K2ir99GtFlu2GP0Zd6nVhHilXw9psex4wABtOKBYkVgFvIT
+ zRCq+j682sFs5OEwlO7l8VRNQFxP1OvtHldubaPz2GaIncEqk4Ao0TjbrEoOFS78KVXX
+ WGufOPxZl7aENBj+gajjdjQm5VDtRXl2Xeg8TlYAlViOIIau04PVoH6bf8Sx7KGcNj2a
+ 4Zl7pjWGCaeLo49PeTMWMcqBsSyckmTlLi6rjX9PF/Mda2VbF7+5KObglNu8zk6owgIy
+ npow==
+X-Gm-Message-State: ANoB5pkkzNZNCb641aUkzVseVdQ8rQmR5TF6YqMnqwFDv/1fTQpFijlu
+ 2GZ9xCsI8obAJPU9MA0o30tQfUlERLe10ZLkERU=
+X-Google-Smtp-Source: AA0mqf5wv7vY/AxMCwT/Lp5m5UhGnZT0Gi692A3tOO3LkGtPolhU92xN9ymqE92AsHfyjusIWhgFD7dImHo81Qs0QI0=
+X-Received: by 2002:a17:902:b40b:b0:188:75bb:36d4 with SMTP id
+ x11-20020a170902b40b00b0018875bb36d4mr80760729plr.55.1670782689179; Sun, 11
+ Dec 2022 10:18:09 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v9 00/18] drm: bridge: Add Samsung MIPI DSIM bridge
-Content-Language: en-US
-To: Jagan Teki <jagan@amarulasolutions.com>
-References: <20221209152343.180139-1-jagan@amarulasolutions.com>
- <90c2e63d-138b-502d-5188-da49196e0ff1@denx.de>
- <CAMty3ZB7imKgS4ovyPfi5OMSHeBN=-hesTk6K+kuM-a+SvxbAQ@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAMty3ZB7imKgS4ovyPfi5OMSHeBN=-hesTk6K+kuM-a+SvxbAQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
+References: <20221211140905.752805-1-tegongkang@gmail.com>
+In-Reply-To: <20221211140905.752805-1-tegongkang@gmail.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Sun, 11 Dec 2022 15:17:51 -0300
+Message-ID: <CAOMZO5BoiKYJKhgQNW+=n-7KpEr_L8oj1zS2OcJR-B-NA0XqzA@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: Remove redundant dev_err()
+To: Kang Minchul <tegongkang@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,41 +64,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
- Fancy Fang <chen.fang@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/11/22 06:48, Jagan Teki wrote:
-> On Sun, Dec 11, 2022 at 7:58 AM Marek Vasut <marex@denx.de> wrote:
->>
->> On 12/9/22 16:23, Jagan Teki wrote:
->>> This series supports common bridge support for Samsung MIPI DSIM
->>> which is used in Exynos and i.MX8MM SoC's.
->>>
->>> The final bridge supports both the Exynos and i.MX8M Mini/Nano/Plus.
->>
->> I wonder if it would rather make sense to split the series up and submit
->> all the various partial fixes and additions separately, instead of
->> piling them up in this series and ever growing the series.
->>
->> It seems to me 3..5 and 7..14 can just go in before the rest.
-> 
-> Only 4 and 5 come under fixes and the rest of them seem dependent on
-> the series. However, 4, and 5 are reproduced in i.MX8M platform hence
-> I have added it as part of this series.
+On Sun, Dec 11, 2022 at 3:02 PM Kang Minchul <tegongkang@gmail.com> wrote:
+>
+> Function dev_err() is redundant because platform_get_irq()
+> already prints an error.
+>
+> Signed-off-by: Kang Minchul <tegongkang@gmail.com>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index a31eeff2b297..097fa9034ee8 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -1771,7 +1771,6 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+>         /* Get Interrupt: */
+>         gpu->irq = platform_get_irq(pdev, 0);
+>         if (gpu->irq < 0) {
+> -               dev_err(dev, "failed to get irq: %d\n", gpu->irq);
+>                 return gpu->irq;
+>         }
 
-You could try and reorder the series such that 7..14 can go in before 6 
-. And send it in smaller chunks too.
+If the dev_err() line is removed, then the { and } should be removed as well.
