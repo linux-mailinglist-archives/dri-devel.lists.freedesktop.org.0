@@ -2,50 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E5D664AB5C
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 00:17:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A9F64ABAB
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 00:42:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EDE410E2D0;
-	Mon, 12 Dec 2022 23:15:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FFDC10E29A;
+	Mon, 12 Dec 2022 23:42:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4FC710E2B0;
- Mon, 12 Dec 2022 23:15:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1670886940; x=1702422940;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=vKtrFgYonOAe1Sgb6SKuuNtAdzUJsERBoMrZqF1Sbh4=;
- b=DpEJ+EWgEV8atXp8bhWRnryQgiCMSySG4q8NdN6Ui8Q2O/fuOIHWmtV3
- otty6t89gBUBFuqPxL5YR5a5gHtbdfI3dRDsUPLakOq+0usoSZD72Sjqp
- nYjNkEgmazy60Z42zQa5/y6uyMy8ccSnTL5W3nOUjDYN4DjazL4vmn/OM
- D6kCp5fsrHqR5yFDw2HjIzvhXHjfKPAtAbAFT01Ab1Ml70m1dgAz+T9LS
- fkF4t+cO9nukyeK9qfsT375fcQnL/8G2IyKFzBYITPSbiPt5UZGFEWQdw
- 9HUgHRccRiHWsCa2yEWTRDSelESmfQzoNODMcn7ixp3J3nalmimUa9shU g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="380196418"
-X-IronPort-AV: E=Sophos;i="5.96,239,1665471600"; d="scan'208";a="380196418"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2022 15:15:39 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="679090377"
-X-IronPort-AV: E=Sophos;i="5.96,239,1665471600"; d="scan'208";a="679090377"
-Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2022 15:15:39 -0800
-From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v9 23/23] drm/i915/vm_bind: Support capture of persistent
- mappings
-Date: Mon, 12 Dec 2022 15:15:27 -0800
-Message-Id: <20221212231527.2384-24-niranjana.vishwanathapura@intel.com>
-X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
-In-Reply-To: <20221212231527.2384-1-niranjana.vishwanathapura@intel.com>
-References: <20221212231527.2384-1-niranjana.vishwanathapura@intel.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E7E710E29A;
+ Mon, 12 Dec 2022 23:42:10 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BCJRoxi026341; Mon, 12 Dec 2022 23:42:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=L/poYETk+wIVyz1oXWjHBXrsVN/2ZAsZsP2YCOt/i+A=;
+ b=iAcr0dQWynlN367mCvsp3RfT1brcr1hECIrQmVeE31esGebBwOt+1gRTKQiQLJOSct7y
+ 5zPiBh5aE6Q/F4ZU+f/TucUe3SfIOjeUgXtbYNI9PeI6BeJ0S9v0Jmokg82ioQTOOi/o
+ conXC5/IEeu2mQXGYCVJ5/e6Pt1BPqsWZGWBMB2VumyHqqYBIFZTyLD9CnpRPo4oV1bB
+ FhxKGzZXA5DzU5KLV/GGAZEY+2dyquTWngTiExGEfJJ0cuwNzpjb+s/FVS38EmNQ3Vjn
+ N2ECVNJQ6Hr8qmhFj9DLa6ChoGbtHVievuthtGFvL9byGbPzmeiu/RvEuvwxGmifZExp jw== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mcjb95hmp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 23:42:02 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BCNg0xq012161
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 23:42:00 GMT
+Received: from [10.111.167.12] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 12 Dec
+ 2022 15:41:57 -0800
+Message-ID: <a9e2f269-b9df-814f-adcd-f5577f590fa7@quicinc.com>
+Date: Mon, 12 Dec 2022 15:41:55 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v11 2/5] dt-bindings: msm/dp: add data-lanes and
+ link-frequencies property
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Kuogee Hsieh
+ <quic_khsieh@quicinc.com>
+References: <1670539015-11808-1-git-send-email-quic_khsieh@quicinc.com>
+ <1670539015-11808-3-git-send-email-quic_khsieh@quicinc.com>
+ <5a3865ed-8847-db04-3d60-f35438250bef@linaro.org>
+ <5aa16223-dbf6-996c-1985-794302dcce91@quicinc.com>
+ <be1411e8-1d07-7643-977c-a306016fd660@linaro.org>
+ <b6d90c1f-5365-7197-be63-96c3d8cf0746@quicinc.com>
+ <e53844b7-601b-f355-302b-cc871962a446@linaro.org>
+ <8b306c8f-3089-4aaf-7fc1-038a8330c89a@quicinc.com>
+ <CAA8EJpr5RYyQa7xu1_xJ0F-dn-H9aOf0KE-CDgDCwnZu3HPgXg@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJpr5RYyQa7xu1_xJ0F-dn-H9aOf0KE-CDgDCwnZu3HPgXg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: O1WJpTrNUTLNvhSKUJjGEuvxD9McfxPt
+X-Proofpoint-ORIG-GUID: O1WJpTrNUTLNvhSKUJjGEuvxD9McfxPt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-12_02,2022-12-12_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 mlxscore=0
+ malwarescore=0 suspectscore=0 impostorscore=0 spamscore=0 mlxlogscore=999
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212120204
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,193 +92,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- jani.nikula@intel.com, lionel.g.landwerlin@intel.com,
- thomas.hellstrom@intel.com, matthew.auld@intel.com, jason@jlekstrand.net,
- andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
+Cc: devicetree@vger.kernel.org, quic_sbillaka@quicinc.com,
+ freedreno@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
+ andersson@kernel.org, konrad.dybcio@somainline.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, robh+dt@kernel.org,
+ vkoul@kernel.org, agross@kernel.org, linux-arm-msm@vger.kernel.org,
+ swboyd@chromium.org, sean@poorly.run, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Support dump capture of persistent mappings upon user request.
+Hi Dmitry
 
-Capture of a mapping is requested with the VM_BIND ioctl and
-processed during the GPU error handling, thus not adding any
-additional latency to the submission path.
+On 12/12/2022 2:35 PM, Dmitry Baryshkov wrote:
+> On Mon, 12 Dec 2022 at 19:51, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>>
+>>
+>> On 12/8/2022 4:35 PM, Dmitry Baryshkov wrote:
+>>> On 09/12/2022 02:22, Kuogee Hsieh wrote:
+>>>>
+>>>> On 12/8/2022 4:11 PM, Dmitry Baryshkov wrote:
+>>>>> On 09/12/2022 01:38, Kuogee Hsieh wrote:
+>>>>>>
+>>>>>> On 12/8/2022 3:33 PM, Dmitry Baryshkov wrote:
+>>>>>>> On 09/12/2022 00:36, Kuogee Hsieh wrote:
+>>>>>>>> Add both data-lanes and link-frequencies property into endpoint
+>>>>>>>>
+>>>>>>>> Changes in v7:
+>>>>>>>> -- split yaml out of dtsi patch
+>>>>>>>> -- link-frequencies from link rate to symbol rate
+>>>>>>>> -- deprecation of old data-lanes property
+>>>>>>>>
+>>>>>>>> Changes in v8:
+>>>>>>>> -- correct Bjorn mail address to kernel.org
+>>>>>>>>
+>>>>>>>> Changes in v10:
+>>>>>>>> -- add menu item to data-lanes and link-frequecnis
+>>>>>>>>
+>>>>>>>> Changes in v11:
+>>>>>>>> -- add endpoint property at port@1
+>>>>>>>>
+>>>>>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>`
+>>>>>>>
+>>>>>>> Applying: dt-bindings: msm/dp: add data-lanes and link-frequencies
+>>>>>>> property
+>>>>>>> .git/rebase-apply/patch:47: trailing whitespace.
+>>>>>>>
+>>>>>>> .git/rebase-apply/patch:51: trailing whitespace.
+>>>>>>>
+>>>>>>>
+>>>>>>> Also the dt_binding_check fails with an error for this schema. And
+>>>>>>> after fixing the error in the schema I faced an example validation
+>>>>>>> error. Did you check that the schema is correct and that the
+>>>>>>> example validates against the schema?
+>>>>>>
+>>>>>> yes, but i run "make dt_binding_check
+>>>>>> DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/msm/dp-controller.yaml"
+>>>>>> at mu v5.15 branch since
+>>>>>
+>>>>> I wouldn't ask you to post the log here. But I don't think that
+>>>>> either of the errors that I see here is related to 5.15 vs 6.1-rc.
+>>>>>
+>>>>> In fact after applying this patch against 5.15 I saw the expected
+>>>>> failure:
+>>>>>
+>>>>> Documentation/devicetree/bindings/display/msm/dp-controller.yaml:
+>>>>> properties:required: ['port@0', 'port@1'] is not of type 'object',
+>>>>> 'boolean'
+>>>>> Documentation/devicetree/bindings/display/msm/dp-controller.yaml:
+>>>>> properties: 'required' should not be valid under {'$ref':
+>>>>> '#/definitions/json-schema-prop-names'}
+>>>>> Documentation/devicetree/bindings/display/msm/dp-controller.yaml:
+>>>>> ignoring, error in schema: properties: required
+>>>>>
+>>>>>>
+>>>>>> "make dt_binding_check" does not work at msm-next branch.
+>>>>>
+>>>>> I went ahead and just checked.
+>>>>>
+>>>>> `make dt_binding_check DT_SCHEMA_FILES=display/msm`  works cleanly
+>>>>> in msm-next and reports a single example-related warning in
+>>>>> msm-next-lumag. I pushed a patch to fix that warning (wich can
+>>>>> hopefully be picked up by Abhinav into msm-fixes). So you can assume
+>>>>> that both these branches have consistent error-free display/msm
+>>>>> schemas.
+>>>>>
+>>>> I have clean msm-next branch (without my data-lines yaml patch
+>>>> applied) and run "make dt_binding_check
+>>>> DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/msm/dp-controller.yaml",
+>>>> then I saw below error messages.
+>>>>
+>>>> Have you run into this problem?
+>>>
+>>> No.
+>>
+>> Did you do anything to fix "older dtschema instance"?
+> 
+> I did not since I hadn't had such a problem. I can refer again to the
+> steps I provided you beforehand. The email was sent 6 days ago. No
+> answer from your side since that time.
+> 
+>> I had run  "pip3 install dtschema --upgrade" and still not work.
+> 
+> Can you please post a full log of this command?
+> 
+>>
+>> D you know how to fix this problem?
+>>
+>> Thanks,
+>>
+>> kuogee
+>>
+>> sort: -:2: disorder: 2022.1
+>> ERROR: dtschema minimum version is v2022.3
+>> make[2]: *** [check_dtschema_version] Error 1
+>> make[1]: *** [dt_binding_check] Error 2
+>> make: *** [__sub-make] Error 2
+> 
+> Please add the output of:
+> 
+> which dt-validate
+> dt-validate -V
+> 
+> And also a full log of your failing kernel build.
+> 
+> 
+> 
+>> I had run "pip3 install dtschema --upgrade" according Rob Herring response.
+>> but it still shows same problem.
+>> Please let know how can I fix this problem.
+>>
+>>>
+>>>>
+>>>>     HOSTCC  scripts/basic/fixdep
+>>>>     HOSTCC  scripts/dtc/dtc.o
+>>>>     HOSTCC  scripts/dtc/flattree.o
+>>>>     HOSTCC  scripts/dtc/fstree.o
+>>>>     HOSTCC  scripts/dtc/data.o
+>>>>     HOSTCC  scripts/dtc/livetree.o
+>>>>     HOSTCC  scripts/dtc/treesource.o
+>>>>     HOSTCC  scripts/dtc/srcpos.o
+>>>>     HOSTCC  scripts/dtc/checks.o
+>>>>     HOSTCC  scripts/dtc/util.o
+>>>>     LEX     scripts/dtc/dtc-lexer.lex.c
+>>>>     HOSTCC  scripts/dtc/dtc-lexer.lex.o
+>>>>     HOSTCC  scripts/dtc/dtc-parser.tab.o
+>>>>     HOSTLD  scripts/dtc/dtc
+>>>> sort: -:2: disorder: 2022.1
+>>>> ERROR: dtschema minimum version is v2022.3
+>>>> make[2]: *** [check_dtschema_version] Error 1
+>>>> make[1]: *** [dt_binding_check] Error 2
+>>>> make: *** [__sub-make] Error 2
+>>>
+>>> This means that somewhere in your path you have an older dtschema
+>>> instance.
+>>>
+>>> When you sent me a question regarding this error, I asked for the
+>>> additional info. You provided none. Instead you went on sending the
+>>> untested patch that doesn't work.
+>>
+>> since i can not test it on msm-next so that I did test it at my v5-15
+>> branch.
+> 
+> Wrong.
+> 
+>>
+>> besides, i think i have to sent the whole series patches include this
+>> one to address your new comments on other patch.
+>>
+>> is this correct?
+> 
+> No. Please fix your system first, validate your patches and send them
+> afterwards. You can not expect others to do your job.
+> 
 
-A list of persistent vmas requiring capture is maintained
-instead of a list of vma resources. This allows for no
-additional handling around eviction.
+Just finished working with kuogee on this. This issue had been reported 
+by few others earlier (example 
+https://lore.kernel.org/lkml/bc9be279-a130-d5e7-4397-bbb389d14403@intel.com/T/).
 
-v2: enable with CONFIG_DRM_I915_CAPTURE_ERROR, remove gfp
-    overwrite, add kernel-doc and expand commit message
+So let me summarize the fix:
 
-Signed-off-by: Brian Welty <brian.welty@intel.com>
-Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
----
- .../gpu/drm/i915/gem/i915_gem_vm_bind_object.c | 13 +++++++++++++
- drivers/gpu/drm/i915/gt/intel_gtt.c            |  5 +++++
- drivers/gpu/drm/i915/gt/intel_gtt.h            |  7 +++++++
- drivers/gpu/drm/i915/i915_gpu_error.c          | 18 +++++++++++++++++-
- drivers/gpu/drm/i915/i915_vma.c                |  4 ++++
- drivers/gpu/drm/i915/i915_vma_types.h          |  4 ++++
- include/uapi/drm/i915_drm.h                    |  9 +++++++--
- 7 files changed, 57 insertions(+), 3 deletions(-)
+1) We do need up upgrade the dtschema first
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-index 78e7c0642c5f..562a67a988f2 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-@@ -88,6 +88,12 @@ static void i915_gem_vm_bind_remove(struct i915_vma *vma, bool release_obj)
- {
- 	lockdep_assert_held(&vma->vm->vm_bind_lock);
- 
-+#if IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR)
-+	mutex_lock(&vma->vm->vm_capture_lock);
-+	if (!list_empty(&vma->vm_capture_link))
-+		list_del_init(&vma->vm_capture_link);
-+	mutex_unlock(&vma->vm->vm_capture_lock);
-+#endif
- 	spin_lock(&vma->vm->vm_rebind_lock);
- 	if (!list_empty(&vma->vm_rebind_link))
- 		list_del_init(&vma->vm_rebind_link);
-@@ -357,6 +363,13 @@ static int i915_gem_vm_bind_obj(struct i915_address_space *vm,
- 				continue;
- 		}
- 
-+#if IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR)
-+		if (va->flags & I915_GEM_VM_BIND_CAPTURE) {
-+			mutex_lock(&vm->vm_capture_lock);
-+			list_add_tail(&vma->vm_capture_link, &vm->vm_capture_list);
-+			mutex_unlock(&vm->vm_capture_lock);
-+		}
-+#endif
- 		list_add_tail(&vma->vm_bind_link, &vm->vm_bound_list);
- 		i915_vm_bind_it_insert(vma, &vm->va);
- 		if (!obj->priv_root)
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-index 2e4c9fabf3b8..103ca55222be 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-@@ -297,6 +297,11 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
- 	spin_lock_init(&vm->vm_rebind_lock);
- 	spin_lock_init(&vm->userptr_invalidated_lock);
- 	INIT_LIST_HEAD(&vm->userptr_invalidated_list);
-+
-+#if IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR)
-+	INIT_LIST_HEAD(&vm->vm_capture_list);
-+	mutex_init(&vm->vm_capture_lock);
-+#endif
- }
- 
- void *__px_vaddr(struct drm_i915_gem_object *p)
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-index 620b4e020a9f..7f69e1d4fb5e 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-@@ -281,6 +281,13 @@ struct i915_address_space {
- 	/** @root_obj: root object for dma-resv sharing by private objects */
- 	struct drm_i915_gem_object *root_obj;
- 
-+#if IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR)
-+	/* @vm_capture_list: list of vm captures */
-+	struct list_head vm_capture_list;
-+	/* @vm_capture_lock: protects vm_capture_list */
-+	struct mutex vm_capture_lock;
-+#endif
-+
- 	/* Global GTT */
- 	bool is_ggtt:1;
- 
-diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-index 9d5d5a397b64..76b2834ce958 100644
---- a/drivers/gpu/drm/i915/i915_gpu_error.c
-+++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-@@ -1460,6 +1460,22 @@ capture_vma(struct intel_engine_capture_vma *next,
- 	return next;
- }
- 
-+static struct intel_engine_capture_vma *
-+capture_user_vm(struct intel_engine_capture_vma *capture,
-+		struct i915_address_space *vm, gfp_t gfp)
-+{
-+	struct i915_vma *vma;
-+
-+	mutex_lock(&vm->vm_capture_lock);
-+	/* vma->resource must be valid here as persistent vmas are bound */
-+	list_for_each_entry(vma, &vm->vm_capture_list, vm_capture_link)
-+		capture = capture_vma_snapshot(capture, vma->resource,
-+					       gfp, "user");
-+	mutex_unlock(&vm->vm_capture_lock);
-+
-+	return capture;
-+}
-+
- static struct intel_engine_capture_vma *
- capture_user(struct intel_engine_capture_vma *capture,
- 	     const struct i915_request *rq,
-@@ -1471,7 +1487,7 @@ capture_user(struct intel_engine_capture_vma *capture,
- 		capture = capture_vma_snapshot(capture, c->vma_res, gfp,
- 					       "user");
- 
--	return capture;
-+	return capture_user_vm(capture, rq->context->vm, gfp);
- }
- 
- static void add_vma(struct intel_engine_coredump *ee,
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index d092a86123ae..9be8aa448874 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -248,6 +248,10 @@ vma_create(struct drm_i915_gem_object *obj,
- 	INIT_LIST_HEAD(&vma->non_priv_vm_bind_link);
- 	INIT_LIST_HEAD(&vma->vm_rebind_link);
- 	INIT_LIST_HEAD(&vma->userptr_invalidated_link);
-+
-+#if IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR)
-+	INIT_LIST_HEAD(&vma->vm_capture_link);
-+#endif
- 	return vma;
- 
- err_unlock:
-diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
-index 89f9854a6f69..c4fd61d51ce6 100644
---- a/drivers/gpu/drm/i915/i915_vma_types.h
-+++ b/drivers/gpu/drm/i915/i915_vma_types.h
-@@ -310,6 +310,10 @@ struct i915_vma {
- 	struct list_head vm_rebind_link; /* Link in vm_rebind_list */
- 	/** @userptr_invalidated_link: link to the vm->userptr_invalidated_list */
- 	struct list_head userptr_invalidated_link;
-+#if IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR)
-+	/* @vm_capture_link: link to the captureable VMA list */
-+	struct list_head vm_capture_link;
-+#endif
- 
- 	/** Timeline fence for vm_bind completion notification */
- 	struct {
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index b9167f950327..5fde6020e339 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -3925,12 +3925,17 @@ struct drm_i915_gem_vm_bind {
- 	__u64 length;
- 
- 	/**
--	 * @flags: Currently reserved, MBZ.
-+	 * @flags: Supported flags are:
-+	 *
-+	 * I915_GEM_VM_BIND_CAPTURE:
-+	 * Capture this mapping in the dump upon GPU error.
-+	 * CONFIG_DRM_I915_CAPTURE_ERROR should be enabled for valid capture.
- 	 *
- 	 * Note that @fence carries its own flags.
- 	 */
- 	__u64 flags;
--#define __I915_GEM_VM_BIND_UNKNOWN_FLAGS (~0ull)
-+#define I915_GEM_VM_BIND_CAPTURE           (1ull << 0)
-+#define __I915_GEM_VM_BIND_UNKNOWN_FLAGS   (-(I915_GEM_VM_BIND_CAPTURE << 1))
- 
- 	/** @rsvd: Reserved, MBZ */
- 	__u64 rsvd[2];
--- 
-2.21.0.rc0.32.g243a4c7e27
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@main
 
+2) Python version issues were hitting some of the developers so even if 
+we had the right version installed the PATH wasnt pointing to the right one
+
+3) We had to install yamllint
+
+We have documented these now for the benefit of others internally.
+
+With all these 3 done, we can compile msm-next-lumag using
+make dt_binding_check DT_SCHEMA_FILES=display/msm
+
+Apologies for the setup issues on our end. These are resolved now and 
+kuogee will post a v12 for this.
+
+Thanks
+
+Abhinav
+> --
+> With best wishes
+> Dmitry
