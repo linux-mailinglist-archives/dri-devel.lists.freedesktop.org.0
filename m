@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E454564A3CC
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Dec 2022 15:55:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5051B64A3CB
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Dec 2022 15:55:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D33F810E1D4;
-	Mon, 12 Dec 2022 14:55:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65A7B10E1A4;
+	Mon, 12 Dec 2022 14:55:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
- [IPv6:2607:f8b0:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E333C10E18B
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 14:55:30 +0000 (UTC)
-Received: by mail-pl1-x62f.google.com with SMTP id s7so12329850plk.5
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 06:55:30 -0800 (PST)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 958E910E195
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 14:55:35 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id t2so9340259ply.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 06:55:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=v4ea8rvmGnrS/8sRSsoYglrzM9FWA5fUizBf/l/CVMc=;
- b=nt1qHxoUkFtSYDEH24MU3Zr1sZ5imgK/FR3091m9lCKlCS0zN1OR0Hr9JPZ3dJJ9eP
- +UO+hGhO3DZRXmDDg8PBN7K8JXncFazWDw2OnuuR3MyCA1GHgf0jF2Yv71bVONV3pVte
- qAiY+6HitJTUUlXQcYl4v46tWCuWvi9A8EEp8=
+ bh=y/y5vw0u9kB/6hX1ihxQilGZuqMG9YrydhtDvt3iYOI=;
+ b=BuTOUmaReEVhSmrY4tNdyrVDylbaCAI9zI2x/KRj7AlKYnD+crXBjLg6I7Tl/K9/vI
+ 7QH/rUKSJ+wzvtLhF/iZXahZ0wjb/yur7gwTxnf3Qeoh059IGL2sgnZosXbPWh+9+ZlZ
+ cLirNBdGyjHNotHKA9aW8XHZvkVPpgqMebgpM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=v4ea8rvmGnrS/8sRSsoYglrzM9FWA5fUizBf/l/CVMc=;
- b=8EN5xD2wT9z/UOAXo6IG0pavHrIgcHyqPTDQgW+aw+ITNUjL66UKEz17hPubeUORmO
- s+dZB6ZBtwMSUoV6NunPB9JjvTu1efGH+hC561rwuHzBRBmOAbHPL861UYSAi3nDxH/b
- Ef/pNJuQ9eU08a8ivygzmJiKRg8mkOyJWwvIYxE2flu2MT9vCNiIy4aTCq+8CnO14lEp
- TcENDY6kTjKGyf7xTfOh+m+eiPLSoCw4y8UojzQR+Wu1PmWV+n3Ef7vifjqgiNcCTTHx
- 3tfxnxxDcfa4l+lEaLAqP0/RWF10mpQVNiuW9yYri0uxDbmqPu5rPbENbLAqpTTcfSCa
- 7QhA==
-X-Gm-Message-State: ANoB5pl2UZp6sR/bNfvi9yhcYR4TBgxoEUiKGOBbWbSKG2pQ0GEuds0J
- O2enT/WjYZ8KQE4LNGqUC4gI5w==
-X-Google-Smtp-Source: AA0mqf6WJEW3banWVF1AHkY7665xfeS0AMVZwAlise4jZmkDo1Cpd3nFYLOJGi6TID6YpovqBoQXgA==
-X-Received: by 2002:a17:902:6b05:b0:186:b063:32e with SMTP id
- o5-20020a1709026b0500b00186b063032emr17616981plk.62.1670856930519; 
- Mon, 12 Dec 2022 06:55:30 -0800 (PST)
+ bh=y/y5vw0u9kB/6hX1ihxQilGZuqMG9YrydhtDvt3iYOI=;
+ b=ppJz7RrQ+KgOYM+B4kfta7OjQSWXLc4Bv6NOd3pAcUlS3CEJODNncqUQWgNg5wnn86
+ h6sJIXiNs10qqJQB81eNCXlI79mk9h2ehtncKMJNbK/pJZe14LgoHWtbw//McvFJ/Ydo
+ VCf0u5W2emXLslED3hYHugHti9dxrIO8sx15mBTxmsHCXOvzflDgkn7A0+niJo9LAcE4
+ JRZOq5JVJekL8gFpqGQdsVv5Qt+2w2roVomSMJzr12Ci4xllTt95dk3FCzzAD7He3Bv+
+ MaIxIUyuctxsLQhKImLqp/I3trYM+ilP21EDssmpFEqVVlFyJVMG2IRPKeJM/6Flwpdv
+ bpPg==
+X-Gm-Message-State: ANoB5pkVbXMGhl+1efsJ/xz13WzQlmRKiuzYzxeaTGGlbhjmAPxL7lOu
+ Of00Xdfb+i7OX+dhv7oJtzLHMA==
+X-Google-Smtp-Source: AA0mqf78CzP6wF4vC+jXEZ80TBSbKmyUeLFBAdMzjJ3bFN/hcrsPFs0IqmKVYOdlesA41J6QEB2Xew==
+X-Received: by 2002:a17:902:b494:b0:188:635d:4ca9 with SMTP id
+ y20-20020a170902b49400b00188635d4ca9mr17072148plr.2.1670856935321; 
+ Mon, 12 Dec 2022 06:55:35 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a809:c713:dc69:f2de:e52f])
  by smtp.gmail.com with ESMTPSA id
- e11-20020a170902784b00b001782aab6318sm6463272pln.68.2022.12.12.06.55.26
+ e11-20020a170902784b00b001782aab6318sm6463272pln.68.2022.12.12.06.55.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Dec 2022 06:55:29 -0800 (PST)
+ Mon, 12 Dec 2022 06:55:34 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Marek Szyprowski <m.szyprowski@samsung.com>,
  Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
@@ -54,10 +54,9 @@ To: Marek Szyprowski <m.szyprowski@samsung.com>,
  Neil Armstrong <narmstrong@linaro.org>,
  Robert Foss <robert.foss@linaro.org>,
  Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v10 2/3] drm/bridge: tc358764: Enable pre_enable_prev_first
- flag
-Date: Mon, 12 Dec 2022 20:25:07 +0530
-Message-Id: <20221212145508.15096-3-jagan@amarulasolutions.com>
+Subject: [PATCH v10 3/3] drm: exynos: dsi: Restore proper bridge chain order
+Date: Mon, 12 Dec 2022 20:25:08 +0530
+Message-Id: <20221212145508.15096-4-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221212145508.15096-1-jagan@amarulasolutions.com>
 References: <20221212145508.15096-1-jagan@amarulasolutions.com>
@@ -83,34 +82,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Marek Szyprowski <m.szyprowski@samsung.com>
 
-Enable the drm bridge pre_enable_prev_first flag so that the
-previous bridge pre_enable should be called first before the
-pre_enable for the tc358764 bridge is called.
+Restore the proper bridge chain by finding the previous bridge
+in the chain instead of passing NULL.
 
-This makes sure that the previous bridge should be initialized
-properly before the tc358764 bridge is powered up.
+This establishes a proper bridge chain while attaching downstream
+bridges.
 
+Reviewed-by: Marek Vasut <marex@denx.de>
 Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
 Changes for v10:
-- none
+- collect Marek review tag
 
- drivers/gpu/drm/bridge/tc358764.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/tc358764.c b/drivers/gpu/drm/bridge/tc358764.c
-index 53259c12d777..f85654f1b104 100644
---- a/drivers/gpu/drm/bridge/tc358764.c
-+++ b/drivers/gpu/drm/bridge/tc358764.c
-@@ -369,6 +369,7 @@ static int tc358764_probe(struct mipi_dsi_device *dsi)
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+index ec673223d6b7..e5b1540c4ae4 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+@@ -1428,7 +1428,8 @@ static int exynos_dsi_attach(struct drm_bridge *bridge,
+ {
+ 	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
  
- 	ctx->bridge.funcs = &tc358764_bridge_funcs;
- 	ctx->bridge.of_node = dev->of_node;
-+	ctx->bridge.pre_enable_prev_first = true;
+-	return drm_bridge_attach(bridge->encoder, dsi->out_bridge, NULL, flags);
++	return drm_bridge_attach(bridge->encoder, dsi->out_bridge, bridge,
++				 flags);
+ }
  
- 	drm_bridge_add(&ctx->bridge);
+ static const struct drm_bridge_funcs exynos_dsi_bridge_funcs = {
+@@ -1474,7 +1475,10 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
  
+ 	drm_bridge_add(&dsi->bridge);
+ 
+-	drm_bridge_attach(encoder, &dsi->bridge, NULL, 0);
++	drm_bridge_attach(encoder, &dsi->bridge,
++			  list_first_entry_or_null(&encoder->bridge_chain,
++						   struct drm_bridge,
++						   chain_node), 0);
+ 
+ 	/*
+ 	 * This is a temporary solution and should be made by more generic way.
 -- 
 2.25.1
 
