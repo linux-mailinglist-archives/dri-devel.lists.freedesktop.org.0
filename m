@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA99E64B1FB
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 10:13:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A2064B1F2
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 10:13:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 294FA10E2E7;
-	Tue, 13 Dec 2022 09:12:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0A3C10E2E8;
+	Tue, 13 Dec 2022 09:12:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D81C410E1A0
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 11:20:01 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F84910E214
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 15:32:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1670844001; x=1702380001;
+ t=1670859137; x=1702395137;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=qF7fFupV5kjumG1tdzFJxLs8xJuCyPJQFxbWgzeLL70=;
- b=dpzYz80bGVtKZ5I8SGj+ZfuLjqSttjHhblj3s11E6ad1bjjL031o/LMA
- NGfDu1JgaGYII59Soe9BcuL8vg2KRceetn+5zrQuDW4GW4oQlbA2U3wyl
- 686YzCtFzIv3TNm0MCdQIZgf20mAbNeSh4oP18QNhafYhdWAremqgvkGH
- arf95qCClx6MJFTSPxTltfHxAmdZGoxa2bHJpi3Kymg6g9CT/Opz3rEF8
- QcOqqu78aSO0JIAt9eibKNpRBmk6R8BNdGfMi5B0j+ViROXIfpDMMIC0D
- MQ2cxioKbCECOCAOUEWzfgFbDW4rmzRCMXmWb15kJ3WBT9ct2qgVFledE Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10558"; a="301251032"
-X-IronPort-AV: E=Sophos;i="5.96,238,1665471600"; d="scan'208";a="301251032"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2022 03:19:59 -0800
+ bh=w0T6ov7CVktF10SQWAPv4sOT0ButXhTQIqB4LfAMTVc=;
+ b=J18kvRqvFiwO/OGYEQfy4CI1+DXP7FUen1UMxg4+BB/8Epie5qrTjw8V
+ F9cO4ak8rxaqpVikEg5mThULWwl71s/iHaHZ2Zht8fCFIqAnCgOge+JXj
+ RFtINOLkG4uWjMGFCIBZlqIc32WxzvBF+irPZN4z7r+VMZTeYWg6n65na
+ DcK2RYOQsu2ixVEDEvCdJjAT5RK44vDWkcsGB0W8pO32Fl3ORmgEEky1L
+ GUfEli/VqByUxtmfTz0U7ZVF/MklRlv78Hbedd2vhibBRxCi20JLJNUnz
+ u+VATBnKIysVUf8KsctZzP3Y1kY/L87pPoRYiQ5s7TWop8FQRqS/2T4P2 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="316575943"
+X-IronPort-AV: E=Sophos;i="5.96,238,1665471600"; d="scan'208";a="316575943"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2022 07:32:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10558"; a="678883607"
-X-IronPort-AV: E=Sophos;i="5.96,238,1665471600"; d="scan'208";a="678883607"
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="754985539"
+X-IronPort-AV: E=Sophos;i="5.96,238,1665471600"; d="scan'208";a="754985539"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
- by orsmga008.jf.intel.com with ESMTP; 12 Dec 2022 03:19:55 -0800
+ by fmsmga002.fm.intel.com with ESMTP; 12 Dec 2022 07:32:04 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1p4gqg-0003bb-26;
- Mon, 12 Dec 2022 11:19:54 +0000
-Date: Mon, 12 Dec 2022 19:19:03 +0800
+ (envelope-from <lkp@intel.com>) id 1p4kmh-0003lD-2J;
+ Mon, 12 Dec 2022 15:32:03 +0000
+Date: Mon, 12 Dec 2022 23:31:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
  dri-devel@lists.freedesktop.org, oded.gabbay@gmail.com,
  airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
  quic_jhugo@quicinc.com
-Subject: Re: [PATCH v4 2/7] accel/ivpu: Add Intel VPU MMU support
-Message-ID: <202212121847.TKf3F0hO-lkp@intel.com>
-References: <20221208110733.5498-3-jacek.lawrynowicz@linux.intel.com>
+Subject: Re: [PATCH v4 3/7] accel/ivpu: Add GEM buffer object management
+Message-ID: <202212122319.uanV2eT4-lkp@intel.com>
+References: <20221208110733.5498-4-jacek.lawrynowicz@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="eBfZTfBlNbHZ+cH8"
+Content-Type: multipart/mixed; boundary="Y0MM8X/PHHsHB/XX"
 Content-Disposition: inline
-In-Reply-To: <20221208110733.5498-3-jacek.lawrynowicz@linux.intel.com>
+In-Reply-To: <20221208110733.5498-4-jacek.lawrynowicz@linux.intel.com>
 X-Mailman-Approved-At: Tue, 13 Dec 2022 09:12:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,16 +63,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
- Karol Wachowski <karol.wachowski@linux.intel.com>,
- stanislaw.gruszka@linux.intel.com,
+Cc: andrzej.kacprowski@linux.intel.com, stanislaw.gruszka@linux.intel.com,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- oe-kbuild-all@lists.linux.dev, andrzej.kacprowski@linux.intel.com
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---eBfZTfBlNbHZ+cH8
+--Y0MM8X/PHHsHB/XX
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -89,15 +87,15 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Jacek-Lawrynowicz/New-DRM-accel-driver-for-Intel-VPU/20221208-190957
 base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20221208110733.5498-3-jacek.lawrynowicz%40linux.intel.com
-patch subject: [PATCH v4 2/7] accel/ivpu: Add Intel VPU MMU support
+patch link:    https://lore.kernel.org/r/20221208110733.5498-4-jacek.lawrynowicz%40linux.intel.com
+patch subject: [PATCH v4 3/7] accel/ivpu: Add GEM buffer object management
 config: um-allyesconfig
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/d3de15d170d6cfbffbb1b99b0bc650f028719d70
+        # https://github.com/intel-lab-lkp/linux/commit/2ff7136d04f23c633714051c55b59631bc5b733d
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Jacek-Lawrynowicz/New-DRM-accel-driver-for-Intel-VPU/20221208-190957
-        git checkout d3de15d170d6cfbffbb1b99b0bc650f028719d70
+        git checkout 2ff7136d04f23c633714051c55b59631bc5b733d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=um SHELL=/bin/bash
@@ -107,59 +105,56 @@ If you fix the issue, kindly add following tag where applicable
 
 All errors (new ones prefixed by >>):
 
-   drivers/accel/ivpu/ivpu_mmu.c: In function 'ivpu_mmu_cmdq_sync':
->> drivers/accel/ivpu/ivpu_mmu.c:442:9: error: implicit declaration of function 'clflush_cache_range'; did you mean 'flush_cache_range'? [-Werror=implicit-function-declaration]
-     442 |         clflush_cache_range(q->base, IVPU_MMU_CMDQ_SIZE);
-         |         ^~~~~~~~~~~~~~~~~~~
-         |         flush_cache_range
-   drivers/accel/ivpu/ivpu_mmu.c: In function 'ivpu_mmu_irq_evtq_handler':
-   drivers/accel/ivpu/ivpu_mmu.c:822:13: warning: unused variable 'ssid' [-Wunused-variable]
-     822 |         u32 ssid;
-         |             ^~~~
-   cc1: some warnings being treated as errors
---
-   drivers/accel/ivpu/ivpu_mmu_context.c: In function 'ivpu_mmu_context_flush_page_tables':
->> drivers/accel/ivpu/ivpu_mmu_context.c:179:25: error: implicit declaration of function 'clflush_cache_range'; did you mean 'flush_cache_range'? [-Werror=implicit-function-declaration]
-     179 |                         clflush_cache_range(pte, IVPU_MMU_PGTABLE_SIZE);
-         |                         ^~~~~~~~~~~~~~~~~~~
-         |                         flush_cache_range
+   drivers/accel/ivpu/ivpu_gem.c: In function 'shmem_alloc_pages_locked':
+>> drivers/accel/ivpu/ivpu_gem.c:85:17: error: implicit declaration of function 'set_pages_array_wc' [-Werror=implicit-function-declaration]
+      85 |                 set_pages_array_wc(pages, npages);
+         |                 ^~~~~~~~~~~~~~~~~~
+>> drivers/accel/ivpu/ivpu_gem.c:87:17: error: implicit declaration of function 'set_pages_array_uc' [-Werror=implicit-function-declaration]
+      87 |                 set_pages_array_uc(pages, npages);
+         |                 ^~~~~~~~~~~~~~~~~~
+   drivers/accel/ivpu/ivpu_gem.c: In function 'shmem_free_pages_locked':
+>> drivers/accel/ivpu/ivpu_gem.c:96:17: error: implicit declaration of function 'set_pages_array_wb' [-Werror=implicit-function-declaration]
+      96 |                 set_pages_array_wb(bo->pages, bo->base.size >> PAGE_SHIFT);
+         |                 ^~~~~~~~~~~~~~~~~~
    cc1: some warnings being treated as errors
 
 
-vim +442 drivers/accel/ivpu/ivpu_mmu.c
+vim +/set_pages_array_wc +85 drivers/accel/ivpu/ivpu_gem.c
 
-   426	
-   427	static int ivpu_mmu_cmdq_sync(struct ivpu_device *vdev)
-   428	{
-   429		struct ivpu_mmu_queue *q = &vdev->mmu->cmdq;
-   430		u64 val;
-   431		int ret;
-   432	
-   433		val = FIELD_PREP(IVPU_MMU_CMD_OPCODE, CMD_SYNC) |
-   434		      FIELD_PREP(IVPU_MMU_CMD_SYNC_0_CS, 0x2) |
-   435		      FIELD_PREP(IVPU_MMU_CMD_SYNC_0_MSH, 0x3) |
-   436		      FIELD_PREP(IVPU_MMU_CMD_SYNC_0_MSI_ATTR, 0xf);
-   437	
-   438		ret = ivpu_mmu_cmdq_cmd_write(vdev, "SYNC", val, 0);
-   439		if (ret)
-   440			return ret;
-   441	
- > 442		clflush_cache_range(q->base, IVPU_MMU_CMDQ_SIZE);
-   443		REGV_WR32(MTL_VPU_HOST_MMU_CMDQ_PROD, q->prod);
-   444	
-   445		ret = ivpu_mmu_cmdq_wait_for_cons(vdev);
-   446		if (ret)
-   447			ivpu_err(vdev, "Timed out waiting for consumer: %d\n", ret);
-   448	
-   449		return ret;
-   450	}
-   451	
+    74	
+    75	static int __must_check shmem_alloc_pages_locked(struct ivpu_bo *bo)
+    76	{
+    77		int npages = bo->base.size >> PAGE_SHIFT;
+    78		struct page **pages;
+    79	
+    80		pages = drm_gem_get_pages(&bo->base);
+    81		if (IS_ERR(pages))
+    82			return PTR_ERR(pages);
+    83	
+    84		if (bo->flags & DRM_IVPU_BO_WC)
+  > 85			set_pages_array_wc(pages, npages);
+    86		else if (bo->flags & DRM_IVPU_BO_UNCACHED)
+  > 87			set_pages_array_uc(pages, npages);
+    88	
+    89		bo->pages = pages;
+    90		return 0;
+    91	}
+    92	
+    93	static void shmem_free_pages_locked(struct ivpu_bo *bo)
+    94	{
+    95		if (ivpu_bo_cache_mode(bo) != DRM_IVPU_BO_CACHED)
+  > 96			set_pages_array_wb(bo->pages, bo->base.size >> PAGE_SHIFT);
+    97	
+    98		drm_gem_put_pages(&bo->base, bo->pages, true, false);
+    99		bo->pages = NULL;
+   100	}
+   101	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---eBfZTfBlNbHZ+cH8
+--Y0MM8X/PHHsHB/XX
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -12952,4 +12947,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---eBfZTfBlNbHZ+cH8--
+--Y0MM8X/PHHsHB/XX--
