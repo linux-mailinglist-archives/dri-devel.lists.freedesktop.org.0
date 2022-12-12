@@ -1,134 +1,126 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF99C649D3F
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Dec 2022 12:15:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90473649D6F
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Dec 2022 12:21:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DBC310E194;
-	Mon, 12 Dec 2022 11:15:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6335C10E1A0;
+	Mon, 12 Dec 2022 11:21:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2070.outbound.protection.outlook.com [40.107.94.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ABE210E1A0
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 11:15:16 +0000 (UTC)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2083.outbound.protection.outlook.com [40.107.100.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9DE10E1A0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 11:21:34 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h9JUy0WWI8gFzbtX27d78RmkIJvDXzYJnRx8PLCOpRfZ3k1jAXbq84lqPjdjtU0JOdTZ/Vw4+uqEM2QX+CHKRS/FqPGVwhczLGikh3w7m4C1zau4ciuMmpOe/JMDnXUL3p9U1xK7TDAGYQVOSJpngVkTcFWtSzT6NhTejajBGX/PBZ8DZn2t6OjoRKyUYvWxAjYmzT5/96wBR2u5M+YrP0SxBnyVaiolYDOhWmRrILqVgSEFQqyo721Bu+DtewrQhuaq1kCP0jjkYhdInVr9j7dbKbNmt4Bn7kSP3xBh/mf8H218F8w+d6SQYtINjgIL9AKGt0ifEIa8zQxuGxLJfQ==
+ b=W3pHvjodsjPujJfNWJW3UYus01Iu7dYXcEEGCz7Jjnlv5ra/iNOY6WtwQEPQu3ztHx4KuHdg+prjpQ1wRF/nYijBKQUxKaMQNoh54CoNeQi+dco1e3HcAUkEtG+7fHCYvZzzGK0uGM4R6aIe2MbqtHqh4VceTDWdGKM1Zl6TxQVFoAhkxdn/HyB/7TyLE57ZtG7KRjDtKSIS9w5rBf9ZW6FXz2rXIVRdyaprE/1dNDOfMuqDfeO6s7OSFywHfuVxbFNIOvoDBa9hKdCTb49077GfI6+PdyQw2gomZxpbYCJ+qSKFu5vGhlyKyrG6V5/mou1ycyw+QzFeRNAE+OFYyw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cGWS3yfX/9gHT4RkD4tbZwkCxi9SC6N75YiV8TEbN2A=;
- b=YmZl0hlzkEbVbv0MaaKbp4koiWn4Y2plGMJ2YRgt+KZIpZtzRvRGIRlPlidR+D6xGMBk897vlFIcTPSSGwYnC7nzJeOi3rXU4oHRAkPorI2NcUt62ITTnGiWGdpOr6/Sr9cf5bZVd1XV/Ku8wqHh7rhhSApYFbN9GRnAMRpYVlNy9MQSloqEuiyLf4f68tpQ5fC+JYindpo+cQG4pO7Dg2nf+dBvkuPFg+DJcnt/7T7xisJ2qsrTy/3ja0MCYEmKRhAwU6HhVmqrsCtXa0C7HpYum5ISDh6nJ9eeG2b192qu1UiYHQuIC1IVxiLbQ89OOtEfx0w+9W03gjEoC045tw==
+ bh=A1NRni8fjMTtrbcRkFk+tcktEpeK0X9dhgSbuyFGbPA=;
+ b=hcYsXETpaV756tlT7befECYAf0rR3hvdWL1XExUE6m7oKH10rMfXSaRNmatxWL5edix798r4fln1YGP9wTxR9IlhMAJuCG4voolg5WelPGLROFX0f3O1W0FXDUokcoA1GRCzQC3H/ukrfp/67WitlGzBnSAX6iDjyOmxsPtZI1hQ3IoPadwz/inE2nZ0F+IKLCFn/Ip6H40Gmg3ujsrWpM+pu5r9GPyON1nNBYtjXou5e2fYDW0CkGiA5ySylSNVDq0uQZj1nYiluLen4cuTP78RtYL+v3HR21kCHx2pH7SQc/dxmrZM6Fqfk4tcLCOYtoklWSQp0l9jdBWfv3gmaw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cGWS3yfX/9gHT4RkD4tbZwkCxi9SC6N75YiV8TEbN2A=;
- b=B8Z1hfb33MYSynC396TQABX8k8Q73UAoV7SG6OUZQUMsLqtlJacu12em0WV3duJ8Yvdk/knaRmO8c6o+bSEJFMqY6mE5704ya+8M99yvEEwEXDvnDnUY+hixJQQ/6/YCgJiO+mT4mh9B6SlU6DqWDPlfJzysNBsi8k6wyTfrtVE=
+ bh=A1NRni8fjMTtrbcRkFk+tcktEpeK0X9dhgSbuyFGbPA=;
+ b=AS4Zw8g4/6BXA1Ikc2KSVGrJ2YvDgmsPhz3CeyRBtzv8YRGfAjbS76fqAjTVRQ0Q6UZawYVUA5f7dzZVjRboWkQ4leEu5U67x8ARmvrlIuuUqYcMvbBV64PbgGN3bzTJZhlQIjVvAUwEd51tDTw+AQ58iDhCpALdgIJKdfUMlmQ=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by PH8PR12MB7445.namprd12.prod.outlook.com (2603:10b6:510:217::22)
+Received: from CH0PR12MB5346.namprd12.prod.outlook.com (2603:10b6:610:d5::24)
+ by BL1PR12MB5256.namprd12.prod.outlook.com (2603:10b6:208:319::8)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.19; Mon, 12 Dec
- 2022 11:15:12 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421%7]) with mapi id 15.20.5880.019; Mon, 12 Dec 2022
- 11:15:07 +0000
-Message-ID: <b4a96293-226c-e446-f929-5da0bece6cf8@amd.com>
-Date: Mon, 12 Dec 2022 12:15:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: Try to address the DMA-buf coherency problem
+ 2022 11:21:31 +0000
+Received: from CH0PR12MB5346.namprd12.prod.outlook.com
+ ([fe80::64c4:4997:5e9d:2cd4]) by CH0PR12MB5346.namprd12.prod.outlook.com
+ ([fe80::64c4:4997:5e9d:2cd4%6]) with mapi id 15.20.5880.019; Mon, 12 Dec 2022
+ 11:21:31 +0000
+Message-ID: <aec3a8a8-e64e-c53a-a7fd-825d3ac4001e@amd.com>
+Date: Mon, 12 Dec 2022 16:51:18 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 1/1] crypto: ccp - Allocate TEE ring and cmd buffer using
+ DMA APIs
+To: Tom Lendacky <thomas.lendacky@amd.com>, John Allen <john.allen@amd.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S . Miller" <davem@davemloft.net>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <43568d5e6395fcab48262fa5b3d1a5112918fbe8.1669372199.git.Rijo-john.Thomas@amd.com>
+ <7d4bca0d-2b31-26d5-26cd-655fd2b82107@amd.com>
 Content-Language: en-US
-To: Tomasz Figa <tfiga@chromium.org>
-References: <20221020121316.3946-1-christian.koenig@amd.com>
- <9d716641-55c6-1590-26c2-1c3b14a28226@gmail.com>
- <CAPj87rMPkmimR_RJHhxYZokH__TVpPArk0h6drOUSx7Z9+oAHA@mail.gmail.com>
- <11a6f97c-e45f-f24b-8a73-48d5a388a2cc@gmail.com>
- <caf4d6b82843788db97555a58bc9e33915e5b50a.camel@ndufresne.ca>
- <b422be59-4b4b-2d0d-8e8c-b19f27c6832e@gmail.com>
- <4fa4e5d3b1f46e46139bad069cbf5e795e63afa8.camel@pengutronix.de>
- <cc091a11-d012-d998-b7e2-8b3d616867a7@gmail.com>
- <0abc6efddb8dfc1888de15a1bedaaac6688fd078.camel@pengutronix.de>
- <1e2a6750-9849-e9ee-69d6-e4bfdcfb64f3@gmail.com>
- <CAAFQd5B+VHs62M5Wf2L-xOw=_PoaXT+akAySkeZc75HeA3d0jQ@mail.gmail.com>
- <b2dec9b3-03a7-e7ac-306e-1da024af8982@amd.com>
- <CAAFQd5B7JQ4efCoVXEv_OQCmER6jPLPTyJdO7HrC2-Wfo+jMXQ@mail.gmail.com>
- <e2f8b6ff-c843-cc8a-a496-72e25608c223@amd.com>
- <CAAFQd5CJZ3RLTcS53=s81xAMZ=sG7A=CRUa6gKKuewbFG45Q8w@mail.gmail.com>
- <a4f56b61-7609-5424-b04c-9462764ac73b@amd.com>
- <CAAFQd5ATVNQRdVUdiCqJP3kyT4ETP4pvdsSypt89KSEgsH-7Vg@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAAFQd5ATVNQRdVUdiCqJP3kyT4ETP4pvdsSypt89KSEgsH-7Vg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0120.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9d::13) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+From: Rijo Thomas <Rijo-john.Thomas@amd.com>
+In-Reply-To: <7d4bca0d-2b31-26d5-26cd-655fd2b82107@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN2PR01CA0137.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:6::22) To CH0PR12MB5346.namprd12.prod.outlook.com
+ (2603:10b6:610:d5::24)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH8PR12MB7445:EE_
-X-MS-Office365-Filtering-Correlation-Id: 95b6e147-246b-4d19-9096-08dadc322043
+X-MS-TrafficTypeDiagnostic: CH0PR12MB5346:EE_|BL1PR12MB5256:EE_
+X-MS-Office365-Filtering-Correlation-Id: a63fb856-9f37-4cee-08d3-08dadc3304e8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yRSPKWiFCrj2BzUpEBl6sFzsB9gvWV4ZZDXQiUrMURADcQB0JJ9eh76SjDSq9xxoSFPZiHeyuk6DVocoTBX46IKJvmbDl3hAhmoMuzAU0Ebugb9nCVZHSIDzsmpEhw4+MzMm/tPOm64qlp4oLibHJ+z/gH5liS/ImOtiXDpAvzohxk+HJap4LydVIaRCKJhBbE+Y2bvEW4pgn8r0f0jZcGOp6hH6liJqaBmjFBllrSTPzNjdks2QgDVRrPeQCMTLYeq3N5fgJxuDwW7M5OGcQNVdBenrRnlumDNxwqm2rj5pu7vFuin2I6OeaLHi7c/fu82IiXAzHAiNWVnhQ6xWV4cPGodnzfKopCDT0RAU8ewqpgmb9hFoJdvGK8J69oHUC93pV78YMMTpdypeGcavy/X7WCCBsuEkpc4551iFJ9Rzjy/LzdBTP5Sy3X5mLILMPGPyXvucGJHSFLPWMrnEcZ8ws9vq+AbUCsvrG5vJGHMnXaxcWN3WRN+wBPtSoD1xz6IrdoT+6ns1klYumzhJTHURqpf65q/WC3jSYpOhOqV+aqe/TLl7JS22suacLssY31jB9N4JCvDuoN6gmyAB2Ofee7zX6/M7WhaEHV06dr9RV3+KDnO5ciWGFKlgeYJv/+cmkuIctUlAZKLlyOCeFC5oXq+XasLiNTabwhV3vZpzYlI1CNlJ8FY1oPbOF7xLIg7LDLuo4m+0wSBPfmTfmFIiJEPNM7PXq58YUxAbVDA=
+X-Microsoft-Antispam-Message-Info: Z2OHiVemcAPRTsYoIGiixQ6A2zsG2eVxGHvKNrfayG04pLsdfuU+PvUIKTz3vzjzTfDvg4BmPg98krDVcejGMQrN395FpXp3v6rU0v22ryu09nlK5wh3jt7RgJqIryFmG44TC4cNpC0XqDxjIpaFUuyYMsnEH6yMFFP0vA9FK0KW3O8AzH+gsemjpCgudddwKGXrUEf6A0klJtoHy/9zmaflwunritfP7iFIbX4IWmgFGAA8ToYTbYisvRmhKT5Mg+9E5QfwoFTD09oDh2JmP+AHF8Ak30VdWnF2u1pI5yBp4qcfyVM+EBYTHd9V9xL9C/ADxKO3pmutqO54OiBkoZVh4MNw13hptwaKvJhYWg88W44hcsPLBeGc8A2Opz+SfOY73nXyKVtClG37X1bVOyGNYbiLgocsOd0XAj33K4H17fKO+s9iWT8F9mneTUaGcBSd0Ja98t0PRhCXTlbvgTLlJtHfTRKBSf3Y3Ng043IFmt0mB9eRPOAiQqabw+gXGI0QnCqalmb5ruJ5vBsv2axjTqZ/UOtY7DLIZFopCSHZ+QkNV55G7J1F8QeQ/wlb5mm1Hb/632xBellERDWbE5RPqCsuGyNuUdCgnCIViGox004qYRoOeGiaYnKgZoFK+5pwR7aeDxFOlFC/+m9RLlfxRiIbFHcF08/SO+BWxAuI+NFcd6hevQpskcnOIHRCeraCx0GNBA6IDgv/4Hrp0n4EqXAzLbBGVBhqLa/CIgfm+K6f4AhG7k2JMAevx9sw
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(396003)(39860400002)(346002)(136003)(366004)(376002)(451199015)(38100700002)(6486002)(83380400001)(478600001)(2616005)(6506007)(36756003)(6512007)(6666004)(2906002)(186003)(66899015)(31696002)(8936002)(7416002)(4326008)(31686004)(41300700001)(54906003)(8676002)(66556008)(5660300002)(66946007)(66476007)(6916009)(316002)(86362001)(45980500001)(43740500002);
+ IPV:NLI; SFV:NSPM; H:CH0PR12MB5346.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(346002)(376002)(136003)(39860400002)(366004)(396003)(451199015)(54906003)(110136005)(316002)(2906002)(921005)(6486002)(6666004)(83380400001)(36756003)(478600001)(6506007)(31696002)(86362001)(2616005)(186003)(53546011)(6512007)(26005)(66899015)(66946007)(38100700002)(8936002)(31686004)(41300700001)(30864003)(66556008)(8676002)(7416002)(66476007)(4326008)(5660300002)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V3lQUTNYbEczanh4SEFTdHVScENkYy9nOW9Kc2dqdDRZNzBJK3BFcUd2bGgx?=
- =?utf-8?B?V2pyaVNWM24xYnhQUjdBQTJETXd0NTJuVE80cHJobXE3eUR4cWZIZDhhV0VD?=
- =?utf-8?B?d0RJdkY0SFBNTkxpSzVEZU1BeTh4UEhjcVRQbm9nVUhQNk1zcEt6R1hZYm4v?=
- =?utf-8?B?UEdrQkZ3OEZEaC9tTmNKV1d6UFVnMkVkTkd1bDFZYWdBYjlQZ1lFK2huZUU5?=
- =?utf-8?B?OEJlYVcxR1BpWmN4bGtvQVp5UlZ1MWIzc0tmKzlEeFBMZFJQSHp5Z0JyTFZH?=
- =?utf-8?B?STM1NTE1cUJCTnZ3MDF4eGJTcnc3aWM5TjQxVXRVdjhCNkpxd3ArOVlGTDk2?=
- =?utf-8?B?M1NEcjRCWEZxMDdQWmdkY3htTWxIM0NCamQrZ1MwUG05WjRIK2Z6SDAvblJa?=
- =?utf-8?B?ZjAwc3V0OThYNHRsNUJqS1FsSVA5bWZoQWVDbHlHSENhaVdoeTQvYUx5ZmdP?=
- =?utf-8?B?Q0tOWlBTcTV5WldtOG1DQ1hlZGVRRVpacWdGanZ1NWtPTHF4UHhxeGRpY2V1?=
- =?utf-8?B?eGVXWjZiTEcvVnVHVS9SaWIzU1JUSnUyMVk1RTlSZC9MUmtuV2wvc1puZVVr?=
- =?utf-8?B?eVBPaFZNdTJXQ2JDNGpzSTRJMWt2RjJLL2gyd1VVTGdmL1ZHeVdpOGk2YW1X?=
- =?utf-8?B?NDhuRkROYkxIblVKVGV6UVk3M1VZeGtkL1ovcGJEVTlqbkV3cWdMSk1aZDhW?=
- =?utf-8?B?UDNiaFpRR3dYTEFCNWwxNWhvYTV3OHRmMnVTdm11TzdvVWk4eTJ6RVkwRzJ1?=
- =?utf-8?B?Ui9yOC9kd0RCUHI5OUV3Zm1jMUNCclRsS0wzbXFDejBBeFIrL2Q4S3l5cHB5?=
- =?utf-8?B?aVFRdFBXdWNhbk5QRTQvRWhzTTNWQ2RXV0hVTHdjQTJwUVNsSEZmQnZoQ3lx?=
- =?utf-8?B?YWZia1NqbHBTY3BVKzVydllqL3ZjaGtOTVNNU3dGODhnWmpCZW1KUDRXV0NF?=
- =?utf-8?B?YWg4cnlZL2VORi9zMXNSQ0diTVFPWlNsc1FKNGJHM1ZnV3JOc2hkMW9KdFdr?=
- =?utf-8?B?QXdiWmR1eFU0eE5HR0IzOWY2N3A0MW9UTmNQdS9WekRqVmdrM0t6a1J0Q1pl?=
- =?utf-8?B?SzlEUnlhM0duTm1mMy92azRZTjI1dEt3dzR1VC9SQklYaTRsYlVMd0ozWUQ1?=
- =?utf-8?B?M1pvYTdFcWdlRXV6MG5XemMyaUFsbXhxQXRlazhiUFF1aHhCb1Zwc3BrNWFj?=
- =?utf-8?B?RlZHbG04MVhLeUJ6ZjdrYTYvQjF2SkdHWWhEUnR2VWlZQ0xHd0dqMU1hcWd2?=
- =?utf-8?B?YnBwaFUxZjAzc2k3cWNZczlkeWtFeld4RG5zMExRa2cxNlZjd1dEeG1iWnVm?=
- =?utf-8?B?cWRuOGk0Q0V5aEtEWWRMRllRUVVmL2ZDWExGaStNVmozUUFUbUxZZ0FXaDFq?=
- =?utf-8?B?dFF3d2hubktrTUhvTXJZQ3ZtZk9wTnlSbU9PZVpWK0xZaGZQbXNBS3NuV2Mr?=
- =?utf-8?B?TlFWUVh2SENENkNnU29UU1ZsZmtLMkljWko5ZStTa0JtRW96YWdCVUkrbTlv?=
- =?utf-8?B?RE1zZSttOU42aDBrVU10VmR3RVdqR29qQU84OUFteVBwN3hua3VVaEFCMzA1?=
- =?utf-8?B?cEhmSlpKb2tXY3Y2YndkQUREQmtKeitXL1grVHlsbXJEdlpSSk1tUVd6bFV2?=
- =?utf-8?B?a0hZZzgyR3lGY2VDak5pSGxQUEg0blRTWDNtK1BaZnVwUnhNYm1HWWg4ZUdo?=
- =?utf-8?B?SndWNnhYL0p0dUpOWVpsK3EzNy9rRHBjSnZBMGY5S1JwTE8vTVFiRTdEZEZS?=
- =?utf-8?B?cUdIVENFV1JqcXlYY0pZbXUrVldKVFJycUxCK1Fab2ZaSGkrTzlQaW0wLzRw?=
- =?utf-8?B?NC8wMDRHK0c5ZGF5OWNMSXFqd2w2WjRWWm8zTThvbUJUU2pHU2Nib1ZVN2ZZ?=
- =?utf-8?B?dzJIQWcxaWpFZVl3cE1kd3pvRCtLRVlNOExrbG12ekNTM2hqc0hUVUwxem55?=
- =?utf-8?B?KzBHQUZwdW9xS3k4ZzNJQjlpaXhLU2hXNlhlbnlaYktRMlE2LzFscWpVMmJp?=
- =?utf-8?B?cjlKN2ZuVTVkV2toanMzbHkrdVFYZnJBL3pWN2ZacjZRN0JUeFdiK01jRDc1?=
- =?utf-8?B?VitaeU8zWjRweVpXZkprOU9hZm8zK05Hc0U1RC9mL2FJTlFKN0ZJL0dUakJw?=
- =?utf-8?B?VUx6dDRZUDhvTmJvQVgxM2huMnFFRnIzajdCUkpNN2dOYm95Z0RpWW4xZ1BC?=
- =?utf-8?Q?tVzRVuwqgj+/HBsgoXpAuY5Kx2pwd2RZMfmwi+4drTe6?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aWV2bG5aSHY5MUxZYjRUZGp3anZQMlp5UjZRMkh3R0RGbHYycWJBdEtkQmVE?=
+ =?utf-8?B?WUxudmJEL3NvWDRpRnNzZlRiS2ZtckxOSHlobFlXa3lDZ2l0NmhVVHlsdkpT?=
+ =?utf-8?B?SElMbUE0QkE0WUgvQ0FvWnc2WStRaEZ5ZUlCSUdjaDhndzNkcEsrY3JOUnZK?=
+ =?utf-8?B?emVLU0NacjFpU0tMbE1IVjR3bytMQ3hiV0lWdm51eU5yNmNZK1ZpU1VvRkVK?=
+ =?utf-8?B?S0l1d29nL1c5aERpeFNDV2ZodkNXd1ZhRVVQUVZVQ05zWnJNR0FqckUxVjFk?=
+ =?utf-8?B?MSsrc2ZzSGM0NWd4UHlHcktTTERlTVZ5cU5EVjlNYlRTQWYrNThyWXRpNnAy?=
+ =?utf-8?B?RkVRNmVyeXUramtvODZiaXM4TG9JK2c1U1FkNjN0ZlZHSHB5TlVjV2xaTnUv?=
+ =?utf-8?B?SkV4NGVrM1o1ZDRGeU96YS9haDJRSi9yem42Rlp3ODRHcm5mOGFrMGw2UnFO?=
+ =?utf-8?B?WGR4azJKeENScjhaSTNYVmdQaWJnZnVZeW5QZHg3N0MrMkFxK0FzS3l4TjM2?=
+ =?utf-8?B?UXVGeStMTzJQNVBkRlkvaXBobi9oclZjbjJGRWtDbDNEd21Ia29KUEVSY0RK?=
+ =?utf-8?B?V1ZneWhnbnJyMnB6SnoranB0dmViNGRIUytBNlAyRmpZTmg4d1pyUkNIbldK?=
+ =?utf-8?B?T2huR2NpNnJyd3pvYTdNdHk3ZjlUTWt5Wk4wbDY1YmtwYm1TRDZUVUpyQjRO?=
+ =?utf-8?B?V05MKyt5TlJ3cWMrTzExbXlqZGdNbktYYkQ1am95cFFQRVlONTRYWWJiRGtI?=
+ =?utf-8?B?OUhseU53ZHgySUN3TFFFQUJPSXhxbmlzZGM3RjhoNWpUa25pY25odUtKOTMr?=
+ =?utf-8?B?MU1mVGxoUVhWYjEwMVUvK1hXKzdUTnhiOWsrZ0R5cFBIOEdtRlpCeVlseU16?=
+ =?utf-8?B?Mk8zSGN5bXZ2aTR2NHRmbjhsN2trcW1kaGZPTGw5cTFJR3VrZWNHVThXWnRv?=
+ =?utf-8?B?T05TWE4rTXJsTlQwWmRob2M2a0ZWaFc1WndiQ1F1VThtdG96Qkx1UlJ2UlVh?=
+ =?utf-8?B?TlZuU3FJZ2MyNTgya3BhMk83UHg5TXB1bFZWSVBNa2xMaEpoYitoREMwWkpj?=
+ =?utf-8?B?elhyVjFaUTc0Wi9VRnYvR0NKQ1VTdDdnYk1nRURTSGJhTTlzbjFwbVgxSDlo?=
+ =?utf-8?B?aWNJMzFpL21ZL2VFbWdGSEZZQkhQazd5RlFRZ2JGaUlvc1NaNitQOWpBdUJ1?=
+ =?utf-8?B?VEFGUUc5UzJhWjN4TjJJNHpuT0YwMUdrMUdVV241cmlVaUhtbmtsQVAydWdr?=
+ =?utf-8?B?OE9RV1lVQjJuTjQ5ZDdlMzZBZEg1bVdXVkFXNHdBSlBjNEhVc3R6VFdDV1A1?=
+ =?utf-8?B?MEFlL3RTZnhoSjRNeWhmOUI3QWlWY3dHOHNqTWZTa0JVd0VhR3VsY3Z0djVP?=
+ =?utf-8?B?L3FFYjcyMy82b0psQ1NhaDhPZyswYmVCd3J4WWk4citYb1AzTlUzRnZSNUFW?=
+ =?utf-8?B?a1NJOEFhZWhDYklyOFZiU3dzRFJZSXdtRzlOMWtoRVV0MGxuR2pDQ3hFWDkx?=
+ =?utf-8?B?cEtYL05qZWJCdlZPVHhUOTdjQjVMT0NXZnpYSitNRitpTnN0Yy9VcDE0RmNM?=
+ =?utf-8?B?ZDRuL1UrcFpqQmo2YmVkZE9yNW9IdWZXdVNrVFJRSXRDWnZwWTltRzdBL2tR?=
+ =?utf-8?B?U2dVc1FnYlhvUmJUMU42aExBSkZLNDA5VllUdE1EdS8yeDdoYzg2NHFraTV4?=
+ =?utf-8?B?Ni9ScFI1eC9udzNIRHpFZmhDbDNTRm9NTWJaamdybkZnV2QvNU5HTldDUXNh?=
+ =?utf-8?B?SHlSTWFzSFNvdFRLYWRNc01NSTJCWGh6d0RhTS9ZWkZMd1JBQzBBcVh1aDJv?=
+ =?utf-8?B?RUxiWC9mS1BZdDdneXNLQk83amQvUDN1MEN6a3NtaEZ5dW91QkxTa0VOb1lR?=
+ =?utf-8?B?TXhxZDdhN2E0V2M1Q2ROajRQRU5mQk9mLzZiOUlhOTd4NzNMSVArN1paNU03?=
+ =?utf-8?B?eC8xMG4xcmJPYlFLY1hldm9lTHRHb3hPSlhobUkwS2FOUWprNElIV2FLaVZC?=
+ =?utf-8?B?bWlBdG9mVWRpUnNIRWpqbnpDZjlDM0dnaStoZVNFTmhzc0kyTExLYUlNYTNi?=
+ =?utf-8?B?andTclRsbDIwc1licTRMcEp4VHFZQ3lhOEV1bk0vQnhGL09oRUpTMnRFam1R?=
+ =?utf-8?Q?OuYet3+HJ/5MIqiNRm5Mnicl4?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95b6e147-246b-4d19-9096-08dadc322043
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a63fb856-9f37-4cee-08d3-08dadc3304e8
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR12MB5346.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2022 11:15:07.5527 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2022 11:21:31.2290 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tMpBZplhTHlvvG9BisISfDf5+UTOqFIHrj7r+5DZawFAAdQ7jYC5F7ePflquvrX7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7445
+X-MS-Exchange-CrossTenant-UserPrincipalName: qKJZ4NqQ7en7A716qqVE9JlR0JKlrIWa7zR3qAqsg63FJi/KQOzDuKXHECmLhLZlss6bJ9h3sp1dedwncx3rfA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,193 +133,415 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Dufresne <nicolas@ndufresne.ca>, linaro-mm-sig@lists.linaro.org,
- ppaalanen@gmail.com, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, sumit.semwal@linaro.org
+Cc: Jeshwanth <JESHWANTHKUMAR.NK@amd.com>,
+ Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>,
+ Jens Wiklander <jens.wiklander@linaro.org>, stable@vger.kernel.org,
+ Mythri PK <Mythri.Pandeshwarakrishna@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 12.12.22 um 04:00 schrieb Tomasz Figa:
-> [SNIP]
->> What we could do is to force all exporters to use begin/end_cpu_access()
->> even on it's own buffers and look at all the importers when the access
->> is completed. But that would increase the complexity of the handling in
->> the exporter.
-> I feel like they should be doing so anyway, because it often depends
-> on the SoC integration whether the DMA can do cache snooping or not.
 
-Yeah, but wouldn't help without the exporter taking care of the 
-importers needs of cache flushing. And that's exactly what we try hard 
-to avoid because it creates code in every exporter which is never tested 
-except for the case that you combine this exporter with an non coherent 
-importer.
 
-That's a testing nightmare because then you everywhere has code which 
-only in very few combinations of exporter and importer is actually used.
-
-> Although arguably, there is a corner case today where if one uses
-> dma_alloc_coherent() to get a buffer with a coherent CPU mapping for
-> device X that is declared as cache-coherent, one also expects not to
-> need to call begin/end_cpu_access(), but those would be needed if the
-> buffer was to be imported by device Y that is not cache-coherent...
->
-> Sounds like after all it's a mess. I guess your patches make it one
-> step closer to something sensible, import would fail in such cases.
-> Although arguably we should be able to still export from driver Y and
-> import to driver X just fine if Y allocated the buffer as coherent -
-> otherwise we would break existing users for whom things worked fine.
-
-Allocating the buffer as coherent won't help in this case because we 
-actually do want CPU caching for performant access. It's just that some 
-device needs a cache flush before it sees all the changes.
-
-As far as I can see without adding additional complexity to the exporter 
-this can only be archived in two ways:
-
-1. Switch the role of the exporter and importer. This way the device 
-with the need for the cache flush is the exporter and in control of the 
-operations on its buffers.
-
-2. We use DMA-buf as neutral mediator. Since DMA-buf keeps track of who 
-has mapped the buffers it inserts the appropriate 
-dma_sync_*_for_device() calls.
-
->> [SNIP]
->> The best we can do is to reject combinations which won't work in the
->> kernel and then userspace could react accordingly.
+On 12/10/2022 2:31 AM, Tom Lendacky wrote:
+> On 12/6/22 06:30, Rijo Thomas wrote:
+>> For AMD Secure Processor (ASP) to map and access TEE ring buffer, the
+>> ring buffer address sent by host to ASP must be a real physical
+>> address and the pages must be physically contiguous.
 >>
-> The question is whether userspace is able to deal with it, given the
-> limited amount of information it gets from the kernel. Sure, there is
-> always the ultimate fallback of memcpy(), but in many cases that would
-> be totally unusable due to severe performance impact. If we were to
-> remove the existing extent of implicit handling from the kernel, I
-> think we need to first give the userspace the information necessary to
-> explicitly handle the fallback to the same extent.
-
-Good point.
-
-> We also need to think about backwards compatibility. Simply removing
-> the implicit fallback cases would probably break a lot of userspace,
-> so an opt-in behavior is likely needed initially...
-
-Yes, I'm completely aware of that as well.
-
-We can't hard break userspace even if the previous approach didn't 
-worked 100% correctly.
-
->>>> That's essentially the reason why we have DMA-buf heaps. Those heaps
->>>> expose system memory buffers with certain properties (size, CMA, DMA bit
->>>> restrictions etc...) and also implement the callback functions for CPU
->>>> cache maintenance.
->>>>
->>> How do DMA-buf heaps change anything here? We already have CPU cache
->>> maintenance callbacks in the DMA-buf API - the begin/end_cpu_access()
->>> for CPU accesses and dmabuf_map/unmap_attachment() for device accesses
->>> (which arguably shouldn't actually do CPU cache maintenance, unless
->>> that's implied by how either of the involved DMA engines work).
->> DMA-buf heaps are the neutral man in the middle.
+>> In a virtualized environment though, when the driver is running in a
+>> guest VM, the pages allocated by __get_free_pages() may not be
+>> contiguous in the host (or machine) physical address space. Guests
+>> will see a guest (or pseudo) physical address and not the actual host
+>> (or machine) physical address. The TEE running on ASP cannot decipher
+>> pseudo physical addresses. It needs host or machine physical address.
 >>
->> The implementation keeps track of all the attached importers and should
->> make sure that the allocated memory fits the need of everyone.
->> Additional to that calls to the cache DMA-api cache management functions
->> are inserted whenever CPU access begins/ends.
+>> To resolve this problem, use DMA APIs for allocating buffers that must
+>> be shared with TEE. This will ensure that the pages are contiguous in
+>> host (or machine) address space. If the DMA handle is an IOVA,
+>> translate it into a physical address before sending it to ASP.
 >>
-> I think in current design, it only knows all the importers after the
-> buffer is already allocated, so it doesn't necessarily have a way to
-> handle the allocation constraints. Something would have to be done to
-> get all the importers attached before the allocation actually takes
-> place.
-
-That's already in place. See the attach and map callbacks.
-
-I'm just not sure if heaps fully implements it like this.
-
->>>>>> The problem is that in this particular case the exporter provides the
->>>>>> buffer as is, e.g. with dirty CPU caches. And the importer can't deal
->>>>>> with that.
->>>>> Why does the exporter leave the buffer with dirty CPU caches?
->>>> Because exporters always export the buffers as they would use it. And in
->>>> this case that means writing with the CPU to it.
->>>>
->>> Sorry for the question not being very clear. I meant: How do the CPU
->>> caches get dirty in that case?
->> The exporter wrote to it. As far as I understand the exporter just
->> copies things from A to B with memcpy to construct the buffer content.
+>> This patch also exports two APIs (one for buffer allocation and
+>> another to free the buffer). This API can be used by AMD-TEE driver to
+>> share buffers with TEE.
 >>
-> Okay, so it's just due to CPU access and basically what we touched a
-> few paragraphs above.
-
-Yes, I've never seen a device which actually dirties the CPU cache. But 
-I would never rule out that such a device exists.
-
-Regards,
-Christian.
-
->>> [SNIP]
->>>> Yes, totally agree. The problem is really that we moved bunch of MM and
->>>> DMA functions in one API.
->>>>
->>>> The bounce buffers are something we should really have in a separate
->>>> component.
->>>>
->>>> Then the functionality of allocating system memory for a specific device
->>>> or devices should be something provided by the MM.
->>>>
->>>> And finally making this memory or any other CPU address accessible to a
->>>> device (IOMMU programming etc..) should then be part of an DMA API.
->>>>
->>> Remember that actually making the memory accessible to a device often
->>> needs to be handled already as a part of the allocation (e.g. dma_mask
->>> in the non-IOMMU case). So I tend to think that the current division
->>> of responsibilities is mostly fine - the dma_alloc family should be
->>> seen as a part of MM already, especially with all the recent
->>> improvements from Christoph, like dma_alloc_pages().
->> Yes, that's indeed a very interesting development which as far as I can
->> see goes into the right direction.
+>> Fixes: 33960acccfbd ("crypto: ccp - add TEE support for Raven Ridge")
+>> Cc: Tom Lendacky <thomas.lendacky@amd.com>
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Rijo Thomas <Rijo-john.Thomas@amd.com>
+>> Co-developed-by: Jeshwanth <JESHWANTHKUMAR.NK@amd.com>
+>> Signed-off-by: Jeshwanth <JESHWANTHKUMAR.NK@amd.com>
+>> Reviewed-by: Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>
+>> ---
+>>   drivers/crypto/ccp/psp-dev.c |   6 +-
+>>   drivers/crypto/ccp/tee-dev.c | 116 ++++++++++++++++++++++-------------
+>>   drivers/crypto/ccp/tee-dev.h |   9 +--
+>>   include/linux/psp-tee.h      |  47 ++++++++++++++
+>>   4 files changed, 127 insertions(+), 51 deletions(-)
 >>
->>> That said, it may indeed make sense to move things like IOMMU mapping
->>> management out of the dma_alloc() and just reduce those functions to
->>> simply returning a set of pages that satisfy the allocation
->>> constraints. One would need to call dma_map() after the allocation,
->>> but that's actually a fair expectation. Sometimes it might be
->>> preferred to pre-allocate the memory, but only map it into the device
->>> address space when it's really necessary.
->> What I'm still missing is the functionality to allocate pages for
->> multiple devices and proper error codes when dma_map() can't make the
->> page accessible to a device.
-> Agreed. Although again, I think the more challenging part would be to
-> get the complete list of devices involved before the allocation
-> happens.
->
-> Best regards,
-> Tomasz
->
->> Regards,
->> Christian.
->>
->>>>>>>>> It's a use-case that is working fine today with many devices (e.g. network
->>>>>>>>> adapters) in the ARM world, exactly because the architecture specific
->>>>>>>>> implementation of the DMA API inserts the cache maintenance operations
->>>>>>>>> on buffer ownership transfer.
->>>>>>>> Yeah, I'm perfectly aware of that. The problem is that exactly that
->>>>>>>> design totally breaks GPUs on Xen DOM0 for example.
->>>>>>>>
->>>>>>>> And Xen is just one example, I can certainly say from experience that
->>>>>>>> this design was a really really bad idea because it favors just one use
->>>>>>>> case while making other use cases practically impossible if not really
->>>>>>>> hard to implement.
->>>>>>> Sorry, I haven't worked with Xen. Could you elaborate what's the
->>>>>>> problem that this introduces for it?
->>>>>> That's a bit longer topic. The AMD XEN devs are already working on this
->>>>>> as far as I know. I can ping internally how far they got with sending
->>>>>> the patches out to avoid this problem.
->>>>> Hmm, I see. It might be a good data point to understand in which
->>>>> direction we should be going, but I guess we can wait until they send
->>>>> some patches.
->>>> There was just recently a longer thread on the amd-gfx mailing list
->>>> about that. I think looking in there as well might be beneficial.
->>> Okay, let me check. Thanks,
->>>
->>> Best regards,
->>> Tomasz
+>> diff --git a/drivers/crypto/ccp/psp-dev.c b/drivers/crypto/ccp/psp-dev.c
+>> index c9c741ac8442..2b86158d7435 100644
+>> --- a/drivers/crypto/ccp/psp-dev.c
+>> +++ b/drivers/crypto/ccp/psp-dev.c
+>> @@ -161,13 +161,13 @@ int psp_dev_init(struct sp_device *sp)
+>>           goto e_err;
+>>       }
+>>   +    if (sp->set_psp_master_device)
+>> +        sp->set_psp_master_device(sp);
+>> +
+> 
+> This worries me a bit...  if psp_init() fails, it may still be referenced as the master device. What's the reason for moving it?
 
+Hmm. Okay, I see your point.
+
+In psp_tee_alloc_dmabuf(), we call psp_get_master_device(). Without above change, psp_get_master_device() returns NULL.
+
+I think in psp_dev_init(), we can add below error handling:
+
+ret = psp_init(psp);
+        if (ret)
+                goto e_init;
+     ...
+
+e_init:
+    if (sp->clear_psp_master_device)
+        sp->clear_psp_master_device(sp);
+
+Will this help address your concern?
+
+> 
+>>       ret = psp_init(psp);
+>>       if (ret)
+>>           goto e_irq;
+>>   -    if (sp->set_psp_master_device)
+>> -        sp->set_psp_master_device(sp);
+>> -
+>>       /* Enable interrupt */
+>>       iowrite32(-1, psp->io_regs + psp->vdata->inten_reg);
+>>   diff --git a/drivers/crypto/ccp/tee-dev.c b/drivers/crypto/ccp/tee-dev.c
+>> index 5c9d47f3be37..1631d9851e54 100644
+>> --- a/drivers/crypto/ccp/tee-dev.c
+>> +++ b/drivers/crypto/ccp/tee-dev.c
+>> @@ -12,8 +12,9 @@
+>>   #include <linux/mutex.h>
+>>   #include <linux/delay.h>
+>>   #include <linux/slab.h>
+>> +#include <linux/dma-direct.h>
+>> +#include <linux/iommu.h>
+>>   #include <linux/gfp.h>
+>> -#include <linux/psp-sev.h>
+>>   #include <linux/psp-tee.h>
+>>     #include "psp-dev.h"
+>> @@ -21,25 +22,64 @@
+>>     static bool psp_dead;
+>>   +struct dma_buffer *psp_tee_alloc_dmabuf(unsigned long size, gfp_t gfp)
+> 
+> It looks like both calls to this use the same gfp_t values, you can probably eliminate from the call and just specify them in here.
+> 
+
+Okay, I will remove gfp_t flag from the function argument.
+
+>> +{
+>> +    struct psp_device *psp = psp_get_master_device();
+>> +    struct dma_buffer *dma_buf;
+>> +    struct iommu_domain *dom;
+>> +
+>> +    if (!psp || !size)
+>> +        return NULL;
+>> +
+>> +    dma_buf = kzalloc(sizeof(*dma_buf), GFP_KERNEL);
+>> +    if (!dma_buf)
+>> +        return NULL;
+>> +
+>> +    dma_buf->vaddr = dma_alloc_coherent(psp->dev, size, &dma_buf->dma, gfp);
+>> +    if (!dma_buf->vaddr || !dma_buf->dma) {
+> 
+> I don't think you can have one of these be NULL without both being NULL, but I guess it doesn't hurt to check.
+> 
+
+Okay, we will keep both checks for now.
+
+>> +        kfree(dma_buf);
+>> +        return NULL;
+>> +    }
+>> +
+>> +    dma_buf->size = size;
+>> + > +    dom = iommu_get_domain_for_dev(psp->dev);
+>> +    if (dom)
+> 
+> You need a nice comment above this all explaining that. I guess you're using the presence of a domain to determine whether you're running on bare-metal vs within a hypervisor? I'm not sure what will happen if the guest ever gets an emulated IOMMU...
+
+Sure we will add a comment.
+
+We are not trying to determive bare-metal vs hypervisor here, but determine whether DMA handle returned by dma_alloc_coherent() is an IOVA or not.
+If the address is an IOVA, we convert IOVA to physical address using iommu_iova_to_phys(). This was our intention.
+
+> 
+>> +        dma_buf->paddr = iommu_iova_to_phys(dom, dma_buf->dma);
+> 
+> If you're just looking to get the physical address, why not just to an __pa(dma_buf->vaddr)?
+> 
+> Also, paddr might not be the best name, since it isn't always a physical address, but I can't really think of something right now.
+> 
+
+We can use __pa(dma_buf->vaddr) only on bare-metal. In hypervisor, __pa(dma_buf->vaddr) gives pseudo-physical address; pseudo-physical address cannot be understood by ASP.
+ASP needs real physical address (aka machine address). Please see commit message.
+
+We chose the name paddr, since it's a (real) physical address that we want to send across to ASP. I am not sure, why you say - it isn't always a physical address.
+
+Thanks,
+Rijo
+
+> Thanks,
+> Tom
+> 
+>> +    else
+>> +        dma_buf->paddr = dma_buf->dma;
+>> +
+>> +    return dma_buf;
+>> +}
+>> +EXPORT_SYMBOL(psp_tee_alloc_dmabuf);
+>> +
+>> +void psp_tee_free_dmabuf(struct dma_buffer *dma_buf)
+>> +{
+>> +    struct psp_device *psp = psp_get_master_device();
+>> +
+>> +    if (!psp || !dma_buf)
+>> +        return;
+>> +
+>> +    dma_free_coherent(psp->dev, dma_buf->size,
+>> +              dma_buf->vaddr, dma_buf->dma);
+>> +
+>> +    kfree(dma_buf);
+>> +}
+>> +EXPORT_SYMBOL(psp_tee_free_dmabuf);
+>> +
+>>   static int tee_alloc_ring(struct psp_tee_device *tee, int ring_size)
+>>   {
+>>       struct ring_buf_manager *rb_mgr = &tee->rb_mgr;
+>> -    void *start_addr;
+>>         if (!ring_size)
+>>           return -EINVAL;
+>>   -    /* We need actual physical address instead of DMA address, since
+>> -     * Trusted OS running on AMD Secure Processor will map this region
+>> -     */
+>> -    start_addr = (void *)__get_free_pages(GFP_KERNEL, get_order(ring_size));
+>> -    if (!start_addr)
+>> +    rb_mgr->ring_buf = psp_tee_alloc_dmabuf(ring_size,
+>> +                        GFP_KERNEL | __GFP_ZERO);
+>> +    if (!rb_mgr->ring_buf) {
+>> +        dev_err(tee->dev, "ring allocation failed\n");
+>>           return -ENOMEM;
+>> -
+>> -    memset(start_addr, 0x0, ring_size);
+>> -    rb_mgr->ring_start = start_addr;
+>> -    rb_mgr->ring_size = ring_size;
+>> -    rb_mgr->ring_pa = __psp_pa(start_addr);
+>> +    }
+>>       mutex_init(&rb_mgr->mutex);
+>>         return 0;
+>> @@ -49,15 +89,8 @@ static void tee_free_ring(struct psp_tee_device *tee)
+>>   {
+>>       struct ring_buf_manager *rb_mgr = &tee->rb_mgr;
+>>   -    if (!rb_mgr->ring_start)
+>> -        return;
+>> +    psp_tee_free_dmabuf(rb_mgr->ring_buf);
+>>   -    free_pages((unsigned long)rb_mgr->ring_start,
+>> -           get_order(rb_mgr->ring_size));
+>> -
+>> -    rb_mgr->ring_start = NULL;
+>> -    rb_mgr->ring_size = 0;
+>> -    rb_mgr->ring_pa = 0;
+>>       mutex_destroy(&rb_mgr->mutex);
+>>   }
+>>   @@ -81,35 +114,36 @@ static int tee_wait_cmd_poll(struct psp_tee_device *tee, unsigned int timeout,
+>>       return -ETIMEDOUT;
+>>   }
+>>   -static
+>> -struct tee_init_ring_cmd *tee_alloc_cmd_buffer(struct psp_tee_device *tee)
+>> +struct dma_buffer *tee_alloc_cmd_buffer(struct psp_tee_device *tee)
+>>   {
+>>       struct tee_init_ring_cmd *cmd;
+>> +    struct dma_buffer *cmd_buffer;
+>>   -    cmd = kzalloc(sizeof(*cmd), GFP_KERNEL);
+>> -    if (!cmd)
+>> +    cmd_buffer = psp_tee_alloc_dmabuf(sizeof(*cmd),
+>> +                      GFP_KERNEL | __GFP_ZERO);
+>> +    if (!cmd_buffer)
+>>           return NULL;
+>>   -    cmd->hi_addr = upper_32_bits(tee->rb_mgr.ring_pa);
+>> -    cmd->low_addr = lower_32_bits(tee->rb_mgr.ring_pa);
+>> -    cmd->size = tee->rb_mgr.ring_size;
+>> +    cmd = (struct tee_init_ring_cmd *)cmd_buffer->vaddr;
+>> +    cmd->hi_addr = upper_32_bits(tee->rb_mgr.ring_buf->paddr);
+>> +    cmd->low_addr = lower_32_bits(tee->rb_mgr.ring_buf->paddr);
+>> +    cmd->size = tee->rb_mgr.ring_buf->size;
+>>         dev_dbg(tee->dev, "tee: ring address: high = 0x%x low = 0x%x size = %u\n",
+>>           cmd->hi_addr, cmd->low_addr, cmd->size);
+>>   -    return cmd;
+>> +    return cmd_buffer;
+>>   }
+>>   -static inline void tee_free_cmd_buffer(struct tee_init_ring_cmd *cmd)
+>> +static inline void tee_free_cmd_buffer(struct dma_buffer *cmd_buffer)
+>>   {
+>> -    kfree(cmd);
+>> +    psp_tee_free_dmabuf(cmd_buffer);
+>>   }
+>>     static int tee_init_ring(struct psp_tee_device *tee)
+>>   {
+>>       int ring_size = MAX_RING_BUFFER_ENTRIES * sizeof(struct tee_ring_cmd);
+>> -    struct tee_init_ring_cmd *cmd;
+>> -    phys_addr_t cmd_buffer;
+>> +    struct dma_buffer *cmd_buffer;
+>>       unsigned int reg;
+>>       int ret;
+>>   @@ -123,21 +157,19 @@ static int tee_init_ring(struct psp_tee_device *tee)
+>>         tee->rb_mgr.wptr = 0;
+>>   -    cmd = tee_alloc_cmd_buffer(tee);
+>> -    if (!cmd) {
+>> +    cmd_buffer = tee_alloc_cmd_buffer(tee);
+>> +    if (!cmd_buffer) {
+>>           tee_free_ring(tee);
+>>           return -ENOMEM;
+>>       }
+>>   -    cmd_buffer = __psp_pa((void *)cmd);
+>> -
+>>       /* Send command buffer details to Trusted OS by writing to
+>>        * CPU-PSP message registers
+>>        */
+>>   -    iowrite32(lower_32_bits(cmd_buffer),
+>> +    iowrite32(lower_32_bits(cmd_buffer->paddr),
+>>             tee->io_regs + tee->vdata->cmdbuff_addr_lo_reg);
+>> -    iowrite32(upper_32_bits(cmd_buffer),
+>> +    iowrite32(upper_32_bits(cmd_buffer->paddr),
+>>             tee->io_regs + tee->vdata->cmdbuff_addr_hi_reg);
+>>       iowrite32(TEE_RING_INIT_CMD,
+>>             tee->io_regs + tee->vdata->cmdresp_reg);
+>> @@ -157,7 +189,7 @@ static int tee_init_ring(struct psp_tee_device *tee)
+>>       }
+>>     free_buf:
+>> -    tee_free_cmd_buffer(cmd);
+>> +    tee_free_cmd_buffer(cmd_buffer);
+>>         return ret;
+>>   }
+>> @@ -167,7 +199,7 @@ static void tee_destroy_ring(struct psp_tee_device *tee)
+>>       unsigned int reg;
+>>       int ret;
+>>   -    if (!tee->rb_mgr.ring_start)
+>> +    if (!tee->rb_mgr.ring_buf->vaddr)
+>>           return;
+>>         if (psp_dead)
+>> @@ -256,7 +288,7 @@ static int tee_submit_cmd(struct psp_tee_device *tee, enum tee_cmd_id cmd_id,
+>>       do {
+>>           /* Get pointer to ring buffer command entry */
+>>           cmd = (struct tee_ring_cmd *)
+>> -            (tee->rb_mgr.ring_start + tee->rb_mgr.wptr);
+>> +            (tee->rb_mgr.ring_buf->vaddr + tee->rb_mgr.wptr);
+>>             rptr = ioread32(tee->io_regs + tee->vdata->ring_rptr_reg);
+>>   @@ -305,7 +337,7 @@ static int tee_submit_cmd(struct psp_tee_device *tee, enum tee_cmd_id cmd_id,
+>>         /* Update local copy of write pointer */
+>>       tee->rb_mgr.wptr += sizeof(struct tee_ring_cmd);
+>> -    if (tee->rb_mgr.wptr >= tee->rb_mgr.ring_size)
+>> +    if (tee->rb_mgr.wptr >= tee->rb_mgr.ring_buf->size)
+>>           tee->rb_mgr.wptr = 0;
+>>         /* Trigger interrupt to Trusted OS */
+>> diff --git a/drivers/crypto/ccp/tee-dev.h b/drivers/crypto/ccp/tee-dev.h
+>> index 49d26158b71e..9238487ee8bf 100644
+>> --- a/drivers/crypto/ccp/tee-dev.h
+>> +++ b/drivers/crypto/ccp/tee-dev.h
+>> @@ -16,6 +16,7 @@
+>>     #include <linux/device.h>
+>>   #include <linux/mutex.h>
+>> +#include <linux/psp-tee.h>
+>>     #define TEE_DEFAULT_TIMEOUT        10
+>>   #define MAX_BUFFER_SIZE            988
+>> @@ -48,17 +49,13 @@ struct tee_init_ring_cmd {
+>>     /**
+>>    * struct ring_buf_manager - Helper structure to manage ring buffer.
+>> - * @ring_start:  starting address of ring buffer
+>> - * @ring_size:   size of ring buffer in bytes
+>> - * @ring_pa:     physical address of ring buffer
+>>    * @wptr:        index to the last written entry in ring buffer
+>> + * @ring_buf:    ring buffer allocated using DMA api
+>>    */
+>>   struct ring_buf_manager {
+>>       struct mutex mutex;    /* synchronizes access to ring buffer */
+>> -    void *ring_start;
+>> -    u32 ring_size;
+>> -    phys_addr_t ring_pa;
+>>       u32 wptr;
+>> +    struct dma_buffer *ring_buf;
+>>   };
+>>     struct psp_tee_device {
+>> diff --git a/include/linux/psp-tee.h b/include/linux/psp-tee.h
+>> index cb0c95d6d76b..c0fa922f24d4 100644
+>> --- a/include/linux/psp-tee.h
+>> +++ b/include/linux/psp-tee.h
+>> @@ -13,6 +13,7 @@
+>>     #include <linux/types.h>
+>>   #include <linux/errno.h>
+>> +#include <linux/dma-mapping.h>
+>>     /* This file defines the Trusted Execution Environment (TEE) interface commands
+>>    * and the API exported by AMD Secure Processor driver to communicate with
+>> @@ -40,6 +41,20 @@ enum tee_cmd_id {
+>>       TEE_CMD_ID_UNMAP_SHARED_MEM,
+>>   };
+>>   +/**
+>> + * struct dma_buffer - Structure for a DMA buffer.
+>> + * @dma:    DMA buffer address
+>> + * @paddr:  Physical address of DMA buffer
+>> + * @vaddr:  CPU virtual address of DMA buffer
+>> + * @size:   Size of DMA buffer in bytes
+>> + */
+>> +struct dma_buffer {
+>> +    dma_addr_t dma;
+>> +    phys_addr_t paddr;
+>> +    void *vaddr;
+>> +    unsigned long size;
+>> +};
+>> +
+>>   #ifdef CONFIG_CRYPTO_DEV_SP_PSP
+>>   /**
+>>    * psp_tee_process_cmd() - Process command in Trusted Execution Environment
+>> @@ -75,6 +90,28 @@ int psp_tee_process_cmd(enum tee_cmd_id cmd_id, void *buf, size_t len,
+>>    */
+>>   int psp_check_tee_status(void);
+>>   +/**
+>> + * psp_tee_alloc_dmabuf() - Allocates memory of requested size and flags using
+>> + * dma_alloc_coherent() API.
+>> + *
+>> + * This function can be used to allocate a shared memory region between the
+>> + * host and PSP TEE.
+>> + *
+>> + * Returns:
+>> + * non-NULL   a valid pointer to struct dma_buffer
+>> + * NULL       on failure
+>> + */
+>> +struct dma_buffer *psp_tee_alloc_dmabuf(unsigned long size, gfp_t gfp);
+>> +
+>> +/**
+>> + * psp_tee_free_dmabuf() - Deallocates memory using dma_free_coherent() API.
+>> + *
+>> + * This function can be used to release shared memory region between host
+>> + * and PSP TEE.
+>> + *
+>> + */
+>> +void psp_tee_free_dmabuf(struct dma_buffer *dma_buffer);
+>> +
+>>   #else /* !CONFIG_CRYPTO_DEV_SP_PSP */
+>>     static inline int psp_tee_process_cmd(enum tee_cmd_id cmd_id, void *buf,
+>> @@ -87,5 +124,15 @@ static inline int psp_check_tee_status(void)
+>>   {
+>>       return -ENODEV;
+>>   }
+>> +
+>> +static inline
+>> +struct dma_buffer *psp_tee_alloc_dmabuf(unsigned long size, gfp_t gfp)
+>> +{
+>> +    return NULL;
+>> +}
+>> +
+>> +static inline void psp_tee_free_dmabuf(struct dma_buffer *dma_buffer)
+>> +{
+>> +}
+>>   #endif /* CONFIG_CRYPTO_DEV_SP_PSP */
+>>   #endif /* __PSP_TEE_H_ */
