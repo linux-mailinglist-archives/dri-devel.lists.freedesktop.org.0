@@ -2,61 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7192564A437
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Dec 2022 16:34:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8080E64A451
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Dec 2022 16:39:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FD9210E211;
-	Mon, 12 Dec 2022 15:34:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F31E610E0E9;
+	Mon, 12 Dec 2022 15:39:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
- [IPv6:2607:f8b0:4864:20::1130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA7AD10E211
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 15:33:55 +0000 (UTC)
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-3bfd998fa53so151244027b3.5
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 07:33:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A61710E0E9
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 15:39:47 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id 62so8431608pgb.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 07:39:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=HlLz46JrENHa8C6qB/kOY9DxKCNNCi0KZWArbqXe5iY=;
- b=hD90rrO6DTclBGuXRutk53zM8ZzV/DuiV3HIDPKl0mci2bojEyK47hSYR2RGFqZZ20
- k68GIs6civUjbsvaObarOqUBhEpVmI16KVzM2rK6uqjjW/FSh9rw6+D1Ab5wlBcskI6v
- U9jydtKtads15RLZGISzoLjWf+7+jfu6Be4J4=
+ bh=EJWrQfchThP1LaKGg1UlafmM0Ac0Bh9FhjzWGZsItiE=;
+ b=hXm3SRPmg5IxfBnmyCy1vCjDQXQPEhhJ5+wgqp3IjHYxrUuumSgHWEr+vwbb4wPIgB
+ G8Qqa1KF8dgch/WK9HwrC5yoqd8O6uLMfqt6wNM+KYPqrMdmTFCsCwqOJMaVDFSsLgpZ
+ Qy2H/2UF2w2K9eEGVNoCBDp8OzxIQhJwYhWv6zeA0DVP9jp8tHB7DklkXlFHXjTkkX8G
+ ZdmtjRxVsS5KSWjW3Rnzxcw9p4HYI4TpA7aWaRavqt/L1NLB+SmsgZRXMXoD9twsjF01
+ RHmm+77taT4NZQWgYTUiLH+OCQJwWnP9SVzzBOubqnyCiuSHr9B8GsfsF0UmcZ9piBsf
+ +lJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=HlLz46JrENHa8C6qB/kOY9DxKCNNCi0KZWArbqXe5iY=;
- b=mMxbq9Hv7ZRMG15G7NlUE9U6JiQISf6LpEjN5l35yEipPNCUMCQUOSVbEwha4ia0Bg
- PNJbGWj10MyjvwcJawwVeHVvVZaWAN+UteReoFkJeHCqLS8047Ap1cMpeOr7LbtBW+P0
- Lb+EzQfQhzBDv0a0+q5GSuFJoA6XDBvLr7Og38LBqbQbYAUeh+6eQzI7y/xsg6QdudK2
- DaCfaecGY+DoqWB75vEaMwW+PbUIfBRBn9o4dA/DBvyG7a9kxXzVaj13v1/k6xiiWB/x
- PAQbjqWCTjeeegVk90COvjizQuFxE/LUpHYEDYpYwFfdwxZ91a+ZxWvZwpAewcBlS46i
- P2qQ==
-X-Gm-Message-State: ANoB5pkvzfySHT06dUCeIgpHo6edOL1TVXeLdHaJENFgSlLD0iCJEhAA
- 73+VllxJwn/If/GhtSztzgFBjzG/6GD5KhJWgmYxbA==
-X-Google-Smtp-Source: AA0mqf6s4qYOLuJiaSiQ5ahfpuDn2VcPF75hIbI+rUJr/mTeBvuSTQMoZSAM39WJ4O7acKNC7mkG1N6EAEXx6bXvP6g=
-X-Received: by 2002:a81:7357:0:b0:407:7bc3:d949 with SMTP id
- o84-20020a817357000000b004077bc3d949mr2225437ywc.186.1670859234919; Mon, 12
- Dec 2022 07:33:54 -0800 (PST)
+ bh=EJWrQfchThP1LaKGg1UlafmM0Ac0Bh9FhjzWGZsItiE=;
+ b=H2vFUeqEtxv9Kwbz4/K/Ymg2MpjGoXzzHIh+nXxUeuaK1Wc10QWtuzUCeKJUjRVpKd
+ +5pYzMitgHLM1sPFZe1hONdyUnzIKvTpahspooUwm8/Mi1pEG+EoXCjwjD8nPujWAJ9K
+ 6bFLiJfUKULryends1e5Vdhjj3cAtZ8A/7AP/VrNPR9yWYUv68U55+gzXJ8eQmh/wHAk
+ Q8OFMMk4pk+29eyNc6e2qkNqYWg3UV+Lw9Q8jVYISk8lk23EHAkjDJB/9M5KeCcegJP+
+ iOKtGAjcPZ2jmWCsBxk6GspDt41aLj8h/6XMghnBiv/uS8XHvaGFXdszPXpFqfxLuC2C
+ 7dGg==
+X-Gm-Message-State: ANoB5pkn1dLO8NaFd6DYWwJeL614hZJYqHXlk+wALI3QKiQR0WpndsUp
+ p75kgEBSGzoMYtVFgHgjCbtkd4taz13uTzVzwSRfbg==
+X-Google-Smtp-Source: AA0mqf7BsdQCnUO8dM1h4/7bESRqWg7kackud8y9JmWtcS5n50B8gnvgLApVitrBea/4LNWpywhwfLkRUsFd+lZtOb8=
+X-Received: by 2002:a05:6a00:1409:b0:56b:e1d8:e7a1 with SMTP id
+ l9-20020a056a00140900b0056be1d8e7a1mr77943516pfu.28.1670859586280; Mon, 12
+ Dec 2022 07:39:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20221209152343.180139-1-jagan@amarulasolutions.com>
- <CGME20221209152722eucas1p2534c4e4837d3006683fc57c0dcb1ab52@eucas1p2.samsung.com>
- <20221209152343.180139-11-jagan@amarulasolutions.com>
- <df99edbd-7150-7274-2c5e-fe6d4ed4d92d@samsung.com>
- <CAMty3ZCCscqE8e_Rr9KpmUONxh4aCBWB7qh4xSvuCGrUT4kUeQ@mail.gmail.com>
- <b1e38212-985c-21c9-58a5-7504719c3af8@samsung.com>
- <ed13b791-ab47-7aaa-7993-bb49478e7f2a@samsung.com>
-In-Reply-To: <ed13b791-ab47-7aaa-7993-bb49478e7f2a@samsung.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Mon, 12 Dec 2022 21:03:43 +0530
-Message-ID: <CAMty3ZBzpmwAV7e7wdBu+GOmg6M7xqqc46QtGzuLsnv2kT0Zdw@mail.gmail.com>
-Subject: Re: [PATCH v9 10/18] drm: bridge: samsung-dsim: Init exynos host for
- first DSI transfer
-To: Marek Szyprowski <m.szyprowski@samsung.com>
+References: <1664960824-20951-1-git-send-email-quic_akhilpo@quicinc.com>
+ <20221201225705.46r2m35ketvzipox@builder.lan>
+ <CAPDyKFofsqcoFbYt-9BcisbPdreLGqAAMWorqHi0_D1kwCdYhg@mail.gmail.com>
+ <20221207165457.kwdwwiycbwjpogxl@builder.lan>
+ <CAPDyKFpYgYkDdJ79xxkwr-Mqnj5CoBrV+ZZe6Xz4hGLNR4zUVw@mail.gmail.com>
+ <20221208210622.x656vbf7rum5hrl7@builder.lan>
+ <CAPDyKFpSXjcJZ=H491s74BChAV89pQ1Wm8PSdU0nVRfroK1=4A@mail.gmail.com>
+In-Reply-To: <CAPDyKFpSXjcJZ=H491s74BChAV89pQ1Wm8PSdU0nVRfroK1=4A@mail.gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 12 Dec 2022 16:39:09 +0100
+Message-ID: <CAPDyKFrTY8exxFCxXG_ptnRvECYggBBrC2q=MewuEkSj+mxwug@mail.gmail.com>
+Subject: Re: [PATCH v7 0/6] clk/qcom: Support gdsc collapse polling using
+ 'reset' interface
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,107 +72,262 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
- Joonyoung Shim <jy0922.shim@samsung.com>, dri-devel@lists.freedesktop.org,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
- Fancy Fang <chen.fang@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: David Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-clk@vger.kernel.org, Andy Gross <agross@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Sean Paul <sean@poorly.run>,
+ Stephen Boyd <sboyd@kernel.org>, Douglas Anderson <dianders@chromium.org>,
+ krzysztof.kozlowski@linaro.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 12, 2022 at 8:52 PM Marek Szyprowski
-<m.szyprowski@samsung.com> wrote:
+On Fri, 9 Dec 2022 at 18:36, Ulf Hansson <ulf.hansson@linaro.org> wrote:
 >
-> On 12.12.2022 09:43, Marek Szyprowski wrote:
-> > On 12.12.2022 09:32, Jagan Teki wrote:
-> >> On Mon, Dec 12, 2022 at 1:56 PM Marek Szyprowski
-> >> <m.szyprowski@samsung.com> wrote:
-> >>> Hi Jagan,
-> >>>
-> >>> On 09.12.2022 16:23, Jagan Teki wrote:
-> >>>> The existing drm panels and bridges in Exynos required host
-> >>>> initialization during the first DSI command transfer even though
-> >>>> the initialization was done before.
-> >>>>
-> >>>> This host reinitialization is handled via DSIM_STATE_REINITIALIZED
-> >>>> flag and triggers from host transfer.
-> >>>>
-> >>>> Do this exclusively for Exynos.
-> >>>>
-> >>>> Initial logic is derived from Marek Szyprowski changes.
-> >>>>
-> >>>> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> >>>> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> >>>> ---
-> >>>> Changes from v9:
-> >>>> - derived from v8
-> >>>> - added comments
-> >>>>
-> >>>>    drivers/gpu/drm/bridge/samsung-dsim.c | 15 ++++++++++++++-
-> >>>>    include/drm/bridge/samsung-dsim.h     |  5 +++--
-> >>>>    2 files changed, 17 insertions(+), 3 deletions(-)
-> >>> The following chunk is missing compared to v8:
-> >>>
-> >>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
-> >>> b/drivers/gpu/drm/bridge/samsung-dsim.c
-> >>> index 6e9ad955ebd3..6a9403cb92ae 100644
-> >>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> >>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> >>> @@ -1315,7 +1315,9 @@ static int samsung_dsim_init(struct samsung_dsim
-> >>> *dsi, unsigned int flag)
-> >>>                   return 0;
-> >>>
-> >>>           samsung_dsim_reset(dsi);
-> >>> -       samsung_dsim_enable_irq(dsi);
-> >>> +
-> >>> +       if (!(dsi->state & DSIM_STATE_INITIALIZED))
-> >>> +               samsung_dsim_enable_irq(dsi);
-> >> Is this really required? does it make sure that the IRQ does not
-> >> enable twice?
+> On Thu, 8 Dec 2022 at 22:06, Bjorn Andersson <andersson@kernel.org> wrote:
 > >
-> > That's what that check does. Without the 'if (!(dsi->state &
-> > DSIM_STATE_INITIALIZED))' check, the irqs will be enabled twice (first
-> > from pre_enable, then from the first transfer), what leads to a
-> > warning from irq core.
+> > On Thu, Dec 08, 2022 at 02:40:55PM +0100, Ulf Hansson wrote:
+> > > On Wed, 7 Dec 2022 at 17:55, Bjorn Andersson <andersson@kernel.org> wrote:
+> > > >
+> > > > On Wed, Dec 07, 2022 at 05:00:51PM +0100, Ulf Hansson wrote:
+> > > > > On Thu, 1 Dec 2022 at 23:57, Bjorn Andersson <andersson@kernel.org> wrote:
+> > > > > >
+> > > > > > On Wed, Oct 05, 2022 at 02:36:58PM +0530, Akhil P Oommen wrote:
+> > > > > > >
+> > > > > >
+> > > > > > @Ulf, Akhil has a power-domain for a piece of hardware which may be
+> > > > > > voted active by multiple different subsystems (co-processors/execution
+> > > > > > contexts) in the system.
+> > > > > >
+> > > > > > As such, during the powering down sequence we don't wait for the
+> > > > > > power-domain to turn off. But in the event of an error, the recovery
+> > > > > > mechanism relies on waiting for the hardware to settle in a powered off
+> > > > > > state.
+> > > > > >
+> > > > > > The proposal here is to use the reset framework to wait for this state
+> > > > > > to be reached, before continuing with the recovery mechanism in the
+> > > > > > client driver.
+> > > > >
+> > > > > I tried to review the series (see my other replies), but I am not sure
+> > > > > I fully understand the consumer part.
+> > > > >
+> > > > > More exactly, when and who is going to pull the reset and at what point?
+> > > > >
+> > > > > >
+> > > > > > Given our other discussions on quirky behavior, do you have any
+> > > > > > input/suggestions on this?
+> > > > > >
+> > > > > > > Some clients like adreno gpu driver would like to ensure that its gdsc
+> > > > > > > is collapsed at hardware during a gpu reset sequence. This is because it
+> > > > > > > has a votable gdsc which could be ON due to a vote from another subsystem
+> > > > > > > like tz, hyp etc or due to an internal hardware signal. To allow
+> > > > > > > this, gpucc driver can expose an interface to the client driver using
+> > > > > > > reset framework. Using this the client driver can trigger a polling within
+> > > > > > > the gdsc driver.
+> > > > > >
+> > > > > > @Akhil, this description is fairly generic. As we've reached the state
+> > > > > > where the hardware has settled and we return to the client, what
+> > > > > > prevents it from being powered up again?
+> > > > > >
+> > > > > > Or is it simply a question of it hitting the powered-off state, not
+> > > > > > necessarily staying there?
+> > > > >
+> > > > > Okay, so it's indeed the GPU driver that is going to assert/de-assert
+> > > > > the reset at some point. Right?
+> > > > >
+> > > > > That seems like a reasonable approach to me, even if it's a bit
+> > > > > unclear under what conditions that could happen.
+> > > > >
+> > > >
+> > > > Generally the disable-path of the power-domain does not check that the
+> > > > power-domain is actually turned off, because the status might indicate
+> > > > that the hardware is voting for the power-domain to be on.
+> > >
+> > > Is there a good reason why the HW needs to vote too, when the GPU
+> > > driver is already in control?
+> > >
+> > > Or perhaps that depends on the running use case?
+> > >
+> > > >
+> > > > As part of the recovery of the GPU after some fatal fault, the GPU
+> > > > driver does something which will cause the hardware votes for the
+> > > > power-domain to be let go, and then the driver does pm_runtime_put().
+> > >
+> > > Okay. That "something", sounds like a device specific setting for the
+> > > corresponding gdsc, right?
+> > >
+> > > So somehow the GPU driver needs to manage that setting, right?
+> > >
+> > > >
+> > > > But in this case the GPU driver wants to ensure that the power-domain is
+> > > > actually powered down, before it does pm_runtime_get() again. To ensure
+> > > > that the hardware lost its state...
+> > >
+> > > I see.
+> > >
+> > > >
+> > > > The proposal here is to use a reset to reach into the power-domain
+> > > > provider and wait for the hardware to be turned off, before the GPU
+> > > > driver attempts turning the power-domain on again.
+> > > >
+> > > >
+> > > > In other words, there is no reset. This is a hack to make a normally
+> > > > asynchronous pd.power_off() to be synchronous in this particular case.
+> > >
+> > > Alright, assuming I understood your clarifications above correctly
+> > > (thanks!), I think I have got a much better picture now.
+> > >
+> > > Rather than abusing the reset interface, I think we should manage this
+> > > through the genpd's power on/off notifiers (GENPD_NOTIFY_OFF). The GPU
+> > > driver should register its corresponding device for them
+> > > (dev_pm_genpd_add_notifier()).
+> > >
+> > > The trick however, is to make the behaviour of the power-domain for
+> > > the gdsc (the genpd->power_off() callback) conditional on whether the
+> > > HW is configured to vote or not. If the HW can vote, it should not
+> > > poll for the state - and vice versa when the HW can't vote.
+> > >
+> >
+> > Per Akhil's description I misunderstood who the other voters are; but
+> > either way it's not the same "HW configured" mechanism as the one we're
+> > already discussing.
 >
-> I've just noticed that we also would need to clear the
-> DSIM_STATE_REINITIALIZED flag in dsim_suspend.
+> Okay, so this is another thing then.
 >
-> However I've found that a bit simpler patch would keep the current code
-> flow for Exynos instead of this reinitialization hack. This can be
-> applied on the "[PATCH v9 09/18] drm: bridge: samsung-dsim: Add host
-> init in pre_enable" patch:
+> >
+> >
+> > But if we based on similar means could control if the power_off() ops
+> > should be blocking, waiting for the status indication to show that the
+> > hardware is indeed powered down, I think this would meet the needs.
 >
-> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
-> b/drivers/gpu/drm/bridge/samsung-dsim.c
-> index 0b2e52585485..acc95c61ae45 100644
-> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> @@ -1291,9 +1291,11 @@ static void samsung_dsim_atomic_pre_enable(struct
-> drm_bridge *bridge,
+> Right.
 >
->          dsi->state |= DSIM_STATE_ENABLED;
+> >
+> > And GENPD_NOTIFY_OFF seems to provide the notification that it was
+> > successful (i.e. happened within the timeout etc).
+> >
+> > > Would this work?
+> > >
+> >
+> > If we can control the behavior of the genpd, I think it would.
 >
-> -       ret = samsung_dsim_init(dsi, DSIM_STATE_INITIALIZED);
-> -       if (ret)
-> -               return;
-> +       if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type)) {
-> +               ret = samsung_dsim_init(dsi, DSIM_STATE_INITIALIZED);
-> +               if (ret)
-> +                       return;
-> +       }
+> Okay, it seems like we need a new dev_pm_genpd_* interface that
+> consumers can call to instruct the genpd provider, that its
+> ->power_off() callback needs to temporarily switch to become
+> synchronous.
+>
+> I guess this could be useful for other similar cases too, where the
+> corresponding PM domain isn't actually being powered off, but rather
+> just voted for to become powered off, thus relying on the HW to do the
+> aggregation.
+>
+> In any case, I am still a bit skeptical of the reset approach, as is
+> being suggested in the $subject series. Even if it's rather nice and
+> clean (but somewhat abusing the interface), it looks like there will
+> be synchronization problems between the calls to the
+> pm_runtime_put_sync() and reset_control_reset() in the GPU driver. The
+> "reset" may actually already have happened when the call to
+> reset_control_reset() is done, so we may fail to detect the power
+> collapse, right!?
+>
+> Let me cook a patch for the new genpd interface that I have in mind,
+> then we can see how that plays out together with the other parts. I
+> will post it on Monday!
 
-Sorry, I don't understand this. Does it mean Exynos doesn't need to
-init host in pre_enable? If I remember correctly even though the host
-is initialized it has to reinitialize during the first transfer - This
-is what the Exynos requirement is. Please correct or explain here.
+Below is the genpd patch that I had in mind.
 
-Jagan.
+As I stated above, the GPU driver would need to register for genpd's
+power on/off notificers (GENPD_NOTIFY_OFF). Then it should call the
+new dev_pm_genpd_synced_poweroff() and finally pm_runtime_put().
+Moreover, when the GPU driver receives the GENPD_NOTIFY_OFF
+notification, it should probably just kick a completion variable,
+allowing the path that calls pm_runtime_put() to wait for the
+notification to arrive.
+
+On the genpd provider side, the ->power_off() callback should be
+updated to check the new genpd->synced_poweroff variable, to indicate
+whether it should poll for power collapse or not.
+
+I think this should work, but if you still prefer to use the "reset"
+approach, that's entirely up to you to decide.
+
+Kind regards
+Uffe
+
+-----
+
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 12 Dec 2022 16:08:05 +0100
+Subject: [PATCH] PM: domains: Allow a genpd consumer to require a synced power
+ off
+
+TODO: Write commit message
+
+Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+---
+ drivers/base/power/domain.c | 22 ++++++++++++++++++++++
+ include/linux/pm_domain.h   |  1 +
+ 2 files changed, 23 insertions(+)
+
+diff --git a/drivers/base/power/domain.c b/drivers/base/power/domain.c
+index b46aa490b4cd..3402b2ea7f61 100644
+--- a/drivers/base/power/domain.c
++++ b/drivers/base/power/domain.c
+@@ -494,6 +494,27 @@ void dev_pm_genpd_set_next_wakeup(struct device
+*dev, ktime_t next)
+ }
+ EXPORT_SYMBOL_GPL(dev_pm_genpd_set_next_wakeup);
+
++/**
++ * dev_pm_genpd_synced_poweroff - Next power off should be synchronous
++ *
++ * @dev: Device to handle
++ *
++ * TODO: Add description
++ */
++void dev_pm_genpd_synced_poweroff(struct device *dev)
++{
++       struct generic_pm_domain *genpd;
++
++       genpd = dev_to_genpd_safe(dev);
++       if (!genpd)
++               return;
++
++       genpd_lock(genpd);
++               genpd->synced_poweroff = true;
++       genpd_unlock(genpd);
++}
++EXPORT_SYMBOL_GPL(dev_pm_genpd_synced_poweroff);
++
+ static int _genpd_power_on(struct generic_pm_domain *genpd, bool timed)
+ {
+        unsigned int state_idx = genpd->state_idx;
+@@ -588,6 +609,7 @@ static int _genpd_power_off(struct
+generic_pm_domain *genpd, bool timed)
+ out:
+        raw_notifier_call_chain(&genpd->power_notifiers, GENPD_NOTIFY_OFF,
+                                NULL);
++       genpd->synced_poweroff = false;
+        return 0;
+ busy:
+        raw_notifier_call_chain(&genpd->power_notifiers, GENPD_NOTIFY_ON, NULL);
+diff --git a/include/linux/pm_domain.h b/include/linux/pm_domain.h
+index ebc351698090..09c6c67a4896 100644
+--- a/include/linux/pm_domain.h
++++ b/include/linux/pm_domain.h
+@@ -134,6 +134,7 @@ struct generic_pm_domain {
+        unsigned int prepared_count;    /* Suspend counter of prepared
+devices */
+        unsigned int performance_state; /* Aggregated max performance state */
+        cpumask_var_t cpus;             /* A cpumask of the attached CPUs */
++       bool synced_poweroff;           /* A consumer needs a synced poweroff */
+        int (*power_off)(struct generic_pm_domain *domain);
+        int (*power_on)(struct generic_pm_domain *domain);
+        struct raw_notifier_head power_notifiers; /* Power on/off notifiers */
+-- 
+2.34.1
