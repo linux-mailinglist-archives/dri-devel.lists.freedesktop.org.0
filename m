@@ -2,64 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C64F3649B3B
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Dec 2022 10:33:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADBA8649B3F
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Dec 2022 10:34:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2FA310E18D;
-	Mon, 12 Dec 2022 09:33:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC3DC10E17F;
+	Mon, 12 Dec 2022 09:34:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A11110E180
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 09:33:25 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id z4so11865242ljq.6
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 01:33:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Lkk2WhKqzkLPYIxZXiaL3+NGa6SKWtBvEv9fea1/izs=;
- b=SvL0rqtd6VAKtuogNOA5E2fbL9BFpJnGFaL/wflC8lssTrzBJzkZAIVsK3OQZfOBX1
- JH0sis7a722JYEsR8PxCzSeq7PNyU7Q79ELz1BOHdASjvLXwDT5mp/eRXjpwORx86QyG
- xPaGaj90Kdpraq1HzgCoQRzLk88aFRFYUfibv+md9V5BJkMdo60b8IwlF/f7gpk0fdGv
- sPUmcVcCHPhrSXi0xto4w0bnTq4gXp3Ms+la7zOFFO4IZNAAMPe1sG9ESgAvyPWm8Kyr
- HyJMeSncuNhiSjxFNfFw6FgOX/KlKdjxbo60Xq8SrTbTJ8z4nopz4fEARacuQZr7hRZr
- 8MKA==
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
+ [IPv6:2607:f8b0:4864:20::b36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16DC210E182
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 09:34:14 +0000 (UTC)
+Received: by mail-yb1-xb36.google.com with SMTP id f139so12634067yba.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 01:34:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=5raYu2oNzsA9lejV4fboamJeivIl4YOq/OEwskf/7qA=;
+ b=mJJBPMtGj02QshpimYqAXPpFL2AXR7L5CjZAPh6lfoIop09BgQ6XUp+2qsTxz0vfV9
+ dZLrphx69cxECOlcbVyhTeY8IpV5kxin2NPUZgZPcZ46fYAnZG5W9A7uy5j4PvnotM60
+ NxWFlH1fH/HYveFQ/qXfT/AQ7Q8HhicnIxamc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Lkk2WhKqzkLPYIxZXiaL3+NGa6SKWtBvEv9fea1/izs=;
- b=fuvxOCMHuJgBTNEpWfymHVHgorN5Glgvuhi+Ho48w+bTpRfW4ViFabPlxc2eYYOUcr
- RlVu8q020QCLcSRvTB3D6yightcXCzkw8VY+nuSdF7syiB+WMD9i4poxJ41XtWnq3KRk
- wArAjJc2MocH+hrUegP1hEO6BPviFNPn+3aWOn3d/PNLFGC3EpftzNYCPl3CpTI57H0D
- 1MayT4qOhniCvIybRlB2Rp8mpKOSaCCmRQmLQmimdeX7oqDmUb78kA0vGhYsuaMhWe4L
- oeOE3vrehQVQrB3duJA7djlPHx5JEdZpyh4HVmkMIaX0rKaj36NaB6AAGTXqmVrALSWo
- hfBA==
-X-Gm-Message-State: ANoB5pnRViTMuWRhmlptnKpomXbqU2tIiJtrZE3oGNGz5WsfSY2RHrCg
- EG5CNCrKw6j5Tkm1LEy3bApwqQ==
-X-Google-Smtp-Source: AA0mqf5veminiJT3qyipaaLDS59YXUnA59jFUpVX7Z5dlBZhBVWjagRmj46x3RaAuSN+Rp93s2gs7Q==
-X-Received: by 2002:a2e:860a:0:b0:27a:3224:f066 with SMTP id
- a10-20020a2e860a000000b0027a3224f066mr3571880lji.34.1670837603609; 
- Mon, 12 Dec 2022 01:33:23 -0800 (PST)
-Received: from localhost.localdomain (abxh44.neoplus.adsl.tpnet.pl.
- [83.9.1.44]) by smtp.gmail.com with ESMTPSA id
- y2-20020a05651c106200b002770fb5722fsm1155081ljm.123.2022.12.12.01.33.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Dec 2022 01:33:23 -0800 (PST)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-To: linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org,
- krzysztof.kozlowski@linaro.org
-Subject: [PATCH 3/3] arm64: dts: qcom: sm8150: Wire up MDSS
-Date: Mon, 12 Dec 2022 10:33:14 +0100
-Message-Id: <20221212093315.11390-3-konrad.dybcio@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221212093315.11390-1-konrad.dybcio@linaro.org>
-References: <20221212093315.11390-1-konrad.dybcio@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5raYu2oNzsA9lejV4fboamJeivIl4YOq/OEwskf/7qA=;
+ b=E/gC9z+aQChzR17FbEebxlz+OrBEhWgmuSxf8PiLHDYaRWqdo/KF3ydbSP67y1WcBA
+ YEEu9yq8IdfjtX9yx6hboMslz+tzjRipPa1mzBnggNVbvd4ZbYfVXit/oj3CdJ3sWOyd
+ MwPA1ERRLFXfrZC5KZw6P2VotZnjU0Oh0AWcLxK0uW4CkzUGYbnmeTyMwGU/cMY0MU8X
+ fDGp+JFMfnyy6HJBtnWzE96CLjQrQe4pqRSQ8wBiDE20Q1/4eXyTrjbE/saQ6HKFW9HW
+ mpDagt3X5y0L2+0cTlWUh/yJwnfm+sVsioiCfbwMSyrqIuA7/u4kxnS+v7/qWqDUSa3M
+ /rLg==
+X-Gm-Message-State: ANoB5pmQvF29lRz+xb5lsBSlK5TcvMeH4CsdmjIZ/Jq26pUkMceoM6ec
+ B8+/2oxdHHULh+F8nbuSVuTNzOiZJZgneA8kr5ExiA==
+X-Google-Smtp-Source: AA0mqf6R5BRsKmiHMsRjHhQ76byqJcQ6e7wHQShHmmFWKymyR/3lhF9orOCFid3UDUPSL+zGq+lC9ExFZ9McSrccgdw=
+X-Received: by 2002:a25:b94:0:b0:6fc:f894:91f7 with SMTP id
+ 142-20020a250b94000000b006fcf89491f7mr30138074ybl.475.1670837653201; Mon, 12
+ Dec 2022 01:34:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221209152343.180139-1-jagan@amarulasolutions.com>
+ <20221209152343.180139-8-jagan@amarulasolutions.com>
+ <4396da63-d9c0-a9b4-3953-67e6bcfb1bf1@denx.de>
+ <CAMty3ZBOR_Bif9PUdiFgVzFLANhFn57pQTrn5=aFXgHEnA1=rA@mail.gmail.com>
+ <deb78a20-11f7-8618-4064-76f0397a2657@denx.de>
+In-Reply-To: <deb78a20-11f7-8618-4064-76f0397a2657@denx.de>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Mon, 12 Dec 2022 15:04:01 +0530
+Message-ID: <CAMty3ZDnjHAMqS+nV+KA+x5u7_ZGve9fLu7SHP2CYdARGi4-5g@mail.gmail.com>
+Subject: Re: [PATCH v9 07/18] drm: bridge: samsung-dsim: Lookup OF-graph or
+ Child node devices
+To: Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,317 +67,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
- Sean Paul <sean@poorly.run>
+Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add required nodes for MDSS and hook up provided clocks in DISPCC.
-This setup is almost identical to 8[23]50.
+On Sun, Dec 11, 2022 at 11:36 PM Marek Vasut <marex@denx.de> wrote:
+>
+> On 12/11/22 06:42, Jagan Teki wrote:
+> > On Sun, Dec 11, 2022 at 7:58 AM Marek Vasut <marex@denx.de> wrote:
+> >>
+> >> On 12/9/22 16:23, Jagan Teki wrote:
+> >>> The child devices in MIPI DSI can be binding with OF-graph
+> >>> and also via child nodes.
+> >>>
+> >>> The OF-graph interface represents the child devices via
+> >>> remote and associated endpoint numbers like
+> >>>
+> >>> dsi {
+> >>>      compatible = "fsl,imx8mm-mipi-dsim";
+> >>>
+> >>>      ports {
+> >>>        port@0 {
+> >>>             reg = <0>;
+> >>>
+> >>>             dsi_in_lcdif: endpoint@0 {
+> >>>                  reg = <0>;
+> >>>                  remote-endpoint = <&lcdif_out_dsi>;
+> >>>             };
+> >>>        };
+> >>>
+> >>>        port@1 {
+> >>>             reg = <1>;
+> >>>
+> >>>             dsi_out_bridge: endpoint {
+> >>>                  remote-endpoint = <&bridge_in_dsi>;
+> >>>             };
+> >>>        };
+> >>> };
+> >>>
+> >>> The child node interface represents the child devices via
+> >>> conventional child nodes on given DSI parent like
+> >>>
+> >>> dsi {
+> >>>      compatible = "samsung,exynos5433-mipi-dsi";
+> >>>
+> >>>      ports {
+> >>>           port@0 {
+> >>>                reg = <0>;
+> >>>
+> >>>                dsi_to_mic: endpoint {
+> >>>                     remote-endpoint = <&mic_to_dsi>;
+> >>>                };
+> >>>           };
+> >>>      };
+> >>>
+> >>>      panel@0 {
+> >>>           reg = <0>;
+> >>>      };
+> >>> };
+> >>>
+> >>> As Samsung DSIM bridge is common DSI IP across all Exynos DSI
+> >>> and NXP i.MX8M host controllers, this patch adds support to
+> >>> lookup the child devices whether its bindings on the associated
+> >>> host represent OF-graph or child node interfaces.
+> >>>
+> >>> v9, v8, v7, v6, v5, v4, v3:
+> >>> * none
+> >>>
+> >>> v2:
+> >>> * new patch
+> >>
+> >> This looks like a good candidate for common/helper code which can be
+> >> reused by other similar drivers.
+> >
+> > Yes, I have responded to the same comment of yours in v7 [1]. It is
+> > hard to make this code work in a generic way.
+>
+> It seems the patch adds a for_each...() loop and a function call. Should
+> be easy enough to turn that into a helper. What am I missing ?
 
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
- arch/arm64/boot/dts/qcom/sm8150.dtsi | 271 ++++++++++++++++++++++++++-
- 1 file changed, 267 insertions(+), 4 deletions(-)
+What I'm saying here is, initially, I added for_each in the existing
+drm_of_find_panel_or_bridge helper but it fails to handle all drm_of
+use cases generically. You can find more information on this commit
+80253168dbfd. I keep this in mind and will see whether it can support
+the new dsi helper once this supported is merged. Hope I'm clear on
+it.
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8150.dtsi b/arch/arm64/boot/dts/qcom/sm8150.dtsi
-index ff04397777f4..c0c1e781eb43 100644
---- a/arch/arm64/boot/dts/qcom/sm8150.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8150.dtsi
-@@ -9,6 +9,7 @@
- #include <dt-bindings/power/qcom-rpmpd.h>
- #include <dt-bindings/soc/qcom,rpmh-rsc.h>
- #include <dt-bindings/clock/qcom,rpmh.h>
-+#include <dt-bindings/clock/qcom,dispcc-sm8150.h>
- #include <dt-bindings/clock/qcom,gcc-sm8150.h>
- #include <dt-bindings/clock/qcom,gpucc-sm8150.h>
- #include <dt-bindings/interconnect/qcom,osm-l3.h>
-@@ -3579,14 +3580,276 @@ camnoc_virt: interconnect@ac00000 {
- 			qcom,bcm-voters = <&apps_bcm_voter>;
- 		};
- 
-+		mdss: mdss@ae00000 {
-+			compatible = "qcom,sm8150-mdss";
-+			reg = <0 0x0ae00000 0 0x1000>;
-+			reg-names = "mdss";
-+
-+			interconnects = <&mmss_noc MASTER_MDP_PORT0 &mc_virt SLAVE_EBI_CH0>,
-+					<&mmss_noc MASTER_MDP_PORT1 &mc_virt SLAVE_EBI_CH0>;
-+			interconnect-names = "mdp0-mem", "mdp1-mem";
-+
-+			power-domains = <&dispcc MDSS_GDSC>;
-+
-+			clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+				 <&gcc GCC_DISP_HF_AXI_CLK>,
-+				 <&gcc GCC_DISP_SF_AXI_CLK>,
-+				 <&dispcc DISP_CC_MDSS_MDP_CLK>;
-+			clock-names = "iface", "bus", "nrt_bus", "core";
-+
-+			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-controller;
-+			#interrupt-cells = <1>;
-+
-+			iommus = <&apps_smmu 0x800 0x420>;
-+
-+			status = "disabled";
-+
-+			#address-cells = <2>;
-+			#size-cells = <2>;
-+			ranges;
-+
-+			mdss_mdp: display-controller@ae01000 {
-+				compatible = "qcom,sm8150-dpu";
-+				reg = <0 0x0ae01000 0 0x8f000>,
-+				      <0 0x0aeb0000 0 0x2008>;
-+				reg-names = "mdp", "vbif";
-+
-+				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+					 <&gcc GCC_DISP_HF_AXI_CLK>,
-+					 <&dispcc DISP_CC_MDSS_MDP_CLK>,
-+					 <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
-+				clock-names = "iface", "bus", "core", "vsync";
-+
-+				assigned-clocks = <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
-+				assigned-clock-rates = <19200000>;
-+
-+				operating-points-v2 = <&mdp_opp_table>;
-+				power-domains = <&rpmhpd SM8150_MMCX>;
-+
-+				interrupt-parent = <&mdss>;
-+				interrupts = <0>;
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+						dpu_intf1_out: endpoint {
-+							remote-endpoint = <&mdss_dsi0_in>;
-+						};
-+					};
-+
-+					port@1 {
-+						reg = <1>;
-+						dpu_intf2_out: endpoint {
-+							remote-endpoint = <&mdss_dsi1_in>;
-+						};
-+					};
-+				};
-+
-+				mdp_opp_table: opp-table {
-+					compatible = "operating-points-v2";
-+
-+					opp-171428571 {
-+						opp-hz = /bits/ 64 <171428571>;
-+						required-opps = <&rpmhpd_opp_low_svs>;
-+					};
-+
-+					opp-300000000 {
-+						opp-hz = /bits/ 64 <300000000>;
-+						required-opps = <&rpmhpd_opp_svs>;
-+					};
-+
-+					opp-345000000 {
-+						opp-hz = /bits/ 64 <345000000>;
-+						required-opps = <&rpmhpd_opp_svs_l1>;
-+					};
-+
-+					opp-460000000 {
-+						opp-hz = /bits/ 64 <460000000>;
-+						required-opps = <&rpmhpd_opp_nom>;
-+					};
-+				};
-+			};
-+
-+			mdss_dsi0: dsi@ae94000 {
-+				compatible = "qcom,mdss-dsi-ctrl";
-+				reg = <0 0x0ae94000 0 0x400>;
-+				reg-names = "dsi_ctrl";
-+
-+				interrupt-parent = <&mdss>;
-+				interrupts = <4>;
-+
-+				clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
-+					 <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
-+					 <&dispcc DISP_CC_MDSS_PCLK0_CLK>,
-+					 <&dispcc DISP_CC_MDSS_ESC0_CLK>,
-+					 <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+					 <&gcc GCC_DISP_HF_AXI_CLK>;
-+				clock-names = "byte",
-+					      "byte_intf",
-+					      "pixel",
-+					      "core",
-+					      "iface",
-+					      "bus";
-+
-+				assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK_SRC>,
-+						  <&dispcc DISP_CC_MDSS_PCLK0_CLK_SRC>;
-+				assigned-clock-parents = <&mdss_dsi0_phy 0>,
-+							 <&mdss_dsi0_phy 1>;
-+
-+				operating-points-v2 = <&dsi_opp_table>;
-+				power-domains = <&rpmhpd SM8150_MMCX>;
-+
-+				phys = <&mdss_dsi0_phy>;
-+
-+				status = "disabled";
-+
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+						mdss_dsi0_in: endpoint {
-+							remote-endpoint = <&dpu_intf1_out>;
-+						};
-+					};
-+
-+					port@1 {
-+						reg = <1>;
-+						mdss_dsi0_out: endpoint {
-+						};
-+					};
-+				};
-+
-+				dsi_opp_table: opp-table {
-+					compatible = "operating-points-v2";
-+
-+					opp-187500000 {
-+						opp-hz = /bits/ 64 <187500000>;
-+						required-opps = <&rpmhpd_opp_low_svs>;
-+					};
-+
-+					opp-300000000 {
-+						opp-hz = /bits/ 64 <300000000>;
-+						required-opps = <&rpmhpd_opp_svs>;
-+					};
-+
-+					opp-358000000 {
-+						opp-hz = /bits/ 64 <358000000>;
-+						required-opps = <&rpmhpd_opp_svs_l1>;
-+					};
-+				};
-+			};
-+
-+			mdss_dsi0_phy: phy@ae94400 {
-+				compatible = "qcom,dsi-phy-7nm";
-+				reg = <0 0x0ae94400 0 0x200>,
-+				      <0 0x0ae94600 0 0x280>,
-+				      <0 0x0ae94900 0 0x260>;
-+				reg-names = "dsi_phy",
-+					    "dsi_phy_lane",
-+					    "dsi_pll";
-+
-+				#clock-cells = <1>;
-+				#phy-cells = <0>;
-+
-+				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+					 <&rpmhcc RPMH_CXO_CLK>;
-+				clock-names = "iface", "ref";
-+
-+				status = "disabled";
-+			};
-+
-+			mdss_dsi1: dsi@ae96000 {
-+				compatible = "qcom,mdss-dsi-ctrl";
-+				reg = <0 0x0ae96000 0 0x400>;
-+				reg-names = "dsi_ctrl";
-+
-+				interrupt-parent = <&mdss>;
-+				interrupts = <5>;
-+
-+				clocks = <&dispcc DISP_CC_MDSS_BYTE1_CLK>,
-+					 <&dispcc DISP_CC_MDSS_BYTE1_INTF_CLK>,
-+					 <&dispcc DISP_CC_MDSS_PCLK1_CLK>,
-+					 <&dispcc DISP_CC_MDSS_ESC1_CLK>,
-+					 <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+					 <&gcc GCC_DISP_HF_AXI_CLK>;
-+				clock-names = "byte",
-+					      "byte_intf",
-+					      "pixel",
-+					      "core",
-+					      "iface",
-+					      "bus";
-+
-+				assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE1_CLK_SRC>,
-+						  <&dispcc DISP_CC_MDSS_PCLK1_CLK_SRC>;
-+				assigned-clock-parents = <&mdss_dsi1_phy 0>,
-+							 <&mdss_dsi1_phy 1>;
-+
-+				operating-points-v2 = <&dsi_opp_table>;
-+				power-domains = <&rpmhpd SM8150_MMCX>;
-+
-+				phys = <&mdss_dsi1_phy>;
-+
-+				status = "disabled";
-+
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+						mdss_dsi1_in: endpoint {
-+							remote-endpoint = <&dpu_intf2_out>;
-+						};
-+					};
-+
-+					port@1 {
-+						reg = <1>;
-+						mdss_dsi1_out: endpoint {
-+						};
-+					};
-+				};
-+			};
-+
-+			mdss_dsi1_phy: phy@ae96400 {
-+				compatible = "qcom,dsi-phy-7nm";
-+				reg = <0 0x0ae96400 0 0x200>,
-+				      <0 0x0ae96600 0 0x280>,
-+				      <0 0x0ae96900 0 0x260>;
-+				reg-names = "dsi_phy",
-+					    "dsi_phy_lane",
-+					    "dsi_pll";
-+
-+				#clock-cells = <1>;
-+				#phy-cells = <0>;
-+
-+				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+					 <&rpmhcc RPMH_CXO_CLK>;
-+				clock-names = "iface", "ref";
-+
-+				status = "disabled";
-+			};
-+		};
-+
- 		dispcc: clock-controller@af00000 {
- 			compatible = "qcom,sm8150-dispcc";
- 			reg = <0 0x0af00000 0 0x10000>;
- 			clocks = <&rpmhcc RPMH_CXO_CLK>,
--				 <0>,
--				 <0>,
--				 <0>,
--				 <0>,
-+				 <&mdss_dsi0_phy 0>,
-+				 <&mdss_dsi0_phy 1>,
-+				 <&mdss_dsi1_phy 0>,
-+				 <&mdss_dsi1_phy 1>,
- 				 <0>,
- 				 <0>;
- 			clock-names = "bi_tcxo",
--- 
-2.38.1
-
+Jagan.
