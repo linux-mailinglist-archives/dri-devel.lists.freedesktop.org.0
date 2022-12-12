@@ -2,33 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E2D64984D
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Dec 2022 04:54:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95AEB64989B
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Dec 2022 06:15:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FD3410E11C;
-	Mon, 12 Dec 2022 03:53:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E0FB10E159;
+	Mon, 12 Dec 2022 05:15:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-44.freemail.mail.aliyun.com
- (out30-44.freemail.mail.aliyun.com [115.124.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C99410E11C
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 03:53:46 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R151e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
- MF=jiapeng.chong@linux.alibaba.com; NM=0; PH=DS; RN=12; SR=0;
- TI=SMTPD_---0VX0wqHC_1670817191; 
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0VX0wqHC_1670817191) by smtp.aliyun-inc.com;
- Mon, 12 Dec 2022 11:53:42 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: davem@davemloft.net
-Subject: [PATCH] net: ksz884x: Remove the unused function
- port_cfg_force_flow_ctrl()
-Date: Mon, 12 Dec 2022 11:53:09 +0800
-Message-Id: <20221212035309.33507-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01DD710E159
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 05:15:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+ t=1670822100; bh=x5u9SJrKs9RCN7DJjxjkshnIpEyM3daCRvIk3xX2wys=;
+ h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
+ Content-Type;
+ b=LhVI7lEs5ex1cJrAazHrjbJhZ587taDZWhLU+3AdgR4bBDEJT4WqhS71jroMcdBfg
+ 3QCwd2iDIolqkaiy9j6HjpUP4CnRlDUWrzQ1bGNnDJCDbHUZsGkDzu8te3mP4I+6nZ
+ LyEhKlfvM+z/zjpZtp32BhlOQoinrB3EutvetghM=
+Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
+ via ip-206.mailobj.net [213.182.55.206]
+ Mon, 12 Dec 2022 06:15:00 +0100 (CET)
+X-EA-Auth: DvjCgCp6LuEa0s9e8QuaRL/+RW71CgdJA4TmvT0UWMwsLAcaKmvaw6SLqVp/hioJynZ7EPHqhjxOL0A/P/naAi29VUuxTYAv
+Date: Mon, 12 Dec 2022 10:44:55 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/tegra: sor: Remove redundant error logging
+Message-ID: <Y5a4z0TZSqUPfRkr@qemulion>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,43 +47,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, netdev@vger.kernel.org,
- Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- linaro-mm-sig@lists.linaro.org, kuba@kernel.org, pabeni@redhat.com,
- sumit.semwal@linaro.org, linux-media@vger.kernel.org
+Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>, drv@mailo.com,
+ Saurabh Singh Sengar <ssengar@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function port_cfg_force_flow_ctrl() is defined in the ksz884x.c file,
-but not called elsewhere, so remove this unused function.
+A call to platform_get_irq() already prints an error on failure within
+its own implementation. So printing another error based on its return
+value in the caller is redundant and should be removed. The clean up
+also makes if condition block braces unnecessary. Remove that as well.
 
-drivers/net/ethernet/micrel/ksz884x.c:2212:20: warning: unused function 'port_cfg_force_flow_ctrl'.
+Issue identified using platform_get_irq.cocci coccicheck script.
 
-Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3418
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
- drivers/net/ethernet/micrel/ksz884x.c | 6 ------
- 1 file changed, 6 deletions(-)
+Please note: I was not able to build this driver since I did not find the
+DRM_TEGRA option in menu config. All dependencies listed in the KConfig are
+enabled, however, I was still not able to find the DRM_TEGRA module in the
+Graphics-Drivers list. Since the proposed change is known, minor and obvious, I
+am sending in this patch without build testing.
 
-diff --git a/drivers/net/ethernet/micrel/ksz884x.c b/drivers/net/ethernet/micrel/ksz884x.c
-index e6acd1e7b263..46f1fbf58b5a 100644
---- a/drivers/net/ethernet/micrel/ksz884x.c
-+++ b/drivers/net/ethernet/micrel/ksz884x.c
-@@ -2209,12 +2209,6 @@ static inline void port_cfg_back_pressure(struct ksz_hw *hw, int p, int set)
- 		KS8842_PORT_CTRL_2_OFFSET, PORT_BACK_PRESSURE, set);
- }
- 
--static inline void port_cfg_force_flow_ctrl(struct ksz_hw *hw, int p, int set)
--{
--	port_cfg(hw, p,
--		KS8842_PORT_CTRL_2_OFFSET, PORT_FORCE_FLOW_CTRL, set);
--}
--
- static inline int port_chk_back_pressure(struct ksz_hw *hw, int p)
- {
- 	return port_chk(hw, p,
--- 
-2.20.1.7.g153144c
+Any advise on how to enable the DRM_TEGRA module in menuconfig selection list
+will be helpful. Thank you.
+
+
+ drivers/gpu/drm/tegra/sor.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index 8af632740673..ceaebd33408d 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -3799,10 +3799,8 @@ static int tegra_sor_probe(struct platform_device *pdev)
+ 	}
+
+ 	err = platform_get_irq(pdev, 0);
+-	if (err < 0) {
+-		dev_err(&pdev->dev, "failed to get IRQ: %d\n", err);
++	if (err < 0)
+ 		goto remove;
+-	}
+
+ 	sor->irq = err;
+
+--
+2.34.1
+
+
 
