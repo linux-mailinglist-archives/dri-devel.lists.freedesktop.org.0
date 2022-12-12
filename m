@@ -2,50 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C70464AB29
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 00:09:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A3F664AB45
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 00:16:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8422310E2A3;
-	Mon, 12 Dec 2022 23:09:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E41510E2B1;
+	Mon, 12 Dec 2022 23:15:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A5B489B70;
- Mon, 12 Dec 2022 23:09:02 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D2B310E2AA;
+ Mon, 12 Dec 2022 23:15:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1670886542; x=1702422542;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=3o1WZ8betb2kUnHIXBXlT1hezIJeiPny7iniEYg6MUM=;
- b=Yi+4u5ddQy3sjvEbI0xyhGsw6lkkWfIw9zh9p+FlEqn+0eyq/mMcsmXJ
- /4UbvOFUnyNST1cDAs1BpjmfZrYqJT27Fgux8cuYrFkioCqVOC72ZfF7K
- /ParWmImWBqVJky/O7Dly19HGy0NQZ5wzHAM1ECvvR2LERnN6k7U/P2Vd
- GDjgLpomIqLK5mMzPySNl4SqBal8AIrJ4r8y8NqNtGRwg5fu3jGLeFYDU
- H5tFdjuXnx8osaGdUzxCSGcXBedKZRfxbrLfQXQEYjb7VpMxUtWxDhKq5
- 4O9P8pacQdqw7wvwqNxOTNL4rwYSfsfZAxYBmSU15fIl6ShjpnaJVApXQ Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="319128073"
-X-IronPort-AV: E=Sophos;i="5.96,239,1665471600"; d="scan'208";a="319128073"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2022 15:08:58 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="822661955"
-X-IronPort-AV: E=Sophos;i="5.96,239,1665471600"; d="scan'208";a="822661955"
-Received: from anicol1x-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.252.59.70])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2022 15:08:56 -0800
-Date: Tue, 13 Dec 2022 00:08:50 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH] drm/i915/gt: Reset twice
-Message-ID: <Y5e0gh2u8uTlwQL6@ashyti-mobl2.lan>
-References: <20221212161338.1007659-1-andi.shyti@linux.intel.com>
- <Y5dc7vhfh6yixFRo@intel.com>
+ t=1670886933; x=1702422933;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=9jaKakhZjOscH/lS+piTWtOw8TOs8Fq++9F+3vk8uNA=;
+ b=HzfUxWOrRtq6LiIzpqC7hH4HA/SZDYwigk7LWOC+l0ioousmWVKJDujd
+ pFLJ88hAPsFlboSAkMh4Z3YVghE6maNBplggCC5tcuQdBg9OC7v7seEn7
+ EdcCdcMqF6qodmawU+uLMU0P9ICpV++yuH9vdiT1Tq0jA036nOZMKeRC7
+ Jn5cAsGSPBZ4UVc0xVYcivU/fKyYPR6zEce9wzHAPikD1cs3PRSgeJUSD
+ z/1qatSOkha0SZOr8nGZI89nk9DF7FyiVZbCcbz1AiBImDNyIdFb8AbCj
+ nnX9T9UeICLInU0TNIhnTwe1d0htyAkse1TwzlwoFY2jbqxPFEAgX9muz Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="380196336"
+X-IronPort-AV: E=Sophos;i="5.96,239,1665471600"; d="scan'208";a="380196336"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2022 15:15:32 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="679090292"
+X-IronPort-AV: E=Sophos;i="5.96,239,1665471600"; d="scan'208";a="679090292"
+Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2022 15:15:32 -0800
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v9 00/23] drm/i915/vm_bind: Add VM_BIND functionality
+Date: Mon, 12 Dec 2022 15:15:04 -0800
+Message-Id: <20221212231527.2384-1-niranjana.vishwanathapura@intel.com>
+X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y5dc7vhfh6yixFRo@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,109 +55,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>, intel-gfx@lists.freedesktop.org,
- stable@vger.kernel.org, Chris Wilson <chris@chris-wilson.co.uk>,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi@etezian.org>
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ jani.nikula@intel.com, lionel.g.landwerlin@intel.com,
+ thomas.hellstrom@intel.com, matthew.auld@intel.com, jason@jlekstrand.net,
+ andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rodrigo,
+DRM_I915_GEM_VM_BIND/UNBIND ioctls allows UMD to bind/unbind GEM
+buffer objects (BOs) or sections of a BOs at specified GPU virtual
+addresses on a specified address space (VM). Multiple mappings can map
+to the same physical pages of an object (aliasing). These mappings (also
+referred to as persistent mappings) will be persistent across multiple
+GPU submissions (execbuf calls) issued by the UMD, without user having
+to provide a list of all required mappings during each submission (as
+required by older execbuf mode).
 
-On Mon, Dec 12, 2022 at 11:55:10AM -0500, Rodrigo Vivi wrote:
-> On Mon, Dec 12, 2022 at 05:13:38PM +0100, Andi Shyti wrote:
-> > From: Chris Wilson <chris@chris-wilson.co.uk>
-> > 
-> > After applying an engine reset, on some platforms like Jasperlake, we
-> > occasionally detect that the engine state is not cleared until shortly
-> > after the resume. As we try to resume the engine with volatile internal
-> > state, the first request fails with a spurious CS event (it looks like
-> > it reports a lite-restore to the hung context, instead of the expected
-> > idle->active context switch).
-> > 
-> > Signed-off-by: Chris Wilson <hris@chris-wilson.co.uk>
-> 
-> There's a typo in the signature email I'm afraid...
+This patch series support VM_BIND version 1, as described by the param
+I915_PARAM_VM_BIND_VERSION.
 
-oh yes, I forgot the 'C' :)
+Add new execbuf3 ioctl (I915_GEM_EXECBUFFER3) which only works in
+vm_bind mode. The vm_bind mode only works with this new execbuf3 ioctl.
+The new execbuf3 ioctl will not have any execlist support and all the
+legacy support like relocations etc., are removed.
 
-> Other than that, have we checked the possibility of using the driver-initiated-flr bit
-> instead of this second loop? That should be the right way to guarantee everything is
-> cleared on gen11+...
+NOTEs:
+* It is based on below VM_BIND design+uapi rfc.
+  Documentation/gpu/rfc/i915_vm_bind.rst
 
-maybe I am misinterpreting it, but is FLR the same as resetting
-hardware domains individually?
+* The IGT RFC series is posted as,
+  [PATCH i-g-t v9 0/19] vm_bind: Add VM_BIND validation support
 
-How am I supposed to use driver_initiated_flr() in this context?
+v2: Address various review comments
+v3: Address review comments and other fixes
+v4: Remove vm_unbind out fence uapi which is not supported yet,
+    replace vm->vm_bind_mode check with i915_gem_vm_is_vm_bind_mode()
+v5: Render kernel-doc, use PIN_NOEVICT, limit vm_bind support to
+    non-recoverable faults
+v6: Rebased, minor fixes, add reserved fields to drm_i915_gem_vm_bind,
+    add new patch for async vm_unbind support
+v7: Rebased, minor cleanups as per review feedback
+v8: Rebased, add capture support
+v9: Address capture support feedback from v8
 
-Thanks,
-Andi
+Test-with: 20221212231254.2303-1-niranjana.vishwanathapura@intel.com
 
-> > Cc: stable@vger.kernel.org
-> > Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/gt/intel_reset.c | 34 ++++++++++++++++++++++-----
-> >  1 file changed, 28 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
-> > index ffde89c5835a4..88dfc0c5316ff 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_reset.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
-> > @@ -268,6 +268,7 @@ static int ilk_do_reset(struct intel_gt *gt, intel_engine_mask_t engine_mask,
-> >  static int gen6_hw_domain_reset(struct intel_gt *gt, u32 hw_domain_mask)
-> >  {
-> >  	struct intel_uncore *uncore = gt->uncore;
-> > +	int loops = 2;
-> >  	int err;
-> >  
-> >  	/*
-> > @@ -275,18 +276,39 @@ static int gen6_hw_domain_reset(struct intel_gt *gt, u32 hw_domain_mask)
-> >  	 * for fifo space for the write or forcewake the chip for
-> >  	 * the read
-> >  	 */
-> > -	intel_uncore_write_fw(uncore, GEN6_GDRST, hw_domain_mask);
-> > +	do {
-> > +		intel_uncore_write_fw(uncore, GEN6_GDRST, hw_domain_mask);
-> >  
-> > -	/* Wait for the device to ack the reset requests */
-> > -	err = __intel_wait_for_register_fw(uncore,
-> > -					   GEN6_GDRST, hw_domain_mask, 0,
-> > -					   500, 0,
-> > -					   NULL);
-> > +		/*
-> > +		 * Wait for the device to ack the reset requests.
-> > +		 *
-> > +		 * On some platforms, e.g. Jasperlake, we see see that the
-> > +		 * engine register state is not cleared until shortly after
-> > +		 * GDRST reports completion, causing a failure as we try
-> > +		 * to immediately resume while the internal state is still
-> > +		 * in flux. If we immediately repeat the reset, the second
-> > +		 * reset appears to serialise with the first, and since
-> > +		 * it is a no-op, the registers should retain their reset
-> > +		 * value. However, there is still a concern that upon
-> > +		 * leaving the second reset, the internal engine state
-> > +		 * is still in flux and not ready for resuming.
-> > +		 */
-> > +		err = __intel_wait_for_register_fw(uncore, GEN6_GDRST,
-> > +						   hw_domain_mask, 0,
-> > +						   2000, 0,
-> > +						   NULL);
-> > +	} while (err == 0 && --loops);
-> >  	if (err)
-> >  		GT_TRACE(gt,
-> >  			 "Wait for 0x%08x engines reset failed\n",
-> >  			 hw_domain_mask);
-> >  
-> > +	/*
-> > +	 * As we have observed that the engine state is still volatile
-> > +	 * after GDRST is acked, impose a small delay to let everything settle.
-> > +	 */
-> > +	udelay(50);
-> > +
-> >  	return err;
-> >  }
-> >  
-> > -- 
-> > 2.38.1
-> > 
+Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+
+Niranjana Vishwanathapura (23):
+  drm/i915/vm_bind: Expose vm lookup function
+  drm/i915/vm_bind: Add __i915_sw_fence_await_reservation()
+  drm/i915/vm_bind: Expose i915_gem_object_max_page_size()
+  drm/i915/vm_bind: Support partially mapped vma resource
+  drm/i915/vm_bind: Add support to create persistent vma
+  drm/i915/vm_bind: Implement bind and unbind of object
+  drm/i915/vm_bind: Support for VM private BOs
+  drm/i915/vm_bind: Add support to handle object evictions
+  drm/i915/vm_bind: Support persistent vma activeness tracking
+  drm/i915/vm_bind: Add out fence support
+  drm/i915/vm_bind: Abstract out common execbuf functions
+  drm/i915/vm_bind: Use common execbuf functions in execbuf path
+  drm/i915/vm_bind: Implement I915_GEM_EXECBUFFER3 ioctl
+  drm/i915/vm_bind: Update i915_vma_verify_bind_complete()
+  drm/i915/vm_bind: Expose i915_request_await_bind()
+  drm/i915/vm_bind: Handle persistent vmas in execbuf3
+  drm/i915/vm_bind: userptr dma-resv changes
+  drm/i915/vm_bind: Limit vm_bind mode to non-recoverable contexts
+  drm/i915/vm_bind: Add uapi for user to enable vm_bind_mode
+  drm/i915/vm_bind: Render VM_BIND documentation
+  drm/i915/vm_bind: Async vm_unbind support
+  drm/i915/vm_bind: Properly build persistent map sg table
+  drm/i915/vm_bind: Support capture of persistent mappings
+
+ Documentation/gpu/i915.rst                    |  78 +-
+ drivers/gpu/drm/i915/Makefile                 |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  43 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.h   |  17 +
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |  72 +-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   6 +
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 522 +----------
+ .../gpu/drm/i915/gem/i915_gem_execbuffer3.c   | 872 ++++++++++++++++++
+ .../drm/i915/gem/i915_gem_execbuffer_common.c | 671 ++++++++++++++
+ .../drm/i915/gem/i915_gem_execbuffer_common.h |  76 ++
+ drivers/gpu/drm/i915/gem/i915_gem_ioctls.h    |   2 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   2 +
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   6 +
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |  19 +
+ drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h   |  30 +
+ .../drm/i915/gem/i915_gem_vm_bind_object.c    | 463 ++++++++++
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |  22 +
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |  28 +
+ drivers/gpu/drm/i915/i915_driver.c            |   4 +
+ drivers/gpu/drm/i915/i915_drv.h               |   2 +
+ drivers/gpu/drm/i915/i915_gem_gtt.c           |  39 +
+ drivers/gpu/drm/i915/i915_gem_gtt.h           |   3 +
+ drivers/gpu/drm/i915/i915_getparam.c          |   3 +
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  18 +-
+ drivers/gpu/drm/i915/i915_sw_fence.c          |  28 +-
+ drivers/gpu/drm/i915/i915_sw_fence.h          |  23 +-
+ drivers/gpu/drm/i915/i915_vma.c               | 308 ++++++-
+ drivers/gpu/drm/i915/i915_vma.h               |  70 +-
+ drivers/gpu/drm/i915/i915_vma_types.h         |  43 +
+ include/uapi/drm/i915_drm.h                   | 281 +++++-
+ 31 files changed, 3205 insertions(+), 552 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.h
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+
+-- 
+2.21.0.rc0.32.g243a4c7e27
+
