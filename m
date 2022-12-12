@@ -1,94 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44A4A6497DA
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Dec 2022 03:09:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E06864981D
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Dec 2022 04:01:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B8A010E03D;
-	Mon, 12 Dec 2022 02:09:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39E9010E072;
+	Mon, 12 Dec 2022 03:01:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2067.outbound.protection.outlook.com [40.107.92.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA0AF10E03D;
- Mon, 12 Dec 2022 02:08:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ot0kFp/G3M3tRbHDH1xKuwrTsLwY7SZ3P3tzxOmXl7Vs0y6veeJ1qA962Q4kVwrgyakhqluWptWdsAP9C5qWmwpswm5P+rNKglHF0dOGPUbfq6KhcQQI2JV9aNeA2Jm8k9WL8bzrL7KbR6HRsucGbQuKBQuldShVurtb5mlHZp3A0hcIqlPHkQwKs0N6Pxpbj3HZsKeY+KvhLPqjaDexjoZVUkfnyc8Gc9lwmIJfcu01DNxVR8LTNnuuN2XAbFaZTaUHEvU4jvCiWG/h/ByhcjUI/vU/2L1+wANJeCeO79QFJWsuAtNoWzZuuprWZqDosOzOrX1p1xTr+Gkb7waimA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wnsehzLWFr7Q5ErvmX+n4zY2uq9VEeZ4xB55tXWXaPo=;
- b=PnEWKlU0HiRInLGrCE/UX70/8WE5RzTUT6RY9SJyWWZjEYIAGee8z8pTRRugRMgAsSJUcsvsmum99DdQopzQ37HA9p3za2d7ByDKqS513Fbr+uiFfTvaLxtJIxiJdoX1wwNzlG4hPZxB341bLb6yaAlkmHXUIAZxRaBgMsn9V0FYUSK/Aa7MVqOacQ4fjUCc7CrCIkX8aS2p1DsBdMRuPMZ0KvbJTVqcJndrfAMXB8z6ZtqnAqDMn5jMzWZP1hgrxWv4+IiLInwL/iCvBIW77n6kLlBNyOjrEbHVhMwnwko/sGr0q79zRHGkWjd6PUCpmNpo77QVVMKMXu0zEJmdnw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wnsehzLWFr7Q5ErvmX+n4zY2uq9VEeZ4xB55tXWXaPo=;
- b=ZT06+xIlLyhPSPYO7aXYjT1XLCYL1yy/naaeFvome8So1eLiJMoiIC+JpGoyuQ4LdU1SoGMq9ZcfZZs9wD4Y/6dnlLTn1sJIdlGJeLQa+XXsgR8/7jFPqBsGKkSdFtMi3ulcwRkFZ8N1BZ/4p63HzOPG7dhky0I/VoQL9MrQ4U8=
-Received: from DS7PR06CA0041.namprd06.prod.outlook.com (2603:10b6:8:54::10) by
- DM4PR12MB5938.namprd12.prod.outlook.com (2603:10b6:8:69::9) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5880.19; Mon, 12 Dec 2022 02:08:49 +0000
-Received: from DM6NAM11FT083.eop-nam11.prod.protection.outlook.com
- (2603:10b6:8:54:cafe::e2) by DS7PR06CA0041.outlook.office365.com
- (2603:10b6:8:54::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.19 via Frontend
- Transport; Mon, 12 Dec 2022 02:08:49 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT083.mail.protection.outlook.com (10.13.173.97) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5901.21 via Frontend Transport; Mon, 12 Dec 2022 02:08:49 +0000
-Received: from localhost.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Sun, 11 Dec
- 2022 20:08:47 -0600
-From: Luben Tuikov <luben.tuikov@amd.com>
-To: AMD Graphics <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH] drm/radeon: Fix screen corruption (v2)
-Date: Sun, 11 Dec 2022 21:08:21 -0500
-Message-ID: <20221212020821.8248-1-luben.tuikov@amd.com>
-X-Mailer: git-send-email 2.39.0.rc2
-In-Reply-To: <20221211114226.57398-1-luben.tuikov@amd.com>
-References: <20221211114226.57398-1-luben.tuikov@amd.com>
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 542A410E072
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 03:01:12 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id m18so24606081eji.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Dec 2022 19:01:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=b5xVESgi+u7TAbJ7EvkYkJx0xVOQrYRtZP7UZaMzw78=;
+ b=HV98tz4LKEDxl6CV8zijJx0FyWQcxwgAP9lcJHvjYMp6JvGBIlyEdoE5wV2mgDyAq/
+ MdPcAveOQV699dw6y0ccel1dN1PmA7V5I/NIOL8HulJq00gRBi98X9JnB+DiOXSJGjxR
+ I61IcmGhdvS1yEGnXfUekbm2kCxaye3KOEMVI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=b5xVESgi+u7TAbJ7EvkYkJx0xVOQrYRtZP7UZaMzw78=;
+ b=6DRRZSG6sSFrulQYvPCw9A02Ke9967ouY2UFQ3BjLmg7mravkh5/dph6wNNXKFAoUJ
+ bkperw02C1Ga3FQmeizmAmF+Fgbz5BViiuWpvb/OcdByuN/G0iKUygFw6rLE4nr75IaS
+ Xr/TiLCz2r+J010826uIaKpDHIUQEvO424QpTvZoiZ/k2/N6urk5WwDb9mLDp6I4t0tM
+ Wvrt0WjHS8fkFOvmkfAC70KmCncD76c08Tx+J0wDC24HQ+whRHN/H4VqOyrSGL5iItq4
+ 4d+MzfQYefvKKCn+oxIAiSZXHgT7MyUYp99ePn0Q2Ofs4DJ6NJS1Sqe+G4cKZ6wBgBWZ
+ iewg==
+X-Gm-Message-State: ANoB5pliNYwowyxXxJb+3aasU2QYzAox72QW3+kBysaw/PIeeRtIv32B
+ ehYDGEmqvwMXBEUm0hJzCzhaOrqtu5qz8Prh
+X-Google-Smtp-Source: AA0mqf6uRDA6Vm2e84jC7CGUsJIFOgucJjS/Zog7mkr6u0e5jcZgg5cwgb7lrDb5ynKetR2d+wcQUQ==
+X-Received: by 2002:a17:907:a64a:b0:7c1:64dc:ac25 with SMTP id
+ vu10-20020a170907a64a00b007c164dcac25mr3910414ejc.23.1670814070236; 
+ Sun, 11 Dec 2022 19:01:10 -0800 (PST)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com.
+ [209.85.218.51]) by smtp.gmail.com with ESMTPSA id
+ j10-20020a17090623ea00b007c081cf2d25sm2669353ejg.204.2022.12.11.19.01.09
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 11 Dec 2022 19:01:09 -0800 (PST)
+Received: by mail-ej1-f51.google.com with SMTP id m18so24605958eji.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Dec 2022 19:01:09 -0800 (PST)
+X-Received: by 2002:a17:906:13d3:b0:7c1:297c:4c5c with SMTP id
+ g19-20020a17090613d300b007c1297c4c5cmr3823122ejc.306.1670814068887; Sun, 11
+ Dec 2022 19:01:08 -0800 (PST)
 MIME-Version: 1.0
-X-check-string-leak: v1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT083:EE_|DM4PR12MB5938:EE_
-X-MS-Office365-Filtering-Correlation-Id: c280ac75-e29f-4f13-f40d-08dadbe5cef8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: r7rinKrhlf0SSmj+svovoiBCMGI94Qr8RslkbYz+4rBsjGBiG705oseNNOX2QLX/NWS+f8Fw61WrAd62gdzZ7jj23oX64jOeda4ekm/MN+oGwxWS5cKcJHk091XlI0OmxkBq2UNu2mVnsK4r0FUHh/rbpQBgNIitgNi9OYCQZjrg3ffJxhxS/wddVisuUgRuCeg3b9mYzLCXGPhyVMWouPlrcgnm4/5TsT3XWYcYCXJJLFtkRHfFMn/bgySjce7jkpSiIwUyvmGS3023JvwMolTD79OAKKDVwx3BZVXsWUofMYVn11mAVB9sIxLDTdfJDDSJz4iXbA8YaUZlKhWlx/5bkgxRb7E12c0ZJS2EUlgjFxBRz2Kij2k/Bkxc7YYTFc2mq4meV8NsGILMUyRQ/2WENfgDldU+lMBrQ1adB0LLHgIXqvgLqhMOcjmL8VAFDkVmWvCdx6GrjwlDETXekjjX9TrUE8NAV3l3r1K2iohzSjIpU0V///TuTt9vgjjQPUiZJAQ/MSP/UdJOfzLCYCL1fAJP0wTZRwYgsyJqWvYse1eEBNWhcfzrFs9lQXumnA5DtI2TnrhDzECH/hZ8YfhBe7RVLrTTsSFlEps7b1s3Awm7YMm8w5w45QN088BdbZeiZYEr+0zvK6hkSXCSW97yjYxbyS6CeirB+qG+psbZwbo+UZ1aMFywimbJuoqONeNz80cJGi2ugnA5dNhpO5gwEHyFnrSoNf+cDB7qr7s=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:CA; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(39860400002)(376002)(346002)(396003)(451199015)(46966006)(36840700001)(40470700004)(426003)(82310400005)(36756003)(316002)(83380400001)(26005)(16526019)(186003)(6666004)(54906003)(7696005)(6916009)(40480700001)(86362001)(36860700001)(70586007)(8676002)(4326008)(82740400003)(47076005)(356005)(81166007)(336012)(70206006)(478600001)(41300700001)(1076003)(2616005)(5660300002)(40460700003)(44832011)(2906002)(8936002)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2022 02:08:49.1824 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c280ac75-e29f-4f13-f40d-08dadbe5cef8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT083.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5938
+References: <20221020121316.3946-1-christian.koenig@amd.com>
+ <e02cedc2-6741-8813-a7a5-f8769e301745@gmail.com>
+ <a53e5df51ec0f2f9d4c2d377c0cc5ba85f2e58ff.camel@ndufresne.ca>
+ <9d716641-55c6-1590-26c2-1c3b14a28226@gmail.com>
+ <CAPj87rMPkmimR_RJHhxYZokH__TVpPArk0h6drOUSx7Z9+oAHA@mail.gmail.com>
+ <11a6f97c-e45f-f24b-8a73-48d5a388a2cc@gmail.com>
+ <caf4d6b82843788db97555a58bc9e33915e5b50a.camel@ndufresne.ca>
+ <b422be59-4b4b-2d0d-8e8c-b19f27c6832e@gmail.com>
+ <4fa4e5d3b1f46e46139bad069cbf5e795e63afa8.camel@pengutronix.de>
+ <cc091a11-d012-d998-b7e2-8b3d616867a7@gmail.com>
+ <0abc6efddb8dfc1888de15a1bedaaac6688fd078.camel@pengutronix.de>
+ <1e2a6750-9849-e9ee-69d6-e4bfdcfb64f3@gmail.com>
+ <CAAFQd5B+VHs62M5Wf2L-xOw=_PoaXT+akAySkeZc75HeA3d0jQ@mail.gmail.com>
+ <b2dec9b3-03a7-e7ac-306e-1da024af8982@amd.com>
+ <CAAFQd5B7JQ4efCoVXEv_OQCmER6jPLPTyJdO7HrC2-Wfo+jMXQ@mail.gmail.com>
+ <e2f8b6ff-c843-cc8a-a496-72e25608c223@amd.com>
+ <CAAFQd5CJZ3RLTcS53=s81xAMZ=sG7A=CRUa6gKKuewbFG45Q8w@mail.gmail.com>
+ <a4f56b61-7609-5424-b04c-9462764ac73b@amd.com>
+In-Reply-To: <a4f56b61-7609-5424-b04c-9462764ac73b@amd.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Mon, 12 Dec 2022 12:00:57 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5ATVNQRdVUdiCqJP3kyT4ETP4pvdsSypt89KSEgsH-7Vg@mail.gmail.com>
+Message-ID: <CAAFQd5ATVNQRdVUdiCqJP3kyT4ETP4pvdsSypt89KSEgsH-7Vg@mail.gmail.com>
+Subject: Re: Try to address the DMA-buf coherency problem
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,80 +92,304 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <Alexander.Deucher@amd.com>,
- Mikhail Krylov <sqarert@gmail.com>, Luben Tuikov <luben.tuikov@amd.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>
+Cc: Nicolas Dufresne <nicolas@ndufresne.ca>, linaro-mm-sig@lists.linaro.org,
+ ppaalanen@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, sumit.semwal@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix screen corruption on older 32-bit systems using AGP chips.
+On Fri, Dec 9, 2022 at 7:27 PM Christian K=C3=B6nig <christian.koenig@amd.c=
+om> wrote:
+>
+> Am 09.12.22 um 09:26 schrieb Tomasz Figa:
+[snip]
+> Yes, same what Daniel said as well. We need to provide some more hints
+> which allocator to use from the kernel.
+>
+> >>>>>> So if a device driver uses cached system memory on an architecture=
+ which
+> >>>>>> devices which can't access it the right approach is clearly to rej=
+ect
+> >>>>>> the access.
+> >>>>> I'd like to accent the fact that "requires cache maintenance" !=3D =
+"can't access".
+> >>>> Well that depends. As said above the exporter exports the buffer as =
+it
+> >>>> was allocated.
+> >>>>
+> >>>> If that means the the exporter provides a piece of memory which requ=
+ires
+> >>>> CPU cache snooping to access correctly then the best thing we can do=
+ is
+> >>>> to prevent an importer which can't do this from attaching.
+> >>> Could you elaborate more about this case? Does it exist in practice?
+> >>> Do I assume correctly that it's about sharing a buffer between one DM=
+A
+> >>> engine that is cache-coherent and another that is non-coherent, where
+> >>> the first one ends up having its accesses always go through some kind
+> >>> of a cache (CPU cache, L2/L3/... cache, etc.)?
+> >> Yes, exactly that. What happens in this particular use case is that on=
+e
+> >> device driver wrote to it's internal buffer with the CPU (so some cach=
+e
+> >> lines where dirty) and then a device which couldn't deal with that tri=
+ed
+> >> to access it.
+> > If so, shouldn't that driver surround its CPU accesses with
+> > begin/end_cpu_access() in the first place?
+>
+> The problem is that the roles are reversed. The callbacks let the
+> exporter knows that it needs to flush the caches when the importer is
+> done accessing the buffer with the CPU.
+>
+> But here the exporter is the one accessing the buffer with the CPU and
+> the importer then accesses stale data because it doesn't snoop the caches=
+.
+>
+> What we could do is to force all exporters to use begin/end_cpu_access()
+> even on it's own buffers and look at all the importers when the access
+> is completed. But that would increase the complexity of the handling in
+> the exporter.
 
-On older systems with little memory, for instance 1.5 GiB, using an AGP chip,
-the device's DMA mask is 0xFFFFFFFF, but the memory mask is 0x7FFFFFF, and
-subsequently dma_addressing_limited() returns 0xFFFFFFFF < 0x7FFFFFFF,
-false. As such the result of this static inline isn't suitable for the last
-argument to ttm_device_init()--it simply needs to now whether to use GFP_DMA32
-when allocating DMA buffers.
+I feel like they should be doing so anyway, because it often depends
+on the SoC integration whether the DMA can do cache snooping or not.
 
-Partially reverts commit 33b3ad3788aba846fc8b9a065fe2685a0b64f713.
+Although arguably, there is a corner case today where if one uses
+dma_alloc_coherent() to get a buffer with a coherent CPU mapping for
+device X that is declared as cache-coherent, one also expects not to
+need to call begin/end_cpu_access(), but those would be needed if the
+buffer was to be imported by device Y that is not cache-coherent...
 
-v2: Amend the commit description.
+Sounds like after all it's a mess. I guess your patches make it one
+step closer to something sensible, import would fail in such cases.
+Although arguably we should be able to still export from driver Y and
+import to driver X just fine if Y allocated the buffer as coherent -
+otherwise we would break existing users for whom things worked fine.
 
-Cc: Mikhail Krylov <sqarert@gmail.com>
-Cc: Alex Deucher <Alexander.Deucher@amd.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Direct Rendering Infrastructure - Development <dri-devel@lists.freedesktop.org>
-Cc: AMD Graphics <amd-gfx@lists.freedesktop.org>
-Fixes: 33b3ad3788aba8 ("drm/radeon: handle PCIe root ports with addressing limitations")
-Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
----
- drivers/gpu/drm/radeon/radeon.h        | 1 +
- drivers/gpu/drm/radeon/radeon_device.c | 2 +-
- drivers/gpu/drm/radeon/radeon_ttm.c    | 2 +-
- 3 files changed, 3 insertions(+), 2 deletions(-)
+>
+> In other words we would then have code in the exporters which is only
+> written for handling the constrains of the importers. This has a wide
+> variety of consequences, especially that this functionality of the
+> exporter can't be tested without a proper importer.
+>
+> I was also thinking about reversing the role of exporter and importer in
+> the kernel, but came to the conclusion that doing this under the hood
+> without userspace knowing about it is probably not going to work either.
+>
+> > The case that I was suggesting was of a hardware block that actually
+> > sits behind the CPU cache and thus dirties it on writes, not the
+> > driver doing that. (I haven't personally encountered such a system,
+> > though.)
+>
+> Never heard of anything like that either, but who knows.
+>
+> >> We could say that all device drivers must always look at the coherency
+> >> of the devices which want to access their buffers. But that would
+> >> horrible complicate things for maintaining the drivers because then
+> >> drivers would need to take into account requirements from other driver=
+s
+> >> while allocating their internal buffers.
+> > I think it's partially why we have the allocation part of the DMA
+> > mapping API, but currently it's only handling requirements of one
+> > device. And we don't have any information from the userspace what
+> > other devices the buffer would be used with...
+>
+> Exactly that, yes.
+>
+> > Actually, do we even have such information in the userspace today?
+> > Let's say I do a video call in a web browser on a typical Linux
+> > system. I have a V4L2 camera, VAAPI video encoder and X11 display. The
+> > V4L2 camera fills in buffers with video frames and both encoder and
+> > display consume them. Do we have a central place which would know that
+> > a buffer needs to be allocated that works with the producer and all
+> > consumers?
+>
+> Both X11 and Wayland have protocols which can be used to display a
+> certain DMA-buf handle, their feedback packages contain information how
+> ideal your configuration is, e.g. if the DMA-buf handle could be used or
+> if an extra copy was needed etc...
+>
+> Similar exists between VAAPI and V4L2 as far as I know, but as you noted
+> as well here it's indeed more about negotiating pixel format, stride,
+> padding, alignment etc...
+>
+> The best we can do is to reject combinations which won't work in the
+> kernel and then userspace could react accordingly.
+>
 
-diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
-index 37dec92339b16a..4fe38fd9be3267 100644
---- a/drivers/gpu/drm/radeon/radeon.h
-+++ b/drivers/gpu/drm/radeon/radeon.h
-@@ -2426,6 +2426,7 @@ struct radeon_device {
- 	struct radeon_wb		wb;
- 	struct radeon_dummy_page	dummy_page;
- 	bool				shutdown;
-+	bool                            need_dma32;
- 	bool				need_swiotlb;
- 	bool				accel_working;
- 	bool				fastfb_working; /* IGP feature*/
-diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
-index 6344454a772172..3643a3cfe061bd 100644
---- a/drivers/gpu/drm/radeon/radeon_device.c
-+++ b/drivers/gpu/drm/radeon/radeon_device.c
-@@ -1370,7 +1370,7 @@ int radeon_device_init(struct radeon_device *rdev,
- 	if (rdev->family == CHIP_CEDAR)
- 		dma_bits = 32;
- #endif
--
-+	rdev->need_dma32 = dma_bits == 32;
- 	r = dma_set_mask_and_coherent(&rdev->pdev->dev, DMA_BIT_MASK(dma_bits));
- 	if (r) {
- 		pr_warn("radeon: No suitable DMA available\n");
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index bdb4c0e0736ba2..3debaeb720d173 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -696,7 +696,7 @@ int radeon_ttm_init(struct radeon_device *rdev)
- 			       rdev->ddev->anon_inode->i_mapping,
- 			       rdev->ddev->vma_offset_manager,
- 			       rdev->need_swiotlb,
--			       dma_addressing_limited(&rdev->pdev->dev));
-+			       rdev->need_dma32);
- 	if (r) {
- 		DRM_ERROR("failed initializing buffer object driver(%d).\n", r);
- 		return r;
+The question is whether userspace is able to deal with it, given the
+limited amount of information it gets from the kernel. Sure, there is
+always the ultimate fallback of memcpy(), but in many cases that would
+be totally unusable due to severe performance impact. If we were to
+remove the existing extent of implicit handling from the kernel, I
+think we need to first give the userspace the information necessary to
+explicitly handle the fallback to the same extent.
 
-base-commit: 20e03e7f6e8efd42168db6d3fe044b804e0ede8f
--- 
-2.39.0.rc2
+We also need to think about backwards compatibility. Simply removing
+the implicit fallback cases would probably break a lot of userspace,
+so an opt-in behavior is likely needed initially...
 
+> >> That's essentially the reason why we have DMA-buf heaps. Those heaps
+> >> expose system memory buffers with certain properties (size, CMA, DMA b=
+it
+> >> restrictions etc...) and also implement the callback functions for CPU
+> >> cache maintenance.
+> >>
+> > How do DMA-buf heaps change anything here? We already have CPU cache
+> > maintenance callbacks in the DMA-buf API - the begin/end_cpu_access()
+> > for CPU accesses and dmabuf_map/unmap_attachment() for device accesses
+> > (which arguably shouldn't actually do CPU cache maintenance, unless
+> > that's implied by how either of the involved DMA engines work).
+>
+> DMA-buf heaps are the neutral man in the middle.
+>
+> The implementation keeps track of all the attached importers and should
+> make sure that the allocated memory fits the need of everyone.
+> Additional to that calls to the cache DMA-api cache management functions
+> are inserted whenever CPU access begins/ends.
+>
+
+I think in current design, it only knows all the importers after the
+buffer is already allocated, so it doesn't necessarily have a way to
+handle the allocation constraints. Something would have to be done to
+get all the importers attached before the allocation actually takes
+place.
+
+> That's the best we can do for system memory sharing, only device
+> specific memory can't be allocated like this.
+>
+> >>>> We do have the system and CMA dma-buf heap for cases where a device
+> >>>> driver which wants to access the buffer with caches enabled. So this=
+ is
+> >>>> not a limitation in functionality, it's just a matter of correctly u=
+sing it.
+> >>>>
+> >>> V4L2 also has the ability to allocate buffers and map them with cache=
+s enabled.
+> >> Yeah, when that's a requirement for the V4L2 device it also makes
+> >> perfect sense.
+> >>
+> >> It's just that we shouldn't force any specific allocation behavior on =
+a
+> >> device driver because of the requirements of a different device.
+> >>
+> >> Giving an example a V4L2 device shouldn't be forced to use
+> >> videobuf2-dma-contig because some other device needs CMA. Instead we
+> >> should use the common DMA-buf heaps which implement this as neutral
+> >> supplier of system memory buffers.
+> > Agreed, but that's only possible if we have a central entity that
+> > understands what devices the requested buffer would be used with. My
+> > understanding is that we're nowhere close to that with mainstream
+> > Linux today.
+> >
+> > // As a side note, videobuf2-dma-contig can actually allocate
+> > discontiguous memory, if the device is behind an IOMMU. Actually with
+> > the recent DMA API improvements, we could probably coalesce
+> > vb2-dma-contig and vb2-dma-sg into one vb2-dma backend.
+>
+> That would probably make live a little bit simpler, yes.
+>
+> >>>> The problem is that in this particular case the exporter provides th=
+e
+> >>>> buffer as is, e.g. with dirty CPU caches. And the importer can't dea=
+l
+> >>>> with that.
+> >>> Why does the exporter leave the buffer with dirty CPU caches?
+> >> Because exporters always export the buffers as they would use it. And =
+in
+> >> this case that means writing with the CPU to it.
+> >>
+> > Sorry for the question not being very clear. I meant: How do the CPU
+> > caches get dirty in that case?
+>
+> The exporter wrote to it. As far as I understand the exporter just
+> copies things from A to B with memcpy to construct the buffer content.
+>
+
+Okay, so it's just due to CPU access and basically what we touched a
+few paragraphs above.
+
+> > [SNIP]
+> >> Yes, totally agree. The problem is really that we moved bunch of MM an=
+d
+> >> DMA functions in one API.
+> >>
+> >> The bounce buffers are something we should really have in a separate
+> >> component.
+> >>
+> >> Then the functionality of allocating system memory for a specific devi=
+ce
+> >> or devices should be something provided by the MM.
+> >>
+> >> And finally making this memory or any other CPU address accessible to =
+a
+> >> device (IOMMU programming etc..) should then be part of an DMA API.
+> >>
+> > Remember that actually making the memory accessible to a device often
+> > needs to be handled already as a part of the allocation (e.g. dma_mask
+> > in the non-IOMMU case). So I tend to think that the current division
+> > of responsibilities is mostly fine - the dma_alloc family should be
+> > seen as a part of MM already, especially with all the recent
+> > improvements from Christoph, like dma_alloc_pages().
+>
+> Yes, that's indeed a very interesting development which as far as I can
+> see goes into the right direction.
+>
+> > That said, it may indeed make sense to move things like IOMMU mapping
+> > management out of the dma_alloc() and just reduce those functions to
+> > simply returning a set of pages that satisfy the allocation
+> > constraints. One would need to call dma_map() after the allocation,
+> > but that's actually a fair expectation. Sometimes it might be
+> > preferred to pre-allocate the memory, but only map it into the device
+> > address space when it's really necessary.
+>
+> What I'm still missing is the functionality to allocate pages for
+> multiple devices and proper error codes when dma_map() can't make the
+> page accessible to a device.
+
+Agreed. Although again, I think the more challenging part would be to
+get the complete list of devices involved before the allocation
+happens.
+
+Best regards,
+Tomasz
+
+>
+> Regards,
+> Christian.
+>
+> >>>>>>> It's a use-case that is working fine today with many devices (e.g=
+. network
+> >>>>>>> adapters) in the ARM world, exactly because the architecture spec=
+ific
+> >>>>>>> implementation of the DMA API inserts the cache maintenance opera=
+tions
+> >>>>>>> on buffer ownership transfer.
+> >>>>>> Yeah, I'm perfectly aware of that. The problem is that exactly tha=
+t
+> >>>>>> design totally breaks GPUs on Xen DOM0 for example.
+> >>>>>>
+> >>>>>> And Xen is just one example, I can certainly say from experience t=
+hat
+> >>>>>> this design was a really really bad idea because it favors just on=
+e use
+> >>>>>> case while making other use cases practically impossible if not re=
+ally
+> >>>>>> hard to implement.
+> >>>>> Sorry, I haven't worked with Xen. Could you elaborate what's the
+> >>>>> problem that this introduces for it?
+> >>>> That's a bit longer topic. The AMD XEN devs are already working on t=
+his
+> >>>> as far as I know. I can ping internally how far they got with sendin=
+g
+> >>>> the patches out to avoid this problem.
+> >>> Hmm, I see. It might be a good data point to understand in which
+> >>> direction we should be going, but I guess we can wait until they send
+> >>> some patches.
+> >> There was just recently a longer thread on the amd-gfx mailing list
+> >> about that. I think looking in there as well might be beneficial.
+> > Okay, let me check. Thanks,
+> >
+> > Best regards,
+> > Tomasz
+>
