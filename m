@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F4B64AB67
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 00:17:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4742B64AB6A
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 00:17:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3E4710E2DE;
-	Mon, 12 Dec 2022 23:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28EDC10E2DF;
+	Mon, 12 Dec 2022 23:16:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE5E10E2B5;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9364610E2AE;
  Mon, 12 Dec 2022 23:15:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1670886937; x=1702422937;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=QVr+ehs5Dt+nHjXTU/seB6N1SANvCc3sB0dZlAJcFvI=;
- b=Mh6skQYQtMcvVvZb3wiZA2AAM69/ERJBlz7a+0vSKpTXH2HioeXLDv+t
- RNxVF5FtTcyXqjMg03FkQXsF9Do0Zu/GYu5tIcAGX5LxGdsv1KQoh/yct
- gPJN5zabFusyaBGOUm08PefRwItXbKjTBfjTy/8kxo3eySnJcomd7PaIl
- DaA2YjBAoP2EGaPV06Ihgr/Ib8tgBcUJxZbk1mqq6AU/AIzmOI/mG76lT
- 4eC/HIYItG7YukqDoeKLsHeh4F2bP3lL6eRMxSaVynIDpvfI2MsZ9aFnA
- 8DUgzBEKngW9pp4hQSRN3tHZeayTrMxM3542AbW70fXfKkZU10YP9zgM3 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="380196390"
-X-IronPort-AV: E=Sophos;i="5.96,239,1665471600"; d="scan'208";a="380196390"
+ bh=EAK+5hwzY0wvRP38xByRdKBSasfEWDRGmSbRSdfZRQM=;
+ b=bxobFOcOT53GjxcX0jqi7jmc/LYNBvX87YbGn4RFlC/AL+Vdwc0oZ2md
+ l9y+HgWL3F8ew+kE3UsMnuklyfgKvlOK0z/GfmFn4bhLVqJn1iBQUkse/
+ vuzilL4TJNqxyOlrXHlo0soGUKmBQiKtdqx85xwppH1mQcdUW5mf8bvp8
+ vz0TwwnEhpNcOCmqRf5qY2Ff02hrUICgbNkbBZPfTA1b9HnnAzd80ERy3
+ XRXz/EqU/wButwAOQCsLNm6HR1ylaitOwMQiL6foRtByK1+xvDa9V091Y
+ SvYcjEbOyB1sXiH2HTrpryk9Img+6K/J3i5Qs87kyiiw0NRofonz1aamC A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="380196393"
+X-IronPort-AV: E=Sophos;i="5.96,239,1665471600"; d="scan'208";a="380196393"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  12 Dec 2022 15:15:37 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="679090348"
-X-IronPort-AV: E=Sophos;i="5.96,239,1665471600"; d="scan'208";a="679090348"
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="679090353"
+X-IronPort-AV: E=Sophos;i="5.96,239,1665471600"; d="scan'208";a="679090353"
 Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  12 Dec 2022 15:15:36 -0800
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v9 14/23] drm/i915/vm_bind: Update
- i915_vma_verify_bind_complete()
-Date: Mon, 12 Dec 2022 15:15:18 -0800
-Message-Id: <20221212231527.2384-15-niranjana.vishwanathapura@intel.com>
+Subject: [PATCH v9 15/23] drm/i915/vm_bind: Expose i915_request_await_bind()
+Date: Mon, 12 Dec 2022 15:15:19 -0800
+Message-Id: <20221212231527.2384-16-niranjana.vishwanathapura@intel.com>
 X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 In-Reply-To: <20221212231527.2384-1-niranjana.vishwanathapura@intel.com>
 References: <20221212231527.2384-1-niranjana.vishwanathapura@intel.com>
@@ -65,75 +64,70 @@ Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ensure i915_vma_verify_bind_complete() handles case where bind
-is not initiated. Also make it non static, add documentation
-and move it out of CONFIG_DRM_I915_DEBUG_GEM.
+Rename __i915_request_await_bind() as i915_request_await_bind()
+and make it non-static as it will be used in execbuf3 ioctl path.
 
-v2: Fix fence leak
+v2: add documentation
 
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- drivers/gpu/drm/i915/i915_vma.c | 22 ++++++++++++++++------
- drivers/gpu/drm/i915/i915_vma.h |  1 +
- 2 files changed, 17 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/i915/i915_vma.c |  8 +-------
+ drivers/gpu/drm/i915/i915_vma.h | 16 ++++++++++++++++
+ 2 files changed, 17 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index 6970e1022fee..7013b2936565 100644
+index 7013b2936565..af3eb6ce68b0 100644
 --- a/drivers/gpu/drm/i915/i915_vma.c
 +++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -441,12 +441,25 @@ int i915_vma_sync(struct i915_vma *vma)
- 	return i915_vm_sync(vma->vm);
+@@ -1923,18 +1923,12 @@ void i915_vma_revoke_mmap(struct i915_vma *vma)
+ 		list_del(&vma->obj->userfault_link);
  }
  
--#if IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM)
--static int i915_vma_verify_bind_complete(struct i915_vma *vma)
-+/**
-+ * i915_vma_verify_bind_complete() - Check for the bind completion of the vma
-+ * @vma: vma to check for bind completion
-+ *
-+ * As the fence reference is obtained under RCU, no locking is required by
-+ * the caller.
-+ *
-+ * Returns: 0 if the vma bind is completed. Error code otherwise.
-+ */
-+int i915_vma_verify_bind_complete(struct i915_vma *vma)
+-static int
+-__i915_request_await_bind(struct i915_request *rq, struct i915_vma *vma)
+-{
+-	return __i915_request_await_exclusive(rq, &vma->active);
+-}
+-
+ static int __i915_vma_move_to_active(struct i915_vma *vma, struct i915_request *rq)
  {
--	struct dma_fence *fence = i915_active_fence_get(&vma->active.excl);
-+	struct dma_fence *fence;
  	int err;
  
-+	/* Ensure vma bind is initiated */
-+	if (!i915_vma_is_bound(vma, I915_VMA_BIND_MASK))
-+		return -EINVAL;
-+
-+	fence = i915_active_fence_get(&vma->active.excl);
- 	if (!fence)
- 		return 0;
+ 	/* Wait for the vma to be bound before we start! */
+-	err = __i915_request_await_bind(rq, vma);
++	err = i915_request_await_bind(rq, vma);
+ 	if (err)
+ 		return err;
  
-@@ -459,9 +472,6 @@ static int i915_vma_verify_bind_complete(struct i915_vma *vma)
- 
- 	return err;
- }
--#else
--#define i915_vma_verify_bind_complete(_vma) 0
--#endif
- 
- I915_SELFTEST_EXPORT void
- i915_vma_resource_init_from_vma(struct i915_vma_resource *vma_res,
 diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-index de1756e4f638..1f25e45a6325 100644
+index 1f25e45a6325..d6c05227fb04 100644
 --- a/drivers/gpu/drm/i915/i915_vma.h
 +++ b/drivers/gpu/drm/i915/i915_vma.h
-@@ -487,6 +487,7 @@ void i915_vma_make_purgeable(struct i915_vma *vma);
+@@ -55,6 +55,22 @@ void i915_vma_unpin_and_release(struct i915_vma **p_vma, unsigned int flags);
+ #define __EXEC_OBJECT_NO_RESERVE BIT(31)
+ #define __EXEC_OBJECT_NO_REQUEST_AWAIT BIT(30)
  
- int i915_vma_wait_for_bind(struct i915_vma *vma);
- int i915_vma_sync(struct i915_vma *vma);
-+int i915_vma_verify_bind_complete(struct i915_vma *vma);
- 
- /**
-  * i915_vma_get_current_resource - Get the current resource of the vma
++/**
++ * i915_request_await_bind() - Setup request to wait for a vma bind completion
++ * @rq: the request which should wait
++ * @vma: vma whose binding @rq should wait to complete
++ *
++ * Setup the request @rq to asynchronously wait for @vma bind to complete
++ * before starting execution.
++ *
++ * Returns 0 on success, error code on failure.
++ */
++static inline int
++i915_request_await_bind(struct i915_request *rq, struct i915_vma *vma)
++{
++	return __i915_request_await_exclusive(rq, &vma->active);
++}
++
+ int __must_check _i915_vma_move_to_active(struct i915_vma *vma,
+ 					  struct i915_request *rq,
+ 					  struct dma_fence *fence,
 -- 
 2.21.0.rc0.32.g243a4c7e27
 
