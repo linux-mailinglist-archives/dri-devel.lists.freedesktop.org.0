@@ -1,51 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AF7A64A378
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Dec 2022 15:35:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74DCE64A3C8
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Dec 2022 15:55:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1521489336;
-	Mon, 12 Dec 2022 14:35:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78F2B10E188;
+	Mon, 12 Dec 2022 14:55:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 313A3891CC;
- Mon, 12 Dec 2022 14:35:32 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 9C246B80D8A;
- Mon, 12 Dec 2022 14:35:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B7EEC433EF;
- Mon, 12 Dec 2022 14:35:23 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="Wl6pADoH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1670855721;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1KyY32z5nf0Lu8vM4J/2IpAlTcstrOO9+asdsS0mdQs=;
- b=Wl6pADoHCtIIbQYtGWyzoK0/ft/6K3+8UZfyGZQbHCn0OgumkLD978IERouS9rLh91V7py
- ofol1dOocMk4p1DFNAhuJ2rC6+TlFlqFiUo0IADIb6l2vBWdPsmninRN5yWI9N/OpXZpdd
- 5BCaUAKkpp98C6Hq6gwjcSOdDz781ww=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id db04abc2
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Mon, 12 Dec 2022 14:35:21 +0000 (UTC)
-Date: Mon, 12 Dec 2022 15:35:20 +0100
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: david.keisarschm@mail.huji.ac.il
-Subject: Re: [PATCH 1/5] Renaming weak prng invocations -
- prandom_bytes_state, prandom_u32_state
-Message-ID: <Y5c8KLzJFz/XZMiM@zx2c4.com>
-References: <cover.1670778651.git.david.keisarschm@mail.huji.ac.il>
- <b3caaa5ac5fca4b729bf1ecd0d01968c09e6d083.1670778652.git.david.keisarschm@mail.huji.ac.il>
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E463010E210
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 14:55:21 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id t2so9339492ply.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 06:55:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=QOete+/cDIPb7SHD7JQ+FV6lea22kcASfLRxjQgXkuU=;
+ b=osnTVlUH9FvnBWkSTEZ8YnbhCKxVFasFUu8IqZ7WSUZfh1aA6bpTnJqkLyZRz3E77R
+ ExpkoAn2Y0a5mmEutqqMksV74nXXAL7cmdrQIpgQDJjrFqNilB9Ft2T7WV0KtOHIZYXY
+ 49TvknntItq99dN+4OwtNOv/qvyyOjy3Rd4Yo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QOete+/cDIPb7SHD7JQ+FV6lea22kcASfLRxjQgXkuU=;
+ b=FhbmLQYYtByD7xOR5MCNJnoXZeamwBaeysGe0uPi8pqwRtfmjHhSOiC52QwA9NUVno
+ UsZS7CYE2dI16BVJAovhr7t0sVB26hMVYHkhLxqd31/XHKWVlkG4p+lRUlCIHrrSKjko
+ DEj3trs8VTwkw8JDzw26b9tvzOgjIJLauz6SLjSq/C9g58zjVz0MPybLslrjvjrBsGS4
+ RbdOGKeo0u2CRstCnsNwVAXgE7ph9S6ylVsXmvYkjN5LBImHDvxrFszgU7vEEBAKy9gk
+ k6QIe7h6qskHjzRMkLP7oCNdPH/DZBW7p5mGMJjRfXYY0Ch2Mjcpdj529oXsG+sjFcFc
+ BoJA==
+X-Gm-Message-State: ANoB5pnMXi+qwGeXLkBdK5HHq3w+DvqZkCsT9omWouBKz12BXhAy7V0V
+ lSAR/dOlo9jkO7bGETIWdl55LQ==
+X-Google-Smtp-Source: AA0mqf64O+JwryeZ4HIgcewJKQ/FQ9AOe6MuQOsueYEOV7CvaQyiGRGuwSN19o4rN9ZTYOZBmVBWEA==
+X-Received: by 2002:a17:902:6a8c:b0:185:441e:4cef with SMTP id
+ n12-20020a1709026a8c00b00185441e4cefmr15104152plk.31.1670856921060; 
+ Mon, 12 Dec 2022 06:55:21 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:c00a:a809:c713:dc69:f2de:e52f])
+ by smtp.gmail.com with ESMTPSA id
+ e11-20020a170902784b00b001782aab6318sm6463272pln.68.2022.12.12.06.55.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Dec 2022 06:55:20 -0800 (PST)
+From: Jagan Teki <jagan@amarulasolutions.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Neil Armstrong <narmstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH v10 0/3] drm: exynos: dsi: Restore the bridge chain
+Date: Mon, 12 Dec 2022 20:25:05 +0530
+Message-Id: <20221212145508.15096-1-jagan@amarulasolutions.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b3caaa5ac5fca4b729bf1ecd0d01968c09e6d083.1670778652.git.david.keisarschm@mail.huji.ac.il>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,53 +71,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>,
- Peter Zijlstra <peterz@infradead.org>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Alexei Starovoitov <ast@kernel.org>, dri-devel@lists.freedesktop.org,
- Song Liu <song@kernel.org>, Eric Dumazet <edumazet@google.com>,
- linux-mtd@lists.infradead.org, Stanislav Fomichev <sdf@google.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Christoph Lameter <cl@linux.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Daniel Borkmann <daniel@iogearbox.net>,
- Richard Weinberger <richard@nod.at>, x86@kernel.org,
- John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>,
- ilay.bahat1@gmail.com, Ingo Molnar <mingo@redhat.com>,
- Steven Rostedt <rostedt@goodmis.org>, Jiri Pirko <jiri@nvidia.com>,
- David Rientjes <rientjes@google.com>, Yonghong Song <yhs@fb.com>,
- Paolo Abeni <pabeni@redhat.com>, intel-gfx@lists.freedesktop.org,
- Petr Mladek <pmladek@suse.com>, Jiri Olsa <jolsa@kernel.org>,
- Hao Luo <haoluo@google.com>, "James E.J. Bottomley" <jejb@linux.ibm.com>,
- KP Singh <kpsingh@kernel.org>, Hyeonggon Yoo <42.hyeyoo@gmail.com>,
- Jakub Kicinski <kuba@kernel.org>, Borislav Petkov <bp@alien8.de>,
- Hannes Reinecke <hare@suse.de>, Andy Lutomirski <luto@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@suse.cz>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-scsi@vger.kernel.org,
- "Martin K. Petersen" <martin.petersen@oracle.com>, linux-mm@kvack.org,
- netdev@vger.kernel.org, bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
- Pekka Enberg <penberg@kernel.org>,
- Sergey Senozhatsky <senozhatsky@chromium.org>, aksecurity@gmail.com,
- Joonsoo Kim <iamjoonsoo.kim@lge.com>, Martin KaFai Lau <martin.lau@linux.dev>,
- "David S. Miller" <davem@davemloft.net>
+Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Please CC me on future revisions.
+Split the Exynos DSI bridge chain update patches from Samsung DSIM
+bridge driver for easy to apply.
 
-As of 6.2, the prandom namespace is *only* for predictable randomness.
-There's no need to rename anything. So nack on this patch 1/5.
+Changes for v10:
+- collect Marek.V Review tag
 
-With regards to the remaining patches in this series, if you want to
-move prandom_u32_state callers over to get_random_bytes() and
-get_random_u32(), that's fine from my perspective, but last I looked,
-there was much usage in places where being repeatable was actually the
-goal - test suites and such, where you want to be able to redo your
-tests with the same seed. So you'll have to look at each instance case
-by case and convince whoever maintains that code that they don't need
-predictability. However, if you do that, the right functions to use are
-get_random_bytes() and get_random_u32().
+Any inputs?
+Jagan.
 
-Jason
+Jagan Teki (1):
+  drm: panel: Enable prepare_prev_first flag for samsung-s6e panels
+
+Marek Szyprowski (2):
+  drm/bridge: tc358764: Enable pre_enable_prev_first flag
+  drm: exynos: dsi: Restore proper bridge chain order
+
+ drivers/gpu/drm/bridge/tc358764.c                | 1 +
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c          | 8 ++++++--
+ drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c    | 1 +
+ drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c | 1 +
+ drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c    | 1 +
+ 5 files changed, 10 insertions(+), 2 deletions(-)
+
+-- 
+2.25.1
+
