@@ -1,60 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBFBC649B08
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Dec 2022 10:23:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4584E649B2D
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Dec 2022 10:33:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E3E010E17C;
-	Mon, 12 Dec 2022 09:23:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F28BC10E17D;
+	Mon, 12 Dec 2022 09:32:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3777A10E17C;
- Mon, 12 Dec 2022 09:23:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1670837025; x=1702373025;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=gnJiZPI7w4a9ZInKV8aetpNn1G290OEIUkpbnuUSqqM=;
- b=HdlVoAV5sKg4e9MkBGNAnW3Y89b+lTQF2MwSNmppM+eIcuxLKRGPsFmb
- vz2JTQ9guRv6GBiIJm70zDkKk8oxS58LN5cUldFjLWgpzDJbMF5c7e47s
- PxfkmUGY4Ie8AaxKkX9y7Z1RBwtnFS733a+nqrrOd0ism4WjvybIxSYtE
- e0l3Db8BnCEkqXsWHRXmqA4A1Iz5K4/+HfIhOAJ35hLu7sD9Hqokjlnej
- g0UgVkKL7yvkGvMp1bC3aKp1QG61oY4SQX2KgAJezXLaFPkEaVMwPYvbY
- ttMOQnp/RYdOqQYHCbJKUx4inmAFtmdWwwcbBeyEkSc04UzSGTS7XlDs+ Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10558"; a="404066122"
-X-IronPort-AV: E=Sophos;i="5.96,237,1665471600"; d="scan'208";a="404066122"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2022 01:23:44 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10558"; a="711607520"
-X-IronPort-AV: E=Sophos;i="5.96,237,1665471600"; d="scan'208";a="711607520"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.27.183])
- ([10.213.27.183])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2022 01:23:40 -0800
-Message-ID: <ac002ab6-4563-825c-0aba-0ba049bef009@intel.com>
-Date: Mon, 12 Dec 2022 10:23:38 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED2710E17D
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 09:32:49 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 536B2FB;
+ Mon, 12 Dec 2022 10:32:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1670837567;
+ bh=gO+CGPBef/Ifw+tKAKwgYSPY5yPXVhouQW3dyAqrBaY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=npe5L284CeffrQPOxHSaW7oO9qEFXAytbG+nBRmAEPoi2HcqfOshTSyEOSZMlQaXW
+ q40COhQyJYJmz//5HeG3FUfUbhvhPpjbPPtXQ2j+ZmH5H95kh/AJ5IrMUTY/DSBDqb
+ ajqm9DTXScJXE4OYRe9BvwCZFBUFcNPUUJ8YcIDA=
+Date: Mon, 12 Dec 2022 11:32:45 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Frieder Schrempf <frieder.schrempf@kontron.de>
+Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: ti-sn65dsi83: Add enable
+ delay property
+Message-ID: <Y5b1PRRFeSm2P/LB@pendragon.ideasonboard.com>
+References: <20221209083339.3780776-1-alexander.stein@ew.tq-group.com>
+ <45157029.fMDQidcC6G@steina-w>
+ <6da2330d-516e-7dc4-a000-1e68c7f7887e@denx.de>
+ <2735716.BEx9A2HvPv@steina-w>
+ <c6f2cc52-41c6-028f-4d3f-e8a4d5d73dcd@denx.de>
+ <9f8b1c17-0bc5-ae99-b7b1-cb2f52f9310d@kontron.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.5.1
-Subject: Re: [Intel-gfx] [PATCH 3/5] drm/i915/gt: kill fetch_and_zero usage
-Content-Language: en-US
-To: "Upadhyay, Tejas" <tejas.upadhyay@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <20221209154843.4162814-1-andrzej.hajda@intel.com>
- <20221209154843.4162814-3-andrzej.hajda@intel.com>
- <SJ1PR11MB6204758F6EDFF3BE8101565081E29@SJ1PR11MB6204.namprd11.prod.outlook.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <SJ1PR11MB6204758F6EDFF3BE8101565081E29@SJ1PR11MB6204.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9f8b1c17-0bc5-ae99-b7b1-cb2f52f9310d@kontron.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,340 +53,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Arnd Bergmann <arnd@arndb.de>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Dec 12, 2022 at 10:09:45AM +0100, Frieder Schrempf wrote:
+> On 09.12.22 15:49, Marek Vasut wrote:
+> > On 12/9/22 14:38, Alexander Stein wrote:
+> >> Am Freitag, 9. Dezember 2022, 13:43:02 CET schrieb Marek Vasut:
+> >>> On 12/9/22 13:21, Alexander Stein wrote:
+> >>>> Am Freitag, 9. Dezember 2022, 13:02:10 CET schrieb Marek Vasut:
+> >>>>> On 12/9/22 10:36, Alexander Stein wrote:
+> >>>>>> Am Freitag, 9. Dezember 2022, 10:07:45 CET schrieb Krzysztof Kozlowski:
+> >>>>>>> On 09/12/2022 09:54, Alexander Stein wrote:
+> >>>>>>>> Am Freitag, 9. Dezember 2022, 09:39:49 CET schrieb Krzysztof Kozlowski:
+> >>>>>>>>> On 09/12/2022 09:33, Alexander Stein wrote:
+> >>>>>>>>>> It takes some time until the enable GPIO has settled when turning on.
+> >>>>>>>>>> This delay is platform specific and may be caused by e.g. voltage
+> >>>>>>>>>> shifts, capacitors etc.
+> >>>>>>>>>>
+> >>>>>>>>>> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> >>>>>>>>>> ---
+> >>>>>>>>>>
+> >>>>>>>>>>    
+> >>>>>>>>>> .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml      | 4
+> >>>>>>>>>>     ++++
+> >>>>>>>>>>     1 file changed, 4 insertions(+)
+> >>>>>>>>>>
+> >>>>>>>>>> diff --git
+> >>>>>>>>>> a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+> >>>>>>>>>> b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+> >>>>>>>>>> index 48a97bb3e2e0d..3f50d497cf8ac 100644
+> >>>>>>>>>> --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+> >>>>>>>>>> +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+> >>>>>>>>>>
+> >>>>>>>>>> @@ -32,6 +32,10 @@ properties:
+> >>>>>>>>>>         maxItems: 1
+> >>>>>>>>>>         description: GPIO specifier for bridge_en pin (active high).
+> >>>>>>>>>>
+> >>>>>>>>>> +  ti,enable-delay-us:
+> >>>>>>>>>> +    default: 10000
+> >>>>>>>>>> +    description: Enable time delay for enable-gpios
+> >>>>>>>>>
+> >>>>>>>>> Aren't you now mixing two separate delays? One for entire block (I
+> >>>>>>>>> would assume mostly fixed delay) and one depending on regulators
+> >>>>>>>>> (regulator-ramp-delay, regulator-enable-ramp-delay). Maybe you miss the
+> >>>>>>>>> second delays in your power supply? If so, the first one might be fixed
+> >>>>>>>>> and hard-coded in the driver?
+> >>>>>>>>
+> >>>>>>>> Apparently there are two different delays: reset time (t_reset) of 10ms as
+> >>>>>>>> specified by datasheet. This is already ensured by a following delay after
+> >>>>>>>> requesting enable_gpio as low and switching the GPIO to low in disable
+> >>>>>>>> path.
+> >>>>>>>>
+> >>>>>>>> When enabling this GPIO it takes some time until it is valid on the chip,
+> >>>>>>>> this is what this series is about. It's highly platform specific.
+> >>>>>>>>
+> >>>>>>>> Unfortunately this is completely unrelated to the vcc-supply regulator.
+> >>>>>>>> This one has to be enabled before the enable GPIO can be enabled. So
+> >>>>>>>> there is no regulator-ramp-delay.
+> >>>>>>>
+> >>>>>>> Your driver does one after another - regulator followed immediately by
+> >>>>>>> gpio - so this as well can be a delay from regulator (maybe not ramp but
+> >>>>>>> enable delay).
+> >>>>>
+> >>>>> The chip has two separate input pins:
+> >>>>>
+> >>>>> VCC -- power supply that's regulator
+> >>>>> EN -- reset line, that's GPIO
+> >>>>>
+> >>>>> Alexander is talking about EN line here.
+> >>>>>
+> >>>>>> But this will introduce a section which must not be interrupted or delayed.
+> >>>>>> This is impossible as the enable gpio is attached to an i2c expander in my
+> >>>>>> case.
+> >>>>>>
+> >>>>>> Given the following time chart:
+> >>>>>>     vcc                  set             EN
+> >>>>>>
+> >>>>>> enable               GPIO             PAD
+> >>>>>>
+> >>>>>>      |                    |<-- t_raise -->|
+> >>>>>>      |
+> >>>>>>      | <-- t_vcc_gpio --> |               |
+> >>>>>>      | <--        t_enable_delay      --> |
+> >>>>>>
+> >>>>>> t_raise is the time from changing the GPIO output at the expander until
+> >>>>>> voltage on the EN (input) pad from the bridge has reached high voltage
+> >>>>>> level. This is an electrical characteristic I can not change and have to
+> >>>>>> take into account.
+> >>>>>> t_vcc_gpio is the time from enabling supply voltage to enabling the bridge
+> >>>>>> (removing from reset). Minimum t_vcc_gpio is something which can be
+> >>>>>> addressed by the regulator and is no problem so far. But there is no
+> >>>>>> upper bound to it.
+> >>>>>
+> >>>>> What exactly is your EN signal rise time (should be ns or so)? Can you
+> >>>>> look at that with a scope , maybe even with relation to the VCC
+> >>>>> regulator
+> >>>>> ?
+> >>>>
+> >>>> I checked EN rise time using a scope, it's ~110ms. I not an expert in
+> >>>> hardware but on the mainboard there is some capacitor attached to this
+> >>>> line, which increased the time, independent from the internal pull-up.
+> >>>
+> >>> This does seem like a hardware bug right there, can you double-check
+> >>> this with the hardware engineer ?
+> >>
+> >> Yep, checked with hardware engineer. An 470nF is attached, together with an
+> >> open drain output and only the internal pull-up. So yes ~113ms rising time
+> >> until 0.7 x VCC.
+> > 
+> > I don't suppose you can have that capacitor reduced or better yet, some
+> > external pull up added, can you ?
+> 
+> Actually our HW engineers have implemented a similar RC circuit to
+> provide a hardware delay for the EN signal. I think this is due to a
+> design note in the datasheet (see chapter 7.4.1) and therefore it's
+> probably widely spread.
 
+RC delay circuits are very common when tying a control signal to a power
+rail. I'm surprise to see it recommended (with such a large time
+constant) when the EN signal is actively controlled. It makes sense if
+the SN65DSI83 supply comes up before the GPIO can be actively driven low
+(for instance if the supply isn't manually controllable but tied to an
+always-on power rail), in other cases it's quite counter-productive (I
+really hope the EN input has a Schmitt trigger).
 
-On 12.12.2022 10:14, Upadhyay, Tejas wrote:
->
->> -----Original Message-----
->> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of
->> Andrzej Hajda
->> Sent: Friday, December 9, 2022 9:19 PM
->> To: linux-kernel@vger.kernel.org; intel-gfx@lists.freedesktop.org; dri-
->> devel@lists.freedesktop.org
->> Cc: Hajda, Andrzej <andrzej.hajda@intel.com>; Arnd Bergmann
->> <arnd@arndb.de>; Vivi, Rodrigo <rodrigo.vivi@intel.com>; Andrew Morton
->> <akpm@linux-foundation.org>; Andy Shevchenko
->> <andriy.shevchenko@linux.intel.com>
->> Subject: [Intel-gfx] [PATCH 3/5] drm/i915/gt: kill fetch_and_zero usage
->>
->> Better use recently introduced kernel core helper.
->>
->> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
->> ---
->>   drivers/gpu/drm/i915/gt/intel_engine_cs.c            | 2 +-
->>   drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c     | 4 ++--
->>   drivers/gpu/drm/i915/gt/intel_execlists_submission.c | 4 ++--
->>   drivers/gpu/drm/i915/gt/intel_ggtt.c                 | 4 ++--
->>   drivers/gpu/drm/i915/gt/intel_gsc.c                  | 2 +-
->>   drivers/gpu/drm/i915/gt/intel_gt.c                   | 4 ++--
->>   drivers/gpu/drm/i915/gt/intel_gt_pm.c                | 2 +-
->>   drivers/gpu/drm/i915/gt/intel_lrc.c                  | 6 +++---
->>   drivers/gpu/drm/i915/gt/intel_migrate.c              | 2 +-
->>   drivers/gpu/drm/i915/gt/intel_rc6.c                  | 2 +-
->>   drivers/gpu/drm/i915/gt/intel_rps.c                  | 2 +-
->>   drivers/gpu/drm/i915/gt/selftest_context.c           | 2 +-
->>   drivers/gpu/drm/i915/gt/selftest_ring_submission.c   | 2 +-
->>   drivers/gpu/drm/i915/gt/selftest_timeline.c          | 2 +-
->>   drivers/gpu/drm/i915/gt/uc/intel_uc.c                | 2 +-
->>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c             | 2 +-
->>   16 files changed, 22 insertions(+), 22 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->> b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->> index c33e0d72d6702b..de318d96d52abd 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->> @@ -1024,7 +1024,7 @@ static void cleanup_status_page(struct
->> intel_engine_cs *engine)
->>   	/* Prevent writes into HWSP after returning the page to the system */
->>   	intel_engine_set_hwsp_writemask(engine, ~0u);
->>
->> -	vma = fetch_and_zero(&engine->status_page.vma);
->> +	vma = exchange(&engine->status_page.vma, NULL);
->>   	if (!vma)
->>   		return;
->>
->> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
->> b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
->> index 9a527e1f5be655..6029fafaaa674f 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
->> @@ -229,7 +229,7 @@ static void heartbeat(struct work_struct *wrk)
->>   	mutex_unlock(&ce->timeline->mutex);
->>   out:
->>   	if (!engine->i915->params.enable_hangcheck ||
->> !next_heartbeat(engine))
->> -		i915_request_put(fetch_and_zero(&engine-
->>> heartbeat.systole));
->> +		i915_request_put(exchange(&engine->heartbeat.systole, 0));
->>   	intel_engine_pm_put(engine);
->>   }
->>
->> @@ -244,7 +244,7 @@ void intel_engine_unpark_heartbeat(struct
->> intel_engine_cs *engine)  void intel_engine_park_heartbeat(struct
->> intel_engine_cs *engine)  {
->>   	if (cancel_delayed_work(&engine->heartbeat.work))
->> -		i915_request_put(fetch_and_zero(&engine-
->>> heartbeat.systole));
->> +		i915_request_put(exchange(&engine->heartbeat.systole, 0));
->>   }
->>
->>   void intel_gt_unpark_heartbeats(struct intel_gt *gt) diff --git
->> a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> index 49a8f10d76c77b..29e78078d55a8b 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> @@ -3197,7 +3197,7 @@ static void execlists_reset_cancel(struct
->> intel_engine_cs *engine)
->>   		RB_CLEAR_NODE(rb);
->>
->>   		spin_lock(&ve->base.sched_engine->lock);
->> -		rq = fetch_and_zero(&ve->request);
->> +		rq = exchange(&ve->request, NULL);
->>   		if (rq) {
->>   			if (i915_request_mark_eio(rq)) {
->>   				rq->engine = engine;
->> @@ -3602,7 +3602,7 @@ static void rcu_virtual_context_destroy(struct
->> work_struct *wrk)
->>
->>   		spin_lock_irq(&ve->base.sched_engine->lock);
->>
->> -		old = fetch_and_zero(&ve->request);
->> +		old = exchange(&ve->request, NULL);
->>   		if (old) {
->>   			GEM_BUG_ON(!__i915_request_is_complete(old));
->>   			__i915_request_submit(old);
->> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c
->> b/drivers/gpu/drm/i915/gt/intel_ggtt.c
->> index 0c7fe360f87331..2eb0173c6e968c 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
->> @@ -684,7 +684,7 @@ static void fini_aliasing_ppgtt(struct i915_ggtt *ggtt)  {
->>   	struct i915_ppgtt *ppgtt;
->>
->> -	ppgtt = fetch_and_zero(&ggtt->alias);
->> +	ppgtt = exchange(&ggtt->alias, NULL);
->>   	if (!ppgtt)
->>   		return;
->>
->> @@ -1238,7 +1238,7 @@ bool i915_ggtt_resume_vm(struct
->> i915_address_space *vm)
->>   				   was_bound);
->>
->>   		if (obj) { /* only used during resume => exclusive access */
->> -			write_domain_objs |= fetch_and_zero(&obj-
->>> write_domain);
->> +			write_domain_objs |= exchange(&obj-
->>> write_domain, 0);
->>   			obj->read_domains |= I915_GEM_DOMAIN_GTT;
->>   		}
->>   	}
->> diff --git a/drivers/gpu/drm/i915/gt/intel_gsc.c
->> b/drivers/gpu/drm/i915/gt/intel_gsc.c
->> index bcc3605158dbde..7226b42bb70b2a 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_gsc.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_gsc.c
->> @@ -70,7 +70,7 @@ gsc_ext_om_alloc(struct intel_gsc *gsc, struct
->> intel_gsc_intf *intf, size_t size
->>
->>   static void gsc_ext_om_destroy(struct intel_gsc_intf *intf)  {
->> -	struct drm_i915_gem_object *obj = fetch_and_zero(&intf->gem_obj);
->> +	struct drm_i915_gem_object *obj = exchange(&intf->gem_obj, NULL);
->>
->>   	if (!obj)
->>   		return;
->> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c
->> b/drivers/gpu/drm/i915/gt/intel_gt.c
->> index 4e7af9bc73ad05..a277bd47db813e 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
->> @@ -757,7 +757,7 @@ int intel_gt_init(struct intel_gt *gt)
->>   	intel_uc_fini(&gt->uc);
->>   err_engines:
->>   	intel_engines_release(gt);
->> -	i915_vm_put(fetch_and_zero(&gt->vm));
->> +	i915_vm_put(exchange(&gt->vm, 0));
->>   err_pm:
->>   	intel_gt_pm_fini(gt);
->>   	intel_gt_fini_scratch(gt);
->> @@ -806,7 +806,7 @@ void intel_gt_driver_release(struct intel_gt *gt)  {
->>   	struct i915_address_space *vm;
->>
->> -	vm = fetch_and_zero(&gt->vm);
->> +	vm = exchange(&gt->vm, NULL);
->>   	if (vm) /* FIXME being called twice on error paths :( */
->>   		i915_vm_put(vm);
->>
->> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
->> b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
->> index 16db85fab0b19b..f066936994a9e2 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
->> @@ -123,7 +123,7 @@ static int __gt_unpark(struct intel_wakeref *wf)
->> static int __gt_park(struct intel_wakeref *wf)  {
->>   	struct intel_gt *gt = container_of(wf, typeof(*gt), wakeref);
->> -	intel_wakeref_t wakeref = fetch_and_zero(&gt->awake);
->> +	intel_wakeref_t wakeref = exchange(&gt->awake, 0);
->>   	struct drm_i915_private *i915 = gt->i915;
->>
->>   	GT_TRACE(gt, "\n");
->> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c
->> b/drivers/gpu/drm/i915/gt/intel_lrc.c
->> index 7771a19008c604..9a2bfb6d14196c 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
->> @@ -1144,7 +1144,7 @@ __lrc_alloc_state(struct intel_context *ce, struct
->> intel_engine_cs *engine)  static struct intel_timeline *  pinned_timeline(struct
->> intel_context *ce, struct intel_engine_cs *engine)  {
->> -	struct intel_timeline *tl = fetch_and_zero(&ce->timeline);
->> +	struct intel_timeline *tl = exchange(&ce->timeline, NULL);
->>
->>   	return intel_timeline_create_from_engine(engine,
->> page_unmask_bits(tl));  } @@ -1261,8 +1261,8 @@ void lrc_fini(struct
->> intel_context *ce)
->>   	if (!ce->state)
->>   		return;
->>
->> -	intel_ring_put(fetch_and_zero(&ce->ring));
->> -	i915_vma_put(fetch_and_zero(&ce->state));
->> +	intel_ring_put(exchange(&ce->ring, 0));
->> +	i915_vma_put(exchange(&ce->state, 0));
->>   }
->>
->>   void lrc_destroy(struct kref *kref)
->> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c
->> b/drivers/gpu/drm/i915/gt/intel_migrate.c
->> index b405a04135ca21..2c076a51b66b30 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
->> @@ -1116,7 +1116,7 @@ void intel_migrate_fini(struct intel_migrate *m)  {
->>   	struct intel_context *ce;
->>
->> -	ce = fetch_and_zero(&m->context);
->> +	ce = exchange(&m->context, NULL);
->>   	if (!ce)
->>   		return;
->>
->> diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c
->> b/drivers/gpu/drm/i915/gt/intel_rc6.c
->> index 2ee4051e4d9613..2451ebddb0f982 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_rc6.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
->> @@ -702,7 +702,7 @@ void intel_rc6_fini(struct intel_rc6 *rc6)
->>
->>   	intel_rc6_disable(rc6);
->>
->> -	pctx = fetch_and_zero(&rc6->pctx);
->> +	pctx = exchange(&rc6->pctx, NULL);
->>   	if (pctx)
->>   		i915_gem_object_put(pctx);
->>
->> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c
->> b/drivers/gpu/drm/i915/gt/intel_rps.c
->> index 9ad3bc7201cbaa..a102d8768e1d7b 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
->> @@ -1831,7 +1831,7 @@ static void rps_work(struct work_struct *work)
->>   	u32 pm_iir = 0;
->>
->>   	spin_lock_irq(gt->irq_lock);
->> -	pm_iir = fetch_and_zero(&rps->pm_iir) & rps->pm_events;
->> +	pm_iir = exchange(&rps->pm_iir, 0) & rps->pm_events;
->>   	client_boost = atomic_read(&rps->num_waiters);
->>   	spin_unlock_irq(gt->irq_lock);
->>
->> diff --git a/drivers/gpu/drm/i915/gt/selftest_context.c
->> b/drivers/gpu/drm/i915/gt/selftest_context.c
->> index 76fbae358072df..ca0a38de696eec 100644
->> --- a/drivers/gpu/drm/i915/gt/selftest_context.c
->> +++ b/drivers/gpu/drm/i915/gt/selftest_context.c
->> @@ -171,7 +171,7 @@ static int live_context_size(void *arg)
->>   		 * active state is sufficient, we are only checking that we
->>   		 * don't use more than we planned.
->>   		 */
->> -		saved = fetch_and_zero(&engine->default_state);
->> +		saved = exchange(&engine->default_state, NULL);
->>
->>   		/* Overlaps with the execlists redzone */
->>   		engine->context_size += I915_GTT_PAGE_SIZE; diff --git
->> a/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
->> b/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
->> index 87ceb0f374b673..9e901f1d5d76a9 100644
->> --- a/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
->> +++ b/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
->> @@ -269,7 +269,7 @@ static int live_ctx_switch_wa(void *arg)
->>   		if (IS_GRAPHICS_VER(gt->i915, 4, 5))
->>   			continue; /* MI_STORE_DWORD is privileged! */
->>
->> -		saved_wa = fetch_and_zero(&engine->wa_ctx.vma);
->> +		saved_wa = exchange(&engine->wa_ctx.vma, NULL);
->>
->>   		intel_engine_pm_get(engine);
->>   		err = __live_ctx_switch_wa(engine);
->> diff --git a/drivers/gpu/drm/i915/gt/selftest_timeline.c
->> b/drivers/gpu/drm/i915/gt/selftest_timeline.c
->> index 522d0190509ccc..d74b13b1b38a6e 100644
->> --- a/drivers/gpu/drm/i915/gt/selftest_timeline.c
->> +++ b/drivers/gpu/drm/i915/gt/selftest_timeline.c
->> @@ -892,7 +892,7 @@ static int create_watcher(struct hwsp_watcher *w,
->> static int check_watcher(struct hwsp_watcher *w, const char *name,
->>   			 bool (*op)(u32 hwsp, u32 seqno))
->>   {
->> -	struct i915_request *rq = fetch_and_zero(&w->rq);
->> +	struct i915_request *rq = exchange(&w->rq, NULL);
->>   	u32 offset, end;
->>   	int err;
->>
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
->> b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
->> index 4f4b519e12c1b7..0085b1727dd47a 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
->> @@ -166,7 +166,7 @@ static void __uc_capture_load_err_log(struct intel_uc
->> *uc)
->>
->>   static void __uc_free_load_err_log(struct intel_uc *uc)  {
->> -	struct drm_i915_gem_object *log = fetch_and_zero(&uc-
->>> load_err_log);
->> +	struct drm_i915_gem_object *log = exchange(&uc->load_err_log,
->> NULL);
->>
->>   	if (log)
->>   		i915_gem_object_put(log);
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
->> b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
->> index 6c83a8b66c9e32..44ff6da26bd698 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
->> @@ -1055,7 +1055,7 @@ void intel_uc_fw_cleanup_fetch(struct intel_uc_fw
->> *uc_fw)
->>   	if (!intel_uc_fw_is_available(uc_fw))
->>   		return;
->>
->> -	i915_gem_object_put(fetch_and_zero(&uc_fw->obj));
->> +	i915_gem_object_put(exchange(&uc_fw->obj, 0));
-> Should this be set to NULL instead?
+-- 
+Regards,
 
-Yes, apparently my cocci script was not able to parse type of uc_fw->obj.
-Thx, will fix it in another iteration.
-
-Regards
-Andrzej
-
-
-
->
-> Thanks,
-> Tejas
->>   	intel_uc_fw_change_status(uc_fw,
->> INTEL_UC_FIRMWARE_SELECTED);  }
->> --
->> 2.34.1
-
+Laurent Pinchart
