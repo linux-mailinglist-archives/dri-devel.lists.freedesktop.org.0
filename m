@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8FE64AB5A
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 00:17:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE2664AB57
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 00:17:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C60A410E2CB;
-	Mon, 12 Dec 2022 23:15:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65CE710E2BF;
+	Mon, 12 Dec 2022 23:15:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0016610E2AA;
- Mon, 12 Dec 2022 23:15:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44FC210E2AC;
+ Mon, 12 Dec 2022 23:15:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1670886935; x=1702422935;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=IHV6aDrB8KdHW7l4W/C8MhKtF+jKsbddY82kvF4uxWw=;
- b=kae9ruq6/cxDYml27Lsa8i+zHKoJPrFjovyGS8FWqR4sge7Fiq+XWPz8
- b5AlrS29jhfH3EA/9IbODZzxZZR27MglD5oG134We8LsXXr45zRxVp81V
- jUN5YbQWnUWs1aV6LwPwpjZshe76txXjl/XCl6QswjTEjoWhdVPBhfxSb
- h2x766I//KJo7ob+UG1jO+CmtDGmKb5EcWOcZ7DPjMfhQIV8Foa6Kt0nG
- tseEZsHjX7ijKd4oGUsJpaqvmZluqFO2PyStPQulYcjdUOGVwyJuxwx66
- uR+CybbKc61jjHDZnjE4GJe4QKsDzwc/syI9JPOcjW8IKtb3eeq/K89s4 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="380196363"
-X-IronPort-AV: E=Sophos;i="5.96,239,1665471600"; d="scan'208";a="380196363"
+ bh=t+xAGG1Szpp0XaQXYpBGNPv0fcsTXdItwpv3llBArAU=;
+ b=oKzygUq9FivOOl/RVYq+OmovOVPScEh8vnc6wjQi+pqSdtaCq9G//x/2
+ np6ExorTsZhh4YR3vy/w4vy+nFKF5M7nLnBvseqcUQlHhHDU+1+IjQdw+
+ 26mT8EkMOKYJap4rwUyGZsL5eLJISUGQf2o3NdWv6VKKfGGRoO/RvAeq2
+ o0JlCLOLieEjYXNDRiQwxuFPPi3WM8zkhNFvKRCDZyWAgAp9iIr4eKsHr
+ SxElalCmcGtxZl1uVgQXOmDfQlG+DgmfnDS+g3gOkAAgTwc+TVFAc7Bib
+ 1aaoX9Dpfe/XreN9ict6DMUbeTUgVyePxnPNGpi/MT5nYt2t4qkNhjNaO w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="380196368"
+X-IronPort-AV: E=Sophos;i="5.96,239,1665471600"; d="scan'208";a="380196368"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2022 15:15:34 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="679090321"
-X-IronPort-AV: E=Sophos;i="5.96,239,1665471600"; d="scan'208";a="679090321"
+ 12 Dec 2022 15:15:35 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="679090324"
+X-IronPort-AV: E=Sophos;i="5.96,239,1665471600"; d="scan'208";a="679090324"
 Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  12 Dec 2022 15:15:34 -0800
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v9 07/23] drm/i915/vm_bind: Support for VM private BOs
-Date: Mon, 12 Dec 2022 15:15:11 -0800
-Message-Id: <20221212231527.2384-8-niranjana.vishwanathapura@intel.com>
+Subject: [PATCH v9 08/23] drm/i915/vm_bind: Add support to handle object
+ evictions
+Date: Mon, 12 Dec 2022 15:15:12 -0800
+Message-Id: <20221212231527.2384-9-niranjana.vishwanathapura@intel.com>
 X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 In-Reply-To: <20221212231527.2384-1-niranjana.vishwanathapura@intel.com>
 References: <20221212231527.2384-1-niranjana.vishwanathapura@intel.com>
@@ -64,357 +65,179 @@ Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Each VM creates a root_obj and shares it with all of its private objects
-to use it as dma_resv object. This has a performance advantage as it
-requires a single dma_resv object update for all private BOs vs list of
-dma_resv objects update for shared BOs, in the execbuf path.
+Support eviction by maintaining a list of evicted persistent vmas
+for rebinding during next submission. Ensure the list do not
+include persistent vmas that are being purged.
 
-VM private BOs can be only mapped on specified VM and cannot be dmabuf
-exported. Also, they are supported only in vm_bind mode.
-
-v2: Pad struct drm_i915_gem_create_ext_vm_private for 64bit alignment,
-    add input validity checks.
-v3: Create root_obj only for ppgtt.
-v4: Fix releasing of obj->priv_root. Do not create vm->root_obj yet.
-    Allow vm private object creation only in vm_bind mode.
-    Replace vm->vm_bind_mode check with i915_gem_vm_is_vm_bind_mode().
+v2: Remove unused I915_VMA_PURGED definition.
+v3: Properly handle __i915_vma_unbind_async() case.
 
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c   |  1 +
- drivers/gpu/drm/i915/gem/i915_gem_create.c    | 54 ++++++++++++++++++-
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  6 +++
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  4 ++
- drivers/gpu/drm/i915/gem/i915_gem_object.c    |  3 ++
- .../gpu/drm/i915/gem/i915_gem_object_types.h  |  6 +++
- .../drm/i915/gem/i915_gem_vm_bind_object.c    |  9 ++++
- drivers/gpu/drm/i915/gt/intel_gtt.c           |  1 +
- drivers/gpu/drm/i915/gt/intel_gtt.h           |  4 ++
- drivers/gpu/drm/i915/i915_vma.c               |  1 +
- drivers/gpu/drm/i915/i915_vma_types.h         |  2 +
- include/uapi/drm/i915_drm.h                   | 33 ++++++++++++
- 12 files changed, 122 insertions(+), 2 deletions(-)
+ .../drm/i915/gem/i915_gem_vm_bind_object.c    |  6 ++++
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |  2 ++
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |  4 +++
+ drivers/gpu/drm/i915/i915_vma.c               | 28 +++++++++++++++++++
+ drivers/gpu/drm/i915/i915_vma.h               | 10 +++++++
+ drivers/gpu/drm/i915/i915_vma_types.h         |  8 ++++++
+ 6 files changed, 58 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index b90901ad6866..fb4d2dab5053 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -83,6 +83,7 @@
- 
- #include "i915_file_private.h"
- #include "i915_gem_context.h"
-+#include "i915_gem_internal.h"
- #include "i915_trace.h"
- #include "i915_user_extensions.h"
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-index 86469710bd59..717403c79226 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-@@ -11,6 +11,7 @@
- #include "pxp/intel_pxp.h"
- 
- #include "i915_drv.h"
-+#include "i915_gem_context.h"
- #include "i915_gem_create.h"
- #include "i915_trace.h"
- #include "i915_user_extensions.h"
-@@ -251,6 +252,7 @@ struct create_ext {
- 	unsigned int n_placements;
- 	unsigned int placement_mask;
- 	unsigned long flags;
-+	u32 vm_id;
- };
- 
- static void repr_placements(char *buf, size_t size,
-@@ -400,9 +402,32 @@ static int ext_set_protected(struct i915_user_extension __user *base, void *data
- 	return 0;
- }
- 
-+static int ext_set_vm_private(struct i915_user_extension __user *base,
-+			      void *data)
-+{
-+	struct drm_i915_gem_create_ext_vm_private ext;
-+	struct create_ext *ext_data = data;
-+
-+	if (copy_from_user(&ext, base, sizeof(ext)))
-+		return -EFAULT;
-+
-+	/* Reserved fields must be 0 */
-+	if (ext.rsvd)
-+		return -EINVAL;
-+
-+	/* vm_id 0 is reserved */
-+	if (!ext.vm_id)
-+		return -ENOENT;
-+
-+	ext_data->vm_id = ext.vm_id;
-+
-+	return 0;
-+}
-+
- static const i915_user_extension_fn create_extensions[] = {
- 	[I915_GEM_CREATE_EXT_MEMORY_REGIONS] = ext_set_placements,
- 	[I915_GEM_CREATE_EXT_PROTECTED_CONTENT] = ext_set_protected,
-+	[I915_GEM_CREATE_EXT_VM_PRIVATE] = ext_set_vm_private,
- };
- 
- /**
-@@ -418,6 +443,7 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
- 	struct drm_i915_private *i915 = to_i915(dev);
- 	struct drm_i915_gem_create_ext *args = data;
- 	struct create_ext ext_data = { .i915 = i915 };
-+	struct i915_address_space *vm = NULL;
- 	struct drm_i915_gem_object *obj;
- 	int ret;
- 
-@@ -431,6 +457,17 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
- 	if (ret)
- 		return ret;
- 
-+	if (ext_data.vm_id) {
-+		vm = i915_gem_vm_lookup(file->driver_priv, ext_data.vm_id);
-+		if (unlikely(!vm))
-+			return -ENOENT;
-+
-+		if (!i915_gem_vm_is_vm_bind_mode(vm)) {
-+			ret = -EINVAL;
-+			goto vm_put;
-+		}
-+	}
-+
- 	if (!ext_data.n_placements) {
- 		ext_data.placements[0] =
- 			intel_memory_region_by_type(i915, INTEL_MEMORY_SYSTEM);
-@@ -457,8 +494,21 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
- 						ext_data.placements,
- 						ext_data.n_placements,
- 						ext_data.flags);
--	if (IS_ERR(obj))
--		return PTR_ERR(obj);
-+	if (IS_ERR(obj)) {
-+		ret = PTR_ERR(obj);
-+		goto vm_put;
-+	}
-+
-+	if (vm) {
-+		obj->base.resv = vm->root_obj->base.resv;
-+		obj->priv_root = i915_gem_object_get(vm->root_obj);
-+		i915_vm_put(vm);
-+	}
- 
- 	return i915_gem_publish(obj, file, &args->size, &args->handle);
-+vm_put:
-+	if (vm)
-+		i915_vm_put(vm);
-+
-+	return ret;
- }
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-index fd556a076d05..ff9c167f3b71 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-@@ -221,6 +221,12 @@ struct dma_buf *i915_gem_prime_export(struct drm_gem_object *gem_obj, int flags)
- 	struct drm_i915_gem_object *obj = to_intel_bo(gem_obj);
- 	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
- 
-+	if (obj->priv_root) {
-+		drm_dbg(obj->base.dev,
-+			"Exporting VM private objects is not allowed\n");
-+		return ERR_PTR(-EINVAL);
-+	}
-+
- 	exp_info.ops = &i915_dmabuf_ops;
- 	exp_info.size = gem_obj->size;
- 	exp_info.flags = flags;
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index 6456f15448bd..6a7f0227f65f 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -868,6 +868,10 @@ static struct i915_vma *eb_lookup_vma(struct i915_execbuffer *eb, u32 handle)
- 		if (unlikely(!obj))
- 			return ERR_PTR(-ENOENT);
- 
-+		/* VM private objects are not supported here */
-+		if (obj->priv_root)
-+			return ERR_PTR(-EINVAL);
-+
- 		/*
- 		 * If the user has opted-in for protected-object tracking, make
- 		 * sure the object encryption can be used.
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index 733696057761..2abef7e5af81 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -111,6 +111,9 @@ void __i915_gem_object_fini(struct drm_i915_gem_object *obj)
- 	mutex_destroy(&obj->mm.get_page.lock);
- 	mutex_destroy(&obj->mm.get_dma_page.lock);
- 	dma_resv_fini(&obj->base._resv);
-+
-+	if (obj->priv_root)
-+		i915_gem_object_put(obj->priv_root);
- }
- 
- /**
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-index a7b70701617a..1a41a2526a04 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-@@ -242,6 +242,12 @@ struct drm_i915_gem_object {
- 
- 	const struct drm_i915_gem_object_ops *ops;
- 
-+	/**
-+	 * @priv_root: pointer to vm->root_obj if object is private,
-+	 * NULL otherwise.
-+	 */
-+	struct drm_i915_gem_object *priv_root;
-+
- 	struct {
- 		/**
- 		 * @vma.lock: protect the list/tree of vmas
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-index 5064aba9ab87..4f9df4b756d2 100644
+index 4f9df4b756d2..dc738677466b 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-@@ -87,6 +87,7 @@ static void i915_gem_vm_bind_remove(struct i915_vma *vma, bool release_obj)
+@@ -86,6 +86,12 @@ static void i915_gem_vm_bind_remove(struct i915_vma *vma, bool release_obj)
+ {
  	lockdep_assert_held(&vma->vm->vm_bind_lock);
  
- 	list_del_init(&vma->vm_bind_link);
-+	list_del_init(&vma->non_priv_vm_bind_link);
- 	i915_vm_bind_it_remove(vma, &vma->vm->va);
- 
- 	/* Release object */
-@@ -216,6 +217,11 @@ static int i915_gem_vm_bind_obj(struct i915_address_space *vm,
- 	if (ret)
- 		goto put_obj;
- 
-+	if (obj->priv_root && obj->priv_root != vm->root_obj) {
-+		ret = -EINVAL;
-+		goto put_obj;
-+	}
++	spin_lock(&vma->vm->vm_rebind_lock);
++	if (!list_empty(&vma->vm_rebind_link))
++		list_del_init(&vma->vm_rebind_link);
++	i915_vma_set_purged(vma);
++	spin_unlock(&vma->vm->vm_rebind_lock);
 +
- 	ret = mutex_lock_interruptible(&vm->vm_bind_lock);
- 	if (ret)
- 		goto put_obj;
-@@ -245,6 +251,9 @@ static int i915_gem_vm_bind_obj(struct i915_address_space *vm,
- 
- 		list_add_tail(&vma->vm_bind_link, &vm->vm_bound_list);
- 		i915_vm_bind_it_insert(vma, &vm->va);
-+		if (!obj->priv_root)
-+			list_add_tail(&vma->non_priv_vm_bind_link,
-+				      &vm->non_priv_vm_bind_list);
- 
- 		/* Hold object reference until vm_unbind */
- 		i915_gem_object_get(vma->obj);
+ 	list_del_init(&vma->vm_bind_link);
+ 	list_del_init(&vma->non_priv_vm_bind_link);
+ 	i915_vm_bind_it_remove(vma, &vma->vm->va);
 diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-index 3d61204f7e1e..7ce0237d664f 100644
+index 7ce0237d664f..4f91857dca46 100644
 --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
 +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-@@ -290,6 +290,7 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
- 	INIT_LIST_HEAD(&vm->vm_bind_list);
+@@ -291,6 +291,8 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
  	INIT_LIST_HEAD(&vm->vm_bound_list);
  	mutex_init(&vm->vm_bind_lock);
-+	INIT_LIST_HEAD(&vm->non_priv_vm_bind_list);
+ 	INIT_LIST_HEAD(&vm->non_priv_vm_bind_list);
++	INIT_LIST_HEAD(&vm->vm_rebind_list);
++	spin_lock_init(&vm->vm_rebind_lock);
  }
  
  void *__px_vaddr(struct drm_i915_gem_object *p)
 diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-index 88c54a85f22c..cb87d0e925c7 100644
+index cb87d0e925c7..dbe6792df3e5 100644
 --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
 +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-@@ -268,6 +268,10 @@ struct i915_address_space {
+@@ -266,6 +266,10 @@ struct i915_address_space {
+ 	struct list_head vm_bind_list;
+ 	/** @vm_bound_list: List of vm_binding completed */
  	struct list_head vm_bound_list;
++	/** @vm_rebind_list: list of vmas to be rebinded */
++	struct list_head vm_rebind_list;
++	/** @vm_rebind_lock: protects vm_rebound_list */
++	spinlock_t vm_rebind_lock;
  	/** @va: tree of persistent vmas */
  	struct rb_root_cached va;
-+	/** @non_priv_vm_bind_list: list of non-private object mappings */
-+	struct list_head non_priv_vm_bind_list;
-+	/** @root_obj: root object for dma-resv sharing by private objects */
-+	struct drm_i915_gem_object *root_obj;
- 
- 	/* Global GTT */
- 	bool is_ggtt:1;
+ 	/** @non_priv_vm_bind_list: list of non-private object mappings */
 diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index ba24deaa87dc..30f0c0aca007 100644
+index 30f0c0aca007..353203bd5685 100644
 --- a/drivers/gpu/drm/i915/i915_vma.c
 +++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -242,6 +242,7 @@ vma_create(struct drm_i915_gem_object *obj,
- 	mutex_unlock(&vm->mutex);
+@@ -243,6 +243,7 @@ vma_create(struct drm_i915_gem_object *obj,
  
  	INIT_LIST_HEAD(&vma->vm_bind_link);
-+	INIT_LIST_HEAD(&vma->non_priv_vm_bind_link);
+ 	INIT_LIST_HEAD(&vma->non_priv_vm_bind_link);
++	INIT_LIST_HEAD(&vma->vm_rebind_link);
  	return vma;
  
  err_unlock:
+@@ -1716,6 +1717,14 @@ static void force_unbind(struct i915_vma *vma)
+ 	if (!drm_mm_node_allocated(&vma->node))
+ 		return;
+ 
++	/*
++	 * Persistent vma should have been purged by now.
++	 * If not, issue a warning and purge it.
++	 */
++	if (GEM_WARN_ON(i915_vma_is_persistent(vma) &&
++			!i915_vma_is_purged(vma)))
++		i915_vma_set_purged(vma);
++
+ 	atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
+ 	WARN_ON(__i915_vma_unbind(vma));
+ 	GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
+@@ -2082,6 +2091,16 @@ int __i915_vma_unbind(struct i915_vma *vma)
+ 	__i915_vma_evict(vma, false);
+ 
+ 	drm_mm_remove_node(&vma->node); /* pairs with i915_vma_release() */
++
++	if (i915_vma_is_persistent(vma)) {
++		spin_lock(&vma->vm->vm_rebind_lock);
++		if (list_empty(&vma->vm_rebind_link) &&
++		    !i915_vma_is_purged(vma))
++			list_add_tail(&vma->vm_rebind_link,
++				      &vma->vm->vm_rebind_list);
++		spin_unlock(&vma->vm->vm_rebind_lock);
++	}
++
+ 	return 0;
+ }
+ 
+@@ -2116,6 +2135,15 @@ static struct dma_fence *__i915_vma_unbind_async(struct i915_vma *vma)
+ 
+ 	drm_mm_remove_node(&vma->node); /* pairs with i915_vma_release() */
+ 
++	if (i915_vma_is_persistent(vma)) {
++		spin_lock(&vma->vm->vm_rebind_lock);
++		if (list_empty(&vma->vm_rebind_link) &&
++		    !i915_vma_is_purged(vma))
++			list_add_tail(&vma->vm_rebind_link,
++				      &vma->vm->vm_rebind_list);
++		spin_unlock(&vma->vm->vm_rebind_lock);
++	}
++
+ 	return fence;
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+index dd9951a41ff3..7b1bf5ba4f12 100644
+--- a/drivers/gpu/drm/i915/i915_vma.h
++++ b/drivers/gpu/drm/i915/i915_vma.h
+@@ -199,6 +199,16 @@ static inline void i915_vma_set_persistent(struct i915_vma *vma)
+ 	set_bit(I915_VMA_PERSISTENT_BIT, __i915_vma_flags(vma));
+ }
+ 
++static inline bool i915_vma_is_purged(const struct i915_vma *vma)
++{
++	return test_bit(I915_VMA_PURGED_BIT, __i915_vma_flags(vma));
++}
++
++static inline void i915_vma_set_purged(struct i915_vma *vma)
++{
++	set_bit(I915_VMA_PURGED_BIT, __i915_vma_flags(vma));
++}
++
+ static inline struct i915_vma *i915_vma_get(struct i915_vma *vma)
+ {
+ 	i915_gem_object_get(vma->obj);
 diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
-index 5fadcd9d4282..e081ffcb3250 100644
+index e081ffcb3250..6b1cce537846 100644
 --- a/drivers/gpu/drm/i915/i915_vma_types.h
 +++ b/drivers/gpu/drm/i915/i915_vma_types.h
-@@ -298,6 +298,8 @@ struct i915_vma {
+@@ -268,8 +268,14 @@ struct i915_vma {
+ /**
+  * I915_VMA_PERSISTENT_BIT:
+  * The vma is persistent (created with VM_BIND call).
++ *
++ * I915_VMA_PURGED_BIT:
++ * The persistent vma is force unbound either due to VM_UNBIND call
++ * from UMD or VM is released. Do not check/wait for VM activeness
++ * in i915_vma_is_active() and i915_vma_sync() calls.
+  */
+ #define I915_VMA_PERSISTENT_BIT	19
++#define I915_VMA_PURGED_BIT	20
  
- 	/** @vm_bind_link: node for the vm_bind related lists of vm */
+ 	struct i915_active active;
+ 
+@@ -300,6 +306,8 @@ struct i915_vma {
  	struct list_head vm_bind_link;
-+	/** @non_priv_vm_bind_link: Link in non-private persistent VMA list */
-+	struct list_head non_priv_vm_bind_link;
+ 	/** @non_priv_vm_bind_link: Link in non-private persistent VMA list */
+ 	struct list_head non_priv_vm_bind_link;
++	/** @vm_rebind_link: link to vm_rebind_list and protected by vm_rebind_lock */
++	struct list_head vm_rebind_link; /* Link in vm_rebind_list */
  
  	/** Interval tree structures for persistent vma */
  
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 6bb00ece001a..683da7099311 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -3611,9 +3611,13 @@ struct drm_i915_gem_create_ext {
- 	 *
- 	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
- 	 * struct drm_i915_gem_create_ext_protected_content.
-+	 *
-+	 * For I915_GEM_CREATE_EXT_VM_PRIVATE usage see
-+	 * struct drm_i915_gem_create_ext_vm_private.
- 	 */
- #define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
- #define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
-+#define I915_GEM_CREATE_EXT_VM_PRIVATE 2
- 	__u64 extensions;
- };
- 
-@@ -3731,6 +3735,35 @@ struct drm_i915_gem_create_ext_protected_content {
- /* ID of the protected content session managed by i915 when PXP is active */
- #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
- 
-+/**
-+ * struct drm_i915_gem_create_ext_vm_private - Extension to make the object
-+ * private to the specified VM.
-+ *
-+ * See struct drm_i915_gem_create_ext.
-+ *
-+ * By default, BOs can be mapped on multiple VMs and can also be dma-buf
-+ * exported. Hence these BOs are referred to as Shared BOs.
-+ * During each execbuf3 submission, the request fence must be added to the
-+ * dma-resv fence list of all shared BOs mapped on the VM.
-+ *
-+ * Unlike Shared BOs, these VM private BOs can only be mapped on the VM they
-+ * are private to and can't be dma-buf exported. All private BOs of a VM share
-+ * the dma-resv object. Hence during each execbuf3 submission, they need only
-+ * one dma-resv fence list updated. Thus, the fast path (where required
-+ * mappings are already bound) submission latency is O(1) w.r.t the number of
-+ * VM private BOs.
-+ */
-+struct drm_i915_gem_create_ext_vm_private {
-+	/** @base: Extension link. See struct i915_user_extension. */
-+	struct i915_user_extension base;
-+
-+	/** @vm_id: Id of the VM to which Object is private */
-+	__u32 vm_id;
-+
-+	/** @rsvd: Reserved, MBZ */
-+	__u32 rsvd;
-+};
-+
- /**
-  * struct drm_i915_gem_vm_bind - VA to object mapping to bind.
-  *
 -- 
 2.21.0.rc0.32.g243a4c7e27
 
