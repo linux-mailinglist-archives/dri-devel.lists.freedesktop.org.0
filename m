@@ -2,61 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D256E64BDCB
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 21:13:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 678FA64BDD1
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 21:15:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CBA210E351;
-	Tue, 13 Dec 2022 20:13:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10F6810E1EB;
+	Tue, 13 Dec 2022 20:14:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8701210E350
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 20:13:10 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 29C231FE2B;
- Tue, 13 Dec 2022 20:12:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1670962359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uXoN0A7SrI5f/GeQeZ4crbsaZzg9aws9sXIN1KFFxd4=;
- b=E2PoAK090fSTEKtnVeK96kCBaWAm59JFh4XHG+Ak2lOrYHlg21myloqhj/HxCBbikisgLx
- RAqmaVS/g5FtWVjbRkY7DoTDCyBkD7r3usSPh0D2mXf1peX/X525AZLMtBZoMvN5a7sy/0
- uSjMX1t6udGlw3DKdXLhMrTPZ8lqCd0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1670962359;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uXoN0A7SrI5f/GeQeZ4crbsaZzg9aws9sXIN1KFFxd4=;
- b=lUwG5sxdTPVbNhiwrR2kaj3VdRFuHP/QkgpW9BSGYyu1O6bTKMMx000XRlCGfwikdsn7FC
- HheGYiduJwGP2BAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F3EF0138FA;
- Tue, 13 Dec 2022 20:12:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8NesOrbcmGNyJAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 13 Dec 2022 20:12:38 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@gmail.com, javierm@redhat.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, jose.exposito89@gmail.com,
- mairacanal@riseup.net
-Subject: [PATCH 9/9] drm/format-helper: Remove unnecessary conversion helpers
-Date: Tue, 13 Dec 2022 21:12:33 +0100
-Message-Id: <20221213201233.9341-10-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221213201233.9341-1-tzimmermann@suse.de>
-References: <20221213201233.9341-1-tzimmermann@suse.de>
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
+ [IPv6:2607:f8b0:4864:20::829])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8009210E1EB
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 20:14:34 +0000 (UTC)
+Received: by mail-qt1-x829.google.com with SMTP id z12so823973qtv.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 12:14:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=fKMoGrNnuOijjqdWvmZKOjtUthKrCgRAryxHWgKTvTI=;
+ b=aBrYrRL2ar8mCkjH5k3/E9EPWTrWLDai93bT53U4cmelzM+QccMJRV/sHCAwQtsWX2
+ YP9rN38/TYWaaEgUr6x4g1dHK27Wamedi2WQuzttxWDpjhtLhul8RxzdW6ihBkoX+7uy
+ 7EaTaoM8+GYmKmjTjefxq9yBpCoB52EvJjsOM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fKMoGrNnuOijjqdWvmZKOjtUthKrCgRAryxHWgKTvTI=;
+ b=GOmcSZpHa0ITvI8odbcY3vdqq33V5km6xFi/GDsaDEFMSU7xOkY0Lx6yyCNiFEYWOk
+ f2q2pTpGyJZwWtGYC6QBDPy1u0fRxLN4mTBy0zi98ij0XXyntbWQqBwtmm05lRBQv4oA
+ b8XMJ72JK1pnIDJ9n/IBTLQ2YZiAwWFyQV2fx5fD/FV7NiTzZS6yTY6NawBALCRKW8Ys
+ 4+7SEPOEBmk9iJpvfSgokPg+ENxbINYOq2rcW2s+tQyHGO8fUYROOGPwuauvvY2zTfJk
+ biCwtLE/DDCgP8qcx7CnKyCCkVKZO7UM1hogouT/nP5TG8AUwzJb9YqnKboqpEEJ5dkp
+ fogw==
+X-Gm-Message-State: ANoB5pnSpKZz8vFH6ikwawwd4TrpWW2zzAgKHDa1ECzBq7MUbe/wsEqH
+ UvH883GpimOsv9mGLvLIeCxE9DYNC8gwpinW
+X-Google-Smtp-Source: AA0mqf6/yrA5X5f5BKVhkft+O7e25XP+Z/uY7VmrZ0fL3ZfW6m1kt7U5hGkS/cpbOe0l+9BAmUuqAA==
+X-Received: by 2002:ac8:66c7:0:b0:3a8:a84:7ffa with SMTP id
+ m7-20020ac866c7000000b003a80a847ffamr17977979qtp.57.1670962472921; 
+ Tue, 13 Dec 2022 12:14:32 -0800 (PST)
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com.
+ [209.85.160.177]) by smtp.gmail.com with ESMTPSA id
+ k10-20020ac8074a000000b00397b1c60780sm417624qth.61.2022.12.13.12.14.31
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Dec 2022 12:14:31 -0800 (PST)
+Received: by mail-qt1-f177.google.com with SMTP id jr11so810923qtb.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 12:14:31 -0800 (PST)
+X-Received: by 2002:a05:622a:5a87:b0:3a5:47de:a214 with SMTP id
+ fz7-20020a05622a5a8700b003a547dea214mr71128740qtb.304.1670962470979; Tue, 13
+ Dec 2022 12:14:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAPM=9txGCMqyriq_xiwgFCUBa-PpHvSuRQuptAHusHcjpH+zqA@mail.gmail.com>
+In-Reply-To: <CAPM=9txGCMqyriq_xiwgFCUBa-PpHvSuRQuptAHusHcjpH+zqA@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Tue, 13 Dec 2022 12:14:15 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whVsxgtwvnK2=WRvs_i+miknfB2R7dQ4U8oooBFJZYH6w@mail.gmail.com>
+Message-ID: <CAHk-=whVsxgtwvnK2=WRvs_i+miknfB2R7dQ4U8oooBFJZYH6w@mail.gmail.com>
+Subject: Re: [git pull] drm for 6.2-rc1
+To: Dave Airlie <airlied@gmail.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,119 +76,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drivers only emulate XRGB8888 framebuffers. Remove all conversion
-helpers that do not use XRGB8888 as their source format. Also remove
-some special cases for alpha formats in the blit helper.
+On Mon, Dec 12, 2022 at 6:56 PM Dave Airlie <airlied@gmail.com> wrote:
+>
+> There are a bunch of conflicts, one in amdgpu is a bit nasty, I've
+> cc'ed Christian/Alex to make sure they know to check whatever
+> resolution you find. The one I have is what we have in drm-tip tree.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_format_helper.c | 75 -----------------------------
- 1 file changed, 75 deletions(-)
+Hmm. My merge resolution is slightly different from yours.
 
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index 25d572f7b116..46e02444d566 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -647,65 +647,6 @@ void drm_fb_xrgb8888_to_argb8888(struct iosys_map *dst, const unsigned int *dst_
- }
- EXPORT_SYMBOL(drm_fb_xrgb8888_to_argb8888);
- 
--static void drm_fb_rgb565_to_xrgb8888_line(void *dbuf, const void *sbuf, unsigned int pixels)
--{
--	__le32 *dbuf32 = dbuf;
--	const __le16 *sbuf16 = sbuf;
--	unsigned int x;
--
--	for (x = 0; x < pixels; x++) {
--		u16 val16 = le16_to_cpu(sbuf16[x]);
--		u32 val32 = ((val16 & 0xf800) << 8) |
--			    ((val16 & 0x07e0) << 5) |
--			    ((val16 & 0x001f) << 3);
--		val32 = 0xff000000 | val32 |
--			((val32 >> 3) & 0x00070007) |
--			((val32 >> 2) & 0x00000300);
--		dbuf32[x] = cpu_to_le32(val32);
--	}
--}
--
--static void drm_fb_rgb565_to_xrgb8888(struct iosys_map *dst, const unsigned int *dst_pitch,
--				      const struct iosys_map *src,
--				      const struct drm_framebuffer *fb,
--				      const struct drm_rect *clip)
--{
--	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
--		4,
--	};
--
--	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false,
--		    drm_fb_rgb565_to_xrgb8888_line);
--}
--
--static void drm_fb_rgb888_to_xrgb8888_line(void *dbuf, const void *sbuf, unsigned int pixels)
--{
--	__le32 *dbuf32 = dbuf;
--	const u8 *sbuf8 = sbuf;
--	unsigned int x;
--
--	for (x = 0; x < pixels; x++) {
--		u8 r = *sbuf8++;
--		u8 g = *sbuf8++;
--		u8 b = *sbuf8++;
--		u32 pix = 0xff000000 | (r << 16) | (g << 8) | b;
--		dbuf32[x] = cpu_to_le32(pix);
--	}
--}
--
--static void drm_fb_rgb888_to_xrgb8888(struct iosys_map *dst, const unsigned int *dst_pitch,
--				      const struct iosys_map *src,
--				      const struct drm_framebuffer *fb,
--				      const struct drm_rect *clip)
--{
--	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
--		4,
--	};
--
--	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false,
--		    drm_fb_rgb888_to_xrgb8888_line);
--}
--
- static void drm_fb_xrgb8888_to_xrgb2101010_line(void *dbuf, const void *sbuf, unsigned int pixels)
- {
- 	__le32 *dbuf32 = dbuf;
-@@ -897,12 +838,6 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
- {
- 	uint32_t fb_format = fb->format->format;
- 
--	/* treat alpha channel like filler bits */
--	if (fb_format == DRM_FORMAT_ARGB8888)
--		fb_format = DRM_FORMAT_XRGB8888;
--	if (fb_format == DRM_FORMAT_ARGB2101010)
--		fb_format = DRM_FORMAT_XRGB2101010;
--
- 	if (fb_format == dst_format) {
- 		drm_fb_memcpy(dst, dst_pitch, src, fb, clip);
- 		return 0;
-@@ -941,16 +876,6 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
- 			drm_fb_swab(dst, dst_pitch, src, fb, clip, false);
- 			return 0;
- 		}
--	} else if (fb_format == DRM_FORMAT_RGB888) {
--		if (dst_format == DRM_FORMAT_XRGB8888) {
--			drm_fb_rgb888_to_xrgb8888(dst, dst_pitch, src, fb, clip);
--			return 0;
--		}
--	} else if (fb_format == DRM_FORMAT_RGB565) {
--		if (dst_format == DRM_FORMAT_XRGB8888) {
--			drm_fb_rgb565_to_xrgb8888(dst, dst_pitch, src, fb, clip);
--			return 0;
--		}
- 	}
- 
- 	drm_warn_once(fb->dev, "No conversion helper from %p4cc to %p4cc found.\n",
--- 
-2.38.1
+You seem to have basically dropped commit b09d6acba1d9 ("drm/amdgpu:
+handle gang submit before VMID").
 
+Now, there are other fence changes in the drm tree that may mean that
+that commit *should* be dropped, so it's entirely possible that my
+resolution which kept that ordering change might be wrong and your
+resolution that just took the drm tip code is the right one.
+
+Christian? Alex? Can you please double-check what I just pushed out?
+
+            Linus
