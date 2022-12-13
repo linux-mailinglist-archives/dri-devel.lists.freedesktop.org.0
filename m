@@ -2,37 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE5664C088
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 00:24:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94BDD64C0B4
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 00:32:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2B8910E38C;
-	Tue, 13 Dec 2022 23:23:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FD9810E1ED;
+	Tue, 13 Dec 2022 23:32:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0545710E38B
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 23:23:12 +0000 (UTC)
-Received: from localhost.localdomain (94-209-172-39.cable.dynamic.v4.ziggo.nl
- [94.209.172.39])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 3D61C202EE;
- Wed, 14 Dec 2022 00:22:39 +0100 (CET)
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Vinod Koul <vkoul@kernel.org>
-Subject: [RFC PATCH 6/6] drm/msm/dpu: Disallow unallocated (DSC) resources to
- be returned
-Date: Wed, 14 Dec 2022 00:22:07 +0100
-Message-Id: <20221213232207.113607-7-marijn.suijten@somainline.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221213232207.113607-1-marijn.suijten@somainline.org>
-References: <20221213232207.113607-1-marijn.suijten@somainline.org>
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC09E10E1ED
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 23:32:29 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id b3so7663012lfv.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 15:32:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=0mSBEF/cK9qO+wKe5gbeL/o/RiTSxMYAo8a4NjEeZbE=;
+ b=Ar7QLMoSvVNZoWRu44T7jq7Fw7D3rHhc0N5qmhf3IN610AGTp3jq4KMDFJxcVwCoqT
+ K1lpZD3IjowOpMJwRuKBHOLEssZl5ohZxii8IV8Y7Yflpr16+0ge7YKfqg91EJKcHvKU
+ 8Ml69fHqtlP2cBYJ/gjY796OwzwL7T8r4llIpBqiZ4P3SMcjFP6VhFcwERL7TldckK7e
+ +DxIvjWDbY3TOdDNBonGAY1LZguxb/jdboCB7wGJnRIOU9X81aOn/ofkKDmjwq4l2twQ
+ VOKa0lpmDL1DNBQoK2ycvQ0tNS+pShHPf2KKnudflOhS9bsowiy6HBL4dRkka2cjNIvz
+ zAew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0mSBEF/cK9qO+wKe5gbeL/o/RiTSxMYAo8a4NjEeZbE=;
+ b=m7Dz8S1yY1tiij9dgdKpeOgS5yPVO+g+OvidhbVx0t9rHhIrhbMd724CF710Q7Aqjn
+ VdOWOZ7HPbnIc9CYswKZylYxoPhewTpT9+t0nb1RH5Fb1/wuTR1moOVFr4LAs6frteDo
+ 8RbuU5KNNrKK3B8CSq16w+h1IuH+uGdULRrDLrCFAinCKQv0lg++LAX2VxpWnR0IHTci
+ 0nnJLyvY1JZJf8QEr62tPZBLQZE/cUqSzW+YiACDHSkHZapxKaPbzbh6tPNmPmdrqvb4
+ rqWz0HrdvbX3M5nde2xRFINZUVNbE3GzLLQVCQE0Mo0hoVAVlJCxreko3NwUsvf6ssB/
+ TwXA==
+X-Gm-Message-State: ANoB5plIWVHADymAmHjC9NKODKjsrkwkrq0lLYA/GqTBaMpJsXlaFGMX
+ lt7yxmBMgxwqnq1ehMMzfn/pTg==
+X-Google-Smtp-Source: AA0mqf70+WjC0RCpIae/lDzkigCOMrvR2zfYcJpnyv3W7RRP7VAILtGVl0v5T1LuqZMt3RisIkWfpg==
+X-Received: by 2002:a05:6512:ad6:b0:4b5:b7a7:ebfa with SMTP id
+ n22-20020a0565120ad600b004b5b7a7ebfamr5344476lfu.64.1670974347455; 
+ Tue, 13 Dec 2022 15:32:27 -0800 (PST)
+Received: from ?IPv6:::1? (dzccz6yfpdgdc5vwjcs5y-3.rev.dnainternet.fi.
+ [2001:14ba:a085:4d00:8c19:462c:c647:13f2])
+ by smtp.gmail.com with ESMTPSA id
+ s23-20020a056512315700b004b5812207dbsm550670lfi.201.2022.12.13.15.32.21
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 13 Dec 2022 15:32:27 -0800 (PST)
+Date: Wed, 14 Dec 2022 01:31:30 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, agross@kernel.org,
+ andersson@kernel.org, konrad.dybcio@somainline.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
+ airlied@gmail.com
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v12_1/5=5D_arm64=3A_dts=3A_qcom=3A_add_data?=
+ =?US-ASCII?Q?-lanes_and_link-freuencies_into_dp=5Fout_endpoint?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <1670967848-31475-2-git-send-email-quic_khsieh@quicinc.com>
+References: <1670967848-31475-1-git-send-email-quic_khsieh@quicinc.com>
+ <1670967848-31475-2-git-send-email-quic_khsieh@quicinc.com>
+Message-ID: <2086A443-8311-49BA-B700-9951076F7623@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,83 +81,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>, Haowen Bai <baihaowen@meizu.com>,
- Sam Ravnborg <sam@ravnborg.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Jani Nikula <jani.nikula@intel.com>,
- linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
- Loic Poulain <loic.poulain@linaro.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- Douglas Anderson <dianders@chromium.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, sunliming <sunliming@kylinos.cn>,
- freedreno@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
+ freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the event that the topology requests resources that have not been
-created by the system (because they are typically not represented in
-dpu_mdss_cfg ^1), the resource(s) in global_state (in this case DSC
-blocks) remain NULL but will still be returned out of
-dpu_rm_get_assigned_resources, where the caller expects to get an array
-containing num_blks valid pointers (but instead gets these NULLs).
 
-To prevent this from happening, where null-pointer dereferences
-typically result in a hard-to-debug platform lockup, num_blks shouldn't
-increase past NULL blocks and will print an error and break instead.
-After all, max_blks represents the static size of the maximum number of
-blocks whereas the actual amount varies per platform.
 
-In the specific case of DSC initial resource allocation should behave
-more like LMs and CTLs where NULL resources are skipped.  The current
-hardcoded mapping of DSC blocks should be loosened separately as DPU
-5.0.0 introduced a crossbar where DSC blocks can be "somewhat" freely
-bound to any PP and CTL, but that hardcoding currently means that we
-will return an error when the topology reserves a DSC that isn't
-available, instead of looking for the next free one.
+On 13 December 2022 23:44:04 EET, Kuogee Hsieh <quic_khsieh@quicinc=2Ecom>=
+ wrote:
+>Move data-lanes property from mdss_dp node to dp_out endpoint=2E Also
+>add link-frequencies property into dp_out endpoint as well=2E The last
+>frequency specified at link-frequencies will be the max link rate
+>supported by DP=2E
+>
+>Changes in v5:
+>-- revert changes at sc7180=2Edtsi and sc7280=2Edtsi
+>-- add &dp_out to sc7180-trogdor=2Edtsi and sc7280-herobrine=2Edtsi
+>
+>Changes in v6:
+>-- add data-lanes and link-frequencies to yaml
+>
+>Changes in v7:
+>-- change 160000000 to 1620000000
+>-- separate yaml to different patch
+>
+>Changes in v8:
+>-- correct Bjorn mail address to kernel=2Eorg
+>
+>Changes in v9:
+>-- use symbol rate (hz) for link-frequencies at dp_out at sc7180_trogdor=
+=2Edtsi
+>
+>Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc=2Ecom>
+>---
+> arch/arm64/boot/dts/qcom/sc7180-trogdor=2Edtsi   | 6 +++++-
+> arch/arm64/boot/dts/qcom/sc7280-herobrine=2Edtsi | 6 +++++-
+> 2 files changed, 10 insertions(+), 2 deletions(-)
+>
+>diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor=2Edtsi b/arch/arm64/=
+boot/dts/qcom/sc7180-trogdor=2Edtsi
+>index eae22e6=2E=2E93b0cde 100644
+>--- a/arch/arm64/boot/dts/qcom/sc7180-trogdor=2Edtsi
+>+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor=2Edtsi
+>@@ -814,7 +814,11 @@ hp_i2c: &i2c9 {
+> 	status =3D "okay";
+> 	pinctrl-names =3D "default";
+> 	pinctrl-0 =3D <&dp_hot_plug_det>;
+>-	data-lanes =3D <0 1>;
+>+};
+>+
+>+&dp_out {
+>+    data-lanes =3D <0  1>;
 
-^1: which can happen after a git rebase ended up moving additions to
-_dpu_cfg to a different struct which has the same patch context.
+Quoting Krzysztof from v12:
 
-Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index 73b3442e7467..dcbf03d2940a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -496,6 +496,11 @@ static int _dpu_rm_reserve_dsc(struct dpu_rm *rm,
- 
- 	/* check if DSC required are allocated or not */
- 	for (i = 0; i < num_dsc; i++) {
-+		if (!rm->dsc_blks[i]) {
-+			DPU_ERROR("DSC %d does not exist\n", i);
-+			return -EIO;
-+		}
-+
- 		if (global_state->dsc_to_enc_id[i]) {
- 			DPU_ERROR("DSC %d is already allocated\n", i);
- 			return -EIO;
-@@ -660,6 +665,11 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
- 				  blks_size, enc_id);
- 			break;
- 		}
-+		if (!hw_blks[i]) {
-+			DPU_ERROR("No more resource %d available to assign to enc %d\n",
-+				  type, enc_id);
-+			break;
-+		}
- 		blks[num_blks++] = hw_blks[i];
- 	}
- 
--- 
-2.38.1
+Why adding two spaces? Just cut previous line and paste it, don't change i=
+t=2E
 
+>+    link-frequencies =3D /bits/ 64 <1620000000 2700000000 5400000000>;
+> };
+>=20
+> &pm6150_adc {
+>diff --git a/arch/arm64/boot/dts/qcom/sc7280-herobrine=2Edtsi b/arch/arm6=
+4/boot/dts/qcom/sc7280-herobrine=2Edtsi
+>index c11e371=2E=2E3c7a9d8 100644
+>--- a/arch/arm64/boot/dts/qcom/sc7280-herobrine=2Edtsi
+>+++ b/arch/arm64/boot/dts/qcom/sc7280-herobrine=2Edtsi
+>@@ -442,7 +442,11 @@ ap_i2c_tpm: &i2c14 {
+> 	status =3D "okay";
+> 	pinctrl-names =3D "default";
+> 	pinctrl-0 =3D <&dp_hot_plug_det>;
+>-	data-lanes =3D <0 1>;
+>+};
+>+
+>+&dp_out {
+>+	data-lanes =3D <0  1>;
+>+	link-frequencies =3D /bits/ 64 <1620000000 2700000000 5400000000 810000=
+0000>;
+> };
+>=20
+> &mdss_mdp {
+
+--=20
+With best wishes
+Dmitry
