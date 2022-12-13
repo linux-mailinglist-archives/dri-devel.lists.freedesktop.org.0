@@ -2,41 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31D5D64B5FF
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 14:23:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86DA364B61C
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 14:26:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5B4A10E30F;
-	Tue, 13 Dec 2022 13:22:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0564710E311;
+	Tue, 13 Dec 2022 13:26:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B484A10E30F
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 13:22:28 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id DF88883677;
- Tue, 13 Dec 2022 14:21:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1670937717;
- bh=/oA7YYrsZ6Hcbgzi9zPCaZU8o9VCHft0KWjN7dXnSVY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=k98XfgTxQ4DVLkKaJpwpKULQqgRVT0qfNdHskTbxPezrWiGMeyKSCS55iJbHBoAdt
- 3WrG9dB5Unv8apeL214nN/qHPpAX7LtQX+GU6YgFiec//eRdkB/qMF83ULCNYfoKyp
- yBMCOQJeaG9bI/hSWGJIIpzXQ4wFCtQnhcITt0TGSxgmue0sG987hnbjgnkL/fR649
- sMDDBM2WV0JxWuqPS+H40+gJVfNezMCoQ0PI9XmonQq1UrIFAFS8A0xF5xGU+WVh4v
- zkdtYeLK33BlYwE0V8/xvhNdl+A/8q1W/S7iR+CA5sI7Xj8Dg2JFZMzNSiaTIbHw1D
- sD/7cdIwRl3kw==
-Message-ID: <35d8e467-fc6d-3b5f-225a-9a11596de771@denx.de>
-Date: Tue, 13 Dec 2022 14:21:54 +0100
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
+ [IPv6:2607:f8b0:4864:20::b32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C273510E318
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 13:26:13 +0000 (UTC)
+Received: by mail-yb1-xb32.google.com with SMTP id j206so17579734ybj.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 05:26:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=6wqJWLbRDpMVRcqYYnGe5+MeubHOK6xVgmSXJipG9Ds=;
+ b=AYL8AUr3YZu5xrJ8GSlSeroVIrQY2fD0Q8nHE/pNg/DRPJu6l+UVgUSmQJhJz6D734
+ 6wq8NofMna9asvu51dRywNQylES3dYbluo44MTLPw1/J+5xKE+hg3jGgDJ28f85uk1hX
+ ICQE/LpvXGnqw5DWspSWtNR7JZcOPZq3p11m0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6wqJWLbRDpMVRcqYYnGe5+MeubHOK6xVgmSXJipG9Ds=;
+ b=qhYV4RXNfhaUmtMUffqjBOi5Ae8N0uKwwdw78nHtpjIcVHq1PLIb3jmyl1Twvin0H2
+ 7TtRpdULXFZYa5G1DWOBrmMGeCkRxnK9bA7Bwqd8d2rLq8xg4bUgjtCmTBHfFuSlkb91
+ HTOBMogZ5uSZxuhCK9mx7CNlPtzbpyOhrHIo1ZDJiipaFxOUo85b8+OKEyIv/o3H+17T
+ zLfa/hXR1uQ1m5uFlZecMoAiEEZFPraHaARrFtK+EAn0vW3S+JJ6e+bUvTb+fCXIH7hV
+ RhsBp6gqQ/kEr6LwUVfD1+hq3/Ajg4q1WrAvxUnmVIcLVQYFiapYPAaoMXKBKLx2MD4r
+ pGYg==
+X-Gm-Message-State: ANoB5pnDOaY96w0lpEP+ldyKnO1YP+560jxM0qJRcyQgaDksUMY9mTKF
+ S608KyM+pr5buchdhwjKv1WfdlZr8iKiculnjJpQvw==
+X-Google-Smtp-Source: AA0mqf4409n0qZFrLSWqzuanaiRVGOXDfCMgU6vhZvGURhfL2DHT6R6DlRGW5rwa13df/GtgjvZVq/1zThiUqgnxqpY=
+X-Received: by 2002:a25:e648:0:b0:6f2:bad:1be7 with SMTP id
+ d69-20020a25e648000000b006f20bad1be7mr64408457ybh.84.1670937972905; Tue, 13
+ Dec 2022 05:26:12 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v9 10/18] drm: bridge: samsung-dsim: Init exynos host for
- first DSI transfer
-Content-Language: en-US
-To: Jagan Teki <jagan@amarulasolutions.com>
 References: <20221209152343.180139-1-jagan@amarulasolutions.com>
  <CGME20221209152722eucas1p2534c4e4837d3006683fc57c0dcb1ab52@eucas1p2.samsung.com>
  <20221209152343.180139-11-jagan@amarulasolutions.com>
@@ -51,12 +56,15 @@ References: <20221209152343.180139-1-jagan@amarulasolutions.com>
  <CAMty3ZD6fVps-PE=iNR2Zr0_qz--h4wcjO5Wa1czA7w7VN2SqQ@mail.gmail.com>
  <9913c39b-5a52-0b45-eed7-4bdc860aa877@denx.de>
  <CAMty3ZDpYRSTN2u7jg4faKRZwP-CvR52FYe4dZ5GPCpQyuPHXw@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAMty3ZDpYRSTN2u7jg4faKRZwP-CvR52FYe4dZ5GPCpQyuPHXw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
+ <35d8e467-fc6d-3b5f-225a-9a11596de771@denx.de>
+In-Reply-To: <35d8e467-fc6d-3b5f-225a-9a11596de771@denx.de>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Tue, 13 Dec 2022 18:56:01 +0530
+Message-ID: <CAMty3ZCuzx9a1dx2L8FM9z8n8YoY_gWdCn=s-jLCVDfF98NzCA@mail.gmail.com>
+Subject: Re: [PATCH v9 10/18] drm: bridge: samsung-dsim: Init exynos host for
+ first DSI transfer
+To: Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,45 +94,55 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/13/22 14:18, Jagan Teki wrote:
-> On Tue, Dec 13, 2022 at 6:44 PM Marek Vasut <marex@denx.de> wrote:
->>
->> On 12/13/22 11:53, Jagan Teki wrote:
->>> Hi Fabio,
->>
->> Hi,
->>
->>> On Tue, Dec 13, 2022 at 4:17 PM Fabio Estevam <festevam@gmail.com> wrote:
->>>>
->>>> Hi Jagan,
->>>>
->>>> On Tue, Dec 13, 2022 at 7:40 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
->>>>
->>>>> https://gitlab.com/openedev/kernel/-/commits/imx8mm-dsi-v10
->>>>
->>>> Please preserve the authorship of the patches.
->>>>
->>>> This one is from Marek Vasut:
->>>> https://gitlab.com/openedev/kernel/-/commit/e244fa552402caebcf48cd6710fd387429f7f680
->>>
->>> The original patch was changed with respect to this one and that is
->>> the reason I have to keep his signed-off-by.
->>
->> You did change the authorship of the patch, not just a SoB line.
->> It seems that the only change is dropped comment, which was squashed
->> into earlier patch in this series, see the original submission:
-> 
-> OKay. I will update it on V10 or if you want to send it from your side
-> then I will exclude it from the series. let me know.
+On Tue, Dec 13, 2022 at 6:51 PM Marek Vasut <marex@denx.de> wrote:
+>
+> On 12/13/22 14:18, Jagan Teki wrote:
+> > On Tue, Dec 13, 2022 at 6:44 PM Marek Vasut <marex@denx.de> wrote:
+> >>
+> >> On 12/13/22 11:53, Jagan Teki wrote:
+> >>> Hi Fabio,
+> >>
+> >> Hi,
+> >>
+> >>> On Tue, Dec 13, 2022 at 4:17 PM Fabio Estevam <festevam@gmail.com> wrote:
+> >>>>
+> >>>> Hi Jagan,
+> >>>>
+> >>>> On Tue, Dec 13, 2022 at 7:40 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> >>>>
+> >>>>> https://gitlab.com/openedev/kernel/-/commits/imx8mm-dsi-v10
+> >>>>
+> >>>> Please preserve the authorship of the patches.
+> >>>>
+> >>>> This one is from Marek Vasut:
+> >>>> https://gitlab.com/openedev/kernel/-/commit/e244fa552402caebcf48cd6710fd387429f7f680
+> >>>
+> >>> The original patch was changed with respect to this one and that is
+> >>> the reason I have to keep his signed-off-by.
+> >>
+> >> You did change the authorship of the patch, not just a SoB line.
+> >> It seems that the only change is dropped comment, which was squashed
+> >> into earlier patch in this series, see the original submission:
+> >
+> > OKay. I will update it on V10 or if you want to send it from your side
+> > then I will exclude it from the series. let me know.
+>
+> Just keep the authorship intact, unless there is significant change to
+> the patch.
 
-Just keep the authorship intact, unless there is significant change to 
-the patch.
+Please confirm it.
+https://gitlab.com/openedev/kernel/-/commit/8ce066d7fdf45e17cb1979376e70e6be353e001b
 
->> https://patchwork.freedesktop.org/patch/507166/
->>
->> btw. it seems hunk 3 has disappeared, the samsung_dsim_attach() hw_type
->> check.
-> 
-> Do you mean previous = NULL; addition?
+>
+> >> https://patchwork.freedesktop.org/patch/507166/
+> >>
+> >> btw. it seems hunk 3 has disappeared, the samsung_dsim_attach() hw_type
+> >> check.
+> >
+> > Do you mean previous = NULL; addition?
+>
+> Yes, this hunk has been dropped.
 
-Yes, this hunk has been dropped.
+Yes this FIXME has dropped due to Dave's changes.
+
+Jagan.
