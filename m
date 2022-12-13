@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4043E64C040
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 00:07:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E73B64C050
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 00:12:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0590F10E371;
-	Tue, 13 Dec 2022 23:06:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 266F510E372;
+	Tue, 13 Dec 2022 23:11:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0647E10E1F0
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 23:06:48 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id b3so7575455lfv.2
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 15:06:48 -0800 (PST)
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93EAA10E1F0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 23:11:51 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id a19so5039439ljk.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 15:11:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:user-agent:from:references
  :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=kQ9UDEKrGBlUcNO4sH3ZDmuGjEg0UnW+K0pM704i6h4=;
- b=EGJYsfsdcAfUgmOpZg5H+z1o0EFyoU43QuVvL1htgp3oMzcw4T7CFqEnzUyIV6sEVH
- iMwFo/ZITg75aSSv9eHw1EMtytTUQZcoo1PpRnIjp2T/mqSWh9InDNRx0fnTCWSj8ELI
- a/A8MpamBle04ND8JnGfcgbBsnBgpTEck5elM=
+ :reply-to; bh=MAM1zWKmLoLybnlVx2DB+oXg2+2O2pnw6L+In6EaViM=;
+ b=jwUPqxBmQ7VtGQpi3Ku0db2HJCatByDjpndoUTTI1N7sNE3QQhWdr3aSxNhCL89LEa
+ hFQXlBk/K0aE6oex5CH7USSb/WOpSeJhd0GWh4Q8bHdWF5M/j+appfx9A65lXJ0fPHbo
+ yRkvbiKVN4JdC9L1kcxwbIE42pbhbLF8LU6cQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:user-agent:from:references
  :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kQ9UDEKrGBlUcNO4sH3ZDmuGjEg0UnW+K0pM704i6h4=;
- b=MNf1ZTn8SD1JjYqYabki3gCMhnkpeE39mjkOiVKta6EExCgu5qJ9nGVO7MIZDc9GkR
- U5oB8sWZBugNGyAixSF4ivj9x0Ao23mUkrT3cfTnpDN1Yp/UpDi91jGAOaUZv1McqfmG
- MY/njn01aAFpWOtKC+9791AoqEPzGkfh4qELZ+DpEz+Vxsnc/7LYK10Wyk498dT65Swn
- glzcSNrlRcXbIA4JpWZ/SSuwArOz0fH2IE1vaj/hWMR3M2YDcVsq/uTqfIFg/26hws1/
- OuAcXhBSe48TYyEU8pUbkwe3TyRgLW9y+0UqmFAEh8pUKflvBH9NKFroj3XA0eWKjXIS
- mlaA==
-X-Gm-Message-State: ANoB5pmtID6dObWHaDPJUB3ZVgQW+vwMFW8NBSpIKKDJpx3vn33zVKVz
- /nLZBARTpxs4MuUSMyvEKzjkTbmAp0TCEpvym8EeHg==
-X-Google-Smtp-Source: AA0mqf7E+0gYIlsn+eJZUnoQxwAAegzX06aJJjONxcWqY6lnTQGcJuvpNtrGrbvAPrVBHen0DXMLaf3G2kd78m/boGs=
-X-Received: by 2002:ac2:4189:0:b0:4b1:2447:6971 with SMTP id
- z9-20020ac24189000000b004b124476971mr27184258lfh.83.1670972806927; Tue, 13
- Dec 2022 15:06:46 -0800 (PST)
+ bh=MAM1zWKmLoLybnlVx2DB+oXg2+2O2pnw6L+In6EaViM=;
+ b=ysOpC+veX54deI7b2RRfYHvtRQ6+Rl+GEKqgtqcM6dK2yZkUftajJ6DkTnjH91Ibv7
+ VeURgyy1ixI7epw7qlmwaspa113XXh6Q9WubKUjSc8Cm9QErbqHAt9pdzyyd/Um9A3sR
+ lXpHsv8tNXpKm5PJj8z4cwngguFcQ0G7GMi0WMWo6y293KgFxox2i37mguh/uGIOqMLH
+ ZgCL+CTId2Zd9b1u/zwONaxNcGi0eJHz2oVv9voTs0g/WUj/OI5+TiUZ8setBOCD1O0X
+ yVSVhNrpGEwzDSZaWWfCfLa9/GMh8WzUTTGAivO9aZdJur6K7rAjar0lVCfVhNO/zQdB
+ XgRA==
+X-Gm-Message-State: ANoB5pnJqXvC2L5BX5kPEa+GXcXpd9V9An2/sUH3QgoQ7V6e8oKPkq+m
+ yzf7DvOx1bXatisIetthlJ4R2Z5fNjnoOSM9sH0Srw==
+X-Google-Smtp-Source: AA0mqf7fjRyv34QEVPUbrU3bGl2ESm6HVEMAzysO3m1pE1HnHZcF4ijJ1lDGhU9kCoEZmQATAKQjthDymQAcNAWyH0k=
+X-Received: by 2002:a2e:a367:0:b0:27a:2a6d:73a with SMTP id
+ i7-20020a2ea367000000b0027a2a6d073amr1335395ljn.27.1670973109877; Tue, 13 Dec
+ 2022 15:11:49 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 13 Dec 2022 15:06:46 -0800
+ HTTPREST; Tue, 13 Dec 2022 15:11:49 -0800
 MIME-Version: 1.0
-In-Reply-To: <1670967848-31475-3-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1670967848-31475-4-git-send-email-quic_khsieh@quicinc.com>
 References: <1670967848-31475-1-git-send-email-quic_khsieh@quicinc.com>
- <1670967848-31475-3-git-send-email-quic_khsieh@quicinc.com>
+ <1670967848-31475-4-git-send-email-quic_khsieh@quicinc.com>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Tue, 13 Dec 2022 15:06:46 -0800
-Message-ID: <CAE-0n52eHYCqxUJqQXoaQ8vyqCk-QfouSun+zUp3yo5DufWbwg@mail.gmail.com>
-Subject: Re: [PATCH v12 2/5] dt-bindings: msm/dp: add data-lanes and
- link-frequencies property
+Date: Tue, 13 Dec 2022 15:11:49 -0800
+Message-ID: <CAE-0n52uRPS0nWHsdpozQBDdb2O8t1WqNVuf6JOrwdworbpJzg@mail.gmail.com>
+Subject: Re: [PATCH v12 3/5] drm/msm/dp: parser data-lanes as property of
+ dp_out endpoint
 To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org,
  airlied@gmail.com, 
  andersson@kernel.org, daniel@ffwll.ch, devicetree@vger.kernel.org, 
@@ -78,125 +78,60 @@ Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2022-12-13 13:44:05)
-> Add both data-lanes and link-frequencies property into endpoint
-
-Why do we care? Please tell us why it's important.
-
+Quoting Kuogee Hsieh (2022-12-13 13:44:06)
+> Add capability to parser data-lanes as property of dp_out endpoint.
+> Also retain the original capability to parser data-lanes as property
+> of mdss_dp node to handle legacy case.
+>
+> Changes in v6:
+> -- first patch after split parser patch into two
 >
 > Changes in v7:
-> -- split yaml out of dtsi patch
-> -- link-frequencies from link rate to symbol rate
-> -- deprecation of old data-lanes property
+> -- check "data-lanes" from endpoint first
 >
-> Changes in v8:
-> -- correct Bjorn mail address to kernel.org
->
-> Changes in v10:
-> -- add menu item to data-lanes and link-frequecnis
->
-> Changes in v11:
-> -- add endpoint property at port@1
->
-> Changes in v12:
-> -- use enum for item at data-lanes and link-frequencies
->
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>`
-                                                       ^
-Stray ` here? -----------------------------------------/
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Subject says "parser" when it probably should say "parse"?
 
 > ---
->  .../bindings/display/msm/dp-controller.yaml        | 30 ++++++++++++++++++++--
->  1 file changed, 28 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/msm/dp/dp_parser.c | 25 +++++++++++++++++--------
+>  1 file changed, 17 insertions(+), 8 deletions(-)
 >
-> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> index f2515af..8fb9fa5 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> @@ -96,14 +97,37 @@ properties:
->
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
+> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
+> index dd73221..b5f7e70 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
+> @@ -94,16 +94,25 @@ static int dp_parser_ctrl_res(struct dp_parser *parser)
+>  static int dp_parser_misc(struct dp_parser *parser)
+>  {
+>         struct device_node *of_node = parser->pdev->dev.of_node;
+> -       int len;
+> -
+> -       len = drm_of_get_data_lanes_count(of_node, 1, DP_MAX_NUM_DP_LANES);
+> -       if (len < 0) {
+> -               DRM_WARN("Invalid property \"data-lanes\", default max DP lanes = %d\n",
+> -                        DP_MAX_NUM_DP_LANES);
+> -               len = DP_MAX_NUM_DP_LANES;
+> +       int cnt;
 > +
->      properties:
->        port@0:
-> -        $ref: /schemas/graph.yaml#/properties/port
-> +        $ref: "/schemas/graph.yaml#/$defs/port-base"
->          description: Input endpoint of the controller
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/media/video-interfaces.yaml#
+> +       /*
+> +        * data-lanes is the property of dp_out endpoint
+> +        */
+> +       cnt = drm_of_get_data_lanes_count_ep(of_node, 1, 0, 1, DP_MAX_NUM_DP_LANES);
+> +       if (cnt > 0)
+> +               parser->max_dp_lanes = cnt;
+> +       else {
+
+Please add brackets to the above if to match the else.
+
+> +               /*
+> +                * legacy code, data-lanes is the property of mdss_dp node
+> +                */
+> +               cnt = drm_of_get_data_lanes_count(of_node, 1, DP_MAX_NUM_DP_LANES);
+> +               if (cnt > 0)
+> +                       parser->max_dp_lanes = cnt;
+> +               else
+> +                       parser->max_dp_lanes = DP_MAX_NUM_DP_LANES; /* 4 lanes */
+>         }
 >
->        port@1:
-> -        $ref: /schemas/graph.yaml#/properties/port
-> +        $ref: "/schemas/graph.yaml#/$defs/port-base"
-
-I thought the quotes weren't needed?
-
->          description: Output endpoint of the controller
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/media/video-interfaces.yaml#
-
-Does this need 'unevaluatedProperties: false' here?
-
-> +            properties:
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
-> +                items:
-> +                  enum: [ 0, 1, 2, 3 ]
-> +
-> +              link-frequencies:
-> +                minItems: 1
-> +                maxItems: 4
-> +                items:
-> +                  enum: [ 1620000000, 2700000000, 5400000000, 8100000000 ]
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
->
->  required:
->    - compatible
-> @@ -193,6 +217,8 @@ examples:
->                  reg = <1>;
->                  endpoint {
->                      remote-endpoint = <&typec>;
-> +                    data-lanes = <0 1>;
-> +                    link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000 8100000000>;
->                  };
-
-So far we haven't used the output port on the DP controller in DT.
-
-I'm still not clear on what we should do in general for DP because
-there's a PHY that actually controls a lane count and lane mapping. In
-my mental model of the SoC, this DP controller's output port is
-connected to the DP PHY, which then sends the DP lanes out of the SoC to
-the next downstream device (i.e. a DP connector or type-c muxer). Having
-a remote-endpoint property with a phandle to typec doesn't fit my mental
-model. I'd expect it to be the typec PHY.
-
-That brings up the question: when we have 2 lanes vs. 4 lanes will we
-duplicate the data-lanes property in the PHY binding? I suspect we'll
-have to. Hopefully that sort of duplication is OK?
-
-Similarly, we may have a redriver that limits the link-frequencies
-property further (e.g. only support <= 2.7GHz). Having multiple
-link-frequencies along the graph is OK, right? And isn't the
-link-frequencies property known here by fact that the DP controller
-tells us which SoC this controller is for, and thus we already know the
-supported link frequencies?
-
-Finally, I wonder if we should put any of this in the DP controller's
-output endpoint, or if we can put these sorts of properties in the DP
-PHY binding directly? Can't we do that and then when the DP controller
-tries to set 4 lanes, the PHY immediately fails the call and the link
-training algorithm does its thing and tries fewer lanes? And similarly,
-if link-frequencies were in the PHY's binding, the PHY could fail to set
-those frequencies during link training, returning an error to the DP
-controller, letting the training move on to a lower frequency. If we did
-that this patch series would largely be about modifying the PHY binding,
-updating the PHY driver to enforce constraints, and handling errors
-during link training in the DP controller (which may already be done? I
-didn't check).
