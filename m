@@ -2,62 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3B1564B3D4
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 12:10:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A626764B448
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 12:36:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0AFE10E300;
-	Tue, 13 Dec 2022 11:10:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5C0510E1B9;
+	Tue, 13 Dec 2022 11:36:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D61FF10E300
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 11:10:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1670929834; bh=f+5ZQSnpbEML0YsGwf7riPTrfsxhSxd2cXhXJyNQkS0=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=E0yCt989mJap3FYLm8ydR+dz3vR2mbIUO9K/RiDs0zfK0YkI/S7x2voJT/vJjDvBr
- LzHkIZ2c7iREPv6OvKO1Tu/IGfl6yaHU89yNgvvO5+Ug5yxo5rqM7K/itRm1wjw7Vf
- BGsTMuoyeKAGFqSgW7T16sBV9dYo3Sx7YpFCttRaMPKy58WDqnNVxH4Co7G8Nl7fvO
- kRQjKbqAOHiZLGMBgcG30R2d6ydEav4kG8MXKwATt7PmzNqZ8QR7QuWDyOG58eO29m
- 1ajbo8w3eezSE85bOLSpisD1+M0nQGLnjNB+rjN4AIV40J5XMkmGQU+5Fzo8rW42yA
- jSOtDyHuqLIbQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([92.116.135.201]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MOiHf-1pHsRB01t9-00QBn9; Tue, 13
- Dec 2022 12:10:34 +0100
-Message-ID: <4a846563-c0b3-ca89-382b-ef59867b2713@gmx.de>
-Date: Tue, 13 Dec 2022 12:10:29 +0100
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5069110E1B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 11:36:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1670931375; x=1702467375;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=heKDNBPZhPEpIYGyk0skyCaB8Rq9txJBmgJkUvBpvNs=;
+ b=Jz2QN6DS/qk3VJCQajz8gLk/zF522laPomMgvzYT5lRN4h+iTIgmc9dI
+ bo4rvGzhtTQllQO9ZqVuPG/qgSevrLeB/fB7d1Jsp7XUTS4Wdn3HQ+8yH
+ Rknenqy01Qk4svkUX+VU1xjbEQM/8sq8V7F6HNgseMHWZbUhJhtyv5EBi
+ LM0VP2TWVLc9yCHBk5SSWd4nlEe5zjBAg7B8FXbDkfIN27qf7Vfg/BXn1
+ VZPJWV4q/8+vAs9n2dOFU4eAUpqfkA+1kIiWMTfyW2XYwRqPlRsfP7ycR
+ v+Nld1961f3tkxuy+R0PWSDQSUVsaJNR6yXxitICPLWbwZOyhoavy9d6A w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="315745737"
+X-IronPort-AV: E=Sophos;i="5.96,241,1665471600"; d="scan'208";a="315745737"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2022 03:36:14 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="977427278"
+X-IronPort-AV: E=Sophos;i="5.96,241,1665471600"; d="scan'208";a="977427278"
+Received: from joe-255.igk.intel.com (HELO localhost) ([172.22.229.67])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2022 03:36:12 -0800
+Date: Tue, 13 Dec 2022 12:36:10 +0100
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: dri-devel@lists.freedesktop.org, oded.gabbay@gmail.com
+Subject: [PATCH v4 8/7] accel/ivpu: Add depend on !UML to Kconfig
+Message-ID: <20221213113504.GA958172@linux.intel.com>
+References: <20221208110733.5498-1-jacek.lawrynowicz@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: linux-next: manual merge of the fbdev tree with the drm tree
-Content-Language: en-US
-To: Stephen Rothwell <sfr@canb.auug.org.au>, Dave Airlie <airlied@redhat.com>
-References: <20221213111612.7bc1f917@canb.auug.org.au>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20221213111612.7bc1f917@canb.auug.org.au>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:zvZd+u3f4Ihm26U9GMZH8cjMluFouldYp3gQS0xMHdRCfyXpts1
- eQueQpPhSWp0fdC/tXgWb8UrCnaW91tKO7iM6UakvUZpt2HwBrHFUuIOBkVstSrfFot19Cn
- sYwmGhOzpv2ZMIoWhAQTIdHxkkAENPlYb693deGIUYFoazjdZY5JP/0gqQlxaUC+ibrOVhW
- U4fXyKPXpezWmmLHSdnaw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:DkYRgCaGGNQ=;0Ii3GXo9yK88DwmceLIY93GvsKU
- zSJIWjZ+YTQJVyMCIKmV2mekhlQnGjcVFLgeCsMHuls/aB0j95FmYgsbWdewpR1q9cj9wxKlX
- Xv+IDP0GRN/usCxin611ymssi9ni2Bs5f0W9FI+4av7EgjEebl8Qu0TOfS6za+J2VG9iljd29
- uTtnzIR7Q9Cnvr2UTlJXGYYBn3P42+ZhgGnbW7wR3P3a+g08umw+/FBVHi6JwPYdYgeXqTWFb
- hQs4sZxXIZXE1mXQKCLM0MNchdcHfgmh9qUFx4rjpU7QDe/9AvYNmX6t5VqZSJoVl0h056L43
- pzmYg2MO3suO+GYMbWjPwd4y7ZIKdjPR3igE+kG5BX4Cgi3vHzRKWPxGMsx/LEUgtjlg/0Jk+
- 1M0EuM6a+PQmqo9CN4VKHwrr3Igie38oqCSPafmYyNYDJ0JsZUyJEAxMy3yB7o9UL409Vzz1B
- yRpqF6ER1DYlB7TDvBn1SvO4SXvCyqDAvxF0ChXodg0O+l6KcBMz9OSJeNy2JIg3L+pRd3dup
- nMApJGUod8E9r4BNeTKVyJ4ZAddR1WII9RJbLukCP/VIhmKboarpPCIsb0r5hjlEV7w+STOft
- 9AUve4gHdlpw6A+mz8inLJn+JdslVGP+JjvuXxh448TgZ5rpOvfkhzfrcUziMvncU28Zpp14T
- /cguoy+vw6ABnj/+9ksLsNw8wLbv6iyl4LR6GD5DRnUY3KMt/58lrRiXnnk/5cqxsVKN1lAAP
- atot0P177aaUfaZJes4x8JzbinK4AtjXwWGr/t7cWxqicOhNcYPXIRX+W9QFjT9vOrk92eESc
- JVu2qjqegTuD4VbJXNsFoYmCT8QrYwpI+KBDJQMK/2qHy3a5/vPotAQ7MeWmKZUdZ22Dfi4A2
- AzfGQFcMVw+q+ke3d+yJYIa6IEjdy5WEUwLpIyg3Oyw2r1y9cwmRrxuSAXAmSURoX82xp449u
- tR4CyA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221208110733.5498-1-jacek.lawrynowicz@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,37 +56,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>
+Cc: quic_jhugo@quicinc.com,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, tzimmermann@suse.de,
+ andrzej.kacprowski@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/13/22 01:16, Stephen Rothwell wrote:
-> Today's linux-next merge of the fbdev tree got a conflict in:
->    drivers/video/fbdev/Kconfig
-> between commit:
->    c8a17756c425 ("drm/ofdrm: Add ofdrm for Open Firmware framebuffers")
-> from the drm tree and commit:
->    225e095bbd3a ("fbdev: offb: make offb driver tristate")
-> from the fbdev tree.
+VPU is integrated x86_64 device and the driver utilizes various CPU
+architecture specific functions that don't exits on ARCH=um, so disable
+build on UML.
 
-I've dropped that patch from the fbdev git tree to resolve the
-conflict. It didn't applied cleanly anyway, so @Randy please
-resend a new patch if required.
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+---
+ drivers/accel/ivpu/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks!
-Helge
-
-
-
-> I fixed it up (see below) and can carry the fix as necessary. This
-> is now fixed as far as linux-next is concerned, but any non trivial
-> conflicts should be mentioned to your upstream maintainer when your tree
-> is submitted for merging.  You may also want to consider cooperating
-> with the maintainer of the conflicting tree to minimise any particularly
-> complex conflicts.
->
-
+diff --git a/drivers/accel/ivpu/Kconfig b/drivers/accel/ivpu/Kconfig
+index 110a6b921135..9bdf168bf1d0 100644
+--- a/drivers/accel/ivpu/Kconfig
++++ b/drivers/accel/ivpu/Kconfig
+@@ -3,7 +3,7 @@
+ config DRM_ACCEL_IVPU
+ 	tristate "Intel VPU for Meteor Lake and newer"
+ 	depends on DRM_ACCEL
+-	depends on X86_64
++	depends on X86_64 && !UML
+ 	depends on PCI && PCI_MSI
+ 	select FW_LOADER
+ 	select SHMEM
+-- 
+2.25.1
