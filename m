@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A493564B347
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 11:34:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF0D64B34D
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 11:36:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93B7710E2F9;
-	Tue, 13 Dec 2022 10:34:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FEAE10E2FE;
+	Tue, 13 Dec 2022 10:36:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DD7B10E2F9;
- Tue, 13 Dec 2022 10:34:06 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id q6so4154653lfm.10;
- Tue, 13 Dec 2022 02:34:06 -0800 (PST)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EA0910E2FD;
+ Tue, 13 Dec 2022 10:36:05 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id q6so4162128lfm.10;
+ Tue, 13 Dec 2022 02:36:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=eZeFZl+vmGmZoy9vpWUlc8qdgT7b0ZlO3m0ZiE9P2SI=;
- b=FVtdxrZQ6YfNKoOZUx6B6nTv4EiDX4yspqwVHpFd852boHOAjIBjaL/pVL8cBZhkw1
- QTgzc3+QTq+EeCxuFG+bCC6UHf2oS0xp9Hce1To1YDM/PZCtgujVwQpgsJdRZ895+68N
- gzFGEImUVbcfUTpMM3JBRx/N8BFaTE6iSLCXi4QTNNb0+CP/mmg3gqoQlQwITEm2DEdl
- BsVKB6K18Z8R0cCD9hyBtZe08htpXpiR4YKldkEVj0xnV1ap48apdWr7fJpe8mFU5Fiw
- pMPI8Byx1rOfJ2XMrXwLyRHJrprdbfknIDhXd+2fEThreH2nOBYgrjzmn/OYqv7A1itY
- 5A9w==
+ bh=eOhpTETZJwOmzldrrcBwvLYwkVMNAxwwRumLeYPEC+4=;
+ b=c2uO1Be2hbY9b9Y3vOOuwJrtgaKisHMoijLfR6IZwbgJqjLxxr14ZTHkfFf2IOwAT8
+ rf+JTSuBFomPkgg+dtfhQCwaklF22zvOgbhRB4JDZrQzNDqZWBfAtFU3eLwmprA0mPbs
+ wtqeODBKY1CH8+mdyfRWumJs1kc8PPJM62CfWOFLapzcouGXXUKxPmGT8ui/cL7ITpP/
+ c5vqlj7ks0E133QtUCr+WHRCgFtYBRFOcG4neMEpVAik9NoBXzzChOQksO40hHsG/1Cw
+ 9+RclJSuq/nFIPE/bta0vxATNrY/Uqes6LLcL7geBwqrmnOwtkRAKmTLW6onne8ycxht
+ tcLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eZeFZl+vmGmZoy9vpWUlc8qdgT7b0ZlO3m0ZiE9P2SI=;
- b=qiAVoXG/X+aLr9ZCKs5QBoKQoZ78GYQsuvIjW1uYaiMZLdNVI82Lal+8Wm/wr+Nm0p
- tiAXKTcwUK5+o1Ef/u8R1CYktEKhdvhwCP1Yv9hmaZdJvhK9wDlFcFUpoH0vIHf4Jg8G
- dS/TkLy4Y0at64nyFUCPNh9TMYnH3lr9l34CywwT+aMRvyM35+O4xZpig46K1FZ0G+I7
- psSslmJ3oRm2VlSWkHc6r9RyvA3Xx6RP4IMkxR8haZ3Qo2XPrl7wCcRC5gOhchuWPSeG
- COJe4LpNAp72+gfUNqQBILRGcNL9N8dsIQqqEy4gMGHF9U57N2y2bq1DAiD//XwGIk9c
- EsUA==
-X-Gm-Message-State: ANoB5pkh7vnEkOKj4Ocihve75VKJvJzFDWX8UHSf/fvmM62XhQAJz0Bj
- 33J8AKdexyPNYLd5aL8XCMY=
-X-Google-Smtp-Source: AA0mqf6s2ckHnE+p9uitq/kaiOQr/fVjbPCuFtf6TeCGHlqDzxckJDAgkYGsHld9CSfauLwF8BaCDQ==
-X-Received: by 2002:a19:7b03:0:b0:4a4:68b8:f4d0 with SMTP id
- w3-20020a197b03000000b004a468b8f4d0mr5629402lfc.22.1670927644850; 
- Tue, 13 Dec 2022 02:34:04 -0800 (PST)
+ bh=eOhpTETZJwOmzldrrcBwvLYwkVMNAxwwRumLeYPEC+4=;
+ b=fhAK5gL8Exb8i5EWJ8CnVz/Rvknq9bvLWB9hirMcBaQO+oMN1VTWbsqpHUFsiTxGXZ
+ SLWXqZM3cDfAf/BhqOzY7ZQt0AWYux+4chPtniV/oHzC8KbTNHmrcsakozlzDC0ab8Nx
+ DcgC6gIwzcINIO2hm2inlwsnwpc2S0CXnIontYvE2GauMjF53MbedMP/HLvjd9WrOUIs
+ M8sxwknYhZwVd8DkxSzH+TzU+BxwkhKQLXEXJCKxDG+V/HhHOPjEZ+MBaifUA6JEiwyt
+ wiZU9W4F/xckAgkrFq4DQuwC815fFfjeeIktUUMZHqnj/Y4m8f6hfhuB2Q/o7RP6Cnqi
+ pF3g==
+X-Gm-Message-State: ANoB5pkowr86w39zTgJnG5i4gQW9nj3m7u1DtNoZxchL1sX2b6A/XJtz
+ kDcNKzJr+ocvSPKXbU48u7I=
+X-Google-Smtp-Source: AA0mqf5Q8qHvMnPLtrnbtPmLzUlXQNSnnDEuKs8+Sb4rNYSajp4B/ZU9meXkxeZlE/pTCGT3MOrCqw==
+X-Received: by 2002:a05:6512:3e19:b0:4b0:6023:6f6f with SMTP id
+ i25-20020a0565123e1900b004b060236f6fmr7532718lfv.57.1670927763640; 
+ Tue, 13 Dec 2022 02:36:03 -0800 (PST)
 Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- d28-20020a194f1c000000b00498fbec3f8asm313565lfb.129.2022.12.13.02.34.03
+ j8-20020a056512344800b004b590c768edsm314518lfr.1.2022.12.13.02.36.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Dec 2022 02:34:04 -0800 (PST)
-Date: Tue, 13 Dec 2022 12:34:00 +0200
+ Tue, 13 Dec 2022 02:36:03 -0800 (PST)
+Date: Tue, 13 Dec 2022 12:35:59 +0200
 From: Pekka Paalanen <ppaalanen@gmail.com>
 To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH 06/16] drm/connector: Allow drivers to pass list of
- supported colorspaces
-Message-ID: <20221213123400.2c46df00@eldfell>
-In-Reply-To: <20221212182137.374625-7-harry.wentland@amd.com>
+Subject: Re: [PATCH 14/16] drm/amd/display: Add debugfs for testing output
+ colorspace
+Message-ID: <20221213123559.33425bf1@eldfell>
+In-Reply-To: <20221212182137.374625-15-harry.wentland@amd.com>
 References: <20221212182137.374625-1-harry.wentland@amd.com>
- <20221212182137.374625-7-harry.wentland@amd.com>
+ <20221212182137.374625-15-harry.wentland@amd.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/ov05sbRGd14hHbeFD_3F=Tf";
+Content-Type: multipart/signed; boundary="Sig_//rYKCY.xiOVuBaa_tHSX4ID";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,60 +77,21 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/ov05sbRGd14hHbeFD_3F=Tf
+--Sig_//rYKCY.xiOVuBaa_tHSX4ID
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Sorry, hand slipped on keyboard and sent out a draft of this email too
-early.
-
-
-On Mon, 12 Dec 2022 13:21:27 -0500
+On Mon, 12 Dec 2022 13:21:35 -0500
 Harry Wentland <harry.wentland@amd.com> wrote:
 
-> Drivers might not support all colorspaces defined in
-> dp_colorspaces and hdmi_colorspaces. This results in
-> undefined behavior when userspace is setting an
-> unsupported colorspace.
+> In order to IGT test colorspace we'll want to print
+> the currently enabled colorspace on a stream. We add
+> a new debugfs to do so, using the same scheme as
+> current bpc reporting.
 >=20
-> Allow drivers to pass the list of supported colorspaces
-> when creating the colorspace property.
-
-Hi Harry,
-
-what is there for drivers to support? Isn't this just infoframe data
-that shall be sent down to the sink as-is with no other effect?
-The kerneldoc for "Colorspace" says it has no other effect.
-
-Is the driver confusing colorimetry with color-representation (the
-RGB-YCbCr conversion)? Or is this property defining both?
-
-I feel that the documentation of "Colorspace" KMS connector property
-needs clarification, and a list of potentially available values with
-explanations, more than just a reference to CTA-861-H which it does not
-even do yet.
-
-Perhaps a table, where for each enum drm_colorspace entry has a row
-explaining the expectations of the sink:
-- primaries and white point
-- transfer characteristic
-- YCbCr-RGB or similar conversion to/from some RGB
-
-Each cell can be a reference to a spec like BT.709 or BT.601 (525 line).
-
-I think this belongs in the kernel doc more than in color-and-hdr.
-
-CTA-861-H does not give all the information but refers to things like
-xvYCC601 which you then need to figure out from Wikipedia or whatever
-which is annoying and raises questions about its correctness. Would be
-better if someone who actually has access to the authoritative specs
-would review the table.
-
-
-Thanks,
-pq
-
-
+> This might also come in handy when debugging display
+> issues.
+>=20
 > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 > Cc: Pekka Paalanen <ppaalanen@gmail.com>
 > Cc: Sebastian Wick <sebastian.wick@redhat.com>
@@ -141,311 +102,127 @@ pq
 > Cc: dri-devel@lists.freedesktop.org
 > Cc: amd-gfx@lists.freedesktop.org
 > ---
->  drivers/gpu/drm/drm_connector.c               | 140 +++++++++---------
->  .../gpu/drm/i915/display/intel_connector.c    |   4 +-
->  drivers/gpu/drm/vc4/vc4_hdmi.c                |   2 +-
->  include/drm/drm_connector.h                   |   8 +-
->  4 files changed, 83 insertions(+), 71 deletions(-)
+>  .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 57 +++++++++++++++++++
+>  1 file changed, 57 insertions(+)
 >=20
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index ddba0b9fcc17..0df5db3e4fec 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -1012,64 +1012,57 @@ static const struct drm_prop_enum_list drm_dp_sub=
-connector_enum_list[] =3D {
->  DRM_ENUM_NAME_FN(drm_get_dp_subconnector_name,
->  		 drm_dp_subconnector_enum_list)
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/=
+drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+> index 461037a3dd75..d95d1c9f4805 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+> @@ -935,6 +935,61 @@ static int amdgpu_current_bpc_show(struct seq_file *=
+m, void *data)
+>  }
+>  DEFINE_SHOW_ATTRIBUTE(amdgpu_current_bpc);
 > =20
-> -static const struct drm_prop_enum_list hdmi_colorspaces[] =3D {
-> -	/* For Default case, driver will set the colorspace */
-> -	{ DRM_MODE_COLORIMETRY_DEFAULT, "Default" },
-> -	/* Standard Definition Colorimetry based on CEA 861 */
-> -	{ DRM_MODE_COLORIMETRY_SMPTE_170M_YCC, "SMPTE_170M_YCC" },
-> -	{ DRM_MODE_COLORIMETRY_BT709_YCC, "BT709_YCC" },
-> -	/* Standard Definition Colorimetry based on IEC 61966-2-4 */
-> -	{ DRM_MODE_COLORIMETRY_XVYCC_601, "XVYCC_601" },
-> -	/* High Definition Colorimetry based on IEC 61966-2-4 */
-> -	{ DRM_MODE_COLORIMETRY_XVYCC_709, "XVYCC_709" },
-> -	/* Colorimetry based on IEC 61966-2-1/Amendment 1 */
-> -	{ DRM_MODE_COLORIMETRY_SYCC_601, "SYCC_601" },
-> -	/* Colorimetry based on IEC 61966-2-5 [33] */
-> -	{ DRM_MODE_COLORIMETRY_OPYCC_601, "opYCC_601" },
-> -	/* Colorimetry based on IEC 61966-2-5 */
-> -	{ DRM_MODE_COLORIMETRY_OPRGB, "opRGB" },
-> -	/* Colorimetry based on ITU-R BT.2020 */
-> -	{ DRM_MODE_COLORIMETRY_BT2020_CYCC, "BT2020_CYCC" },
-> -	/* Colorimetry based on ITU-R BT.2020 */
-> -	{ DRM_MODE_COLORIMETRY_BT2020_RGB, "BT2020_RGB" },
-> -	/* Colorimetry based on ITU-R BT.2020 */
-> -	{ DRM_MODE_COLORIMETRY_BT2020_YCC, "BT2020_YCC" },
-> -	/* Added as part of Additional Colorimetry Extension in 861.G */
-> -	{ DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65, "DCI-P3_RGB_D65" },
-> -	{ DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER, "DCI-P3_RGB_Theater" },
-> +static const char * const colorspace_names[] =3D {
-> +	[DRM_MODE_COLORIMETRY_DEFAULT] =3D "Default",
-> +	[DRM_MODE_COLORIMETRY_SMPTE_170M_YCC] =3D "SMPTE_170M_YCC",
-> +	[DRM_MODE_COLORIMETRY_BT709_YCC] =3D "BT709_YCC",
-> +	[DRM_MODE_COLORIMETRY_XVYCC_601] =3D "XVYCC_601",
-> +	[DRM_MODE_COLORIMETRY_XVYCC_709] =3D "XVYCC_709",
-> +	[DRM_MODE_COLORIMETRY_SYCC_601] =3D "SYCC_601",
-> +	[DRM_MODE_COLORIMETRY_OPYCC_601] =3D "opYCC_601",
-> +	[DRM_MODE_COLORIMETRY_OPRGB] =3D "opRGB",
-> +	[DRM_MODE_COLORIMETRY_BT2020_CYCC] =3D "BT2020_CYCC",
-> +	[DRM_MODE_COLORIMETRY_BT2020_RGB] =3D "BT2020_RGB",
-> +	[DRM_MODE_COLORIMETRY_BT2020_YCC] =3D "BT2020_YCC",
-> +	[DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65] =3D "P3_RGB_D65",
-> +	[DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER] =3D "P3_RGB_Theater",
-> +	[DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED] =3D "RGB_WIDE_FIXED",
-> +	[DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT] =3D "RGB_WIDE_FLOAT",
-> +	[DRM_MODE_COLORIMETRY_BT601_YCC] =3D "BT601_YCC",
->  };
-> =20
-> +static const u32 hdmi_colorspaces =3D
-> +	BIT(DRM_MODE_COLORIMETRY_SMPTE_170M_YCC) |
-> +	BIT(DRM_MODE_COLORIMETRY_BT709_YCC) |
-> +	BIT(DRM_MODE_COLORIMETRY_XVYCC_601) |
-> +	BIT(DRM_MODE_COLORIMETRY_XVYCC_709) |
-> +	BIT(DRM_MODE_COLORIMETRY_SYCC_601) |
-> +	BIT(DRM_MODE_COLORIMETRY_OPYCC_601) |
-> +	BIT(DRM_MODE_COLORIMETRY_OPRGB) |
-> +	BIT(DRM_MODE_COLORIMETRY_BT2020_CYCC) |
-> +	BIT(DRM_MODE_COLORIMETRY_BT2020_RGB) |
-> +	BIT(DRM_MODE_COLORIMETRY_BT2020_YCC) |
-> +	BIT(DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65) |
-> +	BIT(DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER);
+> +/*
+> + * Returns the current bpc for the crtc.
+> + * Example usage: cat /sys/kernel/debug/dri/0/crtc-0/amdgpu_current_colo=
+rspace
+> + */
+> +static int amdgpu_current_colorspace_show(struct seq_file *m, void *data)
+> +{
+> +	struct drm_crtc *crtc =3D m->private;
+> +	struct drm_device *dev =3D crtc->dev;
+> +	struct dm_crtc_state *dm_crtc_state =3D NULL;
+> +	int res =3D -ENODEV;
+> +
+> +	mutex_lock(&dev->mode_config.mutex);
+> +	drm_modeset_lock(&crtc->mutex, NULL);
+> +	if (crtc->state =3D=3D NULL)
+> +		goto unlock;
+> +
+> +	dm_crtc_state =3D to_dm_crtc_state(crtc->state);
+> +	if (dm_crtc_state->stream =3D=3D NULL)
+> +		goto unlock;
+> +
+> +	switch (dm_crtc_state->stream->output_color_space) {
+> +	case COLOR_SPACE_SRGB:
+> +		seq_printf(m, "RGB");
+
+What does COLOR_SPACE_SRGB mean? Printing it as "RGB" seems suspicious.
+Should this be "sRGB" or "BT709_RGB" instead?
+
+> +		break;
+> +	case COLOR_SPACE_YCBCR601:
+> +	case COLOR_SPACE_YCBCR601_LIMITED:
+> +		seq_printf(m, "BT601_YCC");
+> +		break;
+> +	case COLOR_SPACE_YCBCR709:
+> +	case COLOR_SPACE_YCBCR709_LIMITED:
+> +		seq_printf(m, "BT709_YCC");
+> +		break;
+> +	case COLOR_SPACE_ADOBERGB:
+> +		seq_printf(m, "opRGB");
+> +		break;
+> +	case COLOR_SPACE_2020_RGB_FULLRANGE:
+> +		seq_printf(m, "BT2020_RGB");
+> +		break;
+> +	case COLOR_SPACE_2020_YCBCR:
+> +		seq_printf(m, "BT2020_YCC");
+> +		break;
+
+What do these actually mean?
+
+Are these a combination of colorimetry and color representation
+(YCbCr/ICtCp - RGB conversion)?
+
+Should these match enum drm_colorspace entries?
+
+
+Thanks,
+pq
+
+
+> +	default:
+> +		goto unlock;
+> +	}
+> +	res =3D 0;
+> +
+> +unlock:
+> +	drm_modeset_unlock(&crtc->mutex);
+> +	mutex_unlock(&dev->mode_config.mutex);
+> +
+> +	return res;
+> +}
+> +DEFINE_SHOW_ATTRIBUTE(amdgpu_current_colorspace);
+> +
 > +
 >  /*
->   * As per DP 1.4a spec, 2.2.5.7.5 VSC SDP Payload for Pixel Encoding/Col=
-orimetry
->   * Format Table 2-120
->   */
-> -static const struct drm_prop_enum_list dp_colorspaces[] =3D {
-> -	/* For Default case, driver will set the colorspace */
-> -	{ DRM_MODE_COLORIMETRY_DEFAULT, "Default" },
-> -	{ DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED, "RGB_Wide_Gamut_Fixed_Point" },
-> -	/* Colorimetry based on scRGB (IEC 61966-2-2) */
-> -	{ DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT, "RGB_Wide_Gamut_Floating_Point" =
-},
-> -	/* Colorimetry based on IEC 61966-2-5 */
-> -	{ DRM_MODE_COLORIMETRY_OPRGB, "opRGB" },
-> -	/* Colorimetry based on SMPTE RP 431-2 */
-> -	{ DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65, "DCI-P3_RGB_D65" },
-> -	/* Colorimetry based on ITU-R BT.2020 */
-> -	{ DRM_MODE_COLORIMETRY_BT2020_RGB, "BT2020_RGB" },
-> -	{ DRM_MODE_COLORIMETRY_BT601_YCC, "BT601_YCC" },
-> -	{ DRM_MODE_COLORIMETRY_BT709_YCC, "BT709_YCC" },
-> -	/* Standard Definition Colorimetry based on IEC 61966-2-4 */
-> -	{ DRM_MODE_COLORIMETRY_XVYCC_601, "XVYCC_601" },
-> -	/* High Definition Colorimetry based on IEC 61966-2-4 */
-> -	{ DRM_MODE_COLORIMETRY_XVYCC_709, "XVYCC_709" },
-> -	/* Colorimetry based on IEC 61966-2-1/Amendment 1 */
-> -	{ DRM_MODE_COLORIMETRY_SYCC_601, "SYCC_601" },
-> -	/* Colorimetry based on IEC 61966-2-5 [33] */
-> -	{ DRM_MODE_COLORIMETRY_OPYCC_601, "opYCC_601" },
-> -	/* Colorimetry based on ITU-R BT.2020 */
-> -	{ DRM_MODE_COLORIMETRY_BT2020_CYCC, "BT2020_CYCC" },
-> -	/* Colorimetry based on ITU-R BT.2020 */
-> -	{ DRM_MODE_COLORIMETRY_BT2020_YCC, "BT2020_YCC" },
-> -};
-> +static const u32 dp_colorspaces =3D
-> +	BIT(DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED) |
-> +	BIT(DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT) |
-> +	BIT(DRM_MODE_COLORIMETRY_OPRGB) |
-> +	BIT(DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65) |
-> +	BIT(DRM_MODE_COLORIMETRY_BT2020_RGB) |
-> +	BIT(DRM_MODE_COLORIMETRY_BT601_YCC) |
-> +	BIT(DRM_MODE_COLORIMETRY_BT709_YCC) |
-> +	BIT(DRM_MODE_COLORIMETRY_XVYCC_601) |
-> +	BIT(DRM_MODE_COLORIMETRY_XVYCC_709) |
-> +	BIT(DRM_MODE_COLORIMETRY_SYCC_601) |
-> +	BIT(DRM_MODE_COLORIMETRY_OPYCC_601) |
-> +	BIT(DRM_MODE_COLORIMETRY_BT2020_CYCC) |
-> +	BIT(DRM_MODE_COLORIMETRY_BT2020_YCC);
-> =20
->  /**
->   * DOC: standard connector properties
-> @@ -1972,21 +1965,34 @@ EXPORT_SYMBOL(drm_mode_create_aspect_ratio_proper=
-ty);
->   */
-> =20
->  static int drm_mode_create_colorspace_property(struct drm_connector *con=
-nector,
-> -					const struct drm_prop_enum_list *colorspaces,
-> -					int size)
-> +					u32 supported_colorspaces)
->  {
->  	struct drm_device *dev =3D connector->dev;
-> +	u32 colorspaces =3D supported_colorspaces | BIT(DRM_MODE_COLORIMETRY_DE=
-FAULT);
-> +	struct drm_prop_enum_list enum_list[DRM_MODE_COLORIMETRY_MAX];
-> +	int i, len;
-> =20
->  	if (connector->colorspace_property)
->  		return 0;
-> =20
-> -	if (!colorspaces)
-> -		return 0;
-> +	if (WARN_ON(supported_colorspaces =3D=3D 0 ||
-> +		    (supported_colorspaces & -BIT(DRM_MODE_COLORIMETRY_MAX)) !=3D 0))
-> +		return -EINVAL;
-> +
-> +	len =3D 0;
-> +	for (i =3D 0; i < DRM_MODE_COLORIMETRY_MAX; i++) {
-> +		if ((colorspaces & BIT(i)) =3D=3D 0)
-> +			continue;
-> +
-> +		enum_list[len].type =3D i;
-> +		enum_list[len].name =3D colorspace_names[i];
-> +		len++;
-> +	}
-> =20
->  	connector->colorspace_property =3D
->  		drm_property_create_enum(dev, DRM_MODE_PROP_ENUM, "Colorspace",
-> -					colorspaces,
-> -					size);
-> +					enum_list,
-> +					len);
-> =20
->  	if (!connector->colorspace_property)
->  		return -ENOMEM;
-> @@ -2003,11 +2009,12 @@ static int drm_mode_create_colorspace_property(st=
-ruct drm_connector *connector,
->   * Returns:
->   * Zero on success, negative errno on failure.
->   */
-> -int drm_mode_create_hdmi_colorspace_property(struct drm_connector *conne=
-ctor)
-> +int drm_mode_create_hdmi_colorspace_property(struct drm_connector *conne=
-ctor,
-> +					     u32 supported_colorspaces)
->  {
-> -	return drm_mode_create_colorspace_property(connector,
-> -						   hdmi_colorspaces,
-> -						   ARRAY_SIZE(hdmi_colorspaces));
-> +	u32 colorspaces =3D supported_colorspaces & hdmi_colorspaces;
-> +
-> +	return drm_mode_create_colorspace_property(connector, colorspaces);
->  }
->  EXPORT_SYMBOL(drm_mode_create_hdmi_colorspace_property);
-> =20
-> @@ -2021,11 +2028,12 @@ EXPORT_SYMBOL(drm_mode_create_hdmi_colorspace_pro=
-perty);
->   * Returns:
->   * Zero on success, negative errno on failure.
->   */
-> -int drm_mode_create_dp_colorspace_property(struct drm_connector *connect=
-or)
-> +int drm_mode_create_dp_colorspace_property(struct drm_connector *connect=
-or,
-> +					   u32 supported_colorspaces)
->  {
-> -	return drm_mode_create_colorspace_property(connector,
-> -						   dp_colorspaces,
-> -						   ARRAY_SIZE(dp_colorspaces));
-> +	u32 colorspaces =3D supported_colorspaces & dp_colorspaces;
-> +
-> +	return drm_mode_create_colorspace_property(connector, colorspaces);
->  }
->  EXPORT_SYMBOL(drm_mode_create_dp_colorspace_property);
-> =20
-> diff --git a/drivers/gpu/drm/i915/display/intel_connector.c b/drivers/gpu=
-/drm/i915/display/intel_connector.c
-> index 1dcc268927a2..6e7cef58a626 100644
-> --- a/drivers/gpu/drm/i915/display/intel_connector.c
-> +++ b/drivers/gpu/drm/i915/display/intel_connector.c
-> @@ -283,13 +283,13 @@ intel_attach_aspect_ratio_property(struct drm_conne=
-ctor *connector)
->  void
->  intel_attach_hdmi_colorspace_property(struct drm_connector *connector)
->  {
-> -	if (!drm_mode_create_hdmi_colorspace_property(connector))
-> +	if (!drm_mode_create_hdmi_colorspace_property(connector, 0xffffffff))
->  		drm_connector_attach_colorspace_property(connector);
+>   * Example usage:
+>   * Disable dsc passthrough, i.e.,: have dsc decoding at converver, not e=
+xternal RX
+> @@ -3326,6 +3381,8 @@ void crtc_debugfs_init(struct drm_crtc *crtc)
+>  #endif
+>  	debugfs_create_file("amdgpu_current_bpc", 0644, crtc->debugfs_entry,
+>  			    crtc, &amdgpu_current_bpc_fops);
+> +	debugfs_create_file("amdgpu_current_colorspace", 0644, crtc->debugfs_en=
+try,
+> +			    crtc, &amdgpu_current_colorspace_fops);
 >  }
 > =20
->  void
->  intel_attach_dp_colorspace_property(struct drm_connector *connector)
->  {
-> -	if (!drm_mode_create_dp_colorspace_property(connector))
-> +	if (!drm_mode_create_dp_colorspace_property(connector, 0xffffffff))
->  		drm_connector_attach_colorspace_property(connector);
->  }
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdm=
-i.c
-> index 6ab83296b0e4..8d08d6a36f37 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -416,7 +416,7 @@ static int vc4_hdmi_connector_init(struct drm_device =
-*dev,
->  	if (ret)
->  		return ret;
-> =20
-> -	ret =3D drm_mode_create_hdmi_colorspace_property(connector);
-> +	ret =3D drm_mode_create_hdmi_colorspace_property(connector, 0xffffffff);
->  	if (ret)
->  		return ret;
-> =20
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index edef65388c29..5825c6ab969b 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -30,6 +30,7 @@
->  #include <linux/notifier.h>
->  #include <drm/drm_mode_object.h>
->  #include <drm/drm_util.h>
-> +#include <drm/drm_property.h>
-> =20
->  #include <uapi/drm/drm_mode.h>
-> =20
-> @@ -393,6 +394,7 @@ enum drm_colorspace {
->  	DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED,
->  	DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT,
->  	DRM_MODE_COLORIMETRY_BT601_YCC,
-> +	DRM_MODE_COLORIMETRY_MAX
->  };
-> =20
->  /**
-> @@ -1818,8 +1820,10 @@ int drm_connector_attach_hdr_output_metadata_prope=
-rty(struct drm_connector *conn
->  bool drm_connector_atomic_hdr_metadata_equal(struct drm_connector_state =
-*old_state,
->  					     struct drm_connector_state *new_state);
->  int drm_mode_create_aspect_ratio_property(struct drm_device *dev);
-> -int drm_mode_create_hdmi_colorspace_property(struct drm_connector *conne=
-ctor);
-> -int drm_mode_create_dp_colorspace_property(struct drm_connector *connect=
-or);
-> +int drm_mode_create_hdmi_colorspace_property(struct drm_connector *conne=
-ctor,
-> +					     u32 supported_colorspaces);
-> +int drm_mode_create_dp_colorspace_property(struct drm_connector *connect=
-or,
-> +					   u32 supported_colorspaces);
->  int drm_mode_create_content_type_property(struct drm_device *dev);
->  int drm_mode_create_suggested_offset_properties(struct drm_device *dev);
-> =20
+>  /*
 
 
---Sig_/ov05sbRGd14hHbeFD_3F=Tf
+--Sig_//rYKCY.xiOVuBaa_tHSX4ID
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmOYVRgACgkQI1/ltBGq
-qqceXA/9Fra9AQS4R1de0YRMiC3KgxdmwaHwqzcYLt+oAdjpHuWpLQiozdrc60JA
-CWDSz17HQweJJGO6BwJyW/xU8tvtEXBtxyeJe++G6wtXVvFh1vt00tpzEmxlHt4P
-S+YmPVdQvt3E8V/z6UQjL6o5a8feOeQ4W91e7hbu3/tQFE+7UDeDRIHiUbCmZU7K
-fRCCK5Ed9Dl0/4udtqgTci0PKQzrSLp7NeiILt9I6BzogNsGMUDH3l4d1L6VWXaQ
-954orfh6P1Cujz7aaZNp3sdG6QQtmI5bxc92C2JOz5Ql8ZRALvFlsNpgT+lPX+us
-KYBlkG/c+/+M2EXigwWAMmTOpNNDXilfKhZKZSDLcL6HiO8s2TChz0BrTMM/RCFf
-yuFN8bN+qXeRZ4lZ8bYXP49V3ly+XGsFy0b6eQEzUQ7j/yOaxv2zkKRqfXO+1GIb
-m4XgL+WBsGfq/aw2yu1DfiwOQS0RBMyfombEP+gA68eRlGnnaBnjHE0FKhTnp2QN
-aW41nBi4mvml+md0u5Pv2HRmoQF+U+N0N42VoK0VrcyN6YJWM2MdTLJH0clBiEuW
-mvTZ1UnTXPIgTI526pOD+rzabS4KUiOHD22Ey/zZTk0cyPPSnT+s26K5y9QTi+FH
-6ihdGeFbq5BHF/ocywFjN1zd1g+ybU+65IwAZZzPUdal3rFOK0c=
-=ptRv
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmOYVY8ACgkQI1/ltBGq
+qqfBMw//WYpTOlb1D5lnkgfazVAKZ5rFyhipRgSEYRtQYS1mpLJSOl8efKNt+gaB
+8qmuKB/qXsYchFnTszpm4elMbaxR2Wi2BYGUBramQRgOfxxHMP4VE64bqqhgfZb+
+DTQHy3+R7OW+eST37kmOrQ28WiKN5eVlIqfrc0hMJ0kzy6pJOBjJYDNVj51mgnCg
+xHcIN1uU0uDhLnYUl0MxYmSi/ctFRFVA7kQ8wsvbagqFULGvPToXR0Se6+FeC3WI
+NMnoMSyLhgUHgbsuM8G8hQ9Th4uvtcutX3gcTgtXbhleNynAsrHU31iUTxxtK3aY
+4eV0GY1H1n99wH4qV/AWsvALbb7M+/Vu/OoNivCZKx5mOrQPgZQVPXnqLZ1ltU3c
+x6sR4gjhp2Xbbus96c6QPHimE6NEyic05R5jdh/GDGZCKTqaLZcbuahZF+stPfqG
+6JSBwmZixOnWf2wJvN8WC9uIw5A/2DFGNiYsXlEMZY57KmII23kgE1bSxRKS0VkU
+wqpd2WPsSJVDCxkI1lRBcyW/sidRpOSQb0gWFKJDhuVnvhdwi8thayVrli8/+mub
+lpOtjR6PLCSXnlxnURAEmNm2gG7UsTi+9tlm2aA6ntQ+I5thGAVnopOASSLgU3G0
+PK3CDetj54BGJXoHUsthuA2NtWAjHY4gSPqi1VZ9U2FHtGrHEho=
+=7M62
 -----END PGP SIGNATURE-----
 
---Sig_/ov05sbRGd14hHbeFD_3F=Tf--
+--Sig_//rYKCY.xiOVuBaa_tHSX4ID--
