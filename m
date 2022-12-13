@@ -2,62 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B743764B38B
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 11:48:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF92964B3A0
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 11:54:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8773F10E30E;
-	Tue, 13 Dec 2022 10:48:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEDCD10E2FF;
+	Tue, 13 Dec 2022 10:54:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8D0E10E308;
- Tue, 13 Dec 2022 10:48:10 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id x11so2875371ljh.7;
- Tue, 13 Dec 2022 02:48:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=uSaKpwoZTw6kBpVBo2/0gF4q7tbusn1lAFDcwIVJmBI=;
- b=WqgXF6g9VcryYo+atWdBvep2sFzW4XLhg4W2fX8MXtDWHxj6yJR/wMqpD8hG3OLIn7
- 4niEVfZt6X826saJFb0sz06HUJmmi+Opi6ZJgIukcf9WEXYXMMhWy4IAnqfOK7O1FJh6
- ZmFiLj31EgSR7GCFSkMb7dHd2XuPZaDab5Vm47aY9RoZ4jmpc00F2zxBealDnFST/Yho
- QY81wZQBWF0MPPRe8IdrbqjStrWaS7Lv8o/9/Ik20E00YOSXphfiIjLJfqTuHDJaEC07
- of5po7X/N9bFcM3eyHwyzqnthVm4EhqnOdBYafwgbm0goLuPoiIukFvCV3G1/kKPcBDU
- gRfQ==
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
+ [IPv6:2607:f8b0:4864:20::112c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBA2D10E2FF
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 10:54:10 +0000 (UTC)
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-3e45d25de97so186160557b3.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 02:54:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=MXsAlPTFFvncdyXw2byeMeo4fFQE5YBUhXEkgIML2YI=;
+ b=am9Tg4PQBmIbp0qQ+gJHc4g1F/mNW/noZZqMWeRbdyoTLhuQDOU0IR6X45MX5R8rzL
+ XeKQFa3Mh3Zs1U9s3WfKJoHs8XHaYF/vEFy3AbTZsJWjBVB2HOHHXf9QrFwaMTlgmduS
+ bF2ljD3jsIZ1vKP4i26UzFNdIXqRRLolH+SXM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uSaKpwoZTw6kBpVBo2/0gF4q7tbusn1lAFDcwIVJmBI=;
- b=r+Az+lpGw4BKVOGTrZYZ8X/G0H6Lm+T1jhmZbyGCczNGXj5p8d2fy4rCKFj/iLgpby
- tVBq9oZ7V5I/AsKXxqK9PGplQD5OLywHLUeFuiQdRJ8bf1fJU4OP9VqYSifv4Y8pS1hJ
- akNUH8gsqvKaiYRqCMT2UKx0iuhiwfMnMKAeDGUAZyOuTTlDcke/2aXxWgdLAXr/xW78
- od+GwmFEFrbp7IcHT0x/vbe/jkRkAkjgSfqKV2A2Pj6DlaZZf8G7m9BH4/fXYz6ue4FO
- kLLL6gahRpPQBuO+y66yE44qbYlNL811SWEu7vFFGdkOWey/YCppyKFy0O0j77jdhIh7
- fvFA==
-X-Gm-Message-State: ANoB5pkX5DYcuTjBqxatelrpUZEs0DQR/+WWWsIP1kcVmMzyGTBzyrP8
- 1PuAUqGMKAntd/oRnSmOkyY=
-X-Google-Smtp-Source: AA0mqf7oxEYYx52ognw5JCRXJJXjJLP0GHS6gf5TVkjcRCEhn/s5AFIg4mPW9HHQZPwGGnrgUfNqGg==
-X-Received: by 2002:a2e:a983:0:b0:278:eab6:7523 with SMTP id
- x3-20020a2ea983000000b00278eab67523mr9410839ljq.37.1670928489109; 
- Tue, 13 Dec 2022 02:48:09 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- f15-20020a19dc4f000000b004b593fd84ccsm313689lfj.221.2022.12.13.02.48.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Dec 2022 02:48:08 -0800 (PST)
-Date: Tue, 13 Dec 2022 12:48:05 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH 16/16] drm/amd/display: Don't restrict bpc to 8 bpc
-Message-ID: <20221213124805.7d48fe76@eldfell>
-In-Reply-To: <20221212182137.374625-17-harry.wentland@amd.com>
-References: <20221212182137.374625-1-harry.wentland@amd.com>
- <20221212182137.374625-17-harry.wentland@amd.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=MXsAlPTFFvncdyXw2byeMeo4fFQE5YBUhXEkgIML2YI=;
+ b=xyYDvocd4zugH9q8s/LRz8llyt+kSJK7hWH1MPtUB3M4giVHaxuYwcJ8xRVTDZG32y
+ UDYd4QzrJqFBMveUUpAV7SvuQPcYe8H8+oRYWkwoELuLJqvcvKaqN18BdRjV6SKdQJ7b
+ M8FvrxpbWLuS+nfBR1IZrNoRbEwtgZNjZzCLXIre9JSl4AIP7UMBYfn+nIKMPh4m+9c8
+ mjVLe3r9qoAmJIS9YHda7vMP6q1+j3U8lZnjr5CwiJUsJaT0pCnKPETfUBVkywE74q8b
+ PZ7QEzrTg9FOmH3S2z4T3sdCZRPc3vXQBhPLFsMTm26rNK3KiaeIKPjI1enye1/dg2Ad
+ iRZA==
+X-Gm-Message-State: ANoB5pnOqgP9DIf65HQuaC/KTEs3Ppn+epYDVSzGhCVPYg/saG2nyVHK
+ a80hWQ1s7XQFNGMSaPmGOZRZdv/B/hIfP/gRGZL7zw==
+X-Google-Smtp-Source: AA0mqf7iw8iRtzG5evBmzQAbWdt7RxfkRTJ+sPenp2iurCIb0Z8UUU1DaUSR6lqSJdWaduAY4ptn8U2EQCZFzSb5c+Y=
+X-Received: by 2002:a81:9a13:0:b0:398:ab7a:aba9 with SMTP id
+ r19-20020a819a13000000b00398ab7aaba9mr21032401ywg.106.1670928849851; Tue, 13
+ Dec 2022 02:54:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/zgRy6XYQm3k5F0uhSAbhR.T";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20221209152343.180139-1-jagan@amarulasolutions.com>
+ <CGME20221209152722eucas1p2534c4e4837d3006683fc57c0dcb1ab52@eucas1p2.samsung.com>
+ <20221209152343.180139-11-jagan@amarulasolutions.com>
+ <df99edbd-7150-7274-2c5e-fe6d4ed4d92d@samsung.com>
+ <CAMty3ZCCscqE8e_Rr9KpmUONxh4aCBWB7qh4xSvuCGrUT4kUeQ@mail.gmail.com>
+ <b1e38212-985c-21c9-58a5-7504719c3af8@samsung.com>
+ <ed13b791-ab47-7aaa-7993-bb49478e7f2a@samsung.com>
+ <CAMty3ZBzpmwAV7e7wdBu+GOmg6M7xqqc46QtGzuLsnv2kT0Zdw@mail.gmail.com>
+ <395a4762-70fe-1caf-579f-2b5952232470@samsung.com>
+ <CAMty3ZABHUjSHRBR6RCnyE19HOWknw67s__0WBKgMnX5nQBy9w@mail.gmail.com>
+ <CAOMZO5CPfgYUhXO_JZJvVBoFpddw+LHbd58a2TzPd2nWjzx_rg@mail.gmail.com>
+In-Reply-To: <CAOMZO5CPfgYUhXO_JZJvVBoFpddw+LHbd58a2TzPd2nWjzx_rg@mail.gmail.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Tue, 13 Dec 2022 16:23:58 +0530
+Message-ID: <CAMty3ZD6fVps-PE=iNR2Zr0_qz--h4wcjO5Wa1czA7w7VN2SqQ@mail.gmail.com>
+Subject: Re: [PATCH v9 10/18] drm: bridge: samsung-dsim: Init exynos host for
+ first DSI transfer
+To: Fabio Estevam <festevam@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,101 +74,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
- Uma Shankar <uma.shankar@intel.com>, amd-gfx@lists.freedesktop.org,
- Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
+Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>, Robert Foss <robert.foss@linaro.org>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Neil Armstrong <narmstrong@linaro.org>, dri-devel@lists.freedesktop.org,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/zgRy6XYQm3k5F0uhSAbhR.T
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Hi Fabio,
 
-On Mon, 12 Dec 2022 13:21:37 -0500
-Harry Wentland <harry.wentland@amd.com> wrote:
+On Tue, Dec 13, 2022 at 4:17 PM Fabio Estevam <festevam@gmail.com> wrote:
+>
+> Hi Jagan,
+>
+> On Tue, Dec 13, 2022 at 7:40 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
+>
+> > https://gitlab.com/openedev/kernel/-/commits/imx8mm-dsi-v10
+>
+> Please preserve the authorship of the patches.
+>
+> This one is from Marek Vasut:
+> https://gitlab.com/openedev/kernel/-/commit/e244fa552402caebcf48cd6710fd387429f7f680
 
-> This will let us pass kms_hdr.bpc_switch.
->=20
-> I don't see any good reasons why we still need to
-> limit bpc to 8 bpc and doing so is problematic when
-> we enable HDR.
->=20
-> If I remember correctly there might have been some
-> displays out there where the advertised link bandwidth
-> was not large enough to drive the default timing at
-> max bpc. This would leave to an atomic commit/check
-> failure which should really be handled in compositors
-> with some sort of fallback mechanism.
->=20
-> If this somehow turns out to still be an issue I
-> suggest we add a module parameter to allow users to
-> limit the max_bpc to a desired value.
->=20
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> Cc: Vitaly.Prosyak@amd.com
-> Cc: Uma Shankar <uma.shankar@intel.com>
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Cc: Joshua Ashton <joshua@froggi.es>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: amd-gfx@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/=
-gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index d0c071000a5d..396e345f5d6b 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -7115,7 +7115,7 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_=
-display_manager *dm,
->  		drm_connector_attach_max_bpc_property(&aconnector->base, 8, 16);
-> =20
->  	/* This defaults to the max in the range, but we want 8bpc for non-edp.=
- */
-> -	aconnector->base.state->max_bpc =3D (connector_type =3D=3D DRM_MODE_CON=
-NECTOR_eDP) ? 16 : 8;
-> +	aconnector->base.state->max_bpc =3D 16;
+The original patch was changed with respect to this one and that is
+the reason I have to keep his signed-off-by.
 
-Hi,
-
-missed to delete the comment. If it really defaults, then can't you
-just drop the assignment?
-
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-
-Thanks,
-pq
-
-
->  	aconnector->base.state->max_requested_bpc =3D aconnector->base.state->m=
-ax_bpc;
-> =20
->  	if (connector_type =3D=3D DRM_MODE_CONNECTOR_eDP &&
-
-
---Sig_/zgRy6XYQm3k5F0uhSAbhR.T
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmOYWGUACgkQI1/ltBGq
-qqcJww//SJvkcGhIp+HzTooQ5i7uNB5Zoc1pAMg3BFMOjl3EhHTdUmCJZPC+s8HW
-fYsAjZYngxmLrcPlAExfCF3dFD0adIUuZMvUdQlZRD4bJpmvvhndGItw4yrDBN1+
-CIE6Pl/RicIbFtYJld10W+hbbfPZT1993sTmD58Z0Z4RRKm+m0Rc8R2+NTGBSnYV
-NIreDez47fLGgofE84vvQXYhmpDakv/tS1V5OpzePOa/EA1PdWVt8pfYf+nBEWCK
-oUwbchV0PHiLjv8mnYCZG88LB7wwBFxl27zj9CHOPr4vc3nDKjr64JMkw6yD9HcU
-cniajCTZjJr0JipHFu612CAp2DS3a5m9AnlBdIlUNiLEIwr3usEvdIkijv/rmnOb
-o7pBT14ZKm3+uaHoU9ykC6/y3V8JwLGrAA6CBrJ+C4BNvHkareIkiOmrBQkPM9F1
-LSZ/sXp4ist7beRjRQKGyyd9q6aM8lvo8nqB2QoyaAS877M+eU1n7kj4zKW/UGPX
-ikAfxO801iCEalsdGQ9FaKNLh47/BuRNxylUyGii9tj2tXwVk3/x6exdVkXZR2kY
-UpI+VDACIuwwBP5vNZ0fJZI3gHCrJsdcF3CteK7OuAO9+IStBknMnjnrMpFbxuXC
-DXe4SmLaL5pQC3OVKAzAOTi49jnR89kdGrwjTzP0okH2ITi8jK4=
-=pmn5
------END PGP SIGNATURE-----
-
---Sig_/zgRy6XYQm3k5F0uhSAbhR.T--
+Jagan.
