@@ -2,62 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 506F164B357
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 11:39:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EE3264B35E
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 11:41:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 564A410E2ED;
-	Tue, 13 Dec 2022 10:39:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42DA810E305;
+	Tue, 13 Dec 2022 10:40:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBC9210E2ED;
- Tue, 13 Dec 2022 10:39:38 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id a19so2917153ljk.0;
- Tue, 13 Dec 2022 02:39:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=5ZnIfDqeuJAoltebRrriv0fzPNKDJ1uZM7SmoLwlM90=;
- b=hDcCBSFsU8zdwJErbtWFz+ILGV8TuB7En+wKAHOnuNO2DWH0ylWkYeFwQG+ytHGhXQ
- jUEBoqZZlYlsVyKMoyI6Hf4gvfaBR++UtVzoyJrRCFR8kG3RYXYC9tG1zEW5wnlT62qR
- YTCi3VonH8AjZXI1595riJfFl3mVjMXsq4smdTYato4Ffx4Mhxtt9wczbLL7j4Z1kYgk
- AVm44Vo9dIvY4Q8IDXC5+ZLe6j7ERhspQ1eFc353H9WoeIAQNPRe/If6u9a46zCUDF22
- LGh5PRrTOQJpFKt61qoQ2JPbJpJ2VFj+CcZJ/fsLIygouJO3yuwsmPzZ/9Wko12nvIZ6
- XdTQ==
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com
+ [IPv6:2607:f8b0:4864:20::1136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D1C410E305
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 10:40:40 +0000 (UTC)
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-3e78d07ab4fso185995727b3.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 02:40:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OgaNyZ5x1h+jMKektNE6VuQR1NP6W7drX5dxHtMPlQI=;
+ b=RDXEgdT6yVC7DW5EyDhcIf6vwcRJIWkt3UP0rOA11lSxdm59tY0IsUMdQp2WycH7Pc
+ Z3h7MMckJvu0VKwzFCwRsgQyqX0TGyQFyMX3HmGC5Seb19hFKucWFtFpfjPIEOCLTl7Q
+ vvqxaAQqrtyRQDOlLJx/Ip/6Kk4wyJSxwfMcg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5ZnIfDqeuJAoltebRrriv0fzPNKDJ1uZM7SmoLwlM90=;
- b=1Ic3MW0bB0VIvYObHMHudDTJIXyOsznzB5PBU1aBOiXhMBgzTS7g8+YzF6+Z9/kQ+s
- rBQlpV4esmYy/xUqOGMHOATVVWAucSsS6+cUil0eBe+s5mHbSiarmsDf9381wdl7QjfF
- AfhE8XBKmMFHqzKdUgUUfDU4HscJTm+YN/OwPsFyQJHGFlqfMjsCV2tT+z2/+zwU+wko
- deXTjP1Sn1szpsyHHU6S50qttk94Z4MCMWI6dAF3OywSolDQmU4XDypcM+3jMJAZCoHa
- 0s0TfmlbvRi0f+aEUaw5bE+zHWXkXKkcDUCWFr88yB04UepfjWB1fuZE015cB/DFB9Tv
- srLA==
-X-Gm-Message-State: ANoB5pmK/rh18C2yTGTUP/dDvMYepoaHBC1og7+y4QCpAljVeIoqGTso
- Eyx5jJYCDLs8WC02c6Av7oQ=
-X-Google-Smtp-Source: AA0mqf6XR9whQf5X4Y50tWK7RpMnijJx9ldfIi+AgJJdfKBqycds0g8jL/Wuslf/GnslFQCILf6jUQ==
-X-Received: by 2002:a05:651c:504:b0:277:25a:2ff0 with SMTP id
- o4-20020a05651c050400b00277025a2ff0mr6130642ljp.19.1670927976911; 
- Tue, 13 Dec 2022 02:39:36 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- k4-20020a2ea264000000b00279e0b8bae7sm208731ljm.65.2022.12.13.02.39.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Dec 2022 02:39:36 -0800 (PST)
-Date: Tue, 13 Dec 2022 12:39:32 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH 04/16] drm/connector: Convert DRM_MODE_COLORIMETRY to enum
-Message-ID: <20221213123932.67edc8dc@eldfell>
-In-Reply-To: <20221212182137.374625-5-harry.wentland@amd.com>
-References: <20221212182137.374625-1-harry.wentland@amd.com>
- <20221212182137.374625-5-harry.wentland@amd.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OgaNyZ5x1h+jMKektNE6VuQR1NP6W7drX5dxHtMPlQI=;
+ b=xn2JrvGdsRTWBlP1IVb1Jqou+BNdO1/3bNFWaxdeYoEDKKTr/3m40V9AbIY0mcL9jq
+ ebWG7xc+G4MmOdjW0IEo6PeCna5+CmRspZbQbfngnZd1zlUuK5w/NIcXIeUznneSKRQJ
+ 2WmiabY3hBqADFI4gJVpUc5xx42yQMuxojI0D6YtliBfro4C97u6WDmeqVtXmTERqlu6
+ GjjXBpi3bWC8+3/Mdm2z9PLKQuKStJBDm/EJDi7/6Wad0KH8+4oEufhDbPUZVbq3M/To
+ 7sRiPJ0GU3Dk3cn5iM+Nxgrh2kVPKJxlqCrTtWcKLyiZaXS3y0EPwn4ANVB3pHTVHx8a
+ 8BEg==
+X-Gm-Message-State: ANoB5pmQrYmLp3PCO901l75rItYIoGSBN2olpXdwmsXNyU88MlU1BE4v
+ FcGX5eVj8AjJUl4Fi5wItcplcKjaneFjkJ68X7G+Dw==
+X-Google-Smtp-Source: AA0mqf5DankXuvzmLW7KEnaFY93f/DEga3DelFoCUPUnc4GwBdl+S8ngxEG2JOAUAfhFyIJW08TXMjSkik/hyNM6QKo=
+X-Received: by 2002:a81:7357:0:b0:407:7bc3:d949 with SMTP id
+ o84-20020a817357000000b004077bc3d949mr2669877ywc.186.1670928039143; Tue, 13
+ Dec 2022 02:40:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/gbTELSdSbdVWbrnHWsmVUFl";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20221209152343.180139-1-jagan@amarulasolutions.com>
+ <CGME20221209152722eucas1p2534c4e4837d3006683fc57c0dcb1ab52@eucas1p2.samsung.com>
+ <20221209152343.180139-11-jagan@amarulasolutions.com>
+ <df99edbd-7150-7274-2c5e-fe6d4ed4d92d@samsung.com>
+ <CAMty3ZCCscqE8e_Rr9KpmUONxh4aCBWB7qh4xSvuCGrUT4kUeQ@mail.gmail.com>
+ <b1e38212-985c-21c9-58a5-7504719c3af8@samsung.com>
+ <ed13b791-ab47-7aaa-7993-bb49478e7f2a@samsung.com>
+ <CAMty3ZBzpmwAV7e7wdBu+GOmg6M7xqqc46QtGzuLsnv2kT0Zdw@mail.gmail.com>
+ <395a4762-70fe-1caf-579f-2b5952232470@samsung.com>
+In-Reply-To: <395a4762-70fe-1caf-579f-2b5952232470@samsung.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Tue, 13 Dec 2022 16:10:27 +0530
+Message-ID: <CAMty3ZABHUjSHRBR6RCnyE19HOWknw67s__0WBKgMnX5nQBy9w@mail.gmail.com>
+Subject: Re: [PATCH v9 10/18] drm: bridge: samsung-dsim: Init exynos host for
+ first DSI transfer
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,151 +74,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
- Uma Shankar <uma.shankar@intel.com>, amd-gfx@lists.freedesktop.org,
- Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
+Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>, dri-devel@lists.freedesktop.org,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/gbTELSdSbdVWbrnHWsmVUFl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Hi Marek,
 
-On Mon, 12 Dec 2022 13:21:25 -0500
-Harry Wentland <harry.wentland@amd.com> wrote:
-
-> This allows us to use strongly typed arguments.
->=20
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> Cc: Vitaly.Prosyak@amd.com
-> Cc: Uma Shankar <uma.shankar@intel.com>
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Cc: Joshua Ashton <joshua@froggi.es>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: amd-gfx@lists.freedesktop.org
+On Tue, Dec 13, 2022 at 2:28 PM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+>
+> On 12.12.2022 16:33, Jagan Teki wrote:
+>
+> On Mon, Dec 12, 2022 at 8:52 PM Marek Szyprowski
+> <m.szyprowski@samsung.com> wrote:
+>
+> On 12.12.2022 09:43, Marek Szyprowski wrote:
+>
+> On 12.12.2022 09:32, Jagan Teki wrote:
+>
+> On Mon, Dec 12, 2022 at 1:56 PM Marek Szyprowski
+> <m.szyprowski@samsung.com> wrote:
+>
+> Hi Jagan,
+>
+> On 09.12.2022 16:23, Jagan Teki wrote:
+>
+> The existing drm panels and bridges in Exynos required host
+> initialization during the first DSI command transfer even though
+> the initialization was done before.
+>
+> This host reinitialization is handled via DSIM_STATE_REINITIALIZED
+> flag and triggers from host transfer.
+>
+> Do this exclusively for Exynos.
+>
+> Initial logic is derived from Marek Szyprowski changes.
+>
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 > ---
->  include/drm/display/drm_dp.h |  2 +-
->  include/drm/drm_connector.h  | 47 ++++++++++++++++++------------------
->  2 files changed, 25 insertions(+), 24 deletions(-)
->=20
-> diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
-> index 4d0abe4c7ea9..b98697459f9c 100644
-> --- a/include/drm/display/drm_dp.h
-> +++ b/include/drm/display/drm_dp.h
-> @@ -1615,7 +1615,7 @@ enum dp_pixelformat {
->   *
->   * This enum is used to indicate DP VSC SDP Colorimetry formats.
->   * It is based on DP 1.4 spec [Table 2-117: VSC SDP Payload for DB16 thr=
-ough
-> - * DB18] and a name of enum member follows DRM_MODE_COLORIMETRY definiti=
-on.
-> + * DB18] and a name of enum member follows &enum drm_colorimetry definit=
-ion.
->   *
->   * @DP_COLORIMETRY_DEFAULT: sRGB (IEC 61966-2-1) or
->   *                          ITU-R BT.601 colorimetry format
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 62c814241828..edef65388c29 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -371,28 +371,29 @@ enum drm_privacy_screen_status {
->   * a colorspace property which will be created and exposed to
->   * userspace.
->   */
-> -
-> -/* For Default case, driver will set the colorspace */
-> -#define DRM_MODE_COLORIMETRY_DEFAULT			0
-> -/* CEA 861 Normal Colorimetry options */
-> -#define DRM_MODE_COLORIMETRY_SMPTE_170M_YCC		1
-> -#define DRM_MODE_COLORIMETRY_BT709_YCC			2
-> -/* CEA 861 Extended Colorimetry Options */
-> -#define DRM_MODE_COLORIMETRY_XVYCC_601			3
-> -#define DRM_MODE_COLORIMETRY_XVYCC_709			4
-> -#define DRM_MODE_COLORIMETRY_SYCC_601			5
-> -#define DRM_MODE_COLORIMETRY_OPYCC_601			6
-> -#define DRM_MODE_COLORIMETRY_OPRGB			7
-> -#define DRM_MODE_COLORIMETRY_BT2020_CYCC		8
-> -#define DRM_MODE_COLORIMETRY_BT2020_RGB			9
-> -#define DRM_MODE_COLORIMETRY_BT2020_YCC			10
-> -/* Additional Colorimetry extension added as part of CTA 861.G */
-> -#define DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65		11
-> -#define DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER		12
-> -/* Additional Colorimetry Options added for DP 1.4a VSC Colorimetry Form=
-at */
-> -#define DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED		13
-> -#define DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT		14
-> -#define DRM_MODE_COLORIMETRY_BT601_YCC			15
-> +enum drm_colorspace {
-> +	/* For Default case, driver will set the colorspace */
-> +	DRM_MODE_COLORIMETRY_DEFAULT,
-> +	/* CEA 861 Normal Colorimetry options */
-> +	DRM_MODE_COLORIMETRY_SMPTE_170M_YCC,
-> +	DRM_MODE_COLORIMETRY_BT709_YCC,
-> +	/* CEA 861 Extended Colorimetry Options */
-> +	DRM_MODE_COLORIMETRY_XVYCC_601,
-> +	DRM_MODE_COLORIMETRY_XVYCC_709,
-> +	DRM_MODE_COLORIMETRY_SYCC_601,
-> +	DRM_MODE_COLORIMETRY_OPYCC_601,
-> +	DRM_MODE_COLORIMETRY_OPRGB,
-> +	DRM_MODE_COLORIMETRY_BT2020_CYCC,
-> +	DRM_MODE_COLORIMETRY_BT2020_RGB,
-> +	DRM_MODE_COLORIMETRY_BT2020_YCC,
-> +	/* Additional Colorimetry extension added as part of CTA 861.G */
-> +	DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65,
-> +	DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER,
-> +	/* Additional Colorimetry Options added for DP 1.4a VSC Colorimetry For=
-mat */
-> +	DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED,
-> +	DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT,
-> +	DRM_MODE_COLORIMETRY_BT601_YCC,
-> +};
+> Changes from v9:
+> - derived from v8
+> - added comments
+>
+>    drivers/gpu/drm/bridge/samsung-dsim.c | 15 ++++++++++++++-
+>    include/drm/bridge/samsung-dsim.h     |  5 +++--
+>    2 files changed, 17 insertions(+), 3 deletions(-)
+>
+> The following chunk is missing compared to v8:
+>
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
+> b/drivers/gpu/drm/bridge/samsung-dsim.c
+> index 6e9ad955ebd3..6a9403cb92ae 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -1315,7 +1315,9 @@ static int samsung_dsim_init(struct samsung_dsim
+> *dsi, unsigned int flag)
+>                   return 0;
+>
+>           samsung_dsim_reset(dsi);
+> -       samsung_dsim_enable_irq(dsi);
+> +
+> +       if (!(dsi->state & DSIM_STATE_INITIALIZED))
+> +               samsung_dsim_enable_irq(dsi);
+>
+> Is this really required? does it make sure that the IRQ does not
+> enable twice?
+>
+> That's what that check does. Without the 'if (!(dsi->state &
+> DSIM_STATE_INITIALIZED))' check, the irqs will be enabled twice (first
+> from pre_enable, then from the first transfer), what leads to a
+> warning from irq core.
+>
+> I've just noticed that we also would need to clear the
+> DSIM_STATE_REINITIALIZED flag in dsim_suspend.
+>
+> However I've found that a bit simpler patch would keep the current code
+> flow for Exynos instead of this reinitialization hack. This can be
+> applied on the "[PATCH v9 09/18] drm: bridge: samsung-dsim: Add host
+> init in pre_enable" patch:
+>
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
+> b/drivers/gpu/drm/bridge/samsung-dsim.c
+> index 0b2e52585485..acc95c61ae45 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -1291,9 +1291,11 @@ static void samsung_dsim_atomic_pre_enable(struct
+> drm_bridge *bridge,
+>
+>          dsi->state |=3D DSIM_STATE_ENABLED;
+>
+> -       ret =3D samsung_dsim_init(dsi, DSIM_STATE_INITIALIZED);
+> -       if (ret)
+> -               return;
+> +       if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type)) {
+> +               ret =3D samsung_dsim_init(dsi, DSIM_STATE_INITIALIZED);
+> +               if (ret)
+> +                       return;
+> +       }
+>
+> Sorry, I don't understand this. Does it mean Exynos doesn't need to
+> init host in pre_enable? If I remember correctly even though the host
+> is initialized it has to reinitialize during the first transfer - This
+> is what the Exynos requirement is. Please correct or explain here.
+>
+> This is a matter of enabling power regulator(s) in the right order and do=
+ing the host initialization in the right moment. It was never a matter of r=
+e-initialization. See the current code for the reference (it uses the same =
+approach as my above change). I've already explained that here:
+>
+> https://lore.kernel.org/all/e96197f9-948a-997e-5453-9f9d179b5f5a@samsung.=
+com/
+>
+> If you would like to see the exact proper moment of the dsi host initiali=
+zation on the Exynos see the code here:
+>
+> https://github.com/mszyprow/linux/tree/v5.18-next-20220511-dsi-rework and=
+ patches adding mipi_dsi_host_init() to panel/bridge drivers.
 
-Hi,
+As I said before, the downstream bridge needs an explicit call to host
+init via mipi_dsi_host_init - this is indeed not a usual use-case
+scenario. Let's handle this with a REINIT fix and see if we can update
+this later to handle both scenarios.
 
-what's the entry for "the traditional sRGB"?
+Would you please test this repo, I have included all.
 
-It cannot be DRM_MODE_COLORIMETRY_DEFAULT, because the doc here says
-that it maps to some driver-defined entry which may be something else.
-
+https://gitlab.com/openedev/kernel/-/commits/imx8mm-dsi-v10
 
 Thanks,
-pq
-
-> =20
->  /**
->   * enum drm_bus_flags - bus_flags info for &drm_display_info
-> @@ -825,7 +826,7 @@ struct drm_connector_state {
->  	 * colorspace change on Sink. This is most commonly used to switch
->  	 * to wider color gamuts like BT2020.
->  	 */
-> -	u32 colorspace;
-> +	enum drm_colorspace colorspace;
-> =20
->  	/**
->  	 * @writeback_job: Writeback job for writeback connectors
-
-
---Sig_/gbTELSdSbdVWbrnHWsmVUFl
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmOYVmQACgkQI1/ltBGq
-qqe4bg/+J7czvadbLYVkM1DR2MrwIrLZpBXsfsN8RNtgbGGVO3nP7UMgPGvgBIu4
-oQH4VL2MdWqbqM+hzj6uJ44iGVwiRsdP5X7P05AQ/7O/cx1NrZsafh2z/XN+6srr
-MtB0Z+lEWDHOLQUQD4VUbBpAv/uFaq7Jei+uXuFj5eYX+HPW12CdZOmHjXQFt/Bj
-fHEVEeG5oxf05tVVdWhQohX4NWnZB+YiKmEREscT54MEKmJCfzx3qoisvCCNZC8W
-zRWmxgXR3m5n6URBZS7SSZBn8Y/XkdqK0XKjKEfEM7NLrI2NYJIL3fwMN3Ot8SO9
-cdi1RskLxRlskNFLTCxXZ5rth7wEsS/S/PEYhIfVwW7Mt6ivrxL4XR32oeObb4AS
-KQDaawhi+6+mJ5/okhH55F4KBPdOZVJvCYKaCYNCIRhQ/4w1zIsdLTXlU5IJwuwb
-FjAGcX9uXC/I5pWPu768cZeudfc4JRW2/U+lbzc9pRJ5hVUi33T4tBSYWi5ZQvSd
-IDnTSoTsOIjWo8501+ulNAqOr+0a6tmhxC9rZ/t8+XI5qbzVBDdiTnKbgHMXt4pf
-xfUzzXi7TpPyq0lTultn9mrKh3tNRlD3yF+iFwBjzuadIGolPgn4qKVbLZs/X24l
-Oz+cEknOvOBuYfwYA3LqT+W1LD3MTsaCOT+GUwOh1StSucWvo2A=
-=IXfr
------END PGP SIGNATURE-----
-
---Sig_/gbTELSdSbdVWbrnHWsmVUFl--
+Jagan.
