@@ -2,32 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A610A64C086
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 00:23:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7188564C07B
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 00:23:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D795110E387;
-	Tue, 13 Dec 2022 23:23:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA7C910E388;
+	Tue, 13 Dec 2022 23:23:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7614010E387
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 23:22:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F13110E385;
+ Tue, 13 Dec 2022 23:22:56 +0000 (UTC)
 Received: from localhost.localdomain (94-209-172-39.cable.dynamic.v4.ziggo.nl
  [94.209.172.39])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id B691E1F99C;
- Wed, 14 Dec 2022 00:22:16 +0100 (CET)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 54CCF200AC;
+ Wed, 14 Dec 2022 00:22:24 +0100 (CET)
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Vinod Koul <vkoul@kernel.org>
-Subject: [RFC PATCH 0/6] drm/msm: DSC Electric Boogaloo for sm8[12]50
-Date: Wed, 14 Dec 2022 00:22:01 +0100
-Message-Id: <20221213232207.113607-1-marijn.suijten@somainline.org>
+Subject: [RFC PATCH 1/6] drm/msm/dpu1: Implement DSC binding to PP block for
+ CTL V1
+Date: Wed, 14 Dec 2022 00:22:02 +0100
+Message-Id: <20221213232207.113607-2-marijn.suijten@somainline.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221213232207.113607-1-marijn.suijten@somainline.org>
+References: <20221213232207.113607-1-marijn.suijten@somainline.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,53 +65,119 @@ Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This preliminary Display Stream Compression support package for
-(initially tested on) sm8[12]50 is based on comparing DSC behaviour
-between downstream and mainline.  Some new callbacks are added (for
-binding blocks on active CTLs), logic bugs are corrected, zeroed struct
-members are now assigned proper values, and RM allocation and hw block
-retrieval now hand out (or not) DSC blocks without causing null-pointer
-dereferences.
+All V1 CTL blocks (active CTLs) explicitly bind the pixel output from a
+DSC block to a PINGPONG block by setting the PINGPONG idx in a DSC
+hardware register.
 
-Unfortunately it is not yet enough to get rid of completely corrupted
-display output on the boards I tested here:
-- Sony Xperia 1 (sm8150), 1644x3840 or 1096x2560 pixels;
-- Sony Xperia 5II (sm8250), 1080x2520, at 60 or 120Hz;
-- (can include more Xperia boards if desired)
-
-Both devices use the DUALPIPE_DSCMERGE topology downstream: dual LM, PP
-and DSC, but only a single INTF/encoder/DSI-link.
-
-Hopefully this spawns some community/upstream interest to help rootcause
-our corruption issues (after we open a drm/msm report on GitLab for more
-appropriate tracking).
-
-The Sony Xperia XZ3 (sdm845) was fully tested and validated with this
-series to not cause any regressions (an one of the math fixes now allows
-us to change slice_count in the panel driver, which would corrupt
-previously).
-
-Marijn Suijten (6):
-  drm/msm/dpu1: Implement DSC binding to PP block for CTL V1
-  drm/msm/dpu1: Add DSC config for sm8150 and sm8250
-  drm/msm/dpu1: Wire up DSC mask for active CTL configuration
-  drm/msm/dsi: Use DSC slice(s) packet size to compute word count
-  drm/msm/dsi: Flip greater-than check for slice_count and
-    slice_per_intf
-  drm/msm/dpu: Disallow unallocated (DSC) resources to be returned
-
+Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+---
  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |  3 +++
- .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  |  1 +
- .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |  1 +
- .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |  2 ++
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 23 +++++++++++-----
  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  9 +++++++
  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c    | 27 +++++++++++++++++++
  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h    |  4 +++
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        | 10 +++++++
- drivers/gpu/drm/msm/dsi/dsi_host.c            |  6 ++---
- 10 files changed, 77 insertions(+), 9 deletions(-)
+ 4 files changed, 43 insertions(+)
 
---
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 9c6817b5a194..c17ac85eb447 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -1830,6 +1830,9 @@ static void dpu_encoder_dsc_pipe_cfg(struct dpu_hw_dsc *hw_dsc,
+ 	if (hw_pp->ops.setup_dsc)
+ 		hw_pp->ops.setup_dsc(hw_pp);
+ 
++	if (hw_dsc->ops.dsc_bind_pingpong_blk)
++		hw_dsc->ops.dsc_bind_pingpong_blk(hw_dsc, true, hw_pp->idx);
++
+ 	if (hw_pp->ops.enable_dsc)
+ 		hw_pp->ops.enable_dsc(hw_pp);
+ }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index c160dae95a69..96f849907aa2 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -268,6 +268,15 @@ enum {
+ 	DPU_VBIF_MAX
+ };
+ 
++/**
++ * DSC features
++ * @DPU_DSC_OUTPUT_CTRL       Configure which PINGPONG block gets
++ *                            the pixel output from this DSC.
++ */
++enum {
++	DPU_DSC_OUTPUT_CTRL = 0x1,
++};
++
+ /**
+  * MACRO DPU_HW_BLK_INFO - information of HW blocks inside DPU
+  * @name:              string name for debug purposes
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+index 3662df698dae..619926da1441 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+@@ -29,6 +29,8 @@
+ #define DSC_RANGE_MAX_QP                0x0B0
+ #define DSC_RANGE_BPG_OFFSET            0x0EC
+ 
++#define DSC_CTL(m) (0x1800 - 0x3FC * (m - DSC_0))
++
+ static void dpu_hw_dsc_disable(struct dpu_hw_dsc *dsc)
+ {
+ 	struct dpu_hw_blk_reg_map *c = &dsc->hw;
+@@ -150,6 +152,29 @@ static void dpu_hw_dsc_config_thresh(struct dpu_hw_dsc *hw_dsc,
+ 	}
+ }
+ 
++static void dpu_hw_dsc_bind_pingpong_blk(
++		struct dpu_hw_dsc *hw_dsc,
++		bool enable,
++		const enum dpu_pingpong pp)
++{
++	struct dpu_hw_blk_reg_map *c = &hw_dsc->hw;
++	int mux_cfg = 0xF;
++	u32 dsc_ctl_offset;
++
++	dsc_ctl_offset = DSC_CTL(hw_dsc->idx);
++
++	if (enable)
++		mux_cfg = (pp - PINGPONG_0) & 0x7;
++
++	DRM_DEBUG_KMS("%s dsc:%d %s pp:%d\n",
++			enable ? "Binding" : "Unbinding",
++			hw_dsc->idx - DSC_0,
++			enable ? "to" : "from",
++			pp - PINGPONG_0);
++
++	DPU_REG_WRITE(c, dsc_ctl_offset, mux_cfg);
++}
++
+ static struct dpu_dsc_cfg *_dsc_offset(enum dpu_dsc dsc,
+ 				       const struct dpu_mdss_cfg *m,
+ 				       void __iomem *addr,
+@@ -174,6 +199,8 @@ static void _setup_dsc_ops(struct dpu_hw_dsc_ops *ops,
+ 	ops->dsc_disable = dpu_hw_dsc_disable;
+ 	ops->dsc_config = dpu_hw_dsc_config;
+ 	ops->dsc_config_thresh = dpu_hw_dsc_config_thresh;
++	if (cap & BIT(DPU_DSC_OUTPUT_CTRL))
++		ops->dsc_bind_pingpong_blk = dpu_hw_dsc_bind_pingpong_blk;
+ };
+ 
+ struct dpu_hw_dsc *dpu_hw_dsc_init(enum dpu_dsc idx, void __iomem *addr,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+index c0b77fe1a696..ae9b5db53d7f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+@@ -42,6 +42,10 @@ struct dpu_hw_dsc_ops {
+ 	 */
+ 	void (*dsc_config_thresh)(struct dpu_hw_dsc *hw_dsc,
+ 				  struct drm_dsc_config *dsc);
++
++	void (*dsc_bind_pingpong_blk)(struct dpu_hw_dsc *hw_dsc,
++				  bool enable,
++				  enum dpu_pingpong pp);
+ };
+ 
+ struct dpu_hw_dsc {
+-- 
 2.38.1
 
