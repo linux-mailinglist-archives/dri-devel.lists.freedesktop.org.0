@@ -2,40 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2EA664AC17
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 01:17:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E7664AC5D
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 01:25:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E65A10E2B3;
-	Tue, 13 Dec 2022 00:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8255F10E2BE;
+	Tue, 13 Dec 2022 00:24:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E58710E2B3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 00:16:28 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4NWJv71JFhz4xN4;
- Tue, 13 Dec 2022 11:16:18 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1670890580;
- bh=xAYs4RzRwjOFkzI7D5yEGU/NLolgCnhRJ8STI3pof/c=;
- h=Date:From:To:Cc:Subject:From;
- b=FRl2JzYYRhjzIuuD2avNqoAGw6msBylr58Ef/s6hj0wNErThnhG22FX+pqniXOlDO
- arAZDTk0jD/KxH3j2fIt4U4E04ajGp4kLz/45Vttt0UZ5HwElRtEaZBBobRny8WOHi
- bom5kh4satYvqCBVxsClI31jqNCr2FFjvbgx5fU0A4Szn4mVBHOSTH2ytAD18sZJwT
- E67LM1CpuBlTMTUp8JfxmOWoYP8GcwmQpKCKmiNAyBv6YqbRVGiRT/8m6Od3ZsSwc8
- L7F7b+c5OSDjZmF6q5S16u2yHAJuLCgLHNbNC9Uoceg6Bdf3g5JNDoXx12xGPDSy6O
- kLCA6ueziI0aQ==
-Date: Tue, 13 Dec 2022 11:16:12 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Helge Deller <deller@gmx.de>, Dave Airlie <airlied@redhat.com>
-Subject: linux-next: manual merge of the fbdev tree with the drm tree
-Message-ID: <20221213111612.7bc1f917@canb.auug.org.au>
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0301110E2BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 00:24:34 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id p36so2278845lfa.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Dec 2022 16:24:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EuRIOsbxJSRJCVkuwOFtkE5bn27vzsbdYBn710S1tsE=;
+ b=lmwePmqSEsF3OnAp9cC6PduAdpMwYQXJYh2fNPY863g5M9oD9ZWSLPEBTqvp3ngl4o
+ 9ySGQONxcxowsk7bT5fAzavUXJFT2Mm+pOmUafAwshUkw50rBcmP2m1ZHzBfyWvUtz0Q
+ sDk7fOuV3OjsEv1vhYNCb3FY7izl6cNJg7dHscP3ev+wJlHMdNFYNc71G4Ld0ybIzEEi
+ 0F9Grk4PBB8kEWXbSDxhmnT4EKJ/XMDY8X+odIVwZaTSvKTInZK6MGwuMXWXvBkbdVyf
+ nALPrAHoNvXCh7amnOwUIcnLg6b5FyAoJ/kvP8QNoNHNogg5RzE1a5yhoyrkJJx0HNvp
+ rTZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=EuRIOsbxJSRJCVkuwOFtkE5bn27vzsbdYBn710S1tsE=;
+ b=xBT9IxOmCzed/nYMXAhiG1tlVEp8xD67rFXjm2YghpiCGre1kXLlg+rradafa8AxRU
+ MgNx4C4dENCGSsTy26Dl1uOWOmJibufgEMCi/oYAvQgtxOdZgLbGAFIvPLvJLru5uXBX
+ hoQLmhJP1BfWbYPtKZKY1UMv2H72EzjVLqT9Zgm2Ack6/VVhNZ4eLL5bEKuW9RSQEHaK
+ 6jHTkwX+wmNxqlXImGv06cRAsYyGdXPZM0C33BngCs89R1IYJhdNMfQ8FgoortA+dIMJ
+ 2qBK4XoUvKGaXeupIO+dF/5d1YWit+LG5nrvYWPRH6n7fumpkTOmjFLHfRPQblE6yhNq
+ Dq1w==
+X-Gm-Message-State: ANoB5pmeaMUe45S14qFA8SrtT3WMc1NApTCfaR1n8+j3E16wx2T13Xks
+ /dXQ33gC5Kh7TvGIP/IFi4WOdQ==
+X-Google-Smtp-Source: AA0mqf7FsYGwTEB0R89kNgfKs8NWR0YiZJmq+AA0ekGPv+hZSJMEhTrIOyi72Pmtjg6fC0kbmH3mpQ==
+X-Received: by 2002:a05:6512:150c:b0:4b4:b8fc:4ac5 with SMTP id
+ bq12-20020a056512150c00b004b4b8fc4ac5mr5905858lfb.3.1670891072964; 
+ Mon, 12 Dec 2022 16:24:32 -0800 (PST)
+Received: from localhost.localdomain (abxh44.neoplus.adsl.tpnet.pl.
+ [83.9.1.44]) by smtp.gmail.com with ESMTPSA id
+ m23-20020ac24257000000b004978e51b691sm137352lfl.266.2022.12.12.16.24.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Dec 2022 16:24:32 -0800 (PST)
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+To: linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org,
+ krzysztof.kozlowski@linaro.org
+Subject: [PATCH 3/7] drm/msm/a6xx: Add support for A640 speed binning
+Date: Tue, 13 Dec 2022 01:24:19 +0100
+Message-Id: <20221213002423.259039-4-konrad.dybcio@linaro.org>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20221213002423.259039-1-konrad.dybcio@linaro.org>
+References: <20221213002423.259039-1-konrad.dybcio@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/sp97=XczOeN82EqDD6bT2oD";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,76 +72,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>
+Cc: freedreno@lists.freedesktop.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/sp97=XczOeN82EqDD6bT2oD
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Add support for matching QFPROM fuse values to get the correct speed bin
+on A640 (SM8150) GPUs.
 
-Hi all,
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-Today's linux-next merge of the fbdev tree got a conflict in:
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 36c8fb699b56..2c1630f0c04c 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1877,6 +1877,16 @@ static u32 a619_get_speed_bin(u32 fuse)
+ 	return UINT_MAX;
+ }
+ 
++static u32 a640_get_speed_bin(u32 fuse)
++{
++	if (fuse == 0)
++		return 0;
++	else if (fuse == 1)
++		return 1;
++
++	return UINT_MAX;
++}
++
+ static u32 adreno_7c3_get_speed_bin(u32 fuse)
+ {
+ 	if (fuse == 0)
+@@ -1902,6 +1912,9 @@ static u32 fuse_to_supp_hw(struct device *dev, struct adreno_rev rev, u32 fuse)
+ 	if (adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), rev))
+ 		val = adreno_7c3_get_speed_bin(fuse);
+ 
++	if (adreno_cmp_rev(ADRENO_REV(6, 4, 0, ANY_ID), rev))
++		val = a640_get_speed_bin(fuse);
++
+ 	if (val == UINT_MAX) {
+ 		DRM_DEV_ERROR(dev,
+ 			"missing support for speed-bin: %u. Some OPPs may not be supported by hardware\n",
+-- 
+2.39.0
 
-  drivers/video/fbdev/Kconfig
-
-between commit:
-
-  c8a17756c425 ("drm/ofdrm: Add ofdrm for Open Firmware framebuffers")
-
-from the drm tree and commit:
-
-  225e095bbd3a ("fbdev: offb: make offb driver tristate")
-
-from the fbdev tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/video/fbdev/Kconfig
-index 71019b167f8b,a529511f7f53..000000000000
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@@ -456,9 -453,8 +456,9 @@@ config FB_ATAR
-  	  chipset found in Ataris.
- =20
-  config FB_OF
-- 	bool "Open Firmware frame buffer device support"
-- 	depends on (FB =3D y) && PPC && (!PPC_PSERIES || PCI)
-+ 	tristate "Open Firmware frame buffer device support"
-+ 	depends on FB && PPC && (!PPC_PSERIES || PCI)
- +	depends on !DRM_OFDRM
-  	select APERTURE_HELPERS
-  	select FB_CFB_FILLRECT
-  	select FB_CFB_COPYAREA
-
---Sig_/sp97=XczOeN82EqDD6bT2oD
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmOXxEwACgkQAVBC80lX
-0Gxh8wf/e0gBQKPOoEg6O0eamyAvA1MrPv45E3hqftz0Qf8sg0+b1LLlBMPONe7F
-v1CD8ileZtYa9c/CpH6UNhRSbVsmE8OOJ6H+PgcKTri1FIuD5l6Us9Br8g8x61WP
-mjKuY3H5XjcYhGvnzjC/NpPbwyGQqHkqHSdOF0mMa+smkNjuTkYrQ5uG0GdyLBF0
-U7MLL3AMUmAJOMsBYy914Og4/8M+yhy8u9qNtSC5MIFI1hzxZrzuPuHXpKpypUJ5
-aCnKzXj68sU/v3gkiRQ5ZeWcQ5UHjmJoM09wDjvYTEzumymCHEdoPGQoRM/j0id1
-5x0oQ5+LdMIvLtIuUIogReMCT9nBXw==
-=xRxj
------END PGP SIGNATURE-----
-
---Sig_/sp97=XczOeN82EqDD6bT2oD--
