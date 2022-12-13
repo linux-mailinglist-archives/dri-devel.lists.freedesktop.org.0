@@ -2,50 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D89D64BAE6
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 18:21:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6939964BB1E
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 18:32:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D139310E341;
-	Tue, 13 Dec 2022 17:21:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1A2F10E343;
+	Tue, 13 Dec 2022 17:32:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE90C10E33E;
- Tue, 13 Dec 2022 17:21:15 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4NWldY52tfz9sWS;
- Tue, 13 Dec 2022 18:21:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1670952065;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CtChoi82BmLeoGtOFF6qiJaQkI2NfhZWBwwNmyKfz1k=;
- b=WalwCNFKF5qQHv7tI1SChxZ8AYjXKH0CocxGJ9QqAesssBef0GqHhgxUJ+GvNnvcSAaeKm
- HR1jIxXkobtEd5QLrW5SCKcaAelz4QyE6K1BhDdDqEu8cMnKDrO2rt0Rs1xczP0RpV8Wdk
- 9Yj3a0iqlc/9KzjTvo7S+097Bcr8gBIIr3QjtoFmTI8vWZcPeYFrFtuxYsIADGOuOjpE6g
- 1YHaEa4DsDongIecCXXSxgORXZywiZDwktLgCwPE2dkV60fLAht8bZrmcxddhRK3T8rHOL
- acBz1y/vN8pDP7AZ+uOWN/J5nJSudImkC5mpM6sFWwZaZIHYR8OMelwkwV3tVA==
-Message-ID: <114c2e02-41c8-8576-f88d-1c50f41deb9e@mailbox.org>
-Date: Tue, 13 Dec 2022 18:20:59 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01C7010E343;
+ Tue, 13 Dec 2022 17:31:58 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BDGBDC7014051; Tue, 13 Dec 2022 17:31:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=Hr7JOD1LzUJIykojRa3l8dfGdfmb5KMOnXl5g/mmv4Q=;
+ b=JOHAB0p1NhaCtdQYFLX8sQM+8KOhwTh0m/HDyyZ9zbEChJvnamsPv5RRI1iisnbWCp/Y
+ 2xfLIbea0LzL+TFIidMvYTkhRuavgE498cKRBtiHkDx+m/BmTnIVXhFhExO/gkDM/yR0
+ pbX2ICetcVGslUe+NZB9Dzd/KI6DrOqbNqIcFW1TNGlsTYDo/tYyS/DknAb16EIa9DVL
+ ScklAIqXmwy7UgKss9mIKCR+sKAcDgRSZUfWTvZin1yoqvWHE9UzrHVoS9ONHTisz5x4
+ nofdeBdUuwY5axdInquA1TZgXHNlwDnxFygCx7a6fD/l1uKIivQ58Qm/s2KmiyLuyuMw aw== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mehje218f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Dec 2022 17:31:52 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BDHVpLN001299
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Dec 2022 17:31:51 GMT
+Received: from [10.111.167.12] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 13 Dec
+ 2022 09:31:46 -0800
+Message-ID: <0c131d43-1e91-8b92-5517-ca8fffef238c@quicinc.com>
+Date: Tue, 13 Dec 2022 09:31:44 -0800
 MIME-Version: 1.0
-Subject: Re: [PATCH 16/16] drm/amd/display: Don't restrict bpc to 8 bpc
-Content-Language: en-CA
-To: Harry Wentland <harry.wentland@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20221212182137.374625-1-harry.wentland@amd.com>
- <20221212182137.374625-17-harry.wentland@amd.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <20221212182137.374625-17-harry.wentland@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: e36e6376ea1392e1da3
-X-MBO-RS-META: pm6d1n1kpih1yo7rir49w7fo6j49r3fb
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [Freedreno] [PATCH v11 2/5] dt-bindings: msm/dp: add data-lanes
+ and link-frequencies property
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>
+References: <1670539015-11808-1-git-send-email-quic_khsieh@quicinc.com>
+ <1670539015-11808-3-git-send-email-quic_khsieh@quicinc.com>
+ <5a3865ed-8847-db04-3d60-f35438250bef@linaro.org>
+ <5aa16223-dbf6-996c-1985-794302dcce91@quicinc.com>
+ <be1411e8-1d07-7643-977c-a306016fd660@linaro.org>
+ <b6d90c1f-5365-7197-be63-96c3d8cf0746@quicinc.com>
+ <e53844b7-601b-f355-302b-cc871962a446@linaro.org>
+ <8b306c8f-3089-4aaf-7fc1-038a8330c89a@quicinc.com>
+ <CAA8EJpr5RYyQa7xu1_xJ0F-dn-H9aOf0KE-CDgDCwnZu3HPgXg@mail.gmail.com>
+ <a9e2f269-b9df-814f-adcd-f5577f590fa7@quicinc.com>
+ <bca77270-f3ac-f23f-ef96-43f9f7d574c4@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <bca77270-f3ac-f23f-ef96-43f9f7d574c4@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 9pdVfxZOmUir2iBlDv2iC4fLBZkdsr1T
+X-Proofpoint-ORIG-GUID: 9pdVfxZOmUir2iBlDv2iC4fLBZkdsr1T
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-13_03,2022-12-13_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ lowpriorityscore=0 spamscore=0 phishscore=0 mlxscore=0 mlxlogscore=999
+ bulkscore=0 clxscore=1011 malwarescore=0 priorityscore=1501 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212130154
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,39 +94,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Pekka Paalanen <ppaalanen@gmail.com>, Uma Shankar <uma.shankar@intel.com>,
- Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
+Cc: sean@poorly.run, devicetree@vger.kernel.org, quic_sbillaka@quicinc.com,
+ vkoul@kernel.org, freedreno@lists.freedesktop.org, andersson@kernel.org,
+ konrad.dybcio@somainline.org, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, robh+dt@kernel.org,
+ agross@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/12/22 19:21, Harry Wentland wrote:
-> This will let us pass kms_hdr.bpc_switch.
+
+
+On 12/13/2022 5:13 AM, Krzysztof Kozlowski wrote:
+> On 13/12/2022 00:41, Abhinav Kumar wrote:
+>>>>
+>>>> besides, i think i have to sent the whole series patches include this
+>>>> one to address your new comments on other patch.
+>>>>
+>>>> is this correct?
+>>>
+>>> No. Please fix your system first, validate your patches and send them
+>>> afterwards. You can not expect others to do your job.
+>>>
+>>
+>> Just finished working with kuogee on this. This issue had been reported
+>> by few others earlier (example
+>> https://lore.kernel.org/lkml/bc9be279-a130-d5e7-4397-bbb389d14403@intel.com/T/).
 > 
-> I don't see any good reasons why we still need to
-> limit bpc to 8 bpc and doing so is problematic when
-> we enable HDR.
+> This report says:
+> "Sorry for the inconvenience, please ignore this false positive."
 > 
-> If I remember correctly there might have been some
-> displays out there where the advertised link bandwidth
-> was not large enough to drive the default timing at
-> max bpc. This would leave to an atomic commit/check
-> failure which should really be handled in compositors
-> with some sort of fallback mechanism.
+
+That was one of them, and I dont think its false, maybe because after 
+fixing the PATH issues, the user deemed them as false.
+
+Here is another one 
+https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20210812174209.1970-3-bbudiredla@marvell.com/ 
+with the same report but no resolution.
+
+So i thought for the benefit of others I would atleast summarize how we 
+resolved them.
+
+> Best regards,
+> Krzysztof
 > 
-> If this somehow turns out to still be an issue I
-> suggest we add a module parameter to allow users to
-> limit the max_bpc to a desired value.
-
-While leaving the fallback for user space to handle makes some sense in theory, in practice most KMS display servers likely won't handle it.
-
-Another issue is that if mode validation is based on the maximum bpc value, it may reject modes which would work with lower bpc.
-
-
-What Ville (CC'd) suggested before instead (and what i915 seems to be doing already) is that the driver should do mode validation based on the *minimum* bpc, and automatically make the effective bpc lower than the maximum as needed to make the rest of the atomic state work.
-
-
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
-
