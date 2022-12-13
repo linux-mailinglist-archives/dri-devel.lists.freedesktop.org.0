@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF0D64B34D
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 11:36:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 506F164B357
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 11:39:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FEAE10E2FE;
-	Tue, 13 Dec 2022 10:36:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 564A410E2ED;
+	Tue, 13 Dec 2022 10:39:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EA0910E2FD;
- Tue, 13 Dec 2022 10:36:05 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id q6so4162128lfm.10;
- Tue, 13 Dec 2022 02:36:05 -0800 (PST)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBC9210E2ED;
+ Tue, 13 Dec 2022 10:39:38 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id a19so2917153ljk.0;
+ Tue, 13 Dec 2022 02:39:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=eOhpTETZJwOmzldrrcBwvLYwkVMNAxwwRumLeYPEC+4=;
- b=c2uO1Be2hbY9b9Y3vOOuwJrtgaKisHMoijLfR6IZwbgJqjLxxr14ZTHkfFf2IOwAT8
- rf+JTSuBFomPkgg+dtfhQCwaklF22zvOgbhRB4JDZrQzNDqZWBfAtFU3eLwmprA0mPbs
- wtqeODBKY1CH8+mdyfRWumJs1kc8PPJM62CfWOFLapzcouGXXUKxPmGT8ui/cL7ITpP/
- c5vqlj7ks0E133QtUCr+WHRCgFtYBRFOcG4neMEpVAik9NoBXzzChOQksO40hHsG/1Cw
- 9+RclJSuq/nFIPE/bta0vxATNrY/Uqes6LLcL7geBwqrmnOwtkRAKmTLW6onne8ycxht
- tcLQ==
+ bh=5ZnIfDqeuJAoltebRrriv0fzPNKDJ1uZM7SmoLwlM90=;
+ b=hDcCBSFsU8zdwJErbtWFz+ILGV8TuB7En+wKAHOnuNO2DWH0ylWkYeFwQG+ytHGhXQ
+ jUEBoqZZlYlsVyKMoyI6Hf4gvfaBR++UtVzoyJrRCFR8kG3RYXYC9tG1zEW5wnlT62qR
+ YTCi3VonH8AjZXI1595riJfFl3mVjMXsq4smdTYato4Ffx4Mhxtt9wczbLL7j4Z1kYgk
+ AVm44Vo9dIvY4Q8IDXC5+ZLe6j7ERhspQ1eFc353H9WoeIAQNPRe/If6u9a46zCUDF22
+ LGh5PRrTOQJpFKt61qoQ2JPbJpJ2VFj+CcZJ/fsLIygouJO3yuwsmPzZ/9Wko12nvIZ6
+ XdTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eOhpTETZJwOmzldrrcBwvLYwkVMNAxwwRumLeYPEC+4=;
- b=fhAK5gL8Exb8i5EWJ8CnVz/Rvknq9bvLWB9hirMcBaQO+oMN1VTWbsqpHUFsiTxGXZ
- SLWXqZM3cDfAf/BhqOzY7ZQt0AWYux+4chPtniV/oHzC8KbTNHmrcsakozlzDC0ab8Nx
- DcgC6gIwzcINIO2hm2inlwsnwpc2S0CXnIontYvE2GauMjF53MbedMP/HLvjd9WrOUIs
- M8sxwknYhZwVd8DkxSzH+TzU+BxwkhKQLXEXJCKxDG+V/HhHOPjEZ+MBaifUA6JEiwyt
- wiZU9W4F/xckAgkrFq4DQuwC815fFfjeeIktUUMZHqnj/Y4m8f6hfhuB2Q/o7RP6Cnqi
- pF3g==
-X-Gm-Message-State: ANoB5pkowr86w39zTgJnG5i4gQW9nj3m7u1DtNoZxchL1sX2b6A/XJtz
- kDcNKzJr+ocvSPKXbU48u7I=
-X-Google-Smtp-Source: AA0mqf5Q8qHvMnPLtrnbtPmLzUlXQNSnnDEuKs8+Sb4rNYSajp4B/ZU9meXkxeZlE/pTCGT3MOrCqw==
-X-Received: by 2002:a05:6512:3e19:b0:4b0:6023:6f6f with SMTP id
- i25-20020a0565123e1900b004b060236f6fmr7532718lfv.57.1670927763640; 
- Tue, 13 Dec 2022 02:36:03 -0800 (PST)
+ bh=5ZnIfDqeuJAoltebRrriv0fzPNKDJ1uZM7SmoLwlM90=;
+ b=1Ic3MW0bB0VIvYObHMHudDTJIXyOsznzB5PBU1aBOiXhMBgzTS7g8+YzF6+Z9/kQ+s
+ rBQlpV4esmYy/xUqOGMHOATVVWAucSsS6+cUil0eBe+s5mHbSiarmsDf9381wdl7QjfF
+ AfhE8XBKmMFHqzKdUgUUfDU4HscJTm+YN/OwPsFyQJHGFlqfMjsCV2tT+z2/+zwU+wko
+ deXTjP1Sn1szpsyHHU6S50qttk94Z4MCMWI6dAF3OywSolDQmU4XDypcM+3jMJAZCoHa
+ 0s0TfmlbvRi0f+aEUaw5bE+zHWXkXKkcDUCWFr88yB04UepfjWB1fuZE015cB/DFB9Tv
+ srLA==
+X-Gm-Message-State: ANoB5pmK/rh18C2yTGTUP/dDvMYepoaHBC1og7+y4QCpAljVeIoqGTso
+ Eyx5jJYCDLs8WC02c6Av7oQ=
+X-Google-Smtp-Source: AA0mqf6XR9whQf5X4Y50tWK7RpMnijJx9ldfIi+AgJJdfKBqycds0g8jL/Wuslf/GnslFQCILf6jUQ==
+X-Received: by 2002:a05:651c:504:b0:277:25a:2ff0 with SMTP id
+ o4-20020a05651c050400b00277025a2ff0mr6130642ljp.19.1670927976911; 
+ Tue, 13 Dec 2022 02:39:36 -0800 (PST)
 Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- j8-20020a056512344800b004b590c768edsm314518lfr.1.2022.12.13.02.36.02
+ k4-20020a2ea264000000b00279e0b8bae7sm208731ljm.65.2022.12.13.02.39.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Dec 2022 02:36:03 -0800 (PST)
-Date: Tue, 13 Dec 2022 12:35:59 +0200
+ Tue, 13 Dec 2022 02:39:36 -0800 (PST)
+Date: Tue, 13 Dec 2022 12:39:32 +0200
 From: Pekka Paalanen <ppaalanen@gmail.com>
 To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH 14/16] drm/amd/display: Add debugfs for testing output
- colorspace
-Message-ID: <20221213123559.33425bf1@eldfell>
-In-Reply-To: <20221212182137.374625-15-harry.wentland@amd.com>
+Subject: Re: [PATCH 04/16] drm/connector: Convert DRM_MODE_COLORIMETRY to enum
+Message-ID: <20221213123932.67edc8dc@eldfell>
+In-Reply-To: <20221212182137.374625-5-harry.wentland@amd.com>
 References: <20221212182137.374625-1-harry.wentland@amd.com>
- <20221212182137.374625-15-harry.wentland@amd.com>
+ <20221212182137.374625-5-harry.wentland@amd.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_//rYKCY.xiOVuBaa_tHSX4ID";
+Content-Type: multipart/signed; boundary="Sig_/gbTELSdSbdVWbrnHWsmVUFl";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,20 +76,14 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_//rYKCY.xiOVuBaa_tHSX4ID
+--Sig_/gbTELSdSbdVWbrnHWsmVUFl
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 12 Dec 2022 13:21:35 -0500
+On Mon, 12 Dec 2022 13:21:25 -0500
 Harry Wentland <harry.wentland@amd.com> wrote:
 
-> In order to IGT test colorspace we'll want to print
-> the currently enabled colorspace on a stream. We add
-> a new debugfs to do so, using the same scheme as
-> current bpc reporting.
->=20
-> This might also come in handy when debugging display
-> issues.
+> This allows us to use strongly typed arguments.
 >=20
 > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 > Cc: Pekka Paalanen <ppaalanen@gmail.com>
@@ -102,127 +95,126 @@ Harry Wentland <harry.wentland@amd.com> wrote:
 > Cc: dri-devel@lists.freedesktop.org
 > Cc: amd-gfx@lists.freedesktop.org
 > ---
->  .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 57 +++++++++++++++++++
->  1 file changed, 57 insertions(+)
+>  include/drm/display/drm_dp.h |  2 +-
+>  include/drm/drm_connector.h  | 47 ++++++++++++++++++------------------
+>  2 files changed, 25 insertions(+), 24 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/=
-drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> index 461037a3dd75..d95d1c9f4805 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> @@ -935,6 +935,61 @@ static int amdgpu_current_bpc_show(struct seq_file *=
-m, void *data)
->  }
->  DEFINE_SHOW_ATTRIBUTE(amdgpu_current_bpc);
-> =20
-> +/*
-> + * Returns the current bpc for the crtc.
-> + * Example usage: cat /sys/kernel/debug/dri/0/crtc-0/amdgpu_current_colo=
-rspace
-> + */
-> +static int amdgpu_current_colorspace_show(struct seq_file *m, void *data)
-> +{
-> +	struct drm_crtc *crtc =3D m->private;
-> +	struct drm_device *dev =3D crtc->dev;
-> +	struct dm_crtc_state *dm_crtc_state =3D NULL;
-> +	int res =3D -ENODEV;
-> +
-> +	mutex_lock(&dev->mode_config.mutex);
-> +	drm_modeset_lock(&crtc->mutex, NULL);
-> +	if (crtc->state =3D=3D NULL)
-> +		goto unlock;
-> +
-> +	dm_crtc_state =3D to_dm_crtc_state(crtc->state);
-> +	if (dm_crtc_state->stream =3D=3D NULL)
-> +		goto unlock;
-> +
-> +	switch (dm_crtc_state->stream->output_color_space) {
-> +	case COLOR_SPACE_SRGB:
-> +		seq_printf(m, "RGB");
+> diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+> index 4d0abe4c7ea9..b98697459f9c 100644
+> --- a/include/drm/display/drm_dp.h
+> +++ b/include/drm/display/drm_dp.h
+> @@ -1615,7 +1615,7 @@ enum dp_pixelformat {
+>   *
+>   * This enum is used to indicate DP VSC SDP Colorimetry formats.
+>   * It is based on DP 1.4 spec [Table 2-117: VSC SDP Payload for DB16 thr=
+ough
+> - * DB18] and a name of enum member follows DRM_MODE_COLORIMETRY definiti=
+on.
+> + * DB18] and a name of enum member follows &enum drm_colorimetry definit=
+ion.
+>   *
+>   * @DP_COLORIMETRY_DEFAULT: sRGB (IEC 61966-2-1) or
+>   *                          ITU-R BT.601 colorimetry format
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 62c814241828..edef65388c29 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -371,28 +371,29 @@ enum drm_privacy_screen_status {
+>   * a colorspace property which will be created and exposed to
+>   * userspace.
+>   */
+> -
+> -/* For Default case, driver will set the colorspace */
+> -#define DRM_MODE_COLORIMETRY_DEFAULT			0
+> -/* CEA 861 Normal Colorimetry options */
+> -#define DRM_MODE_COLORIMETRY_SMPTE_170M_YCC		1
+> -#define DRM_MODE_COLORIMETRY_BT709_YCC			2
+> -/* CEA 861 Extended Colorimetry Options */
+> -#define DRM_MODE_COLORIMETRY_XVYCC_601			3
+> -#define DRM_MODE_COLORIMETRY_XVYCC_709			4
+> -#define DRM_MODE_COLORIMETRY_SYCC_601			5
+> -#define DRM_MODE_COLORIMETRY_OPYCC_601			6
+> -#define DRM_MODE_COLORIMETRY_OPRGB			7
+> -#define DRM_MODE_COLORIMETRY_BT2020_CYCC		8
+> -#define DRM_MODE_COLORIMETRY_BT2020_RGB			9
+> -#define DRM_MODE_COLORIMETRY_BT2020_YCC			10
+> -/* Additional Colorimetry extension added as part of CTA 861.G */
+> -#define DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65		11
+> -#define DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER		12
+> -/* Additional Colorimetry Options added for DP 1.4a VSC Colorimetry Form=
+at */
+> -#define DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED		13
+> -#define DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT		14
+> -#define DRM_MODE_COLORIMETRY_BT601_YCC			15
+> +enum drm_colorspace {
+> +	/* For Default case, driver will set the colorspace */
+> +	DRM_MODE_COLORIMETRY_DEFAULT,
+> +	/* CEA 861 Normal Colorimetry options */
+> +	DRM_MODE_COLORIMETRY_SMPTE_170M_YCC,
+> +	DRM_MODE_COLORIMETRY_BT709_YCC,
+> +	/* CEA 861 Extended Colorimetry Options */
+> +	DRM_MODE_COLORIMETRY_XVYCC_601,
+> +	DRM_MODE_COLORIMETRY_XVYCC_709,
+> +	DRM_MODE_COLORIMETRY_SYCC_601,
+> +	DRM_MODE_COLORIMETRY_OPYCC_601,
+> +	DRM_MODE_COLORIMETRY_OPRGB,
+> +	DRM_MODE_COLORIMETRY_BT2020_CYCC,
+> +	DRM_MODE_COLORIMETRY_BT2020_RGB,
+> +	DRM_MODE_COLORIMETRY_BT2020_YCC,
+> +	/* Additional Colorimetry extension added as part of CTA 861.G */
+> +	DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65,
+> +	DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER,
+> +	/* Additional Colorimetry Options added for DP 1.4a VSC Colorimetry For=
+mat */
+> +	DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED,
+> +	DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT,
+> +	DRM_MODE_COLORIMETRY_BT601_YCC,
+> +};
 
-What does COLOR_SPACE_SRGB mean? Printing it as "RGB" seems suspicious.
-Should this be "sRGB" or "BT709_RGB" instead?
+Hi,
 
-> +		break;
-> +	case COLOR_SPACE_YCBCR601:
-> +	case COLOR_SPACE_YCBCR601_LIMITED:
-> +		seq_printf(m, "BT601_YCC");
-> +		break;
-> +	case COLOR_SPACE_YCBCR709:
-> +	case COLOR_SPACE_YCBCR709_LIMITED:
-> +		seq_printf(m, "BT709_YCC");
-> +		break;
-> +	case COLOR_SPACE_ADOBERGB:
-> +		seq_printf(m, "opRGB");
-> +		break;
-> +	case COLOR_SPACE_2020_RGB_FULLRANGE:
-> +		seq_printf(m, "BT2020_RGB");
-> +		break;
-> +	case COLOR_SPACE_2020_YCBCR:
-> +		seq_printf(m, "BT2020_YCC");
-> +		break;
+what's the entry for "the traditional sRGB"?
 
-What do these actually mean?
-
-Are these a combination of colorimetry and color representation
-(YCbCr/ICtCp - RGB conversion)?
-
-Should these match enum drm_colorspace entries?
+It cannot be DRM_MODE_COLORIMETRY_DEFAULT, because the doc here says
+that it maps to some driver-defined entry which may be something else.
 
 
 Thanks,
 pq
 
-
-> +	default:
-> +		goto unlock;
-> +	}
-> +	res =3D 0;
-> +
-> +unlock:
-> +	drm_modeset_unlock(&crtc->mutex);
-> +	mutex_unlock(&dev->mode_config.mutex);
-> +
-> +	return res;
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(amdgpu_current_colorspace);
-> +
-> +
->  /*
->   * Example usage:
->   * Disable dsc passthrough, i.e.,: have dsc decoding at converver, not e=
-xternal RX
-> @@ -3326,6 +3381,8 @@ void crtc_debugfs_init(struct drm_crtc *crtc)
->  #endif
->  	debugfs_create_file("amdgpu_current_bpc", 0644, crtc->debugfs_entry,
->  			    crtc, &amdgpu_current_bpc_fops);
-> +	debugfs_create_file("amdgpu_current_colorspace", 0644, crtc->debugfs_en=
-try,
-> +			    crtc, &amdgpu_current_colorspace_fops);
->  }
 > =20
->  /*
+>  /**
+>   * enum drm_bus_flags - bus_flags info for &drm_display_info
+> @@ -825,7 +826,7 @@ struct drm_connector_state {
+>  	 * colorspace change on Sink. This is most commonly used to switch
+>  	 * to wider color gamuts like BT2020.
+>  	 */
+> -	u32 colorspace;
+> +	enum drm_colorspace colorspace;
+> =20
+>  	/**
+>  	 * @writeback_job: Writeback job for writeback connectors
 
 
---Sig_//rYKCY.xiOVuBaa_tHSX4ID
+--Sig_/gbTELSdSbdVWbrnHWsmVUFl
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmOYVY8ACgkQI1/ltBGq
-qqfBMw//WYpTOlb1D5lnkgfazVAKZ5rFyhipRgSEYRtQYS1mpLJSOl8efKNt+gaB
-8qmuKB/qXsYchFnTszpm4elMbaxR2Wi2BYGUBramQRgOfxxHMP4VE64bqqhgfZb+
-DTQHy3+R7OW+eST37kmOrQ28WiKN5eVlIqfrc0hMJ0kzy6pJOBjJYDNVj51mgnCg
-xHcIN1uU0uDhLnYUl0MxYmSi/ctFRFVA7kQ8wsvbagqFULGvPToXR0Se6+FeC3WI
-NMnoMSyLhgUHgbsuM8G8hQ9Th4uvtcutX3gcTgtXbhleNynAsrHU31iUTxxtK3aY
-4eV0GY1H1n99wH4qV/AWsvALbb7M+/Vu/OoNivCZKx5mOrQPgZQVPXnqLZ1ltU3c
-x6sR4gjhp2Xbbus96c6QPHimE6NEyic05R5jdh/GDGZCKTqaLZcbuahZF+stPfqG
-6JSBwmZixOnWf2wJvN8WC9uIw5A/2DFGNiYsXlEMZY57KmII23kgE1bSxRKS0VkU
-wqpd2WPsSJVDCxkI1lRBcyW/sidRpOSQb0gWFKJDhuVnvhdwi8thayVrli8/+mub
-lpOtjR6PLCSXnlxnURAEmNm2gG7UsTi+9tlm2aA6ntQ+I5thGAVnopOASSLgU3G0
-PK3CDetj54BGJXoHUsthuA2NtWAjHY4gSPqi1VZ9U2FHtGrHEho=
-=7M62
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmOYVmQACgkQI1/ltBGq
+qqe4bg/+J7czvadbLYVkM1DR2MrwIrLZpBXsfsN8RNtgbGGVO3nP7UMgPGvgBIu4
+oQH4VL2MdWqbqM+hzj6uJ44iGVwiRsdP5X7P05AQ/7O/cx1NrZsafh2z/XN+6srr
+MtB0Z+lEWDHOLQUQD4VUbBpAv/uFaq7Jei+uXuFj5eYX+HPW12CdZOmHjXQFt/Bj
+fHEVEeG5oxf05tVVdWhQohX4NWnZB+YiKmEREscT54MEKmJCfzx3qoisvCCNZC8W
+zRWmxgXR3m5n6URBZS7SSZBn8Y/XkdqK0XKjKEfEM7NLrI2NYJIL3fwMN3Ot8SO9
+cdi1RskLxRlskNFLTCxXZ5rth7wEsS/S/PEYhIfVwW7Mt6ivrxL4XR32oeObb4AS
+KQDaawhi+6+mJ5/okhH55F4KBPdOZVJvCYKaCYNCIRhQ/4w1zIsdLTXlU5IJwuwb
+FjAGcX9uXC/I5pWPu768cZeudfc4JRW2/U+lbzc9pRJ5hVUi33T4tBSYWi5ZQvSd
+IDnTSoTsOIjWo8501+ulNAqOr+0a6tmhxC9rZ/t8+XI5qbzVBDdiTnKbgHMXt4pf
+xfUzzXi7TpPyq0lTultn9mrKh3tNRlD3yF+iFwBjzuadIGolPgn4qKVbLZs/X24l
+Oz+cEknOvOBuYfwYA3LqT+W1LD3MTsaCOT+GUwOh1StSucWvo2A=
+=IXfr
 -----END PGP SIGNATURE-----
 
---Sig_//rYKCY.xiOVuBaa_tHSX4ID--
+--Sig_/gbTELSdSbdVWbrnHWsmVUFl--
