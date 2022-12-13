@@ -2,53 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9714764BDC8
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 21:13:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 064F064BDC3
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 21:12:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 035C410E347;
-	Tue, 13 Dec 2022 20:12:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7B9610E34C;
+	Tue, 13 Dec 2022 20:12:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 126D910E34C
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14F0810E34E
  for <dri-devel@lists.freedesktop.org>; Tue, 13 Dec 2022 20:12:39 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 54BB3229F3;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8619B1FDB4;
  Tue, 13 Dec 2022 20:12:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1670962357; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=VlgxA8vnoXxRUuAQCBX6lSnbt4eazSo8cA0f5OxBm5w=;
- b=JTGnLOLcffiIjnweAMI6J8Q5I4nK0CUt57bXPb/Vw0/ZGW5BWaTWNGZi5EuwGlKJX05Vbs
- 8Xb/lLqjG4k6Ub+RNzcjJpJtCG5yjH1z4rK7p2bgHTc9vIvzBjHYmXjv2c/F9H3s6le9XC
- hDZI6d6+96rTzXjQncLGypb5p4DqFxo=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qsAEauSkrszuDTOtVxbO26wFXMvI1SkvlsDXr5i9u0A=;
+ b=v9q8Sad86KuyOCdhH3tPxUtsYfjLGKwotGmM7gEhQp67PmR8QeXo1w4I3bhMPzOvAPRlFi
+ F5OqjFDsp8ctb6aEcEYcpQgla5/4VRD+YFLmdhssMrVpamoPsb8XSPmbfEgB5keYoUYRpC
+ uUUYnuyQoD0BXh5xUIWhpwVidX7BSwY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1670962357;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=VlgxA8vnoXxRUuAQCBX6lSnbt4eazSo8cA0f5OxBm5w=;
- b=RgJ/Y3gTBqd2TyeozRTcS6iAIrhvX/EITQ6eOvy8p2ZTveB8u/Cf2cPlYWIe7PVZdkiabO
- o75NCPNRCYwA/cCA==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qsAEauSkrszuDTOtVxbO26wFXMvI1SkvlsDXr5i9u0A=;
+ b=tfpsWe/hAz82kSl1Fa0cgKoOgvNI3doe+pVtIVF+Q1BDt+N2a5q+5/szY4Zl2GFCgiq7MK
+ xOQCu+5IGMckLKBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 28D1A138EE;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 59026138FA;
  Tue, 13 Dec 2022 20:12:37 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MpwmCbXcmGNyJAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id wL7aFLXcmGNyJAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 13 Dec 2022 20:12:37 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@gmail.com, javierm@redhat.com, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com, jose.exposito89@gmail.com,
  mairacanal@riseup.net
-Subject: [PATCH 0/9] drm: Fix color-format selection in fbdev emulation
-Date: Tue, 13 Dec 2022 21:12:24 +0100
-Message-Id: <20221213201233.9341-1-tzimmermann@suse.de>
+Subject: [PATCH 1/9] firmware/sysfb: Fix EFI/VESA format selection
+Date: Tue, 13 Dec 2022 21:12:25 +0100
+Message-Id: <20221213201233.9341-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221213201233.9341-1-tzimmermann@suse.de>
+References: <20221213201233.9341-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,64 +73,92 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the selection of the fbdev emulation's color format and make
-XRGB8888 the only emulated color format. Resolves the blank screen
-in cases where video= specifies an unsupported color format. Also
-resolves the issues around current format-conversion helpers.
+Select color format for EFI/VESA firmware scanout buffer from the
+number of bits per pixel and the position of the individual color
+components. Fixes the selected format for the buffer in several odd
+cases. For example, XRGB1555 has been reported as ARGB1555 because
+of the different use of depth and transparency in VESA and Linux.
 
-DRM drivers usually pick a default format for their fbdev emulation.
-Via the kernel's video= parameter, users can specify a different
-format. If the given format is unsupported by the driver, the fbdev
-console screen remains dark. As the console is essential to many
-systems, not displaying anything is to be avoided.
+Bits-per-pixel is always the pixel's raw number of bits; including
+alpha and filler bits. It is preferred over color depth, which has a
+different meaning among various components and standards.
 
-Patch 1 fixes the detection of the firmware's native color format.
-The meaning of several color parameters is inconsistent among Linux
-and various standards. Take this into account.
+Also do not compare reserved bits and transparency bits to each other.
+These values have different meanings, as reserved bits include filler
+bits while transparency does not.
 
-As drivers are supposed to provide XRGB8888 as a default fallback
-format, provide XRGB8888 conversion helpers in patches 2 to 5. The
-new helpers handle cases where the client uses a XRGB8888 frambuffer
-and the display scanout buffer uses a different format. All scanout
-formats of the simplefb infrastructure should now be covered. The
-patchse also extend the Kunit tests for the new formats.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/firmware/sysfb_simplefb.c | 43 ++++++++++++++++++++++++++-----
+ 1 file changed, 37 insertions(+), 6 deletions(-)
 
-With format conversion in place, patches 6 and 7 fix the single-probe
-function's format selection. The helper now goes over the given video=
-parameters until it finds a compatible format. If none is found, the
-uses driver's default format.
-
-Patches 8 and 9 clean up DRM code in drivers and helpers.
-
-Tested on x86-64 with EFI output and x86 with various VESA color
-modes. Also tested on ppc64 with OF output.
-
-Thomas Zimmermann (9):
-  firmware/sysfb: Fix EFI/VESA format selection
-  drm/format-helper: Flip src/dst-format branches in blit helper
-  drm/format-helper: Add conversion from XRGB8888 to ARGB8888
-  drm/format-helper: Add conversion from XRGB8888 to ARGB2101010
-  drm/format-helper: Add conversion from XRGB8888 to 15-bit RGB555
-    formats
-  drm/fh-helper: Split fbdev single-probe helper
-  drm/fb-helper: Fix single-probe color-format selection
-  drm/format-helper: Simplify drm_fb_build_fourcc_list()
-  drm/format-helper: Remove unnecessary conversion helpers
-
- drivers/firmware/sysfb_simplefb.c             |  43 +-
- drivers/gpu/drm/drm_fb_helper.c               | 252 ++++++----
- drivers/gpu/drm/drm_format_helper.c           | 454 +++++++++++++-----
- .../gpu/drm/tests/drm_format_helper_test.c    | 312 ++++++++++++
- drivers/gpu/drm/tiny/ofdrm.c                  |  20 -
- drivers/gpu/drm/tiny/simpledrm.c              |  21 -
- include/drm/drm_format_helper.h               |  16 +-
- 7 files changed, 835 insertions(+), 283 deletions(-)
-
-
-base-commit: d322881f7e33af24901ee8ccaec3beef82f21203
-prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
-prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
-prerequisite-patch-id: 3f204510fcbf9530d6540bd8e6128cce598988b6
+diff --git a/drivers/firmware/sysfb_simplefb.c b/drivers/firmware/sysfb_simplefb.c
+index a353e27f83f5..ce9c007ed66f 100644
+--- a/drivers/firmware/sysfb_simplefb.c
++++ b/drivers/firmware/sysfb_simplefb.c
+@@ -27,25 +27,56 @@ static const struct simplefb_format formats[] = SIMPLEFB_FORMATS;
+ __init bool sysfb_parse_mode(const struct screen_info *si,
+ 			     struct simplefb_platform_data *mode)
+ {
+-	const struct simplefb_format *f;
+ 	__u8 type;
++	u32 bits_per_pixel;
+ 	unsigned int i;
+ 
+ 	type = si->orig_video_isVGA;
+ 	if (type != VIDEO_TYPE_VLFB && type != VIDEO_TYPE_EFI)
+ 		return false;
+ 
++	/*
++	 * The meaning of depth and bpp for direct-color formats is
++	 * inconsistent:
++	 *
++	 *  - DRM format info specifies depth as the number of color
++	 *    bits; including alpha, but not including filler bits.
++	 *  - Linux' EFI platform code computes lfb_depth from the
++	 *    individual color channels, including the reserved bits.
++	 *  - VBE 1.1 defines lfb_depth for XRGB1555 as 16, but later
++	 *    versions use 15.
++	 *  - On the kernel command line, 'bpp' of 32 is usually
++	 *    XRGB8888 including the filler bits, but 15 is XRGB1555
++	 *    not including the filler bit.
++	 *
++	 * It's not easily possible to fix this in struct screen_info,
++	 * as this could break UAPI. The best solution is to compute
++	 * bits_per_pixel here and ignore lfb_depth. In the loop below,
++	 * ignore simplefb formats with alpha bits, as EFI and VESA
++	 * don't specify alpha channels.
++	 */
++	if (si->lfb_depth > 8) {
++		bits_per_pixel = max(max3(si->red_size + si->red_pos,
++					  si->green_size + si->green_pos,
++					  si->blue_size + si->blue_pos),
++				     si->rsvd_size + si->rsvd_pos);
++	} else {
++		bits_per_pixel = si->lfb_depth;
++	}
++
+ 	for (i = 0; i < ARRAY_SIZE(formats); ++i) {
+-		f = &formats[i];
+-		if (si->lfb_depth == f->bits_per_pixel &&
++		const struct simplefb_format *f = &formats[i];
++
++		if (f->transp.length)
++			continue; /* transparent formats are unsupported by VESA/EFI */
++
++		if (bits_per_pixel == f->bits_per_pixel &&
+ 		    si->red_size == f->red.length &&
+ 		    si->red_pos == f->red.offset &&
+ 		    si->green_size == f->green.length &&
+ 		    si->green_pos == f->green.offset &&
+ 		    si->blue_size == f->blue.length &&
+-		    si->blue_pos == f->blue.offset &&
+-		    si->rsvd_size == f->transp.length &&
+-		    si->rsvd_pos == f->transp.offset) {
++		    si->blue_pos == f->blue.offset) {
+ 			mode->format = f->name;
+ 			mode->width = si->lfb_width;
+ 			mode->height = si->lfb_height;
 -- 
 2.38.1
 
