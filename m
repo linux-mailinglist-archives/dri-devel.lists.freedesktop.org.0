@@ -2,78 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20CED64BEDB
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 22:54:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B6964BEFE
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Dec 2022 23:01:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78C3089F38;
-	Tue, 13 Dec 2022 21:54:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06D5710E1FC;
+	Tue, 13 Dec 2022 22:00:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60805892C1;
- Tue, 13 Dec 2022 21:54:02 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BDK04DG007911; Tue, 13 Dec 2022 21:53:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=U0bHcGZ5jMCQNvUVO0KJzmC5eku0GSm+9Z5Ov0Z3S8s=;
- b=C0IxivsSmG0yPAOfnusAZm2AWkouuLJTBzK67jxG0oa96lmrbTizRXjLBqMoVtpgrDq6
- BR2ILtN4nooFMb3AxuXk9t7W/QK8SOLpANPf2MT90Wnbv4vNtvUWnpf3AB89wKcnNE1Q
- 4hWWeYIBdC8xKcpUWD9qQECmfaD6rjKmnD/cr/jkrOmltVhKMJpuFcmUHT5h2hTyhhM0
- p4EZgVVygFbKTGUKDN2+tkh0ldf661jVbtFbKMIzuv16BQtM/a2m8j0nQJiK8LI5uiSS
- WEDKab0F9oNO8W1o4n65W74PrSRJKwPvylOTR+uKeXuczrtWT7xpMYMYlwnSJffPgFvo fQ== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3meyfw0dp5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Dec 2022 21:53:55 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BDLrrc7002666
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Dec 2022 21:53:53 GMT
-Received: from [10.111.167.12] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 13 Dec
- 2022 13:53:50 -0800
-Message-ID: <ad7ecffc-3fc9-7859-82b7-9d161fc28cae@quicinc.com>
-Date: Tue, 13 Dec 2022 13:53:48 -0800
+Received: from gandalf.ozlabs.org (unknown [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF03210E1F6;
+ Tue, 13 Dec 2022 22:00:50 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4NWsrC2Dlkz4xYQ;
+ Wed, 14 Dec 2022 09:00:43 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1670968844;
+ bh=dnKDY1oXjcC0Tv/ElhCbaTcvHEJsm3IIOdeK96sWOaY=;
+ h=Date:From:To:Cc:Subject:From;
+ b=KOjC+qxk0SniGC3699LJGn3Mg13cGc6AbZqjHItVe0afRcsZhGlepkXm823jdSow3
+ fxDbJxNyhhACD9dP+5wteSajpQeL4k2s1CPW2IPz8c3ss2A1VrA+67Lt9qpIoyDqal
+ HmD7qTWzBAQXGL7kMDaaLDMuSSBcT8erlr39fryDQcqWma+kPbPqoj0m9uiSWWeSPK
+ gZtzXJwFRZUpKeLryTkoQ3DKE4IsWd2iwiJ4wdo5Yo+Mj0f2csW+0lmYao+19FAhME
+ 7s8OUbl+9wwmHuxBc/gm/KmpMek204qf5H4Id/wkIdjU1eZFc2k+XqoWuhPx7TdC4L
+ C078cxdVu37Dw==
+Date: Wed, 14 Dec 2022 09:00:42 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: linux-next: manual merge of the drm-misc-fixes tree with Linus' tree
+Message-ID: <20221214090042.1da0da04@canb.auug.org.au>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v2 01/12] dt-bindings: display: msm: Rename mdss node name
- in example
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Adam Skladowski
- <a39.skl@gmail.com>
-References: <20221130200950.144618-1-a39.skl@gmail.com>
- <20221130200950.144618-2-a39.skl@gmail.com>
- <19e78a06-2f3d-92af-1988-b22dc3ffc84e@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <19e78a06-2f3d-92af-1988-b22dc3ffc84e@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: qYalVvqLD40rRT2LHIiWecj1GJBgVGZT
-X-Proofpoint-GUID: qYalVvqLD40rRT2LHIiWecj1GJBgVGZT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-13_03,2022-12-13_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- priorityscore=1501 lowpriorityscore=0 adultscore=0 spamscore=0
- suspectscore=0 mlxlogscore=999 mlxscore=0 impostorscore=0 bulkscore=0
- phishscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212130190
+Content-Type: multipart/signed; boundary="Sig_/Yyb61wh00qLWsTl=2x39==M";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,82 +48,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Thara Gopinath <thara.gopinath@gmail.com>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- phone-devel@vger.kernel.org, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Andy Gross <agross@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- devicetree@vger.kernel.org, Amit Kucheria <amitk@kernel.org>,
- linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht,
- Sean Paul <sean@poorly.run>, Loic Poulain <loic.poulain@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>, freedreno@lists.freedesktop.org
+Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/Yyb61wh00qLWsTl=2x39==M
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
+Hi all,
 
-On 12/1/2022 11:54 AM, Dmitry Baryshkov wrote:
-> On 30/11/2022 22:09, Adam Skladowski wrote:
->> Follow other YAMLs and replace mdss name into display-subystem.
->>
->> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Today's linux-next merge of the drm-misc-fixes tree got a conflict in:
 
-Going to add two fixes tags here as we are touching two chipsets:
+  drivers/dma-buf/dma-buf.c
 
-Fixes: b93bdff44a85 ("dt-bindings: display/msm: add support for SM6115")
-Fixes: 06097b13ef97 ("dt-bindings: display/msm: split dpu-qcm2290 into 
-DPU and MDSS parts")
+between commit:
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+  28743e25fa1c ("dma-buf: Remove obsoleted internal lock")
 
-> 
-> We will pick this into msm-fixes during the next cycle.
+from Linus' tree and commit:
 
-Yes, we can with the above fixes tags but first, can you please send a 
-MR from msm-next-lumag to msm-next? So that I can send a MR for fixes to 
-msm-next.
+  f728a5ea27c9 ("dma-buf: fix dma_buf_export init order v2")
 
-ATM, they are out of sync.
+from the drm-misc-fixes tree.
 
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
 
-> 
->> ---
->>   .../devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml      | 2 +-
->>   .../devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml       | 2 +-
->>   2 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git 
->> a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml 
->> b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
->> index d6f043a4b08d..4795e13c7b59 100644
->> --- 
->> a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
->> +++ 
->> b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
->> @@ -72,7 +72,7 @@ examples:
->>       #include <dt-bindings/interconnect/qcom,qcm2290.h>
->>       #include <dt-bindings/power/qcom-rpmpd.h>
->> -    mdss@5e00000 {
->> +    display-subsystem@5e00000 {
->>           #address-cells = <1>;
->>           #size-cells = <1>;
->>           compatible = "qcom,qcm2290-mdss";
->> diff --git 
->> a/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml 
->> b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
->> index a86d7f53fa84..886858ef6700 100644
->> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
->> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
->> @@ -62,7 +62,7 @@ examples:
->>       #include <dt-bindings/interrupt-controller/arm-gic.h>
->>       #include <dt-bindings/power/qcom-rpmpd.h>
->> -    mdss@5e00000 {
->> +    display-subsystem@5e00000 {
->>           #address-cells = <1>;
->>           #size-cells = <1>;
->>           compatible = "qcom,sm6115-mdss";
-> 
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/dma-buf/dma-buf.c
+index b6c36914e7c6,eb6b59363c4f..000000000000
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@@ -658,23 -655,24 +660,23 @@@ struct dma_buf *dma_buf_export(const st
+  	init_waitqueue_head(&dmabuf->poll);
+  	dmabuf->cb_in.poll =3D dmabuf->cb_out.poll =3D &dmabuf->poll;
+  	dmabuf->cb_in.active =3D dmabuf->cb_out.active =3D 0;
+ -	mutex_init(&dmabuf->lock);
++ 	INIT_LIST_HEAD(&dmabuf->attachments);
+ =20
+  	if (!resv) {
+- 		resv =3D (struct dma_resv *)&dmabuf[1];
+- 		dma_resv_init(resv);
++ 		dmabuf->resv =3D (struct dma_resv *)&dmabuf[1];
++ 		dma_resv_init(dmabuf->resv);
++ 	} else {
++ 		dmabuf->resv =3D resv;
+  	}
+- 	dmabuf->resv =3D resv;
+ =20
+- 	file =3D dma_buf_getfile(dmabuf, exp_info->flags);
+- 	if (IS_ERR(file)) {
+- 		ret =3D PTR_ERR(file);
++ 	ret =3D dma_buf_stats_setup(dmabuf, file);
++ 	if (ret)
+  		goto err_dmabuf;
+- 	}
+ =20
++ 	file->private_data =3D dmabuf;
++ 	file->f_path.dentry->d_fsdata =3D dmabuf;
+  	dmabuf->file =3D file;
+ =20
+- 	INIT_LIST_HEAD(&dmabuf->attachments);
+-=20
+  	mutex_lock(&db_list.lock);
+  	list_add(&dmabuf->list_node, &db_list.head);
+  	mutex_unlock(&db_list.lock);
+
+--Sig_/Yyb61wh00qLWsTl=2x39==M
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmOY9goACgkQAVBC80lX
+0GxE4wf/YfEkxbiaehvNd37ZMtx4/2ICMz4VIuMhpjRmPrbP99hv6PHome3nja0A
+4ZVm0zvHSQmrDzNEMQnONhqqZ1kxc9WW5/6Nz0yos/mUUCnAxv6TiadvmxSpOivL
+uV2KW/dorfwLYkmjkycrCq/YYBN9boB3eTShqyBAY/cx4XWc7+klNd0uv+IuNgxN
+/HMZAv2m6C8Lb5W4HbUhUKp99xKRh4Wf08tZu8Gxe8MDwMA4xP/gW3ZBj6EflRT0
+MFm+yvyf3Fmpb8zFAAY+b4tnUyGakJDiX8OX+o4Djtu4jIf40IFE/8ZmcmCQ+B2V
+XWVlge0T8cQ+WrnZ3cXQE+sMhqTacQ==
+=fKvB
+-----END PGP SIGNATURE-----
+
+--Sig_/Yyb61wh00qLWsTl=2x39==M--
