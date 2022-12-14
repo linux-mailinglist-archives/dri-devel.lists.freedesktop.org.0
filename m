@@ -2,46 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE0B764C26E
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 03:54:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE73F64C27F
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 04:02:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3266410E0D5;
-	Wed, 14 Dec 2022 02:54:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B44C510E207;
+	Wed, 14 Dec 2022 03:02:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp23.cstnet.cn [159.226.251.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id C924510E0D5
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 02:54:33 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.138.125])
- by APP-03 (Coremail) with SMTP id rQCowAAHD5fXOpljjICpBg--.26176S2;
- Wed, 14 Dec 2022 10:54:15 +0800 (CST)
-From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: gregkh@linuxfoundation.org
-Subject: [PATCH v2] usb: gadget: aspeed_udc: Add check for dma_alloc_coherent
-Date: Wed, 14 Dec 2022 10:54:14 +0800
-Message-Id: <20221214025414.44866-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2EC710E207
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 03:02:17 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 9A617B815C6
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 03:02:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 65A6DC433F0
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 03:02:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1670986933;
+ bh=aEsrzsCqUW25x+pNZEfe8qoLGrXSH3kbUaxQmtyFcFU=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=EJrU6PwdL9x0X9wbzbdQUvXWtAACRoyDSxCPpPNaEBQzd6A/q6SPdylA3InhWT3LX
+ U+spfsjSzr4yE+fX/eatJvuxlK5Yxc0D9zfnc7J58CkCTPofYgf1umdGNSvUcuV6Lz
+ VgqasfJNQWnA8AuuDsk4ivvTapzZLDf6kihJa1mapXf2nzvaWVOIN+tcjeZ/91AITb
+ Z3o7MYTUxbrgxqi3s3g2D/3BCgMm4bjQX6rkfzqcm3ywTGXVIs+LLXGP+GSKlX4q3T
+ So7IZyChNmzhDCEA6GOW/3cqAGAfMF0FW04j+WU/asR7l6PThfrQ+TH6ZSb0a4LUx3
+ wvB+e72m0IVHw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 163E0C43143; Wed, 14 Dec 2022 03:02:13 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216805] external monitor not working since 6.1 (amdgpu:
+ update_mst_stream_alloc_table, regression from 6.0))
+Date: Wed, 14 Dec 2022 03:02:12 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: kolAflash@kolahilft.de
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216805-2300-kk6HcmaHH0@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216805-2300@https.bugzilla.kernel.org/>
+References: <bug-216805-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: rQCowAAHD5fXOpljjICpBg--.26176S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7GrWfGw4fZF4Uur1rZry8Grg_yoWkCrbE9F
- 4UWF15Wryava9Fgr1jvw13Aryq9a48u34kW3WvkF13Aa43Ga4xXr1jqr95ur47ZFy7uFn8
- Aas0krW7X3y7XjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbVAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
- 6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
- xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
- 8cxan2IY04v7MxkIecxEwVAFwVW8JwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
- WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
- 67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
- IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF
- 0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
- VjvjDU0xZFpf9x0JUHWlkUUUUU=
-X-Originating-IP: [124.16.138.125]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,51 +72,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiasheng Jiang <jiasheng@iscas.ac.cn>, linux-aspeed@lists.ozlabs.org,
- andrew@aj.id.au, neal_liu@aspeedtech.com, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- sumit.semwal@linaro.org, linaro-mm-sig@lists.linaro.org, joel@jms.id.au,
- christian.koenig@amd.com, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the check for the return value of dma_alloc_coherent in order to
-avoid NULL pointer dereference.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216805
 
-This flaw was found using an experimental static analysis tool we are
-developing, APP-Miner, which has not been disclosed.
+--- Comment #2 from kolAflash (kolAflash@kolahilft.de) ---
+Finished the git bisect and created a new bug report here:
+https://gitlab.freedesktop.org/drm/amd/-/issues/2297
 
-The allyesconfig build using GCC 9.3.0 shows no new warning. As we
-don't have a UDC device to test with, no runtime testing was able to
-be performed.
+--=20
+You may reply to this email to add a comment.
 
-Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
----
-Changelog:
-
-v1 -> v2:
-
-1. Add "goto err;" when allocation fails.
----
- drivers/usb/gadget/udc/aspeed_udc.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
-index 01968e2167f9..7dc2457c7460 100644
---- a/drivers/usb/gadget/udc/aspeed_udc.c
-+++ b/drivers/usb/gadget/udc/aspeed_udc.c
-@@ -1516,6 +1516,10 @@ static int ast_udc_probe(struct platform_device *pdev)
- 					  AST_UDC_EP_DMA_SIZE *
- 					  AST_UDC_NUM_ENDPOINTS,
- 					  &udc->ep0_buf_dma, GFP_KERNEL);
-+	if (!udc->ep0_buf) {
-+		rc = -ENOMEM;
-+		goto err;
-+	}
- 
- 	udc->gadget.speed = USB_SPEED_UNKNOWN;
- 	udc->gadget.max_speed = USB_SPEED_HIGH;
--- 
-2.25.1
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
