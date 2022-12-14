@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D968164C6B7
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 11:08:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C9664C6C6
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 11:08:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 074AA10E3AC;
-	Wed, 14 Dec 2022 10:07:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C8E410E3BE;
+	Wed, 14 Dec 2022 10:07:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E4AB10E3BB;
- Wed, 14 Dec 2022 10:07:29 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 483AF10E3BE;
+ Wed, 14 Dec 2022 10:07:35 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BE8TD42022201; Wed, 14 Dec 2022 10:07:28 GMT
+ 2BE6nTJs015882; Wed, 14 Dec 2022 10:07:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=h58UIYvYouCRcJ4wKnnVdc10JHp8huiPuPf0DRvCHfc=;
- b=S8oqTQwDaZrjE7WKbXFh9zFQg3dnC54tAj15RauV0JnDSjogwiY6pDB10jChrdykKGLr
- h0z3HLClzh1ndX+3kreXOgEEjo9Wa1JITOWYMjQLvCMlJ+DcwQhkXv1IyQ8+TNCCxWgJ
- 1LKI2KWinIiIRgYcoMp6EezZ5Gm2XFB/NwzqQjp4w3ZBNoQaecaXQPzNLce/s70rT5Yi
- eB5r5cdfuobKzYJiJd1WlDChHTF5Sxb1l6MZ0/wAHcqYpSE54L1TZBiUdc9Ale3W9zAN
- R/CUWnNPsrxupl62Klb2idpcF2q+4HAqLEMeOi5pBcrH9E9bUwAw2UK/c0i+wi7qY/wH mg== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=6cGylqvNlT58TRB2vjYmHAWx6QqDNsBk9aO//XZP6GE=;
+ b=PreE+87JkChZmMlrkdjieGlmqIGXlXJjyyW854+mmnSrzGltSzG7p0AVcWbPwT18SGk5
+ lsLZkihdC7zVW60iziPnWmOjlwXRdnxurKOs26r1yZeruE4ZIxequYjaKalxQmXs717c
+ u2VDvBqfJV3+NjK2kqwWQJsdLQhWrAuGwOmeH1F6TQnWjhlGO18/Is3uHSfQ9CGWO2bC
+ QSUxSjc6kisbFSESLVImFI997D8GlJyaIvwllic2PtjUbjsSbWi9uAAHTly5c0UxAXPy
+ O4RurU4h99G/NgpZts6UrL13TFt96z8cMEsDfapbtHDgrmd/aVExZzUAJZ921ysGzL1S 6w== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mf6rkgna2-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mf6rkgn06-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Dec 2022 10:07:27 +0000
+ Wed, 14 Dec 2022 10:07:33 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
  [10.47.209.197])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BEA7QFB002198
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BEA7WCi016790
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Dec 2022 10:07:26 GMT
+ Wed, 14 Dec 2022 10:07:32 GMT
 Received: from vpolimer-linux.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Wed, 14 Dec 2022 02:07:21 -0800
+ 15.2.986.36; Wed, 14 Dec 2022 02:07:26 -0800
 From: Vinod Polimera <quic_vpolimer@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
  <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v9 13/15] drm/msm/disp/dpu: wait for extra vsync till timing
- engine status is disabled
-Date: Wed, 14 Dec 2022 15:35:50 +0530
-Message-ID: <1671012352-1825-14-git-send-email-quic_vpolimer@quicinc.com>
+Subject: [PATCH v9 14/15] drm/msm/disp/dpu: reset the datapath after timing
+ engine disable
+Date: Wed, 14 Dec 2022 15:35:51 +0530
+Message-ID: <1671012352-1825-15-git-send-email-quic_vpolimer@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1671012352-1825-1-git-send-email-quic_vpolimer@quicinc.com>
 References: <1671012352-1825-1-git-send-email-quic_vpolimer@quicinc.com>
@@ -58,16 +58,16 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: Qq2833WMpry5apTE8_4W1vQEXO-qXFSj
-X-Proofpoint-ORIG-GUID: Qq2833WMpry5apTE8_4W1vQEXO-qXFSj
+X-Proofpoint-ORIG-GUID: iBGJmznY-85C2pquqUmBO1fLh_mZvuAa
+X-Proofpoint-GUID: iBGJmznY-85C2pquqUmBO1fLh_mZvuAa
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-14_04,2022-12-13_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0
- lowpriorityscore=0 phishscore=0 priorityscore=1501 bulkscore=0
- adultscore=0 suspectscore=0 mlxlogscore=999 mlxscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ lowpriorityscore=0
+ adultscore=0 priorityscore=1501 clxscore=1015 phishscore=0 malwarescore=0
+ mlxlogscore=999 spamscore=0 suspectscore=0 impostorscore=0 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2212140079
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,52 +90,24 @@ Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There can be a race between timing gen disable and vblank irq. The
-wait post timing gen disable may return early but intf disable sequence
-might not be completed. Ensure that, intf status is disabled before
-we retire the function.
+Reset the datapath after disabling the timing gen, such that
+it can start on a clean slate when the intf is enabled back.
+This was a recommended sequence from the DPU HW programming guide.
 
 Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
 ---
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c    | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-index 0f71e8f..685cb44 100644
+index 685cb44..a597cca 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-@@ -526,6 +526,7 @@ static void dpu_encoder_phys_vid_disable(struct dpu_encoder_phys *phys_enc)
- {
- 	unsigned long lock_flags;
- 	int ret;
-+	struct intf_status intf_status = {0};
- 
- 	if (!phys_enc->parent || !phys_enc->parent->dev) {
- 		DPU_ERROR("invalid encoder/device\n");
-@@ -570,6 +571,26 @@ static void dpu_encoder_phys_vid_disable(struct dpu_encoder_phys *phys_enc)
+@@ -591,6 +591,7 @@ static void dpu_encoder_phys_vid_disable(struct dpu_encoder_phys *phys_enc)
  		}
  	}
  
-+	if (phys_enc->hw_intf && phys_enc->hw_intf->ops.get_status)
-+		phys_enc->hw_intf->ops.get_status(phys_enc->hw_intf, &intf_status);
-+
-+	/*
-+	 * Wait for a vsync if timing en status is on after timing engine
-+	 * is disabled.
-+	 */
-+	if (intf_status.is_en && dpu_encoder_phys_vid_is_master(phys_enc)) {
-+		spin_lock_irqsave(phys_enc->enc_spinlock, lock_flags);
-+		dpu_encoder_phys_inc_pending(phys_enc);
-+		spin_unlock_irqrestore(phys_enc->enc_spinlock, lock_flags);
-+		ret = dpu_encoder_phys_vid_wait_for_vblank(phys_enc);
-+		if (ret) {
-+			atomic_set(&phys_enc->pending_kickoff_cnt, 0);
-+			DRM_ERROR("wait disable failed: id:%u intf:%d ret:%d\n",
-+				  DRMID(phys_enc->parent),
-+				  phys_enc->hw_intf->idx - INTF_0, ret);
-+		}
-+	}
-+
++	dpu_encoder_helper_phys_cleanup(phys_enc);
  	phys_enc->enable_state = DPU_ENC_DISABLED;
  }
  
