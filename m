@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 188E464CFBD
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 19:53:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AEFF64CFCE
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 19:57:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF1DA10E458;
-	Wed, 14 Dec 2022 18:53:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E505610E444;
+	Wed, 14 Dec 2022 18:56:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E8A510E444
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 18:53:48 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id bp15so11964161lfb.13
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 10:53:48 -0800 (PST)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AA7110E444
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 18:56:33 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id g7so12037268lfv.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 10:56:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=6rJMrpZYZD2A/xpXae8B0oejAWRcmuy9sfR7fFaHOBc=;
- b=QVQrCEIZvayjhKBW1SqgqlwaNf8PyYteWOCCf4E1q99+gQs2QJayeOl1370H60k3o3
- 3EaCcdL3nZuLdvqUlQOx0TjWZX67iRRGNVSY5yQEQUWCT7g+53BaMSIFnv0dEhGx5LKl
- zThoZ0JdxlKAxhtU+xZTknQD4h/BeoFbejEoLtSeH5yuDhTgVie5zrtKwvUl8MwU8ngw
- 6re8naZmhWWkl10KJSdxZ3UYnrp7PSm7Si0qEUch0vyDR7tD5imx2wtWB1UK/FVD4kGJ
- MXTDlCQF5xdphRE10L/a2Cdlw600HMZr+3FoI/F0aP+I3zDOWEg5BrzbeaA/kY2H8aKx
- DCHQ==
+ bh=iAXgv0FqZPp6QIE1p4AggR6c0tBhwxedxuB4UjUwAYk=;
+ b=pAuFjz4IygxgeJ/oxxYilAxz9gu8rxLLD9Abptoxz/z4g5C3oh01+sDNMD4EQjHl8I
+ 7SffwShxzO/Yrkx10FvA4FfHt94r7pRmhR144YjqKE807AH157g3nzvv81MKPv+kS2Aa
+ kNb9r2UVZ3su2RjugjW8eTrUPslchCeRVJJmSSoPxRJ0lR6YJLpin7/NCycvQQh2lFS9
+ FXNr4KhaPAqsOKcy0iJDpo+6mgxQgFJagtaJInGlDaWWJj6Yt/OkYuepwDAXh279/59m
+ HfhS4/e/YrJS0V8beZmuFG+Sl6K+ec6myLTFXUqR7qBWRbTetiC03RKEs6T7zkfHcTyh
+ LLfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6rJMrpZYZD2A/xpXae8B0oejAWRcmuy9sfR7fFaHOBc=;
- b=QigRfHHZgZ6lhMdsRb1NEOEEuffoDdyEN6bkQBcxSIbv9mN1athTVnsXKndrOCY8v7
- +0AnPM1QDIQ2eI1lzAb5PrkSjokbezvJ3iojhV2WqnP53QYUEFl4oexR8XNy8YqOhlvu
- gvmlkJ9Fu9IC8XpvlQ1yhsFX3BMXhRfUaFn1wje3/M2MwEeGd2LCZtxmagHAU4/KSWEi
- uEQdGUe4Xd1hVVMCfK7HnEsCwPLPkIEu+lwSYkAFYTSGoV9t2vqPmHrbQmBQRgrLr5O4
- E/OaaBCC8Oj67atFkwslwMVs+ReqR2JxGJ0kfSkn0v/m2sc5FLeylZVwAnsukkQyTMNw
- VF3Q==
-X-Gm-Message-State: ANoB5pkOQx61YHOFVNDkgLSW4xTLzB2QJmXmYD/6w23QzG3vTTy2wb9p
- R9gXyxwyRet0wNQRLga3OfV/Pg==
-X-Google-Smtp-Source: AA0mqf5a2Ur10inLKK3tfDV562RQOWwl9Gjlcf6ElvbgqgUeC00yin0AqxKIn1vOT9+/BxoUPUnKjg==
-X-Received: by 2002:ac2:5201:0:b0:4b5:889c:f2cf with SMTP id
- a1-20020ac25201000000b004b5889cf2cfmr7321525lfl.20.1671044026895; 
- Wed, 14 Dec 2022 10:53:46 -0800 (PST)
+ bh=iAXgv0FqZPp6QIE1p4AggR6c0tBhwxedxuB4UjUwAYk=;
+ b=Al/8gIblg5ai7Fxc9vjAwQoMD2/bHOSZOA7U9BjY4KF0713I2sF7u7wqRR94Utio/n
+ gwEXGMFSAgFbB65dOJAwyy5hy8sI59EsbEc6czrgAqePMEqDk+6C2hs1tMxX/PtwZCKp
+ 7TGL2qZaLLa+ZAljkMnNlJFv51fGWjar9vNj84FooCSUVf0x8icuI5633n3G8k/pm3ZI
+ koZe1Vf7FUxvNwRWXYisCD0DfJE3Aio7ELeWWwnfFFGyBBvzS7Fc643qZqXeSTxug3SP
+ 5uHrPOF02o2jiCWqV1DAZ1rMDGFiAkySyE/jvVXKh7EnIsF8gFLf7DDeyUcg8aHcw73p
+ nnFA==
+X-Gm-Message-State: ANoB5plHzCMGItVUNzZSzB3oQvtDfKzK6qf+5h0LmEi9v8tAmDA/dqPD
+ Krjkbh2V9m5AnUCswpjFRJQHlg==
+X-Google-Smtp-Source: AA0mqf7tKHFcQgUDMIF6sSNxIcU2Z7dQJ6Y3iG+hcEiC2wXXGP4cyEjDdrTcg35JQSrt56nDMeQuWA==
+X-Received: by 2002:a05:6512:1308:b0:4a4:68b8:9c35 with SMTP id
+ x8-20020a056512130800b004a468b89c35mr8293375lfu.29.1671044191866; 
+ Wed, 14 Dec 2022 10:56:31 -0800 (PST)
 Received: from [10.10.15.130] ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- v7-20020a056512348700b004a2511b8224sm905068lfr.103.2022.12.14.10.53.46
+ h18-20020a19ca52000000b004b18163476esm895588lfj.112.2022.12.14.10.56.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Dec 2022 10:53:46 -0800 (PST)
-Message-ID: <7d0b3010-bcb1-657e-1d7c-a66cca7ebe8e@linaro.org>
-Date: Wed, 14 Dec 2022 20:53:45 +0200
+ Wed, 14 Dec 2022 10:56:31 -0800 (PST)
+Message-ID: <4b7b4fb0-b99b-1022-b0f6-e91a84e8d082@linaro.org>
+Date: Wed, 14 Dec 2022 20:56:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.1
-Subject: Re: [RFC PATCH 5/6] drm/msm/dsi: Flip greater-than check for
- slice_count and slice_per_intf
+Subject: Re: [RFC PATCH 6/6] drm/msm/dpu: Disallow unallocated (DSC) resources
+ to be returned
 Content-Language: en-GB
 To: Marijn Suijten <marijn.suijten@somainline.org>,
  phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, Vinod Koul <vkoul@kernel.org>
 References: <20221213232207.113607-1-marijn.suijten@somainline.org>
- <20221213232207.113607-6-marijn.suijten@somainline.org>
+ <20221213232207.113607-7-marijn.suijten@somainline.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20221213232207.113607-6-marijn.suijten@somainline.org>
+In-Reply-To: <20221213232207.113607-7-marijn.suijten@somainline.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,19 +98,66 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 14/12/2022 01:22, Marijn Suijten wrote:
-> According to downstream /and the comment copied from it/ this comparison
-> should be the other way around.  In other words, when the panel driver
-> requests to use more slices per packet than what could be sent over this
-> interface, it is bumped down to only use a single slice per packet (and
-> strangely not the number of slices that could fit on the interface).
+> In the event that the topology requests resources that have not been
+> created by the system (because they are typically not represented in
+> dpu_mdss_cfg ^1), the resource(s) in global_state (in this case DSC
+> blocks) remain NULL but will still be returned out of
+> dpu_rm_get_assigned_resources, where the caller expects to get an array
+> containing num_blks valid pointers (but instead gets these NULLs).
 > 
-> Fixes: 08802f515c3c ("drm/msm/dsi: Add support for DSC configuration")
+> To prevent this from happening, where null-pointer dereferences
+> typically result in a hard-to-debug platform lockup, num_blks shouldn't
+> increase past NULL blocks and will print an error and break instead.
+> After all, max_blks represents the static size of the maximum number of
+> blocks whereas the actual amount varies per platform.
+> 
+> In the specific case of DSC initial resource allocation should behave
+> more like LMs and CTLs where NULL resources are skipped.  The current
+> hardcoded mapping of DSC blocks should be loosened separately as DPU
+> 5.0.0 introduced a crossbar where DSC blocks can be "somewhat" freely
+> bound to any PP and CTL, but that hardcoding currently means that we
+> will return an error when the topology reserves a DSC that isn't
+> available, instead of looking for the next free one.
+> 
+> ^1: which can happen after a git rebase ended up moving additions to
+> _dpu_cfg to a different struct which has the same patch context.
+> 
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 > ---
->   drivers/gpu/drm/msm/dsi/dsi_host.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index 73b3442e7467..dcbf03d2940a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -496,6 +496,11 @@ static int _dpu_rm_reserve_dsc(struct dpu_rm *rm,
+>   
+>   	/* check if DSC required are allocated or not */
+>   	for (i = 0; i < num_dsc; i++) {
+> +		if (!rm->dsc_blks[i]) {
+> +			DPU_ERROR("DSC %d does not exist\n", i);
+> +			return -EIO;
+> +		}
+> +
+>   		if (global_state->dsc_to_enc_id[i]) {
+>   			DPU_ERROR("DSC %d is already allocated\n", i);
+>   			return -EIO;
+> @@ -660,6 +665,11 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
+>   				  blks_size, enc_id);
+>   			break;
+>   		}
+> +		if (!hw_blks[i]) {
+> +			DPU_ERROR("No more resource %d available to assign to enc %d\n",
+> +				  type, enc_id);
+> +			break;
+> +		}
+>   		blks[num_blks++] = hw_blks[i];
+>   	}
+>  
 
-With SoB in place:
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+These two chunks should come as two separate patches, each having it's 
+own Fixes tag.
 
 -- 
 With best wishes
