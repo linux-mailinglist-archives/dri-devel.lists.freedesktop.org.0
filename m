@@ -2,64 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 120F064C1A3
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 02:06:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E011964C216
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 03:03:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9691C10E1CF;
-	Wed, 14 Dec 2022 01:05:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C241710E201;
+	Wed, 14 Dec 2022 02:02:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C542710E1CF
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 01:05:35 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B1C410E201
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 02:02:55 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 53060B81615
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 01:05:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 16D4EC433EF
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 01:05:32 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D778C61773;
+ Wed, 14 Dec 2022 02:02:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C203EC433D2;
+ Wed, 14 Dec 2022 02:02:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1670979932;
- bh=twcWJRkpPmWF0qsbL2+gcR8S9VBGQ9GL76MDMZf/Pdk=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=JUrInKUj8QaELDWlrXQZsWZl0n1o0bdmfPe/4+W3k5xBMPB0ty6/CJbLnQzIPZeBN
- vCTvQdhdsZ5yIYsC+5NXZlm6aUpDmQYPydZ3N+6llI6kx6x8LlMjxbjrezHDU/1aQR
- NmlzhDY6cmNYjQ/VaSnZYm+ZNhNKblroD6L5wWVdZCUrelLIwjS59sEutocCTtIkDt
- QOuEfTYdc/jRqg0Jzbrk/kIOy+7wmjAmvSry7xAPBOLZfETnmw6qGt3pQGEIzmA1Hx
- AqmqKE9VIJrnujq6ev431PrpEH7C7NSmfvaqotnLxTHqBQ2eGF8FsUpmRoqOOBnBuo
- PS6mXPW3s9dYQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 01527C43143; Wed, 14 Dec 2022 01:05:32 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216805] external monitor not working since 6.1 (amdgpu:
- update_mst_stream_alloc_table, regression from 6.0))
-Date: Wed, 14 Dec 2022 01:05:31 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-216805-2300-KZg1TTsBl5@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216805-2300@https.bugzilla.kernel.org/>
-References: <bug-216805-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ s=k20201202; t=1670983338;
+ bh=83ob3N1he1MIOrIIbkVJFs5buErAmrdJMCOKfKXHqb0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=bDLXc0RuV61tWZ2TmhA1zZ/K9nn8vhh9b8wz9mlGGOgLzL72MNBrv3mH5M0aHf5I3
+ hYs6hOT0gCeh5AF+RryYv8T3742g9igNINX2g//Q0TC+McJ349jyIEVzFAxIZPfX4E
+ N1Ms8QVMLpeyMvw3A726E4yHJiEUK7ovU2FeXBOiFb6EcuxkjSe2oj3T7gyQfQB65W
+ ihdnMMbu247K8HnVN4q4MpH7jWLJ/OHVUsz/8nMUgIWNMVcXMMGXDkb0I18prIFwR2
+ XONm4gCX+VRwbHTKJW+zbxU6oFygYoN5Fou0uk2HBKR4zgxK7mI9PN+4YcjW2MZ5LE
+ +IzwIELTfXT8g==
+Date: Tue, 13 Dec 2022 18:02:16 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Subject: Re: [PATCH v2] net: ksz884x: Remove some unused functions
+Message-ID: <20221213180216.34f1826f@kernel.org>
+In-Reply-To: <20221213035707.118309-1-jiapeng.chong@linux.alibaba.com>
+References: <20221213035707.118309-1-jiapeng.chong@linux.alibaba.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,25 +51,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: netdev@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ davem@davemloft.net, linaro-mm-sig@lists.linaro.org, edumazet@google.com,
+ pabeni@redhat.com, sumit.semwal@linaro.org, christian.koenig@amd.com,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216805
+On Tue, 13 Dec 2022 11:57:07 +0800 Jiapeng Chong wrote:
+> These functions are defined in the ksz884x.c file, but not called
+> elsewhere, so delete these unused functions.
+> 
+> drivers/net/ethernet/micrel/ksz884x.c:2212:20: warning: unused function 'port_cfg_force_flow_ctrl'.
+> 
+> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3418
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+# Form letter - net-next is closed
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |ANSWERED
+We have already submitted the networking pull request to Linus
+for v6.2 and therefore net-next is closed for new drivers, features,
+code refactoring and optimizations. We are currently accepting
+bug fixes only.
 
---- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
-Please search for duplicates and file a new bug report if there's none:
+Please repost when net-next reopens after 6.2-rc1 is cut.
 
-https://gitlab.freedesktop.org/drm/amd/-/issues
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+RFC patches sent for review only are obviously welcome at any time.
