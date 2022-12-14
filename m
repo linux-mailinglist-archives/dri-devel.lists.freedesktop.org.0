@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E09A64C68D
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 11:06:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5135364C69F
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 11:07:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40EA010E3A4;
-	Wed, 14 Dec 2022 10:06:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B00BD10E3A6;
+	Wed, 14 Dec 2022 10:06:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6CD510E052;
- Wed, 14 Dec 2022 10:06:24 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E24210E3A4;
+ Wed, 14 Dec 2022 10:06:31 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BE92NuS005294; Wed, 14 Dec 2022 10:06:22 GMT
+ 2BE3fhfM021078; Wed, 14 Dec 2022 10:06:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=gxBmLOOS3k3NkH1NkcW1m1irUL2/tWgn20v3uWZ4hjg=;
- b=mY5i+1Xg4iUOmzeJR8NYNFK4ioi5HTEKRk3ZA7NEZCk0yJo6gmqHDCTdBoJZK7q9aFDn
- e1ADlO8i1zxuLHWTuegJWE1HOzegJ0k5z/GtOQISJQzyyiFScucE+sL/FhBBnm9yVgXE
- RJxxLc3fNs/JmoqankGMrfk5/9D/7s23neZvMlp+/aRRbLPeniQV9K1SmI56XwZrEznT
- yTRl8ixLn+DgkaOv6qG7a97dNi/On3KTBP1M6Qe/RaCm9PZaSNEOcvFv3gcNx1VoJ235
- WtCy+cdTDi2V09bRKjfgOMFlechB50PjLX2CR+FX0ZkpQeLJP52HmA27ekyPgabWJmLL tQ== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=WMiXTUhsANyKwtU1kgDcixY5iL4SEDlcQ33BndswIII=;
+ b=SterlQ3db2+HQTxmF3yU2cU4S7hJy/xQzRsuTUlv7wmQT1u3qwLWzIpBDyPBc3oSdQG+
+ YdMpTS11SYa/181RDaTbe8hrD+3ftZR2ewHwMjIRU6WhJgFsDiKDB4rAmm8vY0D6OEUj
+ Kad917OumN6EEaBPQnitgRGfFTF8Zai+2RIp/jsur0jNTF11K0ZDJP1N/0TSywjnQnsm
+ xtMESpGHkNoN6N2Du3Bc9B6atvfROLemMmAS78cvW80Q00qzRdHl5XqqBoA9XQqDudum
+ A3Wsqg2SvfRsL1G7pK50IrprfascWjJdJG/20nrYv4EV22wMg8g+iZIJLcK68Re0CDA+ WA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mf6rrgn3x-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mf6re8ppq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Dec 2022 10:06:22 +0000
+ Wed, 14 Dec 2022 10:06:27 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
  [10.47.209.197])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BEA6Llb011123
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BEA6Qti023259
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Dec 2022 10:06:21 GMT
+ Wed, 14 Dec 2022 10:06:26 GMT
 Received: from vpolimer-linux.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Wed, 14 Dec 2022 02:06:15 -0800
+ 15.2.986.36; Wed, 14 Dec 2022 02:06:21 -0800
 From: Vinod Polimera <quic_vpolimer@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
  <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v9 01/15] drm/msm/disp/dpu: clear dpu_assign_crtc and get crtc
- from connector state instead of dpu_enc
-Date: Wed, 14 Dec 2022 15:35:38 +0530
-Message-ID: <1671012352-1825-2-git-send-email-quic_vpolimer@quicinc.com>
+Subject: [PATCH v9 02/15] drm: add helper functions to retrieve old and new
+ crtc
+Date: Wed, 14 Dec 2022 15:35:39 +0530
+Message-ID: <1671012352-1825-3-git-send-email-quic_vpolimer@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1671012352-1825-1-git-send-email-quic_vpolimer@quicinc.com>
 References: <1671012352-1825-1-git-send-email-quic_vpolimer@quicinc.com>
@@ -58,16 +58,16 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: f2voA4xoll_C-0VQLbuHAMfFsxvho0Kg
-X-Proofpoint-ORIG-GUID: f2voA4xoll_C-0VQLbuHAMfFsxvho0Kg
+X-Proofpoint-GUID: ETTnduFy_8NkCVdyXXZ22XNd1v89ywSW
+X-Proofpoint-ORIG-GUID: ETTnduFy_8NkCVdyXXZ22XNd1v89ywSW
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-14_04,2022-12-13_01,2022-06-22_01
+ definitions=2022-12-14_04,2022-12-14_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=814
- suspectscore=0 phishscore=0 malwarescore=0 impostorscore=0 adultscore=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 bulkscore=0 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ adultscore=0 mlxscore=0
+ lowpriorityscore=0 bulkscore=0 clxscore=1015 impostorscore=0
+ mlxlogscore=763 priorityscore=1501 spamscore=0 phishscore=0 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2212140079
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,154 +90,107 @@ Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update crtc retrieval from dpu_enc to dpu_enc connector state,
-since new links get set as part of the dpu enc virt mode set.
-The dpu_enc->crtc cache is no more needed, hence cleaning it as
-part of this change.
+Add new helper functions, drm_atomic_get_old_crtc_for_encoder
+and drm_atomic_get_new_crtc_for_encoder to retrieve the
+corresponding crtc for the encoder.
 
-This patch is dependent on the series:
-https://patchwork.freedesktop.org/series/110969/
-
+Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  4 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 42 +++++++++--------------------
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  8 ------
- 3 files changed, 13 insertions(+), 41 deletions(-)
+ drivers/gpu/drm/drm_atomic.c | 60 ++++++++++++++++++++++++++++++++++++++++++++
+ include/drm/drm_atomic.h     |  7 ++++++
+ 2 files changed, 67 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 3f72d38..289d51e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -1029,7 +1029,6 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
- 		 */
- 		if (dpu_encoder_get_intf_mode(encoder) == INTF_MODE_VIDEO)
- 			release_bandwidth = true;
--		dpu_encoder_assign_crtc(encoder, NULL);
- 	}
- 
- 	/* wait for frame_event_done completion */
-@@ -1099,9 +1098,6 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
- 	trace_dpu_crtc_enable(DRMID(crtc), true, dpu_crtc);
- 	dpu_crtc->enabled = true;
- 
--	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
--		dpu_encoder_assign_crtc(encoder, crtc);
--
- 	/* Enable/restore vblank irq handling */
- 	drm_crtc_vblank_on(crtc);
- }
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index a585036..b9b254d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -132,11 +132,6 @@ enum dpu_enc_rc_states {
-  * @intfs_swapped:	Whether or not the phys_enc interfaces have been swapped
-  *			for partial update right-only cases, such as pingpong
-  *			split where virtual pingpong does not generate IRQs
-- * @crtc:		Pointer to the currently assigned crtc. Normally you
-- *			would use crtc->state->encoder_mask to determine the
-- *			link between encoder/crtc. However in this case we need
-- *			to track crtc in the disable() hook which is called
-- *			_after_ encoder_mask is cleared.
-  * @connector:		If a mode is set, cached pointer to the active connector
-  * @crtc_kickoff_cb:		Callback into CRTC that will flush & start
-  *				all CTL paths
-@@ -181,7 +176,6 @@ struct dpu_encoder_virt {
- 
- 	bool intfs_swapped;
- 
--	struct drm_crtc *crtc;
- 	struct drm_connector *connector;
- 
- 	struct dentry *debugfs_root;
-@@ -1317,7 +1311,7 @@ static void dpu_encoder_vblank_callback(struct drm_encoder *drm_enc,
- 		struct dpu_encoder_phys *phy_enc)
- {
- 	struct dpu_encoder_virt *dpu_enc = NULL;
--	unsigned long lock_flags;
-+	struct drm_crtc *crtc;
- 
- 	if (!drm_enc || !phy_enc)
- 		return;
-@@ -1325,12 +1319,13 @@ static void dpu_encoder_vblank_callback(struct drm_encoder *drm_enc,
- 	DPU_ATRACE_BEGIN("encoder_vblank_callback");
- 	dpu_enc = to_dpu_encoder_virt(drm_enc);
- 
--	atomic_inc(&phy_enc->vsync_cnt);
-+	if (!dpu_enc->connector || !dpu_enc->connector->state ||
-+	    !dpu_enc->connector->state->crtc)
-+		return;
- 
--	spin_lock_irqsave(&dpu_enc->enc_spinlock, lock_flags);
--	if (dpu_enc->crtc)
--		dpu_crtc_vblank_callback(dpu_enc->crtc);
--	spin_unlock_irqrestore(&dpu_enc->enc_spinlock, lock_flags);
-+	atomic_inc(&phy_enc->vsync_cnt);
-+	crtc = dpu_enc->connector->state->crtc;
-+	dpu_crtc_vblank_callback(crtc);
- 
- 	DPU_ATRACE_END("encoder_vblank_callback");
- }
-@@ -1353,33 +1348,22 @@ static void dpu_encoder_underrun_callback(struct drm_encoder *drm_enc,
- 	DPU_ATRACE_END("encoder_underrun_callback");
- }
- 
--void dpu_encoder_assign_crtc(struct drm_encoder *drm_enc, struct drm_crtc *crtc)
--{
--	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
--	unsigned long lock_flags;
--
--	spin_lock_irqsave(&dpu_enc->enc_spinlock, lock_flags);
--	/* crtc should always be cleared before re-assigning */
--	WARN_ON(crtc && dpu_enc->crtc);
--	dpu_enc->crtc = crtc;
--	spin_unlock_irqrestore(&dpu_enc->enc_spinlock, lock_flags);
--}
--
- void dpu_encoder_toggle_vblank_for_crtc(struct drm_encoder *drm_enc,
- 					struct drm_crtc *crtc, bool enable)
- {
- 	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
--	unsigned long lock_flags;
-+	struct drm_crtc *new_crtc;
- 	int i;
- 
- 	trace_dpu_enc_vblank_cb(DRMID(drm_enc), enable);
- 
--	spin_lock_irqsave(&dpu_enc->enc_spinlock, lock_flags);
--	if (dpu_enc->crtc != crtc) {
--		spin_unlock_irqrestore(&dpu_enc->enc_spinlock, lock_flags);
-+	if (!dpu_enc->connector || !dpu_enc->connector->state)
-+		return;
-+
-+	new_crtc = dpu_enc->connector->state->crtc;
-+	if (!new_crtc || new_crtc != crtc) {
- 		return;
- 	}
--	spin_unlock_irqrestore(&dpu_enc->enc_spinlock, lock_flags);
- 
- 	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
- 		struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-index 7f3d823..eb9fc7c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-@@ -40,14 +40,6 @@ struct msm_display_info {
- };
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index f197f59..941fd6d 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -985,6 +985,66 @@ drm_atomic_get_new_connector_for_encoder(struct drm_atomic_state *state,
+ EXPORT_SYMBOL(drm_atomic_get_new_connector_for_encoder);
  
  /**
-- * dpu_encoder_assign_crtc - Link the encoder to the crtc it's assigned to
-- * @encoder:	encoder pointer
-- * @crtc:	crtc pointer
-- */
--void dpu_encoder_assign_crtc(struct drm_encoder *encoder,
--			     struct drm_crtc *crtc);
--
--/**
-  * dpu_encoder_toggle_vblank_for_crtc - Toggles vblank interrupts on or off if
-  *	the encoder is assigned to the given crtc
-  * @encoder:	encoder pointer
++ * drm_atomic_get_old_crtc_for_encoder - Get old crtc for an encoder
++ * @state: Atomic state
++ * @encoder: The encoder to fetch the crtc state for
++ *
++ * This function finds and returns the crtc that was connected to @encoder
++ * as specified by the @state.
++ *
++ * Returns: The old crtc connected to @encoder, or NULL if the encoder is
++ * not connected.
++ */
++struct drm_crtc *
++drm_atomic_get_old_crtc_for_encoder(struct drm_atomic_state *state,
++				    struct drm_encoder *encoder)
++{
++	struct drm_connector *connector;
++	struct drm_connector_state *conn_state;
++
++	connector = drm_atomic_get_old_connector_for_encoder(state, encoder);
++	if (!connector)
++		return NULL;
++
++	conn_state = drm_atomic_get_old_connector_state(state, connector);
++	if (!conn_state)
++		return NULL;
++
++	return conn_state->crtc;
++}
++EXPORT_SYMBOL(drm_atomic_get_old_crtc_for_encoder);
++
++/**
++ * drm_atomic_get_new_crtc_for_encoder - Get new crtc for an encoder
++ * @state: Atomic state
++ * @encoder: The encoder to fetch the crtc state for
++ *
++ * This function finds and returns the crtc that will be connected to @encoder
++ * as specified by the @state.
++ *
++ * Returns: The new crtc connected to @encoder, or NULL if the encoder is
++ * not connected.
++ */
++struct drm_crtc *
++drm_atomic_get_new_crtc_for_encoder(struct drm_atomic_state *state,
++				    struct drm_encoder *encoder)
++{
++	struct drm_connector *connector;
++	struct drm_connector_state *conn_state;
++
++	connector = drm_atomic_get_new_connector_for_encoder(state, encoder);
++	if (!connector)
++		return NULL;
++
++	conn_state = drm_atomic_get_new_connector_state(state, connector);
++	if (!conn_state)
++		return NULL;
++
++	return conn_state->crtc;
++}
++EXPORT_SYMBOL(drm_atomic_get_new_crtc_for_encoder);
++
++/**
+  * drm_atomic_get_connector_state - get connector state
+  * @state: global atomic state object
+  * @connector: connector to get state object for
+diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+index 10b1990..fdbd656 100644
+--- a/include/drm/drm_atomic.h
++++ b/include/drm/drm_atomic.h
+@@ -528,6 +528,13 @@ struct drm_connector *
+ drm_atomic_get_new_connector_for_encoder(struct drm_atomic_state *state,
+ 					 struct drm_encoder *encoder);
+ 
++struct drm_crtc *
++drm_atomic_get_old_crtc_for_encoder(struct drm_atomic_state *state,
++					 struct drm_encoder *encoder);
++struct drm_crtc *
++drm_atomic_get_new_crtc_for_encoder(struct drm_atomic_state *state,
++					 struct drm_encoder *encoder);
++
+ /**
+  * drm_atomic_get_existing_crtc_state - get CRTC state, if it exists
+  * @state: global atomic state object
 -- 
 2.7.4
 
