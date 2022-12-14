@@ -2,63 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 903EB64C637
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 10:46:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD86564C68B
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 11:06:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5E2910E3A3;
-	Wed, 14 Dec 2022 09:45:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B439B10E3A1;
+	Wed, 14 Dec 2022 10:06:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE1B010E3A3
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 09:45:47 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A7954618C2
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 09:45:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 18FB0C433F1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 09:45:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671011113;
- bh=eL/ZliJ+odpu4kWQ4AZw/LQP+ggpHTUUKIXyQyE96Ik=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=dIBUQs1UTmM64x3597aHoNCJTrfcJyER3qAmVUXSCHBdFnLEO2FuqGWaTjDutnLIW
- 6Bt7R4SQ2bf5d8h3WQaXc4SA3Ij1ePHwrb1WkUvuxZ+SMAs++jDIadYMjILbiKarY3
- F7NuG1DVf9T1LCy/mr9hNV9yV3lwgcylEzgl1j4FHv98US2XU5HU7UjQZonGnj9FfU
- BgiZ7qm4MK6vLRaf3LY8PMjwwrN1ry0TK/j1L3+lBBpy+z32VdL8LhWKJgXkCzezME
- z+vU3dpFOBTsX5CqO1r6hS6bWvQjZMTxPmk3vSfGFN6WYyumnagn7t/ces6YLF9L0m
- QpSqEhouzVYyg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id E3655C43141; Wed, 14 Dec 2022 09:45:12 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216806] [Raven Ridge] console disappears after framebuffer
- device loads
-Date: Wed, 14 Dec 2022 09:45:11 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: NEEDINFO
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status
-Message-ID: <bug-216806-2300-lC1vM06NnK@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216806-2300@https.bugzilla.kernel.org/>
-References: <bug-216806-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 110B210E052;
+ Wed, 14 Dec 2022 10:06:20 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BE8W5Kc030331; Wed, 14 Dec 2022 10:06:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=9y/88DdkI/G9hNs9Fl/eOPbhCg58hYvWMInMkUsjCf4=;
+ b=DCBtS+gk3gBWSLgSnm7pPoeKvjqtq/Zix0Q4CBwN/TMF0AxfHP2TSYbag58D0axsNUqH
+ 8SDR+DqimKfp6RlNYLMfMo2Afg0698yFgyvIKEZDBPhy/u1nVxWraGqElfhVDm0yCPUQ
+ xiESyUsrn067Tq8cdmK7rCUePU6p6THSsfNrLSk+V3SP83AKI9HcxgIdwQfOIxX4QYRF
+ UGMl2FSIRfjZOZ2SgtxBpuJTj/t/KO9wq55kmL05Sf8wangq0O5SD4CIIcdSf2WqwmMe
+ PTI1tvbSYX35IqaBhbHTPMBwsQkdFnrmE5b2RPlb7x3soh0zubm7b9U/PtsdwEMJj+Di Sw== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mf6rkgn7x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Dec 2022 10:06:17 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BEA6GGs013183
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Dec 2022 10:06:16 GMT
+Received: from vpolimer-linux.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Wed, 14 Dec 2022 02:06:10 -0800
+From: Vinod Polimera <quic_vpolimer@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>
+Subject: [PATCH v9 00/15] Add PSR support for eDP 
+Date: Wed, 14 Dec 2022 15:35:37 +0530
+Message-ID: <1671012352-1825-1-git-send-email-quic_vpolimer@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: d0YX5aHblkjiz9qdF83x1r6g43DmGk8N
+X-Proofpoint-ORIG-GUID: d0YX5aHblkjiz9qdF83x1r6g43DmGk8N
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-14_04,2022-12-13_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 spamscore=0
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 bulkscore=0
+ adultscore=0 suspectscore=0 mlxlogscore=999 mlxscore=0 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2212140079
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,19 +77,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
+ quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
+ quic_vproddut@quicinc.com, quic_khsieh@quicinc.com, dianders@chromium.org,
+ linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ quic_aravindh@quicinc.com, swboyd@chromium.org,
+ Vinod Polimera <quic_vpolimer@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216806
+Changes in v2:
+  - Use dp bridge to set psr entry/exit instead of dpu_enocder.
+  - Don't modify whitespaces.
+  - Set self refresh aware from atomic_check.
+  - Set self refresh aware only if psr is supported.
+  - Provide a stub for msm_dp_display_set_psr.
+  - Move dp functions to bridge code.
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+Changes in v3:
+  - Change callback names to reflect atomic interfaces.
+  - Move bridge callback change to separate patch as suggested by Dmitry.
+  - Remove psr function declaration from msm_drv.h.
+  - Set self_refresh_aware flag only if psr is supported.
+  - Modify the variable names to simpler form.
+  - Define bit fields for PSR settings.
+  - Add comments explaining the steps to enter/exit psr.
+  - Change DRM_INFO to drm_dbg_db. 
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |NEEDINFO
+Changes in v4:
+  - Move the get crtc functions to drm_atomic.
+  - Add atomic functions for DP bridge too.
+  - Add ternary operator to choose eDP or DP ops.
+  - Return true/false instead of 1/0.
+  - mode_valid missing in the eDP bridge ops.
+  - Move the functions to get crtc into drm_atomic.c.
+  - Fix compilation issues.
+  - Remove dpu_assign_crtc and get crtc from drm_enc instead of dpu_enc.
+  - Check for crtc state enable while reserving resources.
 
---=20
-You may reply to this email to add a comment.
+Changes in v5:
+  - Move the mode_valid changes into a different patch.
+  - Complete psr_op_comp only when isr is set.
+  - Move the DP atomic callback changes to a different patch.
+  - Get crtc from drm connector state crtc.
+  - Move to separate patch for check for crtc state enable while
+reserving resources.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Changes in v6:
+  - Remove crtc from dpu_encoder_virt struct.
+  - fix crtc check during vblank toggle crtc.
+  - Misc changes. 
+
+Changes in v7:
+  - Add fix for underrun issue on kasan build.
+
+Changes in v8:
+  - Drop the enc spinlock as it won't serve any purpose in
+protetcing conn state.(Dmitry/Doug)
+
+Changes in v9:
+  - Update commit message and fix alignment using spaces.(Marijn)
+  - Misc changes.(Marijn)
+
+Sankeerth Billakanti (1):
+  drm/msm/dp: disable self_refresh_aware after entering psr
+
+Vinod Polimera (14):
+  drm/msm/disp/dpu: clear dpu_assign_crtc and get crtc from connector
+    state instead of dpu_enc
+  drm: add helper functions to retrieve old and new crtc
+  drm/msm/dp: use atomic callbacks for DP bridge ops
+  drm/msm/dp: Add basic PSR support for eDP
+  drm/msm/dp: use the eDP bridge ops to validate eDP modes
+  drm/bridge: use atomic enable/disable callbacks for panel bridge
+  drm/bridge: add psr support for panel bridge callbacks
+  drm/msm/disp/dpu: use atomic enable/disable callbacks for encoder
+    functions
+  drm/msm/disp/dpu: check for crtc enable rather than crtc active to
+    release shared resources
+  drm/msm/disp/dpu: add PSR support for eDP interface in dpu driver
+  drm/msm/disp/dpu: get timing engine status from intf status register
+  drm/msm/disp/dpu: wait for extra vsync till timing engine status is
+    disabled
+  drm/msm/disp/dpu: reset the datapath after timing engine disable
+  drm/msm/disp/dpu: clear active interface in the datapath cleanup
+
+ drivers/gpu/drm/bridge/panel.c                     |  68 ++++++-
+ drivers/gpu/drm/drm_atomic.c                       |  60 ++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  17 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  71 +++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |   8 -
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |  22 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  12 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |   8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   2 +-
+ drivers/gpu/drm/msm/dp/dp_catalog.c                |  80 ++++++++
+ drivers/gpu/drm/msm/dp/dp_catalog.h                |   4 +
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   |  80 ++++++++
+ drivers/gpu/drm/msm/dp/dp_ctrl.h                   |   3 +
+ drivers/gpu/drm/msm/dp/dp_display.c                |  36 ++--
+ drivers/gpu/drm/msm/dp/dp_display.h                |   2 +
+ drivers/gpu/drm/msm/dp/dp_drm.c                    | 206 ++++++++++++++++++++-
+ drivers/gpu/drm/msm/dp/dp_drm.h                    |   9 +-
+ drivers/gpu/drm/msm/dp/dp_link.c                   |  36 ++++
+ drivers/gpu/drm/msm/dp/dp_panel.c                  |  22 +++
+ drivers/gpu/drm/msm/dp/dp_panel.h                  |   6 +
+ drivers/gpu/drm/msm/dp/dp_reg.h                    |  27 +++
+ include/drm/drm_atomic.h                           |   7 +
+ 23 files changed, 703 insertions(+), 86 deletions(-)
+
+-- 
+2.7.4
+
