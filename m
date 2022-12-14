@@ -2,67 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C930664D270
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 23:38:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19CD964D26C
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 23:37:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B3E410E4B9;
-	Wed, 14 Dec 2022 22:38:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2184410E4B7;
+	Wed, 14 Dec 2022 22:37:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 005E810E4C5
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 22:37:56 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id b2so48062249eja.7
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 14:37:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=1bSdi2nTZFfN0KO3twl810Uns3X1CbpenS2xYlJiGPM=;
- b=QS+/BUVNsbN6h+tQwIBW7N0LXW4/Jg584fdK+n867YoxGH2EVT3pvpOv0U+9ZxfOF/
- rC+A8JiiEJr2R7MGbILNYNFTad0rr0C8KD/sy/c1V8PbqBkKH32/xb29IPq+heVzZkXp
- klpRQ11wYfFmdLXqkEepJLbDXUndJHe8njFAk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1bSdi2nTZFfN0KO3twl810Uns3X1CbpenS2xYlJiGPM=;
- b=lter5RxPo8uYpaPh7v8V6SOySElxA07l0FW+g0yb7Wbm4E10nZdjb+8LSvw9G+GO4v
- eV9gJiQbXnHDV8nNU+XtzWs8jyO9e9+Fo1pk1fzhBXhATt/qNt65/e2hHij715p4HLjx
- gC4p/m7VbnM/Du6wiZDrycgZrrzrIaKj+jND0982FKo1iU+nBJ0MHXeJFeFqw3ETcv8P
- K25KZYI/Pw67B3q8X1h0DAku3JgU/TUKmtLRTwGWFrjAWKjb29eJFLD79y0Xm8+O02vh
- cqtWA7ooD70Vcoar7Egh/MDuzZo7T0+mGwA9N+Slu2plLyH41yN4j9zFeFSfr+4XkDHn
- oZzQ==
-X-Gm-Message-State: ANoB5plxBOGT9s5voYgwtfQAwJgaQGbB2wexADNxBuSToPnvB897R8Aa
- exoHpzfl7FWcTa7E1yIq130jPFvHr7pmf+VVHgw=
-X-Google-Smtp-Source: AA0mqf6BiSewUYSdJwpsOXriapLZ2FRE5RxCMlqWtRePJHkWhUTej+FEJa5Ux7Hddz+wPvS9z3DXlg==
-X-Received: by 2002:a17:906:a95:b0:7c0:f684:9092 with SMTP id
- y21-20020a1709060a9500b007c0f6849092mr18670555ejf.37.1671057475321; 
- Wed, 14 Dec 2022 14:37:55 -0800 (PST)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com.
- [209.85.128.43]) by smtp.gmail.com with ESMTPSA id
- i21-20020a170906251500b007b29eb8a4dbsm6427807ejb.13.2022.12.14.14.37.55
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Dec 2022 14:37:55 -0800 (PST)
-Received: by mail-wm1-f43.google.com with SMTP id
- ay14-20020a05600c1e0e00b003cf6ab34b61so532878wmb.2
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 14:37:55 -0800 (PST)
-X-Received: by 2002:a05:600c:2d91:b0:3d0:69f4:d3d0 with SMTP id
- i17-20020a05600c2d9100b003d069f4d3d0mr191822wmg.93.1671056974914; Wed, 14 Dec
- 2022 14:29:34 -0800 (PST)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8988310E1FF;
+ Wed, 14 Dec 2022 22:37:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1671057449; x=1702593449;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=b1BaMc7WZJnDo3vWqrJndmNlcCop99uCyzXAu+ZEUp4=;
+ b=LcQNKNDumnle0+czpoHcC1FMfEe9fYWdXBoIY3zV1lFUs2Rq8ONCmEEW
+ 14LLgfpXcKswi3eTLQlK/6jGUbbc3KUC6d/Px/+gLZfHVCugO/1SUUtQ8
+ RCQALheTGylEODr0QSzA16yaWUNjTEeMm/RoLWfB5sBU11PKCKGfuYfRL
+ mHJjKrVkyZjy1IcTt9YS/0s0e0j+P151/KyMEw2E1watzRU24kspapGXs
+ mgjLlEjGancgvv81BHI+I8KXDLTOPH/m8R7I/og1yj4dvmJAeTNtZysjZ
+ RSA+2Ubz1C5LFJR9/83iPeySng9UBRwAZ7VCoVFgjkO+4JiCCk7A7DZdZ w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10561"; a="345608851"
+X-IronPort-AV: E=Sophos;i="5.96,245,1665471600"; d="scan'208";a="345608851"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Dec 2022 14:37:29 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10561"; a="681638842"
+X-IronPort-AV: E=Sophos;i="5.96,245,1665471600"; d="scan'208";a="681638842"
+Received: from brauta-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.42.152])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Dec 2022 14:37:26 -0800
+Date: Wed, 14 Dec 2022 23:37:19 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH] drm/i915/gt: Reset twice
+Message-ID: <Y5pQH+KGujkSJTvT@ashyti-mobl2.lan>
+References: <20221212161338.1007659-1-andi.shyti@linux.intel.com>
+ <Y5dc7vhfh6yixFRo@intel.com> <Y5e0gh2u8uTlwQL6@ashyti-mobl2.lan>
+ <51402d0d8cfdc319d0786ec03c5ada4d82757cf0.camel@intel.com>
 MIME-Version: 1.0
-References: <1671052890-11627-1-git-send-email-quic_khsieh@quicinc.com>
-In-Reply-To: <1671052890-11627-1-git-send-email-quic_khsieh@quicinc.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 14 Dec 2022 14:29:21 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UTeCU7BcfPMXz8J-9uOp_7Fn9PFdtFMsu46x5wKa0RyQ@mail.gmail.com>
-Message-ID: <CAD=FV=UTeCU7BcfPMXz8J-9uOp_7Fn9PFdtFMsu46x5wKa0RyQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dp: do not complete dp_aux_cmd_fifo_tx() if irq
- is not for aux transfer
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <51402d0d8cfdc319d0786ec03c5ada4d82757cf0.camel@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,72 +60,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- quic_abhinavk@quicinc.com, sean@poorly.run, andersson@kernel.org,
- vkoul@kernel.org, dri-devel@lists.freedesktop.org, swboyd@chromium.org,
- agross@kernel.org, linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
- linux-kernel@vger.kernel.org
+Cc: "andi.shyti@linux.intel.com" <andi.shyti@linux.intel.com>,
+ "mika.kuoppala@linux.intel.com" <mika.kuoppala@linux.intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "chris@chris-wilson.co.uk" <chris@chris-wilson.co.uk>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "andi@etezian.org" <andi@etezian.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Rodrigo,
 
-On Wed, Dec 14, 2022 at 1:21 PM Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
->
-> There are 3 possible interrupt sources are handled by DP controller,
-> HPDstatus, Controller state changes and Aux read/write transaction.
-> At every irq, DP controller have to check isr status of every interrupt
-> sources and service the interrupt if its isr status bits shows interrupts
-> are pending. There is potential race condition may happen at current aux
-> isr handler implementation since it is always complete dp_aux_cmd_fifo_tx()
-> even irq is not for aux read or write transaction. This may cause aux read
-> transaction return premature if host aux data read is in the middle of
-> waiting for sink to complete transferring data to host while irq happen.
-> This will cause host's receiving buffer contains unexpected data. This
-> patch fixes this problem by checking aux isr and return immediately at
-> aux isr handler if there are no any isr status bits set.
->
-> Follows are the signature at kernel logs when problem happen,
-> EDID has corrupt header
-> panel-simple-dp-aux aux-aea0000.edp: Couldn't identify panel via EDID
-> panel-simple-dp-aux aux-aea0000.edp: error -EIO: Couldn't detect panel nor find a fallback
->
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_aux.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
-> index d030a93..8f8b12a 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-> @@ -423,6 +423,13 @@ void dp_aux_isr(struct drm_dp_aux *dp_aux)
->
->         isr = dp_catalog_aux_get_irq(aux->catalog);
->
-> +       /*
-> +        * if this irq is not for aux transfer,
-> +        * then return immediately
-> +        */
+On Tue, Dec 13, 2022 at 01:18:48PM +0000, Vivi, Rodrigo wrote:
+> On Tue, 2022-12-13 at 00:08 +0100, Andi Shyti wrote:
+> > Hi Rodrigo,
+> > 
+> > On Mon, Dec 12, 2022 at 11:55:10AM -0500, Rodrigo Vivi wrote:
+> > > On Mon, Dec 12, 2022 at 05:13:38PM +0100, Andi Shyti wrote:
+> > > > From: Chris Wilson <chris@chris-wilson.co.uk>
+> > > > 
+> > > > After applying an engine reset, on some platforms like
+> > > > Jasperlake, we
+> > > > occasionally detect that the engine state is not cleared until
+> > > > shortly
+> > > > after the resume. As we try to resume the engine with volatile
+> > > > internal
+> > > > state, the first request fails with a spurious CS event (it looks
+> > > > like
+> > > > it reports a lite-restore to the hung context, instead of the
+> > > > expected
+> > > > idle->active context switch).
+> > > > 
+> > > > Signed-off-by: Chris Wilson <hris@chris-wilson.co.uk>
+> > > 
+> > > There's a typo in the signature email I'm afraid...
+> > 
+> > oh yes, I forgot the 'C' :)
+> 
+> you forgot?
+> who signed it off?
 
-Why do you need 4 lines for a comment that fits on one line?
+Chris, but as I was copy/pasting SoB's I might have
+unintentionally removed the 'c'.
 
-> +       if (!isr)
-> +               return;
+> > > Other than that, have we checked the possibility of using the
+> > > driver-initiated-flr bit
+> > > instead of this second loop? That should be the right way to
+> > > guarantee everything is
+> > > cleared on gen11+...
+> > 
+> > maybe I am misinterpreting it, but is FLR the same as resetting
+> > hardware domains individually?
+> 
+> No, it is bigger than that... almost the PCI FLR with some exceptions:
+> 
+> https://lists.freedesktop.org/archives/intel-gfx/2022-December/313956.html
 
-I can confirm that this works for me. I could reproduce the EDID
-problems in the past and I can't after this patch. ...so I could give
-a:
+yes, exactly... I would use FLR feedback if I was performing an
+FLR reset. But here I'm not doing that, here I'm simply gating
+off some power domains. It happens that those power domains turn
+on and off engines making them reset.
 
-Tested-by: Douglas Anderson <dianders@chromium.org>
+FLR doesn't have anything to do here, also because if you want to
+reset a single engine you go through this function, instead of
+resetting the whole GPU with whatever is annexed.
 
-I'm not an expert on this part of the code, so feel free to ignore my
-other comments if everyone else thinks this patch is fine as-is, but
-to me something here feels a little fragile. It feels a little weird
-that we'll "complete" for _any_ interrupt that comes through now
-rather than relying on dp_aux_native_handler() / dp_aux_i2c_handler()
-to specifically identify interrupts that caused the end of the
-transfer. I guess that idea is that every possible interrupt we get
-causes the end of the transfer?
+This patch is not fixing the "reset" concept of i915, but it's
+fixing a missing feedback that happens in one single platform
+when trying to gate on/off a domain.
 
--Doug
+Maybe I am completely off track, but I don't see connection with
+FLR here.
+
+(besides FLR might not be present in all the platforms)
+
+Thanks a lot for your inputs,
+Andi
+
+> > How am I supposed to use driver_initiated_flr() in this context?
+> 
+> Some drivers are not even using this gt reset anymore and going
+> directly with the driver-initiated FLR in case that guc reset failed.
+> 
+> I believe we can still keep the gt reset in our case as we currently
+> have, but instead of keep retrying it until it succeeds we probably
+> should go to the next level and do the driver initiated FLR when the GT
+> reset failed.
+> 
+> > 
+> > Thanks,
+> > Andi
+> > 
+> > > > Cc: stable@vger.kernel.org
+> > > > Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+> > > > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> > > > ---
+> > > >  drivers/gpu/drm/i915/gt/intel_reset.c | 34
+> > > > ++++++++++++++++++++++-----
+> > > >  1 file changed, 28 insertions(+), 6 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c
+> > > > b/drivers/gpu/drm/i915/gt/intel_reset.c
+> > > > index ffde89c5835a4..88dfc0c5316ff 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/intel_reset.c
+> > > > +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
+> > > > @@ -268,6 +268,7 @@ static int ilk_do_reset(struct intel_gt *gt,
+> > > > intel_engine_mask_t engine_mask,
+> > > >  static int gen6_hw_domain_reset(struct intel_gt *gt, u32
+> > > > hw_domain_mask)
+> > > >  {
+> > > >         struct intel_uncore *uncore = gt->uncore;
+> > > > +       int loops = 2;
+> > > >         int err;
+> > > >  
+> > > >         /*
+> > > > @@ -275,18 +276,39 @@ static int gen6_hw_domain_reset(struct
+> > > > intel_gt *gt, u32 hw_domain_mask)
+> > > >          * for fifo space for the write or forcewake the chip for
+> > > >          * the read
+> > > >          */
+> > > > -       intel_uncore_write_fw(uncore, GEN6_GDRST,
+> > > > hw_domain_mask);
+> > > > +       do {
+> > > > +               intel_uncore_write_fw(uncore, GEN6_GDRST,
+> > > > hw_domain_mask);
+> > > >  
+> > > > -       /* Wait for the device to ack the reset requests */
+> > > > -       err = __intel_wait_for_register_fw(uncore,
+> > > > -                                          GEN6_GDRST,
+> > > > hw_domain_mask, 0,
+> > > > -                                          500, 0,
+> > > > -                                          NULL);
+> > > > +               /*
+> > > > +                * Wait for the device to ack the reset requests.
+> > > > +                *
+> > > > +                * On some platforms, e.g. Jasperlake, we see see
+> > > > that the
+> > > > +                * engine register state is not cleared until
+> > > > shortly after
+> > > > +                * GDRST reports completion, causing a failure as
+> > > > we try
+> > > > +                * to immediately resume while the internal state
+> > > > is still
+> > > > +                * in flux. If we immediately repeat the reset,
+> > > > the second
+> > > > +                * reset appears to serialise with the first, and
+> > > > since
+> > > > +                * it is a no-op, the registers should retain
+> > > > their reset
+> > > > +                * value. However, there is still a concern that
+> > > > upon
+> > > > +                * leaving the second reset, the internal engine
+> > > > state
+> > > > +                * is still in flux and not ready for resuming.
+> > > > +                */
+> > > > +               err = __intel_wait_for_register_fw(uncore,
+> > > > GEN6_GDRST,
+> > > > +                                                 
+> > > > hw_domain_mask, 0,
+> > > > +                                                  2000, 0,
+> > > > +                                                  NULL);
+> > > > +       } while (err == 0 && --loops);
+> > > >         if (err)
+> > > >                 GT_TRACE(gt,
+> > > >                          "Wait for 0x%08x engines reset
+> > > > failed\n",
+> > > >                          hw_domain_mask);
+> > > >  
+> > > > +       /*
+> > > > +        * As we have observed that the engine state is still
+> > > > volatile
+> > > > +        * after GDRST is acked, impose a small delay to let
+> > > > everything settle.
+> > > > +        */
+> > > > +       udelay(50);
+> > > > +
+> > > >         return err;
+> > > >  }
+> > > >  
+> > > > -- 
+> > > > 2.38.1
+> > > > 
+> 
