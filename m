@@ -2,78 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE0064D1E6
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 22:41:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8810464D1FB
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 22:54:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E9AF10E495;
-	Wed, 14 Dec 2022 21:41:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FA9C10E498;
+	Wed, 14 Dec 2022 21:54:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11B8610E07F
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 21:41:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671054107;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fOVC9DNP6YGan+cRfxOLEPJLfZEo+HEg+2n4tX+0Qvw=;
- b=Aedrb/4KpT/c5ERRDdul6c/w/vSqgKNJpMmu1sBRNId0Pc++PJoRr5ODK8XcHz8wfTXxHs
- DUPEZq+NM5UeCXzefZfB4sgJsN0gCE99fxRoEI4eoxexdt3mgmos82XPaBcIyTCrQd2b84
- RrDD4fc1I2htYg9xIqMzhoB3A26Xggc=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-283-Kos7NJusOaeAipx3JswYOg-1; Wed, 14 Dec 2022 16:41:45 -0500
-X-MC-Unique: Kos7NJusOaeAipx3JswYOg-1
-Received: by mail-qk1-f198.google.com with SMTP id
- bj4-20020a05620a190400b006fc7c5d454cso4219968qkb.14
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 13:41:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:user-agent:content-transfer-encoding:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cdHdAoArTyqSXyDa1PEkCBag/sq888ZHYvAImxogP+M=;
- b=Ffdr++Oe98Rfuha/LaLQ+Tzd0tuXDg5AJVflqsE6yT6eONlkGgMYN2p8/23NnY0uDq
- iFTFLHaTbsLMLzU520qOcf2v4C91UbTHqb7jFvXhaS4Y2NzLIx6uGeiDKIwyZAfvhCJM
- p6qnKZNWzb9dOHvNN56sF2C1CQk1BlGfjOHJf+BkBY+T8Ft0/iVn8IAbq/VoXMB3Qrk+
- 8DpghIndBiB10Vh4loSAhiV796lcwkqFdlaBKgU2j6Cv/ONI6lt6ciRSUm1Ib4RuNUmq
- 2ZlTi8Wzw1Ouc76brS0t/ibJIi85dj7JxQ9kRiY9E4TM7KacURq5IYTrZwKRHsrIMZ0A
- U8VQ==
-X-Gm-Message-State: ANoB5pl/T+wb/Q40BpRrQDxAEjj1FoTVJfRJgMc8sFBIxC+5A2yDUtAP
- NKOb7Z4M8I0r2UX6GzPtaH6rVIWLlOmurwzGOFmbeyyLmqtYU7aMPpQgcFv+ziw5ryGsuEwQrqz
- kRXWjExgnB+NU9oNS/w6a37xdCgij
-X-Received: by 2002:a0c:ee42:0:b0:4c6:9271:a037 with SMTP id
- m2-20020a0cee42000000b004c69271a037mr31285564qvs.30.1671054104458; 
- Wed, 14 Dec 2022 13:41:44 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6/X83985KkuvLTvoDpqH8sCw8wzfXSCZscLl6n0ADVrXXhZF1/89D4asUprsIO5b6HJfQikQ==
-X-Received: by 2002:a0c:ee42:0:b0:4c6:9271:a037 with SMTP id
- m2-20020a0cee42000000b004c69271a037mr31285543qvs.30.1671054104212; 
- Wed, 14 Dec 2022 13:41:44 -0800 (PST)
-Received: from ?IPv6:2600:4040:5c6c:9200:beb9:10e2:8071:6929?
- ([2600:4040:5c6c:9200:beb9:10e2:8071:6929])
- by smtp.gmail.com with ESMTPSA id
- u15-20020a05620a454f00b006fa22f0494bsm10879054qkp.117.2022.12.14.13.41.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Dec 2022 13:41:43 -0800 (PST)
-Message-ID: <1ade43347769118c82f1b68bd8b51172a1012a37.camel@redhat.com>
-Subject: Re: [PATCH 1/3] drm/display/dp_mst: Fix down/up message handling
- after sink disconnect
-From: Lyude Paul <lyude@redhat.com>
-To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org
-Date: Wed, 14 Dec 2022 16:41:42 -0500
-In-Reply-To: <20221214184258.2869417-1-imre.deak@intel.com>
-References: <20221214184258.2869417-1-imre.deak@intel.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 62E1910E49C;
+ Wed, 14 Dec 2022 21:53:56 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C4641FEC;
+ Wed, 14 Dec 2022 13:54:33 -0800 (PST)
+Received: from [10.57.88.237] (unknown [10.57.88.237])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4EC343F5A1;
+ Wed, 14 Dec 2022 13:53:52 -0800 (PST)
+Message-ID: <a02c2cc9-f265-16ff-da44-9e44381c486c@arm.com>
+Date: Wed, 14 Dec 2022 21:53:47 +0000
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH] drm/radeon: Fix screen corruption (v2)
+Content-Language: en-GB
+To: Luben Tuikov <luben.tuikov@amd.com>,
+ AMD Graphics <amd-gfx@lists.freedesktop.org>
+References: <20221211114226.57398-1-luben.tuikov@amd.com>
+ <20221212020821.8248-1-luben.tuikov@amd.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20221212020821.8248-1-luben.tuikov@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,57 +45,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Alex Deucher <Alexander.Deucher@amd.com>,
+ Mikhail Krylov <sqarert@gmail.com>,
+ Direct Rendering Infrastructure - Development
+ <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For the whole series:
+On 2022-12-12 02:08, Luben Tuikov wrote:
+> Fix screen corruption on older 32-bit systems using AGP chips.
+> 
+> On older systems with little memory, for instance 1.5 GiB, using an AGP chip,
+> the device's DMA mask is 0xFFFFFFFF, but the memory mask is 0x7FFFFFF, and
+> subsequently dma_addressing_limited() returns 0xFFFFFFFF < 0x7FFFFFFF,
+> false. As such the result of this static inline isn't suitable for the last
+> argument to ttm_device_init()--it simply needs to now whether to use GFP_DMA32
+> when allocating DMA buffers.
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+This sounds wrong to me. If the issues happen on systems without PAE it 
+clearly can't have anything to with the actual DMA address size. Not to 
+mention that AFAICS 32-bit x86 doesn't even have ZONE_DMA32, so 
+GFP_DMA32 would be functionally meaningless anyway. Although the 
+reported symptoms initially sounded like they could be caused by DMA 
+going to the wrong place, that is also equally consistent with a loss of 
+cache coherency.
 
-Thanks!
+My (limited) understanding of AGP is that the GART can effectively alias 
+memory to a second physical address, so I could well believe that 
+something somewhere in the driver stack needs to perform some cache 
+maintenance to avoid coherency issues, and that in these particular 
+setups whatever that is might be assuming the memory is direct-mapped 
+and thus going wrong for highmem pages.
 
-On Wed, 2022-12-14 at 20:42 +0200, Imre Deak wrote:
-> If the sink gets disconnected during receiving a multi-packet DP MST AUX
-> down-reply/up-request sideband message, the state keeping track of which
-> packets have been received already is not reset. This results in a failed
-> sanity check for the subsequent message packet received after a sink is
-> reconnected (due to the pending message not yet completed with an
-> end-of-message-transfer packet), indicated by the
->=20
-> "sideband msg set header failed"
->=20
-> error.
->=20
-> Fix the above by resetting the up/down message reception state after a
-> disconnect event.
->=20
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: <stable@vger.kernel.org> # v3.17+
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
+So as I said before, I really think this is not about using GFP_DMA32 at 
+all, but about *not* using GFP_HIGHUSER.
+
+Thanks,
+Robin.
+
+> Partially reverts commit 33b3ad3788aba846fc8b9a065fe2685a0b64f713.
+> 
+> v2: Amend the commit description.
+> 
+> Cc: Mikhail Krylov <sqarert@gmail.com>
+> Cc: Alex Deucher <Alexander.Deucher@amd.com>
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Cc: Direct Rendering Infrastructure - Development <dri-devel@lists.freedesktop.org>
+> Cc: AMD Graphics <amd-gfx@lists.freedesktop.org>
+> Fixes: 33b3ad3788aba8 ("drm/radeon: handle PCIe root ports with addressing limitations")
+> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
 > ---
->  drivers/gpu/drm/display/drm_dp_mst_topology.c | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/=
-drm/display/drm_dp_mst_topology.c
-> index 51a46689cda70..90819fff2c9ba 100644
-> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> @@ -3641,6 +3641,9 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_m=
-st_topology_mgr *mgr, bool ms
->  =09=09drm_dp_dpcd_writeb(mgr->aux, DP_MSTM_CTRL, 0);
->  =09=09ret =3D 0;
->  =09=09mgr->payload_id_table_cleared =3D false;
-> +
-> +=09=09memset(&mgr->down_rep_recv, 0, sizeof(mgr->down_rep_recv));
-> +=09=09memset(&mgr->up_req_recv, 0, sizeof(mgr->up_req_recv));
->  =09}
-> =20
->  out_unlock:
-
---=20
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+>   drivers/gpu/drm/radeon/radeon.h        | 1 +
+>   drivers/gpu/drm/radeon/radeon_device.c | 2 +-
+>   drivers/gpu/drm/radeon/radeon_ttm.c    | 2 +-
+>   3 files changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
+> index 37dec92339b16a..4fe38fd9be3267 100644
+> --- a/drivers/gpu/drm/radeon/radeon.h
+> +++ b/drivers/gpu/drm/radeon/radeon.h
+> @@ -2426,6 +2426,7 @@ struct radeon_device {
+>   	struct radeon_wb		wb;
+>   	struct radeon_dummy_page	dummy_page;
+>   	bool				shutdown;
+> +	bool                            need_dma32;
+>   	bool				need_swiotlb;
+>   	bool				accel_working;
+>   	bool				fastfb_working; /* IGP feature*/
+> diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
+> index 6344454a772172..3643a3cfe061bd 100644
+> --- a/drivers/gpu/drm/radeon/radeon_device.c
+> +++ b/drivers/gpu/drm/radeon/radeon_device.c
+> @@ -1370,7 +1370,7 @@ int radeon_device_init(struct radeon_device *rdev,
+>   	if (rdev->family == CHIP_CEDAR)
+>   		dma_bits = 32;
+>   #endif
+> -
+> +	rdev->need_dma32 = dma_bits == 32;
+>   	r = dma_set_mask_and_coherent(&rdev->pdev->dev, DMA_BIT_MASK(dma_bits));
+>   	if (r) {
+>   		pr_warn("radeon: No suitable DMA available\n");
+> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+> index bdb4c0e0736ba2..3debaeb720d173 100644
+> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+> @@ -696,7 +696,7 @@ int radeon_ttm_init(struct radeon_device *rdev)
+>   			       rdev->ddev->anon_inode->i_mapping,
+>   			       rdev->ddev->vma_offset_manager,
+>   			       rdev->need_swiotlb,
+> -			       dma_addressing_limited(&rdev->pdev->dev));
+> +			       rdev->need_dma32);
+>   	if (r) {
+>   		DRM_ERROR("failed initializing buffer object driver(%d).\n", r);
+>   		return r;
+> 
+> base-commit: 20e03e7f6e8efd42168db6d3fe044b804e0ede8f
