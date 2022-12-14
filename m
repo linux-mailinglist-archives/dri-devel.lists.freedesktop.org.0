@@ -2,73 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BEB764C6BC
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 11:08:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C67DA64C6AA
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 11:07:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9108810E3C1;
-	Wed, 14 Dec 2022 10:07:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DE1F10E3B6;
+	Wed, 14 Dec 2022 10:07:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A94010E3BE;
- Wed, 14 Dec 2022 10:07:40 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BE6ogJ0024963; Wed, 14 Dec 2022 10:07:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=lUkTIfIkXezDsenuS6wz7E7M72SCnATqeaJEWTWVJgc=;
- b=j2SBzCO7m9Qi3Q8i2cQ5P5egKQpIGb5tV7Fr0ZkB8XyfpAos4DoskF1X3wxyqH1HSCWp
- 65ebETzLaYUVl3EWwjXgBjYXbuFJjKNS9Vo65FKwN2860bsEDxKYUQo+lh0mWry/j9t2
- ADlhukG6T8YahBhRXMaocPOim5K4VaNPsSgr6XQ2EuOipGXtRS3kcBRWZ2/OdMCkIl9S
- 3+0OVifAt6p7gtKPR1w6t96I1Xkqi2FoqkZzsd0ya+2O22bdfl9VYKcIkVdUl2zyiGmt
- sUT7y2Rgkd0mxzLZzs36Q1bQO2owBL3Th3nU/NH3YD4pqrdvTUD5lVnG8xJBdYzRL24R 0g== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mf6rtgmxg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Dec 2022 10:07:38 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BEA7bHR014865
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Dec 2022 10:07:37 GMT
-Received: from vpolimer-linux.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Wed, 14 Dec 2022 02:07:32 -0800
-From: Vinod Polimera <quic_vpolimer@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v9 15/15] drm/msm/disp/dpu: clear active interface in the
- datapath cleanup
-Date: Wed, 14 Dec 2022 15:35:52 +0530
-Message-ID: <1671012352-1825-16-git-send-email-quic_vpolimer@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1671012352-1825-1-git-send-email-quic_vpolimer@quicinc.com>
-References: <1671012352-1825-1-git-send-email-quic_vpolimer@quicinc.com>
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
+ [209.85.160.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C10C310E3B5
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 10:07:08 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id z12so2075471qtv.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 02:07:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cy7T+0HN5DZODEIoAWFeUiuTL4WubIGF0dA9H8JAJVU=;
+ b=tblu7VocrpoSRyYU4tQbV+LW3rwvLi4aee5qgQc61wR0jYWtQJos3v3ZvGhW56yq3b
+ B3qpMLGYvh2BaS3hNbwKc/G5sm5cvdIpkwR3aAsseTNdmyKXv61+zm8tSpbNQedCyKE5
+ nX1LEMCP8bdeQjYpZqU1loDo4YcQh5+ue1yf91yBeIoAg9vLXlg/mhgcKv1j5hEknDcK
+ ZmgsBcZ9hH3AYHy+EhVlOzMdl+BQkpx2AfBqVqH6CCFL/YNLF3LfQpBt4Rx2LHPuVUbN
+ oSGisB4y0ShQxoeY9onxhpo2Hat+8HRwk8PJtj0K/Z6kCbtfTGfdmUHC9coYy9lUS540
+ C22A==
+X-Gm-Message-State: ANoB5pn06XNm5cllv8Dwe3ibqZHVtxDc5pku7J6bSywXF1stT8NT//WW
+ f5a1bizERNU+xl7XRDFzk/s+VIVvr2XghQ==
+X-Google-Smtp-Source: AA0mqf6wovzsEXkbu+t+yanFwO7u6+IMdE7T3iPrD/BjvAGJ+/slZaGHxG4Qvsn10fs2tfg32h7ECQ==
+X-Received: by 2002:ac8:424e:0:b0:3a8:5d1:aabc with SMTP id
+ r14-20020ac8424e000000b003a805d1aabcmr27998772qtm.15.1671012427326; 
+ Wed, 14 Dec 2022 02:07:07 -0800 (PST)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com.
+ [209.85.128.176]) by smtp.gmail.com with ESMTPSA id
+ f19-20020ac84653000000b003a7e9db074asm1402191qto.67.2022.12.14.02.07.06
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Dec 2022 02:07:06 -0800 (PST)
+Received: by mail-yw1-f176.google.com with SMTP id
+ 00721157ae682-3b48b139b46so229003387b3.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 02:07:06 -0800 (PST)
+X-Received: by 2002:a81:4e09:0:b0:370:202b:f085 with SMTP id
+ c9-20020a814e09000000b00370202bf085mr26552174ywb.502.1671012425842; Wed, 14
+ Dec 2022 02:07:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ndAdDPoVB8A6ecTsmA56voXida7fx7XZ
-X-Proofpoint-ORIG-GUID: ndAdDPoVB8A6ecTsmA56voXida7fx7XZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-14_04,2022-12-13_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- impostorscore=0 phishscore=0 mlxlogscore=999 mlxscore=0 lowpriorityscore=0
- spamscore=0 suspectscore=0 bulkscore=0 priorityscore=1501 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2212140079
+References: <6398848e.170a0220.f8e8e.d44f@mx.google.com>
+ <Y5itf0+yNIQa6fU4@sirena.org.uk>
+In-Reply-To: <Y5itf0+yNIQa6fU4@sirena.org.uk>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 14 Dec 2022 11:06:54 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW4RNFspMheq1JGUkCm+s1oM90Q_4vPH1XX9ZRAxrmPdA@mail.gmail.com>
+Message-ID: <CAMuHMdW4RNFspMheq1JGUkCm+s1oM90Q_4vPH1XX9ZRAxrmPdA@mail.gmail.com>
+Subject: Re: renesas/master bisection:
+ igt-kms-rockchip.kms_vblank.pipe-A-wait-forked on rk3399-gru-kevin
+To: Mark Brown <broonie@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,37 +69,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
- quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
- quic_vproddut@quicinc.com, quic_khsieh@quicinc.com, dianders@chromium.org,
- linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org,
- quic_aravindh@quicinc.com, swboyd@chromium.org,
- Vinod Polimera <quic_vpolimer@quicinc.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, kernelci-results@groups.io,
+ bot@kernelci.org, Jonas Karlman <jonas@kwiboo.se>,
+ Brian Norris <briannorris@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Sean Paul <seanpaul@chromium.org>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, gtucker@collabora.com,
+ linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clear interface active register from the datapath for a clean shutdown of
-the datapath.
+Hi Mark,
 
-Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 3 +++
- 1 file changed, 3 insertions(+)
+Thanks for your report!
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index a3ba696..bdff09c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -2098,6 +2098,9 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
- 	if (phys_enc->hw_pp->merge_3d)
- 		intf_cfg.merge_3d = phys_enc->hw_pp->merge_3d->idx;
- 
-+	if (phys_enc->hw_intf)
-+		intf_cfg.intf = phys_enc->hw_intf->idx;
-+
- 	if (ctl->ops.reset_intf_cfg)
- 		ctl->ops.reset_intf_cfg(ctl, &intf_cfg);
- 
--- 
-2.7.4
+On Tue, Dec 13, 2022 at 5:58 PM Mark Brown <broonie@kernel.org> wrote:
+> On Tue, Dec 13, 2022 at 05:56:30AM -0800, KernelCI bot wrote:
+> The KernelCI bisection bot found regressions in at least two KMS tests
+> in the Renesas tree on rk3399-gru-kevin just after the Renesas tree
+> merged up mainline:
+>
+>    igt-kms-rockchip.kms_vblank.pipe-A-wait-forked
+>    igt-kms-rockchip.kms_vblank.pipe-A-query-busy
+>
+> which it bisected to ca871659ec16 ("drm/bridge: analogix_dp: Support
+> PSR-exit to disable transition").  I'm not *100%* sure I trust the
+> bisection but it sure is suspicous that two separate bisects for related
+> issues landed on the same commit.
 
+... which is an old commit, added in v5.19-rc2, and which did not
+enter through the renesas tree at all?
+
+> Below is the full report for the bisect for the first test, the bisect
+> for the latter looks identical.  It's got links to full logs for the
+> test run and a Reported-by for the bot - I do see some backtraces from
+> userspace in the output, the first is:
+>
+> | IGT-Version: 1.26-gf8a4a0b (aarch64) (Linux: 6.1.0 aarch64)
+> | <14>[   35.444448] [IGT] drm_read: starting subtest short-buffer-wakeup
+> | Starting subtest: short-buffer-wakeup
+> |
+> | (| drm_read:350) CRITICAL: Test assertion failure function generate_event, file ../tests/drm_read.c:65:
+> | (drm_read:350) CRITICAL: <14>[   36.155642] [IGT] drm_read: exiting, ret=98
+> | Failed assertion: kmstest_get_vblank(fd, pipe, DRM_VBLANK_EVENT)
+> |
+> | (drm_read:350) CRITICAL: Last errno: 22, Invalid argument
+> | Stack trace:
+> |
+> |   #0 ../lib/igt_core.c:1933 __igt_fail_assert()
+> |   #1 [<unknown>+0xd5362770]
+> |   #2 [<unknown>+0xd536193c]
+> |   #3 [__libc_start_main+0xe8]
+> |   #4 [<unknown>+0xd5361974]
+> |   #5 [<unknown<6>[   36.162851] Console: switching to colour frame buffer device 300x100>+0xd5361974]
+> | Subtest short-buffer-wakeup failed.
+>
+> Unfortunately we don't have current results from mainline or -next.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
