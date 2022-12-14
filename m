@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0310264C6B9
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 11:08:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1283A64C6C0
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 11:08:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A77510E3B4;
-	Wed, 14 Dec 2022 10:07:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0941410E3B7;
+	Wed, 14 Dec 2022 10:07:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5381610E3AD;
- Wed, 14 Dec 2022 10:07:03 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F6C310E3B2;
+ Wed, 14 Dec 2022 10:07:08 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BE6r66c027217; Wed, 14 Dec 2022 10:07:01 GMT
+ 2BE9mVIN020330; Wed, 14 Dec 2022 10:07:06 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=Ogr/QPsfLlqyPywPveHgZK+CHgRo4MIzWIESAwaYdFY=;
- b=OX244Ajp40owGvxHLS9Y4zG4xfUTo/7RwDz03NIF9Z7xe/x3BTyCdnNqA74Qjl+DP5Ya
- 21Lwfc35E0WhcOPorMPhRqIpnoK4rxtzlDMODzapyNX3+koxon+zgSrm3VNtDN1n70kb
- rHO9AbR1kVIzb5IhgLGjCApXPgOB5xSSU5CS6FpyYNWAI8K3f7wmPIt08q6Z1bEFyJp5
- 765aCKxdo/gIyke9eGnfW8JKV3kBD+oRUDsn+8FxwKVbDjA62Aue5Y7mOtVNl3V5koyi
- WqzV2S6GZrzEBIy9slz3luo5MRkRW4jov5/gZW7s/G27CdUG+nRhTsCYerzgzCLgWdUV zw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=uNrb6H7zWdQoskHVM0Sl0FWNjJr4McqoJlhFMmasQxs=;
+ b=fbO+MPc4vu14rVO6b0hcDxrZRGk/voi0v7N0L95LqQTy1UN2aah/WhrNGlyaUZLpnlnS
+ 8jTJUlM95mm2AKOBhmQPR6jAVJRE3SnaB2q//3ZP735mNr9QkJYl0rGyRQ77v+Aa1uFt
+ 4F061hqXaiqsyivSYjDDPgV9vCKXZZnWc8Ex2+XQQGPwG/m5fViGZcJHgeU51DsRWGW1
+ fR91VGMPbOnOmuDxCv3htaUAoeaLW5fue7SE2lo5afwjuRsJ/8dEoraiWKh6lhA0tyr3
+ fMzPXEgTAfCDz+W53Ow1TkybAz09l+izQdKaqBTtA8A0WMKpifGz4OwZeiiQpPEW3i8k mA== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mf6rcgpq4-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mf6re8pr4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Dec 2022 10:07:00 +0000
+ Wed, 14 Dec 2022 10:07:05 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
  [10.47.209.197])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BEA6xbQ016525
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BEA75jw011906
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Dec 2022 10:06:59 GMT
+ Wed, 14 Dec 2022 10:07:05 GMT
 Received: from vpolimer-linux.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Wed, 14 Dec 2022 02:06:54 -0800
+ 15.2.986.36; Wed, 14 Dec 2022 02:06:59 -0800
 From: Vinod Polimera <quic_vpolimer@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
  <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v9 08/15] drm/bridge: add psr support for panel bridge
- callbacks
-Date: Wed, 14 Dec 2022 15:35:45 +0530
-Message-ID: <1671012352-1825-9-git-send-email-quic_vpolimer@quicinc.com>
+Subject: [PATCH v9 09/15] drm/msm/disp/dpu: use atomic enable/disable
+ callbacks for encoder functions
+Date: Wed, 14 Dec 2022 15:35:46 +0530
+Message-ID: <1671012352-1825-10-git-send-email-quic_vpolimer@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1671012352-1825-1-git-send-email-quic_vpolimer@quicinc.com>
 References: <1671012352-1825-1-git-send-email-quic_vpolimer@quicinc.com>
@@ -58,17 +58,17 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: fZSaNTPnhvI9W9wo08leTOB8KX7E0bfC
-X-Proofpoint-ORIG-GUID: fZSaNTPnhvI9W9wo08leTOB8KX7E0bfC
+X-Proofpoint-GUID: X28Hx0eeFZjTFS13yIws1C-XW6BWwl_6
+X-Proofpoint-ORIG-GUID: X28Hx0eeFZjTFS13yIws1C-XW6BWwl_6
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-14_04,2022-12-14_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0
- phishscore=0 clxscore=1015 impostorscore=0 adultscore=0 priorityscore=1501
- malwarescore=0 spamscore=0 mlxlogscore=999 mlxscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2212140079
+ adultscore=0 mlxscore=0
+ lowpriorityscore=0 bulkscore=0 clxscore=1015 impostorscore=0
+ mlxlogscore=928 priorityscore=1501 spamscore=0 phishscore=0 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2212140079
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,96 +90,52 @@ Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This change will handle the psr entry exit cases in the panel
-bridge atomic callback functions. For example, the panel power
-should not turn off if the panel is entering psr.
+Use atomic variants for encoder callback functions such that
+certain states like self-refresh can be accessed as part of
+enable/disable sequence.
 
-Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
 Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/bridge/panel.c | 48 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index 3558cbf..5e77e38 100644
---- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -113,6 +113,18 @@ static void panel_bridge_atomic_pre_enable(struct drm_bridge *bridge,
- 				struct drm_bridge_state *old_bridge_state)
- {
- 	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
-+	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
-+	struct drm_encoder *encoder = bridge->encoder;
-+	struct drm_crtc *crtc;
-+	struct drm_crtc_state *old_crtc_state;
-+
-+	crtc = drm_atomic_get_new_crtc_for_encoder(atomic_state, encoder);
-+	if (!crtc)
-+		return;
-+
-+	old_crtc_state = drm_atomic_get_old_crtc_state(atomic_state, crtc);
-+	if (old_crtc_state && old_crtc_state->self_refresh_active)
-+		return;
- 
- 	drm_panel_prepare(panel_bridge->panel);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index b9b254d..a0cb089 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -1196,7 +1196,8 @@ void dpu_encoder_virt_runtime_resume(struct drm_encoder *drm_enc)
+ 	mutex_unlock(&dpu_enc->enc_lock);
  }
-@@ -121,6 +133,18 @@ static void panel_bridge_atomic_enable(struct drm_bridge *bridge,
- 				struct drm_bridge_state *old_bridge_state)
- {
- 	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
-+	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
-+	struct drm_encoder *encoder = bridge->encoder;
-+	struct drm_crtc *crtc;
-+	struct drm_crtc_state *old_crtc_state;
-+
-+	crtc = drm_atomic_get_new_crtc_for_encoder(atomic_state, encoder);
-+	if (!crtc)
-+		return;
-+
-+	old_crtc_state = drm_atomic_get_old_crtc_state(atomic_state, crtc);
-+	if (old_crtc_state && old_crtc_state->self_refresh_active)
-+		return;
  
- 	drm_panel_enable(panel_bridge->panel);
- }
-@@ -129,6 +153,18 @@ static void panel_bridge_atomic_disable(struct drm_bridge *bridge,
- 				struct drm_bridge_state *old_bridge_state)
+-static void dpu_encoder_virt_enable(struct drm_encoder *drm_enc)
++static void dpu_encoder_virt_atomic_enable(struct drm_encoder *drm_enc,
++					struct drm_atomic_state *state)
  {
- 	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
-+	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
-+	struct drm_encoder *encoder = bridge->encoder;
-+	struct drm_crtc *crtc;
-+	struct drm_crtc_state *new_crtc_state;
-+
-+	crtc = drm_atomic_get_old_crtc_for_encoder(atomic_state, encoder);
-+	if (!crtc)
-+		return;
-+
-+	new_crtc_state = drm_atomic_get_new_crtc_state(atomic_state, crtc);
-+	if (new_crtc_state && new_crtc_state->self_refresh_active)
-+		return;
- 
- 	drm_panel_disable(panel_bridge->panel);
+ 	struct dpu_encoder_virt *dpu_enc = NULL;
+ 	int ret = 0;
+@@ -1232,7 +1233,8 @@ static void dpu_encoder_virt_enable(struct drm_encoder *drm_enc)
+ 	mutex_unlock(&dpu_enc->enc_lock);
  }
-@@ -137,6 +173,18 @@ static void panel_bridge_atomic_post_disable(struct drm_bridge *bridge,
- 				struct drm_bridge_state *old_bridge_state)
+ 
+-static void dpu_encoder_virt_disable(struct drm_encoder *drm_enc)
++static void dpu_encoder_virt_atomic_disable(struct drm_encoder *drm_enc,
++					struct drm_atomic_state *state)
  {
- 	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
-+	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
-+	struct drm_encoder *encoder = bridge->encoder;
-+	struct drm_crtc *crtc;
-+	struct drm_crtc_state *new_crtc_state;
-+
-+	crtc = drm_atomic_get_old_crtc_for_encoder(atomic_state, encoder);
-+	if (!crtc)
-+		return;
-+
-+	new_crtc_state = drm_atomic_get_new_crtc_state(atomic_state, crtc);
-+	if (new_crtc_state && new_crtc_state->self_refresh_active)
-+		return;
+ 	struct dpu_encoder_virt *dpu_enc = NULL;
+ 	int i = 0;
+@@ -2407,8 +2409,8 @@ static void dpu_encoder_frame_done_timeout(struct timer_list *t)
  
- 	drm_panel_unprepare(panel_bridge->panel);
- }
+ static const struct drm_encoder_helper_funcs dpu_encoder_helper_funcs = {
+ 	.atomic_mode_set = dpu_encoder_virt_atomic_mode_set,
+-	.disable = dpu_encoder_virt_disable,
+-	.enable = dpu_encoder_virt_enable,
++	.atomic_disable = dpu_encoder_virt_atomic_disable,
++	.atomic_enable = dpu_encoder_virt_atomic_enable,
+ 	.atomic_check = dpu_encoder_virt_atomic_check,
+ };
+ 
 -- 
 2.7.4
 
