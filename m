@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8DB364C55A
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 09:56:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4264664C55C
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 09:57:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C65210E101;
-	Wed, 14 Dec 2022 08:56:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB42910E234;
+	Wed, 14 Dec 2022 08:57:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D609E89EAC;
- Wed, 14 Dec 2022 08:56:01 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id z4so5977528ljq.6;
- Wed, 14 Dec 2022 00:56:01 -0800 (PST)
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8CF210E22F;
+ Wed, 14 Dec 2022 08:57:12 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id y25so9286603lfa.9;
+ Wed, 14 Dec 2022 00:57:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=jEkf8aHujPThgFhfHhjsPQUbLPyAxaZBtHCvt+qqZHE=;
- b=JxZVVPD2kA+0ZOb4wIghIP6/6Jd2H4d5YTk+MijO0y/YGB9SzMoVjxX8WLBTEqCWBE
- exMWL06cMTzYyHdlRM7PvX+MWID5i37IG/0E2hwFWjv2+K/61u8naE2UzLQ5ilcZSwIH
- +gaZiElz3QTPiYHw17PKjiGsxeZkdnZBmPn/W+mdC5oDotcqce6H4BkIHR7wuTwgIy9o
- PbNRGzJtQM5RG4s71Y4fislkefSiaYaXC9edPo+03Cu8k/3ymmHO5Rdk7YAhgEoQf5B9
- JSTMQExTNFGzUNMOrXbScu3TWsUC8sNM60lh+ljYriESx3jqzk20E7hl9g33FDCF179a
- K98A==
+ bh=cUc52zEjvVbrANnXNk+UIjZtd0EkaI5I+dB82xQuzlI=;
+ b=WyQF25NemzhYEs671VkTq9vbL/MRmdps2CBOA2nHGXn5fWUsHBGvYU+4HlB28J2cS0
+ 9NiaaEIw59XRTuV6ctibYkmUboa3K9byUfVS6pcawmamx5O6upavVkM3xZUVIZQyQcFT
+ vpbh+FsX5O2VYCWvzy/FTpA8NBS13JcSkmiKxoKwUfMySIIgugu9xm6Nc7nV1kRxc+YQ
+ PHSl0W9Z4zaT8/DugBSEChQ8prwmwiS0X1YyJsSNx+rfRAm/5pPCSqWADwMtHe51n1p0
+ dobazpjjfNK9THHOF5xB+fSpKEhxnl4x7IgotW1t1deRw5eHWF0Ke8X5V8cHZcSMDFHl
+ su2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jEkf8aHujPThgFhfHhjsPQUbLPyAxaZBtHCvt+qqZHE=;
- b=z/aBbi2m39KPz9mbFmWVAKsHobSgSZgZZ4YNKgiR6Kawl9+roclF1xKBMzE553asaA
- 9kWRJ4pWQWfjVrj7Gx5hwn+viQUcV6cR3whz4bspN3Abc1Idjj/wMX9chXChPoQotXow
- FXIbio249oMQKHtG7Fl+1EDdGtFsl0z3LU+ulM1AVg+u0L4le3ezgoEXkI0FAE6zDEuz
- mSjOogwRp1JkBBXGQcIwdLE1OAgyrzMdm4WCuKZyRsiLNxdimCOXDnqlmQbTL6iUzq4g
- PudPjPdup3OiySDAtB/PJb2BPbAMNOtjS+uY226sCw8SJYL/syKeT+Ibn/fw32Miqxzi
- HvZA==
-X-Gm-Message-State: ANoB5pnneBAA/GOjQUB05XVZqjgDuqQu2MUyAsMaFO6e2m3Ixbw3ajrh
- sSv64Tk6Oq8MnEv5NJoB4a0=
-X-Google-Smtp-Source: AA0mqf5uDNliBDiBHv4lIGGGafUO+NLN/WjP1XrzcHUSpmeu+zje40nKOwcqJNbipZEycDHXfBzWCA==
-X-Received: by 2002:a2e:be1f:0:b0:26f:db35:7e42 with SMTP id
- z31-20020a2ebe1f000000b0026fdb357e42mr7585549ljq.17.1671008160104; 
- Wed, 14 Dec 2022 00:56:00 -0800 (PST)
+ bh=cUc52zEjvVbrANnXNk+UIjZtd0EkaI5I+dB82xQuzlI=;
+ b=bfkY+sIiLrN5cUR0T+K9d6zi3Mys32qK1UPJyK8/9M0jnRAHfN0P1WLiysKGVpISnj
+ ArWGALqV52+6dTbYEzgynSwE1nJG6ZhLJZ+arNLDTzF4lh12xTKXzHfuI+HQEyjfsVHQ
+ Pusl97yUJQwGOQ4MOSIbP2D09nz+/NC65u1ZKboqZZd8kWFg/IM2LKLXQ9QadczxsHnT
+ 3hXrgt3mo0zi0jQVdna3kkcRdWzJRJKLtBL/Su6r+RYx08LZMEGoUpsu9sUExeYz14XV
+ P22D4R4WENe0SZpiJOTACEZEab3gX5TTRQWmAcOPiQ6IcKgRCFg/dFGhyb7EXZKc+EFy
+ 1Tsg==
+X-Gm-Message-State: ANoB5pke8aoPl2UwveccNoXrF1fdlE5CCs45oMC6jnjFEOknvBViUgTv
+ +f5yiLRC8l5fdY0lIC+pBJ0=
+X-Google-Smtp-Source: AA0mqf7ue7elkZfQ6+Hn9U2Vw9bPPA1Q6iZxlmMwih85G+EX9boba0sABTTJx5DkJPOZn4nXM/CWfQ==
+X-Received: by 2002:a05:6512:6d1:b0:4b4:91db:a51d with SMTP id
+ u17-20020a05651206d100b004b491dba51dmr7119020lff.28.1671008231040; 
+ Wed, 14 Dec 2022 00:57:11 -0800 (PST)
 Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- q23-20020a2e9697000000b0026bf0d71b1esm541585lji.93.2022.12.14.00.55.59
+ x13-20020ac2488d000000b004b581ab4c77sm721618lfc.78.2022.12.14.00.57.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Dec 2022 00:55:59 -0800 (PST)
-Date: Wed, 14 Dec 2022 10:55:56 +0200
+ Wed, 14 Dec 2022 00:57:10 -0800 (PST)
+Date: Wed, 14 Dec 2022 10:57:07 +0200
 From: Pekka Paalanen <ppaalanen@gmail.com>
 To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH 06/16] drm/connector: Allow drivers to pass list of
- supported colorspaces
-Message-ID: <20221214105556.63a9296e@eldfell>
-In-Reply-To: <25da5107-9bdf-abc9-adf8-98778d87dafc@amd.com>
+Subject: Re: [PATCH 04/16] drm/connector: Convert DRM_MODE_COLORIMETRY to enum
+Message-ID: <20221214105707.3e0eb9d9@eldfell>
+In-Reply-To: <8613220b-7199-1ce3-9310-2403db069cb2@amd.com>
 References: <20221212182137.374625-1-harry.wentland@amd.com>
- <20221212182137.374625-7-harry.wentland@amd.com>
- <20221213122342.548631bf@eldfell>
- <25da5107-9bdf-abc9-adf8-98778d87dafc@amd.com>
+ <20221212182137.374625-5-harry.wentland@amd.com>
+ <20221213123932.67edc8dc@eldfell>
+ <8613220b-7199-1ce3-9310-2403db069cb2@amd.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/OOUJNJZSbRzwizT4zIw54Mn";
+Content-Type: multipart/signed; boundary="Sig_/R16hhnpye72J2Fs/GQIv0X+";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,100 +78,19 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/OOUJNJZSbRzwizT4zIw54Mn
+--Sig_/R16hhnpye72J2Fs/GQIv0X+
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 13 Dec 2022 11:32:01 -0500
+On Tue, 13 Dec 2022 11:41:08 -0500
 Harry Wentland <harry.wentland@amd.com> wrote:
 
-> On 12/13/22 05:23, Pekka Paalanen wrote:
-> > On Mon, 12 Dec 2022 13:21:27 -0500
+> On 12/13/22 05:39, Pekka Paalanen wrote:
+> > On Mon, 12 Dec 2022 13:21:25 -0500
 > > Harry Wentland <harry.wentland@amd.com> wrote:
 > >  =20
-> >> Drivers might not support all colorspaces defined in
-> >> dp_colorspaces and hdmi_colorspaces. This results in
-> >> undefined behavior when userspace is setting an
-> >> unsupported colorspace.
+> >> This allows us to use strongly typed arguments.
 > >>
-> >> Allow drivers to pass the list of supported colorspaces
-> >> when creating the colorspace property. =20
-> >=20
-> > Hi Harry,
-> >=20
-> > what is there for drivers to support? Isn't this just infoframe data
-> > that shall be sent down to the sink as-is with no other effect?
-> >  =20
->=20
-> You have a good point.
->=20
-> Right now the supported colorspaces de-facto depend on driver implementat=
-ions
-> as you can see in [1] for i915 and [2] for amdgpu. The amdgpu driver will
-> also program the MSA [3] for DP connections, and a bunch of other things =
-which
-> are deeper in the driver.
->=20
-> [1] https://gitlab.freedesktop.org/hwentland/linux/-/blob/hdr-colorimetry=
-/drivers/gpu/drm/i915/display/intel_dp.c#L1741
-> [2] https://gitlab.freedesktop.org/hwentland/linux/-/blob/hdr-colorimetry=
-/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c#L5155
-> [3] https://gitlab.freedesktop.org/hwentland/linux/-/blob/hdr-colorimetry=
-/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_stream_encoder.c#L368
->=20
-> I don't know why the DP VSC stuff needs to be in drivers. It should be
-> common. The MSA packing would likely have to be driver specific since the
-> mechanism of packing it is HW specific.
-
-What's MSA?
-
-I don't see it in
-https://www.kernel.org/doc/html/latest/gpu/amdgpu/display/dc-glossary.html
-or anywhere under Documentation/gpu or in CTA-861-H.
-
-> I'll have a closer look and see if we can eliminate the "driver supported"
-> bit. If we can't we'll probably need to describe the reasoning better.
-
-That would be nice, thanks!
-
-> Will it be a problem if the list of supported colorspaces differs between
-> drivers?
-
-I do not think so. It's just normal KMS UAPI that one must always
-inspect an enumeration to see what values are possible. Userspace
-cannot use a header with pre-defined numerical values, they always need
-to be introspected first like everything else about KMS properties.
-
-I know there were some opinions about hard-coding enum numerical values
-in headers, but I think in the end everyone agreed to the introspection
-even if it didn't seem useful at the time.
-
-Besides, if a driver never supported a given value but misbehaved or
-refused, I don't think that counts as a kernel regression?
-
-
-Thanks,
-pq
-
->=20
-> Harry
->=20
-> > Is the driver confusing colorimetry with color-representation (the
-> > RGB-YCbCr conversion)? Or is this property defining both?
-> >=20
-> > I feel that the documentation of "Colorspace" KMS connector property
-> > needs clarification, and a list of potentially available values with
-> > explanations, more than just a reference to CTA-816-H which it does not
-> > even do yet.
-> >=20
-> > Perhaps a table, where for each enum drm_colorspace entry has a row exp=
-laining:
-> >=20
-> >=20
-> > Thanks,
-> > pq
-> >=20
-> >  =20
 > >> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 > >> Cc: Pekka Paalanen <ppaalanen@gmail.com>
 > >> Cc: Sebastian Wick <sebastian.wick@redhat.com>
@@ -183,32 +101,143 @@ laining:
 > >> Cc: dri-devel@lists.freedesktop.org
 > >> Cc: amd-gfx@lists.freedesktop.org
 > >> ---
-> >>  drivers/gpu/drm/drm_connector.c               | 140 +++++++++---------
-> >>  .../gpu/drm/i915/display/intel_connector.c    |   4 +-
-> >>  drivers/gpu/drm/vc4/vc4_hdmi.c                |   2 +-
-> >>  include/drm/drm_connector.h                   |   8 +-
-> >>  4 files changed, 83 insertions(+), 71 deletions(-)
+> >>  include/drm/display/drm_dp.h |  2 +-
+> >>  include/drm/drm_connector.h  | 47 ++++++++++++++++++------------------
+> >>  2 files changed, 25 insertions(+), 24 deletions(-)
 > >>
+> >> diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp=
+.h
+> >> index 4d0abe4c7ea9..b98697459f9c 100644
+> >> --- a/include/drm/display/drm_dp.h
+> >> +++ b/include/drm/display/drm_dp.h
+> >> @@ -1615,7 +1615,7 @@ enum dp_pixelformat {
+> >>   *
+> >>   * This enum is used to indicate DP VSC SDP Colorimetry formats.
+> >>   * It is based on DP 1.4 spec [Table 2-117: VSC SDP Payload for DB16 =
+through
+> >> - * DB18] and a name of enum member follows DRM_MODE_COLORIMETRY defin=
+ition.
+> >> + * DB18] and a name of enum member follows &enum drm_colorimetry defi=
+nition.
+> >>   *
+> >>   * @DP_COLORIMETRY_DEFAULT: sRGB (IEC 61966-2-1) or
+> >>   *                          ITU-R BT.601 colorimetry format
+> >> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> >> index 62c814241828..edef65388c29 100644
+> >> --- a/include/drm/drm_connector.h
+> >> +++ b/include/drm/drm_connector.h
+> >> @@ -371,28 +371,29 @@ enum drm_privacy_screen_status {
+> >>   * a colorspace property which will be created and exposed to
+> >>   * userspace.
+> >>   */
+> >> -
+> >> -/* For Default case, driver will set the colorspace */
+> >> -#define DRM_MODE_COLORIMETRY_DEFAULT			0
+> >> -/* CEA 861 Normal Colorimetry options */
+> >> -#define DRM_MODE_COLORIMETRY_SMPTE_170M_YCC		1
+> >> -#define DRM_MODE_COLORIMETRY_BT709_YCC			2
+> >> -/* CEA 861 Extended Colorimetry Options */
+> >> -#define DRM_MODE_COLORIMETRY_XVYCC_601			3
+> >> -#define DRM_MODE_COLORIMETRY_XVYCC_709			4
+> >> -#define DRM_MODE_COLORIMETRY_SYCC_601			5
+> >> -#define DRM_MODE_COLORIMETRY_OPYCC_601			6
+> >> -#define DRM_MODE_COLORIMETRY_OPRGB			7
+> >> -#define DRM_MODE_COLORIMETRY_BT2020_CYCC		8
+> >> -#define DRM_MODE_COLORIMETRY_BT2020_RGB			9
+> >> -#define DRM_MODE_COLORIMETRY_BT2020_YCC			10
+> >> -/* Additional Colorimetry extension added as part of CTA 861.G */
+> >> -#define DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65		11
+> >> -#define DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER		12
+> >> -/* Additional Colorimetry Options added for DP 1.4a VSC Colorimetry F=
+ormat */
+> >> -#define DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED		13
+> >> -#define DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT		14
+> >> -#define DRM_MODE_COLORIMETRY_BT601_YCC			15
+> >> +enum drm_colorspace {
+> >> +	/* For Default case, driver will set the colorspace */
+> >> +	DRM_MODE_COLORIMETRY_DEFAULT,
+> >> +	/* CEA 861 Normal Colorimetry options */
+> >> +	DRM_MODE_COLORIMETRY_SMPTE_170M_YCC,
+> >> +	DRM_MODE_COLORIMETRY_BT709_YCC,
+> >> +	/* CEA 861 Extended Colorimetry Options */
+> >> +	DRM_MODE_COLORIMETRY_XVYCC_601,
+> >> +	DRM_MODE_COLORIMETRY_XVYCC_709,
+> >> +	DRM_MODE_COLORIMETRY_SYCC_601,
+> >> +	DRM_MODE_COLORIMETRY_OPYCC_601,
+> >> +	DRM_MODE_COLORIMETRY_OPRGB,
+> >> +	DRM_MODE_COLORIMETRY_BT2020_CYCC,
+> >> +	DRM_MODE_COLORIMETRY_BT2020_RGB,
+> >> +	DRM_MODE_COLORIMETRY_BT2020_YCC,
+> >> +	/* Additional Colorimetry extension added as part of CTA 861.G */
+> >> +	DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65,
+> >> +	DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER,
+> >> +	/* Additional Colorimetry Options added for DP 1.4a VSC Colorimetry =
+Format */
+> >> +	DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED,
+> >> +	DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT,
+> >> +	DRM_MODE_COLORIMETRY_BT601_YCC,
+> >> +}; =20
+> >=20
+> > Hi,
+> >=20
+> > what's the entry for "the traditional sRGB"?
+> >=20
+> > It cannot be DRM_MODE_COLORIMETRY_DEFAULT, because the doc here says
+> > that it maps to some driver-defined entry which may be something else.
+> >  =20
+>=20
+> If I understand this list correctly the only entry that currently covers
+> sRGB is DEFAULT.
 
---Sig_/OOUJNJZSbRzwizT4zIw54Mn
+Then either the list or the doc needs fixing:
+
+- If DEFAULT is driver-chosen, we really do need an entry for "the
+  traditional (s)RGB", which corresponds to the bits Y0, Y1, Y2, C0, C1
+  being all zeros (CTA-861-H).
+
+- If DEFAULT means that the bits Y0, Y1, Y2, C0, C1
+  are all zeros, then it's not driver-chosen, and the doc needs to be
+  more clear about this.
+
+But since there are really the UAPI (right?), this should be said in
+the UAPI docs for "Colorspace" property, and the internal doc here
+could just point to that.
+
+I think this could be just misdocumentation, because in CTA-861-H, the
+state Y0=3D0, Y1=3D0, Y2=3D0 is labeled as "RGB (default)" in table Table 16
+- AVI InfoFrame RGB or YC B C R Field, Data Byte 1. It's not "driver
+will set something", it's "whatever the sink expects when nothing is
+explicitly said otherwise" which I assume is practically "the
+traditional RGB".
+
+C0=3D0, C1=3D0 means "no colorimetry data".
+
+This is something we need to be able to explicitly choose in userspace,
+when that is what we want to have.
+
+
+Thanks,
+pq
+
+--Sig_/R16hhnpye72J2Fs/GQIv0X+
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmOZj5wACgkQI1/ltBGq
-qqe8hQ//f+X190eG8XTRkBcgzNabBUgyLz0s4bIr0c6YOz0S82rSTykflosNNG16
-a1BJxmEeSg5EKr3VsMBxN1ptkaeQiebcs6oaHYiXSqt4P75GRjfOZfJlbQHioRMf
-qO9JbAd6vdjGWH+YJ2a+ASbEkIJ43Qhc6PY0bLCb9xJac507kG107aeB4War4vRp
-mhJ6KtKGXeRF/j3mANCX1cxj9OkuGNpxBjWkl+6jP0mn2bmJhARA9Dq9kvIwgG22
-N0+WbxWO66oks48fBKOm6tuV2agXB2ACEe/tYJ0MPsNjexJJSzvMuW24NdRRpZWH
-bR/UOGjkt6ouIzowjablRVyrZDUR2g7XxlRuh7m74tYCsFSSDYWFLbhpSCLQ2PRn
-2+LjpWKBgV26TBPi4jn/t+RYgro7KwAxFgQysb+5Lke6ZGHmTx+k+ZKUDQAsxACT
-0n4IUyQoMtNqo+dhZsECY66NahBbBhCD39aPb3ytW24YSjny5LkTbeGpa+KhdzQo
-RdxxjFzLco+iDC/4L0foJZRMvxh63nPMUYBBGQvpg1CupdxcwsggR10CqBZ2bvHi
-RxLNMWLSCt2Vy5HC6idviSVWaIf8OsKW//q8eXjD6FNknPQMbOgzqYj/IcRkTPUG
-ubWOnJm5ct/4KNAU5q4iz1XyAS1KreM1ZXbdDcnaxuffu7bh288=
-=cz91
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmOZj+MACgkQI1/ltBGq
+qqcc0BAAlLhObuoPlr0L2/zcoTWt4zKWOsBcft2B/cHyWgx1gnROxVOgnXkw/JbY
+/p441epXtXlnLOdZeASIrO2qHf/anx3ExjF+dPWtaqGeTwXDsBYkfIRpUZv6pYzX
+r0vJCbNJ7sIlm+Gx0cLnFp6iIWM2Dpy16+C7+yVLRKGCnVubv8jWEew8Vpcbh6QN
+rIy7sNwH4lKkbuDvtT9x+r7fgs5gnIjgxpP//ZxVLKXSSQLKvNeZK4RSfdj1rFGJ
+AJrst11Lay3CtYuHI7sT901CuOROgd6u08CzQivZS9tYPVDdM++djexk7OTZDXIH
+De2SOxifdxTqZ9m0lk4hgxa5lAIYcPhxuYhhspMo3Wo30M0IA3/2anNZ8/4QHI3X
+bTFJwNFXcatyY6y14MVBX7sszDDtW4d4k2KMAv/lhD4CvWagZdOCaTLxu3fqfdVC
+jdgSu+UlVMV5VFuRCx7DUPl7i5VCyZtTQmx/raYa4cGXBCOFmhhu0Pj98icCWX7C
+7l4OutpYMlEa7ywr8SSUW3y2R8951tbNGMZF81qSF2Df8F32LLWndC2V79ezgMdk
+pqtqrgmIh2itaqf4feujCO24gyFyAqLPdtyIVOWSNbVs1ifdThVjrb0NvoJZC9mO
+3oz69TCKieHpmRHZRVJOLlp1tABxk2Nl9WTPt9zJdiu3iW9guOk=
+=kZt5
 -----END PGP SIGNATURE-----
 
---Sig_/OOUJNJZSbRzwizT4zIw54Mn--
+--Sig_/R16hhnpye72J2Fs/GQIv0X+--
