@@ -2,63 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE2B64CCCE
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 16:02:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC3364CCCF
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 16:02:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E122510E40D;
-	Wed, 14 Dec 2022 15:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF7D910E40B;
+	Wed, 14 Dec 2022 15:02:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DEC810E40D
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 15:02:43 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id F151661AA0
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 15:02:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5CBE1C433F0
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 15:02:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671030132;
- bh=CwDkZ4IsijEEJLzi1F553HtO0FPbR+R9BHkdytHKb0w=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=NIsgNyNTteZaxbSf4XBpT9RhMmz1w7j2PVRzZyJziq83Yc2nC4q7+QXvL/ko97Pmx
- GKlmPMs6GbDJLCTuwkhom0thkwhhFuddE69WZXd+d3FBLIOUxaTWnl+z5MIWON5jGj
- kKKINWLCGCotNPRIZDR0+ZHYl0DHRKbgQ/4G5/g3KCVjdlcwCd/hzQ17vjMDFnYaDb
- a9UhL9Ow81Y63z/X0JxHBCBWvksZDUATOFgGvJ/9QGnSo6Wya78SDqJ+t/GDrwT80W
- mwtPtnZKZb+Y9t8swReWax9984cjKtJ+ilMBUSUhXEZF0KHPdtKWt5zUeivLIt5EhA
- dI60UPAMsRe0A==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 37950C43141; Wed, 14 Dec 2022 15:02:12 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216806] [Raven Ridge] console disappears after framebuffer
- device loads
-Date: Wed, 14 Dec 2022 15:02:11 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: vinibali1@gmail.com
-X-Bugzilla-Status: NEEDINFO
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216806-2300-MTKO9J3qLd@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216806-2300@https.bugzilla.kernel.org/>
-References: <bug-216806-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56E2910E40B
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 15:02:17 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id t17so7205369pjo.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 07:02:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=zizgjhAGxfQnxHupIAnCacCyNq0cxVj4cOtAYW/ctXU=;
+ b=ROKLz+iTrcprmDj/BhOK1FY05E9Mt48faEoUXobrB2nqSgnx+zE0udfPnvi5vUyG/Z
+ k+6xL1iRVvg7YsXd0YOpHNcjKOnmNDBwuuNd0rIygJcKvZM8p2JojM0MKd1NWCn17gsM
+ NXHpTa5ZkjAhGl0xZXKsAuWMpNvUDUGDTo0hAe+hhMHdL0QyoNqHXbtZTXDxQ20WDlrs
+ FEO3pmr23fL52TVt0F3sgOsix508rfAdS4YBIMBTbhsM0zd2OxxvAGd80VqPDbrzuNBf
+ Fj4YctTqRV526v8vzQZeYRwW6KDT7I1yZpjSpfLkSfCfulo1OmkwJrqmpWXqGZTQ0LHt
+ OK3w==
+X-Gm-Message-State: ANoB5pk/Hfbitsqydh9v9FTG8TA2+TAbf9Rg2LUNMsRsmGFjMaxLHAL6
+ JX0tWbffnS4g+eyXlg3/L2jm1W84gm/wcA==
+X-Google-Smtp-Source: AA0mqf6nT/byREZZMEWR53Ab01VjK3aQJAfIdBhc0WmumeZaqPdDLWsWwJySsXNpdPUmTEBu5in3sA==
+X-Received: by 2002:a17:902:6a8c:b0:185:441e:4cef with SMTP id
+ n12-20020a1709026a8c00b00185441e4cefmr24039277plk.31.1671030136523; 
+ Wed, 14 Dec 2022 07:02:16 -0800 (PST)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com.
+ [209.85.219.174]) by smtp.gmail.com with ESMTPSA id
+ s6-20020a05620a29c600b006eeca296c00sm10180454qkp.104.2022.12.14.07.02.16
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Dec 2022 07:02:16 -0800 (PST)
+Received: by mail-yb1-f174.google.com with SMTP id y135so21689176yby.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 07:02:16 -0800 (PST)
+X-Received: by 2002:a25:9:0:b0:6f9:29ef:a5ee with SMTP id
+ 9-20020a250009000000b006f929efa5eemr38819937yba.380.1671030135781; 
+ Wed, 14 Dec 2022 07:02:15 -0800 (PST)
 MIME-Version: 1.0
+References: <6398848e.170a0220.f8e8e.d44f@mx.google.com>
+ <Y5itf0+yNIQa6fU4@sirena.org.uk>
+ <CAMuHMdW4RNFspMheq1JGUkCm+s1oM90Q_4vPH1XX9ZRAxrmPdA@mail.gmail.com>
+ <ea3d5e98-8901-1f9c-b27d-3c65e7969c41@collabora.com>
+ <CAMuHMdVGK=WDXqtJ_NgBJf_g=wQJ0V+dQ_b0RztafpxoRW=v5Q@mail.gmail.com>
+ <fea3d246-d1d5-450f-6e9e-1ab63a91a053@collabora.com>
+ <Y5ngIwSr7PradhxE@sirena.org.uk>
+In-Reply-To: <Y5ngIwSr7PradhxE@sirena.org.uk>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 14 Dec 2022 16:02:04 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXyFp=96NpoxRgSzFL=vndcweTGyXy9JCmjD=VZF-5O=g@mail.gmail.com>
+Message-ID: <CAMuHMdXyFp=96NpoxRgSzFL=vndcweTGyXy9JCmjD=VZF-5O=g@mail.gmail.com>
+Subject: Re: renesas/master bisection:
+ igt-kms-rockchip.kms_vblank.pipe-A-wait-forked on rk3399-gru-kevin
+To: Mark Brown <broonie@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,21 +73,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Guillaume Tucker <guillaume.tucker@collabora.com>,
+ Brian Norris <briannorris@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Sean Paul <seanpaul@chromium.org>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, kernelci@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216806
+Hi Mark,
 
---- Comment #2 from Balazs Vinarz (vinibali1@gmail.com) ---
-Hello Alex,
-it's set:
-$ zgrep DRM_FBDEV /proc/config.gz=20
-CONFIG_DRM_FBDEV_EMULATION=3Dy
-CONFIG_DRM_FBDEV_OVERALLOC=3D100
-I just got a hint to use the iommu=3Dpt, but that one didn't work too.
+On Wed, Dec 14, 2022 at 3:39 PM Mark Brown <broonie@kernel.org> wrote:
+> On Wed, Dec 14, 2022 at 03:16:33PM +0100, Guillaume Tucker wrote:
+> > Mark, how did you get the list of recipients?
+>
+> > There's a command for this btw, which was used when the reports
+> > were automatically sent to the recipients before we reverted to
+> > manual filtering to reduce the noise:
+>
+> My standard thing is to look at who touched the commit, possibly also
+> adding seemingly relevant maintainers depending on how good the list
+> from the commit was (IIRC in this case the commit went entirely through
+> ChromeOS people so I added relevant DRM submaintainers which turned out
+> to be a surprisingly large number of people), and relevant lists.
+>
+> > As you can see, Geert is not listed there.
+>
+> I didn't send the report to Geert as far as I can see, I imagine he saw
+> it as a result of it going to one of the lists and noticed the mention
+> of Renesas as the tree, possibly he's got some filter set up to find
+> things that mention it.  The recipient list I have is:
+>
+> | To: kernelci-results@groups.io, bot@kernelci.org, Brian Norris
+> |         <briannorris@chromium.org>, Sean Paul <seanpaul@chromium.org>, Douglas
+> |         Anderson <dianders@chromium.org>
+> | Cc: gtucker@collabora.com, dri-devel@lists.freedesktop.org,
+> |         linux-arm-kernel@lists.infradead.org, Andrzej Hajda
+> |         <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+> |         Robert Foss <robert.foss@linaro.org>, Laurent Pinchart
+> |         <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+> |         Jernej Skrabec <jernej.skrabec@gmail.com>
+>
+> which doesn't mention him at all.
 
---=20
-You may reply to this email to add a comment.
+Right. I noticed the email because my name was in the body (it's part
+of the git repo name).
+The "Re: renesas/master bisection" in the subject immediately triggered
+my interest.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
