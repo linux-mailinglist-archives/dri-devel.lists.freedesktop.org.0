@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B048464D01B
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 20:32:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DCB364D023
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 20:38:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCC3910E45F;
-	Wed, 14 Dec 2022 19:32:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B325710E460;
+	Wed, 14 Dec 2022 19:38:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFF4810E45F;
- Wed, 14 Dec 2022 19:32:17 +0000 (UTC)
-Received: from SoMainline.org (94-209-172-39.cable.dynamic.v4.ziggo.nl
- [94.209.172.39])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 80F2B1F541;
- Wed, 14 Dec 2022 20:31:45 +0100 (CET)
-Date: Wed, 14 Dec 2022 20:31:44 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [RFC PATCH 6/6] drm/msm/dpu: Disallow unallocated (DSC)
- resources to be returned
-Message-ID: <20221214193144.to6yk5tr46akfy5m@SoMainline.org>
-Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Vinod Koul <vkoul@kernel.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Stephen Boyd <swboyd@chromium.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Jani Nikula <jani.nikula@intel.com>,
- sunliming <sunliming@kylinos.cn>, Sam Ravnborg <sam@ravnborg.org>,
- Haowen Bai <baihaowen@meizu.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Loic Poulain <loic.poulain@linaro.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>,
- Douglas Anderson <dianders@chromium.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20221213232207.113607-1-marijn.suijten@somainline.org>
- <20221213232207.113607-7-marijn.suijten@somainline.org>
- <4b7b4fb0-b99b-1022-b0f6-e91a84e8d082@linaro.org>
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
+ [IPv6:2001:4860:4864:20::32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AA6610E45C;
+ Wed, 14 Dec 2022 19:38:08 +0000 (UTC)
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-1433ef3b61fso17980302fac.10; 
+ Wed, 14 Dec 2022 11:38:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VsgpUu524THLa4pjgkZ1KxwG+fWN6a7YV9owx/i+9+s=;
+ b=AlqSWOqYKJPZvFPYre8csHfLNt0SMEFSX7e+P0eg3OffNY/tqIGTKFjTewkkebrZCb
+ Bm/eGBlRs+07IBTzPykTJ63RgHp54AIInV2Yl/+dqAni63iuQidRBhR9EmiFpKlqhZvD
+ vdz2s/orTf2wljYAZZO6V9I2rieh/YDf5NVYNuEJTgPrOHcOuR95AWpLTGlyzt6pTO/K
+ /jB6zkzEXnHkzp5QfPQ7McIJ5AE7xAlyyrn3ZN9I/XCPsiWnpX8A/5M89KzgSsSlwsZ/
+ BwayPUT2p0g7H8jkipFt7zYqN+fweh7WVxtZWhjc937hQqDFJModpKqMIIdUpNwKnOsL
+ Qtsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VsgpUu524THLa4pjgkZ1KxwG+fWN6a7YV9owx/i+9+s=;
+ b=mWnhy7bqm/S6UAF+yCPCm7UtDkz91MRwSVYXNX+QE/TJ5iddYSD1NXWptgf6/IerSF
+ tWqkc6nKLLrtUBjL1gR6W/hQoPhw8e6nlpJoLvWf0p2ZC5LowKjwYvIdwkQ0QJgZI5qd
+ XNZc+F66LRph61pytIjtjzO+Fq91TXv7AaslHEaf/amHJwkHm5+AwR36K1yQHiLVxPH4
+ 2h05yAe8/J4PXL4PPqL2Ihp9E1163jMtTa5GdfLNTGNEooLJzRGRa6SFZ3RH6L6nTiDF
+ IGGHdL9TZPzsZsmbwABY2ZLUlWM526qCpUj9qCeUQAIARi6ac/j6MSSex4k/mB48md49
+ lRpQ==
+X-Gm-Message-State: AFqh2kqaQq1Lm0S7Jb7KmyBZf1PJaQ2vD1GjbledugnVVG3qmaLAkU8N
+ 6XbxSs2xo4jCYSKbldpxInJY8BJwTFeNvQYPhn6VL/wZ8aU=
+X-Google-Smtp-Source: AA0mqf4MwA81CIhaLht+F3aNY4XUeXkh0xYSjWk1ugIXjfupxe+evY6LzblXWU/2eb7CsuZJJekpvOwMFwP8Z3Y643o=
+X-Received: by 2002:a05:6870:41cd:b0:148:3c8f:15ab with SMTP id
+ z13-20020a05687041cd00b001483c8f15abmr443340oac.46.1671046687186; Wed, 14 Dec
+ 2022 11:38:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4b7b4fb0-b99b-1022-b0f6-e91a84e8d082@linaro.org>
+References: <20221212182137.374625-1-harry.wentland@amd.com>
+ <20221212182137.374625-7-harry.wentland@amd.com>
+ <20221213122342.548631bf@eldfell>
+ <25da5107-9bdf-abc9-adf8-98778d87dafc@amd.com>
+ <20221214105556.63a9296e@eldfell>
+In-Reply-To: <20221214105556.63a9296e@eldfell>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 14 Dec 2022 14:37:55 -0500
+Message-ID: <CADnq5_MSnsq7TKO+A4wwnYZ6Lt8gu2gA+uu_DTK3ZRUAY249tg@mail.gmail.com>
+Subject: Re: [PATCH 06/16] drm/connector: Allow drivers to pass list of
+ supported colorspaces
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,92 +72,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- phone-devel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- Haowen Bai <baihaowen@meizu.com>, Vinod Koul <vkoul@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Jani Nikula <jani.nikula@intel.com>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Stephen Boyd <swboyd@chromium.org>, Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
- Loic Poulain <loic.poulain@linaro.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- Douglas Anderson <dianders@chromium.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, sunliming <sunliming@kylinos.cn>,
- freedreno@lists.freedesktop.org, Vinod Polimera <quic_vpolimer@quicinc.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, amd-gfx@lists.freedesktop.org,
+ Uma Shankar <uma.shankar@intel.com>, dri-devel@lists.freedesktop.org,
+ Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-12-14 20:56:30, Dmitry Baryshkov wrote:
-> On 14/12/2022 01:22, Marijn Suijten wrote:
-> > In the event that the topology requests resources that have not been
-> > created by the system (because they are typically not represented in
-> > dpu_mdss_cfg ^1), the resource(s) in global_state (in this case DSC
-> > blocks) remain NULL but will still be returned out of
-> > dpu_rm_get_assigned_resources, where the caller expects to get an array
-> > containing num_blks valid pointers (but instead gets these NULLs).
-> > 
-> > To prevent this from happening, where null-pointer dereferences
-> > typically result in a hard-to-debug platform lockup, num_blks shouldn't
-> > increase past NULL blocks and will print an error and break instead.
-> > After all, max_blks represents the static size of the maximum number of
-> > blocks whereas the actual amount varies per platform.
-> > 
-> > In the specific case of DSC initial resource allocation should behave
-> > more like LMs and CTLs where NULL resources are skipped.  The current
-> > hardcoded mapping of DSC blocks should be loosened separately as DPU
-> > 5.0.0 introduced a crossbar where DSC blocks can be "somewhat" freely
-> > bound to any PP and CTL, but that hardcoding currently means that we
-> > will return an error when the topology reserves a DSC that isn't
-> > available, instead of looking for the next free one.
-> > 
-> > ^1: which can happen after a git rebase ended up moving additions to
-> > _dpu_cfg to a different struct which has the same patch context.
-> > 
-> > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> > ---
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 10 ++++++++++
-> >   1 file changed, 10 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> > index 73b3442e7467..dcbf03d2940a 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> > @@ -496,6 +496,11 @@ static int _dpu_rm_reserve_dsc(struct dpu_rm *rm,
-> >   
-> >   	/* check if DSC required are allocated or not */
-> >   	for (i = 0; i < num_dsc; i++) {
-> > +		if (!rm->dsc_blks[i]) {
-> > +			DPU_ERROR("DSC %d does not exist\n", i);
-> > +			return -EIO;
-> > +		}
-> > +
-> >   		if (global_state->dsc_to_enc_id[i]) {
-> >   			DPU_ERROR("DSC %d is already allocated\n", i);
-> >   			return -EIO;
-> > @@ -660,6 +665,11 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
-> >   				  blks_size, enc_id);
-> >   			break;
-> >   		}
-> > +		if (!hw_blks[i]) {
-> > +			DPU_ERROR("No more resource %d available to assign to enc %d\n",
-> > +				  type, enc_id);
-> > +			break;
-> > +		}
-> >   		blks[num_blks++] = hw_blks[i];
-> >   	}
-> >  
-> 
-> These two chunks should come as two separate patches, each having it's 
-> own Fixes tag.
+On Wed, Dec 14, 2022 at 3:56 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+>
+> On Tue, 13 Dec 2022 11:32:01 -0500
+> Harry Wentland <harry.wentland@amd.com> wrote:
+>
+> > On 12/13/22 05:23, Pekka Paalanen wrote:
+> > > On Mon, 12 Dec 2022 13:21:27 -0500
+> > > Harry Wentland <harry.wentland@amd.com> wrote:
+> > >
+> > >> Drivers might not support all colorspaces defined in
+> > >> dp_colorspaces and hdmi_colorspaces. This results in
+> > >> undefined behavior when userspace is setting an
+> > >> unsupported colorspace.
+> > >>
+> > >> Allow drivers to pass the list of supported colorspaces
+> > >> when creating the colorspace property.
+> > >
+> > > Hi Harry,
+> > >
+> > > what is there for drivers to support? Isn't this just infoframe data
+> > > that shall be sent down to the sink as-is with no other effect?
+> > >
+> >
+> > You have a good point.
+> >
+> > Right now the supported colorspaces de-facto depend on driver implement=
+ations
+> > as you can see in [1] for i915 and [2] for amdgpu. The amdgpu driver wi=
+ll
+> > also program the MSA [3] for DP connections, and a bunch of other thing=
+s which
+> > are deeper in the driver.
+> >
+> > [1] https://gitlab.freedesktop.org/hwentland/linux/-/blob/hdr-colorimet=
+ry/drivers/gpu/drm/i915/display/intel_dp.c#L1741
+> > [2] https://gitlab.freedesktop.org/hwentland/linux/-/blob/hdr-colorimet=
+ry/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c#L5155
+> > [3] https://gitlab.freedesktop.org/hwentland/linux/-/blob/hdr-colorimet=
+ry/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_stream_encoder.c#L368
+> >
+> > I don't know why the DP VSC stuff needs to be in drivers. It should be
+> > common. The MSA packing would likely have to be driver specific since t=
+he
+> > mechanism of packing it is HW specific.
+>
+> What's MSA?
 
-Ack.  They are indeed addressing different issues (with the same
-outcome) with differing "backportability".  Will address in v2, thanks
-for pointing it out (and missing a Fixes: in the first place, of which
-we already have so many...).
+I think it's Main Stream Attribute data.  Part of DP.  See slide 31 of
+this document:
+https://www.vesa.org/wp-content/uploads/2011/01/ICCE-Presentation-on-VESA-D=
+isplayPort.pdf
 
-- Marijn
+Alex
+
+>
+> I don't see it in
+> https://www.kernel.org/doc/html/latest/gpu/amdgpu/display/dc-glossary.htm=
+l
+> or anywhere under Documentation/gpu or in CTA-861-H.
+>
+> > I'll have a closer look and see if we can eliminate the "driver support=
+ed"
+> > bit. If we can't we'll probably need to describe the reasoning better.
+>
+> That would be nice, thanks!
+>
+> > Will it be a problem if the list of supported colorspaces differs betwe=
+en
+> > drivers?
+>
+> I do not think so. It's just normal KMS UAPI that one must always
+> inspect an enumeration to see what values are possible. Userspace
+> cannot use a header with pre-defined numerical values, they always need
+> to be introspected first like everything else about KMS properties.
+>
+> I know there were some opinions about hard-coding enum numerical values
+> in headers, but I think in the end everyone agreed to the introspection
+> even if it didn't seem useful at the time.
+>
+> Besides, if a driver never supported a given value but misbehaved or
+> refused, I don't think that counts as a kernel regression?
+>
+>
+> Thanks,
+> pq
+>
+> >
+> > Harry
+> >
+> > > Is the driver confusing colorimetry with color-representation (the
+> > > RGB-YCbCr conversion)? Or is this property defining both?
+> > >
+> > > I feel that the documentation of "Colorspace" KMS connector property
+> > > needs clarification, and a list of potentially available values with
+> > > explanations, more than just a reference to CTA-816-H which it does n=
+ot
+> > > even do yet.
+> > >
+> > > Perhaps a table, where for each enum drm_colorspace entry has a row e=
+xplaining:
+> > >
+> > >
+> > > Thanks,
+> > > pq
+> > >
+> > >
+> > >> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> > >> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> > >> Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> > >> Cc: Vitaly.Prosyak@amd.com
+> > >> Cc: Uma Shankar <uma.shankar@intel.com>
+> > >> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> > >> Cc: Joshua Ashton <joshua@froggi.es>
+> > >> Cc: dri-devel@lists.freedesktop.org
+> > >> Cc: amd-gfx@lists.freedesktop.org
+> > >> ---
+> > >>  drivers/gpu/drm/drm_connector.c               | 140 +++++++++------=
+---
+> > >>  .../gpu/drm/i915/display/intel_connector.c    |   4 +-
+> > >>  drivers/gpu/drm/vc4/vc4_hdmi.c                |   2 +-
+> > >>  include/drm/drm_connector.h                   |   8 +-
+> > >>  4 files changed, 83 insertions(+), 71 deletions(-)
+> > >>
