@@ -2,68 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03EFD64C841
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 12:42:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24F864C8F5
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 13:24:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A09310E07A;
-	Wed, 14 Dec 2022 11:42:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA1C610E3CC;
+	Wed, 14 Dec 2022 12:24:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B53F89B12
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 11:41:51 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id y16so19004622wrm.2
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 03:41:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mn0MD+1RARDIyxKGqeu2aoKtYrYvz2nkxqNXSob+WEs=;
- b=RsBqv8KfU89PIWVQLJR2lZNNkJKJd9WN9dLEkiSgUorcxwP9t2BLxAFUfep4bYXQL4
- MR0FwQPa5Z9FCjzDmhjNUJ9YPmLepSXfpaDroaJPNHumr+CGTUh6ObgMv5a7ooNbLGKP
- DDUOKq8jcZZAY1WKK9DrlHcJ1QY5TxOKsiq9ziVLamsnqNW9t5qRX9/bHCi3Te6Qwavc
- Lz1z210QnOpO2Tk19d4tu0KQAocxacWTdJtYmWHNdQ8Gi1Khd30GYiV3UaY5h4VNR1uj
- zQv+y2GNY1nDqKF5/6yhC0VhoUjnjWvPRblA7+rL2iEidl1/YUCUT1gEZChSO+1jCip4
- 296Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mn0MD+1RARDIyxKGqeu2aoKtYrYvz2nkxqNXSob+WEs=;
- b=UMFxcvF8AnJicyCQA+ey1CnGiE8QMzr6SfmuocdJRy7o/Y5jSvTtjK+vHzUOKCJHvq
- 8iNMdIQ7EAHyFbUFHDLfOUIAiD4Bn/cmbuUYiDP5eJuC3Db+ew7rOFeLN1aBmpw3iVD/
- NQQh/5x1gMdAiQ+EyARRcsFN/sBCx5uOWU0fdzQ1qRa5BOrRqS3DNrf8jKVvy+NnYscf
- cQdZUYYyPWCcBcWmmHoEGGIvLFmz6ctHsYpsnoS1vIcGanVmzzDmNNfy7ns0yx4hDxfq
- 6oLtJjP+KETcYpn872US04BLU72GeQleJsxZ1R87pGvbN/sKg2KiAHjnuLSvGkjq2Ztc
- I/Gg==
-X-Gm-Message-State: ANoB5pmnf05gdb/jCJdxYqnlJgNFiqWaGj1BYJeHRFjLKrLkzbZhHYqS
- oTEsAnZancqPL9NTq/uLEwo=
-X-Google-Smtp-Source: AA0mqf5MPV404tH7abuAsdk+a/wLlTUQk8PI8K1FVWpeXk1PazEfGOELFWNhIXxitbl/pIG31Z9QjA==
-X-Received: by 2002:a05:6000:137a:b0:242:4209:ea73 with SMTP id
- q26-20020a056000137a00b002424209ea73mr15426652wrz.28.1671018109528; 
- Wed, 14 Dec 2022 03:41:49 -0800 (PST)
-Received: from localhost.localdomain
- (2a02-8428-46a0-7c01-bc7c-15f1-6c3b-ad74.rev.sfr.net.
- [2a02:8428:46a0:7c01:bc7c:15f1:6c3b:ad74])
- by smtp.gmail.com with ESMTPSA id
- b8-20020a05600003c800b0024258722a7fsm2697405wrg.37.2022.12.14.03.41.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Dec 2022 03:41:49 -0800 (PST)
-From: Christophe Branchereau <cbranchereau@gmail.com>
-To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@gmail.com,
- daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- paul@crapouillou.net, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] dt-bindings: display/panel: Add AUO A030JTN01
-Date: Wed, 14 Dec 2022 12:41:42 +0100
-Message-Id: <20221214114142.204041-3-cbranchereau@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221214114142.204041-1-cbranchereau@gmail.com>
-References: <20221214114142.204041-1-cbranchereau@gmail.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [85.220.165.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F43D10E3C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 12:23:50 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p5QQ4-0005rW-Fq; Wed, 14 Dec 2022 12:59:28 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p5QQ1-004SUN-5R; Wed, 14 Dec 2022 12:59:25 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p5QQ0-00511y-V2; Wed, 14 Dec 2022 12:59:24 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>
+Subject: [PATCH v2 0/2] drm/imx/lcdc: Implement DRM driver for imx21
+Date: Wed, 14 Dec 2022 12:59:19 +0100
+Message-Id: <20221214115921.1845994-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1243;
+ i=u.kleine-koenig@pengutronix.de; h=from:subject;
+ bh=E9rmnqIACjL1gD6hd1h/JCLXSWUFev5rGvO+Iia5AqI=;
+ b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjmbqKutNhz2hpCA8uMWSiFV+KNEi5A7YyVOQwWLD3
+ mbBX60qJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY5m6igAKCRDB/BR4rcrsCbB4B/
+ 9oCNGQY5wLWXGX9nUovs667z3OpDvVlPSMXtQsflP0KhsltwK4aEKhyr3mErw0Zif3arsN+P5hioLm
+ VFz6Z15BpP9Y6lAM2mt820YUYD22k8nW8CiWVBYYRvi7BT9HB5gDXnFBeMWbegMhFrqVpO8rUz+Vq6
+ yy8s0w0NZVvJy9J0B6OnY6V2/529xPZ2FqW9PhAozqvBHcQkqFzeKE8Mwaq1pKegF9xbrNIMgUTzfQ
+ ZQ3Qjh/tpyZdCFtUCL9mIsWT8YisqFrRNqsvdUGUR7XiShxfVjYrFXxpvDiC6x0C9oFiwqUBKKV4lx
+ uOU2UNnukIcET9Svw13SzMgpG3a/Dq
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,90 +66,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christophe Branchereau <cbranchereau@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Paul Cercueil <paul@crapouillou.net>
+Hello,
 
-Add binding for the AUO A030JTN01 panel, which is a 320x480 3.0" 4:3
-24-bit TFT LCD panel with non-square pixels and a delta-RGB 8-bit
-interface.
+Compared to (implicit) v1[1] the device tree binding should be good
+enough now to pass the dts linters.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
----
- .../bindings/display/panel/auo,a030jtn01.yaml | 61 +++++++++++++++++++
- 1 file changed, 61 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/auo,a030jtn01.yaml
+As before, Marian Cichy is the declared author of the driver, but he
+left Pengutronix, so the email address doesn't work any more.
 
-diff --git a/Documentation/devicetree/bindings/display/panel/auo,a030jtn01.yaml b/Documentation/devicetree/bindings/display/panel/auo,a030jtn01.yaml
-new file mode 100644
-index 000000000000..6c099eb63434
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/auo,a030jtn01.yaml
-@@ -0,0 +1,61 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/auo,a030jtn01.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: AUO A030JTN01 3.0" (320x480 pixels) 24-bit TFT LCD panel
-+
-+description: |
-+  The panel must obey the rules for a SPI slave device as specified in
-+  spi/spi-controller.yaml
-+
-+maintainers:
-+  - Paul Cercueil <paul@crapouillou.net>
-+  - Christophe Branchereau <cbranchereau@gmail.com>
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+
-+properties:
-+  compatible:
-+    const: auo,a030jtn01
-+
-+  reg:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - power-supply
-+  - reset-gpios
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        panel@0 {
-+            compatible = "auo,a030jtn01";
-+            reg = <0>;
-+
-+            spi-max-frequency = <10000000>;
-+
-+            reset-gpios = <&gpe 4 GPIO_ACTIVE_LOW>;
-+            power-supply = <&lcd_power>;
-+
-+            backlight = <&backlight>;
-+
-+            port {
-+                panel_input: endpoint {
-+                    remote-endpoint = <&panel_output>;
-+                };
-+            };
-+        };
-+    };
+This is based on top of v6.1 + 93266da2409b ("dt-bindings: display:
+Convert fsl,imx-fb.txt to dt-schema") which is currently in next via
+branch 'for-next' of
+git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git .
+
+Best regards
+Uwe
+
+[1] https://lore.kernel.org/dri-devel/20220128105849.368438-1-u.kleine-koenig@pengutronix.de
+
+Marian Cichy (1):
+  drm/imx/lcdc: Implement DRM driver for imx21
+
+Uwe Kleine-König (1):
+  dt-bindings: display: imx: Describe drm binding for fsl,imx-lcdc
+
+ .../bindings/display/imx/fsl,imx-lcdc.yaml    |  45 +-
+ drivers/gpu/drm/imx/Kconfig                   |   7 +
+ drivers/gpu/drm/imx/Makefile                  |   2 +
+ drivers/gpu/drm/imx/imx-lcdc.c                | 610 ++++++++++++++++++
+ 4 files changed, 663 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/imx/imx-lcdc.c
+
+
+base-commit: 830b3c68c1fb1e9176028d02ef86f3cf76aa2476
+prerequisite-patch-id: c3ef3de02516b5c159e76b40d2b4348a5ce0fe51
 -- 
-2.35.1
+2.38.1
 
