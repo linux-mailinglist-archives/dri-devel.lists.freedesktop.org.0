@@ -2,119 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85A0C64C497
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 09:06:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1935264C4FF
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 09:24:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8B7710E395;
-	Wed, 14 Dec 2022 08:05:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DD1010E198;
+	Wed, 14 Dec 2022 08:23:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2069.outbound.protection.outlook.com [40.107.102.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0228310E226
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 08:05:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b4EiGf89HOyW17MM1cQ3/yGUViwQo8APTZEdqbjSDdihkuTZKPgrTvpZc/wtMbvNG2fJRX/ouPYl3SRH9agUZfYeJnBaNxyOaN5eNQ+8PR9SZEOjsKqpvV8S6mQHGGpm6FPwoXV8LboODpaCy+WD5SP8cENOEvsStf6h1R92S0T60LA0acI/C5GORr3KLOUOgxM1+OLUbr0mqd27iwd/Tt8wWBMOx6uriHmQ7r2LDAwGZW6AJ12XRyA9wnm8+CxmJ9HCVw0fRhyJjzp/0HLykFidLM+8DKtam4eISIo8Dqil5sYViSdlEY2TZ3YWprMf125W2cufzP3yCehPNR1NuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VCEgxWQ3pat7h84+z6Dt19MdxvwduH5ayBOqE+99IG8=;
- b=VIJ7pIRi+W2TKpVulJs9lZtVf9Bn2c+oehXjTCD3Td25BkhZar+9I5ezpXns1SkUhphdkSyI0C01TXX23IyoxWTgmz5tVWabppckNRCvkUcyf4vDTqAr7emcjdNK2Pb5clZBbXAXWswm9NFrKbY6JIhuGnnWVBzD5Sb7iN0+L8GK6ncsKQbQP6R0nxxq8fjjfz8D8WrCeyRB4tD/kRlkerq74oZIGTlIxnNV7qGrRNyf4srsPrYNg5Y22WMofDmXyD9QPOdhWeB68Z/2ptynzswSm/3NMy5whmBRJc5H21ZXQer9S0N4ZRHkUmkC31hnWlOH/2cWdy4NBN6TVeSHnQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VCEgxWQ3pat7h84+z6Dt19MdxvwduH5ayBOqE+99IG8=;
- b=i4jUeUxXsqfnb2ldHnDY+bkpLpTd4hM7ZoaA7/l2UZ71MEAlt5SrnRW0+Jt6nweWvbrdkE3co3pWL7GLn6NunC3vaG2GLAW3TXloyTWaxyt0rcHCUqllQnAbLcOUG6F/shcnfvXwfoR7y8rz3AmVyFnxpXac3TFNpIAdBl5Vw2M=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SN7PR12MB7911.namprd12.prod.outlook.com (2603:10b6:806:32a::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.19; Wed, 14 Dec
- 2022 08:05:17 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::80d8:934f:caa7:67b0]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::80d8:934f:caa7:67b0%3]) with mapi id 15.20.5924.011; Wed, 14 Dec 2022
- 08:05:11 +0000
-Message-ID: <4b1f104f-3b2a-532d-3354-11c68c5b9aa6@amd.com>
-Date: Wed, 14 Dec 2022 09:05:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [git pull] drm for 6.2-rc1
-Content-Language: en-US
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Dave Airlie <airlied@gmail.com>, Alex Deucher <alexander.deucher@amd.com>
-References: <CAPM=9txGCMqyriq_xiwgFCUBa-PpHvSuRQuptAHusHcjpH+zqA@mail.gmail.com>
- <CAHk-=whVsxgtwvnK2=WRvs_i+miknfB2R7dQ4U8oooBFJZYH6w@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAHk-=whVsxgtwvnK2=WRvs_i+miknfB2R7dQ4U8oooBFJZYH6w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0122.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:94::6) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
+ [IPv6:2607:f8b0:4864:20::1131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C16F210E198
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 08:23:49 +0000 (UTC)
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-3c090251d59so226554387b3.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 00:23:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=NPVBArO/3vGDoZ19JAZr8yxxpIrgmbg6NNKsERykz+s=;
+ b=Rj0fE8gU7NO1YYknN5C/o/0q+SCkURCxUpMeHR02zyPmUu9s2b9oLpkwvvV5eIzIlm
+ IgJYn04enZ4XkW2QZYaNhVsmoOC7jlEJhczKjFrYj2qxqpRlylM6taAz29eUfEy14RLj
+ nNujnWMJzg1pRnU254UA3a6W10OBBrPHjIwus=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NPVBArO/3vGDoZ19JAZr8yxxpIrgmbg6NNKsERykz+s=;
+ b=SivyPkvKUb8sPsRYeAvDquELIKGMwOHoeRxQ40RRQoeC9t5Ybaq+V6QZ/LmNYZOpPr
+ 4yQrTYL1MPajr5/LYx4qZwE3oQ3N+itOvgGHVU0Lcgh64+pY3p9mlBOUsKFmz/79YxJ0
+ tcy1n2tkqzKw09Bzw0oEa+IAAdbG+b0sEtDgOyjKLu4A7VBsPJHixSQGfLW+G4GKPyC1
+ rSYPw11al6EUwB2p+2WJ3m3/4LonnlkofVOFlCLpKVFaMKKNDOLuPzoxsi6kZuacYTr4
+ L7miDJ6z5wZAbBc1hXuMj0a9kipesx0MZdQF3dCAE3LklI+qiH4JSVxh9VmznhNCon1a
+ 8dSw==
+X-Gm-Message-State: ANoB5pkHipjtgevOaxUVdRLhc61aNY2H6BkIxPOzMthdTnHr4FqrhZmR
+ BmN0FTQ8QF6AIdUqi6uvyi/mGFQ0IKFVL1fmOLF68g==
+X-Google-Smtp-Source: AA0mqf6BqK231o80Qo+UjAyZwEkEXUNQURM13ZLAucKPtBvDjB4j8fvhQEmCPx8FyOqRsZ/4FK2gou8m61daSfTQ0K8=
+X-Received: by 2002:a0d:cac5:0:b0:3c9:6f0d:5197 with SMTP id
+ m188-20020a0dcac5000000b003c96f0d5197mr852310ywd.230.1671006228130; Wed, 14
+ Dec 2022 00:23:48 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SN7PR12MB7911:EE_
-X-MS-Office365-Filtering-Correlation-Id: 500c3e7a-8b8f-47ec-1c60-08dadda9ec88
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xI9MMiJdsX5a4FY01F5BAWB+CmNz7wOwoaB0Jj7dgp0hy+UvE9oOFdIkVUCNcnKVcpqjWYQxjTJiEa/qYAI0B7fQGlSkyTUnKcFvAQVwdbuLGu+b59kWCMB5ugGvja/dXsiG1uAleqf5m1zzkNtlWNVC1JAwLtJO4vwtZREHMT/qgI3JaLj2pQa11PNDH6xJVUhxFpWcfeZnJ7WgFMLeuXav18wLv65MRxmEeRjuBEyiTNHXgI5dwywce4y1yDmS0chjxMK4LUFJTYTsspznnnlx4N5DXCe1Rf5B7gaFTvqUL4/PrZSHA3pz0uX3wfNugwOXCkTlOXoZiUfCv9y3c8DQD+9TmvGcWJLMW+H52ZaFTQk5vBLH1YUigLu3lyJnDLEmg5SYXsRYmF2mLhx1gE+he0dSiwm6d2P1oxKBY5/y5zSq5ApZeSNlgT7QgLD29iRfm9ad920I4/v5Ce6duJhH7J0bOQGVHSw7Wn9QmwrHLKm4lReLklCVGVIgOydEQ/OnFe0/lfudwWghSqGu4oFkNXbEXtl5+1qdiqqvij+7xD95yGo9rTFu4co91/Ci3PWlv8Kv3jL6ws21txu4sXcjLcffE/joW1d8n6MSExgYxa16DA21fOwbMKi414CCc/WcHEy8WybTugHu7j0MijMzJzIEeMxcn3UBWw3BKut6kT9uQvRmjX7waj7JujdlOSlvY9ZkAHgz3DTcHnc1Gpv4jvJwaVuVxw7rHrxdMa8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(346002)(376002)(396003)(366004)(136003)(451199015)(83380400001)(8936002)(5660300002)(2906002)(41300700001)(86362001)(31696002)(36756003)(38100700002)(53546011)(316002)(6486002)(6512007)(54906003)(110136005)(478600001)(6636002)(66946007)(8676002)(66556008)(66476007)(4326008)(186003)(6666004)(31686004)(6506007)(2616005)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RllwanFpMkpaMFl2eDk4T3Z1M3VIYVZyNWhlOEZrRVhQbHpINXU5N3FMT2E1?=
- =?utf-8?B?NlJZMTRYT3MyQkIwMllseWVST05yL3NBZzlyZC9Lb1E2a1JUMW5IUTg1V25z?=
- =?utf-8?B?N1orblliSyt1OFNpcUcydVB1VXdJREdNdG42bzQ4eFVNTFE3a2E0UFhPRngw?=
- =?utf-8?B?UXBZWlB5VktkSlprV2U1dDFxSzkwTEVYZjZTZEEyTWRZampQU3FHMEF1SVNZ?=
- =?utf-8?B?Yi8xSXR0U2dTcjhlVml3M3ZXdndMdzUveFFWNm9xeWoxNzU3YzJ1d1RlVWNC?=
- =?utf-8?B?NS8rT1ZSRzZYM2JCdXdwemVBT3RMYmpLbFNMY1ZvRWFpYzdGQWh6ci9XeE96?=
- =?utf-8?B?dEp2bEFRV090SXkzTlc2L25rakNzWHpESFFpMTQ0Mlh0MXorTU4zWkpnNUVV?=
- =?utf-8?B?eXgrOTVmTU44dGhwNkYrM3Yya0JWUnBlVEE3bTBUTGRhWFNaMTRaNTZPeDFL?=
- =?utf-8?B?blNrQUlyQ3MyRndkWEhIYUZ5bEpSZ295eVJUdFJZZi92K2NCekdqcHVaTHJH?=
- =?utf-8?B?bzdIa3pjMDdISGZ1b3dKZzZvRTZxK3VwYWd2eHViYitHOFo2OVp2d1ZjWHZK?=
- =?utf-8?B?VzBNQWk5RTRvWTlGU1N2aU9uVWNsWmQ3b3hpTkRaOXg2RS96UWJpZmdFYXR5?=
- =?utf-8?B?TlFLUTJuSDJLRC9tQkFzaXN1NkpYQ01OMU5GcitQa0tsNEdWOEFtaWpJN1pa?=
- =?utf-8?B?OTN5SVhKY2pBaHN2RGV6L293eTBJNlN0ci9xQUNXWTlzN2lqQndFS2dxYUgr?=
- =?utf-8?B?ZE9Yam1uTEQ3MGhvdjZsQVArb21NWGVMZXZVZG9aNmlHeUZLNTFiLzNDdk5U?=
- =?utf-8?B?NW02cTU2M0pIN1N4TFhqM0E0OVU1aFNDZURJTERBVElEK2ZjVE5FT0w1aWMz?=
- =?utf-8?B?LzFrb2ZjUUhqVnFCZW9DeUJRZklzdFI5STNhNWNWbGduNnZhUUJ4ejJ1SWcw?=
- =?utf-8?B?U3AwWDMycndKVWY0QzY5THI3bmV3Ylh1bWtYNzFwUzhEQ3ZOR2tEM1UzZlY5?=
- =?utf-8?B?N050K3ZqcTJTa3luK2NaZEFzSXE3UzlucG1XOGNlOGtEcEordWVVSXJYcVNY?=
- =?utf-8?B?SUJrTC9IRkFrUjAxM01vRU1kNzBOSWN3a25qQkVjWHZISGNkcEJOU2JLSkox?=
- =?utf-8?B?dzBicHk0djk2V2ZtRHF5R1hHWW9KSEh3UnRVL2JhKzh5MTA0YktMMXU2aHlL?=
- =?utf-8?B?NzBYc0ZWWGpGMUFYeUhqMjJJS0s4dGtXVFlrQWoxVHNLdmJVZVNkY1FMYnB5?=
- =?utf-8?B?T3VOWGNJMWlqNkdBTzhvandOK0JNT1NWVFNzRmJBTEt1V0ZUWlZZRjBkdXJ2?=
- =?utf-8?B?S2RoeTVYaCtjckQ5azB2QXdsYzBrdzdiZUZBS3pqVzhzWlZxSXNzL3BUbE91?=
- =?utf-8?B?MUVVMk53Y0hTZnZjdjRHQVpIQ1M0SytuQVhtdjI1M0dkWElGdytwcHFKQ2Zi?=
- =?utf-8?B?SW5YNU5RQVpiUnZqVjFhNEhuWTZUT2JnNU5tbkxNYnMxU3dkdFRWazJaUXJs?=
- =?utf-8?B?WTQxR3dXOGs0dWdaZFFZbWg3aElhUXlUWXJGOXgwTDBuZ2tNNzlaQVdvZ0FR?=
- =?utf-8?B?VmlsNTl6T2NhVDJOdGxORWh5MkRzL0tXZnZyWUMyRHZaU2tRejhQM1NqTEQr?=
- =?utf-8?B?bTZINTdMRm1RSGo3ZnR1M1hiSyt2cmcrU0xLNGpkMGlUUVZQSUJFT205NE4r?=
- =?utf-8?B?TS9QWTNYRVBzK2NndnV4bkRTREdidndvUkR5NjZIUjlMVnFwWVkvTTFSR1Rm?=
- =?utf-8?B?dUFPbVo4SlVYUE9BbGVaRVkxaENLVndwWDFLMWNCUURtbVJNRDllUGlBUllO?=
- =?utf-8?B?TFpNSWw3dTdHb0RMRGQxYjlkdjRLN3VQNmNZNTBEb3dFVDFHTTZqbFRFRUcr?=
- =?utf-8?B?YTQ0T1ByRUZyRjg1NDhwSTh1Z0dYd1BiVC9DYTJqN0x0U3l6azlNMmZyaWlu?=
- =?utf-8?B?eUVOM3UzVDMzRE1NQmIyemt2V3MvQ1VVOGNHcjJ6amhBY09TMU9McEszSDZ3?=
- =?utf-8?B?WW14MXppUEczNlN1Q1ZVWGt5M29RdWRHdFRTdVZhcjlLTWZ5QXdmeit5QkdL?=
- =?utf-8?B?TTFpTGxXTldOZXFOR083a0g2THBJanZvcUROM21uSTZMNmxjcmlUWDgyRUhD?=
- =?utf-8?B?UU01UHNOS2lMOFJpUzRLeEJlWlNldkN3MnIzY0JhUDB3WUJ4bjVpNEhVMnpn?=
- =?utf-8?Q?V8hfVlG7P5HGnqPfDKOr8A2mOfzDB2DbFRm6Vn7q8Rxl?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 500c3e7a-8b8f-47ec-1c60-08dadda9ec88
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2022 08:05:11.5932 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8NZbGfAmTtfPxvdWCwB+isGqNbosTfw25Po6DYz6TxOMqJuv5vwIZTiTYLNQQ5S8
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7911
+References: <20221209152343.180139-1-jagan@amarulasolutions.com>
+ <20221209152343.180139-11-jagan@amarulasolutions.com>
+ <df99edbd-7150-7274-2c5e-fe6d4ed4d92d@samsung.com>
+ <CAMty3ZCCscqE8e_Rr9KpmUONxh4aCBWB7qh4xSvuCGrUT4kUeQ@mail.gmail.com>
+ <b1e38212-985c-21c9-58a5-7504719c3af8@samsung.com>
+ <ed13b791-ab47-7aaa-7993-bb49478e7f2a@samsung.com>
+ <CAMty3ZBzpmwAV7e7wdBu+GOmg6M7xqqc46QtGzuLsnv2kT0Zdw@mail.gmail.com>
+ <395a4762-70fe-1caf-579f-2b5952232470@samsung.com>
+ <CAMty3ZABHUjSHRBR6RCnyE19HOWknw67s__0WBKgMnX5nQBy9w@mail.gmail.com>
+ <c3f0c5c2-aae8-dc39-be02-dc4dfd0e7073@samsung.com>
+ <3ce9def4-9fdf-0bde-fd2c-3a8755ebdf9d@samsung.com>
+ <CAMty3ZAqfhV4b69GthcEzBOgpYSJ0yziZcpFC2oGyySWOu-tkA@mail.gmail.com>
+ <17f7772b-ca46-53b8-5bf9-98d3242fa703@samsung.com>
+ <CAMty3ZC0Ca5yt4jFHi0KtcEszzRs1KrUTF2SqYizMF+1NYPAUQ@mail.gmail.com>
+ <7e0ba9fb-387d-6bf7-585e-9fc79de31bd8@samsung.com>
+ <CGME20221214080445eucas1p2e9e92b27621cf6124e5cb791338284a4@eucas1p2.samsung.com>
+ <CAMty3ZAG7F_j8HWSot=auf15yrtVtz-Ur5HV6mop4OaL2qc-aQ@mail.gmail.com>
+ <0afa7602-a549-5c6c-93a1-855aa88562e0@samsung.com>
+In-Reply-To: <0afa7602-a549-5c6c-93a1-855aa88562e0@samsung.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Wed, 14 Dec 2022 13:53:36 +0530
+Message-ID: <CAMty3ZDwoXk=Uka9DPUqRy+AU09+0w9j7-PStizJHGH==soGAA@mail.gmail.com>
+Subject: Re: [PATCH v9 10/18] drm: bridge: samsung-dsim: Init exynos host for
+ first DSI transfer
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,43 +81,271 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>, dri-devel@lists.freedesktop.org,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 13.12.22 um 21:14 schrieb Linus Torvalds:
-> On Mon, Dec 12, 2022 at 6:56 PM Dave Airlie <airlied@gmail.com> wrote:
->> There are a bunch of conflicts, one in amdgpu is a bit nasty, I've
->> cc'ed Christian/Alex to make sure they know to check whatever
->> resolution you find. The one I have is what we have in drm-tip tree.
-> Hmm. My merge resolution is slightly different from yours.
+On Wed, Dec 14, 2022 at 1:34 PM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
 >
-> You seem to have basically dropped commit b09d6acba1d9 ("drm/amdgpu:
-> handle gang submit before VMID").
+> On 14.12.2022 06:33, Jagan Teki wrote:
+> > On Tue, Dec 13, 2022 at 9:11 PM Marek Szyprowski
+> > <m.szyprowski@samsung.com> wrote:
+> >> On 13.12.2022 16:15, Jagan Teki wrote:
+> >>> On Tue, Dec 13, 2022 at 8:24 PM Marek Szyprowski
+> >>> <m.szyprowski@samsung.com> wrote:
+> >>>> On 13.12.2022 15:18, Jagan Teki wrote:
+> >>>>> On Tue, Dec 13, 2022 at 7:31 PM Marek Szyprowski
+> >>>>> <m.szyprowski@samsung.com> wrote:
+> >>>>>> On 13.12.2022 13:20, Marek Szyprowski wrote:
+> >>>>>>> On 13.12.2022 11:40, Jagan Teki wrote:
+> >>>>>>>> On Tue, Dec 13, 2022 at 2:28 PM Marek Szyprowski
+> >>>>>>>> <m.szyprowski@samsung.com> wrote:
+> >>>>>>>>> On 12.12.2022 16:33, Jagan Teki wrote:
+> >>>>>>>>>
+> >>>>>>>>> On Mon, Dec 12, 2022 at 8:52 PM Marek Szyprowski
+> >>>>>>>>> <m.szyprowski@samsung.com> wrote:
+> >>>>>>>>>
+> >>>>>>>>> On 12.12.2022 09:43, Marek Szyprowski wrote:
+> >>>>>>>>>
+> >>>>>>>>> On 12.12.2022 09:32, Jagan Teki wrote:
+> >>>>>>>>>
+> >>>>>>>>> On Mon, Dec 12, 2022 at 1:56 PM Marek Szyprowski
+> >>>>>>>>> <m.szyprowski@samsung.com> wrote:
+> >>>>>>>>>
+> >>>>>>>>> Hi Jagan,
+> >>>>>>>>>
+> >>>>>>>>> On 09.12.2022 16:23, Jagan Teki wrote:
+> >>>>>>>>>
+> >>>>>>>>> The existing drm panels and bridges in Exynos required host
+> >>>>>>>>> initialization during the first DSI command transfer even though
+> >>>>>>>>> the initialization was done before.
+> >>>>>>>>>
+> >>>>>>>>> This host reinitialization is handled via DSIM_STATE_REINITIALIZED
+> >>>>>>>>> flag and triggers from host transfer.
+> >>>>>>>>>
+> >>>>>>>>> Do this exclusively for Exynos.
+> >>>>>>>>>
+> >>>>>>>>> Initial logic is derived from Marek Szyprowski changes.
+> >>>>>>>>>
+> >>>>>>>>> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> >>>>>>>>> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> >>>>>>>>> ---
+> >>>>>>>>> Changes from v9:
+> >>>>>>>>> - derived from v8
+> >>>>>>>>> - added comments
+> >>>>>>>>>
+> >>>>>>>>>        drivers/gpu/drm/bridge/samsung-dsim.c | 15 ++++++++++++++-
+> >>>>>>>>>        include/drm/bridge/samsung-dsim.h     |  5 +++--
+> >>>>>>>>>        2 files changed, 17 insertions(+), 3 deletions(-)
+> >>>>>>>>>
+> >>>>>>>>> The following chunk is missing compared to v8:
+> >>>>>>>>>
+> >>>>>>>>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
+> >>>>>>>>> b/drivers/gpu/drm/bridge/samsung-dsim.c
+> >>>>>>>>> index 6e9ad955ebd3..6a9403cb92ae 100644
+> >>>>>>>>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> >>>>>>>>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> >>>>>>>>> @@ -1315,7 +1315,9 @@ static int samsung_dsim_init(struct samsung_dsim
+> >>>>>>>>> *dsi, unsigned int flag)
+> >>>>>>>>>                       return 0;
+> >>>>>>>>>
+> >>>>>>>>>               samsung_dsim_reset(dsi);
+> >>>>>>>>> -       samsung_dsim_enable_irq(dsi);
+> >>>>>>>>> +
+> >>>>>>>>> +       if (!(dsi->state & DSIM_STATE_INITIALIZED))
+> >>>>>>>>> +               samsung_dsim_enable_irq(dsi);
+> >>>>>>>>>
+> >>>>>>>>> Is this really required? does it make sure that the IRQ does not
+> >>>>>>>>> enable twice?
+> >>>>>>>>>
+> >>>>>>>>> That's what that check does. Without the 'if (!(dsi->state &
+> >>>>>>>>> DSIM_STATE_INITIALIZED))' check, the irqs will be enabled twice (first
+> >>>>>>>>> from pre_enable, then from the first transfer), what leads to a
+> >>>>>>>>> warning from irq core.
+> >>>>>>>>>
+> >>>>>>>>> I've just noticed that we also would need to clear the
+> >>>>>>>>> DSIM_STATE_REINITIALIZED flag in dsim_suspend.
+> >>>>>>>>>
+> >>>>>>>>> However I've found that a bit simpler patch would keep the current code
+> >>>>>>>>> flow for Exynos instead of this reinitialization hack. This can be
+> >>>>>>>>> applied on the "[PATCH v9 09/18] drm: bridge: samsung-dsim: Add host
+> >>>>>>>>> init in pre_enable" patch:
+> >>>>>>>>>
+> >>>>>>>>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
+> >>>>>>>>> b/drivers/gpu/drm/bridge/samsung-dsim.c
+> >>>>>>>>> index 0b2e52585485..acc95c61ae45 100644
+> >>>>>>>>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> >>>>>>>>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> >>>>>>>>> @@ -1291,9 +1291,11 @@ static void
+> >>>>>>>>> samsung_dsim_atomic_pre_enable(struct
+> >>>>>>>>> drm_bridge *bridge,
+> >>>>>>>>>
+> >>>>>>>>>              dsi->state |= DSIM_STATE_ENABLED;
+> >>>>>>>>>
+> >>>>>>>>> -       ret = samsung_dsim_init(dsi, DSIM_STATE_INITIALIZED);
+> >>>>>>>>> -       if (ret)
+> >>>>>>>>> -               return;
+> >>>>>>>>> +       if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type)) {
+> >>>>>>>>> +               ret = samsung_dsim_init(dsi, DSIM_STATE_INITIALIZED);
+> >>>>>>>>> +               if (ret)
+> >>>>>>>>> +                       return;
+> >>>>>>>>> +       }
+> >>>>>>>>>
+> >>>>>>>>> Sorry, I don't understand this. Does it mean Exynos doesn't need to
+> >>>>>>>>> init host in pre_enable? If I remember correctly even though the host
+> >>>>>>>>> is initialized it has to reinitialize during the first transfer - This
+> >>>>>>>>> is what the Exynos requirement is. Please correct or explain here.
+> >>>>>>>>>
+> >>>>>>>>> This is a matter of enabling power regulator(s) in the right order
+> >>>>>>>>> and doing the host initialization in the right moment. It was never
+> >>>>>>>>> a matter of re-initialization. See the current code for the
+> >>>>>>>>> reference (it uses the same approach as my above change). I've
+> >>>>>>>>> already explained that here:
+> >>>>>>>>>
+> >>>>>>>>> https://lore.kernel.org/all/e96197f9-948a-997e-5453-9f9d179b5f5a@samsung.com/
+> >>>>>>>>>
+> >>>>>>>>>
+> >>>>>>>>> If you would like to see the exact proper moment of the dsi host
+> >>>>>>>>> initialization on the Exynos see the code here:
+> >>>>>>>>>
+> >>>>>>>>> https://protect2.fireeye.com/v1/url?k=5dc33900-0258001f-5dc2b24f-000babdfecba-f7c1a2a1905c83ca&q=1&e=f086bfdb-9055-48bd-b9c2-5dffb6c0d558&u=https%3A%2F%2Fgithub.com%2Fmszyprow%2Flinux%2Ftree%2Fv5.18-next-20220511-dsi-rework
+> >>>>>>>>> and patches adding mipi_dsi_host_init() to panel/bridge drivers.
+> >>>>>>>> As I said before, the downstream bridge needs an explicit call to host
+> >>>>>>>> init via mipi_dsi_host_init - this is indeed not a usual use-case
+> >>>>>>>> scenario. Let's handle this with a REINIT fix and see if we can update
+> >>>>>>>> this later to handle both scenarios.
+> >>>>>>>>
+> >>>>>>>> Would you please test this repo, I have included all.
+> >>>>>>>>
+> >>>>>>>> https://gitlab.com/openedev/kernel/-/commits/imx8mm-dsi-v10
+> >>>>>>> This doesn't work on TM2e board. Give me some time to find why...
+> >>>>>>>
+> >>>>>> The following change is missing in "drm: bridge: Generalize Exynos-DSI
+> >>>>>> driver into a Samsung DSIM bridge" patch:
+> >>>>>>
+> >>>>>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
+> >>>>>> b/drivers/gpu/drm/bridge/samsung-dsim.c
+> >>>>>> index 1dbff2bee93f..81828b5ee0ac 100644
+> >>>>>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> >>>>>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> >>>>>> @@ -1745,6 +1745,7 @@ int samsung_dsim_probe(struct platform_device *pdev)
+> >>>>>>             dsi->bridge.funcs = &samsung_dsim_bridge_funcs;
+> >>>>>>             dsi->bridge.of_node = dev->of_node;
+> >>>>>>             dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
+> >>>>>> +       dsi->bridge.pre_enable_prev_first = true;
+> >>>>> Can you check this and confirm, I keep this in exynos side.
+> >>>>> https://gitlab.com/openedev/kernel/-/commit/ccb02df7a313fdf91d8e116b0ec3d6c945fbb6fd#c93f0ce4d81b854fbde970e341fb307f1be78c16_1865_189
+> >>>> This one is fine!
+> >>>>
+> >>>>>>             /* DE_LOW: i.MX8M Mini/Nano LCDIF-DSIM glue logic inverts
+> >>>>>> HS/VS/DE */
+> >>>>>>             if (dsi->plat_data->hw_type == DSIM_TYPE_IMX8MM)
+> >>>>>>
+> >>>>>>
+> >>>>>> After adding the above, all my test platform works fine.
+> >>>>>>
+> >>>>>> BTW, I still think that it is worth replacing the "drm: exynos: dsi: Add
+> >>>>>> host initialization in pre_enable" patch with the following simple
+> >>>>>> change and propagate it to bridge/samsung-dsim.c:
+> >>>>>>
+> >>>>>> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> >>>>>> b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> >>>>>> index fdaf514b39f2..071b74d60dcb 100644
+> >>>>>> --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> >>>>>> +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> >>>>>> @@ -254,6 +254,9 @@ struct exynos_dsi_transfer {
+> >>>>>>      #define DSIM_STATE_CMD_LPM             BIT(2)
+> >>>>>>      #define DSIM_STATE_VIDOUT_AVAILABLE    BIT(3)
+> >>>>>>
+> >>>>>> +#define exynos_dsi_hw_is_exynos(hw) \
+> >>>>>> +       ((hw) >= DSIM_TYPE_EXYNOS3250 && (hw) <= DSIM_TYPE_EXYNOS5433)
+> >>>>>> +
+> >>>>>>      enum exynos_dsi_type {
+> >>>>>>             DSIM_TYPE_EXYNOS3250,
+> >>>>>>             DSIM_TYPE_EXYNOS4210,
+> >>>>>> @@ -1344,6 +1347,9 @@ static int exynos_dsi_init(struct exynos_dsi *dsi)
+> >>>>>>      {
+> >>>>>>             const struct exynos_dsi_driver_data *driver_data =
+> >>>>>> dsi->driver_data;
+> >>>>>>
+> >>>>>> +       if (dsi->state & DSIM_STATE_INITIALIZED)
+> >>>>>> +               return 0;
+> >>>>>> +
+> >>>>>>             exynos_dsi_reset(dsi);
+> >>>>>>             exynos_dsi_enable_irq(dsi);
+> >>>>>>
+> >>>>>> @@ -1356,6 +1362,8 @@ static int exynos_dsi_init(struct exynos_dsi *dsi)
+> >>>>>>             exynos_dsi_set_phy_ctrl(dsi);
+> >>>>>>             exynos_dsi_init_link(dsi);
+> >>>>>>
+> >>>>>> +       dsi->state |= DSIM_STATE_INITIALIZED;
+> >>>>>> +
+> >>>>>>             return 0;
+> >>>>>>      }
+> >>>>>>
+> >>>>>> @@ -1411,6 +1419,12 @@ static void exynos_dsi_atomic_pre_enable(struct
+> >>>>>> drm_bridge *bridge,
+> >>>>>>             }
+> >>>>>>
+> >>>>>>             dsi->state |= DSIM_STATE_ENABLED;
+> >>>>>> +
+> >>>>>> +       if (!exynos_dsi_hw_is_exynos(dsi->plat_data->hw_type)) {
+> >>>>>> +               ret = exynos_dsi_init(dsi);
+> >>>>>> +               if (ret)
+> >>>>>> +                       return;
+> >>>>>> +       }
+> >>>>>>      }
+> >>>>>>
+> >>>>>>      static void exynos_dsi_atomic_enable(struct drm_bridge *bridge,
+> >>>>>> @@ -1557,12 +1571,9 @@ static ssize_t exynos_dsi_host_transfer(struct
+> >>>>>> mipi_dsi_host *host,
+> >>>>>>             if (!(dsi->state & DSIM_STATE_ENABLED))
+> >>>>>>                     return -EINVAL;
+> >>>>>>
+> >>>>>> -       if (!(dsi->state & DSIM_STATE_INITIALIZED)) {
+> >>>>>> -               ret = exynos_dsi_init(dsi);
+> >>>>>> -               if (ret)
+> >>>>>> -                       return ret;
+> >>>>>> -               dsi->state |= DSIM_STATE_INITIALIZED;
+> >>>>>> -       }
+> >>>>>> +       ret = exynos_dsi_init(dsi);
+> >>>>>> +       if (ret)
+> >>>>>> +               return ret;
+> >>>>> Below patch handling similar behavior by checking exynos hw_type at
+> >>>>> exynos_dsi_init, isn't it? Please check and let me know if I missing
+> >>>>> anything.
+> >>>>>
+> >>>>> https://gitlab.com/openedev/kernel/-/commit/d19d491eef92b92e12a26265697274ce666eddb5
+> >>>> You don't miss anything. Your version also works, but I just proposed a
+> >>>> bit simpler code.
+> >>> Do your changes don't need a DSIM_STATE_REINITIALIZED flag? would you
+> >>> please share the change on top of this commit?
+> >>> https://gitlab.com/openedev/kernel/-/commit/d19d491eef92b92e12a26265697274ce666eddb5
+> >> It doesn't need the DSIM_STATE_REINITIALIZED flag because the
+> >> initialization is done only once - in pre_enable for non-Exynos case and
+> >> on the first transfer for the Exynos case. In both cases the same flag
+> >> (DSIM_STATE_INITIALIZED) is used.
+> >>
+> >> See the attached patch.
+> > Thanks, I have included the changes and added your authorship as well.
+> >
+> > Please test this final version and let me know if you have any comments.
+> > https://gitlab.com/openedev/kernel/-/commits/imx8mm-dsi-v10
 >
-> Now, there are other fence changes in the drm tree that may mean that
-> that commit *should* be dropped, so it's entirely possible that my
-> resolution which kept that ordering change might be wrong and your
-> resolution that just took the drm tip code is the right one.
 >
-> Christian? Alex? Can you please double-check what I just pushed out?
+> Fine for me.
 
-Yeah, that's certainly not correct. The ordering problem b09d6acba1d9 
-fixed is back there again.
-
-I'm like 99% sure that I did the right thing and my local drm-tip 
-certainly at some point had the right conflict resolution because I've 
-used that for testing the change.
-
-The last 1% is that it's possible that I only fixed this on the build 
-server and never pushed into the upstream repository.
-
-Anyway we need to re-apply b09d6acba1d9 which should be trivial.
-
-Thanks,
-Christian.
-
->
->              Linus
-
+Thanks, I will send V10.
