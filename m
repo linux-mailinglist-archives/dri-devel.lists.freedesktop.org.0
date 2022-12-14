@@ -2,53 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91B4764CDE5
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 17:22:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F97264CE60
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 17:52:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93EDA10E431;
-	Wed, 14 Dec 2022 16:21:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B44310E03B;
+	Wed, 14 Dec 2022 16:51:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62FBA10E430;
- Wed, 14 Dec 2022 16:21:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671034894; x=1702570894;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=sugwmwrUIAbwUVd9kUUcbnqMzWklglljdUgzpTG789o=;
- b=lahGrUkUD0Z7+QLr7Q/N3kJuQextTU1sjp1H1Ej60c+3QEwSf9Vwy8WI
- dRz9RynL6Yt6Am7L8oFsBM3+aI/rIcbphx+CqHwt9amt9VlEGje5/cNwW
- y1VOtEu1T+5Mv2HUkjAjmtEmGEGVERuUSp2jR95Lh4nDImiriMP6TBo7Q
- SYoOCHcIJyjiTZMfejPOtlA7AO3CFQCtC4G1vQkTYVnpRxmwmL4Cq6VHd
- xQSbFNgSMe3/MJ6tF6ExwHXQLr7m6YIiGgQR2IRzmFxkBC3xm9c3ubpAd
- JvXI+aSMa5srGEfwUhzuiGMv69J07M4zHp4xpr7NFZlwqTXXesHXAjBkZ A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10561"; a="404716283"
-X-IronPort-AV: E=Sophos;i="5.96,244,1665471600"; d="scan'208";a="404716283"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2022 08:21:33 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10561"; a="642559944"
-X-IronPort-AV: E=Sophos;i="5.96,244,1665471600"; d="scan'208";a="642559944"
-Received: from joe-255.igk.intel.com (HELO localhost) ([172.22.229.67])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2022 08:21:20 -0800
-Date: Wed, 14 Dec 2022 17:21:17 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Eric Dumazet <edumazet@google.com>
-Subject: Re: [PATCH 1/5] Renaming weak prng invocations -
- prandom_bytes_state, prandom_u32_state
-Message-ID: <20221214162117.GC1062210@linux.intel.com>
-References: <cover.1670778651.git.david.keisarschm@mail.huji.ac.il>
- <b3caaa5ac5fca4b729bf1ecd0d01968c09e6d083.1670778652.git.david.keisarschm@mail.huji.ac.il>
- <Y5c8KLzJFz/XZMiM@zx2c4.com>
- <20221214123358.GA1062210@linux.intel.com>
- <CANn89iJtK4m1cWvCwp=L_rEOEBa+B1kLZJAw0D9_cYPQcAj+Mw@mail.gmail.com>
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9347610E03B
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 16:51:43 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id a16so23368582edb.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 08:51:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=czD2rPOx9OiZcdJviML+H8nDE1bCxJVFDnkUjNKkP+g=;
+ b=LEb7HZpqHNLosW6dXyA2OiFJA5bKjR1TN9jw+WfKLEhClD5CLL0XhnsrSv2L52/cU8
+ zJ+wJrRlHXk+bv9u/XHT+erWxwYGz7SC2xfPO0xfOdZDbHsV2ATwck18gEyxqOuAnYWY
+ VLwmSwjjF5HXLbcNg2nLJiarnFZucgdCw6sX1jV9MfQdvWRe8L68Ku6Ft3KkBDcw7k5g
+ C+enr++FiA8f1yNt19eONDe5kTEEeNMB8X3FFg1H7ZaFXS8thAkGk4SXh6T5eJCLxlgw
+ CqW8QncumriceyvwjREh3FkFdovcNlbrqhcmzTtvYQbiNGXnyLylVXkkuAaji1hhelWr
+ T9yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=czD2rPOx9OiZcdJviML+H8nDE1bCxJVFDnkUjNKkP+g=;
+ b=qmNmsiYm/N11BwCFp+0fkmJE6jD+8PWQ9ClxEOHG35dRluzKzNIYP+LfQnYX3kjD5x
+ OfxeY4OLmS7UNVYJf/G/g5qJLWTgZffy977+pjhGtRmEfOZPnFvuwwP3CVaz9j9/E3SP
+ vzYmQTvWd19X/A2RfFoegp3D1iOqvXzJcbLCnl0VG9CrfxDiEzPDUBWFvXbhtmcuxUFo
+ EC0waprp3+WQV3QOPiKcLDOC3WumYtAKTKVX5QsjFfRLsPIJyn1PjqUp7byIfOvy9uzJ
+ 4kOZxI7T0xG/Kyln/REQi4g9FAiuk/3YO0hpOqjdEBRngIAIrc3wdVi4sqnetr/Hug0M
+ h43g==
+X-Gm-Message-State: ANoB5pkgi1fXv4jEM5566skQW9V/yGwCG2E9WRmmVCCVKiLjruhP+w8F
+ eh2nPD/9JTbZXaWK5JuvFqCSzw==
+X-Google-Smtp-Source: AA0mqf6jNv3/NX9rm+O5/sllvALiPUWVimAqqQ0Ee8xAiZf4HNQ9uqqhxFGKpzX7BsoWPTZm1IGcHQ==
+X-Received: by 2002:a05:6402:110c:b0:46f:7453:a99d with SMTP id
+ u12-20020a056402110c00b0046f7453a99dmr12178462edv.6.1671036702339; 
+ Wed, 14 Dec 2022 08:51:42 -0800 (PST)
+Received: from prec5560.. (freifunk-gw.bsa1-cpe1.syseleven.net. [176.74.57.43])
+ by smtp.gmail.com with ESMTPSA id
+ lb19-20020a170907785300b007c0a90663d5sm6010023ejc.162.2022.12.14.08.51.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Dec 2022 08:51:41 -0800 (PST)
+From: Robert Foss <robert.foss@linaro.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Pin-yen Lin <treapking@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: Re: [PATCH] drm/bridge: it6505: Add caching for EDID
+Date: Wed, 14 Dec 2022 17:51:33 +0100
+Message-Id: <167103665890.995711.9267085599513513874.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221115112720.911158-1-treapking@chromium.org>
+References: <20221115112720.911158-1-treapking@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANn89iJtK4m1cWvCwp=L_rEOEBa+B1kLZJAw0D9_cYPQcAj+Mw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,66 +77,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Peter Zijlstra <peterz@infradead.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Alexei Starovoitov <ast@kernel.org>, dri-devel@lists.freedesktop.org,
- Song Liu <song@kernel.org>, linux-mtd@lists.infradead.org,
- Stanislav Fomichev <sdf@google.com>, "H. Peter Anvin" <hpa@zytor.com>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Christoph Lameter <cl@linux.com>,
- Daniel Borkmann <daniel@iogearbox.net>, Richard Weinberger <richard@nod.at>,
- x86@kernel.org, John Fastabend <john.fastabend@gmail.com>,
- Andrii Nakryiko <andrii@kernel.org>, ilay.bahat1@gmail.com,
- Ingo Molnar <mingo@redhat.com>, Jiri Pirko <jiri@nvidia.com>,
- David Rientjes <rientjes@google.com>, Yonghong Song <yhs@fb.com>,
- Paolo Abeni <pabeni@redhat.com>, intel-gfx@lists.freedesktop.org,
- Petr Mladek <pmladek@suse.com>, david.keisarschm@mail.huji.ac.il,
- Dave Hansen <dave.hansen@linux.intel.com>, Hao Luo <haoluo@google.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Steven Rostedt <rostedt@goodmis.org>, KP Singh <kpsingh@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Borislav Petkov <bp@alien8.de>,
- Hannes Reinecke <hare@suse.de>, Andy Lutomirski <luto@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, bpf@vger.kernel.org,
- Vlastimil Babka <vbabka@suse.cz>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-scsi@vger.kernel.org,
- "Martin K. Petersen" <martin.petersen@oracle.com>, linux-mm@kvack.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Pekka Enberg <penberg@kernel.org>,
- Sergey Senozhatsky <senozhatsky@chromium.org>, aksecurity@gmail.com,
- Jiri Olsa <jolsa@kernel.org>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- Martin KaFai Lau <martin.lau@linux.dev>,
- "David S. Miller" <davem@davemloft.net>
+Cc: allen chen <allen.chen@ite.com.tw>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 14, 2022 at 04:15:49PM +0100, Eric Dumazet wrote:
-> On Wed, Dec 14, 2022 at 1:34 PM Stanislaw Gruszka
-> <stanislaw.gruszka@linux.intel.com> wrote:
-> >
-> > On Mon, Dec 12, 2022 at 03:35:20PM +0100, Jason A. Donenfeld wrote:
-> > > Please CC me on future revisions.
-> > >
-> > > As of 6.2, the prandom namespace is *only* for predictable randomness.
-> > > There's no need to rename anything. So nack on this patch 1/5.
-> >
-> > It is not obvious (for casual developers like me) that p in prandom
-> > stands for predictable. Some renaming would be useful IMHO.
+On Tue, 15 Nov 2022 19:27:20 +0800, Pin-yen Lin wrote:
+> Add caching when EDID is read, and invalidate the cache until the
+> bridge detects HPD low or sink count changes on HPD_IRQ.
 > 
-> Renaming makes backports more complicated, because stable teams will
-> have to 'undo' name changes.
-> Stable teams are already overwhelmed by the amount of backports, and
-> silly merge conflicts.
+> It takes 1.2s for IT6505 bridge to read a 3-block EDID, and skipping
+> one EDID read would be a notable difference on user experience.
+> 
+> 
+> [...]
 
-Since when backporting problems is valid argument for stop making
-changes? That's new for me.
+Applied, thanks!
 
-> linux kernel is not for casual readers.
+Repo: https://cgit.freedesktop.org/drm/drm-misc/
 
-Sure.
 
-Regards
-Stanislaw
+[1/1] drm/bridge: it6505: Add caching for EDID
+      (no commit info)
+
+
+
+rob
+
