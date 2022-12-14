@@ -2,72 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 572B164C990
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 14:01:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6DD964C996
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 14:02:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C87D10E3F8;
-	Wed, 14 Dec 2022 13:01:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E61BB10E3F9;
+	Wed, 14 Dec 2022 13:01:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9688410E3F9
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 13:01:38 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id x2so1931675plb.13
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 05:01:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=l8dC2Gsn7/DPw+06SvyPKXiLZl5J5e+MnQLJWr0R5lg=;
- b=C/CoxKrwgllUTgPoZwwqsWxbBjhZtbqeoP5H6TRO0VLQcRnrnz27cgh1gckODs6c4Y
- hjo/OgwrORxVMs+lneUR07jTMMyD06UxUsWzui1Dl2cz5AHMf2wezgZHAW9itVOKpJVE
- UfRhJmsZdywxBj0qj2Utiv0IGovp5fHumb29c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=l8dC2Gsn7/DPw+06SvyPKXiLZl5J5e+MnQLJWr0R5lg=;
- b=AJTrN16W22Mo5WGzPY6dpibJMYORW+guwCLTbGaSfbP3agNAVCKap7GxMjvFfCg9qL
- wnljhQa8Bnda0MD4btON0l4adEoH50/q9pgrMepHkPNEFBqVTYBIKAzHFZRiUt+uuRgR
- hYk5ZLq5wpsy0pgj8yZWmL7p6/4jBXlHHNkAfdBdVmeIVq78k0NEI0ocWS3fUVMifn8b
- vPqZmKveBJmEVK9kMjGjb0X4eM16+kKY4wFL1njGzQiGW03cJuCaNNBrw95tY7DhQeoQ
- hx+WNh83AaEu5xwmu4iiNL2eLUJlxJfxXjWUtbTl8jALBoUe5tHXfFZ38oP6zT8W7fqD
- kIAA==
-X-Gm-Message-State: ANoB5pmzcfB+3ZXo4bDfvejvMxgA8cpsmaRvWUYYhpADsoRX4pkmtgQv
- 99B7ob552I+v2kiOiKN+TAGZiw==
-X-Google-Smtp-Source: AA0mqf6ckNSerlrEGekXR/9I5wplg+qXi2frZincM6Z8lCDtlsNIlHj2C/nPOVwF6cGNeV60yfii6Q==
-X-Received: by 2002:a17:903:2412:b0:188:82fc:e277 with SMTP id
- e18-20020a170903241200b0018882fce277mr24851098plo.12.1671022898068; 
- Wed, 14 Dec 2022 05:01:38 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:c00a:a809:5e03:faf:846e:352d])
- by smtp.gmail.com with ESMTPSA id
- ix17-20020a170902f81100b001895f7c8a71sm1838651plb.97.2022.12.14.05.01.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Dec 2022 05:01:37 -0800 (PST)
-From: Jagan Teki <jagan@amarulasolutions.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Fancy Fang <chen.fang@nxp.com>, Tim Harvey <tharvey@gateworks.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, Neil Armstrong <narmstrong@linaro.org>,
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A42310E3F4
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 13:01:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1671022886; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Xz93IPFieV9WZW5Gg4FpvmQyVwuBdgxq4Bwe+uEuf+8=;
+ b=CXGjkewKSL1heZ8BJd/MmWY9TG4IYsU+t6d6zAoCqRIO/38IJF0Vf0XAOaGlMhzmwubZau
+ aUuw1svfwrCu7RL+gHSITIsyKtt/BFIbrSaT6NXuCjLsG+RMfeHNmpkcN+1f/CbST2CRJ9
+ WfFnBedMnAlwEOjVq7eiXeKw81g6O4w=
+From: Paul Cercueil <paul@crapouillou.net>
+To: Phong LE <ple@baylibre.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
  Robert Foss <robert.foss@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- Marek Vasut <marex@denx.de>
-Subject: [PATCH v10 17/18] dt-bindings: display: exynos: dsim: Add NXP i.MX8M
- Plus support
-Date: Wed, 14 Dec 2022 18:29:06 +0530
-Message-Id: <20221214125907.376148-18-jagan@amarulasolutions.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221214125907.376148-1-jagan@amarulasolutions.com>
-References: <20221214125907.376148-1-jagan@amarulasolutions.com>
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: [PATCH 09/10] drm: bridge: it66121: Move VID/PID to new
+ it66121_chip_info structure
+Date: Wed, 14 Dec 2022 14:01:22 +0100
+Message-Id: <20221214130122.12911-1-paul@crapouillou.net>
+In-Reply-To: <20221214125821.12489-1-paul@crapouillou.net>
+References: <20221214125821.12489-1-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,40 +50,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- Matteo Lisi <matteo.lisi@engicam.com>, dri-devel@lists.freedesktop.org,
- NXP Linux Team <linux-imx@nxp.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-arm-kernel@lists.infradead.org, Jagan Teki <jagan@amarulasolutions.com>
+Cc: Paul Cercueil <paul@crapouillou.net>, devicetree@vger.kernel.org,
+ list@opendingux.net, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Samsung MIPI DSIM bridge can also be found in i.MX8M Plus SoC.
+This will make it easier later to introduce support for new chips in
+this driver.
 
-Add dt-bingings for it.
-
-Cc: devicetree@vger.kernel.org
-Cc: Rob Herring <robh@kernel.org>
-Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
-Changes for v10, v9:
-- none
+ drivers/gpu/drm/bridge/ite-it66121.c | 27 +++++++++++++++------------
+ 1 file changed, 15 insertions(+), 12 deletions(-)
 
- Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt b/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
-index 5133d4d39190..2a5f0889ec32 100644
---- a/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
-+++ b/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
-@@ -8,6 +8,7 @@ Required properties:
- 		"samsung,exynos5422-mipi-dsi" /* for Exynos5422/5800 SoCs */
- 		"samsung,exynos5433-mipi-dsi" /* for Exynos5433 SoCs */
- 		"fsl,imx8mm-mipi-dsim" /* for i.MX8M Mini/Nano SoCs */
-+		"fsl,imx8mp-mipi-dsim" /* for i.MX8M Plus SoCs */
-   - reg: physical base address and length of the registers set for the device
-   - interrupts: should contain DSI interrupt
-   - clocks: list of clock specifiers, must contain an entry for each required
+diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+index 7972003d4776..43b027b85b8e 100644
+--- a/drivers/gpu/drm/bridge/ite-it66121.c
++++ b/drivers/gpu/drm/bridge/ite-it66121.c
+@@ -35,10 +35,6 @@
+ #define IT66121_DEVICE_ID0_REG			0x02
+ #define IT66121_DEVICE_ID1_REG			0x03
+ 
+-#define IT66121_VENDOR_ID0			0x54
+-#define IT66121_VENDOR_ID1			0x49
+-#define IT66121_DEVICE_ID0			0x12
+-#define IT66121_DEVICE_ID1			0x06
+ #define IT66121_REVISION_MASK			GENMASK(7, 4)
+ #define IT66121_DEVICE_ID1_MASK			GENMASK(3, 0)
+ 
+@@ -286,13 +282,12 @@
+ #define IT66121_AUD_SWL_16BIT			0x2
+ #define IT66121_AUD_SWL_NOT_INDICATED		0x0
+ 
+-#define IT66121_VENDOR_ID0			0x54
+-#define IT66121_VENDOR_ID1			0x49
+-#define IT66121_DEVICE_ID0			0x12
+-#define IT66121_DEVICE_ID1			0x06
+-#define IT66121_DEVICE_MASK			0x0F
+ #define IT66121_AFE_CLK_HIGH			80000 /* Khz */
+ 
++struct it66121_chip_info {
++	u16 vid, pid;
++};
++
+ struct it66121_ctx {
+ 	struct regmap *regmap;
+ 	struct drm_bridge bridge;
+@@ -311,6 +306,7 @@ struct it66121_ctx {
+ 		u8 swl;
+ 		bool auto_cts;
+ 	} audio;
++	const struct it66121_chip_info *info;
+ };
+ 
+ static const struct regmap_range_cfg it66121_regmap_banks[] = {
+@@ -1451,6 +1447,7 @@ static const char * const it66121_supplies[] = {
+ 
+ static int it66121_probe(struct i2c_client *client)
+ {
++	const struct i2c_device_id *id = i2c_client_get_device_id(client);
+ 	u32 revision_id, vendor_ids[2] = { 0 }, device_ids[2] = { 0 };
+ 	struct device_node *ep;
+ 	int ret;
+@@ -1472,6 +1469,7 @@ static int it66121_probe(struct i2c_client *client)
+ 
+ 	ctx->dev = dev;
+ 	ctx->client = client;
++	ctx->info = (const struct it66121_chip_info *) id->driver_data;
+ 
+ 	of_property_read_u32(ep, "bus-width", &ctx->bus_width);
+ 	of_node_put(ep);
+@@ -1523,8 +1521,8 @@ static int it66121_probe(struct i2c_client *client)
+ 	revision_id = FIELD_GET(IT66121_REVISION_MASK, device_ids[1]);
+ 	device_ids[1] &= IT66121_DEVICE_ID1_MASK;
+ 
+-	if (vendor_ids[0] != IT66121_VENDOR_ID0 || vendor_ids[1] != IT66121_VENDOR_ID1 ||
+-	    device_ids[0] != IT66121_DEVICE_ID0 || device_ids[1] != IT66121_DEVICE_ID1) {
++	if ((vendor_ids[1] << 8 | vendor_ids[0]) != ctx->info->vid ||
++	    (device_ids[1] << 8 | device_ids[0]) != ctx->info->pid) {
+ 		return -ENODEV;
+ 	}
+ 
+@@ -1563,8 +1561,13 @@ static const struct of_device_id it66121_dt_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, it66121_dt_match);
+ 
++static const struct it66121_chip_info it66121_chip_info = {
++	.vid = 0x4954,
++	.pid = 0x0612,
++};
++
+ static const struct i2c_device_id it66121_id[] = {
+-	{ "it66121", 0 },
++	{ "it66121", (kernel_ulong_t) &it66121_chip_info },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, it66121_id);
 -- 
-2.25.1
+2.35.1
 
