@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAF0064CD86
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 16:57:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 393DE64CDD7
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 17:20:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAA4A10E415;
-	Wed, 14 Dec 2022 15:57:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88AF510E42E;
+	Wed, 14 Dec 2022 16:20:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 341C710E415
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 15:57:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671033435; x=1702569435;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=5LFXBukgQPsSVobJ4TQvaAaS4znUymOqfbKoEQKnuF8=;
- b=Ej4dvI/8JErpDUZ1eP+O1F2jvqrln351aIeobqVTED7uptv7VG1sezb7
- HD23QBKbBTK6aODy+Yw1elscT6OXlwdVU+mhmkSMO3wYNuZQzVKOsb1jW
- sE/A+R8bTen4mOLlVEBxqhI4uicXnoY1C6Slknc8SHBk/yKiMlUoKtPrx
- OT2B7+ORwTKbkr11ImfS9GSSdhGYBF9dt2HmHdHLDzwfvsAJ0AoCij+rV
- 1woq1h68v+7bYy9QwW9RrauFvSWPw2Uvxa1RzRcmHl5Zcsn0b3UO72J+4
- gl/zMM3qlt3ihvvzS+IwuI8281nwl8RY1AWXTKHha8loMGhj4PpXHrZDu A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10561"; a="380640652"
-X-IronPort-AV: E=Sophos;i="5.96,244,1665471600"; d="scan'208";a="380640652"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2022 07:57:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10561"; a="737738842"
-X-IronPort-AV: E=Sophos;i="5.96,244,1665471600"; d="scan'208";a="737738842"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by FMSMGA003.fm.intel.com with ESMTP; 14 Dec 2022 07:57:11 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1p5U86-009t4i-01; Wed, 14 Dec 2022 17:57:10 +0200
-Date: Wed, 14 Dec 2022 17:57:09 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Eric Dumazet <edumazet@google.com>
-Subject: Re: [PATCH 1/5] Renaming weak prng invocations -
- prandom_bytes_state, prandom_u32_state
-Message-ID: <Y5nyVXv1KpX5baQE@smile.fi.intel.com>
-References: <cover.1670778651.git.david.keisarschm@mail.huji.ac.il>
- <b3caaa5ac5fca4b729bf1ecd0d01968c09e6d083.1670778652.git.david.keisarschm@mail.huji.ac.il>
- <Y5c8KLzJFz/XZMiM@zx2c4.com>
- <20221214123358.GA1062210@linux.intel.com>
- <CANn89iJtK4m1cWvCwp=L_rEOEBa+B1kLZJAw0D9_cYPQcAj+Mw@mail.gmail.com>
- <Y5nxjzV0Mio86NU6@smile.fi.intel.com>
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com
+ [209.85.160.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB22310E429;
+ Wed, 14 Dec 2022 16:19:58 +0000 (UTC)
+Received: by mail-oa1-f52.google.com with SMTP id
+ 586e51a60fabf-1442977d77dso17229799fac.6; 
+ Wed, 14 Dec 2022 08:19:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pmxnkBtZ4+9GBAc6tSJuQtB+ybkrmuXMMJ4mdgofo5Q=;
+ b=Eh6PGELkNvp5+fB9AXwncO0BfNF/uK8mN1UXraDwsEd/M7iZKg4MgA4ThGGA3XfX4+
+ yrSI0PvrLP7XG/SmQkmUS+E71v0IscOFEE5oysKofgW5iA8nrwZg1ArSpjP2mKbYCEP4
+ f5X8JOWfuW4aJ/1wgdopjNrUTEsX8DyLdU5z8AnIn0/PkoZ2a6yGiIHUF+ppQZfAQGHZ
+ 9e6ypvdBcL4SBukoETi9vVREuW6jVjsya4Z6wbTY/PZVLGoMDGq1YG/0wv5wC/iyScH7
+ AxSIy1P0Lyy8p0SDp+ASWVrKcbXQs4Ie5MVwdbhSSCwLIcuYHyYQNTKbZ6FIWyGd+K77
+ K+IA==
+X-Gm-Message-State: ANoB5pnWbQfh/xk3uRjwELgb8MoYVz1jn+s7a+VxHlQLHUSH4P5i3mIn
+ 2plKIrSgATNyB8ZFVN8eGA==
+X-Google-Smtp-Source: AA0mqf6e3VGZKdUfXLywAorV3vsZOOgy1lwiko6BtumOLTx0JRi0nVu+raQ/iZcLaTVqcLb++8wnEw==
+X-Received: by 2002:a05:6871:213:b0:142:9258:b78d with SMTP id
+ t19-20020a056871021300b001429258b78dmr12829578oad.12.1671034798148; 
+ Wed, 14 Dec 2022 08:19:58 -0800 (PST)
+Received: from robh_at_kernel.org (rrcs-98-6-157-194.sw.biz.rr.com.
+ [98.6.157.194]) by smtp.gmail.com with ESMTPSA id
+ h4-20020a056870170400b0011f22e74d5fsm2888651oae.20.2022.12.14.08.19.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Dec 2022 08:19:56 -0800 (PST)
+Received: (nullmailer pid 1168312 invoked by uid 1000);
+ Wed, 14 Dec 2022 16:19:38 -0000
+Date: Wed, 14 Dec 2022 10:19:38 -0600
+From: Rob Herring <robh@kernel.org>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Subject: Re: [PATCH v13 2/5] dt-bindings: msm/dp: add data-lanes and
+ link-frequencies property
+Message-ID: <20221214161938.GA1164047-robh@kernel.org>
+References: <1670972181-4961-1-git-send-email-quic_khsieh@quicinc.com>
+ <1670972181-4961-3-git-send-email-quic_khsieh@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y5nxjzV0Mio86NU6@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <1670972181-4961-3-git-send-email-quic_khsieh@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,57 +65,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: david.keisarschm@mail.huji.ac.il, linux-scsi@vger.kernel.org,
- linux-mm@kvack.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- linux-mtd@lists.infradead.org, bpf@vger.kernel.org
+Cc: devicetree@vger.kernel.org, quic_sbillaka@quicinc.com,
+ krzysztof.kozlowski+dt@linaro.org, quic_abhinavk@quicinc.com,
+ andersson@kernel.org, konrad.dybcio@somainline.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org,
+ freedreno@lists.freedesktop.org, vkoul@kernel.org, agross@kernel.org,
+ linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ swboyd@chromium.org, sean@poorly.run, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 14, 2022 at 05:53:52PM +0200, Andy Shevchenko wrote:
-> On Wed, Dec 14, 2022 at 04:15:49PM +0100, Eric Dumazet wrote:
-> > On Wed, Dec 14, 2022 at 1:34 PM Stanislaw Gruszka
-> > <stanislaw.gruszka@linux.intel.com> wrote:
-> > > On Mon, Dec 12, 2022 at 03:35:20PM +0100, Jason A. Donenfeld wrote:
-> > > > Please CC me on future revisions.
-> > > >
-> > > > As of 6.2, the prandom namespace is *only* for predictable randomness.
-> > > > There's no need to rename anything. So nack on this patch 1/5.
-> > >
-> > > It is not obvious (for casual developers like me) that p in prandom
-> > > stands for predictable. Some renaming would be useful IMHO.
-> > 
-> > Renaming makes backports more complicated, because stable teams will
-> > have to 'undo' name changes.
-> > Stable teams are already overwhelmed by the amount of backports, and
-> > silly merge conflicts.
-> > 
-> > Take another example :
-> > 
-> > u64 timecounter_read(struct timecounter *tc)
-> > 
-> > You would think this function would read the timecounter, right ?
-> > 
-> > Well, it _updates_ many fields from @tc, so a 'better name' would also
-> > be useful.
+On Tue, Dec 13, 2022 at 02:56:18PM -0800, Kuogee Hsieh wrote:
+> Add both data-lanes and link-frequencies property into endpoint
 > 
-> Right, at some point we become into the world of
+> Changes in v7:
+> -- split yaml out of dtsi patch
+> -- link-frequencies from link rate to symbol rate
+> -- deprecation of old data-lanes property
 > 
-> #define true 0
+> Changes in v8:
+> -- correct Bjorn mail address to kernel.org
 > 
-> because... (read below)
+> Changes in v10:
+> -- add menu item to data-lanes and link-frequecnis
 > 
-> > linux kernel is not for casual readers.
+> Changes in v11:
+> -- add endpoint property at port@1
 > 
-> P.S. I believe you applied a common sense and in some cases
->      the renames are necessary.
+> Changes in v12:
+> -- use enum for item at data-lanes and link-frequencies
+> 
+> Changes in v13:
+> -- revised changes at port@0
+> -- use correct ref schemas for both port@0 and port@1
+> -- mark both port@0 and port@1 are required
+> -- add line between data-lanes and link-frequencies properties
+> 
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>`
+> ---
+>  .../bindings/display/msm/dp-controller.yaml        | 26 ++++++++++++++++++++--
+>  1 file changed, 24 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> index f2515af..9d002de 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> @@ -81,6 +81,7 @@ properties:
+>  
+>    data-lanes:
+>      $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    deprecated: true
+>      minItems: 1
+>      maxItems: 4
+>      items:
+> @@ -98,12 +99,31 @@ properties:
+>      $ref: /schemas/graph.yaml#/properties/ports
+>      properties:
+>        port@0:
+> -        $ref: /schemas/graph.yaml#/properties/port
+> +        $ref: "/schemas/graph.yaml#/$defs/port-base"
 
-And before you become to a wrong conclusion by reading between the lines,
-no, I'm not taking either side (to rename or not to rename) in this case.
+This means you have extra properties to add in the endpoint, but you 
+didn't define any.
 
--- 
-With Best Regards,
-Andy Shevchenko
+>          description: Input endpoint of the controller
+>  
+>        port@1:
+> -        $ref: /schemas/graph.yaml#/properties/port
+> +        $ref: "/schemas/graph.yaml#/$defs/port-base"
 
+Don't need quotes. Why did you add them?
 
+>          description: Output endpoint of the controller
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            properties:
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +                items:
+> +                  enum: [ 0, 1, 2, 3 ]
+> +
+> +              link-frequencies:
+> +                minItems: 1
+> +                maxItems: 4
+> +                items:
+> +                  enum: [ 1620000000, 2700000000, 5400000000, 8100000000 ]
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+>  
+>  required:
+>    - compatible
+> @@ -193,6 +213,8 @@ examples:
+>                  reg = <1>;
+>                  endpoint {
+>                      remote-endpoint = <&typec>;
+> +                    data-lanes = <0 1>;
+> +                    link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000 8100000000>; 
+>                  };
+>              };
+>          };
+> -- 
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+> 
+> 
