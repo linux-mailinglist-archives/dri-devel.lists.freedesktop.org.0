@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B4C564CFB7
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 19:53:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 188E464CFBD
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 19:53:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76DC710E446;
-	Wed, 14 Dec 2022 18:53:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF1DA10E458;
+	Wed, 14 Dec 2022 18:53:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 953D310E457
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 18:52:57 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id h10so7560527ljk.11
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 10:52:57 -0800 (PST)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E8A510E444
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 18:53:48 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id bp15so11964161lfb.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 10:53:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ZseIU9pUHVwznNtxNlFxx+0mTPXyTHR3NZJ8jxTNHvY=;
- b=r/gW/N2Pnn4oZW8y86l9QHLF343OH2bshWe8KXeJ0yZ3tWuEcwyRugUz0q4xtyDE1o
- cGWrdvNidcO9AiiaboC+4oTdrw+29Bm8FDdoRZXbnfjdJe/Cto/H5RvQTS58jWylWX1K
- SZyM5/ZHedIIs3MDjXFzCk0B7wntCny+eUl+Ui6cx07xFFqOwCK5W5X3zQtJx14x6c5i
- YeU0DexZQtJfMT/w2tCslRmgsZAtV681kCGIU/1Jo03bVYZna9POL3J0x1noKdjgocZR
- n4ncmQzYUp/aBrcoiU+A5tP3hxbdzICfzSi+O/oP9XMIs4Q5OU5ERsgBzeRc3xmu/JCn
- wVoA==
+ bh=6rJMrpZYZD2A/xpXae8B0oejAWRcmuy9sfR7fFaHOBc=;
+ b=QVQrCEIZvayjhKBW1SqgqlwaNf8PyYteWOCCf4E1q99+gQs2QJayeOl1370H60k3o3
+ 3EaCcdL3nZuLdvqUlQOx0TjWZX67iRRGNVSY5yQEQUWCT7g+53BaMSIFnv0dEhGx5LKl
+ zThoZ0JdxlKAxhtU+xZTknQD4h/BeoFbejEoLtSeH5yuDhTgVie5zrtKwvUl8MwU8ngw
+ 6re8naZmhWWkl10KJSdxZ3UYnrp7PSm7Si0qEUch0vyDR7tD5imx2wtWB1UK/FVD4kGJ
+ MXTDlCQF5xdphRE10L/a2Cdlw600HMZr+3FoI/F0aP+I3zDOWEg5BrzbeaA/kY2H8aKx
+ DCHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZseIU9pUHVwznNtxNlFxx+0mTPXyTHR3NZJ8jxTNHvY=;
- b=q2jgn6KxdCVAF2bGF+L/nLhJrFI8Zq6bowkJEgfm1dJh5vA0S+L41PPVDfgdtr8AUE
- 9JO3VxSBeZk0TyWBDcbgFnxh+6m+qKbCZg+jKUmgcUsIuc3EH4eBRawVEciX0S0+jJXA
- Q4LF1TtmITSQHgOi4cf4FdJ7IVwmCWffUSmXMXPTTn69Jm15BiiCAAS4dK3NUmKU+i+8
- HIZYbiJm+1C5AfVuXGdFVNJn0OHGnAMOy+I4ogRyNrkuPtAd2oFUdOjVDyDvBR2MnS1A
- bmZtbOvUCkTdaCE/DDupT3dbdbwUXYNkkxXYJMWyPqMinUphOz09fMIh5alQBuPeXluY
- CAdA==
-X-Gm-Message-State: ANoB5pmi3RibxRigu4+mAfGKweoZ8l5ZjGybsNDHN114JwkDPzpPuoK/
- ViN3GX9IIbh865GssWqm7LW1PA==
-X-Google-Smtp-Source: AA0mqf7ZgNkE56lYnu/RzMo2/dyqB/FcOcbFfYQFPy+YE495hfWhIWasUAYLlY1RxV/76aJczrI/Tw==
-X-Received: by 2002:a05:651c:178d:b0:26f:e87b:d3bd with SMTP id
- bn13-20020a05651c178d00b0026fe87bd3bdmr8121650ljb.39.1671043975587; 
- Wed, 14 Dec 2022 10:52:55 -0800 (PST)
+ bh=6rJMrpZYZD2A/xpXae8B0oejAWRcmuy9sfR7fFaHOBc=;
+ b=QigRfHHZgZ6lhMdsRb1NEOEEuffoDdyEN6bkQBcxSIbv9mN1athTVnsXKndrOCY8v7
+ +0AnPM1QDIQ2eI1lzAb5PrkSjokbezvJ3iojhV2WqnP53QYUEFl4oexR8XNy8YqOhlvu
+ gvmlkJ9Fu9IC8XpvlQ1yhsFX3BMXhRfUaFn1wje3/M2MwEeGd2LCZtxmagHAU4/KSWEi
+ uEQdGUe4Xd1hVVMCfK7HnEsCwPLPkIEu+lwSYkAFYTSGoV9t2vqPmHrbQmBQRgrLr5O4
+ E/OaaBCC8Oj67atFkwslwMVs+ReqR2JxGJ0kfSkn0v/m2sc5FLeylZVwAnsukkQyTMNw
+ VF3Q==
+X-Gm-Message-State: ANoB5pkOQx61YHOFVNDkgLSW4xTLzB2QJmXmYD/6w23QzG3vTTy2wb9p
+ R9gXyxwyRet0wNQRLga3OfV/Pg==
+X-Google-Smtp-Source: AA0mqf5a2Ur10inLKK3tfDV562RQOWwl9Gjlcf6ElvbgqgUeC00yin0AqxKIn1vOT9+/BxoUPUnKjg==
+X-Received: by 2002:ac2:5201:0:b0:4b5:889c:f2cf with SMTP id
+ a1-20020ac25201000000b004b5889cf2cfmr7321525lfl.20.1671044026895; 
+ Wed, 14 Dec 2022 10:53:46 -0800 (PST)
 Received: from [10.10.15.130] ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- q20-20020a2e9694000000b002770eafaafbsm695766lji.99.2022.12.14.10.52.54
+ v7-20020a056512348700b004a2511b8224sm905068lfr.103.2022.12.14.10.53.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Dec 2022 10:52:55 -0800 (PST)
-Message-ID: <ca33cb5d-363d-dddd-4ad9-62f8a2d87bb1@linaro.org>
-Date: Wed, 14 Dec 2022 20:52:54 +0200
+ Wed, 14 Dec 2022 10:53:46 -0800 (PST)
+Message-ID: <7d0b3010-bcb1-657e-1d7c-a66cca7ebe8e@linaro.org>
+Date: Wed, 14 Dec 2022 20:53:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.1
-Subject: Re: [RFC PATCH 4/6] drm/msm/dsi: Use DSC slice(s) packet size to
- compute word count
+Subject: Re: [RFC PATCH 5/6] drm/msm/dsi: Flip greater-than check for
+ slice_count and slice_per_intf
 Content-Language: en-GB
 To: Marijn Suijten <marijn.suijten@somainline.org>,
  phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, Vinod Koul <vkoul@kernel.org>
 References: <20221213232207.113607-1-marijn.suijten@somainline.org>
- <20221213232207.113607-5-marijn.suijten@somainline.org>
+ <20221213232207.113607-6-marijn.suijten@somainline.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20221213232207.113607-5-marijn.suijten@somainline.org>
+In-Reply-To: <20221213232207.113607-6-marijn.suijten@somainline.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,27 +98,18 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 14/12/2022 01:22, Marijn Suijten wrote:
-> According to downstream the value to use for WORD_COUNT is
-> bytes_per_pkt, which denotes the number of bytes in a packet based on
-> how many slices have been configured by the panel driver times the
-> width of a slice times the number of bytes per pixel.
-> 
-> The DSC panels seen thus far use one byte per pixel, only one slice
-> per packet, and a slice width of half the panel width leading to the
-> desired bytes_per_pkt+1 value to be equal to hdisplay/2+1.  This however
-> isn't the case anymore for panels that configure two slices per packet,
-> where the value should now be hdisplay+1.
-> 
-> Note that the aforementioned panel (on a Sony Xperia XZ3, sdm845) with
-> slice_count=1 has also been tested to successfully accept slice_count=2,
-> which would have shown corrupted output previously.
+> According to downstream /and the comment copied from it/ this comparison
+> should be the other way around.  In other words, when the panel driver
+> requests to use more slices per packet than what could be sent over this
+> interface, it is bumped down to only use a single slice per packet (and
+> strangely not the number of slices that could fit on the interface).
 > 
 > Fixes: 08802f515c3c ("drm/msm/dsi: Add support for DSC configuration")
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 > ---
->   drivers/gpu/drm/msm/dsi/dsi_host.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/msm/dsi/dsi_host.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
+With SoB in place:
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
