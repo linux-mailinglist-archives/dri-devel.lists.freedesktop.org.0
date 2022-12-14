@@ -2,61 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C67DA64C6AA
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 11:07:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D5D64C795
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 12:00:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DE1F10E3B6;
-	Wed, 14 Dec 2022 10:07:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1C0410E05F;
+	Wed, 14 Dec 2022 11:00:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
- [209.85.160.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C10C310E3B5
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 10:07:08 +0000 (UTC)
-Received: by mail-qt1-f179.google.com with SMTP id z12so2075471qtv.5
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 02:07:08 -0800 (PST)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90A0D10E05E
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 11:00:50 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id h16so9912804wrz.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 03:00:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=IM7/rTUFOP/ct9XAoTb4YaT/tqN70SwMVuKsM+i658Q=;
+ b=kYAxkFOjJ8BzuJeJmxU+yCTPFfcPQ4CGTFE+FGQ5UtFy6M0nKKdnUZ2gIyS8kicJjR
+ 5AUagbwxxuWAmtXf7hxZzi5v1dUHwD8mQs1aqViQ5L0AVEQ2ILHJvcBMg2jbZ6T/fy0u
+ IJsIPXvYe6HF4z4q2v2axS1K+gmGMr54L5+sS9J23Fg2vdGhvJpgNeEyJDwaMs0m0CFR
+ iotMZNEgNXYFMyjjboG/omRGCfbjLhtfv1bFPnqrzq7Bma4+uBj8m67zES6/CHfoBETq
+ AiniCMICab2NZUEDrm4OIiFiG9zLOkBdaJz2aeOI1TmQbqCSrrbHsfVmbRSLKDgjE9Ny
+ FxrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=cy7T+0HN5DZODEIoAWFeUiuTL4WubIGF0dA9H8JAJVU=;
- b=tblu7VocrpoSRyYU4tQbV+LW3rwvLi4aee5qgQc61wR0jYWtQJos3v3ZvGhW56yq3b
- B3qpMLGYvh2BaS3hNbwKc/G5sm5cvdIpkwR3aAsseTNdmyKXv61+zm8tSpbNQedCyKE5
- nX1LEMCP8bdeQjYpZqU1loDo4YcQh5+ue1yf91yBeIoAg9vLXlg/mhgcKv1j5hEknDcK
- ZmgsBcZ9hH3AYHy+EhVlOzMdl+BQkpx2AfBqVqH6CCFL/YNLF3LfQpBt4Rx2LHPuVUbN
- oSGisB4y0ShQxoeY9onxhpo2Hat+8HRwk8PJtj0K/Z6kCbtfTGfdmUHC9coYy9lUS540
- C22A==
-X-Gm-Message-State: ANoB5pn06XNm5cllv8Dwe3ibqZHVtxDc5pku7J6bSywXF1stT8NT//WW
- f5a1bizERNU+xl7XRDFzk/s+VIVvr2XghQ==
-X-Google-Smtp-Source: AA0mqf6wovzsEXkbu+t+yanFwO7u6+IMdE7T3iPrD/BjvAGJ+/slZaGHxG4Qvsn10fs2tfg32h7ECQ==
-X-Received: by 2002:ac8:424e:0:b0:3a8:5d1:aabc with SMTP id
- r14-20020ac8424e000000b003a805d1aabcmr27998772qtm.15.1671012427326; 
- Wed, 14 Dec 2022 02:07:07 -0800 (PST)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com.
- [209.85.128.176]) by smtp.gmail.com with ESMTPSA id
- f19-20020ac84653000000b003a7e9db074asm1402191qto.67.2022.12.14.02.07.06
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Dec 2022 02:07:06 -0800 (PST)
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-3b48b139b46so229003387b3.12
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 02:07:06 -0800 (PST)
-X-Received: by 2002:a81:4e09:0:b0:370:202b:f085 with SMTP id
- c9-20020a814e09000000b00370202bf085mr26552174ywb.502.1671012425842; Wed, 14
- Dec 2022 02:07:05 -0800 (PST)
+ bh=IM7/rTUFOP/ct9XAoTb4YaT/tqN70SwMVuKsM+i658Q=;
+ b=CltmRVAO5bpbjPqYW1No2JoDu1FqKDuHEczWV0er6UeOySWNy82VbkatjPqWBCtSOg
+ t/MrwF3iW+ODtHopZcBLdDITPDH56y0hq0u9Zp9s8ncTy1HpY+cmv2BOaEKhMIFtUbjf
+ 4fSkIw546ab6Tp1LC3xbLo5D4ozRlJC6UWwrZTpl+FY6ZLpV+xRy6nMM7fEETjon7mdm
+ kPQ/UH/td26muiRifBGbYzo0Jg45DybILpy3KH0nCgxmKf1R7/sRRuqGbnb90P9G8rM5
+ yqvhWgX5Xot/MVHKF8/RdpDzMr+pcjoI3UBbIh7UfG0yxjJrBsbtIilRp6HJPZ6FkvRs
+ Dl6w==
+X-Gm-Message-State: ANoB5pnzKZKOOvz7u54k20jKff5OS88HDsGyL/g/hhXFABi92CGZM5XG
+ E/LPGf+Ceryrx7VWMjy6Eik=
+X-Google-Smtp-Source: AA0mqf40IOBJjIuybK11ISF0mlVEOSvpvOyzSUCsEaC14iHI3HUh7JjXxqyCzjP6/dgLtkI/h+MqhA==
+X-Received: by 2002:adf:fbc7:0:b0:236:6c33:2130 with SMTP id
+ d7-20020adffbc7000000b002366c332130mr15129620wrs.68.1671015648754; 
+ Wed, 14 Dec 2022 03:00:48 -0800 (PST)
+Received: from localhost.localdomain
+ (2a02-8428-46a0-7c01-bc7c-15f1-6c3b-ad74.rev.sfr.net.
+ [2a02:8428:46a0:7c01:bc7c:15f1:6c3b:ad74])
+ by smtp.gmail.com with ESMTPSA id
+ h1-20020adfaa81000000b002366c3eefccsm2462096wrc.109.2022.12.14.03.00.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Dec 2022 03:00:47 -0800 (PST)
+From: Christophe Branchereau <cbranchereau@gmail.com>
+To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@gmail.com,
+ daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] Add support for the AUO A030JTN01 TFT LCD
+Date: Wed, 14 Dec 2022 12:00:35 +0100
+Message-Id: <20221214110037.149387-1-cbranchereau@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <6398848e.170a0220.f8e8e.d44f@mx.google.com>
- <Y5itf0+yNIQa6fU4@sirena.org.uk>
-In-Reply-To: <Y5itf0+yNIQa6fU4@sirena.org.uk>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 14 Dec 2022 11:06:54 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW4RNFspMheq1JGUkCm+s1oM90Q_4vPH1XX9ZRAxrmPdA@mail.gmail.com>
-Message-ID: <CAMuHMdW4RNFspMheq1JGUkCm+s1oM90Q_4vPH1XX9ZRAxrmPdA@mail.gmail.com>
-Subject: Re: renesas/master bisection:
- igt-kms-rockchip.kms_vblank.pipe-A-wait-forked on rk3399-gru-kevin
-To: Mark Brown <broonie@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,72 +73,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, kernelci-results@groups.io,
- bot@kernelci.org, Jonas Karlman <jonas@kwiboo.se>,
- Brian Norris <briannorris@chromium.org>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Sean Paul <seanpaul@chromium.org>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, gtucker@collabora.com,
- linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Christophe Branchereau <cbranchereau@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mark,
+Changes since v1:
+ fixed the dt-bindings maintainer email adress
 
-Thanks for your report!
+ dropped backlight, port, power-supply and reset-gpios as they're 
+ provided by panel-common.yaml as pointed by Krzysztof Kozlowski
 
-On Tue, Dec 13, 2022 at 5:58 PM Mark Brown <broonie@kernel.org> wrote:
-> On Tue, Dec 13, 2022 at 05:56:30AM -0800, KernelCI bot wrote:
-> The KernelCI bisection bot found regressions in at least two KMS tests
-> in the Renesas tree on rk3399-gru-kevin just after the Renesas tree
-> merged up mainline:
->
->    igt-kms-rockchip.kms_vblank.pipe-A-wait-forked
->    igt-kms-rockchip.kms_vblank.pipe-A-query-busy
->
-> which it bisected to ca871659ec16 ("drm/bridge: analogix_dp: Support
-> PSR-exit to disable transition").  I'm not *100%* sure I trust the
-> bisection but it sure is suspicous that two separate bisects for related
-> issues landed on the same commit.
+ changed reg: true to reg : maxItems: 1
 
-... which is an old commit, added in v5.19-rc2, and which did not
-enter through the renesas tree at all?
+Christophe Branchereau (2):
+  drm/panel: add the orisetech ota5601a
+  dt-bindings: display/panel: Add the Focaltech gpt3
 
-> Below is the full report for the bisect for the first test, the bisect
-> for the latter looks identical.  It's got links to full logs for the
-> test run and a Reported-by for the bot - I do see some backtraces from
-> userspace in the output, the first is:
->
-> | IGT-Version: 1.26-gf8a4a0b (aarch64) (Linux: 6.1.0 aarch64)
-> | <14>[   35.444448] [IGT] drm_read: starting subtest short-buffer-wakeup
-> | Starting subtest: short-buffer-wakeup
-> |
-> | (| drm_read:350) CRITICAL: Test assertion failure function generate_event, file ../tests/drm_read.c:65:
-> | (drm_read:350) CRITICAL: <14>[   36.155642] [IGT] drm_read: exiting, ret=98
-> | Failed assertion: kmstest_get_vblank(fd, pipe, DRM_VBLANK_EVENT)
-> |
-> | (drm_read:350) CRITICAL: Last errno: 22, Invalid argument
-> | Stack trace:
-> |
-> |   #0 ../lib/igt_core.c:1933 __igt_fail_assert()
-> |   #1 [<unknown>+0xd5362770]
-> |   #2 [<unknown>+0xd536193c]
-> |   #3 [__libc_start_main+0xe8]
-> |   #4 [<unknown>+0xd5361974]
-> |   #5 [<unknown<6>[   36.162851] Console: switching to colour frame buffer device 300x100>+0xd5361974]
-> | Subtest short-buffer-wakeup failed.
->
-> Unfortunately we don't have current results from mainline or -next.
+ .../display/panel/focaltech,gpt3.yaml         |  56 +++
+ drivers/gpu/drm/panel/Kconfig                 |   9 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-orisetech-ota5601a.c  | 351 ++++++++++++++++++
+ 4 files changed, 417 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/focaltech,gpt3.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-orisetech-ota5601a.c
 
-Gr{oetje,eeting}s,
+-- 
+2.35.1
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
