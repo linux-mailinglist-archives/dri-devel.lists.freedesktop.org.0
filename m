@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6DD964C996
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 14:02:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C56DD64C997
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 14:02:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E61BB10E3F9;
-	Wed, 14 Dec 2022 13:01:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67CF010E3F5;
+	Wed, 14 Dec 2022 13:01:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A42310E3F4
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 13:01:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52CC510E3F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 13:01:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1671022886; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1671022896; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Xz93IPFieV9WZW5Gg4FpvmQyVwuBdgxq4Bwe+uEuf+8=;
- b=CXGjkewKSL1heZ8BJd/MmWY9TG4IYsU+t6d6zAoCqRIO/38IJF0Vf0XAOaGlMhzmwubZau
- aUuw1svfwrCu7RL+gHSITIsyKtt/BFIbrSaT6NXuCjLsG+RMfeHNmpkcN+1f/CbST2CRJ9
- WfFnBedMnAlwEOjVq7eiXeKw81g6O4w=
+ bh=54+4ueu5T1/xC0rmHnqvYZ6EX75p2F2DCkDDVJurBq8=;
+ b=AYA5uFXVtLsqM5Mwh7qvJwRdGdJy/7tQE13iGDpRyM0xYx4nuqgL9deriatRy/FJkwV3us
+ mbAG9Hnemi5O71+4CPskroO2XMdfvQ2z9IKj2nS0QE3BcZusLf5oy8tKoq5wpadmU33dCO
+ VVJg9q9xPJZJ+4hdsQ9bPpFTufZh9OY=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Phong LE <ple@baylibre.com>, Neil Armstrong <neil.armstrong@linaro.org>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -30,10 +30,9 @@ To: Phong LE <ple@baylibre.com>, Neil Armstrong <neil.armstrong@linaro.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH 09/10] drm: bridge: it66121: Move VID/PID to new
- it66121_chip_info structure
-Date: Wed, 14 Dec 2022 14:01:22 +0100
-Message-Id: <20221214130122.12911-1-paul@crapouillou.net>
+Subject: [PATCH 10/10] drm: bridge: it66121: Add support for the IT6610
+Date: Wed, 14 Dec 2022 14:01:31 +0100
+Message-Id: <20221214130131.12962-1-paul@crapouillou.net>
 In-Reply-To: <20221214125821.12489-1-paul@crapouillou.net>
 References: <20221214125821.12489-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -56,94 +55,231 @@ Cc: Paul Cercueil <paul@crapouillou.net>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This will make it easier later to introduce support for new chips in
-this driver.
+Add support for the IT6610 HDMI encoder.
+
+The hardware is very similar, and therefore the driver did not require
+too many changes. Some bits are only available on the IT66121, and
+vice-versa. Also, the IT6610 requires specific polarities on the DE and
+pixel lines.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/bridge/ite-it66121.c | 27 +++++++++++++++------------
- 1 file changed, 15 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/bridge/ite-it66121.c | 108 +++++++++++++++++++++------
+ 1 file changed, 86 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-index 7972003d4776..43b027b85b8e 100644
+index 43b027b85b8e..b34860871627 100644
 --- a/drivers/gpu/drm/bridge/ite-it66121.c
 +++ b/drivers/gpu/drm/bridge/ite-it66121.c
-@@ -35,10 +35,6 @@
- #define IT66121_DEVICE_ID0_REG			0x02
- #define IT66121_DEVICE_ID1_REG			0x03
+@@ -68,6 +68,7 @@
+ #define IT66121_AFE_XP_ENO			BIT(4)
+ #define IT66121_AFE_XP_RESETB			BIT(3)
+ #define IT66121_AFE_XP_PWDI			BIT(2)
++#define IT6610_AFE_XP_BYPASS			BIT(0)
  
--#define IT66121_VENDOR_ID0			0x54
--#define IT66121_VENDOR_ID1			0x49
--#define IT66121_DEVICE_ID0			0x12
--#define IT66121_DEVICE_ID1			0x06
- #define IT66121_REVISION_MASK			GENMASK(7, 4)
- #define IT66121_DEVICE_ID1_MASK			GENMASK(3, 0)
+ #define IT66121_AFE_IP_REG			0x64
+ #define IT66121_AFE_IP_GAINBIT			BIT(7)
+@@ -284,7 +285,13 @@
  
-@@ -286,13 +282,12 @@
- #define IT66121_AUD_SWL_16BIT			0x2
- #define IT66121_AUD_SWL_NOT_INDICATED		0x0
- 
--#define IT66121_VENDOR_ID0			0x54
--#define IT66121_VENDOR_ID1			0x49
--#define IT66121_DEVICE_ID0			0x12
--#define IT66121_DEVICE_ID1			0x06
--#define IT66121_DEVICE_MASK			0x0F
  #define IT66121_AFE_CLK_HIGH			80000 /* Khz */
  
-+struct it66121_chip_info {
-+	u16 vid, pid;
++enum chip_id {
++	ID_IT6610,
++	ID_IT66121,
 +};
 +
- struct it66121_ctx {
- 	struct regmap *regmap;
- 	struct drm_bridge bridge;
-@@ -311,6 +306,7 @@ struct it66121_ctx {
- 		u8 swl;
- 		bool auto_cts;
- 	} audio;
-+	const struct it66121_chip_info *info;
+ struct it66121_chip_info {
++	enum chip_id id;
+ 	u16 vid, pid;
  };
  
- static const struct regmap_range_cfg it66121_regmap_banks[] = {
-@@ -1451,6 +1447,7 @@ static const char * const it66121_supplies[] = {
+@@ -391,16 +398,22 @@ static int it66121_configure_afe(struct it66121_ctx *ctx,
  
- static int it66121_probe(struct i2c_client *client)
- {
-+	const struct i2c_device_id *id = i2c_client_get_device_id(client);
- 	u32 revision_id, vendor_ids[2] = { 0 }, device_ids[2] = { 0 };
- 	struct device_node *ep;
- 	int ret;
-@@ -1472,6 +1469,7 @@ static int it66121_probe(struct i2c_client *client)
+ 		ret = regmap_write_bits(ctx->regmap, IT66121_AFE_IP_REG,
+ 					IT66121_AFE_IP_GAINBIT |
+-					IT66121_AFE_IP_ER0 |
+-					IT66121_AFE_IP_EC1,
++					IT66121_AFE_IP_ER0,
+ 					IT66121_AFE_IP_GAINBIT);
+ 		if (ret)
+ 			return ret;
  
- 	ctx->dev = dev;
- 	ctx->client = client;
-+	ctx->info = (const struct it66121_chip_info *) id->driver_data;
+-		ret = regmap_write_bits(ctx->regmap, IT66121_AFE_XP_EC1_REG,
+-					IT66121_AFE_XP_EC1_LOWCLK, 0x80);
+-		if (ret)
+-			return ret;
++		if (ctx->info->id == ID_IT66121) {
++			ret = regmap_write_bits(ctx->regmap, IT66121_AFE_IP_REG,
++						IT66121_AFE_IP_EC1, 0);
++			if (ret)
++				return ret;
++
++			ret = regmap_write_bits(ctx->regmap, IT66121_AFE_XP_EC1_REG,
++						IT66121_AFE_XP_EC1_LOWCLK, 0x80);
++			if (ret)
++				return ret;
++		}
+ 	} else {
+ 		ret = regmap_write_bits(ctx->regmap, IT66121_AFE_XP_REG,
+ 					IT66121_AFE_XP_GAINBIT |
+@@ -411,17 +424,24 @@ static int it66121_configure_afe(struct it66121_ctx *ctx,
  
- 	of_property_read_u32(ep, "bus-width", &ctx->bus_width);
- 	of_node_put(ep);
-@@ -1523,8 +1521,8 @@ static int it66121_probe(struct i2c_client *client)
- 	revision_id = FIELD_GET(IT66121_REVISION_MASK, device_ids[1]);
- 	device_ids[1] &= IT66121_DEVICE_ID1_MASK;
+ 		ret = regmap_write_bits(ctx->regmap, IT66121_AFE_IP_REG,
+ 					IT66121_AFE_IP_GAINBIT |
+-					IT66121_AFE_IP_ER0 |
+-					IT66121_AFE_IP_EC1, IT66121_AFE_IP_ER0 |
+-					IT66121_AFE_IP_EC1);
++					IT66121_AFE_IP_ER0,
++					IT66121_AFE_IP_ER0);
+ 		if (ret)
+ 			return ret;
  
--	if (vendor_ids[0] != IT66121_VENDOR_ID0 || vendor_ids[1] != IT66121_VENDOR_ID1 ||
--	    device_ids[0] != IT66121_DEVICE_ID0 || device_ids[1] != IT66121_DEVICE_ID1) {
-+	if ((vendor_ids[1] << 8 | vendor_ids[0]) != ctx->info->vid ||
-+	    (device_ids[1] << 8 | device_ids[0]) != ctx->info->pid) {
- 		return -ENODEV;
+-		ret = regmap_write_bits(ctx->regmap, IT66121_AFE_XP_EC1_REG,
+-					IT66121_AFE_XP_EC1_LOWCLK,
+-					IT66121_AFE_XP_EC1_LOWCLK);
+-		if (ret)
+-			return ret;
++		if (ctx->info->id == ID_IT66121) {
++			ret = regmap_write_bits(ctx->regmap, IT66121_AFE_IP_REG,
++						IT66121_AFE_IP_EC1,
++						IT66121_AFE_IP_EC1);
++			if (ret)
++				return ret;
++
++			ret = regmap_write_bits(ctx->regmap, IT66121_AFE_XP_EC1_REG,
++						IT66121_AFE_XP_EC1_LOWCLK,
++						IT66121_AFE_XP_EC1_LOWCLK);
++			if (ret)
++				return ret;
++		}
  	}
  
-@@ -1563,8 +1561,13 @@ static const struct of_device_id it66121_dt_match[] = {
+ 	/* Clear reset flags */
+@@ -430,6 +450,14 @@ static int it66121_configure_afe(struct it66121_ctx *ctx,
+ 	if (ret)
+ 		return ret;
+ 
++	if (ctx->info->id == ID_IT6610) {
++		ret = regmap_write_bits(ctx->regmap, IT66121_AFE_XP_REG,
++					IT6610_AFE_XP_BYPASS,
++					IT6610_AFE_XP_BYPASS);
++		if (ret)
++			return ret;
++	}
++
+ 	return it66121_fire_afe(ctx);
+ }
+ 
+@@ -491,7 +519,6 @@ static int it66121_get_edid_block(void *context, u8 *buf,
+ 				  unsigned int block, size_t len)
+ {
+ 	struct it66121_ctx *ctx = context;
+-	unsigned int val;
+ 	int remain = len;
+ 	int offset = 0;
+ 	int ret, cnt;
+@@ -572,10 +599,12 @@ static int it66121_bridge_attach(struct drm_bridge *bridge,
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
+-				IT66121_CLK_BANK_PWROFF_RCLK, 0);
+-	if (ret)
+-		return ret;
++	if (ctx->info->id == ID_IT66121) {
++		ret = regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
++					IT66121_CLK_BANK_PWROFF_RCLK, 0);
++		if (ret)
++			return ret;
++	}
+ 
+ 	ret = regmap_write_bits(ctx->regmap, IT66121_INT_REG,
+ 				IT66121_INT_TX_CLK_OFF, 0);
+@@ -713,6 +742,24 @@ static void it66121_bridge_disable(struct drm_bridge *bridge,
+ 	ctx->connector = NULL;
+ }
+ 
++static int it66121_bridge_check(struct drm_bridge *bridge,
++				struct drm_bridge_state *bridge_state,
++				struct drm_crtc_state *crtc_state,
++				struct drm_connector_state *conn_state)
++{
++	struct it66121_ctx *ctx = container_of(bridge, struct it66121_ctx, bridge);
++
++	if (ctx->info->id == ID_IT6610) {
++		/* The IT6610 only supports these settings */
++		bridge_state->input_bus_cfg.flags |= DRM_BUS_FLAG_DE_HIGH |
++			DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE;
++		bridge_state->input_bus_cfg.flags &=
++			~DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE;
++	}
++
++	return 0;
++}
++
+ static
+ void it66121_bridge_mode_set(struct drm_bridge *bridge,
+ 			     const struct drm_display_mode *mode,
+@@ -758,9 +805,12 @@ void it66121_bridge_mode_set(struct drm_bridge *bridge,
+ 	if (regmap_write(ctx->regmap, IT66121_HDMI_MODE_REG, IT66121_HDMI_MODE_HDMI))
+ 		goto unlock;
+ 
+-	if (regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
+-			      IT66121_CLK_BANK_PWROFF_TXCLK, IT66121_CLK_BANK_PWROFF_TXCLK))
++	if (ctx->info->id == ID_IT66121 &&
++	    regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
++			      IT66121_CLK_BANK_PWROFF_TXCLK,
++			      IT66121_CLK_BANK_PWROFF_TXCLK)) {
+ 		goto unlock;
++	}
+ 
+ 	if (it66121_configure_input(ctx))
+ 		goto unlock;
+@@ -768,7 +818,11 @@ void it66121_bridge_mode_set(struct drm_bridge *bridge,
+ 	if (it66121_configure_afe(ctx, adjusted_mode))
+ 		goto unlock;
+ 
+-	regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG, IT66121_CLK_BANK_PWROFF_TXCLK, 0);
++	if (ctx->info->id == ID_IT66121 &&
++	    regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
++			      IT66121_CLK_BANK_PWROFF_TXCLK, 0)) {
++		goto unlock;
++	}
+ 
+ unlock:
+ 	mutex_unlock(&ctx->lock);
+@@ -859,6 +913,7 @@ static const struct drm_bridge_funcs it66121_bridge_funcs = {
+ 	.atomic_get_input_bus_fmts = it66121_bridge_atomic_get_input_bus_fmts,
+ 	.atomic_enable = it66121_bridge_enable,
+ 	.atomic_disable = it66121_bridge_disable,
++	.atomic_check = it66121_bridge_check,
+ 	.mode_set = it66121_bridge_mode_set,
+ 	.mode_valid = it66121_bridge_mode_valid,
+ 	.detect = it66121_bridge_detect,
+@@ -1557,17 +1612,26 @@ static void it66121_remove(struct i2c_client *client)
+ 
+ static const struct of_device_id it66121_dt_match[] = {
+ 	{ .compatible = "ite,it66121" },
++	{ .compatible = "ite,it6610" },
+ 	{ }
  };
  MODULE_DEVICE_TABLE(of, it66121_dt_match);
  
-+static const struct it66121_chip_info it66121_chip_info = {
-+	.vid = 0x4954,
-+	.pid = 0x0612,
+ static const struct it66121_chip_info it66121_chip_info = {
++	.id = ID_IT66121,
+ 	.vid = 0x4954,
+ 	.pid = 0x0612,
+ };
+ 
++static const struct it66121_chip_info it6610_chip_info = {
++	.id = ID_IT6610,
++	.vid = 0xca00,
++	.pid = 0x0611,
 +};
 +
  static const struct i2c_device_id it66121_id[] = {
--	{ "it66121", 0 },
-+	{ "it66121", (kernel_ulong_t) &it66121_chip_info },
+ 	{ "it66121", (kernel_ulong_t) &it66121_chip_info },
++	{ "it6610", (kernel_ulong_t) &it6610_chip_info },
  	{ }
  };
  MODULE_DEVICE_TABLE(i2c, it66121_id);
