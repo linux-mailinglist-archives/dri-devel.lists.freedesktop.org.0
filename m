@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D24F864C8F5
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 13:24:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A72C64C8F2
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Dec 2022 13:24:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA1C610E3CC;
-	Wed, 14 Dec 2022 12:24:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F78E10E3CF;
+	Wed, 14 Dec 2022 12:24:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [85.220.165.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F43D10E3C9
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 12:23:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1635F10E3C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 12:23:52 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1p5QQ4-0005rW-Fq; Wed, 14 Dec 2022 12:59:28 +0100
+ id 1p5QQ6-0005u5-Oh; Wed, 14 Dec 2022 12:59:30 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1p5QQ1-004SUN-5R; Wed, 14 Dec 2022 12:59:25 +0100
+ id 1p5QQ5-004SUT-96; Wed, 14 Dec 2022 12:59:30 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1p5QQ0-00511y-V2; Wed, 14 Dec 2022 12:59:24 +0100
+ id 1p5QQ5-005122-86; Wed, 14 Dec 2022 12:59:29 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>
-Subject: [PATCH v2 0/2] drm/imx/lcdc: Implement DRM driver for imx21
-Date: Wed, 14 Dec 2022 12:59:19 +0100
-Message-Id: <20221214115921.1845994-1-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH v2 1/2] dt-bindings: display: imx: Describe drm binding for
+ fsl, imx-lcdc
+Date: Wed, 14 Dec 2022 12:59:20 +0100
+Message-Id: <20221214115921.1845994-2-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221214115921.1845994-1-u.kleine-koenig@pengutronix.de>
+References: <20221214115921.1845994-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1243;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2164;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=E9rmnqIACjL1gD6hd1h/JCLXSWUFev5rGvO+Iia5AqI=;
- b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjmbqKutNhz2hpCA8uMWSiFV+KNEi5A7YyVOQwWLD3
- mbBX60qJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY5m6igAKCRDB/BR4rcrsCbB4B/
- 9oCNGQY5wLWXGX9nUovs667z3OpDvVlPSMXtQsflP0KhsltwK4aEKhyr3mErw0Zif3arsN+P5hioLm
- VFz6Z15BpP9Y6lAM2mt820YUYD22k8nW8CiWVBYYRvi7BT9HB5gDXnFBeMWbegMhFrqVpO8rUz+Vq6
- yy8s0w0NZVvJy9J0B6OnY6V2/529xPZ2FqW9PhAozqvBHcQkqFzeKE8Mwaq1pKegF9xbrNIMgUTzfQ
- ZQ3Qjh/tpyZdCFtUCL9mIsWT8YisqFrRNqsvdUGUR7XiShxfVjYrFXxpvDiC6x0C9oFiwqUBKKV4lx
- uOU2UNnukIcET9Svw13SzMgpG3a/Dq
+ bh=1NIdH+33Goz5fyXKjLETK/Z17qROmoceRqEUPWsk8nw=;
+ b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjmbqOp53HkCUZ8uIMQ5d7zzjETuf54RrPmcDvAeBA
+ kYYh77GJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY5m6jgAKCRDB/BR4rcrsCRTxB/
+ sGm7y25pSIRQRMeYgeRppp6NUSDQAqlKHR0A5mzul9lUuV17Ou1GGhlnCMkbfVynWYTt12wvYbeDTJ
+ VEOMqfFZK5BMcwrancax3vnGtZaY1E8r88BWlHfcaV1PQ8ygYc8GK5yrziOh0s99BYKM/vo4xXQzol
+ A5NZGzmuXozp/c7FhGmy3CnHn2TKJZH/wvJ0JT1lKbmf/+0clra+qnW2ErDuHQC+NxTKXmgA/u45pj
+ kBoWr5O9kY4VmwS02bpH/oSAjO1xdFJ+vgSiuNPWV4//ze3LXCvh8BY/56hv6iOZltZa4O9/StZX2e
+ GPtwi3z5qdhJBYo1XjeRO/NKTIW04W
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -73,40 +76,94 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Modify the existing (fb-like) binding to support the drm-like binding in
+parallel.
 
-Compared to (implicit) v1[1] the device tree binding should be good
-enough now to pass the dts linters.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ .../bindings/display/imx/fsl,imx-lcdc.yaml    | 45 ++++++++++++++++++-
+ 1 file changed, 44 insertions(+), 1 deletion(-)
 
-As before, Marian Cichy is the declared author of the driver, but he
-left Pengutronix, so the email address doesn't work any more.
-
-This is based on top of v6.1 + 93266da2409b ("dt-bindings: display:
-Convert fsl,imx-fb.txt to dt-schema") which is currently in next via
-branch 'for-next' of
-git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git .
-
-Best regards
-Uwe
-
-[1] https://lore.kernel.org/dri-devel/20220128105849.368438-1-u.kleine-koenig@pengutronix.de
-
-Marian Cichy (1):
-  drm/imx/lcdc: Implement DRM driver for imx21
-
-Uwe Kleine-König (1):
-  dt-bindings: display: imx: Describe drm binding for fsl,imx-lcdc
-
- .../bindings/display/imx/fsl,imx-lcdc.yaml    |  45 +-
- drivers/gpu/drm/imx/Kconfig                   |   7 +
- drivers/gpu/drm/imx/Makefile                  |   2 +
- drivers/gpu/drm/imx/imx-lcdc.c                | 610 ++++++++++++++++++
- 4 files changed, 663 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/imx/imx-lcdc.c
-
-
-base-commit: 830b3c68c1fb1e9176028d02ef86f3cf76aa2476
-prerequisite-patch-id: c3ef3de02516b5c159e76b40d2b4348a5ce0fe51
+diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml
+index 35a8fff036ca..2a8225b10890 100644
+--- a/Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml
++++ b/Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml
+@@ -21,6 +21,9 @@ properties:
+               - fsl,imx25-fb
+               - fsl,imx27-fb
+           - const: fsl,imx21-fb
++      - items:
++          - const: fsl,imx25-lcdc
++          - const: fsl,imx21-lcdc
+ 
+   clocks:
+     maxItems: 3
+@@ -31,6 +34,9 @@ properties:
+       - const: ahb
+       - const: per
+ 
++  port:
++    $ref: /schemas/graph.yaml#/properties/port
++
+   display:
+     $ref: /schemas/types.yaml#/definitions/phandle
+ 
+@@ -59,17 +65,54 @@ properties:
+     description:
+       LCDC Sharp Configuration Register value.
+ 
++if:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - fsl,imx1-lcdc
++          - fsl,imx21-lcdc
++then:
++  properties:
++    display: false
++    fsl,dmacr: false
++    fsl,lpccr: false
++    fsl,lscr1: false
++
++  required:
++    - port
++
++else:
++  properties:
++    port: false
++
++  required:
++    - display
++
+ required:
+   - compatible
+   - clocks
+   - clock-names
+-  - display
+   - interrupts
+   - reg
+ 
+ additionalProperties: false
+ 
+ examples:
++  - |
++    lcdc@53fbc000 {
++        compatible = "fsl,imx25-lcdc", "fsl,imx21-lcdc";
++        reg = <0x53fbc000 0x4000>;
++        interrupts = <39>;
++        clocks = <&clks 103>, <&clks 66>, <&clks 49>;
++        clock-names = "ipg", "ahb", "per";
++
++        port {
++            parallel_out: endpoint {
++              remote-endpoint = <&panel_in>;
++            };
++        };
++    };
+   - |
+     imxfb: fb@10021000 {
+         compatible = "fsl,imx21-fb";
 -- 
 2.38.1
 
