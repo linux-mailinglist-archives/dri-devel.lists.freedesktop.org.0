@@ -2,65 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D28B64D868
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 10:18:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7775864D87C
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 10:22:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B51CA10E509;
-	Thu, 15 Dec 2022 09:17:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CAB810E50C;
+	Thu, 15 Dec 2022 09:22:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4254C10E509;
- Thu, 15 Dec 2022 09:17:43 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id s10so9324174ljg.1;
- Thu, 15 Dec 2022 01:17:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=CZa1tQeal7WxUPbkZznUJr94JvZw1/WR/slI556+nZo=;
- b=Mv29BTqC3MeaL1e5F86OYaM77bnehrzUJjrj1r/nGLN8jiEKIYZQjzI021hCuy3nrW
- 9yDgpTGbi4DYoN/C6w3HU4c3wvlq4b71NPj8ywQy53lf6TnR9rNGuZmyIGQCJYERQXNr
- Wl5Bz2D9Wk0sD6oyLeqK3Z43xBcxlGgFbmx0JGgaVPdv2Credpkk/0j/t34mx5Wsb+Cz
- q5dlkGLsu2p8OTiCrdFaQFeenyho6W8HliO/8kzAMq91O82KwnVGX21ztXCV02+W4Ps4
- sJlJ0EAYU0Db0cNgrNaDzd3OwY6kYBWsagAanP+zJciYt9qPdSZiT+ptqjXjXtwcx5lF
- 0uNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CZa1tQeal7WxUPbkZznUJr94JvZw1/WR/slI556+nZo=;
- b=m137ce1AeKQ1Eaz14LpU+kDnPe4qaoJdyrHyY70eotdRTzIEJi1de/8hK+LjApJ11i
- jgX8thDesnAoOTbeCU/8O2DrEO7NF9Mo0vudcCa4/j+qjylHPR9/LMdg6jjkxGjtwK99
- pwNuHRYL0e77GKiv7iVV4imGUfN3W5CRV99h5sWH/6slGM2cad51hbCQONqxrb4XU+va
- at7EiLchibZ1zVS8PxSK1w1Vp3Ooj0pCiO6W7V6F11wnPjdLg2wWtCKrAtGsyaYM5GER
- DVRgIg4kSEuitR5gXCAgykdK6ULbwvFJw4vCAg0oH1lN8HBx9HlLy0hRc+mpEzWgJjMC
- VBrQ==
-X-Gm-Message-State: ANoB5pkVypqU+74QV2ktCQ3wLlkTotK9zwD1Ar3eaEZZyyfWNa4NxZuv
- EE77lxzAni44waxdvZz273A=
-X-Google-Smtp-Source: AA0mqf6bmeSfEW1dQxlzn3Zvb1qqOci1aXuqfAR7c3qVWfYNIKYQVeIbeMIaO+Fv/No2oPlbTyScxA==
-X-Received: by 2002:a2e:a90f:0:b0:277:3cb2:da16 with SMTP id
- j15-20020a2ea90f000000b002773cb2da16mr6919740ljq.38.1671095861366; 
- Thu, 15 Dec 2022 01:17:41 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- t25-20020a05651c205900b0027a17f86998sm786551ljo.127.2022.12.15.01.17.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Dec 2022 01:17:40 -0800 (PST)
-Date: Thu, 15 Dec 2022 11:17:29 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH 16/16] drm/amd/display: Don't restrict bpc to 8 bpc
-Message-ID: <20221215111729.50ee7808@eldfell>
-In-Reply-To: <CADnq5_M8Z2QRze60AFtmF6jTw8zpTpM-MPPmgejoUCb7Rv1ZrA@mail.gmail.com>
-References: <20221212182137.374625-1-harry.wentland@amd.com>
- <20221212182137.374625-17-harry.wentland@amd.com>
- <114c2e02-41c8-8576-f88d-1c50f41deb9e@mailbox.org>
- <20221214110128.1cd58dea@eldfell>
- <CADnq5_M8Z2QRze60AFtmF6jTw8zpTpM-MPPmgejoUCb7Rv1ZrA@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from EUR03-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur03on2115.outbound.protection.outlook.com [40.107.103.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F4D110E50C
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 09:22:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VjYHkSzWRKffb8B/msBTjLvFKeLhCupTcJuyPsCA3vKq89MHMRe5qHaabSKbLbOuSSAW+PW27pjz9pTdcRXX8wrmmRuTSlf7iKgkKB7IU2NSUyswzzRzTP7QX77pPUbdgBPT+VkVSJVmWPXrJd78V7VzKY34493PWWkQ/7NwuX5pmIre6CLFevC6Pa/ekCArJ+YgtDbBEVeUMfI1Wms/0FW6023HJIZJIZLD7DXQVXxU9fTZQhMXRH1Cf6y1vDZuhemkSWeyhcQ5Uj/7TZuM87HtRcTACaW6tIAbO1dITrbFviZsKe9OaVvhCjT/cHXOZhUaZs+ty+MBhBfqofsG3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3QaJDzqpgTZPumsvHgyGXdUFGuiii0y9STUnUCJYYMQ=;
+ b=iJ+hxfZ7vm7kslDM17rhtkylh0rQ7QdiybuluHNGPY7AjrnFDzH2c/7GTqdOcBVu/3qkoNynopcMzi5Lx6CT/pHj/6TDlrB5zkLUOW3+Zp6iGX2w/aLueL53dtRjqSSSWYuhogSRsiVOK0V/5WHuL4xtvemCe1uJ/U6YzTZuH6tDZDxMD1cNvK2mJEzGDpTMATlCD0SZMECfXbM36wrBg/27WALujIBWB5NJnHFPG1tmsxrznsAL7URK7BLyR02e2t9k+OvGHQmHHrIhmNhV7I30x5d6t43JUbBL4W8IX952BODNr2qkFLgFhuY19ZOUObx1XM9qNyEEJLa7PtMi9Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
+ s=selector2-mysnt-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3QaJDzqpgTZPumsvHgyGXdUFGuiii0y9STUnUCJYYMQ=;
+ b=BYswrmsEJKQ93HJIaMrj9bN+lTUbgwyPY8/RQK4mGTbBiVcQOfwM4wZBUs1lYSC4uQDw5f58es72/8nawUxjCipmgdZ6qQMSFhMJFw/YS7dAEp+ddwHbYKtID0///rl1lNWzlpRIlO0sDc5m66KklG3q9YXMTueO03ObOjmnxC0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=kontron.de;
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
+ by VI1PR10MB3326.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:803:139::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.11; Thu, 15 Dec
+ 2022 09:22:05 +0000
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f209:bc86:3574:2ae6]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f209:bc86:3574:2ae6%5]) with mapi id 15.20.5880.019; Thu, 15 Dec 2022
+ 09:22:04 +0000
+Message-ID: <7a58566d-9069-bc65-9a87-e79404d05e0d@kontron.de>
+Date: Thu, 15 Dec 2022 10:22:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v10 16/18] drm: bridge: samsung-dsim: Add i.MX8M Mini/Nano
+ support
+Content-Language: en-US
+To: Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Fancy Fang <chen.fang@nxp.com>,
+ Tim Harvey <tharvey@gateworks.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ Marek Vasut <marex@denx.de>
+References: <20221214125907.376148-1-jagan@amarulasolutions.com>
+ <20221214125907.376148-17-jagan@amarulasolutions.com>
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
+In-Reply-To: <20221214125907.376148-17-jagan@amarulasolutions.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BE1P281CA0039.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:22::10) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:263::10)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Q3Y9sJryo4WH73qHCcO18k1";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|VI1PR10MB3326:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3d04841b-6a2c-4c2f-b293-08dade7dd4ae
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: WbVOui3kUhz9IafEmMtJ0Bvy3Nk60UNyyNQMp6Af97xzlnAEqCPf5kTgP9HGDXsA/oaiTCH6tc+TjoCXEPvKl/dyb92tBuWeD/JHlfrk4IgCs9YqXDTkft//H7cuUfElgYPg2e+EPXrEAU79AA2g1boHfGbrBNF0cHvl/7jvuvLFLCoKqGo0V1VqhcMKsYPYLCA0EAfHxoSTO9d3OC6zvKxLnodl0RXErO8oq/S+D+nTI7rgZLR6yQ/k1Vob8p+c8caYUOsnQ6fcB1B9b4+kgSskJkK0Wx6G/qrJbfynGt7fQSPdzA14IhLwof+InM6isY2VMJotJzt47qazBaDgka7LipQRrPfdJ8Epg+gW3F+FSJTggys9LTxwSSH0V3tzC7Z158SbomftKK0BzIOJu3ha0VmMVbUy1bGOcbMCipUh5dZWinju0qNojcBiBrdU6ww3jK6KVz9razKKOCBwf3S8UFgstu4/vr4xifg3uYbiYVv3wDIhF6ydElFmmC7+6oEGLpjCx1/iQrrDhq/Jr0RtJLNX6c0AJRt9WW3xJZu2g8Z+FisRtaKjDhD5FUIHlWRmNmVM0Xae8qVfF/8bxpb/RuoGB0W9m6gbHwi7seNw3ef1/mEsI5L9UgxmkPJoCxlS7zRUCdYApTZlg6s9cvUtpX0KJYpWPCeqe3vp10NbR3kyAMj57T6Cfo0ZQtT8VKtlM6Toclz3/lh8AcVFhdhr/I3oOz3jkB3FuaoIAGqbz1qjuRYpzJzTGg2rSMGt
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(366004)(396003)(376002)(39860400002)(346002)(136003)(451199015)(8676002)(44832011)(921005)(6506007)(6666004)(4326008)(6512007)(66946007)(38100700002)(53546011)(4744005)(186003)(66556008)(66476007)(2906002)(316002)(110136005)(54906003)(6486002)(478600001)(36756003)(31696002)(86362001)(31686004)(41300700001)(2616005)(8936002)(7416002)(5660300002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OC9ZS3BwZzd4QmhYWGIxN2UzTkNVUlpXQ3p4aVRtUU9hUVFPRmdTTllQUmZG?=
+ =?utf-8?B?bURaN2QrUVZaYUlvNkdWVFNqRDZsb3FOdkF3WFVHOUgySjVLNE5CcThpeTVt?=
+ =?utf-8?B?SmRhOXcrbkhSRGFBOEJjdmp0SGxQVXV1c1dTWG1lcFZBY3l6eGNwM2s3SDF5?=
+ =?utf-8?B?WU5Ub3ZXLzRSVXdiMkRQYTYvOTFveVE4YmlneUFGelVPWDNmVms3aGVDSXFQ?=
+ =?utf-8?B?S1VXbnVaeHJxMVl1VFhkTnFnTW9IV01rb3VLdG9rZi92bE5zM2NmeUlQZnpr?=
+ =?utf-8?B?K3RGNm9DbFdEVDZaZC9XZllOT1dHV1RpK09GelVGS2tYMFRROHh5TXNZK3BY?=
+ =?utf-8?B?UkxQUnFqQXo3SjBXcjhNV2pQYzZJNXkzZXBhWFBYZGRnOHYvNmNMTHk1eEw5?=
+ =?utf-8?B?bmFWN09URS9FaGdrczFaQUdFalk2aFRSWVZ6bm9kWmFFRFU2YjVTZG5vejBJ?=
+ =?utf-8?B?cmh6eFh6UVdBSjdLQ1ptN2NHNm52MFBaRXlTSzdoYUMwMXZQUWRxcVNSOVRV?=
+ =?utf-8?B?dE4waDBtRkFPWnNpZ1pZQWhsVGdiVTg5bHFwMWl3RHQ1cWl3cjU3NEhrUGJX?=
+ =?utf-8?B?WVp6NEFhZzFaYk5BeUNyQ1lMakNYR0kzaUtsT1JmYldzVG5EMW1qMHpRN25H?=
+ =?utf-8?B?TXpPc2JXeW9zcy9nMlBwdnNWT2VHMndUMWh4SVNWM3JxL3E1dFJnaU5qUTRi?=
+ =?utf-8?B?YXdHUkFvcUU2RlN2M1NiaUppZWlHL0NVNXZWQ2tidVBtbjZPY3pLdUM5Zmwz?=
+ =?utf-8?B?SW5GdjJnT2lxZHVGbkJ2TUE0OFZ6c2NNQkF3NkF0WkR3QXdrWDR1aVRBTkUw?=
+ =?utf-8?B?Y3l6VlQ3S21maGxWQ3RQZmhpd3RnaVpYOUJBYm5SbCt4aEhTMkl4eXV5cEZn?=
+ =?utf-8?B?TDZTZkl4USszQzNhYlV4a0wzUm1POEZBWFZ1VFVEa0hOQTN2T21lZDZKSTEz?=
+ =?utf-8?B?TUJlYXh0a3RBQm1LN3pUYWNOelpIdGNoQmx2cnA3TlVEZStuT0drZ0VORFNm?=
+ =?utf-8?B?Y2RpenBhR0IzdmVqejNUN2FoMGkxSXE2RzV1UDhHd3FWV3ZMamdQbk1EcWFK?=
+ =?utf-8?B?R21pWXpselhLMG54YVN4b3dJT1lqeGVQR1JpNzdDTVFIL3NnQk9KVHpZSmJF?=
+ =?utf-8?B?Wkwrblp1WjB1RXByTVI0SHlkVlZRbzJ0NENHU080SmZidzd5UkVUbFlESndU?=
+ =?utf-8?B?UjROY3pEd3ViRlpnUWIrTXM5emZ6L25OOS9NQnM3clYwSEwrNGcxczRWTkNB?=
+ =?utf-8?B?YURKYzJNT1VoZTB1bGFRRFh3RTBmaFlqT1hpbENUa3ZYaUFIaVdxbjR6L0Fr?=
+ =?utf-8?B?N2w0NWpObUdhcStXL3M4VFlOcmk0ekdMNU5DTXdSWGZVYkkwd21OdHNoTEpD?=
+ =?utf-8?B?eFJoZ1RyWGhJV082MWZzbDVuaE1mRGttZXVTMW1adjAwcmprZTJTZXZjNjJP?=
+ =?utf-8?B?U0xPeXk0M1VEY3BzTEVQSGI5WEs4MEJaMTd6Qm5wTXptdTY4YnRyZTJKbFR4?=
+ =?utf-8?B?Z2tHQnllQW43WGtWN1VITzNwaHF3UWljeHorVU1FS1gzYTlNV0xjZjcvYXF4?=
+ =?utf-8?B?Z3FwL1NuTnpCNTVic1FRYTN6WlNXM0dXQjQ5ZlQ3SjlnaUs4OEJrdlluYmpK?=
+ =?utf-8?B?TlFlZDZSWDVvMFZMUGpOamlCVEVncWJLL2RsVmVOWTQzcHJLdmdJZlRsTWxV?=
+ =?utf-8?B?eUVDSUZjYm9OWlloY0xUZ1VacHhGWTN3cU9kMDlGYWtDbGNQQW1LUm5yVytk?=
+ =?utf-8?B?TmpqT3RpQXpMcTdVMTdQd2Nlblc2ampvSE5jT3Noci9LdnZsZWtwYjQ0Q29r?=
+ =?utf-8?B?S3FhWWJwVGgvUyt5Q3Btb2dtUkE5b3JxVDB3VncxTWdOWUl6M21GQVVYUjlY?=
+ =?utf-8?B?M29sM1l6eGs1b3BKNGlOYWdka256ODY4aWJqaEVRTW4wbU4vR2ZKTCsySXhi?=
+ =?utf-8?B?TkEzRFQ3NnEwanJUNDB4MEdoWWlveFNMSWdIWHlmY3kzZU9NODBTODhjU0tO?=
+ =?utf-8?B?Wi91VlhkTkFKZkNaaXdDZEpJUzJidUlkelJoWkxueU5TSkJmUEJ1dWRwa0dI?=
+ =?utf-8?B?MEZpZTQyTTdWNFFqdWIvcXZiaGpqZlFtc3d3a1ZJb3QzV1QzN1BIMXdrd1g0?=
+ =?utf-8?B?a2ZEUnpoZVUvVElBb3FWdVl1VndMUXlRNzZHQWdrYURrRlJTRGYvbi9BS0Q1?=
+ =?utf-8?Q?vc+cV7u24JVqh4EGiwT1y2A=3D?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d04841b-6a2c-4c2f-b293-08dade7dd4ae
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2022 09:22:04.8249 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: X37iQgrcshlXO6OewWpnZZQGinXJfZWO8H2jIkkdpcv9ZSDcJ5xhsNlZ/soTJ2cPQZ07BSPhEQFXLSAV1w1tDeNtRXJn6kU/r4l6eNmRAqQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB3326
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,170 +140,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel.daenzer@mailbox.org>,
- amd-gfx@lists.freedesktop.org, Uma Shankar <uma.shankar@intel.com>,
- dri-devel@lists.freedesktop.org, Joshua Ashton <joshua@froggi.es>,
- Vitaly.Prosyak@amd.com
+Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Q3Y9sJryo4WH73qHCcO18k1
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 14.12.22 13:59, Jagan Teki wrote:
+> Samsung MIPI DSIM master can also be found in i.MX8M Mini/Nano SoC.
+> 
+> Add compatible and associated driver_data for it.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 
-On Wed, 14 Dec 2022 10:46:55 -0500
-Alex Deucher <alexdeucher@gmail.com> wrote:
-
-> On Wed, Dec 14, 2022 at 4:01 AM Pekka Paalanen <ppaalanen@gmail.com> wrot=
-e:
-> >
-> > On Tue, 13 Dec 2022 18:20:59 +0100
-> > Michel D=C3=A4nzer <michel.daenzer@mailbox.org> wrote:
-> > =20
-> > > On 12/12/22 19:21, Harry Wentland wrote: =20
-> > > > This will let us pass kms_hdr.bpc_switch.
-> > > >
-> > > > I don't see any good reasons why we still need to
-> > > > limit bpc to 8 bpc and doing so is problematic when
-> > > > we enable HDR.
-> > > >
-> > > > If I remember correctly there might have been some
-> > > > displays out there where the advertised link bandwidth
-> > > > was not large enough to drive the default timing at
-> > > > max bpc. This would leave to an atomic commit/check
-> > > > failure which should really be handled in compositors
-> > > > with some sort of fallback mechanism.
-> > > >
-> > > > If this somehow turns out to still be an issue I
-> > > > suggest we add a module parameter to allow users to
-> > > > limit the max_bpc to a desired value. =20
-> > >
-> > > While leaving the fallback for user space to handle makes some sense
-> > > in theory, in practice most KMS display servers likely won't handle
-> > > it.
-> > >
-> > > Another issue is that if mode validation is based on the maximum bpc
-> > > value, it may reject modes which would work with lower bpc.
-> > >
-> > >
-> > > What Ville (CC'd) suggested before instead (and what i915 seems to be
-> > > doing already) is that the driver should do mode validation based on
-> > > the *minimum* bpc, and automatically make the effective bpc lower
-> > > than the maximum as needed to make the rest of the atomic state work.=
- =20
-> >
-> > A driver is always allowed to choose a bpc lower than max_bpc, so it
-> > very well should do so when necessary due to *known* hardware etc.
-> > limitations.
-> > =20
->=20
-> In the amdgpu case, it's more of a preference thing.  The driver would
-> enable higher bpcs at the expense of refresh rate and it seemed most
-> users want higher refresh rates than higher bpc.
-
-Hi Alex,
-
-we already have userspace in explicit control of the refresh rate.
-Userspace picks the refresh rate first, then the driver silently checks
-what bpc is possible. Userspace preference wins, so bpc is chosen to
-produce the desired refresh rate.
-
-In what cases does the driver really pick a refresh rate on its own?
-
-Or is this about display latency more than throughput, to send a full
-frame in shorter time while not actually increasing refresh rate?
-
-Even for VRR, userspace already explicitly chooses the max refresh
-rate, I believe.
-
-I suppose optimising power consumption by choosing a lower bpc than
-what would work is a use case, but that's a bit awkward currently
-because there is no way for userspace to opt-out of that. OTOH,
-userspace can already opt-in for that by lowering max_bpc.
-
->  I guess the driver
-> can select a lower bpc at its discretion to produce what it thinks is
-> the best default, but what about users that don't want the default?
-
-That's what we need explicit bpc control KMS properties for, e.g.
-min_bpc to complement max_bpc (I recall old discussions about this).
-Only userspace could know what a particular end user wants.
-
-To ask this differently: in what cases would max_bpc become the wanted
-bpc in a way that it overrides the explicitly set video mode (refresh
-rate), or would cause a modeset to fail if a lower bpc would make the
-modeset succeed?
-
-The very definition of max_bpc is that it's the upper limit, and not the
-desired bpc. The UAPI documentation says:
-
-max bpc:
-
-    This range property is used by userspace to limit the bit depth.
-    When used the driver would limit the bpc in accordance with the
-    valid range supported by the hardware and sink. Drivers to use the
-    function drm_connector_attach_max_bpc_property() to create and
-    attach the property to the connector during initialization.
-
-Git archaeology revealed that this property was first intended to work
-around broken sinks and not for user preferences.
-
-
-Thanks,
-pq
-
->=20
-> Alex
->=20
->=20
-> > So things like mode validation cannot just look at a single max or min
-> > bpc, but it needs to figure out if there is any usable bpc value that
-> > makes the mode work.
-> >
-> > The max_bpc knob exists only for the cases where the sink undetectably
-> > malfunctions unless the bpc is artificially limited more than seems
-> > necessary. That malfunction requires a human to detect, and reconfigure
-> > their system as we don't have a quirk database for this I think.
-> >
-> > The question of userspace wanting a specific bpc is a different matter
-> > and an unsolved one. It also ties to userspace wanting to use the
-> > current mode to avoid a mode switch between e.g. hand-off from firmware
-> > boot splash to proper userspace. That's also unsolved AFAIK.
-> >
-> > OTOH, we have the discussion that concluded as
-> > https://gitlab.freedesktop.org/wayland/weston/-/issues/612#note_1359898
-> > which really puts userspace in charge of max_bpc, so the driver-chosen
-> > default value does not have much impact as long as it makes the
-> > firmware-chosen video mode to continue, as requested in
-> > https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/995
-> > given that userspace cannot know what the actual bpc currently is nor
-> > set the exact bpc to keep it the same.
-> >
-> >
-> > Thanks,
-> > pq =20
-
-
---Sig_/Q3Y9sJryo4WH73qHCcO18k1
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmOa5ikACgkQI1/ltBGq
-qqeOlQ/+LoXfe8getXKELBMZTw9Cfhf9QLHpGEjQSCs7Up9RHUS2M3gIKiSYRZY3
-y3bn4Q2yU2VNUawXPhphCe5h+TYgiHPZOsc6Mv+SFeNp0/xFPJaSguSUZ6Wkgb3g
-RW1qSmMWG0SuM9mGMhhslryBoqGAsGUaf/l2LH+LylaO0+gOp34Xc+2niDifJz/V
-9pu2CzWJmkcUJRgB5wmDqlfCA3GrVHb5aGRal8vnAJQ7SnEgwhnN3Vz+roICnVh9
-p1fMxYtdhDH7n6/0UtZ2WEOy4UhgAfX2w73l7z7Q1SXkkFp6vbnZ517k//s//BHR
-FK7b/pBv1yX3bksj28P6mzx0eoE95Ah2nwx1aj2CaJUaRewCMFn3iuJF6o8FTiax
-gZv7I4+2+5b0M1dwriAceSqqMwOxmJHQ3cM6oBPnVH2cFszdN03N+Hdc5FLRxMkr
-BOwQVFXa+ckwufzVW5ozlFp/YZD4HtxZiHZyX2c2plC34npSIO/ctHuymh+5gXQi
-nTCyCvvoQO4p95kgbA9iG37MgzfmMZyJNPwxi5HkWv1giwtYLjjYB4aaJbpWAWK1
-9HoifgpakZLe0jN0NB+Wlpa4ItGtfAdHyLcu9o5ZQj6JBs/p60Zg0hEYeP2/nGqx
-RUYmSx5+M9A5ELmJu5N0WSggbSfepQIMLizuFg0pDCu5+OSXTTg=
-=GyaW
------END PGP SIGNATURE-----
-
---Sig_/Q3Y9sJryo4WH73qHCcO18k1--
+Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
