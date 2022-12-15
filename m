@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A2764E40C
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 23:53:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5190664E40F
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 23:53:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3822D10E126;
-	Thu, 15 Dec 2022 22:53:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A697110E593;
+	Thu, 15 Dec 2022 22:53:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9C5F10E126;
- Thu, 15 Dec 2022 22:53:13 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D998910E126;
+ Thu, 15 Dec 2022 22:53:15 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BFMl13F026771; Thu, 15 Dec 2022 22:53:08 GMT
+ 2BFMlHSA017839; Thu, 15 Dec 2022 22:53:10 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=MaOASe7pVNp2FceirVH7cpeN8+bwXdxlw5lpFbg2ZCw=;
- b=ZuEnuDof4Q59QS1K6WO4ySycPKIjUGsvwkxQ7Gxkk3cgsF+DB0ljUuHTTdzm6EErVpD0
- gxmltfyXzyFF/eKXYG+3GMaB5hHKnJzbEc5zjicdWTeaEjseAuD5dax+RPi6vNYor/hH
- L0Y2/izQQ09RJryv1JfFMIZvo/J1B+w8f5/LQ2bImS1AAy7iGdT8nu5QcSzocj2gJmwb
- xjmTocRdHXXquZGh1Qj8xvCJhfias+B2SxtwghabNzBzNhLXWLvG+itkEV2PO3Jg7tIW
- pR16jiuy9iAWtJmUaM8puOOLKHDrZD1MlbRZALrkykuHuXEl2V58UCPex2yBhFIXup2H fw== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=b9NRfGeK8+G3HBdFOgr9UUWK7Lh3so427N+OJvdC8E0=;
+ b=e7U6ZuwqcZPuXMRAKGKmRTgz8TVi1qKUaus+INX1wazLjbBLeK0hKwQaoJrq/AvTB5pU
+ x/l+9b+PbQuZ90o/3ARa8a7iHy6mLh/rXKGyqTZyxo6WJ+9c+fMlImJ3iwGDmnQY8TUq
+ xq/cnGFU/F+PH2K6uy2tASqz+lhZlyrKmCnshhenREDUyNAVKWhKIxYeI7WQp1TbuLHV
+ /nrZH+Lxr25lISQeb3jK9uzKTU+j0/3Ks3cjnqElBsuG72YtC7UeVIT962A+HXTaM9in
+ i9Ag7gJ2v4CYdZm421Fr52QPqh2uiE3wGBPBDeiZRfVZelHNYBVMlCSibe7kImiBLuKA Og== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mf6ree84g-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mg6y7s0d2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Dec 2022 22:53:08 +0000
+ Thu, 15 Dec 2022 22:53:10 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BFMr7Xr008318
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BFMr9u0018933
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Dec 2022 22:53:07 GMT
+ Thu, 15 Dec 2022 22:53:10 GMT
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Thu, 15 Dec 2022 14:53:06 -0800
+ 15.2.986.36; Thu, 15 Dec 2022 14:53:09 -0800
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
  <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
  <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v4 1/2] drm/msm/dp: do not complete dp_aux_cmd_fifo_tx() if
- irq is not for aux transfer
-Date: Thu, 15 Dec 2022 14:52:54 -0800
-Message-ID: <1671144775-19077-2-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v4 2/2] drm/msm/dp: enhance dp controller isr
+Date: Thu, 15 Dec 2022 14:52:55 -0800
+Message-ID: <1671144775-19077-3-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1671144775-19077-1-git-send-email-quic_khsieh@quicinc.com>
 References: <1671144775-19077-1-git-send-email-quic_khsieh@quicinc.com>
@@ -60,16 +59,16 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: 2D59cVTdjymv6_LFh9M8YPLOgvq68YCI
-X-Proofpoint-ORIG-GUID: 2D59cVTdjymv6_LFh9M8YPLOgvq68YCI
+X-Proofpoint-ORIG-GUID: Vf0dtY46b-GDbQqU9YDa5k2uMbaAZF-m
+X-Proofpoint-GUID: Vf0dtY46b-GDbQqU9YDa5k2uMbaAZF-m
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-15_11,2022-12-15_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxscore=0
- lowpriorityscore=0 bulkscore=0 clxscore=1015 impostorscore=0
- mlxlogscore=861 priorityscore=1501 spamscore=0 phishscore=0 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ malwarescore=0 bulkscore=0
+ impostorscore=0 adultscore=0 mlxlogscore=999 clxscore=1015 phishscore=0
+ suspectscore=0 spamscore=0 priorityscore=1501 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2212150189
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,67 +88,290 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are 3 possible interrupt sources are handled by DP controller,
-HPDstatus, Controller state changes and Aux read/write transaction.
-At every irq, DP controller have to check isr status of every interrupt
-sources and service the interrupt if its isr status bits shows interrupts
-are pending. There is potential race condition may happen at current aux
-isr handler implementation since it is always complete dp_aux_cmd_fifo_tx()
-even irq is not for aux read or write transaction. This may cause aux read
-transaction return premature if host aux data read is in the middle of
-waiting for sink to complete transferring data to host while irq happen.
-This will cause host's receiving buffer contains unexpected data. This
-patch fixes this problem by checking aux isr and return immediately at
-aux isr handler if there are no any isr status bits set.
-
-Current there is a bug report regrading eDP edid corruption happen during
-system booting up. After lengthy debugging to found that that VIDEO_READY
-interrupt was continuously firing during system booting up which cause
-dp_aux_isr() to complete dp_aux_cmd_fifo_tx() prematurely to retrieve data
-from aux hardware buffer which is not yet contains complete data transfer
-from sink. This cause edid corruption.
-
-Follows are the signature at kernel logs when problem happen,
-EDID has corrupt header
-panel-simple-dp-aux aux-aea0000.edp: Couldn't identify panel via EDID
-panel-simple-dp-aux aux-aea0000.edp: error -EIO: Couldn't detect panel nor find a fallback
-
-Changes in v2:
--- do complete if (ret == IRQ_HANDLED) ay dp-aux_isr()
--- add more commit text
-
-Changes in v3:
--- add Stephen suggested
--- dp_aux_isr() return IRQ_XXX back to caller
--- dp_ctrl_isr() return IRQ_XXX back to caller
-
-Changes in v4:
--- split into two patches
-
-Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
+dp_display_irq_handler() is the main isr handler with the helps
+of two sub isr, dp_aux_isr and dp_ctrl_isr, to service all DP
+interrupts on every irq triggered. Current all three isr does
+not return IRQ_HANDLED if there are any interrupts it had
+serviced. This patch fix this ambiguity by having all isr
+return IRQ_HANDLED if there are interrupts had been serviced
+or IRQ_NONE otherwise.
 
 Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Tested-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Suggested-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/gpu/drm/msm/dp/dp_aux.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/msm/dp/dp_aux.c     | 96 ++++++++++++++++++++++++-------------
+ drivers/gpu/drm/msm/dp/dp_aux.h     |  2 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    | 13 +++--
+ drivers/gpu/drm/msm/dp/dp_ctrl.h    |  2 +-
+ drivers/gpu/drm/msm/dp/dp_display.c | 16 +++++--
+ 5 files changed, 86 insertions(+), 43 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
-index d030a93..cc3efed 100644
+index cc3efed..2b85b61 100644
 --- a/drivers/gpu/drm/msm/dp/dp_aux.c
 +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-@@ -423,6 +423,10 @@ void dp_aux_isr(struct drm_dp_aux *dp_aux)
+@@ -162,45 +162,78 @@ static ssize_t dp_aux_cmd_fifo_rx(struct dp_aux_private *aux,
+ 	return i;
+ }
  
- 	isr = dp_catalog_aux_get_irq(aux->catalog);
+-static void dp_aux_native_handler(struct dp_aux_private *aux, u32 isr)
++static irqreturn_t dp_aux_native_handler(struct dp_aux_private *aux, u32 isr)
+ {
+-	if (isr & DP_INTR_AUX_I2C_DONE)
++	irqreturn_t ret = IRQ_NONE;
++
++	if (isr & DP_INTR_AUX_I2C_DONE) {
+ 		aux->aux_error_num = DP_AUX_ERR_NONE;
+-	else if (isr & DP_INTR_WRONG_ADDR)
++		ret = IRQ_HANDLED;
++	} else if (isr & DP_INTR_WRONG_ADDR) {
+ 		aux->aux_error_num = DP_AUX_ERR_ADDR;
+-	else if (isr & DP_INTR_TIMEOUT)
++		ret = IRQ_HANDLED;
++	} else if (isr & DP_INTR_TIMEOUT) {
+ 		aux->aux_error_num = DP_AUX_ERR_TOUT;
+-	if (isr & DP_INTR_NACK_DEFER)
++		ret = IRQ_HANDLED;
++	}
++
++	if (isr & DP_INTR_NACK_DEFER) {
+ 		aux->aux_error_num = DP_AUX_ERR_NACK;
++		ret = IRQ_HANDLED;
++	}
++
+ 	if (isr & DP_INTR_AUX_ERROR) {
+ 		aux->aux_error_num = DP_AUX_ERR_PHY;
+ 		dp_catalog_aux_clear_hw_interrupts(aux->catalog);
++		ret = IRQ_HANDLED;
+ 	}
++
++	return ret;
+ }
  
+-static void dp_aux_i2c_handler(struct dp_aux_private *aux, u32 isr)
++static irqreturn_t dp_aux_i2c_handler(struct dp_aux_private *aux, u32 isr)
+ {
++	irqreturn_t ret = IRQ_NONE;
++
+ 	if (isr & DP_INTR_AUX_I2C_DONE) {
+ 		if (isr & (DP_INTR_I2C_NACK | DP_INTR_I2C_DEFER))
+ 			aux->aux_error_num = DP_AUX_ERR_NACK;
+ 		else
+ 			aux->aux_error_num = DP_AUX_ERR_NONE;
+-	} else {
+-		if (isr & DP_INTR_WRONG_ADDR)
+-			aux->aux_error_num = DP_AUX_ERR_ADDR;
+-		else if (isr & DP_INTR_TIMEOUT)
+-			aux->aux_error_num = DP_AUX_ERR_TOUT;
+-		if (isr & DP_INTR_NACK_DEFER)
+-			aux->aux_error_num = DP_AUX_ERR_NACK_DEFER;
+-		if (isr & DP_INTR_I2C_NACK)
+-			aux->aux_error_num = DP_AUX_ERR_NACK;
+-		if (isr & DP_INTR_I2C_DEFER)
+-			aux->aux_error_num = DP_AUX_ERR_DEFER;
+-		if (isr & DP_INTR_AUX_ERROR) {
+-			aux->aux_error_num = DP_AUX_ERR_PHY;
+-			dp_catalog_aux_clear_hw_interrupts(aux->catalog);
+-		}
++
++		return IRQ_HANDLED;
++	}
++
++	if (isr & DP_INTR_WRONG_ADDR) {
++		aux->aux_error_num = DP_AUX_ERR_ADDR;
++		ret = IRQ_HANDLED;
++	} else if (isr & DP_INTR_TIMEOUT) {
++		aux->aux_error_num = DP_AUX_ERR_TOUT;
++		ret = IRQ_HANDLED;
++	}
++
++	if (isr & DP_INTR_NACK_DEFER) {
++		aux->aux_error_num = DP_AUX_ERR_NACK_DEFER;
++		ret = IRQ_HANDLED;
++	}
++
++	if (isr & DP_INTR_I2C_NACK) {
++		aux->aux_error_num = DP_AUX_ERR_NACK;
++		ret = IRQ_HANDLED;
++	}
++
++	if (isr & DP_INTR_I2C_DEFER) {
++		aux->aux_error_num = DP_AUX_ERR_DEFER;
++		ret = IRQ_HANDLED;
+ 	}
++
++	if (isr & DP_INTR_AUX_ERROR) {
++		aux->aux_error_num = DP_AUX_ERR_PHY;
++		dp_catalog_aux_clear_hw_interrupts(aux->catalog);
++		ret = IRQ_HANDLED;
++	}
++
++	return ret;
+ }
+ 
+ static void dp_aux_update_offset_and_segment(struct dp_aux_private *aux,
+@@ -409,15 +442,11 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
+ 	return ret;
+ }
+ 
+-void dp_aux_isr(struct drm_dp_aux *dp_aux)
++irqreturn_t dp_aux_isr(struct drm_dp_aux *dp_aux)
+ {
+ 	u32 isr;
+ 	struct dp_aux_private *aux;
+-
+-	if (!dp_aux) {
+-		DRM_ERROR("invalid input\n");
+-		return;
+-	}
++	irqreturn_t ret = IRQ_NONE;
+ 
+ 	aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
+ 
+@@ -425,17 +454,20 @@ void dp_aux_isr(struct drm_dp_aux *dp_aux)
+ 
+ 	/* no interrupts pending, return immediately */
+ 	if (!isr)
+-		return;
++		return ret;
+ 
+ 	if (!aux->cmd_busy)
+-		return;
++		return ret;
+ 
+ 	if (aux->native)
+-		dp_aux_native_handler(aux, isr);
++		ret = dp_aux_native_handler(aux, isr);
+ 	else
+-		dp_aux_i2c_handler(aux, isr);
++		ret = dp_aux_i2c_handler(aux, isr);
+ 
+-	complete(&aux->comp);
++	if (ret == IRQ_HANDLED)
++		complete(&aux->comp);
++
++	return ret;
+ }
+ 
+ void dp_aux_reconfig(struct drm_dp_aux *dp_aux)
+diff --git a/drivers/gpu/drm/msm/dp/dp_aux.h b/drivers/gpu/drm/msm/dp/dp_aux.h
+index e930974..511305d 100644
+--- a/drivers/gpu/drm/msm/dp/dp_aux.h
++++ b/drivers/gpu/drm/msm/dp/dp_aux.h
+@@ -11,7 +11,7 @@
+ 
+ int dp_aux_register(struct drm_dp_aux *dp_aux);
+ void dp_aux_unregister(struct drm_dp_aux *dp_aux);
+-void dp_aux_isr(struct drm_dp_aux *dp_aux);
++irqreturn_t dp_aux_isr(struct drm_dp_aux *dp_aux);
+ void dp_aux_init(struct drm_dp_aux *dp_aux);
+ void dp_aux_deinit(struct drm_dp_aux *dp_aux);
+ void dp_aux_reconfig(struct drm_dp_aux *dp_aux);
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index 3854c9f..5968ab1 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -1982,27 +1982,32 @@ int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
+ 	return ret;
+ }
+ 
+-void dp_ctrl_isr(struct dp_ctrl *dp_ctrl)
++irqreturn_t dp_ctrl_isr(struct dp_ctrl *dp_ctrl)
+ {
+ 	struct dp_ctrl_private *ctrl;
+ 	u32 isr;
+-
+-	if (!dp_ctrl)
+-		return;
++	irqreturn_t ret = IRQ_NONE;
+ 
+ 	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+ 
+ 	isr = dp_catalog_ctrl_get_interrupt(ctrl->catalog);
 +	/* no interrupts pending, return immediately */
 +	if (!isr)
-+		return;
-+
- 	if (!aux->cmd_busy)
- 		return;
++		return ret;
  
+ 	if (isr & DP_CTRL_INTR_READY_FOR_VIDEO) {
+ 		drm_dbg_dp(ctrl->drm_dev, "dp_video_ready\n");
+ 		complete(&ctrl->video_comp);
++		ret = IRQ_HANDLED;
+ 	}
+ 
+ 	if (isr & DP_CTRL_INTR_IDLE_PATTERN_SENT) {
+ 		drm_dbg_dp(ctrl->drm_dev, "idle_patterns_sent\n");
+ 		complete(&ctrl->idle_comp);
++		ret = IRQ_HANDLED;
+ 	}
++
++	return ret;
+ }
+ 
+ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+index 9f29734..c3af06d 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+@@ -25,7 +25,7 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl);
+ int dp_ctrl_off_link(struct dp_ctrl *dp_ctrl);
+ int dp_ctrl_off(struct dp_ctrl *dp_ctrl);
+ void dp_ctrl_push_idle(struct dp_ctrl *dp_ctrl);
+-void dp_ctrl_isr(struct dp_ctrl *dp_ctrl);
++irqreturn_t dp_ctrl_isr(struct dp_ctrl *dp_ctrl);
+ void dp_ctrl_handle_sink_request(struct dp_ctrl *dp_ctrl);
+ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
+ 			struct dp_panel *panel,	struct drm_dp_aux *aux,
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index bfd0aef..d40bfbd 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -1192,7 +1192,7 @@ static int dp_hpd_event_thread_start(struct dp_display_private *dp_priv)
+ static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
+ {
+ 	struct dp_display_private *dp = dev_id;
+-	irqreturn_t ret = IRQ_HANDLED;
++	irqreturn_t ret = IRQ_NONE;
+ 	u32 hpd_isr_status;
+ 
+ 	if (!dp) {
+@@ -1206,27 +1206,33 @@ static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
+ 		drm_dbg_dp(dp->drm_dev, "type=%d isr=0x%x\n",
+ 			dp->dp_display.connector_type, hpd_isr_status);
+ 		/* hpd related interrupts */
+-		if (hpd_isr_status & DP_DP_HPD_PLUG_INT_MASK)
++		if (hpd_isr_status & DP_DP_HPD_PLUG_INT_MASK) {
+ 			dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
++			ret = IRQ_HANDLED;
++		}
+ 
+ 		if (hpd_isr_status & DP_DP_IRQ_HPD_INT_MASK) {
+ 			dp_add_event(dp, EV_IRQ_HPD_INT, 0, 0);
++			ret = IRQ_HANDLED;
+ 		}
+ 
+ 		if (hpd_isr_status & DP_DP_HPD_REPLUG_INT_MASK) {
+ 			dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
+ 			dp_add_event(dp, EV_HPD_PLUG_INT, 0, 3);
++			ret = IRQ_HANDLED;
+ 		}
+ 
+-		if (hpd_isr_status & DP_DP_HPD_UNPLUG_INT_MASK)
++		if (hpd_isr_status & DP_DP_HPD_UNPLUG_INT_MASK) {
+ 			dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
++			ret = IRQ_HANDLED;
++		}
+ 	}
+ 
+ 	/* DP controller isr */
+-	dp_ctrl_isr(dp->ctrl);
++	ret |= dp_ctrl_isr(dp->ctrl);
+ 
+ 	/* DP aux isr */
+-	dp_aux_isr(dp->aux);
++	ret |= dp_aux_isr(dp->aux);
+ 
+ 	return ret;
+ }
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
