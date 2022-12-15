@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CCD64DEC1
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 17:37:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A41FA64DEC4
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 17:38:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB3D410E400;
-	Thu, 15 Dec 2022 16:37:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AA3910E3C0;
+	Thu, 15 Dec 2022 16:37:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 636D310E377;
- Thu, 15 Dec 2022 16:36:59 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE13610E377;
+ Thu, 15 Dec 2022 16:37:52 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id E646EB81AAC;
- Thu, 15 Dec 2022 16:36:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07826C433EF;
- Thu, 15 Dec 2022 16:36:52 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6AD1861E58;
+ Thu, 15 Dec 2022 16:37:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEDEDC433D2;
+ Thu, 15 Dec 2022 16:37:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671122216;
- bh=ZJ+UjuFlAHEeqnv1r+X8Y1fN3lyrw6ECR6xLRaAEqRs=;
+ s=k20201202; t=1671122269;
+ bh=RV+MWWk++Ih2bkesG4BCmtmkZAUvC1BBjtjl9erq92U=;
  h=From:To:Cc:Subject:Date:From;
- b=s/ZJp7C9+lCHF8eafSYx+Wl0LjwFFtKVRaeM6VE62PEFslr7gD0rOlWNHK8Q9aO/u
- IJOYYYtArmR9K6dhMjAmuTjXMsFNnBg6W3wep8Co6lTtLQsYIKH3u2M6AbVbY7jja2
- ZVQ9NHhLpZr+PjJGuKeDYs1dCR8BIWWjsHfX83awoSjiyEEmswpWr0EnvUAcS+omvL
- Nb3YMtjm36x6088xcboN9A1ic9ArjNsJMSPpirfuQlZeJ/gwe5CfmJl9tS1pu5EmB/
- B7u2G1o0fLIXH1ssDwvxusBqB/+lI+ZZD4jDgJZVsnS2bfDHZW/5RkG/5AOPrG0eLM
- PNwp9/RZx9cTw==
+ b=HBBGEmENzDsR6v2JzTk9TsAw9a5xMy9TsGY6JZDw1L0qqzQqPIY07i8Qw2odeYYUg
+ qqxgxiB9NJXMLxLCaAk33gZIBI+IOaUEvqtdIgJzxgo/5ykUWho5ljgwWk1yrQzAz4
+ f0TUSjbzj0c6VqOhrB/VkJA/B5J+FqIYxqM11wNxjGgNe+0im4oWCBXyOdYU6zlssx
+ wsY6ynr08+JA0+mt4x20OnPZgyhQcpRPib361frVWiv9bcenSBL0itX5DV5OHiRIBq
+ 9JI7gmWa5Yq9BiUJ7Fr7FvjrUXaQtLHCL9qOgWA4jAEG4CIe79ZlNpUHiC5BeRTlQc
+ u1ea7XRG0LeKg==
 From: Arnd Bergmann <arnd@kernel.org>
-To: Evan Quan <evan.quan@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>
-Subject: [PATCH] drm/amd/pm: avoid large variable on kernel stack
-Date: Thu, 15 Dec 2022 17:36:31 +0100
-Message-Id: <20221215163649.386750-1-arnd@kernel.org>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Subject: [PATCH] drm/amd/display: fix dp_retrieve_lttpr_cap return code
+Date: Thu, 15 Dec 2022 17:37:10 +0100
+Message-Id: <20221215163743.452648-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -51,91 +50,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kenneth Feng <kenneth.feng@amd.com>, Yang Wang <KevinYang.Wang@amd.com>,
- Arnd Bergmann <arnd@arndb.de>, Chengming Gui <Jack.Gui@amd.com>,
- Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
- dri-devel@lists.freedesktop.org, Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Alan Liu <HaoPing.Liu@amd.com>, Arnd Bergmann <arnd@arndb.de>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, George Shen <george.shen@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The activity_monitor_external[] array is too big to fit on the
-kernel stack, resulting in this warning with clang:
+The dp_retrieve_lttpr_cap() return type changed from 'bool'
+to 'enum dc_status', so now the early 'return' uses the wrong
+type:
 
-drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_7_ppt.c:1438:12: error: stack frame size (1040) exceeds limit (1024) in 'smu_v13_0_7_get_power_profile_mode' [-Werror,-Wframe-larger-than]
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c: In function 'dp_retrieve_lttpr_cap':
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:5075:24: error: implicit conversion from 'enum <anonymous>' to 'enum dc_status' [-Werror=enum-conversion]
+ 5075 |                 return false;
+      |                        ^~~~~
 
-Use dynamic allocation instead. It should also be possible to
-have single element here instead of the array, but this seems
-easier.
+Convert it to return 'DC_OK', which is the same value as 'false'.
 
-Fixes: 334682ae8151 ("drm/amd/pm: enable workload type change on smu_v13_0_7")
+Fixes: b473bd5fc333 ("drm/amd/display: refine wake up aux in retrieve link caps")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- .../drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c  | 21 ++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+No idea if DC_OK is the intended return code, but it leaves the behavior
+unchanged and fixes the warning.
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
-index c270f94a1b86..7eba854e09ec 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
-@@ -1439,7 +1439,7 @@ static int smu_v13_0_7_get_power_limit(struct smu_context *smu,
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+index af9411ee3c74..95dbfa4e996a 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+@@ -5095,7 +5095,7 @@ enum dc_status dp_retrieve_lttpr_cap(struct dc_link *link)
+ 	bool vbios_lttpr_interop = link->dc->caps.vbios_lttpr_aware;
  
- static int smu_v13_0_7_get_power_profile_mode(struct smu_context *smu, char *buf)
- {
--	DpmActivityMonitorCoeffIntExternal_t activity_monitor_external[PP_SMC_POWER_PROFILE_COUNT];
-+	DpmActivityMonitorCoeffIntExternal_t *activity_monitor_external;
- 	uint32_t i, j, size = 0;
- 	int16_t workload_type = 0;
- 	int result = 0;
-@@ -1447,6 +1447,12 @@ static int smu_v13_0_7_get_power_profile_mode(struct smu_context *smu, char *buf
- 	if (!buf)
- 		return -EINVAL;
+ 	if (!vbios_lttpr_interop || !link->dc->caps.extended_aux_timeout_support)
+-		return false;
++		return DC_OK;
  
-+	activity_monitor_external = kcalloc(sizeof(activity_monitor_external),
-+					    PP_SMC_POWER_PROFILE_COUNT,
-+					    GFP_KERNEL);
-+	if (!activity_monitor_external)
-+		return -ENOMEM;
-+
- 	size += sysfs_emit_at(buf, size, "                              ");
- 	for (i = 0; i <= PP_SMC_POWER_PROFILE_WINDOW3D; i++)
- 		size += sysfs_emit_at(buf, size, "%-14s%s", amdgpu_pp_profile_name[i],
-@@ -1459,15 +1465,17 @@ static int smu_v13_0_7_get_power_profile_mode(struct smu_context *smu, char *buf
- 		workload_type = smu_cmn_to_asic_specific_index(smu,
- 							       CMN2ASIC_MAPPING_WORKLOAD,
- 							       i);
--		if (workload_type < 0)
--			return -EINVAL;
-+		if (workload_type < 0) {
-+			result = -EINVAL;
-+			goto out;
-+		}
- 
- 		result = smu_cmn_update_table(smu,
- 					  SMU_TABLE_ACTIVITY_MONITOR_COEFF, workload_type,
- 					  (void *)(&activity_monitor_external[i]), false);
- 		if (result) {
- 			dev_err(smu->adev->dev, "[%s] Failed to get activity monitor!", __func__);
--			return result;
-+			goto out;
- 		}
- 	}
- 
-@@ -1495,7 +1503,10 @@ do {													\
- 	PRINT_DPM_MONITOR(Fclk_BoosterFreq);
- #undef PRINT_DPM_MONITOR
- 
--	return size;
-+	result = size;
-+out:
-+	kfree(activity_monitor_external);
-+	return result;
- }
- 
- static int smu_v13_0_7_set_power_profile_mode(struct smu_context *smu, long *input, uint32_t size)
+ 	/* By reading LTTPR capability, RX assumes that we will enable
+ 	 * LTTPR extended aux timeout if LTTPR is present.
 -- 
 2.35.1
 
