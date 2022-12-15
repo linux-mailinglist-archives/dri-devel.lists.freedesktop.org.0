@@ -2,61 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE22464E229
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 21:10:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 941E864E22E
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 21:12:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9569310E55E;
-	Thu, 15 Dec 2022 20:10:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44A2710E562;
+	Thu, 15 Dec 2022 20:12:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFE2F10E561
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 20:10:12 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id x11so107773ljh.7
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 12:10:12 -0800 (PST)
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 653B510E562
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 20:12:34 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id a19so176504ljk.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 12:12:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=hIS0EaGXTjCRXER8GI+dNLF12wjq2q+2o8WGX76WmuM=;
- b=AZZq5PUnZFfrNHwv7HNiSHWCLeR7RR8le4981nYRfDcS/ru+GZCfjF9myTcDec3B82
- mQ2GZURB0mLaYbyVBtGJ1NFHjPo+S8Ar/iMl/x6SnWZIdiR5UPHYRSs5fzuQuqgP3aaO
- fSc/9GAnzacM7M1X/ZpuSegZbsPHV8l1Y5Xms=
+ h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
+ :from:references:in-reply-to:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ma29jYxLICPfJYdRmS8iS0Sz2Ww6x0xzpK34aJyoY38=;
+ b=WAMocIyQLya3cZ3eoRREWyL3BJuNCw4hHzTN4zu8lxDR5ZNKjTqCzsxYDNl+EGJJam
+ gwjij75zZhMjukUfT79v+h+7g9RMduI6pfuM5dCQ9kFJGj914ZIi+iCdEMUkSEN3iKvZ
+ Kjh0w0DYmCEhqLYN6dcPY+roorUbtIZ7LGas8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hIS0EaGXTjCRXER8GI+dNLF12wjq2q+2o8WGX76WmuM=;
- b=o6JBKt36U2IvnQXa9rzhWohDpTiRJ33qB2GKvLHRrmwWeG7eksXr0sLPa+j4yaZcJ7
- fCjq5KsEhpsXoopj00ws8cA5Rb2oJW1BaXoPGKyI0pHhgwRR+JUH4nvryeyV0V/j5zrd
- VeYjSFkTCg5y9e56nALCs+y8R/nCtGipgcaJE9eI8FeOLNdPY4isLeCJAo3wISrEoSnn
- LfqOzMxl5racuqeSiACgvBtI97GNW8Qy+VDl9/LB9KSVMlhuVjzHetiIKKY8rQQHZzI7
- FiXA649t4yqoV+9W+shzrcwnrJAUJZx2BMeMmNyklSgBKF5VVMGA5WxesIr/YicEbWVb
- B10A==
-X-Gm-Message-State: ANoB5pnNr4NAsdOrowHLE81bsnqh+jNNOVyw1gd5UigRlEyZO/+ms/c0
- CPNikNSQi5zNnj3JI27hqbnKT4ZQpGMKgWPBXFc+QA==
-X-Google-Smtp-Source: AA0mqf4Tx6gctjKCY4dC7SXXC0K/mpFF/gMRMqZIcP3KQUC32WpR7lr/tv9LCeuvBxDdF2/qWtwf4i+PNBpUR6inRKk=
-X-Received: by 2002:a05:651c:221e:b0:277:6231:5a7 with SMTP id
- y30-20020a05651c221e00b00277623105a7mr23597850ljq.300.1671135009730; Thu, 15
- Dec 2022 12:10:09 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
+ :from:references:in-reply-to:mime-version:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Ma29jYxLICPfJYdRmS8iS0Sz2Ww6x0xzpK34aJyoY38=;
+ b=zoPHw3nM4hl/L8eOVkCIALE6Hf5bBabeVqDJdvF1o897izfSYYirJuQh9+4pn/z98u
+ /UdHxcjc9LasgxryyqqcW8z/ooHX/zLJp3fSUrgiKI4vOE1sfnwm9WmVmZCJw8XlnAyH
+ Zgk3De4nZll9AznP8dT1VfT7hZ0MzetL48T3O+8L/rQbTRHJd/VkZ7TOgFKoCDsMSb9t
+ 4a0a0QBrKoq8X4TzyCOW5wRi0Akt9IxGoqWXuDuFBkOqiGmJOoNSjaDhyPXrJlD71q0m
+ O5IR1HwHZ0GjzPnKQAXWkIAnOMYqlcgOh3M5iS63bPB4F1wxXDTKi99cTJvZPJjB++TB
+ Gyrg==
+X-Gm-Message-State: AFqh2kpxW1F2CpR2ELwXhenDj+ADgUY4dCLxzWp5plkRfJhfCYcwndp2
+ UB1dXCrAz3S4ZkcgNoIN145fE85FJQ86hodjfiL9Nw==
+X-Google-Smtp-Source: AMrXdXt3ybfdYsbW+NzMUL4sJXmfO6ubzbiioxX2yF9TmOb2VxGIBXIKmk+OiSkMyH6erDrmmUsl31yNVnS26c1UhTo=
+X-Received: by 2002:a05:651c:3c7:b0:27d:75b3:8fd0 with SMTP id
+ f7-20020a05651c03c700b0027d75b38fd0mr510146ljp.39.1671135152456; Thu, 15 Dec
+ 2022 12:12:32 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 15 Dec 2022 15:10:09 -0500
+ HTTPREST; Thu, 15 Dec 2022 15:12:31 -0500
 MIME-Version: 1.0
-In-Reply-To: <ca15a54b-8040-5e4f-a78e-12b7f8a554e1@linaro.org>
-References: <1671129159-31105-1-git-send-email-quic_khsieh@quicinc.com>
- <ca15a54b-8040-5e4f-a78e-12b7f8a554e1@linaro.org>
+In-Reply-To: <98cc6d55-f9c7-a369-6004-42b242d01339@quicinc.com>
+References: <1670967848-31475-1-git-send-email-quic_khsieh@quicinc.com>
+ <1670967848-31475-3-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n52eHYCqxUJqQXoaQ8vyqCk-QfouSun+zUp3yo5DufWbwg@mail.gmail.com>
+ <b38af164-08bc-07e7-dfaf-fb4d6d89d7db@quicinc.com>
+ <CAE-0n53Cb6TFGfM6AYup5aP4=24j0ujVPi463oVqmzfNV2B4RA@mail.gmail.com>
+ <98cc6d55-f9c7-a369-6004-42b242d01339@quicinc.com>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Thu, 15 Dec 2022 15:10:09 -0500
-Message-ID: <CAE-0n53bREwEMV4aP=ySPuPP8mMbDr=Unbjw_bW0MNN7hTsWRw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm/dp: do not complete dp_aux_cmd_fifo_tx() if
- irq is not for aux transfer
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, 
- agross@kernel.org, airlied@gmail.com, andersson@kernel.org, daniel@ffwll.ch, 
- dianders@chromium.org, robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
+Date: Thu, 15 Dec 2022 15:12:31 -0500
+Message-ID: <CAE-0n52j8vYYTRSpBo82MHqLiSjxikL=2P6NQwa0-DW__sc6WA@mail.gmail.com>
+Subject: Re: [PATCH v12 2/5] dt-bindings: msm/dp: add data-lanes and
+ link-frequencies property
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org,
+ airlied@gmail.com, 
+ andersson@kernel.org, daniel@ffwll.ch, devicetree@vger.kernel.org, 
+ dianders@chromium.org, dmitry.baryshkov@linaro.org, 
+ dri-devel@lists.freedesktop.org, konrad.dybcio@somainline.org, 
+ krzysztof.kozlowski+dt@linaro.org, robdclark@gmail.com, robh+dt@kernel.org, 
+ sean@poorly.run, vkoul@kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,33 +78,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
+ freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-12-15 10:46:42)
-> On 15/12/2022 20:32, Kuogee Hsieh wrote:
-> >       if (!aux->cmd_busy)
-> >               return;
-> >
-> >       if (aux->native)
-> > -             dp_aux_native_handler(aux, isr);
-> > +             ret = dp_aux_native_handler(aux, isr);
-> >       else
-> > -             dp_aux_i2c_handler(aux, isr);
-> > +             ret = dp_aux_i2c_handler(aux, isr);
-> >
-> > -     complete(&aux->comp);
-> > +     if (ret == IRQ_HANDLED)
-> > +             complete(&aux->comp);
+Quoting Kuogee Hsieh (2022-12-15 09:08:04)
 >
-> Can you just move the complete() into the individual handling functions?
-> Then you won't have to return the error code from dp_aux_*_handler() at
-> all. You can check `isr' in that function and call complete if there was
-> any error.
+> On 12/14/2022 4:38 PM, Stephen Boyd wrote:
+> > Quoting Kuogee Hsieh (2022-12-14 14:56:23)
+> >> On 12/13/2022 3:06 PM, Stephen Boyd wrote:
+> >>> Quoting Kuogee Hsieh (2022-12-13 13:44:05)
+> >
+> >> Therefore I think add data-lanes and link-frequencies properties in th=
+e
+> >> DP PHY binding directly will not helps.
+> >>
+> > I didn't follow your logic. Sorry.
+>
+> Sorry, probably i did not understand your proposal clearly.
+>
+> 1) move both data-lanes and link-frequencies property from dp controller
+> endpoint to phy
+>
+> 2) phy_configure() return succeed if both data-lanes and link
+> frequencies are supported. otherwise return failed.
+>
+> is above two summary items correct?
 
-I'd prefer we apply my patch and pass the irqreturn_t variable to the
-caller of this function so spurious irqs are shutdown. Should I send it
-as a proper patch?
+Yes.
+
+>
+> Currently phy_configure()=C2=A0 is part of link training process and call=
+ed
+> if link lanes or rate changes.
+>
+> however, since current phy_configure() implementation always return 0,
+> the return value is not checking.
+>
+> This proposal is new, can we discuss more detail at meeting and decide
+> to implement it or not.
+>
+> Meanwhile can we merge current implementation (both data-lanes and
+> link-frequqncies at dp controller end point) first?
+>
+
+I don't think we can merge this patch because it depends on a DT binding
+change. If the PHY approach works then I'd prefer we just go with that.
