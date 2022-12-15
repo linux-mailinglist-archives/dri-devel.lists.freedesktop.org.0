@@ -2,49 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 216DF64E148
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 19:49:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF34664E157
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 19:52:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 861CA10E4DF;
-	Thu, 15 Dec 2022 18:48:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1114D10E512;
+	Thu, 15 Dec 2022 18:52:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CED7510E4D3;
- Thu, 15 Dec 2022 18:48:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671130106; x=1702666106;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=ogspCvicFhhzdkF7v9AuTncGKWm32X+u+8OosTh5eL4=;
- b=kGPtBf5XS/BKS+F9kzlOpKaSFhfF9V8B4vvJJjbbbeGzTze2Po8wmfyd
- CKoH2awW/zA06cJcbCigDDPUGzGGZDUQzrBVutizki5ryyNoG2ZvaOZuI
- ZN5OaNOSuajUg7U3n9VgyrPmPIOYaXBeEEtvbMU3f3OWmVhV0nITtqdOt
- LBasB82bpAdr0GL/ZnpIEctjAgQnbEnxoJGquqrDuSB6i2EsOnti5k/9/
- jlIRbknxdGOdPfqVMepdDXEnmffRT3Bzg3/9CQp8PEJmfT+ZF8C4qJbtU
- LA6PV+uuls7aXX22GQd+koKkqigoJoaDoGa5+qO9dz5M96BEm3Bq2xKNV w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10562"; a="317470496"
-X-IronPort-AV: E=Sophos;i="5.96,248,1665471600"; d="scan'208";a="317470496"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2022 10:48:26 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10562"; a="894889082"
-X-IronPort-AV: E=Sophos;i="5.96,248,1665471600"; d="scan'208";a="894889082"
-Received: from popovaan-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.59.139])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2022 10:48:24 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ashutosh Dixit <ashutosh.dixit@intel.com>, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH] drm/i915/hwmon: Display clamped PL1 limit
-In-Reply-To: <20221215184409.2467595-1-ashutosh.dixit@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221215184409.2467595-1-ashutosh.dixit@intel.com>
-Date: Thu, 15 Dec 2022 20:48:21 +0200
-Message-ID: <87bko4v6yy.fsf@intel.com>
+Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
+ [IPv6:2607:f8b0:4864:20::c2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFF6310E4D3
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 18:52:18 +0000 (UTC)
+Received: by mail-oo1-xc2e.google.com with SMTP id
+ g15-20020a4a894f000000b0047f8e899623so30262ooi.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 10:52:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=obKXGKhdezaANc/b4vG1rAvVdxbFcZUhrsHZMR12SlM=;
+ b=OrZUziRz0gZiHIfPRHjEhiLdKTiCM8uoEoqnlOAbUprHIymWJuMVa97AkwLIxIzrRO
+ Nuy+tkNlFmsXxLsF8AYidwvQcpV4R9OkhaB0ejhR+uHxEnHKR495CRumwo6si7bVDwCD
+ y1hjQN1shf1eP1Fl+grqgmpkhWZkSz0NaeAngJolwCNQ80qg+HGBihIDTe7wejTD5W1i
+ p/12Nf2MCWaF59XQOqjJQ1qgEwB1JZdLFvBrwjNYAz1doBXCWxdouT1Ly/grIf6Ta6kc
+ GTKw39aYzwLCdasuKzGDAOP7vtn5Apx7eV4mLljp29HzcI6fFNzx71j96mNVAn+jz4eF
+ 4bEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=obKXGKhdezaANc/b4vG1rAvVdxbFcZUhrsHZMR12SlM=;
+ b=vactXVVcV2+eVDyhIpfJyKkmotKJuS6GK4kiELiYiAArF6kA+7Z6wzF7KOqCiqFhTb
+ KK8yxgIPfTNo5SQyX2XkhRKHiTikHTNCQH6L0o4h2ozAQbqYGBZ+G2gpy3OPFU0noWZu
+ B3p+JRRdhedNRAWveaUzU+Tg6ia7/C73WbnFZA5AuTTy5X68hm4yqgQ1UPeNkwCZfRvn
+ hhFhHK0QwAU8EsBz+ufpQlxZ9IzXCn3KTH5CrdyNoLbnEVDRAKdxWgKgECs5I5dL96b1
+ SNSfOH2iUKKi2tKob5JuBE41cSuYayNSsQe8le1fSarIZUAEVsYuyBX0Vx69lcCja7zS
+ lUdw==
+X-Gm-Message-State: ANoB5pnvEiUKR1WXMee/zxrcoqE5H3FviRzd19UB7pfQUV2bVSJ1CcH3
+ OHbWbbGzpFG/keoGwZ5dKbe6GrsQ0Wc=
+X-Google-Smtp-Source: AA0mqf5sdfafpVcxAYrRWb4N1scUZkG0vKA8pWjSrX5LXLjb3IwQLRuArYIrCqDJUKTZQa/GHjFrgQ==
+X-Received: by 2002:a4a:d010:0:b0:4a3:9f7a:add0 with SMTP id
+ h16-20020a4ad010000000b004a39f7aadd0mr12112492oor.5.1671130337766; 
+ Thu, 15 Dec 2022 10:52:17 -0800 (PST)
+Received: from localhost.localdomain ([76.244.6.13])
+ by smtp.gmail.com with ESMTPSA id
+ g11-20020a4ad84b000000b004a09df5a1dbsm72264oov.8.2022.12.15.10.52.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Dec 2022 10:52:17 -0800 (PST)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH V6 0/4] drm/panel: Add Magnachip D53E6EA8966 Panel Controller
+Date: Thu, 15 Dec 2022 12:52:07 -0600
+Message-Id: <20221215185211.1560736-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,99 +69,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Anshuman Gupta <anshuman.gupta@intel.com>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
+ krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
+ linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ thierry.reding@gmail.com, tzimmermann@suse.de, maccraft123mc@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 15 Dec 2022, Ashutosh Dixit <ashutosh.dixit@intel.com> wrote:
-> HW allows arbitrary PL1 limits to be set but silently clamps these values
-> to "typical but not guaranteed" min/max values in pkg_power_sku
-> register. Follow the same pattern for sysfs, allow arbitrary PL1 limits to
-> be set but display clamped values when read.
+From: Chris Morgan <macromorgan@hotmail.com>
 
-The commit message lacks the most important thing: why?
+Add the Magnachip D53E6EA8966 panel IC controller for display panels
+such as the Samsung AMS495QA01 panel as found on the Anbernic RG503.
+This panel uses DSI to receive video signals, but 3-wire SPI to receive
+command signals using DBI.
 
+Changes since V5:
+ - Reverted dt binding documentation name back to
+   samsung,ams495qa01.yaml.
+ - Removed no longer needed of_graph.h header file.
+ - Added backlight as a dependency.
 
-BR,
-Jani.
+Changes since V4:
+ - Renamed driver from the panel model to the panel IC controller per
+   DRM team.
+ - Added a drm_of helper function of drm_of_get_dsi_bus() to handle
+   finding and populating the DSI node when the DSI node is not the
+   parent of the DSI controlled display.
+ - Converted the documented commands to constants to make it more
+   readable.
+ - Reset GPIO is now required and documented as GPIO_ACTIVE_LOW.
+ - Removed "prepared" logic from panel.
 
->
-> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-> ---
->  drivers/gpu/drm/i915/i915_hwmon.c        | 39 ++++++++++++++++++++----
->  drivers/gpu/drm/i915/intel_mchbar_regs.h |  2 ++
->  2 files changed, 35 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
-> index cca7a4350ec8f..1225bc432f0d5 100644
-> --- a/drivers/gpu/drm/i915/i915_hwmon.c
-> +++ b/drivers/gpu/drm/i915/i915_hwmon.c
-> @@ -359,6 +359,38 @@ hwm_power_is_visible(const struct hwm_drvdata *ddat, u32 attr, int chan)
->  	}
->  }
->  
-> +/*
-> + * HW allows arbitrary PL1 limits to be set but silently clamps these values to
-> + * "typical but not guaranteed" min/max values in rg.pkg_power_sku. Follow the
-> + * same pattern for sysfs, allow arbitrary PL1 limits to be set but display
-> + * clamped values when read. Write/read I1 also follows the same pattern.
-> + */
-> +static int
-> +hwm_power_max_read(struct hwm_drvdata *ddat, long *val)
-> +{
-> +	struct i915_hwmon *hwmon = ddat->hwmon;
-> +	intel_wakeref_t wakeref;
-> +	u64 r, min, max;
-> +
-> +	*val = hwm_field_read_and_scale(ddat,
-> +					hwmon->rg.pkg_rapl_limit,
-> +					PKG_PWR_LIM_1,
-> +					hwmon->scl_shift_power,
-> +					SF_POWER);
-> +
-> +	with_intel_runtime_pm(ddat->uncore->rpm, wakeref)
-> +		r = intel_uncore_read64(ddat->uncore, hwmon->rg.pkg_power_sku);
-> +	min = REG_FIELD_GET(PKG_MIN_PWR, r);
-> +	min = mul_u64_u32_shr(min, SF_POWER, hwmon->scl_shift_power);
-> +	max = REG_FIELD_GET(PKG_MAX_PWR, r);
-> +	max = mul_u64_u32_shr(max, SF_POWER, hwmon->scl_shift_power);
-> +
-> +	if (min && max)
-> +		*val = clamp_t(u64, *val, min, max);
-> +
-> +	return 0;
-> +}
-> +
->  static int
->  hwm_power_read(struct hwm_drvdata *ddat, u32 attr, int chan, long *val)
->  {
-> @@ -368,12 +400,7 @@ hwm_power_read(struct hwm_drvdata *ddat, u32 attr, int chan, long *val)
->  
->  	switch (attr) {
->  	case hwmon_power_max:
-> -		*val = hwm_field_read_and_scale(ddat,
-> -						hwmon->rg.pkg_rapl_limit,
-> -						PKG_PWR_LIM_1,
-> -						hwmon->scl_shift_power,
-> -						SF_POWER);
-> -		return 0;
-> +		return hwm_power_max_read(ddat, val);
->  	case hwmon_power_rated_max:
->  		*val = hwm_field_read_and_scale(ddat,
->  						hwmon->rg.pkg_power_sku,
-> diff --git a/drivers/gpu/drm/i915/intel_mchbar_regs.h b/drivers/gpu/drm/i915/intel_mchbar_regs.h
-> index f93e9af43ac35..73900c098d591 100644
-> --- a/drivers/gpu/drm/i915/intel_mchbar_regs.h
-> +++ b/drivers/gpu/drm/i915/intel_mchbar_regs.h
-> @@ -194,6 +194,8 @@
->   */
->  #define PCU_PACKAGE_POWER_SKU			_MMIO(MCHBAR_MIRROR_BASE_SNB + 0x5930)
->  #define   PKG_PKG_TDP				GENMASK_ULL(14, 0)
-> +#define   PKG_MIN_PWR				GENMASK_ULL(30, 16)
-> +#define   PKG_MAX_PWR				GENMASK_ULL(46, 32)
->  #define   PKG_MAX_WIN				GENMASK_ULL(54, 48)
->  #define     PKG_MAX_WIN_X			GENMASK_ULL(54, 53)
->  #define     PKG_MAX_WIN_Y			GENMASK_ULL(52, 48)
+Changes since V3:
+ - Updated documentation to add spi-peripheral-props.yaml per updates
+   made for similar devices. Note that I removed a "Reviewed-by" tag
+   from Rob Herring since this change probably needs to be confirmed.
+ - Added binding for RG503, since this device is now accepted with this
+   request: https://lore.kernel.org/linux-rockchip/166274831283.21181.6861718157177507544.b4-ty@sntech.de/
+
+Changes since V2:
+ - Added 50hz mode at request of userspace devs.
+ - Renamed "dupa" to panel name. Good catch Maya.
+ - Added Maya's Signed-off-by.
+ - Removed check for max backlight, since it is already done by
+   backlight_device_set_brightness.
+ - Fixed minor formatting issues on devicetree binding documentation
+   and added port to provided example.
+
+Changes since V1:
+ - Removed errant reference to backlight in documentation. This is an
+   OLED panel.
+ - Made elvss regulator optional. In my case its hard wired and not
+   controllable.
+ - Added "prepared" enum to track panel status to prevent unbalanced
+   regulator enable/disable.
+
+Chris Morgan (4):
+  drm: of: Add drm_of_get_dsi_bus helper function
+  dt-bindings: display: panel: Add Samsung AMS495QA01
+  drm/panel: Add Magnachip D53E6EA8966 Panel Driver
+  arm64: dts: rockchip: add display to RG503
+
+ .../display/panel/samsung,ams495qa01.yaml     |  57 ++
+ .../dts/rockchip/rk3566-anbernic-rg503.dts    |  55 ++
+ drivers/gpu/drm/drm_of.c                      |  62 +++
+ drivers/gpu/drm/panel/Kconfig                 |  11 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../drm/panel/panel-magnachip-d53e6ea8966.c   | 514 ++++++++++++++++++
+ include/drm/drm_of.h                          |  11 +
+ 7 files changed, 711 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,ams495qa01.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.34.1
+
