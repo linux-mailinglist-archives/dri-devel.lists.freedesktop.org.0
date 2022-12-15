@@ -2,40 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F34264DEEB
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 17:46:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 776D464DF43
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 18:03:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DBD310E42D;
-	Thu, 15 Dec 2022 16:46:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38EB410E0F8;
+	Thu, 15 Dec 2022 17:02:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 740B210E0CF;
- Thu, 15 Dec 2022 16:46:06 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A66C10E0F8
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 17:02:40 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 414C2B81BA1;
- Thu, 15 Dec 2022 16:46:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23C28C433D2;
- Thu, 15 Dec 2022 16:45:57 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E045861E6F;
+ Thu, 15 Dec 2022 17:02:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B7A5C433D2;
+ Thu, 15 Dec 2022 17:02:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671122761;
- bh=aNi+MDukcWClJUpGNHicqsKzCYbsXQMr0xrEnMsi1Ts=;
+ s=k20201202; t=1671123759;
+ bh=up3Hy4XDtmZzsp1AKu2LrDJlblNutNEGvR1TiT4xtdY=;
  h=From:To:Cc:Subject:Date:From;
- b=p32bcg5JZOWdcq6LRNSuomdYw4Xuu/fO3b8cx0vILTMUqsLZ0+QxZ8LyZ2b6qk/sU
- DK4rjWufN/ywpUM5+ZWqONZd7yoLfU8kU9nXeaYiaisv2wfkPnwdREpGoJTIrqXtHw
- cFlF8rOWX2Aash/2xiNLlbfGvAVpBnrnuc7aH7XHBMpC42XA28xwfdnAp9N/9esM6/
- 5SVW03nnnN2i76DAIcn51k6Jx/HBAxw9FNAzyx0oTAjy8VJsTnQ8ykug9OdDqi3TmA
- v2XGRdQocpyrZLX9dlNLn237Ady1yssU7TP9RXW1oWA3A7RslJ/dLqZS/CxE8wO/wk
- T0NKYJuTSyUKQ==
+ b=SP+uNSHNYfDK7HipQd4t16gNSi4+NWrg12BC3jWhWv0GEyFfn/1Pp/lZtNuH7VJ/3
+ MonD7cwwre1mfclf50B4ZaJxbUItApR2PR0ffTIphUm+R8dluEM5jqmJboAn7Oeylc
+ jm+R0vpTAaYnfHAIhrr/wqvlVn0M94AoqINhxSUZju5fG8ZusdivPNUOSCiRkBOx/k
+ 9pqvR2qyss7hqNOptNPf5LuYWGyONo6ghplPC5jbD5En1LgetLS3KPEE7I3FoEcOQd
+ KBw0NkRaDviB0pqJhkhCViucgrmEELqYEy+WUk/KSLTt+91WdoHLCAkJ/hRHzcPdVs
+ od8B8hhT0zlNQ==
 From: Arnd Bergmann <arnd@kernel.org>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Subject: [PATCH] drm/amd/display: fix duplicate assignments
-Date: Thu, 15 Dec 2022 17:45:25 +0100
-Message-Id: <20221215164537.1126692-1-arnd@kernel.org>
+To: Helge Deller <deller@gmx.de>
+Subject: [PATCH] fbdev: omapfb: avoid stack overflow warning
+Date: Thu, 15 Dec 2022 18:02:28 +0100
+Message-Id: <20221215170234.2515030-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -51,47 +49,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Charlene Liu <Charlene.Liu@amd.com>, Arnd Bergmann <arnd@arndb.de>,
- Alex Hung <alex.hung@amd.com>, linux-kernel@vger.kernel.org, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Roman Li <roman.li@amd.com>,
- amd-gfx@lists.freedesktop.org,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Michael Strauss <michael.strauss@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Duncan Ma <duncan.ma@amd.com>
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Zhang Qilong <zhangqilong3@huawei.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The .set_odm_combine callback pointer was added twice, causing
-a harmless -Wextra warning:
+The dsi_irq_stats structure is a little too big to fit on the
+stack of a 32-bit task, depending on the specific gcc options:
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn314/dcn314_optc.c:258:36: error: initialized field overwritten [-Werror=override-init]
-  258 |                 .set_odm_combine = optc314_set_odm_combine,
-      |                                    ^~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn314/dcn314_optc.c:258:36: note: (near initialization for 'dcn314_tg_funcs.set_odm_combine')
+fbdev/omap2/omapfb/dss/dsi.c: In function 'dsi_dump_dsidev_irqs':
+fbdev/omap2/omapfb/dss/dsi.c:1621:1: error: the frame size of 1064 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
 
-Fixes: 5ade1b951dec ("drm/amd/display: Add OTG/ODM functions")
+Since this is only a debugfs file, performance is not critical,
+so just dynamically allocate it, and print an error message
+in there in place of a failure code when the allocation fails.
+
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/video/fbdev/omap2/omapfb/dss/dsi.c | 28 ++++++++++++++--------
+ 1 file changed, 18 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
-index f246aab23050..0086cafb0f7a 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
-@@ -241,7 +241,6 @@ static struct timing_generator_funcs dcn314_tg_funcs = {
- 		.set_dsc_config = optc3_set_dsc_config,
- 		.get_dsc_status = optc2_get_dsc_status,
- 		.set_dwb_source = NULL,
--		.set_odm_combine = optc314_set_odm_combine,
- 		.get_optc_source = optc2_get_optc_source,
- 		.set_out_mux = optc3_set_out_mux,
- 		.set_drr_trigger_window = optc3_set_drr_trigger_window,
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
+index 54b0f034c2ed..7cddb7b8ae34 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
+@@ -1536,22 +1536,28 @@ static void dsi_dump_dsidev_irqs(struct platform_device *dsidev,
+ {
+ 	struct dsi_data *dsi = dsi_get_dsidrv_data(dsidev);
+ 	unsigned long flags;
+-	struct dsi_irq_stats stats;
++	struct dsi_irq_stats *stats;
++
++	stats = kzalloc(sizeof(*stats), GFP_KERNEL);
++	if (!stats) {
++		seq_printf(s, "out of memory\n");
++		return;
++	}
+ 
+ 	spin_lock_irqsave(&dsi->irq_stats_lock, flags);
+ 
+-	stats = dsi->irq_stats;
++	*stats = dsi->irq_stats;
+ 	memset(&dsi->irq_stats, 0, sizeof(dsi->irq_stats));
+ 	dsi->irq_stats.last_reset = jiffies;
+ 
+ 	spin_unlock_irqrestore(&dsi->irq_stats_lock, flags);
+ 
+ 	seq_printf(s, "period %u ms\n",
+-			jiffies_to_msecs(jiffies - stats.last_reset));
++			jiffies_to_msecs(jiffies - stats->last_reset));
+ 
+-	seq_printf(s, "irqs %d\n", stats.irq_count);
++	seq_printf(s, "irqs %d\n", stats->irq_count);
+ #define PIS(x) \
+-	seq_printf(s, "%-20s %10d\n", #x, stats.dsi_irqs[ffs(DSI_IRQ_##x)-1])
++	seq_printf(s, "%-20s %10d\n", #x, stats->dsi_irqs[ffs(DSI_IRQ_##x)-1])
+ 
+ 	seq_printf(s, "-- DSI%d interrupts --\n", dsi->module_id + 1);
+ 	PIS(VC0);
+@@ -1575,10 +1581,10 @@ static void dsi_dump_dsidev_irqs(struct platform_device *dsidev,
+ 
+ #define PIS(x) \
+ 	seq_printf(s, "%-20s %10d %10d %10d %10d\n", #x, \
+-			stats.vc_irqs[0][ffs(DSI_VC_IRQ_##x)-1], \
+-			stats.vc_irqs[1][ffs(DSI_VC_IRQ_##x)-1], \
+-			stats.vc_irqs[2][ffs(DSI_VC_IRQ_##x)-1], \
+-			stats.vc_irqs[3][ffs(DSI_VC_IRQ_##x)-1]);
++			stats->vc_irqs[0][ffs(DSI_VC_IRQ_##x)-1], \
++			stats->vc_irqs[1][ffs(DSI_VC_IRQ_##x)-1], \
++			stats->vc_irqs[2][ffs(DSI_VC_IRQ_##x)-1], \
++			stats->vc_irqs[3][ffs(DSI_VC_IRQ_##x)-1]);
+ 
+ 	seq_printf(s, "-- VC interrupts --\n");
+ 	PIS(CS);
+@@ -1594,7 +1600,7 @@ static void dsi_dump_dsidev_irqs(struct platform_device *dsidev,
+ 
+ #define PIS(x) \
+ 	seq_printf(s, "%-20s %10d\n", #x, \
+-			stats.cio_irqs[ffs(DSI_CIO_IRQ_##x)-1]);
++			stats->cio_irqs[ffs(DSI_CIO_IRQ_##x)-1]);
+ 
+ 	seq_printf(s, "-- CIO interrupts --\n");
+ 	PIS(ERRSYNCESC1);
+@@ -1618,6 +1624,8 @@ static void dsi_dump_dsidev_irqs(struct platform_device *dsidev,
+ 	PIS(ULPSACTIVENOT_ALL0);
+ 	PIS(ULPSACTIVENOT_ALL1);
+ #undef PIS
++
++	kfree(stats);
+ }
+ 
+ static void dsi1_dump_irqs(struct seq_file *s)
 -- 
 2.35.1
 
