@@ -2,56 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC74664E13C
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 19:47:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 216DF64E148
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 19:49:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FD1B10E4FA;
-	Thu, 15 Dec 2022 18:47:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 861CA10E4DF;
+	Thu, 15 Dec 2022 18:48:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 130BE10E512;
- Thu, 15 Dec 2022 18:47:15 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id s187so6054118oie.10;
- Thu, 15 Dec 2022 10:47:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=CsTgnx/vUhdK+gz2CNEy5Z7hFYOJSlBzwtF5agxWOL8=;
- b=oJ/RLh3LE65rNsavJKHaY98DljooO1VSJWFUTr1wmqLEJMXIOe0CN8Q6agEtH9pvrl
- G0829Arhxti8Lxq/OboQdCGpM+BSSMy0u5YyANB0ogTqs7q29XR3OscSrV7QugBmLFVT
- 5965GQ0r+20cquOxy7daSlbU9JSNv206QtP6u11wF0wmcfrZ2k5db2HoY18AnFjQ1QrN
- 1Z8lML5DrGwyC4pgMHY3nFGGbRkvE3y7el4uYo4JlJQRjIR6yP0cTpl8w84fUt39z8Qb
- h7zgh8ztAeAa62eIxcm6VpzgPY7BiuaWyhLBvFCoLkcXVDABUvDH2EW3pASKTqCR/MTg
- 7yjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CsTgnx/vUhdK+gz2CNEy5Z7hFYOJSlBzwtF5agxWOL8=;
- b=lPKkZXPkOPuoGzPBaDDlhfBKDY0MjtmL3oQ0h0PflcJHC/4rhtEHbIgfeXe7zirNpy
- xYVVD7KWh8zaON2YrvMuzNbs9/bm0WobnlR4LwO8vLmyXYG5RnnzDMUs9NjJcn1gJLbH
- EIGY2xtBHwRzvCAY+zhxFmQFHykycSKNyVohIqLfGrE/xqoUabDDmlyCG5gGDioW5hAx
- EED+kq1RzCR20xeXKF7roBoWXw3Q07Bo5rTlvBtARoa63o/V3mVxDm9C1jzMBfdwgFT0
- IgPBPZ0ZEKWKO1lBYdmLkVifNafcbjM3AB4szL+4tiKihwMSSI3xcH/3s3jNcQK8IvpZ
- yE6w==
-X-Gm-Message-State: ANoB5pldtzXvwp/mXV/rhoT4Txc8tL0rrcDpcVbd2cyX3UvzGwtcIkgG
- FRMORJMMeB5wn3vQ3Nls2SZcYlfFQX4X5ZLgS4AMKhgk
-X-Google-Smtp-Source: AA0mqf6sYeW3AlVu8sndUu1dAS9K8n4qGS3TdVKb977xhfSHkDUXzaWLTbMPA09k52WEWKWPUGEt6dskSiK1BWnMQhs=
-X-Received: by 2002:a05:6808:1cd:b0:35b:f5f7:3ed0 with SMTP id
- x13-20020a05680801cd00b0035bf5f73ed0mr464102oic.46.1671130034322; Thu, 15 Dec
- 2022 10:47:14 -0800 (PST)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CED7510E4D3;
+ Thu, 15 Dec 2022 18:48:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1671130106; x=1702666106;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=ogspCvicFhhzdkF7v9AuTncGKWm32X+u+8OosTh5eL4=;
+ b=kGPtBf5XS/BKS+F9kzlOpKaSFhfF9V8B4vvJJjbbbeGzTze2Po8wmfyd
+ CKoH2awW/zA06cJcbCigDDPUGzGGZDUQzrBVutizki5ryyNoG2ZvaOZuI
+ ZN5OaNOSuajUg7U3n9VgyrPmPIOYaXBeEEtvbMU3f3OWmVhV0nITtqdOt
+ LBasB82bpAdr0GL/ZnpIEctjAgQnbEnxoJGquqrDuSB6i2EsOnti5k/9/
+ jlIRbknxdGOdPfqVMepdDXEnmffRT3Bzg3/9CQp8PEJmfT+ZF8C4qJbtU
+ LA6PV+uuls7aXX22GQd+koKkqigoJoaDoGa5+qO9dz5M96BEm3Bq2xKNV w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10562"; a="317470496"
+X-IronPort-AV: E=Sophos;i="5.96,248,1665471600"; d="scan'208";a="317470496"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2022 10:48:26 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10562"; a="894889082"
+X-IronPort-AV: E=Sophos;i="5.96,248,1665471600"; d="scan'208";a="894889082"
+Received: from popovaan-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.252.59.139])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2022 10:48:24 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Ashutosh Dixit <ashutosh.dixit@intel.com>, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/hwmon: Display clamped PL1 limit
+In-Reply-To: <20221215184409.2467595-1-ashutosh.dixit@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20221215184409.2467595-1-ashutosh.dixit@intel.com>
+Date: Thu, 15 Dec 2022 20:48:21 +0200
+Message-ID: <87bko4v6yy.fsf@intel.com>
 MIME-Version: 1.0
-References: <20221215164537.1126692-1-arnd@kernel.org>
-In-Reply-To: <20221215164537.1126692-1-arnd@kernel.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 15 Dec 2022 13:47:02 -0500
-Message-ID: <CADnq5_MxnmXaMW+D-F6fDLafwWPojHr2YuwX1mY8VM5a3S_Yjw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: fix duplicate assignments
-To: Arnd Bergmann <arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,53 +57,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Charlene Liu <Charlene.Liu@amd.com>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Roman Li <roman.li@amd.com>,
- Alex Hung <alex.hung@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Michael Strauss <michael.strauss@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Duncan Ma <duncan.ma@amd.com>
+Cc: Anshuman Gupta <anshuman.gupta@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Thu, 15 Dec 2022, Ashutosh Dixit <ashutosh.dixit@intel.com> wrote:
+> HW allows arbitrary PL1 limits to be set but silently clamps these values
+> to "typical but not guaranteed" min/max values in pkg_power_sku
+> register. Follow the same pattern for sysfs, allow arbitrary PL1 limits to
+> be set but display clamped values when read.
 
-Alex
+The commit message lacks the most important thing: why?
 
-On Thu, Dec 15, 2022 at 11:46 AM Arnd Bergmann <arnd@kernel.org> wrote:
+
+BR,
+Jani.
+
 >
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The .set_odm_combine callback pointer was added twice, causing
-> a harmless -Wextra warning:
->
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn314/dcn314_optc.c:258:36: error: initialized field overwritten [-Werror=override-init]
->   258 |                 .set_odm_combine = optc314_set_odm_combine,
->       |                                    ^~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn314/dcn314_optc.c:258:36: note: (near initialization for 'dcn314_tg_funcs.set_odm_combine')
->
-> Fixes: 5ade1b951dec ("drm/amd/display: Add OTG/ODM functions")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
 > ---
->  drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c | 1 -
->  1 file changed, 1 deletion(-)
+>  drivers/gpu/drm/i915/i915_hwmon.c        | 39 ++++++++++++++++++++----
+>  drivers/gpu/drm/i915/intel_mchbar_regs.h |  2 ++
+>  2 files changed, 35 insertions(+), 6 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
-> index f246aab23050..0086cafb0f7a 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
-> @@ -241,7 +241,6 @@ static struct timing_generator_funcs dcn314_tg_funcs = {
->                 .set_dsc_config = optc3_set_dsc_config,
->                 .get_dsc_status = optc2_get_dsc_status,
->                 .set_dwb_source = NULL,
-> -               .set_odm_combine = optc314_set_odm_combine,
->                 .get_optc_source = optc2_get_optc_source,
->                 .set_out_mux = optc3_set_out_mux,
->                 .set_drr_trigger_window = optc3_set_drr_trigger_window,
-> --
-> 2.35.1
->
+> diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
+> index cca7a4350ec8f..1225bc432f0d5 100644
+> --- a/drivers/gpu/drm/i915/i915_hwmon.c
+> +++ b/drivers/gpu/drm/i915/i915_hwmon.c
+> @@ -359,6 +359,38 @@ hwm_power_is_visible(const struct hwm_drvdata *ddat, u32 attr, int chan)
+>  	}
+>  }
+>  
+> +/*
+> + * HW allows arbitrary PL1 limits to be set but silently clamps these values to
+> + * "typical but not guaranteed" min/max values in rg.pkg_power_sku. Follow the
+> + * same pattern for sysfs, allow arbitrary PL1 limits to be set but display
+> + * clamped values when read. Write/read I1 also follows the same pattern.
+> + */
+> +static int
+> +hwm_power_max_read(struct hwm_drvdata *ddat, long *val)
+> +{
+> +	struct i915_hwmon *hwmon = ddat->hwmon;
+> +	intel_wakeref_t wakeref;
+> +	u64 r, min, max;
+> +
+> +	*val = hwm_field_read_and_scale(ddat,
+> +					hwmon->rg.pkg_rapl_limit,
+> +					PKG_PWR_LIM_1,
+> +					hwmon->scl_shift_power,
+> +					SF_POWER);
+> +
+> +	with_intel_runtime_pm(ddat->uncore->rpm, wakeref)
+> +		r = intel_uncore_read64(ddat->uncore, hwmon->rg.pkg_power_sku);
+> +	min = REG_FIELD_GET(PKG_MIN_PWR, r);
+> +	min = mul_u64_u32_shr(min, SF_POWER, hwmon->scl_shift_power);
+> +	max = REG_FIELD_GET(PKG_MAX_PWR, r);
+> +	max = mul_u64_u32_shr(max, SF_POWER, hwmon->scl_shift_power);
+> +
+> +	if (min && max)
+> +		*val = clamp_t(u64, *val, min, max);
+> +
+> +	return 0;
+> +}
+> +
+>  static int
+>  hwm_power_read(struct hwm_drvdata *ddat, u32 attr, int chan, long *val)
+>  {
+> @@ -368,12 +400,7 @@ hwm_power_read(struct hwm_drvdata *ddat, u32 attr, int chan, long *val)
+>  
+>  	switch (attr) {
+>  	case hwmon_power_max:
+> -		*val = hwm_field_read_and_scale(ddat,
+> -						hwmon->rg.pkg_rapl_limit,
+> -						PKG_PWR_LIM_1,
+> -						hwmon->scl_shift_power,
+> -						SF_POWER);
+> -		return 0;
+> +		return hwm_power_max_read(ddat, val);
+>  	case hwmon_power_rated_max:
+>  		*val = hwm_field_read_and_scale(ddat,
+>  						hwmon->rg.pkg_power_sku,
+> diff --git a/drivers/gpu/drm/i915/intel_mchbar_regs.h b/drivers/gpu/drm/i915/intel_mchbar_regs.h
+> index f93e9af43ac35..73900c098d591 100644
+> --- a/drivers/gpu/drm/i915/intel_mchbar_regs.h
+> +++ b/drivers/gpu/drm/i915/intel_mchbar_regs.h
+> @@ -194,6 +194,8 @@
+>   */
+>  #define PCU_PACKAGE_POWER_SKU			_MMIO(MCHBAR_MIRROR_BASE_SNB + 0x5930)
+>  #define   PKG_PKG_TDP				GENMASK_ULL(14, 0)
+> +#define   PKG_MIN_PWR				GENMASK_ULL(30, 16)
+> +#define   PKG_MAX_PWR				GENMASK_ULL(46, 32)
+>  #define   PKG_MAX_WIN				GENMASK_ULL(54, 48)
+>  #define     PKG_MAX_WIN_X			GENMASK_ULL(54, 53)
+>  #define     PKG_MAX_WIN_Y			GENMASK_ULL(52, 48)
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
