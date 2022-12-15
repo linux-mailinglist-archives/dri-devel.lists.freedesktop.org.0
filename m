@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A4C64D98E
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 11:29:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96AAF64D995
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 11:32:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 247EB10E516;
-	Thu, 15 Dec 2022 10:29:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF7FF10E51A;
+	Thu, 15 Dec 2022 10:31:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
- [IPv6:2001:4860:4864:20::2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A86E310E516
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 10:29:16 +0000 (UTC)
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-144b21f5e5fso20344557fac.12
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 02:29:16 -0800 (PST)
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
+ [IPv6:2607:f8b0:4864:20::b31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB2E510E519
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 10:31:25 +0000 (UTC)
+Received: by mail-yb1-xb31.google.com with SMTP id e141so2967901ybh.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 02:31:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=oXw7NIVPJMG8+PM6AqoYuOzdnbApW+aYda86CP39V/M=;
- b=pbR+AoUW7XkzVI6hslj50b+8n6ZYADDBFfvCJcr09vYPd6isxF1bPgdBNd9uc1FmhK
- yzh2Ox2m4cLaLOFJPVq/Rozw6gnxCxyAfPg9kIgETBr7+4hrzG0vr0km0TO/4wdQmJOD
- Qh48Lwudg/JBlCNnTDep5CCPrNMaXeRP5pnMw7UMThzd2UkV1E6+mh7RnAJFQ61g1Avx
- 8wmJu61Tc4A7zqnh2TnV5XslS0hMgZJhbYe8e+U0Ami6cqP+YtRvn2CeIlfjvZF0vADi
- 5MprXybHopawd9lKWPNJcXUtICWmB948C2lEITpWgnwI4UBy2huybTVbD4OVcSuHDkpU
- B/pA==
+ bh=XX+3f9Jwxgm3fjxBqATipqiQtxv3ULa91+RK1dgyvd4=;
+ b=mnyoMdbCUmTDjkmawt7QqTqrMzsjNZ/ai3V09PmVKmsPN8oL3uV/Fd4knI4BRJTUDZ
+ Gk5zOHiV7SN+O+FlIhfn2f5brBs9iYe6Q71atAGtMCXjhsOz10aj7geupTCeE/CtCAP9
+ oX7sT386pIsxG0Lp+yKCL6DRhPKPxY2biz907OS7dTAI/TDGPz7I6SoCLWGRVOx6qgIk
+ Z5cajGTZWyVsmhtOgTJRpnUmIyKqaG4R3oVl6fILz0UvL+zpUgnFxThjs1eDs0yCFOkH
+ 5T2hdvbsU7SavDXJnqOsv0EbGn0LxQaqFhnvEEqvLOuRruEsmXzdhQIbyepsnYT3ySZV
+ DLRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=oXw7NIVPJMG8+PM6AqoYuOzdnbApW+aYda86CP39V/M=;
- b=GGXFEeza/Nqyp76Rldgffe9UYl1b2tJxnB8YWmY1ySuJK8qFPeFjTM2XhsYWmk8SZ2
- JdFPPr3W6oczbtxHr5w/nI4cXP5FnweZxp5OoylxSaxKCbWOCOdpTQ+bUveQqNR6P/Tv
- bq2U49Ef/CS+aIVEy3SecJ54isSyzxG8GfqcRXmvmYMhXJ8LGvIwTCLdYPQ9b9jvTPRM
- CYkqSJTWtzumqJGjFtKXnKzJJjFM8aTT015IYvNfO+o4oL392+gmB3e8aYhqu9mskzSK
- 5J6djKrGJ+8BJjcpOy998poecJbMPmB0EnMB9ftG42U5aRzJZTs8uxrx94+ktPzUETD7
- MzFw==
-X-Gm-Message-State: AFqh2kq0k1cpS9uxF8qGkZaxdCSjDl/TzRPY9Zw/7uJrCsRJtVpF1MF5
- KgLmw/GI0JuX/ddb6QQCDv0ppTPYtuCrwpOy0YhBUA==
-X-Google-Smtp-Source: AA0mqf48x0Ly0lTHVC6+zanhcKAfhc9CQQ27Yszl1vpQXNwpDj4LShgOnGxn/oMFV65gE+GYqDp1jb5049WikZUWkXI=
-X-Received: by 2002:a05:6870:2393:b0:144:b04d:1669 with SMTP id
- e19-20020a056870239300b00144b04d1669mr170374oap.155.1671100155842; Thu, 15
- Dec 2022 02:29:15 -0800 (PST)
+ bh=XX+3f9Jwxgm3fjxBqATipqiQtxv3ULa91+RK1dgyvd4=;
+ b=Fc5jizVfmGmj/0CLzunwUsqZzui2sJxJQHjW8U0+zBtyHkJvdPbpyZc9x8nfEvddDy
+ 3Bv7Si2BXybPZZbNaTscSDF+DFjiC6BgIRuapNNH8D8d+F+2NQyZaGOT9L6VcUb4hRhW
+ n0R2dWMXsryCQJYOpSvUqdnQt3GjKbb3Qr0w1Ai2SYHfkOfKsoKtNgw/XX/hUfo9391g
+ 0YvS7N+B1nsuXfFmIxkkuXtLBGQbgXXS/GKp7wP82YAaE7XAjHGyz66pugZFtrF34Ene
+ A1CM2vOaiYW9FbukPTXzIsyYM+pWTQ17B1POVt9qVgXtm6KiUe9bLFhlkZrIAWQsnFur
+ HckQ==
+X-Gm-Message-State: ANoB5pkHMNFRCuiXi4Yr/3TQn4XmtfZ7A9wAmHEYuk5njUWNIDvO0i1U
+ RwRwf63OvrRzjIPHrmJFnYZKfbwcHdCe34U2J2F/CA==
+X-Google-Smtp-Source: AA0mqf5b5gXSrumgFf+LRtQ7Yw+51BXrZHF4HFnHjq32NHSqJWHcYXvRt9hSzYIHzy59WoULmiUU6LkvMV1uJ8FLBjU=
+X-Received: by 2002:a25:6b51:0:b0:6c2:4ea5:fc95 with SMTP id
+ o17-20020a256b51000000b006c24ea5fc95mr79059064ybm.619.1671100285097; Thu, 15
+ Dec 2022 02:31:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20221115112720.911158-1-treapking@chromium.org>
- <167103665890.995711.9267085599513513874.b4-ty@linaro.org>
- <CAEXTbpfgCVWNE=ao5=d8_Bo1YHmfb7e08aeMCaz38Tvt0jAcTw@mail.gmail.com>
-In-Reply-To: <CAEXTbpfgCVWNE=ao5=d8_Bo1YHmfb7e08aeMCaz38Tvt0jAcTw@mail.gmail.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Thu, 15 Dec 2022 11:29:05 +0100
-Message-ID: <CAG3jFysB_nWvJ7pqJj_jRNvncK58Rw=kHgdWu=ek7msHGi4E2w@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: it6505: Add caching for EDID
-To: Pin-yen Lin <treapking@chromium.org>
+References: <20221214180611.109651-1-macroalpha82@gmail.com>
+ <20221214180611.109651-2-macroalpha82@gmail.com>
+In-Reply-To: <20221214180611.109651-2-macroalpha82@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 15 Dec 2022 11:30:32 +0100
+Message-ID: <CACRpkdb_yaJSH0+RcEXh8w-48uCpdUS12TrGAD96pFyODKvetQ@mail.gmail.com>
+Subject: Re: [PATCH V5 1/4] drm: of: Add drm_of_get_dsi_bus helper function
+To: Chris Morgan <macroalpha82@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,55 +65,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- allen chen <allen.chen@ite.com.tw>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
+ krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org, robh+dt@kernel.org,
+ thierry.reding@gmail.com, dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ Maya Matuszczyk <maccraft123mc@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 15 Dec 2022 at 09:36, Pin-yen Lin <treapking@chromium.org> wrote:
->
-> Hi Robert,
->
-> Thanks for the review.
->
-> I didn't see this patch on drm-misc-next, but my another patch merged
-> instead: https://cgit.freedesktop.org/drm/drm-misc/commit/?id=5eb9a4314053bda7642643f70f49a2b415920812
->
-> Did something go wrong? Or is it me missing something?
+On Wed, Dec 14, 2022 at 7:06 PM Chris Morgan <macroalpha82@gmail.com> wrote:
 
-This is my mistake. I'm switching to a 'b4 ty' based workflow, and the
-wrong thank you message got sent out.
-
-Let me have a look at this patch too.
-
+> From: Chris Morgan <macromorgan@hotmail.com>
 >
-> Regards,
-> Pin-yen
+> Add helper function to find DSI host for devices where DSI panel is not
+> a minor of a DSI bus (such as the Samsung AMS495QA01 panel or the
+> official Raspberry Pi touchscreen display).
 >
-> On Thu, Dec 15, 2022 at 12:51 AM Robert Foss <robert.foss@linaro.org> wrote:
-> >
-> > On Tue, 15 Nov 2022 19:27:20 +0800, Pin-yen Lin wrote:
-> > > Add caching when EDID is read, and invalidate the cache until the
-> > > bridge detects HPD low or sink count changes on HPD_IRQ.
-> > >
-> > > It takes 1.2s for IT6505 bridge to read a 3-block EDID, and skipping
-> > > one EDID read would be a notable difference on user experience.
-> > >
-> > >
-> > > [...]
-> >
-> > Applied, thanks!
-> >
-> > Repo: https://cgit.freedesktop.org/drm/drm-misc/
-> >
-> >
-> > [1/1] drm/bridge: it6505: Add caching for EDID
-> >       (no commit info)
-> >
-> >
-> >
-> > rob
-> >
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+
+Nice, exactly as it should be IMO.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
