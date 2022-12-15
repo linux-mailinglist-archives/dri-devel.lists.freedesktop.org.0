@@ -2,59 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B5364DE5C
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 17:17:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD24F64DEBE
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 17:36:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6043910E0ED;
-	Thu, 15 Dec 2022 16:16:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A492D10E0FA;
+	Thu, 15 Dec 2022 16:35:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com
- [209.85.160.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FC3D10E0ED
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 16:16:41 +0000 (UTC)
-Received: by mail-oa1-f44.google.com with SMTP id
- 586e51a60fabf-1447c7aa004so21516862fac.11
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 08:16:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WmhcSod630WMmrv8Iz4/Aem44InqHzLhbQpOczKGFtI=;
- b=FHsmd/P1LeOekUAzEUmrg8IAe5kZ0SmK36VCdFxitg0/K1Hn+N03GJ/RgRfXWZXucv
- 2z3KjuUjlRMcflJEjioZOADVX8AFI7A8Vi7NhFAFOn5MUCPCKebpLXGvYLPOZYoYRPef
- MeMKmoBwHGfrG4EtdNIhFZqwMCc+B8xBpWE2//k1DNuN/aUAj0vpAdo7KXlxkiIVkShB
- +Tsp03Pe14Aal6fMzLFuzUKM9l8fvRqOkGrKoU1bKcHq3T+fBtYnZHvINGg++T6OqjSt
- pdhePh5ZwdsvhrbRx6Pp+ZNTV7naAhAEQqN+Ol9Kj7TU7P8++b1WvZfffUhHEQs1wW1F
- KxuA==
-X-Gm-Message-State: ANoB5plwn+Zu7NOYtKP0MgiHkYpoGuTYpacojj8fEHrGyp5i86uBV8bj
- 91bW4W3C0aJpZKUpJP/z1w==
-X-Google-Smtp-Source: AA0mqf4ZpeLvaDZnLN6XCqYqsI3uas4LVmmjGi9sULsC0m6a0NGAeb3+kld7P5xa9O7lOS23KVKnfQ==
-X-Received: by 2002:a05:6870:ebc4:b0:144:e283:831f with SMTP id
- cr4-20020a056870ebc400b00144e283831fmr14321577oab.11.1671121000173; 
- Thu, 15 Dec 2022 08:16:40 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- r20-20020a05687080d400b0012d939eb0bfsm4222398oab.34.2022.12.15.08.16.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Dec 2022 08:16:39 -0800 (PST)
-Received: (nullmailer pid 138172 invoked by uid 1000);
- Thu, 15 Dec 2022 16:16:38 -0000
-Date: Thu, 15 Dec 2022 10:16:38 -0600
-From: Rob Herring <robh@kernel.org>
-To: Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH V5 2/4] dt-bindings: display: panel: Add Magnachip
- D53E6EA8966
-Message-ID: <20221215161638.GA135300-robh@kernel.org>
-References: <20221214180611.109651-1-macroalpha82@gmail.com>
- <20221214180611.109651-3-macroalpha82@gmail.com>
- <CACRpkdY7UArNJ5ZH8f5rx+9aoV_ii=0aE9PCj-6XHCL7Om0+=Q@mail.gmail.com>
- <SN6PR06MB53429788776760E4BDBC55ABA5E19@SN6PR06MB5342.namprd06.prod.outlook.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E761F10E0FA
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 16:35:24 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id D1021B81C0E;
+ Thu, 15 Dec 2022 16:35:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E81A8C433EF;
+ Thu, 15 Dec 2022 16:35:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1671122118;
+ bh=g+llGdryqrPBn/E1pMNZ7VfxGoucOwyeg4NbT0i9qN8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=OZz69KEVu8zw0awttRT/LTDhwdgnAiiEQ3EocltG1q6SLSM8KtEx7EQyXhCLAnyii
+ O1Kzsa4o6oD4E+IQqqtzp0TUhOb2sYgz0xJoN48kKczNb8tWH3rr6BnvVTKnXtJFNJ
+ zvnuuhxTpy39u+WQh7GwwPR18zp/97T+J76POMvfGJIZLRjzasFliCpUyUwzdbelhn
+ I7GwLL1ijFBg188O8SIum+p6nQqA+9ng8c/ULmaTfUgK7Q9y/cdeygGngaWhxNxXr/
+ tQzh05kPt49OJITLM+ni/Pbf1f6V2XOdu5ZSM8hhZPH2LTlGvCXb8NgJ+OZZivTLZm
+ 7ky1rgk65x9Qw==
+From: Arnd Bergmann <arnd@kernel.org>
+To: David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/tests: reduce drm_mm_test stack usage
+Date: Thu, 15 Dec 2022 17:34:49 +0100
+Message-Id: <20221215163511.266214-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SN6PR06MB53429788776760E4BDBC55ABA5E19@SN6PR06MB5342.namprd06.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,34 +50,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- sam@ravnborg.org, Chris Morgan <macroalpha82@gmail.com>,
- thierry.reding@gmail.com, dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- Maya Matuszczyk <maccraft123mc@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Tom Rix <trix@redhat.com>,
+ Daniel Latypov <dlatypov@google.com>, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <maira.canal@usp.br>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 15, 2022 at 08:44:56AM -0600, Chris Morgan wrote:
-> On Thu, Dec 15, 2022 at 09:47:19AM +0100, Linus Walleij wrote:
-> > On Wed, Dec 14, 2022 at 7:06 PM Chris Morgan <macroalpha82@gmail.com> wrote:
-> > 
-> > > From: Chris Morgan <macromorgan@hotmail.com>
-> > >
-> > > Add documentation for Magnachip D53E6EA8966 based panels such as the
-> > > Samsung AMS495QA01 panel.
-> > >
-> > > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> > > Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
-> > (...)
-> > >  .../display/panel/magnachip,d53e6ea8966.yaml  | 62 +++++++++++++++++++
-> > 
-> > It's fine to keep this as samsung,ams495qa01.
-> > 
-> 
-> Would the device tree team be okay with that change? The driver name
-> itself has changed and I fear possible confusion if someone is looking
-> for docs by driver name.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Doesn't matter to me either way.
+The check_reserve_boundaries function uses a lot of kernel stack,
+and it gets inlined by clang, which makes __drm_test_mm_reserve
+use even more of it, to the point of hitting the warning limit:
 
-Rob
+drivers/gpu/drm/tests/drm_mm_test.c:344:12: error: stack frame size (1048) exceeds limit (1024) in '__drm_test_mm_reserve' [-Werror,-Wframe-larger-than]
+
+When building with gcc, this does not happen, but the structleak
+plugin can similarly increase the stack usage and needs to be
+disabled, as we do for all other kunit users.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/tests/Makefile      | 2 ++
+ drivers/gpu/drm/tests/drm_mm_test.c | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
+index b29ef1085cad..f896ef85c2f2 100644
+--- a/drivers/gpu/drm/tests/Makefile
++++ b/drivers/gpu/drm/tests/Makefile
+@@ -12,3 +12,5 @@ obj-$(CONFIG_DRM_KUNIT_TEST) += \
+ 	drm_mm_test.o \
+ 	drm_plane_helper_test.o \
+ 	drm_rect_test.o
++
++CFLAGS_drm_mm_test.o := $(DISABLE_STRUCTLEAK_PLUGIN)
+diff --git a/drivers/gpu/drm/tests/drm_mm_test.c b/drivers/gpu/drm/tests/drm_mm_test.c
+index 89f12d3b4a21..90a5becc99b8 100644
+--- a/drivers/gpu/drm/tests/drm_mm_test.c
++++ b/drivers/gpu/drm/tests/drm_mm_test.c
+@@ -298,7 +298,7 @@ static bool expect_reserve_fail(struct kunit *test, struct drm_mm *mm, struct dr
+ 	return false;
+ }
+ 
+-static bool check_reserve_boundaries(struct kunit *test, struct drm_mm *mm,
++static bool noinline_for_stack check_reserve_boundaries(struct kunit *test, struct drm_mm *mm,
+ 				     unsigned int count,
+ 				     u64 size)
+ {
+-- 
+2.35.1
+
