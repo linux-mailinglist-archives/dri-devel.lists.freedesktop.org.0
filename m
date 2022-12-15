@@ -2,59 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF34664E157
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 19:52:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C58A64E15E
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 19:53:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1114D10E512;
-	Thu, 15 Dec 2022 18:52:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7366010E54C;
+	Thu, 15 Dec 2022 18:52:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
- [IPv6:2607:f8b0:4864:20::c2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFF6310E4D3
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 18:52:18 +0000 (UTC)
-Received: by mail-oo1-xc2e.google.com with SMTP id
- g15-20020a4a894f000000b0047f8e899623so30262ooi.5
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 10:52:18 -0800 (PST)
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
+ [IPv6:2001:4860:4864:20::36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F86310E513
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 18:52:23 +0000 (UTC)
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-1445ca00781so457341fac.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 10:52:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=obKXGKhdezaANc/b4vG1rAvVdxbFcZUhrsHZMR12SlM=;
- b=OrZUziRz0gZiHIfPRHjEhiLdKTiCM8uoEoqnlOAbUprHIymWJuMVa97AkwLIxIzrRO
- Nuy+tkNlFmsXxLsF8AYidwvQcpV4R9OkhaB0ejhR+uHxEnHKR495CRumwo6si7bVDwCD
- y1hjQN1shf1eP1Fl+grqgmpkhWZkSz0NaeAngJolwCNQ80qg+HGBihIDTe7wejTD5W1i
- p/12Nf2MCWaF59XQOqjJQ1qgEwB1JZdLFvBrwjNYAz1doBXCWxdouT1Ly/grIf6Ta6kc
- GTKw39aYzwLCdasuKzGDAOP7vtn5Apx7eV4mLljp29HzcI6fFNzx71j96mNVAn+jz4eF
- 4bEg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xn617BcZSTh+Tv1VQzD2cNnC0x1O8uRUTBT7WhFq7GY=;
+ b=iaUGgI6zm2S4J6y8CeuTQyLrYTkN31CQSbVQcmcxcljy+iB53ew7QQ/lUzmrCIQAit
+ EAXSYFopTo/eDtzSERRPBpFTUbpF8Bp4CWJ8QxVhcQl/xN76xgq8NY4YhweKqL+6X+sQ
+ rAzrSxGP0SpDBLk2hSsQiG1O7yhGZzo/XkV1K+tzEUx492Vi/P6tfCfeW0sEgU/g60wl
+ aJxxsINu8tg9pCV8uv20ZU9W901FYSd9Ta5u+p6ChDdXUha7RjIx5UEZEjpq3yxeRoGF
+ 1tPRY2msCs11fJUJjvEWBCMcGjZcyC3UmY0YJRMKuced16yxXmUqP4mXxm3PgCuzCII4
+ +Z7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=obKXGKhdezaANc/b4vG1rAvVdxbFcZUhrsHZMR12SlM=;
- b=vactXVVcV2+eVDyhIpfJyKkmotKJuS6GK4kiELiYiAArF6kA+7Z6wzF7KOqCiqFhTb
- KK8yxgIPfTNo5SQyX2XkhRKHiTikHTNCQH6L0o4h2ozAQbqYGBZ+G2gpy3OPFU0noWZu
- B3p+JRRdhedNRAWveaUzU+Tg6ia7/C73WbnFZA5AuTTy5X68hm4yqgQ1UPeNkwCZfRvn
- hhFhHK0QwAU8EsBz+ufpQlxZ9IzXCn3KTH5CrdyNoLbnEVDRAKdxWgKgECs5I5dL96b1
- SNSfOH2iUKKi2tKob5JuBE41cSuYayNSsQe8le1fSarIZUAEVsYuyBX0Vx69lcCja7zS
- lUdw==
-X-Gm-Message-State: ANoB5pnvEiUKR1WXMee/zxrcoqE5H3FviRzd19UB7pfQUV2bVSJ1CcH3
- OHbWbbGzpFG/keoGwZ5dKbe6GrsQ0Wc=
-X-Google-Smtp-Source: AA0mqf5sdfafpVcxAYrRWb4N1scUZkG0vKA8pWjSrX5LXLjb3IwQLRuArYIrCqDJUKTZQa/GHjFrgQ==
-X-Received: by 2002:a4a:d010:0:b0:4a3:9f7a:add0 with SMTP id
- h16-20020a4ad010000000b004a39f7aadd0mr12112492oor.5.1671130337766; 
- Thu, 15 Dec 2022 10:52:17 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xn617BcZSTh+Tv1VQzD2cNnC0x1O8uRUTBT7WhFq7GY=;
+ b=xKDUmJF7Fqkf4N1T8D7cJHw9koX3HHNFlLXMWKiNV0XZ8F8xWVxFY+icyW6V4A0RjM
+ NzxJC7GXaaufUohjZn7AMesS47ccFxgNqD+vOVqu4JzWyY8dDzRiywtKhlbc18EEbJqg
+ HBzlVQPmQFMxK6dLcPOa7rW5BKAjr7sxxLNw4Qgj0j0svshm5ND5fvmorOm0pAR2eH+z
+ yzdCM7fT0J+akeMvBGn08BENvep6Md2OzSXeO6Z6z6tMEvwK+xhfk53P+ZDm1/CQqLse
+ L/2Xi+PQHklVzmtiK5Tsr0yQd8FpZl1EnaH7MN2vCoinaJ7nKewv19qpZraJJh3Rypue
+ z77A==
+X-Gm-Message-State: ANoB5pmS3f+6jLv8bdViCiVR4sFXpVgkp3srbCZ8OS29/j8TcbZkRccF
+ 3G41ekD8ICcjtnOtEEoPJ6dBW6WY1XM=
+X-Google-Smtp-Source: AA0mqf47rBfZYHu7hg3Y0A1cdftmNxiEogndSB8pVOzg2OPYN/8oB6JyAVaCwGgWFxQMYJC8UY+v5w==
+X-Received: by 2002:a05:6870:8307:b0:13b:d3cd:3531 with SMTP id
+ p7-20020a056870830700b0013bd3cd3531mr19662488oae.29.1671130338836; 
+ Thu, 15 Dec 2022 10:52:18 -0800 (PST)
 Received: from localhost.localdomain ([76.244.6.13])
  by smtp.gmail.com with ESMTPSA id
- g11-20020a4ad84b000000b004a09df5a1dbsm72264oov.8.2022.12.15.10.52.16
+ g11-20020a4ad84b000000b004a09df5a1dbsm72264oov.8.2022.12.15.10.52.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Dec 2022 10:52:17 -0800 (PST)
+ Thu, 15 Dec 2022 10:52:18 -0800 (PST)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH V6 0/4] drm/panel: Add Magnachip D53E6EA8966 Panel Controller
-Date: Thu, 15 Dec 2022 12:52:07 -0600
-Message-Id: <20221215185211.1560736-1-macroalpha82@gmail.com>
+Subject: [PATCH V6 1/4] drm: of: Add drm_of_get_dsi_bus helper function
+Date: Thu, 15 Dec 2022 12:52:08 -0600
+Message-Id: <20221215185211.1560736-2-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221215185211.1560736-1-macroalpha82@gmail.com>
+References: <20221215185211.1560736-1-macroalpha82@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,69 +81,131 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Add the Magnachip D53E6EA8966 panel IC controller for display panels
-such as the Samsung AMS495QA01 panel as found on the Anbernic RG503.
-This panel uses DSI to receive video signals, but 3-wire SPI to receive
-command signals using DBI.
+Add helper function to find DSI host for devices where DSI panel is not
+a minor of a DSI bus (such as the Samsung AMS495QA01 panel or the
+official Raspberry Pi touchscreen display).
 
-Changes since V5:
- - Reverted dt binding documentation name back to
-   samsung,ams495qa01.yaml.
- - Removed no longer needed of_graph.h header file.
- - Added backlight as a dependency.
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/gpu/drm/drm_of.c | 62 ++++++++++++++++++++++++++++++++++++++++
+ include/drm/drm_of.h     | 11 +++++++
+ 2 files changed, 73 insertions(+)
 
-Changes since V4:
- - Renamed driver from the panel model to the panel IC controller per
-   DRM team.
- - Added a drm_of helper function of drm_of_get_dsi_bus() to handle
-   finding and populating the DSI node when the DSI node is not the
-   parent of the DSI controlled display.
- - Converted the documented commands to constants to make it more
-   readable.
- - Reset GPIO is now required and documented as GPIO_ACTIVE_LOW.
- - Removed "prepared" logic from panel.
-
-Changes since V3:
- - Updated documentation to add spi-peripheral-props.yaml per updates
-   made for similar devices. Note that I removed a "Reviewed-by" tag
-   from Rob Herring since this change probably needs to be confirmed.
- - Added binding for RG503, since this device is now accepted with this
-   request: https://lore.kernel.org/linux-rockchip/166274831283.21181.6861718157177507544.b4-ty@sntech.de/
-
-Changes since V2:
- - Added 50hz mode at request of userspace devs.
- - Renamed "dupa" to panel name. Good catch Maya.
- - Added Maya's Signed-off-by.
- - Removed check for max backlight, since it is already done by
-   backlight_device_set_brightness.
- - Fixed minor formatting issues on devicetree binding documentation
-   and added port to provided example.
-
-Changes since V1:
- - Removed errant reference to backlight in documentation. This is an
-   OLED panel.
- - Made elvss regulator optional. In my case its hard wired and not
-   controllable.
- - Added "prepared" enum to track panel status to prevent unbalanced
-   regulator enable/disable.
-
-Chris Morgan (4):
-  drm: of: Add drm_of_get_dsi_bus helper function
-  dt-bindings: display: panel: Add Samsung AMS495QA01
-  drm/panel: Add Magnachip D53E6EA8966 Panel Driver
-  arm64: dts: rockchip: add display to RG503
-
- .../display/panel/samsung,ams495qa01.yaml     |  57 ++
- .../dts/rockchip/rk3566-anbernic-rg503.dts    |  55 ++
- drivers/gpu/drm/drm_of.c                      |  62 +++
- drivers/gpu/drm/panel/Kconfig                 |  11 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- .../drm/panel/panel-magnachip-d53e6ea8966.c   | 514 ++++++++++++++++++
- include/drm/drm_of.h                          |  11 +
- 7 files changed, 711 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,ams495qa01.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c
-
+diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+index 7bbcb999bb75..7d89ac164069 100644
+--- a/drivers/gpu/drm/drm_of.c
++++ b/drivers/gpu/drm/drm_of.c
+@@ -10,6 +10,7 @@
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_encoder.h>
++#include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+ 
+@@ -493,3 +494,64 @@ int drm_of_get_data_lanes_count_ep(const struct device_node *port,
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(drm_of_get_data_lanes_count_ep);
++
++/**
++ * drm_of_get_dsi_bus - find the DSI bus for a given device
++ * @dev: parent device of display (SPI, I2C)
++ * @dsi_host: DSI host to be populated
++ * @info: DSI device info to be updated with correct DSI node
++ *
++ * Given a panel device parented to a non-DSI device, follow the
++ * devicetree to find the correct DSI host node and populate the
++ * dsi_host with the correct host and info with the correct node.
++ * Returns zero if successful, -EPROBE_DEFER if the DSI host is
++ * found but not available, or -ENODEV otherwise.
++ */
++int drm_of_get_dsi_bus(struct device *dev,
++			      struct mipi_dsi_host **dsi_host,
++			      struct mipi_dsi_device_info *info)
++{
++	struct device_node *endpoint, *dsi_host_node;
++
++	/*
++	 * Get first endpoint child from device.
++	 */
++	endpoint = of_graph_get_next_endpoint(dev->of_node, NULL);
++	if (!endpoint)
++		return -ENODEV;
++
++	/*
++	 * Follow the first endpoint to get the DSI host node.
++	 */
++	dsi_host_node = of_graph_get_remote_port_parent(endpoint);
++	if (!dsi_host_node)
++		goto error;
++
++	/*
++	 * Get the DSI host from the DSI host node. If we get an error
++	 * or the return is null assume we're not ready to probe just
++	 * yet. Release the DSI host node since we're done with it.
++	 */
++	*dsi_host = of_find_mipi_dsi_host_by_node(dsi_host_node);
++	of_node_put(dsi_host_node);
++	if (IS_ERR_OR_NULL(*dsi_host)) {
++		of_node_put(endpoint);
++		return -EPROBE_DEFER;
++	}
++
++	/*
++	 * Set the node of the mipi_dsi_device_info to the correct node
++	 * and then release the endpoint node since we're done with it.
++	 */
++	info->node = of_graph_get_remote_port(endpoint);
++	if (IS_ERR_OR_NULL(info->node))
++		goto error;
++
++	of_node_put(endpoint);
++	return 0;
++
++error:
++	of_node_put(endpoint);
++	return -ENODEV;
++}
++EXPORT_SYMBOL_GPL(drm_of_get_dsi_bus);
+diff --git a/include/drm/drm_of.h b/include/drm/drm_of.h
+index 10ab58c40746..a694ce71c3b2 100644
+--- a/include/drm/drm_of.h
++++ b/include/drm/drm_of.h
+@@ -15,6 +15,8 @@ struct drm_encoder;
+ struct drm_panel;
+ struct drm_bridge;
+ struct device_node;
++struct mipi_dsi_device_info;
++struct mipi_dsi_host;
+ 
+ /**
+  * enum drm_lvds_dual_link_pixels - Pixel order of an LVDS dual-link connection
+@@ -56,6 +58,9 @@ int drm_of_get_data_lanes_count_ep(const struct device_node *port,
+ 				   int port_reg, int reg,
+ 				   const unsigned int min,
+ 				   const unsigned int max);
++int drm_of_get_dsi_bus(struct device *dev,
++		       struct mipi_dsi_host **dsi_host,
++		       struct mipi_dsi_device_info *info);
+ #else
+ static inline uint32_t drm_of_crtc_port_mask(struct drm_device *dev,
+ 					  struct device_node *port)
+@@ -127,6 +132,12 @@ drm_of_get_data_lanes_count_ep(const struct device_node *port,
+ {
+ 	return -EINVAL;
+ }
++static int drm_of_get_dsi_bus(struct device *dev,
++			      struct mipi_dsi_host **dsi_host,
++			      struct mipi_dsi_device_info *info);
++{
++	return -EINVAL;
++}
+ #endif
+ 
+ /*
 -- 
 2.34.1
 
