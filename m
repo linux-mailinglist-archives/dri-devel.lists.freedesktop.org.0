@@ -2,63 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C4D64D888
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 10:26:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CABB564D8B4
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 10:37:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D24B910E50B;
-	Thu, 15 Dec 2022 09:26:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 379AA10E0A1;
+	Thu, 15 Dec 2022 09:36:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFAB010E50B
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 09:26:08 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id ja17so10351451wmb.3
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 01:26:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=rT5nYetbt/rUXKIwgJbVz9fS9IuJsFVtRBisMphoNoo=;
- b=uuryZsdS88lObitkX7oxZa7cfGT9633pRc4WZIgl5bJUbG9D8CBtD15kZGCxNXmd8W
- SRwLhAR2eiJIhtAEZS9smEviFkVCL4zLFUaDE7JDGN1o0y6dDq5KSuqrYfCGczRFjXLj
- PRVNRc9lFvKfpmul5ElCdoG0EIX0ixYU9SENXyrO6n0qDwLTyWlK8mOiKjQ7ktNyxmUl
- 2RIPHyh1eqJzELF1iNAtxlDnABfR2/fXoi3rbIIMnqkxUTRC/8qhTx84nZajQjMSYIDm
- gdF/kr5djm6fIGjajwNgGSaXkRThEWBLjPNuOWiBwU6h+w1/gQEknxYtY+LQMgPwu+rI
- 2kmQ==
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+ [209.85.160.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A0B410E0A7
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 09:36:43 +0000 (UTC)
+Received: by mail-qt1-f174.google.com with SMTP id fu10so4766112qtb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 01:36:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rT5nYetbt/rUXKIwgJbVz9fS9IuJsFVtRBisMphoNoo=;
- b=X0NR6q4a7AdeW6i0CG9R/8hpIh3fbs2fdtpaufLmn6UiWceqKxXATnQCQlotX5uASP
- cOykk4pEIJs9hN05FeVz7GfyOATmnE+L2pTEVh7pTGP1PoMSW+huJ7Nhso3u5m92vYTZ
- X8A5XOyXxUKqnjQ/9WBwASlyL/ck7c+0tJBzninF6Q+4hjBLbrNDwYPHWQQACskJoM8Q
- ZviLeJl6CzzkxmzICa1T2GGLTkdmfNs4jKuCWUJIsO5MjqIkn84NJvPzLfJj65DopSw+
- L3FPNXEpe7q1Np1jaeHASSSLV8DQyQAa4EQhCjQW5INQWgrJTWNhwaTA6h5f13OmC1Q4
- 2qsg==
-X-Gm-Message-State: ANoB5pnwy0pLZO/eLBk15bB9ZiW+DEWZBmidS1q5bg1wn1i8DLVEvSiC
- 7Cz8SyFZW1HaxVdw0PxKwfbDHA==
-X-Google-Smtp-Source: AA0mqf40a/Y200wMJ6a9mSLz6nlNT4JTAlNOWT8f3KhBY+g472ukIetY/DrD+llEO7lEN4DsR6KLsQ==
-X-Received: by 2002:a05:600c:4f05:b0:3cf:85af:6a4a with SMTP id
- l5-20020a05600c4f0500b003cf85af6a4amr28838749wmq.25.1671096367213; 
- Thu, 15 Dec 2022 01:26:07 -0800 (PST)
-Received: from aspen.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- v6-20020a05600c15c600b003d33ab317dasm1152748wmf.14.2022.12.15.01.26.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Dec 2022 01:26:06 -0800 (PST)
-Date: Thu, 15 Dec 2022 09:26:04 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Miaoqian Lin <linmq006@gmail.com>
-Subject: Re: [PATCH] backlight: backlight: Fix doc for
- backlight_device_get_by_name
-Message-ID: <Y5roLFINjM/GjWPK@aspen.lan>
-References: <20221215071902.424005-1-linmq006@gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=g2NPyqXJNNNln99iz2q7S9fU77v53XVtuYkV5/riHK4=;
+ b=cCQQ3CvPAIBU9S8ovrKhMHcJIuxrwKJsLMsJmiJNkNxey7dcZHYBOAKoKIrzMsd0BD
+ 7iS3Px/IGlgb/mW4+O/nPzdvGj9wxhtsncKjknk3tLcEWTfbjaGmJ0usg+YWIuG0SjYq
+ WY79GH+9pGKw+t1F/PrWmuOG/XPm1NkUw6+pWQ9v9B4t8Ip8EX6vpIObBFz50UFeSPu4
+ SBWrESu9Bf/dK2uUnsWreTai+Bd1IjpVyi9tYkYOon1EgPY/wVqW8Ofm6un6Do/hturW
+ vIoMOgCYlNZeyYspPeLioyFr2muXjQXfy5uDJ7KATjoI+gnIKwCdXgKkkWQr9UYEQzk/
+ e96Q==
+X-Gm-Message-State: ANoB5pkGXBAj0P79hlEvXH6eMX3pyBMxKH+O88hst+sYkIdZiK9Ras5W
+ xE4i679wRGmI7gsvNxG4bJymdtl7VC7alw==
+X-Google-Smtp-Source: AA0mqf4V03aRMsgSGP8rBOR7xjnGhyRsrjhfVKfcYJQ9bLahqeSp9poaSaxAQpodc27/UaUAQjGwtw==
+X-Received: by 2002:ac8:548a:0:b0:3a6:8f0d:53a6 with SMTP id
+ h10-20020ac8548a000000b003a68f0d53a6mr14787576qtq.40.1671097001778; 
+ Thu, 15 Dec 2022 01:36:41 -0800 (PST)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com.
+ [209.85.219.172]) by smtp.gmail.com with ESMTPSA id
+ u13-20020ac8750d000000b0039492d503cdsm3225598qtq.51.2022.12.15.01.36.40
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Dec 2022 01:36:41 -0800 (PST)
+Received: by mail-yb1-f172.google.com with SMTP id e141so2831182ybh.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 01:36:40 -0800 (PST)
+X-Received: by 2002:a25:7104:0:b0:702:90b4:2e24 with SMTP id
+ m4-20020a257104000000b0070290b42e24mr13831647ybc.365.1671097000657; Thu, 15
+ Dec 2022 01:36:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221215071902.424005-1-linmq006@gmail.com>
+References: <cad03d25-0ea0-32c4-8173-fd1895314bce@I-love.SAKURA.ne.jp>
+In-Reply-To: <cad03d25-0ea0-32c4-8173-fd1895314bce@I-love.SAKURA.ne.jp>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 15 Dec 2022 10:36:29 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUH4CU9EfoirSxjivg08FDimtstn7hizemzyQzYeq6b6g@mail.gmail.com>
+Message-ID: <CAMuHMdUH4CU9EfoirSxjivg08FDimtstn7hizemzyQzYeq6b6g@mail.gmail.com>
+Subject: Re: [PATCH] fbcon: Use kzalloc() in fbcon_prepare_logo()
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,21 +66,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Helge Deller <deller@gmx.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, stable <stable@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 15, 2022 at 11:19:01AM +0400, Miaoqian Lin wrote:
-> backlight_put() has been dropped, we should call put_device() to drop
-> the reference taken by backlight_device_get_by_name().
+Hi Handa-san,
+
+On Thu, Nov 17, 2022 at 4:32 PM Tetsuo Handa
+<penguin-kernel@i-love.sakura.ne.jp> wrote:
+> A kernel built with syzbot's config file reported that
 >
-> Fixes: 0f6a3256fd81 ("backlight: backlight: Drop backlight_put()")
-> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+>   scr_memcpyw(q, save, array3_size(logo_lines, new_cols, 2))
+>
+> causes uninitialized "save" to be copied.
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 
+Thanks for your patch, which is now commit a6a00d7e8ffd78d1
+("fbcon: Use kzalloc() in fbcon_prepare_logo()") in v6.1-rc7,
+and which is being backported to stable.
 
-Daniel.
+> --- a/drivers/video/fbdev/core/fbcon.c
+> +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -577,7 +577,7 @@ static void fbcon_prepare_logo(struct vc_data *vc, struct fb_info *info,
+>                 if (scr_readw(r) != vc->vc_video_erase_char)
+>                         break;
+>         if (r != q && new_rows >= rows + logo_lines) {
+> -               save = kmalloc(array3_size(logo_lines, new_cols, 2),
+> +               save = kzalloc(array3_size(logo_lines, new_cols, 2),
+>                                GFP_KERNEL);
+>                 if (save) {
+>                         int i = min(cols, new_cols);
+
+The next line is:
+
+                        scr_memsetw(save, erase,
+array3_size(logo_lines, new_cols, 2));
+
+So how can this turn out to be uninitialized later below?
+
+                scr_memcpyw(q, save, array3_size(logo_lines, new_cols, 2));
+
+What am I missing?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
