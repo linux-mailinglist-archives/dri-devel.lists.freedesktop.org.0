@@ -2,64 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB44764D9D2
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 11:56:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 737BF64D9D0
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 11:55:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 443F010E520;
-	Thu, 15 Dec 2022 10:55:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5412D10E524;
+	Thu, 15 Dec 2022 10:55:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D209B10E520
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 10:55:23 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id m14so2605217wrh.7
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 02:55:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=YVfxD1MBUhNgZkYjJXTuJj50Usd6vuqo8PUyRW/DPqw=;
- b=Rovc/adL8ryJGF2Rb8+0qItrNjRUrrAakxffimr5raexS4FfS/98fTDNgmldAfjZ4h
- RaKeX08msvj5pHrorQ8iJpmAnYw1HrLYadrW3bd/L0i8E4smPzOy2MsOkbNpVJFsZqvH
- 03Op2zd7vjPmHT5qcEDJcTgFVHEE5GRkZObYo=
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
+ [IPv6:2607:f8b0:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8910310E522
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 10:55:36 +0000 (UTC)
+Received: by mail-ot1-x32f.google.com with SMTP id
+ x44-20020a05683040ac00b006707c74330eso3339303ott.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 02:55:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=KCza8Y681Ao9e1rZQSUK5V1OXCO8eMctom4dqQfNHfc=;
+ b=fAB7Z9WfgmVcTkFWFzFuxR5lftYNCATZdu+ycm3oWGD8yZFVfpvyn2b90dZwd4q5Ro
+ BW1pBNqTY9SzYkA5f0b6VeyLzdjPdH6Jblhf4sNHuuv/jmwhNFN0YJnXFZEskaVWkl1J
+ B2LXpmfUf9OVko8KgujbHoKBZ5c5e+KTwwEz9tHHvvdNY/RFsnevCNf9OgCuQF4ZGey7
+ wYn3oFQlUB7vhJPBprKglwdDE+owiBu5VKppU+IT9ix8tFrlQS8pG+5hldjeUzoLkPvL
+ 9puEy4LT93lvLyr3H843v84+otu09aBiATP0M17x/5P9l5EMJ8o03PYjUfx6ncFVIoZD
+ unQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YVfxD1MBUhNgZkYjJXTuJj50Usd6vuqo8PUyRW/DPqw=;
- b=Dv2XtvfedShRaqLx01poWROYk/pUf9lRyBWCjp5jNXlWLqzXTW/fRVK0sjLtjK4y84
- hMNMdmvgPwiAXifaO/viXIhrtPkBgkS290HhZ5vWq2vrTOlxtIq9AIXdwmHOtqBPINil
- uHtYeEm0kUb1nCqy2ImabxsDy4+MKFaVnm4Ih+n3HPBqD7l1hjVu3wQa0ImfyDuG0eLL
- 5UJ8GGytXOOFTf5osdt2p1cRGC8HzSNP56qVdtDnnzwTx7TdCjHoEXjNvvAokWBh/DuX
- ftQ01E5nkdk9SEY6OVzC0Ym6y3nRGEuMb/ActK2ZcxQaZXQEsTHjDxnLSAwdbDrbFkex
- AFzg==
-X-Gm-Message-State: ANoB5pk64NtcxRYpQ7CNlz0dwFBOehjjTM0Pp4B599z/kfUOh+53XxQ0
- MbcE3fzhZzM89d0IYD3eTnrgIQ==
-X-Google-Smtp-Source: AA0mqf4AQNoGAsyHIpqoHi9iLfUOzCP+gbYPkEZIwNs/JXCAUE9vepSGFAOAtvv60Gqc6so5rmajNw==
-X-Received: by 2002:a05:6000:1f15:b0:242:6588:3aa9 with SMTP id
- bv21-20020a0560001f1500b0024265883aa9mr26534486wrb.32.1671101721886; 
- Thu, 15 Dec 2022 02:55:21 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- bw26-20020a0560001f9a00b00241c6729c2bsm5610093wrb.26.2022.12.15.02.55.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Dec 2022 02:55:20 -0800 (PST)
-Date: Thu, 15 Dec 2022 11:55:18 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [RFC 1/2] drm/connector: add connector list iteration with
- filtering
-Message-ID: <Y5r9FjVJldoGwiCm@phenom.ffwll.local>
-References: <cover.1664966047.git.jani.nikula@intel.com>
- <8d92019b6ae730d6dc019e03fbc103645a2cf203.1664966047.git.jani.nikula@intel.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KCza8Y681Ao9e1rZQSUK5V1OXCO8eMctom4dqQfNHfc=;
+ b=jKFXMXvF56TfdHyBAj6o5hRJj3lQtA64tC4EMrI2nZ92rXYd81w58tKLbhpGSIuqFJ
+ ABtV55mQIHpLVf2R3ZMO2TOTr5UakKypa/mZqs5TuZwgk78Lz8W7nKGpSORwAXbRqGnz
+ C3Dmg3e4Xz7NucagaxXuU/DdobasO7mnwkWrq1bUTbTqraerHXrcfM08QZX8sR0wTkn+
+ 9eIDR3a7akHIwHLuIDS4L4W+tTvfS0XO/a1JQnPH7HIsGVS14AH5+Ah3Mweftqxi9fsW
+ uoNTMlBpPq5Gel+LPUDcPr0PQnAxDbgEUV2Yu9m+xuKQoTAaeXbL2rh5eCu5oXFodOm1
+ RgBQ==
+X-Gm-Message-State: ANoB5pnPKQXbohxPFMivvZ21C6RQpAqRmP/F6WrbgUppaIDEjwqPZiXk
+ Iyw0+etGEHTj7soneFHcAuEeFEreMQ8jHWFqRu/hFw==
+X-Google-Smtp-Source: AA0mqf6vsiFLO4/fq3hCYI2rVV8TLsFliRqkLUvOPWWBRTNBOF0C+HX+cqTaN7IbwDGYSImtaqxOh0Nf19rdCpKkX+Q=
+X-Received: by 2002:a9d:6a42:0:b0:66d:a838:aa60 with SMTP id
+ h2-20020a9d6a42000000b0066da838aa60mr46266563otn.104.1671101735831; Thu, 15
+ Dec 2022 02:55:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8d92019b6ae730d6dc019e03fbc103645a2cf203.1664966047.git.jani.nikula@intel.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+References: <20221214125821.12489-1-paul@crapouillou.net>
+ <20221214125821.12489-2-paul@crapouillou.net>
+In-Reply-To: <20221214125821.12489-2-paul@crapouillou.net>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Thu, 15 Dec 2022 11:55:24 +0100
+Message-ID: <CAG3jFytgK0noWteGvXTdSm9as9Q=qfhf_ep3Z8Wv2ofmLzGb=A@mail.gmail.com>
+Subject: Re: [PATCH 01/10] dt-bindings: display: bridge: it66121: Add
+ compatible string for IT6610
+To: Paul Cercueil <paul@crapouillou.net>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,163 +67,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Suraj Kandpal <suraj.kandpal@intel.com>,
- dri-devel@lists.freedesktop.org, Arun R Murthy <arun.r.murthy@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Phong LE <ple@baylibre.com>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, list@opendingux.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 05, 2022 at 01:51:43PM +0300, Jani Nikula wrote:
-> Add new function drm_connector_list_iter_filter_begin() to initialize
-> connector list iterator with a filter function. Subsequent iteration on
-> the list will only return connectors on which the filter function
-> returns true.
-> 
-> Cc: Arun R Murthy <arun.r.murthy@intel.com>
-> Cc: Suraj Kandpal <suraj.kandpal@intel.com>
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+On Wed, 14 Dec 2022 at 13:58, Paul Cercueil <paul@crapouillou.net> wrote:
+>
+> Add a new ite,it6610 compatible string to the IT66121 binding
+> documentation, since the two chips are very similar.
+>
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 > ---
->  drivers/gpu/drm/drm_connector.c | 57 ++++++++++++++++++++++++++-------
->  include/drm/drm_connector.h     |  9 ++++++
->  2 files changed, 54 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index e3142c8142b3..d54b4b54cecb 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -762,6 +762,29 @@ static struct lockdep_map connector_list_iter_dep_map = {
->  };
->  #endif
->  
-> +/**
-> + * drm_connector_list_iter_filter_begin - initialize a connector_list iterator with filter
-> + * @dev: DRM device
-> + * @iter: connector_list iterator
-> + * @filter: connector filter function
-> + * @filter_context: context to be passed to the filter function
-> + *
-> + * Same as drm_connector_list_iter_begin(), but sets up the iterator to only
-> + * return connectors where filter(connector) returns true.
-> + */
-> +void drm_connector_list_iter_filter_begin(struct drm_device *dev,
-> +					  struct drm_connector_list_iter *iter,
-> +					  drm_connector_list_iter_filter_fn filter,
-> +					  void *filter_context)
-> +{
-> +	iter->dev = dev;
-> +	iter->conn = NULL;
-> +	iter->filter = filter;
-> +	iter->filter_context = filter_context;
-> +	lock_acquire_shared_recursive(&connector_list_iter_dep_map, 0, 1, NULL, _RET_IP_);
-> +}
-> +EXPORT_SYMBOL(drm_connector_list_iter_filter_begin);
+>  .../devicetree/bindings/display/bridge/ite,it66121.yaml       | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
+> index 1b2185be92cd..72957be0ba3c 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
+> @@ -17,7 +17,9 @@ description: |
+>
+>  properties:
+>    compatible:
+> -    const: ite,it66121
+> +    enum:
+> +      - ite,it66121
+> +      - ite,it6610
+>
+>    reg:
+>      maxItems: 1
+> --
+> 2.35.1
+>
 
-So maybe I'm missing the obvious, but can't we just put a for_each_fi
-right after the for_each_connector_iter?
-
-And then maybe provide a default filter to kick out connectors and maybe a
-macro that does the filtered iteration? The iter_begin/next/end is already
-fairly tricky pattern compared to plain for_each macro, I think we should
-try hard to not complicate it further with lots of variants if that's not
-absolutely necessary.
--Daniel
-
-
-> +
->  /**
->   * drm_connector_list_iter_begin - initialize a connector_list iterator
->   * @dev: DRM device
-> @@ -775,9 +798,7 @@ static struct lockdep_map connector_list_iter_dep_map = {
->  void drm_connector_list_iter_begin(struct drm_device *dev,
->  				   struct drm_connector_list_iter *iter)
->  {
-> -	iter->dev = dev;
-> -	iter->conn = NULL;
-> -	lock_acquire_shared_recursive(&connector_list_iter_dep_map, 0, 1, NULL, _RET_IP_);
-> +	drm_connector_list_iter_filter_begin(dev, iter, NULL, NULL);
->  }
->  EXPORT_SYMBOL(drm_connector_list_iter_begin);
->  
-> @@ -800,15 +821,8 @@ __drm_connector_put_safe(struct drm_connector *conn)
->  	schedule_work(&config->connector_free_work);
->  }
->  
-> -/**
-> - * drm_connector_list_iter_next - return next connector
-> - * @iter: connector_list iterator
-> - *
-> - * Returns: the next connector for @iter, or NULL when the list walk has
-> - * completed.
-> - */
-> -struct drm_connector *
-> -drm_connector_list_iter_next(struct drm_connector_list_iter *iter)
-> +static struct drm_connector *
-> +__drm_connector_list_iter_next(struct drm_connector_list_iter *iter)
->  {
->  	struct drm_connector *old_conn = iter->conn;
->  	struct drm_mode_config *config = &iter->dev->mode_config;
-> @@ -836,6 +850,25 @@ drm_connector_list_iter_next(struct drm_connector_list_iter *iter)
->  
->  	return iter->conn;
->  }
-> +
-> +/**
-> + * drm_connector_list_iter_next - return next connector
-> + * @iter: connector_list iterator
-> + *
-> + * Returns: the next connector for @iter, or NULL when the list walk has
-> + * completed.
-> + */
-> +struct drm_connector *
-> +drm_connector_list_iter_next(struct drm_connector_list_iter *iter)
-> +{
-> +	struct drm_connector *connector;
-> +
-> +	while ((connector = __drm_connector_list_iter_next(iter)) &&
-> +	       iter->filter && !iter->filter(connector, iter->filter_context))
-> +		;
-> +
-> +	return connector;
-> +}
->  EXPORT_SYMBOL(drm_connector_list_iter_next);
->  
->  /**
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 56aee949c6fa..497b98197d3a 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -1868,6 +1868,9 @@ struct drm_tile_group *drm_mode_get_tile_group(struct drm_device *dev,
->  void drm_mode_put_tile_group(struct drm_device *dev,
->  			     struct drm_tile_group *tg);
->  
-> +typedef bool (*drm_connector_list_iter_filter_fn)(const struct drm_connector *connector,
-> +						  void *filter_context);
-> +
->  /**
->   * struct drm_connector_list_iter - connector_list iterator
->   *
-> @@ -1886,10 +1889,16 @@ struct drm_connector_list_iter {
->  /* private: */
->  	struct drm_device *dev;
->  	struct drm_connector *conn;
-> +	drm_connector_list_iter_filter_fn filter;
-> +	void *filter_context;
->  };
->  
->  void drm_connector_list_iter_begin(struct drm_device *dev,
->  				   struct drm_connector_list_iter *iter);
-> +void drm_connector_list_iter_filter_begin(struct drm_device *dev,
-> +					  struct drm_connector_list_iter *iter,
-> +					  drm_connector_list_iter_filter_fn filter,
-> +					  void *filter_context);
->  struct drm_connector *
->  drm_connector_list_iter_next(struct drm_connector_list_iter *iter);
->  void drm_connector_list_iter_end(struct drm_connector_list_iter *iter);
-> -- 
-> 2.34.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
