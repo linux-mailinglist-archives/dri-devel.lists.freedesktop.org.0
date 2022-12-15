@@ -2,92 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB4764E61F
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 04:06:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A91464E815
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 09:20:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 656EE10E5A6;
-	Fri, 16 Dec 2022 03:06:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DCB110E09A;
+	Fri, 16 Dec 2022 08:19:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2069.outbound.protection.outlook.com [40.107.94.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6047210E5A5;
- Fri, 16 Dec 2022 03:06:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oLWiOtXrZaoWqPaH6M3fFyywSlyak8ltyL9kXci+a/OsZ9443T1q/pctfPg2qm2c5U4YsoVQCeOm7TK+DExHqn+YsJEVFBgSWEU7WmZ/t84w6TtO/k4uMOyUX3NVgj7IFH6lvJ34j0lXJHFeh02ppybP/UJ5EEDfmU/qU6JCsHU2bqZKR4dcD4kvH7jCW47+eTFXZ7v04M+q8hA4WX6FEytxhz/HUWqiB5ik/q35NqBNMnAGqYAYYtzpqveHo6spM5F2Vvt0v3suid+o0gcM3INOpfMfXaST/tSePwIjNVNns7Sy6TqOvNa8Lk5uVYuPOErMzXi9fXB4RSYfNjzbgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MY7PY0bALJERvgdvJGz12ilOSfoTKk+06tDrXJ36hvw=;
- b=PkCTXp7RG7+pj/UxQ5qEIOfDHmdCa9pWVIyVmvFb0u5+nP2uMoi/qnG+VAcVnk5XCHQg3sTeP7m4RoaMP9jpC0u3aE261+SG7t7tKdaLmwQzvV3g8boZgffaCNIEcvynSV3uZD2a4DesVsqDDh00HhIVGUkp4ekJoqr75TO8PQ36BwuiKEsTt3o5CIeUtC8c38YLDpSO1Roj9+cEXiNGUBRONO+UNpVF7AhUIwpL2VIjGr/V/kVsWMTqoUQZcrL40W52UrYQv8T0M8teZBGxqaQQ+Dj4nICFcLuEwSHQA/S5ZBcHedKGpNkIf9Mmfk4k/zI+OROHuMOrtpPNp3lVHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MY7PY0bALJERvgdvJGz12ilOSfoTKk+06tDrXJ36hvw=;
- b=C4eeZwriLO979c5sIVtZMaonPXQ6TKKSqmy9YOaAwEqzFPA5qlNCw/QPemhwLQGEZWowc83Jbo2fHl8xiBsahcVZ3YIdH+EspdEyN/XW8iBwm7wbQxa2J8RqMcpu+kXYBTuqiJyVfmY6mBJu8kqsUExgsc1XQvLbN3nBY7H1ilQ=
-Received: from CY5PR17CA0032.namprd17.prod.outlook.com (2603:10b6:930:12::28)
- by CY8PR12MB8412.namprd12.prod.outlook.com (2603:10b6:930:6f::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.11; Fri, 16 Dec
- 2022 03:06:00 +0000
-Received: from CY4PEPF0000B8EC.namprd05.prod.outlook.com
- (2603:10b6:930:12:cafe::6d) by CY5PR17CA0032.outlook.office365.com
- (2603:10b6:930:12::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.12 via Frontend
- Transport; Fri, 16 Dec 2022 03:06:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000B8EC.mail.protection.outlook.com (10.167.241.8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5813.11 via Frontend Transport; Fri, 16 Dec 2022 03:06:00 +0000
-Received: from majun-mlse-vm.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 15 Dec
- 2022 21:05:58 -0600
-From: Ma Jun <majun@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <daniel.vetter@ffwll.ch>, <tzimmermann@suse.de>
-Subject: [PATCH V2] drm/plane-helper: Add the missing declaration of
- drm_atomic_state
-Date: Fri, 16 Dec 2022 11:05:26 +0800
-Message-ID: <20221216030526.1335609-1-majun@amd.com>
-X-Mailer: git-send-email 2.25.1
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 951C210E058
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 13:29:18 +0000 (UTC)
+Received: by linux.microsoft.com (Postfix, from userid 1112)
+ id 0309520B92BA; Thu, 15 Dec 2022 05:29:18 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0309520B92BA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1671110958;
+ bh=7vCuNFrK1OQpeQJVAk4kMKTCnLpf775i8aOo4DRS+9k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QZnI/IyyKwaP/zHzNYXBCCMLXwZ6fWvbR3+FSmMN8vXx7vDA9nqW6jBuCd94pC8h5
+ AxMEb0GPQZDrKvtVpzQGSdOOMd57S+oHh7VfYSpHkUuhy2Pznc/RAL9npCWFUU+YVH
+ Zwan7XglTQRg5zjvabjEK8IJ+GIpzc9ooNPxTQRI=
+Date: Thu, 15 Dec 2022 05:29:17 -0800
+From: Jeremi Piotrowski <jpiotrowski@linux.microsoft.com>
+To: Rijo Thomas <Rijo-john.Thomas@amd.com>
+Subject: Re: [PATCH v2] crypto: ccp - Allocate TEE ring and cmd buffer using
+ DMA APIs
+Message-ID: <20221215132917.GA11061@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <651349f55060767a9a51316c966c1e5daa57a644.1670919979.git.Rijo-john.Thomas@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000B8EC:EE_|CY8PR12MB8412:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1d70cada-2db0-4a7e-ce4d-08dadf1275f8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TddPIskACfVoafQD+e0vQzu0XO7PzmSVz8rDuww+2MedFeEodgrijw+4NTk9EA7YJ6IYS1iTc+fXByFDE3Q8wEXTHgGfpYGTQBI9I9N9YeIzgYACAI/ATAjlmlzlncVOqD4nNil0gEGMA8iEEh0c7ecm3wiizdADpNdONW1fChF6sOI7pze192bRAZesL7Pg5goqmTYWXmMSaoJt7EIvupro1f1kuIoRE2QJdPNgkbiOrL1LN+f0EzDx5g8fYRs5cxcTzypNc9FVlgerb83IjZknguSDZG1D+f8VC59wqCHgf6xI4Pd6woQIYWp9MuUAxeeq1MZrnLbzCRcTEnQzCEapxQyZshyViwcbWt4VxoRAEJFgjt1X5FFqLMzIPio5nqwfs5EMBb+cOUH1KwrLQw4H/Z66m0+UYBEWskaAYrI3CJ5+KatQM33T8zjk0EvYv4LrPvOK4qtYTX8EQXA75HlcIoMhUgjdC2Sijk6eSy2+h0HPvp6md2X3yGwHcq4lyfFPhEJis2DKnS2IFT8E38lfWzkFSUnY5UxVOazLdUKz0Cl/WPsZwkFE0IcEkYl98qV2UFNyDetJuy6MuKSTCsV1aIbM9P63nvD1Ji+nenKChVfZrdMDV/5IM5E+qqOfLy/EmXrvnf7YaOIqbJxjMz+q3Igkq7eMjfmsXqBBRy7miLPeqVBlNmAeuZ88HAzhfyHtfSDRpV/ffavwTvQ+dafF+UV0RELLsHtgyxZ/JkI2DonsH2b6IwP92zSRq9qt
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(346002)(376002)(136003)(396003)(451199015)(40470700004)(36840700001)(46966006)(82740400003)(5660300002)(8676002)(356005)(2906002)(40480700001)(4744005)(4326008)(70586007)(41300700001)(81166007)(70206006)(82310400005)(186003)(47076005)(6666004)(7696005)(110136005)(16526019)(426003)(2616005)(316002)(1076003)(26005)(336012)(40460700003)(478600001)(8936002)(36860700001)(36756003)(36900700001)(2101003);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2022 03:06:00.6898 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d70cada-2db0-4a7e-ce4d-08dadf1275f8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000B8EC.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8412
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <651349f55060767a9a51316c966c1e5daa57a644.1670919979.git.Rijo-john.Thomas@amd.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Mailman-Approved-At: Fri, 16 Dec 2022 08:19:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,33 +47,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: majun@amd.com
+Cc: John Allen <john.allen@amd.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S . Miller" <davem@davemloft.net>,
+ Jeshwanth <JESHWANTHKUMAR.NK@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, Jens Wiklander <jens.wiklander@linaro.org>,
+ linux-crypto@vger.kernel.org, stable@vger.kernel.org,
+ Mythri PK <Mythri.Pandeshwarakrishna@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the missing declaration of struct drm_atomic_state to fix the
-compile error below:
+On Tue, Dec 13, 2022 at 04:40:27PM +0530, Rijo Thomas wrote:
+> For AMD Secure Processor (ASP) to map and access TEE ring buffer, the
+> ring buffer address sent by host to ASP must be a real physical
+> address and the pages must be physically contiguous.
+> 
+> In a virtualized environment though, when the driver is running in a
+> guest VM, the pages allocated by __get_free_pages() may not be
+> contiguous in the host (or machine) physical address space. Guests
+> will see a guest (or pseudo) physical address and not the actual host
+> (or machine) physical address. The TEE running on ASP cannot decipher
+> pseudo physical addresses. It needs host or machine physical address.
+> 
+> To resolve this problem, use DMA APIs for allocating buffers that must
+> be shared with TEE. This will ensure that the pages are contiguous in
+> host (or machine) address space. If the DMA handle is an IOVA,
+> translate it into a physical address before sending it to ASP.
+> 
+> This patch also exports two APIs (one for buffer allocation and
+> another to free the buffer). This API can be used by AMD-TEE driver to
+> share buffers with TEE.
+> 
+> Fixes: 33960acccfbd ("crypto: ccp - add TEE support for Raven Ridge")
+> Cc: Tom Lendacky <thomas.lendacky@amd.com>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Rijo Thomas <Rijo-john.Thomas@amd.com>
+> Co-developed-by: Jeshwanth <JESHWANTHKUMAR.NK@amd.com>
+> Signed-off-by: Jeshwanth <JESHWANTHKUMAR.NK@amd.com>
+> Reviewed-by: Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>
+> ---
+> v2:
+>  * Removed references to dma_buffer.
+>  * If psp_init() fails, clear reference to master device.
+>  * Handle gfp flags within psp_tee_alloc_buffer() instead of passing it as
+>    a function argument.
+>  * Added comments within psp_tee_alloc_buffer() to serve as future
+>    documentation.
+> 
+>  drivers/crypto/ccp/psp-dev.c |  13 ++--
+>  drivers/crypto/ccp/tee-dev.c | 124 +++++++++++++++++++++++------------
+>  drivers/crypto/ccp/tee-dev.h |   9 +--
+>  include/linux/psp-tee.h      |  49 ++++++++++++++
+>  4 files changed, 142 insertions(+), 53 deletions(-)
+> 
+> diff --git a/drivers/crypto/ccp/psp-dev.c b/drivers/crypto/ccp/psp-dev.c
+> index c9c741ac8442..380f5caaa550 100644
+> --- a/drivers/crypto/ccp/psp-dev.c
+> +++ b/drivers/crypto/ccp/psp-dev.c
+> @@ -161,13 +161,13 @@ int psp_dev_init(struct sp_device *sp)
+>  		goto e_err;
+>  	}
+> 
+> -	ret = psp_init(psp);
+> -	if (ret)
+> -		goto e_irq;
+> -
+>  	if (sp->set_psp_master_device)
+>  		sp->set_psp_master_device(sp);
+> 
+> +	ret = psp_init(psp);
+> +	if (ret)
+> +		goto e_clear;
+> +
+>  	/* Enable interrupt */
+>  	iowrite32(-1, psp->io_regs + psp->vdata->inten_reg);
+> 
+> @@ -175,7 +175,10 @@ int psp_dev_init(struct sp_device *sp)
+> 
+>  	return 0;
+> 
+> -e_irq:
+> +e_clear:
+> +	if (sp->clear_psp_master_device)
+> +		sp->clear_psp_master_device(sp);
+> +
+>  	sp_free_psp_irq(psp->sp, psp);
+>  e_err:
+>  	sp->psp_data = NULL;
+> diff --git a/drivers/crypto/ccp/tee-dev.c b/drivers/crypto/ccp/tee-dev.c
+> index 5c9d47f3be37..5c43e6e166f1 100644
+> --- a/drivers/crypto/ccp/tee-dev.c
+> +++ b/drivers/crypto/ccp/tee-dev.c
+> @@ -12,8 +12,9 @@
+>  #include <linux/mutex.h>
+>  #include <linux/delay.h>
+>  #include <linux/slab.h>
+> +#include <linux/dma-direct.h>
+> +#include <linux/iommu.h>
+>  #include <linux/gfp.h>
+> -#include <linux/psp-sev.h>
+>  #include <linux/psp-tee.h>
+> 
+>  #include "psp-dev.h"
+> @@ -21,25 +22,73 @@
+> 
+>  static bool psp_dead;
+> 
+> +struct psp_tee_buffer *psp_tee_alloc_buffer(unsigned long size)
+> +{
+> +	struct psp_device *psp = psp_get_master_device();
+> +	struct psp_tee_buffer *buf;
+> +	struct iommu_domain *dom;
+> +
+> +	if (!psp || !size)
+> +		return NULL;
+> +
+> +	buf = kzalloc(sizeof(*buf), GFP_KERNEL);
+> +	if (!buf)
+> +		return NULL;
+> +
+> +	/* The pages allocated for PSP Trusted OS must be physically
+> +	 * contiguous in host (or machine) address space. Therefore,
+> +	 * use DMA API to allocate memory.
+> +	 */
+> +
+> +	buf->vaddr = dma_alloc_coherent(psp->dev, size, &buf->dma,
+> +					GFP_KERNEL | __GFP_ZERO);
 
-error: 'struct drm_atomic_state' declared inside parameter
-list will not be visible outside of this definition or declaration [-Werror]
+dma_alloc_coherent memory is just as contiguous as __get_free_pages, and
+calling dma_alloc_coherent from a guest does not guarantee that the memory is
+contiguous in host memory either. The memory would look contiguous from the
+device point of view thanks to the IOMMU though (in both cases). So this is not
+about being contiguous but other properties that you might rely on (dma mask
+most likely, or coherent if you're not running this on x86?).
 
-Signed-off-by: Ma Jun <majun@amd.com>
----
- include/drm/drm_plane_helper.h | 1 +
- 1 file changed, 1 insertion(+)
+Can you confirm why this fixes things and update the comment to reflect that.
 
-diff --git a/include/drm/drm_plane_helper.h b/include/drm/drm_plane_helper.h
-index b00ad36cf5b6..90156e13ac11 100644
---- a/include/drm/drm_plane_helper.h
-+++ b/include/drm/drm_plane_helper.h
-@@ -26,6 +26,7 @@
- 
- #include <linux/types.h>
- 
-+struct drm_atomic_state;
- struct drm_crtc;
- struct drm_framebuffer;
- struct drm_modeset_acquire_ctx;
--- 
-2.25.1
+> +	if (!buf->vaddr || !buf->dma) {
+> +		kfree(buf);
+> +		return NULL;
+> +	}
+> +
+> +	buf->size = size;
+> +
+> +	/* Check whether IOMMU is present. If present, convert IOVA to
+> +	 * physical address. In the absence of IOMMU, the DMA address
+> +	 * is actually the physical address.
+> +	 */
+> +
+> +	dom = iommu_get_domain_for_dev(psp->dev);
+> +	if (dom)
+> +		buf->paddr = iommu_iova_to_phys(dom, buf->dma);
+> +	else
+> +		buf->paddr = buf->dma;
+
+This is confusing: you're storing GPA for the guest and HPA in case of the
+host, to pass to the device. Let's talk about the host case.
+
+a) the device is behind an IOMMU. The DMA API gives you an IOVA, and the device
+should be using the IOVA to access memory (because it's behind an IOMMU).
+b) the device is not behind an IOMMU. The DMA API gives you a PA, the device
+uses a PA.
+
+But in case a) you're extracting the PA, which means your device can bypass the
+IOMMU, in which case the system should not think that it is behind an IOMMU. So
+how does this work?
+
+Jeremi
+
+> +
+> +	return buf;
+> +}
+> +EXPORT_SYMBOL(psp_tee_alloc_buffer);
+> +
 
