@@ -2,59 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6E964E1B3
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 20:22:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC9064E1E5
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 20:41:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB62A10E51C;
-	Thu, 15 Dec 2022 19:22:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E23A410E0A2;
+	Thu, 15 Dec 2022 19:41:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E96C10E51C
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 19:22:14 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- m5-20020a7bca45000000b003d2fbab35c6so104789wml.4
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 11:22:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=w7QvriN0Yzz4DpWiidJ+JgStbl//Q1uu1xv/fE8FAr0=;
- b=Oq57Rg3BEfZvf16gRaNH5uzbmwjJ9NKAWo5xcOK5bwbzMhiWUG2ibj1I/13GmpDAIZ
- ng0U8gRHreO2ypWKyOl6q/db4orE0I38UXmtmzzHQItV8BlcqmRyWcFOxUS2Ho6bgfmw
- VjWpF7r+eFuAotZyEXcqUkqmIA84cTVCbZ/kxCsCfU0g1u/QaStgdqcBdB2Hcli+NbPd
- BwOFOvVzHQn68r1yROXuTZ4zjCUYZpJifNT1MhWplxhb6dSVS6/9VO4yDJ6XKsyQkpha
- Z7qSFHbl28BCjoQWOYME7/DAtLODcnhbhLAyb3sWUYB1Ne1ihDniBzGuOdGzDfXrQOhq
- JIJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=w7QvriN0Yzz4DpWiidJ+JgStbl//Q1uu1xv/fE8FAr0=;
- b=ufgNX1Z5oVTxP+FjpRRV/V8k7BXSl3Iz7j15Ot05Hm+yoBDYwTKo2ocIXMhmtcvluS
- MU4osz44bBJJ7o1gDrLo+GmxWzT5hs2F3/igESW+PF/HQzorePRVcxI25VQbgyE9HJXe
- hGUyHBihOoQw77lE3fLUwMKjWIwD0+R20jraCjPJzHeOJnJT77LiX+K5GLstq58ushQ8
- k/cNS8/C3mevIRPOdi5ngWWMTspLzn6N5XyH9bcI3JuksZ1nt+ikI106diXe5TRaiG+I
- wqPLPJu3JsGtMdxhQmZU/EPIzhbYe5q3yq5wSa+E7DyntvMZ+6djI46JcOxOftHn0PRu
- m37A==
-X-Gm-Message-State: AFqh2kpA8Ac+pqIv//pT9qCR1GPSS/qjQlzBf2Z8fjWa7cc5dLtkqkPb
- pOZ9gLySo7f6dSrM721qvvNKUZ8xfKKuUa7gRlw=
-X-Google-Smtp-Source: AMrXdXt5YBVPcaJuONok0izThgg5AbeLGxcDE8DEPjhmTV00Q/PT6PDhFYpoG3yC54VbOGL+Jhio36vToT0Y4BYkAYs=
-X-Received: by 2002:a05:600c:35ca:b0:3d3:4012:8d9d with SMTP id
- r10-20020a05600c35ca00b003d340128d9dmr60012wmq.205.1671132132714; Thu, 15 Dec
- 2022 11:22:12 -0800 (PST)
-MIME-Version: 1.0
-References: <20221214110037.149387-1-cbranchereau@gmail.com>
- <20221214110037.149387-2-cbranchereau@gmail.com>
- <CACRpkdag1ZDyHRu5FqLWrsiqbmVuX2Wj5z67yhkg_=ooFqsboQ@mail.gmail.com>
-In-Reply-To: <CACRpkdag1ZDyHRu5FqLWrsiqbmVuX2Wj5z67yhkg_=ooFqsboQ@mail.gmail.com>
-From: Christophe Branchereau <cbranchereau@gmail.com>
-Date: Thu, 15 Dec 2022 20:22:01 +0100
-Message-ID: <CAFsFa86mQt5hMAftcpqj77nraF82CjfXv=m_Zt5quTv7O8Jf9A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/panel: add the orisetech ota5601a
-To: Linus Walleij <linus.walleij@linaro.org>
+X-Greylist: delayed 987 seconds by postgrey-1.36 at gabe;
+ Thu, 15 Dec 2022 19:41:40 UTC
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [85.220.165.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0740510E0A2
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 19:41:40 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1p5tog-0006Zv-ER; Thu, 15 Dec 2022 20:22:50 +0100
+Message-ID: <8092f2cb083f9b9a189dbdf6f27ee874955af7db.camel@pengutronix.de>
+Subject: Re: [PATCH v2 12/26] drm: etnaviv: Remove #ifdef guards for PM
+ related functions
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 15 Dec 2022 20:22:48 +0100
+In-Reply-To: <20221129191733.137897-13-paul@crapouillou.net>
+References: <20221129191733.137897-1-paul@crapouillou.net>
+ <20221129191733.137897-13-paul@crapouillou.net>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,174 +51,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, sam@ravnborg.org, linux-kernel@vger.kernel.org,
- robh+dt@kernel.org, thierry.reding@gmail.com, dri-devel@lists.freedesktop.org,
- krzysztof.kozlowski+dt@linaro.org
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Linus
+Am Dienstag, dem 29.11.2022 um 19:17 +0000 schrieb Paul Cercueil:
+> Use the RUNTIME_PM_OPS() and pm_ptr() macros to handle the
+> .runtime_suspend/.runtime_resume callbacks.
+>=20
+> These macros allow the suspend and resume functions to be automatically
+> dropped by the compiler when CONFIG_PM is disabled, without having
+> to use #ifdef guards.
+>=20
+> This has the advantage of always compiling these functions in,
+> independently of any Kconfig option. Thanks to that, bugs and other
+> regressions are subsequently easier to catch.
+>=20
+> Some #ifdef CONFIG_PM guards were protecting simple statements, and were
+> also converted to "if (IS_ENABLED(CONFIG_PM))".
+>=20
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 
-On Thu, Dec 15, 2022 at 9:42 AM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> Hi Christophe,
->
-> thanks for your patch!
->
-> On Wed, Dec 14, 2022 at 12:01 PM Christophe Branchereau
-> <cbranchereau@gmail.com> wrote:
->
-> > Add the orisetech ota5601a ic driver
-> >
-> > For now it only supports the focaltech gpt3 3" 640x480 ips panel
-> > found in the ylm rg300x handheld.
-> >
-> > Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
-> (...)
-> > +config DRM_PANEL_ORISETECH_OTA5601A
-> > +       tristate "Orise Technology ota5601a RGB/SPI panel"
-> > +       depends on OF && SPI
-> > +       depends on BACKLIGHT_CLASS_DEVICE
-> > +       select REGMAP_SPI
->
-> Nice use of regmap in this driver.
->
-> > +static const struct reg_sequence ota5601a_panel_regs[] = {
-> > +       { 0xfd, 0x00 },
-> > +       { 0x02, 0x00 },
-> > +
-> > +       { 0x18, 0x00 },
-> > +       { 0x34, 0x20 },
-> > +
-> > +       { 0x0c, 0x01 },
-> > +       { 0x0d, 0x48 },
-> > +       { 0x0e, 0x48 },
-> > +       { 0x0f, 0x48 },
-> > +       { 0x07, 0x40 },
-> > +       { 0x08, 0x33 },
-> > +       { 0x09, 0x3a },
-> > +
-> > +       { 0x16, 0x01 },
-> > +       { 0x19, 0x8d },
-> > +       { 0x1a, 0x28 },
-> > +       { 0x1c, 0x00 },
-> > +
-> > +       { 0xfd, 0xc5 },
-> > +       { 0x82, 0x0c },
-> > +       { 0xa2, 0xb4 },
-> > +
-> > +       { 0xfd, 0xc4 },
-> > +       { 0x82, 0x45 },
-> > +
-> > +       { 0xfd, 0xc1 },
-> > +       { 0x91, 0x02 },
-> > +
-> > +       { 0xfd, 0xc0 },
-> > +       { 0xa1, 0x01 },
-> > +       { 0xa2, 0x1f },
-> > +       { 0xa3, 0x0b },
-> > +       { 0xa4, 0x38 },
-> > +       { 0xa5, 0x00 },
-> > +       { 0xa6, 0x0a },
-> > +       { 0xa7, 0x38 },
-> > +       { 0xa8, 0x00 },
-> > +       { 0xa9, 0x0a },
-> > +       { 0xaa, 0x37 },
-> > +
-> > +       { 0xfd, 0xce },
-> > +       { 0x81, 0x18 },
-> > +       { 0x82, 0x43 },
-> > +       { 0x83, 0x43 },
-> > +       { 0x91, 0x06 },
-> > +       { 0x93, 0x38 },
-> > +       { 0x94, 0x02 },
-> > +       { 0x95, 0x06 },
-> > +       { 0x97, 0x38 },
-> > +       { 0x98, 0x02 },
-> > +       { 0x99, 0x06 },
-> > +       { 0x9b, 0x38 },
-> > +       { 0x9c, 0x02 },
-> > +
-> > +       { 0xfd, 0x00 },
-> > +};
->
-> If these are registers, why is register 0xfd written 7 times with different
-> values?
+Thanks, applied to my etnaviv/next branch.
 
-It initiates a page shift
+Regards,
+Lucas
 
-> This is rather a jam table or intializations sequence, so it should be
-> names something like that and a comment about undocumented
-> registers added probably as well.
+> ---
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> Cc: etnaviv@lists.freedesktop.org
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 30 +++++++++++----------------
+>  1 file changed, 12 insertions(+), 18 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etna=
+viv/etnaviv_gpu.c
+> index 51320eeebfcf..310382812029 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -1629,7 +1629,6 @@ static int etnaviv_gpu_hw_suspend(struct etnaviv_gp=
+u *gpu)
+>  	return etnaviv_gpu_clk_disable(gpu);
+>  }
+> =20
+> -#ifdef CONFIG_PM
+>  static int etnaviv_gpu_hw_resume(struct etnaviv_gpu *gpu)
+>  {
+>  	int ret;
+> @@ -1645,7 +1644,6 @@ static int etnaviv_gpu_hw_resume(struct etnaviv_gpu=
+ *gpu)
+> =20
+>  	return 0;
+>  }
+> -#endif
+> =20
+>  static int
+>  etnaviv_gpu_cooling_get_max_state(struct thermal_cooling_device *cdev,
+> @@ -1713,11 +1711,10 @@ static int etnaviv_gpu_bind(struct device *dev, s=
+truct device *master,
+>  	if (ret)
+>  		goto out_workqueue;
+> =20
+> -#ifdef CONFIG_PM
+> -	ret =3D pm_runtime_get_sync(gpu->dev);
+> -#else
+> -	ret =3D etnaviv_gpu_clk_enable(gpu);
+> -#endif
+> +	if (IS_ENABLED(CONFIG_PM))
+> +		ret =3D pm_runtime_get_sync(gpu->dev);
+> +	else
+> +		ret =3D etnaviv_gpu_clk_enable(gpu);
+>  	if (ret < 0)
+>  		goto out_sched;
+> =20
+> @@ -1761,12 +1758,12 @@ static void etnaviv_gpu_unbind(struct device *dev=
+, struct device *master,
+> =20
+>  	etnaviv_sched_fini(gpu);
+> =20
+> -#ifdef CONFIG_PM
+> -	pm_runtime_get_sync(gpu->dev);
+> -	pm_runtime_put_sync_suspend(gpu->dev);
+> -#else
+> -	etnaviv_gpu_hw_suspend(gpu);
+> -#endif
+> +	if (IS_ENABLED(CONFIG_PM)) {
+> +		pm_runtime_get_sync(gpu->dev);
+> +		pm_runtime_put_sync_suspend(gpu->dev);
+> +	} else {
+> +		etnaviv_gpu_hw_suspend(gpu);
+> +	}
+> =20
+>  	if (gpu->mmu_context)
+>  		etnaviv_iommu_context_put(gpu->mmu_context);
+> @@ -1880,7 +1877,6 @@ static int etnaviv_gpu_platform_remove(struct platf=
+orm_device *pdev)
+>  	return 0;
+>  }
+> =20
+> -#ifdef CONFIG_PM
+>  static int etnaviv_gpu_rpm_suspend(struct device *dev)
+>  {
+>  	struct etnaviv_gpu *gpu =3D dev_get_drvdata(dev);
+> @@ -1923,18 +1919,16 @@ static int etnaviv_gpu_rpm_resume(struct device *=
+dev)
+> =20
+>  	return 0;
+>  }
+> -#endif
+> =20
+>  static const struct dev_pm_ops etnaviv_gpu_pm_ops =3D {
+> -	SET_RUNTIME_PM_OPS(etnaviv_gpu_rpm_suspend, etnaviv_gpu_rpm_resume,
+> -			   NULL)
+> +	RUNTIME_PM_OPS(etnaviv_gpu_rpm_suspend, etnaviv_gpu_rpm_resume, NULL)
+>  };
+> =20
+>  struct platform_driver etnaviv_gpu_driver =3D {
+>  	.driver =3D {
+>  		.name =3D "etnaviv-gpu",
+>  		.owner =3D THIS_MODULE,
+> -		.pm =3D &etnaviv_gpu_pm_ops,
+> +		.pm =3D pm_ptr(&etnaviv_gpu_pm_ops),
+>  		.of_match_table =3D etnaviv_gpu_match,
+>  	},
+>  	.probe =3D etnaviv_gpu_platform_probe,
 
-Honestly I don't remember how I got the panel specsheet, thought it
-was widely available but I can't find it anymore online,
-so yes I guess at least documenting what each page does could be good
-for future reference
-
-> > +static int ota5601a_enable(struct drm_panel *drm_panel)
-> > +{
-> > +       struct ota5601a *panel = to_ota5601a(drm_panel);
-> > +       int err;
-> > +
-> > +       err = regmap_write(panel->map, 0x01, 0x01);
->
-> Since you know what this register does, what about:
->
-> #include <linux/bits.h>
->
-> #define OTA5601A_CTL 0x01
-> #define OTA5601A_CTL_OFF 0x00
-> #define OTA5601A_CTL_ON BIT(0)
-
-I can definitely do that if it improves clarity
-
-> > +static int ota5601a_get_modes(struct drm_panel *drm_panel,
-> > +                            struct drm_connector *connector)
-> > +{
-> > +       struct ota5601a *panel = to_ota5601a(drm_panel);
-> > +       const struct ota5601a_panel_info *panel_info = panel->panel_info;
-> > +       struct drm_display_mode *mode;
-> > +       unsigned int i;
-> > +
-> > +       for (i = 0; i < panel_info->num_modes; i++) {
-> > +               mode = drm_mode_duplicate(connector->dev,
-> > +                                         &panel_info->display_modes[i]);
-> > +               if (!mode)
-> > +                       return -ENOMEM;
-> > +
-> > +               drm_mode_set_name(mode);
-> > +
-> > +               mode->type = DRM_MODE_TYPE_DRIVER;
-> > +               if (panel_info->num_modes == 1)
->
-> But ... you have just added an array that contains 2 elements, you
-> KNOW it will not be 1.
-
-I know that for the specific panel supported by this driver there are 2 modes,
-however in the future someone could want to add a panel using the same IC,
-which could have any number of modes
-
->
-> > +                       mode->type |= DRM_MODE_TYPE_PREFERRED;
->
-> I think you should probably set this on the preferred resolution
-> anyways, take the one you actually use.
->
-> > +static const struct of_device_id ota5601a_of_match[] = {
-> > +       { .compatible = "focaltech,gpt3", .data = &gpt3_info },
-> > +       { /* sentinel */ }
-> > +};
-> > +MODULE_DEVICE_TABLE(of, ota5601a_of_match);
->
-> Does this mean the display controller is ota5601a and the display
-> manufacturer and product is focaltech gpt3? Then it's fine.
-
-Yes
-
-> Overall the driver looks very good, just the above little details.
-
-Ok, will do the v3 next week, holidays etc :)
-
-> Yours,
-> Linus Walleij
