@@ -2,68 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C484E64D4C2
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 01:38:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA66C64D4D0
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 01:52:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A681810E4D9;
-	Thu, 15 Dec 2022 00:38:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26EC710E02C;
+	Thu, 15 Dec 2022 00:52:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE6E510E4D9
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 00:38:06 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id f16so8423353ljc.8
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 16:38:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
- :from:references:in-reply-to:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SaXTzEJKmgLz+SAFN0DeG64y723tiZblK0P+iFI17hA=;
- b=nXgdMXMlXc4YZNcKifowoGMKNa+co1HPUWTVq27PRY6w89JZ3Ejc2212MRdAFIYUhy
- rKkdpqfNS7kdTebj4RVOgs9+ajsaVD1JqxFXnQllO/yuel6HEDH7DdO+g8uVNPJ/2cZj
- Icos7gQxPO6B9djSw6RJdPjG4OMUWfPs35k/Q=
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAD0F10E02C
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 00:52:04 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id b13so13266818lfo.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Dec 2022 16:52:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=S6mAIVbE3TYfe/sfWszMjsZBqUjDt0fQZqgGBAUpy8I=;
+ b=ByXnkyrSsttOE9yaSrHKJ9PTVsP8OSTXEDlhVcK0vltwTJpeofa/qPcGMhuYp9yqUX
+ e7cgOS1KawYLWjYOEivEru4sKz9XjVOIwc6/cN5MseSeoqF1tM+t3cmKtXx8D7E5gSzP
+ qh79npKk4m7i71hW8tTyrFNtVL0iY2Isz71f6eoK7UU1X0HjSaoLVmBZvottVJX8ztkj
+ tCOpD9Dq5NQhTVZNJthrNy6xKzaF6vibEF34dWjpDrQciyvsCT+tpHS+oJhw/11LUoQL
+ Fi8/Ve2xf2PvX100VbCj5bh5jKZ6febAW7ufjg+hENZG+h0lZXvALwuyI3BLHcRMm9fH
+ Zbfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
- :from:references:in-reply-to:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=SaXTzEJKmgLz+SAFN0DeG64y723tiZblK0P+iFI17hA=;
- b=V3V385ZoOx8ng9JA9OI4Fm9bmSGpadH0cBnz37SL4QsCXr6AVWQXNqYOHpeYuNH4Fq
- S7LuKe3h7dhNAUmUXWHHXO02mQhA85gLfE0DejjRUS/laZyi9VBFWZCBDxmxX8mOqoEm
- 2ocVYAT5+UfEJ/aauUs6EWOI/l9ycd4GZGnR+bwrAlhCrXYIPpy0N95KurnveW0jsDNu
- 1t3JCzjHS0AwvQ8IxMomWeNkJOlYJkv8CyS4ZZXAqfYSMsqY+w/NMydyz45c9LI0hMv5
- Xcb7jXC2C/pVle9CuUUxDzMww8Ho5v6v+XZpDVR7KuMhdxrn9UaTjbx415dASBcvoLEg
- SNCQ==
-X-Gm-Message-State: ANoB5pkHfp/kzLh6BVIrZoGuZAld7PR3lSS7rgD/JWAwblu3L2cpJiXO
- exotm/ARwKLFxQKT8YevsCAksZePsXgapO8CriKD1w==
-X-Google-Smtp-Source: AA0mqf4VcPwauzdtgPycgk8YSzSnpCLwL/tuuSk9YZ6/aN69rAyE9+MaT6XlGF2IV6qyZaGEtZp4gqVNb6T4m84M1vA=
-X-Received: by 2002:a2e:a544:0:b0:278:f5b8:82c8 with SMTP id
- e4-20020a2ea544000000b00278f5b882c8mr26380240ljn.228.1671064684762; Wed, 14
- Dec 2022 16:38:04 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 14 Dec 2022 19:38:04 -0500
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=S6mAIVbE3TYfe/sfWszMjsZBqUjDt0fQZqgGBAUpy8I=;
+ b=10r3Aep2ryH8kOX+6h7VMNod3coLi6Z2I0KFhOHL1mR/UGlUCqderpiPc0bLmlHlZB
+ XB0CC8nvpUu5Kxry0A2nZRsYL8bf4wha3h4Np2lzit0lR2IxZdO2DhLTxQxttGd4koxj
+ HByTj/twZykL9NrDQmTasQchAtQuQ5I3mw/skJ+SZTkjgdrVnra5fcDMEThFdnIfoKbR
+ HwVYCr0zWWPKPaWQPsvaSiFHCHALweuHKSkmCMipxPVnzpT+qnQLvZzyP2EHEITBKaQD
+ VwjjU+8dSeWRPHPCYrU10n3ewMBW3yxKv6xtJxbHu2UFjVd+PswRSvdX76jCjBhziB4l
+ 8mlQ==
+X-Gm-Message-State: ANoB5pmCBF/cujnvf+eicqJxf9Fcz4KQIeI/WUA7oIUhWmXn+Lz8QGIY
+ bNwxofkrhrZvc0RwrcGOGh0cjA==
+X-Google-Smtp-Source: AA0mqf4t5Y8GMiTGp+fKIC782S6ls3TtAofUfVlKy6Q2R1OccaJr26S2ArFTXFMKWtDcenAd/6Nudg==
+X-Received: by 2002:a05:6512:159c:b0:4b4:f212:6173 with SMTP id
+ bp28-20020a056512159c00b004b4f2126173mr7866197lfb.4.1671065522702; 
+ Wed, 14 Dec 2022 16:52:02 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ d3-20020ac24c83000000b004947984b385sm986881lfl.87.2022.12.14.16.52.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Dec 2022 16:52:02 -0800 (PST)
+Message-ID: <560508a2-9ff5-16b5-ac50-efe9a2afbddb@linaro.org>
+Date: Thu, 15 Dec 2022 02:52:01 +0200
 MIME-Version: 1.0
-In-Reply-To: <b38af164-08bc-07e7-dfaf-fb4d6d89d7db@quicinc.com>
-References: <1670967848-31475-1-git-send-email-quic_khsieh@quicinc.com>
- <1670967848-31475-3-git-send-email-quic_khsieh@quicinc.com>
- <CAE-0n52eHYCqxUJqQXoaQ8vyqCk-QfouSun+zUp3yo5DufWbwg@mail.gmail.com>
- <b38af164-08bc-07e7-dfaf-fb4d6d89d7db@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Wed, 14 Dec 2022 19:38:04 -0500
-Message-ID: <CAE-0n53Cb6TFGfM6AYup5aP4=24j0ujVPi463oVqmzfNV2B4RA@mail.gmail.com>
-Subject: Re: [PATCH v12 2/5] dt-bindings: msm/dp: add data-lanes and
- link-frequencies property
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org,
- airlied@gmail.com, 
- andersson@kernel.org, daniel@ffwll.ch, devicetree@vger.kernel.org, 
- dianders@chromium.org, dmitry.baryshkov@linaro.org, 
- dri-devel@lists.freedesktop.org, konrad.dybcio@somainline.org, 
- krzysztof.kozlowski+dt@linaro.org, robdclark@gmail.com, robh+dt@kernel.org, 
- sean@poorly.run, vkoul@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [RFC PATCH 0/6] drm/msm: DSC Electric Boogaloo for sm8[12]50
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Stephen Boyd <swboyd@chromium.org>, Bjorn Andersson <andersson@kernel.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Jani Nikula <jani.nikula@intel.com>,
+ sunliming <sunliming@kylinos.cn>, Sam Ravnborg <sam@ravnborg.org>,
+ Haowen Bai <baihaowen@meizu.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Loic Poulain <loic.poulain@linaro.org>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20221213232207.113607-1-marijn.suijten@somainline.org>
+ <154b2e08-25a0-c8b7-1dc8-2d41b8787f05@linaro.org>
+ <20221214192322.vs4tvhlzjc265bva@SoMainline.org>
+Content-Language: en-GB
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20221214192322.vs4tvhlzjc265bva@SoMainline.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,108 +97,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
- freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
- linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2022-12-14 14:56:23)
->
-> On 12/13/2022 3:06 PM, Stephen Boyd wrote:
-> > Quoting Kuogee Hsieh (2022-12-13 13:44:05)
-> >> Add both data-lanes and link-frequencies property into endpoint
-> > Why do we care? Please tell us why it's important.
+On 14/12/2022 21:23, Marijn Suijten wrote:
+> On 2022-12-14 20:40:06, Dmitry Baryshkov wrote:
+>> On 14/12/2022 01:22, Marijn Suijten wrote:
+>>> This preliminary Display Stream Compression support package for
+>>> (initially tested on) sm8[12]50 is based on comparing DSC behaviour
+>>> between downstream and mainline.  Some new callbacks are added (for
+>>> binding blocks on active CTLs), logic bugs are corrected, zeroed struct
+>>> members are now assigned proper values, and RM allocation and hw block
+>>> retrieval now hand out (or not) DSC blocks without causing null-pointer
+>>> dereferences.
+>>>
+>>> Unfortunately it is not yet enough to get rid of completely corrupted
+>>> display output on the boards I tested here:
+>>> - Sony Xperia 1 (sm8150), 1644x3840 or 1096x2560 pixels;
+>>> - Sony Xperia 5II (sm8250), 1080x2520, at 60 or 120Hz;
+>>> - (can include more Xperia boards if desired)
+>>>
+>>> Both devices use the DUALPIPE_DSCMERGE topology downstream: dual LM, PP
+>>> and DSC, but only a single INTF/encoder/DSI-link.
+>>>
+>>> Hopefully this spawns some community/upstream interest to help rootcause
+>>> our corruption issues (after we open a drm/msm report on GitLab for more
+>>> appropriate tracking).
+>>>
+>>> The Sony Xperia XZ3 (sdm845) was fully tested and validated with this
+>>> series to not cause any regressions (an one of the math fixes now allows
+>>> us to change slice_count in the panel driver, which would corrupt
+>>> previously).
+>>>
+>>> Marijn Suijten (6):
+>>>     drm/msm/dpu1: Implement DSC binding to PP block for CTL V1
+>>>     drm/msm/dpu1: Add DSC config for sm8150 and sm8250
+>>>     drm/msm/dpu1: Wire up DSC mask for active CTL configuration
+>>>     drm/msm/dsi: Use DSC slice(s) packet size to compute word count
+>>>     drm/msm/dsi: Flip greater-than check for slice_count and
+>>>       slice_per_intf
+>>>     drm/msm/dpu: Disallow unallocated (DSC) resources to be returned
+>>
+>> General comment: patches with Fixes ideally should come first. Usually
+>> they are picked into -fixes and/or stable kernels. If the Fixes patches
+>> are in the middle of the series, one can not be sure that they do not
+>> have dependencies on previous patches. If there is one, it should
+>> probably be stated clearly to ease work on backporting them.
+> 
+> Ack, I may have rushed these RFC patches straight off my branches onto
+> the lists in hopes of sparking some suggestions on what may still be
+> broken or missing to get DSC working on sm[12]50, but will keep this in
+> mind for v2 after receiving some more review.
+> 
+> That said, any suggestions?
 
-Any response?
 
-> >> @@ -193,6 +217,8 @@ examples:
-> >>                   reg =3D <1>;
-> >>                   endpoint {
-> >>                       remote-endpoint =3D <&typec>;
-> >> +                    data-lanes =3D <0 1>;
-> >> +                    link-frequencies =3D /bits/ 64 <1620000000 270000=
-0000 5400000000 8100000000>;
-> >>                   };
-> > So far we haven't used the output port on the DP controller in DT.
-> >
-> > I'm still not clear on what we should do in general for DP because
-> > there's a PHY that actually controls a lane count and lane mapping. In
-> > my mental model of the SoC, this DP controller's output port is
-> > connected to the DP PHY, which then sends the DP lanes out of the SoC t=
-o
-> > the next downstream device (i.e. a DP connector or type-c muxer). Havin=
-g
-> > a remote-endpoint property with a phandle to typec doesn't fit my menta=
-l
-> > model. I'd expect it to be the typec PHY.
-> ack
-> >
-> > That brings up the question: when we have 2 lanes vs. 4 lanes will we
-> > duplicate the data-lanes property in the PHY binding? I suspect we'll
-> > have to. Hopefully that sort of duplication is OK?
-> Current we have limitation by reserve 2 data lanes for usb2, i am not
-> sure duplication to 4 lanes will work automatically.
-> >
-> > Similarly, we may have a redriver that limits the link-frequencies
-> > property further (e.g. only support <=3D 2.7GHz). Having multiple
-> > link-frequencies along the graph is OK, right? And isn't the
-> > link-frequencies property known here by fact that the DP controller
-> > tells us which SoC this controller is for, and thus we already know the
-> > supported link frequencies?
-> >
-> > Finally, I wonder if we should put any of this in the DP controller's
-> > output endpoint, or if we can put these sorts of properties in the DP
-> > PHY binding directly? Can't we do that and then when the DP controller
-> > tries to set 4 lanes, the PHY immediately fails the call and the link
-> > training algorithm does its thing and tries fewer lanes? And similarly,
-> > if link-frequencies were in the PHY's binding, the PHY could fail to se=
-t
-> > those frequencies during link training, returning an error to the DP
-> > controller, letting the training move on to a lower frequency. If we di=
-d
-> > that this patch series would largely be about modifying the PHY binding=
-,
-> > updating the PHY driver to enforce constraints, and handling errors
-> > during link training in the DP controller (which may already be done? I
-> > didn't check).
->
->
-> phy/pll have different configuration base on link lanes and rate.
->
-> it has to be set up before link training can start.
->
-> Once link training start, then there are no any interactions between
-> controller and phy during link training session.
+ From what I've noticed lately:
 
-What do you mean? The DP controller calls phy_configure() and changes
-the link rate. The return value from phy_configure() should be checked
-and link training should skip link rates that aren't supported and/or
-number of lanes that aren't supported.
+- set dsc_version_major/dsc_version_minor
+- try using dsc params from 1.2 rater than 1.1 version spec (there is 
+small difference there)
 
->
-> Link training only happen between dp controller and sink since link
-> status is reported by sink (read back from sink's dpcd register directly)=
-.
->
-> T achieve link symbol locked, link training will start from reduce link
-> rate until lowest rate, if it still failed, then it will reduce lanes
-> with highest rate and start training=C2=A0 again.
->
-> it will repeat same process until lowest lane (one lane), if it still
-> failed, then it will give up and declare link training failed.
+-- 
+With best wishes
+Dmitry
 
-Yes, that describes the link training algorithm. I don't see why
-phy_configure() return value can't be checked and either number of lanes
-or link frequencies be checked. If only two lanes are supported, then
-phy_configure() will fail for the 4 link rates and the algorithm will
-reduce the number of lanes and go back to the highest rate. Then when
-the highest rate isn't supported it will drop link rate until the link
-rate is supported.
-
->
-> Therefore I think add data-lanes and link-frequencies properties in the
-> DP PHY binding directly will not helps.
->
-
-I didn't follow your logic. Sorry.
