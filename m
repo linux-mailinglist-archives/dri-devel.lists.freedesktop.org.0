@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBAB664D772
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 08:55:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9C1164D776
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 08:59:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A468910E069;
-	Thu, 15 Dec 2022 07:55:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B37710E31F;
+	Thu, 15 Dec 2022 07:59:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACA4D10E069
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 07:55:00 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 559DF5C00C5;
- Thu, 15 Dec 2022 02:54:58 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21E0210E31F
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 07:59:33 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 75E3A5C0113;
+ Thu, 15 Dec 2022 02:59:32 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 15 Dec 2022 02:54:58 -0500
+ by compute5.internal (MEProxy); Thu, 15 Dec 2022 02:59:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1671090898; x=
- 1671177298; bh=Fv5Kg8SLdoV9Ti+vnl7dxNlNJMvGN9UNUxEgZDoL710=; b=Y
- 8YsnCw5g9X6jPtt1dbmnJ7+EotVYImvCrDL9JMiejO/3Tk4Zt5fEefKIt2MWR4BR
- 9AU6VlWakTv9JVxpqZXi2LnBkQnlWlI7PKEsIw1eD31wHzHFQwtzr5TrIuMraxLo
- 3aAKhfhigd8nDNolf9s5F7TfuixgyZxKWyfGbOZ6ESRq1bBPs6MVLp0dSYofn4aB
- 8EnKAtwqlVLWgGIGSZkl4EuXi/C8/qq20huxpVY8XF8aO1FiUN6CTiPMIwtfySvs
- Q8uTaCQH3Ej0HTQiyuqA6IsRoBGzLPPJpIl0V5WbldxQjphQ3Aio8ebF047hZODc
- UtIEFYAexvii0S+eyY4gA==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1671091172; x=
+ 1671177572; bh=XxJENoxJPrXK6VoYTo12KmgD5xuHGRhCp9WC7SZ3Alc=; b=F
+ Jg8ivcguRZ/JH+HYpXq/tCX+KiubFOjIBhC4WTazoovo9UK9MAMwFlHO9MvUAzRR
+ fF9D6eTN+i2NWyelGFQhZdjIk8W7Crxi/b2YQAqQ+qtPt/sxyXR+KNeIoc8ZxU25
+ sGTditnTqW4XCFn71zDD6g40dAaUcclcN00XRVo1K/DLfYL/7bFM8EW9DRVHjOTr
+ EALzOaHUPn1ChSlM2ZjfbDycOtmiYKNJap+qot+hjfX9eaJQm4zq8tJKyBHVCnTy
+ BokGI/9CynhDZKMqZAhvGFQo3ssr7INg3DnICw3LigaZPcb6LvGYHk6LUHmFlkDk
+ h8+hBdbFUBBtnsQvVUrmg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1671090898; x=
- 1671177298; bh=Fv5Kg8SLdoV9Ti+vnl7dxNlNJMvGN9UNUxEgZDoL710=; b=J
- TQbbL8uIVRxg5Myv1I7npcNsNBLhGnGrzxB/wjVBYJEFNCt7+IWooZjIdMFcWQYf
- b07Hpk0ug6FA0uLRM6VsGOG4ZfDHCTmN5ZG55/Rn1zqWpP4TJMIBbx+GGEvp94xF
- WfPiMBbSTsjM2I9NXHD8RChWRQkZdwfF54PTc3wOj5e2uYxfxry1xeU49UxJqNj1
- JrH4B5qFN6EDyhWbM3YoDi8tXUS+jdOWH4cxbJ83mi3Igqyd7r1BIP+kcao7mKjB
- 1T8TFjeN9SNVnA0swZoN4YgTUw9y3ap8Rez2jZF95jDFpwlWi7ta2U4FzfwyfytQ
- 28wqgujvnHrnsv5h/n1xw==
-X-ME-Sender: <xms:0dKaYypjGvLvJmSB9pHlScgVHivF2_kkFswqU3yKZtISsteIZhsNvA>
- <xme:0dKaYwoRAul0FuzubdC2EPP_RatZpTaV5sWtus_BtW4JPjYv_N8zQivK5vR6WjK2j
- 0mNnf4jtW1tMlNTREc>
-X-ME-Received: <xmr:0dKaY3OVyGkHVifZKvsYEPTIoaIR8tCHJvIIec2AqKiGTW7YD9XbXL1dtXY8i4sybl9_bg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeeggddutdelucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1671091172; x=
+ 1671177572; bh=XxJENoxJPrXK6VoYTo12KmgD5xuHGRhCp9WC7SZ3Alc=; b=w
+ R+ib27vINEcyCsvvOSa2brfa6mVwUf8CYjYesI+D6l3GWo1X2rIFAGX6g9xCKpy2
+ kDoM6E8EHCuRySeXyO4WDF6vYJsTmetLVJtf0voU/uvDHPdZxRKG9rKeMe6DntPk
+ c6bWt4LQfIP2Brnbuylw1gV7Cu/p8aepk5ldA86+pcgtg1JhdkDBV8HzytVgustT
+ UX6/EsImpXoJXlzaKgBEDCzqmGEOQkl/PghlkQqJX267j9ZxvVhYv6Oj5yp26xWJ
+ bxBV2AL+yLVwm2l2qA7m2GhAzSWDi7hLVS9n2dpp2mwTJ/zmUQjm85hf4Uvg7rfd
+ SPUh9mcPVkxQJp92jg3LQ==
+X-ME-Sender: <xms:5NOaY09jpx9EBtAJ0xIyMIn10X7CcQ6QL7URfwmgvlBbPS6JvrNzFw>
+ <xme:5NOaY8teSDTKYOpZveRjqBR5rms8jpGzZzwTPlr-dob7JwuQ8-U2jtCY7GwGYvQJM
+ adw50TmCE6XLj9hNoM>
+X-ME-Received: <xmr:5NOaY6AWf6wrSCowE4UcTJGHp1IFBNKvfk0Zlh9VHFCJMof30hEYOFAvyOxMglV-bsOtvQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeeggdduuddtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgig
@@ -54,24 +54,23 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeeggddutdelucetufdoteggod
  grthhtvghrnhepueeigefghfffffeifeehudeiuedvteegueefffevgfetvdffheehkeff
  vedufeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:0dKaYx5glAVghipKtKlCz_w8ze6zQpor4mMsLzAvDLLBGjumxy1ZxQ>
- <xmx:0dKaYx6lc4qtxkWyIWdscNAXNjGwjmJyIOyqz-eTRcIBALzM__CbZg>
- <xmx:0dKaYxjeJJaoeRu28IZo71fMT1JppTC-iDrzdHHJpon3nsF850c2OA>
- <xmx:0tKaY5ydjfBdiktiZ5AGHgiI7LkV4SvkWvBnrEeu4I2T1hGHCw1tRg>
+X-ME-Proxy: <xmx:5NOaY0fO04C0BiSNMiaw4Nu7D5xZOwarzh_fT5oaFay1dypgI2Fx5A>
+ <xmx:5NOaY5NiOh0DT5T9htsDLLxk-vDtcxc6rqtzYIUMQm3bMReEgIej2A>
+ <xmx:5NOaY-mm1sCsktaJgB9CA84vW4LZG0VXYmBJshv1U0zFb-9NZPol8Q>
+ <xmx:5NOaYwkcQgMwEdyiVn7gCtgPsC7dTKwqCwteZNPwLzF6tszWmBM5dA>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 15 Dec 2022 02:54:56 -0500 (EST)
+ 15 Dec 2022 02:59:31 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
- David Airlie <airlied@linux.ie>
-Subject: Re: (subset) [PATCH] drm/vc4: Improve the KUnit documentation
-Date: Thu, 15 Dec 2022 08:54:54 +0100
-Message-Id: <167109087174.9136.16323712047091343535.b4-ty@cerno.tech>
+To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Emma Anholt <emma@anholt.net>
+Subject: Re: [PATCH 0/6] drm/vc4: dsi: Conversion to bridge
+Date: Thu, 15 Dec 2022 08:59:29 +0100
+Message-Id: <167109115427.120387.17469145550626590243.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221208094727.2848310-1-maxime@cerno.tech>
-References: <20221208094727.2848310-1-maxime@cerno.tech>
+In-Reply-To: <20221207-rpi-dsi-bridge-v1-0-8f68ee0b0adb@cerno.tech>
+References: <20221207-rpi-dsi-bridge-v1-0-8f68ee0b0adb@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -87,16 +86,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 8 Dec 2022 10:47:27 +0100, Maxime Ripard wrote:
-> The command-line can be expressed using a code-block, and we were
-> missing which architectures were available.
+On Wed, 07 Dec 2022 11:22:43 +0100, Maxime Ripard wrote:
+> This series converts the vc4 DSI driver to a bridge. It's been in use for a
+> while on the downstream tree.
+> 
+> Let me know what you think,
+> Maxime
 > 
 > 
+> [...]
 
 Applied to drm/drm-misc (drm-misc-next).
 
