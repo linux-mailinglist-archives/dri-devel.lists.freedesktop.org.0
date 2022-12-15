@@ -2,75 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0D2C64DD75
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 16:12:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1B5364DE5C
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 17:17:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CD1110E39A;
-	Thu, 15 Dec 2022 15:12:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6043910E0ED;
+	Thu, 15 Dec 2022 16:16:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 161A210E377;
- Thu, 15 Dec 2022 15:11:59 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BFE2fkI022795; Thu, 15 Dec 2022 15:11:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=+TNCVzAQc98dTTmqznrkrdANu0/8YBru4BYnBEttDw4=;
- b=hdst9ulbSI8EKLG2AfSiiebuGOmV7B8u+j6qYdk6JZ5HXf3T5cVgrO/CKd0E2NFlZFaj
- DhtUG9py5pTS/jwmFUVi8QM/vATFOJWEMMTcnitvA2at54nYXUFZyI3i2JzpdI1U6gjA
- EWMjPml/UmAfleqzWYMh31dJcCQhOuBWLbMZuNY1ZVvJ0K+E7iE5a5RGUC3ovhnYyXqS
- zu2S+JwY1/Sgke6i9/eOCwoQz//xBO4Qd7zUO/quTrD+7bu7SQqh57JP+rg6cwcQ/3QD
- Lln2C1tfW3h4XZ52ugcemPyVqv7YRXFC2crZ1A7MvZJl+SyeICAizDvEHu0h70MR68Bu RA== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mf6rrmxk0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Dec 2022 15:11:53 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BFFBoSB003106
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Dec 2022 15:11:51 GMT
-Received: from hyd-lnxbld559.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Thu, 15 Dec 2022 07:11:44 -0800
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: freedreno <freedreno@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- Rob Clark <robdclark@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>
-Subject: [PATCH 5/5] drm/msm/a6xx: Use genpd notifier to ensure cx-gdsc
- collapse
-Date: Thu, 15 Dec 2022 20:41:01 +0530
-Message-ID: <20221215203751.5.I9e10545c6a448d5eb1b734839b871d1b3146dac3@changeid>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1671117062-26276-1-git-send-email-quic_akhilpo@quicinc.com>
-References: <1671117062-26276-1-git-send-email-quic_akhilpo@quicinc.com>
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com
+ [209.85.160.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FC3D10E0ED
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 16:16:41 +0000 (UTC)
+Received: by mail-oa1-f44.google.com with SMTP id
+ 586e51a60fabf-1447c7aa004so21516862fac.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 08:16:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WmhcSod630WMmrv8Iz4/Aem44InqHzLhbQpOczKGFtI=;
+ b=FHsmd/P1LeOekUAzEUmrg8IAe5kZ0SmK36VCdFxitg0/K1Hn+N03GJ/RgRfXWZXucv
+ 2z3KjuUjlRMcflJEjioZOADVX8AFI7A8Vi7NhFAFOn5MUCPCKebpLXGvYLPOZYoYRPef
+ MeMKmoBwHGfrG4EtdNIhFZqwMCc+B8xBpWE2//k1DNuN/aUAj0vpAdo7KXlxkiIVkShB
+ +Tsp03Pe14Aal6fMzLFuzUKM9l8fvRqOkGrKoU1bKcHq3T+fBtYnZHvINGg++T6OqjSt
+ pdhePh5ZwdsvhrbRx6Pp+ZNTV7naAhAEQqN+Ol9Kj7TU7P8++b1WvZfffUhHEQs1wW1F
+ KxuA==
+X-Gm-Message-State: ANoB5plwn+Zu7NOYtKP0MgiHkYpoGuTYpacojj8fEHrGyp5i86uBV8bj
+ 91bW4W3C0aJpZKUpJP/z1w==
+X-Google-Smtp-Source: AA0mqf4ZpeLvaDZnLN6XCqYqsI3uas4LVmmjGi9sULsC0m6a0NGAeb3+kld7P5xa9O7lOS23KVKnfQ==
+X-Received: by 2002:a05:6870:ebc4:b0:144:e283:831f with SMTP id
+ cr4-20020a056870ebc400b00144e283831fmr14321577oab.11.1671121000173; 
+ Thu, 15 Dec 2022 08:16:40 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ r20-20020a05687080d400b0012d939eb0bfsm4222398oab.34.2022.12.15.08.16.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Dec 2022 08:16:39 -0800 (PST)
+Received: (nullmailer pid 138172 invoked by uid 1000);
+ Thu, 15 Dec 2022 16:16:38 -0000
+Date: Thu, 15 Dec 2022 10:16:38 -0600
+From: Rob Herring <robh@kernel.org>
+To: Chris Morgan <macromorgan@hotmail.com>
+Subject: Re: [PATCH V5 2/4] dt-bindings: display: panel: Add Magnachip
+ D53E6EA8966
+Message-ID: <20221215161638.GA135300-robh@kernel.org>
+References: <20221214180611.109651-1-macroalpha82@gmail.com>
+ <20221214180611.109651-3-macroalpha82@gmail.com>
+ <CACRpkdY7UArNJ5ZH8f5rx+9aoV_ii=0aE9PCj-6XHCL7Om0+=Q@mail.gmail.com>
+ <SN6PR06MB53429788776760E4BDBC55ABA5E19@SN6PR06MB5342.namprd06.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: zeDPXzdPU7fKN7rVHZn3xom3pZpOjTQV
-X-Proofpoint-ORIG-GUID: zeDPXzdPU7fKN7rVHZn3xom3pZpOjTQV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-15_08,2022-12-15_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- suspectscore=0 phishscore=0 malwarescore=0 impostorscore=0 adultscore=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 bulkscore=0 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212150123
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SN6PR06MB53429788776760E4BDBC55ABA5E19@SN6PR06MB5342.namprd06.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,133 +67,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Douglas Anderson <dianders@chromium.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Guenter Roeck <linux@roeck-us.net>
+Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ sam@ravnborg.org, Chris Morgan <macroalpha82@gmail.com>,
+ thierry.reding@gmail.com, dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ Maya Matuszczyk <maccraft123mc@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As per the recommended recovery sequence of adreno gpu, cx gdsc should
-collapse at hardware before it is turned back ON. This helps to clear
-out the stale states in hardware before it is reinitialized. Use the
-genpd notifier along with the newly introduced
-dev_pm_genpd_synced_poweroff() api to ensure that cx gdsc has collapsed
-before we turn it back ON.
+On Thu, Dec 15, 2022 at 08:44:56AM -0600, Chris Morgan wrote:
+> On Thu, Dec 15, 2022 at 09:47:19AM +0100, Linus Walleij wrote:
+> > On Wed, Dec 14, 2022 at 7:06 PM Chris Morgan <macroalpha82@gmail.com> wrote:
+> > 
+> > > From: Chris Morgan <macromorgan@hotmail.com>
+> > >
+> > > Add documentation for Magnachip D53E6EA8966 based panels such as the
+> > > Samsung AMS495QA01 panel.
+> > >
+> > > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > > Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+> > (...)
+> > >  .../display/panel/magnachip,d53e6ea8966.yaml  | 62 +++++++++++++++++++
+> > 
+> > It's fine to keep this as samsung,ams495qa01.
+> > 
+> 
+> Would the device tree team be okay with that change? The driver name
+> itself has changed and I fear possible confusion if someone is looking
+> for docs by driver name.
 
-Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
----
+Doesn't matter to me either way.
 
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 15 +++++++++++++++
- drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  6 ++++++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 11 +++++++++++
- 3 files changed, 32 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index 1580d0090f35..c03830957c26 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -1507,6 +1507,17 @@ void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu)
- 	gmu->initialized = false;
- }
- 
-+static int cxpd_notifier_cb(struct notifier_block *nb,
-+			unsigned long action, void *data)
-+{
-+	struct a6xx_gmu *gmu = container_of(nb, struct a6xx_gmu, pd_nb);
-+
-+	if (action == GENPD_NOTIFY_OFF)
-+		complete_all(&gmu->pd_gate);
-+
-+	return 0;
-+}
-+
- int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- {
- 	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
-@@ -1640,6 +1651,10 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 		goto detach_cxpd;
- 	}
- 
-+	init_completion(&gmu->pd_gate);
-+	complete_all(&gmu->pd_gate);
-+	gmu->pd_nb.notifier_call = cxpd_notifier_cb;
-+
- 	/*
- 	 * Get a link to the GX power domain to reset the GPU in case of GMU
- 	 * crash
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-index 5a42dd4dd31f..0bc3eb443fec 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-@@ -4,8 +4,10 @@
- #ifndef _A6XX_GMU_H_
- #define _A6XX_GMU_H_
- 
-+#include <linux/completion.h>
- #include <linux/iopoll.h>
- #include <linux/interrupt.h>
-+#include <linux/notifier.h>
- #include "msm_drv.h"
- #include "a6xx_hfi.h"
- 
-@@ -90,6 +92,10 @@ struct a6xx_gmu {
- 	bool initialized;
- 	bool hung;
- 	bool legacy; /* a618 or a630 */
-+
-+	/* For power domain callback */
-+	struct notifier_block pd_nb;
-+	struct completion pd_gate;
- };
- 
- static inline u32 gmu_read(struct a6xx_gmu *gmu, u32 offset)
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 4b16e75dfa50..dd618b099110 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -10,6 +10,7 @@
- 
- #include <linux/bitfield.h>
- #include <linux/devfreq.h>
-+#include <linux/pm_domain.h>
- #include <linux/soc/qcom/llcc-qcom.h>
- 
- #define GPU_PAS_ID 13
-@@ -1258,6 +1259,7 @@ static void a6xx_recover(struct msm_gpu *gpu)
- {
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
- 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
- 	int i, active_submits;
- 
- 	adreno_dump_info(gpu);
-@@ -1290,6 +1292,10 @@ static void a6xx_recover(struct msm_gpu *gpu)
- 	 */
- 	gpu->active_submits = 0;
- 
-+	reinit_completion(&gmu->pd_gate);
-+	dev_pm_genpd_add_notifier(gmu->cxpd, &gmu->pd_nb);
-+	dev_pm_genpd_synced_poweroff(gmu->cxpd);
-+
- 	/* Drop the rpm refcount from active submits */
- 	if (active_submits)
- 		pm_runtime_put(&gpu->pdev->dev);
-@@ -1297,6 +1303,11 @@ static void a6xx_recover(struct msm_gpu *gpu)
- 	/* And the final one from recover worker */
- 	pm_runtime_put_sync(&gpu->pdev->dev);
- 
-+	if (!wait_for_completion_timeout(&gmu->pd_gate, msecs_to_jiffies(1000)))
-+		DRM_DEV_ERROR(&gpu->pdev->dev, "cx gdsc didn't collapse\n");
-+
-+	dev_pm_genpd_remove_notifier(gmu->cxpd);
-+
- 	pm_runtime_use_autosuspend(&gpu->pdev->dev);
- 
- 	if (active_submits)
--- 
-2.7.4
-
+Rob
