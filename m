@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 237B264DA29
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 12:19:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED71E64DA2E
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 12:21:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8489F10E025;
-	Thu, 15 Dec 2022 11:19:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D45410E05C;
+	Thu, 15 Dec 2022 11:20:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
- [IPv6:2001:4860:4864:20::2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7333610E025
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 11:18:57 +0000 (UTC)
-Received: by mail-oa1-x2d.google.com with SMTP id
- 586e51a60fabf-144b21f5e5fso20482987fac.12
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 03:18:57 -0800 (PST)
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
+ [IPv6:2607:f8b0:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9086410E05C
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 11:20:39 +0000 (UTC)
+Received: by mail-oi1-x22e.google.com with SMTP id r11so4971676oie.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 03:20:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fn2zqsPP+08QxWZvX7V1h6FJWl/peZq+mwwcgAj4da0=;
- b=ZZXgJ0SUB44KDY6gXkxUTEMuEZUHXnx/FLPnvhTfEOkdbaTyTDGtld0l7ocT3gJJP1
- fDyF6DDXMrVgtV8HLG5c37Ocndoh/gV6V0gZ+jtMfRZO0eKaMF6oCMYXch9xs+JBqaHz
- wxEOhI1dVAW6b/vZN6SOPxfz+mTvr60HekVWYeMrGsU0FyjMb9FNCmTyQIkvACjZFmAP
- Tarf3aElOufDj2aK3j5Wt2FaExPBoY4W5rEQtD19fcTJNIulnl9rY5CHGVyVG5p8TGrF
- TYNcC6IvJ279xoyprGSysoMJmPfoMiVdjadER0cTL1AwO0CjsHFzzjaKIgMHM97lHQYe
- yfNA==
+ bh=cmk0PdpBMK0sped7JhGYOwBdXV8EVeBAiY0Lb6X/myc=;
+ b=Wka0wIlExft4VpGS8jLFeSOPzzT8wmggrLJis4x7Mzie5Z9AOositkhMfK3TP+uYp5
+ GoDJf5iXgh5+zRRcH/yoaJIKf324F84RXMUJdNtpEnsHw8N2n5+/JD8VUy71QlKUxqox
+ RCJe4e99/CdKLeDsymFfMT+sIqdgtB0pbc48X4x+/rob6dpe4zYBN2NH0814BQTTf4/r
+ gUOPPDYNFRqNX3qzI2rYHlwnUin2LYQQfQbMgjL/R8fUzxAiirfK/qNbOe2DJNVNKnAX
+ 9NK6rA9Zv5lWo2VBZd1Q73gRRiOZsjRRXSU4HCpTIniKnP9tJnTMcYjingezIYH2wRa0
+ d4MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=fn2zqsPP+08QxWZvX7V1h6FJWl/peZq+mwwcgAj4da0=;
- b=G0e6y5OIFFOX8d/D11JJRsvglDXcr0OPWQVovp7BEPt4tVrl/eSztv3AqNCdK1egU1
- t+5vruoRYcvbhaOJMcPE6qEMLmGntdgpma+E7gD09EhWSgLXDSCG/9eoIWsVQIrpv14F
- U7ZtRRFnotOv7ErtmQHedMuj+QHI8hmj1Kpk9KwHeq3dlgJQ5XdVqfeu/HU7E48S0Cd8
- rx+q0RhnoHEuybbDGpiNE4c7URCBasC0XDd95AymkNtFxQ4lm5rK3/hn21Cvak44k2pP
- juX1o7Uj8PrtllFXOJm90gCHXwbhP1w7yNIhTh5oR7LC79HSBdpFXuuWDAdBIbfYXzmG
- rRPA==
-X-Gm-Message-State: AFqh2kpT2ye32/jhH592GN49xEIVIo21H7xTZd8r7647NrabWe5qKjgK
- IAXiWM18eHs6zOi3Qzh+gyBa+YTYCU8J7uC3GvT4Kw==
-X-Google-Smtp-Source: AA0mqf7lNFNsw3fiVzXlj6Pjt0dlhaKbZzy10b3twNK4qM4ipWgLYvYrtK45C3ko7zuvu182Y/pqDeRP/tjAflecsW0=
-X-Received: by 2002:a05:6870:9e4c:b0:13c:33d0:22e2 with SMTP id
- pt12-20020a0568709e4c00b0013c33d022e2mr592979oab.14.1671103136728; Thu, 15
- Dec 2022 03:18:56 -0800 (PST)
+ bh=cmk0PdpBMK0sped7JhGYOwBdXV8EVeBAiY0Lb6X/myc=;
+ b=1WTlP/cu1DFjnRt/F/sslKb/ARaYhWiRbgDx3SAnpn4zOMVMF/7h+7Bh4ei6y4ZQf8
+ uLyQX+VCiB6JeJvMibxBWMPmirOfGnjSJLvUcL4JHOsNklwYJ2qn7wDKLG4JjQrSQbTY
+ MdmJ0OajxEs0miBjCaUNlU7xbjiXkUt3MUUhhfqi4rx3kC+yLvsvA9rEQctWIEzAE7U8
+ 1+Uduf3fwf3BBC332Nnn+NvTw0sApwMPn1yBHgonXUJOi39W1vuMyFBXTp2EEW1GRdo0
+ iVXza3vc9VcSBhwa9A5Un5m999zuqUIetCgQo2EWcUwnNo8xZLb4jZc9qutf90evmJ+x
+ QptA==
+X-Gm-Message-State: ANoB5pmM8vEFGtFHRAaXOLAheKnM2tzVzAFOnmX5/2cvFbAd3uwFBSYm
+ mEpFVtmW3zrDx9XbUhUBnJqMRUkL2Nb/6G5o56E6mA==
+X-Google-Smtp-Source: AA0mqf6ul9+QZU4hm6yqMhWx9ryWax/rv5tjNs1P8UrwxuqP7LLLD/URmkKdihtN7/JQhAlX2g6zMdxTJ2U46P3YUvo=
+X-Received: by 2002:aca:1c07:0:b0:359:ef86:2f4f with SMTP id
+ c7-20020aca1c07000000b00359ef862f4fmr308690oic.14.1671103238656; Thu, 15 Dec
+ 2022 03:20:38 -0800 (PST)
 MIME-Version: 1.0
 References: <20221214125821.12489-1-paul@crapouillou.net>
- <20221214125821.12489-7-paul@crapouillou.net>
-In-Reply-To: <20221214125821.12489-7-paul@crapouillou.net>
+ <20221214125821.12489-8-paul@crapouillou.net>
+In-Reply-To: <20221214125821.12489-8-paul@crapouillou.net>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Thu, 15 Dec 2022 12:18:46 +0100
-Message-ID: <CAG3jFyvwQAXNsLBRj43ZcqX2kWkGT=iLr1NZshfXR6iRWkSdJA@mail.gmail.com>
-Subject: Re: [PATCH 06/10] drm: bridge: it66121: Don't use DDC error IRQs
+Date: Thu, 15 Dec 2022 12:20:27 +0100
+Message-ID: <CAG3jFytqa7h2kYJAz4meYvCfVK7BJp6KXZvvFY+bSNCuNGvOoA@mail.gmail.com>
+Subject: Re: [PATCH 07/10] drm: bridge: it66121: Don't clear DDC FIFO twice
 To: Paul Cercueil <paul@crapouillou.net>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,106 +78,49 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed, 14 Dec 2022 at 13:59, Paul Cercueil <paul@crapouillou.net> wrote:
 >
-> The DDC error IRQs will fire on the IT6610 every time the FIFO is empty,
-> which is not very helpful. To resolve this, we can simply disable them,
-> and handle DDC errors in it66121_wait_ddc_ready().
+> The DDC FIFO was cleared before the loop in it66121_get_edid_block(),
+> and at the beginning of each iteration; which means that it did not have
+> to be cleared before the loop.
 >
 > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 > ---
->  drivers/gpu/drm/bridge/ite-it66121.c | 49 ++++++----------------------
->  1 file changed, 10 insertions(+), 39 deletions(-)
+>  drivers/gpu/drm/bridge/ite-it66121.c | 16 ----------------
+>  1 file changed, 16 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-> index bfb9c87a7019..06fa59ae5ffc 100644
+> index 06fa59ae5ffc..5335d4abd7c5 100644
 > --- a/drivers/gpu/drm/bridge/ite-it66121.c
 > +++ b/drivers/gpu/drm/bridge/ite-it66121.c
-> @@ -515,16 +515,6 @@ static int it66121_get_edid_block(void *context, u8 *buf,
->         offset = (block % 2) * len;
->         block = block / 2;
+> @@ -456,18 +456,6 @@ static inline int it66121_wait_ddc_ready(struct it66121_ctx *ctx)
+>         return 0;
+>  }
 >
-> -       ret = regmap_read(ctx->regmap, IT66121_INT_STATUS1_REG, &val);
+> -static int it66121_clear_ddc_fifo(struct it66121_ctx *ctx)
+> -{
+> -       int ret;
+> -
+> -       ret = it66121_preamble_ddc(ctx);
 > -       if (ret)
 > -               return ret;
 > -
-> -       if (val & IT66121_INT_STATUS1_DDC_BUSHANG) {
-> -               ret = it66121_abort_ddc_ops(ctx);
-> -               if (ret)
-> -                       return ret;
-> -       }
+> -       return regmap_write(ctx->regmap, IT66121_DDC_COMMAND_REG,
+> -                           IT66121_DDC_COMMAND_FIFO_CLR);
+> -}
 > -
->         ret = it66121_clear_ddc_fifo(ctx);
->         if (ret)
->                 return ret;
-> @@ -545,16 +535,6 @@ static int it66121_get_edid_block(void *context, u8 *buf,
->                 if (ret)
->                         return ret;
+>  static int it66121_abort_ddc_ops(struct it66121_ctx *ctx)
+>  {
+>         int ret;
+> @@ -515,10 +503,6 @@ static int it66121_get_edid_block(void *context, u8 *buf,
+>         offset = (block % 2) * len;
+>         block = block / 2;
 >
-> -               ret = regmap_read(ctx->regmap, IT66121_INT_STATUS1_REG, &val);
-> -               if (ret)
-> -                       return ret;
+> -       ret = it66121_clear_ddc_fifo(ctx);
+> -       if (ret)
+> -               return ret;
 > -
-> -               if (val & IT66121_INT_STATUS1_DDC_BUSHANG) {
-> -                       ret = it66121_abort_ddc_ops(ctx);
-> -                       if (ret)
-> -                               return ret;
-> -               }
-> -
->                 ret = it66121_preamble_ddc(ctx);
->                 if (ret)
->                         return ret;
-> @@ -585,8 +565,10 @@ static int it66121_get_edid_block(void *context, u8 *buf,
->                 remain -= cnt;
->
->                 ret = it66121_wait_ddc_ready(ctx);
-> -               if (ret)
-> +               if (ret) {
-> +                       it66121_abort_ddc_ops(ctx);
->                         return ret;
-> +               }
->
->                 ret = regmap_noinc_read(ctx->regmap, IT66121_DDC_RD_FIFO_REG,
->                                         buf, cnt);
-> @@ -671,11 +653,7 @@ static int it66121_bridge_attach(struct drm_bridge *bridge,
->         /* Per programming manual, sleep here for bridge to settle */
->         msleep(50);
->
-> -       /* Start interrupts */
-> -       return regmap_write_bits(ctx->regmap, IT66121_INT_MASK1_REG,
-> -                                IT66121_INT_MASK1_DDC_NOACK |
-> -                                IT66121_INT_MASK1_DDC_FIFOERR |
-> -                                IT66121_INT_MASK1_DDC_BUSHANG, 0);
-> +       return 0;
->  }
->
->  static int it66121_set_mute(struct it66121_ctx *ctx, bool mute)
-> @@ -926,21 +904,14 @@ static irqreturn_t it66121_irq_threaded_handler(int irq, void *dev_id)
->         ret = regmap_read(ctx->regmap, IT66121_INT_STATUS1_REG, &val);
->         if (ret) {
->                 dev_err(dev, "Cannot read STATUS1_REG %d\n", ret);
-> -       } else {
-> -               if (val & IT66121_INT_STATUS1_DDC_FIFOERR)
-> -                       it66121_clear_ddc_fifo(ctx);
-> -               if (val & (IT66121_INT_STATUS1_DDC_BUSHANG |
-> -                          IT66121_INT_STATUS1_DDC_NOACK))
-> -                       it66121_abort_ddc_ops(ctx);
-> -               if (val & IT66121_INT_STATUS1_HPD_STATUS) {
-> -                       regmap_write_bits(ctx->regmap, IT66121_INT_CLR1_REG,
-> -                                         IT66121_INT_CLR1_HPD, IT66121_INT_CLR1_HPD);
-> +       } else if (val & IT66121_INT_STATUS1_HPD_STATUS) {
-> +               regmap_write_bits(ctx->regmap, IT66121_INT_CLR1_REG,
-> +                                 IT66121_INT_CLR1_HPD, IT66121_INT_CLR1_HPD);
->
-> -                       status = it66121_is_hpd_detect(ctx) ? connector_status_connected
-> -                                                           : connector_status_disconnected;
-> +               status = it66121_is_hpd_detect(ctx) ? connector_status_connected
-> +                       : connector_status_disconnected;
->
-> -                       event = true;
-> -               }
-> +               event = true;
->         }
->
->         regmap_write_bits(ctx->regmap, IT66121_SYS_STATUS_REG,
+>         while (remain > 0) {
+>                 cnt = (remain > IT66121_EDID_FIFO_SIZE) ?
+>                                 IT66121_EDID_FIFO_SIZE : remain;
 > --
 > 2.35.1
 >
