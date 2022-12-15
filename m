@@ -2,58 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719BC64D9A3
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 11:38:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3658264D9AA
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 11:46:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4F4210E519;
-	Thu, 15 Dec 2022 10:37:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83E8510E51F;
+	Thu, 15 Dec 2022 10:45:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
- [IPv6:2607:f8b0:4864:20::112e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33A7B10E51F
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 10:37:16 +0000 (UTC)
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-3b48b139b46so34852207b3.12
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 02:37:16 -0800 (PST)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64F9A10E51F
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 10:45:22 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ b24-20020a05600c4a9800b003d21efdd61dso1492659wmp.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 02:45:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=8xobVd8f5cIr7Kkj75EnRmTNDqYZhm2cXmeUBp3q7Z4=;
- b=hWAknL/ycG5f/6vZyK+0mgTB4/u3qknPTFFRKWIE9SopJ4SYh46RzRqGRYNvY4JYhQ
- KfGE9bW0DiH24HzhrdCy1GA4Pj6MfpQweh2bXwYgz9pWKGrf38XkP5TZ/OaGEFEdfqe7
- Azm7tauswLZ8HQRoW2p+PtaBaBaWLTdZ3SPI8Xs8/s2uVd5bBqCVuVT9BsIkevFQZDfC
- yUgDiAVEPjAzDkWET0HFGuQYQJG0nbW4JrMuBchs9xRAaZEdc7tcixe4gxIoNA+PKP18
- CxMZmhdPO/JrsdxiW3uYikiQQ62GL+fjl0/NwMh6SCsy0IcggFlbHOEGk6sazyZo0jUf
- RFKg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KHuddhTs1woKQMA5yxy2mTLY+wNV6WvVLa7elkBE4tw=;
+ b=vkk0Z84jrKQRm876NHO6IUZ/gtYYo3q7FnC1uP+EyV2QxKZ3VeWyN+x2wUriqyW07k
+ gKhLpngEf5ukIXa2tlu9NbZrQxiZSvpZlqMpGS1OH72wv80WzJMG2mJbM3eVfg2S/Jfh
+ cs8NEvYSzUmAbxL3szMKEoVmwxe8Fho2Yj3D3ZFi386cyq0PLOlg30BFfHSIz6WqwrGr
+ 2Ef5xsIC9DhHlTbyqEMnkhDFt9b4ryWhnjVeAhSSNkIMHp5xHvrTCzhoL+MFRAsw7xKu
+ WAj/P2WYxMICJO9H3YYeRaasNOjsvB4RRJb2gUxVU9JPOmBQ+te+cyQPWKhofnECAdeu
+ 4AhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8xobVd8f5cIr7Kkj75EnRmTNDqYZhm2cXmeUBp3q7Z4=;
- b=s9hI103kxIK7dLJ1uZt1NMS31HrkxblMMVHG0D0DGqVQUZlkUFcWtKVNmu2AWeO17H
- 7tArlLy1M5mp50jqTKe2o/69DKbeAHiBINoCBvg69V2DPHgwLoIFr2PrX8hKW4APW0K0
- eT1KT5KY2Q7QFy8maHiSTYQVLDvl1cwlaKMr6zC3bcW0bijd0mMOeWVuzvredzJrwv7K
- jYTSgTnKdaZo3D5zN0MLB3Qa7LcdI5QXsMGYqrTTA3ZNCOkaHJvZf2ogPxQlh8t+9b/s
- Kq3pCfWljI/byrvJBdMWxdhZu4X0Hf3xitV4PAcj/j+veyoLmq+FmITHYVfnapGvIVb3
- UP9A==
-X-Gm-Message-State: ANoB5pnVtnIlQwF4cDace3/mH3NK6ez5Lu3LC6qyKTzCCS3bSrA7EyTt
- SK9Yjzv/zLmrj4oV1a14x398+vEgsj3aWThCr8rhIgqXHTkjem7daE8=
-X-Google-Smtp-Source: AA0mqf6bx5onp0asvYUodNc+Cdhrc3Wqz8dd/iTAPqLXE25zD3UFR76dPXpXK7xK71bI4aD5Sny+Dtzy2iH3uPTd6PM=
-X-Received: by 2002:a81:b54b:0:b0:391:f64b:e3bb with SMTP id
- c11-20020a81b54b000000b00391f64be3bbmr26235170ywk.49.1671100635548; Thu, 15
- Dec 2022 02:37:15 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KHuddhTs1woKQMA5yxy2mTLY+wNV6WvVLa7elkBE4tw=;
+ b=RJxfeMev6M+Wvm3yKDo7PiFNHi39qhOcmptwHHzSzXB3DpHOO97tyYO2tceOdMHZhA
+ JSmPBS/mTBExnRcJ7Ynz7Xkfd5uZ2nnNdKGCHXWkgpyrVplfQ0vzGyCrcytOAGvwaBfu
+ 3KzGU8xK9crUIQi/jdqyRfmOX9n2wTEflCsyLdxRMNX7WOJLpBS52u7cAHIi9vHhKGp/
+ VGonKHrgcMRjcH/ero3brJdJoG8EK94MxOJAHeiuq28CH54rULKH26UXXdT60mdrbq0p
+ 3nGQq/99kV9iQPhHmhL2fiR7Wv69lZ+QwPkJkkqpKtPRnPhjvEg5HeLaa+S6JjyvyOOq
+ 0oHg==
+X-Gm-Message-State: ANoB5pk1kZRNkPKrP7L64KTXjWpWXPGhP0VzfJIbnD6hEIpP9xdNtJ6M
+ 5wsW6KOelrGf3gPisIOSltNf+Q==
+X-Google-Smtp-Source: AA0mqf61J2YEn7tAitSvNv7cg8MsrjGIppG7rPDoRjCfzx+1rPn+1m9vchRs7d/GhhC+bfyHG2RTxA==
+X-Received: by 2002:a05:600c:310e:b0:3cf:b07a:cd2f with SMTP id
+ g14-20020a05600c310e00b003cfb07acd2fmr21041676wmo.37.1671101120589; 
+ Thu, 15 Dec 2022 02:45:20 -0800 (PST)
+Received: from prec5560.. (freifunk-gw.bsa1-cpe1.syseleven.net. [176.74.57.43])
+ by smtp.gmail.com with ESMTPSA id
+ m17-20020a7bce11000000b003d2157627a8sm5919771wmc.47.2022.12.15.02.45.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Dec 2022 02:45:19 -0800 (PST)
+From: Robert Foss <robert.foss@linaro.org>
+To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Pin-yen Lin <treapking@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH] drm/bridge: it6505: Add caching for EDID
+Date: Thu, 15 Dec 2022 11:45:10 +0100
+Message-Id: <167110107985.909515.966397009406015766.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221115112720.911158-1-treapking@chromium.org>
+References: <20221115112720.911158-1-treapking@chromium.org>
 MIME-Version: 1.0
-References: <20221214180611.109651-1-macroalpha82@gmail.com>
- <20221214180611.109651-4-macroalpha82@gmail.com>
-In-Reply-To: <20221214180611.109651-4-macroalpha82@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 15 Dec 2022 11:37:03 +0100
-Message-ID: <CACRpkdZjX7E7Sm7F5sPCwUmnnw6A9imYwytfSb_R1S_qsdgo0A@mail.gmail.com>
-Subject: Re: [PATCH V5 3/4] drm/panel: Add Magnachip D53E6EA8966 Panel Driver
-To: Chris Morgan <macroalpha82@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,45 +77,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
- krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org, robh+dt@kernel.org,
- thierry.reding@gmail.com, dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- Maya Matuszczyk <maccraft123mc@gmail.com>
+Cc: allen chen <allen.chen@ite.com.tw>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chris,
+On Tue, 15 Nov 2022 19:27:20 +0800, Pin-yen Lin wrote:
+> Add caching when EDID is read, and invalidate the cache until the
+> bridge detects HPD low or sink count changes on HPD_IRQ.
+> 
+> It takes 1.2s for IT6505 bridge to read a 3-block EDID, and skipping
+> one EDID read would be a notable difference on user experience.
+> 
+> 
+> [...]
 
-looks good to me, just very minor nitpicks:
+Applied, thanks!
 
-On Wed, Dec 14, 2022 at 7:06 PM Chris Morgan <macroalpha82@gmail.com> wrote:
->
-> From: Chris Morgan <macromorgan@hotmail.com>
->
-> Support Magnachip D53E6EA8966 based panels such as the Samsung
-> AMS495QA01 panel as found on the Anbernic RG503. Note this driver
-> supports only the AMS495QA01 today which receives video signals via DSI,
-> however it receives commands via 3-wire SPI.
+Repo: https://cgit.freedesktop.org/drm/drm-misc/
 
-using DBI.
 
->
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+[1/1] drm/bridge: it6505: Add caching for EDID
+      commit: 11feaef69d0cb81278294299bbfd86f94c2004e3
 
-Is your Kconfig snippet missing:
 
-        depends on BACKLIGHT_CLASS_DEVICE
 
-?
+Rob
 
-> +#include <linux/of_device.h>
-> +#include <linux/of_graph.h>
-
-Not needed anymore, right?
-
-With these fixed:
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-
-Yours,
-Linus Walleij
