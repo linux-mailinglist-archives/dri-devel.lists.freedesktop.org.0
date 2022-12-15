@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD24F64DEBE
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 17:36:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2CCD64DEC1
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 17:37:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A492D10E0FA;
-	Thu, 15 Dec 2022 16:35:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB3D410E400;
+	Thu, 15 Dec 2022 16:37:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E761F10E0FA
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 16:35:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 636D310E377;
+ Thu, 15 Dec 2022 16:36:59 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id D1021B81C0E;
- Thu, 15 Dec 2022 16:35:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E81A8C433EF;
- Thu, 15 Dec 2022 16:35:15 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E646EB81AAC;
+ Thu, 15 Dec 2022 16:36:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07826C433EF;
+ Thu, 15 Dec 2022 16:36:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671122118;
- bh=g+llGdryqrPBn/E1pMNZ7VfxGoucOwyeg4NbT0i9qN8=;
+ s=k20201202; t=1671122216;
+ bh=ZJ+UjuFlAHEeqnv1r+X8Y1fN3lyrw6ECR6xLRaAEqRs=;
  h=From:To:Cc:Subject:Date:From;
- b=OZz69KEVu8zw0awttRT/LTDhwdgnAiiEQ3EocltG1q6SLSM8KtEx7EQyXhCLAnyii
- O1Kzsa4o6oD4E+IQqqtzp0TUhOb2sYgz0xJoN48kKczNb8tWH3rr6BnvVTKnXtJFNJ
- zvnuuhxTpy39u+WQh7GwwPR18zp/97T+J76POMvfGJIZLRjzasFliCpUyUwzdbelhn
- I7GwLL1ijFBg188O8SIum+p6nQqA+9ng8c/ULmaTfUgK7Q9y/cdeygGngaWhxNxXr/
- tQzh05kPt49OJITLM+ni/Pbf1f6V2XOdu5ZSM8hhZPH2LTlGvCXb8NgJ+OZZivTLZm
- 7ky1rgk65x9Qw==
+ b=s/ZJp7C9+lCHF8eafSYx+Wl0LjwFFtKVRaeM6VE62PEFslr7gD0rOlWNHK8Q9aO/u
+ IJOYYYtArmR9K6dhMjAmuTjXMsFNnBg6W3wep8Co6lTtLQsYIKH3u2M6AbVbY7jja2
+ ZVQ9NHhLpZr+PjJGuKeDYs1dCR8BIWWjsHfX83awoSjiyEEmswpWr0EnvUAcS+omvL
+ Nb3YMtjm36x6088xcboN9A1ic9ArjNsJMSPpirfuQlZeJ/gwe5CfmJl9tS1pu5EmB/
+ B7u2G1o0fLIXH1ssDwvxusBqB/+lI+ZZD4jDgJZVsnS2bfDHZW/5RkG/5AOPrG0eLM
+ PNwp9/RZx9cTw==
 From: Arnd Bergmann <arnd@kernel.org>
-To: David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/tests: reduce drm_mm_test stack usage
-Date: Thu, 15 Dec 2022 17:34:49 +0100
-Message-Id: <20221215163511.266214-1-arnd@kernel.org>
+To: Evan Quan <evan.quan@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Subject: [PATCH] drm/amd/pm: avoid large variable on kernel stack
+Date: Thu, 15 Dec 2022 17:36:31 +0100
+Message-Id: <20221215163649.386750-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -50,56 +51,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Tom Rix <trix@redhat.com>,
- Daniel Latypov <dlatypov@google.com>, llvm@lists.linux.dev,
- Nick Desaulniers <ndesaulniers@google.com>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <maira.canal@usp.br>
+Cc: Kenneth Feng <kenneth.feng@amd.com>, Yang Wang <KevinYang.Wang@amd.com>,
+ Arnd Bergmann <arnd@arndb.de>, Chengming Gui <Jack.Gui@amd.com>,
+ Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
+ dri-devel@lists.freedesktop.org, Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The check_reserve_boundaries function uses a lot of kernel stack,
-and it gets inlined by clang, which makes __drm_test_mm_reserve
-use even more of it, to the point of hitting the warning limit:
+The activity_monitor_external[] array is too big to fit on the
+kernel stack, resulting in this warning with clang:
 
-drivers/gpu/drm/tests/drm_mm_test.c:344:12: error: stack frame size (1048) exceeds limit (1024) in '__drm_test_mm_reserve' [-Werror,-Wframe-larger-than]
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_7_ppt.c:1438:12: error: stack frame size (1040) exceeds limit (1024) in 'smu_v13_0_7_get_power_profile_mode' [-Werror,-Wframe-larger-than]
 
-When building with gcc, this does not happen, but the structleak
-plugin can similarly increase the stack usage and needs to be
-disabled, as we do for all other kunit users.
+Use dynamic allocation instead. It should also be possible to
+have single element here instead of the array, but this seems
+easier.
 
+Fixes: 334682ae8151 ("drm/amd/pm: enable workload type change on smu_v13_0_7")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/gpu/drm/tests/Makefile      | 2 ++
- drivers/gpu/drm/tests/drm_mm_test.c | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ .../drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c  | 21 ++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
-index b29ef1085cad..f896ef85c2f2 100644
---- a/drivers/gpu/drm/tests/Makefile
-+++ b/drivers/gpu/drm/tests/Makefile
-@@ -12,3 +12,5 @@ obj-$(CONFIG_DRM_KUNIT_TEST) += \
- 	drm_mm_test.o \
- 	drm_plane_helper_test.o \
- 	drm_rect_test.o
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
+index c270f94a1b86..7eba854e09ec 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
+@@ -1439,7 +1439,7 @@ static int smu_v13_0_7_get_power_limit(struct smu_context *smu,
+ 
+ static int smu_v13_0_7_get_power_profile_mode(struct smu_context *smu, char *buf)
+ {
+-	DpmActivityMonitorCoeffIntExternal_t activity_monitor_external[PP_SMC_POWER_PROFILE_COUNT];
++	DpmActivityMonitorCoeffIntExternal_t *activity_monitor_external;
+ 	uint32_t i, j, size = 0;
+ 	int16_t workload_type = 0;
+ 	int result = 0;
+@@ -1447,6 +1447,12 @@ static int smu_v13_0_7_get_power_profile_mode(struct smu_context *smu, char *buf
+ 	if (!buf)
+ 		return -EINVAL;
+ 
++	activity_monitor_external = kcalloc(sizeof(activity_monitor_external),
++					    PP_SMC_POWER_PROFILE_COUNT,
++					    GFP_KERNEL);
++	if (!activity_monitor_external)
++		return -ENOMEM;
 +
-+CFLAGS_drm_mm_test.o := $(DISABLE_STRUCTLEAK_PLUGIN)
-diff --git a/drivers/gpu/drm/tests/drm_mm_test.c b/drivers/gpu/drm/tests/drm_mm_test.c
-index 89f12d3b4a21..90a5becc99b8 100644
---- a/drivers/gpu/drm/tests/drm_mm_test.c
-+++ b/drivers/gpu/drm/tests/drm_mm_test.c
-@@ -298,7 +298,7 @@ static bool expect_reserve_fail(struct kunit *test, struct drm_mm *mm, struct dr
- 	return false;
+ 	size += sysfs_emit_at(buf, size, "                              ");
+ 	for (i = 0; i <= PP_SMC_POWER_PROFILE_WINDOW3D; i++)
+ 		size += sysfs_emit_at(buf, size, "%-14s%s", amdgpu_pp_profile_name[i],
+@@ -1459,15 +1465,17 @@ static int smu_v13_0_7_get_power_profile_mode(struct smu_context *smu, char *buf
+ 		workload_type = smu_cmn_to_asic_specific_index(smu,
+ 							       CMN2ASIC_MAPPING_WORKLOAD,
+ 							       i);
+-		if (workload_type < 0)
+-			return -EINVAL;
++		if (workload_type < 0) {
++			result = -EINVAL;
++			goto out;
++		}
+ 
+ 		result = smu_cmn_update_table(smu,
+ 					  SMU_TABLE_ACTIVITY_MONITOR_COEFF, workload_type,
+ 					  (void *)(&activity_monitor_external[i]), false);
+ 		if (result) {
+ 			dev_err(smu->adev->dev, "[%s] Failed to get activity monitor!", __func__);
+-			return result;
++			goto out;
+ 		}
+ 	}
+ 
+@@ -1495,7 +1503,10 @@ do {													\
+ 	PRINT_DPM_MONITOR(Fclk_BoosterFreq);
+ #undef PRINT_DPM_MONITOR
+ 
+-	return size;
++	result = size;
++out:
++	kfree(activity_monitor_external);
++	return result;
  }
  
--static bool check_reserve_boundaries(struct kunit *test, struct drm_mm *mm,
-+static bool noinline_for_stack check_reserve_boundaries(struct kunit *test, struct drm_mm *mm,
- 				     unsigned int count,
- 				     u64 size)
- {
+ static int smu_v13_0_7_set_power_profile_mode(struct smu_context *smu, long *input, uint32_t size)
 -- 
 2.35.1
 
