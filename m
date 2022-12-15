@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 520DC64E270
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 21:40:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B5564E271
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 21:41:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D8D210E0DE;
-	Thu, 15 Dec 2022 20:40:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E8D310E558;
+	Thu, 15 Dec 2022 20:40:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24FF510E0DE
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 20:40:14 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D85210E558
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 20:40:44 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id C7042CE1D36
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 20:39:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 00679C433F0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 20:39:35 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7B16F61F0D
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 20:40:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DF940C43392
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 20:40:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671136775;
- bh=Q0cFegE+aTo5KB1xN/06jyAtjJQzkpfgRM/e6e4pJPc=;
+ s=k20201202; t=1671136809;
+ bh=0O3tPIVPc9/EzSaqWjANMyUlr/vloZwWwF9nP4wYKVg=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=fT3wi5WalxdTX2kW5aL+Z4OarqlNETbhVe3Kw1HRjsUDgx48CeckLoxVBsa3Dvid7
- CF6Lc7K/5Mg4vhvQT7sIIVUO9HQxoGBX7a9tCGtfl3N5kT4WztR9/W0mlcIRd5fAk4
- uGEBy2ME+6iOssdZ+SOOJtPjMbI6b5fY/bJnMTp9m3yIJHOCb8EKekH+rdU5GqO8vD
- EUGey6QfCUqpreJRP9ZKIF+mzszdhbFUZd8B/DB2qaTgTXctOspywIi6T6JEFIjirO
- xrP8LGOyXTGmh6K8UuNYEMxRr/l3KQCvilKrlRkQYkUBiDit7kdy/FrhWqrYAGYVDM
- Dgjsm06QHYr+A==
+ b=ifaG+wn6gR26tcoh+Z9A+O4PYzwfVlrrZgc4ukgDJ9maTRnX97mgzYDP4O1QlTItR
+ 4BOb5HrrB1TpcnkS4BNBg4GT/Qh+aqN/lit9ZyyraN5dytxmAxeimi9HPTPv6jctfK
+ 4QsirzcFUBuH1/+YiitcLZPZoUW69LzHQBoUXLvRJ7V8cxZZwcSVfyx9UUjJcUqEdj
+ TlkLAXsRNhv9skw9U0iPkpev4TIKFnZAhAjzH77+oLke5UEO3yguKOqyj0NfNFTJps
+ DaSRELraA0zyXZgX8ijBo4/rDkpywz7OwfYZ4GtKTPqeHM4OrdV03vYTnIDKIOBxvl
+ KGZSAosaIoDBw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id D6FF1C43144; Thu, 15 Dec 2022 20:39:34 +0000 (UTC)
+ from userid 48) id D0E31C43143; Thu, 15 Dec 2022 20:40:09 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 216119] 087451f372bf76d breaks hibernation on amdgpu Radeon R9
  390
-Date: Thu, 15 Dec 2022 20:39:34 +0000
+Date: Thu, 15 Dec 2022 20:40:09 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -51,7 +51,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216119-2300-9Ga2j5S42z@https.bugzilla.kernel.org/>
+Message-ID: <bug-216119-2300-hVRtDlxRGE@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-216119-2300@https.bugzilla.kernel.org/>
 References: <bug-216119-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,31 +76,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
 
---- Comment #48 from Harald Judt (h.judt@gmx.at) ---
-Ok. I am quite sure about this, but I have new observations which could mean
-that the hibernation issue could be fixed but there is another issue.
-
-First, I have tried 6.1.0. Hibernation/resume seems to work as long as I do=
- not
-VT switch, causing the ring gfx timeout but soft recovered messages and fen=
-ces
-timed out. I have not tested this thoroughly enough though.
-
-Second, the
-amdgpu: GPU fault detected: 146 0x0006c40c
-amdgpu:   VM_CONTEXT1_PROTECTION_FAULT_ADDR   0x00000000
-amdgpu:   VM_CONTEXT1_PROTECTION_FAULT_STATUS 0x060C400C
-amdgpu: VM fault (0x0c, vmid 3, pasid 0) at page 0, read from 'TC7'
-(0x54433700) (196)
-and similar messages also happen with 5.18.19 when VT-switching, though *mu=
-ch*
-more rarely.
-
-It seems these remaining problems are likely more related to VT-switching t=
-han
-having to do with hibernate/resume now. Maybe the new fb code or other chan=
-ges
-in the driver just cause these problems to happen more often?
+--- Comment #49 from Harald Judt (h.judt@gmx.at) ---
+I meant "I am not quite sure about this."
 
 --=20
 You may reply to this email to add a comment.
