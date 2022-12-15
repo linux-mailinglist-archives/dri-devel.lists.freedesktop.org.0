@@ -2,74 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5190664E40F
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 23:53:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F303364E415
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 23:58:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A697110E593;
-	Thu, 15 Dec 2022 22:53:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3535610E597;
+	Thu, 15 Dec 2022 22:57:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D998910E126;
- Thu, 15 Dec 2022 22:53:15 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BFMlHSA017839; Thu, 15 Dec 2022 22:53:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=b9NRfGeK8+G3HBdFOgr9UUWK7Lh3so427N+OJvdC8E0=;
- b=e7U6ZuwqcZPuXMRAKGKmRTgz8TVi1qKUaus+INX1wazLjbBLeK0hKwQaoJrq/AvTB5pU
- x/l+9b+PbQuZ90o/3ARa8a7iHy6mLh/rXKGyqTZyxo6WJ+9c+fMlImJ3iwGDmnQY8TUq
- xq/cnGFU/F+PH2K6uy2tASqz+lhZlyrKmCnshhenREDUyNAVKWhKIxYeI7WQp1TbuLHV
- /nrZH+Lxr25lISQeb3jK9uzKTU+j0/3Ks3cjnqElBsuG72YtC7UeVIT962A+HXTaM9in
- i9Ag7gJ2v4CYdZm421Fr52QPqh2uiE3wGBPBDeiZRfVZelHNYBVMlCSibe7kImiBLuKA Og== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mg6y7s0d2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Dec 2022 22:53:10 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BFMr9u0018933
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Dec 2022 22:53:10 GMT
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Thu, 15 Dec 2022 14:53:09 -0800
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v4 2/2] drm/msm/dp: enhance dp controller isr
-Date: Thu, 15 Dec 2022 14:52:55 -0800
-Message-ID: <1671144775-19077-3-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1671144775-19077-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1671144775-19077-1-git-send-email-quic_khsieh@quicinc.com>
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1351E10E599
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 22:57:40 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id ud5so2167241ejc.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 14:57:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=FjiYqubKBXS7ZvYOxxCl827BBeUF7k6PM5EHfi+VLgs=;
+ b=XrTmcoxjUIc3mHLG05TRz9tN3dxkoOc6WODwSvlaUZ5g+5jL4YkBP6zPOVDKNxq95W
+ E3qtrPVVdxEp5SlpFRozv6GLYRPYwk9VWxxQCoORSIhyOJL3P8ZZJRzBNP4WQ+Es8XQr
+ j9PnGtPid5jPqpk2Q7gVyns/lxCtVohkAeWm8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FjiYqubKBXS7ZvYOxxCl827BBeUF7k6PM5EHfi+VLgs=;
+ b=5ANmBq/yreg4k9sRdE0q06kf9c19VAAyn2dJGBU9DPkfuLmdRcACLGAboVngJn976p
+ XHVwg3UgoHx7dP2cq9fwAxQ6TTqUM7oNh90qV4KutPIgdXgfjitFNM3z7oxIxsTJG3Da
+ Zxlqaz72pzkvKCTJN5TEalgkzItcwDuIQ3kMjmzhr5r5+6FigqFJESAthkEqwu/fWMU2
+ E1iNprxpKfDR9j6eWV9uNaE53igR9zDi80o+9LwDeJthhDjD88rWasTDDxh4wJC9O9o/
+ pcvyE0AYZzWyk3reXiQIrlflsHd6mt6C9S3iHACSktBdmMZEheDCd9Lyf8XqsuiysDZV
+ h62g==
+X-Gm-Message-State: ANoB5pmNS5zXoy5V8YvBj5gP7ibOjnLWthQDLdQtJtEJ4w1Pvkej95jH
+ CIeDe4DdCOu+7c5GlddKQL7NA/H+Jd2+D5uHKAM=
+X-Google-Smtp-Source: AA0mqf6iOJNV7kT8gxfSAc8KtiavUwqBmlUvfWaqocGD181us8JCxESmWe8R7ShSA2AC0fuI92b52w==
+X-Received: by 2002:a17:906:86ca:b0:7c0:f2cf:23fb with SMTP id
+ j10-20020a17090686ca00b007c0f2cf23fbmr26859020ejy.52.1671145058009; 
+ Thu, 15 Dec 2022 14:57:38 -0800 (PST)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com.
+ [209.85.221.51]) by smtp.gmail.com with ESMTPSA id
+ jx14-20020a170906ca4e00b007b47749838asm160144ejb.45.2022.12.15.14.57.37
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Dec 2022 14:57:37 -0800 (PST)
+Received: by mail-wr1-f51.google.com with SMTP id u12so815377wrr.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 14:57:37 -0800 (PST)
+X-Received: by 2002:a5d:4943:0:b0:242:3ca3:b7bd with SMTP id
+ r3-20020a5d4943000000b002423ca3b7bdmr18907754wrs.583.1671145056890; Thu, 15
+ Dec 2022 14:57:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: Vf0dtY46b-GDbQqU9YDa5k2uMbaAZF-m
-X-Proofpoint-GUID: Vf0dtY46b-GDbQqU9YDa5k2uMbaAZF-m
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-15_11,2022-12-15_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0
- impostorscore=0 adultscore=0 mlxlogscore=999 clxscore=1015 phishscore=0
- suspectscore=0 spamscore=0 priorityscore=1501 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212150189
+References: <1670967848-31475-1-git-send-email-quic_khsieh@quicinc.com>
+ <1670967848-31475-3-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n52eHYCqxUJqQXoaQ8vyqCk-QfouSun+zUp3yo5DufWbwg@mail.gmail.com>
+ <b38af164-08bc-07e7-dfaf-fb4d6d89d7db@quicinc.com>
+ <CAE-0n53Cb6TFGfM6AYup5aP4=24j0ujVPi463oVqmzfNV2B4RA@mail.gmail.com>
+ <011c1ce3-605a-1ad5-d7df-b91e8c6808bc@linaro.org>
+In-Reply-To: <011c1ce3-605a-1ad5-d7df-b91e8c6808bc@linaro.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 15 Dec 2022 14:57:25 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=VPMKz4uR_Y4SXy6ghmfciiTBBmQM9jVj2hObcPukS5KQ@mail.gmail.com>
+Message-ID: <CAD=FV=VPMKz4uR_Y4SXy6ghmfciiTBBmQM9jVj2hObcPukS5KQ@mail.gmail.com>
+Subject: Re: [PATCH v12 2/5] dt-bindings: msm/dp: add data-lanes and
+ link-frequencies property
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,297 +79,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, quic_sbillaka@quicinc.com,
+ freedreno@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
+ quic_abhinavk@quicinc.com, sean@poorly.run, andersson@kernel.org,
+ konrad.dybcio@somainline.org, vkoul@kernel.org,
+ dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ robh+dt@kernel.org, agross@kernel.org, linux-arm-msm@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dp_display_irq_handler() is the main isr handler with the helps
-of two sub isr, dp_aux_isr and dp_ctrl_isr, to service all DP
-interrupts on every irq triggered. Current all three isr does
-not return IRQ_HANDLED if there are any interrupts it had
-serviced. This patch fix this ambiguity by having all isr
-return IRQ_HANDLED if there are interrupts had been serviced
-or IRQ_NONE otherwise.
+Hi,
 
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Suggested-by: Stephen Boyd <swboyd@chromium.org>
----
- drivers/gpu/drm/msm/dp/dp_aux.c     | 96 ++++++++++++++++++++++++-------------
- drivers/gpu/drm/msm/dp/dp_aux.h     |  2 +-
- drivers/gpu/drm/msm/dp/dp_ctrl.c    | 13 +++--
- drivers/gpu/drm/msm/dp/dp_ctrl.h    |  2 +-
- drivers/gpu/drm/msm/dp/dp_display.c | 16 +++++--
- 5 files changed, 86 insertions(+), 43 deletions(-)
+On Thu, Dec 15, 2022 at 1:12 PM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On 15/12/2022 02:38, Stephen Boyd wrote:
+> > Quoting Kuogee Hsieh (2022-12-14 14:56:23)
+> >>
+> >> On 12/13/2022 3:06 PM, Stephen Boyd wrote:
+> >>> Quoting Kuogee Hsieh (2022-12-13 13:44:05)
+> >>>> Add both data-lanes and link-frequencies property into endpoint
+> >>> Why do we care? Please tell us why it's important.
+> >
+> > Any response?
+> >
+> >>>> @@ -193,6 +217,8 @@ examples:
+> >>>>                    reg = <1>;
+> >>>>                    endpoint {
+> >>>>                        remote-endpoint = <&typec>;
+> >>>> +                    data-lanes = <0 1>;
+> >>>> +                    link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000 8100000000>;
+> >>>>                    };
+> >>> So far we haven't used the output port on the DP controller in DT.
+> >>>
+> >>> I'm still not clear on what we should do in general for DP because
+> >>> there's a PHY that actually controls a lane count and lane mapping. In
+> >>> my mental model of the SoC, this DP controller's output port is
+> >>> connected to the DP PHY, which then sends the DP lanes out of the SoC to
+> >>> the next downstream device (i.e. a DP connector or type-c muxer). Having
+> >>> a remote-endpoint property with a phandle to typec doesn't fit my mental
+> >>> model. I'd expect it to be the typec PHY.
+> >> ack
+> >>>
+> >>> That brings up the question: when we have 2 lanes vs. 4 lanes will we
+> >>> duplicate the data-lanes property in the PHY binding? I suspect we'll
+> >>> have to. Hopefully that sort of duplication is OK?
+> >> Current we have limitation by reserve 2 data lanes for usb2, i am not
+> >> sure duplication to 4 lanes will work automatically.
+> >>>
+> >>> Similarly, we may have a redriver that limits the link-frequencies
+> >>> property further (e.g. only support <= 2.7GHz). Having multiple
+> >>> link-frequencies along the graph is OK, right? And isn't the
+> >>> link-frequencies property known here by fact that the DP controller
+> >>> tells us which SoC this controller is for, and thus we already know the
+> >>> supported link frequencies?
+> >>>
+> >>> Finally, I wonder if we should put any of this in the DP controller's
+> >>> output endpoint, or if we can put these sorts of properties in the DP
+> >>> PHY binding directly? Can't we do that and then when the DP controller
+> >>> tries to set 4 lanes, the PHY immediately fails the call and the link
+> >>> training algorithm does its thing and tries fewer lanes? And similarly,
+> >>> if link-frequencies were in the PHY's binding, the PHY could fail to set
+> >>> those frequencies during link training, returning an error to the DP
+> >>> controller, letting the training move on to a lower frequency. If we did
+> >>> that this patch series would largely be about modifying the PHY binding,
+> >>> updating the PHY driver to enforce constraints, and handling errors
+> >>> during link training in the DP controller (which may already be done? I
+> >>> didn't check).
+> >>
+> >>
+> >> phy/pll have different configuration base on link lanes and rate.
+> >>
+> >> it has to be set up before link training can start.
+> >>
+> >> Once link training start, then there are no any interactions between
+> >> controller and phy during link training session.
+> >
+> > What do you mean? The DP controller calls phy_configure() and changes
+> > the link rate. The return value from phy_configure() should be checked
+> > and link training should skip link rates that aren't supported and/or
+> > number of lanes that aren't supported.
+>
+> I'd toss another coin into the argument. We have previously discussed
+> using the link-frequencies property in the context of limiting link
+> speeds for the DSI. There we have both hardware (SoC) limitations and
+> the board limitations as in some cases the DSI lanes can not sustain
+> some high rate. I still hope for these patches to materialize at some point.
+>
+> For the DP this is more or less the same story. We have the hardware
+> (SoC, PHY, etc) limitations, but also we have the board/device
+> limitations. For example some of the board might not be able to support
+> HBR3 e.g. because of the PCB design. And while it might be logical to
+> also add the 'max bit rate' support to the eDP & combo PHYs, it
+> definitely makes sense to be able to limit the rate on the DP <->
+> `something' link.
+>
+> Now, for all the practical purposes this `something' for the DP is the
+> DP connector, the eDP panel or the USB-C mux (with the possible
+> redrivers in the middle).
+>
+> Thus I'd support Kuogee's proposal to have link-frequencies in the DP's
+> outbound endpoint. This is the link which will be driven by the data
+> stream from the Linux point of view. The PHY is linked through the
+> 'phys' property, but it doesn't participate in the USB-C (or in the
+> connector/panel) graph.
+>
+> Now let's discuss the data lanes. Currently we have them in the DP
+> property itself. Please correct me if I'm wrong, but I think that we can
+> drop it for all the practical purposes. Judging by the DP compat string
+> the driver can determine if it uses 2 lanes (eDP) or 4 lanes
+> (full-featured DP). In case of USB-C when the altmode dictates whether
+> to use 2 or 4 lanes, the TCPM (Type-C Port Manager) will negotiate the
+> mode and pin configuration, then inform the DP controller about the
+> selected amount of lanes. Then DP informs the PHY about the selection
+> (note, PHY doesn't have control at all in this scenario).
+>
+> The only problematic case is the mixed mode ports, which if I understand
+> correctly, can be configured either to eDP or DP modes. I'm not sure who
+> specifies and limits the amount of lanes available to the DP controller.
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
-index cc3efed..2b85b61 100644
---- a/drivers/gpu/drm/msm/dp/dp_aux.c
-+++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-@@ -162,45 +162,78 @@ static ssize_t dp_aux_cmd_fifo_rx(struct dp_aux_private *aux,
- 	return i;
- }
- 
--static void dp_aux_native_handler(struct dp_aux_private *aux, u32 isr)
-+static irqreturn_t dp_aux_native_handler(struct dp_aux_private *aux, u32 isr)
- {
--	if (isr & DP_INTR_AUX_I2C_DONE)
-+	irqreturn_t ret = IRQ_NONE;
-+
-+	if (isr & DP_INTR_AUX_I2C_DONE) {
- 		aux->aux_error_num = DP_AUX_ERR_NONE;
--	else if (isr & DP_INTR_WRONG_ADDR)
-+		ret = IRQ_HANDLED;
-+	} else if (isr & DP_INTR_WRONG_ADDR) {
- 		aux->aux_error_num = DP_AUX_ERR_ADDR;
--	else if (isr & DP_INTR_TIMEOUT)
-+		ret = IRQ_HANDLED;
-+	} else if (isr & DP_INTR_TIMEOUT) {
- 		aux->aux_error_num = DP_AUX_ERR_TOUT;
--	if (isr & DP_INTR_NACK_DEFER)
-+		ret = IRQ_HANDLED;
-+	}
-+
-+	if (isr & DP_INTR_NACK_DEFER) {
- 		aux->aux_error_num = DP_AUX_ERR_NACK;
-+		ret = IRQ_HANDLED;
-+	}
-+
- 	if (isr & DP_INTR_AUX_ERROR) {
- 		aux->aux_error_num = DP_AUX_ERR_PHY;
- 		dp_catalog_aux_clear_hw_interrupts(aux->catalog);
-+		ret = IRQ_HANDLED;
- 	}
-+
-+	return ret;
- }
- 
--static void dp_aux_i2c_handler(struct dp_aux_private *aux, u32 isr)
-+static irqreturn_t dp_aux_i2c_handler(struct dp_aux_private *aux, u32 isr)
- {
-+	irqreturn_t ret = IRQ_NONE;
-+
- 	if (isr & DP_INTR_AUX_I2C_DONE) {
- 		if (isr & (DP_INTR_I2C_NACK | DP_INTR_I2C_DEFER))
- 			aux->aux_error_num = DP_AUX_ERR_NACK;
- 		else
- 			aux->aux_error_num = DP_AUX_ERR_NONE;
--	} else {
--		if (isr & DP_INTR_WRONG_ADDR)
--			aux->aux_error_num = DP_AUX_ERR_ADDR;
--		else if (isr & DP_INTR_TIMEOUT)
--			aux->aux_error_num = DP_AUX_ERR_TOUT;
--		if (isr & DP_INTR_NACK_DEFER)
--			aux->aux_error_num = DP_AUX_ERR_NACK_DEFER;
--		if (isr & DP_INTR_I2C_NACK)
--			aux->aux_error_num = DP_AUX_ERR_NACK;
--		if (isr & DP_INTR_I2C_DEFER)
--			aux->aux_error_num = DP_AUX_ERR_DEFER;
--		if (isr & DP_INTR_AUX_ERROR) {
--			aux->aux_error_num = DP_AUX_ERR_PHY;
--			dp_catalog_aux_clear_hw_interrupts(aux->catalog);
--		}
-+
-+		return IRQ_HANDLED;
-+	}
-+
-+	if (isr & DP_INTR_WRONG_ADDR) {
-+		aux->aux_error_num = DP_AUX_ERR_ADDR;
-+		ret = IRQ_HANDLED;
-+	} else if (isr & DP_INTR_TIMEOUT) {
-+		aux->aux_error_num = DP_AUX_ERR_TOUT;
-+		ret = IRQ_HANDLED;
-+	}
-+
-+	if (isr & DP_INTR_NACK_DEFER) {
-+		aux->aux_error_num = DP_AUX_ERR_NACK_DEFER;
-+		ret = IRQ_HANDLED;
-+	}
-+
-+	if (isr & DP_INTR_I2C_NACK) {
-+		aux->aux_error_num = DP_AUX_ERR_NACK;
-+		ret = IRQ_HANDLED;
-+	}
-+
-+	if (isr & DP_INTR_I2C_DEFER) {
-+		aux->aux_error_num = DP_AUX_ERR_DEFER;
-+		ret = IRQ_HANDLED;
- 	}
-+
-+	if (isr & DP_INTR_AUX_ERROR) {
-+		aux->aux_error_num = DP_AUX_ERR_PHY;
-+		dp_catalog_aux_clear_hw_interrupts(aux->catalog);
-+		ret = IRQ_HANDLED;
-+	}
-+
-+	return ret;
- }
- 
- static void dp_aux_update_offset_and_segment(struct dp_aux_private *aux,
-@@ -409,15 +442,11 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
- 	return ret;
- }
- 
--void dp_aux_isr(struct drm_dp_aux *dp_aux)
-+irqreturn_t dp_aux_isr(struct drm_dp_aux *dp_aux)
- {
- 	u32 isr;
- 	struct dp_aux_private *aux;
--
--	if (!dp_aux) {
--		DRM_ERROR("invalid input\n");
--		return;
--	}
-+	irqreturn_t ret = IRQ_NONE;
- 
- 	aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
- 
-@@ -425,17 +454,20 @@ void dp_aux_isr(struct drm_dp_aux *dp_aux)
- 
- 	/* no interrupts pending, return immediately */
- 	if (!isr)
--		return;
-+		return ret;
- 
- 	if (!aux->cmd_busy)
--		return;
-+		return ret;
- 
- 	if (aux->native)
--		dp_aux_native_handler(aux, isr);
-+		ret = dp_aux_native_handler(aux, isr);
- 	else
--		dp_aux_i2c_handler(aux, isr);
-+		ret = dp_aux_i2c_handler(aux, isr);
- 
--	complete(&aux->comp);
-+	if (ret == IRQ_HANDLED)
-+		complete(&aux->comp);
-+
-+	return ret;
- }
- 
- void dp_aux_reconfig(struct drm_dp_aux *dp_aux)
-diff --git a/drivers/gpu/drm/msm/dp/dp_aux.h b/drivers/gpu/drm/msm/dp/dp_aux.h
-index e930974..511305d 100644
---- a/drivers/gpu/drm/msm/dp/dp_aux.h
-+++ b/drivers/gpu/drm/msm/dp/dp_aux.h
-@@ -11,7 +11,7 @@
- 
- int dp_aux_register(struct drm_dp_aux *dp_aux);
- void dp_aux_unregister(struct drm_dp_aux *dp_aux);
--void dp_aux_isr(struct drm_dp_aux *dp_aux);
-+irqreturn_t dp_aux_isr(struct drm_dp_aux *dp_aux);
- void dp_aux_init(struct drm_dp_aux *dp_aux);
- void dp_aux_deinit(struct drm_dp_aux *dp_aux);
- void dp_aux_reconfig(struct drm_dp_aux *dp_aux);
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index 3854c9f..5968ab1 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1982,27 +1982,32 @@ int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
- 	return ret;
- }
- 
--void dp_ctrl_isr(struct dp_ctrl *dp_ctrl)
-+irqreturn_t dp_ctrl_isr(struct dp_ctrl *dp_ctrl)
- {
- 	struct dp_ctrl_private *ctrl;
- 	u32 isr;
--
--	if (!dp_ctrl)
--		return;
-+	irqreturn_t ret = IRQ_NONE;
- 
- 	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
- 
- 	isr = dp_catalog_ctrl_get_interrupt(ctrl->catalog);
-+	/* no interrupts pending, return immediately */
-+	if (!isr)
-+		return ret;
- 
- 	if (isr & DP_CTRL_INTR_READY_FOR_VIDEO) {
- 		drm_dbg_dp(ctrl->drm_dev, "dp_video_ready\n");
- 		complete(&ctrl->video_comp);
-+		ret = IRQ_HANDLED;
- 	}
- 
- 	if (isr & DP_CTRL_INTR_IDLE_PATTERN_SENT) {
- 		drm_dbg_dp(ctrl->drm_dev, "idle_patterns_sent\n");
- 		complete(&ctrl->idle_comp);
-+		ret = IRQ_HANDLED;
- 	}
-+
-+	return ret;
- }
- 
- struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-index 9f29734..c3af06d 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-@@ -25,7 +25,7 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_off_link(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_off(struct dp_ctrl *dp_ctrl);
- void dp_ctrl_push_idle(struct dp_ctrl *dp_ctrl);
--void dp_ctrl_isr(struct dp_ctrl *dp_ctrl);
-+irqreturn_t dp_ctrl_isr(struct dp_ctrl *dp_ctrl);
- void dp_ctrl_handle_sink_request(struct dp_ctrl *dp_ctrl);
- struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
- 			struct dp_panel *panel,	struct drm_dp_aux *aux,
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index bfd0aef..d40bfbd 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -1192,7 +1192,7 @@ static int dp_hpd_event_thread_start(struct dp_display_private *dp_priv)
- static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
- {
- 	struct dp_display_private *dp = dev_id;
--	irqreturn_t ret = IRQ_HANDLED;
-+	irqreturn_t ret = IRQ_NONE;
- 	u32 hpd_isr_status;
- 
- 	if (!dp) {
-@@ -1206,27 +1206,33 @@ static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
- 		drm_dbg_dp(dp->drm_dev, "type=%d isr=0x%x\n",
- 			dp->dp_display.connector_type, hpd_isr_status);
- 		/* hpd related interrupts */
--		if (hpd_isr_status & DP_DP_HPD_PLUG_INT_MASK)
-+		if (hpd_isr_status & DP_DP_HPD_PLUG_INT_MASK) {
- 			dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
-+			ret = IRQ_HANDLED;
-+		}
- 
- 		if (hpd_isr_status & DP_DP_IRQ_HPD_INT_MASK) {
- 			dp_add_event(dp, EV_IRQ_HPD_INT, 0, 0);
-+			ret = IRQ_HANDLED;
- 		}
- 
- 		if (hpd_isr_status & DP_DP_HPD_REPLUG_INT_MASK) {
- 			dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
- 			dp_add_event(dp, EV_HPD_PLUG_INT, 0, 3);
-+			ret = IRQ_HANDLED;
- 		}
- 
--		if (hpd_isr_status & DP_DP_HPD_UNPLUG_INT_MASK)
-+		if (hpd_isr_status & DP_DP_HPD_UNPLUG_INT_MASK) {
- 			dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
-+			ret = IRQ_HANDLED;
-+		}
- 	}
- 
- 	/* DP controller isr */
--	dp_ctrl_isr(dp->ctrl);
-+	ret |= dp_ctrl_isr(dp->ctrl);
- 
- 	/* DP aux isr */
--	dp_aux_isr(dp->aux);
-+	ret |= dp_aux_isr(dp->aux);
- 
- 	return ret;
- }
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+For the most part, I'll let others debate the best way to represent
+this data, but I'll comment that the above statement isn't really
+correct. Specifically it's wrong to say that eDP is 2 lanes and DP is
+2/4 lanes. I will say:
 
+* An eDP display could support 1, 2, or 4 lanes.
+* An eDP controller could support 1, 2, or 4 lanes.
+* A board may wire up 1, 2, or 4 lanes.
+
+Thus if you have an eDP controller that should be capable of 4 lanes
+and an eDP panel that says it's capable of 4 lanes, you still might
+need to use a 2 lane configuration because a board only wired up 2 of
+the lanes. IMO the number of lanes that are wired up should be in the
+device tree somewhere because that's where this board limit should be
+defined.
+
+Similarly, you could have an eDP controller that supports 4 lanes, you
+may wire 4 lanes off the board, but an eDP panel may only support 1 or
+2 lanes. This is handled by querying the panel and asking how many
+lanes it supports.
+
+-Doug
