@@ -2,69 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3658264D9AA
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 11:46:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6958364D9B6
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Dec 2022 11:48:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83E8510E51F;
-	Thu, 15 Dec 2022 10:45:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 941D710E523;
+	Thu, 15 Dec 2022 10:48:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64F9A10E51F
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 10:45:22 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- b24-20020a05600c4a9800b003d21efdd61dso1492659wmp.3
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 02:45:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KHuddhTs1woKQMA5yxy2mTLY+wNV6WvVLa7elkBE4tw=;
- b=vkk0Z84jrKQRm876NHO6IUZ/gtYYo3q7FnC1uP+EyV2QxKZ3VeWyN+x2wUriqyW07k
- gKhLpngEf5ukIXa2tlu9NbZrQxiZSvpZlqMpGS1OH72wv80WzJMG2mJbM3eVfg2S/Jfh
- cs8NEvYSzUmAbxL3szMKEoVmwxe8Fho2Yj3D3ZFi386cyq0PLOlg30BFfHSIz6WqwrGr
- 2Ef5xsIC9DhHlTbyqEMnkhDFt9b4ryWhnjVeAhSSNkIMHp5xHvrTCzhoL+MFRAsw7xKu
- WAj/P2WYxMICJO9H3YYeRaasNOjsvB4RRJb2gUxVU9JPOmBQ+te+cyQPWKhofnECAdeu
- 4AhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KHuddhTs1woKQMA5yxy2mTLY+wNV6WvVLa7elkBE4tw=;
- b=RJxfeMev6M+Wvm3yKDo7PiFNHi39qhOcmptwHHzSzXB3DpHOO97tyYO2tceOdMHZhA
- JSmPBS/mTBExnRcJ7Ynz7Xkfd5uZ2nnNdKGCHXWkgpyrVplfQ0vzGyCrcytOAGvwaBfu
- 3KzGU8xK9crUIQi/jdqyRfmOX9n2wTEflCsyLdxRMNX7WOJLpBS52u7cAHIi9vHhKGp/
- VGonKHrgcMRjcH/ero3brJdJoG8EK94MxOJAHeiuq28CH54rULKH26UXXdT60mdrbq0p
- 3nGQq/99kV9iQPhHmhL2fiR7Wv69lZ+QwPkJkkqpKtPRnPhjvEg5HeLaa+S6JjyvyOOq
- 0oHg==
-X-Gm-Message-State: ANoB5pk1kZRNkPKrP7L64KTXjWpWXPGhP0VzfJIbnD6hEIpP9xdNtJ6M
- 5wsW6KOelrGf3gPisIOSltNf+Q==
-X-Google-Smtp-Source: AA0mqf61J2YEn7tAitSvNv7cg8MsrjGIppG7rPDoRjCfzx+1rPn+1m9vchRs7d/GhhC+bfyHG2RTxA==
-X-Received: by 2002:a05:600c:310e:b0:3cf:b07a:cd2f with SMTP id
- g14-20020a05600c310e00b003cfb07acd2fmr21041676wmo.37.1671101120589; 
- Thu, 15 Dec 2022 02:45:20 -0800 (PST)
-Received: from prec5560.. (freifunk-gw.bsa1-cpe1.syseleven.net. [176.74.57.43])
- by smtp.gmail.com with ESMTPSA id
- m17-20020a7bce11000000b003d2157627a8sm5919771wmc.47.2022.12.15.02.45.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Dec 2022 02:45:19 -0800 (PST)
-From: Robert Foss <robert.foss@linaro.org>
-To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Pin-yen Lin <treapking@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: Re: [PATCH] drm/bridge: it6505: Add caching for EDID
-Date: Thu, 15 Dec 2022 11:45:10 +0100
-Message-Id: <167110107985.909515.966397009406015766.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221115112720.911158-1-treapking@chromium.org>
-References: <20221115112720.911158-1-treapking@chromium.org>
-MIME-Version: 1.0
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F2A410E534;
+ Thu, 15 Dec 2022 10:47:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1671101271; x=1702637271;
+ h=mime-version:content-transfer-encoding:in-reply-to:
+ references:cc:to:from:subject:message-id:date;
+ bh=zXYj1X5CN56Thb0qJ7a7VOyNGgqdnnoyOz96f3OSkIQ=;
+ b=oBwLuG6d6woeX1UwtYcqzOCZ2yZ336xc6NGjY67Ja3kSZTJqzwE0WwKh
+ WOan53kSGHg4FZapfpMCXSEN6vWU3SPG2UsPVHrtHjyI4yHkridqz8VIj
+ I1VR2hNWDnqydkh4ZjVz/Oc9z0Unos6vtdGDmERg3MlHCfzYHGy72bw2J
+ EeKJ+KvdaZVJ5/yXn0bD+pomVM/lXk7tHeF0zVKro6GO3OLWZr4Z3+SAe
+ zRe72A44h0tMWDEY/81kvn05qDz7nBD7ATbhTUhqpBSOiDV//fjEA7As0
+ GipOxBQdwno9NMXKP9kLlwDR1IeGFMkt9kX2l6hwWFatwVkpNlvimUXIK w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10561"; a="318688889"
+X-IronPort-AV: E=Sophos;i="5.96,247,1665471600"; d="scan'208";a="318688889"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2022 02:47:50 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10561"; a="712856394"
+X-IronPort-AV: E=Sophos;i="5.96,247,1665471600"; d="scan'208";a="712856394"
+Received: from wokeeffe-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.6.24])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2022 02:47:43 -0800
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAPM=9twhAL+c8mOLmidY_tEhEKwCh-CTjfs5yryOk8oGjMxuug@mail.gmail.com>
+References: <Yz8rIxV7bVCcfZb0@kroah.com>
+ <20221007013708.1946061-1-zyytlz.wz@163.com>
+ <CAPM=9ty0+ouf+rQWhM=9XSKFOA2zxKfa00MsNBvwrQGPQm2uPQ@mail.gmail.com>
+ <CAJedcCwxioxr+4TBTdrEjAZh97J3oroSHSgax+bxSNRXCBvkRg@mail.gmail.com>
+ <CAPM=9twhAL+c8mOLmidY_tEhEKwCh-CTjfs5yryOk8oGjMxuug@mail.gmail.com>
+To: Dave Airlie <airlied@gmail.com>, Zheng Hacker <hackerzheng666@gmail.com>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: Re: [PATCH v3] drm/i915/gvt: fix double free bug in
+ split_2MB_gtt_entry
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <167110126066.5360.11413014428644610672@jlahtine-mobl.ger.corp.intel.com>
+User-Agent: alot/0.8.1
+Date: Thu, 15 Dec 2022 12:47:40 +0200
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,30 +66,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: allen chen <allen.chen@ite.com.tw>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>
+Cc: alex000young@gmail.com, security@kernel.org, airlied@linux.ie,
+ gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ 1002992920@qq.com, Zheng Wang <zyytlz.wz@163.com>,
+ intel-gvt-dev@lists.freedesktop.org, zhi.a.wang@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 15 Nov 2022 19:27:20 +0800, Pin-yen Lin wrote:
-> Add caching when EDID is read, and invalidate the cache until the
-> bridge detects HPD low or sink count changes on HPD_IRQ.
-> 
-> It takes 1.2s for IT6505 bridge to read a 3-block EDID, and skipping
-> one EDID read would be a notable difference on user experience.
-> 
-> 
-> [...]
+(+ Tvrtko as FYI)
 
-Applied, thanks!
+Zhenyu, can you take a look at the patch ASAP.
 
-Repo: https://cgit.freedesktop.org/drm/drm-misc/
+Regards, Joonas
 
-
-[1/1] drm/bridge: it6505: Add caching for EDID
-      commit: 11feaef69d0cb81278294299bbfd86f94c2004e3
-
-
-
-Rob
-
+Quoting Dave Airlie (2022-10-27 08:12:31)
+> On Thu, 27 Oct 2022 at 13:26, Zheng Hacker <hackerzheng666@gmail.com> wro=
+te:
+> >
+> > Dave Airlie <airlied@gmail.com> =E4=BA=8E2022=E5=B9=B410=E6=9C=8827=E6=
+=97=A5=E5=91=A8=E5=9B=9B 08:01=E5=86=99=E9=81=93=EF=BC=9A
+> > >
+> > > On Fri, 7 Oct 2022 at 11:38, Zheng Wang <zyytlz.wz@163.com> wrote:
+> > > >
+> > > > If intel_gvt_dma_map_guest_page failed, it will call
+> > > > ppgtt_invalidate_spt, which will finally free the spt.
+> > > > But the caller does not notice that, it will free spt again in erro=
+r path.
+> > > >
+> > > > Fix this by spliting invalidate and free in ppgtt_invalidate_spt.
+> > > > Only free spt when in good case.
+> > > >
+> > > > Reported-by: Zheng Wang <hackerzheng666@gmail.com>
+> > > > Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+> > >
+> > > Has this landed in a tree yet, since it's a possible CVE, might be
+> > > good to merge it somewhere.
+> > >
+> > > Dave.
+> > >
+> >
+> > Hi Dave,
+> >
+> > This patched hasn't been merged yet. Could you please help with this?
+>=20
+> I'll add some more people who can probably look at it.
+>=20
+> Dave.
