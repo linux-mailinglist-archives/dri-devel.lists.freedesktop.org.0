@@ -2,72 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB8F564E984
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 11:35:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F95764E9A2
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 11:42:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34E3A10E0F9;
-	Fri, 16 Dec 2022 10:35:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40CD510E19F;
+	Fri, 16 Dec 2022 10:41:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41F4010E0F9
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 10:35:11 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id g7so2832365lfv.5
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 02:35:11 -0800 (PST)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 182F410E5B0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 10:41:35 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id p36so2810542lfa.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 02:41:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=a0yptAXedl2pzYbpHJGSCo7EhOMQi3T8iPKefbr2uqc=;
- b=qsiypkVP61ohjDcde8f5g/4SQh/oAJNoScwEgP3Rv8EeRjzz9+LMiDNN88Rt5oJNM0
- Rsv2S/TYMvb7YC6gcAFiXX709u+bItlhyfEpxsPnDs8PXX1OpaH1a2CHRSfs/4cHFHTZ
- 3QID1o8OYaZc/PfohyOziC4jICM0EwA8BWIPuUH8EK9c5ld3o/1Jvs68zgRaHcqHa6Sf
- 2M3nFxfgbHc/Rdi6R5upHP9zU7M7zTv9n2xsThIeHTkMd2mj42eS0YxRtRpu46NlokY7
- djgBKq39E4l7clMVYpXk2GQ/Mtil5DUdc+zeUkXeDBB9btZLZIj8kpv/o9YimzB/JJSD
- R2gA==
+ bh=vKWFv4+1LvBdg0mr235r5AhUkZyQqNGBCErVEiGMmEg=;
+ b=R7vAAqzgGShnocas6YZpTgDxaoNtnMm4wXRoNvlsBNw/NdoisDd+xIdHMd354q2ynx
+ 17qlRfXH1JuGiWpSphIrlIVRpL1pQPtrC8M4ViDxvnnktKflFfYENjNQafoYhz2gHb8Z
+ 4r2hCJmto8v201veR7/DZW5xtjgviSJyTgX1Uhj7psKfTM2gWcsevue5ORk66mq8jDOc
+ bHUnR7vGJE07tQriPNU5+ty6xBMJB8AHNKuNJjprobIFOqvb9DG5Mv+1IudQ7V8kXE0P
+ CJDapD2XerUx326jheWOzBncXPkzC5kygn7U6hZyFiOVNOrIlBqbTzMuhqEMNKmOBqtb
+ ZmGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=a0yptAXedl2pzYbpHJGSCo7EhOMQi3T8iPKefbr2uqc=;
- b=OnemdIGPZsJwht0Z1iszK8zccD9o3aVQsJfp5QmgVjEjmbPfEBCoyT4AZ+8yf6wxmf
- xAUP5rQmNJsIZZMGUVWXqTjc6SfD9B0tHi2gTiMleVIjapBzaLtqiQ+Pcqqy/8hTRFZ8
- 9HzZx6E3uT8WJ3jSGI6/nISVjtR6WTZBHUCTMzyns+51y4ks6vs1nH0Mu2lTDbVOkQ7f
- JM6HtMRIQI6ap1/p1iybIew1bFUxKf0hlj1Ffeu0WA5Kn+T9nh47VBAb2ZuYh+V8gtLg
- /e9gaS8cuyKIlbgUvwHmoaQN8WboTocYBAa+QVlCCYb85Ndm3+7Uh21X9MpN+K6eB7xD
- BgcQ==
-X-Gm-Message-State: ANoB5pmGbVT34REohXDai/yGLcPPjDdq/AmxSq1RpfU9IGR50VU7lPiO
- CpFbnyvbgDQ1S4jAM4DVDNk0gQ==
-X-Google-Smtp-Source: AA0mqf7KujWonci3YuJEjvtd7JyFGVm/ZvKiman8Ue42tzcnB4UCGM+zIc8G0kwsrw0GqeKQOgs+ww==
-X-Received: by 2002:a05:6512:3b22:b0:4b6:fae9:c9bc with SMTP id
- f34-20020a0565123b2200b004b6fae9c9bcmr5601272lfv.4.1671186909644; 
- Fri, 16 Dec 2022 02:35:09 -0800 (PST)
+ bh=vKWFv4+1LvBdg0mr235r5AhUkZyQqNGBCErVEiGMmEg=;
+ b=k3RZ1PD3C1wa2k3XESnZRCW+hlhQH7lD6gkDtzautJlDeMbYUs14tmAQu+jsKtnsLy
+ QBhDnH8p8Q4qZrY1KxqhMispEAsm/vKn8YVr8EdeIhlS1ibN0vCGzqAbsn4Ls/8gcK8R
+ 5RPNEqDbe9LLWUdqsHuiQDHJ2y7Czzru4LI2cBEALenK02kkyGa6Pv9ftmrqMe2Pl0GU
+ +tet7AJyA6BjxSToGo76YNbcmCrJeFPeRYz8g9VqNBhs/Qz8HRyGRItPAqQi0l2S55Op
+ Yzn+2ibFNebz5qLfHF82dSJv1vcZHFhTpkcrdmr2I9T2x8RipgZYwNklNGNjwrDrsJ92
+ q8gA==
+X-Gm-Message-State: ANoB5pnxqUI8Hzl8D/uRFr9IZBRBqd9VZgyrL8MgkKsfHQ97K7ItlfPS
+ Bou+qXo0rUDLv/4YdWPWlpFSbA==
+X-Google-Smtp-Source: AA0mqf5+6cqyJyuRix6TrVBYKCydgdKKG+rfrjT7ZB2TWH+1nm5rapmQtuPaFGLtr72Thnbg8KH7eQ==
+X-Received: by 2002:a05:6512:3691:b0:4b6:fddc:1fcd with SMTP id
+ d17-20020a056512369100b004b6fddc1fcdmr3929040lfs.23.1671187292163; 
+ Fri, 16 Dec 2022 02:41:32 -0800 (PST)
 Received: from [192.168.0.20]
  (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
  by smtp.gmail.com with ESMTPSA id
- c19-20020a056512325300b004b577877286sm185959lfr.50.2022.12.16.02.35.08
+ q1-20020ac25281000000b0049478cc4eb9sm184253lfm.230.2022.12.16.02.41.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 02:35:09 -0800 (PST)
-Message-ID: <f04febfd-8f0f-f349-3407-e0c3a07c9648@linaro.org>
-Date: Fri, 16 Dec 2022 11:35:08 +0100
+ Fri, 16 Dec 2022 02:41:31 -0800 (PST)
+Message-ID: <0f3e755f-954a-9722-6898-181170deb2c3@linaro.org>
+Date: Fri, 16 Dec 2022 11:41:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.1
-Subject: Re: [PATCH v2 2/2] dt-bindings: display/panel: Add AUO A030JTN01
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: imx: Describe drm binding
+ for fsl,imx-lcdc
 Content-Language: en-US
-To: Christophe Branchereau <cbranchereau@gmail.com>,
- thierry.reding@gmail.com, sam@ravnborg.org, airlied@gmail.com,
- daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- paul@crapouillou.net, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20221214114142.204041-1-cbranchereau@gmail.com>
- <20221214114142.204041-3-cbranchereau@gmail.com>
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>
+References: <20221214115921.1845994-1-u.kleine-koenig@pengutronix.de>
+ <20221214115921.1845994-2-u.kleine-koenig@pengutronix.de>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221214114142.204041-3-cbranchereau@gmail.com>
+In-Reply-To: <20221214115921.1845994-2-u.kleine-koenig@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,48 +81,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/12/2022 12:41, Christophe Branchereau wrote:
-> From: Paul Cercueil <paul@crapouillou.net>
+On 14/12/2022 12:59, Uwe Kleine-König wrote:
+> Modify the existing (fb-like) binding to support the drm-like binding in
+> parallel.
+
+Aren't you now adding two compatibles to the same hardware, just for two
+Linux drivers? One hardware should have one compatible, regardless of
+Linux display implementation.
+
 > 
-> Add binding for the AUO A030JTN01 panel, which is a 320x480 3.0" 4:3
-> 24-bit TFT LCD panel with non-square pixels and a delta-RGB 8-bit
-> interface.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 > ---
->  .../bindings/display/panel/auo,a030jtn01.yaml | 61 +++++++++++++++++++
->  1 file changed, 61 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/auo,a030jtn01.yaml
+>  .../bindings/display/imx/fsl,imx-lcdc.yaml    | 45 ++++++++++++++++++-
+>  1 file changed, 44 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/auo,a030jtn01.yaml b/Documentation/devicetree/bindings/display/panel/auo,a030jtn01.yaml
-> new file mode 100644
-> index 000000000000..6c099eb63434
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/auo,a030jtn01.yaml
-> @@ -0,0 +1,61 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/auo,a030jtn01.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml
+> index 35a8fff036ca..2a8225b10890 100644
+> --- a/Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml
+> @@ -21,6 +21,9 @@ properties:
+>                - fsl,imx25-fb
+>                - fsl,imx27-fb
+>            - const: fsl,imx21-fb
+> +      - items:
+> +          - const: fsl,imx25-lcdc
+> +          - const: fsl,imx21-lcdc
+>  
+>    clocks:
+>      maxItems: 3
+> @@ -31,6 +34,9 @@ properties:
+>        - const: ahb
+>        - const: per
+>  
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
 > +
-> +title: AUO A030JTN01 3.0" (320x480 pixels) 24-bit TFT LCD panel
+>    display:
+>      $ref: /schemas/types.yaml#/definitions/phandle
+>  
+> @@ -59,17 +65,54 @@ properties:
+>      description:
+>        LCDC Sharp Configuration Register value.
+>  
+> +if:
+
+Put it under allOf. It grows pretty often so this would avoid future
+re-indents.
+
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        enum:
+> +          - fsl,imx1-lcdc
+> +          - fsl,imx21-lcdc
+> +then:
+> +  properties:
+> +    display: false
+> +    fsl,dmacr: false
+> +    fsl,lpccr: false
+> +    fsl,lscr1: false
 > +
-> +description: |
-> +  The panel must obey the rules for a SPI slave device as specified in
-> +  spi/spi-controller.yaml
-
-Drop such description - it's obvious from referencing the schema below.
-No need to open-write it in each binding. OTOH, you could describe here
-the hardware more.
-
-With adjusted description:
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> +  required:
+> +    - port
+> +
+> +else:
+> +  properties:
+> +    port: false
+> +
+> +  required:
+> +    - display
+> +
+>  required:
+>    - compatible
+>    - clocks
+>    - clock-names
+> -  - display
+>    - interrupts
+>    - reg
+>  
+>  additionalProperties: false
+>  
+>  examples:
+> +  - |
+> +    lcdc@53fbc000 {
+> +        compatible = "fsl,imx25-lcdc", "fsl,imx21-lcdc";
+> +        reg = <0x53fbc000 0x4000>;
+> +        interrupts = <39>;
+> +        clocks = <&clks 103>, <&clks 66>, <&clks 49>;
+> +        clock-names = "ipg", "ahb", "per";
+> +
+> +        port {
+> +            parallel_out: endpoint {
+> +              remote-endpoint = <&panel_in>;
+> +            };
+> +        };
+> +    };
+>    - |
+>      imxfb: fb@10021000 {
+>          compatible = "fsl,imx21-fb";
 
 Best regards,
 Krzysztof
