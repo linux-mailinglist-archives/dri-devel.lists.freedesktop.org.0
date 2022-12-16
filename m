@@ -2,39 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1905064E9B6
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 11:46:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EEF264EA5D
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 12:27:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68C6510E5B0;
-	Fri, 16 Dec 2022 10:46:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 079C710E02A;
+	Fri, 16 Dec 2022 11:27:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EF8110E5B0
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 10:46:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1671187590; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=csXYHnw/KgLTki+mcBGYXSrGC78KzWSKoY0JKsxj6gc=;
- b=KSdYCNv6j6I7YSsfN07giHrg/o64EqcwqsHYSX5BNtRbZfZLbtg5EY+ztrNOlGovwoyyuO
- kVZ2amMCSBnE4/TRjIYQgsEgiSHmJBNqNIpQBKVU9fJvFgFvfBfnEOtdvE89hiPxSeR0Vj
- jlRz4XfqGW+UNQCwRStXdzJ5zIpCKCk=
-Message-ID: <c78e92ae3cbea037abdd31ecd64e997c8dd1def2.camel@crapouillou.net>
-Subject: Re: [PATCH 01/10] dt-bindings: display: bridge: it66121: Add
- compatible string for IT6610
-From: Paul Cercueil <paul@crapouillou.net>
-To: Robert Foss <robert.foss@linaro.org>
-Date: Fri, 16 Dec 2022 11:46:28 +0100
-In-Reply-To: <CAG3jFytgK0noWteGvXTdSm9as9Q=qfhf_ep3Z8Wv2ofmLzGb=A@mail.gmail.com>
-References: <20221214125821.12489-1-paul@crapouillou.net>
- <20221214125821.12489-2-paul@crapouillou.net>
- <CAG3jFytgK0noWteGvXTdSm9as9Q=qfhf_ep3Z8Wv2ofmLzGb=A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4F5D10E064
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 08:16:43 +0000 (UTC)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
+ [91.154.32.225])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5555C505;
+ Fri, 16 Dec 2022 09:16:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1671178594;
+ bh=MT1hlBIS0a4EJp9YRT7Z+ijRRjjKh3udXoS8Mk65bDI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Gx+jqJwN9rpzwnwkDP3z4S8qga9st1hPiT6zDBi6iBaW4SveHUiLD5GVR83naEUwg
+ S0pzVXPy9gGm+a/dNuMvzgdIkOPlCxlsZ7legWgbOGKwFBWWi6nHHSarFbQetDqf9/
+ Ln43a9mPKvVf8vx41oPg3XIZ6jpSCFwVUB6+suiE=
+Message-ID: <3d40e68a-a47e-f967-346b-aa90d700ca56@ideasonboard.com>
+Date: Fri, 16 Dec 2022 10:16:31 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] drm: tidss: Fix pixel format definition
+Content-Language: en-US
+To: Randolph Sapp <rs@ti.com>, jyri.sarha@iki.fi
+References: <20221202001803.1765805-1-rs@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20221202001803.1765805-1-rs@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Fri, 16 Dec 2022 11:26:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,60 +50,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Phong LE <ple@baylibre.com>, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, list@opendingux.net
+Cc: dri-devel@lists.freedesktop.org, a-bhatia1@ti.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le jeudi 15 d=C3=A9cembre 2022 =C3=A0 11:55 +0100, Robert Foss a =C3=A9crit=
-=C2=A0:
-> On Wed, 14 Dec 2022 at 13:58, Paul Cercueil <paul@crapouillou.net>
-> wrote:
-> >=20
-> > Add a new ite,it6610 compatible string to the IT66121 binding
-> > documentation, since the two chips are very similar.
-> >=20
-> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > ---
-> > =C2=A0.../devicetree/bindings/display/bridge/ite,it66121.yaml=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 4
-> > +++-
-> > =C2=A01 file changed, 3 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
-> > b/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
-> > index 1b2185be92cd..72957be0ba3c 100644
-> > ---
-> > a/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
-> > +++
-> > b/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
-> > @@ -17,7 +17,9 @@ description: |
-> >=20
-> > =C2=A0properties:
-> > =C2=A0=C2=A0 compatible:
-> > -=C2=A0=C2=A0=C2=A0 const: ite,it66121
-> > +=C2=A0=C2=A0=C2=A0 enum:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - ite,it66121
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - ite,it6610
-> >=20
-> > =C2=A0=C2=A0 reg:
-> > =C2=A0=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > --
-> > 2.35.1
-> >=20
->=20
-> Reviewed-by: Robert Foss <robert.foss@linaro.org>
+On 02/12/2022 02:18, Randolph Sapp wrote:
+> There was a long-standing bug from a typo that created 2 ARGB1555 and
+> ABGR1555 pixel format entries. Weston 10 has a sanity check that alerted
+> me to this issue.
+> 
+> According to the Supported Pixel Data formats table we have the later
+> entries should have been for Alpha-X instead.
+> 
+> Signed-off-by: Randolph Sapp <rs@ti.com>
+> ---
+>   drivers/gpu/drm/tidss/tidss_dispc.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+> index ad93acc9abd2..16301bdfead1 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+> @@ -1858,8 +1858,8 @@ static const struct {
+>   	{ DRM_FORMAT_XBGR4444, 0x21, },
+>   	{ DRM_FORMAT_RGBX4444, 0x22, },
+>   
+> -	{ DRM_FORMAT_ARGB1555, 0x25, },
+> -	{ DRM_FORMAT_ABGR1555, 0x26, },
+> +	{ DRM_FORMAT_XRGB1555, 0x25, },
+> +	{ DRM_FORMAT_XBGR1555, 0x26, },
+>   
+>   	{ DRM_FORMAT_XRGB8888, 0x27, },
+>   	{ DRM_FORMAT_XBGR8888, 0x28, },
 
-Series applied to drm-misc-next.
+Thanks, I'll apply to drm-misc.
 
-Thanks for the reviews!
+  Tomi
 
-Cheers,
--Paul
