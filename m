@@ -2,51 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6408C64E9E7
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 12:02:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1905064E9B6
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 11:46:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9C9B10E02F;
-	Fri, 16 Dec 2022 11:01:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68C6510E5B0;
+	Fri, 16 Dec 2022 10:46:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 986 seconds by postgrey-1.36 at gabe;
- Fri, 16 Dec 2022 11:01:41 UTC
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [85.220.165.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 356F710E02F
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 11:01:41 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1p68B9-0006hv-6m; Fri, 16 Dec 2022 11:42:59 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1p68B5-004txG-Gp; Fri, 16 Dec 2022 11:42:56 +0100
-Received: from pza by lupine with local (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1p68B5-0003wV-DA; Fri, 16 Dec 2022 11:42:55 +0100
-Message-ID: <e7689cfa185caa5f9f8aae2e38bff98dfe3da9f6.camel@pengutronix.de>
-Subject: Re: [PATCH v2 4/5] drm/msm/a6xx: Remove cx gdsc polling using 'reset'
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>, freedreno
- <freedreno@lists.freedesktop.org>, dri-devel@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, Rob Clark <robdclark@gmail.com>, Ulf Hansson
- <ulf.hansson@linaro.org>, Bjorn Andersson <andersson@kernel.org>
-Date: Fri, 16 Dec 2022 11:42:55 +0100
-In-Reply-To: <20221216155038.v2.4.I96e0bf9eaf96dd866111c1eec8a4c9b70fd7cbcb@changeid>
-References: <1671186084-11356-1-git-send-email-quic_akhilpo@quicinc.com>
- <20221216155038.v2.4.I96e0bf9eaf96dd866111c1eec8a4c9b70fd7cbcb@changeid>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EF8110E5B0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 10:46:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1671187590; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=csXYHnw/KgLTki+mcBGYXSrGC78KzWSKoY0JKsxj6gc=;
+ b=KSdYCNv6j6I7YSsfN07giHrg/o64EqcwqsHYSX5BNtRbZfZLbtg5EY+ztrNOlGovwoyyuO
+ kVZ2amMCSBnE4/TRjIYQgsEgiSHmJBNqNIpQBKVU9fJvFgFvfBfnEOtdvE89hiPxSeR0Vj
+ jlRz4XfqGW+UNQCwRStXdzJ5zIpCKCk=
+Message-ID: <c78e92ae3cbea037abdd31ecd64e997c8dd1def2.camel@crapouillou.net>
+Subject: Re: [PATCH 01/10] dt-bindings: display: bridge: it66121: Add
+ compatible string for IT6610
+From: Paul Cercueil <paul@crapouillou.net>
+To: Robert Foss <robert.foss@linaro.org>
+Date: Fri, 16 Dec 2022 11:46:28 +0100
+In-Reply-To: <CAG3jFytgK0noWteGvXTdSm9as9Q=qfhf_ep3Z8Wv2ofmLzGb=A@mail.gmail.com>
+References: <20221214125821.12489-1-paul@crapouillou.net>
+ <20221214125821.12489-2-paul@crapouillou.net>
+ <CAG3jFytgK0noWteGvXTdSm9as9Q=qfhf_ep3Z8Wv2ofmLzGb=A@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,21 +47,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@somainline.org>,
- Douglas Anderson <dianders@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, linux-kernel@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Phong LE <ple@baylibre.com>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, list@opendingux.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fr, 2022-12-16 at 15:51 +0530, Akhil P Oommen wrote:
-> Remove the unused 'reset' interface which was supposed to help to ensure
-> that cx gdsc has collapsed during gpu recovery. This is was not enabled
-> so far due to missing gpucc driver support. Similar functionality using
-> genpd framework will be implemented in the upcoming patch.
+Le jeudi 15 d=C3=A9cembre 2022 =C3=A0 11:55 +0100, Robert Foss a =C3=A9crit=
+=C2=A0:
+> On Wed, 14 Dec 2022 at 13:58, Paul Cercueil <paul@crapouillou.net>
+> wrote:
+> >=20
+> > Add a new ite,it6610 compatible string to the IT66121 binding
+> > documentation, since the two chips are very similar.
+> >=20
+> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > ---
+> > =C2=A0.../devicetree/bindings/display/bridge/ite,it66121.yaml=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 4
+> > +++-
+> > =C2=A01 file changed, 3 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
+> > b/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
+> > index 1b2185be92cd..72957be0ba3c 100644
+> > ---
+> > a/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
+> > +++
+> > b/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
+> > @@ -17,7 +17,9 @@ description: |
+> >=20
+> > =C2=A0properties:
+> > =C2=A0=C2=A0 compatible:
+> > -=C2=A0=C2=A0=C2=A0 const: ite,it66121
+> > +=C2=A0=C2=A0=C2=A0 enum:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - ite,it66121
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - ite,it6610
+> >=20
+> > =C2=A0=C2=A0 reg:
+> > =C2=A0=C2=A0=C2=A0=C2=A0 maxItems: 1
+> > --
+> > 2.35.1
+> >=20
+>=20
+> Reviewed-by: Robert Foss <robert.foss@linaro.org>
 
-Maybe mention that this effectively reverts commit 1f6cca404918
-("drm/msm/a6xx: Ensure CX collapse during gpu recovery").
+Series applied to drm-misc-next.
 
-regards
-Philipp
+Thanks for the reviews!
+
+Cheers,
+-Paul
