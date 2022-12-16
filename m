@@ -2,45 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AAD664EB2B
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 13:04:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AE2E64EB36
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 13:09:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C693188F78;
-	Fri, 16 Dec 2022 12:04:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C47A210E5BE;
+	Fri, 16 Dec 2022 12:08:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [85.220.165.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91FBF10E5BC
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 12:03:57 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1p69RT-0002qn-GD; Fri, 16 Dec 2022 13:03:55 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1p69RQ-004udV-N0; Fri, 16 Dec 2022 13:03:53 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1p69RQ-005Wsi-OX; Fri, 16 Dec 2022 13:03:52 +0100
-Date: Fri, 16 Dec 2022 13:03:52 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [PATCH] drm/imx: move IPUv3 driver into separate subdirectory
-Message-ID: <20221216120352.7ke5msphsqfybagb@pengutronix.de>
-References: <20221125112519.3849636-1-l.stach@pengutronix.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB66F10E5BE
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 12:08:45 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 350D8620C4
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 12:08:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9A711C433F0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 12:08:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1671192521;
+ bh=qKW9pyUViv6tyL0vXGlWAMPLpVrpGKZWRCwQ38SiJ9Q=;
+ h=From:To:Subject:Date:From;
+ b=QFEx5pt3X/QcL6Z9sJhzedhMHwV+hAgQZX7GrcJ4rBQ4Gs3rtLaUtvsGnLi4sj13Z
+ zkGBrvTeql+oX7Gh6iJJ+v3BvS33lJgP4Idc40FF4lolS2aioBlc7HAzH6C1czZEHw
+ 9XjI0sE7O0p/B7RORX3qNXX0S+/TLwmLfTOQoKuSeYWXUez2zBVI0DqjdqcqAegdLh
+ /OnEOF/IhFd+LIalAQyO47TV8JvbXWd3gl0kDqRT5tBi+Lr+ThjlAuLFKFqKSBv2Al
+ goBBTM6XmmoeER+TDYjQM8eGZaza2GO6MulCS0zXteH4bB+XzrEJGNiLZ26tKA4zCO
+ PDFTqaCbjw2mw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 80DA2C43142; Fri, 16 Dec 2022 12:08:41 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216814] New: amdgpu: CTM support has disappeared (vega)
+Date: Fri, 16 Dec 2022 12:08:41 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: maxijac@free.fr
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-216814-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="grdawi4fbewjugcy"
-Content-Disposition: inline
-In-Reply-To: <20221125112519.3849636-1-l.stach@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,67 +70,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
- patchwork-lst@pengutronix.de, dri-devel@lists.freedesktop.org,
- NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216814
 
---grdawi4fbewjugcy
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+            Bug ID: 216814
+           Summary: amdgpu: CTM support has disappeared (vega)
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 6.0
+          Hardware: AMD
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: maxijac@free.fr
+        Regression: No
 
-On Fri, Nov 25, 2022 at 12:25:19PM +0100, Lucas Stach wrote:
-> diff --git a/drivers/gpu/drm/imx/Makefile b/drivers/gpu/drm/imx/Makefile
-> index b644deffe948..909622864716 100644
-> --- a/drivers/gpu/drm/imx/Makefile
-> +++ b/drivers/gpu/drm/imx/Makefile
-> @@ -1,12 +1,4 @@
-> [...]
->  obj-$(CONFIG_DRM_IMX_DCSS) +=3D dcss/
-> +obj-$(CONFIG_DRM_IMX) +=3D ipuv3/
+Hello,
 
-I wonder if it would make sense to rename DRM_IMX to DRM_IMX_IPUV3 ?!
+I noticed the CTM support from X is no longer advertised with recent kernel=
+s.
 
-> diff --git a/drivers/gpu/drm/imx/ipuv3/Kconfig b/drivers/gpu/drm/imx/ipuv=
-3/Kconfig
-> new file mode 100644
-> index 000000000000..f518eb47a18e
-> --- /dev/null
-> +++ b/drivers/gpu/drm/imx/ipuv3/Kconfig
-> [...]
-> +config DRM_IMX_HDMI
-> +	tristate "Freescale i.MX DRM HDMI"
-> +	select DRM_DW_HDMI
-> +	depends on DRM_IMX && OF
-> +	help
-> +	  Choose this if you want to use HDMI on i.MX6.
-> +
+Card: Vega64
+xf86-video-amdgpu: 22.0.0-1
 
-Trailing empty line could be dropped.
+With older kernels, xrandr reports CTM correctly.
+With the same X stack, simple rebooting on a more recent kernel, CTM is not
+advertised anymore.
 
-Best regards
-Uwe
+
+>$ uname -r
+>5.15.83-1-lts
+>$ xrandr --prop | grep -i ctm
+>        CTM: 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0
+>        CTM: 0
+>        CTM: 0
+>        CTM: 0
+>        CTM: 0
+>        CTM: 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0
+>$
+>=20
+
+> -- Reboot to 6.1 --
+
+>=20
+>$ uname -r
+>6.1.0-arch1-1
+>$ xrandr --prop | grep -i ctm
+>$
+
+I also have a custom config 6.0 kernel that shows no CTM so the break has
+happened between 5.15 and 6.0.
+I tried looking at commits in between and code changes in amdgpu but did not
+notice anything obvious.
 
 --=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+You may reply to this email to add a comment.
 
---grdawi4fbewjugcy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOcXqUACgkQwfwUeK3K
-7AlI2ggAjZd0O21NdRoP3+S8twCMlc6Rr0yHPZ08FVuS1so+nQnEJlMbmsfwgxJS
-JoSrHOXIdcml5eVUZFY8fkQ4zKNOLxYKZ83TQuMeFZKP+BCZyrUx+s4GFSrOMNWa
-vRWhCcZo92uuSrqqMGG94Y2K5RZlGjauUMAStiwqfqfyRBzE/RyJ5MzP4QQF9cP3
-95N2Pip14/K/Lv3m2sKrFOmMCHKuHoqkrIAov1x9BOMWAF+RDM5c+rqZQghvvYz2
-PKvbYFQEagU6XBR9ZthgLScPzqYEaYW/5i86tQoGkPaOTn2Io7gWTXAHYKD+eN35
-aq03izyys25OEuMGBpCt27WbTFLipg==
-=hsc5
------END PGP SIGNATURE-----
-
---grdawi4fbewjugcy--
+You are receiving this mail because:
+You are watching the assignee of the bug.=
