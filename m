@@ -2,119 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E3164E5A7
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 02:34:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF4B64E5EE
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 03:17:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51A3710E027;
-	Fri, 16 Dec 2022 01:34:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D299710E112;
+	Fri, 16 Dec 2022 02:17:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2089.outbound.protection.outlook.com [40.107.100.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10B1010E027;
- Fri, 16 Dec 2022 01:34:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G1Xjzm6BXsS7qT/kjC+gf10J/BnaGvagzBaW6ALOsrtHjxp271Uo8+6wOsLhDpw90Ep0znQG7m+8pguBEwUc11YscAYHiJbYfCH1dC/4jofuqhXR4XV66gbTXikQswerhnFd3PbRyvdhkLcri2bxN07AMi4sWNH3mIYVrh3PM91C8U0uRTRmmN3xc5cVxQDaDueN1/tUDLK9PTJDhuY5K+EdyXanHhStkwk1mFA9nryi8Q7GRrKtOFArbS7mu25YQx8tat4HHW9SxLiC1qNPTxoVNl3Yf+CvYVZ2Htk2PakQCZOwSdaR5hzxt+GTQtJcCatFuLcpj/dpE/p4MKD6Sw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NCBO54r6EESoPK2+zNyIpQxkL/Ydxb5nHx5q5XEza2o=;
- b=hRxqS8iwe/X3wIh9w9GLG1rwfZnN/UuhHHK8ugBJS2IJythJrMbVpF+FA2HqI6ITvqT4Y46Ce2Ihn5YTXULAhfXr0Nz+uVYECpv9MZOX+sCqXsdHwn0EcNRODUueosvITix1TMZoeyRDQXT4WtJuntiezOdgs4LlxCWh0evGkpHZVWWkkBhCpWiJpQaMpZ5zEdvPcTxONy9CunwEDBs7bkfZRn83vXcW08A9mFVP+86HPuGMa5U3hjWLyXLjNZrLweeSGyOKK3o/pSpEIhZ9NcRUih9jtJvQye3efDAfhDNgSgrd41Nng1QVviZqhTEyOOqL7N43xMkgdq/vKCvzng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NCBO54r6EESoPK2+zNyIpQxkL/Ydxb5nHx5q5XEza2o=;
- b=ERC7vSO+JyahXaPNwLpdXcYWyD8Blrx0THjV8gB1EcUoKE2tUnfjIa8HHGf3STqi+zRCIgDzz4WV1v2HP3gi8Frpwyej5kJ29/ylz3eWy0fsIn0MGXoGvJgcaMrSaCvtom8tWQy6xpYrwLuyH26opfUbUDZTdgpNq2xiX781Kbw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6351.namprd12.prod.outlook.com (2603:10b6:8:a2::6) by
- SA0PR12MB4414.namprd12.prod.outlook.com (2603:10b6:806:9a::11) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5924.11; Fri, 16 Dec 2022 01:34:24 +0000
-Received: from DM4PR12MB6351.namprd12.prod.outlook.com
- ([fe80::edd2:a5a0:32e4:ae3d]) by DM4PR12MB6351.namprd12.prod.outlook.com
- ([fe80::edd2:a5a0:32e4:ae3d%3]) with mapi id 15.20.5924.012; Fri, 16 Dec 2022
- 01:34:24 +0000
-Message-ID: <96362c49-f087-53b9-a9b6-dd6a90dd9621@amd.com>
-Date: Fri, 16 Dec 2022 09:34:15 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [RESEND PATCH] drm/plane-helper: Add the missing declaration of
- drm_atomic_state
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch
-References: <20221215030146.1142523-1-majun@amd.com>
- <5960ab10-4929-1e0e-32a3-2c60bbbca37b@suse.de>
-From: "Ma, Jun" <majun@amd.com>
-In-Reply-To: <5960ab10-4929-1e0e-32a3-2c60bbbca37b@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TYCPR01CA0192.jpnprd01.prod.outlook.com
- (2603:1096:400:2b0::15) To DM4PR12MB6351.namprd12.prod.outlook.com
- (2603:10b6:8:a2::6)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C66A110E112
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 02:17:00 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id b13so1365752lfo.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Dec 2022 18:17:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=ZjzJ9WhXTE05RyYmA2QPUmpA1woceeeGkNWHWVQ74Zw=;
+ b=OLJ7301U8awIprSdPqVp0AeaPAOHWm9MPFVQyjMsaXgsQZLu11WBxsrEWthXE7/KNx
+ 0vS+zetx1Fj+nhl9sRIXB3Vw/NzRzi+XXlpAWZN7B0grA97yyMyxWGe5i/ODjIhnS2IE
+ TqoHfjZMX5tMxaMR7PEKlNXfJe7y6WzyNyBvc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZjzJ9WhXTE05RyYmA2QPUmpA1woceeeGkNWHWVQ74Zw=;
+ b=DZTFrj9tNJS5fgHyLlIWKsgaLlyD13e1AxSN38C9YNMTpwIRooz2Q5XWTD4kMUeUhG
+ DNeNqEZAlYt9qWEryA9yJ0Il+7szU8OtXN8vxzzgy7I3O25UJNw9+QHsUHaoQ6Ummj7x
+ u7R08P5bMifh1oCP3dulLvaIKLn6HhtSVVkYMMjkpNkSD75DrHBJVTiCk5q6KzAr4n5T
+ SypkOLd9Ae5+H7pBGVVcHM3W5d55xQzMxdKsLL2HpGg6j73HKGrp5u8LtvX4L1HpxV8h
+ jCju4aDgocmR8TMGtzlgrheQ1M/UhooMnJNJ+zzXR2bkY6YhWTsjyGgByQ1tfCwY4fai
+ OKiw==
+X-Gm-Message-State: ANoB5pnagTmLrvkIZYcjwth2l++NndwxZXL3nEZBBlxmaIaMNj/dIg3N
+ Oy0Yd9HJri6BuH4emTBaZ7AW9bFk5Cvm2V+KkIppyQ==
+X-Google-Smtp-Source: AA0mqf4XFFn9U8qhxQns74Iy+JaP4Zci521QKQ2DHw7bDkXrHuGVld02sorOChBHmli/Ok1/ppDmtG7ZTYBpkTsdKzg=
+X-Received: by 2002:a05:6512:3618:b0:4b4:e824:2339 with SMTP id
+ f24-20020a056512361800b004b4e8242339mr25179662lfs.82.1671157018871; Thu, 15
+ Dec 2022 18:16:58 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 15 Dec 2022 21:16:58 -0500
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6351:EE_|SA0PR12MB4414:EE_
-X-MS-Office365-Filtering-Correlation-Id: ffecb941-d5d4-4c8d-e128-08dadf05a9bd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2/yHHgxzZl6+YP/LsCzAcc6FpssCIkQkXCQ07IVucHnTYreQhQiVDTa+41F+jHGwXrI2u8Ziqea7y1Cb72oxJv6AtWZnQ8hRxXu0fcuwFaYTlhZp3QBYrYewCHFRjaKub4cNEbcyjRdzQDfF/J2fWo5c2MqNsR+YiKjNjNl0qazIN3VkQ75kYEMhbX6GJtFtNZPddcHB+CFZeDPeIHqfmoN9S/DVy8r66MRPmVZpFiKKINH8LBGorKw3TDjqZcNksl33A8UCOauOR5quQg6L7rg48In1dpOxALv77waiGVzLSzkzckTAaYf/xsUbAhN8fUkZFblcv6kphtgY2rtsrk+E3d1VmaZwQBB1IT49igTH+xB5j2wvguKz1MnO+rrypplfCxZuZWGsG5+QyCij+wtWS7kKUEtyfmXXuJCIEhYRuctO6ueeeOEDkoyhKL2yRlBHFupJcmUt4kZ42CorohmDaujCMqht5piV1nwlPFjiXReMuhvDB66JoQsoDKQUEP9SM8328VfDGxeqvIn95fhmJk2o5OsdaNz6TkIXAfe+6ZjKM3fGkp7npjVc3SGUWFvuq+pU3UJv9MBZvLdu7n7o6k+7jHtNuIUHukB3iOgkfYSUnULX0AGLmLcIxfLNGa4nVLl39nHbnw2yErx+sIzdMBQNVty7ZA0I7U+mtKfkzVU5a2G5cFP2an4Exjf+Ou6crFVNzWFufmlYvZx4kY6gf2DPHtFDNmnsX8fItw8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB6351.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(39860400002)(396003)(376002)(136003)(346002)(451199015)(36756003)(478600001)(6486002)(53546011)(6506007)(2616005)(6666004)(2906002)(31696002)(316002)(31686004)(41300700001)(8676002)(186003)(66556008)(83380400001)(66476007)(66946007)(26005)(6512007)(4326008)(5660300002)(8936002)(38100700002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R1hhZXZXanFCM2JyME1mVHFhcmY3Nlk4cnQxWW5YY3N2anF4QVczL0RpalVw?=
- =?utf-8?B?eU5XVXY3Tmp5TUN2aCtVMzR5ZXhyUVRUSHY3K0VqRHMwS3Z4cmQ2TStBWDli?=
- =?utf-8?B?Nm5QNUFNdDZuV2ZHdGsvdldsdENLSDBCc1AwRWJXaVUybjhtVEw2a09vZ1BM?=
- =?utf-8?B?VEFtQ01FTjFzZE1Ic29wdklqbGUvakp2ZWRBK0xrRDk4Szd0QlFmd1dGOGUw?=
- =?utf-8?B?WGUxKzJ2Qk9zYTRpcHdJdnRteEhQemJHZG84RExHbWgvbEZyNXp5SDJDN0dp?=
- =?utf-8?B?M1FzOVZGSHhzS1VwUGU2dHJCenRJVVo3R0J5dzJlRmFEWTJNaCtyd3hDVmZJ?=
- =?utf-8?B?b2lxQ0ZhUE5CZm9BeVlweU9jeEQ1djIyaGNqWEpTV0NUUUdBeWZ4OSs0ZXZ0?=
- =?utf-8?B?MFYvRllNeEUveERNN2hPSmJubndXb0pWTk91TFlQNkZqVVRDRXlPSk5lc2ZE?=
- =?utf-8?B?OU9NOFhPWlZqNkhNa0wxRUtBdEM4MTU4M0tnclFWSVBYWlRRT0FORk9YRFVH?=
- =?utf-8?B?S0RtaDcxVi8xZFFsOGhyOUpMdWpjUEcrZS9mUnEyNVNvdmkyUkNvaURBendO?=
- =?utf-8?B?Q2lUc2FLS1NnOGJBWEd1YXNBTU96SGg3RThuYWN3dFcyK1pRbVVyVi9UQndu?=
- =?utf-8?B?bTc3QVY5amY0Ui9rblI5YUIvQ1dHT3o0OWxtR0x0akdzOHZVaGZWMTY1RXE0?=
- =?utf-8?B?T05ZdUxqTGtvdjNBUTZmNjV3U0tSSzArZktlSGltYzZ3WkhSZWowNVU3NjNi?=
- =?utf-8?B?eXQ1VTM3VFllNGV5NXFxUy9MYm5UWk5UVW0xbkpncFVWenNRTkdHakpWM1RW?=
- =?utf-8?B?c0lNNFVmdDZoRmY5eGJLSnZPbXUydXo5aFJyYXBtN0Yrb3FvV0lLMzBrSVlV?=
- =?utf-8?B?L3cyNFUzVlcxV1luTFZoUWhoMVhYcWJnWTVaNmlZeGY2bzBHYU5BbHlvOWp3?=
- =?utf-8?B?YTBnZkRCck5QbjJrSVlFd283Ui9pVVh4WlhMbldLeEx2U3FRVXN4RDNrL2Fi?=
- =?utf-8?B?NVBKOCtURnkxRDdSeTg1dUZzUjV3K004TUZ5TWdibHNmSnNVRTRlUkp6Wm1p?=
- =?utf-8?B?Zy9KWkEyd05IZ2hQUitvMDB3Z2wycGlMbnpESEc0Sng3U1p5OUlMaUJZUk9K?=
- =?utf-8?B?QTk0RGpPTzVpYkJWNkVaS2Qyb0V4K1JEWjhnVjhzZ1JiVWx5WEFrejFMYnpU?=
- =?utf-8?B?eHljcHdhOGVtc1NUdktWU2ZYeWEwSi9LOE53UHJQRDFxcTJZS0xYcnFoQ3lJ?=
- =?utf-8?B?TlRIT08wakpuREhubC9vVnQ0bUVJYlN2OUVncGU3SS9QbUZmRndLRUtQSlRm?=
- =?utf-8?B?THFkMXJqRENicGE1T2g0WU5BSU4rTm5IbW1xL2l3b3JPcGd4elkxRTRYL0c2?=
- =?utf-8?B?YjJZalBwUDl5eTlzeTJ0cFJMYjduUjlHSzk2b25SV25qdmFhWUloS1ZDZXZi?=
- =?utf-8?B?VkRhZWJpSnNXeXoxWE5yOGRQZVBuMm1xcVJ2ekE2Q21UaWVpdU50YWtjMEdo?=
- =?utf-8?B?V28wa1ZMbnpYcGUvaGVGZ25XeDFTaHFqZlNjTFVjWXV2LzVMcFFwYTlWS1V1?=
- =?utf-8?B?azZpN1ErS1RIWDN4bms5bGZZQVlGeVdERXlRQ0JsQnRMRUpRYkREMHVEaVpZ?=
- =?utf-8?B?WWk4ZDRVZlpnTWNHdUZ3MnI4SEEyZmxrTjUxeFBpTEtiOXFsMWlWcEFCK28v?=
- =?utf-8?B?OEVabStDRG1raDJXdFQ4Umw5Yy9McENzQ25ZNytnbm8xajNScytacDNKWHhq?=
- =?utf-8?B?aXRucXl3TXRVaWVtVmd2ZGI0SzlFQlNQZ0FkSWVQRk45dk1nQWsyTzVRMDQv?=
- =?utf-8?B?Y3JaWDhhZkpmVE1xMHZmczluWDk3QTFxa0Q5QkNhOXBZS0Z6RE81bG92Mlo2?=
- =?utf-8?B?eWdxTjFQaFJGMlgwOEErWFF4K3R5SmhEQnVPVk0wMmY1aE1ydktYb2Y3a1Jh?=
- =?utf-8?B?bXdMMGxhdlRQVDZDLzBJTmsrUzNmbkxjejVrSm1tUHp6TVYrQ2REWi94aXZ6?=
- =?utf-8?B?UXVLemFMNzEzZjk5UG50VG4wRnc0MUR2aUdUMlBCYWdOT0lrNlg4ek1SRldk?=
- =?utf-8?B?cWZTNkZqdW9wUUgvUENVc1cyTDBnR2pSaTZVdVBwVThLTEpQa3JYTnRuRzBo?=
- =?utf-8?Q?NLr+T9ffKfg5ToEMtVZGCL8Sb?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ffecb941-d5d4-4c8d-e128-08dadf05a9bd
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6351.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2022 01:34:24.4470 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bRUx1fzEZ38Vvn7OJaYZFW6aS/+rQ5ToHyvWh9MefK1ymasZg1I5DDFJvi3waPjS
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4414
+In-Reply-To: <011c1ce3-605a-1ad5-d7df-b91e8c6808bc@linaro.org>
+References: <1670967848-31475-1-git-send-email-quic_khsieh@quicinc.com>
+ <1670967848-31475-3-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n52eHYCqxUJqQXoaQ8vyqCk-QfouSun+zUp3yo5DufWbwg@mail.gmail.com>
+ <b38af164-08bc-07e7-dfaf-fb4d6d89d7db@quicinc.com>
+ <CAE-0n53Cb6TFGfM6AYup5aP4=24j0ujVPi463oVqmzfNV2B4RA@mail.gmail.com>
+ <011c1ce3-605a-1ad5-d7df-b91e8c6808bc@linaro.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Thu, 15 Dec 2022 21:16:57 -0500
+Message-ID: <CAE-0n51fxiNX6N2WvXrXXjmGtiDk-SwnyikRnDEKaK-rug2-Ew@mail.gmail.com>
+Subject: Re: [PATCH v12 2/5] dt-bindings: msm/dp: add data-lanes and
+ link-frequencies property
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ agross@kernel.org, airlied@gmail.com, andersson@kernel.org, daniel@ffwll.ch, 
+ devicetree@vger.kernel.org, dianders@chromium.org, 
+ dri-devel@lists.freedesktop.org, konrad.dybcio@somainline.org, 
+ krzysztof.kozlowski+dt@linaro.org, robdclark@gmail.com, robh+dt@kernel.org, 
+ sean@poorly.run, vkoul@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,47 +76,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: majun@amd.com
+Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
+ freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Quoting Dmitry Baryshkov (2022-12-15 13:12:49)
+> On 15/12/2022 02:38, Stephen Boyd wrote:
+> > Quoting Kuogee Hsieh (2022-12-14 14:56:23)
+> >>
+> >> Once link training start, then there are no any interactions between
+> >> controller and phy during link training session.
+> >
+> > What do you mean? The DP controller calls phy_configure() and changes
+> > the link rate. The return value from phy_configure() should be checked
+> > and link training should skip link rates that aren't supported and/or
+> > number of lanes that aren't supported.
+>
+> I'd toss another coin into the argument. We have previously discussed
+> using the link-frequencies property in the context of limiting link
+> speeds for the DSI. There we have both hardware (SoC) limitations and
+> the board limitations as in some cases the DSI lanes can not sustain
+> some high rate. I still hope for these patches to materialize at some point.
+>
+> For the DP this is more or less the same story. We have the hardware
+> (SoC, PHY, etc) limitations, but also we have the board/device
+> limitations. For example some of the board might not be able to support
+> HBR3 e.g. because of the PCB design. And while it might be logical to
+> also add the 'max bit rate' support to the eDP & combo PHYs, it
+> definitely makes sense to be able to limit the rate on the DP <->
+> `something' link.
 
+Honestly I don't think the PHY even makes sense to put the link rate
+property. In the case of Trogdor, the DP controller and DP PHY both
+support all DP link frequencies. The limiting factor is the TCPC
+redriver that is only rated to support HBR2. We don't describe the TCPC
+in DT because the EC controls it. This means we have to put the limit
+*somewhere*, and putting it in the DP output node is the only place we
+have right now. I would really prefer we put it wherever the limit is,
+in this case either in the EC node or on the type-c ports.
 
-On 12/15/2022 4:40 PM, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 15.12.22 um 04:01 schrieb Ma Jun:
->> Add the missing declaration of struct drm_atomic_state to fix the
->> compile error below:
->>
->> error: 'struct drm_atomic_state' declared inside parameter
->> list will not be visible outside of this definition or declaration [-Werror]
->>
->> Signed-off-by: Ma Jun <majun@amd.com>
->> ---
->>   include/drm/drm_plane_helper.h | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/include/drm/drm_plane_helper.h b/include/drm/drm_plane_helper.h
->> index b00ad36cf5b6..530f88176db4 100644
->> --- a/include/drm/drm_plane_helper.h
->> +++ b/include/drm/drm_plane_helper.h
->> @@ -30,6 +30,7 @@ struct drm_crtc;
->>   struct drm_framebuffer;
->>   struct drm_modeset_acquire_ctx;
->>   struct drm_plane;
->> +struct drm_atomic_state;
-> 
-> Thanks for the patch. Please sort the forward declarations alphabetically.
-> 
-Thanks for review. Will fix in v2
+Another nice to have feature would be to support different TCPCs connected
+to the same DP port. We were considering doing this on Trogdor, where we
+would have a TCPC rated for HBR2 and another TCPC rated for HBR3 and
+then detect which TCPC was in use to adjust the supported link rates.
+We didn't do this though, so the idea got back-burnered.
 
-Regards,
-Ma Jun
-> Best regards
-> Thomas
-> 
->>   
->>   int drm_plane_helper_update_primary(struct drm_plane *plane, struct drm_crtc *crtc,
->>   				    struct drm_framebuffer *fb,
-> 
+When the SoC is directly wired to a DP connector, I'd expect the
+connector to have the link rate property. That's because the connector
+or the traces outside of the SoC will be the part that's limiting the
+supported frequencies, not the SoC. The graph would need to be walked to
+find the link rate of course. The PHY could do this just as much as the
+DP controller could.
+
+>
+> Now, for all the practical purposes this `something' for the DP is the
+> DP connector, the eDP panel or the USB-C mux (with the possible
+> redrivers in the middle).
+>
+> Thus I'd support Kuogee's proposal to have link-frequencies in the DP's
+> outbound endpoint. This is the link which will be driven by the data
+> stream from the Linux point of view. The PHY is linked through the
+> 'phys' property, but it doesn't participate in the USB-C (or in the
+> connector/panel) graph.
+
+Why doesn't the PHY participate in the graph? The eDP panel could just
+as easily be connected to the eDP PHY if the PHY participated in the
+graph.
+
+>
+> Now let's discuss the data lanes. Currently we have them in the DP
+> property itself. Please correct me if I'm wrong, but I think that we can
+> drop it for all the practical purposes.
+
+I vaguely recall that the driver was checking data-lanes to figure out
+how many lanes are usable. This is another shortcut taken on Trogdor to
+work around a lack of complete DP bindings. We only support two lanes of
+DP on Trogdor.
+
+> Judging by the DP compat string
+> the driver can determine if it uses 2 lanes (eDP) or 4 lanes
+> (full-featured DP). In case of USB-C when the altmode dictates whether
+> to use 2 or 4 lanes, the TCPM (Type-C Port Manager) will negotiate the
+> mode and pin configuration, then inform the DP controller about the
+> selected amount of lanes. Then DP informs the PHY about the selection
+> (note, PHY doesn't have control at all in this scenario).
+>
+> The only problematic case is the mixed mode ports, which if I understand
+> correctly, can be configured either to eDP or DP modes. I'm not sure who
+> specifies and limits the amount of lanes available to the DP controller.
+>
+
+This would depend on where we send the type-c message in the kernel. It
+really gets to the heart of the question too. Should the PHY be "dumb"
+and do whatever the controller tells it to do? Or should the PHY be
+aware of what's going on and take action itself? Note that the
+data-lanes property is also used to remap lanes. On sc7180 the lane
+remapping happens in the DP PHY, and then the type-c PHY can flip that
+too, so if we don't involve the PHY(s) in the graph we'll have to
+express this information in the DP controller graph and then pass it to
+the PHY from the controller. Similarly, when we have more dynamic
+configuration of the type-c PHY, where USB may or may not be used
+because the TCPM has decided to use 2 or 4 lanes of DP, the data-lanes
+property will only indicate lane mappings and not the number of lanes
+supported. We'll again have to express the number of lanes to the PHY by
+parsing the type-c messages.
+
+It looks simpler to me if the PHY APIs push errors up to the caller for
+unsupported configurations. This will hopefully make it easier for the
+DP controller when the DP lanes are muxed onto a type-c port so that the
+controller doesn't have to parse type-c messages. Instead, the PHY will
+get the type-c message, stash away supported number of lanes and link
+rates and then notify the DP controller to retrain the link with the
+link training algorithm. A few steps of the link training may be
+skipped, but the type-c message parsing won't need to be part of the DP
+controller code. Said another way, the DP controller can stay focused on
+DP instead of navigating type-c in addition to DP.
+
+From a binding perspective, data-lanes/link-frequencies are part of the
+graph binding. Having a graph port without a remote-endpoint doesn't
+really make any sense. Therefore we should decide to either connect the
+PHY into the graph and constrain it via graph properties like
+data-lanes, or leave it disconnected and have the controller drive the
+PHY (or PHYs when we have type-c). The type-c framework will want the
+orientation control (the type-c PHY) to be part of the graph from the
+usb-c-connector. That way we can properly map the PHY pins to the
+flipped or not-flipped state of the cable. Maybe we don't need to
+connect the PHY to the DP graph? Instead there can be a type-c graph for
+the PHY, TCPM, etc. and a display graph for the display chain. It feels
+like that must not work somehow.
+
+Either way, I don't see how or why these properties should be part of
+the DP controller. The controller isn't the limiting part, it's the
+redriver or the board/connector/panel that's the limiting factor. Walk
+the graph to find the lowest common denominator of link-frequencies and
+handle data-lanes either statically in the PHY or dynamically by parsing
+type-c messages. How does the eDP panel indicate only two lanes are
+supported when all four lanes are wired? I thought that link training
+just fails but I don't know.
