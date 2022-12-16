@@ -2,61 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F33364EE35
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 16:52:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9873A64EE5D
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 17:01:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D267610E5E6;
-	Fri, 16 Dec 2022 15:52:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C303310E5E9;
+	Fri, 16 Dec 2022 16:00:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
- [IPv6:2607:f8b0:4864:20::1130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9499410E5E6
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 15:52:52 +0000 (UTC)
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-43ea87d0797so10430867b3.5
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 07:52:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UOP93QaAQMcfYeKQh80Wnem5s5Ji+Q2nkQ3zFddX4zk=;
- b=MKvZJHiNxZPJHwFTNcCzAaRZYl8dantlYJp+WuJ0YpxrlF3J3BGhZHdGPiuOJrWbvX
- +8tqQXXp61xQOT1Jn6kCtb0D4RybGNBAkbJHDvhaShXjMJvAyHUZwXh9sDagYpTTkrjf
- npQWkSC0poPowZYA1GEOY9ze3gtstcwzLLXwKAdVOSI0IKoUSTZqfKnOjak1rqGYSlaG
- DyF+fnHwyXVdeTk7CNh6gvT4cZM3YTabPutd1r7JINmKv0Gb1Kn494iCHJoT4One3Rhp
- KPJ5fXd2k0RQb/ZL7bfc4ZEdK4rfLRXiObKUEIRQ8d+6iaD0dXsDDCjQ26eU9evSTEz5
- uQIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UOP93QaAQMcfYeKQh80Wnem5s5Ji+Q2nkQ3zFddX4zk=;
- b=3dR1do5htWAIIlSLJZZfx0leMkom0RSV13UPV8r86OoQb6fZv+pgZBQFVbM8Vm+PgJ
- 4yxuGz3WEoWtUQMV2ZIZXKDJhwXOAj6Nia/DRQ1Zk2wBIYe6BAWCjuhOs4JuzDT2zzcK
- Ry2lpIK8C/vqCcgVrsIlsUm2yQpJ5YtMKXPe5jbr2T3HgKX1EDbDf2gHuLsFmYijytss
- IYRo6NTc5uDzQ1ap2S+zjvX6lqTT3b1CzJg8swnsTRMsLI3XgQajJekYX+ag2Fg/cnsq
- sBg7u17PKXuDY3u4N7OuwI/D8EJeDyDTFhMeStH86x/EmZ4PeQyjibxdl/jO5lHoe5Xn
- Ambw==
-X-Gm-Message-State: ANoB5pn99x0LXnwNfGpnuZy1RvPafdXq7hUl8OqZBwDov+twIg3WaxWc
- q3WWfBGH6h4Ox9pTYG+16jjEwvqI4Xn7cgJnl0etKA==
-X-Google-Smtp-Source: AA0mqf4NT/WUJA4BsEuDv9Kxa3YRL+8dvPVPAG4WB8NHQO7/cYMhs8sJcwfXtGtZdsfL6BBoXYrfyWiif6RFqUpIxH4=
-X-Received: by 2002:a0d:f781:0:b0:373:6e8a:e7db with SMTP id
- h123-20020a0df781000000b003736e8ae7dbmr9775062ywf.144.1671205971474; Fri, 16
- Dec 2022 07:52:51 -0800 (PST)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8417510E5E8;
+ Fri, 16 Dec 2022 16:00:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1671206435; x=1702742435;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=m/QWgDVl1KeOUtNTIjYiFm5i7WKWcyi+lpVATnTR0yI=;
+ b=N3M/vHPyXq93VzKClwNY3k/W9mqLBIxTPYQ/UEHnYcauWMqjIPTLS/sC
+ m1TEm16aNIEGY/IkfHZ3I4RYxYoeRuJDHMsgJKUR/72jetmAcr9RB5zBV
+ KgMASYishgEO+iG/M/vgecSg0ovhSQoBdqxk8V/HDvVdPHpZMyIANuTuC
+ B+rX8PhLGjuSw73VDh/ITYqFWPjtuKZBnuAlxBcsdqddy2g4eM91t/6Tx
+ jN8FMpS2OPlrbYpe/nZylwqTGEWehtAYjSJJjT7RvxTxgcbSmsLqrQ0eS
+ 5LYgQxvYYCp8CVpA14b1gsF/3ihHhJXncDCyjiOZXvzrNkPYYtrH9eY6Q w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="381214801"
+X-IronPort-AV: E=Sophos;i="5.96,249,1665471600"; d="scan'208";a="381214801"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2022 08:00:33 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="895286445"
+X-IronPort-AV: E=Sophos;i="5.96,249,1665471600"; d="scan'208";a="895286445"
+Received: from fbielich-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.252.62.38])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2022 08:00:31 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v6 00/12] drm/edid, drm/i915: further drm_edid work,
+ finally switch i915 over
+Date: Fri, 16 Dec 2022 18:00:14 +0200
+Message-Id: <cover.1671206131.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <cad03d25-0ea0-32c4-8173-fd1895314bce@I-love.SAKURA.ne.jp>
- <CAMuHMdUH4CU9EfoirSxjivg08FDimtstn7hizemzyQzYeq6b6g@mail.gmail.com>
- <86bdfea2-7125-2e54-c2c0-920f28ff80ce@I-love.SAKURA.ne.jp>
-In-Reply-To: <86bdfea2-7125-2e54-c2c0-920f28ff80ce@I-love.SAKURA.ne.jp>
-From: Alexander Potapenko <glider@google.com>
-Date: Fri, 16 Dec 2022 16:52:14 +0100
-Message-ID: <CAG_fn=VJrJDNSea6DksLt5uBe_sDu0+8Ofg+ifscOyDdMKj3XQ@mail.gmail.com>
-Subject: Re: [PATCH] fbcon: Use kzalloc() in fbcon_prepare_logo()
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,105 +59,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marco Elver <elver@google.com>, Helge Deller <deller@gmx.de>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- kasan-dev <kasan-dev@googlegroups.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- DRI <dri-devel@lists.freedesktop.org>, Dmitry Vyukov <dvyukov@google.com>
+Cc: jani.nikula@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 16, 2022 at 3:03 PM Tetsuo Handa
-<penguin-kernel@i-love.sakura.ne.jp> wrote:
->
-> On 2022/12/15 18:36, Geert Uytterhoeven wrote:
-> > The next line is:
-> >
-> >         scr_memsetw(save, erase, array3_size(logo_lines, new_cols, 2));
-> >
-> > So how can this turn out to be uninitialized later below?
-> >
-> >         scr_memcpyw(q, save, array3_size(logo_lines, new_cols, 2));
-> >
-> > What am I missing?
->
-> Good catch. It turned out that this was a KMSAN problem (i.e. a false pos=
-itive report).
->
-> On x86_64, scr_memsetw() is implemented as
->
->         static inline void scr_memsetw(u16 *s, u16 c, unsigned int count)
->         {
->                 memset16(s, c, count / 2);
->         }
->
-> and memset16() is implemented as
->
->         static inline void *memset16(uint16_t *s, uint16_t v, size_t n)
->         {
->                 long d0, d1;
->                 asm volatile("rep\n\t"
->                              "stosw"
->                              : "=3D&c" (d0), "=3D&D" (d1)
->                              : "a" (v), "1" (s), "0" (n)
->                              : "memory");
->                 return s;
->         }
->
-> . Plain memset() in arch/x86/include/asm/string_64.h is redirected to __m=
-san_memset()
-> but memsetXX() are not redirected to __msan_memsetXX(). That is, memory i=
-nitialization
-> via memsetXX() results in KMSAN's shadow memory being not updated.
->
-> KMSAN folks, how should we fix this problem?
-> Redirect assembly-implemented memset16(size) to memset(size*2) if KMSAN i=
-s enabled?
->
+The drm_edid handling still needed some plumbing in drm_edid.c before we
+could convert i915 over to use it. Specifically
+drm_edid_connector_update() needed to be split to two, with separate
+drm_edid_connector_add_modes(). This is better explained in patch 7
+commit message.
 
-I think the easiest way to fix it would be disable memsetXX asm
-implementations by something like:
+With that in patches 1-8 along with some refactorings, we can finally
+switch i915 over to use drm_edid. And with that, i915 starts supporting
+the HF-EEODB extension.
 
----------------------------------------------------------------------------=
-----------------------
-diff --git a/arch/x86/include/asm/string_64.h b/arch/x86/include/asm/string=
-_64.h
-index 888731ccf1f67..5fb330150a7d1 100644
---- a/arch/x86/include/asm/string_64.h
-+++ b/arch/x86/include/asm/string_64.h
-@@ -33,6 +33,7 @@ void *memset(void *s, int c, size_t n);
- #endif
- void *__memset(void *s, int c, size_t n);
-
-+#if !defined(__SANITIZE_MEMORY__)
- #define __HAVE_ARCH_MEMSET16
- static inline void *memset16(uint16_t *s, uint16_t v, size_t n)
- {
-@@ -68,6 +69,7 @@ static inline void *memset64(uint64_t *s, uint64_t
-v, size_t n)
-                     : "memory");
-        return s;
- }
-+#endif
-
- #define __HAVE_ARCH_MEMMOVE
- #if defined(__SANITIZE_MEMORY__) && defined(__NO_FORTIFY)
----------------------------------------------------------------------------=
-----------------------
-
-This way we'll just pick the existing C implementations instead of
-reinventing them.
+I've dropped Ville's earlier R-b from some of the patches because
+they've changed so much over the rebases and changes.
 
 
---=20
-Alexander Potapenko
-Software Engineer
+BR,
+Jani.
 
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
 
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
+Cc: Imre Deak <imre.deak@intel.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
+Jani Nikula (12):
+  drm/edid: store quirks in display info
+  drm/edid: stop passing quirks around
+  drm/edid: rename struct drm_display_info *display to *info
+  drm/edid: merge ELD handling to update_display_info()
+  drm/edid: move EDID BPC quirk application to update_display_info()
+  drm/edid: refactor _drm_edid_connector_update() and rename
+  drm/edid: add separate drm_edid_connector_add_modes()
+  drm/edid: remove redundant _drm_connector_update_edid_property()
+  drm/i915/edid: convert DP, HDMI and LVDS to drm_edid
+  drm/i915/bios: convert intel_bios_init_panel() to drm_edid
+  drm/i915/opregion: convert intel_opregion_get_edid() to struct
+    drm_edid
+  drm/i915/panel: move panel fixed EDID to struct intel_panel
+
+ drivers/gpu/drm/drm_edid.c                    | 187 +++++++++---------
+ drivers/gpu/drm/drm_probe_helper.c            |   4 +-
+ drivers/gpu/drm/i915/display/icl_dsi.c        |   2 +-
+ drivers/gpu/drm/i915/display/intel_bios.c     |  23 +--
+ drivers/gpu/drm/i915/display/intel_bios.h     |   4 +-
+ .../gpu/drm/i915/display/intel_connector.c    |   5 +-
+ .../drm/i915/display/intel_display_types.h    |   8 +-
+ drivers/gpu/drm/i915/display/intel_dp.c       |  91 +++++----
+ drivers/gpu/drm/i915/display/intel_dvo.c      |   2 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |  28 +--
+ drivers/gpu/drm/i915/display/intel_lvds.c     |  51 +++--
+ drivers/gpu/drm/i915/display/intel_opregion.c |  29 ++-
+ drivers/gpu/drm/i915/display/intel_opregion.h |   4 +-
+ drivers/gpu/drm/i915/display/intel_panel.c    |  10 +-
+ drivers/gpu/drm/i915/display/intel_panel.h    |   4 +-
+ drivers/gpu/drm/i915/display/intel_sdvo.c     |   2 +-
+ drivers/gpu/drm/i915/display/vlv_dsi.c        |   2 +-
+ include/drm/drm_connector.h                   |   5 +
+ include/drm/drm_edid.h                        |   2 +
+ 19 files changed, 246 insertions(+), 217 deletions(-)
+
+-- 
+2.34.1
+
