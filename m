@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B504E64F097
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 18:48:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA3764F0A7
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 18:50:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98A7E10E60C;
-	Fri, 16 Dec 2022 17:48:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8518110E60F;
+	Fri, 16 Dec 2022 17:50:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
- [IPv6:2001:4860:4864:20::35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE7EE10E60C
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 17:48:16 +0000 (UTC)
-Received: by mail-oa1-x35.google.com with SMTP id
- 586e51a60fabf-1322d768ba7so4173584fac.5
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 09:48:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=do3Z4/hAMQVkQodUCOYB/hJ2aATCK/w0rFJKLIUXoDU=;
- b=Tq0ybDf8GqL94RsKaMSNjCFFt5GLpFfZThhTwrf6hKpyQlLPIzpcZT9zfuXr+StWkL
- Vt6dYgvsxaMUdOXNJdHGEPTtPkUd/F6Ezpfs55HHBqe6FohLDRKVS8In3+K/GmXNeICA
- 1su8JnGtvq6A6GHi1AcX2vRDU4lEHKArVskSaFvF8bcs5p1//S0YkutfA3H1b9N9Sr0a
- jU3ojtTFoVkCVOOFkHW98RWK8Wjl0wUNi8LbUxRfvsWwqTtj2RoGmk8O6uwSarllp6ai
- saUk+FkRz+7DZvJ+EGoGf0wWhXrIgfQjMDN5RRKLVj3/Px/Uvyn7uWMrKl9ip8smxIsm
- Xz6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=do3Z4/hAMQVkQodUCOYB/hJ2aATCK/w0rFJKLIUXoDU=;
- b=7l8Xe3cWpn9Pg6IyhDRlBogqley0GwsR12ursaT7UKs+lHFHRo1xVRHZFj3nPyYinq
- BOYrHiwZ7v40xmxX/nj7bdBEsYB4eFJD6tQxPjboF1IVYS8M4rOGvHY/inoZHkwj0H/N
- CU+PCDjHGoT+gMbwNNtAVO0ZybjXHI+pU0A1KCOrVwJngPv4OrC6OaznMdfIvXOid1dv
- sbf9M7ONgJXyjMWAue8PFRiPjUm89BdNFhUNtftxTFiNPMf+mfxsckZkGeU8NESO0m6U
- N5w05qhDVyp3vqQ/MXfpwJ5EV9P6CDyLfllOkaH/Oc9h6c03H9Am7nM2yPIa76u+WwB5
- Fx2Q==
-X-Gm-Message-State: AFqh2krzAGH/4+lvddF/afvEbd3sQGjtK+GRA2Ixkcs+f/sgCvintJaM
- 620glRPvPM/0LgPs4s/EQsqnFkfKeY+cD3Jq7W8=
-X-Google-Smtp-Source: AMrXdXvuc6R3ZTZ/oApoLGblrEpZbywtPib18Mzb9sA9w3nnKcRlXNSTHdHBj3oZ6tMkGGF1L+PuoYv9ctA0jAAKtos=
-X-Received: by 2002:a05:6870:8091:b0:148:3c8f:15ab with SMTP id
- q17-20020a056870809100b001483c8f15abmr748017oab.46.1671212895993; Fri, 16 Dec
- 2022 09:48:15 -0800 (PST)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [85.220.165.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7F2A10E60E
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 17:50:28 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p6Eqk-0003G6-4q; Fri, 16 Dec 2022 18:50:22 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p6Eqi-004yLq-AW; Fri, 16 Dec 2022 18:50:21 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p6Eqi-005bHo-34; Fri, 16 Dec 2022 18:50:20 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>
+Subject: [PATCH v3 0/2] drm/imx/lcdc: Implement DRM driver for imx21
+Date: Fri, 16 Dec 2022 18:50:04 +0100
+Message-Id: <20221216175006.456831-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <651349f55060767a9a51316c966c1e5daa57a644.1670919979.git.Rijo-john.Thomas@amd.com>
- <20221215132917.GA11061@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-In-Reply-To: <20221215132917.GA11061@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 16 Dec 2022 12:48:03 -0500
-Message-ID: <CADnq5_Nd6bzgqTBKwG=zZr2YO60SL92xiE1MzH-c1MfkFKqzqQ@mail.gmail.com>
-Subject: Re: [PATCH v2] crypto: ccp - Allocate TEE ring and cmd buffer using
- DMA APIs
-To: Jeremi Piotrowski <jpiotrowski@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1752;
+ i=u.kleine-koenig@pengutronix.de; h=from:subject;
+ bh=qFDZkbi/eO3Ag8wSfI9b76d0JCwl5+2gcMtrEKvSG7k=;
+ b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjnK/CQRPFtzr2eLZHKgwKu3TCQhySHx+F7INtifb9
+ 30te94aJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY5yvwgAKCRDB/BR4rcrsCSg/B/
+ wI11lkSGAp7KjHn9jccUAvrXQkhWUKryjwkJGJX/KW8tqfAW9ux0tHUqOzRLicwU1xTVTW/r6WBluq
+ 7ItcrUmAOe8ILgeyELfQXjXznpzG0Y/d+M9obPd4tMxXJ9u9O4MORYGokJdz+h1u35qdRSqMCsqoh4
+ es0lMWg8uVakoYQdTEjbY5Lnmy7a9c+YVo09d4U69Ob2ZQxuRRszDPirU0JomuoVkvT3yB3taWCEt8
+ XoysoXdZYWLSfmcWAvX2JgQJBeM663SagpnGv4Mnn4Nm5Tr/c7WFRzopchN7wEfAsg72rgLecs/B1j
+ qWPud16rzmKJVPuqxs+ow4XXacSIvx
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,197 +66,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Allen <john.allen@amd.com>, Tom Lendacky <thomas.lendacky@amd.com>,
- Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Rijo Thomas <Rijo-john.Thomas@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linaro-mm-sig@lists.linaro.org, Jens Wiklander <jens.wiklander@linaro.org>,
- linux-crypto@vger.kernel.org, Jeshwanth <JESHWANTHKUMAR.NK@amd.com>,
- stable@vger.kernel.org, linux-media@vger.kernel.org,
- "David S . Miller" <davem@davemloft.net>,
- Mythri PK <Mythri.Pandeshwarakrishna@amd.com>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 16, 2022 at 3:20 AM Jeremi Piotrowski
-<jpiotrowski@linux.microsoft.com> wrote:
->
-> On Tue, Dec 13, 2022 at 04:40:27PM +0530, Rijo Thomas wrote:
-> > For AMD Secure Processor (ASP) to map and access TEE ring buffer, the
-> > ring buffer address sent by host to ASP must be a real physical
-> > address and the pages must be physically contiguous.
-> >
-> > In a virtualized environment though, when the driver is running in a
-> > guest VM, the pages allocated by __get_free_pages() may not be
-> > contiguous in the host (or machine) physical address space. Guests
-> > will see a guest (or pseudo) physical address and not the actual host
-> > (or machine) physical address. The TEE running on ASP cannot decipher
-> > pseudo physical addresses. It needs host or machine physical address.
-> >
-> > To resolve this problem, use DMA APIs for allocating buffers that must
-> > be shared with TEE. This will ensure that the pages are contiguous in
-> > host (or machine) address space. If the DMA handle is an IOVA,
-> > translate it into a physical address before sending it to ASP.
-> >
-> > This patch also exports two APIs (one for buffer allocation and
-> > another to free the buffer). This API can be used by AMD-TEE driver to
-> > share buffers with TEE.
-> >
-> > Fixes: 33960acccfbd ("crypto: ccp - add TEE support for Raven Ridge")
-> > Cc: Tom Lendacky <thomas.lendacky@amd.com>
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Rijo Thomas <Rijo-john.Thomas@amd.com>
-> > Co-developed-by: Jeshwanth <JESHWANTHKUMAR.NK@amd.com>
-> > Signed-off-by: Jeshwanth <JESHWANTHKUMAR.NK@amd.com>
-> > Reviewed-by: Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>
-> > ---
-> > v2:
-> >  * Removed references to dma_buffer.
-> >  * If psp_init() fails, clear reference to master device.
-> >  * Handle gfp flags within psp_tee_alloc_buffer() instead of passing it as
-> >    a function argument.
-> >  * Added comments within psp_tee_alloc_buffer() to serve as future
-> >    documentation.
-> >
-> >  drivers/crypto/ccp/psp-dev.c |  13 ++--
-> >  drivers/crypto/ccp/tee-dev.c | 124 +++++++++++++++++++++++------------
-> >  drivers/crypto/ccp/tee-dev.h |   9 +--
-> >  include/linux/psp-tee.h      |  49 ++++++++++++++
-> >  4 files changed, 142 insertions(+), 53 deletions(-)
-> >
-> > diff --git a/drivers/crypto/ccp/psp-dev.c b/drivers/crypto/ccp/psp-dev.c
-> > index c9c741ac8442..380f5caaa550 100644
-> > --- a/drivers/crypto/ccp/psp-dev.c
-> > +++ b/drivers/crypto/ccp/psp-dev.c
-> > @@ -161,13 +161,13 @@ int psp_dev_init(struct sp_device *sp)
-> >               goto e_err;
-> >       }
-> >
-> > -     ret = psp_init(psp);
-> > -     if (ret)
-> > -             goto e_irq;
-> > -
-> >       if (sp->set_psp_master_device)
-> >               sp->set_psp_master_device(sp);
-> >
-> > +     ret = psp_init(psp);
-> > +     if (ret)
-> > +             goto e_clear;
-> > +
-> >       /* Enable interrupt */
-> >       iowrite32(-1, psp->io_regs + psp->vdata->inten_reg);
-> >
-> > @@ -175,7 +175,10 @@ int psp_dev_init(struct sp_device *sp)
-> >
-> >       return 0;
-> >
-> > -e_irq:
-> > +e_clear:
-> > +     if (sp->clear_psp_master_device)
-> > +             sp->clear_psp_master_device(sp);
-> > +
-> >       sp_free_psp_irq(psp->sp, psp);
-> >  e_err:
-> >       sp->psp_data = NULL;
-> > diff --git a/drivers/crypto/ccp/tee-dev.c b/drivers/crypto/ccp/tee-dev.c
-> > index 5c9d47f3be37..5c43e6e166f1 100644
-> > --- a/drivers/crypto/ccp/tee-dev.c
-> > +++ b/drivers/crypto/ccp/tee-dev.c
-> > @@ -12,8 +12,9 @@
-> >  #include <linux/mutex.h>
-> >  #include <linux/delay.h>
-> >  #include <linux/slab.h>
-> > +#include <linux/dma-direct.h>
-> > +#include <linux/iommu.h>
-> >  #include <linux/gfp.h>
-> > -#include <linux/psp-sev.h>
-> >  #include <linux/psp-tee.h>
-> >
-> >  #include "psp-dev.h"
-> > @@ -21,25 +22,73 @@
-> >
-> >  static bool psp_dead;
-> >
-> > +struct psp_tee_buffer *psp_tee_alloc_buffer(unsigned long size)
-> > +{
-> > +     struct psp_device *psp = psp_get_master_device();
-> > +     struct psp_tee_buffer *buf;
-> > +     struct iommu_domain *dom;
-> > +
-> > +     if (!psp || !size)
-> > +             return NULL;
-> > +
-> > +     buf = kzalloc(sizeof(*buf), GFP_KERNEL);
-> > +     if (!buf)
-> > +             return NULL;
-> > +
-> > +     /* The pages allocated for PSP Trusted OS must be physically
-> > +      * contiguous in host (or machine) address space. Therefore,
-> > +      * use DMA API to allocate memory.
-> > +      */
-> > +
-> > +     buf->vaddr = dma_alloc_coherent(psp->dev, size, &buf->dma,
-> > +                                     GFP_KERNEL | __GFP_ZERO);
->
-> dma_alloc_coherent memory is just as contiguous as __get_free_pages, and
-> calling dma_alloc_coherent from a guest does not guarantee that the memory is
-> contiguous in host memory either. The memory would look contiguous from the
-> device point of view thanks to the IOMMU though (in both cases). So this is not
-> about being contiguous but other properties that you might rely on (dma mask
-> most likely, or coherent if you're not running this on x86?).
->
-> Can you confirm why this fixes things and update the comment to reflect that.
->
-> > +     if (!buf->vaddr || !buf->dma) {
-> > +             kfree(buf);
-> > +             return NULL;
-> > +     }
-> > +
-> > +     buf->size = size;
-> > +
-> > +     /* Check whether IOMMU is present. If present, convert IOVA to
-> > +      * physical address. In the absence of IOMMU, the DMA address
-> > +      * is actually the physical address.
-> > +      */
-> > +
-> > +     dom = iommu_get_domain_for_dev(psp->dev);
-> > +     if (dom)
-> > +             buf->paddr = iommu_iova_to_phys(dom, buf->dma);
-> > +     else
-> > +             buf->paddr = buf->dma;
->
-> This is confusing: you're storing GPA for the guest and HPA in case of the
-> host, to pass to the device. Let's talk about the host case.
->
-> a) the device is behind an IOMMU. The DMA API gives you an IOVA, and the device
-> should be using the IOVA to access memory (because it's behind an IOMMU).
-> b) the device is not behind an IOMMU. The DMA API gives you a PA, the device
-> uses a PA.
->
-> But in case a) you're extracting the PA, which means your device can bypass the
-> IOMMU, in which case the system should not think that it is behind an IOMMU. So
-> how does this work?
+Hello,
 
-IIRC, as per the AMD IOMMU spec[1], there is an ACPI IVRS table which
-details the devices on the platform and whether or not they
-participate with IOMMU.  This should carry through to the DMA API.  If
-the ACPI tables do not reflect this correctly we should add a quirk to
-the AMD IOMMU to properly handle the device.
+Changes since v2:
 
-Alex
+ - added allOf as Krzysztof requested
+ - reworked driver based on Philipp's comments
+   (improved error handling, different selects, moved driver to a subdirectory,
+   header sorting, drm_err instead of DRM_ERROR, inlined
+   imx_lcdc_check_mode_change, make use of dev_err_probe())
+ 
+Krzysztof also pointed out that we're now having two compatibles for a
+single hardware. Admittedly this is unusual, but this is the chance that
+the (bad) compatible identifier imx21-fb gets deprecated. The hardware
+is called LCDC and only the linux (framebuffer) driver is called imxfb.
 
-[1] - https://www.amd.com/en/support/tech-docs/amd-io-virtualization-technology-iommu-specification
+The two prerequisite commits on top of v6.1 are:
 
-Alex
+ - 93266da2409b ("dt-bindings: display: Convert fsl,imx-fb.txt to
+   dt-schema") which is currently in next via branch 'for-next' of
+   git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git .
 
->
-> Jeremi
->
-> > +
-> > +     return buf;
-> > +}
-> > +EXPORT_SYMBOL(psp_tee_alloc_buffer);
-> > +
->
+ - "drm/imx: move IPUv3 driver into separate subdirectory"
+   from https://lore.kernel.org/r/20221125112519.3849636-1-l.stach@pengutronix.de
+
+Best regards
+Uwe
+
+Marian Cichy (1):
+  drm/imx/lcdc: Implement DRM driver for imx21
+
+Uwe Kleine-König (1):
+  dt-bindings: display: imx: Describe drm binding for fsl,imx-lcdc
+
+ .../bindings/display/imx/fsl,imx-lcdc.yaml    |  46 +-
+ drivers/gpu/drm/imx/Kconfig                   |   1 +
+ drivers/gpu/drm/imx/Makefile                  |   1 +
+ drivers/gpu/drm/imx/lcdc/imx-lcdc.c           | 587 ++++++++++++++++++
+ 4 files changed, 634 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/imx/lcdc/imx-lcdc.c
+
+
+base-commit: 830b3c68c1fb1e9176028d02ef86f3cf76aa2476
+prerequisite-patch-id: 386dd075d3384181945f8333e887bd00be3b23aa
+prerequisite-patch-id: c3ef3de02516b5c159e76b40d2b4348a5ce0fe51
+-- 
+2.38.1
+
