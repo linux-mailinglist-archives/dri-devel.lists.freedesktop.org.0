@@ -2,77 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4982D64F2B6
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 21:54:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9CAC64F2D9
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 22:01:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42B3910E065;
-	Fri, 16 Dec 2022 20:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FC8910E62D;
+	Fri, 16 Dec 2022 21:01:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F1D410E065;
- Fri, 16 Dec 2022 20:53:23 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BGJBBgr024824; Fri, 16 Dec 2022 20:53:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=hw/esT0/XM4a+KpFYJ83ZxORLOabu0x7zhPJi2KNuQ0=;
- b=X5IxmXkRVMJ/ncRYWrhcfMNfP9RLCCPVeyx+6OCx+GD8XrI8LasiYMX4LYFesTAj9ipY
- +IVlQ5BxWuWKALjtqg8BKeNjakMW2upvBjIIX5vh0a7NswdThTZ1eA7sxDt6O62MRYhO
- ulhMMoOhP8x4Va+/AoKbQSVyuk7BhnHl5r5FekG2uphC+Hd/Wvv8xXFQ0zivUCQ9WXP5
- MG8fHyZgfHIzxdMJPcbkkfljOsxSGTsr52rFrXpnaQa+x6KMT7e36fKi4/z+ipWYYn9l
- 4Fj2IUKVXUAULDIyD3sql37qyd+tkBDRKu4onhLDMbOz3Hmz2IjjD7CPvDtdXfLl6yH7 7w== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mg2895qn6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Dec 2022 20:53:12 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BGKrAx7004922
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Dec 2022 20:53:10 GMT
-Received: from [10.110.127.101] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 16 Dec
- 2022 12:53:08 -0800
-Message-ID: <cee94281-07a5-42b7-3d60-6ef6367ff915@quicinc.com>
-Date: Fri, 16 Dec 2022 12:53:08 -0800
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [85.220.165.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 673A110E06A
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 21:01:02 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p6HpC-00061d-LQ; Fri, 16 Dec 2022 22:00:58 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p6Hp9-00504E-Tu; Fri, 16 Dec 2022 22:00:56 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p6Hp9-005d4b-UL; Fri, 16 Dec 2022 22:00:55 +0100
+Date: Fri, 16 Dec 2022 22:00:54 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [PATCH v3 2/2] drm/imx/lcdc: Implement DRM driver for imx21
+Message-ID: <20221216210054.vxz7rble3k6nwxat@pengutronix.de>
+References: <20221216175006.456831-1-u.kleine-koenig@pengutronix.de>
+ <20221216175006.456831-3-u.kleine-koenig@pengutronix.de>
+ <e33399bfe5b761ee85cf491247773f2e2fdf579b.camel@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [RFC PATCH 2/6] drm/msm/dpu1: Add DSC config for sm8150 and sm8250
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>,
- <phone-devel@vger.kernel.org>, Rob Clark <robdclark@gmail.com>, "Dmitry
- Baryshkov" <dmitry.baryshkov@linaro.org>, Vinod Koul <vkoul@kernel.org>
-References: <20221213232207.113607-1-marijn.suijten@somainline.org>
- <20221213232207.113607-3-marijn.suijten@somainline.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20221213232207.113607-3-marijn.suijten@somainline.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 1bRcK7Mx4X9HduAcyW6FAX9RncDD9be6
-X-Proofpoint-ORIG-GUID: 1bRcK7Mx4X9HduAcyW6FAX9RncDD9be6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-16_14,2022-12-15_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0
- lowpriorityscore=0 bulkscore=0 spamscore=0 priorityscore=1501 phishscore=0
- impostorscore=0 suspectscore=0 malwarescore=0 adultscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2212160185
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="qsriposfjw2vd36a"
+Content-Disposition: inline
+In-Reply-To: <e33399bfe5b761ee85cf491247773f2e2fdf579b.camel@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,89 +55,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>, Vinod
- Polimera <quic_vpolimer@quicinc.com>, Sam
- Ravnborg <sam@ravnborg.org>, Haowen Bai <baihaowen@meizu.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Jessica
- Zhang <quic_jesszhan@quicinc.com>, Jani Nikula <jani.nikula@intel.com>,
- linux-arm-msm@vger.kernel.org, Stephen
- Boyd <swboyd@chromium.org>, Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
- Loic Poulain <loic.poulain@linaro.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- Douglas Anderson <dianders@chromium.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, sunliming <sunliming@kylinos.cn>,
- freedreno@lists.freedesktop.org
+Cc: Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--qsriposfjw2vd36a
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 12/13/2022 3:22 PM, Marijn Suijten wrote:
-> These blocks on CTL V1 support setting a PINGPONG idx to send pixel
-> output to.
-> 
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 23 ++++++++++++++-----
->   1 file changed, 17 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index 318f0b4dbf6e..114ad8ca4554 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -1566,18 +1566,25 @@ static const struct dpu_merge_3d_cfg sm8150_merge_3d[] = {
->   /*************************************************************
->    * DSC sub blocks config
->    *************************************************************/
-> -#define DSC_BLK(_name, _id, _base) \
-> +#define DSC_BLK(_name, _id, _base, _features) \
->   	{\
->   	.name = _name, .id = _id, \
->   	.base = _base, .len = 0x140, \
-> -	.features = 0, \
-> +	.features = _features, \
->   	}
->   
->   static struct dpu_dsc_cfg sdm845_dsc[] = {
-> -	DSC_BLK("dsc_0", DSC_0, 0x80000),
-> -	DSC_BLK("dsc_1", DSC_1, 0x80400),
-> -	DSC_BLK("dsc_2", DSC_2, 0x80800),
-> -	DSC_BLK("dsc_3", DSC_3, 0x80c00),
-> +	DSC_BLK("dsc_0", DSC_0, 0x80000, 0),
-> +	DSC_BLK("dsc_1", DSC_1, 0x80400, 0),
-> +	DSC_BLK("dsc_2", DSC_2, 0x80800, 0),
-> +	DSC_BLK("dsc_3", DSC_3, 0x80c00, 0),
-> +};
-> +
-> +static struct dpu_dsc_cfg sm8150_dsc[] = {
-> +	DSC_BLK("dsc_0", DSC_0, 0x80000, BIT(DPU_DSC_OUTPUT_CTRL)),
-> +	DSC_BLK("dsc_1", DSC_1, 0x80400, BIT(DPU_DSC_OUTPUT_CTRL)),
-> +	DSC_BLK("dsc_2", DSC_2, 0x80800, BIT(DPU_DSC_OUTPUT_CTRL)),
-> +	DSC_BLK("dsc_3", DSC_3, 0x80c00, BIT(DPU_DSC_OUTPUT_CTRL)),
->   };
->   
->   /*************************************************************
-> @@ -2474,6 +2481,8 @@ static const struct dpu_mdss_cfg sm8150_dpu_cfg = {
->   	.mixer = sm8150_lm,
->   	.dspp_count = ARRAY_SIZE(sm8150_dspp),
->   	.dspp = sm8150_dspp,
-> +	.dsc_count = ARRAY_SIZE(sm8150_dsc),
-> +	.dsc = sm8150_dsc,
->   	.pingpong_count = ARRAY_SIZE(sm8150_pp),
->   	.pingpong = sm8150_pp,
->   	.merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
-> @@ -2524,6 +2533,8 @@ static const struct dpu_mdss_cfg sm8250_dpu_cfg = {
->   	.mixer = sm8150_lm,
->   	.dspp_count = ARRAY_SIZE(sm8150_dspp),
->   	.dspp = sm8150_dspp,
-> +	.dsc_count = ARRAY_SIZE(sm8150_dsc),
-> +	.dsc = sm8150_dsc,
->   	.pingpong_count = ARRAY_SIZE(sm8150_pp),
->   	.pingpong = sm8150_pp,
->   	.merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
+Hallo Philipp,
+
+On Fri, Dec 16, 2022 at 07:05:13PM +0100, Philipp Zabel wrote:
+> On Fr, 2022-12-16 at 18:50 +0100, Uwe Kleine-K=F6nig wrote:
+> > From: Marian Cichy <m.cichy@pengutronix.de>
+> >=20
+> > Add support for the LCD Controller found on i.MX21 and i.MX25.
+> >=20
+> > It targets to be a drop in replacement for the imx-fb driver.
+> >=20
+> > Signed-off-by: Marian Cichy <m.cichy@pengutronix.de>
+> > [ukl: Rebase to v6.1, various smaller fixes]
+> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> > ---
+> > =A0drivers/gpu/drm/imx/Kconfig         |   1 +
+> > =A0drivers/gpu/drm/imx/Makefile        |   1 +
+>=20
+> I miss drivers/gpu/drm/imx/lcdc/{Kconfig,Makefile}.
+
+Their content is:
+
+----- Kconfig -----
+config DRM_IMX_LCDC
+	tristate "Freescale i.MX LCDC displays"
+	depends on DRM && (ARCH_MXC || COMPILE_TEST)
+	select DRM_GEM_DMA_HELPER
+	select DRM_KMS_HELPER
+	help
+	  Found on i.MX1, i.MX21, i.MX25 and i.MX27.
+----- Makefile -----
+obj-y +=3D imx-lcdc.o
+----- >8 -----------
+
+will resend the series once both dependent patches are in Linus' tree.
+Until then this v3 should be good enough to give reviewers a chance to
+look.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--qsriposfjw2vd36a
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOc3IMACgkQwfwUeK3K
+7Am3bAf/XGuURZ6Ukvoi2ZYUopXfveQdlRAdNC0FVkPw0Ba6LVSnda1jTVZZ5XFA
+sbjPGKye00Dt83S+GigpVDGqKgxowMzwX1m68Mf3TG+ndsa7wAvhVlBF7Uj1+l0V
+Px/kOhPYPNYvFI1EEaFBwFshrqptLa4CsNPt1ybg6gSQYnDcZQU0jQEx6G2aw8tE
+1USWDIbDPM867J8jsuc2voQrzxrr8RDnuCT9DW5M8IWwh1OG54vZprDqrONF98Mb
+sZv1SdSoZNCdxVM1lcErQnpZizjKyydufkUOGl0nwILod0AP2tYSTmBpQMVOsZSB
+xtQvYQntrDe5mFJ8aCpY43jPZUwHpw==
+=+q9C
+-----END PGP SIGNATURE-----
+
+--qsriposfjw2vd36a--
