@@ -2,61 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AE2E64EB36
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 13:09:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FCD264EB59
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 13:22:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C47A210E5BE;
-	Fri, 16 Dec 2022 12:08:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC5BE10E115;
+	Fri, 16 Dec 2022 12:22:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB66F10E5BE
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 12:08:45 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 350D8620C4
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 12:08:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9A711C433F0
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 12:08:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671192521;
- bh=qKW9pyUViv6tyL0vXGlWAMPLpVrpGKZWRCwQ38SiJ9Q=;
- h=From:To:Subject:Date:From;
- b=QFEx5pt3X/QcL6Z9sJhzedhMHwV+hAgQZX7GrcJ4rBQ4Gs3rtLaUtvsGnLi4sj13Z
- zkGBrvTeql+oX7Gh6iJJ+v3BvS33lJgP4Idc40FF4lolS2aioBlc7HAzH6C1czZEHw
- 9XjI0sE7O0p/B7RORX3qNXX0S+/TLwmLfTOQoKuSeYWXUez2zBVI0DqjdqcqAegdLh
- /OnEOF/IhFd+LIalAQyO47TV8JvbXWd3gl0kDqRT5tBi+Lr+ThjlAuLFKFqKSBv2Al
- goBBTM6XmmoeER+TDYjQM8eGZaza2GO6MulCS0zXteH4bB+XzrEJGNiLZ26tKA4zCO
- PDFTqaCbjw2mw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 80DA2C43142; Fri, 16 Dec 2022 12:08:41 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216814] New: amdgpu: CTM support has disappeared (vega)
-Date: Fri, 16 Dec 2022 12:08:41 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: maxijac@free.fr
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-216814-2300@https.bugzilla.kernel.org/>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98D4A10E115
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 12:21:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1671193316; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=REiZSsUqtIjm8SFyqWxbMTgSG0022DL41CRgq8WVFdw=;
+ b=taa4hIlYqn7MLmaXHu1vURaZAmYN/Z4nCFJxJbMyR963j7DDT9rTE/nzL9rpCj3J1Ys/OS
+ 64s9MPE6g7Gxw1CIIjdZbE2DeiJ3kzfpnAMuaLX5ecqHCrnz9K/u4xM6+PIyaVZLCUa8wx
+ 2EehLkok5/6lrjXczYp5yJ3PG7/aiT0=
+Message-ID: <d1f6d19d3218d9f1acc9b38e44af413f72f8a824.camel@crapouillou.net>
+Subject: Re: [PATCH 01/10] dt-bindings: display: bridge: it66121: Add
+ compatible string for IT6610
+From: Paul Cercueil <paul@crapouillou.net>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Robert Foss
+ <robert.foss@linaro.org>
+Date: Fri, 16 Dec 2022 13:21:54 +0100
+In-Reply-To: <bb2b5b72-42b3-3a6c-d865-9e338e34aba0@linaro.org>
+References: <20221214125821.12489-1-paul@crapouillou.net>
+ <20221214125821.12489-2-paul@crapouillou.net>
+ <CAG3jFytgK0noWteGvXTdSm9as9Q=qfhf_ep3Z8Wv2ofmLzGb=A@mail.gmail.com>
+ <c78e92ae3cbea037abdd31ecd64e997c8dd1def2.camel@crapouillou.net>
+ <bb2b5b72-42b3-3a6c-d865-9e338e34aba0@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,67 +50,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Phong LE <ple@baylibre.com>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, list@opendingux.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216814
+Hi Krzysztof,
 
-            Bug ID: 216814
-           Summary: amdgpu: CTM support has disappeared (vega)
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 6.0
-          Hardware: AMD
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: maxijac@free.fr
-        Regression: No
-
-Hello,
-
-I noticed the CTM support from X is no longer advertised with recent kernel=
-s.
-
-Card: Vega64
-xf86-video-amdgpu: 22.0.0-1
-
-With older kernels, xrandr reports CTM correctly.
-With the same X stack, simple rebooting on a more recent kernel, CTM is not
-advertised anymore.
-
-
->$ uname -r
->5.15.83-1-lts
->$ xrandr --prop | grep -i ctm
->        CTM: 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0
->        CTM: 0
->        CTM: 0
->        CTM: 0
->        CTM: 0
->        CTM: 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0
->$
+Le vendredi 16 d=C3=A9cembre 2022 =C3=A0 12:21 +0100, Krzysztof Kozlowski a
+=C3=A9crit=C2=A0:
+> On 16/12/2022 11:46, Paul Cercueil wrote:
 >=20
-
-> -- Reboot to 6.1 --
-
+> > > > =C2=A0properties:
+> > > > =C2=A0=C2=A0 compatible:
+> > > > -=C2=A0=C2=A0=C2=A0 const: ite,it66121
+> > > > +=C2=A0=C2=A0=C2=A0 enum:
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - ite,it66121
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - ite,it6610
 >=20
->$ uname -r
->6.1.0-arch1-1
->$ xrandr --prop | grep -i ctm
->$
+> These should be ordered alphabetically. What's with the tendency of
+> adding always to the end?
 
-I also have a custom config 6.0 kernel that shows no CTM so the break has
-happened between 5.15 and 6.0.
-I tried looking at commits in between and code changes in amdgpu but did not
-notice anything obvious.
+I'm too used to the "inverse christmas tree" sort :)
 
---=20
-You may reply to this email to add a comment.
+I can send a quickfix patch if you really want alphabetical order.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+> > > >=20
+> > > > =C2=A0=C2=A0 reg:
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0 maxItems: 1
+> > > > --
+> > > > 2.35.1
+> > > >=20
+> > >=20
+> > > Reviewed-by: Robert Foss <robert.foss@linaro.org>
+> >=20
+> > Series applied to drm-misc-next.
+> >=20
+> I wished you give DT maintainers a bit more time than two days.
+
+Noted. Sorry about that.
+
+Cheers,
+-Paul
