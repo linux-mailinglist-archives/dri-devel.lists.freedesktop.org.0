@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1770A64F36F
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 22:46:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7953564F371
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 22:46:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 246AB10E64B;
-	Fri, 16 Dec 2022 21:45:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8906210E673;
+	Fri, 16 Dec 2022 21:45:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F64610E63B;
- Fri, 16 Dec 2022 21:45:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7392E10E63C;
+ Fri, 16 Dec 2022 21:45:22 +0000 (UTC)
 Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BGLF5vv000316; Fri, 16 Dec 2022 21:45:15 GMT
+ 2BGKPm88008712; Fri, 16 Dec 2022 21:45:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=3mpWnZHcLxtFObb6ANYSgR5qTraxgu8d0FEDD5nCM54=;
- b=p4dJsCz8KrqmgS0B84m4QfbPbM28Ybx6jMMYWZ9tRa9HggASbRV3LwBiejizzgDg9upS
- 858tIlzXPvDmZ4IzUHunGogTYwsbuYPLyzygo9LF2NsIug5TP8ChtNQdHLFuVbxV8Zdb
- hKYlkUrXop8/RucWHo0gUUFNA3SqFMrQ5nHhwX0Ul1Pu/zp52zp71jkCnXkvZxkoa0D/
- QB/QJVaSXTqpBlXI+st+8wo+S+cBkFb7oYWAMak/Bm6WpxI+XUHjHN270QxysdsL8DXg
- CF3PTVAI5Ei3gfp1ErnfiG+icXOn3kgWVEmHqlttUGyZXTqhD+gBqmWCPPerW7u8jXyp 5w== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=osncqwfoq41zjswtO2a53FTJp9uuZL6Fjyb+UALqYEM=;
+ b=mapX1tPOMX0EENa7yU12vPi/gTl4H6aCcTpYOTYLTiA9qGF5DEPQooEBCIUqSIMnkDXx
+ pOo3ihPog77qEoSkJyGf8cq+idNNxWrEpK/VQyacPzVut6ptxmjnwxgeN5Z/uO5Ijpg1
+ DqttO7CnHpVUaiCWSNQvqXRjo5vvihj3gkrF4HMflQbcRbjTrNkfdIogLiR92FcsMIS4
+ qiPm1DqiaLPqNUV/N/BRpjxvR/TpUARuFeMQSZAEEe1HUhgWICmqzGKygWH/3X1WwVGz
+ JSfVH3z3vVevFzmzJikkjztx2doVARMPEVTMZZo2odQZ15ct6xekziTDM0g2ukFJy0vk Jw== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mgufm10yj-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mgufm10ym-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Dec 2022 21:45:15 +0000
+ Fri, 16 Dec 2022 21:45:17 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BGLjDwL027919
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BGLjGbT009924
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Dec 2022 21:45:14 GMT
+ Fri, 16 Dec 2022 21:45:16 GMT
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Fri, 16 Dec 2022 13:45:13 -0800
+ 15.2.986.36; Fri, 16 Dec 2022 13:45:15 -0800
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
@@ -48,10 +48,10 @@ To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <konrad.dybcio@somainline.org>, <robh+dt@kernel.org>,
  <krzysztof.kozlowski+dt@linaro.org>, <devicetree@vger.kernel.org>,
  <airlied@gmail.com>
-Subject: [PATCH v15 1/5] arm64: dts: qcom: add data-lanes and link-freuencies
- into dp_out endpoint
-Date: Fri, 16 Dec 2022 13:44:58 -0800
-Message-ID: <1671227102-21717-2-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v15 2/5] dt-bindings: msm/dp: add data-lanes and
+ link-frequencies property
+Date: Fri, 16 Dec 2022 13:44:59 -0800
+Message-ID: <1671227102-21717-3-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1671227102-21717-1-git-send-email-quic_khsieh@quicinc.com>
 References: <1671227102-21717-1-git-send-email-quic_khsieh@quicinc.com>
@@ -63,8 +63,8 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: LrBmdwtfkQJ9NTRxpLEu_pJWvK48B9Tt
-X-Proofpoint-GUID: LrBmdwtfkQJ9NTRxpLEu_pJWvK48B9Tt
+X-Proofpoint-ORIG-GUID: RZS8LEvUO3HR7EjTbZm10Y2I-qctHWxt
+X-Proofpoint-GUID: RZS8LEvUO3HR7EjTbZm10Y2I-qctHWxt
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-16_14,2022-12-15_02,2022-06-22_01
@@ -92,72 +92,98 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move data-lanes property from mdss_dp node to dp_out endpoint. Also
-add link-frequencies property into dp_out endpoint as well. The last
-frequency specified at link-frequencies will be the max link rate
-supported by DP.
-
-Changes in v5:
--- revert changes at sc7180.dtsi and sc7280.dtsi
--- add &dp_out to sc7180-trogdor.dtsi and sc7280-herobrine.dtsi
-
-Changes in v6:
--- add data-lanes and link-frequencies to yaml
+To increase the flexibility of supporting different DP main link configuration
+at different platform, add both data-lanes and link-frequencies property
+into endpoint so that different platform can specify its own main link
+combination of both data lanes and max supported link rate.
 
 Changes in v7:
--- change 160000000 to 1620000000
--- separate yaml to different patch
+-- split yaml out of dtsi patch
+-- link-frequencies from link rate to symbol rate
+-- deprecation of old data-lanes property
 
 Changes in v8:
 -- correct Bjorn mail address to kernel.org
 
-Changes in v9:
--- use symbol rate (hz) for link-frequencies at dp_out at sc7180_trogdor.dtsi
+Changes in v10:
+-- add menu item to data-lanes and link-frequecnis
+
+Changes in v11:
+-- add endpoint property at port@1
+
+Changes in v12:
+-- use enum for item at data-lanes and link-frequencies
 
 Changes in v13:
--- delete an extra space at data-lanes
+-- revised changes at port@0
+-- use correct ref schemas for both port@0 and port@1
+-- mark both port@0 and port@1 are required
+-- add line between data-lanes and link-frequencies properties
+
+Changes in v14:
+-- add "unevaluatedProperties: false: to endpoint at port@1
+-- remove unnecessary quote to $ref
+-- re store "$ref: /schemas/graph.yaml#/properties/port" to port@0
 
 Changes in v15:
--- replace space with tab at sc7180-trogdor.dtsi
+-- re store desciption of port@0
 
 Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 ---
- arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi   | 4 ++++
- arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi | 4 ++++
- 2 files changed, 8 insertions(+)
+ .../bindings/display/msm/dp-controller.yaml        | 25 +++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-index eae22e6..ad98a87 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-@@ -814,7 +814,11 @@ hp_i2c: &i2c9 {
- 	status = "okay";
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&dp_hot_plug_det>;
-+};
-+
-+&dp_out {
- 	data-lanes = <0 1>;
-+	link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000>;
- };
+diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+index f2515af..774ccb5 100644
+--- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+@@ -81,6 +81,7 @@ properties:
  
- &pm6150_adc {
-diff --git a/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi b/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
-index c11e371..3f363f8 100644
---- a/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
-@@ -442,7 +442,11 @@ ap_i2c_tpm: &i2c14 {
- 	status = "okay";
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&dp_hot_plug_det>;
-+};
-+
-+&dp_out {
- 	data-lanes = <0 1>;
-+	link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000 8100000000>;
- };
+   data-lanes:
+     $ref: /schemas/types.yaml#/definitions/uint32-array
++    deprecated: true
+     minItems: 1
+     maxItems: 4
+     items:
+@@ -102,8 +103,28 @@ properties:
+         description: Input endpoint of the controller
  
- &mdss_mdp {
+       port@1:
+-        $ref: /schemas/graph.yaml#/properties/port
++        $ref: /schemas/graph.yaml#/$defs/port-base
+         description: Output endpoint of the controller
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++            properties:
++              data-lanes:
++                minItems: 1
++                maxItems: 4
++                items:
++                  enum: [ 0, 1, 2, 3 ]
++
++              link-frequencies:
++                minItems: 1
++                maxItems: 4
++                items:
++                  enum: [ 1620000000, 2700000000, 5400000000, 8100000000 ]
++
++    required:
++      - port@0
++      - port@1
+ 
+ required:
+   - compatible
+@@ -193,6 +214,8 @@ examples:
+                 reg = <1>;
+                 endpoint {
+                     remote-endpoint = <&typec>;
++                    data-lanes = <0 1>;
++                    link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000 8100000000>;
+                 };
+             };
+         };
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
