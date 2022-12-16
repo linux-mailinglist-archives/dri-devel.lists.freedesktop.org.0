@@ -2,83 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BFF364EBC7
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 14:01:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD33F64EBDB
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 14:06:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78D2210E5C6;
-	Fri, 16 Dec 2022 13:01:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70B1310E5D0;
+	Fri, 16 Dec 2022 13:06:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C26B10E5C6
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 13:01:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671195706;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nNSYe3TRMGv5m5RI72VhSMEpC3Fqh7WOCcnn68AuVas=;
- b=FuDsJZX3IuO39UTpSZ2pWyRColgOJbbwtbG4E4hhUh+HgFJ4eshQY0BXEsPQ71J/DL407u
- rLPsl6vq/FfFdM7JKxkvvYQjSOh6B0FIBBT0jaNo2dYNFVvj4iA/+dtIwudM61zL1zg8mD
- 9C6+fyi4HwL9wS/mAYakk5e/dRELBHU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-316-WlUSdFC5PNeECa_CIZwpEA-1; Fri, 16 Dec 2022 08:01:40 -0500
-X-MC-Unique: WlUSdFC5PNeECa_CIZwpEA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h81-20020a1c2154000000b003d1c8e519fbso2557289wmh.2
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 05:01:40 -0800 (PST)
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+ [209.85.160.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B8D110E5D5
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 13:06:00 +0000 (UTC)
+Received: by mail-qt1-f170.google.com with SMTP id cg5so2547234qtb.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 05:06:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nNSYe3TRMGv5m5RI72VhSMEpC3Fqh7WOCcnn68AuVas=;
- b=g1zJPIBL1BnXfe6effkHmP8LuG8TPNbnyjy7BsPYsfn74+dZPPA573zaYjNG6RuS4/
- lpYU558uAYUFSXKpTvaPmHbH7X1L4gMRkugX2KZOEu6n8qsTVnIQd9MK87nb3ukUiYIL
- o1rzrChCfV4pZt1Fm+Wch3byfyHl+WefE/gRbULzotYxdIPAFGAFGgfjw8GLwiIZNluG
- uM0ts6HEI2Ngjb0x8mY0ep/GXmzz25UYx94iIqBHdn+BWWEQdhqJstjjeBt7VDg/VcAS
- VJrWhNF24QDiLXZeAtCTCgXYoLsQiW4UMv6oAYaoz/ZkVliu+dtTsS6EUCfzPUALkNAx
- MPxw==
-X-Gm-Message-State: ANoB5pnCtNsifCSyHEOoABdUyN2B9uzFwkWNpohjC8V6ciL8biUUntED
- bH5kKIVlGQR35qEG7qUmUqBo61Yqffy1/8b6qRwAWY9TBcmP2jG/BEfycHFY2TXGr1SW+Fxil8o
- mnuEy4KNYze5uRnQgWmD9LwqOrdSS
-X-Received: by 2002:a05:600c:6888:b0:3d1:d746:7bca with SMTP id
- fn8-20020a05600c688800b003d1d7467bcamr25095847wmb.4.1671195699333; 
- Fri, 16 Dec 2022 05:01:39 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4abG82lFqrrNqydA+yEhRnH4Ew1z4BMMnk2v6JSkHNIZCqtkmkCOUQMfiGE18h9Q/SCZLnZw==
-X-Received: by 2002:a05:600c:6888:b0:3d1:d746:7bca with SMTP id
- fn8-20020a05600c688800b003d1d7467bcamr25095823wmb.4.1671195699083; 
- Fri, 16 Dec 2022 05:01:39 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- c6-20020a05600c0a4600b003d1e3b1624dsm11152265wmq.2.2022.12.16.05.01.38
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jXF9c7i/pRZwb/zK4b3gP0kYwDE/+CkuRpF8ttFbdN4=;
+ b=Z7BvKvXQyWULdV9IzoMxb9ID3Ugu4G+zbh+dgucsIq4EsXjwk6mwZkBxA4gROShi+r
+ MInwwBnubtqCr5N0gwy/8FQWso2x0Qe8omHtlb41/IpjFXCIIF08C6/Xh7zrgOD/sz7M
+ OjHKZTNKNyB13Qj7qJjXxJyyu2DibPrVL8eR/SXn/APVcwO7m4JV6mJQh1vMkgA3ZbPi
+ ElV539UYV4Z/vBrwObbeTNSZQ0oxW7drBqy/tZWxC/Lj3Tiec6Bls6NWA2q72RQh+a0J
+ 0gs+o7+2RTONalTtksyTjOl9A56Iv8V/x4ANOn55wQWSfG4CGPyVNw4eN0ChxwajNN49
+ de1Q==
+X-Gm-Message-State: ANoB5pn+QHcoLT+VIYz8dYaP/MoBWhbKUSPTEVRHpmLNclU77yi9H+3U
+ ylXVbinqiQHXh3NqYWMVJVbf8DGHcqI4pg==
+X-Google-Smtp-Source: AA0mqf6F+6bN0/2ynVzZU7DvcHggO0fHJbKhdEoCHss+Opzcw9RX4rZVPg08wgayQoPs4BJ20gQ2xw==
+X-Received: by 2002:a05:622a:4c0f:b0:3a5:7a30:bd22 with SMTP id
+ ey15-20020a05622a4c0f00b003a57a30bd22mr44644446qtb.53.1671195959104; 
+ Fri, 16 Dec 2022 05:05:59 -0800 (PST)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com.
+ [209.85.128.169]) by smtp.gmail.com with ESMTPSA id
+ j8-20020ac86648000000b0039467aadeb8sm1289484qtp.13.2022.12.16.05.05.58
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 05:01:38 -0800 (PST)
-Message-ID: <fd3cf15c-9a07-ef43-daeb-10aaf767e809@redhat.com>
-Date: Fri, 16 Dec 2022 14:01:37 +0100
+ Fri, 16 Dec 2022 05:05:58 -0800 (PST)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-3b5d9050e48so32094977b3.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 05:05:58 -0800 (PST)
+X-Received: by 2002:a0d:dd4b:0:b0:370:61f5:b19e with SMTP id
+ g72-20020a0ddd4b000000b0037061f5b19emr28600389ywe.316.1671195958287; Fri, 16
+ Dec 2022 05:05:58 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v2] drm: Only select I2C_ALGOBIT for drivers that actually
- need it
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20220912091505.149423-1-u.kleine-koenig@pengutronix.de>
- <12b18ff8-532e-66bd-1c34-2880c1762a22@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <12b18ff8-532e-66bd-1c34-2880c1762a22@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20221215170234.2515030-1-arnd@kernel.org>
+In-Reply-To: <20221215170234.2515030-1-arnd@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 16 Dec 2022 14:05:46 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWZX9_c7Wvpbu2E9JSm4eoh6S4U+aNfPQ-kk0zyEQdj7A@mail.gmail.com>
+Message-ID: <CAMuHMdWZX9_c7Wvpbu2E9JSm4eoh6S4U+aNfPQ-kk0zyEQdj7A@mail.gmail.com>
+Subject: Re: [PATCH] fbdev: omapfb: avoid stack overflow warning
+To: Arnd Bergmann <arnd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,56 +67,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
+ Zhang Qilong <zhangqilong3@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/28/22 19:16, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 12.09.22 um 11:15 schrieb Uwe Kleine-König:
->> While working on a drm driver that doesn't need the i2c algobit stuff I
->> noticed that DRM selects this code even tough only 8 drivers actually use
->> it. While also only some drivers use i2c, keep the select for I2C for the
->> next cleanup patch. Still prepare this already by also selecting I2C for
->> the individual drivers.
->>
->> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
->> ---
->> Changes since v1
->> (20210514100142.1182997-1-u.kleine-koenig@pengutronix.de) from
->> 2021-05-14:
->>
->>   - rebased to next-20220909
->>     was something around v5.13-rc2 before, required to fix context
->>     changes in the nouveau Kconfig file. git am -3 handled it just fine.
->>
->> I reverified that no new drivers were added that need a corresponding
->> select.
->>
->> Best regards
->> Uwe
->>
->>   drivers/gpu/drm/Kconfig                 | 5 ++++-
->>   drivers/gpu/drm/ast/Kconfig             | 2 ++
->>   drivers/gpu/drm/gma500/Kconfig          | 2 ++
->>   drivers/gpu/drm/hisilicon/hibmc/Kconfig | 2 ++
->>   drivers/gpu/drm/i915/Kconfig            | 2 ++
->>   drivers/gpu/drm/mgag200/Kconfig         | 2 ++
->>   drivers/gpu/drm/nouveau/Kconfig         | 2 ++
->>   7 files changed, 16 insertions(+), 1 deletion(-)
-> 
-> amdgpu and radeon also include <linux/i2c-algo-bit.h>. Are they special 
-> in some way?
-> 
+Hi Arnd,
 
-Uwe, do you have an answer for this question? I wan to merge this patch
-but don't know if need to wait for a v3 including those drivers too.
+On Thu, Dec 15, 2022 at 6:05 PM Arnd Bergmann <arnd@kernel.org> wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The dsi_irq_stats structure is a little too big to fit on the
+> stack of a 32-bit task, depending on the specific gcc options:
+>
+> fbdev/omap2/omapfb/dss/dsi.c: In function 'dsi_dump_dsidev_irqs':
+> fbdev/omap2/omapfb/dss/dsi.c:1621:1: error: the frame size of 1064 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
+>
+> Since this is only a debugfs file, performance is not critical,
+> so just dynamically allocate it, and print an error message
+> in there in place of a failure code when the allocation fails.
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
--- 
-Best regards,
+Thanks for your patch!
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+> --- a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
+> +++ b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
+> @@ -1536,22 +1536,28 @@ static void dsi_dump_dsidev_irqs(struct platform_device *dsidev,
+>  {
+>         struct dsi_data *dsi = dsi_get_dsidrv_data(dsidev);
+>         unsigned long flags;
+> -       struct dsi_irq_stats stats;
+> +       struct dsi_irq_stats *stats;
+> +
+> +       stats = kzalloc(sizeof(*stats), GFP_KERNEL);
+> +       if (!stats) {
+> +               seq_printf(s, "out of memory\n");
 
+I guess this is futile?
+No need to increase kernel size for OOM messages.
+
+> +               return;
+> +       }
+>
+>         spin_lock_irqsave(&dsi->irq_stats_lock, flags);
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
