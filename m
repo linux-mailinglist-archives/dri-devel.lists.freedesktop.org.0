@@ -2,59 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD33F64EBDB
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 14:06:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C45664EC08
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 14:22:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70B1310E5D0;
-	Fri, 16 Dec 2022 13:06:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8068A10E119;
+	Fri, 16 Dec 2022 13:22:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
- [209.85.160.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B8D110E5D5
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 13:06:00 +0000 (UTC)
-Received: by mail-qt1-f170.google.com with SMTP id cg5so2547234qtb.12
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 05:06:00 -0800 (PST)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7BE410E119
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 13:22:05 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id z26so3422024lfu.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 05:22:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=RNCf2UgJngQuJz1n80wEvS0loAh/KFuMJfH8wEByOew=;
+ b=K4OK+Gd6LS+KWQr2cK2MKGlRrZ8f7Zs2mBOxBnd9uWxWHAaopXPyYOsTo+BRtKT5WZ
+ wJjyGRflyKietQEiqF66osK2N7XTrn5ZlG97ZrzCEDYqFSBTmgOdzsKa1rrZtNyorm/g
+ bOFFY7X/Ddu9hKXsqIbNtGpRwuycqhh1QtwlB2asA4xW982Tr5EmTuxG3P+9z/4Cjrfg
+ +qwYY36aVQl7f/eeFWBGuh0sA7ZVYFjNc1SOQBAo0vdb5ouxC7NsAYNVRPSWQJAOBAL8
+ SaIECp8Vv3T6abrPqd37FIQuOxVr9ziMnpa0+mBuJVNaMLgQu12l5Fz4tCH+VtHslaHf
+ My2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jXF9c7i/pRZwb/zK4b3gP0kYwDE/+CkuRpF8ttFbdN4=;
- b=Z7BvKvXQyWULdV9IzoMxb9ID3Ugu4G+zbh+dgucsIq4EsXjwk6mwZkBxA4gROShi+r
- MInwwBnubtqCr5N0gwy/8FQWso2x0Qe8omHtlb41/IpjFXCIIF08C6/Xh7zrgOD/sz7M
- OjHKZTNKNyB13Qj7qJjXxJyyu2DibPrVL8eR/SXn/APVcwO7m4JV6mJQh1vMkgA3ZbPi
- ElV539UYV4Z/vBrwObbeTNSZQ0oxW7drBqy/tZWxC/Lj3Tiec6Bls6NWA2q72RQh+a0J
- 0gs+o7+2RTONalTtksyTjOl9A56Iv8V/x4ANOn55wQWSfG4CGPyVNw4eN0ChxwajNN49
- de1Q==
-X-Gm-Message-State: ANoB5pn+QHcoLT+VIYz8dYaP/MoBWhbKUSPTEVRHpmLNclU77yi9H+3U
- ylXVbinqiQHXh3NqYWMVJVbf8DGHcqI4pg==
-X-Google-Smtp-Source: AA0mqf6F+6bN0/2ynVzZU7DvcHggO0fHJbKhdEoCHss+Opzcw9RX4rZVPg08wgayQoPs4BJ20gQ2xw==
-X-Received: by 2002:a05:622a:4c0f:b0:3a5:7a30:bd22 with SMTP id
- ey15-20020a05622a4c0f00b003a57a30bd22mr44644446qtb.53.1671195959104; 
- Fri, 16 Dec 2022 05:05:59 -0800 (PST)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com.
- [209.85.128.169]) by smtp.gmail.com with ESMTPSA id
- j8-20020ac86648000000b0039467aadeb8sm1289484qtp.13.2022.12.16.05.05.58
- for <dri-devel@lists.freedesktop.org>
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=RNCf2UgJngQuJz1n80wEvS0loAh/KFuMJfH8wEByOew=;
+ b=ZiiuIkkeAfKXxbrw8L9DaiZmvhpWHYkH/QAiK9udvDxO0RyKCVmkYJFuwBemtzgEDC
+ jOqJPxBUjgZvrgkKLx61vnVVAg798DD+Q2aejs4lF/7FwkrqZX2q6HaJHXB96etymvYP
+ ZMkIlj+4AC1efM6FaBhIPsgGqNrBhCvVJkYA1pxCF0oN65qmkQFzB2q8+iCSv9IcAzK+
+ 2wXhLH+yc7BvqZgZWfzYXOneoaZFu4/JA7AI/Vm3SrqqMDvRnqpLvN5c/32tr09buo1/
+ XI0yHWYW5GhYQCG3BuwxFFp/Lnwuh/TWClgUCVQ27X2UnZMsZiZioovUx7JQhauf3QGT
+ +UxA==
+X-Gm-Message-State: ANoB5pmoqqrCu8cVQN5yPwNZq3QTjo0kk1Q2j7KLHQs08I7OJoqpUxGW
+ AQgY2RrWg1Cz3sxlP8TnPdTegrFMeRxxYYDF
+X-Google-Smtp-Source: AA0mqf62tids3S49qFwaQg9e0oPPfVRcEta0fP5KwomNnTkFlqzKJqRTfCF40M6m/4kJF3FHW7kcSg==
+X-Received: by 2002:ac2:5a43:0:b0:4b5:90c5:281c with SMTP id
+ r3-20020ac25a43000000b004b590c5281cmr8818446lfn.19.1671196924021; 
+ Fri, 16 Dec 2022 05:22:04 -0800 (PST)
+Received: from [192.168.0.20]
+ (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+ by smtp.gmail.com with ESMTPSA id
+ o9-20020ac25e29000000b004b6f00832cesm219363lfg.166.2022.12.16.05.22.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 05:05:58 -0800 (PST)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-3b5d9050e48so32094977b3.2
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 05:05:58 -0800 (PST)
-X-Received: by 2002:a0d:dd4b:0:b0:370:61f5:b19e with SMTP id
- g72-20020a0ddd4b000000b0037061f5b19emr28600389ywe.316.1671195958287; Fri, 16
- Dec 2022 05:05:58 -0800 (PST)
+ Fri, 16 Dec 2022 05:22:03 -0800 (PST)
+Message-ID: <1114488b-7e73-6086-2f76-cb71ef6056f6@linaro.org>
+Date: Fri, 16 Dec 2022 14:22:02 +0100
 MIME-Version: 1.0
-References: <20221215170234.2515030-1-arnd@kernel.org>
-In-Reply-To: <20221215170234.2515030-1-arnd@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 16 Dec 2022 14:05:46 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWZX9_c7Wvpbu2E9JSm4eoh6S4U+aNfPQ-kk0zyEQdj7A@mail.gmail.com>
-Message-ID: <CAMuHMdWZX9_c7Wvpbu2E9JSm4eoh6S4U+aNfPQ-kk0zyEQdj7A@mail.gmail.com>
-Subject: Re: [PATCH] fbdev: omapfb: avoid stack overflow warning
-To: Arnd Bergmann <arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 01/10] dt-bindings: display: bridge: it66121: Add
+ compatible string for IT6610
+To: Paul Cercueil <paul@crapouillou.net>, Robert Foss <robert.foss@linaro.org>
+References: <20221214125821.12489-1-paul@crapouillou.net>
+ <20221214125821.12489-2-paul@crapouillou.net>
+ <CAG3jFytgK0noWteGvXTdSm9as9Q=qfhf_ep3Z8Wv2ofmLzGb=A@mail.gmail.com>
+ <c78e92ae3cbea037abdd31ecd64e997c8dd1def2.camel@crapouillou.net>
+ <bb2b5b72-42b3-3a6c-d865-9e338e34aba0@linaro.org>
+ <d1f6d19d3218d9f1acc9b38e44af413f72f8a824.camel@crapouillou.net>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <d1f6d19d3218d9f1acc9b38e44af413f72f8a824.camel@crapouillou.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,60 +81,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
- Zhang Qilong <zhangqilong3@huawei.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Phong LE <ple@baylibre.com>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, list@opendingux.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arnd,
+On 16/12/2022 13:21, Paul Cercueil wrote:
+> Hi Krzysztof,
+> 
+> Le vendredi 16 décembre 2022 à 12:21 +0100, Krzysztof Kozlowski a
+> écrit :
+>> On 16/12/2022 11:46, Paul Cercueil wrote:
+>>
+>>>>>  properties:
+>>>>>    compatible:
+>>>>> -    const: ite,it66121
+>>>>> +    enum:
+>>>>> +      - ite,it66121
+>>>>> +      - ite,it6610
+>>
+>> These should be ordered alphabetically. What's with the tendency of
+>> adding always to the end?
+> 
+> I'm too used to the "inverse christmas tree" sort :)
 
-On Thu, Dec 15, 2022 at 6:05 PM Arnd Bergmann <arnd@kernel.org> wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The dsi_irq_stats structure is a little too big to fit on the
-> stack of a 32-bit task, depending on the specific gcc options:
->
-> fbdev/omap2/omapfb/dss/dsi.c: In function 'dsi_dump_dsidev_irqs':
-> fbdev/omap2/omapfb/dss/dsi.c:1621:1: error: the frame size of 1064 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
->
-> Since this is only a debugfs file, performance is not critical,
-> so just dynamically allocate it, and print an error message
-> in there in place of a failure code when the allocation fails.
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Since these are not variables and they will not get shorter, any
+christmas tree sorting here is the same conflict-prone as adding to the end.
 
-Thanks for your patch!
+> 
+> I can send a quickfix patch if you really want alphabetical order.
 
-> --- a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-> @@ -1536,22 +1536,28 @@ static void dsi_dump_dsidev_irqs(struct platform_device *dsidev,
->  {
->         struct dsi_data *dsi = dsi_get_dsidrv_data(dsidev);
->         unsigned long flags;
-> -       struct dsi_irq_stats stats;
-> +       struct dsi_irq_stats *stats;
-> +
-> +       stats = kzalloc(sizeof(*stats), GFP_KERNEL);
-> +       if (!stats) {
-> +               seq_printf(s, "out of memory\n");
+No, no need.
 
-I guess this is futile?
-No need to increase kernel size for OOM messages.
 
-> +               return;
-> +       }
->
->         spin_lock_irqsave(&dsi->irq_stats_lock, flags);
+Best regards,
+Krzysztof
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
