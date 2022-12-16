@@ -2,56 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACFC064EE80
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 17:06:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D04C464EE98
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 17:08:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B208710E601;
-	Fri, 16 Dec 2022 16:05:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B22B310E5F5;
+	Fri, 16 Dec 2022 16:08:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com
- [209.85.160.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BCF510E5E8
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 16:05:33 +0000 (UTC)
-Received: by mail-oa1-f49.google.com with SMTP id
- 586e51a60fabf-12c8312131fso3807857fac.4
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 08:05:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=eOSCsqaoeoIju0eLDf3WqxL6Do53Bv9D82WTM/iySek=;
- b=8OfrdKYvqRyRvyzVOOO6IK0WId3r6efSugBho+D+vLVcDpq8O/DFik4/++ktM7XkEX
- hmmfAZ/GkScFjcObaogEXsLcby2DqqFGMhG168pDczEK7M7A8eEWcELGlNQC7e9HUCon
- y1cWbVcwkNj2sW3hU3pv1ofYowdx6dlm2TvOW1PeIFYhpDb6A3YilbEa/MPWBo993guB
- jmAlBxReNNmzrSHnmxKyIrAyLr9cd1Z+nKNSKAeY39nb332V09Ta4NB/vD/zD/iVnldv
- 5ue5UxB5UTUOlptd+NEs98Rjfo7xkNgRwny9baUbV8sHT1U7u3oPWi2Xa6KoO+sJ6k5A
- dc1w==
-X-Gm-Message-State: ANoB5plybwUEPZ2UmJoZAXMTDP4TuEgVtwzyDkfqyC5qWoYqrnnZJLIq
- tZHKW7zezPjIlWWnca4sdA==
-X-Google-Smtp-Source: AA0mqf6fQAQQ0eOGxAWHGt+fS4XPjjQEzyVhHbTXOdayWO2k0T+9QkpLSd0OFY+e0tZDdpj0DZznqg==
-X-Received: by 2002:a05:6870:f29b:b0:143:d9f7:8127 with SMTP id
- u27-20020a056870f29b00b00143d9f78127mr16644708oap.42.1671206732605; 
- Fri, 16 Dec 2022 08:05:32 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- z21-20020a056870e31500b00148316f78fesm1124816oad.2.2022.12.16.08.05.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Dec 2022 08:05:31 -0800 (PST)
-Received: (nullmailer pid 2826511 invoked by uid 1000);
- Fri, 16 Dec 2022 16:05:30 -0000
-Date: Fri, 16 Dec 2022 10:05:30 -0600
-From: Rob Herring <robh@kernel.org>
-To: Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH V6 2/4] dt-bindings: display: panel: Add Samsung AMS495QA01
-Message-ID: <167120672298.2826350.15042409228492859514.robh@kernel.org>
-References: <20221215185211.1560736-1-macroalpha82@gmail.com>
- <20221215185211.1560736-3-macroalpha82@gmail.com>
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA61E10E5E8
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 16:08:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+ t=1671206874; bh=pbGpvULOholZvb5olInn+Fl6NBfMf3MM3SbvamW2d28=;
+ h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
+ Content-Type;
+ b=XnU/moSq/6f6jqdAYoQ9DRaqqQH5af54Tv3y/qlQdHoPi6U1UYeZghrG8suLor2r/
+ kM6KA4s30gVkYVklrcIQidIbtgMPYiGXBubJEv9i2Cvk8cHqkJB3sryrxHnq2zA9Mo
+ UH5BollB15U0L3WPyrYTezQnpeKueuegGMMOlNNw=
+Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
+ via ip-206.mailobj.net [213.182.55.206]
+ Fri, 16 Dec 2022 17:07:54 +0100 (CET)
+X-EA-Auth: r6MeKYUR9fyZA/V6ZIIId1y+j07mHDm4LIWLgWKlymZezNqlTBjuWAOPObWQ9e34wUQtjuxU6yiuhxCu1INPd50jxqFtKREG
+Date: Fri, 16 Dec 2022 21:37:47 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/i915/gvt: Replace DEFINE_SIMPLE_ATTRIBUTE by
+ DEFINE_DEBUGFS_ATTRIBUTE
+Message-ID: <Y5yX01RC4B22j5w8@qemulion>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221215185211.1560736-3-macroalpha82@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,27 +52,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
- krzysztof.kozlowski+dt@linaro.org, tzimmermann@suse.de,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- robh+dt@kernel.org, thierry.reding@gmail.com, sam@ravnborg.org,
- maccraft123mc@gmail.com
+Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>, drv@mailo.com,
+ Saurabh Singh Sengar <ssengar@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The DEFINE_DEBUGFS_ATTRIBUTE macro has implementation for protecting the
+read/write file operations from removal race conditions. This further
+enables using debugfs_create_file_unsafe() function since there is no need
+for a proxy file operations struct for protection. Hence replace the
+DEFINE_SIMPLE_ATTRIBUTE macro by DEFINE_DEBUGFS_ATTRIBUTE and the
+debugfs_create_file() by the lightweight debugfs_create_file_unsafe()
+versions.
 
-On Thu, 15 Dec 2022 12:52:09 -0600, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Add documentation for Samsung AMS495QA01 panel (with Magnachip
-> D53E6EA8966 controller IC).
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
-> ---
->  .../display/panel/samsung,ams495qa01.yaml     | 57 +++++++++++++++++++
->  1 file changed, 57 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,ams495qa01.yaml
-> 
+This issue was identified using the coccinelle debugfs_simple_attr.cocci
+semantic patch.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Deepak R Varma <drv@mailo.com>
+---
+Please note: The changes are compile tested only.
+
+ drivers/gpu/drm/i915/gvt/debugfs.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gvt/debugfs.c b/drivers/gpu/drm/i915/gvt/debugfs.c
+index 9f1c209d9251..a45a43c35a6b 100644
+--- a/drivers/gpu/drm/i915/gvt/debugfs.c
++++ b/drivers/gpu/drm/i915/gvt/debugfs.c
+@@ -147,9 +147,9 @@ vgpu_scan_nonprivbb_set(void *data, u64 val)
+ 	return 0;
+ }
+
+-DEFINE_SIMPLE_ATTRIBUTE(vgpu_scan_nonprivbb_fops,
+-			vgpu_scan_nonprivbb_get, vgpu_scan_nonprivbb_set,
+-			"0x%llx\n");
++DEFINE_DEBUGFS_ATTRIBUTE(vgpu_scan_nonprivbb_fops,
++			 vgpu_scan_nonprivbb_get, vgpu_scan_nonprivbb_set,
++			 "0x%llx\n");
+
+ /**
+  * intel_gvt_debugfs_add_vgpu - register debugfs entries for a vGPU
+@@ -165,8 +165,8 @@ void intel_gvt_debugfs_add_vgpu(struct intel_vgpu *vgpu)
+ 	debugfs_create_bool("active", 0444, vgpu->debugfs, &vgpu->active);
+ 	debugfs_create_file("mmio_diff", 0444, vgpu->debugfs, vgpu,
+ 			    &vgpu_mmio_diff_fops);
+-	debugfs_create_file("scan_nonprivbb", 0644, vgpu->debugfs, vgpu,
+-			    &vgpu_scan_nonprivbb_fops);
++	debugfs_create_file_unsafe("scan_nonprivbb", 0644, vgpu->debugfs, vgpu,
++				   &vgpu_scan_nonprivbb_fops);
+ }
+
+ /**
+--
+2.34.1
+
+
+
