@@ -2,52 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD15D64E9EA
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 12:02:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6FE364EA30
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 12:22:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7114A10E5C2;
-	Fri, 16 Dec 2022 11:02:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F370D89023;
+	Fri, 16 Dec 2022 11:21:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AC2910E105;
- Fri, 16 Dec 2022 11:02:33 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4NYR4l3l5Hz9slD;
- Fri, 16 Dec 2022 12:01:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1671188519;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cLKLVnU8lWyYUBUKHXHb82A0UDytP7Ny5dkjlNktQ4c=;
- b=Ym5ClZ4SFebx0ak6Brk+p6dh6I5YYTfR0SV+EfhRUI6IWywykEI4tBbhGxcnABshGCStRe
- t6a8SYg814kBCVccbzRiO6jNlAfc3fSAXFZjYDi2nCvvMiTVNrCPhuEaGUJvWT99yD2QS2
- eI7bStQ+oSzm2IGyqfHJ6i1hUiG8SPWcRRcpTtC4coGz4cfLkmbniNqLtid7tUskvspzfp
- 4JBkF8Ljx+wWIOdj5Eq2/0Cc6/Fi8aFktZhLchxJSUu3xMCu6C6AvZyERlqmWR7T5+8j4o
- BUHAOgPCE9ZpGSrFoJuOVLjs2iQVIMLwrTwQOcP5LVml00KIlqoLl9ChlIJDKg==
-Message-ID: <e4417835-13d4-e7b0-b400-b0e488e3b3f9@mailbox.org>
-Date: Fri, 16 Dec 2022 12:01:57 +0100
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B96489023
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 11:21:24 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id m29so2775600lfo.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 03:21:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=gWCOz09++vt7gSRrrVtRk3U9xHsMwJfb4psYolKcH30=;
+ b=kRIMTH3NVuPxweks9ohzawd0D6G6PqOQ2Y5M5YKn63mQ1G9Nd+w3aeo/PSGkX81f/L
+ bqm0BlA/W+uEIODniJu/t2H1H/51JOGPiG1FX5jj3RypSkxd2ulukn6ZOj/uxbkL73Xr
+ a7s+iNLb0lWDHQN21j54wekHbY+6rj/f8A9/9hrJXAhad1dMqJfLwNBnSwZgp3buimHM
+ 39dRuPo8Be27u59rNWXwNXj7ulC/kzvHYIQVys/aw3z0efA5skeWvYCRCQ6mbJqpVe/l
+ 05Y5gOAkj5Rjlo1YcPtoERzuu3OF5jqOShIhDP/28SXOWawPMF1ozZTXdD8D18/zaKJ0
+ AlqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gWCOz09++vt7gSRrrVtRk3U9xHsMwJfb4psYolKcH30=;
+ b=lSP6BmlXEfVFwDr88D6FVH3VmR63Nrb12k49R9IZ08FJtBlHT3dTfQz3/yvdh3ake5
+ PDT/DbzLMGXe2o+xMZ84QjJnIuHuMMx9qrx9XxDCCYeQ7V1hZxG1DvV2zyITgwsiyVAM
+ hJrGrPVLmW0mHZfoJOjtlwdoam/A2RUQ6+//Awo2bOcdIZhiy4AKm26MHdMjDoVE+uSz
+ YG1MsOxsx6MeKbil1aI23x62Q1LMyloooiu43QVPbhEaZvgQBn5kIQqjjxNllJ7d1MJN
+ MZt3jK1Bpvz8jjUCABeNYC9cUp6KaMfMZV1aZwGb6QjTN2jmEFvtCoMnX/G1+S+CmTKo
+ j2KQ==
+X-Gm-Message-State: ANoB5pnsf6ZKfssfz0/vEDAkdgbCp9Pte3nl1+Lu3vBkUTps88CreB02
+ 4IGyUmuCuYQUnSPhhGviIhX3iw==
+X-Google-Smtp-Source: AA0mqf4AT1JDqt3ZxbzOYpPIlykdyBRhcC/2ieSzTZj6qxdmbP3PJAUglkgCv8x0PI+2zLhPY3tbSg==
+X-Received: by 2002:a05:6512:3d8f:b0:4b6:ee14:3e98 with SMTP id
+ k15-20020a0565123d8f00b004b6ee143e98mr12959406lfv.23.1671189682473; 
+ Fri, 16 Dec 2022 03:21:22 -0800 (PST)
+Received: from [192.168.0.20]
+ (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+ by smtp.gmail.com with ESMTPSA id
+ q27-20020ac25a1b000000b004b4b5da5f80sm192992lfn.219.2022.12.16.03.21.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Dec 2022 03:21:22 -0800 (PST)
+Message-ID: <bb2b5b72-42b3-3a6c-d865-9e338e34aba0@linaro.org>
+Date: Fri, 16 Dec 2022 12:21:20 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH 16/16] drm/amd/display: Don't restrict bpc to 8 bpc
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-To: Alex Deucher <alexdeucher@gmail.com>, Pekka Paalanen <ppaalanen@gmail.com>
-References: <20221212182137.374625-1-harry.wentland@amd.com>
- <20221212182137.374625-17-harry.wentland@amd.com>
- <114c2e02-41c8-8576-f88d-1c50f41deb9e@mailbox.org>
- <20221214110128.1cd58dea@eldfell>
- <CADnq5_M8Z2QRze60AFtmF6jTw8zpTpM-MPPmgejoUCb7Rv1ZrA@mail.gmail.com>
- <57d2c440-a622-bcff-c3b5-e22404ef7eb6@mailbox.org>
-Content-Language: en-CA
-In-Reply-To: <57d2c440-a622-bcff-c3b5-e22404ef7eb6@mailbox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH 01/10] dt-bindings: display: bridge: it66121: Add
+ compatible string for IT6610
+Content-Language: en-US
+To: Paul Cercueil <paul@crapouillou.net>, Robert Foss <robert.foss@linaro.org>
+References: <20221214125821.12489-1-paul@crapouillou.net>
+ <20221214125821.12489-2-paul@crapouillou.net>
+ <CAG3jFytgK0noWteGvXTdSm9as9Q=qfhf_ep3Z8Wv2ofmLzGb=A@mail.gmail.com>
+ <c78e92ae3cbea037abdd31ecd64e997c8dd1def2.camel@crapouillou.net>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <c78e92ae3cbea037abdd31ecd64e997c8dd1def2.camel@crapouillou.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: qmgrcj7q1uadkjsizjb81m1nw7s347um
-X-MBO-RS-ID: e15b9ddb666f255e4b1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,65 +79,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, amd-gfx@lists.freedesktop.org,
- Uma Shankar <uma.shankar@intel.com>, dri-devel@lists.freedesktop.org,
- Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Phong LE <ple@baylibre.com>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, list@opendingux.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/15/22 10:07, Michel Dänzer wrote:
-> On 12/14/22 16:46, Alex Deucher wrote:
->> On Wed, Dec 14, 2022 at 4:01 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
->>> On Tue, 13 Dec 2022 18:20:59 +0100
->>> Michel Dänzer <michel.daenzer@mailbox.org> wrote:
->>>> On 12/12/22 19:21, Harry Wentland wrote:
->>>>> This will let us pass kms_hdr.bpc_switch.
->>>>>
->>>>> I don't see any good reasons why we still need to
->>>>> limit bpc to 8 bpc and doing so is problematic when
->>>>> we enable HDR.
->>>>>
->>>>> If I remember correctly there might have been some
->>>>> displays out there where the advertised link bandwidth
->>>>> was not large enough to drive the default timing at
->>>>> max bpc. This would leave to an atomic commit/check
->>>>> failure which should really be handled in compositors
->>>>> with some sort of fallback mechanism.
->>>>>
->>>>> If this somehow turns out to still be an issue I
->>>>> suggest we add a module parameter to allow users to
->>>>> limit the max_bpc to a desired value.
->>>>
->>>> While leaving the fallback for user space to handle makes some sense
->>>> in theory, in practice most KMS display servers likely won't handle
->>>> it.
->>>>
->>>> Another issue is that if mode validation is based on the maximum bpc
->>>> value, it may reject modes which would work with lower bpc.
->>>>
->>>>
->>>> What Ville (CC'd) suggested before instead (and what i915 seems to be
->>>> doing already) is that the driver should do mode validation based on
->>>> the *minimum* bpc, and automatically make the effective bpc lower
->>>> than the maximum as needed to make the rest of the atomic state work.
+On 16/12/2022 11:46, Paul Cercueil wrote:
+
+>>>  properties:
+>>>    compatible:
+>>> -    const: ite,it66121
+>>> +    enum:
+>>> +      - ite,it66121
+>>> +      - ite,it6610
+
+These should be ordered alphabetically. What's with the tendency of
+adding always to the end?
+
 >>>
->>> A driver is always allowed to choose a bpc lower than max_bpc, so it
->>> very well should do so when necessary due to *known* hardware etc.
->>> limitations.
+>>>    reg:
+>>>      maxItems: 1
+>>> --
+>>> 2.35.1
 >>>
 >>
->> In the amdgpu case, it's more of a preference thing.  The driver would
->> enable higher bpcs at the expense of refresh rate and it seemed most
->> users want higher refresh rates than higher bpc. 
+>> Reviewed-by: Robert Foss <robert.foss@linaro.org>
 > 
-> I wrote the above because I thought that this patch might result in some modes getting pruned because they can't work with the max bpc. However, I see now that cbd14ae7ea93 ("drm/amd/display: Fix incorrectly pruned modes with deep color") should prevent that AFAICT.
+> Series applied to drm-misc-next.
 > 
-> The question then is: What happens if user space tries to use a mode which doesn't work with the max bpc? Does the driver automatically lower the effective bpc as needed, or does the atomic commit (check) fail? The latter would seem bad.
+I wished you give DT maintainers a bit more time than two days.
 
-Per my previous post in the other sub-thread, cbd14ae7ea93 ("drm/amd/display: Fix incorrectly pruned modes with deep color") seems to do the former. The commit log of this patch should probably be changed to reflect that.
-
-
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+Best regards,
+Krzysztof
 
