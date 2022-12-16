@@ -2,61 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D693D64F096
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 18:47:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B504E64F097
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 18:48:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2E4710E60B;
-	Fri, 16 Dec 2022 17:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98A7E10E60C;
+	Fri, 16 Dec 2022 17:48:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 252A010E602
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 17:47:08 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 55FB13473C;
- Fri, 16 Dec 2022 17:46:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1671212796; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TauMlo5yFKd9g17+45W0qHRnO9oYKWr4gTwvwYSgOIM=;
- b=0t1N0V37/+1wl641ycC3H5EuSiKyTYsSweKp5tHRWu+QxnqufiXSXkAYikuwIPcUj+k9/y
- eOCkWEjnvuU8VVSQhUrk5CFjNYo0u35pbIxhWipvV9cBaj51bSd5atjl0RVuHiGXJ825dq
- I16xtC6x9AGWyNYVooOhdbjDX0U7Ymo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1671212796;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TauMlo5yFKd9g17+45W0qHRnO9oYKWr4gTwvwYSgOIM=;
- b=Qvkp9nubprKSo1ORkJevuDsJFkmMTjqRSJwVQK4gf5VKzzs4J1zx58qzzCfNE4QEMEC5+X
- N3z7QggFpAGfq2DQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2D427138F0;
- Fri, 16 Dec 2022 17:46:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id QA4vCvyunGNYSgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 16 Dec 2022 17:46:36 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: deller@gmx.de,
-	daniel@ffwll.ch,
-	airlied@gmail.com
-Subject: [PATCH v2 2/2] fbdev: Don't return value from struct fb_ops.fb_release
-Date: Fri, 16 Dec 2022 18:46:33 +0100
-Message-Id: <20221216174633.1971-3-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221216174633.1971-1-tzimmermann@suse.de>
-References: <20221216174633.1971-1-tzimmermann@suse.de>
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
+ [IPv6:2001:4860:4864:20::35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE7EE10E60C
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 17:48:16 +0000 (UTC)
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-1322d768ba7so4173584fac.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 09:48:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=do3Z4/hAMQVkQodUCOYB/hJ2aATCK/w0rFJKLIUXoDU=;
+ b=Tq0ybDf8GqL94RsKaMSNjCFFt5GLpFfZThhTwrf6hKpyQlLPIzpcZT9zfuXr+StWkL
+ Vt6dYgvsxaMUdOXNJdHGEPTtPkUd/F6Ezpfs55HHBqe6FohLDRKVS8In3+K/GmXNeICA
+ 1su8JnGtvq6A6GHi1AcX2vRDU4lEHKArVskSaFvF8bcs5p1//S0YkutfA3H1b9N9Sr0a
+ jU3ojtTFoVkCVOOFkHW98RWK8Wjl0wUNi8LbUxRfvsWwqTtj2RoGmk8O6uwSarllp6ai
+ saUk+FkRz+7DZvJ+EGoGf0wWhXrIgfQjMDN5RRKLVj3/Px/Uvyn7uWMrKl9ip8smxIsm
+ Xz6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=do3Z4/hAMQVkQodUCOYB/hJ2aATCK/w0rFJKLIUXoDU=;
+ b=7l8Xe3cWpn9Pg6IyhDRlBogqley0GwsR12ursaT7UKs+lHFHRo1xVRHZFj3nPyYinq
+ BOYrHiwZ7v40xmxX/nj7bdBEsYB4eFJD6tQxPjboF1IVYS8M4rOGvHY/inoZHkwj0H/N
+ CU+PCDjHGoT+gMbwNNtAVO0ZybjXHI+pU0A1KCOrVwJngPv4OrC6OaznMdfIvXOid1dv
+ sbf9M7ONgJXyjMWAue8PFRiPjUm89BdNFhUNtftxTFiNPMf+mfxsckZkGeU8NESO0m6U
+ N5w05qhDVyp3vqQ/MXfpwJ5EV9P6CDyLfllOkaH/Oc9h6c03H9Am7nM2yPIa76u+WwB5
+ Fx2Q==
+X-Gm-Message-State: AFqh2krzAGH/4+lvddF/afvEbd3sQGjtK+GRA2Ixkcs+f/sgCvintJaM
+ 620glRPvPM/0LgPs4s/EQsqnFkfKeY+cD3Jq7W8=
+X-Google-Smtp-Source: AMrXdXvuc6R3ZTZ/oApoLGblrEpZbywtPib18Mzb9sA9w3nnKcRlXNSTHdHBj3oZ6tMkGGF1L+PuoYv9ctA0jAAKtos=
+X-Received: by 2002:a05:6870:8091:b0:148:3c8f:15ab with SMTP id
+ q17-20020a056870809100b001483c8f15abmr748017oab.46.1671212895993; Fri, 16 Dec
+ 2022 09:48:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <651349f55060767a9a51316c966c1e5daa57a644.1670919979.git.Rijo-john.Thomas@amd.com>
+ <20221215132917.GA11061@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+In-Reply-To: <20221215132917.GA11061@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 16 Dec 2022 12:48:03 -0500
+Message-ID: <CADnq5_Nd6bzgqTBKwG=zZr2YO60SL92xiE1MzH-c1MfkFKqzqQ@mail.gmail.com>
+Subject: Re: [PATCH v2] crypto: ccp - Allocate TEE ring and cmd buffer using
+ DMA APIs
+To: Jeremi Piotrowski <jpiotrowski@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,865 +67,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
+Cc: John Allen <john.allen@amd.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Rijo Thomas <Rijo-john.Thomas@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, Jens Wiklander <jens.wiklander@linaro.org>,
+ linux-crypto@vger.kernel.org, Jeshwanth <JESHWANTHKUMAR.NK@amd.com>,
+ stable@vger.kernel.org, linux-media@vger.kernel.org,
+ "David S . Miller" <davem@davemloft.net>,
+ Mythri PK <Mythri.Pandeshwarakrishna@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change struct fb_ops.release and its implementations to not return
-a value. Returing an error is not necessary and callers of the
-function ignore it. It is also good practice to make clean-up code
-unable ot fail, as such failure cannot be handled.
+On Fri, Dec 16, 2022 at 3:20 AM Jeremi Piotrowski
+<jpiotrowski@linux.microsoft.com> wrote:
+>
+> On Tue, Dec 13, 2022 at 04:40:27PM +0530, Rijo Thomas wrote:
+> > For AMD Secure Processor (ASP) to map and access TEE ring buffer, the
+> > ring buffer address sent by host to ASP must be a real physical
+> > address and the pages must be physically contiguous.
+> >
+> > In a virtualized environment though, when the driver is running in a
+> > guest VM, the pages allocated by __get_free_pages() may not be
+> > contiguous in the host (or machine) physical address space. Guests
+> > will see a guest (or pseudo) physical address and not the actual host
+> > (or machine) physical address. The TEE running on ASP cannot decipher
+> > pseudo physical addresses. It needs host or machine physical address.
+> >
+> > To resolve this problem, use DMA APIs for allocating buffers that must
+> > be shared with TEE. This will ensure that the pages are contiguous in
+> > host (or machine) address space. If the DMA handle is an IOVA,
+> > translate it into a physical address before sending it to ASP.
+> >
+> > This patch also exports two APIs (one for buffer allocation and
+> > another to free the buffer). This API can be used by AMD-TEE driver to
+> > share buffers with TEE.
+> >
+> > Fixes: 33960acccfbd ("crypto: ccp - add TEE support for Raven Ridge")
+> > Cc: Tom Lendacky <thomas.lendacky@amd.com>
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Rijo Thomas <Rijo-john.Thomas@amd.com>
+> > Co-developed-by: Jeshwanth <JESHWANTHKUMAR.NK@amd.com>
+> > Signed-off-by: Jeshwanth <JESHWANTHKUMAR.NK@amd.com>
+> > Reviewed-by: Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>
+> > ---
+> > v2:
+> >  * Removed references to dma_buffer.
+> >  * If psp_init() fails, clear reference to master device.
+> >  * Handle gfp flags within psp_tee_alloc_buffer() instead of passing it as
+> >    a function argument.
+> >  * Added comments within psp_tee_alloc_buffer() to serve as future
+> >    documentation.
+> >
+> >  drivers/crypto/ccp/psp-dev.c |  13 ++--
+> >  drivers/crypto/ccp/tee-dev.c | 124 +++++++++++++++++++++++------------
+> >  drivers/crypto/ccp/tee-dev.h |   9 +--
+> >  include/linux/psp-tee.h      |  49 ++++++++++++++
+> >  4 files changed, 142 insertions(+), 53 deletions(-)
+> >
+> > diff --git a/drivers/crypto/ccp/psp-dev.c b/drivers/crypto/ccp/psp-dev.c
+> > index c9c741ac8442..380f5caaa550 100644
+> > --- a/drivers/crypto/ccp/psp-dev.c
+> > +++ b/drivers/crypto/ccp/psp-dev.c
+> > @@ -161,13 +161,13 @@ int psp_dev_init(struct sp_device *sp)
+> >               goto e_err;
+> >       }
+> >
+> > -     ret = psp_init(psp);
+> > -     if (ret)
+> > -             goto e_irq;
+> > -
+> >       if (sp->set_psp_master_device)
+> >               sp->set_psp_master_device(sp);
+> >
+> > +     ret = psp_init(psp);
+> > +     if (ret)
+> > +             goto e_clear;
+> > +
+> >       /* Enable interrupt */
+> >       iowrite32(-1, psp->io_regs + psp->vdata->inten_reg);
+> >
+> > @@ -175,7 +175,10 @@ int psp_dev_init(struct sp_device *sp)
+> >
+> >       return 0;
+> >
+> > -e_irq:
+> > +e_clear:
+> > +     if (sp->clear_psp_master_device)
+> > +             sp->clear_psp_master_device(sp);
+> > +
+> >       sp_free_psp_irq(psp->sp, psp);
+> >  e_err:
+> >       sp->psp_data = NULL;
+> > diff --git a/drivers/crypto/ccp/tee-dev.c b/drivers/crypto/ccp/tee-dev.c
+> > index 5c9d47f3be37..5c43e6e166f1 100644
+> > --- a/drivers/crypto/ccp/tee-dev.c
+> > +++ b/drivers/crypto/ccp/tee-dev.c
+> > @@ -12,8 +12,9 @@
+> >  #include <linux/mutex.h>
+> >  #include <linux/delay.h>
+> >  #include <linux/slab.h>
+> > +#include <linux/dma-direct.h>
+> > +#include <linux/iommu.h>
+> >  #include <linux/gfp.h>
+> > -#include <linux/psp-sev.h>
+> >  #include <linux/psp-tee.h>
+> >
+> >  #include "psp-dev.h"
+> > @@ -21,25 +22,73 @@
+> >
+> >  static bool psp_dead;
+> >
+> > +struct psp_tee_buffer *psp_tee_alloc_buffer(unsigned long size)
+> > +{
+> > +     struct psp_device *psp = psp_get_master_device();
+> > +     struct psp_tee_buffer *buf;
+> > +     struct iommu_domain *dom;
+> > +
+> > +     if (!psp || !size)
+> > +             return NULL;
+> > +
+> > +     buf = kzalloc(sizeof(*buf), GFP_KERNEL);
+> > +     if (!buf)
+> > +             return NULL;
+> > +
+> > +     /* The pages allocated for PSP Trusted OS must be physically
+> > +      * contiguous in host (or machine) address space. Therefore,
+> > +      * use DMA API to allocate memory.
+> > +      */
+> > +
+> > +     buf->vaddr = dma_alloc_coherent(psp->dev, size, &buf->dma,
+> > +                                     GFP_KERNEL | __GFP_ZERO);
+>
+> dma_alloc_coherent memory is just as contiguous as __get_free_pages, and
+> calling dma_alloc_coherent from a guest does not guarantee that the memory is
+> contiguous in host memory either. The memory would look contiguous from the
+> device point of view thanks to the IOMMU though (in both cases). So this is not
+> about being contiguous but other properties that you might rely on (dma mask
+> most likely, or coherent if you're not running this on x86?).
+>
+> Can you confirm why this fixes things and update the comment to reflect that.
+>
+> > +     if (!buf->vaddr || !buf->dma) {
+> > +             kfree(buf);
+> > +             return NULL;
+> > +     }
+> > +
+> > +     buf->size = size;
+> > +
+> > +     /* Check whether IOMMU is present. If present, convert IOVA to
+> > +      * physical address. In the absence of IOMMU, the DMA address
+> > +      * is actually the physical address.
+> > +      */
+> > +
+> > +     dom = iommu_get_domain_for_dev(psp->dev);
+> > +     if (dom)
+> > +             buf->paddr = iommu_iova_to_phys(dom, buf->dma);
+> > +     else
+> > +             buf->paddr = buf->dma;
+>
+> This is confusing: you're storing GPA for the guest and HPA in case of the
+> host, to pass to the device. Let's talk about the host case.
+>
+> a) the device is behind an IOMMU. The DMA API gives you an IOVA, and the device
+> should be using the IOVA to access memory (because it's behind an IOMMU).
+> b) the device is not behind an IOMMU. The DMA API gives you a PA, the device
+> uses a PA.
+>
+> But in case a) you're extracting the PA, which means your device can bypass the
+> IOMMU, in which case the system should not think that it is behind an IOMMU. So
+> how does this work?
 
-In several places drivers tested for the correctness of the internal
-reference counting and failed silently if the counter was incorrect.
-This would be an error in the implementation, which would require
-fixing. So change these tests to return no error, but print a warning.
+IIRC, as per the AMD IOMMU spec[1], there is an ACPI IVRS table which
+details the devices on the platform and whether or not they
+participate with IOMMU.  This should carry through to the DMA API.  If
+the ACPI tables do not reflect this correctly we should add a quirk to
+the AMD IOMMU to properly handle the device.
 
-v2:
-	* update omapfb2 (kernel test robot)
+Alex
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_fbdev_generic.c            |  4 +---
- drivers/gpu/drm/nouveau/nouveau_fbcon.c        |  3 +--
- drivers/gpu/drm/radeon/radeon_fb.c             |  3 +--
- drivers/video/fbdev/arcfb.c                    |  7 +++----
- drivers/video/fbdev/arkfb.c                    |  8 +++-----
- drivers/video/fbdev/aty/atyfb_base.c           | 10 ++++------
- drivers/video/fbdev/cirrusfb.c                 |  3 +--
- drivers/video/fbdev/fsl-diu-fb.c               |  3 +--
- drivers/video/fbdev/hgafb.c                    |  3 +--
- drivers/video/fbdev/i740fb.c                   |  6 ++----
- drivers/video/fbdev/i810/i810_main.c           |  8 +++-----
- drivers/video/fbdev/intelfb/intelfbdrv.c       |  6 ++----
- drivers/video/fbdev/matrox/matroxfb_base.c     |  3 +--
- drivers/video/fbdev/matrox/matroxfb_crtc2.c    | 10 ++++------
- drivers/video/fbdev/neofb.c                    |  8 +++-----
- drivers/video/fbdev/nvidia/nvidia.c            | 11 +++--------
- drivers/video/fbdev/omap/omapfb_main.c         |  3 +--
- drivers/video/fbdev/omap2/omapfb/omapfb-main.c |  3 +--
- drivers/video/fbdev/ps3fb.c                    |  3 +--
- drivers/video/fbdev/pxafb.c                    |  3 +--
- drivers/video/fbdev/riva/fbdev.c               |  7 +++----
- drivers/video/fbdev/s3fb.c                     |  8 +++-----
- drivers/video/fbdev/savage/savagefb_driver.c   |  3 +--
- drivers/video/fbdev/sh_mobile_lcdcfb.c         |  4 +---
- drivers/video/fbdev/sis/sis_main.c             |  3 +--
- drivers/video/fbdev/skeletonfb.c               |  5 +----
- drivers/video/fbdev/smscufx.c                  |  4 +---
- drivers/video/fbdev/udlfb.c                    |  4 +---
- drivers/video/fbdev/uvesafb.c                  |  7 +++----
- drivers/video/fbdev/vermilion/vermilion.c      |  4 +---
- drivers/video/fbdev/vga16fb.c                  |  8 +++-----
- drivers/video/fbdev/via/viafbdev.c             |  3 +--
- drivers/video/fbdev/vt8623fb.c                 |  8 +++-----
- include/linux/fb.h                             |  2 +-
- 34 files changed, 62 insertions(+), 116 deletions(-)
+[1] - https://www.amd.com/en/support/tech-docs/amd-io-virtualization-technology-iommu-specification
 
-diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
-index 0a4c160e0e58..55123f1b99a6 100644
---- a/drivers/gpu/drm/drm_fbdev_generic.c
-+++ b/drivers/gpu/drm/drm_fbdev_generic.c
-@@ -33,14 +33,12 @@ static int drm_fbdev_fb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int drm_fbdev_fb_release(struct fb_info *info, int user)
-+static void drm_fbdev_fb_release(struct fb_info *info, int user)
- {
- 	struct drm_fb_helper *fb_helper = info->par;
- 
- 	if (user)
- 		module_put(fb_helper->dev->driver->fops->owner);
--
--	return 0;
- }
- 
- static void drm_fbdev_cleanup(struct drm_fb_helper *fb_helper)
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fbcon.c b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-index e87de7906f78..9eafc83e0645 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-@@ -197,13 +197,12 @@ nouveau_fbcon_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int
-+static void
- nouveau_fbcon_release(struct fb_info *info, int user)
- {
- 	struct nouveau_fbdev *fbcon = info->par;
- 	struct nouveau_drm *drm = nouveau_drm(fbcon->helper.dev);
- 	pm_runtime_put(drm->dev->dev);
--	return 0;
- }
- 
- static const struct fb_ops nouveau_fbcon_ops = {
-diff --git a/drivers/gpu/drm/radeon/radeon_fb.c b/drivers/gpu/drm/radeon/radeon_fb.c
-index c1710ed1cab8..56b9c2465df7 100644
---- a/drivers/gpu/drm/radeon/radeon_fb.c
-+++ b/drivers/gpu/drm/radeon/radeon_fb.c
-@@ -64,7 +64,7 @@ radeonfb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int
-+static void
- radeonfb_release(struct fb_info *info, int user)
- {
- 	struct radeon_fbdev *rfbdev = info->par;
-@@ -72,7 +72,6 @@ radeonfb_release(struct fb_info *info, int user)
- 
- 	pm_runtime_mark_last_busy(rdev->ddev->dev);
- 	pm_runtime_put_autosuspend(rdev->ddev->dev);
--	return 0;
- }
- 
- static const struct fb_ops radeonfb_ops = {
-diff --git a/drivers/video/fbdev/arcfb.c b/drivers/video/fbdev/arcfb.c
-index 45e64016db32..dd6f53263383 100644
---- a/drivers/video/fbdev/arcfb.c
-+++ b/drivers/video/fbdev/arcfb.c
-@@ -187,15 +187,14 @@ static int arcfb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int arcfb_release(struct fb_info *info, int user)
-+static void arcfb_release(struct fb_info *info, int user)
- {
- 	struct arcfb_par *par = info->par;
- 	int count = atomic_read(&par->ref_count);
- 
--	if (!count)
--		return -EINVAL;
-+	if (WARN_ON(!count))
-+		return;
- 	atomic_dec(&par->ref_count);
--	return 0;
- }
- 
- static int arcfb_pan_display(struct fb_var_screeninfo *var,
-diff --git a/drivers/video/fbdev/arkfb.c b/drivers/video/fbdev/arkfb.c
-index 60a96fdb5dd8..58a26afedf86 100644
---- a/drivers/video/fbdev/arkfb.c
-+++ b/drivers/video/fbdev/arkfb.c
-@@ -532,14 +532,14 @@ static int arkfb_open(struct fb_info *info, int user)
- 
- /* Close framebuffer */
- 
--static int arkfb_release(struct fb_info *info, int user)
-+static void arkfb_release(struct fb_info *info, int user)
- {
- 	struct arkfb_info *par = info->par;
- 
- 	mutex_lock(&(par->open_lock));
--	if (par->ref_count == 0) {
-+	if (WARN_ON(par->ref_count == 0)) {
- 		mutex_unlock(&(par->open_lock));
--		return -EINVAL;
-+		return;
- 	}
- 
- 	if (par->ref_count == 1) {
-@@ -549,8 +549,6 @@ static int arkfb_release(struct fb_info *info, int user)
- 
- 	par->ref_count--;
- 	mutex_unlock(&(par->open_lock));
--
--	return 0;
- }
- 
- /* Validate passed in var */
-diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/aty/atyfb_base.c
-index 0ccf5d401ecb..a5fd3bcd148f 100644
---- a/drivers/video/fbdev/aty/atyfb_base.c
-+++ b/drivers/video/fbdev/aty/atyfb_base.c
-@@ -235,7 +235,7 @@ static const struct fb_fix_screeninfo atyfb_fix = {
-  */
- 
- static int atyfb_open(struct fb_info *info, int user);
--static int atyfb_release(struct fb_info *info, int user);
-+static void atyfb_release(struct fb_info *info, int user);
- static int atyfb_check_var(struct fb_var_screeninfo *var,
- 			   struct fb_info *info);
- static int atyfb_set_par(struct fb_info *info);
-@@ -1677,7 +1677,7 @@ static int aty_disable_irq(struct atyfb_par *par)
- 	return 0;
- }
- 
--static int atyfb_release(struct fb_info *info, int user)
-+static void atyfb_release(struct fb_info *info, int user)
- {
- 	struct atyfb_par *par = (struct atyfb_par *) info->par;
- #ifdef __sparc__
-@@ -1685,14 +1685,14 @@ static int atyfb_release(struct fb_info *info, int user)
- #endif
- 
- 	if (!user)
--		return 0;
-+		return;
- 
- 	par->open--;
- 	mdelay(1);
- 	wait_for_idle(par);
- 
- 	if (par->open)
--		return 0;
-+		return;
- 
- #ifdef __sparc__
- 	was_mmaped = par->mmaped;
-@@ -1724,8 +1724,6 @@ static int atyfb_release(struct fb_info *info, int user)
- 	}
- #endif
- 	aty_disable_irq(par);
--
--	return 0;
- }
- 
- /*
-diff --git a/drivers/video/fbdev/cirrusfb.c b/drivers/video/fbdev/cirrusfb.c
-index ba45e2147c52..5bb733e859c3 100644
---- a/drivers/video/fbdev/cirrusfb.c
-+++ b/drivers/video/fbdev/cirrusfb.c
-@@ -434,11 +434,10 @@ static int cirrusfb_open(struct fb_info *info, int user)
- }
- 
- /*--- Close /dev/fbx --------------------------------------------------------*/
--static int cirrusfb_release(struct fb_info *info, int user)
-+static void cirrusfb_release(struct fb_info *info, int user)
- {
- 	if (--opencount == 0)
- 		switch_monitor(info->par, 0);
--	return 0;
- }
- 
- /**** END   Interface used by the World *************************************/
-diff --git a/drivers/video/fbdev/fsl-diu-fb.c b/drivers/video/fbdev/fsl-diu-fb.c
-index e332017c6af6..0f9e5357d80c 100644
---- a/drivers/video/fbdev/fsl-diu-fb.c
-+++ b/drivers/video/fbdev/fsl-diu-fb.c
-@@ -1422,7 +1422,7 @@ static int fsl_diu_open(struct fb_info *info, int user)
- 
- /* turn off fb if count == 0
-  */
--static int fsl_diu_release(struct fb_info *info, int user)
-+static void fsl_diu_release(struct fb_info *info, int user)
- {
- 	struct mfb_info *mfbi = info->par;
- 
-@@ -1446,7 +1446,6 @@ static int fsl_diu_release(struct fb_info *info, int user)
- 	}
- 
- 	spin_unlock(&diu_lock);
--	return 0;
- }
- 
- static const struct fb_ops fsl_diu_ops = {
-diff --git a/drivers/video/fbdev/hgafb.c b/drivers/video/fbdev/hgafb.c
-index 40879d9facdf..3e6b0e0459de 100644
---- a/drivers/video/fbdev/hgafb.c
-+++ b/drivers/video/fbdev/hgafb.c
-@@ -380,11 +380,10 @@ static int hgafb_open(struct fb_info *info, int init)
-  *	@init: open by console system or userland.
-  */
- 
--static int hgafb_release(struct fb_info *info, int init)
-+static void hgafb_release(struct fb_info *info, int init)
- {
- 	hga_txt_mode();
- 	hga_clear_screen();
--	return 0;
- }
- 
- /**
-diff --git a/drivers/video/fbdev/i740fb.c b/drivers/video/fbdev/i740fb.c
-index 3860b137b86a..a1b6e032cef2 100644
---- a/drivers/video/fbdev/i740fb.c
-+++ b/drivers/video/fbdev/i740fb.c
-@@ -190,7 +190,7 @@ static int i740fb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int i740fb_release(struct fb_info *info, int user)
-+static void i740fb_release(struct fb_info *info, int user)
- {
- 	struct i740fb_par *par = info->par;
- 
-@@ -198,13 +198,11 @@ static int i740fb_release(struct fb_info *info, int user)
- 	if (par->ref_count == 0) {
- 		fb_err(info, "release called with zero refcount\n");
- 		mutex_unlock(&(par->open_lock));
--		return -EINVAL;
-+		return;
- 	}
- 
- 	par->ref_count--;
- 	mutex_unlock(&(par->open_lock));
--
--	return 0;
- }
- 
- static u32 i740_calc_fifo(struct i740fb_par *par, u32 freq, int bpp)
-diff --git a/drivers/video/fbdev/i810/i810_main.c b/drivers/video/fbdev/i810/i810_main.c
-index 85abb65f07d7..d8cf105897b8 100644
---- a/drivers/video/fbdev/i810/i810_main.c
-+++ b/drivers/video/fbdev/i810/i810_main.c
-@@ -1257,14 +1257,14 @@ static int i810fb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int i810fb_release(struct fb_info *info, int user)
-+static void i810fb_release(struct fb_info *info, int user)
- {
- 	struct i810fb_par *par = info->par;
- 
- 	mutex_lock(&par->open_lock);
--	if (par->use_count == 0) {
-+	if (WARN_ON(par->use_count == 0)) {
- 		mutex_unlock(&par->open_lock);
--		return -EINVAL;
-+		return;
- 	}
- 
- 	if (par->use_count == 1) {
-@@ -1274,8 +1274,6 @@ static int i810fb_release(struct fb_info *info, int user)
- 
- 	par->use_count--;
- 	mutex_unlock(&par->open_lock);
--
--	return 0;
- }
- 
- 
-diff --git a/drivers/video/fbdev/intelfb/intelfbdrv.c b/drivers/video/fbdev/intelfb/intelfbdrv.c
-index 0a9e5067b201..efa535996567 100644
---- a/drivers/video/fbdev/intelfb/intelfbdrv.c
-+++ b/drivers/video/fbdev/intelfb/intelfbdrv.c
-@@ -133,7 +133,7 @@ static void get_initial_mode(struct intelfb_info *dinfo);
- static void update_dinfo(struct intelfb_info *dinfo,
- 			 struct fb_var_screeninfo *var);
- static int intelfb_open(struct fb_info *info, int user);
--static int intelfb_release(struct fb_info *info, int user);
-+static void intelfb_release(struct fb_info *info, int user);
- static int intelfb_check_var(struct fb_var_screeninfo *var,
- 			     struct fb_info *info);
- static int intelfb_set_par(struct fb_info *info);
-@@ -1187,7 +1187,7 @@ static int intelfb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int intelfb_release(struct fb_info *info, int user)
-+static void intelfb_release(struct fb_info *info, int user)
- {
- 	struct intelfb_info *dinfo = GET_DINFO(info);
- 
-@@ -1197,8 +1197,6 @@ static int intelfb_release(struct fb_info *info, int user)
- 		if (!dinfo->open)
- 			intelfbhw_disable_irq(dinfo);
- 	}
--
--	return 0;
- }
- 
- static int intelfb_check_var(struct fb_var_screeninfo *var,
-diff --git a/drivers/video/fbdev/matrox/matroxfb_base.c b/drivers/video/fbdev/matrox/matroxfb_base.c
-index 0d3cee7ae726..e03da1af71fa 100644
---- a/drivers/video/fbdev/matrox/matroxfb_base.c
-+++ b/drivers/video/fbdev/matrox/matroxfb_base.c
-@@ -400,7 +400,7 @@ static int matroxfb_open(struct fb_info *info, int user)
- 	return(0);
- }
- 
--static int matroxfb_release(struct fb_info *info, int user)
-+static void matroxfb_release(struct fb_info *info, int user)
- {
- 	struct matrox_fb_info *minfo = info2minfo(info);
- 
-@@ -414,7 +414,6 @@ static int matroxfb_release(struct fb_info *info, int user)
- 	if (!(--minfo->usecount) && minfo->dead) {
- 		matroxfb_remove(minfo, 0);
- 	}
--	return(0);
- }
- 
- static int matroxfb_pan_display(struct fb_var_screeninfo *var,
-diff --git a/drivers/video/fbdev/matrox/matroxfb_crtc2.c b/drivers/video/fbdev/matrox/matroxfb_crtc2.c
-index 7655afa3fd50..c6f69a0992b4 100644
---- a/drivers/video/fbdev/matrox/matroxfb_crtc2.c
-+++ b/drivers/video/fbdev/matrox/matroxfb_crtc2.c
-@@ -279,15 +279,13 @@ static int matroxfb_dh_open(struct fb_info* info, int user) {
- #undef m2info
- }
- 
--static int matroxfb_dh_release(struct fb_info* info, int user) {
-+static void matroxfb_dh_release(struct fb_info *info, int user)
-+{
- #define m2info (container_of(info, struct matroxfb_dh_fb_info, fbcon))
--	int err = 0;
- 	struct matrox_fb_info *minfo = m2info->primary_dev;
- 
--	if (minfo) {
--		err = minfo->fbops.fb_release(&minfo->fbcon, user);
--	}
--	return err;
-+	if (minfo)
-+		minfo->fbops.fb_release(&minfo->fbcon, user);
- #undef m2info
- }
- 
-diff --git a/drivers/video/fbdev/neofb.c b/drivers/video/fbdev/neofb.c
-index 39d8cdef5c97..187cec01526d 100644
---- a/drivers/video/fbdev/neofb.c
-+++ b/drivers/video/fbdev/neofb.c
-@@ -561,20 +561,18 @@ neofb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int
-+static void
- neofb_release(struct fb_info *info, int user)
- {
- 	struct neofb_par *par = info->par;
- 
--	if (!par->ref_count)
--		return -EINVAL;
-+	if (WARN_ON(!par->ref_count))
-+		return;
- 
- 	if (par->ref_count == 1) {
- 		restore_vga(&par->state);
- 	}
- 	par->ref_count--;
--
--	return 0;
- }
- 
- static int
-diff --git a/drivers/video/fbdev/nvidia/nvidia.c b/drivers/video/fbdev/nvidia/nvidia.c
-index 1960916098d4..46894c28f148 100644
---- a/drivers/video/fbdev/nvidia/nvidia.c
-+++ b/drivers/video/fbdev/nvidia/nvidia.c
-@@ -1002,15 +1002,12 @@ static int nvidiafb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int nvidiafb_release(struct fb_info *info, int user)
-+static void nvidiafb_release(struct fb_info *info, int user)
- {
- 	struct nvidia_par *par = info->par;
--	int err = 0;
- 
--	if (!par->open_count) {
--		err = -EINVAL;
--		goto done;
--	}
-+	if (WARN_ON(!par->open_count))
-+		return;
- 
- 	if (par->open_count == 1) {
- 		nvidia_write_regs(par, &par->initial_state);
-@@ -1018,8 +1015,6 @@ static int nvidiafb_release(struct fb_info *info, int user)
- 	}
- 
- 	par->open_count--;
--done:
--	return err;
- }
- 
- static struct fb_ops nvidia_fb_ops = {
-diff --git a/drivers/video/fbdev/omap/omapfb_main.c b/drivers/video/fbdev/omap/omapfb_main.c
-index 17cda5765683..d5c3c52927a2 100644
---- a/drivers/video/fbdev/omap/omapfb_main.c
-+++ b/drivers/video/fbdev/omap/omapfb_main.c
-@@ -222,10 +222,9 @@ static void omapfb_sync(struct fb_info *info);
- 
- /* Called when the omapfb device is closed. We make sure that any pending
-  * gfx DMA operations are ended, before we return. */
--static int omapfb_release(struct fb_info *info, int user)
-+static void omapfb_release(struct fb_info *info, int user)
- {
- 	omapfb_sync(info);
--	return 0;
- }
- 
- /* Store a single color palette entry into a pseudo palette or the hardware
-diff --git a/drivers/video/fbdev/omap2/omapfb/omapfb-main.c b/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
-index 5ccddcfce722..6cedc2f95d47 100644
---- a/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
-+++ b/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
-@@ -752,9 +752,8 @@ static int omapfb_open(struct fb_info *fbi, int user)
- 	return 0;
- }
- 
--static int omapfb_release(struct fb_info *fbi, int user)
-+static void omapfb_release(struct fb_info *fbi, int user)
- {
--	return 0;
- }
- 
- static unsigned calc_rotation_offset_dma(const struct fb_var_screeninfo *var,
-diff --git a/drivers/video/fbdev/ps3fb.c b/drivers/video/fbdev/ps3fb.c
-index 2fe08b67eda7..0536ad5185db 100644
---- a/drivers/video/fbdev/ps3fb.c
-+++ b/drivers/video/fbdev/ps3fb.c
-@@ -508,7 +508,7 @@ static int ps3fb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int ps3fb_release(struct fb_info *info, int user)
-+static void ps3fb_release(struct fb_info *info, int user)
- {
- 	if (atomic_dec_and_test(&ps3fb.f_count)) {
- 		if (atomic_read(&ps3fb.ext_flip)) {
-@@ -519,7 +519,6 @@ static int ps3fb_release(struct fb_info *info, int user)
- 			}
- 		}
- 	}
--	return 0;
- }
- 
-     /*
-diff --git a/drivers/video/fbdev/pxafb.c b/drivers/video/fbdev/pxafb.c
-index 696ac5431180..b894230a49db 100644
---- a/drivers/video/fbdev/pxafb.c
-+++ b/drivers/video/fbdev/pxafb.c
-@@ -745,7 +745,7 @@ static int overlayfb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int overlayfb_release(struct fb_info *info, int user)
-+static void overlayfb_release(struct fb_info *info, int user)
- {
- 	struct pxafb_layer *ofb = container_of(info, struct pxafb_layer, fb);
- 
-@@ -758,7 +758,6 @@ static int overlayfb_release(struct fb_info *info, int user)
- 
- 		ofb->usage--;
- 	}
--	return 0;
- }
- 
- static int overlayfb_check_var(struct fb_var_screeninfo *var,
-diff --git a/drivers/video/fbdev/riva/fbdev.c b/drivers/video/fbdev/riva/fbdev.c
-index 644278146d3b..d4ad224b429c 100644
---- a/drivers/video/fbdev/riva/fbdev.c
-+++ b/drivers/video/fbdev/riva/fbdev.c
-@@ -1052,15 +1052,15 @@ static int rivafb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int rivafb_release(struct fb_info *info, int user)
-+static void rivafb_release(struct fb_info *info, int user)
- {
- 	struct riva_par *par = info->par;
- 
- 	NVTRACE_ENTER();
- 	mutex_lock(&par->open_lock);
--	if (!par->ref_count) {
-+	if (WARN_ON(!par->ref_count)) {
- 		mutex_unlock(&par->open_lock);
--		return -EINVAL;
-+		return;
- 	}
- 	if (par->ref_count == 1) {
- 		par->riva.LockUnlock(&par->riva, 0);
-@@ -1074,7 +1074,6 @@ static int rivafb_release(struct fb_info *info, int user)
- 	par->ref_count--;
- 	mutex_unlock(&par->open_lock);
- 	NVTRACE_LEAVE();
--	return 0;
- }
- 
- static int rivafb_check_var(struct fb_var_screeninfo *var, struct fb_info *info)
-diff --git a/drivers/video/fbdev/s3fb.c b/drivers/video/fbdev/s3fb.c
-index 7d257489edcc..7ad4a43e504a 100644
---- a/drivers/video/fbdev/s3fb.c
-+++ b/drivers/video/fbdev/s3fb.c
-@@ -523,14 +523,14 @@ static int s3fb_open(struct fb_info *info, int user)
- 
- /* Close framebuffer */
- 
--static int s3fb_release(struct fb_info *info, int user)
-+static void s3fb_release(struct fb_info *info, int user)
- {
- 	struct s3fb_info *par = info->par;
- 
- 	mutex_lock(&(par->open_lock));
--	if (par->ref_count == 0) {
-+	if (WARN_ON(par->ref_count == 0)) {
- 		mutex_unlock(&(par->open_lock));
--		return -EINVAL;
-+		return;
- 	}
- 
- 	if (par->ref_count == 1)
-@@ -538,8 +538,6 @@ static int s3fb_release(struct fb_info *info, int user)
- 
- 	par->ref_count--;
- 	mutex_unlock(&(par->open_lock));
--
--	return 0;
- }
- 
- /* Validate passed in var */
-diff --git a/drivers/video/fbdev/savage/savagefb_driver.c b/drivers/video/fbdev/savage/savagefb_driver.c
-index 4a27b68798bf..e15fb8733c10 100644
---- a/drivers/video/fbdev/savage/savagefb_driver.c
-+++ b/drivers/video/fbdev/savage/savagefb_driver.c
-@@ -1621,7 +1621,7 @@ static int savagefb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int savagefb_release(struct fb_info *info, int user)
-+static void savagefb_release(struct fb_info *info, int user)
- {
- 	struct savagefb_par *par = info->par;
- 
-@@ -1634,7 +1634,6 @@ static int savagefb_release(struct fb_info *info, int user)
- 
- 	par->open_count--;
- 	mutex_unlock(&par->open_lock);
--	return 0;
- }
- 
- static const struct fb_ops savagefb_ops = {
-diff --git a/drivers/video/fbdev/sh_mobile_lcdcfb.c b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-index 6d00893d41f4..b11a79dee6ae 100644
---- a/drivers/video/fbdev/sh_mobile_lcdcfb.c
-+++ b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-@@ -1781,7 +1781,7 @@ static void sh_mobile_fb_reconfig(struct fb_info *info)
-  * Locking: both .fb_release() and .fb_open() are called with info->lock held if
-  * user == 1, or with console sem held, if user == 0.
-  */
--static int sh_mobile_lcdc_release(struct fb_info *info, int user)
-+static void sh_mobile_lcdc_release(struct fb_info *info, int user)
- {
- 	struct sh_mobile_lcdc_chan *ch = info->par;
- 
-@@ -1798,8 +1798,6 @@ static int sh_mobile_lcdc_release(struct fb_info *info, int user)
- 	}
- 
- 	mutex_unlock(&ch->open_lock);
--
--	return 0;
- }
- 
- static int sh_mobile_lcdc_open(struct fb_info *info, int user)
-diff --git a/drivers/video/fbdev/sis/sis_main.c b/drivers/video/fbdev/sis/sis_main.c
-index cfba776afcea..c1fe7a099575 100644
---- a/drivers/video/fbdev/sis/sis_main.c
-+++ b/drivers/video/fbdev/sis/sis_main.c
-@@ -1396,10 +1396,9 @@ sisfb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int
-+static void
- sisfb_release(struct fb_info *info, int user)
- {
--	return 0;
- }
- 
- static int
-diff --git a/drivers/video/fbdev/skeletonfb.c b/drivers/video/fbdev/skeletonfb.c
-index 40c130ab6b38..783f0205c513 100644
---- a/drivers/video/fbdev/skeletonfb.c
-+++ b/drivers/video/fbdev/skeletonfb.c
-@@ -162,12 +162,9 @@ static int xxxfb_open(struct fb_info *info, int user)
-  *	console system is released. Usually you don't need this function.
-  *	The case where it is usually used is to go from a graphics state
-  *	to a text mode state.
-- *
-- *	Returns negative errno on error, or zero on success.
-  */
--static int xxxfb_release(struct fb_info *info, int user)
-+static void xxxfb_release(struct fb_info *info, int user)
- {
--    return 0;
- }
- 
- /**
-diff --git a/drivers/video/fbdev/smscufx.c b/drivers/video/fbdev/smscufx.c
-index 9343b7a4ac89..39b45a0b61f0 100644
---- a/drivers/video/fbdev/smscufx.c
-+++ b/drivers/video/fbdev/smscufx.c
-@@ -1163,7 +1163,7 @@ static void ufx_free_framebuffer(struct ufx_data *dev)
- /*
-  * Assumes caller is holding info->lock mutex (for open and release at least)
-  */
--static int ufx_ops_release(struct fb_info *info, int user)
-+static void ufx_ops_release(struct fb_info *info, int user)
- {
- 	struct ufx_data *dev = info->par;
- 
-@@ -1187,8 +1187,6 @@ static int ufx_ops_release(struct fb_info *info, int user)
- 	kref_put(&dev->kref, ufx_free);
- 
- 	mutex_unlock(&disconnect_mutex);
--
--	return 0;
- }
- 
- /* Check whether a video mode is supported by the chip
-diff --git a/drivers/video/fbdev/udlfb.c b/drivers/video/fbdev/udlfb.c
-index 216d49c9d47e..5349b7f4a2bc 100644
---- a/drivers/video/fbdev/udlfb.c
-+++ b/drivers/video/fbdev/udlfb.c
-@@ -1029,7 +1029,7 @@ static void dlfb_ops_destroy(struct fb_info *info)
- /*
-  * Assumes caller is holding info->lock mutex (for open and release at least)
-  */
--static int dlfb_ops_release(struct fb_info *info, int user)
-+static void dlfb_ops_release(struct fb_info *info, int user)
- {
- 	struct dlfb_data *dlfb = info->par;
- 
-@@ -1042,8 +1042,6 @@ static int dlfb_ops_release(struct fb_info *info, int user)
- 	}
- 
- 	dev_dbg(info->dev, "release, user=%d count=%d\n", user, dlfb->fb_count);
--
--	return 0;
- }
- 
- /*
-diff --git a/drivers/video/fbdev/uvesafb.c b/drivers/video/fbdev/uvesafb.c
-index 00d789b6c0fa..a2d30c45b36a 100644
---- a/drivers/video/fbdev/uvesafb.c
-+++ b/drivers/video/fbdev/uvesafb.c
-@@ -1182,14 +1182,14 @@ static int uvesafb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int uvesafb_release(struct fb_info *info, int user)
-+static void uvesafb_release(struct fb_info *info, int user)
- {
- 	struct uvesafb_ktask *task = NULL;
- 	struct uvesafb_par *par = info->par;
- 	int cnt = atomic_read(&par->ref_count);
- 
--	if (!cnt)
--		return -EINVAL;
-+	if (WARN_ON(!cnt))
-+		return;
- 
- 	if (cnt != 1)
- 		goto out;
-@@ -1210,7 +1210,6 @@ static int uvesafb_release(struct fb_info *info, int user)
- out:
- 	atomic_dec(&par->ref_count);
- 	uvesafb_free(task);
--	return 0;
- }
- 
- static int uvesafb_set_par(struct fb_info *info)
-diff --git a/drivers/video/fbdev/vermilion/vermilion.c b/drivers/video/fbdev/vermilion/vermilion.c
-index 1465fb7b619e..b6e7b2b2fe85 100644
---- a/drivers/video/fbdev/vermilion/vermilion.c
-+++ b/drivers/video/fbdev/vermilion/vermilion.c
-@@ -554,13 +554,11 @@ static int vmlfb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int vmlfb_release(struct fb_info *info, int user)
-+static void vmlfb_release(struct fb_info *info, int user)
- {
- 	/*
- 	 * Restore registers here.
- 	 */
--
--	return 0;
- }
- 
- static int vml_nearest_clock(int clock)
-diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb.c
-index af47f8217095..b1810690112e 100644
---- a/drivers/video/fbdev/vga16fb.c
-+++ b/drivers/video/fbdev/vga16fb.c
-@@ -311,18 +311,16 @@ static int vga16fb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int vga16fb_release(struct fb_info *info, int user)
-+static void vga16fb_release(struct fb_info *info, int user)
- {
- 	struct vga16fb_par *par = info->par;
- 
--	if (!par->ref_count)
--		return -EINVAL;
-+	if (WARN_ON(!par->ref_count))
-+		return;
- 
- 	if (par->ref_count == 1)
- 		restore_vga(&par->state);
- 	par->ref_count--;
--
--	return 0;
- }
- 
- static int vga16fb_check_var(struct fb_var_screeninfo *var,
-diff --git a/drivers/video/fbdev/via/viafbdev.c b/drivers/video/fbdev/via/viafbdev.c
-index 2d67c92c5774..d376cc717b62 100644
---- a/drivers/video/fbdev/via/viafbdev.c
-+++ b/drivers/video/fbdev/via/viafbdev.c
-@@ -165,10 +165,9 @@ static int viafb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int viafb_release(struct fb_info *info, int user)
-+static void viafb_release(struct fb_info *info, int user)
- {
- 	DEBUG_MSG(KERN_INFO "viafb_release!\n");
--	return 0;
- }
- 
- static inline int get_var_refresh(struct fb_var_screeninfo *var)
-diff --git a/drivers/video/fbdev/vt8623fb.c b/drivers/video/fbdev/vt8623fb.c
-index 034333ee6e45..f1e54baf0414 100644
---- a/drivers/video/fbdev/vt8623fb.c
-+++ b/drivers/video/fbdev/vt8623fb.c
-@@ -299,14 +299,14 @@ static int vt8623fb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int vt8623fb_release(struct fb_info *info, int user)
-+static void vt8623fb_release(struct fb_info *info, int user)
- {
- 	struct vt8623fb_info *par = info->par;
- 
- 	mutex_lock(&(par->open_lock));
--	if (par->ref_count == 0) {
-+	if (WARN_ON(par->ref_count == 0)) {
- 		mutex_unlock(&(par->open_lock));
--		return -EINVAL;
-+		return;
- 	}
- 
- 	if (par->ref_count == 1)
-@@ -314,8 +314,6 @@ static int vt8623fb_release(struct fb_info *info, int user)
- 
- 	par->ref_count--;
- 	mutex_unlock(&(par->open_lock));
--
--	return 0;
- }
- 
- static int vt8623fb_check_var(struct fb_var_screeninfo *var, struct fb_info *info)
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 96b96323e9cb..eb687a46760b 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -238,7 +238,7 @@ struct fb_ops {
- 	/* open/release and usage marking */
- 	struct module *owner;
- 	int (*fb_open)(struct fb_info *info, int user);
--	int (*fb_release)(struct fb_info *info, int user);
-+	void (*fb_release)(struct fb_info *info, int user);
- 
- 	/* For framebuffers with strange non linear layouts or that do not
- 	 * work with normal memory mapped access
--- 
-2.38.1
+Alex
 
+>
+> Jeremi
+>
+> > +
+> > +     return buf;
+> > +}
+> > +EXPORT_SYMBOL(psp_tee_alloc_buffer);
+> > +
+>
