@@ -2,40 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F67664F0B6
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 19:06:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6A1264F0B7
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 19:07:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5694010E614;
-	Fri, 16 Dec 2022 18:06:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 256B710E612;
+	Fri, 16 Dec 2022 18:07:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [85.220.165.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 247C010E614
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 18:06:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59AA910E612
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 18:07:00 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1p6F68-00051g-Uf; Fri, 16 Dec 2022 19:06:16 +0100
+ id 1p6F6o-000576-IK; Fri, 16 Dec 2022 19:06:58 +0100
 Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1p6F67-004yPx-A8; Fri, 16 Dec 2022 19:06:16 +0100
+ id 1p6F6n-004yQg-1R; Fri, 16 Dec 2022 19:06:57 +0100
 Received: from pza by lupine with local (Exim 4.94.2)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1p6F67-000DBm-2o; Fri, 16 Dec 2022 19:06:15 +0100
-Message-ID: <bf1e9ada62efedcf3be57cbd57a9260d35b83fc0.camel@pengutronix.de>
-Subject: Re: [PATCH v3 0/2] drm/imx/lcdc: Implement DRM driver for imx21
+ id 1p6F6m-000DEC-V2; Fri, 16 Dec 2022 19:06:56 +0100
+Message-ID: <01d04228b491ea4c982de1f036a1343432eb4bcc.camel@pengutronix.de>
+Subject: Re: [PATCH] drm/imx: move IPUv3 driver into separate subdirectory
 From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob
- Herring <robh+dt@kernel.org>,  Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>
-Date: Fri, 16 Dec 2022 19:06:14 +0100
-In-Reply-To: <20221216175006.456831-1-u.kleine-koenig@pengutronix.de>
-References: <20221216175006.456831-1-u.kleine-koenig@pengutronix.de>
+To: Lucas Stach <l.stach@pengutronix.de>
+Date: Fri, 16 Dec 2022 19:06:56 +0100
+In-Reply-To: <20221125112519.3849636-1-l.stach@pengutronix.de>
+References: <20221125112519.3849636-1-l.stach@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.38.3-1 
@@ -57,47 +53,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, patchwork-lst@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fr, 2022-12-16 at 18:50 +0100, Uwe Kleine-K=C3=B6nig wrote:
-> Hello,
+On Fr, 2022-11-25 at 12:25 +0100, Lucas Stach wrote:
+> The IPUv3 and DCSS driver are two totally separate DRM drivers. Having
+> one of them live in the drivers/gpu/drm/imx toplevel directory and the
+> other one in the dcss/ subdirectory is confusing. Move the IPUv3 driver
+> into its own subdirectory to make the separation more clear.
 >=20
-> Changes since v2:
->=20
-> =C2=A0- added allOf as Krzysztof requested
-> =C2=A0- reworked driver based on Philipp's comments
-> =C2=A0=C2=A0=C2=A0(improved error handling, different selects, moved driv=
-er to a subdirectory,
-> =C2=A0=C2=A0=C2=A0header sorting, drm_err instead of DRM_ERROR, inlined
-> =C2=A0=C2=A0=C2=A0imx_lcdc_check_mode_change, make use of dev_err_probe()=
-)
-> =C2=A0
->=20
->=20
->=20
-> Krzysztof also pointed out that we're now having two compatibles for a
-> single hardware. Admittedly this is unusual, but this is the chance that
-> the (bad) compatible identifier imx21-fb gets deprecated. The hardware
-> is called LCDC and only the linux (framebuffer) driver is called imxfb.
->=20
-> The two prerequisite commits on top of v6.1 are:
->=20
-> =C2=A0- 93266da2409b ("dt-bindings: display: Convert fsl,imx-fb.txt to
-> =C2=A0=C2=A0=C2=A0dt-schema") which is currently in next via branch 'for-=
-next' of
-> =C2=A0=C2=A0=C2=A0git://git.kernel.org/pub/scm/linux/kernel/git/robh/linu=
-x.git .
->=20
-> =C2=A0- "drm/imx: move IPUv3 driver into separate subdirectory"
-> =C2=A0=C2=A0=C2=A0from https://lore.kernel.org/r/20221125112519.3849636-1=
--l.stach@pengutronix.de
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
-This is on drm-misc-next now, so patch 2 applies there.
+Applied to drm-misc-next.
 
 regards
 Philipp
