@@ -2,77 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E634364F193
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 20:12:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA4164F1CF
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 20:30:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A46CD10E623;
-	Fri, 16 Dec 2022 19:12:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA4F410E629;
+	Fri, 16 Dec 2022 19:30:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA9F310E61E;
- Fri, 16 Dec 2022 19:11:59 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BGIf34x022140; Fri, 16 Dec 2022 19:11:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=WkAJ2SZyaHUbH9fFpqfbaYKvKWX5dlJ6xd3Kje9WbaM=;
- b=cn4xTzKY9HKBUOJreHFNRIYFk9CBOJlhogy7BvsvEBI/L43abCqaqraMAyZ6kwNgKVpO
- rIV7Yt6DzsGJ/riG3SNgFhUEa/bbaxC2e4pq/7uQZi1xzZgZoq1WIHmH2Ex7jumc+yg2
- vvnzP5OW595ujL/wa8DS0A2xrmh50VMEL8MlgmZDwfHz0NwPd/MBvSp9ITo8sdSaJ3cZ
- XRs9c3NozjdNQzeRW38SArTQwiKeN76s3NtNyEXv0YLDNP7864vjepssc3vnXFd62Ub0
- YFRWfl24g4kIgw+5M6XOHSBu94cSRUhtw2nFbLzRy9Dj2K73AIzTcLLZAH1QbZFYZs+0 /w== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mgvecrg4c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Dec 2022 19:11:55 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BGJBsb8015345
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Dec 2022 19:11:54 GMT
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Fri, 16 Dec 2022 11:11:53 -0800
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <agross@kernel.org>,
- <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>,
- <konrad.dybcio@somainline.org>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <devicetree@vger.kernel.org>,
- <airlied@gmail.com>
-Subject: [PATCH v14 5/5] drm/msm/dp: add support of max dp link rate
-Date: Fri, 16 Dec 2022 11:11:33 -0800
-Message-ID: <1671217893-17496-6-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1671217893-17496-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1671217893-17496-1-git-send-email-quic_khsieh@quicinc.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDBEB10E628
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 19:30:08 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 97BF21F37C;
+ Fri, 16 Dec 2022 19:30:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1671219007; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=oY9qiKpbYpZVFGJsPYuk+whdHR3d+Jocoa9Z3bNK0O0=;
+ b=d13MX770sjkb+IyKPiFCKee77ZppfuBkdKzFJCnT88lxVy5EGRLVEopvK+ZOdTeKzyjaxg
+ EOZWi+N8IUbVVP67B+ZgVMzOuCT3CAfUTe/tVaoN+h34Pc129dfWkEIlVrunnygFggV/Vc
+ /96S5OkhS7d/MUlT946yXoTgxqanVEg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1671219007;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=oY9qiKpbYpZVFGJsPYuk+whdHR3d+Jocoa9Z3bNK0O0=;
+ b=Eg5xe6oMsWdF8tHqNOnfOPnbvIISRYLozxjtF8tJykh1KinkGlPUdOktxDB45ZJlAKiAzk
+ cSnmetOqnWUrUgAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6D252138FD;
+ Fri, 16 Dec 2022 19:30:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id rESsGT/HnGMucgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 16 Dec 2022 19:30:07 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com, airlied@redhat.com, daniel@ffwll.ch, airlied@gmail.com
+Subject: [PATCH] drm/ast: Init iosys_map pointer as I/O memory for damage
+ handling
+Date: Fri, 16 Dec 2022 20:30:05 +0100
+Message-Id: <20221216193005.30280-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: sIj2v0YsZBds6uhiR7q130ZOV_P19VfK
-X-Proofpoint-ORIG-GUID: sIj2v0YsZBds6uhiR7q130ZOV_P19VfK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-16_12,2022-12-15_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0
- lowpriorityscore=0 phishscore=0 mlxlogscore=999 priorityscore=1501
- bulkscore=0 suspectscore=0 malwarescore=0 mlxscore=0 clxscore=1015
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212160168
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,91 +62,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, freedreno@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-By default, HBR2 (5.4G) is the max link link be supported. This patch uses the
-actual limit specified by DT and removes the artificial limitation to 5.4 Gbps.
-Supporting HBR3 is a consequence of that.
+Ast hardware scans out the primary plane from video memory, which
+is in I/O-memory space. Hence init the damage handler's iosys_map
+pointer as I/O memory.
 
-Changes in v2:
--- add max link rate from dtsi
+Not all platforms support accessing I/O memory as system memory,
+although it's usually not a problem in ast's x86-based systems.
 
-Changes in v3:
--- parser max_data_lanes and max_dp_link_rate from dp_out endpoint
+The error report is at [1].
 
-Changes in v4:
--- delete unnecessary pr_err
-
-Changes in v5:
--- split parser function into different patch
-
-Changes in v9:
--- revised commit test
-
-Changes in v13:
--- repalced "properity" with "property"
-
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: f2fa5a99ca81 ("drm/ast: Convert ast to SHMEM")
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
+Link: https://lore.kernel.org/lkml/202212170111.eInM0unS-lkp@intel.com/T/#u # 1
 ---
- drivers/gpu/drm/msm/dp/dp_display.c | 4 ++++
- drivers/gpu/drm/msm/dp/dp_panel.c   | 7 ++++---
- drivers/gpu/drm/msm/dp/dp_panel.h   | 1 +
- 3 files changed, 9 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/ast/ast_mode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index bfd0aef..edee550 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -390,6 +390,10 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
- 	struct edid *edid;
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index c7443317c747..e82e9a8d85e5 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -636,7 +636,7 @@ static void ast_handle_damage(struct ast_plane *ast_plane, struct iosys_map *src
+ 			      struct drm_framebuffer *fb,
+ 			      const struct drm_rect *clip)
+ {
+-	struct iosys_map dst = IOSYS_MAP_INIT_VADDR(ast_plane->vaddr);
++	struct iosys_map dst = IOSYS_MAP_INIT_VADDR_IOMEM(ast_plane->vaddr);
  
- 	dp->panel->max_dp_lanes = dp->parser->max_dp_lanes;
-+	dp->panel->max_dp_link_rate = dp->parser->max_dp_link_rate;
-+
-+	drm_dbg_dp(dp->drm_dev, "max_lanes=%d max_link_rate=%d\n",
-+		dp->panel->max_dp_lanes, dp->panel->max_dp_link_rate);
- 
- 	rc = dp_panel_read_sink_caps(dp->panel, dp->dp_display.connector);
- 	if (rc)
-diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-index 5149ceb..1800d89 100644
---- a/drivers/gpu/drm/msm/dp/dp_panel.c
-+++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-@@ -75,12 +75,13 @@ static int dp_panel_read_dpcd(struct dp_panel *dp_panel)
- 	link_info->rate = drm_dp_bw_code_to_link_rate(dpcd[DP_MAX_LINK_RATE]);
- 	link_info->num_lanes = dpcd[DP_MAX_LANE_COUNT] & DP_MAX_LANE_COUNT_MASK;
- 
-+	/* Limit data lanes from data-lanes of endpoint property of dtsi */
- 	if (link_info->num_lanes > dp_panel->max_dp_lanes)
- 		link_info->num_lanes = dp_panel->max_dp_lanes;
- 
--	/* Limit support upto HBR2 until HBR3 support is added */
--	if (link_info->rate >= (drm_dp_bw_code_to_link_rate(DP_LINK_BW_5_4)))
--		link_info->rate = drm_dp_bw_code_to_link_rate(DP_LINK_BW_5_4);
-+	/* Limit link rate from link-frequencies of endpoint property of dtsi */
-+	if (link_info->rate > dp_panel->max_dp_link_rate)
-+		link_info->rate = dp_panel->max_dp_link_rate;
- 
- 	drm_dbg_dp(panel->drm_dev, "version: %d.%d\n", major, minor);
- 	drm_dbg_dp(panel->drm_dev, "link_rate=%d\n", link_info->rate);
-diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
-index d861197a..f04d021 100644
---- a/drivers/gpu/drm/msm/dp/dp_panel.h
-+++ b/drivers/gpu/drm/msm/dp/dp_panel.h
-@@ -50,6 +50,7 @@ struct dp_panel {
- 
- 	u32 vic;
- 	u32 max_dp_lanes;
-+	u32 max_dp_link_rate;
- 
- 	u32 max_bw_code;
- };
+ 	iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, clip));
+ 	drm_fb_memcpy(&dst, fb->pitches, src, fb, clip);
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.38.1
 
