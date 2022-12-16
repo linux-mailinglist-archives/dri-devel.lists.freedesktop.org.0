@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639C964EE92
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 17:08:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACFC064EE80
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Dec 2022 17:06:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D850B10E5F1;
-	Fri, 16 Dec 2022 16:08:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B208710E601;
+	Fri, 16 Dec 2022 16:05:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A53F10E5F0;
- Fri, 16 Dec 2022 16:08:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671206894; x=1702742894;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=mcL7lYWznAGu3TkJL4LtipX04RRM6z4FmRrXF4FjyaM=;
- b=Z8BC9DsMW30B5n8/oS0AueN6QuMtH2k9YWAxMztWmDkDyfiJd+K7BpsX
- Xi5QUEMilw2P/ZU1ZS2oon0bVbJrsPYWBF1L4LwjBnAEU5Daou2g/vE67
- uEhYKSPrkP2a92X48S5FXOHMxGjRrS5MKFWXZ68xFgfTxyVLsUohPzd00
- 1tNHvOIN66e2ogTuyfuxOMi+PyINKkqJ2Vfs6JgXqLwDeafgKbevX0ilB
- X7wx6YJahmiqTF2zu2rcnT6ow8qeNmgwM3h4cs8YvwI9Dk+Ll8SjZk9FR
- w2ZV1iTZza9yMZPOlHkSITbg+A4c+26//H4L/KXABvxsyZQcD3VtPcEoI g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="299330785"
-X-IronPort-AV: E=Sophos;i="5.96,249,1665471600"; d="scan'208";a="299330785"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2022 08:01:30 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="682337419"
-X-IronPort-AV: E=Sophos;i="5.96,249,1665471600"; d="scan'208";a="682337419"
-Received: from fbielich-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.252.62.38])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2022 08:01:27 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 12/12] drm/i915/panel: move panel fixed EDID to struct
- intel_panel
-Date: Fri, 16 Dec 2022 18:00:26 +0200
-Message-Id: <f561ba662e841f6ddd20fcc8476bab7379cb9bb9.1671206131.git.jani.nikula@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1671206131.git.jani.nikula@intel.com>
-References: <cover.1671206131.git.jani.nikula@intel.com>
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com
+ [209.85.160.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BCF510E5E8
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 16:05:33 +0000 (UTC)
+Received: by mail-oa1-f49.google.com with SMTP id
+ 586e51a60fabf-12c8312131fso3807857fac.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 08:05:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eOSCsqaoeoIju0eLDf3WqxL6Do53Bv9D82WTM/iySek=;
+ b=8OfrdKYvqRyRvyzVOOO6IK0WId3r6efSugBho+D+vLVcDpq8O/DFik4/++ktM7XkEX
+ hmmfAZ/GkScFjcObaogEXsLcby2DqqFGMhG168pDczEK7M7A8eEWcELGlNQC7e9HUCon
+ y1cWbVcwkNj2sW3hU3pv1ofYowdx6dlm2TvOW1PeIFYhpDb6A3YilbEa/MPWBo993guB
+ jmAlBxReNNmzrSHnmxKyIrAyLr9cd1Z+nKNSKAeY39nb332V09Ta4NB/vD/zD/iVnldv
+ 5ue5UxB5UTUOlptd+NEs98Rjfo7xkNgRwny9baUbV8sHT1U7u3oPWi2Xa6KoO+sJ6k5A
+ dc1w==
+X-Gm-Message-State: ANoB5plybwUEPZ2UmJoZAXMTDP4TuEgVtwzyDkfqyC5qWoYqrnnZJLIq
+ tZHKW7zezPjIlWWnca4sdA==
+X-Google-Smtp-Source: AA0mqf6fQAQQ0eOGxAWHGt+fS4XPjjQEzyVhHbTXOdayWO2k0T+9QkpLSd0OFY+e0tZDdpj0DZznqg==
+X-Received: by 2002:a05:6870:f29b:b0:143:d9f7:8127 with SMTP id
+ u27-20020a056870f29b00b00143d9f78127mr16644708oap.42.1671206732605; 
+ Fri, 16 Dec 2022 08:05:32 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ z21-20020a056870e31500b00148316f78fesm1124816oad.2.2022.12.16.08.05.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Dec 2022 08:05:31 -0800 (PST)
+Received: (nullmailer pid 2826511 invoked by uid 1000);
+ Fri, 16 Dec 2022 16:05:30 -0000
+Date: Fri, 16 Dec 2022 10:05:30 -0600
+From: Rob Herring <robh@kernel.org>
+To: Chris Morgan <macroalpha82@gmail.com>
+Subject: Re: [PATCH V6 2/4] dt-bindings: display: panel: Add Samsung AMS495QA01
+Message-ID: <167120672298.2826350.15042409228492859514.robh@kernel.org>
+References: <20221215185211.1560736-1-macroalpha82@gmail.com>
+ <20221215185211.1560736-3-macroalpha82@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221215185211.1560736-3-macroalpha82@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,266 +64,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com
+Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
+ krzysztof.kozlowski+dt@linaro.org, tzimmermann@suse.de,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, thierry.reding@gmail.com, sam@ravnborg.org,
+ maccraft123mc@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's a bit confusing to have two cached EDIDs in struct intel_connector
-with slightly different purposes. Make the distinction a bit clearer by
-moving the EDID cached for eDP and LVDS panels at connector init time to
-struct intel_panel, and name it fixed_edid. That's what it is, a fixed
-EDID for the panels.
 
-Cc: Imre Deak <imre.deak@intel.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/i915/display/icl_dsi.c        |  2 +-
- .../gpu/drm/i915/display/intel_connector.c    |  3 ---
- .../drm/i915/display/intel_display_types.h    |  6 ++++--
- drivers/gpu/drm/i915/display/intel_dp.c       | 20 +++++++++----------
- drivers/gpu/drm/i915/display/intel_dvo.c      |  2 +-
- drivers/gpu/drm/i915/display/intel_lvds.c     | 11 +++++-----
- drivers/gpu/drm/i915/display/intel_panel.c    | 10 +++++++++-
- drivers/gpu/drm/i915/display/intel_panel.h    |  4 +++-
- drivers/gpu/drm/i915/display/intel_sdvo.c     |  2 +-
- drivers/gpu/drm/i915/display/vlv_dsi.c        |  2 +-
- 10 files changed, 35 insertions(+), 27 deletions(-)
+On Thu, 15 Dec 2022 12:52:09 -0600, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
+> 
+> Add documentation for Samsung AMS495QA01 panel (with Magnachip
+> D53E6EA8966 controller IC).
+> 
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+> ---
+>  .../display/panel/samsung,ams495qa01.yaml     | 57 +++++++++++++++++++
+>  1 file changed, 57 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,ams495qa01.yaml
+> 
 
-diff --git a/drivers/gpu/drm/i915/display/icl_dsi.c b/drivers/gpu/drm/i915/display/icl_dsi.c
-index ae14c794c4bc..d56d01f07bb7 100644
---- a/drivers/gpu/drm/i915/display/icl_dsi.c
-+++ b/drivers/gpu/drm/i915/display/icl_dsi.c
-@@ -2054,7 +2054,7 @@ void icl_dsi_init(struct drm_i915_private *dev_priv)
- 		goto err;
- 	}
- 
--	intel_panel_init(intel_connector);
-+	intel_panel_init(intel_connector, NULL);
- 
- 	intel_backlight_setup(intel_connector, INVALID_PIPE);
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_connector.c b/drivers/gpu/drm/i915/display/intel_connector.c
-index 4814d4e2f7f9..257afac34839 100644
---- a/drivers/gpu/drm/i915/display/intel_connector.c
-+++ b/drivers/gpu/drm/i915/display/intel_connector.c
-@@ -99,9 +99,6 @@ void intel_connector_destroy(struct drm_connector *connector)
- 
- 	intel_hdcp_cleanup(intel_connector);
- 
--	if (!IS_ERR_OR_NULL(intel_connector->edid))
--		drm_edid_free(intel_connector->edid);
--
- 	intel_panel_fini(intel_connector);
- 
- 	drm_connector_cleanup(connector);
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index 34dc850340b8..6feb232bb1c2 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -351,6 +351,9 @@ struct intel_vbt_panel_data {
- };
- 
- struct intel_panel {
-+	/* Fixed EDID for eDP and LVDS. May hold ERR_PTR for invalid EDID. */
-+	const struct drm_edid *fixed_edid;
-+
- 	struct list_head fixed_modes;
- 
- 	/* backlight */
-@@ -591,8 +594,7 @@ struct intel_connector {
- 	/* Panel info for eDP and LVDS */
- 	struct intel_panel panel;
- 
--	/* Cached EDID for eDP and LVDS. May hold ERR_PTR for invalid EDID. */
--	const struct drm_edid *edid;
-+	/* Cached EDID for detect. */
- 	const struct drm_edid *detect_edid;
- 
- 	/* Number of times hotplug detection was tried after an HPD interrupt */
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 67f2cb048ac1..3f4396b5f029 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -4480,18 +4480,19 @@ bool intel_digital_port_connected(struct intel_encoder *encoder)
- static const struct drm_edid *
- intel_dp_get_edid(struct intel_dp *intel_dp)
- {
--	struct intel_connector *intel_connector = intel_dp->attached_connector;
-+	struct intel_connector *connector = intel_dp->attached_connector;
-+	const struct drm_edid *fixed_edid = connector->panel.fixed_edid;
- 
--	/* use cached edid if we have one */
--	if (intel_connector->edid) {
-+	/* Use panel fixed edid if we have one */
-+	if (fixed_edid) {
- 		/* invalid edid */
--		if (IS_ERR(intel_connector->edid))
-+		if (IS_ERR(fixed_edid))
- 			return NULL;
- 
--		return drm_edid_dup(intel_connector->edid);
--	} else
--		return drm_edid_read_ddc(&intel_connector->base,
--					 &intel_dp->aux.ddc);
-+		return drm_edid_dup(fixed_edid);
-+	}
-+
-+	return drm_edid_read_ddc(&connector->base, &intel_dp->aux.ddc);
- }
- 
- static void
-@@ -5316,7 +5317,6 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
- 	} else {
- 		drm_edid = ERR_PTR(-ENOENT);
- 	}
--	intel_connector->edid = drm_edid;
- 
- 	intel_bios_init_panel_late(dev_priv, &intel_connector->panel, encoder->devdata,
- 				   IS_ERR(drm_edid) ? NULL : drm_edid);
-@@ -5343,7 +5343,7 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
- 		goto out_vdd_off;
- 	}
- 
--	intel_panel_init(intel_connector);
-+	intel_panel_init(intel_connector, drm_edid);
- 
- 	intel_edp_backlight_setup(intel_dp, intel_connector);
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_dvo.c b/drivers/gpu/drm/i915/display/intel_dvo.c
-index 4aeae0f3ac91..0be8105cb18a 100644
---- a/drivers/gpu/drm/i915/display/intel_dvo.c
-+++ b/drivers/gpu/drm/i915/display/intel_dvo.c
-@@ -554,6 +554,6 @@ void intel_dvo_init(struct drm_i915_private *i915)
- 		 */
- 		intel_panel_add_encoder_fixed_mode(connector, encoder);
- 
--		intel_panel_init(connector);
-+		intel_panel_init(connector, NULL);
- 	}
- }
-diff --git a/drivers/gpu/drm/i915/display/intel_lvds.c b/drivers/gpu/drm/i915/display/intel_lvds.c
-index 9f6910bba2e9..a1557d84ce0a 100644
---- a/drivers/gpu/drm/i915/display/intel_lvds.c
-+++ b/drivers/gpu/drm/i915/display/intel_lvds.c
-@@ -477,10 +477,11 @@ static int intel_lvds_compute_config(struct intel_encoder *intel_encoder,
- static int intel_lvds_get_modes(struct drm_connector *connector)
- {
- 	struct intel_connector *intel_connector = to_intel_connector(connector);
-+	const struct drm_edid *fixed_edid = intel_connector->panel.fixed_edid;
- 
--	/* use cached edid if we have one */
--	if (!IS_ERR_OR_NULL(intel_connector->edid)) {
--		drm_edid_connector_update(connector, intel_connector->edid);
-+	/* Use panel fixed edid if we have one */
-+	if (!IS_ERR_OR_NULL(fixed_edid)) {
-+		drm_edid_connector_update(connector, fixed_edid);
- 
- 		return drm_edid_connector_add_modes(connector);
- 	}
-@@ -974,8 +975,6 @@ void intel_lvds_init(struct drm_i915_private *dev_priv)
- 	} else {
- 		drm_edid = ERR_PTR(-ENOENT);
- 	}
--	intel_connector->edid = drm_edid;
--
- 	intel_bios_init_panel_late(dev_priv, &intel_connector->panel, NULL,
- 				   IS_ERR(drm_edid) ? NULL : drm_edid);
- 
-@@ -1000,7 +999,7 @@ void intel_lvds_init(struct drm_i915_private *dev_priv)
- 	if (!intel_panel_preferred_fixed_mode(intel_connector))
- 		goto failed;
- 
--	intel_panel_init(intel_connector);
-+	intel_panel_init(intel_connector, drm_edid);
- 
- 	intel_backlight_setup(intel_connector, INVALID_PIPE);
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_panel.c b/drivers/gpu/drm/i915/display/intel_panel.c
-index 3b1004b019a8..42aa04bac261 100644
---- a/drivers/gpu/drm/i915/display/intel_panel.c
-+++ b/drivers/gpu/drm/i915/display/intel_panel.c
-@@ -31,6 +31,8 @@
- #include <linux/kernel.h>
- #include <linux/pwm.h>
- 
-+#include <drm/drm_edid.h>
-+
- #include "i915_reg.h"
- #include "intel_backlight.h"
- #include "intel_connector.h"
-@@ -670,10 +672,13 @@ void intel_panel_init_alloc(struct intel_connector *connector)
- 	INIT_LIST_HEAD(&panel->fixed_modes);
- }
- 
--int intel_panel_init(struct intel_connector *connector)
-+int intel_panel_init(struct intel_connector *connector,
-+		     const struct drm_edid *fixed_edid)
- {
- 	struct intel_panel *panel = &connector->panel;
- 
-+	panel->fixed_edid = fixed_edid;
-+
- 	intel_backlight_init_funcs(panel);
- 
- 	if (!has_drrs_modes(connector))
-@@ -692,6 +697,9 @@ void intel_panel_fini(struct intel_connector *connector)
- 	struct intel_panel *panel = &connector->panel;
- 	struct drm_display_mode *fixed_mode, *next;
- 
-+	if (!IS_ERR_OR_NULL(panel->fixed_edid))
-+		drm_edid_free(panel->fixed_edid);
-+
- 	intel_backlight_destroy(panel);
- 
- 	intel_bios_fini_panel(panel);
-diff --git a/drivers/gpu/drm/i915/display/intel_panel.h b/drivers/gpu/drm/i915/display/intel_panel.h
-index 4b51e1c51da6..15a8c897b33f 100644
---- a/drivers/gpu/drm/i915/display/intel_panel.h
-+++ b/drivers/gpu/drm/i915/display/intel_panel.h
-@@ -13,13 +13,15 @@ enum drrs_type;
- struct drm_connector;
- struct drm_connector_state;
- struct drm_display_mode;
-+struct drm_edid;
- struct drm_i915_private;
- struct intel_connector;
- struct intel_crtc_state;
- struct intel_encoder;
- 
- void intel_panel_init_alloc(struct intel_connector *connector);
--int intel_panel_init(struct intel_connector *connector);
-+int intel_panel_init(struct intel_connector *connector,
-+		     const struct drm_edid *fixed_edid);
- void intel_panel_fini(struct intel_connector *connector);
- enum drm_connector_status
- intel_panel_detect(struct drm_connector *connector, bool force);
-diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
-index 21805c15d5eb..c58e5cfa8e88 100644
---- a/drivers/gpu/drm/i915/display/intel_sdvo.c
-+++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
-@@ -2903,7 +2903,7 @@ intel_sdvo_lvds_init(struct intel_sdvo *intel_sdvo, u16 type)
- 		mutex_unlock(&i915->drm.mode_config.mutex);
- 	}
- 
--	intel_panel_init(intel_connector);
-+	intel_panel_init(intel_connector, NULL);
- 
- 	if (!intel_panel_preferred_fixed_mode(intel_connector))
- 		goto err;
-diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
-index 662bdb656aa3..2289f6b1b4eb 100644
---- a/drivers/gpu/drm/i915/display/vlv_dsi.c
-+++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
-@@ -1983,7 +1983,7 @@ void vlv_dsi_init(struct drm_i915_private *dev_priv)
- 		goto err_cleanup_connector;
- 	}
- 
--	intel_panel_init(intel_connector);
-+	intel_panel_init(intel_connector, NULL);
- 
- 	intel_backlight_setup(intel_connector, INVALID_PIPE);
- 
--- 
-2.34.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
