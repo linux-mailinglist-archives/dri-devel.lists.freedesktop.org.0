@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3347B64F961
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Dec 2022 15:30:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D728C64F9D2
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Dec 2022 16:24:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 718B010E074;
-	Sat, 17 Dec 2022 14:30:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D97CD10E16B;
+	Sat, 17 Dec 2022 15:24:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C42F10E074
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Dec 2022 14:29:59 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id m18so12342314eji.5
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Dec 2022 06:29:59 -0800 (PST)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7FA510E0CA
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Dec 2022 15:23:56 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id tz12so12495214ejc.9
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Dec 2022 07:23:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:content-language:cc:to:subject:from
  :user-agent:mime-version:date:message-id:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lQhV9ZLQ0rBir+Rwlz04DWdfpa5Y//vPvGj9FwWeR4Q=;
- b=RDngtkpOhyHk/y1Hu6UNv5iw8G8/Jqyi3UgSqrTEr9haacPwug7dje55GhH8SxU5we
- 4gPsJ0jG82Ss8yJ9W9semLvAk7sZcLyphybc8l1XpyJK1mfRNAejQhJru+R2w5/2gSyE
- ftVc35yOle+l6zUguGi6O98fb0xLulVW07iSvUZ9gMvAnDcsZMJANjEbidI40y/LzSho
- VquW3aCMhqvS3Mm0/Ay0iJ6h/W2Y+RL7i7nIHJdpc4wPOFyMwZ1p1r/KZtpQZCWzNwDy
- vgJI1t1nsnBb5hahhnqQl4ZXPUIU6x0sHQCPo8PZEnbQayjBRrXj/KlYtYKfqbvi1Kj5
- VqUw==
+ bh=V5C933pTuq+Mf4mWhgt6H3RBoCaasPgQ7m231aVL8Ao=;
+ b=emffBAWs/M+CDQGo0gGvBU1U4ddTAi4afzvkLJhFkOOHmzYxQPiB5ovCUuBnyYDtzZ
+ pdYQOGjF+uwUE2QUGUJYmGpLvRLN6/WRxCSa5eF6qC2eDRMe8L1ErsFnuv7hg0hcC8Qa
+ 2YcXdw8wwa3YaRD6olsWVm9KIhuVsuXSp9T1IzRMfdB7RR5XqMEC0USF1eazHx2zd5nx
+ 9g64lvI+CSIiNmq54kb15RCEnEoIGcV81xk6MdDAEZaFeZzJbWZvIqWcdcTgicmwGqU6
+ r5L2ZTgvgqxao5COSLtCgNPGRS7i3tM3m4dPX+rwZLbM/cB2T9xPsiB7+Ofl6OzmA/qB
+ EA7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:content-language:cc:to:subject:from
  :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=lQhV9ZLQ0rBir+Rwlz04DWdfpa5Y//vPvGj9FwWeR4Q=;
- b=VDLz95Y0ohWPhyz5DmrRZfKBAtUd04jMPLB9tRcptERPJcRQy33TWb4CMgglFcz7x4
- jJza/523qBo6JAOe4qVbaR6pvQUcX0HKixp1hhsSNn/PWaNEfxnRTFsuRBg+ngDrhaxE
- SUh64v1ebpmAbLuXuiQ/L41W0sbkaRk9g5qJEo0tNyBLqGBUR8eJ4rrwmuX3w0lo9owY
- HOkGb+ehuY9bDQ+s8wVe37MU4kYEPa22DEpEiEoKNDEpC03Fc3+L8K9RDB6vqG+Is+tO
- eNa7ArseSb6BWmkonDW/GghowYggi51P3xOMiIvI0m6IBCBslzjIy570k0UBWnoVaLVd
- xq8g==
-X-Gm-Message-State: ANoB5pke86kkKFJLZPfwUBHg0yBngmHmmxsNhQ0RkFMa3iy6eIg0G7mI
- xMw6dL9I71G/yc8JXRKFWTM=
-X-Google-Smtp-Source: AA0mqf4Ew5SrfUly16kO8AwYm754mspeq8+vy5cdtvDEqqp7wWGzkpsHSApEJHYMoXIotEhLzf6dIQ==
-X-Received: by 2002:a17:906:34c5:b0:7ae:e886:8ccb with SMTP id
- h5-20020a17090634c500b007aee8868ccbmr44247934ejb.14.1671287397463; 
- Sat, 17 Dec 2022 06:29:57 -0800 (PST)
+ bh=V5C933pTuq+Mf4mWhgt6H3RBoCaasPgQ7m231aVL8Ao=;
+ b=7gIsnx2fPSlhEMCQMGZqsLBsHFSp5abqbV0AcNW12HWCaGvgmt24dFqB0JLYy8y/nt
+ KzjQ0JvhW0exasxvy7eo9TyUKLammdz/MwvaZHoKb9rbgfnT1o11efud/m+Oeh4BV5az
+ oAKfedJ6WuKwi4leCTeAvhz6iE9b/6mn5mfyE+lo0Da1Xmva+iGniWNB+3D/AItWYHL2
+ Pdc3mC4tyNcYvWocwrK16TzBhkJm3jUS9S4S59ZhgLg9FJVKNtmiriM9C1vPNfIIRHhH
+ HC1iqvaAG4qYMv12OLyvhAlJ/PHh+ZiIkjz+pojkNZvPZTJn7SpPaUjjaY9lx/3yZ0IL
+ gNXg==
+X-Gm-Message-State: ANoB5plzsT0EUdhDA1ERso1m4PDiHoQpoB0zx5QxbUNhBUkNgxm9Zx2i
+ OoJRIcKBb0sswGG1q51MBoo=
+X-Google-Smtp-Source: AA0mqf6sX3Bf+D4CLaAll86D+5GyiILFVYoUJSzDaBxsNuEV1cFrjEs4+L6K6BS5jLXQM5PL07Mo+Q==
+X-Received: by 2002:a17:906:9f1e:b0:7c0:7d35:e9db with SMTP id
+ fy30-20020a1709069f1e00b007c07d35e9dbmr43554654ejc.15.1671290635488; 
+ Sat, 17 Dec 2022 07:23:55 -0800 (PST)
 Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
  by smtp.gmail.com with ESMTPSA id
- ku17-20020a170907789100b008072c925e4csm410251ejc.21.2022.12.17.06.29.56
+ i4-20020a170906250400b0078d22b0bcf2sm2070732ejb.168.2022.12.17.07.23.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Dec 2022 06:29:57 -0800 (PST)
-Message-ID: <a2d22ba1-d9a2-03ec-3c02-e5c8e885fac5@gmail.com>
-Date: Sat, 17 Dec 2022 15:29:55 +0100
+ Sat, 17 Dec 2022 07:23:55 -0800 (PST)
+Message-ID: <dea33013-ae1b-a8b2-5287-68a52f5ce028@gmail.com>
+Date: Sat, 17 Dec 2022 16:23:53 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.0
 From: Johan Jonker <jbx6244@gmail.com>
-Subject: [PATCH v1] dt-bindings: display: rockchip: convert rockchip-lvds.txt
+Subject: [PATCH v2] dt-bindings: display: rockchip: convert rockchip-lvds.txt
  to YAML
 To: heiko@sntech.de
 Content-Language: en-US
@@ -88,9 +88,13 @@ Changed:
 
 Signed-off-by: Johan Jonker <jbx6244@gmail.com>
 ---
+
+Changed V2:
+  Fix title
+---
  .../display/rockchip/rockchip-lvds.txt        |  92 ----------
- .../display/rockchip/rockchip-lvds.yaml       | 159 ++++++++++++++++++
- 2 files changed, 159 insertions(+), 92 deletions(-)
+ .../display/rockchip/rockchip-lvds.yaml       | 157 ++++++++++++++++++
+ 2 files changed, 157 insertions(+), 92 deletions(-)
  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-lvds.txt
  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-lvds.yaml
 
@@ -194,19 +198,17 @@ index aaf8c44cf..000000000
 -	};
 diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-lvds.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-lvds.yaml
 new file mode 100644
-index 000000000..13e12f4b5
+index 000000000..f05901633
 --- /dev/null
 +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-lvds.yaml
-@@ -0,0 +1,159 @@
+@@ -0,0 +1,157 @@
 +# SPDX-License-Identifier: GPL-2.0
 +%YAML 1.2
 +---
 +$id: http://devicetree.org/schemas/display/rockchip/rockchip-lvds.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Rockchip SoC display controller (VOP)
-+
-+description: Rockchip low-voltage differential signal (LVDS) transmitter
++title: Rockchip low-voltage differential signal (LVDS) transmitter
 +
 +maintainers:
 +  - Sandy Huang <hjc@rock-chips.com>
