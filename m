@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6299A64F5A7
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Dec 2022 01:10:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77D8A64F5A2
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Dec 2022 01:10:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43F8110E647;
-	Sat, 17 Dec 2022 00:10:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F386D10E648;
+	Sat, 17 Dec 2022 00:10:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 431A410E647
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Dec 2022 00:10:03 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2C5B10E648
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Dec 2022 00:10:32 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 911DEB81E4F;
- Sat, 17 Dec 2022 00:10:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96200C433EF;
- Sat, 17 Dec 2022 00:09:58 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 6FC4CB81E50;
+ Sat, 17 Dec 2022 00:10:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79287C433D2;
+ Sat, 17 Dec 2022 00:10:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671235800;
- bh=vF23BYv+6T0tXv7MxbXYpcNuOcT2bfRsDDi4oBi3KiQ=;
+ s=k20201202; t=1671235829;
+ bh=mv8tgCOUMGgtx94A/3ywNez81omKJEm3PGs42DkrCxo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kMwcDSGaq0fzj21Mo0hBx7iKaBaP5TcKwWL/liJLLJn0Iq4MdGGJPZKkfiN/t68Px
- OEPDWIvd71B9TCKnmVCzLNKaBptpd9TopjZGB0MY8TG4Ay/2EjHqmQdyROrd09XJsr
- RpueJqmB7WkPajUaFWmRmARMqUKMhGXPbL+e/18Qx3oIr3u5poyVS6eeQlMBBMLR5e
- yOh2Ht76kN622QvCll3j9N7jnld2Oe9INQOXiX+Clo+fWHo/jTL6ZutMnfgCzJ1ova
- 7XK8IAyHOdmwHaJdilLNrkLWZIt28l1BX5TOyw90BjnrV0m2Y2M+uUp6YL3JMHsLF/
- VCaCXW/viwK0g==
+ b=dfQq5FjS5taah0ZNDWPi0cUQ25cV3PhQepoa22b7kh4Z325yNlaTCMZb9x5IcVjHy
+ k097TCRlP/rX7Sv2ApHnnxgLulYYNb3Ui9FHmiAFODTSa/F6k1o3kgSNi+RfcPDyb7
+ eafZNXxDWyTtUYJV0pUf5cGY0pcj11oeurfKo5wAA8RUtk8BP9gxsdY2YOqvnjEqK6
+ y5HBcwt/puSF8WZQw7lwkI46um/4Mfgj5Li2gYV/JdkcR6eIFgIFMEWzYJ0jIiXMc3
+ YecBKpTCHHO6PmWWh5IQVW09aJqvpgSnl5hzFXTO8zDKg355IaTIQGsQE8c8mmdl3W
+ SnsZlfWYrOa7A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 4/9] video: hyperv_fb: Avoid taking busy spinlock
+Subject: [PATCH AUTOSEL 6.0 4/8] video: hyperv_fb: Avoid taking busy spinlock
  on panic path
-Date: Fri, 16 Dec 2022 19:09:31 -0500
-Message-Id: <20221217000937.41115-4-sashal@kernel.org>
+Date: Fri, 16 Dec 2022 19:10:08 -0500
+Message-Id: <20221217001013.41239-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221217000937.41115-1-sashal@kernel.org>
-References: <20221217000937.41115-1-sashal@kernel.org>
+In-Reply-To: <20221217001013.41239-1-sashal@kernel.org>
+References: <20221217001013.41239-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -129,10 +130,10 @@ index 59a4aa86d1f3..c6692fd5ab15 100644
  int hv_ringbuffer_write(struct vmbus_channel *channel,
  			const struct kvec *kv_list, u32 kv_count,
 diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-index 072ce07ba9e0..4ff25dfc865d 100644
+index b58b445bb529..0839ba7d3a34 100644
 --- a/drivers/video/fbdev/hyperv_fb.c
 +++ b/drivers/video/fbdev/hyperv_fb.c
-@@ -780,12 +780,18 @@ static void hvfb_ondemand_refresh_throttle(struct hvfb_par *par,
+@@ -779,12 +779,18 @@ static void hvfb_ondemand_refresh_throttle(struct hvfb_par *par,
  static int hvfb_on_panic(struct notifier_block *nb,
  			 unsigned long e, void *p)
  {
