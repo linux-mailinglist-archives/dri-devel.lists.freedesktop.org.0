@@ -2,56 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E23C64F56D
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Dec 2022 00:59:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6299A64F5A7
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Dec 2022 01:10:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87B3810E644;
-	Fri, 16 Dec 2022 23:59:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43F8110E647;
+	Sat, 17 Dec 2022 00:10:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 517A210E644
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 23:59:27 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id n20so9833094ejh.0
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Dec 2022 15:59:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=oIKXv0RMSOh4Zj5JXJ0H7+d/0M4R06dAaYKh+BMHd2A=;
- b=juvIkT8vcatHsAuX5x/9pLyDEsPoOL7IqGfGxQxp6rjBVO4P/tlEBTqvfVLkkNKYGv
- 3CEaP8RDEXyHYSAi+1pUD1n+RTt0ogvvYz3AYEtllQKtJPlB3YwxLqHkaVku92HXBPr5
- OJAS83LHruNjFBDASNQkVdRo7uNHrmFOhWWLJNlSn1UFXP6HSHn6iAHH76LFkysVK2iS
- NqEeUicB6AO8M/MZpRezry/sYvEu8rsW+19+sJCRjDx102ABSOlasQ4qnabMXUYHoueq
- xJH2tHVUZOY6KIs+JzPQxEWWZOgSkkHx0iBuZh4lZwrOjsA1gkyUurc0zHAWZaE7dmr9
- hJWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=oIKXv0RMSOh4Zj5JXJ0H7+d/0M4R06dAaYKh+BMHd2A=;
- b=xwn6kr970ln+d1BpYimDb9kwGWhMdM1lojCDCbgQnl8KupBahTszPqTOLE0xTYC/wA
- hRSp/7jjOYQne4BV+Vnna7tIxErDhpvPskwxP+AzHoDops8yYbG/ZWxBhvRtbj2Gu4/8
- 95Cfeee4MgL188uHE77vygMCjAnDIvSEqdAdGaBqy21xHogoXh7UjnEf/RcguwHnfVO+
- B2/FgRtUtz9ph0o/UtaVUNnUluklOEoZIYBN0AwOdXH1XCEd6PwKbGe0W1SElaBDi8kS
- 3/7ce8nry8CjhItrJ1iFi0h6MEqLFijkyBRYAIdiIKCffGYtF0UHkLuIdlfv33FvMWmy
- NdBA==
-X-Gm-Message-State: ANoB5pmTjbFgG7UahEAln4AX8IaFd+Tq0u2aBDkak9XTurvoNY7ndEhY
- A2gBDPBGEwozUxEIkaBuwf2l3pwAhEwasVKyR4k=
-X-Google-Smtp-Source: AA0mqf6wIOamTnfqwHnHk7jBVTZApRrd3OSb9bKxdGI5zvUlM4wOFJiCeCifrb0GpusvxsjJ/sAFf4y8ghxYFJLgfUM=
-X-Received: by 2002:a17:906:840e:b0:7c0:d94c:7384 with SMTP id
- n14-20020a170906840e00b007c0d94c7384mr23051046ejx.109.1671235165720; Fri, 16
- Dec 2022 15:59:25 -0800 (PST)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 431A410E647
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Dec 2022 00:10:03 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 911DEB81E4F;
+ Sat, 17 Dec 2022 00:10:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96200C433EF;
+ Sat, 17 Dec 2022 00:09:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1671235800;
+ bh=vF23BYv+6T0tXv7MxbXYpcNuOcT2bfRsDDi4oBi3KiQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=kMwcDSGaq0fzj21Mo0hBx7iKaBaP5TcKwWL/liJLLJn0Iq4MdGGJPZKkfiN/t68Px
+ OEPDWIvd71B9TCKnmVCzLNKaBptpd9TopjZGB0MY8TG4Ay/2EjHqmQdyROrd09XJsr
+ RpueJqmB7WkPajUaFWmRmARMqUKMhGXPbL+e/18Qx3oIr3u5poyVS6eeQlMBBMLR5e
+ yOh2Ht76kN622QvCll3j9N7jnld2Oe9INQOXiX+Clo+fWHo/jTL6ZutMnfgCzJ1ova
+ 7XK8IAyHOdmwHaJdilLNrkLWZIt28l1BX5TOyw90BjnrV0m2Y2M+uUp6YL3JMHsLF/
+ VCaCXW/viwK0g==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 4/9] video: hyperv_fb: Avoid taking busy spinlock
+ on panic path
+Date: Fri, 16 Dec 2022 19:09:31 -0500
+Message-Id: <20221217000937.41115-4-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221217000937.41115-1-sashal@kernel.org>
+References: <20221217000937.41115-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20221216233355.542197-1-robdclark@gmail.com>
-In-Reply-To: <20221216233355.542197-1-robdclark@gmail.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Fri, 16 Dec 2022 15:59:14 -0800
-Message-ID: <CAPaKu7RP281inKJKNWWTnETCU+giwU2YajzwH6AUVeTDXQoWWg@mail.gmail.com>
-Subject: Re: [PATCH] drm/panfrost: Fix GEM handle creation UAF
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,90 +55,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: Andrea Parri <parri.andrea@gmail.com>, Sasha Levin <sashal@kernel.org>,
+ Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
+ Fabio A M Martins <fabiomirmar@gmail.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>,
+ linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Michael Kelley <mikelley@microsoft.com>,
+ "Guilherme G. Piccoli" <gpiccoli@igalia.com>, linux-fbdev@vger.kernel.org,
+ Tianyu Lan <Tianyu.Lan@microsoft.com>, "K. Y. Srinivasan" <kys@microsoft.com>,
+ deller@gmx.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 16, 2022 at 3:34 PM Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> Relying on an unreturned handle to hold a reference to an object we
-> dereference is not safe.  Userspace can guess the handle and race us
-> by closing the handle from another thread.  The _create_with_handle()
-> that returns an object ptr is pretty much a pattern to avoid.  And
-> ideally creating the handle would be done after any needed dererencing.
-> But in this case creation of the mapping is tied to the handle creation.
-> Fortunately the mapping is refcnt'd and holds a reference to the object,
-> so we can drop the handle's reference once we hold a mapping reference.
->
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c |  7 +++++++
->  drivers/gpu/drm/panfrost/panfrost_gem.c | 10 +++++++---
->  2 files changed, 14 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 2fa5afe21288..aa5848de647c 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -98,6 +98,13 @@ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
->                 return PTR_ERR(bo);
->
->         mapping = panfrost_gem_mapping_get(bo, priv);
-> +
-> +       /*
-> +        * Now that the mapping holds a reference to the bo until we no longer
-> +        * need it, we can safely drop the handle's reference.
-> +        */
-Not too familiar with panfrost, but I don't see
-panfrost_gem_mapping_get hold a reference to the bo?
+From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
 
-> +       drm_gem_object_put(&bo->base.base);
-> +
->         if (!mapping) {
->                 drm_gem_object_put(&bo->base.base);
->                 return -EINVAL;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> index 293e799e2fe8..e3e21c500d24 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -234,6 +234,10 @@ struct drm_gem_object *panfrost_gem_create_object(struct drm_device *dev, size_t
->         return &obj->base.base;
->  }
->
-> +/*
-> + * NOTE: if this succeeds, both the handle and the returned object have
-> + * an outstanding reference.
-> + */
-I might suggest dropping the "_with_handle" suffix.
+[ Upstream commit 1d044ca035dc22df0d3b39e56f2881071d9118bd ]
 
-The naming convention is used in several drivers.  I think we should
-make it the case that the _with_handle variants always return the
-handle without the pointer.  (And with the change, it immediately
-becomes clear that qxl and vmwgfx also have similar issues).
+The Hyper-V framebuffer code registers a panic notifier in order
+to try updating its fbdev if the kernel crashed. The notifier
+callback is straightforward, but it calls the vmbus_sendpacket()
+routine eventually, and such function takes a spinlock for the
+ring buffer operations.
 
->  struct panfrost_gem_object *
->  panfrost_gem_create_with_handle(struct drm_file *file_priv,
->                                 struct drm_device *dev, size_t size,
-> @@ -261,10 +265,10 @@ panfrost_gem_create_with_handle(struct drm_file *file_priv,
->          * and handle has the id what user can see.
->          */
->         ret = drm_gem_handle_create(file_priv, &shmem->base, handle);
-> -       /* drop reference from allocate - handle holds it now. */
-> -       drm_gem_object_put(&shmem->base);
-> -       if (ret)
-> +       if (ret) {
-> +               drm_gem_object_put(&shmem->base);
->                 return ERR_PTR(ret);
-> +       }
->
->         return bo;
->  }
-> --
-> 2.38.1
->
+Panic path runs in atomic context, with local interrupts and
+preemption disabled, and all secondary CPUs shutdown. That said,
+taking a spinlock might cause a lockup if a secondary CPU was
+disabled with such lock taken. Fix it here by checking if the
+ring buffer spinlock is busy on Hyper-V framebuffer panic notifier;
+if so, bail-out avoiding the potential lockup scenario.
+
+Cc: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+Cc: Dexuan Cui <decui@microsoft.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+Cc: Michael Kelley <mikelley@microsoft.com>
+Cc: Stephen Hemminger <sthemmin@microsoft.com>
+Cc: Tianyu Lan <Tianyu.Lan@microsoft.com>
+Cc: Wei Liu <wei.liu@kernel.org>
+Tested-by: Fabio A M Martins <fabiomirmar@gmail.com>
+Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+Link: https://lore.kernel.org/r/20220819221731.480795-10-gpiccoli@igalia.com
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/hv/ring_buffer.c        | 13 +++++++++++++
+ drivers/video/fbdev/hyperv_fb.c |  8 +++++++-
+ include/linux/hyperv.h          |  2 ++
+ 3 files changed, 22 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hv/ring_buffer.c b/drivers/hv/ring_buffer.c
+index 59a4aa86d1f3..c6692fd5ab15 100644
+--- a/drivers/hv/ring_buffer.c
++++ b/drivers/hv/ring_buffer.c
+@@ -280,6 +280,19 @@ void hv_ringbuffer_cleanup(struct hv_ring_buffer_info *ring_info)
+ 	ring_info->pkt_buffer_size = 0;
+ }
+ 
++/*
++ * Check if the ring buffer spinlock is available to take or not; used on
++ * atomic contexts, like panic path (see the Hyper-V framebuffer driver).
++ */
++
++bool hv_ringbuffer_spinlock_busy(struct vmbus_channel *channel)
++{
++	struct hv_ring_buffer_info *rinfo = &channel->outbound;
++
++	return spin_is_locked(&rinfo->ring_lock);
++}
++EXPORT_SYMBOL_GPL(hv_ringbuffer_spinlock_busy);
++
+ /* Write to the ring buffer. */
+ int hv_ringbuffer_write(struct vmbus_channel *channel,
+ 			const struct kvec *kv_list, u32 kv_count,
+diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
+index 072ce07ba9e0..4ff25dfc865d 100644
+--- a/drivers/video/fbdev/hyperv_fb.c
++++ b/drivers/video/fbdev/hyperv_fb.c
+@@ -780,12 +780,18 @@ static void hvfb_ondemand_refresh_throttle(struct hvfb_par *par,
+ static int hvfb_on_panic(struct notifier_block *nb,
+ 			 unsigned long e, void *p)
+ {
++	struct hv_device *hdev;
+ 	struct hvfb_par *par;
+ 	struct fb_info *info;
+ 
+ 	par = container_of(nb, struct hvfb_par, hvfb_panic_nb);
+-	par->synchronous_fb = true;
+ 	info = par->info;
++	hdev = device_to_hv_device(info->device);
++
++	if (hv_ringbuffer_spinlock_busy(hdev->channel))
++		return NOTIFY_DONE;
++
++	par->synchronous_fb = true;
+ 	if (par->need_docopy)
+ 		hvfb_docopy(par, 0, dio_fb_size);
+ 	synthvid_update(info, 0, 0, INT_MAX, INT_MAX);
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index 3b42264333ef..646f1da9f27e 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -1341,6 +1341,8 @@ struct hv_ring_buffer_debug_info {
+ int hv_ringbuffer_get_debuginfo(struct hv_ring_buffer_info *ring_info,
+ 				struct hv_ring_buffer_debug_info *debug_info);
+ 
++bool hv_ringbuffer_spinlock_busy(struct vmbus_channel *channel);
++
+ /* Vmbus interface */
+ #define vmbus_driver_register(driver)	\
+ 	__vmbus_driver_register(driver, THIS_MODULE, KBUILD_MODNAME)
+-- 
+2.35.1
+
