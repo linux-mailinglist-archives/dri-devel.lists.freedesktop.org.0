@@ -2,116 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C5E64F81D
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Dec 2022 08:41:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DCC164F841
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Dec 2022 09:30:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E498210E00D;
-	Sat, 17 Dec 2022 07:41:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 465BF10E0B4;
+	Sat, 17 Dec 2022 08:30:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com
- (mail-he1eur01on2054.outbound.protection.outlook.com [40.107.13.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1103110E00D
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Dec 2022 07:41:07 +0000 (UTC)
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur02on2088.outbound.protection.outlook.com [40.107.241.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B22EE10E0B4
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Dec 2022 08:30:07 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XE6X3UHwF9THpy9ogJx0CikDUaTdKEIr3nP1ux3N6onPXiOg4wwjZ5HUplA3lFSuLM/cuRBLGZuv56YIeTDqs1T+FYUzFA3quXEzTLpwTAmGhaaGfdyOIv//Tsa0BDYUCOJaFL21m0c6C+pe6RaFxMeDoLvHjkQCRpQvfm4YioZ64RVVYOaL/DAU4Bsh7+sD7pl1lHx0UfHz86ED8BpHq/cuw0PtUTxo/XQ//+trAuA1E23iIK2yaiLaEwheRCnHUAnjAZsu0ensPdFeouEwnwHNAvw92uG+nhIlOTaFzdE6WTQtZ8KXZGA0jR8rkijzgk3FZKypws1avqfbGBbUcA==
+ b=Bd7PlkRIrLkcdb0wi8aPw5mGjKCREztKqgDf7YicE8COeQ30D5aYoP7BBkwDtWNomLdCZk3RTTWSyYCbad+z59pN1dg8Zj+AObzK2GWmNL+AJHXRERtfdy3pyEaIFwm60H/T8BBVN04hGgXCHpqJH5KnD8VGv27x1PIpFarhg5pAyAUNOB16Xh8dpx45PGZHJ+ZsaNw736C1un7PR9lTrsKecrWaM88kG0NmurAOcyFQpByR4pvc393OC4RA1pGc4+B1+cBritFQ2Pwr6rzlI8+W6GPko+1Q0i8KGIkB1KFc6xruxrg+9W/OJxucEUhX3Jkk56PIe7dPe1t6OK+p7A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yNYDX9Q6lJ4RIe3aNtWzXPeEUgi6i8WJsdQLYkB8yfM=;
- b=jjEEsps6hdENhjRDQb17eDwvUZieFfmYDBrrN3kJagZROP+/6tfLTf3yKCYrfuzfaqY83EowWauT3uUXCGyh7vVN6f1LHnEo5B1YI4cBOAMMm1CRi+U86ucYUhwRc3eFJTb6ZcreSl44rfXFDX8RkuP8E9s7haa1yi/vFT7DALzypRUK04Ag/j91fG3qCPJgSote9OIPLjOnQ3PgTz2L9niNwfmUTMm3iF5xyP7W92RaCL4Nkjygcea5Cb3D73/ydt4HW7IEj4bFYThigonN/wDPBBHYVciHps2P5I1dxJ1K1dDB0YMl0+gQTlsHZPq2elmDbeQ//IUtDjLFCYmsOw==
+ bh=sd8sy3hMo3wy+o41tkaRE2ZczvGH9G6vjYuRX/zH+zM=;
+ b=E/7GIQ3eYJxXXRjFrdsaX2H796pXPSm8zhXoh/WthnnETrGxTOdtfnuihxjUPl94KfV4tVRhP3n4j8RnqUGR3EFimH57wpJsZUtsxxIx57uZGS5p1obXcW7BsOZxt/ogleiyZko4u6JsOFynVHFE92vZyJGzXLoELnE80zTSNKYxJ6ODHXpniLWpNhHqIKZsD5swzbk9ulnAaBaGgv8FKyidgjViZ5RMUeXf4c9HuG6C7ePXK4ucQrYGIu8KmA/dQDUCxL42aeol7sth3LLTDWXxSDfRzZ6hgh8iD0CSMeYguV+KlRIoUZVdUl0zXhNvI/hNgT5yhre/SCM8DBtGpg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yNYDX9Q6lJ4RIe3aNtWzXPeEUgi6i8WJsdQLYkB8yfM=;
- b=gsnZrcJmvxzRx3p+6X8mqclGvUzEf0cLjt5y5GrqqIps12Ajys9M9Adb2N1Vf0ALdJNEWHxZ+kKzmzJVz4uZHiQw751ca2HFVg9BB8rNbifGiexsxsH/j1Fk54f5Cw6IgSJaZVzR1Ovtm1ba3Z+G9HD9wQB1ZWx39CvEhDSYoCs=
+ bh=sd8sy3hMo3wy+o41tkaRE2ZczvGH9G6vjYuRX/zH+zM=;
+ b=YILvhKhq4I/1gxdYPLvDhBuKkeqwKFDLddIX9kEr0NNoGRoYld3sEUE5pPtbPaPUU0NjeuzRjdblk3JpMSGHqw0Mq9JQNrO8vODJWk7ztH2BVzMuahXTtf2YbFeL206Ty05rM758oXyUohOS0JYX0Db/VoJcJ+/VeYTAScM4YDQ=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by PA4PR04MB9485.eurprd04.prod.outlook.com (2603:10a6:102:27d::18)
+ by AM8PR04MB7889.eurprd04.prod.outlook.com (2603:10a6:20b:24c::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.11; Sat, 17 Dec
- 2022 07:41:03 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Sat, 17 Dec
+ 2022 08:30:03 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::ce5b:991d:5f5e:388]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::ce5b:991d:5f5e:388%7]) with mapi id 15.20.5924.016; Sat, 17 Dec 2022
- 07:41:02 +0000
-Message-ID: <d0c9ecebc466f8e08a697cb041064199ff09fb44.camel@nxp.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: display: imx: add binding for
- i.MX8MP HDMI TX
+ 08:30:03 +0000
+Message-ID: <eb199fc25e7cc6d76677225929cf3ad3ca9d410d.camel@nxp.com>
+Subject: Re: [PATCH v2 2/4] drm/bridge: imx: add bridge wrapper driver for
+ i.MX8MP DWC HDMI
 From: Liu Ying <victor.liu@nxp.com>
 To: Lucas Stach <l.stach@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Date: Sat, 17 Dec 2022 15:40:24 +0800
-In-Reply-To: <20221216210742.3233382-1-l.stach@pengutronix.de>
+Date: Sat, 17 Dec 2022 16:29:27 +0800
+In-Reply-To: <20221216210742.3233382-2-l.stach@pengutronix.de>
 References: <20221216210742.3233382-1-l.stach@pengutronix.de>
+ <20221216210742.3233382-2-l.stach@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR03CA0088.apcprd03.prod.outlook.com
- (2603:1096:4:7c::16) To AM7PR04MB7046.eurprd04.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SI2PR01CA0046.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:193::18) To AM7PR04MB7046.eurprd04.prod.outlook.com
  (2603:10a6:20b:113::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|PA4PR04MB9485:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8358093e-6016-4d8c-6410-08dae0020c06
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AM8PR04MB7889:EE_
+X-MS-Office365-Filtering-Correlation-Id: 632333e6-d9ac-4edb-715f-08dae008e4d7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LPy2VcqcPmSgyi5bFDl4NjR2R83gjksexsmyiw1nBMYkGIIT7KAVohKJbjB0mWtP6WFmnW258bXNH8msVL0B2lBeZsn2qhpTSCXXnMdVJY/iU3Z7v5NwPfEzGtwjZJT358GksBuJ/f2Y7yVhn3CQAqpuR3rcBzrQzhQR7N/DAIJjjKSu2q5Fjb1VHVIy1qZVXoDDs/gVRyw86GOau8bmRcG7Biw866OodKdZzilgsYXJPbPykzOxIA7npwAvG82H314NuK1S46Q0wFBIMiymZ3JrD71pclygQdr9gP+Jv5w9Jf1ts+VGk9UQkcmlGRR05w8L+if2zjfpYzDeGf0+mEke2tPanY96pdk2wzW8JGDfeDqzqIaH0OHbDxM0R1o9k/A1EFbXyoOh77QMkEsUbxLcwt+TbZ8p4Q9bVVx+ve+a5W5QBk8Ds4tfJ++rdy43EPoEmu3uGfexZ/R8BQTh24CekTmET14Y7JpTWfmsyzH6POFCGdemvPhph5pdC6AGtBBKMH2NMPn+t7RrTFU4c9DueOrdqFeh0fr/h/zzp4TfSTSpx4rsiK1tdHXDuJt7bFuWMSoFwaP5+jd/Gi3uhwwnCNR6FhWxy59zNaQlckUSQ4ylcZ8sT2UWUUv1dyk8zhIlU+XZpIcZnP9o0LCw7flJGOtZq1u710SqOCkSgXbEktibJ7znp8Z+iU5eP7mcjU+EZha42OWIJi2lUwc9I82J8l5LzLuSWxVT832mXMVWfxLg1/5M1NcQXecnbibUOxoBep4sYkINfpiyatbkC1wtPDsGeCjn9oJhr28ahTE=
+X-Microsoft-Antispam-Message-Info: iBj7NfpKFYRZaklB9eSCUwjsnEBgqo3w5/CY21sqUvz9G+52K8P5wtvAANwAF8nQUXbzGsGIY7KruZSxlIpzzRpCogqs3FINV3ZZy6MG9YekgE+0+0o+phE4s/Lt+OAjn9OYxmEB55hNrmu1NOzaA5dCrdmwvOR7bhxVHoVPVmwBCnal8gH7duJjtt5OSw+t4aTmR+1Rn9xPCUfrY4aJgix/i67qBAjekGolAJGPrypNSIDMPKstpnoPXI4HbSmYCioBmO9KOTWSF0zil28jSOkelRoXSyDCZl4SvZ/4FLL9Dtg0HRUg2BBerZb0c3Uu06H1ae5m+zJNHGzMyVde1L6xRa/7KnvVnoFmzeDcQ7sg/KvF9PY14zBqgNdy/ICR0fVlBIVeQS900gPh3caTI9m4EHJao3Tb2pD+PW+hrlbNdQ4At0TPxyZ8KSL09nfxvJq7FjAqmRqjCxWcaZvNBcTe62TbcnxdoqCb05F3fukq5xXxQas5DvOkc9T4Dyj5ptzgRGNE5pN9kEAeBubuYA7Oq9ukyEyR6PRrvV9nTxqYQkejj32wjyLebf5KESCgzHsuXLEQ1QIvrF973tO7gLiRi6iS5gQEnKH16OeUP/H9Isl3GRQuqDs6Bpgh1fbaXNxTT3/9qAiDw64e4YhPXDcQyAe6V/JJ2NM3/GUv+wGedpTtyuoRZfHAEWBD1ydgUvl5REPf1++wdGJY+WfpB2P1XuCJmuPmEP5CdYWL668=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(136003)(396003)(366004)(39860400002)(346002)(451199015)(36756003)(316002)(86362001)(54906003)(478600001)(38100700002)(52116002)(966005)(6486002)(7416002)(6666004)(4326008)(2906002)(66556008)(5660300002)(66476007)(66946007)(8936002)(41300700001)(8676002)(4001150100001)(38350700002)(6512007)(26005)(110136005)(186003)(6506007)(2616005)(83380400001)(99106002);
+ SFS:(13230022)(4636009)(136003)(366004)(376002)(396003)(346002)(39860400002)(451199015)(86362001)(36756003)(54906003)(478600001)(110136005)(316002)(6486002)(52116002)(7416002)(5660300002)(6666004)(8676002)(66476007)(2906002)(4001150100001)(4326008)(66556008)(66946007)(41300700001)(8936002)(6506007)(38350700002)(38100700002)(26005)(6512007)(186003)(83380400001)(2616005)(99106002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VXZDd0p6OXJrK09teE4wRHV1cWthTjVrR21KcTJKamFDWm03MjZibjJRNFRQ?=
- =?utf-8?B?aVZuSjY0RmtsZXdLN0RIOUFMdk50QkdnQ1BxODZOMUgxKzBVV3hUR1ErRk9K?=
- =?utf-8?B?MFUwTW1aS1pyenFUWG56VDIvb1BkeHVIUWo5UUYrOUIwa0RGNXA5N05yS3Y1?=
- =?utf-8?B?enF4T2t2TkhheTNSNENsM3VGenRZdytHckdBNXc1YTU2M3I1eUl6a2RWUFRp?=
- =?utf-8?B?alRjb2k1aUNzK2NqVUhJck5tQUdpMHRvZ0cyNENqcDhNNVNTR1psSThuWHRa?=
- =?utf-8?B?R3EyVldYb0tKZFJBWUZ2TXBOcmUzeHVTZEtaQ05ZM2x4TEFvdzZOS08rbTZy?=
- =?utf-8?B?NDE4ZlJRb0w3Q1kxdm9LSFJLcVk5UWlWeDhnRys0ekV6SVBSWjZqTlpWYTZM?=
- =?utf-8?B?RE5XVUs5V1Axa0V3Qk1vb1g4Vm9YQkJjdnRmWTN0OEJVRXU1cTFnM1NERjNT?=
- =?utf-8?B?eGtHeWFpL2dZK0tzVFJDMzdTMndrZjA2L0gwRitTeUIvWW5WU2hoZzZKQ3Nq?=
- =?utf-8?B?dzE2aGdjaDE0R0dsWHgyRDhhKzJFNGVHaUFXdnlaT3dxd01qdFJpaFdQaytJ?=
- =?utf-8?B?WkZSZHIyS3h5Y01TL3Q3bnJEOXhzME43SGhib3VOQWIwcmh0ZzRWVzBHRExi?=
- =?utf-8?B?M2xENUtGbnFVSkZnd0FtUDkxOWQ3VldyWjdXanozWnpwUEYvak9wYlA2NTBG?=
- =?utf-8?B?RmlmeG5GNlY3c0hEVGF2ZkYyVm9lbUdsQ1hVby9CelllSWpXV2wxK0lkZkIr?=
- =?utf-8?B?ZVlwVmRDZ2dTVjBGOVhKYjM0alZvYnhVZXV1QWtHSGp1T0xtR1RZMWhmdjcv?=
- =?utf-8?B?REV0WG5LM3RIZDZkMXpzODRuYVd4bm90Tmh2TEJUU3NoMFpWTy91MVhyQ0J5?=
- =?utf-8?B?U1JNVXRONEFiTjhSNkttUDdic2lqQ2VHdElYY2VJcS9LeENhSzNucXU3eHMx?=
- =?utf-8?B?MFpvdHloK2NwaXU2a3FuUlBpVUpiMWFrTllCTHY4UkNqc2lOZjRMMjNQN0ZN?=
- =?utf-8?B?Vi9xZStMeXNtY3pOTEFoMElpa1VjL2gxRk92L0hjZmNVa2U4bXY3K1hxZTRr?=
- =?utf-8?B?N3hBTHRweHptNDB2a3gyQmJ2bjVwZTRCQm5hL1pMMEdhK1k5Q1dML2ZrSEV1?=
- =?utf-8?B?b2R5QlV4TTBRYmxNWW5LVm9aVlVFRUUwK1ZPd2JPbG94RE5oemo0cFViZTQ3?=
- =?utf-8?B?Sm1IdG9icWY3TENtSmxyN0hKRGhZUkZHbE9wZHEzSFFlWnZVanI5ckZTYlJO?=
- =?utf-8?B?bXBEelZIWDFyd3BuUXprcVJIZG9iTlRqQVI1cUhEcjM0RFVXUUtvY0hlY2Y1?=
- =?utf-8?B?SmhJdm1yREU5VDRZczhWdzBTSHNnZFpPVVl1Zy9aalBsL1FkcitISVVvbDNH?=
- =?utf-8?B?ek1uOTFTSy9HQzVzTWZxUlRqSlpLVHpySnluSmVVL01QaWV5NUo1Nm1jeFZy?=
- =?utf-8?B?S2NYeE8rM1VqVkJPcGViN1UwNGQzeElFY3oxNjd1YkZhVnFpMys1N1JEdnFN?=
- =?utf-8?B?VU9pNTFSN0ltMU9JUlV1eFFrM282T3AxY0wzVEtoZnlMTldOYUNCdUtCMUdw?=
- =?utf-8?B?bWowMFRGalQvSVltS2VVZjNoQTFwZ3NucXpQckEwdHZPQkZLMWdML1p3cXVp?=
- =?utf-8?B?elpWRTgrWHh1N256bWEvdkZ2Q25tdStkWU1PbUg1SlB4bHhjSTZPU3k3M0R4?=
- =?utf-8?B?VEpEL3JMeVI5cXExOVVleFA3MzN0eGRrdlZwTUxHQ1FFQ09Qby9JUjhZNVdu?=
- =?utf-8?B?SC9rMFcyZ0Y4QlFDWWgraSs4ckdKZWFwa3NwMlIrbTh1ZW9GMWYzVERKd2hi?=
- =?utf-8?B?TkxRQUgvcVNicEVFNTkwT2xDc2J3RTBDblpENjZQUEV5dTNENkVHVmkrd1NO?=
- =?utf-8?B?UE8wTklpaW9hdTRSR1J3WmRoemVtMzFpWlRvT3kvMlBNVVZaVE9McXBvOSts?=
- =?utf-8?B?U3BtY1JZOGdrUUJiaEowMWJJTEU4dGFsRDFIOHdpcklhWmZwbDFnU2RYKzkw?=
- =?utf-8?B?Q2dNSkwvemt6azVBajdPTXRZOUdUb1VhaWxVVE4vM3pJSDFTQlc4aGRzOFZz?=
- =?utf-8?B?OGZrOG81ZDVLRXlJdllJNmNWeitEWVEzamZ1QU9XYlNBd0o5RkNpblZ0ZXZJ?=
- =?utf-8?Q?hSrbZpoNrUO9Tg68SxCYSTI5f?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmhtRFZDZjN4aEpwQUI5Rmh0K2ZUalBsZHVZbGVNLzJsa2lTUTNHc0hnTTFD?=
+ =?utf-8?B?c0tRTmtwTlRvemIvaVh6bXc2a1RtWWhlRDJTdnZUa2tKRnNVbDlKMzZBWDky?=
+ =?utf-8?B?cUg1L3AvcklzSFFvT0VtSnNMVFcweU9mZVJIUmdsV1hMTERNMGpNZG11blJN?=
+ =?utf-8?B?VFB4dGEzT1VJaW5mWUpQMlN3eGZWdXFlSmVvaU1FVEVVSlNzb09UNTZqTWti?=
+ =?utf-8?B?MjVoTU9xS0Vqa1RZdjd6VytsNlB6U2JOSnk0SFZzRFdWb3dQOXBrQ2M3eUg4?=
+ =?utf-8?B?amFJdFBQY0RiQmJJQktySm1WNlpVdDdJdHZ1dWJaMHlWMmdqZE1Ua2JqT1dz?=
+ =?utf-8?B?YVNyTTlCVFRxRUQ1d3lOckNzZUdVNHpMYTIvSG8yUnI2d1RURGFILzVFVjZL?=
+ =?utf-8?B?QWw2cWE2WHlJZVNpczlWLzVCVGozME04b0x6T2htcHpMQ3NqelFlSlV0QWsv?=
+ =?utf-8?B?UFpER2RuL1AwYUNqRmsxcmk4V3hzbTJoOFdYVExNQm83ZmI0SHBpV0Q0RTJM?=
+ =?utf-8?B?OS8yQXBER2V5bDg2NEtMaCtnaEJwdTdGYW5VU0NSQ09nOGNuei9kNXdKdHlj?=
+ =?utf-8?B?T1M2ZVBzSGVIT1Jid2d2Ykh0T3QrSVJyeW1XeWxoaGlpeTBLelNQVzhZbmZF?=
+ =?utf-8?B?VjZPSnlEZUZ6aS9KWEhBWEVkUjRtbUFseEQxeFNlK2V3c3Y2azBBUjZlUHdV?=
+ =?utf-8?B?cXNrdGJCM0hjSXhSck9IQWk1YkxEM3A4ZTRlRkRWVk9CQlFSUkpucUtUU2Na?=
+ =?utf-8?B?RmVLc3hRdmpiRmsyM2dlRDArOHpOeVdUTndlQkdzNzZ5RHM1Um1RQitoNFF5?=
+ =?utf-8?B?aWEwczhzQ2xjSCsyWit4YnZsRi9ISGlPVGpnb3p4TVZ6RnhBeDBMalVJWDlX?=
+ =?utf-8?B?REVxYlc1M05Yc21sbDhVS3I4cmYrbVN0a0s4SEpJc29IWUVScUQwdkVkZVdK?=
+ =?utf-8?B?eFZRbDhjVnJsSU5qS09pdCt4RW9Ub0gzTG04MTdUUnk0dGd4bUxXOGt0T2pV?=
+ =?utf-8?B?ay9qS1FlSGhFc1FPbStxLy9yN3pYUkVGK2xtWE5GVmVKbEQwSDNuWkx4Wjkz?=
+ =?utf-8?B?VDhwcjVkZk9KaTRmR28vYzB3UitxY3ZkL2pSMjQvdm1wQUxMSVFyaUZRT1M0?=
+ =?utf-8?B?WHkyMmVKL3dBNXRiWS9CYmlPekFoV1RLdGtlZHlBMzFzUmVUeENKKzk3VTFU?=
+ =?utf-8?B?Q0xtU3YralNzczdaTEpLbHQvN0NqcWtIc2p2RFAzUnJLSzF4MHdoQkhFRnJx?=
+ =?utf-8?B?V2NnZUJTN1cwOS9ENk9hLzJGMGl5Y3pSYXdjTEpHRk5PSlRmQjlCeXVydTFJ?=
+ =?utf-8?B?ZjAzMnBrUS9mNWZxbGtUK1ZOTWJNTnh3MWlkTXZscUZucXVZZWx4YWhBVzVu?=
+ =?utf-8?B?amw1Wk05OGU1N3FjWWZUOVpBREh5dDdpQStpU1Y3ckkwK3p3K1NYOVE3RWFG?=
+ =?utf-8?B?ZnhUMGM4STZpWG95Z1NHZDh0aWliQk9GLzZkZEozdjRubDRDYXBaRGhWNnc2?=
+ =?utf-8?B?M0VSalA3U1hyVHZxT0lWWitaRk5BQ1lZNjN4WkJBSDVSYnp0VkxVR2pRU0VT?=
+ =?utf-8?B?T0ZoRzhYZkpnYjZYbnBqS29yZ2Fia055bVJQQ2NyUC81b2ZPWGROWUN2WXpK?=
+ =?utf-8?B?WU9DdEtrRUlVbTF6R0pkQWFCZTl5K3ZJQ1EzK3I5cHg2YUNQNVZ1RnB6V2p3?=
+ =?utf-8?B?RGo5VGRHNk5Eemd6Tjl1NVlSVW5EQU5wUzNORGk3NkcvcjRNcEdKNmdiYXdH?=
+ =?utf-8?B?RmRPYkdkMGFKOFNGVzBYZDJjem40Y2w2cDB6V0dlT3hwc0dpVm4rMnltSzBF?=
+ =?utf-8?B?YlBJNVNoRWY4WE9xZEtDWkhFMzVkUGhQYlhYNGFRb25MZjliMFRoU1FqaWh5?=
+ =?utf-8?B?TlIzRm9WTXJ5STBsWFBOMzNOK1N1c1U0VUVOSlJDZytmTm9xWDZXU2Y1LzBl?=
+ =?utf-8?B?Rkg4aE9tUW5kYWZ5SGg3TkQxTURXUFBOVmw5RE1Lc0pkZGI3RldUUEFoNDdE?=
+ =?utf-8?B?dXJvbm54OFJ4OHZ4MjZRSVJNZVFrRHFFV3lnT05nT3diQXpOZHhUSHVZQkhB?=
+ =?utf-8?B?THdwdjVudXFKRkhoU0hUUDdsaDAwUTMxT0N6M0ZpL3ZGZkF5VCs3enhVa1FR?=
+ =?utf-8?Q?GvO8vgUe4zueYEL7IK25xAfir?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8358093e-6016-4d8c-6410-08dae0020c06
+X-MS-Exchange-CrossTenant-Network-Message-Id: 632333e6-d9ac-4edb-715f-08dae008e4d7
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2022 07:41:02.7034 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2022 08:30:03.5967 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: M9cCUXVPock0ctqxikUa3qYfVufCzwRH/TX85F6RSlJOG4cQza8Md8wFrFKegOmgRVAJPbmYdSKyjSQrTJ7DgA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9485
+X-MS-Exchange-CrossTenant-UserPrincipalName: JFT5m8wvh/wJZicU5ugL4kTkPhiNhAK6feTyjK6tuwrw1cnwKL8ePPf6GDt6Ai4cFzFk51QeEMkAoAEC+jDW3A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7889
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,128 +134,243 @@ Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas,
-
 On Fri, 2022-12-16 at 22:07 +0100, Lucas Stach wrote:
-> The HDMI TX controller on the i.MX8MP SoC is a Synopsys designware IP
-> core with a little bit of SoC integration around it.
+> Add a simple wrapper driver for the DWC HDMI bridge driver that
+> implements the few bits that are necessary to abstract the i.MX8MP
+> SoC integration.
 > 
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Tested-by: Marek Vasut <marex@denx.de>
 > ---
->  .../bindings/display/imx/fsl,imx8mp-hdmi.yaml | 69
-> +++++++++++++++++++
->  1 file changed, 69 insertions(+)
->  create mode 100644
-> Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
+>  drivers/gpu/drm/bridge/imx/Kconfig       |   9 ++
+>  drivers/gpu/drm/bridge/imx/Makefile      |   2 +
+>  drivers/gpu/drm/bridge/imx/imx8mp-hdmi.c | 140
+> +++++++++++++++++++++++
+>  3 files changed, 151 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi.c
 > 
-> diff --git
-> a/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
-> b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
+
+Can you please provide a changelog since this is v2?
+
+> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig
+> b/drivers/gpu/drm/bridge/imx/Kconfig
+> index 608f47f41bcd..d828d8bfd893 100644
+> --- a/drivers/gpu/drm/bridge/imx/Kconfig
+> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
+> @@ -44,4 +44,13 @@ config DRM_IMX8QXP_PIXEL_LINK_TO_DPI
+>  	  Choose this to enable pixel link to display pixel
+> interface(PXL2DPI)
+>  	  found in Freescale i.MX8qxp processor.
+>  
+> +config DRM_IMX8MP_DW_HDMI_BRIDGE
+
+Sort the config names alphabetically please.
+
+> +	tristate "i.MX8MP HDMI bridge support"
+
+To show the prompts in this Kconfig file in a consistent fashion,
+please add 'Freescale' before 'i.MX8MP'.
+
+> +	depends on OF
+> +	depends on COMMON_CLK
+> +	select DRM_DW_HDMI
+> +	help
+> +	  Choose this to enable support for the internal HDMI encoder
+> found
+> +	  on the i.MX8MP SoC.
+> +
+>  endif # ARCH_MXC || COMPILE_TEST
+> diff --git a/drivers/gpu/drm/bridge/imx/Makefile
+> b/drivers/gpu/drm/bridge/imx/Makefile
+> index aa90ec8d5433..03b0074ae538 100644
+> --- a/drivers/gpu/drm/bridge/imx/Makefile
+> +++ b/drivers/gpu/drm/bridge/imx/Makefile
+> @@ -7,3 +7,5 @@ obj-$(CONFIG_DRM_IMX8QXP_LDB) += imx8qxp-ldb.o
+>  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) += imx8qxp-pixel-combiner.o
+>  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK) += imx8qxp-pixel-link.o
+>  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI) += imx8qxp-pxl2dpi.o
+> +
+> +obj-$(CONFIG_DRM_IMX8MP_DW_HDMI_BRIDGE) += imx8mp-hdmi.o
+
+Sort the config names alphabetically.
+
+> diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi.c
+> b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi.c
 > new file mode 100644
-> index 000000000000..75ebeaa8c9d5
+> index 000000000000..06849b817aed
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-
-> hdmi.yaml
-> @@ -0,0 +1,69 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/imx/fsl,imx8mp-hdmi.yaml#
-
-Better to put the binding documentation under the display/bridge
-umbrella as the corresponding linux driver is a DRM bridge driver, not
-a DRM encoder driver.
-
-Regarding the file name, I would use 'fsl,imx8mp-hdmi-tx.yaml' to
-explicitly tell it's a TX controller(not a RX controller), which
-matches the chapter name 'HDMI TX controller' in i.MX8mp RM.
-
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi.c
+> @@ -0,0 +1,140 @@
+> +// SPDX-License-Identifier: GPL-2.0+
 > +
-> +title: Freescale i.MX8MP DWC HDMI TX Encoder
+> +/*
+> + * Copyright (C) 2022 Pengutronix, Lucas Stach <
+> kernel@pengutronix.de>
+> + */
 > +
-> +maintainers:
-> +  - Lucas Stach <l.stach@pengutronix.de>
-> +
-> +description: |
-> +  The i.MX8MP HDMI transmitter is a Synopsys DesignWare
-> +  HDMI 2.0 TX controller IP.
+> +#include <drm/bridge/dw_hdmi.h>
+> +#include <drm/drm_modes.h>
+> +#include <linux/clk.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
 
-i.MX8mp RM says it is compatible with the HDMI v2.0a spec, so better to
-mention 2.0a instead of 2.0.
+Header files in linux/ come before those in drm/.
 
 > +
-> +allOf:
-> +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
+> +struct imx8mp_hdmi {
+> +	struct dw_hdmi_plat_data plat_data;
+> +	struct dw_hdmi *dw_hdmi;
+> +	struct clk *pixclk;
+> +	struct clk *fdcc;
+> +};
 > +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - fsl,imx8mp-hdmi
+> +static enum drm_mode_status
+> +imx8mp_hdmi_mode_valid(struct dw_hdmi *dw_hdmi, void *data,
+> +		       const struct drm_display_info *info,
+> +		       const struct drm_display_mode *mode)
+> +{
+> +	struct imx8mp_hdmi *hdmi = (struct imx8mp_hdmi *)data;
+> +
+> +	if (mode->clock < 13500)
+> +		return MODE_CLOCK_LOW;
+> +
+> +	if (mode->clock > 297000)
+> +		return MODE_CLOCK_HIGH;
+> +
+> +	if (clk_round_rate(hdmi->pixclk, mode->clock * 1000) !=
+> +	    mode->clock * 1000)
+> +		return MODE_CLOCK_RANGE;
+> +
+> +	/* We don't support double-clocked and Interlaced modes */
+> +	if ((mode->flags & DRM_MODE_FLAG_DBLCLK) ||
+> +	    (mode->flags & DRM_MODE_FLAG_INTERLACE))
+> +		return MODE_BAD;
+> +
+> +	return MODE_OK;
+> +}
+> +
+> +static int imx8mp_hdmi_phy_init(struct dw_hdmi *dw_hdmi, void *data,
+> +				const struct drm_display_info *display,
+> +				const struct drm_display_mode *mode)
+> +{
+> +	return 0;
+> +}
+> +
+> +static void imx8mp_hdmi_phy_disable(struct dw_hdmi *dw_hdmi, void
+> *data)
+> +{
+> +}
+> +
+> +static void im8mp_hdmi_phy_setup_hpd(struct dw_hdmi *hdmi, void
+> *data)
+> +{
+> +	/*
+> +	 * Just release PHY core from reset, all other power management
+> is done
+> +	 * by the PHY driver.
+> +	 */
+> +	dw_hdmi_phy_gen1_reset(hdmi);
+> +
+> +	dw_hdmi_phy_setup_hpd(hdmi, data);
+> +}
+> +
+> +static const struct dw_hdmi_phy_ops imx8mp_hdmi_phy_ops = {
+> +	.init		= imx8mp_hdmi_phy_init,
+> +	.disable	= imx8mp_hdmi_phy_disable,
+> +	.setup_hpd	= im8mp_hdmi_phy_setup_hpd,
+> +	.read_hpd	= dw_hdmi_phy_read_hpd,
+> +	.update_hpd	= dw_hdmi_phy_update_hpd,
+> +};
+> +
+> +static int imx8mp_dw_hdmi_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct dw_hdmi_plat_data *plat_data;
+> +	struct imx8mp_hdmi *hdmi;
+> +	int ret;
 
-Like the file name, I would use 'fsl,imx8mp-hdmi-tx'.
+Please fix this build warning:
 
-It seems that the i.MX6q DW HDMI TX controller will not easily use this
-binding since it's corresponding driver is a DRM encoder driver, and no
-other i.MX SoCs embed the controller, so use const instead of enum(It
-can be changed to enum when necessary later.)?
- 
-> +
-> +  reg-io-width:
-> +    const: 1
-> +
-> +  clocks:
-> +    maxItems: 5
-> +
-> +  clock-names:
-> +    items:
-> +      - const: iahb
-> +      - const: isfr
-> +      - const: fdcc
-> +      - const: cec
-> +      - const: pix
-> +
-> +  power-domains:
-> +    maxItems: 1
-
-Missing 'ports' property?
+drivers/gpu/drm/bridge/imx/imx8mp-hdmi.c: In function
+‘imx8mp_dw_hdmi_probe’:
+drivers/gpu/drm/bridge/imx/imx8mp-hdmi.c:80:13: warning: unused
+variable ‘ret’ [-Wunused-variable]
+   80 |         int ret;
+      |             ^~~
 
 > +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - power-domains
+> +	hdmi = devm_kzalloc(dev, sizeof(*hdmi), GFP_KERNEL);
+> +	if (!hdmi)
+> +		return -ENOMEM;
 > +
-> +unevaluatedProperties: false
+> +	plat_data = &hdmi->plat_data;
 > +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +	hdmi->pixclk = devm_clk_get(dev, "pix");
+> +	if (IS_ERR(hdmi->pixclk))
+> +		return dev_err_probe(dev, PTR_ERR(hdmi->pixclk),
+> +				     "Unable to get pixel clock\n");
+> +
+> +	hdmi->fdcc = devm_clk_get_enabled(dev, "fdcc");
+> +	if (IS_ERR(hdmi->fdcc))
+> +		return dev_err_probe(dev, PTR_ERR(hdmi->fdcc),
+> +				     "Unable to get FDCC clock\n");
 
-Sort the header files alphabetically.
+Similar to Laurent's comment on v1 here, why does fdcc clock need to be
+always enabled? 
 
-I'm cc'ing Sandor to be aware of the patch set.
+> +
+> +	plat_data->mode_valid = imx8mp_hdmi_mode_valid;
+> +	plat_data->phy_ops = &imx8mp_hdmi_phy_ops;
+> +	plat_data->phy_name = "SAMSUNG HDMI TX PHY";
+> +	plat_data->priv_data = hdmi;
+
+Need to set plat_data->phy_force_vendor to be true? Or, you rely on
+reading the HDMI_CONFIG2_ID register to determine the phy type?
+
+> +
+> +	hdmi->dw_hdmi = dw_hdmi_probe(pdev, plat_data);
+> +	if (IS_ERR(hdmi->dw_hdmi))
+> +		return PTR_ERR(hdmi->dw_hdmi);
+> +
+> +	platform_set_drvdata(pdev, hdmi);
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx8mp_dw_hdmi_remove(struct platform_device *pdev)
+> +{
+> +	struct imx8mp_hdmi *hdmi = platform_get_drvdata(pdev);
+> +
+> +	dw_hdmi_remove(hdmi->dw_hdmi);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id imx8mp_dw_hdmi_of_table[] = {
+> +	{ .compatible = "fsl,imx8mp-hdmi" },
+> +	{ /* Sentinel */ },
+
+Nitpick: ',' after the sentinel is not needed since it's the last one.
 
 Regards,
 Liu Ying
 
-> +    #include <dt-bindings/clock/imx8mp-clock.h>
-> +    #include <dt-bindings/power/imx8mp-power.h>
+> +};
+> +MODULE_DEVICE_TABLE(of, imx8mp_dw_hdmi_of_table);
 > +
-> +    hdmi@32fd8000 {
-> +        compatible = "fsl,imx8mp-hdmi";
-> +        reg = <0x32fd8000 0x7eff>;
-> +        interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&clk IMX8MP_CLK_HDMI_APB>,
-> +                 <&clk IMX8MP_CLK_HDMI_REF_266M>,
-> +                 <&clk IMX8MP_CLK_HDMI_FDCC_TST>,
-> +                 <&clk IMX8MP_CLK_32K>,
-> +                 <&hdmi_tx_phy>;
-> +        clock-names = "iahb", "isfr", "fdcc", "cec", "pix";
-> +        power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_HDMI_TX>;
-> +        reg-io-width = <1>;
-> +    };
+> +static struct platform_driver imx8mp_dw_hdmi_platform_driver = {
+> +	.probe		= imx8mp_dw_hdmi_probe,
+> +	.remove		= imx8mp_dw_hdmi_remove,
+> +	.driver		= {
+> +		.name	= "imx8mp-dw-hdmi",
+> +		.of_match_table = imx8mp_dw_hdmi_of_table,
+> +	},
+> +};
+> +
+> +module_platform_driver(imx8mp_dw_hdmi_platform_driver);
+> +
+> +MODULE_DESCRIPTION("i.MX8MP HDMI encoder driver");
+> +MODULE_LICENSE("GPL");
 
