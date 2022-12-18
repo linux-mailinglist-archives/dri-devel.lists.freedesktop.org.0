@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22DE96500F2
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:22:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DBE1650102
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:23:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0953A10E272;
-	Sun, 18 Dec 2022 16:21:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E40EF10E273;
+	Sun, 18 Dec 2022 16:23:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D11D10E272
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Dec 2022 16:21:35 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 160D210E273
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Dec 2022 16:22:57 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 22F6ECE03F7;
- Sun, 18 Dec 2022 16:21:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D35AC433EF;
- Sun, 18 Dec 2022 16:21:00 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 62D6560C99;
+ Sun, 18 Dec 2022 16:22:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC267C433F0;
+ Sun, 18 Dec 2022 16:22:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671380461;
- bh=QRa0eIVbsbW9g5JpvfzL7feFfmbM1zfjhgxh46De3JU=;
+ s=k20201202; t=1671380546;
+ bh=9GObN/HTbEbVuoRVdNZrI7/ETYOR+CKnmzigy4Y9eKc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WP1LEqTRNRoynITS6giW5KPwgrFFGH5bYz7t5ZiBb8oKekLwGJMroMXj5LVBXWVh1
- diKt2uDeB+p1CXCcGPx5ruhkmF1oRBBR9o9tEHqr72y8iPaXzjDxJGBj9qsUUB4jMc
- n/i4cMvQz+ZplPcLzMcGKelTHaHkw0M9UN5bxng0oXpx9VNMtZAj8ThAOrJCbxdQWC
- L12CGFhVAWxc51PjFB4HTGWexn5hFq/14v7IphhvQ2DukM34xNQRsUMSE3cEvlw4ID
- +ITJGLZNMt0/iYudfB653KHlfW10cBSygxGugGV6yB+fz0LB36K2kJYkHAgli8lhrX
- UOFYpwy8+2N7g==
+ b=bfKyr5hryfI2fxFGAwTCuCDs+H9fNHnYCgoT8YAXPgk34Crg6hhrPqmvH5EXh2w6h
+ 3vOJASFHXGOu/f5SrH9u2124y1owLbCvrU61BuDgReF6BGdVrP0zwKxTQ1eAGMpO73
+ U53+UTS9BnazAVhCkThZfOQtqiHlZQeSiCmegCWJtuBU4cdHH2Y4PpjzrKSfLoGtrE
+ DBrieg+/v1jA8d878UsMvkxhT+B0QpQawV31vgem9ZNhCQQYQjOANtlxpCl5VoOCfz
+ njq3pUzuKQUpyJDt1cGFXC/XHbNaMYOkkzcCpMyhCgnoLCO1pGdC4YktURNb39Wj+f
+ 1IIoxiruO3NsQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 14/26] drm/sti: Use drm_mode_copy()
-Date: Sun, 18 Dec 2022 11:20:04 -0500
-Message-Id: <20221218162016.934280-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 13/23] drm/sti: Use drm_mode_copy()
+Date: Sun, 18 Dec 2022 11:21:39 -0500
+Message-Id: <20221218162149.935047-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221218162016.934280-1-sashal@kernel.org>
-References: <20221218162016.934280-1-sashal@kernel.org>
+In-Reply-To: <20221218162149.935047-1-sashal@kernel.org>
+References: <20221218162149.935047-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -132,7 +132,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/sti/sti_dvo.c b/drivers/gpu/drm/sti/sti_dvo.c
-index b08376b7611b..a3f01721c552 100644
+index 852bf2293b05..872a06670b34 100644
 --- a/drivers/gpu/drm/sti/sti_dvo.c
 +++ b/drivers/gpu/drm/sti/sti_dvo.c
 @@ -288,7 +288,7 @@ static void sti_dvo_set_mode(struct drm_bridge *bridge,
@@ -145,7 +145,7 @@ index b08376b7611b..a3f01721c552 100644
  	/* According to the path used (main or aux), the dvo clocks should
  	 * have a different parent clock. */
 diff --git a/drivers/gpu/drm/sti/sti_hda.c b/drivers/gpu/drm/sti/sti_hda.c
-index 19b9b5ed1297..33c9efa06f68 100644
+index 0399bb18d387..9a7a9aa5445e 100644
 --- a/drivers/gpu/drm/sti/sti_hda.c
 +++ b/drivers/gpu/drm/sti/sti_hda.c
 @@ -518,7 +518,7 @@ static void sti_hda_set_mode(struct drm_bridge *bridge,
@@ -158,10 +158,10 @@ index 19b9b5ed1297..33c9efa06f68 100644
  	if (!hda_get_mode_idx(hda->mode, &mode_idx)) {
  		DRM_ERROR("Undefined mode\n");
 diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-index ccf718404a1c..3acf044ba366 100644
+index bbb195a92e93..c5b2f36c5feb 100644
 --- a/drivers/gpu/drm/sti/sti_hdmi.c
 +++ b/drivers/gpu/drm/sti/sti_hdmi.c
-@@ -926,7 +926,7 @@ static void sti_hdmi_set_mode(struct drm_bridge *bridge,
+@@ -924,7 +924,7 @@ static void sti_hdmi_set_mode(struct drm_bridge *bridge,
  	DRM_DEBUG_DRIVER("\n");
  
  	/* Copy the drm display mode in the connector local structure */
