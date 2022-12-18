@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8921765007F
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:15:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BED42650081
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:16:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8CFB10E25C;
-	Sun, 18 Dec 2022 16:15:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD16010E1E5;
+	Sun, 18 Dec 2022 16:15:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E508A10E25E;
- Sun, 18 Dec 2022 16:15:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE40310E1E5;
+ Sun, 18 Dec 2022 16:15:43 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id CC4C4CE0BA6;
- Sun, 18 Dec 2022 16:14:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8AC1C433EF;
- Sun, 18 Dec 2022 16:14:33 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 96687CE0BAE;
+ Sun, 18 Dec 2022 16:15:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0046FC433EF;
+ Sun, 18 Dec 2022 16:15:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671380076;
- bh=CzY02WCh5DsVTwERCpDuE7NiLkEVuSwPkbiLhSwNV78=;
+ s=k20201202; t=1671380139;
+ bh=bGDsxwRMuhHdwn4tRIuRcfyfJm46g2xSTZ3EKUTpDM0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IcXf9nFkhS1kB4cVn+s+kVw2WrqIWt5r3pbVN6nGQtqhccoytieBRWrQd1tUKF/au
- ZQFoCZl5jampqhd+PrS05q9TCZ7vhORwN8E0y+BYFOZauuROT7NJ19Gkei9iTY9/m0
- trW4sc6wn+WIkdMrmRmzeFjRQ2Ac4EEOMasxRRltX82E8L89e9hA5acZmsyJWC3cgG
- rdSkbilsKbaeo/9I3u54pd9bsD7X3aDJwkp77HPgUjoWTuCaL1XVepsn5kKPHCyHvg
- cjBP5ZjyhUs9WBwvDgDS1oZJGdtuZflhLvHY6C9R+JVcOYjgPWvnU2VUOxTvEaJivX
- InBKo369bSI5g==
+ b=qC9i7nM88uV6seoc+vlIi6ZNR9j0LizimXhPddp7o42TdabW07cXpeSRhDshf1Fx1
+ m3h6Wze3ttdwhgFpfMUL7C+4ChZtHsUjKb3pzpOh+GDvCmQZbj5c9Y1Pw1iR7AddsW
+ OKRI0G1Fl52IPVoPBMGKJZmuxRWxZ4r4Mq7Nl6o4BgyScMvF5XDHGSzNEP7kpuBOi6
+ fk7mVMLwE+BVmmFmW3gWrHP4DZHeeDXXygIUpsqtsd76xCCGBeAe2DpQJmI9bhRi98
+ k9Yx1QhGE+bChLBcYJGXMv+1n5zAOUYnCWePEvnPZsl/ZeG+5zRFdw8WJFB1zAUpfl
+ mq2hs3xm9h/LA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 27/46] drm/amd/display: fix array index out of
- bound error in bios parser
-Date: Sun, 18 Dec 2022 11:12:25 -0500
-Message-Id: <20221218161244.930785-27-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 38/46] drm/amd/display: Use the largest
+ vready_offset in pipe group
+Date: Sun, 18 Dec 2022 11:12:36 -0500
+Message-Id: <20221218161244.930785-38-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221218161244.930785-1-sashal@kernel.org>
 References: <20221218161244.930785-1-sashal@kernel.org>
@@ -55,77 +55,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Charlene.Liu@amd.com, george.shen@amd.com,
- Tom Chung <chiahsuan.chung@amd.com>, jaehyun.chung@amd.com, sunpeng.li@amd.com,
- sancchen@amd.com, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
- jerry.zuo@amd.com, amd-gfx@lists.freedesktop.org,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, dri-devel@lists.freedesktop.org,
- Martin Leung <Martin.Leung@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- tales.aparecida@gmail.com, christian.koenig@amd.com
+Cc: wenjing.liu@amd.com, dri-devel@lists.freedesktop.org, Jun.Lei@amd.com,
+ Sasha Levin <sashal@kernel.org>, jiapeng.chong@linux.alibaba.com,
+ Anthony.Koo@amd.com, Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
+ alex.hung@amd.com, aurabindo.pillai@amd.com, Alvin.Lee2@amd.com,
+ Jasdeep Dhillon <jdhillon@amd.com>, martin.tsai@amd.com, sunpeng.li@amd.com,
+ mwen@igalia.com, hanghong.ma@amd.com, Dillon Varone <Dillon.Varone@amd.com>,
+ dingchen.zhang@amd.com, Wesley Chalmers <Wesley.Chalmers@amd.com>,
+ Xinhui.Pan@amd.com, Roman.Li@amd.com, Max.Tseng@amd.com, wayne.lin@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aurabindo Pillai <aurabindo.pillai@amd.com>
+From: Wesley Chalmers <Wesley.Chalmers@amd.com>
 
-[ Upstream commit 4fc1ba4aa589ca267468ad23fedef37562227d32 ]
+[ Upstream commit 5842abd985b792a3b13a89b6dae4869b56656c92 ]
 
-[Why&How]
-Firmware headers dictate that gpio_pin array only has a size of 8. The
-count returned from vbios however is greater than 8.
+[WHY]
+Corruption can occur in LB if vready_offset is not large enough.
+DML calculates vready_offset for each pipe, but we currently select the
+top pipe's vready_offset, which is not necessarily enough for all pipes
+in the group.
 
-Fix this by not using array indexing but incrementing the pointer since
-gpio_pin definition in atomfirmware.h is hardcoded to size 8
+[HOW]
+Wherever program_global_sync is currently called, iterate through the
+entire pipe group and find the highest vready_offset.
 
-Reviewed-by: Martin Leung <Martin.Leung@amd.com>
-Acked-by: Tom Chung <chiahsuan.chung@amd.com>
-Signed-off-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Reviewed-by: Dillon Varone <Dillon.Varone@amd.com>
+Acked-by: Jasdeep Dhillon <jdhillon@amd.com>
+Signed-off-by: Wesley Chalmers <Wesley.Chalmers@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/display/dc/bios/bios_parser2.c   | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ .../amd/display/dc/dcn10/dcn10_hw_sequencer.c | 30 +++++++++++++++++--
+ .../drm/amd/display/dc/dcn20/dcn20_hwseq.c    | 29 ++++++++++++++++--
+ 2 files changed, 55 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-index 6dbde74c1e06..1d86fd5610c0 100644
---- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-+++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-@@ -352,6 +352,7 @@ static enum bp_result get_gpio_i2c_info(
- 	uint32_t count = 0;
- 	unsigned int table_index = 0;
- 	bool find_valid = false;
-+	struct atom_gpio_pin_assignment *pin;
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+index 91ab4dbbe1a6..c655d03ef754 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+@@ -804,6 +804,32 @@ static void false_optc_underflow_wa(
+ 		tg->funcs->clear_optc_underflow(tg);
+ }
  
- 	if (!info)
- 		return BP_RESULT_BADINPUT;
-@@ -379,20 +380,17 @@ static enum bp_result get_gpio_i2c_info(
- 			- sizeof(struct atom_common_table_header))
- 				/ sizeof(struct atom_gpio_pin_assignment);
- 
-+	pin = (struct atom_gpio_pin_assignment *) header->gpio_pin;
++static int calculate_vready_offset_for_group(struct pipe_ctx *pipe)
++{
++	struct pipe_ctx *other_pipe;
++	int vready_offset = pipe->pipe_dlg_param.vready_offset;
 +
- 	for (table_index = 0; table_index < count; table_index++) {
--		if (((record->i2c_id & I2C_HW_CAP) == (
--		header->gpio_pin[table_index].gpio_id &
--						I2C_HW_CAP)) &&
--		((record->i2c_id & I2C_HW_ENGINE_ID_MASK)  ==
--		(header->gpio_pin[table_index].gpio_id &
--					I2C_HW_ENGINE_ID_MASK)) &&
--		((record->i2c_id & I2C_HW_LANE_MUX) ==
--		(header->gpio_pin[table_index].gpio_id &
--						I2C_HW_LANE_MUX))) {
-+		if (((record->i2c_id & I2C_HW_CAP) 				== (pin->gpio_id & I2C_HW_CAP)) &&
-+		    ((record->i2c_id & I2C_HW_ENGINE_ID_MASK)	== (pin->gpio_id & I2C_HW_ENGINE_ID_MASK)) &&
-+		    ((record->i2c_id & I2C_HW_LANE_MUX) 		== (pin->gpio_id & I2C_HW_LANE_MUX))) {
- 			/* still valid */
- 			find_valid = true;
- 			break;
- 		}
-+		pin = (struct atom_gpio_pin_assignment *)((uint8_t *)pin + sizeof(struct atom_gpio_pin_assignment));
- 	}
++	/* Always use the largest vready_offset of all connected pipes */
++	for (other_pipe = pipe->bottom_pipe; other_pipe != NULL; other_pipe = other_pipe->bottom_pipe) {
++		if (other_pipe->pipe_dlg_param.vready_offset > vready_offset)
++			vready_offset = other_pipe->pipe_dlg_param.vready_offset;
++	}
++	for (other_pipe = pipe->top_pipe; other_pipe != NULL; other_pipe = other_pipe->top_pipe) {
++		if (other_pipe->pipe_dlg_param.vready_offset > vready_offset)
++			vready_offset = other_pipe->pipe_dlg_param.vready_offset;
++	}
++	for (other_pipe = pipe->next_odm_pipe; other_pipe != NULL; other_pipe = other_pipe->next_odm_pipe) {
++		if (other_pipe->pipe_dlg_param.vready_offset > vready_offset)
++			vready_offset = other_pipe->pipe_dlg_param.vready_offset;
++	}
++	for (other_pipe = pipe->prev_odm_pipe; other_pipe != NULL; other_pipe = other_pipe->prev_odm_pipe) {
++		if (other_pipe->pipe_dlg_param.vready_offset > vready_offset)
++			vready_offset = other_pipe->pipe_dlg_param.vready_offset;
++	}
++
++	return vready_offset;
++}
++
+ enum dc_status dcn10_enable_stream_timing(
+ 		struct pipe_ctx *pipe_ctx,
+ 		struct dc_state *context,
+@@ -838,7 +864,7 @@ enum dc_status dcn10_enable_stream_timing(
+ 	pipe_ctx->stream_res.tg->funcs->program_timing(
+ 			pipe_ctx->stream_res.tg,
+ 			&stream->timing,
+-			pipe_ctx->pipe_dlg_param.vready_offset,
++			calculate_vready_offset_for_group(pipe_ctx),
+ 			pipe_ctx->pipe_dlg_param.vstartup_start,
+ 			pipe_ctx->pipe_dlg_param.vupdate_offset,
+ 			pipe_ctx->pipe_dlg_param.vupdate_width,
+@@ -2776,7 +2802,7 @@ void dcn10_program_pipe(
  
- 	/* If we don't find the entry that we are looking for then
+ 		pipe_ctx->stream_res.tg->funcs->program_global_sync(
+ 				pipe_ctx->stream_res.tg,
+-				pipe_ctx->pipe_dlg_param.vready_offset,
++				calculate_vready_offset_for_group(pipe_ctx),
+ 				pipe_ctx->pipe_dlg_param.vstartup_start,
+ 				pipe_ctx->pipe_dlg_param.vupdate_offset,
+ 				pipe_ctx->pipe_dlg_param.vupdate_width);
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
+index 58eea3aa3bfc..bf2a8f53694b 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
+@@ -1564,6 +1564,31 @@ static void dcn20_update_dchubp_dpp(
+ 		hubp->funcs->set_blank(hubp, false);
+ }
+ 
++static int calculate_vready_offset_for_group(struct pipe_ctx *pipe)
++{
++	struct pipe_ctx *other_pipe;
++	int vready_offset = pipe->pipe_dlg_param.vready_offset;
++
++	/* Always use the largest vready_offset of all connected pipes */
++	for (other_pipe = pipe->bottom_pipe; other_pipe != NULL; other_pipe = other_pipe->bottom_pipe) {
++		if (other_pipe->pipe_dlg_param.vready_offset > vready_offset)
++			vready_offset = other_pipe->pipe_dlg_param.vready_offset;
++	}
++	for (other_pipe = pipe->top_pipe; other_pipe != NULL; other_pipe = other_pipe->top_pipe) {
++		if (other_pipe->pipe_dlg_param.vready_offset > vready_offset)
++			vready_offset = other_pipe->pipe_dlg_param.vready_offset;
++	}
++	for (other_pipe = pipe->next_odm_pipe; other_pipe != NULL; other_pipe = other_pipe->next_odm_pipe) {
++		if (other_pipe->pipe_dlg_param.vready_offset > vready_offset)
++			vready_offset = other_pipe->pipe_dlg_param.vready_offset;
++	}
++	for (other_pipe = pipe->prev_odm_pipe; other_pipe != NULL; other_pipe = other_pipe->prev_odm_pipe) {
++		if (other_pipe->pipe_dlg_param.vready_offset > vready_offset)
++			vready_offset = other_pipe->pipe_dlg_param.vready_offset;
++	}
++
++	return vready_offset;
++}
+ 
+ static void dcn20_program_pipe(
+ 		struct dc *dc,
+@@ -1582,7 +1607,7 @@ static void dcn20_program_pipe(
+ 
+ 		pipe_ctx->stream_res.tg->funcs->program_global_sync(
+ 				pipe_ctx->stream_res.tg,
+-				pipe_ctx->pipe_dlg_param.vready_offset,
++				calculate_vready_offset_for_group(pipe_ctx),
+ 				pipe_ctx->pipe_dlg_param.vstartup_start,
+ 				pipe_ctx->pipe_dlg_param.vupdate_offset,
+ 				pipe_ctx->pipe_dlg_param.vupdate_width);
+@@ -1875,7 +1900,7 @@ bool dcn20_update_bandwidth(
+ 
+ 			pipe_ctx->stream_res.tg->funcs->program_global_sync(
+ 					pipe_ctx->stream_res.tg,
+-					pipe_ctx->pipe_dlg_param.vready_offset,
++					calculate_vready_offset_for_group(pipe_ctx),
+ 					pipe_ctx->pipe_dlg_param.vstartup_start,
+ 					pipe_ctx->pipe_dlg_param.vupdate_offset,
+ 					pipe_ctx->pipe_dlg_param.vupdate_width);
 -- 
 2.35.1
 
