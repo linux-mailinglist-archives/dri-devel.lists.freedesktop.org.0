@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D7564FF99
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:04:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB31764FF95
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:04:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FEA410E1E1;
-	Sun, 18 Dec 2022 16:04:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CCD010E1D5;
+	Sun, 18 Dec 2022 16:04:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3013110E1DA;
- Sun, 18 Dec 2022 16:04:24 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E7D410E1D5;
+ Sun, 18 Dec 2022 16:04:09 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A7C8760DC9;
- Sun, 18 Dec 2022 16:03:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CB4EC433EF;
- Sun, 18 Dec 2022 16:03:50 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8FEACB80B4D;
+ Sun, 18 Dec 2022 16:04:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19CD6C433EF;
+ Sun, 18 Dec 2022 16:04:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671379433;
- bh=H23P28i1Gic5S2PHT2F+yKYlAsBVwd2RVFgih08qvJM=;
+ s=k20201202; t=1671379446;
+ bh=EZjwXYvx3KOeOXy/eNhBJp6KRhkMY+TyQaIDydyG8GM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=u7eZmpHtqaKMFE21cNPMya1UpOcKQaogVyMeTJL8hNUOBqdFm4vE0uDUC2XE5wt61
- AUWED983SOk/SBe6H4kji8XSoeeHotdmYxydvh8naHm+17P6oJfYJYSlZqVLV0v53p
- 055S1yTdPSZAF4+ZXi+wwatCVc5x3evQT32TZ7KVDf0Hjp9bBjyS2Xe7IXi6UhQYx4
- 3ILZ5E9Zy48cWwFzDS3AvBwu1AWJM/KwMflX1oxPaTkooF1jARnCgo7jlvFUu3qMrY
- 3llfTFumb1dZglfiYigdbZdT3wtBCJWczeiG/PQwBh2CEkMFMVu77P4RtFB1LNmZQz
- oa7o+9KBSEqQg==
+ b=ErNvxrbTY3wDSXnS4deeTwIM2WP3nX0tI40adg6XxQ54w8Hm2yNtBAPinMBVKvklG
+ Gx0miWPANvzT4UviY02Alz+jdmG9cN3U0j4J0NzvxfL7uP3IZ+Bg3GFps5afoVpS/y
+ nTz5yiSYwL4yPjjmbGm+1mEYP0qicIU7Ao2FDAVYdR6F4DmnPWc1HEkQX2/EJMzUCc
+ zgOzsz0wHBJ4tHrxpet8QzFCncntx8eQ0+QwCINvLRnbYOQk73wECT19CDMmIiHVG6
+ aKrUV66jx7JF/mxP60TvAwg4841lg7Nfq5AmEGBjLnrt6I51nb2mewt22ydKuryiYT
+ a0jijCHNLgUyQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 32/85] drm/amdgpu: Fix type of second parameter in
- odn_edit_dpm_table() callback
-Date: Sun, 18 Dec 2022 11:00:49 -0500
-Message-Id: <20221218160142.925394-32-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 36/85] drm/amd/display: Use min transition for
+ SubVP into MPO
+Date: Sun, 18 Dec 2022 11:00:53 -0500
+Message-Id: <20221218160142.925394-36-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221218160142.925394-1-sashal@kernel.org>
 References: <20221218160142.925394-1-sashal@kernel.org>
@@ -55,86 +56,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, llvm@lists.linux.dev, lijo.lazar@amd.com,
- Kees Cook <keescook@chromium.org>, kevinyang.wang@amd.com,
- kenneth.feng@amd.com, dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
- ndesaulniers@google.com, amd-gfx@lists.freedesktop.org,
- Nathan Chancellor <nathan@kernel.org>, li.ma@amd.com,
- Sami Tolvanen <samitolvanen@google.com>, darren.powell@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, evan.quan@amd.com,
- christian.koenig@amd.com, floridsleeves@gmail.com
+Cc: Alan Liu <HaoPing.Liu@amd.com>, Sasha Levin <sashal@kernel.org>,
+ Dillon.Varone@amd.com, amd-gfx@lists.freedesktop.org, sunpeng.li@amd.com,
+ dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
+ Samson.Tam@amd.com, wenjing.liu@amd.com, meenakshikumar.somasundaram@amd.com,
+ alex.hung@amd.com, Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alvin Lee <Alvin.Lee2@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Jun.Lei@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nathan Chancellor <nathan@kernel.org>
+From: Alvin Lee <Alvin.Lee2@amd.com>
 
-[ Upstream commit e4d0ef752081e7aa6ffb7ccac11c499c732a2e05 ]
+[ Upstream commit 9e7d03e8b046c84e1b2973a29cd800495a5a2f09 ]
 
-With clang's kernel control flow integrity (kCFI, CONFIG_CFI_CLANG),
-indirect call targets are validated against the expected function
-pointer prototype to make sure the call target is valid to help mitigate
-ROP attacks. If they are not identical, there is a failure at run time,
-which manifests as either a kernel panic or thread getting killed. A
-proposed warning in clang aims to catch these at compile time, which
-reveals:
+[Description]
+- For SubVP transitioning into MPO, we want to
+  use a minimal transition to prevent transient
+  underflow
+- Transitioning a phantom pipe directly into a
+  "real" pipe can result in underflow due to the
+  HUBP still having it's "phantom" programming
+  when HUBP is unblanked (have to wait for next
+  VUPDATE of the new OTG)
+- Also ensure subvp pipe lock is acquired early
+  enough for programming in dc_commit_state_no_check
+- When disabling phantom planes, enable phantom OTG
+  first so the disable gets the double buffer update
 
-  drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:3008:29: error: incompatible function pointer types initializing 'int (*)(void *, uint32_t, long *, uint32_t)' (aka 'int (*)(void *, unsigned int, long *, unsigned int)') with an expression of type 'int (void *, enum PP_OD_DPM_TABLE_COMMAND, long *, uint32_t)' (aka 'int (void *, enum PP_OD_DPM_TABLE_COMMAND, long *, unsigned int)') [-Werror,-Wincompatible-function-pointer-types-strict]
-          .odn_edit_dpm_table      = smu_od_edit_dpm_table,
-                                     ^~~~~~~~~~~~~~~~~~~~~
-  1 error generated.
-
-There are only two implementations of ->odn_edit_dpm_table() in 'struct
-amd_pm_funcs': smu_od_edit_dpm_table() and pp_odn_edit_dpm_table(). One
-has a second parameter type of 'enum PP_OD_DPM_TABLE_COMMAND' and the
-other uses 'u32'. Ultimately, smu_od_edit_dpm_table() calls
-->od_edit_dpm_table() from 'struct pptable_funcs' and
-pp_odn_edit_dpm_table() calls ->odn_edit_dpm_table() from 'struct
-pp_hwmgr_func', which both have a second parameter type of 'enum
-PP_OD_DPM_TABLE_COMMAND'.
-
-Update the type parameter in both the prototype in 'struct amd_pm_funcs'
-and pp_odn_edit_dpm_table() to 'enum PP_OD_DPM_TABLE_COMMAND', which
-cleans up the warning.
-
-Link: https://github.com/ClangBuiltLinux/linux/issues/1750
-Reported-by: Sami Tolvanen <samitolvanen@google.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Reviewed-by: Aric Cyr <Aric.Cyr@amd.com>
+Acked-by: Alan Liu <HaoPing.Liu@amd.com>
+Signed-off-by: Alvin Lee <Alvin.Lee2@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/include/kgd_pp_interface.h   | 3 ++-
- drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 43 +++++++++++-------------
+ 1 file changed, 20 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/include/kgd_pp_interface.h b/drivers/gpu/drm/amd/include/kgd_pp_interface.h
-index a40ead44778a..d18162e9ed1d 100644
---- a/drivers/gpu/drm/amd/include/kgd_pp_interface.h
-+++ b/drivers/gpu/drm/amd/include/kgd_pp_interface.h
-@@ -354,7 +354,8 @@ struct amd_pm_funcs {
- 	int (*get_power_profile_mode)(void *handle, char *buf);
- 	int (*set_power_profile_mode)(void *handle, long *input, uint32_t size);
- 	int (*set_fine_grain_clk_vol)(void *handle, uint32_t type, long *input, uint32_t size);
--	int (*odn_edit_dpm_table)(void *handle, uint32_t type, long *input, uint32_t size);
-+	int (*odn_edit_dpm_table)(void *handle, enum PP_OD_DPM_TABLE_COMMAND type,
-+				  long *input, uint32_t size);
- 	int (*set_mp1_state)(void *handle, enum pp_mp1_state mp1_state);
- 	int (*smu_i2c_bus_access)(void *handle, bool acquire);
- 	int (*gfx_state_change_set)(void *handle, uint32_t state);
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
-index ec055858eb95..1159ae114dd0 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
-@@ -838,7 +838,8 @@ static int pp_set_fine_grain_clk_vol(void *handle, uint32_t type, long *input, u
- 	return hwmgr->hwmgr_func->set_fine_grain_clk_vol(hwmgr, type, input, size);
- }
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 5c00907099c1..5260ad6de803 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -1070,6 +1070,7 @@ static void disable_dangling_plane(struct dc *dc, struct dc_state *context)
+ 	int i, j;
+ 	struct dc_state *dangling_context = dc_create_state(dc);
+ 	struct dc_state *current_ctx;
++	struct pipe_ctx *pipe;
  
--static int pp_odn_edit_dpm_table(void *handle, uint32_t type, long *input, uint32_t size)
-+static int pp_odn_edit_dpm_table(void *handle, enum PP_OD_DPM_TABLE_COMMAND type,
-+				 long *input, uint32_t size)
- {
- 	struct pp_hwmgr *hwmgr = handle;
+ 	if (dangling_context == NULL)
+ 		return;
+@@ -1112,6 +1113,16 @@ static void disable_dangling_plane(struct dc *dc, struct dc_state *context)
+ 		}
  
+ 		if (should_disable && old_stream) {
++			pipe = &dc->current_state->res_ctx.pipe_ctx[i];
++			/* When disabling plane for a phantom pipe, we must turn on the
++			 * phantom OTG so the disable programming gets the double buffer
++			 * update. Otherwise the pipe will be left in a partially disabled
++			 * state that can result in underflow or hang when enabling it
++			 * again for different use.
++			 */
++			if (old_stream->mall_stream_config.type == SUBVP_PHANTOM) {
++				pipe->stream_res.tg->funcs->enable_crtc(pipe->stream_res.tg);
++			}
+ 			dc_rem_all_planes_for_stream(dc, old_stream, dangling_context);
+ 			disable_all_writeback_pipes_for_stream(dc, old_stream, dangling_context);
+ 
+@@ -1760,6 +1771,12 @@ static enum dc_status dc_commit_state_no_check(struct dc *dc, struct dc_state *c
+ 		context->stream_count == 0)
+ 		dc->hwss.prepare_bandwidth(dc, context);
+ 
++	/* When SubVP is active, all HW programming must be done while
++	 * SubVP lock is acquired
++	 */
++	if (dc->hwss.subvp_pipe_control_lock)
++		dc->hwss.subvp_pipe_control_lock(dc, context, true, true, NULL, subvp_prev_use);
++
+ 	if (dc->debug.enable_double_buffered_dsc_pg_support)
+ 		dc->hwss.update_dsc_pg(dc, context, false);
+ 
+@@ -1787,9 +1804,6 @@ static enum dc_status dc_commit_state_no_check(struct dc *dc, struct dc_state *c
+ 		dc->hwss.wait_for_mpcc_disconnect(dc, dc->res_pool, pipe);
+ 	}
+ 
+-	if (dc->hwss.subvp_pipe_control_lock)
+-		dc->hwss.subvp_pipe_control_lock(dc, context, true, true, NULL, subvp_prev_use);
+-
+ 	result = dc->hwss.apply_ctx_to_hw(dc, context);
+ 
+ 	if (result != DC_OK) {
+@@ -3576,7 +3590,6 @@ static bool could_mpcc_tree_change_for_active_pipes(struct dc *dc,
+ 
+ 	struct dc_stream_status *cur_stream_status = stream_get_status(dc->current_state, stream);
+ 	bool force_minimal_pipe_splitting = false;
+-	uint32_t i;
+ 
+ 	*is_plane_addition = false;
+ 
+@@ -3608,27 +3621,11 @@ static bool could_mpcc_tree_change_for_active_pipes(struct dc *dc,
+ 		}
+ 	}
+ 
+-	/* For SubVP pipe split case when adding MPO video
+-	 * we need to add a minimal transition. In this case
+-	 * there will be 2 streams (1 main stream, 1 phantom
+-	 * stream).
++	/* For SubVP when adding MPO video we need to add a minimal transition.
+ 	 */
+-	if (cur_stream_status &&
+-			dc->current_state->stream_count == 2 &&
+-			stream->mall_stream_config.type == SUBVP_MAIN) {
+-		bool is_pipe_split = false;
+-
+-		for (i = 0; i < dc->res_pool->pipe_count; i++) {
+-			if (dc->current_state->res_ctx.pipe_ctx[i].stream == stream &&
+-					(dc->current_state->res_ctx.pipe_ctx[i].bottom_pipe ||
+-					dc->current_state->res_ctx.pipe_ctx[i].next_odm_pipe)) {
+-				is_pipe_split = true;
+-				break;
+-			}
+-		}
+-
++	if (cur_stream_status && stream->mall_stream_config.type == SUBVP_MAIN) {
+ 		/* determine if minimal transition is required due to SubVP*/
+-		if (surface_count > 0 && is_pipe_split) {
++		if (surface_count > 0) {
+ 			if (cur_stream_status->plane_count > surface_count) {
+ 				force_minimal_pipe_splitting = true;
+ 			} else if (cur_stream_status->plane_count < surface_count) {
 -- 
 2.35.1
 
