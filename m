@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23BA65001F
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:10:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A3F8650025
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:10:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D08C10E241;
-	Sun, 18 Dec 2022 16:10:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62ED210E246;
+	Sun, 18 Dec 2022 16:10:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BD2710E241;
- Sun, 18 Dec 2022 16:10:09 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35EF510E246;
+ Sun, 18 Dec 2022 16:10:18 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A698960DC8;
- Sun, 18 Dec 2022 16:10:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E460C433D2;
- Sun, 18 Dec 2022 16:10:05 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id AF374B80766;
+ Sun, 18 Dec 2022 16:10:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74C42C433EF;
+ Sun, 18 Dec 2022 16:10:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671379808;
- bh=scAjh5f8FKUHPUIaZJCpBxjtgn9vl/P0GaSN3HR+cwQ=;
+ s=k20201202; t=1671379815;
+ bh=qf0oSLV4E6w5ebS0SOBfjay3IS6Hh2aOO/vzy9pPhyY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MwNTZgIFAQoliuf77jm4sursZHCaJfvWkxNxCF05847NUaxnwOivA6shnrnEuyikO
- EN/DvJi2trT9avk6A2vMa6kTgKqBnZPdXv0+ZNM3raZBGV5qhB6JWwFlbRKHdV+8G3
- 7dxL2m+LPH4kL373jofqMipr6d+G/F+TEAYNdkA5qeMrn+/gzErGLGpzT3JsXKocvI
- zngUR/HTS6cmy4QFDno1PRHfJ6WjlxaqBIwxHiCG1O7Cc88u0p60T0vCxK26wVMRLc
- D0CjNwjM+LNNKH9v6rcRX3xmGoTSpp1uuhoNt+/GHc5a6EllQuWzl5gUEl0rlBejzR
- 4/Gti3muUMm1g==
+ b=eULV2OSP48Msm9GF9K3Mv26Rnbtaf5cIFxp+yWb1UXW7MMCf3FXVn7XGeFM2v6TeP
+ 6R1oPO5FYr5bi8HthmB9qTD6btNoxMDsmxzY9roW2skClteiuAYqxgu749DgpNccqa
+ yisWybk/SDV08napnxWzH8B8qpu8Pe+mxAiSHjxdY/ECnTQyFlSW7E2NvNba1f0Jd9
+ KmmyPryM48qHz4DOBoqnMPRsYRjz/kc42ah02+OpO3G5qRoNacdGVIS04s8mAhNKvP
+ wzyY4/xSIRa5gzWZbFQEmmm6QA6FBQ9KYugO/0JqlQz+mwWLwJNelFlyuAYpru1xnb
+ Ik9AjH7J5k35Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 39/73] drm/amd/display: Workaround to increase
- phantom pipe vactive in pipesplit
-Date: Sun, 18 Dec 2022 11:07:07 -0500
-Message-Id: <20221218160741.927862-39-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 40/73] drm/amd/display: fix array index out of
+ bound error in bios parser
+Date: Sun, 18 Dec 2022 11:07:08 -0500
+Message-Id: <20221218160741.927862-40-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221218160741.927862-1-sashal@kernel.org>
 References: <20221218160741.927862-1-sashal@kernel.org>
@@ -55,69 +55,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Dillon.Varone@amd.com,
- David.Galiffi@amd.com, Tom Chung <chiahsuan.chung@amd.com>,
- amd-gfx@lists.freedesktop.org, sunpeng.li@amd.com,
- dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
- samson.tam@amd.com, Daniel Wheeler <daniel.wheeler@amd.com>,
- rdunlap@infradead.org, Alvin Lee <Alvin.Lee2@amd.com>,
- George Shen <george.shen@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- jun.lei@amd.com, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, Charlene.Liu@amd.com,
+ tales.aparecida@gmail.com, Tom Chung <chiahsuan.chung@amd.com>,
+ jaehyun.chung@amd.com, sunpeng.li@amd.com, sancchen@amd.com,
+ Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, jerry.zuo@amd.com,
+ amd-gfx@lists.freedesktop.org, Daniel Wheeler <daniel.wheeler@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, dri-devel@lists.freedesktop.org,
+ Martin Leung <Martin.Leung@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: George Shen <george.shen@amd.com>
+From: Aurabindo Pillai <aurabindo.pillai@amd.com>
 
-[ Upstream commit 5b8f9deaf3b6badfc0da968e6e07ceabd19700b6 ]
+[ Upstream commit 4fc1ba4aa589ca267468ad23fedef37562227d32 ]
 
-[Why]
-Certain high resolution displays exhibit DCC line corruption with SubVP
-enabled. This is likely due to insufficient DCC meta data buffered
-immediately after the mclk switch.
+[Why&How]
+Firmware headers dictate that gpio_pin array only has a size of 8. The
+count returned from vbios however is greater than 8.
 
-[How]
-Add workaround to increase phantom pipe vactive height by
-meta_row_height number of lines, thus increasing the amount of meta data
-buffered immediately after mclk switch finishes.
+Fix this by not using array indexing but incrementing the pointer since
+gpio_pin definition in atomfirmware.h is hardcoded to size 8
 
-Reviewed-by: Alvin Lee <Alvin.Lee2@amd.com>
+Reviewed-by: Martin Leung <Martin.Leung@amd.com>
 Acked-by: Tom Chung <chiahsuan.chung@amd.com>
-Signed-off-by: George Shen <george.shen@amd.com>
+Signed-off-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ .../gpu/drm/amd/display/dc/bios/bios_parser2.c   | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-index 07c56e231b04..d05df4f7139f 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-@@ -485,9 +485,11 @@ void dcn32_set_phantom_stream_timing(struct dc *dc,
- 	unsigned int i, pipe_idx;
- 	struct pipe_ctx *pipe;
- 	uint32_t phantom_vactive, phantom_bp, pstate_width_fw_delay_lines;
-+	unsigned int num_dpp;
- 	unsigned int vlevel = context->bw_ctx.dml.vba.VoltageLevel;
- 	unsigned int dcfclk = context->bw_ctx.dml.vba.DCFCLKState[vlevel][context->bw_ctx.dml.vba.maxMpcComb];
- 	unsigned int socclk = context->bw_ctx.dml.vba.SOCCLKPerState[vlevel];
-+	struct vba_vars_st *vba = &context->bw_ctx.dml.vba;
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+index de3a1f3fd4f1..c98cd7c5b9f7 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+@@ -487,6 +487,7 @@ static enum bp_result get_gpio_i2c_info(
+ 	uint32_t count = 0;
+ 	unsigned int table_index = 0;
+ 	bool find_valid = false;
++	struct atom_gpio_pin_assignment *pin;
  
- 	dc_assert_fp_enabled();
+ 	if (!info)
+ 		return BP_RESULT_BADINPUT;
+@@ -514,20 +515,17 @@ static enum bp_result get_gpio_i2c_info(
+ 			- sizeof(struct atom_common_table_header))
+ 				/ sizeof(struct atom_gpio_pin_assignment);
  
-@@ -523,6 +525,11 @@ void dcn32_set_phantom_stream_timing(struct dc *dc,
- 	phantom_vactive = get_subviewport_lines_needed_in_mall(&context->bw_ctx.dml, pipes, pipe_cnt, pipe_idx) +
- 				pstate_width_fw_delay_lines + dc->caps.subvp_swath_height_margin_lines;
- 
-+	// W/A for DCC corruption with certain high resolution timings.
-+	// Determing if pipesplit is used. If so, add meta_row_height to the phantom vactive.
-+	num_dpp = vba->NoOfDPP[vba->VoltageLevel][vba->maxMpcComb][vba->pipe_plane[pipe_idx]];
-+	phantom_vactive += num_dpp > 1 ? vba->meta_row_height[vba->pipe_plane[pipe_idx]] : 0;
++	pin = (struct atom_gpio_pin_assignment *) header->gpio_pin;
 +
- 	// For backporch of phantom pipe, use vstartup of the main pipe
- 	phantom_bp = get_vstartup(&context->bw_ctx.dml, pipes, pipe_cnt, pipe_idx);
+ 	for (table_index = 0; table_index < count; table_index++) {
+-		if (((record->i2c_id & I2C_HW_CAP) == (
+-		header->gpio_pin[table_index].gpio_id &
+-						I2C_HW_CAP)) &&
+-		((record->i2c_id & I2C_HW_ENGINE_ID_MASK)  ==
+-		(header->gpio_pin[table_index].gpio_id &
+-					I2C_HW_ENGINE_ID_MASK)) &&
+-		((record->i2c_id & I2C_HW_LANE_MUX) ==
+-		(header->gpio_pin[table_index].gpio_id &
+-						I2C_HW_LANE_MUX))) {
++		if (((record->i2c_id & I2C_HW_CAP) 				== (pin->gpio_id & I2C_HW_CAP)) &&
++		    ((record->i2c_id & I2C_HW_ENGINE_ID_MASK)	== (pin->gpio_id & I2C_HW_ENGINE_ID_MASK)) &&
++		    ((record->i2c_id & I2C_HW_LANE_MUX) 		== (pin->gpio_id & I2C_HW_LANE_MUX))) {
+ 			/* still valid */
+ 			find_valid = true;
+ 			break;
+ 		}
++		pin = (struct atom_gpio_pin_assignment *)((uint8_t *)pin + sizeof(struct atom_gpio_pin_assignment));
+ 	}
  
+ 	/* If we don't find the entry that we are looking for then
 -- 
 2.35.1
 
