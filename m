@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB31065005A
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:13:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 839D165005F
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:13:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBB8410E24A;
-	Sun, 18 Dec 2022 16:12:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45C7310E252;
+	Sun, 18 Dec 2022 16:13:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CB2410E24A;
- Sun, 18 Dec 2022 16:12:50 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9A210E24D;
+ Sun, 18 Dec 2022 16:13:51 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C5D3EB80766;
- Sun, 18 Dec 2022 16:12:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BB47C433EF;
- Sun, 18 Dec 2022 16:12:46 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9A0D260DDB;
+ Sun, 18 Dec 2022 16:13:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A893C433F0;
+ Sun, 18 Dec 2022 16:13:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671379967;
- bh=kvU+2fSgBjunwK2CfNT1L4BIgyAbAMZJL4sX1ZHUArQ=;
- h=From:To:Cc:Subject:Date:From;
- b=g8GtzOBDXIazXIunYnmhHBjvxD6dDRXH8dajDWvqrAFYC+bBRw9TgnIzzoT65KyHE
- wB+T9lzvgPZk0Hgj3k0c7NAUg8+EDS2KB85/gf8p2KHIyhU1fEwW+39V2yLoO8sxQb
- mF8yGSB8MA7VCo0Zqg0lPBL4yMgZ8RNPL3kTcOViFDElQUgYH4BF4YYFr2YFKC8AXy
- nni9rA7M18kGGJO8JlLGF34lU+yPn3wb+Od6vRPEJRnpVXq3kJKA5Kz3KRqcTQNHL3
- pY7XkAtjs53Lmt4OBZLjYbt7Yf4gPrt9XfHhz3SacI8hIss3wUs+qYWaI1ASokSgKa
- MI515eORqgTpA==
+ s=k20201202; t=1671379998;
+ bh=9cMVz/7RUy1bBNQ+ZXNVi7CT5W2f04dwS8UO0J5cu94=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=i02OmITmBri586SezchYlx5mE3yDYcGSNDaV8jTt2mBcAErqMxK2k8AnroNoAryV3
+ x9lBCyQDoi+hvfKTH+sHAEQGsaVNWP6d3YN5MnD/IZ5DK9n4TKDlIn2b1ixq4OWal+
+ ZRcIR4bTSrv94McXDRSXikuW8yFijVsf6ZFSrsdtW8tK4lscBb15ZAgarQRj0HX9vR
+ 9ptnQR1DOZf/ZROx+0KTUbUDsDyy+WIUXc4NKE3SO3X1Flo/KVIwMmSScQqBOYKTwc
+ Kkj3srrhsmfsz0osWfmh/LXMXs7rn3EIXtQpn4A0t5i3dOt4bifVQhjRL0Ycbyff9e
+ 56nqwcOkXhAXQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 01/46] drm/etnaviv: add missing quirks for GC300
-Date: Sun, 18 Dec 2022 11:11:59 -0500
-Message-Id: <20221218161244.930785-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 08/46] drm/amd/display: prevent memory leak
+Date: Sun, 18 Dec 2022 11:12:06 -0500
+Message-Id: <20221218161244.930785-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221218161244.930785-1-sashal@kernel.org>
+References: <20221218161244.930785-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -53,56 +54,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Doug Brown <doug@schmorgal.com>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, HaoPing.Liu@amd.com, sunpeng.li@amd.com,
+ Xinhui.Pan@amd.com, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ amd-gfx@lists.freedesktop.org, alex.hung@amd.com, aurabindo.pillai@amd.com,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ gehao <gehao@kylinos.cn>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Doug Brown <doug@schmorgal.com>
+From: gehao <gehao@kylinos.cn>
 
-[ Upstream commit cc7d3fb446a91f24978a6aa59cbb578f92e22242 ]
+[ Upstream commit d232afb1f3417ae8194ccf19ad3a8360e70e104e ]
 
-The GC300's features register doesn't specify that a 2D pipe is
-available, and like the GC600, its idle register reports zero bits where
-modules aren't present.
+In dce6(0,1,4)_create_resource_pool and dce80_create_resource_pool
+the allocated memory should be released if construct pool fails.
 
-Signed-off-by: Doug Brown <doug@schmorgal.com>
-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Signed-off-by: gehao <gehao@kylinos.cn>
+Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dce60/dce60_resource.c | 3 +++
+ drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c | 2 ++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index cc5b07f86346..e8ff70be449a 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -416,6 +416,12 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
- 	if (gpu->identity.model == chipModel_GC700)
- 		gpu->identity.features &= ~chipFeatures_FAST_CLEAR;
+diff --git a/drivers/gpu/drm/amd/display/dc/dce60/dce60_resource.c b/drivers/gpu/drm/amd/display/dc/dce60/dce60_resource.c
+index dcfa0a3efa00..bf72d3f60d7f 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce60/dce60_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dce60/dce60_resource.c
+@@ -1127,6 +1127,7 @@ struct resource_pool *dce60_create_resource_pool(
+ 	if (dce60_construct(num_virtual_links, dc, pool))
+ 		return &pool->base;
  
-+	/* These models/revisions don't have the 2D pipe bit */
-+	if ((gpu->identity.model == chipModel_GC500 &&
-+	     gpu->identity.revision <= 2) ||
-+	    gpu->identity.model == chipModel_GC300)
-+		gpu->identity.features |= chipFeatures_PIPE_2D;
-+
- 	if ((gpu->identity.model == chipModel_GC500 &&
- 	     gpu->identity.revision < 2) ||
- 	    (gpu->identity.model == chipModel_GC300 &&
-@@ -449,8 +455,9 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
- 				gpu_read(gpu, VIVS_HI_CHIP_MINOR_FEATURE_5);
- 	}
++	kfree(pool);
+ 	BREAK_TO_DEBUGGER();
+ 	return NULL;
+ }
+@@ -1324,6 +1325,7 @@ struct resource_pool *dce61_create_resource_pool(
+ 	if (dce61_construct(num_virtual_links, dc, pool))
+ 		return &pool->base;
  
--	/* GC600 idle register reports zero bits where modules aren't present */
--	if (gpu->identity.model == chipModel_GC600)
-+	/* GC600/300 idle register reports zero bits where modules aren't present */
-+	if (gpu->identity.model == chipModel_GC600 ||
-+	    gpu->identity.model == chipModel_GC300)
- 		gpu->idle_mask = VIVS_HI_IDLE_STATE_TX |
- 				 VIVS_HI_IDLE_STATE_RA |
- 				 VIVS_HI_IDLE_STATE_SE |
++	kfree(pool);
+ 	BREAK_TO_DEBUGGER();
+ 	return NULL;
+ }
+@@ -1517,6 +1519,7 @@ struct resource_pool *dce64_create_resource_pool(
+ 	if (dce64_construct(num_virtual_links, dc, pool))
+ 		return &pool->base;
+ 
++	kfree(pool);
+ 	BREAK_TO_DEBUGGER();
+ 	return NULL;
+ }
+diff --git a/drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c b/drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c
+index 725d92e40cd3..52d1f9746e8c 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c
+@@ -1138,6 +1138,7 @@ struct resource_pool *dce80_create_resource_pool(
+ 	if (dce80_construct(num_virtual_links, dc, pool))
+ 		return &pool->base;
+ 
++	kfree(pool);
+ 	BREAK_TO_DEBUGGER();
+ 	return NULL;
+ }
+@@ -1337,6 +1338,7 @@ struct resource_pool *dce81_create_resource_pool(
+ 	if (dce81_construct(num_virtual_links, dc, pool))
+ 		return &pool->base;
+ 
++	kfree(pool);
+ 	BREAK_TO_DEBUGGER();
+ 	return NULL;
+ }
 -- 
 2.35.1
 
