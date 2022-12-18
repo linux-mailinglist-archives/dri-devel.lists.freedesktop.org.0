@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC9E65008E
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:17:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D0165009B
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:17:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 878AA10E25D;
-	Sun, 18 Dec 2022 16:16:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2BAE10E264;
+	Sun, 18 Dec 2022 16:17:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E82110E25D;
- Sun, 18 Dec 2022 16:16:32 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B46F210E263;
+ Sun, 18 Dec 2022 16:17:00 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C784BB803F1;
- Sun, 18 Dec 2022 16:16:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B196C433F0;
- Sun, 18 Dec 2022 16:16:27 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 383A160DCC;
+ Sun, 18 Dec 2022 16:17:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B80FC433F0;
+ Sun, 18 Dec 2022 16:16:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671380189;
- bh=NCUk6bB7VPH3vQWVQfzyYHYNWWpQAY1rTqiNAogsDkw=;
+ s=k20201202; t=1671380219;
+ bh=CsNLAzcVT3fORf6e3IVn0A5FKRHKNj/8OngaaPgL4to=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=c1R/f8G4t8PCOU67by1N+CkZ/yq2f7tjB9pIwUKjYfoejL1ZIxvTRk9yjekFjWVTA
- HtvZkncTGbattX448dOnDiJImyFtpgrY6Hef6oMxpNGD19MaP/B/BUt/jhMji6nGdN
- arsBQhcD87x0J4k54h0pZkp4Dm784JQVBundj2fI9YhoqrZjSGPwZG6MyX1FHyJBFd
- TPJRz/ZqoJT5lhXFIfkL/R6FxKuJOnh8tMNvI1TPHGvHAMtOgoq+P3aXgGBHklsFnY
- dn9A555gsXMEh2Q9A5ZmcYCZeaqecSlk8al9gbiigVewkGJDVBmc2viUgCHwxUIlc7
- +/tuu0XfO5LBw==
+ b=jW0ihtLlRH0R1ZCF1YAuYcJpen8Q8dz5PmPA3b7styZnM4yj9nHsa8Zorn6wZrej9
+ 7d/XR6PQ7+jGdNXP34VibmS5pjiDm8LhpewLwmn6iH5gWXzRQnZcV4LvcynHqFUn5O
+ fkI3K4hrwAH2frG5Uk1MkP08auxPXaTfQiMsHqnZnu/EHp60mc4BVtR+T9fH0656lX
+ oJXSDPHr7BO9cwWFj7HpUFUBmS7Sl3jWxmwdaHvF+5jybBdtQL+HGZpZtmWzh9egHi
+ ygssmIqrapIXLi9T8vffLJzws/z5GnvFoa3/Turiq9aUMyTOkT0grbmiDwvGPDb5x2
+ yBv6BeH8aNEPA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 07/39] drm/amd/display: prevent memory leak
-Date: Sun, 18 Dec 2022 11:15:27 -0500
-Message-Id: <20221218161559.932604-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 14/39] drm/amdgpu: Fix type of second parameter
+ in trans_msg() callback
+Date: Sun, 18 Dec 2022 11:15:34 -0500
+Message-Id: <20221218161559.932604-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221218161559.932604-1-sashal@kernel.org>
 References: <20221218161559.932604-1-sashal@kernel.org>
@@ -54,79 +55,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, HaoPing.Liu@amd.com, sunpeng.li@amd.com,
- Xinhui.Pan@amd.com, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- amd-gfx@lists.freedesktop.org, alex.hung@amd.com, aurabindo.pillai@amd.com,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- gehao <gehao@kylinos.cn>, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, llvm@lists.linux.dev, lijo.lazar@amd.com,
+ Kees Cook <keescook@chromium.org>, dri-devel@lists.freedesktop.org,
+ horace.chen@amd.com, Xinhui.Pan@amd.com, ndesaulniers@google.com,
+ amd-gfx@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
+ Victor.Zhao@amd.com, danijel.slivka@amd.com,
+ Sami Tolvanen <samitolvanen@google.com>, PengJu.Zhou@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, victor.skvortsov@amd.com,
+ christian.koenig@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: gehao <gehao@kylinos.cn>
+From: Nathan Chancellor <nathan@kernel.org>
 
-[ Upstream commit d232afb1f3417ae8194ccf19ad3a8360e70e104e ]
+[ Upstream commit f0d0f1087333714ee683cc134a95afe331d7ddd9 ]
 
-In dce6(0,1,4)_create_resource_pool and dce80_create_resource_pool
-the allocated memory should be released if construct pool fails.
+With clang's kernel control flow integrity (kCFI, CONFIG_CFI_CLANG),
+indirect call targets are validated against the expected function
+pointer prototype to make sure the call target is valid to help mitigate
+ROP attacks. If they are not identical, there is a failure at run time,
+which manifests as either a kernel panic or thread getting killed. A
+proposed warning in clang aims to catch these at compile time, which
+reveals:
 
-Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Signed-off-by: gehao <gehao@kylinos.cn>
-Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+  drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c:412:15: error: incompatible function pointer types initializing 'void (*)(struct amdgpu_device *, u32, u32, u32, u32)' (aka 'void (*)(struct amdgpu_device *, unsigned int, unsigned int, unsigned int, unsigned int)') with an expression of type 'void (struct amdgpu_device *, enum idh_request, u32, u32, u32)' (aka 'void (struct amdgpu_device *, enum idh_request, unsigned int, unsigned int, unsigned int)') [-Werror,-Wincompatible-function-pointer-types-strict]
+          .trans_msg = xgpu_ai_mailbox_trans_msg,
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+  1 error generated.
+
+  drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c:435:15: error: incompatible function pointer types initializing 'void (*)(struct amdgpu_device *, u32, u32, u32, u32)' (aka 'void (*)(struct amdgpu_device *, unsigned int, unsigned int, unsigned int, unsigned int)') with an expression of type 'void (struct amdgpu_device *, enum idh_request, u32, u32, u32)' (aka 'void (struct amdgpu_device *, enum idh_request, unsigned int, unsigned int, unsigned int)') [-Werror,-Wincompatible-function-pointer-types-strict]
+          .trans_msg = xgpu_nv_mailbox_trans_msg,
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+  1 error generated.
+
+The type of the second parameter in the prototype should be 'enum
+idh_request' instead of 'u32'. Update it to clear up the warnings.
+
+Link: https://github.com/ClangBuiltLinux/linux/issues/1750
+Reported-by: Sami Tolvanen <samitolvanen@google.com>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dce60/dce60_resource.c | 3 +++
- drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c | 2 ++
- 2 files changed, 5 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dce60/dce60_resource.c b/drivers/gpu/drm/amd/display/dc/dce60/dce60_resource.c
-index 5a5a9cb77acb..bcdd8a958fc0 100644
---- a/drivers/gpu/drm/amd/display/dc/dce60/dce60_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dce60/dce60_resource.c
-@@ -1132,6 +1132,7 @@ struct resource_pool *dce60_create_resource_pool(
- 	if (dce60_construct(num_virtual_links, dc, pool))
- 		return &pool->base;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h
+index aea49bad914f..fbd92fff8b06 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h
+@@ -62,6 +62,8 @@ struct amdgpu_vf_error_buffer {
+ 	uint64_t data[AMDGPU_VF_ERROR_ENTRY_SIZE];
+ };
  
-+	kfree(pool);
- 	BREAK_TO_DEBUGGER();
- 	return NULL;
- }
-@@ -1329,6 +1330,7 @@ struct resource_pool *dce61_create_resource_pool(
- 	if (dce61_construct(num_virtual_links, dc, pool))
- 		return &pool->base;
++enum idh_request;
++
+ /**
+  * struct amdgpu_virt_ops - amdgpu device virt operations
+  */
+@@ -71,7 +73,8 @@ struct amdgpu_virt_ops {
+ 	int (*req_init_data)(struct amdgpu_device *adev);
+ 	int (*reset_gpu)(struct amdgpu_device *adev);
+ 	int (*wait_reset)(struct amdgpu_device *adev);
+-	void (*trans_msg)(struct amdgpu_device *adev, u32 req, u32 data1, u32 data2, u32 data3);
++	void (*trans_msg)(struct amdgpu_device *adev, enum idh_request req,
++			  u32 data1, u32 data2, u32 data3);
+ };
  
-+	kfree(pool);
- 	BREAK_TO_DEBUGGER();
- 	return NULL;
- }
-@@ -1522,6 +1524,7 @@ struct resource_pool *dce64_create_resource_pool(
- 	if (dce64_construct(num_virtual_links, dc, pool))
- 		return &pool->base;
- 
-+	kfree(pool);
- 	BREAK_TO_DEBUGGER();
- 	return NULL;
- }
-diff --git a/drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c b/drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c
-index a19be9de2df7..2eefa07762ae 100644
---- a/drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c
-@@ -1141,6 +1141,7 @@ struct resource_pool *dce80_create_resource_pool(
- 	if (dce80_construct(num_virtual_links, dc, pool))
- 		return &pool->base;
- 
-+	kfree(pool);
- 	BREAK_TO_DEBUGGER();
- 	return NULL;
- }
-@@ -1338,6 +1339,7 @@ struct resource_pool *dce81_create_resource_pool(
- 	if (dce81_construct(num_virtual_links, dc, pool))
- 		return &pool->base;
- 
-+	kfree(pool);
- 	BREAK_TO_DEBUGGER();
- 	return NULL;
- }
+ /*
 -- 
 2.35.1
 
