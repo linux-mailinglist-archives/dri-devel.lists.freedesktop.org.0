@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 823B565006B
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:14:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8921765007F
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:15:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22B4C10E255;
-	Sun, 18 Dec 2022 16:14:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8CFB10E25C;
+	Sun, 18 Dec 2022 16:15:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F97210E255
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Dec 2022 16:14:27 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E508A10E25E;
+ Sun, 18 Dec 2022 16:15:12 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 07B9460DCB;
- Sun, 18 Dec 2022 16:14:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2F50C433F0;
- Sun, 18 Dec 2022 16:14:24 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id CC4C4CE0BA6;
+ Sun, 18 Dec 2022 16:14:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8AC1C433EF;
+ Sun, 18 Dec 2022 16:14:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671380066;
- bh=WeOOt14tkYeELBrtRWfPT2/q6Bw4lnOCH2VvxZFmpcY=;
+ s=k20201202; t=1671380076;
+ bh=CzY02WCh5DsVTwERCpDuE7NiLkEVuSwPkbiLhSwNV78=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dzmje4hKaeQrYSHdhC+sIKTl3vsoWacmBh8tQRli0WQoXINR+Wqf7Mr1mMLxCBasE
- k7LqmV3sTY8OOk6+9M5zm2XyZVrSPCuQjwCxkfZkoL5t/VEjQrnrny3xTuP/U/5vb3
- AHaHONGG6Kfl8ILtoF53bllgO0bqNgEnNOVYWhGdXez2iqNqEbBM4ECR20H8dWU8zJ
- VxowEVeEmbTITMAuJfKzJnSADTunTJDwQm3aTlWokw/DCyvSstR4Hx5OphJ93pikv8
- RR1bOp1B2B4T8VdKu67+dmU6OxBKjVBQ8JRhZCsDheOuOjWjPeipBaK/zSUbYu/KxQ
- pSYuOEKPUL4mQ==
+ b=IcXf9nFkhS1kB4cVn+s+kVw2WrqIWt5r3pbVN6nGQtqhccoytieBRWrQd1tUKF/au
+ ZQFoCZl5jampqhd+PrS05q9TCZ7vhORwN8E0y+BYFOZauuROT7NJ19Gkei9iTY9/m0
+ trW4sc6wn+WIkdMrmRmzeFjRQ2Ac4EEOMasxRRltX82E8L89e9hA5acZmsyJWC3cgG
+ rdSkbilsKbaeo/9I3u54pd9bsD7X3aDJwkp77HPgUjoWTuCaL1XVepsn5kKPHCyHvg
+ cjBP5ZjyhUs9WBwvDgDS1oZJGdtuZflhLvHY6C9R+JVcOYjgPWvnU2VUOxTvEaJivX
+ InBKo369bSI5g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 24/46] drm/mediatek: Fix return type of
- mtk_hdmi_bridge_mode_valid()
-Date: Sun, 18 Dec 2022 11:12:22 -0500
-Message-Id: <20221218161244.930785-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 27/46] drm/amd/display: fix array index out of
+ bound error in bios parser
+Date: Sun, 18 Dec 2022 11:12:25 -0500
+Message-Id: <20221218161244.930785-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221218161244.930785-1-sashal@kernel.org>
 References: <20221218161244.930785-1-sashal@kernel.org>
@@ -55,67 +55,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Kees Cook <keescook@chromium.org>, llvm@lists.linux.dev,
- ndesaulniers@google.com, dri-devel@lists.freedesktop.org,
- Nathan Chancellor <nathan@kernel.org>, linux-mediatek@lists.infradead.org,
- Sami Tolvanen <samitolvanen@google.com>, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Sasha Levin <sashal@kernel.org>, Charlene.Liu@amd.com, george.shen@amd.com,
+ Tom Chung <chiahsuan.chung@amd.com>, jaehyun.chung@amd.com, sunpeng.li@amd.com,
+ sancchen@amd.com, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
+ jerry.zuo@amd.com, amd-gfx@lists.freedesktop.org,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, dri-devel@lists.freedesktop.org,
+ Martin Leung <Martin.Leung@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ tales.aparecida@gmail.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nathan Chancellor <nathan@kernel.org>
+From: Aurabindo Pillai <aurabindo.pillai@amd.com>
 
-[ Upstream commit 890d637523eec9d730e3885532fa1228ba678880 ]
+[ Upstream commit 4fc1ba4aa589ca267468ad23fedef37562227d32 ]
 
-With clang's kernel control flow integrity (kCFI, CONFIG_CFI_CLANG),
-indirect call targets are validated against the expected function
-pointer prototype to make sure the call target is valid to help mitigate
-ROP attacks. If they are not identical, there is a failure at run time,
-which manifests as either a kernel panic or thread getting killed. A
-proposed warning in clang aims to catch these at compile time, which
-reveals:
+[Why&How]
+Firmware headers dictate that gpio_pin array only has a size of 8. The
+count returned from vbios however is greater than 8.
 
-  drivers/gpu/drm/mediatek/mtk_hdmi.c:1407:16: error: incompatible function pointer types initializing 'enum drm_mode_status (*)(struct drm_bridge *, const struct drm_display_info *, const struct drm_display_mode *)' with an expression of type 'int (struct drm_bridge *, const struct drm_display_info *, const struct drm_display_mode *)' [-Werror,-Wincompatible-function-pointer-types-strict]
-          .mode_valid = mtk_hdmi_bridge_mode_valid,
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
-  1 error generated.
+Fix this by not using array indexing but incrementing the pointer since
+gpio_pin definition in atomfirmware.h is hardcoded to size 8
 
-->mode_valid() in 'struct drm_bridge_funcs' expects a return type of
-'enum drm_mode_status', not 'int'. Adjust the return type of
-mtk_hdmi_bridge_mode_valid() to match the prototype's to resolve the
-warning and CFI failure.
-
-Link: https://github.com/ClangBuiltLinux/linux/issues/1750
-Reported-by: Sami Tolvanen <samitolvanen@google.com>
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Reviewed-by: Martin Leung <Martin.Leung@amd.com>
+Acked-by: Tom Chung <chiahsuan.chung@amd.com>
+Signed-off-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ .../gpu/drm/amd/display/dc/bios/bios_parser2.c   | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 3196189429bc..7613b0fa2be6 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1203,9 +1203,10 @@ static enum drm_connector_status mtk_hdmi_detect(struct mtk_hdmi *hdmi)
- 	return mtk_hdmi_update_plugged_status(hdmi);
- }
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+index 6dbde74c1e06..1d86fd5610c0 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+@@ -352,6 +352,7 @@ static enum bp_result get_gpio_i2c_info(
+ 	uint32_t count = 0;
+ 	unsigned int table_index = 0;
+ 	bool find_valid = false;
++	struct atom_gpio_pin_assignment *pin;
  
--static int mtk_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
--				      const struct drm_display_info *info,
--				      const struct drm_display_mode *mode)
-+static enum drm_mode_status
-+mtk_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
-+			   const struct drm_display_info *info,
-+			   const struct drm_display_mode *mode)
- {
- 	struct mtk_hdmi *hdmi = hdmi_ctx_from_bridge(bridge);
- 	struct drm_bridge *next_bridge;
+ 	if (!info)
+ 		return BP_RESULT_BADINPUT;
+@@ -379,20 +380,17 @@ static enum bp_result get_gpio_i2c_info(
+ 			- sizeof(struct atom_common_table_header))
+ 				/ sizeof(struct atom_gpio_pin_assignment);
+ 
++	pin = (struct atom_gpio_pin_assignment *) header->gpio_pin;
++
+ 	for (table_index = 0; table_index < count; table_index++) {
+-		if (((record->i2c_id & I2C_HW_CAP) == (
+-		header->gpio_pin[table_index].gpio_id &
+-						I2C_HW_CAP)) &&
+-		((record->i2c_id & I2C_HW_ENGINE_ID_MASK)  ==
+-		(header->gpio_pin[table_index].gpio_id &
+-					I2C_HW_ENGINE_ID_MASK)) &&
+-		((record->i2c_id & I2C_HW_LANE_MUX) ==
+-		(header->gpio_pin[table_index].gpio_id &
+-						I2C_HW_LANE_MUX))) {
++		if (((record->i2c_id & I2C_HW_CAP) 				== (pin->gpio_id & I2C_HW_CAP)) &&
++		    ((record->i2c_id & I2C_HW_ENGINE_ID_MASK)	== (pin->gpio_id & I2C_HW_ENGINE_ID_MASK)) &&
++		    ((record->i2c_id & I2C_HW_LANE_MUX) 		== (pin->gpio_id & I2C_HW_LANE_MUX))) {
+ 			/* still valid */
+ 			find_valid = true;
+ 			break;
+ 		}
++		pin = (struct atom_gpio_pin_assignment *)((uint8_t *)pin + sizeof(struct atom_gpio_pin_assignment));
+ 	}
+ 
+ 	/* If we don't find the entry that we are looking for then
 -- 
 2.35.1
 
