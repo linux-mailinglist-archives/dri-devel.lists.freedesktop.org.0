@@ -2,40 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CF4364FF68
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:02:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 872F464FF7C
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:03:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77B1910E1BF;
-	Sun, 18 Dec 2022 16:02:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED91510E1CB;
+	Sun, 18 Dec 2022 16:03:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 218F710E1BE;
- Sun, 18 Dec 2022 16:01:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D79A10E1CB;
+ Sun, 18 Dec 2022 16:03:11 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4C6E660DB4;
- Sun, 18 Dec 2022 16:01:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8F97C433D2;
- Sun, 18 Dec 2022 16:01:45 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C740560DC9;
+ Sun, 18 Dec 2022 16:02:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66690C433D2;
+ Sun, 18 Dec 2022 16:02:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671379306;
- bh=gWX7FAuymLzIe0lTlL9cbB0Xr8qLpez2pdwNDs2A8Yw=;
- h=From:To:Cc:Subject:Date:From;
- b=XZqsANYQ/LXCAICeTwEf6VusWMfkgoCxFP7lToi/Z+3dZupOrLVfNGS7V/p3KtyIN
- bVSpGOOnrWGgYmyjx+NS+bP04bi7zfgbCwv9Fak1oBVdj2LH5CGwqNYaoOACFImG3q
- GUp2FwC9oH938kUfIG0b9f/PN/bQDdhXP9d4idsUTCfj2prgCWnhbSbgjV/l/7fyPl
- ZqVwq7I7wpaC4r5zw04LUg5hfEDX2PorMr028xhrVl4KqYjRGdh4dmlx4esNwL1JCl
- 9woWB3RRhF+PVWLaiQVqnhCH3vUFefKtefN5aHRKa13fzWvL/7VwDvi17Ljork1MnL
- Y/obIKMJKNgIg==
+ s=k20201202; t=1671379360;
+ bh=2z2kx3GfS55LxRLsKjgo8pcqfUBZUKUOXS4w7KtOlKs=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=bgt0jytGj7JY/bWy+7M3WDvU8+6DhXmv/ybFuQ6Z7xYq9pvjKUBe8qGRxvcs5Y4HQ
+ kfxMVduKOckCznBKpFlPOHpwT8v/Vo0y9wtxhWU7Yk5I8t0OhPuTv7vRzBtuHT5hum
+ FLAV6A4BIHhApKb+QBUAlL0XI9rZwTMUHjtmb+c5Ps+QV2J0rHaQYSG2btvZG9ucmP
+ ++AjSXn+IzIlFA6LPjRwMerwDN+DQZIzoXC4gDHtp6uu/JD7HUumlKHELvTcj9jlR7
+ +Ra3nrFGMBZ+SmILs/TmFMtqKMiefYvGrJ2v15MQG1y4DMV1J1pWef6oJFN+tNRour
+ WsB04VvRhWFNQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 01/85] drm/etnaviv: add missing quirks for GC300
-Date: Sun, 18 Dec 2022 11:00:18 -0500
-Message-Id: <20221218160142.925394-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 12/85] drm/amd/display: skip commit minimal
+ transition state
+Date: Sun, 18 Dec 2022 11:00:29 -0500
+Message-Id: <20221218160142.925394-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221218160142.925394-1-sashal@kernel.org>
+References: <20221218160142.925394-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -52,56 +55,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Doug Brown <doug@schmorgal.com>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, HaoPing.Liu@amd.com,
+ Mark Broadworth <mark.broadworth@amd.com>, amd-gfx@lists.freedesktop.org,
+ sunpeng.li@amd.com, dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Samson.Tam@amd.com,
+ wenjing.liu@amd.com, meenakshikumar.somasundaram@amd.com, alex.hung@amd.com,
+ Dillon Varone <Dillon.Varone@amd.com>, Alvin.Lee2@amd.com,
+ zhikzhai <zhikai.zhai@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Jun.Lei@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Doug Brown <doug@schmorgal.com>
+From: zhikzhai <zhikai.zhai@amd.com>
 
-[ Upstream commit cc7d3fb446a91f24978a6aa59cbb578f92e22242 ]
+[ Upstream commit 1e8fd864afdc7a52df375e888a03b8472fc24f5d ]
 
-The GC300's features register doesn't specify that a 2D pipe is
-available, and like the GC600, its idle register reports zero bits where
-modules aren't present.
+[WHY]
+Now dynamic ODM will now be disabled when MPO is required safe
+transitions to avoid underflow, but we are triggering the way of minimal
+transition too often. Commit state of dc with no check will do pipeline
+setup which may re-initialize the component with no need such as audio.
 
-Signed-off-by: Doug Brown <doug@schmorgal.com>
-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+[HOW]
+Just do the minimal transition when all of pipes are in use, otherwise
+return true to skip.
+
+Tested-by: Mark Broadworth <mark.broadworth@amd.com>
+Reviewed-by: Dillon Varone <Dillon.Varone@amd.com>
+Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Signed-off-by: zhikzhai <zhikai.zhai@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 37018bc55810..f667e7906d1f 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -416,6 +416,12 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
- 	if (gpu->identity.model == chipModel_GC700)
- 		gpu->identity.features &= ~chipFeatures_FAST_CLEAR;
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 997ab031f816..5c00907099c1 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -3650,10 +3650,32 @@ static bool commit_minimal_transition_state(struct dc *dc,
+ 	bool temp_subvp_policy;
+ 	enum dc_status ret = DC_ERROR_UNEXPECTED;
+ 	unsigned int i, j;
++	unsigned int pipe_in_use = 0;
  
-+	/* These models/revisions don't have the 2D pipe bit */
-+	if ((gpu->identity.model == chipModel_GC500 &&
-+	     gpu->identity.revision <= 2) ||
-+	    gpu->identity.model == chipModel_GC300)
-+		gpu->identity.features |= chipFeatures_PIPE_2D;
+ 	if (!transition_context)
+ 		return false;
+ 
++	/* check current pipes in use*/
++	for (i = 0; i < dc->res_pool->pipe_count; i++) {
++		struct pipe_ctx *pipe = &transition_base_context->res_ctx.pipe_ctx[i];
 +
- 	if ((gpu->identity.model == chipModel_GC500 &&
- 	     gpu->identity.revision < 2) ||
- 	    (gpu->identity.model == chipModel_GC300 &&
-@@ -449,8 +455,9 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
- 				gpu_read(gpu, VIVS_HI_CHIP_MINOR_FEATURE_5);
- 	}
- 
--	/* GC600 idle register reports zero bits where modules aren't present */
--	if (gpu->identity.model == chipModel_GC600)
-+	/* GC600/300 idle register reports zero bits where modules aren't present */
-+	if (gpu->identity.model == chipModel_GC600 ||
-+	    gpu->identity.model == chipModel_GC300)
- 		gpu->idle_mask = VIVS_HI_IDLE_STATE_TX |
- 				 VIVS_HI_IDLE_STATE_RA |
- 				 VIVS_HI_IDLE_STATE_SE |
++		if (pipe->plane_state)
++			pipe_in_use++;
++	}
++
++	/* When the OS add a new surface if we have been used all of pipes with odm combine
++	 * and mpc split feature, it need use commit_minimal_transition_state to transition safely.
++	 * After OS exit MPO, it will back to use odm and mpc split with all of pipes, we need
++	 * call it again. Otherwise return true to skip.
++	 *
++	 * Reduce the scenarios to use dc_commit_state_no_check in the stage of flip. Especially
++	 * enter/exit MPO when DCN still have enough resources.
++	 */
++	if (pipe_in_use != dc->res_pool->pipe_count) {
++		dc_release_state(transition_context);
++		return true;
++	}
++
+ 	if (!dc->config.is_vmin_only_asic) {
+ 		tmp_mpc_policy = dc->debug.pipe_split_policy;
+ 		dc->debug.pipe_split_policy = MPC_SPLIT_AVOID;
 -- 
 2.35.1
 
