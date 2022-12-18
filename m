@@ -2,44 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F4F46500BC
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:18:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F616500D7
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:19:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB42510E26A;
-	Sun, 18 Dec 2022 16:17:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2150910E26E;
+	Sun, 18 Dec 2022 16:19:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D44FA10E268;
- Sun, 18 Dec 2022 16:17:35 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96E9410E26B;
+ Sun, 18 Dec 2022 16:19:10 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 8533FB80BD9;
- Sun, 18 Dec 2022 16:17:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F082C433D2;
- Sun, 18 Dec 2022 16:17:32 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 17F2F60DCF;
+ Sun, 18 Dec 2022 16:18:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 727B7C433D2;
+ Sun, 18 Dec 2022 16:18:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671380254;
- bh=xFRUKXf8zJ06rIVt1mya4gNo6gCbDNxsXQS9kxIiydU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OrDLImXX/oj1CMSzvHIk4aQv7CNDSH39EAmlEzvEO/3IAgjOwotwNfo+7HWHlKZuX
- 2zIvgPNZiIzc1HL1styt9+dROOtvfo36DE6jWIfvdpuRD23SIIhmJTT2r3RGM4ZxEg
- N8tIBjiHtxRJragj6HCnDivO1F9i09xJ2tTDvNeo3nU2Dvs0dF0VLUi7PqsCHaHVhc
- KvlbuswwRyMe+2/2EzhQMsRhMi02Gf3/OT2euNEj0DmE+gCga+LZDbFWDR2K+vfr5k
- 6L131ommZP2Ws9XGBTlaKOFMzF2nzisiRiUmAH5UHMcOgWsBIo0mJhOznVYsmLXWRU
- NCO3KtKGnV8EQ==
+ s=k20201202; t=1671380319;
+ bh=gek+l7ptYo4Muy3VFVAYVi5zkahpQ0QWpUWgCkA1Nww=;
+ h=From:To:Cc:Subject:Date:From;
+ b=SmMNWSw4593ofXE2ILDdErcRLZ8NE4LgpOyeCwIL+eCJYMcnVPWDa0IiD2Dc94nwe
+ 91G6Xj1tfjqBgkITtHRHJLDGh3Ic6Cf5ygRHnm6cJFGotvUzoeEGH4tOiNZEsovQJS
+ YTnPy12DD1Z/M+VAWlIZ24CYfUmvzAXH5dAwesjr7yvyypxdXMUGzw0aaiY237b4C0
+ ofcG1bBxjS+fyOCXE8NGfN7fjXTuGcrWS2tBpKkesyVb7pjGVlekE5hKpcfLMbpjym
+ gCcyiGum3bslctya+5mLw74W/1EvlHUUs9ZoEJVWtwjhhOu6pXG11UZ620IWXJh1N9
+ VLmg6iMs9Bsqw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 24/39] drm/amd/display: fix array index out of
- bound error in bios parser
-Date: Sun, 18 Dec 2022 11:15:44 -0500
-Message-Id: <20221218161559.932604-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 01/30] drm/etnaviv: add missing quirks for GC300
+Date: Sun, 18 Dec 2022 11:18:06 -0500
+Message-Id: <20221218161836.933697-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221218161559.932604-1-sashal@kernel.org>
-References: <20221218161559.932604-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -56,77 +52,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Charlene.Liu@amd.com,
- tales.aparecida@gmail.com, Tom Chung <chiahsuan.chung@amd.com>,
- jaehyun.chung@amd.com, sunpeng.li@amd.com, sancchen@amd.com,
- Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, dri-devel@lists.freedesktop.org,
- Martin Leung <Martin.Leung@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, Doug Brown <doug@schmorgal.com>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aurabindo Pillai <aurabindo.pillai@amd.com>
+From: Doug Brown <doug@schmorgal.com>
 
-[ Upstream commit 4fc1ba4aa589ca267468ad23fedef37562227d32 ]
+[ Upstream commit cc7d3fb446a91f24978a6aa59cbb578f92e22242 ]
 
-[Why&How]
-Firmware headers dictate that gpio_pin array only has a size of 8. The
-count returned from vbios however is greater than 8.
+The GC300's features register doesn't specify that a 2D pipe is
+available, and like the GC600, its idle register reports zero bits where
+modules aren't present.
 
-Fix this by not using array indexing but incrementing the pointer since
-gpio_pin definition in atomfirmware.h is hardcoded to size 8
-
-Reviewed-by: Martin Leung <Martin.Leung@amd.com>
-Acked-by: Tom Chung <chiahsuan.chung@amd.com>
-Signed-off-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Doug Brown <doug@schmorgal.com>
+Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/display/dc/bios/bios_parser2.c   | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-index 29d64e7e304f..930d2b7d3448 100644
---- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-+++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-@@ -352,6 +352,7 @@ static enum bp_result get_gpio_i2c_info(
- 	uint32_t count = 0;
- 	unsigned int table_index = 0;
- 	bool find_valid = false;
-+	struct atom_gpio_pin_assignment *pin;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index db35736d47af..8c6f9752692d 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -392,6 +392,12 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+ 	if (gpu->identity.model == chipModel_GC700)
+ 		gpu->identity.features &= ~chipFeatures_FAST_CLEAR;
  
- 	if (!info)
- 		return BP_RESULT_BADINPUT;
-@@ -379,20 +380,17 @@ static enum bp_result get_gpio_i2c_info(
- 			- sizeof(struct atom_common_table_header))
- 				/ sizeof(struct atom_gpio_pin_assignment);
- 
-+	pin = (struct atom_gpio_pin_assignment *) header->gpio_pin;
++	/* These models/revisions don't have the 2D pipe bit */
++	if ((gpu->identity.model == chipModel_GC500 &&
++	     gpu->identity.revision <= 2) ||
++	    gpu->identity.model == chipModel_GC300)
++		gpu->identity.features |= chipFeatures_PIPE_2D;
 +
- 	for (table_index = 0; table_index < count; table_index++) {
--		if (((record->i2c_id & I2C_HW_CAP) == (
--		header->gpio_pin[table_index].gpio_id &
--						I2C_HW_CAP)) &&
--		((record->i2c_id & I2C_HW_ENGINE_ID_MASK)  ==
--		(header->gpio_pin[table_index].gpio_id &
--					I2C_HW_ENGINE_ID_MASK)) &&
--		((record->i2c_id & I2C_HW_LANE_MUX) ==
--		(header->gpio_pin[table_index].gpio_id &
--						I2C_HW_LANE_MUX))) {
-+		if (((record->i2c_id & I2C_HW_CAP) 				== (pin->gpio_id & I2C_HW_CAP)) &&
-+		    ((record->i2c_id & I2C_HW_ENGINE_ID_MASK)	== (pin->gpio_id & I2C_HW_ENGINE_ID_MASK)) &&
-+		    ((record->i2c_id & I2C_HW_LANE_MUX) 		== (pin->gpio_id & I2C_HW_LANE_MUX))) {
- 			/* still valid */
- 			find_valid = true;
- 			break;
- 		}
-+		pin = (struct atom_gpio_pin_assignment *)((uint8_t *)pin + sizeof(struct atom_gpio_pin_assignment));
+ 	if ((gpu->identity.model == chipModel_GC500 &&
+ 	     gpu->identity.revision < 2) ||
+ 	    (gpu->identity.model == chipModel_GC300 &&
+@@ -425,8 +431,9 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+ 				gpu_read(gpu, VIVS_HI_CHIP_MINOR_FEATURE_5);
  	}
  
- 	/* If we don't find the entry that we are looking for then
+-	/* GC600 idle register reports zero bits where modules aren't present */
+-	if (gpu->identity.model == chipModel_GC600)
++	/* GC600/300 idle register reports zero bits where modules aren't present */
++	if (gpu->identity.model == chipModel_GC600 ||
++	    gpu->identity.model == chipModel_GC300)
+ 		gpu->idle_mask = VIVS_HI_IDLE_STATE_TX |
+ 				 VIVS_HI_IDLE_STATE_RA |
+ 				 VIVS_HI_IDLE_STATE_SE |
 -- 
 2.35.1
 
