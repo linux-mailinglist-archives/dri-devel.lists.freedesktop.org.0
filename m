@@ -2,34 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D835B64FF0E
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 15:06:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87228650160
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:29:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B294010E1B5;
-	Sun, 18 Dec 2022 14:06:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7677210E276;
+	Sun, 18 Dec 2022 16:28:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ms7.webland.ch (ms7.webland.ch [92.43.217.107])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47B9910E1A9;
- Sun, 18 Dec 2022 14:06:01 +0000 (UTC)
-Received: from [192.168.1.137] ([188.62.80.205])
- by ms7.webland.ch (12.3.0 build 2 x64) with ASMTP (SSL) id
- 01202212181505568893; Sun, 18 Dec 2022 15:05:56 +0100
-Message-ID: <b29ae8cf-76f3-56cd-7409-da8b153c7e23@daenzer.net>
-Date: Sun, 18 Dec 2022 15:05:54 +0100
+X-Greylist: delayed 4534 seconds by postgrey-1.36 at gabe;
+ Sun, 18 Dec 2022 16:28:21 UTC
+Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay5-1.pub.mailoutpod2-cph3.one.com [46.30.211.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A83CD10E276
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Dec 2022 16:28:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=HeoWzm4aDtjnCxaocC8ieA7IHLh7Yx1oE7a1dwOjhvY=;
+ b=i/3GCRgkH+GCZ33bEkvjcyCaM0YCuJYPhL8bV8r15unBwWsfxIoHqccWpDgNW3yA/27Ov4TvlV8K9
+ R+f9SmXzzb3wLdnyBf+BPPyUiug/+gbSKhlGiA56loCPhzgFuMqHaSjpsWGyHHdbbna11a8RqB5CVF
+ KQBL4a7gaABPsGcVpz02eatjemaGhye9wF8ZIV7jRu2X9wgVspytU1AhR2bLAu7tKBmhwIpn0/t9/n
+ jH1UuXHvF/oprcQm7nRPvmTJULgkAqDlLFzTMJMa5vHALSo//1TQuZWmX8m9wqweBHATETo6wkkbOp
+ 3qYJxh88QwZBIAgblcwg55+hF8DeETQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=HeoWzm4aDtjnCxaocC8ieA7IHLh7Yx1oE7a1dwOjhvY=;
+ b=VXNu2p4FC6678WvzsO3GEKowhF6zZ/8yNORF5Xj6+wEtjgYetVEPae8zrvPSkCTBkBBYWsKw/feqM
+ sLt1NI4DA==
+X-HalOne-ID: 342388af-7ee6-11ed-873b-7703b0afff57
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay5 (Halon) with ESMTPSA
+ id 342388af-7ee6-11ed-873b-7703b0afff57;
+ Sun, 18 Dec 2022 15:11:12 +0000 (UTC)
+Date: Sun, 18 Dec 2022 16:11:10 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v3 2/2] drm/imx/lcdc: Implement DRM driver for imx21
+Message-ID: <Y58tjpkwP8LQElhk@ravnborg.org>
+References: <20221216175006.456831-1-u.kleine-koenig@pengutronix.de>
+ <20221216175006.456831-3-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-To: amd-gfx@lists.freedesktop.org
-References: <d09c335c-b4e8-2ad8-f135-dbac6f99f8cf@daenzer.net>
-Content-Language: en-CA
-Subject: Re: DRM scheduler & amdgpu splats followed by GPU hang
-In-Reply-To: <d09c335c-b4e8-2ad8-f135-dbac6f99f8cf@daenzer.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CTCH: RefID="str=0001.0A782F21.639F1E44.000B,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0";
- Spam="Unknown"; VOD="Unknown"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221216175006.456831-3-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,25 +59,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ NXP Linux Team <linux-imx@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/17/22 13:12, Michel Dänzer wrote:
-> 
-> With the drm-next-2022-12-13 changes for 6.2 merged on top of a 6.1.0 kernel, I hit a GPU (Picasso APU) hang in the menu of Trackmania (free-to-play Windows game, running via Wine).
+Hi Uwe.
 
-It happened again when starting Return to Monkey Island, which is Linux native and uses Vulkan. It seems to be quite easy to hit with games using Vulkan (specifically Mesa's RADV).
+Two things I noticed while browsing the driver.
 
-Curiously though, I haven't hit it with games using Vulkan on a different machine with Navi 21 dGPU.
+I did not try to do a full review - maybe for the next round.
+
+	Sam
+
+> +static unsigned int imx_lcdc_get_format(unsigned int drm_format)
+> +{
+> +	unsigned int bpp;
+> +
+> +	switch (drm_format) {
+> +	default:
+> +		DRM_WARN("Format not supported - fallback to RGB565\n");
+> +		fallthrough;
+> +	case DRM_FORMAT_RGB565:
+> +		bpp = BPP_RGB565;
+> +		break;
+> +	}
+> +
+> +	return bpp;
+> +}
+
+It would be great if the driver had fallback to the generic XRGB8888
+variant. So is was either the native or a fallback generic.
+The latter just because most userspace assumes we have the XRGB8888
+variant.
 
 
-> After rebooting, I noticed the attached splats in the journal. I can't be sure that the GPU hang was directly related to these, but it seems plausible.
+> +static int imx_lcdc_probe(struct platform_device *pdev)
+> +{
+> +	struct imx_lcdc *lcdc;
+> +	struct drm_device *drm;
+> +	int irq;
+> +	int ret;
+> +	struct device *dev = &pdev->dev;
+> +
+> +	lcdc = devm_drm_dev_alloc(dev, &imx_lcdc_drm_driver,
+> +				  struct imx_lcdc, drm);
+> +	if (!lcdc)
+> +		return -ENOMEM;
+> +
+> +	drm = &lcdc->drm;
+> +
+> +	lcdc->base = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(lcdc->base))
+> +		return dev_err_probe(dev, PTR_ERR(lcdc->base), "Cannot get IO memory\n");
+> +
+> +	/* Panel */
+> +	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0, &lcdc->panel, &lcdc->bridge);
+From the documentation of drm_of_find_panel_or_bridge():
 
-Given the similar reports by Borislav Petkov and Mikhail Gavrilov, it seems likely.
+ * This function is deprecated and should not be used in new drivers. Use
+ * devm_drm_of_get_bridge() instead.
 
-
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
-
+ 	Sam
