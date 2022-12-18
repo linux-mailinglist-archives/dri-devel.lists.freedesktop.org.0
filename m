@@ -2,41 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F616500D7
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:19:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB5B6500D2
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 17:19:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2150910E26E;
-	Sun, 18 Dec 2022 16:19:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7CF810E270;
+	Sun, 18 Dec 2022 16:19:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96E9410E26B;
- Sun, 18 Dec 2022 16:19:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E5C910E26F
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Dec 2022 16:19:23 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 17F2F60DCF;
- Sun, 18 Dec 2022 16:18:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 727B7C433D2;
- Sun, 18 Dec 2022 16:18:38 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E9CF260DD6;
+ Sun, 18 Dec 2022 16:19:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90DADC433EF;
+ Sun, 18 Dec 2022 16:19:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671380319;
- bh=gek+l7ptYo4Muy3VFVAYVi5zkahpQ0QWpUWgCkA1Nww=;
- h=From:To:Cc:Subject:Date:From;
- b=SmMNWSw4593ofXE2ILDdErcRLZ8NE4LgpOyeCwIL+eCJYMcnVPWDa0IiD2Dc94nwe
- 91G6Xj1tfjqBgkITtHRHJLDGh3Ic6Cf5ygRHnm6cJFGotvUzoeEGH4tOiNZEsovQJS
- YTnPy12DD1Z/M+VAWlIZ24CYfUmvzAXH5dAwesjr7yvyypxdXMUGzw0aaiY237b4C0
- ofcG1bBxjS+fyOCXE8NGfN7fjXTuGcrWS2tBpKkesyVb7pjGVlekE5hKpcfLMbpjym
- gCcyiGum3bslctya+5mLw74W/1EvlHUUs9ZoEJVWtwjhhOu6pXG11UZ620IWXJh1N9
- VLmg6iMs9Bsqw==
+ s=k20201202; t=1671380362;
+ bh=HCLQb5do4JIKc7tx7gSvpeCjPAm+kvzfoLaPPIroch8=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=VB7rmwQrt/hgpF60yPDz4U0V/HddQ9yBrksnORt3lnvm+pr6aHxIHYSABCsiCSwsx
+ w8B+V9WC7qhUcVHLWEPOyXKiXjnPD2B5PkwT5sQpd8YHjR2WSh+QowvCDOBj07MQ4L
+ gNfw3vqmZ0MpqJezLuDLUSz7IyCVkkrVF4/CsQAXq822mHwzICB/r2LqGFa9+jvkQT
+ wuCTxPa687IF3ieBCZAzWfW3bSL2zoVgWyFfzXjMg/6+HMAhdrXEAYsC0olI5vFQGP
+ TPcZ2StAaPhAWLHPTG9/8EL5v1BE4ei7uXPCKjJmSMoIRY565CgLzagOGiEB+OOpeK
+ 6MDc+O0Vu+gKQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 01/30] drm/etnaviv: add missing quirks for GC300
-Date: Sun, 18 Dec 2022 11:18:06 -0500
-Message-Id: <20221218161836.933697-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 15/30] drm/rockchip: Use drm_mode_copy()
+Date: Sun, 18 Dec 2022 11:18:20 -0500
+Message-Id: <20221218161836.933697-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221218161836.933697-1-sashal@kernel.org>
+References: <20221218161836.933697-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -52,56 +55,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Doug Brown <doug@schmorgal.com>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Doug Brown <doug@schmorgal.com>
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-[ Upstream commit cc7d3fb446a91f24978a6aa59cbb578f92e22242 ]
+[ Upstream commit 2bfaa28000d2830d3209161a4541cce0660e1b84 ]
 
-The GC300's features register doesn't specify that a 2D pipe is
-available, and like the GC600, its idle register reports zero bits where
-modules aren't present.
+struct drm_display_mode embeds a list head, so overwriting
+the full struct with another one will corrupt the list
+(if the destination mode is on a list). Use drm_mode_copy()
+instead which explicitly preserves the list head of
+the destination mode.
 
-Signed-off-by: Doug Brown <doug@schmorgal.com>
-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Even if we know the destination mode is not on any list
+using drm_mode_copy() seems decent as it sets a good
+example. Bad examples of not using it might eventually
+get copied into code where preserving the list head
+actually matters.
+
+Obviously one case not covered here is when the mode
+itself is embedded in a larger structure and the whole
+structure is copied. But if we are careful when copying
+into modes embedded in structures I think we can be a
+little more reassured that bogus list heads haven't been
+propagated in.
+
+@is_mode_copy@
+@@
+drm_mode_copy(...)
+{
+...
+}
+
+@depends on !is_mode_copy@
+struct drm_display_mode *mode;
+expression E, S;
+@@
+(
+- *mode = E
++ drm_mode_copy(mode, &E)
+|
+- memcpy(mode, E, S)
++ drm_mode_copy(mode, E)
+)
+
+@depends on !is_mode_copy@
+struct drm_display_mode mode;
+expression E;
+@@
+(
+- mode = E
++ drm_mode_copy(&mode, &E)
+|
+- memcpy(&mode, E, S)
++ drm_mode_copy(&mode, E)
+)
+
+@@
+struct drm_display_mode *mode;
+@@
+- &*mode
++ mode
+
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Sandy Huang <hjc@rock-chips.com>
+Cc: "Heiko Stübner" <heiko@sntech.de>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-rockchip@lists.infradead.org
+Link: https://patchwork.freedesktop.org/patch/msgid/20221107192545.9896-7-ville.syrjala@linux.intel.com
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/rockchip/cdn-dp-core.c | 2 +-
+ drivers/gpu/drm/rockchip/inno_hdmi.c   | 2 +-
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index db35736d47af..8c6f9752692d 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -392,6 +392,12 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
- 	if (gpu->identity.model == chipModel_GC700)
- 		gpu->identity.features &= ~chipFeatures_FAST_CLEAR;
+diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+index 67dae1354aa6..2ea672f4420d 100644
+--- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
++++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+@@ -563,7 +563,7 @@ static void cdn_dp_encoder_mode_set(struct drm_encoder *encoder,
+ 	video->v_sync_polarity = !!(mode->flags & DRM_MODE_FLAG_NVSYNC);
+ 	video->h_sync_polarity = !!(mode->flags & DRM_MODE_FLAG_NHSYNC);
  
-+	/* These models/revisions don't have the 2D pipe bit */
-+	if ((gpu->identity.model == chipModel_GC500 &&
-+	     gpu->identity.revision <= 2) ||
-+	    gpu->identity.model == chipModel_GC300)
-+		gpu->identity.features |= chipFeatures_PIPE_2D;
-+
- 	if ((gpu->identity.model == chipModel_GC500 &&
- 	     gpu->identity.revision < 2) ||
- 	    (gpu->identity.model == chipModel_GC300 &&
-@@ -425,8 +431,9 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
- 				gpu_read(gpu, VIVS_HI_CHIP_MINOR_FEATURE_5);
- 	}
+-	memcpy(&dp->mode, adjusted, sizeof(*mode));
++	drm_mode_copy(&dp->mode, adjusted);
+ }
  
--	/* GC600 idle register reports zero bits where modules aren't present */
--	if (gpu->identity.model == chipModel_GC600)
-+	/* GC600/300 idle register reports zero bits where modules aren't present */
-+	if (gpu->identity.model == chipModel_GC600 ||
-+	    gpu->identity.model == chipModel_GC300)
- 		gpu->idle_mask = VIVS_HI_IDLE_STATE_TX |
- 				 VIVS_HI_IDLE_STATE_RA |
- 				 VIVS_HI_IDLE_STATE_SE |
+ static bool cdn_dp_check_link_status(struct cdn_dp_device *dp)
+diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
+index ed344a795b4d..f2e2cc66f489 100644
+--- a/drivers/gpu/drm/rockchip/inno_hdmi.c
++++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
+@@ -487,7 +487,7 @@ static void inno_hdmi_encoder_mode_set(struct drm_encoder *encoder,
+ 	inno_hdmi_setup(hdmi, adj_mode);
+ 
+ 	/* Store the display mode for plugin/DPMS poweron events */
+-	memcpy(&hdmi->previous_mode, adj_mode, sizeof(hdmi->previous_mode));
++	drm_mode_copy(&hdmi->previous_mode, adj_mode);
+ }
+ 
+ static void inno_hdmi_encoder_enable(struct drm_encoder *encoder)
+diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.c b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
+index 85fc5f01f761..4a81c5c8a550 100644
+--- a/drivers/gpu/drm/rockchip/rk3066_hdmi.c
++++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
+@@ -382,7 +382,7 @@ rk3066_hdmi_encoder_mode_set(struct drm_encoder *encoder,
+ 	struct rk3066_hdmi *hdmi = to_rk3066_hdmi(encoder);
+ 
+ 	/* Store the display mode for plugin/DPMS poweron events. */
+-	memcpy(&hdmi->previous_mode, adj_mode, sizeof(hdmi->previous_mode));
++	drm_mode_copy(&hdmi->previous_mode, adj_mode);
+ }
+ 
+ static void rk3066_hdmi_encoder_enable(struct drm_encoder *encoder)
 -- 
 2.35.1
 
