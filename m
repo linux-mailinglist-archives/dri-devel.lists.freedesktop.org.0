@@ -2,51 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F57965051F
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Dec 2022 23:29:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9673A6505D8
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 01:15:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93C3510E070;
-	Sun, 18 Dec 2022 22:29:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A08410E1C5;
+	Mon, 19 Dec 2022 00:15:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BBE610E070
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Dec 2022 22:28:57 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id D9AE484D64;
- Sun, 18 Dec 2022 23:28:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1671402502;
- bh=iuXCqeIUsLlSIeXI9kcQoEZ8u44blrztgSAawdGH+o8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=r4cI9eXW2N7UXAhbYZNoHISoXrhPRTN/S7CaarPgZsdFzWWc1VDCdk6gSJNQZsrd0
- OrKAZk/kRhj7cUpAX9D7fo3kUvKV0n25JBFqcn4LvqvVc31oUUp0WwOM0TeZ0kcMyW
- iLCv58qDRvkxupT8xdhjRm/J2XOk2piZ3db/c5/3igFoZJmF/NFGRYZtlh/yGGR/tr
- uUOB63bVAL2QVrpaBkol6V9VIdV7TTaMH+itaUGamvKwkH+VepXtvIW55fC3MY/jJn
- h9yhApfUFNtPYuKodKLhc1eteyJHqkhxhnt9ewOz8P8wJM8rDwH5CNjtwGtV9GpJxQ
- kfvLJf5a6C7+w==
-Message-ID: <449d03be-226f-9a90-aff3-8afee68c346d@denx.de>
-Date: Sun, 18 Dec 2022 23:28:20 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4506F10E1C5
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 00:15:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=fVnyyBD7kx0Gx0PlYopsq5AR/KWJf1gV7ckpQE7AXHs=; b=akcQGxbop4xCXRDwR72jcyrOrX
+ Wv+SkSMFqZJwnhyHF/fa7KNjc99xiyPI4Cu8ByvzF7sBAqTtwelWjnIOMqn0QyZ8uB6OFA190ZGlX
+ 7l2NYaYky2GKujiS0TLrFdxCrCI5TFQJQetr2/T3JVHHgsoi92MwAEhCaBxbq878Yw2aY9pQyi3T1
+ GXyPrrwaQt4o4nOP6q6lbajjgEQ10eIPa8AOwYFoBbckJL02RROQz6JiemS+vX9bGlVQqNxkqeha4
+ wtcq+Xp3spgMZX0+DpvCJHrbcU+FrH9S2PbtPGVfYvGbde2XjvmU/qNuiwivF5jAW/RTZhh1PC+kU
+ 7O55PQVA==;
+Received: from [41.74.137.107] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1p73oF-005tgA-S8; Mon, 19 Dec 2022 01:15:11 +0100
+Date: Sun, 18 Dec 2022 23:14:59 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
+Subject: Re: [PATCH v2 2/2] drm/v3d: replace obj lookup steps with
+ drm_gem_objects_lookup
+Message-ID: <20221219001459.dcjvn35xei6qmep3@mail.igalia.com>
+References: <20221205135538.3545051-1-mwen@igalia.com>
+ <20221205135538.3545051-3-mwen@igalia.com>
+ <66a7178e-5af2-2aab-dc3f-3c1a4ef991dd@igalia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v10 00/18] drm: Add Samsung MIPI DSIM bridge
-Content-Language: en-US
-To: Adam Ford <aford173@gmail.com>
-References: <kcEE.rJtELH1tRkiK3DwrGM4cgg.ADqA2lER2QE@vtuxmail01.tq-net.de>
- <a6ad86a0-2831-34aa-2c2a-f6d683dc5713@denx.de>
- <CAHCN7xJnepugHxVR2oCd6YyUDA=RED33PTYmsXQkZ-wa4xgHbg@mail.gmail.com>
- <8e5755da-db8c-7169-b140-d5f964f34a86@denx.de>
- <CAHCN7xL1qqhFkroBUswpSyTGUFo6B26rmp0zRL2K8ATT4HtUGg@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAHCN7xL1qqhFkroBUswpSyTGUFo6B26rmp0zRL2K8ATT4HtUGg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="liu2hk6vtght2cxq"
+Content-Disposition: inline
+In-Reply-To: <66a7178e-5af2-2aab-dc3f-3c1a4ef991dd@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,106 +55,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander Stein <Alexander.Stein@ew.tq-group.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- NXP Linux Team <linux-imx@nxp.com>, Matteo Lisi <matteo.lisi@engicam.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>
+Cc: emma@anholt.net, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/18/22 23:24, Adam Ford wrote:
-> On Sat, Dec 17, 2022 at 10:33 PM Marek Vasut <marex@denx.de> wrote:
->>
->> On 12/18/22 05:23, Adam Ford wrote:
->>> On Sat, Dec 17, 2022 at 5:56 PM Marek Vasut <marex@denx.de> wrote:
->>>>
->>>> On 12/16/22 14:25, Alexander Stein wrote:
->>>> Hi,
->>>>
->>>> [...]
->>>>
->>>>> Oh, nice, thanks for the pointer. When setting
->>>>>> samsung,burst-clock-frequency = <668250000>;
->>>>> in imx8mm.dtsi
->>>>> I get a non-flickering display using 4 lanes. Although admittedly this is just
->>>>> random guessing. I'm not sure which clock exactly has to be in the range
->>>>> CHA_DSI_CLK_RANGE is configured to. With 4 lanes SN65DSI84 is configured for
->>>>> 205-210 MHz (0x29), while I get these PLL PMS settings on DSIM:
->>>>>> samsung-dsim 32e10000.dsi: PLL freq 668250000, (p 4, m 99, s 0)
->>>>>> samsung-dsim 32e10000.dsi: hs_clk = 668250000, byte_clk = 83531250, esc_clk
->>>>> = 16706250
->>>>
->>>> If I recall it right, minimum PLL frequency is:
->>>>
->>>> fPMS=1.2*width*height*bpp*fps=1.2*800*480*24*60=663.5 MHz
->>>>
->>>> the link frequency is then
->>>>
->>>> fHS=fPMS/lanes/2=82.9 MHz (on the DDR clock lane)
->>>>
->>>> So DSI83 should be in the range of 80..85 MHz input clock if I calculate
->>>> this right. Can you check what is the value of mode->clock, the
->>>> mipi_dsi_panel_format_to_bpp() return value, ctx->dsi->lanes in dsi83
->>>> sm65dsi83_get_dsi_range() ?
->>>>
->>>>> AFAICS DSIM bridge is configurung hs_clk, byte_clk and esc_clk just from DT
->>>>> properties, while SN65DSI84 is using display mode and number of lanes.
->>>>>
->>>>> Is it expected that the DSIM PLL frequencies are set in DT for a specific
->>>>> bridge/display setup?
->>>>
->>>> No, there should be negotiation between the host and bridge/panel, I
->>>> tried to propose two variants, but they were all rejected.
->>>
->>> For one of Jagan's previous revisions, I added some code to let the
->>> PHY auto adjust the frequencies instead of being fixed.  NXP had this
->>> in their downstream kernel, but with this patch and another, I was
->>> able to set a variety of pixel clocks from my HDMI monitor and my
->>> DSI83. I haven't had time to re-base my work on Jagan's latest work,
->>> but you can link to the patch I did for the older stuff here:
->>>
->>> https://github.com/aford173/linux/commit/e845274b0f22ba3b24813ffd6bb3cb88ab4b67e4
->>> and
->>> https://github.com/aford173/linux/commit/3f90057eb608f96d106029ef639813475241936f
->>>
->>> I've been traveling a lot lately, so I haven't had time to evaluate
->>> his series, but I hope to get something like those re-based once the
->>> DSI stuff has been accepted.
->>
->> I have these two attempts, both rejected:
->>
->> https://patchwork.freedesktop.org/patch/475207/
->> https://patchwork.freedesktop.org/patch/496049/
-> 
-> I have some patches re-based to Jagan's latest branch.  It doesn't
-> impact any drivers other than the new samsung-dsim driver, and it
-> doesn't touch any of the drm helper functions either.  It adjusts hs
-> clock based on the connected device.  I am not sure what the impact
-> will have on the attached Exynos devices, so I am expecting some
-> iterations.  Right now it's working with my DSI83 chip, but I need to
-> get it working with my adv7535 part as well.  On the older branch, I
-> was able to sync the ad7535 with a variety of resolutions using
-> different pixel clock rates.
-> 
-> Once I get it working again with my adv7535 and cleaned up, I'll
-> submit the patches to the drm group, and I'll CC you, Jagan and Marek
-> Szyprowski with a reference to Jagan's series so people wanting to try
-> it can apply it to his branch.
 
-The negotiation has to happen between the host and the bridge/panel, 
-otherwise you won't be able to support bridge/panel devices which 
-require specific clock rate on the DSI. Only the bridge/panel driver 
-knows about such requirement.
+--liu2hk6vtght2cxq
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 12/05, Ma=EDra Canal wrote:
+> On 12/5/22 10:55, Melissa Wen wrote:
+> > As v3d_lookup_bos() performs the same steps as drm_gem_objects_lookup(),
+> > replace the explicit code in v3d to simply use the DRM function.
+> >=20
+> > Signed-off-by: Melissa Wen <mwen@igalia.com>
+>=20
+> Reviewed-by: Ma=EDra Canal <mcanal@igalia.com>
+
+Applied this series to drm-misc-next.
+
+Thanks,
+
+Melissa
+
+>=20
+> Best Regards,
+> - Ma=EDra Canal
+>=20
+> > ---
+> >  drivers/gpu/drm/v3d/v3d_gem.c | 49 +++--------------------------------
+> >  1 file changed, 3 insertions(+), 46 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_ge=
+m.c
+> > index 31a37572c11d..6e152ef26358 100644
+> > --- a/drivers/gpu/drm/v3d/v3d_gem.c
+> > +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+> > @@ -299,10 +299,6 @@ v3d_lookup_bos(struct drm_device *dev,
+> >  	       u64 bo_handles,
+> >  	       u32 bo_count)
+> >  {
+> > -	u32 *handles;
+> > -	int ret =3D 0;
+> > -	int i;
+> > -
+> >  	job->bo_count =3D bo_count;
+> > =20
+> >  	if (!job->bo_count) {
+> > @@ -313,48 +309,9 @@ v3d_lookup_bos(struct drm_device *dev,
+> >  		return -EINVAL;
+> >  	}
+> > =20
+> > -	job->bo =3D kvmalloc_array(job->bo_count,
+> > -				 sizeof(struct drm_gem_dma_object *),
+> > -				 GFP_KERNEL | __GFP_ZERO);
+> > -	if (!job->bo) {
+> > -		DRM_DEBUG("Failed to allocate validated BO pointers\n");
+> > -		return -ENOMEM;
+> > -	}
+> > -
+> > -	handles =3D kvmalloc_array(job->bo_count, sizeof(u32), GFP_KERNEL);
+> > -	if (!handles) {
+> > -		ret =3D -ENOMEM;
+> > -		DRM_DEBUG("Failed to allocate incoming GEM handles\n");
+> > -		goto fail;
+> > -	}
+> > -
+> > -	if (copy_from_user(handles,
+> > -			   (void __user *)(uintptr_t)bo_handles,
+> > -			   job->bo_count * sizeof(u32))) {
+> > -		ret =3D -EFAULT;
+> > -		DRM_DEBUG("Failed to copy in GEM handles\n");
+> > -		goto fail;
+> > -	}
+> > -
+> > -	spin_lock(&file_priv->table_lock);
+> > -	for (i =3D 0; i < job->bo_count; i++) {
+> > -		struct drm_gem_object *bo =3D idr_find(&file_priv->object_idr,
+> > -						     handles[i]);
+> > -		if (!bo) {
+> > -			DRM_DEBUG("Failed to look up GEM BO %d: %d\n",
+> > -				  i, handles[i]);
+> > -			ret =3D -ENOENT;
+> > -			spin_unlock(&file_priv->table_lock);
+> > -			goto fail;
+> > -		}
+> > -		drm_gem_object_get(bo);
+> > -		job->bo[i] =3D bo;
+> > -	}
+> > -	spin_unlock(&file_priv->table_lock);
+> > -
+> > -fail:
+> > -	kvfree(handles);
+> > -	return ret;
+> > +	return drm_gem_objects_lookup(file_priv,
+> > +				      (void __user *)(uintptr_t)bo_handles,
+> > +				      job->bo_count, &job->bo);
+> >  }
+> > =20
+> >  static void
+
+--liu2hk6vtght2cxq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmOfrPYACgkQwqF3j0dL
+ehxE7w/+NQiNuy5iBh9dTDO9ndipHbsDHfGm+dYsbFmHQwrXt1OdhJJJQRX/CQMG
+N7Y2UNzsCHPD4yob2EJ2A5O6FfRSuJfUB1TDnS2yKtd0c+8h7AZ7JmE3ZSNY4B1q
+6DGRFQSLNPm+QLMplNePSIZlYylbOFBL6pNg0SGlx+RySiOY62mN1ULsGppoajFv
+6PGcLU0e0QANMmWUCr/AqDSYbg9qJS4kclLrkt+Hrv9M8QnqIIaXYb2rTyP98LYX
+Ywm4qzjr4YRtvhh/gGMGUxx2Y3aDdNaoQ4SU2Sp7l8F83Jm3Neml6T7Gr2HwB4R9
+iiz8co76iI3WreWcZkW1ELaigxlIjSLtLwD4fsH4GBdJQzHs7WU2JSOBLYQDtnqx
+NvGG6oiaT7XKhHMmeuywT/idnNVmg6ZXaKX1G6GuRB9Qo6jO/q+L3VJM1Zgj+c9p
+nqlX/xUDjVipeRqF6EWNUQe+e+u/cEtLEwZsXfldVKjD21OYa7kWfH4t0kxmQ0wa
+LJulPhuSb1kxtCYTK8FW5IZ9010JChaByFXB8D6kzXzmsRXfFbnlZKA5QZwlpkd/
+tKkXL8eaej8qM/1WKVp54trF5aLHNerexaO0caMfciYZ1yC20XRfGy4BRf88KSd/
+DvbAb1umF+WsUIQGXs+0yYAOub8saGVXsBF7QJOgOYV4XX1g8aA=
+=T89u
+-----END PGP SIGNATURE-----
+
+--liu2hk6vtght2cxq--
