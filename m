@@ -2,63 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37BA9651016
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 17:15:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA3E651019
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 17:16:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FD3D10E231;
-	Mon, 19 Dec 2022 16:15:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 718FD10E2C3;
+	Mon, 19 Dec 2022 16:16:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71B1010E2C3
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 16:15:32 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CC8DB5D160;
- Mon, 19 Dec 2022 16:15:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1671466500; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fcEWs24V4GQYuX6IlAnsDTTiinUov6gzWt2OSBl0ibg=;
- b=fwpK/UqXKyia5JRi6tKI+OiCScTP/bMLDV+2E9U5TLOwrGYUT1uq/Gkw4arZYu7wgevlfA
- 3VAqT3p8TOKTYin4rIr7ZAEYrltlQAuEG4M+mYOxf1VFKDf+Y70UjgE0OPMjFbkrlfIbK3
- Lqe+ajA+IhaQz/dMhP92aNIdvzca1kQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1671466500;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fcEWs24V4GQYuX6IlAnsDTTiinUov6gzWt2OSBl0ibg=;
- b=Astx/XyuYH9GG+cL9b+xN/0zpVC0gol1t3UuJfcxGTAS9PlDUwpTNNLN+NgOygJ53SHwkR
- g8s+EIGoi0g992AA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A9BA213910;
- Mon, 19 Dec 2022 16:15:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id gZu0KASOoGMeawAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 19 Dec 2022 16:15:00 +0000
-Message-ID: <66e0d14a-bc95-72d6-b1a7-0337a9540579@suse.de>
-Date: Mon, 19 Dec 2022 17:15:00 +0100
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
+ [IPv6:2607:f8b0:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B11C110E2D5
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 16:16:07 +0000 (UTC)
+Received: by mail-oi1-x22a.google.com with SMTP id s186so8236562oia.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 08:16:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=t1fQ3HMUMjTYp4HukGDzZcKzvdvCdzA+hW6xmFvbLbk=;
+ b=mawyphQIqE/IdbX4iuJqDAYHDp5dpI18h3M1s3GRCCdPuxswNYEyIw5fHZQFOnfCY6
+ FpWMaNjIDZm3APc6kJC+1BW7xR4j+GQjkB8yxswZCpxJYY9aMDZ8fTW/T1TCpcB9691x
+ 9iH+FqFzci8DHbP8Y0LJFA5xRdCCEs3Jnt8zRjEpzhHV66DyJdoFEjhIbrPVQoK+bdLk
+ xP3lRf0tc3U1nCc2OHxbNEuzy87zfwvbcHUjE0bXNpmVPmb4b2ELg37PtmFIpmVqFt3B
+ mpCA9xzo6u+DN+X60gwbKU77Uu8NYE/Lj9yBO1y7pJU/p/8pcIzmGy8G0XmYhUbbvAII
+ plFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=t1fQ3HMUMjTYp4HukGDzZcKzvdvCdzA+hW6xmFvbLbk=;
+ b=JU7qDZ9HdleKngsYJRySI2Uuo6LDHcJ6z0kDi3nGO9V+RH61mJxzMURbiPoVWRIfzr
+ FnhS1Rp1Ecqi5PYpOJ+tZOBkVTdUmqqlQz4pUUitLW7lJYjs8gxZS5/W7DhdnaYDs0vO
+ FmLHxwY/5y7+fe+bWvugjA6tIMbPfbJk31ZXFtrhcN1HyD7EpqPupDo0R31oNkdA946x
+ ms/KbjGxol6TGNLQ/tiy5YgP/tXuqjP2pQFLdMaK3A5VdaRULOGyYZXR2gLoAHg8CVH1
+ 9kuojTZ31yxK2x4IqnvG6G9E0cWd6Vzsnneov1NpQ4N+Avz+XzqAAwT92giIU30gq0B5
+ 87aQ==
+X-Gm-Message-State: ANoB5pl3TGlOPxBn7Gmt0d4erFdtIc069E4bKlWPl6JKKV9D4kJiLiXg
+ oyQPi/HsJrxZlQ5L4YKyVELXqXzs92JQ49Q/pu9ndQ==
+X-Google-Smtp-Source: AA0mqf4S6tnPPRCOQWCsOq5kuksb7+u/7cQmv2C9BJe4b2BQ//W8JNd2zSsEQvuXeFLOKtkDMW4ei0zslW/NQI2W9RI=
+X-Received: by 2002:aca:1c07:0:b0:359:ef86:2f4f with SMTP id
+ c7-20020aca1c07000000b00359ef862f4fmr1016768oic.14.1671466566962; Mon, 19 Dec
+ 2022 08:16:06 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] drm: Replace DRM_INFO() with pr_info()
-Content-Language: en-US
-To: Siddh Raman Pant <code@siddh.me>
-References: <20221219142319.79827-1-code@siddh.me>
- <0693327a-4951-6864-12c6-88cfe81abd12@suse.de>
- <1852b054022.16e87c6b116450.6116081892972417758@siddh.me>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <1852b054022.16e87c6b116450.6116081892972417758@siddh.me>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------JCaajjOZnvsJ6YOtWAg0ZMvS"
+References: <20221205163754.221139-1-robert.foss@linaro.org>
+ <20221205163754.221139-9-robert.foss@linaro.org>
+ <60884c0e-7533-788b-2f93-c128cf7d27fd@kernel.org>
+In-Reply-To: <60884c0e-7533-788b-2f93-c128cf7d27fd@kernel.org>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Mon, 19 Dec 2022 17:15:56 +0100
+Message-ID: <CAG3jFyuoXekXN48jAgXxLMy8yGAzK9oJH_1HHYAuRLBCzyordQ@mail.gmail.com>
+Subject: Re: [PATCH v3 08/11] arm64: dts: qcom: sm8350: Use 2 interconnect
+ cells
+To: Georgi Djakov <djakov@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,88 +67,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: airlied@linux.ie, konrad.dybcio@somainline.org,
+ dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
+ krzysztof.kozlowski+dt@linaro.org, angelogioacchino.delregno@somainline.org,
+ vinod.koul@linaro.org, Jonathan Marek <jonathan@marek.ca>,
+ quic_vpolimer@quicinc.com, agross@kernel.org, quic_jesszhan@quicinc.com,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, swboyd@chromium.org, robh+dt@kernel.org,
+ sean@poorly.run, quic_kalyant@quicinc.com, loic.poulain@linaro.org,
+ andersson@kernel.org, dianders@chromium.org, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, vkoul@kernel.org,
+ dmitry.baryshkov@linaro.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------JCaajjOZnvsJ6YOtWAg0ZMvS
-Content-Type: multipart/mixed; boundary="------------P0u0E37vgk196KORx010DQw4";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Siddh Raman Pant <code@siddh.me>
-Cc: maarten lankhorst <maarten.lankhorst@linux.intel.com>,
- maxime ripard <mripard@kernel.org>, david airlie <airlied@gmail.com>,
- daniel vetter <daniel@ffwll.ch>, dri-devel
- <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
-Message-ID: <66e0d14a-bc95-72d6-b1a7-0337a9540579@suse.de>
-Subject: Re: [PATCH] drm: Replace DRM_INFO() with pr_info()
-References: <20221219142319.79827-1-code@siddh.me>
- <0693327a-4951-6864-12c6-88cfe81abd12@suse.de>
- <1852b054022.16e87c6b116450.6116081892972417758@siddh.me>
-In-Reply-To: <1852b054022.16e87c6b116450.6116081892972417758@siddh.me>
+On Mon, 5 Dec 2022 at 20:19, Georgi Djakov <djakov@kernel.org> wrote:
+>
+> Hi Robert,
+>
+> On 5.12.22 18:37, Robert Foss wrote:
+> > Use two interconnect cells in order to optionally
+> > support a path tag.
+> >
+> > Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> > Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> > ---
+> >   arch/arm64/boot/dts/qcom/sm8350.dtsi | 28 ++++++++++++++--------------
+> >   1 file changed, 14 insertions(+), 14 deletions(-)
+> >
+> > diff --git a/arch/arm64/boot/dts/qcom/sm8350.dtsi b/arch/arm64/boot/dts/qcom/sm8350.dtsi
+> > index 805d53d91952..434f8e8b12c1 100644
+> > --- a/arch/arm64/boot/dts/qcom/sm8350.dtsi
+> > +++ b/arch/arm64/boot/dts/qcom/sm8350.dtsi
+> > @@ -1543,56 +1543,56 @@ apps_smmu: iommu@15000000 {
+> >               config_noc: interconnect@1500000 {
+> >                       compatible = "qcom,sm8350-config-noc";
+> >                       reg = <0 0x01500000 0 0xa580>;
+> > -                     #interconnect-cells = <1>;
+> > +                     #interconnect-cells = <2>;
+> >                       qcom,bcm-voters = <&apps_bcm_voter>;
+> >               };
+> >
+> >               mc_virt: interconnect@1580000 {
+> >                       compatible = "qcom,sm8350-mc-virt";
+> >                       reg = <0 0x01580000 0 0x1000>;
+> > -                     #interconnect-cells = <1>;
+> > +                     #interconnect-cells = <2>;
+> >                       qcom,bcm-voters = <&apps_bcm_voter>;
+> >               };
+> [..]
+> > @@ -1620,8 +1620,8 @@ ipa: ipa@1e40000 {
+> >                       clocks = <&rpmhcc RPMH_IPA_CLK>;
+> >                       clock-names = "core";
+> >
+> > -                     interconnects = <&aggre2_noc MASTER_IPA &mc_virt SLAVE_EBI1>,
+> > -                                     <&gem_noc MASTER_APPSS_PROC &config_noc SLAVE_IPA_CFG>;
+> > +                     interconnects = <&aggre2_noc MASTER_IPA 0 &mc_virt SLAVE_EBI1 0>,
+> > +                                     <&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_IPA_CFG 0>;
+> >                       interconnect-names = "memory",
+> >                                            "config";
+> >
+> > @@ -1661,7 +1661,7 @@ mpss: remoteproc@4080000 {
+> >                                       <&rpmhpd SM8350_MSS>;
+> >                       power-domain-names = "cx", "mss";
+> >
+> > -                     interconnects = <&mc_virt MASTER_LLCC &mc_virt SLAVE_EBI1>;
+> > +                     interconnects = <&mc_virt MASTER_LLCC &mc_virt SLAVE_EBI1 0>;
+>
+> The second cell for the first endpoint is missing, so this should be:
+>         interconnects = <&mc_virt MASTER_LLCC 0 &mc_virt SLAVE_EBI1 0>;
 
---------------P0u0E37vgk196KORx010DQw4
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Nice catch, thanks!
 
-SGkNCg0KQW0gMTkuMTIuMjIgdW0gMTY6MzQgc2NocmllYiBTaWRkaCBSYW1hbiBQYW50Og0K
-PiBPbiBNb24sIDE5IERlYyAyMDIyIDIwOjI3OjQ1ICswNTMwLCBUaG9tYXMgWmltbWVybWFu
-biB3cm90ZToNCj4+IEhpDQo+Pg0KPj4gQW0gMTkuMTIuMjIgdW0gMTU6MjMgc2NocmllYiBT
-aWRkaCBSYW1hbiBQYW50Og0KPj4+IExpbmUgNTM2IG9mIGRybV9wcmludC5oIHNheXMgRFJN
-X0lORk8oKSBpcyBkZXByZWNhdGVkDQo+Pj4gaW4gZmF2b3Igb2YgcHJfaW5mbygpLg0KPj4N
-Cj4+IFRoYXQncyBhIG1pc2xlYWRpbmcgY29tbWVudC4gRFJNX0lORk8oKSBpcyBkZXByZWNh
-dGVkIGZvciBkcm1faW5mbygpLg0KPj4gcHJfaW5mbygpIGV0IGFsIGlzIG9ubHkgdG8gYmUg
-dXNlZCBvZiB5b3UgZG9uJ3QgaGF2ZSBhIGRldiBwb2ludGVyLg0KPj4NCj4+IEJlc3QgcmVn
-YXJkcw0KPj4gVGhvbWFzDQo+IA0KPiBNYXliZSB5b3UgYXJlIGNvbmZ1c2luZyBpdCB3aXRo
-IERSTV9ERVZfSU5GTz8gSXQgdGFrZXMgdGhlIGRldiBwb2ludGVyLA0KPiBhbmQgaXMgaW5k
-ZWVkIHRvbGQgdG8gYmUgZGVwcmVjYXRlZCBpbiBmYXZvdXIgb2YgZHJtX2luZm8oKSBpbiB0
-aGUNCj4gY29tbWVudHMgKHNlZSBsaW5lIDM5NCkuDQo+IA0KPiBEUk1fSU5GTyBpcyBhIHNl
-cGFyYXRlIG1hY3JvIGZvciBwcmludGluZyBzdHVmZiwgYW5kIGRvZXMgbm90IHRha2UgdGhl
-DQo+IGRldiBwb2ludGVyLiBUaGV5IHNlZW0gdG8gYmUgZWFybHkgd3JhcHBlcnMgZm9yIHBy
-aW50aywgSSBndWVzcyB3aGVuDQo+IHByX2luZm8gZGlkIG5vdCBleGlzdC4gQW5kIGFsbCB0
-aGV5IGRvIGRpZmZlcmVudCBmcm9tIHByX2luZm8gaXMgdG8gYWRkDQo+IERSTV9OQU1FICh3
-aGljaCBzZWVtcyB0byBiZSBqdXN0ICJkcm0iKSBpbiBmcm9udCBvZiB0aGUgc3RyaW5nLg0K
-DQpUaGUgRFJNXyBwcmludCBtYWNyb3MgaW4gY2FwaXRhbCBsZXR0ZXJzIGFyZSBkZXByZWNh
-dGVkIEFGQUlLLiBJbiBjYXNlcyANCndoZXJlIGEgZGV2IHBvaW50ZXIgaXMgYXZhaWxhYmxl
-LCB1c2luZyBkcm1faW5mbygpIGV0IGFsLiBpcyBwcmVmZXJyZWQgDQpvdmVyIHByX2luZm8o
-KS4NCg0KSW4gdGhlIGNvbnRleHQgb2YgeW91ciBwYXRjaCwgeW91IHNob3VsZCB1c2UgZHJt
-X2luZm8oKSBpbiANCmRybV9jbGllbnRfdGFyZ2V0X2Nsb25lZCgpLCBhcyBpcyBnZXRzIGEg
-ZGV2IHBvaW50ZXIgYXMgaXRzIGZpcnN0IA0KYXJndW1lbnQuIEluIG1vc3QgdGhlIG90aGVy
-IGNhc2VzIGZyb20geW91ciBwYXRjaCwgeW91IGNhbiBnZXQgdGhlIGRldiANCnBvaW50ZXIg
-ZnJvbSBjb25uZWN0b3ItPmRldi4NCg0KVGhlIGZpbmFsIGNhc2UsIGRybV9sZWdhY3lfcGNp
-X2V4aXQoKSwgdGhlcmUncyBubyBkZXYgcG9pbnRlciwgc28geW91IA0KY2FuIHVzZSBwcl9p
-bmZvKCkgdGhlcmUuIEknZCByZW1vdmUgJ1tkcm1dJyBmcm9tIHRoZSBzdHJpbmcuIFdlIGRv
-bid0IA0KdXNlIHRoaXMgbXVjaCBlbHNld2hlcmUuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFz
-DQoNCj4gDQo+IFRoYW5rcywNCj4gU2lkZGgNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0K
-R3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2Vy
-bWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihI
-UkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYN
-Cg==
-
---------------P0u0E37vgk196KORx010DQw4--
-
---------------JCaajjOZnvsJ6YOtWAg0ZMvS
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmOgjgQFAwAAAAAACgkQlh/E3EQov+B/
-ZQ/+LvsArqHVgP5+e5AYjR5IYxN//bcatJebYVhbJB4gRGpoa+ElyTgYKc6rB+JHoR++oL0btvdO
-lH7Ag/qcW3ZzxT9LqW5j3kiE1e6LQkioHZD6mIJq+vDu2nb4cx/liDqBWM7gE6oIqBUBcNsa9vZM
-eSLph21pE7bOetHu1q1t74kk5Y7tCu8lFa6ylm8vkYJM6MiAdXuZcqkuuxaw1ZkJPzf/zraAUJjE
-L+z3XKlH9y6ncgptEvWh+2e3YjCAkbhoSi+bUAHgLFRAOQNiLYaeWyAyq+C5JL4TdWPBxQosOZjw
-IDB6qGnPwU9k7TLDWLcmEBaeJ2MLo8R/i3wvo6orO9h3Rj3vYzmZAcB2RaJCLolPDNBPT1LAWIZp
-IogNf+FbCms4EeGTnf8KTiTrrawD+hJabp2y3+eRptAN2pBzpQfz/hZThmZrTvoo3VKUozbFUr5N
-DtUrGgvSEokQrz9ztWd9y4PRahqrWCjMdfMBkb+pZ+TINE5gP2jfs1zHrsFxZWjxE5IGJWUNEe1N
-mtfTAleaYzMkFDQRO8uLfHNlreInnGQJdnHJUeXGIBCxBuscVLODeDbSYXt9J2GYaVV7SOBGgDqT
-0om3n6aSibaN9Vtyo2lTNrNHgrcOxuoPoePosmSEPSM2S7/MZy98MM0kLY6oczGf/UCC+lQxnFGb
-H1c=
-=7PGE
------END PGP SIGNATURE-----
-
---------------JCaajjOZnvsJ6YOtWAg0ZMvS--
+>
+> Thanks,
+> Georgi
+>
+> >
+> >                       memory-region = <&pil_modem_mem>;
+> >
+> > @@ -2239,7 +2239,7 @@ cdsp: remoteproc@98900000 {
+> >                                       <&rpmhpd SM8350_MXC>;
+> >                       power-domain-names = "cx", "mxc";
+> >
+> > -                     interconnects = <&compute_noc MASTER_CDSP_PROC &mc_virt SLAVE_EBI1>;
+> > +                     interconnects = <&compute_noc MASTER_CDSP_PROC 0 &mc_virt SLAVE_EBI1 0>;
+> >
+> >                       memory-region = <&pil_cdsp_mem>;
+> >
+> > @@ -2421,14 +2421,14 @@ usb_2_ssphy: phy@88ebe00 {
+> >               dc_noc: interconnect@90c0000 {
+> >                       compatible = "qcom,sm8350-dc-noc";
+> >                       reg = <0 0x090c0000 0 0x4200>;
+> > -                     #interconnect-cells = <1>;
+> > +                     #interconnect-cells = <2>;
+> >                       qcom,bcm-voters = <&apps_bcm_voter>;
+> >               };
+> >
+> >               gem_noc: interconnect@9100000 {
+> >                       compatible = "qcom,sm8350-gem-noc";
+> >                       reg = <0 0x09100000 0 0xb4000>;
+> > -                     #interconnect-cells = <1>;
+> > +                     #interconnect-cells = <2>;
+> >                       qcom,bcm-voters = <&apps_bcm_voter>;
+> >               };
+> >
+>
