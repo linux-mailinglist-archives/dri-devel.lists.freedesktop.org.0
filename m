@@ -2,55 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FDE1650CA1
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 14:26:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FDC5650CBF
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 14:39:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA4810E29F;
-	Mon, 19 Dec 2022 13:26:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D6F410E07D;
+	Mon, 19 Dec 2022 13:39:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
- [209.85.167.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3FEB10E29F
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 13:26:33 +0000 (UTC)
-Received: by mail-oi1-f173.google.com with SMTP id r130so7802860oih.2
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 05:26:33 -0800 (PST)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B51110E07D
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 13:39:28 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 184-20020a1c02c1000000b003d35acb0f9fso35714wmc.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 05:39:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=1eJTlOqCtrihk3Gg21V8dQYsdgDl4F1H5eYjhzPujE0=;
+ b=Y9z1WBza5r8pWfzE69ImVTNVurRd5EpiAbtCPsQ6/9Aq2O7B6zeihUsmgGyYotEExw
+ +rtg0r1cPNdwWhimrV1yNa0ux0uZwxGIG/3YRdtkW06wymC4a90klvh0cOD3Q0i/lS9D
+ eQrWs6P21d4u9942As4n0ZHo5gVS5Jpp71xmAEqDTQzcfZpV2Ox44JwdCehgQEqtwGcL
+ TT3Jj8Z9dX6tjpl1AsYiA+j4oFsq4as/83L+eXJpculiE9sPj0+yAKmi4OnPtUhNbayE
+ YuRmHij0QN+QgawTWlo66S19/FJ29079Y/7nFOqUhPNrwBZhNVKIx1IWQHBLizp8a4ch
+ qeRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=date:subject:message-id:references:in-reply-to:cc:to:from
- :mime-version:content-transfer-encoding:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=IDSJGuoBUlMGgiS087wDSGGlbj9bvZ8Uqb80GAsEvJQ=;
- b=ZCnmwDdB3caHWX7NydvbzoXOCTXfjcK+Ee7dq+bt9FZh6A1yU1KYE0+lNxF8Iknuhr
- ZwmkBHR8gkLqzFYeSRGKCZPtxICSt4zejWyk8CKVBW+6hfWzMn1FYhBYVy4SePF7RmIL
- C8pwrNQQFqoPFfoegR4oAdwiW0g0Hmp0SenHcojFEZDJuv2mmB/m/HIiTsQWDEMcLZCT
- HNngmYrKN6nj64UAv9T9EH0ZnN9BoEQE8fjw9ePSuRiOIGljs1N4gi9cNtw7Ebupuxwv
- vPMWjl/wvAV2LMYlhqRmZsxTHk1RRZZJt3+QXJOibfEhtsRpjiIg/vr3xBkVdRMFzMfL
- LTMA==
-X-Gm-Message-State: ANoB5plm1FmVISa1oPQQIc47jSGkpMTX3ACoAWwUT05najyE1l9ZY5ot
- RWrXpkjME6mAgPr9u+XLog==
-X-Google-Smtp-Source: AA0mqf45gJMy4jKgeBK6aXjInaHFDzhi2dL+gMB6cIn2NwjrEShN/UVjRZul9vLQgzZITxk5lO7e1A==
-X-Received: by 2002:a05:6808:118c:b0:355:1df0:9b84 with SMTP id
- j12-20020a056808118c00b003551df09b84mr20960099oil.2.1671456392955; 
- Mon, 19 Dec 2022 05:26:32 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- c17-20020a9d6851000000b0066bb73cce68sm4344900oto.69.2022.12.19.05.26.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Dec 2022 05:26:32 -0800 (PST)
-Received: (nullmailer pid 1185311 invoked by uid 1000);
- Mon, 19 Dec 2022 13:26:31 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1eJTlOqCtrihk3Gg21V8dQYsdgDl4F1H5eYjhzPujE0=;
+ b=Lmjo2d5L6Yyj+zFUJsTukoK9q8SEFzyjps5j3srgWsfl8zs9z5Etvhl+lD+3uv4drL
+ /mXIFV/CH1TsnyJnZTzz0Ny578XGLNOWg6Xu60ByfMQVaMVVGmovMG9uLIACCS0KXLtE
+ OMublV6OB4qaqBAERXQ7ZH/mWaShNVngOhmcAWGDqV6iBxRdEfGEy6WcYzotq1jof/S2
+ 5BI6inofQ7PaO/nJy1G+lmbVUMgqcneIcF+GGT731NjAf4JOQfbL+/AFLVljcp4cYPmC
+ /rlAOSmil7lVWtQSmus2MTw3CyJz3VEHbsYHLEMW4RXmpucR4mUV3H8tuXduYlwskw6P
+ nLRA==
+X-Gm-Message-State: ANoB5pk1lfg/YBCpTsN/zpE7dV2DyBkdHkxf6C96vjLsX4WQfIDuwIJx
+ waUcEmLVGUDbcdArMaaLXNlEyg==
+X-Google-Smtp-Source: AA0mqf4a6fqcvrgJrGfU4fb1b0iuWJiHP1eO5lcDmkcFZt/wjj8YvE5SrpFx8GQb9AfR9AlP5t/MnA==
+X-Received: by 2002:a05:600c:4891:b0:3d1:fbf9:3bd4 with SMTP id
+ j17-20020a05600c489100b003d1fbf93bd4mr31975057wmp.10.1671457166878; 
+ Mon, 19 Dec 2022 05:39:26 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:976a:eb00:7b11:28de?
+ ([2a01:e0a:982:cbb0:976a:eb00:7b11:28de])
+ by smtp.gmail.com with ESMTPSA id
+ p13-20020a05600c1d8d00b003d01b84e9b2sm12598022wms.27.2022.12.19.05.39.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Dec 2022 05:39:26 -0800 (PST)
+Message-ID: <cf327e3e-13d9-6637-5189-70c65ccbcdb5@linaro.org>
+Date: Mon, 19 Dec 2022 14:39:25 +0100
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Johan Jonker <jbx6244@gmail.com>
-In-Reply-To: <dea33013-ae1b-a8b2-5287-68a52f5ce028@gmail.com>
-References: <dea33013-ae1b-a8b2-5287-68a52f5ce028@gmail.com>
-Message-Id: <167145632480.1180502.8911882694570490800.robh@kernel.org>
-Subject: Re: [PATCH v2] dt-bindings: display: rockchip: convert
- rockchip-lvds.txt to YAML
-Date: Mon, 19 Dec 2022 07:26:31 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/meson: Reduce the FIFO lines held when AFBC is not
+ used
+Content-Language: en-US
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Carlo Caione <ccaione@baylibre.com>
+References: <20221216-afbc_s905x-v1-0-033bebf780d9@baylibre.com>
+ <CAFBinCAfF-=776E3k=NnhaG+rMCp3b=WbjkN=RKGG8vM3Cn-3Q@mail.gmail.com>
+Organization: Linaro Developer Services
+In-Reply-To: <CAFBinCAfF-=776E3k=NnhaG+rMCp3b=WbjkN=RKGG8vM3Cn-3Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,57 +81,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- hjc@rock-chips.com, linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org
+Reply-To: neil.armstrong@linaro.org
+Cc: Kevin Hilman <khilman@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Sat, 17 Dec 2022 16:23:53 +0100, Johan Jonker wrote:
-> Convert rockchip-lvds.txt to YAML.
+On 19/12/2022 12:00, Martin Blumenstingl wrote:
+> Hi Carlo,
 > 
-> Changed:
->   Add power-domains property.
->   Requirements between PX30 and RK3288
+> On Mon, Dec 19, 2022 at 9:43 AM Carlo Caione <ccaione@baylibre.com> wrote:
+>>
+>> Having a bigger number of FIFO lines held after vsync is only useful to
+>> SoCs using AFBC to give time to the AFBC decoder to be reset, configured
+>> and enabled again.
+>>
+>> For SoCs not using AFBC this, on the contrary, is causing on some
+>> displays issues and a few pixels vertical offset in the displayed image.
+> On the 32-bit SoCs (for which VPU support is not upstream yet) it has
+> caused screen tearing instead of shifting the image.
 > 
-> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
-> ---
+>> Conditionally increase the number of lines held after vsync only for
+>> SoCs using AFBC, leaving the default value for all the others.
+> That was also my approach (for a not-yet-upstream patch).
+> Since it's affecting already supported SoCs I suggest adding
+> "Fixed-by: 24e0d4058eff ..." (maybe Neil can do so when he agrees and
+> is applying the patch).
 > 
-> Changed V2:
->   Fix title
-> ---
->  .../display/rockchip/rockchip-lvds.txt        |  92 ----------
->  .../display/rockchip/rockchip-lvds.yaml       | 157 ++++++++++++++++++
->  2 files changed, 157 insertions(+), 92 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-lvds.txt
->  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-lvds.yaml
-> 
-
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
+> Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 
 
-doc reference errors (make refcheckdocs):
-Documentation/devicetree/bindings/soc/rockchip/grf.yaml: Documentation/devicetree/bindings/display/rockchip/rockchip-lvds.txt
+Yep I'll add the Fixes tag when applying
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/dea33013-ae1b-a8b2-5287-68a52f5ce028@gmail.com
+Thank Carlo !
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
 
