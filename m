@@ -2,68 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFECB650D2A
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 15:24:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FE39650E1F
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 15:58:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0191910E2A9;
-	Mon, 19 Dec 2022 14:23:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 718B110E2AA;
+	Mon, 19 Dec 2022 14:58:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1499F10E2A4
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 14:23:35 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id qk9so21865866ejc.3
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 06:23:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Gkz73r1Eb7Lcu2UFxAAgyawdXAVgK+nUDNDZI6NypmI=;
- b=lrK6/UvA0iB5QyZKs21O4DDtfVksA/wJmDdFI3vbYuBtAGlQGsgPT2fh0Cf4N2QS6x
- oamZ0dNV7Qyl2NQRqZAx42e2t8jodmut605Os1ZviwfCuRiKPFa7UIqCkRYYjq5iIE55
- hEIjMexAke+0iT2SP4qc2qmrW/R0KoWPj8ALc7WK51KklI+NqE8Wf762Qu2/w/3XbJtp
- O6P7AsGQKBIiPvXrnV2bsYc6rb9mJmfvnzQYgHZX1LzfzTbSzXUhzk+m1P114Q4srqx9
- v9QAGqLXUIfVAcjksSORECeS8nRpfNkYx52r1KboWugeZ6Cx1qlSg2h8+vhuLgBQ6/vu
- ws+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Gkz73r1Eb7Lcu2UFxAAgyawdXAVgK+nUDNDZI6NypmI=;
- b=wdsOTozzCdOysmJLbBHtb7U/vOv+8n28ey6cLmzvRuehIjJUMLEIuBC9p8rf8BDdO8
- Jd6J+0PgftS6j/WfjCMvn/+YHSZzzpKOwLhGxwXZDR5ZLrpT5oYdBm3ZjVUe5hu2k5UY
- GJv7qALYl+VU0x5A0isuYd9WLqLWETUgQhpmhIdfCKKAmFzKB1DNhUyG9zwWJPLybhXi
- a5EZziERxsq9ixymVGXgU6J/9m58PTS/mKLa+JFsI3XrI6NfHZhj9aELFm2oduw/xgR5
- hEBd3E73noYz8LwRji70ISBhGS7n2pAiYuh/hlb4KkMvQtpLhtykLn2U3Yjw4HfYW2lg
- ER0g==
-X-Gm-Message-State: ANoB5pnnLDuHltmdyTdWbxTAqsI/7EDDyUB9khlHHFUTamo7RffGX2v0
- sYuFfmpK/SKUrW8G7/kl/UI=
-X-Google-Smtp-Source: AA0mqf4Glrj80Pn6SO+5YOa1CODh03vabAMBUtymLKCKDN//Cz/MMQ0Pk5yKzavBrdNqIg2OJ2YxFA==
-X-Received: by 2002:a17:906:1711:b0:7c1:3fbd:d569 with SMTP id
- c17-20020a170906171100b007c13fbdd569mr33253033eje.8.1671459813432; 
- Mon, 19 Dec 2022 06:23:33 -0800 (PST)
-Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
- by smtp.gmail.com with ESMTPSA id
- w5-20020a17090652c500b007c4fbb79535sm4399120ejn.82.2022.12.19.06.23.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 06:23:32 -0800 (PST)
-Message-ID: <5e05a6d5-bc89-fb66-fcae-2e1194e23c12@gmail.com>
-Date: Mon, 19 Dec 2022 15:23:31 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 657C210E2AA
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 14:58:17 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D79BB60E28;
+ Mon, 19 Dec 2022 14:57:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1671461865; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=D/sJHRe1x61d+bdcjyXrRDFyLAb4JzMt7z9Tz9dQe3Y=;
+ b=bbfl9TLEtf3MfG8fLhS7RT4/l+ZSwDlujYhz+f2nEGuw5NC8S5yjVy7dX58bYFeyngn3Fi
+ obcKYJLIh7p58PjYOCPz1WIMDVA/GN1P5pWBKRULLlwgj0IfiQTjGQdHivfvz0InGTiUfN
+ DOAzSbskUN38YKAJ2WrrOQ78pQtvITQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1671461865;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=D/sJHRe1x61d+bdcjyXrRDFyLAb4JzMt7z9Tz9dQe3Y=;
+ b=DBkMLuapRX252h48tigOMlhNmXZjuSvjEOEBzBW4EkzV5NSyVPU1h5w4FlK/Flia6WrmfN
+ f4CfhhE1eCk43qCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id ABDB513498;
+ Mon, 19 Dec 2022 14:57:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id I23jKOl7oGPaSgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 19 Dec 2022 14:57:45 +0000
+Message-ID: <0693327a-4951-6864-12c6-88cfe81abd12@suse.de>
+Date: Mon, 19 Dec 2022 15:57:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v3] dt-bindings: display: rockchip: convert
- rockchip-lvds.txt to YAML
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, heiko@sntech.de
-References: <fd51df66-147d-d40f-913e-385625a71984@gmail.com>
- <8db62d1a-365c-d41d-90aa-4c78c5d5e9ce@linaro.org>
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] drm: Replace DRM_INFO() with pr_info()
 Content-Language: en-US
-From: Johan Jonker <jbx6244@gmail.com>
-In-Reply-To: <8db62d1a-365c-d41d-90aa-4c78c5d5e9ce@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Siddh Raman Pant <code@siddh.me>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20221219142319.79827-1-code@siddh.me>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20221219142319.79827-1-code@siddh.me>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------jRAn52zmCrZax5bIrKY4wpAQ"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,174 +72,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------jRAn52zmCrZax5bIrKY4wpAQ
+Content-Type: multipart/mixed; boundary="------------m4Z8Z0lSKTODIrTprfAvX6xL";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Siddh Raman Pant <code@siddh.me>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
+Message-ID: <0693327a-4951-6864-12c6-88cfe81abd12@suse.de>
+Subject: Re: [PATCH] drm: Replace DRM_INFO() with pr_info()
+References: <20221219142319.79827-1-code@siddh.me>
+In-Reply-To: <20221219142319.79827-1-code@siddh.me>
 
+--------------m4Z8Z0lSKTODIrTprfAvX6xL
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-On 12/19/22 14:04, Krzysztof Kozlowski wrote:
-> On 19/12/2022 13:32, Johan Jonker wrote:
->> Convert rockchip-lvds.txt to YAML.
->>
->> Changed:
->>   Add power-domains property.
->>   Requirements between PX30 and RK3288
->>
->> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
->> ---
->>
->> Changed V3:
->>   Filename matching compatible style
->>   Drop "Regulator phandle for "
->>   Specify properties and requirements per SoC
->>   Sort order and restyle
->>
->> Changed V2:
->>   Fix title
->> ---
->>  .../display/rockchip/rockchip,lvds.yaml       | 170 ++++++++++++++++++
->>  .../display/rockchip/rockchip-lvds.txt        |  92 ----------
->>  2 files changed, 170 insertions(+), 92 deletions(-)
->>  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,lvds.yaml
->>  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-lvds.txt
->>
->> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,lvds.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,lvds.yaml
->> new file mode 100644
->> index 000000000..03b002a05
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,lvds.yaml
->> @@ -0,0 +1,170 @@
->> +# SPDX-License-Identifier: GPL-2.0
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/rockchip/rockchip,lvds.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Rockchip low-voltage differential signal (LVDS) transmitter
->> +
->> +maintainers:
->> +  - Sandy Huang <hjc@rock-chips.com>
->> +  - Heiko Stuebner <heiko@sntech.de>
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - rockchip,px30-lvds
->> +      - rockchip,rk3288-lvds
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +  clock-names:
->> +    const: pclk_lvds
->> +
->> +  avdd1v0-supply:
->> +    description: 1.0V analog power.
->> +
->> +  avdd1v8-supply:
->> +    description: 1.8V analog power.
->> +
->> +  avdd3v3-supply:
->> +    description: 3.3V analog power.
->> +
->> +  rockchip,grf:
->> +    $ref: /schemas/types.yaml#/definitions/phandle
->> +    description: Phandle to the general register files syscon.
->> +
->> +  rockchip,output:
->> +    $ref: /schemas/types.yaml#/definitions/string
->> +    enum: [rgb, lvds, duallvds]
->> +    description: This describes the output interface.
->> +
->> +  phys:
->> +    maxItems: 1
->> +
->> +  phy-names:
->> +    const: dphy
->> +
->> +  pinctrl-names:
->> +    const: lcdc
->> +
->> +  pinctrl-0: true
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description:
->> +          Video port 0 for the VOP input.
->> +          The remote endpoint maybe vopb or vopl.
->> +
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description:
->> +          Video port 1 for either a panel or subsequent encoder.
->> +
->> +    required:
->> +      - port@0
->> +      - port@1
->> +
->> +required:
->> +  - compatible
->> +  - rockchip,grf
->> +  - rockchip,output
->> +  - ports
->> +
->> +allOf:
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            const: rockchip,px30-lvds
->> +
->> +    then:
->> +      properties:
->> +        reg: false
->> +        clocks: false
->> +        clock-names: false
->> +        avdd1v0-supply: false
->> +        avdd1v8-supply: false
->> +        avdd3v3-supply: false
->> +
-> 
+SGkNCg0KQW0gMTkuMTIuMjIgdW0gMTU6MjMgc2NocmllYiBTaWRkaCBSYW1hbiBQYW50Og0K
+PiBMaW5lIDUzNiBvZiBkcm1fcHJpbnQuaCBzYXlzIERSTV9JTkZPKCkgaXMgZGVwcmVjYXRl
+ZA0KPiBpbiBmYXZvciBvZiBwcl9pbmZvKCkuDQoNClRoYXQncyBhIG1pc2xlYWRpbmcgY29t
+bWVudC4gRFJNX0lORk8oKSBpcyBkZXByZWNhdGVkIGZvciBkcm1faW5mbygpLiANCnByX2lu
+Zm8oKSBldCBhbCBpcyBvbmx5IHRvIGJlIHVzZWQgb2YgeW91IGRvbid0IGhhdmUgYSBkZXYg
+cG9pbnRlci4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gU2lnbmVkLW9mZi1i
+eTogU2lkZGggUmFtYW4gUGFudCA8Y29kZUBzaWRkaC5tZT4NCj4gLS0tDQo+ICAgZHJpdmVy
+cy9ncHUvZHJtL2RybV9jbGllbnRfbW9kZXNldC5jIHwgIDIgKy0NCj4gICBkcml2ZXJzL2dw
+dS9kcm0vZHJtX2Nvbm5lY3Rvci5jICAgICAgfCAgOCArKysrLS0tLQ0KPiAgIGRyaXZlcnMv
+Z3B1L2RybS9kcm1fZHJ2LmMgICAgICAgICAgICB8IDEwICsrKysrLS0tLS0NCj4gICBkcml2
+ZXJzL2dwdS9kcm0vZHJtX2VkaWRfbG9hZC5jICAgICAgfCAxNCArKysrKysrLS0tLS0tLQ0K
+PiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fcGNpLmMgICAgICAgICAgICB8ICAyICstDQo+ICAg
+NSBmaWxlcyBjaGFuZ2VkLCAxOCBpbnNlcnRpb25zKCspLCAxOCBkZWxldGlvbnMoLSkNCj4g
+DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2NsaWVudF9tb2Rlc2V0LmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vZHJtX2NsaWVudF9tb2Rlc2V0LmMNCj4gaW5kZXggYmJjNTM1
+Y2M1MGRkLi4yZTI4OTE2MTRjNTggMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9k
+cm1fY2xpZW50X21vZGVzZXQuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2NsaWVu
+dF9tb2Rlc2V0LmMNCj4gQEAgLTMzNSw3ICszMzUsNyBAQCBzdGF0aWMgYm9vbCBkcm1fY2xp
+ZW50X3RhcmdldF9jbG9uZWQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwNCj4gICAJCURSTV9E
+RUJVR19LTVMoImNhbiBjbG9uZSB1c2luZyAxMDI0eDc2OFxuIik7DQo+ICAgCQlyZXR1cm4g
+dHJ1ZTsNCj4gICAJfQ0KPiAtCURSTV9JTkZPKCJrbXM6IGNhbid0IGVuYWJsZSBjbG9uaW5n
+IHdoZW4gd2UgcHJvYmFibHkgd2FudGVkIHRvLlxuIik7DQo+ICsJcHJfaW5mbygiW2RybV0g
+a21zOiBjYW4ndCBlbmFibGUgY2xvbmluZyB3aGVuIHdlIHByb2JhYmx5IHdhbnRlZCB0by5c
+biIpOw0KPiAgIAlyZXR1cm4gZmFsc2U7DQo+ICAgfQ0KPiAgIA0KPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL2RybV9jb25uZWN0b3IuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+Y29ubmVjdG9yLmMNCj4gaW5kZXggNjFjMjljZTc0YjAzLi4yNmEwM2I3MGUyYzYgMTAwNjQ0
+DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY29ubmVjdG9yLmMNCj4gKysrIGIvZHJp
+dmVycy9ncHUvZHJtL2RybV9jb25uZWN0b3IuYw0KPiBAQCAtMTY1LDE0ICsxNjUsMTQgQEAg
+c3RhdGljIHZvaWQgZHJtX2Nvbm5lY3Rvcl9nZXRfY21kbGluZV9tb2RlKHN0cnVjdCBkcm1f
+Y29ubmVjdG9yICpjb25uZWN0b3IpDQo+ICAgCQlyZXR1cm47DQo+ICAgDQo+ICAgCWlmICht
+b2RlLT5mb3JjZSkgew0KPiAtCQlEUk1fSU5GTygiZm9yY2luZyAlcyBjb25uZWN0b3IgJXNc
+biIsIGNvbm5lY3Rvci0+bmFtZSwNCj4gLQkJCSBkcm1fZ2V0X2Nvbm5lY3Rvcl9mb3JjZV9u
+YW1lKG1vZGUtPmZvcmNlKSk7DQo+ICsJCXByX2luZm8oIltkcm1dIGZvcmNpbmcgJXMgY29u
+bmVjdG9yICVzXG4iLCBjb25uZWN0b3ItPm5hbWUsDQo+ICsJCQlkcm1fZ2V0X2Nvbm5lY3Rv
+cl9mb3JjZV9uYW1lKG1vZGUtPmZvcmNlKSk7DQo+ICAgCQljb25uZWN0b3ItPmZvcmNlID0g
+bW9kZS0+Zm9yY2U7DQo+ICAgCX0NCj4gICANCj4gICAJaWYgKG1vZGUtPnBhbmVsX29yaWVu
+dGF0aW9uICE9IERSTV9NT0RFX1BBTkVMX09SSUVOVEFUSU9OX1VOS05PV04pIHsNCj4gLQkJ
+RFJNX0lORk8oImNtZGxpbmUgZm9yY2VzIGNvbm5lY3RvciAlcyBwYW5lbF9vcmllbnRhdGlv
+biB0byAlZFxuIiwNCj4gLQkJCSBjb25uZWN0b3ItPm5hbWUsIG1vZGUtPnBhbmVsX29yaWVu
+dGF0aW9uKTsNCj4gKwkJcHJfaW5mbygiW2RybV0gY21kbGluZSBmb3JjZXMgY29ubmVjdG9y
+ICVzIHBhbmVsX29yaWVudGF0aW9uIHRvICVkXG4iLA0KPiArCQkJY29ubmVjdG9yLT5uYW1l
+LCBtb2RlLT5wYW5lbF9vcmllbnRhdGlvbik7DQo+ICAgCQlkcm1fY29ubmVjdG9yX3NldF9w
+YW5lbF9vcmllbnRhdGlvbihjb25uZWN0b3IsDQo+ICAgCQkJCQkJICAgIG1vZGUtPnBhbmVs
+X29yaWVudGF0aW9uKTsNCj4gICAJfQ0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L2RybV9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2LmMNCj4gaW5kZXggMjAzYmY4
+ZDZjMzRjLi4xNDg2ZGYwOTc5MDggMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9k
+cm1fZHJ2LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcnYuYw0KPiBAQCAtODk4
+LDExICs4OTgsMTEgQEAgaW50IGRybV9kZXZfcmVnaXN0ZXIoc3RydWN0IGRybV9kZXZpY2Ug
+KmRldiwgdW5zaWduZWQgbG9uZyBmbGFncykNCj4gICAJaWYgKGRybV9jb3JlX2NoZWNrX2Zl
+YXR1cmUoZGV2LCBEUklWRVJfTU9ERVNFVCkpDQo+ICAgCQlkcm1fbW9kZXNldF9yZWdpc3Rl
+cl9hbGwoZGV2KTsNCj4gICANCj4gLQlEUk1fSU5GTygiSW5pdGlhbGl6ZWQgJXMgJWQuJWQu
+JWQgJXMgZm9yICVzIG9uIG1pbm9yICVkXG4iLA0KPiAtCQkgZHJpdmVyLT5uYW1lLCBkcml2
+ZXItPm1ham9yLCBkcml2ZXItPm1pbm9yLA0KPiAtCQkgZHJpdmVyLT5wYXRjaGxldmVsLCBk
+cml2ZXItPmRhdGUsDQo+IC0JCSBkZXYtPmRldiA/IGRldl9uYW1lKGRldi0+ZGV2KSA6ICJ2
+aXJ0dWFsIGRldmljZSIsDQo+IC0JCSBkZXYtPnByaW1hcnktPmluZGV4KTsNCj4gKwlwcl9p
+bmZvKCJbZHJtXSBJbml0aWFsaXplZCAlcyAlZC4lZC4lZCAlcyBmb3IgJXMgb24gbWlub3Ig
+JWRcbiIsDQo+ICsJCWRyaXZlci0+bmFtZSwgZHJpdmVyLT5tYWpvciwgZHJpdmVyLT5taW5v
+ciwNCj4gKwkJZHJpdmVyLT5wYXRjaGxldmVsLCBkcml2ZXItPmRhdGUsDQo+ICsJCWRldi0+
+ZGV2ID8gZGV2X25hbWUoZGV2LT5kZXYpIDogInZpcnR1YWwgZGV2aWNlIiwNCj4gKwkJZGV2
+LT5wcmltYXJ5LT5pbmRleCk7DQo+ICAgDQo+ICAgCWdvdG8gb3V0X3VubG9jazsNCj4gICAN
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZF9sb2FkLmMgYi9kcml2
+ZXJzL2dwdS9kcm0vZHJtX2VkaWRfbG9hZC5jDQo+IGluZGV4IDM3ZDhiYTNkZGI0Ni4uZDNj
+YjE5ODM4MGM1IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWRfbG9h
+ZC5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZF9sb2FkLmMNCj4gQEAgLTI0
+Miw5ICsyNDIsOSBAQCBzdGF0aWMgdm9pZCAqZWRpZF9sb2FkKHN0cnVjdCBkcm1fY29ubmVj
+dG9yICpjb25uZWN0b3IsIGNvbnN0IGNoYXIgKm5hbWUsDQo+ICAgCQl1OCAqbmV3X2VkaWQ7
+DQo+ICAgDQo+ICAgCQllZGlkW0VESURfTEVOR1RILTFdICs9IGVkaWRbMHg3ZV0gLSB2YWxp
+ZF9leHRlbnNpb25zOw0KPiAtCQlEUk1fSU5GTygiRm91bmQgJWQgdmFsaWQgZXh0ZW5zaW9u
+cyBpbnN0ZWFkIG9mICVkIGluIEVESUQgZGF0YSAiDQo+IC0JCSAgICAiXCIlc1wiIGZvciBj
+b25uZWN0b3IgXCIlc1wiXG4iLCB2YWxpZF9leHRlbnNpb25zLA0KPiAtCQkgICAgZWRpZFsw
+eDdlXSwgbmFtZSwgY29ubmVjdG9yX25hbWUpOw0KPiArCQlwcl9pbmZvKCJbZHJtXSBGb3Vu
+ZCAlZCB2YWxpZCBleHRlbnNpb25zIGluc3RlYWQgb2YgJWQgaW4gRURJRCBkYXRhICINCj4g
+KwkJCSJcIiVzXCIgZm9yIGNvbm5lY3RvciBcIiVzXCJcbiIsIHZhbGlkX2V4dGVuc2lvbnMs
+DQo+ICsJCQllZGlkWzB4N2VdLCBuYW1lLCBjb25uZWN0b3JfbmFtZSk7DQo+ICAgCQllZGlk
+WzB4N2VdID0gdmFsaWRfZXh0ZW5zaW9uczsNCj4gICANCj4gICAJCW5ld19lZGlkID0ga3Jl
+YWxsb2MoZWRpZCwgKHZhbGlkX2V4dGVuc2lvbnMgKyAxKSAqIEVESURfTEVOR1RILA0KPiBA
+QCAtMjUzLDEwICsyNTMsMTAgQEAgc3RhdGljIHZvaWQgKmVkaWRfbG9hZChzdHJ1Y3QgZHJt
+X2Nvbm5lY3RvciAqY29ubmVjdG9yLCBjb25zdCBjaGFyICpuYW1lLA0KPiAgIAkJCWVkaWQg
+PSBuZXdfZWRpZDsNCj4gICAJfQ0KPiAgIA0KPiAtCURSTV9JTkZPKCJHb3QgJXMgRURJRCBi
+YXNlIGJsb2NrIGFuZCAlZCBleHRlbnNpb24lcyBmcm9tICINCj4gLQkgICAgIlwiJXNcIiBm
+b3IgY29ubmVjdG9yIFwiJXNcIlxuIiwgKGJ1aWx0aW4gPj0gMCkgPyAiYnVpbHQtaW4iIDoN
+Cj4gLQkgICAgImV4dGVybmFsIiwgdmFsaWRfZXh0ZW5zaW9ucywgdmFsaWRfZXh0ZW5zaW9u
+cyA9PSAxID8gIiIgOiAicyIsDQo+IC0JICAgIG5hbWUsIGNvbm5lY3Rvcl9uYW1lKTsNCj4g
+Kwlwcl9pbmZvKCJbZHJtXSBHb3QgJXMgRURJRCBiYXNlIGJsb2NrIGFuZCAlZCBleHRlbnNp
+b24lcyBmcm9tICINCj4gKwkJIlwiJXNcIiBmb3IgY29ubmVjdG9yIFwiJXNcIlxuIiwgKGJ1
+aWx0aW4gPj0gMCkgPyAiYnVpbHQtaW4iIDoNCj4gKwkJImV4dGVybmFsIiwgdmFsaWRfZXh0
+ZW5zaW9ucywgdmFsaWRfZXh0ZW5zaW9ucyA9PSAxID8gIiIgOiAicyIsDQo+ICsJCW5hbWUs
+IGNvbm5lY3Rvcl9uYW1lKTsNCj4gICANCj4gICBvdXQ6DQo+ICAgCXJlbGVhc2VfZmlybXdh
+cmUoZncpOw0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9wY2kuYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9kcm1fcGNpLmMNCj4gaW5kZXggMzlkMzVmYzNhNDNiLi45NGVlMTk0
+Y2U5MjcgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGNpLmMNCj4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL2RybV9wY2kuYw0KPiBAQCAtMjYyLDcgKzI2Miw3IEBAIHZv
+aWQgZHJtX2xlZ2FjeV9wY2lfZXhpdChjb25zdCBzdHJ1Y3QgZHJtX2RyaXZlciAqZHJpdmVy
+LA0KPiAgIAkJfQ0KPiAgIAkJbXV0ZXhfdW5sb2NrKCZsZWdhY3lfZGV2X2xpc3RfbG9jayk7
+DQo+ICAgCX0NCj4gLQlEUk1fSU5GTygiTW9kdWxlIHVubG9hZGVkXG4iKTsNCj4gKwlwcl9p
+bmZvKCJbZHJtXSBNb2R1bGUgdW5sb2FkZWRcbiIpOw0KPiAgIH0NCj4gICBFWFBPUlRfU1lN
+Qk9MKGRybV9sZWdhY3lfcGNpX2V4aXQpOw0KPiAgIA0KDQotLSANClRob21hcyBaaW1tZXJt
+YW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9u
+cyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFu
+eQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBU
+b3Rldg0K
 
-> I see one compatible expects regmap from parent (grf is the parent here)
-> and other is directly on MMIO bus. Not the best combination... Maybe
-> this  should be just split to two separate bindings? Looking at driver,
-> their code is also very different between these two variants.
+--------------m4Z8Z0lSKTODIrTprfAvX6xL--
 
-Looking at the manufacturer tree we can expect the rest with grf parent, but also in the same driver combined with different registers and common probe.
-Due to common probe I prefer one common document.
+--------------jRAn52zmCrZax5bIrKY4wpAQ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Johan
+-----BEGIN PGP SIGNATURE-----
 
-===
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmOge+kFAwAAAAAACgkQlh/E3EQov+Cb
+0w//acRXHc6A2bDYUPKJ44QHJ38ulmit4wFJHNNQ0fvvWVcypfNTL5DA/G+TJwkNtZJqHWOK8Vnq
+yv4d9rN/worjVZ04CSZN92KFv51WSp1/Clz40FaoEtghS3dijzeVtbjDZ3j7P6xuBGjVcc/CYpcp
+vHKuLpyG20HU7nzlBJptioY/bAlzTLHzfDXNe3cWvrCw+3T25V7Bp8LGtB6l0mWTPc/x+YCZ3SRc
+wRKnUHiS/PQiE16GRABM3emfWCUvX+2tNBmzsuDxRvZlWFle07n3vXBMrMGcgd6Vgd38kMSYeRkk
+fJAEaDVJAiIqikx9VeGeDaPbuZBgS3S7GCjDaOH3vi+EIz9skwM6y36HtX9LUNRX+ZhB1FFOQt8f
+kAhYjK5JLh9up6oloUbddrp/0Z3M2oKb4HrqgcQdS5GBEfLaNR2Sp9CzRdF8u2HkbfNNB5BrSeMY
+65HqhZgboEWh5L3JrxoplKbJ2+6F8bnYBLCnBVUGkYFj1ZA/Msk4bv8sMDI5e6d3u/aYi4lpcIpf
+2EmT6LJkUBgf4ySlEyfdGToKqYkOGUap91I6aTJH4/Nt274J9pJHM7io/Mc0tWHkT5DxwP8kdZrN
+RnSQCC/Cw058E5XXlp7KVWB3ms7Y6xZXiQigoToGknSyrVTIdDMcdfmYOJrfIPh+97BeGhpvHP2M
+1Oo=
+=yvX9
+-----END PGP SIGNATURE-----
 
-https://github.com/rockchip-linux/kernel/blob/develop-5.10/drivers/gpu/drm/rockchip/rockchip_lvds.c#L671
-
-
-rockchip,rk3126-lvds
-https://github.com/rockchip-linux/kernel/blob/develop-5.10/arch/arm/boot/dts/rk312x.dtsi#L914
-
-rockchip,rk3368-lvds
-https://github.com/rockchip-linux/kernel/blob/develop-4.4/arch/arm64/boot/dts/rockchip/rk3368.dtsi#L1196
-
-rockchip,rk3568-lvds
-https://github.com/rockchip-linux/kernel/blob/develop-5.10/arch/arm64/boot/dts/rockchip/rk3568.dtsi#L734
-
-> 
-> Best regards,
-> Krzysztof
-> 
+--------------jRAn52zmCrZax5bIrKY4wpAQ--
