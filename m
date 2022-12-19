@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E7FA6510C5
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 17:56:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58BDF6510CB
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 17:57:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D356A10E2BB;
-	Mon, 19 Dec 2022 16:56:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE9A10E2D9;
+	Mon, 19 Dec 2022 16:57:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD26210E2BB
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 16:56:38 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id qk9so23036626ejc.3
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 08:56:38 -0800 (PST)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28EC710E2D5
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 16:56:58 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id t17so23085546eju.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 08:56:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:content-language:references
  :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
  :cc:subject:date:message-id:reply-to;
- bh=MW9IUi38LGJbWOititTnXuZuxcZ+qs+mMT17ZPnQkKo=;
- b=OeS+09a5otGiv+Kpp8lLf+vmlBCzLGRQR7qaXnlrCYGE2jyYt7zZ96biw1Dqc+/HT0
- A/HvI2rQK1PhpdXfAu8BkfTe8SpXixvvkcogsKLFjRipBr3Z/72DkU+uGlsb2940rucX
- sJo4GcqGJ8KVxFlsN4DisdJDmDEFTWGBogewBBWvwny/hCGMSXzuO1jLOAFn7f81cByM
- 2Akq7VTkHMbjuCNNk7/JNHnR0SHjuLGoWFp+5JjOmjPV9MED3JTPNEVgrfs/UmaxukWZ
- NqtQXG8SUkdFIAnSufSaC16d3VGbJLX5xiQTfvDLeJ0Pre0Zko9oKo/6wUsaRHJ52u5f
- n6wQ==
+ bh=Gb1Ci/peDFXem9KQH4YU7Ajcj0W54+LbHk+JTs6pzhc=;
+ b=UmDPOgnX9rup6tCIGhloyjt6lRLcVZejtv4yKWpWgWwcK/Hfacc0swYAY457jUkhri
+ z5OzYxcIh/efEjrvv6MzGJIbeH6ygsTbO9N0FgEGjJHwnprbJvYQIpjfGO0bpwGPju8y
+ MHnKEqKBLVADfiBhuGYf7+R6UCKEmTgbgSaAm3FoxplZlfxonWhg9FgInq5DJtE6awFS
+ DIjXQZLg2sm8Tlchzw8JTDqWRQqk3PZ7P8TUoMYpxbHe/bV7M5vcvTYc8TB0E3zeclwp
+ 41/8670nFhZvHxF94m47MJ8pzhP79gbv5DUfGRKCPs3s9/ltjvaUU89jBNQANKbv3CHF
+ eurA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:content-language:references
  :cc:to:subject:from:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MW9IUi38LGJbWOititTnXuZuxcZ+qs+mMT17ZPnQkKo=;
- b=ezqFgnFz703KTrr2M2lgVo2vlPLsQhAjrn0W2Mb6D+uNYssPtpFMQxVh3NmloxmfNJ
- ohxtCyHUEz0xfO5bgD9GtDmKNs+i4ZLjomlnfqiqM3h3VHRDVcE60Z5B7uV9Kk64j/zw
- p5DDKDsBe3vMEnRBmGjZRuGgYgfQp2e6UZB5qWDlGFjZ0+674VPDbek0xD625I5xKcE+
- lnC5lYgsc6svjvK97mGpU9AcAx3UpiBrm14qpCrmCcwjm0Bh/KEDSeAyyL/3v1VPrwZv
- wP4zHX3GXXdAzObDCbLcePhGv1vglpdWUAqfjlcV/J9iOpZTv2nw3VWJgQeFB2N0r/ag
- xfdw==
-X-Gm-Message-State: ANoB5pm8mVY+cr/B9TTFg8iGsElbabhOqC38GZpQb6Vx10NHaHNBn6nk
- aXrJ0yXzBBYrtd68e1sQoS0=
-X-Google-Smtp-Source: AA0mqf41B2/H4EPNsKQaq9hNNH4wwwkWyo/RIZIY1kQU+RhK6rFFtS4wChCTmLuHjDyyznqvRl+W0Q==
-X-Received: by 2002:a17:907:11c8:b0:7c0:beee:2f06 with SMTP id
- va8-20020a17090711c800b007c0beee2f06mr34217874ejb.52.1671468997317; 
- Mon, 19 Dec 2022 08:56:37 -0800 (PST)
+ bh=Gb1Ci/peDFXem9KQH4YU7Ajcj0W54+LbHk+JTs6pzhc=;
+ b=SUvYLijqbaqDpReVWnYb2qqXpx7I3KHIW2CSQc7Xs1jO2J/yBzUWJE9fLG+kiHqWyN
+ n3QLrBgYxprhG949yRlQrQXqPZV4fFDmQYUdmLPw3m4dfLNeeP1ivHdf6oQ1yQLmkbU6
+ 5ssLTcVeBTeVAYcDSKWLF8pu1cTI6rS1zirhRBIW86QeHH4SZqSB32lNHUcNRBhrCuUf
+ O/zS7JOPRkTidqMANUXaqXrZI/c18gjvo8l4fmsf+NegOll34m9gJU/2QS5OwvrZCP8N
+ qUNhggTYzUbPsOIDBMAhFKdmX4mFWB/sG7yAIMhTTBc8JVDc6w4POroTkOELiT89L/WU
+ eUFg==
+X-Gm-Message-State: ANoB5plWGFwLiEAdHAcFy4ab8SOPD0wG2zT2Sg9FU1lFXNxcJsasWAUo
+ D8D4TeBtppRlGY3XHqlOpjA=
+X-Google-Smtp-Source: AA0mqf4bqKwTMm/poacEbbnbaz1b85s0kV6pg/w2GLVW64PdSvJIQpi543GO23QSmuWnnclDXJC8+w==
+X-Received: by 2002:a17:906:18e2:b0:78d:f455:c381 with SMTP id
+ e2-20020a17090618e200b0078df455c381mr37139173ejf.39.1671469016673; 
+ Mon, 19 Dec 2022 08:56:56 -0800 (PST)
 Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
  by smtp.gmail.com with ESMTPSA id
- rs13-20020a170907036d00b0077a1dd3e7b7sm4623533ejb.102.2022.12.19.08.56.36
+ m18-20020a1709062ad200b0073dbaeb50f6sm4605585eje.169.2022.12.19.08.56.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 08:56:36 -0800 (PST)
-Message-ID: <0b9bb507-1819-4bfa-593f-8b7e92c2ce3d@gmail.com>
-Date: Mon, 19 Dec 2022 17:56:35 +0100
+ Mon, 19 Dec 2022 08:56:56 -0800 (PST)
+Message-ID: <e54f7b52-3530-59c4-90c6-1fb5a17d6491@gmail.com>
+Date: Mon, 19 Dec 2022 17:56:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.0
 From: Johan Jonker <jbx6244@gmail.com>
-Subject: [PATCH v4 2/5] dt-bindings: soc: rockchip: grf: add rockchip,lvds.yaml
+Subject: [PATCH v4 3/5] dt-bindings: phy: add port node to
+ phy-rockchip-inno-usb2.yaml
 To: heiko@sntech.de
 References: <7f38e245-4fc0-1754-e75c-10c1e31bbd4d@gmail.com>
 Content-Language: en-US
@@ -82,39 +83,31 @@ Cc: kishon@kernel.org, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add new converted rockchip,lvds.yaml to grf.yaml file.
-Prepare for more SoCs with lvds output.
+On Rockchip rk3399 a port node with one endpoint can be connected
+to a USB Type-C connector node.
+Add a port node to the phy-rockchip-inno-usb2.yaml file.
 
 Signed-off-by: Johan Jonker <jbx6244@gmail.com>
 ---
- .../devicetree/bindings/soc/rockchip/grf.yaml          | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ .../devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml      | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/soc/rockchip/grf.yaml b/Documentation/devicetree/bindings/soc/rockchip/grf.yaml
-index 2ed8cca79..d74295e98 100644
---- a/Documentation/devicetree/bindings/soc/rockchip/grf.yaml
-+++ b/Documentation/devicetree/bindings/soc/rockchip/grf.yaml
-@@ -75,13 +75,17 @@ allOf:
-       properties:
-         compatible:
-           contains:
--            const: rockchip,px30-grf
-+            enum:
-+              - rockchip,px30-grf
+diff --git a/Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml b/Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
+index f71920082..ffc7e7560 100644
+--- a/Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
++++ b/Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
+@@ -115,6 +115,11 @@ properties:
+     required:
+       - "#phy-cells"
 
-     then:
-       properties:
-         lvds:
--          description:
--            Documentation/devicetree/bindings/display/rockchip/rockchip-lvds.txt
-+          type: object
++  port:
++    $ref: /schemas/graph.yaml#/properties/port
++    description:
++      Port node with one endpoint connected to a USB Type-C connector node.
 +
-+          $ref: "/schemas/display/rockchip/rockchip,lvds.yaml#"
-+
-+          unevaluatedProperties: false
-
-   - if:
-       properties:
+ required:
+   - compatible
+   - reg
 --
 2.20.1
 
