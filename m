@@ -2,39 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 172D8651269
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 20:11:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C516C65137C
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 20:52:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DD2710E034;
-	Mon, 19 Dec 2022 19:11:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B938210E048;
+	Mon, 19 Dec 2022 19:52:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E16C10E034
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 19:11:01 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D2990825;
- Mon, 19 Dec 2022 20:10:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1671477059;
- bh=ybIKnk+neoMWNTrDoUnF5iVivtXWvMpzLlEAvt5FkDY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=h4OcWXF90enJJ1It0l2S2z3bWEK1wVO48JkmtXvRGRH8yTlaah0z1dqKidrjT7YSL
- dRNcQP8ndcNnG2eLC7s8TVjSUPtQtkAFSYw9lvYugdyBS74QmAU+sWKS6rNJv5+git
- EAAETztPm+KmattRm0sHvhggMMLJXOU4lTisAJQQ=
-Date: Mon, 19 Dec 2022 21:10:54 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2 1/7] media: Add 2-10-10-10 RGB formats
-Message-ID: <Y6C3PtnjAdv/seMy@pendragon.ideasonboard.com>
-References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221219140139.294245-2-tomi.valkeinen+renesas@ideasonboard.com>
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76C0210E041
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 19:52:38 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ p13-20020a05600c468d00b003cf8859ed1bso7296568wmo.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 11:52:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=wM5eORbXs9xHp9Nzr+xVNrJWic+DOQMMiAtYKX4dMVc=;
+ b=F3IPUUVYhwFAZkxY3WfwX9CwFv9W91edyXBLF65RdxskKWIHz2CIWQZMJGx2zMswjx
+ 6TwZfQOPbFv7of0rCSUSUkevvsjoPoKRrLMofBJ3P/UJwEQOdswhVQZxy/3jYXF/MCOt
+ me4rYb9sV98LcCVY7ogZ95zWD7R+hOInxcaFzwuO9ksT40lgQuZnCBBc+XAtHjrXAgmr
+ US0zSwiEPWJ/N3BjtIjz7e9+1wVHjpukHdEJBmecNVKwKR3usyYQJt4yI1VWhviYyM55
+ PYIV9uFxnrh9qB1xvb6xxf1Vnw+llGmfBKoFmNA5hOXrSAxu8ajGr1nEXatck/KFKtnI
+ yT8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wM5eORbXs9xHp9Nzr+xVNrJWic+DOQMMiAtYKX4dMVc=;
+ b=bGht9womXEkG0NfcdM5BIZHhu7sqL+qWW1YAU4qMi91z56sD91AKT2sk0wNtkY8RO9
+ 5/ZYim5nz4nfPQNDNjPa7EfLU+d9IDGzByJ+OoF4DP3xg0d+dhOwEnzDJ3rGTwSD3ppY
+ Lig/+WYm4/TBpryqW2WmEmO4JyBxH/KAxLC1Py3AmLRvjbB6oZ05P1OrKrUyWMkXUyJG
+ 7gNWuX5BaII2g+LcteyM1Gg6l0IFgOB0NwOBCu3W4uk8W9tNDX8V/KwkW4lpXBZpMT3f
+ Z39N9EqukxMnIUA004X0YRRerWLe1a+s/2FDUY0em2pJGkWqsOXCWU7UvRaq5C3CCOAN
+ ETig==
+X-Gm-Message-State: ANoB5pnfxUiDwVk5Uxd31uSAPnidHjFGO3EuWO1rH1aGZfJFUrF8zIYU
+ jxyxkz7JqgayKIneSHOc5vo=
+X-Google-Smtp-Source: AA0mqf5ebwfR8R/cCNYMXcdI/7o+HSI33zGO2ZQqU6dF15DNBFHYksCD7lOFmwqHai7rUFKa83TAog==
+X-Received: by 2002:a1c:f315:0:b0:3cf:a5df:8bb0 with SMTP id
+ q21-20020a1cf315000000b003cfa5df8bb0mr34027155wmq.37.1671479557040; 
+ Mon, 19 Dec 2022 11:52:37 -0800 (PST)
+Received: from localhost.localdomain
+ (2a02-8428-46a0-7c01-43c0-f52a-beed-541b.rev.sfr.net.
+ [2a02:8428:46a0:7c01:43c0:f52a:beed:541b])
+ by smtp.gmail.com with ESMTPSA id
+ bg2-20020a05600c3c8200b003b47e75b401sm24469142wmb.37.2022.12.19.11.52.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Dec 2022 11:52:36 -0800 (PST)
+From: Christophe Branchereau <cbranchereau@gmail.com>
+To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@gmail.com,
+ daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, paul@crapouillou.net,
+ linus.walleij@linaro.org
+Subject: [PATCH v3 0/2] Add support for the orisetech ota5601
+Date: Mon, 19 Dec 2022 20:52:31 +0100
+Message-Id: <20221219195233.375637-1-cbranchereau@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221219140139.294245-2-tomi.valkeinen+renesas@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,268 +75,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
- linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-media@vger.kernel.org
+Cc: Christophe Branchereau <cbranchereau@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+Changes since v2:
+ - Documented the registers to the best of my knowledge
+ - Used macros for on/off panel registers
+ - Added SPI id_table (non-requested change, fixes a warning in dmesg)
 
-Thank you for the patch.
+---
+Changes since v1:
+ - fixed the dt-bindings maintainer email adress
+ - dropped backlight, port, power-supply and reset-gpios as they're
+   provided by panel-common.yaml as pointed by Krzysztof Kozlowski
+ - changed reg: true to reg : maxItems: 1
 
-On Mon, Dec 19, 2022 at 04:01:33PM +0200, Tomi Valkeinen wrote:
-> Add XBGR2101010, ABGR2101010 and BGRA1010102 formats.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> ---
->  .../userspace-api/media/v4l/pixfmt-rgb.rst    | 194 ++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-ioctl.c          |   3 +
->  include/uapi/linux/videodev2.h                |   3 +
->  3 files changed, 200 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> index 30f51cd33f99..de78cd2dcd73 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> @@ -763,6 +763,200 @@ nomenclature that instead use the order of components as seen in a 24- or
->      \normalsize
->  
->  
-> +10 Bits Per Component
-> +=====================
-> +
-> +These formats store a 30-bit RGB triplet with an optional 2 bit alpha in four
-> +bytes. They are named based on the order of the RGB components as seen in a
-> +32-bit word, which is then stored in memory in little endian byte order
-> +(unless otherwise noted by the presence of bit 31 in the 4CC value), and on the
-> +number of bits for each component.
-> +
-> +.. raw:: latex
-> +
-> +    \begingroup
-> +    \tiny
-> +    \setlength{\tabcolsep}{2pt}
-> +
-> +.. tabularcolumns:: |p{2.8cm}|p{2.0cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
-> +
-> +
-> +.. flat-table:: RGB Formats 10 Bits Per Color Component
-> +    :header-rows:  2
-> +    :stub-columns: 0
-> +
-> +    * - Identifier
-> +      - Code
-> +      - :cspan:`7` Byte 0 in memory
-> +      - :cspan:`7` Byte 1
-> +      - :cspan:`7` Byte 2
-> +      - :cspan:`7` Byte 3
-> +    * -
-> +      -
-> +      - 7
-> +      - 6
-> +      - 5
-> +      - 4
-> +      - 3
-> +      - 2
-> +      - 1
-> +      - 0
-> +
-> +      - 7
-> +      - 6
-> +      - 5
-> +      - 4
-> +      - 3
-> +      - 2
-> +      - 1
-> +      - 0
-> +
-> +      - 7
-> +      - 6
-> +      - 5
-> +      - 4
-> +      - 3
-> +      - 2
-> +      - 1
-> +      - 0
-> +
-> +      - 7
-> +      - 6
-> +      - 5
-> +      - 4
-> +      - 3
-> +      - 2
-> +      - 1
-> +      - 0
-> +    * .. _V4L2-PIX-FMT-XBGR2101010:
-> +
-> +      - ``V4L2_PIX_FMT_XBGR2101010``
-> +      - 'RX30'
-> +
-> +      - b\ :sub:`5`
-> +      - b\ :sub:`4`
-> +      - b\ :sub:`3`
-> +      - b\ :sub:`2`
-> +      - b\ :sub:`1`
-> +      - b\ :sub:`0`
-> +      - x
-> +      - x
-> +
-> +      - g\ :sub:`3`
-> +      - g\ :sub:`2`
-> +      - g\ :sub:`1`
-> +      - g\ :sub:`0`
-> +      - b\ :sub:`9`
-> +      - b\ :sub:`8`
-> +      - b\ :sub:`7`
-> +      - b\ :sub:`6`
-> +
-> +      - r\ :sub:`1`
-> +      - r\ :sub:`0`
-> +      - g\ :sub:`9`
-> +      - g\ :sub:`8`
-> +      - g\ :sub:`7`
-> +      - g\ :sub:`6`
-> +      - g\ :sub:`5`
-> +      - g\ :sub:`4`
-> +
-> +      - r\ :sub:`9`
-> +      - r\ :sub:`8`
-> +      - r\ :sub:`7`
-> +      - r\ :sub:`6`
-> +      - r\ :sub:`5`
-> +      - r\ :sub:`4`
-> +      - r\ :sub:`3`
-> +      - r\ :sub:`2`
-> +      -
+Christophe Branchereau (2):
+  drm/panel: add the orisetech ota5601a
+  dt-bindings: display/panel: Add the Focaltech gpt3
 
-This doesn't match the text above. This would be RGBX2101010. I'm not
-sure which format you want, so I don't know if it's the documentation or
-the format name that is incorrect. The next two formats also seem
-incorrect to me.
-
-> +    * .. _V4L2-PIX-FMT-ABGR2101010:
-> +
-> +      - ``V4L2_PIX_FMT_ABGR2101010``
-> +      - 'RA30'
-> +
-> +      - b\ :sub:`5`
-> +      - b\ :sub:`4`
-> +      - b\ :sub:`3`
-> +      - b\ :sub:`2`
-> +      - b\ :sub:`1`
-> +      - b\ :sub:`0`
-> +      - a\ :sub:`1`
-> +      - a\ :sub:`0`
-> +
-> +      - g\ :sub:`3`
-> +      - g\ :sub:`2`
-> +      - g\ :sub:`1`
-> +      - g\ :sub:`0`
-> +      - b\ :sub:`9`
-> +      - b\ :sub:`8`
-> +      - b\ :sub:`7`
-> +      - b\ :sub:`6`
-> +
-> +      - r\ :sub:`1`
-> +      - r\ :sub:`0`
-> +      - g\ :sub:`9`
-> +      - g\ :sub:`8`
-> +      - g\ :sub:`7`
-> +      - g\ :sub:`6`
-> +      - g\ :sub:`5`
-> +      - g\ :sub:`4`
-> +
-> +      - r\ :sub:`9`
-> +      - r\ :sub:`8`
-> +      - r\ :sub:`7`
-> +      - r\ :sub:`6`
-> +      - r\ :sub:`5`
-> +      - r\ :sub:`4`
-> +      - r\ :sub:`3`
-> +      - r\ :sub:`2`
-> +      -
-> +    * .. _V4L2-PIX-FMT-BGRA1010102:
-> +
-> +      - ``V4L2_PIX_FMT_BGRA1010102``
-> +      - 'AR30'
-> +
-> +      - b\ :sub:`7`
-> +      - b\ :sub:`6`
-> +      - b\ :sub:`5`
-> +      - b\ :sub:`4`
-> +      - b\ :sub:`3`
-> +      - b\ :sub:`2`
-> +      - b\ :sub:`1`
-> +      - b\ :sub:`0`
-> +
-> +      - g\ :sub:`5`
-> +      - g\ :sub:`4`
-> +      - g\ :sub:`3`
-> +      - g\ :sub:`2`
-> +      - g\ :sub:`1`
-> +      - g\ :sub:`0`
-> +      - b\ :sub:`9`
-> +      - b\ :sub:`8`
-> +
-> +      - r\ :sub:`3`
-> +      - r\ :sub:`2`
-> +      - r\ :sub:`1`
-> +      - r\ :sub:`0`
-> +      - g\ :sub:`9`
-> +      - g\ :sub:`8`
-> +      - g\ :sub:`7`
-> +      - g\ :sub:`6`
-> +
-> +      - a\ :sub:`1`
-> +      - a\ :sub:`0`
-> +      - r\ :sub:`9`
-> +      - r\ :sub:`8`
-> +      - r\ :sub:`7`
-> +      - r\ :sub:`6`
-> +      - r\ :sub:`5`
-> +      - r\ :sub:`4`
-> +      -
-> +
-> +.. raw:: latex
-> +
-> +    \endgroup
-> +
-> +
->  Deprecated RGB Formats
->  ======================
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index fddba75d9074..964300deaf62 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1304,6 +1304,9 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  	case V4L2_PIX_FMT_BGRX32:	descr = "32-bit XBGR 8-8-8-8"; break;
->  	case V4L2_PIX_FMT_RGBA32:	descr = "32-bit RGBA 8-8-8-8"; break;
->  	case V4L2_PIX_FMT_RGBX32:	descr = "32-bit RGBX 8-8-8-8"; break;
-> +	case V4L2_PIX_FMT_XBGR2101010:	descr = "32-bit XBGR 2-10-10-10"; break;
-> +	case V4L2_PIX_FMT_ABGR2101010:	descr = "32-bit ABGR 2-10-10-10"; break;
-> +	case V4L2_PIX_FMT_BGRA1010102:	descr = "32-bit BGRA 10-10-10-2"; break;
->  	case V4L2_PIX_FMT_GREY:		descr = "8-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y4:		descr = "4-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y6:		descr = "6-bit Greyscale"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 29da1f4b4578..877fd61693b8 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -576,6 +576,9 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_RGBX32  v4l2_fourcc('X', 'B', '2', '4') /* 32  RGBX-8-8-8-8  */
->  #define V4L2_PIX_FMT_ARGB32  v4l2_fourcc('B', 'A', '2', '4') /* 32  ARGB-8-8-8-8  */
->  #define V4L2_PIX_FMT_XRGB32  v4l2_fourcc('B', 'X', '2', '4') /* 32  XRGB-8-8-8-8  */
-> +#define V4L2_PIX_FMT_XBGR2101010 v4l2_fourcc('R', 'X', '3', '0') /* 32  XBGR-2-10-10-10  */
-> +#define V4L2_PIX_FMT_ABGR2101010 v4l2_fourcc('R', 'A', '3', '0') /* 32  ABGR-2-10-10-10  */
-> +#define V4L2_PIX_FMT_BGRA1010102 v4l2_fourcc('A', 'R', '3', '0') /* 32  BGRA-10-10-10-2  */
->  
->  /* Grey formats */
->  #define V4L2_PIX_FMT_GREY    v4l2_fourcc('G', 'R', 'E', 'Y') /*  8  Greyscale     */
+ .../display/panel/focaltech,gpt3.yaml         |  56 +++
+ drivers/gpu/drm/panel/Kconfig                 |   9 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-orisetech-ota5601a.c  | 364 ++++++++++++++++++
+ 4 files changed, 430 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/focaltech,gpt3.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-orisetech-ota5601a.c
 
 -- 
-Regards,
+2.35.1
 
-Laurent Pinchart
