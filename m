@@ -2,80 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7301B651CC6
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 10:02:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 104FF651F07
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 11:41:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC90A10E069;
-	Tue, 20 Dec 2022 09:02:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60EB210E381;
+	Tue, 20 Dec 2022 10:39:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7BF210E069
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 09:02:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671526952;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ISEJwQvRU7BCX1Eq3uhxA8ruWz68wiH+flj6iQgeivA=;
- b=Nu+Fc9vb7XUtehz/fYnr+eoZ60gZ67lTeo59kvVyY7OK3peLIqirO0P/W7xxvQGGNdvBm4
- +T1T7s2ebGTLjOmufEuirRJbhpPyI8QKQGuxGVyXJ+ciuuWppqBhoAoIQAOHt/jPDHG8iQ
- c9+tCF7iKHVmDI1UogmcnTIYj8kjvdM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-126-9x1Qlbe6OcCCWdFu9gGVgw-1; Tue, 20 Dec 2022 04:02:31 -0500
-X-MC-Unique: 9x1Qlbe6OcCCWdFu9gGVgw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- b47-20020a05600c4aaf00b003d031aeb1b6so7752389wmp.9
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 01:02:30 -0800 (PST)
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F2D910E20E
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 08:43:19 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id bj12so19641748ejb.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 00:43:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=kYYaE3bwqOZpjy9bqglp5kw8THeTMFyYTG3Pe3WusMY=;
+ b=73G2LxFwIuXcJ8JfikxHBeTK8Ai8+099d7TsNEgBayS3aGnT3o3UhXd2w5UnDtt3Ia
+ 0sIi4pHg+1OyBNaU//uOizs1AYrUWG3CyYuYFuOI1PE5M5UPmWEfmAZhzFVLQro/CjuR
+ nOevReLfQUP7X4vhPqEh1sfp38tL+m0m27GS4zbsfo5WkN1gzXKerBonhxbzgq4fiC+l
+ 5XQY4rvgo80IFX4GjhiUWF8UjdWrPH9ncuS0egroDJR7bwpeaLjA3a3sZe7nxggczXLQ
+ dDh9f93/9dRvQWVcZAD7UwR/uJEhOqRZ0xeNv/HJN2ab/rZYMMolHOLoTxlxZqJKdebN
+ v7yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ISEJwQvRU7BCX1Eq3uhxA8ruWz68wiH+flj6iQgeivA=;
- b=u0162brnN6wkwLxET8fIJ2wTOLfs33FmMlODwakYl4RgZLyTrx4dzMgHwPKYKHRUwR
- vwVRnowew8lCQugBsLhI+T6WQyNNKTcUBd/PyuRkYE8nAVDsjlHsOScHoI5eJ4PSVU2s
- SwcjFdrLgTNtLTYWIv+DDv1QhaRj/YBfjC3XctfO+lKeOtkSUzUvmTi6o8Z9TdxHur8j
- av3Qx/AkO2xwzw/DGyaA7gsw4Ip2406FGYs2QCGO+d5Z4pZ3fq2vvjVNcTG5TZIaBv6/
- NiZ70mkxB/cvxiL6kg6JBHxChTEz9/SVk4FxdJtsCDaxDcH78HyBDdOOAniqy4RPEW1T
- yryQ==
-X-Gm-Message-State: AFqh2krh/C4IV7EA78382J+3ME+tpsVoIHKz38nBU0sdsqY+pjl4yj97
- zDH9DV5fx6WWbhQCb3Kr9bwIG+U5TT9qBodrwMhJL28udayN5np9Fctp3+X2KMHpXIqDpk8sNpE
- QKJ5ijdzzKR4/qc/FVeGlLOvbLmHb
-X-Received: by 2002:adf:da43:0:b0:261:d8be:3047 with SMTP id
- r3-20020adfda43000000b00261d8be3047mr3875367wrl.3.1671526949943; 
- Tue, 20 Dec 2022 01:02:29 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtDSck0vpp9O4zLrwaXxUoSu6Jn5ebuv0yYQst5gp9Ny9hsT/bzSiOaz91unNnwKxw8z3Hitg==
-X-Received: by 2002:adf:da43:0:b0:261:d8be:3047 with SMTP id
- r3-20020adfda43000000b00261d8be3047mr3875341wrl.3.1671526949445; 
- Tue, 20 Dec 2022 01:02:29 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
- ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kYYaE3bwqOZpjy9bqglp5kw8THeTMFyYTG3Pe3WusMY=;
+ b=DKH863nIuvym877+oguF4ya2XEFu3IQsxdQZRYRI9BDxI9EeIkysZN5xOf+sUZ/Xum
+ BiIfT7q7QAdpwjlkAzQn+bWAJiQTYCddFw/9mxcpBOT9sp3N7biOSp1J0Pjnroex+NbQ
+ LeFh0C8+Usv5on0iERPZ24c0dQrr0/K4Hboeikp9oAcgK5KOaqWiSrpk/LQDDHZcpGR9
+ 3UKPtCr3dJqySwUbPUYjf4ZZwBPUUS9SMxxBZCuGTfhhBLxlUg0AWzLl0o+ADO4HJk6b
+ RGRSaZ98ZhYkvsJQEkc+7umSQpvqNhaGB7XqWwBEA3Z7JvkSJgNJw3NMMac5OULa0ye/
+ z6UQ==
+X-Gm-Message-State: ANoB5pn2gfjCLmebI+S8ub0oStXaIkPvGfq+u51mnajeobTveXCnROJI
+ nyOTIhQM1a6sLP47TkC+ctYrHTeLKFtdH9SEVh8=
+X-Google-Smtp-Source: AA0mqf7famYNciIPKzFQ0QR5iYvihCH5RaB2lTsclMVvpvXA8pM9J4X8rlevPiqjboKSR8SeNzSmuw==
+X-Received: by 2002:a17:906:8d08:b0:7c1:700:1e2d with SMTP id
+ rv8-20020a1709068d0800b007c107001e2dmr55156347ejc.20.1671439397658; 
+ Mon, 19 Dec 2022 00:43:17 -0800 (PST)
+Received: from [127.0.1.1] ([2001:b07:5d39:f336:a0ba:cfa5:2107:c2c4])
  by smtp.gmail.com with ESMTPSA id
- o5-20020a5d4a85000000b0023662245d3csm12021248wrq.95.2022.12.20.01.02.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Dec 2022 01:02:28 -0800 (PST)
-Message-ID: <a28be4a8-b408-2032-0c8c-01c7de504e89@redhat.com>
-Date: Tue, 20 Dec 2022 10:02:27 +0100
+ w7-20020a170906b18700b007c0b28b85c5sm4083755ejy.138.2022.12.19.00.43.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Dec 2022 00:43:17 -0800 (PST)
+From: Carlo Caione <ccaione@baylibre.com>
+Date: Mon, 19 Dec 2022 09:43:05 +0100
+Subject: [PATCH] drm/meson: Reduce the FIFO lines held when AFBC is not used
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH] drm/ast: Init iosys_map pointer as I/O memory for damage
- handling
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- daniel@ffwll.ch, airlied@gmail.com
-References: <20221216193005.30280-1-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20221216193005.30280-1-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20221216-afbc_s905x-v1-0-033bebf780d9@baylibre.com>
+To: David Airlie <airlied@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Kevin Hilman <khilman@baylibre.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.10.1
+X-Mailman-Approved-At: Tue, 20 Dec 2022 10:39:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,51 +75,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Carlo Caione <ccaione@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/12/2022 20:30, Thomas Zimmermann wrote:
-> Ast hardware scans out the primary plane from video memory, which
-> is in I/O-memory space. Hence init the damage handler's iosys_map
-> pointer as I/O memory.
-> 
-> Not all platforms support accessing I/O memory as system memory,
-> although it's usually not a problem in ast's x86-based systems.
-> 
-> The error report is at [1].
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: f2fa5a99ca81 ("drm/ast: Convert ast to SHMEM")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Jocelyn Falempe <jfalempe@redhat.com>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Link: https://lore.kernel.org/lkml/202212170111.eInM0unS-lkp@intel.com/T/#u # 1
-> ---
->   drivers/gpu/drm/ast/ast_mode.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index c7443317c747..e82e9a8d85e5 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -636,7 +636,7 @@ static void ast_handle_damage(struct ast_plane *ast_plane, struct iosys_map *src
->   			      struct drm_framebuffer *fb,
->   			      const struct drm_rect *clip)
->   {
-> -	struct iosys_map dst = IOSYS_MAP_INIT_VADDR(ast_plane->vaddr);
-> +	struct iosys_map dst = IOSYS_MAP_INIT_VADDR_IOMEM(ast_plane->vaddr);
->   
->   	iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, clip));
->   	drm_fb_memcpy(&dst, fb->pitches, src, fb, clip);
+Having a bigger number of FIFO lines held after vsync is only useful to
+SoCs using AFBC to give time to the AFBC decoder to be reset, configured
+and enabled again.
 
-It looks good to me.
+For SoCs not using AFBC this, on the contrary, is causing on some
+displays issues and a few pixels vertical offset in the displayed image.
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+Conditionally increase the number of lines held after vsync only for
+SoCs using AFBC, leaving the default value for all the others.
 
+Signed-off-by: Carlo Caione <ccaione@baylibre.com>
+---
+Fix display issues for amlogic SoCs not using AFBC
+
+In 24e0d4058eff the number of lines held after VSYNC was incremented to give
+time to the AFBC decoder to do its job. This is causing an issue (seen on
+S905x) where the image (on some panels) is dislayed with a vertical offset.
+With this patch we try to keep the fix only when AFBC is actually used
+filtering on the SoC type.
+
+To: Neil Armstrong <neil.armstrong@linaro.org>
+To: David Airlie <airlied@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Kevin Hilman <khilman@baylibre.com>
+To: Jerome Brunet <jbrunet@baylibre.com>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-amlogic@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+---
+ drivers/gpu/drm/meson/meson_viu.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/meson/meson_viu.c b/drivers/gpu/drm/meson/meson_viu.c
+index d4b907889a21..cd399b0b7181 100644
+--- a/drivers/gpu/drm/meson/meson_viu.c
++++ b/drivers/gpu/drm/meson/meson_viu.c
+@@ -436,15 +436,14 @@ void meson_viu_init(struct meson_drm *priv)
+ 
+ 	/* Initialize OSD1 fifo control register */
+ 	reg = VIU_OSD_DDR_PRIORITY_URGENT |
+-		VIU_OSD_HOLD_FIFO_LINES(31) |
+ 		VIU_OSD_FIFO_DEPTH_VAL(32) | /* fifo_depth_val: 32*8=256 */
+ 		VIU_OSD_WORDS_PER_BURST(4) | /* 4 words in 1 burst */
+ 		VIU_OSD_FIFO_LIMITS(2);      /* fifo_lim: 2*16=32 */
+ 
+ 	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A))
+-		reg |= VIU_OSD_BURST_LENGTH_32;
++		reg |= (VIU_OSD_BURST_LENGTH_32 | VIU_OSD_HOLD_FIFO_LINES(31));
+ 	else
+-		reg |= VIU_OSD_BURST_LENGTH_64;
++		reg |= (VIU_OSD_BURST_LENGTH_64 | VIU_OSD_HOLD_FIFO_LINES(4));
+ 
+ 	writel_relaxed(reg, priv->io_base + _REG(VIU_OSD1_FIFO_CTRL_STAT));
+ 	writel_relaxed(reg, priv->io_base + _REG(VIU_OSD2_FIFO_CTRL_STAT));
+
+---
+base-commit: 84e57d292203a45c96dbcb2e6be9dd80961d981a
+change-id: 20221216-afbc_s905x-4baf5fdc9970
+
+Best regards,
 -- 
-
-Jocelyn
-
+Carlo Caione
