@@ -2,35 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36AF4650CED
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 15:02:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D83650CEE
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 15:02:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 717CC10E2A3;
-	Mon, 19 Dec 2022 14:01:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 485D710E2A8;
+	Mon, 19 Dec 2022 14:01:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 97ABA10E2A3
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 14:01:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id E7B3C10E2A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 14:01:40 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C3640FEC;
- Mon, 19 Dec 2022 06:02:03 -0800 (PST)
-Received: from [10.57.88.85] (unknown [10.57.88.85])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 09A173F71A;
- Mon, 19 Dec 2022 06:01:20 -0800 (PST)
-Message-ID: <e4b64666-9420-ae86-af38-377029d4ef27@arm.com>
-Date: Mon, 19 Dec 2022 14:01:22 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] drm/panfrost: Fix GEM handle creation UAF
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20221216233355.542197-1-robdclark@gmail.com>
-Content-Language: en-GB
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A14AFEC;
+ Mon, 19 Dec 2022 06:02:21 -0800 (PST)
+Received: from e112269-lin.cambridge.arm.com (unknown [10.1.194.34])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 10BA93F71A;
+ Mon, 19 Dec 2022 06:01:38 -0800 (PST)
 From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20221216233355.542197-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Subject: [PATCH] drm/panfrost: Fix GEM handle creation ref-counting
+Date: Mon, 19 Dec 2022 14:01:30 +0000
+Message-Id: <20221219140130.410578-1-steven.price@arm.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,96 +39,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- open list <linux-kernel@vger.kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: Rob Clark <robdclark@chromium.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/12/2022 23:33, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Relying on an unreturned handle to hold a reference to an object we
-> dereference is not safe.  Userspace can guess the handle and race us
-> by closing the handle from another thread.  The _create_with_handle()
-> that returns an object ptr is pretty much a pattern to avoid.  And
-> ideally creating the handle would be done after any needed dererencing.
-> But in this case creation of the mapping is tied to the handle creation.
-> Fortunately the mapping is refcnt'd and holds a reference to the object,
-> so we can drop the handle's reference once we hold a mapping reference.
+panfrost_gem_create_with_handle() previously returned a BO but with the
+only reference being from the handle, which user space could in theory
+guess and release, causing a use-after-free. Additionally if the call to
+panfrost_gem_mapping_get() in panfrost_ioctl_create_bo() failed then
+a(nother) reference on the BO was dropped.
 
-Thanks for spotting this, it's a small window but definitely a bug.
+The _create_with_handle() is a problematic pattern, so ditch it and
+instead create the handle in panfrost_ioctl_create_bo(). If the call to
+panfrost_gem_mapping_get() fails then this means that user space has
+indeed gone behind our back and freed the handle. In which case just
+return an error code.
 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c |  7 +++++++
->  drivers/gpu/drm/panfrost/panfrost_gem.c | 10 +++++++---
->  2 files changed, 14 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 2fa5afe21288..aa5848de647c 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -98,6 +98,13 @@ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
->  		return PTR_ERR(bo);
->  
->  	mapping = panfrost_gem_mapping_get(bo, priv);
-> +
-> +	/*
-> +	 * Now that the mapping holds a reference to the bo until we no longer
-> +	 * need it, we can safely drop the handle's reference.
-> +	 */
-> +	drm_gem_object_put(&bo->base.base);
-> +
->  	if (!mapping) {
->  		drm_gem_object_put(&bo->base.base);
+Reported-by: Rob Clark <robdclark@chromium.org>
+Fixes: f3ba91228e8e ("drm/panfrost: Add initial panfrost driver")
+Signed-off-by: Steven Price <steven.price@arm.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 27 ++++++++++++++++---------
+ drivers/gpu/drm/panfrost/panfrost_gem.c | 16 +--------------
+ drivers/gpu/drm/panfrost/panfrost_gem.h |  5 +----
+ 3 files changed, 20 insertions(+), 28 deletions(-)
 
-This !mapping call to drm_gem_object_put() is suspicious. It doesn't
-make any sense and if it can be reached is going to drive the reference
-count negative. So I don't think the bug is completely gone.
-
-If user space does the trick of freeing the handle between the call to
-panfrost_gem_create_with_handle() and panfrost_gem_mapping_get() then
-even with the extra reference we now have the call to
-panfrost_gem_mapping_get() will fail and two references are dropped.
-
-I think the whole _create_with_handle() approach was a bad idea and it's
-best to simply drop the _with_handle part. I'll post a patch tidying
-this up along with removing the drm_gem_object_put() in the !mapping case.
-
-Thanks,
-
-Steve
-
->  		return -EINVAL;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> index 293e799e2fe8..e3e21c500d24 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -234,6 +234,10 @@ struct drm_gem_object *panfrost_gem_create_object(struct drm_device *dev, size_t
->  	return &obj->base.base;
->  }
->  
-> +/*
-> + * NOTE: if this succeeds, both the handle and the returned object have
-> + * an outstanding reference.
-> + */
->  struct panfrost_gem_object *
->  panfrost_gem_create_with_handle(struct drm_file *file_priv,
->  				struct drm_device *dev, size_t size,
-> @@ -261,10 +265,10 @@ panfrost_gem_create_with_handle(struct drm_file *file_priv,
->  	 * and handle has the id what user can see.
->  	 */
->  	ret = drm_gem_handle_create(file_priv, &shmem->base, handle);
-> -	/* drop reference from allocate - handle holds it now. */
-> -	drm_gem_object_put(&shmem->base);
-> -	if (ret)
-> +	if (ret) {
-> +		drm_gem_object_put(&shmem->base);
->  		return ERR_PTR(ret);
-> +	}
->  
->  	return bo;
->  }
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index fa619fe72086..abb0dadd8f63 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -82,6 +82,7 @@ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
+ 	struct panfrost_gem_object *bo;
+ 	struct drm_panfrost_create_bo *args = data;
+ 	struct panfrost_gem_mapping *mapping;
++	int ret;
+ 
+ 	if (!args->size || args->pad ||
+ 	    (args->flags & ~(PANFROST_BO_NOEXEC | PANFROST_BO_HEAP)))
+@@ -92,21 +93,29 @@ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
+ 	    !(args->flags & PANFROST_BO_NOEXEC))
+ 		return -EINVAL;
+ 
+-	bo = panfrost_gem_create_with_handle(file, dev, args->size, args->flags,
+-					     &args->handle);
++	bo = panfrost_gem_create(dev, args->size, args->flags);
+ 	if (IS_ERR(bo))
+ 		return PTR_ERR(bo);
+ 
++	ret = drm_gem_handle_create(file, &bo->base.base, &args->handle);
++	if (ret)
++		goto out;
++
+ 	mapping = panfrost_gem_mapping_get(bo, priv);
+-	if (!mapping) {
+-		drm_gem_object_put(&bo->base.base);
+-		return -EINVAL;
++	if (mapping) {
++		args->offset = mapping->mmnode.start << PAGE_SHIFT;
++		panfrost_gem_mapping_put(mapping);
++	} else {
++		/* This can only happen if the handle from
++		 * drm_gem_handle_create() has already been guessed and freed
++		 * by user space
++		 */
++		ret = -EINVAL;
+ 	}
+ 
+-	args->offset = mapping->mmnode.start << PAGE_SHIFT;
+-	panfrost_gem_mapping_put(mapping);
+-
+-	return 0;
++out:
++	drm_gem_object_put(&bo->base.base);
++	return ret;
+ }
+ 
+ /**
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+index 293e799e2fe8..3c812fbd126f 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+@@ -235,12 +235,8 @@ struct drm_gem_object *panfrost_gem_create_object(struct drm_device *dev, size_t
+ }
+ 
+ struct panfrost_gem_object *
+-panfrost_gem_create_with_handle(struct drm_file *file_priv,
+-				struct drm_device *dev, size_t size,
+-				u32 flags,
+-				uint32_t *handle)
++panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags)
+ {
+-	int ret;
+ 	struct drm_gem_shmem_object *shmem;
+ 	struct panfrost_gem_object *bo;
+ 
+@@ -256,16 +252,6 @@ panfrost_gem_create_with_handle(struct drm_file *file_priv,
+ 	bo->noexec = !!(flags & PANFROST_BO_NOEXEC);
+ 	bo->is_heap = !!(flags & PANFROST_BO_HEAP);
+ 
+-	/*
+-	 * Allocate an id of idr table where the obj is registered
+-	 * and handle has the id what user can see.
+-	 */
+-	ret = drm_gem_handle_create(file_priv, &shmem->base, handle);
+-	/* drop reference from allocate - handle holds it now. */
+-	drm_gem_object_put(&shmem->base);
+-	if (ret)
+-		return ERR_PTR(ret);
+-
+ 	return bo;
+ }
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
+index 8088d5fd8480..ad2877eeeccd 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.h
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
+@@ -69,10 +69,7 @@ panfrost_gem_prime_import_sg_table(struct drm_device *dev,
+ 				   struct sg_table *sgt);
+ 
+ struct panfrost_gem_object *
+-panfrost_gem_create_with_handle(struct drm_file *file_priv,
+-				struct drm_device *dev, size_t size,
+-				u32 flags,
+-				uint32_t *handle);
++panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags);
+ 
+ int panfrost_gem_open(struct drm_gem_object *obj, struct drm_file *file_priv);
+ void panfrost_gem_close(struct drm_gem_object *obj,
+-- 
+2.34.1
 
