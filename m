@@ -2,45 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB4FD650E3B
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 16:04:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C9C0650EC8
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 16:41:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C6DC10E2AB;
-	Mon, 19 Dec 2022 15:04:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B38A10E031;
+	Mon, 19 Dec 2022 15:41:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3065510E2AB
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 15:04:30 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 81078825;
- Mon, 19 Dec 2022 16:04:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1671462267;
- bh=SP+HsLI1vuvjD1JOA3TmOAYZnqvPEDNxAWXRP4j7pT0=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=R/WtVRb882wcvL7RXdzmurajW6C6xzxxzjM/jJvY4s1RE6ykAATLnF6qGR1U2m8ZW
- opRKjY9xtK/moe4cm5sQDzViAVGfckS/Lu1xx5EvI3o400vLcLUBTdTT8IZTkMypgn
- 6xvj9E0owCDHBGNsULB+9bUzNfHkcx3Dcp2Cnzbg=
-Content-Type: text/plain; charset="utf-8"
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E503010E031;
+ Mon, 19 Dec 2022 15:41:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1671464476; x=1703000476;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=M43VCwFsvaofhuWrvSAK6h0xV1dINtxPa089sIJDKsM=;
+ b=QnSVpbccIF6CEX4/ms+cign3CsbP/N4UXn5eD3zQIqf2Xgz9Bnzp6zav
+ K5JyvzdsH12rJ1etetFHQ18JzbZij5mH6Lw8jLMxrI11IShT5mza4G67j
+ QG1wBqn4qyO78mMYLRzJvQqonJrKsDqoXWYHjn3iyGSPGZIDjMEQbKCqL
+ uydHfLvDmYJ4EHDyjcNfZmeKP6nleYIKO9yX8CSQwO1MWgTP0KA8lpMo0
+ yweOtHkknRvTJvCJqevTekyKsmM8jE6MANcSxSYJ6BORPxbnbxTEuE37g
+ ByylUfv8SqzGUMROd+VLP8Wt9WqIgYCi6g1uF/gxevaYZNrS7z5WrohRr Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="383720117"
+X-IronPort-AV: E=Sophos;i="5.96,255,1665471600"; d="scan'208";a="383720117"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2022 07:40:49 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="628335587"
+X-IronPort-AV: E=Sophos;i="5.96,255,1665471600"; d="scan'208";a="628335587"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.16.42])
+ ([10.213.16.42])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2022 07:40:46 -0800
+Message-ID: <06fe5ccf-b55a-59ff-3eeb-f190a6e2b933@intel.com>
+Date: Mon, 19 Dec 2022 16:40:45 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20221219140139.294245-7-tomi.valkeinen+renesas@ideasonboard.com>
-References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221219140139.294245-7-tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2 6/7] drm: rcar-du: Bump V3U to gen 4
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-Date: Mon, 19 Dec 2022 15:04:24 +0000
-Message-ID: <167146226437.530483.10441477468827267006@Monstersaurus>
-User-Agent: alot/0.10
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.5.1
+Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915: Do not cover all future
+ platforms in TLB invalidation
+Content-Language: en-US
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20221219101316.168129-1-tvrtko.ursulin@linux.intel.com>
+ <20221219101316.168129-2-tvrtko.ursulin@linux.intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20221219101316.168129-2-tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,39 +65,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Tomi Valkeinen (2022-12-19 14:01:38)
-> V3U is actually gen 4 IP, like in V4H. Bumb up V3U gen in the
+On 19.12.2022 11:13, Tvrtko Ursulin wrote:
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> 
+> Revert to the original explicit approach and document the reasoning
+> behind it.
+> 
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
 
-s/Bumb/bump/
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Regards
+Andrzej
 
-> rcar_du_r8a779a0_info.
->=20
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > ---
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar=
--du/rcar_du_drv.c
-> index 46c60a2d710d..c7c5217cfc1a 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -504,7 +504,7 @@ static const struct rcar_du_device_info rcar_du_r8a77=
-99x_info =3D {
->  };
-> =20
->  static const struct rcar_du_device_info rcar_du_r8a779a0_info =3D {
-> -       .gen =3D 3,
-> +       .gen =3D 4,
->         .features =3D RCAR_DU_FEATURE_CRTC_IRQ
->                   | RCAR_DU_FEATURE_VSP1_SOURCE
->                   | RCAR_DU_FEATURE_NO_BLENDING,
-> --=20
-> 2.34.1
->
+>   drivers/gpu/drm/i915/gt/intel_gt.c | 13 ++++++++++++-
+>   1 file changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> index 7eeee5a7cb33..854841a731cb 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> @@ -1070,7 +1070,18 @@ static void mmio_invalidate_full(struct intel_gt *gt)
+>   	unsigned int num = 0;
+>   	unsigned long flags;
+>   
+> -	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50)) {
+> +	/*
+> +	 * New platforms should not be added with catch-all-newer (>=)
+> +	 * condition so that any later platform added triggers the below warning
+> +	 * and in turn mandates a human cross-check of whether the invalidation
+> +	 * flows have compatible semantics.
+> +	 *
+> +	 * For instance with the 11.00 -> 12.00 transition three out of five
+> +	 * respective engine registers were moved to masked type. Then after the
+> +	 * 12.00 -> 12.50 transition multi cast handling is required too.
+> +	 */
+> +
+> +	if (GRAPHICS_VER_FULL(i915) == IP_VER(12, 50)) {
+>   		regs = NULL;
+>   		num = ARRAY_SIZE(xehp_regs);
+>   	} else if (GRAPHICS_VER(i915) == 12) {
+
