@@ -2,63 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48CE650FCF
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 17:07:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03664650FFC
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 17:11:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C73EC10E2C0;
-	Mon, 19 Dec 2022 16:05:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 459B010E2B8;
+	Mon, 19 Dec 2022 16:10:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 302D810E2B0;
- Mon, 19 Dec 2022 16:05:24 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D43293814D;
- Mon, 19 Dec 2022 16:05:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1671465922; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t7h0EXkUAVrRAP/PStW6XTr3++6xPsY6KDln6r0Rw7E=;
- b=u7ZYAWmY4Z+/LC6wlTezBTokc/XIEsHEjQ0W0RANZpeMnaZT6GB8YMAcYXr0BPDL7bvS4k
- s22o5XlBct47Iv4s8tcy2yfhv3zHzbqhQoxxkCRodTHaJfHYgYRtIbCq0z7lgLgd9RnnBc
- /a8jRAX7O8tgFDgmnQc2P2eBtggVyXg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1671465922;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t7h0EXkUAVrRAP/PStW6XTr3++6xPsY6KDln6r0Rw7E=;
- b=BJX4LNDRHzlZuDQdhKAJdNuaEUMNlnC8x6UTj+YQKrfJXdrFTqCnUrzFA23uDEl5GEt0la
- 5U6oHMHbA4uvxZAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9E74313910;
- Mon, 19 Dec 2022 16:05:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id cAPGJcKLoGPeZwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 19 Dec 2022 16:05:22 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch,
-	airlied@gmail.com,
-	deller@gmx.de,
-	javierm@redhat.com
-Subject: [PATCH 18/18] drm/fbdev: Remove aperture handling and
- FBINFO_MISC_FIRMWARE
-Date: Mon, 19 Dec 2022 17:05:16 +0100
-Message-Id: <20221219160516.23436-19-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20221219160516.23436-1-tzimmermann@suse.de>
-References: <20221219160516.23436-1-tzimmermann@suse.de>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE6CF10E2B0;
+ Mon, 19 Dec 2022 16:10:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1671466210; x=1703002210;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=hBN8Opj/q4Frv2BGgNSMvI5PKLINpirqNYgfzFfdfjI=;
+ b=hbhZAFWy89PQVKPKMJgBHyr02GJXa2niHRJnpEhN8YwDNYa9O7iCKIB5
+ BQ4xJ2vzie5jho5/H83YNMDFx95p0DpwIFykiW9N+SC6DpALB8cv9krfo
+ FBPO8NCbZOf/qkxhnUEgScJC4KPJJZlaDTTRYQ4pxo9p46ezMbNNQUVkj
+ JTtKjRU4DxSEgK1HeUKm1udodNlyudC7F77LfluVfab6k9qtg8ADn5RQN
+ y2/+SR4iPnl5NndP43Ym/6QC4I5Xoh0EBiZ0hYTGopv1sY5RkgDSxQS6d
+ wYmpZy10eqEaqrCRniu4SogI/OgGVaaDTk0yaDAuYZnAFZEdeERIbyrWW g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="317022118"
+X-IronPort-AV: E=Sophos;i="5.96,255,1665471600"; d="scan'208";a="317022118"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2022 08:10:06 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="757679565"
+X-IronPort-AV: E=Sophos;i="5.96,255,1665471600"; d="scan'208";a="757679565"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.16.42])
+ ([10.213.16.42])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2022 08:10:04 -0800
+Message-ID: <083b4424-d984-a2d2-1f58-035e4c1c82bd@intel.com>
+Date: Mon, 19 Dec 2022 17:10:02 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.5.1
+Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915: Consolidate TLB invalidation
+ flow
+Content-Language: en-US
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20221219101316.168129-1-tvrtko.ursulin@linux.intel.com>
+ <20221219101316.168129-3-tvrtko.ursulin@linux.intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20221219101316.168129-3-tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,139 +65,371 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-hyperv@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are no users left of struct fb_info.apertures and the flag
-FBINFO_MISC_FIRMWARE. Remove both and the aperture-ownership code
-in the fbdev core. All code for aperture ownership is now located
-in the fbdev drivers.
+On 19.12.2022 11:13, Tvrtko Ursulin wrote:
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> 
+> As the logic for selecting the register and corresponsing values grew, the
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/video/fbdev/core/fbmem.c   | 33 ------------------------------
- drivers/video/fbdev/core/fbsysfs.c |  1 -
- include/linux/fb.h                 | 22 --------------------
- 3 files changed, 56 deletions(-)
+corresponding
 
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index 3a6c8458eb8d..02217c33d152 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -13,7 +13,6 @@
- 
- #include <linux/module.h>
- 
--#include <linux/aperture.h>
- #include <linux/compat.h>
- #include <linux/types.h>
- #include <linux/errno.h>
-@@ -1653,32 +1652,6 @@ static void do_unregister_framebuffer(struct fb_info *fb_info)
- 	put_fb_info(fb_info);
- }
- 
--static int fb_aperture_acquire_for_platform_device(struct fb_info *fb_info)
--{
--	struct apertures_struct *ap = fb_info->apertures;
--	struct device *dev = fb_info->device;
--	struct platform_device *pdev;
--	unsigned int i;
--	int ret;
--
--	if (!ap)
--		return 0;
--
--	if (!dev_is_platform(dev))
--		return 0;
--
--	pdev = to_platform_device(dev);
--
--	for (ret = 0, i = 0; i < ap->count; ++i) {
--		ret = devm_aperture_acquire_for_platform_device(pdev, ap->ranges[i].base,
--								ap->ranges[i].size);
--		if (ret)
--			break;
--	}
--
--	return ret;
--}
--
- /**
-  *	register_framebuffer - registers a frame buffer device
-  *	@fb_info: frame buffer info structure
-@@ -1693,12 +1666,6 @@ register_framebuffer(struct fb_info *fb_info)
- {
- 	int ret;
- 
--	if (fb_info->flags & FBINFO_MISC_FIRMWARE) {
--		ret = fb_aperture_acquire_for_platform_device(fb_info);
--		if (ret)
--			return ret;
--	}
--
- 	mutex_lock(&registration_lock);
- 	ret = do_register_framebuffer(fb_info);
- 	mutex_unlock(&registration_lock);
-diff --git a/drivers/video/fbdev/core/fbsysfs.c b/drivers/video/fbdev/core/fbsysfs.c
-index 4d7f63892dcc..0c33c4adcd79 100644
---- a/drivers/video/fbdev/core/fbsysfs.c
-+++ b/drivers/video/fbdev/core/fbsysfs.c
-@@ -88,7 +88,6 @@ void framebuffer_release(struct fb_info *info)
- 	mutex_destroy(&info->bl_curve_mutex);
- #endif
- 
--	kfree(info->apertures);
- 	kfree(info);
- }
- EXPORT_SYMBOL(framebuffer_release);
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 96b96323e9cb..30183fd259ae 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -423,8 +423,6 @@ struct fb_tile_ops {
-  */
- #define FBINFO_MISC_ALWAYS_SETPAR   0x40000
- 
--/* where the fb is a firmware driver, and can be replaced with a proper one */
--#define FBINFO_MISC_FIRMWARE        0x80000
- /*
-  * Host and GPU endianness differ.
-  */
-@@ -499,30 +497,10 @@ struct fb_info {
- 	void *fbcon_par;                /* fbcon use-only private area */
- 	/* From here on everything is device dependent */
- 	void *par;
--	/* we need the PCI or similar aperture base/size not
--	   smem_start/size as smem_start may just be an object
--	   allocated inside the aperture so may not actually overlap */
--	struct apertures_struct {
--		unsigned int count;
--		struct aperture {
--			resource_size_t base;
--			resource_size_t size;
--		} ranges[0];
--	} *apertures;
- 
- 	bool skip_vt_switch; /* no VT switch on suspend/resume required */
- };
- 
--static inline struct apertures_struct *alloc_apertures(unsigned int max_num) {
--	struct apertures_struct *a;
--
--	a = kzalloc(struct_size(a, ranges, max_num), GFP_KERNEL);
--	if (!a)
--		return NULL;
--	a->count = max_num;
--	return a;
--}
--
- #define FBINFO_FLAG_DEFAULT	FBINFO_DEFAULT
- 
- /* This will go away
--- 
-2.39.0
+> code become a bit unsightly. Consolidate by storing the required values at
+> engine init time in the engine itself, and by doing so minimise the amount
+> of invariant platform and engine checks during each and every TLB
+> invalidation.
+> 
+> v2:
+>   * Fail engine probe if TLB invlidations registers are unknown.
+> 
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com> # v1
+> ---
+>   drivers/gpu/drm/i915/gt/intel_engine_cs.c    |  93 +++++++++++++
+>   drivers/gpu/drm/i915/gt/intel_engine_types.h |  15 +++
+>   drivers/gpu/drm/i915/gt/intel_gt.c           | 135 +++----------------
+>   3 files changed, 128 insertions(+), 115 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index 99c4b866addd..d47dadfc25c8 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -1143,12 +1143,105 @@ static int init_status_page(struct intel_engine_cs *engine)
+>   	return ret;
+>   }
+>   
+> +static int intel_engine_init_tlb_invalidation(struct intel_engine_cs *engine)
+> +{
+> +	static const union intel_engine_tlb_inv_reg gen8_regs[] = {
+> +		[RENDER_CLASS].reg		= GEN8_RTCR,
+> +		[VIDEO_DECODE_CLASS].reg	= GEN8_M1TCR, /* , GEN8_M2TCR */
+> +		[VIDEO_ENHANCEMENT_CLASS].reg	= GEN8_VTCR,
+> +		[COPY_ENGINE_CLASS].reg		= GEN8_BTCR,
+> +	};
+> +	static const union intel_engine_tlb_inv_reg gen12_regs[] = {
+> +		[RENDER_CLASS].reg		= GEN12_GFX_TLB_INV_CR,
+> +		[VIDEO_DECODE_CLASS].reg	= GEN12_VD_TLB_INV_CR,
+> +		[VIDEO_ENHANCEMENT_CLASS].reg	= GEN12_VE_TLB_INV_CR,
+> +		[COPY_ENGINE_CLASS].reg		= GEN12_BLT_TLB_INV_CR,
+> +		[COMPUTE_CLASS].reg		= GEN12_COMPCTX_TLB_INV_CR,
+> +	};
+> +	static const union intel_engine_tlb_inv_reg xehp_regs[] = {
+> +		[RENDER_CLASS].mcr_reg		  = XEHP_GFX_TLB_INV_CR,
+> +		[VIDEO_DECODE_CLASS].mcr_reg	  = XEHP_VD_TLB_INV_CR,
+> +		[VIDEO_ENHANCEMENT_CLASS].mcr_reg = XEHP_VE_TLB_INV_CR,
+> +		[COPY_ENGINE_CLASS].mcr_reg	  = XEHP_BLT_TLB_INV_CR,
+> +		[COMPUTE_CLASS].mcr_reg		  = XEHP_COMPCTX_TLB_INV_CR,
+> +	};
+> +	struct drm_i915_private *i915 = engine->i915;
+> +	const union intel_engine_tlb_inv_reg *regs;
+> +	union intel_engine_tlb_inv_reg reg;
+> +	unsigned int class = engine->class;
+> +	unsigned int num = 0;
+> +	u32 val;
+> +
+> +	/*
+> +	 * New platforms should not be added with catch-all-newer (>=)
+> +	 * condition so that any later platform added triggers the below warning
+> +	 * and in turn mandates a human cross-check of whether the invalidation
+> +	 * flows have compatible semantics.
+> +	 *
+> +	 * For instance with the 11.00 -> 12.00 transition three out of five
+> +	 * respective engine registers were moved to masked type. Then after the
+> +	 * 12.00 -> 12.50 transition multi cast handling is required too.
+> +	 */
+> +
+> +	if (GRAPHICS_VER_FULL(i915) == IP_VER(12, 50)) {
+> +		regs = xehp_regs;
+> +		num = ARRAY_SIZE(xehp_regs);
+> +	} else if (GRAPHICS_VER(i915) == 12) {
+> +		regs = gen12_regs;
+> +		num = ARRAY_SIZE(gen12_regs);
+> +	} else if (GRAPHICS_VER(i915) >= 8 && GRAPHICS_VER(i915) <= 11) {
+> +		regs = gen8_regs;
+> +		num = ARRAY_SIZE(gen8_regs);
+> +	} else if (GRAPHICS_VER(i915) < 8) {
+> +		return 0;
+> +	} > +
+> +	if (drm_WARN_ONCE(&i915->drm, !num,
+> +			  "Platform does not implement TLB invalidation!"))
+> +		return -ENODEV;
+> +
+> +	if (drm_WARN_ON_ONCE(&i915->drm,
+> +			     class >= num ||
+> +			     (!regs[class].reg.reg &&
+> +			      !regs[class].mcr_reg.reg)))
+> +		return -ERANGE;
+
+I hope the propagation of -ERANGE to device probe is OK.
+
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+
+Regards
+Andrzej
+
+> +
+> +	reg = regs[class];
+> +
+> +	if (GRAPHICS_VER(i915) == 8 && class == VIDEO_DECODE_CLASS) {
+> +		reg.reg.reg += 4 * engine->instance; /* GEN8_M2TCR */
+> +		val = 0;
+> +	} else {
+> +		val = engine->instance;
+> +	}
+> +
+> +	val = BIT(val);
+> +
+> +	engine->tlb_inv.mcr = regs == xehp_regs;
+> +	engine->tlb_inv.reg = reg;
+> +	engine->tlb_inv.done = val;
+> +
+> +	if (GRAPHICS_VER(i915) >= 12 &&
+> +	    (engine->class == VIDEO_DECODE_CLASS ||
+> +	     engine->class == VIDEO_ENHANCEMENT_CLASS ||
+> +	     engine->class == COMPUTE_CLASS))
+> +		engine->tlb_inv.request = _MASKED_BIT_ENABLE(val);
+> +	else
+> +		engine->tlb_inv.request = val;
+> +
+> +	return 0;
+> +}
+> +
+>   static int engine_setup_common(struct intel_engine_cs *engine)
+>   {
+>   	int err;
+>   
+>   	init_llist_head(&engine->barrier_tasks);
+>   
+> +	err = intel_engine_init_tlb_invalidation(engine);
+> +	if (err)
+> +		return err;
+> +
+>   	err = init_status_page(engine);
+>   	if (err)
+>   		return err;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> index 4fd54fb8810f..8c661fe89314 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> @@ -341,6 +341,19 @@ struct intel_engine_guc_stats {
+>   	u64 start_gt_clk;
+>   };
+>   
+> +union intel_engine_tlb_inv_reg {
+> +	i915_reg_t	reg;
+> +	i915_mcr_reg_t	mcr_reg;
+> +};
+> +
+> +struct intel_engine_tlb_inv
+> +{
+> +	bool mcr;
+> +	union intel_engine_tlb_inv_reg reg;
+> +	u32 request;
+> +	u32 done;
+> +};
+> +
+>   struct intel_engine_cs {
+>   	struct drm_i915_private *i915;
+>   	struct intel_gt *gt;
+> @@ -372,6 +385,8 @@ struct intel_engine_cs {
+>   	u32 context_size;
+>   	u32 mmio_base;
+>   
+> +	struct intel_engine_tlb_inv tlb_inv;
+> +
+>   	/*
+>   	 * Some w/a require forcewake to be held (which prevents RC6) while
+>   	 * a particular engine is active. If so, we set fw_domain to which
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> index 854841a731cb..9fb0ac03f51a 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> @@ -983,36 +983,6 @@ void intel_gt_info_print(const struct intel_gt_info *info,
+>   	intel_sseu_dump(&info->sseu, p);
+>   }
+>   
+> -struct reg_and_bit {
+> -	union {
+> -		i915_reg_t reg;
+> -		i915_mcr_reg_t mcr_reg;
+> -	};
+> -	u32 bit;
+> -};
+> -
+> -static struct reg_and_bit
+> -get_reg_and_bit(const struct intel_engine_cs *engine, const bool gen8,
+> -		const i915_reg_t *regs, const unsigned int num)
+> -{
+> -	const unsigned int class = engine->class;
+> -	struct reg_and_bit rb = { };
+> -
+> -	if (drm_WARN_ON_ONCE(&engine->i915->drm,
+> -			     class >= num || !regs[class].reg))
+> -		return rb;
+> -
+> -	rb.reg = regs[class];
+> -	if (gen8 && class == VIDEO_DECODE_CLASS)
+> -		rb.reg.reg += 4 * engine->instance; /* GEN8_M2TCR */
+> -	else
+> -		rb.bit = engine->instance;
+> -
+> -	rb.bit = BIT(rb.bit);
+> -
+> -	return rb;
+> -}
+> -
+>   /*
+>    * HW architecture suggest typical invalidation time at 40us,
+>    * with pessimistic cases up to 100us and a recommendation to
+> @@ -1026,14 +996,20 @@ get_reg_and_bit(const struct intel_engine_cs *engine, const bool gen8,
+>    * but are now considered MCR registers.  Since they exist within a GAM range,
+>    * the primary instance of the register rolls up the status from each unit.
+>    */
+> -static int wait_for_invalidate(struct intel_gt *gt, struct reg_and_bit rb)
+> +static int wait_for_invalidate(struct intel_engine_cs *engine)
+>   {
+> -	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 50))
+> -		return intel_gt_mcr_wait_for_reg(gt, rb.mcr_reg, rb.bit, 0,
+> +	if (engine->tlb_inv.mcr)
+> +		return intel_gt_mcr_wait_for_reg(engine->gt,
+> +						 engine->tlb_inv.reg.mcr_reg,
+> +						 engine->tlb_inv.done,
+> +						 0,
+>   						 TLB_INVAL_TIMEOUT_US,
+>   						 TLB_INVAL_TIMEOUT_MS);
+>   	else
+> -		return __intel_wait_for_register_fw(gt->uncore, rb.reg, rb.bit, 0,
+> +		return __intel_wait_for_register_fw(engine->gt->uncore,
+> +						    engine->tlb_inv.reg.reg,
+> +						    engine->tlb_inv.done,
+> +						    0,
+>   						    TLB_INVAL_TIMEOUT_US,
+>   						    TLB_INVAL_TIMEOUT_MS,
+>   						    NULL);
+> @@ -1041,61 +1017,14 @@ static int wait_for_invalidate(struct intel_gt *gt, struct reg_and_bit rb)
+>   
+>   static void mmio_invalidate_full(struct intel_gt *gt)
+>   {
+> -	static const i915_reg_t gen8_regs[] = {
+> -		[RENDER_CLASS]			= GEN8_RTCR,
+> -		[VIDEO_DECODE_CLASS]		= GEN8_M1TCR, /* , GEN8_M2TCR */
+> -		[VIDEO_ENHANCEMENT_CLASS]	= GEN8_VTCR,
+> -		[COPY_ENGINE_CLASS]		= GEN8_BTCR,
+> -	};
+> -	static const i915_reg_t gen12_regs[] = {
+> -		[RENDER_CLASS]			= GEN12_GFX_TLB_INV_CR,
+> -		[VIDEO_DECODE_CLASS]		= GEN12_VD_TLB_INV_CR,
+> -		[VIDEO_ENHANCEMENT_CLASS]	= GEN12_VE_TLB_INV_CR,
+> -		[COPY_ENGINE_CLASS]		= GEN12_BLT_TLB_INV_CR,
+> -		[COMPUTE_CLASS]			= GEN12_COMPCTX_TLB_INV_CR,
+> -	};
+> -	static const i915_mcr_reg_t xehp_regs[] = {
+> -		[RENDER_CLASS]			= XEHP_GFX_TLB_INV_CR,
+> -		[VIDEO_DECODE_CLASS]		= XEHP_VD_TLB_INV_CR,
+> -		[VIDEO_ENHANCEMENT_CLASS]	= XEHP_VE_TLB_INV_CR,
+> -		[COPY_ENGINE_CLASS]		= XEHP_BLT_TLB_INV_CR,
+> -		[COMPUTE_CLASS]			= XEHP_COMPCTX_TLB_INV_CR,
+> -	};
+>   	struct drm_i915_private *i915 = gt->i915;
+>   	struct intel_uncore *uncore = gt->uncore;
+>   	struct intel_engine_cs *engine;
+>   	intel_engine_mask_t awake, tmp;
+>   	enum intel_engine_id id;
+> -	const i915_reg_t *regs;
+> -	unsigned int num = 0;
+>   	unsigned long flags;
+>   
+> -	/*
+> -	 * New platforms should not be added with catch-all-newer (>=)
+> -	 * condition so that any later platform added triggers the below warning
+> -	 * and in turn mandates a human cross-check of whether the invalidation
+> -	 * flows have compatible semantics.
+> -	 *
+> -	 * For instance with the 11.00 -> 12.00 transition three out of five
+> -	 * respective engine registers were moved to masked type. Then after the
+> -	 * 12.00 -> 12.50 transition multi cast handling is required too.
+> -	 */
+> -
+> -	if (GRAPHICS_VER_FULL(i915) == IP_VER(12, 50)) {
+> -		regs = NULL;
+> -		num = ARRAY_SIZE(xehp_regs);
+> -	} else if (GRAPHICS_VER(i915) == 12) {
+> -		regs = gen12_regs;
+> -		num = ARRAY_SIZE(gen12_regs);
+> -	} else if (GRAPHICS_VER(i915) >= 8 && GRAPHICS_VER(i915) <= 11) {
+> -		regs = gen8_regs;
+> -		num = ARRAY_SIZE(gen8_regs);
+> -	} else if (GRAPHICS_VER(i915) < 8) {
+> -		return;
+> -	}
+> -
+> -	if (drm_WARN_ONCE(&i915->drm, !num,
+> -			  "Platform does not implement TLB invalidation!"))
+> +	if (GRAPHICS_VER(i915) < 8)
+>   		return;
+>   
+>   	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
+> @@ -1105,33 +1034,18 @@ static void mmio_invalidate_full(struct intel_gt *gt)
+>   
+>   	awake = 0;
+>   	for_each_engine(engine, gt, id) {
+> -		struct reg_and_bit rb;
+> -
+>   		if (!intel_engine_pm_is_awake(engine))
+>   			continue;
+>   
+> -		if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50)) {
+> -			u32 val = BIT(engine->instance);
+> -
+> -			if (engine->class == VIDEO_DECODE_CLASS ||
+> -			    engine->class == VIDEO_ENHANCEMENT_CLASS ||
+> -			    engine->class == COMPUTE_CLASS)
+> -				val = _MASKED_BIT_ENABLE(val);
+> +		if (engine->tlb_inv.mcr)
+>   			intel_gt_mcr_multicast_write_fw(gt,
+> -							xehp_regs[engine->class],
+> -							val);
+> -		} else {
+> -			rb = get_reg_and_bit(engine, regs == gen8_regs, regs, num);
+> -			if (!i915_mmio_reg_offset(rb.reg))
+> -				continue;
+> -
+> -			if (GRAPHICS_VER(i915) == 12 && (engine->class == VIDEO_DECODE_CLASS ||
+> -			    engine->class == VIDEO_ENHANCEMENT_CLASS ||
+> -			    engine->class == COMPUTE_CLASS))
+> -				rb.bit = _MASKED_BIT_ENABLE(rb.bit);
+> -
+> -			intel_uncore_write_fw(uncore, rb.reg, rb.bit);
+> -		}
+> +							engine->tlb_inv.reg.mcr_reg,
+> +							engine->tlb_inv.request);
+> +		else
+> +			intel_uncore_write_fw(uncore,
+> +					      engine->tlb_inv.reg.reg,
+> +					      engine->tlb_inv.request);
+> +
+>   		awake |= engine->mask;
+>   	}
+>   
+> @@ -1150,16 +1064,7 @@ static void mmio_invalidate_full(struct intel_gt *gt)
+>   	intel_gt_mcr_unlock(gt, flags);
+>   
+>   	for_each_engine_masked(engine, gt, awake, tmp) {
+> -		struct reg_and_bit rb;
+> -
+> -		if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50)) {
+> -			rb.mcr_reg = xehp_regs[engine->class];
+> -			rb.bit = BIT(engine->instance);
+> -		} else {
+> -			rb = get_reg_and_bit(engine, regs == gen8_regs, regs, num);
+> -		}
+> -
+> -		if (wait_for_invalidate(gt, rb))
+> +		if (wait_for_invalidate(engine))
+>   			drm_err_ratelimited(&gt->i915->drm,
+>   					    "%s TLB invalidation did not complete in %ums!\n",
+>   					    engine->name, TLB_INVAL_TIMEOUT_MS);
 
