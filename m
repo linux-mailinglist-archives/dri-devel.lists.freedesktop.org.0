@@ -2,69 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D3E65137E
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 20:53:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D685C651477
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 21:54:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4A410E2E7;
-	Mon, 19 Dec 2022 19:52:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41FC010E2FE;
+	Mon, 19 Dec 2022 20:54:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E68310E2EC
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 19:52:42 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id ja17so7206286wmb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 11:52:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uUjNXOEHX/W7UdMi+yl/0srY4t86/SAHQJknziXKrxk=;
- b=Qa3yO1IUvlwrZwmTA94ThEFY8nXr2xWUB4xDqQ0RiMeiuecs29u56KqlZL2naorOtA
- u5x3N9vKsFo1lUjgpMAyOgjm8+oTyMDoOFhlSuFkyRIeOPf/Po/Z+zijbE5it0gUeqFt
- LjAz1MivurnQ1T8Ullg1KgrsTzLF2XKZYRPNiBwqx26v6NGN1BeaqXpVR2OF/HGw/eJE
- t6acX2iCr94SSxIHJOI0exfWqD9ntz/OyDtrIdGWnxN4AEVXSpcjfUuLwqYnRxDbggek
- qFiWetl4pR0h/ycywx3Msakh65eeUi0FaE/yzQPDeLDrqAIYTneun9KE36j2JUh6FkgV
- kaOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uUjNXOEHX/W7UdMi+yl/0srY4t86/SAHQJknziXKrxk=;
- b=atqKZRA5eJzsaD8nftQZ727M+68dK9IFeMlBc+J94NmkZ5TczvWOEWqYMnxGJpbQh3
- 2ycdmluLDN+lSjlV7d789c+VxgyKnPyx5AF2SxswdC8hP0WrcgG8ZrU9p+743Q/pRB7Q
- Xm017VtEq9Msx0ShluQ22Wjk4nw8c482HR493/7cBPtaTpR5kgDcxjnwBJd5xshwEDro
- zrQBgq+HIAav9F7wzBmI0xPkOchGIEyC2zIQXMB4I4D8JpZj4hM9BcjWPaU/U55/XPw4
- qO3+/Fqo0Iz/tAb0P4dhVXioCv4NVBjlG6QNbwb/ukL84Wh4s5Q1hO3AwzAlRgrxiran
- ucwg==
-X-Gm-Message-State: ANoB5pmvGGwBlI/JbM/9C9HC+9XEDdWDV/mDAmz+JS/edLDCIeBI05df
- bZK5YhjO/kjBDj5Cm7liSJY=
-X-Google-Smtp-Source: AA0mqf5VEegnXDQ7niTrm/FLhoL6PT3TL2mNd04sa3vR9sCNVCf3Ace4V9IQdHttNZH11V8DlYF0lQ==
-X-Received: by 2002:a05:600c:1d83:b0:3c7:a5:610c with SMTP id
- p3-20020a05600c1d8300b003c700a5610cmr33042429wms.16.1671479560562; 
- Mon, 19 Dec 2022 11:52:40 -0800 (PST)
-Received: from localhost.localdomain
- (2a02-8428-46a0-7c01-43c0-f52a-beed-541b.rev.sfr.net.
- [2a02:8428:46a0:7c01:43c0:f52a:beed:541b])
- by smtp.gmail.com with ESMTPSA id
- bg2-20020a05600c3c8200b003b47e75b401sm24469142wmb.37.2022.12.19.11.52.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Dec 2022 11:52:40 -0800 (PST)
-From: Christophe Branchereau <cbranchereau@gmail.com>
-To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@gmail.com,
- daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, paul@crapouillou.net,
- linus.walleij@linaro.org
-Subject: [PATCH v3 2/2] dt-bindings: display/panel: Add the Focaltech gpt3
-Date: Mon, 19 Dec 2022 20:52:33 +0100
-Message-Id: <20221219195233.375637-3-cbranchereau@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221219195233.375637-1-cbranchereau@gmail.com>
-References: <20221219195233.375637-1-cbranchereau@gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCF9910E2FE
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 20:54:33 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AA594825;
+ Mon, 19 Dec 2022 21:54:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1671483266;
+ bh=rtjeVpdzKmvKcCm5/V1IKSgNbRc2XxoyhpnduxLNVsQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=TEgExkmaenIhgJbCONGF/DTQwt6CipDY8VlhYo5zfQ7yrh/pKNq0DGbEqRqlNn7rJ
+ WZ2H10oSbwPIO0urbvLsIygKiQmLVXypZEuyybcmMXK/vqMhsLYwXwLfzmAqBD6x2s
+ NgoDGNSsQ50hqMyL5GlATyNFoDY/N4PJIB6Ck5uI=
+Date: Mon, 19 Dec 2022 22:54:22 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: Re: [PATCH v2 2/7] media: Add Y210, Y212 and Y216 formats
+Message-ID: <Y6DPfhhuCH1sC/R5@pendragon.ideasonboard.com>
+References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221219140139.294245-3-tomi.valkeinen+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221219140139.294245-3-tomi.valkeinen+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,83 +47,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Christophe Branchereau <cbranchereau@gmail.com>
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add bindings for the Forcaltech gpt3, which is a 640x480 3.0" 4:3
-IPS LCD Panel found in the YLM/Anbernic RG300X handheld.
+Hi Tomi,
 
-Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../display/panel/focaltech,gpt3.yaml         | 56 +++++++++++++++++++
- 1 file changed, 56 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/focaltech,gpt3.yaml
+Thank you for the patch.
 
-diff --git a/Documentation/devicetree/bindings/display/panel/focaltech,gpt3.yaml b/Documentation/devicetree/bindings/display/panel/focaltech,gpt3.yaml
-new file mode 100644
-index 000000000000..d54e96b2a9e1
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/focaltech,gpt3.yaml
-@@ -0,0 +1,56 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/focaltech,gpt3.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Focaltech GPT3 3.0" (640x480 pixels) IPS LCD panel
-+
-+maintainers:
-+  - Christophe Branchereau <cbranchereau@gmail.com>
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+
-+properties:
-+  compatible:
-+    const: focaltech,gpt3
-+
-+  reg:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - power-supply
-+  - reset-gpios
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        panel@0 {
-+            compatible = "focaltech,gpt3";
-+            reg = <0>;
-+
-+            spi-max-frequency = <3125000>;
-+
-+            reset-gpios = <&gpe 2 GPIO_ACTIVE_LOW>;
-+
-+            backlight = <&backlight>;
-+            power-supply = <&vcc>;
-+
-+            port {
-+                panel_input: endpoint {
-+                    remote-endpoint = <&panel_output>;
-+                };
-+            };
-+        };
-+    };
+On Mon, Dec 19, 2022 at 04:01:34PM +0200, Tomi Valkeinen wrote:
+> Add Y210, Y212 and Y216 formats.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  .../media/v4l/pixfmt-packed-yuv.rst           | 44 +++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |  3 ++
+>  include/uapi/linux/videodev2.h                |  8 ++++
+>  3 files changed, 55 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+> index bf283a1b5581..3f193e5fd5cb 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+> @@ -337,6 +337,50 @@ components horizontally by 2, storing 2 pixels in 4 bytes.
+
+I would patch the above sentence to mention that it applies to 8 bit
+formats.
+
+>        - Y'\ :sub:`3`
+>        - Cb\ :sub:`2`
+>  
+> +The packed YUYV formats with more than 8 bits per component are stored as four
+> +16-bit little-endian words. Each word's most significat bits contain one
+
+s/significat/significant/
+
+> +component, and the least significant bits are zero padding.
+> +
+> +.. tabularcolumns:: |p{3.4cm}|p{1.2cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|
+> +
+> +.. flat-table:: Packed YUV 4:2:2 Formats in 64-bit container
+> +    :header-rows: 1
+> +    :stub-columns: 0
+> +
+> +    * - Identifier
+> +      - Code
+> +      - Word 0
+> +      - Word 1
+> +      - Word 2
+> +      - Word 3
+> +    * .. _V4L2-PIX-FMT-Y210:
+> +
+> +      - ``V4L2_PIX_FMT_Y210``
+> +      - 'Y210'
+> +
+> +      - Y'\ :sub:`0` (bits 15-6)
+> +      - Cb\ :sub:`0` (bits 15-6)
+> +      - Y'\ :sub:`1` (bits 15-6)
+> +      - Cr\ :sub:`0` (bits 15-6)
+> +    * .. _V4L2-PIX-FMT-Y212:
+> +
+> +      - ``V4L2_PIX_FMT_Y212``
+> +      - 'Y212'
+> +
+> +      - Y'\ :sub:`0` (bits 15-4)
+> +      - Cb\ :sub:`0` (bits 15-4)
+> +      - Y'\ :sub:`1` (bits 15-4)
+> +      - Cr\ :sub:`0` (bits 15-4)
+> +    * .. _V4L2-PIX-FMT-Y216:
+> +
+> +      - ``V4L2_PIX_FMT_Y216``
+> +      - 'Y216'
+> +
+> +      - Y'\ :sub:`0` (bits 15-0)
+> +      - Cb\ :sub:`0` (bits 15-0)
+> +      - Y'\ :sub:`1` (bits 15-0)
+> +      - Cr\ :sub:`0` (bits 15-0)
+> +
+>  .. raw:: latex
+>  
+>      \normalsize
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 964300deaf62..ba95389a59b5 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1449,6 +1449,9 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A Statistics"; break;
+>  	case V4L2_PIX_FMT_NV12M_8L128:	descr = "NV12M (8x128 Linear)"; break;
+>  	case V4L2_PIX_FMT_NV12M_10BE_8L128:	descr = "10-bit NV12M (8x128 Linear, BE)"; break;
+> +	case V4L2_PIX_FMT_Y210:		descr = "10-bit YUYV Packed"; break;
+> +	case V4L2_PIX_FMT_Y212:		descr = "12-bit YUYV Packed"; break;
+> +	case V4L2_PIX_FMT_Y216:		descr = "16-bit YUYV Packed"; break;
+
+While the names will not play nicely with future formats that would swap
+the order of the Y, U and V components, they match the formats defined
+by DRM, which I think is more important.
+
+With the above small issues fixed,
+
+Conditionally-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+>  
+>  	default:
+>  		/* Compressed formats */
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 877fd61693b8..15b640d2da8a 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -621,6 +621,14 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_YUVX32  v4l2_fourcc('Y', 'U', 'V', 'X') /* 32  YUVX-8-8-8-8  */
+>  #define V4L2_PIX_FMT_M420    v4l2_fourcc('M', '4', '2', '0') /* 12  YUV 4:2:0 2 lines y, 1 line uv interleaved */
+>  
+> +/*
+> + * YCbCr packed format. For each Y2xx format, xx bits of valid data occupy the MSBs
+> + * of the 16 bit components, and 16-xx bits of zero padding occupy the LSBs.
+> + */
+> +#define V4L2_PIX_FMT_Y210    v4l2_fourcc('Y', '2', '1', '0') /* 32  YUYV 4:2:2 */
+> +#define V4L2_PIX_FMT_Y212    v4l2_fourcc('Y', '2', '1', '2') /* 32  YUYV 4:2:2 */
+> +#define V4L2_PIX_FMT_Y216    v4l2_fourcc('Y', '2', '1', '6') /* 32  YUYV 4:2:2 */
+> +
+>  /* two planes -- one Y, one Cr + Cb interleaved  */
+>  #define V4L2_PIX_FMT_NV12    v4l2_fourcc('N', 'V', '1', '2') /* 12  Y/CbCr 4:2:0  */
+>  #define V4L2_PIX_FMT_NV21    v4l2_fourcc('N', 'V', '2', '1') /* 12  Y/CrCb 4:2:0  */
+
 -- 
-2.35.1
+Regards,
 
+Laurent Pinchart
