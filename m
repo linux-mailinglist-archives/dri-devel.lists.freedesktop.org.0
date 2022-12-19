@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522D665147D
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 21:56:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 639D4651488
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 21:58:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C301810E304;
-	Mon, 19 Dec 2022 20:55:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8648210E300;
+	Mon, 19 Dec 2022 20:58:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 847EE10E310
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 20:55:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F20410E300
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 20:58:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1671483337; bh=waCi45GdEdTwDkLLovTT2hmNdulmbavhyJqMsALuGDQ=;
+ t=1671483475; bh=bw+vFRLJBicCKi0DqfuluaeEELUl9w4wTv5BbELJNVo=;
  h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
  MIME-Version:Content-Type:In-Reply-To;
- b=dLqRjNyilTr7mIMwT2/JTnrKremz09RAY7UNTEESt/F4CtiEewh98v/1AvrGe8WIq
- 3yHYfaD/a5GZ1z67Z7EYG/fNOtVogx/PT+1Ml8Y7HMEK+C9fU2dKfL1c8UsIFU8q4Q
- hEG6y9I9angkB2dCvdaSI/EWh+wr1kLpmO58dMMY=
+ b=Vamg3pcHHRA67f/XQKn4q8lelLdbktd460/YtB+jGXl1tlPQkoILh5htTjp1OZN6W
+ pRHVJeT5YUdvbd10iwCKQXv9PdtZcJq5Cgr9YX4j3WeD4OrTY7CYfuDKjoYFcPaWem
+ SSyRDMBqvm6TyFbqhB1nw0PA0yKGsauT4EiwPYGY=
 Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
  via ip-206.mailobj.net [213.182.55.206]
- Mon, 19 Dec 2022 21:55:37 +0100 (CET)
-X-EA-Auth: X7OgntSeEwUep+7q3TqTeZXw7KjXoM8PSczU0FZ1xHjtCg6EB278jhA0NJruH5+8nhteGA5v1YCNAjVNCmMT/vLkxAobcNRG
-Date: Tue, 20 Dec 2022 02:25:32 +0530
+ Mon, 19 Dec 2022 21:57:55 +0100 (CET)
+X-EA-Auth: HgtstMzqwGvJ7bvMYq0xwJE9XB5XV5qIuTWCKk8WVU7zqEEK1Nv0tC8U9otVZ3nJ8LxadVs0F0TdAkWBMOECchgPeQN0HxoT
+Date: Tue, 20 Dec 2022 02:27:50 +0530
 From: Deepak R Varma <drv@mailo.com>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sprd: remove redundant error logging
-Message-ID: <Y6DPxKGmfRH5Bujn@qemulion>
-References: <Y5XhPJ39ipMCcctq@qemulion>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/tegra: sor: Remove redundant error logging
+Message-ID: <Y6DQTkTMhEefCkBL@qemulion>
+References: <Y5a4z0TZSqUPfRkr@qemulion>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y5XhPJ39ipMCcctq@qemulion>
+In-Reply-To: <Y5a4z0TZSqUPfRkr@qemulion>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,13 +54,18 @@ Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>, drv@mailo.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 11, 2022 at 07:25:08PM +0530, Deepak R Varma wrote:
+On Mon, Dec 12, 2022 at 10:44:55AM +0530, Deepak R Varma wrote:
 
 Hello,
 May I please request a review and feedback on this patch proposal?
 
+Also, I was able to build the changes for ARM arch verified using modinfo
+tegr-drm.ko command.
+
+
 Thank you,
 ./drv
+
 
 > A call to platform_get_irq() already prints an error on failure within
 > its own implementation. So printing another error based on its return
@@ -71,25 +76,35 @@ Thank you,
 >
 > Signed-off-by: Deepak R Varma <drv@mailo.com>
 > ---
->  drivers/gpu/drm/sprd/sprd_dpu.c | 4 +---
+> Please note: I was not able to build this driver since I did not find the
+> DRM_TEGRA option in menu config. All dependencies listed in the KConfig are
+> enabled, however, I was still not able to find the DRM_TEGRA module in the
+> Graphics-Drivers list. Since the proposed change is known, minor and obvious, I
+> am sending in this patch without build testing.
+>
+> Any advise on how to enable the DRM_TEGRA module in menuconfig selection list
+> will be helpful. Thank you.
+>
+>
+>  drivers/gpu/drm/tegra/sor.c | 4 +---
 >  1 file changed, 1 insertion(+), 3 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c b/drivers/gpu/drm/sprd/sprd_dpu.c
-> index 88f4259680f1..db0bcea1d9f4 100644
-> --- a/drivers/gpu/drm/sprd/sprd_dpu.c
-> +++ b/drivers/gpu/drm/sprd/sprd_dpu.c
-> @@ -803,10 +803,8 @@ static int sprd_dpu_context_init(struct sprd_dpu *dpu,
+> diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+> index 8af632740673..ceaebd33408d 100644
+> --- a/drivers/gpu/drm/tegra/sor.c
+> +++ b/drivers/gpu/drm/tegra/sor.c
+> @@ -3799,10 +3799,8 @@ static int tegra_sor_probe(struct platform_device *pdev)
 >  	}
 >
->  	ctx->irq = platform_get_irq(pdev, 0);
-> -	if (ctx->irq < 0) {
-> -		dev_err(dev, "failed to get dpu irq\n");
-> +	if (ctx->irq < 0)
->  		return ctx->irq;
+>  	err = platform_get_irq(pdev, 0);
+> -	if (err < 0) {
+> -		dev_err(&pdev->dev, "failed to get IRQ: %d\n", err);
+> +	if (err < 0)
+>  		goto remove;
 > -	}
 >
->  	/* disable and clear interrupts before register dpu IRQ. */
->  	writel(0x00, ctx->base + REG_DPU_INT_EN);
+>  	sor->irq = err;
+>
 > --
 > 2.34.1
 >
