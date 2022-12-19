@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC820650FBF
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 17:06:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D030650FD6
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 17:07:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D9A810E2AF;
-	Mon, 19 Dec 2022 16:05:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56FE810E2CE;
+	Mon, 19 Dec 2022 16:06:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D83310E002;
- Mon, 19 Dec 2022 16:05:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 989D610E2BA;
+ Mon, 19 Dec 2022 16:05:50 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 0796461067;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 478C961064;
  Mon, 19 Dec 2022 16:05:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1671465919; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=69qvRJt9dPgqQNta8R4MzEBubU4rlE+sQe1t6RNuAKU=;
- b=QTBorkF0/jrcJexym83GrqOAhTMVDvYEGm3m2hcE+ofn/1DEesjc40qGagcGmqFOIi8VML
- kPp0/BAgAb0vhHNNj2HDwUWLUqBz6Ay7SCfn8vyiyo8Jvu0lV9B1WZK7K7RacxyRDsvA4E
- vp1TMkh6hO8sSC3/Uaw2M3uoG6Voz0o=
+ bh=j/WtPNqywsSEpr9FxudsrWxg3jx8uCB1LXApMkuTryQ=;
+ b=G35pyIWtUBenUQJ21IDQMaeZhTCkQDBgHsBHlaZexD2tT6jjxWspJCrKctcXKlxpJvUr5G
+ Lm5SxZBKR5MkFnp/YyLOBQmyZSTVBQr45Gp2uzqp9tt9RYU3tZxz4OKhr+nDw3nJ7k9yq2
+ X2GDmZLIW2P+amGNg0oac8WNUHhq92Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1671465919;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=69qvRJt9dPgqQNta8R4MzEBubU4rlE+sQe1t6RNuAKU=;
- b=/2sPOhMvtrkhzdSGV3gI9/CKIROCWhDl2D3pPAWtpbx8/HnrMbiv/j+1pui+bnA0+zgXiW
- AaiNk+TKvuw9OxCQ==
+ bh=j/WtPNqywsSEpr9FxudsrWxg3jx8uCB1LXApMkuTryQ=;
+ b=KULvcwF459ruE1RaBsiyv6Z46t8FqmxzXFTC+65BjstpU+SJBvqbRuql7IxV+K53bZyKw3
+ zVsDOCVA/qEPRHBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C4A2513910;
- Mon, 19 Dec 2022 16:05:18 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0C8CD13911;
+ Mon, 19 Dec 2022 16:05:19 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id EDcHL76LoGPeZwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 19 Dec 2022 16:05:18 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4JchAr+LoGPeZwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 19 Dec 2022 16:05:19 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	airlied@gmail.com,
 	deller@gmx.de,
 	javierm@redhat.com
-Subject: [PATCH 02/18] Revert "fbcon: don't lose the console font across
- generic->chip driver switch"
-Date: Mon, 19 Dec 2022 17:05:00 +0100
-Message-Id: <20221219160516.23436-3-tzimmermann@suse.de>
+Subject: [PATCH 03/18] drm/gma500: Do not set struct fb_info.apertures
+Date: Mon, 19 Dec 2022 17:05:01 +0100
+Message-Id: <20221219160516.23436-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221219160516.23436-1-tzimmermann@suse.de>
 References: <20221219160516.23436-1-tzimmermann@suse.de>
@@ -78,103 +77,31 @@ Cc: linux-fbdev@vger.kernel.org, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit ae1287865f5361fa138d4d3b1b6277908b54eac9.
-
-Always free the console font when deinitializing the framebuffer
-console. Subsequent framebuffer consoles will then use the default
-font. Rely on userspace to load any user-configured font for these
-consoles.
-
-Commit ae1287865f53 ("fbcon: don't lose the console font across
-generic->chip driver switch") was introduced to work around losing
-the font during graphics-device handover. [1][2] It kept a dangling
-pointer with the font data between loading the two consoles, which is
-fairly adventurous hack. It also never covered cases when the other
-consoles, such as VGA text mode, where involved.
-
-The problem has meanwhile been solved in userspace. Systemd comes
-with a udev rule that re-installs the configured font when a console
-comes up. [3] So the kernel workaround can be removed.
-
-This also removes one of the two special cases triggered by setting
-FBINFO_MISC_FIRMWARE in an fbdev driver.
-
-Tested during device handover from efifb and simpledrm to radeon. Udev
-reloads the configured console font for the new driver's terminal.
+Generic fbdev drivers use the apertures field in struct fb_info to
+control ownership of the framebuffer memory and graphics device. Do
+not set the values in gma500.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://bugzilla.redhat.com/show_bug.cgi?id=892340 # 1
-Link: https://bugzilla.redhat.com/show_bug.cgi?id=1074624 # 2
-Link: https://cgit.freedesktop.org/systemd/systemd/tree/src/vconsole/90-vconsole.rules.in?h=v222 # 3
 ---
- drivers/video/fbdev/core/fbcon.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/gma500/framebuffer.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 500b26d652f6..90b36b3adfd0 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -958,7 +958,7 @@ static const char *fbcon_startup(void)
- 	set_blitting_type(vc, info);
+diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
+index 8d5a37b8f110..9e892a82e109 100644
+--- a/drivers/gpu/drm/gma500/framebuffer.c
++++ b/drivers/gpu/drm/gma500/framebuffer.c
+@@ -297,11 +297,6 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
+ 	info->screen_base = dev_priv->vram_addr + backing->offset;
+ 	info->screen_size = size;
  
- 	/* Setup default font */
--	if (!p->fontdata && !vc->vc_font.data) {
-+	if (!p->fontdata) {
- 		if (!fontname[0] || !(font = find_font(fontname)))
- 			font = get_default_font(info->var.xres,
- 						info->var.yres,
-@@ -968,8 +968,6 @@ static const char *fbcon_startup(void)
- 		vc->vc_font.height = font->height;
- 		vc->vc_font.data = (void *)(p->fontdata = font->data);
- 		vc->vc_font.charcount = font->charcount;
--	} else {
--		p->fontdata = vc->vc_font.data;
- 	}
+-	if (dev_priv->gtt.stolen_size) {
+-		info->apertures->ranges[0].base = dev_priv->fb_base;
+-		info->apertures->ranges[0].size = dev_priv->gtt.stolen_size;
+-	}
+-
+ 	drm_fb_helper_fill_info(info, fb_helper, sizes);
  
- 	cols = FBCON_SWAP(ops->rotate, info->var.xres, info->var.yres);
-@@ -1135,9 +1133,9 @@ static void fbcon_init(struct vc_data *vc, int init)
- 	ops->p = &fb_display[fg_console];
- }
- 
--static void fbcon_free_font(struct fbcon_display *p, bool freefont)
-+static void fbcon_free_font(struct fbcon_display *p)
- {
--	if (freefont && p->userfont && p->fontdata && (--REFCOUNT(p->fontdata) == 0))
-+	if (p->userfont && p->fontdata && (--REFCOUNT(p->fontdata) == 0))
- 		kfree(p->fontdata - FONT_EXTRA_WORDS * sizeof(int));
- 	p->fontdata = NULL;
- 	p->userfont = 0;
-@@ -1172,8 +1170,8 @@ static void fbcon_deinit(struct vc_data *vc)
- 	struct fb_info *info;
- 	struct fbcon_ops *ops;
- 	int idx;
--	bool free_font = true;
- 
-+	fbcon_free_font(p);
- 	idx = con2fb_map[vc->vc_num];
- 
- 	if (idx == -1)
-@@ -1184,8 +1182,6 @@ static void fbcon_deinit(struct vc_data *vc)
- 	if (!info)
- 		goto finished;
- 
--	if (info->flags & FBINFO_MISC_FIRMWARE)
--		free_font = false;
- 	ops = info->fbcon_par;
- 
- 	if (!ops)
-@@ -1197,9 +1193,8 @@ static void fbcon_deinit(struct vc_data *vc)
- 	ops->initialized = false;
- finished:
- 
--	fbcon_free_font(p, free_font);
--	if (free_font)
--		vc->vc_font.data = NULL;
-+	fbcon_free_font(p);
-+	vc->vc_font.data = NULL;
- 
- 	if (vc->vc_hi_font_mask && vc->vc_screenbuf)
- 		set_vc_hi_font(vc, false);
+ 	info->fix.mmio_start = pci_resource_start(pdev, 0);
 -- 
 2.39.0
 
