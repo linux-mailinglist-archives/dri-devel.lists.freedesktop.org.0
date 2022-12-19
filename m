@@ -2,41 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639D4651488
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 21:58:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD74651490
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 22:01:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8648210E300;
-	Mon, 19 Dec 2022 20:58:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 335FF10E008;
+	Mon, 19 Dec 2022 21:01:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F20410E300
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 20:58:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1671483475; bh=bw+vFRLJBicCKi0DqfuluaeEELUl9w4wTv5BbELJNVo=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
- MIME-Version:Content-Type:In-Reply-To;
- b=Vamg3pcHHRA67f/XQKn4q8lelLdbktd460/YtB+jGXl1tlPQkoILh5htTjp1OZN6W
- pRHVJeT5YUdvbd10iwCKQXv9PdtZcJq5Cgr9YX4j3WeD4OrTY7CYfuDKjoYFcPaWem
- SSyRDMBqvm6TyFbqhB1nw0PA0yKGsauT4EiwPYGY=
-Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Mon, 19 Dec 2022 21:57:55 +0100 (CET)
-X-EA-Auth: HgtstMzqwGvJ7bvMYq0xwJE9XB5XV5qIuTWCKk8WVU7zqEEK1Nv0tC8U9otVZ3nJ8LxadVs0F0TdAkWBMOECchgPeQN0HxoT
-Date: Tue, 20 Dec 2022 02:27:50 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/tegra: sor: Remove redundant error logging
-Message-ID: <Y6DQTkTMhEefCkBL@qemulion>
-References: <Y5a4z0TZSqUPfRkr@qemulion>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7890D10E008
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 21:01:48 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D35BF825;
+ Mon, 19 Dec 2022 22:01:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1671483707;
+ bh=guS0dJYV3rqo3wM/wnQUJYX5SdAXmRQFOxI1mTIIYH8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=I0NIolxvTeZJ6+pInHHpMiMTK46tTCELZ+o0DWouv4H2Nh5hNsrxrqFsgwrWpHS/F
+ QT6gnhIr7lPV0hEftlUxXNPafThNL8JOYAyl6ZtrDePhSTLE1zgHz0ptyC0/LaQomj
+ R8nCl9S1dRU1AjZfj5WaAmex2d0xX4uWP2/HEQGg=
+Date: Mon, 19 Dec 2022 23:01:42 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: Re: [PATCH v2 3/7] media: renesas: vsp1: Change V3U to be gen4
+Message-ID: <Y6DRNijZ243JWzUo@pendragon.ideasonboard.com>
+References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221219140139.294245-4-tomi.valkeinen+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y5a4z0TZSqUPfRkr@qemulion>
+In-Reply-To: <20221219140139.294245-4-tomi.valkeinen+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,64 +47,188 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>, drv@mailo.com,
- Saurabh Singh Sengar <ssengar@microsoft.com>
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 12, 2022 at 10:44:55AM +0530, Deepak R Varma wrote:
+Hi Tomi,
 
-Hello,
-May I please request a review and feedback on this patch proposal?
+Thank you for the patch.
 
-Also, I was able to build the changes for ARM arch verified using modinfo
-tegr-drm.ko command.
-
-
-Thank you,
-./drv
-
-
-> A call to platform_get_irq() already prints an error on failure within
-> its own implementation. So printing another error based on its return
-> value in the caller is redundant and should be removed. The clean up
-> also makes if condition block braces unnecessary. Remove that as well.
->
-> Issue identified using platform_get_irq.cocci coccicheck script.
->
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
+On Mon, Dec 19, 2022 at 04:01:35PM +0200, Tomi Valkeinen wrote:
+> V3U is actually gen4, not gen3. The same IP is also used in the
+> (not-yet-supported) V4H.
+> 
+> Change VI6_IP_VERSION_MODEL_VSPD_V3U to VI6_IP_VERSION_MODEL_VSPD_GEN4,
+> to represent the model correctly. V3U and V4H can still be
+> differentiated, if needed, with the VI6_IP_VERSION_SOC_xxx.
+> 
+> Also mark VI6_IP_VERSION_MODEL_VSPD_GEN4 as gen 4 in vsp1_device_info,
+> and update the code to correcly match for gen 4.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > ---
-> Please note: I was not able to build this driver since I did not find the
-> DRM_TEGRA option in menu config. All dependencies listed in the KConfig are
-> enabled, however, I was still not able to find the DRM_TEGRA module in the
-> Graphics-Drivers list. Since the proposed change is known, minor and obvious, I
-> am sending in this patch without build testing.
->
-> Any advise on how to enable the DRM_TEGRA module in menuconfig selection list
-> will be helpful. Thank you.
->
->
->  drivers/gpu/drm/tegra/sor.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-> index 8af632740673..ceaebd33408d 100644
-> --- a/drivers/gpu/drm/tegra/sor.c
-> +++ b/drivers/gpu/drm/tegra/sor.c
-> @@ -3799,10 +3799,8 @@ static int tegra_sor_probe(struct platform_device *pdev)
+>  drivers/media/platform/renesas/vsp1/vsp1_drv.c   |  4 ++--
+>  drivers/media/platform/renesas/vsp1/vsp1_hgo.c   |  4 ++--
+>  drivers/media/platform/renesas/vsp1/vsp1_lif.c   |  1 +
+>  drivers/media/platform/renesas/vsp1/vsp1_regs.h  |  2 +-
+>  drivers/media/platform/renesas/vsp1/vsp1_rpf.c   | 12 ++++++------
+>  drivers/media/platform/renesas/vsp1/vsp1_video.c |  4 ++--
+>  drivers/media/platform/renesas/vsp1/vsp1_wpf.c   |  4 ++--
+>  7 files changed, 16 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> index c260d318d298..5710152d6511 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> @@ -818,9 +818,9 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
+>  		.wpf_count = 2,
+>  		.num_bru_inputs = 5,
+>  	}, {
+> -		.version = VI6_IP_VERSION_MODEL_VSPD_V3U,
+> +		.version = VI6_IP_VERSION_MODEL_VSPD_GEN4,
+>  		.model = "VSP2-D",
+> -		.gen = 3,
+> +		.gen = 4,
+>  		.features = VSP1_HAS_BRU | VSP1_HAS_EXT_DL,
+>  		.lif_count = 1,
+>  		.rpf_count = 5,
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hgo.c b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
+> index bf3f981f93a1..e6492deb0a64 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
+> @@ -196,10 +196,10 @@ struct vsp1_hgo *vsp1_hgo_create(struct vsp1_device *vsp1)
+>  
+>  	/* Initialize the control handler. */
+>  	v4l2_ctrl_handler_init(&hgo->ctrls.handler,
+> -			       vsp1->info->gen == 3 ? 2 : 1);
+> +			       vsp1->info->gen >= 3 ? 2 : 1);
+>  	hgo->ctrls.max_rgb = v4l2_ctrl_new_custom(&hgo->ctrls.handler,
+>  						  &hgo_max_rgb_control, NULL);
+> -	if (vsp1->info->gen == 3)
+> +	if (vsp1->info->gen >= 3)
+>  		hgo->ctrls.num_bins =
+>  			v4l2_ctrl_new_custom(&hgo->ctrls.handler,
+>  					     &hgo_num_bins_control, NULL);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+> index 186a5730e1e3..0ab2e0c70474 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+> @@ -114,6 +114,7 @@ static void lif_configure_stream(struct vsp1_entity *entity,
+>  		break;
+>  
+>  	case VI6_IP_VERSION_MODEL_VSPD_GEN3:
+> +	case VI6_IP_VERSION_MODEL_VSPD_GEN4:
+
+While this doesn't cause any functional change, it doesn't fall into the
+renaming explained in the commit message. I'd make a mention of it
+there.
+
+Conditional-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+>  	default:
+>  		hbth = 0;
+>  		obth = 3000;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> index 8928f4c6bb55..8c9333f76858 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> @@ -766,7 +766,7 @@
+>  #define VI6_IP_VERSION_MODEL_VSPD_V3	(0x18 << 8)
+>  #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
+>  #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
+> -#define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
+> +#define VI6_IP_VERSION_MODEL_VSPD_GEN4	(0x1c << 8)
+>  /* RZ/G2L SoCs have no version register, So use 0x80 as the model version */
+>  #define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0x80 << 8)
+>  
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> index 75083cb234fe..045aa54f7998 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> @@ -133,18 +133,18 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
+>  	 * a fixed alpha value set through the V4L2_CID_ALPHA_COMPONENT control
+>  	 * otherwise.
+>  	 *
+> -	 * The Gen3 RPF has extended alpha capability and can both multiply the
+> +	 * The Gen3+ RPF has extended alpha capability and can both multiply the
+>  	 * alpha channel by a fixed global alpha value, and multiply the pixel
+>  	 * components to convert the input to premultiplied alpha.
+>  	 *
+>  	 * As alpha premultiplication is available in the BRx for both Gen2 and
+> -	 * Gen3 we handle it there and use the Gen3 alpha multiplier for global
+> +	 * Gen3+ we handle it there and use the Gen3 alpha multiplier for global
+>  	 * alpha multiplication only. This however prevents conversion to
+>  	 * premultiplied alpha if no BRx is present in the pipeline. If that use
+>  	 * case turns out to be useful we will revisit the implementation (for
+>  	 * Gen3 only).
+>  	 *
+> -	 * We enable alpha multiplication on Gen3 using the fixed alpha value
+> +	 * We enable alpha multiplication on Gen3+ using the fixed alpha value
+>  	 * set through the V4L2_CID_ALPHA_COMPONENT control when the input
+>  	 * contains an alpha channel. On Gen2 the global alpha is ignored in
+>  	 * that case.
+> @@ -155,7 +155,7 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
+>  		       (fmtinfo->alpha ? VI6_RPF_ALPH_SEL_ASEL_PACKED
+>  				       : VI6_RPF_ALPH_SEL_ASEL_FIXED));
+>  
+> -	if (entity->vsp1->info->gen == 3) {
+> +	if (entity->vsp1->info->gen >= 3) {
+>  		u32 mult;
+>  
+>  		if (fmtinfo->alpha) {
+> @@ -301,10 +301,10 @@ static void rpf_configure_partition(struct vsp1_entity *entity,
 >  	}
->
->  	err = platform_get_irq(pdev, 0);
-> -	if (err < 0) {
-> -		dev_err(&pdev->dev, "failed to get IRQ: %d\n", err);
-> +	if (err < 0)
->  		goto remove;
-> -	}
->
->  	sor->irq = err;
->
-> --
-> 2.34.1
->
+>  
+>  	/*
+> -	 * On Gen3 hardware the SPUVS bit has no effect on 3-planar
+> +	 * On Gen3+ hardware the SPUVS bit has no effect on 3-planar
+>  	 * formats. Swap the U and V planes manually in that case.
+>  	 */
+> -	if (vsp1->info->gen == 3 && format->num_planes == 3 &&
+> +	if (vsp1->info->gen >= 3 && format->num_planes == 3 &&
+>  	    fmtinfo->swap_uv)
+>  		swap(mem.addr[1], mem.addr[2]);
+>  
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> index 9d24647c8f32..544012fd1fe9 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> @@ -267,10 +267,10 @@ static int vsp1_video_pipeline_setup_partitions(struct vsp1_pipeline *pipe)
+>  	div_size = format->width;
+>  
+>  	/*
+> -	 * Only Gen3 hardware requires image partitioning, Gen2 will operate
+> +	 * Only Gen3+ hardware requires image partitioning, Gen2 will operate
+>  	 * with a single partition that covers the whole output.
+>  	 */
+> -	if (vsp1->info->gen == 3) {
+> +	if (vsp1->info->gen >= 3) {
+>  		list_for_each_entry(entity, &pipe->entities, list_pipe) {
+>  			unsigned int entity_max;
+>  
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> index 94e91d7bb56c..d0074ca00920 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> @@ -512,10 +512,10 @@ static void wpf_configure_partition(struct vsp1_entity *entity,
+>  	}
+>  
+>  	/*
+> -	 * On Gen3 hardware the SPUVS bit has no effect on 3-planar
+> +	 * On Gen3+ hardware the SPUVS bit has no effect on 3-planar
+>  	 * formats. Swap the U and V planes manually in that case.
+>  	 */
+> -	if (vsp1->info->gen == 3 && format->num_planes == 3 &&
+> +	if (vsp1->info->gen >= 3 && format->num_planes == 3 &&
+>  	    fmtinfo->swap_uv)
+>  		swap(mem.addr[1], mem.addr[2]);
+>  
 
+-- 
+Regards,
 
+Laurent Pinchart
