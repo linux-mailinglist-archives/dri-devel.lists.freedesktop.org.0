@@ -2,56 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D4D0650BCE
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 13:35:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 454B5650C1D
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 13:48:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F22210E294;
-	Mon, 19 Dec 2022 12:35:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E70F10E29A;
+	Mon, 19 Dec 2022 12:47:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3894710E294
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 12:35:16 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id kw15so21045451ejc.10
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 04:35:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=rCYG7t1izN/gOyqR3UaPefTWs3YwGVtAE/HZuYn9Rfc=;
- b=ZKtkG+FX5U20S1M6EMAO9s5DcYzxSPb3NQCBOLLNZKUq1ijR3Q2uoYri0UIzTgvgB0
- BuFxphDmBbwcllU3Gq/LcNYSqtuoFmVbWfxHoWpZbb485QqVZreK8NBdka6pJ9kqxEfi
- b6g2VtgxtP/YluAJZKnBbJAR0WCcpqKp7HjTA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=rCYG7t1izN/gOyqR3UaPefTWs3YwGVtAE/HZuYn9Rfc=;
- b=l7Je+H7rl424jt51s5VFSIcu96rK7duhT04xZrntjnVfzeg8ds0NdNChfxc8myccVt
- 7Mwt79x7OzREXIufJlGZMv69QaRBqwtYxCCXVHPs6/NY+Xp8w0XZRLnhuX/rp9CrL7Nl
- DMhEPCbfOTsO/qubhbkAoZntcppUngM8NWAPfX8BrB0Ek4/202KS9Qd+eiw2sJFGafxY
- 8ERp65C6V7qe134em0/G7ZX8LaTiKtbbsYYVeOwALlnDYsCyr9YthEq+4xlYGpohRvZC
- vtKw4HVhfyB3jw93Js9R3Km6XQ/T2NY6OyH7fwfwWJ0lrKQzSiHDUe6YvDr+CkAgwDFm
- 7KdA==
-X-Gm-Message-State: ANoB5pnvMwx3c8a+HrW74acJ8YMuLTPv290t7Fx7TnHuL8IkmQBTi8vk
- dHh2wLrcnH8BM6HXejnP5KnndxEvh5nc3C/FemxY3Q==
-X-Google-Smtp-Source: AA0mqf7MRvG+Qj2JseT+Qj2IY04GU3ehuu2j+6yoRs/z0TWbsGNO6utzwcWxYija4unhyYJGQ57ZKqf8K83fjcrrTnQ=
-X-Received: by 2002:a17:906:8383:b0:7c1:19ea:dda with SMTP id
- p3-20020a170906838300b007c119ea0ddamr8979778ejx.31.1671453314287; Mon, 19 Dec
- 2022 04:35:14 -0800 (PST)
+Received: from m12.mail.163.com (m12.mail.163.com [123.126.96.233])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6283B10E298;
+ Mon, 19 Dec 2022 12:47:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=I77Z/
+ FCFVVf64G3/7hRxXqdRIyUBCvAL1mnvuDyJtEY=; b=bNlu9bedBAxp5wWLHSkgi
+ eTaSrgsOALU6Q9MLuZF5OOamWYm9xit5C44IX/30XsZlEKR0k9IJ8MIwMLWYBdDg
+ 4/XLWMMGCP8+dYjNrNWu+lop1fHqNrvCBrmexlidN39To/sxE2j7KdXHdi0Dtm+c
+ BvivX7y8TrPtok5Ik93yRU=
+Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
+ by smtp20 (Coremail) with SMTP id H91pCgAH6QEiXaBj2kKrBw--.42393S2;
+ Mon, 19 Dec 2022 20:46:26 +0800 (CST)
+From: Zheng Wang <zyytlz.wz@163.com>
+To: zhi.a.wang@intel.com
+Subject: [PATCH v4] [PATCH v4] drm/i915/gvt: fix double free bug in
+ split_2MB_gtt_entry
+Date: Mon, 19 Dec 2022 20:46:25 +0800
+Message-Id: <20221219124625.999055-1-zyytlz.wz@163.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <11728bc1-7b59-1623-b517-d1a0d57eb275@intel.com>
+References: <11728bc1-7b59-1623-b517-d1a0d57eb275@intel.com>
 MIME-Version: 1.0
-References: <20221002064540.2500257-1-michael@amarulasolutions.com>
-In-Reply-To: <20221002064540.2500257-1-michael@amarulasolutions.com>
-From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Date: Mon, 19 Dec 2022 13:35:02 +0100
-Message-ID: <CAOf5uw=2zjki8DEkgvDTKrj6V=FS44Z1WN3AvFZvzuN-MU_y4Q@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] Add RGB ttl connection on rockchip phy
-To: Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: H91pCgAH6QEiXaBj2kKrBw--.42393S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxXry3Ar15CF1kAw1furyUKFg_yoW5uFy3pF
+ 47CF43CF1xJFy29ry7GF10yFyrZ3W5Wa4fWFZ7K3WakrsFy3WDAw42yryfXr9xuFZrG3yS
+ gF47GrWDW34jqa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRomh7UUUUU=
+X-Originating-IP: [111.206.145.21]
+X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/1tbiXA-cU1Xl5JiO-wACsj
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,66 +51,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Kishon Vijay Abraham I <kishon@ti.com>, linux-rockchip@lists.infradead.org,
- Vinod Koul <vkoul@kernel.org>, linux-phy@lists.infradead.org,
- linux-amarula@amarulasolutions.com, linux-arm-kernel@lists.infradead.org
+Cc: alex000young@gmail.com, security@kernel.org,
+ intel-gvt-dev@lists.freedesktop.org, tvrtko.ursulin@linux.intel.com,
+ airlied@linux.ie, gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
+ hackerzheng666@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 1002992920@qq.com, zyytlz.wz@163.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all
+If intel_gvt_dma_map_guest_page failed, it will call
+ ppgtt_invalidate_spt, which will finally free the spt. But the caller does
+ not notice that, it will free spt again in error path.
 
-On Sun, Oct 2, 2022 at 8:45 AM Michael Trimarchi
-<michael@amarulasolutions.com> wrote:
->
-> The rockchip phy can be convigured in ttl mode. The phy is shared
-> between lvds, dsi, ttl. The configuration that now I'm able to support
-> has the display output on some set of pins on standard vop output
-> and a set of pins using the ttl phy. The solution is not clean as I
-> would like to have because some register that are used to enable
-> the TTL, are in the same register area of the dsi controller.
-> In order to test I must add the following
->
-> dsi_dphy: phy@ff2e0000 {
->
->         reg = <0x0 0xff2e0000 0x0 0x10000>,
->                 <0x0 0xff450000 0x0 0x10000>;
->         ...
-> }
->
-> The problem here is the second region I have added is the same of
-> dsi logic. Only one register is needed by the the phy driver
->
+Fix this by undoing the mapping of DMA address and freeing sub_spt.
 
-Is there anyone who has time to review it?
+Fixes: b901b252b6cf ("drm/i915/gvt: Add 2M huge gtt support")
+Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+---
+v4:
+- fix by undo the mapping of DMA address and free sub_spt suggested by Zhi
 
-Michael
+v3:
+- correct spelling mistake and remove unused variable suggested by Greg
 
-> Michael Trimarchi (4):
->   phy: add PHY_MODE_TTL
->   phy: rockchip: Add inno_is_valid_phy_mode
->   phy: rockchip: Implement TTY phy mode
->   drm/rockchip: rgb: Add dphy connection to rgb output
->
->  drivers/gpu/drm/rockchip/rockchip_rgb.c       | 18 +++++
->  .../phy/rockchip/phy-rockchip-inno-dsidphy.c  | 72 +++++++++++++++++++
->  include/linux/phy/phy.h                       |  3 +-
->  3 files changed, 92 insertions(+), 1 deletion(-)
->
-> --
-> 2.34.1
->
+v2: https://lore.kernel.org/all/20221006165845.1735393-1-zyytlz.wz@163.com/
 
+v1: https://lore.kernel.org/all/20220928033340.1063949-1-zyytlz.wz@163.com/
+---
+ drivers/gpu/drm/i915/gvt/gtt.c | 58 +++++++++++++++++-----------------
+ 1 file changed, 29 insertions(+), 29 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
+index 45271acc5038..b472e021e5a4 100644
+--- a/drivers/gpu/drm/i915/gvt/gtt.c
++++ b/drivers/gpu/drm/i915/gvt/gtt.c
+@@ -1209,7 +1209,7 @@ static int split_2MB_gtt_entry(struct intel_vgpu *vgpu,
+ 	for_each_shadow_entry(sub_spt, &sub_se, sub_index) {
+ 		ret = intel_gvt_dma_map_guest_page(vgpu, start_gfn + sub_index,
+ 						   PAGE_SIZE, &dma_addr);
+-		if (ret) 
++		if (ret)
+ 			goto err;
+ 		sub_se.val64 = se->val64;
+ 
+@@ -1233,34 +1233,34 @@ static int split_2MB_gtt_entry(struct intel_vgpu *vgpu,
+ 	/* Undone the existing mappings of DMA addr. */
+ 	for_each_present_shadow_entry(spt, &e, parent_index) {
+ 		switch (e.type) {
+-			case GTT_TYPE_PPGTT_PTE_4K_ENTRY:
+-				gvt_vdbg_mm("invalidate 4K entry\n");
+-				ppgtt_invalidate_pte(spt, &e);
+-				break;
+-			case GTT_TYPE_PPGTT_PTE_64K_ENTRY:
+-				/* We don't setup 64K shadow entry so far. */
+-				WARN(1, "suspicious 64K gtt entry\n");
+-				continue;
+-			case GTT_TYPE_PPGTT_PTE_2M_ENTRY:
+-				gvt_vdbg_mm("invalidate 2M entry\n");
+-				continue;
+-			case GTT_TYPE_PPGTT_PTE_1G_ENTRY:
+-				WARN(1, "GVT doesn't support 1GB page\n");
+-				continue;
+-			case GTT_TYPE_PPGTT_PML4_ENTRY:
+-			case GTT_TYPE_PPGTT_PDP_ENTRY:
+-			case GTT_TYPE_PPGTT_PDE_ENTRY:
+-				gvt_vdbg_mm("invalidate PMUL4/PDP/PDE entry\n");
+-				ret1 = ppgtt_invalidate_spt_by_shadow_entry(
+-						spt->vgpu, &e);
+-				if (ret1) {
+-					gvt_vgpu_err("fail: shadow page %p shadow entry 0x%llx type %d\n",
+-					spt, e.val64, e.type);
+-					goto free_spt;
+-				}
+-				break;
+-			default:
+-				GEM_BUG_ON(1);
++		case GTT_TYPE_PPGTT_PTE_4K_ENTRY:
++			gvt_vdbg_mm("invalidate 4K entry\n");
++			ppgtt_invalidate_pte(spt, &e);
++			break;
++		case GTT_TYPE_PPGTT_PTE_64K_ENTRY:
++			/* We don't setup 64K shadow entry so far. */
++			WARN(1, "suspicious 64K gtt entry\n");
++			continue;
++		case GTT_TYPE_PPGTT_PTE_2M_ENTRY:
++			gvt_vdbg_mm("invalidate 2M entry\n");
++			continue;
++		case GTT_TYPE_PPGTT_PTE_1G_ENTRY:
++			WARN(1, "GVT doesn't support 1GB page\n");
++			continue;
++		case GTT_TYPE_PPGTT_PML4_ENTRY:
++		case GTT_TYPE_PPGTT_PDP_ENTRY:
++		case GTT_TYPE_PPGTT_PDE_ENTRY:
++			gvt_vdbg_mm("invalidate PMUL4/PDP/PDE entry\n");
++			ret1 = ppgtt_invalidate_spt_by_shadow_entry(
++					spt->vgpu, &e);
++			if (ret1) {
++				gvt_vgpu_err("fail: shadow page %p shadow entry 0x%llx type %d\n",
++				spt, e.val64, e.type);
++				goto free_spt;
++			}
++			break;
++		default:
++			GEM_BUG_ON(1);
+ 		}
+ 	}
+ 	/* Release the new alloced apt. */
 -- 
-Michael Nazzareno Trimarchi
-Co-Founder & Chief Executive Officer
-M. +39 347 913 2170
-michael@amarulasolutions.com
-__________________________________
+2.25.1
 
-Amarula Solutions BV
-Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
-T. +31 (0)85 111 9172
-info@amarulasolutions.com
-www.amarulasolutions.com
