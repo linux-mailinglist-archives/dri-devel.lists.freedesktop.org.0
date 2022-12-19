@@ -2,78 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C876508D5
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 09:50:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8A9E6508EC
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Dec 2022 09:54:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A91910E217;
-	Mon, 19 Dec 2022 08:50:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41BA510E213;
+	Mon, 19 Dec 2022 08:53:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2125D10E213
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 08:49:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671439798;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d2GUNp9aRPX3m7GTSyF3PSRJZCqqc/1SL0Z+/iGLies=;
- b=PJYB/P0HJB7Jlhq0ZvPL2fQzGn3gbFXRjDCt8cFAl45RJf+jpKjHOq3Bc+zFyaDFlCvX5C
- fnXnwvMLPC5NS0+whkaWwPLST4natu7SDvLX1DFjpjNTCkkDphfCDuKJWfGl/oTgN/Hn95
- titP1Pv3d++0MlN8HRph/ObjMhMCFmA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-451-u0jXTe9SNfaHZtk9JhiTxg-1; Mon, 19 Dec 2022 03:49:56 -0500
-X-MC-Unique: u0jXTe9SNfaHZtk9JhiTxg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h9-20020a1c2109000000b003cfd37aec58so4893583wmh.1
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 00:49:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=d2GUNp9aRPX3m7GTSyF3PSRJZCqqc/1SL0Z+/iGLies=;
- b=P+yLYmPGIOHxo1Iq7imddm0MqvzpSo0+GC/3Twr2OFmaH1RyESoh9tBIDNCv+N3dAt
- +krWaj4P25BG7VHOvtMHQWjJq34ULevhhYERw2uQLfhgpf+w9fiTQNRpEa68WiqA3zmx
- dw1prEpBbp3eOnwGkqn0GtUgvBJwppXN6u0sIQ+3mvjFpZqWzhUtsMN1KcW8IG2/svpj
- Nv0s9vlk40ph0kSC371oyEjdRaf/srm0fX65vtR4ICfHh6LVPT+uGsppMCNLal3tTPr/
- L2Q84nxkoaLzvYX6O10krKMxZ/Cs5OAk+I4+F50HqBXNenuADzgL0SQ/poCZQE30dqWy
- WXsw==
-X-Gm-Message-State: ANoB5pmHpoA2C4fooloHeTPgY3wB0BEkzLdh+UhWYZQGj7efrYMKzfBw
- Qrc5nLhBz3JbXhK1lw7K8869pHn1Si6xsB7i0Q7XNvkdRP+1h6f7aj0ARndnAp4yEhhD6STC3df
- iBSYUYLk/MdKRnc23RiZKKr7XEjcn
-X-Received: by 2002:a05:600c:3c9c:b0:3cf:497c:c4f5 with SMTP id
- bg28-20020a05600c3c9c00b003cf497cc4f5mr32228472wmb.13.1671439795531; 
- Mon, 19 Dec 2022 00:49:55 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf71uAIN6ZfhvQ+gcywBCPRQ3+U/OGp9imSzLq4sZ/31lKdnUvpwi811RVoHnqvnWeGuNHxtNA==
-X-Received: by 2002:a05:600c:3c9c:b0:3cf:497c:c4f5 with SMTP id
- bg28-20020a05600c3c9c00b003cf497cc4f5mr32228467wmb.13.1671439795360; 
- Mon, 19 Dec 2022 00:49:55 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- f9-20020a05600c44c900b003d1e4f3ac8esm10896275wmo.33.2022.12.19.00.49.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 00:49:55 -0800 (PST)
-Message-ID: <2e7b9b94-0ae8-d596-354f-3bf9a6c37e5a@redhat.com>
-Date: Mon, 19 Dec 2022 09:49:54 +0100
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [85.220.165.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B30F210E213
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 08:53:23 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p7BtY-0007Vp-D0; Mon, 19 Dec 2022 09:53:12 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p7BtW-000IAc-7a; Mon, 19 Dec 2022 09:53:10 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p7BtV-006Gr7-Iy; Mon, 19 Dec 2022 09:53:09 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>,
+ John Stultz <jstultz@google.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>
+Subject: [PATCH] MAINTAINERS: drm/hisilicon: Drop Chen Feng
+Date: Mon, 19 Dec 2022 09:53:07 +0100
+Message-Id: <20221219085307.1403247-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH] drm/vc4: dsi: Drop unused i2c include
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>
-References: <20221219084023.1402282-1-u.kleine-koenig@pengutronix.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221219084023.1402282-1-u.kleine-koenig@pengutronix.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1017;
+ i=u.kleine-koenig@pengutronix.de; h=from:subject;
+ bh=z2KynycVIX7YmRO3uRwOqo1O4/SJHIqRzoo7PZ2ud1s=;
+ b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjoCZvYxfdznOQShcZFcHn4fMZqgIg0TO2GBepQGPx
+ h98oZJGJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY6AmbwAKCRDB/BR4rcrsCQm1B/
+ 9oHfC2BSq9NECuh4FRdvIbAN2ZRaW0QDQu1KLa/IUYqqQHX05KJkzWluea3EkQn6t1kC2FA2YbsH+G
+ kQD2Pbg/qWkBoy1jjnf8vRs/tHfi751WnFR+wlmgtkEnDm/N31yEVT7dmfHu0pnt0gvOAeDNzeeq0p
+ D3O+0oP+j5pFVcZMMwpar1nQwwh139QClFJ7UYemapMdWdnv1H+fzge6vyL3uUyMWpwuG355VQ4Dav
+ mW6BG3/RvoT5FCaB6hlqjTEMxgKDOvh8/NByk5qxMwcOvu0+NNgwOWtNYiR40cfF4sK1w0zoj5CAmh
+ +PjLC+Lkzeu3+nts6crfnknjqEsqWw
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,19 +69,32 @@ Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/19/22 09:40, Uwe Kleine-König wrote:
-> The driver doesn't make use of any symbol provided by <linux/i2c.h>. So
-> drop the include.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
+The listed address doesn't work any more:
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+  puck.chen@hisilicon.com
+    host mx5.hisilicon.com [124.71.93.234]
+    SMTP error from remote mail server after RCPT TO:<puck.chen@hisilicon.com>:
+    551 5.1.1 <puck.chen@hisilicon.com>: Recipient address rejected:
+    Failed recipient validation check.: host 127.0.0.1[127.0.0.1] said:
+    554 5.7.1 recipient verify from ldap failed (in reply to RCPT TO command)
 
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 30e032abd196..d693d77e715f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7009,7 +7009,6 @@ M:	Xinliang Liu <xinliang.liu@linaro.org>
+ M:	Tian Tao  <tiantao6@hisilicon.com>
+ R:	John Stultz <jstultz@google.com>
+ R:	Xinwei Kong <kong.kongxinwei@hisilicon.com>
+-R:	Chen Feng <puck.chen@hisilicon.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.38.1
 
