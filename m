@@ -2,75 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FD68651E74
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 11:10:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F01651ECB
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 11:27:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81CA210E0A7;
-	Tue, 20 Dec 2022 10:09:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C70010E374;
+	Tue, 20 Dec 2022 10:27:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B01410E0A9
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 10:09:43 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35E6E10E374
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 10:27:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671530982;
+ s=mimecast20190719; t=1671532019;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mgFz7D2KcpsmmziULYeqUqAf4RT2lleti+aD7E+6YtE=;
- b=S3IERdWlwVv0dDriyG429bmI65DDWG6ziWbtIZKp3p1isgqp/KL9W0euIFLbbW8FCSiYaR
- /n6NCm9YvZtoWF8DT1sKTVouYM/D8qF1WQKvNiC87dJ4loAeyTHYavbk1y95S3Pj7XAKVU
- TIQMueLe88DFhfYQ9RDR2RKrepPk2q8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rjiGojIYvWrKQ82nWhvQA0dTaFlB1ke61shXGuJDDWY=;
+ b=Es34/wBx1oIttVX9akeMZxjboIdTAJg8noIMc22mQXRpnBXsrpS0ihbtZp/2AWDqt6VVsv
+ iyGHe4KbVjufE3fZvi2xtW7f2QV2UWDKzfx7kEne87ONs2DeO53PMcxGlJcsyZtRlAVE+b
+ w8AtN7gqM9+ZaMYDsl+f7DcvJ90pT6o=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-148-ATQ9aAb4MTyRfpE54RHpfA-1; Tue, 20 Dec 2022 05:09:40 -0500
-X-MC-Unique: ATQ9aAb4MTyRfpE54RHpfA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d6-20020adfa346000000b0024211c0f988so2085562wrb.9
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 02:09:40 -0800 (PST)
+ us-mta-627-yxdzz5DrPuqTE1yuGmqAgQ-1; Tue, 20 Dec 2022 05:26:58 -0500
+X-MC-Unique: yxdzz5DrPuqTE1yuGmqAgQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ r67-20020a1c4446000000b003d09b0fbf54so7845678wma.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 02:26:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mgFz7D2KcpsmmziULYeqUqAf4RT2lleti+aD7E+6YtE=;
- b=ISM5biq0EiB9T0Kpx0CaIZuXl85dgnud2WNDRCzhlnv3B5Til4Jf2Wzq1QwKOtYwhP
- xXXP7Bc46BZ338ZU19U719E8cLOWHdqnqE2hKN3tZCCbuDkkfH3sMkaZDEtNY/nI0De2
- rIzm/pnNz/o6ZM0t1zSPafTBpZmX2HDGjQhjAmx5wA0Yx5H3LbrOVsi+wPAJF/WK6U0T
- Z0MZL1Kigwoi0sqGxmlrIBj/rxTVzKTROZkt3i/wjcIS/w9QnWZLO0/KvSZ7+/j6rMNP
- GtBHQMc+FoxP22vmNgCQk2Voadl49bEv6GrIk/pyEm0jw9QRRYKijrhJWweCYx6CAEST
- 1X5Q==
-X-Gm-Message-State: ANoB5pkCX3XM32/YjivZexNztpbxs3en0LfZDL/epVNsbZvRiZVNRsrW
- g1Q6Cu5MqSvCaFLOg1VAOWCpWDYFdl/ZPVZ4BlyqGgr/RKd7SxAK9koIxSvJF6p2POser8Qf8zX
- igQlxpe+nu+jYgqva9qQOYD0Fge75
-X-Received: by 2002:a1c:cc1a:0:b0:3cf:5583:8b3f with SMTP id
- h26-20020a1ccc1a000000b003cf55838b3fmr35445725wmb.20.1671530979748; 
- Tue, 20 Dec 2022 02:09:39 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf58osCBA63KsWz2J/XRbePm7QROHcm1znIqcEy5B/fVtJsoasI+W3zC+FemmYu4QbpLM8U86g==
-X-Received: by 2002:a1c:cc1a:0:b0:3cf:5583:8b3f with SMTP id
- h26-20020a1ccc1a000000b003cf55838b3fmr35445716wmb.20.1671530979565; 
- Tue, 20 Dec 2022 02:09:39 -0800 (PST)
+ bh=rjiGojIYvWrKQ82nWhvQA0dTaFlB1ke61shXGuJDDWY=;
+ b=5gqLvRdcRgV/lX3vbXjArPNaKcZs7YFzy3aj2nBVP2mG3Wjdp8K6edH4ILD1QySb04
+ WMcYhAKKJOtnbWhdSv72ygwoO6CEG/uqmWR5EhO3iGtyWrrr8S5GFuSYbHuhYKj5kV8y
+ NOVl/5qBax+90qDgIMelqY8E50rO1MP0jlo/ONInVsfIBYgYIey3ApflhCo+doExY0Cb
+ BDcb2ZWN8KE13/UK1xIb/0xU8Xo0GiGZItFnpm10Z9KWtBIr+wn/MX9/oyxTr7kvJ2N1
+ Nj5ryqDRPG7REn7E6sHggkvk7PzfF4Kbcj5FrVdj8gz5bLhEeOVo5TDDXydNwM0ZKC7u
+ /r4w==
+X-Gm-Message-State: ANoB5plwb7FbjJRzYOtk5uqI5rX3uDVvnLHyhBFD7V5jqeWRePe9rkzA
+ MfTjHQF07OOx8SbWjmkEq3yekQuaFH25G31LUf6sQlxQXrNPrG5Yv5t1wznQZrwnvllpEJ7tzVl
+ 9eQHd9gMYTbmp5q5sdbKjGn+1DSkV
+X-Received: by 2002:a5d:5001:0:b0:242:86e7:72c2 with SMTP id
+ e1-20020a5d5001000000b0024286e772c2mr37348374wrt.50.1671532017163; 
+ Tue, 20 Dec 2022 02:26:57 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4YgLGbsns8VZggTlYJxuOcKHT3iplDn35V1/ZBxoM94W+VHULM5ACzzgl3QeaB6beaGjDj9w==
+X-Received: by 2002:a5d:5001:0:b0:242:86e7:72c2 with SMTP id
+ e1-20020a5d5001000000b0024286e772c2mr37348361wrt.50.1671532016960; 
+ Tue, 20 Dec 2022 02:26:56 -0800 (PST)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- g8-20020a05600c310800b003d35c845cbbsm5019792wmo.21.2022.12.20.02.09.38
+ bo21-20020a056000069500b00228d52b935asm12474520wrb.71.2022.12.20.02.26.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Dec 2022 02:09:39 -0800 (PST)
-Message-ID: <2b008943-6916-5371-9bac-cb5926172d89@redhat.com>
-Date: Tue, 20 Dec 2022 11:09:38 +0100
+ Tue, 20 Dec 2022 02:26:56 -0800 (PST)
+Message-ID: <7c619f8c-02e8-74d1-3c83-37b1e3f5f45e@redhat.com>
+Date: Tue, 20 Dec 2022 11:26:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH 1/9] firmware/sysfb: Fix EFI/VESA format selection
+Subject: Re: [PATCH 2/9] drm/format-helper: Flip src/dst-format branches in
+ blit helper
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
  jose.exposito89@gmail.com, mairacanal@riseup.net
 References: <20221213201233.9341-1-tzimmermann@suse.de>
- <20221213201233.9341-2-tzimmermann@suse.de>
+ <20221213201233.9341-3-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221213201233.9341-2-tzimmermann@suse.de>
+In-Reply-To: <20221213201233.9341-3-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -93,50 +94,14 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 12/13/22 21:12, Thomas Zimmermann wrote:
-> Select color format for EFI/VESA firmware scanout buffer from the
-> number of bits per pixel and the position of the individual color
-> components. Fixes the selected format for the buffer in several odd
-> cases. For example, XRGB1555 has been reported as ARGB1555 because
-> of the different use of depth and transparency in VESA and Linux.
-> 
-> Bits-per-pixel is always the pixel's raw number of bits; including
-> alpha and filler bits. It is preferred over color depth, which has a
-> different meaning among various components and standards.
-> 
-> Also do not compare reserved bits and transparency bits to each other.
-> These values have different meanings, as reserved bits include filler
-> bits while transparency does not.
+> Upcoming changes to the format conversion will mostly blit from
+> XRGB8888 to some other format. So put the source format in blit's
+> outer branches to make the code more readable. For cases where
+> a format only changes its endianness, such as XRGB565, introduce
+> dedicated branches that handle this for all formats.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/firmware/sysfb_simplefb.c | 43 ++++++++++++++++++++++++++-----
->  1 file changed, 37 insertions(+), 6 deletions(-)
-> 
-
-[...]
-
-> +	/*
-> +	 * The meaning of depth and bpp for direct-color formats is
-> +	 * inconsistent:
-> +	 *
-> +	 *  - DRM format info specifies depth as the number of color
-> +	 *    bits; including alpha, but not including filler bits.
-> +	 *  - Linux' EFI platform code computes lfb_depth from the
-> +	 *    individual color channels, including the reserved bits.
-> +	 *  - VBE 1.1 defines lfb_depth for XRGB1555 as 16, but later
-> +	 *    versions use 15.
-> +	 *  - On the kernel command line, 'bpp' of 32 is usually
-> +	 *    XRGB8888 including the filler bits, but 15 is XRGB1555
-> +	 *    not including the filler bit.
-> +	 *
-> +	 * It's not easily possible to fix this in struct screen_info,
-> +	 * as this could break UAPI. The best solution is to compute
-> +	 * bits_per_pixel here and ignore lfb_depth. In the loop below,
-> +	 * ignore simplefb formats with alpha bits, as EFI and VESA
-> +	 * don't specify alpha channels.
-> +	 */
-
-Thanks a lot for adding this comment. It's very insightful.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
