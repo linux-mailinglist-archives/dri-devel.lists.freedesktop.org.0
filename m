@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6F2651CCE
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 10:04:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 449BA651CE3
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 10:10:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 652D410E09C;
-	Tue, 20 Dec 2022 09:03:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB3DB10E0B8;
+	Tue, 20 Dec 2022 09:10:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
- [IPv6:2001:4860:4864:20::2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 437F410E09C;
- Tue, 20 Dec 2022 09:03:54 +0000 (UTC)
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-1442977d77dso14692586fac.6; 
- Tue, 20 Dec 2022 01:03:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UzvNL+TsR6wJp/VVk0N1EHg2FFHt1BbH9bwtEX37Mi8=;
- b=l3PXEmY/Kh0b3BeAbHpZa0feNze1JUpM8+hStS2W1fAAhwIMr19+c7vde4hb3ClotP
- Je6KhjVpQ3nXGc+tmOdyLDy1po5FWDBYKeh3I0dcKWIb49j6tkB8f3AIgrICYeIEDYo6
- vwbcqk2Oz9ctUixuyecsbsY7PtYPFr5RuMYa2CAix4hdO/zOtysHwkRTIuW4Za+b8R0T
- fD0n7MzKKc8jibi1q4YkG7zWGsHs7/zmm35OhNU+w5QLrsyN1gZBG1PVQPHgTF3MMs9H
- 4LkJytrnPymeTkXq5oXhKRy0tzt2k3W2V1XWQz0kOpmvPcCjQ23PtZWRsfyXpOxXk5yP
- jicQ==
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com
+ [209.85.219.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CA5310E0B8
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 09:10:01 +0000 (UTC)
+Received: by mail-qv1-f52.google.com with SMTP id u10so7920155qvp.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 01:10:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UzvNL+TsR6wJp/VVk0N1EHg2FFHt1BbH9bwtEX37Mi8=;
- b=Bgt+WNyRHY/hAdhQi9jKnoVht9MTZxE/ewEZZ56KBH4IrYRd9rKf0oNmdy3rI5LS1f
- nfeylwB58bbC4pkRVOBG8ghfhVu8EFpLFPxWfcrNfdd4S4c75n9bbvvOhrdjpLKZCT9y
- fy+6+ddAsu5mwWjwyNz2sd0d4QfwjCTU69NMaEoGeP8DVztBEIlDKK8j8LK/1bLaZfgK
- 5OcpQh5lv8rygvqeaPnFhQSoqlZ7u8+KhQ8tamewRoweqSb/Np6/GDWMPlkUhSIER3vL
- PR3U0Yzv15qiHusXiwn5cLT8l/H67v0bGD48FbeElG0jqZHegwhaA9OP+YiDokVbRhHj
- hhMQ==
-X-Gm-Message-State: AFqh2krpwtdc2jtbXPnaFY4lUNJaULNVult4h+TeO5sPymKcuVi5E1Kh
- z2j52fSwqKQ7ZN/hk2aYyN20prdNs18iXmo3Wh8=
-X-Google-Smtp-Source: AMrXdXveFr80wwpqNX3EU58rZEURdkoOkmVxIfys7NPcpdUmvbzGH0j/NN1RcyEMJ4xghKpphstg1uEAj1cGVX+gMlU=
-X-Received: by 2002:a05:6870:6083:b0:14b:7e0a:eefa with SMTP id
- t3-20020a056870608300b0014b7e0aeefamr1637834oae.49.1671527033285; Tue, 20 Dec
- 2022 01:03:53 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2ZhjR6xVXhmmNThDy/2WcduVvAA5lIhOxqbWgZts2YU=;
+ b=lNNVvMBcIoFmz4H8E8r3c4U+auYTHnFVGOfXqricHVHWtWCA8sel4xpHghHkB0kDq5
+ JfOhJ92zF3dmf4F2eloQUaEs/cR+NE1lrc63GYP/gOdw+yrNoozzu1cJegqUpcUl+pbn
+ kqoCLfTW/poFm567V72jHf6O99xJxYhcSOrZy/cFS/PLwuNmKwTSPEeLjatssPYCf8k3
+ YxtYaIdUN7f92bnojtftoKYB62MiSXg78/FIfhdjSMTP2mDJSADy00SpzoEkvUG/izWy
+ kJOKykpn2/cxgbg+UvHYcg5Np45m5/cZTt1dsBB5iUk8AVy4KzaDXoMQsji2OfOzzfEt
+ S8UA==
+X-Gm-Message-State: ANoB5pmaKRXkcZy1sMGnamVomTij4ESFkxKI7lUAkh0g71VDdoZ7h/Vy
+ rpnJ9u53mCmI6q6PCEzA7iqZMVgMuJLy/g==
+X-Google-Smtp-Source: AA0mqf5XLHyljY+/R61sORjwAM8AOjejSh8uDHY3NqDFTXPqrQ7R/P2Lygtv1j4K8UYhVdu70FbCuA==
+X-Received: by 2002:ad4:42a9:0:b0:4c7:5f25:83fc with SMTP id
+ e9-20020ad442a9000000b004c75f2583fcmr60446766qvr.6.1671527400509; 
+ Tue, 20 Dec 2022 01:10:00 -0800 (PST)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com.
+ [209.85.219.181]) by smtp.gmail.com with ESMTPSA id
+ br12-20020a05620a460c00b006faf76e7c9asm8565837qkb.115.2022.12.20.01.10.00
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Dec 2022 01:10:00 -0800 (PST)
+Received: by mail-yb1-f181.google.com with SMTP id j206so12277095ybj.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 01:09:59 -0800 (PST)
+X-Received: by 2002:a25:7a02:0:b0:6f7:952d:b145 with SMTP id
+ v2-20020a257a02000000b006f7952db145mr45769325ybc.604.1671527399695; Tue, 20
+ Dec 2022 01:09:59 -0800 (PST)
 MIME-Version: 1.0
-References: <11728bc1-7b59-1623-b517-d1a0d57eb275@intel.com>
- <20221219125204.1001149-1-zyytlz.wz@163.com>
- <20221220082255.GE30028@zhen-hp.sh.intel.com>
-In-Reply-To: <20221220082255.GE30028@zhen-hp.sh.intel.com>
-From: Zheng Hacker <hackerzheng666@gmail.com>
-Date: Tue, 20 Dec 2022 17:03:41 +0800
-Message-ID: <CAJedcCzD6Zc=ncxH5821OA=zL49bUFqD2hYT=TruU2AVt+_2hg@mail.gmail.com>
-Subject: Re: [RESEND PATCH v4] drm/i915/gvt: fix double free bug in
- split_2MB_gtt_entry
-To: Zhenyu Wang <zhenyuw@linux.intel.com>
+References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221219140139.294245-8-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y6Db2C+JehUPYSQp@pendragon.ideasonboard.com>
+ <2f252958-1bb1-006a-b450-1315be8a3c9f@xs4all.nl>
+In-Reply-To: <2f252958-1bb1-006a-b450-1315be8a3c9f@xs4all.nl>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 20 Dec 2022 10:09:46 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXd7Q1WWdo-rwfad1-BwuuH5vxt9Kx2Zv2Ok2rQLvh_wA@mail.gmail.com>
+Message-ID: <CAMuHMdXd7Q1WWdo-rwfad1-BwuuH5vxt9Kx2Zv2Ok2rQLvh_wA@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB,
+ Y210)
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,109 +70,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alex000young@gmail.com, security@kernel.org, tvrtko.ursulin@linux.intel.com,
- airlied@linux.ie, gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- 1002992920@qq.com, Zheng Wang <zyytlz.wz@163.com>,
- intel-gvt-dev@lists.freedesktop.org, zhi.a.wang@intel.com
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ linux-renesas-soc@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Zhenyu Wang <zhenyuw@linux.intel.com> =E4=BA=8E2022=E5=B9=B412=E6=9C=8820=
-=E6=97=A5=E5=91=A8=E4=BA=8C 16:25=E5=86=99=E9=81=93=EF=BC=9A
->
-> On 2022.12.19 20:52:04 +0800, Zheng Wang wrote:
-> > If intel_gvt_dma_map_guest_page failed, it will call
-> >  ppgtt_invalidate_spt, which will finally free the spt. But the caller =
-does
-> >  not notice that, it will free spt again in error path.
+Hi Hans,
+
+On Tue, Dec 20, 2022 at 10:01 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> On 19/12/2022 22:47, Laurent Pinchart wrote:
+> > (CC'ing Sakari and Hans)
 > >
->
-> It's not clear from this description which caller is actually wrong,
-> better to clarify the problem in ppgtt_populate_spt_by_guest_entry() func=
-tion.
->
-
-Get it, will do in the next fix.
-
-
-> >                                                  PAGE_SIZE, &dma_addr);
-> > -             if (ret) {
-> > -                     ppgtt_invalidate_spt(spt);
-> > -                     return ret;
-> > -             }
-> > +             if (ret)
-> > +                     goto err;
->
-> I think it's fine to remove this and leave to upper caller, but again ple=
-ase
-> describe the behavior change in commit message as well, e.g to fix the sa=
-nity
-> of spt destroy that leaving previous invalidate and free of spt to caller=
- function
-> instead of within callee function.
-
-Sorry for my bad habit. Will do in the next version.
-
-> >               sub_se.val64 =3D se->val64;
+> > Thank you for the patch.
 > >
-> >               /* Copy the PAT field from PDE. */
-> > @@ -1231,6 +1229,47 @@ static int split_2MB_gtt_entry(struct intel_vgpu=
- *vgpu,
-> >       ops->set_pfn(se, sub_spt->shadow_page.mfn);
-> >       ppgtt_set_shadow_entry(spt, se, index);
-> >       return 0;
-> > +err:
-> > +     /* Undone the existing mappings of DMA addr. */
-> > +     for_each_present_shadow_entry(spt, &e, parent_index) {
+> > On Mon, Dec 19, 2022 at 04:01:39PM +0200, Tomi Valkeinen wrote:
+> >> Add new pixel formats: RGBX1010102, RGBA1010102, ARGB2101010 and Y210.
+> >>
+> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> >> ---
+> >>  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 24 +++++++++++++
+> >>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 49 +++++++++++++++++++++++++--
+> >>  2 files changed, 71 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> >> index 8c2719efda2a..8ccabf5a30c4 100644
+> >> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> >> @@ -259,6 +259,24 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+> >>              .bpp = 32,
+> >>              .planes = 1,
+> >>              .hsub = 1,
+> >> +    }, {
+> >> +            .fourcc = DRM_FORMAT_RGBX1010102,
+> >
+> > Ah, here the format makes sense.
+> >
+> >> +            .v4l2 = V4L2_PIX_FMT_XBGR2101010,
+> >
+> > But this is horrible :-( Could we use the same names as DRM for new
+> > formats, when there is no conflict with existing V4L2 formats ?
+> >
+> > Sakari, Hans, what do you think ? Please see patch 1/7 in the series for
+> > the format definitions.
 >
-> sub_spt? We're undoing what's mapped for sub_spt right?
+> V4L2 describes pixel formats based on how they appear in memory from the
+> lowest to highest memory address.
 
-Yes, will change it to sub_spt in the next version.
+So that means big endian?
 
->
-> > +             switch (e.type) {
-> > +             case GTT_TYPE_PPGTT_PTE_4K_ENTRY:
-> > +                     gvt_vdbg_mm("invalidate 4K entry\n");
-> > +                     ppgtt_invalidate_pte(spt, &e);
-> > +                     break;
-> > +             case GTT_TYPE_PPGTT_PTE_64K_ENTRY:
-> > +                     /* We don't setup 64K shadow entry so far. */
-> > +                     WARN(1, "suspicious 64K gtt entry\n");
-> > +                     continue;
-> > +             case GTT_TYPE_PPGTT_PTE_2M_ENTRY:
-> > +                     gvt_vdbg_mm("invalidate 2M entry\n");
-> > +                     continue;
-> > +             case GTT_TYPE_PPGTT_PTE_1G_ENTRY:
-> > +                     WARN(1, "GVT doesn't support 1GB page\n");
-> > +                     continue;
-> > +             case GTT_TYPE_PPGTT_PML4_ENTRY:
-> > +             case GTT_TYPE_PPGTT_PDP_ENTRY:
-> > +             case GTT_TYPE_PPGTT_PDE_ENTRY:
->
-> I don't think this all entry type makes sense, as here we just split
-> 2M entry for multiple 4K PTE entry.
+> If I am not mistaken, DRM uses the CPU order. So that explains the difference
+> in naming. I don't think we should hide that difference. And V4L2 has been
+> quite consistent in following memory ordering in the naming (except possibly
+> for some of the really old pixelformats).
 
-I got it. I will leave the code for handling 4K PTE entry only.
+DRM uses little endian.
 
->
-> > +                     gvt_vdbg_mm("invalidate PMUL4/PDP/PDE entry\n");
-> > +                     ret1 =3D ppgtt_invalidate_spt_by_shadow_entry(
-> > +                                     spt->vgpu, &e);
-> > +                     if (ret1) {
-> > +                             gvt_vgpu_err("fail: shadow page %p shadow=
- entry 0x%llx type %d\n",
-> > +                             spt, e.val64, e.type);
-> > +                             goto free_spt;
-> > +                     }
->
-> for above reason, I don't think this is valid.
+> Departing from that would be more of a hindrance than a help, IMHO.
 
-Got it.
+Gr{oetje,eeting}s,
 
+                        Geert
 
-Thanks for your carefully reviewing. I'll try to fix that in the coming pat=
-ch.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Best regards,
-Zheng Wang
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
