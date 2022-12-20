@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC100652DFB
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 09:31:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC9C652DF9
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 09:30:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20F7210E445;
-	Wed, 21 Dec 2022 08:29:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ED1810E441;
+	Wed, 21 Dec 2022 08:29:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender-of-o50.zoho.in (sender-of-o50.zoho.in [103.117.158.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0DDE10E3E7
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD69310E3EA
  for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 20:17:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1671567417; cv=none; d=zohomail.in; s=zohoarc; 
- b=O2fp4AM28cnbKodTzMrLVyXE0wr/t8Ys7yBBf4qImAw228dgshvX1rn6+8uxvWW1ezHSQJWN8cmwXHMG7W1Q5cKwjxANbVy3Ia0U0eff+D6I6HUTy5cWrZP8JZEg/gqLjRREk5JvwT55tlfHD4a/wLfb1lErrCpUi84IaY5Tiho=
+ARC-Seal: i=1; a=rsa-sha256; t=1671567418; cv=none; d=zohomail.in; s=zohoarc; 
+ b=RxpB9Qx89WiayJO/tFTPgNV32PzkUlETnWLKRcX8u+AnwyHQhTCH2R615iv8lwMrDhB37f8aU36eP5vpVIMtCQJx6fpK8QFoCq8MkqeLvexDTL0yi7HQbbDcxNnNQok9bQpkoGh/MLRIdrY8HUQ++SwNeg6X9WGCe5l+e7eBXWQ=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1671567417;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To;
- bh=JlRM3rCUPaDSbEmeJCKwpeV0esy7S6JTSYavzUNBpRM=; 
- b=Hj+rTSLHEjJPUEqjm2I26BNxLnIqMU1LQqHKC4DgnAkPTlLz258PC1MsfZJ6h+u+NFTYTnFlYIAIG4HpnBrOSznxTYobo3TpK/nwVlB1FvEE/1IVcItYihuocByl4EHNfP10JVU+eDSNOwfknVXKnvVV69vBWNFsuA9pV2RDP3k=
+ s=zohoarc; t=1671567418;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
+ bh=8orTNZ7jH2IbVd6BJiHzi5ZaE1cvsLVmvg/u/utvjZI=; 
+ b=C09vsTbVxoiz51tNkaCe9OVR6oEz8Uo1uolntirF0lnQjckcj73wq4LtU1Oqlhuo8cdyMW2DhnhT2YDiIpzvKSPT+bBgWFBzgCrroU66oMk7kyJ2REtff4aqhkJNHbCarqysbeGmpQTIuFIsQjftL9valWwvcEM2pLdNIz5hfdY=
 ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
  spf=pass  smtp.mailfrom=code@siddh.me;
  dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1671567417; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1671567418; 
  s=zmail; d=siddh.me; i=code@siddh.me;
- h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=JlRM3rCUPaDSbEmeJCKwpeV0esy7S6JTSYavzUNBpRM=;
- b=ObSev0hn26mww8d1Jxy2qHMLYMKH+RGdBoOFLOcbEzevFP0ohDKPTESX0wt/gfIL
- 3b6yhzF1ErgYCsGmdJkDyb185J1e6/p5NnmdxKGs2KmKAIqSXc6Z826DQMhoLmS2bNW
- thiHfEkG0bsDwLs6KFSpf2q2GEKN3o0eNgbmbPrs=
+ h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=8orTNZ7jH2IbVd6BJiHzi5ZaE1cvsLVmvg/u/utvjZI=;
+ b=ANsucVNkTucFGn5//1vyncsUXHFq8K2uGUNYDW9fTXlRST1JWlOTtrjrEC7PpM4A
+ amC2C8LflBqaWhOjzt2X3rnGnxGYDt1U4VEiQS4NZyvdC5xvDh3Z4X9QPfU9plwurgR
+ 2vSsWR2GGHhCTWX/BCaswIN+eHAcsCtOFU08zs3I=
 Received: from kampyooter.. (110.226.31.37 [110.226.31.37]) by mx.zoho.in
- with SMTPS id 16715674172169.971315320491499;
- Wed, 21 Dec 2022 01:46:57 +0530 (IST)
+ with SMTPS id 1671567418345814.024395625998;
+ Wed, 21 Dec 2022 01:46:58 +0530 (IST)
 From: Siddh Raman Pant <code@siddh.me>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Message-ID: <cover.1671566741.git.code@siddh.me>
-Subject: [PATCH 00/10] drm: Remove usage of deprecated DRM_* macros
-Date: Wed, 21 Dec 2022 01:46:35 +0530
+Message-ID: <da27fd5d4725a8becd426c01ba5652a44cf62ce5.1671566741.git.code@siddh.me>
+Subject: [PATCH 01/10] drm: Remove usage of deprecated DRM_INFO
+Date: Wed, 21 Dec 2022 01:46:36 +0530
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <cover.1671566741.git.code@siddh.me>
+References: <cover.1671566741.git.code@siddh.me>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-ZohoMailClient: External
@@ -63,76 +65,85 @@ Cc: linux-kernel <linux-kernel@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset aims to remove usages of deprecated DRM_* macros from the
-files residing in drivers/gpu/drm root.
+drm_print.h says DRM_INFO is deprecated.
+Thus, use newer printing macros drm_info() and pr_info().
 
-In process, I found out that NULL as first argument of drm_dbg_* wasn't
-working, but it was listed as the alternative in deprecation comment,
-so I fixed that before removing usages of DRM_DEBUG_* macros.
+Signed-off-by: Siddh Raman Pant <code@siddh.me>
+---
+ drivers/gpu/drm/drm_client_modeset.c | 2 +-
+ drivers/gpu/drm/drm_connector.c      | 7 ++++---
+ drivers/gpu/drm/drm_drv.c            | 2 +-
+ drivers/gpu/drm/drm_pci.c            | 2 +-
+ 4 files changed, 7 insertions(+), 6 deletions(-)
 
-This patchset should be applied in order as changes might be dependent.
-
-Please review and let me know if any errors are there, and hopefully
-this gets accepted.
-
-Siddh Raman Pant (10):
-  drm: Remove usage of deprecated DRM_INFO
-  drm: Remove usage of deprecated DRM_NOTE
-  drm: Remove usage of deprecated DRM_ERROR
-  drm/print: Fix support for NULL as first argument of drm_dbg_*
-  drm: Remove usage of deprecated DRM_DEBUG
-  drm: Remove usage of deprecated DRM_DEBUG_DRIVER
-  drm: Remove usage of deprecated DRM_DEBUG_KMS
-  drm: Remove usage of deprecated DRM_DEBUG_PRIME
-  drm/drm_blend: Remove usage of deprecated DRM_DEBUG_ATOMIC
-  drm/drm_lease: Remove usage of deprecated DRM_DEBUG_LEASE
-
- drivers/gpu/drm/drm_agpsupport.c        |   4 +-
- drivers/gpu/drm/drm_blend.c             |  13 ++-
- drivers/gpu/drm/drm_bridge.c            |   8 +-
- drivers/gpu/drm/drm_bufs.c              | 122 ++++++++++++------------
- drivers/gpu/drm/drm_client_modeset.c    | 118 +++++++++++++----------
- drivers/gpu/drm/drm_color_mgmt.c        |   4 +-
- drivers/gpu/drm/drm_connector.c         |  28 +++---
- drivers/gpu/drm/drm_context.c           |  18 ++--
- drivers/gpu/drm/drm_crtc.c              |  36 ++++---
- drivers/gpu/drm/drm_crtc_helper.c       |  62 ++++++------
- drivers/gpu/drm/drm_debugfs_crc.c       |   8 +-
- drivers/gpu/drm/drm_displayid.c         |   6 +-
- drivers/gpu/drm/drm_dma.c               |  10 +-
- drivers/gpu/drm/drm_drv.c               |  28 +++---
- drivers/gpu/drm/drm_edid.c              |  17 ++--
- drivers/gpu/drm/drm_file.c              |  18 ++--
- drivers/gpu/drm/drm_flip_work.c         |   2 +-
- drivers/gpu/drm/drm_framebuffer.c       |   3 +-
- drivers/gpu/drm/drm_gem.c               |   7 +-
- drivers/gpu/drm/drm_gem_dma_helper.c    |   6 +-
- drivers/gpu/drm/drm_gem_shmem_helper.c  |   6 +-
- drivers/gpu/drm/drm_hashtab.c           |  10 +-
- drivers/gpu/drm/drm_ioc32.c             |  13 +--
- drivers/gpu/drm/drm_ioctl.c             |  24 ++---
- drivers/gpu/drm/drm_irq.c               |   4 +-
- drivers/gpu/drm/drm_kms_helper_common.c |   2 +-
- drivers/gpu/drm/drm_lease.c             |  68 ++++++-------
- drivers/gpu/drm/drm_legacy_misc.c       |   4 +-
- drivers/gpu/drm/drm_lock.c              |  36 +++----
- drivers/gpu/drm/drm_mipi_dbi.c          |  19 ++--
- drivers/gpu/drm/drm_mm.c                |   8 +-
- drivers/gpu/drm/drm_mode_config.c       |   2 +-
- drivers/gpu/drm/drm_mode_object.c       |   6 +-
- drivers/gpu/drm/drm_modes.c             |  10 +-
- drivers/gpu/drm/drm_modeset_helper.c    |   2 +-
- drivers/gpu/drm/drm_pci.c               |  14 +--
- drivers/gpu/drm/drm_plane.c             |  46 ++++-----
- drivers/gpu/drm/drm_probe_helper.c      |  39 ++++----
- drivers/gpu/drm/drm_rect.c              |   4 +-
- drivers/gpu/drm/drm_scatter.c           |  19 ++--
- drivers/gpu/drm/drm_syncobj.c           |   2 +-
- drivers/gpu/drm/drm_sysfs.c             |  22 ++---
- drivers/gpu/drm/drm_vm.c                |  45 +++++----
- include/drm/drm_print.h                 |  91 ++++++++++++++----
- 44 files changed, 549 insertions(+), 465 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_cli=
+ent_modeset.c
+index d553e793e673..2b76d4828c5f 100644
+--- a/drivers/gpu/drm/drm_client_modeset.c
++++ b/drivers/gpu/drm/drm_client_modeset.c
+@@ -335,7 +335,7 @@ static bool drm_client_target_cloned(struct drm_device =
+*dev,
+ =09=09DRM_DEBUG_KMS("can clone using 1024x768\n");
+ =09=09return true;
+ =09}
+-=09DRM_INFO("kms: can't enable cloning when we probably wanted to.\n");
++=09drm_info(dev, "kms: can't enable cloning when we probably wanted to.\n"=
+);
+ =09return false;
+ }
+=20
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connecto=
+r.c
+index 547356e00341..34c26b2a974e 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -165,13 +165,14 @@ static void drm_connector_get_cmdline_mode(struct drm=
+_connector *connector)
+ =09=09return;
+=20
+ =09if (mode->force) {
+-=09=09DRM_INFO("forcing %s connector %s\n", connector->name,
+-=09=09=09 drm_get_connector_force_name(mode->force));
++=09=09drm_info(connector->dev, "forcing %s connector %s\n",
++=09=09=09 connector->name, drm_get_connector_force_name(mode->force));
+ =09=09connector->force =3D mode->force;
+ =09}
+=20
+ =09if (mode->panel_orientation !=3D DRM_MODE_PANEL_ORIENTATION_UNKNOWN) {
+-=09=09DRM_INFO("cmdline forces connector %s panel_orientation to %d\n",
++=09=09drm_info(connector->dev,
++=09=09=09 "cmdline forces connector %s panel_orientation to %d\n",
+ =09=09=09 connector->name, mode->panel_orientation);
+ =09=09drm_connector_set_panel_orientation(connector,
+ =09=09=09=09=09=09    mode->panel_orientation);
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 73b845a75d52..bc98e4bcf2c1 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -938,7 +938,7 @@ int drm_dev_register(struct drm_device *dev, unsigned l=
+ong flags)
+ =09if (drm_core_check_feature(dev, DRIVER_MODESET))
+ =09=09drm_modeset_register_all(dev);
+=20
+-=09DRM_INFO("Initialized %s %d.%d.%d %s for %s on minor %d\n",
++=09drm_info(dev, "Initialized %s %d.%d.%d %s for %s on minor %d\n",
+ =09=09 driver->name, driver->major, driver->minor,
+ =09=09 driver->patchlevel, driver->date,
+ =09=09 dev->dev ? dev_name(dev->dev) : "virtual device",
+diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
+index 39d35fc3a43b..18cf7fa23698 100644
+--- a/drivers/gpu/drm/drm_pci.c
++++ b/drivers/gpu/drm/drm_pci.c
+@@ -262,7 +262,7 @@ void drm_legacy_pci_exit(const struct drm_driver *drive=
+r,
+ =09=09}
+ =09=09mutex_unlock(&legacy_dev_list_lock);
+ =09}
+-=09DRM_INFO("Module unloaded\n");
++=09pr_info("Module unloaded\n");
+ }
+ EXPORT_SYMBOL(drm_legacy_pci_exit);
+=20
 --=20
 2.35.1
 
