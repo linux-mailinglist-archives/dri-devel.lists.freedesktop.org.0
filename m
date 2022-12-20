@@ -2,47 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BACF6526E9
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 20:28:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D965652733
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 20:40:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 394E010E3D5;
-	Tue, 20 Dec 2022 19:28:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 468BD10E3BD;
+	Tue, 20 Dec 2022 19:40:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B865110E3CC
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 19:28:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=cjwugnyOcfkc5U5fWcTHxiaxFg7f7rBtDIM03J92Ct0=; b=SnBtcTV75E1lEfSyHuKfTiMV5H
- dMwnXrYDrExtJHABsJMQgpNI2DqpYMI2olV+z/urHHiT3C1ZtDTjema5OKq06/N2qkYkJLeGLXm5g
- l/sXtbaeIeXm/nkVlgAvu5iKq1Ezgz2HN6J7/KVvMIxvdoKVAoNQvTUhHDArZlKD+TWir5KTQmXZt
- lv6BvBQmi0J1H8eVp405HYKR1f+Nz4V8AIa93X0BnmS574dZAfJi0Utos3uUnHohfmQWwIdbwQa5H
- VRl4zrt8JzJmyCGTWn5XSMppc2YXzL2G0YBy7AdGCsLA+/NiNo0K/NgvNAS9Z6gseI/xYA0jGHyGw
- t+3dXwgw==;
-Received: from [177.34.169.227] (helo=[192.168.0.8])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1p7iHI-007609-Ub; Tue, 20 Dec 2022 20:27:53 +0100
-Message-ID: <9c9d97a9-7543-06ed-f50b-f48b1c3a9def@igalia.com>
-Date: Tue, 20 Dec 2022 16:27:43 -0300
+Received: from jabberwock.ucw.cz (unknown [46.255.230.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4150C10E3BD
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 19:40:08 +0000 (UTC)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+ id 8D0971C09F9; Tue, 20 Dec 2022 20:39:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+ t=1671565196;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z6Z4LV97YlfeiHNsI0GPtvBWuPiFBia9iXHj9p0V7f4=;
+ b=iSK/6k6YdYfe0pf3QIaGF0m9os72nxF3CAqc4kVpFydNcBeDZyAXwLd29ygI3aWdCD/P4E
+ hjb1tP04xpxvEqTGSku5jVwZ3Ze5vyiRMUS/PfukmleXTPDA24OIQLtf5lIYLLX2i19Nc9
+ ctnIK+xkRK2AK199jxQW3iEge/uxrTY=
+Date: Tue, 20 Dec 2022 20:39:56 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH] treewide: Convert del_timer*() to timer_shutdown*()
+Message-ID: <Y6IPjC9mpnoquL8S@duo.ucw.cz>
+References: <20221220134519.3dd1318b@gandalf.local.home>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH] drm/tests: reduce drm_mm_test stack usage
-To: Arnd Bergmann <arnd@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20221215163511.266214-1-arnd@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20221215163511.266214-1-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="Q4QndSuPZQc8d5xp"
+Content-Disposition: inline
+In-Reply-To: <20221220134519.3dd1318b@gandalf.local.home>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,63 +46,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Tom Rix <trix@redhat.com>,
- Daniel Latypov <dlatypov@google.com>, llvm@lists.linux.dev,
- Nick Desaulniers <ndesaulniers@google.com>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
- =?UTF-8?Q?Ma=c3=adra_Canal?= <maira.canal@usp.br>
+Cc: alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
+ linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, drbd-dev@lists.linbit.com,
+ linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-atm-general@lists.sourceforge.net, lvs-devel@vger.kernel.org,
+ linux-acpi@vger.kernel.org, SHA-cyfmac-dev-list@infineon.com,
+ coreteam@netfilter.org, intel-wired-lan@lists.osuosl.org,
+ linux-input@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
+ linux-ext4@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
+ linux-media@vger.kernel.org, bridge@lists.linux-foundation.org,
+ intel-gfx@lists.freedesktop.org, linux-nfs@vger.kernel.org,
+ linux-block@vger.kernel.org, cgroups@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Anna-Maria Gleixner <anna-maria@linutronix.de>,
+ brcm80211-dev-list.pdl@broadcom.com, Stephen Boyd <sboyd@kernel.org>,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Julia Lawall <Julia.Lawall@inria.fr>, linux-bluetooth@vger.kernel.org,
+ netfilter-devel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/15/22 13:34, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The check_reserve_boundaries function uses a lot of kernel stack,
-> and it gets inlined by clang, which makes __drm_test_mm_reserve
-> use even more of it, to the point of hitting the warning limit:
-> 
-> drivers/gpu/drm/tests/drm_mm_test.c:344:12: error: stack frame size (1048) exceeds limit (1024) in '__drm_test_mm_reserve' [-Werror,-Wframe-larger-than]
-> 
-> When building with gcc, this does not happen, but the structleak
-> plugin can similarly increase the stack usage and needs to be
-> disabled, as we do for all other kunit users.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Apart from the checkpatch problem on the function
-check_reserve_boundaries(),
+--Q4QndSuPZQc8d5xp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
+On Tue 2022-12-20 13:45:19, Steven Rostedt wrote:
+> [
+>   Linus,
+>=20
+>     I ran the script against your latest master branch:
+>     commit b6bb9676f2165d518b35ba3bea5f1fcfc0d969bf
+>=20
+>     As the timer_shutdown*() code is now in your tree, I figured
+>     we can start doing the conversions. At least add the trivial ones
+>     now as Thomas suggested that this gets applied at the end of the
+>     merge window, to avoid conflicts with linux-next during the
+>     development cycle. I can wait to Friday to run it again, and
+>     resubmit.
+>=20
+>     What is the best way to handle this?
+> ]
+>=20
+> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+>=20
+> Due to several bugs caused by timers being re-armed after they are
+> shutdown and just before they are freed, a new state of timers was added
+> called "shutdown". After a timer is set to this state, then it can no
+> longer be re-armed.
+>=20
+> The following script was run to find all the trivial locations where
+> del_timer() or del_timer_sync() is called in the same function that the
+> object holding the timer is freed. It also ignores any locations where the
+> timer->function is modified between the del_timer*() and the free(), as
+> that is not considered a "trivial" case.
+>=20
+> This was created by using a coccinelle script and the following
+commands:
 
-Best Regards,
-- Maíra Canal
+LED parts looks good to me.
 
-> ---
->  drivers/gpu/drm/tests/Makefile      | 2 ++
->  drivers/gpu/drm/tests/drm_mm_test.c | 2 +-
->  2 files changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
-> index b29ef1085cad..f896ef85c2f2 100644
-> --- a/drivers/gpu/drm/tests/Makefile
-> +++ b/drivers/gpu/drm/tests/Makefile
-> @@ -12,3 +12,5 @@ obj-$(CONFIG_DRM_KUNIT_TEST) += \
->  	drm_mm_test.o \
->  	drm_plane_helper_test.o \
->  	drm_rect_test.o
-> +
-> +CFLAGS_drm_mm_test.o := $(DISABLE_STRUCTLEAK_PLUGIN)
-> diff --git a/drivers/gpu/drm/tests/drm_mm_test.c b/drivers/gpu/drm/tests/drm_mm_test.c
-> index 89f12d3b4a21..90a5becc99b8 100644
-> --- a/drivers/gpu/drm/tests/drm_mm_test.c
-> +++ b/drivers/gpu/drm/tests/drm_mm_test.c
-> @@ -298,7 +298,7 @@ static bool expect_reserve_fail(struct kunit *test, struct drm_mm *mm, struct dr
->  	return false;
->  }
->  
-> -static bool check_reserve_boundaries(struct kunit *test, struct drm_mm *mm,
-> +static bool noinline_for_stack check_reserve_boundaries(struct kunit *test, struct drm_mm *mm,
->  				     unsigned int count,
->  				     u64 size)
->  {
+Getting it in just before -rc1 would be best solution for me.
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--Q4QndSuPZQc8d5xp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY6IPjAAKCRAw5/Bqldv6
+8qFnAJ4h7/YkgMmaMAi5FTo4aeUHj64lowCgv7jO/1JyimzJx+06JHTOXFlIAIk=
+=01ne
+-----END PGP SIGNATURE-----
+
+--Q4QndSuPZQc8d5xp--
