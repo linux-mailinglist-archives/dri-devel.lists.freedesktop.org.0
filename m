@@ -2,55 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F46365212D
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 14:03:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7125E652DE6
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 09:30:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E33B910E0C5;
-	Tue, 20 Dec 2022 13:02:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CCB310E420;
+	Wed, 21 Dec 2022 08:29:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1A7C10E0C5;
- Tue, 20 Dec 2022 13:02:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671541359; x=1703077359;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=iJuDXObgpOg4YbTwOvaH7CZlJ4WHoY6j/Dq9FIgcIsM=;
- b=WrAuDx788p49Gtp/TGwih7eSW7vdQdxGNrEp3GgnhksaalBTBR/CG3Sz
- Vv1VNPvAKcW3ZQWkuC2PxOZExpSfaCWXmXh/EoVGRSEzh5M2emulE/KBQ
- wNE0Hp3ocBbxBqJoAU2MAxdfN9UQicTusE6rMJZ2vTUdPQaofpcpW3kOG
- YDnnumzUki/GPf4e4yTRc7boD4C806VVdD1shGOjY6ulx48y6J9pmUk8K
- VgDlBOkDiuEYtfGCt7J3Nvld4K/IRP4XpCot0v16UUXW1cLMwjVLoXuAX
- Reivopa8VbPP1xIM6esNEIiRcpfad/rk+zYGDrwxYWa/QKLeNN07bI/lF A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="307286119"
-X-IronPort-AV: E=Sophos;i="5.96,259,1665471600"; d="scan'208";a="307286119"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Dec 2022 05:02:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="653085043"
-X-IronPort-AV: E=Sophos;i="5.96,259,1665471600"; d="scan'208";a="653085043"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by fmsmga007.fm.intel.com with SMTP; 20 Dec 2022 05:02:33 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 20 Dec 2022 15:02:33 +0200
-Date: Tue, 20 Dec 2022 15:02:33 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v6 06/12] drm/edid: refactor _drm_edid_connector_update()
- and rename
-Message-ID: <Y6GyadM7DS6Z+Hvd@intel.com>
-References: <cover.1671206131.git.jani.nikula@intel.com>
- <f35102562feb9ca63462a902a582c3494fccde4d.1671206131.git.jani.nikula@intel.com>
- <Y6GsQXvDKPKsHf30@intel.com> <87wn6m2q6m.fsf@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F57310E37D
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 13:04:17 +0000 (UTC)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
+ [91.154.32.225])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 82A6056D;
+ Tue, 20 Dec 2022 14:04:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1671541456;
+ bh=ZvxB9T70TZ+qvTHqWsyTCrDs0kOqGqkVtT2zxrsKU+M=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Hfe8povylTwTJG50jVH0Tn86842ASz9JpSTsbusSKKZes9PP6XL5b5jd/sDohCNTq
+ vyb1DV8if6dwIrMQ37CmKoPNnxvP2rjgWz59tfsW8UG/PgasyHhqBQvWWwB1FG+N57
+ FjRtiEzmfPSgLw0YXs9+kWhWajNsiJo2fq6HYRA4=
+Message-ID: <84977593-4671-7582-d5f2-cf69755f1145@ideasonboard.com>
+Date: Tue, 20 Dec 2022 15:04:13 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87wn6m2q6m.fsf@intel.com>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v6 5/5] drm/tidss: Enable Dual and Duplicate Modes for OLDI
+Content-Language: en-US
+To: Aradhya Bhatia <a-bhatia1@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20221119173019.15643-1-a-bhatia1@ti.com>
+ <20221119173019.15643-6-a-bhatia1@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20221119173019.15643-6-a-bhatia1@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Wed, 21 Dec 2022 08:29:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,107 +54,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
+ Jayesh Choudhary <j-choudhary@ti.com>, Rahul T R <r-ravikumar@ti.com>,
+ Devarsh Thakkar <devarsht@ti.com>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Vignesh Raghavendra <vigneshr@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 20, 2022 at 02:52:01PM +0200, Jani Nikula wrote:
-> On Tue, 20 Dec 2022, Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> > On Fri, Dec 16, 2022 at 06:00:20PM +0200, Jani Nikula wrote:
-> >> By moving update_display_info() out of _drm_edid_connector_update() we
-> >> make the function purely about adding modes.
-> >
-> > I don't think that's quite true. The 4:2:0 stuff still updates
-> > various display_info things from the mode parsing functions.
+On 19/11/2022 19:30, Aradhya Bhatia wrote:
+> The AM625 DSS IP contains 2 OLDI TXes which can work together to enable 2
+> cloned displays of or even a single dual-link display with higher
+> resolutions like WUXGA (1920x1200@60fps) with a reduced OLDI clock
+> frequency.
 > 
-> Right. I meant the top level. Will amend the commit message.
+> Configure the necessary register to enable and disable the OLDI TXes
+> with required modes configurations.
+> 
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> ---
+>   drivers/gpu/drm/tidss/tidss_dispc.c | 24 ++++++++++++++++++++++--
+>   1 file changed, 22 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+> index f26129fb1d8f..cf43de6216a5 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+> @@ -1012,8 +1012,8 @@ static void dispc_enable_oldi(struct dispc_device *dispc, u32 hw_videoport,
+>   	int count = 0;
+>   
+>   	/*
+> -	 * For the moment DUALMODESYNC, MASTERSLAVE, MODE, and SRC
+> -	 * bits of DISPC_VP_DSS_OLDI_CFG are set statically to 0.
+> +	 * For the moment MASTERSLAVE, and SRC bits of DISPC_VP_DSS_OLDI_CFG are
+> +	 * always set to 0.
+>   	 */
+>   
+>   	if (fmt->data_width == 24)
+> @@ -1030,6 +1030,26 @@ static void dispc_enable_oldi(struct dispc_device *dispc, u32 hw_videoport,
+>   
+>   	oldi_cfg |= BIT(0); /* ENABLE */
+>   
+> +	switch (dispc->oldi_mode) {
+> +	case OLDI_SINGLE_LINK_SINGLE_MODE:
+> +		/* All configuration is done for this mode.  */
+> +		break;
+> +
+> +	case OLDI_SINGLE_LINK_CLONE_MODE:
+> +		oldi_cfg |= BIT(5); /* CLONE MODE */
+> +		break;
+> +
+> +	case OLDI_DUAL_LINK_MODE:
+> +		oldi_cfg |= BIT(11); /* DUALMODESYNC */
+> +		oldi_cfg |= BIT(3); /* data-mapping field also indicates dual-link mode */
+> +		break;
+> +
+> +	default:
+> +		dev_warn(dispc->dev, "%s: Incorrect oldi mode. Returning.\n",
+> +			 __func__);
+> +		return;
+> +	}
+> +
+>   	dispc_vp_write(dispc, hw_videoport, DISPC_VP_DSS_OLDI_CFG, oldi_cfg);
+>   
+>   	while (!(oldi_reset_bit & dispc_read(dispc, DSS_SYSSTATUS)) &&
 
-So what's going to happen with the 4:2:0 stuff? Are we just clobbering
-it if/when someone calls the update_display_info() stuff w/o calling 
-add_modes()?
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-> 
-> BR,
-> Jani.
-> 
-> 
-> >
-> >> Rename accordingly.
-> >> 
-> >> Cc: Imre Deak <imre.deak@intel.com>
-> >> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> >> ---
-> >>  drivers/gpu/drm/drm_edid.c | 25 ++++++++++++-------------
-> >>  1 file changed, 12 insertions(+), 13 deletions(-)
-> >> 
-> >> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> >> index 15f69c362fc3..4ebfd7212bce 100644
-> >> --- a/drivers/gpu/drm/drm_edid.c
-> >> +++ b/drivers/gpu/drm/drm_edid.c
-> >> @@ -6575,19 +6575,12 @@ static int add_displayid_detailed_modes(struct drm_connector *connector,
-> >>  	return num_modes;
-> >>  }
-> >>  
-> >> -static int _drm_edid_connector_update(struct drm_connector *connector,
-> >> -				      const struct drm_edid *drm_edid)
-> >> +static int _drm_edid_connector_add_modes(struct drm_connector *connector,
-> >> +					 const struct drm_edid *drm_edid)
-> >>  {
-> >>  	const struct drm_display_info *info = &connector->display_info;
-> >>  	int num_modes = 0;
-> >>  
-> >> -	/*
-> >> -	 * CEA-861-F adds ycbcr capability map block, for HDMI 2.0 sinks.
-> >> -	 * To avoid multiple parsing of same block, lets parse that map
-> >> -	 * from sink info, before parsing CEA modes.
-> >> -	 */
-> >> -	update_display_info(connector, drm_edid);
-> >> -
-> >>  	if (!drm_edid)
-> >>  		return 0;
-> >>  
-> >> @@ -6692,7 +6685,9 @@ int drm_edid_connector_update(struct drm_connector *connector,
-> >>  {
-> >>  	int count;
-> >>  
-> >> -	count = _drm_edid_connector_update(connector, drm_edid);
-> >> +	update_display_info(connector, drm_edid);
-> >> +
-> >> +	count = _drm_edid_connector_add_modes(connector, drm_edid);
-> >>  
-> >>  	_drm_update_tile_info(connector, drm_edid);
-> >>  
-> >> @@ -6762,7 +6757,8 @@ EXPORT_SYMBOL(drm_connector_update_edid_property);
-> >>   */
-> >>  int drm_add_edid_modes(struct drm_connector *connector, struct edid *edid)
-> >>  {
-> >> -	struct drm_edid drm_edid;
-> >> +	struct drm_edid _drm_edid;
-> >> +	const struct drm_edid *drm_edid;
-> >>  
-> >>  	if (edid && !drm_edid_is_valid(edid)) {
-> >>  		drm_warn(connector->dev, "[CONNECTOR:%d:%s] EDID invalid.\n",
-> >> @@ -6770,8 +6766,11 @@ int drm_add_edid_modes(struct drm_connector *connector, struct edid *edid)
-> >>  		edid = NULL;
-> >>  	}
-> >>  
-> >> -	return _drm_edid_connector_update(connector,
-> >> -					  drm_edid_legacy_init(&drm_edid, edid));
-> >> +	drm_edid = drm_edid_legacy_init(&_drm_edid, edid);
-> >> +
-> >> +	update_display_info(connector, drm_edid);
-> >> +
-> >> +	return _drm_edid_connector_add_modes(connector, drm_edid);
-> >>  }
-> >>  EXPORT_SYMBOL(drm_add_edid_modes);
-> >>  
-> >> -- 
-> >> 2.34.1
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+  Tomi
 
--- 
-Ville Syrjälä
-Intel
