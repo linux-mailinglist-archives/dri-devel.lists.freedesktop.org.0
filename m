@@ -2,76 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66491651BEF
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 08:46:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D6E0651C4F
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 09:25:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09FCA10E348;
-	Tue, 20 Dec 2022 07:45:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCBD510E06B;
+	Tue, 20 Dec 2022 08:25:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5378610E33F;
- Tue, 20 Dec 2022 07:45:14 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BK5o1aw018062; Tue, 20 Dec 2022 07:45:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=pMcUY3LZvoRiFLzqqVqggek7oRF2En4eDVRgrrIAbns=;
- b=IVG7iBww4kEh3HeoOxwdONDbmp6O3PM4nBafnkOMNZdZyljyZTKwxBF+Y0P8ZfAGLTQl
- VDe+FAc/TqatIkPjfEN89m+hzfSfWerxjUMhZc1fmkHMvRhCv1RbGBaC1eS0FdDo0Lq3
- TuV3QgLkBKruALCaOUouIB1inFC1jXJE5Hofmi3x29fK2p+QsVGbmd0DvqvIMVKACwbY
- UeF7ava5wAVoFVXb5HPtduUBwPOsTHBop8oG5d5YOj3jSFynXmIwU0ZLzq4m9ypXoJ2Y
- A61jf7+2i99NMUTBm3XL2jKkUNussZ0r8nNh21hya57Axv+iucruvnySU4bphS3yFPBO 0Q== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mk39t8n81-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 20 Dec 2022 07:45:06 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BK7j6iA031321
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 20 Dec 2022 07:45:06 GMT
-Received: from hyd-lnxbld559.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Mon, 19 Dec 2022 23:45:00 -0800
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: freedreno <freedreno@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- Rob Clark <robdclark@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [PATCH v3 5/5] drm/msm/a6xx: Use genpd notifier to ensure cx-gdsc
- collapse
-Date: Tue, 20 Dec 2022 13:14:17 +0530
-Message-ID: <20221220131255.v3.5.I9e10545c6a448d5eb1b734839b871d1b3146dac3@changeid>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1671522257-38778-1-git-send-email-quic_akhilpo@quicinc.com>
-References: <1671522257-38778-1-git-send-email-quic_akhilpo@quicinc.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB84C10E06B;
+ Tue, 20 Dec 2022 08:24:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1671524697; x=1703060697;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=3Saonc4e64Y8dqAWVhyrq0LeRdHBKmGol/AJz6kvzNY=;
+ b=gcpfe8IFTGL+YdqrSXgcpCWdk40WNHhN7u6zLPjGzK7XMIIX9aS4w8E7
+ GwyeFfgfISzee55irzWegnxP64DO2ypqJ0cs2zgeKxXepvRzwygsMHlwH
+ 62C30eSWEyAcGIewkvE0rdovKPJz7nADy13ZbavkW+9sl8rNvXwdsjYUy
+ lwHBkgrQ7njjpvxNPvxXD0aAmHANaQAW5G8uD/jaaaaTlD/KSPqdF0sos
+ BMFP+ItKpWOVRfeFLifeMamTpma8b8vkkbwiI96dAtw9nQ5RDPImRCWuV
+ Q0jZInWBNM4tYdJz0Sr9FUEz7dYHupsC9kyY82gJ9eL2KjYV0ZgMNCnne g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="405809674"
+X-IronPort-AV: E=Sophos;i="5.96,258,1665471600"; 
+ d="asc'?scan'208";a="405809674"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Dec 2022 00:24:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="683329366"
+X-IronPort-AV: E=Sophos;i="5.96,258,1665471600"; 
+ d="asc'?scan'208";a="683329366"
+Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.159.108])
+ by orsmga001.jf.intel.com with ESMTP; 20 Dec 2022 00:24:52 -0800
+Date: Tue, 20 Dec 2022 16:22:55 +0800
+From: Zhenyu Wang <zhenyuw@linux.intel.com>
+To: Zheng Wang <zyytlz.wz@163.com>
+Subject: Re: [RESEND PATCH v4] drm/i915/gvt: fix double free bug in
+ split_2MB_gtt_entry
+Message-ID: <20221220082255.GE30028@zhen-hp.sh.intel.com>
+References: <11728bc1-7b59-1623-b517-d1a0d57eb275@intel.com>
+ <20221219125204.1001149-1-zyytlz.wz@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: _rivRPUKHNOu7VWyE5S17WqfbouO3nfw
-X-Proofpoint-GUID: _rivRPUKHNOu7VWyE5S17WqfbouO3nfw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-20_01,2022-12-15_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- mlxlogscore=999 spamscore=0 clxscore=1015 adultscore=0 priorityscore=1501
- impostorscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212200064
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="c7rykKtsZvepKFKR"
+Content-Disposition: inline
+In-Reply-To: <20221219125204.1001149-1-zyytlz.wz@163.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,151 +61,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Douglas Anderson <dianders@chromium.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Guenter Roeck <linux@roeck-us.net>
+Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
+Cc: alex000young@gmail.com, security@kernel.org, tvrtko.ursulin@linux.intel.com,
+ airlied@linux.ie, gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
+ hackerzheng666@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 1002992920@qq.com,
+ intel-gvt-dev@lists.freedesktop.org, zhi.a.wang@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As per the recommended recovery sequence of adreno gpu, cx gdsc should
-collapse at hardware before it is turned back ON. This helps to clear
-out the stale states in hardware before it is reinitialized. Use the
-genpd notifier along with the newly introduced
-dev_pm_genpd_synced_poweroff() api to ensure that cx gdsc has collapsed
-before we turn it back ON.
 
-Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
----
+--c7rykKtsZvepKFKR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-(no changes since v2)
+On 2022.12.19 20:52:04 +0800, Zheng Wang wrote:
+> If intel_gvt_dma_map_guest_page failed, it will call
+>  ppgtt_invalidate_spt, which will finally free the spt. But the caller do=
+es
+>  not notice that, it will free spt again in error path.
+>
 
-Changes in v2:
-- Select PM_GENERIC_DOMAINS from Kconfig
+It's not clear from this description which caller is actually wrong,
+better to clarify the problem in ppgtt_populate_spt_by_guest_entry() functi=
+on.
 
- drivers/gpu/drm/msm/Kconfig           |  1 +
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 15 +++++++++++++++
- drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  6 ++++++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 11 +++++++++++
- 4 files changed, 33 insertions(+)
+> Fix this by undoing the mapping of DMA address and freeing sub_spt.
+>=20
+> Fixes: b901b252b6cf ("drm/i915/gvt: Add 2M huge gtt support")
+> Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+> ---
+> v4:
+> - fix by undo the mapping of DMA address and free sub_spt suggested by Zhi
+>=20
+> v3:
+> - correct spelling mistake and remove unused variable suggested by Greg
+>=20
+> v2: https://lore.kernel.org/all/20221006165845.1735393-1-zyytlz.wz@163.co=
+m/
+>=20
+> v1: https://lore.kernel.org/all/20220928033340.1063949-1-zyytlz.wz@163.co=
+m/
+> ---
+>  drivers/gpu/drm/i915/gvt/gtt.c | 53 +++++++++++++++++++++++++++++-----
+>  1 file changed, 46 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gt=
+t.c
+> index 51e5e8fb505b..b472e021e5a4 100644
+> --- a/drivers/gpu/drm/i915/gvt/gtt.c
+> +++ b/drivers/gpu/drm/i915/gvt/gtt.c
+> @@ -1192,11 +1192,11 @@ static int split_2MB_gtt_entry(struct intel_vgpu =
+*vgpu,
+>  {
+>  	const struct intel_gvt_gtt_pte_ops *ops =3D vgpu->gvt->gtt.pte_ops;
+>  	struct intel_vgpu_ppgtt_spt *sub_spt;
+> -	struct intel_gvt_gtt_entry sub_se;
+> +	struct intel_gvt_gtt_entry sub_se, e;
+>  	unsigned long start_gfn;
+>  	dma_addr_t dma_addr;
+> -	unsigned long sub_index;
+> -	int ret;
+> +	unsigned long sub_index, parent_index;
+> +	int ret, ret1;
+> =20
+>  	gvt_dbg_mm("Split 2M gtt entry, index %lu\n", index);
+> =20
+> @@ -1209,10 +1209,8 @@ static int split_2MB_gtt_entry(struct intel_vgpu *=
+vgpu,
+>  	for_each_shadow_entry(sub_spt, &sub_se, sub_index) {
+>  		ret =3D intel_gvt_dma_map_guest_page(vgpu, start_gfn + sub_index,
+>  						   PAGE_SIZE, &dma_addr);
+> -		if (ret) {
+> -			ppgtt_invalidate_spt(spt);
+> -			return ret;
+> -		}
+> +		if (ret)
+> +			goto err;
 
-diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
-index 3c9dfdb0b328..74f5916f5ca5 100644
---- a/drivers/gpu/drm/msm/Kconfig
-+++ b/drivers/gpu/drm/msm/Kconfig
-@@ -28,6 +28,7 @@ config DRM_MSM
- 	select SYNC_FILE
- 	select PM_OPP
- 	select NVMEM
-+	select PM_GENERIC_DOMAINS
- 	help
- 	  DRM/KMS driver for MSM/snapdragon.
- 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index 1580d0090f35..c03830957c26 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -1507,6 +1507,17 @@ void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu)
- 	gmu->initialized = false;
- }
- 
-+static int cxpd_notifier_cb(struct notifier_block *nb,
-+			unsigned long action, void *data)
-+{
-+	struct a6xx_gmu *gmu = container_of(nb, struct a6xx_gmu, pd_nb);
-+
-+	if (action == GENPD_NOTIFY_OFF)
-+		complete_all(&gmu->pd_gate);
-+
-+	return 0;
-+}
-+
- int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- {
- 	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
-@@ -1640,6 +1651,10 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 		goto detach_cxpd;
- 	}
- 
-+	init_completion(&gmu->pd_gate);
-+	complete_all(&gmu->pd_gate);
-+	gmu->pd_nb.notifier_call = cxpd_notifier_cb;
-+
- 	/*
- 	 * Get a link to the GX power domain to reset the GPU in case of GMU
- 	 * crash
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-index 5a42dd4dd31f..0bc3eb443fec 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-@@ -4,8 +4,10 @@
- #ifndef _A6XX_GMU_H_
- #define _A6XX_GMU_H_
- 
-+#include <linux/completion.h>
- #include <linux/iopoll.h>
- #include <linux/interrupt.h>
-+#include <linux/notifier.h>
- #include "msm_drv.h"
- #include "a6xx_hfi.h"
- 
-@@ -90,6 +92,10 @@ struct a6xx_gmu {
- 	bool initialized;
- 	bool hung;
- 	bool legacy; /* a618 or a630 */
-+
-+	/* For power domain callback */
-+	struct notifier_block pd_nb;
-+	struct completion pd_gate;
- };
- 
- static inline u32 gmu_read(struct a6xx_gmu *gmu, u32 offset)
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 4b16e75dfa50..dd618b099110 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -10,6 +10,7 @@
- 
- #include <linux/bitfield.h>
- #include <linux/devfreq.h>
-+#include <linux/pm_domain.h>
- #include <linux/soc/qcom/llcc-qcom.h>
- 
- #define GPU_PAS_ID 13
-@@ -1258,6 +1259,7 @@ static void a6xx_recover(struct msm_gpu *gpu)
- {
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
- 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
- 	int i, active_submits;
- 
- 	adreno_dump_info(gpu);
-@@ -1290,6 +1292,10 @@ static void a6xx_recover(struct msm_gpu *gpu)
- 	 */
- 	gpu->active_submits = 0;
- 
-+	reinit_completion(&gmu->pd_gate);
-+	dev_pm_genpd_add_notifier(gmu->cxpd, &gmu->pd_nb);
-+	dev_pm_genpd_synced_poweroff(gmu->cxpd);
-+
- 	/* Drop the rpm refcount from active submits */
- 	if (active_submits)
- 		pm_runtime_put(&gpu->pdev->dev);
-@@ -1297,6 +1303,11 @@ static void a6xx_recover(struct msm_gpu *gpu)
- 	/* And the final one from recover worker */
- 	pm_runtime_put_sync(&gpu->pdev->dev);
- 
-+	if (!wait_for_completion_timeout(&gmu->pd_gate, msecs_to_jiffies(1000)))
-+		DRM_DEV_ERROR(&gpu->pdev->dev, "cx gdsc didn't collapse\n");
-+
-+	dev_pm_genpd_remove_notifier(gmu->cxpd);
-+
- 	pm_runtime_use_autosuspend(&gpu->pdev->dev);
- 
- 	if (active_submits)
--- 
-2.7.4
+I think it's fine to remove this and leave to upper caller, but again please
+describe the behavior change in commit message as well, e.g to fix the sani=
+ty
+of spt destroy that leaving previous invalidate and free of spt to caller f=
+unction
+instead of within callee function.
 
+>  		sub_se.val64 =3D se->val64;
+> =20
+>  		/* Copy the PAT field from PDE. */
+> @@ -1231,6 +1229,47 @@ static int split_2MB_gtt_entry(struct intel_vgpu *=
+vgpu,
+>  	ops->set_pfn(se, sub_spt->shadow_page.mfn);
+>  	ppgtt_set_shadow_entry(spt, se, index);
+>  	return 0;
+> +err:
+> +	/* Undone the existing mappings of DMA addr. */
+> +	for_each_present_shadow_entry(spt, &e, parent_index) {
+
+sub_spt? We're undoing what's mapped for sub_spt right?
+
+> +		switch (e.type) {
+> +		case GTT_TYPE_PPGTT_PTE_4K_ENTRY:
+> +			gvt_vdbg_mm("invalidate 4K entry\n");
+> +			ppgtt_invalidate_pte(spt, &e);
+> +			break;
+> +		case GTT_TYPE_PPGTT_PTE_64K_ENTRY:
+> +			/* We don't setup 64K shadow entry so far. */
+> +			WARN(1, "suspicious 64K gtt entry\n");
+> +			continue;
+> +		case GTT_TYPE_PPGTT_PTE_2M_ENTRY:
+> +			gvt_vdbg_mm("invalidate 2M entry\n");
+> +			continue;
+> +		case GTT_TYPE_PPGTT_PTE_1G_ENTRY:
+> +			WARN(1, "GVT doesn't support 1GB page\n");
+> +			continue;
+> +		case GTT_TYPE_PPGTT_PML4_ENTRY:
+> +		case GTT_TYPE_PPGTT_PDP_ENTRY:
+> +		case GTT_TYPE_PPGTT_PDE_ENTRY:
+
+I don't think this all entry type makes sense, as here we just split
+2M entry for multiple 4K PTE entry.
+
+> +			gvt_vdbg_mm("invalidate PMUL4/PDP/PDE entry\n");
+> +			ret1 =3D ppgtt_invalidate_spt_by_shadow_entry(
+> +					spt->vgpu, &e);
+> +			if (ret1) {
+> +				gvt_vgpu_err("fail: shadow page %p shadow entry 0x%llx type %d\n",
+> +				spt, e.val64, e.type);
+> +				goto free_spt;
+> +			}
+
+for above reason, I don't think this is valid.
+
+> +			break;
+> +		default:
+> +			GEM_BUG_ON(1);
+> +		}
+> +	}
+> +	/* Release the new alloced apt. */
+> +free_spt:
+> +	trace_spt_change(sub_spt->vgpu->id, "release", sub_spt,
+> +		sub_spt->guest_page.gfn, sub_spt->shadow_page.type);
+> +	ppgtt_free_spt(sub_spt);
+> +	sub_spt =3D NULL;
+> +	return ret;
+>  }
+> =20
+>  static int split_64KB_gtt_entry(struct intel_vgpu *vgpu,
+> --=20
+> 2.25.1
+>=20
+
+--c7rykKtsZvepKFKR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCY6Fw2gAKCRCxBBozTXgY
+J/tiAJ0chKIsYFFlZBTo+ayrE7mCyhznbwCgjL5xMyVtruGCC953PHVeafhZWoY=
+=8NeT
+-----END PGP SIGNATURE-----
+
+--c7rykKtsZvepKFKR--
