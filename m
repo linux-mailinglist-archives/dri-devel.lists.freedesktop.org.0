@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FAF56517EF
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 02:23:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A5956518E6
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 03:42:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93CD810E326;
-	Tue, 20 Dec 2022 01:23:52 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F11A10E30E
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 01:22:57 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id BEBD0B810FB;
- Tue, 20 Dec 2022 01:22:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 518F4C433F1;
- Tue, 20 Dec 2022 01:22:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671499374;
- bh=X9oXdWGp8Czq9afdCZs9pfRaGEKfFbRcAXXtFh4AwXs=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EZR/2ApLONKrMr78/tnqL5YAq1f3tqRR0e6oX41CBN2r8GT/1hd1yEO3TGIrGM8Rl
- gQgpGVl+YxM7drhCf6CCJY1Y72lvv4u4VtIBpwRe+y3afxMVXj5xuiTLR2GSOzEpyc
- SwLo2Soo7Wm5oThRbPFb56mEj116u7r/V4kwZzdsciMseoQMgZOwcPCeEHBLUyXsiL
- a/p1qg6kUm7QQMIRe5ed8cuksM0ZshvhxjS3fPdfdDptglxMHkERFbvNYuqhIIpQUO
- 8RRYuFLmpSaPJJvypXJccfuqp9FZQTmcKnRG0AE4ag6Fxrj6XhC/+5cpViq3wHm7eU
- Epnq+EzeuQtdA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 2/3] drm/sti: Fix return type of sti_{dvo, hda,
- hdmi}_connector_mode_valid()
-Date: Mon, 19 Dec 2022 20:22:48 -0500
-Message-Id: <20221220012249.1222904-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221220012249.1222904-1-sashal@kernel.org>
-References: <20221220012249.1222904-1-sashal@kernel.org>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79AB210E338;
+	Tue, 20 Dec 2022 02:41:19 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 346DB10E337;
+ Tue, 20 Dec 2022 02:41:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1671504070; x=1703040070;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=wH91EP8jFjF6xj+MTbXY+ce1xpQDjyik/Iv0htTI8Ck=;
+ b=VgV4tJj+t4epFIf7eZYskkIUknCLffbTOe7iBJnDjo2kTznAT0UDdB6N
+ GUQ3OAkPra6WnlfBmj2t5JKiAac3sq5ZNtberGJQJ9zitYUfZJ4h4LFo3
+ lcC1tCgimVv0F+95MVB0JzXF1Ajii365euQTsg6ifHjAP/defVSM33A2L
+ dqYpVtgv+eKI4IEbqZgV2AYi70usoNLrN5ifhg+O2loYDjLMt73+CBXIx
+ ww0giW2vPfcStAnR8yOTXz/c/z9kAO+xmFBXR1cmxrs9RfrbUBLJUveGA
+ NU+98XD0qLURFWBN1jb8Hw8vXP7P5HKfxcuXlFfQtuvpwenhLNHT6spkb A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="405761786"
+X-IronPort-AV: E=Sophos;i="5.96,258,1665471600"; d="scan'208";a="405761786"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2022 18:41:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="825062141"
+X-IronPort-AV: E=Sophos;i="5.96,258,1665471600"; d="scan'208";a="825062141"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.201])
+ by orsmga005.jf.intel.com with ESMTP; 19 Dec 2022 18:41:08 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH 0/3] Fixes for various UC related issues
+Date: Mon, 19 Dec 2022 18:41:44 -0800
+Message-Id: <20221220024147.4118685-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,99 +57,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Kees Cook <keescook@chromium.org>,
- llvm@lists.linux.dev, ndesaulniers@google.com, dri-devel@lists.freedesktop.org,
- Nathan Chancellor <nathan@kernel.org>, alain.volmat@foss.st.com
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nathan Chancellor <nathan@kernel.org>
+From: John Harrison <John.C.Harrison@Intel.com>
 
-[ Upstream commit 0ad811cc08a937d875cbad0149c1bab17f84ba05 ]
+Fix a bunch of assorted issues with firmware loading and GuC
+intialisation.
 
-With clang's kernel control flow integrity (kCFI, CONFIG_CFI_CLANG),
-indirect call targets are validated against the expected function
-pointer prototype to make sure the call target is valid to help mitigate
-ROP attacks. If they are not identical, there is a failure at run time,
-which manifests as either a kernel panic or thread getting killed. A
-proposed warning in clang aims to catch these at compile time, which
-reveals:
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 
-  drivers/gpu/drm/sti/sti_hda.c:637:16: error: incompatible function pointer types initializing 'enum drm_mode_status (*)(struct drm_connector *, struct drm_display_mode *)' with an expression of type 'int (struct drm_connector *, struct drm_display_mode *)' [-Werror,-Wincompatible-function-pointer-types-strict]
-          .mode_valid = sti_hda_connector_mode_valid,
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  drivers/gpu/drm/sti/sti_dvo.c:376:16: error: incompatible function pointer types initializing 'enum drm_mode_status (*)(struct drm_connector *, struct drm_display_mode *)' with an expression of type 'int (struct drm_connector *, struct drm_display_mode *)' [-Werror,-Wincompatible-function-pointer-types-strict]
-          .mode_valid = sti_dvo_connector_mode_valid,
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  drivers/gpu/drm/sti/sti_hdmi.c:1035:16: error: incompatible function pointer types initializing 'enum drm_mode_status (*)(struct drm_connector *, struct drm_display_mode *)' with an expression of type 'int (struct drm_connector *, struct drm_display_mode *)' [-Werror,-Wincompatible-function-pointer-types-strict]
-          .mode_valid = sti_hdmi_connector_mode_valid,
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-->mode_valid() in 'struct drm_connector_helper_funcs' expects a return
-type of 'enum drm_mode_status', not 'int'. Adjust the return type of
-sti_{dvo,hda,hdmi}_connector_mode_valid() to match the prototype's to
-resolve the warning and CFI failure.
+John Harrison (3):
+  drm/i915/guc: Fix missing return code checks in submission init
+  drm/i915/guc: Fix a static analysis warning
+  drm/i915/uc: Fix two issues with over-size firmware files
 
-Link: https://github.com/ClangBuiltLinux/linux/issues/1750
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Kees Cook <keescook@chromium.org>
-Link: https://lore.kernel.org/r/20221102155623.3042869-1-nathan@kernel.org
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/sti/sti_dvo.c  | 5 +++--
- drivers/gpu/drm/sti/sti_hda.c  | 5 +++--
- drivers/gpu/drm/sti/sti_hdmi.c | 5 +++--
- 3 files changed, 9 insertions(+), 6 deletions(-)
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 75 ++++++++++++++-----
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.h |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  7 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      | 42 +++++++----
+ 4 files changed, 91 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/gpu/drm/sti/sti_dvo.c b/drivers/gpu/drm/sti/sti_dvo.c
-index e8c1ed08a9f7..c67a543d3574 100644
---- a/drivers/gpu/drm/sti/sti_dvo.c
-+++ b/drivers/gpu/drm/sti/sti_dvo.c
-@@ -354,8 +354,9 @@ static int sti_dvo_connector_get_modes(struct drm_connector *connector)
- 
- #define CLK_TOLERANCE_HZ 50
- 
--static int sti_dvo_connector_mode_valid(struct drm_connector *connector,
--					struct drm_display_mode *mode)
-+static enum drm_mode_status
-+sti_dvo_connector_mode_valid(struct drm_connector *connector,
-+			     struct drm_display_mode *mode)
- {
- 	int target = mode->clock * 1000;
- 	int target_min = target - CLK_TOLERANCE_HZ;
-diff --git a/drivers/gpu/drm/sti/sti_hda.c b/drivers/gpu/drm/sti/sti_hda.c
-index 08808e3701de..bfdc5197bc7f 100644
---- a/drivers/gpu/drm/sti/sti_hda.c
-+++ b/drivers/gpu/drm/sti/sti_hda.c
-@@ -606,8 +606,9 @@ static int sti_hda_connector_get_modes(struct drm_connector *connector)
- 
- #define CLK_TOLERANCE_HZ 50
- 
--static int sti_hda_connector_mode_valid(struct drm_connector *connector,
--					struct drm_display_mode *mode)
-+static enum drm_mode_status
-+sti_hda_connector_mode_valid(struct drm_connector *connector,
-+			     struct drm_display_mode *mode)
- {
- 	int target = mode->clock * 1000;
- 	int target_min = target - CLK_TOLERANCE_HZ;
-diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-index a5412a6fbeca..d62616f62b53 100644
---- a/drivers/gpu/drm/sti/sti_hdmi.c
-+++ b/drivers/gpu/drm/sti/sti_hdmi.c
-@@ -906,8 +906,9 @@ static int sti_hdmi_connector_get_modes(struct drm_connector *connector)
- 
- #define CLK_TOLERANCE_HZ 50
- 
--static int sti_hdmi_connector_mode_valid(struct drm_connector *connector,
--					struct drm_display_mode *mode)
-+static enum drm_mode_status
-+sti_hdmi_connector_mode_valid(struct drm_connector *connector,
-+			      struct drm_display_mode *mode)
- {
- 	int target = mode->clock * 1000;
- 	int target_min = target - CLK_TOLERANCE_HZ;
 -- 
-2.35.1
+2.39.0
 
