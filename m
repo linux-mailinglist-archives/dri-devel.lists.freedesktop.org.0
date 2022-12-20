@@ -2,65 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F35652478
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 17:15:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6073F6524EC
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 17:49:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04AC710E0E7;
-	Tue, 20 Dec 2022 16:14:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD73510E098;
+	Tue, 20 Dec 2022 16:49:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28C6810E0E7
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 16:14:26 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B07AD76747;
- Tue, 20 Dec 2022 16:13:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1671552834; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ReqZqe9RHLFwjUQKIFVU9RESaXvc2/+pS7g2MXdWdQI=;
- b=dOSDzwvr3WGLxyNJyezQu+f1JmJM4FVZG+3Ke2yI8n2nWP+Y6Pk9EXKAQLD8twLlVhCgnI
- /Z7R1TAkR+Q3DwRXmKB4/3wY5SSY220xnjEwT2ThwEOzVMbOWNEa8Zdtgqq8V/GSS31BLl
- rk9I02BHSdar1rDFJOAbxqEqYb3RQos=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1671552834;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ReqZqe9RHLFwjUQKIFVU9RESaXvc2/+pS7g2MXdWdQI=;
- b=MORkHgQFW66j7A8utv1Ow4/DRTf+129DWlTttIYDdm7xoepkqtl5t51FK2VCQOmvVVXb9M
- 3xb/QPZq7w9YtcCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7DEB81390E;
- Tue, 20 Dec 2022 16:13:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 5Xe0HULfoWMGZgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 20 Dec 2022 16:13:54 +0000
-Message-ID: <5ffe297c-f2b6-c669-768a-3f367b15a9a8@suse.de>
-Date: Tue, 20 Dec 2022 17:13:54 +0100
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com
+ [209.85.167.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D405110E098;
+ Tue, 20 Dec 2022 16:49:40 +0000 (UTC)
+Received: by mail-oi1-f177.google.com with SMTP id k189so11056059oif.7;
+ Tue, 20 Dec 2022 08:49:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Xfo0DKmMuO25A+nCHOD0jlMrFZ6CXCqZIybciF03fMk=;
+ b=63eMlghTfRZGjd6GTuhlMd4MYEZJ8+jGdBIeK4DMOhA8Evg7nAx5/4IPZV9zYvnxWN
+ UxAnwbyLEHVCCXkcSm4udvVyIczrX5gqfK8kCLivDUm+4gJAs4wwYKs1wL54KKBEzaqg
+ h9FdpyHaZFoSZmTv7yz+JnzewSPN9rexSRKTpInUEMYOVGJySsmdZDmtTo2RXtsNC7Em
+ s8XsD2puTibHkG/uHRpDg1BfNY4tS1MTa0hr5AoNTJyQ+vaIRom0U8qvq3nrx3bhw3wL
+ 7AOzhe36Sr4T/Znr5ascDSTp19PO4IiuoqHktYsJY3GdC5px11HcY1ipvmRaKrbzvLgy
+ 6pkg==
+X-Gm-Message-State: AFqh2kq8/BIrhSHicFjirufAjDoW5wqMoutELhWMFmmUgkgif2Nv1jX3
+ qzNoLzhW9YDH2JBs43vIGx1PqiFdcA==
+X-Google-Smtp-Source: AMrXdXtb9dnjg9S/upe3GH/oPYQi1IvGTkfvaKUQWnOl0cMjKRXg+yxj5Ga1ozak5D9lrEdX8QEf5Q==
+X-Received: by 2002:a05:6808:200e:b0:35c:2451:59bb with SMTP id
+ q14-20020a056808200e00b0035c245159bbmr6658804oiw.20.1671554979988; 
+ Tue, 20 Dec 2022 08:49:39 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ ec10-20020a056808638a00b0035acd0a6eb2sm5668080oib.41.2022.12.20.08.49.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Dec 2022 08:49:39 -0800 (PST)
+Received: (nullmailer pid 726453 invoked by uid 1000);
+ Tue, 20 Dec 2022 16:49:38 -0000
+Date: Tue, 20 Dec 2022 10:49:38 -0600
+From: Rob Herring <robh@kernel.org>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: Re: [PATCH v5 07/21] dt-bindings: msm: dsi-controller-main: Fix
+ clock declarations
+Message-ID: <167155496351.726025.910828492116114621.robh@kernel.org>
+References: <20221220123634.382970-1-bryan.odonoghue@linaro.org>
+ <20221220123634.382970-8-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] drm/sprd: remove redundant error logging
-Content-Language: en-US
-To: Deepak R Varma <drv@mailo.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <Y5XhPJ39ipMCcctq@qemulion> <Y6DPxKGmfRH5Bujn@qemulion>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <Y6DPxKGmfRH5Bujn@qemulion>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------mlzTiaT9zYKqbOoepSx4xXnY"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221220123634.382970-8-bryan.odonoghue@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,85 +64,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- Saurabh Singh Sengar <ssengar@microsoft.com>
+Cc: sean@poorly.run, devicetree@vger.kernel.org, dianders@chromium.org,
+ krzysztof.kozlowski+dt@linaro.org, quic_abhinavk@quicinc.com,
+ linux-arm-msm@vger.kernel.org, andersson@kernel.org,
+ konrad.dybcio@somainline.org, agross@kernel.org, david@ixit.cz,
+ swboyd@chromium.org, robh+dt@kernel.org, dri-devel@lists.freedesktop.org,
+ dmitry.baryshkov@linaro.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------mlzTiaT9zYKqbOoepSx4xXnY
-Content-Type: multipart/mixed; boundary="------------NaXIDhrKjegA7vAvMQvrMCta";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Deepak R Varma <drv@mailo.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- Saurabh Singh Sengar <ssengar@microsoft.com>
-Message-ID: <5ffe297c-f2b6-c669-768a-3f367b15a9a8@suse.de>
-Subject: Re: [PATCH] drm/sprd: remove redundant error logging
-References: <Y5XhPJ39ipMCcctq@qemulion> <Y6DPxKGmfRH5Bujn@qemulion>
-In-Reply-To: <Y6DPxKGmfRH5Bujn@qemulion>
 
---------------NaXIDhrKjegA7vAvMQvrMCta
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Tue, 20 Dec 2022 12:36:20 +0000, Bryan O'Donoghue wrote:
+> When converting from .txt to .yaml dt-binding descriptions we appear to
+> have missed some of the previous detail on the number and names of
+> permissible clocks.
+> 
+> Fix this by listing the clock descriptions against the clock names at a
+> high level.
+> 
+> Fixes: 4dbe55c97741 ("dt-bindings: msm: dsi: add yaml schemas for DSI bindings")
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  .../display/msm/dsi-controller-main.yaml      | 20 ++++++++++++-------
+>  1 file changed, 13 insertions(+), 7 deletions(-)
+> 
 
-SGkNCg0KQW0gMTkuMTIuMjIgdW0gMjE6NTUgc2NocmllYiBEZWVwYWsgUiBWYXJtYToNCj4g
-T24gU3VuLCBEZWMgMTEsIDIwMjIgYXQgMDc6MjU6MDhQTSArMDUzMCwgRGVlcGFrIFIgVmFy
-bWEgd3JvdGU6DQo+IA0KPiBIZWxsbywNCj4gTWF5IEkgcGxlYXNlIHJlcXVlc3QgYSByZXZp
-ZXcgYW5kIGZlZWRiYWNrIG9uIHRoaXMgcGF0Y2ggcHJvcG9zYWw/DQoNCkFkZGVkIHRvIGRy
-bS1taXNjLW5leHQuIFRoYW5rcyBmb3IgdGhlIHBhdGNoLg0KDQpCZXN0IHJlZ2FyZHMNClRo
-b21hcw0KDQo+IA0KPiBUaGFuayB5b3UsDQo+IC4vZHJ2DQo+IA0KPj4gQSBjYWxsIHRvIHBs
-YXRmb3JtX2dldF9pcnEoKSBhbHJlYWR5IHByaW50cyBhbiBlcnJvciBvbiBmYWlsdXJlIHdp
-dGhpbg0KPj4gaXRzIG93biBpbXBsZW1lbnRhdGlvbi4gU28gcHJpbnRpbmcgYW5vdGhlciBl
-cnJvciBiYXNlZCBvbiBpdHMgcmV0dXJuDQo+PiB2YWx1ZSBpbiB0aGUgY2FsbGVyIGlzIHJl
-ZHVuZGFudCBhbmQgc2hvdWxkIGJlIHJlbW92ZWQuIFRoZSBjbGVhbiB1cA0KPj4gYWxzbyBt
-YWtlcyBpZiBjb25kaXRpb24gYmxvY2sgYnJhY2VzIHVubmVjZXNzYXJ5LiBSZW1vdmUgdGhh
-dCBhcyB3ZWxsLg0KPj4NCj4+IElzc3VlIGlkZW50aWZpZWQgdXNpbmcgcGxhdGZvcm1fZ2V0
-X2lycS5jb2NjaSBjb2NjaWNoZWNrIHNjcmlwdC4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBE
-ZWVwYWsgUiBWYXJtYSA8ZHJ2QG1haWxvLmNvbT4NCj4+IC0tLQ0KPj4gICBkcml2ZXJzL2dw
-dS9kcm0vc3ByZC9zcHJkX2RwdS5jIHwgNCArLS0tDQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCAx
-IGluc2VydGlvbigrKSwgMyBkZWxldGlvbnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL3NwcmQvc3ByZF9kcHUuYyBiL2RyaXZlcnMvZ3B1L2RybS9zcHJkL3Nw
-cmRfZHB1LmMNCj4+IGluZGV4IDg4ZjQyNTk2ODBmMS4uZGIwYmNlYTFkOWY0IDEwMDY0NA0K
-Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3NwcmQvc3ByZF9kcHUuYw0KPj4gKysrIGIvZHJp
-dmVycy9ncHUvZHJtL3NwcmQvc3ByZF9kcHUuYw0KPj4gQEAgLTgwMywxMCArODAzLDggQEAg
-c3RhdGljIGludCBzcHJkX2RwdV9jb250ZXh0X2luaXQoc3RydWN0IHNwcmRfZHB1ICpkcHUs
-DQo+PiAgIAl9DQo+Pg0KPj4gICAJY3R4LT5pcnEgPSBwbGF0Zm9ybV9nZXRfaXJxKHBkZXYs
-IDApOw0KPj4gLQlpZiAoY3R4LT5pcnEgPCAwKSB7DQo+PiAtCQlkZXZfZXJyKGRldiwgImZh
-aWxlZCB0byBnZXQgZHB1IGlycVxuIik7DQo+PiArCWlmIChjdHgtPmlycSA8IDApDQo+PiAg
-IAkJcmV0dXJuIGN0eC0+aXJxOw0KPj4gLQl9DQo+Pg0KPj4gICAJLyogZGlzYWJsZSBhbmQg
-Y2xlYXIgaW50ZXJydXB0cyBiZWZvcmUgcmVnaXN0ZXIgZHB1IElSUS4gKi8NCj4+ICAgCXdy
-aXRlbCgweDAwLCBjdHgtPmJhc2UgKyBSRUdfRFBVX0lOVF9FTik7DQo+PiAtLQ0KPj4gMi4z
-NC4xDQo+Pg0KPiANCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERy
-aXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
-TWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBB
-RyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
---------------NaXIDhrKjegA7vAvMQvrMCta--
+Please add Acked-by/Reviewed-by tags when posting new versions. However,
+there's no need to repost patches *only* to add the tags. The upstream
+maintainer will do that for acks received on the version they apply.
 
---------------mlzTiaT9zYKqbOoepSx4xXnY
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+If a tag was not added on purpose, please state why and what changed.
 
------BEGIN PGP SIGNATURE-----
+Missing tags:
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmOh30IFAwAAAAAACgkQlh/E3EQov+C5
-2RAAsHgJfI0eY4pk+UtWQm0zGU81TXmuagZJ3wDkF7Z1T8shIXO3PWqmY6bRhclMVSSSBSyjAciz
-+ykkGfaDTiUCGpY7JeOC9cWu0KywSzi4w3veuGL4srDITsoxxsPPp9MG4iXAmf0MbY2tP+d2+kZ0
-cjRHNAYmWLf2SVcUQ9nn6+kiH+p61dgNJ45wLhE9b6pva3v+W4uSeZ4CFRU+NmcaZvf8PGeNR5AO
-GqRD2QmatVR0b82hglKR8WRDLF/cmnzFkaoXM2cLo3dmJ8VVbjV6RVc4Qubt2vLjz3oZ1bouPzyY
-Eq5i0nV2nTBl0Eu+P1qJc3MdFdJ5+ZieN5a/sXcNkDOUGKiUAQfatZ0zUG9Lj0e38Q9ZoTXYGwBH
-joDgnyUULvxFMyJPnPw33Vbgqdr/fp6yPK5jxwuyoqievalVSkFRthbUQv0wxgf2q1CnLEjUELM0
-81yAm00Of2F8ig2ZMtEkfe4w47dEP+IZL9zwCLBsBhZjj2kqhDJFJR8a7kyCVsI0sIFNwBlb7Crm
-kvAAGWSUzOGgTXIPTTl2NKNXqqgTwQnmy60vON2J6pqEJoSHANZkzirlTv6LeOeAMPyr/t/cqGWk
-Hoqj20GWByB/PpGrbMBI3TvqIBBZ76BcDYwUfA1F9jGjWV8GfCZLM7ueuInl+3yukIWzVrsAyeTV
-ZuY=
-=QUGT
------END PGP SIGNATURE-----
+Acked-by: Rob Herring <robh@kernel.org>
 
---------------mlzTiaT9zYKqbOoepSx4xXnY--
+
