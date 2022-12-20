@@ -2,33 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62697652919
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 23:33:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7632B65291F
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 23:36:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC3E710E0FD;
-	Tue, 20 Dec 2022 22:32:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 816BE10E044;
+	Tue, 20 Dec 2022 22:36:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCCDA10E044;
- Tue, 20 Dec 2022 22:32:42 +0000 (UTC)
+Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDF0010E044;
+ Tue, 20 Dec 2022 22:36:10 +0000 (UTC)
 Received: from SoMainline.org (94-209-172-39.cable.dynamic.v4.ziggo.nl
  [94.209.172.39])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 477B2201D6;
- Tue, 20 Dec 2022 23:32:06 +0100 (CET)
-Date: Tue, 20 Dec 2022 23:32:04 +0100
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 27C982020A;
+ Tue, 20 Dec 2022 23:35:37 +0100 (CET)
+Date: Tue, 20 Dec 2022 23:35:35 +0100
 From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [RFC PATCH 3/6] drm/msm/dpu1: Wire up DSC mask for active CTL
- configuration
-Message-ID: <20221220223204.i3tfa2biq7bgkg5o@SoMainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [RFC PATCH 0/6] drm/msm: DSC Electric Boogaloo for sm8[12]50
+Message-ID: <20221220223535.gzjkr4rsflrujl4o@SoMainline.org>
 Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Vinod Koul <vkoul@kernel.org>,
  ~postmarketos/upstreaming@lists.sr.ht,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
@@ -52,16 +51,13 @@ Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20221213232207.113607-1-marijn.suijten@somainline.org>
- <20221213232207.113607-4-marijn.suijten@somainline.org>
- <184d22f1-7ed1-4a67-1c25-9fafeb94db83@linaro.org>
- <20221214193026.dv2fuubysctcvlkg@SoMainline.org>
- <658da2cf-1e1a-af27-b085-edf0887b8dae@linaro.org>
- <8f33c1d0-a2ca-dc49-1884-01541ad83d49@quicinc.com>
+ <154b2e08-25a0-c8b7-1dc8-2d41b8787f05@linaro.org>
+ <20221214192322.vs4tvhlzjc265bva@SoMainline.org>
+ <560508a2-9ff5-16b5-ac50-efe9a2afbddb@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8f33c1d0-a2ca-dc49-1884-01541ad83d49@quicinc.com>
+In-Reply-To: <560508a2-9ff5-16b5-ac50-efe9a2afbddb@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,59 +74,95 @@ Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
  phone-devel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- Haowen Bai <baihaowen@meizu.com>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Haowen Bai <baihaowen@meizu.com>, Vinod Koul <vkoul@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, Jani Nikula <jani.nikula@intel.com>,
- linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
- Martin Botka <martin.botka@somainline.org>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Stephen Boyd <swboyd@chromium.org>, Martin Botka <martin.botka@somainline.org>,
  ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
  Loic Poulain <loic.poulain@linaro.org>,
  Jami Kettunen <jami.kettunen@somainline.org>,
  Bjorn Andersson <andersson@kernel.org>,
  Vladimir Lypak <vladimir.lypak@gmail.com>,
  Douglas Anderson <dianders@chromium.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- sunliming <sunliming@kylinos.cn>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, sunliming <sunliming@kylinos.cn>,
  freedreno@lists.freedesktop.org, Vinod Polimera <quic_vpolimer@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-12-16 14:20:52, Abhinav Kumar wrote:
-> 
-> 
-> On 12/14/2022 5:08 PM, Dmitry Baryshkov wrote:
-> > On 14/12/2022 21:30, Marijn Suijten wrote:
-> >> On 2022-12-14 20:43:29, Dmitry Baryshkov wrote:
-> >>> On 14/12/2022 01:22, Marijn Suijten wrote:
-> >>>> [..]
-> >>> We usually don't have DSC with the writeback, don't we?
+On 2022-12-15 02:52:01, Dmitry Baryshkov wrote:
+> On 14/12/2022 21:23, Marijn Suijten wrote:
+> > On 2022-12-14 20:40:06, Dmitry Baryshkov wrote:
+> >> On 14/12/2022 01:22, Marijn Suijten wrote:
+> >>> This preliminary Display Stream Compression support package for
+> >>> (initially tested on) sm8[12]50 is based on comparing DSC behaviour
+> >>> between downstream and mainline.  Some new callbacks are added (for
+> >>> binding blocks on active CTLs), logic bugs are corrected, zeroed struct
+> >>> members are now assigned proper values, and RM allocation and hw block
+> >>> retrieval now hand out (or not) DSC blocks without causing null-pointer
+> >>> dereferences.
+> >>>
+> >>> Unfortunately it is not yet enough to get rid of completely corrupted
+> >>> display output on the boards I tested here:
+> >>> - Sony Xperia 1 (sm8150), 1644x3840 or 1096x2560 pixels;
+> >>> - Sony Xperia 5II (sm8250), 1080x2520, at 60 or 120Hz;
+> >>> - (can include more Xperia boards if desired)
+> >>>
+> >>> Both devices use the DUALPIPE_DSCMERGE topology downstream: dual LM, PP
+> >>> and DSC, but only a single INTF/encoder/DSI-link.
+> >>>
+> >>> Hopefully this spawns some community/upstream interest to help rootcause
+> >>> our corruption issues (after we open a drm/msm report on GitLab for more
+> >>> appropriate tracking).
+> >>>
+> >>> The Sony Xperia XZ3 (sdm845) was fully tested and validated with this
+> >>> series to not cause any regressions (an one of the math fixes now allows
+> >>> us to change slice_count in the panel driver, which would corrupt
+> >>> previously).
+> >>>
+> >>> Marijn Suijten (6):
+> >>>     drm/msm/dpu1: Implement DSC binding to PP block for CTL V1
+> >>>     drm/msm/dpu1: Add DSC config for sm8150 and sm8250
+> >>>     drm/msm/dpu1: Wire up DSC mask for active CTL configuration
+> >>>     drm/msm/dsi: Use DSC slice(s) packet size to compute word count
+> >>>     drm/msm/dsi: Flip greater-than check for slice_count and
+> >>>       slice_per_intf
+> >>>     drm/msm/dpu: Disallow unallocated (DSC) resources to be returned
 > >>
-> >> I am unsure so ended up adding them in writeback regardless.  Downstream
-> >> uses a separate callback to process intf_cfg.dsc instead of going
-> >> through setup_intf_cfg().
-> >>
-> >> To prevent these from being missed again (in the case of copy&paste),
-> >> how about instead having some function that sets up intf_cfg with these
-> >> default values from a phys_enc?  That way most of this remains oblivious
-> >> to the caller.
+> >> General comment: patches with Fixes ideally should come first. Usually
+> >> they are picked into -fixes and/or stable kernels. If the Fixes patches
+> >> are in the middle of the series, one can not be sure that they do not
+> >> have dependencies on previous patches. If there is one, it should
+> >> probably be stated clearly to ease work on backporting them.
 > > 
-> > I'm not sure this is possible. E.g. intf_cfg.dsc should not be set for 
-> > the WB.
+> > Ack, I may have rushed these RFC patches straight off my branches onto
+> > the lists in hopes of sparking some suggestions on what may still be
+> > broken or missing to get DSC working on sm[12]50, but will keep this in
+> > mind for v2 after receiving some more review.
 > > 
+> > That said, any suggestions?
 > 
-> Although this change is harmless because 
-> dpu_encoder_helper_get_dsc(phys_enc) will not return a valid DSC mask 
-> for the WB encoder, hence the setup_intf_cfg will just skip the DSC 
-> programming, I also agree that we can skip setting the intf_cfg.dsc for 
-> the writeback encoder in this patch.
+> 
+>  From what I've noticed lately:
 
-Since both of you agree that it is useless I'll drop this in V2.  Have
-to confess that I know nothing about the writeback interface and haven't
-even read the code; does it run in parallel to a "physical" (e.g.
-DP/DSI) interface to capture screenshots (or even video) of what is
-currently being shown on the screen?  By that logic the WB may have
-needed to know what is going on in the HW, but it wouldn't have made any
-sense regardless if the presented planes first pass through DSC before
-being captured.  Something for me to read up on :)
+Apologies for the late reply, I wanted to double-check this but now
+ended up basing my
+
+> - set dsc_version_major/dsc_version_minor
+
+We always set these in our panel drivers (all the way from back when our
+initial panel driver changes were based on what Vinod did for Pixel 3),
+both to 1.  As expected this results in 0x11 in the first byte of the
+Pixel Parameter Set sent to the DrIC over DSI.
+
+> - try using dsc params from 1.2 rater than 1.1 version spec (there is 
+> small difference there)
+
+Didn't have any effect and this is not what downstream sets/sends
+regardless, all our panels (on these sm8[12]50 SoCs) are hardcoded to
+DSC 1.1 downstream.
+
+Should I test this again, but also setting the version in the
+compression_mode command?
 
 - Marijn
