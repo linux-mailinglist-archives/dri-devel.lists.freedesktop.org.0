@@ -2,80 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DE7F651F54
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 11:57:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D11F1652DF6
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 09:30:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99C0010E3A1;
-	Tue, 20 Dec 2022 10:57:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EBDD10E43B;
+	Wed, 21 Dec 2022 08:30:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8657510E3A1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 10:56:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671533817;
+X-Greylist: delayed 518 seconds by postgrey-1.36 at gabe;
+ Tue, 20 Dec 2022 09:45:19 UTC
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7189010E36B
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 09:45:19 +0000 (UTC)
+Received: from hillosipuli.retiisi.eu
+ (dkv67ytyxtq-05sj69vvy-3.rev.dnainternet.fi
+ [IPv6:2001:14ba:4475:b040:1383:7fec:bcfa:ec62])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: sailus)
+ by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 3D8CC1B001B6;
+ Tue, 20 Dec 2022 11:36:36 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu; 
+ t=1671528996;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vkjasi8TwlRlWlSs36qbeqEttPuAP+V0x8sDwV4pAOM=;
- b=YVOmFxRDkkzTnSmWGKNiOSKuTPslFcj1PT/N44kav7FKMip69MRuFfhta1cdD4nJfrihYV
- GFQeEbxoOLXum2LJDvaq6bbLt3AWKmnALWXch6AK0ehj9AgvdRdaaWpEZ/ehP3Eu1RbON1
- OQpqALKxLYAnk3Bq9LXJL4TsoSbU+kE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-577-5cGAb4OMOn-Stje2_O0aaQ-1; Tue, 20 Dec 2022 05:56:56 -0500
-X-MC-Unique: 5cGAb4OMOn-Stje2_O0aaQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- r67-20020a1c4446000000b003d09b0fbf54so7876193wma.3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 02:56:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vkjasi8TwlRlWlSs36qbeqEttPuAP+V0x8sDwV4pAOM=;
- b=e7e+2vaVR93pACPKeTpyUAG+tmFx++7KJoVnu3uftf9EJTT9sEDCf+B+A6LqgKQSKg
- Ho+wVqjT3JWYdAcCP52hkUguTChqDfhUvxiw18Tk/rWkYu+Hf4k1IoZgXaCpcWxGqE5R
- orUbUIVVOXrWysDqlWCRS68rTyxSKACLB/gVSmRopR5apZ5nMCnBUaXFDpjF99niJaI6
- 6WqGu0k2aD/N9J4DnR0RnwfVGpPF4iqO9kuisPmPY4fcxmfU9PZ2FDPyf87KnQzHWj6G
- W1hoqVpZG5Gxyw+5bPHBYFP+leyDOSa4g9gvqF3h+ecHmPzpgWV9adb8KQ1nC3L2ySOb
- iKYg==
-X-Gm-Message-State: ANoB5pmw1cg1C53zpdTv2psWgJHckAm6IcfbdBsk8tr4Ca2cM8gsHLZj
- ak60b1AhxuGHJw1X/36TmXYhd6wAhFvohE7wduHk4h0Z1y/YnTyZEketv7vg5VLMxC13V0ukK5g
- +q9xIDsNPRbGVqEBlIJy3u01ktJjs
-X-Received: by 2002:a05:600c:1e8c:b0:3d2:381f:2db5 with SMTP id
- be12-20020a05600c1e8c00b003d2381f2db5mr19209751wmb.22.1671533815487; 
- Tue, 20 Dec 2022 02:56:55 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4a+ZtxclIBChh0mEg/0iBXMSsKhOrf2tVAYpV1g/PbE5hUiB1G8zmgvlQiiVuguSFTXrfvlw==
-X-Received: by 2002:a05:600c:1e8c:b0:3d2:381f:2db5 with SMTP id
- be12-20020a05600c1e8c00b003d2381f2db5mr19209736wmb.22.1671533815320; 
- Tue, 20 Dec 2022 02:56:55 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- t189-20020a1c46c6000000b003cf87623c16sm22517133wma.4.2022.12.20.02.56.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Dec 2022 02:56:54 -0800 (PST)
-Message-ID: <0a9cbae1-941f-0f50-3ba6-5a47d15bc1ce@redhat.com>
-Date: Tue, 20 Dec 2022 11:56:54 +0100
+ bh=83o3+NNaC/IgbT55ZoIsDuRVomAnlgiNTgekNRp8Oe4=;
+ b=N/estAzXDOLwJ/ZgEDSd5fUkF9asqAQZoDXq7Dxv+kNjokoUKgxMp/2fRmo06bO+1zIS9N
+ M54qcPjz1GPwIGlq6twaXCCQz5TpuU0fhNY5fBNer5xxD4F6LIetJ1KO0ktSPr2nbk2ktd
+ GA1BmXTiZQO2ETEU57u4+kKCFPXhUKgMm+TiagDFXG9yl2AYdh0nrbVImtANyBDWZN0YWy
+ FvxgBxk2wUaHGzNgysOrAcn0apaDd/rYHvGsQ6TvXqt/yi5/Fh1Llj/CozBl79wWnkmHZh
+ lQIblgZ1wMtbgVXjSMXXxpD3i+zCqPXe2sLD9oHxKCobgUGDz99Mw+vfIfIcyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+ s=lahtoruutu; t=1671528996;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=83o3+NNaC/IgbT55ZoIsDuRVomAnlgiNTgekNRp8Oe4=;
+ b=PNbx2Hbg9paDq7amLvz6wBqL7uRPv1ZhD8LA9Gd0O/MFnPBNtDmhvk4/Hsz5lDMDle+whj
+ F8CqNKBFpVxiX4lRlz7Hz88BoPhmNg0KybZiyG1gIORRv713z3eoqI1BpIeR1uHJEUn45e
+ IrX+t6gNCamFQ+BsC0V86P8x1axoltmr6erG8XADhH22RGRiqR92BhFSMyQQCbzf8dJWZj
+ oU1Hm50fL2KB0FR5e1eDrck3YGXdwmEhNrRjIxZ5n+i6Itc7+JS/KPwp61Q9UwUQ+HRNs+
+ a3ly0rm3TuBUANdo39KQtFv+ep22B6Ax0OtKmbO7MpWovbn1ixdu+JMVVD4D2Q==
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1671528996; a=rsa-sha256; cv=none;
+ b=ZHaNfD4cQR0HwvJFj8seG1y4wTYjzRdUGR4HytEMS8GbF6CaNeF9PZQutfopf8+xucYCsT
+ cypEOVhaZVG5myIpVeGrx40kvqGScHnfbqRQigtyQl/qDQ0XDnS2p5hn7dU5CyLJArftT1
+ RNvn4OnGNvNqe8Le9TYdkaKvMmkvqDL3/L96/BzIBX0z3yht4OaeQis/WbG88xdkpjmTyj
+ PKg0L2naxtM/677oJU7lyQH15PGJPoB5e+r4v8H7bosBT6xbtS81meklx3ZQ555uOqZFNq
+ q4nX5pFOkAGtReZJokAKCCBYIc/s0cYLrKIrTrllQd/4aYUj28NTvOk6x4q87g==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C667C634C92;
+ Tue, 20 Dec 2022 11:36:35 +0200 (EET)
+Date: Tue, 20 Dec 2022 11:36:35 +0200
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB,
+ Y210)
+Message-ID: <Y6GCI3PV3/WhyZBR@valkosipuli.retiisi.eu>
+References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221219140139.294245-8-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y6Db2C+JehUPYSQp@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 7/9] drm/fb-helper: Fix single-probe color-format selection
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- jose.exposito89@gmail.com, mairacanal@riseup.net
-References: <20221213201233.9341-1-tzimmermann@suse.de>
- <20221213201233.9341-8-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221213201233.9341-8-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y6Db2C+JehUPYSQp@pendragon.ideasonboard.com>
+X-Mailman-Approved-At: Wed, 21 Dec 2022 08:29:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,33 +84,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/13/22 21:12, Thomas Zimmermann wrote:
-> Fix the color-format selection of the single-probe helper. Go
-> through all user-specified values and test each for compatibility
-> with the driver. If none is supported, use the driver-provided
-> default. This guarantees that the console is always available in
-> any color format at least.
+Hi Laurent,
+
+On Mon, Dec 19, 2022 at 11:47:04PM +0200, Laurent Pinchart wrote:
+> Hi Tomi,
 > 
-> Until now, the format selection of the single-probe helper tried
-> to either use a user-specified format or a 32-bit default format.
-> If the user-specified format was not supported by the driver, the
-> selection failed and the display remained blank.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+> (CC'ing Sakari and Hans)
+> 
+> Thank you for the patch.
+> 
+> On Mon, Dec 19, 2022 at 04:01:39PM +0200, Tomi Valkeinen wrote:
+> > Add new pixel formats: RGBX1010102, RGBA1010102, ARGB2101010 and Y210.
+> > 
+> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> > ---
+> >  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 24 +++++++++++++
+> >  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 49 +++++++++++++++++++++++++--
+> >  2 files changed, 71 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > index 8c2719efda2a..8ccabf5a30c4 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > @@ -259,6 +259,24 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+> >  		.bpp = 32,
+> >  		.planes = 1,
+> >  		.hsub = 1,
+> > +	}, {
+> > +		.fourcc = DRM_FORMAT_RGBX1010102,
+> 
+> Ah, here the format makes sense.
+> 
+> > +		.v4l2 = V4L2_PIX_FMT_XBGR2101010,
+> 
+> But this is horrible :-( Could we use the same names as DRM for new
+> formats, when there is no conflict with existing V4L2 formats ?
+> 
+> Sakari, Hans, what do you think ? Please see patch 1/7 in the series for
+> the format definitions.
 
-Thanks a lot for fixing this.
+I think it'd be good to have only one set of definitions.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Can we can sort the endianness question in a reasonable way?
+
+Also new Bayer formats will probably be still needed on V4L2 side but will
+they be relevant for DRM? I suppose that would mean new DRM format for
+each pixel order, too? Or can we think of something smarter that would
+still work reasonably with existing formats?
 
 -- 
-Best regards,
+Kind regards,
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Sakari Ailus
