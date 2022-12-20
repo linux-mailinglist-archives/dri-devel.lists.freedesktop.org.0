@@ -2,81 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F100A651EF7
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 11:39:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EED88651F26
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 11:44:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17C6B10E0B9;
-	Tue, 20 Dec 2022 10:38:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9ED210E39D;
+	Tue, 20 Dec 2022 10:44:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B46A510E0B9
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 10:38:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671532730;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QV3KVPPq3DruR3gSWE0bChiB07DFVKKFPIMok1rAETo=;
- b=bjFzXlOSiXcKYXNAdJJuku+kPD035m/wTWskt0tTDSesMSSS0pVBlduzqkuJ8o3OxX8bMV
- uyX6W5ofRtS1nbI3uKFuBO/Dx9Mr+piCHvdec+6Os3XzRZlDzKhn66F288hFzrJhzMUjYc
- QXTEV9/lhovMEhuAmOnb7CGCAjzKBzU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-649-QkSjPxzIO029D2W4yR8W6A-1; Tue, 20 Dec 2022 05:38:49 -0500
-X-MC-Unique: QkSjPxzIO029D2W4yR8W6A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 9-20020a1c0209000000b003d1c0a147f6so7864532wmc.4
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 02:38:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QV3KVPPq3DruR3gSWE0bChiB07DFVKKFPIMok1rAETo=;
- b=KJAivRXEAKahg2PXE74BHG+qtsXrUySQTvFCnk7ZVKMo7m8E6OrYA+qRCnyHlc8JUf
- Sd6uvDcyOhfLjHCKYRFTeVnkacOhWDmhGYE0RvQo9+KQbcEH1Uu3IgGicPCgtUDvdxXj
- 6uxv/fOCSyusEZgBrBxogIRuulcTPjfVzknczCXfS8mRFJsjRdDjxTok5naIN2mf9QRg
- xbQAqM9qH5PPu7hSBaqEAOhtAvM8DDibmBBtDkI9TZgiNKSm6dFNnTMQjZ0NODtmFGlj
- tCJhXv0HbARcIBmVWyzygq+pbbv0CAZhOJ9zHO9LubRkSgTJIgspiA5ftYoXDm3iJeXO
- +aZA==
-X-Gm-Message-State: ANoB5pmdSftL/pkHRYyMUkpaoXXiasHnWHpbIzPUZ9MIIvGwzdN3tdiN
- ZxOC8qvfoYg2JV7twBMS5cKZBerH4/jEondDXZ3m4vx914wFSoOzfC5QWIHF6V1UD7sLXo0m7cD
- 7E6de2lFkmYIKv+OY5LBFLzqMwBaF
-X-Received: by 2002:a05:600c:c8:b0:3d2:cb3:2e2a with SMTP id
- u8-20020a05600c00c800b003d20cb32e2amr43326078wmm.10.1671532728776; 
- Tue, 20 Dec 2022 02:38:48 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7zp9IRhDmxTRkAPbr7j5qI0UBAuzN42xsB4v/jJQGL2tTlnuVoeb6gDDOPkzX0Tf7yA6LMXQ==
-X-Received: by 2002:a05:600c:c8:b0:3d2:cb3:2e2a with SMTP id
- u8-20020a05600c00c800b003d20cb32e2amr43326061wmm.10.1671532728608; 
- Tue, 20 Dec 2022 02:38:48 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- m20-20020a05600c4f5400b003cfaae07f68sm24623627wmq.17.2022.12.20.02.38.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Dec 2022 02:38:48 -0800 (PST)
-Message-ID: <88bb896a-024c-c137-acc3-1eb43dd52921@redhat.com>
-Date: Tue, 20 Dec 2022 11:38:47 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36E5F10E39D
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 10:42:58 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85373706;
+ Tue, 20 Dec 2022 11:42:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1671532976;
+ bh=bK4txdnHUggupo5Doz/7+NZW7J4vreP6k+bN7etEXCg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FNt0pxC36qdgX77AE0cCoE8XbeEi5UynpACkHxQl9dKEl8ChmxuutYLTprMzrmxBP
+ T2PpysNdQVR42GdEJ586Ya5TT5IEXAj0UCYzQF5gcybCRSqNGlvAwrNPa/VaFYErH7
+ U3WfzZG5xnnIk2P4dQMUML1KfnwAs5Exox44gKmc=
+Date: Tue, 20 Dec 2022 12:42:52 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [PATCH v2 7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB,
+ Y210)
+Message-ID: <Y6GRrN1Tesadku6S@pendragon.ideasonboard.com>
+References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221219140139.294245-8-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y6Db2C+JehUPYSQp@pendragon.ideasonboard.com>
+ <Y6GCI3PV3/WhyZBR@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 5/9] drm/format-helper: Add conversion from XRGB8888 to
- 15-bit RGB555 formats
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- jose.exposito89@gmail.com, mairacanal@riseup.net
-References: <20221213201233.9341-1-tzimmermann@suse.de>
- <20221213201233.9341-6-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221213201233.9341-6-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y6GCI3PV3/WhyZBR@valkosipuli.retiisi.eu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,27 +50,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/13/22 21:12, Thomas Zimmermann wrote:
-> Add conversion from XRGB8888 to XRGB1555, ARGB1555 and RGBA5551, which
-> are the formats currently supported by the simplefb infrastructure. The
-> new helpers allow the output of XRGB8888 framebuffers to firmware
-> scanout buffers in one of the 15-bit formats.
+Hi Sakari,
+
+On Tue, Dec 20, 2022 at 11:36:35AM +0200, Sakari Ailus wrote:
+> On Mon, Dec 19, 2022 at 11:47:04PM +0200, Laurent Pinchart wrote:
+> > On Mon, Dec 19, 2022 at 04:01:39PM +0200, Tomi Valkeinen wrote:
+> > > Add new pixel formats: RGBX1010102, RGBA1010102, ARGB2101010 and Y210.
+> > > 
+> > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> > > ---
+> > >  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 24 +++++++++++++
+> > >  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 49 +++++++++++++++++++++++++--
+> > >  2 files changed, 71 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > > index 8c2719efda2a..8ccabf5a30c4 100644
+> > > --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > > @@ -259,6 +259,24 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+> > >  		.bpp = 32,
+> > >  		.planes = 1,
+> > >  		.hsub = 1,
+> > > +	}, {
+> > > +		.fourcc = DRM_FORMAT_RGBX1010102,
+> > 
+> > Ah, here the format makes sense.
+> > 
+> > > +		.v4l2 = V4L2_PIX_FMT_XBGR2101010,
+> > 
+> > But this is horrible :-( Could we use the same names as DRM for new
+> > formats, when there is no conflict with existing V4L2 formats ?
+> > 
+> > Sakari, Hans, what do you think ? Please see patch 1/7 in the series for
+> > the format definitions.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+> I think it'd be good to have only one set of definitions.
+> 
+> Can we can sort the endianness question in a reasonable way?
 
-After addressing what was discussed with José,
+It's really a matter of macro names only in this case, so it's "just" up
+to us to decide what we want to do. Hans' argument is that we would then
+depart from the general V4L2 rule, and thus create confusion, but I
+don't think there's such a clear cut rule in the first place and
+confusion is there already. Having common definitions for new formats
+would, I think, reduce confusion.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Also new Bayer formats will probably be still needed on V4L2 side but will
+> they be relevant for DRM? I suppose that would mean new DRM format for
+> each pixel order, too? Or can we think of something smarter that would
+> still work reasonably with existing formats?
+
+We use DRM 4CCs in the libcamera public API, and the DRM maintainers
+have agreed to add DRM 4CCs for formats that are used by cameras only,
+such as MJPEG for instance, that's hardly useful for displays. The same
+holds true for Bayer formats, and we use DRM modifiers to specify the
+packing instead of defining different 4CCs. I'd like to do something
+similar for the Bayer pattern, although specifying it out-of-band may be
+even better.
 
 -- 
-Best regards,
+Regards,
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Laurent Pinchart
