@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9332865245B
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 17:12:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C4F0652461
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 17:12:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2580A10E0AE;
-	Tue, 20 Dec 2022 16:11:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E868B10E0C1;
+	Tue, 20 Dec 2022 16:12:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C522310E0AE
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 16:11:52 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0975E10E0BB
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 16:11:53 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6FAE14D368;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A010876489;
  Tue, 20 Dec 2022 16:11:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1671552711; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KlLRYNSoqKLhPZvjLbzFGcXR/IW0QxHVTkoz6sDwAIE=;
- b=pEkME69D0p8j++05mD8tN1+001l7RnM2KfeoXTgHDA2nAl7Y0SK3r9KSCDMjQJ0tVhOS78
- /Y7KfMBMvR1nmDq4ezRFqa2humBhshY2tZ72FqBYBTa+5iyRhqMXKdk3Z0f3Kz2o2676/c
- rpUh4aYpY1AOUUhujdeSPa02dve9R6A=
+ bh=/3Kua9axI5PV7LrYjvndaYIPH5JX8TtLl4Z9WPA7fQc=;
+ b=bAlzs93/6FQPGmbdbljOXtoJxZZbVmDJ0RwD1ib7wXXwYXrlIhM9yasSQzWi2NUCVwh5mi
+ OdsN8fEiUeNFkyQUDckXcCOgH+I9FiI1HJHD4p/qSu4CEx4qebawmOTvzZi52COvNE9tdU
+ RG2lpbwD8ggDd07BjRGkmMoDC11Dgrw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1671552711;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KlLRYNSoqKLhPZvjLbzFGcXR/IW0QxHVTkoz6sDwAIE=;
- b=JCkHMSXbkGaFASjaltEZXvVP5gSH8DYAj5TKbrwm7tWQjAQID01GvI3g5DZJIX/Dj7qVVr
- DzEhH3mlF1vjkvAA==
+ bh=/3Kua9axI5PV7LrYjvndaYIPH5JX8TtLl4Z9WPA7fQc=;
+ b=ZErBS9PsG0BibEoRsR32MCwwP9PUWAId2vwD8CzWFM6AuEwHvbTWbwFMFj6T0dl2RE1rs2
+ o36xtYyyheoGXKCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3CE1213910;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7281E1390E;
  Tue, 20 Dec 2022 16:11:51 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 4IrwDcfeoWMiZQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id KA0yG8feoWMiZQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 20 Dec 2022 16:11:51 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@gmail.com, javierm@redhat.com,
  jose.exposito89@gmail.com, mairacanal@riseup.net, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
-Subject: [PATCH v2 09/13] drm/format-helper: Add conversion from XRGB8888 to
- 15-bit RGB555 formats
-Date: Tue, 20 Dec 2022 17:11:41 +0100
-Message-Id: <20221220161145.27568-10-tzimmermann@suse.de>
+Subject: [PATCH v2 10/13] drm/fh-helper: Split fbdev single-probe helper
+Date: Tue, 20 Dec 2022 17:11:42 +0100
+Message-Id: <20221220161145.27568-11-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221220161145.27568-1-tzimmermann@suse.de>
 References: <20221220161145.27568-1-tzimmermann@suse.de>
@@ -74,473 +73,223 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add conversion from XRGB8888 to XRGB1555, ARGB1555 and RGBA5551, which
-are the formats currently supported by the simplefb infrastructure. The
-new helpers allow the output of XRGB8888 framebuffers to firmware
-scanout buffers in one of the 15-bit formats.
-
-v2:
-	* test 15-bit results with local endianness (Jose)
+Split the single-probe helper's implementation into multiple
+functions and get locking and overallocation out of the way of
+the surface setup. Simplifies later changes to the setup code.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/gpu/drm/drm_format_helper.c           | 164 +++++++++++++++
- .../gpu/drm/tests/drm_format_helper_test.c    | 189 ++++++++++++++++++
- include/drm/drm_format_helper.h               |   9 +
- 3 files changed, 362 insertions(+)
+ drivers/gpu/drm/drm_fb_helper.c | 116 ++++++++++++++++++++------------
+ 1 file changed, 73 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index 3767213ba97d..1cedfe02fadf 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -396,6 +396,161 @@ void drm_fb_xrgb8888_to_rgb565(struct iosys_map *dst, const unsigned int *dst_pi
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index b3a731b9170a..af1495394d38 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -1726,36 +1726,30 @@ int drm_fb_helper_pan_display(struct fb_var_screeninfo *var,
  }
- EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb565);
+ EXPORT_SYMBOL(drm_fb_helper_pan_display);
  
-+static void drm_fb_xrgb8888_to_xrgb1555_line(void *dbuf, const void *sbuf, unsigned int pixels)
-+{
-+	u16 *dbuf16 = dbuf;
-+	const __le32 *sbuf32 = sbuf;
-+	unsigned int x;
-+	u16 val16;
-+	u32 pix;
+-/*
+- * Allocates the backing storage and sets up the fbdev info structure through
+- * the ->fb_probe callback.
+- */
+-static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
+-					 int preferred_bpp)
 +
-+	for (x = 0; x < pixels; x++) {
-+		pix = le32_to_cpu(sbuf32[x]);
-+		val16 = ((pix & 0x00f80000) >> 9) |
-+			((pix & 0x0000f800) >> 6) |
-+			((pix & 0x000000f8) >> 3);
-+		dbuf16[x] = cpu_to_le16(val16);
-+	}
-+}
-+
-+/**
-+ * drm_fb_xrgb8888_to_xrgb1555 - Convert XRGB8888 to XRGB1555 clip buffer
-+ * @dst: Array of XRGB1555 destination buffers
-+ * @dst_pitch: Array of numbers of bytes between the start of two consecutive scanlines
-+ *             within @dst; can be NULL if scanlines are stored next to each other.
-+ * @src: Array of XRGB8888 source buffer
-+ * @fb: DRM framebuffer
-+ * @clip: Clip rectangle area to copy
-+ *
-+ * This function copies parts of a framebuffer to display memory and converts
-+ * the color format during the process. The parameters @dst, @dst_pitch and
-+ * @src refer to arrays. Each array must have at least as many entries as
-+ * there are planes in @fb's format. Each entry stores the value for the
-+ * format's respective color plane at the same index.
-+ *
-+ * This function does not apply clipping on @dst (i.e. the destination is at the
-+ * top-left corner).
-+ *
-+ * Drivers can use this function for XRGB1555 devices that don't support
-+ * XRGB8888 natively.
-+ */
-+void drm_fb_xrgb8888_to_xrgb1555(struct iosys_map *dst, const unsigned int *dst_pitch,
-+				 const struct iosys_map *src, const struct drm_framebuffer *fb,
-+				 const struct drm_rect *clip)
-+{
-+	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
-+		2,
-+	};
-+
-+	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false,
-+		    drm_fb_xrgb8888_to_xrgb1555_line);
-+}
-+EXPORT_SYMBOL(drm_fb_xrgb8888_to_xrgb1555);
-+
-+static void drm_fb_xrgb8888_to_argb1555_line(void *dbuf, const void *sbuf, unsigned int pixels)
-+{
-+	u16 *dbuf16 = dbuf;
-+	const __le32 *sbuf32 = sbuf;
-+	unsigned int x;
-+	u16 val16;
-+	u32 pix;
-+
-+	for (x = 0; x < pixels; x++) {
-+		pix = le32_to_cpu(sbuf32[x]);
-+		val16 = BIT(15) | /* set alpha bit */
-+			((pix & 0x00f80000) >> 9) |
-+			((pix & 0x0000f800) >> 6) |
-+			((pix & 0x000000f8) >> 3);
-+		dbuf16[x] = cpu_to_le16(val16);
-+	}
-+}
-+
-+/**
-+ * drm_fb_xrgb8888_to_argb1555 - Convert XRGB8888 to ARGB1555 clip buffer
-+ * @dst: Array of ARGB1555 destination buffers
-+ * @dst_pitch: Array of numbers of bytes between the start of two consecutive scanlines
-+ *             within @dst; can be NULL if scanlines are stored next to each other.
-+ * @src: Array of XRGB8888 source buffer
-+ * @fb: DRM framebuffer
-+ * @clip: Clip rectangle area to copy
-+ *
-+ * This function copies parts of a framebuffer to display memory and converts
-+ * the color format during the process. The parameters @dst, @dst_pitch and
-+ * @src refer to arrays. Each array must have at least as many entries as
-+ * there are planes in @fb's format. Each entry stores the value for the
-+ * format's respective color plane at the same index.
-+ *
-+ * This function does not apply clipping on @dst (i.e. the destination is at the
-+ * top-left corner).
-+ *
-+ * Drivers can use this function for ARGB1555 devices that don't support
-+ * XRGB8888 natively. It sets an opaque alpha channel as part of the conversion.
-+ */
-+void drm_fb_xrgb8888_to_argb1555(struct iosys_map *dst, const unsigned int *dst_pitch,
-+				 const struct iosys_map *src, const struct drm_framebuffer *fb,
-+				 const struct drm_rect *clip)
-+{
-+	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
-+		2,
-+	};
-+
-+	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false,
-+		    drm_fb_xrgb8888_to_argb1555_line);
-+}
-+EXPORT_SYMBOL(drm_fb_xrgb8888_to_argb1555);
-+
-+static void drm_fb_xrgb8888_to_rgba5551_line(void *dbuf, const void *sbuf, unsigned int pixels)
-+{
-+	u16 *dbuf16 = dbuf;
-+	const __le32 *sbuf32 = sbuf;
-+	unsigned int x;
-+	u16 val16;
-+	u32 pix;
-+
-+	for (x = 0; x < pixels; x++) {
-+		pix = le32_to_cpu(sbuf32[x]);
-+		val16 = ((pix & 0x00f80000) >> 8) |
-+			((pix & 0x0000f800) >> 5) |
-+			((pix & 0x000000f8) >> 2) |
-+			BIT(0); /* set alpha bit */
-+		dbuf16[x] = cpu_to_le16(val16);
-+	}
-+}
-+
-+/**
-+ * drm_fb_xrgb8888_to_rgba5551 - Convert XRGB8888 to RGBA5551 clip buffer
-+ * @dst: Array of RGBA5551 destination buffers
-+ * @dst_pitch: Array of numbers of bytes between the start of two consecutive scanlines
-+ *             within @dst; can be NULL if scanlines are stored next to each other.
-+ * @src: Array of XRGB8888 source buffer
-+ * @fb: DRM framebuffer
-+ * @clip: Clip rectangle area to copy
-+ *
-+ * This function copies parts of a framebuffer to display memory and converts
-+ * the color format during the process. The parameters @dst, @dst_pitch and
-+ * @src refer to arrays. Each array must have at least as many entries as
-+ * there are planes in @fb's format. Each entry stores the value for the
-+ * format's respective color plane at the same index.
-+ *
-+ * This function does not apply clipping on @dst (i.e. the destination is at the
-+ * top-left corner).
-+ *
-+ * Drivers can use this function for RGBA5551 devices that don't support
-+ * XRGB8888 natively. It sets an opaque alpha channel as part of the conversion.
-+ */
-+void drm_fb_xrgb8888_to_rgba5551(struct iosys_map *dst, const unsigned int *dst_pitch,
-+				 const struct iosys_map *src, const struct drm_framebuffer *fb,
-+				 const struct drm_rect *clip)
-+{
-+	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
-+		2,
-+	};
-+
-+	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false,
-+		    drm_fb_xrgb8888_to_rgba5551_line);
-+}
-+EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgba5551);
-+
- static void drm_fb_xrgb8888_to_rgb888_line(void *dbuf, const void *sbuf, unsigned int pixels)
++static int __drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper, int preferred_bpp,
++				      struct drm_fb_helper_surface_size *sizes)
  {
- 	u8 *dbuf8 = dbuf;
-@@ -763,6 +918,15 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
- 		if (dst_format == DRM_FORMAT_RGB565) {
- 			drm_fb_xrgb8888_to_rgb565(dst, dst_pitch, src, fb, clip, false);
- 			return 0;
-+		} else if (dst_format == DRM_FORMAT_XRGB1555) {
-+			drm_fb_xrgb8888_to_xrgb1555(dst, dst_pitch, src, fb, clip);
-+			return 0;
-+		} else if (dst_format == DRM_FORMAT_ARGB1555) {
-+			drm_fb_xrgb8888_to_argb1555(dst, dst_pitch, src, fb, clip);
-+			return 0;
-+		} else if (dst_format == DRM_FORMAT_RGBA5551) {
-+			drm_fb_xrgb8888_to_rgba5551(dst, dst_pitch, src, fb, clip);
-+			return 0;
- 		} else if (dst_format == DRM_FORMAT_RGB888) {
- 			drm_fb_xrgb8888_to_rgb888(dst, dst_pitch, src, fb, clip);
- 			return 0;
-diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-index de3aa252e8eb..f71dc0fe08a1 100644
---- a/drivers/gpu/drm/tests/drm_format_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-@@ -32,6 +32,21 @@ struct convert_to_rgb565_result {
- 	const u16 expected_swab[TEST_BUF_SIZE];
- };
+ 	struct drm_client_dev *client = &fb_helper->client;
+ 	struct drm_device *dev = fb_helper->dev;
+-	struct drm_mode_config *config = &dev->mode_config;
+-	int ret = 0;
+ 	int crtc_count = 0;
+ 	struct drm_connector_list_iter conn_iter;
+-	struct drm_fb_helper_surface_size sizes;
+ 	struct drm_connector *connector;
+ 	struct drm_mode_set *mode_set;
+ 	int best_depth = 0;
  
-+struct convert_to_xrgb1555_result {
-+	unsigned int dst_pitch;
-+	const u16 expected[TEST_BUF_SIZE];
-+};
-+
-+struct convert_to_argb1555_result {
-+	unsigned int dst_pitch;
-+	const u16 expected[TEST_BUF_SIZE];
-+};
-+
-+struct convert_to_rgba5551_result {
-+	unsigned int dst_pitch;
-+	const u16 expected[TEST_BUF_SIZE];
-+};
-+
- struct convert_to_rgb888_result {
- 	unsigned int dst_pitch;
- 	const u8 expected[TEST_BUF_SIZE];
-@@ -60,6 +75,9 @@ struct convert_xrgb8888_case {
- 	struct convert_to_gray8_result gray8_result;
- 	struct convert_to_rgb332_result rgb332_result;
- 	struct convert_to_rgb565_result rgb565_result;
-+	struct convert_to_xrgb1555_result xrgb1555_result;
-+	struct convert_to_argb1555_result argb1555_result;
-+	struct convert_to_rgba5551_result rgba5551_result;
- 	struct convert_to_rgb888_result rgb888_result;
- 	struct convert_to_argb8888_result argb8888_result;
- 	struct convert_to_xrgb2101010_result xrgb2101010_result;
-@@ -85,6 +103,18 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
- 			.expected = { 0xF800 },
- 			.expected_swab = { 0x00F8 },
- 		},
-+		.xrgb1555_result = {
-+			.dst_pitch = 0,
-+			.expected = { 0x7C00 },
-+		},
-+		.argb1555_result = {
-+			.dst_pitch = 0,
-+			.expected = { 0xFC00 },
-+		},
-+		.rgba5551_result = {
-+			.dst_pitch = 0,
-+			.expected = { 0xF801 },
-+		},
- 		.rgb888_result = {
- 			.dst_pitch = 0,
- 			.expected = { 0x00, 0x00, 0xFF },
-@@ -123,6 +153,18 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
- 			.expected = { 0xF800 },
- 			.expected_swab = { 0x00F8 },
- 		},
-+		.xrgb1555_result = {
-+			.dst_pitch = 0,
-+			.expected = { 0x7C00 },
-+		},
-+		.argb1555_result = {
-+			.dst_pitch = 0,
-+			.expected = { 0xFC00 },
-+		},
-+		.rgba5551_result = {
-+			.dst_pitch = 0,
-+			.expected = { 0xF801 },
-+		},
- 		.rgb888_result = {
- 			.dst_pitch = 0,
- 			.expected = { 0x00, 0x00, 0xFF },
-@@ -188,6 +230,33 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
- 				0xE0FF, 0xFF07,
- 			},
- 		},
-+		.xrgb1555_result = {
-+			.dst_pitch = 0,
-+			.expected = {
-+				0x7FFF, 0x0000,
-+				0x7C00, 0x03E0,
-+				0x001F, 0x7C1F,
-+				0x7FE0, 0x03FF,
-+			},
-+		},
-+		.argb1555_result = {
-+			.dst_pitch = 0,
-+			.expected = {
-+				0xFFFF, 0x8000,
-+				0xFC00, 0x83E0,
-+				0x801F, 0xFC1F,
-+				0xFFE0, 0x83FF,
-+			},
-+		},
-+		.rgba5551_result = {
-+			.dst_pitch = 0,
-+			.expected = {
-+				0xFFFF, 0x0001,
-+				0xF801, 0x07C1,
-+				0x003F, 0xF83F,
-+				0xFFC1, 0x07FF,
-+			},
-+		},
- 		.rgb888_result = {
- 			.dst_pitch = 0,
- 			.expected = {
-@@ -264,6 +333,30 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
- 				0x00A8, 0x8E6B, 0x330A, 0x0000, 0x0000,
- 			},
- 		},
-+		.xrgb1555_result = {
-+			.dst_pitch = 10,
-+			.expected = {
-+				0x0513, 0x0920, 0x5400, 0x0000, 0x0000,
-+				0x35CE, 0x0513, 0x0920, 0x0000, 0x0000,
-+				0x5400, 0x35CE, 0x0513, 0x0000, 0x0000,
-+			},
-+		},
-+		.argb1555_result = {
-+			.dst_pitch = 10,
-+			.expected = {
-+				0x8513, 0x8920, 0xD400, 0x0000, 0x0000,
-+				0xB5CE, 0x8513, 0x8920, 0x0000, 0x0000,
-+				0xD400, 0xB5CE, 0x8513, 0x0000, 0x0000,
-+			},
-+		},
-+		.rgba5551_result = {
-+			.dst_pitch = 10,
-+			.expected = {
-+				0x0A27, 0x1241, 0xA801, 0x0000, 0x0000,
-+				0x6B9D, 0x0A27, 0x1241, 0x0000, 0x0000,
-+				0xA801, 0x6B9D, 0x0A27, 0x0000, 0x0000,
-+			},
-+		},
- 		.rgb888_result = {
- 			.dst_pitch = 15,
- 			.expected = {
-@@ -476,6 +569,99 @@ static void drm_test_fb_xrgb8888_to_rgb565(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, memcmp(buf, result->expected_swab, dst_size), 0);
- }
+-	memset(&sizes, 0, sizeof(struct drm_fb_helper_surface_size));
+-	sizes.surface_depth = 24;
+-	sizes.surface_bpp = 32;
+-	sizes.fb_width = (u32)-1;
+-	sizes.fb_height = (u32)-1;
++	memset(sizes, 0, sizeof(struct drm_fb_helper_surface_size));
++	sizes->surface_depth = 24;
++	sizes->surface_bpp = 32;
++	sizes->fb_width = (u32)-1;
++	sizes->fb_height = (u32)-1;
  
-+static void drm_test_fb_xrgb8888_to_xrgb1555(struct kunit *test)
-+{
-+	const struct convert_xrgb8888_case *params = test->param_value;
-+	const struct convert_to_xrgb1555_result *result = &params->xrgb1555_result;
-+	size_t dst_size;
-+	u16 *buf = NULL;
-+	__le32 *xrgb8888 = NULL;
-+	struct iosys_map dst, src;
-+
-+	struct drm_framebuffer fb = {
-+		.format = drm_format_info(DRM_FORMAT_XRGB8888),
-+		.pitches = { params->pitch, 0, 0 },
-+	};
-+
-+	dst_size = conversion_buf_size(DRM_FORMAT_XRGB1555, result->dst_pitch,
-+				       &params->clip);
-+	KUNIT_ASSERT_GT(test, dst_size, 0);
-+
-+	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
-+	iosys_map_set_vaddr(&dst, buf);
-+
-+	xrgb8888 = cpubuf_to_le32(test, params->xrgb8888, TEST_BUF_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
-+	iosys_map_set_vaddr(&src, xrgb8888);
-+
-+	drm_fb_xrgb8888_to_xrgb1555(&dst, &result->dst_pitch, &src, &fb, &params->clip);
-+	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
-+	KUNIT_EXPECT_EQ(test, memcmp(buf, result->expected, dst_size), 0);
+ 	/*
+ 	 * If driver picks 8 or 16 by default use that for both depth/bpp
+ 	 * to begin with
+ 	 */
+-	if (preferred_bpp != sizes.surface_bpp)
+-		sizes.surface_depth = sizes.surface_bpp = preferred_bpp;
++	if (preferred_bpp != sizes->surface_bpp)
++		sizes->surface_depth = sizes->surface_bpp = preferred_bpp;
+ 
+ 	drm_connector_list_iter_begin(fb_helper->dev, &conn_iter);
+ 	drm_client_for_each_connector_iter(connector, &conn_iter) {
+@@ -1766,21 +1760,21 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
+ 		if (cmdline_mode->bpp_specified) {
+ 			switch (cmdline_mode->bpp) {
+ 			case 8:
+-				sizes.surface_depth = sizes.surface_bpp = 8;
++				sizes->surface_depth = sizes->surface_bpp = 8;
+ 				break;
+ 			case 15:
+-				sizes.surface_depth = 15;
+-				sizes.surface_bpp = 16;
++				sizes->surface_depth = 15;
++				sizes->surface_bpp = 16;
+ 				break;
+ 			case 16:
+-				sizes.surface_depth = sizes.surface_bpp = 16;
++				sizes->surface_depth = sizes->surface_bpp = 16;
+ 				break;
+ 			case 24:
+-				sizes.surface_depth = sizes.surface_bpp = 24;
++				sizes->surface_depth = sizes->surface_bpp = 24;
+ 				break;
+ 			case 32:
+-				sizes.surface_depth = 24;
+-				sizes.surface_bpp = 32;
++				sizes->surface_depth = 24;
++				sizes->surface_bpp = 32;
+ 				break;
+ 			}
+ 			break;
+@@ -1793,7 +1787,6 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
+ 	 * supports RGBA5551 (16 bpp, depth 15) but not RGB565 (16 bpp, depth
+ 	 * 16) we need to scale down the depth of the sizes we request.
+ 	 */
+-	mutex_lock(&client->modeset_mutex);
+ 	drm_client_for_each_modeset(mode_set, client) {
+ 		struct drm_crtc *crtc = mode_set->crtc;
+ 		struct drm_plane *plane = crtc->primary;
+@@ -1817,13 +1810,13 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
+ 				continue;
+ 
+ 			/* We found a perfect fit, great */
+-			if (fmt->depth == sizes.surface_depth) {
++			if (fmt->depth == sizes->surface_depth) {
+ 				best_depth = fmt->depth;
+ 				break;
+ 			}
+ 
+ 			/* Skip depths above what we're looking for */
+-			if (fmt->depth > sizes.surface_depth)
++			if (fmt->depth > sizes->surface_depth)
+ 				continue;
+ 
+ 			/* Best depth found so far */
+@@ -1831,10 +1824,10 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
+ 				best_depth = fmt->depth;
+ 		}
+ 	}
+-	if (sizes.surface_depth != best_depth && best_depth) {
++	if (sizes->surface_depth != best_depth && best_depth) {
+ 		drm_info(dev, "requested bpp %d, scaled depth down to %d",
+-			 sizes.surface_bpp, best_depth);
+-		sizes.surface_depth = best_depth;
++			 sizes->surface_bpp, best_depth);
++		sizes->surface_depth = best_depth;
+ 	}
+ 
+ 	/* first up get a count of crtcs now in use and new min/maxes width/heights */
+@@ -1858,8 +1851,10 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
+ 		x = mode_set->x;
+ 		y = mode_set->y;
+ 
+-		sizes.surface_width  = max_t(u32, desired_mode->hdisplay + x, sizes.surface_width);
+-		sizes.surface_height = max_t(u32, desired_mode->vdisplay + y, sizes.surface_height);
++		sizes->surface_width  =
++			max_t(u32, desired_mode->hdisplay + x, sizes->surface_width);
++		sizes->surface_height =
++			max_t(u32, desired_mode->vdisplay + y, sizes->surface_height);
+ 
+ 		for (j = 0; j < mode_set->num_connectors; j++) {
+ 			struct drm_connector *connector = mode_set->connectors[j];
+@@ -1875,28 +1870,63 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
+ 		}
+ 
+ 		if (lasth)
+-			sizes.fb_width  = min_t(u32, desired_mode->hdisplay + x, sizes.fb_width);
++			sizes->fb_width  = min_t(u32, desired_mode->hdisplay + x, sizes->fb_width);
+ 		if (lastv)
+-			sizes.fb_height = min_t(u32, desired_mode->vdisplay + y, sizes.fb_height);
++			sizes->fb_height = min_t(u32, desired_mode->vdisplay + y, sizes->fb_height);
+ 	}
+-	mutex_unlock(&client->modeset_mutex);
+ 
+-	if (crtc_count == 0 || sizes.fb_width == -1 || sizes.fb_height == -1) {
++	if (crtc_count == 0 || sizes->fb_width == -1 || sizes->fb_height == -1) {
+ 		drm_info(dev, "Cannot find any crtc or sizes\n");
+-
+-		/* First time: disable all crtc's.. */
+-		if (!fb_helper->deferred_setup)
+-			drm_client_modeset_commit(client);
+ 		return -EAGAIN;
+ 	}
+ 
++	return 0;
 +}
 +
-+static void drm_test_fb_xrgb8888_to_argb1555(struct kunit *test)
++static int drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper, int preferred_bpp,
++				    struct drm_fb_helper_surface_size *sizes)
 +{
-+	const struct convert_xrgb8888_case *params = test->param_value;
-+	const struct convert_to_argb1555_result *result = &params->argb1555_result;
-+	size_t dst_size;
-+	u16 *buf = NULL;
-+	__le32 *xrgb8888 = NULL;
-+	struct iosys_map dst, src;
++	struct drm_client_dev *client = &fb_helper->client;
++	struct drm_device *dev = fb_helper->dev;
++	struct drm_mode_config *config = &dev->mode_config;
++	int ret;
 +
-+	struct drm_framebuffer fb = {
-+		.format = drm_format_info(DRM_FORMAT_XRGB8888),
-+		.pitches = { params->pitch, 0, 0 },
-+	};
++	mutex_lock(&client->modeset_mutex);
++	ret = __drm_fb_helper_find_sizes(fb_helper, preferred_bpp, sizes);
++	mutex_unlock(&client->modeset_mutex);
 +
-+	dst_size = conversion_buf_size(DRM_FORMAT_ARGB1555, result->dst_pitch,
-+				       &params->clip);
-+	KUNIT_ASSERT_GT(test, dst_size, 0);
++	if (ret)
++		return ret;
 +
-+	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
-+	iosys_map_set_vaddr(&dst, buf);
+ 	/* Handle our overallocation */
+-	sizes.surface_height *= drm_fbdev_overalloc;
+-	sizes.surface_height /= 100;
+-	if (sizes.surface_height > config->max_height) {
++	sizes->surface_height *= drm_fbdev_overalloc;
++	sizes->surface_height /= 100;
++	if (sizes->surface_height > config->max_height) {
+ 		drm_dbg_kms(dev, "Fbdev over-allocation too large; clamping height to %d\n",
+ 			    config->max_height);
+-		sizes.surface_height = config->max_height;
++		sizes->surface_height = config->max_height;
++	}
 +
-+	xrgb8888 = cpubuf_to_le32(test, params->xrgb8888, TEST_BUF_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
-+	iosys_map_set_vaddr(&src, xrgb8888);
-+
-+	drm_fb_xrgb8888_to_argb1555(&dst, &result->dst_pitch, &src, &fb, &params->clip);
-+	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
-+	KUNIT_EXPECT_EQ(test, memcmp(buf, result->expected, dst_size), 0);
++	return 0;
 +}
 +
-+static void drm_test_fb_xrgb8888_to_rgba5551(struct kunit *test)
++/*
++ * Allocates the backing storage and sets up the fbdev info structure through
++ * the ->fb_probe callback.
++ */
++static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
++					 int preferred_bpp)
 +{
-+	const struct convert_xrgb8888_case *params = test->param_value;
-+	const struct convert_to_rgba5551_result *result = &params->rgba5551_result;
-+	size_t dst_size;
-+	u16 *buf = NULL;
-+	__le32 *xrgb8888 = NULL;
-+	struct iosys_map dst, src;
++	struct drm_client_dev *client = &fb_helper->client;
++	struct drm_fb_helper_surface_size sizes;
++	int ret;
 +
-+	struct drm_framebuffer fb = {
-+		.format = drm_format_info(DRM_FORMAT_XRGB8888),
-+		.pitches = { params->pitch, 0, 0 },
-+	};
-+
-+	dst_size = conversion_buf_size(DRM_FORMAT_RGBA5551, result->dst_pitch,
-+				       &params->clip);
-+	KUNIT_ASSERT_GT(test, dst_size, 0);
-+
-+	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
-+	iosys_map_set_vaddr(&dst, buf);
-+
-+	xrgb8888 = cpubuf_to_le32(test, params->xrgb8888, TEST_BUF_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
-+	iosys_map_set_vaddr(&src, xrgb8888);
-+
-+	drm_fb_xrgb8888_to_rgba5551(&dst, &result->dst_pitch, &src, &fb, &params->clip);
-+	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
-+	KUNIT_EXPECT_EQ(test, memcmp(buf, result->expected, dst_size), 0);
-+}
-+
- static void drm_test_fb_xrgb8888_to_rgb888(struct kunit *test)
- {
- 	const struct convert_xrgb8888_case *params = test->param_value;
-@@ -607,6 +793,9 @@ static struct kunit_case drm_format_helper_test_cases[] = {
- 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_gray8, convert_xrgb8888_gen_params),
- 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb332, convert_xrgb8888_gen_params),
- 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb565, convert_xrgb8888_gen_params),
-+	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_xrgb1555, convert_xrgb8888_gen_params),
-+	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb1555, convert_xrgb8888_gen_params),
-+	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgba5551, convert_xrgb8888_gen_params),
- 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb888, convert_xrgb8888_gen_params),
- 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb8888, convert_xrgb8888_gen_params),
- 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_xrgb2101010, convert_xrgb8888_gen_params),
-diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-index 10b2d19cdb66..2d04f5863722 100644
---- a/include/drm/drm_format_helper.h
-+++ b/include/drm/drm_format_helper.h
-@@ -30,6 +30,15 @@ void drm_fb_xrgb8888_to_rgb332(struct iosys_map *dst, const unsigned int *dst_pi
- void drm_fb_xrgb8888_to_rgb565(struct iosys_map *dst, const unsigned int *dst_pitch,
- 			       const struct iosys_map *src, const struct drm_framebuffer *fb,
- 			       const struct drm_rect *clip, bool swab);
-+void drm_fb_xrgb8888_to_xrgb1555(struct iosys_map *dst, const unsigned int *dst_pitch,
-+				 const struct iosys_map *src, const struct drm_framebuffer *fb,
-+				 const struct drm_rect *clip);
-+void drm_fb_xrgb8888_to_argb1555(struct iosys_map *dst, const unsigned int *dst_pitch,
-+				 const struct iosys_map *src, const struct drm_framebuffer *fb,
-+				 const struct drm_rect *clip);
-+void drm_fb_xrgb8888_to_rgba5551(struct iosys_map *dst, const unsigned int *dst_pitch,
-+				 const struct iosys_map *src, const struct drm_framebuffer *fb,
-+				 const struct drm_rect *clip);
- void drm_fb_xrgb8888_to_rgb888(struct iosys_map *dst, const unsigned int *dst_pitch,
- 			       const struct iosys_map *src, const struct drm_framebuffer *fb,
- 			       const struct drm_rect *clip);
++	ret = drm_fb_helper_find_sizes(fb_helper, preferred_bpp, &sizes);
++	if (ret) {
++		/* First time: disable all crtc's.. */
++		if (!fb_helper->deferred_setup)
++			drm_client_modeset_commit(client);
++		return ret;
+ 	}
+ 
+ #if IS_ENABLED(CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM)
 -- 
 2.39.0
 
