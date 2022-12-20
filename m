@@ -2,52 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0888651C5D
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 09:33:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A192651CBF
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 10:01:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06A6610E33E;
-	Tue, 20 Dec 2022 08:32:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A733610E09D;
+	Tue, 20 Dec 2022 09:01:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C485C10E09D;
- Tue, 20 Dec 2022 08:32:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671525131; x=1703061131;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=C/hTgZEZo75zb+BTntVx1WXDyCh8QkxVDLKYtiG9wWc=;
- b=XzCCj1cdQxYn9sfVK7WwvHnRWwimlxtdsSvGxItQ+7jH4g5UhAj0yYWk
- j7OFG2vSIalIlkwRJXp6IL1IW+EQN+gsJ4Lw/ZwC5EzSsEpzsax+h49qk
- i322D/urwq655wbJS5+KEDhY5McRlQ0YddIs27fzH/Lqcy7/2ot5HRIjR
- GF6In/1O86HWJ37BMKiI/KWySczgJuTJJ6AyajIrjFtLefnl2ZVcyoZZ2
- CjV+oqKg3oa1Vmc9LBr8fyQOpO7qYfbKQGIR8u/Jv1hXecY30nnmgpYWd
- e3MHX6KOmSHAqXWE6DN4CT+jCdT8xqUKYq6DUoOHCQTGx9+TjjXb/cCWg g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="299902619"
-X-IronPort-AV: E=Sophos;i="5.96,258,1665471600"; 
- d="asc'?scan'208";a="299902619"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Dec 2022 00:31:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="650908730"
-X-IronPort-AV: E=Sophos;i="5.96,258,1665471600"; 
- d="asc'?scan'208";a="650908730"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.159.108])
- by orsmga002.jf.intel.com with ESMTP; 20 Dec 2022 00:31:48 -0800
-Date: Tue, 20 Dec 2022 16:29:50 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-Subject: Re: [PATCH] [next] i915/gvt: Replace one-element array with
- flexible-array member
-Message-ID: <20221220082950.GF30028@zhen-hp.sh.intel.com>
-References: <Y6Eu2604cqtryP4g@mail.google.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BDFA10E09D
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 09:01:12 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 51096612AF;
+ Tue, 20 Dec 2022 09:01:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2606AC433D2;
+ Tue, 20 Dec 2022 09:01:05 +0000 (UTC)
+Message-ID: <2f252958-1bb1-006a-b450-1315be8a3c9f@xs4all.nl>
+Date: Tue, 20 Dec 2022 10:01:04 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="WVf18ZLo9bznw8Mz"
-Content-Disposition: inline
-In-Reply-To: <Y6Eu2604cqtryP4g@mail.google.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v2 7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB,
+ Y210)
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221219140139.294245-8-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y6Db2C+JehUPYSQp@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <Y6Db2C+JehUPYSQp@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,122 +48,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
- linux-hardening@vger.kernel.org
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 19/12/2022 22:47, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> (CC'ing Sakari and Hans)
+> 
+> Thank you for the patch.
+> 
+> On Mon, Dec 19, 2022 at 04:01:39PM +0200, Tomi Valkeinen wrote:
+>> Add new pixel formats: RGBX1010102, RGBA1010102, ARGB2101010 and Y210.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 24 +++++++++++++
+>>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 49 +++++++++++++++++++++++++--
+>>  2 files changed, 71 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+>> index 8c2719efda2a..8ccabf5a30c4 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+>> @@ -259,6 +259,24 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+>>  		.bpp = 32,
+>>  		.planes = 1,
+>>  		.hsub = 1,
+>> +	}, {
+>> +		.fourcc = DRM_FORMAT_RGBX1010102,
+> 
+> Ah, here the format makes sense.
+> 
+>> +		.v4l2 = V4L2_PIX_FMT_XBGR2101010,
+> 
+> But this is horrible :-( Could we use the same names as DRM for new
+> formats, when there is no conflict with existing V4L2 formats ?
+> 
+> Sakari, Hans, what do you think ? Please see patch 1/7 in the series for
+> the format definitions.
 
---WVf18ZLo9bznw8Mz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+V4L2 describes pixel formats based on how they appear in memory from the
+lowest to highest memory address.
 
-On 2022.12.20 16:41:15 +1300, Paulo Miguel Almeida wrote:
-> One-element arrays are deprecated, and we are replacing them with
-> flexible array members instead. So, replace one-element array with
-> flexible-array member in struct gvt_firmware_header and refactor the
-> rest of the code accordingly.
->=20
-> Additionally, previous implementation was allocating 8 bytes more than
-> required to represent firmware_header + cfg_space data + mmio data.
->=20
-> This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
-> routines on memcpy() and help us make progress towards globally
-> enabling -fstrict-flex-arrays=3D3 [1].
->=20
-> Link: https://github.com/KSPP/linux/issues/79
-> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D101836 [1]
-> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.c=
-om>
-> ---
-> To make reviewing this patch easier, I'm pasting before/after struct
-> sizes.
->=20
-> pahole -C gvt_firmware_header before/drivers/gpu/drm/i915/gvt/firmware.o=
-=20
-> struct gvt_firmware_header {
-> 	u64                        magic;                /*     0     8 */
-> 	u32                        crc32;                /*     8     4 */
-> 	u32                        version;              /*    12     4 */
-> 	u64                        cfg_space_size;       /*    16     8 */
-> 	u64                        cfg_space_offset;     /*    24     8 */
-> 	u64                        mmio_size;            /*    32     8 */
-> 	u64                        mmio_offset;          /*    40     8 */
-> 	unsigned char              data[1];              /*    48     1 */
->=20
-> 	/* size: 56, cachelines: 1, members: 8 */
-> 	/* padding: 7 */
-> 	/* last cacheline: 56 bytes */
-> };
->=20
-> pahole -C gvt_firmware_header after/drivers/gpu/drm/i915/gvt/firmware.o=
-=20
-> struct gvt_firmware_header {
-> 	u64                        magic;                /*     0     8 */
-> 	u32                        crc32;                /*     8     4 */
-> 	u32                        version;              /*    12     4 */
-> 	u64                        cfg_space_size;       /*    16     8 */
-> 	u64                        cfg_space_offset;     /*    24     8 */
-> 	u64                        mmio_size;            /*    32     8 */
-> 	u64                        mmio_offset;          /*    40     8 */
-> 	unsigned char              data[];               /*    48     0 */
->=20
-> 	/* size: 48, cachelines: 1, members: 8 */
-> 	/* last cacheline: 48 bytes */
-> };
->=20
-> As you can see the additional byte of the fake-flexible array (data[1])
-> forced the compiler to pad the struct but those bytes aren't actually used
-> as first & last bytes (of both cfg_space and mmio) are controlled by the
-> <>_size and <>_offset members present in the gvt_firmware_header struct.
-> ---
->  drivers/gpu/drm/i915/gvt/firmware.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/gvt/firmware.c b/drivers/gpu/drm/i915/g=
-vt/firmware.c
-> index a683c22d5b64..dce93738e98a 100644
-> --- a/drivers/gpu/drm/i915/gvt/firmware.c
-> +++ b/drivers/gpu/drm/i915/gvt/firmware.c
-> @@ -45,7 +45,7 @@ struct gvt_firmware_header {
->  	u64 cfg_space_offset;	/* offset in the file */
->  	u64 mmio_size;
->  	u64 mmio_offset;	/* offset in the file */
-> -	unsigned char data[1];
-> +	unsigned char data[];
->  };
-> =20
->  #define dev_to_drm_minor(d) dev_get_drvdata((d))
-> @@ -77,7 +77,7 @@ static int expose_firmware_sysfs(struct intel_gvt *gvt)
->  	unsigned long size, crc32_start;
->  	int ret;
-> =20
-> -	size =3D sizeof(*h) + info->mmio_size + info->cfg_space_size;
-> +	size =3D offsetof(struct gvt_firmware_header, data) + info->mmio_size +=
- info->cfg_space_size;
->  	firmware =3D vzalloc(size);
->  	if (!firmware)
->  		return -ENOMEM;
-> --=20
+If I am not mistaken, DRM uses the CPU order. So that explains the difference
+in naming. I don't think we should hide that difference. And V4L2 has been
+quite consistent in following memory ordering in the naming (except possibly
+for some of the really old pixelformats).
 
-Looks good to me.
-Reviewed-by: Zhenyu Wang <zhenyuw@linux.intel.com>
+Departing from that would be more of a hindrance than a help, IMHO.
 
-Thanks!
+Regards,
 
---WVf18ZLo9bznw8Mz
-Content-Type: application/pgp-signature; name="signature.asc"
+	Hans
 
------BEGIN PGP SIGNATURE-----
+> 
+>> +		.bpp = 32,
+>> +		.planes = 1,
+>> +		.hsub = 1,
+>> +	}, {
+>> +		.fourcc = DRM_FORMAT_RGBA1010102,
+>> +		.v4l2 = V4L2_PIX_FMT_ABGR2101010,
+>> +		.bpp = 32,
+>> +		.planes = 1,
+>> +		.hsub = 1,
+>> +	}, {
+>> +		.fourcc = DRM_FORMAT_ARGB2101010,
+>> +		.v4l2 = V4L2_PIX_FMT_BGRA1010102,
+>> +		.bpp = 32,
+>> +		.planes = 1,
+>> +		.hsub = 1,
+>>  	}, {
+>>  		.fourcc = DRM_FORMAT_YVYU,
+>>  		.v4l2 = V4L2_PIX_FMT_YVYU,
+>> @@ -307,6 +325,12 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+>>  		.bpp = 24,
+>>  		.planes = 3,
+>>  		.hsub = 1,
+>> +	}, {
+>> +		.fourcc = DRM_FORMAT_Y210,
+>> +		.v4l2 = V4L2_PIX_FMT_Y210,
+>> +		.bpp = 32,
+>> +		.planes = 1,
+>> +		.hsub = 2,
+>>  	},
+> 
+> Any reason why you'd not adding Y212 support already ?
+> 
+>>  };
+>>  
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+>> index e465aef41585..6f3e109a4f80 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+>> @@ -139,6 +139,42 @@ static const u32 rcar_du_vsp_formats[] = {
+>>  	DRM_FORMAT_YVU444,
+>>  };
+>>  
+>> +/*
+>> + * Gen4 supports the same formats as above, and additionally 2-10-10-10 RGB
+>> + * formats and Y210 format.
+>> + */
+>> +static const u32 rcar_du_vsp_formats_gen4[] = {
+>> +	DRM_FORMAT_RGB332,
+>> +	DRM_FORMAT_ARGB4444,
+>> +	DRM_FORMAT_XRGB4444,
+>> +	DRM_FORMAT_ARGB1555,
+>> +	DRM_FORMAT_XRGB1555,
+>> +	DRM_FORMAT_RGB565,
+>> +	DRM_FORMAT_BGR888,
+>> +	DRM_FORMAT_RGB888,
+>> +	DRM_FORMAT_BGRA8888,
+>> +	DRM_FORMAT_BGRX8888,
+>> +	DRM_FORMAT_ARGB8888,
+>> +	DRM_FORMAT_XRGB8888,
+>> +	DRM_FORMAT_RGBX1010102,
+>> +	DRM_FORMAT_RGBA1010102,
+>> +	DRM_FORMAT_ARGB2101010,
+>> +	DRM_FORMAT_UYVY,
+>> +	DRM_FORMAT_YUYV,
+>> +	DRM_FORMAT_YVYU,
+>> +	DRM_FORMAT_NV12,
+>> +	DRM_FORMAT_NV21,
+>> +	DRM_FORMAT_NV16,
+>> +	DRM_FORMAT_NV61,
+>> +	DRM_FORMAT_YUV420,
+>> +	DRM_FORMAT_YVU420,
+>> +	DRM_FORMAT_YUV422,
+>> +	DRM_FORMAT_YVU422,
+>> +	DRM_FORMAT_YUV444,
+>> +	DRM_FORMAT_YVU444,
+>> +	DRM_FORMAT_Y210,
+>> +};
+>> +
+>>  static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
+>>  {
+>>  	struct rcar_du_vsp_plane_state *state =
+>> @@ -436,14 +472,23 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+>>  					 ? DRM_PLANE_TYPE_PRIMARY
+>>  					 : DRM_PLANE_TYPE_OVERLAY;
+>>  		struct rcar_du_vsp_plane *plane = &vsp->planes[i];
+>> +		unsigned int num_formats;
+>> +		const u32 *formats;
+>> +
+>> +		if (rcdu->info->gen < 4) {
+>> +			num_formats = ARRAY_SIZE(rcar_du_vsp_formats);
+>> +			formats = rcar_du_vsp_formats;
+>> +		} else {
+>> +			num_formats = ARRAY_SIZE(rcar_du_vsp_formats_gen4);
+>> +			formats = rcar_du_vsp_formats_gen4;
+>> +		}
+>>  
+>>  		plane->vsp = vsp;
+>>  		plane->index = i;
+>>  
+>>  		ret = drm_universal_plane_init(&rcdu->ddev, &plane->plane,
+>>  					       crtcs, &rcar_du_vsp_plane_funcs,
+>> -					       rcar_du_vsp_formats,
+>> -					       ARRAY_SIZE(rcar_du_vsp_formats),
+>> +					       formats, num_formats,
+>>  					       NULL, type, NULL);
+>>  		if (ret < 0)
+>>  			return ret;
+> 
 
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCY6FyfgAKCRCxBBozTXgY
-J4H/AJ0TiZ3MGB5514oDdiz4Nwdq5iOREwCfdiEwH2G89X6y35mKtGCBryNZ02g=
-=O2Zy
------END PGP SIGNATURE-----
-
---WVf18ZLo9bznw8Mz--
