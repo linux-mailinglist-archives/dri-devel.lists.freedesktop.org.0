@@ -2,42 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88C2F651BD0
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 08:42:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 831A7651BE9
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 08:45:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4A9710E08A;
-	Tue, 20 Dec 2022 07:42:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F17A10E2DE;
+	Tue, 20 Dec 2022 07:44:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 578 seconds by postgrey-1.36 at gabe;
- Tue, 20 Dec 2022 07:42:12 UTC
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 354AE10E08A
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 07:42:12 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
- by mail.kmu-office.ch (Postfix) with ESMTPSA id AEEBC5C03AF;
- Tue, 20 Dec 2022 08:32:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
- t=1671521520;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/z0MB0ZIFP6aeujFH0p44anRHbnTFFLRrIGfOtCkCsA=;
- b=wgXLk1fPwI5tusswIE/FVXABCqdMsTd4Ewelb8wZZfeqOiyccCdgwwMycuAL9xayASQ5OP
- NPl6uRIVPAqWR3ncZNOHxYkBz9ZHZQJKSUf2V1sxdsTKuqrAAmgiWFIEth433dZFi6IG9F
- 84bJ8jwNDilNZ+t8o29aIl5LA+nVjVU=
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2F4710E2DE;
+ Tue, 20 Dec 2022 07:44:49 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BK6pRC6004460; Tue, 20 Dec 2022 07:44:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=GU/43o5aYgQU494/wwpx1NXvBoK3twBIVcRyWPGgpG8=;
+ b=MwyqbcjbughfVljkZOKSxIVdVZVm1BluZTXBlXawCiEiWKYMmTdA9PBmktLdd5hMLVmp
+ kgF71rzukz76deCfpatr4DCTeSUUyvgyu0zEVRylQUb9s20Sz8IY0SPhLBl7rFwm71Eo
+ yI7gA/ZwlsWt+8utJVgs/0nfUtMk1gOW5hgZVXSHNn8lrm1AYTxPpu46ZVH4KSVvqPgv
+ 0oOc7swSUIXbROarDsVsEZctY/1tTY5dVHQuEOgXqNRlJ3UYBqZj3wEabrR4qaeYMXgn
+ ep+KDu5yhKJyJGqkhx4geLeFQojwzSXtOHCqQTmoOniNIeiKUEwxWwc5/pmoxx+Oeo2Q Aw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mk83xr4k2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 20 Dec 2022 07:44:39 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BK7ibkA017977
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 20 Dec 2022 07:44:37 GMT
+Received: from hyd-lnxbld559.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Mon, 19 Dec 2022 23:44:29 -0800
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: freedreno <freedreno@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH v3 0/5] Improve GPU reset sequence for Adreno GPU
+Date: Tue, 20 Dec 2022 13:14:12 +0530
+Message-ID: <1671522257-38778-1-git-send-email-quic_akhilpo@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Date: Tue, 20 Dec 2022 08:32:00 +0100
-From: Stefan Agner <stefan@agner.ch>
-To: Deepak R Varma <drv@mailo.com>
-Subject: Re: [PATCH] drm/fsl-dcu: Remove redundant error logging
-In-Reply-To: <Y5Wwo6Gr1rJOdf3B@qemulion>
-References: <Y5Wwo6Gr1rJOdf3B@qemulion>
-Message-ID: <cbc2c587a04324f807a9c3d8d221f289@agner.ch>
-X-Sender: stefan@agner.ch
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: MZw744GSw6qEKIu2d7SsqSrh8Y93nJJs
+X-Proofpoint-GUID: MZw744GSw6qEKIu2d7SsqSrh8Y93nJJs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-20_01,2022-12-15_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 mlxlogscore=999
+ clxscore=1015 bulkscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0
+ adultscore=0 priorityscore=1501 spamscore=0 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2212200063
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,48 +80,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alison Wang <alison.wang@nxp.com>,
- Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- Saurabh Singh Sengar <ssengar@microsoft.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, Douglas
+ Anderson <dianders@chromium.org>, Pavel Machek <pavel@ucw.cz>,
+ linux-clk@vger.kernel.org, Kevin Hilman <khilman@kernel.org>,
+ Andy Gross <agross@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Guenter Roeck <linux@roeck-us.net>, Len Brown <len.brown@intel.com>,
+ linux-pm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-12-11 11:27, Deepak R Varma wrote:
-> A call to platform_get_irq() already prints an error on failure within
-> its own implementation. So printing another error based on its return
-> value in the caller is redundant and should be removed. The clean up
-> also makes if condition block braces unnecessary. Remove that as well.
-> 
-> Issue identified using platform_get_irq.cocci coccicheck script.
-> 
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
 
-Reviewed-by: Stefan Agner <stefan@agner.ch>
+This is a rework of [1] using genpd instead of 'reset' framework.
 
---
-Stefan
+As per the recommended reset sequence of Adreno gpu, we should ensure that
+gpucc-cx-gdsc has collapsed at hardware to reset gpu's internal hardware states.
+Because this gdsc is implemented as 'votable', gdsc driver doesn't poll and
+wait until its hw status says OFF.
 
-> ---
->  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-> b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-> index 8579c7629f5e..1ba7d95e1956 100644
-> --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-> +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-> @@ -272,10 +272,8 @@ static int fsl_dcu_drm_probe(struct platform_device *pdev)
->  	}
-> 
->  	fsl_dev->irq = platform_get_irq(pdev, 0);
-> -	if (fsl_dev->irq < 0) {
-> -		dev_err(dev, "failed to get irq\n");
-> +	if (fsl_dev->irq < 0)
->  		return fsl_dev->irq;
-> -	}
-> 
->  	fsl_dev->regmap = devm_regmap_init_mmio(dev, base,
->  			&fsl_dcu_regmap_config);
-> --
-> 2.34.1
+So use the newly introduced genpd api (dev_pm_genpd_synced_poweroff()) to
+provide a hint to the gdsc driver to poll for the hw status and use genpd
+notifier to wait from adreno gpu driver until gdsc is turned OFF.
+
+This series is rebased on top of linux-next (20221215) since the changes span
+multiple drivers.
+
+[1] https://patchwork.freedesktop.org/series/107507/
+
+Changes in v3:
+- Rename the var 'force_sync' to 'wait (Stephen)
+
+Changes in v2:
+- Minor formatting fix
+- Select PM_GENERIC_DOMAINS from Kconfig
+
+Akhil P Oommen (4):
+  clk: qcom: gdsc: Support 'synced_poweroff' genpd flag
+  drm/msm/a6xx: Vote for cx gdsc from gpu driver
+  drm/msm/a6xx: Remove cx gdsc polling using 'reset'
+  drm/msm/a6xx: Use genpd notifier to ensure cx-gdsc collapse
+
+Ulf Hansson (1):
+  PM: domains: Allow a genpd consumer to require a synced power off
+
+ drivers/base/power/domain.c           | 23 ++++++++++++++++++
+ drivers/clk/qcom/gdsc.c               | 11 +++++----
+ drivers/gpu/drm/msm/Kconfig           |  1 +
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 46 ++++++++++++++++++++++++++++++++---
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  7 ++++++
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 13 +++++++---
+ drivers/gpu/drm/msm/msm_gpu.c         |  4 ---
+ drivers/gpu/drm/msm/msm_gpu.h         |  4 ---
+ include/linux/pm_domain.h             |  5 ++++
+ 9 files changed, 94 insertions(+), 20 deletions(-)
+
+-- 
+2.7.4
+
