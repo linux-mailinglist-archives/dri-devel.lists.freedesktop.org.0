@@ -2,80 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD84651D69
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 10:33:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A86F651D74
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 10:34:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EF78891D9;
-	Tue, 20 Dec 2022 09:33:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C4F310E360;
+	Tue, 20 Dec 2022 09:34:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D301891D9
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 09:32:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671528777;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AzV1868qdOe1XrhL7OcqYIS/A7VjHb9o4AzfKTps9Yw=;
- b=CtrWn1OBODksqJrqL5e28n92WBrWJgbQroZm+2OnvYzRTyqv2zJddboX1veEo5VZD2MoV4
- abHGd0iBIFHoqD1z2BE/7adjmFwcFPeatt43Zl55gMvhM53eDL2imJABdK2xNLJNdc/d2W
- iuOA6yJTSPakBYf2PURB63bEBWQnvSQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-124-m8aOdgLvNbWQdYXzUEs9Ig-1; Tue, 20 Dec 2022 04:32:56 -0500
-X-MC-Unique: m8aOdgLvNbWQdYXzUEs9Ig-1
-Received: by mail-wr1-f69.google.com with SMTP id
- h10-20020adfaa8a000000b0024208cf285eso2104649wrc.22
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 01:32:55 -0800 (PST)
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
+ [209.85.160.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ED0F10E35F
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 09:34:00 +0000 (UTC)
+Received: by mail-qt1-f181.google.com with SMTP id c11so2620749qtn.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 01:34:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AzV1868qdOe1XrhL7OcqYIS/A7VjHb9o4AzfKTps9Yw=;
- b=miGbGks6fXZUe5n5MnoHc3I7UJMK3BtXkl3H7huFRtzLKJWJFbPlwvZn971GbaOP1J
- kzbNBwna4cxdFzFFnV8gIW5tIOItUMfEvkGZcPMZoCjVwXaXcw4693qZKecE4erFPN8v
- bcv7qIfdLz/1tyN6A9KKzFLZoYRw0v0uwXVzhlZGCOz9XiCi8OmxPdgvoBBKCoXjoLNt
- noggzE0Z1R/0VGxs0/oiyuXV5e0Ze3tFRof1qwiYex2BUTkzPGEOrwVuFcGz5a8F6V3Q
- tcIehzx6fJLvrtnH0KquQhHltbrH2E59fr8/4g186lwHeezc8fr8nXVsRghw9RZjOYEj
- fiOg==
-X-Gm-Message-State: AFqh2kr35C3+v6nb235IZQBWzZPX1zWHSbMs5qMae7IahoR5Jt3h0zXW
- dPnPps7a6aJRk+j9XwQ4zJ2s355cnRcVz9MA/4wZL8CoNWtBOCmjoD75JU9+EnbTaDMTR4bRpTN
- NxRuOpZ8eTUCJByqqMeQAv79yXT6a
-X-Received: by 2002:a05:600c:a4d:b0:3cf:6e78:e2ca with SMTP id
- c13-20020a05600c0a4d00b003cf6e78e2camr1014182wmq.5.1671528775021; 
- Tue, 20 Dec 2022 01:32:55 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtkJLPUngoE7Rdpiz+7rMSQUZVxCPiiE7/wiftR1AcmdksgPntUPs9xb4hKM0A1bxh9x31lEA==
-X-Received: by 2002:a05:600c:a4d:b0:3cf:6e78:e2ca with SMTP id
- c13-20020a05600c0a4d00b003cf6e78e2camr1014168wmq.5.1671528774842; 
- Tue, 20 Dec 2022 01:32:54 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- o13-20020a05600c510d00b003c6f8d30e40sm25405979wms.31.2022.12.20.01.32.53
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WpdfPBP970vLU8Qrw/EG17JgG4XDBxab8NOfDbJupFY=;
+ b=y7408V504YZ5mMMmMUwybH14MH9GMvFOncLTfk8FUOhy44HaQ3KtXmi342/uLgMosd
+ EvbpNY1C8Vu3uy/QeerPzZI+K05q8hAv6M8Spc8/GTVfDBKCwgvWEies1Psxit6ESdKj
+ /HIwj+kNetJlMgEmw33Wmy4z0zXItaOHYeJcdKPJnmzdquLlVY9vvHUgwz/7LpAX/pfa
+ 5tjqkMeAYOi9OODR1zpChuk/TB0HOGehllNRgrlYBZ05CJ1axj3BKv+9nV32mcJtdfig
+ AdCF4Wz1dm4UihDzdlwDrDbkrymDyNLPepS3gc7rqCEn/WGn+Ic6o0XlhGF2DlyZ798l
+ UAlA==
+X-Gm-Message-State: ANoB5pmhGwC6fFayb8SFh4zUbG0oYHLxKfwxfr0Ks7ZqKtA90lRZrsnk
+ C0ZgcjMrKYrI6oCDsAV+HH9yMI/KILsdPg==
+X-Google-Smtp-Source: AA0mqf6bfW6k2ui6teD+3dFw5sAAlG0ikbWG5M9OkqcvQn+f8YBMz54LZzLOuEAxl6nzEVvvB2SCFg==
+X-Received: by 2002:ac8:1014:0:b0:3a4:3137:79b3 with SMTP id
+ z20-20020ac81014000000b003a4313779b3mr54337131qti.64.1671528838294; 
+ Tue, 20 Dec 2022 01:33:58 -0800 (PST)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com.
+ [209.85.219.177]) by smtp.gmail.com with ESMTPSA id
+ de26-20020a05620a371a00b006cfc01b4461sm8521502qkb.118.2022.12.20.01.33.58
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Dec 2022 01:32:54 -0800 (PST)
-Message-ID: <12990f75-6b72-7ed7-0593-1c542d71f0f0@redhat.com>
-Date: Tue, 20 Dec 2022 10:32:53 +0100
+ Tue, 20 Dec 2022 01:33:58 -0800 (PST)
+Received: by mail-yb1-f177.google.com with SMTP id j206so12336141ybj.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 01:33:58 -0800 (PST)
+X-Received: by 2002:a25:9:0:b0:6f9:29ef:a5ee with SMTP id
+ 9-20020a250009000000b006f929efa5eemr40430651yba.380.1671528837883; 
+ Tue, 20 Dec 2022 01:33:57 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 09/18] vfio-mdev/mdpy-fb: Do not set struct
- fb_info.apertures
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, deller@gmx.de
-References: <20221219160516.23436-1-tzimmermann@suse.de>
- <20221219160516.23436-10-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221219160516.23436-10-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221219140139.294245-8-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y6Db2C+JehUPYSQp@pendragon.ideasonboard.com>
+ <2f252958-1bb1-006a-b450-1315be8a3c9f@xs4all.nl>
+ <CAMuHMdXd7Q1WWdo-rwfad1-BwuuH5vxt9Kx2Zv2Ok2rQLvh_wA@mail.gmail.com>
+ <b503589a-7b82-3335-8ea3-598d467f5d40@xs4all.nl>
+In-Reply-To: <b503589a-7b82-3335-8ea3-598d467f5d40@xs4all.nl>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 20 Dec 2022 10:33:45 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWS+jOeFcHU=gQcaYdOMCk9oruSWiuCX-voXAbx61yYuA@mail.gmail.com>
+Message-ID: <CAMuHMdWS+jOeFcHU=gQcaYdOMCk9oruSWiuCX-voXAbx61yYuA@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB,
+ Y210)
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,53 +72,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Kirti Wankhede <kwankhede@nvidia.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ linux-renesas-soc@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[adding Kirti Wankhede and kvm@vger.kernel.org to Cc list]
+Hi Hans,
 
-On 12/19/22 17:05, Thomas Zimmermann wrote:
-> Generic fbdev drivers use the apertures field in struct fb_info to
-> control ownership of the framebuffer memory and graphics device. Do
-> not set the values in mdpy-fb.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  samples/vfio-mdev/mdpy-fb.c | 8 --------
->  1 file changed, 8 deletions(-)
-> 
-> diff --git a/samples/vfio-mdev/mdpy-fb.c b/samples/vfio-mdev/mdpy-fb.c
-> index 9ec93d90e8a5..1de5801cd2e8 100644
-> --- a/samples/vfio-mdev/mdpy-fb.c
-> +++ b/samples/vfio-mdev/mdpy-fb.c
-> @@ -161,14 +161,6 @@ static int mdpy_fb_probe(struct pci_dev *pdev,
->  		goto err_release_fb;
->  	}
->  
-> -	info->apertures = alloc_apertures(1);
-> -	if (!info->apertures) {
-> -		ret = -ENOMEM;
-> -		goto err_unmap;
-> -	}
-> -	info->apertures->ranges[0].base = info->fix.smem_start;
-> -	info->apertures->ranges[0].size = info->fix.smem_len;
-> -
->  	info->fbops = &mdpy_fb_ops;
->  	info->flags = FBINFO_DEFAULT;
->  	info->pseudo_palette = par->palette;
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+On Tue, Dec 20, 2022 at 10:22 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> On 20/12/2022 10:09, Geert Uytterhoeven wrote:
+> > On Tue, Dec 20, 2022 at 10:01 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> >> On 19/12/2022 22:47, Laurent Pinchart wrote:
+> >>> (CC'ing Sakari and Hans)
+> >>>
+> >>> Thank you for the patch.
+> >>>
+> >>> On Mon, Dec 19, 2022 at 04:01:39PM +0200, Tomi Valkeinen wrote:
+> >>>> Add new pixel formats: RGBX1010102, RGBA1010102, ARGB2101010 and Y210.
+> >>>>
+> >>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> >>>> ---
+> >>>>  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 24 +++++++++++++
+> >>>>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 49 +++++++++++++++++++++++++--
+> >>>>  2 files changed, 71 insertions(+), 2 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> >>>> index 8c2719efda2a..8ccabf5a30c4 100644
+> >>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> >>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> >>>> @@ -259,6 +259,24 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+> >>>>              .bpp = 32,
+> >>>>              .planes = 1,
+> >>>>              .hsub = 1,
+> >>>> +    }, {
+> >>>> +            .fourcc = DRM_FORMAT_RGBX1010102,
+> >>>
+> >>> Ah, here the format makes sense.
+> >>>
+> >>>> +            .v4l2 = V4L2_PIX_FMT_XBGR2101010,
+> >>>
+> >>> But this is horrible :-( Could we use the same names as DRM for new
+> >>> formats, when there is no conflict with existing V4L2 formats ?
+> >>>
+> >>> Sakari, Hans, what do you think ? Please see patch 1/7 in the series for
+> >>> the format definitions.
+> >>
+> >> V4L2 describes pixel formats based on how they appear in memory from the
+> >> lowest to highest memory address.
+> >
+> > So that means big endian?
+>
+> Yes.
+>
+> >> If I am not mistaken, DRM uses the CPU order. So that explains the difference
+> >> in naming. I don't think we should hide that difference. And V4L2 has been
+> >> quite consistent in following memory ordering in the naming (except possibly
+> >> for some of the really old pixelformats).
+> >
+> > DRM uses little endian.
+>
+> So not CPU order, but always little endian order? I.e., on a big endian system
+> a given DRM_FORMAT_ would have the same memory layout as on a little endian
+> system?
 
-But I think an ack from Kirti Wankhede or other virt folk is needed if you
-want to merge this through drm-misc-next.
+Indeed. Big-endian formats must set the DRM_FORMAT_BIG_ENDIAN flag:
 
--- 
-Best regards,
+    #define DRM_FORMAT_BIG_ENDIAN (1U<<31) /* format is big endian
+instead of little endian */
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+unless the big-endian format has a standard (little-endian) equivalent:
 
+Old PPC drivers may violate that, so there is some quirk handling...
+
+/*
+ * DRM formats are little endian.  Define host endian variants for the
+ * most common formats here, to reduce the #ifdefs needed in drivers.
+ *
+ * Note that the DRM_FORMAT_BIG_ENDIAN flag should only be used in
+ * case the format can't be specified otherwise, so we don't end up
+ * with two values describing the same format.
+ */
+#ifdef __BIG_ENDIAN
+# define DRM_FORMAT_HOST_XRGB1555     (DRM_FORMAT_XRGB1555         |    \
+                                       DRM_FORMAT_BIG_ENDIAN)
+# define DRM_FORMAT_HOST_RGB565       (DRM_FORMAT_RGB565           |    \
+                                       DRM_FORMAT_BIG_ENDIAN)
+# define DRM_FORMAT_HOST_XRGB8888     DRM_FORMAT_BGRX8888
+# define DRM_FORMAT_HOST_ARGB8888     DRM_FORMAT_BGRA8888
+#else
+# define DRM_FORMAT_HOST_XRGB1555     DRM_FORMAT_XRGB1555
+# define DRM_FORMAT_HOST_RGB565       DRM_FORMAT_RGB565
+# define DRM_FORMAT_HOST_XRGB8888     DRM_FORMAT_XRGB8888
+# define DRM_FORMAT_HOST_ARGB8888     DRM_FORMAT_ARGB8888
+#endif
+
+However, given the number of bugs related to big-endian formats,
+I doubt DRM has any real use on big-endian hardware (i.e. not
+counting hobbyists trying to migrate from fbdev to DRM ;-)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
