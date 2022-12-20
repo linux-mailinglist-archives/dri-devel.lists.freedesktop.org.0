@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39EF4652460
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 17:12:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F35652478
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 17:15:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7B6510E0BB;
-	Tue, 20 Dec 2022 16:11:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04AC710E0E7;
+	Tue, 20 Dec 2022 16:14:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C30FF10E0AE
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 16:11:53 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28C6810E0E7
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 16:14:26 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 483AE4D36A;
- Tue, 20 Dec 2022 16:11:52 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B07AD76747;
+ Tue, 20 Dec 2022 16:13:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1671552712; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ t=1671552834; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=PmJxYbyzQQ4gJWpFAMnsp+n6r0ebmHNPQtcwl6OI2eI=;
- b=UlCXSKsoR0/EGc+w3awtFXDjsUuBkdWGWSgnMva/yx++1jnCPP/Y2YiJNskUG5rYADpbiS
- z/mqgIs1XYHx4Ks4NwXT0Psra3wrU8Pab01ser0zaXUlo83Q2b5+ZYgrpuztbEiNz8gXy1
- QPbblCoe0dANZmgRR4whBPt1wTYAmCQ=
+ bh=ReqZqe9RHLFwjUQKIFVU9RESaXvc2/+pS7g2MXdWdQI=;
+ b=dOSDzwvr3WGLxyNJyezQu+f1JmJM4FVZG+3Ke2yI8n2nWP+Y6Pk9EXKAQLD8twLlVhCgnI
+ /Z7R1TAkR+Q3DwRXmKB4/3wY5SSY220xnjEwT2ThwEOzVMbOWNEa8Zdtgqq8V/GSS31BLl
+ rk9I02BHSdar1rDFJOAbxqEqYb3RQos=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1671552712;
+ s=susede2_ed25519; t=1671552834;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=PmJxYbyzQQ4gJWpFAMnsp+n6r0ebmHNPQtcwl6OI2eI=;
- b=9Rph3UBQj7c+vkQ1edNHKlmauY4GaUXqDxSu9P3AethuhBLRer+BuGXXIUJbf8pPvn9MR4
- DZloGfruIX9q2WAA==
+ bh=ReqZqe9RHLFwjUQKIFVU9RESaXvc2/+pS7g2MXdWdQI=;
+ b=MORkHgQFW66j7A8utv1Ow4/DRTf+129DWlTttIYDdm7xoepkqtl5t51FK2VCQOmvVVXb9M
+ 3xb/QPZq7w9YtcCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1B8E113910;
- Tue, 20 Dec 2022 16:11:52 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7DEB81390E;
+ Tue, 20 Dec 2022 16:13:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id qLXOBcjeoWMiZQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 20 Dec 2022 16:11:52 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@gmail.com, javierm@redhat.com,
- jose.exposito89@gmail.com, mairacanal@riseup.net, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com
-Subject: [PATCH v2 13/13] drm/format-helper: Remove unnecessary conversion
- helpers
-Date: Tue, 20 Dec 2022 17:11:45 +0100
-Message-Id: <20221220161145.27568-14-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20221220161145.27568-1-tzimmermann@suse.de>
-References: <20221220161145.27568-1-tzimmermann@suse.de>
+ by imap2.suse-dmz.suse.de with ESMTPSA id 5Xe0HULfoWMGZgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 20 Dec 2022 16:13:54 +0000
+Message-ID: <5ffe297c-f2b6-c669-768a-3f367b15a9a8@suse.de>
+Date: Tue, 20 Dec 2022 17:13:54 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] drm/sprd: remove redundant error logging
+Content-Language: en-US
+To: Deepak R Varma <drv@mailo.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <Y5XhPJ39ipMCcctq@qemulion> <Y6DPxKGmfRH5Bujn@qemulion>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <Y6DPxKGmfRH5Bujn@qemulion>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------mlzTiaT9zYKqbOoepSx4xXnY"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,120 +73,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drivers only emulate XRGB8888 framebuffers. Remove all conversion
-helpers that do not use XRGB8888 as their source format. Also remove
-some special cases for alpha formats in the blit helper.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------mlzTiaT9zYKqbOoepSx4xXnY
+Content-Type: multipart/mixed; boundary="------------NaXIDhrKjegA7vAvMQvrMCta";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Deepak R Varma <drv@mailo.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>
+Message-ID: <5ffe297c-f2b6-c669-768a-3f367b15a9a8@suse.de>
+Subject: Re: [PATCH] drm/sprd: remove redundant error logging
+References: <Y5XhPJ39ipMCcctq@qemulion> <Y6DPxKGmfRH5Bujn@qemulion>
+In-Reply-To: <Y6DPxKGmfRH5Bujn@qemulion>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
----
- drivers/gpu/drm/drm_format_helper.c | 75 -----------------------------
- 1 file changed, 75 deletions(-)
+--------------NaXIDhrKjegA7vAvMQvrMCta
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index 07791aa5385d..820fcfd9d95d 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -649,65 +649,6 @@ void drm_fb_xrgb8888_to_argb8888(struct iosys_map *dst, const unsigned int *dst_
- }
- EXPORT_SYMBOL(drm_fb_xrgb8888_to_argb8888);
- 
--static void drm_fb_rgb565_to_xrgb8888_line(void *dbuf, const void *sbuf, unsigned int pixels)
--{
--	__le32 *dbuf32 = dbuf;
--	const __le16 *sbuf16 = sbuf;
--	unsigned int x;
--
--	for (x = 0; x < pixels; x++) {
--		u16 val16 = le16_to_cpu(sbuf16[x]);
--		u32 val32 = ((val16 & 0xf800) << 8) |
--			    ((val16 & 0x07e0) << 5) |
--			    ((val16 & 0x001f) << 3);
--		val32 = 0xff000000 | val32 |
--			((val32 >> 3) & 0x00070007) |
--			((val32 >> 2) & 0x00000300);
--		dbuf32[x] = cpu_to_le32(val32);
--	}
--}
--
--static void drm_fb_rgb565_to_xrgb8888(struct iosys_map *dst, const unsigned int *dst_pitch,
--				      const struct iosys_map *src,
--				      const struct drm_framebuffer *fb,
--				      const struct drm_rect *clip)
--{
--	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
--		4,
--	};
--
--	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false,
--		    drm_fb_rgb565_to_xrgb8888_line);
--}
--
--static void drm_fb_rgb888_to_xrgb8888_line(void *dbuf, const void *sbuf, unsigned int pixels)
--{
--	__le32 *dbuf32 = dbuf;
--	const u8 *sbuf8 = sbuf;
--	unsigned int x;
--
--	for (x = 0; x < pixels; x++) {
--		u8 r = *sbuf8++;
--		u8 g = *sbuf8++;
--		u8 b = *sbuf8++;
--		u32 pix = 0xff000000 | (r << 16) | (g << 8) | b;
--		dbuf32[x] = cpu_to_le32(pix);
--	}
--}
--
--static void drm_fb_rgb888_to_xrgb8888(struct iosys_map *dst, const unsigned int *dst_pitch,
--				      const struct iosys_map *src,
--				      const struct drm_framebuffer *fb,
--				      const struct drm_rect *clip)
--{
--	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
--		4,
--	};
--
--	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false,
--		    drm_fb_rgb888_to_xrgb8888_line);
--}
--
- static void drm_fb_xrgb8888_to_xrgb2101010_line(void *dbuf, const void *sbuf, unsigned int pixels)
- {
- 	__le32 *dbuf32 = dbuf;
-@@ -899,12 +840,6 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
- {
- 	uint32_t fb_format = fb->format->format;
- 
--	/* treat alpha channel like filler bits */
--	if (fb_format == DRM_FORMAT_ARGB8888)
--		fb_format = DRM_FORMAT_XRGB8888;
--	if (fb_format == DRM_FORMAT_ARGB2101010)
--		fb_format = DRM_FORMAT_XRGB2101010;
--
- 	if (fb_format == dst_format) {
- 		drm_fb_memcpy(dst, dst_pitch, src, fb, clip);
- 		return 0;
-@@ -943,16 +878,6 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
- 			drm_fb_swab(dst, dst_pitch, src, fb, clip, false);
- 			return 0;
- 		}
--	} else if (fb_format == DRM_FORMAT_RGB888) {
--		if (dst_format == DRM_FORMAT_XRGB8888) {
--			drm_fb_rgb888_to_xrgb8888(dst, dst_pitch, src, fb, clip);
--			return 0;
--		}
--	} else if (fb_format == DRM_FORMAT_RGB565) {
--		if (dst_format == DRM_FORMAT_XRGB8888) {
--			drm_fb_rgb565_to_xrgb8888(dst, dst_pitch, src, fb, clip);
--			return 0;
--		}
- 	}
- 
- 	drm_warn_once(fb->dev, "No conversion helper from %p4cc to %p4cc found.\n",
--- 
-2.39.0
+SGkNCg0KQW0gMTkuMTIuMjIgdW0gMjE6NTUgc2NocmllYiBEZWVwYWsgUiBWYXJtYToNCj4g
+T24gU3VuLCBEZWMgMTEsIDIwMjIgYXQgMDc6MjU6MDhQTSArMDUzMCwgRGVlcGFrIFIgVmFy
+bWEgd3JvdGU6DQo+IA0KPiBIZWxsbywNCj4gTWF5IEkgcGxlYXNlIHJlcXVlc3QgYSByZXZp
+ZXcgYW5kIGZlZWRiYWNrIG9uIHRoaXMgcGF0Y2ggcHJvcG9zYWw/DQoNCkFkZGVkIHRvIGRy
+bS1taXNjLW5leHQuIFRoYW5rcyBmb3IgdGhlIHBhdGNoLg0KDQpCZXN0IHJlZ2FyZHMNClRo
+b21hcw0KDQo+IA0KPiBUaGFuayB5b3UsDQo+IC4vZHJ2DQo+IA0KPj4gQSBjYWxsIHRvIHBs
+YXRmb3JtX2dldF9pcnEoKSBhbHJlYWR5IHByaW50cyBhbiBlcnJvciBvbiBmYWlsdXJlIHdp
+dGhpbg0KPj4gaXRzIG93biBpbXBsZW1lbnRhdGlvbi4gU28gcHJpbnRpbmcgYW5vdGhlciBl
+cnJvciBiYXNlZCBvbiBpdHMgcmV0dXJuDQo+PiB2YWx1ZSBpbiB0aGUgY2FsbGVyIGlzIHJl
+ZHVuZGFudCBhbmQgc2hvdWxkIGJlIHJlbW92ZWQuIFRoZSBjbGVhbiB1cA0KPj4gYWxzbyBt
+YWtlcyBpZiBjb25kaXRpb24gYmxvY2sgYnJhY2VzIHVubmVjZXNzYXJ5LiBSZW1vdmUgdGhh
+dCBhcyB3ZWxsLg0KPj4NCj4+IElzc3VlIGlkZW50aWZpZWQgdXNpbmcgcGxhdGZvcm1fZ2V0
+X2lycS5jb2NjaSBjb2NjaWNoZWNrIHNjcmlwdC4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBE
+ZWVwYWsgUiBWYXJtYSA8ZHJ2QG1haWxvLmNvbT4NCj4+IC0tLQ0KPj4gICBkcml2ZXJzL2dw
+dS9kcm0vc3ByZC9zcHJkX2RwdS5jIHwgNCArLS0tDQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCAx
+IGluc2VydGlvbigrKSwgMyBkZWxldGlvbnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL3NwcmQvc3ByZF9kcHUuYyBiL2RyaXZlcnMvZ3B1L2RybS9zcHJkL3Nw
+cmRfZHB1LmMNCj4+IGluZGV4IDg4ZjQyNTk2ODBmMS4uZGIwYmNlYTFkOWY0IDEwMDY0NA0K
+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3NwcmQvc3ByZF9kcHUuYw0KPj4gKysrIGIvZHJp
+dmVycy9ncHUvZHJtL3NwcmQvc3ByZF9kcHUuYw0KPj4gQEAgLTgwMywxMCArODAzLDggQEAg
+c3RhdGljIGludCBzcHJkX2RwdV9jb250ZXh0X2luaXQoc3RydWN0IHNwcmRfZHB1ICpkcHUs
+DQo+PiAgIAl9DQo+Pg0KPj4gICAJY3R4LT5pcnEgPSBwbGF0Zm9ybV9nZXRfaXJxKHBkZXYs
+IDApOw0KPj4gLQlpZiAoY3R4LT5pcnEgPCAwKSB7DQo+PiAtCQlkZXZfZXJyKGRldiwgImZh
+aWxlZCB0byBnZXQgZHB1IGlycVxuIik7DQo+PiArCWlmIChjdHgtPmlycSA8IDApDQo+PiAg
+IAkJcmV0dXJuIGN0eC0+aXJxOw0KPj4gLQl9DQo+Pg0KPj4gICAJLyogZGlzYWJsZSBhbmQg
+Y2xlYXIgaW50ZXJydXB0cyBiZWZvcmUgcmVnaXN0ZXIgZHB1IElSUS4gKi8NCj4+ICAgCXdy
+aXRlbCgweDAwLCBjdHgtPmJhc2UgKyBSRUdfRFBVX0lOVF9FTik7DQo+PiAtLQ0KPj4gMi4z
+NC4xDQo+Pg0KPiANCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERy
+aXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
+TWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBB
+RyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
+--------------NaXIDhrKjegA7vAvMQvrMCta--
+
+--------------mlzTiaT9zYKqbOoepSx4xXnY
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmOh30IFAwAAAAAACgkQlh/E3EQov+C5
+2RAAsHgJfI0eY4pk+UtWQm0zGU81TXmuagZJ3wDkF7Z1T8shIXO3PWqmY6bRhclMVSSSBSyjAciz
++ykkGfaDTiUCGpY7JeOC9cWu0KywSzi4w3veuGL4srDITsoxxsPPp9MG4iXAmf0MbY2tP+d2+kZ0
+cjRHNAYmWLf2SVcUQ9nn6+kiH+p61dgNJ45wLhE9b6pva3v+W4uSeZ4CFRU+NmcaZvf8PGeNR5AO
+GqRD2QmatVR0b82hglKR8WRDLF/cmnzFkaoXM2cLo3dmJ8VVbjV6RVc4Qubt2vLjz3oZ1bouPzyY
+Eq5i0nV2nTBl0Eu+P1qJc3MdFdJ5+ZieN5a/sXcNkDOUGKiUAQfatZ0zUG9Lj0e38Q9ZoTXYGwBH
+joDgnyUULvxFMyJPnPw33Vbgqdr/fp6yPK5jxwuyoqievalVSkFRthbUQv0wxgf2q1CnLEjUELM0
+81yAm00Of2F8ig2ZMtEkfe4w47dEP+IZL9zwCLBsBhZjj2kqhDJFJR8a7kyCVsI0sIFNwBlb7Crm
+kvAAGWSUzOGgTXIPTTl2NKNXqqgTwQnmy60vON2J6pqEJoSHANZkzirlTv6LeOeAMPyr/t/cqGWk
+Hoqj20GWByB/PpGrbMBI3TvqIBBZ76BcDYwUfA1F9jGjWV8GfCZLM7ueuInl+3yukIWzVrsAyeTV
+ZuY=
+=QUGT
+-----END PGP SIGNATURE-----
+
+--------------mlzTiaT9zYKqbOoepSx4xXnY--
