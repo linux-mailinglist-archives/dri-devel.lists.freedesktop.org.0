@@ -2,47 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 846CC6528BE
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 23:09:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62697652919
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 23:33:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4CDB10E416;
-	Tue, 20 Dec 2022 22:09:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC3E710E0FD;
+	Tue, 20 Dec 2022 22:32:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3DCA10E044;
- Tue, 20 Dec 2022 22:09:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671574147; x=1703110147;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=t8p6yD2DgGKWzoxqI2joXuLTLa4pC7jtwHUjrJo4Ijc=;
- b=RAXhGjIgZKXYWx05FofnBN6HpHgCU0o2QS8bdSJvyIFO0enc9j5ji8Zm
- jcYJ1ZRqHbx9c4vJ/T6QnuDdDPkh39Tb+e6sS8o+fMAE6AnFzZrb3jXSn
- i8jLckPR9jWVxuBJjVQhNqXdoBXoWgncuh327tgVIbzcLLB+Tr8/h9E15
- xN54vUF58ezWY+S/qHQuKDAzEcSRp33iZXqlihNWBwf4BQukXjSGMYWx0
- jOYqR3U9HOrdfANKPyyyYntRBEkzT7LO4+R4jis+D7MZZ8+fKsDbNPean
- cEi6zdnxeU+Jf6VhS4SZtXc/ayD9xBpL4M4hcroKpnrlDZR2U1ETuqtDC g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="381955220"
-X-IronPort-AV: E=Sophos;i="5.96,259,1665471600"; d="scan'208";a="381955220"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Dec 2022 14:09:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="601264522"
-X-IronPort-AV: E=Sophos;i="5.96,259,1665471600"; d="scan'208";a="601264522"
-Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by orsmga003.jf.intel.com with ESMTP; 20 Dec 2022 14:09:06 -0800
-From: Alan Previn <alan.previn.teres.alexis@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 1/1] drm/i915/pxp: Use drm_dbg if arb session failed due to
- fw version
-Date: Tue, 20 Dec 2022 14:11:58 -0800
-Message-Id: <20221220221158.2390090-1-alan.previn.teres.alexis@intel.com>
-X-Mailer: git-send-email 2.34.1
+Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCCDA10E044;
+ Tue, 20 Dec 2022 22:32:42 +0000 (UTC)
+Received: from SoMainline.org (94-209-172-39.cable.dynamic.v4.ziggo.nl
+ [94.209.172.39])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 477B2201D6;
+ Tue, 20 Dec 2022 23:32:06 +0100 (CET)
+Date: Tue, 20 Dec 2022 23:32:04 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [RFC PATCH 3/6] drm/msm/dpu1: Wire up DSC mask for active CTL
+ configuration
+Message-ID: <20221220223204.i3tfa2biq7bgkg5o@SoMainline.org>
+Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
+ Vinod Koul <vkoul@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Stephen Boyd <swboyd@chromium.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ sunliming <sunliming@kylinos.cn>, Sam Ravnborg <sam@ravnborg.org>,
+ Haowen Bai <baihaowen@meizu.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Loic Poulain <loic.poulain@linaro.org>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20221213232207.113607-1-marijn.suijten@somainline.org>
+ <20221213232207.113607-4-marijn.suijten@somainline.org>
+ <184d22f1-7ed1-4a67-1c25-9fafeb94db83@linaro.org>
+ <20221214193026.dv2fuubysctcvlkg@SoMainline.org>
+ <658da2cf-1e1a-af27-b085-edf0887b8dae@linaro.org>
+ <8f33c1d0-a2ca-dc49-1884-01541ad83d49@quicinc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <8f33c1d0-a2ca-dc49-1884-01541ad83d49@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,60 +74,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <john.c.harrison@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org,
- Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ phone-devel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ Haowen Bai <baihaowen@meizu.com>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Jani Nikula <jani.nikula@intel.com>,
+ linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
+ Loic Poulain <loic.poulain@linaro.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ sunliming <sunliming@kylinos.cn>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, Vinod Polimera <quic_vpolimer@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If PXP arb-session is being attempted on older hardware SKUs or
-on hardware with older, unsupported, firmware versions, then don't
-report the failure with a drm_error. Instead, look specifically for
-the API-version error reply and drm_dbg that reply. In this case, the
-user-space will eventually get a -ENODEV for the protected context
-creation which is the correct behavior and we don't create unnecessary
-drm_error's in our dmesg (for what is unsupported platforms).
+On 2022-12-16 14:20:52, Abhinav Kumar wrote:
+> 
+> 
+> On 12/14/2022 5:08 PM, Dmitry Baryshkov wrote:
+> > On 14/12/2022 21:30, Marijn Suijten wrote:
+> >> On 2022-12-14 20:43:29, Dmitry Baryshkov wrote:
+> >>> On 14/12/2022 01:22, Marijn Suijten wrote:
+> >>>> [..]
+> >>> We usually don't have DSC with the writeback, don't we?
+> >>
+> >> I am unsure so ended up adding them in writeback regardless.  Downstream
+> >> uses a separate callback to process intf_cfg.dsc instead of going
+> >> through setup_intf_cfg().
+> >>
+> >> To prevent these from being missed again (in the case of copy&paste),
+> >> how about instead having some function that sets up intf_cfg with these
+> >> default values from a phys_enc?  That way most of this remains oblivious
+> >> to the caller.
+> > 
+> > I'm not sure this is possible. E.g. intf_cfg.dsc should not be set for 
+> > the WB.
+> > 
+> 
+> Although this change is harmless because 
+> dpu_encoder_helper_get_dsc(phys_enc) will not return a valid DSC mask 
+> for the WB encoder, hence the setup_intf_cfg will just skip the DSC 
+> programming, I also agree that we can skip setting the intf_cfg.dsc for 
+> the writeback encoder in this patch.
 
-Changes from prio revs:
-   v1 : - print incorrect version from input packet, not output.
+Since both of you agree that it is useless I'll drop this in V2.  Have
+to confess that I know nothing about the writeback interface and haven't
+even read the code; does it run in parallel to a "physical" (e.g.
+DP/DSI) interface to capture screenshots (or even video) of what is
+currently being shown on the screen?  By that logic the WB may have
+needed to know what is going on in the HW, but it wouldn't have made any
+sense regardless if the presented planes first pass through DSC before
+being captured.  Something for me to read up on :)
 
-Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
----
- drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h | 1 +
- drivers/gpu/drm/i915/pxp/intel_pxp_tee.c               | 5 +++++
- 2 files changed, 6 insertions(+)
-
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
-index c2f23394f9b8..aaa8187a0afb 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
-@@ -17,6 +17,7 @@
-  */
- enum pxp_status {
- 	PXP_STATUS_SUCCESS = 0x0,
-+	PXP_STATUS_ERROR_API_VERSION = 0x1002,
- 	PXP_STATUS_OP_NOT_PERMITTED = 0x4013
- };
- 
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-index d50354bfb993..9d084ed9cc50 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-@@ -298,6 +298,11 @@ int intel_pxp_tee_cmd_create_arb_session(struct intel_pxp *pxp,
- 
- 	if (ret)
- 		drm_err(&i915->drm, "Failed to send tee msg ret=[%d]\n", ret);
-+
-+	else if (msg_out.header.status == PXP_STATUS_ERROR_API_VERSION)
-+		drm_dbg(&i915->drm, "PXP firmware version unsupported, requested: "
-+			"CMD-ID-[0x%08x] on API-Ver-[0x%08x]\n",
-+			msg_in.header.command_id, msg_in.header.api_version);
- 	else if (msg_out.header.status != 0x0)
- 		drm_warn(&i915->drm, "PXP firmware failed arb session init request ret=[0x%08x]\n",
- 			 msg_out.header.status);
-
-base-commit: cc44a1e87ea6b788868878295119398966f98a81
--- 
-2.34.1
-
+- Marijn
