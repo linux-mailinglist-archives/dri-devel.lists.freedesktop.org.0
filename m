@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668CE6520DA
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 13:39:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C4076520CF
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 13:38:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FDB410E3DC;
-	Tue, 20 Dec 2022 12:37:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AD0B10E3DF;
+	Tue, 20 Dec 2022 12:37:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2584010E37D
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 12:36:55 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- i187-20020a1c3bc4000000b003d1e906ca23so8101754wma.3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 04:36:55 -0800 (PST)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E33DB10E3AC
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 12:36:57 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ z8-20020a05600c220800b003d33b0bda11so830910wml.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 04:36:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=iKsehGcz374PW4Oaqc03FTNTJ/WJN4Esos64GXOFLAY=;
- b=h2sziuXwG6sjPr+BLoosxPre5o0Zs1SnFy6sNIMS1Z7mXntNvSk7VogqF3ISC572TB
- rvxRhnehnxmnmAgIxciV/rfrRqoQh2uiNBL6gKkCUygHoVmNkqlvbxaDRAnwlMR43aJP
- faLB6JAAdr19rgg3l7RCeVMJxbRCbL252wKrvvdao/eFKbeHhcjQX5RraERSmF65Efw6
- Fzoal6V45HaCqM1EWA+scwPqPuIHdD1s44USd9gHHZnRUNCDwdBMUBVEnlm6r7qmZpk/
- p9quS9ss8Hx333VgUmlZ2l+TAIK4xgF9tFc6bhteGcO2mFLGqQG/3yo6mX1EZVKwsOcn
- gyDg==
+ bh=nPzBwr0BhPjdigQ+qhuhYo7cFKy33u7lIc5bsk5u6zc=;
+ b=zdYDioXderfwfcpoqEGSszKKxODISIK+eKBQGtZazVtj03hImGlDylU1a+r60Dr6K+
+ pjoH9kaVjyulD41ZfMC9FuYp+wIXMBfi1szB6Fr3e3hOKh0nqIUPbgOLdnQZ+GnrvLTY
+ kLhPZJIFez08nw6BHtEz8yYbSQ1SI4ugFS7pcAL8ZHB9HBZBBADtKjYAPVlU98fBoWVp
+ gDPn6XCWO3UMYNK7sY1Gs+zO0hg0xHgjBiQ7Uo55RO8N/5bt4VDlyIssqT038bPRLfnh
+ yY7YK2BEuq/4diuvujMDCfwvaxwZMDZe/m2jJSmV6uJk6KELOygUGLJUqgsdkVYnlzYs
+ F4rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=iKsehGcz374PW4Oaqc03FTNTJ/WJN4Esos64GXOFLAY=;
- b=q40DEF+I+VXbxsei05/5WDbNElh0RR76ysdiq1u8hiMupWJpO3p4WKu4NFYP13mnGJ
- ZUlmk64232iKpjCJha9MSKd4U36pY4+ILIa5+VCN58fYO+OfpaeZz8i4QR4ne1Ac82J8
- SzNuw9oR9T95fiLEaRNjsJe2lRGUbXLn6MQZ1C/ZEg/HZJTqrZpRW0Fa//WMi3Ga6Sv4
- FKUsmtKa11bT44TS2/k4sFTKZLT6wMQbCIZ65MwTLND0BhK5toj24gJJkMjrgjRTL3Qt
- oSF9zFwoe9HYuesEvk8+G5NE2O7/DwIZtJ8cHgaUE+ulACN7Ym+yIDgZwieJU4kniIJr
- wA3A==
-X-Gm-Message-State: ANoB5pml3Cv4oae7/ab0Jh2LhWrmFBsJrBRr/Lyj+xRsznjH/q5p25O8
- Qt6jHHImKD5UltzRM0UZhMU0Cw==
-X-Google-Smtp-Source: AA0mqf74KclPWOpqVvzCUumx4JRwY1BH8ImGDpuAhQaKiXZgfqUWUxLsUGnA2RmHz8bZMGUHSnfsPw==
-X-Received: by 2002:a7b:c40c:0:b0:3d2:392b:3169 with SMTP id
- k12-20020a7bc40c000000b003d2392b3169mr18519561wmi.28.1671539814709; 
- Tue, 20 Dec 2022 04:36:54 -0800 (PST)
+ bh=nPzBwr0BhPjdigQ+qhuhYo7cFKy33u7lIc5bsk5u6zc=;
+ b=M5a1OGiD3vsqCRjHvUXXNSV+/8qDF+wdW2n1WmiXlAEo+lscX+0Cj44AoTDMdvH6DY
+ 5zaM2r7tknP4cKGGE25QocbrT9o6636uk90ZHp6+4D77OQ/lImB5Q1Ey4NQfv+U8X2rV
+ kmzbnfW2YUvBBpoVx7xVOaHn7D/IpFJtmS0vkT65/PRwVmjkM4CoxN87uEod6+vSQ711
+ jcmGxUwYejcbBD1/DTwKa5L0BxCz9qraf4CcntWkTtlb/RIen5S8WIVpcPwetdKcRtfc
+ h8dnWk3kBmlYl3bsYyCLG2uM4tBI/zgb7/tSXFyaKq9i1FYx/O92XlvaGQNsE7wnnE/H
+ /biQ==
+X-Gm-Message-State: ANoB5plCEBpACpObvVTdws0rzoNm8wrPsOv1Yd51CNRoPQLxF+lYXZN4
+ JGtBX9hPtX3IrF7jRLssuw6Smg==
+X-Google-Smtp-Source: AA0mqf6VMHNvsxwSU1zPalndDOSTwMiH2KTdJZPfExa9hIaCyC9VM0n9H7myjiH4rhd1cZpyqvVTDA==
+X-Received: by 2002:a05:600c:253:b0:3d2:17a5:17fe with SMTP id
+ 19-20020a05600c025300b003d217a517femr28733739wmj.18.1671539815933; 
+ Tue, 20 Dec 2022 04:36:55 -0800 (PST)
 Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie.
  [188.141.3.169]) by smtp.gmail.com with ESMTPSA id
- da13-20020a056000408d00b00242257f2672sm12641208wrb.77.2022.12.20.04.36.53
+ da13-20020a056000408d00b00242257f2672sm12641208wrb.77.2022.12.20.04.36.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Dec 2022 04:36:54 -0800 (PST)
+ Tue, 20 Dec 2022 04:36:55 -0800 (PST)
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  devicetree@vger.kernel.org
-Subject: [PATCH v5 15/21] arm64: dts: qcom: msm8996: Add compat qcom,
- msm8996-dsi-ctrl
-Date: Tue, 20 Dec 2022 12:36:28 +0000
-Message-Id: <20221220123634.382970-16-bryan.odonoghue@linaro.org>
+Subject: [PATCH v5 16/21] arm64: dts: qcom: sc7180: Add compat qcom,
+ sc7180-dsi-ctrl
+Date: Tue, 20 Dec 2022 12:36:29 +0000
+Message-Id: <20221220123634.382970-17-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221220123634.382970-1-bryan.odonoghue@linaro.org>
 References: <20221220123634.382970-1-bryan.odonoghue@linaro.org>
@@ -82,38 +82,29 @@ Cc: dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add silicon specific compatible qcom,msm8996-dsi-ctrl to the
+Add silicon specific compatible qcom,sc7180-dsi-ctrl to the
 mdss-dsi-ctrl block. This allows us to differentiate the specific bindings
-for msm8996 against the yaml documentation.
+for sc7180 against the yaml documentation.
 
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/msm8996.dtsi | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/qcom/sc7180.dtsi | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/msm8996.dtsi b/arch/arm64/boot/dts/qcom/msm8996.dtsi
-index d31464204f696..c6d8371043a9a 100644
---- a/arch/arm64/boot/dts/qcom/msm8996.dtsi
-+++ b/arch/arm64/boot/dts/qcom/msm8996.dtsi
-@@ -989,7 +989,8 @@ mdp5_intf2_out: endpoint {
+diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+index f71cf21a8dd8a..fbd6a7b31eac2 100644
+--- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+@@ -3022,7 +3022,8 @@ opp-460000000 {
  			};
  
- 			dsi0: dsi@994000 {
+ 			dsi0: dsi@ae94000 {
 -				compatible = "qcom,mdss-dsi-ctrl";
-+				compatible = "qcom,msm8996-dsi-ctrl",
++				compatible = "qcom,sc7180-dsi-ctrl",
 +					     "qcom,mdss-dsi-ctrl";
- 				reg = <0x00994000 0x400>;
- 				reg-names = "dsi_ctrl";
- 
-@@ -1056,7 +1057,8 @@ dsi0_phy: phy@994400 {
- 			};
- 
- 			dsi1: dsi@996000 {
--				compatible = "qcom,mdss-dsi-ctrl";
-+				compatible = "qcom,msm8996-dsi-ctrl",
-+					     "qcom,mdss-dsi-ctrl";
- 				reg = <0x00996000 0x400>;
+ 				reg = <0 0x0ae94000 0 0x400>;
  				reg-names = "dsi_ctrl";
  
 -- 
