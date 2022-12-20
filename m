@@ -2,42 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EED88651F26
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 11:44:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05B6B651F42
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 11:53:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9ED210E39D;
-	Tue, 20 Dec 2022 10:44:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30AF110E388;
+	Tue, 20 Dec 2022 10:52:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36E5F10E39D
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 10:42:58 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85373706;
- Tue, 20 Dec 2022 11:42:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1671532976;
- bh=bK4txdnHUggupo5Doz/7+NZW7J4vreP6k+bN7etEXCg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FNt0pxC36qdgX77AE0cCoE8XbeEi5UynpACkHxQl9dKEl8ChmxuutYLTprMzrmxBP
- T2PpysNdQVR42GdEJ586Ya5TT5IEXAj0UCYzQF5gcybCRSqNGlvAwrNPa/VaFYErH7
- U3WfzZG5xnnIk2P4dQMUML1KfnwAs5Exox44gKmc=
-Date: Tue, 20 Dec 2022 12:42:52 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v2 7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB,
- Y210)
-Message-ID: <Y6GRrN1Tesadku6S@pendragon.ideasonboard.com>
-References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221219140139.294245-8-tomi.valkeinen+renesas@ideasonboard.com>
- <Y6Db2C+JehUPYSQp@pendragon.ideasonboard.com>
- <Y6GCI3PV3/WhyZBR@valkosipuli.retiisi.eu>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 203BC10E388
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 10:52:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671533545;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uxE/g8D90YG3CSnPlZzOgTlS8jPfXjPJK/f2ANsH2jY=;
+ b=ix+k32CWgVegL1ipEuMClE4u/k24g6gg8AcLb9+4kfyYjHBRbM1L625zfjyKPPRGzvbs18
+ GExJxcRS9QNj0UApsbFmllTa6lcfIWkavoGdCafoa5CAozUzrkb66v2ZlL62fLLm5HfCPn
+ L0Joi6AExEIITRWx2inPLuQM22Ijiq4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-590-irPBFmK7Oey25woyJl5YAg-1; Tue, 20 Dec 2022 05:52:24 -0500
+X-MC-Unique: irPBFmK7Oey25woyJl5YAg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ s1-20020adfa281000000b00241f7467851so2124329wra.17
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 02:52:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uxE/g8D90YG3CSnPlZzOgTlS8jPfXjPJK/f2ANsH2jY=;
+ b=aCS+elQyvxXRyDVpyZ4Oh8AdFhRqaeNJJZIeRlby2bT2Yz0BV+ApGaA3jhxGSb7RUd
+ s+fxftflVBvCZeT27V0ERDklpI+G+7XnSiYffQDVOlGjrFgZsu4lc50x8YN3y5Y3ErWY
+ 5O7zR7/srDvl8s7tRw7i3pu49wF6nCUKmzNF9AHJpiUwD73yIgyJAC8oAGmqhU1jE7BO
+ dfgLLxidvDKlYCGjRNEOdXNn99/iOGXFYbTZNa3vSq28jJhes0pj8MmaYO5Q3/4bFNv8
+ /UART7jkD2PZh0wtBRj7HLrrG6XO7lGWwycnjd4XdbfbG8M2Kd7xcLf1T/rMh7glTeK4
+ RRZA==
+X-Gm-Message-State: AFqh2kpiXaE/tq1XKCiFQ39zQ9SqN0o2WAR9/X+lw6n98wXPHY3HyQmS
+ aUzJuq9wVfe/B7Mj5/Js2jUeRO48i94RF/b5IvMOJ6odVvk7Xp3Q3SQtqjNdgGXgD4KUIyAB7l/
+ Yc/wDY+FdJiZ/KU0hik+y9Ke/Lh6F
+X-Received: by 2002:a5d:568a:0:b0:241:f85e:75ca with SMTP id
+ f10-20020a5d568a000000b00241f85e75camr1240063wrv.9.1671533543082; 
+ Tue, 20 Dec 2022 02:52:23 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsDHxBF+gpHbGUArjOzf7hxWDrXXtNxfxPOQUv4VOvMT98lsPQ7mrfxnmRaM+r8/ydNqKnJFw==
+X-Received: by 2002:a5d:568a:0:b0:241:f85e:75ca with SMTP id
+ f10-20020a5d568a000000b00241f85e75camr1240046wrv.9.1671533542867; 
+ Tue, 20 Dec 2022 02:52:22 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ k6-20020a5d66c6000000b00242271fd2besm12396417wrw.89.2022.12.20.02.52.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Dec 2022 02:52:22 -0800 (PST)
+Message-ID: <fc138337-d4cc-2f7d-3687-33e0b45e22cd@redhat.com>
+Date: Tue, 20 Dec 2022 11:52:21 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y6GCI3PV3/WhyZBR@valkosipuli.retiisi.eu>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 6/9] drm/fh-helper: Split fbdev single-probe helper
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ jose.exposito89@gmail.com, mairacanal@riseup.net
+References: <20221213201233.9341-1-tzimmermann@suse.de>
+ <20221213201233.9341-7-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20221213201233.9341-7-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,73 +88,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
- linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sakari,
-
-On Tue, Dec 20, 2022 at 11:36:35AM +0200, Sakari Ailus wrote:
-> On Mon, Dec 19, 2022 at 11:47:04PM +0200, Laurent Pinchart wrote:
-> > On Mon, Dec 19, 2022 at 04:01:39PM +0200, Tomi Valkeinen wrote:
-> > > Add new pixel formats: RGBX1010102, RGBA1010102, ARGB2101010 and Y210.
-> > > 
-> > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> > > ---
-> > >  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 24 +++++++++++++
-> > >  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 49 +++++++++++++++++++++++++--
-> > >  2 files changed, 71 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > > index 8c2719efda2a..8ccabf5a30c4 100644
-> > > --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > > @@ -259,6 +259,24 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
-> > >  		.bpp = 32,
-> > >  		.planes = 1,
-> > >  		.hsub = 1,
-> > > +	}, {
-> > > +		.fourcc = DRM_FORMAT_RGBX1010102,
-> > 
-> > Ah, here the format makes sense.
-> > 
-> > > +		.v4l2 = V4L2_PIX_FMT_XBGR2101010,
-> > 
-> > But this is horrible :-( Could we use the same names as DRM for new
-> > formats, when there is no conflict with existing V4L2 formats ?
-> > 
-> > Sakari, Hans, what do you think ? Please see patch 1/7 in the series for
-> > the format definitions.
+On 12/13/22 21:12, Thomas Zimmermann wrote:
+> Split the single-probe helper's implementation into multiple
+> functions and get locking and overallocation out of the way of
+> the surface setup. Simplifies later changes to the setup code.
 > 
-> I think it'd be good to have only one set of definitions.
-> 
-> Can we can sort the endianness question in a reasonable way?
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-It's really a matter of macro names only in this case, so it's "just" up
-to us to decide what we want to do. Hans' argument is that we would then
-depart from the general V4L2 rule, and thus create confusion, but I
-don't think there's such a clear cut rule in the first place and
-confusion is there already. Having common definitions for new formats
-would, I think, reduce confusion.
-
-> Also new Bayer formats will probably be still needed on V4L2 side but will
-> they be relevant for DRM? I suppose that would mean new DRM format for
-> each pixel order, too? Or can we think of something smarter that would
-> still work reasonably with existing formats?
-
-We use DRM 4CCs in the libcamera public API, and the DRM maintainers
-have agreed to add DRM 4CCs for formats that are used by cameras only,
-such as MJPEG for instance, that's hardly useful for displays. The same
-holds true for Bayer formats, and we use DRM modifiers to specify the
-packing instead of defining different 4CCs. I'd like to do something
-similar for the Bayer pattern, although specifying it out-of-band may be
-even better.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-Regards,
+Best regards,
 
-Laurent Pinchart
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
