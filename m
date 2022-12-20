@@ -2,57 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FF5865281E
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 21:58:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ED63652880
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 22:40:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 956DA10E409;
-	Tue, 20 Dec 2022 20:58:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F51D10E3FE;
+	Tue, 20 Dec 2022 21:40:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com
- [IPv6:2607:f8b0:4864:20::b4a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2943110E409
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 20:58:34 +0000 (UTC)
-Received: by mail-yb1-xb4a.google.com with SMTP id
- b4-20020a253404000000b006fad1bb09f4so15254080yba.1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 12:58:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=xKXJYD4y3GZm6HnbUvNVngViJ+1dwURTi8LZvK89erU=;
- b=RXCH9eozNGJe68h9FMYrzQJhw22LY0QHXX6+wB2um85IcAi5F13jRtC7I0TNFbJIar
- RwQvRrrx7hfydCNo0RhFfUO89kcOUdFDqQDCHOt4/Iifcm1/zFd3wX+48WBj+rWbV1ZT
- v2kGq6yI4qZj5C14WmsSZIK8enEWBQbGS4KpYT3VvM6NafsmikBtRWx1bcZPBkCYeEXM
- ZrCsjNSciIkJu9ZGo027Kyo7DBkJ1Y4VcNjzH5HCVG73UcVlirgFm+ql7XrJ363COUiG
- EKvLb1wejLOUOro1C4+BpciF34R+J4JCJcXFqZCJ6R1Ks5lIbZ2NAuvIVUL3cfOq/oLc
- sNwg==
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A8D710E3FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 21:40:31 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id o6so15734032lfi.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 13:40:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=i0QJJAJHs8AlHPv1GFzIrByGID5+G91GQ7RiYN+XzJE=;
+ b=AGyI0rZkXfrzcC3mDk9Ocmgo5FfL5qYohqfDty0IGt1mIpDzR+ADBd/5jdkkEIYucf
+ fdivCrsy66dXu745ocmIYzzv726M4VbxrH+iIX98exDpvwE0xg0fP4LZOwEN0HUN1RQB
+ P1pknZ7u3+ZZ47CmR+Fbci/fvn882uWfnawSIfdeRnSUef2f1hCQ0NToip4Q74f6wx1G
+ Aqq+XY15pMIbZZjJhBKOtQ+ZQSKrEhTvriuEkJTg+IeY6KQgvKgW/Pqfm/+SoxkLNBaw
+ KuwrecRR7kMH8ZwKcLOUWdX+L+1jY78K9zgg50J94by/ZZt0CXnKc12dTO49GFIgErx0
+ h34A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=xKXJYD4y3GZm6HnbUvNVngViJ+1dwURTi8LZvK89erU=;
- b=kXN1nhHoPXRLKQJOCDeEJs2NWYOLLUaHX1ok0XcsI2ObjUrSGslNsUIN0TDLkJkpeg
- qSa7YYWcMxYTRnm3XuK9KyS7p0NDkUlj5nqPgt5xnyEHjCsxTONWhd+DetfHOiuoFIjh
- znckAMEaXx1z9KKGztpYSFsY2sGejMKC3TRPn35+t6sePRKBSFvJDKOHfm5TWF2AiG5A
- LfuRzwsO4KGiHgN3oFOsD+Pp2TB6yIDCo4ZvSbLhdK1FDY3FJNANQNRr/vkNsobV/8st
- mQqxcOrF/g1ee7Cx/RiVlUP2dkfP8y4SXCLSfD8veSdmIU7xl0ymunC9IzwZTS5uq25w
- rLqw==
-X-Gm-Message-State: ANoB5plYjfQeGFj5bXDLeAQy0Pj0whzIXmmM9foIREvr487aW+MG6z4q
- B9cfpAZiGEiE7XAg1JBZEIGTPXA=
-X-Google-Smtp-Source: AA0mqf62lrjKa/xKuoPUB06pOfTcVG9jO7sxI6hq7SOB/NNrncyWkccriCLbejKVXjezqQgqvYhpWDE=
-X-Received: from ptf16.nyc.corp.google.com
- ([2620:0:1003:314:ef24:68f2:407a:84b9])
- (user=ptf job=sendgmr) by 2002:a0d:e783:0:b0:3bc:d289:f4b6 with SMTP id
- q125-20020a0de783000000b003bcd289f4b6mr4168855ywe.417.1671569913163; Tue, 20
- Dec 2022 12:58:33 -0800 (PST)
-Date: Tue, 20 Dec 2022 15:58:26 -0500
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
-Message-ID: <20221220205826.178008-1-ptf@google.com>
-Subject: [PATCH] drm: Add orientation quirk for Lenovo ideapad D330-10IGL
-From: Patrick Thompson <ptf@google.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=i0QJJAJHs8AlHPv1GFzIrByGID5+G91GQ7RiYN+XzJE=;
+ b=YANm6ywdU9TDTl0jpabh1cctkXGr4JRhc0sBlpbohjQEgVb/zDoclhfy1V7+/egMDJ
+ B+dgJV4JLFwWw5oe7wsWhLftBVwo5a7fCtpVLUxyD48heb4a8qrUb7+IP1BhD9XmRUJ7
+ DGUGs8wjR4E8x4dzzb6nGK760s+H5yb+q5meb0fsAoUXckWLAx1hogLcFREwsjBb2caO
+ qoqbMxKPy7kMVVFtNUugfA+lgLEhWiGzdQ02ULLfQO1gzG6OLNRdJFCBQz6BEg3fRw4F
+ FQqOWJm9J26A572Zfbm/FCu8kSriYNScy1KOkGWqWp/Kq7vKudV7vpc1E5UG7selM9TM
+ x3kQ==
+X-Gm-Message-State: ANoB5pkP7TpceKNQ8UDCAc7A2qq0WB5G45nHnZzVw1wGeaGhmiioTR0A
+ iMLqUqm5ioD3EpkcXg/y+Is=
+X-Google-Smtp-Source: AA0mqf7UCX9LfU9mAdsWfz+Q/qhvUuQxl0BkWSutbWvnPYHqlJ49tXMn0MPeBrgSGHjYxfib5jXyig==
+X-Received: by 2002:a05:6512:682:b0:4a4:68b8:f4db with SMTP id
+ t2-20020a056512068200b004a468b8f4dbmr19035562lfe.33.1671572429262; 
+ Tue, 20 Dec 2022 13:40:29 -0800 (PST)
+Received: from [192.168.2.145] (109-252-113-89.nat.spd-mgts.ru.
+ [109.252.113.89]) by smtp.googlemail.com with ESMTPSA id
+ v24-20020ac25618000000b004b549ad99adsm1598785lfd.304.2022.12.20.13.40.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Dec 2022 13:40:28 -0800 (PST)
+Message-ID: <30e6b040-aa82-f6a3-1ff6-baa2c0dcb0e2@gmail.com>
+Date: Wed, 21 Dec 2022 00:40:20 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2 21/21] staging: media: tegra-video: add tegra20 variant
+Content-Language: en-US
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+References: <20221128152336.133953-1-luca.ceresoli@bootlin.com>
+ <20221128152336.133953-22-luca.ceresoli@bootlin.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+In-Reply-To: <20221128152336.133953-22-luca.ceresoli@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,36 +84,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Patrick Thompson <ptf@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-tegra@vger.kernel.org,
+ Richard Leitner <richard.leitner@skidata.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Panel is 800x1280 but mounted on a detachable form factor sideways.
+28.11.2022 18:23, Luca Ceresoli пишет:
+> +static int tegra20_channel_capture_frame(struct tegra_vi_channel *chan,
+> +					 struct tegra_channel_buffer *buf)
+> +{
+> +	u32 value;
+> +	int err;
+> +
+> +	chan->next_out_sp_idx++;
+> +
+> +	tegra20_channel_vi_buffer_setup(chan, buf);
+> +
+> +	tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_VIP_ENABLE);
+> +
+> +	/* Wait for syncpt counter to reach frame start event threshold */
+> +	err = host1x_syncpt_wait(chan->out_sp, chan->next_out_sp_idx,
+> +				 TEGRA_VI_SYNCPT_WAIT_TIMEOUT, &value);
 
-Signed-off-by: Patrick Thompson <ptf@google.com>
----
+You're not using the "value" variable, it should be NULL.
 
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 52d8800a8ab86..3659f0465a724 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -304,6 +304,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad D330-10IGM"),
- 		},
- 		.driver_data = (void *)&lcd1200x1920_rightside_up,
-+	}, {	/* Lenovo Ideapad D330-10IGL (HD) */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad D330-10IGL"),
-+		},
-+		.driver_data = (void *)&lcd800x1280_rightside_up,
- 	}, {	/* Lenovo Yoga Book X90F / X91F / X91L */
- 		.matches = {
- 		  /* Non exact match to match all versions */
--- 
-2.39.0.314.g84b9a713c41-goog
+The "chan->out_sp" looks redundant, it duplicates the chan->mw_ack_sp.
+AFAICS from the doc, T20 has two VI channels, and thus, two mw_ack_sp,
+like T210.
 
