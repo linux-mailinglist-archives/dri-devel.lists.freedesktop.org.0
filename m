@@ -2,81 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E150651EEA
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 11:36:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC04C651EF6
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 11:38:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5926010E0A0;
-	Tue, 20 Dec 2022 10:36:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63F0E10E37C;
+	Tue, 20 Dec 2022 10:38:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 994C710E0A0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 10:35:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671532558;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zzHta/i9q+4BjZVq/u6sLhek6ia2AoGoezCXJm4Rc6Q=;
- b=aZdXQRJP1xzUrJo3xVKgdCGOrvgkuF8JvAtI8wvId4Df+5OnnsMsX26VurF3LnTVA1vGzC
- dDlUS9alNqtFqNuiogKX8NoNgMu4gUdxJPlx/3JJCwzFSd29TuFSruIEb14oyA9hnW3HAK
- nRR4m01Shl3XYdPmdzLui0/5bebpM1w=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-479-j8bo3MI4ND6b1ar7FI-s0Q-1; Tue, 20 Dec 2022 05:35:57 -0500
-X-MC-Unique: j8bo3MI4ND6b1ar7FI-s0Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- q6-20020a05600c2e4600b003d211775a99so299480wmf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 02:35:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zzHta/i9q+4BjZVq/u6sLhek6ia2AoGoezCXJm4Rc6Q=;
- b=gQ3pVVkTUxIXB9cyF7TRCsshEjhaM172YwyfG/JgzYg0ZbvQ+g/KT6DYj0tBuBafEK
- 7Dh0mOQA+uWm49vnfwj2saxFUBLC2QUZav4Km0vhvq/j64zP/TXsLWJzs2uhHDIiwM+D
- 66/d9Ln/Iqyox/rHVMlxQgc0B6l98FNo+5B2mTxCPehIyvWdZ05I+LzhMPKA0M0UkFSu
- YB3DkeT3aonqZxtDiIyr/VuZcguIOL59aIbfaAQYG4lZh1Ej/pzThVljp087U/Y8S5vO
- N6ieEU3KcpO+6BWhJmiiW5xippU/yD/ELzEs9aZf0hJrddxBEf9Fh8BxG2HTU3rvV+Qo
- If1g==
-X-Gm-Message-State: ANoB5pl7Rf7KDn06K338ZCiNj2Ghxz84PyhHzZuT5bL54909Kwv8PJuJ
- T19zyuCJw+c4B2Y/D7E+PazBSS9I8aWwT44UXv/fWXlVfPipQ0ATdUdhYaBNSmR4y1M8F7xRtBU
- IpazdLL3X9loQiz1YncQ2YHqWQxOd
-X-Received: by 2002:a05:600c:a11:b0:3d2:2a74:3a90 with SMTP id
- z17-20020a05600c0a1100b003d22a743a90mr24153273wmp.22.1671532556577; 
- Tue, 20 Dec 2022 02:35:56 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4R8aNA4bWza+guOfC99htX+8sBWGDa2fx94Zu/1/NW8maxcUJV4vsyC5vQMQFC1ESgtGvgOg==
-X-Received: by 2002:a05:600c:a11:b0:3d2:2a74:3a90 with SMTP id
- z17-20020a05600c0a1100b003d22a743a90mr24153260wmp.22.1671532556395; 
- Tue, 20 Dec 2022 02:35:56 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- l6-20020a05600c4f0600b003a3442f1229sm24884464wmq.29.2022.12.20.02.35.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Dec 2022 02:35:55 -0800 (PST)
-Message-ID: <e5d527fc-37dc-1343-5a80-3b76690a19b4@redhat.com>
-Date: Tue, 20 Dec 2022 11:35:54 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 778A110E37C
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 10:38:15 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 993F6706;
+ Tue, 20 Dec 2022 11:38:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1671532692;
+ bh=dW9PTl4LC3ZcOm93shBjw6Hd1WDCPYX4VDPRhWRLioI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VWFj0sTEIa/rGrDH/13nI0rbYRG4Si8vJbplCZWSwy1EPY7Kq1mMN9otkZcQnp8FY
+ leysHDGgU7bEHvpoWl+tr/bvd9mDtxIIc9OCUSTm1CepCivOW7XTVAfCMAiBrBwTNl
+ EfCqCoRxBzV2L7B/LjR7tG3JzG2278Szkv1lJR0Y=
+Date: Tue, 20 Dec 2022 12:38:08 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH v2 7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB,
+ Y210)
+Message-ID: <Y6GQkAa9k+ut000B@pendragon.ideasonboard.com>
+References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221219140139.294245-8-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y6Db2C+JehUPYSQp@pendragon.ideasonboard.com>
+ <2f252958-1bb1-006a-b450-1315be8a3c9f@xs4all.nl>
+ <Y6F9+73YZOJX3tht@pendragon.ideasonboard.com>
+ <c35c07ff-a3d8-bbaa-25e7-00938c8c75ba@xs4all.nl>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 4/9] drm/format-helper: Add conversion from XRGB8888 to
- ARGB2101010
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- jose.exposito89@gmail.com, mairacanal@riseup.net
-References: <20221213201233.9341-1-tzimmermann@suse.de>
- <20221213201233.9341-5-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221213201233.9341-5-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c35c07ff-a3d8-bbaa-25e7-00938c8c75ba@xs4all.nl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,41 +52,239 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/13/22 21:12, Thomas Zimmermann wrote:
-> Add dedicated helper to convert from XRGB8888 to ARGB2101010. Sets
-> all alpha bits to make pixels fully opaque.
+Hi Hans,
+
+On Tue, Dec 20, 2022 at 10:26:35AM +0100, Hans Verkuil wrote:
+> On 20/12/2022 10:18, Laurent Pinchart wrote:
+> > On Tue, Dec 20, 2022 at 10:01:04AM +0100, Hans Verkuil wrote:
+> >> On 19/12/2022 22:47, Laurent Pinchart wrote:
+> >>> Hi Tomi,
+> >>>
+> >>> (CC'ing Sakari and Hans)
+> >>>
+> >>> Thank you for the patch.
+> >>>
+> >>> On Mon, Dec 19, 2022 at 04:01:39PM +0200, Tomi Valkeinen wrote:
+> >>>> Add new pixel formats: RGBX1010102, RGBA1010102, ARGB2101010 and Y210.
+> >>>>
+> >>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> >>>> ---
+> >>>>  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 24 +++++++++++++
+> >>>>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 49 +++++++++++++++++++++++++--
+> >>>>  2 files changed, 71 insertions(+), 2 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> >>>> index 8c2719efda2a..8ccabf5a30c4 100644
+> >>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> >>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> >>>> @@ -259,6 +259,24 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+> >>>>  		.bpp = 32,
+> >>>>  		.planes = 1,
+> >>>>  		.hsub = 1,
+> >>>> +	}, {
+> >>>> +		.fourcc = DRM_FORMAT_RGBX1010102,
+> >>>
+> >>> Ah, here the format makes sense.
+> >>>
+> >>>> +		.v4l2 = V4L2_PIX_FMT_XBGR2101010,
+> >>>
+> >>> But this is horrible :-( Could we use the same names as DRM for new
+> >>> formats, when there is no conflict with existing V4L2 formats ?
+> >>>
+> >>> Sakari, Hans, what do you think ? Please see patch 1/7 in the series for
+> >>> the format definitions.
+> >>
+> >> V4L2 describes pixel formats based on how they appear in memory from the
+> >> lowest to highest memory address.
+> >>
+> >> If I am not mistaken, DRM uses the CPU order. So that explains the difference
+> >> in naming. I don't think we should hide that difference. And V4L2 has been
+> >> quite consistent in following memory ordering in the naming (except possibly
+> >> for some of the really old pixelformats).
+> > 
+> > We depart from that rule with at least the following RGB formats:
+> > 
+> > V4L2_PIX_FMT_XBGR32
+> > V4L2_PIX_FMT_BGRX32
+> > V4L2_PIX_FMT_ABGR32
+> > V4L2_PIX_FMT_BGRA32
+> > 
+> > While the following formats follow the rule:
+> > 
+> > V4L2_PIX_FMT_RGB24
+> > V4L2_PIX_FMT_BGR24
+> > V4L2_PIX_FMT_XRGB32
+> > V4L2_PIX_FMT_RGBX32
+> > V4L2_PIX_FMT_RGBA32
+> > V4L2_PIX_FMT_ARGB32
+> > 
+> > For 16-bit RGB formats, we name them based on the order in a 16-bit word
+> > which is then stored in memory in little endian (except for the formats
+> > explicitly defined as big-endian):
+> > 
+> > #define V4L2_PIX_FMT_RGB444  v4l2_fourcc('R', '4', '4', '4') /* 16  xxxxrrrr ggggbbbb */
+> > #define V4L2_PIX_FMT_ARGB444 v4l2_fourcc('A', 'R', '1', '2') /* 16  aaaarrrr ggggbbbb */
+> > #define V4L2_PIX_FMT_XRGB444 v4l2_fourcc('X', 'R', '1', '2') /* 16  xxxxrrrr ggggbbbb */
+> > #define V4L2_PIX_FMT_RGBA444 v4l2_fourcc('R', 'A', '1', '2') /* 16  rrrrgggg bbbbaaaa */
+> > #define V4L2_PIX_FMT_RGBX444 v4l2_fourcc('R', 'X', '1', '2') /* 16  rrrrgggg bbbbxxxx */
+> > #define V4L2_PIX_FMT_ABGR444 v4l2_fourcc('A', 'B', '1', '2') /* 16  aaaabbbb ggggrrrr */
+> > #define V4L2_PIX_FMT_XBGR444 v4l2_fourcc('X', 'B', '1', '2') /* 16  xxxxbbbb ggggrrrr */
+> > #define V4L2_PIX_FMT_BGRA444 v4l2_fourcc('G', 'A', '1', '2') /* 16  bbbbgggg rrrraaaa */
+> > #define V4L2_PIX_FMT_BGRX444 v4l2_fourcc('B', 'X', '1', '2') /* 16  bbbbgggg rrrrxxxx */
+> > #define V4L2_PIX_FMT_RGB555  v4l2_fourcc('R', 'G', 'B', 'O') /* 16  RGB-5-5-5     */
+> > #define V4L2_PIX_FMT_ARGB555 v4l2_fourcc('A', 'R', '1', '5') /* 16  ARGB-1-5-5-5  */
+> > #define V4L2_PIX_FMT_XRGB555 v4l2_fourcc('X', 'R', '1', '5') /* 16  XRGB-1-5-5-5  */
+> > #define V4L2_PIX_FMT_RGBA555 v4l2_fourcc('R', 'A', '1', '5') /* 16  RGBA-5-5-5-1  */
+> > #define V4L2_PIX_FMT_RGBX555 v4l2_fourcc('R', 'X', '1', '5') /* 16  RGBX-5-5-5-1  */
+> > #define V4L2_PIX_FMT_ABGR555 v4l2_fourcc('A', 'B', '1', '5') /* 16  ABGR-1-5-5-5  */
+> > #define V4L2_PIX_FMT_XBGR555 v4l2_fourcc('X', 'B', '1', '5') /* 16  XBGR-1-5-5-5  */
+> > #define V4L2_PIX_FMT_BGRA555 v4l2_fourcc('B', 'A', '1', '5') /* 16  BGRA-5-5-5-1  */
+> > #define V4L2_PIX_FMT_BGRX555 v4l2_fourcc('B', 'X', '1', '5') /* 16  BGRX-5-5-5-1  */
+> > #define V4L2_PIX_FMT_RGB565  v4l2_fourcc('R', 'G', 'B', 'P') /* 16  RGB-5-6-5     */
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+> Yes, these are all really old pixel formats :-)
 
-[...]
+Which ones do you consider new then ? :-) Even if we look at the 24-bit
+and 32-bit RGB formats only (which are not very recent), its 40%/60%.
 
-> +static void drm_test_fb_xrgb8888_to_argb2101010(struct kunit *test)
-> +{
-> +	const struct convert_xrgb8888_case *params = test->param_value;
-> +	const struct convert_to_argb2101010_result *result = &params->argb2101010_result;
-> +	size_t dst_size;
-> +	__u32 *buf = NULL;
-> +	__u32 *xrgb8888 = NULL;
-> +	struct iosys_map dst, src;
-> +
-> +	struct drm_framebuffer fb = {
-> +		.format = drm_format_info(DRM_FORMAT_ARGB8888),
+> > I would thus argue that, at least for RGB formats, naming them based on
+> > the byte order in memory isn't such a clear cut rule. 
+> > 
+> >> Departing from that would be more of a hindrance than a help, IMHO.
+> 
+> Ideally we would unify the drm and v4l2 formats to new defines shared among
+> the two subsystems. I believe that was attempted some years back. In the end,
+> it was just decided to keep them separate, i.e. it wasn't worth the effort.
+> 
+> So unless someone wants to restart that idea, I think we should just stick to
+> what we have today, warts and all.
 
-Shouldn't this be DRM_FORMAT_XRGB8888 instead?
+Maxime proposed that and submitted an RFC If I recall correctly. I
+really liked the idea, but it was shot down on maintenance issues (again
+if I recall correctly) with concerns that the media tree would depend on
+code outside of its direct control when adding new formats.
 
-Other than that, the patch looks good to me.
+Still, even if we don't share any code, I think it's worth making new
+formats identical between V4L2 and DRM (as in having the same 4CC value
+and the same macro name, excluding the prefix, for the same format).
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> >>>> +		.bpp = 32,
+> >>>> +		.planes = 1,
+> >>>> +		.hsub = 1,
+> >>>> +	}, {
+> >>>> +		.fourcc = DRM_FORMAT_RGBA1010102,
+> >>>> +		.v4l2 = V4L2_PIX_FMT_ABGR2101010,
+> >>>> +		.bpp = 32,
+> >>>> +		.planes = 1,
+> >>>> +		.hsub = 1,
+> >>>> +	}, {
+> >>>> +		.fourcc = DRM_FORMAT_ARGB2101010,
+> >>>> +		.v4l2 = V4L2_PIX_FMT_BGRA1010102,
+> >>>> +		.bpp = 32,
+> >>>> +		.planes = 1,
+> >>>> +		.hsub = 1,
+> >>>>  	}, {
+> >>>>  		.fourcc = DRM_FORMAT_YVYU,
+> >>>>  		.v4l2 = V4L2_PIX_FMT_YVYU,
+> >>>> @@ -307,6 +325,12 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+> >>>>  		.bpp = 24,
+> >>>>  		.planes = 3,
+> >>>>  		.hsub = 1,
+> >>>> +	}, {
+> >>>> +		.fourcc = DRM_FORMAT_Y210,
+> >>>> +		.v4l2 = V4L2_PIX_FMT_Y210,
+> >>>> +		.bpp = 32,
+> >>>> +		.planes = 1,
+> >>>> +		.hsub = 2,
+> >>>>  	},
+> >>>
+> >>> Any reason why you'd not adding Y212 support already ?
+> >>>
+> >>>>  };
+> >>>>  
+> >>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> >>>> index e465aef41585..6f3e109a4f80 100644
+> >>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> >>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> >>>> @@ -139,6 +139,42 @@ static const u32 rcar_du_vsp_formats[] = {
+> >>>>  	DRM_FORMAT_YVU444,
+> >>>>  };
+> >>>>  
+> >>>> +/*
+> >>>> + * Gen4 supports the same formats as above, and additionally 2-10-10-10 RGB
+> >>>> + * formats and Y210 format.
+> >>>> + */
+> >>>> +static const u32 rcar_du_vsp_formats_gen4[] = {
+> >>>> +	DRM_FORMAT_RGB332,
+> >>>> +	DRM_FORMAT_ARGB4444,
+> >>>> +	DRM_FORMAT_XRGB4444,
+> >>>> +	DRM_FORMAT_ARGB1555,
+> >>>> +	DRM_FORMAT_XRGB1555,
+> >>>> +	DRM_FORMAT_RGB565,
+> >>>> +	DRM_FORMAT_BGR888,
+> >>>> +	DRM_FORMAT_RGB888,
+> >>>> +	DRM_FORMAT_BGRA8888,
+> >>>> +	DRM_FORMAT_BGRX8888,
+> >>>> +	DRM_FORMAT_ARGB8888,
+> >>>> +	DRM_FORMAT_XRGB8888,
+> >>>> +	DRM_FORMAT_RGBX1010102,
+> >>>> +	DRM_FORMAT_RGBA1010102,
+> >>>> +	DRM_FORMAT_ARGB2101010,
+> >>>> +	DRM_FORMAT_UYVY,
+> >>>> +	DRM_FORMAT_YUYV,
+> >>>> +	DRM_FORMAT_YVYU,
+> >>>> +	DRM_FORMAT_NV12,
+> >>>> +	DRM_FORMAT_NV21,
+> >>>> +	DRM_FORMAT_NV16,
+> >>>> +	DRM_FORMAT_NV61,
+> >>>> +	DRM_FORMAT_YUV420,
+> >>>> +	DRM_FORMAT_YVU420,
+> >>>> +	DRM_FORMAT_YUV422,
+> >>>> +	DRM_FORMAT_YVU422,
+> >>>> +	DRM_FORMAT_YUV444,
+> >>>> +	DRM_FORMAT_YVU444,
+> >>>> +	DRM_FORMAT_Y210,
+> >>>> +};
+> >>>> +
+> >>>>  static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
+> >>>>  {
+> >>>>  	struct rcar_du_vsp_plane_state *state =
+> >>>> @@ -436,14 +472,23 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+> >>>>  					 ? DRM_PLANE_TYPE_PRIMARY
+> >>>>  					 : DRM_PLANE_TYPE_OVERLAY;
+> >>>>  		struct rcar_du_vsp_plane *plane = &vsp->planes[i];
+> >>>> +		unsigned int num_formats;
+> >>>> +		const u32 *formats;
+> >>>> +
+> >>>> +		if (rcdu->info->gen < 4) {
+> >>>> +			num_formats = ARRAY_SIZE(rcar_du_vsp_formats);
+> >>>> +			formats = rcar_du_vsp_formats;
+> >>>> +		} else {
+> >>>> +			num_formats = ARRAY_SIZE(rcar_du_vsp_formats_gen4);
+> >>>> +			formats = rcar_du_vsp_formats_gen4;
+> >>>> +		}
+> >>>>  
+> >>>>  		plane->vsp = vsp;
+> >>>>  		plane->index = i;
+> >>>>  
+> >>>>  		ret = drm_universal_plane_init(&rcdu->ddev, &plane->plane,
+> >>>>  					       crtcs, &rcar_du_vsp_plane_funcs,
+> >>>> -					       rcar_du_vsp_formats,
+> >>>> -					       ARRAY_SIZE(rcar_du_vsp_formats),
+> >>>> +					       formats, num_formats,
+> >>>>  					       NULL, type, NULL);
+> >>>>  		if (ret < 0)
+> >>>>  			return ret;
 
 -- 
-Best regards,
+Regards,
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Laurent Pinchart
