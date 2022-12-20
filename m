@@ -2,58 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC9A652622
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 19:20:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05FA965263D
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 19:29:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8226910E0EE;
-	Tue, 20 Dec 2022 18:19:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 007D110E0F5;
+	Tue, 20 Dec 2022 18:29:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com
- [209.85.160.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D953410E0DA
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 18:19:50 +0000 (UTC)
-Received: by mail-oa1-f41.google.com with SMTP id
- 586e51a60fabf-1322d768ba7so16386581fac.5
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 10:19:50 -0800 (PST)
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
+ [209.85.167.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D277889C0D
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 18:28:59 +0000 (UTC)
+Received: by mail-oi1-f172.google.com with SMTP id v82so11322197oib.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 10:28:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yvYSUhN9Lgqqo8NRRxAwZN/kbVSJbYqRGacsJ+ZY83o=;
- b=gVTj56kTY271J30eCFowYoUT0PanPIZFMaj1TlpXg9IgiX3nRbyHxeBeeXbWQ3r7oU
- CggKYBoxAHpgVffQWtfaOsz3wNTW9Ht1oOCIl0T7jPZwWgxFzcpV/NvdkS4HPSteE0LY
- cKZRu8aHUHGic2ufg0CwB1A3sHY0kbK2jlMtCT1Khvf6Nx3jgWNG8/GEbazTfG40RSff
- 1MOtggMbo8ZzB9XEZ9YdRAe0Dvfp1FVCUW3Ps4XM0HoAXR5BIEhW7sD6KtdYEq1RYKk0
- 9vW/UT6tUR+KhKBR8DrVRNC/Kgv4H6oSVWTIE9/AtSfFDc1VaS1oHTL9bv+vFaF0ZLJn
- cYew==
-X-Gm-Message-State: ANoB5pkNT/7gSe3JN88n/OI2TvAlmjTFRktqEZAWlR2rzr9CIDW8lxZq
- Cmc42rq50KPzrHnSzjD2/g==
-X-Google-Smtp-Source: AA0mqf4DhOxwDe9Kor6K8GQK2yyyxze1bgPG9xFLll91lFoFwbbg5+AyBLIX7Xq27noEvso5Iwxv5w==
-X-Received: by 2002:a05:6870:ed45:b0:144:a626:218b with SMTP id
- ex5-20020a056870ed4500b00144a626218bmr22778212oab.56.1671560390074; 
- Tue, 20 Dec 2022 10:19:50 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=F7voxDVbjuMHrLKhmlZZ+4WN07ar4kceaQpkDC9Gcu4=;
+ b=p6BSykTgbIQMoIfCimb9G/xYYBvMQnIMOD62kACvdVJqLMYIVYdwlm7FRuHYMAyPiS
+ XFh7ikFGpJqkZegV/PuzvgSFt2USXXCYEI3avmjgYd5mL5DoReetJ6ik4kAWxzPGOJj7
+ EGvl0B+3sJDVJ6u+ZMhRPJV7rVa8OBRIABkh5YMt04eFiur14MbVYHudc5KtP3OxKzXk
+ iCtCQU69Jw3vl++gIdrHUVqdlMB5drFNDvYtIqSvBF9DU/ijIJSp7xx/2owolZ2JGozY
+ 6apJZ9fuUinn3xnXBbghPk6uIbEd/NyrusZux1ot9z+IF+GblfQyBJ6mm1A+w3wZ7BgU
+ Zoyg==
+X-Gm-Message-State: AFqh2kq8lTJhvtVZhZNn4W6kLqAzXKSTnEWjI0DMJDN6UYCSWE67w7t6
+ kjwbdnx18neeQFDSqQhVhg==
+X-Google-Smtp-Source: AMrXdXurRizsNMCeU3eYh0lw92coSnjiA72SRQvm5c1tmS+9m3g+eOHLlvUu0nAUKtdUEhcVzfKtCg==
+X-Received: by 2002:a05:6808:1525:b0:35c:3e8e:de6e with SMTP id
+ u37-20020a056808152500b0035c3e8ede6emr8469336oiw.22.1671560938976; 
+ Tue, 20 Dec 2022 10:28:58 -0800 (PST)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
  [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- d20-20020a056871041400b0013c8ae74a14sm6257284oag.42.2022.12.20.10.19.48
+ u19-20020a0568301f5300b0066da36d2c45sm5973624oth.22.2022.12.20.10.28.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Dec 2022 10:19:49 -0800 (PST)
-Received: (nullmailer pid 858419 invoked by uid 1000);
- Tue, 20 Dec 2022 18:19:48 -0000
-Date: Tue, 20 Dec 2022 12:19:48 -0600
+ Tue, 20 Dec 2022 10:28:58 -0800 (PST)
+Received: (nullmailer pid 870653 invoked by uid 1000);
+ Tue, 20 Dec 2022 18:28:57 -0000
+Date: Tue, 20 Dec 2022 12:28:57 -0600
 From: Rob Herring <robh@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v3 0/2] drm/imx/lcdc: Implement DRM driver for imx21
-Message-ID: <20221220181948.GA828243-robh@kernel.org>
-References: <20221216175006.456831-1-u.kleine-koenig@pengutronix.de>
- <20221216235758.GA88372-robh@kernel.org>
- <20221217183806.bvo5vypm6axycdte@pengutronix.de>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [PATCH v2 1/4] dt-bindings: display: imx: add binding for
+ i.MX8MP HDMI TX
+Message-ID: <20221220182857.GA860843-robh@kernel.org>
+References: <20221216210742.3233382-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221217183806.bvo5vypm6axycdte@pengutronix.de>
+In-Reply-To: <20221216210742.3233382-1-l.stach@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,50 +63,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>, devicetree@vger.kernel.org,
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
- NXP Linux Team <linux-imx@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+ devicetree@vger.kernel.org, Liu Ying <victor.liu@nxp.com>,
+ dri-devel@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
+ patchwork-lst@pengutronix.de, NXP Linux Team <linux-imx@nxp.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Dec 17, 2022 at 07:38:06PM +0100, Uwe Kleine-König wrote:
-> On Fri, Dec 16, 2022 at 05:57:58PM -0600, Rob Herring wrote:
-> > On Fri, Dec 16, 2022 at 06:50:04PM +0100, Uwe Kleine-König wrote:
-> > > Hello,
-> > > 
-> > > Changes since v2:
-> > > 
-> > >  - added allOf as Krzysztof requested
-> > >  - reworked driver based on Philipp's comments
-> > >    (improved error handling, different selects, moved driver to a subdirectory,
-> > >    header sorting, drm_err instead of DRM_ERROR, inlined
-> > >    imx_lcdc_check_mode_change, make use of dev_err_probe())
-> > >  
-> > > Krzysztof also pointed out that we're now having two compatibles for a
-> > > single hardware. Admittedly this is unusual, but this is the chance that
-> > > the (bad) compatible identifier imx21-fb gets deprecated. The hardware
-> > > is called LCDC and only the linux (framebuffer) driver is called imxfb.
-> > 
-> > The problem is you can't have firmware (with the DTB) that supports 
-> > both. Well, you can if you want to have some firmware setting that 
-> > selects which one. Otherwise, it's really an OS problem to decide what 
-> > to use. 
+On Fri, Dec 16, 2022 at 10:07:39PM +0100, Lucas Stach wrote:
+> The HDMI TX controller on the i.MX8MP SoC is a Synopsys designware IP
+> core with a little bit of SoC integration around it.
 > 
-> I don't understand what you intend to say here. The same applies if the
-> compatible is the same for both binding alternatives, isn't it? 
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> ---
+>  .../bindings/display/imx/fsl,imx8mp-hdmi.yaml | 69 +++++++++++++++++++
+>  1 file changed, 69 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
+> new file mode 100644
+> index 000000000000..75ebeaa8c9d5
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
+> @@ -0,0 +1,69 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/imx/fsl,imx8mp-hdmi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX8MP DWC HDMI TX Encoder
+> +
+> +maintainers:
+> +  - Lucas Stach <l.stach@pengutronix.de>
+> +
+> +description: |
 
-Only if you have both nodes in the DT and both enabled. But 2 enabled 
-nodes at the same address is also a dtc warning, so I was assuming you 
-didn't do that.
+Don't need '|'.
 
-> Do you consider a firmware problem better or an OS problem?
+> +  The i.MX8MP HDMI transmitter is a Synopsys DesignWare
+> +  HDMI 2.0 TX controller IP.
+> +
+> +allOf:
+> +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
 
-The OS created the problem, so they get to keep it. But a PC BIOS is 
-full of OS compatibility switches, so...
+/schemas/display/bridge/...
 
-In the end, it's the platforms' decision really. I just want what the 
-implications of having 2 compatibles are to be understood.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - fsl,imx8mp-hdmi
+> +
+> +  reg-io-width:
+> +    const: 1
+> +
+> +  clocks:
+> +    maxItems: 5
+> +
+> +  clock-names:
+> +    items:
+> +      - const: iahb
+> +      - const: isfr
+> +      - const: fdcc
+> +      - const: cec
+> +      - const: pix
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - power-domains
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/clock/imx8mp-clock.h>
+> +    #include <dt-bindings/power/imx8mp-power.h>
+> +
+> +    hdmi@32fd8000 {
+> +        compatible = "fsl,imx8mp-hdmi";
+> +        reg = <0x32fd8000 0x7eff>;
+> +        interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&clk IMX8MP_CLK_HDMI_APB>,
+> +                 <&clk IMX8MP_CLK_HDMI_REF_266M>,
+> +                 <&clk IMX8MP_CLK_HDMI_FDCC_TST>,
+> +                 <&clk IMX8MP_CLK_32K>,
+> +                 <&hdmi_tx_phy>;
+> +        clock-names = "iahb", "isfr", "fdcc", "cec", "pix";
+> +        power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_HDMI_TX>;
+> +        reg-io-width = <1>;
+
+
+ports? This block isn't connected to anything? Like an 'hdmi-connector'?
 
 Rob
