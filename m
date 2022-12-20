@@ -2,46 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003E2652DE5
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 09:30:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 493CE6522DB
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 15:38:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0243610E428;
-	Wed, 21 Dec 2022 08:29:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D571010E3AC;
+	Tue, 20 Dec 2022 14:37:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 088AD10E0B7
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 14:35:29 +0000 (UTC)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
- [91.154.32.225])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8EC2B4F8;
- Tue, 20 Dec 2022 15:35:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1671546927;
- bh=YQDi/3LJt+gT69X7KRKbaW9jyhfDa/9LxhNPa1qAHbg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=BMNm1meIM395k4XIZDapWRBvxTmT/h3SZcRS/4e8M3wthEAjjQq2Btjn6YXnnEfd6
- MPy2+IiaCioVkLJdzobYiJ4MyyBoe/VqRyGLNqMgd0CNiQypRWIiQ6PaQvM7BuWyzz
- L2MLOloRFDbmsS2BrOE3FIYZ0JgXS+iC7p+UX94o=
-Message-ID: <af2bf62c-2a25-addc-5250-935e125ac009@ideasonboard.com>
-Date: Tue, 20 Dec 2022 16:35:24 +0200
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D0D310E3AC
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 14:37:43 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id n6so6937279ljj.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 06:37:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2JsFMcOeZFGUsQ+r4v0+OvzrOSs0ewhDSvbujmdrSKk=;
+ b=xtcWee16pQLUIWd3eL2BtuEY2t+lK2nRm2dmSSdY3AOyXWYfxWXBgmZI/uAyklkVRw
+ 9RPcJpLVpN98w8nClGy17G+UIq2EqVEPpi1iYiIQWyrX/RvlxMhIySb9j8Y9W5nr4ABf
+ oloVD5mhEBNdZ1Cx50ZpzfzcgC40e21cxut4a/z7txR3HaGRhPzejbiALzcfwVGD3FdB
+ pyNVBEpzAx/xydEGRKI+hT7/hxmkzw9EKhq7FmNlcDhp6Nur/ejBSVx5ZpZLoC+3sLnx
+ vPhG4w0lLqaYN8bmZ6ToBV4+j7o2JmQMkTCdLKFjsyjSD/7NUGi7tFyD48cHFhuVgOeb
+ 1lYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2JsFMcOeZFGUsQ+r4v0+OvzrOSs0ewhDSvbujmdrSKk=;
+ b=tXQv6oERzeAiuqezwxguOYGPbZyQLfOIJYPfImA1+G/1UA1esNYFCacnkAvNgOFDpN
+ 7kjluc9tlJzNk1XSupay47V8/2K7ToqGqivlWpRqrA5D8tEit/Gi8plsWE0Jxingkc0Y
+ vE6EqEEUf3Kvq3OrUZqDPBkxg5wGhmgO6n6djxXdm/m4bPpWksrDM3hMU9dVbNPA5Mse
+ /YmYQkxQ625WS8isEPxr3N8qCOFXjHtegOKKTx21FhB971UlWV/C0UzR8GW/aCrh433N
+ oNRGCkoxA7GHGU1AkdlgVPW5cEe6x3n3Hx29LavStALXMeLRRm4QYDOdNPDnSWHiWLGZ
+ QQJw==
+X-Gm-Message-State: ANoB5pndxI+4KmrDNPSx/oJxamfVLmvccJOwNcrJu8pKbsE7TWJLahXz
+ 0eiU2PulOjABqGTMjltVPSb+sg==
+X-Google-Smtp-Source: AA0mqf5+u3M0eVUcPdEEsjPO8NFMgWK3ojUVLEipPYJCQv91qQuGT+OP10lOuJ6l1e37JpvHPFAicQ==
+X-Received: by 2002:a05:651c:12c4:b0:277:44e:4992 with SMTP id
+ 4-20020a05651c12c400b00277044e4992mr11303457lje.26.1671547062129; 
+ Tue, 20 Dec 2022 06:37:42 -0800 (PST)
+Received: from [192.168.0.20]
+ (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+ by smtp.gmail.com with ESMTPSA id
+ z14-20020a2eb52e000000b0026dcb07122csm1044666ljm.117.2022.12.20.06.37.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Dec 2022 06:37:41 -0800 (PST)
+Message-ID: <842f65e2-ee8f-140f-ac0b-cb5898fc36be@linaro.org>
+Date: Tue, 20 Dec 2022 15:37:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 1/7] media: Add 2-10-10-10 RGB formats
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v3 2/2] dt-bindings: display/panel: Add AUO A030JTN01
 Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221219140139.294245-2-tomi.valkeinen+renesas@ideasonboard.com>
- <Y6C3PtnjAdv/seMy@pendragon.ideasonboard.com>
- <cfbb8f85-2bf9-4623-96bd-c05390a57a10@ideasonboard.com>
- <Y6HFmVXL/A/gazTn@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <Y6HFmVXL/A/gazTn@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Christophe Branchereau <cbranchereau@gmail.com>,
+ thierry.reding@gmail.com, sam@ravnborg.org, airlied@gmail.com,
+ daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ paul@crapouillou.net, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20221220120108.481554-1-cbranchereau@gmail.com>
+ <20221220120108.481554-3-cbranchereau@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221220120108.481554-3-cbranchereau@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Wed, 21 Dec 2022 08:29:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,173 +80,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
- linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/12/2022 16:24, Laurent Pinchart wrote:
-> Hi Tomi,
+On 20/12/2022 13:01, Christophe Branchereau wrote:
+> From: Paul Cercueil <paul@crapouillou.net>
 > 
-> On Tue, Dec 20, 2022 at 04:12:29PM +0200, Tomi Valkeinen wrote:
->> On 19/12/2022 21:10, Laurent Pinchart wrote:
->>> On Mon, Dec 19, 2022 at 04:01:33PM +0200, Tomi Valkeinen wrote:
->>>> Add XBGR2101010, ABGR2101010 and BGRA1010102 formats.
->>>>
->>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->>>> ---
->>>>    .../userspace-api/media/v4l/pixfmt-rgb.rst    | 194 ++++++++++++++++++
->>>>    drivers/media/v4l2-core/v4l2-ioctl.c          |   3 +
->>>>    include/uapi/linux/videodev2.h                |   3 +
->>>>    3 files changed, 200 insertions(+)
->>>>
->>>> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
->>>> index 30f51cd33f99..de78cd2dcd73 100644
->>>> --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
->>>> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
->>>> @@ -763,6 +763,200 @@ nomenclature that instead use the order of components as seen in a 24- or
->>>>        \normalsize
->>>>    
->>>>    
->>>> +10 Bits Per Component
->>>> +=====================
->>>> +
->>>> +These formats store a 30-bit RGB triplet with an optional 2 bit alpha in four
->>>> +bytes. They are named based on the order of the RGB components as seen in a
->>>> +32-bit word, which is then stored in memory in little endian byte order
->>>> +(unless otherwise noted by the presence of bit 31 in the 4CC value), and on the
->>>> +number of bits for each component.
->>>> +
->>>> +.. raw:: latex
->>>> +
->>>> +    \begingroup
->>>> +    \tiny
->>>> +    \setlength{\tabcolsep}{2pt}
->>>> +
->>>> +.. tabularcolumns:: |p{2.8cm}|p{2.0cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
->>>> +
->>>> +
->>>> +.. flat-table:: RGB Formats 10 Bits Per Color Component
->>>> +    :header-rows:  2
->>>> +    :stub-columns: 0
->>>> +
->>>> +    * - Identifier
->>>> +      - Code
->>>> +      - :cspan:`7` Byte 0 in memory
->>>> +      - :cspan:`7` Byte 1
->>>> +      - :cspan:`7` Byte 2
->>>> +      - :cspan:`7` Byte 3
->>>> +    * -
->>>> +      -
->>>> +      - 7
->>>> +      - 6
->>>> +      - 5
->>>> +      - 4
->>>> +      - 3
->>>> +      - 2
->>>> +      - 1
->>>> +      - 0
->>>> +
->>>> +      - 7
->>>> +      - 6
->>>> +      - 5
->>>> +      - 4
->>>> +      - 3
->>>> +      - 2
->>>> +      - 1
->>>> +      - 0
->>>> +
->>>> +      - 7
->>>> +      - 6
->>>> +      - 5
->>>> +      - 4
->>>> +      - 3
->>>> +      - 2
->>>> +      - 1
->>>> +      - 0
->>>> +
->>>> +      - 7
->>>> +      - 6
->>>> +      - 5
->>>> +      - 4
->>>> +      - 3
->>>> +      - 2
->>>> +      - 1
->>>> +      - 0
->>>> +    * .. _V4L2-PIX-FMT-XBGR2101010:
->>>> +
->>>> +      - ``V4L2_PIX_FMT_XBGR2101010``
->>>> +      - 'RX30'
->>>> +
->>>> +      - b\ :sub:`5`
->>>> +      - b\ :sub:`4`
->>>> +      - b\ :sub:`3`
->>>> +      - b\ :sub:`2`
->>>> +      - b\ :sub:`1`
->>>> +      - b\ :sub:`0`
->>>> +      - x
->>>> +      - x
->>>> +
->>>> +      - g\ :sub:`3`
->>>> +      - g\ :sub:`2`
->>>> +      - g\ :sub:`1`
->>>> +      - g\ :sub:`0`
->>>> +      - b\ :sub:`9`
->>>> +      - b\ :sub:`8`
->>>> +      - b\ :sub:`7`
->>>> +      - b\ :sub:`6`
->>>> +
->>>> +      - r\ :sub:`1`
->>>> +      - r\ :sub:`0`
->>>> +      - g\ :sub:`9`
->>>> +      - g\ :sub:`8`
->>>> +      - g\ :sub:`7`
->>>> +      - g\ :sub:`6`
->>>> +      - g\ :sub:`5`
->>>> +      - g\ :sub:`4`
->>>> +
->>>> +      - r\ :sub:`9`
->>>> +      - r\ :sub:`8`
->>>> +      - r\ :sub:`7`
->>>> +      - r\ :sub:`6`
->>>> +      - r\ :sub:`5`
->>>> +      - r\ :sub:`4`
->>>> +      - r\ :sub:`3`
->>>> +      - r\ :sub:`2`
->>>> +      -
->>>
->>> This doesn't match the text above. This would be RGBX2101010. I'm not
->>> sure which format you want, so I don't know if it's the documentation or
->>> the format name that is incorrect. The next two formats also seem
->>> incorrect to me.
->>
->> Right, the text should say big endian instead of little endian.
+> Add binding for the AUO A030JTN01 panel, which is a 320x480 3.0" 4:3
+> 24-bit TFT LCD panel with non-square pixels and a delta-RGB 8-bit
+> interface.
 > 
-> No, in big-endian format, you would have, for instance,
-> V4L2_PIX_FMT_XBGR2101010 defined as
-> 
-> 	[x, x, B[9:4]], [B[3:0], G[9:6]], [G[5:0], R[1:0]], [R[7:0]]
-> 
-> in memory byte order, while the format you want to define is
-> 
-> 	[B[5:0], x, x], [G[3:0], B[9:6]], [R[1:0], G[9:4]], [R[9:2]]
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Yes, I see your point.
+Drop my review, code is not correct anymore and you did not test it
+before sending.
 
-> The issue here is that 10-bpp formats don't have an integer number of
-> bytes per component. They are thus more similar to the 16-bit RGB
-> formats, where the macro named defined the order in a 16-bit word, which
-> was then stored in little-endian format in memory. For 24-bit and 32-bit
-> formats, we departed from that rule by using the byte memory order in
-> the macro name. For 10-bpp RGB formats we can't do so anymore. The most
-> sensible option is thus, I think, to use the same naming scheme as the
-> 16-bit RGB formats, which incidentaly matches the DRM naming scheme.
 
-I agree. It wasn't quite clear to me if Hans agreed to that in the patch 
-7 discussions, but as you say, maybe that's the only option that makes 
-sense.
-
-  Tomi
+Best regards,
+Krzysztof
 
