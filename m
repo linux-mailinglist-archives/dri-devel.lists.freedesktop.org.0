@@ -2,55 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C059652218
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 15:10:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EB7A652DEE
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 09:30:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D939510E03F;
-	Tue, 20 Dec 2022 14:10:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44BE510E42D;
+	Wed, 21 Dec 2022 08:29:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com
- [209.85.167.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E89AC10E03F
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 14:10:14 +0000 (UTC)
-Received: by mail-oi1-f176.google.com with SMTP id t62so10621622oib.12
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 06:10:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=date:subject:message-id:references:in-reply-to:cc:to:from
- :mime-version:content-transfer-encoding:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=Q75TNysuWYdbrSwdpHQtu6i6oJmeIz4E8jf1765dsqs=;
- b=12GVHckezWNOKcaZFp7RwY8q2wm1McVV4XEdUxlYETm/tfXVn9A7Ag7UtIrHsLshh5
- K9Q4dOxA6sWOA4LUKtuvFpChYNdEpTFNBKZwbyLEdi1CHX4+RjSj9nydMBJag/bjJhEG
- j04jSkGwtR4x3DmP1DKtS7lUYALeopfTuaTbMaCFodRdAsurAS28xjPfU7euq+3Wuigz
- +FrxzEVHZWu6an5wOPEQRTj/cAQ2uReZK4+g6h5JOM8vM2wFhRKIuruXVoohOPkbVXuD
- rvrSTrA98K9HsXtrUHbGidJVsGo9MXMSK+gfxH55rAOARz+drFw3Fy0pvHSj9czT/DgL
- XrmA==
-X-Gm-Message-State: ANoB5plEEgEL9Bjk+GX+t9u9Nd5h2bnbHBWUAscwffypXTBrdachdV6N
- oU5nvXfOHrh8telurxurTw==
-X-Google-Smtp-Source: AA0mqf7YKNW87OKBXduuqmn4LNzeBskcnSsOxdV/gztUOSashZWYlk7FGwyb/DE5yS4klj4E0qhqlA==
-X-Received: by 2002:a54:4701:0:b0:35e:bb7f:81b1 with SMTP id
- k1-20020a544701000000b0035ebb7f81b1mr11312413oik.6.1671545413112; 
- Tue, 20 Dec 2022 06:10:13 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- be4-20020a056808218400b0035418324b78sm5556714oib.11.2022.12.20.06.10.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Dec 2022 06:10:12 -0800 (PST)
-Received: (nullmailer pid 226277 invoked by uid 1000);
- Tue, 20 Dec 2022 14:10:10 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08F2510E09F
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 14:12:37 +0000 (UTC)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
+ [91.154.32.225])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3FF574F8;
+ Tue, 20 Dec 2022 15:12:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1671545552;
+ bh=W3CNN0EoFtbYs0L51Qb2b+vhpXJV+YhgsV8a+AvPrYQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=HpcsKjC9YX4Nc680qg+o6DaemBrD6XhOmqe52vqiu+fYHGfyJIuASG8pj2uL0z+bm
+ k3MKNP9MJ+M8ZWqCsCd2hShOYDQVt6/3Y+gkjj9e2+6zpTlvoYbUHPiU+esscip+Pm
+ kQPWVt8D0+wZpKIpXIYWMS9Zt4D7NNKEgaPgmKns=
+Message-ID: <cfbb8f85-2bf9-4623-96bd-c05390a57a10@ideasonboard.com>
+Date: Tue, 20 Dec 2022 16:12:29 +0200
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Christophe Branchereau <cbranchereau@gmail.com>
-In-Reply-To: <20221220120108.481554-3-cbranchereau@gmail.com>
-References: <20221220120108.481554-1-cbranchereau@gmail.com>
- <20221220120108.481554-3-cbranchereau@gmail.com>
-Message-Id: <167154529027.200950.10451078081499230843.robh@kernel.org>
-Subject: Re: [PATCH v3 2/2] dt-bindings: display/panel: Add AUO A030JTN01
-Date: Tue, 20 Dec 2022 08:10:10 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 1/7] media: Add 2-10-10-10 RGB formats
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221219140139.294245-2-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y6C3PtnjAdv/seMy@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <Y6C3PtnjAdv/seMy@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Wed, 21 Dec 2022 08:29:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,59 +52,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, paul@crapouillou.net, robh+dt@kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, thierry.reding@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Tue, 20 Dec 2022 13:01:08 +0100, Christophe Branchereau wrote:
-> From: Paul Cercueil <paul@crapouillou.net>
+On 19/12/2022 21:10, Laurent Pinchart wrote:
+> Hi Tomi,
 > 
-> Add binding for the AUO A030JTN01 panel, which is a 320x480 3.0" 4:3
-> 24-bit TFT LCD panel with non-square pixels and a delta-RGB 8-bit
-> interface.
+> Thank you for the patch.
 > 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../bindings/display/panel/auo,a030jtn01.yaml | 54 +++++++++++++++++++
->  1 file changed, 54 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/auo,a030jtn01.yaml
+> On Mon, Dec 19, 2022 at 04:01:33PM +0200, Tomi Valkeinen wrote:
+>> Add XBGR2101010, ABGR2101010 and BGRA1010102 formats.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>   .../userspace-api/media/v4l/pixfmt-rgb.rst    | 194 ++++++++++++++++++
+>>   drivers/media/v4l2-core/v4l2-ioctl.c          |   3 +
+>>   include/uapi/linux/videodev2.h                |   3 +
+>>   3 files changed, 200 insertions(+)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+>> index 30f51cd33f99..de78cd2dcd73 100644
+>> --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+>> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+>> @@ -763,6 +763,200 @@ nomenclature that instead use the order of components as seen in a 24- or
+>>       \normalsize
+>>   
+>>   
+>> +10 Bits Per Component
+>> +=====================
+>> +
+>> +These formats store a 30-bit RGB triplet with an optional 2 bit alpha in four
+>> +bytes. They are named based on the order of the RGB components as seen in a
+>> +32-bit word, which is then stored in memory in little endian byte order
+>> +(unless otherwise noted by the presence of bit 31 in the 4CC value), and on the
+>> +number of bits for each component.
+>> +
+>> +.. raw:: latex
+>> +
+>> +    \begingroup
+>> +    \tiny
+>> +    \setlength{\tabcolsep}{2pt}
+>> +
+>> +.. tabularcolumns:: |p{2.8cm}|p{2.0cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
+>> +
+>> +
+>> +.. flat-table:: RGB Formats 10 Bits Per Color Component
+>> +    :header-rows:  2
+>> +    :stub-columns: 0
+>> +
+>> +    * - Identifier
+>> +      - Code
+>> +      - :cspan:`7` Byte 0 in memory
+>> +      - :cspan:`7` Byte 1
+>> +      - :cspan:`7` Byte 2
+>> +      - :cspan:`7` Byte 3
+>> +    * -
+>> +      -
+>> +      - 7
+>> +      - 6
+>> +      - 5
+>> +      - 4
+>> +      - 3
+>> +      - 2
+>> +      - 1
+>> +      - 0
+>> +
+>> +      - 7
+>> +      - 6
+>> +      - 5
+>> +      - 4
+>> +      - 3
+>> +      - 2
+>> +      - 1
+>> +      - 0
+>> +
+>> +      - 7
+>> +      - 6
+>> +      - 5
+>> +      - 4
+>> +      - 3
+>> +      - 2
+>> +      - 1
+>> +      - 0
+>> +
+>> +      - 7
+>> +      - 6
+>> +      - 5
+>> +      - 4
+>> +      - 3
+>> +      - 2
+>> +      - 1
+>> +      - 0
+>> +    * .. _V4L2-PIX-FMT-XBGR2101010:
+>> +
+>> +      - ``V4L2_PIX_FMT_XBGR2101010``
+>> +      - 'RX30'
+>> +
+>> +      - b\ :sub:`5`
+>> +      - b\ :sub:`4`
+>> +      - b\ :sub:`3`
+>> +      - b\ :sub:`2`
+>> +      - b\ :sub:`1`
+>> +      - b\ :sub:`0`
+>> +      - x
+>> +      - x
+>> +
+>> +      - g\ :sub:`3`
+>> +      - g\ :sub:`2`
+>> +      - g\ :sub:`1`
+>> +      - g\ :sub:`0`
+>> +      - b\ :sub:`9`
+>> +      - b\ :sub:`8`
+>> +      - b\ :sub:`7`
+>> +      - b\ :sub:`6`
+>> +
+>> +      - r\ :sub:`1`
+>> +      - r\ :sub:`0`
+>> +      - g\ :sub:`9`
+>> +      - g\ :sub:`8`
+>> +      - g\ :sub:`7`
+>> +      - g\ :sub:`6`
+>> +      - g\ :sub:`5`
+>> +      - g\ :sub:`4`
+>> +
+>> +      - r\ :sub:`9`
+>> +      - r\ :sub:`8`
+>> +      - r\ :sub:`7`
+>> +      - r\ :sub:`6`
+>> +      - r\ :sub:`5`
+>> +      - r\ :sub:`4`
+>> +      - r\ :sub:`3`
+>> +      - r\ :sub:`2`
+>> +      -
 > 
+> This doesn't match the text above. This would be RGBX2101010. I'm not
+> sure which format you want, so I don't know if it's the documentation or
+> the format name that is incorrect. The next two formats also seem
+> incorrect to me.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Right, the text should say big endian instead of little endian.
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/display/panel/auo,a030jtn01.example.dts:22.11-21: Warning (reg_format): /example-0/panel@0:reg: property has invalid length (4 bytes) (#address-cells == 1, #size-cells == 1)
-Documentation/devicetree/bindings/display/panel/auo,a030jtn01.example.dtb: Warning (pci_device_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/display/panel/auo,a030jtn01.example.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/display/panel/auo,a030jtn01.example.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/display/panel/auo,a030jtn01.example.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/display/panel/auo,a030jtn01.example.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/panel/auo,a030jtn01.example.dtb: panel@0: Unevaluated properties are not allowed ('spi-max-frequency' was unexpected)
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/panel/auo,a030jtn01.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221220120108.481554-3-cbranchereau@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+  Tomi
 
