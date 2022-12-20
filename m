@@ -2,50 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8590651F14
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 11:42:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3016651F0D
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 11:41:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BA6C10E394;
-	Tue, 20 Dec 2022 10:41:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D62EE10E39E;
+	Tue, 20 Dec 2022 10:40:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender-of-o50.zoho.in (sender-of-o50.zoho.in [103.117.158.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79FC910E002
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Dec 2022 15:34:23 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1671464054; cv=none; d=zohomail.in; s=zohoarc; 
- b=WXVL5pept0wyAvliElBj4DiD7BB/uHTKTkVP79BIgnfedfw4lABN4ua6dRuTrPCo1fNcTt0QL1ccVRwxeugamxgDjTKRjTneprMjfnAcqB9CcOWC9wz+knkuX00A6S3tqAwDMwEs7CMTzCzJNGoRJ+R8X21DxWvvEGQRryj/THc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1671464054;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=O8NG+C2lB2shkfoX7DpHMnoUOQ+RibmnP1poMGg5OA4=; 
- b=d+PHIfs6Tm5CYQSF7k0Da8ZTQ6KR9et4TVQ9CORNtM3VcYKgCo0TxkMsl1er4bFZBbTI8mxu+WlAeMwzEoii+If3uF6ELV6Qe05DFMJQU4oIn+MQhdvYdI1Lg5fFIN7GBBhMrIcQkTIqQ8VMchNaBlfcvQ04ravbKHgsHqMXxvA=
-ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
- spf=pass  smtp.mailfrom=code@siddh.me;
- dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1671464054; 
- s=zmail; d=siddh.me; i=code@siddh.me;
- h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=O8NG+C2lB2shkfoX7DpHMnoUOQ+RibmnP1poMGg5OA4=;
- b=XJJC4Hl46YEmDPGK8kxrt0TgcCARxCBLIf22/nKqBIkxEjfaNNplODVsWqF2/y42
- CuvpnxtHyzwjlixIhRhe2bRxWYZyWejaU7RVOICet3iiMJYXodkmZT2eenrmgB/xf9B
- 56GX1kzadrDlQntFbpg1cF5y3olGm3QAZHEWhL4w=
-Received: from mail.zoho.in by mx.zoho.in
- with SMTP id 1671464042539690.9187061987653;
- Mon, 19 Dec 2022 21:04:02 +0530 (IST)
-Date: Mon, 19 Dec 2022 21:04:02 +0530
-From: Siddh Raman Pant <code@siddh.me>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>
-Message-ID: <1852b054022.16e87c6b116450.6116081892972417758@siddh.me>
-In-Reply-To: <0693327a-4951-6864-12c6-88cfe81abd12@suse.de>
-References: <20221219142319.79827-1-code@siddh.me>
- <0693327a-4951-6864-12c6-88cfe81abd12@suse.de>
-Subject: Re: [PATCH] drm: Replace DRM_INFO() with pr_info()
+Received: from mx0a-00176a03.pphosted.com (mx0a-00176a03.pphosted.com
+ [67.231.149.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E09D10E09C
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 08:33:23 +0000 (UTC)
+Received: from pps.filterd (m0048275.ppops.net [127.0.0.1])
+ by m0048275.ppops.net-00176a03. (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BK4NSqh028882
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 03:33:22 -0500
+Date: Tue, 20 Dec 2022 10:33:18 +0200
+From: Ian Ray <ian.ray@ge.com>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: EXT: Re: [PATCH] drm/imx: ipuv3-plane: Fix overlay plane width
+Message-ID: <20221220083318.GA40917@zoo6.em.health.ge.com>
+References: <20221108141420.176696-1-p.zabel@pengutronix.de>
+ <20221108144955.my4m5smwazsctsli@mercury.elektranox.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221108144955.my4m5smwazsctsli@mercury.elektranox.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-GUID: cNbcm-_SG3ozP_R714Ir8kuSDktFaQ6Z
+X-Proofpoint-ORIG-GUID: cNbcm-_SG3ozP_R714Ir8kuSDktFaQ6Z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-20_01,2022-12-15_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ spamscore=0
+ priorityscore=1501 impostorscore=0 mlxlogscore=999 bulkscore=0
+ adultscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0
+ clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2212200069
 X-Mailman-Approved-At: Tue, 20 Dec 2022 10:39:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,32 +53,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
+ Huan 'Kitty' Wang <HuanWang@ge.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 19 Dec 2022 20:27:45 +0530, Thomas Zimmermann wrote:
-> Hi
+On Tue, Nov 08, 2022 at 03:49:55PM +0100, Sebastian Reichel wrote:
+> Hi,
 > 
-> Am 19.12.22 um 15:23 schrieb Siddh Raman Pant:
-> > Line 536 of drm_print.h says DRM_INFO() is deprecated
-> > in favor of pr_info().
+> On Tue, Nov 08, 2022 at 03:14:20PM +0100, Philipp Zabel wrote:
+> > ipu_src_rect_width() was introduced to support odd screen resolutions
+> > such as 1366x768 by internally rounding up primary plane width to a
+> > multiple of 8 and compensating with reduced horizontal blanking.
+> > This also caused overlay plane width to be rounded up, which was not
+> > intended. Fix overlay plane width by limiting the rounding up to the
+> > primary plane.
+> > 
+> > drm_rect_width(&new_state->src) >> 16 is the same value as
+> > drm_rect_width(dst) because there is no plane scaling support.
+> > 
+> > Fixes: 94dfec48fca7 ("drm/imx: Add 8 pixel alignment fix")
+> > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+
+Sorry for the delay in testing, and thank you for the patch!
+
+
+Tested-by: Ian Ray <ian.ray@ge.com>
+
+
+> > ---
 > 
-> That's a misleading comment. DRM_INFO() is deprecated for drm_info(). 
-> pr_info() et al is only to be used of you don't have a dev pointer.
+> Looks sensible, but I no longer have access to the affected
+> hardware. Maybe Ian or Kitty (both added to Cc) can give it
+> a test on arch/arm/boot/dts/imx6dl-b155v2.dts
 > 
-> Best regards
-> Thomas
+> -- Sebastian
+> 
+> >  drivers/gpu/drm/imx/ipuv3-plane.c | 14 ++++++++------
+> >  1 file changed, 8 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3-plane.c
+> > index dba4f7d81d69..80142d9a4a55 100644
+> > --- a/drivers/gpu/drm/imx/ipuv3-plane.c
+> > +++ b/drivers/gpu/drm/imx/ipuv3-plane.c
+> > @@ -614,6 +614,11 @@ static void ipu_plane_atomic_update(struct drm_plane *plane,
+> >  		break;
+> >  	}
+> >  
+> > +	if (ipu_plane->dp_flow == IPU_DP_FLOW_SYNC_BG)
+> > +		width = ipu_src_rect_width(new_state);
+> > +	else
+> > +		width = drm_rect_width(&new_state->src) >> 16;
+> > +
+> >  	eba = drm_plane_state_to_eba(new_state, 0);
+> >  
+> >  	/*
+> > @@ -622,8 +627,7 @@ static void ipu_plane_atomic_update(struct drm_plane *plane,
+> >  	 */
+> >  	if (ipu_state->use_pre) {
+> >  		axi_id = ipu_chan_assign_axi_id(ipu_plane->dma);
+> > -		ipu_prg_channel_configure(ipu_plane->ipu_ch, axi_id,
+> > -					  ipu_src_rect_width(new_state),
+> > +		ipu_prg_channel_configure(ipu_plane->ipu_ch, axi_id, width,
+> >  					  drm_rect_height(&new_state->src) >> 16,
+> >  					  fb->pitches[0], fb->format->format,
+> >  					  fb->modifier, &eba);
+> > @@ -678,9 +682,8 @@ static void ipu_plane_atomic_update(struct drm_plane *plane,
+> >  		break;
+> >  	}
+> >  
+> > -	ipu_dmfc_config_wait4eot(ipu_plane->dmfc, ALIGN(drm_rect_width(dst), 8));
+> > +	ipu_dmfc_config_wait4eot(ipu_plane->dmfc, width);
+> >  
+> > -	width = ipu_src_rect_width(new_state);
+> >  	height = drm_rect_height(&new_state->src) >> 16;
+> >  	info = drm_format_info(fb->format->format);
+> >  	ipu_calculate_bursts(width, info->cpp[0], fb->pitches[0],
+> > @@ -744,8 +747,7 @@ static void ipu_plane_atomic_update(struct drm_plane *plane,
+> >  		ipu_cpmem_set_burstsize(ipu_plane->ipu_ch, 16);
+> >  
+> >  		ipu_cpmem_zero(ipu_plane->alpha_ch);
+> > -		ipu_cpmem_set_resolution(ipu_plane->alpha_ch,
+> > -					 ipu_src_rect_width(new_state),
+> > +		ipu_cpmem_set_resolution(ipu_plane->alpha_ch, width,
+> >  					 drm_rect_height(&new_state->src) >> 16);
+> >  		ipu_cpmem_set_format_passthrough(ipu_plane->alpha_ch, 8);
+> >  		ipu_cpmem_set_high_priority(ipu_plane->alpha_ch);
+> > 
+> > base-commit: 9abf2313adc1ca1b6180c508c25f22f9395cc780
+> > -- 
+> > 2.30.2
+> > 
 
-Maybe you are confusing it with DRM_DEV_INFO? It takes the dev pointer,
-and is indeed told to be deprecated in favour of drm_info() in the
-comments (see line 394).
 
-DRM_INFO is a separate macro for printing stuff, and does not take the
-dev pointer. They seem to be early wrappers for printk, I guess when
-pr_info did not exist. And all they do different from pr_info is to add
-DRM_NAME (which seems to be just "drm") in front of the string.
-
-Thanks,
-Siddh
