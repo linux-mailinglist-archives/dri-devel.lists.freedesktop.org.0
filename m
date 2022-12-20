@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9347765244B
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 17:07:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBCE5652465
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 17:12:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FCA810E090;
-	Tue, 20 Dec 2022 16:07:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AE9510E0D7;
+	Tue, 20 Dec 2022 16:12:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com
- [209.85.160.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85F6A10E090
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 16:07:24 +0000 (UTC)
-Received: by mail-oa1-f45.google.com with SMTP id
- 586e51a60fabf-144bd860fdbso15971365fac.0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 08:07:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Q/u+y5GSLZEEG0FI6JVp5YQvEAR9DtzlzUi4XN5IYYg=;
- b=uetLTRtrwKO34Ot3EwvTnI2BcZIpYz8Lkxi5f7bZv3eJHaVa9BtnV/5Z4qWKDL7BJ2
- NWy5RxP4CuBQlLaI1ttX42VMlD6ycl2D4PudwwbWkO88GqAMGZriWD5CZPNsX/r5CZik
- 6B0GyVP5IhdhH69AUI57ey8k5beJTP3/0AFQlKdkt2Za6JU5jmNSHPEVhGTNsfI20I7A
- QEiyu1Jzjumu9AmExMhHmcR9FIMUUSK3iZCKsHI9cw1gya4SpcalUgC7JmfimWbpvWFS
- vZlpRo2WWXo/KwgJ9p1/v6G63Rv6n8HhEmsfwO5RuiVMFBBBUK+TYV+A+ViseIrHSp4B
- Yv9w==
-X-Gm-Message-State: ANoB5pkD9sv1McolCWLh+YMDDD+CA7GTLHPlOmnGMb0q5qztCqicAR0o
- VL7W93L42DQVftmyda8vvA==
-X-Google-Smtp-Source: AA0mqf7Vr3fx/nZSVhqd0FR3tqQ0t2069C3rCa0EhIFdtpBAjjoKR5PH1zTpaiGVYRnNzM3trAwTnQ==
-X-Received: by 2002:a05:6870:1696:b0:144:7a85:63ea with SMTP id
- j22-20020a056870169600b001447a8563eamr23948571oae.23.1671552443772; 
- Tue, 20 Dec 2022 08:07:23 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- z9-20020a056870460900b00140d421445bsm6185661oao.11.2022.12.20.08.07.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Dec 2022 08:07:23 -0800 (PST)
-Received: (nullmailer pid 647058 invoked by uid 1000);
- Tue, 20 Dec 2022 16:07:22 -0000
-Date: Tue, 20 Dec 2022 10:07:22 -0600
-From: Rob Herring <robh@kernel.org>
-To: Johan Jonker <jbx6244@gmail.com>
-Subject: Re: [PATCH v4 2/5] dt-bindings: soc: rockchip: grf: add
- rockchip,lvds.yaml
-Message-ID: <20221220160722.GA635186-robh@kernel.org>
-References: <7f38e245-4fc0-1754-e75c-10c1e31bbd4d@gmail.com>
- <0b9bb507-1819-4bfa-593f-8b7e92c2ce3d@gmail.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3D2D10E0AB
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 16:12:20 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 859354D362;
+ Tue, 20 Dec 2022 16:11:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1671552709; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=1TNs3bNuTv3H9SLzq39ipeVAOnE35q+0yR6H5mxTZp0=;
+ b=p1RU9kPCeCn++t+xM6S6Xy1BlyPWuw+vnBJpYM0/6zcrAlzpOYtzsCuUNA9lDUz7xSlOzb
+ uFoF32qLJnR6/Ky4aJOQxC740OWb/pXN8skwV6GFx1JYYcIIDOn8F8NOiewF8VO4Z5OdU2
+ oFP1Hs7j7vvpTZyzwKWPlntVFM+iiJ8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1671552709;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=1TNs3bNuTv3H9SLzq39ipeVAOnE35q+0yR6H5mxTZp0=;
+ b=d0jUsLKKNmJzQFN4oRvu7a4GC7zIfXozVNd5qMOAJvzP0q9sIYeXUoJF0ZUaF3A8oLHFyg
+ by7SmuJ6PsKd3GBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5D4671390E;
+ Tue, 20 Dec 2022 16:11:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id qLL4FcXeoWMiZQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 20 Dec 2022 16:11:49 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@gmail.com, javierm@redhat.com,
+ jose.exposito89@gmail.com, mairacanal@riseup.net, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com
+Subject: [PATCH v2 00/13] drm: Fix color-format selection in fbdev emulation
+Date: Tue, 20 Dec 2022 17:11:32 +0100
+Message-Id: <20221220161145.27568-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0b9bb507-1819-4bfa-593f-8b7e92c2ce3d@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,54 +63,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kishon@kernel.org, devicetree@vger.kernel.org,
- krzysztof.kozlowski+dt@linaro.org, hjc@rock-chips.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, vkoul@kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 19, 2022 at 05:56:35PM +0100, Johan Jonker wrote:
-> Add new converted rockchip,lvds.yaml to grf.yaml file.
-> Prepare for more SoCs with lvds output.
-> 
-> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
-> ---
->  .../devicetree/bindings/soc/rockchip/grf.yaml          | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/soc/rockchip/grf.yaml b/Documentation/devicetree/bindings/soc/rockchip/grf.yaml
-> index 2ed8cca79..d74295e98 100644
-> --- a/Documentation/devicetree/bindings/soc/rockchip/grf.yaml
-> +++ b/Documentation/devicetree/bindings/soc/rockchip/grf.yaml
-> @@ -75,13 +75,17 @@ allOf:
->        properties:
->          compatible:
->            contains:
-> -            const: rockchip,px30-grf
-> +            enum:
-> +              - rockchip,px30-grf
-> 
->      then:
->        properties:
->          lvds:
-> -          description:
-> -            Documentation/devicetree/bindings/display/rockchip/rockchip-lvds.txt
-> +          type: object
-> +
-> +          $ref: "/schemas/display/rockchip/rockchip,lvds.yaml#"
+Fix the selection of the fbdev emulation's color format and make
+XRGB8888 the only emulated color format. Resolves the blank screen
+in cases where video= specifies an unsupported color format. Also
+resolves the issues around current format-conversion helpers.
 
-You can drop the quotes.
+Version 2 of the patchset fixes the format-helper test cases on
+big-endian platforms. This involves some changes to existing tests
+as well.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+DRM drivers usually pick a default format for their fbdev emulation.
+Via the kernel's video= parameter, users can specify a different
+format. If the given format is unsupported by the driver, the fbdev
+console screen remains dark. As the console is essential to many
+systems, not displaying anything is to be avoided.
 
-> +
-> +          unevaluatedProperties: false
-> 
->    - if:
->        properties:
-> --
-> 2.20.1
-> 
-> 
+Patch 1 fixes the detection of the firmware's native color format.
+The meaning of several color parameters is inconsistent among Linux
+and various standards. Take this into account.
+
+Patches 2 to 5 fix the existing conversion helpers and test cases
+for big-endian platforms. These patches are new in version 2 of the
+patcheset.
+
+As drivers are supposed to provide XRGB8888 as a default fallback
+format, provide XRGB8888 conversion helpers in patches 6 to 9. The
+new helpers handle cases where the client uses a XRGB8888 frambuffer
+and the display scanout buffer uses a different format. All scanout
+formats of the simplefb infrastructure should now be covered. The
+patchse also extend the Kunit tests for the new formats.
+
+With format conversion in place, patches 10 and 11 fix the single-probe
+function's format selection. The helper now goes over the given video=
+parameters until it finds a compatible format. If none is found, the
+uses driver's default format.
+
+Patches 12 and 13 clean up DRM code in drivers and helpers.
+
+Tested on x86-64 with EFI output and x86 with various VESA color
+modes. Also tested on ppc64 with OF output.
+
+v2:
+	* fix problems with big-endian platforms
+
+Thomas Zimmermann (13):
+  firmware/sysfb: Fix EFI/VESA format selection
+  drm/format-helper: Comment on RGB888 byte order
+  drm/format-helper: Fix test-input format conversion
+  drm/format-helper: Store RGB565 in little-endian order
+  drm/format-helper: Type fixes in format-helper tests
+  drm/format-helper: Flip src/dst-format branches in blit helper
+  drm/format-helper: Add conversion from XRGB8888 to ARGB8888
+  drm/format-helper: Add conversion from XRGB8888 to ARGB2101010
+  drm/format-helper: Add conversion from XRGB8888 to 15-bit RGB555
+    formats
+  drm/fh-helper: Split fbdev single-probe helper
+  drm/fb-helper: Fix single-probe color-format selection
+  drm/format-helper: Simplify drm_fb_build_fourcc_list()
+  drm/format-helper: Remove unnecessary conversion helpers
+
+ drivers/firmware/sysfb_simplefb.c             |  43 +-
+ drivers/gpu/drm/drm_fb_helper.c               | 252 ++++++----
+ drivers/gpu/drm/drm_format_helper.c           | 464 +++++++++++++-----
+ .../gpu/drm/tests/drm_format_helper_test.c    | 386 ++++++++++++++-
+ drivers/gpu/drm/tiny/ofdrm.c                  |  20 -
+ drivers/gpu/drm/tiny/simpledrm.c              |  21 -
+ include/drm/drm_format_helper.h               |  16 +-
+ 7 files changed, 898 insertions(+), 304 deletions(-)
+
+-- 
+2.39.0
+
