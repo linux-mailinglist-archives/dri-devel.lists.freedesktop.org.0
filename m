@@ -2,75 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D7E36527C9
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 21:22:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FF5865281E
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Dec 2022 21:58:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93C8110E3E4;
-	Tue, 20 Dec 2022 20:22:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 956DA10E409;
+	Tue, 20 Dec 2022 20:58:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7F8110E3E4
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 20:21:58 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id b3so20379173lfv.2
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 12:21:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Uem/Rg0y7RK0QKRnhhb+pOTt6PVpCehNtdD/fJMouvo=;
- b=n2RYVym0j++xBdJtTs4jg7kJ6kCMuuFIVQy8UMoq3D3cChxpobhm4EnaHRumBO3T6c
- n8HhrHZRe6UaO7eYyTBwSlP+0mkd4ZkkKAb1TZx/TfXAAGhKnHcrXg3m1kSycklnNo8b
- OYuVVUb8eF4pBTGpvfC8YHlV+JPyUDc7YY9txn0/p/KOaz/Nfuej9WaP0d2ieVWP/Pf0
- ml1amYkOw92Z9rXLpnTeq+ch/Rs9y6Y/naGXrsq0C2acTynwGu7WQazalH8yD4seB8Dq
- XBPBak24O5Fmxfzm2tZTu5f/Qn3HKJKxIpGAEW0I1gDMA2K7tRMhy8/X28gncf44dScD
- QZhg==
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com
+ [IPv6:2607:f8b0:4864:20::b4a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2943110E409
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 20:58:34 +0000 (UTC)
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ b4-20020a253404000000b006fad1bb09f4so15254080yba.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Dec 2022 12:58:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=xKXJYD4y3GZm6HnbUvNVngViJ+1dwURTi8LZvK89erU=;
+ b=RXCH9eozNGJe68h9FMYrzQJhw22LY0QHXX6+wB2um85IcAi5F13jRtC7I0TNFbJIar
+ RwQvRrrx7hfydCNo0RhFfUO89kcOUdFDqQDCHOt4/Iifcm1/zFd3wX+48WBj+rWbV1ZT
+ v2kGq6yI4qZj5C14WmsSZIK8enEWBQbGS4KpYT3VvM6NafsmikBtRWx1bcZPBkCYeEXM
+ ZrCsjNSciIkJu9ZGo027Kyo7DBkJ1Y4VcNjzH5HCVG73UcVlirgFm+ql7XrJ363COUiG
+ EKvLb1wejLOUOro1C4+BpciF34R+J4JCJcXFqZCJ6R1Ks5lIbZ2NAuvIVUL3cfOq/oLc
+ sNwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Uem/Rg0y7RK0QKRnhhb+pOTt6PVpCehNtdD/fJMouvo=;
- b=GibxbNn9bVknYBQ+lEoJVaT57xadalk53dFvnF7JT9Kenr+U3zrHy62FgwKc3bU44/
- Q3lvnpzZpUWoS6Agh8evlCsVNU0gEQZiaMf3LIFpDbkkmBDrFdppKNIiJqEFPZYJddrs
- mAVRm0kfpIIYIlHoXqMUwDwbz/Va/NbuuKz31WQahE0PRaw6YWF+58hSJ4GqK/LMeAvz
- EslZHTt88JOVIYWOaoSE/9nTS72lfR7vyoopEOP3jjc0okpRLE8G9BH9n3B0vkY8R5O4
- +DUCiTode2sR0eLdK/1xjx16bmuqEuhHvXQpQkKEP1ejrY9sUJNRENXtv8E8VQLv8/+k
- DmIA==
-X-Gm-Message-State: ANoB5pmkNWQV8yWPjS3s5gBUo9+l6Xx6FQ4Nb/TBvVQ97ZHADZxKlubm
- mWnluRvcq/KH5tfmgH1GI8k=
-X-Google-Smtp-Source: AA0mqf50xiaxLBBtKZY+3R63yU+WhzuT/XVOd54mJpdrGz3UjV0WgTPmLiUveiXcBdAvF7VTtc3LxA==
-X-Received: by 2002:a05:6512:260c:b0:4b5:8e1e:867b with SMTP id
- bt12-20020a056512260c00b004b58e1e867bmr16677059lfb.59.1671567717063; 
- Tue, 20 Dec 2022 12:21:57 -0800 (PST)
-Received: from [192.168.2.145] (109-252-113-89.nat.spd-mgts.ru.
- [109.252.113.89]) by smtp.googlemail.com with ESMTPSA id
- s1-20020a19ad41000000b004b59c9b7fb4sm1573738lfd.126.2022.12.20.12.21.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Dec 2022 12:21:56 -0800 (PST)
-Message-ID: <a99fa7e5-31bc-4286-17e5-6ba6e4932bcf@gmail.com>
-Date: Tue, 20 Dec 2022 23:21:49 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 00/21] Add Tegra20 parallel video input capture
-Content-Language: en-US
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20221128152336.133953-1-luca.ceresoli@bootlin.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-In-Reply-To: <20221128152336.133953-1-luca.ceresoli@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=xKXJYD4y3GZm6HnbUvNVngViJ+1dwURTi8LZvK89erU=;
+ b=kXN1nhHoPXRLKQJOCDeEJs2NWYOLLUaHX1ok0XcsI2ObjUrSGslNsUIN0TDLkJkpeg
+ qSa7YYWcMxYTRnm3XuK9KyS7p0NDkUlj5nqPgt5xnyEHjCsxTONWhd+DetfHOiuoFIjh
+ znckAMEaXx1z9KKGztpYSFsY2sGejMKC3TRPn35+t6sePRKBSFvJDKOHfm5TWF2AiG5A
+ LfuRzwsO4KGiHgN3oFOsD+Pp2TB6yIDCo4ZvSbLhdK1FDY3FJNANQNRr/vkNsobV/8st
+ mQqxcOrF/g1ee7Cx/RiVlUP2dkfP8y4SXCLSfD8veSdmIU7xl0ymunC9IzwZTS5uq25w
+ rLqw==
+X-Gm-Message-State: ANoB5plYjfQeGFj5bXDLeAQy0Pj0whzIXmmM9foIREvr487aW+MG6z4q
+ B9cfpAZiGEiE7XAg1JBZEIGTPXA=
+X-Google-Smtp-Source: AA0mqf62lrjKa/xKuoPUB06pOfTcVG9jO7sxI6hq7SOB/NNrncyWkccriCLbejKVXjezqQgqvYhpWDE=
+X-Received: from ptf16.nyc.corp.google.com
+ ([2620:0:1003:314:ef24:68f2:407a:84b9])
+ (user=ptf job=sendgmr) by 2002:a0d:e783:0:b0:3bc:d289:f4b6 with SMTP id
+ q125-20020a0de783000000b003bcd289f4b6mr4168855ywe.417.1671569913163; Tue, 20
+ Dec 2022 12:58:33 -0800 (PST)
+Date: Tue, 20 Dec 2022 15:58:26 -0500
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
+Message-ID: <20221220205826.178008-1-ptf@google.com>
+Subject: [PATCH] drm: Add orientation quirk for Lenovo ideapad D330-10IGL
+From: Patrick Thompson <ptf@google.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,43 +65,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-tegra@vger.kernel.org,
- Richard Leitner <richard.leitner@skidata.com>, linux-media@vger.kernel.org
+Cc: Patrick Thompson <ptf@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-28.11.2022 18:23, Luca Ceresoli пишет:
-> Tegra20 and other Tegra SoCs have a video input (VI) peripheral that can
-> receive from either MIPI CSI-2 or parallel video (called respectively "CSI"
-> and "VIP" in the documentation). The kernel currently has a staging driver
-> for Tegra210 CSI capture. This patch set adds support for Tegra20 VIP
-> capture.
-> 
-> Unfortunately I had no real documentation available to base this work on.
-> I only had a working downstream 3.1 kernel, so I started with the driver
-> found there and heavily reworked it to fit into the mainline tegra-video
-> driver structure. The existing code appears written with the intent of
-> being modular and allow adding new input mechanisms and new SoCs while
-> keeping a unique VI core module. However its modularity and extensibility
-> was not enough to add Tegra20 VIP support, so I added some hooks to turn
-> hard-coded behaviour into per-SoC or per-bus customizable code. There are
-> also a fix, some generic cleanups and DT bindings.
-> 
-> Quick tour of the patches:
-> 
->  * Device tree bindings and minor DTS improvements
-> 
->    01. dt-bindings: display: tegra: add Tegra20 VIP
->    02. dt-bindings: display: tegra: vi: add 'vip' property and example
+Panel is 800x1280 but mounted on a detachable form factor sideways.
 
-This series adds the new DT node, but there are no board DTs in upstream
-that will use VIP? Will we see the board patches?
+Signed-off-by: Patrick Thompson <ptf@google.com>
+---
 
-In any case, given that you're likely the only one here who has access
-to hardware with VIP, you should promote yourself to the tegra-video
-driver maintainers and confirm that you will be able to maintain and
-test this code for years to come.
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index 52d8800a8ab86..3659f0465a724 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -304,6 +304,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad D330-10IGM"),
+ 		},
+ 		.driver_data = (void *)&lcd1200x1920_rightside_up,
++	}, {	/* Lenovo Ideapad D330-10IGL (HD) */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad D330-10IGL"),
++		},
++		.driver_data = (void *)&lcd800x1280_rightside_up,
+ 	}, {	/* Lenovo Yoga Book X90F / X91F / X91L */
+ 		.matches = {
+ 		  /* Non exact match to match all versions */
+-- 
+2.39.0.314.g84b9a713c41-goog
 
