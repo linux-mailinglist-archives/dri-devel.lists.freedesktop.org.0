@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E70A653703
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 20:30:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40FC165370A
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 20:32:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC3B10E493;
-	Wed, 21 Dec 2022 19:29:55 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D10DC10E48D;
- Wed, 21 Dec 2022 19:29:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671650991; x=1703186991;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=xR2sj4Q8bZ1XJXrYRM3EK9V+NbIW9Jf7aYvdNJfLCeU=;
- b=KWETc1Pyg9HO/oDvLCAG61emThSYQoX41xp1Bc5J8hu9nXYyUi2jIYn7
- q1GlS08PDTNv5oMnTterwnCq24PmU9O9kn+49rPSJZ0NuACPz3uvfWriA
- ixtxQv5kt322cMkiO5KilsStYRyx/SDSq7i19G2tw5eZ1tBn4hHX8xbc6
- meiHUj68L9/xAbpJxh6yniuHcdI5cnw+yKQ3F4+8weIfIOkV81qiWL5Ek
- Uqhag9eJfdSXRqJfcincZxh5P9hV8eLrxiipObM5aPkODaA/sYGHhms0J
- 7OAKpmMrpLV1gXLaqL5nILNM14X35/l/fpZW89NbmFX7h/Pchf3gNHCJC w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="321871018"
-X-IronPort-AV: E=Sophos;i="5.96,263,1665471600"; d="scan'208";a="321871018"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2022 11:29:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="644948813"
-X-IronPort-AV: E=Sophos;i="5.96,263,1665471600"; d="scan'208";a="644948813"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.200])
- by orsmga007.jf.intel.com with ESMTP; 21 Dec 2022 11:29:50 -0800
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 3/3] drm/i915/uc: Fix two issues with over-size firmware files
-Date: Wed, 21 Dec 2022 11:30:31 -0800
-Message-Id: <20221221193031.687266-4-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20221221193031.687266-1-John.C.Harrison@Intel.com>
-References: <20221221193031.687266-1-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 129B310E487;
+	Wed, 21 Dec 2022 19:31:36 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CC7410E487
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 19:31:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=gP4neeR+eGVx4MJgy6AREA0ivbGU/yLyLXgRRiCyIE8=; b=kRF7lFbRBphwcKMa73a9bdhsqA
+ OjnNctF35iUIfNb/MzvrSBw0PlseObzDnMFFE+mPRXk2eJThuTBHoXTJPTSMaGwYTPczdFuAWzzIw
+ XeNGCSsGe9UmUSHCWub4D572WQ+fX+DsOseq6q2xutcIHgd6wNkuylpoCzfTvIoA/C+7ndiF3vyrE
+ 1leB/cpYu5rqn9cAuS+ZWssmLY7DBpb9JaZ1ipE8rWQynyEdYuViJC2d+0+f/E3ZuWlTPmGeMpOOy
+ cAeopiVqnSbOUBX6gHtP8fLD3xuft5iT7VnXYW6chf7glrJMd3kfTsBC2yYHOFYeNWHUDffXJY7T0
+ 4MogPtSg==;
+Received: from [168.205.245.125] (helo=[10.5.56.124])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1p84o4-007eys-DE; Wed, 21 Dec 2022 20:31:12 +0100
+Message-ID: <731f53ce-333e-02fc-e69f-747d9ca09459@igalia.com>
+Date: Wed, 21 Dec 2022 16:30:58 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2 02/13] drm/format-helper: Comment on RGB888 byte order
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, javierm@redhat.com, jose.exposito89@gmail.com,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com
+References: <20221220161145.27568-1-tzimmermann@suse.de>
+ <20221220161145.27568-3-tzimmermann@suse.de>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20221220161145.27568-3-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,115 +57,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Jani Nikula <jani.nikula@intel.com>, DRI-Devel@Lists.FreeDesktop.Org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+On 12/20/22 13:11, Thomas Zimmermann wrote:
+> RGB888 is different than the other formats as most of its pixels are
+> unaligned and therefore helper functions do not use endianness conversion
+> helpers. Comment on this in the source code.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-In the case where a firmware file is too large (e.g. someone
-downloaded a web page ASCII dump from github...), the firmware object
-is released but the pointer is not zerod. If no other firmware file
-was found then release would be called again leading to a double kfree.
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
 
-Also, the size check was only being applied to the initial firmware
-load not any of the subsequent attempts. So move the check into a
-wrapper that is used for all loads.
+Best Regards,
+- Maíra Canal
 
-Fixes: 016241168dc5 ("drm/i915/uc: use different ggtt pin offsets for uc loads")
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 42 ++++++++++++++++--------
- 1 file changed, 28 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-index d6ff6c584c1e1..65672ff826054 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-@@ -675,6 +675,32 @@ static int check_fw_header(struct intel_gt *gt,
- 	return 0;
- }
- 
-+static int try_firmware_load(struct intel_uc_fw *uc_fw, const struct firmware **fw)
-+{
-+	struct intel_gt *gt = __uc_fw_to_gt(uc_fw);
-+	struct device *dev = gt->i915->drm.dev;
-+	int err;
-+
-+	err = firmware_request_nowarn(fw, uc_fw->file_selected.path, dev);
-+
-+	if (err)
-+		return err;
-+
-+	if ((*fw)->size > INTEL_UC_RSVD_GGTT_PER_FW) {
-+		drm_err(&gt->i915->drm,
-+			"%s firmware %s: size (%zuKB) exceeds max supported size (%uKB)\n",
-+			intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
-+			(*fw)->size / SZ_1K, INTEL_UC_RSVD_GGTT_PER_FW / SZ_1K);
-+
-+		/* try to find another blob to load */
-+		release_firmware(*fw);
-+		*fw = NULL;
-+		return -ENOENT;
-+	}
-+
-+	return 0;
-+}
-+
- /**
-  * intel_uc_fw_fetch - fetch uC firmware
-  * @uc_fw: uC firmware
-@@ -688,7 +714,6 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
- 	struct intel_gt *gt = __uc_fw_to_gt(uc_fw);
- 	struct drm_i915_private *i915 = gt->i915;
- 	struct intel_uc_fw_file file_ideal;
--	struct device *dev = i915->drm.dev;
- 	struct drm_i915_gem_object *obj;
- 	const struct firmware *fw = NULL;
- 	bool old_ver = false;
-@@ -704,20 +729,9 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
- 	__force_fw_fetch_failures(uc_fw, -EINVAL);
- 	__force_fw_fetch_failures(uc_fw, -ESTALE);
- 
--	err = firmware_request_nowarn(&fw, uc_fw->file_selected.path, dev);
-+	err = try_firmware_load(uc_fw, &fw);
- 	memcpy(&file_ideal, &uc_fw->file_wanted, sizeof(file_ideal));
- 
--	if (!err && fw->size > INTEL_UC_RSVD_GGTT_PER_FW) {
--		drm_err(&i915->drm,
--			"%s firmware %s: size (%zuKB) exceeds max supported size (%uKB)\n",
--			intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
--			fw->size / SZ_1K, INTEL_UC_RSVD_GGTT_PER_FW / SZ_1K);
--
--		/* try to find another blob to load */
--		release_firmware(fw);
--		err = -ENOENT;
--	}
--
- 	/* Any error is terminal if overriding. Don't bother searching for older versions */
- 	if (err && intel_uc_fw_is_overridden(uc_fw))
- 		goto fail;
-@@ -738,7 +752,7 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
- 			break;
- 		}
- 
--		err = firmware_request_nowarn(&fw, uc_fw->file_selected.path, dev);
-+		err = try_firmware_load(uc_fw, &fw);
- 	}
- 
- 	if (err)
--- 
-2.39.0
-
+> ---
+>  drivers/gpu/drm/drm_format_helper.c            | 1 +
+>  drivers/gpu/drm/tests/drm_format_helper_test.c | 4 ++++
+>  2 files changed, 5 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+> index 74ff33c2ddaa..b98bd7c5caee 100644
+> --- a/drivers/gpu/drm/drm_format_helper.c
+> +++ b/drivers/gpu/drm/drm_format_helper.c
+> @@ -404,6 +404,7 @@ static void drm_fb_xrgb8888_to_rgb888_line(void *dbuf, const void *sbuf, unsigne
+>  
+>  	for (x = 0; x < pixels; x++) {
+>  		pix = le32_to_cpu(sbuf32[x]);
+> +		/* write blue-green-red to output in little endianness */
+>  		*dbuf8++ = (pix & 0x000000FF) >>  0;
+>  		*dbuf8++ = (pix & 0x0000FF00) >>  8;
+>  		*dbuf8++ = (pix & 0x00FF0000) >> 16;
+> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
+> index 2191e57f2297..cd1d7da3483c 100644
+> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
+> @@ -407,6 +407,10 @@ static void drm_test_fb_xrgb8888_to_rgb888(struct kunit *test)
+>  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
+>  	iosys_map_set_vaddr(&src, xrgb8888);
+>  
+> +	/*
+> +	 * RGB888 expected results are already in little-endian
+> +	 * order, so there's no need to convert the test output.
+> +	 */
+>  	drm_fb_xrgb8888_to_rgb888(&dst, &result->dst_pitch, &src, &fb, &params->clip);
+>  	KUNIT_EXPECT_EQ(test, memcmp(buf, result->expected, dst_size), 0);
+>  }
