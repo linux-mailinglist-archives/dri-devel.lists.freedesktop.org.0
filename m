@@ -2,70 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517C0652DB9
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 09:14:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CD5D652DDE
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 09:25:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E7CC89A72;
-	Wed, 21 Dec 2022 08:14:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30D6010E00E;
+	Wed, 21 Dec 2022 08:25:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E6EF89954
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 08:13:55 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id p36so22296876lfa.12
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 00:13:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=pkbnwNlIzbD+fefyBrKzBY3j56R66zu85H+p/b4oFEA=;
- b=UYdFilbWV7A+MZV/xySGbrRhz0Lb+GMht44Sq5YuuyEiDxacld1b9d/v4rYJugfOC4
- Md5gkhjhx5Hfw22SfE/EnHFav2afuKzeY94VJ5FReAHyqsHynikwpY237myDLKq0yjJH
- xj2VXCkrzY5gxnsa3NZbomL9VHFnWRh6wxFHrFasg6EtIkw0W78m/sHHaJP8G59RNsXP
- dH2jQU9T8Lc+2GWcYDmentJpjGpV6tgrkrr2ToLF1In4KjfdA8l6kTpJtAobq72W7EXR
- ub36dXcQSwd3OagUOC99tWjbNhTc9meepMaizVwpfn5Cz/PC5bO3g2/3L5aE8rV54TKF
- aBjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pkbnwNlIzbD+fefyBrKzBY3j56R66zu85H+p/b4oFEA=;
- b=1Q5hxcqilFYupOGZW2ggZEYhK77CWpC3FFD4FK8g2JRiZOWvsXCEQ6oKSWYGbK2vLR
- F2E8DVogJ1jpdShvR/7ydwJpn/UDsfS1zYQGl2RsCTmdGfVIRWEOEc7lNYwsW6qRexcV
- AM5Ajk8mfuQdqCfYditrWNpvgNTKU557C3OUpQ+nV/88k83b6B6onoaQ4NoJ3FG2iF6C
- yQxjV316Ad14XTerhVOIKydP3syerZY+OcA8daQQRQyp0hwkUKJ5/NAthKon9zhexknO
- FNmWuCWQsLW4axY6qQ4O6mb/XH7+qZexcxAbbnvlYjYLHhUq0cmFbAFY/ASqs8APRPlL
- eEfA==
-X-Gm-Message-State: AFqh2krxhNIL1fL2GT+fZAaImRboNF/eeswJP4ZczTCUoHBKBeAjIMeI
- /wgFKEGD/C77EQGI7DVVX5ilug==
-X-Google-Smtp-Source: AMrXdXt1jk8G9ZKPcFxKLxyW5hblcLez4+qRH9QHQR4npD+m5WNzpAqhc0NnY5gNKmhQO+Hv4OoEbQ==
-X-Received: by 2002:a05:6512:6d6:b0:4a4:68b9:609b with SMTP id
- u22-20020a05651206d600b004a468b9609bmr366616lff.38.1671610433245; 
- Wed, 21 Dec 2022 00:13:53 -0800 (PST)
-Received: from [192.168.0.20]
- (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
- by smtp.gmail.com with ESMTPSA id
- o18-20020a05651238b200b004ac6a444b26sm1769606lft.141.2022.12.21.00.13.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Dec 2022 00:13:52 -0800 (PST)
-Message-ID: <d37e0f2d-eaa5-4eaa-72bb-ead349235d6d@linaro.org>
-Date: Wed, 21 Dec 2022 09:13:51 +0100
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B1E210E00E
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 08:25:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1671611133; x=1703147133;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=C8fDUovD/odTwy9ovBmY7X5fveSuSkm5Uo/zeW9/lRg=;
+ b=QV1xWRrKnBwLHW6q7QRmESKgaAD2pSI0cwuShiOzR+ZJ/dw5pGuSUecr
+ 2BsaMaDb10PVPLHBYuE95YELI088kS7PQzVKShzVmqNxSxU985xUTXKQI
+ juNjawUU5MzZgEwqS43hn3uH9YbLzEQO1l4r6Y3i4o3N9s2AebNVuuG2r
+ YSzUjs79RC4XCNSC8e3JTP6HlODnl67L7wIkmyICLJLyKfmOhh8ZPfjA4
+ lk0/l5R8KhcNW5qZ+ysiRcTE9h36QMaF3U6PLRoDOsYkpNSk+9jDHbexd
+ /khTbJoNlMDeqHx3xVSaAlHU8T9M01OoM7LIp5HaMQ9Z+bWK+5vO896iW Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="320995652"
+X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="320995652"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2022 00:25:32 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="719868658"
+X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="719868658"
+Received: from gciesiel-mobl.ger.corp.intel.com (HELO [10.249.140.33])
+ ([10.249.140.33])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2022 00:25:30 -0800
+Message-ID: <5c4fadd0-c358-0712-6bdf-c640e63d409c@linux.intel.com>
+Date: Wed, 21 Dec 2022 09:25:28 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH 2/2] dt-bindings: leds: backlight: add binding for Kinetic
- KTZ8866 backlight
+Subject: Re: [PATCH v4 1/7] accel/ivpu: Introduce a new DRM driver for Intel
+ VPU
+To: Oded Gabbay <oded.gabbay@gmail.com>
+References: <20221208110733.5498-1-jacek.lawrynowicz@linux.intel.com>
+ <20221208110733.5498-2-jacek.lawrynowicz@linux.intel.com>
+ <CAFCwf12rtUk2qEMRS-awzEzX=eKL8+8v79b7sS_s8pTwetn2SA@mail.gmail.com>
 Content-Language: en-US
-To: Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20221221070216.17850-1-lujianhua000@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221221070216.17850-1-lujianhua000@gmail.com>
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <CAFCwf12rtUk2qEMRS-awzEzX=eKL8+8v79b7sS_s8pTwetn2SA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,69 +65,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
+ quic_jhugo@quicinc.com, dri-devel@lists.freedesktop.org,
+ stanislaw.gruszka@linux.intel.com, tzimmermann@suse.de,
+ andrzej.kacprowski@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/12/2022 08:02, Jianhua Lu wrote:
-> Add device tree bindings for the Kinetic KTZ8866 backlight driver.
+Hi,
 
-1. Your patches are not properly threaded which makes it difficult to
-review and handle them. Resend with proper threads.
-
-2. Subject: drop second, redundant "binding for".
-
+On 20.12.2022 21:17, Oded Gabbay wrote:
+> On Thu, Dec 8, 2022 at 1:08 PM Jacek Lawrynowicz
+> <jacek.lawrynowicz@linux.intel.com> wrote:
+>>
+>> VPU stands for Versatile Processing Unit and it's a CPU-integrated
+>> inference accelerator for Computer Vision and Deep Learning
+>> applications.
+>>
+>> The VPU device consist of following components:
+>>   - Buttress - provides CPU to VPU integration, interrupt, frequency and
+>>     power management.
+>>   - Memory Management Unit (based on ARM MMU-600) - translates VPU to
+>>     host DMA addresses, isolates user workloads.
+>>   - RISC based microcontroller - executes firmware that provides job
+>>     execution API for the kernel-mode driver
+>>   - Neural Compute Subsystem (NCS) - does the actual work, provides
+>>     Compute and Copy engines.
+>>   - Network on Chip (NoC) - network fabric connecting all the components
+>>
+>> This driver supports VPU IP v2.7 integrated into Intel Meteor Lake
+>> client CPUs (14th generation).
+>>
+>> Module sources are at drivers/accel/ivpu and module name is
+>> "intel_vpu.ko".
+>>
+>> This patch includes only very besic functionality:
+>>   - module, PCI device and IRQ initialization
+>>   - register definitions and low level register manipulation functions
+>>   - SET/GET_PARAM ioctls
+>>   - power up without firmware
+>>
+>> Co-developed-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+>> Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+>> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+>> ---
+>>  MAINTAINERS                          |    9 +
+>>  drivers/Makefile                     |    1 +
+>>  drivers/accel/Kconfig                |    2 +
+>>  drivers/accel/Makefile               |    3 +
+>>  drivers/accel/ivpu/Kconfig           |   15 +
+>>  drivers/accel/ivpu/Makefile          |    8 +
+>>  drivers/accel/ivpu/TODO              |    7 +
+>>  drivers/accel/ivpu/ivpu_drv.c        |  359 +++++++++
+>>  drivers/accel/ivpu/ivpu_drv.h        |  162 ++++
+>>  drivers/accel/ivpu/ivpu_hw.h         |  170 +++++
+>>  drivers/accel/ivpu/ivpu_hw_mtl.c     | 1048 ++++++++++++++++++++++++++
+>>  drivers/accel/ivpu/ivpu_hw_mtl_reg.h |  280 +++++++
+>>  drivers/accel/ivpu/ivpu_hw_reg_io.h  |  115 +++
+>>  include/uapi/drm/ivpu_drm.h          |   95 +++
+>>  14 files changed, 2274 insertions(+)
 > 
-> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
-> ---
->  .../leds/backlight/kinetic,ktz8866.yaml       | 37 +++++++++++++++++++
->  1 file changed, 37 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+> Another thing I would like to ask you to do is to rename ivpu_drm.h to
+> ivpu_accel.h to make it clear this is an accel uapi file and not a
+> classic drm driver uapi file.
+> i.e. to make it clear it exposes the accel device char nodes, sysfs, etc.
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-> new file mode 100644
-> index 000000000000..7286c3fc7f5d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-> @@ -0,0 +1,37 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/kinetic,ktz8866.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Kinetic Technologies KTZ8866 backlight
-> +
-> +maintainers:
-> +  - Jianhua Lu <lujianhua000@gmail.com>
-> +
-> +description: |
-> +  The Kinetic Technologies KTZ8866 is a high efficiency 6-sinks led backlight
-> +  with dual lcd bias power.
-> +  https://www.kinet-ic.com/ktz8866/
-> +
-> +allOf:
-> +  - $ref: common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      const: kinetic,ktz8866
+> But leave it in include/uapi/drm, because we might still need drm.h
+> down the road.
+> 
 
-Does not look like you tested the bindings. Please run `make
-dt_binding_check` (see
-Documentation/devicetree/bindings/writing-schema.rst for instructions).
+Sure, I will rename it.
 
-> +
-> +required:
-> +  - compatible
-> +
-> +additionalProperties: false
-
-This should be rather unevaluatedProperties: false, otherwise you do not
-allow any other properties, except compatible. Was this the intention?
-
-Best regards,
-Krzysztof
+Regards,
+Jacek
 
