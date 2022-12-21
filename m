@@ -2,53 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97504652EE8
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 10:50:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC13654DCD
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 09:46:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3FB710E0A5;
-	Wed, 21 Dec 2022 09:50:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 840DF10E615;
+	Fri, 23 Dec 2022 08:45:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60DCA10E0A5
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 09:50:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671616214; x=1703152214;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=IxPBcswAu/FPTNKbtGLPljIPJQ0RCng05/tC/MUeyF8=;
- b=FayjQ7jfHpFL4DzuBx5EyyoD4TJxCOwVQpIiRNATDs7lc7ck0AcyOL4v
- UXzhPNPZYy6hSZhd9KN1nJPejbGPKSWRHv1M/O1FijkHxsxD0ibn4DhlH
- SR7FLoSUtq8rFpJcVvyDbKrcU3qUUlCwps4ivmy8AAT6Joa7hU1AZCF70
- oEX7f3c/WgGG/eoMEuB84dWJEpCpmmrOZCuizeQDIegz7Igb0gu2UV09b
- eV/L8DV0TJRsBB6a7ARs8eD+A56l9U9CWpioLIs8MT0nPXLV1sDykYdyG
- 0NhoDg4Q2Lfgjh8WW62DwcXyuFmgH4Lwx5UWFxvPY24z7TY3Xw/klhpfG Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="406071307"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="406071307"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2022 01:50:02 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="825584348"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="825584348"
-Received: from jorgeblx-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.46.119])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2022 01:49:59 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Siddh Raman Pant <code@siddh.me>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 01/10] drm: Remove usage of deprecated DRM_INFO
-In-Reply-To: <da27fd5d4725a8becd426c01ba5652a44cf62ce5.1671566741.git.code@siddh.me>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1671566741.git.code@siddh.me>
- <da27fd5d4725a8becd426c01ba5652a44cf62ce5.1671566741.git.code@siddh.me>
-Date: Wed, 21 Dec 2022 11:49:57 +0200
-Message-ID: <87a63h2iii.fsf@intel.com>
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
+ [IPv6:2607:f8b0:4864:20::b2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01F5110E12A
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 09:52:02 +0000 (UTC)
+Received: by mail-yb1-xb2e.google.com with SMTP id 186so15877003ybe.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 01:52:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=q7sIkNaLWjx1fFIRDeksx1Bh/LCbJsIlgGGmVwmS/Lg=;
+ b=F1NkzfEHPTLeEaB5NuAbK9KsI1FcgsXRzpQ5yCjit3xU0Ek4F0G4wWDn63+9KVtoiu
+ CBW8da2j1YkRvy0QoPCb3xShxPQ0PPpCX25OLDzoYEguLuQVrSPj12OjM/ncZ21dayBj
+ YRUMwmNo0ShuOmCmKiBgULgpbmqHzDyDHDB0/cmkG47QcHugz9EE41zE30HaSdbw6Gjc
+ xBAB+olMr+r3YUpBSZjN9XKngaeoBKamUZlLhmhpwNiRuRK1ZgmNumu5dHrKwn+FZq2v
+ 7YHK2FdCTV3Ls050vfCzaZaX3Rgrm7tB6HOY2YwHPwnwbGe2IsWdKS+dL1vYgFhr391X
+ gpWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=q7sIkNaLWjx1fFIRDeksx1Bh/LCbJsIlgGGmVwmS/Lg=;
+ b=crHPaLTcZtZCA8qMswA4IMoMf9B/FD71ta7P7vq6ChmdU/QHDdYZ2+8VLmk1FGraYA
+ upqQwGstQQWGFBq8Wf42SGjnB1FGvmESxyBTDUDjvPQRlJtzPW2SR8lRwrB+mKE2Msga
+ CvXmHjUN6FIiMZVYg3yZ9hQXxBQGysj+brmRNxyxsRvUhvLlEM3tkZvRMGrnqh0BDdHv
+ N021kfydrlu/y1n9yiNehv3N/hAV6vXU40/5Att2Ni1pUZ8r3VJ9dquMXVCs0c2F0NEW
+ CptI1N08iIp4gqEEzrHqGz+g+MwyjEe6fh5hGvL6t1V/zsczsN8dtOdQdE+6Caoseb+w
+ ywKw==
+X-Gm-Message-State: AFqh2koHfhgsy8yA/8lLnbasYTTCFHFZKVG4zCBvRIHE19hbiX5/7VkR
+ EhoeybVKcGr2cvyBwBF3rBZ6+1Ec4oDZN+s63Q0=
+X-Google-Smtp-Source: AMrXdXvzu7iVSCLvjIfOh8H5HSloiBny73NhHt1abq0uWoXfLyOlhFZezi8nA9T9CRYnIcudpc/UAnMBME73/AdO5Ok=
+X-Received: by 2002:a25:4042:0:b0:6f9:64f8:491 with SMTP id
+ n63-20020a254042000000b006f964f80491mr142475yba.111.1671616322220; Wed, 21
+ Dec 2022 01:52:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20221221070216.17850-1-lujianhua000@gmail.com>
+ <d37e0f2d-eaa5-4eaa-72bb-ead349235d6d@linaro.org>
+ <CAEo_cxGK_m_VM1k0EWerfS2b2DF5ucvftQj68h3kBZz2=L=YGQ@mail.gmail.com>
+ <cb84a044-0508-2b5b-13aa-a081d0e90afd@linaro.org>
+In-Reply-To: <cb84a044-0508-2b5b-13aa-a081d0e90afd@linaro.org>
+From: jianhua lu <lujianhua000@gmail.com>
+Date: Wed, 21 Dec 2022 17:51:50 +0800
+Message-ID: <CAEo_cxHhQs2ra5dCd4qnqcHsM7AVcfLXknnoPcMJ3FHyyL8rZw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] dt-bindings: leds: backlight: add binding for Kinetic
+ KTZ8866 backlight
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: multipart/alternative; boundary="00000000000016380505f05381ce"
+X-Mailman-Approved-At: Fri, 23 Dec 2022 08:44:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,102 +69,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Pavel Machek <pavel@ucw.cz>, Jingoo Han <jingoohan1@gmail.com>,
+ Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 21 Dec 2022, Siddh Raman Pant <code@siddh.me> wrote:
-> drm_print.h says DRM_INFO is deprecated.
-> Thus, use newer printing macros drm_info() and pr_info().
+--00000000000016380505f05381ce
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I think it's a bit odd some of the conversion is to pr_*() and some to
-drm_*(NULL, ...) depending on the logging level etc.
+Yes, I will
 
-Notably the pr_*() debugs will lack the [drm] part as well as the
-function name, which makes some of the logging harder to map to what's
-going on.
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> =E4=BA=8E 2022=E5=B9=
+=B412=E6=9C=8821=E6=97=A5=E5=91=A8=E4=B8=89
+17:46=E5=86=99=E9=81=93=EF=BC=9A
 
-Maybe all of them should use the drm_*() calls, with better handling of
-NULL drm device.
-
-BR,
-Jani.
-
-
-
-
-
-
+> On 21/12/2022 10:40, jianhua lu wrote:
+> > Thanks for review, I will resend this path.
 >
-> Signed-off-by: Siddh Raman Pant <code@siddh.me>
-> ---
->  drivers/gpu/drm/drm_client_modeset.c | 2 +-
->  drivers/gpu/drm/drm_connector.c      | 7 ++++---
->  drivers/gpu/drm/drm_drv.c            | 2 +-
->  drivers/gpu/drm/drm_pci.c            | 2 +-
->  4 files changed, 7 insertions(+), 6 deletions(-)
+> Are you going to test it, before sending?
 >
-> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-> index d553e793e673..2b76d4828c5f 100644
-> --- a/drivers/gpu/drm/drm_client_modeset.c
-> +++ b/drivers/gpu/drm/drm_client_modeset.c
-> @@ -335,7 +335,7 @@ static bool drm_client_target_cloned(struct drm_device *dev,
->  		DRM_DEBUG_KMS("can clone using 1024x768\n");
->  		return true;
->  	}
-> -	DRM_INFO("kms: can't enable cloning when we probably wanted to.\n");
-> +	drm_info(dev, "kms: can't enable cloning when we probably wanted to.\n");
->  	return false;
->  }
->  
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index 547356e00341..34c26b2a974e 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -165,13 +165,14 @@ static void drm_connector_get_cmdline_mode(struct drm_connector *connector)
->  		return;
->  
->  	if (mode->force) {
-> -		DRM_INFO("forcing %s connector %s\n", connector->name,
-> -			 drm_get_connector_force_name(mode->force));
-> +		drm_info(connector->dev, "forcing %s connector %s\n",
-> +			 connector->name, drm_get_connector_force_name(mode->force));
->  		connector->force = mode->force;
->  	}
->  
->  	if (mode->panel_orientation != DRM_MODE_PANEL_ORIENTATION_UNKNOWN) {
-> -		DRM_INFO("cmdline forces connector %s panel_orientation to %d\n",
-> +		drm_info(connector->dev,
-> +			 "cmdline forces connector %s panel_orientation to %d\n",
->  			 connector->name, mode->panel_orientation);
->  		drm_connector_set_panel_orientation(connector,
->  						    mode->panel_orientation);
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 73b845a75d52..bc98e4bcf2c1 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -938,7 +938,7 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
->  	if (drm_core_check_feature(dev, DRIVER_MODESET))
->  		drm_modeset_register_all(dev);
->  
-> -	DRM_INFO("Initialized %s %d.%d.%d %s for %s on minor %d\n",
-> +	drm_info(dev, "Initialized %s %d.%d.%d %s for %s on minor %d\n",
->  		 driver->name, driver->major, driver->minor,
->  		 driver->patchlevel, driver->date,
->  		 dev->dev ? dev_name(dev->dev) : "virtual device",
-> diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
-> index 39d35fc3a43b..18cf7fa23698 100644
-> --- a/drivers/gpu/drm/drm_pci.c
-> +++ b/drivers/gpu/drm/drm_pci.c
-> @@ -262,7 +262,7 @@ void drm_legacy_pci_exit(const struct drm_driver *driver,
->  		}
->  		mutex_unlock(&legacy_dev_list_lock);
->  	}
-> -	DRM_INFO("Module unloaded\n");
-> +	pr_info("Module unloaded\n");
->  }
->  EXPORT_SYMBOL(drm_legacy_pci_exit);
+> Best regards,
+> Krzysztof
+>
+>
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+--00000000000016380505f05381ce
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div>Yes, I will<br><br><div class=3D"gmail_quote"><div d=
+ir=3D"ltr" class=3D"gmail_attr">Krzysztof Kozlowski &lt;<a href=3D"mailto:k=
+rzysztof.kozlowski@linaro.org">krzysztof.kozlowski@linaro.org</a>&gt; =E4=
+=BA=8E 2022=E5=B9=B412=E6=9C=8821=E6=97=A5=E5=91=A8=E4=B8=89 17:46=E5=86=99=
+=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 21/12/2022 10=
+:40, jianhua lu wrote:<br>
+&gt; Thanks for review, I will resend this path.<br>
+<br>
+Are you going to test it, before sending?<br>
+<br>
+Best regards,<br>
+Krzysztof<br>
+<br>
+</blockquote></div></div></div>
+
+--00000000000016380505f05381ce--
