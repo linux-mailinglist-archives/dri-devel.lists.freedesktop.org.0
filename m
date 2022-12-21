@@ -2,57 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CD5D652DDE
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 09:25:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BCAE652E40
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 10:08:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30D6010E00E;
-	Wed, 21 Dec 2022 08:25:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B23810E431;
+	Wed, 21 Dec 2022 09:08:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B1E210E00E
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 08:25:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671611133; x=1703147133;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=C8fDUovD/odTwy9ovBmY7X5fveSuSkm5Uo/zeW9/lRg=;
- b=QV1xWRrKnBwLHW6q7QRmESKgaAD2pSI0cwuShiOzR+ZJ/dw5pGuSUecr
- 2BsaMaDb10PVPLHBYuE95YELI088kS7PQzVKShzVmqNxSxU985xUTXKQI
- juNjawUU5MzZgEwqS43hn3uH9YbLzEQO1l4r6Y3i4o3N9s2AebNVuuG2r
- YSzUjs79RC4XCNSC8e3JTP6HlODnl67L7wIkmyICLJLyKfmOhh8ZPfjA4
- lk0/l5R8KhcNW5qZ+ysiRcTE9h36QMaF3U6PLRoDOsYkpNSk+9jDHbexd
- /khTbJoNlMDeqHx3xVSaAlHU8T9M01OoM7LIp5HaMQ9Z+bWK+5vO896iW Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="320995652"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="320995652"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2022 00:25:32 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="719868658"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="719868658"
-Received: from gciesiel-mobl.ger.corp.intel.com (HELO [10.249.140.33])
- ([10.249.140.33])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2022 00:25:30 -0800
-Message-ID: <5c4fadd0-c358-0712-6bdf-c640e63d409c@linux.intel.com>
-Date: Wed, 21 Dec 2022 09:25:28 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D202610E0C3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 09:08:47 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1A51C6B31A;
+ Wed, 21 Dec 2022 09:08:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1671613689; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=c3yWjaHhj4dPNyWfNrpROf0D0Qp6xcOORm1RODQqVzo=;
+ b=xHO0vw6Smf0z8s929o4P4/PoxvRZekrHa7iQnaP7Mhm5Ir5x3V0HSffSSWBubiJdSM54yW
+ FawFG7NwlrwIcEQMPVfPqMPZQryyPPzd/DgJOkttZiLRZH/McQGsNonRW2NdJEsX4Kj/iy
+ RYmb87xKaQV67n0DSDeYCNRuN9j831M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1671613689;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=c3yWjaHhj4dPNyWfNrpROf0D0Qp6xcOORm1RODQqVzo=;
+ b=ZaqLeW3Ffv2CnnKk5oupMCsR7qeHyxGTJ4J6MOoPKqXiQ0FDh2x+OUabldvtSpd+hKEON6
+ wObUKU30Kc+WC4Aw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E796E1390E;
+ Wed, 21 Dec 2022 09:08:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id uvl9N/jMomNofwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 21 Dec 2022 09:08:08 +0000
+Message-ID: <e10cf9f1-af23-4355-7768-7d5010a28be0@suse.de>
+Date: Wed, 21 Dec 2022 10:08:08 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v4 1/7] accel/ivpu: Introduce a new DRM driver for Intel
- VPU
-To: Oded Gabbay <oded.gabbay@gmail.com>
-References: <20221208110733.5498-1-jacek.lawrynowicz@linux.intel.com>
- <20221208110733.5498-2-jacek.lawrynowicz@linux.intel.com>
- <CAFCwf12rtUk2qEMRS-awzEzX=eKL8+8v79b7sS_s8pTwetn2SA@mail.gmail.com>
+Subject: Re: [PATCH 04/10] drm/print: Fix support for NULL as first argument
+ of drm_dbg_*
 Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <CAFCwf12rtUk2qEMRS-awzEzX=eKL8+8v79b7sS_s8pTwetn2SA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Siddh Raman Pant <code@siddh.me>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <cover.1671566741.git.code@siddh.me>
+ <3ebf0d61ad5e82875a4493108602e62429306b14.1671566741.git.code@siddh.me>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <3ebf0d61ad5e82875a4493108602e62429306b14.1671566741.git.code@siddh.me>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------VAdZP8B12qb20EEwBHWgZBk2"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,77 +74,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
- quic_jhugo@quicinc.com, dri-devel@lists.freedesktop.org,
- stanislaw.gruszka@linux.intel.com, tzimmermann@suse.de,
- andrzej.kacprowski@linux.intel.com
+Cc: linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------VAdZP8B12qb20EEwBHWgZBk2
+Content-Type: multipart/mixed; boundary="------------jDzyD3jKfsQFk1bC0NY4pgB3";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Siddh Raman Pant <code@siddh.me>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
+Message-ID: <e10cf9f1-af23-4355-7768-7d5010a28be0@suse.de>
+Subject: Re: [PATCH 04/10] drm/print: Fix support for NULL as first argument
+ of drm_dbg_*
+References: <cover.1671566741.git.code@siddh.me>
+ <3ebf0d61ad5e82875a4493108602e62429306b14.1671566741.git.code@siddh.me>
+In-Reply-To: <3ebf0d61ad5e82875a4493108602e62429306b14.1671566741.git.code@siddh.me>
 
-On 20.12.2022 21:17, Oded Gabbay wrote:
-> On Thu, Dec 8, 2022 at 1:08 PM Jacek Lawrynowicz
-> <jacek.lawrynowicz@linux.intel.com> wrote:
->>
->> VPU stands for Versatile Processing Unit and it's a CPU-integrated
->> inference accelerator for Computer Vision and Deep Learning
->> applications.
->>
->> The VPU device consist of following components:
->>   - Buttress - provides CPU to VPU integration, interrupt, frequency and
->>     power management.
->>   - Memory Management Unit (based on ARM MMU-600) - translates VPU to
->>     host DMA addresses, isolates user workloads.
->>   - RISC based microcontroller - executes firmware that provides job
->>     execution API for the kernel-mode driver
->>   - Neural Compute Subsystem (NCS) - does the actual work, provides
->>     Compute and Copy engines.
->>   - Network on Chip (NoC) - network fabric connecting all the components
->>
->> This driver supports VPU IP v2.7 integrated into Intel Meteor Lake
->> client CPUs (14th generation).
->>
->> Module sources are at drivers/accel/ivpu and module name is
->> "intel_vpu.ko".
->>
->> This patch includes only very besic functionality:
->>   - module, PCI device and IRQ initialization
->>   - register definitions and low level register manipulation functions
->>   - SET/GET_PARAM ioctls
->>   - power up without firmware
->>
->> Co-developed-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
->> Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
->> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
->> ---
->>  MAINTAINERS                          |    9 +
->>  drivers/Makefile                     |    1 +
->>  drivers/accel/Kconfig                |    2 +
->>  drivers/accel/Makefile               |    3 +
->>  drivers/accel/ivpu/Kconfig           |   15 +
->>  drivers/accel/ivpu/Makefile          |    8 +
->>  drivers/accel/ivpu/TODO              |    7 +
->>  drivers/accel/ivpu/ivpu_drv.c        |  359 +++++++++
->>  drivers/accel/ivpu/ivpu_drv.h        |  162 ++++
->>  drivers/accel/ivpu/ivpu_hw.h         |  170 +++++
->>  drivers/accel/ivpu/ivpu_hw_mtl.c     | 1048 ++++++++++++++++++++++++++
->>  drivers/accel/ivpu/ivpu_hw_mtl_reg.h |  280 +++++++
->>  drivers/accel/ivpu/ivpu_hw_reg_io.h  |  115 +++
->>  include/uapi/drm/ivpu_drm.h          |   95 +++
->>  14 files changed, 2274 insertions(+)
-> 
-> Another thing I would like to ask you to do is to rename ivpu_drm.h to
-> ivpu_accel.h to make it clear this is an accel uapi file and not a
-> classic drm driver uapi file.
-> i.e. to make it clear it exposes the accel device char nodes, sysfs, etc.
-> 
-> But leave it in include/uapi/drm, because we might still need drm.h
-> down the road.
-> 
+--------------jDzyD3jKfsQFk1bC0NY4pgB3
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Sure, I will rename it.
+SGkNCg0KQW0gMjAuMTIuMjIgdW0gMjE6MTYgc2NocmllYiBTaWRkaCBSYW1hbiBQYW50Og0K
+PiBDb21tZW50cyBzYXkgbWFjcm9zIERSTV9ERUJVR18qIGFyZSBkZXByZWNhdGVkIGluIGZh
+dm9yIG9mDQo+IGRybV9kYmdfKihOVUxMLCAuLi4pLCBidXQgdGhleSBoYXZlIGJyb2tlbiBz
+dXBwb3J0IGZvciBpdCwNCj4gYXMgdGhlIG1hY3JvIHdpbGwgcmVzdWx0IGluIGAoTlVMTCkg
+PyAoTlVMTCktPmRldiA6IE5VTExgLg0KPiANCj4gVGh1cywgZml4IHRoZW0gYnkgY2FzdGlu
+ZyBpbnB1dCBkcm0gdG8gYSB0ZW1wb3Jhcnkgc3RydWN0IHB0ciwNCj4gd2l0aCB0aGUgc2Ft
+ZSBjb252ZW50aW9uIGFzIGluIF9fRFJNX0RFRklORV9EQkdfUkFURUxJTUlURUQuDQo+IA0K
+PiBTaWduZWQtb2ZmLWJ5OiBTaWRkaCBSYW1hbiBQYW50IDxjb2RlQHNpZGRoLm1lPg0KPiAt
+LS0NCj4gICBpbmNsdWRlL2RybS9kcm1fcHJpbnQuaCB8IDg5ICsrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrLS0tLS0tLS0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDY5IGluc2Vy
+dGlvbnMoKyksIDIwIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUv
+ZHJtL2RybV9wcmludC5oIGIvaW5jbHVkZS9kcm0vZHJtX3ByaW50LmgNCj4gaW5kZXggYTQ0
+ZmI3ZWYyNTdmLi41MzcwMmQ4MzAyOTEgMTAwNjQ0DQo+IC0tLSBhL2luY2x1ZGUvZHJtL2Ry
+bV9wcmludC5oDQo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9wcmludC5oDQo+IEBAIC00ODYs
+MjYgKzQ4Niw3NSBAQCB2b2lkIF9fZHJtX2Rldl9kYmcoc3RydWN0IF9kZGVidWcgKmRlc2Ms
+IGNvbnN0IHN0cnVjdCBkZXZpY2UgKmRldiwNCj4gICAJX19kcm1fcHJpbnRrKChkcm0pLCBl
+cnIsIF9yYXRlbGltaXRlZCwgIipFUlJPUiogIiBmbXQsICMjX19WQV9BUkdTX18pDQo+ICAg
+DQo+ICAgDQo+IC0jZGVmaW5lIGRybV9kYmdfY29yZShkcm0sIGZtdCwgLi4uKQkJCQkJXA0K
+PiAtCWRybV9kZXZfZGJnKChkcm0pID8gKGRybSktPmRldiA6IE5VTEwsIERSTV9VVF9DT1JF
+LCBmbXQsICMjX19WQV9BUkdTX18pDQouLi4NCj4gKyNkZWZpbmUgZHJtX2RiZ19jb3JlKGRy
+bSwgZm10LCAuLi4pCQkJCVwNCj4gKyh7CQkJCQkJCQlcDQo+ICsJY29uc3Qgc3RydWN0IGRy
+bV9kZXZpY2UgKmRybV8gPSAoZHJtKTsJCQlcDQo+ICsJZHJtX2Rldl9kYmcoZHJtXyA/IGRy
+bV8tPmRldiA6IE5VTEwsIERSTV9VVF9DT1JFLAlcDQo+ICsJCSAgICBmbXQsICMjX19WQV9B
+UkdTX18pOwkJCVwNCj4gK30pDQoNCkluc3RlYWQgb2YgZG9pbmcgdGhpcyBmb3IgZWFjaCBk
+cm1fZGJnXyBtYWNybywgcmF0aGVyIGFkZCBhbiBpbnRlcm5hbCANCmhlbHBlciB0aGF0IHJl
+dHVybnMgdGhlIGRldmljZSBvciBOVUxMIGxpa2UgdGhpczoNCg0Kc3RhdGljIGlubGluZSBz
+dHJ1Y3QgZGV2aWNlICpfX2RybV9wcmludF9kZXYoc3RydWN0IGRybV9kZXZpY2UgKmRybSkN
+CnsNCglpZiAoZHJtKQ0KCQlyZXR1cm4gZHJtLT5kZXY7DQoJcmV0dXJuIE5VTEw7DQp9DQoN
+CmFuZCBjaGFuZ2UgdGhlIG1hY3JvcyB0bw0KDQpkcm1fZGJnX2NvcmUoZHJtLCBmbXQsIC4u
+LikNCglkcm1fZGV2X2RiZyhfX2RybV9wcmludF9kZXYoZHJtKSwgRFJNX1VUX0NPUkUsICkN
+Cg0KYW5kIHNvIG9uLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+ICsNCj4gKyNkZWZp
+bmUgZHJtX2RiZ19kcml2ZXIoZHJtLCBmbXQsIC4uLikJCQkJXA0KPiArKHsJCQkJCQkJCVwN
+Cj4gKwljb25zdCBzdHJ1Y3QgZHJtX2RldmljZSAqZHJtXyA9IChkcm0pOwkJCVwNCj4gKwlk
+cm1fZGV2X2RiZyhkcm1fID8gZHJtXy0+ZGV2IDogTlVMTCwgRFJNX1VUX0RSSVZFUiwJXA0K
+PiArCQkgICAgZm10LCAjI19fVkFfQVJHU19fKTsJCQlcDQo+ICt9KQ0KPiArDQo+ICsjZGVm
+aW5lIGRybV9kYmdfa21zKGRybSwgZm10LCAuLi4pCQkJCVwNCj4gKyh7CQkJCQkJCQlcDQo+
+ICsJY29uc3Qgc3RydWN0IGRybV9kZXZpY2UgKmRybV8gPSAoZHJtKTsJCQlcDQo+ICsJZHJt
+X2Rldl9kYmcoZHJtXyA/IGRybV8tPmRldiA6IE5VTEwsIERSTV9VVF9LTVMsCVwNCj4gKwkJ
+ICAgIGZtdCwgIyNfX1ZBX0FSR1NfXyk7CQkJXA0KPiArfSkNCj4gKw0KPiArI2RlZmluZSBk
+cm1fZGJnX3ByaW1lKGRybSwgZm10LCAuLi4pCQkJCVwNCj4gKyh7CQkJCQkJCQlcDQo+ICsJ
+Y29uc3Qgc3RydWN0IGRybV9kZXZpY2UgKmRybV8gPSAoZHJtKTsJCQlcDQo+ICsJZHJtX2Rl
+dl9kYmcoZHJtXyA/IGRybV8tPmRldiA6IE5VTEwsIERSTV9VVF9QUklNRSwJXA0KPiArCQkg
+ICAgZm10LCAjI19fVkFfQVJHU19fKTsJCQlcDQo+ICt9KQ0KPiArDQo+ICsjZGVmaW5lIGRy
+bV9kYmdfYXRvbWljKGRybSwgZm10LCAuLi4pCQkJCVwNCj4gKyh7CQkJCQkJCQlcDQo+ICsJ
+Y29uc3Qgc3RydWN0IGRybV9kZXZpY2UgKmRybV8gPSAoZHJtKTsJCQlcDQo+ICsJZHJtX2Rl
+dl9kYmcoZHJtXyA/IGRybV8tPmRldiA6IE5VTEwsIERSTV9VVF9BVE9NSUMsCVwNCj4gKwkJ
+ICAgIGZtdCwgIyNfX1ZBX0FSR1NfXyk7CQkJXA0KPiArfSkNCj4gKw0KPiArI2RlZmluZSBk
+cm1fZGJnX3ZibChkcm0sIGZtdCwgLi4uKQkJCQlcDQo+ICsoewkJCQkJCQkJXA0KPiArCWNv
+bnN0IHN0cnVjdCBkcm1fZGV2aWNlICpkcm1fID0gKGRybSk7CQkJXA0KPiArCWRybV9kZXZf
+ZGJnKGRybV8gPyBkcm1fLT5kZXYgOiBOVUxMLCBEUk1fVVRfVkJMLAlcDQo+ICsJCSAgICBm
+bXQsICMjX19WQV9BUkdTX18pOwkJCVwNCj4gK30pDQo+ICsNCj4gKyNkZWZpbmUgZHJtX2Ri
+Z19zdGF0ZShkcm0sIGZtdCwgLi4uKQkJCQlcDQo+ICsoewkJCQkJCQkJXA0KPiArCWNvbnN0
+IHN0cnVjdCBkcm1fZGV2aWNlICpkcm1fID0gKGRybSk7CQkJXA0KPiArCWRybV9kZXZfZGJn
+KGRybV8gPyBkcm1fLT5kZXYgOiBOVUxMLCBEUk1fVVRfU1RBVEUsCVwNCj4gKwkJICAgIGZt
+dCwgIyNfX1ZBX0FSR1NfXyk7CQkJXA0KPiArfSkNCj4gKw0KPiArI2RlZmluZSBkcm1fZGJn
+X2xlYXNlKGRybSwgZm10LCAuLi4pCQkJCVwNCj4gKyh7CQkJCQkJCQlcDQo+ICsJY29uc3Qg
+c3RydWN0IGRybV9kZXZpY2UgKmRybV8gPSAoZHJtKTsJCQlcDQo+ICsJZHJtX2Rldl9kYmco
+ZHJtXyA/IGRybV8tPmRldiA6IE5VTEwsIERSTV9VVF9MRUFTRSwJXA0KPiArCQkgICAgZm10
+LCAjI19fVkFfQVJHU19fKTsJCQlcDQo+ICt9KQ0KPiArDQo+ICsjZGVmaW5lIGRybV9kYmdf
+ZHAoZHJtLCBmbXQsIC4uLikJCQkJXA0KPiArKHsJCQkJCQkJCVwNCj4gKwljb25zdCBzdHJ1
+Y3QgZHJtX2RldmljZSAqZHJtXyA9IChkcm0pOwkJCVwNCj4gKwlkcm1fZGV2X2RiZyhkcm1f
+ID8gZHJtXy0+ZGV2IDogTlVMTCwgRFJNX1VUX0RQLAkJXA0KPiArCQkgICAgZm10LCAjI19f
+VkFfQVJHU19fKTsJCQlcDQo+ICt9KQ0KPiArDQo+ICsjZGVmaW5lIGRybV9kYmdfZHJtcmVz
+KGRybSwgZm10LCAuLi4pCQkJCVwNCj4gKyh7CQkJCQkJCQlcDQo+ICsJY29uc3Qgc3RydWN0
+IGRybV9kZXZpY2UgKmRybV8gPSAoZHJtKTsJCQlcDQo+ICsJZHJtX2Rldl9kYmcoZHJtXyA/
+IGRybV8tPmRldiA6IE5VTEwsIERSTV9VVF9EUk1SRVMsCVwNCj4gKwkJICAgIGZtdCwgIyNf
+X1ZBX0FSR1NfXyk7CQkJXA0KPiArfSkNCj4gICANCj4gICAjZGVmaW5lIGRybV9kYmcoZHJt
+LCBmbXQsIC4uLikJZHJtX2RiZ19kcml2ZXIoZHJtLCBmbXQsICMjX19WQV9BUkdTX18pDQo+
+ICAgDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9w
+ZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4g
+NSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcp
+DQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-Regards,
-Jacek
+--------------jDzyD3jKfsQFk1bC0NY4pgB3--
 
+--------------VAdZP8B12qb20EEwBHWgZBk2
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmOizPgFAwAAAAAACgkQlh/E3EQov+Ba
+SBAAviPCixhN4CV6h1JupdIPytaaegqYc+4bLD8LwpKLNEZqUvFrkbBWDisn7b/op7SQsPwYQsZl
+r4juBRxVgDwGW2hD8h6JkSU/UQqQr7hKd0jGd+IBGLpB7CIqbeiLVoq70AlaGd/a6pNhxKQVMJ7J
+orpW+wmmauOVYG/SXpmqiTh8sMPMbkkeW98K1/UBoEJxXUmg8hgUjvaSacjZP5LIOhz6cE7HKer7
+1zQvGPLUZPEgMpHO3WAwjLRYbW19DnEsa4oFQynaXq0au6qTZY09FC/vEGBweCP48GCNS3NmWwwS
+QsHWM4tGw3ZHUujRwPIDCVHToOGCsKvZueru7qojOQKKCpOpJR5lMimuZyFx4gT6WPTdKT591hXF
++uIgbU6xLN3LXacP7IHcEKOLrMs9RYFiI1xQZD423fkAMZT/xFuB2Ehx/jiYWCxOIwt3VlK2GXsW
+YzI51T8AEGWenunIHx1JSz0GQMP4zfaOhGfAkVE7blmzEftQNbk+P4r1yfp8S9dXkmH6XhTQvafg
+ZLoJMkI63ipWHw0phUVFuxiBnG3PWvEu3XyETQ/Vu5NKBMmUxspSl+SzqYvF0J2OkB8Ns1zMg9ak
+rGmLLLu0Kk5VQc6V8jEIkdC9hyafMFjad0HT7Mcr2locwEL8Qn92n/IiPg6D1DvPOzxSQi5Jvbxt
+LrU=
+=Fvpw
+-----END PGP SIGNATURE-----
+
+--------------VAdZP8B12qb20EEwBHWgZBk2--
