@@ -2,54 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522D3652EBB
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 10:41:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30131652ECB
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 10:46:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6688A10E064;
-	Wed, 21 Dec 2022 09:41:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 019BD10E09A;
+	Wed, 21 Dec 2022 09:46:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF86710E064
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 09:41:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671615673; x=1703151673;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=ABf8vfI3IIw12ocR1zSeeiipTn1viEXhdkoDc2bJQ/g=;
- b=nyc72VlE1l+kMNCSYEypDAmWDPT//XZ9x2iLeaMaQ/Q6P3/A/Y4tKf5Z
- emi8xbrzah2Mb+LD9Ptz1h9n1aobz1bycQDscunYc5STIbLaUUNt2+n9i
- crzBl8kq4vRkkqTS1HPa38I/aW2HiYl4p3Hchz50m7URo+fl2vwV4Ho25
- v+NmSHlgv7x6AlP0cpBNBHpOlHdQv/bwQQpstoIBDLopkeBX6yM+IGSo+
- ykm+7GLGYzbj1mX1M4kdhRQZ031b2qt8cp1jETvCPAHnYTK9DjWf/bO/e
- QNhBStJ4/d3QDA3MbqutooTrX/W6YxqHcLmHJI8rXFBJ/lPdHh24bUA3/ w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="299509392"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="299509392"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2022 01:41:13 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="644773486"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="644773486"
-Received: from jorgeblx-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.46.119])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2022 01:41:09 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Siddh Raman Pant <code@siddh.me>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 04/10] drm/print: Fix support for NULL as first argument
- of drm_dbg_*
-In-Reply-To: <3ebf0d61ad5e82875a4493108602e62429306b14.1671566741.git.code@siddh.me>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1671566741.git.code@siddh.me>
- <3ebf0d61ad5e82875a4493108602e62429306b14.1671566741.git.code@siddh.me>
-Date: Wed, 21 Dec 2022 11:41:07 +0200
-Message-ID: <87edst2ix8.fsf@intel.com>
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E51110E09A
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 09:46:13 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id n6so9402113ljj.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 01:46:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=RMN18TMuRJ15tNy7Rh8fHbbD5iNzzFMU1HwQ+6IR2jM=;
+ b=OEF0uMUfj3e2EPEdiZgyHX3vKcqazjkPE6pCVext6HfTGZnZOT8FBMcvpIO1Vp9HYJ
+ gihqyCNyL6czBPzjSYjfXicWUDeJbbFK+NCCeXQ25M7sTvGz6wv2ZQJocrDWLWo1YG5y
+ u8lS2AbfV+2+TeSygX3DPQ8bqQotpPx2ef5VWN8sbpt5pPAQRrsrtf6UFcIzcLSpjCa7
+ ZehkKKcOZc/cpDfxQeLwcV3l0HYXSAn5RKN+wmlGgzNBfZZcoVun4kMINTLBBxdIEcnM
+ cQukSltSXHf9x+6y8XzSWXeOOULqUhrg+iNNTBvNJejTZJBDacm8x4wJpjbXIKhUxNXh
+ AgTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=RMN18TMuRJ15tNy7Rh8fHbbD5iNzzFMU1HwQ+6IR2jM=;
+ b=0mAd4FCw8J4SGSJv3UU9N8m5LBzVL63ktjOq57YlSiRRfyjlhMl98gzPjWgLy1WAvf
+ 35EgHBAV6Z+DnUOtyP2L1uDnY2+W9dtH6FjoIuytioR6OXKMNRZKNhLShkET6VSvRHPI
+ Cnqlsqp2HOtdX7kfadkIh2XlxzrK42SOX7gyFI35tX4AoqXKmjAhq1X8PXzZKjuRqOgi
+ Yfqe8Yxk+hJtI2dtdvlg/NMAA9i0Thpn1Kus9kApit0XJ7scMNJ1sprCeR3kparzxMVm
+ xostO5a23RUaaLSgefFcQykKX3XvlMNayWfgUoSu4vuiWbjtMfnI54P+vk+4wnWjqsBB
+ ngMQ==
+X-Gm-Message-State: AFqh2kpyBzceckRk2t1LaPpBmvEccdDLVU/1NuGEMHR5QKPGWIo1bC5z
+ Xfjz9l5b9SI+ZFZEGsUj2b+XCA==
+X-Google-Smtp-Source: AMrXdXsJhRRL1Is1++esuSIMzRXvs597RfjTTEXCUgLTZRRkoQlwb6sHZ2TeuiIHbxzAzhDGiXldYg==
+X-Received: by 2002:a2e:b6d4:0:b0:26e:8d03:c3db with SMTP id
+ m20-20020a2eb6d4000000b0026e8d03c3dbmr418039ljo.0.1671615971759; 
+ Wed, 21 Dec 2022 01:46:11 -0800 (PST)
+Received: from [192.168.0.20]
+ (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+ by smtp.gmail.com with ESMTPSA id
+ v18-20020a2ea612000000b0027a197d8247sm1296361ljp.16.2022.12.21.01.46.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 Dec 2022 01:46:11 -0800 (PST)
+Message-ID: <cb84a044-0508-2b5b-13aa-a081d0e90afd@linaro.org>
+Date: Wed, 21 Dec 2022 10:46:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 2/2] dt-bindings: leds: backlight: add binding for Kinetic
+ KTZ8866 backlight
+Content-Language: en-US
+To: jianhua lu <lujianhua000@gmail.com>
+References: <20221221070216.17850-1-lujianhua000@gmail.com>
+ <d37e0f2d-eaa5-4eaa-72bb-ead349235d6d@linaro.org>
+ <CAEo_cxGK_m_VM1k0EWerfS2b2DF5ucvftQj68h3kBZz2=L=YGQ@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAEo_cxGK_m_VM1k0EWerfS2b2DF5ucvftQj68h3kBZz2=L=YGQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,126 +78,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Pavel Machek <pavel@ucw.cz>, Jingoo Han <jingoohan1@gmail.com>,
+ Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 21 Dec 2022, Siddh Raman Pant <code@siddh.me> wrote:
-> Comments say macros DRM_DEBUG_* are deprecated in favor of
-> drm_dbg_*(NULL, ...), but they have broken support for it,
-> as the macro will result in `(NULL) ? (NULL)->dev : NULL`.
+On 21/12/2022 10:40, jianhua lu wrote:
+> Thanks for review, I will resend this path.
 
-What's wrong with that?
+Are you going to test it, before sending?
 
->
-> Thus, fix them by casting input drm to a temporary struct ptr,
-> with the same convention as in __DRM_DEFINE_DBG_RATELIMITED.
->
-> Signed-off-by: Siddh Raman Pant <code@siddh.me>
-> ---
->  include/drm/drm_print.h | 89 ++++++++++++++++++++++++++++++++---------
->  1 file changed, 69 insertions(+), 20 deletions(-)
->
-> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-> index a44fb7ef257f..53702d830291 100644
-> --- a/include/drm/drm_print.h
-> +++ b/include/drm/drm_print.h
-> @@ -486,26 +486,75 @@ void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
->  	__drm_printk((drm), err, _ratelimited, "*ERROR* " fmt, ##__VA_ARGS__)
->  
->  
-> -#define drm_dbg_core(drm, fmt, ...)					\
-> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-> -#define drm_dbg_driver(drm, fmt, ...)						\
-> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-> -#define drm_dbg_kms(drm, fmt, ...)					\
-> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__)
-> -#define drm_dbg_prime(drm, fmt, ...)					\
-> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_PRIME, fmt, ##__VA_ARGS__)
-> -#define drm_dbg_atomic(drm, fmt, ...)					\
-> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-> -#define drm_dbg_vbl(drm, fmt, ...)					\
-> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_VBL, fmt, ##__VA_ARGS__)
-> -#define drm_dbg_state(drm, fmt, ...)					\
-> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_STATE, fmt, ##__VA_ARGS__)
-> -#define drm_dbg_lease(drm, fmt, ...)					\
-> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_LEASE, fmt, ##__VA_ARGS__)
-> -#define drm_dbg_dp(drm, fmt, ...)					\
-> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DP, fmt, ##__VA_ARGS__)
-> -#define drm_dbg_drmres(drm, fmt, ...)					\
-> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRMRES, fmt, ##__VA_ARGS__)
-> +#define drm_dbg_core(drm, fmt, ...)				\
-> +({								\
-> +	const struct drm_device *drm_ = (drm);			\
-> +	drm_dev_dbg(drm_ ? drm_->dev : NULL, DRM_UT_CORE,	\
-> +		    fmt, ##__VA_ARGS__);			\
-> +})
-> +
-> +#define drm_dbg_driver(drm, fmt, ...)				\
-> +({								\
-> +	const struct drm_device *drm_ = (drm);			\
-> +	drm_dev_dbg(drm_ ? drm_->dev : NULL, DRM_UT_DRIVER,	\
-> +		    fmt, ##__VA_ARGS__);			\
-> +})
-> +
-> +#define drm_dbg_kms(drm, fmt, ...)				\
-> +({								\
-> +	const struct drm_device *drm_ = (drm);			\
-> +	drm_dev_dbg(drm_ ? drm_->dev : NULL, DRM_UT_KMS,	\
-> +		    fmt, ##__VA_ARGS__);			\
-> +})
-> +
-> +#define drm_dbg_prime(drm, fmt, ...)				\
-> +({								\
-> +	const struct drm_device *drm_ = (drm);			\
-> +	drm_dev_dbg(drm_ ? drm_->dev : NULL, DRM_UT_PRIME,	\
-> +		    fmt, ##__VA_ARGS__);			\
-> +})
-> +
-> +#define drm_dbg_atomic(drm, fmt, ...)				\
-> +({								\
-> +	const struct drm_device *drm_ = (drm);			\
-> +	drm_dev_dbg(drm_ ? drm_->dev : NULL, DRM_UT_ATOMIC,	\
-> +		    fmt, ##__VA_ARGS__);			\
-> +})
-> +
-> +#define drm_dbg_vbl(drm, fmt, ...)				\
-> +({								\
-> +	const struct drm_device *drm_ = (drm);			\
-> +	drm_dev_dbg(drm_ ? drm_->dev : NULL, DRM_UT_VBL,	\
-> +		    fmt, ##__VA_ARGS__);			\
-> +})
-> +
-> +#define drm_dbg_state(drm, fmt, ...)				\
-> +({								\
-> +	const struct drm_device *drm_ = (drm);			\
-> +	drm_dev_dbg(drm_ ? drm_->dev : NULL, DRM_UT_STATE,	\
-> +		    fmt, ##__VA_ARGS__);			\
-> +})
-> +
-> +#define drm_dbg_lease(drm, fmt, ...)				\
-> +({								\
-> +	const struct drm_device *drm_ = (drm);			\
-> +	drm_dev_dbg(drm_ ? drm_->dev : NULL, DRM_UT_LEASE,	\
-> +		    fmt, ##__VA_ARGS__);			\
-> +})
-> +
-> +#define drm_dbg_dp(drm, fmt, ...)				\
-> +({								\
-> +	const struct drm_device *drm_ = (drm);			\
-> +	drm_dev_dbg(drm_ ? drm_->dev : NULL, DRM_UT_DP,		\
-> +		    fmt, ##__VA_ARGS__);			\
-> +})
-> +
-> +#define drm_dbg_drmres(drm, fmt, ...)				\
-> +({								\
-> +	const struct drm_device *drm_ = (drm);			\
-> +	drm_dev_dbg(drm_ ? drm_->dev : NULL, DRM_UT_DRMRES,	\
-> +		    fmt, ##__VA_ARGS__);			\
-> +})
->  
->  #define drm_dbg(drm, fmt, ...)	drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+Best regards,
+Krzysztof
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
