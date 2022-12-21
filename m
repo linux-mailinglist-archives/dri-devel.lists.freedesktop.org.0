@@ -2,53 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B29652F17
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 11:02:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AC94652F1B
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 11:03:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92F5010E444;
-	Wed, 21 Dec 2022 10:02:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0075010E448;
+	Wed, 21 Dec 2022 10:03:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70B8510E447
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 10:02:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671616923; x=1703152923;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=sTpjYpJOpx7qdP0xas5FwpKwCfxPRtPCkY5JOu1aeNo=;
- b=E9KFJio0Xj+dmApcnzAAl5ZXKk3IMQsb3WLVe7xZWWd0kQlZZYyPvlj9
- DP42Kd5/cYFRz+2BSAOEVbyhW/8elM9LCMWfpA2EU9fVwPa1z4PGIvKDl
- tBTLq3rOG+kdACSuHG3Yl5+CbAcY8xld1VAD3bFxr1IneAPNF7aeC+CRP
- +S20E7yaCUbqG6LMGWomDn+obKuudbEFa4s40ej97VE17oH101f2WSeRY
- yUt80d/wlbo18Wbj8aB89BsPME2G5YDOGyZGRJe6CGXdMdK5MaMAGTFYN
- PX0xm13v92Dd/5OZDBVpQBxF2oOkm0FtHJBy1RkwcWIocSUYnKKSHZMLE w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="382061484"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="382061484"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2022 02:02:02 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="719892991"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="719892991"
-Received: from jorgeblx-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.46.119])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2022 02:01:59 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Siddh Raman Pant
- <code@siddh.me>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 107ED10E448
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 10:02:59 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B4B24556C;
+ Wed, 21 Dec 2022 10:02:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1671616946; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IImuWzHDGhEKRR3vXdL9Zxzsbk5euS7gCJV1+J/GTLY=;
+ b=dHEaALmiCMqiziPngQat0Il4MfKl/vzYeV01plW+2mWRzPJAx7aB2nqiT461GBVpaLHmZ7
+ lHF7ggdw2Gqg8uTJla97lRxa1iqKKqNop/pRydf+qthWVLsoTH6kzWjC6fKSEgVYsid8Pc
+ PUUEIvYjtYlDb0GZR3HF9WfzNFgeHck=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1671616946;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IImuWzHDGhEKRR3vXdL9Zxzsbk5euS7gCJV1+J/GTLY=;
+ b=o/f+6TtqEwfq7dbngj+UOlrnhaWs1JeRUeCdbolOKlXN9/buFyBxQQCPNDgUPcV7MmxvhG
+ 0P19mfZCEZVMkMDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8440213913;
+ Wed, 21 Dec 2022 10:02:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id fwT2HrLZomO7GgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 21 Dec 2022 10:02:26 +0000
+Message-ID: <a776c8d8-388a-dc32-9e4f-25507cecff78@suse.de>
+Date: Wed, 21 Dec 2022 11:02:25 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 01/10] drm: Remove usage of deprecated DRM_INFO
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Siddh Raman Pant <code@siddh.me>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 00/10] drm: Remove usage of deprecated DRM_* macros
-In-Reply-To: <339505f3-9005-df0b-3c73-b54320568db2@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <cover.1671566741.git.code@siddh.me>
- <339505f3-9005-df0b-3c73-b54320568db2@suse.de>
-Date: Wed, 21 Dec 2022 12:01:57 +0200
-Message-ID: <8735992hyi.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain
+ <da27fd5d4725a8becd426c01ba5652a44cf62ce5.1671566741.git.code@siddh.me>
+ <87a63h2iii.fsf@intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <87a63h2iii.fsf@intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------BQEuTsYP8QPEwNVL4H3K1fCR"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,108 +80,129 @@ Cc: linux-kernel <linux-kernel@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 21 Dec 2022, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Hi
->
-> Am 20.12.22 um 21:16 schrieb Siddh Raman Pant:
->> This patchset aims to remove usages of deprecated DRM_* macros from the
->> files residing in drivers/gpu/drm root.
->> 
->> In process, I found out that NULL as first argument of drm_dbg_* wasn't
->> working, but it was listed as the alternative in deprecation comment,
->> so I fixed that before removing usages of DRM_DEBUG_* macros.
->> 
->> This patchset should be applied in order as changes might be dependent.
->> 
->> Please review and let me know if any errors are there, and hopefully
->> this gets accepted.
->
-> Thanks for the patchset. Overall this looks fine.
->
-> But the use of pr_() functions is not optimal in my opinion. I know that 
-> I recommended using it, but at a closer look, I think we might want to 
-> reconsider that. I wouldn't like losing the '[drm]' tag, but adding them 
-> to each pr_() call isn't a good idea either.
->
-> I think it would be nicer to replace DRM_INFO with drm_info(NULL, ). 
-> Depending on the device being NULL, the helpers would select dev-based 
-> messages or printk-based messages. It would then work like drm_dbg_(). 
-> But it needs some additional changes.
->
-> Can you first move all pr_() related changes into a new patchset? The 
-> trivial conversion were the device is known and not NULL can remain in 
-> this patchset and be merged soon. We can afterwards have a separate 
-> discussion for the changes that currently involve pr_().
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------BQEuTsYP8QPEwNVL4H3K1fCR
+Content-Type: multipart/mixed; boundary="------------wEnaFVlev0KKwZ8EED5sFrUQ";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Siddh Raman Pant <code@siddh.me>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Message-ID: <a776c8d8-388a-dc32-9e4f-25507cecff78@suse.de>
+Subject: Re: [PATCH 01/10] drm: Remove usage of deprecated DRM_INFO
+References: <cover.1671566741.git.code@siddh.me>
+ <da27fd5d4725a8becd426c01ba5652a44cf62ce5.1671566741.git.code@siddh.me>
+ <87a63h2iii.fsf@intel.com>
+In-Reply-To: <87a63h2iii.fsf@intel.com>
 
-Same thoughts, agreed.
+--------------wEnaFVlev0KKwZ8EED5sFrUQ
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-BR,
-Jani.
+SGkNCg0KQW0gMjEuMTIuMjIgdW0gMTA6NDkgc2NocmllYiBKYW5pIE5pa3VsYToNCj4gT24g
+V2VkLCAyMSBEZWMgMjAyMiwgU2lkZGggUmFtYW4gUGFudCA8Y29kZUBzaWRkaC5tZT4gd3Jv
+dGU6DQo+PiBkcm1fcHJpbnQuaCBzYXlzIERSTV9JTkZPIGlzIGRlcHJlY2F0ZWQuDQo+PiBU
+aHVzLCB1c2UgbmV3ZXIgcHJpbnRpbmcgbWFjcm9zIGRybV9pbmZvKCkgYW5kIHByX2luZm8o
+KS4NCj4gDQo+IEkgdGhpbmsgaXQncyBhIGJpdCBvZGQgc29tZSBvZiB0aGUgY29udmVyc2lv
+biBpcyB0byBwcl8qKCkgYW5kIHNvbWUgdG8NCj4gZHJtXyooTlVMTCwgLi4uKSBkZXBlbmRp
+bmcgb24gdGhlIGxvZ2dpbmcgbGV2ZWwgZXRjLg0KPiANCj4gTm90YWJseSB0aGUgcHJfKigp
+IGRlYnVncyB3aWxsIGxhY2sgdGhlIFtkcm1dIHBhcnQgYXMgd2VsbCBhcyB0aGUNCj4gZnVu
+Y3Rpb24gbmFtZSwgd2hpY2ggbWFrZXMgc29tZSBvZiB0aGUgbG9nZ2luZyBoYXJkZXIgdG8g
+bWFwIHRvIHdoYXQncw0KPiBnb2luZyBvbi4NCj4gDQo+IE1heWJlIGFsbCBvZiB0aGVtIHNo
+b3VsZCB1c2UgdGhlIGRybV8qKCkgY2FsbHMsIHdpdGggYmV0dGVyIGhhbmRsaW5nIG9mDQo+
+IE5VTEwgZHJtIGRldmljZS4NCg0KVGhhdCdzIGFsc28gd2hhdCBJIHRoaW5rLiBTb21ldGhp
+bmcgbGlrZSBkcm1faW5mbyhOVUxMLCApIHNob3VsZCBqdXN0IA0Kd29yayBhbmQgZ2l2ZSB0
+aGUgc2FtZSByZXN1bHRzIGFzIGJlZm9yZS4gIFRoZSBvbGRlciBjb2RlIHRoYXQgdXNlcyAN
+CmRybV9kZXZfcHJpbnRrKCkgc2VlbXMgdG8gZ2V0IGl0IHJpZ2h0Lg0KDQpCZXN0IHJlZ2Fy
+ZHMNClRob21hcw0KDQo+IA0KPiBCUiwNCj4gSmFuaS4NCj4gDQo+IA0KPiANCj4gDQo+IA0K
+PiANCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBTaWRkaCBSYW1hbiBQYW50IDxjb2RlQHNpZGRo
+Lm1lPg0KPj4gLS0tDQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fY2xpZW50X21vZGVzZXQu
+YyB8IDIgKy0NCj4+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9jb25uZWN0b3IuYyAgICAgIHwg
+NyArKysrLS0tDQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2LmMgICAgICAgICAgICB8
+IDIgKy0NCj4+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9wY2kuYyAgICAgICAgICAgIHwgMiAr
+LQ0KPj4gICA0IGZpbGVzIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMo
+LSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9jbGllbnRfbW9k
+ZXNldC5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9jbGllbnRfbW9kZXNldC5jDQo+PiBpbmRl
+eCBkNTUzZTc5M2U2NzMuLjJiNzZkNDgyOGM1ZiAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9kcm1fY2xpZW50X21vZGVzZXQuYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2RybV9jbGllbnRfbW9kZXNldC5jDQo+PiBAQCAtMzM1LDcgKzMzNSw3IEBAIHN0YXRpYyBi
+b29sIGRybV9jbGllbnRfdGFyZ2V0X2Nsb25lZChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0K
+Pj4gICAJCURSTV9ERUJVR19LTVMoImNhbiBjbG9uZSB1c2luZyAxMDI0eDc2OFxuIik7DQo+
+PiAgIAkJcmV0dXJuIHRydWU7DQo+PiAgIAl9DQo+PiAtCURSTV9JTkZPKCJrbXM6IGNhbid0
+IGVuYWJsZSBjbG9uaW5nIHdoZW4gd2UgcHJvYmFibHkgd2FudGVkIHRvLlxuIik7DQo+PiAr
+CWRybV9pbmZvKGRldiwgImttczogY2FuJ3QgZW5hYmxlIGNsb25pbmcgd2hlbiB3ZSBwcm9i
+YWJseSB3YW50ZWQgdG8uXG4iKTsNCj4+ICAgCXJldHVybiBmYWxzZTsNCj4+ICAgfQ0KPj4g
+ICANCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rvci5jIGIv
+ZHJpdmVycy9ncHUvZHJtL2RybV9jb25uZWN0b3IuYw0KPj4gaW5kZXggNTQ3MzU2ZTAwMzQx
+Li4zNGMyNmIyYTk3NGUgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Nv
+bm5lY3Rvci5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rvci5jDQo+
+PiBAQCAtMTY1LDEzICsxNjUsMTQgQEAgc3RhdGljIHZvaWQgZHJtX2Nvbm5lY3Rvcl9nZXRf
+Y21kbGluZV9tb2RlKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpDQo+PiAgIAkJ
+cmV0dXJuOw0KPj4gICANCj4+ICAgCWlmIChtb2RlLT5mb3JjZSkgew0KPj4gLQkJRFJNX0lO
+Rk8oImZvcmNpbmcgJXMgY29ubmVjdG9yICVzXG4iLCBjb25uZWN0b3ItPm5hbWUsDQo+PiAt
+CQkJIGRybV9nZXRfY29ubmVjdG9yX2ZvcmNlX25hbWUobW9kZS0+Zm9yY2UpKTsNCj4+ICsJ
+CWRybV9pbmZvKGNvbm5lY3Rvci0+ZGV2LCAiZm9yY2luZyAlcyBjb25uZWN0b3IgJXNcbiIs
+DQo+PiArCQkJIGNvbm5lY3Rvci0+bmFtZSwgZHJtX2dldF9jb25uZWN0b3JfZm9yY2VfbmFt
+ZShtb2RlLT5mb3JjZSkpOw0KPj4gICAJCWNvbm5lY3Rvci0+Zm9yY2UgPSBtb2RlLT5mb3Jj
+ZTsNCj4+ICAgCX0NCj4+ICAgDQo+PiAgIAlpZiAobW9kZS0+cGFuZWxfb3JpZW50YXRpb24g
+IT0gRFJNX01PREVfUEFORUxfT1JJRU5UQVRJT05fVU5LTk9XTikgew0KPj4gLQkJRFJNX0lO
+Rk8oImNtZGxpbmUgZm9yY2VzIGNvbm5lY3RvciAlcyBwYW5lbF9vcmllbnRhdGlvbiB0byAl
+ZFxuIiwNCj4+ICsJCWRybV9pbmZvKGNvbm5lY3Rvci0+ZGV2LA0KPj4gKwkJCSAiY21kbGlu
+ZSBmb3JjZXMgY29ubmVjdG9yICVzIHBhbmVsX29yaWVudGF0aW9uIHRvICVkXG4iLA0KPj4g
+ICAJCQkgY29ubmVjdG9yLT5uYW1lLCBtb2RlLT5wYW5lbF9vcmllbnRhdGlvbik7DQo+PiAg
+IAkJZHJtX2Nvbm5lY3Rvcl9zZXRfcGFuZWxfb3JpZW50YXRpb24oY29ubmVjdG9yLA0KPj4g
+ICAJCQkJCQkgICAgbW9kZS0+cGFuZWxfb3JpZW50YXRpb24pOw0KPj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Rydi5j
+DQo+PiBpbmRleCA3M2I4NDVhNzVkNTIuLmJjOThlNGJjZjJjMSAxMDA2NDQNCj4+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2LmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9k
+cm1fZHJ2LmMNCj4+IEBAIC05MzgsNyArOTM4LDcgQEAgaW50IGRybV9kZXZfcmVnaXN0ZXIo
+c3RydWN0IGRybV9kZXZpY2UgKmRldiwgdW5zaWduZWQgbG9uZyBmbGFncykNCj4+ICAgCWlm
+IChkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX01PREVTRVQpKQ0KPj4gICAJ
+CWRybV9tb2Rlc2V0X3JlZ2lzdGVyX2FsbChkZXYpOw0KPj4gICANCj4+IC0JRFJNX0lORk8o
+IkluaXRpYWxpemVkICVzICVkLiVkLiVkICVzIGZvciAlcyBvbiBtaW5vciAlZFxuIiwNCj4+
+ICsJZHJtX2luZm8oZGV2LCAiSW5pdGlhbGl6ZWQgJXMgJWQuJWQuJWQgJXMgZm9yICVzIG9u
+IG1pbm9yICVkXG4iLA0KPj4gICAJCSBkcml2ZXItPm5hbWUsIGRyaXZlci0+bWFqb3IsIGRy
+aXZlci0+bWlub3IsDQo+PiAgIAkJIGRyaXZlci0+cGF0Y2hsZXZlbCwgZHJpdmVyLT5kYXRl
+LA0KPj4gICAJCSBkZXYtPmRldiA/IGRldl9uYW1lKGRldi0+ZGV2KSA6ICJ2aXJ0dWFsIGRl
+dmljZSIsDQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9wY2kuYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9kcm1fcGNpLmMNCj4+IGluZGV4IDM5ZDM1ZmMzYTQzYi4uMThjZjdm
+YTIzNjk4IDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9wY2kuYw0KPj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9wY2kuYw0KPj4gQEAgLTI2Miw3ICsyNjIsNyBA
+QCB2b2lkIGRybV9sZWdhY3lfcGNpX2V4aXQoY29uc3Qgc3RydWN0IGRybV9kcml2ZXIgKmRy
+aXZlciwNCj4+ICAgCQl9DQo+PiAgIAkJbXV0ZXhfdW5sb2NrKCZsZWdhY3lfZGV2X2xpc3Rf
+bG9jayk7DQo+PiAgIAl9DQo+PiAtCURSTV9JTkZPKCJNb2R1bGUgdW5sb2FkZWRcbiIpOw0K
+Pj4gKwlwcl9pbmZvKCJNb2R1bGUgdW5sb2FkZWRcbiIpOw0KPj4gICB9DQo+PiAgIEVYUE9S
+VF9TWU1CT0woZHJtX2xlZ2FjeV9wY2lfZXhpdCk7DQo+IA0KDQotLSANClRob21hcyBaaW1t
+ZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0
+aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2Vy
+bWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2
+byBUb3Rldg0K
 
+--------------wEnaFVlev0KKwZ8EED5sFrUQ--
 
->
-> Best regards
-> Thomas
->
->> 
->> Siddh Raman Pant (10):
->>    drm: Remove usage of deprecated DRM_INFO
->>    drm: Remove usage of deprecated DRM_NOTE
->>    drm: Remove usage of deprecated DRM_ERROR
->>    drm/print: Fix support for NULL as first argument of drm_dbg_*
->>    drm: Remove usage of deprecated DRM_DEBUG
->>    drm: Remove usage of deprecated DRM_DEBUG_DRIVER
->>    drm: Remove usage of deprecated DRM_DEBUG_KMS
->>    drm: Remove usage of deprecated DRM_DEBUG_PRIME
->>    drm/drm_blend: Remove usage of deprecated DRM_DEBUG_ATOMIC
->>    drm/drm_lease: Remove usage of deprecated DRM_DEBUG_LEASE
->> 
->>   drivers/gpu/drm/drm_agpsupport.c        |   4 +-
->>   drivers/gpu/drm/drm_blend.c             |  13 ++-
->>   drivers/gpu/drm/drm_bridge.c            |   8 +-
->>   drivers/gpu/drm/drm_bufs.c              | 122 ++++++++++++------------
->>   drivers/gpu/drm/drm_client_modeset.c    | 118 +++++++++++++----------
->>   drivers/gpu/drm/drm_color_mgmt.c        |   4 +-
->>   drivers/gpu/drm/drm_connector.c         |  28 +++---
->>   drivers/gpu/drm/drm_context.c           |  18 ++--
->>   drivers/gpu/drm/drm_crtc.c              |  36 ++++---
->>   drivers/gpu/drm/drm_crtc_helper.c       |  62 ++++++------
->>   drivers/gpu/drm/drm_debugfs_crc.c       |   8 +-
->>   drivers/gpu/drm/drm_displayid.c         |   6 +-
->>   drivers/gpu/drm/drm_dma.c               |  10 +-
->>   drivers/gpu/drm/drm_drv.c               |  28 +++---
->>   drivers/gpu/drm/drm_edid.c              |  17 ++--
->>   drivers/gpu/drm/drm_file.c              |  18 ++--
->>   drivers/gpu/drm/drm_flip_work.c         |   2 +-
->>   drivers/gpu/drm/drm_framebuffer.c       |   3 +-
->>   drivers/gpu/drm/drm_gem.c               |   7 +-
->>   drivers/gpu/drm/drm_gem_dma_helper.c    |   6 +-
->>   drivers/gpu/drm/drm_gem_shmem_helper.c  |   6 +-
->>   drivers/gpu/drm/drm_hashtab.c           |  10 +-
->>   drivers/gpu/drm/drm_ioc32.c             |  13 +--
->>   drivers/gpu/drm/drm_ioctl.c             |  24 ++---
->>   drivers/gpu/drm/drm_irq.c               |   4 +-
->>   drivers/gpu/drm/drm_kms_helper_common.c |   2 +-
->>   drivers/gpu/drm/drm_lease.c             |  68 ++++++-------
->>   drivers/gpu/drm/drm_legacy_misc.c       |   4 +-
->>   drivers/gpu/drm/drm_lock.c              |  36 +++----
->>   drivers/gpu/drm/drm_mipi_dbi.c          |  19 ++--
->>   drivers/gpu/drm/drm_mm.c                |   8 +-
->>   drivers/gpu/drm/drm_mode_config.c       |   2 +-
->>   drivers/gpu/drm/drm_mode_object.c       |   6 +-
->>   drivers/gpu/drm/drm_modes.c             |  10 +-
->>   drivers/gpu/drm/drm_modeset_helper.c    |   2 +-
->>   drivers/gpu/drm/drm_pci.c               |  14 +--
->>   drivers/gpu/drm/drm_plane.c             |  46 ++++-----
->>   drivers/gpu/drm/drm_probe_helper.c      |  39 ++++----
->>   drivers/gpu/drm/drm_rect.c              |   4 +-
->>   drivers/gpu/drm/drm_scatter.c           |  19 ++--
->>   drivers/gpu/drm/drm_syncobj.c           |   2 +-
->>   drivers/gpu/drm/drm_sysfs.c             |  22 ++---
->>   drivers/gpu/drm/drm_vm.c                |  45 +++++----
->>   include/drm/drm_print.h                 |  91 ++++++++++++++----
->>   44 files changed, 549 insertions(+), 465 deletions(-)
->> 
+--------------BQEuTsYP8QPEwNVL4H3K1fCR
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmOi2bEFAwAAAAAACgkQlh/E3EQov+Aq
+pQ//eV6FpL4sJQ33CCFH0b2ZpHiMSTeOuA3JXX1omWME38JckOmsQkPd9nDJ8l0Rg9sOhETJG5BY
+rCL3ok9TtT4ix+zJCNObzNi2jgtQ6iTII3DfVmOZMYUoSJNSZXLWPhyhUxSDnbLZ/XcHEicTS4tr
+qaOaHHwSHsyLOqWr4vuURRCzKYVQfgzp5OOU5ZuVcsR0fS7+nSV2PLBMu//4SVLvAJ5dmFf06H/v
+9JxudGm4nb6ARML6PcWqtBFmUSmp7Bm0B3eP1keQZfAlCOGxmxpBifVZZz7NcyRON5oZ8n/Km4Ui
+FMOdw5uIeMkRfFIGp8xiS+O2ff5JP776vZcrxrtbS5Vk4j/qO9pEUvIM4H9UNL9IoptPGXwDkHNn
+2fFI8xAFBLZuZg7e28y+JnC0NKR7L5P7cn5BL5A5tCf+2GHGww+LneHw0eZ57xIjGWLzB+sY9kXq
+BRByXd41PwxZnW0TnR9PYD4kc+f/ReJ57tC8Etywc9wQ8sKXIQ0AkMweZQuQbcxPF/7wgURutOQQ
+c0sVdZtCOWt86PRsYvDfCgzHZ83TTHAqCC2JTMpXyCF5MU2gJt9jBTVZsUBNkYkX7Hb9erAeojq6
+MxUK1rBzm2v5A7M9U2y6RtweMj047X4lb317Vypzt/Wtvoqlyh37e9gL6RDYNtY/+63EnkAr8gz4
+CfI=
+=i02y
+-----END PGP SIGNATURE-----
+
+--------------BQEuTsYP8QPEwNVL4H3K1fCR--
