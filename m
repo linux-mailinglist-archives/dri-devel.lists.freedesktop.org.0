@@ -2,56 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0267653200
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 14:46:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F34B465321D
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 14:58:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4245F10E094;
-	Wed, 21 Dec 2022 13:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6F610E120;
+	Wed, 21 Dec 2022 13:57:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com
- [209.85.160.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E41110E094
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 13:46:01 +0000 (UTC)
-Received: by mail-oa1-f52.google.com with SMTP id
- 586e51a60fabf-144b21f5e5fso19153676fac.12
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 05:46:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=date:subject:message-id:references:in-reply-to:cc:to:from
- :mime-version:content-transfer-encoding:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=TEqm+cWQNHqjxZ1dYY94SUrdlxLeTyeNr9UU8bL+CN4=;
- b=wdxkb7M1LacPHQ+HunbgBAXF1p4VhBl2JUQ6xJprRpQ8egYqB16OLDrnCryS+m4hLo
- qNZ54gh1WnhLTMK9hJ3ReIsI3C7EhoFOglJxk6lj0dX1VqbLYuT0ZepbQlKMRKNCHZow
- i5cDDhbZBKaNPSlGvBi2VrF+0TJLt9VXzF6x8E0/dZ2j0djQBF9IEOs7c6wmoKxdPXgX
- SQqV4LeRtoRYDjfbh4tm7OjJRFu/WwE7fdnAqtMBVr97shYAYpUkkowjMpuI5QnfqiI1
- b9/65ZGjXahIJSmYRkSd5f8UASusYr/P+mNk2+vn/zf7IxG5heyhe/w7bsuhPJuQ1bO9
- OBxw==
-X-Gm-Message-State: AFqh2kpMxqPaQlVAkUBcW5Jdax17h03PmlkryIugFprPOONJ/lYzwh+G
- 47gtnQUmCA+kTzZS3lnqzQ==
-X-Google-Smtp-Source: AMrXdXshd+N5tqnvx4BjYWqMK259JeDpgS2H3sA2FNIH3uuAerbwEWb38/uWerAxzHpfXw2bAA+a7A==
-X-Received: by 2002:a05:6870:40c8:b0:148:15ba:8869 with SMTP id
- l8-20020a05687040c800b0014815ba8869mr996840oal.8.1671630360299; 
- Wed, 21 Dec 2022 05:46:00 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- n22-20020a056870559600b0014435b51ef7sm7304861oao.30.2022.12.21.05.45.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 05:45:59 -0800 (PST)
-Received: (nullmailer pid 2733906 invoked by uid 1000);
- Wed, 21 Dec 2022 13:45:59 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5E4C10E1C2
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 13:57:31 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B95C0617BF
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 13:56:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 24CB1C433D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 13:56:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1671631017;
+ bh=/y58wlYjqki58GIYEEZNcqoVYcfJTS9j3bG7ERGZXv4=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=aBGw5XwT5hoBvNNyL3g1HN0BdkEf2xswLUJO47+bE+k41zY9wx2wWij+Y5rbCG+xj
+ rr1/Vf5dA458PiXksOK7iiD4Oj0GBGCpbEbmOX9PBtHBhrPwDZBKZFwjc6QwGVZrLY
+ oDBxDmbZPIrWyLpgxh/HppUOXJk6lf/XLWTMu33OoGkrE8oZN3Y1ilgfHMIXaULLrH
+ QKbARdeZlL4QYjJoREyhMNHcBMM1sqc2Hb9M64RmSoWmjp3CtvY+l32KS8KHOkOZRc
+ PZOpnr3fiNAhIVQVOuuG46LoAfwtaseVGLN87dy0Uswng0+kHK1phiqZpukIiT51q8
+ tbu+teoz/BZew==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 0DE66C43144; Wed, 21 Dec 2022 13:56:57 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216806] [Raven Ridge] console disappears after framebuffer
+ device loads
+Date: Wed, 21 Dec 2022 13:56:56 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: vinibali1@gmail.com
+X-Bugzilla-Status: NEEDINFO
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216806-2300-Bio8gCERCR@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216806-2300@https.bugzilla.kernel.org/>
+References: <bug-216806-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Jianhua Lu <lujianhua000@gmail.com>
-In-Reply-To: <20221221070216.17850-1-lujianhua000@gmail.com>
-References: <20221221070216.17850-1-lujianhua000@gmail.com>
-Message-Id: <167162961165.2717636.4535164259604449279.robh@kernel.org>
-Subject: Re: [PATCH 2/2] dt-bindings: leds: backlight: add binding for Kinetic
- KTZ8866 backlight
-Date: Wed, 21 Dec 2022 07:45:59 -0600
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,49 +71,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
- linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216806
 
-On Wed, 21 Dec 2022 15:02:16 +0800, Jianhua Lu wrote:
-> Add device tree bindings for the Kinetic KTZ8866 backlight driver.
-> 
-> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
-> ---
->  .../leds/backlight/kinetic,ktz8866.yaml       | 37 +++++++++++++++++++
->  1 file changed, 37 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-> 
+--- Comment #4 from Balazs Vinarz (vinibali1@gmail.com) ---
+Just some more information to share here. I gave it another try, and the
+console  freezes exactly at the moment when drm enables the kernel modesett=
+ing.=20
+[    6.329371] [drm] amdgpu kernel modesetting enabled.
+With nomodesetting it works like it should, the vgaconsole remain active and
+useable.
+Do we know somebody who has some knowledge to understand the DRM logs?
+Otherwise these lines are pretty strange for me:
+[    6.330490] amdgpu: Ignoring ACPI CRAT on non-APU system
+.
+.
+.
+[    6.515889] [drm] failed to load ucode RLC_RESTORE_LIST_CNTL(0x28)=20
+[    6.515892] [drm] psp gfx command LOAD_IP_FW(0x6) failed and response st=
+atus
+is (0xFFFF300F)
+[    6.516529] [drm] failed to load ucode RLC_RESTORE_LIST_GPM_MEM(0x29)=20
+[    6.516531] [drm] psp gfx command LOAD_IP_FW(0x6) failed and response st=
+atus
+is (0xFFFF000F)
+[    6.517064] [drm] failed to load ucode RLC_RESTORE_LIST_SRM_MEM(0x2A)=20
+[    6.517066] [drm] psp gfx command LOAD_IP_FW(0x6) failed and response st=
+atus
+is (0xFFFF000F)
+.
+.
+.
+[    6.549311] [drm] psp gfx command LOAD_ASD(0x4) failed and response stat=
+us
+is (0x34)
+[    6.549317] amdgpu 0000:04:00.0: amdgpu: RAS: optional ras ta ucode is n=
+ot
+available
+[    6.550582] [drm] psp gfx command LOAD_TA(0x1) failed and response statu=
+s is
+(0x34)
+[    6.551810] [drm] psp gfx command LOAD_TA(0x1) failed and response statu=
+s is
+(0x34)
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+--=20
+You may reply to this email to add a comment.
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml: properties:compatible:items: {'const': 'kinetic,ktz8866'} is not of type 'array'
-	from schema $id: http://devicetree.org/meta-schemas/string-array.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221221070216.17850-1-lujianhua000@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
