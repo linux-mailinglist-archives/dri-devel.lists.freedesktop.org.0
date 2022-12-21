@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA01C653626
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 19:24:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8806A653631
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 19:24:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 044BE10E46D;
-	Wed, 21 Dec 2022 18:23:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5165410E472;
+	Wed, 21 Dec 2022 18:24:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
  [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3522810E1D1
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 18:23:46 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id ud5so38839231ejc.4
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 10:23:46 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 394BA10E472
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 18:24:17 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id ud5so38842416ejc.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 10:24:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:content-language:references
  :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
  :cc:subject:date:message-id:reply-to;
- bh=I8bHMUqENRt0vHg2+ln10JPBh/wNz9sMNq+zKIXFVzY=;
- b=F1We4HR4kaz9DAtLcoLZlAZ8ezAcRL+vFHXFCFq9L2rdsQFBkDOa6PsRjRMCSZdu4O
- bG3GmcD1fEWI7WQ6v7+hmIg8tVK1XhIWIm/0/qsrpg+RvaHWdTNCmrQ1+538wrrWcAGn
- xRn8xDjhurrxURajLVCfuHGmTHwnnnUtZwlFLUu88UYZvBnqOKGZXuWW2etehJvAxPNY
- EsZiCUCod1hVM+/8EkGNs3+eCJ/Vs+ZT9Rss7L6I7JuG7+xcBTdx9x+C0E4Y+PlvRy2t
- JALyWQSoKu4XrUN6T+T2+oEMp/QSutJfir7nEy5+dAYGgOIUC+41tsAEUNQcYTCwAWww
- qUig==
+ bh=lvcQjc1tSN+WqGFd2a+LQfMGe/jMGY/EiDX8AEMXwKA=;
+ b=hsnKVAvJjTm/vH8ROKf0lkdPYG/7tVxNV4QRv9Wt419AAMTXG1RyIoWqpPrYlboYDL
+ G+En2avRFUjXEw+mY9ehTVjyl/g3QE3P9/dyWPehv6jMxGQkyrCt6gsy9LCvm5cVnfeh
+ yBB7k+nj787nK+wQ5P/muiBYTzsPTxv9UED0q2iTJH5walJPoVSSxAk+Gw1BdkJ9J7YQ
+ OqMEEBmjhCzvcUq5dk59x4cVFiDM6UY5KuzdYxMswSmHmhiPfoCsqlRdlUEbBnzIDzVu
+ 0BSlC0Fg1WC9lZxoUlmZC9T5pWQoFYIi75t9NDwVKWUulP6jOcnx79Im+mkAmI0LjvdM
+ cVTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:content-language:references
  :cc:to:subject:from:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=I8bHMUqENRt0vHg2+ln10JPBh/wNz9sMNq+zKIXFVzY=;
- b=ey6OU5eQqmIYvlvJJxJFmaTo/WfPsDke09vpHAcKjd3fzikb4H6uYvcLvVOt+9mh1S
- C28K1v9Ec8dzsCyFa+umBSrqhbBI9NfdIi8AmIQx8FVBsbOF9tzPOXBtapeTHBJNvXuA
- 80Q2jBPl3EGSU8Z4b4rAZiiHxol2qAngFIdPYTM8W1jK5VxwidVdapfrQMpkmVMxky4p
- JVaaB8b8H918EQJp+bOpkyd9uMWFCDmqFUTvPk50xHeueAaJudWhL+q/PsnDQ96RAH02
- J/sqEWOPQ1r6DQrbJozBwvqUZArmDe1pDrS5FoKxfl8ji54sK6X8T6Ddcc6YCyE0Fpdv
- iPGw==
-X-Gm-Message-State: AFqh2kqjV+VY8VwxKlzVN3u4rkAIjAYYov/KG2YL/UORaXpxjShS7CMG
- Mmgq28FSVlao7RyIzgD8a7w=
-X-Google-Smtp-Source: AMrXdXsxUOH/lAF8WRHYe33yxE8xdirpltA08OXaL7of17FvVtMHNrIjxtHjPmygwWrZSToTHaTKUg==
-X-Received: by 2002:a17:906:1410:b0:7c0:eba3:e2e with SMTP id
- p16-20020a170906141000b007c0eba30e2emr2006134ejc.31.1671647024682; 
- Wed, 21 Dec 2022 10:23:44 -0800 (PST)
+ bh=lvcQjc1tSN+WqGFd2a+LQfMGe/jMGY/EiDX8AEMXwKA=;
+ b=ShEGuMwS6XN0ZY6qim/HIse7RZRVLVP54mZLk94odWzW9QOyIfyPbSvgk+03TiCNk+
+ belwIvZMLQT1DUOqmw2RaCSLTq/ionKs6iBeINxJsxdSDVzuC2kNmmfFQhUCo6q0RO2/
+ peO1MUGciLuglmEh5bYHkeEhgMUyqrTzU+uwiMBYlakQ4moKOM8XBDn36aozaJ2LUilS
+ NMPYTG2VbonbgZm4+NeVsPmeD/z17l26CAyj+lpG/UQA6vkAmbXjxdFCsmU7siYyqPo1
+ UyaIDmmChSTpbBfidMDJv18tdzNTQ0SqFJyH16X/ek7bWrwxfyfgnE8M6+YyszpkaVG6
+ jWNw==
+X-Gm-Message-State: AFqh2ko7aR9HRnOJmPUw+3UtpcuUm7JMZa4wy8dua/ctDv72M2dulqvc
+ FelWsxZFVt2YskkDjJgCy1E=
+X-Google-Smtp-Source: AMrXdXv1K172bwT5L/tl5YVDCw1ihZJT7aJ7HP+WwaYs4jknJoZSk8wkCqixuBvSgTEK+37mI9z2FQ==
+X-Received: by 2002:a17:906:850c:b0:7c0:f4f8:582a with SMTP id
+ i12-20020a170906850c00b007c0f4f8582amr2389986ejx.52.1671647056884; 
+ Wed, 21 Dec 2022 10:24:16 -0800 (PST)
 Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
  by smtp.gmail.com with ESMTPSA id
- k4-20020aa7c044000000b0046856c307d0sm7388176edo.5.2022.12.21.10.23.43
+ bq15-20020a170906d0cf00b007933047f923sm7281632ejb.118.2022.12.21.10.24.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Dec 2022 10:23:44 -0800 (PST)
-Message-ID: <fc68bedc-ff93-13bc-aa06-7920f5e53de6@gmail.com>
-Date: Wed, 21 Dec 2022 19:23:43 +0100
+ Wed, 21 Dec 2022 10:24:16 -0800 (PST)
+Message-ID: <b2c329bc-33fd-b65d-2e67-273eb0780e80@gmail.com>
+Date: Wed, 21 Dec 2022 19:24:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.0
 From: Johan Jonker <jbx6244@gmail.com>
-Subject: [PATCH v5 05/12] dt-bindings: usb: convert fcs,fusb302.txt to yaml
+Subject: [PATCH v5 06/12] ARM: dts: rockchip: rk3288: fix dsi node
 To: heiko@sntech.de
 References: <7f883643-c796-029f-ba38-73532325632d@gmail.com>
 Content-Language: en-US
@@ -84,131 +84,39 @@ Cc: linux-arm-kernel@lists.infradead.org, neil.armstrong@linaro.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert fcs,fusb302.txt to yaml.
-
-Changed:
-  Add vbus-supply property
+Use generic node name for rk3288.dtsi dsi node.
+With the conversion of rockchip,dw-mipi-dsi.yaml a port@1 node
+is required, so add a node with label mipi_out.
 
 Signed-off-by: Johan Jonker <jbx6244@gmail.com>
 ---
- .../devicetree/bindings/usb/fcs,fusb302.txt   | 34 ----------
- .../devicetree/bindings/usb/fcs,fusb302.yaml  | 66 +++++++++++++++++++
- 2 files changed, 66 insertions(+), 34 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/usb/fcs,fusb302.txt
- create mode 100644 Documentation/devicetree/bindings/usb/fcs,fusb302.yaml
+ arch/arm/boot/dts/rk3288.dtsi | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/fcs,fusb302.txt b/Documentation/devicetree/bindings/usb/fcs,fusb302.txt
-deleted file mode 100644
-index 60e465429..000000000
---- a/Documentation/devicetree/bindings/usb/fcs,fusb302.txt
-+++ /dev/null
-@@ -1,34 +0,0 @@
--Fairchild FUSB302 Type-C Port controllers
--
--Required properties :
--- compatible             : "fcs,fusb302"
--- reg                    : I2C slave address
--- interrupts             : Interrupt specifier
--
--Required sub-node:
--- connector : The "usb-c-connector" attached to the FUSB302 IC. The bindings
--  of the connector node are specified in:
--
--	Documentation/devicetree/bindings/connector/usb-connector.yaml
--
--
--Example:
--
--fusb302: typec-portc@54 {
--	compatible = "fcs,fusb302";
--	reg = <0x54>;
--	interrupt-parent = <&nmi_intc>;
--	interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
--
--	usb_con: connector {
--		compatible = "usb-c-connector";
--		label = "USB-C";
--		power-role = "dual";
--		try-power-role = "sink";
--		source-pdos = <PDO_FIXED(5000, 3000, PDO_FIXED_USB_COMM)>;
--		sink-pdos = <PDO_FIXED(5000, 3000, PDO_FIXED_USB_COMM)
--			     PDO_VAR(3000, 12000, 3000)
--			     PDO_PPS_APDO(3000, 11000, 3000)>;
--		op-sink-microwatt = <10000000>;
--	};
--};
-diff --git a/Documentation/devicetree/bindings/usb/fcs,fusb302.yaml b/Documentation/devicetree/bindings/usb/fcs,fusb302.yaml
-new file mode 100644
-index 000000000..9b172fda9
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/fcs,fusb302.yaml
-@@ -0,0 +1,66 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/arch/arm/boot/dts/rk3288.dtsi b/arch/arm/boot/dts/rk3288.dtsi
+index 487b0e03d..c22f90e53 100644
+--- a/arch/arm/boot/dts/rk3288.dtsi
++++ b/arch/arm/boot/dts/rk3288.dtsi
+@@ -1114,7 +1114,7 @@
+ 		status = "disabled";
+ 	};
+
+-	mipi_dsi: mipi@ff960000 {
++	mipi_dsi: dsi@ff960000 {
+ 		compatible = "rockchip,rk3288-mipi-dsi", "snps,dw-mipi-dsi";
+ 		reg = <0x0 0xff960000 0x0 0x4000>;
+ 		interrupts = <GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH>;
+@@ -1137,6 +1137,10 @@
+ 					remote-endpoint = <&vopl_out_mipi>;
+ 				};
+ 			};
 +
-+title: Fairchild FUSB302 Type-C Port controller
-+
-+maintainers:
-+  - Rob Herring <robh@kernel.org>
-+
-+properties:
-+  compatible:
-+    const: fcs,fusb302
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  vbus-supply:
-+    description: VBUS power supply
-+
-+  connector:
-+    type: object
-+    $ref: /schemas/connector/usb-connector.yaml#
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - vbus-supply
-+  - connector
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/usb/pd.h>
-+
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      fusb302: typec-portc@54 {
-+        compatible = "fcs,fusb302";
-+        reg = <0x54>;
-+        interrupt-parent = <&nmi_intc>;
-+        interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
-+        vbus-supply = <&vbus_typec>;
-+
-+        usb_con: connector {
-+          compatible = "usb-c-connector";
-+          label = "USB-C";
-+          power-role = "dual";
-+          try-power-role = "sink";
-+          source-pdos = <PDO_FIXED(5000, 3000, PDO_FIXED_USB_COMM)>;
-+          sink-pdos = <PDO_FIXED(5000, 3000, PDO_FIXED_USB_COMM)
-+                       PDO_VAR(3000, 12000, 3000)
-+                       PDO_PPS_APDO(3000, 11000, 3000)>;
-+          op-sink-microwatt = <10000000>;
-+        };
-+      };
-+    };
++			mipi_out: port@1 {
++				reg = <1>;
++			};
+ 		};
+ 	};
+
 --
 2.20.1
 
