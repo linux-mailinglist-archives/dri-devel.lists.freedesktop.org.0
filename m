@@ -2,58 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D647652FE1
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 11:54:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 406DB652FE6
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 11:54:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5042A10E145;
-	Wed, 21 Dec 2022 10:54:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F283A10E12D;
+	Wed, 21 Dec 2022 10:54:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2878410E12D
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 10:54:35 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id f18so14522407wrj.5
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 02:54:35 -0800 (PST)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0025F10E12D
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 10:54:38 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id y8so1497439wrl.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 02:54:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=dYF4aCoOjNocXMp5ObQdxM+1IiESaniY5tGPacmK2hI=;
- b=UPW7reYDRuGDUoiD+Lb3uTPFeJy8MKOAkABhUJagUeaIYU2k84h1Kbzb2indRGVCZ/
- +nH3idszhlY/oUm6Zvg6tHwqhKOVw6u5cipKErnxKQsnKJ8G4IvA3UyMnfjorA8szIBA
- I9JsUylJt8PX4aPDA8l4ich2/9lN6I4mEyMBRk5iXtA6hhfqo3IxHTZFJZRjqFMLKbsp
- dEzycxHUNgzX6Ur9PxTwGkpja06mu+WlioLu0T/qj0rgpVbaFCaQJJdD17J208t5tQ1c
- T3ywqFaYmQE6qB2qnWrGLYiyPdKqjcE/oxCRMdnGXpufnq9kZVHvaGfHYtDof2gIy8sE
- hSEQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bS2SuPyrrLQszLfTlNtHGbczRo/TVo6iehbioyR9aVQ=;
+ b=V5g9bWYDeFiA79+HKnoNqj3Yrev9rnYg89t+lfD4CE7yyoy6A/NBcDsfmFhWul0zPC
+ XDc1JLVjMnEPDvVhTn6fxwBTE96EKLlJSCjwaXsgARV3dYkyMXEZVIjg+U48zNHsMNK9
+ bgerLFXI3daey7af/Q8IU3a1iErE/XGHuqpeiZeO15b9n3cAFRlTuWe9rFKR+q8gmTu/
+ uJkQqcPeHSQh9wnCU+fwj/O436GrmycxV2r4YbGjUxkgBG+mWgnbFURsYO1q96q7/T1E
+ KuUTEq2lKbAfkhe0WSDEnA7xfWpVsZ1nd5FHenfwuN8O6LIWqLkzF4a1VEnCTTqEBAU9
+ 9PVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dYF4aCoOjNocXMp5ObQdxM+1IiESaniY5tGPacmK2hI=;
- b=PsW2RmAFbMie4vMj+irEEkB2f2Z59WmDq6avKug8CHFtsLrITqzVX8WRjgSEQBxLXY
- 9FlM9uvs94B/6JedFWF5LAWmkaWQiKWHLm6vy2B8MiQwU6EGt1L89+uCeIRc9bqIZ0bk
- JsiBvfzocfLIpTK9990/4GbkUplUvF+yYZQETovVf3dsobSHfaXK8qvu9pdaEdXD8WGt
- qreBn9jAEocvDW9PrS6Axx2xrpkQiWVVbfA4Q8tAePEmj90nl05wwaa5wQNxNKOL31gh
- IK9u0cuBfR52xCxaH5hB8nDxHnJgM9Ej/mg1MHpZKS/MV80nCW677gvbKHksJdJOiJ5H
- 9RaA==
-X-Gm-Message-State: AFqh2kr4uKUiRoCqgXdv7wK7B4erd7IgTc7Gruo4Wc0EL8zs0p1w7HNb
- X+BtZOC+PS7qmG0QIyYcMWg=
-X-Google-Smtp-Source: AMrXdXtIftRiBiFpiF6+MSGQS3GVWuGnzm/NgMFLOBRRFdQV+jBuHN9wNcOzPNqZa5/poEcZ9eVQBg==
-X-Received: by 2002:adf:eecf:0:b0:24a:852d:e292 with SMTP id
- a15-20020adfeecf000000b0024a852de292mr779711wrp.46.1671620073626; 
- Wed, 21 Dec 2022 02:54:33 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bS2SuPyrrLQszLfTlNtHGbczRo/TVo6iehbioyR9aVQ=;
+ b=14jmi+D0gza6SGEtaAafTmyX7bL2VU9q1zqzcf5ZRpSGhtZvD3KWsXKk36FaILEOXL
+ rTFcAdBdb/imOE5mb2dR7TCmAs+cKP8P/KUnkLgnVCfi4B6Unz6vMuuMzIpJHM/0l9Z8
+ jYu/pxKhaukcO1JZAP0lX8m7LRbsrfH5D6y5HkITksgiTvutkzf0/5B94NUoTx2nG61F
+ RB0/gXJIUcLTQTPNZ3qfW7G7l0QaIyWUEYdpK8rZl9DoefYzm4r6Ej6o+tlitvb8w4g9
+ olXHg7GdxvRpIryR3NSzGLgxaLFAFKDyRAnKrKQCvNwBkF73heJ8kV3xVpzgNR7v9Pyx
+ GBlQ==
+X-Gm-Message-State: AFqh2krILTrsqgvHZ2Wic/DBOKZwVEWh11F0cU4e7caJf2CV5UUHWnGh
+ LmzxZDzApJZbgUx4QdGxs8I=
+X-Google-Smtp-Source: AMrXdXsDx4mXzQ1l6DWUcUU5nf5+qfbEQQBy9kHLbjRKwCnT1eRKgeElBMlbjp5Bn+6qmj+Y4Voi5Q==
+X-Received: by 2002:a5d:55c7:0:b0:242:5f1f:9d3b with SMTP id
+ i7-20020a5d55c7000000b002425f1f9d3bmr909249wrw.16.1671620077591; 
+ Wed, 21 Dec 2022 02:54:37 -0800 (PST)
 Received: from localhost.localdomain ([37.55.203.63])
  by smtp.gmail.com with ESMTPSA id
- y5-20020a056000108500b0023657e1b980sm15080156wrw.53.2022.12.21.02.54.30
+ y5-20020a056000108500b0023657e1b980sm15080156wrw.53.2022.12.21.02.54.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 02:54:33 -0800 (PST)
+ Wed, 21 Dec 2022 02:54:37 -0800 (PST)
 From: Markuss Broks <markuss.broks@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/3] Add generic framebuffer support to EFI earlycon driver
-Date: Wed, 21 Dec 2022 12:53:57 +0200
-Message-Id: <20221221105402.6598-1-markuss.broks@gmail.com>
+Subject: [PATCH v3 1/3] drivers: serial: earlycon: Pass device-tree node
+Date: Wed, 21 Dec 2022 12:53:58 +0200
+Message-Id: <20221221105402.6598-2-markuss.broks@gmail.com>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20221221105402.6598-1-markuss.broks@gmail.com>
+References: <20221221105402.6598-1-markuss.broks@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,58 +85,42 @@ Cc: Damien Le Moal <damien.lemoal@opensource.wdc.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make the EFI earlycon driver be suitable for any linear framebuffers.
-This should be helpful for early porting of boards with no other means of
-output, like smartphones/tablets. There seems to be an issue with early_ioremap
-function on ARM32, but I am unable to find the exact cause. It appears the mappings
-returned by it are somehow incorrect, thus the driver is disabled on ARM. EFI early
-console was disabled on IA64 previously because of missing early_memremap_prot,
-and this is inherited to this driver.
+Pass a pointer to device-tree node in case the driver probed from
+OF. This makes early console drivers able to fetch options from
+device-tree node properties.
 
-This patch also changes behavior on EFI systems, by selecting the mapping type
-based on if the framebuffer region intersects with system RAM. If it does, it's
-common sense that it should be in RAM as a whole, and so the system RAM mapping is
-used. It was tested to be working on my PC (Intel Z490 platform), as well as several
-ARM64 boards (Samsung Galaxy S9 (Exynos), iPad Air 2, Xiaomi Mi Pad 4, ...).
+Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
+---
+ drivers/tty/serial/earlycon.c | 3 +++
+ include/linux/serial_core.h   | 1 +
+ 2 files changed, 4 insertions(+)
 
-Markuss Broks (2):
-  drivers: serial: earlycon: Pass device-tree node
-  efi: earlycon: Add support for generic framebuffers and move to fbdev
-    subsystem
-
-
-v1 -> v2:
-
-- a new patch correcting serial/earlycon.c argument name to "offset" instead
-  of "node"
-- move IA64 exclusion from EFI earlycon Kconfig to earlycon driver Kconfig
-  (IA64 has no early_memremap_prot)
-- move driver from fbdev to console subsystem
-- select EFI earlycon by default
-- fetch stride manually from device-tree, as on some devices it seems stride
-  doesn't match the horizontal resolution * bpp.
-- use saner format (e.g. 1920x1080x32 instead of 1920,1080,32).
-
-
-Markuss Broks (3):
-  drivers: serial: earlycon: Pass device-tree node
-  efi: earlycon: move to video/console to prepare for changes
-  efi: earlycon: Add support for generic framebuffers
-
- .../admin-guide/kernel-parameters.txt         |  12 +-
- MAINTAINERS                                   |   5 +
- drivers/firmware/efi/Kconfig                  |   7 +-
- drivers/firmware/efi/Makefile                 |   1 -
- drivers/firmware/efi/earlycon.c               | 246 --------------
- drivers/tty/serial/earlycon.c                 |   3 +
- drivers/video/console/Kconfig                 |  11 +
- drivers/video/console/Makefile                |   1 +
- drivers/video/console/earlycon.c              | 305 ++++++++++++++++++
- include/linux/serial_core.h                   |   1 +
- 10 files changed, 336 insertions(+), 256 deletions(-)
- delete mode 100644 drivers/firmware/efi/earlycon.c
- create mode 100644 drivers/video/console/earlycon.c
-
+diff --git a/drivers/tty/serial/earlycon.c b/drivers/tty/serial/earlycon.c
+index 4f6e9bf57169..0c7a789d7eb7 100644
+--- a/drivers/tty/serial/earlycon.c
++++ b/drivers/tty/serial/earlycon.c
+@@ -307,6 +307,9 @@ int __init of_setup_earlycon(const struct earlycon_id *match,
+ 		strscpy(early_console_dev.options, options,
+ 			sizeof(early_console_dev.options));
+ 	}
++
++	early_console_dev.node = node;
++
+ 	earlycon_init(&early_console_dev, match->name);
+ 	err = match->setup(&early_console_dev, options);
+ 	earlycon_print_info(&early_console_dev);
+diff --git a/include/linux/serial_core.h b/include/linux/serial_core.h
+index fd59f600094a..0b06c0ee7705 100644
+--- a/include/linux/serial_core.h
++++ b/include/linux/serial_core.h
+@@ -783,6 +783,7 @@ struct earlycon_device {
+ 	struct uart_port port;
+ 	char options[16];		/* e.g., 115200n8 */
+ 	unsigned int baud;
++	unsigned long node;
+ };
+ 
+ struct earlycon_id {
 -- 
 2.39.0
 
