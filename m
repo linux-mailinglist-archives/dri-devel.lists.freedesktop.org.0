@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEFDB654DB0
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 09:45:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A5EC653294
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 15:44:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACDB710E60E;
-	Fri, 23 Dec 2022 08:44:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5B6310E456;
+	Wed, 21 Dec 2022 14:43:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 083EF10E119
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 14:31:27 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id a1so7223907edf.5
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 06:31:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BE2510E1C2
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 14:43:38 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id
+ t11-20020a17090a024b00b0021932afece4so2464917pje.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 06:43:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=rZ9Lpf6hdSB/z19gTwOM3fnZQaUqTbTqQZBgH9EUQJk=;
- b=jPGd5FvlOpwowKH9jiJUnrg+bSLXdHLayLl9Vdqwgo9cX/SALaB1Voe5zUum5aC/0v
- hy9RReOOOrBonGQaJe8UjIvcVrgv0yafkSN7OxxS6kf41vBmjDnK7Du7tpSoS6i8cMF6
- 5oXtu/WprVWXv0/7ycQSRgSUqXSp+MijYxruh1aLnED9Eya07VP3eKz9f8iCeeFknQcK
- 5W2hB0R57F/EsBQdQlF1bi9q7Bl8bLMhpEH+Bj5D0Z0okYP5xT+TmsGC3ax3yO9SJ0KG
- D0Kx2ZU34Vgfgs72HSp5SCoM4lX1vF6NT1ySQfLZE4Tm73+cYemGC536LnL9gEmTEhcR
- sPmA==
+ bh=IyW++2grHjl8J45d/2q3DxB6TJXLGyoaKqQ8S90iPAw=;
+ b=JwcBi8Mk+n+BRfCLl7cSqbrJjPeQAMpIMzuzVVbz7UEk9bGfgDNKY8nXyg0CyOyIt/
+ ubbg606HpZ/6sJlH/0CZitVijUPDKFXn69O+XpmGg6+dLyrQysjwKEpLZM+HMcSFFeqU
+ T3IRNg6mZ4F/aqnC/4beIRjC33YQwVSPSixMeE23GyB3wSywM1HVdTOaD8dktnTVMMrK
+ dl7QplP1kP60YXb5UK1GvRUH5B+Zj/cyt/XD4X2nH4arqpOqBJJD44ljqlSbMP2xXsLW
+ zS+NvuqhG8MTh1LmpSe/CVuOy1AMoHw+vHzsEtnHD/7qTFy45Auw9eJZTJQTLts8KxhS
+ jkvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=rZ9Lpf6hdSB/z19gTwOM3fnZQaUqTbTqQZBgH9EUQJk=;
- b=1YLkLSfP2SsDRZZLjV61AQBxz/EcUAUysOL+P/c9DK7darMCxGaEkB3yvPy/wGXyzP
- 8JxePPvOx+vkXX62JSUdKE8D/ZW+LD6UleXv8oxGrPzemy70VbfVWnGVK3PI/er5GpNJ
- CwjydajVm+uyhvwrHbNuMowsVBmvVu5fFKbtnnJzrx1Nq1d0nf8PNmd/4tsbDHA2txto
- Ut8Hq+C9vWCW9brC/6T9GcvUWOxThV82Ece7TQ+MIlEYH9H/3ScGDFN+wIWIYvi/TtH8
- IWooPwTIPSbuX5iuYtiIfSM7C9ILhO5I1V0ZRIurEGDREFXlRLn4C7wXgqykIi2JwlO2
- LTBA==
-X-Gm-Message-State: AFqh2kqxzKsevWb4DZ+Cx04e372Ql0zMHO2kk+Zggz0fzhmDHHm/Qzg8
- mGcLbr1MJfTWmcavLqeAXqRkegX9xWi0pOVsMcY=
-X-Google-Smtp-Source: AMrXdXtEF6cgRoIMRbKoNEIjRNlAZpSJ/5FOA8DExS3f8/+ZHkwffAs6hH6Xzvx2suNDPUKHesyFGTKOcIs8UYn2jN8=
-X-Received: by 2002:a50:bb62:0:b0:47b:e6de:febb with SMTP id
- y89-20020a50bb62000000b0047be6defebbmr187895ede.43.1671633085473; Wed, 21 Dec
- 2022 06:31:25 -0800 (PST)
+ bh=IyW++2grHjl8J45d/2q3DxB6TJXLGyoaKqQ8S90iPAw=;
+ b=MbSnUngWkgDG/QpAgBJvfy+skuPMmF3l+fpC9ZqX7u6Pr//bbtN+iMJRlVtZr+oEiz
+ t9mEGv75cK9k9ZtzoONKJmW2F2JvRmWsplhgs4eoCBqdBOxDZXS+VrYIpvlvQtJqNEDo
+ XYWIGzD+dQJDZd6r07GQb8ZRRwa9ZmgmTFwSj+YkVi9dV2VOw0dgIvgHDWd6w43j8kTP
+ Pq1g8TzkfC2kcH/qz67+tTC7gcRgoOXa799oMKdpXQyDAtvHD5Z0KJMk7bBQqFK7zWhT
+ +9AnOz9otz3qIOvrTbkkLr2cj6Ih2JFs+nl+kS2bFKEB3hR3gOBn1rD5JoO8St1jHBig
+ uOtw==
+X-Gm-Message-State: AFqh2krRMDCZIwgvPETSO+jJNSV+lCsousCuAbSJqLEnr7Rjr76Qss9S
+ s3zSiPbNwmCB2pDvDsr8Wa2hjZ9aYnyt9yljve1pxA==
+X-Google-Smtp-Source: AMrXdXvCHGKgNiRJjAKvBrn8TFRX9lSKbtiwl6JC1JfpRNHfJRtETCwT+Zv/FXciPqBeqqKNLPL9r+PBfxqx5PpG9q0=
+X-Received: by 2002:a17:90a:be0c:b0:219:ef02:a5eb with SMTP id
+ a12-20020a17090abe0c00b00219ef02a5ebmr226260pjs.84.1671633818076; Wed, 21 Dec
+ 2022 06:43:38 -0800 (PST)
 MIME-Version: 1.0
-References: <CAPDLWs_7331QyD_Mnb9k1LrBsYopeVVbd9zDM_2R-xCoG272PA@mail.gmail.com>
- <8bcf04de-47eb-cb3c-4589-ba5a67477977@leemhuis.info>
-In-Reply-To: <8bcf04de-47eb-cb3c-4589-ba5a67477977@leemhuis.info>
-From: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
-Date: Wed, 21 Dec 2022 20:01:08 +0530
-Message-ID: <CAPDLWs-3t0FEakG+0SMmG2ZznVFMrhMAf3KU+RCWRxYv7Zsz+g@mail.gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: Fix passing partly uninitialized
- drm_mode_fb_cmd2 struct
-To: Thorsten Leemhuis <regressions@leemhuis.info>
+References: <1671522257-38778-1-git-send-email-quic_akhilpo@quicinc.com>
+ <20221220131255.v3.1.I3e6b1f078ad0f1ca9358c573daa7b70ec132cdbe@changeid>
+In-Reply-To: <20221220131255.v3.1.I3e6b1f078ad0f1ca9358c573daa7b70ec132cdbe@changeid>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 21 Dec 2022 15:43:01 +0100
+Message-ID: <CAPDyKFr6Hf5gbJ9T9scYqDrg9tmKmVAm=h1J7r3GZzcogk5HpQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] PM: domains: Allow a genpd consumer to require a
+ synced power off
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Fri, 23 Dec 2022 08:44:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,60 +67,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, javierm@redhat.com, dri-devel@lists.freedesktop.org,
- hdegoede@redhat.com, Linux-graphics-maintainer@vmware.com
+Cc: Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+ Kevin Hilman <khilman@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-pm@vger.kernel.org,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 21, 2022 at 3:45 PM Thorsten Leemhuis
-<regressions@leemhuis.info> wrote:
+On Tue, 20 Dec 2022 at 08:44, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
 >
-> Hi, this is your Linux kernel regression tracker. The relevant code here
-> is not my area of expertise, nevertheless a few questions:
-Thank you
+> From: Ulf Hansson <ulf.hansson@linaro.org>
 >
-> On 21.12.22 03:23, Kaiwan N Billimoria wrote:
-> > [REGRESSION] ?
+> Some genpd providers doesn't ensure that it has turned off at hardware.
+> This is fine until the consumer really requires during some special
+> scenarios that the power domain collapse at hardware before it is
+> turned ON again.
 >
-> > Testing with 6.1, I find the same issue - VirtualBox VMs seem to hang
-> > on boot, though the kernel has this patch applied of course...
+> An example is the reset sequence of Adreno GPU which requires that the
+> 'gpucc cx gdsc' power domain should move to OFF state in hardware at
+> least once before turning in ON again to clear the internal state.
 >
-> Maybe I'm missing something, but what made you assume that it's the same
-> issue? The fix for that issue talked about "garbage" in some structures
-> that "can cause random failures during the bringup of the fbcon." Yeah,
-> maybe that ca result in a hang, but I didn't see it that thread (but
-> maybe I missed)
-I got an Oops when testing with VirtualBox; managed to recover it; pl
-have a look:
-https://gist.github.com/kaiwan/a79ad81fa63440b790724a136d16407d
+> Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> ---
+>
+> (no changes since v2)
+>
+> Changes in v2:
+> - Minor formatting fix
+>
+>  drivers/base/power/domain.c | 23 +++++++++++++++++++++++
+>  include/linux/pm_domain.h   |  5 +++++
+>  2 files changed, 28 insertions(+)
+>
+> diff --git a/drivers/base/power/domain.c b/drivers/base/power/domain.c
+> index 967bcf9d415e..53524a102321 100644
+> --- a/drivers/base/power/domain.c
+> +++ b/drivers/base/power/domain.c
+> @@ -519,6 +519,28 @@ ktime_t dev_pm_genpd_get_next_hrtimer(struct device *dev)
+>  }
+>  EXPORT_SYMBOL_GPL(dev_pm_genpd_get_next_hrtimer);
+>
+> +/*
+> + * dev_pm_genpd_synced_poweroff - Next power off should be synchronous
+> + *
+> + * @dev: A device that is attached to the genpd.
+> + *
+> + * Allows a consumer of the genpd to notify the provider that the next power off
+> + * should be synchronous.
 
-The presence of the ttm module in the Oops in RIP:
- RIP: 0010:ttm_bo_move_memcpy+0x15f/0x2e0 [ttm]
-and the vmwgfx module's funcs in the call stack made me think that
-perhaps it's the same issue...
-Am unsure, you folks will of course know better.
+Nitpick; similar to other dev_pm_genpd_* function-descriptions, I
+think it's important to add the below information.
 
->
-> > Am running VirtualBox 7.0.4 on an x86_64 Linux (Ubuntu 22.04.1) host;
-> > the system hangs on boot with the screen
-> > going blank.
->
-> A bit more details would be helpful. For example: is anything printed at
-> all before the system hangs? What's the last kernel that worked for you
-> (and is the newer kernel using a similar build configuration)?
-Earlier kernels all seem to work fine, with a similar (localmodconfig) config..
-Also, as mentioned, putting 'nomodeset' in the kernel cmd line has it
-work just fine, even with 6.1
->Which
-> graphics adapater did you configure in VirtualBox?
-VMSVGA
+"It is assumed that the users guarantee that the genpd wouldn't be
+detached while this routine is getting called."
 
+Can you please add that?
+
+> + */
+> +void dev_pm_genpd_synced_poweroff(struct device *dev)
+> +{
+> +       struct generic_pm_domain *genpd;
+> +
+> +       genpd = dev_to_genpd_safe(dev);
+> +       if (!genpd)
+> +               return;
+> +
+> +       genpd_lock(genpd);
+> +       genpd->synced_poweroff = true;
+> +       genpd_unlock(genpd);
+> +}
+> +EXPORT_SYMBOL_GPL(dev_pm_genpd_synced_poweroff);
+> +
+>  static int _genpd_power_on(struct generic_pm_domain *genpd, bool timed)
+>  {
+>         unsigned int state_idx = genpd->state_idx;
+> @@ -562,6 +584,7 @@ static int _genpd_power_on(struct generic_pm_domain *genpd, bool timed)
 >
-> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-Thanks Thorsten...
--kaiwan.
+>  out:
+>         raw_notifier_call_chain(&genpd->power_notifiers, GENPD_NOTIFY_ON, NULL);
+> +       genpd->synced_poweroff = false;
+>         return 0;
+>  err:
+>         raw_notifier_call_chain(&genpd->power_notifiers, GENPD_NOTIFY_OFF,
+> diff --git a/include/linux/pm_domain.h b/include/linux/pm_domain.h
+> index 1cd41bdf73cf..f776fb93eaa0 100644
+> --- a/include/linux/pm_domain.h
+> +++ b/include/linux/pm_domain.h
+> @@ -136,6 +136,7 @@ struct generic_pm_domain {
+>         unsigned int prepared_count;    /* Suspend counter of prepared devices */
+>         unsigned int performance_state; /* Aggregated max performance state */
+>         cpumask_var_t cpus;             /* A cpumask of the attached CPUs */
+> +       bool synced_poweroff;           /* A consumer needs a synced poweroff */
+>         int (*power_off)(struct generic_pm_domain *domain);
+>         int (*power_on)(struct generic_pm_domain *domain);
+>         struct raw_notifier_head power_notifiers; /* Power on/off notifiers */
+> @@ -235,6 +236,7 @@ int dev_pm_genpd_add_notifier(struct device *dev, struct notifier_block *nb);
+>  int dev_pm_genpd_remove_notifier(struct device *dev);
+>  void dev_pm_genpd_set_next_wakeup(struct device *dev, ktime_t next);
+>  ktime_t dev_pm_genpd_get_next_hrtimer(struct device *dev);
+> +void dev_pm_genpd_synced_poweroff(struct device *dev);
 >
-> P.S.: As the Linux kernel's regression tracker I deal with a lot of
-> reports and sometimes miss something important when writing mails like
-> this. If that's the case here, don't hesitate to tell me in a public
-> reply, it's in everyone's interest to set the public record straight.
+>  extern struct dev_power_governor simple_qos_governor;
+>  extern struct dev_power_governor pm_domain_always_on_gov;
+> @@ -300,6 +302,9 @@ static inline ktime_t dev_pm_genpd_get_next_hrtimer(struct device *dev)
+>  {
+>         return KTIME_MAX;
+>  }
+> +static inline void dev_pm_genpd_synced_poweroff(struct device *dev)
+> +{ }
+> +
+>  #define simple_qos_governor            (*(struct dev_power_governor *)(NULL))
+>  #define pm_domain_always_on_gov                (*(struct dev_power_governor *)(NULL))
+>  #endif
+> --
+> 2.7.4
+>
+
+Kind regards
+Uffe
