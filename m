@@ -2,61 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 849BC65385A
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 23:02:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715656538C8
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 23:37:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C925310E4E0;
-	Wed, 21 Dec 2022 22:02:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A55E610E08E;
+	Wed, 21 Dec 2022 22:36:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DDFB10E4E0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 22:02:47 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id r18so104751pgr.12
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 14:02:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=q+0GvlIHGVbxl/3eCKEWmbSw5vvxoPeGSxp8VoYXLkI=;
- b=jnOesX0JDINyp/ZOvK8a2iIfFafqsK1oo3tnsBW1zuZmdqOxuO5cDaUZdtiiXn6sl4
- OsDiSLJN9W6qr8AEr8ooU7FFSa2uhRAw8aQ44loRJaR9yp/3QOt1FgAwAza6aU2eyFFQ
- +I8x3LJ1yYkTAtru1Iw5pf5Iooo+BkQE8ovBk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=q+0GvlIHGVbxl/3eCKEWmbSw5vvxoPeGSxp8VoYXLkI=;
- b=LeinYUFse7dI/lSrt8eiUPWoMAO3QlEWawn3j0tpzGXNMYPsnJc05qZOgb3DrcG8rR
- jBv47SvhE7pMa/cRPG3wGh+iM7vhdZHZsP0hJr6OIJrzVPXXJVDTBk1N0f+y7x5tzi8e
- HsZwEcQ7ZzSkidMhSsfF5oBVNW7hqd01suS2TiE55IY3FMEN0ltiEoOcRylTKiJquo/o
- 2ZHieplbSiGpBTFRgV025M5kikby4MpNY7SMtmBIZsxHdsDUMQTja2Kl5W0MwqEmmsxg
- oHdmfIw5MvShZ5g3yd9CdA2VMDApgiuQnpT2JmTBHowcqJ95lWiBywWjiobgSbvWzAla
- y3eQ==
-X-Gm-Message-State: AFqh2kqekL7JPsmHXFJKbEL3fnFmOj06/YpqNKVSnaTb88ha09/fgJFL
- VLTPRgHqLJC6nJ0BRaoyMCt+wnqeVxxmoI4i
-X-Google-Smtp-Source: AMrXdXuXyLdgxcNpaIvNnkX4bXHyx8/3rf7c+ClwwJkWQFYLJU9WKKJfl/D0RqB1oQq75FtbjEgQ6A==
-X-Received: by 2002:a62:e90e:0:b0:577:1c59:a96c with SMTP id
- j14-20020a62e90e000000b005771c59a96cmr4015331pfh.2.1671660167146; 
- Wed, 21 Dec 2022 14:02:47 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:7ca9:883d:f86b:5a1e])
- by smtp.gmail.com with ESMTPSA id
- b27-20020aa78edb000000b005772bf1b61bsm11112984pfr.67.2022.12.21.14.02.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 14:02:46 -0800 (PST)
-Date: Wed, 21 Dec 2022 14:02:43 -0800
-From: Brian Norris <briannorris@chromium.org>
-To: Mark Brown <broonie@kernel.org>, Sean Paul <seanpaul@chromium.org>
-Subject: Re: renesas/master bisection:
- igt-kms-rockchip.kms_vblank.pipe-A-wait-forked on rk3399-gru-kevin
-Message-ID: <Y6OCg9BPnJvimQLT@google.com>
-References: <6398848e.170a0220.f8e8e.d44f@mx.google.com>
- <Y5itf0+yNIQa6fU4@sirena.org.uk> <Y5qOwmqIIp+2qWOy@google.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 246FF10E08E
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 22:36:50 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 519D461988
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 22:36:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0514C43392
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 22:36:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1671662171;
+ bh=M/tRY0dtlLHanEM4j2N/f3MgAV3UJcjYrwR7A8LA+gs=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=mVUrEkg8zRQ7TSOkQUBdp7TE8RNclfXYOvxwJiCqdcEnXqCcogUVKz4dJyuKzdbdm
+ fYgrFNzIXPUSFq1dJKKsa8EnqAkOyF+WLEhFp07WZOG7+crDHchayR9j2X4FSBPrtO
+ ujaxValndvnwlMPyb6FJgfxbOOrQOQcj0rqQo7FoC7ICwM0uBuXemzqx+qTqbeEVTa
+ yazso3peS/sYGtlt0qxwSfakN1zXY6TkTT+w1KYI2MNqymgCeN6+taqP8hdbg5pPr/
+ Bu4G/3STagQV9C/a5DeT69RLHGxVJa+L3QSwwecy7tepR949nm+iiwLVkeq3nMnVC9
+ GCtNdBlRwljRw==
+Received: by mail-vs1-f41.google.com with SMTP id i2so165213vsc.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 14:36:11 -0800 (PST)
+X-Gm-Message-State: AFqh2kq8hhonfBeGZnAstJK2TpArz7YbYxhcVMmbRZAXYnMeA+BHIEw/
+ BwBJ4MJqYdEol3MLS0k82Tv7A+q/jO3GyKjkDQ==
+X-Google-Smtp-Source: AMrXdXuD7TYLmW0mSW/mYJAckH7H6ZU+Lruhm+3KZIf50DE0jUjltL5AsbTqRq+isZxtINz6jEQbpY5Y06hr4ebaBW0=
+X-Received: by 2002:a67:6185:0:b0:3bf:3dbe:50aa with SMTP id
+ v127-20020a676185000000b003bf3dbe50aamr478388vsb.26.1671662170541; Wed, 21
+ Dec 2022 14:36:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y5qOwmqIIp+2qWOy@google.com>
+References: <7f883643-c796-029f-ba38-73532325632d@gmail.com>
+ <fc68bedc-ff93-13bc-aa06-7920f5e53de6@gmail.com>
+In-Reply-To: <fc68bedc-ff93-13bc-aa06-7920f5e53de6@gmail.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Wed, 21 Dec 2022 16:35:59 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLzrMtVBY3vSsykakKp8b_AzhQehOGj3T+RH_NqaTitXg@mail.gmail.com>
+Message-ID: <CAL_JsqLzrMtVBY3vSsykakKp8b_AzhQehOGj3T+RH_NqaTitXg@mail.gmail.com>
+Subject: Re: [PATCH v5 05/12] dt-bindings: usb: convert fcs,
+ fusb302.txt to yaml
+To: Johan Jonker <jbx6244@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,125 +61,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, kernelci-results@groups.io,
- bot@kernelci.org, Jonas Karlman <jonas@kwiboo.se>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Sean Paul <seanpaul@chromium.org>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, gtucker@collabora.com,
- linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: linux-arm-kernel@lists.infradead.org, neil.armstrong@linaro.org,
+ jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org, jonas@kwiboo.se,
+ gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+ linux-usb@vger.kernel.org, hjc@rock-chips.com, robert.foss@linaro.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ andrzej.hajda@intel.com, Laurent.pinchart@ideasonboard.com,
+ devicetree@vger.kernel.org, philippe.cornu@foss.st.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mark, Sean, (and dri-devel)
+On Wed, Dec 21, 2022 at 12:23 PM Johan Jonker <jbx6244@gmail.com> wrote:
+>
+> Convert fcs,fusb302.txt to yaml.
+>
+> Changed:
+>   Add vbus-supply property
+>
+> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+> ---
+>  .../devicetree/bindings/usb/fcs,fusb302.txt   | 34 ----------
+>  .../devicetree/bindings/usb/fcs,fusb302.yaml  | 66 +++++++++++++++++++
+>  2 files changed, 66 insertions(+), 34 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/usb/fcs,fusb302.txt
+>  create mode 100644 Documentation/devicetree/bindings/usb/fcs,fusb302.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/usb/fcs,fusb302.txt b/Documentation/devicetree/bindings/usb/fcs,fusb302.txt
+> deleted file mode 100644
+> index 60e465429..000000000
+> --- a/Documentation/devicetree/bindings/usb/fcs,fusb302.txt
+> +++ /dev/null
+> @@ -1,34 +0,0 @@
+> -Fairchild FUSB302 Type-C Port controllers
+> -
+> -Required properties :
+> -- compatible             : "fcs,fusb302"
+> -- reg                    : I2C slave address
+> -- interrupts             : Interrupt specifier
+> -
+> -Required sub-node:
+> -- connector : The "usb-c-connector" attached to the FUSB302 IC. The bindings
+> -  of the connector node are specified in:
+> -
+> -       Documentation/devicetree/bindings/connector/usb-connector.yaml
+> -
+> -
+> -Example:
+> -
+> -fusb302: typec-portc@54 {
+> -       compatible = "fcs,fusb302";
+> -       reg = <0x54>;
+> -       interrupt-parent = <&nmi_intc>;
+> -       interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+> -
+> -       usb_con: connector {
+> -               compatible = "usb-c-connector";
+> -               label = "USB-C";
+> -               power-role = "dual";
+> -               try-power-role = "sink";
+> -               source-pdos = <PDO_FIXED(5000, 3000, PDO_FIXED_USB_COMM)>;
+> -               sink-pdos = <PDO_FIXED(5000, 3000, PDO_FIXED_USB_COMM)
+> -                            PDO_VAR(3000, 12000, 3000)
+> -                            PDO_PPS_APDO(3000, 11000, 3000)>;
+> -               op-sink-microwatt = <10000000>;
+> -       };
+> -};
+> diff --git a/Documentation/devicetree/bindings/usb/fcs,fusb302.yaml b/Documentation/devicetree/bindings/usb/fcs,fusb302.yaml
+> new file mode 100644
+> index 000000000..9b172fda9
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/fcs,fusb302.yaml
+> @@ -0,0 +1,66 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Fairchild FUSB302 Type-C Port controller
+> +
+> +maintainers:
+> +  - Rob Herring <robh@kernel.org>
 
-On Wed, Dec 14, 2022 at 07:04:37PM -0800, Brian Norris wrote:
-> On Tue, Dec 13, 2022 at 04:51:11PM +0000, Mark Brown wrote:
-> > On Tue, Dec 13, 2022 at 05:56:30AM -0800, KernelCI bot wrote:
-> > 
-> > The KernelCI bisection bot found regressions in at least two KMS tests
-> > in the Renesas tree on rk3399-gru-kevin just after the Renesas tree
-> > merged up mainline:
-> > 
-> >    igt-kms-rockchip.kms_vblank.pipe-A-wait-forked 
-> >    igt-kms-rockchip.kms_vblank.pipe-A-query-busy
-> > 
-> > which it bisected to ca871659ec16 ("drm/bridge: analogix_dp: Support
-> > PSR-exit to disable transition").  I'm not *100%* sure I trust the
-> > bisection but it sure is suspicous that two separate bisects for related
-> > issues landed on the same commit.
+Why me? I don't care, but that's kind of the default.
 
-...
+> +
+> +properties:
+> +  compatible:
+> +    const: fcs,fusb302
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  vbus-supply:
+> +    description: VBUS power supply
+> +
+> +  connector:
+> +    type: object
+> +    $ref: /schemas/connector/usb-connector.yaml#
 
-> > | IGT-Version: 1.26-gf8a4a0b (aarch64) (Linux: 6.1.0 aarch64)
-> > | <14>[   35.444448] [IGT] drm_read: starting subtest short-buffer-wakeup
-> > | Starting subtest: short-buffer-wakeup
-> > | 
-> > | (| drm_read:350) CRITICAL: Test assertion failure function generate_event, file ../tests/drm_read.c:65:
-> > | (drm_read:350) CRITICAL: <14>[   36.155642] [IGT] drm_read: exiting, ret=98
-> > | Failed assertion: kmstest_get_vblank(fd, pipe, DRM_VBLANK_EVENT)
-> > | 
-> > | (drm_read:350) CRITICAL: Last errno: 22, Invalid argument
-> > | Stack trace:
-> > | 
-> > |   #0 ../lib/igt_core.c:1933 __igt_fail_assert()
-> > |   #1 [<unknown>+0xd5362770]
-> > |   #2 [<unknown>+0xd536193c]
-> > |   #3 [__libc_start_main+0xe8]
-> > |   #4 [<unknown>+0xd5361974]
-> > |   #5 [<unknown<6>[   36.162851] Console: switching to colour frame buffer device 300x100>+0xd5361974]
-> > | Subtest short-buffer-wakeup failed.
+       unevaluatedProperties: false
 
-...
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - vbus-supply
+> +  - connector
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/usb/pd.h>
+> +
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      fusb302: typec-portc@54 {
 
-> I'll look some more, but this might be a difference of test setup, such
-> that my setup has the issue before and after that commit, but your setup
-> sees a regression.
+Drop unused labels.
 
-I believe this is the case; things are broken both before and after, but
-depending on test sequencing, etc., they might have seemed less broken
-before.
-
-When we're failing, we're getting EINVAL from drm_vblank_get(). That
-essentially means that vblank has been disabled (drm_crtc_vblank_off()).
-As it happens, this is exactly what we do when we enter PSR (Panel Self
-Refresh).
-
-Now, these test cases (especially 'kms_vblank.pipe-A-wait-forked') seem
-to display a static image, and then wait for a bunch of vblank events.
-This is exactly the sort of case where we should enter PSR, and so we're
-likely to disable vblank events. Thus, if everything is working right,
-we will often hit EINVAL in ioctl(DRM_IOCTL_WAIT_VBLANK) ... ->
-drm_vblank_get(), and fail the test.
-
-As to why this appears to be a regression: like mentioned in my previous
-mail, these tests tend to hose the Analogix PSR state before my patch
-set. When PSR is hosed, we tend to stay with PSR disabled, and so
-drm_vblank_get() doesn't return EINVAL, and the test is happy. (Never
-mind that the display is likely non-functional.) [0]
-
-So how to fix this?
-
-1. ignore it; it's "just" a test failure, IIUC [1]
-2. change the test, to skip this test if the device has PSR
-3. leave vblank enabled even in the presence of PSR
-4. otherwise modify the vblank ioctl interface, such that one can "wait"
-   for a vblank that won't come (because the display is in self-refresh
-   / there are no new frames or vblanks)
-
-I don't know how to do #2, because this variant of PSR is intentionally
-opaque to user space.
-
-For #3: the downstream PSR support that these systems shipped with
-initially did not disable vblank in PSR. But that was massively
-rewritten/refactored by Sean Paul before it made it upstream, and now it
-does. I tried briefly to factor that part out
-(drivers/gpu/drm/rockchip/rockchip_drm_vop.c /
-drm_crtc_vblank_{on,off}()), but because drm_self_refresh_helper.c
-(ab?)uses the commit step to "disable" the CRTC for PSR (even though the
-CRTC is not fully disabled), I tend to hit this in
-drm_atomic_helper_commit_modeset_disables()->disable_outputs():
-
-		ret = drm_crtc_vblank_get(crtc);
-		WARN_ONCE(ret != -EINVAL, "driver forgot to call drm_crtc_vblank_off()\n");
-
-And I hit a few more problems too...
-
-...I'm sure I could hack my way through this somehow, but this is all
-sounding like it could use some advice from someone more familiar with
-DRM and/or the drm_self_refresh_helper design. I've learned my way
-around this a bit by necessity, but I still feel like I don't know all
-the right answers here. (*cough*, Sean?)
-
-Brian
-
-[0] I definitely reproduce this part locally, before my patches. I can't
-find non-expired CI logs for "passing" runs to be sure that's what the
-CI is seeing though.
-
-[1] Or is it? I don't really know the DRM_IOCTL_WAIT_VBLANK ABI
-    contract in the presence of PSR, but I believe the upstream PSR
-    support has always worked this way. I could imagine
-    DRM_IOCTL_WAIT_VBLANK users might not love seeing EINVAL here
-    though.
+> +        compatible = "fcs,fusb302";
+> +        reg = <0x54>;
+> +        interrupt-parent = <&nmi_intc>;
+> +        interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+> +        vbus-supply = <&vbus_typec>;
+> +
+> +        usb_con: connector {
+> +          compatible = "usb-c-connector";
+> +          label = "USB-C";
+> +          power-role = "dual";
+> +          try-power-role = "sink";
+> +          source-pdos = <PDO_FIXED(5000, 3000, PDO_FIXED_USB_COMM)>;
+> +          sink-pdos = <PDO_FIXED(5000, 3000, PDO_FIXED_USB_COMM)
+> +                       PDO_VAR(3000, 12000, 3000)
+> +                       PDO_PPS_APDO(3000, 11000, 3000)>;
+> +          op-sink-microwatt = <10000000>;
+> +        };
+> +      };
+> +    };
+> --
+> 2.20.1
+>
