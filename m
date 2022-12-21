@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B1E653995
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 00:04:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 396CB65398A
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 00:04:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69C7710E4E3;
-	Wed, 21 Dec 2022 23:03:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D55D10E14B;
+	Wed, 21 Dec 2022 23:03:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7055510E04A;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E220B10E135;
  Wed, 21 Dec 2022 23:03:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1671663820; x=1703199820;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=/YKkW1l4U7eduipxOO4rUMd2XB1phFWki053IcvBnSA=;
- b=AqtpwGi1bINi5spymbUkeO8kpP2y4AnUOOdiV009tIwAH4sETJtdzafw
- VkX9AF1oBPjkSyCMS45hk5CIPdlx6hZLHTh4KlE8wNu1iKvpGoUkWwsdh
- m3k+stqlTLoEhVsgdIqvRj+5aO2WJGrrwVi3NT+A/F6H9vBxZbfyq5Sw4
- iPoCvcmypvf8bIEKAIjwrUrl5rLQpOHi9/n8XCULbOF6Nmf7qFMJYj3j/
- C2uU/DJJZ6bmPFLuX81LG65yLoG18Erwe0kbZ9SiulE45RpAZFzKMoGao
- eH0WroZUGx7UQty+8fKsUk+FgHqfXOamuqCeE6QffY/v+36P2B5OvhMEK g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="321905526"
-X-IronPort-AV: E=Sophos;i="5.96,263,1665471600"; d="scan'208";a="321905526"
+ bh=dihkVAdrcYCS+uehz9anhQl84xJdTATy6LvWhxUMWQY=;
+ b=jH2AY/6gLC5UhmouZMm8ENAJnFsKYOVT8YS/4OpMHcKTUneYizjs9GzP
+ wHRz0QnDfRx+ouQMkTTW71tEmxGYq2XtgHgSn2iHZmEY74cixjMm5/XiG
+ WrbDpzHcPnC3rXXS+h8DRSINZvkiBG8mWF0kBcOGaHaKnFWfqirbQO8PQ
+ m7BYfRRqJ3YZmAsMuvStZpwL8uTKLoem0dpLCjGRS/54EKksicnv22nOx
+ IG+uorI0HBs7f1shGNLSrxOoiINuSjeYktA2oddm8G5+PwGy8hHWe3dEb
+ 3Bp65JhmQ3EnVYXEZuZmb9heSIxZGe+aFsfQqJM89Ru9Pj3wcxeNSBpo0 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="321905530"
+X-IronPort-AV: E=Sophos;i="5.96,263,1665471600"; d="scan'208";a="321905530"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Dec 2022 15:03:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="793864418"
-X-IronPort-AV: E=Sophos;i="5.96,263,1665471600"; d="scan'208";a="793864418"
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="793864422"
+X-IronPort-AV: E=Sophos;i="5.96,263,1665471600"; d="scan'208";a="793864422"
 Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by fmsmga001.fm.intel.com with ESMTP; 21 Dec 2022 15:03:39 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 21 Dec 2022 15:03:40 -0800
 From: Alan Previn <alan.previn.teres.alexis@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 2/7] drm/i915/pxp: add device link between i915 and mei_pxp
-Date: Wed, 21 Dec 2022 15:06:23 -0800
-Message-Id: <20221221230628.2715916-3-alan.previn.teres.alexis@intel.com>
+Subject: [PATCH v3 3/7] mei: clean pending read with vtag on bus
+Date: Wed, 21 Dec 2022 15:06:24 -0800
+Message-Id: <20221221230628.2715916-4-alan.previn.teres.alexis@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221221230628.2715916-1-alan.previn.teres.alexis@intel.com>
 References: <20221221230628.2715916-1-alan.previn.teres.alexis@intel.com>
@@ -70,41 +70,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alexander Usyskin <alexander.usyskin@intel.com>
 
-Add device link with i915 as consumer and mei_pxp as supplier
-to ensure proper ordering of power flows.
-
-V2: condition on absence of heci_pxp to filter out DG
+Client on bus have only one vtag map slot and should disregard the vtag
+value when cleaning pending read flag.
+Fixes read flow control message unexpectedly generated when
+clent on bus send messages with different vtags.
 
 Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
 ---
- drivers/gpu/drm/i915/pxp/intel_pxp_tee.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/misc/mei/client.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-index d50354bfb993..bef6d7f8ac55 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-@@ -127,6 +127,10 @@ static int i915_pxp_tee_component_bind(struct device *i915_kdev,
- 	intel_wakeref_t wakeref;
- 	int ret = 0;
+diff --git a/drivers/misc/mei/client.c b/drivers/misc/mei/client.c
+index 9ddb854b8155..5c19097266fe 100644
+--- a/drivers/misc/mei/client.c
++++ b/drivers/misc/mei/client.c
+@@ -1343,7 +1343,9 @@ static void mei_cl_reset_read_by_vtag(const struct mei_cl *cl, u8 vtag)
+ 	struct mei_cl_vtag *vtag_l;
  
-+	if (!HAS_HECI_PXP(i915) &&
-+	    drm_WARN_ON(&i915->drm, !device_link_add(i915_kdev, tee_kdev, DL_FLAG_STATELESS)))
-+		return -ENOMEM;
-+
- 	mutex_lock(&pxp->tee_mutex);
- 	pxp->pxp_component = data;
- 	pxp->pxp_component->tee_dev = tee_kdev;
-@@ -169,6 +173,9 @@ static void i915_pxp_tee_component_unbind(struct device *i915_kdev,
- 	mutex_lock(&pxp->tee_mutex);
- 	pxp->pxp_component = NULL;
- 	mutex_unlock(&pxp->tee_mutex);
-+
-+	if (!HAS_HECI_PXP(i915))
-+		device_link_remove(i915_kdev, tee_kdev);
- }
- 
- static const struct component_ops i915_pxp_tee_component_ops = {
+ 	list_for_each_entry(vtag_l, &cl->vtag_map, list) {
+-		if (vtag_l->vtag == vtag) {
++		/* The client on bus has one fixed vtag map */
++		if ((cl->cldev && mei_cldev_enabled(cl->cldev)) ||
++		    vtag_l->vtag == vtag) {
+ 			vtag_l->pending_read = false;
+ 			break;
+ 		}
 -- 
 2.34.1
 
