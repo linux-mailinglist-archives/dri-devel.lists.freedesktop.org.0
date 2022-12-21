@@ -2,65 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 276FE654DA8
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 09:44:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0267653200
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 14:46:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD0FE10E5F8;
-	Fri, 23 Dec 2022 08:44:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4245F10E094;
+	Wed, 21 Dec 2022 13:46:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
- [IPv6:2607:f8b0:4864:20::1035])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C499B10E094
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 13:24:42 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id
- q17-20020a17090aa01100b002194cba32e9so2252975pjp.1
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 05:24:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=jMBazgguIgQnT/Mfr+HQSy2WLX0y7isn8sMtEFf85Wg=;
- b=kNRsGjC3Wqkdn/++8P5gRTcdeSLguv5CIeAe43Uy8U3rmvbWCU8Dy9Zr7e0J2htilo
- Do8IGB9B9IEENSbVKZTj01xL1Rb22uR5Icx6Nc1wCQUBxSrhi5TAnfNrIC1sSvT3khfR
- 7805PWzRGJ0b+BC5v3ndPamSfs5qeDdzJqWMdIq+nbD5Y3Q2QxnutoMHH2wucS7FfazU
- O+fhyYOA2JfHM2FJ8X6XbfrBbRMfoPz5S2PmI7TcUvv1XyeoINgTGKG9WeENnsUMrHl6
- Y5e8ataafW4+s503Y0rF0tlGzKFRNO3unMsjreoosE6YMnujBJQUES8MdY4otP8gj6C7
- ngtQ==
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com
+ [209.85.160.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E41110E094
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 13:46:01 +0000 (UTC)
+Received: by mail-oa1-f52.google.com with SMTP id
+ 586e51a60fabf-144b21f5e5fso19153676fac.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 05:46:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jMBazgguIgQnT/Mfr+HQSy2WLX0y7isn8sMtEFf85Wg=;
- b=oQ5432wdhNjNDiHwUPj7Hp1FMWzcjaXXqe6gWdOOh44AavPPbkVhfvL18GRT2u0KlD
- H3Ae+q9vYGi0jn5kf3xg7Ez8UhqR/0y+TaKbGCv6IaBXQ/IyDy7xQWD9GFgeqyPqG16w
- sVmCoV5YNOaLwxDpsRHBfTJKUSqoFyhw3dGQ+YEFbttGAf5W8Q+hZCBMrOTq7wO8nM2W
- rsRsHONE+mNcyAAPkjbWKoJ8a25niyNipyNkGGPeBNwulWVygK5O7iIRKt0FcalUYq7D
- loS5N5gIV9Hw7rfWGn6yU1dvkUcUFbBtYYMPXGf8Wzff20QszBLm5ShHT14T6iOvEUYo
- REtA==
-X-Gm-Message-State: AFqh2ko7JpuwLif9bVARfU6SeRXJpa8/cWBHDSLngJ7b6XhBsbXGJ0mf
- CZJUqKLev1tXicjV3XDzWQg=
-X-Google-Smtp-Source: AMrXdXviajQgLWtVSDrAHnBTla7bczbaZZ5qjxiASUZtTmQMFu22hW8pKwM96yZVp4ijtFVoisaZ4Q==
-X-Received: by 2002:a17:902:e382:b0:189:db2b:93ad with SMTP id
- g2-20020a170902e38200b00189db2b93admr1768225ple.2.1671629082341; 
- Wed, 21 Dec 2022 05:24:42 -0800 (PST)
-Received: from localhost.localdomain ([117.189.239.185])
- by smtp.gmail.com with ESMTPSA id
- q3-20020a17090311c300b0018099c9618esm11462479plh.231.2022.12.21.05.24.36
+ h=date:subject:message-id:references:in-reply-to:cc:to:from
+ :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=TEqm+cWQNHqjxZ1dYY94SUrdlxLeTyeNr9UU8bL+CN4=;
+ b=wdxkb7M1LacPHQ+HunbgBAXF1p4VhBl2JUQ6xJprRpQ8egYqB16OLDrnCryS+m4hLo
+ qNZ54gh1WnhLTMK9hJ3ReIsI3C7EhoFOglJxk6lj0dX1VqbLYuT0ZepbQlKMRKNCHZow
+ i5cDDhbZBKaNPSlGvBi2VrF+0TJLt9VXzF6x8E0/dZ2j0djQBF9IEOs7c6wmoKxdPXgX
+ SQqV4LeRtoRYDjfbh4tm7OjJRFu/WwE7fdnAqtMBVr97shYAYpUkkowjMpuI5QnfqiI1
+ b9/65ZGjXahIJSmYRkSd5f8UASusYr/P+mNk2+vn/zf7IxG5heyhe/w7bsuhPJuQ1bO9
+ OBxw==
+X-Gm-Message-State: AFqh2kpMxqPaQlVAkUBcW5Jdax17h03PmlkryIugFprPOONJ/lYzwh+G
+ 47gtnQUmCA+kTzZS3lnqzQ==
+X-Google-Smtp-Source: AMrXdXshd+N5tqnvx4BjYWqMK259JeDpgS2H3sA2FNIH3uuAerbwEWb38/uWerAxzHpfXw2bAA+a7A==
+X-Received: by 2002:a05:6870:40c8:b0:148:15ba:8869 with SMTP id
+ l8-20020a05687040c800b0014815ba8869mr996840oal.8.1671630360299; 
+ Wed, 21 Dec 2022 05:46:00 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ n22-20020a056870559600b0014435b51ef7sm7304861oao.30.2022.12.21.05.45.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 05:24:41 -0800 (PST)
-From: Jianhua Lu <lujianhua000@gmail.com>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [RESEND] dt-bindings: leds: backlight: Add Kinetic KTZ8866 backlight
-Date: Wed, 21 Dec 2022 21:24:28 +0800
-Message-Id: <20221221132428.702-1-lujianhua000@gmail.com>
-X-Mailer: git-send-email 2.38.2
-MIME-Version: 1.0
+ Wed, 21 Dec 2022 05:45:59 -0800 (PST)
+Received: (nullmailer pid 2733906 invoked by uid 1000);
+ Wed, 21 Dec 2022 13:45:59 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 23 Dec 2022 08:44:25 +0000
+MIME-Version: 1.0
+From: Rob Herring <robh@kernel.org>
+To: Jianhua Lu <lujianhua000@gmail.com>
+In-Reply-To: <20221221070216.17850-1-lujianhua000@gmail.com>
+References: <20221221070216.17850-1-lujianhua000@gmail.com>
+Message-Id: <167162961165.2717636.4535164259604449279.robh@kernel.org>
+Subject: Re: [PATCH 2/2] dt-bindings: leds: backlight: add binding for Kinetic
+ KTZ8866 backlight
+Date: Wed, 21 Dec 2022 07:45:59 -0600
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,62 +64,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jianhua Lu <lujianhua000@gmail.com>,
- linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Kinetic KTZ8866 backlight binding documentation.
 
-Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
----
- .../leds/backlight/kinetic,ktz8866.yaml       | 36 +++++++++++++++++++
- 1 file changed, 36 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+On Wed, 21 Dec 2022 15:02:16 +0800, Jianhua Lu wrote:
+> Add device tree bindings for the Kinetic KTZ8866 backlight driver.
+> 
+> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+> ---
+>  .../leds/backlight/kinetic,ktz8866.yaml       | 37 +++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+> 
 
-diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-new file mode 100644
-index 000000000000..c63c21bf69d6
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-@@ -0,0 +1,36 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/backlight/kinetic,ktz8866.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Kinetic Technologies KTZ8866 backlight
-+
-+maintainers:
-+  - Jianhua Lu <lujianhua000@gmail.com>
-+
-+description: |
-+  The Kinetic Technologies KTZ8866 is a high efficiency 6-sinks led backlight
-+  with dual lcd bias power.
-+  https://www.kinet-ic.com/ktz8866/
-+
-+allOf:
-+  - $ref: common.yaml#
-+
-+properties:
-+  compatible:
-+    const: kinetic,ktz8866
-+
-+required:
-+  - compatible
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    backlight {
-+        compatible = "kinetic,ktz8866";
-+
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&bl_en_default>;
-+    };
--- 
-2.38.2
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml: properties:compatible:items: {'const': 'kinetic,ktz8866'} is not of type 'array'
+	from schema $id: http://devicetree.org/meta-schemas/string-array.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221221070216.17850-1-lujianhua000@gmail.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
