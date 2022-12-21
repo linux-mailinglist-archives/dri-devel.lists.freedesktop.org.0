@@ -2,41 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F7C1652F49
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 11:22:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 993A5652F48
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 11:21:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72AA710E449;
-	Wed, 21 Dec 2022 10:21:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59CBC10E44E;
+	Wed, 21 Dec 2022 10:21:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE5EF10E449
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 10:21:25 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E58C4B2;
- Wed, 21 Dec 2022 11:21:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1671618084;
- bh=HsrsYgIlwdLnFlDvCGddiGryxUeneBMvF0B3GY0/dbQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rgU4FmeoVGSPMO6znGZcjQrTGmjdDoJtgiDykj3STUv2CIOobifaXjjmG8cGjYWn3
- gx60dpzTEBprdf8gczCIoArFODmyCP9Dq/MpHwaUs0ZXzNHlc0enCfDxQ8TG+en0Jk
- E6nej4AiTZElFxHj3UIWm2AefXQNNbjfM3C7/xOg=
-Date: Wed, 21 Dec 2022 12:21:19 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2 3/7] media: renesas: vsp1: Change V3U to be gen4
-Message-ID: <Y6LeH7gsv3ihL1kB@pendragon.ideasonboard.com>
-References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221219140139.294245-4-tomi.valkeinen+renesas@ideasonboard.com>
- <Y6DRNijZ243JWzUo@pendragon.ideasonboard.com>
- <ab2ee8d2-a775-0854-6012-dfe7cc13d24a@ideasonboard.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A89310E44C;
+ Wed, 21 Dec 2022 10:21:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1671618098; x=1703154098;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=DTdR7zZgooUQ0H67TXLNrHJZaw686fxX2xoXCtDae9A=;
+ b=flNvSl7geLAPGke2zLd/5oGPjE7+HV7GxNPGn6v0g70WG22UD2XQtuLl
+ F9d3By/sRm5gKpFJ0WZu5LkPY82f7Qx+Sw2H3WZZzhVT71KlBQvHs3nll
+ UE+ryprYsCXsw5QxZd0fWYfc6+SaNjEUW2ReGfHquhExOm2+assCxLUtD
+ 9y+7jGzJJp45iuedINKZ1/VWjpz+q2qIJ+jx7toOSm4zsC6Qoy4ua79Qo
+ Gk0MLT2P0ZKVIFHfVCV2MYBdKdoHwwORx8Lsbrk8W6nEtdZuXjGmpYVzh
+ 5pj+HJUBY2oJQqi7P0l0S7BXJUcsgbWiLTLrMlrF1l6Q5TH2v4z24Yj+h w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="406078303"
+X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="406078303"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2022 02:21:37 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="681983601"
+X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="681983601"
+Received: from jorgeblx-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.252.46.119])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2022 02:21:34 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ intel-gfx@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH v2 1/1] drm/i915/pxp: Use drm_dbg if arb
+ session failed due to fw version
+In-Reply-To: <20221220221158.2390090-1-alan.previn.teres.alexis@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20221220221158.2390090-1-alan.previn.teres.alexis@intel.com>
+Date: Wed, 21 Dec 2022 12:21:32 +0200
+Message-ID: <87zgbh12hf.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ab2ee8d2-a775-0854-6012-dfe7cc13d24a@ideasonboard.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,197 +59,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
- linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-media@vger.kernel.org
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+On Tue, 20 Dec 2022, Alan Previn <alan.previn.teres.alexis@intel.com> wrote:
+> If PXP arb-session is being attempted on older hardware SKUs or
+> on hardware with older, unsupported, firmware versions, then don't
+> report the failure with a drm_error. Instead, look specifically for
+> the API-version error reply and drm_dbg that reply. In this case, the
+> user-space will eventually get a -ENODEV for the protected context
+> creation which is the correct behavior and we don't create unnecessary
+> drm_error's in our dmesg (for what is unsupported platforms).
+>
+> Changes from prio revs:
+>    v1 : - print incorrect version from input packet, not output.
+>
+> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+> ---
+>  drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h | 1 +
+>  drivers/gpu/drm/i915/pxp/intel_pxp_tee.c               | 5 +++++
+>  2 files changed, 6 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
+> index c2f23394f9b8..aaa8187a0afb 100644
+> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
+> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
+> @@ -17,6 +17,7 @@
+>   */
+>  enum pxp_status {
+>  	PXP_STATUS_SUCCESS = 0x0,
+> +	PXP_STATUS_ERROR_API_VERSION = 0x1002,
+>  	PXP_STATUS_OP_NOT_PERMITTED = 0x4013
+>  };
+>  
+> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+> index d50354bfb993..9d084ed9cc50 100644
+> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+> @@ -298,6 +298,11 @@ int intel_pxp_tee_cmd_create_arb_session(struct intel_pxp *pxp,
+>  
+>  	if (ret)
+>  		drm_err(&i915->drm, "Failed to send tee msg ret=[%d]\n", ret);
+> +
 
-On Wed, Dec 21, 2022 at 09:48:10AM +0200, Tomi Valkeinen wrote:
-> On 19/12/2022 23:01, Laurent Pinchart wrote:
-> > On Mon, Dec 19, 2022 at 04:01:35PM +0200, Tomi Valkeinen wrote:
-> >> V3U is actually gen4, not gen3. The same IP is also used in the
-> >> (not-yet-supported) V4H.
-> >>
-> >> Change VI6_IP_VERSION_MODEL_VSPD_V3U to VI6_IP_VERSION_MODEL_VSPD_GEN4,
-> >> to represent the model correctly. V3U and V4H can still be
-> >> differentiated, if needed, with the VI6_IP_VERSION_SOC_xxx.
-> >>
-> >> Also mark VI6_IP_VERSION_MODEL_VSPD_GEN4 as gen 4 in vsp1_device_info,
-> >> and update the code to correcly match for gen 4.
-> >>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> >> ---
-> >>   drivers/media/platform/renesas/vsp1/vsp1_drv.c   |  4 ++--
-> >>   drivers/media/platform/renesas/vsp1/vsp1_hgo.c   |  4 ++--
-> >>   drivers/media/platform/renesas/vsp1/vsp1_lif.c   |  1 +
-> >>   drivers/media/platform/renesas/vsp1/vsp1_regs.h  |  2 +-
-> >>   drivers/media/platform/renesas/vsp1/vsp1_rpf.c   | 12 ++++++------
-> >>   drivers/media/platform/renesas/vsp1/vsp1_video.c |  4 ++--
-> >>   drivers/media/platform/renesas/vsp1/vsp1_wpf.c   |  4 ++--
-> >>   7 files changed, 16 insertions(+), 15 deletions(-)
-> >>
-> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> >> index c260d318d298..5710152d6511 100644
-> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> >> @@ -818,9 +818,9 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
-> >>   		.wpf_count = 2,
-> >>   		.num_bru_inputs = 5,
-> >>   	}, {
-> >> -		.version = VI6_IP_VERSION_MODEL_VSPD_V3U,
-> >> +		.version = VI6_IP_VERSION_MODEL_VSPD_GEN4,
-> >>   		.model = "VSP2-D",
-> >> -		.gen = 3,
-> >> +		.gen = 4,
-> >>   		.features = VSP1_HAS_BRU | VSP1_HAS_EXT_DL,
-> >>   		.lif_count = 1,
-> >>   		.rpf_count = 5,
-> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hgo.c b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
-> >> index bf3f981f93a1..e6492deb0a64 100644
-> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
-> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
-> >> @@ -196,10 +196,10 @@ struct vsp1_hgo *vsp1_hgo_create(struct vsp1_device *vsp1)
-> >>   
-> >>   	/* Initialize the control handler. */
-> >>   	v4l2_ctrl_handler_init(&hgo->ctrls.handler,
-> >> -			       vsp1->info->gen == 3 ? 2 : 1);
-> >> +			       vsp1->info->gen >= 3 ? 2 : 1);
-> >>   	hgo->ctrls.max_rgb = v4l2_ctrl_new_custom(&hgo->ctrls.handler,
-> >>   						  &hgo_max_rgb_control, NULL);
-> >> -	if (vsp1->info->gen == 3)
-> >> +	if (vsp1->info->gen >= 3)
-> >>   		hgo->ctrls.num_bins =
-> >>   			v4l2_ctrl_new_custom(&hgo->ctrls.handler,
-> >>   					     &hgo_num_bins_control, NULL);
-> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-> >> index 186a5730e1e3..0ab2e0c70474 100644
-> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-> >> @@ -114,6 +114,7 @@ static void lif_configure_stream(struct vsp1_entity *entity,
-> >>   		break;
-> >>   
-> >>   	case VI6_IP_VERSION_MODEL_VSPD_GEN3:
-> >> +	case VI6_IP_VERSION_MODEL_VSPD_GEN4:
-> > 
-> > While this doesn't cause any functional change, it doesn't fall into the
-> > renaming explained in the commit message. I'd make a mention of it
-> > there.
-> 
-> The message says "update the code to correcly match for gen 4". (I see a 
-> typo there =)). Doesn't that cover this change? It's similar to the if() 
-> changes, where we now check for >= 3.
+Superfluous newline that someone's gonna send a patch later to
+remove. Easier to just not add it.
 
-Possibly :-) This code change isn't needed as the default cases handles
-gen4. It's still desirable though.
+BR,
+Jani.
 
-No need to send a new version for this.
-
-> > Conditional-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > 
-> >>   	default:
-> >>   		hbth = 0;
-> >>   		obth = 3000;
-> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-> >> index 8928f4c6bb55..8c9333f76858 100644
-> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-> >> @@ -766,7 +766,7 @@
-> >>   #define VI6_IP_VERSION_MODEL_VSPD_V3	(0x18 << 8)
-> >>   #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
-> >>   #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
-> >> -#define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
-> >> +#define VI6_IP_VERSION_MODEL_VSPD_GEN4	(0x1c << 8)
-> >>   /* RZ/G2L SoCs have no version register, So use 0x80 as the model version */
-> >>   #define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0x80 << 8)
-> >>   
-> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> >> index 75083cb234fe..045aa54f7998 100644
-> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> >> @@ -133,18 +133,18 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
-> >>   	 * a fixed alpha value set through the V4L2_CID_ALPHA_COMPONENT control
-> >>   	 * otherwise.
-> >>   	 *
-> >> -	 * The Gen3 RPF has extended alpha capability and can both multiply the
-> >> +	 * The Gen3+ RPF has extended alpha capability and can both multiply the
-> >>   	 * alpha channel by a fixed global alpha value, and multiply the pixel
-> >>   	 * components to convert the input to premultiplied alpha.
-> >>   	 *
-> >>   	 * As alpha premultiplication is available in the BRx for both Gen2 and
-> >> -	 * Gen3 we handle it there and use the Gen3 alpha multiplier for global
-> >> +	 * Gen3+ we handle it there and use the Gen3 alpha multiplier for global
-> >>   	 * alpha multiplication only. This however prevents conversion to
-> >>   	 * premultiplied alpha if no BRx is present in the pipeline. If that use
-> >>   	 * case turns out to be useful we will revisit the implementation (for
-> >>   	 * Gen3 only).
-> >>   	 *
-> >> -	 * We enable alpha multiplication on Gen3 using the fixed alpha value
-> >> +	 * We enable alpha multiplication on Gen3+ using the fixed alpha value
-> >>   	 * set through the V4L2_CID_ALPHA_COMPONENT control when the input
-> >>   	 * contains an alpha channel. On Gen2 the global alpha is ignored in
-> >>   	 * that case.
-> >> @@ -155,7 +155,7 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
-> >>   		       (fmtinfo->alpha ? VI6_RPF_ALPH_SEL_ASEL_PACKED
-> >>   				       : VI6_RPF_ALPH_SEL_ASEL_FIXED));
-> >>   
-> >> -	if (entity->vsp1->info->gen == 3) {
-> >> +	if (entity->vsp1->info->gen >= 3) {
-> >>   		u32 mult;
-> >>   
-> >>   		if (fmtinfo->alpha) {
-> >> @@ -301,10 +301,10 @@ static void rpf_configure_partition(struct vsp1_entity *entity,
-> >>   	}
-> >>   
-> >>   	/*
-> >> -	 * On Gen3 hardware the SPUVS bit has no effect on 3-planar
-> >> +	 * On Gen3+ hardware the SPUVS bit has no effect on 3-planar
-> >>   	 * formats. Swap the U and V planes manually in that case.
-> >>   	 */
-> >> -	if (vsp1->info->gen == 3 && format->num_planes == 3 &&
-> >> +	if (vsp1->info->gen >= 3 && format->num_planes == 3 &&
-> >>   	    fmtinfo->swap_uv)
-> >>   		swap(mem.addr[1], mem.addr[2]);
-> >>   
-> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> >> index 9d24647c8f32..544012fd1fe9 100644
-> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> >> @@ -267,10 +267,10 @@ static int vsp1_video_pipeline_setup_partitions(struct vsp1_pipeline *pipe)
-> >>   	div_size = format->width;
-> >>   
-> >>   	/*
-> >> -	 * Only Gen3 hardware requires image partitioning, Gen2 will operate
-> >> +	 * Only Gen3+ hardware requires image partitioning, Gen2 will operate
-> >>   	 * with a single partition that covers the whole output.
-> >>   	 */
-> >> -	if (vsp1->info->gen == 3) {
-> >> +	if (vsp1->info->gen >= 3) {
-> >>   		list_for_each_entry(entity, &pipe->entities, list_pipe) {
-> >>   			unsigned int entity_max;
-> >>   
-> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> >> index 94e91d7bb56c..d0074ca00920 100644
-> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> >> @@ -512,10 +512,10 @@ static void wpf_configure_partition(struct vsp1_entity *entity,
-> >>   	}
-> >>   
-> >>   	/*
-> >> -	 * On Gen3 hardware the SPUVS bit has no effect on 3-planar
-> >> +	 * On Gen3+ hardware the SPUVS bit has no effect on 3-planar
-> >>   	 * formats. Swap the U and V planes manually in that case.
-> >>   	 */
-> >> -	if (vsp1->info->gen == 3 && format->num_planes == 3 &&
-> >> +	if (vsp1->info->gen >= 3 && format->num_planes == 3 &&
-> >>   	    fmtinfo->swap_uv)
-> >>   		swap(mem.addr[1], mem.addr[2]);
-> >>   
+> +	else if (msg_out.header.status == PXP_STATUS_ERROR_API_VERSION)
+> +		drm_dbg(&i915->drm, "PXP firmware version unsupported, requested: "
+> +			"CMD-ID-[0x%08x] on API-Ver-[0x%08x]\n",
+> +			msg_in.header.command_id, msg_in.header.api_version);
+>  	else if (msg_out.header.status != 0x0)
+>  		drm_warn(&i915->drm, "PXP firmware failed arb session init request ret=[0x%08x]\n",
+>  			 msg_out.header.status);
+>
+> base-commit: cc44a1e87ea6b788868878295119398966f98a81
 
 -- 
-Regards,
-
-Laurent Pinchart
+Jani Nikula, Intel Open Source Graphics Center
