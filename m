@@ -2,76 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF4126534CB
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 18:15:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2BF6534D9
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 18:16:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF85E10E475;
-	Wed, 21 Dec 2022 17:15:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E105610E486;
+	Wed, 21 Dec 2022 17:15:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BACCC10E474;
- Wed, 21 Dec 2022 17:15:01 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7FB410E46A;
+ Wed, 21 Dec 2022 17:15:47 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BLFusUO031302; Wed, 21 Dec 2022 17:14:54 GMT
+ 2BLFsCh4010831; Wed, 21 Dec 2022 17:15:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=pMcUY3LZvoRiFLzqqVqggek7oRF2En4eDVRgrrIAbns=;
- b=Dt1FdlRYvv8zXM5yUqdNeP7+NtaSjjRnU5VnYn6gCgHrOKA6ueeJddNMHfcPyce3lP3Y
- fFGWps4k1gERhf6QTePqi/A6yhDhyvCu94u/0JJ13igTKDHS5WuRo9qJpsKfm1uy8IDq
- 6rydJdWSwNpmLpD/jk6TOoz7nhZlqH3ds3x+sfU3bcUdol4bi2zzeUg6/jc5haek3w4J
- /zAdY/co0i5A2HstwBt4hrM45kLxO4kvp4bMIN1aSi2GNWcBAueLfMyIAOfhJC+0GhCn
- 2VTtE2xCJfjse1XvOb9FVelCLYkMX0YSajdr+tAkxroiaTfpc34iTeFbqFmq7Z/5A8CU wQ== 
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=1oxQmQwiIenoFfxBXVP/PxDgwVG72FR62Q+9mRgzxps=;
+ b=Z8ObkR+wJaOsGV3+N4M4pUt3zlAz45cFfkX0nlySOZ4nuYIMYbfW4duGCgUHF/S8aRzZ
+ uO+MGXDBwxDxGsn6PrwogMsXSr9KAYDzfnk/xms/MRUmx2qD9Uxx+qqUBH4kTvdGoq1j
+ SKe18fgfFhPaOETT9RiR4CfyffVD3QhUjZj+KQVPZPqUVzuPmCODr5CQoQvDyPQOsOOy
+ +ELK1dowxJurCFuVI8/YxZEplRNwR/CE8WSk6A+EhCd98u9vjsnSLQtRd7sNEIAKHAkw
+ L9+nB/zJ6AVrcTbK5alBMXtb6Me1sCEMGkOoMXzeX43h9/lLd5q3REOjGn514ljZD7rr uQ== 
 Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mkmvta7j4-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mm3cjrdwm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 21 Dec 2022 17:14:54 +0000
+ Wed, 21 Dec 2022 17:15:40 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BLHErtJ002693
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BLHFcnw003686
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 21 Dec 2022 17:14:53 GMT
-Received: from hyd-lnxbld559.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Wed, 21 Dec 2022 09:14:47 -0800
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: freedreno <freedreno@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- Rob Clark <robdclark@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [PATCH v4 5/5] drm/msm/a6xx: Use genpd notifier to ensure cx-gdsc
- collapse
-Date: Wed, 21 Dec 2022 22:44:03 +0530
-Message-ID: <20221221224338.v4.5.I9e10545c6a448d5eb1b734839b871d1b3146dac3@changeid>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1671642843-5244-1-git-send-email-quic_akhilpo@quicinc.com>
-References: <1671642843-5244-1-git-send-email-quic_akhilpo@quicinc.com>
+ Wed, 21 Dec 2022 17:15:38 GMT
+Received: from [10.216.38.32] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 21 Dec
+ 2022 09:15:33 -0800
+Message-ID: <84ab14d8-8177-a921-7ae2-7d05248a190b@quicinc.com>
+Date: Wed, 21 Dec 2022 22:45:29 +0530
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v3 1/5] PM: domains: Allow a genpd consumer to require a
+ synced power off
+Content-Language: en-US
+To: Ulf Hansson <ulf.hansson@linaro.org>
+References: <1671522257-38778-1-git-send-email-quic_akhilpo@quicinc.com>
+ <20221220131255.v3.1.I3e6b1f078ad0f1ca9358c573daa7b70ec132cdbe@changeid>
+ <CAPDyKFr6Hf5gbJ9T9scYqDrg9tmKmVAm=h1J7r3GZzcogk5HpQ@mail.gmail.com>
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <CAPDyKFr6Hf5gbJ9T9scYqDrg9tmKmVAm=h1J7r3GZzcogk5HpQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: NulHpOuqBOQre9caw2QR65mzucPla5zM
-X-Proofpoint-GUID: NulHpOuqBOQre9caw2QR65mzucPla5zM
+X-Proofpoint-GUID: okB0CZmVtG-v0eCEsgLc9zJvsRiBbtBG
+X-Proofpoint-ORIG-GUID: okB0CZmVtG-v0eCEsgLc9zJvsRiBbtBG
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-21_10,2022-12-21_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- malwarescore=0 adultscore=0 suspectscore=0 priorityscore=1501
- lowpriorityscore=0 clxscore=1015 impostorscore=0 mlxlogscore=999
- phishscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212210144
+ mlxscore=0 mlxlogscore=999
+ impostorscore=0 spamscore=0 phishscore=0 clxscore=1015 priorityscore=1501
+ suspectscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2212210144
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,151 +85,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Douglas Anderson <dianders@chromium.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Guenter Roeck <linux@roeck-us.net>
+Cc: Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+ Kevin Hilman <khilman@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-pm@vger.kernel.org,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As per the recommended recovery sequence of adreno gpu, cx gdsc should
-collapse at hardware before it is turned back ON. This helps to clear
-out the stale states in hardware before it is reinitialized. Use the
-genpd notifier along with the newly introduced
-dev_pm_genpd_synced_poweroff() api to ensure that cx gdsc has collapsed
-before we turn it back ON.
+On 12/21/2022 8:13 PM, Ulf Hansson wrote:
+> On Tue, 20 Dec 2022 at 08:44, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>> From: Ulf Hansson <ulf.hansson@linaro.org>
+>>
+>> Some genpd providers doesn't ensure that it has turned off at hardware.
+>> This is fine until the consumer really requires during some special
+>> scenarios that the power domain collapse at hardware before it is
+>> turned ON again.
+>>
+>> An example is the reset sequence of Adreno GPU which requires that the
+>> 'gpucc cx gdsc' power domain should move to OFF state in hardware at
+>> least once before turning in ON again to clear the internal state.
+>>
+>> Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>> ---
+>>
+>> (no changes since v2)
+>>
+>> Changes in v2:
+>> - Minor formatting fix
+>>
+>>  drivers/base/power/domain.c | 23 +++++++++++++++++++++++
+>>  include/linux/pm_domain.h   |  5 +++++
+>>  2 files changed, 28 insertions(+)
+>>
+>> diff --git a/drivers/base/power/domain.c b/drivers/base/power/domain.c
+>> index 967bcf9d415e..53524a102321 100644
+>> --- a/drivers/base/power/domain.c
+>> +++ b/drivers/base/power/domain.c
+>> @@ -519,6 +519,28 @@ ktime_t dev_pm_genpd_get_next_hrtimer(struct device *dev)
+>>  }
+>>  EXPORT_SYMBOL_GPL(dev_pm_genpd_get_next_hrtimer);
+>>
+>> +/*
+>> + * dev_pm_genpd_synced_poweroff - Next power off should be synchronous
+>> + *
+>> + * @dev: A device that is attached to the genpd.
+>> + *
+>> + * Allows a consumer of the genpd to notify the provider that the next power off
+>> + * should be synchronous.
+> Nitpick; similar to other dev_pm_genpd_* function-descriptions, I
+> think it's important to add the below information.
+>
+> "It is assumed that the users guarantee that the genpd wouldn't be
+> detached while this routine is getting called."
+>
+> Can you please add that?
+Thanks. Fixed in revision 4.
 
-Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
----
-
-(no changes since v2)
-
-Changes in v2:
-- Select PM_GENERIC_DOMAINS from Kconfig
-
- drivers/gpu/drm/msm/Kconfig           |  1 +
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 15 +++++++++++++++
- drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  6 ++++++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 11 +++++++++++
- 4 files changed, 33 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
-index 3c9dfdb0b328..74f5916f5ca5 100644
---- a/drivers/gpu/drm/msm/Kconfig
-+++ b/drivers/gpu/drm/msm/Kconfig
-@@ -28,6 +28,7 @@ config DRM_MSM
- 	select SYNC_FILE
- 	select PM_OPP
- 	select NVMEM
-+	select PM_GENERIC_DOMAINS
- 	help
- 	  DRM/KMS driver for MSM/snapdragon.
- 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index 1580d0090f35..c03830957c26 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -1507,6 +1507,17 @@ void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu)
- 	gmu->initialized = false;
- }
- 
-+static int cxpd_notifier_cb(struct notifier_block *nb,
-+			unsigned long action, void *data)
-+{
-+	struct a6xx_gmu *gmu = container_of(nb, struct a6xx_gmu, pd_nb);
-+
-+	if (action == GENPD_NOTIFY_OFF)
-+		complete_all(&gmu->pd_gate);
-+
-+	return 0;
-+}
-+
- int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- {
- 	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
-@@ -1640,6 +1651,10 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 		goto detach_cxpd;
- 	}
- 
-+	init_completion(&gmu->pd_gate);
-+	complete_all(&gmu->pd_gate);
-+	gmu->pd_nb.notifier_call = cxpd_notifier_cb;
-+
- 	/*
- 	 * Get a link to the GX power domain to reset the GPU in case of GMU
- 	 * crash
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-index 5a42dd4dd31f..0bc3eb443fec 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-@@ -4,8 +4,10 @@
- #ifndef _A6XX_GMU_H_
- #define _A6XX_GMU_H_
- 
-+#include <linux/completion.h>
- #include <linux/iopoll.h>
- #include <linux/interrupt.h>
-+#include <linux/notifier.h>
- #include "msm_drv.h"
- #include "a6xx_hfi.h"
- 
-@@ -90,6 +92,10 @@ struct a6xx_gmu {
- 	bool initialized;
- 	bool hung;
- 	bool legacy; /* a618 or a630 */
-+
-+	/* For power domain callback */
-+	struct notifier_block pd_nb;
-+	struct completion pd_gate;
- };
- 
- static inline u32 gmu_read(struct a6xx_gmu *gmu, u32 offset)
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 4b16e75dfa50..dd618b099110 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -10,6 +10,7 @@
- 
- #include <linux/bitfield.h>
- #include <linux/devfreq.h>
-+#include <linux/pm_domain.h>
- #include <linux/soc/qcom/llcc-qcom.h>
- 
- #define GPU_PAS_ID 13
-@@ -1258,6 +1259,7 @@ static void a6xx_recover(struct msm_gpu *gpu)
- {
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
- 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
- 	int i, active_submits;
- 
- 	adreno_dump_info(gpu);
-@@ -1290,6 +1292,10 @@ static void a6xx_recover(struct msm_gpu *gpu)
- 	 */
- 	gpu->active_submits = 0;
- 
-+	reinit_completion(&gmu->pd_gate);
-+	dev_pm_genpd_add_notifier(gmu->cxpd, &gmu->pd_nb);
-+	dev_pm_genpd_synced_poweroff(gmu->cxpd);
-+
- 	/* Drop the rpm refcount from active submits */
- 	if (active_submits)
- 		pm_runtime_put(&gpu->pdev->dev);
-@@ -1297,6 +1303,11 @@ static void a6xx_recover(struct msm_gpu *gpu)
- 	/* And the final one from recover worker */
- 	pm_runtime_put_sync(&gpu->pdev->dev);
- 
-+	if (!wait_for_completion_timeout(&gmu->pd_gate, msecs_to_jiffies(1000)))
-+		DRM_DEV_ERROR(&gpu->pdev->dev, "cx gdsc didn't collapse\n");
-+
-+	dev_pm_genpd_remove_notifier(gmu->cxpd);
-+
- 	pm_runtime_use_autosuspend(&gpu->pdev->dev);
- 
- 	if (active_submits)
--- 
-2.7.4
+-Akhil.
+>
+>> + */
+>> +void dev_pm_genpd_synced_poweroff(struct device *dev)
+>> +{
+>> +       struct generic_pm_domain *genpd;
+>> +
+>> +       genpd = dev_to_genpd_safe(dev);
+>> +       if (!genpd)
+>> +               return;
+>> +
+>> +       genpd_lock(genpd);
+>> +       genpd->synced_poweroff = true;
+>> +       genpd_unlock(genpd);
+>> +}
+>> +EXPORT_SYMBOL_GPL(dev_pm_genpd_synced_poweroff);
+>> +
+>>  static int _genpd_power_on(struct generic_pm_domain *genpd, bool timed)
+>>  {
+>>         unsigned int state_idx = genpd->state_idx;
+>> @@ -562,6 +584,7 @@ static int _genpd_power_on(struct generic_pm_domain *genpd, bool timed)
+>>
+>>  out:
+>>         raw_notifier_call_chain(&genpd->power_notifiers, GENPD_NOTIFY_ON, NULL);
+>> +       genpd->synced_poweroff = false;
+>>         return 0;
+>>  err:
+>>         raw_notifier_call_chain(&genpd->power_notifiers, GENPD_NOTIFY_OFF,
+>> diff --git a/include/linux/pm_domain.h b/include/linux/pm_domain.h
+>> index 1cd41bdf73cf..f776fb93eaa0 100644
+>> --- a/include/linux/pm_domain.h
+>> +++ b/include/linux/pm_domain.h
+>> @@ -136,6 +136,7 @@ struct generic_pm_domain {
+>>         unsigned int prepared_count;    /* Suspend counter of prepared devices */
+>>         unsigned int performance_state; /* Aggregated max performance state */
+>>         cpumask_var_t cpus;             /* A cpumask of the attached CPUs */
+>> +       bool synced_poweroff;           /* A consumer needs a synced poweroff */
+>>         int (*power_off)(struct generic_pm_domain *domain);
+>>         int (*power_on)(struct generic_pm_domain *domain);
+>>         struct raw_notifier_head power_notifiers; /* Power on/off notifiers */
+>> @@ -235,6 +236,7 @@ int dev_pm_genpd_add_notifier(struct device *dev, struct notifier_block *nb);
+>>  int dev_pm_genpd_remove_notifier(struct device *dev);
+>>  void dev_pm_genpd_set_next_wakeup(struct device *dev, ktime_t next);
+>>  ktime_t dev_pm_genpd_get_next_hrtimer(struct device *dev);
+>> +void dev_pm_genpd_synced_poweroff(struct device *dev);
+>>
+>>  extern struct dev_power_governor simple_qos_governor;
+>>  extern struct dev_power_governor pm_domain_always_on_gov;
+>> @@ -300,6 +302,9 @@ static inline ktime_t dev_pm_genpd_get_next_hrtimer(struct device *dev)
+>>  {
+>>         return KTIME_MAX;
+>>  }
+>> +static inline void dev_pm_genpd_synced_poweroff(struct device *dev)
+>> +{ }
+>> +
+>>  #define simple_qos_governor            (*(struct dev_power_governor *)(NULL))
+>>  #define pm_domain_always_on_gov                (*(struct dev_power_governor *)(NULL))
+>>  #endif
+>> --
+>> 2.7.4
+>>
+> Kind regards
+> Uffe
 
