@@ -2,44 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AA7F654DB3
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 09:45:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E91D65301C
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 12:20:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1985310E5FA;
-	Fri, 23 Dec 2022 08:44:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4272E10E02F;
+	Wed, 21 Dec 2022 11:19:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE40010E452
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 10:57:17 +0000 (UTC)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
- [91.154.32.225])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F15DFB;
- Wed, 21 Dec 2022 11:57:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1671620234;
- bh=NEpOfS56/yLzB83ZMRxsHhwGoWpFbzaQagcinoT0hU4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=BFPQumQjvP87bN20iHSFPGT01gZlr+AULllteYWgMbz0eUrGgI9tZGum4CvIdyQ6f
- hTNFGjtcEkul0rqNiDRxu89rNNCLwBF/iSVjKSM8jcTvnyPAFBckxbnndVRrlefz4T
- n9d3WJLWXPdCF7rWce/sU5WPGFKp5HoVwREzTPuc=
-Message-ID: <1d5bbb7f-19f1-1582-85df-35134da918a0@ideasonboard.com>
-Date: Wed, 21 Dec 2022 12:57:10 +0200
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F18CB10E02F;
+ Wed, 21 Dec 2022 11:19:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1671621597; x=1703157597;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=kmvv4aYRLngUsdCDZ2HF9P5I0IqXNuAI3JxWzddx614=;
+ b=QukQc+mM0MvqANOsxtjqYYS4yw3Po6nQsEzVEbwC8vsxFrk/CGd6xueT
+ boqOeWB6G6QxcxN4PZaIR1oIB+b/68v0t+3Wl5HAgw+gXWc4zB3XU5NCq
+ F96koTMJ2gDFC21Lz5j03/Tp887A5TAihrF3vegx/2mKUrNpFbSMgyMve
+ Mb9M+AJFbMh1wr8+3f3owoLhb+3d2Reu8w0DOCoYTXtyW/UgNl/AjmA6T
+ VFOPo4YILI7dnNp6D1TmFJvLmUaG8KyAlHGQ1CQb5+3Lfsod7byQ4VcMo
+ GY0QZfDy1n+Z7hZe6OQAGhAhqVKXpyj7EpSDJAEpGoJt122s6wSsTYrwC w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="321024981"
+X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="321024981"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2022 03:19:51 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="758480049"
+X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="758480049"
+Received: from cbenthin-mobl1.amr.corp.intel.com (HELO
+ jhogande-mobl1.ger.corp.intel.com) ([10.252.61.207])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2022 03:19:48 -0800
+From: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/2] Fixes for intel fb helper
+Date: Wed, 21 Dec 2022 13:19:00 +0200
+Message-Id: <20221221111902.1742095-1-jouni.hogander@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v9 5/5] drm/bridge: cdns-dsi: Add support for J721E wrapper
-Content-Language: en-US
-To: Rahul T R <r-ravikumar@ti.com>, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
-References: <20221031121924.29974-1-r-ravikumar@ti.com>
- <20221031121924.29974-6-r-ravikumar@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20221031121924.29974-6-r-ravikumar@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Fri, 23 Dec 2022 08:44:25 +0000
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,43 +58,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mparab@cadence.com, a-bhatia1@ti.com, jonas@kwiboo.se, airlied@linux.ie,
- jpawar@cadence.com, narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
- jernej.skrabec@gmail.com, vigneshr@ti.com, devicetree@vger.kernel.org,
- robert.foss@linaro.org, andrzej.hajda@intel.com, sjakhade@cadence.com,
- lee.jones@linaro.org, laurent.pinchart@ideasonboard.com
+Cc: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/10/2022 14:19, Rahul T R wrote:
-> Add support for wrapper settings for DSI bridge on
-> j721e. Also enable DPI0
-> 
-> ---------------      -----------------------
-> |      -------|      |-------              |
-> | DSS  | DPI2 |----->| DPI0 |  DSI Wrapper |
-> |      -------|      |-------              |
-> ---------------      -----------------------
-> 
-> As shown above DPI2 output of DSS is connected
-> to DPI0 input of DSI Wrapper, DSI wrapper
-> gives control wheather to enable/disable DPI0
-> input. In j721e above is the only configuration
-> supported
-> 
-> Signed-off-by: Rahul T R <r-ravikumar@ti.com>
-> ---
->   drivers/gpu/drm/bridge/cadence/Kconfig        | 10 ++++
->   drivers/gpu/drm/bridge/cadence/Makefile       |  1 +
->   .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 35 ++++++++++++-
->   .../gpu/drm/bridge/cadence/cdns-dsi-core.h    | 13 +++++
->   .../gpu/drm/bridge/cadence/cdns-dsi-j721e.c   | 51 +++++++++++++++++++
->   .../gpu/drm/bridge/cadence/cdns-dsi-j721e.h   | 16 ++++++
->   6 files changed, 125 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-j721e.c
->   create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-j721e.h
+This patch set is fixing Intel fb console update issues introduced by
+splitting generic drm_fb_helper into it's own file.
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Also damage clip check moved to higher level to share it between fb
+helpers.
 
-  Tomi
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jani Nikula <jani.nikula@intel.com>
+
+Jouni Högander (2):
+  drm/i915/fbdev: Implement fb_dirty for intel custom fb helper
+  drm/fbdev: Move damage clip check to higher level
+
+ drivers/gpu/drm/drm_fb_helper.c            | 4 ++++
+ drivers/gpu/drm/drm_fbdev_generic.c        | 4 ----
+ drivers/gpu/drm/i915/display/intel_fbdev.c | 9 +++++++++
+ 3 files changed, 13 insertions(+), 4 deletions(-)
+
+-- 
+2.34.1
 
