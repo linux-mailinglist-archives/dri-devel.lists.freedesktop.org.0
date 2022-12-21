@@ -2,32 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B916539BA
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 00:20:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22EE96539C7
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 00:21:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FCAF10E4EC;
-	Wed, 21 Dec 2022 23:20:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46B5510E4E7;
+	Wed, 21 Dec 2022 23:20:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59E8110E4E7
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 23:20:25 +0000 (UTC)
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5331B10E137;
+ Wed, 21 Dec 2022 23:20:27 +0000 (UTC)
 Received: from localhost.localdomain (94-209-172-39.cable.dynamic.v4.ziggo.nl
  [94.209.172.39])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 161BF203BA;
- Thu, 22 Dec 2022 00:19:52 +0100 (CET)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 0A86B20385;
+ Thu, 22 Dec 2022 00:19:55 +0100 (CET)
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH v2 0/8] drm/msm: DSC Electric Boogaloo for sm8[12]50
-Date: Thu, 22 Dec 2022 00:19:35 +0100
-Message-Id: <20221221231943.1961117-1-marijn.suijten@somainline.org>
+Subject: [PATCH v2 1/8] drm/msm/dpu: Wire up DSC mask for active CTL
+ configuration
+Date: Thu, 22 Dec 2022 00:19:36 +0100
+Message-Id: <20221221231943.1961117-2-marijn.suijten@somainline.org>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20221221231943.1961117-1-marijn.suijten@somainline.org>
+References: <20221221231943.1961117-1-marijn.suijten@somainline.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,67 +65,43 @@ Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This preliminary Display Stream Compression support package for
-(initially tested on) sm8[12]50 is based on comparing DSC behaviour
-between downstream and mainline.  Some new callbacks are added (for
-binding blocks on active CTLs), logic bugs are corrected, zeroed struct
-members are now assigned proper values, and RM allocation and hw block
-retrieval now hand out (or not) DSC blocks without causing null-pointer
-dereferences.
+Active CTLs have to configure what DSC block(s) have to be enabled, and
+what DSC block(s) have to be flushed; this value was initialized to zero
+resulting in the necessary register writes to never happen (or would
+write zero otherwise).  This seems to have gotten lost in the DSC v4->v5
+series while refactoring how the combination with merge_3d was handled.
 
-Unfortunately it is not yet enough to get rid of completely corrupted
-display output on the boards I tested here:
-- Sony Xperia 1 (sm8150), 1644x3840 or 1096x2560 pixels;
-- Sony Xperia 5II (sm8250), 1080x2520, at 60 or 120Hz;
-- (can include more Xperia boards if desired)
+Fixes: 58dca9810749 ("drm/msm/disp/dpu1: Add support for DSC in encoder")
+Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-Both devices use the DUALPIPE_DSCMERGE topology downstream: dual LM, PP
-and DSC, but only a single INTF/encoder/DSI-link.
-
-Hopefully this spawns some community/upstream interest to help rootcause
-our corruption issues (after we open a drm/msm report on GitLab for more
-appropriate tracking).
-
-The Sony Xperia XZ3 (sdm845) was fully tested and validated with this
-series to not cause any regressions (and one of the math fixes now
-allows us to change slice_count in the panel driver, which would corrupt
-previously).
-
-Changes since v1:
-
-- Split patch 6 into two separately backportable Fixes: patches;
-- Additionally remove num_enc from msm_display_topology in favour of
-  num_dsc;
-- Reorder patches to have all Fixes: at the beginning for easier
-  picking;
-- Fix existing multiline comment while editing it anyway;
-- Add missing Signed-off-by to patch 5.
-
-v1: https://lore.kernel.org/linux-arm-msm/20221213232207.113607-1-marijn.suijten@somainline.org/T/#u
-
-Marijn Suijten (8):
-  drm/msm/dpu: Wire up DSC mask for active CTL configuration
-  drm/msm/dsi: Use DSC slice(s) packet size to compute word count
-  drm/msm/dsi: Flip greater-than check for slice_count and
-    slice_per_intf
-  drm/msm/dpu: Disallow unallocated resources to be returned
-  drm/msm/dpu: Reject topologies for which no DSC blocks are available
-  drm/msm/dpu: Remove num_enc from topology struct in favour of num_dsc
-  drm/msm/dpu: Implement DSC binding to PP block for CTL V1
-  drm/msm/dpu: Add DSC configuration for SM8150 and SM8250
-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 12 +++++----
- .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  |  1 +
- .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |  1 +
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 23 +++++++++++-----
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  9 +++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c    | 27 +++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h    |  4 +++
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        | 14 ++++++++--
- drivers/gpu/drm/msm/dsi/dsi_host.c            |  7 ++---
- drivers/gpu/drm/msm/msm_drv.h                 |  2 --
- 10 files changed, 82 insertions(+), 18 deletions(-)
-
---
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+index ae28b2b93e69..35791f93c33d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+@@ -61,6 +61,7 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
+ 	intf_cfg.intf_mode_sel = DPU_CTL_MODE_SEL_CMD;
+ 	intf_cfg.stream_sel = cmd_enc->stream_sel;
+ 	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
++	intf_cfg.dsc = dpu_encoder_helper_get_dsc(phys_enc);
+ 	ctl->ops.setup_intf_cfg(ctl, &intf_cfg);
+ 
+ 	/* setup which pp blk will connect to this intf */
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+index 0f71e8fe7be7..9ee3a7306a5f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+@@ -274,6 +274,7 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
+ 	intf_cfg.intf_mode_sel = DPU_CTL_MODE_SEL_VID;
+ 	intf_cfg.stream_sel = 0; /* Don't care value for video mode */
+ 	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
++	intf_cfg.dsc = dpu_encoder_helper_get_dsc(phys_enc);
+ 	if (phys_enc->hw_pp->merge_3d)
+ 		intf_cfg.merge_3d = phys_enc->hw_pp->merge_3d->idx;
+ 
+-- 
 2.39.0
 
