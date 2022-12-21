@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406DB652FE6
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 11:54:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 220BC652FEA
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 11:54:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F283A10E12D;
-	Wed, 21 Dec 2022 10:54:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B400C10E44D;
+	Wed, 21 Dec 2022 10:54:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0025F10E12D
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 10:54:38 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id y8so1497439wrl.13
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 02:54:38 -0800 (PST)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C33810E44D
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 10:54:43 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id o5so14523675wrm.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 02:54:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bS2SuPyrrLQszLfTlNtHGbczRo/TVo6iehbioyR9aVQ=;
- b=V5g9bWYDeFiA79+HKnoNqj3Yrev9rnYg89t+lfD4CE7yyoy6A/NBcDsfmFhWul0zPC
- XDc1JLVjMnEPDvVhTn6fxwBTE96EKLlJSCjwaXsgARV3dYkyMXEZVIjg+U48zNHsMNK9
- bgerLFXI3daey7af/Q8IU3a1iErE/XGHuqpeiZeO15b9n3cAFRlTuWe9rFKR+q8gmTu/
- uJkQqcPeHSQh9wnCU+fwj/O436GrmycxV2r4YbGjUxkgBG+mWgnbFURsYO1q96q7/T1E
- KuUTEq2lKbAfkhe0WSDEnA7xfWpVsZ1nd5FHenfwuN8O6LIWqLkzF4a1VEnCTTqEBAU9
- 9PVQ==
+ bh=Aklw2jl3XnFdmw/HpIxQPuULWv8N191ETMwU6JhxxM4=;
+ b=O9h5bcxY/bmV+lAR+XwSlXBv53dPlAW4s9Aq7AtMfvytWWdahsMhckktzehq0X0A02
+ pH9gl/KF3vewZ7tHPnvcwgwXIJWsRC1FSdTJhW+uVwKIxYV3dPGfE3YSQ6Q/sfYmB3cI
+ W4IjWOaN0di+U+sPznxUtiuOu3QrZGa1YiEaqz0EzTOC1FEuyZqKKTnX17CWLyndr8Ki
+ Id/btXNqTgV2gRvXessrSH0y69tMm35wd7n5P+JSMzOY4nJEJc3ny/amFfBsiWjikRmx
+ 7kmoHsAyJr9gVP2kD7yirkJYKf6M7ckBp84TCG2m/7pShKaWmtbWTBhvEY1blYaO4/iM
+ xjMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bS2SuPyrrLQszLfTlNtHGbczRo/TVo6iehbioyR9aVQ=;
- b=14jmi+D0gza6SGEtaAafTmyX7bL2VU9q1zqzcf5ZRpSGhtZvD3KWsXKk36FaILEOXL
- rTFcAdBdb/imOE5mb2dR7TCmAs+cKP8P/KUnkLgnVCfi4B6Unz6vMuuMzIpJHM/0l9Z8
- jYu/pxKhaukcO1JZAP0lX8m7LRbsrfH5D6y5HkITksgiTvutkzf0/5B94NUoTx2nG61F
- RB0/gXJIUcLTQTPNZ3qfW7G7l0QaIyWUEYdpK8rZl9DoefYzm4r6Ej6o+tlitvb8w4g9
- olXHg7GdxvRpIryR3NSzGLgxaLFAFKDyRAnKrKQCvNwBkF73heJ8kV3xVpzgNR7v9Pyx
- GBlQ==
-X-Gm-Message-State: AFqh2krILTrsqgvHZ2Wic/DBOKZwVEWh11F0cU4e7caJf2CV5UUHWnGh
- LmzxZDzApJZbgUx4QdGxs8I=
-X-Google-Smtp-Source: AMrXdXsDx4mXzQ1l6DWUcUU5nf5+qfbEQQBy9kHLbjRKwCnT1eRKgeElBMlbjp5Bn+6qmj+Y4Voi5Q==
-X-Received: by 2002:a5d:55c7:0:b0:242:5f1f:9d3b with SMTP id
- i7-20020a5d55c7000000b002425f1f9d3bmr909249wrw.16.1671620077591; 
- Wed, 21 Dec 2022 02:54:37 -0800 (PST)
+ bh=Aklw2jl3XnFdmw/HpIxQPuULWv8N191ETMwU6JhxxM4=;
+ b=w9sxbv8TIXKLXD1mgZ5B3qp6Wz8XJA6Ao/oq5BZRR58+faepu6jWtXlYo2dYsjCaDm
+ NqSocGTgSTmMR13AiK6qAiOQG1lHtRirGusS1saxp7vhGyn0LiQREMmuQLbA/s5Pgk7X
+ p/8azyMqCYRCjUnbsNEzqRwPWNgFyPCfOARCfGdyRrOzYAQocoyawGGvcFvtjuIuUAEi
+ wnEqYo56yw4ai6QLTDL5ZL86sQhEFaK7TLJcgxNtNu7nuH9uMf74k5xEhUXnLq2bYfWZ
+ ah5a4J+3dhhj4ioWwwq5OYLgnWzib00Bcm+fZMm0m3B8Py8y7qqcECmOmRrjFk6HPq7z
+ IC2Q==
+X-Gm-Message-State: AFqh2koaHpzayPXJk80crpign/UuBJVjAEs3nuM3ZoW60liLDD6uzEXR
+ vxyB4FKbA6xnK9Iy8p4VWDA=
+X-Google-Smtp-Source: AMrXdXtV42q/+hey/28X9GdgHrY1kgVulkHepAG10WUtueDz0Unp9DXQRivayHT77v0FoHXtilcIzQ==
+X-Received: by 2002:a5d:4a90:0:b0:26c:2061:cf11 with SMTP id
+ o16-20020a5d4a90000000b0026c2061cf11mr670238wrq.1.1671620081601; 
+ Wed, 21 Dec 2022 02:54:41 -0800 (PST)
 Received: from localhost.localdomain ([37.55.203.63])
  by smtp.gmail.com with ESMTPSA id
- y5-20020a056000108500b0023657e1b980sm15080156wrw.53.2022.12.21.02.54.35
+ y5-20020a056000108500b0023657e1b980sm15080156wrw.53.2022.12.21.02.54.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 02:54:37 -0800 (PST)
+ Wed, 21 Dec 2022 02:54:41 -0800 (PST)
 From: Markuss Broks <markuss.broks@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/3] drivers: serial: earlycon: Pass device-tree node
-Date: Wed, 21 Dec 2022 12:53:58 +0200
-Message-Id: <20221221105402.6598-2-markuss.broks@gmail.com>
+Subject: [PATCH v3 2/3] efi: earlycon: move to video/console to prepare for
+ changes
+Date: Wed, 21 Dec 2022 12:53:59 +0200
+Message-Id: <20221221105402.6598-3-markuss.broks@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221221105402.6598-1-markuss.broks@gmail.com>
 References: <20221221105402.6598-1-markuss.broks@gmail.com>
@@ -78,49 +79,28 @@ Cc: Damien Le Moal <damien.lemoal@opensource.wdc.com>,
  linux-efi@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>,
  linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Kim Phillips <kim.phillips@amd.com>, Will Deacon <will@kernel.org>,
+ Kim Phillips <kim.phillips@amd.com>,
  Jami Kettunen <jami.kettunen@protonmail.com>, linux-serial@vger.kernel.org,
+ Catalin Marinas <catalin.marinas@arm.com>,
  Andrew Morton <akpm@linux-foundation.org>, Borislav Petkov <bp@suse.de>,
  Jiri Slaby <jirislaby@kernel.org>, Ard Biesheuvel <ardb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pass a pointer to device-tree node in case the driver probed from
-OF. This makes early console drivers able to fetch options from
-device-tree node properties.
+This would make the next patch in series with this one to
+show a clear diff, instead of just removing the previous
+driver and creating a new one.
 
 Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
 ---
- drivers/tty/serial/earlycon.c | 3 +++
- include/linux/serial_core.h   | 1 +
- 2 files changed, 4 insertions(+)
+ drivers/{firmware/efi => video/console}/earlycon.c | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename drivers/{firmware/efi => video/console}/earlycon.c (100%)
 
-diff --git a/drivers/tty/serial/earlycon.c b/drivers/tty/serial/earlycon.c
-index 4f6e9bf57169..0c7a789d7eb7 100644
---- a/drivers/tty/serial/earlycon.c
-+++ b/drivers/tty/serial/earlycon.c
-@@ -307,6 +307,9 @@ int __init of_setup_earlycon(const struct earlycon_id *match,
- 		strscpy(early_console_dev.options, options,
- 			sizeof(early_console_dev.options));
- 	}
-+
-+	early_console_dev.node = node;
-+
- 	earlycon_init(&early_console_dev, match->name);
- 	err = match->setup(&early_console_dev, options);
- 	earlycon_print_info(&early_console_dev);
-diff --git a/include/linux/serial_core.h b/include/linux/serial_core.h
-index fd59f600094a..0b06c0ee7705 100644
---- a/include/linux/serial_core.h
-+++ b/include/linux/serial_core.h
-@@ -783,6 +783,7 @@ struct earlycon_device {
- 	struct uart_port port;
- 	char options[16];		/* e.g., 115200n8 */
- 	unsigned int baud;
-+	unsigned long node;
- };
- 
- struct earlycon_id {
+diff --git a/drivers/firmware/efi/earlycon.c b/drivers/video/console/earlycon.c
+similarity index 100%
+rename from drivers/firmware/efi/earlycon.c
+rename to drivers/video/console/earlycon.c
 -- 
 2.39.0
 
