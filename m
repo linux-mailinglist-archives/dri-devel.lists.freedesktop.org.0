@@ -2,51 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 993A5652F48
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 11:21:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D52A5652FD9
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Dec 2022 11:50:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59CBC10E44E;
-	Wed, 21 Dec 2022 10:21:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD4D210E10E;
+	Wed, 21 Dec 2022 10:50:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A89310E44C;
- Wed, 21 Dec 2022 10:21:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671618098; x=1703154098;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=DTdR7zZgooUQ0H67TXLNrHJZaw686fxX2xoXCtDae9A=;
- b=flNvSl7geLAPGke2zLd/5oGPjE7+HV7GxNPGn6v0g70WG22UD2XQtuLl
- F9d3By/sRm5gKpFJ0WZu5LkPY82f7Qx+Sw2H3WZZzhVT71KlBQvHs3nll
- UE+ryprYsCXsw5QxZd0fWYfc6+SaNjEUW2ReGfHquhExOm2+assCxLUtD
- 9y+7jGzJJp45iuedINKZ1/VWjpz+q2qIJ+jx7toOSm4zsC6Qoy4ua79Qo
- Gk0MLT2P0ZKVIFHfVCV2MYBdKdoHwwORx8Lsbrk8W6nEtdZuXjGmpYVzh
- 5pj+HJUBY2oJQqi7P0l0S7BXJUcsgbWiLTLrMlrF1l6Q5TH2v4z24Yj+h w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="406078303"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="406078303"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2022 02:21:37 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="681983601"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="681983601"
-Received: from jorgeblx-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.46.119])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2022 02:21:34 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Alan Previn <alan.previn.teres.alexis@intel.com>,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH v2 1/1] drm/i915/pxp: Use drm_dbg if arb
- session failed due to fw version
-In-Reply-To: <20221220221158.2390090-1-alan.previn.teres.alexis@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221220221158.2390090-1-alan.previn.teres.alexis@intel.com>
-Date: Wed, 21 Dec 2022 12:21:32 +0200
-Message-ID: <87zgbh12hf.fsf@intel.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [85.220.165.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAC1310E10E
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Dec 2022 10:50:33 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p7we2-0006Bl-AA; Wed, 21 Dec 2022 11:48:18 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p7we1-000lyD-6E; Wed, 21 Dec 2022 11:48:17 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p7we0-006q0t-CG; Wed, 21 Dec 2022 11:48:16 +0100
+Date: Wed, 21 Dec 2022 11:48:16 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v3 0/2] drm/imx/lcdc: Implement DRM driver for imx21
+Message-ID: <20221221104816.pmlkz7mouzghaqp2@pengutronix.de>
+References: <20221216175006.456831-1-u.kleine-koenig@pengutronix.de>
+ <20221216235758.GA88372-robh@kernel.org>
+ <20221217183806.bvo5vypm6axycdte@pengutronix.de>
+ <20221220181948.GA828243-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="4cazobu63gj5jq32"
+Content-Disposition: inline
+In-Reply-To: <20221220181948.GA828243-robh@kernel.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,66 +56,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 20 Dec 2022, Alan Previn <alan.previn.teres.alexis@intel.com> wrote:
-> If PXP arb-session is being attempted on older hardware SKUs or
-> on hardware with older, unsupported, firmware versions, then don't
-> report the failure with a drm_error. Instead, look specifically for
-> the API-version error reply and drm_dbg that reply. In this case, the
-> user-space will eventually get a -ENODEV for the protected context
-> creation which is the correct behavior and we don't create unnecessary
-> drm_error's in our dmesg (for what is unsupported platforms).
->
-> Changes from prio revs:
->    v1 : - print incorrect version from input packet, not output.
->
-> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
-> ---
->  drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h | 1 +
->  drivers/gpu/drm/i915/pxp/intel_pxp_tee.c               | 5 +++++
->  2 files changed, 6 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
-> index c2f23394f9b8..aaa8187a0afb 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
-> @@ -17,6 +17,7 @@
->   */
->  enum pxp_status {
->  	PXP_STATUS_SUCCESS = 0x0,
-> +	PXP_STATUS_ERROR_API_VERSION = 0x1002,
->  	PXP_STATUS_OP_NOT_PERMITTED = 0x4013
->  };
->  
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-> index d50354bfb993..9d084ed9cc50 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-> @@ -298,6 +298,11 @@ int intel_pxp_tee_cmd_create_arb_session(struct intel_pxp *pxp,
->  
->  	if (ret)
->  		drm_err(&i915->drm, "Failed to send tee msg ret=[%d]\n", ret);
-> +
 
-Superfluous newline that someone's gonna send a patch later to
-remove. Easier to just not add it.
+--4cazobu63gj5jq32
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-BR,
-Jani.
+Hello Rob,
 
-> +	else if (msg_out.header.status == PXP_STATUS_ERROR_API_VERSION)
-> +		drm_dbg(&i915->drm, "PXP firmware version unsupported, requested: "
-> +			"CMD-ID-[0x%08x] on API-Ver-[0x%08x]\n",
-> +			msg_in.header.command_id, msg_in.header.api_version);
->  	else if (msg_out.header.status != 0x0)
->  		drm_warn(&i915->drm, "PXP firmware failed arb session init request ret=[0x%08x]\n",
->  			 msg_out.header.status);
->
-> base-commit: cc44a1e87ea6b788868878295119398966f98a81
+On Tue, Dec 20, 2022 at 12:19:48PM -0600, Rob Herring wrote:
+> On Sat, Dec 17, 2022 at 07:38:06PM +0100, Uwe Kleine-K=F6nig wrote:
+> > On Fri, Dec 16, 2022 at 05:57:58PM -0600, Rob Herring wrote:
+> > > On Fri, Dec 16, 2022 at 06:50:04PM +0100, Uwe Kleine-K=F6nig wrote:
+> > > > Hello,
+> > > >=20
+> > > > Changes since v2:
+> > > >=20
+> > > >  - added allOf as Krzysztof requested
+> > > >  - reworked driver based on Philipp's comments
+> > > >    (improved error handling, different selects, moved driver to a s=
+ubdirectory,
+> > > >    header sorting, drm_err instead of DRM_ERROR, inlined
+> > > >    imx_lcdc_check_mode_change, make use of dev_err_probe())
+> > > > =20
+> > > > Krzysztof also pointed out that we're now having two compatibles fo=
+r a
+> > > > single hardware. Admittedly this is unusual, but this is the chance=
+ that
+> > > > the (bad) compatible identifier imx21-fb gets deprecated. The hardw=
+are
+> > > > is called LCDC and only the linux (framebuffer) driver is called im=
+xfb.
+> > >=20
+> > > The problem is you can't have firmware (with the DTB) that supports=
+=20
+> > > both. Well, you can if you want to have some firmware setting that=20
+> > > selects which one. Otherwise, it's really an OS problem to decide wha=
+t=20
+> > > to use.=20
+> >=20
+> > I don't understand what you intend to say here. The same applies if the
+> > compatible is the same for both binding alternatives, isn't it?=20
+>=20
+> Only if you have both nodes in the DT and both enabled. But 2 enabled=20
+> nodes at the same address is also a dtc warning, so I was assuming you=20
+> didn't do that.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+My idea was to use the new compatible in the soc.dtsi, and the old one
+in the soc-machine.dts until they are converted. And then eventually
+drop the old driver.
+
+> > Do you consider a firmware problem better or an OS problem?
+>=20
+> The OS created the problem, so they get to keep it. But a PC BIOS is=20
+> full of OS compatibility switches, so...
+>=20
+> In the end, it's the platforms' decision really. I just want what the=20
+> implications of having 2 compatibles are to be understood.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--4cazobu63gj5jq32
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOi5G0ACgkQwfwUeK3K
+7AkJJwf/bDS07ZY11YVYCJGdtOPg/m483Ob1JEG3Yy74hpRsrRuqTAhzA/eUT1lO
+upVb1pGZCRhfWmXRqvkQYZiThcIqA8VNQaZQhBffUBDub/VpwVZHfC7Aze535zpa
+rpXTlQKZsO0AGtaV0iXoq+7lTGuYAfNAzb5toxTH/ssCBcr61yyvvy+ujc3dnP53
+ffwse3PPt2i6xm6QVMQGYgedV9f3rZw4QieKf5PEdfbx9qCmUFglKvPJGOsEtn1g
+CTyWbq50u3MjrvPzdHNMaekIXgSvS2XnwQbal+TzpCUYDkwDyeE4JeDVS5HqnD01
+3GSL5szyAK2fzGpzEUbR+rkLJrjIUQ==
+=4/GR
+-----END PGP SIGNATURE-----
+
+--4cazobu63gj5jq32--
