@@ -2,73 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F976545B4
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 18:43:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FBAF65421E
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 14:47:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE48710E55A;
-	Thu, 22 Dec 2022 17:43:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0380B10E15D;
+	Thu, 22 Dec 2022 13:47:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9919C10E558;
- Thu, 22 Dec 2022 17:43:11 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id E2FC15C00BD;
- Thu, 22 Dec 2022 12:43:10 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 22 Dec 2022 12:43:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1671730990; x=1671817390; bh=q3AYRqZTR/RNh8KR4bONU+3nNFun8nwWxDm
- CBE3gdNc=; b=E5zBpg0UfF+DZukfrx+aLOABGTUuDnei2coW3gkTS8+wVENElhY
- GePnQfzXemm6mHrJj0ZEfYmvXly84ZypWLxbbOZUgyJwX4XU6e2UuBaklcKbtH7a
- XNgYRRBcQAN69UHjVn/AqevkHJvjyrkPulFZgBf0iH/fZTrD7NSoJd/58XihKA4P
- ngUdlh4+PHrDDucnbdAG2/15WOtcaYyk6ADS6L7T53289JJQml7Q7TG8bN3oNU24
- AdZOcpUxCmIHsKDn2xeUMXcMKqb84kOD5KtRVARw6X7csFWFZ9xi2Ry7OalHf3ps
- 0+Ihkoe+ulZkCMTi3DDAgxqf4zz94ng+s2Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:message-id:mime-version
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1671730990; x=
- 1671817390; bh=q3AYRqZTR/RNh8KR4bONU+3nNFun8nwWxDmCBE3gdNc=; b=U
- bVYsitUuQA2F1LM4aauHATMW6B7UGKkfzhoWHimq9vwPILmtvKZZ6CEmwjTaQ3FI
- QDWDmFjVmGKgPMfcZdeAkWEa8/d5oZvyiJaDu6Aak08X0FW1ewioEPJoG5Ki6qPC
- VoXP/bvtyEeXa1C8a/OOBa0iihbyRUy5ab8z/YJuud2KTJMdAJohd/voZQeFXEqR
- bUPvOh/9RQQOBr41457UmQyvAdZh8Sa9nkOed9ptQBw3Cahjs6Z2rJ0CxPvIUEkV
- hPVS4NaBQePssQqppPKmBlWdCgQDEh4gvmxCSC2Dn7KrWeT5Pij/9msyV0S9fSTB
- EEf7sR+Kjn++fZAsyy6vQ==
-X-ME-Sender: <xms:LpekYyzuh_EeXPUp88JzriL1hFsJvzbdDCqPE4sFaFUHR0luTVc7vQ>
- <xme:LpekY-QMYvcn8DSzpQMy5gLT3uILcEFZj3XM86pJWSzCxwr9B3L2LHfvfU5AUF9m-
- rR3TkC-2QF_VixjMhQ>
-X-ME-Received: <xmr:LpekY0Wt5P2iRfMUft9Aix1VWwzUCbiLVBqY_2SWQHCwtyoCqbTKA-yarjnYgJ7B7uBQqpvPLYHZ1kDH5YUrW8JCtJm5SO0KBIWDnFWF0HGZ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrhedtgddutdehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkgggtugesghdtreertddtudenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeekheejgeeuhfethffgheekhedufeduhfejgfehffekudefgedugffhkeefhfev
- vdenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
- thgvtghh
-X-ME-Proxy: <xmx:LpekY4gwiWStsNhhnMGY5uP7cySMy7G6oTduRxvGtc3ip0gr9p02jw>
- <xmx:LpekY0Cep_nJNtNTsVh9a40wfi4d3aItJw73PUmQvCm4NZbvpzz40w>
- <xmx:LpekY5J9csj3XJNwhagxfNZIvk1EMSlPcFjRqHhW8Eb1JHjg9scYaQ>
- <xmx:LpekY45AMviXHQp14qu4j0QImwUF6tqqOvpGOgzjsvcxWxUgXnBudA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 22 Dec 2022 12:43:10 -0500 (EST)
-Date: Thu, 22 Dec 2022 14:02:24 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20221222130224.wnnxpbsdd3yglu7c@penduick>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB6B10E030;
+ Thu, 22 Dec 2022 13:47:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1671716838; x=1703252838;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=t787D+ejcPn+qQ2R2zVIIBxpAJBzcOzsEzKHnLIDJ5E=;
+ b=NtlpI7/slmWqm5UZi9a6GgIh25CUhJFKN2i6eiLXqFXOHP7s5kKwahOZ
+ KKjFnFniuGG48sXtX5ZTnCz0mNkIj/qYztwUmWN0RfQog2UZTzlZK4MeF
+ 0yvxAbNrF0fM47U9LrHYHiQqwS5K2yEWtUst9i6pXHwRZnJScxO/LaM8J
+ 2+n/ccAszshFBKGwG2tsxLOXbErJXgPJHLGDY9pNtgHQxubGcMIR543aw
+ C1n0/gGrHqqdXmuGE9oc4BiefQhtCvfkDvbaK7VbJfuOg+jKzClQMlL8K
+ yQad+RzQXkCgO7kZnYN+ABfyAcesmuHZjIossJpaqSbzM0A2q0+2KaCdc Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="299798160"
+X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="299798160"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2022 05:47:18 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="740545352"
+X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="740545352"
+Received: from mbanciu-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.252.32.90])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2022 05:47:15 -0800
+Date: Thu, 22 Dec 2022 14:47:12 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/gt: Reset twice
+Message-ID: <Y6Rf4LvHlbeFy/iF@ashyti-mobl2.lan>
+References: <20221212161338.1007659-1-andi.shyti@linux.intel.com>
+ <Y5dc7vhfh6yixFRo@intel.com> <Y5e0gh2u8uTlwQL6@ashyti-mobl2.lan>
+ <51402d0d8cfdc319d0786ec03c5ada4d82757cf0.camel@intel.com>
+ <Y5pQH+KGujkSJTvT@ashyti-mobl2.lan> <Y5t+gEMl/XFpAh4N@intel.com>
+ <4a3f841d-e0ab-dfd9-a6c0-08e2e04c7b6f@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="llx323uiucsslt27"
+Content-Type: text/plain; charset=iso-8859-15
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4a3f841d-e0ab-dfd9-a6c0-08e2e04c7b6f@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,77 +62,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "chris@chris-wilson.co.uk" <chris@chris-wilson.co.uk>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi GG,
 
---llx323uiucsslt27
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > > > > > >   drivers/gpu/drm/i915/gt/intel_reset.c | 34
+> > > > > > > ++++++++++++++++++++++-----
+> > > > > > >   1 file changed, 28 insertions(+), 6 deletions(-)
+> > > > > > > 
+> > > > > > > diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c
+> > > > > > > b/drivers/gpu/drm/i915/gt/intel_reset.c
+> > > > > > > index ffde89c5835a4..88dfc0c5316ff 100644
+> > > > > > > --- a/drivers/gpu/drm/i915/gt/intel_reset.c
+> > > > > > > +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
+> > > > > > > @@ -268,6 +268,7 @@ static int ilk_do_reset(struct intel_gt *gt,
+> > > > > > > intel_engine_mask_t engine_mask,
+> > > > > > >   static int gen6_hw_domain_reset(struct intel_gt *gt, u32
+> > > > > > > hw_domain_mask)
+> > > > > > >   {
+> > > > > > >          struct intel_uncore *uncore = gt->uncore;
+> > > > > > > +       int loops = 2;
+> > > > > > >          int err;
+> > > > > > >          /*
+> > > > > > > @@ -275,18 +276,39 @@ static int gen6_hw_domain_reset(struct
+> > > > > > > intel_gt *gt, u32 hw_domain_mask)
+> > > > > > >           * for fifo space for the write or forcewake the chip for
+> > > > > > >           * the read
+> > > > > > >           */
+> > > > > > > -       intel_uncore_write_fw(uncore, GEN6_GDRST,
+> > > > > > > hw_domain_mask);
+> > > > > > > +       do {
+> > > > > > > +               intel_uncore_write_fw(uncore, GEN6_GDRST,
+> > > > > > > hw_domain_mask);
+> > > > > > > -       /* Wait for the device to ack the reset requests */
+> > > > > > > -       err = __intel_wait_for_register_fw(uncore,
+> > > > > > > -                                          GEN6_GDRST,
+> > > > > > > hw_domain_mask, 0,
+> > > > > > > -                                          500, 0,
+> > > > > > > -                                          NULL);
+> > > > > > > +               /*
+> > > > > > > +                * Wait for the device to ack the reset requests.
+> > > > > > > +                *
+> > > > > > > +                * On some platforms, e.g. Jasperlake, we see see
+> > > > > > > that the
+> > > > > > > +                * engine register state is not cleared until
+> > > > > > > shortly after
+> > > > > > > +                * GDRST reports completion, causing a failure as
+> > > > > > > we try
+> > > > > > > +                * to immediately resume while the internal state
+> > > > > > > is still
+> > > > > > > +                * in flux. If we immediately repeat the reset,
+> > > > > > > the second
+> > > > > > > +                * reset appears to serialise with the first, and
+> > > > > > > since
+> > > > > > > +                * it is a no-op, the registers should retain
+> > > > > > > their reset
+> > > > > > > +                * value. However, there is still a concern that
+> > > > > > > upon
+> > > > > > > +                * leaving the second reset, the internal engine
+> > > > > > > state
+> > > > > > > +                * is still in flux and not ready for resuming.
+> > > > > > > +                */
+> > > > > > > +               err = __intel_wait_for_register_fw(uncore,
+> > > > > > > GEN6_GDRST,
+> > > > > > > +
+> > > > > > > hw_domain_mask, 0,
+> > > > > > > +                                                  2000, 0,
+> > > > > > > +                                                  NULL);
 
-Hi,
+> Andi, fast_timeout_us is increased from 500 to 2000, and if it fails, it
+> tries to reset it once more. How was this value of 2000 calculated?
 
-here's this week drm-misc-fixes PR
+No real reason, it's just an empiric choice to make the call a
+bit more robust and suffer less from delayed feedback.
 
-Maxime
+> > > > > > > +       } while (err == 0 && --loops);
+> > > > > > >          if (err)
+> > > > > > >                  GT_TRACE(gt,
+> > > > > > >                           "Wait for 0x%08x engines reset
+> > > > > > > failed\n",
+> > > > > > >                           hw_domain_mask);
 
-drm-misc-fixes-2022-12-22:
-One fix for a use-after-free in panfrost, one to fix the error handling in
-dma_buf_export and one to fix a compile error with
-drm_plane_helper_atomic_check missing a definition for drm_atomic_state
-The following changes since commit c4252650a8c4770b669398fe7270ed8c94fc0eba:
+> Did GT_TRACE report an error in a situation where the problem was reported?
 
-  Merge tag 'drm-misc-fixes-2022-12-08' of git://anongit.freedesktop.org/dr=
-m/drm-misc into drm-fixes (2022-12-09 10:11:06 +1000)
+I guess so, in Jasperlake.
 
-are available in the Git repository at:
+> > > > > > > +       /*
+> > > > > > > +        * As we have observed that the engine state is still
+> > > > > > > volatile
+> > > > > > > +        * after GDRST is acked, impose a small delay to let
+> > > > > > > everything settle.
+> > > > > > > +        */
+> > > > > > > +       udelay(50);
 
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2022-12-22
+> udelay(50) affects all platforms that can call gen6_hw_domain_reset(), is
+> that intended?
 
-for you to fetch changes up to 4217c6ac817451d5116687f3cc6286220dc43d49:
+Yes, that's intended as apparently we need to give it a bit more
+time for the engines to recover from the reset. We are here in
+atomic context and we need udelay to wait atomically, thus
+udelay().
 
-  drm/panfrost: Fix GEM handle creation ref-counting (2022-12-21 15:04:42 +=
-0000)
-
-----------------------------------------------------------------
-One fix for a use-after-free in panfrost, one to fix the error handling in
-dma_buf_export and one to fix a compile error with
-drm_plane_helper_atomic_check missing a definition for drm_atomic_state
-
-----------------------------------------------------------------
-Christian K=F6nig (1):
-      dma-buf: fix dma_buf_export init order v2
-
-Ma Jun (1):
-      drm/plane-helper: Add the missing declaration of drm_atomic_state
-
-Steven Price (1):
-      drm/panfrost: Fix GEM handle creation ref-counting
-
- drivers/dma-buf/dma-buf-sysfs-stats.c   |  7 +--
- drivers/dma-buf/dma-buf-sysfs-stats.h   |  4 +-
- drivers/dma-buf/dma-buf.c               | 84 +++++++++++++++--------------=
-----
- drivers/gpu/drm/panfrost/panfrost_drv.c | 27 +++++++----
- drivers/gpu/drm/panfrost/panfrost_gem.c | 16 +------
- drivers/gpu/drm/panfrost/panfrost_gem.h |  5 +-
- include/drm/drm_plane_helper.h          |  1 +
- 7 files changed, 64 insertions(+), 80 deletions(-)
-
---llx323uiucsslt27
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY6RVYAAKCRDj7w1vZxhR
-xZMDAQCGItsuYnvLgLTbh9OKkC2Cq17ewA7l/KauKCg6/TP0iwEA0qXC+6sD+TOe
-1wBUcOon1Jto7I9R4/SdWj6qiVB5TQg=
-=2oTK
------END PGP SIGNATURE-----
-
---llx323uiucsslt27--
+Thank you,
+Andi
