@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F44565430B
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 15:30:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37455654317
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 15:32:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6961810E4FF;
-	Thu, 22 Dec 2022 14:30:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10C2510E502;
+	Thu, 22 Dec 2022 14:31:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49EB710E4FF
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 14:30:43 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id x22so5264941ejs.11
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 06:30:43 -0800 (PST)
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E56C910E502
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 14:31:25 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id a1so3155678edf.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 06:31:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:content-language:references
  :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
  :cc:subject:date:message-id:reply-to;
- bh=9pQhvyxS2+lxPQqiIeyKdGOnYGr9Eh6AUJtIVNTuj+A=;
- b=pra17mBr3JgRZv93t/vpFNPmD0aO+J9on1u8LfSQlR0gvmVU7fCiy6aUFxsMq6vsTw
- 88osDMCGg4w9sYCHIY2iGRaYDHMJmDFgtRBmnAhzbeuay1wknN9zrOnqyK/S+hYEfPJE
- ufGsRbb6TMoDnIzM1EiGs+P3rUo4keriGyIoxZtVPJ+FTT9wvk/BsASkl8ne0hLBtesG
- fx5ygMW4pFrPfjoxdWuc9HzeTQ7HdH0E4rYv9y0ysaJnaezO5OwUnf46GvaOLDPH+FEf
- ASEjvCOYvV2eIck3hnoJR3W8dOEXhA2eKeZuGPxcvX+6peAsNRCahyRvlqJf5WhFkyeJ
- eKgA==
+ bh=bW6Hd9ovFsWCrzyECcvTbdEVVhvmMqsQBtWMpTHrRQw=;
+ b=UmrBHX+ITAjCTD/jraE2nPoYqi2kuyYlYfiftb7UsxEAzRved4jYSoN7MtzbLKlQ7q
+ 3r53gXkAk2BWdao1WBouYq2dGLCwiPVivXB2b2w5mYlcCbVF/h1p2/VuCPmwbYNDTQP+
+ h21Tk3n1RBmFMl3w/jJO6robuO6aJPcmb1Fzzov8vVF34+DfxTTMm7XPZWJBpQNtqvzO
+ M/sUL9BdGiOAJFiHoWfrMZ5Gz/632NoFvw4gTUEhJCYiwVMnoAJjbPrjxaW1022PXZJv
+ +H8HUyTXy660waa7WqWynKpwzT2G4bqMvmg8jeGlBLqt32JkkUgjFK70+h6Dfxqqe4jD
+ a0Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:content-language:references
  :cc:to:subject:from:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9pQhvyxS2+lxPQqiIeyKdGOnYGr9Eh6AUJtIVNTuj+A=;
- b=sEmhVMTwDlpBrsAYXwGPSJAir0J9Ref70pOkvLDJpxDv/EvZHSDfXBillgedTS6DqS
- GqCnlqxKEh/rinBqnBrZAYncBTJdXkLYL6FyDTXAazrd0UOfUNmpQIAwjUYYcYHfZopD
- Swv/Wd+3nQUMnQvXWVZgWXfKZYLNcMd32R5xe8tfON2smWONogofo1QU73DVaR7VD7s6
- 0/nO7LGGqJFraefXfiZ8y4TcoWQoR4P1ruFEX5TD8RmQv3jmDR0hs//TCqlfNPUYDmte
- 4/M/iiSPS0Wrea/MKGXj+AeIoKTQ7PrPZoZlFKM12tDMQzCUoU0r9dZEdWDo9Xkv9ZXP
- X4PA==
-X-Gm-Message-State: AFqh2kp+3IrcJw47IDxEgRJJYBR2JVUCMTAn1ysXWsy85STspckZrfoB
- r9lyGJeqkMkoOJQvelqO7nk=
-X-Google-Smtp-Source: AMrXdXtmL49MyBKUjTsMoWtqCRlV2PHafs92EJpPC3lRCxLlFg44CyiVrl1MfAnIoLBEhLRJvzfKQA==
-X-Received: by 2002:a17:906:71cc:b0:7c0:ff72:e877 with SMTP id
- i12-20020a17090671cc00b007c0ff72e877mr5058112ejk.63.1671719440099; 
- Thu, 22 Dec 2022 06:30:40 -0800 (PST)
+ bh=bW6Hd9ovFsWCrzyECcvTbdEVVhvmMqsQBtWMpTHrRQw=;
+ b=LiZfuNnlBKgR/XeNSoFFSaBpbArOd6Nl/Ay/LfPB0oeI4f6QMI7EG1BqwzAAe4VkhB
+ +/IPUA2F0MsvTMCy/yH+VTLkdCYCI8AOGHQPxj6tAELCEOlbsvQOnXPJMNzGBAN2Rt6A
+ 01uJIALiNbopmasP2v2/jEhdj3bPWnyT/xF6/AjTzs2mnOULeOguETgFTq/2rv2f0HrG
+ iQcm7/GDwQxyENCwnCGLV5zliXl14cg5mON5Q/PFJk/3UJdeJ5RBRleSsBaxZV+85QgO
+ FCO9qqwJ7N3p1SoQPjEuUEBI1PV+P6f0BQUVWshGtxLKD5c5O1vMtWedSPrWGN6R+twC
+ M1EA==
+X-Gm-Message-State: AFqh2kpW5CQQ2rQZowAPsk/D7MuFwCB4U0hkDumSsREwLHsWOe2fH9ZS
+ K6Lm8aI5jvlmk+ron6SvHsI=
+X-Google-Smtp-Source: AMrXdXtxHQQvzCNkSik7yX/z0ueyYewn5n5Af67lZrnJ1cWnklfdFv33LN/MI7hUA3CP1NUEgPRCSg==
+X-Received: by 2002:a05:6402:2a04:b0:461:de81:d194 with SMTP id
+ ey4-20020a0564022a0400b00461de81d194mr9671100edb.31.1671719484507; 
+ Thu, 22 Dec 2022 06:31:24 -0800 (PST)
 Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
  by smtp.gmail.com with ESMTPSA id
- ku2-20020a170907788200b007c0e23b5615sm317771ejc.34.2022.12.22.06.30.38
+ i5-20020a05640200c500b00463c5c32c6esm417648edu.89.2022.12.22.06.31.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Dec 2022 06:30:39 -0800 (PST)
-Message-ID: <0a423eb4-0ab6-7ecb-d450-d93639160dbc@gmail.com>
-Date: Thu, 22 Dec 2022 15:30:38 +0100
+ Thu, 22 Dec 2022 06:31:24 -0800 (PST)
+Message-ID: <99895a4b-25c4-4b64-42ac-6f70940ab56e@gmail.com>
+Date: Thu, 22 Dec 2022 15:31:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.0
 From: Johan Jonker <jbx6244@gmail.com>
-Subject: [PATCH v6 11/17] ARM: dts: rockchip: rk3288: fix dp node
+Subject: [PATCH v6 12/17] arm64: dts: rockchip: px30: fix lvds node
 To: heiko@sntech.de
 References: <67771143-fd83-383d-41b2-68e8707134e8@gmail.com>
 Content-Language: en-US
@@ -86,46 +86,44 @@ Cc: andrzej.hajda@intel.com, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With the conversion of rockchip,analogix-dp.yaml a port@1 node
-is required, so add a node with label edp_out.
-Also restyle.
+With the conversion of rockchip,lvds.yaml a port@1 node
+is required, so add a node with label lvds_out.
+Also add label lvds_in to port@0.
 
 Signed-off-by: Johan Jonker <jbx6244@gmail.com>
 ---
- arch/arm/boot/dts/rk3288.dtsi | 7 +++++++
- 1 file changed, 7 insertions(+)
 
-diff --git a/arch/arm/boot/dts/rk3288.dtsi b/arch/arm/boot/dts/rk3288.dtsi
-index 9def3988e..4d1bc6784 100644
---- a/arch/arm/boot/dts/rk3288.dtsi
-+++ b/arch/arm/boot/dts/rk3288.dtsi
-@@ -1203,19 +1203,26 @@
- 		ports {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
-+
- 			edp_in: port@0 {
- 				reg = <0>;
+Changed V5:
+  rename title
+  add label lvds_in
+---
+ arch/arm64/boot/dts/rockchip/px30.dtsi | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/dts/rockchip/px30.dtsi
+index bfa358042..e34d81f29 100644
+--- a/arch/arm64/boot/dts/rockchip/px30.dtsi
++++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
+@@ -453,7 +453,7 @@
  				#address-cells = <1>;
  				#size-cells = <0>;
-+
- 				edp_in_vopb: endpoint@0 {
+
+-				port@0 {
++				lvds_in: port@0 {
  					reg = <0>;
- 					remote-endpoint = <&vopb_out_edp>;
+ 					#address-cells = <1>;
+ 					#size-cells = <0>;
+@@ -468,6 +468,10 @@
+ 						remote-endpoint = <&vopl_out_lvds>;
+ 					};
  				};
 +
- 				edp_in_vopl: endpoint@1 {
- 					reg = <1>;
- 					remote-endpoint = <&vopl_out_edp>;
- 				};
++				lvds_out: port@1 {
++					reg = <1>;
++				};
  			};
-+
-+			edp_out: port@1 {
-+				reg = <1>;
-+			};
  		};
  	};
-
 --
 2.20.1
 
