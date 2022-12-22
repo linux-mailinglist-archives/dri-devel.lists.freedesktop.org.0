@@ -2,49 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18C10653D9D
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 10:43:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05452653DBA
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 10:47:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0447810E538;
-	Thu, 22 Dec 2022 09:43:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD81710E182;
+	Thu, 22 Dec 2022 09:46:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
- [193.136.128.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B344410E533
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 09:43:14 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 02E88600877F;
- Thu, 22 Dec 2022 09:42:34 +0000 (WET)
-X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
- tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
- with LMTP id iG2wuaXYaeqi; Thu, 22 Dec 2022 09:42:31 +0000 (WET)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
- by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id C6A30600877B;
- Thu, 22 Dec 2022 09:42:30 +0000 (WET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
- s=mail; t=1671702151;
- bh=+NcjhbdWRVou5QHBVIRCejY4JUQXV0259TVu5+bQdmI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=gEHd8R4sXKnYFMG3qPhYTD0fCmkVgGjcaWhVUDD3x8IQ7HhwlyVXFFZ1R8MC0VivV
- qNg1AF5KKMwtq8Ru0Hj5orRDRNoBoh0731XnT2ixgopXovdnCVpDTLQNldaDxPbBeP
- Geczbrft6q7D2tXXoKnANTtdpB6eKQ442wdagJJk=
-Received: from wslaptop (unknown [IPv6:2001:8a0:fbe7:6700:65be:d034:d2ec:60ff])
- (Authenticated sender: ist187313)
- by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 56B5B360083;
- Thu, 22 Dec 2022 09:42:29 +0000 (WET)
-Date: Thu, 22 Dec 2022 09:41:08 +0000
-From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-To: diogo.ivo@tecnico.ulisboa.pt
-Subject: Re: [PATCH v2 RESEND 0/4] Add JDI LPM102A188A display panel support
-Message-ID: <20221222094108.vfpyi4jrleuq6yqc@wslaptop>
-References: <20221128162851.110611-1-diogo.ivo@tecnico.ulisboa.pt>
+Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7EF210E182
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 09:46:57 +0000 (UTC)
+Date: Thu, 22 Dec 2022 09:46:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1671702414; x=1671961614;
+ bh=o4JeQC4lgkRxJjuokfNcEDFkwXkl10oVBWPrONTTxh4=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=Fb7xGHaMJzijXz+01bGkDxjdncd+TJc7dozXVdqW0kEZ2lCBDn2pnI4Nxmcb8Kf1d
+ NQHmDPjkyGKnTVHtQhPNWRO9oRUSj6sLt9rq3TqY9buS7MBj04WEJ/9EH1Tq3aY8ye
+ NsSfWD5a2VGnC0U2DPVJcDZVA2++caAx/PR4fo3/6q99B6sMF5O3MCiZqLP7EB0KsA
+ 3XdziExN5258GefdLHgvToDJ8s+2+QZXokDURmm64OFGxOn5EYvAdewFp/GXaMj6a7
+ 7ORhb7QwF8xY2BHmYQJuF4kYL3FMZ9WWoNfbheymLZTq+ilgLLuFjJc6FLWGQWjwtN
+ ZIHLJ0e95RjPg==
+To: Siddh Raman Pant <code@siddh.me>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH 09/10] drm/drm_blend: Remove usage of deprecated
+ DRM_DEBUG_ATOMIC
+Message-ID: <gVqAatNcTgp2XXpPwlFMezMo6sMlpbJKyR6Lhwhn3btzL0o8Y_pK-3Zh8iFTkrSl5PGgLUBX8EeAReikGeqNppc_BeHuDUvP2D4Mn2dD_ag=@emersion.fr>
+In-Reply-To: <adf001582998535f212cf93e0fa35ed34358301a.1671566741.git.code@siddh.me>
+References: <cover.1671566741.git.code@siddh.me>
+ <adf001582998535f212cf93e0fa35ed34358301a.1671566741.git.code@siddh.me>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221128162851.110611-1-diogo.ivo@tecnico.ulisboa.pt>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,23 +49,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, arnd@arndb.de, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, jonathanh@nvidia.com, robh+dt@kernel.org,
- thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- linux-tegra@vger.kernel.org, sam@ravnborg.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 28, 2022 at 04:28:48PM +0000, Diogo Ivo wrote:
-> Hello,
-> 
-> These patches add support for the JDI LPM102A188A display panel,
-> found in the Google Pixel C.
+This patch is:
 
-Hello,
-
-Gentle ping on this series.
-
-Thank you,
-
-Diogo Ivo
+Reviewed-by: Simon Ser <contact@emersion.fr>
