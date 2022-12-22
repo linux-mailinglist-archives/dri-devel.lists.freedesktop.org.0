@@ -2,46 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023016547FB
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 22:42:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1028654842
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 23:16:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 762F410E180;
-	Thu, 22 Dec 2022 21:41:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04BA310E591;
+	Thu, 22 Dec 2022 22:15:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [85.220.165.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0602710E5A0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 21:41:46 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1p8THb-0006by-Py; Thu, 22 Dec 2022 22:39:19 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1p8THW-0015ii-Tp; Thu, 22 Dec 2022 22:39:14 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1p8THW-007DI1-7x; Thu, 22 Dec 2022 22:39:14 +0100
-Date: Thu, 22 Dec 2022 22:39:14 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 038/606] drm/i2c/ch7006: Convert to i2c's .probe_new()
-Message-ID: <20221222213914.mlykf4xey6cbugk5@pengutronix.de>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
- <20221118224540.619276-39-uwe@kleine-koenig.org>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 564BA10E592;
+ Thu, 22 Dec 2022 22:15:12 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BMLYBwI020711; Thu, 22 Dec 2022 22:14:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=vg8vC8LaN+UXyBN8HpuDwSa3SBiyVBTMONr2IdH2dR0=;
+ b=DFuaZaJ9o+LQt0f0ylMseWD1HuVjV+MPCrIvns+WKYfK9phDd5c6CysudcStESei9L7h
+ PJoI84sDfETYlzyETh6NWlB6G3nWzLhvUO+O1jQMWo4XKb6B0wg6R0UYOg6UoonwFZag
+ xJQ11Zrg2MWsrjND0nT9iFc+dC2fScfIur00EpEuo+ikER3bMtZndPbODet6dzHvqLNi
+ nvDv08kx9eWV5Q3neelk4pEftlmNf74ztJin8/XkD7/sl7PMRmPe6NBKuMFO47A8QrYY
+ nwp9HDddZd+QzVrPSBIj+/vukWKPy4j/Zzo+WyLsRfs08QwC30S/C0++4TDwqqr90So/ CA== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mm6hmk51q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Dec 2022 22:14:56 +0000
+Received: from nasanex01b.na.qualcomm.com (corens_vlan604_snip.qualcomm.com
+ [10.53.140.1])
+ by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BMMEtqn017679
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Dec 2022 22:14:55 GMT
+Received: from JESSZHAN.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Thu, 22 Dec 2022 14:14:53 -0800
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+Subject: [RFC PATCH v2 0/3] Support for Solid Fill Planes
+Date: Thu, 22 Dec 2022 14:14:38 -0800
+Message-ID: <20221222221441.6980-1-quic_jesszhan@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="kk3flh3igekl75hy"
-Content-Disposition: inline
-In-Reply-To: <20221118224540.619276-39-uwe@kleine-koenig.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: OzbIImLVvKhYRV2kNfyeUfxjGS6b9cQZ
+X-Proofpoint-ORIG-GUID: OzbIImLVvKhYRV2kNfyeUfxjGS6b9cQZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-22_10,2022-12-22_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1011
+ lowpriorityscore=0 mlxlogscore=773 mlxscore=0 spamscore=0 adultscore=0
+ bulkscore=0 suspectscore=0 malwarescore=0 priorityscore=1501 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2212220188
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,92 +78,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Ajay Gupta <ajayg@nvidia.com>, Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Wolfram Sang <wsa@kernel.org>, Angel Iglesias <ang.iglesiasg@gmail.com>,
- linux-i2c@vger.kernel.org, kernel@pengutronix.de,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Grant Likely <grant.likely@linaro.org>, Lee Jones <lee.jones@linaro.org>
+Cc: sebastian.wick@redhat.com, ppaalanen@gmail.com,
+ linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, daniel.vetter@ffwll.ch,
+ seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
+ dmitry.baryshkov@linaro.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ wayland-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Introduce and add support for a solid_fill property. When the solid_fill
+property is set, and the framebuffer is set to NULL, memory fetch will be
+disabled.
 
---kk3flh3igekl75hy
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In addition, loosen the NULL FB checks within the atomic commit callstack
+to allow a NULL FB when the solid_fill property is set and add FB checks
+in methods where the FB was previously assumed to be non-NULL.
 
-Hello Dave, hello Daniel,
+Finally, have the DPU driver use drm_plane_state.solid_fill and instead of
+dpu_plane_state.color_fill, and add extra checks in the DPU atomic commit
+callstack to account for a NULL FB in cases where solid_fill is set.
 
-On Fri, Nov 18, 2022 at 11:36:12PM +0100, Uwe Kleine-K=F6nig wrote:
-> The probe function doesn't make use of the i2c_device_id * parameter so it
-> can be trivially converted.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> ---
->  drivers/gpu/drm/i2c/ch7006_drv.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/i2c/ch7006_drv.c b/drivers/gpu/drm/i2c/ch700=
-6_drv.c
-> index 578b738859b9..e0476a5bf84c 100644
-> --- a/drivers/gpu/drm/i2c/ch7006_drv.c
-> +++ b/drivers/gpu/drm/i2c/ch7006_drv.c
-> @@ -386,7 +386,7 @@ static const struct drm_encoder_slave_funcs ch7006_en=
-coder_funcs =3D {
-> =20
->  /* I2C driver functions */
-> =20
-> -static int ch7006_probe(struct i2c_client *client, const struct i2c_devi=
-ce_id *id)
-> +static int ch7006_probe(struct i2c_client *client)
->  {
->  	uint8_t addr =3D CH7006_VERSION_ID;
->  	uint8_t val;
-> @@ -495,7 +495,7 @@ static const struct dev_pm_ops ch7006_pm_ops =3D {
-> =20
->  static struct drm_i2c_encoder_driver ch7006_driver =3D {
->  	.i2c_driver =3D {
-> -		.probe =3D ch7006_probe,
-> +		.probe_new =3D ch7006_probe,
->  		.remove =3D ch7006_remove,
-> =20
->  		.driver =3D {
+Some drivers support hardware that have optimizations for solid fill
+planes. This series aims to expose these capabilities to userspace as
+some compositors have a solid fill flag (ex. SOLID_COLOR in the Android
+hardware composer HAL) that can be set by apps like the Android Gears
+app.
 
-I didn't get any feedback for the four drm/i2c drivers in this series,
-(and they didn't appear in next).
+Userspace can set the solid_fill property to a blob containing the
+appropriate version number and solid fill color (in RGB323232 format) and
+setting the framebuffer to NULL.
 
-Who is responsible for this area?
+Note: Currently, there's only one version of the solid_fill blob property.
+However if other drivers want to support a similar feature, but require
+more than just the solid fill color, they can extend this feature by
+creating additional versions of the drm_solid_fill struct.
 
-If you want to pick up just the drm/i2c patches, you can do:
+Changes in V2:
+- Dropped SOLID_FILL_FORMAT property (Simon)
+- Switched to implementing solid_fill property as a blob (Simon, Dmitry)
+- Changed to checks for if solid_fill_blob is set (Dmitry)
+- Abstracted (plane_state && !solid_fill_blob) checks to helper method
+  (Dmitry)
+- Removed DPU_PLANE_COLOR_FILL_FLAG
+- Fixed whitespace and indentation issues (Dmitry)
 
-	b4 am -l -P 38-41 20221118224540.619276-39-uwe@kleine-koenig.org
+Jessica Zhang (3):
+  drm: Introduce solid fill property for drm plane
+  drm: Adjust atomic checks for solid fill color
+  drm/msm/dpu: Use color_fill property for DPU planes
 
-All four patches don't depend on i2c_client_get_device_id(), so they can
-be applied to your tree as is.
+ drivers/gpu/drm/drm_atomic.c              | 69 +++++++++++++----------
+ drivers/gpu/drm/drm_atomic_helper.c       | 34 ++++++-----
+ drivers/gpu/drm/drm_atomic_state_helper.c |  9 +++
+ drivers/gpu/drm/drm_atomic_uapi.c         | 64 +++++++++++++++++++++
+ drivers/gpu/drm/drm_blend.c               | 17 ++++++
+ drivers/gpu/drm/drm_plane.c               | 20 +++++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  9 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 69 +++++++++++++++--------
+ include/drm/drm_atomic_helper.h           |  6 +-
+ include/drm/drm_blend.h                   |  1 +
+ include/drm/drm_plane.h                   | 34 +++++++++++
+ 11 files changed, 257 insertions(+), 75 deletions(-)
 
-Best regards
-Uwe
+-- 
+2.38.1
 
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---kk3flh3igekl75hy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOkzn4ACgkQwfwUeK3K
-7AmLAwf/VdWC1VNoUsCra60CFu7WbCCbmvFtJxTLgCX/QJEXqv2e8zPmzcfMLviw
-FlZbloDDciqPfC5YDPBYouNnrKabzNRBH+lieih6WizK1DxFcFxBEkIHICRmvYZp
-zhQv3z4AOSJCbRFg6i06PgbbofDhBNTe9FCx0PJKg2ngWSaWuVna4vsnu1Pm0jMv
-LA7Q6hJPoV58lFoARMoOOVMACv3oFjCzfW25dPQWsgN2kaneXWHZrMSf4kcrHQv6
-vE2OHAOKCQ4u8k6vB4h13tgNKnr51EJKYsoUbFyVdlcNA1rFL73s7fgy6R/XXGTl
-E/VekLIT7GJUBi7Mi5S04yd4oSpCKg==
-=gfAk
------END PGP SIGNATURE-----
-
---kk3flh3igekl75hy--
