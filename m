@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FBAF65421E
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 14:47:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F07FA654285
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 15:13:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0380B10E15D;
-	Thu, 22 Dec 2022 13:47:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB35F10E161;
+	Thu, 22 Dec 2022 14:12:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB6B10E030;
- Thu, 22 Dec 2022 13:47:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671716838; x=1703252838;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=t787D+ejcPn+qQ2R2zVIIBxpAJBzcOzsEzKHnLIDJ5E=;
- b=NtlpI7/slmWqm5UZi9a6GgIh25CUhJFKN2i6eiLXqFXOHP7s5kKwahOZ
- KKjFnFniuGG48sXtX5ZTnCz0mNkIj/qYztwUmWN0RfQog2UZTzlZK4MeF
- 0yvxAbNrF0fM47U9LrHYHiQqwS5K2yEWtUst9i6pXHwRZnJScxO/LaM8J
- 2+n/ccAszshFBKGwG2tsxLOXbErJXgPJHLGDY9pNtgHQxubGcMIR543aw
- C1n0/gGrHqqdXmuGE9oc4BiefQhtCvfkDvbaK7VbJfuOg+jKzClQMlL8K
- yQad+RzQXkCgO7kZnYN+ABfyAcesmuHZjIossJpaqSbzM0A2q0+2KaCdc Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="299798160"
-X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="299798160"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2022 05:47:18 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="740545352"
-X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="740545352"
-Received: from mbanciu-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.252.32.90])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2022 05:47:15 -0800
-Date: Thu, 22 Dec 2022 14:47:12 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/gt: Reset twice
-Message-ID: <Y6Rf4LvHlbeFy/iF@ashyti-mobl2.lan>
-References: <20221212161338.1007659-1-andi.shyti@linux.intel.com>
- <Y5dc7vhfh6yixFRo@intel.com> <Y5e0gh2u8uTlwQL6@ashyti-mobl2.lan>
- <51402d0d8cfdc319d0786ec03c5ada4d82757cf0.camel@intel.com>
- <Y5pQH+KGujkSJTvT@ashyti-mobl2.lan> <Y5t+gEMl/XFpAh4N@intel.com>
- <4a3f841d-e0ab-dfd9-a6c0-08e2e04c7b6f@intel.com>
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+ [209.85.160.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9190B10E161;
+ Thu, 22 Dec 2022 14:12:34 +0000 (UTC)
+Received: by mail-qt1-f170.google.com with SMTP id i20so1387009qtw.9;
+ Thu, 22 Dec 2022 06:12:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DaSeJ7b4XoTWS2Tt6rTxmu6n/STTyq8+F8PwIAXlFPg=;
+ b=EFjKPbO8+/hBZXe1C7wJoUZfvdGCkgB6+Oo4UJOJ8/Z06BpGoHFlq9xeZoAf7/R9Sb
+ PVOBRdiDUWs8BNLEACeD4dCvUW+WIrmlJQnOojhOuPazL+W5SNUCi5kBfnMsR6nNaQbU
+ +lPCimCHzF4j2oQMvdR2OyAw6fG7JrPkQ+qLJPdphP4nWmCfyzrGXe9UICdxO+eVgb2F
+ IJ7h0qsu1g4jbHXR4UGxQH++a4AF7jWJoiTyf0QHcgrlaIRrsHb9Lx4e2bDkYN0IuYvw
+ vS7hZ0QvMhpNmHAy4APgqm/A4DyPklRpKsaA/4vAP+BYd4QA48XxQDc8Vn3JRZ4b1hjg
+ T64Q==
+X-Gm-Message-State: AFqh2krFkaCWueblcCXqYBZgJctaurvStW7iZLp2gL4kQlK4uAlrq5pS
+ KxuZDtQApmIzTv+OfkHa3VqoWXNJnVdx9A==
+X-Google-Smtp-Source: AMrXdXuSt4wQoIAlpY67kDkjyZ77x5S+mp6+EGCa29zGqn1cLLyM44j544n/cSls45zokmgszBoY0g==
+X-Received: by 2002:a05:622a:1ccd:b0:3a8:dce9:84d1 with SMTP id
+ bc13-20020a05622a1ccd00b003a8dce984d1mr6283723qtb.42.1671718353244; 
+ Thu, 22 Dec 2022 06:12:33 -0800 (PST)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com.
+ [209.85.219.179]) by smtp.gmail.com with ESMTPSA id
+ h25-20020ac87159000000b003a82562c90fsm392299qtp.62.2022.12.22.06.12.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Dec 2022 06:12:31 -0800 (PST)
+Received: by mail-yb1-f179.google.com with SMTP id n78so2047857yba.12;
+ Thu, 22 Dec 2022 06:12:31 -0800 (PST)
+X-Received: by 2002:a25:d243:0:b0:702:90b4:2e24 with SMTP id
+ j64-20020a25d243000000b0070290b42e24mr417369ybg.365.1671718351056; Thu, 22
+ Dec 2022 06:12:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4a3f841d-e0ab-dfd9-a6c0-08e2e04c7b6f@intel.com>
+References: <20221222114635.1251934-1-andrzej.hajda@intel.com>
+In-Reply-To: <20221222114635.1251934-1-andrzej.hajda@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 22 Dec 2022 15:12:19 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUE-a6SffG1PH=WfrMx-CNLB9EfUr4qmL_USBP31YGoNg@mail.gmail.com>
+Message-ID: <CAMuHMdUE-a6SffG1PH=WfrMx-CNLB9EfUr4qmL_USBP31YGoNg@mail.gmail.com>
+Subject: Re: [PATCH 00/19] Introduce __xchg, non-atomic xchg
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,112 +65,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- "chris@chris-wilson.co.uk" <chris@chris-wilson.co.uk>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
+ linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, Boqun Feng <boqun.feng@gmail.com>,
+ linux-xtensa@linux-xtensa.org, Arnd Bergmann <arnd@arndb.de>,
+ intel-gfx@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
+ openrisc@lists.librecores.org, loongarch@lists.linux.dev,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi GG,
+Hi Andrzej,
 
-> > > > > > >   drivers/gpu/drm/i915/gt/intel_reset.c | 34
-> > > > > > > ++++++++++++++++++++++-----
-> > > > > > >   1 file changed, 28 insertions(+), 6 deletions(-)
-> > > > > > > 
-> > > > > > > diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c
-> > > > > > > b/drivers/gpu/drm/i915/gt/intel_reset.c
-> > > > > > > index ffde89c5835a4..88dfc0c5316ff 100644
-> > > > > > > --- a/drivers/gpu/drm/i915/gt/intel_reset.c
-> > > > > > > +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
-> > > > > > > @@ -268,6 +268,7 @@ static int ilk_do_reset(struct intel_gt *gt,
-> > > > > > > intel_engine_mask_t engine_mask,
-> > > > > > >   static int gen6_hw_domain_reset(struct intel_gt *gt, u32
-> > > > > > > hw_domain_mask)
-> > > > > > >   {
-> > > > > > >          struct intel_uncore *uncore = gt->uncore;
-> > > > > > > +       int loops = 2;
-> > > > > > >          int err;
-> > > > > > >          /*
-> > > > > > > @@ -275,18 +276,39 @@ static int gen6_hw_domain_reset(struct
-> > > > > > > intel_gt *gt, u32 hw_domain_mask)
-> > > > > > >           * for fifo space for the write or forcewake the chip for
-> > > > > > >           * the read
-> > > > > > >           */
-> > > > > > > -       intel_uncore_write_fw(uncore, GEN6_GDRST,
-> > > > > > > hw_domain_mask);
-> > > > > > > +       do {
-> > > > > > > +               intel_uncore_write_fw(uncore, GEN6_GDRST,
-> > > > > > > hw_domain_mask);
-> > > > > > > -       /* Wait for the device to ack the reset requests */
-> > > > > > > -       err = __intel_wait_for_register_fw(uncore,
-> > > > > > > -                                          GEN6_GDRST,
-> > > > > > > hw_domain_mask, 0,
-> > > > > > > -                                          500, 0,
-> > > > > > > -                                          NULL);
-> > > > > > > +               /*
-> > > > > > > +                * Wait for the device to ack the reset requests.
-> > > > > > > +                *
-> > > > > > > +                * On some platforms, e.g. Jasperlake, we see see
-> > > > > > > that the
-> > > > > > > +                * engine register state is not cleared until
-> > > > > > > shortly after
-> > > > > > > +                * GDRST reports completion, causing a failure as
-> > > > > > > we try
-> > > > > > > +                * to immediately resume while the internal state
-> > > > > > > is still
-> > > > > > > +                * in flux. If we immediately repeat the reset,
-> > > > > > > the second
-> > > > > > > +                * reset appears to serialise with the first, and
-> > > > > > > since
-> > > > > > > +                * it is a no-op, the registers should retain
-> > > > > > > their reset
-> > > > > > > +                * value. However, there is still a concern that
-> > > > > > > upon
-> > > > > > > +                * leaving the second reset, the internal engine
-> > > > > > > state
-> > > > > > > +                * is still in flux and not ready for resuming.
-> > > > > > > +                */
-> > > > > > > +               err = __intel_wait_for_register_fw(uncore,
-> > > > > > > GEN6_GDRST,
-> > > > > > > +
-> > > > > > > hw_domain_mask, 0,
-> > > > > > > +                                                  2000, 0,
-> > > > > > > +                                                  NULL);
+Thanks for your series!
 
-> Andi, fast_timeout_us is increased from 500 to 2000, and if it fails, it
-> tries to reset it once more. How was this value of 2000 calculated?
+On Thu, Dec 22, 2022 at 12:49 PM Andrzej Hajda <andrzej.hajda@intel.com> wrote:
+> I hope there will be place for such tiny helper in kernel.
+> Quick cocci analyze shows there is probably few thousands places
+> where it could be useful.
+> I am not sure who is good person to review/ack such patches,
+> so I've used my intuition to construct to/cc lists, sorry for mistakes.
+> This is the 2nd approach of the same idea, with comments addressed[0].
+>
+> The helper is tiny and there are advices we can leave without it, so
+> I want to present few arguments why it would be good to have it:
+>
+> 1. Code readability/simplification/number of lines:
+>
+> Real example from drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c:
+> -       previous_min_rate = evport->qos.min_rate;
+> -       evport->qos.min_rate = min_rate;
+> +       previous_min_rate = __xchg(evport->qos.min_rate, min_rate);
 
-No real reason, it's just an empiric choice to make the call a
-bit more robust and suffer less from delayed feedback.
+Upon closer look, shouldn't that be
 
-> > > > > > > +       } while (err == 0 && --loops);
-> > > > > > >          if (err)
-> > > > > > >                  GT_TRACE(gt,
-> > > > > > >                           "Wait for 0x%08x engines reset
-> > > > > > > failed\n",
-> > > > > > >                           hw_domain_mask);
+    previous_min_rate = __xchg(&evport->qos.min_rate, min_rate);
 
-> Did GT_TRACE report an error in a situation where the problem was reported?
+?
 
-I guess so, in Jasperlake.
+> For sure the code is more compact, and IMHO more readable.
+>
+> 2. Presence of similar helpers in other somehow related languages/libs:
+>
+> a) Rust[1]: 'replace' from std::mem module, there is also 'take'
+>     helper (__xchg(&x, 0)), which is the same as private helper in
+>     i915 - fetch_and_zero, see latest patch.
+> b) C++ [2]: 'exchange' from utility header.
+>
+> If the idea is OK there are still 2 qestions to answer:
+>
+> 1. Name of the helper, __xchg follows kernel conventions,
+>     but for me Rust names are also OK.
 
-> > > > > > > +       /*
-> > > > > > > +        * As we have observed that the engine state is still
-> > > > > > > volatile
-> > > > > > > +        * after GDRST is acked, impose a small delay to let
-> > > > > > > everything settle.
-> > > > > > > +        */
-> > > > > > > +       udelay(50);
+Before I realized the missing "&", I wondered how this is different
+from swap(), so naming is important.
+https://elixir.bootlin.com/linux/latest/source/include/linux/minmax.h#L139
 
-> udelay(50) affects all platforms that can call gen6_hw_domain_reset(), is
-> that intended?
+Gr{oetje,eeting}s,
 
-Yes, that's intended as apparently we need to give it a bit more
-time for the engines to recover from the reset. We are here in
-atomic context and we need udelay to wait atomically, thus
-udelay().
+                        Geert
 
-Thank you,
-Andi
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
