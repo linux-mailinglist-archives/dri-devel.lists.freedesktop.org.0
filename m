@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0362E653F56
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 12:48:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93171653F57
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 12:48:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8235E10E4F4;
-	Thu, 22 Dec 2022 11:48:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B2B510E429;
+	Thu, 22 Dec 2022 11:48:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B3E510E429;
- Thu, 22 Dec 2022 11:48:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F64610E4F0;
+ Thu, 22 Dec 2022 11:48:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671709681; x=1703245681;
+ t=1671709687; x=1703245687;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=P1D9tmgH8/CSHAiLVPcpQPpEF0wSUpHitFyM9Wwb9a4=;
- b=ahSP5dgM3r3V2lA0FKRdtVtVlnl26SvioGH/Glhf//OSSzUGeGHal8fR
- CcnADFUuEKJ14jV+qxGZ4ucGC/uYcom9ULUDfU3+lmrRfEiQwKyR7j0rh
- p5Xn++J2m9RrJaH58A8D6c4KPbKtPYuijHIVzyIRyS+W+whTAsSomugWs
- ABnMVy//9pqFegHegnF4zXC2m8XySUwJC2vSYybpDDkuX01uBmqwPjb/K
- rtuGrHSIkfNZl5+JRg3ZTutJLhPqLqg9tGSTLu7m5EtjUS4MxIXTyiUJc
- YiEuV5MsmSWfBFcMCVEtrJUWqQfIrMhEOzkFWw7Fn2+J2F/0y0tLWJODo A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="318804597"
-X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="318804597"
+ bh=HqehGh0ckEYfFGXBXebYCNsma95awkbnu5950FMjD0o=;
+ b=hapVsBVpNxXESnwSl6R41uwfyC8I2TCoBQ8PbUCDjIkicJYqOUOrnxys
+ +cU7XIetp+KjCqIuc7ZvR6UsXr2md/3/0vbpsxHvCFKWeA6R+Yzj4vF7F
+ WB0/ycDj+whNIc2jmmbGCtX0njBArmZtjg0a6SovyfKdCcYYzCWT5qDuQ
+ RZqld9t7wYlGlzNqToVZS/lVbmwvRrZGJJfr37I9BIhTdMKiWgx0LLKST
+ bIGJy709zIYEe9AVl1cDo6F7lQ5xFtgjfIJmZyprZ2GAUbfLJU1eNVdth
+ //+YfWiKZDesc/kHWuvgIsgACiUpToBKudrumsDSthNQNAD3KBc0pCSND A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="318804634"
+X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="318804634"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2022 03:48:00 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="629504567"
-X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="629504567"
+ 22 Dec 2022 03:48:06 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="629504660"
+X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="629504660"
 Received: from lab-ah.igk.intel.com ([10.91.215.196])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2022 03:47:54 -0800
+ 22 Dec 2022 03:48:00 -0800
 From: Andrzej Hajda <andrzej.hajda@intel.com>
 To: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
@@ -45,9 +45,10 @@ To: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
  linux-xtensa@linux-xtensa.org, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 06/19] arch/ia64: rename internal name __xchg to __arch_xchg
-Date: Thu, 22 Dec 2022 12:46:22 +0100
-Message-Id: <20221222114635.1251934-7-andrzej.hajda@intel.com>
+Subject: [PATCH 07/19] arch/loongarch: rename internal name __xchg to
+ __arch_xchg
+Date: Thu, 22 Dec 2022 12:46:23 +0100
+Message-Id: <20221222114635.1251934-8-andrzej.hajda@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221222114635.1251934-1-andrzej.hajda@intel.com>
 References: <20221222114635.1251934-1-andrzej.hajda@intel.com>
@@ -79,45 +80,31 @@ __xchg will be used for non-atomic xchg macro.
 
 Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
 ---
- arch/ia64/include/asm/cmpxchg.h      | 2 +-
- arch/ia64/include/uapi/asm/cmpxchg.h | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ arch/loongarch/include/asm/cmpxchg.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/ia64/include/asm/cmpxchg.h b/arch/ia64/include/asm/cmpxchg.h
-index 94ef844298431a..8b2e644ef6a14e 100644
---- a/arch/ia64/include/asm/cmpxchg.h
-+++ b/arch/ia64/include/asm/cmpxchg.h
-@@ -5,7 +5,7 @@
- #include <uapi/asm/cmpxchg.h>
+diff --git a/arch/loongarch/include/asm/cmpxchg.h b/arch/loongarch/include/asm/cmpxchg.h
+index ecfa6cf79806e6..979fde61bba8a4 100644
+--- a/arch/loongarch/include/asm/cmpxchg.h
++++ b/arch/loongarch/include/asm/cmpxchg.h
+@@ -62,7 +62,7 @@ static inline unsigned int __xchg_small(volatile void *ptr, unsigned int val,
+ }
  
- #define arch_xchg(ptr, x)	\
--({(__typeof__(*(ptr))) __xchg((unsigned long) (x), (ptr), sizeof(*(ptr)));})
-+({(__typeof__(*(ptr))) __arch_xchg((unsigned long) (x), (ptr), sizeof(*(ptr)));})
- 
- #define arch_cmpxchg(ptr, o, n)		cmpxchg_acq((ptr), (o), (n))
- #define arch_cmpxchg64(ptr, o, n)	cmpxchg_acq((ptr), (o), (n))
-diff --git a/arch/ia64/include/uapi/asm/cmpxchg.h b/arch/ia64/include/uapi/asm/cmpxchg.h
-index ca2e0268534384..3fec9b037051bb 100644
---- a/arch/ia64/include/uapi/asm/cmpxchg.h
-+++ b/arch/ia64/include/uapi/asm/cmpxchg.h
-@@ -27,7 +27,7 @@
-  */
- extern void ia64_xchg_called_with_bad_pointer(void);
- 
--#define __xchg(x, ptr, size)						\
-+#define __arch_xchg(x, ptr, size)					\
- ({									\
- 	unsigned long __xchg_result;					\
+ static __always_inline unsigned long
+-__xchg(volatile void *ptr, unsigned long x, int size)
++__arch_xchg(volatile void *ptr, unsigned long x, int size)
+ {
+ 	switch (size) {
+ 	case 1:
+@@ -87,7 +87,7 @@ __xchg(volatile void *ptr, unsigned long x, int size)
+ 	__typeof__(*(ptr)) __res;					\
  									\
-@@ -55,7 +55,7 @@ extern void ia64_xchg_called_with_bad_pointer(void);
- 
- #ifndef __KERNEL__
- #define xchg(ptr, x)							\
--({(__typeof__(*(ptr))) __xchg((unsigned long) (x), (ptr), sizeof(*(ptr)));})
-+({(__typeof__(*(ptr))) __arch_xchg((unsigned long) (x), (ptr), sizeof(*(ptr)));})
- #endif
- 
- /*
+ 	__res = (__typeof__(*(ptr)))					\
+-		__xchg((ptr), (unsigned long)(x), sizeof(*(ptr)));	\
++		__arch_xchg((ptr), (unsigned long)(x), sizeof(*(ptr)));	\
+ 									\
+ 	__res;								\
+ })
 -- 
 2.34.1
 
