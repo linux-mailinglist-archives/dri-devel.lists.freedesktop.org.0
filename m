@@ -2,84 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81D4E654507
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 17:23:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5505654545
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 17:40:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 769B510E16B;
-	Thu, 22 Dec 2022 16:22:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E3B910E168;
+	Thu, 22 Dec 2022 16:40:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28FF010E168;
- Thu, 22 Dec 2022 16:22:38 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BMDRVQ5002035; Thu, 22 Dec 2022 16:22:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=85s9GL61Q+5hGLd8vqh8/LD4aIYTGuvpAcdjzwURrfw=;
- b=GNnCaFwT5fCH+LeDz52aKLFdn51FT6vSb9sUXdUGe3UFR8PWmaqWjD4Ge7h8hkVsPIXj
- nIf7vjZpQb8W58eMoX606M+8CwJ59cIqTz5tF9Xbk4Rf/yswFvqxZdPBSkrKyvtNQWuM
- jpYfxA2i/fIuIiFj1hiqPI6bK7TlMxOGcK5G9fTQcce6fEt9bMIcyodd+NN581Rujbx+
- tJKDA3AbswvfEPee/Mjs99OXQAxvV8zub9vJ0u7MCHzK7CRItmvzRFbQ3EzOCFrARONF
- 97QjXViKiWmnSwKm1PRvFTTyHXoqlSMqRn5HyXeZcRmdZ1mwzLgTfMu5en72S7nG3R9K kA== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mmn3n8te7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 Dec 2022 16:22:30 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BMGMTHY032570
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 Dec 2022 16:22:29 GMT
-Received: from [10.110.68.133] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 22 Dec
- 2022 08:22:28 -0800
-Message-ID: <54bd8b85-8b68-4b28-ec68-28edf9a8a097@quicinc.com>
-Date: Thu, 22 Dec 2022 08:22:16 -0800
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C5A010E168
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 16:39:59 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id y16so2226281wrm.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 08:39:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=luABOnCrlVSdR9io8JSfc8eAe/zDLsHgsTWLT2NYCGs=;
+ b=V+C376yvgmxQlnX1BlFhBDbJ8j4Sz48pRHQ7M1E3a7NsWkhera/DCE7kFEbPECjspW
+ 4JhQpbtcDSUwG1cbxSEzGcw4wjjIkI397fm6cwDEKuQL062zKdpgTRpxbMfTiMOROlEy
+ ehdasNIPFPQhE/FpO88qvU4xqd/4EbIdVuRnOivxhx/7gdXCIqqMOVl8LrDRRRpstERH
+ xzX+HUCDvGqiXIHty3Ula3dqnKM8/NjXW2Q8s7kHxrGBIah7i9YsxI3RM6Bc/zbhPbom
+ Ft6mZkdlyIdAwLjieUdA/teQHO8KubqSE05L//Bl6q4dsO0ixur5K9RDdwQak2l57S2T
+ L61w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=luABOnCrlVSdR9io8JSfc8eAe/zDLsHgsTWLT2NYCGs=;
+ b=WzqvcOPAsCYiDAsR8UbKqgLkIEKxL1au8q+Z4STsYeh39//+1uKbVKPMwO6rnK/EDV
+ Uq99Uc2nbCf2ijb6xHrtxoGMW/Q/CyCuL6ehkpGcR4z/nfGTYmIul8elVMYLrCcXzfK2
+ M8zjohGc5NA8gxX6+1ENb4jIpByoTqyyvlR7ITQgsSAgiVQe1onvs24BvwDm6Oo1XBSn
+ NqDzuG4+FS2WkprO30SMIeS9hsPQIWTDSUckms+njKa9uWty/h9WLpIotZOHzjuAcrV4
+ fcGLBh0l9RseMctCCCZ6M5+G/oKvbdw973MTP7yY7hYdAoetUK20uNkn4QEPI8HLUg3p
+ Lf+Q==
+X-Gm-Message-State: AFqh2kpMeFgRamckGTdR9SspvuREkBOrLVTKY5pIYj6EaRiqEaRTPEAN
+ uL6ag1qXyVGwkfyzK998NTn49w==
+X-Google-Smtp-Source: AMrXdXsboUgPbZD28ip7UN92WxcTwW+13dg1F+V6XUKM/L2mYaNDoqDiUlLDmZb8DgmYykHjM3c4Ug==
+X-Received: by 2002:adf:e586:0:b0:241:c603:900 with SMTP id
+ l6-20020adfe586000000b00241c6030900mr7443600wrm.16.1671727197552; 
+ Thu, 22 Dec 2022 08:39:57 -0800 (PST)
+Received: from aspen.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
+ v3-20020a5d4a43000000b0026fc5694a60sm957747wrs.26.2022.12.22.08.39.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Dec 2022 08:39:56 -0800 (PST)
+Date: Thu, 22 Dec 2022 16:39:54 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Jianhua Lu <lujianhua000@gmail.com>
+Subject: Re: [PATCH v3 1/2] backlight: ktz8866: Add support for Kinetic
+ KTZ8866 backlight
+Message-ID: <Y6SIWoVFX/OlNO0n@aspen.lan>
+References: <20221222125441.1547-1-lujianhua000@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v14 1/5] arm64: dts: qcom: add data-lanes and
- link-freuencies into dp_out endpoint
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <agross@kernel.org>,
- <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>,
- <konrad.dybcio@somainline.org>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <devicetree@vger.kernel.org>,
- <airlied@gmail.com>
-References: <1671217893-17496-1-git-send-email-quic_khsieh@quicinc.com>
- <1671217893-17496-2-git-send-email-quic_khsieh@quicinc.com>
- <1a5cc3d3-ac2d-52c8-79f4-b13252a4bb86@linaro.org>
-Content-Language: en-US
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <1a5cc3d3-ac2d-52c8-79f4-b13252a4bb86@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 6vrkoX9hfurY3YRHajdQGM6tw57oWLfA
-X-Proofpoint-ORIG-GUID: 6vrkoX9hfurY3YRHajdQGM6tw57oWLfA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-22_09,2022-12-22_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 mlxlogscore=999
- adultscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0 spamscore=0
- priorityscore=1501 impostorscore=0 malwarescore=0 bulkscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2212220139
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221222125441.1547-1-lujianhua000@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,83 +71,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
- freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
- linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Pavel Machek <pavel@ucw.cz>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 12/22/2022 2:47 AM, Krzysztof Kozlowski wrote:
-> On 16/12/2022 20:11, Kuogee Hsieh wrote:
->> Move data-lanes property from mdss_dp node to dp_out endpoint. Also
->> add link-frequencies property into dp_out endpoint as well. The last
->> frequency specified at link-frequencies will be the max link rate
->> supported by DP.
->>
->> Changes in v5:
->> -- revert changes at sc7180.dtsi and sc7280.dtsi
->> -- add &dp_out to sc7180-trogdor.dtsi and sc7280-herobrine.dtsi
->>
->> Changes in v6:
->> -- add data-lanes and link-frequencies to yaml
->>
->> Changes in v7:
->> -- change 160000000 to 1620000000
->> -- separate yaml to different patch
->>
->> Changes in v8:
->> -- correct Bjorn mail address to kernel.org
->>
->> Changes in v9:
->> -- use symbol rate (hz) for link-frequencies at dp_out at sc7180_trogdor.dtsi
->>
->> Changes in v13:
->> -- delete an extra space at data-lanes
->>
->> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->> ---
->>   arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi   | 6 +++++-
->>   arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi | 4 ++++
->>   2 files changed, 9 insertions(+), 1 deletion(-)
->>
->> diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
->> index eae22e6..e2783dd 100644
->> --- a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
->> @@ -814,7 +814,11 @@ hp_i2c: &i2c9 {
->>   	status = "okay";
->>   	pinctrl-names = "default";
->>   	pinctrl-0 = <&dp_hot_plug_det>;
->> -	data-lanes = <0 1>;
->> +};
->> +
->> +&dp_out {
->> +    data-lanes = <0 1>;
->> +    link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000>;
-> Messed order of nodes.
-
-can you please give me more details and how should i fixed it?
-
-Thanks,
-
->>   };
->>   
->>   &pm6150_adc {
->> diff --git a/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi b/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
->> index c11e371..3f363f8 100644
->> --- a/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
->> @@ -442,7 +442,11 @@ ap_i2c_tpm: &i2c14 {
->>   	status = "okay";
->>   	pinctrl-names = "default";
->>   	pinctrl-0 = <&dp_hot_plug_det>;
->> +};
->> +
->> +&dp_out {
-> Same problem here.
+On Thu, Dec 22, 2022 at 08:54:40PM +0800, Jianhua Lu wrote:
+> Add support for Kinetic KTZ8866 backlight, which is used in
+> Xiaomi tablet, Mi Pad 5 series. This driver lightly based on
+> downstream implementation [1].
+> [1] https://github.com/MiCode/Xiaomi_Kernel_OpenSource/blob/elish-r-oss/drivers/video/backlight/ktz8866.c
 >
+> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+> ---
+> Changes in v2:
+>   - Add missing staitc modifier to ktz8866_write function.
 >
-> Best regards,
-> Krzysztof
+> Changes in v3:
+>   - Add 2022 to Copyright line.
+>   - Sort headers
+>   - Remove meaningless comment
+>   - Use definitions instead of hardcoding.
+>   - Add missing maintainer info
 >
+>  MAINTAINERS                       |   6 +
+>  drivers/video/backlight/Kconfig   |   8 ++
+>  drivers/video/backlight/Makefile  |   1 +
+>  drivers/video/backlight/ktz8866.c | 180 ++++++++++++++++++++++++++++++
+>  drivers/video/backlight/ktz8866.h |  31 +++++
+>  5 files changed, 226 insertions(+)
+>  create mode 100644 drivers/video/backlight/ktz8866.c
+>  create mode 100644 drivers/video/backlight/ktz8866.h
+>
+> diff --git a/drivers/video/backlight/ktz8866.c b/drivers/video/backlight/ktz8866.c
+> new file mode 100644
+> index 000000000000..ea641bdfc4d2
+> --- /dev/null
+> +++ b/drivers/video/backlight/ktz8866.c
+> @@ -0,0 +1,180 @@
+> +
+> +#define BL_EN_BIT BIT(6)
+> +#define BL_CURRENT_SINKS 0x1F
+> +#define BL_OVP_LIMIT 0x33
+> +#define LED_CURRENT_RAMPING_TIME 0xBD
+> +#define LED_DIMMING_TIME 0x11
+> +#define LCD_BIAS_EN 0x9F
+> +#define LED_CURRENT 0xF9
+> +
+> +#define low_3_bit(x) ((x)&0x7)
+> +#define high_8_bit(x) ((x >> 3) & 0xFF)
+
+These don't seem to be particularly useful. They are used exactly once
+so I think it is better just to implement the shifts directly
+in ktz8866_backlight_update_status().
+
+> +struct ktz8866 {
+> +	struct i2c_client *client;
+> +	struct regmap *regmap;
+> +	bool state;
+> +};
+> +
+> +enum {
+> +	LED_OFF,
+> +	LED_ON,
+> +};
+
+Let's remove this emum. It is better to rename state to
+led_on in order to make the code read well:
+
+  if (ktz->led_on) ...
+  ktz->led_on = true;
+  ktz->led_on = false;
+
+> +static void ktz8866_init(struct ktz8866 *ktz)
+> +{
+> +	/* Enable 1~5 current sinks */
+> +	ktz8866_write(ktz, BL_EN, BL_CURRENT_SINKS);
+> +	/* Backlight OVP 26.4V */
+> +	ktz8866_write(ktz, BL_CFG1, BL_OVP_LIMIT);
+> +	/* LED current ramping time 128ms */
+> +	ktz8866_write(ktz, BL_CFG2, LED_CURRENT_RAMPING_TIME);
+> +	/* LED on/off ramping time 1ms */
+> +	ktz8866_write(ktz, BL_DIMMING, LED_DIMMING_TIME);
+> +	/* Enable OUTP and OUTN via pin ENP and ENN */
+> +	ktz8866_write(ktz, LCD_BIAS_CFG1, LCD_BIAS_EN);
+> +	/* Backlight Full-scale LED Current 30.0mA */
+> +	ktz8866_write(ktz, FULL_SCALE_CURRENT, LED_CURRENT);
+> +}
+
+Are these settings specific to the mipad 5 m/board? Many of these look
+like they should be described in the devicetree rather than hardcoded
+in the driver.
+
+
+> +static int ktz8866_probe(struct i2c_client *client,
+> +			 const struct i2c_device_id *id)
+> +{
+> +	struct backlight_device *backlight_dev;
+> +	struct backlight_properties props;
+> +	struct ktz8866 *ktz;
+> +
+> +	ktz = devm_kzalloc(&client->dev, sizeof(*ktz), GFP_KERNEL);
+> +	if (!ktz)
+> +		return -ENOMEM;
+> +
+> +	ktz->client = client;
+> +	ktz->regmap = devm_regmap_init_i2c(client, &ktz8866_regmap_config);
+> +
+> +	if (IS_ERR(ktz->regmap)) {
+> +		dev_err(&client->dev, "failed to init regmap\n");
+> +		return PTR_ERR(ktz->regmap);
+> +	}
+> +
+> +	memset(&props, 0, sizeof(props));
+> +	props.type = BACKLIGHT_RAW;
+> +	props.max_brightness = MAX_BRIGHTNESS;
+> +	props.brightness = clamp_t(unsigned int, DEFAULT_BRIGHTNESS, 0,
+> +				   props.max_brightness);
+
+Please set the scale property correctly. "Unknown" is never correct for
+new drivers.
+
+
+> +	backlight_dev = devm_backlight_device_register(
+> +		&client->dev, "ktz8866-backlight", &client->dev, ktz,
+> +		&ktz8866_backlight_ops, &props);
+> +
+> +	if (IS_ERR(backlight_dev)) {
+> +		dev_err(&client->dev, "failed to register backlight device\n");
+> +		return PTR_ERR(backlight_dev);
+> +	}
+> +
+> +	ktz8866_init(ktz);
+> +
+> +	i2c_set_clientdata(client, backlight_dev);
+> +	backlight_update_status(backlight_dev);
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/video/backlight/ktz8866.h b/drivers/video/backlight/ktz8866.h
+> new file mode 100644
+> index 000000000000..b0ed8cbee608
+> --- /dev/null
+> +++ b/drivers/video/backlight/ktz8866.h
+> @@ -0,0 +1,31 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Register definitions for Kinetic KTZ8866 backlight
+> + *
+> + * Copyright (C) 2022 Jianhua Lu <lujianhua000@gmail.com>
+> + */
+> +
+> +#ifndef KTZ8866_H
+> +#define KTZ8866_H
+> +
+> +#define DEVICE_ID 0x01
+> +#define BL_CFG1 0x02
+> +#define BL_CFG2 0x03
+> +#define BL_BRT_LSB 0x04
+> +#define BL_BRT_MSB 0x05
+> +#define BL_EN 0x08
+> +#define LCD_BIAS_CFG1 0x09
+> +#define LCD_BIAS_CFG2 0x0A
+> +#define LCD_BIAS_CFG3 0x0B
+> +#define LCD_BOOST_CFG 0x0C
+> +#define OUTP_CFG 0x0D
+> +#define OUTN_CFG 0x0E
+> +#define FLAG 0x0F
+> +#define BL_OPTION1 0x10
+> +#define BL_OPTION2 0x11
+> +#define PWM2DIG_LSBs 0x12
+> +#define PWM2DIG_MSBs 0x13
+> +#define BL_DIMMING 0x14
+> +#define FULL_SCALE_CURRENT 0x15
+> +
+> +#endif /* KTZ8866_H */
+
+This header file is not required. Please remove and move any definitions
+the driver needs into the C file.
+
+
+Daniel.
