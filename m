@@ -2,82 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F013654856
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 23:23:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A388E65489A
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 23:39:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9690F10E593;
-	Thu, 22 Dec 2022 22:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83B7810E59A;
+	Thu, 22 Dec 2022 22:38:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03EB710E593
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 22:22:29 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF15210E599
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 22:38:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671747749;
+ s=mimecast20190719; t=1671748723;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rJEghjc//bUeirJO3BVHy7SfdNAruAMz/OF8PYUtCm8=;
- b=GjhXNTQOgeMjDDLB9xewtM8tenS5on2i8/T/qarrai6polMJWcvhzGqvO+oWTe4XPLhBmO
- 2l5KBh7WWVUxXkr3fLjSwdRFiTsGbjIADBIMYKYzyYDaWEd92T4g3ETjop5YvJniHKr7UU
- uGiNSe6nzNdLaWamc9tSP8wohPDiah4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TE23DSdNWuSZ0vKWHoTlUXd7XsU2QKplwAo6+35hXVY=;
+ b=e+64sIAHPWsK7naYsrLLHD+nbzB5DWS2V1/rT0r8LLNR0fBYayBty8pzgIYZauDlnaLeTX
+ xMIljlEdT5bT9nD1sHUZXLGAS1lnUvB0n7ZASuw/ZISGTbr/wCv4elBQiqR9RsYgsHnmHK
+ /8VCglt8FblQHpJS20mugiiJ7Q/SUeg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-401-b6gnYB5-N1iQYCnhclem3g-1; Thu, 22 Dec 2022 17:22:20 -0500
-X-MC-Unique: b6gnYB5-N1iQYCnhclem3g-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m38-20020a05600c3b2600b003d23f8c6ebdso2466547wms.0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 14:22:19 -0800 (PST)
+ us-mta-490-MwEcFz6CNSaHsJkPNl5iQQ-1; Thu, 22 Dec 2022 17:38:42 -0500
+X-MC-Unique: MwEcFz6CNSaHsJkPNl5iQQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v188-20020a1cacc5000000b003cf76c4ae66so2890075wme.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 14:38:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rJEghjc//bUeirJO3BVHy7SfdNAruAMz/OF8PYUtCm8=;
- b=VR3fEHPt+zLJ6r2GZo+mLJSnTOq8GqCKwDT6cmdlMmHv/qcCtBLVqGo7hdfCtk4bjR
- FEwLEHu8phlFVpdnEmaQ/ee8BijtjH+bqZzsdwrbds/xC9O8/hcVxbeMbPZC6nwX8OI1
- 4ccp3qO/8OtRT2BYoRUz4cMNZDQXqOF2rdFlXuWsdBsoUzrSqNuj3li7FTw1nb0Lm2tw
- kPpHE07RdM6ejIND+iz+GdJTNleKqAwDJS5UEcv1yLXen6zYdnOKkiQ3UZyMdnsFFTiy
- z2E27Vl+b0un7AJcqFoyWXX2bpP+TxDglgBqyadZQ8h6yBvX060RaxJ7evmIJV6jsTp/
- O5QA==
-X-Gm-Message-State: AFqh2krqQ/xBaMAWf3iMCJ5ZatGVOYfeGdRBVMDjK9PdKhF4q54Yu3Mz
- lxDXY/GKhl9xMq/wmgs2JwuPABZS/rUhwfL4Oip97f2tMInLwykgY3pIOmQ5eS+RvLeXG4wm/gG
- NTcEi+FgyaZrjYpgnL2xXoVk8PadD
-X-Received: by 2002:adf:f2cd:0:b0:242:29fc:ad51 with SMTP id
- d13-20020adff2cd000000b0024229fcad51mr8268070wrp.20.1671747739182; 
- Thu, 22 Dec 2022 14:22:19 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXv9To1v5Iv9TiwO8kmYC/5NHNtZZRcyqV34bOlzRZgspniUuLr0DE8wZ3mzxPXLDhw/Fztolw==
-X-Received: by 2002:adf:f2cd:0:b0:242:29fc:ad51 with SMTP id
- d13-20020adff2cd000000b0024229fcad51mr8268051wrp.20.1671747738899; 
- Thu, 22 Dec 2022 14:22:18 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TE23DSdNWuSZ0vKWHoTlUXd7XsU2QKplwAo6+35hXVY=;
+ b=2NZ+uAF4EPom1ge9KHqUBaLqedcBARqJAj8monJhyshT3KqnlGuDN6+0ENX1lO9xGb
+ 69ibn17lxSLbm7YgkojdIowkB6mEYDZCQ+z2vNo6yjcqub1jVvyFAwL3rqFT4Rwl2h8b
+ yHjU/odTv3DNiMtxSPgJoQAzY9HlbuQ0LhJfBI6WQmSMaIJMPT9ArQ6ozltRqFIWwyQE
+ E06PmyYL46ujAlgZ4plrSko5DfoPwMi4d96uUt4KeqofmSdqFQUkHOuwJ9pHrfkjfD5G
+ T+1ATI9MphI/Jx/f9zcNksvE/RpDgvie18EwwM2oIZxqTFhDMCF0Cc1at54EiLoSdaj3
+ ye5g==
+X-Gm-Message-State: AFqh2kp3vPMIkjyNvCH6sH6r5hZN8jR+EWBkEYSd/NT8guEl0mxCrQgq
+ 1SLO+Yta/wNQbjj6cEMLE0ekpDojiQXc8cEFfL3u+RneU6jz8DOY49cjo3du8zK7fjl4pqIAgFk
+ d2woMzBVMLE4K/mTUsT3EUsEGYVvF
+X-Received: by 2002:a05:600c:1ca5:b0:3d1:d746:7bca with SMTP id
+ k37-20020a05600c1ca500b003d1d7467bcamr5584841wms.4.1671748721324; 
+ Thu, 22 Dec 2022 14:38:41 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXt17D6lN1ULKnX6zKVXMwfCh9S42fx9uklw7XxdwaE+3NeI3tkubhfYDOtnhDoxlw6v3WzhTQ==
+X-Received: by 2002:a05:600c:1ca5:b0:3d1:d746:7bca with SMTP id
+ k37-20020a05600c1ca500b003d1d7467bcamr5584825wms.4.1671748721075; 
+ Thu, 22 Dec 2022 14:38:41 -0800 (PST)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- u11-20020a5d514b000000b0022cdeba3f83sm1496111wrt.84.2022.12.22.14.22.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Dec 2022 14:22:18 -0800 (PST)
-Message-ID: <d45f52c1-1fe7-3210-25d2-259e3c07b5db@redhat.com>
-Date: Thu, 22 Dec 2022 23:22:17 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 038/606] drm/i2c/ch7006: Convert to i2c's .probe_new()
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>,
- Angel Iglesias <ang.iglesiasg@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- Grant Likely <grant.likely@linaro.org>, Wolfram Sang <wsa@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Ajay Gupta <ajayg@nvidia.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
- <20221118224540.619276-39-uwe@kleine-koenig.org>
+ n25-20020a7bc5d9000000b003d969a595fbsm2386239wmk.10.2022.12.22.14.38.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Dec 2022 14:38:40 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221118224540.619276-39-uwe@kleine-koenig.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] Add PinePhone Pro display support
+Date: Thu, 22 Dec 2022 23:38:26 +0100
+Message-Id: <20221222223830.2494900-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,54 +80,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-i2c@vger.kernel.org, kernel@pengutronix.de, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Robert Mader <robert.mader@posteo.de>, linux-rockchip@lists.infradead.org,
+ Sam Ravnborg <sam@ravnborg.org>, Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, Tom Fitzhenry <tom@tom-fitzhenry.me.uk>,
+ Martijn Braam <martijn@brixit.nl>, Caleb Connolly <kc@postmarketos.org>,
+ Rob Herring <robh+dt@kernel.org>, Ondrej Jirman <megi@xff.cz>,
+ Peter Robinson <pbrobinson@gmail.com>,
+ =?UTF-8?q?Kamil=20Trzci=C5=84ski?= <ayufan@ayufan.eu>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Uwe,
+This series add support for the display present in the PinePhone Pro.
 
-On 11/18/22 23:36, Uwe Kleine-König wrote:
-> The probe function doesn't make use of the i2c_device_id * parameter so it
-> can be trivially converted.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->  drivers/gpu/drm/i2c/ch7006_drv.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i2c/ch7006_drv.c b/drivers/gpu/drm/i2c/ch7006_drv.c
-> index 578b738859b9..e0476a5bf84c 100644
-> --- a/drivers/gpu/drm/i2c/ch7006_drv.c
-> +++ b/drivers/gpu/drm/i2c/ch7006_drv.c
-> @@ -386,7 +386,7 @@ static const struct drm_encoder_slave_funcs ch7006_encoder_funcs = {
->  
->  /* I2C driver functions */
->  
-> -static int ch7006_probe(struct i2c_client *client, const struct i2c_device_id *id)
-> +static int ch7006_probe(struct i2c_client *client)
->  {
->  	uint8_t addr = CH7006_VERSION_ID;
->  	uint8_t val;
-> @@ -495,7 +495,7 @@ static const struct dev_pm_ops ch7006_pm_ops = {
->  
->  static struct drm_i2c_encoder_driver ch7006_driver = {
->  	.i2c_driver = {
-> -		.probe = ch7006_probe,
-> +		.probe_new = ch7006_probe,
->  		.remove = ch7006_remove,
->  
->  		.driver = {
+Patch #1 adds a driver for panels using the Himax HX8394 panel controller,
+such as the HSD060BHW4 720x1440 TFT LCD panel present in the PinePhone Pro.
 
-Looks good to me.
+Patch #2 adds a devicetree binding schema for this driver and patch #3 adds
+an entry for the driver in the MAINTAINERS file.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Finally patch #4 adds the needed devicetree nodes in the PinePhone Pro DTS,
+to enable both the display and the touchscreen. This makes the upstream DTS
+much more usable and will allow for example to enable support for the phone
+in the Fedora distribution.
+
+I only added myself as the maintainer for the driver because I don't know
+if Kamil and Ondrej that worked in the driver would be interested. Please
+let me know folks if you are, and I can add you too in the next revision.
+
+The patches were tested on a PinePhone Pro Explorer Edition using a Fedora
+37 Workstation image.
+
+Best regards,
+Javier
+
+
+Javier Martinez Canillas (2):
+  dt-bindings: display: Add Himax HX8394 panel controller bindings
+  MAINTAINERS: Add entry for Himax HX8394 panel controller driver
+
+Kamil Trzciński (1):
+  drm: panel: Add Himax HX8394 panel controller driver
+
+Ondrej Jirman (1):
+  arm64: dts: rk3399-pinephone-pro: Add internal display support
+
+ .../bindings/display/panel/himax,hx8394.yaml  |  68 +++
+ MAINTAINERS                                   |   7 +
+ .../dts/rockchip/rk3399-pinephone-pro.dts     | 124 +++++
+ drivers/gpu/drm/panel/Kconfig                 |  12 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-himax-hx8394.c    | 460 ++++++++++++++++++
+ 6 files changed, 672 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-himax-hx8394.c
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.38.1
 
