@@ -2,73 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 843396543D1
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 16:06:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0411E654DCF
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 09:46:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B536810E553;
-	Thu, 22 Dec 2022 15:06:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D88B10E621;
+	Fri, 23 Dec 2022 08:45:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74FA610E553;
- Thu, 22 Dec 2022 15:06:44 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BMEKsqI030991; Thu, 22 Dec 2022 15:06:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=OzUU9Ap4NTomxz6tLd9p3qtu8dQ5JJYrOANyg3608b4=;
- b=DhI+DRXdTW6sOMLB/HqaWutfUtZDbcY0ffAlcU6rH793/+xTuMDP0Gk3ciHZFIxZbbMI
- 7Q0GA2AK7kN6Ai5ecP/Llr8hJtKNKfr9syprJdyoPP31SDuNxqgXiA5O3dVvOOm+TMum
- +ndqCdXlYU0GhFGQDaHUo+Dvaokss9svrLxJRGsFqsOYPLeByZGaVIopk1er+w0M5MY4
- STmr8zCDSPioBzfzkEMDuH+UzD1vybwf8Zfu7UFFmpwaj7DzWswhM9U4ATdgE9idqupb
- aD2HTwrtCaybg/d82wbd/5ayOFtu3TDB7xt1tZhk/iM9WO446JkjN76hozHnlddy9fNt ww== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mk90t63yj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 Dec 2022 15:06:42 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BMF6fo5006978
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 Dec 2022 15:06:41 GMT
-Received: from vpolimer-linux.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Thu, 22 Dec 2022 07:06:36 -0800
-From: Vinod Polimera <quic_vpolimer@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v10 15/15] drm/msm/disp/dpu: clear active interface in the
- datapath cleanup
-Date: Thu, 22 Dec 2022 20:35:02 +0530
-Message-ID: <1671721502-16587-16-git-send-email-quic_vpolimer@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1671721502-16587-1-git-send-email-quic_vpolimer@quicinc.com>
-References: <1671721502-16587-1-git-send-email-quic_vpolimer@quicinc.com>
+Received: from sender-of-o50.zoho.in (sender-of-o50.zoho.in [103.117.158.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B98E010E166
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 15:40:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1671723649; cv=none; d=zohomail.in; s=zohoarc; 
+ b=Fub5C9NlCORIkvWi/8Kjs74RJ7k4MImwXBpFtATEPZ17BAp6w/OQ9XJAMlop3Vuhkf+7E3pcsOhg6Uu2vdLythqXTq2zgKY+0sETuCkj2s8SZ7gMsk/qojBay5J88bxhLtD6hadC/hLiLf1oy1XwSXlTu5gRv+4dAOsipK3YCOA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
+ s=zohoarc; t=1671723649;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To;
+ bh=tL/P1i4iMJc5VhZfCY58mDeHvqscFRuLwd2Nnlm0Pt0=; 
+ b=BNui7a9D+tqlhEr9x66zchMzyVXyYrem6RsQIQOZ6xHSUE4t9aqNEcacfIOH0HrggNV+f3lMeFUxifyj6nnQrRcQzCHdLdTqHEYfiT51JpCWZYGGAIi4UrkdnvXyjdz3UP+OIaJ8bcVl6calaJGWeGO5FYuBJcann0YuXOe4ikQ=
+ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
+ spf=pass  smtp.mailfrom=code@siddh.me;
+ dmarc=pass header.from=<code@siddh.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1671723649; 
+ s=zmail; d=siddh.me; i=code@siddh.me;
+ h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=tL/P1i4iMJc5VhZfCY58mDeHvqscFRuLwd2Nnlm0Pt0=;
+ b=UwTWkCPBeIlYvW49Jhhu0cAfLelbO9sblGD81ETJMes3VzCXKHm4Ik+67HRJIAAx
+ 0NdJm+3GBFHN9ZTL4GqU/BytK2/xTo/rxXiw6ycp+roAtdfBrQ7a/0sp3RpKU/fmpYD
+ Ahx1NtQSZI467YWR7EyAr93JhJmwKS+EIVqphwqc=
+Received: from kampyooter.. (110.226.31.37 [110.226.31.37]) by mx.zoho.in
+ with SMTPS id 167172364697892.94726004909683;
+ Thu, 22 Dec 2022 21:10:46 +0530 (IST)
+From: Siddh Raman Pant <code@siddh.me>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Simon Ser <contact@emersion.fr>
+Message-ID: <cover.1671723195.git.code@siddh.me>
+Subject: [PATCH v2 0/9] drm: Remove usage of deprecated DRM_* macros
+Date: Thu, 22 Dec 2022 21:10:34 +0530
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Qn90aAVCy4WKlWkvq6lyVEqJDMqZwm_p
-X-Proofpoint-ORIG-GUID: Qn90aAVCy4WKlWkvq6lyVEqJDMqZwm_p
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-22_08,2022-12-22_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- spamscore=0 impostorscore=0 mlxscore=0 phishscore=0 mlxlogscore=999
- suspectscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212220131
+Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf8
+X-Mailman-Approved-At: Fri, 23 Dec 2022 08:44:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,36 +58,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
- quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
- quic_vproddut@quicinc.com, quic_khsieh@quicinc.com, dianders@chromium.org,
- linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org, swboyd@chromium.org,
- Vinod Polimera <quic_vpolimer@quicinc.com>
+Cc: linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clear interface active register from the datapath for a clean shutdown of
-the datapath.
+This patchset aims to remove usages of deprecated DRM_* macros from the
+files residing in drivers/gpu/drm root.
 
-Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 3 +++
- 1 file changed, 3 insertions(+)
+In process, I found out that NULL as first argument of drm_dbg_* wasn't
+working, but it was listed as the alternative in deprecation comment,
+so I fixed that before removing usages of DRM_DEBUG_* macros.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index e13a309..b49c8dc 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -2108,6 +2108,9 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
- 	if (phys_enc->hw_pp->merge_3d)
- 		intf_cfg.merge_3d = phys_enc->hw_pp->merge_3d->idx;
- 
-+	if (phys_enc->hw_intf)
-+		intf_cfg.intf = phys_enc->hw_intf->idx;
-+
- 	if (ctl->ops.reset_intf_cfg)
- 		ctl->ops.reset_intf_cfg(ctl, &intf_cfg);
- 
--- 
-2.7.4
+This patchset should be applied in order as changes might be dependent.
+
+Please review and let me know if any errors are there, and hopefully
+this gets accepted.
+
+----
+Changes in v2:
+- Removed conversions to pr_*() in DRM_INFO, DRM_NOTE, and DRM_ERROR change=
+s.
+- Due to above, DRM_NOTE usage cannot be removed and the patch is dropped.
+- DRY: NULL support is now achieved by way of a separate function.
+
+Siddh Raman Pant (9):
+  drm: Remove usage of deprecated DRM_INFO
+  drm: Remove usage of deprecated DRM_ERROR
+  drm/print: Fix support for NULL as first argument of drm_dbg_*
+  drm: Remove usage of deprecated DRM_DEBUG
+  drm: Remove usage of deprecated DRM_DEBUG_DRIVER
+  drm: Remove usage of deprecated DRM_DEBUG_KMS
+  drm: Remove usage of deprecated DRM_DEBUG_PRIME
+  drm/drm_blend: Remove usage of deprecated DRM_DEBUG_ATOMIC
+  drm/drm_lease: Remove usage of deprecated DRM_DEBUG_LEASE
+
+ drivers/gpu/drm/drm_agpsupport.c       |   4 +-
+ drivers/gpu/drm/drm_blend.c            |  13 ++-
+ drivers/gpu/drm/drm_bridge.c           |   8 +-
+ drivers/gpu/drm/drm_bufs.c             | 122 +++++++++++++------------
+ drivers/gpu/drm/drm_client_modeset.c   | 118 +++++++++++++-----------
+ drivers/gpu/drm/drm_color_mgmt.c       |   4 +-
+ drivers/gpu/drm/drm_connector.c        |  28 +++---
+ drivers/gpu/drm/drm_context.c          |  18 ++--
+ drivers/gpu/drm/drm_crtc.c             |  36 ++++----
+ drivers/gpu/drm/drm_crtc_helper.c      |  60 ++++++------
+ drivers/gpu/drm/drm_debugfs_crc.c      |   8 +-
+ drivers/gpu/drm/drm_displayid.c        |   4 +-
+ drivers/gpu/drm/drm_dma.c              |  10 +-
+ drivers/gpu/drm/drm_drv.c              |  20 ++--
+ drivers/gpu/drm/drm_edid.c             |  17 ++--
+ drivers/gpu/drm/drm_file.c             |  18 ++--
+ drivers/gpu/drm/drm_framebuffer.c      |   3 +-
+ drivers/gpu/drm/drm_gem.c              |   7 +-
+ drivers/gpu/drm/drm_gem_dma_helper.c   |   6 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c |   6 +-
+ drivers/gpu/drm/drm_hashtab.c          |   6 +-
+ drivers/gpu/drm/drm_ioc32.c            |  13 +--
+ drivers/gpu/drm/drm_ioctl.c            |  24 ++---
+ drivers/gpu/drm/drm_irq.c              |   4 +-
+ drivers/gpu/drm/drm_lease.c            |  68 +++++++-------
+ drivers/gpu/drm/drm_legacy_misc.c      |   4 +-
+ drivers/gpu/drm/drm_lock.c             |  20 ++--
+ drivers/gpu/drm/drm_mipi_dbi.c         |  19 ++--
+ drivers/gpu/drm/drm_mode_config.c      |   2 +-
+ drivers/gpu/drm/drm_mode_object.c      |   6 +-
+ drivers/gpu/drm/drm_modes.c            |  10 +-
+ drivers/gpu/drm/drm_modeset_helper.c   |   2 +-
+ drivers/gpu/drm/drm_pci.c              |  12 +--
+ drivers/gpu/drm/drm_plane.c            |  46 +++++-----
+ drivers/gpu/drm/drm_probe_helper.c     |  39 ++++----
+ drivers/gpu/drm/drm_rect.c             |   4 +-
+ drivers/gpu/drm/drm_scatter.c          |  19 ++--
+ drivers/gpu/drm/drm_syncobj.c          |   2 +-
+ drivers/gpu/drm/drm_sysfs.c            |  22 ++---
+ drivers/gpu/drm/drm_vm.c               |  45 +++++----
+ include/drm/drm_print.h                |  44 ++++++---
+ 41 files changed, 486 insertions(+), 435 deletions(-)
+
+--=20
+2.35.1
+
 
