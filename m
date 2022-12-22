@@ -2,80 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB214654922
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 00:07:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D48654926
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 00:08:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36AC310E5BA;
-	Thu, 22 Dec 2022 23:07:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E242210E18A;
+	Thu, 22 Dec 2022 23:08:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AACFF10E5BA
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 23:07:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA67410E18A
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 23:08:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671750425;
+ s=mimecast20190719; t=1671750504;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
  bh=DDeshYsFzsV86X1KOSZ/3pdcOk+Tna6Uckljdyy2RF8=;
- b=hBWLN/ArPaE71CGOIxV8U/h29dDfwVOUJlp0q3wO27mHcBl7pBypSGHT49prkVxIqW6JVg
- jD2VyB+zkpop5BK5zAuw6RpHiZIw6iGjEBaW3m6pXYWHRMWYPJ4tYVJiJqYF3U9tGMGeMG
- rUOAJxhOpwTzDR/wzWPJzXfTkq3mnIY=
+ b=L8GaAvOV8o0m2nW5TMCwxLIzCa3PcTmf0PQuvAfduVOgQOKW8tcwEVN72a1UFvlzb0OM7r
+ wsO7byQc8rGOuEe/wBtvbAtMF6iiMjEjazFmm7TDp1ErtpHKYFg5vfroeP/fYfJhcf3gsR
+ mwbVQ9k+yj/sxx92MVeB0q+yL2a9kMg=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-3-c4-4iXVQNa6-VignS9gSUg-1; Thu, 22 Dec 2022 18:07:04 -0500
-X-MC-Unique: c4-4iXVQNa6-VignS9gSUg-1
+ us-mta-425-m5WaUUbUOZ6RU3Oyph8nQQ-1; Thu, 22 Dec 2022 18:08:23 -0500
+X-MC-Unique: m5WaUUbUOZ6RU3Oyph8nQQ-1
 Received: by mail-wm1-f69.google.com with SMTP id
- 9-20020a1c0209000000b003d1c0a147f6so2923922wmc.4
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 15:07:04 -0800 (PST)
+ b47-20020a05600c4aaf00b003d031aeb1b6so2915228wmp.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 15:08:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
  bh=DDeshYsFzsV86X1KOSZ/3pdcOk+Tna6Uckljdyy2RF8=;
- b=RVWhIlvGMK+0h9Na/YkRYP4Wps/OYDPzlhiJU5dg2WnpxyT13bnGSWd+ir7Y2yU9uR
- C63e491YGY4WdsYDNnde9TL9at08RYWt7N44A1l8SzZHR+upozHF49zZ6rwFmKy0lF5H
- BhKjqPZMTqJ7WIqgSXKoxpmh8I8/aWUqTmaMc6np7lbefZr+ti2+hvCQCclt9a4wUU11
- 99tn4A1LgceN8OtVPL9zxuhq6r1BmkKQaR6XEE0UmBtQipApcFmBuFz3idYjFny2Vi9O
- 0JyF5NdkYceKsTKJ0lrrRSNn58TtRzDOfLJbN1jHwJSavIL4Y21aLuBIRqUMNWHrPE/d
- hBAg==
-X-Gm-Message-State: AFqh2krt8eW1pfY3VTCD8fbaCcX86xXWew2aHlV6Ido5Gvz/qw9hw2Gn
- qSA2GJW/5rOaOVRRJT36ZS6GThcbd9NrBDqq2zfC+ioaJAl/TVQoylZsHDFXYlZYmqBNbhXBm60
- mKKqDNZ2iA4x1zw+1x9q0vUzA76aj
-X-Received: by 2002:adf:f052:0:b0:246:e6df:86ea with SMTP id
- t18-20020adff052000000b00246e6df86eamr4347844wro.25.1671750423460; 
- Thu, 22 Dec 2022 15:07:03 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvrH4klu+A74NrToZfregAlXdCxKG5tW/xHZwohrIMNsMXyCpQxwUiG2Ea2TWPs1C6BwLEC8w==
-X-Received: by 2002:adf:f052:0:b0:246:e6df:86ea with SMTP id
- t18-20020adff052000000b00246e6df86eamr4347835wro.25.1671750423242; 
- Thu, 22 Dec 2022 15:07:03 -0800 (PST)
+ b=61Xi1WiGYCBIlkpOE6lLM5ptqY+L2IUqEDPOzmyXO8wE07jIGAj2CDyZGv/VXpzQkM
+ K5iLoT7K7gCPsqePb0//dG/O89OfJpWqiuRCC058V7OBJeUSWtlzUauKHJRLmQqBdjy5
+ zDCPGXnfMjZb3n5aYm8LqVp3BSfpNhhbMSmE5SKglDgevOokcZQ1YK88M6rw3vVInEKH
+ f/Q1JiylTxzoYJd0ETvmvmKvioJ3I/Z/sWPEH53VqL1uD1ekCSIG902YPLxsAJJjg8nk
+ KazYENc1KbO+MKE9+Fn5zDtcYKdSqslELefaFzyzJXodCEJpYwx1J5OikEJlenKAXagC
+ orcg==
+X-Gm-Message-State: AFqh2kr/DCOIRty05RSv2k4xlvc30DmDZBoVjPDVOeNOg29hzxFe3hCS
+ KEGglyvRu14jWFTPNgL4sDXyoDFfNmjz+OjciprS/e+03NzCCyt+S8e3KcqkiYRElYQxbWuulX5
+ MQDCFjMPOHWULXHN0L1bjsJLXt5ZT
+X-Received: by 2002:a05:6000:606:b0:242:d4f:96c with SMTP id
+ bn6-20020a056000060600b002420d4f096cmr4724620wrb.0.1671750502167; 
+ Thu, 22 Dec 2022 15:08:22 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuknSgJRZCSxxH1E5lQjmtZbtMbpRpjoATeV9vbjoxND4THAv6SX6/TCVdUUAJsiNgpR0XUYQ==
+X-Received: by 2002:a05:6000:606:b0:242:d4f:96c with SMTP id
+ bn6-20020a056000060600b002420d4f096cmr4724609wrb.0.1671750501992; 
+ Thu, 22 Dec 2022 15:08:21 -0800 (PST)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- c17-20020a5d4cd1000000b002425c6d30c6sm1821042wrt.117.2022.12.22.15.07.02
+ e2-20020adfe7c2000000b0024245e543absm1579433wrn.88.2022.12.22.15.08.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Dec 2022 15:07:02 -0800 (PST)
-Message-ID: <4042f56c-22c8-0ffb-46e9-dfedc1d259ac@redhat.com>
-Date: Fri, 23 Dec 2022 00:07:01 +0100
+ Thu, 22 Dec 2022 15:08:21 -0800 (PST)
+Message-ID: <25b2136f-09e2-74e8-4e63-a3ad1fa13ed9@redhat.com>
+Date: Fri, 23 Dec 2022 00:08:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH 040/606] drm/i2c/tda9950: Convert to i2c's .probe_new()
+Subject: Re: [PATCH 041/606] drm/i2c/tda998x: Convert to i2c's .probe_new()
 To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>,
  Angel Iglesias <ang.iglesiasg@gmail.com>, Lee Jones <lee.jones@linaro.org>,
  Grant Likely <grant.likely@linaro.org>, Wolfram Sang <wsa@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Peter Senna Tschudin <peter.senna@gmail.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Peter Rosin <peda@axentia.se>
+ Russell King <linux@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
- <20221118224540.619276-41-uwe@kleine-koenig.org>
+ <20221118224540.619276-42-uwe@kleine-koenig.org>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221118224540.619276-41-uwe@kleine-koenig.org>
+In-Reply-To: <20221118224540.619276-42-uwe@kleine-koenig.org>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
