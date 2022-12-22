@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AEC065402F
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 12:54:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E0ED654032
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 12:55:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67AC210E106;
-	Thu, 22 Dec 2022 11:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A067C10E121;
+	Thu, 22 Dec 2022 11:54:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46D9D10E106
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 11:54:25 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id m29so2347240lfo.11
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 03:54:25 -0800 (PST)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A12E210E15A
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 11:54:55 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id b3so2405277lfv.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 03:54:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=X9EoBcFcr53BTbI8NLGBFcA7SGUwn8mmf9pGDxbWrjw=;
- b=ltUUyIxFmAaCCU3K8fji72mezO1sOZfzxlQy1hicVdGCCFEpK1YliunaefhbfBcWdJ
- 4+ihkXYqnYePmqVq5a5O4BJKutu1jqz2+zGv2jI4t6LoT4nLPvUNiOU0rz0B5i99WkkK
- bygT4FMTn1zt5VmzT26PbjddUvF6jVOKRmFh/KSPbto9V/jYeOPfO68U/MXO3Jq0wBq7
- oFo7kW96M4XGvpeusRqjKGwHThoFk8tUuhsXRK61mqJH3iAo3ttp1vQJ+DescoK4u1xN
- WFWuTYzoDlLxyMj24g9fM0eUzj8iX0EkpTM/BND8fb5hz4UCgSg4HS9001LVZoob0HqB
- CHWA==
+ bh=tpAVb3+cVXQa1lG9/26ZmhtnuZCNmgaIflq0pQhJ+MI=;
+ b=WMfKHcAIqLmzoW3u9ksF8dcVFMxOlA4FFCTklAZueBNiqdfZJxFULrasW0YNolRL+g
+ l9jJDrVgFXPItkMc+8qNlt8q/YPFS5++54Bm0/0OI8of/bwkqlSkmzsmzKt7OsjaNydB
+ SaqvlyDt9nOVrNT6g540uS3yNsE3He0u5hog7cxv1Yoq/o8dNjEvdiwyScVUi8v0kVus
+ wZjM0eUwGZaLYbXorLZ2538sie1yaa2L0cKFZ16svZSc/0fVVc4sc/dZzbOdEE2EpdT8
+ A65vkWXlxfO7u1FaBJpolVnrLNVZPrxCkG95fXXxiOxUU7N4vmu9A3fE+w6WQybg1H1v
+ kryg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=X9EoBcFcr53BTbI8NLGBFcA7SGUwn8mmf9pGDxbWrjw=;
- b=h81XwbS9wsvKFUhwPWMWuFxb+6MG8chq0H3NjUpIGVvRXHQwni4mMDtH9/dMPrMXct
- bReNLbwwyQ8J060rlQkM5IYnA6l4C1mwkvig3cYmYgAHaoTah20Wu7WouGG2Mu1eBTMl
- f1YJtIcerJ7/HD4YEm7nq8vvJYOaulrlifQhq9opWzw1lIlPW78W2cb2gCiSrdhRb+dA
- QjvAv7X3z8UW7An1QMTCl+W1Zr54FWtfsP2yV7PHTOH+UhYSTUWkBI/Stk3VzqOK8mI5
- yUBsfu6ovR1ZXznlyCtxCKqSpc/VSoMso0c5B+0xXcm6Y7ajJ9gIlRu5gGi1W7Jir3jB
- YZNA==
-X-Gm-Message-State: AFqh2kqeJHUvndt1+62PQpzgWPOyDWCmkXXAmyuJ51E0ZvY+GtJusg/Z
- S/68fTGU2VXEdimrENpzj1gYaA==
-X-Google-Smtp-Source: AMrXdXuMEMS4ZAdZYRoxvWSmL5geV2FFazuPdHHRVejnluBwFSosVnViUal3BytGSYAMPvyirJ7lXw==
-X-Received: by 2002:ac2:5e6a:0:b0:4b0:f376:225a with SMTP id
- a10-20020ac25e6a000000b004b0f376225amr1559959lfr.63.1671710063624; 
- Thu, 22 Dec 2022 03:54:23 -0800 (PST)
+ bh=tpAVb3+cVXQa1lG9/26ZmhtnuZCNmgaIflq0pQhJ+MI=;
+ b=1qraDtSumBElJAPO+p5EkdcEkXRMXViUm+YKHDzkB0fgyciYVH8XvRFh+YgJEbeW+e
+ edmne25XE/417sax7gqh/UUQZIXS9mwZtPCC+yBVJUZ+roaIraSpV+eJx3O6dLDyRBF4
+ EP7rJMR/aH9LuLNxd6NaKB8cGhXbLx1/0540J101BOH+WyMIHhNRqleulJaaXHoIE0wI
+ w8Cl5+K7CBvaGsfthp7YzEZlxNCFBJjIVUPqb9I9KtWkqPL5ut0IyRpFRHo1QRlxpRUR
+ /W98ah2nuzmdR/Rak4s8qVDp5bRvy3L8P3TFvz5IMZlqtLI00OMgGqgE4/DKo9H0RovY
+ yhtQ==
+X-Gm-Message-State: AFqh2kpBOn9MeKneT2iMIoAQgYv4Z70QmeDebrfslOv9mPtAykRgatfS
+ G00ed73qaEAhAJGTzfABzCQr0Q==
+X-Google-Smtp-Source: AMrXdXtON0Zmt7ZIsbCnFjMaae522gN6PEYbg49HK+urLOAHDo4Cg/TkyZaKta1OtYFRq6DDHDoIaA==
+X-Received: by 2002:ac2:5318:0:b0:4b5:7720:5fe4 with SMTP id
+ c24-20020ac25318000000b004b577205fe4mr1728513lfh.67.1671710094036; 
+ Thu, 22 Dec 2022 03:54:54 -0800 (PST)
 Received: from [192.168.0.20]
  (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
  by smtp.gmail.com with ESMTPSA id
- bq25-20020a056512151900b004b592043413sm50426lfb.12.2022.12.22.03.54.22
+ e2-20020a05651236c200b004b55f60c65asm44401lfs.284.2022.12.22.03.54.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Dec 2022 03:54:23 -0800 (PST)
-Message-ID: <d4962a5c-7fa3-e5d7-51a8-7ae8fc54e053@linaro.org>
-Date: Thu, 22 Dec 2022 12:54:21 +0100
+ Thu, 22 Dec 2022 03:54:53 -0800 (PST)
+Message-ID: <dbf60b16-9331-64ae-93eb-0a67576adf1f@linaro.org>
+Date: Thu, 22 Dec 2022 12:54:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v5 07/21] dt-bindings: msm: dsi-controller-main: Fix clock
- declarations
+Subject: Re: [PATCH v5 08/21] dt-bindings: msm: dsi-controller-main: Add vdd*
+ descriptions back in
 Content-Language: en-US
 To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  devicetree@vger.kernel.org
 References: <20221220123634.382970-1-bryan.odonoghue@linaro.org>
- <20221220123634.382970-8-bryan.odonoghue@linaro.org>
+ <20221220123634.382970-9-bryan.odonoghue@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221220123634.382970-8-bryan.odonoghue@linaro.org>
+In-Reply-To: <20221220123634.382970-9-bryan.odonoghue@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,20 +88,37 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 20/12/2022 13:36, Bryan O'Donoghue wrote:
-> When converting from .txt to .yaml dt-binding descriptions we appear to
-> have missed some of the previous detail on the number and names of
-> permissible clocks.
+> When converting from .txt to .yaml we didn't include descriptions for the
+> existing regulator supplies.
 > 
-> Fix this by listing the clock descriptions against the clock names at a
-> high level.
+> - vdd
+> - vdda
+> - vddio
+> 
+> Add those descriptions into the yaml now as they were prior to the
+> conversion. In the .txt description we marked these regulators as required,
+> however, that requirement appears to have been in error.
+> 
+> Taking the example of sc7180-trogdor-wormdingler.dtsi. The avdd and avee
+> come from GPIO controlled external regulators, not the SoC and in this case
+> there's no need for vddio to power an I/O bus. Similarly the regulators for
+> the LCD are controlled by the panel driver not by the dsi-ctrl driver.
+> 
+> It would be possible to connect a different type of panel to the DSI bus
+> here in which case we may or may not want to make use of vdd, vdda or
+> vddio.
+> 
+> This is also the case for older chipsets like apq8064, msm8916 etc the vdd*
+> regulators in the dsi-ctrl block are helpers not dependencies.
+> 
+> Add the description of vdd, vdda and vddio back in for the existing
+> upstream dts where vdd, vdda or vddio are already declared but, don't
+> declare those regulators required - they are not SoC requirements.
 > 
 > Fixes: 4dbe55c97741 ("dt-bindings: msm: dsi: add yaml schemas for DSI bindings")
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
 
-I don't think this can be on its own. Clocks and clock-names go together
-and your previous patch already changed from 6 to 3-9 entries. Splitting
-these make them non-bisectable and confusing.
+You got here ack, didn't you?
 
 Best regards,
 Krzysztof
