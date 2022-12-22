@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78CF653CF4
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 09:26:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB45D653D56
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 10:13:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BD5710E521;
-	Thu, 22 Dec 2022 08:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9774D10E531;
+	Thu, 22 Dec 2022 09:12:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E47CE10E514;
- Thu, 22 Dec 2022 08:26:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671697583; x=1703233583;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=G26Xi+3Mu0RsqVsMq6+Wo/lBvmZFtlv/v/jQGWH5Td4=;
- b=K/cEpwdwUmkwVPI9dUNuTztrBZFPoUd0X0En7Bhp4w6lqFMhkXW7+UED
- bAnf7rASr/aKGcJS0n9653lp46Gq21+7wyjqAhja0TcwBS8gvlv+kLyyI
- 1qDWdfZZErUSJE9VmwKwRHuCxvasnFbg5qpNHuwRAHwbNI5zIrzanBt5B
- 1VmjtOzL5qPxJ4lwLONp/NyKd1TniIKzeN50WjKXQovFf5iwRQwdbCb/+
- WRNs01AgCkfZ99XWhyE/urAZYOIm67KZ4Ropg8gZi7gM9Y5fdyUAa/MMJ
- NZMJwz+qFD/OjJ7UEVf5aYjoES5nFKPVjxq2WL8me9d10Zt7Mob7baZIx Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="384426683"
-X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="384426683"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2022 00:26:23 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="645127601"
-X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="645127601"
-Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2022 00:26:23 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/4] fixup! drm/i915: Remove platform comments from workarounds
-Date: Thu, 22 Dec 2022 00:25:57 -0800
-Message-Id: <20221222082557.1364711-5-lucas.demarchi@intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20221222082557.1364711-1-lucas.demarchi@intel.com>
-References: <20221222082557.1364711-1-lucas.demarchi@intel.com>
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2A0B10E531
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 09:12:47 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::224])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id F234EC8ACD
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 09:03:55 +0000 (UTC)
+Received: from booty (unknown [77.244.183.192])
+ (Authenticated sender: luca.ceresoli@bootlin.com)
+ by mail.gandi.net (Postfix) with ESMTPSA id 7B92DE000A;
+ Thu, 22 Dec 2022 09:03:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1671699813;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=T4gOPWGjEg88chOoWuaav23pjpL5Y5e5uaZVe/EqBqE=;
+ b=QeGD5dLYPEuaEGCcki0adCUzRqSKZ/zV31K71rU2ze+Figq+pEPdRZgrSchKyv0X9dVVLd
+ E4Zgew6xIafwewAasolBVx4tkU7epbCps3/37BBPtagS1o2eBEWyQ90dPbzFI7SmayUXpC
+ /4irqMiMWzfHCCQpB45qqr1f03QVKbIlNhe7wzVxa8ZhbEsjSdhDOKmCu7oVyMzSDc/ko7
+ LY/2AlLiBGZPqUD1hUAnJngvTe6kAqNaSI7PQQK/fmEopXzCbseH5gG118ncWstV8uhhyI
+ oRv3L5QCAPiw/qPFMO7puyrSsxEEng2gkOHvWI5S2TDyya9Dy+mYxZI/dgNJ3Q==
+Date: Thu, 22 Dec 2022 10:03:28 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v2 00/21] Add Tegra20 parallel video input capture
+Message-ID: <20221222100328.6e341874@booty>
+In-Reply-To: <a99fa7e5-31bc-4286-17e5-6ba6e4932bcf@gmail.com>
+References: <20221128152336.133953-1-luca.ceresoli@bootlin.com>
+ <a99fa7e5-31bc-4286-17e5-6ba6e4932bcf@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,88 +56,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: devicetree@vger.kernel.org, Richard Leitner <richard.leitner@skidata.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>, linux-tegra@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
----
- drivers/gpu/drm/i915/display/intel_psr.c | 2 +-
- drivers/gpu/drm/i915/i915_perf.c         | 4 ++--
- drivers/gpu/drm/i915/intel_pm.c          | 4 ++--
- drivers/gpu/drm/i915/intel_uncore.c      | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
+Hello Dmitry,
 
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
-index 328c886309f3..543881838def 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.c
-+++ b/drivers/gpu/drm/i915/display/intel_psr.c
-@@ -1636,7 +1636,7 @@ static void psr2_man_trk_ctl_calc(struct intel_crtc_state *crtc_state,
- 
- 	if (full_update) {
- 		/*
--		 * Not applying Wa_14014971508
-+		 * Not applying Wa_14014971508 as we do not support the
- 		 * feature that requires this workaround.
- 		 */
- 		val |= man_trk_ctl_single_full_frame_bit_get(dev_priv);
-diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-index 49f7e1fbd96c..9e6686b8c8f0 100644
---- a/drivers/gpu/drm/i915/i915_perf.c
-+++ b/drivers/gpu/drm/i915/i915_perf.c
-@@ -1590,7 +1590,7 @@ static void i915_oa_stream_destroy(struct i915_perf_stream *stream)
- 	free_oa_buffer(stream);
- 
- 	/*
--	 * Wa_16011777198
-+	 * Wa_16011777198 - Unset the override of GUCRC mode to enable rc6.
- 	 */
- 	if (intel_uc_uses_guc_rc(&gt->uc) &&
- 	    (IS_DG2_GRAPHICS_STEP(gt->i915, G10, STEP_A0, STEP_C0) ||
-@@ -3293,7 +3293,7 @@ static int i915_oa_stream_init(struct i915_perf_stream *stream,
- 	intel_uncore_forcewake_get(stream->uncore, FORCEWAKE_ALL);
- 
- 	/*
--	 * Wa_16011777198
-+	 * Wa_16011777198 - GuC resets render as part of the Wa. This causes
- 	 * OA to lose the configuration state. Prevent this by overriding GUCRC
- 	 * mode.
- 	 */
-diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
-index 82a59738ca4a..492973085297 100644
---- a/drivers/gpu/drm/i915/intel_pm.c
-+++ b/drivers/gpu/drm/i915/intel_pm.c
-@@ -4578,7 +4578,7 @@ static void ivb_init_clock_gating(struct drm_i915_private *dev_priv)
- 
- 	/*
- 	 * According to the spec, bit 13 (RCZUNIT) must be set on IVB.
--	 * This implements the WaDisableRCZUnitClockGating
-+	 * This implements the WaDisableRCZUnitClockGating workaround.
- 	 */
- 	intel_uncore_write(&dev_priv->uncore, GEN6_UCGCTL2,
- 		   GEN6_RCZUNIT_CLOCK_GATE_DISABLE);
-@@ -4615,7 +4615,7 @@ static void vlv_init_clock_gating(struct drm_i915_private *dev_priv)
- 
- 	/*
- 	 * According to the spec, bit 13 (RCZUNIT) must be set on IVB.
--	 * This implements the WaDisableRCZUnitClockGating
-+	 * This implements the WaDisableRCZUnitClockGating workaround.
- 	 */
- 	intel_uncore_write(&dev_priv->uncore, GEN6_UCGCTL2,
- 		   GEN6_RCZUNIT_CLOCK_GATE_DISABLE);
-diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-index e56dbb20f2fe..182791a9cabb 100644
---- a/drivers/gpu/drm/i915/intel_uncore.c
-+++ b/drivers/gpu/drm/i915/intel_uncore.c
-@@ -1887,7 +1887,7 @@ static const struct intel_forcewake_range __xelpmp_fw_ranges[] = {
- static void
- ilk_dummy_write(struct intel_uncore *uncore)
- {
--	/* WaIssueDummyWriteToWakeupFromRC6
-+	/* WaIssueDummyWriteToWakeupFromRC6 - Issue a dummy write to wake up
- 	 * the chip from rc6 before touching it for real. MI_MODE is masked,
- 	 * hence harmless to write 0 into. */
- 	__raw_uncore_write32(uncore, RING_MI_MODE(RENDER_RING_BASE), 0);
--- 
-2.39.0
+thanks for your review.
 
+On Tue, 20 Dec 2022 23:21:49 +0300
+Dmitry Osipenko <digetx@gmail.com> wrote:
+
+> 28.11.2022 18:23, Luca Ceresoli =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > Tegra20 and other Tegra SoCs have a video input (VI) peripheral that can
+> > receive from either MIPI CSI-2 or parallel video (called respectively "=
+CSI"
+> > and "VIP" in the documentation). The kernel currently has a staging dri=
+ver
+> > for Tegra210 CSI capture. This patch set adds support for Tegra20 VIP
+> > capture.
+> >=20
+> > Unfortunately I had no real documentation available to base this work o=
+n.
+> > I only had a working downstream 3.1 kernel, so I started with the driver
+> > found there and heavily reworked it to fit into the mainline tegra-video
+> > driver structure. The existing code appears written with the intent of
+> > being modular and allow adding new input mechanisms and new SoCs while
+> > keeping a unique VI core module. However its modularity and extensibili=
+ty
+> > was not enough to add Tegra20 VIP support, so I added some hooks to turn
+> > hard-coded behaviour into per-SoC or per-bus customizable code. There a=
+re
+> > also a fix, some generic cleanups and DT bindings.
+> >=20
+> > Quick tour of the patches:
+> >=20
+> >  * Device tree bindings and minor DTS improvements
+> >=20
+> >    01. dt-bindings: display: tegra: add Tegra20 VIP
+> >    02. dt-bindings: display: tegra: vi: add 'vip' property and example =
+=20
+>=20
+> This series adds the new DT node, but there are no board DTs in upstream
+> that will use VIP? Will we see the board patches?
+
+I'm afraid I have no such plan. I don't have any public hardware with
+Tegra20, with or without a parallel sensor. I have a custom board.
+
+> In any case, given that you're likely the only one here who has access
+> to hardware with VIP,=20
+
+Likely indeed.
+
+> you should promote yourself to the tegra-video
+> driver maintainers and confirm that you will be able to maintain and
+> test this code for years to come.
+
+I can definitely add myself as a maintainer of this driver and join the
+maintenance effort, I'm adding that in v3. I also have a board that I
+can permanently use for testing.
+
+--=20
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
