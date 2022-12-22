@@ -2,59 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC506653FA5
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 12:49:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40033653F44
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 12:47:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9494F10E510;
-	Thu, 22 Dec 2022 11:49:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3641210E071;
+	Thu, 22 Dec 2022 11:47:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C89E10E50E;
- Thu, 22 Dec 2022 11:49:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671709759; x=1703245759;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=mb5C0Q08zzL0licCWm6JekgDD5up38tTeg7UqDDgK3g=;
- b=lqDCTsKwGQaLdamSbEE2H7NMHz9JrpkYCcpktpTuazL+KpRpH7r9s07K
- nHU22p/4L4zM0CmPoRi7isDHI4sKEZIQdG8/Tsc2o2bSujSgq+mzg3EdA
- QoFmUEj7BC27o7fTvrf5A8kqsRuYWO5nhHtpzzm6Ug0lv6KosOOUL7Fft
- rky0ARHktYyWPRFxX1e2sCc16FRhEQrqr//XfJbjJy/iEk/DvlRXB0RCb
- bfFOtMYtgUQquaiIvEvRviwLntKI5SetLcvtU1bIN5bfcs53M9VKXbZg7
- z/A6lnyxqkG4oAyDVxKdDI6+PUvuiquaxn6AeE/WD89F40GxcXSIDj/+p w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="318804964"
-X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="318804964"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2022 03:49:18 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="629504977"
-X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="629504977"
-Received: from lab-ah.igk.intel.com ([10.91.215.196])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2022 03:49:12 -0800
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-To: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
- loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-xtensa@linux-xtensa.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH 19/19] drm/i915/gt: use __xchg instead of internal helper
-Date: Thu, 22 Dec 2022 12:46:35 +0100
-Message-Id: <20221222114635.1251934-20-andrzej.hajda@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221222114635.1251934-1-andrzej.hajda@intel.com>
-References: <20221222114635.1251934-1-andrzej.hajda@intel.com>
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1DAC10E049
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 11:47:26 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id 1so2363909lfz.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 03:47:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0EHYXR6sSgB5vdGVmrtOtKLZP6yhiJpLufZUquvuMTM=;
+ b=pn1uImfgSjqommdSMhzsURLzDugGu0FTd7vckLh0eIppD+Hkw6yti7KierhwC+ebZK
+ YF138uC/8YhdSSV20XcVnzKKwga9gEKb1OcBV+e08oHnK+JtwEPEbB735yPazKU/no34
+ XDTspm8RPAH0vFr4eyWfXAmb8lnd2u+PpHJBrEeIE8NyCKdi4D61hKBafoBeLdnKj14V
+ mMeoiV/ttwezyotlUUS5QQqu0dXsDHglxuBhKe49Qn9dWEmYTIa7TYC8tFmAugoJS5/B
+ r0XnifxQkvH4tQF90cwlwL7BOj8N0wx2F/WMw04riTFamr+FzXbqRhlobs1jLiN4TepR
+ ny4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0EHYXR6sSgB5vdGVmrtOtKLZP6yhiJpLufZUquvuMTM=;
+ b=lEj+jpfcl1l7ptuZhWaBXeqXJv4/xzGAFN6nIQU0eM8KDTfXd7PazKPeiIh9SxTJjn
+ 0y3emaRX4ETgW1Z/IHf6AC3PRSJeL/bCof9JWtrvq3EUa/Oa9yVzk2i+6WuVSEGXkDCU
+ d3dst5JWyCDIX/cx+wBXtpKqa36BCxiAtDktvD+A4RbrafZnpaVcbDFGjYfgcgSrOEQw
+ MaaU2lS1RGyrTsmIzoPNnW94NFTsZ0h0rfixTTllu6ncvPM5RzjYFgfdGq4bNS3iNY1i
+ pVVlKoGa6t3+5gWmQyTK+yn/YWju8EZsjY3bQgw3UuG0yg/r63w4HbnGMhbxyIi68u0w
+ 4VLg==
+X-Gm-Message-State: AFqh2kozZUdLZ/C8FCvhqsFjpIGXOXkq3UHE0SnNfDKacI14G/FGAkkA
+ wiBYTBTlJgBLeQ5Y+R82q7h+MA==
+X-Google-Smtp-Source: AMrXdXvejv9SNAwlLbnZmw6FcDQmaKFCvnGJeIOT1kCLtjTtnwqqgUvY/tTwCYifiYAFep31jdzGkA==
+X-Received: by 2002:a05:6512:1582:b0:4b6:e494:a98d with SMTP id
+ bp2-20020a056512158200b004b6e494a98dmr2133911lfb.44.1671709645143; 
+ Thu, 22 Dec 2022 03:47:25 -0800 (PST)
+Received: from [192.168.0.20]
+ (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+ by smtp.gmail.com with ESMTPSA id
+ r12-20020ac25a4c000000b00492d064e8f8sm42937lfn.263.2022.12.22.03.47.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Dec 2022 03:47:24 -0800 (PST)
+Message-ID: <51770a1c-45f6-9f5a-871d-022cd78a0d4b@linaro.org>
+Date: Thu, 22 Dec 2022 12:47:23 +0100
 MIME-Version: 1.0
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 04/21] dt-bindings: msm: dsi-controller-main: Add
+ compatible strings for every current SoC
+Content-Language: en-US
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+References: <20221220123634.382970-1-bryan.odonoghue@linaro.org>
+ <20221220123634.382970-5-bryan.odonoghue@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221220123634.382970-5-bryan.odonoghue@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,318 +79,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
- Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
+ sean@poorly.run, andersson@kernel.org, konrad.dybcio@somainline.org,
+ quic_abhinavk@quicinc.com, david@ixit.cz, dianders@chromium.org,
+ robh+dt@kernel.org, agross@kernel.org, dmitry.baryshkov@linaro.org,
+ swboyd@chromium.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prefer core helper if available.
+On 20/12/2022 13:36, Bryan O'Donoghue wrote:
+> Currently we do not differentiate between the various users of the
+> qcom,mdss-dsi-ctrl. The driver is flexible enough to operate from one
+> compatible string but, the hardware does have some significant differences
+> in the number of clocks.
+> 
+> To facilitate documenting the clocks add the following compatible strings
+> 
+> - qcom,apq8064-dsi-ctrl
+> - qcom,msm8916-dsi-ctrl
+> - qcom,msm8953-dsi-ctrl
+> - qcom,msm8974-dsi-ctrl
+> - qcom,msm8996-dsi-ctrl
+> - qcom,msm8998-dsi-ctrl
+> - qcom,sc7180-dsi-ctrl
+> - qcom,sc7280-dsi-ctrl
+> - qcom,sdm660-dsi-ctrl
+> - qcom,sdm845-dsi-ctrl
+> - qcom,sm8250-dsi-ctrl
+> 
+> Each SoC dtsi should declare "qcom,socname-dsi-ctrl", "qcom,mdss-dsi-ctrl";
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  .../display/msm/dsi-controller-main.yaml      | 20 +++++++++++++++----
+>  1 file changed, 16 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> index 6e2fd6e9fa7f0..01afa9e9c4b3c 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> @@ -14,9 +14,21 @@ allOf:
+>  
+>  properties:
+>    compatible:
+> -    enum:
+> -      - qcom,mdss-dsi-ctrl
+> -      - qcom,dsi-ctrl-6g-qcm2290
+> +    items:
+> +      - enum:
+> +          - qcom,apq8064-dsi-ctrl
+> +          - qcom,msm8916-dsi-ctrl
+> +          - qcom,msm8953-dsi-ctrl
+> +          - qcom,msm8974-dsi-ctrl
+> +          - qcom,msm8996-dsi-ctrl
+> +          - qcom,msm8998-dsi-ctrl
+> +          - qcom,dsi-ctrl-6g-qcm2290
+> +          - qcom,sc7180-dsi-ctrl
+> +          - qcom,sc7280-dsi-ctrl
+> +          - qcom,sdm660-dsi-ctrl
+> +          - qcom,sdm845-dsi-ctrl
+> +          - qcom,sm8250-dsi-ctrl
 
-Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_engine_cs.c            | 2 +-
- drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c     | 4 ++--
- drivers/gpu/drm/i915/gt/intel_execlists_submission.c | 4 ++--
- drivers/gpu/drm/i915/gt/intel_ggtt.c                 | 4 ++--
- drivers/gpu/drm/i915/gt/intel_gsc.c                  | 2 +-
- drivers/gpu/drm/i915/gt/intel_gt.c                   | 4 ++--
- drivers/gpu/drm/i915/gt/intel_gt_pm.c                | 2 +-
- drivers/gpu/drm/i915/gt/intel_lrc.c                  | 6 +++---
- drivers/gpu/drm/i915/gt/intel_migrate.c              | 2 +-
- drivers/gpu/drm/i915/gt/intel_rc6.c                  | 2 +-
- drivers/gpu/drm/i915/gt/intel_rps.c                  | 2 +-
- drivers/gpu/drm/i915/gt/selftest_context.c           | 2 +-
- drivers/gpu/drm/i915/gt/selftest_ring_submission.c   | 2 +-
- drivers/gpu/drm/i915/gt/selftest_timeline.c          | 2 +-
- drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c            | 2 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc.c                | 2 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c             | 2 +-
- drivers/gpu/drm/i915/i915_utils.h                    | 1 +
- 18 files changed, 24 insertions(+), 23 deletions(-)
+Usual comment: can we keep the list sorted?
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index 99c4b866adddfa..aa548bd0b83687 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -1042,7 +1042,7 @@ static void cleanup_status_page(struct intel_engine_cs *engine)
- 	/* Prevent writes into HWSP after returning the page to the system */
- 	intel_engine_set_hwsp_writemask(engine, ~0u);
- 
--	vma = fetch_and_zero(&engine->status_page.vma);
-+	vma = __xchg(&engine->status_page.vma, 0);
- 	if (!vma)
- 		return;
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-index 9a527e1f5be655..09befcc6a84fa1 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-@@ -229,7 +229,7 @@ static void heartbeat(struct work_struct *wrk)
- 	mutex_unlock(&ce->timeline->mutex);
- out:
- 	if (!engine->i915->params.enable_hangcheck || !next_heartbeat(engine))
--		i915_request_put(fetch_and_zero(&engine->heartbeat.systole));
-+		i915_request_put(__xchg(&engine->heartbeat.systole, 0));
- 	intel_engine_pm_put(engine);
- }
- 
-@@ -244,7 +244,7 @@ void intel_engine_unpark_heartbeat(struct intel_engine_cs *engine)
- void intel_engine_park_heartbeat(struct intel_engine_cs *engine)
- {
- 	if (cancel_delayed_work(&engine->heartbeat.work))
--		i915_request_put(fetch_and_zero(&engine->heartbeat.systole));
-+		i915_request_put(__xchg(&engine->heartbeat.systole, 0));
- }
- 
- void intel_gt_unpark_heartbeats(struct intel_gt *gt)
-diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-index 49a8f10d76c77b..692f18e5a10ef3 100644
---- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-@@ -3197,7 +3197,7 @@ static void execlists_reset_cancel(struct intel_engine_cs *engine)
- 		RB_CLEAR_NODE(rb);
- 
- 		spin_lock(&ve->base.sched_engine->lock);
--		rq = fetch_and_zero(&ve->request);
-+		rq = __xchg(&ve->request, NULL);
- 		if (rq) {
- 			if (i915_request_mark_eio(rq)) {
- 				rq->engine = engine;
-@@ -3602,7 +3602,7 @@ static void rcu_virtual_context_destroy(struct work_struct *wrk)
- 
- 		spin_lock_irq(&ve->base.sched_engine->lock);
- 
--		old = fetch_and_zero(&ve->request);
-+		old = __xchg(&ve->request, NULL);
- 		if (old) {
- 			GEM_BUG_ON(!__i915_request_is_complete(old));
- 			__i915_request_submit(old);
-diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-index 0c7fe360f87331..81317187d0c5c6 100644
---- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-@@ -684,7 +684,7 @@ static void fini_aliasing_ppgtt(struct i915_ggtt *ggtt)
- {
- 	struct i915_ppgtt *ppgtt;
- 
--	ppgtt = fetch_and_zero(&ggtt->alias);
-+	ppgtt = __xchg(&ggtt->alias, NULL);
- 	if (!ppgtt)
- 		return;
- 
-@@ -1238,7 +1238,7 @@ bool i915_ggtt_resume_vm(struct i915_address_space *vm)
- 				   was_bound);
- 
- 		if (obj) { /* only used during resume => exclusive access */
--			write_domain_objs |= fetch_and_zero(&obj->write_domain);
-+			write_domain_objs |= __xchg(&obj->write_domain, 0);
- 			obj->read_domains |= I915_GEM_DOMAIN_GTT;
- 		}
- 	}
-diff --git a/drivers/gpu/drm/i915/gt/intel_gsc.c b/drivers/gpu/drm/i915/gt/intel_gsc.c
-index bcc3605158dbde..38fbea757ba741 100644
---- a/drivers/gpu/drm/i915/gt/intel_gsc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gsc.c
-@@ -70,7 +70,7 @@ gsc_ext_om_alloc(struct intel_gsc *gsc, struct intel_gsc_intf *intf, size_t size
- 
- static void gsc_ext_om_destroy(struct intel_gsc_intf *intf)
- {
--	struct drm_i915_gem_object *obj = fetch_and_zero(&intf->gem_obj);
-+	struct drm_i915_gem_object *obj = __xchg(&intf->gem_obj, 0);
- 
- 	if (!obj)
- 		return;
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index 7eeee5a7cb33cb..03fe262de7bda5 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -754,7 +754,7 @@ int intel_gt_init(struct intel_gt *gt)
- 	intel_uc_fini(&gt->uc);
- err_engines:
- 	intel_engines_release(gt);
--	i915_vm_put(fetch_and_zero(&gt->vm));
-+	i915_vm_put(__xchg(&gt->vm, 0));
- err_pm:
- 	intel_gt_pm_fini(gt);
- 	intel_gt_fini_scratch(gt);
-@@ -801,7 +801,7 @@ void intel_gt_driver_release(struct intel_gt *gt)
- {
- 	struct i915_address_space *vm;
- 
--	vm = fetch_and_zero(&gt->vm);
-+	vm = __xchg(&gt->vm, 0);
- 	if (vm) /* FIXME being called twice on error paths :( */
- 		i915_vm_put(vm);
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-index c065950d0badec..219dfecf5f48db 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-@@ -123,7 +123,7 @@ static int __gt_unpark(struct intel_wakeref *wf)
- static int __gt_park(struct intel_wakeref *wf)
- {
- 	struct intel_gt *gt = container_of(wf, typeof(*gt), wakeref);
--	intel_wakeref_t wakeref = fetch_and_zero(&gt->awake);
-+	intel_wakeref_t wakeref = __xchg(&gt->awake, 0);
- 	struct drm_i915_private *i915 = gt->i915;
- 
- 	GT_TRACE(gt, "\n");
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index 7771a19008c604..9dfa3c10ddc85f 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -1144,7 +1144,7 @@ __lrc_alloc_state(struct intel_context *ce, struct intel_engine_cs *engine)
- static struct intel_timeline *
- pinned_timeline(struct intel_context *ce, struct intel_engine_cs *engine)
- {
--	struct intel_timeline *tl = fetch_and_zero(&ce->timeline);
-+	struct intel_timeline *tl = __xchg(&ce->timeline, 0);
- 
- 	return intel_timeline_create_from_engine(engine, page_unmask_bits(tl));
- }
-@@ -1261,8 +1261,8 @@ void lrc_fini(struct intel_context *ce)
- 	if (!ce->state)
- 		return;
- 
--	intel_ring_put(fetch_and_zero(&ce->ring));
--	i915_vma_put(fetch_and_zero(&ce->state));
-+	intel_ring_put(__xchg(&ce->ring, 0));
-+	i915_vma_put(__xchg(&ce->state, 0));
- }
- 
- void lrc_destroy(struct kref *kref)
-diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-index 3f638f19879685..3eab1867a4abee 100644
---- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-+++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-@@ -1147,7 +1147,7 @@ void intel_migrate_fini(struct intel_migrate *m)
- {
- 	struct intel_context *ce;
- 
--	ce = fetch_and_zero(&m->context);
-+	ce = __xchg(&m->context, 0);
- 	if (!ce)
- 		return;
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
-index 2ee4051e4d9613..dde40fe05709cc 100644
---- a/drivers/gpu/drm/i915/gt/intel_rc6.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
-@@ -702,7 +702,7 @@ void intel_rc6_fini(struct intel_rc6 *rc6)
- 
- 	intel_rc6_disable(rc6);
- 
--	pctx = fetch_and_zero(&rc6->pctx);
-+	pctx = __xchg(&rc6->pctx, 0);
- 	if (pctx)
- 		i915_gem_object_put(pctx);
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-index 9ad3bc7201cbaa..e34ca33b09d2e7 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-@@ -1831,7 +1831,7 @@ static void rps_work(struct work_struct *work)
- 	u32 pm_iir = 0;
- 
- 	spin_lock_irq(gt->irq_lock);
--	pm_iir = fetch_and_zero(&rps->pm_iir) & rps->pm_events;
-+	pm_iir = __xchg(&rps->pm_iir, 0) & rps->pm_events;
- 	client_boost = atomic_read(&rps->num_waiters);
- 	spin_unlock_irq(gt->irq_lock);
- 
-diff --git a/drivers/gpu/drm/i915/gt/selftest_context.c b/drivers/gpu/drm/i915/gt/selftest_context.c
-index 76fbae358072df..3f49ca1debc6ce 100644
---- a/drivers/gpu/drm/i915/gt/selftest_context.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_context.c
-@@ -171,7 +171,7 @@ static int live_context_size(void *arg)
- 		 * active state is sufficient, we are only checking that we
- 		 * don't use more than we planned.
- 		 */
--		saved = fetch_and_zero(&engine->default_state);
-+		saved = __xchg(&engine->default_state, 0);
- 
- 		/* Overlaps with the execlists redzone */
- 		engine->context_size += I915_GTT_PAGE_SIZE;
-diff --git a/drivers/gpu/drm/i915/gt/selftest_ring_submission.c b/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
-index 87ceb0f374b673..a01aaca4fbf5ff 100644
---- a/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
-@@ -269,7 +269,7 @@ static int live_ctx_switch_wa(void *arg)
- 		if (IS_GRAPHICS_VER(gt->i915, 4, 5))
- 			continue; /* MI_STORE_DWORD is privileged! */
- 
--		saved_wa = fetch_and_zero(&engine->wa_ctx.vma);
-+		saved_wa = __xchg(&engine->wa_ctx.vma, 0);
- 
- 		intel_engine_pm_get(engine);
- 		err = __live_ctx_switch_wa(engine);
-diff --git a/drivers/gpu/drm/i915/gt/selftest_timeline.c b/drivers/gpu/drm/i915/gt/selftest_timeline.c
-index 522d0190509ccc..d14d5159024ec7 100644
---- a/drivers/gpu/drm/i915/gt/selftest_timeline.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_timeline.c
-@@ -892,7 +892,7 @@ static int create_watcher(struct hwsp_watcher *w,
- static int check_watcher(struct hwsp_watcher *w, const char *name,
- 			 bool (*op)(u32 hwsp, u32 seqno))
- {
--	struct i915_request *rq = fetch_and_zero(&w->rq);
-+	struct i915_request *rq = __xchg(&w->rq, NULL);
- 	u32 offset, end;
- 	int err;
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
-index fd21dbd2663bec..3f85d3f6fc6e92 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
-@@ -110,7 +110,7 @@ void intel_gsc_uc_fini(struct intel_gsc_uc *gsc)
- 	flush_work(&gsc->work);
- 
- 	if (gsc->ce)
--		intel_engine_destroy_pinned_context(fetch_and_zero(&gsc->ce));
-+		intel_engine_destroy_pinned_context(__xchg(&gsc->ce, NULL));
- 
- 	i915_vma_unpin_and_release(&gsc->local, 0);
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index 9a8a1abf71d7fe..0292212cffbcb9 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -169,7 +169,7 @@ static void __uc_capture_load_err_log(struct intel_uc *uc)
- 
- static void __uc_free_load_err_log(struct intel_uc *uc)
- {
--	struct drm_i915_gem_object *log = fetch_and_zero(&uc->load_err_log);
-+	struct drm_i915_gem_object *log = __xchg(&uc->load_err_log, NULL);
- 
- 	if (log)
- 		i915_gem_object_put(log);
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-index d6ff6c584c1e1d..21324c017aea49 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-@@ -1105,7 +1105,7 @@ void intel_uc_fw_cleanup_fetch(struct intel_uc_fw *uc_fw)
- 	if (!intel_uc_fw_is_available(uc_fw))
- 		return;
- 
--	i915_gem_object_put(fetch_and_zero(&uc_fw->obj));
-+	i915_gem_object_put(__xchg(&uc_fw->obj, NULL));
- 
- 	intel_uc_fw_change_status(uc_fw, INTEL_UC_FIRMWARE_SELECTED);
- }
-diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
-index b64192d9c7daa7..2394a4e9e53d4c 100644
---- a/drivers/gpu/drm/i915/i915_utils.h
-+++ b/drivers/gpu/drm/i915/i915_utils.h
-@@ -26,6 +26,7 @@
- #define __I915_UTILS_H
- 
- #include <linux/list.h>
-+#include <linux/non-atomic/xchg.h>
- #include <linux/overflow.h>
- #include <linux/sched.h>
- #include <linux/string_helpers.h>
--- 
-2.34.1
+Best regards,
+Krzysztof
 
