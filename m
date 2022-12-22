@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D1965486C
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 23:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3AA7654870
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 23:29:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60F3F10E5AD;
-	Thu, 22 Dec 2022 22:28:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3354B10E5AF;
+	Thu, 22 Dec 2022 22:28:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD12810E59A;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E270B10E594;
  Thu, 22 Dec 2022 22:28:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1671748119; x=1703284119;
  h=from:to:subject:date:message-id:in-reply-to:references:
  mime-version:content-transfer-encoding;
- bh=u2yrJleobNdy/IWLkWWmKyRwumRQHGk4+LVRllcyXts=;
- b=SamV3+hBrHrYr5+CVHye/poYkzCBmBjESAW+O7OCP2NO6Q2Gy/q+iSxX
- Ea6PeLAyGgmhOzctgDoCv6Oe3JnJahxT/O/x54jk7SJERr7PsbCWfavyn
- 28X+1nRKRmtPj5Yegb4boS2KghenR73NHHLeJL3RDyyrotQmYnHn9wzln
- TTRtgaoh0SvxQbcvg5HKx36FH/6iEOUViKhtnvPBQL0uWzp9AviB+Gk0x
- VbetnSLinx8CzuLVfrcdOyOXxIPC1cDqykYFksN7uPQdSP/xhh1ZwYuWU
- cEPvcK5Wn3jKl4ZwiS1NwqM8PnY2TSeMCh7GYNlkqmpTBo2wDJyZDaXHT A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="406472848"
-X-IronPort-AV: E=Sophos;i="5.96,266,1665471600"; d="scan'208";a="406472848"
+ bh=jIjTkpuAlHlDf7HcxWhGymYFWDFF+IHWYXWM28sDrzE=;
+ b=GhlSsuXGZxXXnbUvXOA40em3lYxIAEIicxRcVFZU+Q1GtWlKelAO03xh
+ D79MoEaGWXeZcGAFjKAoN8oCZ/Zc6r57xJuQ0MPfQgRIzxhJxu3CEwGlR
+ 15B9XUbwIvGE5SlQHlM523lSkF2j77oKVIbCTUbwcUztFrMEuWVLhnCcb
+ bkZkAzLWqDEGl2NCWAp4SjjZWczR2qw1h3PcZZOVu0l6Yj7PPB2C5bA4H
+ Ywo/zYx8gYZ4sLnsiqKWq0XuwDUROrM/sUVfOFxPME52GA01zR4fuPvFT
+ M+YZ5BW1m8w6RPLV+T2LZVx7RiU8wNEruPOD4EqyAv1q+bI26LaQf9QxS g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="406472849"
+X-IronPort-AV: E=Sophos;i="5.96,266,1665471600"; d="scan'208";a="406472849"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  22 Dec 2022 14:28:38 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="645412308"
-X-IronPort-AV: E=Sophos;i="5.96,266,1665471600"; d="scan'208";a="645412308"
+X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="645412309"
+X-IronPort-AV: E=Sophos;i="5.96,266,1665471600"; d="scan'208";a="645412309"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2022 14:28:37 -0800
+ 22 Dec 2022 14:28:38 -0800
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [RFC PATCH 03/20] drm/radeon: Use the drm suballocation manager
- implementation.
-Date: Thu, 22 Dec 2022 14:21:10 -0800
-Message-Id: <20221222222127.34560-4-matthew.brost@intel.com>
+Subject: [RFC PATCH 04/20] drm/sched: Convert drm scheduler to use a work
+ queue rather than kthread
+Date: Thu, 22 Dec 2022 14:21:11 -0800
+Message-Id: <20221222222127.34560-5-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221222222127.34560-1-matthew.brost@intel.com>
 References: <20221222222127.34560-1-matthew.brost@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,606 +61,458 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In XE, the new Intel GPU driver, a choice has made to have a 1 to 1
+mapping between a drm_gpu_scheduler and drm_sched_entity. At first this
+seems a bit odd but let us explain the reasoning below.
 
-Use the generic suballocation helper.
-Note that the generic suballocator only allows a single alignment,
-so we may waste a few more bytes for radeon_semaphore, shouldn't
-be a big deal, could be re-added if needed. Also, similar to amdgpu,
-debug output changes slightly and suballocator cpu usage may be
-slightly higher.
+1. In XE the submission order from multiple drm_sched_entity is not
+guaranteed to be the same completion even if targeting the same hardware
+engine. This is because in XE we have a firmware scheduler, the GuC,
+which allowed to reorder, timeslice, and preempt submissions. If a using
+shared drm_gpu_scheduler across multiple drm_sched_entity, the TDR falls
+apart as the TDR expects submission order == completion order. Using a
+dedicated drm_gpu_scheduler per drm_sched_entity solve this problem.
 
-Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Co-developed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+2. In XE submissions are done via programming a ring buffer (circular
+buffer), a drm_gpu_scheduler provides a limit on number of jobs, if the
+limit of number jobs is set to RING_SIZE / MAX_SIZE_PER_JOB we get flow
+control on the ring for free.
+
+A problem with this design is currently a drm_gpu_scheduler uses a
+kthread for submission / job cleanup. This doesn't scale if a large
+number of drm_gpu_scheduler are used. To work around the scaling issue,
+use a worker rather than kthread for submission / job cleanup.
+
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/radeon/radeon.h           |  55 +---
- drivers/gpu/drm/radeon/radeon_ib.c        |  12 +-
- drivers/gpu/drm/radeon/radeon_object.h    |  25 +-
- drivers/gpu/drm/radeon/radeon_sa.c        | 314 ++--------------------
- drivers/gpu/drm/radeon/radeon_semaphore.c |   6 +-
- 5 files changed, 55 insertions(+), 357 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c |  14 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  |  12 +-
+ drivers/gpu/drm/scheduler/sched_main.c      | 124 ++++++++++++--------
+ include/drm/gpu_scheduler.h                 |  13 +-
+ 4 files changed, 93 insertions(+), 70 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
-index 57e20780a458..d19a4b1c1a8f 100644
---- a/drivers/gpu/drm/radeon/radeon.h
-+++ b/drivers/gpu/drm/radeon/radeon.h
-@@ -79,6 +79,7 @@
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+index f60753f97ac5..9c2a10aeb0b3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+@@ -1489,9 +1489,9 @@ static int amdgpu_debugfs_test_ib_show(struct seq_file *m, void *unused)
+ 	for (i = 0; i < AMDGPU_MAX_RINGS; i++) {
+ 		struct amdgpu_ring *ring = adev->rings[i];
  
- #include <drm/drm_gem.h>
- #include <drm/drm_audio_component.h>
-+#include <drm/drm_suballoc.h>
+-		if (!ring || !ring->sched.thread)
++		if (!ring || !ring->sched.ready)
+ 			continue;
+-		kthread_park(ring->sched.thread);
++		drm_sched_run_wq_stop(&ring->sched);
+ 	}
  
- #include "radeon_family.h"
- #include "radeon_mode.h"
-@@ -511,52 +512,12 @@ struct radeon_bo {
- };
- #define gem_to_radeon_bo(gobj) container_of((gobj), struct radeon_bo, tbo.base)
+ 	seq_printf(m, "run ib test:\n");
+@@ -1505,9 +1505,9 @@ static int amdgpu_debugfs_test_ib_show(struct seq_file *m, void *unused)
+ 	for (i = 0; i < AMDGPU_MAX_RINGS; i++) {
+ 		struct amdgpu_ring *ring = adev->rings[i];
  
--/* sub-allocation manager, it has to be protected by another lock.
-- * By conception this is an helper for other part of the driver
-- * like the indirect buffer or semaphore, which both have their
-- * locking.
-- *
-- * Principe is simple, we keep a list of sub allocation in offset
-- * order (first entry has offset == 0, last entry has the highest
-- * offset).
-- *
-- * When allocating new object we first check if there is room at
-- * the end total_size - (last_object_offset + last_object_size) >=
-- * alloc_size. If so we allocate new object there.
-- *
-- * When there is not enough room at the end, we start waiting for
-- * each sub object until we reach object_offset+object_size >=
-- * alloc_size, this object then become the sub object we return.
-- *
-- * Alignment can't be bigger than page size.
-- *
-- * Hole are not considered for allocation to keep things simple.
-- * Assumption is that there won't be hole (all object on same
-- * alignment).
-- */
- struct radeon_sa_manager {
--	wait_queue_head_t	wq;
--	struct radeon_bo	*bo;
--	struct list_head	*hole;
--	struct list_head	flist[RADEON_NUM_RINGS];
--	struct list_head	olist;
--	unsigned		size;
--	uint64_t		gpu_addr;
--	void			*cpu_ptr;
--	uint32_t		domain;
--	uint32_t		align;
--};
--
--struct radeon_sa_bo;
--
--/* sub-allocation buffer */
--struct radeon_sa_bo {
--	struct list_head		olist;
--	struct list_head		flist;
--	struct radeon_sa_manager	*manager;
--	unsigned			soffset;
--	unsigned			eoffset;
--	struct radeon_fence		*fence;
-+	struct drm_suballoc_manager	base;
-+	struct radeon_bo		*bo;
-+	uint64_t			gpu_addr;
-+	void				*cpu_ptr;
-+	u32 domain;
- };
+-		if (!ring || !ring->sched.thread)
++		if (!ring || !ring->sched.ready)
+ 			continue;
+-		kthread_unpark(ring->sched.thread);
++		drm_sched_run_wq_start(&ring->sched);
+ 	}
  
- /*
-@@ -587,7 +548,7 @@ int radeon_mode_dumb_mmap(struct drm_file *filp,
-  * Semaphores.
+ 	up_write(&adev->reset_domain->sem);
+@@ -1727,7 +1727,7 @@ static int amdgpu_debugfs_ib_preempt(void *data, u64 val)
+ 
+ 	ring = adev->rings[val];
+ 
+-	if (!ring || !ring->funcs->preempt_ib || !ring->sched.thread)
++	if (!ring || !ring->funcs->preempt_ib || !ring->sched.ready)
+ 		return -EINVAL;
+ 
+ 	/* the last preemption failed */
+@@ -1745,7 +1745,7 @@ static int amdgpu_debugfs_ib_preempt(void *data, u64 val)
+ 		goto pro_end;
+ 
+ 	/* stop the scheduler */
+-	kthread_park(ring->sched.thread);
++	drm_sched_run_wq_stop(&ring->sched);
+ 
+ 	/* preempt the IB */
+ 	r = amdgpu_ring_preempt_ib(ring);
+@@ -1779,7 +1779,7 @@ static int amdgpu_debugfs_ib_preempt(void *data, u64 val)
+ 
+ failure:
+ 	/* restart the scheduler */
+-	kthread_unpark(ring->sched.thread);
++	drm_sched_run_wq_start(&ring->sched);
+ 
+ 	up_read(&adev->reset_domain->sem);
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index 076ae400d099..9552929ccf87 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -4577,7 +4577,7 @@ bool amdgpu_device_has_job_running(struct amdgpu_device *adev)
+ 	for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
+ 		struct amdgpu_ring *ring = adev->rings[i];
+ 
+-		if (!ring || !ring->sched.thread)
++		if (!ring || !ring->sched.ready)
+ 			continue;
+ 
+ 		spin_lock(&ring->sched.job_list_lock);
+@@ -4708,7 +4708,7 @@ int amdgpu_device_pre_asic_reset(struct amdgpu_device *adev,
+ 	for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
+ 		struct amdgpu_ring *ring = adev->rings[i];
+ 
+-		if (!ring || !ring->sched.thread)
++		if (!ring || !ring->sched.ready)
+ 			continue;
+ 
+ 		/*clear job fence from fence drv to avoid force_completion
+@@ -5247,7 +5247,7 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
+ 		for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
+ 			struct amdgpu_ring *ring = tmp_adev->rings[i];
+ 
+-			if (!ring || !ring->sched.thread)
++			if (!ring || !ring->sched.ready)
+ 				continue;
+ 
+ 			drm_sched_stop(&ring->sched, job ? &job->base : NULL);
+@@ -5321,7 +5321,7 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
+ 		for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
+ 			struct amdgpu_ring *ring = tmp_adev->rings[i];
+ 
+-			if (!ring || !ring->sched.thread)
++			if (!ring || !ring->sched.ready)
+ 				continue;
+ 
+ 			drm_sched_start(&ring->sched, true);
+@@ -5648,7 +5648,7 @@ pci_ers_result_t amdgpu_pci_error_detected(struct pci_dev *pdev, pci_channel_sta
+ 		for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
+ 			struct amdgpu_ring *ring = adev->rings[i];
+ 
+-			if (!ring || !ring->sched.thread)
++			if (!ring || !ring->sched.ready)
+ 				continue;
+ 
+ 			drm_sched_stop(&ring->sched, NULL);
+@@ -5776,7 +5776,7 @@ void amdgpu_pci_resume(struct pci_dev *pdev)
+ 	for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
+ 		struct amdgpu_ring *ring = adev->rings[i];
+ 
+-		if (!ring || !ring->sched.thread)
++		if (!ring || !ring->sched.ready)
+ 			continue;
+ 
+ 		drm_sched_start(&ring->sched, true);
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 27d52ffbb808..8c64045d0692 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -44,7 +44,6 @@
+  * The jobs in a entity are always scheduled in the order that they were pushed.
   */
- struct radeon_semaphore {
--	struct radeon_sa_bo	*sa_bo;
-+	struct drm_suballoc	*sa_bo;
- 	signed			waiters;
- 	uint64_t		gpu_addr;
- };
-@@ -816,7 +777,7 @@ void radeon_irq_kms_disable_hpd(struct radeon_device *rdev, unsigned hpd_mask);
-  */
  
- struct radeon_ib {
--	struct radeon_sa_bo		*sa_bo;
-+	struct drm_suballoc		*sa_bo;
- 	uint32_t			length_dw;
- 	uint64_t			gpu_addr;
- 	uint32_t			*ptr;
-diff --git a/drivers/gpu/drm/radeon/radeon_ib.c b/drivers/gpu/drm/radeon/radeon_ib.c
-index 62b116727b4f..63fcfe65d814 100644
---- a/drivers/gpu/drm/radeon/radeon_ib.c
-+++ b/drivers/gpu/drm/radeon/radeon_ib.c
-@@ -61,7 +61,7 @@ int radeon_ib_get(struct radeon_device *rdev, int ring,
+-#include <linux/kthread.h>
+ #include <linux/wait.h>
+ #include <linux/sched.h>
+ #include <linux/completion.h>
+@@ -251,6 +250,53 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
+ 	return rb ? rb_entry(rb, struct drm_sched_entity, rb_tree_node) : NULL;
+ }
+ 
++/**
++ * drm_sched_run_wq_stop - stop scheduler run worker
++ *
++ * @sched: scheduler instance to stop run worker
++ */
++void drm_sched_run_wq_stop(struct drm_gpu_scheduler *sched)
++{
++	sched->pause_run_wq = true;
++	smp_wmb();
++
++	cancel_work_sync(&sched->work_run);
++}
++EXPORT_SYMBOL(drm_sched_run_wq_stop);
++
++/**
++ * drm_sched_run_wq_start - start scheduler run worker
++ *
++ * @sched: scheduler instance to start run worker
++ */
++void drm_sched_run_wq_start(struct drm_gpu_scheduler *sched)
++{
++	sched->pause_run_wq = false;
++	smp_wmb();
++
++	queue_work(sched->run_wq, &sched->work_run);
++}
++EXPORT_SYMBOL(drm_sched_run_wq_start);
++
++/**
++ * drm_sched_run_wq_queue - queue scheduler run worker
++ *
++ * @sched: scheduler instance to queue run worker
++ */
++static void drm_sched_run_wq_queue(struct drm_gpu_scheduler *sched)
++{
++	smp_rmb();
++
++	/*
++	 * Try not to schedule work if pause_run_wq set but not the end of world
++	 * if we do as either it will be cancelled by the above
++	 * cancel_work_sync, or drm_sched_main turns into a NOP while
++	 * pause_run_wq is set.
++	 */
++	if (!sched->pause_run_wq)
++		queue_work(sched->run_wq, &sched->work_run);
++}
++
+ /**
+  * drm_sched_job_done - complete a job
+  * @s_job: pointer to the job which is done
+@@ -270,7 +316,7 @@ static void drm_sched_job_done(struct drm_sched_job *s_job)
+ 	dma_fence_get(&s_fence->finished);
+ 	drm_sched_fence_finished(s_fence);
+ 	dma_fence_put(&s_fence->finished);
+-	wake_up_interruptible(&sched->wake_up_worker);
++	drm_sched_run_wq_queue(sched);
+ }
+ 
+ /**
+@@ -433,7 +479,7 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
  {
+ 	struct drm_sched_job *s_job, *tmp;
+ 
+-	kthread_park(sched->thread);
++	drm_sched_run_wq_stop(sched);
+ 
+ 	/*
+ 	 * Reinsert back the bad job here - now it's safe as
+@@ -546,7 +592,7 @@ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
+ 		spin_unlock(&sched->job_list_lock);
+ 	}
+ 
+-	kthread_unpark(sched->thread);
++	drm_sched_run_wq_start(sched);
+ }
+ EXPORT_SYMBOL(drm_sched_start);
+ 
+@@ -831,7 +877,7 @@ static bool drm_sched_ready(struct drm_gpu_scheduler *sched)
+ void drm_sched_wakeup(struct drm_gpu_scheduler *sched)
+ {
+ 	if (drm_sched_ready(sched))
+-		wake_up_interruptible(&sched->wake_up_worker);
++		drm_sched_run_wq_queue(sched);
+ }
+ 
+ /**
+@@ -941,60 +987,42 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
+ }
+ EXPORT_SYMBOL(drm_sched_pick_best);
+ 
+-/**
+- * drm_sched_blocked - check if the scheduler is blocked
+- *
+- * @sched: scheduler instance
+- *
+- * Returns true if blocked, otherwise false.
+- */
+-static bool drm_sched_blocked(struct drm_gpu_scheduler *sched)
+-{
+-	if (kthread_should_park()) {
+-		kthread_parkme();
+-		return true;
+-	}
+-
+-	return false;
+-}
+-
+ /**
+  * drm_sched_main - main scheduler thread
+  *
+  * @param: scheduler instance
+- *
+- * Returns 0.
+  */
+-static int drm_sched_main(void *param)
++static void drm_sched_main(struct work_struct *w)
+ {
+-	struct drm_gpu_scheduler *sched = (struct drm_gpu_scheduler *)param;
++	struct drm_gpu_scheduler *sched =
++		container_of(w, struct drm_gpu_scheduler, work_run);
  	int r;
  
--	r = radeon_sa_bo_new(rdev, &rdev->ring_tmp_bo, &ib->sa_bo, size, 256);
-+	r = radeon_sa_bo_new(&rdev->ring_tmp_bo, &ib->sa_bo, size);
- 	if (r) {
- 		dev_err(rdev->dev, "failed to get a new IB (%d)\n", r);
- 		return r;
-@@ -77,7 +77,7 @@ int radeon_ib_get(struct radeon_device *rdev, int ring,
- 		/* ib pool is bound at RADEON_VA_IB_OFFSET in virtual address
- 		 * space and soffset is the offset inside the pool bo
- 		 */
--		ib->gpu_addr = ib->sa_bo->soffset + RADEON_VA_IB_OFFSET;
-+		ib->gpu_addr = drm_suballoc_soffset(ib->sa_bo) + RADEON_VA_IB_OFFSET;
- 	} else {
- 		ib->gpu_addr = radeon_sa_bo_gpu_addr(ib->sa_bo);
+-	sched_set_fifo_low(current);
+-
+-	while (!kthread_should_stop()) {
+-		struct drm_sched_entity *entity = NULL;
++	while (!READ_ONCE(sched->pause_run_wq)) {
++		struct drm_sched_entity *entity;
+ 		struct drm_sched_fence *s_fence;
+ 		struct drm_sched_job *sched_job;
+ 		struct dma_fence *fence;
+-		struct drm_sched_job *cleanup_job = NULL;
++		struct drm_sched_job *cleanup_job;
+ 
+-		wait_event_interruptible(sched->wake_up_worker,
+-					 (cleanup_job = drm_sched_get_cleanup_job(sched)) ||
+-					 (!drm_sched_blocked(sched) &&
+-					  (entity = drm_sched_select_entity(sched))) ||
+-					 kthread_should_stop());
++		cleanup_job = drm_sched_get_cleanup_job(sched);
++		entity = drm_sched_select_entity(sched);
+ 
+ 		if (cleanup_job)
+ 			sched->ops->free_job(cleanup_job);
+ 
+-		if (!entity)
++		if (!entity) {
++			if (!cleanup_job)
++				break;
+ 			continue;
++		}
+ 
+ 		sched_job = drm_sched_entity_pop_job(entity);
+ 
+ 		if (!sched_job) {
+ 			complete_all(&entity->entity_idle);
++			if (!cleanup_job)
++				break;
+ 			continue;
+ 		}
+ 
+@@ -1022,14 +1050,14 @@ static int drm_sched_main(void *param)
+ 					  r);
+ 		} else {
+ 			if (IS_ERR(fence))
+-				dma_fence_set_error(&s_fence->finished, PTR_ERR(fence));
++				dma_fence_set_error(&s_fence->finished,
++						    PTR_ERR(fence));
+ 
+ 			drm_sched_job_done(sched_job);
+ 		}
+ 
+ 		wake_up(&sched->job_scheduled);
  	}
-@@ -97,7 +97,7 @@ int radeon_ib_get(struct radeon_device *rdev, int ring,
- void radeon_ib_free(struct radeon_device *rdev, struct radeon_ib *ib)
- {
- 	radeon_sync_free(rdev, &ib->sync, ib->fence);
--	radeon_sa_bo_free(rdev, &ib->sa_bo, ib->fence);
-+	radeon_sa_bo_free(&ib->sa_bo, ib->fence);
- 	radeon_fence_unref(&ib->fence);
+-	return 0;
  }
  
-@@ -201,8 +201,7 @@ int radeon_ib_pool_init(struct radeon_device *rdev)
- 
- 	if (rdev->family >= CHIP_BONAIRE) {
- 		r = radeon_sa_bo_manager_init(rdev, &rdev->ring_tmp_bo,
--					      RADEON_IB_POOL_SIZE*64*1024,
--					      RADEON_GPU_PAGE_SIZE,
-+					      RADEON_IB_POOL_SIZE*64*1024, 256,
- 					      RADEON_GEM_DOMAIN_GTT,
- 					      RADEON_GEM_GTT_WC);
- 	} else {
-@@ -210,8 +209,7 @@ int radeon_ib_pool_init(struct radeon_device *rdev)
- 		 * to the command stream checking
- 		 */
- 		r = radeon_sa_bo_manager_init(rdev, &rdev->ring_tmp_bo,
--					      RADEON_IB_POOL_SIZE*64*1024,
--					      RADEON_GPU_PAGE_SIZE,
-+					      RADEON_IB_POOL_SIZE*64*1024, 256,
- 					      RADEON_GEM_DOMAIN_GTT, 0);
- 	}
- 	if (r) {
-diff --git a/drivers/gpu/drm/radeon/radeon_object.h b/drivers/gpu/drm/radeon/radeon_object.h
-index 0a6ef49e990a..b7c5087a7dbc 100644
---- a/drivers/gpu/drm/radeon/radeon_object.h
-+++ b/drivers/gpu/drm/radeon/radeon_object.h
-@@ -169,15 +169,22 @@ extern void radeon_bo_fence(struct radeon_bo *bo, struct radeon_fence *fence,
- /*
-  * sub allocation
-  */
-+static inline struct radeon_sa_manager *
-+to_radeon_sa_manager(struct drm_suballoc_manager *manager)
-+{
-+	return container_of(manager, struct radeon_sa_manager, base);
-+}
- 
--static inline uint64_t radeon_sa_bo_gpu_addr(struct radeon_sa_bo *sa_bo)
-+static inline uint64_t radeon_sa_bo_gpu_addr(struct drm_suballoc *sa_bo)
+ /**
+@@ -1054,35 +1082,28 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+ 		   long timeout, struct workqueue_struct *timeout_wq,
+ 		   atomic_t *score, const char *name, struct device *dev)
  {
--	return sa_bo->manager->gpu_addr + sa_bo->soffset;
-+	return to_radeon_sa_manager(sa_bo->manager)->gpu_addr +
-+		drm_suballoc_soffset(sa_bo);
- }
+-	int i, ret;
++	int i;
+ 	sched->ops = ops;
+ 	sched->hw_submission_limit = hw_submission;
+ 	sched->name = name;
+ 	sched->timeout = timeout;
+ 	sched->timeout_wq = timeout_wq ? : system_wq;
++	sched->run_wq = system_wq;	/* FIXME: Let user pass this in */
+ 	sched->hang_limit = hang_limit;
+ 	sched->score = score ? score : &sched->_score;
+ 	sched->dev = dev;
+ 	for (i = DRM_SCHED_PRIORITY_MIN; i < DRM_SCHED_PRIORITY_COUNT; i++)
+ 		drm_sched_rq_init(sched, &sched->sched_rq[i]);
  
--static inline void * radeon_sa_bo_cpu_addr(struct radeon_sa_bo *sa_bo)
-+static inline void * radeon_sa_bo_cpu_addr(struct drm_suballoc *sa_bo)
- {
--	return sa_bo->manager->cpu_ptr + sa_bo->soffset;
-+	return to_radeon_sa_manager(sa_bo->manager)->cpu_ptr +
-+		drm_suballoc_soffset(sa_bo);
- }
- 
- extern int radeon_sa_bo_manager_init(struct radeon_device *rdev,
-@@ -190,12 +197,10 @@ extern int radeon_sa_bo_manager_start(struct radeon_device *rdev,
- 				      struct radeon_sa_manager *sa_manager);
- extern int radeon_sa_bo_manager_suspend(struct radeon_device *rdev,
- 					struct radeon_sa_manager *sa_manager);
--extern int radeon_sa_bo_new(struct radeon_device *rdev,
--			    struct radeon_sa_manager *sa_manager,
--			    struct radeon_sa_bo **sa_bo,
--			    unsigned size, unsigned align);
--extern void radeon_sa_bo_free(struct radeon_device *rdev,
--			      struct radeon_sa_bo **sa_bo,
-+extern int radeon_sa_bo_new(struct radeon_sa_manager *sa_manager,
-+			    struct drm_suballoc **sa_bo,
-+			    unsigned size);
-+extern void radeon_sa_bo_free(struct drm_suballoc **sa_bo,
- 			      struct radeon_fence *fence);
- #if defined(CONFIG_DEBUG_FS)
- extern void radeon_sa_bo_dump_debug_info(struct radeon_sa_manager *sa_manager,
-diff --git a/drivers/gpu/drm/radeon/radeon_sa.c b/drivers/gpu/drm/radeon/radeon_sa.c
-index 0981948bd9ed..b5555750aa0d 100644
---- a/drivers/gpu/drm/radeon/radeon_sa.c
-+++ b/drivers/gpu/drm/radeon/radeon_sa.c
-@@ -44,53 +44,31 @@
- 
- #include "radeon.h"
- 
--static void radeon_sa_bo_remove_locked(struct radeon_sa_bo *sa_bo);
--static void radeon_sa_bo_try_free(struct radeon_sa_manager *sa_manager);
+-	init_waitqueue_head(&sched->wake_up_worker);
+ 	init_waitqueue_head(&sched->job_scheduled);
+ 	INIT_LIST_HEAD(&sched->pending_list);
+ 	spin_lock_init(&sched->job_list_lock);
+ 	atomic_set(&sched->hw_rq_count, 0);
+ 	INIT_DELAYED_WORK(&sched->work_tdr, drm_sched_job_timedout);
++	INIT_WORK(&sched->work_run, drm_sched_main);
+ 	atomic_set(&sched->_score, 0);
+ 	atomic64_set(&sched->job_id_count, 0);
 -
- int radeon_sa_bo_manager_init(struct radeon_device *rdev,
- 			      struct radeon_sa_manager *sa_manager,
--			      unsigned size, u32 align, u32 domain, u32 flags)
-+			      unsigned size, u32 sa_align, u32 domain, u32 flags)
- {
--	int i, r;
--
--	init_waitqueue_head(&sa_manager->wq);
--	sa_manager->bo = NULL;
--	sa_manager->size = size;
--	sa_manager->domain = domain;
--	sa_manager->align = align;
--	sa_manager->hole = &sa_manager->olist;
--	INIT_LIST_HEAD(&sa_manager->olist);
--	for (i = 0; i < RADEON_NUM_RINGS; ++i) {
--		INIT_LIST_HEAD(&sa_manager->flist[i]);
+-	/* Each scheduler will run on a seperate kernel thread */
+-	sched->thread = kthread_run(drm_sched_main, sched, sched->name);
+-	if (IS_ERR(sched->thread)) {
+-		ret = PTR_ERR(sched->thread);
+-		sched->thread = NULL;
+-		DRM_DEV_ERROR(sched->dev, "Failed to create scheduler for %s.\n", name);
+-		return ret;
 -	}
-+	int r;
++	sched->pause_run_wq = false;
  
--	r = radeon_bo_create(rdev, size, align, true,
-+	r = radeon_bo_create(rdev, size, RADEON_GPU_PAGE_SIZE, true,
- 			     domain, flags, NULL, NULL, &sa_manager->bo);
- 	if (r) {
- 		dev_err(rdev->dev, "(%d) failed to allocate bo for manager\n", r);
- 		return r;
- 	}
- 
-+	sa_manager->domain = domain;
-+
-+	drm_suballoc_manager_init(&sa_manager->base, size, sa_align);
-+
- 	return r;
- }
- 
- void radeon_sa_bo_manager_fini(struct radeon_device *rdev,
- 			       struct radeon_sa_manager *sa_manager)
- {
--	struct radeon_sa_bo *sa_bo, *tmp;
--
--	if (!list_empty(&sa_manager->olist)) {
--		sa_manager->hole = &sa_manager->olist,
--		radeon_sa_bo_try_free(sa_manager);
--		if (!list_empty(&sa_manager->olist)) {
--			dev_err(rdev->dev, "sa_manager is not empty, clearing anyway\n");
--		}
--	}
--	list_for_each_entry_safe(sa_bo, tmp, &sa_manager->olist, olist) {
--		radeon_sa_bo_remove_locked(sa_bo);
--	}
-+	drm_suballoc_manager_fini(&sa_manager->base);
- 	radeon_bo_unref(&sa_manager->bo);
--	sa_manager->size = 0;
- }
- 
- int radeon_sa_bo_manager_start(struct radeon_device *rdev,
-@@ -139,260 +117,33 @@ int radeon_sa_bo_manager_suspend(struct radeon_device *rdev,
- 	return r;
- }
- 
--static void radeon_sa_bo_remove_locked(struct radeon_sa_bo *sa_bo)
-+int radeon_sa_bo_new(struct radeon_sa_manager *sa_manager,
-+		     struct drm_suballoc **sa_bo,
-+		     unsigned size)
- {
--	struct radeon_sa_manager *sa_manager = sa_bo->manager;
--	if (sa_manager->hole == &sa_bo->olist) {
--		sa_manager->hole = sa_bo->olist.prev;
--	}
--	list_del_init(&sa_bo->olist);
--	list_del_init(&sa_bo->flist);
--	radeon_fence_unref(&sa_bo->fence);
--	kfree(sa_bo);
--}
--
--static void radeon_sa_bo_try_free(struct radeon_sa_manager *sa_manager)
--{
--	struct radeon_sa_bo *sa_bo, *tmp;
--
--	if (sa_manager->hole->next == &sa_manager->olist)
--		return;
-+	struct drm_suballoc *sa = drm_suballoc_new(&sa_manager->base, size, GFP_KERNEL, true);
- 
--	sa_bo = list_entry(sa_manager->hole->next, struct radeon_sa_bo, olist);
--	list_for_each_entry_safe_from(sa_bo, tmp, &sa_manager->olist, olist) {
--		if (sa_bo->fence == NULL || !radeon_fence_signaled(sa_bo->fence)) {
--			return;
--		}
--		radeon_sa_bo_remove_locked(sa_bo);
-+	if (IS_ERR(sa)) {
-+		*sa_bo = NULL;
-+		return PTR_ERR(sa);
- 	}
--}
- 
--static inline unsigned radeon_sa_bo_hole_soffset(struct radeon_sa_manager *sa_manager)
--{
--	struct list_head *hole = sa_manager->hole;
--
--	if (hole != &sa_manager->olist) {
--		return list_entry(hole, struct radeon_sa_bo, olist)->eoffset;
--	}
-+	*sa_bo = sa;
+ 	sched->ready = true;
  	return 0;
- }
+@@ -1101,8 +1122,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
+ 	struct drm_sched_entity *s_entity;
+ 	int i;
  
--static inline unsigned radeon_sa_bo_hole_eoffset(struct radeon_sa_manager *sa_manager)
--{
--	struct list_head *hole = sa_manager->hole;
--
--	if (hole->next != &sa_manager->olist) {
--		return list_entry(hole->next, struct radeon_sa_bo, olist)->soffset;
--	}
--	return sa_manager->size;
--}
--
--static bool radeon_sa_bo_try_alloc(struct radeon_sa_manager *sa_manager,
--				   struct radeon_sa_bo *sa_bo,
--				   unsigned size, unsigned align)
--{
--	unsigned soffset, eoffset, wasted;
--
--	soffset = radeon_sa_bo_hole_soffset(sa_manager);
--	eoffset = radeon_sa_bo_hole_eoffset(sa_manager);
--	wasted = (align - (soffset % align)) % align;
--
--	if ((eoffset - soffset) >= (size + wasted)) {
--		soffset += wasted;
--
--		sa_bo->manager = sa_manager;
--		sa_bo->soffset = soffset;
--		sa_bo->eoffset = soffset + size;
--		list_add(&sa_bo->olist, sa_manager->hole);
--		INIT_LIST_HEAD(&sa_bo->flist);
--		sa_manager->hole = &sa_bo->olist;
--		return true;
--	}
--	return false;
--}
--
--/**
-- * radeon_sa_event - Check if we can stop waiting
-- *
-- * @sa_manager: pointer to the sa_manager
-- * @size: number of bytes we want to allocate
-- * @align: alignment we need to match
-- *
-- * Check if either there is a fence we can wait for or
-- * enough free memory to satisfy the allocation directly
-- */
--static bool radeon_sa_event(struct radeon_sa_manager *sa_manager,
--			    unsigned size, unsigned align)
--{
--	unsigned soffset, eoffset, wasted;
--	int i;
--
--	for (i = 0; i < RADEON_NUM_RINGS; ++i) {
--		if (!list_empty(&sa_manager->flist[i])) {
--			return true;
--		}
--	}
--
--	soffset = radeon_sa_bo_hole_soffset(sa_manager);
--	eoffset = radeon_sa_bo_hole_eoffset(sa_manager);
--	wasted = (align - (soffset % align)) % align;
--
--	if ((eoffset - soffset) >= (size + wasted)) {
--		return true;
--	}
--
--	return false;
--}
--
--static bool radeon_sa_bo_next_hole(struct radeon_sa_manager *sa_manager,
--				   struct radeon_fence **fences,
--				   unsigned *tries)
--{
--	struct radeon_sa_bo *best_bo = NULL;
--	unsigned i, soffset, best, tmp;
--
--	/* if hole points to the end of the buffer */
--	if (sa_manager->hole->next == &sa_manager->olist) {
--		/* try again with its beginning */
--		sa_manager->hole = &sa_manager->olist;
--		return true;
--	}
--
--	soffset = radeon_sa_bo_hole_soffset(sa_manager);
--	/* to handle wrap around we add sa_manager->size */
--	best = sa_manager->size * 2;
--	/* go over all fence list and try to find the closest sa_bo
--	 * of the current last
--	 */
--	for (i = 0; i < RADEON_NUM_RINGS; ++i) {
--		struct radeon_sa_bo *sa_bo;
--
--		fences[i] = NULL;
--
--		if (list_empty(&sa_manager->flist[i])) {
--			continue;
--		}
--
--		sa_bo = list_first_entry(&sa_manager->flist[i],
--					 struct radeon_sa_bo, flist);
--
--		if (!radeon_fence_signaled(sa_bo->fence)) {
--			fences[i] = sa_bo->fence;
--			continue;
--		}
--
--		/* limit the number of tries each ring gets */
--		if (tries[i] > 2) {
--			continue;
--		}
--
--		tmp = sa_bo->soffset;
--		if (tmp < soffset) {
--			/* wrap around, pretend it's after */
--			tmp += sa_manager->size;
--		}
--		tmp -= soffset;
--		if (tmp < best) {
--			/* this sa bo is the closest one */
--			best = tmp;
--			best_bo = sa_bo;
--		}
--	}
--
--	if (best_bo) {
--		++tries[best_bo->fence->ring];
--		sa_manager->hole = best_bo->olist.prev;
--
--		/* we knew that this one is signaled,
--		   so it's save to remote it */
--		radeon_sa_bo_remove_locked(best_bo);
--		return true;
--	}
--	return false;
--}
--
--int radeon_sa_bo_new(struct radeon_device *rdev,
--		     struct radeon_sa_manager *sa_manager,
--		     struct radeon_sa_bo **sa_bo,
--		     unsigned size, unsigned align)
--{
--	struct radeon_fence *fences[RADEON_NUM_RINGS];
--	unsigned tries[RADEON_NUM_RINGS];
--	int i, r;
--
--	BUG_ON(align > sa_manager->align);
--	BUG_ON(size > sa_manager->size);
--
--	*sa_bo = kmalloc(sizeof(struct radeon_sa_bo), GFP_KERNEL);
--	if ((*sa_bo) == NULL) {
--		return -ENOMEM;
--	}
--	(*sa_bo)->manager = sa_manager;
--	(*sa_bo)->fence = NULL;
--	INIT_LIST_HEAD(&(*sa_bo)->olist);
--	INIT_LIST_HEAD(&(*sa_bo)->flist);
--
--	spin_lock(&sa_manager->wq.lock);
--	do {
--		for (i = 0; i < RADEON_NUM_RINGS; ++i)
--			tries[i] = 0;
--
--		do {
--			radeon_sa_bo_try_free(sa_manager);
--
--			if (radeon_sa_bo_try_alloc(sa_manager, *sa_bo,
--						   size, align)) {
--				spin_unlock(&sa_manager->wq.lock);
--				return 0;
--			}
--
--			/* see if we can skip over some allocations */
--		} while (radeon_sa_bo_next_hole(sa_manager, fences, tries));
--
--		for (i = 0; i < RADEON_NUM_RINGS; ++i)
--			radeon_fence_ref(fences[i]);
--
--		spin_unlock(&sa_manager->wq.lock);
--		r = radeon_fence_wait_any(rdev, fences, false);
--		for (i = 0; i < RADEON_NUM_RINGS; ++i)
--			radeon_fence_unref(&fences[i]);
--		spin_lock(&sa_manager->wq.lock);
--		/* if we have nothing to wait for block */
--		if (r == -ENOENT) {
--			r = wait_event_interruptible_locked(
--				sa_manager->wq, 
--				radeon_sa_event(sa_manager, size, align)
--			);
--		}
--
--	} while (!r);
--
--	spin_unlock(&sa_manager->wq.lock);
--	kfree(*sa_bo);
--	*sa_bo = NULL;
--	return r;
--}
--
--void radeon_sa_bo_free(struct radeon_device *rdev, struct radeon_sa_bo **sa_bo,
-+void radeon_sa_bo_free(struct drm_suballoc **sa_bo,
- 		       struct radeon_fence *fence)
- {
--	struct radeon_sa_manager *sa_manager;
--
- 	if (sa_bo == NULL || *sa_bo == NULL) {
- 		return;
- 	}
+-	if (sched->thread)
+-		kthread_stop(sched->thread);
++	drm_sched_run_wq_stop(sched);
  
--	sa_manager = (*sa_bo)->manager;
--	spin_lock(&sa_manager->wq.lock);
--	if (fence && !radeon_fence_signaled(fence)) {
--		(*sa_bo)->fence = radeon_fence_ref(fence);
--		list_add_tail(&(*sa_bo)->flist,
--			      &sa_manager->flist[fence->ring]);
--	} else {
--		radeon_sa_bo_remove_locked(*sa_bo);
--	}
--	wake_up_all_locked(&sa_manager->wq);
--	spin_unlock(&sa_manager->wq.lock);
-+	if (fence)
-+		drm_suballoc_free(*sa_bo, &fence->base);
-+	else
-+		drm_suballoc_free(*sa_bo, NULL);
-+
- 	*sa_bo = NULL;
- }
+ 	for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
+ 		struct drm_sched_rq *rq = &sched->sched_rq[i];
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index ca857ec9e7eb..ff50f3c289cd 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -456,17 +456,16 @@ struct drm_sched_backend_ops {
+  * @timeout: the time after which a job is removed from the scheduler.
+  * @name: name of the ring for which this scheduler is being used.
+  * @sched_rq: priority wise array of run queues.
+- * @wake_up_worker: the wait queue on which the scheduler sleeps until a job
+- *                  is ready to be scheduled.
+  * @job_scheduled: once @drm_sched_entity_do_release is called the scheduler
+  *                 waits on this wait queue until all the scheduled jobs are
+  *                 finished.
+  * @hw_rq_count: the number of jobs currently in the hardware queue.
+  * @job_id_count: used to assign unique id to the each job.
++ * @run_wq: workqueue used to queue @work_run
+  * @timeout_wq: workqueue used to queue @work_tdr
++ * @work_run: schedules jobs and cleans up entities
+  * @work_tdr: schedules a delayed call to @drm_sched_job_timedout after the
+  *            timeout interval is over.
+- * @thread: the kthread on which the scheduler which run.
+  * @pending_list: the list of jobs which are currently in the job queue.
+  * @job_list_lock: lock to protect the pending_list.
+  * @hang_limit: once the hangs by a job crosses this limit then it is marked
+@@ -475,6 +474,7 @@ struct drm_sched_backend_ops {
+  * @_score: score used when the driver doesn't provide one
+  * @ready: marks if the underlying HW is ready to work
+  * @free_guilty: A hit to time out handler to free the guilty job.
++ * @pause_run_wq: pause queuing of @work_run on @run_wq
+  * @dev: system &struct device
+  *
+  * One scheduler is implemented for each hardware ring.
+@@ -485,13 +485,13 @@ struct drm_gpu_scheduler {
+ 	long				timeout;
+ 	const char			*name;
+ 	struct drm_sched_rq		sched_rq[DRM_SCHED_PRIORITY_COUNT];
+-	wait_queue_head_t		wake_up_worker;
+ 	wait_queue_head_t		job_scheduled;
+ 	atomic_t			hw_rq_count;
+ 	atomic64_t			job_id_count;
++	struct workqueue_struct		*run_wq;
+ 	struct workqueue_struct		*timeout_wq;
++	struct work_struct		work_run;
+ 	struct delayed_work		work_tdr;
+-	struct task_struct		*thread;
+ 	struct list_head		pending_list;
+ 	spinlock_t			job_list_lock;
+ 	int				hang_limit;
+@@ -499,6 +499,7 @@ struct drm_gpu_scheduler {
+ 	atomic_t                        _score;
+ 	bool				ready;
+ 	bool				free_guilty;
++	bool				pause_run_wq;
+ 	struct device			*dev;
+ };
  
-@@ -400,25 +151,8 @@ void radeon_sa_bo_free(struct radeon_device *rdev, struct radeon_sa_bo **sa_bo,
- void radeon_sa_bo_dump_debug_info(struct radeon_sa_manager *sa_manager,
- 				  struct seq_file *m)
- {
--	struct radeon_sa_bo *i;
-+	struct drm_printer p = drm_seq_file_printer(m);
+@@ -529,6 +530,8 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
  
--	spin_lock(&sa_manager->wq.lock);
--	list_for_each_entry(i, &sa_manager->olist, olist) {
--		uint64_t soffset = i->soffset + sa_manager->gpu_addr;
--		uint64_t eoffset = i->eoffset + sa_manager->gpu_addr;
--		if (&i->olist == sa_manager->hole) {
--			seq_printf(m, ">");
--		} else {
--			seq_printf(m, " ");
--		}
--		seq_printf(m, "[0x%010llx 0x%010llx] size %8lld",
--			   soffset, eoffset, eoffset - soffset);
--		if (i->fence) {
--			seq_printf(m, " protected by 0x%016llx on ring %d",
--				   i->fence->seq, i->fence->ring);
--		}
--		seq_printf(m, "\n");
--	}
--	spin_unlock(&sa_manager->wq.lock);
-+	drm_suballoc_dump_debug_info(&sa_manager->base, &p, sa_manager->gpu_addr);
- }
- #endif
-diff --git a/drivers/gpu/drm/radeon/radeon_semaphore.c b/drivers/gpu/drm/radeon/radeon_semaphore.c
-index 221e59476f64..3e2b0bf0d55d 100644
---- a/drivers/gpu/drm/radeon/radeon_semaphore.c
-+++ b/drivers/gpu/drm/radeon/radeon_semaphore.c
-@@ -40,8 +40,8 @@ int radeon_semaphore_create(struct radeon_device *rdev,
- 	if (*semaphore == NULL) {
- 		return -ENOMEM;
- 	}
--	r = radeon_sa_bo_new(rdev, &rdev->ring_tmp_bo,
--			     &(*semaphore)->sa_bo, 8, 8);
-+	r = radeon_sa_bo_new(&rdev->ring_tmp_bo,
-+			     &(*semaphore)->sa_bo, 8);
- 	if (r) {
- 		kfree(*semaphore);
- 		*semaphore = NULL;
-@@ -100,7 +100,7 @@ void radeon_semaphore_free(struct radeon_device *rdev,
- 		dev_err(rdev->dev, "semaphore %p has more waiters than signalers,"
- 			" hardware lockup imminent!\n", *semaphore);
- 	}
--	radeon_sa_bo_free(rdev, &(*semaphore)->sa_bo, fence);
-+	radeon_sa_bo_free(&(*semaphore)->sa_bo, fence);
- 	kfree(*semaphore);
- 	*semaphore = NULL;
- }
+ void drm_sched_job_cleanup(struct drm_sched_job *job);
+ void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
++void drm_sched_run_wq_stop(struct drm_gpu_scheduler *sched);
++void drm_sched_run_wq_start(struct drm_gpu_scheduler *sched);
+ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad);
+ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery);
+ void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched);
 -- 
 2.37.3
 
