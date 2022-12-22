@@ -2,41 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9C00654841
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 23:15:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C6165483F
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 23:15:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7482E10E58E;
-	Thu, 22 Dec 2022 22:15:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCD4B10E597;
+	Thu, 22 Dec 2022 22:15:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 055C010E591;
- Thu, 22 Dec 2022 22:15:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1671747309; x=1703283309;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=H8K3GzcXSIEd1w51kx4lznBtFiP2qak8jltP0eQAHIk=;
- b=nFJvtqQCnEY5vTD8u5QOEjb1+4a/rQDNAjUOKeLN6jAvSFHO7Dch2Odq
- 97tpJOvmsPTNjPhIsnLpjKIUNCXjTnK3+9eBrDXGjPUqQOKy9yC6ABGMt
- hgUPmnPO7REVF96170XA5Fie5uBs5b5NPuqfLyoZvTqU8TLTE4choiZ7B Y=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 22 Dec 2022 14:15:07 -0800
-X-QCInternal: smtphost
-Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2022 14:15:07 -0800
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD9910E593;
+ Thu, 22 Dec 2022 22:15:21 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BMLcPdv000826; Thu, 22 Dec 2022 22:15:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=qcppdkim1;
+ bh=rLCLAkCOSO5a6DBivav4Cuv7JOvOGIwCLvYQv7LH0UU=;
+ b=huahQ98nijjOxn38fWMIoHBJKW2J0m+cFkgT0oyHHniMpl77LumW9jSmvv36A5N419+I
+ 1nJG02VGH9LpXEEqEarr/GR+VffaivOA9BW5d2ntbDt0pzwcZh55wZeAhsm/pKwSBi4Q
+ VjzsLSu78MwHXu4bL3fDzhTpkl9xL5PEka6YxzFznRqHEQcohNtwK4iPtofuC/tzLKMV
+ KgSZxrAqUAZL0atbrN39Yxiak5QUO5WQWVTo6WaGGJjVK9h22b503A/KNZctVk19YCf2
+ bCD2bXz74dNmnIhTL7RKkQw3MGMT8j9Tyn9dtuZZRHzSjH8/d9c6Mixh8BlqKnPHs8+v 0Q== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mm6hmk522-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Dec 2022 22:15:11 +0000
+Received: from nasanex01b.na.qualcomm.com (corens_vlan604_snip.qualcomm.com
+ [10.53.140.1])
+ by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BMMFBLA023241
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Dec 2022 22:15:11 GMT
 Received: from JESSZHAN.qualcomm.com (10.80.80.8) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Thu, 22 Dec 2022 14:15:05 -0800
+ 15.2.986.36; Thu, 22 Dec 2022 14:15:09 -0800
 From: Jessica Zhang <quic_jesszhan@quicinc.com>
 To: <freedreno@lists.freedesktop.org>
-Subject: [RFC PATCH v2 2/3] drm: Adjust atomic checks for solid fill color
-Date: Thu, 22 Dec 2022 14:14:40 -0800
-Message-ID: <20221222221441.6980-3-quic_jesszhan@quicinc.com>
+Subject: [RFC PATCH v2 3/3] drm/msm/dpu: Use color_fill property for DPU planes
+Date: Thu, 22 Dec 2022 14:14:41 -0800
+Message-ID: <20221222221441.6980-4-quic_jesszhan@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221222221441.6980-1-quic_jesszhan@quicinc.com>
 References: <20221222221441.6980-1-quic_jesszhan@quicinc.com>
@@ -46,6 +54,20 @@ Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: Ft67M6jBMHA24ekBF3S8gPoHQK7u7yz1
+X-Proofpoint-ORIG-GUID: Ft67M6jBMHA24ekBF3S8gPoHQK7u7yz1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-22_10,2022-12-22_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1015
+ lowpriorityscore=0 mlxlogscore=968 mlxscore=0 spamscore=0 adultscore=0
+ bulkscore=0 suspectscore=0 malwarescore=0 priorityscore=1501 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2212220188
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,247 +89,195 @@ Cc: sebastian.wick@redhat.com, ppaalanen@gmail.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Loosen the requirements for atomic and legacy commit so that, in cases
-where solid fill planes is enabled (and FB_ID is NULL), the commit can
-still go through.
+Initialize and use the color_fill properties for planes in DPU driver. In
+addition, relax framebuffer requirements within atomic commit path and
+add checks for NULL framebuffers. Finally, drop DPU_PLANE_COLOR_FILL_FLAG
+as it's unused.
 
-In addition, add framebuffer NULL checks in other areas to account for
-FB being NULL when solid fill is enabled.
-
-Changes in V2:
-- Changed to checks for if solid_fill_blob is set (Dmitry)
-- Abstracted (plane_state && !solid_fill_blob) checks to helper method
-  (Dmitry)
-- Fixed indentation issue (Dmitry)
+Changes since V2:
+- Fixed dropped 'const' warning
+- Dropped use of solid_fill_format
+- Switched to using drm_plane_solid_fill_enabled helper method
+- Added helper to convert color fill to BGR888 (Rob)
+- Added support for solid fill on planes of varying sizes
+- Removed DPU_PLANE_COLOR_FILL_FLAG
 
 Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 ---
- drivers/gpu/drm/drm_atomic.c        | 69 ++++++++++++++++-------------
- drivers/gpu/drm/drm_atomic_helper.c | 34 ++++++++------
- drivers/gpu/drm/drm_plane.c         |  8 ++--
- include/drm/drm_atomic_helper.h     |  6 ++-
- include/drm/drm_plane.h             | 12 +++++
- 5 files changed, 78 insertions(+), 51 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  9 +++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 65 ++++++++++++++---------
+ 2 files changed, 49 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index f197f59f6d99..b92d75bda7fd 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -601,8 +601,10 @@ static int drm_atomic_plane_check(const struct drm_plane_state *old_plane_state,
- 	uint32_t num_clips;
- 	int ret;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 13ce321283ff..0695b70ea1b7 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -409,6 +409,7 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+ 	struct drm_plane_state *state;
+ 	struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc->state);
+ 	struct dpu_plane_state *pstate = NULL;
++	const struct msm_format *fmt;
+ 	struct dpu_format *format;
+ 	struct dpu_hw_ctl *ctl = mixer->lm_ctl;
  
--	/* either *both* CRTC and FB must be set, or neither */
--	if (crtc && !fb) {
-+	/* When solid_fill is disabled,
-+	 * either *both* CRTC and FB must be set, or neither
-+	 */
-+	if (crtc && !fb && !new_plane_state->solid_fill_blob) {
- 		drm_dbg_atomic(plane->dev, "[PLANE:%d:%s] CRTC set but no FB\n",
- 			       plane->base.id, plane->name);
- 		return -EINVAL;
-@@ -626,14 +628,17 @@ static int drm_atomic_plane_check(const struct drm_plane_state *old_plane_state,
- 	}
+@@ -441,7 +442,13 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+ 				sspp_idx - SSPP_VIG0,
+ 				state->fb ? state->fb->base.id : -1);
  
- 	/* Check whether this plane supports the fb pixel format. */
--	ret = drm_plane_check_pixel_format(plane, fb->format->format,
--					   fb->modifier);
--	if (ret) {
--		drm_dbg_atomic(plane->dev,
--			       "[PLANE:%d:%s] invalid pixel format %p4cc, modifier 0x%llx\n",
--			       plane->base.id, plane->name,
--			       &fb->format->format, fb->modifier);
--		return ret;
-+	if (fb) {
-+		ret = drm_plane_check_pixel_format(plane, fb->format->format,
-+						   fb->modifier);
+-		format = to_dpu_format(msm_framebuffer_format(pstate->base.fb));
++		if (pstate->base.fb)
++			fmt = msm_framebuffer_format(pstate->base.fb);
++		else
++			fmt = dpu_get_msm_format(&_dpu_crtc_get_kms(crtc)->base,
++					DRM_FORMAT_ABGR8888, 0);
 +
-+		if (ret) {
-+			drm_dbg_atomic(plane->dev,
-+				       "[PLANE:%d:%s] invalid pixel format %p4cc, modifier 0x%llx\n",
-+				       plane->base.id, plane->name,
-+				       &fb->format->format, fb->modifier);
-+			return ret;
-+		}
- 	}
++		format = to_dpu_format(fmt);
  
- 	/* Give drivers some help against integer overflows */
-@@ -649,28 +654,30 @@ static int drm_atomic_plane_check(const struct drm_plane_state *old_plane_state,
- 		return -ERANGE;
- 	}
+ 		if (pstate->stage == DPU_STAGE_BASE && format->alpha_enable)
+ 			bg_alpha_enable = true;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index 86719020afe2..51a7507373f7 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -44,7 +44,6 @@
  
--	fb_width = fb->width << 16;
--	fb_height = fb->height << 16;
-+	if (fb) {
-+		fb_width = fb->width << 16;
-+		fb_height = fb->height << 16;
+ #define DPU_NAME_SIZE  12
  
--	/* Make sure source coordinates are inside the fb. */
--	if (new_plane_state->src_w > fb_width ||
--	    new_plane_state->src_x > fb_width - new_plane_state->src_w ||
--	    new_plane_state->src_h > fb_height ||
--	    new_plane_state->src_y > fb_height - new_plane_state->src_h) {
--		drm_dbg_atomic(plane->dev,
--			       "[PLANE:%d:%s] invalid source coordinates "
--			       "%u.%06ux%u.%06u+%u.%06u+%u.%06u (fb %ux%u)\n",
--			       plane->base.id, plane->name,
--			       new_plane_state->src_w >> 16,
--			       ((new_plane_state->src_w & 0xffff) * 15625) >> 10,
--			       new_plane_state->src_h >> 16,
--			       ((new_plane_state->src_h & 0xffff) * 15625) >> 10,
--			       new_plane_state->src_x >> 16,
--			       ((new_plane_state->src_x & 0xffff) * 15625) >> 10,
--			       new_plane_state->src_y >> 16,
--			       ((new_plane_state->src_y & 0xffff) * 15625) >> 10,
--			       fb->width, fb->height);
--		return -ENOSPC;
-+		/* Make sure source coordinates are inside the fb. */
-+		if (new_plane_state->src_w > fb_width ||
-+		    new_plane_state->src_x > fb_width - new_plane_state->src_w ||
-+		    new_plane_state->src_h > fb_height ||
-+		    new_plane_state->src_y > fb_height - new_plane_state->src_h) {
-+			drm_dbg_atomic(plane->dev,
-+				       "[PLANE:%d:%s] invalid source coordinates "
-+				       "%u.%06ux%u.%06u+%u.%06u+%u.%06u (fb %ux%u)\n",
-+				       plane->base.id, plane->name,
-+				       new_plane_state->src_w >> 16,
-+				       ((new_plane_state->src_w & 0xffff) * 15625) >> 10,
-+				       new_plane_state->src_h >> 16,
-+				       ((new_plane_state->src_h & 0xffff) * 15625) >> 10,
-+				       new_plane_state->src_x >> 16,
-+				       ((new_plane_state->src_x & 0xffff) * 15625) >> 10,
-+				       new_plane_state->src_y >> 16,
-+				       ((new_plane_state->src_y & 0xffff) * 15625) >> 10,
-+				       fb->width, fb->height);
-+			return -ENOSPC;
-+		}
- 	}
+-#define DPU_PLANE_COLOR_FILL_FLAG	BIT(31)
+ #define DPU_ZPOS_MAX 255
  
- 	clips = __drm_plane_get_damage_clips(new_plane_state);
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 1a586b3c454b..b53897f882c1 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -864,7 +864,7 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
- 	*src = drm_plane_state_src(plane_state);
- 	*dst = drm_plane_state_dest(plane_state);
+ /* multirect rect index */
+@@ -105,7 +104,6 @@ struct dpu_plane {
+ 	enum dpu_sspp pipe;
  
--	if (!fb) {
-+	if (!fb && !drm_plane_solid_fill_enabled(plane_state)) {
- 		plane_state->visible = false;
- 		return 0;
- 	}
-@@ -881,25 +881,31 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
- 		return -EINVAL;
- 	}
- 
--	drm_rect_rotate(src, fb->width << 16, fb->height << 16, rotation);
-+	if (fb) {
-+		drm_rect_rotate(src, fb->width << 16, fb->height << 16, rotation);
- 
--	/* Check scaling */
--	hscale = drm_rect_calc_hscale(src, dst, min_scale, max_scale);
--	vscale = drm_rect_calc_vscale(src, dst, min_scale, max_scale);
--	if (hscale < 0 || vscale < 0) {
--		drm_dbg_kms(plane_state->plane->dev,
--			    "Invalid scaling of plane\n");
--		drm_rect_debug_print("src: ", &plane_state->src, true);
--		drm_rect_debug_print("dst: ", &plane_state->dst, false);
--		return -ERANGE;
-+		/* Check scaling */
-+		hscale = drm_rect_calc_hscale(src, dst, min_scale, max_scale);
-+		vscale = drm_rect_calc_vscale(src, dst, min_scale, max_scale);
-+
-+		if (hscale < 0 || vscale < 0) {
-+			drm_dbg_kms(plane_state->plane->dev,
-+					"Invalid scaling of plane\n");
-+			drm_rect_debug_print("src: ", &plane_state->src, true);
-+			drm_rect_debug_print("dst: ", &plane_state->dst, false);
-+			return -ERANGE;
-+		}
- 	}
- 
- 	if (crtc_state->enable)
- 		drm_mode_get_hv_timing(&crtc_state->mode, &clip.x2, &clip.y2);
- 
--	plane_state->visible = drm_rect_clip_scaled(src, dst, &clip);
--
--	drm_rect_rotate_inv(src, fb->width << 16, fb->height << 16, rotation);
-+	if (drm_plane_solid_fill_enabled(plane_state)) {
-+		plane_state->visible = true;
-+	} else if (fb) {
-+		plane_state->visible = drm_rect_clip_scaled(src, dst, &clip);
-+		drm_rect_rotate_inv(src, fb->width << 16, fb->height << 16, rotation);
-+	}
- 
- 	if (!plane_state->visible)
- 		/*
-diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-index 33357629a7f5..bdce2acbef6a 100644
---- a/drivers/gpu/drm/drm_plane.c
-+++ b/drivers/gpu/drm/drm_plane.c
-@@ -856,8 +856,8 @@ static int __setplane_internal(struct drm_plane *plane,
- 
- 	WARN_ON(drm_drv_uses_atomic_modeset(plane->dev));
- 
--	/* No fb means shut it down */
--	if (!fb) {
-+	/* No fb and no color fill means shut it down */
-+	if (!fb && !drm_plane_solid_fill_enabled(plane->state)) {
- 		plane->old_fb = plane->fb;
- 		ret = plane->funcs->disable_plane(plane, ctx);
- 		if (!ret) {
-@@ -908,8 +908,8 @@ static int __setplane_atomic(struct drm_plane *plane,
- 
- 	WARN_ON(!drm_drv_uses_atomic_modeset(plane->dev));
- 
--	/* No fb means shut it down */
--	if (!fb)
-+	/* No fb and no color fill means shut it down */
-+	if (!fb && !drm_plane_solid_fill_enabled(plane->state))
- 		return plane->funcs->disable_plane(plane, ctx);
- 
- 	/*
-diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
-index 33f982cd1a27..16a2a8edcc68 100644
---- a/include/drm/drm_atomic_helper.h
-+++ b/include/drm/drm_atomic_helper.h
-@@ -230,8 +230,10 @@ drm_atomic_plane_disabling(struct drm_plane_state *old_plane_state,
- 	 * Anything else should be considered a bug in the atomic core, so we
- 	 * gently warn about it.
- 	 */
--	WARN_ON((new_plane_state->crtc == NULL && new_plane_state->fb != NULL) ||
--		(new_plane_state->crtc != NULL && new_plane_state->fb == NULL));
-+	WARN_ON(!new_plane_state->solid_fill_blob &&
-+		((new_plane_state->crtc == NULL && new_plane_state->fb != NULL) ||
-+				(new_plane_state->crtc != NULL &&
-+				 new_plane_state->fb == NULL)));
- 
- 	return old_plane_state->crtc && !new_plane_state->crtc;
+ 	struct dpu_hw_pipe *pipe_hw;
+-	uint32_t color_fill;
+ 	bool is_error;
+ 	bool is_rt_pipe;
+ 	const struct dpu_mdss_cfg *catalog;
+@@ -678,6 +676,17 @@ static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
+ 				&scaler3_cfg);
  }
-diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-index be5ab5f7b477..a9e6a09a75f7 100644
---- a/include/drm/drm_plane.h
-+++ b/include/drm/drm_plane.h
-@@ -977,6 +977,18 @@ static inline struct drm_plane *drm_plane_find(struct drm_device *dev,
- #define drm_for_each_plane(plane, dev) \
- 	list_for_each_entry(plane, &(dev)->mode_config.plane_list, head)
  
-+/**
-+ * drm_plane_solid_fill_enabled - Check if solid fill is enabled on plane
-+ * @state: plane state
-+ *
-+ * Returns:
-+ * Whether the plane has been assigned a solid_fill_blob
-+ */
-+static inline bool drm_plane_solid_fill_enabled(struct drm_plane_state *state)
++static uint32_t _dpu_plane_get_fill_color(struct drm_solid_fill solid_fill)
 +{
-+	return state && state->solid_fill_blob;
++	uint32_t ret = 0;
++
++	ret |= ((uint8_t) solid_fill.b) << 16;
++	ret |= ((uint8_t) solid_fill.g) << 8;
++	ret |= ((uint8_t) solid_fill.r);
++
++	return ret;
 +}
 +
- bool drm_any_plane_has_format(struct drm_device *dev,
- 			      u32 format, u64 modifier);
+ /**
+  * _dpu_plane_color_fill - enables color fill on plane
+  * @pdpu:   Pointer to DPU plane object
+@@ -1001,12 +1010,17 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
  
+ 	dst = drm_plane_state_dest(new_plane_state);
+ 
+-	fb_rect.x2 = new_plane_state->fb->width;
+-	fb_rect.y2 = new_plane_state->fb->height;
++	if (new_plane_state->fb) {
++		fb_rect.x2 = new_plane_state->fb->width;
++		fb_rect.y2 = new_plane_state->fb->height;
++	}
+ 
+ 	max_linewidth = pdpu->catalog->caps->max_linewidth;
+ 
+-	fmt = to_dpu_format(msm_framebuffer_format(new_plane_state->fb));
++	if (new_plane_state->fb)
++		fmt = to_dpu_format(msm_framebuffer_format(new_plane_state->fb));
++	else
++		fmt = dpu_get_dpu_format(DRM_FORMAT_ABGR8888);
+ 
+ 	min_src_size = DPU_FORMAT_IS_YUV(fmt) ? 2 : 1;
+ 
+@@ -1018,7 +1032,7 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 		return -EINVAL;
+ 
+ 	/* check src bounds */
+-	} else if (!dpu_plane_validate_src(&src, &fb_rect, min_src_size)) {
++	} else if (new_plane_state->fb && !dpu_plane_validate_src(&src, &fb_rect, min_src_size)) {
+ 		DPU_DEBUG_PLANE(pdpu, "invalid source " DRM_RECT_FMT "\n",
+ 				DRM_RECT_ARG(&src));
+ 		return -E2BIG;
+@@ -1086,9 +1100,10 @@ void dpu_plane_flush(struct drm_plane *plane)
+ 	if (pdpu->is_error)
+ 		/* force white frame with 100% alpha pipe output on error */
+ 		_dpu_plane_color_fill(pdpu, 0xFFFFFF, 0xFF);
+-	else if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG)
++	else if (!(plane->state->fb) && drm_plane_solid_fill_enabled(plane->state))
+ 		/* force 100% alpha */
+-		_dpu_plane_color_fill(pdpu, pdpu->color_fill, 0xFF);
++		_dpu_plane_color_fill(pdpu, _dpu_plane_get_fill_color(plane->state->solid_fill),
++				0xFF);
+ 	else if (pdpu->pipe_hw && pdpu->pipe_hw->ops.setup_csc) {
+ 		const struct dpu_format *fmt = to_dpu_format(msm_framebuffer_format(plane->state->fb));
+ 		const struct dpu_csc_cfg *csc_ptr = _dpu_plane_get_csc(pdpu, fmt);
+@@ -1127,23 +1142,30 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+ 	struct drm_crtc *crtc = state->crtc;
+ 	struct drm_framebuffer *fb = state->fb;
+ 	bool is_rt_pipe, update_qos_remap;
+-	const struct dpu_format *fmt =
+-		to_dpu_format(msm_framebuffer_format(fb));
++	const struct dpu_format *fmt;
+ 	struct dpu_hw_pipe_cfg pipe_cfg;
+ 
+-	memset(&pipe_cfg, 0, sizeof(struct dpu_hw_pipe_cfg));
+-
+-	_dpu_plane_set_scanout(plane, pstate, &pipe_cfg, fb);
+-
+ 	pstate->pending = true;
+ 
+ 	is_rt_pipe = (dpu_crtc_get_client_type(crtc) != NRT_CLIENT);
+ 	_dpu_plane_set_qos_ctrl(plane, false, DPU_PLANE_QOS_PANIC_CTRL);
+ 
+-	DPU_DEBUG_PLANE(pdpu, "FB[%u] " DRM_RECT_FP_FMT "->crtc%u " DRM_RECT_FMT
+-			", %4.4s ubwc %d\n", fb->base.id, DRM_RECT_FP_ARG(&state->src),
+-			crtc->base.id, DRM_RECT_ARG(&state->dst),
+-			(char *)&fmt->base.pixel_format, DPU_FORMAT_IS_UBWC(fmt));
++	/* override for color fill */
++	if (!fb && drm_plane_solid_fill_enabled(plane->state)) {
++		/* skip remaining processing on color fill */
++		return;
++	}
++
++	memset(&pipe_cfg, 0, sizeof(struct dpu_hw_pipe_cfg));
++
++	fmt = to_dpu_format(msm_framebuffer_format(fb));
++	_dpu_plane_set_scanout(plane, pstate, &pipe_cfg, fb);
++
++	if (fb)
++		DPU_DEBUG_PLANE(pdpu, "FB[%u] " DRM_RECT_FP_FMT "->crtc%u " DRM_RECT_FMT
++				", %4.4s ubwc %d\n", fb->base.id, DRM_RECT_FP_ARG(&state->src),
++				crtc->base.id, DRM_RECT_ARG(&state->dst),
++				(char *)&fmt->base.pixel_format, DPU_FORMAT_IS_UBWC(fmt));
+ 
+ 	pipe_cfg.src_rect = state->src;
+ 
+@@ -1155,12 +1177,6 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+ 
+ 	pipe_cfg.dst_rect = state->dst;
+ 
+-	/* override for color fill */
+-	if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG) {
+-		/* skip remaining processing on color fill */
+-		return;
+-	}
+-
+ 	if (pdpu->pipe_hw->ops.setup_rects) {
+ 		pdpu->pipe_hw->ops.setup_rects(pdpu->pipe_hw,
+ 				&pipe_cfg,
+@@ -1511,6 +1527,7 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
+ 		DPU_ERROR("failed to install zpos property, rc = %d\n", ret);
+ 
+ 	drm_plane_create_alpha_property(plane);
++	drm_plane_create_solid_fill_property(plane);
+ 	drm_plane_create_blend_mode_property(plane,
+ 			BIT(DRM_MODE_BLEND_PIXEL_NONE) |
+ 			BIT(DRM_MODE_BLEND_PREMULTI) |
 -- 
 2.38.1
 
