@@ -2,54 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE1A36542B5
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 15:17:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D38B06542CC
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 15:22:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE1C410E160;
-	Thu, 22 Dec 2022 14:17:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6BC410E164;
+	Thu, 22 Dec 2022 14:22:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 792DA10E160;
- Thu, 22 Dec 2022 14:17:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671718648; x=1703254648;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=meZJDY1PMUtgLkPrUblSxd3HYWLxd7p0iVKy4Ko1qbk=;
- b=iUm2KU0rDre6tmN6s+s8l2/7ICOnJNxv129qzHEN855OShvjjwysq+7g
- 1C2WXTU/a00d54gKgoTZBdAObGy5BRzQKlmKHOZSde1sVUOce8VzcnzCd
- 7im0oQJCmxVJRxs7/pFd8GzBIL95938hx7diqbd4+pcEUKPykMrXOfCdq
- 8BKA87hKzb5tovTNn/j/ddKK/p0kPD7Uc9hAFSoLApfT7rt3Iq7NNH7Ms
- 4fPs2xcM+Ab+4AGf+q/0vg8I7OlYfzHxQXc5i77152MT9nEmbv4bTKIC9
- eem4M0oXdKDjZhyyuyKqeQvav1QGS90CiPMmHIVyteqwpns/jdBrDBWDM A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="307820230"
-X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="307820230"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2022 06:17:27 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="651797661"
-X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="651797661"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.17.92])
- ([10.213.17.92])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2022 06:17:21 -0800
-Message-ID: <286f817c-2e3a-aba9-1083-73f25bafd84c@intel.com>
-Date: Thu, 22 Dec 2022 15:17:18 +0100
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2D1E10E164
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 14:22:18 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id q15so1495916edb.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 06:22:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:content-language:cc:to:subject:from
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oICMjrhWPQNlOjRYsHXcTIDJG/XY6KY3jXRiCxaOR5k=;
+ b=mUGPHBW4QRXeFFV7FJDSbecBTqr1tslLU3yOCyBavt55l7X11d5hyqA9/Brcwvrees
+ FNG4XOQ8HhLRxyfAxl6C/Dwhq66DzSxbDNpIXFwCVl9e0AYUo+aip7v5Cq+rGFqi7ISP
+ RFCcozGWwpjAjP1ScW0zEwJiqnvI1lSg7+B7vsE2PwguQdwp+DovtF939ER5rNxLt5WT
+ vNxiXo03obALBaRWG1brVYep0VA3Z6GeC/rHJ3ndxvnI3XfqhSvmkS8c/e+yEm/KM/DE
+ 7cxJRjifEcT5L1su9TCkWsRp1AWCvHHHYoBTdboLo/ucSWSJCEsWn9HdPeEfacD5Spx/
+ caSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:content-language:cc:to:subject:from
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=oICMjrhWPQNlOjRYsHXcTIDJG/XY6KY3jXRiCxaOR5k=;
+ b=DhYNPP9sk1wo6T0aWyAb8x9YRH4wkjqNgc/BB10Okt2HnhXgjTK/qROsD5cAnxubta
+ 7NMACTgup4RgFdNM3JMJ+hmJZzcUYL6XfwOCfvMAkiNKgsqDy7XneIoY1RLgLa7/KNgV
+ NONKLHDmZtaemwBr+P51+ViE4lDWxFPge4TPhx6H/x2/Ds15fuJ3j5x1NCN9XDIhiUpg
+ MShGUYDudQjV2fu4oawI0r9WMHes+MfnbdguFx/j9S6Eit6nJZ4j5WmOGga1uWh0TGMy
+ V5PvWI8Qc9eHPCuSs0jBMMNQ9ANx0MEmEHGCivFJhBCzX6ZQN0GUb9ekLaaKhKMq17IY
+ nBjg==
+X-Gm-Message-State: AFqh2ko4bAHIbezqq1V60DxAQ4SLQQhd8XOI8fa6FjJDtSe13u5YPcZX
+ iUQW2vyQORLeHW5lymf3Fns=
+X-Google-Smtp-Source: AMrXdXtEz8EfVtvD9kAV2temSw86S2imfQcIVy6XS9fb1KMtCwWpEnJA6CGg+F96FSZHVL2zWnWybg==
+X-Received: by 2002:a05:6402:5254:b0:461:bf05:2be1 with SMTP id
+ t20-20020a056402525400b00461bf052be1mr6593252edd.0.1671718937371; 
+ Thu, 22 Dec 2022 06:22:17 -0800 (PST)
+Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
+ by smtp.gmail.com with ESMTPSA id
+ by13-20020a0564021b0d00b0046bd3b366f9sm428708edb.32.2022.12.22.06.22.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Dec 2022 06:22:16 -0800 (PST)
+Message-ID: <67771143-fd83-383d-41b2-68e8707134e8@gmail.com>
+Date: Thu, 22 Dec 2022 15:22:14 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.6.0
-Subject: Re: [PATCH 00/19] Introduce __xchg, non-atomic xchg
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+From: Johan Jonker <jbx6244@gmail.com>
+Subject: [PATCH v6 01/17] dt-bindings: display: rockchip: convert
+ rockchip-lvds.txt to YAML
+To: heiko@sntech.de
 Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20221222114635.1251934-1-andrzej.hajda@intel.com>
- <CAMuHMdUE-a6SffG1PH=WfrMx-CNLB9EfUr4qmL_USBP31YGoNg@mail.gmail.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <CAMuHMdUE-a6SffG1PH=WfrMx-CNLB9EfUr4qmL_USBP31YGoNg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,84 +73,317 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
- linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, Boqun Feng <boqun.feng@gmail.com>,
- linux-xtensa@linux-xtensa.org, Arnd Bergmann <arnd@arndb.de>,
- intel-gfx@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
- openrisc@lists.librecores.org, loongarch@lists.linux.dev,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
+Cc: andrzej.hajda@intel.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Laurent.pinchart@ideasonboard.com,
+ krzysztof.kozlowski+dt@linaro.org, linux-samsung-soc@vger.kernel.org,
+ jernej.skrabec@gmail.com, linux-rockchip@lists.infradead.org,
+ alim.akhtar@samsung.com, devicetree@vger.kernel.org, jonas@kwiboo.se,
+ robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+ neil.armstrong@linaro.org, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, sw0312.kim@samsung.com, hjc@rock-chips.com,
+ robert.foss@linaro.org, kyungmin.park@samsung.com, philippe.cornu@foss.st.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Convert rockchip-lvds.txt to YAML.
 
+Changed:
+  Add power-domains property.
+  Requirements between PX30 and RK3288
 
-On 22.12.2022 15:12, Geert Uytterhoeven wrote:
-> Hi Andrzej,
->
-> Thanks for your series!
->
-> On Thu, Dec 22, 2022 at 12:49 PM Andrzej Hajda <andrzej.hajda@intel.com> wrote:
->> I hope there will be place for such tiny helper in kernel.
->> Quick cocci analyze shows there is probably few thousands places
->> where it could be useful.
->> I am not sure who is good person to review/ack such patches,
->> so I've used my intuition to construct to/cc lists, sorry for mistakes.
->> This is the 2nd approach of the same idea, with comments addressed[0].
->>
->> The helper is tiny and there are advices we can leave without it, so
->> I want to present few arguments why it would be good to have it:
->>
->> 1. Code readability/simplification/number of lines:
->>
->> Real example from drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c:
->> -       previous_min_rate = evport->qos.min_rate;
->> -       evport->qos.min_rate = min_rate;
->> +       previous_min_rate = __xchg(evport->qos.min_rate, min_rate);
-> Upon closer look, shouldn't that be
->
->      previous_min_rate = __xchg(&evport->qos.min_rate, min_rate);
->
-> ?
+Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
 
-Yes, you are right, the first argument is a pointer.
+Changed V3:
+  Filename matching compatible style
+  Drop "Regulator phandle for "
+  Specify properties and requirements per SoC
+  Sort order and restyle
 
-Regards
-Andrzej
+Changed V2:
+  Fix title
+---
+ .../display/rockchip/rockchip,lvds.yaml       | 170 ++++++++++++++++++
+ .../display/rockchip/rockchip-lvds.txt        |  92 ----------
+ 2 files changed, 170 insertions(+), 92 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,lvds.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-lvds.txt
 
->
->> For sure the code is more compact, and IMHO more readable.
->>
->> 2. Presence of similar helpers in other somehow related languages/libs:
->>
->> a) Rust[1]: 'replace' from std::mem module, there is also 'take'
->>      helper (__xchg(&x, 0)), which is the same as private helper in
->>      i915 - fetch_and_zero, see latest patch.
->> b) C++ [2]: 'exchange' from utility header.
->>
->> If the idea is OK there are still 2 qestions to answer:
->>
->> 1. Name of the helper, __xchg follows kernel conventions,
->>      but for me Rust names are also OK.
-> Before I realized the missing "&", I wondered how this is different
-> from swap(), so naming is important.
-> https://elixir.bootlin.com/linux/latest/source/include/linux/minmax.h#L139
->
-> Gr{oetje,eeting}s,
->
->                          Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                  -- Linus Torvalds
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,lvds.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,lvds.yaml
+new file mode 100644
+index 000000000..03b002a05
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,lvds.yaml
+@@ -0,0 +1,170 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/rockchip/rockchip,lvds.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Rockchip low-voltage differential signal (LVDS) transmitter
++
++maintainers:
++  - Sandy Huang <hjc@rock-chips.com>
++  - Heiko Stuebner <heiko@sntech.de>
++
++properties:
++  compatible:
++    enum:
++      - rockchip,px30-lvds
++      - rockchip,rk3288-lvds
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: pclk_lvds
++
++  avdd1v0-supply:
++    description: 1.0V analog power.
++
++  avdd1v8-supply:
++    description: 1.8V analog power.
++
++  avdd3v3-supply:
++    description: 3.3V analog power.
++
++  rockchip,grf:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: Phandle to the general register files syscon.
++
++  rockchip,output:
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: [rgb, lvds, duallvds]
++    description: This describes the output interface.
++
++  phys:
++    maxItems: 1
++
++  phy-names:
++    const: dphy
++
++  pinctrl-names:
++    const: lcdc
++
++  pinctrl-0: true
++
++  power-domains:
++    maxItems: 1
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Video port 0 for the VOP input.
++          The remote endpoint maybe vopb or vopl.
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Video port 1 for either a panel or subsequent encoder.
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - rockchip,grf
++  - rockchip,output
++  - ports
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: rockchip,px30-lvds
++
++    then:
++      properties:
++        reg: false
++        clocks: false
++        clock-names: false
++        avdd1v0-supply: false
++        avdd1v8-supply: false
++        avdd3v3-supply: false
++
++      required:
++        - phys
++        - phy-names
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: rockchip,rk3288-lvds
++
++    then:
++      properties:
++        phys: false
++        phy-names: false
++
++      required:
++        - reg
++        - clocks
++        - clock-names
++        - avdd1v0-supply
++        - avdd1v8-supply
++        - avdd3v3-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/rk3288-cru.h>
++
++    lvds: lvds@ff96c000 {
++      compatible = "rockchip,rk3288-lvds";
++      reg = <0xff96c000 0x4000>;
++      clocks = <&cru PCLK_LVDS_PHY>;
++      clock-names = "pclk_lvds";
++      avdd1v0-supply = <&vdd10_lcd>;
++      avdd1v8-supply = <&vcc18_lcd>;
++      avdd3v3-supply = <&vcca_33>;
++      pinctrl-names = "lcdc";
++      pinctrl-0 = <&lcdc_ctl>;
++      rockchip,grf = <&grf>;
++      rockchip,output = "rgb";
++
++      ports {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        lvds_in: port@0 {
++          reg = <0>;
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          lvds_in_vopb: endpoint@0 {
++            reg = <0>;
++            remote-endpoint = <&vopb_out_lvds>;
++          };
++          lvds_in_vopl: endpoint@1 {
++            reg = <1>;
++            remote-endpoint = <&vopl_out_lvds>;
++          };
++        };
++
++        lvds_out: port@1 {
++          reg = <1>;
++
++          lvds_out_panel: endpoint {
++            remote-endpoint = <&panel_in_lvds>;
++          };
++        };
++      };
++    };
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-lvds.txt b/Documentation/devicetree/bindings/display/rockchip/rockchip-lvds.txt
+deleted file mode 100644
+index aaf8c44cf..000000000
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip-lvds.txt
++++ /dev/null
+@@ -1,92 +0,0 @@
+-Rockchip RK3288 LVDS interface
+-================================
+-
+-Required properties:
+-- compatible: matching the soc type, one of
+-	- "rockchip,rk3288-lvds";
+-	- "rockchip,px30-lvds";
+-
+-- reg: physical base address of the controller and length
+-	of memory mapped region.
+-- clocks: must include clock specifiers corresponding to entries in the
+-	clock-names property.
+-- clock-names: must contain "pclk_lvds"
+-
+-- avdd1v0-supply: regulator phandle for 1.0V analog power
+-- avdd1v8-supply: regulator phandle for 1.8V analog power
+-- avdd3v3-supply: regulator phandle for 3.3V analog power
+-
+-- rockchip,grf: phandle to the general register files syscon
+-- rockchip,output: "rgb", "lvds" or "duallvds", This describes the output interface
+-
+-- phys: LVDS/DSI DPHY (px30 only)
+-- phy-names: name of the PHY, must be "dphy" (px30 only)
+-
+-Optional properties:
+-- pinctrl-names: must contain a "lcdc" entry.
+-- pinctrl-0: pin control group to be used for this controller.
+-
+-Required nodes:
+-
+-The lvds has two video ports as described by
+-	Documentation/devicetree/bindings/media/video-interfaces.txt
+-Their connections are modeled using the OF graph bindings specified in
+-	Documentation/devicetree/bindings/graph.txt.
+-
+-- video port 0 for the VOP input, the remote endpoint maybe vopb or vopl
+-- video port 1 for either a panel or subsequent encoder
+-
+-Example:
+-
+-lvds_panel: lvds-panel {
+-	compatible = "auo,b101ean01";
+-	enable-gpios = <&gpio7 21 GPIO_ACTIVE_HIGH>;
+-	data-mapping = "jeida-24";
+-
+-	ports {
+-		panel_in_lvds: endpoint {
+-			remote-endpoint = <&lvds_out_panel>;
+-		};
+-	};
+-};
+-
+-For Rockchip RK3288:
+-
+-	lvds: lvds@ff96c000 {
+-		compatible = "rockchip,rk3288-lvds";
+-		rockchip,grf = <&grf>;
+-		reg = <0xff96c000 0x4000>;
+-		clocks = <&cru PCLK_LVDS_PHY>;
+-		clock-names = "pclk_lvds";
+-		pinctrl-names = "lcdc";
+-		pinctrl-0 = <&lcdc_ctl>;
+-		avdd1v0-supply = <&vdd10_lcd>;
+-		avdd1v8-supply = <&vcc18_lcd>;
+-		avdd3v3-supply = <&vcca_33>;
+-		rockchip,output = "rgb";
+-		ports {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-
+-			lvds_in: port@0 {
+-				reg = <0>;
+-
+-				lvds_in_vopb: endpoint@0 {
+-					reg = <0>;
+-					remote-endpoint = <&vopb_out_lvds>;
+-				};
+-				lvds_in_vopl: endpoint@1 {
+-					reg = <1>;
+-					remote-endpoint = <&vopl_out_lvds>;
+-				};
+-			};
+-
+-			lvds_out: port@1 {
+-				reg = <1>;
+-
+-				lvds_out_panel: endpoint {
+-					remote-endpoint = <&panel_in_lvds>;
+-				};
+-			};
+-		};
+-	};
+--
+2.20.1
 
