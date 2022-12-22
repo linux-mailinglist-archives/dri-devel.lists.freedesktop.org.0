@@ -2,74 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF911653CE8
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 09:21:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70F56653CF8
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 09:27:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5670610E0B5;
-	Thu, 22 Dec 2022 08:21:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 345C010E51A;
+	Thu, 22 Dec 2022 08:26:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C58510E0B5
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 08:21:34 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id z26so1625524lfu.8
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 00:21:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=uAkQvA3Xh+SnjA47mehnFmJrTToVnvQtaeVXifEV6Rk=;
- b=RWoSYDbQMlbQ088uebiL+ygAsoUptTfvNBo/L9++PXhJBblh7qqCm3Pkse0QCPQZiL
- 4AY+M34sAYZQ+4L7HQAqxkQKj5CMynrip2kJjQY2Cr8U325dXsQ5RecP7HhGinSFL6ed
- 2HbQ0qRnU+tHTRl8ngGZWqVnWJtYco8xJyhFZEhmcrdHX5s3YrI+CNid2TP3zkK4Fjks
- IqT1xSblZ4pEegrPQeWidY3bCu1QW2QidkTFbdXFsns6KhABy42c38Up6mjlnRohFnqv
- VQ/CEnyafMBkl9DKHjnoYJnwXFA3HQW0GfGzTPaekHk2ZU2vAttm4pv6Tn2yEa7wKzlu
- CoLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uAkQvA3Xh+SnjA47mehnFmJrTToVnvQtaeVXifEV6Rk=;
- b=rxZck6iyvVMTVTpKuyCbRRM/9IuXzQC/clY5cWM8JKFrExieYu9ZoW1qFoByL4ERAM
- TjmcY8s8aIJ7Ibp3zdwiVLREC/t4KCUoqgchyTrXPPJ+NLPBeZlicVakjW9wvxXQlk3o
- VR+Mhm0J75aH0arE0nB5QK7RbCPDaQ41jUuP2BCvfUswGpy3b3MoQyk/5le9vyZzHmQO
- 5xGtcw8S83ZqWXeQoyFi8DlKdFYfTBADKjcKpfj2saV6FLwuC2+whlPzsBUmudbJm1kx
- fBH1aYATzPl1AqaxbjWQsNJln2f6iZ7ovMIhUdYmpP4W3+CO16nAwd/43XORRRxoc2gv
- 5d3g==
-X-Gm-Message-State: AFqh2kpJsoCfdEooVLIRtP1Xhl2uVQxMRSoIeV1y1eFIeswNGEJuzWRh
- QXgjA2jFGwqzIVosh0OwFPmv3g==
-X-Google-Smtp-Source: AMrXdXt37+6z3xr5biGtW60g1/enVSSlhcb6yauFfDNgy4Ip6QuFAVRlBq+qGgvqP00SOsqek4NptQ==
-X-Received: by 2002:a19:f713:0:b0:4b6:bc3c:f457 with SMTP id
- z19-20020a19f713000000b004b6bc3cf457mr1272077lfe.34.1671697292821; 
- Thu, 22 Dec 2022 00:21:32 -0800 (PST)
-Received: from [192.168.0.20]
- (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
- by smtp.gmail.com with ESMTPSA id
- o9-20020a05651205c900b00497aa190523sm2110812lfo.248.2022.12.22.00.21.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Dec 2022 00:21:32 -0800 (PST)
-Message-ID: <e2b0f5e2-8681-10e7-8924-a1bf5040f7d0@linaro.org>
-Date: Thu, 22 Dec 2022 09:21:31 +0100
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A74FF10E15A;
+ Thu, 22 Dec 2022 08:26:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1671697583; x=1703233583;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=I3zocY+Cy1X0o6P7T1touDFgdvyjsvC6VD1esUaLNwc=;
+ b=eYQL3KjgNrVUNIklFcTP50rHeVHjDiRo26tyO29R3Dw9EZc2iBAwHf6R
+ xsU4iiGMynpHD6FEo8iEhxtSsX5M45xcwdYKJ6kDHyVFKjFZ9ac/NYH1B
+ REznlfA4tLoEAoFJDJKrxrfrHnqQiFeMWayV0NHwcJwumE8gNSSv+PDCN
+ ixkvwiqJP3cx1XfFF0hBvqEjZTbxYiooHkT2ztplFRPGZ3HzWFIUb319j
+ D3p+end3/4MW5j4+AfGrO3y6ETJ0ZVZCbpqjDE0fDOX8Jf24lp0/tfj7h
+ 8DrycgBbrAIDqbTc2x1jHrUWSpCvhcYUVuFWJVW7nFh6wXt4TgS10ksSL A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="384426681"
+X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="384426681"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2022 00:26:22 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="645127589"
+X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="645127589"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2022 00:26:22 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/4] Remove platform acronyms and stepping from comments
+Date: Thu, 22 Dec 2022 00:25:53 -0800
+Message-Id: <20221222082557.1364711-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 2/2] dt-bindings: leds: backlight: Add Kinetic KTZ8866
- backlight
-Content-Language: en-US
-To: Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Helge Deller <deller@gmx.de>
-References: <20221221153154.25411-1-lujianhua000@gmail.com>
- <20221221153154.25411-2-lujianhua000@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221221153154.25411-2-lujianhua000@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,21 +55,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/12/2022 16:31, Jianhua Lu wrote:
-> Add Kinetic KTZ8866 backlight binding documentation.
-> 
-> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
-> ---
+Cleanup gt and display wrt the comments for the workarounds. Rationale
+is in the patch itself.
 
+I'm providing the patches, as generated by the commands in the commit
+message, with a fixup on top to remove false positives. The intention for
+when this is ready to be applied is to squash the fixup: it's only
+provided for ease of review and rebase.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Lucas De Marchi (4):
+  drm/i915/gt: Remove platform comments from workarounds
+  fixup! drm/i915/gt: Remove platform comments from workarounds
+  drm/i915: Remove platform comments from workarounds
+  fixup! drm/i915: Remove platform comments from workarounds
 
-Best regards,
-Krzysztof
+ drivers/gpu/drm/i915/display/g4x_hdmi.c       |   2 +-
+ drivers/gpu/drm/i915/display/i9xx_plane.c     |   2 +-
+ drivers/gpu/drm/i915/display/icl_dsi.c        |  10 +-
+ .../gpu/drm/i915/display/intel_atomic_plane.c |   2 +-
+ drivers/gpu/drm/i915/display/intel_cdclk.c    |   2 +-
+ drivers/gpu/drm/i915/display/intel_cursor.c   |   2 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |  20 +-
+ .../drm/i915/display/intel_display_power.c    |   8 +-
+ .../i915/display/intel_display_power_well.c   |   2 +-
+ drivers/gpu/drm/i915/display/intel_dmc.c      |   2 +-
+ drivers/gpu/drm/i915/display/intel_dpll.c     |   2 +-
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.c |   2 +-
+ drivers/gpu/drm/i915/display/intel_fbc.c      |  10 +-
+ drivers/gpu/drm/i915/display/intel_fdi.c      |   2 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |   2 +-
+ .../drm/i915/display/intel_modeset_setup.c    |   4 +-
+ .../gpu/drm/i915/display/intel_pch_refclk.c   |   2 +-
+ drivers/gpu/drm/i915/display/intel_psr.c      |  24 +-
+ drivers/gpu/drm/i915/display/intel_sprite.c   |   2 +-
+ drivers/gpu/drm/i915/display/intel_vga.c      |   2 +-
+ .../drm/i915/display/skl_universal_plane.c    |   6 +-
+ drivers/gpu/drm/i915/display/skl_watermark.c  |   8 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |   2 +-
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c      |  12 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   2 +-
+ .../drm/i915/gt/intel_execlists_submission.c  |   6 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   2 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |   2 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.c           |  20 +-
+ drivers/gpu/drm/i915/gt/intel_mocs.c          |   2 +-
+ drivers/gpu/drm/i915/gt/intel_rc6.c           |   4 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c         |   4 +-
+ .../gpu/drm/i915/gt/intel_ring_submission.c   |  10 +-
+ drivers/gpu/drm/i915/gt/intel_rps.c           |   2 +-
+ drivers/gpu/drm/i915/gt/intel_workarounds.c   | 439 +++++++++---------
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  16 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |   4 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |   4 +-
+ drivers/gpu/drm/i915/gvt/mmio_context.c       |   2 +-
+ drivers/gpu/drm/i915/i915_perf.c              |  10 +-
+ drivers/gpu/drm/i915/intel_pm.c               | 132 +++---
+ drivers/gpu/drm/i915/intel_uncore.c           |   8 +-
+ 42 files changed, 400 insertions(+), 401 deletions(-)
+
+-- 
+2.39.0
 
