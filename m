@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1206542D5
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 15:24:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96B0C6542D7
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 15:24:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ECBB10E030;
-	Thu, 22 Dec 2022 14:24:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7699E10E163;
+	Thu, 22 Dec 2022 14:24:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2F5910E030
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 14:24:18 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id u9so5378376ejo.0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 06:24:18 -0800 (PST)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C56710E163
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 14:24:55 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id vv4so5310476ejc.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 06:24:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:content-language:references
  :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
  :cc:subject:date:message-id:reply-to;
- bh=LnWhFDszNMI8+kb0kwDjwW0IO0VieHrS+DBjt8KEoSM=;
- b=cuFW0RTjiVDBdjiwgwJQVjfjjPxXLiH9SW6vNyZZT/0l+q7G1n/JB0x7gqXcaCVi/f
- eXG+dJt+DxN8IhfYygw5ufplocdh64KCshIotuIEHdVVvXRRkXNa10xNVnDpMQwBuznZ
- fs32PWrIK/UMzp1U5b+ytjdj7IFjCyNc5eRXWmBMGc5iOp6U6J8vNBNDiYGwusCCR/iG
- ktcB8G4hUnc50wXJHYkUEcgjZBaImBefO7nZ2HCrzsqBpTem/B/vOvoz711Yov98rc5J
- 7luzBlQT9wZWUkdFuJ+W6cNtXAow2S3dMuhVHdYF48zu25TdAV9utgAXuVasjk7HJvIK
- v6wQ==
+ bh=HdAXRp18Yhl+PSUnXtbvxR+DNOmBhpNB7mLZxnFGxfA=;
+ b=Ak5UOvazOKQI4voJRBbw/aBCbllxV6iZfxLX5kvr7a5k5+402RTMNX9ttsPTN8xVOn
+ jT6T0+rXU62S82MDgMd+aQlPOOz/nfCu0pq1ZLDkC8fIZcYV/qrF/bpFwM8yAWQ0x7EQ
+ q9HcoG9P5F+9jZje1fi5sgQoaWHo7hmbgbgOJE7cM//3AeuvYbrpdL0Sl9FsN+43sM41
+ 8MexiDyS2m+RHro68c2blvLTjRBbFlnQ4ynqfyt4QdPsL54m7KwwZe765Cl5pAO+TBLQ
+ kh0a1doC6s6qxvb+rN0CUV2+qE2y3WmNyNet3Vn2IghdsPmFXjRJdFOalNe3uBpXFpbA
+ /VTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:content-language:references
  :cc:to:subject:from:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LnWhFDszNMI8+kb0kwDjwW0IO0VieHrS+DBjt8KEoSM=;
- b=LHwmEIk66py28bw1wGobgQsG89k6mgf6sd7jf5QHmjCUa+mE4m7mFt21vKgo/8Fp8a
- hL4fhyeYENvnRK5EkEJS5fYS09Xe8RUDUkvFJdyHSKbx+EPPSeff4bmFWGgTCjr8rn4Z
- QmnN7wi9uyKMlqBTlGjw0TUh0BfCLykyYPwHd6fRdHXMADyZR5USaYrEWh2TvxLowNtd
- kFm3D2xVJBwbjEkA9YvNrno2E97MdBmzDe8IIgYqJMBCihsGr6Gi+cUCQPJkW/sNbkU3
- etImgdj04qjdaxeQQiowr5KxVPCw1LKVmFzvn4MShHQW0J/1GwkT60iMpckPyxCi/u+r
- sfgA==
-X-Gm-Message-State: AFqh2koVB3V6K0wojD3GnhpDj9Byq5w5GSBiM8GusXPNkStAKE3jUZFu
- Ue+Ux4UHhPSYTyzv94ReD2I=
-X-Google-Smtp-Source: AMrXdXvroVpUBN7+mAP+hqeudjOkt5RRg2uy5FfYK2PWzHmdu0pl+Jqa8DrSEN30FJFKNCbQJOqIPg==
-X-Received: by 2002:a17:906:6dd4:b0:836:e6f7:8138 with SMTP id
- j20-20020a1709066dd400b00836e6f78138mr5338891ejt.13.1671719057163; 
- Thu, 22 Dec 2022 06:24:17 -0800 (PST)
+ bh=HdAXRp18Yhl+PSUnXtbvxR+DNOmBhpNB7mLZxnFGxfA=;
+ b=3LP2EGuQ/Qr4ok2gSclV1Iai8Oz0netIMXI0RcXlMSzZKNTEVgXo2NT9aNyQSJsrmu
+ 186uMyKuN0g26YQXgMjeWbx6mE0RWMuuu8TKJ8L32Pys66pCnWVb3o+mZnL2iCCmgbMF
+ rBqq7Ok3opwVc0YY3OtCCq8I6nwyyeNvD1OoOMet5z5G9SW/x6a34bYp9BnoxvruRGVy
+ jryJqOWP+9QGGLBDc3yB+sY0hhCK3Wtltxsovy3l/3X0qTR58oAioggqQNLHK++nhLne
+ JTdParGBFtO35r3twGwU7MjejuvYwSHx0sDn1WAWNEz/qtnwqmNjF/ZLrXz6gLOgI3RH
+ GNDg==
+X-Gm-Message-State: AFqh2kp3gHNHLJnYv0sgseyzxyCV1muvM6iahzhlztWvxE8K9Vlc2Hk7
+ lXJP2afKVJNGhxAMN009JFk=
+X-Google-Smtp-Source: AMrXdXt45+koOLdg7WkWVuXyCH9JMIXYsbmfdjeRv0hUdjOfPc/eqO1XzGfCc9tGBAYRQkxdVQZgQA==
+X-Received: by 2002:a17:907:1b0b:b0:7c1:6344:84a with SMTP id
+ mp11-20020a1709071b0b00b007c16344084amr7096364ejc.5.1671719093335; 
+ Thu, 22 Dec 2022 06:24:53 -0800 (PST)
 Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
  by smtp.gmail.com with ESMTPSA id
- y3-20020a056402134300b0047f5f5bb5fasm415838edw.62.2022.12.22.06.24.15
+ w14-20020a17090649ce00b00835dababb9fsm283580ejv.214.2022.12.22.06.24.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Dec 2022 06:24:16 -0800 (PST)
-Message-ID: <ff3644da-e5ae-f795-c7d9-454b8c8bdfe8@gmail.com>
-Date: Thu, 22 Dec 2022 15:24:15 +0100
+ Thu, 22 Dec 2022 06:24:53 -0800 (PST)
+Message-ID: <1c3b18ad-350f-e862-de98-a775e11e132c@gmail.com>
+Date: Thu, 22 Dec 2022 15:24:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.0
 From: Johan Jonker <jbx6244@gmail.com>
-Subject: [PATCH v6 02/17] dt-bindings: soc: rockchip: grf: add
- rockchip,lvds.yaml
+Subject: [PATCH v6 03/17] dt-bindings: display: dsi-controller: move
+ clock-master property
 To: heiko@sntech.de
 References: <67771143-fd83-383d-41b2-68e8707134e8@gmail.com>
 Content-Language: en-US
@@ -87,106 +87,50 @@ Cc: andrzej.hajda@intel.com, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add new converted rockchip,lvds.yaml to grf.yaml file.
-Prepare for more SoCs with lvds output.
+The clock-master property is used for the controller and not in the panel,
+so move it there.
 
 Signed-off-by: Johan Jonker <jbx6244@gmail.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
 ---
+ .../bindings/display/dsi-controller.yaml       | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-Changed V5:
-  Drop the quotes
----
- .../devicetree/bindings/soc/rockchip/grf.yaml | 24 +++++++++++--------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+diff --git a/Documentation/devicetree/bindings/display/dsi-controller.yaml b/Documentation/devicetree/bindings/display/dsi-controller.yaml
+index ca21671f6..67ce10307 100644
+--- a/Documentation/devicetree/bindings/display/dsi-controller.yaml
++++ b/Documentation/devicetree/bindings/display/dsi-controller.yaml
+@@ -30,6 +30,15 @@ properties:
+   $nodename:
+     pattern: "^dsi(@.*)?$"
 
-diff --git a/Documentation/devicetree/bindings/soc/rockchip/grf.yaml b/Documentation/devicetree/bindings/soc/rockchip/grf.yaml
-index 2ed8cca79..7ac9aa5fa 100644
---- a/Documentation/devicetree/bindings/soc/rockchip/grf.yaml
-+++ b/Documentation/devicetree/bindings/soc/rockchip/grf.yaml
-@@ -75,13 +75,17 @@ allOf:
-       properties:
-         compatible:
-           contains:
--            const: rockchip,px30-grf
-+            enum:
-+              - rockchip,px30-grf
-
-     then:
-       properties:
-         lvds:
--          description:
--            Documentation/devicetree/bindings/display/rockchip/rockchip-lvds.txt
-+          type: object
++  clock-master:
++    type: boolean
++    description:
++      Should be enabled if the host is being used in conjunction with
++      another DSI host to drive the same peripheral. Hardware supporting
++      such a configuration generally requires the data on both the busses
++      to be driven by the same clock. Only the DSI host instance
++      controlling this clock should contain this property.
 +
-+          $ref: /schemas/display/rockchip/rockchip,lvds.yaml#
-+
-+          unevaluatedProperties: false
+   "#address-cells":
+     const: 1
 
-   - if:
-       properties:
-@@ -109,7 +113,7 @@ allOf:
-         usbphy:
-           type: object
+@@ -52,15 +61,6 @@ patternProperties:
+           case the reg property can take multiple entries, one for each virtual
+           channel that the peripheral responds to.
 
--          $ref: "/schemas/phy/rockchip-usb-phy.yaml#"
-+          $ref: /schemas/phy/rockchip-usb-phy.yaml#
-
-           unevaluatedProperties: false
-
-@@ -124,14 +128,14 @@ allOf:
-         gpio:
-           type: object
-
--          $ref: "/schemas/gpio/rockchip,rk3328-grf-gpio.yaml#"
-+          $ref: /schemas/gpio/rockchip,rk3328-grf-gpio.yaml#
-
-           unevaluatedProperties: false
-
-         power-controller:
-           type: object
-
--          $ref: "/schemas/power/rockchip,power-controller.yaml#"
-+          $ref: /schemas/power/rockchip,power-controller.yaml#
-
-           unevaluatedProperties: false
-
-@@ -146,7 +150,7 @@ allOf:
-         mipi-dphy-rx0:
-           type: object
-
--          $ref: "/schemas/phy/rockchip-mipi-dphy-rx0.yaml#"
-+          $ref: /schemas/phy/rockchip-mipi-dphy-rx0.yaml#
-
-           unevaluatedProperties: false
-
-@@ -174,7 +178,7 @@ allOf:
-         reboot-mode:
-           type: object
-
--          $ref: "/schemas/power/reset/syscon-reboot-mode.yaml#"
-+          $ref: /schemas/power/reset/syscon-reboot-mode.yaml#
-
-           unevaluatedProperties: false
-
-@@ -200,7 +204,7 @@ allOf:
-         "usb2phy@[0-9a-f]+$":
-           type: object
-
--          $ref: "/schemas/phy/phy-rockchip-inno-usb2.yaml#"
-+          $ref: /schemas/phy/phy-rockchip-inno-usb2.yaml#
-
-           unevaluatedProperties: false
-
-@@ -228,7 +232,7 @@ allOf:
-         io-domains:
-           type: object
-
--          $ref: "/schemas/power/rockchip-io-domain.yaml#"
-+          $ref: /schemas/power/rockchip-io-domain.yaml#
-
-           unevaluatedProperties: false
-
+-      clock-master:
+-        type: boolean
+-        description:
+-          Should be enabled if the host is being used in conjunction with
+-          another DSI host to drive the same peripheral. Hardware supporting
+-          such a configuration generally requires the data on both the busses
+-          to be driven by the same clock. Only the DSI host instance
+-          controlling this clock should contain this property.
+-
+       enforce-video-mode:
+         type: boolean
+         description:
 --
 2.20.1
 
