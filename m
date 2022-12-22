@@ -2,67 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DAAD654331
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 15:34:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7ED36543B1
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 16:06:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5060E10E518;
-	Thu, 22 Dec 2022 14:33:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBBCF10E522;
+	Thu, 22 Dec 2022 15:05:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39A2610E518
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 14:33:52 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id gh17so5334140ejb.6
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 06:33:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=3spaG/gmW2iurMqKAzeqtwdB73qDEY0NRjhBceQ6XKs=;
- b=CRqcUNirJ7ntkMUU3JTGsOB20UlhBrxRoqyYx/3ZS4wzpgONJrG2I2eRg06hDXUMcN
- CGWzv1hqWty3MdmlDNEkmXm5Wvd75JsO30NtYG6rUExTOsSTd2ejWM/Ph0Vvl4znq5cR
- ASJyzhJg7dtPga9J3IzuVm8cO4HrT5GWRX5Z2wnWWU8R+ioOxrk5PylVbB6v7DZuFC0I
- LJ6OcTUs0vB5PaNojBTWE7NVnvc8iR57BDNCFcPC5dyI2v2Z41IO48C8khaMVX+F2wOH
- 2itQG6e4aRjBmTmFUmWle4aNRLym2mhAYcibcMvG+bDMR8Ho8oYFuUC6WFf/Q1+viOC9
- GsfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3spaG/gmW2iurMqKAzeqtwdB73qDEY0NRjhBceQ6XKs=;
- b=1S0B6Pidjr5YnDWwePyf/758yyCRlu/yAG/OPxhSkvJtUBn+QL9rxX+orm5iMoJe96
- 3qC9qWz73+5zHb86ZJI5YlLpYm/uod3KksK7+7CJW19oo+E8GvEVs9/kvbEk+UoZs9Cj
- Ti0ctAgWSOwm7S5y2hir3qXbu7QiJRXWM+SkVLxp7NeO6d3v4wtZKDqx+2Sn/ygvVCaj
- c4TUb75bcXdtvGr+kmPM27IlSB2L0oHs6GVRW1MF3D74+9PuVYTsDo5Wz5AtQplOsEfr
- SDAVta4omKdBiMn3ioa5j0dJ7h+G6325JZOjdI+9y8H1Ye6WyBEF8svjTBFc87gTRuSg
- aDKA==
-X-Gm-Message-State: AFqh2koGPeMLWH/VIC/d0HIMir6Fq8Tgu5jmvcRje6CVAaZ/4p07VoN0
- kGvd3N/GKqSYS2S0QY6kRnEJl79bkuo=
-X-Google-Smtp-Source: AMrXdXs5nNL5GxAUeP1wdSH8AGyRtbt3ZUxJM9gwb+vJpq0IniGq4U7xZeYGlX3TVYis4RhsdPUVwQ==
-X-Received: by 2002:a17:907:6d95:b0:7c0:aabd:fef0 with SMTP id
- sb21-20020a1709076d9500b007c0aabdfef0mr5674298ejc.17.1671719630737; 
- Thu, 22 Dec 2022 06:33:50 -0800 (PST)
-Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
- by smtp.gmail.com with ESMTPSA id
- jj20-20020a170907985400b007c0b6e1c7fdsm304754ejc.104.2022.12.22.06.33.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Dec 2022 06:33:50 -0800 (PST)
-Message-ID: <4df211eb-4fcd-ee20-48a1-ce7712de552c@gmail.com>
-Date: Thu, 22 Dec 2022 15:33:49 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93BE310E04D;
+ Thu, 22 Dec 2022 15:05:26 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BMBHvfi030992; Thu, 22 Dec 2022 15:05:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=Gya7rubpAwJcrKugU9ig5Vdy5rjuPokrmgg+3DKAtFk=;
+ b=W0RqP4Dq2OBOzNLn6gZb6rUfLk8x6Z/rG9hyBW8mNCzROWsEMOhJywywVW+5JoRqvwmY
+ Yie1al1eODBfLtBYWbHQYYu6JIOdV09vpQxhefzUGKIobx9FDPGgOYoezI7xO3dOBpuK
+ E/3vSNmK10OrxfITNQzJubngwMgBe1n30XKPunppmFTvrS5I20v/L/3FLNH5uy1G9dhP
+ PtfunxJm/WZjeW22bXFxImB9ERCfLlJQZQtzX7o5uvqFDAwPrNHFu++rcs+NTPiTdHSP
+ XntvLcLQNA76zLotTswX6HaQAN+3kVDUOZ5PJIRGuj84sK9Vz/LeifrYku3LuuhfJIom 4g== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mm8x4j1t1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Dec 2022 15:05:22 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BMF5LIp005563
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Dec 2022 15:05:21 GMT
+Received: from vpolimer-linux.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Thu, 22 Dec 2022 06:59:47 -0800
+From: Vinod Polimera <quic_vpolimer@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>
+Subject: [PATCH v10 00/15] Add PSR support for eDP 
+Date: Thu, 22 Dec 2022 20:29:17 +0530
+Message-ID: <1671721172-16078-1-git-send-email-quic_vpolimer@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-From: Johan Jonker <jbx6244@gmail.com>
-Subject: [PATCH v6 17/17] arm64: dts: rockchip: rk356x: remove hclk from dsi
- node
-To: heiko@sntech.de
-References: <67771143-fd83-383d-41b2-68e8707134e8@gmail.com>
-Content-Language: en-US
-In-Reply-To: <67771143-fd83-383d-41b2-68e8707134e8@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: yH708T5851oBYUFtCaW4hvIU3w8DFhUO
+X-Proofpoint-ORIG-GUID: yH708T5851oBYUFtCaW4hvIU3w8DFhUO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-22_08,2022-12-22_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1015
+ suspectscore=0 phishscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
+ lowpriorityscore=0 mlxscore=0 mlxlogscore=999 adultscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2212220131
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,52 +77,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.hajda@intel.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Laurent.pinchart@ideasonboard.com,
- krzysztof.kozlowski+dt@linaro.org, linux-samsung-soc@vger.kernel.org,
- jernej.skrabec@gmail.com, linux-rockchip@lists.infradead.org,
- alim.akhtar@samsung.com, devicetree@vger.kernel.org, jonas@kwiboo.se,
- robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
- neil.armstrong@linaro.org, gregkh@linuxfoundation.org,
- linux-usb@vger.kernel.org, sw0312.kim@samsung.com, hjc@rock-chips.com,
- robert.foss@linaro.org, kyungmin.park@samsung.com, philippe.cornu@foss.st.com
+Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
+ quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
+ quic_vproddut@quicinc.com, quic_khsieh@quicinc.com, dianders@chromium.org,
+ linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org, swboyd@chromium.org,
+ Vinod Polimera <quic_vpolimer@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The hclk is not used in the dw-mipi-dsi-rockchip.c driver,
-so remove hclk from the rk356x.dtsi dsi node.
+Changes in v2:
+  - Use dp bridge to set psr entry/exit instead of dpu_enocder.
+  - Don't modify whitespaces.
+  - Set self refresh aware from atomic_check.
+  - Set self refresh aware only if psr is supported.
+  - Provide a stub for msm_dp_display_set_psr.
+  - Move dp functions to bridge code.
 
-Signed-off-by: Johan Jonker <jbx6244@gmail.com>
----
- arch/arm64/boot/dts/rockchip/rk356x.dtsi | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Changes in v3:
+  - Change callback names to reflect atomic interfaces.
+  - Move bridge callback change to separate patch as suggested by Dmitry.
+  - Remove psr function declaration from msm_drv.h.
+  - Set self_refresh_aware flag only if psr is supported.
+  - Modify the variable names to simpler form.
+  - Define bit fields for PSR settings.
+  - Add comments explaining the steps to enter/exit psr.
+  - Change DRM_INFO to drm_dbg_db. 
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk356x.dtsi b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-index 5706c3e24..2cb61a783 100644
---- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-@@ -743,8 +743,8 @@
- 		compatible = "rockchip,rk3568-mipi-dsi", "snps,dw-mipi-dsi";
- 		reg = <0x00 0xfe060000 0x00 0x10000>;
- 		interrupts = <GIC_SPI 68 IRQ_TYPE_LEVEL_HIGH>;
--		clock-names = "pclk", "hclk";
--		clocks = <&cru PCLK_DSITX_0>, <&cru HCLK_VO>;
-+		clock-names = "pclk";
-+		clocks = <&cru PCLK_DSITX_0>;
- 		phy-names = "dphy";
- 		phys = <&dsi_dphy0>;
- 		power-domains = <&power RK3568_PD_VO>;
-@@ -771,8 +771,8 @@
- 		compatible = "rockchip,rk3568-mipi-dsi", "snps,dw-mipi-dsi";
- 		reg = <0x0 0xfe070000 0x0 0x10000>;
- 		interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
--		clock-names = "pclk", "hclk";
--		clocks = <&cru PCLK_DSITX_1>, <&cru HCLK_VO>;
-+		clock-names = "pclk";
-+		clocks = <&cru PCLK_DSITX_1>;
- 		phy-names = "dphy";
- 		phys = <&dsi_dphy1>;
- 		power-domains = <&power RK3568_PD_VO>;
---
-2.20.1
+Changes in v4:
+  - Move the get crtc functions to drm_atomic.
+  - Add atomic functions for DP bridge too.
+  - Add ternary operator to choose eDP or DP ops.
+  - Return true/false instead of 1/0.
+  - mode_valid missing in the eDP bridge ops.
+  - Move the functions to get crtc into drm_atomic.c.
+  - Fix compilation issues.
+  - Remove dpu_assign_crtc and get crtc from drm_enc instead of dpu_enc.
+  - Check for crtc state enable while reserving resources.
+
+Changes in v5:
+  - Move the mode_valid changes into a different patch.
+  - Complete psr_op_comp only when isr is set.
+  - Move the DP atomic callback changes to a different patch.
+  - Get crtc from drm connector state crtc.
+  - Move to separate patch for check for crtc state enable while
+reserving resources.
+
+Changes in v6:
+  - Remove crtc from dpu_encoder_virt struct.
+  - fix crtc check during vblank toggle crtc.
+  - Misc changes. 
+
+Changes in v7:
+  - Add fix for underrun issue on kasan build.
+
+Changes in v8:
+  - Drop the enc spinlock as it won't serve any purpose in
+protetcing conn state.(Dmitry/Doug)
+
+Changes in v9:
+  - Update commit message and fix alignment using spaces.(Marijn)
+  - Misc changes.(Marijn)
+
+Changes in v10:
+  - get crtc cached in dpu_enc during obj init.(Dmitry)
+
+Sankeerth Billakanti (1):
+  drm/msm/dp: disable self_refresh_aware after entering psr
+
+Vinod Polimera (14):
+  drm/msm/disp/dpu: cache crtc obj in the dpu_encoder during
+    initialization
+  drm: add helper functions to retrieve old and new crtc
+  drm/msm/dp: use atomic callbacks for DP bridge ops
+  drm/msm/dp: Add basic PSR support for eDP
+  drm/msm/dp: use the eDP bridge ops to validate eDP modes
+  drm/bridge: use atomic enable/disable callbacks for panel bridge
+  drm/bridge: add psr support for panel bridge callbacks
+  drm/msm/disp/dpu: use atomic enable/disable callbacks for encoder
+    functions
+  drm/msm/disp/dpu: check for crtc enable rather than crtc active to
+    release shared resources
+  drm/msm/disp/dpu: add PSR support for eDP interface in dpu driver
+  drm/msm/disp/dpu: get timing engine status from intf status register
+  drm/msm/disp/dpu: wait for extra vsync till timing engine status is
+    disabled
+  drm/msm/disp/dpu: reset the datapath after timing engine disable
+  drm/msm/disp/dpu: clear active interface in the datapath cleanup
+
+ drivers/gpu/drm/bridge/panel.c                     |  68 ++++++-
+ drivers/gpu/drm/drm_atomic.c                       |  60 ++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  17 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  45 +++--
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |  22 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  12 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |   8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   3 +-
+ drivers/gpu/drm/msm/dp/dp_catalog.c                |  80 ++++++++
+ drivers/gpu/drm/msm/dp/dp_catalog.h                |   4 +
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   |  80 ++++++++
+ drivers/gpu/drm/msm/dp/dp_ctrl.h                   |   3 +
+ drivers/gpu/drm/msm/dp/dp_display.c                |  36 ++--
+ drivers/gpu/drm/msm/dp/dp_display.h                |   2 +
+ drivers/gpu/drm/msm/dp/dp_drm.c                    | 206 ++++++++++++++++++++-
+ drivers/gpu/drm/msm/dp/dp_drm.h                    |   9 +-
+ drivers/gpu/drm/msm/dp/dp_link.c                   |  36 ++++
+ drivers/gpu/drm/msm/dp/dp_panel.c                  |  22 +++
+ drivers/gpu/drm/msm/dp/dp_panel.h                  |   6 +
+ drivers/gpu/drm/msm/dp/dp_reg.h                    |  27 +++
+ include/drm/drm_atomic.h                           |   7 +
+ 22 files changed, 696 insertions(+), 60 deletions(-)
+
+-- 
+2.7.4
 
