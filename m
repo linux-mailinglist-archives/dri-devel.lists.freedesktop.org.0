@@ -2,46 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F2C653D55
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 10:13:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E272B653D57
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 10:13:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A571710E534;
-	Thu, 22 Dec 2022 09:12:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0C3B10E532;
+	Thu, 22 Dec 2022 09:12:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C350B10E532
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3D2C10E533
  for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 09:12:47 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::222])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 022B8CE652
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 09:04:00 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (unknown [217.70.183.193])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id 66E9ACE748
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 09:04:11 +0000 (UTC)
 Received: from booty (unknown [77.244.183.192])
  (Authenticated sender: luca.ceresoli@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPSA id 29F8840010;
- Thu, 22 Dec 2022 09:03:35 +0000 (UTC)
+ by mail.gandi.net (Postfix) with ESMTPSA id 098A8240006;
+ Thu, 22 Dec 2022 09:03:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1671699819;
+ t=1671699829;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xXGEgSRQtOF83p3PJb6wzT3SiQ4MMLvkHWipGGIuwXw=;
- b=OcJE8ze0QVLfDQunjRgATPRolml1Xl4LQzEsd5b3i8fl7y3eJ2Da15oo1hS+RRS+xRSnV2
- H7OCEdYPwWxUWk0lPxDDA+TeezJkck/Jh0aX1DNVEikjWghaRtzU2DH8lpW+9upLNHat0v
- RZmbcMS/WZrNYK4NaQZfCgxlzdc1RicTUGZtpFV1xbnYgzTIhnO5Vaf4A0NvzrWWBABcf1
- HUeWGqYTaAq9YyU+JgLSJkPx5fEccJ4a9J1WGODPhocNFv+hjNOhxL+86ICn+quCU28hB7
- jwXrN1+1by76KpLEMBfMVWEGShgRsW5YrYw5HBaAzVLZp0nhPBqo7GLpAod8fw==
-Date: Thu, 22 Dec 2022 10:03:34 +0100
+ bh=gktEAWN3JB8j4tgK6e174eAxgB6KpzGMlNNM9C0jpTQ=;
+ b=hkeMahLxr95J8jRRBnHvUsJYopZH+NMQb36c/kMWeoRhxAs9R0Nsx8Kqm4U4LWysvOU4rF
+ NOIWJ4Zdl2Q5dDwUN/9g+0FVXa2wXZXOsk7HTAxAy0vDhJzSm3+xBN79nR+exWUshQho0n
+ TtXXf4UQwrpswjA0RHE4dVmNNSZqJrhzz3Npot2ARR9J9w3hzGj1YuIKyMSJsiJPG42RrC
+ hed3gv6cFfcUIZtqDTYk0dIwQUY5zfKceYc9cFExuKYtMcklW7NUXc94FiHaP5kEglHpvS
+ jA0pmJ5r/t1D76kP/f+IqMwWqd69m16O/ZRCLR4rCWJLZ5XFm1xIAyAQsSY4LQ==
+Date: Thu, 22 Dec 2022 10:03:41 +0100
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v2 01/21] dt-bindings: display: tegra: add Tegra20 VIP
-Message-ID: <20221222100334.4ac85afa@booty>
-In-Reply-To: <38c7cfe0-62e0-066a-d8dd-4ed4243a552e@gmail.com>
+Subject: Re: [PATCH v2 21/21] staging: media: tegra-video: add tegra20 variant
+Message-ID: <20221222100341.5882c19c@booty>
+In-Reply-To: <30e6b040-aa82-f6a3-1ff6-baa2c0dcb0e2@gmail.com>
 References: <20221128152336.133953-1-luca.ceresoli@bootlin.com>
- <20221128152336.133953-2-luca.ceresoli@bootlin.com>
- <20221201231936.GB1660613-robh@kernel.org>
- <20221202091108.5f492d6f@booty>
- <38c7cfe0-62e0-066a-d8dd-4ed4243a552e@gmail.com>
+ <20221128152336.133953-22-luca.ceresoli@bootlin.com>
+ <30e6b040-aa82-f6a3-1ff6-baa2c0dcb0e2@gmail.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
@@ -59,15 +57,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Richard Leitner <richard.leitner@skidata.com>, devicetree@vger.kernel.org,
+Cc: devicetree@vger.kernel.org, Richard Leitner <richard.leitner@skidata.com>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
  Jonathan Hunter <jonathanh@nvidia.com>,
  Paul Kocialkowski <paul.kocialkowski@bootlin.com>, linux-tegra@vger.kernel.org,
  Thierry Reding <thierry.reding@gmail.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -75,64 +73,50 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hello Dmitry,
 
-On Tue, 20 Dec 2022 23:13:05 +0300
+On Wed, 21 Dec 2022 00:40:20 +0300
 Dmitry Osipenko <digetx@gmail.com> wrote:
 
-> 02.12.2022 11:11, Luca Ceresoli =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-
-...
-
-> >>> --- /dev/null
-> >>> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-=
-vip.yaml
-> >>> @@ -0,0 +1,63 @@
-> >>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >>> +%YAML 1.2
-> >>> +---
-> >>> +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vip.=
-yaml#
-> >>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >>> +
-> >>> +title: NVIDIA Tegra VIP (parallel video capture) controller
-> >>> +
-> >>> +maintainers:
-> >>> +  - Luca Ceresoli <luca.ceresoli@bootlin.com>
-> >>> +
-> >>> +properties:
-> >>> +  compatible:
-> >>> +    enum:
-> >>> +      - nvidia,tegra20-vip
-> >>> +
-> >>> +  "#address-cells":
-> >>> +    const: 1
-> >>> +
-> >>> +  "#size-cells":
-> >>> +    const: 0
-> >>> +
-> >>> +  channel@0:   =20
-> >> Kind of odd there is only 1 channel with a unit-address. Are more=20
-> >> channels coming? Please make the binding as complete as possible even =
-if=20
-> >> no driver support yet. =20
-> > This was discussed in v1 with Krzysztof and the outcome was that it's
-> > OK because it's likely that other SoCs have more, but the documentation
-> > is not public so I cannot add examples.
-> >=20
-> > Full discussion (pretty short indeed):
-> >=20
-> > https://lore.kernel.org/linux-devicetree/5292cc1b-c951-c5c5-b2ef-c154ba=
-f6d7fd@linaro.org/
-> >=20
-> > Do you agree that the unit-address should be kept? =20
+> 28.11.2022 18:23, Luca Ceresoli =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > +static int tegra20_channel_capture_frame(struct tegra_vi_channel *chan,
+> > +					 struct tegra_channel_buffer *buf)
+> > +{
+> > +	u32 value;
+> > +	int err;
+> > +
+> > +	chan->next_out_sp_idx++;
+> > +
+> > +	tegra20_channel_vi_buffer_setup(chan, buf);
+> > +
+> > +	tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_VIP=
+_ENABLE);
+> > +
+> > +	/* Wait for syncpt counter to reach frame start event threshold */
+> > +	err =3D host1x_syncpt_wait(chan->out_sp, chan->next_out_sp_idx,
+> > +				 TEGRA_VI_SYNCPT_WAIT_TIMEOUT, &value); =20
 >=20
-> It's doubtful that there is a SoC having a VIP with multiple channels.
-> I'd expect it to be multiple VIPs rather than channels. There are NVIDIA
-> people to confirm that.
->=20
-> The "channel" itself looks redundant to me, i.e. the reg and ports
-> should be moved to the vip node.
+> You're not using the "value" variable, it should be NULL.
 
-OK, will do in v3 unless there are different opinions.
+Ah, sure, good catch.
+
+> The "chan->out_sp" looks redundant, it duplicates the chan->mw_ack_sp.
+
+I agree it is redundant and can be improved.
+
+> AFAICS from the doc, T20 has two VI channels, and thus, two mw_ack_sp,
+> like T210.
+
+I'm confused by this. In the current driver, each VI channel has an
+array of 2 mw_ack_sp, the second of which is only used the ganged
+CSI ports. I have no docs mentioning ganged ports so I don't know
+exactly how they work and whether T20 might need more than 1 syncpt per
+channel or not for CSI. Definitely when using VIP only one such syncpt
+per each VI (or per each VIP, as per your reply to patch 1) is needed.
+
+Bottom line: I think I can simply remove the out_sp and in the VIP code
+always use chan->mw_ack_sp[0], and document that it's what is called OUT
+in VIP terms.
+
+Does this plan seem good?
 
 --=20
 Luca Ceresoli, Bootlin
