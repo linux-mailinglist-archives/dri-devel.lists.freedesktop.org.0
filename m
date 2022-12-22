@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E32654330
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 15:34:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DAAD654331
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 15:34:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A242A10E517;
-	Thu, 22 Dec 2022 14:33:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5060E10E518;
+	Thu, 22 Dec 2022 14:33:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87E6B10E517
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 14:33:25 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id bj12so5250317ejb.13
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 06:33:25 -0800 (PST)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39A2610E518
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 14:33:52 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id gh17so5334140ejb.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 06:33:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:content-language:references
  :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
  :cc:subject:date:message-id:reply-to;
- bh=3tzm+8PkCoG+IFqQnJKv6s/WFlDz1S9hgijTugMX/bI=;
- b=TzOXnr9K4kajX9bIK/WZB3FahhP1w6vqcHzSRLDI1wGi8vPRQotaTMBjFQ5acMX+Kn
- Wk07AvtQlG6j023kKCKliq4wIY4sbpLmTLDocADmSRQvP9EZqXgOOI8/BwcjFdWB2y7Q
- sbgCzDz4mJ47mzZq11IsTixO/Sk9UGdkjwz+Dy0EkV6rb+7po2/oOLbsRlk8kzMQ+Bev
- oDayfXtv7pIKMnlDlaulk/s0on6V7VZqu/EfalrF4copH2a2qXdLo4I0IbWnfne2uTe0
- Ht9dBlptgRTVZ+XraSWBxFmJrWrLSl0iibQLRyTXOZXxZrR/KarQY+T63ZWwO8BAZT5F
- qLWw==
+ bh=3spaG/gmW2iurMqKAzeqtwdB73qDEY0NRjhBceQ6XKs=;
+ b=CRqcUNirJ7ntkMUU3JTGsOB20UlhBrxRoqyYx/3ZS4wzpgONJrG2I2eRg06hDXUMcN
+ CGWzv1hqWty3MdmlDNEkmXm5Wvd75JsO30NtYG6rUExTOsSTd2ejWM/Ph0Vvl4znq5cR
+ ASJyzhJg7dtPga9J3IzuVm8cO4HrT5GWRX5Z2wnWWU8R+ioOxrk5PylVbB6v7DZuFC0I
+ LJ6OcTUs0vB5PaNojBTWE7NVnvc8iR57BDNCFcPC5dyI2v2Z41IO48C8khaMVX+F2wOH
+ 2itQG6e4aRjBmTmFUmWle4aNRLym2mhAYcibcMvG+bDMR8Ho8oYFuUC6WFf/Q1+viOC9
+ GsfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:content-language:references
  :cc:to:subject:from:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3tzm+8PkCoG+IFqQnJKv6s/WFlDz1S9hgijTugMX/bI=;
- b=tW36IbYbX/A6n4t8DJpu7uBeXbac4sciN91xkNxcBEUgpbiqvY/YkKmWonvCsGCYdv
- QXIXPvGz0HWow4S6Hxc5sdj2PrWmZgDehknXJLshFtJXxntw+77xPHQGbz+oPvHstyzv
- b5Tp7a4ArxEk36HLOZMAmXAlZdM0y9yDOmYfHQBNUSvPWwxmeerP+vlBwGUI1hUlHWUy
- 2TLH3uv2bwcN0S2k986/9NlWuutzsCKUyOECddX82Ihq0ivOt7CPW7nvz4R5MocfxQXx
- 2blKF+V9pd91l+v2XXnfI03QnHXyvJRZGOu02wXQHgycv6v+dx3NbpCeDELdnS1Ru8yz
- 1IFw==
-X-Gm-Message-State: AFqh2kpEBCavbY9UNh6JPjDpTHl0vbGc1M6CkxuaSaD/opPNpxHXcHth
- fzwwznYPuOFVuXm7mmGscY4=
-X-Google-Smtp-Source: AMrXdXvRhRHj2vwrTPeoGMfOkoJbnMKxdSD94gT8jMnTAO4Eim3FH5O3xsHrF4NAry/VlNnLCTxHpg==
-X-Received: by 2002:a17:906:191a:b0:837:c2fc:a97c with SMTP id
- a26-20020a170906191a00b00837c2fca97cmr4736411eje.64.1671719604154; 
- Thu, 22 Dec 2022 06:33:24 -0800 (PST)
+ bh=3spaG/gmW2iurMqKAzeqtwdB73qDEY0NRjhBceQ6XKs=;
+ b=1S0B6Pidjr5YnDWwePyf/758yyCRlu/yAG/OPxhSkvJtUBn+QL9rxX+orm5iMoJe96
+ 3qC9qWz73+5zHb86ZJI5YlLpYm/uod3KksK7+7CJW19oo+E8GvEVs9/kvbEk+UoZs9Cj
+ Ti0ctAgWSOwm7S5y2hir3qXbu7QiJRXWM+SkVLxp7NeO6d3v4wtZKDqx+2Sn/ygvVCaj
+ c4TUb75bcXdtvGr+kmPM27IlSB2L0oHs6GVRW1MF3D74+9PuVYTsDo5Wz5AtQplOsEfr
+ SDAVta4omKdBiMn3ioa5j0dJ7h+G6325JZOjdI+9y8H1Ye6WyBEF8svjTBFc87gTRuSg
+ aDKA==
+X-Gm-Message-State: AFqh2koGPeMLWH/VIC/d0HIMir6Fq8Tgu5jmvcRje6CVAaZ/4p07VoN0
+ kGvd3N/GKqSYS2S0QY6kRnEJl79bkuo=
+X-Google-Smtp-Source: AMrXdXs5nNL5GxAUeP1wdSH8AGyRtbt3ZUxJM9gwb+vJpq0IniGq4U7xZeYGlX3TVYis4RhsdPUVwQ==
+X-Received: by 2002:a17:907:6d95:b0:7c0:aabd:fef0 with SMTP id
+ sb21-20020a1709076d9500b007c0aabdfef0mr5674298ejc.17.1671719630737; 
+ Thu, 22 Dec 2022 06:33:50 -0800 (PST)
 Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
  by smtp.gmail.com with ESMTPSA id
- b12-20020aa7dc0c000000b0046892e493dcsm429715edu.26.2022.12.22.06.33.22
+ jj20-20020a170907985400b007c0b6e1c7fdsm304754ejc.104.2022.12.22.06.33.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Dec 2022 06:33:23 -0800 (PST)
-Message-ID: <1889d8ee-e119-4a52-33a1-b990a41a137c@gmail.com>
-Date: Thu, 22 Dec 2022 15:33:22 +0100
+ Thu, 22 Dec 2022 06:33:50 -0800 (PST)
+Message-ID: <4df211eb-4fcd-ee20-48a1-ce7712de552c@gmail.com>
+Date: Thu, 22 Dec 2022 15:33:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.0
 From: Johan Jonker <jbx6244@gmail.com>
-Subject: [PATCH v6 16/17] arm64: dts: rockchip: rename vbus-supply to
- phy-supply in rk3566-box-demo.dts
+Subject: [PATCH v6 17/17] arm64: dts: rockchip: rk356x: remove hclk from dsi
+ node
 To: heiko@sntech.de
 References: <67771143-fd83-383d-41b2-68e8707134e8@gmail.com>
 Content-Language: en-US
@@ -87,27 +87,40 @@ Cc: andrzej.hajda@intel.com, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-'vbus-supply' does not match any of the regexes in rk3566-box-demo.dts
-in the usb2phy0_otg node, so rename vbus-supply to phy-supply.
+The hclk is not used in the dw-mipi-dsi-rockchip.c driver,
+so remove hclk from the rk356x.dtsi dsi node.
 
 Signed-off-by: Johan Jonker <jbx6244@gmail.com>
 ---
- arch/arm64/boot/dts/rockchip/rk3566-box-demo.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/rockchip/rk356x.dtsi | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3566-box-demo.dts b/arch/arm64/boot/dts/rockchip/rk3566-box-demo.dts
-index 4c7f9abd5..4dc9b7623 100644
---- a/arch/arm64/boot/dts/rockchip/rk3566-box-demo.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3566-box-demo.dts
-@@ -464,7 +464,7 @@
- };
-
- &usb2phy0_otg {
--	vbus-supply = <&vcc5v0_usb2_otg>;
-+	phy-supply = <&vcc5v0_usb2_otg>;
- 	status = "okay";
- };
-
+diff --git a/arch/arm64/boot/dts/rockchip/rk356x.dtsi b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+index 5706c3e24..2cb61a783 100644
+--- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+@@ -743,8 +743,8 @@
+ 		compatible = "rockchip,rk3568-mipi-dsi", "snps,dw-mipi-dsi";
+ 		reg = <0x00 0xfe060000 0x00 0x10000>;
+ 		interrupts = <GIC_SPI 68 IRQ_TYPE_LEVEL_HIGH>;
+-		clock-names = "pclk", "hclk";
+-		clocks = <&cru PCLK_DSITX_0>, <&cru HCLK_VO>;
++		clock-names = "pclk";
++		clocks = <&cru PCLK_DSITX_0>;
+ 		phy-names = "dphy";
+ 		phys = <&dsi_dphy0>;
+ 		power-domains = <&power RK3568_PD_VO>;
+@@ -771,8 +771,8 @@
+ 		compatible = "rockchip,rk3568-mipi-dsi", "snps,dw-mipi-dsi";
+ 		reg = <0x0 0xfe070000 0x0 0x10000>;
+ 		interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
+-		clock-names = "pclk", "hclk";
+-		clocks = <&cru PCLK_DSITX_1>, <&cru HCLK_VO>;
++		clock-names = "pclk";
++		clocks = <&cru PCLK_DSITX_1>;
+ 		phy-names = "dphy";
+ 		phys = <&dsi_dphy1>;
+ 		power-domains = <&power RK3568_PD_VO>;
 --
 2.20.1
 
