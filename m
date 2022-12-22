@@ -2,48 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F890653EAD
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 12:06:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C9EA653F42
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 12:47:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02EE910E4EA;
-	Thu, 22 Dec 2022 11:06:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 320A710E03D;
+	Thu, 22 Dec 2022 11:47:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 912B710E071;
- Thu, 22 Dec 2022 11:06:33 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D2AF10E03D;
+ Thu, 22 Dec 2022 11:47:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671707193; x=1703243193;
+ t=1671709645; x=1703245645;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=bE1MGAtv+t+qlq4DBkVb5lQW5j5dayUpgaorPm5GaV8=;
- b=WTYVSTVLnKfcgl7jAUNQ0eCVVv791KkiIwSu5CwOvWWs7vrZkkzU1F5M
- SKQ58bOITCblzUcxOGhtmfOGhcOT3wCZj508gdNJqwdqCXInHojIymQiT
- ZsXHlpyrqTemD2QIH9rH1UjaMqZxjpYp7AR+xohHNod8jFAaXtXZDLx8A
- tJ7PVNBg+07Zyeb93AXBEnN34qviNi0+GNFxifan8BzOwMfGellNU9Kml
- OwO2jUn6FXXqY/msUXJxEMgvltiS3B21yj08w4zEObUc3twDC/GwzmUOY
- GjSqXhxb5jM0omE6zvdjb98H5GApGdHHDhLqbaIQRmGhMmg21XJ/x2txG w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="303534798"
-X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="303534798"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2022 03:06:33 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="825937606"
-X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="825937606"
-Received: from cprice2-mobl.ger.corp.intel.com (HELO localhost.localdomain)
- ([10.213.220.27])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2022 03:06:30 -0800
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915: Fix same object multiple mmap memory leak
-Date: Thu, 22 Dec 2022 11:06:20 +0000
-Message-Id: <20221222110620.276311-1-tvrtko.ursulin@linux.intel.com>
+ bh=jJG0WtbR+rCKPAOFXgAECJpdIQA2qxIhAt/9hS9GHCs=;
+ b=RrpQORyS/I890Lp0DquOSsvUNL1GKaH1JDdSTSfNsl2C1m725bEPTtYd
+ 2gbPUxW6rcwn6XEFWvFWW5Vljmnv1bqmkMYjA4O1Eazo+91b0tyAReZoq
+ Jzo9fDbWXUBuHRqYWWEneTPW4GW4TJMhW2VBV3vKMnfdYzztJJhFGaebP
+ UtUHILqYAS2Hk6ZAaJRPkBPIP4yZZSmNg5AkBl8Kq7mP68UO8EySb/Iqo
+ Muq2mYslgd589BVFyOqvIZZvBwi2BYR9zQZt0q9fDUAzlVtw/MY9lAf+u
+ NeVGoPH4Y/CKHh41k1phIEUbHFYielmoedk8nF9P9Tc2KOONHmYWfyAya Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="318804411"
+X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="318804411"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2022 03:47:24 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="629504298"
+X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="629504298"
+Received: from lab-ah.igk.intel.com ([10.91.215.196])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2022 03:47:18 -0800
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+To: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-xtensa@linux-xtensa.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 00/19] Introduce __xchg, non-atomic xchg
+Date: Thu, 22 Dec 2022 12:46:16 +0100
+Message-Id: <20221222114635.1251934-1-andrzej.hajda@intel.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,141 +65,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, stable@vger.kernel.org,
- Matthew Auld <matthew.auld@intel.com>,
- Chuansheng Liu <chuansheng.liu@intel.com>,
- Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
+Cc: Mark Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
+ Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Hi all,
 
-This is the fix proposed by Chuansheng Liu <chuansheng.liu@intel.com> to
-close a memory leak caused by refactoring done in 786555987207
-("drm/i915/gem: Store mmap_offsets in an rbtree rather than a plain list").
+I hope there will be place for such tiny helper in kernel.
+Quick cocci analyze shows there is probably few thousands places
+where it could be useful.
+I am not sure who is good person to review/ack such patches,
+so I've used my intuition to construct to/cc lists, sorry for mistakes.
+This is the 2nd approach of the same idea, with comments addressed[0].
 
-Original commit text from Liu was this:
+The helper is tiny and there are advices we can leave without it, so
+I want to present few arguments why it would be good to have it:
 
->
-> The below memory leak information is caught:
->
-> unreferenced object 0xffff997dd4e3b240 (size 64):
->   comm "gem_tiled_fence", pid 10332, jiffies 4294959326 (age 220778.420s)
->   hex dump (first 32 bytes):
->     01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->     00 00 00 00 00 00 00 00 00 be f2 d4 7d 99 ff ff  ............}...
->   backtrace:
->     [<ffffffffa0f04365>] kmem_cache_alloc_trace+0x2e5/0x450
->     [<ffffffffc062f3ac>] drm_vma_node_allow+0x2c/0xe0 [drm]
->     [<ffffffffc13149ea>] __assign_mmap_offset_handle+0x1da/0x4a0 [i915]
->     [<ffffffffc1315235>] i915_gem_mmap_offset_ioctl+0x55/0xb0 [i915]
->     [<ffffffffc06207e4>] drm_ioctl_kernel+0xb4/0x140 [drm]
->     [<ffffffffc0620ac7>] drm_ioctl+0x257/0x410 [drm]
->     [<ffffffffa0f553ae>] __x64_sys_ioctl+0x8e/0xc0
->     [<ffffffffa1821128>] do_syscall_64+0x38/0xc0
->     [<ffffffffa1a0007c>] entry_SYSCALL_64_after_hwframe+0x44/0xae
->
-> The issue is always reproduced with the test:
-> gem_tiled_fence_blits --run-subtest basic
->
-> It tries to mmap_gtt the same object several times, it is like:
-> create BO
-> mmap_gtt BO
-> unmap BO
-> mmap_gtt BO <== second time mmap_gtt
-> unmap
-> close BO
->
-> The leak happens at the second time mmap_gtt in function
-> mmap_offset_attach(),it will simply increase the reference
-> count to 2 by calling drm_vma_node_allow() directly since
-> the mmo has been created at the first time.
->
-> However the driver just revokes the vma_node only one time
-> when closing the object, it leads to memory leak easily.
->
-> This patch is to fix the memory leak by calling drm_vma_node_allow() one
-> time also.
+1. Code readability/simplification/number of lines:
 
-Issue was later also reported by Mirsad:
+Real example from drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c:
+-       previous_min_rate = evport->qos.min_rate;
+-       evport->qos.min_rate = min_rate;
++       previous_min_rate = __xchg(evport->qos.min_rate, min_rate);
 
->
-> The problem is a kernel memory leak that is repeatedly occurring
-> triggered during the execution of Chrome browser under the latest
-> 6.1.0+  kernel of this morning and Almalinux 8.6 on a Lenovo
-> desktop box with Intel(R) Core(TM) i5-8400 CPU @ 2.80GHz CPU.
->
-> The build is with KMEMLEAK, KASAN and MGLRU turned on during the
-> build,  on a vanilla mainline kernel from Mr. Torvalds' tree.
->
-> The leaks look like this one:
->
-> unreferenced object 0xffff888131754880 (size 64):
->    comm "chrome", pid 13058, jiffies 4298568878 (age 3708.084s)
->    hex dump (first 32 bytes):
->      01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
->      00 00 00 00 00 00 00 00 00 80 1e 3e 83 88 ff ff ...........>....
->    backtrace:
->      [<ffffffff9e9b5542>] slab_post_alloc_hook+0xb2/0x340
->      [<ffffffff9e9bbf5f>] __kmem_cache_alloc_node+0x1bf/0x2c0
->      [<ffffffff9e8f767a>] kmalloc_trace+0x2a/0xb0
->      [<ffffffffc08dfde5>] drm_vma_node_allow+0x45/0x150 [drm]
->      [<ffffffffc0b33315>] __assign_mmap_offset_handle+0x615/0x820 [i915]
->      [<ffffffffc0b34057>] i915_gem_mmap_offset_ioctl+0x77/0x110 [i915]
->      [<ffffffffc08bc5e1>] drm_ioctl_kernel+0x181/0x280 [drm]
->      [<ffffffffc08bc9cd>] drm_ioctl+0x2dd/0x6a0 [drm]
->      [<ffffffff9ea54744>] __x64_sys_ioctl+0xc4/0x100
->      [<ffffffff9fbc0178>] do_syscall_64+0x58/0x80
->      [<ffffffff9fc000aa>] entry_SYSCALL_64_after_hwframe+0x72/0xdc
->
+For sure the code is more compact, and IMHO more readable.
 
-Root cause is that 786555987207 started caching (and sharing) the
-i915_mmap_offset objects per object and same mmap type. This means that
-reference count incremented by drm_vma_node_allow could grow beyond one,
-while the object closure path calls drm_vma_node_revoke only once and
-so the structure leaks.
+2. Presence of similar helpers in other somehow related languages/libs:
 
-Secondary effect from this, which is also different than what we had
-before 786555987207 is that it is now possible to mmap an offset belonging
-to a closed object.
+a) Rust[1]: 'replace' from std::mem module, there is also 'take'
+    helper (__xchg(&x, 0)), which is the same as private helper in
+    i915 - fetch_and_zero, see latest patch.
+b) C++ [2]: 'exchange' from utility header.
 
-Fix here is to partially revert to behaviour before 786555987207 - that is
-to disallow mmap of closed objects and to only increment the mmap offset
-ref count once per object-type.
+If the idea is OK there are still 2 qestions to answer:
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Co-developed-by: Chuansheng Liu <chuansheng.liu@intel.com>
-Fixes: 786555987207 ("drm/i915/gem: Store mmap_offsets in an rbtree rather than a plain list")
-Reported-by: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
-Tested-by: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
-Testcase: igt@gem_mmap_gtt@mmap-closed-bo
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-Cc: <stable@vger.kernel.org> # v5.7+
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
----
-Test-with: 20221222100403.256775-1-tvrtko.ursulin@linux.intel.com
----
- drivers/gpu/drm/i915/gem/i915_gem_mman.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+1. Name of the helper, __xchg follows kernel conventions,
+    but for me Rust names are also OK.
+2. Where to put the helper:
+a) as in this patchset include/linux/non-atomic/xchg.h,
+    proposed by Andy Shevchenko,
+b) include/linux/utils.h ? any better name? Some kind
+    of container for simple helpers.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index d73ba0f5c4c5..1ceff19a0ac0 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -695,9 +695,10 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
- insert:
- 	mmo = insert_mmo(obj, mmo);
- 	GEM_BUG_ON(lookup_mmo(obj, mmap_type) != mmo);
--out:
-+
- 	if (file)
- 		drm_vma_node_allow(&mmo->vma_node, file);
-+out:
- 	return mmo;
- 
- err:
+Structure of the patchset:
+17 patches releasing __xchg name from arch files
+1 patch adding __xchg
+1 patch adding users of __xchg
+
+Arnd thanks for convienient set of cross compilers, it was very helpful.
+
+So many words for so small helper :)
+
+[0]: https://lore.kernel.org/lkml/Y5OFSvaYbv4XCxhE@smile.fi.intel.com/T/
+[1]: https://doc.rust-lang.org/std/mem/index.html
+[2]: https://en.cppreference.com/w/cpp/header/utility
+
+Regards
+Andrzej
+
+Andrzej Hajda (19):
+  arch/alpha: rename internal name __xchg to __arch_xchg
+  arch/arc: rename internal name __xchg to __arch_xchg
+  arch/arm: rename internal name __xchg to __arch_xchg
+  arch/arm64: rename internal name __xchg to __arch_xchg
+  arch/hexagon: rename internal name __xchg to __arch_xchg
+  arch/ia64: rename internal name __xchg to __arch_xchg
+  arch/loongarch: rename internal name __xchg to __arch_xchg
+  arch/m68k: rename internal name __xchg to __arch_xchg
+  arch/mips: rename internal name __xchg to __arch_xchg
+  arch/openrisc: rename internal name __xchg to __arch_xchg
+  arch/parisc: rename internal name __xchg to __arch_xchg
+  arch/powerpc: correct logged function names in xchg helpers
+  arch/riscv: rename internal name __xchg to __arch_xchg
+  arch/s390: rename internal name __xchg to __arch_xchg
+  arch/sh: rename internal name __xchg to __arch_xchg
+  arch/sparc: rename internal name __xchg to __arch_xchg
+  arch/xtensa: rename internal name __xchg to __arch_xchg
+  linux/include: add non-atomic version of xchg
+  drm/i915/gt: use __xchg instead of internal helper
+
+ arch/alpha/include/asm/cmpxchg.h              |  6 +++---
+ arch/arc/include/asm/cmpxchg.h                |  4 ++--
+ arch/arm/include/asm/cmpxchg.h                |  4 ++--
+ arch/arm64/include/asm/cmpxchg.h              |  4 ++--
+ arch/hexagon/include/asm/cmpxchg.h            |  6 +++---
+ arch/ia64/include/asm/cmpxchg.h               |  2 +-
+ arch/ia64/include/uapi/asm/cmpxchg.h          |  4 ++--
+ arch/loongarch/include/asm/cmpxchg.h          |  4 ++--
+ arch/m68k/include/asm/cmpxchg.h               |  6 +++---
+ arch/mips/include/asm/cmpxchg.h               |  4 ++--
+ arch/openrisc/include/asm/cmpxchg.h           |  4 ++--
+ arch/parisc/include/asm/cmpxchg.h             |  4 ++--
+ arch/powerpc/include/asm/cmpxchg.h            |  4 ++--
+ arch/riscv/include/asm/atomic.h               |  2 +-
+ arch/riscv/include/asm/cmpxchg.h              |  4 ++--
+ arch/s390/include/asm/cmpxchg.h               |  4 ++--
+ arch/sh/include/asm/cmpxchg.h                 |  4 ++--
+ arch/sparc/include/asm/cmpxchg_32.h           |  4 ++--
+ arch/sparc/include/asm/cmpxchg_64.h           |  4 ++--
+ arch/xtensa/include/asm/cmpxchg.h             |  4 ++--
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |  4 ++--
+ .../drm/i915/gt/intel_execlists_submission.c  |  4 ++--
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |  4 ++--
+ drivers/gpu/drm/i915/gt/intel_gsc.c           |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |  4 ++--
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  2 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.c           |  6 +++---
+ drivers/gpu/drm/i915/gt/intel_migrate.c       |  2 +-
+ drivers/gpu/drm/i915/gt/intel_rc6.c           |  2 +-
+ drivers/gpu/drm/i915/gt/intel_rps.c           |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_context.c    |  2 +-
+ .../drm/i915/gt/selftest_ring_submission.c    |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_timeline.c   |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c     |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  2 +-
+ drivers/gpu/drm/i915/i915_utils.h             |  1 +
+ include/linux/non-atomic/xchg.h               | 19 +++++++++++++++++++
+ 39 files changed, 84 insertions(+), 64 deletions(-)
+ create mode 100644 include/linux/non-atomic/xchg.h
+
 -- 
 2.34.1
 
