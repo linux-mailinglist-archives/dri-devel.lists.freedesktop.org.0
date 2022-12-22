@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9F9265483A
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 23:15:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C00654841
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 23:15:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78B3D10E590;
-	Thu, 22 Dec 2022 22:15:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7482E10E58E;
+	Thu, 22 Dec 2022 22:15:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5B2A10E590;
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 055C010E591;
  Thu, 22 Dec 2022 22:15:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1671747308; x=1703283308;
+ t=1671747309; x=1703283309;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=KR+lBPAHX3s+bZqSTm9iH8C382aT7gLLYvmgpnHH5U8=;
- b=gL3KhzBUcD40rWFolxRTrS622a2Vyxjpu72KQocMAuvAp4/iulxJywGH
- UUj9KTxYYYePwH0iSVvdhY8KZzsN/fMZg8nt9ZPZ1exLwPMsuN4i0SQSc
- e/ba/E+tiU6hfYhj+3NbSnfKBiuAO3GNlFBC7CkDTKxSI2/fUhL/mxX4l M=;
+ bh=H8K3GzcXSIEd1w51kx4lznBtFiP2qak8jltP0eQAHIk=;
+ b=nFJvtqQCnEY5vTD8u5QOEjb1+4a/rQDNAjUOKeLN6jAvSFHO7Dch2Odq
+ 97tpJOvmsPTNjPhIsnLpjKIUNCXjTnK3+9eBrDXGjPUqQOKy9yC6ABGMt
+ hgUPmnPO7REVF96170XA5Fie5uBs5b5NPuqfLyoZvTqU8TLTE4choiZ7B Y=;
 Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 22 Dec 2022 14:15:00 -0800
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 22 Dec 2022 14:15:07 -0800
 X-QCInternal: smtphost
 Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2022 14:15:00 -0800
+ 22 Dec 2022 14:15:07 -0800
 Received: from JESSZHAN.qualcomm.com (10.80.80.8) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Thu, 22 Dec 2022 14:14:58 -0800
+ 15.2.986.36; Thu, 22 Dec 2022 14:15:05 -0800
 From: Jessica Zhang <quic_jesszhan@quicinc.com>
 To: <freedreno@lists.freedesktop.org>
-Subject: [RFC PATCH v2 1/3] drm: Introduce solid fill property for drm plane
-Date: Thu, 22 Dec 2022 14:14:39 -0800
-Message-ID: <20221222221441.6980-2-quic_jesszhan@quicinc.com>
+Subject: [RFC PATCH v2 2/3] drm: Adjust atomic checks for solid fill color
+Date: Thu, 22 Dec 2022 14:14:40 -0800
+Message-ID: <20221222221441.6980-3-quic_jesszhan@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221222221441.6980-1-quic_jesszhan@quicinc.com>
 References: <20221222221441.6980-1-quic_jesszhan@quicinc.com>
@@ -67,261 +67,247 @@ Cc: sebastian.wick@redhat.com, ppaalanen@gmail.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for solid_fill property to drm_plane. In addition, add
-support for setting and getting the values for solid_fill.
+Loosen the requirements for atomic and legacy commit so that, in cases
+where solid fill planes is enabled (and FB_ID is NULL), the commit can
+still go through.
 
-solid_fill holds data for supporting solid fill planes. The property
-accepts an RGB323232 value and the driver data is formatted as such:
-
-struct drm_solid_fill {
-	u32 r;
-	u32 g;
-	u32 b;
-};
-
-To enable solid fill planes, userspace must assigned solid_fill to a
-property blob containing the following information:
-
-struct drm_solid_fill_info {
-	u8 version;
-	u32 r, g, b;
-};
+In addition, add framebuffer NULL checks in other areas to account for
+FB being NULL when solid fill is enabled.
 
 Changes in V2:
-- Changed solid_fill property to a property blob (Simon, Dmitry)
-- Added drm_solid_fill struct (Simon)
-- Added drm_solid_fill_info struct (Simon)
+- Changed to checks for if solid_fill_blob is set (Dmitry)
+- Abstracted (plane_state && !solid_fill_blob) checks to helper method
+  (Dmitry)
+- Fixed indentation issue (Dmitry)
 
 Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 ---
- drivers/gpu/drm/drm_atomic_state_helper.c |  9 ++++
- drivers/gpu/drm/drm_atomic_uapi.c         | 59 +++++++++++++++++++++++
- drivers/gpu/drm/drm_blend.c               | 17 +++++++
- include/drm/drm_blend.h                   |  1 +
- include/drm/drm_plane.h                   | 43 +++++++++++++++++
- 5 files changed, 129 insertions(+)
+ drivers/gpu/drm/drm_atomic.c        | 69 ++++++++++++++++-------------
+ drivers/gpu/drm/drm_atomic_helper.c | 34 ++++++++------
+ drivers/gpu/drm/drm_plane.c         |  8 ++--
+ include/drm/drm_atomic_helper.h     |  6 ++-
+ include/drm/drm_plane.h             | 12 +++++
+ 5 files changed, 78 insertions(+), 51 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-index dfb57217253b..c96fd1f2ad99 100644
---- a/drivers/gpu/drm/drm_atomic_state_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-@@ -253,6 +253,11 @@ void __drm_atomic_helper_plane_state_reset(struct drm_plane_state *plane_state,
- 	plane_state->alpha = DRM_BLEND_ALPHA_OPAQUE;
- 	plane_state->pixel_blend_mode = DRM_MODE_BLEND_PREMULTI;
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index f197f59f6d99..b92d75bda7fd 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -601,8 +601,10 @@ static int drm_atomic_plane_check(const struct drm_plane_state *old_plane_state,
+ 	uint32_t num_clips;
+ 	int ret;
  
-+	if (plane_state->solid_fill_blob) {
-+		drm_property_blob_put(plane_state->solid_fill_blob);
-+		plane_state->solid_fill_blob = NULL;
-+	}
-+
- 	if (plane->color_encoding_property) {
- 		if (!drm_object_property_get_default_value(&plane->base,
- 							   plane->color_encoding_property,
-@@ -335,6 +340,9 @@ void __drm_atomic_helper_plane_duplicate_state(struct drm_plane *plane,
- 	if (state->fb)
- 		drm_framebuffer_get(state->fb);
+-	/* either *both* CRTC and FB must be set, or neither */
+-	if (crtc && !fb) {
++	/* When solid_fill is disabled,
++	 * either *both* CRTC and FB must be set, or neither
++	 */
++	if (crtc && !fb && !new_plane_state->solid_fill_blob) {
+ 		drm_dbg_atomic(plane->dev, "[PLANE:%d:%s] CRTC set but no FB\n",
+ 			       plane->base.id, plane->name);
+ 		return -EINVAL;
+@@ -626,14 +628,17 @@ static int drm_atomic_plane_check(const struct drm_plane_state *old_plane_state,
+ 	}
  
-+	if (state->solid_fill_blob)
-+		drm_property_blob_get(state->solid_fill_blob);
+ 	/* Check whether this plane supports the fb pixel format. */
+-	ret = drm_plane_check_pixel_format(plane, fb->format->format,
+-					   fb->modifier);
+-	if (ret) {
+-		drm_dbg_atomic(plane->dev,
+-			       "[PLANE:%d:%s] invalid pixel format %p4cc, modifier 0x%llx\n",
+-			       plane->base.id, plane->name,
+-			       &fb->format->format, fb->modifier);
+-		return ret;
++	if (fb) {
++		ret = drm_plane_check_pixel_format(plane, fb->format->format,
++						   fb->modifier);
 +
- 	state->fence = NULL;
- 	state->commit = NULL;
- 	state->fb_damage_clips = NULL;
-@@ -384,6 +392,7 @@ void __drm_atomic_helper_plane_destroy_state(struct drm_plane_state *state)
- 		drm_crtc_commit_put(state->commit);
- 
- 	drm_property_blob_put(state->fb_damage_clips);
-+	drm_property_blob_put(state->solid_fill_blob);
- }
- EXPORT_SYMBOL(__drm_atomic_helper_plane_destroy_state);
- 
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index c06d0639d552..8a1d2fb7a757 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -316,6 +316,55 @@ drm_atomic_set_crtc_for_connector(struct drm_connector_state *conn_state,
- }
- EXPORT_SYMBOL(drm_atomic_set_crtc_for_connector);
- 
-+static void drm_atomic_convert_solid_fill_info(struct drm_solid_fill *out,
-+		struct drm_solid_fill_info *in)
-+{
-+	out->r = in->r;
-+	out->g = in->g;
-+	out->b = in->b;
-+}
-+
-+static int drm_atomic_set_solid_fill_prop(struct drm_plane_state *state,
-+		struct drm_property_blob *blob)
-+{
-+	int ret = 0;
-+	int blob_version;
-+
-+	if (blob == state->solid_fill_blob)
-+		return 0;
-+
-+	drm_property_blob_put(state->solid_fill_blob);
-+	state->solid_fill_blob = NULL;
-+
-+	memset(&state->solid_fill, 0, sizeof(state->solid_fill));
-+
-+	if (blob) {
-+		if (blob->length != sizeof(struct drm_solid_fill_info)) {
-+			drm_dbg_atomic(state->plane->dev,
-+					"[PLANE:%d:%s] bad solid fill blob length: %zu\n",
-+					state->plane->base.id, state->plane->name,
-+					blob->length);
-+			return -EINVAL;
++		if (ret) {
++			drm_dbg_atomic(plane->dev,
++				       "[PLANE:%d:%s] invalid pixel format %p4cc, modifier 0x%llx\n",
++				       plane->base.id, plane->name,
++				       &fb->format->format, fb->modifier);
++			return ret;
 +		}
-+
-+		blob_version = ((struct drm_solid_fill_info *)blob->data)->version;
-+
-+		/* Append with more versions if necessary */
-+		if (blob_version == 1) {
-+			drm_atomic_convert_solid_fill_info(&state->solid_fill, blob->data);
-+		} else {
-+			drm_dbg_atomic(state->plane->dev,
-+					"[PLANE:%d:%s] failed to set solid fill (ret=%d)\n",
-+					state->plane->base.id, state->plane->name,
-+					ret);
-+			return -EINVAL;
+ 	}
+ 
+ 	/* Give drivers some help against integer overflows */
+@@ -649,28 +654,30 @@ static int drm_atomic_plane_check(const struct drm_plane_state *old_plane_state,
+ 		return -ERANGE;
+ 	}
+ 
+-	fb_width = fb->width << 16;
+-	fb_height = fb->height << 16;
++	if (fb) {
++		fb_width = fb->width << 16;
++		fb_height = fb->height << 16;
+ 
+-	/* Make sure source coordinates are inside the fb. */
+-	if (new_plane_state->src_w > fb_width ||
+-	    new_plane_state->src_x > fb_width - new_plane_state->src_w ||
+-	    new_plane_state->src_h > fb_height ||
+-	    new_plane_state->src_y > fb_height - new_plane_state->src_h) {
+-		drm_dbg_atomic(plane->dev,
+-			       "[PLANE:%d:%s] invalid source coordinates "
+-			       "%u.%06ux%u.%06u+%u.%06u+%u.%06u (fb %ux%u)\n",
+-			       plane->base.id, plane->name,
+-			       new_plane_state->src_w >> 16,
+-			       ((new_plane_state->src_w & 0xffff) * 15625) >> 10,
+-			       new_plane_state->src_h >> 16,
+-			       ((new_plane_state->src_h & 0xffff) * 15625) >> 10,
+-			       new_plane_state->src_x >> 16,
+-			       ((new_plane_state->src_x & 0xffff) * 15625) >> 10,
+-			       new_plane_state->src_y >> 16,
+-			       ((new_plane_state->src_y & 0xffff) * 15625) >> 10,
+-			       fb->width, fb->height);
+-		return -ENOSPC;
++		/* Make sure source coordinates are inside the fb. */
++		if (new_plane_state->src_w > fb_width ||
++		    new_plane_state->src_x > fb_width - new_plane_state->src_w ||
++		    new_plane_state->src_h > fb_height ||
++		    new_plane_state->src_y > fb_height - new_plane_state->src_h) {
++			drm_dbg_atomic(plane->dev,
++				       "[PLANE:%d:%s] invalid source coordinates "
++				       "%u.%06ux%u.%06u+%u.%06u+%u.%06u (fb %ux%u)\n",
++				       plane->base.id, plane->name,
++				       new_plane_state->src_w >> 16,
++				       ((new_plane_state->src_w & 0xffff) * 15625) >> 10,
++				       new_plane_state->src_h >> 16,
++				       ((new_plane_state->src_h & 0xffff) * 15625) >> 10,
++				       new_plane_state->src_x >> 16,
++				       ((new_plane_state->src_x & 0xffff) * 15625) >> 10,
++				       new_plane_state->src_y >> 16,
++				       ((new_plane_state->src_y & 0xffff) * 15625) >> 10,
++				       fb->width, fb->height);
++			return -ENOSPC;
 +		}
-+		state->solid_fill_blob = drm_property_blob_get(blob);
+ 	}
+ 
+ 	clips = __drm_plane_get_damage_clips(new_plane_state);
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 1a586b3c454b..b53897f882c1 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -864,7 +864,7 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
+ 	*src = drm_plane_state_src(plane_state);
+ 	*dst = drm_plane_state_dest(plane_state);
+ 
+-	if (!fb) {
++	if (!fb && !drm_plane_solid_fill_enabled(plane_state)) {
+ 		plane_state->visible = false;
+ 		return 0;
+ 	}
+@@ -881,25 +881,31 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
+ 		return -EINVAL;
+ 	}
+ 
+-	drm_rect_rotate(src, fb->width << 16, fb->height << 16, rotation);
++	if (fb) {
++		drm_rect_rotate(src, fb->width << 16, fb->height << 16, rotation);
+ 
+-	/* Check scaling */
+-	hscale = drm_rect_calc_hscale(src, dst, min_scale, max_scale);
+-	vscale = drm_rect_calc_vscale(src, dst, min_scale, max_scale);
+-	if (hscale < 0 || vscale < 0) {
+-		drm_dbg_kms(plane_state->plane->dev,
+-			    "Invalid scaling of plane\n");
+-		drm_rect_debug_print("src: ", &plane_state->src, true);
+-		drm_rect_debug_print("dst: ", &plane_state->dst, false);
+-		return -ERANGE;
++		/* Check scaling */
++		hscale = drm_rect_calc_hscale(src, dst, min_scale, max_scale);
++		vscale = drm_rect_calc_vscale(src, dst, min_scale, max_scale);
++
++		if (hscale < 0 || vscale < 0) {
++			drm_dbg_kms(plane_state->plane->dev,
++					"Invalid scaling of plane\n");
++			drm_rect_debug_print("src: ", &plane_state->src, true);
++			drm_rect_debug_print("dst: ", &plane_state->dst, false);
++			return -ERANGE;
++		}
+ 	}
+ 
+ 	if (crtc_state->enable)
+ 		drm_mode_get_hv_timing(&crtc_state->mode, &clip.x2, &clip.y2);
+ 
+-	plane_state->visible = drm_rect_clip_scaled(src, dst, &clip);
+-
+-	drm_rect_rotate_inv(src, fb->width << 16, fb->height << 16, rotation);
++	if (drm_plane_solid_fill_enabled(plane_state)) {
++		plane_state->visible = true;
++	} else if (fb) {
++		plane_state->visible = drm_rect_clip_scaled(src, dst, &clip);
++		drm_rect_rotate_inv(src, fb->width << 16, fb->height << 16, rotation);
 +	}
-+
-+	return ret;
-+}
-+
- static void set_out_fence_for_crtc(struct drm_atomic_state *state,
- 				   struct drm_crtc *crtc, s32 __user *fence_ptr)
- {
-@@ -544,6 +593,13 @@ static int drm_atomic_plane_set_property(struct drm_plane *plane,
- 		state->src_w = val;
- 	} else if (property == config->prop_src_h) {
- 		state->src_h = val;
-+	} else if (property == plane->solid_fill_property) {
-+		struct drm_property_blob *solid_fill = drm_property_lookup_blob(dev, val);
-+
-+		ret = drm_atomic_set_solid_fill_prop(state, solid_fill);
-+		drm_property_blob_put(solid_fill);
-+
-+		return ret;
- 	} else if (property == plane->alpha_property) {
- 		state->alpha = val;
- 	} else if (property == plane->blend_mode_property) {
-@@ -616,6 +672,9 @@ drm_atomic_plane_get_property(struct drm_plane *plane,
- 		*val = state->src_w;
- 	} else if (property == config->prop_src_h) {
- 		*val = state->src_h;
-+	} else if (property == plane->solid_fill_property) {
-+		*val = state->solid_fill_blob ?
-+			state->solid_fill_blob->base.id : 0;
- 	} else if (property == plane->alpha_property) {
- 		*val = state->alpha;
- 	} else if (property == plane->blend_mode_property) {
-diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
-index b4c8cab7158c..17ab645c8309 100644
---- a/drivers/gpu/drm/drm_blend.c
-+++ b/drivers/gpu/drm/drm_blend.c
-@@ -616,3 +616,20 @@ int drm_plane_create_blend_mode_property(struct drm_plane *plane,
- 	return 0;
+ 
+ 	if (!plane_state->visible)
+ 		/*
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index 33357629a7f5..bdce2acbef6a 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -856,8 +856,8 @@ static int __setplane_internal(struct drm_plane *plane,
+ 
+ 	WARN_ON(drm_drv_uses_atomic_modeset(plane->dev));
+ 
+-	/* No fb means shut it down */
+-	if (!fb) {
++	/* No fb and no color fill means shut it down */
++	if (!fb && !drm_plane_solid_fill_enabled(plane->state)) {
+ 		plane->old_fb = plane->fb;
+ 		ret = plane->funcs->disable_plane(plane, ctx);
+ 		if (!ret) {
+@@ -908,8 +908,8 @@ static int __setplane_atomic(struct drm_plane *plane,
+ 
+ 	WARN_ON(!drm_drv_uses_atomic_modeset(plane->dev));
+ 
+-	/* No fb means shut it down */
+-	if (!fb)
++	/* No fb and no color fill means shut it down */
++	if (!fb && !drm_plane_solid_fill_enabled(plane->state))
+ 		return plane->funcs->disable_plane(plane, ctx);
+ 
+ 	/*
+diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+index 33f982cd1a27..16a2a8edcc68 100644
+--- a/include/drm/drm_atomic_helper.h
++++ b/include/drm/drm_atomic_helper.h
+@@ -230,8 +230,10 @@ drm_atomic_plane_disabling(struct drm_plane_state *old_plane_state,
+ 	 * Anything else should be considered a bug in the atomic core, so we
+ 	 * gently warn about it.
+ 	 */
+-	WARN_ON((new_plane_state->crtc == NULL && new_plane_state->fb != NULL) ||
+-		(new_plane_state->crtc != NULL && new_plane_state->fb == NULL));
++	WARN_ON(!new_plane_state->solid_fill_blob &&
++		((new_plane_state->crtc == NULL && new_plane_state->fb != NULL) ||
++				(new_plane_state->crtc != NULL &&
++				 new_plane_state->fb == NULL)));
+ 
+ 	return old_plane_state->crtc && !new_plane_state->crtc;
  }
- EXPORT_SYMBOL(drm_plane_create_blend_mode_property);
-+
-+int drm_plane_create_solid_fill_property(struct drm_plane *plane)
-+{
-+	struct drm_property *prop;
-+
-+	prop = drm_property_create(plane->dev,
-+			DRM_MODE_PROP_ATOMIC | DRM_MODE_PROP_BLOB,
-+			"solid_fill", 0);
-+	if (!prop)
-+		return -ENOMEM;
-+
-+	drm_object_attach_property(&plane->base, prop, 0);
-+	plane->solid_fill_property = prop;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_plane_create_solid_fill_property);
-diff --git a/include/drm/drm_blend.h b/include/drm/drm_blend.h
-index 88bdfec3bd88..0338a860b9c8 100644
---- a/include/drm/drm_blend.h
-+++ b/include/drm/drm_blend.h
-@@ -58,4 +58,5 @@ int drm_atomic_normalize_zpos(struct drm_device *dev,
- 			      struct drm_atomic_state *state);
- int drm_plane_create_blend_mode_property(struct drm_plane *plane,
- 					 unsigned int supported_modes);
-+int drm_plane_create_solid_fill_property(struct drm_plane *plane);
- #endif
 diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-index 447e664e49d5..be5ab5f7b477 100644
+index be5ab5f7b477..a9e6a09a75f7 100644
 --- a/include/drm/drm_plane.h
 +++ b/include/drm/drm_plane.h
-@@ -40,6 +40,25 @@ enum drm_scaling_filter {
- 	DRM_SCALING_FILTER_NEAREST_NEIGHBOR,
- };
+@@ -977,6 +977,18 @@ static inline struct drm_plane *drm_plane_find(struct drm_device *dev,
+ #define drm_for_each_plane(plane, dev) \
+ 	list_for_each_entry(plane, &(dev)->mode_config.plane_list, head)
  
 +/**
-+ * struct drm_solid_fill_info - User info for solid fill planes
-+ */
-+struct drm_solid_fill_info {
-+	__u8 version;
-+	__u32 r, g, b;
-+};
-+
-+/**
-+ * struct solid fill property - RGB values for solid fill plane
++ * drm_plane_solid_fill_enabled - Check if solid fill is enabled on plane
++ * @state: plane state
 + *
-+ * Note: This is the V1 for this feature
++ * Returns:
++ * Whether the plane has been assigned a solid_fill_blob
 + */
-+struct drm_solid_fill {
-+	uint32_t r;
-+	uint32_t g;
-+	uint32_t b;
-+};
++static inline bool drm_plane_solid_fill_enabled(struct drm_plane_state *state)
++{
++	return state && state->solid_fill_blob;
++}
 +
- /**
-  * struct drm_plane_state - mutable plane state
-  *
-@@ -116,6 +135,23 @@ struct drm_plane_state {
- 	/** @src_h: height of visible portion of plane (in 16.16) */
- 	uint32_t src_h, src_w;
+ bool drm_any_plane_has_format(struct drm_device *dev,
+ 			      u32 format, u64 modifier);
  
-+	/**
-+	 * @solid_fill_blob:
-+	 *
-+	 * Blob containing relevant information for a solid fill plane
-+	 * including pixel format and data. See
-+	 * drm_plane_create_solid_fill_property() for more details.
-+	 */
-+	struct drm_property_blob *solid_fill_blob;
-+
-+	/**
-+	 * @solid_fill:
-+	 *
-+	 * Pixel data for solid fill planes. See
-+	 * drm_plane_create_solid_fill_property() for more details.
-+	 */
-+	struct drm_solid_fill solid_fill;
-+
- 	/**
- 	 * @alpha:
- 	 * Opacity of the plane with 0 as completely transparent and 0xffff as
-@@ -699,6 +735,13 @@ struct drm_plane {
- 	 */
- 	struct drm_plane_state *state;
- 
-+	/*
-+	 * @solid_fill_property:
-+	 * Optional solid_fill property for this plane. See
-+	 * drm_plane_create_solid_fill_property().
-+	 */
-+	struct drm_property *solid_fill_property;
-+
- 	/**
- 	 * @alpha_property:
- 	 * Optional alpha property for this plane. See
 -- 
 2.38.1
 
