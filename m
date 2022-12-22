@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDAA2653F45
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 12:47:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C2F3653F6A
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Dec 2022 12:48:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECF8810E084;
-	Thu, 22 Dec 2022 11:47:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB5BA10E07C;
+	Thu, 22 Dec 2022 11:47:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C126410E07C;
- Thu, 22 Dec 2022 11:47:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A581810E07C;
+ Thu, 22 Dec 2022 11:47:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671709668; x=1703245668;
+ t=1671709670; x=1703245670;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=GvFMbOE0GzaAFA+/NgInY0v5QkDpeB2uXRoAiJmqw7k=;
- b=fLatHeTjTOXhzlBTMZQAHuC7PUPtcCf3FnO2V2YWvGjPuOpSTcyAnbd+
- Cu9kD+QaY/pt0xRl19FpS9B1I5JBCAjGFR/7sOHTWVrdQFZQtO9qckotm
- mMPkCtocJLKt1/YI2oCk+sMuUXqLe7on7yXo0UyfejigHUgd4+OceIwcE
- v/K+celmXHLsKfmH2kAL6lVejTcgWVdv0+jH5tOHDUQ273z8OWuG07eN5
- 4OdrKHfFxw6GjB8Od7n37PhLi26siKw2gjjcCN1ZQ8qH3ArmRQm8QjYfJ
- O0dxueoaghsjfavHBoB+rsW5NTW0yOZrlS91CrS/pzMEoF84BYYE3UNiR A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="318804450"
-X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="318804450"
+ bh=/UDTi8Vls0g/+nnPnB+HCzMyNgpTxrVUoGQF5kbhC34=;
+ b=RM+cLECTApjcbeEPy2Y02ig+ua3YBZn6pmQwfduf8vnVuJhSa7Rw5gWl
+ Dxr2yQqdFoCiDeY1aA59pW3O2Y56zXrY7jkA2ZeYh5mToatywOfvEymnt
+ vc9kg+YXFxLOYcijmF8uA7sLRblHvA81hWEyHNMevNv6u2pOFd87IVk/e
+ VUSQ/H5JclvDzIRxJxcsg/wOjppY9lk9gJBiBKM64Bw7dBJYNVngkMmEY
+ iKYA3ojpjAFvWTv+Rc4MKE/FDk+6dR7rEfbKWHKaYmM8AsS5BGW6uUv6J
+ DgEbbJcsS6MsK7vfOJoM0MOO9eYI+vmWZpVoUxN2jPi7GkcqfHe3TJ2SJ g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="318804479"
+X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="318804479"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2022 03:47:30 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="629504326"
-X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="629504326"
+ 22 Dec 2022 03:47:36 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="629504368"
+X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; d="scan'208";a="629504368"
 Received: from lab-ah.igk.intel.com ([10.91.215.196])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2022 03:47:24 -0800
+ 22 Dec 2022 03:47:30 -0800
 From: Andrzej Hajda <andrzej.hajda@intel.com>
 To: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
@@ -45,9 +45,9 @@ To: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
  linux-xtensa@linux-xtensa.org, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 01/19] arch/alpha: rename internal name __xchg to __arch_xchg
-Date: Thu, 22 Dec 2022 12:46:17 +0100
-Message-Id: <20221222114635.1251934-2-andrzej.hajda@intel.com>
+Subject: [PATCH 02/19] arch/arc: rename internal name __xchg to __arch_xchg
+Date: Thu, 22 Dec 2022 12:46:18 +0100
+Message-Id: <20221222114635.1251934-3-andrzej.hajda@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221222114635.1251934-1-andrzej.hajda@intel.com>
 References: <20221222114635.1251934-1-andrzej.hajda@intel.com>
@@ -79,40 +79,31 @@ __xchg will be used for non-atomic xchg macro.
 
 Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
 ---
- arch/alpha/include/asm/cmpxchg.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ arch/arc/include/asm/cmpxchg.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/alpha/include/asm/cmpxchg.h b/arch/alpha/include/asm/cmpxchg.h
-index 6e0a850aa9d38c..40e8159ef6e794 100644
---- a/arch/alpha/include/asm/cmpxchg.h
-+++ b/arch/alpha/include/asm/cmpxchg.h
-@@ -6,7 +6,7 @@
-  * Atomic exchange routines.
+diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
+index c5b544a5fe8106..e138fde067dea5 100644
+--- a/arch/arc/include/asm/cmpxchg.h
++++ b/arch/arc/include/asm/cmpxchg.h
+@@ -85,7 +85,7 @@
   */
+ #ifdef CONFIG_ARC_HAS_LLSC
  
--#define ____xchg(type, args...)		__xchg ## type ## _local(args)
-+#define ____xchg(type, args...)		__arch_xchg ## type ## _local(args)
- #define ____cmpxchg(type, args...)	__cmpxchg ## type ## _local(args)
- #include <asm/xchg.h>
- 
-@@ -34,7 +34,7 @@
- 
- #undef ____xchg
- #undef ____cmpxchg
--#define ____xchg(type, args...)		__xchg ##type(args)
-+#define ____xchg(type, args...)		__arch_xchg ##type(args)
- #define ____cmpxchg(type, args...)	__cmpxchg ##type(args)
- #include <asm/xchg.h>
- 
-@@ -48,7 +48,7 @@
- 	__typeof__(*(ptr)) _x_ = (x);					\
- 	smp_mb();							\
- 	__ret = (__typeof__(*(ptr)))					\
--		__xchg((ptr), (unsigned long)_x_, sizeof(*(ptr)));	\
-+		__arch_xchg((ptr), (unsigned long)_x_, sizeof(*(ptr)));	\
- 	smp_mb();							\
- 	__ret;								\
- })
+-#define __xchg(ptr, val)						\
++#define __arch_xchg(ptr, val)						\
+ ({									\
+ 	__asm__ __volatile__(						\
+ 	"	ex  %0, [%1]	\n"	/* set new value */	        \
+@@ -102,7 +102,7 @@
+ 									\
+ 	switch(sizeof(*(_p_))) {					\
+ 	case 4:								\
+-		_val_ = __xchg(_p_, _val_);				\
++		_val_ = __arch_xchg(_p_, _val_);			\
+ 		break;							\
+ 	default:							\
+ 		BUILD_BUG();						\
 -- 
 2.34.1
 
