@@ -2,78 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB1106554A2
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 21:58:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD6316554D5
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 23:03:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FF1D10E254;
-	Fri, 23 Dec 2022 20:58:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C2B510E225;
+	Fri, 23 Dec 2022 22:02:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49BA110E254
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 20:58:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671829095;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+fwm2GPP6ljPqAqBro6/G3VDNHOYIU57et0/yW+eCIc=;
- b=eF2JvtE7mYAbaI/6gMeyTMIMdUIBsHJPWk5UiA/SCJZjUy4DTJzW1hihgX9ry9BLn25QnQ
- lu/S5f++zgNNx8xjPK/vXyG8JNBlX6rISRasBGwPRSkr6hsJPvngXJM85lO6wtubv/YDkD
- m/S0a1WL4ALcvRGcpgCQEDdKwfgaypI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-556-u0gxlNyoOPigyhGB76NrlQ-1; Fri, 23 Dec 2022 15:58:13 -0500
-X-MC-Unique: u0gxlNyoOPigyhGB76NrlQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- q19-20020a1cf313000000b003d96c95e2f9so821122wmq.2
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 12:58:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+fwm2GPP6ljPqAqBro6/G3VDNHOYIU57et0/yW+eCIc=;
- b=3g0qYjsenKb/Qk5jNnvELG9G0UsHBo2T89PGXYIHiSZ5ekxqw7fAmTX2t5SeK4UkhO
- OFa6oj8Zh0s+YF7EbHhsoUMIXk+mHbZBYmskvm9QEYqKY05wRT8KcWswzo9FCkWjuYp7
- y1VsP8hSsQDltlT5a9DmO4n2Q6KWsb3kE8FzOyC7DWt5cEOapvJRuzNoYquCsDr7mhFp
- BuAbLsQCGgFL/tBM5XWBFAl54vAaP7wERQI/m/XVxuwwkBY1AdiQV1WIDsBf/5bXynx6
- ULczxreYI/02Vc0abwBKKqE4AS4G8/qkcQYVAG2vSlVir8qlZ2zdkUGPBG7231sUd6qS
- mR7g==
-X-Gm-Message-State: AFqh2kojGxmOV7HNO4b55CETIYxORuknSC4DYpjwgO3TtL2Aqjb0734F
- +0CU+c3GS560DaceNHsWGg3hgQ4PL/lgZkfrwZMI72hb+F2062QtsmSJReGEWymn9994fwg/d7Q
- Vfvs6Qk7T7dy+Je3nsZCSHALwrrUY
-X-Received: by 2002:a1c:4b04:0:b0:3c6:f0b8:74e6 with SMTP id
- y4-20020a1c4b04000000b003c6f0b874e6mr8362265wma.4.1671829092197; 
- Fri, 23 Dec 2022 12:58:12 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvwTJdWPrVbJTWxaWnNIPcDrG7XtjeUPiYxWUCSByVOVLFXktOF9FLaUHm7oBMX/AGjv+cu/w==
-X-Received: by 2002:a1c:4b04:0:b0:3c6:f0b8:74e6 with SMTP id
- y4-20020a1c4b04000000b003c6f0b874e6mr8362254wma.4.1671829092002; 
- Fri, 23 Dec 2022 12:58:12 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- 19-20020a05600c021300b003c5571c27a1sm6585681wmi.32.2022.12.23.12.58.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Dec 2022 12:58:11 -0800 (PST)
-Message-ID: <ad5471ab-643c-fe4d-13cd-4984d4bb4ee9@redhat.com>
-Date: Fri, 23 Dec 2022 21:58:10 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A97A10E225
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 22:02:40 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C060161F60
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 22:02:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 325C1C433EF
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 22:02:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1671832956;
+ bh=P5Hr8whAdctL56+gpB85CCSjo1VROLo5tfHVVt/VcfM=;
+ h=From:To:Subject:Date:From;
+ b=gTDAsHazttiD1dlgXPsasqP64HH4beYxjekq/6qSyKWYlfdg6pN/c5M6p9I/WnxfX
+ vmiM4l1VaHimCggvc6ValvFL5HEEUXRN8VCh5cQdM0d1wNU2nAVnEiVxmTUsa/SP0H
+ GhY97XQO35ZU4LryWf6GST3TEIeUnWPinzY2m+Mg8VRL+NCINkbENynE/ubSXyxF4t
+ /DKe7IesVtbKD/qjCaekLFsVPFmepXutITDnKeSOFNDnlMLo2yROO3mW/n7OHbuhPu
+ eccWAjBsqted59ZZ2CdhacLwL+ZAm56yTVFLtcxNKDUVGXqXqxDjn5e3YQmMuhn6n3
+ 2VEYjT8/Pz3pA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 1F8A8C43141; Fri, 23 Dec 2022 22:02:36 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216840] New: AMDGPU trace message at boot
+Date: Fri, 23 Dec 2022 22:02:35 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: carlosalvatore@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-216840-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 1/4] drm: panel: Add Himax HX8394 panel controller driver
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20221222223830.2494900-1-javierm@redhat.com>
- <20221222223830.2494900-2-javierm@redhat.com> <Y6VyJhz9DTjaDUDa@ravnborg.org>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <Y6VyJhz9DTjaDUDa@ravnborg.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,42 +70,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Mader <robert.mader@posteo.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Martijn Braam <martijn@brixit.nl>,
- Thierry Reding <thierry.reding@gmail.com>, Ondrej Jirman <megi@xff.cz>,
- Peter Robinson <pbrobinson@gmail.com>,
- =?UTF-8?Q?Kamil_Trzci=c5=84ski?= <ayufan@ayufan.eu>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Sam,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216840
 
-On 12/23/22 10:17, Sam Ravnborg wrote:
-> Hi Javier.
-> 
-> On Thu, Dec 22, 2022 at 11:38:27PM +0100, Javier Martinez Canillas wrote:
->> From: Kamil Trzciński <ayufan@ayufan.eu>
->>
->> The driver is for panels based on the Himax HX8394 controller, such as the
->> HannStar HSD060BHW4 720x1440 TFT LCD panel that uses a MIPI-DSI interface.
-> 
-> A few comments/nitpicks in the following.
-> I have been away for a while, and paged out most of my panel knowledge,
-> so read it all with that in mind.
->
+            Bug ID: 216840
+           Summary: AMDGPU trace message at boot
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 6.1.0
+          Hardware: AMD
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: low
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: carlosalvatore@gmail.com
+        Regression: No
 
-Thanks a lot for your feedback! I agree with your comments and will address
-those in the next iteration.
- 
-> In general - very nicely written driver.
-> 
-> 	Sam
-> 
+Hi,=20
 
--- 
-Best regards,
+I don't know whether this is important, but I'd like to know what is causing
+this trace message: https://pastebin.pl/view/94557be6 when booting.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Hardware details:
+- MB: ASUS M5A97 R2.0
+- CPU: AMD FX-8350
+- Kernel: 6.1.0
+- GPU: Radeon HD 7970 (Tahiti) [Gigabyte GV-R797OC-3GD]
 
+There are no critical problems when using the system. Other than HDMI port =
+not
+working anymore (I don't know if this is related. At some point HDMI stopped
+working and I've got this message: "drm:detect_link_and_local_sink [amdgpu]]
+*ERROR* No EDID read.", which I bypassed using a HDMI>DP adapter).
+
+GRUB command line arguments are:=20
+amdgpu.si_support=3D1 radeon.si_support=3D0 modprobe.blacklist=3Dradeon
+amdgpu.vm_update_mode=3D3 amdgpu.dpm=3D1 amdgpu.dc=3D1 amd_iommu=3Don iommu=
+=3Dpt
+video=3DDisplayPort-0:edid/1204x800.bin
+
+Regards.
+
+--
+CarloSalvatore
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
