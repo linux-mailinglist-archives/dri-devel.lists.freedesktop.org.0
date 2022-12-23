@@ -2,68 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC23465505C
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 13:28:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 044DD65506D
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 13:36:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3771610E18F;
-	Fri, 23 Dec 2022 12:28:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA4B010E1A2;
+	Fri, 23 Dec 2022 12:36:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C27110E18F
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 12:27:57 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id f20so4861012lja.4
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 04:27:57 -0800 (PST)
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE4CA10E1A2
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 12:36:01 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id u12so1183942ljj.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 04:36:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Xj0h1UvXLeR/eex6PTKB9DZNs+9G5xyM3xWNa8K5ugM=;
- b=LVIdk6TrKKlSvZo8iVD3a0bA9d19SbP3oHNkZjsLc3tBjzxgiKVndhqSUyNL1pVpNr
- Myo+oiz4zHQ3LHKK4ZXe1Qwg17chAhulJFM7s1mmk53GmGwGmeDjggDYoImc4bkCT3fj
- EpWqUhY3WimsAVy5QElfpe076EjHgNONFyMFkLjDp68q6HGn7ihadES3ZSLEf+C8QjUe
- zWtU3icpAPmhhyn0KtlqNmsxoUY56e/KbYvMN7nA27dns7Evb92WNnXnzN3UvrkGbCOG
- czJC8GIpvS7/0PaNy6XRgrre+u3mcq3AvNeejqGtcO6q+Bu1iwACcDG1bN6f/kr6Pqp3
- ONhg==
+ bh=r3UKnhEZQUn5GYS/RbUjSz4ZcQWY1ixwYwswiqDVqN4=;
+ b=ZMj8Y/j8X8EoTO+KuKX8colZn+dhXdx8X1p3IZfbkZGh1LneEu7csBHwCLpu/89mdh
+ VA57l0Ls/nQDnDIcDSTcQRx6mVOsUT4YNgY/E2Up3vxOxjW0xgk1pF1JRe4hI8WEhPwa
+ dOYkY6OJZuJLGrNkxJzC7Y0CoGnozi6s6k8fafoQ80XGnbDOHlHLGIb8LsQKPXCpqt3Q
+ mr9P0WahGP8y0eaQkkPbzgGvBQoUJgINgUufJ6Z94cu/nOSHLJHa8edCHdEXz+kzJi9l
+ d9VUpbqTfEhP7dfmPKXBtpnVGfeZfoZPEVDQY/u5X9sinrM+4dKtk+fR6JyIaUAY+DbJ
+ U/ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Xj0h1UvXLeR/eex6PTKB9DZNs+9G5xyM3xWNa8K5ugM=;
- b=dbIUYbLTntmtGUwnHNxdAM0FlZhTZaGvWVtFtxIpnmkY5sepnkjBYzSjY7MeCiQ9/B
- rNxQ55NOMWKjM0FIGJBiIDmCxhcRdKIKI9zTNk0xTZPjCa9jwH4R12P9WLvJEDj3pZZ0
- kTLPuIuRYD0d/LSKSxl4kLPWnORBBB5IotHmH9kuD730YQgbc09Oap1UX5rg2Oikm4DB
- mglvlKHW/yrQLGsc+PEn8rcsj9GY5b8EzpRlV58qGlzKvudvlTa29+DIsg2H0yPUplhx
- 9vI/eeHkAJMh3MNE5V+NIylravUbRXX7lhs2pZXUTkXgVBCwquFxnEvj808FduA743Rz
- ky6g==
-X-Gm-Message-State: AFqh2konHT9uDvEyFugn6/h66sWmWgyBzcxozB0Zxy6enqwvLHSa4Vvu
- gCqGLqlJE/Ug5VwJ4kWBDs8=
-X-Google-Smtp-Source: AMrXdXvduFyoM6swUMGZRPtFEvufU7s44gxXlGnryOHSKInx0KTADxvAW9sGs9VUP+lWcbdCw6ZX4Q==
-X-Received: by 2002:a05:651c:48e:b0:277:1888:cfb3 with SMTP id
- s14-20020a05651c048e00b002771888cfb3mr2368918ljc.16.1671798476039; 
- Fri, 23 Dec 2022 04:27:56 -0800 (PST)
+ bh=r3UKnhEZQUn5GYS/RbUjSz4ZcQWY1ixwYwswiqDVqN4=;
+ b=ntkKMpyKN4+xPPraM7z5/he2QRXM1aQx17uMza80M5zdb2TGd5gpJNTr2FDCshKie2
+ E0y3M0fSQT4I/rTujp35PbVwSSPNqFIjkpXPfkF/yZJ/NIPXbV2pSzjFN6Fy/3u9K21g
+ PLCWzN10xl4rrFPEHdPFZzo+INQoO4Ghy/xVslrIpuJdCYArK6OFPeV64ZpW1DVPnXXy
+ xMwKEG2Ybb534HeAMHvJwRx2MJhsnX6RaXrLc7Il1IGtmC6yDHmv5hRskbBv8n3BNZSj
+ zZYSCp80bin3GUmpDeKEPElRg3YrXqFRDDn8LsReginFQo9zkIPBFMT0H/2g32y4NCvw
+ zNgw==
+X-Gm-Message-State: AFqh2kr5OUY1w3W1M1YKR0BHIVWxeadC95XuRUIME/DITHBZjtmMXEsi
+ TZ/JAKsxrpHHNItPOf5lVZY=
+X-Google-Smtp-Source: AMrXdXvhITzwpOd2W35sRsxL4USYcqWShDT+nWnLh4NFjRnjHAGbmI41tTpVVmFbTBCc3uqKHwW4TQ==
+X-Received: by 2002:a2e:8197:0:b0:27d:e218:a528 with SMTP id
+ e23-20020a2e8197000000b0027de218a528mr3813756ljg.12.1671798960143; 
+ Fri, 23 Dec 2022 04:36:00 -0800 (PST)
 Received: from [192.168.2.145] ([109.252.113.89])
  by smtp.googlemail.com with ESMTPSA id
- f3-20020a2eb5a3000000b00279e0b8bae7sm391459ljn.65.2022.12.23.04.27.54
+ z8-20020a2eb528000000b0027a026088b6sm405599ljm.95.2022.12.23.04.35.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Dec 2022 04:27:55 -0800 (PST)
-Message-ID: <67a5a826-5ba5-340b-cd80-2995e88d1790@gmail.com>
-Date: Fri, 23 Dec 2022 15:27:54 +0300
+ Fri, 23 Dec 2022 04:35:59 -0800 (PST)
+Message-ID: <44d2d972-1cdf-fdb2-5dc0-cc493f79b3da@gmail.com>
+Date: Fri, 23 Dec 2022 15:35:58 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
 Subject: Re: [PATCH v2 21/21] staging: media: tegra-video: add tegra20 variant
 Content-Language: en-US
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 References: <20221128152336.133953-1-luca.ceresoli@bootlin.com>
  <20221128152336.133953-22-luca.ceresoli@bootlin.com>
- <30e6b040-aa82-f6a3-1ff6-baa2c0dcb0e2@gmail.com>
- <20221222100341.5882c19c@booty>
- <a64e2aea-2e06-a72e-5ced-a86de4458c61@gmail.com>
-In-Reply-To: <a64e2aea-2e06-a72e-5ced-a86de4458c61@gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+In-Reply-To: <20221128152336.133953-22-luca.ceresoli@bootlin.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,76 +84,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Richard Leitner <richard.leitner@skidata.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>, linux-tegra@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-tegra@vger.kernel.org,
+ Richard Leitner <richard.leitner@skidata.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-23.12.2022 15:15, Dmitry Osipenko пишет:
-> 22.12.2022 12:03, Luca Ceresoli пишет:
->> Hello Dmitry,
->>
->> On Wed, 21 Dec 2022 00:40:20 +0300
->> Dmitry Osipenko <digetx@gmail.com> wrote:
->>
->>> 28.11.2022 18:23, Luca Ceresoli пишет:
->>>> +static int tegra20_channel_capture_frame(struct tegra_vi_channel *chan,
->>>> +					 struct tegra_channel_buffer *buf)
->>>> +{
->>>> +	u32 value;
->>>> +	int err;
->>>> +
->>>> +	chan->next_out_sp_idx++;
->>>> +
->>>> +	tegra20_channel_vi_buffer_setup(chan, buf);
->>>> +
->>>> +	tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_VIP_ENABLE);
->>>> +
->>>> +	/* Wait for syncpt counter to reach frame start event threshold */
->>>> +	err = host1x_syncpt_wait(chan->out_sp, chan->next_out_sp_idx,
->>>> +				 TEGRA_VI_SYNCPT_WAIT_TIMEOUT, &value);  
->>>
->>> You're not using the "value" variable, it should be NULL.
->>
->> Ah, sure, good catch.
->>
->>> The "chan->out_sp" looks redundant, it duplicates the chan->mw_ack_sp.
->>
->> I agree it is redundant and can be improved.
->>
->>> AFAICS from the doc, T20 has two VI channels, and thus, two mw_ack_sp,
->>> like T210.
->>
->> I'm confused by this. In the current driver, each VI channel has an
->> array of 2 mw_ack_sp, the second of which is only used the ganged
->> CSI ports. I have no docs mentioning ganged ports so I don't know
->> exactly how they work and whether T20 might need more than 1 syncpt per
->> channel or not for CSI. Definitely when using VIP only one such syncpt
->> per each VI (or per each VIP, as per your reply to patch 1) is needed.
->>
->> Bottom line: I think I can simply remove the out_sp and in the VIP code
->> always use chan->mw_ack_sp[0], and document that it's what is called OUT
->> in VIP terms.
->>
->> Does this plan seem good?
-> 
-> Older Tegra VI doesn't have ganged ports, but two memory/CSI channels.
-> It feels to me that Tegra VI can capture both channels independently,
-> though downstream driver stack used only one of the channels, IIRC.
-> 
-> There is a VI header file from nvddk in downstream kernel, which is
-> pretty much the doc by itself.
-> 
-> https://nv-tegra.nvidia.com/r/gitweb?p=linux-2.6.git;a=blob;f=arch/arm/mach-tegra/include/ap20/arvi.h;h=6ce52e8e9a7213e33466d34a71cf3af2b6944b8a;
+28.11.2022 18:23, Luca Ceresoli пишет:
+> +/* --------------------------------------------------------------------------
+> + * VIP
+> + */
+> +
+> +/*
+> + * VIP-specific configuration for stream start.
+> + *
+> + * Whatever is common among VIP and CSI is done by the VI component (see
+> + * tegra20_vi_start_streaming()). Here we do what is VIP-specific.
+> + */
+> +static int tegra20_vip_start_streaming(struct tegra_vip_channel *vip_chan)
+> +{
+> +	struct tegra_vi_channel *vi_chan = v4l2_get_subdev_hostdata(&vip_chan->subdev);
+> +	int width  = vi_chan->format.width;
+> +	int height = vi_chan->format.height;
+> +
+> +	unsigned int main_input_format;
+> +	unsigned int yuv_input_format;
+> +
+> +	tegra20_vi_get_input_formats(vi_chan, &main_input_format, &yuv_input_format);
+> +
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_VI_CORE_CONTROL, 0);
+> +
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_VI_INPUT_CONTROL,
+> +			 VI_INPUT_VIP_INPUT_ENABLE | main_input_format | yuv_input_format);
+> +
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_V_DOWNSCALE_CONTROL, 0);
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_H_DOWNSCALE_CONTROL, 0);
+> +
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_VIP_V_ACTIVE, height << VI_VIP_V_ACTIVE_PERIOD_SFT);
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_VIP_H_ACTIVE,
+> +			 roundup(width, 2) << VI_VIP_H_ACTIVE_PERIOD_SFT);
+> +
+> +	/*
+> +	 * For VIP, D9..D2 is mapped to the video decoder's P7..P0.
+> +	 * Disable/mask out the other Dn wires. When not in BT656
+> +	 * mode we also need the V/H sync.
+> +	 */
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_PIN_INPUT_ENABLE,
+> +			 GENMASK(9, 2) << VI_PIN_INPUT_VD_SFT |
+> +			 VI_PIN_INPUT_HSYNC | VI_PIN_INPUT_VSYNC);
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_VI_DATA_INPUT_CONTROL,
+> +			 GENMASK(9, 2) << VI_DATA_INPUT_SFT);
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_PIN_INVERSION, 0);
+> +
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_CONT_SYNCPT_OUT_1,
+> +			 VI_CONT_SYNCPT_OUT_1_CONTINUOUS_SYNCPT |
+> +			 host1x_syncpt_id(vi_chan->out_sp) << VI_CONT_SYNCPT_OUT_1_SYNCPT_IDX_SFT);
+> +
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_STOP_CAPTURE);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct tegra_vip_ops tegra20_vip_ops = {
+> +	.vip_start_streaming = tegra20_vip_start_streaming,
+> +};
+> +
+> +const struct tegra_vip_soc tegra20_vip_soc = {
+> +	.ops = &tegra20_vip_ops,
+> +};
 
-Although, after a bit closer look, I see that there is only one port
-selector there. Hence there only one port can be active at a time.
+Shouldn't this be placed in vip.c? Also looks like patch #20 won't link
+because tegra20_vip_soc is defined in patch #21.
