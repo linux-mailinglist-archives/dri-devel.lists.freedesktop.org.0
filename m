@@ -2,47 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8A065503F
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 13:18:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC23465505C
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 13:28:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 947D710E636;
-	Fri, 23 Dec 2022 12:18:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3771610E18F;
+	Fri, 23 Dec 2022 12:28:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DA0910E636;
- Fri, 23 Dec 2022 12:18:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671797914; x=1703333914;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=7znGiQeSZ0l8GJ+lxilWB8W46RCxcmsmPqQxJMjjDkM=;
- b=MEHeM5mG6E3kicZnY0K3npX3s37M7bWoiPsK34PJinA1/Bb3Rrq2ffSR
- Zr2zVtuAw/h1GGYKQUWeDBSv86c+agQZdjQSU6N6jIRKFmj40GotEPTPE
- CTS+e8PuhQT3404DOfshVUBc3ZsdDtTuQa9SJ9uMVTWtaUXyHzJJcOARp
- eh5bRU/R8zbVmVFATp9LDmHwIIHBRVS055o3Cr1c0BB7TRxfBl2SXQK6l
- 7jR8Op4IK2E/KyJX/oS8RhOKbfTJ0BVgJ+TJQrVQGCcv1Oaqzx1A4OnZC
- 74T6AsgnICbLwpPq4vodMtN6EcOCE+HOizN9aCVB698EOF8nHYOlv26dD g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="320380983"
-X-IronPort-AV: E=Sophos;i="5.96,268,1665471600"; d="scan'208";a="320380983"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2022 04:18:33 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="826285589"
-X-IronPort-AV: E=Sophos;i="5.96,268,1665471600"; d="scan'208";a="826285589"
-Received: from cemaylor-mobl.amr.corp.intel.com (HELO intel.com)
- ([10.251.217.192])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2022 04:18:30 -0800
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/gt: Retry RING_HEAD reset until it sticks
-Date: Fri, 23 Dec 2022 13:18:21 +0100
-Message-Id: <20221223121821.358021-1-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.39.0
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C27110E18F
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 12:27:57 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id f20so4861012lja.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 04:27:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Xj0h1UvXLeR/eex6PTKB9DZNs+9G5xyM3xWNa8K5ugM=;
+ b=LVIdk6TrKKlSvZo8iVD3a0bA9d19SbP3oHNkZjsLc3tBjzxgiKVndhqSUyNL1pVpNr
+ Myo+oiz4zHQ3LHKK4ZXe1Qwg17chAhulJFM7s1mmk53GmGwGmeDjggDYoImc4bkCT3fj
+ EpWqUhY3WimsAVy5QElfpe076EjHgNONFyMFkLjDp68q6HGn7ihadES3ZSLEf+C8QjUe
+ zWtU3icpAPmhhyn0KtlqNmsxoUY56e/KbYvMN7nA27dns7Evb92WNnXnzN3UvrkGbCOG
+ czJC8GIpvS7/0PaNy6XRgrre+u3mcq3AvNeejqGtcO6q+Bu1iwACcDG1bN6f/kr6Pqp3
+ ONhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Xj0h1UvXLeR/eex6PTKB9DZNs+9G5xyM3xWNa8K5ugM=;
+ b=dbIUYbLTntmtGUwnHNxdAM0FlZhTZaGvWVtFtxIpnmkY5sepnkjBYzSjY7MeCiQ9/B
+ rNxQ55NOMWKjM0FIGJBiIDmCxhcRdKIKI9zTNk0xTZPjCa9jwH4R12P9WLvJEDj3pZZ0
+ kTLPuIuRYD0d/LSKSxl4kLPWnORBBB5IotHmH9kuD730YQgbc09Oap1UX5rg2Oikm4DB
+ mglvlKHW/yrQLGsc+PEn8rcsj9GY5b8EzpRlV58qGlzKvudvlTa29+DIsg2H0yPUplhx
+ 9vI/eeHkAJMh3MNE5V+NIylravUbRXX7lhs2pZXUTkXgVBCwquFxnEvj808FduA743Rz
+ ky6g==
+X-Gm-Message-State: AFqh2konHT9uDvEyFugn6/h66sWmWgyBzcxozB0Zxy6enqwvLHSa4Vvu
+ gCqGLqlJE/Ug5VwJ4kWBDs8=
+X-Google-Smtp-Source: AMrXdXvduFyoM6swUMGZRPtFEvufU7s44gxXlGnryOHSKInx0KTADxvAW9sGs9VUP+lWcbdCw6ZX4Q==
+X-Received: by 2002:a05:651c:48e:b0:277:1888:cfb3 with SMTP id
+ s14-20020a05651c048e00b002771888cfb3mr2368918ljc.16.1671798476039; 
+ Fri, 23 Dec 2022 04:27:56 -0800 (PST)
+Received: from [192.168.2.145] ([109.252.113.89])
+ by smtp.googlemail.com with ESMTPSA id
+ f3-20020a2eb5a3000000b00279e0b8bae7sm391459ljn.65.2022.12.23.04.27.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Dec 2022 04:27:55 -0800 (PST)
+Message-ID: <67a5a826-5ba5-340b-cd80-2995e88d1790@gmail.com>
+Date: Fri, 23 Dec 2022 15:27:54 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2 21/21] staging: media: tegra-video: add tegra20 variant
+Content-Language: en-US
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+References: <20221128152336.133953-1-luca.ceresoli@bootlin.com>
+ <20221128152336.133953-22-luca.ceresoli@bootlin.com>
+ <30e6b040-aa82-f6a3-1ff6-baa2c0dcb0e2@gmail.com>
+ <20221222100341.5882c19c@booty>
+ <a64e2aea-2e06-a72e-5ced-a86de4458c61@gmail.com>
+In-Reply-To: <a64e2aea-2e06-a72e-5ced-a86de4458c61@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,135 +78,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Andi Shyti <andi@etezian.org>, Andi Shyti <andi.shyti@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>
+Cc: devicetree@vger.kernel.org, Richard Leitner <richard.leitner@skidata.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>, linux-tegra@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris@chris-wilson.co.uk>
+23.12.2022 15:15, Dmitry Osipenko пишет:
+> 22.12.2022 12:03, Luca Ceresoli пишет:
+>> Hello Dmitry,
+>>
+>> On Wed, 21 Dec 2022 00:40:20 +0300
+>> Dmitry Osipenko <digetx@gmail.com> wrote:
+>>
+>>> 28.11.2022 18:23, Luca Ceresoli пишет:
+>>>> +static int tegra20_channel_capture_frame(struct tegra_vi_channel *chan,
+>>>> +					 struct tegra_channel_buffer *buf)
+>>>> +{
+>>>> +	u32 value;
+>>>> +	int err;
+>>>> +
+>>>> +	chan->next_out_sp_idx++;
+>>>> +
+>>>> +	tegra20_channel_vi_buffer_setup(chan, buf);
+>>>> +
+>>>> +	tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_VIP_ENABLE);
+>>>> +
+>>>> +	/* Wait for syncpt counter to reach frame start event threshold */
+>>>> +	err = host1x_syncpt_wait(chan->out_sp, chan->next_out_sp_idx,
+>>>> +				 TEGRA_VI_SYNCPT_WAIT_TIMEOUT, &value);  
+>>>
+>>> You're not using the "value" variable, it should be NULL.
+>>
+>> Ah, sure, good catch.
+>>
+>>> The "chan->out_sp" looks redundant, it duplicates the chan->mw_ack_sp.
+>>
+>> I agree it is redundant and can be improved.
+>>
+>>> AFAICS from the doc, T20 has two VI channels, and thus, two mw_ack_sp,
+>>> like T210.
+>>
+>> I'm confused by this. In the current driver, each VI channel has an
+>> array of 2 mw_ack_sp, the second of which is only used the ganged
+>> CSI ports. I have no docs mentioning ganged ports so I don't know
+>> exactly how they work and whether T20 might need more than 1 syncpt per
+>> channel or not for CSI. Definitely when using VIP only one such syncpt
+>> per each VI (or per each VIP, as per your reply to patch 1) is needed.
+>>
+>> Bottom line: I think I can simply remove the out_sp and in the VIP code
+>> always use chan->mw_ack_sp[0], and document that it's what is called OUT
+>> in VIP terms.
+>>
+>> Does this plan seem good?
+> 
+> Older Tegra VI doesn't have ganged ports, but two memory/CSI channels.
+> It feels to me that Tegra VI can capture both channels independently,
+> though downstream driver stack used only one of the channels, IIRC.
+> 
+> There is a VI header file from nvddk in downstream kernel, which is
+> pretty much the doc by itself.
+> 
+> https://nv-tegra.nvidia.com/r/gitweb?p=linux-2.6.git;a=blob;f=arch/arm/mach-tegra/include/ap20/arvi.h;h=6ce52e8e9a7213e33466d34a71cf3af2b6944b8a;
 
-On Haswell, in particular, we see an issue where resets fails because
-the engine resumes from an incorrect RING_HEAD. Since the RING_HEAD
-doesn't point to the remaining requests to re-run, but may instead point
-into the uninitialised portion of the ring, the GPU may be then fed
-invalid instructions from a privileged context, often pushing the GPU
-into an unrecoverable hang.
-
-If at first the write doesn't succeed, try, try again.
-
-References: https://gitlab.freedesktop.org/drm/intel/-/issues/5432
-References: https://gitlab.freedesktop.org/drm/intel/-/issues/3303
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- .../gpu/drm/i915/gt/intel_ring_submission.c   | 44 +++++++++++++------
- drivers/gpu/drm/i915/i915_utils.h             |  8 ++++
- 2 files changed, 38 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-index 827adb0cfaea6..cdf283f5b1427 100644
---- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-@@ -192,6 +192,7 @@ static bool stop_ring(struct intel_engine_cs *engine)
- static int xcs_resume(struct intel_engine_cs *engine)
- {
- 	struct intel_ring *ring = engine->legacy.ring;
-+	ktime_t kt;
- 
- 	ENGINE_TRACE(engine, "ring:{HEAD:%04x, TAIL:%04x}\n",
- 		     ring->head, ring->tail);
-@@ -230,9 +231,20 @@ static int xcs_resume(struct intel_engine_cs *engine)
- 	set_pp_dir(engine);
- 
- 	/* First wake the ring up to an empty/idle ring */
--	ENGINE_WRITE_FW(engine, RING_HEAD, ring->head);
-+	until_timeout_ns(kt, 2 * NSEC_PER_MSEC) {
-+		ENGINE_WRITE_FW(engine, RING_HEAD, ring->head);
-+		if (ENGINE_READ_FW(engine, RING_HEAD) == ring->head)
-+			break;
-+	}
-+
- 	ENGINE_WRITE_FW(engine, RING_TAIL, ring->head);
--	ENGINE_POSTING_READ(engine, RING_TAIL);
-+	if (ENGINE_READ_FW(engine, RING_HEAD) != ENGINE_READ_FW(engine, RING_TAIL)) {
-+		ENGINE_TRACE(engine, "failed to reset empty ring: [%x, %x]: %x\n",
-+			     ENGINE_READ_FW(engine, RING_HEAD),
-+			     ENGINE_READ_FW(engine, RING_TAIL),
-+			     ring->head);
-+		goto err;
-+	}
- 
- 	ENGINE_WRITE_FW(engine, RING_CTL,
- 			RING_CTL_SIZE(ring->size) | RING_VALID);
-@@ -241,12 +253,16 @@ static int xcs_resume(struct intel_engine_cs *engine)
- 	if (__intel_wait_for_register_fw(engine->uncore,
- 					 RING_CTL(engine->mmio_base),
- 					 RING_VALID, RING_VALID,
--					 5000, 0, NULL))
-+					 5000, 0, NULL)) {
-+		ENGINE_TRACE(engine, "failed to restart\n");
- 		goto err;
-+	}
- 
--	if (GRAPHICS_VER(engine->i915) > 2)
-+	if (GRAPHICS_VER(engine->i915) > 2) {
- 		ENGINE_WRITE_FW(engine,
- 				RING_MI_MODE, _MASKED_BIT_DISABLE(STOP_RING));
-+		ENGINE_POSTING_READ(engine, RING_MI_MODE);
-+	}
- 
- 	/* Now awake, let it get started */
- 	if (ring->tail != ring->head) {
-@@ -259,16 +275,16 @@ static int xcs_resume(struct intel_engine_cs *engine)
- 	return 0;
- 
- err:
--	drm_err(&engine->i915->drm,
--		"%s initialization failed; "
--		"ctl %08x (valid? %d) head %08x [%08x] tail %08x [%08x] start %08x [expected %08x]\n",
--		engine->name,
--		ENGINE_READ(engine, RING_CTL),
--		ENGINE_READ(engine, RING_CTL) & RING_VALID,
--		ENGINE_READ(engine, RING_HEAD), ring->head,
--		ENGINE_READ(engine, RING_TAIL), ring->tail,
--		ENGINE_READ(engine, RING_START),
--		i915_ggtt_offset(ring->vma));
-+	ENGINE_TRACE(engine,
-+		     "initialization failed; "
-+		     "ctl %08x (valid? %d) head %08x [%08x] tail %08x [%08x] start %08x [expected %08x]\n",
-+		     ENGINE_READ(engine, RING_CTL),
-+		     ENGINE_READ(engine, RING_CTL) & RING_VALID,
-+		     ENGINE_READ(engine, RING_HEAD), ring->head,
-+		     ENGINE_READ(engine, RING_TAIL), ring->tail,
-+		     ENGINE_READ(engine, RING_START),
-+		     i915_ggtt_offset(ring->vma));
-+	GEM_TRACE_DUMP();
- 	return -EIO;
- }
- 
-diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
-index b64192d9c7daa..f24a25c0685e1 100644
---- a/drivers/gpu/drm/i915/i915_utils.h
-+++ b/drivers/gpu/drm/i915/i915_utils.h
-@@ -254,6 +254,14 @@ wait_remaining_ms_from_jiffies(unsigned long timestamp_jiffies, int to_wait_ms)
- 	}
- }
- 
-+/**
-+ * until_timeout_ns - Keep retrying (busy spin) until the duration has passed
-+ */
-+#define until_timeout_ns(end, timeout_ns) \
-+	for ((end) = ktime_get() + (timeout_ns); \
-+	     ktime_before(ktime_get(), (end)); \
-+	     cpu_relax())
-+
- /**
-  * __wait_for - magic wait macro
-  *
--- 
-2.39.0
-
+Although, after a bit closer look, I see that there is only one port
+selector there. Hence there only one port can be active at a time.
