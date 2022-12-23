@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAAE9655091
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 13:45:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF97655092
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 13:45:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BA2910E643;
-	Fri, 23 Dec 2022 12:44:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2D8510E1A6;
+	Fri, 23 Dec 2022 12:45:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0584210E643
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 12:44:48 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id co23so4485313wrb.4
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 04:44:47 -0800 (PST)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5243F10E1A6
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 12:45:09 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ p1-20020a05600c1d8100b003d8c9b191e0so3434878wms.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 04:45:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:from:to
  :cc:subject:date:message-id:reply-to;
- bh=9W36LKlGXwFUVUByxPnEJI/HuynJFCbtFyqWXrQq4Pc=;
- b=GVDZqtoeUEdgkMLjKsBtW89iVLMt1HfGjn6JW2NLjT2+wEe/Nl/o/E9/Mbxn4tTIXi
- 3sSPOtg4w7WWb3erou1bIVzkx71oYPR790E2xXa6zAbzPLsa9RQOsTIV26Egd2bd1LyV
- UHvJUJZIbr1FEes2/Smgbjby/eNx4K+sgQAAmxJgaweYlZcFD1Fg3s/bl195awZlugja
- ukUVG5EuE3TVCM2X/jy4xo8Z+fxXNgoN+6UwgcnkW4nTX6ZmWxZQABNaOZM5uL2vKhVN
- STseph2B3xth1/xjWjuhVzZiTUWvgOSBqw+X0Mnc3BtBF9TiRglMp8vM9ovRa1yd/Ufg
- 2+eQ==
+ bh=u9+2ryN45bGOFwXNK+qeRumAGi4yvld0sZTdJeDtDhw=;
+ b=aWXjOBnRqIYBcMkcmrqt3Mh42sPqTS7kFrYcttpfmzyacaGCU2fx1NzGUOoT4vAz9T
+ 89Pso9zCKBu4PyPdIR4ayOwTKV2iO+CDaiGZealdGi94vjoW44faXmXWATnB/8ksZBuj
+ LnMX9//PMR6XjR082JI1OgBFWOSLXpm6sOQ1peWLq2MK9WqUz+q/WhqFQGlQeb3xYwwG
+ i9paplDn2N76b/kvIp1tQ5UYZi6SuVr2jCuqvx3gYUvsgvs7m6OTrY7XtgIy5zkhc14h
+ AKks+gw0dR9p/WEBjpTnt7Jbh77dDx4vQhqnwH7qAY+oo5qnb1bsDETvc0YbIvqN9SGA
+ mflw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9W36LKlGXwFUVUByxPnEJI/HuynJFCbtFyqWXrQq4Pc=;
- b=oD3WvLr62iZWVNpDziDPbl9xb5dV5vnO2OYEGC4DK3DpbfyuKhZKuK0PTyctS30OnC
- TwdCV0hq6Wo4l0LcW6b2jj+vkPnpxThwbnO/cYOIorOJzQGEGOy5ZVpEFKrmxcHHTSIw
- 7qHhcPV+q+mIRIEt+7Vt7IhGdvS/4Ob48XxUrvzqDyTDCLVZoMGQNxc6TAaVi62hDYJL
- UKAty/KArn0DuaFzCgtqXOEZ4k7dcF1RJyBFHm71Ukg92QlMnq+nltMc9DbYoZ0BqE+a
- mAY991UOQvUVJ2tRir/MOj7I5f/QZovoJHIkO9J0Rk5CzpI5M8XakQbf9eAOqwgM1V2i
- khzw==
-X-Gm-Message-State: AFqh2kr/1NSeShkrKAenqr4i7QEhpFTwfiZ3w+0KnzPq6SA28YXbY+lO
- sHUT3gZivenRld1bzmiKo04=
-X-Google-Smtp-Source: AMrXdXsL7uqLORz+Rc6+Lhf7lPnEEqeWijAGWE47CWflf4I5x6Zoyc7VuWMmNPDhlBO5ockykkbHhg==
-X-Received: by 2002:adf:a50c:0:b0:241:faf0:17ec with SMTP id
- i12-20020adfa50c000000b00241faf017ecmr6660447wrb.4.1671799486376; 
- Fri, 23 Dec 2022 04:44:46 -0800 (PST)
+ bh=u9+2ryN45bGOFwXNK+qeRumAGi4yvld0sZTdJeDtDhw=;
+ b=tLU7flod8yQ/vCvlM2JkNJIlxrNxmFm7t09yHTmFcEhuUbKNmg3dcthee3bRq8TMvz
+ NSdd5VPJ9/LoN6YzXk/UxO6s/lQXeiacSCT9zimieI4GkskuRbsvpJLCw+S1wFZkfKJA
+ hksc26J9kYT9M45JOR8+a8a2mBcyyKaY2kZtESaOCdOr3voc47cq5xtiJQ5pQBYcUNGu
+ L0CWkBSdB/a2iq6nMiFbjHvqZpsS/7W+vJnsu1N5oybroQxVqjnDR4nD3aSWu582inG1
+ ThH3DO1yJlmkiBOO5r5Nc8Zg8sek9qch5fC2W44SzozPDi5SL9VD+KwVcAWaFv4VeubV
+ F7bg==
+X-Gm-Message-State: AFqh2kr+esGsl03YkIr8oY+OjPgSnabG0A0TnkyiqMTc0T3cOXyqG2Nm
+ 0ccc9ooIgvQB3agdt4ivCSY=
+X-Google-Smtp-Source: AMrXdXsJvdQRmNmNILvB3/ZgrjoXvEGiEykMR9RaQYoJCz0TPj5dSb/FhNkLJwn1CO6YQugMpt11Gw==
+X-Received: by 2002:a05:600c:1d03:b0:3d3:4aa6:4fe6 with SMTP id
+ l3-20020a05600c1d0300b003d34aa64fe6mr7050237wms.3.1671799507765; 
+ Fri, 23 Dec 2022 04:45:07 -0800 (PST)
 Received: from fedora ([94.73.32.212]) by smtp.gmail.com with ESMTPSA id
- j1-20020adfff81000000b0024cb961b6aesm2857822wrr.104.2022.12.23.04.44.45
+ o15-20020a05600c4fcf00b003c6f3f6675bsm10170337wmq.26.2022.12.23.04.45.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Dec 2022 04:44:45 -0800 (PST)
-Date: Fri, 23 Dec 2022 13:44:43 +0100
+ Fri, 23 Dec 2022 04:45:07 -0800 (PST)
+Date: Fri, 23 Dec 2022 13:45:05 +0100
 From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 07/13] drm/format-helper: Add conversion from XRGB8888
- to ARGB8888
-Message-ID: <Y6Wiu8ZXS5FzkBkT@fedora>
+Subject: Re: [PATCH v2 08/13] drm/format-helper: Add conversion from XRGB8888
+ to ARGB2101010
+Message-ID: <Y6Wi0TxpqH+mW2ed@fedora>
 References: <20221220161145.27568-1-tzimmermann@suse.de>
- <20221220161145.27568-8-tzimmermann@suse.de>
+ <20221220161145.27568-9-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221220161145.27568-8-tzimmermann@suse.de>
+In-Reply-To: <20221220161145.27568-9-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,203 +78,194 @@ Cc: javierm@redhat.com, mairacanal@riseup.net, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
-
-Compiling this patch with sparse enabled (you can do it from the KUnit
-tests adding "--make_options C=2") throws a warning:
-
-drm_format_helper.c:614:27: warning: incorrect type in assignment (different base types)
-drm_format_helper.c:614:27:    expected unsigned int [usertype]
-drm_format_helper.c:614:27:    got restricted __le32 [usertype]
-
-You might want to silence the warning with...
-
-On Tue, Dec 20, 2022 at 05:11:39PM +0100, Thomas Zimmermann wrote:
-> Add dedicated helper to convert from XRGB8888 to ARGB8888. Sets
+On Tue, Dec 20, 2022 at 05:11:40PM +0100, Thomas Zimmermann wrote:
+> Add dedicated helper to convert from XRGB8888 to ARGB2101010. Sets
 > all alpha bits to make pixels fully opaque.
 > 
 > v2:
+> 	* set correct format in struct drm_framebuffer (Javier)
 > 	* use cpubuf_to_le32()
 > 	* type fixes
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+Reviewed-by: José Expósito <jose.exposito89@gmail.com>
+
 > ---
->  drivers/gpu/drm/drm_format_helper.c           | 53 +++++++++++++++-
+>  drivers/gpu/drm/drm_format_helper.c           | 58 ++++++++++++++++-
 >  .../gpu/drm/tests/drm_format_helper_test.c    | 63 +++++++++++++++++++
 >  include/drm/drm_format_helper.h               |  3 +
->  3 files changed, 117 insertions(+), 2 deletions(-)
+>  3 files changed, 122 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-> index 36d2ca9d0f01..23837b202988 100644
+> index 23837b202988..3767213ba97d 100644
 > --- a/drivers/gpu/drm/drm_format_helper.c
 > +++ b/drivers/gpu/drm/drm_format_helper.c
-> @@ -446,6 +446,54 @@ void drm_fb_xrgb8888_to_rgb888(struct iosys_map *dst, const unsigned int *dst_pi
+> @@ -605,6 +605,59 @@ void drm_fb_xrgb8888_to_xrgb2101010(struct iosys_map *dst, const unsigned int *d
 >  }
->  EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb888);
+>  EXPORT_SYMBOL(drm_fb_xrgb8888_to_xrgb2101010);
 >  
-> +static void drm_fb_xrgb8888_to_argb8888_line(void *dbuf, const void *sbuf, unsigned int pixels)
+> +static void drm_fb_xrgb8888_to_argb2101010_line(void *dbuf, const void *sbuf, unsigned int pixels)
 > +{
-> +	u32 *dbuf32 = dbuf;
+> +	__le32 *dbuf32 = dbuf;
 > +	const __le32 *sbuf32 = sbuf;
 > +	unsigned int x;
+> +	u32 val32;
 > +	u32 pix;
 > +
 > +	for (x = 0; x < pixels; x++) {
 > +		pix = le32_to_cpu(sbuf32[x]);
-> +		pix |= GENMASK(31, 24); /* fill alpha bits */
-> +		dbuf32[x] = cpu_to_le32(pix);
-
-- dbuf32[x] = cpu_to_le32(pix);
-+ dbuf32[x] = (__force u32)cpu_to_le32(pix);
-
-Other than that:
-Reviewed-by: José Expósito <jose.exposito89@gmail.com>
-
+> +		val32 = ((pix & 0x000000ff) << 2) |
+> +			((pix & 0x0000ff00) << 4) |
+> +			((pix & 0x00ff0000) << 6);
+> +		pix = GENMASK(31, 30) | /* set alpha bits */
+> +		      val32 | ((val32 >> 8) & 0x00300c03);
+> +		*dbuf32++ = cpu_to_le32(pix);
 > +	}
 > +}
 > +
 > +/**
-> + * drm_fb_xrgb8888_to_argb8888 - Convert XRGB8888 to ARGB8888 clip buffer
-> + * @dst: Array of ARGB8888 destination buffers
+> + * drm_fb_xrgb8888_to_argb2101010 - Convert XRGB8888 to ARGB2101010 clip buffer
+> + * @dst: Array of ARGB2101010 destination buffers
 > + * @dst_pitch: Array of numbers of bytes between the start of two consecutive scanlines
 > + *             within @dst; can be NULL if scanlines are stored next to each other.
-> + * @src: Array of XRGB8888 source buffer
+> + * @src: Array of XRGB8888 source buffers
 > + * @fb: DRM framebuffer
 > + * @clip: Clip rectangle area to copy
 > + *
-> + * This function copies parts of a framebuffer to display memory and converts the
-> + * color format during the process. The parameters @dst, @dst_pitch and @src refer
-> + * to arrays. Each array must have at least as many entries as there are planes in
-> + * @fb's format. Each entry stores the value for the format's respective color plane
-> + * at the same index.
+> + * This function copies parts of a framebuffer to display memory and converts
+> + * the color format during the process. The parameters @dst, @dst_pitch and
+> + * @src refer to arrays. Each array must have at least as many entries as
+> + * there are planes in @fb's format. Each entry stores the value for the
+> + * format's respective color plane at the same index.
 > + *
 > + * This function does not apply clipping on @dst (i.e. the destination is at the
 > + * top-left corner).
 > + *
-> + * Drivers can use this function for ARGB8888 devices that don't support XRGB8888
-> + * natively. It sets an opaque alpha channel as part of the conversion.
+> + * Drivers can use this function for ARGB2101010 devices that don't support XRGB8888
+> + * natively.
 > + */
-> +void drm_fb_xrgb8888_to_argb8888(struct iosys_map *dst, const unsigned int *dst_pitch,
-> +				 const struct iosys_map *src, const struct drm_framebuffer *fb,
-> +				 const struct drm_rect *clip)
+> +void drm_fb_xrgb8888_to_argb2101010(struct iosys_map *dst, const unsigned int *dst_pitch,
+> +				    const struct iosys_map *src, const struct drm_framebuffer *fb,
+> +				    const struct drm_rect *clip)
 > +{
 > +	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
 > +		4,
 > +	};
 > +
 > +	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false,
-> +		    drm_fb_xrgb8888_to_argb8888_line);
+> +		    drm_fb_xrgb8888_to_argb2101010_line);
 > +}
-> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_argb8888);
+> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_argb2101010);
 > +
->  static void drm_fb_rgb565_to_xrgb8888_line(void *dbuf, const void *sbuf, unsigned int pixels)
+>  static void drm_fb_xrgb8888_to_gray8_line(void *dbuf, const void *sbuf, unsigned int pixels)
 >  {
->  	__le32 *dbuf32 = dbuf;
-> @@ -646,8 +694,6 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
->  	/* treat alpha channel like filler bits */
->  	if (fb_format == DRM_FORMAT_ARGB8888)
+>  	u8 *dbuf8 = dbuf;
+> @@ -696,8 +749,6 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
 >  		fb_format = DRM_FORMAT_XRGB8888;
-> -	if (dst_format == DRM_FORMAT_ARGB8888)
-> -		dst_format = DRM_FORMAT_XRGB8888;
 >  	if (fb_format == DRM_FORMAT_ARGB2101010)
 >  		fb_format = DRM_FORMAT_XRGB2101010;
->  	if (dst_format == DRM_FORMAT_ARGB2101010)
-> @@ -669,6 +715,9 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
->  		} else if (dst_format == DRM_FORMAT_RGB888) {
->  			drm_fb_xrgb8888_to_rgb888(dst, dst_pitch, src, fb, clip);
->  			return 0;
-> +		} else if (dst_format == DRM_FORMAT_ARGB8888) {
-> +			drm_fb_xrgb8888_to_argb8888(dst, dst_pitch, src, fb, clip);
-> +			return 0;
+> -	if (dst_format == DRM_FORMAT_ARGB2101010)
+> -		dst_format = DRM_FORMAT_XRGB2101010;
+>  
+>  	if (fb_format == dst_format) {
+>  		drm_fb_memcpy(dst, dst_pitch, src, fb, clip);
+> @@ -721,6 +772,9 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
 >  		} else if (dst_format == DRM_FORMAT_XRGB2101010) {
 >  			drm_fb_xrgb8888_to_xrgb2101010(dst, dst_pitch, src, fb, clip);
 >  			return 0;
+> +		} else if (dst_format == DRM_FORMAT_ARGB2101010) {
+> +			drm_fb_xrgb8888_to_argb2101010(dst, dst_pitch, src, fb, clip);
+> +			return 0;
+>  		} else if (dst_format == DRM_FORMAT_BGRX8888) {
+>  			drm_fb_swab(dst, dst_pitch, src, fb, clip, false);
+>  			return 0;
 > diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> index c2411ec808a1..bc969413a412 100644
+> index bc969413a412..de3aa252e8eb 100644
 > --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
 > +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> @@ -37,6 +37,11 @@ struct convert_to_rgb888_result {
->  	const u8 expected[TEST_BUF_SIZE];
+> @@ -47,6 +47,11 @@ struct convert_to_xrgb2101010_result {
+>  	const u32 expected[TEST_BUF_SIZE];
 >  };
 >  
-> +struct convert_to_argb8888_result {
+> +struct convert_to_argb2101010_result {
 > +	unsigned int dst_pitch;
 > +	const u32 expected[TEST_BUF_SIZE];
 > +};
 > +
->  struct convert_to_xrgb2101010_result {
->  	unsigned int dst_pitch;
->  	const u32 expected[TEST_BUF_SIZE];
-> @@ -51,6 +56,7 @@ struct convert_xrgb8888_case {
->  	struct convert_to_rgb332_result rgb332_result;
->  	struct convert_to_rgb565_result rgb565_result;
+>  struct convert_xrgb8888_case {
+>  	const char *name;
+>  	unsigned int pitch;
+> @@ -58,6 +63,7 @@ struct convert_xrgb8888_case {
 >  	struct convert_to_rgb888_result rgb888_result;
-> +	struct convert_to_argb8888_result argb8888_result;
+>  	struct convert_to_argb8888_result argb8888_result;
 >  	struct convert_to_xrgb2101010_result xrgb2101010_result;
+> +	struct convert_to_argb2101010_result argb2101010_result;
 >  };
 >  
-> @@ -77,6 +83,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->  			.dst_pitch = 0,
->  			.expected = { 0x00, 0x00, 0xFF },
->  		},
-> +		.argb8888_result = {
-> +			.dst_pitch = 0,
-> +			.expected = { 0xFFFF0000 },
-> +		},
->  		.xrgb2101010_result = {
+>  static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+> @@ -91,6 +97,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
 >  			.dst_pitch = 0,
 >  			.expected = { 0x3FF00000 },
-> @@ -107,6 +117,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->  			.dst_pitch = 0,
->  			.expected = { 0x00, 0x00, 0xFF },
 >  		},
-> +		.argb8888_result = {
+> +		.argb2101010_result = {
 > +			.dst_pitch = 0,
-> +			.expected = { 0xFFFF0000 },
+> +			.expected = { 0xFFF00000 },
 > +		},
->  		.xrgb2101010_result = {
+>  	},
+>  	{
+>  		.name = "single_pixel_clip_rectangle",
+> @@ -125,6 +135,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
 >  			.dst_pitch = 0,
 >  			.expected = { 0x3FF00000 },
-> @@ -169,6 +183,15 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->  				0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
+>  		},
+> +		.argb2101010_result = {
+> +			.dst_pitch = 0,
+> +			.expected = { 0xFFF00000 },
+> +		},
+>  	},
+>  	{
+>  		/* Well known colors: White, black, red, green, blue, magenta,
+> @@ -201,6 +215,15 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>  				0x3FFFFC00, 0x000FFFFF,
 >  			},
 >  		},
-> +		.argb8888_result = {
+> +		.argb2101010_result = {
 > +			.dst_pitch = 0,
 > +			.expected = {
-> +				0xFFFFFFFF, 0xFF000000,
-> +				0xFFFF0000, 0xFF00FF00,
-> +				0xFF0000FF, 0xFFFF00FF,
-> +				0xFFFFFF00, 0xFF00FFFF,
+> +				0xFFFFFFFF, 0xC0000000,
+> +				0xFFF00000, 0xC00FFC00,
+> +				0xC00003FF, 0xFFF003FF,
+> +				0xFFFFFC00, 0xC00FFFFF,
 > +			},
 > +		},
->  		.xrgb2101010_result = {
->  			.dst_pitch = 0,
->  			.expected = {
-> @@ -229,6 +252,14 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->  				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>  	},
+>  	{
+>  		/* Randomly picked colors. Full buffer within the clip area. */
+> @@ -268,6 +291,14 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>  				0x2A20300C, 0x1B1705CD, 0x03844672, 0x00000000, 0x00000000,
 >  			},
 >  		},
-> +		.argb8888_result = {
+> +		.argb2101010_result = {
 > +			.dst_pitch = 20,
 > +			.expected = {
-> +				0xFF0E449C, 0xFF114D05, 0xFFA80303, 0x00000000, 0x00000000,
-> +				0xFF6C7073, 0xFF0E449C, 0xFF114D05, 0x00000000, 0x00000000,
-> +				0xFFA80303, 0xFF6C7073, 0xFF0E449C, 0x00000000, 0x00000000,
+> +				0xC3844672, 0xC444D414, 0xEA20300C, 0x00000000, 0x00000000,
+> +				0xDB1705CD, 0xC3844672, 0xC444D414, 0x00000000, 0x00000000,
+> +				0xEA20300C, 0xDB1705CD, 0xC3844672, 0x00000000, 0x00000000,
 > +			},
 > +		},
->  		.xrgb2101010_result = {
->  			.dst_pitch = 20,
->  			.expected = {
-> @@ -448,6 +479,37 @@ static void drm_test_fb_xrgb8888_to_rgb888(struct kunit *test)
+>  	},
+>  };
+>  
+> @@ -541,6 +572,37 @@ static void drm_test_fb_xrgb8888_to_xrgb2101010(struct kunit *test)
 >  	KUNIT_EXPECT_EQ(test, memcmp(buf, result->expected, dst_size), 0);
 >  }
 >  
-> +static void drm_test_fb_xrgb8888_to_argb8888(struct kunit *test)
+> +static void drm_test_fb_xrgb8888_to_argb2101010(struct kunit *test)
 > +{
 > +	const struct convert_xrgb8888_case *params = test->param_value;
-> +	const struct convert_to_argb8888_result *result = &params->argb8888_result;
+> +	const struct convert_to_argb2101010_result *result = &params->argb2101010_result;
 > +	size_t dst_size;
 > +	u32 *buf = NULL;
 > +	__le32 *xrgb8888 = NULL;
@@ -284,7 +276,7 @@ Reviewed-by: José Expósito <jose.exposito89@gmail.com>
 > +		.pitches = { params->pitch, 0, 0 },
 > +	};
 > +
-> +	dst_size = conversion_buf_size(DRM_FORMAT_ARGB8888,
+> +	dst_size = conversion_buf_size(DRM_FORMAT_ARGB2101010,
 > +				       result->dst_pitch, &params->clip);
 > +	KUNIT_ASSERT_GT(test, dst_size, 0);
 > +
@@ -296,36 +288,36 @@ Reviewed-by: José Expósito <jose.exposito89@gmail.com>
 > +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
 > +	iosys_map_set_vaddr(&src, xrgb8888);
 > +
-> +	drm_fb_xrgb8888_to_argb8888(&dst, &result->dst_pitch, &src, &fb, &params->clip);
+> +	drm_fb_xrgb8888_to_argb2101010(&dst, &result->dst_pitch, &src, &fb, &params->clip);
 > +	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
 > +	KUNIT_EXPECT_EQ(test, memcmp(buf, result->expected, dst_size), 0);
 > +}
 > +
->  static void drm_test_fb_xrgb8888_to_xrgb2101010(struct kunit *test)
->  {
->  	const struct convert_xrgb8888_case *params = test->param_value;
-> @@ -484,6 +546,7 @@ static struct kunit_case drm_format_helper_test_cases[] = {
+>  static struct kunit_case drm_format_helper_test_cases[] = {
+>  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_gray8, convert_xrgb8888_gen_params),
 >  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb332, convert_xrgb8888_gen_params),
->  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb565, convert_xrgb8888_gen_params),
+> @@ -548,6 +610,7 @@ static struct kunit_case drm_format_helper_test_cases[] = {
 >  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb888, convert_xrgb8888_gen_params),
-> +	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb8888, convert_xrgb8888_gen_params),
+>  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb8888, convert_xrgb8888_gen_params),
 >  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_xrgb2101010, convert_xrgb8888_gen_params),
+> +	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb2101010, convert_xrgb8888_gen_params),
 >  	{}
 >  };
+>  
 > diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-> index eb5c98cf82b8..3ce8129dfe43 100644
+> index 3ce8129dfe43..10b2d19cdb66 100644
 > --- a/include/drm/drm_format_helper.h
 > +++ b/include/drm/drm_format_helper.h
-> @@ -33,6 +33,9 @@ void drm_fb_xrgb8888_to_rgb565(struct iosys_map *dst, const unsigned int *dst_pi
->  void drm_fb_xrgb8888_to_rgb888(struct iosys_map *dst, const unsigned int *dst_pitch,
->  			       const struct iosys_map *src, const struct drm_framebuffer *fb,
->  			       const struct drm_rect *clip);
-> +void drm_fb_xrgb8888_to_argb8888(struct iosys_map *dst, const unsigned int *dst_pitch,
-> +				 const struct iosys_map *src, const struct drm_framebuffer *fb,
-> +				 const struct drm_rect *clip);
+> @@ -39,6 +39,9 @@ void drm_fb_xrgb8888_to_argb8888(struct iosys_map *dst, const unsigned int *dst_
 >  void drm_fb_xrgb8888_to_xrgb2101010(struct iosys_map *dst, const unsigned int *dst_pitch,
 >  				    const struct iosys_map *src, const struct drm_framebuffer *fb,
 >  				    const struct drm_rect *clip);
+> +void drm_fb_xrgb8888_to_argb2101010(struct iosys_map *dst, const unsigned int *dst_pitch,
+> +				    const struct iosys_map *src, const struct drm_framebuffer *fb,
+> +				    const struct drm_rect *clip);
+>  void drm_fb_xrgb8888_to_gray8(struct iosys_map *dst, const unsigned int *dst_pitch,
+>  			      const struct iosys_map *src, const struct drm_framebuffer *fb,
+>  			      const struct drm_rect *clip);
 > -- 
 > 2.39.0
 > 
