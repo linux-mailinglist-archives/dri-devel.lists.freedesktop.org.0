@@ -2,75 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F976654D0E
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 08:57:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09488654D48
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 09:12:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC43710E16C;
-	Fri, 23 Dec 2022 07:57:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C94010E17E;
+	Fri, 23 Dec 2022 08:12:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C866010E16C
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 07:57:36 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id l8so4208316ljh.13
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 23:57:36 -0800 (PST)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BA3E10E184
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 08:12:34 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id x11so6223345lfn.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 00:12:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=zBvQKOto+vmplvuOPy0PMGPzXwMlPMKtXIbJlmwmhJM=;
- b=hXvibYBkLGjTrJYbsFqKhXLOegd4W20iLdjD3iKt01q1zPltmfjZY8kX+oOr8XLO5Y
- LpdkD//YhwUuB5g0E1vllQlEFb61gRUI3OKL1z4E9UuCAWbSEuByLrEUpa1+crvaugV4
- v8m9+iz35sStKAUq4inDeaI6AVbvGxu1r0p+HjAIq31Uw9Q4XJbtj6xK5Z7Pn1lx+RiB
- kOUoZnU6h0sLNpwcJUp18PRU8gGMrcGF0xqm7aMS6YDVFl/qDOy/qf6WhuCHSIlIpqrD
- UM4t4L1sKbP+/1oOucr3Hryzx4Srk3FFC2Vg4Tz70g4If7xafsB/VPOirUUMTmbTcn9C
- Q+cg==
+ bh=SYVZ8+9h5TaYp25FjSDR2jXhSPbQaP7Gr8Ll3NIuGQk=;
+ b=B/iKqnlEGIhLwnv1quGV8MJLHUTf008Jaed7bDyyOczv94ZE2cnIQ0TdGGmDWxDXM4
+ 0zODOlGgjRXw/BlTJ0LGS5eoZIJ7W9NQAR2FSZy93sSaIUMM5Q+syr92X9EIl3D/lRWq
+ Hfb5B7Fy+AAUaasHPTSk/0ZjWeKtC96cwpNVsbABTlJIij1sWBREQQiGVkZuwdbtuKT+
+ cQ3ICC8r8JqeVSvCUkfoP3/yAJDeGI5th8soBrSLm6Z8A4UwKO9jqUvfHMm93DigIvG/
+ wDrWHsbfRjE4KE21ZldvhQZCwyDRpPvhrRqMF9zuZhkKwa9FYRpXlJwx5hHG1bCsl9jt
+ FzhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zBvQKOto+vmplvuOPy0PMGPzXwMlPMKtXIbJlmwmhJM=;
- b=Yjm+eQHI9R4qbOAVIYAmEVOksrIM54O9u+gtDlgmsbS9hFiJsukeBHq7CmeDNIXNlM
- 5sOH7p0QVnyPpkhGF6Wz1R9Olvgi3xrrVnFMmUtopPOQbrxpkZjsEDP0RwwIMXJlmyAT
- A+m3NaLgfFFioGi7w8jSMSaAWO2E3sqoaL5qf8/+zsJy43LvcdZtk2i6Du7s/fzvJ0Qy
- xMMbFGqiNjVw7FEYlzLlP4xejfs6ODsvc60A8yq/gqSxyttVeP+y5iMae0E8Ak3PxpHy
- stTSNdM1ymfhP4WV1ocME2D8VTXbyJyPtzflq/7WHr9QofR75TPhHqJMM120k1k1+VLN
- 8Hfw==
-X-Gm-Message-State: AFqh2kplnQohUoa8r9BalVHDkBn+V+qK0EGqhWX18f+WYuh3llB3b1mT
- y3GZclNbDQP+SqubXsEoPyKMSw==
-X-Google-Smtp-Source: AMrXdXsZDZ5XmTLs7XUsj5QJeRBTIPRou5NU5Myhiv5VfkgR31vazIcUFlwh0ULYxb6j2gSaFSMQRA==
-X-Received: by 2002:a05:651c:b94:b0:277:3b1:7017 with SMTP id
- bg20-20020a05651c0b9400b0027703b17017mr3520368ljb.33.1671782255306; 
- Thu, 22 Dec 2022 23:57:35 -0800 (PST)
+ bh=SYVZ8+9h5TaYp25FjSDR2jXhSPbQaP7Gr8Ll3NIuGQk=;
+ b=Ldji+ci22E9Mm+A83WmzLZTBBHvvbXegTh9caUBfq9Mk3OWYoQHoOx+e1fjUWsYqAo
+ lx7EXHBKyRQarxUz2Eo28zwAnz6f3TSYJuOvZiKw3krJMMN13/NY/r/z3pU7dJ7vLrPE
+ gwlBsXZt1834KJ57+K4+7wWdc9P1JBaHPzmq7vlSHYX/4W3R621tUdnZiTux9YZP6HKP
+ QHJ9m7TD9YEs6NGzLzOYJIXEbs5gPkNMHTGpto/PEqr+hxNAuboQs6H/4uHhLKFY+IDV
+ afku/kJl63zxlQmxyvzBJKEW0UZwN6rFML2UbNWo2+Ngcn9XiaWJ90mHPHP13FGln+p7
+ HnlQ==
+X-Gm-Message-State: AFqh2ko+2IrPsPmNf9fe9y2BOWPJT3OtAPRnDQqLqJA6g5r2uNYeL1MB
+ 76zAZSsZrWlXgr6Z9lvZx3SlRQ==
+X-Google-Smtp-Source: AMrXdXvl72h7PzLSw0eEcPahBVERYar0f+JBK3mVwVFNkP/pRqDGUB4lQPHVjvZNDIQivwsK2v65JQ==
+X-Received: by 2002:a05:6512:32cf:b0:4b4:6490:cbf1 with SMTP id
+ f15-20020a05651232cf00b004b46490cbf1mr2677026lfg.15.1671783152848; 
+ Fri, 23 Dec 2022 00:12:32 -0800 (PST)
 Received: from [192.168.0.20]
  (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
  by smtp.gmail.com with ESMTPSA id
- e3-20020a2e8183000000b002778d482800sm306576ljg.59.2022.12.22.23.57.33
+ a22-20020ac25e76000000b004b58d457f2dsm420515lfr.61.2022.12.23.00.12.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Dec 2022 23:57:34 -0800 (PST)
-Message-ID: <f8ed0927-a97e-9395-1297-addb57ecd855@linaro.org>
-Date: Fri, 23 Dec 2022 08:57:33 +0100
+ Fri, 23 Dec 2022 00:12:32 -0800 (PST)
+Message-ID: <9636776f-d7f5-02cf-7290-69dbba6de6ab@linaro.org>
+Date: Fri, 23 Dec 2022 09:12:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v14 1/5] arm64: dts: qcom: add data-lanes and
- link-freuencies into dp_out endpoint
+Subject: Re: [PATCH 2/4] dt-bindings: display: Add Himax HX8394 panel
+ controller bindings
 Content-Language: en-US
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
- robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
- dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, agross@kernel.org,
- dmitry.baryshkov@linaro.org, andersson@kernel.org,
- konrad.dybcio@somainline.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
- airlied@gmail.com
-References: <1671217893-17496-1-git-send-email-quic_khsieh@quicinc.com>
- <1671217893-17496-2-git-send-email-quic_khsieh@quicinc.com>
- <1a5cc3d3-ac2d-52c8-79f4-b13252a4bb86@linaro.org>
- <54bd8b85-8b68-4b28-ec68-28edf9a8a097@quicinc.com>
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20221222223830.2494900-1-javierm@redhat.com>
+ <20221222223830.2494900-3-javierm@redhat.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <54bd8b85-8b68-4b28-ec68-28edf9a8a097@quicinc.com>
+In-Reply-To: <20221222223830.2494900-3-javierm@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,67 +77,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
- freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
- linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Robert Mader <robert.mader@posteo.de>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org, Martijn Braam <martijn@brixit.nl>,
+ Rob Herring <robh+dt@kernel.org>, Ondrej Jirman <megi@xff.cz>,
+ Peter Robinson <pbrobinson@gmail.com>,
+ =?UTF-8?Q?Kamil_Trzci=c5=84ski?= <ayufan@ayufan.eu>,
+ Thierry Reding <thierry.reding@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/12/2022 17:22, Kuogee Hsieh wrote:
-> 
-> On 12/22/2022 2:47 AM, Krzysztof Kozlowski wrote:
->> On 16/12/2022 20:11, Kuogee Hsieh wrote:
->>> Move data-lanes property from mdss_dp node to dp_out endpoint. Also
->>> add link-frequencies property into dp_out endpoint as well. The last
->>> frequency specified at link-frequencies will be the max link rate
->>> supported by DP.
->>>
->>> Changes in v5:
->>> -- revert changes at sc7180.dtsi and sc7280.dtsi
->>> -- add &dp_out to sc7180-trogdor.dtsi and sc7280-herobrine.dtsi
->>>
->>> Changes in v6:
->>> -- add data-lanes and link-frequencies to yaml
->>>
->>> Changes in v7:
->>> -- change 160000000 to 1620000000
->>> -- separate yaml to different patch
->>>
->>> Changes in v8:
->>> -- correct Bjorn mail address to kernel.org
->>>
->>> Changes in v9:
->>> -- use symbol rate (hz) for link-frequencies at dp_out at sc7180_trogdor.dtsi
->>>
->>> Changes in v13:
->>> -- delete an extra space at data-lanes
->>>
->>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>> ---
->>>   arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi   | 6 +++++-
->>>   arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi | 4 ++++
->>>   2 files changed, 9 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
->>> index eae22e6..e2783dd 100644
->>> --- a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
->>> +++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
->>> @@ -814,7 +814,11 @@ hp_i2c: &i2c9 {
->>>   	status = "okay";
->>>   	pinctrl-names = "default";
->>>   	pinctrl-0 = <&dp_hot_plug_det>;
->>> -	data-lanes = <0 1>;
->>> +};
->>> +
->>> +&dp_out {
->>> +    data-lanes = <0 1>;
->>> +    link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000>;
->> Messed order of nodes.
-> 
-> can you please give me more details and how should i fixed it?
+On 22/12/2022 23:38, Javier Martinez Canillas wrote:
+> Add device tree bindings for panels based on the Himax HX8394 controller,
+> such as the HannStar HSD060BHW4 720x1440 TFT LCD panel that is connected
+> through a MIPI-DSI video interface.
 
-Node overrides/extends are more or less ordered by name. dp should not
-be around mdp, but for example dsi.
+Subject: drop second, redundant "bindings".
+
+> 
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
+> 
+>  .../bindings/display/panel/himax,hx8394.yaml  | 68 +++++++++++++++++++
+>  1 file changed, 68 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml b/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
+> new file mode 100644
+> index 000000000000..a8084e95f2fe
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
+> @@ -0,0 +1,68 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/himax,hx8394.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Himax HX8394 MIPI-DSI LCD panel controller device tree bindings
+
+Drop "device tree bindings"
+
+> +
+> +maintainers:
+> +  - Javier Martinez Canillas <javierm@redhat.com>
+> +
+> +description:
+> +  Device tree bindings for panels based on the Himax HX8394 controller,
+> +  such as the HannStar HSD060BHW4 720x1440 TFT LCD panel connected with
+> +  a MIPI-DSI video interface.
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      # HannStar HSD060BHW4 5.99" 720x1440 TFT LCD panel
+> +      - hannstar,hsd060bhw4
+> +
+> +  port: true
+
+Put the port next to other "true" properties.
+
+> +  reg:
+> +    maxItems: 1
+> +    description: DSI virtual channel
+> +
+
+With three above:
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
