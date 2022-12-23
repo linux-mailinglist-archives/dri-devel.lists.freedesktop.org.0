@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095A265514D
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 15:23:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B60B3655182
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 15:43:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3316D10E663;
-	Fri, 23 Dec 2022 14:23:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCE6610E1A8;
+	Fri, 23 Dec 2022 14:43:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77EE610E65A;
- Fri, 23 Dec 2022 14:23:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671805399; x=1703341399;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ELTp1mLG7Y9aCL8aO+3yggqOoksNOYkU+LC/pmwgzyA=;
- b=h6WHojs6ZpmqWpG2ottoZdl2pYgLLN2M3eW5A5tU9xF/OQlsT/3lk21H
- c+27dZk3j5L1dN6yN+xTy/Nw2p/XcwLUfb5INN1T1g/0ViZeKJo5dasVa
- 2aM6Qe9tY1i/8kBLtimzGb9etHds0Vj1ICf1c6EWPlU8veg+mh8GlRw1f
- H1RVwid1/AgXqzvKKGomudHa9NdK5cWPCTVhnP/tSl3PViN1cgTQlPXxG
- AQqDeqzUnhnC4/YrPK4vlFEzcvUOFF7jMGVaZIH/9U4/Af3L+SOw42Fzh
- ybnz3reqKRmJRugCywjpmYvBfkXpozGjqKHcppjmrXomjjgBb2U1Jx0jJ g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10570"; a="322279546"
-X-IronPort-AV: E=Sophos;i="5.96,268,1665471600"; d="scan'208";a="322279546"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2022 06:23:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10570"; a="897539227"
-X-IronPort-AV: E=Sophos;i="5.96,268,1665471600"; d="scan'208";a="897539227"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by fmsmga006.fm.intel.com with ESMTP; 23 Dec 2022 06:23:13 -0800
-Received: from newjersey.igk.intel.com (newjersey.igk.intel.com
- [10.102.20.203])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 2BNENBXm013561; Fri, 23 Dec 2022 14:23:11 GMT
-From: Alexander Lobakin <alexandr.lobakin@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH 00/19] Introduce __xchg, non-atomic xchg
-Date: Fri, 23 Dec 2022 15:23:00 +0100
-Message-Id: <20221223142300.1820652-1-alexandr.lobakin@intel.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221222092147.d2bb177c67870884f2e59a9b@linux-foundation.org>
-References: <20221222114635.1251934-1-andrzej.hajda@intel.com>
- <20221222092147.d2bb177c67870884f2e59a9b@linux-foundation.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E53310E1A8
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 14:43:22 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9959861219
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 14:42:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77766C43396
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 14:42:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1671806566;
+ bh=5WSz7TH//n5BtaNgZRfsk+p6ujzCP/EjZAPHDEoOC98=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=olxxz20sE9VTDEToVcepShp6ZZa4Bp12yaWtO7oOBQta+a/sXX0eD23TtaEu706n7
+ dYllP031b6JfCc338/j7dE0aRJtMYFMF/Op/BWYY8WZWIEBVWdrJ7HzTVX9VasJsvc
+ FIbWpnPNK0jmNoe230W4DUArvIoamRMJ6UTBnPmGxouLbp9VvM5uzgArb1twRsptbk
+ 5FXgas+e0Pg/F1ZBUf9QUMamromNWImKk2vjlak7t2YQxzb3CMrVlNqxq94NAxHXg/
+ jwqxTlLhDxWKXzzZ8XjG2NQMdyte63X7IJl19pnT/P1llWf/iPkM9R/eE0CgUDTpiG
+ 5v1zhFgOy0PVA==
+Received: by mail-lf1-f54.google.com with SMTP id bf43so7342802lfb.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 06:42:46 -0800 (PST)
+X-Gm-Message-State: AFqh2koMtzrTNUAUclCH6QTT8w39diLe4JNH8iki9P4idYYUY3LZYGT2
+ AP+xntQOGTOyK6+U0JvItt8jIceYZ2BJRiletYw=
+X-Google-Smtp-Source: AMrXdXsMS+IGHzYDCdkiTlPt8UpinmgPDyHMg5CLbMsP3Lf2KPNsaQeyjjbVXhzNJHHGAEQZqz4efhVo1rex3aoEMIw=
+X-Received: by 2002:a19:a411:0:b0:4b6:e28c:276d with SMTP id
+ q17-20020a19a411000000b004b6e28c276dmr947831lfc.110.1671806564479; Fri, 23
+ Dec 2022 06:42:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+References: <20221221105402.6598-1-markuss.broks@gmail.com>
+In-Reply-To: <20221221105402.6598-1-markuss.broks@gmail.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Fri, 23 Dec 2022 15:42:33 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXGUC7dsSwVEUsAMeAoqDYtbqrM7SDOJTXbPfi-LrcSk9g@mail.gmail.com>
+Message-ID: <CAMj1kXGUC7dsSwVEUsAMeAoqDYtbqrM7SDOJTXbPfi-LrcSk9g@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] Add generic framebuffer support to EFI earlycon
+ driver
+To: Markuss Broks <markuss.broks@gmail.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,85 +61,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, linux-m68k@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org,
- Peter Zijlstra <peterz@infradead.org>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, Boqun Feng <boqun.feng@gmail.com>,
- linux-xtensa@linux-xtensa.org, Arnd Bergmann <arnd@arndb.de>,
- intel-gfx@lists.freedesktop.org, openrisc@lists.librecores.org,
- Alexander Lobakin <alexandr.lobakin@intel.com>, loongarch@lists.linux.dev,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org
+Cc: linux-fbdev@vger.kernel.org, Muchun Song <muchun.song@linux.dev>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-efi@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Kim Phillips <kim.phillips@amd.com>,
+ Will Deacon <will@kernel.org>, Jami Kettunen <jami.kettunen@protonmail.com>,
+ linux-serial@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Borislav Petkov <bp@suse.de>, Jiri Slaby <jirislaby@kernel.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrew Morton <akpm@linux-foundation.org>
-Date: Thu, 22 Dec 2022 09:21:47 -0800
+(cc Andy)
 
-> On Thu, 22 Dec 2022 12:46:16 +0100 Andrzej Hajda <andrzej.hajda@intel.com> wrote:
-> 
-> > Hi all,
-> > 
-> > I hope there will be place for such tiny helper in kernel.
-> > Quick cocci analyze shows there is probably few thousands places
-> > where it could be useful.
-> 
-> So to clarify, the intent here is a simple readability cleanup for
-> existing open-coded exchange operations.  The intent is *not* to
-> identify existing xchg() sites which are unnecessarily atomic and to
-> optimize them by using the non-atomic version.
-> 
-> Have you considered the latter?
-> 
-> > I am not sure who is good person to review/ack such patches,
-> 
-> I can take 'em.
-> 
-> > so I've used my intuition to construct to/cc lists, sorry for mistakes.
-> > This is the 2nd approach of the same idea, with comments addressed[0].
-> > 
-> > The helper is tiny and there are advices we can leave without it, so
-> > I want to present few arguments why it would be good to have it:
-> > 
-> > 1. Code readability/simplification/number of lines:
-> > 
-> > Real example from drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c:
-> > -       previous_min_rate = evport->qos.min_rate;
-> > -       evport->qos.min_rate = min_rate;
-> > +       previous_min_rate = __xchg(evport->qos.min_rate, min_rate);
-> > 
-> > For sure the code is more compact, and IMHO more readable.
-> > 
-> > 2. Presence of similar helpers in other somehow related languages/libs:
-> > 
-> > a) Rust[1]: 'replace' from std::mem module, there is also 'take'
-> >     helper (__xchg(&x, 0)), which is the same as private helper in
-> >     i915 - fetch_and_zero, see latest patch.
-> > b) C++ [2]: 'exchange' from utility header.
-> > 
-> > If the idea is OK there are still 2 qestions to answer:
-> > 
-> > 1. Name of the helper, __xchg follows kernel conventions,
-> >     but for me Rust names are also OK.
-> 
-> I like replace(), or, shockingly, exchange().
-> 
-> But...   Can we simply make swap() return the previous value?
-> 
-> 	previous_min_rate = swap(&evport->qos.min_rate, min_rate);
 
-Unforunately, swap()'s arguments get passed by names, not as
-pointers, so you can't do
+On Wed, 21 Dec 2022 at 11:54, Markuss Broks <markuss.broks@gmail.com> wrote:
+>
+> Make the EFI earlycon driver be suitable for any linear framebuffers.
+> This should be helpful for early porting of boards with no other means of
+> output, like smartphones/tablets. There seems to be an issue with early_ioremap
+> function on ARM32, but I am unable to find the exact cause. It appears the mappings
+> returned by it are somehow incorrect, thus the driver is disabled on ARM.
 
-	swap(some_ptr, NULL);
+The reason that this driver is disabled on ARM is because the struct
+screen_info is not populated early enough, as it is retrieved from a
+UEFI configuration table.
 
- -- pretty common pattern for xchg.
+early_ioremap() works fine on ARM as long as they mapping is torn down
+before paging_init()
 
-Thanks,
-Olek
+> EFI early
+> console was disabled on IA64 previously because of missing early_memremap_prot,
+> and this is inherited to this driver.
+>
+> This patch also changes
+
+"This patch also changes ..." is usually a strong hint to self that
+the patches need to be split up.
+
+> behavior on EFI systems, by selecting the mapping type
+> based on if the framebuffer region intersects with system RAM. If it does, it's
+> common sense that it should be in RAM as a whole, and so the system RAM mapping is
+> used. It was tested to be working on my PC (Intel Z490 platform), as well as several
+> ARM64 boards (Samsung Galaxy S9 (Exynos), iPad Air 2, Xiaomi Mi Pad 4, ...).
+>
+> Markuss Broks (2):
+>   drivers: serial: earlycon: Pass device-tree node
+>   efi: earlycon: Add support for generic framebuffers and move to fbdev
+>     subsystem
+>
+>
+> v1 -> v2:
+>
+> - a new patch correcting serial/earlycon.c argument name to "offset" instead
+>   of "node"
+> - move IA64 exclusion from EFI earlycon Kconfig to earlycon driver Kconfig
+>   (IA64 has no early_memremap_prot)
+> - move driver from fbdev to console subsystem
+> - select EFI earlycon by default
+> - fetch stride manually from device-tree, as on some devices it seems stride
+>   doesn't match the horizontal resolution * bpp.
+> - use saner format (e.g. 1920x1080x32 instead of 1920,1080,32).
+>
+>
+> Markuss Broks (3):
+>   drivers: serial: earlycon: Pass device-tree node
+>   efi: earlycon: move to video/console to prepare for changes
+>   efi: earlycon: Add support for generic framebuffers
+>
+>  .../admin-guide/kernel-parameters.txt         |  12 +-
+>  MAINTAINERS                                   |   5 +
+>  drivers/firmware/efi/Kconfig                  |   7 +-
+>  drivers/firmware/efi/Makefile                 |   1 -
+>  drivers/firmware/efi/earlycon.c               | 246 --------------
+>  drivers/tty/serial/earlycon.c                 |   3 +
+>  drivers/video/console/Kconfig                 |  11 +
+>  drivers/video/console/Makefile                |   1 +
+>  drivers/video/console/earlycon.c              | 305 ++++++++++++++++++
+>  include/linux/serial_core.h                   |   1 +
+>  10 files changed, 336 insertions(+), 256 deletions(-)
+>  delete mode 100644 drivers/firmware/efi/earlycon.c
+>  create mode 100644 drivers/video/console/earlycon.c
+>
+> --
+> 2.39.0
+>
