@@ -2,69 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D25B654BA1
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 04:13:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A6CD654BD7
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 05:02:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8966D10E195;
-	Fri, 23 Dec 2022 03:12:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 763E610E1A0;
+	Fri, 23 Dec 2022 04:02:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF0C610E195
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 03:12:36 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id z26so5417606lfu.8
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 19:12:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=bsf04gE/unfn1bQOs3ZV28sbbvxagn2uxB1k5VEvcXw=;
- b=VKE3sPEq00+uFBR1wUP0d2anZUH3XnNSEWit0xAENbgpiTGLP/Lr0pI5VZrqBLQMCc
- 7TN0doYFQpP3gQA78iRM+6ux0clqJTYeFFJVQ+9TVHrH25G3QcyKZdDELWnoa/fnOaiX
- UO1qGA+h/GJi6OZmWzt7UtoVs4CIfUu2kmIY3BRXnJCf/OAXvfmFhUl5vL/aRG/4g+Z0
- Fcj4jAF15xrC761Hoxkp3bHGeziMqikHUBxMoE+wLxIzpAC1GtwKlRbA8dSyPF/+PISr
- 86DEzueAptYuebrcZvSyRiAiUQrLnR7FE+iZuf1vsrSr1NKbTf0HE6+AOaOUjUQ6Ji0q
- aL1w==
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com
+ [IPv6:2607:f8b0:4864:20::836])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDE4010E1A0
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Dec 2022 04:02:45 +0000 (UTC)
+Received: by mail-qt1-x836.google.com with SMTP id a16so2928103qtw.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Dec 2022 20:02:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=XpeUQ3GMg5Z9qzKyNeM71zZjjCllhMtjspejkV0vGj8=;
+ b=XhNoxq5uKjUAoFUQWD5KrvwDpvuTjdGyTtv+h2JN/pSDtUkQM02P+n9zMBVz0TEFFY
+ u5NzUGhQOFTf4K7ruz5JE7PZAqUNsLpHd9xJJ+4Mx2PUCBxk8ecQizWetK6nCu623If0
+ QfCFunh1+8LabwFrXWINgWo5OW4b0TQBtn76bXHG5wMxM3RhtPBZ4ZPXmUL0GrTlpT2A
+ pF5CPXeZOFx64cHI7doBgUIGLR47R7igCaNb3esk6F3ebmGJPKd8cb86Q5lAVQYoaPpv
+ 2bNU1yPfFx+YZSfTaFP0WRb9PgLaNBIX+PFaUoEqjUPjfx9QyzA4ylHRkT3rtwYqYaoi
+ dy6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bsf04gE/unfn1bQOs3ZV28sbbvxagn2uxB1k5VEvcXw=;
- b=KP0UdP8jmkuGjjIiXZT7GV6x4VVECKU+bnsUWojBujam8pZJfwWYq0YI0tK0ug9XL0
- I8ULKRxtdsp6RxitqIO5itQCW232/5dDLaaMoa2NaOiVxGocucKwIIQriG/GkB8YNzlb
- PqIGrrKvn1D5bVma2guXaAPC+5CJ6mTMPPXWDkYWoikAQRRW4P6gEpBfM0oAnE1gg3AU
- ELgpt6tuMgj7WXqQg2+t+h6V9QVOfVUB3oK+z0IiQIfn9EdcORafDdtpo60MsAeOoRFe
- ww7NILtNXf+5b695/B7gsxyharVTVMIfuNFAKtl8XGo+uO3Rr/FuJAs7KImEc5mAniEE
- 2NfQ==
-X-Gm-Message-State: AFqh2kqjpPc/8SgjuOulufqTCWW4rr5Gc8npESeWHew0TCCRQRg//xH/
- 9CWKc6ZouI5OjyJTRKbm/g2lYw==
-X-Google-Smtp-Source: AMrXdXs3kSvnFcd3TXTJu7Cxuftcu/NrSbT+/GCThNklQdJBV8oeo9Da0Ea5xy5IrebGZKGePRUXQw==
-X-Received: by 2002:a05:6512:398c:b0:4ac:ec52:e063 with SMTP id
- j12-20020a056512398c00b004acec52e063mr2501264lfu.29.1671765155077; 
- Thu, 22 Dec 2022 19:12:35 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- d17-20020a056512369100b00492dba3c85asm320956lfs.220.2022.12.22.19.12.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Dec 2022 19:12:34 -0800 (PST)
-Message-ID: <fd9a9aca-8225-6cd1-ff5e-19f0a39bf49c@linaro.org>
-Date: Fri, 23 Dec 2022 05:12:34 +0200
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XpeUQ3GMg5Z9qzKyNeM71zZjjCllhMtjspejkV0vGj8=;
+ b=faf/gDBUpKgnCPgpxxlEsR2EGIW+OJbU5uBqfuT6HLD7jczJLxcH8AeIJ1mDKqFYjY
+ M6C7Vc1PfWgLbOSaL6emKacbZdr5apeRXahFb6lnw76QpnaMKFb4UjCz0qVzy4NTha/j
+ y58d1NCSpZi350l8kyenfSbE3e3fffUO6UVdqmJTFdGQGbPjkCDIMEplhYvZnbt4TbSZ
+ tJ7T8GmlDaauxrZibq2ZF668Hy9bfECT30Ae3wG8NorAQNAiF3em0yV9GQnSZoyoY6CH
+ EyM0hFqXgGyjXgqbgq0F0cpekmQyaiHAnautCURL9Bza09Sst+IlzTpXoQikck3CLk5U
+ xm4Q==
+X-Gm-Message-State: AFqh2kq2l86r3CALJPCwIbVlFbX8+Fk05RtorAERqhLzJ5slp/4bx4XT
+ iUW7ETBjl6fxkyzkVx2zqOIq+wutFSl7ZzrLDsk=
+X-Google-Smtp-Source: AMrXdXuLFM1GJLWBMe7nCwd4pvj+mBe7KOLuaEp1nZDb/uE5x7WbrmBlGYRppdFBfLATtQ+f/5EkjgnBkTD8jaylnhQ=
+X-Received: by 2002:ac8:6e8f:0:b0:3a7:f669:4597 with SMTP id
+ c15-20020ac86e8f000000b003a7f6694597mr304504qtv.329.1671768164825; Thu, 22
+ Dec 2022 20:02:44 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [RFC PATCH v2 3/3] drm/msm/dpu: Use color_fill property for DPU
- planes
-Content-Language: en-GB
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
-References: <20221222221441.6980-1-quic_jesszhan@quicinc.com>
- <20221222221441.6980-4-quic_jesszhan@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20221222221441.6980-4-quic_jesszhan@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 23 Dec 2022 14:02:33 +1000
+Message-ID: <CAPM=9tye2Py9FXHP5qcNnb2BEa0yWNe4KDdfh5Vxpr2YMDwDeA@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.2-rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,212 +64,236 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sebastian.wick@redhat.com, ppaalanen@gmail.com,
- linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, daniel.vetter@ffwll.ch,
- seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
- wayland-devel@lists.freedesktop.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/12/2022 00:14, Jessica Zhang wrote:
-> Initialize and use the color_fill properties for planes in DPU driver. In
-> addition, relax framebuffer requirements within atomic commit path and
-> add checks for NULL framebuffers. Finally, drop DPU_PLANE_COLOR_FILL_FLAG
-> as it's unused.
-> 
-> Changes since V2:
-> - Fixed dropped 'const' warning
-> - Dropped use of solid_fill_format
-> - Switched to using drm_plane_solid_fill_enabled helper method
-> - Added helper to convert color fill to BGR888 (Rob)
-> - Added support for solid fill on planes of varying sizes
-> - Removed DPU_PLANE_COLOR_FILL_FLAG
-> 
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  9 +++-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 65 ++++++++++++++---------
->   2 files changed, 49 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 13ce321283ff..0695b70ea1b7 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -409,6 +409,7 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
->   	struct drm_plane_state *state;
->   	struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc->state);
->   	struct dpu_plane_state *pstate = NULL;
-> +	const struct msm_format *fmt;
->   	struct dpu_format *format;
->   	struct dpu_hw_ctl *ctl = mixer->lm_ctl;
->   
-> @@ -441,7 +442,13 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
->   				sspp_idx - SSPP_VIG0,
->   				state->fb ? state->fb->base.id : -1);
->   
-> -		format = to_dpu_format(msm_framebuffer_format(pstate->base.fb));
-> +		if (pstate->base.fb)
-> +			fmt = msm_framebuffer_format(pstate->base.fb);
-> +		else
-> +			fmt = dpu_get_msm_format(&_dpu_crtc_get_kms(crtc)->base,
-> +					DRM_FORMAT_ABGR8888, 0);
-> +
-> +		format = to_dpu_format(fmt);
->   
->   		if (pstate->stage == DPU_STAGE_BASE && format->alpha_enable)
->   			bg_alpha_enable = true;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index 86719020afe2..51a7507373f7 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -44,7 +44,6 @@
->   
->   #define DPU_NAME_SIZE  12
->   
-> -#define DPU_PLANE_COLOR_FILL_FLAG	BIT(31)
->   #define DPU_ZPOS_MAX 255
->   
->   /* multirect rect index */
-> @@ -105,7 +104,6 @@ struct dpu_plane {
->   	enum dpu_sspp pipe;
->   
->   	struct dpu_hw_pipe *pipe_hw;
-> -	uint32_t color_fill;
->   	bool is_error;
->   	bool is_rt_pipe;
->   	const struct dpu_mdss_cfg *catalog;
-> @@ -678,6 +676,17 @@ static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
->   				&scaler3_cfg);
->   }
->   
-> +static uint32_t _dpu_plane_get_fill_color(struct drm_solid_fill solid_fill)
-> +{
-> +	uint32_t ret = 0;
-> +
-> +	ret |= ((uint8_t) solid_fill.b) << 16;
-> +	ret |= ((uint8_t) solid_fill.g) << 8;
-> +	ret |= ((uint8_t) solid_fill.r);
-> +
-> +	return ret;
-> +}
-> +
->   /**
->    * _dpu_plane_color_fill - enables color fill on plane
->    * @pdpu:   Pointer to DPU plane object
-> @@ -1001,12 +1010,17 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->   
->   	dst = drm_plane_state_dest(new_plane_state);
->   
-> -	fb_rect.x2 = new_plane_state->fb->width;
-> -	fb_rect.y2 = new_plane_state->fb->height;
-> +	if (new_plane_state->fb) {
-> +		fb_rect.x2 = new_plane_state->fb->width;
-> +		fb_rect.y2 = new_plane_state->fb->height;
-> +	}
->   
->   	max_linewidth = pdpu->catalog->caps->max_linewidth;
->   
-> -	fmt = to_dpu_format(msm_framebuffer_format(new_plane_state->fb));
-> +	if (new_plane_state->fb)
-> +		fmt = to_dpu_format(msm_framebuffer_format(new_plane_state->fb));
-> +	else
-> +		fmt = dpu_get_dpu_format(DRM_FORMAT_ABGR8888);
->   
->   	min_src_size = DPU_FORMAT_IS_YUV(fmt) ? 2 : 1;
->   
-> @@ -1018,7 +1032,7 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->   		return -EINVAL;
->   
->   	/* check src bounds */
-> -	} else if (!dpu_plane_validate_src(&src, &fb_rect, min_src_size)) {
-> +	} else if (new_plane_state->fb && !dpu_plane_validate_src(&src, &fb_rect, min_src_size)) {
->   		DPU_DEBUG_PLANE(pdpu, "invalid source " DRM_RECT_FMT "\n",
->   				DRM_RECT_ARG(&src));
->   		return -E2BIG;
-> @@ -1086,9 +1100,10 @@ void dpu_plane_flush(struct drm_plane *plane)
->   	if (pdpu->is_error)
->   		/* force white frame with 100% alpha pipe output on error */
->   		_dpu_plane_color_fill(pdpu, 0xFFFFFF, 0xFF);
-> -	else if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG)
-> +	else if (!(plane->state->fb) && drm_plane_solid_fill_enabled(plane->state))
+Hi Linus,
 
-And what if the plane has both fb and solid_fill proprety?
+Holiday fixes!. Two batches from amd, and one group of i915 changes. I
+don't think there should be anything new, and it should all be fixes.
 
->   		/* force 100% alpha */
-> -		_dpu_plane_color_fill(pdpu, pdpu->color_fill, 0xFF);
-> +		_dpu_plane_color_fill(pdpu, _dpu_plane_get_fill_color(plane->state->solid_fill),
-> +				0xFF);
->   	else if (pdpu->pipe_hw && pdpu->pipe_hw->ops.setup_csc) {
->   		const struct dpu_format *fmt = to_dpu_format(msm_framebuffer_format(plane->state->fb));
->   		const struct dpu_csc_cfg *csc_ptr = _dpu_plane_get_csc(pdpu, fmt);
-> @@ -1127,23 +1142,30 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
->   	struct drm_crtc *crtc = state->crtc;
->   	struct drm_framebuffer *fb = state->fb;
->   	bool is_rt_pipe, update_qos_remap;
-> -	const struct dpu_format *fmt =
-> -		to_dpu_format(msm_framebuffer_format(fb));
-> +	const struct dpu_format *fmt;
->   	struct dpu_hw_pipe_cfg pipe_cfg;
->   
-> -	memset(&pipe_cfg, 0, sizeof(struct dpu_hw_pipe_cfg));
-> -
-> -	_dpu_plane_set_scanout(plane, pstate, &pipe_cfg, fb);
-> -
->   	pstate->pending = true;
->   
->   	is_rt_pipe = (dpu_crtc_get_client_type(crtc) != NRT_CLIENT);
->   	_dpu_plane_set_qos_ctrl(plane, false, DPU_PLANE_QOS_PANIC_CTRL);
->   
-> -	DPU_DEBUG_PLANE(pdpu, "FB[%u] " DRM_RECT_FP_FMT "->crtc%u " DRM_RECT_FMT
-> -			", %4.4s ubwc %d\n", fb->base.id, DRM_RECT_FP_ARG(&state->src),
-> -			crtc->base.id, DRM_RECT_ARG(&state->dst),
-> -			(char *)&fmt->base.pixel_format, DPU_FORMAT_IS_UBWC(fmt));
-> +	/* override for color fill */
-> +	if (!fb && drm_plane_solid_fill_enabled(plane->state)) {
+Dave.
 
-And here too.
+drm-next-2022-12-23:
+drm fixes for 6.2-rc1
 
-> +		/* skip remaining processing on color fill */
-> +		return;
-> +	}
-> +
-> +	memset(&pipe_cfg, 0, sizeof(struct dpu_hw_pipe_cfg));
-> +
-> +	fmt = to_dpu_format(msm_framebuffer_format(fb));
-> +	_dpu_plane_set_scanout(plane, pstate, &pipe_cfg, fb);
-> +
-> +	if (fb)
-> +		DPU_DEBUG_PLANE(pdpu, "FB[%u] " DRM_RECT_FP_FMT "->crtc%u " DRM_RECT_FMT
-> +				", %4.4s ubwc %d\n", fb->base.id, DRM_RECT_FP_ARG(&state->src),
-> +				crtc->base.id, DRM_RECT_ARG(&state->dst),
-> +				(char *)&fmt->base.pixel_format, DPU_FORMAT_IS_UBWC(fmt));
->   
->   	pipe_cfg.src_rect = state->src;
->   
-> @@ -1155,12 +1177,6 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
->   
->   	pipe_cfg.dst_rect = state->dst;
->   
-> -	/* override for color fill */
-> -	if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG) {
-> -		/* skip remaining processing on color fill */
-> -		return;
-> -	}
-> -
->   	if (pdpu->pipe_hw->ops.setup_rects) {
->   		pdpu->pipe_hw->ops.setup_rects(pdpu->pipe_hw,
->   				&pipe_cfg,
-> @@ -1511,6 +1527,7 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
->   		DPU_ERROR("failed to install zpos property, rc = %d\n", ret);
->   
->   	drm_plane_create_alpha_property(plane);
-> +	drm_plane_create_solid_fill_property(plane);
->   	drm_plane_create_blend_mode_property(plane,
->   			BIT(DRM_MODE_BLEND_PIXEL_NONE) |
->   			BIT(DRM_MODE_BLEND_PREMULTI) |
+amdgpu:
+- Spelling fix
+- BO pin fix
+- Properly handle polaris 10/11 overlap asics
+- GMC9 fix
+- SR-IOV suspend fix
+- DCN 3.1.4 fix
+- KFD userptr locking fix
+- SMU13.x fixes
+- GDS/GWS/OA handling fix
+- Reserved VMID handling fixes
+- FRU EEPROM fix
+- BO validation fixes
+- Avoid large variable on the stack
+- S0ix fixes
+- SMU 13.x fixes
+- VCN fix
+- Add missing fence reference
 
--- 
-With best wishes
-Dmitry
+amdkfd:
+- Fix init vm error handling
+- Fix double release of compute pasid
 
+i915
+- Documentation fixes
+- OA-perf related fix
+- VLV/CHV HDMI/DP audio fix
+- Display DDI/Transcoder fix
+- Migrate fixes
+The following changes since commit 66efff515a6500d4b4976fbab3bee8b92a1137fb=
+:
+
+  Merge tag 'amd-drm-next-6.2-2022-12-07' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-next (2022-12-09
+12:08:33 +1000)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-next-2022-12-23
+
+for you to fetch changes up to fe8f5b2f7bec504021b395d24f7efca415d21e2b:
+
+  Merge tag 'amd-drm-fixes-6.2-2022-12-21' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-next (2022-12-22
+11:02:56 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.2-rc1
+
+amdgpu:
+- Spelling fix
+- BO pin fix
+- Properly handle polaris 10/11 overlap asics
+- GMC9 fix
+- SR-IOV suspend fix
+- DCN 3.1.4 fix
+- KFD userptr locking fix
+- SMU13.x fixes
+- GDS/GWS/OA handling fix
+- Reserved VMID handling fixes
+- FRU EEPROM fix
+- BO validation fixes
+- Avoid large variable on the stack
+- S0ix fixes
+- SMU 13.x fixes
+- VCN fix
+- Add missing fence reference
+
+amdkfd:
+- Fix init vm error handling
+- Fix double release of compute pasid
+
+i915
+- Documentation fixes
+- OA-perf related fix
+- VLV/CHV HDMI/DP audio fix
+- Display DDI/Transcoder fix
+- Migrate fixes
+
+----------------------------------------------------------------
+Alex Deucher (3):
+      drm/amdgpu: make display pinning more flexible (v2)
+      drm/amdgpu: handle polaris10/11 overlap asics (v2)
+      drm/amdgpu: skip MES for S0ix as well since it's part of GFX
+
+Arnd Bergmann (1):
+      drm/amd/pm: avoid large variable on kernel stack
+
+Chris Wilson (1):
+      drm/i915/migrate: Account for the reserved_space
+
+Christian K=C3=B6nig (8):
+      drm/amdgpu: fixx NULL pointer deref in gmc_v9_0_get_vm_pte
+      drm/amdgpu: WARN when freeing kernel memory during suspend
+      drm/amdgpu: fix GDS/GWS/OA switch handling
+      drm/amdgpu: cleanup SPM support a bit
+      drm/amdgpu: stop waiting for the VM during unreserve
+      drm/amdgpu: rework reserved VMID handling
+      drm/amdgpu: revert "generally allow over-commit during BO allocation"
+      drm/amdgpu: grab extra fence reference for drm_sched_job_add_dependen=
+cy
+
+Colin Ian King (1):
+      drm/amd/display: Fix spelling mistake: "dram_clk_chanage" ->
+"dram_clk_change"
+
+Dave Airlie (3):
+      Merge tag 'amd-drm-fixes-6.2-2022-12-15' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-next
+      Merge tag 'drm-intel-next-fixes-2022-12-15' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-next
+      Merge tag 'amd-drm-fixes-6.2-2022-12-21' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-next
+
+Evan Quan (8):
+      drm/amd/pm: add missing SMU13.0.0 mm_dpm feature mapping
+      drm/amd/pm: add missing SMU13.0.7 mm_dpm feature mapping
+      drm/amd/pm: enable GPO dynamic control support for SMU13.0.0
+      drm/amd/pm: enable GPO dynamic control support for SMU13.0.7
+      drm/amd/pm: correct SMU13.0.0 pstate profiling clock settings
+      drm/amd/pm: update SMU13.0.0 reported maximum shader clock
+      drm/amd/pm: bump SMU13.0.0 driver_if header to version 0x34
+      drm/amd/pm: correct the fan speed retrieving in PWM for some SMU13 as=
+ics
+
+Felix Kuehling (1):
+      drm/amdgpu: Add notifier lock for KFD userptrs
+
+Khaled Almahallawy (1):
+      drm/i915/display: Don't disable DDI/Transcoder when setting phy
+test pattern
+
+Luben Tuikov (3):
+      drm/amdgpu: Check if fru_addr is not NULL (v2)
+      drm/amdgpu: Fix size validation for non-exclusive domains (v4)
+      drm/amdgpu: Remove unnecessary domain argument
+
+Matt Roper (1):
+      drm/i915/gt: Correct kerneldoc for intel_gt_mcr_wait_for_reg()
+
+Matthew Auld (2):
+      drm/i915/migrate: fix corner case in CCS aux copying
+      drm/i915/ttm: consider CCS for backup objects
+
+Miaoqian Lin (1):
+      drm/i915: Fix documentation for intel_uncore_forcewake_put__locked
+
+Philip Yang (2):
+      drm/amdkfd: Fix kfd_process_device_init_vm error handling
+      drm/amdkfd: Fix double release compute pasid
+
+Saleemkhan Jamadar (1):
+      drm/amdgpu: enable VCN DPG for GC IP v11.0.4
+
+Shikang Fan (1):
+      drm/amdgpu: Add an extra evict_resource call during device_suspend.
+
+Tim Huang (1):
+      drm/amdgpu: skip mes self test after s0i3 resume for MES IP v11.0
+
+Umesh Nerlige Ramappa (1):
+      drm/i915/perf: Do not parse context image for HSW
+
+Ville Syrj=C3=A4l=C3=A4 (1):
+      drm/i915: Fix VLV/CHV HDMI/DP audio enable
+
+Yifan Zhang (1):
+      drm/amd/display: Add DCN314 display SG Support
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h         |  17 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   | 251 ++++++++++++++---=
+----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  10 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |  13 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c     |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |  16 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c            |  12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.h            |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c            |  88 +++++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ids.h            |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.h            |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |  40 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h         |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |  24 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h            |   6 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c           |   1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |  79 ++-----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h             |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c        |   2 +
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |   4 +-
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             |   3 +-
+ drivers/gpu/drm/amd/amdgpu/soc21.c                 |   1 +
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c           |  24 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   1 +
+ .../gpu/drm/amd/display/dc/dcn10/dcn10_hubbub.c    |   8 +-
+ .../drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c  |   2 +-
+ .../display/dc/dcn10/dcn10_hw_sequencer_debug.c    |   4 +-
+ .../gpu/drm/amd/display/dc/dcn20/dcn20_hubbub.c    |   8 +-
+ .../gpu/drm/amd/display/dc/dcn21/dcn21_hubbub.c    |   8 +-
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_hubbub.c    |   8 +-
+ drivers/gpu/drm/amd/display/dc/inc/hw/dchubbub.h   |   2 +-
+ .../pm/swsmu/inc/pmfw_if/smu13_driver_if_v13_0_0.h |   2 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h       |   3 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |   4 +
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     |  17 ++
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   | 113 +++++++++-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   |  42 +++-
+ drivers/gpu/drm/i915/display/g4x_dp.c              |   4 +-
+ drivers/gpu/drm/i915/display/g4x_hdmi.c            |  25 +-
+ drivers/gpu/drm/i915/display/intel_dp.c            |  59 -----
+ drivers/gpu/drm/i915/gem/i915_gem_object.c         |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |  10 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c         |  18 +-
+ drivers/gpu/drm/i915/gt/intel_gt_mcr.c             |   2 +-
+ drivers/gpu/drm/i915/gt/intel_migrate.c            |  53 ++++-
+ drivers/gpu/drm/i915/i915_perf.c                   |   6 +-
+ drivers/gpu/drm/i915/intel_uncore.c                |   4 +-
+ 47 files changed, 647 insertions(+), 372 deletions(-)
