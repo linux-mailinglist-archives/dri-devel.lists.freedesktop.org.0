@@ -2,141 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FAD765539F
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 19:28:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A276553CA
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Dec 2022 20:11:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2197810E083;
-	Fri, 23 Dec 2022 18:28:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F8BF10E20B;
+	Fri, 23 Dec 2022 19:10:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93FEE10E083;
- Fri, 23 Dec 2022 18:28:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671820093; x=1703356093;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=q3qehF8BkHtKaXP8Nkn4PLrxMxxEys1IAFuJaB0Tk7A=;
- b=gwMr3SbsTIpG2B/aeKgCwO70lVsC1RPp7Mb9B5q4pdiA+Kibqb7eMP8Q
- vwx1fWV81tcshfhdWv2y5MwcHU2dGykU/AAPrXAhpTN8CA5Jm8lMfOR19
- d5Nf5Pswk01z3KK02qwAuuxe4ripQfWL0AMhII4YOSLclQTIRhHJ/4kn7
- eumFYZo5UWFzwK9wzOxkJFGwDGOR3Jw7Gi8USJG7pTiun9CMRTm7NKXOx
- ibEHpnDF1hjTc2MLja4g+zU7klQpa8davaocH4jEhZYEAPYsq+bzehHKV
- CpjXP6GPJjI/uDnc9ficHiPkkOkAknv0y0GJ8R6xDLB34QH9PZrLL1E+f A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10570"; a="300704332"
-X-IronPort-AV: E=Sophos;i="5.96,269,1665471600"; d="scan'208";a="300704332"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2022 10:28:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10570"; a="645636767"
-X-IronPort-AV: E=Sophos;i="5.96,269,1665471600"; d="scan'208";a="645636767"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga007.jf.intel.com with ESMTP; 23 Dec 2022 10:28:12 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Fri, 23 Dec 2022 10:28:12 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Fri, 23 Dec 2022 10:28:12 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Fri, 23 Dec 2022 10:28:12 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2070.outbound.protection.outlook.com [40.107.223.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5503E10E1F5;
+ Fri, 23 Dec 2022 19:10:33 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZgzQlJLVdGkBqlQc9AtLc/WMiZ+DPbK8VFslrJenTl7wNCKLwXEPmEPZ3PEzUux30c3cMHUGiYjWgvxe7w9Y0QDMg0Y3PWS2wvgvWh4te+gjg1zvOwP4f9G0cgffCnFZJpHBWEJxwgqMQnldlrFdHfQoertgAGSxSUjzX86/oANQ4iVI++1MkS9avrGkpUahkZ44CovCFAsHVDVVE2VdwyyWvqExmrOhv+43HHt058u4iv6THjf05lER4iGH4iMwxxqFFnKxdnHKN+QQxdQ4R6eEdC5RzsVu+G45Zpig9YTmR2sLhJKPQYJg3EqM6oSVhPzmqg36Vg7qYVYBl6qfXQ==
+ b=O7zCAWOn2eNQIB4xXct+OBoW81f2ChIb7ShCapt+1cpmAiOS1OhJMjlQFbU4XELTabPY1aXwLYS4dkd9pvdNCyWMrwgkkKW8iqCwuFCS191VpYB4Nt6lHC0we8RlEgv72RWzi8D/Hq1Y2mujgEEW1tEBu3h2PCGvI4N21jJHWJurg66nYC8Kf/NeaPxtHkI4v2YcNHt3kjrwqsuXsKm5TXAWIzgqNRgl4hGhxKuWABGeqxfNAeewe4z/3Ke6H3LNnFqTqJYfHFafbtHdHGD4SQo3fSerH0eP7kVDPsCfmw78kWXy2L+ziGY77YSJhkPfNkNg1EMOfNHN3pfI4+w9qQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rk6HQXdLJNRQ4pTzw76afao9A4jCHccSLgumWMlecXo=;
- b=YmlRBMbsuTu6WflnvhpLK2tWLRvb6gtXj8fFD5L6159XKrdkRzJSVvsUH8wiBAiSYdH+iLAgd94qizdJBkNWBn7YRzVJV1wNkrgTjHoSfyR5Atmq+tYaPd3KjTEkpPLmB/ItE5LeRwbSyM6kkOmkjosno3o2rOV/0AWldXeCSLp0dGM8/+Ajv8gaPieR30aGU6nWF2qy10Sc/67lJfTgswkOuFt/yFRIKQH9hdk4SPeDj+6xnYq6SoVNv/LuqVDV06mdKVjyFepwLmLFbDBYqYQhPF2dy5jzvV0cAScHplwcHr5/t9Bl4kiPsDKO9vT9jiTo4GD/2zIGUoIJwdqPIw==
+ bh=w1HzeHqqpVW+i8IHzDPYf67xhTbh8HSGiXRxAvkxMQ4=;
+ b=oTC/Rwmf7r0QQP1hOH1ZOnjSvUfTL1/twreszYhaOeDZFgUpwu3LU98vokPxKUH419EenGnpkTp2eJPkDlM/C9Zi7W1hX99K9dZzWWSc8RHlDjJIfPC4CumW8Z0rU6GWIoWyi0wexZkxb+0hvWhsEtYTu+Tpv8rJtL3nBv3bKuTc//zl0VeAabnUp3eCsUd4/m6IenMh0G3LGNqXH9RPu1Jg22oXVhfWDrm5cx41q3UsnJwu3R+YwVtNK2q7u+UmoMi3uwshywY+cfoAOUgo7y34QLOREMQyWEhcy378uKhZJWn63n33prMPo3laedpr7TTozqy3KBp2BEkq7TW2YA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w1HzeHqqpVW+i8IHzDPYf67xhTbh8HSGiXRxAvkxMQ4=;
+ b=0IS+D+gNLeP0EvNP68S25GF5qYmtKNaJOOqoa4qAgjNKCRhaelT491LdInBvHNP44qBhKrJ/a7/j+Rre3Gb65Z071T1T9gYp7Yrl9NTSIh3KvOe8l4tP9bmajnjJL48AIV2cBelaAuvRGLpCe2ZxnhL1VjnUtA4fI5C55VhHh2k=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by PH7PR11MB6698.namprd11.prod.outlook.com (2603:10b6:510:1ac::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.13; Fri, 23 Dec
- 2022 18:28:10 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::22:fdef:cea5:e8f3]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::22:fdef:cea5:e8f3%3]) with mapi id 15.20.5924.016; Fri, 23 Dec 2022
- 18:28:10 +0000
-Date: Fri, 23 Dec 2022 10:28:07 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH 1/4] drm/i915/gt: Remove platform comments from workarounds
-Message-ID: <20221223182807.tfyrx2yrjbv4flx7@ldmartin-desk2.lan>
-X-Patchwork-Hint: comment
-References: <20221222082557.1364711-1-lucas.demarchi@intel.com>
- <20221222082557.1364711-2-lucas.demarchi@intel.com>
- <2cfeee8a-7b7e-c203-37b4-f7a502123a5a@linux.intel.com>
- <20221222155535.gmih2rurxlo2xuo5@ldmartin-desk2.lan>
- <4c8ffcd3-259e-f651-6f32-296896d8b4b7@linux.intel.com>
-Content-Type: text/plain; charset="iso-8859-1"; format=flowed
-Content-Disposition: inline
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by SA3PR12MB7858.namprd12.prod.outlook.com (2603:10b6:806:306::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Fri, 23 Dec
+ 2022 19:10:30 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::152b:e615:3d60:2bf0]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::152b:e615:3d60:2bf0%4]) with mapi id 15.20.5924.016; Fri, 23 Dec 2022
+ 19:10:30 +0000
+Message-ID: <b53b1d6e-e81c-98d0-7a7f-a6d5fede90fc@amd.com>
+Date: Fri, 23 Dec 2022 14:10:27 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 16/16] drm/amd/display: Don't restrict bpc to 8 bpc
+To: Pekka Paalanen <ppaalanen@gmail.com>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+References: <20221212182137.374625-1-harry.wentland@amd.com>
+ <20221212182137.374625-17-harry.wentland@amd.com>
+ <114c2e02-41c8-8576-f88d-1c50f41deb9e@mailbox.org>
+ <20221214110128.1cd58dea@eldfell>
+Content-Language: en-US
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20221214110128.1cd58dea@eldfell>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4c8ffcd3-259e-f651-6f32-296896d8b4b7@linux.intel.com>
-X-ClientProxiedBy: SJ0PR03CA0108.namprd03.prod.outlook.com
- (2603:10b6:a03:333::23) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+X-ClientProxiedBy: YT1PR01CA0116.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2c::25) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|PH7PR11MB6698:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3da26e4e-7eb0-4838-dcea-08dae5137173
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|SA3PR12MB7858:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4f876ad8-0a04-4df3-88e0-08dae5195bb4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XOIrfBnhnsPiuV6TqObtZNMJsL/I71S9r56OMqtkpo2rT/29x2sYfxpuW1KUUiaFb0XmjCpPdv7NYB7IKjteNFAq8Xp7x0bTfkDJj0+NQ+LAyFFN3xXLc5QLE7OD93pba/ywoOLGLk8mLG5KLVG/ZClWUDQhW2lxOWiMMB76RW2yIUESlCCeB1tOjROiKW6HUH4m4L7hUS+MH2R0uP3iLsG4At8K8MbcM7UpuIGFHi5N7scnwssVm5O+xFrJwj74OxMO7j7KvD6Mjq8Em+FeRIXdpz2dicm4fWVyiWGwvDhzxaUPZkKiRSPGGIFjvPZzoSRZdSt9ybEtTf5fwAA7/l9umlhSCyzFb64pS1gfbctSIAumGkTe7w2Apo388ybrhuOJ5R3E6+v5bLaZJzmOq9FUY8whgJ1W0R21K3AKRN1YS5MGMD5/ol19eBagG6diUhQn7ndvgVxRgtVnJ3UEXCwnlgjMgL16/h29Xj+CRVnrjbclzF9s0+lGML9UipV6HKWICtk/q45kGCWn6ENUvyTtW2vN/DzIK+7RlxuRVWCnzpiVWyPTBVvm8b85gi92sq0oV68A+EB3nYREMNVeMeyZU4H4fzj4zvvoijNOt4VVh/DXVwyGyl6n5O0gCaXGDyfZn3WUTWzGmH5grSy+OA==
+X-Microsoft-Antispam-Message-Info: VXcE/wgMNloBZfKOJdi56NzFX5qD5xWH9ey9xDMOMxVXH1kN3IjqgsbweamxzUqHKYTgU2UFCVMAUP36iyJWNkYBGlHdimOFGwuNAkgwYHKDRKfI6/ofSuje2qo4UTf9QJIGlM1FHY+IKlasv4tkiq/Ezvh3jLNOPCki9+a9Q3bQllOygexBNTITiCHqNfxnRlchs4Z/lPpEMJX1ZVQukjp6jjceWb/rcjWaX9NLNB25vjLRp/LnVIEnpbw+JBizp+da/9CcK8fe2ybJeJGeC72A1ezeAdCo1wdpw99Er+RIvARBJ98/DH2st5JstizDLH9bf/Ea/klzH8yzvH9ixCJenvfXlDd3schldQp0fFD3rb8ycx+X2MnjuwwX0AXvQ4N8scmzPAfas6aOP1acn2Ln9jDBJyfJgVdtJX2Jz1XqjDtmcxf5ININzsP/FZsIQckKybfhkH0xatdxzLlQNpHv5/iTuBiqMwvg2cgvY+RWSlNMiT7sA7S6X5b8hit8zzz/HcYSb7ia7O/2CCohSkXPNcgW9KAZji1H0Yz1pF+qYgRp+/NpvAFK/SNisoSHbbWYv0usvJX7oeRKOgNwC6tfiRVGnvrzTmswOa4GKnzYzDWxe8KJu4gmJSC2AfGd421VOVTiyGStJVWph/6XN0gmwJSFLpoo6lf/W1pulTUtFxs61scHT15BsL4GT4Kh
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(376002)(396003)(136003)(39860400002)(346002)(366004)(451199015)(86362001)(83380400001)(66899015)(66556008)(66946007)(8676002)(4326008)(8936002)(66476007)(5660300002)(316002)(38100700002)(6512007)(26005)(9686003)(36756003)(186003)(1076003)(6666004)(6486002)(41300700001)(2906002)(82960400001)(478600001)(6916009)(54906003)(6506007)(21314003);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(346002)(366004)(39860400002)(396003)(376002)(451199015)(44832011)(4326008)(31686004)(8676002)(110136005)(54906003)(2906002)(5660300002)(66556008)(66946007)(66476007)(6666004)(6486002)(966005)(478600001)(53546011)(41300700001)(6512007)(6506007)(26005)(186003)(31696002)(86362001)(83380400001)(2616005)(36756003)(8936002)(66574015)(316002)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?BgEm5EEy9Vnzch1aavsb8T1boguqDS96jkWZsAtqsJHfSMJA7pCZ8hvcWM?=
- =?iso-8859-1?Q?GWwX7VvEsp8qIgyxy2QEl7W5gHyvUVYJPEeia3nJmdYU69qLfikslR2CAX?=
- =?iso-8859-1?Q?M0aKTAsFJKYM5b+NFCDY/15iEZ2r8EUg8esD+LgKmm3slkkVVpa6RL233b?=
- =?iso-8859-1?Q?wj66ClnN9XWroEH4Futb4nRmUY5Cgb8rtuECPax3HWbGi7YaXZFyQSnhPW?=
- =?iso-8859-1?Q?dVQZaiRx6sacYiuyczXz+/bV3z4AD2kD5UKYbJHWgW8/hCRAQj7tjQ+8wF?=
- =?iso-8859-1?Q?rC+vjlMwvFglNXZIM/7JNkbR8StmuM5Su5DXxzvtgVCmeKkLFu54NTI9PB?=
- =?iso-8859-1?Q?dj6JkwoRtxfFhXjEvUlVtaoVZgnWj/xOy2GBJ3/XJ77hszsDtwtyt64rQP?=
- =?iso-8859-1?Q?JT3iD6WzSbTB2KvhCL1IVAX+7aK66Hopjq1l1uo+2Lp22vEvNAbm/BffGD?=
- =?iso-8859-1?Q?q/X+60zRPn8fgDN4BSphwfPaU3ltNdGOuOkyvSoK4MDJM4wDfu1y77AcWy?=
- =?iso-8859-1?Q?X16UzcjvP9GZ74SJmym94evIQfF2ffVQLiccXFJlNpItnksTtuwX5fyPWA?=
- =?iso-8859-1?Q?x8fodHVN+Qmg/M6LTFGHS4GeJozWSdxZx1YQ5D64FSrMMinECAxxi2Ge7x?=
- =?iso-8859-1?Q?tNuGPDigKVRfU1DEAGbHqmNrOO6H++bv047bMwUKL+mYu5dfKXouM5FZQj?=
- =?iso-8859-1?Q?1dE4SdyEcdaQQNEwlhd/RRqj/lDRfBZckcjNfC8Ob7ANTYxAYlFJL6qRqh?=
- =?iso-8859-1?Q?2VMvr3EM1E+fKQUAx884e5M0rrje8+Z35tm/rPDYFQwMLAV3/NULMXrr6E?=
- =?iso-8859-1?Q?w/abC8kdC/fWIQbAyAxqyRnYHdf+P1mWuyUaFxuuRQiavmp/3ds64VG9OF?=
- =?iso-8859-1?Q?jaHasRrCJ1VvhP3YwkWEHx49wNhJS1We3899dKA6UZlMtIBoScuTlNZXBT?=
- =?iso-8859-1?Q?XDE0QinOXGMReEZL+v/zo4tfWBCJFTcFBC7bUQkpJRSaFiROTepPTv5E2g?=
- =?iso-8859-1?Q?wVDU0Opbnb6mxBzjbQ+PEEbzdR1+DcgPMNE6gcRcz1QBy5BZThblBwFR1t?=
- =?iso-8859-1?Q?pTu/+7eFATzdYCkIqQeqsR82OiNBq8CXMSnvBjVj40ojL0Qsu13SXTI6In?=
- =?iso-8859-1?Q?0ZIfJArBij4B5F5w85O3zQMRrlqgH6w+2mT5oRWjeAC6lOrEHZ2Emzh/FI?=
- =?iso-8859-1?Q?nHahZhFICgNMYoIKdkXmy2sHDyWOTVa9QTCzzlgX7q2Lgc/lHSxQ+inoqr?=
- =?iso-8859-1?Q?/IZDZTlH8a/8XarjsHfYR+5NGsEPLycvp/IGWKjkIGQie0kD1yw1naMRMH?=
- =?iso-8859-1?Q?6jPwAbsicDv7J0tRj0lO5S0dDtOp/7RGdbF3gXFoKYdvs7J3NXHnGKTekW?=
- =?iso-8859-1?Q?qbv5GH8fC053EN2++lXlSHvhUC5hVu4cycyFQEBv/RZlC1L+HnnNMWP13/?=
- =?iso-8859-1?Q?ohtEfjs2YAdSjSNE9xZQwgN8BRSP1Qg79VRh45rsyiu3PnfkDNrTfJgwx0?=
- =?iso-8859-1?Q?XX23DUCSujuSHF14LGpoHDVaUpIW9wuZLtJPyfDIhCQcymznn7oZZieQYz?=
- =?iso-8859-1?Q?nuMbM/rYICWHwkSaVjQ3vj/upG+HdB2svyGmjT126yiFeXO2SfnLpFEFLK?=
- =?iso-8859-1?Q?hdOD3M4TOXD/TGvuqNaaxDoMTvUnWAYzvmWwRm6X+7c8qXcP1XnDiPCA?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3da26e4e-7eb0-4838-dcea-08dae5137173
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QWFUQk9EelYxS1FVMTYyS0V5Tkc1SlFCc0cvZi9rZFh2NFhIb3VndE5heTJP?=
+ =?utf-8?B?RVFaZFJSZkZ4TEgyWWZPL1lkS3lCb1hWanFRZjhGaE5zUEJRMVVVMVl5d3M0?=
+ =?utf-8?B?TnpIekcrMlRGTEo3UGN1M1M0V1dJdGllL0c4b0Y2U002TjlleXhRQWJEdHlG?=
+ =?utf-8?B?eFF6dXdpeElDcCtzVnRuUXZsSCtrSkZmM3VpSUloZUtOYmZSNHVvcmlRV2dN?=
+ =?utf-8?B?WHBoWmh2MEdYdktTQk83a2lNdjRLREtjekZoWWI3dVpCeWl1RkFhdlYzNVBT?=
+ =?utf-8?B?RC9BKzh2Y0NrOVRocGZLVTdST1dHZGo5b2l2cUZRYTZqUWtsWmhONmo1N2JI?=
+ =?utf-8?B?WDdvM29DYUFDWEx3Qmk1S2pJVkNNQUVPQ28zWnpPZGJYK2Nmall4MVZHZk1L?=
+ =?utf-8?B?UVNDZFNKVjlNSmovZnY2QTMwb2YxakZIM3ZGc0ZXNU9qRW1TRUVucDUxS3Qx?=
+ =?utf-8?B?UTJrcVkybFZIRW9PWTUzQm40azZZMCtwVEQxdXRBYjZ5WGVjdE9neWwyMHpa?=
+ =?utf-8?B?TWNPdkY5dlJyTWJzM2drMmFZZWZyc0ZicVgrZGJNaU5jZ1FaU1RKOTV2SGdq?=
+ =?utf-8?B?a0lmQ0xMYlhRVm1wdFlST0ZZVVBPL3FvNWpiR25DT2daZzl2eGxSMHhuTkVB?=
+ =?utf-8?B?QzJBSm9rM0xEbGgydmFGeEwweVo0U0JPZWVHblpPa0xzM0tQSm03WmY1UCtv?=
+ =?utf-8?B?T09VV1Jsc0FQYVNXajFBcTRzOG1maVpKSTBtT1F5dUNBWlJSVmJUSTNmNUFZ?=
+ =?utf-8?B?a1BLUGc1S0ExR3IrQnJzci9EMnJSL0VtZjdJY3NaVEJJVDNQWHlzaklVdTIx?=
+ =?utf-8?B?Tk9UblYrYkh3eHpaWkpoT1QzbU1uWU9FUGkvTnRyMmhHS0J2aElqTFp6U3Vr?=
+ =?utf-8?B?Y3liVk81c3cycFFkTjFyZnZvYTg2QXVOenRvSmtNZHpkT2ViK3g2NzR5YUdq?=
+ =?utf-8?B?cTZkb1ZrSjlnbGRaRGRvSWMvSlJsMlJjM0pKOTdDM0ZMRDdZdldsSmhjK0VO?=
+ =?utf-8?B?YWZuT0lJS1RDMFZlUStBU3cxKytjNWhkRjdtb1dwSVZsSnY0cHRlL0JvSkc4?=
+ =?utf-8?B?OGJRQWEwbXZyWktBdlBOYzJlWHExU0crWFdOZlZNdlRsK2k5UjFJNk9kRnht?=
+ =?utf-8?B?UjJ4Z09IUXRxNjJSbm1MODE1TkhoalJkYjhEODBsckpjZGVtRzFvK3lxWUlE?=
+ =?utf-8?B?V1NBcEJlVUllVEh3eWc5ZFJtS1hKckhHNUVHbEx0a0ZET0d0Qm1YV2ZLQnJj?=
+ =?utf-8?B?bUtlYi95NVh5RXVuVHVnbXdYRWtlSXJSS0g2ZW1pUXF2b0sveWM4RTFyZnRx?=
+ =?utf-8?B?ZXcyMzRhdEY1bXgrSE5mNXNra1RzdGZ4TytQc29DbHRJZHQ5Y3IvcXRjR1VC?=
+ =?utf-8?B?VFZmZUxvMHRqN0E0eVlZdUxJcEI1NGRLRUloc01OSzV0SDR6MWc0SjcxMHBh?=
+ =?utf-8?B?KzY2WG9raEJLRytLR2ZQRG5WbU5kQ2c4bUVZSWtyMVVpQTRERmFNWnZkRjlS?=
+ =?utf-8?B?WHJjMDdHQjFSWFZZME1HY0NlTkNyYTZGZVlqNmV2cHlQUDlSQVdLMFNkWFNh?=
+ =?utf-8?B?a1BsUEFvcnMwNnI2NXJYT2ZMZFBKS3RNRmhVSlRDRjViNkNRZGJSK0NzMTRJ?=
+ =?utf-8?B?Q0JSTjBnQXRoSkZnY3R6NDRDUjFMa2FIQkxEU0MxR0E3NkVyeDUzengwOVBY?=
+ =?utf-8?B?WEFHNVNmVUFKcGh5Yi9QWHhudEhtNS92QTVheVltQU9hdklKdytJQVlNdEsy?=
+ =?utf-8?B?dU5aZVBtMjZKQ0FqWTdJQVJSU1lUMS9Pdnpmd2NkdGx2K241Z05QSXdldnpX?=
+ =?utf-8?B?MXM0ZDhhUWhaaG9ZMzQ2WDEzaW13S1RWaGdpb0NacGZkVW5xK1BCci9mY0wy?=
+ =?utf-8?B?NllCRUtQZHJkOEY0RlppQmpmSGhLTUYrTU5TVzU0ZmFsVmVoTHN1eE9MVUg2?=
+ =?utf-8?B?eFlVU1RyTnNFcE5VZEw1SU50U2ZvNkJZRGloY3ViNnJmNGFzWE5meVBzMHgw?=
+ =?utf-8?B?eFV1OHYxeDZmS0lRem9zNTMrNndrSUVDZm5LNitXSmQ0NGRGM3Vrc2JwVlR1?=
+ =?utf-8?B?bFZWMFZwMitxS0lyOEkwUjlaQnZobnRKNS9nRFR2NFR0WGx4Q1VxcE4zWTRw?=
+ =?utf-8?Q?NYEi/xo1ZkrVqgP2vCQIRzTsg?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f876ad8-0a04-4df3-88e0-08dae5195bb4
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2022 18:28:09.8779 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2022 19:10:30.5608 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eRYq9kom0/TmQKpd8XTID534LRW1903N07FSztL6u5IvEucs0AOEjnlHK6jZw9K+thgGnzWVsQyvb1lrAkUoGVmwDqaMqmBGNnMK2AOBLC0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6698
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: rgxGSmZLQCEPSwGjd4APs7pDuti49EB0AN3ebFdk1Y1QEQbWQU8HT+Ljv2vyE//5LZVRo/gRbHhUo+UPICpxug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7858
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,165 +128,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
+ Uma Shankar <uma.shankar@intel.com>, amd-gfx@lists.freedesktop.org,
+ Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 23, 2022 at 09:02:35AM +0000, Tvrtko Ursulin wrote:
->
->On 22/12/2022 15:55, Lucas De Marchi wrote:
->>On Thu, Dec 22, 2022 at 10:27:00AM +0000, Tvrtko Ursulin wrote:
+
+
+On 12/14/22 04:01, Pekka Paalanen wrote:
+> On Tue, 13 Dec 2022 18:20:59 +0100
+> Michel DÃ¤nzer <michel.daenzer@mailbox.org> wrote:
+> 
+>> On 12/12/22 19:21, Harry Wentland wrote:
+>>> This will let us pass kms_hdr.bpc_switch.
 >>>
->>>On 22/12/2022 08:25, Lucas De Marchi wrote:
->>>>The comments are redundant to the checks being done to apply the
->>>>workarounds and very often get outdated as workarounds need to be
->>>>extended to new platforms or steppings.  Remove them altogether with
->>>>the following matches (platforms extracted from intel_workarounds.c):
->>>>
->>>>    find drivers/gpu/drm/i915/gt/ -name '*.c' | xargs sed -i -E \
->>>>'s/(Wa.*):(bdw|chv|bxt|glk|skl|kbl|cfl|cfl|whl|cml|aml|chv|cl|bw|ctg|elk|ilk|snb|dg|pvc|g4x|ilk|gen|glk|kbl|cml|glk|kbl|cml|hsw|icl|ehl|ivb|hsw|ivb|vlv|kbl|pvc|rkl|dg|adl|skl|skl|bxt|blk|cfl|cnl|glk|snb|tgl|vlv|xehpsdv).*/\1/'
->>>>    find drivers/gpu/drm/i915/gt/ -name '*.c' | xargs sed -i -E \
->>>>'s/(Wa.*):(bdw|chv|bxt|glk|skl|kbl|cfl|cfl|whl|cml|aml|chv|cl|bw|ctg|elk|ilk|snb|dg|pvc|g4x|ilk|gen|glk|kbl|cml|glk|kbl|cml|hsw|icl|ehl|ivb|hsw|ivb|vlv|kbl|pvc|rkl|dg|adl|skl|skl|bxt|blk|cfl|cnl|glk|snb|tgl|vlv|xehpsdv).*\*\//\1
->>>>
->>>>Same things was executed in the gem directory, omitted here for brevity.
+>>> I don't see any good reasons why we still need to
+>>> limit bpc to 8 bpc and doing so is problematic when
+>>> we enable HDR.
 >>>
->>>>There were a few false positives that included the workaround
->>>>description. Those were manually patched.
+>>> If I remember correctly there might have been some
+>>> displays out there where the advertised link bandwidth
+>>> was not large enough to drive the default timing at
+>>> max bpc. This would leave to an atomic commit/check
+>>> failure which should really be handled in compositors
+>>> with some sort of fallback mechanism.
 >>>
->>>sed -E 's/(Wa[a-zA-Z0-9_]+)[:,]([a-zA-Z0-9,-_\+\[]{2,})/\1/'
+>>> If this somehow turns out to still be an issue I
+>>> suggest we add a module parameter to allow users to
+>>> limit the max_bpc to a desired value.  
 >>
->>then there are false negatives. We have Was in the form
->>"Wa_xxx:tgl,dg2, mtl". False positives we can fixup, false negatives
->>we simply don't see. After running that in gt/:
+>> While leaving the fallback for user space to handle makes some sense
+>> in theory, in practice most KMS display servers likely won't handle
+>> it.
 >>
->>$ git grep ": mtl" -- drivers/gpu/drm/i915/
->>drivers/gpu/drm/i915/gt/intel_gt_pm.c:  /* Wa_14017073508: mtl */
->>drivers/gpu/drm/i915/gt/intel_gt_pm.c:  /* Wa_14017073508: mtl */
->>drivers/gpu/drm/i915/gt/intel_gt_pm.c:  /* Wa_14017073508: mtl */
->>drivers/gpu/drm/i915/gt/intel_gt_pm.c:  /* Wa_14017073508: mtl */
->>drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c:       * Wa_14017073508: mtl
->>drivers/gpu/drm/i915/i915_reg.h:/* Wa_14017210380: mtl */
+>> Another issue is that if mode validation is based on the maximum bpc
+>> value, it may reject modes which would work with lower bpc.
 >>
->>I was going with the platform names to avoid the false
->>negatives and because I was entertaining the idea of only doing this for
->>latest platforms where we do have the "Wa_[[:number:]]" form
 >>
->>>
->>>Maybe..
->>>
->>>Matt recently said he has this worked planned, but more 
->>>importantly - I gather then that the WA lookup tool definitely 
->>>does not output these strings?
->>
->>Whatever it does it's true only at the time it's called. It simply 
->>tells what
->>are the platforms and steppings the Wa applies to. We can change the
->>output to whatever we want, but that is not the point.
->>Those comments get stale and bring no real value as they match 1:1
->>what the code is supposed to be doing. Several times a patch has to
->>update just that comment to "extend a workaround" to a next platform.
->>This is not always done, so we get a comment that doesn't match what is
->>supposed to be there.
->
->Tl;dr; version - lets park this until January and discuss once 
->everyone is back.
+>> What Ville (CC'd) suggested before instead (and what i915 seems to be
+>> doing already) is that the driver should do mode validation based on
+>> the *minimum* bpc, and automatically make the effective bpc lower
+>> than the maximum as needed to make the rest of the atomic state work.
+> 
+> A driver is always allowed to choose a bpc lower than max_bpc, so it
+> very well should do so when necessary due to *known* hardware etc.
+> limitations.
+> 
 
-I'll leave my comment here since I will be out until mid January.
+I spent a bunch of time to figure out how this actually pans out in
+amdgpu and it looks like we're doing the right thing, i.e. if bandwidth
+limitations require it we'll downgrade bpc appropriately. These changes
+happened over the last couple years or so. So while raising the default
+max_bpc wasn't safe in amdgpu years ago it is completely fine now.
 
->
->Longer version. I've been trying to get us talking about this a couple 
->times before and I'd really like to close with an explicit consensus, 
->discussion points addressed instead of skipped and just moving ahead 
->with patches.
->
->References:
->  3fcf71b9-337f-6186-7b00-27cbfd116743@linux.intel.com
->  Y5j0b/bykbitCa4Q@mdroper-desk1.amr.corp.intel.com
->
->So point I wanted to discuss is whether these comments are truly 
->useless or maybe they can help during review. If the tool can actually 
->output them then I am leaning towards that they can be.
+As for the relevant code it's mostly handled in create_validate_stream_for_sink
+in amdgpu_dm.c where we iterate over a stream's mode validation with
+decreasing bpc if it fails (down to a bpc of 6).
 
-I consider "can the tool output xyz?" asking the wrong question.
-"The tool", which is our own small python script querying a database can
-output anything like that if we want to. The database has information of
-what are the platforms/steppings for each the WA is known to be applied
-*today*. And that can change and do change often, particularly for early
-steppings and recent platforms.
+For HDMI we also have a separate adjust_colour_depth_from_display_info
+function that downgrades bpc in order to fit within the max_tmds_clock.
 
->Thought is, when a patch comes for review adding a new platform, 
->stepping, whatever, to an existing if condition, if it contains the 
->comments reviewer can more easily spot a hyphotetical logic inversion 
->error or similar. It is also trivial to check that both condition and 
->comment have been updated. (So lets not be rash and remove something 
->maybe useful just because it can go stale *only if* reviewers are not 
->giving sufficient attention that changes are made in tandem.)
+So, in short, this change should not lead to displays not lighting up
+because we no longer force a given bpc.
 
-I can argue to the other side too. We don't have comments in the kernel
-like
+> So things like mode validation cannot just look at a single max or min
+> bpc, but it needs to figure out if there is any usable bpc value that
+> makes the mode work.
+> 
+> The max_bpc knob exists only for the cases where the sink undetectably
+> malfunctions unless the bpc is artificially limited more than seems
+> necessary. That malfunction requires a human to detect, and reconfigure
+> their system as we don't have a quirk database for this I think.
+> 
+> The question of userspace wanting a specific bpc is a different matter
+> and an unsolved one. It also ties to userspace wanting to use the
+> current mode to avoid a mode switch between e.g. hand-off from firmware
+> boot splash to proper userspace. That's also unsolved AFAIK.
+> 
 
-	/* Add 1 to i */
-	i += 1;
+Agreed, the current "max bpc" just sets a max. We'd probably want a
+"min bpc" if userspace needs a minimum (e.g., for HDR).
 
-This is exactly what these comments are doing. And they are misleading
-and may introduce bugs rather than helping reviewing:
+Harry
 
-	Wa_12345:tgl[a0,c0)
-	if (IS_TGL_GRAPHICS_STEP(STEP_A0, STEP_B0)
+> OTOH, we have the discussion that concluded as
+> https://gitlab.freedesktop.org/wayland/weston/-/issues/612#note_1359898
+> which really puts userspace in charge of max_bpc, so the driver-chosen
+> default value does not have much impact as long as it makes the
+> firmware-chosen video mode to continue, as requested in
+> https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/995
+> given that userspace cannot know what the actual bpc currently is nor
+> set the exact bpc to keep it the same.
+> 
+> 
+> Thanks,
+> pq
 
-One might read the comment, skipping over the condition and thinking
-"ok, we already extended this WA to B* steppings, which doesn't match
-the code.
-
-
->From a slightly different angle - do we expect anyone reviewing 
->workaround patches will cross-check against the tool? Would it be 
->simpler and more efficient that they could just cross-check against 
->the comment output from the tool and put into the patch by the author?
-
-see above. Someone cross-checking the comment is cross-checking the
-wrong thing. As I said, it happens more on early enabling of a platform.
-
->And point here to stress out is that accidental logic errors (missed 
->workarounds) can be super expensive to debug in the field. Sometimes 
->it can literally take _months_ for sporadic and hard to reproduce 
->issues to get debugged, handed over between the teams, etc. So any way 
->in which we can influence the likelyhood of that happening is 
->something to weigh carefully.
-
-yes, that's why I want to remove the comments: from my experience they
-are more a source of bugs rather than helping.
-
->Secondary but also important - if i915 is end of line then an extra 
->why we want to rip out this for ancient platforms. Is the cost/benefit 
->positive there?
-
-yep, here I agree and was my argument about using the platform names
-rather than a more "catch all" regex. I think doing this only for tgl+
-platforms or even dg2+ would be ok.
-
->As a side note, and going back to the question of what the tool can 
->output. Long time ago I had an idea where we could improve all this by 
->making it completely data-driven. Have the WA database inspecting tool 
->output a table which could be directly pasted into code and 
->interpreted by i915.
->
->For reference look at intel_workarounds_table.h in 
->https://patchwork.freedesktop.org/patch/399377/?series=83580&rev=3 and 
->see what you thing. That was just a sketch of the idea, not complete, 
->and yes, i915 end of life point makes it moot.
-
-now that xe is announced I can talk about this part... this was more
-or less what I implemented in xe: it's a table with
-"register + condition + action". There are the most common condition
-checks builtin + a function hook for the more advanced ones. During
-binding the driver walks the table and coalesces the entries creating
-a per-register value that can be used at the proper times, depending if
-they are gt, engine, context workarounds.
-
-Lucas De Marchi
-
->
->Regards,
->
->Tvrtko
