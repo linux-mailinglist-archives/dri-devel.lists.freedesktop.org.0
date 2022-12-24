@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6747D65571E
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Dec 2022 02:32:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0A5655728
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Dec 2022 02:32:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E01710E1ED;
-	Sat, 24 Dec 2022 01:31:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56A4C10E1C5;
+	Sat, 24 Dec 2022 01:32:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 468E310E1ED
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Dec 2022 01:31:35 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AE7910E266
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Dec 2022 01:32:02 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 7B418B821A2;
- Sat, 24 Dec 2022 01:31:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36B3DC433D2;
- Sat, 24 Dec 2022 01:31:26 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8AC2461FA3;
+ Sat, 24 Dec 2022 01:32:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 665EFC433EF;
+ Sat, 24 Dec 2022 01:32:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671845487;
- bh=whuEc7Qx9JkUEXPRLKgBTUSOZX0jlCTtJVNvBKyVWh0=;
+ s=k20201202; t=1671845521;
+ bh=DbfdHHMZ3+SCGDMvYg2JdHeWQy9ZJANEdEUNafPfkss=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nR7e4zUpH3PnVDllOwRWEe21DWQNLMKIIcnLMQRR84yA3N77is3/IVjoUp9vsWYCl
- pCViw5stBLpaeqKuKM7Mp7VvzxQYYC5jIQUxuZe3QwxjU4viRryN1H4uz3qd6uwb/e
- flvC/vF2ggDULXBpgcD5TG0iQ2bdDA24Imho5WpLcHb6ZqP3T1yY3PZs0TQhs03itm
- MM+t+qg+Z/PhB/GqAYD+z5ZkC6F1gurnKLBPYSz6/Rj5PqWjcIBPHWZEmi0ayJjh3D
- YMk5SRD6fIK4AR41kItFZe5JDVgOLEOz+VqNsaW4PT0VkrZRtykYwtQc0afayUimxk
- aa/gneY73oBLQ==
+ b=IWnXD7hCUmxaPfRCysJ4oQjOvItNyctyS3Qw9fmTVSOZM2qmN+rRPM0IbofB1pRF+
+ qoBXIqwMHDFt6OVmY+5HtU4S//4k1rd80RVw2n2ZJG5uv8g7SdBX9rTVx+ZCxDe9xR
+ 0Pypb5kLVFfwKwJZrcrdQvTkxZxWlgtzbEEvpp6fZBo5diwFbKQ/VCoGToGQte8LPo
+ G6Y0+CkLAWq3oV+10AdAlBnvulkwmQnRv5ijQZ0U1KEYX9ubveR7gxr9u35VDJy+qe
+ kVgFGWwZjbLMgs8a1e3GjgW5lwpQ9yXs9INNfgwuCrSCx9U6fQ33KWGyfD8JTm1Wwp
+ CWvfye5a2ayEw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 18/18] fbdev: smscufx: fix error handling code in
+Subject: [PATCH AUTOSEL 5.15 14/14] fbdev: smscufx: fix error handling code in
  ufx_usb_probe
-Date: Fri, 23 Dec 2022 20:30:34 -0500
-Message-Id: <20221224013034.392810-18-sashal@kernel.org>
+Date: Fri, 23 Dec 2022 20:31:27 -0500
+Message-Id: <20221224013127.393187-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221224013034.392810-1-sashal@kernel.org>
-References: <20221224013034.392810-1-sashal@kernel.org>
+In-Reply-To: <20221224013127.393187-1-sashal@kernel.org>
+References: <20221224013127.393187-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -117,10 +116,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 31 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/video/fbdev/smscufx.c b/drivers/video/fbdev/smscufx.c
-index 9343b7a4ac89..2ad6e98ce10d 100644
+index 5fa3f1e5dfe8..b3295cd7fd4f 100644
 --- a/drivers/video/fbdev/smscufx.c
 +++ b/drivers/video/fbdev/smscufx.c
-@@ -1622,7 +1622,7 @@ static int ufx_usb_probe(struct usb_interface *interface,
+@@ -1621,7 +1621,7 @@ static int ufx_usb_probe(struct usb_interface *interface,
  	struct usb_device *usbdev;
  	struct ufx_data *dev;
  	struct fb_info *info;
@@ -129,7 +128,7 @@ index 9343b7a4ac89..2ad6e98ce10d 100644
  	u32 id_rev, fpga_rev;
  
  	/* usb initialization */
-@@ -1654,15 +1654,17 @@ static int ufx_usb_probe(struct usb_interface *interface,
+@@ -1653,15 +1653,17 @@ static int ufx_usb_probe(struct usb_interface *interface,
  
  	if (!ufx_alloc_urb_list(dev, WRITES_IN_FLIGHT, MAX_TRANSFER)) {
  		dev_err(dev->gdev, "ufx_alloc_urb_list failed\n");
@@ -150,7 +149,7 @@ index 9343b7a4ac89..2ad6e98ce10d 100644
  
  	dev->info = info;
  	info->par = dev;
-@@ -1705,22 +1707,34 @@ static int ufx_usb_probe(struct usb_interface *interface,
+@@ -1704,22 +1706,34 @@ static int ufx_usb_probe(struct usb_interface *interface,
  	check_warn_goto_error(retval, "unable to find common mode for display and adapter");
  
  	retval = ufx_reg_set_bits(dev, 0x4000, 0x00000001);
@@ -189,7 +188,7 @@ index 9343b7a4ac89..2ad6e98ce10d 100644
  
  	dev_info(dev->gdev, "SMSC UDX USB device /dev/fb%d attached. %dx%d resolution."
  		" Using %dK framebuffer memory\n", info->node,
-@@ -1728,21 +1742,23 @@ static int ufx_usb_probe(struct usb_interface *interface,
+@@ -1727,21 +1741,23 @@ static int ufx_usb_probe(struct usb_interface *interface,
  
  	return 0;
  
