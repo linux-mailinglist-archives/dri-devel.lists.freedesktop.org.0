@@ -2,62 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D08E655AF8
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Dec 2022 19:47:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BED9655B63
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Dec 2022 22:50:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16A5010E281;
-	Sat, 24 Dec 2022 18:47:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BB3910E054;
+	Sat, 24 Dec 2022 21:50:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 210D610E281
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Dec 2022 18:47:29 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 70DD9601D9
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Dec 2022 18:47:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CC500C433D2
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Dec 2022 18:47:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671907647;
- bh=HuxRlHN1HrFx91T+Z0bNOnrmpaUZnEonFhLJtAFWEWQ=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=uUXQPunLw3N1jiz5QehJk/QNpFQN3KC9xOfXO29NbJCDj9yIhvCmohpxtYOEZWTOl
- RxBG66Hcwe7wxtxloYUcZLS0U238h4VhVc0XXGxAS4zeaQPWxcW/fJL/x/3ya+7A66
- 6BrtelNjK48E82uEqegj8Cxt5qhLf/uULEWiUP9HgT2/NFe7XHoMjcVfol/jZ4kjhs
- 0BbDv2BXROt5nPzjMVyNC1gUXNGLVPBt/+F98sphWu56T3jhQ6SkGwoY5f8j62agJB
- BX89vnx7XhUKEuZeSmJmiiJZC9qf6WRjn2o+tG2wOqhphGRgmVwfTYbYPxQ4Iu4/cP
- eOHVuFz0sVd8A==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id B4040C43144; Sat, 24 Dec 2022 18:47:27 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216840] AMDGPU trace message at boot
-Date: Sat, 24 Dec 2022 18:47:27 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-216840-2300-9MYnW3hkCI@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216840-2300@https.bugzilla.kernel.org/>
-References: <bug-216840-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+X-Greylist: delayed 116396 seconds by postgrey-1.36 at gabe;
+ Sat, 24 Dec 2022 21:50:31 UTC
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3014F10E054;
+ Sat, 24 Dec 2022 21:50:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+ t=1671918615; bh=3RMRR8G3aQrYrRNzBtDZFRRHfOs5HasLm+7fpYUXFwE=;
+ h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
+ Content-Type;
+ b=d/Etw4X6d93jWGYSzsp6rv9fqXVnPLxVIC2NnQu6nBgnbV+7zOMV7Vx7EX98dM6uz
+ NTDIZDg3HujpuLm14VUBP7F62msc0ixOr/a6qwOLmwFzu2wWJteuiuMyXRj3g0c1m+
+ NphzZl/wHIScbUXRf9xxkzR7s8yRRdn5W96wkQgM=
+Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
+ via ip-206.mailobj.net [213.182.55.206]
+ Sat, 24 Dec 2022 22:50:15 +0100 (CET)
+X-EA-Auth: 4MfYGIvEIKR+4dpyaHgInVQhNCzEG5VrXxDsSwjZeiLhfOmGuLNBhBjxVhFiQgk3p6BWsoLG3Mg7GfMSDYbYv5g8lOMevslW
+Date: Sun, 25 Dec 2022 03:20:08 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/i915: convert i915_active.count from atomic_t to
+ refcount_t
+Message-ID: <Y6d0EDmyqJILVoRw@qemulion>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,27 +52,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ Deepak R Varma <drv@mailo.com>, Saurabh Singh Sengar <ssengar@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216840
+The refcount_* APIs are designed to address known issues with the
+atomic_t APIs for reference counting. They provide following distinct
+advantages:
+   - protect the reference counters from overflow/underflow
+   - avoid use-after-free errors
+   - provide improved memory ordering guarantee schemes
+   - neater and safer.
+Hence, convert the atomic_t count member variable and associated
+atomic_*() API calls to equivalent refcount_t type and refcount_*() API
+calls.
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+This patch proposal address the following warnings generated by
+the atomic_as_refcounter.cocci coccinelle script
+	atomic_add_unless
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |ANSWERED
+Signed-off-by: Deepak R Varma <drv@mailo.com>
+---
+Please note: Proposed changes are compile tested only.
 
---- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
-Please look for dupes and if there are none file a new bug report here,
+ drivers/gpu/drm/i915/i915_active.c       | 24 +++++++++++++-----------
+ drivers/gpu/drm/i915/i915_active.h       |  6 +++---
+ drivers/gpu/drm/i915/i915_active_types.h |  4 ++--
+ 3 files changed, 18 insertions(+), 16 deletions(-)
 
-https://gitlab.freedesktop.org/drm/amd/-/issues
+diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
+index 7412abf166a8..4a8d873b4347 100644
+--- a/drivers/gpu/drm/i915/i915_active.c
++++ b/drivers/gpu/drm/i915/i915_active.c
+@@ -133,7 +133,7 @@ __active_retire(struct i915_active *ref)
+ 	GEM_BUG_ON(i915_active_is_idle(ref));
 
-Thanks!
+ 	/* return the unused nodes to our slabcache -- flushing the allocator */
+-	if (!atomic_dec_and_lock_irqsave(&ref->count, &ref->tree_lock, flags))
++	if (!refcount_dec_and_lock_irqsave(&ref->count, &ref->tree_lock, &flags))
+ 		return;
 
---=20
-You may reply to this email to add a comment.
+ 	GEM_BUG_ON(rcu_access_pointer(ref->excl.fence));
+@@ -179,8 +179,8 @@ active_work(struct work_struct *wrk)
+ {
+ 	struct i915_active *ref = container_of(wrk, typeof(*ref), work);
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-	GEM_BUG_ON(!atomic_read(&ref->count));
+-	if (atomic_add_unless(&ref->count, -1, 1))
++	GEM_BUG_ON(!refcount_read(&ref->count));
++	if (refcount_dec_not_one(&ref->count))
+ 		return;
+
+ 	__active_retire(ref);
+@@ -189,8 +189,8 @@ active_work(struct work_struct *wrk)
+ static void
+ active_retire(struct i915_active *ref)
+ {
+-	GEM_BUG_ON(!atomic_read(&ref->count));
+-	if (atomic_add_unless(&ref->count, -1, 1))
++	GEM_BUG_ON(!refcount_read(&ref->count));
++	if (refcount_dec_not_one(&ref->count))
+ 		return;
+
+ 	if (ref->flags & I915_ACTIVE_RETIRE_SLEEPS) {
+@@ -354,7 +354,7 @@ void __i915_active_init(struct i915_active *ref,
+ 	ref->cache = NULL;
+
+ 	init_llist_head(&ref->preallocated_barriers);
+-	atomic_set(&ref->count, 0);
++	refcount_set(&ref->count, 0);
+ 	__mutex_init(&ref->mutex, "i915_active", mkey);
+ 	__i915_active_fence_init(&ref->excl, NULL, excl_retire);
+ 	INIT_WORK(&ref->work, active_work);
+@@ -445,7 +445,7 @@ int i915_active_add_request(struct i915_active *ref, struct i915_request *rq)
+
+ 	if (replace_barrier(ref, active)) {
+ 		RCU_INIT_POINTER(active->fence, NULL);
+-		atomic_dec(&ref->count);
++		refcount_dec(&ref->count);
+ 	}
+ 	if (!__i915_active_fence_set(active, fence))
+ 		__i915_active_acquire(ref);
+@@ -488,14 +488,16 @@ i915_active_set_exclusive(struct i915_active *ref, struct dma_fence *f)
+ bool i915_active_acquire_if_busy(struct i915_active *ref)
+ {
+ 	debug_active_assert(ref);
+-	return atomic_add_unless(&ref->count, 1, 0);
++	return refcount_add_not_zero(1, &ref->count);
+ }
+
+ static void __i915_active_activate(struct i915_active *ref)
+ {
+ 	spin_lock_irq(&ref->tree_lock); /* __active_retire() */
+-	if (!atomic_fetch_inc(&ref->count))
++	if (!refcount_inc_not_zero(&ref->count)) {
++		refcount_inc(&ref->count);
+ 		debug_active_activate(ref);
++	}
+ 	spin_unlock_irq(&ref->tree_lock);
+ }
+
+@@ -757,7 +759,7 @@ int i915_sw_fence_await_active(struct i915_sw_fence *fence,
+ void i915_active_fini(struct i915_active *ref)
+ {
+ 	debug_active_fini(ref);
+-	GEM_BUG_ON(atomic_read(&ref->count));
++	GEM_BUG_ON(refcount_read(&ref->count));
+ 	GEM_BUG_ON(work_pending(&ref->work));
+ 	mutex_destroy(&ref->mutex);
+
+@@ -927,7 +929,7 @@ int i915_active_acquire_preallocate_barrier(struct i915_active *ref,
+
+ 		first = first->next;
+
+-		atomic_dec(&ref->count);
++		refcount_dec(&ref->count);
+ 		intel_engine_pm_put(barrier_to_engine(node));
+
+ 		kmem_cache_free(slab_cache, node);
+diff --git a/drivers/gpu/drm/i915/i915_active.h b/drivers/gpu/drm/i915/i915_active.h
+index 7eb44132183a..116c7c28466a 100644
+--- a/drivers/gpu/drm/i915/i915_active.h
++++ b/drivers/gpu/drm/i915/i915_active.h
+@@ -193,14 +193,14 @@ void i915_active_release(struct i915_active *ref);
+
+ static inline void __i915_active_acquire(struct i915_active *ref)
+ {
+-	GEM_BUG_ON(!atomic_read(&ref->count));
+-	atomic_inc(&ref->count);
++	GEM_BUG_ON(!refcount_read(&ref->count));
++	refcount_inc(&ref->count);
+ }
+
+ static inline bool
+ i915_active_is_idle(const struct i915_active *ref)
+ {
+-	return !atomic_read(&ref->count);
++	return !refcount_read(&ref->count);
+ }
+
+ void i915_active_fini(struct i915_active *ref);
+diff --git a/drivers/gpu/drm/i915/i915_active_types.h b/drivers/gpu/drm/i915/i915_active_types.h
+index b02a78ac87db..152a3a25d9f7 100644
+--- a/drivers/gpu/drm/i915/i915_active_types.h
++++ b/drivers/gpu/drm/i915/i915_active_types.h
+@@ -7,7 +7,7 @@
+ #ifndef _I915_ACTIVE_TYPES_H_
+ #define _I915_ACTIVE_TYPES_H_
+
+-#include <linux/atomic.h>
++#include <linux/refcount.h>
+ #include <linux/dma-fence.h>
+ #include <linux/llist.h>
+ #include <linux/mutex.h>
+@@ -23,7 +23,7 @@ struct i915_active_fence {
+ struct active_node;
+
+ struct i915_active {
+-	atomic_t count;
++	refcount_t count;
+ 	struct mutex mutex;
+
+ 	spinlock_t tree_lock;
+--
+2.34.1
+
+
+
