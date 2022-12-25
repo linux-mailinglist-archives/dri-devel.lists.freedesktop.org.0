@@ -2,74 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F819655D0F
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Dec 2022 13:00:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE033656113
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Dec 2022 09:19:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B187710E0B8;
-	Sun, 25 Dec 2022 11:59:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C4DE10E118;
+	Mon, 26 Dec 2022 08:19:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA80B10E0A7
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Dec 2022 11:59:30 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id o6so12892513lfi.5
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Dec 2022 03:59:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DpO2mOjemVEh3PAsRoqwlQ/H7YfF7zaImpMPnEr2kkE=;
- b=WQ9gIrxIlkm1Bi3dBa3sXbnKWg3Q6+9M7yX1DJuLWzwUXDr6C9w9JgzsBHC5tLnwdK
- VVWiwAxxEYutZypfXYJlwWnW8Kw/LXGV60gOlJT69vJsPjgSZpRlVB7YuuR7eCz1Jq5t
- g0urP0hgZMtbFQN9kg7S8FUuMLk4ZjSwpD0SRNiMjbpVHe67g4qlHnvgEmL7P4ZLJNYF
- omP7CeTpAL7RRSgyZ+LQDW2qHeYj1VFCiG1IlcIvSko5qiI6FoP6p3Dtwo/8Y4HUUVZt
- c/q76xmPAe0jKlu0AksRHVjkwPflv9XBTs7Zfd7x3IlFWV3nPmTF/W+3ytbV8mtqSnFL
- UVZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DpO2mOjemVEh3PAsRoqwlQ/H7YfF7zaImpMPnEr2kkE=;
- b=wJaQcuYoFBD+Go4d2DLD28CFlvUjO6CeIpsrjtn/7deRO1RhHGkRa42heVg99br7L1
- qYV2FJVBXST8xdciyONKebnhTgU1o1jrbsChovVSJvLbzqTDQV3R/TNAQBve4LcckfOB
- WAhUbcZs4t2JXF0plPt01HxYM75VzvDgX7LwQXMnR0TxAiL2yUKPo93b+gMGoegOAs91
- kDXQwd9lg6CQD9NJih8nrR+bFkXQcX+0smGvYI+zUzXS59J8bhdXQ2WVQs4mvUwbKCSv
- r29PC1SQx7hJx2cIGbqgt0XOZB8TknFVErAa+jSChKHVJQht014H/GfvAp2k6UagXKvT
- hJiw==
-X-Gm-Message-State: AFqh2koyMIlfczOCGGpzi5g5wiZHnkIDGal3gFnsYwfO3uTkKE/s/iqN
- 0DyKSjS6qXniz5dw+c0FPboskA==
-X-Google-Smtp-Source: AMrXdXuKBP7b/Q0FfTlpsV5HqeYYSwCA0PmQAWCBg3FaLBiMZtQ03yvUXAxoTp6x8h1hfEoWYwZD4A==
-X-Received: by 2002:a05:6512:1111:b0:4b5:43ef:a552 with SMTP id
- l17-20020a056512111100b004b543efa552mr4951726lfg.16.1671969569066; 
- Sun, 25 Dec 2022 03:59:29 -0800 (PST)
-Received: from krzk-bin.NAT.warszawa.vectranet.pl
- (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
- by smtp.gmail.com with ESMTPSA id
- r4-20020ac252a4000000b004a25bb4494fsm1336911lfm.178.2022.12.25.03.59.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Dec 2022 03:59:28 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Del Regno <angelogioacchino.delregno@somainline.org>,
- Loic Poulain <loic.poulain@linaro.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] dt-bindings: display: msm: drop unneeded list for single
- compatible
-Date: Sun, 25 Dec 2022 12:59:25 +0100
-Message-Id: <20221225115925.55337-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221225115925.55337-1-krzysztof.kozlowski@linaro.org>
-References: <20221225115925.55337-1-krzysztof.kozlowski@linaro.org>
+X-Greylist: delayed 368 seconds by postgrey-1.36 at gabe;
+ Sun, 25 Dec 2022 15:18:45 UTC
+Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com
+ [162.62.57.252])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A6E110E009;
+ Sun, 25 Dec 2022 15:18:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+ s=s201512; t=1671981521;
+ bh=4gyYfY5apDGW/eosN7O7fVTHYhGTtevXrZrItFuw+RY=;
+ h=From:To:Cc:Subject:Date;
+ b=slD+X7CmTZJerovdRIaw4zh8bl7seh3SyPh1tOjQgEH8Kn6ppCva35TwB9w1ghHRM
+ /Q5Waa+/f+WTDB4PjI7ISBLJKRvHtzEyX9JyHfKKJzRxXBLsxRNUOFBW4mYhv+RrFN
+ hamlQ/A46mR4o8Gn12iHlKFUGZBYPwq9CQQUi3+g=
+Received: from wen-VirtualBox.lan ([222.182.118.62])
+ by newxmesmtplogicsvrszc2-0.qq.com (NewEsmtp) with SMTP
+ id 2CC05057; Sun, 25 Dec 2022 23:11:12 +0800
+X-QQ-mid: xmsmtpt1671981072toki2hhed
+Message-ID: <tencent_13506618BF90E7B2AA796A9920DC49BEF407@qq.com>
+X-QQ-XMAILINFO: MR/iVh5QLeie/LjKgMA5F+5e/BGMMcXVUrtcQ09uXcIXZnVQf2Y9PHof42Hm7R
+ q+XXsqJsIHOfpYJo0o4QBA5TKF3Uc2f68G9HY9qzQRS3RzjoDHtdthbpx8rG1dDCGG1B3R/WV9hY
+ zldUkH98qcXF84DEoj23T9yQthTbJcEiN40XmEuBnnjr3xXNqjJE5LcgmH/uSYRGlbJ3W3qqn5nk
+ u+706JgKWAODSz1tTRWoyxMQJeRUtkpey58LQ+Iw+iP3D8iDNTXU00EaYrp99nGMOsbDtolcQieT
+ l/phISKm6/qxu+Yv1vcxRl8IZPwMtyrsklf+EMJp5AIPN0d2+0TCV+r9vY7ckVehWLLSzGs4IyJR
+ DIXN5XVDTHOTQYFNRE6wzP8nAAbIOts9HJja6YST1Yo+vEypZrUaEhgZ6p+i+d29YhNBpinchcp4
+ XiCssglylaikQStP+FpxAYxgKwQO3B0s43R+q2Z/IfpZYJzMQIc8EIPRQgXnZfZUWy+a14xPBaIN
+ +epWLj/ugm5rl9a9C8KRVL2h07+/XXdU3mhHzcPFhd+PK7ZrOAc3F3m1VcYWganATKyx2b2N+Wo/
+ bTVEB0LpySwjsue1liZ2WJl8k1jLaGnBeUth8PDJOhEmtqNxmNmd64UmQG9UIdxetHKHPfPwnjEe
+ nQ9I8JJXYJJrOdx+RvawZ6U05ywm0UgUlKZSFaPnpY1fkQaQwslH8t77Wq0czQNkHLA/AvZkaGZo
+ nTfk8CNqaw1M2nsg4X4Q7G5KG74xdBypNO459NmlSnqZoSxGHjgfLjmrLEckGuBHHFJj20Ua9XFh
+ 4HQWNvGUjHnZzE7cu7bX/kxJ8Ef3Mf+OqtY+ZsHzRPDe4viliLz/Ps1BHmEIXDe1wc8/TNnSEM5x
+ mkjtVLii37EdkmSf+7FlkHswi4WiaF1xY9BqB0xzfOE9Sr0nmOc0kLBDEvNweIDrKZXNCOc2DWiD
+ Sad9Y6pZHJmrw2CubzocZDW0VkTkrhUsW1djvqn+MSrCWrHTdOi/keu3MqbCbqLyDzvN3WcSo=
+From: wenyang.linux@foxmail.com
+To: Alex Deucher <alexander.deucher@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>
+Subject: [PATCH] =?UTF-8?q?drm/amd/display:=C2=A0fix=C2=A0array-bounds?=
+ =?UTF-8?q?=C2=A0errors=C2=A0in=20dc=5Fstream=5Fremove=5Fwriteback()?=
+Date: Sun, 25 Dec 2022 23:10:58 +0800
+X-OQ-MSGID: <20221225151058.749344-1-wenyang.linux@foxmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 26 Dec 2022 08:19:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,181 +66,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Wen Yang <wenyang.linux@foxmail.com>,
+ =?UTF-8?q?Leo=C2=A0Li=C2=A0?= <sunpeng.li@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With only one compatible, there is no need to define it as list (items).
+From: Wen Yang <wenyang.linux@foxmail.com>
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+The following errors occurred when using gcc 7.5.0-3ubuntu1~18.04:
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c: In function ‘dc_stream_remove_writeback’:
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:543:55: warning: array subscript is above array bounds [-Warray-bounds]
+     stream->writeback_info[j] = stream->writeback_info[i];
+                                 ~~~~~~~~~~~~~~~~~~~~~~^~~
+Add a check to make sure that num_wb_info won't overflowing the writeback_info buffer.
+
+Fixes: 6fbefb84a98e ("drm/amd/display: Add DC core changes for DCN2")
+
+Signed-off-by: Wen Yang <wenyang.linux@foxmail.com>
+Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Cc: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Leo Li <sunpeng.li@amd.com>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
 ---
- .../devicetree/bindings/display/msm/qcom,msm8998-dpu.yaml      | 3 +--
- .../devicetree/bindings/display/msm/qcom,msm8998-mdss.yaml     | 3 +--
- .../devicetree/bindings/display/msm/qcom,qcm2290-dpu.yaml      | 3 +--
- .../devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml     | 3 +--
- .../devicetree/bindings/display/msm/qcom,sc7180-dpu.yaml       | 3 +--
- .../devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml      | 3 +--
- .../devicetree/bindings/display/msm/qcom,sdm845-dpu.yaml       | 3 +--
- .../devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml      | 3 +--
- .../devicetree/bindings/display/msm/qcom,sm6115-dpu.yaml       | 3 +--
- .../devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml      | 3 +--
- .../devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml      | 3 +--
- 11 files changed, 11 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,msm8998-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,msm8998-dpu.yaml
-index 727a20c4375c..943b6f017f7c 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,msm8998-dpu.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,msm8998-dpu.yaml
-@@ -13,8 +13,7 @@ $ref: /schemas/display/msm/dpu-common.yaml#
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+index 20e534f73513..9825c30f2ca0 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+@@ -481,6 +481,7 @@ bool dc_stream_add_writeback(struct dc *dc,
+ 	}
  
- properties:
-   compatible:
--    items:
--      - const: qcom,msm8998-dpu
-+    const: qcom,msm8998-dpu
+ 	if (!isDrc) {
++		ASSERT(stream->num_wb_info + 1 <= MAX_DWB_PIPES);
+ 		stream->writeback_info[stream->num_wb_info++] = *wb_info;
+ 	}
  
-   reg:
-     items:
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,msm8998-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,msm8998-mdss.yaml
-index cf52ff77a41a..f67632a7e8fa 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,msm8998-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,msm8998-mdss.yaml
-@@ -18,8 +18,7 @@ $ref: /schemas/display/msm/mdss-common.yaml#
+@@ -526,6 +527,11 @@ bool dc_stream_remove_writeback(struct dc *dc,
+ 		return false;
+ 	}
  
- properties:
-   compatible:
--    items:
--      - const: qcom,msm8998-mdss
-+    const: qcom,msm8998-mdss
- 
-   clocks:
-     items:
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-dpu.yaml
-index a2fd9f8e456c..6c234b3b2765 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-dpu.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-dpu.yaml
-@@ -13,8 +13,7 @@ $ref: /schemas/display/msm/dpu-common.yaml#
- 
- properties:
-   compatible:
--    items:
--      - const: qcom,qcm2290-dpu
-+    const: qcom,qcm2290-dpu
- 
-   reg:
-     items:
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
-index 4795e13c7b59..f5b24f81f382 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
-@@ -18,8 +18,7 @@ $ref: /schemas/display/msm/mdss-common.yaml#
- 
- properties:
-   compatible:
--    items:
--      - const: qcom,qcm2290-mdss
-+    const: qcom,qcm2290-mdss
- 
-   clocks:
-     items:
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sc7180-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sc7180-dpu.yaml
-index 2ade94a216a8..86cfa3ddce62 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sc7180-dpu.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sc7180-dpu.yaml
-@@ -13,8 +13,7 @@ $ref: /schemas/display/msm/dpu-common.yaml#
- 
- properties:
-   compatible:
--    items:
--      - const: qcom,sc7180-dpu
-+    const: qcom,sc7180-dpu
- 
-   reg:
-     items:
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml
-index 13e396d61a51..2a1d4510db6d 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml
-@@ -18,8 +18,7 @@ $ref: /schemas/display/msm/mdss-common.yaml#
- 
- properties:
-   compatible:
--    items:
--      - const: qcom,sc7180-mdss
-+    const: qcom,sc7180-mdss
- 
-   clocks:
-     items:
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-dpu.yaml
-index a2f305b04ee1..5cabb899977d 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-dpu.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-dpu.yaml
-@@ -13,8 +13,7 @@ $ref: /schemas/display/msm/dpu-common.yaml#
- 
- properties:
-   compatible:
--    items:
--      - const: qcom,sdm845-dpu
-+    const: qcom,sdm845-dpu
- 
-   reg:
-     items:
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
-index 31ca6f99fc22..289d61debc38 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
-@@ -18,8 +18,7 @@ $ref: /schemas/display/msm/mdss-common.yaml#
- 
- properties:
-   compatible:
--    items:
--      - const: qcom,sdm845-mdss
-+    const: qcom,sdm845-mdss
- 
-   clocks:
-     items:
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6115-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-dpu.yaml
-index 6ad828a20332..bf62c2f5325a 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sm6115-dpu.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-dpu.yaml
-@@ -13,8 +13,7 @@ $ref: /schemas/display/msm/dpu-common.yaml#
- 
- properties:
-   compatible:
--    items:
--      - const: qcom,sm6115-dpu
-+    const: qcom,sm6115-dpu
- 
-   reg:
-     items:
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
-index 886858ef6700..2491cb100b33 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
-@@ -18,8 +18,7 @@ $ref: /schemas/display/msm/mdss-common.yaml#
- 
- properties:
-   compatible:
--    items:
--      - const: qcom,sm6115-mdss
-+    const: qcom,sm6115-mdss
- 
-   clocks:
-     items:
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml
-index 0d3be5386b3f..753bc99c868a 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml
-@@ -18,8 +18,7 @@ $ref: /schemas/display/msm/mdss-common.yaml#
- 
- properties:
-   compatible:
--    items:
--      - const: qcom,sm8250-mdss
-+    const: qcom,sm8250-mdss
- 
-   clocks:
-     items:
++	if (stream->num_wb_info > MAX_DWB_PIPES) {
++		dm_error("DC: num_wb_info is invalid!\n");
++		return false;
++	}
++
+ //	stream->writeback_info[dwb_pipe_inst].wb_enabled = false;
+ 	for (i = 0; i < stream->num_wb_info; i++) {
+ 		/*dynamic update*/
+@@ -540,7 +546,8 @@ bool dc_stream_remove_writeback(struct dc *dc,
+ 		if (stream->writeback_info[i].wb_enabled) {
+ 			if (j < i)
+ 				/* trim the array */
+-				stream->writeback_info[j] = stream->writeback_info[i];
++				memcpy(&stream->writeback_info[j], &stream->writeback_info[i],
++						sizeof(struct dc_writeback_info));
+ 			j++;
+ 		}
+ 	}
 -- 
-2.34.1
+2.25.1
 
