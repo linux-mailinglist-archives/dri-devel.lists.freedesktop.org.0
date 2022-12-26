@@ -2,75 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C4316562E7
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Dec 2022 14:49:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D259656385
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Dec 2022 15:44:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9FEF10E0D9;
-	Mon, 26 Dec 2022 13:49:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9766B10E0F9;
+	Mon, 26 Dec 2022 14:44:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39AD810E004
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Dec 2022 13:49:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672062566;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mw7xpxVI9Q/Jnt3L05urCEGaaPOXvycGiSQd0FrpIik=;
- b=i196rlyc7OI56QtZz3xEj42T0em7qLN7KoLM7nSXVW13cmc+8jn5h5vaQOwc5mEnvhDe7d
- zbNJ5+c3TKtQEDzBPqBa7m9kyGXJsarLwdRcpB6cl897Rnv1jgEc1aePoqx+z9XheytgBe
- NpPqpodJ+URKJhUfk8bR+lCUOctzigA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-21-Kmf2HSoiO6yDEKRIZyXnlw-1; Mon, 26 Dec 2022 08:49:25 -0500
-X-MC-Unique: Kmf2HSoiO6yDEKRIZyXnlw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- fm17-20020a05600c0c1100b003d96f0a7f2eso5112231wmb.6
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Dec 2022 05:49:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mw7xpxVI9Q/Jnt3L05urCEGaaPOXvycGiSQd0FrpIik=;
- b=AjLAgIkheuRF2rBwLqt18/RFd67wnq850K/gUdTE9LNqluLAthwhjRO9yYbtEM2+RW
- 2BEpwfYksLCOmn4s6Yu6zq/+QCiccz3EKqyv9JksYwn6zxfyOdWxnN9KRZl9gZxH8gNx
- u/zSk2Ubs3xQglZf0dg70cMxpWZyhv0dH+44s71f454GU7YiGBet9W9JgnipCaP6omop
- ePkJ7qFoPr33Yo4p5LM9etXh2R3j7hsVzcj6YVxM9Kr0V2Uh6jNCnQddJMRDCBl98pqS
- k6PPMmjW5HFz6l1zuyVYyKscpHHt3XA+NYeLH0IWIw2j9ITQ00BJNA9hfbkrJeW23KBb
- MF5g==
-X-Gm-Message-State: AFqh2krX6ec0f4viMcFQFUo9SPbAFaWc5RrDBhJ77cyzWM5Y9g3om0K+
- KmBvZCY/ylFTUYBYcDLXolFKO/Ix6hD8CQFgUvk4IKWc8migUBXPP6ilyrsPNj5ytG73BxM0EyQ
- /zk+eQro1zYqxaA205PdudVZtH8YR
-X-Received: by 2002:a05:6000:1246:b0:24f:869a:6c13 with SMTP id
- j6-20020a056000124600b0024f869a6c13mr11747356wrx.2.1672062563914; 
- Mon, 26 Dec 2022 05:49:23 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvUvZdjNR7Fa8fpKiew/GyjwBoEhaZv2N568YBi4HBO08rtzrVuxhbL312QdhdG1u5YjDEtcA==
-X-Received: by 2002:a05:6000:1246:b0:24f:869a:6c13 with SMTP id
- j6-20020a056000124600b0024f869a6c13mr11747344wrx.2.1672062563708; 
- Mon, 26 Dec 2022 05:49:23 -0800 (PST)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- a18-20020adfed12000000b0027cfd9463d7sm3340947wro.110.2022.12.26.05.49.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Dec 2022 05:49:23 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/4] dt-bindings: display: Add Himax HX8394 panel controller
-Date: Mon, 26 Dec 2022 14:49:06 +0100
-Message-Id: <20221226134909.2822179-3-javierm@redhat.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221226134909.2822179-1-javierm@redhat.com>
-References: <20221226134909.2822179-1-javierm@redhat.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3392010E0F9
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Dec 2022 14:44:13 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BC5D274C;
+ Mon, 26 Dec 2022 15:44:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1672065845;
+ bh=x45efJkHdX774QhOdMx2WJnNQWd/OifM0OuRHlTg0VE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KA5xXhlAddgxb6aI7FgrUy+ytEwm6RZTTTuNcXI5I0YBThTMEP1WxQGJbjY22nZqq
+ sjzB/adLXAItlK6fxkTjRUm13/PPt7xI29b5nqrxzBQpQePEvM1tqkcjCgZhjIDR+5
+ UE4Gp6Z2DotSeEoOJmKsAKmshV6eN79yvN1mM70c=
+Date: Mon, 26 Dec 2022 16:44:00 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: Re: [PATCH v3 7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB,
+ Y210)
+Message-ID: <Y6mzMHdEFdSxUMaJ@pendragon.ideasonboard.com>
+References: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221221092448.741294-8-tomi.valkeinen+renesas@ideasonboard.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221221092448.741294-8-tomi.valkeinen+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,109 +48,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Robert Mader <robert.mader@posteo.de>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Tom Fitzhenry <tom@tom-fitzhenry.me.uk>, Martijn Braam <martijn@brixit.nl>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Ondrej Jirman <megi@xff.cz>,
- Peter Robinson <pbrobinson@gmail.com>,
- =?UTF-8?q?Kamil=20Trzci=C5=84ski?= <ayufan@ayufan.eu>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maya Matuszczyk <maccraft123mc@gmail.com>
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add device tree bindings for panels based on the Himax HX8394 controller,
-such as the HannStar HSD060BHW4 720x1440 TFT LCD panel that is connected
-through a MIPI-DSI video interface.
+Hi Tomi,
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
+Thank you for the patch.
 
-Changes in v2:
-- Drop redundant "bindings" in subject (Krzysztof Kozlowski).
-- Drop "device tree bindings" in title (Krzysztof Kozlowski).
-- Put port next to other "true" properties (Krzysztof Kozlowski).
-- Add Krzysztof Kozlowski's Reviewed-by tag.
+On Wed, Dec 21, 2022 at 11:24:48AM +0200, Tomi Valkeinen wrote:
+> Add new pixel formats: RGBX1010102, RGBA1010102, ARGB2101010, Y210 and
 
- .../bindings/display/panel/himax,hx8394.yaml  | 65 +++++++++++++++++++
- 1 file changed, 65 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-diff --git a/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml b/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
-new file mode 100644
-index 000000000000..bead3f0b05c5
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
-@@ -0,0 +1,65 @@
-+# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/himax,hx8394.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Himax HX8394 MIPI-DSI LCD panel controller
-+
-+maintainers:
-+  - Javier Martinez Canillas <javierm@redhat.com>
-+
-+description:
-+  Device tree bindings for panels based on the Himax HX8394 controller,
-+  such as the HannStar HSD060BHW4 720x1440 TFT LCD panel connected with
-+  a MIPI-DSI video interface.
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      # HannStar HSD060BHW4 5.99" 720x1440 TFT LCD panel
-+      - hannstar,hsd060bhw4
-+
-+  vcc-supply:
-+    description: Panel power supply
-+
-+  iovcc-supply:
-+    description: I/O voltage supply
-+
-+  port: true
-+
-+  reset-gpios: true
-+
-+  backlight: true
-+
-+required:
-+  - compatible
-+  - vcc-supply
-+  - iovcc-supply
-+  - port
-+  - reset-gpios
-+  - backlight
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    dsi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        panel@0 {
-+            compatible = "hannstar,hsd060bhw4";
-+            reg = <0>;
-+            vcc-supply = <&reg_2v8_p>;
-+            iovcc-supply = <&reg_1v8_p>;
-+            reset-gpios = <&gpio3 13 GPIO_ACTIVE_LOW>;
-+            backlight = <&backlight>;
-+        };
-+    };
-+
-+...
+> Y212.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 30 ++++++++++++++++
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 50 +++++++++++++++++++++++++--
+>  2 files changed, 78 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> index 8c2719efda2a..adfb36b0e815 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> @@ -259,6 +259,24 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+>  		.bpp = 32,
+>  		.planes = 1,
+>  		.hsub = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_RGBX1010102,
+> +		.v4l2 = V4L2_PIX_FMT_RGBX1010102,
+> +		.bpp = 32,
+> +		.planes = 1,
+> +		.hsub = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_RGBA1010102,
+> +		.v4l2 = V4L2_PIX_FMT_RGBA1010102,
+> +		.bpp = 32,
+> +		.planes = 1,
+> +		.hsub = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_ARGB2101010,
+> +		.v4l2 = V4L2_PIX_FMT_ARGB2101010,
+> +		.bpp = 32,
+> +		.planes = 1,
+> +		.hsub = 1,
+>  	}, {
+>  		.fourcc = DRM_FORMAT_YVYU,
+>  		.v4l2 = V4L2_PIX_FMT_YVYU,
+> @@ -307,6 +325,18 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+>  		.bpp = 24,
+>  		.planes = 3,
+>  		.hsub = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_Y210,
+> +		.v4l2 = V4L2_PIX_FMT_Y210,
+> +		.bpp = 32,
+> +		.planes = 1,
+> +		.hsub = 2,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_Y212,
+> +		.v4l2 = V4L2_PIX_FMT_Y212,
+> +		.bpp = 32,
+> +		.planes = 1,
+> +		.hsub = 2,
+>  	},
+>  };
+>  
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> index e465aef41585..fe90be51d64e 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> @@ -139,6 +139,43 @@ static const u32 rcar_du_vsp_formats[] = {
+>  	DRM_FORMAT_YVU444,
+>  };
+>  
+> +/*
+> + * Gen4 supports the same formats as above, and additionally 2-10-10-10 RGB
+> + * formats and Y210 & Y212 formats.
+> + */
+> +static const u32 rcar_du_vsp_formats_gen4[] = {
+> +	DRM_FORMAT_RGB332,
+> +	DRM_FORMAT_ARGB4444,
+> +	DRM_FORMAT_XRGB4444,
+> +	DRM_FORMAT_ARGB1555,
+> +	DRM_FORMAT_XRGB1555,
+> +	DRM_FORMAT_RGB565,
+> +	DRM_FORMAT_BGR888,
+> +	DRM_FORMAT_RGB888,
+> +	DRM_FORMAT_BGRA8888,
+> +	DRM_FORMAT_BGRX8888,
+> +	DRM_FORMAT_ARGB8888,
+> +	DRM_FORMAT_XRGB8888,
+> +	DRM_FORMAT_RGBX1010102,
+> +	DRM_FORMAT_RGBA1010102,
+> +	DRM_FORMAT_ARGB2101010,
+> +	DRM_FORMAT_UYVY,
+> +	DRM_FORMAT_YUYV,
+> +	DRM_FORMAT_YVYU,
+> +	DRM_FORMAT_NV12,
+> +	DRM_FORMAT_NV21,
+> +	DRM_FORMAT_NV16,
+> +	DRM_FORMAT_NV61,
+> +	DRM_FORMAT_YUV420,
+> +	DRM_FORMAT_YVU420,
+> +	DRM_FORMAT_YUV422,
+> +	DRM_FORMAT_YVU422,
+> +	DRM_FORMAT_YUV444,
+> +	DRM_FORMAT_YVU444,
+> +	DRM_FORMAT_Y210,
+> +	DRM_FORMAT_Y212,
+> +};
+> +
+>  static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
+>  {
+>  	struct rcar_du_vsp_plane_state *state =
+> @@ -436,14 +473,23 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+>  					 ? DRM_PLANE_TYPE_PRIMARY
+>  					 : DRM_PLANE_TYPE_OVERLAY;
+>  		struct rcar_du_vsp_plane *plane = &vsp->planes[i];
+> +		unsigned int num_formats;
+> +		const u32 *formats;
+> +
+> +		if (rcdu->info->gen < 4) {
+> +			num_formats = ARRAY_SIZE(rcar_du_vsp_formats);
+> +			formats = rcar_du_vsp_formats;
+> +		} else {
+> +			num_formats = ARRAY_SIZE(rcar_du_vsp_formats_gen4);
+> +			formats = rcar_du_vsp_formats_gen4;
+> +		}
+>  
+>  		plane->vsp = vsp;
+>  		plane->index = i;
+>  
+>  		ret = drm_universal_plane_init(&rcdu->ddev, &plane->plane,
+>  					       crtcs, &rcar_du_vsp_plane_funcs,
+> -					       rcar_du_vsp_formats,
+> -					       ARRAY_SIZE(rcar_du_vsp_formats),
+> +					       formats, num_formats,
+>  					       NULL, type, NULL);
+>  		if (ret < 0)
+>  			return ret;
+
 -- 
-2.38.1
+Regards,
 
+Laurent Pinchart
