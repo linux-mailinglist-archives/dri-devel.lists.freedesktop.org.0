@@ -2,54 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6786575BB
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 12:16:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2DEA65652B
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Dec 2022 22:33:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D9B810E392;
-	Wed, 28 Dec 2022 11:16:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6543510E151;
+	Mon, 26 Dec 2022 21:33:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender-of-o50.zoho.in (sender-of-o50.zoho.in [103.117.158.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1359910E2A0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Dec 2022 18:27:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1672079251; cv=none; d=zohomail.in; s=zohoarc; 
- b=SHc/ON51cmEcO+KMVREgFjICBLLWv+31xt+9K9HbrUOFFzFrWR4X05sT/aj83kSGyJ28mIHfuePy1btgJ2BHutwVdBL6kBSzIEscWnewBZrq9sUwbgYYBOZaOQgRGvbc/70VVgvBy4KnE0nJPg7l1t1nbmi6ypKcOIHlTev6zkI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1672079251;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=iZz7X6e3jG+2rIkRvN509bNCkZ80pmjJN8lTLn7L8aw=; 
- b=DPQx/LedyPUCyP9Wz7WhDXzQKXE5CYv7/rRGmLWheM0B6u7zy790TLyrIMChUsDBW89hXISeSwnM9wFsOzetfFBuSQ+bWChpFGKaBCjaiNw3Rv3W0cKaV8Lz4BjDCSWIsNnfHvE+9eG7+EMgaZEHxhaB5uM8ZYIsAI/x0Rhho3k=
-ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
- spf=pass  smtp.mailfrom=code@siddh.me;
- dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1672079251; 
- s=zmail; d=siddh.me; i=code@siddh.me;
- h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=iZz7X6e3jG+2rIkRvN509bNCkZ80pmjJN8lTLn7L8aw=;
- b=PEW98Az5UHd5oXVvOMoOBMdPN6CqhGtY0J8wOrmMQWif3Mymzp9kGTN7uX5i4dTD
- jo/1/jiyetnfAyBvzDX+QGdwatYO33zwhi+hcHtHPlSbeq+ggXpd9SDrGHupglWNlH7
- PNXjzPPINCO5B50IxGwQGzRMMSad5aT94Vz02gGI=
-Received: from kampyooter.. (110.226.31.37 [110.226.31.37]) by mx.zoho.in
- with SMTPS id 1672079249651919.8699845763142;
- Mon, 26 Dec 2022 23:57:29 +0530 (IST)
-From: Siddh Raman Pant <code@siddh.me>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Simon Ser <contact@emersion.fr>,
- Jim Cromie <jim.cromie@gmail.com>
-Message-ID: <877f3cc8dc9a1b8c3dbdcbb096ecb460f59a70d4.1672078853.git.code@siddh.me>
-Subject: [PATCH v3 10/10] drm/drm_lease: Remove usage of deprecated
- DRM_DEBUG_LEASE
-Date: Mon, 26 Dec 2022 23:57:22 +0530
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1672078853.git.code@siddh.me>
-References: <cover.1672078853.git.code@siddh.me>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C29F10E119
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Dec 2022 21:33:07 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5934B60F09;
+ Mon, 26 Dec 2022 21:32:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F9B2C433D2;
+ Mon, 26 Dec 2022 21:32:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1672090351;
+ bh=lwU9Kl8Xzc7F+A8wpvvCU4Lqw994MKfruNw8F1fJBAY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Dx8kdvSS7UVJRZ9LP1ka/5k1EZ4Xn3FfN2JNxuPMOxtPjjkCpGAStgMuhSqjsJv1z
+ 9AgHCgybCvfKR/dLSfsX1X4fE4TF64lwBzPb9SaPT7tuqQoVsdj5AQJdBEJJ7Ti/Cq
+ TqjrJhUxYXKXhiKpO/qXU+HDEm0VXnpcq/H51iSu2ZMZPfuTlHSnkrLEIP2Hct/Aj8
+ 5EYcA05q2LJgZz7NLHDITU3w+pmmJ/vicyqAZ1nicaNzjM8kfbKzOresBaaSbGF7PK
+ EYrkXMyQ9aREFrgwhIMxJcu5j2dcMv+Rj2bQKOrsKJin9ulD3HFP0FkaJa+5auO0pm
+ pA3kCyY7JPjfg==
+From: Oded Gabbay <ogabbay@kernel.org>
+To: airlied@gmail.com,
+	gregkh@linuxfoundation.org
+Subject: [PATCH 1/2] habanalabs/uapi: move uapi file to drm
+Date: Mon, 26 Dec 2022 23:32:26 +0200
+Message-Id: <20221226213227.26953-1-ogabbay@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
-Content-Type: text/plain; charset=utf8
-X-Mailman-Approved-At: Wed, 28 Dec 2022 11:16:34 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,289 +50,239 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_print.h says DRM_DEBUG_LEASE is deprecated in favor of
-drm_dbg_lease().
+Move the habanalabs.h uapi file from include/uapi/misc to
+include/uapi/drm, and rename it to habanalabs_accel.h.
 
-Signed-off-by: Siddh Raman Pant <code@siddh.me>
-Reviewed-by: Simon Ser <contact@emersion.fr>
+This is required before moving the actual driver to the accel
+subsystem.
+
+Update MAINTAINERS file accordingly.
+
+Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/gpu/drm/drm_lease.c | 64 ++++++++++++++++++++-----------------
- 1 file changed, 34 insertions(+), 30 deletions(-)
+ MAINTAINERS                                                | 2 +-
+ drivers/misc/habanalabs/Kconfig                            | 2 +-
+ drivers/misc/habanalabs/common/command_buffer.c            | 2 +-
+ drivers/misc/habanalabs/common/command_submission.c        | 2 +-
+ drivers/misc/habanalabs/common/device.c                    | 2 +-
+ drivers/misc/habanalabs/common/habanalabs.h                | 2 +-
+ drivers/misc/habanalabs/common/habanalabs_ioctl.c          | 2 +-
+ drivers/misc/habanalabs/common/memory.c                    | 2 +-
+ drivers/misc/habanalabs/common/state_dump.c                | 2 +-
+ drivers/misc/habanalabs/gaudi/gaudiP.h                     | 2 +-
+ drivers/misc/habanalabs/gaudi/gaudi_coresight.c            | 3 ++-
+ drivers/misc/habanalabs/gaudi2/gaudi2P.h                   | 2 +-
+ drivers/misc/habanalabs/gaudi2/gaudi2_coresight.c          | 2 +-
+ drivers/misc/habanalabs/goya/goyaP.h                       | 2 +-
+ drivers/misc/habanalabs/goya/goya_coresight.c              | 2 +-
+ include/uapi/{misc/habanalabs.h => drm/habanalabs_accel.h} | 0
+ 16 files changed, 16 insertions(+), 15 deletions(-)
+ rename include/uapi/{misc/habanalabs.h => drm/habanalabs_accel.h} (100%)
 
-diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-index c442d5e766d1..08b4f29f8b61 100644
---- a/drivers/gpu/drm/drm_lease.c
-+++ b/drivers/gpu/drm/drm_lease.c
-@@ -213,11 +213,11 @@ static struct drm_master *drm_lease_create(struct drm=
-_master *lessor, struct idr
- =09int id;
- =09void *entry;
-=20
--=09DRM_DEBUG_LEASE("lessor %d\n", lessor->lessee_id);
-+=09drm_dbg_lease(dev, "lessor %d\n", lessor->lessee_id);
-=20
- =09lessee =3D drm_master_create(lessor->dev);
- =09if (!lessee) {
--=09=09DRM_DEBUG_LEASE("drm_master_create failed\n");
-+=09=09drm_dbg_lease(dev, "drm_master_create failed\n");
- =09=09return ERR_PTR(-ENOMEM);
- =09}
-=20
-@@ -231,7 +231,7 @@ static struct drm_master *drm_lease_create(struct drm_m=
-aster *lessor, struct idr
- =09=09=09error =3D -EBUSY;
-=20
- =09=09if (error !=3D 0) {
--=09=09=09DRM_DEBUG_LEASE("object %d failed %d\n", object, error);
-+=09=09=09drm_dbg_lease(dev, "object %d failed %d\n", object, error);
- =09=09=09goto out_lessee;
- =09=09}
- =09}
-@@ -249,7 +249,8 @@ static struct drm_master *drm_lease_create(struct drm_m=
-aster *lessor, struct idr
-=20
- =09/* Move the leases over */
- =09lessee->leases =3D *leases;
--=09DRM_DEBUG_LEASE("new lessee %d %p, lessor %d %p\n", lessee->lessee_id, =
-lessee, lessor->lessee_id, lessor);
-+=09drm_dbg_lease(dev, "new lessee %d %p, lessor %d %p\n",
-+=09=09      lessee->lessee_id, lessee, lessor->lessee_id, lessor);
-=20
- =09mutex_unlock(&dev->mode_config.idr_mutex);
- =09return lessee;
-@@ -268,7 +269,7 @@ void drm_lease_destroy(struct drm_master *master)
-=20
- =09mutex_lock(&dev->mode_config.idr_mutex);
-=20
--=09DRM_DEBUG_LEASE("drm_lease_destroy %d\n", master->lessee_id);
-+=09drm_dbg_lease(dev, "drm_lease_destroy %d\n", master->lessee_id);
-=20
- =09/* This master is referenced by all lessees, hence it cannot be destroy=
-ed
- =09 * until all of them have been
-@@ -277,7 +278,8 @@ void drm_lease_destroy(struct drm_master *master)
-=20
- =09/* Remove this master from the lessee idr in the owner */
- =09if (master->lessee_id !=3D 0) {
--=09=09DRM_DEBUG_LEASE("remove master %d from device list of lessees\n", ma=
-ster->lessee_id);
-+=09=09drm_dbg_lease(dev, "remove master %d from device list of lessees\n",
-+=09=09=09      master->lessee_id);
- =09=09idr_remove(&(drm_lease_owner(master)->lessee_idr), master->lessee_id=
-);
- =09}
-=20
-@@ -292,7 +294,7 @@ void drm_lease_destroy(struct drm_master *master)
- =09=09drm_master_put(&master->lessor);
- =09}
-=20
--=09DRM_DEBUG_LEASE("drm_lease_destroy done %d\n", master->lessee_id);
-+=09drm_dbg_lease(dev, "drm_lease_destroy done %d\n", master->lessee_id);
- }
-=20
- static void _drm_lease_revoke(struct drm_master *top)
-@@ -308,7 +310,8 @@ static void _drm_lease_revoke(struct drm_master *top)
- =09 * the tree is fully connected, we can do this without recursing
- =09 */
- =09for (;;) {
--=09=09DRM_DEBUG_LEASE("revoke leases for %p %d\n", master, master->lessee_=
-id);
-+=09=09drm_dbg_lease(master->dev, "revoke leases for %p %d\n",
-+=09=09=09      master, master->lessee_id);
-=20
- =09=09/* Evacuate the lease */
- =09=09idr_for_each_entry(&master->leases, entry, object)
-@@ -408,7 +411,7 @@ static int fill_object_idr(struct drm_device *dev,
-=20
- =09ret =3D validate_lease(dev, object_count, objects, universal_planes);
- =09if (ret) {
--=09=09DRM_DEBUG_LEASE("lease validation failed\n");
-+=09=09drm_dbg_lease(dev, "lease validation failed\n");
- =09=09goto out_free_objects;
- =09}
-=20
-@@ -418,7 +421,7 @@ static int fill_object_idr(struct drm_device *dev,
- =09=09struct drm_mode_object *obj =3D objects[o];
- =09=09u32 object_id =3D objects[o]->id;
-=20
--=09=09DRM_DEBUG_LEASE("Adding object %d to lease\n", object_id);
-+=09=09drm_dbg_lease(dev, "Adding object %d to lease\n", object_id);
-=20
- =09=09/*
- =09=09 * We're using an IDR to hold the set of leased
-@@ -430,8 +433,8 @@ static int fill_object_idr(struct drm_device *dev,
- =09=09 */
- =09=09ret =3D idr_alloc(leases, &drm_lease_idr_object , object_id, object_=
-id + 1, GFP_KERNEL);
- =09=09if (ret < 0) {
--=09=09=09DRM_DEBUG_LEASE("Object %d cannot be inserted into leases (%d)\n"=
-,
--=09=09=09=09=09object_id, ret);
-+=09=09=09drm_dbg_lease(dev, "Object %d cannot be inserted into leases (%d)=
-\n",
-+=09=09=09=09      object_id, ret);
- =09=09=09goto out_free_objects;
- =09=09}
- =09=09if (obj->type =3D=3D DRM_MODE_OBJECT_CRTC && !universal_planes) {
-@@ -439,15 +442,15 @@ static int fill_object_idr(struct drm_device *dev,
-=20
- =09=09=09ret =3D idr_alloc(leases, &drm_lease_idr_object, crtc->primary->b=
-ase.id, crtc->primary->base.id + 1, GFP_KERNEL);
- =09=09=09if (ret < 0) {
--=09=09=09=09DRM_DEBUG_LEASE("Object primary plane %d cannot be inserted in=
-to leases (%d)\n",
--=09=09=09=09=09=09object_id, ret);
-+=09=09=09=09drm_dbg_lease(dev, "Object primary plane %d cannot be inserted=
- into leases (%d)\n",
-+=09=09=09=09=09      object_id, ret);
- =09=09=09=09goto out_free_objects;
- =09=09=09}
- =09=09=09if (crtc->cursor) {
- =09=09=09=09ret =3D idr_alloc(leases, &drm_lease_idr_object, crtc->cursor-=
->base.id, crtc->cursor->base.id + 1, GFP_KERNEL);
- =09=09=09=09if (ret < 0) {
--=09=09=09=09=09DRM_DEBUG_LEASE("Object cursor plane %d cannot be inserted =
-into leases (%d)\n",
--=09=09=09=09=09=09=09object_id, ret);
-+=09=09=09=09=09drm_dbg_lease(dev, "Object cursor plane %d cannot be insert=
-ed into leases (%d)\n",
-+=09=09=09=09=09=09      object_id, ret);
- =09=09=09=09=09goto out_free_objects;
- =09=09=09=09}
- =09=09=09}
-@@ -490,14 +493,14 @@ int drm_mode_create_lease_ioctl(struct drm_device *de=
-v,
- =09=09return -EOPNOTSUPP;
-=20
- =09if (cl->flags && (cl->flags & ~(O_CLOEXEC | O_NONBLOCK))) {
--=09=09DRM_DEBUG_LEASE("invalid flags\n");
-+=09=09drm_dbg_lease(dev, "invalid flags\n");
- =09=09return -EINVAL;
- =09}
-=20
- =09lessor =3D drm_file_get_master(lessor_priv);
- =09/* Do not allow sub-leases */
- =09if (lessor->lessor) {
--=09=09DRM_DEBUG_LEASE("recursive leasing not allowed\n");
-+=09=09drm_dbg_lease(dev, "recursive leasing not allowed\n");
- =09=09ret =3D -EINVAL;
- =09=09goto out_lessor;
- =09}
-@@ -520,7 +523,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- =09=09=09=09      object_count, object_ids);
- =09=09kfree(object_ids);
- =09=09if (ret) {
--=09=09=09DRM_DEBUG_LEASE("lease object lookup failed: %i\n", ret);
-+=09=09=09drm_dbg_lease(dev, "lease object lookup failed: %i\n", ret);
- =09=09=09idr_destroy(&leases);
- =09=09=09goto out_lessor;
- =09=09}
-@@ -534,7 +537,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- =09=09goto out_lessor;
- =09}
-=20
--=09DRM_DEBUG_LEASE("Creating lease\n");
-+=09drm_dbg_lease(dev, "Creating lease\n");
- =09/* lessee will take the ownership of leases */
- =09lessee =3D drm_lease_create(lessor, &leases);
-=20
-@@ -545,7 +548,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- =09}
-=20
- =09/* Clone the lessor file to create a new file for us */
--=09DRM_DEBUG_LEASE("Allocating lease file\n");
-+=09drm_dbg_lease(dev, "Allocating lease file\n");
- =09lessee_file =3D file_clone_open(lessor_file);
- =09if (IS_ERR(lessee_file)) {
- =09=09ret =3D PTR_ERR(lessee_file);
-@@ -560,7 +563,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- =09lessee_priv->authenticated =3D 1;
-=20
- =09/* Pass fd back to userspace */
--=09DRM_DEBUG_LEASE("Returning fd %d id %d\n", fd, lessee->lessee_id);
-+=09drm_dbg_lease(dev, "Returning fd %d id %d\n", fd, lessee->lessee_id);
- =09cl->fd =3D fd;
- =09cl->lessee_id =3D lessee->lessee_id;
-=20
-@@ -568,7 +571,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- =09fd_install(fd, lessee_file);
-=20
- =09drm_master_put(&lessor);
--=09DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
-+=09drm_dbg_lease(dev, "drm_mode_create_lease_ioctl succeeded\n");
- =09return 0;
-=20
- out_lessee:
-@@ -579,7 +582,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
-=20
- out_lessor:
- =09drm_master_put(&lessor);
--=09DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl failed: %d\n", ret);
-+=09drm_dbg_lease(dev, "drm_mode_create_lease_ioctl failed: %d\n", ret);
- =09return ret;
- }
-=20
-@@ -601,7 +604,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
- =09=09return -EOPNOTSUPP;
-=20
- =09lessor =3D drm_file_get_master(lessor_priv);
--=09DRM_DEBUG_LEASE("List lessees for %d\n", lessor->lessee_id);
-+=09drm_dbg_lease(dev, "List lessees for %d\n", lessor->lessee_id);
-=20
- =09mutex_lock(&dev->mode_config.idr_mutex);
-=20
-@@ -610,7 +613,8 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
- =09=09/* Only list un-revoked leases */
- =09=09if (!idr_is_empty(&lessee->leases)) {
- =09=09=09if (count_lessees > count) {
--=09=09=09=09DRM_DEBUG_LEASE("Add lessee %d\n", lessee->lessee_id);
-+=09=09=09=09drm_dbg_lease(dev, "Add lessee %d\n",
-+=09=09=09=09=09      lessee->lessee_id);
- =09=09=09=09ret =3D put_user(lessee->lessee_id, lessee_ids + count);
- =09=09=09=09if (ret)
- =09=09=09=09=09break;
-@@ -619,7 +623,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
- =09=09}
- =09}
-=20
--=09DRM_DEBUG_LEASE("Lessor leases to %d\n", count);
-+=09drm_dbg_lease(dev, "Lessor leases to %d\n", count);
- =09if (ret =3D=3D 0)
- =09=09arg->count_lessees =3D count;
-=20
-@@ -651,7 +655,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
- =09=09return -EOPNOTSUPP;
-=20
- =09lessee =3D drm_file_get_master(lessee_priv);
--=09DRM_DEBUG_LEASE("get lease for %d\n", lessee->lessee_id);
-+=09drm_dbg_lease(dev, "get lease for %d\n", lessee->lessee_id);
-=20
- =09mutex_lock(&dev->mode_config.idr_mutex);
-=20
-@@ -665,7 +669,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
- =09count =3D 0;
- =09idr_for_each_entry(object_idr, entry, object) {
- =09=09if (count_objects > count) {
--=09=09=09DRM_DEBUG_LEASE("adding object %d\n", object);
-+=09=09=09drm_dbg_lease(dev, "adding object %d\n", object);
- =09=09=09ret =3D put_user(object, object_ids + count);
- =09=09=09if (ret)
- =09=09=09=09break;
-@@ -696,7 +700,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
- =09struct drm_master *lessee;
- =09int ret =3D 0;
-=20
--=09DRM_DEBUG_LEASE("revoke lease for %d\n", arg->lessee_id);
-+=09drm_dbg_lease(dev, "revoke lease for %d\n", arg->lessee_id);
-=20
- =09/* Can't lease without MODESET */
- =09if (!drm_core_check_feature(dev, DRIVER_MODESET))
---=20
-2.35.1
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f61eb221415b..ce47d05693d9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9049,7 +9049,7 @@ F:	Documentation/ABI/testing/debugfs-driver-habanalabs
+ F:	Documentation/ABI/testing/sysfs-driver-habanalabs
+ F:	drivers/misc/habanalabs/
+ F:	include/trace/events/habanalabs.h
+-F:	include/uapi/misc/habanalabs.h
++F:	include/uapi/drm/habanalabs_accel.h
+ 
+ HACKRF MEDIA DRIVER
+ M:	Antti Palosaari <crope@iki.fi>
+diff --git a/drivers/misc/habanalabs/Kconfig b/drivers/misc/habanalabs/Kconfig
+index bd01d0d940c0..585235531b9b 100644
+--- a/drivers/misc/habanalabs/Kconfig
++++ b/drivers/misc/habanalabs/Kconfig
+@@ -19,7 +19,7 @@ config HABANA_AI
+ 	  the user to submit workloads to the devices.
+ 
+ 	  The user-space interface is described in
+-	  include/uapi/misc/habanalabs.h
++	  include/uapi/drm/habanalabs_accel.h
+ 
+ 	  If unsure, say N.
+ 
+diff --git a/drivers/misc/habanalabs/common/command_buffer.c b/drivers/misc/habanalabs/common/command_buffer.c
+index 24100501f8ca..6263d01cb9c1 100644
+--- a/drivers/misc/habanalabs/common/command_buffer.c
++++ b/drivers/misc/habanalabs/common/command_buffer.c
+@@ -5,7 +5,7 @@
+  * All Rights Reserved.
+  */
+ 
+-#include <uapi/misc/habanalabs.h>
++#include <uapi/drm/habanalabs_accel.h>
+ #include "habanalabs.h"
+ 
+ #include <linux/mm.h>
+diff --git a/drivers/misc/habanalabs/common/command_submission.c b/drivers/misc/habanalabs/common/command_submission.c
+index 1543ef993f8e..f6ee10334235 100644
+--- a/drivers/misc/habanalabs/common/command_submission.c
++++ b/drivers/misc/habanalabs/common/command_submission.c
+@@ -5,7 +5,7 @@
+  * All Rights Reserved.
+  */
+ 
+-#include <uapi/misc/habanalabs.h>
++#include <uapi/drm/habanalabs_accel.h>
+ #include "habanalabs.h"
+ 
+ #include <linux/uaccess.h>
+diff --git a/drivers/misc/habanalabs/common/device.c b/drivers/misc/habanalabs/common/device.c
+index 71f958a2e91b..6620580e9ba8 100644
+--- a/drivers/misc/habanalabs/common/device.c
++++ b/drivers/misc/habanalabs/common/device.c
+@@ -7,7 +7,7 @@
+ 
+ #define pr_fmt(fmt)			"habanalabs: " fmt
+ 
+-#include <uapi/misc/habanalabs.h>
++#include <uapi/drm/habanalabs_accel.h>
+ #include "habanalabs.h"
+ 
+ #include <linux/pci.h>
+diff --git a/drivers/misc/habanalabs/common/habanalabs.h b/drivers/misc/habanalabs/common/habanalabs.h
+index c609b2e44ad3..7b6f10033ee9 100644
+--- a/drivers/misc/habanalabs/common/habanalabs.h
++++ b/drivers/misc/habanalabs/common/habanalabs.h
+@@ -11,7 +11,7 @@
+ #include "../include/common/cpucp_if.h"
+ #include "../include/common/qman_if.h"
+ #include "../include/hw_ip/mmu/mmu_general.h"
+-#include <uapi/misc/habanalabs.h>
++#include <uapi/drm/habanalabs_accel.h>
+ 
+ #include <linux/cdev.h>
+ #include <linux/iopoll.h>
+diff --git a/drivers/misc/habanalabs/common/habanalabs_ioctl.c b/drivers/misc/habanalabs/common/habanalabs_ioctl.c
+index 4d642987ad02..079483421e12 100644
+--- a/drivers/misc/habanalabs/common/habanalabs_ioctl.c
++++ b/drivers/misc/habanalabs/common/habanalabs_ioctl.c
+@@ -7,7 +7,7 @@
+ 
+ #define pr_fmt(fmt)	"habanalabs: " fmt
+ 
+-#include <uapi/misc/habanalabs.h>
++#include <uapi/drm/habanalabs_accel.h>
+ #include "habanalabs.h"
+ 
+ #include <linux/fs.h>
+diff --git a/drivers/misc/habanalabs/common/memory.c b/drivers/misc/habanalabs/common/memory.c
+index a2d24c9a3d1e..1c38fab39337 100644
+--- a/drivers/misc/habanalabs/common/memory.c
++++ b/drivers/misc/habanalabs/common/memory.c
+@@ -5,7 +5,7 @@
+  * All Rights Reserved.
+  */
+ 
+-#include <uapi/misc/habanalabs.h>
++#include <uapi/drm/habanalabs_accel.h>
+ #include "habanalabs.h"
+ #include "../include/hw_ip/mmu/mmu_general.h"
+ 
+diff --git a/drivers/misc/habanalabs/common/state_dump.c b/drivers/misc/habanalabs/common/state_dump.c
+index 74726907c95e..3a9931f24259 100644
+--- a/drivers/misc/habanalabs/common/state_dump.c
++++ b/drivers/misc/habanalabs/common/state_dump.c
+@@ -6,7 +6,7 @@
+  */
+ 
+ #include <linux/vmalloc.h>
+-#include <uapi/misc/habanalabs.h>
++#include <uapi/drm/habanalabs_accel.h>
+ #include "habanalabs.h"
+ 
+ /**
+diff --git a/drivers/misc/habanalabs/gaudi/gaudiP.h b/drivers/misc/habanalabs/gaudi/gaudiP.h
+index 4fbcf3f0afe5..3d88d56c8eb3 100644
+--- a/drivers/misc/habanalabs/gaudi/gaudiP.h
++++ b/drivers/misc/habanalabs/gaudi/gaudiP.h
+@@ -8,7 +8,7 @@
+ #ifndef GAUDIP_H_
+ #define GAUDIP_H_
+ 
+-#include <uapi/misc/habanalabs.h>
++#include <uapi/drm/habanalabs_accel.h>
+ #include "../common/habanalabs.h"
+ #include "../include/common/hl_boot_if.h"
+ #include "../include/gaudi/gaudi_packets.h"
+diff --git a/drivers/misc/habanalabs/gaudi/gaudi_coresight.c b/drivers/misc/habanalabs/gaudi/gaudi_coresight.c
+index 08108f5fed67..3455b14554c6 100644
+--- a/drivers/misc/habanalabs/gaudi/gaudi_coresight.c
++++ b/drivers/misc/habanalabs/gaudi/gaudi_coresight.c
+@@ -11,7 +11,8 @@
+ #include "../include/gaudi/gaudi_masks.h"
+ #include "../include/gaudi/gaudi_reg_map.h"
+ 
+-#include <uapi/misc/habanalabs.h>
++#include <uapi/drm/habanalabs_accel.h>
++
+ #define SPMU_SECTION_SIZE		MME0_ACC_SPMU_MAX_OFFSET
+ #define SPMU_EVENT_TYPES_OFFSET		0x400
+ #define SPMU_MAX_COUNTERS		6
+diff --git a/drivers/misc/habanalabs/gaudi2/gaudi2P.h b/drivers/misc/habanalabs/gaudi2/gaudi2P.h
+index b4383c199bbb..ed09864c2dfc 100644
+--- a/drivers/misc/habanalabs/gaudi2/gaudi2P.h
++++ b/drivers/misc/habanalabs/gaudi2/gaudi2P.h
+@@ -8,7 +8,7 @@
+ #ifndef GAUDI2P_H_
+ #define GAUDI2P_H_
+ 
+-#include <uapi/misc/habanalabs.h>
++#include <uapi/drm/habanalabs_accel.h>
+ #include "../common/habanalabs.h"
+ #include "../include/common/hl_boot_if.h"
+ #include "../include/gaudi2/gaudi2.h"
+diff --git a/drivers/misc/habanalabs/gaudi2/gaudi2_coresight.c b/drivers/misc/habanalabs/gaudi2/gaudi2_coresight.c
+index 1df7a59e4101..1dfbe293ecec 100644
+--- a/drivers/misc/habanalabs/gaudi2/gaudi2_coresight.c
++++ b/drivers/misc/habanalabs/gaudi2/gaudi2_coresight.c
+@@ -5,7 +5,7 @@
+  * All Rights Reserved.
+  */
+ #include "gaudi2_coresight_regs.h"
+-#include <uapi/misc/habanalabs.h>
++#include <uapi/drm/habanalabs_accel.h>
+ 
+ #define GAUDI2_PLDM_CORESIGHT_TIMEOUT_USEC	(CORESIGHT_TIMEOUT_USEC * 2000)
+ #define SPMU_MAX_COUNTERS			6
+diff --git a/drivers/misc/habanalabs/goya/goyaP.h b/drivers/misc/habanalabs/goya/goyaP.h
+index d6ec43d6f6b0..5df3d30b91fd 100644
+--- a/drivers/misc/habanalabs/goya/goyaP.h
++++ b/drivers/misc/habanalabs/goya/goyaP.h
+@@ -8,7 +8,7 @@
+ #ifndef GOYAP_H_
+ #define GOYAP_H_
+ 
+-#include <uapi/misc/habanalabs.h>
++#include <uapi/drm/habanalabs_accel.h>
+ #include "../common/habanalabs.h"
+ #include "../include/common/hl_boot_if.h"
+ #include "../include/goya/goya_packets.h"
+diff --git a/drivers/misc/habanalabs/goya/goya_coresight.c b/drivers/misc/habanalabs/goya/goya_coresight.c
+index 2c5133cfae65..e7ac3046cfaa 100644
+--- a/drivers/misc/habanalabs/goya/goya_coresight.c
++++ b/drivers/misc/habanalabs/goya/goya_coresight.c
+@@ -10,7 +10,7 @@
+ #include "../include/goya/asic_reg/goya_regs.h"
+ #include "../include/goya/asic_reg/goya_masks.h"
+ 
+-#include <uapi/misc/habanalabs.h>
++#include <uapi/drm/habanalabs_accel.h>
+ 
+ #define GOYA_PLDM_CORESIGHT_TIMEOUT_USEC	(CORESIGHT_TIMEOUT_USEC * 100)
+ 
+diff --git a/include/uapi/misc/habanalabs.h b/include/uapi/drm/habanalabs_accel.h
+similarity index 100%
+rename from include/uapi/misc/habanalabs.h
+rename to include/uapi/drm/habanalabs_accel.h
+-- 
+2.34.1
 
