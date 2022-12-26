@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DBC76563E7
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Dec 2022 16:51:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 030466563E8
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Dec 2022 16:52:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE9D010E08D;
-	Mon, 26 Dec 2022 15:51:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 221F710E13F;
+	Mon, 26 Dec 2022 15:52:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6683F10E08D;
- Mon, 26 Dec 2022 15:51:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07E8210E13F;
+ Mon, 26 Dec 2022 15:52:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,22 +19,22 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=OXbSziPUtP0NBz3Ri+ufOZyM1ccFIFns/4pM3n5+BoA=; b=sH/9P5+QlsEJ0PJH2fS/fN+z3L
- yswK1yklIoI7QvSv2JHFUpMjquDkVvKdnX3tw2B5MpDi2SZnKy4vQdxDReNBi2BgRvTQJC17gMiLk
- uV+bF5wvKfJOH2qYMj+1JdYn7OYCzWuZ65/Fk9ctaYDooydC7XcWoG1gMBU5733479MLRmiXsUzex
- kctrDwPy8nefJhsDbtcX+alG1Kjc6rMX+UlMsN6mHFaS+8xMuQSqCruBplhvxJ1Wf4pXmuO5oUwPp
- Pu701BuJOrURY5nGiYyc1E27otqa+9Y+o0wLEVOW5n5yQRERV65GUGM6JiYJdrWxYaGgqlgvDyMKN
- gglfZREw==;
+ bh=0LSeLroT+4iYVUyGWLQGxKN0jHFcT9Gxb+4qzoP5J+A=; b=s7CSeUDHOhaOAF/3BILTnVdW+m
+ 5VIVUpOdRfJNr19KiBV8XBKoSK7ptAgrKBOiTe8F1Ad0+uKKOylZM/Cw/XXQTCo781/2jIupDaKcI
+ 3VseF4uL2Qofcly4fWKTpm4MbvTfzEaem/jn/dHXRFscprDDKJBIxBKTf0MsWCU4tFkyH3PbpkCuQ
+ W4C4yM01NXLoeQ9xukczSYOga3kY0eB67kpwqCjfn5lNxMZpt6mQqNpz1lDT9EbKR8Z1poFrC3JpT
+ Anwqldl4kTYagiP1i20MoT0x+e5EXb6o5zAGnVJY9mKFSTShI2Mb6ZZJu7hF3B4cQhD+6ePt3TefM
+ FaMcbR0Q==;
 Received: from [187.36.234.139] (helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1p9plX-00AXBr-Vp; Mon, 26 Dec 2022 16:51:52 +0100
+ id 1p9plg-00AXBr-Ae; Mon, 26 Dec 2022 16:52:01 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/9] drm/gud: use new debugfs device-centered functions
-Date: Mon, 26 Dec 2022 12:50:22 -0300
-Message-Id: <20221226155029.244355-3-mcanal@igalia.com>
+Subject: [PATCH 3/9] drm/arm/hdlcd: use new debugfs device-centered functions
+Date: Mon, 26 Dec 2022 12:50:23 -0300
+Message-Id: <20221226155029.244355-4-mcanal@igalia.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221226155029.244355-1-mcanal@igalia.com>
 References: <20221226155029.244355-1-mcanal@igalia.com>
@@ -66,65 +66,82 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Replace the use of drm_debugfs_create_files() with the new
-drm_debugfs_add_file() function, which center the debugfs files
+drm_debugfs_add_files() function, which center the debugfs files
 management on the drm_device instead of drm_minor. Moreover, remove the
-debugfs_init hook and add the debugfs files directly on gud_probe(),
+debugfs_init hook and add the debugfs files directly on hdlcd_drm_bind(),
 before drm_dev_register().
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/gud/gud_drv.c | 17 ++++-------------
- 1 file changed, 4 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/arm/hdlcd_drv.c | 24 +++++++++---------------
+ 1 file changed, 9 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
-index 5aac7cda0505..9d7bf8ee45f1 100644
---- a/drivers/gpu/drm/gud/gud_drv.c
-+++ b/drivers/gpu/drm/gud/gud_drv.c
-@@ -325,8 +325,8 @@ static struct drm_gem_object *gud_gem_prime_import(struct drm_device *drm, struc
- 
- static int gud_stats_debugfs(struct seq_file *m, void *data)
+diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
+index 7043d1c9ed8f..e3507dd6f82a 100644
+--- a/drivers/gpu/drm/arm/hdlcd_drv.c
++++ b/drivers/gpu/drm/arm/hdlcd_drv.c
+@@ -195,8 +195,8 @@ static int hdlcd_setup_mode_config(struct drm_device *drm)
+ #ifdef CONFIG_DEBUG_FS
+ static int hdlcd_show_underrun_count(struct seq_file *m, void *arg)
  {
--	struct drm_info_node *node = m->private;
--	struct gud_device *gdrm = to_gud_device(node->minor->dev);
+-	struct drm_info_node *node = (struct drm_info_node *)m->private;
+-	struct drm_device *drm = node->minor->dev;
 +	struct drm_debugfs_entry *entry = m->private;
-+	struct gud_device *gdrm = to_gud_device(entry->dev);
- 	char buf[10];
++	struct drm_device *drm = entry->dev;
+ 	struct hdlcd_drm_private *hdlcd = drm_to_hdlcd_priv(drm);
  
- 	string_get_size(gdrm->bulk_len, 1, STRING_UNITS_2, buf, sizeof(buf));
-@@ -352,16 +352,6 @@ static int gud_stats_debugfs(struct seq_file *m, void *data)
+ 	seq_printf(m, "underrun : %d\n", atomic_read(&hdlcd->buffer_underrun_count));
+@@ -208,8 +208,8 @@ static int hdlcd_show_underrun_count(struct seq_file *m, void *arg)
+ 
+ static int hdlcd_show_pxlclock(struct seq_file *m, void *arg)
+ {
+-	struct drm_info_node *node = (struct drm_info_node *)m->private;
+-	struct drm_device *drm = node->minor->dev;
++	struct drm_debugfs_entry *entry = m->private;
++	struct drm_device *drm = entry->dev;
+ 	struct hdlcd_drm_private *hdlcd = drm_to_hdlcd_priv(drm);
+ 	unsigned long clkrate = clk_get_rate(hdlcd->clk);
+ 	unsigned long mode_clock = hdlcd->crtc.mode.crtc_clock * 1000;
+@@ -219,17 +219,10 @@ static int hdlcd_show_pxlclock(struct seq_file *m, void *arg)
  	return 0;
  }
  
--static const struct drm_info_list gud_debugfs_list[] = {
--	{ "stats", gud_stats_debugfs, 0, NULL },
--};
+-static struct drm_info_list hdlcd_debugfs_list[] = {
++static struct drm_debugfs_info hdlcd_debugfs_list[] = {
+ 	{ "interrupt_count", hdlcd_show_underrun_count, 0 },
+ 	{ "clocks", hdlcd_show_pxlclock, 0 },
+ };
 -
--static void gud_debugfs_init(struct drm_minor *minor)
+-static void hdlcd_debugfs_init(struct drm_minor *minor)
 -{
--	drm_debugfs_create_files(gud_debugfs_list, ARRAY_SIZE(gud_debugfs_list),
+-	drm_debugfs_create_files(hdlcd_debugfs_list,
+-				 ARRAY_SIZE(hdlcd_debugfs_list),
 -				 minor->debugfs_root, minor);
 -}
--
- static const struct drm_simple_display_pipe_funcs gud_pipe_funcs = {
- 	.check      = gud_pipe_check,
- 	.update	    = gud_pipe_update,
-@@ -386,7 +376,6 @@ static const struct drm_driver gud_drm_driver = {
- 	.fops			= &gud_fops,
- 	DRM_GEM_SHMEM_DRIVER_OPS,
- 	.gem_prime_import	= gud_gem_prime_import,
--	.debugfs_init		= gud_debugfs_init,
+ #endif
  
- 	.name			= "gud",
- 	.desc			= "Generic USB Display",
-@@ -623,6 +612,8 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 	if (!gdrm->dmadev)
- 		dev_warn(dev, "buffer sharing not supported");
+ DEFINE_DRM_GEM_DMA_FOPS(fops);
+@@ -237,9 +230,6 @@ DEFINE_DRM_GEM_DMA_FOPS(fops);
+ static const struct drm_driver hdlcd_driver = {
+ 	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+ 	DRM_GEM_DMA_DRIVER_OPS,
+-#ifdef CONFIG_DEBUG_FS
+-	.debugfs_init = hdlcd_debugfs_init,
+-#endif
+ 	.fops = &fops,
+ 	.name = "hdlcd",
+ 	.desc = "ARM HDLCD Controller DRM",
+@@ -303,6 +293,10 @@ static int hdlcd_drm_bind(struct device *dev)
+ 	drm_mode_config_reset(drm);
+ 	drm_kms_helper_poll_init(drm);
  
-+	drm_debugfs_add_file(drm, "stats", gud_stats_debugfs, NULL);
++#ifdef CONFIG_DEBUG_FS
++	drm_debugfs_add_files(drm, hdlcd_debugfs_list, ARRAY_SIZE(hdlcd_debugfs_list));
++#endif
 +
  	ret = drm_dev_register(drm, 0);
- 	if (ret) {
- 		put_device(gdrm->dmadev);
+ 	if (ret)
+ 		goto err_register;
 -- 
 2.38.1
 
