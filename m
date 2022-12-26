@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E8065614C
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Dec 2022 09:49:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFE2565614F
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Dec 2022 09:57:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A330D10E00E;
-	Mon, 26 Dec 2022 08:49:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8592B10E1BB;
+	Mon, 26 Dec 2022 08:57:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com
- [IPv6:2607:f8b0:4864:20::d34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 843EA10E00E
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Dec 2022 08:49:14 +0000 (UTC)
-Received: by mail-io1-xd34.google.com with SMTP id v2so5440448ioe.4
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Dec 2022 00:49:14 -0800 (PST)
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
+ [IPv6:2607:f8b0:4864:20::d33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3624C10E033
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Dec 2022 08:57:12 +0000 (UTC)
+Received: by mail-io1-xd33.google.com with SMTP id h6so5435003iof.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Dec 2022 00:57:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=2GeevI+7bf+WdnjCpmvJ+ryR3Rl0w6Jx09kir3h8qMo=;
- b=A9q8tX198F/2Z/0BSktVTjH8jcNAq1fdLNcR5/WqXtgUvu36TiKPpvatfDNeleCBNv
- lkNJTFuEQZMnTD9qhgg6HKcGsFqiS9jvvpMSdNyiREwvfRXKbQGuZhkmQAg4Yf9MJBd0
- 0a3PRkzf2unQBF24GU5DTrxglocRfR4jJ/8Ko=
+ bh=y9TbX3Ceh1FvaBv664udZf8XfrOpdKKd1+DeV95MdyU=;
+ b=Bi5owdA6WovVAMZcv9Xg7UtskNw4+684vpuoZJeflxtV3ZDO4PKd2iJDfmLTyqqNpq
+ lOVR9fPEoBWOyeiHd85xuiPaMJnyBllR19W6q6zN8qOmAkm9E7Kl+IrfWMsltiZ4cmA1
+ C+ow+S7IbcqHZPmSLrl2qKxwome1/bjEv8xaM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=2GeevI+7bf+WdnjCpmvJ+ryR3Rl0w6Jx09kir3h8qMo=;
- b=mHQQ9FvxSpZThiGIUlS8KOlybGuRsES3sAe2gx03Wk62RTwGq1ACOnmwbfiwMKzjqY
- v0+mD+GI+GkKZQeW4QJLnJJ4X4aEewWKumbPJAEpjcOVkXUkAcevlxBmmc3wvxL8JE0F
- 6f067DRLAVhhx88vH2mcX+2dumt5xLocKcW0G8I0/WnCyQmJl13mfd1EZWWIHqakFIS2
- 0/iRW93AIKebOoYgXZyiU3iv/lkDW5u5LWFoXpWuwWnTBjwIT2Vh0ynBWq9x3WqguSrG
- G6XUE23W6+pUECMSqLGc2lRwn/HMIn1xFOq9pVpv2pgMuWR9ArlB7B8eAaQ/SFuQpT5S
- aN7A==
-X-Gm-Message-State: AFqh2kqOW/qK2Q0HC2Wv0QZuG0TRlxwPxzga4SKM3xp753iiOP1aPrGH
- Me6En4peYgx8xvgL8bUx4SEn6+aC0FTSxRQOwQzCCA==
-X-Google-Smtp-Source: AMrXdXuoIUzBqmDwKs1PuREjFiXYUco2lpJxyc5dz0d+UodE12xrOWp1ECASRqgdbQyL/HzV1vUTTbOYxbxmKfzXt3E=
-X-Received: by 2002:a6b:7a0a:0:b0:6e9:b3db:b5ce with SMTP id
- h10-20020a6b7a0a000000b006e9b3dbb5cemr1327069iom.179.1672044553677; Mon, 26
- Dec 2022 00:49:13 -0800 (PST)
+ bh=y9TbX3Ceh1FvaBv664udZf8XfrOpdKKd1+DeV95MdyU=;
+ b=in8qhCFSBeXidrxgtKYfM+JSw8o+Sh6umwgE5dvB4bN6LMTg9CU/Dsq/n61bSQUPXS
+ PUx+tS8iduDqwflFdqS1Ot5vN/N+1HpBuFlILxkRouOU/4sldy0wwqLc5wuLoaBGe4w3
+ HELpXDXv8amOIqwsT6476DYIk0Su+bOIMKVBZMiHyL5WU2kHcfQ+elUDQYa4CSwJgxm4
+ 9pcAD2G+4Tuubvb2eWG5X1dHCwPTEhPfVNtJWIXblj1VNSieG0FM2jW4J3mXGmnU2SV3
+ e6VMHQvFtb4gFkEeSQfICh4I3Ke1zKbAL8daCf+kPb1ZPTsmZfLdo3PIl0isB56So52x
+ 6yUw==
+X-Gm-Message-State: AFqh2krzlyqZKDt8JpYsPC2I7kofxmuAKB6btWyfNaHxGGCmjKrZ43Ip
+ kbJn5QyjosTDmftu7uh6E0c9QxdhTBJaYIvrCZ75fg==
+X-Google-Smtp-Source: AMrXdXvZZwiu7qagoS6yQmOv/xa7NoF2r1prkxbf2PgG2eUjFk6I49fFzrxM9Ian30iQB4AcDtL7g9FaZUcFi4kfwfI=
+X-Received: by 2002:a6b:490f:0:b0:6e3:29a8:47a with SMTP id
+ u15-20020a6b490f000000b006e329a8047amr1409337iob.209.1672045032266; Mon, 26
+ Dec 2022 00:57:12 -0800 (PST)
 MIME-Version: 1.0
 References: <20221124102056.393220-1-treapking@chromium.org>
- <20221124102056.393220-4-treapking@chromium.org>
- <00cc31a2-39b1-9bb3-5b79-3c6d51cd5d51@linaro.org>
-In-Reply-To: <00cc31a2-39b1-9bb3-5b79-3c6d51cd5d51@linaro.org>
+ <20221124102056.393220-7-treapking@chromium.org>
+ <a2a8cd80-a614-e96f-90ab-a98c60527344@linaro.org>
+In-Reply-To: <a2a8cd80-a614-e96f-90ab-a98c60527344@linaro.org>
 From: Pin-yen Lin <treapking@chromium.org>
-Date: Mon, 26 Dec 2022 16:49:02 +0800
-Message-ID: <CAEXTbpfhBCWvZCziyc6chR2Vjc=SJSxYfYpdX8gd8PkG4G0+3w@mail.gmail.com>
-Subject: Re: [PATCH v6 3/7] dt-bindings: drm/bridge: anx7625: Add mode-switch
+Date: Mon, 26 Dec 2022 16:57:01 +0800
+Message-ID: <CAEXTbpeYZTeWvnGtRo3i7eGSAoQnkSmcpV=SS8MZA+an3SHUwQ@mail.gmail.com>
+Subject: Re: [PATCH v6 6/7] dt/bindings: drm/bridge: it6505: Add mode-switch
  support
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -90,20 +90,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Krzysztof,
 
-Thanks for the review.
-
-On Mon, Nov 28, 2022 at 4:58 AM Krzysztof Kozlowski
+On Mon, Nov 28, 2022 at 5:02 AM Krzysztof Kozlowski
 <krzysztof.kozlowski@linaro.org> wrote:
 >
 > On 24/11/2022 11:20, Pin-yen Lin wrote:
-> > Analogix 7625 can be used in systems to switch the DP traffic between
+> > ITE IT6505 can be used in systems to switch the DP traffic between
 > > two downstreams, which can be USB Type-C DisplayPort alternate mode
 > > lane or regular DisplayPort output ports.
 > >
 > > Update the binding to accommodate this usage by introducing a
 > > data-lanes and a mode-switch property on endpoints.
-> >
-> > Also include the link to the product brief in the bindings.
 > >
 > > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 > >
@@ -112,43 +108,70 @@ On Mon, Nov 28, 2022 at 4:58 AM Krzysztof Kozlowski
 > > Changes in v6:
 > > - Remove switches node and use endpoints and data-lanes property to
 > >   describe the connections.
+> >
+> >  .../bindings/display/bridge/ite,it6505.yaml   | 94 ++++++++++++++++++-
+> >  1 file changed, 90 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> > index 833d11b2303a..b4b9881c7759 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> > @@ -52,9 +52,53 @@ properties:
+> >      maxItems: 1
+> >      description: extcon specifier for the Power Delivery
+> >
+> > -  port:
+> > -    $ref: /schemas/graph.yaml#/properties/port
+> > -    description: A port node pointing to DPI host port node
+> > +  data-lanes:
+> > +    maxItems: 1
+> > +    description: restrict the dp output data-lanes with value of 1-4
 >
-> Except missing testing few things...
+> Hm, where is the definition of this type? For example it comes with
+> video-interfaces, which you did not reference here.
 >
-> >
-> >  .../display/bridge/analogix,anx7625.yaml      | 73 ++++++++++++++++++-
-> >  1 file changed, 71 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > index 4590186c4a0b..5fdbf1f3bab8 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > @@ -12,7 +12,8 @@ maintainers:
-> >
-> >  description: |
-> >    The ANX7625 is an ultra-low power 4K Mobile HD Transmitter
-> > -  designed for portable devices.
-> > +  designed for portable devices. Product brief is available at
-> > +  https://www.analogix.com/en/system/files/AA-002291-PB-6-ANX7625_ProductBrief.pdf
-> >
-> >  properties:
-> >    compatible:
-> > @@ -112,10 +113,36 @@ properties:
-> >                data-lanes: true
-> >
-> >        port@1:
-> > -        $ref: /schemas/graph.yaml#/properties/port
-> > +        $ref: /schemas/graph.yaml#/properties/port-base
->
-> I don't understand why you are changing this line.
+Actually I messed up here with another accepted patch:
+https://lore.kernel.org/all/20221103091243.96036-2-allen.chen@ite.com.tw/
 
-Without this change, the `unevaluatedProperties: false` in
-`/schemas/graph.yaml#/properties/port` does not allow me to add new
-properties.
+This and the next new property have been added in that patch.
+> > +
+> > +  max-pixel-clock-khz:
 >
-> >          description:
-> >            Video port for panel or connector.
-> >
+> There is no such unit accepted:
+> https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/property-units.yaml
+>
+> > +    maxItems: 1
+>
+> maxItems of what type? What is this?
+>
+> > +    description: restrict max pixel clock
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+>
+> This is incompatible change... how do you handle now ABI break?
+>
+This is also added in another patch, and currently we don't have any
+upstream it6505 users now.
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+>
+> Why changing the ref?
+
+The `unevaluatedProperties: false` in
+`/schemas/graph.yaml#/properties/port` does not allow me to add new
+properties here.
+>
+> > +        unevaluatedProperties: false
+> > +        description: A port node pointing to DPI host port node
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/properties/port-base
+> > +        description:
+> > +          Video port for panel or connector.
+> > +
 > > +        patternProperties:
 > > +          "^endpoint@[01]$":
 > > +            $ref: /schemas/media/video-interfaces.yaml#
@@ -164,55 +187,83 @@ properties.
 > > +              data-lanes:
 > > +                minItems: 1
 > > +                uniqueItems: true
->
-> These are confusing... you allow only one item, so why minItems and
-> uniqueItems?
-
-What I want to use is something like:
-```
-items:
-  enum: [0,1, 2, 3]
-```
-That is, all the items should be an integer between 0 and 3. I'll
-update this to a stricter version in v7.
->
 > > +                items:
 > > +                  - enum: [ 0, 1, 2, 3]
+>
+> Same problem as your previouspatch.
+>
 > > +
 > > +              mode-switch:
 > > +                type: boolean
 > > +                description: Register this node as a Type-C mode switch or not.
 > > +
-> > +            required:
-> > +              - reg
-> > +              - remote-endpoint
-> > +
-> >      required:
-> >        - port@0
-> >        - port@1
-> > @@ -186,3 +213,45 @@ examples:
+> > +         required:
+> > +        - reg
+> > +           - remote-endpoint
+> >
+> >  required:
+> >    - compatible
+> > @@ -62,7 +106,7 @@ required:
+> >    - pwr18-supply
+> >    - interrupts
+> >    - reset-gpios
+> > -  - extcon
+> > +  - ports
+> >
+> >  additionalProperties: false
+> >
+> > @@ -92,3 +136,45 @@ examples:
 > >              };
 > >          };
 > >      };
 > > +  - |
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +
 > > +    &i2c3 {
-> > +     anx_bridge_dp: anx7625-dp@58 {
->
-> Messed up indentation.
-I'll fix this in the next version.
->
-> > +         compatible = "analogix,anx7625
+> > +        clock-frequency = <100000>;
+> > +
+> > +        it6505dptx: it6505dptx@5c {
 >
 > Node names should be generic.
 > https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-I'll update this in v7.
 >
-> ";
-> > +         reg = <0x58>;
+I'll fix this in v7.
+> > +            compatible = "ite,it6505";
+> > +            interrupts = <8 IRQ_TYPE_LEVEL_LOW 8 0>;
+> > +            reg = <0x5c>;
+> > +            pinctrl-names = "default";
+> > +            pinctrl-0 = <&it6505_pins>;
+> > +            ovdd-supply = <&mt6366_vsim2_reg>;
+> > +            pwr18-supply = <&pp1800_dpbrdg_dx>;
+> > +            reset-gpios = <&pio 177 0>;
+> > +            hpd-gpios = <&pio 10 0>;
+> > +
+> > +            ports {
+> > +                #address-cells = <1>;
+> > +                #size-cells = <0>;
+> > +                port@0 {
+> > +                    reg = <0>;
+> > +                    it6505_in: endpoint {
+> > +                        remote-endpoint = <&dpi_out>;
+> > +                    };
+> > +                };
+> > +                port@1 {
+> > +                    reg = <1>;
+> > +                    ite_typec0: endpoint@0 {
+> > +                        mode-switch;
+> > +                        data-lanes = <0 1>;
+>
+> Does not look like you tested the bindings. Please run `make
+> dt_binding_check` (see
+> Documentation/devicetree/bindings/writing-schema.rst for instructions).
+Sorry for not checking the documentation and testing the patches
+before submitting this.
+
+I'll fix the errors in v7.
+
+Best regards,
+Pin-yen
 >
 > Best regards,
 > Krzysztof
 >
-
-Best regards,
-Pin-yen
