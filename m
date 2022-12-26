@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D259656385
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Dec 2022 15:44:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0F8E65638E
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Dec 2022 15:48:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9766B10E0F9;
-	Mon, 26 Dec 2022 14:44:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 837D010E105;
+	Mon, 26 Dec 2022 14:48:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3392010E0F9
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Dec 2022 14:44:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E36110E105
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Dec 2022 14:48:22 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
  [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id BC5D274C;
- Mon, 26 Dec 2022 15:44:04 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 93B5C74C;
+ Mon, 26 Dec 2022 15:48:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1672065845;
- bh=x45efJkHdX774QhOdMx2WJnNQWd/OifM0OuRHlTg0VE=;
+ s=mail; t=1672066100;
+ bh=FGzNtUSlcIYqKz4nBvZ0Wzt0Jl5BIGyXQ4DAT1O+pQU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KA5xXhlAddgxb6aI7FgrUy+ytEwm6RZTTTuNcXI5I0YBThTMEP1WxQGJbjY22nZqq
- sjzB/adLXAItlK6fxkTjRUm13/PPt7xI29b5nqrxzBQpQePEvM1tqkcjCgZhjIDR+5
- UE4Gp6Z2DotSeEoOJmKsAKmshV6eN79yvN1mM70c=
-Date: Mon, 26 Dec 2022 16:44:00 +0200
+ b=kzu815/Xar9XotqceBt2rVxp2e6o2MD39JrMc/4+oPRNPcfZtn4U1xqcEB6XzCpii
+ UrLE+AKhzdFUSJ2m8Bvw6dTZygTMVaT3q6I20svbirJMzm00/iqfnyIGpDNcfSZYzm
+ 0KINbLsrSbF5SHvg+MWkH6Lpo+fa4buePey9ZRMU=
+Date: Mon, 26 Dec 2022 16:48:16 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH v3 7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB,
- Y210)
-Message-ID: <Y6mzMHdEFdSxUMaJ@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 1/7] media: Add 2-10-10-10 RGB formats
+Message-ID: <Y6m0MBW0VIZSsn7R@pendragon.ideasonboard.com>
 References: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221221092448.741294-8-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221221092448.741294-2-tomi.valkeinen+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221221092448.741294-8-tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <20221221092448.741294-2-tomi.valkeinen+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,141 +58,260 @@ Hi Tomi,
 
 Thank you for the patch.
 
-On Wed, Dec 21, 2022 at 11:24:48AM +0200, Tomi Valkeinen wrote:
-> Add new pixel formats: RGBX1010102, RGBA1010102, ARGB2101010, Y210 and
+On Wed, Dec 21, 2022 at 11:24:42AM +0200, Tomi Valkeinen wrote:
+> Add XBGR2101010, ABGR2101010 and BGRA1010102 formats.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+You forgot to rename the formats in the commit message.
 
-> Y212.
-> 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > ---
->  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 30 ++++++++++++++++
->  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 50 +++++++++++++++++++++++++--
->  2 files changed, 78 insertions(+), 2 deletions(-)
+>  .../userspace-api/media/v4l/pixfmt-rgb.rst    | 194 ++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   3 +
+>  include/uapi/linux/videodev2.h                |   3 +
+>  3 files changed, 200 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> index 8c2719efda2a..adfb36b0e815 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> @@ -259,6 +259,24 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
->  		.bpp = 32,
->  		.planes = 1,
->  		.hsub = 1,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_RGBX1010102,
-> +		.v4l2 = V4L2_PIX_FMT_RGBX1010102,
-> +		.bpp = 32,
-> +		.planes = 1,
-> +		.hsub = 1,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_RGBA1010102,
-> +		.v4l2 = V4L2_PIX_FMT_RGBA1010102,
-> +		.bpp = 32,
-> +		.planes = 1,
-> +		.hsub = 1,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_ARGB2101010,
-> +		.v4l2 = V4L2_PIX_FMT_ARGB2101010,
-> +		.bpp = 32,
-> +		.planes = 1,
-> +		.hsub = 1,
->  	}, {
->  		.fourcc = DRM_FORMAT_YVYU,
->  		.v4l2 = V4L2_PIX_FMT_YVYU,
-> @@ -307,6 +325,18 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
->  		.bpp = 24,
->  		.planes = 3,
->  		.hsub = 1,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_Y210,
-> +		.v4l2 = V4L2_PIX_FMT_Y210,
-> +		.bpp = 32,
-> +		.planes = 1,
-> +		.hsub = 2,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_Y212,
-> +		.v4l2 = V4L2_PIX_FMT_Y212,
-> +		.bpp = 32,
-> +		.planes = 1,
-> +		.hsub = 2,
->  	},
->  };
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+> index 30f51cd33f99..d330aeb4d3eb 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+> @@ -763,6 +763,200 @@ nomenclature that instead use the order of components as seen in a 24- or
+>      \normalsize
 >  
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> index e465aef41585..fe90be51d64e 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> @@ -139,6 +139,43 @@ static const u32 rcar_du_vsp_formats[] = {
->  	DRM_FORMAT_YVU444,
->  };
 >  
-> +/*
-> + * Gen4 supports the same formats as above, and additionally 2-10-10-10 RGB
-> + * formats and Y210 & Y212 formats.
-> + */
-> +static const u32 rcar_du_vsp_formats_gen4[] = {
-> +	DRM_FORMAT_RGB332,
-> +	DRM_FORMAT_ARGB4444,
-> +	DRM_FORMAT_XRGB4444,
-> +	DRM_FORMAT_ARGB1555,
-> +	DRM_FORMAT_XRGB1555,
-> +	DRM_FORMAT_RGB565,
-> +	DRM_FORMAT_BGR888,
-> +	DRM_FORMAT_RGB888,
-> +	DRM_FORMAT_BGRA8888,
-> +	DRM_FORMAT_BGRX8888,
-> +	DRM_FORMAT_ARGB8888,
-> +	DRM_FORMAT_XRGB8888,
-> +	DRM_FORMAT_RGBX1010102,
-> +	DRM_FORMAT_RGBA1010102,
-> +	DRM_FORMAT_ARGB2101010,
-> +	DRM_FORMAT_UYVY,
-> +	DRM_FORMAT_YUYV,
-> +	DRM_FORMAT_YVYU,
-> +	DRM_FORMAT_NV12,
-> +	DRM_FORMAT_NV21,
-> +	DRM_FORMAT_NV16,
-> +	DRM_FORMAT_NV61,
-> +	DRM_FORMAT_YUV420,
-> +	DRM_FORMAT_YVU420,
-> +	DRM_FORMAT_YUV422,
-> +	DRM_FORMAT_YVU422,
-> +	DRM_FORMAT_YUV444,
-> +	DRM_FORMAT_YVU444,
-> +	DRM_FORMAT_Y210,
-> +	DRM_FORMAT_Y212,
-> +};
+> +10 Bits Per Component
+> +=====================
 > +
->  static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
->  {
->  	struct rcar_du_vsp_plane_state *state =
-> @@ -436,14 +473,23 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
->  					 ? DRM_PLANE_TYPE_PRIMARY
->  					 : DRM_PLANE_TYPE_OVERLAY;
->  		struct rcar_du_vsp_plane *plane = &vsp->planes[i];
-> +		unsigned int num_formats;
-> +		const u32 *formats;
+> +These formats store a 30-bit RGB triplet with an optional 2 bit alpha in four
+> +bytes. They are named based on the order of the RGB components as seen in a
+> +32-bit word, which is then stored in memory in little endian byte order
+> +(unless otherwise noted by the presence of bit 31 in the 4CC value), and on the
+> +number of bits for each component.
 > +
-> +		if (rcdu->info->gen < 4) {
-> +			num_formats = ARRAY_SIZE(rcar_du_vsp_formats);
-> +			formats = rcar_du_vsp_formats;
-> +		} else {
-> +			num_formats = ARRAY_SIZE(rcar_du_vsp_formats_gen4);
-> +			formats = rcar_du_vsp_formats_gen4;
-> +		}
+> +.. raw:: latex
+> +
+> +    \begingroup
+> +    \tiny
+> +    \setlength{\tabcolsep}{2pt}
+> +
+> +.. tabularcolumns:: |p{2.8cm}|p{2.0cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
+> +
+> +
+> +.. flat-table:: RGB Formats 10 Bits Per Color Component
+> +    :header-rows:  2
+> +    :stub-columns: 0
+> +
+> +    * - Identifier
+> +      - Code
+> +      - :cspan:`7` Byte 0 in memory
+> +      - :cspan:`7` Byte 1
+> +      - :cspan:`7` Byte 2
+> +      - :cspan:`7` Byte 3
+> +    * -
+> +      -
+> +      - 7
+> +      - 6
+> +      - 5
+> +      - 4
+> +      - 3
+> +      - 2
+> +      - 1
+> +      - 0
+> +
+> +      - 7
+> +      - 6
+> +      - 5
+> +      - 4
+> +      - 3
+> +      - 2
+> +      - 1
+> +      - 0
+> +
+> +      - 7
+> +      - 6
+> +      - 5
+> +      - 4
+> +      - 3
+> +      - 2
+> +      - 1
+> +      - 0
+> +
+> +      - 7
+> +      - 6
+> +      - 5
+> +      - 4
+> +      - 3
+> +      - 2
+> +      - 1
+> +      - 0
+> +    * .. _V4L2-PIX-FMT-RGBX1010102:
+> +
+> +      - ``V4L2_PIX_FMT_RGBX1010102``
+> +      - 'RX30'
+> +
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      - x
+> +      - x
+> +
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`9`
+> +      - b\ :sub:`8`
+> +      - b\ :sub:`7`
+> +      - b\ :sub:`6`
+> +
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`9`
+> +      - g\ :sub:`8`
+> +      - g\ :sub:`7`
+> +      - g\ :sub:`6`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +
+> +      - r\ :sub:`9`
+> +      - r\ :sub:`8`
+> +      - r\ :sub:`7`
+> +      - r\ :sub:`6`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      -
+> +    * .. _V4L2-PIX-FMT-RGBA1010102:
+> +
+> +      - ``V4L2_PIX_FMT_RGBA1010102``
+> +      - 'RA30'
+> +
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      - a\ :sub:`1`
+> +      - a\ :sub:`0`
+> +
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`9`
+> +      - b\ :sub:`8`
+> +      - b\ :sub:`7`
+> +      - b\ :sub:`6`
+> +
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`9`
+> +      - g\ :sub:`8`
+> +      - g\ :sub:`7`
+> +      - g\ :sub:`6`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +
+> +      - r\ :sub:`9`
+> +      - r\ :sub:`8`
+> +      - r\ :sub:`7`
+> +      - r\ :sub:`6`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      -
+> +    * .. _V4L2-PIX-FMT-ARGB2101010:
+> +
+> +      - ``V4L2_PIX_FMT_ARGB2101010``
+> +      - 'AR30'
+> +
+> +      - b\ :sub:`7`
+> +      - b\ :sub:`6`
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`9`
+> +      - b\ :sub:`8`
+> +
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`9`
+> +      - g\ :sub:`8`
+> +      - g\ :sub:`7`
+> +      - g\ :sub:`6`
+> +
+> +      - a\ :sub:`1`
+> +      - a\ :sub:`0`
+> +      - r\ :sub:`9`
+> +      - r\ :sub:`8`
+> +      - r\ :sub:`7`
+> +      - r\ :sub:`6`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      -
+> +
+> +.. raw:: latex
+> +
+> +    \endgroup
+> +
+> +
+>  Deprecated RGB Formats
+>  ======================
 >  
->  		plane->vsp = vsp;
->  		plane->index = i;
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index fddba75d9074..875b9a95e3c8 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1304,6 +1304,9 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_PIX_FMT_BGRX32:	descr = "32-bit XBGR 8-8-8-8"; break;
+>  	case V4L2_PIX_FMT_RGBA32:	descr = "32-bit RGBA 8-8-8-8"; break;
+>  	case V4L2_PIX_FMT_RGBX32:	descr = "32-bit RGBX 8-8-8-8"; break;
+> +	case V4L2_PIX_FMT_RGBX1010102:	descr = "32-bit RGBX-10-10-10-2"; break;
+
+There should be a space instead of a dash between RGBX and 10-10-10-2.
+Same below.
+
+Conditionally-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+If this is the only change needed in the series, I can fix this when
+applying.
+
+> +	case V4L2_PIX_FMT_RGBA1010102:	descr = "32-bit RGBA-10-10-10-2"; break;
+> +	case V4L2_PIX_FMT_ARGB2101010:	descr = "32-bit ARGB-2-10-10-10"; break;
+>  	case V4L2_PIX_FMT_GREY:		descr = "8-bit Greyscale"; break;
+>  	case V4L2_PIX_FMT_Y4:		descr = "4-bit Greyscale"; break;
+>  	case V4L2_PIX_FMT_Y6:		descr = "6-bit Greyscale"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 29da1f4b4578..51d6a8aa4e17 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -576,6 +576,9 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_RGBX32  v4l2_fourcc('X', 'B', '2', '4') /* 32  RGBX-8-8-8-8  */
+>  #define V4L2_PIX_FMT_ARGB32  v4l2_fourcc('B', 'A', '2', '4') /* 32  ARGB-8-8-8-8  */
+>  #define V4L2_PIX_FMT_XRGB32  v4l2_fourcc('B', 'X', '2', '4') /* 32  XRGB-8-8-8-8  */
+> +#define V4L2_PIX_FMT_RGBX1010102 v4l2_fourcc('R', 'X', '3', '0') /* 32  RGBX-10-10-10-2 */
+> +#define V4L2_PIX_FMT_RGBA1010102 v4l2_fourcc('R', 'A', '3', '0') /* 32  RGBA-10-10-10-2 */
+> +#define V4L2_PIX_FMT_ARGB2101010 v4l2_fourcc('A', 'R', '3', '0') /* 32  ARGB-2-10-10-10 */
 >  
->  		ret = drm_universal_plane_init(&rcdu->ddev, &plane->plane,
->  					       crtcs, &rcar_du_vsp_plane_funcs,
-> -					       rcar_du_vsp_formats,
-> -					       ARRAY_SIZE(rcar_du_vsp_formats),
-> +					       formats, num_formats,
->  					       NULL, type, NULL);
->  		if (ret < 0)
->  			return ret;
+>  /* Grey formats */
+>  #define V4L2_PIX_FMT_GREY    v4l2_fourcc('G', 'R', 'E', 'Y') /*  8  Greyscale     */
 
 -- 
 Regards,
