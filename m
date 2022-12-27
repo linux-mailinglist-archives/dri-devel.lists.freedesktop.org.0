@@ -2,57 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61CC465683E
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Dec 2022 09:11:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5686656927
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Dec 2022 10:53:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C35010E2F1;
-	Tue, 27 Dec 2022 08:10:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 466E710E158;
+	Tue, 27 Dec 2022 09:53:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7AAC10E2E7
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 08:10:19 +0000 (UTC)
-X-UUID: b9a60ccc3ad64250aa20f57b74aea92b-20221227
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=JKdfQkKaCv2Djx4vHo/T77OGyTt0M7lfCyXqFM+MAQY=; 
- b=lzT4phT1/HuHue8TdPaMsRtBAm5TIf/kvFD81BAKPYkPOuLJKNyCYYohiIu0t4hQobKSmNGqECXvmft2/TI75oxBrPy5ggeVk+Hza8CNv9TJNicpcRSfrPaojPngFGrluXEWjBTaizCg1OSGkMqW6xRxHpbosIJoIal/nR1Ui54=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.14, REQID:d3aceb11-7150-4d94-bd92-1804586f6cef, IP:0,
- U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:-5
-X-CID-META: VersionHash:dcaaed0, CLOUDID:dbdb838a-8530-4eff-9f77-222cf6e2895b,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: b9a60ccc3ad64250aa20f57b74aea92b-20221227
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
- mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1372984058; Tue, 27 Dec 2022 16:10:14 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Tue, 27 Dec 2022 16:10:13 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Tue, 27 Dec 2022 16:10:13 +0800
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>,
- <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v29 7/7] drm/mediatek: add mediatek-drm of vdosys1 support for
- MT8195
-Date: Tue, 27 Dec 2022 16:10:11 +0800
-Message-ID: <20221227081011.6426-8-nancy.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20221227081011.6426-1-nancy.lin@mediatek.com>
-References: <20221227081011.6426-1-nancy.lin@mediatek.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1601010E158
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 09:53:04 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4A47F61005
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 09:52:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EBD7AC433B4
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 09:52:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1672134749;
+ bh=/3mDkEmrnQOo9fEJ3Iy2bKG4BZcuGtGOBZ4tP+awRNs=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=nf0iJPYVIkxeQVpwr7kuVCGQZrDmMexoAJ7bAH+vBbhSjEA3hSp3E3k6IUNN/hjtW
+ P5Y9k7vaa4fRxOamaKRLduurLdpD/QTSzyscQFRV+Y4PNni9jgZMq2dtQNSXUrlpN+
+ 2SUs4kE5ZTWT+j1bglqPBuW/fzkU16WseXSv6W3FTeSkkHODxzTHhYeKySezxAG1gp
+ cy7QZ4QtFttJZTTtdy/ElMguevG1RIlkaghk10TjxTOgIcXqsBdhiGRXHhHZXDT98l
+ qO7MpUlQr2pSau4m7dZ5/ovvcTG6hchJVy8+KVh6wvKOFjReMPSi+BVOuDm/cwl3yB
+ YJd9mo+U92aGQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id D9A7BC070C6; Tue, 27 Dec 2022 09:52:28 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
+ parser -125
+Date: Tue, 27 Dec 2022 09:52:27 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: milasudril@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-205089-2300-Xk82bMyVkp@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
+References: <bug-205089-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,70 +71,234 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- David Airlie <airlied@linux.ie>, singo.chang@mediatek.com, Nick
- Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
- clang-built-linux@googlegroups.com, Rob
- Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- "Nancy.Lin" <nancy.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add driver data of mt8195 vdosys1 to mediatek-drm.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D205089
 
-Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
-Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Tested-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+milasudril@gmail.com changed:
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 442ef79d5a3f..b0b584440e1a 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -208,6 +208,12 @@ static const unsigned int mt8195_mtk_ddp_main[] = {
- 	DDP_COMPONENT_DP_INTF0,
- };
- 
-+static const unsigned int mt8195_mtk_ddp_ext[] = {
-+	DDP_COMPONENT_DRM_OVL_ADAPTOR,
-+	DDP_COMPONENT_MERGE5,
-+	DDP_COMPONENT_DP_INTF1,
-+};
-+
- static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
- 	.main_path = mt2701_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
-@@ -277,7 +283,14 @@ static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data = {
- static const struct mtk_mmsys_driver_data mt8195_vdosys0_driver_data = {
- 	.main_path = mt8195_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt8195_mtk_ddp_main),
--	.mmsys_dev_num = 1,
-+	.mmsys_dev_num = 2,
-+};
-+
-+static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
-+	.ext_path = mt8195_mtk_ddp_ext,
-+	.ext_len = ARRAY_SIZE(mt8195_mtk_ddp_ext),
-+	.mmsys_id = 1,
-+	.mmsys_dev_num = 2,
- };
- 
- static const struct of_device_id mtk_drm_of_ids[] = {
-@@ -301,6 +314,8 @@ static const struct of_device_id mtk_drm_of_ids[] = {
- 	  .data = &mt8195_vdosys0_driver_data},
- 	{ .compatible = "mediatek,mt8195-vdosys0",
- 	  .data = &mt8195_vdosys0_driver_data},
-+	{ .compatible = "mediatek,mt8195-vdosys1",
-+	  .data = &mt8195_vdosys1_driver_data},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
--- 
-2.18.0
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |milasudril@gmail.com
 
+--- Comment #51 from milasudril@gmail.com ---
+Too me, it appears that the problem is related to driver initialization. It=
+ may
+start in a "good" state: Everything works normally. In "bad" state, the des=
+ktop
+hangs almost immediately. Trying to restart the display server by issuing
+
+sudo service lightdm stop
+sudo service lightdm start
+
+from a separate TTY, makes it possible to log in again, but interaction with
+the desktop is locked (tried to restart lightdm twice on the same boot).
+However rebooting the machine
+
+sudo shutdown -r now
+
+solves the issue.
+
+Output from glmark2 (working session)
+
+$ glmark2 --fullscreen
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+    glmark2 2021.02
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+    OpenGL Information
+    GL_VENDOR:     AMD
+    GL_RENDERER:   AMD RENOIR (LLVM 13.0.1, DRM 3.42, 5.15.0-56-generic)
+    GL_VERSION:    4.6 (Compatibility Profile) Mesa 22.0.5
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+[build] use-vbo=3Dfalse: FPS: 5844 FrameTime: 0.171 ms
+[build] use-vbo=3Dtrue: FPS: 6231 FrameTime: 0.160 ms
+[texture] texture-filter=3Dnearest: FPS: 3976 FrameTime: 0.252 ms
+[texture] texture-filter=3Dlinear: FPS: 4048 FrameTime: 0.247 ms
+[texture] texture-filter=3Dmipmap: FPS: 3958 FrameTime: 0.253 ms
+[shading] shading=3Dgouraud: FPS: 4050 FrameTime: 0.247 ms
+[shading] shading=3Dblinn-phong-inf: FPS: 3709 FrameTime: 0.270 ms
+[shading] shading=3Dphong: FPS: 3674 FrameTime: 0.272 ms
+...
+
+
+Output from neofetch:
+
+OS: Linux Mint 21 x86_64=20
+Kernel: 5.15.0-56-generic=20
+Uptime: 31 mins=20
+Packages: 2846 (dpkg)=20
+Shell: bash 5.1.16=20
+Resolution: 1920x1200=20
+DE: Xfce 4.16=20
+WM: Xfwm4=20
+WM Theme: Kokodi=20
+Theme: Adwaita [GTK2], Mint-Y [GTK3]=20
+Icons: elementary-xfce [GTK2/3]=20
+Terminal: xfce4-terminal=20
+Terminal Font: Monospace 12=20
+CPU: AMD Ryzen 5 5600G with Radeon Graphics (12) @ 4.464GHz=20
+GPU: AMD ATI 06:00.0 Cezanne=20
+Memory: 2713MiB / 31392MiB
+
+
+Kernel log (successful session):
+
+[    0.000000] Linux version 5.15.0-56-generic (buildd@lcy02-amd64-004) (gcc
+(Ubuntu 11.3.0-1ubuntu1~22.04) 11.3.0, GNU ld (GNU Binutils for Ubuntu) 2.3=
+8)
+#62-Ubuntu SMP Tue Nov 22 19:54:14 UTC 2022 (Ubuntu 5.15.0-56.62-generic
+5.15.64)
+[    0.000000] Command line: BOOT_IMAGE=3D/boot/vmlinuz-5.15.0-56-generic
+root=3DUUID=3Db0fcb5e6-59cb-4170-b692-4a944660fea9 ro quiet splash
+
+
+AMD related messages in kernel log (successful session):
+
+[    0.004719] ACPI: IVRS 0x00000000C453D000 0000D0 (v02 AMD    AmdTable
+00000001 AMD  00000001)
+[    0.004721] ACPI: SSDT 0x00000000C4535000 00723C (v02 AMD    Artic=20=20=
+=20
+00000002 MSFT 04000000)
+[    0.004723] ACPI: SSDT 0x00000000C4531000 003B1B (v01 AMD    AMD AOD=20
+00000001 INTL 20120913)
+[    0.004733] ACPI: VFCT 0x00000000C4510000 00D884 (v01 ALASKA A M I=20=20=
+=20
+00000001 AMD  31504F47)
+[    0.004740] ACPI: SSDT 0x00000000C4430000 003E88 (v02 AMD    AmdTable
+00000001 AMD  00000001)
+[    0.004742] ACPI: CRAT 0x00000000C442F000 000B68 (v01 AMD    AmdTable
+00000001 AMD  00000001)
+[    0.004744] ACPI: CDIT 0x00000000C442E000 000029 (v01 AMD    AmdTable
+00000001 AMD  00000001)
+[    0.004745] ACPI: SSDT 0x00000000C442D000 000D53 (v01 AMD    ArticIG2
+00000001 INTL 20120913)
+[    0.004747] ACPI: SSDT 0x00000000C442B000 0010AC (v01 AMD    ArticTPX
+00000001 INTL 20120913)
+[    0.004749] ACPI: SSDT 0x00000000C4427000 003EAC (v01 AMD    ArticN=20=20
+00000001 INTL 20120913)
+[    0.004754] ACPI: SSDT 0x00000000C4424000 00007D (v01 AMD    ArticDIS
+00000001 INTL 20120913)
+[    0.004756] ACPI: SSDT 0x00000000C4423000 0000BF (v01 AMD    AmdTable
+00001000 INTL 20120913)
+[    0.281466] smpboot: CPU0: AMD Ryzen 5 5600G with Radeon Graphics (famil=
+y:
+0x19, model: 0x50, stepping: 0x0)
+[    0.281562] Performance Events: Fam17h+ core perfctr, AMD PMU driver.
+[    0.354135] pci 0000:00:00.2: AMD-Vi: IOMMU performance counters support=
+ed
+[    0.355644] pci 0000:00:00.2: AMD-Vi: Found IOMMU cap 0x40
+[    0.355646] AMD-Vi: Extended features (0x206d73ef22254ade): PPR X2APIC N=
+X GT
+IA GA PC GA_vAPIC
+[    0.355650] AMD-Vi: Interrupt remapping enabled
+[    0.355650] AMD-Vi: Virtual APIC enabled
+[    0.355651] AMD-Vi: X2APIC enabled
+[    0.668679] perf: AMD IBS detected (0x000003ff)
+[    0.668689] perf/amd_iommu: Detected AMD IOMMU #0 (2 banks, 4
+counters/bank).
+[    0.911894] powernow_k8: WTF driver: amd-pstate
+[    3.455327] AMD-Vi: AMD IOMMUv2 loaded and initialized
+[    3.541930] [drm] amdgpu kernel modesetting enabled.
+[    3.547290] amdgpu: Virtual CRAT table created for CPU
+[    3.547297] amdgpu: Topology: Add CPU node
+[    3.547424] amdgpu 0000:06:00.0: vgaarb: deactivate vga console
+[    3.547457] amdgpu 0000:06:00.0: enabling device (0006 -> 0007)
+[    3.547487] amdgpu 0000:06:00.0: amdgpu: Trusted Memory Zone (TMZ) featu=
+re
+enabled
+[    3.548618] amdgpu 0000:06:00.0: amdgpu: Fetched VBIOS from VFCT
+[    3.548619] amdgpu: ATOM BIOS: 113-CEZANNE-018
+[    3.548662] amdgpu 0000:06:00.0: amdgpu: VRAM: 512M 0x000000F400000000 -
+0x000000F41FFFFFFF (512M used)
+[    3.548663] amdgpu 0000:06:00.0: amdgpu: GART: 1024M 0x0000000000000000 -
+0x000000003FFFFFFF
+[    3.548664] amdgpu 0000:06:00.0: amdgpu: AGP: 267419648M 0x000000F800000=
+000
+- 0x0000FFFFFFFFFFFF
+[    3.548692] [drm] amdgpu: 512M of VRAM memory ready
+[    3.548693] [drm] amdgpu: 3072M of GTT memory ready.
+[    3.548950] amdgpu 0000:06:00.0: amdgpu: PSP runtime database doesn't ex=
+ist
+[    3.549881] amdgpu 0000:06:00.0: amdgpu: Will use PSP to load VCN firmwa=
+re
+[    4.356150] amdgpu 0000:06:00.0: amdgpu: RAS: optional ras ta ucode is n=
+ot
+available
+[    4.364793] amdgpu 0000:06:00.0: amdgpu: RAP: optional rap ta ucode is n=
+ot
+available
+[    4.364794] amdgpu 0000:06:00.0: amdgpu: SECUREDISPLAY: securedisplay ta
+ucode is not available
+[    4.365686] amdgpu 0000:06:00.0: amdgpu: SMU is initialized successfully!
+[    4.407573] kfd kfd: amdgpu: Allocated 3969056 bytes on gart
+[    4.432951] amdgpu: HMM registered 512MB device memory
+[    4.432973] amdgpu: SRAT table not found
+[    4.432974] amdgpu: Virtual CRAT table created for GPU
+[    4.433026] amdgpu: Topology: Add dGPU node [0x1638:0x1002]
+[    4.433029] kfd kfd: amdgpu: added device 1002:1638
+[    4.433141] amdgpu 0000:06:00.0: amdgpu: SE 1, SH per SE 1, CU per SH 8,
+active_cu_number 7
+[    4.434102] fbcon: amdgpudrmfb (fb0) is primary device
+[    4.434104] amdgpu 0000:06:00.0: [drm] fb0: amdgpudrmfb frame buffer dev=
+ice
+[    4.455810] amdgpu 0000:06:00.0: amdgpu: ring gfx uses VM inv eng 0 on h=
+ub 0
+[    4.455813] amdgpu 0000:06:00.0: amdgpu: ring comp_1.0.0 uses VM inv eng=
+ 1
+on hub 0
+[    4.455814] amdgpu 0000:06:00.0: amdgpu: ring comp_1.1.0 uses VM inv eng=
+ 4
+on hub 0
+[    4.455814] amdgpu 0000:06:00.0: amdgpu: ring comp_1.2.0 uses VM inv eng=
+ 5
+on hub 0
+[    4.455815] amdgpu 0000:06:00.0: amdgpu: ring comp_1.3.0 uses VM inv eng=
+ 6
+on hub 0
+[    4.455815] amdgpu 0000:06:00.0: amdgpu: ring comp_1.0.1 uses VM inv eng=
+ 7
+on hub 0
+[    4.455816] amdgpu 0000:06:00.0: amdgpu: ring comp_1.1.1 uses VM inv eng=
+ 8
+on hub 0
+[    4.455817] amdgpu 0000:06:00.0: amdgpu: ring comp_1.2.1 uses VM inv eng=
+ 9
+on hub 0
+[    4.455817] amdgpu 0000:06:00.0: amdgpu: ring comp_1.3.1 uses VM inv eng=
+ 10
+on hub 0
+[    4.455818] amdgpu 0000:06:00.0: amdgpu: ring kiq_2.1.0 uses VM inv eng =
+11
+on hub 0
+[    4.455824] amdgpu 0000:06:00.0: amdgpu: ring sdma0 uses VM inv eng 0 on=
+ hub
+1
+[    4.455824] amdgpu 0000:06:00.0: amdgpu: ring vcn_dec uses VM inv eng 1 =
+on
+hub 1
+[    4.455825] amdgpu 0000:06:00.0: amdgpu: ring vcn_enc0 uses VM inv eng 4=
+ on
+hub 1
+[    4.455826] amdgpu 0000:06:00.0: amdgpu: ring vcn_enc1 uses VM inv eng 5=
+ on
+hub 1
+[    4.455827] amdgpu 0000:06:00.0: amdgpu: ring jpeg_dec uses VM inv eng 6=
+ on
+hub 1
+[    4.456973] [drm] Initialized amdgpu 3.42.0 20150101 for 0000:06:00.0 on
+minor 0
+[   12.556190] snd_hda_intel 0000:06:00.1: bound 0000:06:00.0 (ops
+amdgpu_dm_audio_component_bind_ops [amdgpu])
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
