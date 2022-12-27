@@ -2,61 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC6E656D30
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Dec 2022 18:05:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2315656D59
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Dec 2022 18:14:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C06210E157;
-	Tue, 27 Dec 2022 17:04:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC80810E163;
+	Tue, 27 Dec 2022 17:14:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFC3910E0E3;
- Tue, 27 Dec 2022 17:04:37 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id r130so12911524oih.2;
- Tue, 27 Dec 2022 09:04:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cgoC62GHvEIMBNJM+s+sVmcwJZA/l2ktr3Y+mPUSGLk=;
- b=D/s9eZ1u28y/MYzi4qIDcYTkxw6XE5Cij5znEItdRjUkgHMCR+FFrQrYnD493vMnoH
- Z7+0Q3wOSZUOWaFE7Vu9lPh+mYQpZTp5Hfwl74cISQmJGqEbFT7MwVJWMQJFQwDAjM0u
- WrDtEP17iQpnGxv4gdJc5rZp777yWMYt44O/BBuaqqe6VdWDIJRbowmMqm1BOwmWYDE/
- nYKtzDrGuj5JvcBBnzUxB085kzjTtrrkzTayd1Zygo6Xe/rTg4szUNaCoEcQ+JTmxdNg
- ikvllEehcvVXbG56DRzoJZSYI89lFzs73XJYT70dsEoS2Q1FIYnZbsRmdRetRFdebdM9
- i47A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cgoC62GHvEIMBNJM+s+sVmcwJZA/l2ktr3Y+mPUSGLk=;
- b=RTXEcNPU5gOkGrEg0pAU4uZzvutmvbGT5xMA+MLvXhXjiQz6F1ldbhqVUSHdLE8yXb
- UH4wIWDwtjwiXm8skLf4a5n6vUPrx1dTdUDn1gjBcKzZaLyYlaFkm7COCX4vemi2f0fX
- WViowFZIaAAj5rPvKPxnFix6ynSyl116QKT6ons6tEymziggdayxlBtLH+/cAEwb/0is
- adcYr2fo0I3gqLD5r9RWgQZNwe1UqsJCmlb16+TeQppz+pp+E7vALmxAFC39LomoHS36
- l75IF2pLnbSIQw28JlAdjJoNfSH2oLMWlDFfGDOBOlkGsMCO1GY09hZmZ8vWNaAVihgG
- gH5Q==
-X-Gm-Message-State: AFqh2kqgQwOKmCBVnOM7/GSsBLQpDNdiEc5mgnp6eYUGsS8NKjkN6KUF
- bgemh7XAWqbwfPm5csqefXD6lR7RDrGj31ZB27k=
-X-Google-Smtp-Source: AMrXdXsgonfvlbVyG3VFA0NgVj6GOiuGvjvIhcjGxeZxa28G/D3+MuTjZgu69O1aImPtHvf3kWOlguAQbOv2To24Ljc=
-X-Received: by 2002:a05:6808:2001:b0:35b:d93f:cbc4 with SMTP id
- q1-20020a056808200100b0035bd93fcbc4mr1413974oiw.96.1672160676913; Tue, 27 Dec
- 2022 09:04:36 -0800 (PST)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECF8C10E163;
+ Tue, 27 Dec 2022 17:14:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1672161248; x=1703697248;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=pyu5M35zQN01hXPUqWatuRrmKFr9K+2FFGt8nTIemGE=;
+ b=jMyfxMj1cfux0Z1AUmdhzcgseuXaLwYLlm3PLMHce4tX5RygUPex8JnW
+ gGqVardTowHryv95EpRJt2WZHtO3I4zzCcm+snwrR+IT9WX1W9n/edi0Y
+ lF/smAjAyiSgiSFHUFmkiqsSFWb1V7ijkRZWKHG11b3uhccVP95se4rKl
+ 5io4zxGhNneIY4EgaqpIv1CAZjv9HC0pzEwqeZhRDC1pYjltf6ld/+TpJ
+ K9HSivZ8uBOcMAuZbCclc/UoWW9jH8h/ujPva/LyMlw5Q8oAcpmoArTQ8
+ W06Vm7NHIKsQQI+5hE2CTCX+21Bp9CyGn4pfEGHXrm+XATyqyJ/z6wZCw g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10573"; a="304233281"
+X-IronPort-AV: E=Sophos;i="5.96,278,1665471600"; d="scan'208";a="304233281"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Dec 2022 09:14:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10573"; a="716388068"
+X-IronPort-AV: E=Sophos;i="5.96,278,1665471600"; d="scan'208";a="716388068"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmsmga008.fm.intel.com with ESMTP; 27 Dec 2022 09:14:06 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Tue, 27 Dec 2022 09:14:05 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Tue, 27 Dec 2022 09:14:05 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Tue, 27 Dec 2022 09:14:05 -0800
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.45) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Tue, 27 Dec 2022 09:14:04 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OMT2yNr+i2h9qY4qi/AH1xcgT91BCzmTf0o6k3ZwB+y7Dfrv1FlmFeFErbeCMVDdoVSu68fCUmfEdOupmZGEI1e70BRLxGcvSZBCL2Pvt/l/E/y8H/91L7KiOyVA+DX45ufsibCdl5aPDDhmYHhFekjRXzbqDABmdSZQK15Tl+fTkBUxAUxFjGTxHtgSoslGO8We6UJXdywpGC945u/CFRzwZMbutFNJhsBXSSfIEQdJPInShl3/L0BwrmxZPYClOrt1PME/9jiFybK9yMbIUxuk6TvPD+NmJhZ7pM3f7xonf25QuwipDLxPOmFtA2UQV8vVBB94IrNsYSGaVnZb6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NyNthrvMKRoSGcTxw9DBzjOfKbIC5ZtkqQgYY58ePVQ=;
+ b=JbEM5l16lSPCUIFikbSnA9kCrW/AspLCNtFGWLt2cSvdjLqrWIh825xTTfI/ebi1Yq3up1IkZccxcpMqFlO6GF3FqOQ/rTsLhDVvkk3Hjwad2tX5iq+ZVh1mZX8j4e4tcG3Dr3JZhigtIYxf05BUkDPKPt0lfl4TRRVqBUisZ7d94vZCex4ZTExUYxxUqj/B5EShe2uw9mRhM+YANhvQ+adNcT0iKKMA6lpKWSmU5PRH7NMjLMZjmU3V3UngnuHrpg32Kx6nJT8moZWaAcDbGCm4Lt61SxkWHCLODYelg0kycA4+qSjb1bs2YTfF3dn2vSAnQNZXg57vAKePlrTQ7Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by PH7PR11MB5818.namprd11.prod.outlook.com (2603:10b6:510:132::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Tue, 27 Dec
+ 2022 17:14:02 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::499c:efe3:4397:808]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::499c:efe3:4397:808%9]) with mapi id 15.20.5944.013; Tue, 27 Dec 2022
+ 17:14:02 +0000
+Date: Tue, 27 Dec 2022 12:13:56 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Deepak R Varma <drv@mailo.com>
+Subject: Re: [PATCH] drm/i915/fbc: Avoid full proxy f_ops for FBC debug
+ attributes
+Message-ID: <Y6sn1BmhFJFssW0h@intel.com>
+References: <Y6qmNW6cOHjGwn03@qemulion>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <Y6qmNW6cOHjGwn03@qemulion>
+X-ClientProxiedBy: BYAPR05CA0069.namprd05.prod.outlook.com
+ (2603:10b6:a03:74::46) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
 MIME-Version: 1.0
-References: <20221222183012.1046-1-mario.limonciello@amd.com>
- <2761b1e1-508d-2c2c-f2d8-6f1be536723e@suse.de>
- <f9b40837-ee2b-76fb-0ec1-d7dfda4ffb7e@amd.com>
- <CADnq5_M42GQhVquw5BM+P-6NKmdZ6yj8czq=s5iXVAmVOexAkw@mail.gmail.com>
-In-Reply-To: <CADnq5_M42GQhVquw5BM+P-6NKmdZ6yj8czq=s5iXVAmVOexAkw@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 27 Dec 2022 12:04:25 -0500
-Message-ID: <CADnq5_OLf3VhFZm7=riDm9ezVT9j9nQ5Fwei3budnqPt5C4t9Q@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Recover from failure to probe GPU
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|PH7PR11MB5818:EE_
+X-MS-Office365-Filtering-Correlation-Id: 13e12e56-f4f9-4026-fe66-08dae82dc02c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Y+Vj3Uk3S9EflgmhKEbiG1y1NnNJKKgqvnfNK0NgAFVzFovR7JDk+4lmkh/ExBBbK+nQ3CdAUC7N26TGc6gULsEPVlbRMoAWNQQAcalQazL+KJSeDarpRmYq1qELiKood+rac0atMxUBeDx1qAZe+k8SViPPAuv5HgmeCTQ6/XOxXFmOW67JY9pNaI8JkXC6uktczTWXRpWlI3Wr/6qM56RT8OzNA1WeV8pukLTpxlfuxzsfAr+lDSSjOUmSLjvo3DyFgzZvLs2y1KnV0w4otBe6RHILZtIEF9oxSIaq+obp5CxT1y31+hoLDbKvYksu69gr+Q5q+HBhrvKqfsxyQ6J+iOOYgrzTMzTtnf4y0Pw7zhMjQO/PgoyXAvpwDbr9ufEUji6Fc15QgHuNMoMKfl/kNcksIMPMfG0DcSMkhrFyGjvuJ9oemhtpIguOE8fa7aVMCtQMPgZ0zj910mx1t4lHBavNH7lRv5rNnZ/HABVDZgLJ0Gj38gXDwMnvJ1qQKWpE3O8mEnXnNdZA4/cZgEeHkgkXOB4aIF5NuuDKLHQjXv/Ho30jrcHA7dPoW0ldh+Gbeo3YErIBtdE4xnF+WSgzrzjg9AWc/bKgIeveMX/aLTQ2UCfmYDikGK0JKHM/p+rwyJzysKeEX4+ppZZSFg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(39860400002)(366004)(376002)(396003)(346002)(136003)(451199015)(6506007)(41300700001)(316002)(8936002)(2906002)(5660300002)(66556008)(66476007)(86362001)(8676002)(6916009)(7416002)(44832011)(66946007)(54906003)(4326008)(26005)(6512007)(82960400001)(186003)(38100700002)(6666004)(36756003)(83380400001)(2616005)(6486002)(478600001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Q2Im8FNB1d/hn72bwPJIj8XMGJsH45M/rMV8Tv0X+M7loNn8/SlPiWVHLPWB?=
+ =?us-ascii?Q?NP4DIESQQG5q9kjxR4VSa3fW/o5orJkBTrUF4Wjw4FSFkpJU2iHgr/ynmdv+?=
+ =?us-ascii?Q?WEr3sVRQ8ZJRBolfw8t1QEhIQGFgdY/Rd7DYDa0jF+DT52+iqLDhKaGUnW+w?=
+ =?us-ascii?Q?5Icw493kABr+Y++hF60IKTcoM6ifHB7c/E230TkHsWDKuCKm/INDZzzO4crq?=
+ =?us-ascii?Q?8CyuWs2JkG7vro6Yoq5q0BQgBsTJdKPVLYAZWRcj3bN8ITSk5AH9o7MzlQY7?=
+ =?us-ascii?Q?YzY+70Zn015eyWD46cB9HSFgW5ZksDBpiWeTX2JciAEVe10mLcXn+QMywHxh?=
+ =?us-ascii?Q?k9v95TzT0fz9gVsLgQHLm39Va3kwimyczzqqdXQfd2Mdub9J+rEZEcCzp52q?=
+ =?us-ascii?Q?mIivXfSqxDYUQ/M2bEJckKS+dmGHP0picLtfIIV3JerjUJn56QszK94a7G+j?=
+ =?us-ascii?Q?MH6gkljbJNZwBDaliLL4yGZ4VS1cxEKtdQLah/FPOEjZx/R9nY9Rp8tRLSOM?=
+ =?us-ascii?Q?ycTHbTp2AScQK5m13amWiUU02y3rlVXe/vh1OZW3+xAb2Ci50+Y9rqGBj0jH?=
+ =?us-ascii?Q?cTaxE5lpxdnftw9BU3JWogh+8Nf9No7T8i487jpyDO+sA/eDXiKI2sR6wl0Q?=
+ =?us-ascii?Q?yOSKx/MehXVZBkpj/Ly/v1XytnAuxM6F08+PNkDLR58OvoSDoFF32uYog924?=
+ =?us-ascii?Q?i4xwBYrzK7TLxlRyLMA1wbYm6Vc+ExWeti/eYVKS7yduEcko5HPXrAI1KbIv?=
+ =?us-ascii?Q?c7RcmPMx00KZxCoE5Y5yRXtOzycmHRYDcmF3Ph6karsGCHWdKgGnyp1TK9Iv?=
+ =?us-ascii?Q?1ajqwJzSZJ+Kd7Gefsz/8ZQGDBlituii6mkhuUL9nzjESgL2Xb88KrC3uxWH?=
+ =?us-ascii?Q?v5HrSGba5NPmK59AN52oL/+F1XkVmO+0XhQP2W3GJwWWxaV5V8FHkPOe5lIr?=
+ =?us-ascii?Q?IL1y5UugytETevN7OGhDxxs2XcPm+OKMSWWVp9RXwl1sDT66N1rWYR4nSRtV?=
+ =?us-ascii?Q?ME4kiHxK4pwE2Pd3d/o6kIoDYUNBOHhJCEToQeO0q8DHFtBmC8jo8c1H2apR?=
+ =?us-ascii?Q?/13G84djme/ca+PGJl6h5WPJ/yuFDpAtLt+G84fWvB87M6Jwg69A4yR6OYKG?=
+ =?us-ascii?Q?Z/aXH7udpyNBA9Kz1FUsuScj6EBppK3bUcRNPlbg/sdXncneVAvwWQdHlbaD?=
+ =?us-ascii?Q?AlXTtm8ahn569c+SeqKkcWUjw4jSijbBKq3bzkvQ4g986P/73HcafG4CFcnd?=
+ =?us-ascii?Q?6DXUyaJ2jDeAzmuJfClB1RwQKl3CTqbznMoP5zKKcomCxB+GjZXN4l1pxLaA?=
+ =?us-ascii?Q?YzmrWYB3ier78IM0zdq4lpBuq/+EME2/uX2L27U256P22JkHUHT+Q5XbZgK8?=
+ =?us-ascii?Q?s3BD4qUb3ThSF2NN3OwnG02l2lV0Baris+3CgsbKku/wPoxPkZOE1LSla95I?=
+ =?us-ascii?Q?kdFqkt+orP1V3iwOk2LDmaZO/0ImqshwPjbkW6Q+HnDvHqAgn0WxRR4WPLD4?=
+ =?us-ascii?Q?I+RIkgnyB73u4pJCr3501ZRRpzqJHRNrFqTPvEx0/+D0yl1Kbucj0doCbeCU?=
+ =?us-ascii?Q?zLZ97UsYYAFDZPD4G+3n+Y+c7GRB4qBZU1F8FZ0rhhOvU6wiqs3fr/vtIVSu?=
+ =?us-ascii?Q?RA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13e12e56-f4f9-4026-fe66-08dae82dc02c
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Dec 2022 17:14:02.4986 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ey3nvggNnmHCCW3NJe5sZWhc2/SDFKwPwaWC3I1kdgV9eUg3f7yFGSx2BwvQHqvGFn8nbgpt0qmC6XQVLI8ZOw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5818
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,261 +147,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-efi@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Carlos Soriano Sanchez <csoriano@redhat.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Saurabh
+ Singh Sengar <ssengar@microsoft.com>,
+ Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 27, 2022 at 10:40 AM Alex Deucher <alexdeucher@gmail.com> wrote=
-:
->
-> On Sun, Dec 25, 2022 at 10:31 AM Christian K=C3=B6nig
-> <christian.koenig@amd.com> wrote:
-> >
-> > Am 24.12.22 um 10:34 schrieb Thomas Zimmermann:
-> > > Hi
-> > >
-> > > Am 22.12.22 um 19:30 schrieb Mario Limonciello:
-> > >> One of the first thing that KMS drivers do during initialization is
-> > >> destroy the system firmware framebuffer by means of
-> > >> `drm_aperture_remove_conflicting_pci_framebuffers`
-> > >>
-> > >> This means that if for any reason the GPU failed to probe the user
-> > >> will be stuck with at best a screen frozen at the last thing that
-> > >> was shown before the KMS driver continued it's probe.
-> > >>
-> > >> The problem is most pronounced when new GPU support is introduced
-> > >> because users will need to have a recent linux-firmware snapshot
-> > >> on their system when they boot a kernel with matching support.
-> > >>
-> > >> However the problem is further exaggerated in the case of amdgpu bec=
-ause
-> > >> it has migrated to "IP discovery" where amdgpu will attempt to load
-> > >> on "ALL" AMD GPUs even if the driver is missing support for IP block=
-s
-> > >> contained in that GPU.
-> > >>
-> > >> IP discovery requires some probing and isn't run until after the
-> > >> framebuffer has been destroyed.
-> > >>
-> > >> This means a situation can occur where a user purchases a new GPU no=
-t
-> > >> yet supported by a distribution and when booting the installer it wi=
-ll
-> > >> "freeze" even if the distribution doesn't have the matching kernel
-> > >> support
-> > >> for those IP blocks.
-> > >>
-> > >> The perfect example of this is Ubuntu 21.10 and the new dGPUs just
-> > >> launched by AMD.  The installation media ships with kernel 5.19 (whi=
-ch
-> > >> has IP discovery) but the amdgpu support for those IP blocks landed =
-in
-> > >> kernel 6.0. The matching linux-firmware was released after 21.10's
-> > >> launch.
-> > >> The screen will freeze without nomodeset. Even if a user manages to
-> > >> install
-> > >> and then upgrades to kernel 6.0 after install they'll still have the
-> > >> problem of missing firmware, and the same experience.
-> > >>
-> > >> This is quite jarring for users, particularly if they don't know
-> > >> that they have to use "nomodeset" to install.
-> > >>
-> > >> To help the situation, allow drivers to re-run the init process for =
-the
-> > >> firmware framebuffer during a failed probe. As this problem is most
-> > >> pronounced with amdgpu, this is the only driver changed.
-> > >>
-> > >> But if this makes sense more generally for other KMS drivers, the ca=
-ll
-> > >> can be added to the cleanup routine for those too.
-> > >
-> > > Just a quick drive-by comment: as Javier noted, at some point while
-> > > probing, your driver has changed the device' state and the system FB
-> > > will be gone. you cannot reestablish the sysfb after that.
-> >
-> > I was about to note exactly that as well. This effort here is
-> > unfortunately pretty pointless.
-> >
-> > >
-> > > You are, however free to read device state at any time, as long as it
-> > > has no side effects.
-> > >
-> > > So why not just move the call to
-> > > drm_aperture_remove_conflicting_pci_framebuffers() to a later point
-> > > when you know that your driver supports the hardware? That's the
-> > > solution we always proposed to this kind of problem. It's safe and
-> > > won't require any changes to the aperture helpers.
-> >
-> > if I'm not completely mistaken that's a little bit tricky. Currently
-> > it's not possible to read the discovery table before disabling the VGA
-> > and/or current framebuffer.
-> >
-> > We might be able to do this, but it's probably not easy.
->
->
-> It should be possible.  It's populated by the PSP/VBIOS at power up,
-> so all you need to do is read the right offset in vram.  For
-> firmwares, we currently read them from the filesystem from the
-> relevant IP code, but we could also just read it in amdgpu_discovery.c
-> when we walk the IP discovery table.
+On Tue, Dec 27, 2022 at 01:30:53PM +0530, Deepak R Varma wrote:
+> Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
+> function adds the overhead of introducing a proxy file operation
+> functions to wrap the original read/write inside file removal protection
+> functions. This adds significant overhead in terms of introducing and
+> managing the proxy factory file operations structure and function
+> wrapping at runtime.
+> As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
+> with debugfs_create_file_unsafe() is suggested to be used instead.  The
+> DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
+> debugfs_file_put() wrappers to protect the original read and write
+> function calls for the debug attributes. There is no need for any
+> runtime proxy file operations to be managed by the debugfs core.
+> 
+> This Change is reported by the debugfs_simple_attr.cocci Coccinelle
+> semantic patch.
 
-I think something like this would do the trick:
+I just checked here with
+$ make coccicheck M=drivers/gpu/drm/i915/ MODE=context COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 2017b3466612..45aee27ab6b1 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -2141,6 +2141,11 @@ static int amdgpu_device_ip_early_init(struct
-amdgpu_device *adev)
-                break;
-        }
+The part reported by the this script is the s/SIMPLE/DEBUGFS
+but the change to the unsafe option is not.
 
-+       /* Get rid of things like offb */
-+       r =3D drm_aperture_remove_conflicting_pci_framebuffers(pdev,
-&amdgpu_kms_driver);
-+       if (r)
-+               return r;
-+
-        if (amdgpu_has_atpx() &&
-            (amdgpu_is_atpx_hybrid() ||
-             amdgpu_has_atpx_dgpu_power_cntl()) &&
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index b8cfa48fb296..4e74d7abc3c2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -2123,11 +2123,6 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
-        }
- #endif
+This commit message is not explaining why the unsafe is the suggested
+or who suggested it.
 
--       /* Get rid of things like offb */
--       ret =3D drm_aperture_remove_conflicting_pci_framebuffers(pdev,
-&amdgpu_kms_driver);
--       if (ret)
--               return ret;
--
-        adev =3D devm_drm_dev_alloc(&pdev->dev, &amdgpu_kms_driver,
-typeof(*adev), ddev);
-        if (IS_ERR(adev))
-                return PTR_ERR(adev);
+If you remove the unsafe part feel free to resend adding:
 
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+(to both patches, this and the drrs one.
 
->
-> Alex
->
->
-> >
-> > Regards,
-> > Christian.
-> >
-> >
-> > >
-> > > Best regards
-> > > Thomas
-> > >
-> > >>
-> > >> Here is a sample of what happens with missing GPU firmware and this
-> > >> series:
-> > >>
-> > >> [    5.950056] amdgpu 0000:63:00.0: vgaarb: deactivate vga console
-> > >> [    5.950114] amdgpu 0000:63:00.0: enabling device (0006 -> 0007)
-> > >> [    5.950883] [drm] initializing kernel modesetting (YELLOW_CARP
-> > >> 0x1002:0x1681 0x17AA:0x22F1 0xD2).
-> > >> [    5.952954] [drm] register mmio base: 0xB0A00000
-> > >> [    5.952958] [drm] register mmio size: 524288
-> > >> [    5.954633] [drm] add ip block number 0 <nv_common>
-> > >> [    5.954636] [drm] add ip block number 1 <gmc_v10_0>
-> > >> [    5.954637] [drm] add ip block number 2 <navi10_ih>
-> > >> [    5.954638] [drm] add ip block number 3 <psp>
-> > >> [    5.954639] [drm] add ip block number 4 <smu>
-> > >> [    5.954641] [drm] add ip block number 5 <dm>
-> > >> [    5.954642] [drm] add ip block number 6 <gfx_v10_0>
-> > >> [    5.954643] [drm] add ip block number 7 <sdma_v5_2>
-> > >> [    5.954644] [drm] add ip block number 8 <vcn_v3_0>
-> > >> [    5.954645] [drm] add ip block number 9 <jpeg_v3_0>
-> > >> [    5.954663] amdgpu 0000:63:00.0: amdgpu: Fetched VBIOS from VFCT
-> > >> [    5.954666] amdgpu: ATOM BIOS: 113-REMBRANDT-X37
-> > >> [    5.954677] [drm] VCN(0) decode is enabled in VM mode
-> > >> [    5.954678] [drm] VCN(0) encode is enabled in VM mode
-> > >> [    5.954680] [drm] JPEG decode is enabled in VM mode
-> > >> [    5.954681] amdgpu 0000:63:00.0: amdgpu: Trusted Memory Zone (TMZ=
-)
-> > >> feature disabled as experimental (default)
-> > >> [    5.954683] amdgpu 0000:63:00.0: amdgpu: PCIE atomic ops is not
-> > >> supported
-> > >> [    5.954724] [drm] vm size is 262144 GB, 4 levels, block size is
-> > >> 9-bit, fragment size is 9-bit
-> > >> [    5.954732] amdgpu 0000:63:00.0: amdgpu: VRAM: 512M
-> > >> 0x000000F400000000 - 0x000000F41FFFFFFF (512M used)
-> > >> [    5.954735] amdgpu 0000:63:00.0: amdgpu: GART: 1024M
-> > >> 0x0000000000000000 - 0x000000003FFFFFFF
-> > >> [    5.954738] amdgpu 0000:63:00.0: amdgpu: AGP: 267419648M
-> > >> 0x000000F800000000 - 0x0000FFFFFFFFFFFF
-> > >> [    5.954747] [drm] Detected VRAM RAM=3D512M, BAR=3D512M
-> > >> [    5.954750] [drm] RAM width 256bits LPDDR5
-> > >> [    5.954834] [drm] amdgpu: 512M of VRAM memory ready
-> > >> [    5.954838] [drm] amdgpu: 15680M of GTT memory ready.
-> > >> [    5.954873] [drm] GART: num cpu pages 262144, num gpu pages 26214=
-4
-> > >> [    5.955333] [drm] PCIE GART of 1024M enabled (table at
-> > >> 0x000000F41FC00000).
-> > >> [    5.955502] amdgpu 0000:63:00.0: Direct firmware load for
-> > >> amdgpu/yellow_carp_toc.bin failed with error -2
-> > >> [    5.955505] amdgpu 0000:63:00.0: amdgpu: fail to request/validate
-> > >> toc microcode
-> > >> [    5.955510] [drm:psp_sw_init [amdgpu]] *ERROR* Failed to load psp
-> > >> firmware!
-> > >> [    5.955725] [drm:amdgpu_device_init.cold [amdgpu]] *ERROR* sw_ini=
-t
-> > >> of IP block <psp> failed -2
-> > >> [    5.955952] amdgpu 0000:63:00.0: amdgpu: amdgpu_device_ip_init fa=
-iled
-> > >> [    5.955954] amdgpu 0000:63:00.0: amdgpu: Fatal error during GPU i=
-nit
-> > >> [    5.955957] amdgpu 0000:63:00.0: amdgpu: amdgpu: finishing device=
-.
-> > >> [    5.971162] efifb: probing for efifb
-> > >> [    5.971281] efifb: showing boot graphics
-> > >> [    5.974803] efifb: framebuffer at 0x910000000, using 20252k, tota=
-l
-> > >> 20250k
-> > >> [    5.974805] efifb: mode is 2880x1800x32, linelength=3D11520, page=
-s=3D1
-> > >> [    5.974807] efifb: scrolling: redraw
-> > >> [    5.974807] efifb: Truecolor: size=3D8:8:8:8, shift=3D24:16:8:0
-> > >> [    5.974974] Console: switching to colour frame buffer device 180x=
-56
-> > >> [    5.978181] fb0: EFI VGA frame buffer device
-> > >> [    5.978199] amdgpu: probe of 0000:63:00.0 failed with error -2
-> > >> [    5.978285] [drm] amdgpu: ttm finalized
-> > >>
-> > >> Now if the user loads the firmware into the system they can re-load =
-the
-> > >> driver or re-attach using sysfs and it gracefully recovers.
-> > >>
-> > >> [  665.080480] [drm] Initialized amdgpu 3.49.0 20150101 for
-> > >> 0000:63:00.0 on minor 0
-> > >> [  665.090075] fbcon: amdgpudrmfb (fb0) is primary device
-> > >> [  665.090248] [drm] DSC precompute is not needed.
-> > >>
-> > >> Mario Limonciello (2):
-> > >>    firmware: sysfb: Allow re-creating system framebuffer after init
-> > >>    drm/amd: Re-create firmware framebuffer on failure to probe
-> > >>
-> > >>   drivers/firmware/efi/sysfb_efi.c        |  6 +++---
-> > >>   drivers/firmware/sysfb.c                | 15 ++++++++++++++-
-> > >>   drivers/firmware/sysfb_simplefb.c       |  4 ++--
-> > >>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c |  2 ++
-> > >>   include/linux/sysfb.h                   |  5 +++++
-> > >>   5 files changed, 26 insertions(+), 6 deletions(-)
-> > >>
-> > >>
-> > >> base-commit: 830b3c68c1fb1e9176028d02ef86f3cf76aa2476
-> > >
-> >
+Also, it looks like you could contribute with other 2 patches:
+drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c:64:0-23: WARNING: pxp_terminate_fops should be defined with DEFINE_DEBUGFS_ATTRIBUTE
+drivers/gpu/drm/i915/gvt/debugfs.c:150:0-23: WARNING: vgpu_scan_nonprivbb_fops should be defined with DEFINE_DEBUGFS_ATTRIBUTE
+
+> 
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_fbc.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
+> index b5ee5ea0d010..4b481e2f908b 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fbc.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fbc.c
+> @@ -1809,10 +1809,10 @@ static int intel_fbc_debugfs_false_color_set(void *data, u64 val)
+>  	return 0;
+>  }
+> 
+> -DEFINE_SIMPLE_ATTRIBUTE(intel_fbc_debugfs_false_color_fops,
+> -			intel_fbc_debugfs_false_color_get,
+> -			intel_fbc_debugfs_false_color_set,
+> -			"%llu\n");
+> +DEFINE_DEBUGFS_ATTRIBUTE(intel_fbc_debugfs_false_color_fops,
+> +			 intel_fbc_debugfs_false_color_get,
+> +			 intel_fbc_debugfs_false_color_set,
+> +			 "%llu\n");
+> 
+>  static void intel_fbc_debugfs_add(struct intel_fbc *fbc,
+>  				  struct dentry *parent)
+> @@ -1821,8 +1821,8 @@ static void intel_fbc_debugfs_add(struct intel_fbc *fbc,
+>  			    fbc, &intel_fbc_debugfs_status_fops);
+> 
+>  	if (fbc->funcs->set_false_color)
+> -		debugfs_create_file("i915_fbc_false_color", 0644, parent,
+> -				    fbc, &intel_fbc_debugfs_false_color_fops);
+> +		debugfs_create_file_unsafe("i915_fbc_false_color", 0644, parent,
+> +					   fbc, &intel_fbc_debugfs_false_color_fops);
+>  }
+> 
+>  void intel_fbc_crtc_debugfs_add(struct intel_crtc *crtc)
+> --
+> 2.34.1
+> 
+> 
+> 
