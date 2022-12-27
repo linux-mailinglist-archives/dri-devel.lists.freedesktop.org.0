@@ -2,51 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 150FE656A59
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Dec 2022 13:01:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27AC5656A6F
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Dec 2022 13:05:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DFF910E309;
-	Tue, 27 Dec 2022 12:01:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38A7B10E03D;
+	Tue, 27 Dec 2022 12:04:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
- [193.136.128.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5F7210E309
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 12:01:05 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 5F1686008804;
- Tue, 27 Dec 2022 12:00:26 +0000 (WET)
-X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
- tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
- with LMTP id KLYO961PBBUj; Tue, 27 Dec 2022 12:00:23 +0000 (WET)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt
- [IPv6:2001:690:2100:1::b3dd:b9ac])
- by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id D981D6000872;
- Tue, 27 Dec 2022 12:00:22 +0000 (WET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
- s=mail; t=1672142423;
- bh=HY/iceWFNHXcY6/T59a4bc7jEBDobCcHxPzG+znEMhk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=J0YTsz5DWpVbzP8Q6IWQW4eow+xN3yhY87VRr8Rnmk2c9kMRFJZect+oXPgS8KUIu
- 1iXVhffS7vMl8C7Lovwfgy76m1v0fGvbCC6OZACo0T/7EjVw5VIAw/JoV0bCFRU9bG
- 31+vZKk+Ph7i53nCJU0EkUZHgW73io69nInMq/iE=
-Received: from wslaptop (unknown [IPv6:2001:8a0:fbe7:6700:65be:d034:d2ec:60ff])
- (Authenticated sender: ist187313)
- by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 95013360075;
- Tue, 27 Dec 2022 12:00:19 +0000 (WET)
-Date: Tue, 27 Dec 2022 11:58:51 +0000
-From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-To: Rayyan Ansari <rayyan@ansari.sh>
-Subject: Re: [v2,3/4] drm/panel: Add driver for JDI LPM102A188A
-Message-ID: <20221227115851.mpvlbero4nsdq4r5@wslaptop>
-References: <20221025153746.101278-4-diogo.ivo@tecnico.ulisboa.pt>
- <7aa53ccc-2942-e2d4-9c84-32f1bdf462ad@ansari.sh>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C729A10E03D
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 12:04:46 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id AA564B80F91
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 12:04:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63DF7C433D2
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 12:04:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1672142683;
+ bh=YRZYZEZqxhYz5HBI5rM384SwiIQ90WVN3HJ7bun9/a0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=WWroJKdpWh8nROQOp17fWmnds1ZxF9sSVoQ5vYrk9iyOU7SMmDIC9heFWfFoEg7hn
+ GBK4liJhCpth4xzrOHebmxNCBTuwlNWTNpAHsoKDhXD5ueP+mBLloI3TAN8JYCAVj8
+ EpSnYI3OcVNNYiwXFZi9JSq8lzLdBBywJafRFsOkY2rtIUutF3jbRhoAwiTLrdiP8F
+ ng2/csTSoBWzq6SbLeuMRZ8QUVs/miS8BPurYyNhT0x4gVaXoc3rqmA1qSaeqUNEFn
+ W5j5S2jNT9zdnFGBpcRvMRmNc/55AmvXV9Kov6hLnHC1y6PCwJWiPKMUJKC5Nt+H1t
+ 2EFPXOTVqpUSQ==
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-46198b81e5eso181504577b3.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 04:04:43 -0800 (PST)
+X-Gm-Message-State: AFqh2kroCcJXy5qq/a0m01cZIVSD+gZB9Ni2trw5jAma5jlU4p6TzZjK
+ r0nEhOs1YmIX3gerHXQjgCdtzFkQxPMhEf4hx5w=
+X-Google-Smtp-Source: AMrXdXsnpkpmjYZ98UhnrdMq3SqJVtdECg4PGjHdo8XZNDH1D8kCqh5abl9tfvTR8KA5KCb+RxrWf3WVFwl4sBj1G74=
+X-Received: by 2002:a81:1c54:0:b0:45b:1789:fe4c with SMTP id
+ c81-20020a811c54000000b0045b1789fe4cmr1854507ywc.182.1672142681055; Tue, 27
+ Dec 2022 04:04:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7aa53ccc-2942-e2d4-9c84-32f1bdf462ad@ansari.sh>
+References: <20221226213227.26953-1-ogabbay@kernel.org>
+ <Y6qeDQY+X6ZRn3bi@kroah.com>
+In-Reply-To: <Y6qeDQY+X6ZRn3bi@kroah.com>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Tue, 27 Dec 2022 14:04:14 +0200
+X-Gmail-Original-Message-ID: <CAFCwf11GO4n-nOhyLDAG9k9MSJ1xfjj6_1nH=X9vKgdbvY62yw@mail.gmail.com>
+Message-ID: <CAFCwf11GO4n-nOhyLDAG9k9MSJ1xfjj6_1nH=X9vKgdbvY62yw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] habanalabs/uapi: move uapi file to drm
+To: Greg KH <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,37 +62,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, arnd@arndb.de, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, jonathanh@nvidia.com, robh+dt@kernel.org,
- thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- linux-tegra@vger.kernel.org, sam@ravnborg.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On Tue, Dec 27, 2022 at 9:26 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Mon, Dec 26, 2022 at 11:32:26PM +0200, Oded Gabbay wrote:
+> > Move the habanalabs.h uapi file from include/uapi/misc to
+> > include/uapi/drm, and rename it to habanalabs_accel.h.
+> >
+> > This is required before moving the actual driver to the accel
+> > subsystem.
+>
+> What requires this?  Isn't this going to break userspace code?
+Yes, most definitely it will break userspace code. Moreover, the
+patches I'll send in 1-2 weeks to change the device char files will
+also break it.
+Having said that, I'm not worried because I don't believe anyone is
+working with the upstream version because there is no NIC support
+(yet).
 
-On Fri, Dec 23, 2022 at 03:33:40PM +0000, Rayyan Ansari wrote:
-> On 25/10/2022 16:37, Diogo Ivo wrote:
-> > +config DRM_PANEL_JDI_LPM102A188A
-> > +	tristate "JDI LPM102A188A DSI panel"
-> > +	depends on OF && GPIOLIB
-> > +	depends on DRM_MIPI_DSI
-> > +	depends on BACKLIGHT_CLASS_DEVICE
-> > +	help
-> > +	  Say Y here if you want to enable support for JDI LPM102A188A DSI
-> > +	  control mode panel as found in Google Pixel C devices.
-> Shouldn't this be "command mode panel" instead of "control mode panel"?
+If this is unacceptable, I can offer a couple of alternatives and we
+can discuss what's best:
 
-Yes, it should.
+1. Do what AMD did a couple of years ago with radeon and amdgpu. We
+keep the habanalabs original driver in misc to support Goya, Gaudi1
+and Gaudi2 (only with the current features). Create a new habanalabs
+driver in accel that will support only Gaudi2 and beyond. Our NIC
+driver (which I will start upstreaming in a few months) anyway will
+only support Gaudi2, so it will only work with the new driver. Make
+the drivers mutually exclusive in Kconfig.
+Gaudi2 as-is will be supported in the current driver, but if users
+want to use new features (and NIC), they will need to move to the new
+driver.
 
-> > +static struct mipi_dsi_driver jdi_panel_dsi_driver = {
-> > +	.driver = {
-> > +		.name = "panel-jdi-lpm102a188a-dsi",
-> Is the "-dsi" suffix needed here? Other panel drivers don't have this.
+2. Move the driver to the new accel, but keep a copy of the uapi file
+in misc (to prevent breaking include paths). In addition, expose both
+new accel device char file (through drm code) and current habanalabs
+char file. Users can "acquire" the device through either
+/dev/accel/accel0 or /dev/hl0. Add new uapi content only to the uapi
+file in include/uapi/drm. This is what I'm going to do in our internal
+tree that we release as an out-of-tree driver to customers.
 
-I had not noticed this, and I will drop it.
+3. Keep the driver in misc. Clone it to accel only for next-gen ASIC,
+whenever that may be.
 
-Thank you for your review and attention to detail. I will address these
-points in the next version.
+WDYT ?
+I'm sure there are additional variations of the three options above,
+or a different option entirely.
 
-Diogo Ivo
+Thanks,
+Oded
+
+>
+> thanks,
+>
+> greg k-h
