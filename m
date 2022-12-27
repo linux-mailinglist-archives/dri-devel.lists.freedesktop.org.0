@@ -2,38 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796B66575C4
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 12:17:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC886656938
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Dec 2022 10:54:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11DFE10E385;
-	Wed, 28 Dec 2022 11:16:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9865710E2F9;
+	Tue, 27 Dec 2022 09:54:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from exchange.fintech.ru (e10edge.fintech.ru [195.54.195.159])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17A2010E2F9;
- Tue, 27 Dec 2022 09:53:25 +0000 (UTC)
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Tue, 27 Dec
- 2022 12:53:20 +0300
-Received: from localhost (10.0.253.157) by Ex16-01.fintech.ru (10.0.10.18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Tue, 27 Dec
- 2022 12:53:19 +0300
-From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-To: Alex Deucher <alexander.deucher@amd.com>
-Subject: [PATCH] drm/radeon: Fix potential null-ptr-deref
-Date: Tue, 27 Dec 2022 01:53:15 -0800
-Message-ID: <20221227095315.90364-1-n.zhandarovich@fintech.ru>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221226181023.86196-1-n.zhandarovich@fintech.ru>
-References: <20221226181023.86196-1-n.zhandarovich@fintech.ru>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 473D410E2F9
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 09:54:09 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id BADBA61000
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 09:53:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DB908C433D2
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 09:53:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1672134817;
+ bh=fp7VPmLdDRt4lrfoDmTZpWPfgnTr6i5Xz5sbrrd5EBA=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=nsmxojwe4x/EqhBi1Ho2EQvInTgzebYisy1ShcvA3Pi3xpj58n2LH/ZSN0TuATaVe
+ cxRvs0wEgGoBTiTOUapt0shiLOhBWxqiYX1HaSYipY1r1l0a0yD5I3mel+5t1hPaus
+ cgZvsm/1as6YjqsQrnF00WCHH+iL5Lo2iOAGzkAEn4bPk7ZeGQZGgtVJIDMK4ObvJ4
+ Ups9rmRleOLVg5EzYFYq3xGSEiAO78TmwSSwjqbGBZiCURi3ZUwJhm2VmQGoHlAVWz
+ wUb5PzTaWV6q7ZlQIBt/rsIKAh/pYvG5IeDhyUllbebr9LBsyE7ZtSpnRXBIKPjm3B
+ UMQ9gvXZSqIlQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id CB1EDC43145; Tue, 27 Dec 2022 09:53:37 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
+ parser -125
+Date: Tue, 27 Dec 2022 09:53:36 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: milasudril@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-205089-2300-fEvaxzgg4O@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
+References: <bug-205089-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.0.253.157]
-X-ClientProxiedBy: Ex16-01.fintech.ru (10.0.10.18) To Ex16-01.fintech.ru
- (10.0.10.18)
-X-Mailman-Approved-At: Wed, 28 Dec 2022 11:16:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,16 +71,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nikita Zhandarovich <n.zhandarovich@fintech.ru>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- lvc-project@linuxtesting.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Due to my rookie mistake this patch isn't necessary anymore in
-upstream version. The issue was already resolved in a different
-manner.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D205089
 
-Apologies for inconvenience.
+--- Comment #52 from milasudril@gmail.com ---
+I should mention that disabling disabling AMP/DOCP does not solve the issue.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
