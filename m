@@ -2,45 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E21E656E56
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Dec 2022 20:29:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B02656E67
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Dec 2022 20:37:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B83FE10E332;
-	Tue, 27 Dec 2022 19:29:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABF0C10E334;
+	Tue, 27 Dec 2022 19:37:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DB4D10E332
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 19:29:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:Subject:From
- :Cc:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=EB1EKzN3ai6ze9SRsR9S4454yQU2uLLWQ5OZm9VPszk=; b=hnZx4cNlF9vuqStU1wBNKgPCr/
- FOixaDQYI0qbQscSfi/Jrhp4TJexXfUaavjFKJhfWHKXgbu5H0pZ+vrHoiRPHYWkqAFPOR9ZbV7Mo
- gfWuI8al/63vT3a9joAX3vgveFs+OMs/004QZimUjF9iAQuWlXIwQ+4FOPznf7fQd/i3j4D4FIvLs
- OuwCpIcbIUwX+W466StSVMa9x+XHmUIi17AVx0tGlKRgRU2rWrao0NZmLGPD/r+vppiLULprNnwIj
- d+QeYRR5BY/tAGaxmL6diRyv3rfztKDK6uqz+w8+4of/Oyu6yLgV9v4DYjoyg9F5qPBFlMRVtwhlD
- q/aoDZyA==;
-Received: from [177.103.98.201] (helo=[192.168.1.60])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1pAFd8-00BKsL-70; Tue, 27 Dec 2022 20:28:55 +0100
-Message-ID: <3f87a88c-c375-4a02-0f09-4831544e5f96@igalia.com>
-Date: Tue, 27 Dec 2022 16:28:45 -0300
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
+ [IPv6:2607:f8b0:4864:20::1130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E49C610E334
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 19:37:20 +0000 (UTC)
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-43ea87d0797so195739427b3.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 11:37:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=TDuSRMT7LeuW6RQ7N+xypX5CPMcCsvqhVlnHymvmVtI=;
+ b=rEZX25ycDQZ1thQanMnm+pHbQa936C7pegvTyeEJbbP0xHMpnpylJ/PxzJHrDDGqCm
+ uh9TvIADFBvJpo0yFkZgHkBkdDfpmVSAU+FKksylfr1HrbmquN5Wff0v1DclOXJ3uGpM
+ LZddDRee3hQpJtoqDzbXQ2IXnexVIDhN9FgN0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TDuSRMT7LeuW6RQ7N+xypX5CPMcCsvqhVlnHymvmVtI=;
+ b=AXm0TMB6nlelUSq3Go05Hy/A0Kpm3CuFMokcbAVQP3ij//m7Tq9YZ5sOfCzoUZ6/ea
+ Lsg27uh6xlZZ0kyfoKMwPa5vtQbj84Vo4y+Ytv1jdYyywDZKD3EYaeJSLy6j/T1eVm2r
+ DgLf6Fj401sdkWklv6E9su4EPbvx1fAj+qBFu32Hu2YY9egfVOliZ1vmWmJ1IU3ByQ2B
+ kUaBPRich/N5lQTxfkm/4Ll9FXpexf4f3mYTryFLs5/iCo4D0LMkhDOYcQ0k2nME0urz
+ DENeDdh3utyBtmlPB3FCIKbxxikahjyVrsdcIJt/xEbcm2kFiCzauYf27QvVC7ZrapY3
+ Fmew==
+X-Gm-Message-State: AFqh2kqiy4nwYRAdrv8t18j1v9O2erpfNtA/4CNjs40qTwnXLMg5QfU3
+ 5zjrlQkFAZ7zEF+wmMcvgh7GQitDMBVQENinZSYmMg==
+X-Google-Smtp-Source: AMrXdXtk1VEXi6sU/cPZRwXTFvEyMW0TOBsoND8twqKnIwU8PKZUmc1bpUOjkUgxf0ckeok/mCZ824hGpaMayafFoCw=
+X-Received: by 2002:a0d:ff86:0:b0:47a:a05b:7d0d with SMTP id
+ p128-20020a0dff86000000b0047aa05b7d0dmr859893ywf.230.1672169839892; Tue, 27
+ Dec 2022 11:37:19 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Content-Language: en-US
-To: dmitry.osipenko@collabora.com, Christian Koenig <christian.koenig@amd.com>
-From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Subject: Re: [PATCH v1] drm/scheduler: Fix lockup in drm_sched_entity_kill()
-In-Reply-To: <20221123001303.533968-1-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221227110335.2923359-1-javierm@redhat.com>
+ <20221227110335.2923359-2-javierm@redhat.com>
+ <CAMty3ZAaHKJ21D8mE=HU3D3KOGAiZ7vfmW_Hgc-E5JO5S+tMNA@mail.gmail.com>
+ <CABxcv=kwtk21UbOwaV4tq=BpPsrYmnTrzuhybjbknipqk5R-fA@mail.gmail.com>
+In-Reply-To: <CABxcv=kwtk21UbOwaV4tq=BpPsrYmnTrzuhybjbknipqk5R-fA@mail.gmail.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Wed, 28 Dec 2022 01:07:08 +0530
+Message-ID: <CAMty3ZDESyJoWMO_BgHzUJN=hLV0dH6y=3B9ogOsSUvaTMqarQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] dt-bindings: display: Add Himax HX8394 panel
+ controller
+To: Javier Martinez Canillas <javier@dowhile0.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,27 +67,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- "Guilherme G. Piccoli" <kernel@gpiccoli.net>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Melissa Wen <mwen@igalia.com>, gpiccoli@igalia.com, luben.tuikov@amd.com
+Cc: devicetree@vger.kernel.org, Robert Mader <robert.mader@posteo.de>,
+ Onuralp Sezer <thunderbirdtr@fedoraproject.org>,
+ Neal Gompa <ngompa13@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
+ Martijn Braam <martijn@brixit.nl>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Ondrej Jirman <megi@xff.cz>,
+ Peter Robinson <pbrobinson@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ =?UTF-8?Q?Kamil_Trzci=C5=84ski?= <ayufan@ayufan.eu>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Tom Fitzhenry <tom@tom-fitzhenry.me.uk>, Sam Ravnborg <sam@ravnborg.org>,
+ Maya Matuszczyk <maccraft123mc@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry / Christian, thanks for the fix!
+On Wed, Dec 28, 2022 at 12:58 AM Javier Martinez Canillas
+<javier@dowhile0.org> wrote:
+>
+> Hello Jagan,
+>
+> On Tue, Dec 27, 2022 at 7:16 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+>
+> [...]
+>
+> > > +allOf:
+> > > +  - $ref: panel-common.yaml#
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      # HannStar HSD060BHW4 5.99" 720x1440 TFT LCD panel
+> > > +      - hannstar,hsd060bhw4
+> >
+> > Parent controller can have a compatible where the associated panels
+> > will be enum list.
+> >
+>
+> I'm not sure to follow what you meant. Could you please elaborate?
 
-(And thanks Melissa for pointing that, saving me lots of time in
-research heh)
+compatible:
+    items:
+      - enum:
+          - hannstar,hsd060bhw4
+      - const: himax,hx8394
 
-Is this fix planned to be released on 6.2-rc cycle? I've just tested it
-on Steam Deck, and it resolved a lockup observed (since v6.2-rc1) -
-exactly the same thing mentioned in the commit message.
+himax,hx8394 is the actual controller and is denoted as fallback compatible.
 
-FWIW:
-Tested-By: Guilherme G. Piccoli <gpiccoli@igalia.com> # Steam Deck
-
-Cheers,
-
-
-Guilherme
+Jagan.
