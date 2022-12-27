@@ -2,47 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545B5656DB1
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Dec 2022 18:47:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77ACF656DA1
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Dec 2022 18:45:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A98C910E16B;
-	Tue, 27 Dec 2022 17:46:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A425410E169;
+	Tue, 27 Dec 2022 17:45:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 365 seconds by postgrey-1.36 at gabe;
- Tue, 27 Dec 2022 17:46:30 UTC
-Received: from forward501c.mail.yandex.net (forward501c.mail.yandex.net
- [178.154.239.209])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A54410E164;
- Tue, 27 Dec 2022 17:46:30 +0000 (UTC)
-Received: from myt6-1289f562e823.qloud-c.yandex.net
- (myt6-1289f562e823.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:259d:0:640:1289:f562])
- by forward501c.mail.yandex.net (Yandex) with ESMTP id CB03E5F1A8;
- Tue, 27 Dec 2022 20:40:11 +0300 (MSK)
-Received: by myt6-1289f562e823.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
- id 4eTgJY4Y8mI1-9YvFUjgN; Tue, 27 Dec 2022 20:40:11 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skif-web.ru; s=mail;
- t=1672162811; bh=O3IfD2rnmuqDpbg0u7OKsWKBEPTwptgRXaYL7QMT/Co=;
- h=Message-ID:Subject:References:To:From:In-Reply-To:Cc:Date;
- b=N4GGP21FyopxUJO5DtsV4VvXufE4Cod1Zj8k5HTI2xZ+tEflHpwC5KGJ+Ng4WrEdK
- 3axIsX8urQUSAPmXwpZ+jGCIVB+3tHbaHbwybvWWm/5bycsQsv2US+3F+wYPgag6V5
- shGCDtQzsIkmIVw/gnpcSWyM1GhCPp92bEc7Ex/A=
-Authentication-Results: myt6-1289f562e823.qloud-c.yandex.net;
- dkim=pass header.i=@skif-web.ru
-Date: Tue, 27 Dec 2022 20:40:03 +0300
-From: Alexey Lukyachuk <skif@skif-web.ru>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2] drm/i915: dell wyse 3040 shutdown fix
-Message-ID: <20221227204003.6b0abe65@alexey-Swift-SF314-42>
-In-Reply-To: <Y6sfvUJmrb73AeJh@intel.com>
-References: <20221225184413.146916-1-skif@skif-web.ru>
- <20221225185507.149677-1-skif@skif-web.ru>
- <Y6sfvUJmrb73AeJh@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E565310E164;
+ Tue, 27 Dec 2022 17:45:23 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BREKhbG013874; Tue, 27 Dec 2022 17:45:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=iGoMfYwcrH+Jcp2jv5FIP/2WGmaaA59uhBPLBmwuRH4=;
+ b=bFap5HINZ3a3/P3qHO2g2QiNWuk+OSIUoMp6w+1wrEOJKhiz9Fta9va48J/UHOvtIDtv
+ igSrjonYzA174DBNyIzU4ysA2f9H8ojr73i8sdtj9Gc7jvSD/FjdZ0/vJsjaUqcNiO16
+ 7+hBfW6REyEb9Jzl4eRyZRsxQ6zQ0zD4UPZ5UlpuFCfCFELy+q4gScsltAez6WNUQC4P
+ JjR3zC2OTlnKgRf9A6D1iEOgTBgeXCz+UapTZdCYf8YGpY6b47oDaVy4XW8r+eyQPpxq
+ 4CGjdNydUIyZVvqfdEoynLaz6TDRsGs6vish56IZDORtvBGqalAWPuDS7OK4PCUsMrbo OA== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mnreg5scd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 27 Dec 2022 17:45:18 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BRHjHBp008760
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 27 Dec 2022 17:45:17 GMT
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Tue, 27 Dec 2022 09:45:16 -0800
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <agross@kernel.org>,
+ <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>,
+ <konrad.dybcio@somainline.org>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <devicetree@vger.kernel.org>,
+ <airlied@gmail.com>
+Subject: [PATCH v16 0/5] Add data-lanes and link-frequencies to dp_out endpoint
+Date: Tue, 27 Dec 2022 09:44:58 -0800
+Message-ID: <1672163103-31254-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: q-0fHFYfu9EsSAzLjXccDkQExYE70H-4
+X-Proofpoint-ORIG-GUID: q-0fHFYfu9EsSAzLjXccDkQExYE70H-4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-27_13,2022-12-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ adultscore=0 mlxlogscore=938 spamscore=0 clxscore=1015 suspectscore=0
+ priorityscore=1501 malwarescore=0 phishscore=0 bulkscore=0 mlxscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2212270145
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,202 +82,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 27 Dec 2022 11:39:25 -0500
-Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+Add DP both data-lanes and link-frequencies property to dp_out endpoint and support
+functions to DP driver.
 
-> On Sun, Dec 25, 2022 at 09:55:08PM +0300, Alexey Lukyanchuk wrote:
-> > dell wyse 3040 doesn't peform poweroff properly, but instead remains in=
-=20
-> > turned power on state.
->=20
-> okay, the motivation is explained in the commit msg..
->=20
-> > Additional mutex_lock and=20
-> > intel_crtc_wait_for_next_vblank=20
-> > feature 6.2 kernel resolve this trouble.
->=20
-> but this why is not very clear... seems that by magic it was found,
-> without explaining what race we are really protecting here.
->=20
-> but even worse is:
-> what about those many random vblank waits in the code? what's the
-> reasoning?
->=20
-> >=20
-> > cc: stable@vger.kernel.org
-> > original commit Link: https://patchwork.freedesktop.org/patch/508926/
-> > fixes: fe0f1e3bfdfeb53e18f1206aea4f40b9bd1f291c
-> > Signed-off-by: Alexey Lukyanchuk <skif@skif-web.ru>
-> > ---
-> > I got some troubles with this device (dell wyse 3040) since kernel 5.11
-> > started to use i915_driver_shutdown function. I found solution here:
-> >=20
-> > https://lore.kernel.org/dri-devel/Y1wd6ZJ8LdJpCfZL@intel.com/#r
-> >=20
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_audio.c | 37 +++++++++++++++-------
-> >  1 file changed, 25 insertions(+), 12 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/i915/display/intel_audio.c b/drivers/gpu/d=
-rm/i915/display/intel_audio.c
-> > index aacbc6da8..44344ecdf 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_audio.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_audio.c
-> > @@ -336,6 +336,7 @@ static void g4x_audio_codec_disable(struct intel_en=
-coder *encoder,
-> >  				    const struct drm_connector_state *old_conn_state)
-> >  {
-> >  	struct drm_i915_private *dev_priv =3D to_i915(encoder->base.dev);
-> > +	struct intel_crtc *crtc =3D to_intel_crtc(old_crtc_state->uapi.crtc);
-> >  	u32 eldv, tmp;
-> > =20
-> >  	tmp =3D intel_de_read(dev_priv, G4X_AUD_VID_DID);
-> > @@ -348,6 +349,9 @@ static void g4x_audio_codec_disable(struct intel_en=
-coder *encoder,
-> >  	tmp =3D intel_de_read(dev_priv, G4X_AUD_CNTL_ST);
-> >  	tmp &=3D ~eldv;
-> >  	intel_de_write(dev_priv, G4X_AUD_CNTL_ST, tmp);
-> > +
-> > +	intel_crtc_wait_for_next_vblank(crtc);
-> > +	intel_crtc_wait_for_next_vblank(crtc);
-> >  }
-> > =20
-> >  static void g4x_audio_codec_enable(struct intel_encoder *encoder,
-> > @@ -355,12 +359,15 @@ static void g4x_audio_codec_enable(struct intel_e=
-ncoder *encoder,
-> >  				   const struct drm_connector_state *conn_state)
-> >  {
-> >  	struct drm_i915_private *dev_priv =3D to_i915(encoder->base.dev);
-> > +	struct intel_crtc *crtc =3D to_intel_crtc(crtc_state->uapi.crtc);
-> >  	struct drm_connector *connector =3D conn_state->connector;
-> >  	const u8 *eld =3D connector->eld;
-> >  	u32 eldv;
-> >  	u32 tmp;
-> >  	int len, i;
-> > =20
-> > +	intel_crtc_wait_for_next_vblank(crtc);
-> > +
-> >  	tmp =3D intel_de_read(dev_priv, G4X_AUD_VID_DID);
-> >  	if (tmp =3D=3D INTEL_AUDIO_DEVBLC || tmp =3D=3D INTEL_AUDIO_DEVCL)
-> >  		eldv =3D G4X_ELDV_DEVCL_DEVBLC;
-> > @@ -493,6 +500,7 @@ static void hsw_audio_codec_disable(struct intel_en=
-coder *encoder,
-> >  				    const struct drm_connector_state *old_conn_state)
-> >  {
-> >  	struct drm_i915_private *dev_priv =3D to_i915(encoder->base.dev);
-> > +	struct intel_crtc *crtc =3D to_intel_crtc(old_crtc_state->uapi.crtc);
-> >  	enum transcoder cpu_transcoder =3D old_crtc_state->cpu_transcoder;
-> >  	u32 tmp;
-> > =20
-> > @@ -508,6 +516,10 @@ static void hsw_audio_codec_disable(struct intel_e=
-ncoder *encoder,
-> >  		tmp |=3D AUD_CONFIG_N_VALUE_INDEX;
-> >  	intel_de_write(dev_priv, HSW_AUD_CFG(cpu_transcoder), tmp);
-> > =20
-> > +
-> > +	intel_crtc_wait_for_next_vblank(crtc);
-> > +	intel_crtc_wait_for_next_vblank(crtc);
-> > +
-> >  	/* Invalidate ELD */
-> >  	tmp =3D intel_de_read(dev_priv, HSW_AUD_PIN_ELD_CP_VLD);
-> >  	tmp &=3D ~AUDIO_ELD_VALID(cpu_transcoder);
-> > @@ -633,6 +645,7 @@ static void hsw_audio_codec_enable(struct intel_enc=
-oder *encoder,
-> >  				   const struct drm_connector_state *conn_state)
-> >  {
-> >  	struct drm_i915_private *dev_priv =3D to_i915(encoder->base.dev);
-> > +	struct intel_crtc *crtc =3D to_intel_crtc(crtc_state->uapi.crtc);
-> >  	struct drm_connector *connector =3D conn_state->connector;
-> >  	enum transcoder cpu_transcoder =3D crtc_state->cpu_transcoder;
-> >  	const u8 *eld =3D connector->eld;
-> > @@ -651,12 +664,7 @@ static void hsw_audio_codec_enable(struct intel_en=
-coder *encoder,
-> >  	tmp &=3D ~AUDIO_ELD_VALID(cpu_transcoder);
-> >  	intel_de_write(dev_priv, HSW_AUD_PIN_ELD_CP_VLD, tmp);
-> > =20
-> > -	/*
-> > -	 * FIXME: We're supposed to wait for vblank here, but we have vblanks
-> > -	 * disabled during the mode set. The proper fix would be to push the
-> > -	 * rest of the setup into a vblank work item, queued here, but the
-> > -	 * infrastructure is not there yet.
-> > -	 */
-> > +	intel_crtc_wait_for_next_vblank(crtc);
-> > =20
-> >  	/* Reset ELD write address */
-> >  	tmp =3D intel_de_read(dev_priv, HSW_AUD_DIP_ELD_CTRL(cpu_transcoder));
-> > @@ -705,6 +713,8 @@ static void ilk_audio_codec_disable(struct intel_en=
-coder *encoder,
-> >  		aud_cntrl_st2 =3D CPT_AUD_CNTRL_ST2;
-> >  	}
-> > =20
-> > +	mutex_lock(&dev_priv->display.audio.mutex);
-> > +
-> >  	/* Disable timestamps */
-> >  	tmp =3D intel_de_read(dev_priv, aud_config);
-> >  	tmp &=3D ~AUD_CONFIG_N_VALUE_INDEX;
-> > @@ -721,6 +731,10 @@ static void ilk_audio_codec_disable(struct intel_e=
-ncoder *encoder,
-> >  	tmp =3D intel_de_read(dev_priv, aud_cntrl_st2);
-> >  	tmp &=3D ~eldv;
-> >  	intel_de_write(dev_priv, aud_cntrl_st2, tmp);
-> > +	mutex_unlock(&dev_priv->display.audio.mutex);
-> > +
-> > +	intel_crtc_wait_for_next_vblank(crtc);
-> > +	intel_crtc_wait_for_next_vblank(crtc);
-> >  }
-> > =20
-> >  static void ilk_audio_codec_enable(struct intel_encoder *encoder,
-> > @@ -740,12 +754,7 @@ static void ilk_audio_codec_enable(struct intel_en=
-coder *encoder,
-> >  	if (drm_WARN_ON(&dev_priv->drm, port =3D=3D PORT_A))
-> >  		return;
-> > =20
-> > -	/*
-> > -	 * FIXME: We're supposed to wait for vblank here, but we have vblanks
-> > -	 * disabled during the mode set. The proper fix would be to push the
-> > -	 * rest of the setup into a vblank work item, queued here, but the
-> > -	 * infrastructure is not there yet.
-> > -	 */
-> > +	intel_crtc_wait_for_next_vblank(crtc);
-> > =20
-> >  	if (HAS_PCH_IBX(dev_priv)) {
-> >  		hdmiw_hdmiedid =3D IBX_HDMIW_HDMIEDID(pipe);
-> > @@ -767,6 +776,8 @@ static void ilk_audio_codec_enable(struct intel_enc=
-oder *encoder,
-> > =20
-> >  	eldv =3D IBX_ELD_VALID(port);
-> > =20
-> > +	mutex_lock(&dev_priv->display.audio.mutex);
-> > +
-> >  	/* Invalidate ELD */
-> >  	tmp =3D intel_de_read(dev_priv, aud_cntrl_st2);
-> >  	tmp &=3D ~eldv;
-> > @@ -798,6 +809,8 @@ static void ilk_audio_codec_enable(struct intel_enc=
-oder *encoder,
-> >  	else
-> >  		tmp |=3D audio_config_hdmi_pixel_clock(crtc_state);
-> >  	intel_de_write(dev_priv, aud_config, tmp);
-> > +
-> > +	mutex_unlock(&dev_priv->display.audio.mutex);
-> >  }
-> > =20
-> >  /**
-> > --=20
-> > 2.25.1
-> >=20
+Kuogee Hsieh (5):
+  arm64: dts: qcom: add data-lanes and link-freuencies into dp_out
+    endpoint
+  dt-bindings: msm/dp: add data-lanes and link-frequencies property
+  drm/msm/dp: parse data-lanes as property of dp_out endpoint
+  Add capability to parser and retrieve max DP link supported rate from 
+       link-frequencies property of dp_out endpoint.
+  drm/msm/dp: add support of max dp link rate
 
+ .../bindings/display/msm/dp-controller.yaml        | 25 ++++++++++-
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi       |  4 ++
+ arch/arm64/boot/dts/qcom/sc7180.dtsi               |  2 +-
+ arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi     |  4 ++
+ arch/arm64/boot/dts/qcom/sc7280.dtsi               |  2 +-
+ drivers/gpu/drm/msm/dp/dp_display.c                |  4 ++
+ drivers/gpu/drm/msm/dp/dp_panel.c                  |  7 +--
+ drivers/gpu/drm/msm/dp/dp_panel.h                  |  1 +
+ drivers/gpu/drm/msm/dp/dp_parser.c                 | 50 ++++++++++++++++++----
+ drivers/gpu/drm/msm/dp/dp_parser.h                 |  2 +
+ 10 files changed, 87 insertions(+), 14 deletions(-)
 
-I would like to say, that this solution was found in drm-tip repository:
-link: git://anongit.freedesktop.org/drm-tip
-I will quotate original commit message from Ville Syrj=C3=A4l=C3=A4=20
-<ville.syrjala@linux.intel.com>: "The spec tells us to do a bunch of=20
-vblank waits in the audio enable/disable sequences. Make it so."
-So it's just a backport of accepted patch.
-Which i wanna to propagate to stable versions
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
