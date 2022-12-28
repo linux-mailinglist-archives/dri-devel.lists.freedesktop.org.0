@@ -2,36 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D65A365764F
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 13:10:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 901236576BA
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 14:01:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D843C10E3A1;
-	Wed, 28 Dec 2022 12:10:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0786710E0CE;
+	Wed, 28 Dec 2022 13:01:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 480 seconds by postgrey-1.36 at gabe;
- Wed, 28 Dec 2022 12:10:02 UTC
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18B9810E3A1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Dec 2022 12:10:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id F27D1FB03;
- Wed, 28 Dec 2022 13:01:54 +0100 (CET)
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cJ_u4MwGn99Z; Wed, 28 Dec 2022 13:01:51 +0100 (CET)
-Date: Wed, 28 Dec 2022 13:01:49 +0100
-From: Guido =?iso-8859-1?Q?G=FCnther?= <guido.gunther@puri.sm>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH 03/14] drm/panel-sitronix-st7703: Drop custom DSI write
- macros
-Message-ID: <Y6wwLdvhjUeTYSlQ@qwark.sigxcpu.org>
-References: <20221228014757.3170486-1-javierm@redhat.com>
- <20221228014757.3170486-4-javierm@redhat.com>
+X-Greylist: delayed 1783 seconds by postgrey-1.36 at gabe;
+ Wed, 28 Dec 2022 13:01:14 UTC
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C49E110E0CE
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Dec 2022 13:01:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=S5A82/vTyB3E2qT0vPwrQFPcNR5JLZTUdXm1+CZZGm4=; b=tNoMND1zfSVEkRkapAe2SLkvk7
+ fd5mxSYnQi6ax/CA3Mjd3eZLODVxSQokSsyTWPohYXRhea7L8rNqQNo+yq3070vKuqreS5YXZgnga
+ 701DTc5Xu0hmurfmugUFF71WnfJfctEkSuhffIku+n9q61MBigcnJxbkrNGfdm6Mjbh1TmzZVPthK
+ V7BOhzMIgGVlAGtT4CmQm6FF2OE1PzPUgzcsVj3xulqcjQbhScMGC//YXY1W30icwCEd1JlB+3eDQ
+ Z7gKCr7G5GdEaFWzIdBiEcb8/VsBlY0vGezsi3gYRkRy8Qb36JPkmy08qsiYqVKWjui4U8gsNBSsO
+ 3XyXF9jg==;
+Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
+ helo=[192.168.1.10]) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <cyndis@kapsi.fi>)
+ id 1pAVYY-008VYL-HA; Wed, 28 Dec 2022 14:29:14 +0200
+Message-ID: <864f2fdd-4289-a178-bbf1-c2a6a579c58c@kapsi.fi>
+Date: Wed, 28 Dec 2022 14:28:54 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221228014757.3170486-4-javierm@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH] drm/tegra: submit: No need for Null pointer check before
+ kfree
+To: Deepak R Varma <drv@mailo.com>, Thierry Reding
+ <thierry.reding@gmail.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <Y6sn7XptKyk5cbrA@qemulion>
+Content-Language: en-US
+From: Mikko Perttunen <cyndis@kapsi.fi>
+In-Reply-To: <Y6sn7XptKyk5cbrA@qemulion>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 91.158.25.70
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,261 +64,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>, Purism Kernel Team <kernel@puri.sm>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
-Could you please also cc maintainers on the actual macro addition since
-it's hard to review without seeing what the code gets changed to
-(especially when there's multiple revisions). I assume
-
-   https://lore.kernel.org/dri-devel/20221228014757.3170486-2-javierm@redhat.com/
-
-is the right one?
-Cheers,
- -- Guido
-
-On Wed, Dec 28, 2022 at 02:47:46AM +0100, Javier Martinez Canillas wrote:
-> There are macros for these already in the <drm/drm_mipi_dsi.h> header, use
-> that instead and delete the custom DSI write macros defined in the driver.
+On 12/27/22 19:14, Deepak R Varma wrote:
+> kfree() & vfree() internally perform NULL check on the pointer handed
+> to it and take no action if it indeed is NULL. Hence there is no need
+> for a pre-check of the memory pointer before handing it to
+> kfree()/vfree().
 > 
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> Issue reported by ifnullfree.cocci Coccinelle semantic patch script.
+> 
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
 > ---
+>   drivers/gpu/drm/tegra/submit.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
->  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 83 ++++++++-----------
->  1 file changed, 33 insertions(+), 50 deletions(-)
+> diff --git a/drivers/gpu/drm/tegra/submit.c b/drivers/gpu/drm/tegra/submit.c
+> index 066f88564169..06f836db99d0 100644
+> --- a/drivers/gpu/drm/tegra/submit.c
+> +++ b/drivers/gpu/drm/tegra/submit.c
+> @@ -680,8 +680,8 @@ int tegra_drm_ioctl_channel_submit(struct drm_device *drm, void *data,
+>   		kfree(job_data->used_mappings);
+>   	}
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> index 86a472b01360..3e6655c2727e 100644
-> --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> @@ -73,14 +73,6 @@ static inline struct st7703 *panel_to_st7703(struct drm_panel *panel)
->  	return container_of(panel, struct st7703, panel);
->  }
->  
-> -#define dsi_generic_write_seq(dsi, seq...) do {				\
-> -		static const u8 d[] = { seq };				\
-> -		int ret;						\
-> -		ret = mipi_dsi_generic_write(dsi, d, ARRAY_SIZE(d));	\
-> -		if (ret < 0)						\
-> -			return ret;					\
-> -	} while (0)
-> -
->  static int jh057n_init_sequence(struct st7703 *ctx)
->  {
->  	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-> @@ -90,27 +82,27 @@ static int jh057n_init_sequence(struct st7703 *ctx)
->  	 * resemble the ST7703 but the number of parameters often don't match
->  	 * so it's likely a clone.
->  	 */
-> -	dsi_generic_write_seq(dsi, ST7703_CMD_SETEXTC,
-> +	mipi_dsi_generic_write_seq(dsi, ST7703_CMD_SETEXTC,
->  			      0xF1, 0x12, 0x83);
-> -	dsi_generic_write_seq(dsi, ST7703_CMD_SETRGBIF,
-> +	mipi_dsi_generic_write_seq(dsi, ST7703_CMD_SETRGBIF,
->  			      0x10, 0x10, 0x05, 0x05, 0x03, 0xFF, 0x00, 0x00,
->  			      0x00, 0x00);
-> -	dsi_generic_write_seq(dsi, ST7703_CMD_SETSCR,
-> +	mipi_dsi_generic_write_seq(dsi, ST7703_CMD_SETSCR,
->  			      0x73, 0x73, 0x50, 0x50, 0x00, 0x00, 0x08, 0x70,
->  			      0x00);
-> -	dsi_generic_write_seq(dsi, ST7703_CMD_SETVDC, 0x4E);
-> -	dsi_generic_write_seq(dsi, ST7703_CMD_SETPANEL, 0x0B);
-> -	dsi_generic_write_seq(dsi, ST7703_CMD_SETCYC, 0x80);
-> -	dsi_generic_write_seq(dsi, ST7703_CMD_SETDISP, 0xF0, 0x12, 0x30);
-> -	dsi_generic_write_seq(dsi, ST7703_CMD_SETEQ,
-> +	mipi_dsi_generic_write_seq(dsi, ST7703_CMD_SETVDC, 0x4E);
-> +	mipi_dsi_generic_write_seq(dsi, ST7703_CMD_SETPANEL, 0x0B);
-> +	mipi_dsi_generic_write_seq(dsi, ST7703_CMD_SETCYC, 0x80);
-> +	mipi_dsi_generic_write_seq(dsi, ST7703_CMD_SETDISP, 0xF0, 0x12, 0x30);
-> +	mipi_dsi_generic_write_seq(dsi, ST7703_CMD_SETEQ,
->  			      0x07, 0x07, 0x0B, 0x0B, 0x03, 0x0B, 0x00, 0x00,
->  			      0x00, 0x00, 0xFF, 0x00, 0xC0, 0x10);
-> -	dsi_generic_write_seq(dsi, ST7703_CMD_SETBGP, 0x08, 0x08);
-> +	mipi_dsi_generic_write_seq(dsi, ST7703_CMD_SETBGP, 0x08, 0x08);
->  	msleep(20);
->  
-> -	dsi_generic_write_seq(dsi, ST7703_CMD_SETVCOM, 0x3F, 0x3F);
-> -	dsi_generic_write_seq(dsi, ST7703_CMD_UNKNOWN_BF, 0x02, 0x11, 0x00);
-> -	dsi_generic_write_seq(dsi, ST7703_CMD_SETGIP1,
-> +	mipi_dsi_generic_write_seq(dsi, ST7703_CMD_SETVCOM, 0x3F, 0x3F);
-> +	mipi_dsi_generic_write_seq(dsi, ST7703_CMD_UNKNOWN_BF, 0x02, 0x11, 0x00);
-> +	mipi_dsi_generic_write_seq(dsi, ST7703_CMD_SETGIP1,
->  			      0x82, 0x10, 0x06, 0x05, 0x9E, 0x0A, 0xA5, 0x12,
->  			      0x31, 0x23, 0x37, 0x83, 0x04, 0xBC, 0x27, 0x38,
->  			      0x0C, 0x00, 0x03, 0x00, 0x00, 0x00, 0x0C, 0x00,
-> @@ -119,7 +111,7 @@ static int jh057n_init_sequence(struct st7703 *ctx)
->  			      0x64, 0x20, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88,
->  			      0x02, 0x88, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->  			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-> -	dsi_generic_write_seq(dsi, ST7703_CMD_SETGIP2,
-> +	mipi_dsi_generic_write_seq(dsi, ST7703_CMD_SETGIP2,
->  			      0x02, 0x21, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->  			      0x00, 0x00, 0x00, 0x00, 0x02, 0x46, 0x02, 0x88,
->  			      0x88, 0x88, 0x88, 0x88, 0x88, 0x64, 0x88, 0x13,
-> @@ -128,7 +120,7 @@ static int jh057n_init_sequence(struct st7703 *ctx)
->  			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->  			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30, 0x0A,
->  			      0xA5, 0x00, 0x00, 0x00, 0x00);
-> -	dsi_generic_write_seq(dsi, ST7703_CMD_SETGAMMA,
-> +	mipi_dsi_generic_write_seq(dsi, ST7703_CMD_SETGAMMA,
->  			      0x00, 0x09, 0x0E, 0x29, 0x2D, 0x3C, 0x41, 0x37,
->  			      0x07, 0x0B, 0x0D, 0x10, 0x11, 0x0F, 0x10, 0x11,
->  			      0x18, 0x00, 0x09, 0x0E, 0x29, 0x2D, 0x3C, 0x41,
-> @@ -162,15 +154,6 @@ static const struct st7703_panel_desc jh057n00900_panel_desc = {
->  	.init_sequence = jh057n_init_sequence,
->  };
->  
-> -#define dsi_dcs_write_seq(dsi, cmd, seq...) do {			\
-> -		static const u8 d[] = { seq };				\
-> -		int ret;						\
-> -		ret = mipi_dsi_dcs_write(dsi, cmd, d, ARRAY_SIZE(d));	\
-> -		if (ret < 0)						\
-> -			return ret;					\
-> -	} while (0)
-> -
-> -
->  static int xbd599_init_sequence(struct st7703 *ctx)
->  {
->  	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-> @@ -180,9 +163,9 @@ static int xbd599_init_sequence(struct st7703 *ctx)
->  	 */
->  
->  	/* Magic sequence to unlock user commands below. */
-> -	dsi_dcs_write_seq(dsi, ST7703_CMD_SETEXTC, 0xF1, 0x12, 0x83);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETEXTC, 0xF1, 0x12, 0x83);
->  
-> -	dsi_dcs_write_seq(dsi, ST7703_CMD_SETMIPI,
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETMIPI,
->  			  0x33, /* VC_main = 0, Lane_Number = 3 (4 lanes) */
->  			  0x81, /* DSI_LDO_SEL = 1.7V, RTERM = 90 Ohm */
->  			  0x05, /* IHSRX = x6 (Low High Speed driving ability) */
-> @@ -194,14 +177,14 @@ static int xbd599_init_sequence(struct st7703 *ctx)
->  			  0x44, 0x25, 0x00, 0x91, 0x0a, 0x00, 0x00, 0x02,
->  			  0x4F, 0x11, 0x00, 0x00, 0x37);
->  
-> -	dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER_EXT,
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER_EXT,
->  			  0x25, /* PCCS = 2, ECP_DC_DIV = 1/4 HSYNC */
->  			  0x22, /* DT = 15ms XDK_ECP = x2 */
->  			  0x20, /* PFM_DC_DIV = /1 */
->  			  0x03  /* ECP_SYNC_EN = 1, VGX_SYNC_EN = 1 */);
->  
->  	/* RGB I/F porch timing */
-> -	dsi_dcs_write_seq(dsi, ST7703_CMD_SETRGBIF,
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETRGBIF,
->  			  0x10, /* VBP_RGB_GEN */
->  			  0x10, /* VFP_RGB_GEN */
->  			  0x05, /* DE_BP_RGB_GEN */
-> @@ -212,7 +195,7 @@ static int xbd599_init_sequence(struct st7703 *ctx)
->  			  0x00, 0x00);
->  
->  	/* Source driving settings. */
-> -	dsi_dcs_write_seq(dsi, ST7703_CMD_SETSCR,
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETSCR,
->  			  0x73, /* N_POPON */
->  			  0x73, /* N_NOPON */
->  			  0x50, /* I_POPON */
-> @@ -224,19 +207,19 @@ static int xbd599_init_sequence(struct st7703 *ctx)
->  			  0x00  /* Undocumented */);
->  
->  	/* NVDDD_SEL = -1.8V, VDDD_SEL = out of range (possibly 1.9V?) */
-> -	dsi_dcs_write_seq(dsi, ST7703_CMD_SETVDC, 0x4E);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETVDC, 0x4E);
->  
->  	/*
->  	 * SS_PANEL = 1 (reverse scan), GS_PANEL = 0 (normal scan)
->  	 * REV_PANEL = 1 (normally black panel), BGR_PANEL = 1 (BGR)
->  	 */
-> -	dsi_dcs_write_seq(dsi, ST7703_CMD_SETPANEL, 0x0B);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPANEL, 0x0B);
->  
->  	/* Zig-Zag Type C column inversion. */
-> -	dsi_dcs_write_seq(dsi, ST7703_CMD_SETCYC, 0x80);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETCYC, 0x80);
->  
->  	/* Set display resolution. */
-> -	dsi_dcs_write_seq(dsi, ST7703_CMD_SETDISP,
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETDISP,
->  			  0xF0, /* NL = 240 */
->  			  0x12, /* RES_V_LSB = 0, BLK_CON = VSSD,
->  				 * RESO_SEL = 720RGB
-> @@ -246,7 +229,7 @@ static int xbd599_init_sequence(struct st7703 *ctx)
->  				 * ISC = 0 frames
->  				 */);
->  
-> -	dsi_dcs_write_seq(dsi, ST7703_CMD_SETEQ,
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETEQ,
->  			  0x00, /* PNOEQ */
->  			  0x00, /* NNOEQ */
->  			  0x0B, /* PEQGND */
-> @@ -267,9 +250,9 @@ static int xbd599_init_sequence(struct st7703 *ctx)
->  				 */);
->  
->  	/* Undocumented command. */
-> -	dsi_dcs_write_seq(dsi, ST7703_CMD_UNKNOWN_C6, 0x01, 0x00, 0xFF, 0xFF, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_UNKNOWN_C6, 0x01, 0x00, 0xFF, 0xFF, 0x00);
->  
-> -	dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER,
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER,
->  			  0x74, /* VBTHS, VBTLS: VGH = 17V, VBL = -11V */
->  			  0x00, /* FBOFF_VGH = 0, FBOFF_VGL = 0 */
->  			  0x32, /* VRP  */
-> @@ -287,20 +270,20 @@ static int xbd599_init_sequence(struct st7703 *ctx)
->  			  0x77  /* VGH3_R_DIV, VGL3_R_DIV (4.5MHz) */);
->  
->  	/* Reference voltage. */
-> -	dsi_dcs_write_seq(dsi, ST7703_CMD_SETBGP,
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETBGP,
->  			  0x07, /* VREF_SEL = 4.2V */
->  			  0x07  /* NVREF_SEL = 4.2V */);
->  	msleep(20);
->  
-> -	dsi_dcs_write_seq(dsi, ST7703_CMD_SETVCOM,
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETVCOM,
->  			  0x2C, /* VCOMDC_F = -0.67V */
->  			  0x2C  /* VCOMDC_B = -0.67V */);
->  
->  	/* Undocumented command. */
-> -	dsi_dcs_write_seq(dsi, ST7703_CMD_UNKNOWN_BF, 0x02, 0x11, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_UNKNOWN_BF, 0x02, 0x11, 0x00);
->  
->  	/* This command is to set forward GIP timing. */
-> -	dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP1,
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP1,
->  			  0x82, 0x10, 0x06, 0x05, 0xA2, 0x0A, 0xA5, 0x12,
->  			  0x31, 0x23, 0x37, 0x83, 0x04, 0xBC, 0x27, 0x38,
->  			  0x0C, 0x00, 0x03, 0x00, 0x00, 0x00, 0x0C, 0x00,
-> @@ -311,7 +294,7 @@ static int xbd599_init_sequence(struct st7703 *ctx)
->  			  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
->  
->  	/* This command is to set backward GIP timing. */
-> -	dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP2,
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP2,
->  			  0x02, 0x21, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->  			  0x00, 0x00, 0x00, 0x00, 0x02, 0x46, 0x02, 0x88,
->  			  0x88, 0x88, 0x88, 0x88, 0x88, 0x64, 0x88, 0x13,
-> @@ -322,7 +305,7 @@ static int xbd599_init_sequence(struct st7703 *ctx)
->  			  0xA5, 0x00, 0x00, 0x00, 0x00);
->  
->  	/* Adjust the gamma characteristics of the panel. */
-> -	dsi_dcs_write_seq(dsi, ST7703_CMD_SETGAMMA,
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETGAMMA,
->  			  0x00, 0x09, 0x0D, 0x23, 0x27, 0x3C, 0x41, 0x35,
->  			  0x07, 0x0D, 0x0E, 0x12, 0x13, 0x10, 0x12, 0x12,
->  			  0x18, 0x00, 0x09, 0x0D, 0x23, 0x27, 0x3C, 0x41,
-> @@ -499,7 +482,7 @@ static int allpixelson_set(void *data, u64 val)
->  	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
->  
->  	dev_dbg(ctx->dev, "Setting all pixels on\n");
-> -	dsi_generic_write_seq(dsi, ST7703_CMD_ALL_PIXEL_ON);
-> +	mipi_dsi_generic_write_seq(dsi, ST7703_CMD_ALL_PIXEL_ON);
->  	msleep(val * 1000);
->  	/* Reset the panel to get video back */
->  	drm_panel_disable(&ctx->panel);
-> -- 
-> 2.38.1
+> -	if (job_data)
+> -		kfree(job_data);
+> +	kfree(job_data);
+> +
+>   put_bo:
+>   	gather_bo_put(&bo->base);
+>   unlock:
+> --
+> 2.34.1
 > 
+> 
+> 
+
+It continues to be the case that I think this transform is bad. Same 
+applies to the host1x patch.
+
+Mikko
