@@ -2,68 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EA406571BE
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 02:48:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B056571C8
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 02:49:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44BAA10E366;
-	Wed, 28 Dec 2022 01:48:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05DE810E367;
+	Wed, 28 Dec 2022 01:48:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D01D510E177
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Dec 2022 01:48:13 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2765A10E364
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Dec 2022 01:48:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672192093;
+ s=mimecast20190719; t=1672192094;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g15VcQGD8pOXU33YkkONtfP58IPyQH60L411XlcKCd0=;
- b=IXE/VP0thG6mtyp+yYeGwc69EziCoiXhRiaStnfzrQwtSTeVHgAgRUiimzJHz/LCTXt5Rf
- Ws2VsjLG6fZU77UbcI/3HiZAC3qynGWAKJMdCkX/T1CduhGjXUFyHWBqITeOSiGfpurCZM
- jbX2teYMOZ3EMBCLJTBiUmHolwu00GQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=R3zNujiFj3yLofalQ468fJjqEb+VryQvUoblSG4qto8=;
+ b=VaLf3KT8D7Jq15O9YCyxtsszBWpxLjzsWl8STDVMidDSiJaFiszHsz9TBhnKm5oNq9/6HS
+ 2TjSi6zfdjKc3g5DALSFAef2Bh4FH9RI17K6/cB1i3C8T3QVw2vq17b8O2jSxe/otOK4xT
+ PFTBz8m/R1G4OV655EsnV5Poy8vPjGk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-399-AIpgPn4HPrCP7a95Yh68KA-1; Tue, 27 Dec 2022 20:48:11 -0500
-X-MC-Unique: AIpgPn4HPrCP7a95Yh68KA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m38-20020a05600c3b2600b003d1fc5f1f80so10375760wms.1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 17:48:11 -0800 (PST)
+ us-mta-612-480jVGBKOcSa4UY2pLecBQ-1; Tue, 27 Dec 2022 20:48:12 -0500
+X-MC-Unique: 480jVGBKOcSa4UY2pLecBQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ fm17-20020a05600c0c1100b003d96f0a7f2eso7369606wmb.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 17:48:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=g15VcQGD8pOXU33YkkONtfP58IPyQH60L411XlcKCd0=;
- b=SbKPI+5bn64oR9KjxYYLTxAofuo3sUv/BlQ+Y55Ym6cQfLq3KCyd7n745ZdqmynZOG
- WDraVjnksS03tw2CvwD3m9d5qly4jgxtMKT7kqeCw9UNevl/TxplChScBMDvgGd7BUsx
- yPpjoZgqrWH7nDQe/ZElKu+spQJ3UAsJmai+41ipY5RiRbzEzBMhjWu00kz6/wMJy+Fs
- FtKlKRTv1UOuzjb795I6stNcRXhhwiT3cWKNuzhkvjDGPLtxbyiDKPTI/tupOrQecc9u
- sA17Ngs6wk/+6LA7ShFKtKSmgS+BceggWNJofHC5JV5x01Op9nOa/28SCMhBUJYC3bpz
- hQpQ==
-X-Gm-Message-State: AFqh2koZUxTMeF3VB3uXXVImKsOvOIWsJO6fZ9MMX5XUTp/Wt1QJya72
- 5Ja0htoOwhZKdoizi9LQhYwNTsIgHij6ZnQEFRbFtpcFy2DFK0+eNUOZpzJ1wUYAZW6zP93jwEQ
- m7SnB/JC7RvSeDIXTaTrRDc7onRca
-X-Received: by 2002:a5d:49c3:0:b0:232:be5c:ec4a with SMTP id
- t3-20020a5d49c3000000b00232be5cec4amr18463319wrs.6.1672192090419; 
- Tue, 27 Dec 2022 17:48:10 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsCR5UYOjWU+wG5pcWo5e2TR0Mh3mfElBmA4Lw+8NrlaXHQ8azAl3N47MnAYoKcWmVES84Vyg==
-X-Received: by 2002:a5d:49c3:0:b0:232:be5c:ec4a with SMTP id
- t3-20020a5d49c3000000b00232be5cec4amr18463309wrs.6.1672192090152; 
- Tue, 27 Dec 2022 17:48:10 -0800 (PST)
+ bh=R3zNujiFj3yLofalQ468fJjqEb+VryQvUoblSG4qto8=;
+ b=lU5aiS1mOb0GNKBpQ9dHp45ROGUORwBXIZNytyhIJqSx6U051wBhTWFgwGs/5bJ3TF
+ Ri8ABV2lkYz1CQgYGZzGbC0llU39yTtyGVXdHmIdOUI7RNEy7YEOIEUm8OpnZWgWxKwc
+ ZYfONU4u9o+GN6EVHdbHqqErHNRppBXXHGiSSAttINj70Y9mWuhUR1yIFVz7nmLipu8k
+ QJl04BJgh4kPiuYsI/+7l9a+g4QJwSK4c02PHoRJe5COtW49nhxHwXi+fVdD3ZQoafQk
+ /GDFgF1kEQJtJCTuPTXT2nR7lTtODEXl41V1a5HxU/mYP/TSzB+UERHb/pCY/qIO6yp8
+ uUhg==
+X-Gm-Message-State: AFqh2kqqj/vVQger4SRSTOYy9V9toBfPQlBbptGvIDIGurd7eUhSrNoI
+ bFvCEjk4zouP2T8bEpAVowVYW3SRyLrduPTLpeYCLPWcbvY8NVD72F6qPU+vMSJiRnhbK7w7q33
+ DRnI9WQZ1GpFmCXS6z7FKOwtYqID5
+X-Received: by 2002:a05:600c:1509:b0:3d2:17a5:17fe with SMTP id
+ b9-20020a05600c150900b003d217a517femr16573129wmg.18.1672192091724; 
+ Tue, 27 Dec 2022 17:48:11 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXspfH/t9hYVfL/CoCHFa0Z1pRLmWZ9qGIX9X9C+FhjVQIDoxI5o6qh6BstWlE6yV+CGQoT4yg==
+X-Received: by 2002:a05:600c:1509:b0:3d2:17a5:17fe with SMTP id
+ b9-20020a05600c150900b003d217a517femr16573123wmg.18.1672192091540; 
+ Tue, 27 Dec 2022 17:48:11 -0800 (PST)
 Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- k16-20020a056000005000b002258235bda3sm14158873wrx.61.2022.12.27.17.48.09
+ k16-20020a056000005000b002258235bda3sm14158873wrx.61.2022.12.27.17.48.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Dec 2022 17:48:09 -0800 (PST)
+ Tue, 27 Dec 2022 17:48:11 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 04/14] drm/panel-leadtek-ltk050h3146w: Drop custom DSI write
- macro
-Date: Wed, 28 Dec 2022 02:47:47 +0100
-Message-Id: <20221228014757.3170486-5-javierm@redhat.com>
+Subject: [PATCH 05/14] drm/panel-elida-kd35t133: Drop custom DSI write macro
+Date: Wed, 28 Dec 2022 02:47:48 +0100
+Message-Id: <20221228014757.3170486-6-javierm@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221228014757.3170486-1-javierm@redhat.com>
 References: <20221228014757.3170486-1-javierm@redhat.com>
@@ -96,15 +95,15 @@ that instead and delete the custom DSI write macro defined in the driver.
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
 
- .../drm/panel/panel-leadtek-ltk050h3146w.c    | 64 ++++++++-----------
- 1 file changed, 28 insertions(+), 36 deletions(-)
+ drivers/gpu/drm/panel/panel-elida-kd35t133.c | 34 ++++++++------------
+ 1 file changed, 13 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c b/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
-index 5619f186d28c..525dddef4d9c 100644
---- a/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
-+++ b/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
-@@ -244,14 +244,6 @@ struct ltk050h3146w *panel_to_ltk050h3146w(struct drm_panel *panel)
- 	return container_of(panel, struct ltk050h3146w, panel);
+diff --git a/drivers/gpu/drm/panel/panel-elida-kd35t133.c b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+index eee714cf3f49..48535ea3f1d3 100644
+--- a/drivers/gpu/drm/panel/panel-elida-kd35t133.c
++++ b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+@@ -51,14 +51,6 @@ static inline struct kd35t133 *panel_to_kd35t133(struct drm_panel *panel)
+ 	return container_of(panel, struct kd35t133, panel);
  }
  
 -#define dsi_dcs_write_seq(dsi, cmd, seq...) do {			\
@@ -115,93 +114,47 @@ index 5619f186d28c..525dddef4d9c 100644
 -			return ret;					\
 -	} while (0)
 -
- static int ltk050h3146w_init_sequence(struct ltk050h3146w *ctx)
+ static int kd35t133_init_sequence(struct kd35t133 *ctx)
  {
  	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-@@ -261,55 +253,55 @@ static int ltk050h3146w_init_sequence(struct ltk050h3146w *ctx)
- 	 * Init sequence was supplied by the panel vendor without much
+@@ -68,24 +60,24 @@ static int kd35t133_init_sequence(struct kd35t133 *ctx)
+ 	 * Init sequence was supplied by the panel vendor with minimal
  	 * documentation.
  	 */
--	dsi_dcs_write_seq(dsi, 0xdf, 0x93, 0x65, 0xf8);
--	dsi_dcs_write_seq(dsi, 0xb0, 0x01, 0x03, 0x02, 0x00, 0x64, 0x06,
-+	mipi_dsi_dcs_write_seq(dsi, 0xdf, 0x93, 0x65, 0xf8);
-+	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x01, 0x03, 0x02, 0x00, 0x64, 0x06,
- 			  0x01);
--	dsi_dcs_write_seq(dsi, 0xb2, 0x00, 0xb5);
--	dsi_dcs_write_seq(dsi, 0xb3, 0x00, 0xb5);
--	dsi_dcs_write_seq(dsi, 0xb7, 0x00, 0xbf, 0x00, 0x00, 0xbf, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, 0xb2, 0x00, 0xb5);
-+	mipi_dsi_dcs_write_seq(dsi, 0xb3, 0x00, 0xb5);
-+	mipi_dsi_dcs_write_seq(dsi, 0xb7, 0x00, 0xbf, 0x00, 0x00, 0xbf, 0x00);
+-	dsi_dcs_write_seq(dsi, KD35T133_CMD_POSITIVEGAMMA,
++	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_POSITIVEGAMMA,
+ 			  0x00, 0x13, 0x18, 0x04, 0x0f, 0x06, 0x3a, 0x56,
+ 			  0x4d, 0x03, 0x0a, 0x06, 0x30, 0x3e, 0x0f);
+-	dsi_dcs_write_seq(dsi, KD35T133_CMD_NEGATIVEGAMMA,
++	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_NEGATIVEGAMMA,
+ 			  0x00, 0x13, 0x18, 0x01, 0x11, 0x06, 0x38, 0x34,
+ 			  0x4d, 0x06, 0x0d, 0x0b, 0x31, 0x37, 0x0f);
+-	dsi_dcs_write_seq(dsi, KD35T133_CMD_POWERCONTROL1, 0x18, 0x17);
+-	dsi_dcs_write_seq(dsi, KD35T133_CMD_POWERCONTROL2, 0x41);
+-	dsi_dcs_write_seq(dsi, KD35T133_CMD_VCOMCONTROL, 0x00, 0x1a, 0x80);
+-	dsi_dcs_write_seq(dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x48);
+-	dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
+-	dsi_dcs_write_seq(dsi, KD35T133_CMD_INTERFACEMODECTRL, 0x00);
+-	dsi_dcs_write_seq(dsi, KD35T133_CMD_FRAMERATECTRL, 0xa0);
+-	dsi_dcs_write_seq(dsi, KD35T133_CMD_DISPLAYINVERSIONCTRL, 0x02);
+-	dsi_dcs_write_seq(dsi, KD35T133_CMD_DISPLAYFUNCTIONCTRL,
++	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_POWERCONTROL1, 0x18, 0x17);
++	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_POWERCONTROL2, 0x41);
++	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_VCOMCONTROL, 0x00, 0x1a, 0x80);
++	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x48);
++	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
++	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_INTERFACEMODECTRL, 0x00);
++	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_FRAMERATECTRL, 0xa0);
++	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_DISPLAYINVERSIONCTRL, 0x02);
++	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_DISPLAYFUNCTIONCTRL,
+ 			  0x20, 0x02);
+-	dsi_dcs_write_seq(dsi, KD35T133_CMD_SETIMAGEFUNCTION, 0x00);
+-	dsi_dcs_write_seq(dsi, KD35T133_CMD_ADJUSTCONTROL3,
++	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_SETIMAGEFUNCTION, 0x00);
++	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_ADJUSTCONTROL3,
+ 			  0xa9, 0x51, 0x2c, 0x82);
+ 	mipi_dsi_dcs_write(dsi, MIPI_DCS_ENTER_INVERT_MODE, NULL, 0);
  
--	dsi_dcs_write_seq(dsi, 0xb9, 0x00, 0xc4, 0x23, 0x07);
--	dsi_dcs_write_seq(dsi, 0xbb, 0x02, 0x01, 0x24, 0x00, 0x28, 0x0f,
-+	mipi_dsi_dcs_write_seq(dsi, 0xb9, 0x00, 0xc4, 0x23, 0x07);
-+	mipi_dsi_dcs_write_seq(dsi, 0xbb, 0x02, 0x01, 0x24, 0x00, 0x28, 0x0f,
- 			  0x28, 0x04, 0xcc, 0xcc, 0xcc);
--	dsi_dcs_write_seq(dsi, 0xbc, 0x0f, 0x04);
--	dsi_dcs_write_seq(dsi, 0xbe, 0x1e, 0xf2);
--	dsi_dcs_write_seq(dsi, 0xc0, 0x26, 0x03);
--	dsi_dcs_write_seq(dsi, 0xc1, 0x00, 0x12);
--	dsi_dcs_write_seq(dsi, 0xc3, 0x04, 0x02, 0x02, 0x76, 0x01, 0x80,
-+	mipi_dsi_dcs_write_seq(dsi, 0xbc, 0x0f, 0x04);
-+	mipi_dsi_dcs_write_seq(dsi, 0xbe, 0x1e, 0xf2);
-+	mipi_dsi_dcs_write_seq(dsi, 0xc0, 0x26, 0x03);
-+	mipi_dsi_dcs_write_seq(dsi, 0xc1, 0x00, 0x12);
-+	mipi_dsi_dcs_write_seq(dsi, 0xc3, 0x04, 0x02, 0x02, 0x76, 0x01, 0x80,
- 			  0x80);
--	dsi_dcs_write_seq(dsi, 0xc4, 0x24, 0x80, 0xb4, 0x81, 0x12, 0x0f,
-+	mipi_dsi_dcs_write_seq(dsi, 0xc4, 0x24, 0x80, 0xb4, 0x81, 0x12, 0x0f,
- 			  0x16, 0x00, 0x00);
--	dsi_dcs_write_seq(dsi, 0xc8, 0x7f, 0x72, 0x67, 0x5d, 0x5d, 0x50,
-+	mipi_dsi_dcs_write_seq(dsi, 0xc8, 0x7f, 0x72, 0x67, 0x5d, 0x5d, 0x50,
- 			  0x56, 0x41, 0x59, 0x57, 0x55, 0x70, 0x5b, 0x5f,
- 			  0x4f, 0x47, 0x38, 0x23, 0x08, 0x7f, 0x72, 0x67,
- 			  0x5d, 0x5d, 0x50, 0x56, 0x41, 0x59, 0x57, 0x55,
- 			  0x70, 0x5b, 0x5f, 0x4f, 0x47, 0x38, 0x23, 0x08);
--	dsi_dcs_write_seq(dsi, 0xd0, 0x1e, 0x1f, 0x57, 0x58, 0x48, 0x4a,
-+	mipi_dsi_dcs_write_seq(dsi, 0xd0, 0x1e, 0x1f, 0x57, 0x58, 0x48, 0x4a,
- 			  0x44, 0x46, 0x40, 0x1f, 0x42, 0x1f, 0x1f, 0x1f,
- 			  0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
--	dsi_dcs_write_seq(dsi, 0xd1, 0x1e, 0x1f, 0x57, 0x58, 0x49, 0x4b,
-+	mipi_dsi_dcs_write_seq(dsi, 0xd1, 0x1e, 0x1f, 0x57, 0x58, 0x49, 0x4b,
- 			  0x45, 0x47, 0x41, 0x1f, 0x43, 0x1f, 0x1f, 0x1f,
- 			  0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
--	dsi_dcs_write_seq(dsi, 0xd2, 0x1f, 0x1e, 0x17, 0x18, 0x07, 0x05,
-+	mipi_dsi_dcs_write_seq(dsi, 0xd2, 0x1f, 0x1e, 0x17, 0x18, 0x07, 0x05,
- 			  0x0b, 0x09, 0x03, 0x1f, 0x01, 0x1f, 0x1f, 0x1f,
- 			  0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
--	dsi_dcs_write_seq(dsi, 0xd3, 0x1f, 0x1e, 0x17, 0x18, 0x06, 0x04,
-+	mipi_dsi_dcs_write_seq(dsi, 0xd3, 0x1f, 0x1e, 0x17, 0x18, 0x06, 0x04,
- 			  0x0a, 0x08, 0x02, 0x1f, 0x00, 0x1f, 0x1f, 0x1f,
- 			  0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
--	dsi_dcs_write_seq(dsi, 0xd4, 0x00, 0x00, 0x00, 0x0c, 0x06, 0x20,
-+	mipi_dsi_dcs_write_seq(dsi, 0xd4, 0x00, 0x00, 0x00, 0x0c, 0x06, 0x20,
- 			  0x01, 0x02, 0x00, 0x60, 0x15, 0xb0, 0x30, 0x03,
- 			  0x04, 0x00, 0x60, 0x72, 0x0a, 0x00, 0x60, 0x08);
--	dsi_dcs_write_seq(dsi, 0xd5, 0x00, 0x06, 0x06, 0x00, 0x30, 0x00,
-+	mipi_dsi_dcs_write_seq(dsi, 0xd5, 0x00, 0x06, 0x06, 0x00, 0x30, 0x00,
- 			  0x00, 0x00, 0x00, 0x00, 0xbc, 0x50, 0x00, 0x05,
- 			  0x21, 0x00, 0x60);
--	dsi_dcs_write_seq(dsi, 0xdd, 0x2c, 0xa3, 0x00);
--	dsi_dcs_write_seq(dsi, 0xde, 0x02);
--	dsi_dcs_write_seq(dsi, 0xb2, 0x32, 0x1c);
--	dsi_dcs_write_seq(dsi, 0xb7, 0x3b, 0x70, 0x00, 0x04);
--	dsi_dcs_write_seq(dsi, 0xc1, 0x11);
--	dsi_dcs_write_seq(dsi, 0xbb, 0x21, 0x22, 0x23, 0x24, 0x36, 0x37);
--	dsi_dcs_write_seq(dsi, 0xc2, 0x20, 0x38, 0x1e, 0x84);
--	dsi_dcs_write_seq(dsi, 0xde, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, 0xdd, 0x2c, 0xa3, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, 0xde, 0x02);
-+	mipi_dsi_dcs_write_seq(dsi, 0xb2, 0x32, 0x1c);
-+	mipi_dsi_dcs_write_seq(dsi, 0xb7, 0x3b, 0x70, 0x00, 0x04);
-+	mipi_dsi_dcs_write_seq(dsi, 0xc1, 0x11);
-+	mipi_dsi_dcs_write_seq(dsi, 0xbb, 0x21, 0x22, 0x23, 0x24, 0x36, 0x37);
-+	mipi_dsi_dcs_write_seq(dsi, 0xc2, 0x20, 0x38, 0x1e, 0x84);
-+	mipi_dsi_dcs_write_seq(dsi, 0xde, 0x00);
- 
- 	ret = mipi_dsi_dcs_set_tear_on(dsi, 1);
- 	if (ret < 0) {
 -- 
 2.38.1
 
