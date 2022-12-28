@@ -2,76 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35AE06571D0
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 02:49:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 833866571DB
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 02:52:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9361710E370;
-	Wed, 28 Dec 2022 01:48:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E2A910E377;
+	Wed, 28 Dec 2022 01:52:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E66A10E36A
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Dec 2022 01:48:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672192106;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eFLyXnnWWLV2WFqSFA8goZjk6zRci0Sl+99Zm9465ac=;
- b=O0Bff68YJELQ1RgvQy4zwEMXnIHRXu93B9rkJev4RkTIRkUAlcOTi3WoebKgncm+YSvtNR
- JB/ArxB30XpDX30H1IJ14r4cOE13OYuKhy91ulUcccXaCmyBkBOSRo6wPQFHcqAx703tum
- LZXhpcBzPjktB+ocQ12nW7xBgbnmW84=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-428-jC9Ag7qzOjKGFxIfwFqxeg-1; Tue, 27 Dec 2022 20:48:24 -0500
-X-MC-Unique: jC9Ag7qzOjKGFxIfwFqxeg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- bg25-20020a05600c3c9900b003cf3ed7e27bso7617209wmb.4
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 17:48:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=eFLyXnnWWLV2WFqSFA8goZjk6zRci0Sl+99Zm9465ac=;
- b=2boavlTzNArFkgwfDvv54N3bEm380cUYuxLQ4C5/WNZXTZE+1hcK/wE6UZRDFyfsCE
- Qur4O/UjmLHBSWj1SnYZX2sBiChSwkcS8cwrkV/qK7ObetUIJcU9fuTQ0WrhoMqcvs7k
- h8qXr82v0CVMI3tZFHJvX5ScRiddor+wKV6t/x8SAXUyBp/ajKNlZsd9jhswvFPlk3kp
- 87ieLb/3GYmSl1BJ+QkIuCPD5r6RLFanE/OELdRH0K22EKfOgzyFy9JzTUt8Udt6RxGg
- HR3eb9kvP0AdsqNy6umAVemmJ37PNpnkREROL3YDtgNhQgBWU7UVC3YdC6JnyGvQxmQB
- xbgA==
-X-Gm-Message-State: AFqh2koRDB4qViEPdSJvWZCFU3ZruK9OUI98FNwoRtM4wsDCtKQt9o4O
- V1car9fTcLP/PrOhfTcFy/jK20ElcOASCt/DJsLC13PuxCSQ0D6bwFVpzpwxj7UMy0ZA4PCc57T
- PdvudMYiB16bRAdfXKUVZpMKlccYp
-X-Received: by 2002:adf:f243:0:b0:26d:798f:ab8a with SMTP id
- b3-20020adff243000000b0026d798fab8amr12795225wrp.68.1672192103554; 
- Tue, 27 Dec 2022 17:48:23 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvN08ikHqxEdwe0XuYcR9XedLDUgccllFpcGIC3jMI8Eb83v8+q0wvMG7cAIKpa5v3FBH8MNA==
-X-Received: by 2002:adf:f243:0:b0:26d:798f:ab8a with SMTP id
- b3-20020adff243000000b0026d798fab8amr12795224wrp.68.1672192103369; 
- Tue, 27 Dec 2022 17:48:23 -0800 (PST)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- k16-20020a056000005000b002258235bda3sm14158873wrx.61.2022.12.27.17.48.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Dec 2022 17:48:22 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 14/14] drm/panel-xinpeng-xpp055c272: Drop custom DSI write
- macro
-Date: Wed, 28 Dec 2022 02:47:57 +0100
-Message-Id: <20221228014757.3170486-15-javierm@redhat.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221228014757.3170486-1-javierm@redhat.com>
-References: <20221228014757.3170486-1-javierm@redhat.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D64110E375;
+ Wed, 28 Dec 2022 01:52:28 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BS1RbQ2006084; Wed, 28 Dec 2022 01:52:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=OWoUMHMAg6ZFQZMXZ1sQvOf70adLDMIIlMo8dd0/UUU=;
+ b=OZTgQcvHqblhK/p/LeC+MgtmZI8Q82Y4hNFjcBxsja2zGnBtj9HUkM8A4KIqaTCMt9sw
+ Xw3rjTXe0xle0Y2Vl0vRBWI/HFMMNx1JBNSK2v0Hj5ieGbhuSLQiOqGOL9TR0ApCh3Yv
+ p/lWe0oSIMStvO59aFpbBe5/zCBI0KdRf2qqd5KzYSNMm9qj5/f8IUmPsTHQ9/s0GiMz
+ rcDjyKfMTWSAZx4gqIYk5IK1BHYROsg1pQbWyOlIuQIbQyZ6BsIZgoVvwZ8M8CzDMWOk
+ CT9HgdFZQwoMPSZJVsrpSlBp34Unv1vAF5cvE10PcWMBz75lFsozH3I6eFN17h53A5LE 3A== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mnrd1dvk0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Dec 2022 01:52:24 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BS1qNhI000348
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Dec 2022 01:52:23 GMT
+Received: from [10.110.12.185] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 27 Dec
+ 2022 17:52:22 -0800
+Message-ID: <9bec497c-a0f9-ac9a-03a4-82e42688df1f@quicinc.com>
+Date: Tue, 27 Dec 2022 17:52:21 -0800
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH] dt-bindings: msm/dsi: Don't require vdds-supply on 10nm
+ PHY
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, <linux-arm-msm@vger.kernel.org>, 
+ <andersson@kernel.org>, <agross@kernel.org>,
+ <krzysztof.kozlowski@linaro.org>
+References: <20221116163218.42449-1-konrad.dybcio@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20221116163218.42449-1-konrad.dybcio@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: tpnjjpBv9_QGlzROx12kjvd7-_5yLgmr
+X-Proofpoint-GUID: tpnjjpBv9_QGlzROx12kjvd7-_5yLgmr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-27_18,2022-12-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0
+ spamscore=0 malwarescore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
+ impostorscore=0 phishscore=0 priorityscore=1501 mlxscore=0 mlxlogscore=906
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2212280011
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,112 +85,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: freedreno@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, patches@linaro.org,
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a macro for this already in the <drm/drm_mipi_dsi.h> header, use
-that instead and delete the custom DSI write macro defined in the driver.
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
 
- .../gpu/drm/panel/panel-xinpeng-xpp055c272.c  | 44 ++++++++-----------
- 1 file changed, 18 insertions(+), 26 deletions(-)
+On 11/16/2022 8:32 AM, Konrad Dybcio wrote:
+> On some SoCs (hello SM6350) vdds-supply is not wired to any smd-rpm
+> or rpmh regulator, but instead powered by the VDD_MX/mx.lvl line,
+> which is voted for in the DSI ctrl node.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-diff --git a/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c b/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-index 2c54733ee241..230d87ba139a 100644
---- a/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-+++ b/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-@@ -60,14 +60,6 @@ static inline struct xpp055c272 *panel_to_xpp055c272(struct drm_panel *panel)
- 	return container_of(panel, struct xpp055c272, panel);
- }
- 
--#define dsi_generic_write_seq(dsi, cmd, seq...) do {			\
--		static const u8 b[] = { cmd, seq };			\
--		int ret;						\
--		ret = mipi_dsi_dcs_write_buffer(dsi, b, ARRAY_SIZE(b));	\
--		if (ret < 0)						\
--			return ret;					\
--	} while (0)
--
- static int xpp055c272_init_sequence(struct xpp055c272 *ctx)
- {
- 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-@@ -77,37 +69,37 @@ static int xpp055c272_init_sequence(struct xpp055c272 *ctx)
- 	 * Init sequence was supplied by the panel vendor without much
- 	 * documentation.
- 	 */
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETEXTC, 0xf1, 0x12, 0x83);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETMIPI,
-+	mipi_dsi_generic_write_seq(dsi, XPP055C272_CMD_SETEXTC, 0xf1, 0x12, 0x83);
-+	mipi_dsi_generic_write_seq(dsi, XPP055C272_CMD_SETMIPI,
- 			      0x33, 0x81, 0x05, 0xf9, 0x0e, 0x0e, 0x00, 0x00,
- 			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x44, 0x25,
- 			      0x00, 0x91, 0x0a, 0x00, 0x00, 0x02, 0x4f, 0x01,
- 			      0x00, 0x00, 0x37);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPOWER_EXT, 0x25);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPCR, 0x02, 0x11, 0x00);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETRGBIF,
-+	mipi_dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPOWER_EXT, 0x25);
-+	mipi_dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPCR, 0x02, 0x11, 0x00);
-+	mipi_dsi_generic_write_seq(dsi, XPP055C272_CMD_SETRGBIF,
- 			      0x0c, 0x10, 0x0a, 0x50, 0x03, 0xff, 0x00, 0x00,
- 			      0x00, 0x00);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETSCR,
-+	mipi_dsi_generic_write_seq(dsi, XPP055C272_CMD_SETSCR,
- 			      0x73, 0x73, 0x50, 0x50, 0x00, 0x00, 0x08, 0x70,
- 			      0x00);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETVDC, 0x46);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPANEL, 0x0b);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETCYC, 0x80);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETDISP, 0xc8, 0x12, 0x30);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETEQ,
-+	mipi_dsi_generic_write_seq(dsi, XPP055C272_CMD_SETVDC, 0x46);
-+	mipi_dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPANEL, 0x0b);
-+	mipi_dsi_generic_write_seq(dsi, XPP055C272_CMD_SETCYC, 0x80);
-+	mipi_dsi_generic_write_seq(dsi, XPP055C272_CMD_SETDISP, 0xc8, 0x12, 0x30);
-+	mipi_dsi_generic_write_seq(dsi, XPP055C272_CMD_SETEQ,
- 			      0x07, 0x07, 0x0B, 0x0B, 0x03, 0x0B, 0x00, 0x00,
- 			      0x00, 0x00, 0xFF, 0x00, 0xC0, 0x10);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPOWER,
-+	mipi_dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPOWER,
- 			      0x53, 0x00, 0x1e, 0x1e, 0x77, 0xe1, 0xcc, 0xdd,
- 			      0x67, 0x77, 0x33, 0x33);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETECO, 0x00, 0x00, 0xff,
-+	mipi_dsi_generic_write_seq(dsi, XPP055C272_CMD_SETECO, 0x00, 0x00, 0xff,
- 			      0xff, 0x01, 0xff);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETBGP, 0x09, 0x09);
-+	mipi_dsi_generic_write_seq(dsi, XPP055C272_CMD_SETBGP, 0x09, 0x09);
- 	msleep(20);
- 
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETVCOM, 0x87, 0x95);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETGIP1,
-+	mipi_dsi_generic_write_seq(dsi, XPP055C272_CMD_SETVCOM, 0x87, 0x95);
-+	mipi_dsi_generic_write_seq(dsi, XPP055C272_CMD_SETGIP1,
- 			      0xc2, 0x10, 0x05, 0x05, 0x10, 0x05, 0xa0, 0x12,
- 			      0x31, 0x23, 0x3f, 0x81, 0x0a, 0xa0, 0x37, 0x18,
- 			      0x00, 0x80, 0x01, 0x00, 0x00, 0x00, 0x00, 0x80,
-@@ -116,7 +108,7 @@ static int xpp055c272_init_sequence(struct xpp055c272 *ctx)
- 			      0xf8, 0x87, 0x53, 0x18, 0x88, 0x88, 0x81, 0x88,
- 			      0x88, 0x88, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00,
- 			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETGIP2,
-+	mipi_dsi_generic_write_seq(dsi, XPP055C272_CMD_SETGIP2,
- 			      0x00, 0x1a, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00,
- 			      0x00, 0x00, 0x00, 0x00, 0x1f, 0x88, 0x81, 0x35,
- 			      0x78, 0x88, 0x88, 0x85, 0x88, 0x88, 0x88, 0x0f,
-@@ -125,7 +117,7 @@ static int xpp055c272_init_sequence(struct xpp055c272 *ctx)
- 			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
- 			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30, 0x05,
- 			      0xa0, 0x00, 0x00, 0x00, 0x00);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETGAMMA,
-+	mipi_dsi_generic_write_seq(dsi, XPP055C272_CMD_SETGAMMA,
- 			      0x00, 0x06, 0x08, 0x2a, 0x31, 0x3f, 0x38, 0x36,
- 			      0x07, 0x0c, 0x0d, 0x11, 0x13, 0x12, 0x13, 0x11,
- 			      0x18, 0x00, 0x06, 0x08, 0x2a, 0x31, 0x3f, 0x38,
--- 
-2.38.1
+Fixes: 8fc939e72ff8 ("dt-bindings: msm: dsi: add yaml schemas for DSI 
+PHY bindings")
 
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
+> ---
+>   Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+> index d9ad8b659f58..3ec466c3ab38 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+> @@ -69,7 +69,6 @@ required:
+>     - compatible
+>     - reg
+>     - reg-names
+> -  - vdds-supply
+>   
+>   unevaluatedProperties: false
+>   
