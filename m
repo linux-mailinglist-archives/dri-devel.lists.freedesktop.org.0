@@ -2,45 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 804466577DC
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 15:35:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 926DF658169
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 17:28:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3D8010E1B0;
-	Wed, 28 Dec 2022 14:35:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE24610E3B6;
+	Wed, 28 Dec 2022 16:28:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4000010E1B0
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Dec 2022 14:35:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=iptCw7uYULsfzr0zvc8R1eicmlCBmbSGFclRDIlK2J8=; b=rV3c6Bnbk//BG7zpsX9A0wUELI
- T49xO1IuGkZTe23PjsPtHNTnMgWtH178X0yHZ+7Be9Dgx4qmogQqV9W9L+zBgq3d8o7Yc1AZkz4KH
- g2q4h5oHcXv4yPe8JFWD4M2aagc+QkGp3uxUT5Mps9RDRashb4m+aiEtKZidIDpWzF0GUEQHF5s8P
- 0DMGErqDbkC1o+/aMF6gdPv8MgISCGBq1S4TXbYB12SI/rjeoYIP7Op8IdQLfMZ+619VlzNj20yux
- UrXUF4TKlt5Ij2Ej5oob3m6DKEu1B2Piy+byv6r3bQMgr2TNTUWSHFhIcgkZPyzQ0H+bInl/YRhxR
- F4+41FjQ==;
-Received: from [41.74.137.107] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pAXWX-00BhBN-Ct; Wed, 28 Dec 2022 15:35:17 +0100
-Date: Wed, 28 Dec 2022 13:35:09 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH] drm/v3d: replace open-coded implementation of
- drm_gem_object_lookup
-Message-ID: <20221228143509.dsxjhstx54olxaek@mail.igalia.com>
-References: <20221227200010.191351-1-mcanal@igalia.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6742F10E3B6
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Dec 2022 16:28:25 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 1243AB816F4;
+ Wed, 28 Dec 2022 16:28:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36271C433D2;
+ Wed, 28 Dec 2022 16:28:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1672244903;
+ bh=l6SZ1o3XablMRreE/05h9qlGf3szz8R5it9zAPOMn0Y=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Ron5PI7u6ezKAXDau7enNqehjB6k7hg8WUY37MCGZDC+mZEXebm2BUy84FCDqz1uu
+ 2UvyTAP6qlbU9mL3t3IFxruwFvZTRTMTRGIYU3VrFSYAoyjLAe7QiIjLpSE80qt3YS
+ mQU8BdIp06nSLQ8NV9EiqhIsTgljHyeTmS0CNtxg=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Subject: [PATCH 6.1 0759/1146] fbdev: geode: dont build on UML
+Date: Wed, 28 Dec 2022 15:38:18 +0100
+Message-Id: <20221228144350.759019233@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20221228144330.180012208@linuxfoundation.org>
+References: <20221228144330.180012208@linuxfoundation.org>
+User-Agent: quilt/0.67
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="4ocnoqdzfv4t6xfq"
-Content-Disposition: inline
-In-Reply-To: <20221227200010.191351-1-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,95 +50,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
- dri-devel@lists.freedesktop.org, Emma Anholt <emma@anholt.net>
+Cc: Sasha Levin <sashal@kernel.org>, Andres Salomon <dilinger@queued.net>,
+ linux-fbdev@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-um@lists.infradead.org, patches@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-geode@lists.infradead.org,
+ Richard Weinberger <richard@nod.at>, Johannes Berg <johannes@sipsolutions.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Randy Dunlap <rdunlap@infradead.org>
 
---4ocnoqdzfv4t6xfq
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[ Upstream commit 71c53e19226b0166ba387d3c590d0509f541a0a1 ]
 
-On 12/27, Ma=EDra Canal wrote:
-> As v3d_submit_tfu_ioctl() performs the same steps as drm_gem_object_looku=
-p(),
-> replace the open-code implementation in v3d with its DRM core equivalent.
->=20
-> Signed-off-by: Ma=EDra Canal <mcanal@igalia.com>
-> ---
->  drivers/gpu/drm/v3d/v3d_gem.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-> index 6e152ef26358..5da1806f3969 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -861,7 +861,6 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *da=
-ta,
-> =20
->  	job->args =3D *args;
-> =20
-> -	spin_lock(&file_priv->table_lock);
->  	for (job->base.bo_count =3D 0;
->  	     job->base.bo_count < ARRAY_SIZE(args->bo_handles);
->  	     job->base.bo_count++) {
-> @@ -870,20 +869,16 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *=
-data,
->  		if (!args->bo_handles[job->base.bo_count])
->  			break;
-> =20
-> -		bo =3D idr_find(&file_priv->object_idr,
-> -			      args->bo_handles[job->base.bo_count]);
-> +		bo =3D drm_gem_object_lookup(file_priv, args->bo_handles[job->base.bo_=
-count]);
->  		if (!bo) {
->  			DRM_DEBUG("Failed to look up GEM BO %d: %d\n",
->  				  job->base.bo_count,
->  				  args->bo_handles[job->base.bo_count]);
->  			ret =3D -ENOENT;
-> -			spin_unlock(&file_priv->table_lock);
->  			goto fail;
->  		}
-> -		drm_gem_object_get(bo);
->  		job->base.bo[job->base.bo_count] =3D bo;
->  	}
-> -	spin_unlock(&file_priv->table_lock);
+The geode fbdev driver uses struct cpuinfo fields that are not present
+on ARCH=um, so don't allow this driver to be built on UML.
 
-Hi Ma=EDra,
+Prevents these build errors:
 
-Thanks for you patch.
+In file included from ../arch/x86/include/asm/olpc.h:7:0,
+                 from ../drivers/mfd/cs5535-mfd.c:17:
+../arch/x86/include/asm/geode.h: In function ‘is_geode_gx’:
+../arch/x86/include/asm/geode.h:16:24: error: ‘struct cpuinfo_um’ has no member named ‘x86_vendor’
+  return ((boot_cpu_data.x86_vendor == X86_VENDOR_NSC) &&
+../arch/x86/include/asm/geode.h:16:39: error: ‘X86_VENDOR_NSC’ undeclared (first use in this function); did you mean ‘X86_VENDOR_ANY’?
+  return ((boot_cpu_data.x86_vendor == X86_VENDOR_NSC) &&
+../arch/x86/include/asm/geode.h:17:17: error: ‘struct cpuinfo_um’ has no member named ‘x86’
+   (boot_cpu_data.x86 == 5) &&
+../arch/x86/include/asm/geode.h:18:17: error: ‘struct cpuinfo_um’ has no member named ‘x86_model’
+   (boot_cpu_data.x86_model == 5));
+../arch/x86/include/asm/geode.h: In function ‘is_geode_lx’:
+../arch/x86/include/asm/geode.h:23:24: error: ‘struct cpuinfo_um’ has no member named ‘x86_vendor’
+  return ((boot_cpu_data.x86_vendor == X86_VENDOR_AMD) &&
+../arch/x86/include/asm/geode.h:23:39: error: ‘X86_VENDOR_AMD’ undeclared (first use in this function); did you mean ‘X86_VENDOR_ANY’?
+  return ((boot_cpu_data.x86_vendor == X86_VENDOR_AMD) &&
+../arch/x86/include/asm/geode.h:24:17: error: ‘struct cpuinfo_um’ has no member named ‘x86’
+   (boot_cpu_data.x86 == 5) &&
+../arch/x86/include/asm/geode.h:25:17: error: ‘struct cpuinfo_um’ has no member named ‘x86_model’
+   (boot_cpu_data.x86_model == 10));
 
-LGTM
+Fixes: 68f5d3f3b654 ("um: add PCI over virtio emulation driver")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Johannes Berg <johannes@sipsolutions.net>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: linux-um@lists.infradead.org
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: Andres Salomon <dilinger@queued.net>
+Cc: linux-geode@lists.infradead.org
+Signed-off-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/video/fbdev/geode/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Reviewed-by: Melissa Wen <mwen@igalia.com>
+diff --git a/drivers/video/fbdev/geode/Kconfig b/drivers/video/fbdev/geode/Kconfig
+index ac9c860592aa..85bc14b6faf6 100644
+--- a/drivers/video/fbdev/geode/Kconfig
++++ b/drivers/video/fbdev/geode/Kconfig
+@@ -5,6 +5,7 @@
+ config FB_GEODE
+ 	bool "AMD Geode family framebuffer support"
+ 	depends on FB && PCI && (X86_32 || (X86 && COMPILE_TEST))
++	depends on !UML
+ 	help
+ 	  Say 'Y' here to allow you to select framebuffer drivers for
+ 	  the AMD Geode family of processors.
+-- 
+2.35.1
 
-> =20
->  	ret =3D v3d_lock_bo_reservations(&job->base, &acquire_ctx);
->  	if (ret)
-> --=20
-> 2.38.1
->=20
 
---4ocnoqdzfv4t6xfq
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmOsVBcACgkQwqF3j0dL
-ehzAxg/7BXHh50qfr4ydYNx+G7hl7xQMGFB3ZIQWHJi+QaxyxzXOwS2ApLHptoK3
-ICWSKr2ptv0bQmfB3/aWUvsqdPxGMzs5uippUszShE2qBHZb0UBWejCG5XZA7ine
-68Jc8g5qaw7yuV13vk0wB1E+4T17EbweX6IHyelYcIGQhAkmWoVuGIOd26vuJ7pk
-MfD/shsg4OQodHKzYGZyjT+2fDtCQq5LkOD3W7I5G1pvoC5Ir5hPIZZUTe7qHYcv
-PdNDIOOfvzQ0GX1m1nx+JcU4+0q2fHvjTeTj/4DdyVIaS2g33KimzmbbPmfC2QoJ
-4SNWI9kEJkOt/8lhroPaaByNv6WRUAtV8EV6mP+8QuI78LVkbvn9pRbXjtKKhQgP
-wllpI9lBopxGO9zrHHW5pVwfn30wls/U5+amMzqwPNruWIrpm52voxUuCM/b72bc
-Tn1cr+VvBwBMfNtyOyPekAbx1Vt/G/cWYdLs+RS9kbswe5MZuPolVQzv+TtaAqvB
-/V09taCs97QHjCnQM0YVqPTN3wvI+JbEKJc2QpF4xUMQcQXuXJCPdX4yMelxI36U
-WVFFPYyJ8KSUUtaPPVuwzqS8GBWXQbcdv3oWM9Gay/2VfPl24vuPpG+CCy1YWvJ3
-NppJUF2InYBssVzxwgtEM7LUHsVcUcWHLUG6/06zJfOl2LOQrGc=
-=rRZn
------END PGP SIGNATURE-----
-
---4ocnoqdzfv4t6xfq--
