@@ -2,54 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF60657776
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 15:04:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D480E65779C
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 15:18:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DB3C10E1A1;
-	Wed, 28 Dec 2022 14:04:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B93310E1A6;
+	Wed, 28 Dec 2022 14:18:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8639410E1A1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Dec 2022 14:04:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1672236247; x=1703772247;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Lg126dF0ZRB51ZzT/H9t/6uTcxQgkla19QDrEd0Bge0=;
- b=UweJP5iQmWITiUwvzeW9bFU83np8dG9fIzSHOEIGImKmb+HMKW0Ka0hP
- Mohe69AFKh+g/hwsYD2g2g6IPmx23RVVJJPPCXT/dS2sXlXdTa0Zh7mTF
- SHAT2yQ83gSyFbUBch4MOA2djzG0uzihvjuuzeKPRtoY61/+Ve2qgj9kr
- GoJ3/ToWEYz5yIKcrISlUu02JNlOC9RwP4878R4V5JXDOirPucw5+BHHL
- GIcIK0Ib0MWTEgv7xRGnf5rg0rgcvwX1bJqBYpBifV/qrRCxQDpreyzQH
- js2gUeaHLJZKwSO8nqQotMiCxE8nrsLN7/yCCNoo64TIunyXRlIQxM73H g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10574"; a="308631756"
-X-IronPort-AV: E=Sophos;i="5.96,280,1665471600"; d="scan'208";a="308631756"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Dec 2022 06:03:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10574"; a="655320885"
-X-IronPort-AV: E=Sophos;i="5.96,280,1665471600"; d="scan'208";a="655320885"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmsmga007.fm.intel.com with ESMTP; 28 Dec 2022 06:03:13 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1pAX1S-000cPm-1R; Wed, 28 Dec 2022 16:03:10 +0200
-Date: Wed, 28 Dec 2022 16:03:10 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Subject: Re: [PATCH v3 0/3] Add generic framebuffer support to EFI earlycon
- driver
-Message-ID: <Y6xMnuMqpThmFn1q@smile.fi.intel.com>
-References: <20221221105402.6598-1-markuss.broks@gmail.com>
- <CAMj1kXGUC7dsSwVEUsAMeAoqDYtbqrM7SDOJTXbPfi-LrcSk9g@mail.gmail.com>
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3D4110E1A6
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Dec 2022 14:18:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+ t=1672237121; bh=yANQEkK1IO/bYghgRYS3kQ3PM89nXCz+xH6GDv5bpnk=;
+ h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+ MIME-Version:Content-Type:In-Reply-To;
+ b=TVX79ohedRv394INpOimrtaFaCSzjWLUYEKH+JoyWWXAxJ3kSiaAjuW1NqHVqWSca
+ +WUZJ+4ULokcaiM3ksJLcIca/34mpZXftrCulvQi4/iWahyyZ3kLEosMykZvF/evxs
+ VqRxd60VWOX5w/JIbc8zuPZRClyUfiSFevzsEwk4=
+Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
+ via ip-206.mailobj.net [213.182.55.206]
+ Wed, 28 Dec 2022 15:18:41 +0100 (CET)
+X-EA-Auth: WOFZZK0BvzIyYCS/gLWIjuUMTenxQtvi5fn8DqO7riw4RfvcJhr+nYdWb5QT5rtXzf4tEZ+gdO6yrD4WH0zEhJBsxytgHyse
+Date: Wed, 28 Dec 2022 19:48:35 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Mikko Perttunen <cyndis@kapsi.fi>
+Subject: Re: [PATCH] drm/tegra: submit: No need for Null pointer check before
+ kfree
+Message-ID: <Y6xQO+w/P+m8w6ke@qemulion>
+References: <Y6sn7XptKyk5cbrA@qemulion>
+ <864f2fdd-4289-a178-bbf1-c2a6a579c58c@kapsi.fi>
+ <Y6w/4IzoMFsVnCmu@qemulion>
+ <280170a7-de12-f362-cda3-11208ead0a88@kapsi.fi>
+ <Y6xF6q6qj+ggEdgN@qemulion>
+ <1453f93b-f6ad-04d8-c493-6c8d2a3678bd@kapsi.fi>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMj1kXGUC7dsSwVEUsAMeAoqDYtbqrM7SDOJTXbPfi-LrcSk9g@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <1453f93b-f6ad-04d8-c493-6c8d2a3678bd@kapsi.fi>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,71 +51,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Muchun Song <muchun.song@linux.dev>,
- Markuss Broks <markuss.broks@gmail.com>,
- "Paul E. McKenney" <paulmck@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-efi@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Kim Phillips <kim.phillips@amd.com>,
- Will Deacon <will@kernel.org>, Jami Kettunen <jami.kettunen@protonmail.com>,
- linux-serial@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Borislav Petkov <bp@suse.de>, Jiri Slaby <jirislaby@kernel.org>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Deepak R Varma <drv@mailo.com>, Thierry Reding <thierry.reding@gmail.com>,
+ linux-tegra@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 23, 2022 at 03:42:33PM +0100, Ard Biesheuvel wrote:
-> (cc Andy)
-
-I believe there are two reasons I'm Cc'ed now:
-- the Cc was forgotten. because I remember reviewing some parts
-  of this contribution
-- this conflicts (to some extent) with my patch that speeds up
-  the scrolling
-
-For the first it's obvious what to do, I think Markuss can include me
-in his v4.
-
-For the second I don't see the functional clash. The scrolling in this
-series is not anyhow optimized. I think my patch should go first as
-- it is less intrusive
-- it has been tested, or can be tested easily
-
-Tell me if I'm missing something here.
-
-> On Wed, 21 Dec 2022 at 11:54, Markuss Broks <markuss.broks@gmail.com> wrote:
+On Wed, Dec 28, 2022 at 03:48:05PM +0200, Mikko Perttunen wrote:
+> On 12/28/22 15:34, Deepak R Varma wrote:
+> > On Wed, Dec 28, 2022 at 03:17:59PM +0200, Mikko Perttunen wrote:
+> > > On 12/28/22 15:08, Deepak R Varma wrote:
+> > >
+> > > Hi,
+> > >
+> > > it gets rid of visual hints on code paths indicating the possible liveness
+> > > of pointer variables. I.e., after the change, whether the pointer can be
+> > > NULL or not is more difficult to reason about locally, instead requiring
+> > > more global reasoning which is mentally more taxing.
+> > >
+> > > Since C's type system doesn't help with tracking these kinds of things, I
+> > > believe it is important to have these kinds of local contextual cues to help
+> > > the programmer.
 > >
-> > Make the EFI earlycon driver be suitable for any linear framebuffers.
-> > This should be helpful for early porting of boards with no other means of
-> > output, like smartphones/tablets. There seems to be an issue with early_ioremap
-> > function on ARM32, but I am unable to find the exact cause. It appears the mappings
-> > returned by it are somehow incorrect, thus the driver is disabled on ARM.
-> 
-> The reason that this driver is disabled on ARM is because the struct
-> screen_info is not populated early enough, as it is retrieved from a
-> UEFI configuration table.
-> 
-> early_ioremap() works fine on ARM as long as they mapping is torn down
-> before paging_init()
-> 
-> > EFI early
-> > console was disabled on IA64 previously because of missing early_memremap_prot,
-> > and this is inherited to this driver.
-> >
-> > This patch also changes
-> 
-> "This patch also changes ..." is usually a strong hint to self that
-> the patches need to be split up.
-> 
-> > behavior on EFI systems, by selecting the mapping type
-> > based on if the framebuffer region intersects with system RAM. If it does, it's
-> > common sense that it should be in RAM as a whole, and so the system RAM mapping is
-> > used. It was tested to be working on my PC (Intel Z490 platform), as well as several
-> > ARM64 boards (Samsung Galaxy S9 (Exynos), iPad Air 2, Xiaomi Mi Pad 4, ...).
+> > Hello Mikko,
+> > That really helps. Thank you for the detailed explanation. I do have an extended
+> > question though. In this context, when we are ready to release the memory, how
+> > is it useful to know if it is NULL or not this late in the flow when the scope
+> > is about to end?
+>
+> In the current code it doesn't matter, but if someone went to change this
+> code (for example to add another release step), and we just had
+> 'kfree(job_data)', they would have to remember that kfree works with NULL
+> pointers, and would have to go looking elsewhere in the code to see if it is
+> in fact possible to assume that job_data cannot be NULL here, or not. If
+> they forget about kfree working with NULL pointers, which wouldn't be that
+> surprising since it is almost always only called with non-NULL pointers,
+> they might instead introduce a bug.
+>
+> In this particular instance it's probably not that bad since immediately
+> above we have another 'if' block that checks if job_data is NULL, which
+> serves as a hint to the programmer; however, as a general principle it
+> stands that having the NULL check here makes it obvious to any reading
+> programmer that they any changes they make have to consider if the pointer
+> is NULL or not.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Sounds good. Thanks again. Would like to see if other experts have any further
+guidance on this patch.
+
+Regards,
+./drv
+
+>
+> >
+> > > Mikko
+> >
+> >
+>
 
 
