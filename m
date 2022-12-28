@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D02965776A
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 14:50:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF60657776
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 15:04:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF41510E18F;
-	Wed, 28 Dec 2022 13:50:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DB3C10E1A1;
+	Wed, 28 Dec 2022 14:04:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A374C10E18F
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Dec 2022 13:50:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=3yExkL3jTYXW50mUcqhb+ew6d/CHHGSqvqQqDOfsY18=; b=jYut3P/lGl2UZu3gWeJKzE9AVU
- rlfWojRyudZBL9yLBNfRLsVOE+3iF0ZlknXkFqMx/DeXrRhtLVwRfTNZbybu0Xms2zdUSMm1dfcoI
- fk4TEK4Ez7Tdlet3rLp/3YTcuVT3m3RIz0+iAa2w+rAqjT8p7kITiBL6qZ5zbhk7cN+HzuN9B6Gvd
- bBIobTvhkDX1b3ZXeYp78btYe4opSww23MGMHHopzogMabVAMnXbLw1Af8WWTybTui3aVEqPE0aaQ
- s+LSwY+r7UOLY3M7+WZszOrC1CiejVGRvvrsdMQrwfRO7LjE906hshCrHCO/Odakm+SBxqKeKquNd
- QKhHHhWw==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
- helo=[192.168.1.10]) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <cyndis@kapsi.fi>)
- id 1pAWms-008ngM-5D; Wed, 28 Dec 2022 15:48:06 +0200
-Message-ID: <1453f93b-f6ad-04d8-c493-6c8d2a3678bd@kapsi.fi>
-Date: Wed, 28 Dec 2022 15:48:05 +0200
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8639410E1A1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Dec 2022 14:04:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1672236247; x=1703772247;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Lg126dF0ZRB51ZzT/H9t/6uTcxQgkla19QDrEd0Bge0=;
+ b=UweJP5iQmWITiUwvzeW9bFU83np8dG9fIzSHOEIGImKmb+HMKW0Ka0hP
+ Mohe69AFKh+g/hwsYD2g2g6IPmx23RVVJJPPCXT/dS2sXlXdTa0Zh7mTF
+ SHAT2yQ83gSyFbUBch4MOA2djzG0uzihvjuuzeKPRtoY61/+Ve2qgj9kr
+ GoJ3/ToWEYz5yIKcrISlUu02JNlOC9RwP4878R4V5JXDOirPucw5+BHHL
+ GIcIK0Ib0MWTEgv7xRGnf5rg0rgcvwX1bJqBYpBifV/qrRCxQDpreyzQH
+ js2gUeaHLJZKwSO8nqQotMiCxE8nrsLN7/yCCNoo64TIunyXRlIQxM73H g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10574"; a="308631756"
+X-IronPort-AV: E=Sophos;i="5.96,280,1665471600"; d="scan'208";a="308631756"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Dec 2022 06:03:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10574"; a="655320885"
+X-IronPort-AV: E=Sophos;i="5.96,280,1665471600"; d="scan'208";a="655320885"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmsmga007.fm.intel.com with ESMTP; 28 Dec 2022 06:03:13 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1pAX1S-000cPm-1R; Wed, 28 Dec 2022 16:03:10 +0200
+Date: Wed, 28 Dec 2022 16:03:10 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: [PATCH v3 0/3] Add generic framebuffer support to EFI earlycon
+ driver
+Message-ID: <Y6xMnuMqpThmFn1q@smile.fi.intel.com>
+References: <20221221105402.6598-1-markuss.broks@gmail.com>
+ <CAMj1kXGUC7dsSwVEUsAMeAoqDYtbqrM7SDOJTXbPfi-LrcSk9g@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH] drm/tegra: submit: No need for Null pointer check before
- kfree
-Content-Language: en-US
-To: Deepak R Varma <drv@mailo.com>
-References: <Y6sn7XptKyk5cbrA@qemulion>
- <864f2fdd-4289-a178-bbf1-c2a6a579c58c@kapsi.fi> <Y6w/4IzoMFsVnCmu@qemulion>
- <280170a7-de12-f362-cda3-11208ead0a88@kapsi.fi> <Y6xF6q6qj+ggEdgN@qemulion>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-In-Reply-To: <Y6xF6q6qj+ggEdgN@qemulion>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMj1kXGUC7dsSwVEUsAMeAoqDYtbqrM7SDOJTXbPfi-LrcSk9g@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,112 +62,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- Saurabh Singh Sengar <ssengar@microsoft.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, Muchun Song <muchun.song@linux.dev>,
+ Markuss Broks <markuss.broks@gmail.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-efi@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Kim Phillips <kim.phillips@amd.com>,
+ Will Deacon <will@kernel.org>, Jami Kettunen <jami.kettunen@protonmail.com>,
+ linux-serial@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Borislav Petkov <bp@suse.de>, Jiri Slaby <jirislaby@kernel.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/28/22 15:34, Deepak R Varma wrote:
-> On Wed, Dec 28, 2022 at 03:17:59PM +0200, Mikko Perttunen wrote:
->> On 12/28/22 15:08, Deepak R Varma wrote:
->>> On Wed, Dec 28, 2022 at 02:28:54PM +0200, Mikko Perttunen wrote:
->>>> On 12/27/22 19:14, Deepak R Varma wrote:
->>>>> kfree() & vfree() internally perform NULL check on the pointer handed
->>>>> to it and take no action if it indeed is NULL. Hence there is no need
->>>>> for a pre-check of the memory pointer before handing it to
->>>>> kfree()/vfree().
->>>>>
->>>>> Issue reported by ifnullfree.cocci Coccinelle semantic patch script.
->>>>>
->>>>> Signed-off-by: Deepak R Varma <drv@mailo.com>
->>>>> ---
->>>>>     drivers/gpu/drm/tegra/submit.c | 4 ++--
->>>>>     1 file changed, 2 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/tegra/submit.c b/drivers/gpu/drm/tegra/submit.c
->>>>> index 066f88564169..06f836db99d0 100644
->>>>> --- a/drivers/gpu/drm/tegra/submit.c
->>>>> +++ b/drivers/gpu/drm/tegra/submit.c
->>>>> @@ -680,8 +680,8 @@ int tegra_drm_ioctl_channel_submit(struct drm_device *drm, void *data,
->>>>>     		kfree(job_data->used_mappings);
->>>>>     	}
->>>>>
->>>>> -	if (job_data)
->>>>> -		kfree(job_data);
->>>>> +	kfree(job_data);
->>>>> +
->>>>>     put_bo:
->>>>>     	gather_bo_put(&bo->base);
->>>>>     unlock:
->>>>> --
->>>>> 2.34.1
->>>>>
->>>>>
->>>>>
->>>>
->>>> It continues to be the case that I think this transform is bad. Same applies
->>>> to the host1x patch.
->>>
->>> Hello Mikko,
->>> Thank you for responding to the patch proposal. Could you please explain why is
->>> this bad?
->>>
->>> Regards,
->>> ./drv
->>>
->>>>
->>>> Mikko
->>>
->>>
->>
->> Hi,
->>
->> it gets rid of visual hints on code paths indicating the possible liveness
->> of pointer variables. I.e., after the change, whether the pointer can be
->> NULL or not is more difficult to reason about locally, instead requiring
->> more global reasoning which is mentally more taxing.
->>
->> Since C's type system doesn't help with tracking these kinds of things, I
->> believe it is important to have these kinds of local contextual cues to help
->> the programmer.
-> 
-> Hello Mikko,
-> That really helps. Thank you for the detailed explanation. I do have an extended
-> question though. In this context, when we are ready to release the memory, how
-> is it useful to know if it is NULL or not this late in the flow when the scope
-> is about to end?
+On Fri, Dec 23, 2022 at 03:42:33PM +0100, Ard Biesheuvel wrote:
+> (cc Andy)
 
-In the current code it doesn't matter, but if someone went to change 
-this code (for example to add another release step), and we just had 
-'kfree(job_data)', they would have to remember that kfree works with 
-NULL pointers, and would have to go looking elsewhere in the code to see 
-if it is in fact possible to assume that job_data cannot be NULL here, 
-or not. If they forget about kfree working with NULL pointers, which 
-wouldn't be that surprising since it is almost always only called with 
-non-NULL pointers, they might instead introduce a bug.
+I believe there are two reasons I'm Cc'ed now:
+- the Cc was forgotten. because I remember reviewing some parts
+  of this contribution
+- this conflicts (to some extent) with my patch that speeds up
+  the scrolling
 
-In this particular instance it's probably not that bad since immediately 
-above we have another 'if' block that checks if job_data is NULL, which 
-serves as a hint to the programmer; however, as a general principle it 
-stands that having the NULL check here makes it obvious to any reading 
-programmer that they any changes they make have to consider if the 
-pointer is NULL or not.
+For the first it's obvious what to do, I think Markuss can include me
+in his v4.
 
-> 
-> Thanks again!
-> ./drv
-> 
+For the second I don't see the functional clash. The scrolling in this
+series is not anyhow optimized. I think my patch should go first as
+- it is less intrusive
+- it has been tested, or can be tested easily
 
-Thanks!
-Mikko
+Tell me if I'm missing something here.
 
+> On Wed, 21 Dec 2022 at 11:54, Markuss Broks <markuss.broks@gmail.com> wrote:
+> >
+> > Make the EFI earlycon driver be suitable for any linear framebuffers.
+> > This should be helpful for early porting of boards with no other means of
+> > output, like smartphones/tablets. There seems to be an issue with early_ioremap
+> > function on ARM32, but I am unable to find the exact cause. It appears the mappings
+> > returned by it are somehow incorrect, thus the driver is disabled on ARM.
 > 
+> The reason that this driver is disabled on ARM is because the struct
+> screen_info is not populated early enough, as it is retrieved from a
+> UEFI configuration table.
 > 
+> early_ioremap() works fine on ARM as long as they mapping is torn down
+> before paging_init()
 > 
->>
->> Mikko
+> > EFI early
+> > console was disabled on IA64 previously because of missing early_memremap_prot,
+> > and this is inherited to this driver.
+> >
+> > This patch also changes
 > 
+> "This patch also changes ..." is usually a strong hint to self that
+> the patches need to be split up.
 > 
+> > behavior on EFI systems, by selecting the mapping type
+> > based on if the framebuffer region intersects with system RAM. If it does, it's
+> > common sense that it should be in RAM as a whole, and so the system RAM mapping is
+> > used. It was tested to be working on my PC (Intel Z490 platform), as well as several
+> > ARM64 boards (Samsung Galaxy S9 (Exynos), iPad Air 2, Xiaomi Mi Pad 4, ...).
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
