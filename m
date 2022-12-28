@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F1D658B04
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 10:30:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A4BA65787C
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 15:51:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D315810E250;
-	Thu, 29 Dec 2022 09:30:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D386310E1B2;
+	Wed, 28 Dec 2022 14:51:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 71E5610E3A6;
- Wed, 28 Dec 2022 14:43:45 +0000 (UTC)
-Received: from [192.168.1.139] (unknown [171.76.80.102])
- by linux.microsoft.com (Postfix) with ESMTPSA id 676CE20F26B6;
- Wed, 28 Dec 2022 06:43:42 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 676CE20F26B6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1672238625;
- bh=eISDS/91oiq1DS7pKCpl1TnGMMOr/ZfUtjW/6tYTuBo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=JA/DFLkJg+lq0r974VDtsSIzXPguPqbLgZMMrdHHFydbLbq6uiflSW7pRUYc7jZ4V
- JCJbMMLq6SQXaSF44FNDtApMoSBCxsMeTzl/KU2oCe71ev6/CiHYxYpBdettrtcK9H
- iKndRKC3FCLd8gA6bCKjQE49B/+rLttmkRNOpAnY=
-Message-ID: <adabe9ea-1e25-5d4f-88d6-cd232af04693@linux.microsoft.com>
-Date: Wed, 28 Dec 2022 20:13:39 +0530
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
+ [193.136.128.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D751810E1B2
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Dec 2022 14:51:31 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id D721C6008775;
+ Wed, 28 Dec 2022 14:50:49 +0000 (WET)
+X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
+ tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
+ with LMTP id HQFEh9eA__YI; Wed, 28 Dec 2022 14:50:46 +0000 (WET)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt
+ [IPv6:2001:690:2100:1::b3dd:b9ac])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id C49DE600876F;
+ Wed, 28 Dec 2022 14:50:46 +0000 (WET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
+ s=mail; t=1672239046;
+ bh=1HO4Euafnc3ATG0WLfDkiuUVCgo90WriGTavAR16hUY=;
+ h=Date:From:To:Cc:Subject;
+ b=KL4BZIRAdPdUIOiqIBxUYZv/G2GM/dz0gLzls8Q/Z380lvMaG3gkaJpapim4aKqVg
+ CLk037AggI/XDTjxSVJ4PcEcr4nrxJEylm2W91WH0aeFkS1ZsL5q0eKr38e/uyMJ2Z
+ mi/mKUOiyDvJdIiZpWBaXRhRprfhJgK42ZOEWjFc=
+Received: from wslaptop (unknown [IPv6:2001:8a0:fbe7:6700:65be:d034:d2ec:60ff])
+ (Authenticated sender: ist187313)
+ by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id DE47B360071;
+ Wed, 28 Dec 2022 14:50:45 +0000 (WET)
+Date: Wed, 28 Dec 2022 14:49:14 +0000
+From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+To: diogo.ivo@tecnico.ulisboa.pt
+Subject: [REGRESSION] GM20B probe fails after commit 2541626cfb79
+Message-ID: <20221228144914.z7t7a4fdwvbblnak@wslaptop>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 1/2] drm/i915: convert i915_active.count from atomic_t
- to refcount_t
-Content-Language: en-US
-To: Deepak R Varma <drv@mailo.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <cover.1671952191.git.drv@mailo.com>
- <fe31efd659622839c7f7bc2890d9e3411bbfa7cd.1671952191.git.drv@mailo.com>
-From: Praveen Kumar <kumarpraveen@linux.microsoft.com>
-In-Reply-To: <fe31efd659622839c7f7bc2890d9e3411bbfa7cd.1671952191.git.drv@mailo.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Thu, 29 Dec 2022 09:30:01 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,206 +56,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Saurabh Singh Sengar <ssengar@microsoft.com>
+Cc: nouveau@lists.freedesktop.org, airlied@redhat.com,
+ regressions@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25-12-2022 13:17, Deepak R Varma wrote:
-> The refcount_* APIs are designed to address known issues with the
-> atomic_t APIs for reference counting. They provide following distinct
-> advantages:
->    - protect the reference counters from overflow/underflow
->    - avoid use-after-free errors
->    - provide improved memory ordering guarantee schemes
->    - neater and safer.
-> Hence, convert the atomic_t count member variable and associated
-> atomic_*() API calls to equivalent refcount_t type and refcount_*() API
-> calls.
-> 
-> This patch proposal address the following warnings generated by
-> the atomic_as_refcounter.cocci coccinelle script
-> 	atomic_add_unless
-> 
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
-> Please note:
->    1. Proposed changes are compile tested only.
->    2. This patch 1/2 is required to be applied before patch 2/2 due to
->       interdependency.
-> 
-> Changes in v2:
->    1. Patch added to the patch series.
->    2. Handle build issues Reported-by: kernel test robot <lkp@intel.com>
->       Earlier a standalone patch was sent for the i915 base driver only. The
->       Kernel Test Robot reported build failure for additional atomic_*() calls
->       specific to i915 debugging support when enabled. This version now includes
->       those changes as well.
-> 
-> 
->  drivers/gpu/drm/i915/i915_active.c       | 28 +++++++++++++-----------
->  drivers/gpu/drm/i915/i915_active.h       |  6 ++---
->  drivers/gpu/drm/i915/i915_active_types.h |  4 ++--
->  3 files changed, 20 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
-> index 7412abf166a8..5e58d8b1e947 100644
-> --- a/drivers/gpu/drm/i915/i915_active.c
-> +++ b/drivers/gpu/drm/i915/i915_active.c
-> @@ -92,14 +92,14 @@ static void debug_active_init(struct i915_active *ref)
->  static void debug_active_activate(struct i915_active *ref)
->  {
->  	lockdep_assert_held(&ref->tree_lock);
-> -	if (!atomic_read(&ref->count)) /* before the first inc */
-> +	if (!refcount_read(&ref->count)) /* before the first inc */
->  		debug_object_activate(ref, &active_debug_desc);
->  }
-> 
->  static void debug_active_deactivate(struct i915_active *ref)
->  {
->  	lockdep_assert_held(&ref->tree_lock);
-> -	if (!atomic_read(&ref->count)) /* after the last dec */
-> +	if (!refcount_read(&ref->count)) /* after the last dec */
->  		debug_object_deactivate(ref, &active_debug_desc);
->  }
-> 
-> @@ -133,7 +133,7 @@ __active_retire(struct i915_active *ref)
->  	GEM_BUG_ON(i915_active_is_idle(ref));
-> 
->  	/* return the unused nodes to our slabcache -- flushing the allocator */
-> -	if (!atomic_dec_and_lock_irqsave(&ref->count, &ref->tree_lock, flags))
-> +	if (!refcount_dec_and_lock_irqsave(&ref->count, &ref->tree_lock, &flags))
->  		return;
-> 
->  	GEM_BUG_ON(rcu_access_pointer(ref->excl.fence));
-> @@ -179,8 +179,8 @@ active_work(struct work_struct *wrk)
->  {
->  	struct i915_active *ref = container_of(wrk, typeof(*ref), work);
-> 
-> -	GEM_BUG_ON(!atomic_read(&ref->count));
-> -	if (atomic_add_unless(&ref->count, -1, 1))
-> +	GEM_BUG_ON(!refcount_read(&ref->count));
-> +	if (refcount_dec_not_one(&ref->count))
+Hello,
 
-I'm not sure if this is correct here, I assume we should be adding instead here its decrementing ?
+Commit 2541626cfb79 breaks GM20B probe with
+the following kernel log:
 
->  		return;
-> 
->  	__active_retire(ref);
-> @@ -189,8 +189,8 @@ active_work(struct work_struct *wrk)
->  static void
->  active_retire(struct i915_active *ref)
->  {
-> -	GEM_BUG_ON(!atomic_read(&ref->count));
-> -	if (atomic_add_unless(&ref->count, -1, 1))
-> +	GEM_BUG_ON(!refcount_read(&ref->count));
-> +	if (refcount_dec_not_one(&ref->count))
->  		return;
-> 
->  	if (ref->flags & I915_ACTIVE_RETIRE_SLEEPS) {
-> @@ -354,7 +354,7 @@ void __i915_active_init(struct i915_active *ref,
->  	ref->cache = NULL;
-> 
->  	init_llist_head(&ref->preallocated_barriers);
-> -	atomic_set(&ref->count, 0);
-> +	refcount_set(&ref->count, 0);
->  	__mutex_init(&ref->mutex, "i915_active", mkey);
->  	__i915_active_fence_init(&ref->excl, NULL, excl_retire);
->  	INIT_WORK(&ref->work, active_work);
-> @@ -445,7 +445,7 @@ int i915_active_add_request(struct i915_active *ref, struct i915_request *rq)
-> 
->  	if (replace_barrier(ref, active)) {
->  		RCU_INIT_POINTER(active->fence, NULL);
-> -		atomic_dec(&ref->count);
-> +		refcount_dec(&ref->count);
->  	}
->  	if (!__i915_active_fence_set(active, fence))
->  		__i915_active_acquire(ref);
-> @@ -488,14 +488,16 @@ i915_active_set_exclusive(struct i915_active *ref, struct dma_fence *f)
->  bool i915_active_acquire_if_busy(struct i915_active *ref)
->  {
->  	debug_active_assert(ref);
-> -	return atomic_add_unless(&ref->count, 1, 0);
-> +	return refcount_add_not_zero(1, &ref->count);
->  }
-> 
->  static void __i915_active_activate(struct i915_active *ref)
->  {
->  	spin_lock_irq(&ref->tree_lock); /* __active_retire() */
-> -	if (!atomic_fetch_inc(&ref->count))
-> +	if (!refcount_inc_not_zero(&ref->count)) {
-> +		refcount_inc(&ref->count);
->  		debug_active_activate(ref);
-> +	}
->  	spin_unlock_irq(&ref->tree_lock);
->  }
-> 
-> @@ -757,7 +759,7 @@ int i915_sw_fence_await_active(struct i915_sw_fence *fence,
->  void i915_active_fini(struct i915_active *ref)
->  {
->  	debug_active_fini(ref);
-> -	GEM_BUG_ON(atomic_read(&ref->count));
-> +	GEM_BUG_ON(refcount_read(&ref->count));
->  	GEM_BUG_ON(work_pending(&ref->work));
->  	mutex_destroy(&ref->mutex);
-> 
-> @@ -927,7 +929,7 @@ int i915_active_acquire_preallocate_barrier(struct i915_active *ref,
-> 
->  		first = first->next;
-> 
-> -		atomic_dec(&ref->count);
-> +		refcount_dec(&ref->count);
->  		intel_engine_pm_put(barrier_to_engine(node));
-> 
->  		kmem_cache_free(slab_cache, node);
-> diff --git a/drivers/gpu/drm/i915/i915_active.h b/drivers/gpu/drm/i915/i915_active.h
-> index 7eb44132183a..116c7c28466a 100644
-> --- a/drivers/gpu/drm/i915/i915_active.h
-> +++ b/drivers/gpu/drm/i915/i915_active.h
-> @@ -193,14 +193,14 @@ void i915_active_release(struct i915_active *ref);
-> 
->  static inline void __i915_active_acquire(struct i915_active *ref)
->  {
-> -	GEM_BUG_ON(!atomic_read(&ref->count));
-> -	atomic_inc(&ref->count);
-> +	GEM_BUG_ON(!refcount_read(&ref->count));
-> +	refcount_inc(&ref->count);
->  }
-> 
->  static inline bool
->  i915_active_is_idle(const struct i915_active *ref)
->  {
-> -	return !atomic_read(&ref->count);
-> +	return !refcount_read(&ref->count);
->  }
-> 
->  void i915_active_fini(struct i915_active *ref);
-> diff --git a/drivers/gpu/drm/i915/i915_active_types.h b/drivers/gpu/drm/i915/i915_active_types.h
-> index b02a78ac87db..152a3a25d9f7 100644
-> --- a/drivers/gpu/drm/i915/i915_active_types.h
-> +++ b/drivers/gpu/drm/i915/i915_active_types.h
-> @@ -7,7 +7,7 @@
->  #ifndef _I915_ACTIVE_TYPES_H_
->  #define _I915_ACTIVE_TYPES_H_
-> 
-> -#include <linux/atomic.h>
-> +#include <linux/refcount.h>
->  #include <linux/dma-fence.h>
->  #include <linux/llist.h>
->  #include <linux/mutex.h>
-> @@ -23,7 +23,7 @@ struct i915_active_fence {
->  struct active_node;
-> 
->  struct i915_active {
-> -	atomic_t count;
-> +	refcount_t count;
->  	struct mutex mutex;
-> 
->  	spinlock_t tree_lock;
-> --
-> 2.34.1
-> 
-> 
+[    2.153892] ------------[ cut here ]------------
+[    2.153897] WARNING: CPU: 1 PID: 36 at drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgf100.c:273 gf100_vmm_valid+0x2c4/0x390
+[    2.153916] Modules linked in:
+[    2.153922] CPU: 1 PID: 36 Comm: kworker/u8:1 Not tainted 6.1.0+ #1
+[    2.153929] Hardware name: Google Pixel C (DT)
+[    2.153933] Workqueue: events_unbound deferred_probe_work_func
+[    2.153943] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[    2.153950] pc : gf100_vmm_valid+0x2c4/0x390
+[    2.153959] lr : gf100_vmm_valid+0xb4/0x390
+[    2.153966] sp : ffffffc009e134b0
+[    2.153969] x29: ffffffc009e134b0 x28: 0000000000000000 x27: ffffffc008fd44c8
+[    2.153979] x26: 00000000ffffffea x25: ffffffc0087b98d0 x24: ffffff8080f89038
+[    2.153987] x23: ffffff8081fadc08 x22: 0000000000000000 x21: 0000000000000000
+[    2.153995] x20: ffffff8080f8a000 x19: ffffffc009e13678 x18: 0000000000000000
+[    2.154003] x17: f37a8b93418958e6 x16: ffffffc009f0d000 x15: 0000000000000000
+[    2.154011] x14: 0000000000000002 x13: 000000000003a020 x12: ffffffc008000000
+[    2.154019] x11: 0000000102913000 x10: 0000000000000000 x9 : 0000000000000000
+[    2.154026] x8 : ffffffc009e136d8 x7 : ffffffc008fd44c8 x6 : ffffff80803d0f00
+[    2.154034] x5 : 0000000000000000 x4 : ffffff8080f88c00 x3 : 0000000000000010
+[    2.154041] x2 : 000000000000000c x1 : 00000000ffffffea x0 : 00000000ffffffea
+[    2.154050] Call trace:
+[    2.154053]  gf100_vmm_valid+0x2c4/0x390
+[    2.154061]  nvkm_vmm_map_valid+0xd4/0x204
+[    2.154069]  nvkm_vmm_map_locked+0xa4/0x344
+[    2.154076]  nvkm_vmm_map+0x50/0x84
+[    2.154083]  nvkm_firmware_mem_map+0x84/0xc4
+[    2.154094]  nvkm_falcon_fw_oneinit+0xc8/0x320
+[    2.154101]  nvkm_acr_oneinit+0x428/0x5b0
+[    2.154109]  nvkm_subdev_oneinit_+0x50/0x104
+[    2.154114]  nvkm_subdev_init_+0x3c/0x12c
+[    2.154119]  nvkm_subdev_init+0x60/0xa0
+[    2.154125]  nvkm_device_init+0x14c/0x2a0
+[    2.154133]  nvkm_udevice_init+0x60/0x9c
+[    2.154140]  nvkm_object_init+0x48/0x1b0
+[    2.154144]  nvkm_ioctl_new+0x168/0x254
+[    2.154149]  nvkm_ioctl+0xd0/0x220
+[    2.154153]  nvkm_client_ioctl+0x10/0x1c
+[    2.154162]  nvif_object_ctor+0xf4/0x22c
+[    2.154168]  nvif_device_ctor+0x28/0x70
+[    2.154174]  nouveau_cli_init+0x150/0x590
+[    2.154180]  nouveau_drm_device_init+0x60/0x2a0
+[    2.154187]  nouveau_platform_device_create+0x90/0xd0
+[    2.154193]  nouveau_platform_probe+0x3c/0x9c
+[    2.154200]  platform_probe+0x68/0xc0
+[    2.154207]  really_probe+0xbc/0x2dc
+[    2.154211]  __driver_probe_device+0x78/0xe0
+[    2.154216]  driver_probe_device+0xd8/0x160
+[    2.154221]  __device_attach_driver+0xb8/0x134
+[    2.154226]  bus_for_each_drv+0x78/0xd0
+[    2.154230]  __device_attach+0x9c/0x1a0
+[    2.154234]  device_initial_probe+0x14/0x20
+[    2.154239]  bus_probe_device+0x98/0xa0
+[    2.154243]  deferred_probe_work_func+0x88/0xc0
+[    2.154247]  process_one_work+0x204/0x40c
+[    2.154256]  worker_thread+0x230/0x450
+[    2.154261]  kthread+0xc8/0xcc
+[    2.154266]  ret_from_fork+0x10/0x20
+[    2.154273] ---[ end trace 0000000000000000 ]---
+[    2.154278] nouveau 57000000.gpu: pmu: map -22
+[    2.154285] nouveau 57000000.gpu: acr: one-time init failed, -22
+[    2.154559] nouveau 57000000.gpu: init failed with -22
+[    2.154564] nouveau: DRM-master:00000000:00000080: init failed with -22
+[    2.154574] nouveau 57000000.gpu: DRM-master: Device allocation failed: -22
+[    2.162905] nouveau: probe of 57000000.gpu failed with error -22
 
-Regards,
+#regzbot introduced: 2541626cfb79
 
-~Praveen.
+Thanks,
+
+Diogo Ivo
