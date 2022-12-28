@@ -2,137 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBCE16575D2
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 12:19:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A85E66575E9
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 12:27:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6938210E39E;
-	Wed, 28 Dec 2022 11:18:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7205910E39F;
+	Wed, 28 Dec 2022 11:26:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5813D10E39F;
- Wed, 28 Dec 2022 11:18:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1672226317; x=1703762317;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=h/sgP0bAJakohctD4J6TVdmm206c2R2kUzIvtPDoD6Y=;
- b=Co1hemMDXfw9qlAvTu3dM9tvv8yTk8dqOpPbBKAgHsxV8lF5JogcUI5D
- 4UUtZa2NmrHE4BZ3ebaVgI2/GvdV7yNY7/Ra1dkuu4s8RKJ8N1yoLSs4c
- dDE8gOCbAjKXmbAlrTKJv5DAQSEdQ0T39eTBthI+7qflMyZDeVsiaZ70w
- +vgRSjjqC28rwI/Lt3IP/2pyLQcFQO67LlGYm4ys5zTc8REvKB3vBG2u+
- BRqOuBz46mnbtViSSeDcqKIVlT6hhHaUDWdfJLVIfpFLESGDpFftMJHa9
- xY0yhMrqI/RXdnJ6TB7b1SOP5fCh8XogAJJMOCDuQDijOOFCWJn31HZeS w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10573"; a="385276310"
-X-IronPort-AV: E=Sophos;i="5.96,280,1665471600"; d="scan'208";a="385276310"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Dec 2022 03:18:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10573"; a="795631941"
-X-IronPort-AV: E=Sophos;i="5.96,280,1665471600"; d="scan'208";a="795631941"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga001.fm.intel.com with ESMTP; 28 Dec 2022 03:18:29 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 28 Dec 2022 03:18:28 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Wed, 28 Dec 2022 03:18:28 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.170)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Wed, 28 Dec 2022 03:18:22 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QRZDivGyY03a3MLXO93wdxq5p+y/6ICpGgNbhLbE/UpMheupDeXLCxz6rU/pGcezHTarkJblu9TMuwTSZt+V2naAHng/pNjY3KmnI/MWLKzDxzoigwnR+kEk704+bf8d/kFDNvp9ipri4atPDIcsqQu/ipnngVRBEhqRnn0gfrXZG+2i6H9dj+IgLtXbig/k2AX/Rfw2aHcoeoLsJotmD+WgwqW7edtESVJ35TexJOK+xpU68aklZOFpjZjb3dJZDPVVnqMz/QDIkOhsKOr0KkUCvZ2ZgANPIcdY/NUWouJ3jOKQJX2r9C6J2Vvt+6LfK1lRjWqimrPgHf3VejomPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9zAsQ3oIH/ezxwZTbcns5kWdAPjULCH5Xv1FVriFLZY=;
- b=PU+LniaqeL2FJZj2Ba1x7k245/zaPjvdyKMk6VkGAjaPiz6FNgAI7zcjqnssfTymlv4E0LFy+9tvwMFfa/Jf3ceo8jn1YKM2lVKYb1YYZoVmY4Mnawu4k7SGe0hPgAdEiulftOC06AtVfQTdmRjpWwJvy+W2CMDYs0/4ZGKBmPdVGAdtnFDBGAzKRLo3g3v6TfsbimcZogJaGJ8Lyg2yajnEq4g8q0iJb7MxlVr11ir89aibh57BUAtgC9Y8ACwtwexN2GX72ZSj33DL8OtNq33p3thSQSWMjjS1eU+mD3OzzSSTBEKzIZIAfCev/4lZXvnXwT4Uzs1Ok/WNt1uGAA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by SA0PR11MB4717.namprd11.prod.outlook.com (2603:10b6:806:9f::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.16; Wed, 28 Dec
- 2022 11:18:20 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::499c:efe3:4397:808]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::499c:efe3:4397:808%9]) with mapi id 15.20.5944.013; Wed, 28 Dec 2022
- 11:18:20 +0000
-Date: Wed, 28 Dec 2022 06:18:12 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Deepak R Varma <drv@mailo.com>, Nicolai Stange <nicstange@gmail.com>,
- Julia Lawall <Julia.Lawall@lip6.fr>
-Subject: Re: [PATCH] drm/i915/fbc: Avoid full proxy f_ops for FBC debug
- attributes
-Message-ID: <Y6wl9NhYZG5RjJL7@intel.com>
-References: <Y6qmNW6cOHjGwn03@qemulion> <Y6sn1BmhFJFssW0h@intel.com>
- <Y6s0FSK9+F+/oKSf@qemulion>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <Y6s0FSK9+F+/oKSf@qemulion>
-X-ClientProxiedBy: SJ0PR13CA0070.namprd13.prod.outlook.com
- (2603:10b6:a03:2c4::15) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8939210E39F
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Dec 2022 11:26:32 +0000 (UTC)
+Received: from [192.168.1.139] ([37.4.248.41]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MMXYN-1pRsR41xl1-00JYKI; Wed, 28 Dec 2022 12:26:17 +0100
+Message-ID: <6ebcc09f-47d1-6c08-53f8-0b87ba2d75f6@i2se.com>
+Date: Wed, 28 Dec 2022 12:26:16 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|SA0PR11MB4717:EE_
-X-MS-Office365-Filtering-Correlation-Id: e07c9653-866c-4a62-b1b7-08dae8c539a2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aPxgegsY7bnTh7/sAefOLFogFzL4kknH+5kOkL2ANylQjZbPSDeMSEiMkSObwO0jAYDbEq7HjqR9E7DVtOFsiTh5lrYvlRL2ASizsInVeFqRROZ0dnW7iqa7IF32mUkBClSe/qXrmwy1gWpNGgZ615BCSBQliYtoUhxDFk9NbtFSh6/d7kgSoSKzP6qoPnA6ue/1u1s3Q6hLVXlgmW7KDjCiMo2buXbs4HrT4qJ1UfsHY2sF8ZaGCk/GZlS5kH7DuTIBYb5CapPpTUXAaVIlXy5a5nbeSZ0JeM1vGgJVcXfk+AxdNdupAlHZ/tL5QbRejYfVMHOfGXIU4akTCb72/Dtiqsq6XOf36HbZZ/F3YbuxWRoRGAXGl4vhTC9xh61ZEWu+ip4TOczb+EjGSQRfHXbJF2gAE5lokxT8TMrDc+beNqGGs365CN74DYRnwwZgoSQPUhrjbJgXog4IvsDmYQnYtGP8hfp3+R0OzG36UjHcZXEov8eMNC1AKAgEVdjzC1yS/Fq42o01O5HgurTwjNo/uwozhnlVOPcopJgScg5dGw819wOafJZepHfvwK7qGQUjhr+Aa/ZZ5JTZnRqj8zqfkCZRRoDu8VGVi16t8XIhb149XmTfUlleLQltnKByqF9MYdHLPzfNTneNTla8YA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(346002)(39860400002)(136003)(366004)(396003)(376002)(451199015)(6486002)(478600001)(316002)(186003)(110136005)(54906003)(2906002)(36756003)(6506007)(83380400001)(82960400001)(38100700002)(6666004)(86362001)(2616005)(26005)(6512007)(5660300002)(7416002)(8676002)(66946007)(8936002)(4326008)(66556008)(66476007)(44832011)(41300700001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dRZ3VWNjCV1oP7EvYzExZGyii3DEihlKrtyry1j7jsabK0JV+oD8xdhk0D61?=
- =?us-ascii?Q?BP4AyHzP9WJFA11mhXwBZXPTRy73D2XHUdrXjUyMqGMBrcHPnWfliQL+GeCB?=
- =?us-ascii?Q?2hKEt/rzWhAjJ2G6cfUXYzcazPVj3xFyHjMn5MORtqN360U149Sot2ERyns0?=
- =?us-ascii?Q?wo4+kWPwWNZ2mTRwAl3OLKz8CuK+YSgodG4TSYFgS+dA1sSXjIWu0TVpCAQz?=
- =?us-ascii?Q?Fw6cHEtikVBMwHrQcJFK2uuU6G5x61uYgT4xVx/h9SANB17oba+CbUHLT+yJ?=
- =?us-ascii?Q?CBvDqolS2kkN9eY8C5o3cr9F9EMgEUWJFWoC4+Vc4bZ+EigGap0qJWYGwvZK?=
- =?us-ascii?Q?dsJA6pOlYwdRI0aKCpDKd+bbWoODlgz+MmPTvaFBXGqT0gQLqcmcXzFm6E0S?=
- =?us-ascii?Q?rVP+I9BGfjeUakwXTmjYgO9wAfJ43vPs5CdKHgSEAfAMlmVg/SqKm3i0/HoN?=
- =?us-ascii?Q?HadMJABoMxC/uMgY1whGq9uPf3cuRwHIGgKXKJLNsZwc54vS+tpGtee7e4Fo?=
- =?us-ascii?Q?cRU5v0TzMCV9xCnB5YcM179IJB3hWU3BC23SFVCmQx6y/7mswCCX5I9NbPO7?=
- =?us-ascii?Q?Zy2561owEicCe8Fxlsx+pGdwCKLfgrdAq/pKvJPDuBczfTwEkrfx2Ar6ltJp?=
- =?us-ascii?Q?a9uhtCI8SwdAeuoUCjutoT6PsRa/x5WZcuRFpsFzku7BHpPckkcWnZSASbac?=
- =?us-ascii?Q?ekyjynv1rnWe2SsiwB8UX/vPWj2Fie31kCJX4/uZqZoTEVAc1U3Aq/AR9XOA?=
- =?us-ascii?Q?2Z38XnWe5vVarOpzE7vEHUfUg9rr7ixMtpXT/+WwEjd4kyi2RrF06aUVJhvT?=
- =?us-ascii?Q?7HYSKG1LyZL/+ZSPeAsHNoeSp10KDe/7s688kvosTkH1zL7aivqq923bXCf7?=
- =?us-ascii?Q?HBOPWoFU7bnyxhpdDisuouIMQvNU9FbS3uUqBRVpQaVU9y02bcFW3vjXUpKv?=
- =?us-ascii?Q?tW/E8+4Kq2KW1AB2MMykMbT4CK0JLhBrxzMNChDEzvN0uVzcUJvmhkaTeHIl?=
- =?us-ascii?Q?TDsyGi0N0VZg7uJfjvkICIoC2oZqwYlk9FZvszjbwazLxR0TRH0vOQP7eQTZ?=
- =?us-ascii?Q?dyzMCIDB1Rj1cqqShzg9DWmOObgIz6gw2+xWrQdzeehYlzQRkYzK1vHNT6qz?=
- =?us-ascii?Q?LPK8EoS/92+7w7PbB3EOW2JZaEabV+wybVBePe0YZJFp6fUWSsFG6Au9nIZn?=
- =?us-ascii?Q?dLLUVb3l/aewSH98cL5DUqqGT39IjgWBS3wQcS01cK33MYw2flJafdEi9xfE?=
- =?us-ascii?Q?S62AiXWGWkx1LdbVJWuUR4Y79Cg72HW37HaWDIB0LxPrDmiMmYGCdSEk3QF0?=
- =?us-ascii?Q?gPNOYUY//KBqguRM6zfN9TsAKyVIt0fjKnOqiKMs8HitHRKEqaLAYJUZI7Aq?=
- =?us-ascii?Q?FAaUDW7+AwcT5gKsHYCE9lRqquf2kjgTYPoePg6wZnIcNIrqcbcSSh5NnRQO?=
- =?us-ascii?Q?F+YJnbwRofRHoab29R5YEJcGkMiyrdB/uBPjBLODM3rI01WMlVdRX05LEwZp?=
- =?us-ascii?Q?KVK6n0OQmwHAE4nMDSrLICgv6S3oyDr39mfyD/znwRJFbvJ3O65rv7lOidVY?=
- =?us-ascii?Q?F6UqyccQt/k426rp2VLcTs98Q/104FsFl2D7dvn6dB0H6sz0UtYkLr5JvkFT?=
- =?us-ascii?Q?Uw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e07c9653-866c-4a62-b1b7-08dae8c539a2
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Dec 2022 11:18:20.2635 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gW/T7yiflcXkUi2RUviNf+Z2u2yL8o1BN0pSHqjHykIt02WCOAYcDK86MySIRPyFmUk86mS8Ac65mNxMB59O5A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4717
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: WARNING: CPU: 2 PID: 42 at drivers/gpu/drm/drm_modeset_lock.c:276
+From: Stefan Wahren <stefan.wahren@i2se.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <47a25f27-a3a1-5ec3-0c63-e68d05dff94e@i2se.com>
+Content-Language: en-US
+In-Reply-To: <47a25f27-a3a1-5ec3-0c63-e68d05dff94e@i2se.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:KdV944W40cbiZ9q2fq20bERrKNe/MAQi3hCgsqUL+2zY1dHHz94
+ dcDx79tUlixkiVVY3drfeQm5nyaY0Lh2cIekHCBFgpoUEmAL3smEDNMzI/wRvEh4jUienX9
+ M9CT6Fyw3sPTGOppAx5KSCQj4sm1r1BMWky1sIhHzuqj5LUjyVUvCCQs71axRHEjRg9rj9R
+ yUYtNh637OiyE6ISPCZiQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:NhcvKSqRQ+I=;KlT0Fafz/fRY5F6f1HuJNdf0rOX
+ iktfvXjUKQ7Is3PRia+y0a+P06ZsYzOfY2eu6PFgpVO+17Ppq3gdlWIw3d6SzO0ULmTwzvqnS
+ uhC+tg4G6efP3zdsgJwNMRpo7Ueo500gmiJkcomEVdv30d/zbLVgn2OnWgK8cuCnLS+gml0Iu
+ ffKr2bSZPUl+M1NTva8xrwSXe2Ag+O8StNW/OZyAOhSBzv+O9kSOACmxh/FH94jG8pbknxkk1
+ mxS1CbkId0DTgL3OFCqje463t0B2/qbe4016xUtbkttACnZzCVccsasLo9riZWM2+Jce6W9lV
+ 25y+SrGzCBdqFaJySHSy75WZljpNYduWQXlYwt+MvGHd/Xh1V7rp5dCGcAWm4iBzCzhZlPFI9
+ H3RuVRUDmlsR+9PdRGHHdbqbjD826sAFNYgocliyMz1isgVAOS1N9uzmqyTRBP4IXMpi3EtlM
+ yEerRC1VpVnNXukfk9mYl3Lt8jiS8YuBgdi7I+uPEWpMBXZG1dv5GCANF4W+gMA86MMHrTy1O
+ AOVxuvuhFhUd0y4PYR5Y41CqH1Unxust4mQXZThflTWXI4VwOIiJDZB53nvAduim5dJvgvghh
+ 5NDh0dZO/J3QUqA0PvArh5YW9Z2TTJ8sKmrR7xQtZABDF1B5i0d7UzcL3R1hCvhGTUMEjv5A7
+ sO+wqGLs3rc7ZnybcVc/KsEd+UIPIz49fiqBEGzVMw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,142 +57,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Saurabh
- Singh Sengar <ssengar@microsoft.com>,
- Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 27, 2022 at 11:36:13PM +0530, Deepak R Varma wrote:
-> On Tue, Dec 27, 2022 at 12:13:56PM -0500, Rodrigo Vivi wrote:
-> > On Tue, Dec 27, 2022 at 01:30:53PM +0530, Deepak R Varma wrote:
-> > > Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
-> > > function adds the overhead of introducing a proxy file operation
-> > > functions to wrap the original read/write inside file removal protection
-> > > functions. This adds significant overhead in terms of introducing and
-> > > managing the proxy factory file operations structure and function
-> > > wrapping at runtime.
-> > > As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
-> > > with debugfs_create_file_unsafe() is suggested to be used instead.  The
-> > > DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
-> > > debugfs_file_put() wrappers to protect the original read and write
-> > > function calls for the debug attributes. There is no need for any
-> > > runtime proxy file operations to be managed by the debugfs core.
-> > >
-> > > This Change is reported by the debugfs_simple_attr.cocci Coccinelle
-> > > semantic patch.
-> >
-> > I just checked here with
-> > $ make coccicheck M=drivers/gpu/drm/i915/ MODE=context COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
-> 
-> Hello Rodrigo,
-> Thank you so much for your review and feedback on the patch proposal.
-> 
-> >
-> > The part reported by the this script is the s/SIMPLE/DEBUGFS
-> > but the change to the unsafe option is not.
-> 
-> If you look at the original commit of this coccinelle file, it calls out the
-> need for pairing debugfs_create_file_unsafe() as well. Please review this
-> 
-> commitID: 5103068eaca2: ("debugfs, coccinelle: check for obsolete DEFINE_SIMPLE_ATTRIBUTE() usage")
+Hi,
 
-+Nicolai and Julia.
+Am 21.12.22 um 20:46 schrieb Stefan Wahren:
+> Hi,
+>
+> if i enable PROVE_LOCKING on the Raspberry Pi 3 B+ 
+> (arm/multi_v7_defconfig) using v6.1 (didn't test older versions) i'm 
+> getting the following warning:
+>
+> [  204.043396] WARNING: CPU: 2 PID: 42 at 
+> drivers/gpu/drm/drm_modeset_lock.c:276 drm_modeset_drop_locks+0x6c/0x70
+> [  204.043426] Modules linked in: aes_arm aes_generic cmac 
+> bcm2835_v4l2(C) bcm2835_mmal_vchiq(C) videobuf2_vmalloc 
+> videobuf2_memops videobuf2_v4l2 videobuf2_common videodev mc 
+> snd_bcm2835(C) crc32_arm_ce brcmfmac brcmutil vc4 snd_soc_hdmi_codec 
+> sha256_generic libsha256 snd_soc_core ac97_bus snd_pcm_dmaengine 
+> snd_pcm sha256_arm snd_timer cfg80211 onboard_usb_hub snd hci_uart 
+> raspberrypi_hwmon soundcore drm_dma_helper btbcm bluetooth 
+> ecdh_generic bcm2835_thermal ecc libaes vchiq(C) microchip lan78xx
+> [  204.043820] CPU: 2 PID: 42 Comm: kworker/2:1 Tainted: G C         
+> 6.1.0-00007-g22fada783b9f #31
+> [  204.043833] Hardware name: BCM2835
+> [  204.043842] Workqueue: events output_poll_execute
+> [  204.043866]  unwind_backtrace from show_stack+0x10/0x14
+> [  204.043886]  show_stack from dump_stack_lvl+0x58/0x70
+> [  204.043903]  dump_stack_lvl from __warn+0xc8/0x1e8
+> [  204.043920]  __warn from warn_slowpath_fmt+0x5c/0xb8
+> [  204.043936]  warn_slowpath_fmt from drm_modeset_drop_locks+0x6c/0x70
+> [  204.043952]  drm_modeset_drop_locks from 
+> drm_helper_probe_detect_ctx+0xd4/0x124
+> [  204.043969]  drm_helper_probe_detect_ctx from 
+> output_poll_execute+0x154/0x230
+> [  204.043986]  output_poll_execute from process_one_work+0x288/0x708
+> [  204.044004]  process_one_work from worker_thread+0x54/0x50c
+> [  204.044020]  worker_thread from kthread+0xe8/0x104
+> [  204.044034]  kthread from ret_from_fork+0x14/0x2c
+> [  204.044048] Exception stack(0xf0915fb0 to 0xf0915ff8)
+> [  204.044059] 5fa0:                                     00000000 
+> 00000000 00000000 00000000
+> [  204.044070] 5fc0: 00000000 00000000 00000000 00000000 00000000 
+> 00000000 00000000 00000000
+> [  204.044080] 5fe0: 00000000 00000000 00000000 00000000 00000013 
+> 00000000
+> [  204.044090] irq event stamp: 33189
+> [  204.044100] hardirqs last  enabled at (33195): [<c03ba3b4>] 
+> __up_console_sem+0x50/0x60
+> [  204.044120] hardirqs last disabled at (33200): [<c03ba3a0>] 
+> __up_console_sem+0x3c/0x60
+> [  204.044136] softirqs last  enabled at (32836): [<c0366478>] 
+> process_one_work+0x288/0x708
+> [  204.044152] softirqs last disabled at (32832): [<c0fb7134>] 
+> neigh_managed_work+0x18/0xa4
+> [  204.044168] ---[ end trace 0000000000000000 ]---
 
-It looks like coccinelle got right the
-- DEFINE_SIMPLE_ATTRIBUTE(dsa_fops, dsa_get, dsa_set, dsa_fmt);
-+ DEFINE_DEBUGFS_ATTRIBUTE(dsa_fops, dsa_get, dsa_set, dsa_fmt);
+here are my intermediate results. I'm stuck during bisecting. For the 
+skipped steps either vc4 throw compile errors or X doesn't come up 
+(display goes black before X and says no connection).
 
-but it failed badly on
-- debugfs_create_file(name, mode, parent, data, &dsa_fops)
-+ debugfs_create_file_unsafe(name, mode, parent, data, &dsa_fops)
+$ git bisect log
+git bisect start
+# good: [4fe89d07dcc2804c8b562f6c7896a45643d34b2f] Linux 6.0
+git bisect good 4fe89d07dcc2804c8b562f6c7896a45643d34b2f
+# bad: [33e591dee915832c618cf68bb1058c8e7d296128] Merge tag 
+'phy-for-6.1' of git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy
+git bisect bad 33e591dee915832c618cf68bb1058c8e7d296128
+# good: [a47e60729d9624e931f988709ab76e043e2ee8b9] Merge tag 
+'backlight-next-6.1' of 
+git://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight
+git bisect good a47e60729d9624e931f988709ab76e043e2ee8b9
+# bad: [ff6862c23d2e83d12d1759bf4337d41248fb4dc8] Merge tag 
+'arm-drivers-6.1' of git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc
+git bisect bad ff6862c23d2e83d12d1759bf4337d41248fb4dc8
+# good: [95d8c67187bcfaa519bafcdef9091cd906505454] Merge tag 
+'drm-msm-next-2022-09-22' of https://gitlab.freedesktop.org/drm/msm into 
+drm-next
+git bisect good 95d8c67187bcfaa519bafcdef9091cd906505454
+# good: [86a4d29e75540e20f991e72f17aa51d0e775a397] Merge tag 'asoc-v6.1' 
+of https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound into 
+for-linus
+git bisect good 86a4d29e75540e20f991e72f17aa51d0e775a397
+# bad: [65898687cf7392c372ea8d04a88617e2cb794465] Merge tag 
+'amd-drm-next-6.1-2022-09-30' of 
+https://gitlab.freedesktop.org/agd5f/linux into drm-next
+git bisect bad 65898687cf7392c372ea8d04a88617e2cb794465
+# good: [2d89e2ddfd00ca569dd73883c7c70badbd57f4ac] drm/amdgpu: fix 
+compiler warning for amdgpu_gfx_cp_init_microcode
+git bisect good 2d89e2ddfd00ca569dd73883c7c70badbd57f4ac
+# bad: [1637c315282e97efcb95cc7dfafbb15efa9fa27f] drm/mediatek: dp: Fix 
+compiler warning in mtk_dp_video_mute()
+git bisect bad 1637c315282e97efcb95cc7dfafbb15efa9fa27f
+# skip: [b78e5d830f0db8e6d998cdc5a2b7b807cf463f99] drm/tests: Set also 
+mock plane src_x, src_y, src_w and src_h
+git bisect skip b78e5d830f0db8e6d998cdc5a2b7b807cf463f99
+# skip: [213cb76ddc8b875e772f9f4d173feefa122716af] Merge tag 
+'drm-intel-gt-next-2022-09-09' of 
+git://anongit.freedesktop.org/drm/drm-intel into drm-next
+git bisect skip 213cb76ddc8b875e772f9f4d173feefa122716af
+# good: [4f96b1bc156e7076f6efedc2a76a8c7e897c7977] drm/todo: Add entry 
+about dealing with brightness control on devices with > 1 panel
+git bisect good 4f96b1bc156e7076f6efedc2a76a8c7e897c7977
+# skip: [165ba1aad164b7d5d5bc327fa511f6ef693b207b] drm/vc4: hdmi: Switch 
+to detect_ctx
+git bisect skip 165ba1aad164b7d5d5bc327fa511f6ef693b207b
+# skip: [c0895f80272cd4100a26129f4fb91a85bf6663a1] drm/vc4: hdmi: 
+Simplify the hotplug handling
+git bisect skip c0895f80272cd4100a26129f4fb91a85bf6663a1
+# bad: [98a65e6d498c46b0beec7a40aac4b3e404642993] drm/rockchip: remove 
+vop_writel from vop1 driver
+git bisect bad 98a65e6d498c46b0beec7a40aac4b3e404642993
+# skip: [385d1bba890f9b94322ca7fdfa778311f1ea0813] drm/modes: Add 
+initializer macro DRM_MODE_INIT()
+git bisect skip 385d1bba890f9b94322ca7fdfa778311f1ea0813
+# skip: [d25654b3fad9906ca80912701fd4bd6e2419f54d] drm/probe-helper: Add 
+drm_connector_helper_get_modes_fixed()
+git bisect skip d25654b3fad9906ca80912701fd4bd6e2419f54d
+# skip: [6d6e732835db92e66c28dbcf258a7e3d3c71420d] drm/udl: Restore 
+display mode on resume
+git bisect skip 6d6e732835db92e66c28dbcf258a7e3d3c71420d
+# skip: [f2912237eb922bf2d4ebf13f3f5f1b25070f1e52] drm/aperture: Fix 
+some kerneldoc comments
+git bisect skip f2912237eb922bf2d4ebf13f3f5f1b25070f1e52
+# skip: [68ded02cb2c23f1aebf026196a793959bd0463dc] drm/scdc: Document 
+hotplug gotchas
+git bisect skip 68ded02cb2c23f1aebf026196a793959bd0463dc
+# skip: [216b9bbaeaea96b7f05c220f61855d174be972d8] drm/probe-helper: Add 
+drm_crtc_helper_mode_valid_fixed()
+git bisect skip 216b9bbaeaea96b7f05c220f61855d174be972d8
 
-> 
-> Based on my review of the code, the functions debugfs_create_file() and
-> debugfs_create_file_unsafe(), both internally call __debugfs_create_file().
-> However, they pass debugfs_full_proxy_file_operations and
-> debugfs_open_proxy_file_operations respectively to it. The former represents the
-> full proxy factory, where as the later one is lightweight open proxy
-> implementation of the file operations structure.
-> 
-> >
-> > This commit message is not explaining why the unsafe is the suggested
-> > or who suggested it.
-> 
-> If you find the response above accurate, I will include these details about
-> the _unsafe() function in my commit message in v2.
-> 
-> >
-> > If you remove the unsafe part feel free to resend adding:
-> 
-> Please confirm you still believe switching to _unsafe() is not necessary.
-
-Based on the coccinelle commit it looks like you are right, but cocinelle
-just failed to detect the case. Let's see what Nicolai and Julia respond
-before we move with any patch here.
-
-> 
-> >
-> > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > (to both patches, this and the drrs one.
-> >
-> > Also, it looks like you could contribute with other 2 patches:
-> > drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c:64:0-23: WARNING: pxp_terminate_fops should be defined with DEFINE_DEBUGFS_ATTRIBUTE
-> > drivers/gpu/drm/i915/gvt/debugfs.c:150:0-23: WARNING: vgpu_scan_nonprivbb_fops should be defined with DEFINE_DEBUGFS_ATTRIBUTE
-> 
-> Yes, these are on my list. Was waiting for a feedback on the first submission
-> before I send more similar patches.
-> 
-> Appreciate your time and the feedback.
-> 
-> 
-> Regards,
-> ./drv
-> 
-> >
-> > >
-> > > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > > ---
-> > >  drivers/gpu/drm/i915/display/intel_fbc.c | 12 ++++++------
-> > >  1 file changed, 6 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
-> > > index b5ee5ea0d010..4b481e2f908b 100644
-> > > --- a/drivers/gpu/drm/i915/display/intel_fbc.c
-> > > +++ b/drivers/gpu/drm/i915/display/intel_fbc.c
-> > > @@ -1809,10 +1809,10 @@ static int intel_fbc_debugfs_false_color_set(void *data, u64 val)
-> > >  	return 0;
-> > >  }
-> > >
-> > > -DEFINE_SIMPLE_ATTRIBUTE(intel_fbc_debugfs_false_color_fops,
-> > > -			intel_fbc_debugfs_false_color_get,
-> > > -			intel_fbc_debugfs_false_color_set,
-> > > -			"%llu\n");
-> > > +DEFINE_DEBUGFS_ATTRIBUTE(intel_fbc_debugfs_false_color_fops,
-> > > +			 intel_fbc_debugfs_false_color_get,
-> > > +			 intel_fbc_debugfs_false_color_set,
-> > > +			 "%llu\n");
-> > >
-> > >  static void intel_fbc_debugfs_add(struct intel_fbc *fbc,
-> > >  				  struct dentry *parent)
-> > > @@ -1821,8 +1821,8 @@ static void intel_fbc_debugfs_add(struct intel_fbc *fbc,
-> > >  			    fbc, &intel_fbc_debugfs_status_fops);
-> > >
-> > >  	if (fbc->funcs->set_false_color)
-> > > -		debugfs_create_file("i915_fbc_false_color", 0644, parent,
-> > > -				    fbc, &intel_fbc_debugfs_false_color_fops);
-> > > +		debugfs_create_file_unsafe("i915_fbc_false_color", 0644, parent,
-> > > +					   fbc, &intel_fbc_debugfs_false_color_fops);
-> > >  }
-> > >
-> > >  void intel_fbc_crtc_debugfs_add(struct intel_crtc *crtc)
-> > > --
-> > > 2.34.1
-> > >
-> > >
-> > >
-> 
-> 
-
+>
+> Best regards
+>
