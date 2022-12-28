@@ -2,43 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FCE7657CA3
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 16:34:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F1D658B04
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 10:30:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 030FA10E3B3;
-	Wed, 28 Dec 2022 15:34:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D315810E250;
+	Thu, 29 Dec 2022 09:30:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E11210E3B3
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Dec 2022 15:34:31 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 5D65BB81647;
- Wed, 28 Dec 2022 15:34:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CB39C433F0;
- Wed, 28 Dec 2022 15:34:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1672241666;
- bh=SW5xKFSPrwYLrKP1omDMY+E/09Pr8z9WKCx+2TLz0uQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OBzdoWBmldAdErd0Fy0EavevjKR3oYDk9Osfrsx+2mqMqvwNMyPVQTyPILdscoUzh
- OYEbocwSzNlpCyNZblqST4NWX1X+VuRT5n5McCyU+p6BeHQAksn5tiT2ww/d5oJ1tp
- mQpBoS+HA/frZUH7ZCG0/VtQh1QM9VoyjkL66nkI=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Subject: [PATCH 5.15 509/731] fbdev: uvesafb: dont build on UML
-Date: Wed, 28 Dec 2022 15:40:16 +0100
-Message-Id: <20221228144311.300749846@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20221228144256.536395940@linuxfoundation.org>
-References: <20221228144256.536395940@linuxfoundation.org>
-User-Agent: quilt/0.67
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 71E5610E3A6;
+ Wed, 28 Dec 2022 14:43:45 +0000 (UTC)
+Received: from [192.168.1.139] (unknown [171.76.80.102])
+ by linux.microsoft.com (Postfix) with ESMTPSA id 676CE20F26B6;
+ Wed, 28 Dec 2022 06:43:42 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 676CE20F26B6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1672238625;
+ bh=eISDS/91oiq1DS7pKCpl1TnGMMOr/ZfUtjW/6tYTuBo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=JA/DFLkJg+lq0r974VDtsSIzXPguPqbLgZMMrdHHFydbLbq6uiflSW7pRUYc7jZ4V
+ JCJbMMLq6SQXaSF44FNDtApMoSBCxsMeTzl/KU2oCe71ev6/CiHYxYpBdettrtcK9H
+ iKndRKC3FCLd8gA6bCKjQE49B/+rLttmkRNOpAnY=
+Message-ID: <adabe9ea-1e25-5d4f-88d6-cd232af04693@linux.microsoft.com>
+Date: Wed, 28 Dec 2022 20:13:39 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v2 1/2] drm/i915: convert i915_active.count from atomic_t
+ to refcount_t
+Content-Language: en-US
+To: Deepak R Varma <drv@mailo.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1671952191.git.drv@mailo.com>
+ <fe31efd659622839c7f7bc2890d9e3411bbfa7cd.1671952191.git.drv@mailo.com>
+From: Praveen Kumar <kumarpraveen@linux.microsoft.com>
+In-Reply-To: <fe31efd659622839c7f7bc2890d9e3411bbfa7cd.1671952191.git.drv@mailo.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Thu, 29 Dec 2022 09:30:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,60 +57,206 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- Randy Dunlap <rdunlap@infradead.org>, linux-um@lists.infradead.org,
- patches@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Michal Januszewski <spock@gentoo.org>, Richard Weinberger <richard@nod.at>,
- Johannes Berg <johannes@sipsolutions.net>
+Cc: Saurabh Singh Sengar <ssengar@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On 25-12-2022 13:17, Deepak R Varma wrote:
+> The refcount_* APIs are designed to address known issues with the
+> atomic_t APIs for reference counting. They provide following distinct
+> advantages:
+>    - protect the reference counters from overflow/underflow
+>    - avoid use-after-free errors
+>    - provide improved memory ordering guarantee schemes
+>    - neater and safer.
+> Hence, convert the atomic_t count member variable and associated
+> atomic_*() API calls to equivalent refcount_t type and refcount_*() API
+> calls.
+> 
+> This patch proposal address the following warnings generated by
+> the atomic_as_refcounter.cocci coccinelle script
+> 	atomic_add_unless
+> 
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
+> ---
+> Please note:
+>    1. Proposed changes are compile tested only.
+>    2. This patch 1/2 is required to be applied before patch 2/2 due to
+>       interdependency.
+> 
+> Changes in v2:
+>    1. Patch added to the patch series.
+>    2. Handle build issues Reported-by: kernel test robot <lkp@intel.com>
+>       Earlier a standalone patch was sent for the i915 base driver only. The
+>       Kernel Test Robot reported build failure for additional atomic_*() calls
+>       specific to i915 debugging support when enabled. This version now includes
+>       those changes as well.
+> 
+> 
+>  drivers/gpu/drm/i915/i915_active.c       | 28 +++++++++++++-----------
+>  drivers/gpu/drm/i915/i915_active.h       |  6 ++---
+>  drivers/gpu/drm/i915/i915_active_types.h |  4 ++--
+>  3 files changed, 20 insertions(+), 18 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
+> index 7412abf166a8..5e58d8b1e947 100644
+> --- a/drivers/gpu/drm/i915/i915_active.c
+> +++ b/drivers/gpu/drm/i915/i915_active.c
+> @@ -92,14 +92,14 @@ static void debug_active_init(struct i915_active *ref)
+>  static void debug_active_activate(struct i915_active *ref)
+>  {
+>  	lockdep_assert_held(&ref->tree_lock);
+> -	if (!atomic_read(&ref->count)) /* before the first inc */
+> +	if (!refcount_read(&ref->count)) /* before the first inc */
+>  		debug_object_activate(ref, &active_debug_desc);
+>  }
+> 
+>  static void debug_active_deactivate(struct i915_active *ref)
+>  {
+>  	lockdep_assert_held(&ref->tree_lock);
+> -	if (!atomic_read(&ref->count)) /* after the last dec */
+> +	if (!refcount_read(&ref->count)) /* after the last dec */
+>  		debug_object_deactivate(ref, &active_debug_desc);
+>  }
+> 
+> @@ -133,7 +133,7 @@ __active_retire(struct i915_active *ref)
+>  	GEM_BUG_ON(i915_active_is_idle(ref));
+> 
+>  	/* return the unused nodes to our slabcache -- flushing the allocator */
+> -	if (!atomic_dec_and_lock_irqsave(&ref->count, &ref->tree_lock, flags))
+> +	if (!refcount_dec_and_lock_irqsave(&ref->count, &ref->tree_lock, &flags))
+>  		return;
+> 
+>  	GEM_BUG_ON(rcu_access_pointer(ref->excl.fence));
+> @@ -179,8 +179,8 @@ active_work(struct work_struct *wrk)
+>  {
+>  	struct i915_active *ref = container_of(wrk, typeof(*ref), work);
+> 
+> -	GEM_BUG_ON(!atomic_read(&ref->count));
+> -	if (atomic_add_unless(&ref->count, -1, 1))
+> +	GEM_BUG_ON(!refcount_read(&ref->count));
+> +	if (refcount_dec_not_one(&ref->count))
 
-[ Upstream commit 35b4f4d4a725cf8f8c10649163cd12aed509b953 ]
+I'm not sure if this is correct here, I assume we should be adding instead here its decrementing ?
 
-The uvesafb fbdev driver uses memory management information that is not
-available on ARCH=um, so don't allow this driver to be built on UML.
+>  		return;
+> 
+>  	__active_retire(ref);
+> @@ -189,8 +189,8 @@ active_work(struct work_struct *wrk)
+>  static void
+>  active_retire(struct i915_active *ref)
+>  {
+> -	GEM_BUG_ON(!atomic_read(&ref->count));
+> -	if (atomic_add_unless(&ref->count, -1, 1))
+> +	GEM_BUG_ON(!refcount_read(&ref->count));
+> +	if (refcount_dec_not_one(&ref->count))
+>  		return;
+> 
+>  	if (ref->flags & I915_ACTIVE_RETIRE_SLEEPS) {
+> @@ -354,7 +354,7 @@ void __i915_active_init(struct i915_active *ref,
+>  	ref->cache = NULL;
+> 
+>  	init_llist_head(&ref->preallocated_barriers);
+> -	atomic_set(&ref->count, 0);
+> +	refcount_set(&ref->count, 0);
+>  	__mutex_init(&ref->mutex, "i915_active", mkey);
+>  	__i915_active_fence_init(&ref->excl, NULL, excl_retire);
+>  	INIT_WORK(&ref->work, active_work);
+> @@ -445,7 +445,7 @@ int i915_active_add_request(struct i915_active *ref, struct i915_request *rq)
+> 
+>  	if (replace_barrier(ref, active)) {
+>  		RCU_INIT_POINTER(active->fence, NULL);
+> -		atomic_dec(&ref->count);
+> +		refcount_dec(&ref->count);
+>  	}
+>  	if (!__i915_active_fence_set(active, fence))
+>  		__i915_active_acquire(ref);
+> @@ -488,14 +488,16 @@ i915_active_set_exclusive(struct i915_active *ref, struct dma_fence *f)
+>  bool i915_active_acquire_if_busy(struct i915_active *ref)
+>  {
+>  	debug_active_assert(ref);
+> -	return atomic_add_unless(&ref->count, 1, 0);
+> +	return refcount_add_not_zero(1, &ref->count);
+>  }
+> 
+>  static void __i915_active_activate(struct i915_active *ref)
+>  {
+>  	spin_lock_irq(&ref->tree_lock); /* __active_retire() */
+> -	if (!atomic_fetch_inc(&ref->count))
+> +	if (!refcount_inc_not_zero(&ref->count)) {
+> +		refcount_inc(&ref->count);
+>  		debug_active_activate(ref);
+> +	}
+>  	spin_unlock_irq(&ref->tree_lock);
+>  }
+> 
+> @@ -757,7 +759,7 @@ int i915_sw_fence_await_active(struct i915_sw_fence *fence,
+>  void i915_active_fini(struct i915_active *ref)
+>  {
+>  	debug_active_fini(ref);
+> -	GEM_BUG_ON(atomic_read(&ref->count));
+> +	GEM_BUG_ON(refcount_read(&ref->count));
+>  	GEM_BUG_ON(work_pending(&ref->work));
+>  	mutex_destroy(&ref->mutex);
+> 
+> @@ -927,7 +929,7 @@ int i915_active_acquire_preallocate_barrier(struct i915_active *ref,
+> 
+>  		first = first->next;
+> 
+> -		atomic_dec(&ref->count);
+> +		refcount_dec(&ref->count);
+>  		intel_engine_pm_put(barrier_to_engine(node));
+> 
+>  		kmem_cache_free(slab_cache, node);
+> diff --git a/drivers/gpu/drm/i915/i915_active.h b/drivers/gpu/drm/i915/i915_active.h
+> index 7eb44132183a..116c7c28466a 100644
+> --- a/drivers/gpu/drm/i915/i915_active.h
+> +++ b/drivers/gpu/drm/i915/i915_active.h
+> @@ -193,14 +193,14 @@ void i915_active_release(struct i915_active *ref);
+> 
+>  static inline void __i915_active_acquire(struct i915_active *ref)
+>  {
+> -	GEM_BUG_ON(!atomic_read(&ref->count));
+> -	atomic_inc(&ref->count);
+> +	GEM_BUG_ON(!refcount_read(&ref->count));
+> +	refcount_inc(&ref->count);
+>  }
+> 
+>  static inline bool
+>  i915_active_is_idle(const struct i915_active *ref)
+>  {
+> -	return !atomic_read(&ref->count);
+> +	return !refcount_read(&ref->count);
+>  }
+> 
+>  void i915_active_fini(struct i915_active *ref);
+> diff --git a/drivers/gpu/drm/i915/i915_active_types.h b/drivers/gpu/drm/i915/i915_active_types.h
+> index b02a78ac87db..152a3a25d9f7 100644
+> --- a/drivers/gpu/drm/i915/i915_active_types.h
+> +++ b/drivers/gpu/drm/i915/i915_active_types.h
+> @@ -7,7 +7,7 @@
+>  #ifndef _I915_ACTIVE_TYPES_H_
+>  #define _I915_ACTIVE_TYPES_H_
+> 
+> -#include <linux/atomic.h>
+> +#include <linux/refcount.h>
+>  #include <linux/dma-fence.h>
+>  #include <linux/llist.h>
+>  #include <linux/mutex.h>
+> @@ -23,7 +23,7 @@ struct i915_active_fence {
+>  struct active_node;
+> 
+>  struct i915_active {
+> -	atomic_t count;
+> +	refcount_t count;
+>  	struct mutex mutex;
+> 
+>  	spinlock_t tree_lock;
+> --
+> 2.34.1
+> 
+> 
 
-Prevents these build errors:
+Regards,
 
-../drivers/video/fbdev/uvesafb.c: In function ‘uvesafb_vbe_init’:
-../drivers/video/fbdev/uvesafb.c:807:21: error: ‘__supported_pte_mask’ undeclared (first use in this function)
-  807 |                 if (__supported_pte_mask & _PAGE_NX) {
-../drivers/video/fbdev/uvesafb.c:807:44: error: ‘_PAGE_NX’ undeclared (first use in this function)
-  807 |                 if (__supported_pte_mask & _PAGE_NX) {
-
-Fixes: 68f5d3f3b654 ("um: add PCI over virtio emulation driver")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Johannes Berg <johannes@sipsolutions.net>
-Cc: Richard Weinberger <richard@nod.at>
-Cc: linux-um@lists.infradead.org
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Helge Deller <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: Michal Januszewski <spock@gentoo.org>
-Signed-off-by: Helge Deller <deller@gmx.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/video/fbdev/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 5050a9f8e879..26531aa19428 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -606,6 +606,7 @@ config FB_TGA
- config FB_UVESA
- 	tristate "Userspace VESA VGA graphics support"
- 	depends on FB && CONNECTOR
-+	depends on !UML
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
--- 
-2.35.1
-
-
-
+~Praveen.
