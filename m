@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 525716571CA
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 02:49:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A45746571CF
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 02:49:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC37310E369;
-	Wed, 28 Dec 2022 01:48:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0D6D10E36E;
+	Wed, 28 Dec 2022 01:48:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7644F10E368
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Dec 2022 01:48:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A181010E367
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Dec 2022 01:48:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672192100;
+ s=mimecast20190719; t=1672192101;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lU6VOUG1vSrY2tpqFwz0Ej2kvheVmIlXVmdfOeOCkyw=;
- b=GxKds/bXcr+6gcxqxCcSDUJNqc5qMugze/lD9vJ1D2LWoCJJ0/ahJLDtsNTmKQhlida5NL
- sZknt6XWuhZZKsfk+CsW3DKmFwdAYmGZ5wXLcuMfkPQyDPkHnDVzdmIPbuzSPaUzwNsZFG
- DDN5BAMQmIYvxbNDgpgfKdZFXz062Nc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FAya4FSKwba6VvdFIeSAErTX1xwGmtOXg5P4/ZRBg8k=;
+ b=P6kZMlTP7kigl/7YFzcfzTuivFGJ4LilWuRLK/XbZHDytlM3jAzwpFpmc8I+zq6os0Mo1C
+ b8jyPMWkS21ylVdywYE5ddI4pt81uM+UPh6CTuU3JzJn9/2bjy71r6Y5JOvP1POKVz8y9U
+ YllNGO++rHauYzc+zz8yPywTZjr3ji0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-356--UBWza6qNyehETNd-9557g-1; Tue, 27 Dec 2022 20:48:19 -0500
-X-MC-Unique: -UBWza6qNyehETNd-9557g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- fm17-20020a05600c0c1100b003d96f0a7f2eso7369701wmb.6
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 17:48:19 -0800 (PST)
+ us-mta-586-j6IJjV85Oeq5zm17wznIpw-1; Tue, 27 Dec 2022 20:48:20 -0500
+X-MC-Unique: j6IJjV85Oeq5zm17wznIpw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k20-20020a05600c1c9400b003d9717c8b11so5640338wms.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Dec 2022 17:48:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lU6VOUG1vSrY2tpqFwz0Ej2kvheVmIlXVmdfOeOCkyw=;
- b=gjmc4aCSp1uLSRLsAJzMKLjcFy/sbyYcV1PcWfJ5ywY4K+XWD2EHbbp66HgqG6+ymm
- /7bLgIYic0/KmZeD1MzjKeUUEzyDgCJSdUbzwjaaHuAYk6dx77iVbPyDvAGrCwUqGilU
- kiL1IPmxFXZlqn25dJgw40V5mygA3LPHmW/vyYUNH3LCPJ7WMqdXDRPU+l7TPebmbvH7
- nA7re+RIYC+LnyL/5E8Vb/ppiIyMHvD7gvLnzMCWtmgkXN/lWLNT6vLfcPRCah34KUZa
- v1AKU34PGz3NXZSGwTHEkwV/fmp0CDLATFBXKWAr2zD7Cbhbp2olMPkzacstt0q1zcvD
- 7vcw==
-X-Gm-Message-State: AFqh2kobEGYl6ugpHhjUv6d3/Aq0RT1y83Q+tK3H0M5aimLwatOR9x9D
- W9sBNm4ZToZkkM9bACHk3MS4FFTgga/Io75g+LhNjtBzETtOw4WrGONvFCYC3sX2ZWTlF1FRIY8
- eKMxzfU3+qSfTpNSdqDEXasRCcBwe
-X-Received: by 2002:adf:9b99:0:b0:241:fa2d:dea0 with SMTP id
- d25-20020adf9b99000000b00241fa2ddea0mr14018188wrc.3.1672192098202; 
- Tue, 27 Dec 2022 17:48:18 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtFinSDNvZD1/lFP5JuaVSl0nj8OZdwp1w6kixV9ufXdaQQ+vqUKiQuRf6PKWrFwFLIszkKlw==
-X-Received: by 2002:adf:9b99:0:b0:241:fa2d:dea0 with SMTP id
- d25-20020adf9b99000000b00241fa2ddea0mr14018183wrc.3.1672192097961; 
- Tue, 27 Dec 2022 17:48:17 -0800 (PST)
+ bh=FAya4FSKwba6VvdFIeSAErTX1xwGmtOXg5P4/ZRBg8k=;
+ b=Rhk8QeRebsnzigbTVqr6cPfU3N8LQnvP60vbnFi5ayJ7WgWwzJeFa/RqhnzJ9iKn6/
+ QC51fUfoq2d4GVMweXC4NPOUIp2LkYBGIP+MfkaQ4sKCK5XBtR+C9ne3mMF9RRxHzjQf
+ 472p/c436wfcqYddo9PWbw/qIZVW9UQN9rRQEP5Rj90rNs09JxExlN7JHfA+n0YyTMDu
+ HTQoD3cLygQKr/h22DGmWw2ALNltayFkGe9e/XwD5IpYudnsb3ApSk59D5O8bbqq0XQi
+ iATXIPYvZZ0gsv9gkoTVmu97d7oBTyGGhkrTDgEWVHdr+EMQlaT62mZwgreq1Qxs4TQ7
+ 24mA==
+X-Gm-Message-State: AFqh2kr40YHy71VLsuktN1bVbwc4ijtMCGQc/ZrDuJUDRKHR6PfuRnzg
+ W1JFtt8bo7kCDVk5xI2qWINVjp9bRIkU13WIuqB0HM3GK3y/XcTTtjNBP62ZAQRxWIc9rzvbHHJ
+ psvesdc3+4GfzgtRu/UoI1HU5v63T
+X-Received: by 2002:adf:fc51:0:b0:27d:ddaa:8bd8 with SMTP id
+ e17-20020adffc51000000b0027dddaa8bd8mr5313652wrs.13.1672192099363; 
+ Tue, 27 Dec 2022 17:48:19 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs/Kssky6t73oZG/gcrNsPYZiX5THvQztGesgNjeV0fyMNB/Jn0TcbRPckGXXZFNtoGYRY1hw==
+X-Received: by 2002:adf:fc51:0:b0:27d:ddaa:8bd8 with SMTP id
+ e17-20020adffc51000000b0027dddaa8bd8mr5313649wrs.13.1672192099191; 
+ Tue, 27 Dec 2022 17:48:19 -0800 (PST)
 Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- k16-20020a056000005000b002258235bda3sm14158873wrx.61.2022.12.27.17.48.16
+ k16-20020a056000005000b002258235bda3sm14158873wrx.61.2022.12.27.17.48.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Dec 2022 17:48:17 -0800 (PST)
+ Tue, 27 Dec 2022 17:48:18 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 10/14] drm/panel-samsung-sofef00: Drop custom DSI write macro
-Date: Wed, 28 Dec 2022 02:47:53 +0100
-Message-Id: <20221228014757.3170486-11-javierm@redhat.com>
+Subject: [PATCH 11/14] drm/panel-sharp-ls060t1sx01: Drop custom DSI write macro
+Date: Wed, 28 Dec 2022 02:47:54 +0100
+Message-Id: <20221228014757.3170486-12-javierm@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221228014757.3170486-1-javierm@redhat.com>
 References: <20221228014757.3170486-1-javierm@redhat.com>
@@ -95,57 +95,45 @@ that instead and delete the custom DSI write macro defined in the driver.
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
 
- drivers/gpu/drm/panel/panel-samsung-sofef00.c | 24 +++++++------------
- 1 file changed, 8 insertions(+), 16 deletions(-)
+ .../gpu/drm/panel/panel-sharp-ls060t1sx01.c   | 19 ++-----------------
+ 1 file changed, 2 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef00.c b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-index 1a0d24595faa..9db49a028930 100644
---- a/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-@@ -34,14 +34,6 @@ struct sofef00_panel *to_sofef00_panel(struct drm_panel *panel)
- 	return container_of(panel, struct sofef00_panel, panel);
+diff --git a/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c b/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
+index 8a4e0c1fe73f..68f52eaaf4fa 100644
+--- a/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
++++ b/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
+@@ -32,12 +32,6 @@ static inline struct sharp_ls060 *to_sharp_ls060(struct drm_panel *panel)
+ 	return container_of(panel, struct sharp_ls060, panel);
  }
  
--#define dsi_dcs_write_seq(dsi, seq...) do {				\
+-#define dsi_dcs_write_seq(dsi, seq...) ({				\
 -		static const u8 d[] = { seq };				\
--		int ret;						\
--		ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));	\
--		if (ret < 0)						\
--			return ret;					\
--	} while (0)
+-									\
+-		mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));	\
+-	})
 -
- static void sofef00_panel_reset(struct sofef00_panel *ctx)
+ static void sharp_ls060_reset(struct sharp_ls060 *ctx)
  {
  	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-@@ -67,7 +59,7 @@ static int sofef00_panel_on(struct sofef00_panel *ctx)
- 	}
- 	usleep_range(10000, 11000);
+@@ -56,17 +50,8 @@ static int sharp_ls060_on(struct sharp_ls060 *ctx)
  
--	dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
-+	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
+ 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
  
- 	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
- 	if (ret < 0) {
-@@ -75,13 +67,13 @@ static int sofef00_panel_on(struct sofef00_panel *ctx)
- 		return ret;
- 	}
+-	ret = dsi_dcs_write_seq(dsi, 0xbb, 0x13);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to send command: %d\n", ret);
+-		return ret;
+-	}
+-
+-	ret = dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_MEMORY_START);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to send command: %d\n", ret);
+-		return ret;
+-	}
++	mipi_dsi_dcs_write_seq(dsi, 0xbb, 0x13);
++	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_MEMORY_START);
  
--	dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
--	dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
--	dsi_dcs_write_seq(dsi, 0xb0, 0x07);
--	dsi_dcs_write_seq(dsi, 0xb6, 0x12);
--	dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
--	dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
--	dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
-+	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
-+	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x07);
-+	mipi_dsi_dcs_write_seq(dsi, 0xb6, 0x12);
-+	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
-+	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
-+	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
- 
- 	ret = mipi_dsi_dcs_set_display_on(dsi);
+ 	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
  	if (ret < 0) {
 -- 
 2.38.1
