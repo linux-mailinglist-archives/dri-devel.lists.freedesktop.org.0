@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E65657BC3
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 16:25:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1FE5657B21
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Dec 2022 16:18:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5254B10E3A6;
-	Wed, 28 Dec 2022 15:24:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1231610E1A9;
+	Wed, 28 Dec 2022 15:18:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16A2B10E3A6
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Dec 2022 15:24:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DCDB10E1A9
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Dec 2022 15:18:19 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 573296152F;
- Wed, 28 Dec 2022 15:24:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 413B3C433D2;
- Wed, 28 Dec 2022 15:24:07 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 528166155B;
+ Wed, 28 Dec 2022 15:18:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D9DEC433D2;
+ Wed, 28 Dec 2022 15:18:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1672241047;
- bh=WTyC2F+TPJdveuxaEoXurTTAYTlK6obQLK+bnmZwq64=;
+ s=korg; t=1672240695;
+ bh=xnncnqnNxEXQ71qlNDAGrOqAbIWOZBwesnFOzhzptFU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CrDiknMCFw4Rg9KfKtlhlYhK0giNgkxtUzJHWGNydGz+L8Hgr6mvzUfpQzUlOoVHm
- dQ81O5Wpn7zaSNAV/9UgM+sf6DoB40jlqoO0v4THjBdGBt9D2KNfXXVHaRl00i11+C
- O1GFq7fOzF71oAvL8jW71zsyI0TEpBc+Gs1isvA0=
+ b=wJ3k0Assu2Ll9cdQ0deZdujb40b7fTD+4T3kTlPW3n7iRCmpozv6j9uVWJsCKKtjH
+ lgV3krSZ63Ps7VQxXE99WpWH8bB3d8Qk9ejHs09fwmW9ZXph16XFPYdAIRbWJK4lCG
+ RGLfEUx7M5MyQEJfSsKBAR0ib1cIN/7mh+iJ3sCw=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 6.1 0199/1146] drm/atomic-helper: Dont allocate new plane
+Subject: [PATCH 6.0 0192/1073] drm/atomic-helper: Dont allocate new plane
  state in CRTC check
-Date: Wed, 28 Dec 2022 15:28:58 +0100
-Message-Id: <20221228144335.549602274@linuxfoundation.org>
+Date: Wed, 28 Dec 2022 15:29:40 +0100
+Message-Id: <20221228144333.228471808@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20221228144330.180012208@linuxfoundation.org>
-References: <20221228144330.180012208@linuxfoundation.org>
+In-Reply-To: <20221228144328.162723588@linuxfoundation.org>
+References: <20221228144328.162723588@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -102,10 +102,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 98cc3137c062..02b4a7dc92f5 100644
+index 8bf41aa24068..6526d6ade04b 100644
 --- a/drivers/gpu/drm/drm_atomic_helper.c
 +++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -945,7 +945,6 @@ int drm_atomic_helper_check_crtc_state(struct drm_crtc_state *crtc_state,
+@@ -899,7 +899,6 @@ int drm_atomic_helper_check_crtc_state(struct drm_crtc_state *crtc_state,
  				       bool can_disable_primary_planes)
  {
  	struct drm_device *dev = crtc_state->crtc->dev;
@@ -113,7 +113,7 @@ index 98cc3137c062..02b4a7dc92f5 100644
  
  	if (!crtc_state->enable)
  		return 0;
-@@ -956,14 +955,7 @@ int drm_atomic_helper_check_crtc_state(struct drm_crtc_state *crtc_state,
+@@ -910,14 +909,7 @@ int drm_atomic_helper_check_crtc_state(struct drm_crtc_state *crtc_state,
  		struct drm_plane *plane;
  
  		drm_for_each_plane_mask(plane, dev, crtc_state->plane_mask) {
