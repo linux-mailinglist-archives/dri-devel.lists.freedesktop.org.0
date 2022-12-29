@@ -2,50 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 050BA658B3B
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 10:52:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09E70658B3D
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 10:54:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C106D10E110;
-	Thu, 29 Dec 2022 09:51:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA2E188784;
+	Thu, 29 Dec 2022 09:54:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5C3110E110
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 09:51:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ZpbZgnwhCYmbe5H1n/o2+KN8/P0yoKduaxqBRgrGL0g=; b=BjaXwN+lOFkutogsNiBSjXbBW5
- 6+zUsCuVtVbwdivtVio49gTthphP3T/+ChBEeQV7s35OmFbpZF5iTIdZve725+io8Ote0Pzc1D7+n
- 92/DDPAst/4aNb4f1x61DGO2WLXI9/QxGfl1rSlY3px6gVggBADcV0xiKmZc1RS8S1EtWltedIdX6
- r19I2k0Psepc0XnVoF+siqvTeFArSmomJPPKxN4GRIxpZXgdUmftw9k8hopEnOdNyl9xAqds3zTOI
- oCvkka8vzv5zjNHZLDA+SM27KVqhU3TQTSBQbP6kH/YfaOxJfWP3IQGoUgemlnkioJTFHV0j+uGYt
- 7ff9l+Sw==;
-Received: from [187.36.234.139] (helo=[192.168.1.195])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1pApZM-00CQtM-9b; Thu, 29 Dec 2022 10:51:24 +0100
-Message-ID: <6ea45426-a752-478a-1d75-fbd64a967b79@igalia.com>
-Date: Thu, 29 Dec 2022 06:51:19 -0300
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
+ [IPv6:2607:f8b0:4864:20::b33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 928AF10E255
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 09:54:00 +0000 (UTC)
+Received: by mail-yb1-xb33.google.com with SMTP id 192so20031739ybt.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 01:54:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=+yOD3yNpp4Sg8yVPxedVVEWiPubXWdIpWJ3m/jNQjH0=;
+ b=dQ6fcikk6vSdmKrU4eLNH7HDLeidwKolv/8H1oeAG7B3pwfbe/kHq+/7rbE/BKd+RA
+ n+mqeyGKLCphg6xq4Oz5tF6OBBE4Q1JQFKzdIxXoilNO4y4H0hyxMzb+9L1169fnqqy3
+ un6K0fBFwKRxCBklBsCzB3FI2vkT89pN/4fyQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+yOD3yNpp4Sg8yVPxedVVEWiPubXWdIpWJ3m/jNQjH0=;
+ b=p8Q7qBrqdKmJlEt9g3od89l7dExEjMO3+mfFGrI52I2A1veNGUEsgibKjJRphWvEzP
+ qHxTLyXV/bqzvEdBWoaW6OznIzAwgV8O63i+rPxxM209D/QXD/mbqHQtyReV4hOeIhuL
+ HphM63w6JiQFwowqcqIyLExQZL4HHBxcMnqBGwZXoBE5/q0deiXH9fX0bv8mPjK8CN/v
+ j+nOxX+2L1ksgu3Tj4VqxoAGzV9/m29/1MR269kDV7WUIDMSaKru6Ztwtjrl0npEQHLN
+ BNnljYyCRV/+dFzIJi+Dj/Sf/x5MwQpJcQ7HQzNU3QaiMKIIcDOxP9P7dY3TQK5uQMdW
+ P1vg==
+X-Gm-Message-State: AFqh2kq7bja0xMCmAVv1eje7RpTCAFpdpNWIpY1DNgsXzcDeVsqXKzam
+ EOCS7n0O7JBOk1XuaVYJBKGdb0LILIwGJGcjv+a0Gw==
+X-Google-Smtp-Source: AMrXdXuoA9vvADI0ga1A0rofeM2WbLDlgYQM51CNwbZv9FCgQQSqThlpYZEU3IL66FDhwNeWBldubTZDmOBxovx8eek=
+X-Received: by 2002:a25:cc82:0:b0:6f9:bd14:f0b4 with SMTP id
+ l124-20020a25cc82000000b006f9bd14f0b4mr3559292ybf.408.1672307639746; Thu, 29
+ Dec 2022 01:53:59 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: WARNING: CPU: 2 PID: 42 at drivers/gpu/drm/drm_modeset_lock.c:276
-To: Maxime Ripard <maxime@cerno.tech>, Stefan Wahren <stefan.wahren@i2se.com>
-References: <47a25f27-a3a1-5ec3-0c63-e68d05dff94e@i2se.com>
- <6ebcc09f-47d1-6c08-53f8-0b87ba2d75f6@i2se.com>
- <4c036775-3989-b14a-8f3f-478ef488f108@igalia.com>
- <9bb7c19c-effb-51e8-0b10-61077529030d@i2se.com>
- <20221229083726.t4jvnejep3q3ehyk@penduick>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20221229083726.t4jvnejep3q3ehyk@penduick>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20221227110335.2923359-1-javierm@redhat.com>
+ <20221227110335.2923359-2-javierm@redhat.com>
+ <CAMty3ZAaHKJ21D8mE=HU3D3KOGAiZ7vfmW_Hgc-E5JO5S+tMNA@mail.gmail.com>
+ <CABxcv=kwtk21UbOwaV4tq=BpPsrYmnTrzuhybjbknipqk5R-fA@mail.gmail.com>
+ <CAMty3ZDESyJoWMO_BgHzUJN=hLV0dH6y=3B9ogOsSUvaTMqarQ@mail.gmail.com>
+ <CABxcv=mFzuUq0-PQ8H3N0Sxmzg+z1v_uwhUe0jcH2++NDQRR0w@mail.gmail.com>
+In-Reply-To: <CABxcv=mFzuUq0-PQ8H3N0Sxmzg+z1v_uwhUe0jcH2++NDQRR0w@mail.gmail.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 29 Dec 2022 15:23:48 +0530
+Message-ID: <CAMty3ZDJEx6J6xtbAVyO61vSKeW_7F-xWk5yvkwKvHNc1oyykA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] dt-bindings: display: Add Himax HX8394 panel
+ controller
+To: Javier Martinez Canillas <javier@dowhile0.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,41 +68,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Melissa Wen <mwen@igalia.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org, Robert Mader <robert.mader@posteo.de>,
+ Onuralp Sezer <thunderbirdtr@fedoraproject.org>,
+ Neal Gompa <ngompa13@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
+ Martijn Braam <martijn@brixit.nl>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Ondrej Jirman <megi@xff.cz>,
+ Peter Robinson <pbrobinson@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ =?UTF-8?Q?Kamil_Trzci=C5=84ski?= <ayufan@ayufan.eu>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Tom Fitzhenry <tom@tom-fitzhenry.me.uk>, Sam Ravnborg <sam@ravnborg.org>,
+ Maya Matuszczyk <maccraft123mc@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/29/22 05:37, Maxime Ripard wrote:
-> On Wed, Dec 28, 2022 at 11:16:11PM +0100, Stefan Wahren wrote:
->> Hi Maíra,
->>
->> Am 28.12.22 um 20:49 schrieb Maíra Canal:
->>> Hi Stefan,
->>>
->>> I was able to reproduce this error on drm-misc-next. I bisected,
->>> and I got into commit 6bed2ea3cb38. I noticed that the crtc->mutex is
->>> being locked twice, and this might be causing the problem. I wrote a
->>> patch to try to fix this issue, and after applying the patch, I wasn't
->>> able to reproduce the error anymore.
->>>
->>> Let me know if you were able to reproduce the warning after applying
->>> this patch.
->>
->> the patch works as expected and avoid the warning. I tested it on top of
->> v6.1 with RPi 3 B+ and RPi 4 B.
->>
->> In case you send the patch please add the Fixes tag so the patch get
->> backported to stable.
-> 
-> This isn't a proper fix, we do need to take the crtc mutex: it protects
-> the crtc->state pointer we dereference next, and vc4_hdmi_reset_link can
-> be called outside of a modeset through the interrupt handler.
+On Wed, Dec 28, 2022 at 3:46 AM Javier Martinez Canillas
+<javier@dowhile0.org> wrote:
+>
+> On Tue, Dec 27, 2022 at 8:37 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> >
+> > On Wed, Dec 28, 2022 at 12:58 AM Javier Martinez Canillas
+> > <javier@dowhile0.org> wrote:
+> > >
+> > > Hello Jagan,
+> > >
+> > > On Tue, Dec 27, 2022 at 7:16 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> > >
+> > > [...]
+> > >
+> > > > > +allOf:
+> > > > > +  - $ref: panel-common.yaml#
+> > > > > +
+> > > > > +properties:
+> > > > > +  compatible:
+> > > > > +    enum:
+> > > > > +      # HannStar HSD060BHW4 5.99" 720x1440 TFT LCD panel
+> > > > > +      - hannstar,hsd060bhw4
+> > > >
+> > > > Parent controller can have a compatible where the associated panels
+> > > > will be enum list.
+> > > >
+> > >
+> > > I'm not sure to follow what you meant. Could you please elaborate?
+> >
+> > compatible:
+> >     items:
+> >       - enum:
+> >           - hannstar,hsd060bhw4
+> >       - const: himax,hx8394
+> >
+> > himax,hx8394 is the actual controller and is denoted as fallback compatible.
+> >
+>
+> I see. Do you have an example of a panel controller that does this? I
+> don't see that much value in doing this since you want the DTS to
+> describe the actual HW and so want the panel I believe.
 
-Do you suggest calling drm_modeset_unlock after dereferencing crtc->state?
+Yes, but the Panel needs to be built on top of the display IC so the
+actual parent here is the display IC and the panel is sub-HW.  This is
+what usually follows, here are some reference bindings.
 
-Best Regards,
-- Maíra Canal
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/display/panel/ilitek,ili9163.yaml
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/display/panel/ilitek,ili9322.yaml
 
-> 
-> Maxime
+Jagan.
