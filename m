@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8DE658B3F
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 10:55:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 231E0658B57
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 11:00:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B15A10E1EE;
-	Thu, 29 Dec 2022 09:55:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A529E10E1EF;
+	Thu, 29 Dec 2022 09:59:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BDEC10E1EE;
- Thu, 29 Dec 2022 09:54:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1672307698; x=1703843698;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Ekul8eGeWcmCvyM+3dUi16jfyX+OFQQRDZLG3bQVomQ=;
- b=d+7bN+tjqh3eof9bdGje2kpI4zamfY6oXHKsH+IltfywydlGu2NF0yZG
- 4vIYv/W8lJbY30ukqxMBcjHIRPMCg9jmTJADrPDZdo1FJxI3F6MVBRfwY
- BIgsMVcxs9JW7VBN0D8cQHYX+iVJvNWG3lWD/FemsFFxxPHFlM+r1fbYY
- qVh8BxuHJ89OYNeXwCreHJSPhBe+76NSoPDLdOu7BGq1oDzOlJyyMm8DT
- Ef4uT6gE+ggVAwsKhrxH9vy9WHVpZ+HRJiPSnjy/8deUA37o+bNIcgSHi
- 0elXSLbGnfbt6xofms5/X0zBh+1Hn27+PPdr9nHZYPjJGtGv4Kw4SFjyF g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10574"; a="318699301"
-X-IronPort-AV: E=Sophos;i="5.96,283,1665471600"; d="scan'208";a="318699301"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Dec 2022 01:54:57 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10574"; a="742258354"
-X-IronPort-AV: E=Sophos;i="5.96,283,1665471600"; d="scan'208";a="742258354"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.17.178])
- ([10.213.17.178])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Dec 2022 01:54:52 -0800
-Message-ID: <6e727952-3ad0-fcc3-82f1-c465dcffd56f@intel.com>
-Date: Thu, 29 Dec 2022 10:54:50 +0100
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA44E10E1EF
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 09:59:34 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id z10so16948585wrh.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 01:59:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bn4HntsaKLTQdip7AHyQp+cV/Iqbq4A7mjOLHD/cq3A=;
+ b=oNoV6KZk4xfXVsu7aVrk5wo+peEUiy1BbGBKo3lLCOD0E8yhWOESElxxmbxXRn2gZq
+ o7HCMd72yLUzNqVSkmedEdhlu7ljV0gjwzdMlVygRedtHlTnXt8m7g3OGVEZGHX8pD9n
+ jyBXCXOIPUxwxgPEDxA3TrLgHBrQ1SKWmwrWhUFjK5Qn74vnHGeBAKMA6l7VI0EVIgME
+ /hrsTPL6CAUI9+mBtDCx+/2j7WGoIuXCV2v7XBZCT5d3N0PGe0xnAHcS8TmkuVjm4gVs
+ Ben8ZnupFVqEfaLUos0aiKcMZfc6jZvtBX3W8gL4eTaoAspNE6RZyG45zSBZl7GWpJkU
+ 7cWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bn4HntsaKLTQdip7AHyQp+cV/Iqbq4A7mjOLHD/cq3A=;
+ b=wK9VA+v+PQms5pAn98A6wuIXkD6Cx2VrA9RrKD5zg+OUQT1W6SnHP5P8fK54JLbOhu
+ jIxpj4i/RcnI1I6oB5qKB3rN/dxTNXnH+VihAeTbCPFpQGHKYZGw+vWxxGBOz+AT9zzF
+ OzJiJrtv+91V3Xari4QolE0WiXTTXBcIX3AwwzVcfWCRlGGxi370Z9HgHtg9BsEysH37
+ 5HNBePCfFteQIsDaXDSvAJUuu/hZ8Ot07YhyyS2oCegHNxhTd+MXTcC6CY9T5/n6BD+m
+ j3AHiW6zXVlm9e2a+WhkK4pjzzOYDtB+kFfa5R7F3AN+gKmsSQnlyvwWpDj5ZJANkM0I
+ adhQ==
+X-Gm-Message-State: AFqh2kpioYvW9dd9Cxy/Mogpo8uVI2RK9YGqx3W6TNBtsTLJPsxxrd3z
+ ReXkmwXXOMCEkYJhrxyp9IQ=
+X-Google-Smtp-Source: AMrXdXtLjgq2koux/A/k/d40m6+3n6ZO4eR8ZysvKNvlrc/Vyf3qeNRIG8+dUsh3OPw6Z5m501IOkg==
+X-Received: by 2002:a5d:6910:0:b0:26d:a458:d126 with SMTP id
+ t16-20020a5d6910000000b0026da458d126mr15698071wru.22.1672307973114; 
+ Thu, 29 Dec 2022 01:59:33 -0800 (PST)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ w14-20020adfee4e000000b002422bc69111sm21174791wro.9.2022.12.29.01.59.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Dec 2022 01:59:32 -0800 (PST)
+Date: Thu, 29 Dec 2022 12:59:29 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: [drm-misc:drm-misc-next 25/26] drivers/gpu/drm/bridge/panel.c:367
+ devm_drm_panel_bridge_add_typed() error: 'bridge' dereferencing possible
+ ERR_PTR()
+Message-ID: <202212291702.rmA7NAVJ-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.6.1
-Subject: Re: [PATCH 00/19] Introduce __xchg, non-atomic xchg
-To: Andrew Morton <akpm@linux-foundation.org>
-References: <20221222114635.1251934-1-andrzej.hajda@intel.com>
- <20221222092147.d2bb177c67870884f2e59a9b@linux-foundation.org>
-Content-Language: en-US
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20221222092147.d2bb177c67870884f2e59a9b@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,91 +68,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, linux-m68k@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org,
- Peter Zijlstra <peterz@infradead.org>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-hexagon@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- Boqun Feng <boqun.feng@gmail.com>, linux-xtensa@linux-xtensa.org,
- Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
- openrisc@lists.librecores.org, loongarch@lists.linux.dev,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maxime Ripard <maxime@cerno.tech>, lkp@intel.com,
+ dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Forgive me late response - Holidays,
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   941aae3263153cea91cb306cc889951486e16634
+commit: 5ea6b17027810ffbdb5bea7d0a2b1d312dd1021c [25/26] drm/panel: Add prepare_prev_first flag to drm_panel
+config: nios2-randconfig-m041-20221228
+compiler: nios2-linux-gcc (GCC) 12.1.0
 
-On 22.12.2022 18:21, Andrew Morton wrote:
-> On Thu, 22 Dec 2022 12:46:16 +0100 Andrzej Hajda <andrzej.hajda@intel.com> wrote:
->
->> Hi all,
->>
->> I hope there will be place for such tiny helper in kernel.
->> Quick cocci analyze shows there is probably few thousands places
->> where it could be useful.
-> So to clarify, the intent here is a simple readability cleanup for
-> existing open-coded exchange operations.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
 
-And replace private helpers with common one, see the last patch - the 
-ultimate goal
-would be to replace all occurrences of fetch_and_zero with __xchg.
+smatch warnings:
+drivers/gpu/drm/bridge/panel.c:367 devm_drm_panel_bridge_add_typed() error: 'bridge' dereferencing possible ERR_PTR()
 
-> The intent is *not* to
-> identify existing xchg() sites which are unnecessarily atomic and to
-> optimize them by using the non-atomic version.
->
-> Have you considered the latter?
+vim +/bridge +367 drivers/gpu/drm/bridge/panel.c
 
-If you mean some way of (semi-)automatic detection of such cases, then 
-no. Anyway this could be quite interesting challenge.
+89958b7cd9555a Laurent Pinchart 2019-09-04  348  struct drm_bridge *devm_drm_panel_bridge_add_typed(struct device *dev,
+67022227ffb1f5 Eric Anholt      2017-07-18  349  						   struct drm_panel *panel,
+67022227ffb1f5 Eric Anholt      2017-07-18  350  						   u32 connector_type)
+67022227ffb1f5 Eric Anholt      2017-07-18  351  {
+67022227ffb1f5 Eric Anholt      2017-07-18  352  	struct drm_bridge **ptr, *bridge;
+67022227ffb1f5 Eric Anholt      2017-07-18  353  
+67022227ffb1f5 Eric Anholt      2017-07-18  354  	ptr = devres_alloc(devm_drm_panel_bridge_release, sizeof(*ptr),
+67022227ffb1f5 Eric Anholt      2017-07-18  355  			   GFP_KERNEL);
+67022227ffb1f5 Eric Anholt      2017-07-18  356  	if (!ptr)
+67022227ffb1f5 Eric Anholt      2017-07-18  357  		return ERR_PTR(-ENOMEM);
+67022227ffb1f5 Eric Anholt      2017-07-18  358  
+89958b7cd9555a Laurent Pinchart 2019-09-04  359  	bridge = drm_panel_bridge_add_typed(panel, connector_type);
+67022227ffb1f5 Eric Anholt      2017-07-18  360  	if (!IS_ERR(bridge)) {
+67022227ffb1f5 Eric Anholt      2017-07-18  361  		*ptr = bridge;
+67022227ffb1f5 Eric Anholt      2017-07-18  362  		devres_add(dev, ptr);
+67022227ffb1f5 Eric Anholt      2017-07-18  363  	} else {
+67022227ffb1f5 Eric Anholt      2017-07-18  364  		devres_free(ptr);
 
->
->> I am not sure who is good person to review/ack such patches,
-> I can take 'em.
->
->> so I've used my intuition to construct to/cc lists, sorry for mistakes.
->> This is the 2nd approach of the same idea, with comments addressed[0].
->>
->> The helper is tiny and there are advices we can leave without it, so
->> I want to present few arguments why it would be good to have it:
->>
->> 1. Code readability/simplification/number of lines:
->>
->> Real example from drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c:
->> -       previous_min_rate = evport->qos.min_rate;
->> -       evport->qos.min_rate = min_rate;
->> +       previous_min_rate = __xchg(evport->qos.min_rate, min_rate);
->>
->> For sure the code is more compact, and IMHO more readable.
->>
->> 2. Presence of similar helpers in other somehow related languages/libs:
->>
->> a) Rust[1]: 'replace' from std::mem module, there is also 'take'
->>      helper (__xchg(&x, 0)), which is the same as private helper in
->>      i915 - fetch_and_zero, see latest patch.
->> b) C++ [2]: 'exchange' from utility header.
->>
->> If the idea is OK there are still 2 qestions to answer:
->>
->> 1. Name of the helper, __xchg follows kernel conventions,
->>      but for me Rust names are also OK.
-> I like replace(), or, shockingly, exchange().
->
-> But...   Can we simply make swap() return the previous value?
->
-> 	previous_min_rate = swap(&evport->qos.min_rate, min_rate);
+return -ENOMEM;
 
-As Alexander already pointed out, swap requires 'references' to two 
-variables,
-in contrast to xchg which requires reference to variable and value.
-So we cannot use swap for cases:
-     old_value = __xchg(&x, new_value);
+67022227ffb1f5 Eric Anholt      2017-07-18  365  	}
+67022227ffb1f5 Eric Anholt      2017-07-18  366  
+5ea6b17027810f Dave Stevenson   2022-12-05 @367  	bridge->pre_enable_prev_first = panel->prepare_prev_first;
+                                                        ^^^^^^^^^^
 
-Regards
-Andrzej
+5ea6b17027810f Dave Stevenson   2022-12-05  368  
+67022227ffb1f5 Eric Anholt      2017-07-18  369  	return bridge;
+67022227ffb1f5 Eric Anholt      2017-07-18  370  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
