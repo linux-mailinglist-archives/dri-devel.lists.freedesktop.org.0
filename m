@@ -2,60 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E70658B3D
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 10:54:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8DE658B3F
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 10:55:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA2E188784;
-	Thu, 29 Dec 2022 09:54:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B15A10E1EE;
+	Thu, 29 Dec 2022 09:55:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
- [IPv6:2607:f8b0:4864:20::b33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 928AF10E255
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 09:54:00 +0000 (UTC)
-Received: by mail-yb1-xb33.google.com with SMTP id 192so20031739ybt.6
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 01:54:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=+yOD3yNpp4Sg8yVPxedVVEWiPubXWdIpWJ3m/jNQjH0=;
- b=dQ6fcikk6vSdmKrU4eLNH7HDLeidwKolv/8H1oeAG7B3pwfbe/kHq+/7rbE/BKd+RA
- n+mqeyGKLCphg6xq4Oz5tF6OBBE4Q1JQFKzdIxXoilNO4y4H0hyxMzb+9L1169fnqqy3
- un6K0fBFwKRxCBklBsCzB3FI2vkT89pN/4fyQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+yOD3yNpp4Sg8yVPxedVVEWiPubXWdIpWJ3m/jNQjH0=;
- b=p8Q7qBrqdKmJlEt9g3od89l7dExEjMO3+mfFGrI52I2A1veNGUEsgibKjJRphWvEzP
- qHxTLyXV/bqzvEdBWoaW6OznIzAwgV8O63i+rPxxM209D/QXD/mbqHQtyReV4hOeIhuL
- HphM63w6JiQFwowqcqIyLExQZL4HHBxcMnqBGwZXoBE5/q0deiXH9fX0bv8mPjK8CN/v
- j+nOxX+2L1ksgu3Tj4VqxoAGzV9/m29/1MR269kDV7WUIDMSaKru6Ztwtjrl0npEQHLN
- BNnljYyCRV/+dFzIJi+Dj/Sf/x5MwQpJcQ7HQzNU3QaiMKIIcDOxP9P7dY3TQK5uQMdW
- P1vg==
-X-Gm-Message-State: AFqh2kq7bja0xMCmAVv1eje7RpTCAFpdpNWIpY1DNgsXzcDeVsqXKzam
- EOCS7n0O7JBOk1XuaVYJBKGdb0LILIwGJGcjv+a0Gw==
-X-Google-Smtp-Source: AMrXdXuoA9vvADI0ga1A0rofeM2WbLDlgYQM51CNwbZv9FCgQQSqThlpYZEU3IL66FDhwNeWBldubTZDmOBxovx8eek=
-X-Received: by 2002:a25:cc82:0:b0:6f9:bd14:f0b4 with SMTP id
- l124-20020a25cc82000000b006f9bd14f0b4mr3559292ybf.408.1672307639746; Thu, 29
- Dec 2022 01:53:59 -0800 (PST)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BDEC10E1EE;
+ Thu, 29 Dec 2022 09:54:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1672307698; x=1703843698;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Ekul8eGeWcmCvyM+3dUi16jfyX+OFQQRDZLG3bQVomQ=;
+ b=d+7bN+tjqh3eof9bdGje2kpI4zamfY6oXHKsH+IltfywydlGu2NF0yZG
+ 4vIYv/W8lJbY30ukqxMBcjHIRPMCg9jmTJADrPDZdo1FJxI3F6MVBRfwY
+ BIgsMVcxs9JW7VBN0D8cQHYX+iVJvNWG3lWD/FemsFFxxPHFlM+r1fbYY
+ qVh8BxuHJ89OYNeXwCreHJSPhBe+76NSoPDLdOu7BGq1oDzOlJyyMm8DT
+ Ef4uT6gE+ggVAwsKhrxH9vy9WHVpZ+HRJiPSnjy/8deUA37o+bNIcgSHi
+ 0elXSLbGnfbt6xofms5/X0zBh+1Hn27+PPdr9nHZYPjJGtGv4Kw4SFjyF g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10574"; a="318699301"
+X-IronPort-AV: E=Sophos;i="5.96,283,1665471600"; d="scan'208";a="318699301"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Dec 2022 01:54:57 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10574"; a="742258354"
+X-IronPort-AV: E=Sophos;i="5.96,283,1665471600"; d="scan'208";a="742258354"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.17.178])
+ ([10.213.17.178])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Dec 2022 01:54:52 -0800
+Message-ID: <6e727952-3ad0-fcc3-82f1-c465dcffd56f@intel.com>
+Date: Thu, 29 Dec 2022 10:54:50 +0100
 MIME-Version: 1.0
-References: <20221227110335.2923359-1-javierm@redhat.com>
- <20221227110335.2923359-2-javierm@redhat.com>
- <CAMty3ZAaHKJ21D8mE=HU3D3KOGAiZ7vfmW_Hgc-E5JO5S+tMNA@mail.gmail.com>
- <CABxcv=kwtk21UbOwaV4tq=BpPsrYmnTrzuhybjbknipqk5R-fA@mail.gmail.com>
- <CAMty3ZDESyJoWMO_BgHzUJN=hLV0dH6y=3B9ogOsSUvaTMqarQ@mail.gmail.com>
- <CABxcv=mFzuUq0-PQ8H3N0Sxmzg+z1v_uwhUe0jcH2++NDQRR0w@mail.gmail.com>
-In-Reply-To: <CABxcv=mFzuUq0-PQ8H3N0Sxmzg+z1v_uwhUe0jcH2++NDQRR0w@mail.gmail.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 29 Dec 2022 15:23:48 +0530
-Message-ID: <CAMty3ZDJEx6J6xtbAVyO61vSKeW_7F-xWk5yvkwKvHNc1oyykA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] dt-bindings: display: Add Himax HX8394 panel
- controller
-To: Javier Martinez Canillas <javier@dowhile0.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.6.1
+Subject: Re: [PATCH 00/19] Introduce __xchg, non-atomic xchg
+To: Andrew Morton <akpm@linux-foundation.org>
+References: <20221222114635.1251934-1-andrzej.hajda@intel.com>
+ <20221222092147.d2bb177c67870884f2e59a9b@linux-foundation.org>
+Content-Language: en-US
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20221222092147.d2bb177c67870884f2e59a9b@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,71 +63,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Robert Mader <robert.mader@posteo.de>,
- Onuralp Sezer <thunderbirdtr@fedoraproject.org>,
- Neal Gompa <ngompa13@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- Martijn Braam <martijn@brixit.nl>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Ondrej Jirman <megi@xff.cz>,
- Peter Robinson <pbrobinson@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- =?UTF-8?Q?Kamil_Trzci=C5=84ski?= <ayufan@ayufan.eu>,
- Thierry Reding <thierry.reding@gmail.com>,
- Tom Fitzhenry <tom@tom-fitzhenry.me.uk>, Sam Ravnborg <sam@ravnborg.org>,
- Maya Matuszczyk <maccraft123mc@gmail.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-m68k@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ Boqun Feng <boqun.feng@gmail.com>, linux-xtensa@linux-xtensa.org,
+ Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
+ openrisc@lists.librecores.org, loongarch@lists.linux.dev,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 28, 2022 at 3:46 AM Javier Martinez Canillas
-<javier@dowhile0.org> wrote:
+Forgive me late response - Holidays,
+
+On 22.12.2022 18:21, Andrew Morton wrote:
+> On Thu, 22 Dec 2022 12:46:16 +0100 Andrzej Hajda <andrzej.hajda@intel.com> wrote:
 >
-> On Tue, Dec 27, 2022 at 8:37 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
-> >
-> > On Wed, Dec 28, 2022 at 12:58 AM Javier Martinez Canillas
-> > <javier@dowhile0.org> wrote:
-> > >
-> > > Hello Jagan,
-> > >
-> > > On Tue, Dec 27, 2022 at 7:16 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
-> > >
-> > > [...]
-> > >
-> > > > > +allOf:
-> > > > > +  - $ref: panel-common.yaml#
-> > > > > +
-> > > > > +properties:
-> > > > > +  compatible:
-> > > > > +    enum:
-> > > > > +      # HannStar HSD060BHW4 5.99" 720x1440 TFT LCD panel
-> > > > > +      - hannstar,hsd060bhw4
-> > > >
-> > > > Parent controller can have a compatible where the associated panels
-> > > > will be enum list.
-> > > >
-> > >
-> > > I'm not sure to follow what you meant. Could you please elaborate?
-> >
-> > compatible:
-> >     items:
-> >       - enum:
-> >           - hannstar,hsd060bhw4
-> >       - const: himax,hx8394
-> >
-> > himax,hx8394 is the actual controller and is denoted as fallback compatible.
-> >
+>> Hi all,
+>>
+>> I hope there will be place for such tiny helper in kernel.
+>> Quick cocci analyze shows there is probably few thousands places
+>> where it could be useful.
+> So to clarify, the intent here is a simple readability cleanup for
+> existing open-coded exchange operations.
+
+And replace private helpers with common one, see the last patch - the 
+ultimate goal
+would be to replace all occurrences of fetch_and_zero with __xchg.
+
+> The intent is *not* to
+> identify existing xchg() sites which are unnecessarily atomic and to
+> optimize them by using the non-atomic version.
 >
-> I see. Do you have an example of a panel controller that does this? I
-> don't see that much value in doing this since you want the DTS to
-> describe the actual HW and so want the panel I believe.
+> Have you considered the latter?
 
-Yes, but the Panel needs to be built on top of the display IC so the
-actual parent here is the display IC and the panel is sub-HW.  This is
-what usually follows, here are some reference bindings.
+If you mean some way of (semi-)automatic detection of such cases, then 
+no. Anyway this could be quite interesting challenge.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/display/panel/ilitek,ili9163.yaml
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/display/panel/ilitek,ili9322.yaml
+>
+>> I am not sure who is good person to review/ack such patches,
+> I can take 'em.
+>
+>> so I've used my intuition to construct to/cc lists, sorry for mistakes.
+>> This is the 2nd approach of the same idea, with comments addressed[0].
+>>
+>> The helper is tiny and there are advices we can leave without it, so
+>> I want to present few arguments why it would be good to have it:
+>>
+>> 1. Code readability/simplification/number of lines:
+>>
+>> Real example from drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c:
+>> -       previous_min_rate = evport->qos.min_rate;
+>> -       evport->qos.min_rate = min_rate;
+>> +       previous_min_rate = __xchg(evport->qos.min_rate, min_rate);
+>>
+>> For sure the code is more compact, and IMHO more readable.
+>>
+>> 2. Presence of similar helpers in other somehow related languages/libs:
+>>
+>> a) Rust[1]: 'replace' from std::mem module, there is also 'take'
+>>      helper (__xchg(&x, 0)), which is the same as private helper in
+>>      i915 - fetch_and_zero, see latest patch.
+>> b) C++ [2]: 'exchange' from utility header.
+>>
+>> If the idea is OK there are still 2 qestions to answer:
+>>
+>> 1. Name of the helper, __xchg follows kernel conventions,
+>>      but for me Rust names are also OK.
+> I like replace(), or, shockingly, exchange().
+>
+> But...   Can we simply make swap() return the previous value?
+>
+> 	previous_min_rate = swap(&evport->qos.min_rate, min_rate);
 
-Jagan.
+As Alexander already pointed out, swap requires 'references' to two 
+variables,
+in contrast to xchg which requires reference to variable and value.
+So we cannot use swap for cases:
+     old_value = __xchg(&x, new_value);
+
+Regards
+Andrzej
+
