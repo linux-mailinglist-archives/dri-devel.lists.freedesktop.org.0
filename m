@@ -2,48 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 782D7658B74
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 11:15:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8059E658B9B
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 11:19:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04F1810E257;
-	Thu, 29 Dec 2022 10:15:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42CB210E25C;
+	Thu, 29 Dec 2022 10:18:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7645C10E257
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 10:15:14 +0000 (UTC)
-Received: from [192.168.2.235] (109-252-113-89.nat.spd-mgts.ru
- [109.252.113.89])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 1B5B5660036C;
- Thu, 29 Dec 2022 10:15:11 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1672308912;
- bh=0kQT8Bh1gpTI0PhTVbpVVPlgGNzAygaDOS3KBPSE7kU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=C69GwGwqAdptSU2nE5YnNU+Zs2QRdOblVvLaqpzlNVf6V+g84Y5P+5fr1s49N7wmX
- Eys8dD9ikMyekdpwuql8FK1NcH3WMPcW7FP3hZtGLME3nnl2DgcCWEFaNtNt3LQaG4
- 8pkMYaIk9kbx+Mxb6JqdRlTRfmaFCrKveX+QcemDz0YV7udfOQnV2d4CgKeXAf5nZc
- gUHOO39HdVGxi8siBJ0snIgZAuOA9lxqSKI1Z1RQWysDde372JfZ3Pm6uGIA5EomCP
- py34SBKYg28JW0/ep3U9rn51D6hwljmpZaJPKCl7VSb0IeVPGrWId7m9M9v/SunmKo
- jLmO0VgLFe40A==
-Message-ID: <41aecacc-44e5-1455-48cb-20e32187610c@collabora.com>
-Date: Thu, 29 Dec 2022 13:15:06 +0300
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57B3510E25D
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 10:18:51 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id bp15so26903649lfb.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 02:18:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ucgqquCovQOcSuajKJPtQVfMmU0XBO42PG2kCTctk5M=;
+ b=TbZugUpEkLxAfOyP5+EeaNu0hxlMrj25oKmLbJ8aucvMgIrR4dj5LnZivExVcEeuOy
+ fby8y3gGuhWyWH1GxaoLiY8DTC3QNTISKwiQz86VKG92WBNk6vcOGAjGy9xW3CbpkIyI
+ 6e91hXgdqLRQifyK2O7Ut1IlRGPm0HFnpJL7QCrBM3kOXFTHJEPZIoEZYS8zraePEMuN
+ 3G/H3JkHmBXlA1uqqzycNTCRyUmTZsCFIiaJbTuO9vAJAQwRqlmWrScx0mXYSSaT+nff
+ UaJ8ge6FtF59eROruuVDvugw0py6+PTnUBUGv0P+yv5wzWc2gFGdwuaztFgR0RqaM4vB
+ h2mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ucgqquCovQOcSuajKJPtQVfMmU0XBO42PG2kCTctk5M=;
+ b=aTPkz5ZcUUAM4FZ/Br/auSWgeP4BqfaizZ9vFOOsA8E4rNTl9cIq4mmZ8hELcjOk8N
+ qRe7NfQ4fsEKgfckoHXJ3e1qPNYEuzhjVXUNM9EFPn8UgzroQdkZos74dCYqb4pgy+OL
+ DV3LI5sHtsgZlmqJTOAWIplO7KLJnBbmmV2YHXAQbH0dVikvh9NKNBMYSSD7D24x9NlO
+ 6X8lltLyrndcVVGB7/m8I6y39AqJQf218XVEI3JhCuxlIyk4RsrzDUjTPOs0+g2n/wQ7
+ bSjyzuPnOW+dUIsouyIszdMVi2E3o8ZaYqsEbP+j34OUWc8Gds8pYL65h5+eRTzPDVgU
+ EtIA==
+X-Gm-Message-State: AFqh2krR3e9ym7B8HughOcsA/92UhF5cJLPexi1v6TWyKklNLW/7PfKD
+ GM9pxkLBtG7Bh+mLBmSRD4kXTA==
+X-Google-Smtp-Source: AMrXdXsLyx6ZbcjsygWtSNi8M6/Y+8+EahJS3C0JFdhbUJ0XUuGJE7bRXOQagTHU/MybUoJNsQ9ppw==
+X-Received: by 2002:ac2:43cf:0:b0:4b5:8298:5867 with SMTP id
+ u15-20020ac243cf000000b004b582985867mr9082838lfl.66.1672309129698; 
+ Thu, 29 Dec 2022 02:18:49 -0800 (PST)
+Received: from localhost.localdomain (abyl184.neoplus.adsl.tpnet.pl.
+ [83.9.31.184]) by smtp.gmail.com with ESMTPSA id
+ j18-20020a056512109200b00498f67cbfa9sm3028632lfg.22.2022.12.29.02.18.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Dec 2022 02:18:49 -0800 (PST)
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+To: linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org,
+ krzysztof.kozlowski@linaro.org
+Subject: [PATCH] drm/msm/adreno: Make adreno quirks not overwrite each other
+Date: Thu, 29 Dec 2022 11:18:45 +0100
+Message-Id: <20221229101846.981223-1-konrad.dybcio@linaro.org>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v1] drm/scheduler: Fix lockup in drm_sched_entity_kill()
-To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
- Christian Koenig <christian.koenig@amd.com>
-References: <3f87a88c-c375-4a02-0f09-4831544e5f96@igalia.com>
-Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <3f87a88c-c375-4a02-0f09-4831544e5f96@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,31 +69,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- "Guilherme G. Piccoli" <kernel@gpiccoli.net>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Melissa Wen <mwen@igalia.com>, luben.tuikov@amd.com
+Cc: freedreno@lists.freedesktop.org, Emma Anholt <emma@anholt.net>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+So far the adreno quirks have all been assigned with an OR operator,
+which is problematic, because they were assigned consecutive integer
+values, which makes checking them with an AND operator kind of no bueno..
 
-On 12/27/22 22:28, Guilherme G. Piccoli wrote:
-> Hi Dmitry / Christian, thanks for the fix!
-> 
-> (And thanks Melissa for pointing that, saving me lots of time in
-> research heh)
-> 
-> Is this fix planned to be released on 6.2-rc cycle? I've just tested it
-> on Steam Deck, and it resolved a lockup observed (since v6.2-rc1) -
-> exactly the same thing mentioned in the commit message.
-> 
-> FWIW:
-> Tested-By: Guilherme G. Piccoli <gpiccoli@igalia.com> # Steam Deck
-I'll push the patch to misc-fixes as soon as it will be rebased on
-6.2-rc. Thanks!
+Switch to using BIT(n) so that only the quirks that the programmer chose
+are taken into account when evaluating info->quirks & ADRENO_QUIRK_...
 
-Best regards,
-Dmitry
+Fixes: b5f103ab98c7 ("drm/msm: gpu: Add A5XX target support")
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+---
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index c85857c0a228..5eb254c9832a 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -29,11 +29,9 @@ enum {
+ 	ADRENO_FW_MAX,
+ };
+ 
+-enum adreno_quirks {
+-	ADRENO_QUIRK_TWO_PASS_USE_WFI = 1,
+-	ADRENO_QUIRK_FAULT_DETECT_MASK = 2,
+-	ADRENO_QUIRK_LMLOADKILL_DISABLE = 3,
+-};
++#define ADRENO_QUIRK_TWO_PASS_USE_WFI		BIT(0)
++#define ADRENO_QUIRK_FAULT_DETECT_MASK		BIT(1)
++#define ADRENO_QUIRK_LMLOADKILL_DISABLE		BIT(2)
+ 
+ struct adreno_rev {
+ 	uint8_t  core;
+@@ -65,7 +63,7 @@ struct adreno_info {
+ 	const char *name;
+ 	const char *fw[ADRENO_FW_MAX];
+ 	uint32_t gmem;
+-	enum adreno_quirks quirks;
++	u64 quirks;
+ 	struct msm_gpu *(*init)(struct drm_device *dev);
+ 	const char *zapfw;
+ 	u32 inactive_period;
+-- 
+2.39.0
 
