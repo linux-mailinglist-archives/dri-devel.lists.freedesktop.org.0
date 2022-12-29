@@ -2,64 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E0AD658C59
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 12:43:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A56E658C5C
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 12:44:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7AC310E1FD;
-	Thu, 29 Dec 2022 11:42:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 285A210E20C;
+	Thu, 29 Dec 2022 11:43:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B14510E1FD
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 11:42:25 +0000 (UTC)
-Received: by mail-pg1-x533.google.com with SMTP id 79so12220386pgf.11
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 03:42:25 -0800 (PST)
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
+ [IPv6:2607:f8b0:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 067E610E20C
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 11:43:33 +0000 (UTC)
+Received: by mail-pl1-x62f.google.com with SMTP id u7so18678628plq.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 03:43:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=dowhile0-org.20210112.gappssmtp.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=opKzX/gSToa0GHXm2YZJYMSRtI+NoB4NvxkvJmU2sqM=;
- b=0pXr+/LSsbCbzcBxsn3pBNU9fIOBV3srO0m37ShKm3kxcyyIbNzFl451hg+sAgfNnc
- sdx+7oA+uWVuwJ2rr52u9mvO2rHr3xbc0397vBQ/xNBo7NtOaKOfyIH4ulhvu7WHdlIJ
- rtpaAn9IgnQXqxz3HgeEQ2slHsM+2v3hrFBRj6ZhAdMsgKJEgoJXCzm3YGs8VacsvPcq
- y1GilY2KlqEF1IH+dHV6ipQNadvp12yeexGrygjoS0Hh5YWEQu4Jzn6CTYFQqIWzkTxn
- jYaMZv0+19mgzvyCwI3+gWdQOPaVelH/OH73C9H2POyFUDWUeqSzMPsg1/uuS+DhLHEv
- 5c+w==
+ bh=HkW/bXbQiBX0hG6VTNd6G4EsGUoqYnuRzq2f8ySmZpI=;
+ b=FE0t8WOCCCNSWw96cKhsQi/CwI+6OjQSNSjLp5PlHm/P7Tj11g7N2WVzv1c9zZ6L4f
+ dVx+HuAkbRCi1Sll+5JEEpbtFecV4PM3dlbmdar7UABBfjEflIqpKLSN3ZgGeNqxoeT8
+ XR6UOa6PSD+biEO0IMot7pWAxA1DuukZe+YeOpSYoxorOQRsinII7aO47VkuWeiRObkd
+ u4MGd7a3+g09Z49JUwE1BLYOucELfC6DFvdZqxC6+2Whs52aKEz7mT0G9IIK2QV0ltyy
+ 83Np0IY8N6wSOXMY7fzbO1isgwJ1vZQEhnF6rHmsznWHJLsuFeukvoSQzfxbdCL0hFIT
+ I5Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=opKzX/gSToa0GHXm2YZJYMSRtI+NoB4NvxkvJmU2sqM=;
- b=NxN9gFxIr9rvWo5vj5b7u98jNONOx1lYovgs0Uh8oRWpJKJH4KdK6pUJ4MTejAp9MH
- fnEiGCNGOJJTx56JzScz5ktDY5eR1rgLKAsi7wa1hNEuj/nbPAYQqa5HN2Eh7RxkYobn
- zq6GezDwHj1w7iGEaP6h9lPbil5KhUC/aBNBTPqVYhymGIxWRr1lCZuuxnCyyHwryR/Z
- 5cVrEtAfFOlsSN6Vt7LqFzS0jXxvgryLjW+twgijlFl2Enkda8tBz41iwgNYg1ILj7/S
- HqAx4eAdgCaztAX97JPZRPgipcL/onYsWW4S8G1av8+oJBkzLeM1yeTv+bEcd5vf3wK1
- uUdg==
-X-Gm-Message-State: AFqh2koUbPMRQ/yJXYxmNIM8Tw8NKSrs580USHzNVadqGhbWgWfRwElL
- 0dg35iJUyN52tzw0PYMTDU3FSHtm/jMgvU9ajAhg9Q==
-X-Google-Smtp-Source: AMrXdXvcUYXlgC4/r2MW5PsTQ05QjxJyosuNsVwyYK0c4xjmhME4gz8Sc7MXW3NaMI/3revADZYn94KLLTxnaGkcDb4=
-X-Received: by 2002:a62:388d:0:b0:576:7440:2478 with SMTP id
- f135-20020a62388d000000b0057674402478mr1586318pfa.51.1672314145036; Thu, 29
- Dec 2022 03:42:25 -0800 (PST)
+ bh=HkW/bXbQiBX0hG6VTNd6G4EsGUoqYnuRzq2f8ySmZpI=;
+ b=XkDnekCydpVl5weO2aCqAya9UqkanqoScZqtaU7Z8dBL8iCnK4fsrf9HjHKTc9KLKo
+ qWn6Ak2wAwc3HOVI9V7dQBYeAvXPag42NHIgjf5ukP1YNXtGRCGIO8bqXCdLpgceCZB4
+ m677ll0B80YcljqxLhMEmNARSUesd3YP2KLlHKy4gO1of687dANa4H6/h4S86G5+pNmH
+ DYBe5fuz3TfsVWw/STbUTR96wCcpfYGfZnZrzH/knNHajLcX4ALU6B5gDeYJx6PqmfMT
+ 3X2SzYGEB/SnB0y+RXV/uH/3MzoyO6TtvIrLvoLAalaOC27mNu06w7UkQwIWh24cmC90
+ 8m9Q==
+X-Gm-Message-State: AFqh2kr6JdOwDvr16Ttg2W3LmNk1g+oDekUPlpaZKV4xl1Q69Ya/JiBN
+ N3lO5QsQZXJjZNjkqWNJ1Gi7X79zYZgA51Lf+YD9IA==
+X-Google-Smtp-Source: AMrXdXue2jVdZBUtQhFk+8QKG55TgbqjqBbiwxe/o2n+8xHlWRd8QdbXzI+PHOXMPlB9j/be0ozfea+Z5z8ItfFd25c=
+X-Received: by 2002:a17:902:edd1:b0:189:d976:31a3 with SMTP id
+ q17-20020a170902edd100b00189d97631a3mr2249490plk.59.1672314212638; Thu, 29
+ Dec 2022 03:43:32 -0800 (PST)
 MIME-Version: 1.0
 References: <20221227110335.2923359-1-javierm@redhat.com>
- <20221227110335.2923359-2-javierm@redhat.com>
- <CAMty3ZAaHKJ21D8mE=HU3D3KOGAiZ7vfmW_Hgc-E5JO5S+tMNA@mail.gmail.com>
- <CABxcv=kwtk21UbOwaV4tq=BpPsrYmnTrzuhybjbknipqk5R-fA@mail.gmail.com>
- <CAMty3ZDESyJoWMO_BgHzUJN=hLV0dH6y=3B9ogOsSUvaTMqarQ@mail.gmail.com>
- <CABxcv=mFzuUq0-PQ8H3N0Sxmzg+z1v_uwhUe0jcH2++NDQRR0w@mail.gmail.com>
- <CAMty3ZDJEx6J6xtbAVyO61vSKeW_7F-xWk5yvkwKvHNc1oyykA@mail.gmail.com>
-In-Reply-To: <CAMty3ZDJEx6J6xtbAVyO61vSKeW_7F-xWk5yvkwKvHNc1oyykA@mail.gmail.com>
+ <20221227110335.2923359-5-javierm@redhat.com>
+ <b7204e9a-cb23-c2ed-88de-0d6271bba98a@tom-fitzhenry.me.uk>
+In-Reply-To: <b7204e9a-cb23-c2ed-88de-0d6271bba98a@tom-fitzhenry.me.uk>
 From: Javier Martinez Canillas <javier@dowhile0.org>
-Date: Thu, 29 Dec 2022 12:42:13 +0100
-Message-ID: <CABxcv=kzMZ+HMTMGxYkmJh2EbzE2wwc7Q7bVd--3FKZVK97LqA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] dt-bindings: display: Add Himax HX8394 panel
- controller
-To: Jagan Teki <jagan@amarulasolutions.com>
-Content-Type: multipart/alternative; boundary="00000000000091786b05f0f5fa64"
+Date: Thu, 29 Dec 2022 12:43:21 +0100
+Message-ID: <CABxcv=kzxiXSO3k=iRYFPRhgpnBrGZDz-58jLQHJD=AapXmYow@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] arm64: dts: rk3399-pinephone-pro: Add internal
+ display support
+To: Tom Fitzhenry <tom@tom-fitzhenry.me.uk>
+Content-Type: multipart/alternative; boundary="00000000000098f5e605f0f5fe53"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,96 +71,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: devicetree@vger.kernel.org, Robert Mader <robert.mader@posteo.de>,
  Onuralp Sezer <thunderbirdtr@fedoraproject.org>,
  Neal Gompa <ngompa13@gmail.com>, Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, Tom Fitzhenry <tom@tom-fitzhenry.me.uk>,
- Martijn Braam <martijn@brixit.nl>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Martijn Braam <martijn@brixit.nl>, linux-rockchip@lists.infradead.org,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Rob Herring <robh+dt@kernel.org>, Ondrej Jirman <megi@xff.cz>,
  Peter Robinson <pbrobinson@gmail.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  =?UTF-8?Q?Kamil_Trzci=C5=84ski?= <ayufan@ayufan.eu>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, Maya Matuszczyk <maccraft123mc@gmail.com>
+ Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org,
+ Maya Matuszczyk <maccraft123mc@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000091786b05f0f5fa64
+--00000000000098f5e605f0f5fe53
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello Jagan,
+Hello Tom,
 
-On Thu, 29 Dec 2022 at 10:54 Jagan Teki <jagan@amarulasolutions.com> wrote:
+On Thu, 29 Dec 2022 at 10:39 Tom Fitzhenry <tom@tom-fitzhenry.me.uk> wrote:
 
->
-[=E2=80=A6]
-
-
-> > > compatible:
-> > >     items:
-> > >       - enum:
-> > >           - hannstar,hsd060bhw4
-> > >       - const: himax,hx8394
-> > >
-> > > himax,hx8394 is the actual controller and is denoted as fallback
-> compatible.
-> > >
+> On 27/12/22 22:03, Javier Martinez Canillas wrote:
+> > From: Ondrej Jirman <megi@xff.cz>
 > >
-> > I see. Do you have an example of a panel controller that does this? I
-> > don't see that much value in doing this since you want the DTS to
-> > describe the actual HW and so want the panel I believe.
+> > The phone's display is using Hannstar LCD panel, and Goodix based
+> > touchscreen. Support it.
+> >
+> > Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> > Co-developed-by: Martijn Braam <martijn@brixit.nl>
+> > Signed-off-by: Martijn Braam <martijn@brixit.nl>
+> > Co-developed-by: Kamil Trzci=C5=84ski <ayufan@ayufan.eu>
+> > Signed-off-by: Kamil Trzci=C5=84ski <ayufan@ayufan.eu>
+> > Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 >
-> Yes, but the Panel needs to be built on top of the display IC so the
-> actual parent here is the display IC and the panel is sub-HW.  This is
-> what usually follows, here are some reference bindings.
+> Tested-by: Tom Fitzhenry <tom@tom-fitzhenry.me.uk>
+>
+> Display and touchscreen works on my Pinephone Pro, thanks for the
+> mainlining!
+>
+
+Thanks for testing it!
 
 
-I see. Thanks for these references.
+> > @@ -367,6 +474,10 @@ vcc1v8_codec_en: vcc1v8-codec-en {
+> >       };
+> >   };
+> >
+> > +&pwm0 {
+> > +     status =3D "okay";
+> > +};
+>
+> Please move &pwm0 before &sdio0, to keep this ~alphabetical.
 
-I=E2=80=99ll adapt the driver and binding schema then according to this and=
- post a
-v4.
+
+Sure. I=E2=80=99ll do that in v4.
 
 Best regards,
 Javier
 
---00000000000091786b05f0f5fa64
+--00000000000098f5e605f0f5fe53
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Hello Jagan,</div><div><br><div class=3D"gmail_quote"><di=
-v dir=3D"ltr" class=3D"gmail_attr">On Thu, 29 Dec 2022 at 10:54 Jagan Teki =
-&lt;<a href=3D"mailto:jagan@amarulasolutions.com">jagan@amarulasolutions.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"></blockquote><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex"></blockquote><div dir=3D"auto"><br></div><div dir=
-=3D"auto">[=E2=80=A6]</div><div dir=3D"auto"><br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
--left:1ex"><br>
-&gt; &gt; compatible:<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0items:<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0- enum:<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- hannstar,hsd060bhw4<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0- const: himax,hx8394<br>
-&gt; &gt;<br>
-&gt; &gt; himax,hx8394 is the actual controller and is denoted as fallback =
-compatible.<br>
-&gt; &gt;<br>
-&gt;<br>
-&gt; I see. Do you have an example of a panel controller that does this? I<=
+<div dir=3D"auto">Hello Tom,</div><div><br><div class=3D"gmail_quote"><div =
+dir=3D"ltr" class=3D"gmail_attr">On Thu, 29 Dec 2022 at 10:39 Tom Fitzhenry=
+ &lt;<a href=3D"mailto:tom@tom-fitzhenry.me.uk">tom@tom-fitzhenry.me.uk</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 27/12/22 22:03, Javi=
+er Martinez Canillas wrote:<br>
+&gt; From: Ondrej Jirman &lt;<a href=3D"mailto:megi@xff.cz" target=3D"_blan=
+k">megi@xff.cz</a>&gt;<br>
+&gt; <br>
+&gt; The phone&#39;s display is using Hannstar LCD panel, and Goodix based<=
 br>
-&gt; don&#39;t see that much value in doing this since you want the DTS to<=
-br>
-&gt; describe the actual HW and so want the panel I believe.<br>
+&gt; touchscreen. Support it.<br>
+&gt; <br>
+&gt; Signed-off-by: Ondrej Jirman &lt;<a href=3D"mailto:megi@xff.cz" target=
+=3D"_blank">megi@xff.cz</a>&gt;<br>
+&gt; Co-developed-by: Martijn Braam &lt;<a href=3D"mailto:martijn@brixit.nl=
+" target=3D"_blank">martijn@brixit.nl</a>&gt;<br>
+&gt; Signed-off-by: Martijn Braam &lt;<a href=3D"mailto:martijn@brixit.nl" =
+target=3D"_blank">martijn@brixit.nl</a>&gt;<br>
+&gt; Co-developed-by: Kamil Trzci=C5=84ski &lt;<a href=3D"mailto:ayufan@ayu=
+fan.eu" target=3D"_blank">ayufan@ayufan.eu</a>&gt;<br>
+&gt; Signed-off-by: Kamil Trzci=C5=84ski &lt;<a href=3D"mailto:ayufan@ayufa=
+n.eu" target=3D"_blank">ayufan@ayufan.eu</a>&gt;<br>
+&gt; Signed-off-by: Javier Martinez Canillas &lt;<a href=3D"mailto:javierm@=
+redhat.com" target=3D"_blank">javierm@redhat.com</a>&gt;<br>
 <br>
-Yes, but the Panel needs to be built on top of the display IC so the<br>
-actual parent here is the display IC and the panel is sub-HW.=C2=A0 This is=
+Tested-by: Tom Fitzhenry &lt;<a href=3D"mailto:tom@tom-fitzhenry.me.uk" tar=
+get=3D"_blank">tom@tom-fitzhenry.me.uk</a>&gt;<br>
 <br>
-what usually follows, here are some reference bindings.</blockquote><div di=
-r=3D"auto"><br></div><div dir=3D"auto">I see. Thanks for these references.<=
-/div><div dir=3D"auto"><br></div><div dir=3D"auto">I=E2=80=99ll adapt the d=
-river and binding schema then according to this and post a v4.</div><div di=
-r=3D"auto"><br></div><div dir=3D"auto">Best regards,</div><div dir=3D"auto"=
->Javier</div></div></div>
+Display and touchscreen works on my Pinephone Pro, thanks for the <br>
+mainlining!<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks for testi=
+ng it!</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+&gt; @@ -367,6 +474,10 @@ vcc1v8_codec_en: vcc1v8-codec-en {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0};<br>
+&gt;=C2=A0 =C2=A0};<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +&amp;pwm0 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0status =3D &quot;okay&quot;;<br>
+&gt; +};<br>
+<br>
+Please move &amp;pwm0 before &amp;sdio0, to keep this ~alphabetical.</block=
+quote><div dir=3D"auto"><br></div><div dir=3D"auto">Sure. I=E2=80=99ll do t=
+hat in v4.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Best regards,=
+</div><div dir=3D"auto">Javier</div></div></div>
 
---00000000000091786b05f0f5fa64--
+--00000000000098f5e605f0f5fe53--
