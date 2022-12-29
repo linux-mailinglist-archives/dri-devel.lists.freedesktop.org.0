@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1D44659121
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 20:20:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19580659122
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 20:20:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA07310E21B;
-	Thu, 29 Dec 2022 19:19:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 929BE10E279;
+	Thu, 29 Dec 2022 19:19:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C76BF10E27E
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 19:19:21 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id p36so28727361lfa.12
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 11:19:21 -0800 (PST)
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAB2D10E27E
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 19:19:22 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id bt23so12092508lfb.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 11:19:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=w7+ye+NFJZe0KDTdmSEjWd232bLjzOA6QxoZpECE5vE=;
- b=uwojrxweP+zXINoLEh8Vz8zqaYKnHHNTILI0AMsxOKjH2mI1g7xvfTH/iZaVa5oMVp
- 3WlyQu0bcgwMaR7+sekPUCDJbD+lhBSq81DcUGsVL6RWS8H/wtJDpbQL9whnNSGlJhIt
- ruxf0Pm5DsK1Bp2FsNDECkGIb29hZyVRaOFsKzaaUX32mhaRyaB92eKbhZ7QBova7hL1
- /NnriLxEr2vq+xK3WUetih9O4nj79tzyEcpggtzD4+CPVbxruXkG146GPU8dxFNBGWa6
- IJv7XK4AP8Yt4jA3/3krVpIyE975Smedha69Kltz3qpWai5L4npgrO2M0mQOG7xz9EoI
- rKmw==
+ bh=EdD87IzJZslu2pAEGZWp1ZNvSgMg3L3aKGZIcrAngiI=;
+ b=CJ8Fe35WTy96/TiUxLieBMctYl6WHmdZ46DCW/krgtUAOMZsB4SlydYl9OH8RGC79y
+ +4bazdes6eh1SSrRha3C2lk2MGJpBm/8HFkV7iNch/CR4IJ/Y+dzOsXYJowkMVgE6Q+x
+ O1T1bMnimq+oe2rxN7tRJxs2MvEWaEkE3KTrRmXj321X3luY0OG36RWd+M0doAAkRPAX
+ 8FziRhSi9t5iAYF1Fzcdm+z2yLJDmi8cjrOgV0M0+/PKs+bAxiojCTTS6JxvZ5JFkPPL
+ ap9NbO+WjCx5nQr7VZZY7U/Lg4M/yLf1eC3qEj0NB1O2I1gL8ITnVhfer8UPr14+m5ko
+ B+bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=w7+ye+NFJZe0KDTdmSEjWd232bLjzOA6QxoZpECE5vE=;
- b=2xumSDld6ZgPEk/IzP5R77HYtZ/kYppd44qpgKqyOGfibpNbDMO9qYW4EzCYyBu8SQ
- 32imK1wlNtdzj1jyrYi9x4DuzLh4+ZysGetUy5UTJMjUopfswhmR9003XgV3NsANjOMu
- MbvrATzdD8ZJt8RlNKruU+ry0Jz6WtffqY5g81Xj8RJ9XTdXJqW+6wXf2ROz8OY9FaP7
- NZTr3Fz1eA3QWAKrZ97QNprEssxz4lZcBLl5XbR9UDqFXYb8RUXanTqE4gDa2c7HWCvF
- RYH8gC98dxbaYqfzMbDCWJucdUp4KaByjK91WkX1FOdlx3IkK/wLqqCJwjzTIP2F2ZzF
- hXQw==
-X-Gm-Message-State: AFqh2kqwEnRMfMcVM/3rUTLlp/Ew89CrxTdOk+rE+4vz0eb0Qx1imekS
- Epwh+6+pibfTsB5DFjoqLwxmbw==
-X-Google-Smtp-Source: AMrXdXuJjq5PMyTu9iqoFWihoyYgYyZFAkcj6zfEKVn5d4rAK9OofrKrfAjiW7Q7Rtw9xS9wHTIWdg==
-X-Received: by 2002:ac2:5f7b:0:b0:4cb:1dc5:deb1 with SMTP id
- c27-20020ac25f7b000000b004cb1dc5deb1mr1156029lfc.41.1672341561397; 
- Thu, 29 Dec 2022 11:19:21 -0800 (PST)
+ bh=EdD87IzJZslu2pAEGZWp1ZNvSgMg3L3aKGZIcrAngiI=;
+ b=e2WuEAXrDKV0yxyUPtwBf28ZzFlf7ztmBfWtcqmkuZXc2BxcFHZVmQFFiNMeB9Y8Sz
+ aFPN+O/biQ5k7H+xR3yj8Ns7nIXKxYPDkZ4Ez6OQle/f93LSCz96E+mf9erwdZEn7LlQ
+ chzqbbul5UO3KcQrueVxOJByuaFmkvlSbUvaHWJivdXlkHd5XQyEzKeIInnUnQ21rJAb
+ hewNo1dqXuIgwo7zL8KlOkH4MK8o1edX196ud0blPtWfvIl/O5cMcZYsrejPOT0YOJwD
+ h35RxKa0vL+jLMxBBvE61xaXL3P2aA0seEI+wS7Uhg69d3qbg3dLUs+EQc3PoIe8zoSS
+ kP+A==
+X-Gm-Message-State: AFqh2kqm8o4iCn12foeb+H9KueINVpuu3CydIfFYe/a3ZxHjb3qx1Sg0
+ ZcyAffTEvMNghNIh+g6ZGJAvEQ==
+X-Google-Smtp-Source: AMrXdXswIMQ6243ayOHu//0Kuz68mS99iiN9hLTFuNO+T6hV9FAF0nfuUB0tfvirysy8OwcEKPcadA==
+X-Received: by 2002:a05:6512:2292:b0:4b5:b7a7:ebfa with SMTP id
+ f18-20020a056512229200b004b5b7a7ebfamr8060749lfu.64.1672341562532; 
+ Thu, 29 Dec 2022 11:19:22 -0800 (PST)
 Received: from eriador.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- t13-20020ac24c0d000000b004cb10c151fasm1162295lfq.88.2022.12.29.11.19.20
+ t13-20020ac24c0d000000b004cb10c151fasm1162295lfq.88.2022.12.29.11.19.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Dec 2022 11:19:20 -0800 (PST)
+ Thu, 29 Dec 2022 11:19:21 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v2 24/27] drm/msm/dpu: rework plane CSC setting
-Date: Thu, 29 Dec 2022 21:18:53 +0200
-Message-Id: <20221229191856.3508092-25-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 25/27] drm/msm/dpu: rework static color fill code
+Date: Thu, 29 Dec 2022 21:18:54 +0200
+Message-Id: <20221229191856.3508092-26-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221229191856.3508092-1-dmitry.baryshkov@linaro.org>
 References: <20221229191856.3508092-1-dmitry.baryshkov@linaro.org>
@@ -78,94 +78,115 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rework the code flushing CSC settings for the plane. Separate out the
-pipe and pipe_cfg as a preparation for r_pipe support.
+Rework static color fill code to separate the pipe / pipe_cfg handling.
+This is a preparation for the r_pipe support.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 45 +++++++++++++----------
- 1 file changed, 25 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 70 +++++++++++++----------
+ 1 file changed, 41 insertions(+), 29 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index c20e0d9fe0ca..fa59ae007de1 100644
+index fa59ae007de1..2851f40cb915 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -576,29 +576,18 @@ static const struct dpu_csc_cfg dpu_csc10_YUV2RGB_601L = {
- 	{ 0x00, 0x3ff, 0x00, 0x3ff, 0x00, 0x3ff,},
- };
- 
--static const struct dpu_csc_cfg *_dpu_plane_get_csc(struct dpu_plane *pdpu, const struct dpu_format *fmt)
-+static const struct dpu_csc_cfg *_dpu_plane_get_csc(struct dpu_sw_pipe *pipe, const struct dpu_format *fmt)
- {
--	struct dpu_plane_state *pstate = to_dpu_plane_state(pdpu->base.state);
- 	const struct dpu_csc_cfg *csc_ptr;
- 
--	if (!pdpu) {
--		DPU_ERROR("invalid plane\n");
--		return NULL;
--	}
--
- 	if (!DPU_FORMAT_IS_YUV(fmt))
- 		return NULL;
- 
--	if (BIT(DPU_SSPP_CSC_10BIT) & pstate->pipe.sspp->cap->features)
-+	if (BIT(DPU_SSPP_CSC_10BIT) & pipe->sspp->cap->features)
- 		csc_ptr = &dpu_csc10_YUV2RGB_601L;
- 	else
- 		csc_ptr = &dpu_csc_YUV2RGB_601L;
- 
--	DPU_DEBUG_PLANE(pdpu, "using 0x%X 0x%X 0x%X...\n",
--			csc_ptr->csc_mv[0],
--			csc_ptr->csc_mv[1],
--			csc_ptr->csc_mv[2]);
--
- 	return csc_ptr;
+@@ -639,20 +639,54 @@ static void _dpu_plane_setup_scaler(struct dpu_sw_pipe *pipe,
+ 				fmt);
  }
  
-@@ -1046,6 +1035,27 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 	return 0;
- }
- 
-+static void dpu_plane_flush_csc(struct dpu_plane *pdpu, struct dpu_sw_pipe *pipe)
++static int _dpu_plane_color_fill_pipe(struct dpu_plane_state *pstate,
++		struct dpu_sw_pipe *pipe,
++		struct dpu_hw_pipe_cfg *old_pipe_cfg,
++		u32 fill_color,
++		const struct dpu_format *fmt)
 +{
-+	const struct dpu_format *format = to_dpu_format(msm_framebuffer_format(pdpu->base.state->fb));
-+	const struct dpu_csc_cfg *csc_ptr;
++	struct dpu_hw_pipe_cfg pipe_cfg;
 +
-+	if (!pipe->sspp || !pipe->sspp->ops.setup_csc)
-+		return;
++	/* update sspp */
++	if (!pipe->sspp->ops.setup_solidfill)
++		return 0;
 +
-+	csc_ptr = _dpu_plane_get_csc(pipe, format);
-+	if (!csc_ptr)
-+		return;
++	pipe->sspp->ops.setup_solidfill(pipe, fill_color);
 +
-+	DPU_DEBUG_PLANE(pdpu, "using 0x%X 0x%X 0x%X...\n",
-+			csc_ptr->csc_mv[0],
-+			csc_ptr->csc_mv[1],
-+			csc_ptr->csc_mv[2]);
++	/* override scaler/decimation if solid fill */
++	pipe_cfg.dst_rect = old_pipe_cfg->dst_rect;
 +
-+	pipe->sspp->ops.setup_csc(pipe->sspp, csc_ptr);
++	pipe_cfg.src_rect.x1 = 0;
++	pipe_cfg.src_rect.y1 = 0;
++	pipe_cfg.src_rect.x2 =
++		drm_rect_width(&pipe_cfg.dst_rect);
++	pipe_cfg.src_rect.y2 =
++		drm_rect_height(&pipe_cfg.dst_rect);
 +
++	if (pipe->sspp->ops.setup_format)
++		pipe->sspp->ops.setup_format(pipe, fmt, DPU_SSPP_SOLID_FILL);
++
++	if (pipe->sspp->ops.setup_rects)
++		pipe->sspp->ops.setup_rects(pipe, &pipe_cfg);
++
++	_dpu_plane_setup_scaler(pipe, fmt, true, &pipe_cfg, pstate->rotation);
++
++	return 0;
 +}
 +
- void dpu_plane_flush(struct drm_plane *plane)
+ /**
+  * _dpu_plane_color_fill - enables color fill on plane
+  * @pdpu:   Pointer to DPU plane object
+  * @color:  RGB fill color value, [23..16] Blue, [15..8] Green, [7..0] Red
+  * @alpha:  8-bit fill alpha value, 255 selects 100% alpha
+- * Returns: 0 on success
+  */
+-static int _dpu_plane_color_fill(struct dpu_plane *pdpu,
++static void _dpu_plane_color_fill(struct dpu_plane *pdpu,
+ 		uint32_t color, uint32_t alpha)
  {
- 	struct dpu_plane *pdpu;
-@@ -1069,13 +1079,8 @@ void dpu_plane_flush(struct drm_plane *plane)
- 	else if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG)
- 		/* force 100% alpha */
- 		_dpu_plane_color_fill(pdpu, pdpu->color_fill, 0xFF);
--	else if (pstate->pipe.sspp && pstate->pipe.sspp->ops.setup_csc) {
--		const struct dpu_format *fmt = to_dpu_format(msm_framebuffer_format(plane->state->fb));
--		const struct dpu_csc_cfg *csc_ptr = _dpu_plane_get_csc(pdpu, fmt);
--
--		if (csc_ptr)
--			pstate->pipe.sspp->ops.setup_csc(pstate->pipe.sspp, csc_ptr);
--	}
-+	else
-+		dpu_plane_flush_csc(pdpu, &pstate->pipe);
+ 	const struct dpu_format *fmt;
+ 	const struct drm_plane *plane = &pdpu->base;
+ 	struct dpu_plane_state *pstate = to_dpu_plane_state(plane->state);
+-	struct dpu_hw_pipe_cfg pipe_cfg;
++	u32 fill_color = (color & 0xFFFFFF) | ((alpha & 0xFF) << 24);
  
- 	/* flag h/w flush complete */
- 	if (plane->state)
+ 	DPU_DEBUG_PLANE(pdpu, "\n");
+ 
+@@ -661,34 +695,12 @@ static int _dpu_plane_color_fill(struct dpu_plane *pdpu,
+ 	 * h/w only supports RGB variants
+ 	 */
+ 	fmt = dpu_get_dpu_format(DRM_FORMAT_ABGR8888);
++	/* should not happen ever */
++	if (!fmt)
++		return;
+ 
+ 	/* update sspp */
+-	if (fmt && pstate->pipe.sspp->ops.setup_solidfill) {
+-		pstate->pipe.sspp->ops.setup_solidfill(&pstate->pipe,
+-				(color & 0xFFFFFF) | ((alpha & 0xFF) << 24));
+-
+-		/* override scaler/decimation if solid fill */
+-		pipe_cfg.dst_rect = pstate->base.dst;
+-
+-		pipe_cfg.src_rect.x1 = 0;
+-		pipe_cfg.src_rect.y1 = 0;
+-		pipe_cfg.src_rect.x2 =
+-			drm_rect_width(&pipe_cfg.dst_rect);
+-		pipe_cfg.src_rect.y2 =
+-			drm_rect_height(&pipe_cfg.dst_rect);
+-
+-		if (pstate->pipe.sspp->ops.setup_format)
+-			pstate->pipe.sspp->ops.setup_format(&pstate->pipe,
+-					fmt, DPU_SSPP_SOLID_FILL);
+-
+-		if (pstate->pipe.sspp->ops.setup_rects)
+-			pstate->pipe.sspp->ops.setup_rects(&pstate->pipe,
+-					&pipe_cfg);
+-
+-		_dpu_plane_setup_scaler(&pstate->pipe, fmt, true, &pipe_cfg, pstate->rotation);
+-	}
+-
+-	return 0;
++	_dpu_plane_color_fill_pipe(pstate, &pstate->pipe, &pstate->pipe_cfg, fill_color, fmt);
+ }
+ 
+ int dpu_plane_validate_multirect_v2(struct dpu_multirect_plane_states *plane)
 -- 
 2.39.0
 
