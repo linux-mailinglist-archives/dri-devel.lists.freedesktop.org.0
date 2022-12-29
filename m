@@ -1,64 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B537D65911E
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 20:19:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD5C65913E
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 20:47:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6787D10E278;
-	Thu, 29 Dec 2022 19:19:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23C4E10E023;
+	Thu, 29 Dec 2022 19:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81D1C10E27C
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 19:19:24 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id 1so28744945lfz.4
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 11:19:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9Nv4NkHtWv9oa5xn5IkLWqd4Ds0dsJnx10z8NotSWeg=;
- b=N1AK5qIZU7L3K/kxx3QHZKJLDMtFZfYhU49Fue77X52ZHfU2iCJ189KsHRenCOes+c
- +yclShKLzXGMrKH6TZ4P4csTGoZ/aIKAqmfdrUko9/FcXiAmwFqP/AoXAU5NNewP+bn2
- xKDFAhHpTJv2HPeUpvSuyhe4nex8qNR5N5UwgkutJb4nRWLpJA4VnLEoThzr7g8rObN5
- CjRY9yZkKFOj6WkJ0FECY+j2FMxvuurHgh+IyZRn+8kKQM2Pp7vdUJVdDuHlCPmf8mTA
- CQDXQu8vBdm18bXCGFqxhL47Tv8OpzuFd1AllnQ57taPgIbUnHoDvZU8mUeX0YF43nj3
- Z5bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9Nv4NkHtWv9oa5xn5IkLWqd4Ds0dsJnx10z8NotSWeg=;
- b=GTFEquj/Y6bMkiVW/Z/wnDOqGL8oZTvDZjvN40OLl5B0VAyjb/V9Nehb2NHH0hO1Em
- af2WnIP0i/NaZvZ6cS3NUODQTQqxGBz0EIv2H7ZCQGxiYU0z5sMj/wKxlyyHNYE3YikG
- D2ouU7oxXje+PGKKAXbOoaUKvDAJNyKsj4fXC2/8FZznQJMFi7Tbw4Ww3YiCmM7ulebv
- BubfHRbFpQs8m5yr705TkRtjtzDMeg+YRFQeYNTGkwr/mVRSDS0rugl5jnf1DardpfDU
- nxLVEOc3AOW+4jPS1QqMqCHt1eqLfVLADeLtntIvrv3MJK4vG7bm+hyx0hXdQkT2vHfs
- 94Tw==
-X-Gm-Message-State: AFqh2kopUhunYNnukUuMPVepH+V7Ny/mdJAxFdtLKBkKgzYaY5volaDP
- vbkt+dEyBDbVl3D9Byw+9XsLqw==
-X-Google-Smtp-Source: AMrXdXsd4rpvgl0adKyDIazh+xJ1MK6ZxKj7HijI5NLFS2tRlgtPySaeRKJTgXYAfvpxQQhX6bQ2GQ==
-X-Received: by 2002:a05:6512:b27:b0:4b6:eaed:f18f with SMTP id
- w39-20020a0565120b2700b004b6eaedf18fmr9018311lfu.38.1672341564086; 
- Thu, 29 Dec 2022 11:19:24 -0800 (PST)
-Received: from eriador.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- t13-20020ac24c0d000000b004cb10c151fasm1162295lfq.88.2022.12.29.11.19.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Dec 2022 11:19:23 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v2 27/27] drm/msm/dpu: add support for wide planes
-Date: Thu, 29 Dec 2022 21:18:56 +0200
-Message-Id: <20221229191856.3508092-28-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20221229191856.3508092-1-dmitry.baryshkov@linaro.org>
-References: <20221229191856.3508092-1-dmitry.baryshkov@linaro.org>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB9910E023
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 19:47:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=gxhkfvK536AK1vIzUpT9PHkT7vJmK57HHmFM9C9AKjg=; b=XFq5BtmUZzkgDJarku+TLkVViN
+ psGM/Jf/GH1gkdDhv2CfCVVG+pCeZ9uPfS8Oy6+YBXxLFi313MnIAkMpa23ZNXXetDB/fzFuaR0tr
+ T+0bwBKOOYRAjNsfeS4iq6R2z2rq3o/kb77k7+Z9y8/Xo+cwDqsc3r7eOzQb7m3s3Ucn2XDyx8DDR
+ kIQfXWytnNpGh2hEe0A5ArmmOqkFP9TfSkqWDTpK+A7zyifUMh3m5ViDCcybQDbC7SsJDPwPtEHWu
+ lucESuBNqOfHbNBzqygTC7IjEh60HGPA+CS55oj1XxwUCk5nZ80NErc0vYCTBSmdU+14hu0BePUOD
+ 4gVxJWLw==;
+Received: from [187.36.234.139] (helo=bowie..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pAyrg-00CoBE-9u; Thu, 29 Dec 2022 20:46:56 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Maxime Ripard <mripard@kernel.org>, Emma Anholt <emma@anholt.net>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/vc4: drop all currently held locks if deadlock happens
+Date: Thu, 29 Dec 2022 16:46:38 -0300
+Message-Id: <20221229194638.178712-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,322 +51,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: Melissa Wen <mwen@igalia.com>, Stefan Wahren <stefan.wahren@i2se.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Typically SSPP can support rectangle with width up to 2560. However it's
-possible to use multirect feature and split source to use the SSPP to
-output two consecutive rectangles. This commit brings in this capability
-to support wider screen resolutions.
+If vc4_hdmi_reset_link() returns -EDEADLK, it means that a deadlock
+happened in the locking context. This situation should be addressed by
+dropping all currently held locks and block until the contended lock
+becomes available. Currently, vc4 is not dealing with the deadlock
+properly, producing the following output when PROVE_LOCKING is enabled:
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+[  825.612809] ------------[ cut here ]------------
+[  825.612852] WARNING: CPU: 1 PID: 116 at drivers/gpu/drm/drm_modeset_lock.c:276 drm_modeset_drop_locks+0x60/0x68 [drm]
+[  825.613458] Modules linked in: 8021q mrp garp stp llc
+raspberrypi_cpufreq brcmfmac brcmutil crct10dif_ce hci_uart cfg80211
+btqca btbcm bluetooth vc4 raspberrypi_hwmon snd_soc_hdmi_codec cec
+clk_raspberrypi ecdh_generic drm_display_helper ecc rfkill
+drm_dma_helper drm_kms_helper pwm_bcm2835 bcm2835_thermal bcm2835_rng
+rng_core i2c_bcm2835 drm fuse ip_tables x_tables ipv6
+[  825.613735] CPU: 1 PID: 116 Comm: kworker/1:2 Tainted: G        W 6.1.0-rc6-01399-g941aae326315 #3
+[  825.613759] Hardware name: Raspberry Pi 3 Model B Rev 1.2 (DT)
+[  825.613777] Workqueue: events output_poll_execute [drm_kms_helper]
+[  825.614038] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  825.614063] pc : drm_modeset_drop_locks+0x60/0x68 [drm]
+[  825.614603] lr : drm_helper_probe_detect+0x120/0x1b4 [drm_kms_helper]
+[  825.614829] sp : ffff800008313bf0
+[  825.614844] x29: ffff800008313bf0 x28: ffffcd7778b8b000 x27: 0000000000000000
+[  825.614883] x26: 0000000000000001 x25: 0000000000000001 x24: ffff677cc35c2758
+[  825.614920] x23: ffffcd7707d01430 x22: ffffcd7707c3edc7 x21: 0000000000000001
+[  825.614958] x20: 0000000000000000 x19: ffff800008313c10 x18: 000000000000b6d3
+[  825.614995] x17: ffffcd777835e214 x16: ffffcd7777cef870 x15: fffff81000000000
+[  825.615033] x14: 0000000000000000 x13: 0000000000000099 x12: 0000000000000002
+[  825.615070] x11: 72917988020af800 x10: 72917988020af800 x9 : 72917988020af800
+[  825.615108] x8 : ffff677cc665e0a8 x7 : d00a8c180000110c x6 : ffffcd77774c0054
+[  825.615145] x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
+[  825.615181] x2 : ffff677cc55e1880 x1 : ffffcd7777cef8ec x0 : ffff800008313c10
+[  825.615219] Call trace:
+[  825.615232]  drm_modeset_drop_locks+0x60/0x68 [drm]
+[  825.615773]  drm_helper_probe_detect+0x120/0x1b4 [drm_kms_helper]
+[  825.616003]  output_poll_execute+0xe4/0x224 [drm_kms_helper]
+[  825.616233]  process_one_work+0x2b4/0x618
+[  825.616264]  worker_thread+0x24c/0x464
+[  825.616288]  kthread+0xec/0x110
+[  825.616310]  ret_from_fork+0x10/0x20
+[  825.616335] irq event stamp: 7634
+[  825.616349] hardirqs last  enabled at (7633): [<ffffcd777831ee90>] _raw_spin_unlock_irq+0x3c/0x78
+[  825.616384] hardirqs last disabled at (7634): [<ffffcd7778315a78>] __schedule+0x134/0x9f0
+[  825.616411] softirqs last  enabled at (7630): [<ffffcd7707aacea0>] local_bh_enable+0x4/0x30 [ipv6]
+[  825.617019] softirqs last disabled at (7618): [<ffffcd7707aace70>] local_bh_disable+0x4/0x30 [ipv6]
+[  825.617586] ---[ end trace 0000000000000000 ]---
+
+Therefore, deal with the deadlock as suggested by [1], using the
+function drm_modeset_backoff().
+
+[1] https://docs.kernel.org/gpu/drm-kms.html?highlight=kms#kms-locking
+
+Fixes: 6bed2ea3cb38 ("drm/vc4: hdmi: Reset link on hotplug")
+Reported-by: Stefan Wahren <stefan.wahren@i2se.com>
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |   8 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 120 +++++++++++++++++++---
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |   2 +
- 3 files changed, 114 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index d0d1cb355062..7f0f467dbabd 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -415,7 +415,7 @@ static void _dpu_crtc_blend_setup_pipe(struct drm_crtc *crtc,
- 	enum dpu_sspp sspp_idx;
- 	struct drm_plane_state *state;
- 
--	if (pipe->sspp)
-+	if (!pipe->sspp)
- 		return;
- 
- 	sspp_idx = pipe->sspp->idx;
-@@ -485,6 +485,12 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
- 					   fetch_active,
- 					   &pstate->pipe);
- 
-+		_dpu_crtc_blend_setup_pipe(crtc, plane,
-+					   mixer, cstate->num_mixers,
-+					   stage_cfg, pstate->stage, 1,
-+					   fetch_active,
-+					   &pstate->r_pipe);
-+
- 		/* blend config update */
- 		for (lm_idx = 0; lm_idx < cstate->num_mixers; lm_idx++) {
- 			_dpu_crtc_setup_blend_cfg(mixer + lm_idx, pstate, format);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 2851f40cb915..786b656cc45d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -365,6 +365,9 @@ static void _dpu_plane_set_qos_ctrl(struct drm_plane *plane,
- 	struct dpu_plane *pdpu = to_dpu_plane(plane);
- 	struct dpu_hw_pipe_qos_cfg pipe_qos_cfg;
- 
-+	if (!pipe->sspp)
-+		return;
-+
- 	memset(&pipe_qos_cfg, 0, sizeof(pipe_qos_cfg));
- 
- 	if (flags & DPU_PLANE_QOS_VBLANK_CTRL) {
-@@ -647,6 +650,9 @@ static int _dpu_plane_color_fill_pipe(struct dpu_plane_state *pstate,
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 0d3313c71f2f..dfb7f41b28df 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -402,6 +402,7 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
  {
- 	struct dpu_hw_pipe_cfg pipe_cfg;
+ 	struct drm_connector *connector = &vc4_hdmi->connector;
+ 	struct edid *edid;
++	int ret;
  
-+	if (!pipe->sspp)
-+		return 0;
-+
- 	/* update sspp */
- 	if (!pipe->sspp->ops.setup_solidfill)
- 		return 0;
-@@ -701,6 +707,8 @@ static void _dpu_plane_color_fill(struct dpu_plane *pdpu,
+ 	/*
+ 	 * NOTE: This function should really be called with
+@@ -430,7 +431,15 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
+ 	cec_s_phys_addr_from_edid(vc4_hdmi->cec_adap, edid);
+ 	kfree(edid);
  
- 	/* update sspp */
- 	_dpu_plane_color_fill_pipe(pstate, &pstate->pipe, &pstate->pipe_cfg, fill_color, fmt);
-+
-+	_dpu_plane_color_fill_pipe(pstate, &pstate->r_pipe, &pstate->r_pipe_cfg, fill_color, fmt);
- }
- 
- int dpu_plane_validate_multirect_v2(struct dpu_multirect_plane_states *plane)
-@@ -907,11 +915,13 @@ static int dpu_plane_check_inline_rotation(struct dpu_plane *pdpu,
- static int dpu_plane_atomic_check_pipe(struct dpu_plane *pdpu,
- 		struct dpu_sw_pipe *pipe,
- 		struct dpu_hw_pipe_cfg *pipe_cfg,
--		uint32_t max_linewidth,
- 		const struct dpu_format *fmt)
- {
- 	uint32_t min_src_size;
- 
-+	if (!pipe->sspp)
-+		return 0;
-+
- 	min_src_size = DPU_FORMAT_IS_YUV(fmt) ? 2 : 1;
- 
- 	if (DPU_FORMAT_IS_YUV(fmt) &&
-@@ -942,12 +952,6 @@ static int dpu_plane_atomic_check_pipe(struct dpu_plane *pdpu,
- 		DPU_DEBUG_PLANE(pdpu, "invalid dest rect " DRM_RECT_FMT "\n",
- 				DRM_RECT_ARG(&pipe_cfg->dst_rect));
- 		return -EINVAL;
--
--	/* check decimated source width */
--	} else if (drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
--		DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u\n",
--				DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
--		return -E2BIG;
- 	}
- 
- 	return 0;
-@@ -961,9 +965,12 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 	int ret = 0, min_scale;
- 	struct dpu_plane *pdpu = to_dpu_plane(plane);
- 	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
-+	struct dpu_sw_pipe *pipe = &pstate->pipe;
-+	struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
- 	const struct drm_crtc_state *crtc_state = NULL;
- 	const struct dpu_format *fmt;
- 	struct dpu_hw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
-+	struct dpu_hw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
- 	struct drm_rect fb_rect = { 0 };
- 	uint32_t max_linewidth;
- 	unsigned int rotation;
-@@ -987,8 +994,11 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 	if (!new_plane_state->visible)
- 		return 0;
- 
--	pstate->pipe.multirect_index = DPU_SSPP_RECT_SOLO;
--	pstate->pipe.multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-+	pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-+	pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-+	r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-+	r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-+	r_pipe->sspp = NULL;
- 
- 	pstate->stage = DPU_STAGE_0 + pstate->base.normalized_zpos;
- 	if (pstate->stage >= pdpu->catalog->caps->max_mixer_blendstages) {
-@@ -1022,7 +1032,49 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 
- 	fmt = to_dpu_format(msm_framebuffer_format(new_plane_state->fb));
- 
--	ret = dpu_plane_atomic_check_pipe(pdpu, &pstate->pipe, pipe_cfg, max_linewidth, fmt);
-+	if (drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
-+		/* struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc_state); */
-+
-+		if (drm_rect_width(&pipe_cfg->src_rect) > 2 * max_linewidth) {
-+			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u\n",
-+					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
-+			return -E2BIG;
-+			/*
-+			 * FIXME: it's not possible to check if sourcesplit is supported,
-+			 * LMs is not assigned yet. It happens in dpu_encoder_virt_mode_set
-+			 */
-+		} else if (drm_rect_width(&pipe_cfg->src_rect) != drm_rect_width(&pipe_cfg->dst_rect) ||
-+			   drm_rect_height(&pipe_cfg->src_rect) != drm_rect_height(&pipe_cfg->dst_rect) ||
-+			   (!test_bit(DPU_SSPP_SMART_DMA_V1, &pipe->sspp->cap->features) &&
-+			    !test_bit(DPU_SSPP_SMART_DMA_V2, &pipe->sspp->cap->features)) ||
-+			   /* cstate->num_mixers < 2 ||
-+			   !test_bit(DPU_MIXER_SOURCESPLIT, &cstate->mixers[0].hw_lm->cap->features) || */
-+			   DPU_FORMAT_IS_YUV(fmt)) {
-+			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u, can't use split source\n",
-+					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
-+			return -E2BIG;
+-	vc4_hdmi_reset_link(connector, ctx);
++	for (;;) {
++		ret = vc4_hdmi_reset_link(connector, ctx);
++		if (ret == -EDEADLK) {
++			drm_modeset_backoff(ctx);
++			continue;
 +		}
 +
-+		/* Use multirect for wide plane. We do not support dynamic assignment of SSPPs, so we know the configuration. */
-+		pipe->multirect_index = DPU_SSPP_RECT_0;
-+		pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
-+
-+		r_pipe->sspp = pipe->sspp;
-+		r_pipe->multirect_index = DPU_SSPP_RECT_1;
-+		r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
-+
-+		*r_pipe_cfg = *pipe_cfg;
-+		pipe_cfg->src_rect.x2 = (pipe_cfg->src_rect.x1 + pipe_cfg->src_rect.x2) >> 1;
-+		pipe_cfg->dst_rect.x2 = (pipe_cfg->dst_rect.x1 + pipe_cfg->dst_rect.x2) >> 1;
-+		r_pipe_cfg->src_rect.x1 = pipe_cfg->src_rect.x2;
-+		r_pipe_cfg->dst_rect.x1 = pipe_cfg->dst_rect.x2;
-+	}
-+
-+	ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg, fmt);
-+	if (ret)
-+		return ret;
-+
-+	ret = dpu_plane_atomic_check_pipe(pdpu, r_pipe, r_pipe_cfg, fmt);
- 	if (ret)
- 		return ret;
- 
-@@ -1091,8 +1143,10 @@ void dpu_plane_flush(struct drm_plane *plane)
- 	else if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG)
- 		/* force 100% alpha */
- 		_dpu_plane_color_fill(pdpu, pdpu->color_fill, 0xFF);
--	else
-+	else {
- 		dpu_plane_flush_csc(pdpu, &pstate->pipe);
-+		dpu_plane_flush_csc(pdpu, &pstate->r_pipe);
-+	}
- 
- 	/* flag h/w flush complete */
- 	if (plane->state)
-@@ -1127,6 +1181,9 @@ static void dpu_plane_sspp_update_pipe(struct drm_plane *plane,
- 	struct drm_plane_state *state = plane->state;
- 	struct dpu_plane_state *pstate = to_dpu_plane_state(state);
- 
-+	if (!pipe->sspp)
-+		return;
-+
- 	if (layout && pipe->sspp->ops.setup_sourceaddress) {
- 		trace_dpu_plane_set_scanout(pipe, layout);
- 		pipe->sspp->ops.setup_sourceaddress(pipe, layout);
-@@ -1204,13 +1261,14 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
- 	struct drm_plane_state *state = plane->state;
- 	struct dpu_plane_state *pstate = to_dpu_plane_state(state);
- 	struct dpu_sw_pipe *pipe = &pstate->pipe;
-+	struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
- 	struct drm_crtc *crtc = state->crtc;
- 	struct drm_framebuffer *fb = state->fb;
- 	bool is_rt_pipe;
- 	const struct dpu_format *fmt =
- 		to_dpu_format(msm_framebuffer_format(fb));
- 	struct dpu_hw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
--
-+	struct dpu_hw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
- 	struct dpu_kms *kms = _dpu_plane_get_kms(&pdpu->base);
- 	struct msm_gem_address_space *aspace = kms->base.aspace;
- 	struct dpu_hw_fmt_layout layout;
-@@ -1238,12 +1296,22 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
- 				   drm_mode_vrefresh(&crtc->mode),
- 				   layout_valid ? &layout: NULL);
- 
-+	dpu_plane_sspp_update_pipe(plane, r_pipe, r_pipe_cfg, fmt,
-+				   drm_mode_vrefresh(&crtc->mode),
-+				   layout_valid ? &layout: NULL);
-+
- 	if (pstate->needs_qos_remap)
- 		pstate->needs_qos_remap = false;
- 
- 	pstate->plane_fetch_bw = _dpu_plane_calc_bw(pdpu->catalog, fmt, &crtc->mode, pipe_cfg);
- 
- 	pstate->plane_clk = _dpu_plane_calc_clk(&crtc->mode, pipe_cfg);
-+
-+	if (r_pipe->sspp) {
-+		pstate->plane_fetch_bw += _dpu_plane_calc_bw(pdpu->catalog, fmt, &crtc->mode, r_pipe_cfg);
-+
-+		pstate->plane_clk = max(pstate->plane_clk, _dpu_plane_calc_clk(&crtc->mode, r_pipe_cfg));
++		break;
 +	}
  }
  
- static void _dpu_plane_atomic_disable(struct drm_plane *plane)
-@@ -1286,6 +1354,8 @@ static void dpu_plane_destroy(struct drm_plane *plane)
- 		pstate = to_dpu_plane_state(plane->state);
- 		_dpu_plane_set_qos_ctrl(plane, &pstate->pipe, false, DPU_PLANE_QOS_PANIC_CTRL);
- 
-+		_dpu_plane_set_qos_ctrl(plane, &pstate->r_pipe, false, DPU_PLANE_QOS_PANIC_CTRL);
-+
- 		mutex_destroy(&pdpu->lock);
- 
- 		/* this will destroy the states as well */
-@@ -1366,11 +1436,26 @@ static void dpu_plane_atomic_print_state(struct drm_printer *p,
- 		const struct drm_plane_state *state)
- {
- 	const struct dpu_plane_state *pstate = to_dpu_plane_state(state);
-+	const struct dpu_sw_pipe *pipe = &pstate->pipe;
-+	const struct dpu_hw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
-+	const struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
-+	const struct dpu_hw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
- 
- 	drm_printf(p, "\tstage=%d\n", pstate->stage);
--	drm_printf(p, "\tsspp=%s\n", pstate->pipe.sspp->cap->name);
--	drm_printf(p, "\tmultirect_mode=%s\n", dpu_get_multirect_mode(pstate->pipe.multirect_mode));
--	drm_printf(p, "\tmultirect_index=%s\n", dpu_get_multirect_index(pstate->pipe.multirect_index));
-+
-+	drm_printf(p, "\tsspp[0]=%s\n", pipe->sspp->cap->name);
-+	drm_printf(p, "\tmultirect_mode[0]=%s\n", dpu_get_multirect_mode(pipe->multirect_mode));
-+	drm_printf(p, "\tmultirect_index[0]=%s\n", dpu_get_multirect_index(pipe->multirect_index));
-+	drm_printf(p, "\tsrc[0]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&pipe_cfg->src_rect));
-+	drm_printf(p, "\tdst[0]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&pipe_cfg->dst_rect));
-+
-+	if (r_pipe->sspp) {
-+		drm_printf(p, "\tsspp[1]=%s\n", r_pipe->sspp->cap->name);
-+		drm_printf(p, "\tmultirect_mode[1]=%s\n", dpu_get_multirect_mode(r_pipe->multirect_mode));
-+		drm_printf(p, "\tmultirect_index[1]=%s\n", dpu_get_multirect_index(r_pipe->multirect_index));
-+		drm_printf(p, "\tsrc[1]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&r_pipe_cfg->src_rect));
-+		drm_printf(p, "\tdst[1]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&r_pipe_cfg->dst_rect));
-+	}
- }
- 
- static void dpu_plane_reset(struct drm_plane *plane)
-@@ -1400,6 +1485,10 @@ static void dpu_plane_reset(struct drm_plane *plane)
- 	}
- 
- 	pstate->pipe.sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
-+	pstate->pipe.multirect_index = DPU_SSPP_RECT_SOLO;
-+	pstate->pipe.multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-+
-+	pstate->r_pipe.sspp = NULL;
- 
- 	__drm_atomic_helper_plane_reset(plane, &pstate->base);
- }
-@@ -1416,6 +1505,7 @@ void dpu_plane_danger_signal_ctrl(struct drm_plane *plane, bool enable)
- 
- 	pm_runtime_get_sync(&dpu_kms->pdev->dev);
- 	_dpu_plane_set_qos_ctrl(plane, &pstate->pipe, enable, DPU_PLANE_QOS_PANIC_CTRL);
-+	_dpu_plane_set_qos_ctrl(plane, &pstate->r_pipe, enable, DPU_PLANE_QOS_PANIC_CTRL);
- 	pm_runtime_put_sync(&dpu_kms->pdev->dev);
- }
- #endif
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-index 95031e8b00f8..a0b98f29a3bb 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-@@ -36,7 +36,9 @@ struct dpu_plane_state {
- 	bool pending;
- 
- 	struct dpu_sw_pipe pipe;
-+	struct dpu_sw_pipe r_pipe;
- 	struct dpu_hw_pipe_cfg pipe_cfg;
-+	struct dpu_hw_pipe_cfg r_pipe_cfg;
- 
- 	u64 plane_fetch_bw;
- 	u64 plane_clk;
+ static int vc4_hdmi_connector_detect_ctx(struct drm_connector *connector,
 -- 
-2.39.0
+2.38.1
 
