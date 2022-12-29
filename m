@@ -2,72 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3897658A83
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 09:26:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FFED658A95
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 09:38:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8453010E1F6;
-	Thu, 29 Dec 2022 08:26:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B22D410E242;
+	Thu, 29 Dec 2022 08:37:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB54810E1F6
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 08:26:03 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id v23so8620849ljj.9
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 00:26:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2jD6n3VI4U3d7CzDLMYOr4tAgBELkqFchc0PWmapwU8=;
- b=qhEE4crGFgsdwFNKY2hdx6b7U+9CNNrQU/L8EM7pLIpvdLqLPQ/X0IBU6xWI/+Tjsb
- 9FjNHb7ac8oTGST4Pbt4LqMouaI7o6ptRX4gxrDV+DY0BsNtQ6dSwvr001n+5/bQS1TW
- dOYdrUbb3v+dkIbYWz8iLCg7x3t4MMPZ2yEMkhH+Z1WWRJ5+yQu/egLPHHwdl+1Fnl0r
- PuT+vKRtc4y/RnrOZISux3vGOnMZ5wVwplKkBDryIN5kA1LWgtUpYvt5rXpBwKcDY8L/
- 6qQO0TjZcXtrHmmg4U1cLbF5ONgdzmJSCfn+i6u1lzyWWaYS2DnxoS5MODp9cAuXOAFC
- PUxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2jD6n3VI4U3d7CzDLMYOr4tAgBELkqFchc0PWmapwU8=;
- b=r7l/cUroWjbxORWSNi+iSD8rLuFzdWfd3ppZl4jgJRcDnlTgKgmqxgNmZPolW/T+cv
- oZPQ9YDWLDUJawjapxNF23ZfI9PuYil8tRcLrGGXZGtYbJdkw10FEY8AG8t2WTcu1mRc
- hR4+nXyxosR8jkD8tD8w9qvMVAJl8CiZa+Gf8IvZu4/ldZYghvnQKCJijrjdyYBpoXnn
- 2bWXciJXX73GCbqqCJn8dvuKWxYzx3CuNSxN/yaJBeoM8Fp9960TiN+ppPpNqySuozkj
- 9wO8vpt7N/YoCbI7ZHm0ztBWJpFOXiwPAUqLb81TECLavb2YU9DQLu8Ufb17jiYd1Lg9
- xckQ==
-X-Gm-Message-State: AFqh2koJ4jI1FztTJT61nyQrKnIDepiyXzClPWDYQzMeU8qBPbr/rllz
- nDngBfQ6yi4ODsPfnHyJU4ioLw==
-X-Google-Smtp-Source: AMrXdXtydbHGlVS8vt7G1ajfd6J2r0uGDhywhmHhWEcVTDCakT7GghbtMJ0/ytEappMkCSN9KHVobg==
-X-Received: by 2002:a05:651c:1a2c:b0:27f:cccc:1df3 with SMTP id
- by44-20020a05651c1a2c00b0027fcccc1df3mr2208846ljb.41.1672302361996; 
- Thu, 29 Dec 2022 00:26:01 -0800 (PST)
-Received: from [192.168.0.20]
- (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
- by smtp.gmail.com with ESMTPSA id
- p5-20020a2eb105000000b0027f77c96339sm2257519ljl.0.2022.12.29.00.26.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Dec 2022 00:26:01 -0800 (PST)
-Message-ID: <06a46227-1a0c-aa5b-0b06-f202a5eff05b@linaro.org>
-Date: Thu, 29 Dec 2022 09:26:00 +0100
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28AE110E242
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 08:37:34 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id D81D55C0251;
+ Thu, 29 Dec 2022 03:37:30 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 29 Dec 2022 03:37:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1672303050; x=1672389450; bh=Q8E4Fy7yHH
+ vgN5tzWFkvVuulnEmhwNWYk9G7KBE3lnE=; b=t/bFeug3fi3ux0+ew7vg019TG1
+ iIeIeZkeIxbet7wBrntOofkKwMuujEOeobXE4fKpcBIC3fITCQXoqJ9BnIUmRUWO
+ tjZYppJFasSlSkNpdgPAe3C8SveHeQ/XdnRP4obHT3Vb3nzYf5bJFpyvhR/krBVO
+ 8CzgfmQJLMvv2ETAeAbnF2cRgkL2wtMR5UzdJjO0XkGBJPsXAu/OmEZ+IoUITQYM
+ rqiZ3reMnj6RSLX+aO+Us6k9umBRXPpRdgVXu8/RZNIIt3b4awsK4Voy8D9iG7nJ
+ CgS48KxX4bkAS3ZebbRm7/pAxzfMZCg861y4SNXCMfUIWVkmuQUkwG0jkktA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1672303050; x=1672389450; bh=Q8E4Fy7yHHvgN5tzWFkvVuulnEmh
+ wNWYk9G7KBE3lnE=; b=ZKQsRyx+awDN9HFCOh6/HaDrpXNDDgrBKQrkiRQkXPxy
+ WfpI9MexzajHNMT6h0F2ZaFiq3BUskLDm+GZMaqqLKV+rn0muMMXTeMIbgFx/C4F
+ J3xgtYKCCpuTRdnzjr4sbcrMONAcenbzluC93xoP6utZPkK9VDHddCcGaRQ+a219
+ WI1rUjxP79xZCGU3qbN60PqK9t93TOvGUyl2Z2WJxBGWcQi2DeusydvDcTU3/tjm
+ FDjLya+u3z3BN4m0tKQ6fnn6XQxfNRqBaF9MjNSlClQ3WBWZMWVhRFIzCBGTY9OC
+ rZIccJ4bdqiURgqxE1vL0nsIdlxYJbW51ygLKLfQlA==
+X-ME-Sender: <xms:ylGtY7eO4FvsgEHcYN_InNlanZogtIQ3Uq4rvYdZvt5pomJGxKJq1w>
+ <xme:ylGtYxNKf2kcz0XzuEQp8CsOFL7SRtnT5QZ2A6WF2T_mI4uMFs8o3P4HKTKYQFUJe
+ VVjRNLd06xam49KJp0>
+X-ME-Received: <xmr:ylGtY0j0owIqQ3TOOHxd8nKiLIHkgWAteGg-Fkqzgb_lewVzf8DIQ9Wa5Nim>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieefgdduvddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
+ ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:ylGtY88ei1RZmWNGmSC1YHCy1PZtdForc0FujWuHe5ELCccGo7hT1A>
+ <xmx:ylGtY3vcASISGcQgFvbm_-pY19ETayGQUOvSws0mTI5NmnGYmPf_sQ>
+ <xmx:ylGtY7H-K5Nqm82jcbNmFUay3ye9nnxHAzU34mpMgf0ZH8eqGVD4Rw>
+ <xmx:ylGtYxKxnr8evV8FZZfsFfs-ivqd9XvZsywGzyHW_AXYOxiNMQIATg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 29 Dec 2022 03:37:29 -0500 (EST)
+Date: Thu, 29 Dec 2022 09:37:26 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Subject: Re: WARNING: CPU: 2 PID: 42 at drivers/gpu/drm/drm_modeset_lock.c:276
+Message-ID: <20221229083726.t4jvnejep3q3ehyk@penduick>
+References: <47a25f27-a3a1-5ec3-0c63-e68d05dff94e@i2se.com>
+ <6ebcc09f-47d1-6c08-53f8-0b87ba2d75f6@i2se.com>
+ <4c036775-3989-b14a-8f3f-478ef488f108@igalia.com>
+ <9bb7c19c-effb-51e8-0b10-61077529030d@i2se.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 1/1] dt-bindings: msm: dsi-phy-28nm: Add missing
- qcom,dsi-phy-regulator-ldo-mode
-Content-Language: en-US
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
- airlied@gmail.com, daniel@ffwll.ch, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org
-References: <20221228131110.213116-1-bryan.odonoghue@linaro.org>
- <20221228131110.213116-2-bryan.odonoghue@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221228131110.213116-2-bryan.odonoghue@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="n5ld2u5regpfstof"
+Content-Disposition: inline
+In-Reply-To: <9bb7c19c-effb-51e8-0b10-61077529030d@i2se.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,38 +85,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- andersson@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, quic_mkrishn@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: Melissa Wen <mwen@igalia.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/12/2022 14:11, Bryan O'Donoghue wrote:
-> Add in missing qcom,dsi-phy-regulator-ldo-mode to the 28nm DSI PHY.
-> When converting from .txt to .yaml we missed this one.
-> 
-> Fixes: 4dbe55c97741 ("dt-bindings: msm: dsi: add yaml schemas for DSI bindings")
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  .../devicetree/bindings/display/msm/dsi-phy-28nm.yaml         | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml
-> index 3d8540a06fe22..95076c90ea171 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml
-> @@ -25,6 +25,10 @@ properties:
->        - description: dsi phy register set
->        - description: dsi phy regulator register set
->  
-> +  qcom,dsi-phy-regulator-ldo-mode:
-> +    type: boolean
-> +    description: Indicates if the LDO mode PHY regulator is wanted.
-> +
-Do not add it between reg/reg-names (or any other grouped properties).
-Should go after reg-names.
 
-Krzysztof
+--n5ld2u5regpfstof
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Dec 28, 2022 at 11:16:11PM +0100, Stefan Wahren wrote:
+> Hi Ma=EDra,
+>=20
+> Am 28.12.22 um 20:49 schrieb Ma=EDra Canal:
+> > Hi Stefan,
+> >=20
+> > I was able to reproduce this error on drm-misc-next. I bisected,
+> > and I got into commit 6bed2ea3cb38. I noticed that the crtc->mutex is
+> > being locked twice, and this might be causing the problem. I wrote a
+> > patch to try to fix this issue, and after applying the patch, I wasn't
+> > able to reproduce the error anymore.
+> >=20
+> > Let me know if you were able to reproduce the warning after applying
+> > this patch.
+>=20
+> the patch works as expected and avoid the warning. I tested it on top of
+> v6.1 with RPi 3 B+ and RPi 4 B.
+>=20
+> In case you send the patch please add the Fixes tag so the patch get
+> backported to stable.
+
+This isn't a proper fix, we do need to take the crtc mutex: it protects
+the crtc->state pointer we dereference next, and vc4_hdmi_reset_link can
+be called outside of a modeset through the interrupt handler.
+
+Maxime
+
+--n5ld2u5regpfstof
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY61RxgAKCRDj7w1vZxhR
+xaguAP48VJOw7rgfCxNFrQ+fQoE6KqrCL+xUJ23i6ixdFL0CCwEAoLI6OHK+RW+D
+JNradE3SzeRYdlK8RMeIk2h3RHsV4g0=
+=sRo2
+-----END PGP SIGNATURE-----
+
+--n5ld2u5regpfstof--
