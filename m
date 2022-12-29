@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53416659104
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 20:19:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8035659102
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 20:19:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78B5410E205;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FC7010E228;
 	Thu, 29 Dec 2022 19:19:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBCB810E21E
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 19:19:04 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id bt23so12091162lfb.5
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 11:19:04 -0800 (PST)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7B7B10E228
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 19:19:05 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id cf42so28761007lfb.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 11:19:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=DZwJ9mZTT5zldaxndYWJFkFUXjJdkwhervFdabSpxaQ=;
- b=Xw9L0kCzAsY3uZVsWPm/LESE3jBReM36lOw42QX3H1hRpjNdg1K2ZJGtWOhagK5lSX
- gb/ieCeSJCq1JM0Ltxx/3JarSAj5Oif6vyGMG9+o7Ic1EaSo4yjukkywZxoe7vAoam/O
- mLtW49eSXDobIHB54B92n3hKt9KT93Y9tNUGsOn+7dqpp54FoFElBOmG6c70jj2EPlID
- 4v7dGrbdBw+7iMeY5q97IGcADEOfLGskQsXFb1d7roaEwP4PmbA0UAxpFTRaWftn7BEu
- 1Zi3J/BwpACsYBBrRarpQSKT2V3iX5ul287lUOKmKxQQCqcsbKhYTf/6Iw9GVcSL1jk/
- OgoA==
+ bh=VnhtYL/XQh1nJXsu1H+29shic9ChUEXdN4d56587xoI=;
+ b=uZixQRHjio2ZX/MBXwsmrkxJ5DwGGs5wUZvqGRD3tqRgf259XGJV06+jm76MVyJFOG
+ uusaget1p0Ne715SC0af6+oyVaET1fXrV8gtjFaYO8ROvb9Say8vrj4FiOoIJ489hoT9
+ tReVP+RIbBZKaJb4V+RokJ7Tsx4Gqqk1s6Z++NADOOgn+blh4fklQbFc0L4TiTuT88Y8
+ U5AkYLnho15vkblWMVAK4JfE3HbUswLi96n2eSHAW5xpCjKy9YtzRDGbgS9dJ0d3qeys
+ aIh1zNYcrLfaubJaEtpp1yZtbo3+SSpheZzEr0a71G3Mtb5xuNS4WOdK7EB/H5NgqSyy
+ 6Gkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DZwJ9mZTT5zldaxndYWJFkFUXjJdkwhervFdabSpxaQ=;
- b=ZdbYeciBlzhXyWpkd8/McSMEggNY9NjTaJwX8hd1SPH+6FQ8yf+jCeXGm6DGAv4C7Q
- q/l/Z9mTAtKBk3dtd5IJHmPXS409KBJSn54qbwnJN2eNOPUxsKLo7OKDDC9vDUf8M7nk
- DuB93ix9i6g3sswa+mWjetknmyTJWrc8R54hNHxiSSC9romGpcCzA9LUmyJpTT+yYd80
- U95FMGXyp18vDbkroyCYKuwvLYLlRjNbYDD8r3En0eWzV/OOaqZFC8Blp6ERJ++k1XNa
- fVPIM49t/2WdRNvbbGmNX+kUPULLq4456F++2llLGcPVarPlRP4lmA0OL0eDlwZLElON
- KePg==
-X-Gm-Message-State: AFqh2krjWce2HW0FL3EeJ6oLX3XQRhFlDg4Gefrz0AjU98EE/o3NpE5L
- gZ7WOjzUOHJHPqBFAhbpj4CvSg==
-X-Google-Smtp-Source: AMrXdXugom1+TtthJTnJlbj6J/olcZzkTq62d4aH1OikinEStSGbcOoXbTsGVtPwZQ1oelScbawXmg==
-X-Received: by 2002:ac2:5b41:0:b0:4a4:68b8:9c5b with SMTP id
- i1-20020ac25b41000000b004a468b89c5bmr8641922lfp.67.1672341543208; 
- Thu, 29 Dec 2022 11:19:03 -0800 (PST)
+ bh=VnhtYL/XQh1nJXsu1H+29shic9ChUEXdN4d56587xoI=;
+ b=IjSvmHC8VWoV4z87oaHyzZ61THq5pk6PQfwVT9pPAAkyDGxNZ0pfkp6i+I/oXiRfaz
+ ub/K9G3HOFtsQAJYzI+Hww9QxXL7mJ2AbxIwjm5L0bho46UA0xn/8YK/E+GZlfPAkRUF
+ rQBaZXtj/Z/NMFnyCopVQmIg1ncsu3lJHrbk1i0gdI9ew46JsfltSdRo2xSinoRGjsEh
+ 2VGM+59qnz3i1BZfSdVHz9/vWC/ZX5BU2bdkixPdKcZeVEJABv5QNuTlSeHhSHvDetPV
+ xAwt6XzdrlWL5spb/Vj0UMR1n+gapZNvOeBVHSSdwQHAhOW/4151lOCO9d3/Do5zEQn5
+ s9/A==
+X-Gm-Message-State: AFqh2kpzvtI7udBK7tGjN7qAe6r9jkjQEoYQg6Q2XGEX0ZY6RIk8mYhr
+ XyEFe5QqykFKLdiEgzxPj//WDQ==
+X-Google-Smtp-Source: AMrXdXsR1Gzb7o6x/qwidho1/o4YPb4ORhhJl/mCiEE8vPpBpKe1hK+YyEcCT/Xp0K2cI6kkraw1dA==
+X-Received: by 2002:a05:6512:74:b0:4ca:fe23:7677 with SMTP id
+ i20-20020a056512007400b004cafe237677mr5275661lfo.43.1672341544047; 
+ Thu, 29 Dec 2022 11:19:04 -0800 (PST)
 Received: from eriador.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- t13-20020ac24c0d000000b004cb10c151fasm1162295lfq.88.2022.12.29.11.19.01
+ t13-20020ac24c0d000000b004cb10c151fasm1162295lfq.88.2022.12.29.11.19.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Dec 2022 11:19:02 -0800 (PST)
+ Thu, 29 Dec 2022 11:19:03 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v2 04/27] drm/msm/dpu: move SSPP debugfs creation to dpu_kms.c
-Date: Thu, 29 Dec 2022 21:18:33 +0200
-Message-Id: <20221229191856.3508092-5-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 05/27] drm/msm/dpu: drop EAGAIN check from
+ dpu_format_populate_layout
+Date: Thu, 29 Dec 2022 21:18:34 +0200
+Message-Id: <20221229191856.3508092-6-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221229191856.3508092-1-dmitry.baryshkov@linaro.org>
 References: <20221229191856.3508092-1-dmitry.baryshkov@linaro.org>
@@ -78,87 +79,69 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As SSPP blocks are now visible through dpu_kms->rm.sspp_blocks, move
-SSPP debugfs creation from dpu_plane to dpu_kms. We are going to break
-the 1:1 correspondence between planes and SSPPs, so it makes no sense
-anymore to create SSPP debugfs entries in dpu_plane.c
+The pipe's layout is not cached, corresponding data structure is zeroed
+out each time in the dpu_plane_sspp_atomic_update(), right before the
+call to _dpu_plane_set_scanout() -> dpu_format_populate_layout().
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Drop plane_addr comparison against previous layout and corresponding
+EAGAIN handling.
+
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h |  1 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 18 ++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 16 ----------------
- 3 files changed, 18 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c | 10 +---------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   |  4 +---
+ 2 files changed, 2 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-index 651621b9794f..8c3e9090be4b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-@@ -388,7 +388,6 @@ struct dpu_hw_sspp *dpu_hw_sspp_init(enum dpu_sspp idx,
-  */
- void dpu_hw_sspp_destroy(struct dpu_hw_sspp *ctx);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
+index d95540309d4d..ec1001e10f4f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
+@@ -918,8 +918,7 @@ int dpu_format_populate_layout(
+ 		struct drm_framebuffer *fb,
+ 		struct dpu_hw_fmt_layout *layout)
+ {
+-	uint32_t plane_addr[DPU_MAX_PLANES];
+-	int i, ret;
++	int ret;
  
--void dpu_debugfs_sspp_init(struct dpu_kms *dpu_kms, struct dentry *debugfs_root);
- int _dpu_hw_sspp_init_debugfs(struct dpu_hw_sspp *hw_pipe, struct dpu_kms *kms, struct dentry *entry);
+ 	if (!fb || !layout) {
+ 		DRM_ERROR("invalid arguments\n");
+@@ -940,9 +939,6 @@ int dpu_format_populate_layout(
+ 	if (ret)
+ 		return ret;
  
- #endif /*_DPU_HW_SSPP_H */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index b71199511a52..2dfc4748a0e8 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -250,6 +250,24 @@ void dpu_debugfs_create_regset32(const char *name, umode_t mode,
- 	debugfs_create_file(name, mode, parent, regset, &dpu_regset32_fops);
+-	for (i = 0; i < DPU_MAX_PLANES; ++i)
+-		plane_addr[i] = layout->plane_addr[i];
+-
+ 	/* Populate the addresses given the fb */
+ 	if (DPU_FORMAT_IS_UBWC(layout->format) ||
+ 			DPU_FORMAT_IS_TILE(layout->format))
+@@ -950,10 +946,6 @@ int dpu_format_populate_layout(
+ 	else
+ 		ret = _dpu_format_populate_addrs_linear(aspace, fb, layout);
+ 
+-	/* check if anything changed */
+-	if (!ret && !memcmp(plane_addr, layout->plane_addr, sizeof(plane_addr)))
+-		ret = -EAGAIN;
+-
+ 	return ret;
  }
  
-+static void dpu_debugfs_sspp_init(struct dpu_kms *dpu_kms, struct dentry *debugfs_root)
-+{
-+	struct dentry *entry = debugfs_create_dir("sspp", debugfs_root);
-+	int i;
-+
-+	if (IS_ERR(entry))
-+		return;
-+
-+	for (i = SSPP_NONE; i < SSPP_MAX; i++) {
-+		struct dpu_hw_sspp *hw = dpu_rm_get_sspp(&dpu_kms->rm, i);
-+
-+		if (!hw)
-+			continue;
-+
-+		_dpu_hw_sspp_init_debugfs(hw, dpu_kms, entry);
-+	}
-+}
-+
- static int dpu_kms_debugfs_init(struct msm_kms *kms, struct drm_minor *minor)
- {
- 	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index e443799de2c1..cdde7b9ec882 100644
+index cdde7b9ec882..43fb8e00ada6 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -1399,22 +1399,6 @@ void dpu_plane_danger_signal_ctrl(struct drm_plane *plane, bool enable)
- 	_dpu_plane_set_qos_ctrl(plane, enable, DPU_PLANE_QOS_PANIC_CTRL);
- 	pm_runtime_put_sync(&dpu_kms->pdev->dev);
- }
--
--/* SSPP live inside dpu_plane private data only. Enumerate them here. */
--void dpu_debugfs_sspp_init(struct dpu_kms *dpu_kms, struct dentry *debugfs_root)
--{
--	struct drm_plane *plane;
--	struct dentry *entry = debugfs_create_dir("sspp", debugfs_root);
--
--	if (IS_ERR(entry))
--		return;
--
--	drm_for_each_plane(plane, dpu_kms->dev) {
--		struct dpu_plane *pdpu = to_dpu_plane(plane);
--
--		_dpu_hw_sspp_init_debugfs(pdpu->pipe_hw, dpu_kms, entry);
--	}
--}
- #endif
+@@ -476,9 +476,7 @@ static void _dpu_plane_set_scanout(struct drm_plane *plane,
+ 	int ret;
  
- static bool dpu_plane_format_mod_supported(struct drm_plane *plane,
+ 	ret = dpu_format_populate_layout(aspace, fb, &pipe_cfg->layout);
+-	if (ret == -EAGAIN)
+-		DPU_DEBUG_PLANE(pdpu, "not updating same src addrs\n");
+-	else if (ret)
++	if (ret)
+ 		DPU_ERROR_PLANE(pdpu, "failed to get format layout, %d\n", ret);
+ 	else if (pdpu->pipe_hw->ops.setup_sourceaddress) {
+ 		trace_dpu_plane_set_scanout(pdpu->pipe_hw->idx,
 -- 
 2.39.0
 
