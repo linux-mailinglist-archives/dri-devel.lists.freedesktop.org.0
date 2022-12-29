@@ -2,80 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8AF1658DEA
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 15:31:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D868A658DED
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Dec 2022 15:35:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C94110E270;
-	Thu, 29 Dec 2022 14:31:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38BC48989E;
+	Thu, 29 Dec 2022 14:35:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0702310E270
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 14:31:01 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 032738989E
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 14:35:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672324260;
+ s=mimecast20190719; t=1672324519;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iyDuPw9BfhAfsJqj1LLBmM52knl5cpyM0AV0SoAQzf4=;
- b=iWPEKjgopctzo85+/B87jBdJqTe2AwdAffQRRFSF4+Pb7d1qolRSZVN8jNhO9I7fQhnJQI
- dmQl4V55Vr5+LaSdkeTH781nD6I4BA+xsYjieugtvuHnNP2toK8280d5GmoEPXU6+v2zNz
- Y3BOBpRFeyIE05bqofq6Mu9a44McTLI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KePM8LGAehS8PxVf3em7bkMvOyCCyGkD1QJPFzoXjoY=;
+ b=evb0+MHXl4X7BfSCvTX0+E86yeukqK/kOgvH+y3vhs5uyvbBf6tPt2DQXiQasc+TJfpM2G
+ 0UlDT0fHW+sz0yT4ZV+PkR8uUPQk7Inez+s031sRHR3gYqXxULRCCCka4Y+fmXgg86Z/HV
+ z1jw/evvPN1cggBc8NqJ15PniOzrFo4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-637--AKzQz14OtqZ38c_-piO9A-1; Thu, 29 Dec 2022 09:30:58 -0500
-X-MC-Unique: -AKzQz14OtqZ38c_-piO9A-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j1-20020a05600c1c0100b003d99070f529so3475741wms.9
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 06:30:57 -0800 (PST)
+ us-mta-308-61JxHmwjOTiJmsJJJn9SXA-1; Thu, 29 Dec 2022 09:35:15 -0500
+X-MC-Unique: 61JxHmwjOTiJmsJJJn9SXA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ ay32-20020a05600c1e2000b003d9730391b5so7271248wmb.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 06:35:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iyDuPw9BfhAfsJqj1LLBmM52knl5cpyM0AV0SoAQzf4=;
- b=aAiIAk0lUrkD+roqN5czSmVK11rOUvb7GiBWf1E/kEqkclOeJZii9SCtqPdXs9NFtu
- 6Cwj2JSL4tp2AHDJAqo4pHcchtBKT4pvsu5zzAg5qV48PGvU7LzN1zwWAaI80WipUzKN
- MzINNHV42qbDaUaxpCVa/qWUbmfYtCrA2ywrol4NMqMl+zgY7t+Ckaj82eqd1NPfosEE
- QOPWCl6dKDPeQ2+ylrEUTKZnfOByyyFTfLNWAnjw6b/ENxeSSao8ykr1TPjfnKxv873n
- S2gYVkdI0EsX9M0IoPdF4qtJKGK2HNo6jIcRlE+7hnvaGJ40t1JdfrqdEaVJFrfy6dF+
- xXDw==
-X-Gm-Message-State: AFqh2kos7d6WHSx3RdYc3Kd4Kcm4a2C/Y5D0OHd0YhCJChSmET92u+Ro
- 4PD3MN5PpoHzpkBr1dbQefXbwhpCEEX1rp9F7xy01zTUuzjpw/OqxTdMjLXHlWp9vyye/KwD/g7
- lhqgGCVnGH3d6nkjgRrASRs9BL0fm
-X-Received: by 2002:a05:600c:500a:b0:3d3:5b56:b834 with SMTP id
- n10-20020a05600c500a00b003d35b56b834mr20258818wmr.5.1672324257053; 
- Thu, 29 Dec 2022 06:30:57 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXu7jq2MqHRR2Qf7hZNRLxPrxMP+dHZZmm1DOclVneqxdq6tN99CJ+oQPMkRcoN+zvTQ2QD3pg==
-X-Received: by 2002:a05:600c:500a:b0:3d3:5b56:b834 with SMTP id
- n10-20020a05600c500a00b003d35b56b834mr20258803wmr.5.1672324256815; 
- Thu, 29 Dec 2022 06:30:56 -0800 (PST)
+ bh=KePM8LGAehS8PxVf3em7bkMvOyCCyGkD1QJPFzoXjoY=;
+ b=q/2xw78VNsAPO8lqEVLbC986cWw7Fo9UEdrPT7CeuHtrP9NijEdc+y/5eCrwp3zYSb
+ DW1pOBcci4IFSHS4iAoT7RqIRQIMLaAA557b7lVfqgMmOctlwKGzKPa36jgzqoSkeZhM
+ 2xab+u2lQXjK2zquCOOenxbS0riW1X7/5nYmScBzixOW4dLZrzHCzuFX5/HHTTQ94Pj5
+ TRIulsCElc7VMkDtx8QaJJxj8UK0ki/xR0aUrHJ2R5YJshjqiJ+x6m+5xKIoSWziIdgU
+ xC5affjQhoI7LjiwcnUbW2T/HJGdWIXDrf5TwH4uxwFv4s5vz+8iKtEGNWcMdhab6/qa
+ aU2g==
+X-Gm-Message-State: AFqh2kqZx7qgUnvxo44ZqYGrpMP3aWwL98Rdg2auAs4n+DzYgg+mXyDF
+ Lkz7nlRhe86J2FP7Klt+FmgACo0nu/NkQPZ+DfM+nzqPsy4437co39nSAabdUqQIf0pdhIU/5dl
+ vOlkClqUmNoDDK+SltO5FH8wLAFuu
+X-Received: by 2002:a5d:460d:0:b0:242:69f4:cb6a with SMTP id
+ t13-20020a5d460d000000b0024269f4cb6amr16459193wrq.9.1672324514807; 
+ Thu, 29 Dec 2022 06:35:14 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuhgKP5nEJxUo1DwVlnSvFu/L2yowvsm+jGS3h9joQUDWOjQmxTMQckkrXQ+uhe+DCqYeOJDQ==
+X-Received: by 2002:a5d:460d:0:b0:242:69f4:cb6a with SMTP id
+ t13-20020a5d460d000000b0024269f4cb6amr16459171wrq.9.1672324514569; 
+ Thu, 29 Dec 2022 06:35:14 -0800 (PST)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- r9-20020a05600c35c900b003d96bdddd3dsm26127449wmq.15.2022.12.29.06.30.55
+ p13-20020a05600c358d00b003d1f2c3e571sm32813393wmq.33.2022.12.29.06.35.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Dec 2022 06:30:55 -0800 (PST)
-Message-ID: <7e527370-5c10-e908-c143-d33ebe69a3a0@redhat.com>
-Date: Thu, 29 Dec 2022 15:30:54 +0100
+ Thu, 29 Dec 2022 06:35:14 -0800 (PST)
+Message-ID: <21fe5a6c-06f9-a902-6621-19c4a2a451ad@redhat.com>
+Date: Thu, 29 Dec 2022 15:35:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH 03/14] drm/panel-sitronix-st7703: Drop custom DSI write
- macros
-To: =?UTF-8?Q?Guido_G=c3=bcnther?= <guido.gunther@puri.sm>
-References: <20221228014757.3170486-1-javierm@redhat.com>
- <20221228014757.3170486-4-javierm@redhat.com>
- <Y6wwLdvhjUeTYSlQ@qwark.sigxcpu.org>
+Subject: Re: [PATCH v2 01/11] drm/amd: Delay removal of the firmware
+ framebuffer
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, linux-kernel@vger.kernel.org
+References: <20221228163102.468-1-mario.limonciello@amd.com>
+ <20221228163102.468-2-mario.limonciello@amd.com>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <Y6wwLdvhjUeTYSlQ@qwark.sigxcpu.org>
+In-Reply-To: <20221228163102.468-2-mario.limonciello@amd.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,34 +88,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>, Purism Kernel Team <kernel@puri.sm>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Alex Deucher <alex.deucher@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Carlos Soriano Sanchez <csoriano@redhat.com>, stable@vger.kernel.org,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Guido,
+Hello Mario,
 
-On 12/28/22 13:01, Guido Günther wrote:
-> Hi Javier,
-> Could you please also cc maintainers on the actual macro addition since
-> it's hard to review without seeing what the code gets changed to
-> (especially when there's multiple revisions). I assume
+On 12/28/22 17:30, Mario Limonciello wrote:
+> Removing the firmware framebuffer from the driver means that even
+> if the driver doesn't support the IP blocks in a GPU it will no
+> longer be functional after the driver fails to initialize.
+> 
+> This change will ensure that unsupported IP blocks at least cause
+> the driver to work with the EFI framebuffer.
 >
+> Cc: stable@vger.kernel.org
+> Suggested-by: Alex Deucher <alex.deucher@amd.com>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
 
-Sure, I will do it if post another revision. Although the changes are quite
-trivial and all the drivers define basically the same macro so no functional
-changes are expected.
- 
->    https://lore.kernel.org/dri-devel/20221228014757.3170486-2-javierm@redhat.com/
-> 
-> is the right one?
+As mentioned, I'm not familiar with this driver but the change looks
+good to me. Delaying the firmware-provided framebuffer removal is the
+correct thing to do IMO.
 
-Correct.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-> Cheers,
->  -- Guido
-> 
 -- 
 Best regards,
 
