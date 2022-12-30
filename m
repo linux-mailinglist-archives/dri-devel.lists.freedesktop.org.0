@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 989FE6594EE
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Dec 2022 06:22:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B62866594E5
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Dec 2022 06:22:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D7E010E437;
-	Fri, 30 Dec 2022 05:21:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0562D10E057;
+	Fri, 30 Dec 2022 05:21:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2052.outbound.protection.outlook.com [40.107.243.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF27E10E06C;
- Fri, 30 Dec 2022 05:21:46 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2075.outbound.protection.outlook.com [40.107.93.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3E2510E0A3;
+ Fri, 30 Dec 2022 05:21:48 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jKZFMHVoESXoiU60YCBhG2h+h5MO9IFr2a4FsFboyVkQWM88mjWP4lVBMDH8dXblu2iQ3F1QHRkI+AFX5m8CiIS2zATQ5QJOjXMR2nJo6JlzA36AW4bIeXy26uwPT4PzcQbeAlsTlLX6pl3TyH+uOarXWZ1HMv33hSyYzRE/GpmrSN2s3AA24fWgXettUTcN+VEL8jar8Khkh3URcI1ZmTkX8TuNYcavm+5mivtdIQWLRUbsyOt/56qyawbc+X1fLx3gYiC15PZXz7TOTMclU5ftLQ5YH9/+5rEXk25gk6o1oC2cnpIV9pvZW8B+ebtmTHVKq3VV2F69Tne4/UKkpA==
+ b=Bliu5uHmUwPEWuKPayPXhizJCZ7hZCkYMeuuXsvIQ7NLolAd7V0dvErvshCNZxVJZvTlLVUVL3ZL4MzDHhqCA7Q3e65qLa+ch0ZCcoahFMeZEAjVWwttjJCFm57U/ZxTlNRhjb1DO7OBv0IIsYVBoptJUaW6SqsB/u22O7vBWzx6k+T8hhBCO6U4KtQM4h4idvL4GNg99ZF1jkXjU4yetuA1Zj8h0Z6ccDhMUV55mFv/Om+pc2qXYnm7ZH6itm+xzqA9pqi4Q7A+B2sWim4+tOloxIcHbHKvdROfGDJdVKXmpU1wpIEVYsnlbervpSBq21Cup+DpmPvOuVghgOAPQA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dFXZeRcBUwOoeo4gO3i8XALCyB4sp9PYq7aU1vYV8oA=;
- b=XEcSwknzvGJkW6oy/jkeRNhIzFCyRQsznzD7uVIS0ee1onvg1cQOrR/xJpzlga5B10zyGWGgCK5Jy0P3OA871pcSajA+s144q6FrNwD8ps4r4gZn7Quex6TR80hD11qmGjaMr5dDN9GsWPuy5GYZi2im9zIj3oMSX6Jzd63p6O/54G4kZHoJcQc/BFsKdH6BA14tbCHMrUQbrY9CMeQ7dWOhC0oNa6faawkjQ1K2hKFc/PM2TcsoabSVXz4wqFlmlG+FGxGr1T4BZzrALFSuDOYj0Jego2++SoO3+5Bq+TR0zlwFQrsWpPsrL7PSG13ba7bQ6GEztKH6vuuxPO4ISw==
+ bh=MaRbNW14irpdV8ochGNqUlpR22kwnoTJ/fvNJWPVZB0=;
+ b=XloiiQ/dBmi8GT8tF42t5ZJbocSqKPKob5EUe4cubv+Lt5wPsRPXGKNhcCNXYeEKKSCpga33Z4Knn67MzNTiLZ9oetfS/Il2is7GTlMt5uTz7UlxqPsf9TfTp5Nd2SqPepjYTOsRWcbuKyP62ZkkUhLoGgXVi4WD0j+E8crgMbd8T6TjZdwZzy1zfw10QEuL5YFikAni9PEm0xvvRPNvxn2pnSjtrbMZEOz1wxqpjNvEHYXck6s1CFPNFRZCpkuSfOZssBPOKXqT5JROwXa6Wkk58PYP24xCkNsxa3kJzvwv0w8k/1YPiUTC+a/b1vfx9EceHZsZk4USVseGwBQxvw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dFXZeRcBUwOoeo4gO3i8XALCyB4sp9PYq7aU1vYV8oA=;
- b=pCsXllFdi0U3YnTW7dAzyUOquc2d+evFN3nWjJpdH4fcSGGDCrNVPenUFi6Qnl551ejOYRhw7UW/C75UxqPcWm+cpJdgENj0F7ECoHVf71czM5/IqLo947E6oSTyKVk8du2uqdKB9coJBKL4AOoaiKoBqq6DBMz0dfUqkrjbDQc=
-Received: from MW4PR04CA0297.namprd04.prod.outlook.com (2603:10b6:303:89::32)
- by SN7PR12MB6691.namprd12.prod.outlook.com (2603:10b6:806:271::9)
+ bh=MaRbNW14irpdV8ochGNqUlpR22kwnoTJ/fvNJWPVZB0=;
+ b=TPcByWjbUwSefOWnifTHB1ok76yKDXmzKhrjeMuqJjHeLn1g22KgM7QZSA5RIN+blLKsIwR1j0hCvBK8mhvBY9xpIbGNIaRcANwgbhyd/DWCg0KMle1owJtxMgqxrA1WbrUMmIACpIyj8pJPwCZROJZD0xafI0eeCpOxT5g5B/I=
+Received: from MW4PR03CA0345.namprd03.prod.outlook.com (2603:10b6:303:dc::20)
+ by BL1PR12MB5253.namprd12.prod.outlook.com (2603:10b6:208:30b::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.16; Fri, 30 Dec
- 2022 05:21:44 +0000
-Received: from CO1NAM11FT043.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:89:cafe::90) by MW4PR04CA0297.outlook.office365.com
- (2603:10b6:303:89::32) with Microsoft SMTP Server (version=TLS1_2,
+ 2022 05:21:46 +0000
+Received: from CO1NAM11FT055.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:dc:cafe::8a) by MW4PR03CA0345.outlook.office365.com
+ (2603:10b6:303:dc::20) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5966.18 via Frontend
- Transport; Fri, 30 Dec 2022 05:21:44 +0000
+ Transport; Fri, 30 Dec 2022 05:21:46 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,18 +45,18 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT043.mail.protection.outlook.com (10.13.174.193) with Microsoft SMTP
+ CO1NAM11FT055.mail.protection.outlook.com (10.13.175.129) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5944.6 via Frontend Transport; Fri, 30 Dec 2022 05:21:44 +0000
+ 15.20.5966.18 via Frontend Transport; Fri, 30 Dec 2022 05:21:45 +0000
 Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 29 Dec
- 2022 23:21:43 -0600
+ 2022 23:21:44 -0600
 From: Mario Limonciello <mario.limonciello@amd.com>
 To: Alex Deucher <alexander.deucher@amd.com>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 06/11] drm/amd: Request VCN microcode during IP discovery
-Date: Thu, 29 Dec 2022 23:21:10 -0600
-Message-ID: <20221230052119.15096-7-mario.limonciello@amd.com>
+Subject: [PATCH v3 07/11] drm/amd: Request MES microcode during IP discovery
+Date: Thu, 29 Dec 2022 23:21:11 -0600
+Message-ID: <20221230052119.15096-8-mario.limonciello@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221230052119.15096-1-mario.limonciello@amd.com>
 References: <20221230052119.15096-1-mario.limonciello@amd.com>
@@ -68,26 +68,26 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT043:EE_|SN7PR12MB6691:EE_
-X-MS-Office365-Filtering-Correlation-Id: dfaa0f81-4b34-45c4-c9b1-08daea25bdb0
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT055:EE_|BL1PR12MB5253:EE_
+X-MS-Office365-Filtering-Correlation-Id: 66e4eb00-936e-4b6d-2e30-08daea25beb1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6EgP22On75keHqe/zSywae7ldWI5nf9hBB4IqeeHYZtkQy7JN05zC4DCVx6DsCRs75iQBqGC6qwo86O2xGvUIT0KVefILTc2E5A9EVaMXq/1sNvFU4re3JcA+0oJMKesqrgMowGl3Ok3mKkhRejaQOd/cI5hyhohd9tRzo1uJgIdo61q+763yiPqpMX28z2BHtLyNo1u2tJfE9KzT55Q8rFeGHtoJvPjIPGqnQ4u4t9rJ0DTtej2KLo91h41h+mvR0rdq2BYQSJvpy/u7orYXj/nD2/G6YB/SygzHXYWCUXC8LLelbdr9lkjzR0GEMK7hI4A/2EvG1O7Kj3SO/rXp5mWTIe4aK8yN/zUP+guyhuqKYS/meusI+NmDP6k4uLHyU63EQL3Uo7vHsdJBoOVSkLy+TuvyeMqqwneIdBiG+yDOSshr/ht4msMbCMOWX+4j+6ixRitjGrbD80OZirP2lqCavuQdyvIjgMlZedxsYPSKIOn46vaggcVGhw0w4/S+fapjCo7S8YCCwjQgCSq7jwLsX5OmB6wC3jYQTuFKuQyA3vBh4oFPgYJjSpGvc4ruZGN7oemXDxunoV4oortQ+T0nBaj5gKniqdF74kirpDPVmVQ8bGe7LcwQMj9jX28v+BZg5NoWtJEEajL0Yg6wegYKE468x9Pcu3Qt1848nw+fDbnRr3hiYGzwCb5SMCz5NNjTX1gsWsbHmsBOrSb1MZUOmZynpNjY0tqz6Osxxw=
+X-Microsoft-Antispam-Message-Info: SBI524RAhzE218OZ/fBDsyONZmUNadtNCDP1s8PweaQqPa1wQdNpyqO8XABogv5z34CNCKtEq0xgIuKzy0nHZvood1uOl6NO5gPx1xwHtWQmaiTmmRfFdPNe1cA4AquO2gx4S+4prG+/v6NURQ69jK5yRtYiXWfLH9o6O79XMRR3cX4fDdVxxN3bEoVonab0fE/erkPAaAHVPeOTMVSrfm294mf/wFkdJlYk6rHoy5p9S39F064pYib2vrZMxTu8/yJ1kON2sCtAi0J+9bvVD27PHF+OX4+lXxbEQ4AeENA4gPTVGJLx9TENxoux0HIniAnfyuMPcrLOz4KU0e1LCWsLZH/rvqJZgA3A1seAvXhXsujNVVnFSbz0nN6rcJtj7INV+8ardv4iUMjPDhGQEWiIIL5CLGN2Vkn7QEC3+u0hLIyWqHCIklvzt2wv1rR3R1pbumQ/GzwngEnPrx13++UhUF6dqNc7TKvcVf7z9M86r1QeFJmV7emPQ0Lr6OXttHAkpOSOKXMEnIDEnh8xN1hMs50s7aaHwsdX2WPgIjW8Qn8UspM1z9HLu30VcdTM7ElYeBL3VavBSAXaght5yipPvvlS6F03++mASrWuAnAOZ8wAg6zmVbqjhtQFGYRuavn6SewKjVRnlO+LZs/ZQvvFlegZqvWDMiwvjnjFtWeqGurNwvpA10r5stsr1lHp2ibf8+gS4RWgML3iqFbsJghsNGb3q4K1QepvpM4FcUY=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(39860400002)(396003)(346002)(376002)(451199015)(46966006)(36840700001)(40470700004)(356005)(40480700001)(36756003)(40460700003)(86362001)(7696005)(54906003)(6666004)(110136005)(316002)(478600001)(5660300002)(8936002)(2906002)(70586007)(8676002)(70206006)(4326008)(36860700001)(41300700001)(44832011)(47076005)(82740400003)(81166007)(82310400005)(2616005)(1076003)(26005)(336012)(16526019)(426003)(186003)(83380400001)(36900700001);
+ SFS:(13230022)(4636009)(396003)(376002)(136003)(39860400002)(346002)(451199015)(36840700001)(40470700004)(46966006)(70586007)(5660300002)(4326008)(70206006)(8676002)(16526019)(41300700001)(44832011)(8936002)(26005)(426003)(186003)(2616005)(36756003)(356005)(2906002)(110136005)(54906003)(40460700003)(478600001)(316002)(86362001)(6666004)(40480700001)(336012)(1076003)(7696005)(47076005)(81166007)(82740400003)(82310400005)(83380400001)(36860700001)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Dec 2022 05:21:44.2109 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: dfaa0f81-4b34-45c4-c9b1-08daea25bdb0
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Dec 2022 05:21:45.8756 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66e4eb00-936e-4b6d-2e30-08daea25beb1
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT043.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT055.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6691
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5253
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,273 +107,190 @@ Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If VCN microcode is not available during early init, the firmware
-framebuffer will have already been released and the screen will
+If MES microcode is required but not available during early init, the
+firmware framebuffer will have already been released and the screen will
 freeze.
 
-Move the request for VCN microcode into the IP discovery phase
+Move the request for MES microcode into the IP discovery phase
 so that if it's not available, IP discovery will fail.
 
 Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 41 ++++++++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c       | 85 +------------------
- 2 files changed, 41 insertions(+), 85 deletions(-)
+v2->v3:
+ * Add a missing newline
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 40 +++++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/mes_v10_1.c        | 28 -------------
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c        | 25 +-----------
+ 3 files changed, 41 insertions(+), 52 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-index 24d54ab0963a..07c05782a0e3 100644
+index 07c05782a0e3..edaeec35c39f 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-@@ -124,6 +124,27 @@ MODULE_FIRMWARE("amdgpu/sdma_6_0_1.bin");
- MODULE_FIRMWARE("amdgpu/sdma_6_0_2.bin");
- MODULE_FIRMWARE("amdgpu/sdma_6_0_3.bin");
+@@ -145,6 +145,19 @@ MODULE_FIRMWARE("amdgpu/vcn_4_0_0.bin");
+ MODULE_FIRMWARE("amdgpu/vcn_4_0_2.bin");
+ MODULE_FIRMWARE("amdgpu/vcn_4_0_4.bin");
  
-+MODULE_FIRMWARE("amdgpu/raven_vcn.bin");
-+MODULE_FIRMWARE("amdgpu/picasso_vcn.bin");
-+MODULE_FIRMWARE("amdgpu/raven2_vcn.bin");
-+MODULE_FIRMWARE("amdgpu/arcturus_vcn.bin");
-+MODULE_FIRMWARE("amdgpu/renoir_vcn.bin");
-+MODULE_FIRMWARE("amdgpu/green_sardine_vcn.bin");
-+MODULE_FIRMWARE("amdgpu/aldebaran_vcn.bin");
-+MODULE_FIRMWARE("amdgpu/navi10_vcn.bin");
-+MODULE_FIRMWARE("amdgpu/navi14_vcn.bin");
-+MODULE_FIRMWARE("amdgpu/navi12_vcn.bin");
-+MODULE_FIRMWARE("amdgpu/sienna_cichlid_vcn.bin");
-+MODULE_FIRMWARE("amdgpu/navy_flounder_vcn.bin");
-+MODULE_FIRMWARE("amdgpu/vangogh_vcn.bin");
-+MODULE_FIRMWARE("amdgpu/dimgrey_cavefish_vcn.bin");
-+MODULE_FIRMWARE("amdgpu/beige_goby_vcn.bin");
-+MODULE_FIRMWARE("amdgpu/yellow_carp_vcn.bin");
-+MODULE_FIRMWARE("amdgpu/vcn_3_1_2.bin");
-+MODULE_FIRMWARE("amdgpu/vcn_4_0_0.bin");
-+MODULE_FIRMWARE("amdgpu/vcn_4_0_2.bin");
-+MODULE_FIRMWARE("amdgpu/vcn_4_0_4.bin");
++MODULE_FIRMWARE("amdgpu/navi10_mes.bin");
++MODULE_FIRMWARE("amdgpu/sienna_cichlid_mes.bin");
++MODULE_FIRMWARE("amdgpu/sienna_cichlid_mes1.bin");
++
++MODULE_FIRMWARE("amdgpu/gc_11_0_0_mes.bin");
++MODULE_FIRMWARE("amdgpu/gc_11_0_0_mes1.bin");
++MODULE_FIRMWARE("amdgpu/gc_11_0_1_mes.bin");
++MODULE_FIRMWARE("amdgpu/gc_11_0_1_mes1.bin");
++MODULE_FIRMWARE("amdgpu/gc_11_0_2_mes.bin");
++MODULE_FIRMWARE("amdgpu/gc_11_0_2_mes1.bin");
++MODULE_FIRMWARE("amdgpu/gc_11_0_3_mes.bin");
++MODULE_FIRMWARE("amdgpu/gc_11_0_3_mes1.bin");
 +
  static const char *hw_id_names[HW_ID_MAX] = {
  	[MP1_HWID]		= "MP1",
  	[MP2_HWID]		= "MP2",
-@@ -1922,8 +1943,23 @@ static int amdgpu_discovery_set_sdma_ip_blocks(struct amdgpu_device *adev)
- 	return 0;
+@@ -2041,10 +2054,30 @@ static int amdgpu_discovery_set_mm_ip_blocks(struct amdgpu_device *adev)
+ 		r = amdgpu_discovery_load_vcn_fw(adev, ucode_prefix);
+ 	return r;
  }
- 
-+static int amdgpu_discovery_load_vcn_fw(struct amdgpu_device *adev,
-+					char *fname)
++
++static int amdgpu_discovery_load_mes_fw(struct amdgpu_device *adev,
++					enum admgpu_mes_pipe pipe,
++					const char *ucode_prefix)
 +{
 +	char fw_name[40];
 +
-+	snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", fname);
++	if (pipe == AMDGPU_MES_SCHED_PIPE)
++		snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mes.bin",
++			 ucode_prefix);
++	else
++		snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mes1.bin",
++			 ucode_prefix);
 +
-+	return request_firmware(&adev->vcn.fw, fw_name, adev->dev);
-+}
-+
- static int amdgpu_discovery_set_mm_ip_blocks(struct amdgpu_device *adev)
- {
-+	char ucode_prefix[30];
-+	int r = 0;
-+
-+	amdgpu_ucode_ip_version_decode(adev, UVD_HWIP, ucode_prefix, sizeof(ucode_prefix));
-+
- 	if (adev->ip_versions[VCE_HWIP][0]) {
- 		switch (adev->ip_versions[UVD_HWIP][0]) {
- 		case IP_VERSION(7, 0, 0):
-@@ -2001,7 +2037,10 @@ static int amdgpu_discovery_set_mm_ip_blocks(struct amdgpu_device *adev)
- 			return -EINVAL;
- 		}
- 	}
--	return 0;
-+	if (*ucode_prefix)
-+		r = amdgpu_discovery_load_vcn_fw(adev, ucode_prefix);
-+	return r;
-+}
++	return request_firmware(&adev->mes.fw[pipe], fw_name, adev->dev);
  }
  
  static int amdgpu_discovery_set_mes_ip_blocks(struct amdgpu_device *adev)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
-index a23e26b272b4..370c9644a3b3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
-@@ -35,55 +35,11 @@
- #include "amdgpu_vcn.h"
- #include "soc15d.h"
- 
--/* Firmware Names */
--#define FIRMWARE_RAVEN		"amdgpu/raven_vcn.bin"
--#define FIRMWARE_PICASSO	"amdgpu/picasso_vcn.bin"
--#define FIRMWARE_RAVEN2		"amdgpu/raven2_vcn.bin"
--#define FIRMWARE_ARCTURUS	"amdgpu/arcturus_vcn.bin"
--#define FIRMWARE_RENOIR		"amdgpu/renoir_vcn.bin"
--#define FIRMWARE_GREEN_SARDINE	"amdgpu/green_sardine_vcn.bin"
--#define FIRMWARE_NAVI10		"amdgpu/navi10_vcn.bin"
--#define FIRMWARE_NAVI14		"amdgpu/navi14_vcn.bin"
--#define FIRMWARE_NAVI12		"amdgpu/navi12_vcn.bin"
--#define FIRMWARE_SIENNA_CICHLID	"amdgpu/sienna_cichlid_vcn.bin"
--#define FIRMWARE_NAVY_FLOUNDER	"amdgpu/navy_flounder_vcn.bin"
--#define FIRMWARE_VANGOGH	"amdgpu/vangogh_vcn.bin"
--#define FIRMWARE_DIMGREY_CAVEFISH	"amdgpu/dimgrey_cavefish_vcn.bin"
--#define FIRMWARE_ALDEBARAN	"amdgpu/aldebaran_vcn.bin"
--#define FIRMWARE_BEIGE_GOBY	"amdgpu/beige_goby_vcn.bin"
--#define FIRMWARE_YELLOW_CARP	"amdgpu/yellow_carp_vcn.bin"
--#define FIRMWARE_VCN_3_1_2	"amdgpu/vcn_3_1_2.bin"
--#define FIRMWARE_VCN4_0_0	"amdgpu/vcn_4_0_0.bin"
--#define FIRMWARE_VCN4_0_2	"amdgpu/vcn_4_0_2.bin"
--#define FIRMWARE_VCN4_0_4      "amdgpu/vcn_4_0_4.bin"
--
--MODULE_FIRMWARE(FIRMWARE_RAVEN);
--MODULE_FIRMWARE(FIRMWARE_PICASSO);
--MODULE_FIRMWARE(FIRMWARE_RAVEN2);
--MODULE_FIRMWARE(FIRMWARE_ARCTURUS);
--MODULE_FIRMWARE(FIRMWARE_RENOIR);
--MODULE_FIRMWARE(FIRMWARE_GREEN_SARDINE);
--MODULE_FIRMWARE(FIRMWARE_ALDEBARAN);
--MODULE_FIRMWARE(FIRMWARE_NAVI10);
--MODULE_FIRMWARE(FIRMWARE_NAVI14);
--MODULE_FIRMWARE(FIRMWARE_NAVI12);
--MODULE_FIRMWARE(FIRMWARE_SIENNA_CICHLID);
--MODULE_FIRMWARE(FIRMWARE_NAVY_FLOUNDER);
--MODULE_FIRMWARE(FIRMWARE_VANGOGH);
--MODULE_FIRMWARE(FIRMWARE_DIMGREY_CAVEFISH);
--MODULE_FIRMWARE(FIRMWARE_BEIGE_GOBY);
--MODULE_FIRMWARE(FIRMWARE_YELLOW_CARP);
--MODULE_FIRMWARE(FIRMWARE_VCN_3_1_2);
--MODULE_FIRMWARE(FIRMWARE_VCN4_0_0);
--MODULE_FIRMWARE(FIRMWARE_VCN4_0_2);
--MODULE_FIRMWARE(FIRMWARE_VCN4_0_4);
--
- static void amdgpu_vcn_idle_work_handler(struct work_struct *work);
- 
- int amdgpu_vcn_sw_init(struct amdgpu_device *adev)
  {
- 	unsigned long bo_size;
--	const char *fw_name;
- 	const struct common_firmware_header *hdr;
- 	unsigned char fw_check;
- 	unsigned int fw_shared_size, log_offset;
-@@ -99,46 +55,27 @@ int amdgpu_vcn_sw_init(struct amdgpu_device *adev)
- 	switch (adev->ip_versions[UVD_HWIP][0]) {
- 	case IP_VERSION(1, 0, 0):
- 	case IP_VERSION(1, 0, 1):
--		if (adev->apu_flags & AMD_APU_IS_RAVEN2)
--			fw_name = FIRMWARE_RAVEN2;
--		else if (adev->apu_flags & AMD_APU_IS_PICASSO)
--			fw_name = FIRMWARE_PICASSO;
--		else
--			fw_name = FIRMWARE_RAVEN;
--		break;
- 	case IP_VERSION(2, 5, 0):
--		fw_name = FIRMWARE_ARCTURUS;
- 		if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
- 		    (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
- 			adev->vcn.indirect_sram = true;
++	char ucode_prefix[30];
++	int pipe, r;
++
++	amdgpu_ucode_ip_version_decode(adev, GC_HWIP, ucode_prefix, sizeof(ucode_prefix));
++
+ 	switch (adev->ip_versions[GC_HWIP][0]) {
+ 	case IP_VERSION(10, 1, 10):
+ 	case IP_VERSION(10, 1, 1):
+@@ -2077,6 +2110,13 @@ static int amdgpu_discovery_set_mes_ip_blocks(struct amdgpu_device *adev)
+ 	default:
  		break;
- 	case IP_VERSION(2, 2, 0):
--		if (adev->apu_flags & AMD_APU_IS_RENOIR)
--			fw_name = FIRMWARE_RENOIR;
--		else
--			fw_name = FIRMWARE_GREEN_SARDINE;
--
- 		if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
- 		    (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
- 			adev->vcn.indirect_sram = true;
- 		break;
- 	case IP_VERSION(2, 6, 0):
--		fw_name = FIRMWARE_ALDEBARAN;
- 		if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
- 		    (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
- 			adev->vcn.indirect_sram = true;
- 		break;
- 	case IP_VERSION(2, 0, 0):
--		fw_name = FIRMWARE_NAVI10;
- 		if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
- 		    (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
- 			adev->vcn.indirect_sram = true;
- 		break;
- 	case IP_VERSION(2, 0, 2):
--		if (adev->asic_type == CHIP_NAVI12)
--			fw_name = FIRMWARE_NAVI12;
--		else
--			fw_name = FIRMWARE_NAVI14;
- 		if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
- 		    (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
- 			adev->vcn.indirect_sram = true;
-@@ -146,58 +83,46 @@ int amdgpu_vcn_sw_init(struct amdgpu_device *adev)
- 	case IP_VERSION(3, 0, 0):
- 	case IP_VERSION(3, 0, 64):
- 	case IP_VERSION(3, 0, 192):
--		if (adev->ip_versions[GC_HWIP][0] == IP_VERSION(10, 3, 0))
--			fw_name = FIRMWARE_SIENNA_CICHLID;
--		else
--			fw_name = FIRMWARE_NAVY_FLOUNDER;
- 		if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
- 		    (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
- 			adev->vcn.indirect_sram = true;
- 		break;
- 	case IP_VERSION(3, 0, 2):
--		fw_name = FIRMWARE_VANGOGH;
- 		if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
- 		    (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
- 			adev->vcn.indirect_sram = true;
- 		break;
- 	case IP_VERSION(3, 0, 16):
--		fw_name = FIRMWARE_DIMGREY_CAVEFISH;
- 		if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
- 		    (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
- 			adev->vcn.indirect_sram = true;
- 		break;
- 	case IP_VERSION(3, 0, 33):
--		fw_name = FIRMWARE_BEIGE_GOBY;
- 		if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
- 		    (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
- 			adev->vcn.indirect_sram = true;
- 		break;
- 	case IP_VERSION(3, 1, 1):
--		fw_name = FIRMWARE_YELLOW_CARP;
- 		if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
- 		    (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
- 			adev->vcn.indirect_sram = true;
- 		break;
- 	case IP_VERSION(3, 1, 2):
--		fw_name = FIRMWARE_VCN_3_1_2;
- 		if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
- 		    (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
- 			adev->vcn.indirect_sram = true;
- 		break;
- 	case IP_VERSION(4, 0, 0):
--		fw_name = FIRMWARE_VCN4_0_0;
- 		if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
- 			(adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
- 			adev->vcn.indirect_sram = true;
- 		break;
- 	case IP_VERSION(4, 0, 2):
--		fw_name = FIRMWARE_VCN4_0_2;
- 		if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
- 			(adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
- 			adev->vcn.indirect_sram = true;
- 		break;
- 	case IP_VERSION(4, 0, 4):
--		fw_name = FIRMWARE_VCN4_0_4;
- 		if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
- 			(adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
- 			adev->vcn.indirect_sram = true;
-@@ -206,17 +131,9 @@ int amdgpu_vcn_sw_init(struct amdgpu_device *adev)
- 		return -EINVAL;
  	}
++	if (adev->enable_mes) {
++		for (pipe = 0; pipe < AMDGPU_MAX_MES_PIPES; pipe++) {
++			r = amdgpu_discovery_load_mes_fw(adev, pipe, ucode_prefix);
++			if (r)
++				return r;
++		}
++	}
+ 	return 0;
+ }
  
--	r = request_firmware(&adev->vcn.fw, fw_name, adev->dev);
--	if (r) {
--		dev_err(adev->dev, "amdgpu_vcn: Can't load firmware \"%s\"\n",
--			fw_name);
--		return r;
+diff --git a/drivers/gpu/drm/amd/amdgpu/mes_v10_1.c b/drivers/gpu/drm/amd/amdgpu/mes_v10_1.c
+index 614394118a53..9faa9867b3c9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mes_v10_1.c
++++ b/drivers/gpu/drm/amd/amdgpu/mes_v10_1.c
+@@ -37,10 +37,6 @@
+ #define mmRLC_CP_SCHEDULERS_Sienna_Cichlid		0x4ca1
+ #define mmRLC_CP_SCHEDULERS_Sienna_Cichlid_BASE_IDX	1
+ 
+-MODULE_FIRMWARE("amdgpu/navi10_mes.bin");
+-MODULE_FIRMWARE("amdgpu/sienna_cichlid_mes.bin");
+-MODULE_FIRMWARE("amdgpu/sienna_cichlid_mes1.bin");
+-
+ static int mes_v10_1_hw_fini(void *handle);
+ static int mes_v10_1_kiq_hw_init(struct amdgpu_device *adev);
+ 
+@@ -382,34 +378,10 @@ static const struct amdgpu_mes_funcs mes_v10_1_funcs = {
+ static int mes_v10_1_init_microcode(struct amdgpu_device *adev,
+ 				    enum admgpu_mes_pipe pipe)
+ {
+-	const char *chip_name;
+-	char fw_name[30];
+ 	int err;
+ 	const struct mes_firmware_header_v1_0 *mes_hdr;
+ 	struct amdgpu_firmware_info *info;
+ 
+-	switch (adev->ip_versions[GC_HWIP][0]) {
+-	case IP_VERSION(10, 1, 10):
+-		chip_name = "navi10";
+-		break;
+-	case IP_VERSION(10, 3, 0):
+-		chip_name = "sienna_cichlid";
+-		break;
+-	default:
+-		BUG();
 -	}
 -
- 	r = amdgpu_ucode_validate(adev->vcn.fw);
- 	if (r) {
--		dev_err(adev->dev, "amdgpu_vcn: Can't validate firmware \"%s\"\n",
--			fw_name);
-+		dev_err(adev->dev, "amdgpu_vcn: Can't validate firmware\n");
- 		release_firmware(adev->vcn.fw);
- 		adev->vcn.fw = NULL;
- 		return r;
+-	if (pipe == AMDGPU_MES_SCHED_PIPE)
+-		snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mes.bin",
+-			 chip_name);
+-	else
+-		snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mes1.bin",
+-			 chip_name);
+-
+-	err = request_firmware(&adev->mes.fw[pipe], fw_name, adev->dev);
+-	if (err)
+-		return err;
+-
+ 	err = amdgpu_ucode_validate(adev->mes.fw[pipe]);
+ 	if (err) {
+ 		release_firmware(adev->mes.fw[pipe]);
+diff --git a/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c b/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c
+index 970b066b37bb..27176a1259ac 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c
+@@ -32,15 +32,6 @@
+ #include "v11_structs.h"
+ #include "mes_v11_api_def.h"
+ 
+-MODULE_FIRMWARE("amdgpu/gc_11_0_0_mes.bin");
+-MODULE_FIRMWARE("amdgpu/gc_11_0_0_mes1.bin");
+-MODULE_FIRMWARE("amdgpu/gc_11_0_1_mes.bin");
+-MODULE_FIRMWARE("amdgpu/gc_11_0_1_mes1.bin");
+-MODULE_FIRMWARE("amdgpu/gc_11_0_2_mes.bin");
+-MODULE_FIRMWARE("amdgpu/gc_11_0_2_mes1.bin");
+-MODULE_FIRMWARE("amdgpu/gc_11_0_3_mes.bin");
+-MODULE_FIRMWARE("amdgpu/gc_11_0_3_mes1.bin");
+-
+ static int mes_v11_0_hw_fini(void *handle);
+ static int mes_v11_0_kiq_hw_init(struct amdgpu_device *adev);
+ static int mes_v11_0_kiq_hw_fini(struct amdgpu_device *adev);
+@@ -462,25 +453,11 @@ static const struct amdgpu_mes_funcs mes_v11_0_funcs = {
+ static int mes_v11_0_init_microcode(struct amdgpu_device *adev,
+ 				    enum admgpu_mes_pipe pipe)
+ {
+-	char fw_name[30];
+-	char ucode_prefix[30];
++
+ 	int err;
+ 	const struct mes_firmware_header_v1_0 *mes_hdr;
+ 	struct amdgpu_firmware_info *info;
+ 
+-	amdgpu_ucode_ip_version_decode(adev, GC_HWIP, ucode_prefix, sizeof(ucode_prefix));
+-
+-	if (pipe == AMDGPU_MES_SCHED_PIPE)
+-		snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mes.bin",
+-			 ucode_prefix);
+-	else
+-		snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mes1.bin",
+-			 ucode_prefix);
+-
+-	err = request_firmware(&adev->mes.fw[pipe], fw_name, adev->dev);
+-	if (err)
+-		return err;
+-
+ 	err = amdgpu_ucode_validate(adev->mes.fw[pipe]);
+ 	if (err) {
+ 		release_firmware(adev->mes.fw[pipe]);
 -- 
 2.34.1
 
