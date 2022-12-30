@@ -2,80 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AEEE659A72
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Dec 2022 17:14:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5942A659A8D
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Dec 2022 17:34:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5500E10E058;
-	Fri, 30 Dec 2022 16:14:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E423910E063;
+	Fri, 30 Dec 2022 16:34:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43E2710E058
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Dec 2022 16:14:50 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id m6so21891859lfj.11
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Dec 2022 08:14:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Jbyv4Oy8didpwFYD17V58dHAAX/DTrU/zE0z4pQAgYo=;
- b=To2ksXIJV9+WbeESZs4xX0hYjVnUCAO4VCpaHiAeqtYOYKKCu64D+fUEBE+Jrr6qIP
- R/eTASpH7PGcWf8qszwbDC7n/9gdjeXMjrTBPc8iLqvBCKYTpU4eOrHgDQaC4ybgWGKq
- q/fOUTvwI/e5ld0Eqzbuw/BLJj6f+uTK81hNG1kYpy2pk5abJXnTJ40aDty9D4sPCV45
- iCyl5bFYVIjl4hTAfg80QkDr4p9sCnGH1YOPeVekJbSCF+TVzW+5OrsKwO0t17ffCgZd
- RJl82P6e+SqL3JB3EuaVd6VRw4W9bUuO8f8nMx+AjQ1wJYMtGCLwv2+uuHjwWRuzjcXj
- Zujg==
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com
+ [209.85.166.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A55D310E063
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Dec 2022 16:34:39 +0000 (UTC)
+Received: by mail-il1-f181.google.com with SMTP id g2so8346395ila.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Dec 2022 08:34:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Jbyv4Oy8didpwFYD17V58dHAAX/DTrU/zE0z4pQAgYo=;
- b=xplwa1vU1gZrYvFxedbBA6fSM7lbmXlRYO4v+2I1dvaYzq8oFbTDaq0xPXc+pMrvKD
- 6RBt92FCbclRIH/ETKL7hwb1IQg16ka8+pK+v9m0XuwLZzWTXS8hYZdbw54XJl/m0erZ
- eaviFYLEmq32R1aCPQnHGX9mqEKta2tgSmH0eUejgTMEuLJM9Q3BmvFMbfJ4okZeYZ6i
- nJrHtTn0qQNex8XmoUYNKUIuIHJlzC2gIMB4uthLjYa4fEtghelNOdTu8xCjXzpJlNYF
- b9ouU+L9ju3rfH6NwJcEsV1if9bfDzX1QX5OZX+QWdc56NRWi3ZoP3H53m2wxdUDUt1T
- eitw==
-X-Gm-Message-State: AFqh2kqFsfbRN74rxTs27lrmg5bdp0tI/3loNwynsUavNYoqZXlKqLF/
- ZBhkCwLaKNq5YmYOp/e6ijxQrw==
-X-Google-Smtp-Source: AMrXdXvt2vZu5fuaitjDO5j8xBPAxgO+bIc23hMUVB0akOKLgqyj9XAcwvHkgYQWNICQMS6eagpzuw==
-X-Received: by 2002:ac2:5394:0:b0:4b4:e2c9:9b25 with SMTP id
- g20-20020ac25394000000b004b4e2c99b25mr8707849lfh.44.1672416888646; 
- Fri, 30 Dec 2022 08:14:48 -0800 (PST)
-Received: from [192.168.0.20]
- (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+ h=date:subject:message-id:references:in-reply-to:cc:to:from
+ :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=YUQ13UNlMnnU+RdBOzrUXm3dMsngq/6hNGyj9q9MZiw=;
+ b=OBxbYeX2NwUBwUpCncHKTT/TLoG58tMR5z2hRB7RBCbm/TpRitTbtx4JIn8O5xmY/b
+ nSuRKxUjEcHtKcslTunOJAO4YMnkZ4PZAd20hRBg/Om9GD7ZQN65LVT3KjzZtw+Ikfgv
+ O5kHdWD6IQafHfxJ4Z4rZHgvdAQFzmBvHpmUPqU+jrE8Be8xkLN+MHgRk4KVBUj4RvVf
+ DUoRj7/g5VGLte3GVl77fitOVzAi5309V8GO0kxfY6ZvYFN41sOXB2ElDhQEHtMymWuU
+ 3kpCrliZcpl9x7scfKOiWzYLouWMgveM5EQ+u1PXjsdFeDSJY1Zr9McF0U3hS6jhz67j
+ ArSg==
+X-Gm-Message-State: AFqh2kq0V1gqaLQ1REyI3S93u+Fwoc56r+xomQDs2YoAuou908N/tQkn
+ s9zRu6nJ7XvV38mDwr5iJg==
+X-Google-Smtp-Source: AMrXdXuqzf/p/KUX/Q6NKkpnki1GkGA1OTlRSftkvhspmWMJCquaB27tfx1TAffdn4xlh0Cred4a0g==
+X-Received: by 2002:a92:504:0:b0:30c:323c:f7d1 with SMTP id
+ q4-20020a920504000000b0030c323cf7d1mr1707763ile.15.1672418078764; 
+ Fri, 30 Dec 2022 08:34:38 -0800 (PST)
+Received: from robh_at_kernel.org ([64.188.179.248])
  by smtp.gmail.com with ESMTPSA id
- j18-20020a056512109200b00498f67cbfa9sm3539912lfg.22.2022.12.30.08.14.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Dec 2022 08:14:48 -0800 (PST)
-Message-ID: <b32cf5e6-15be-4055-35b1-ad9d90e3c0ad@linaro.org>
-Date: Fri, 30 Dec 2022 17:14:46 +0100
+ o3-20020a92c683000000b00302f7654187sm6670218ilg.72.2022.12.30.08.34.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Dec 2022 08:34:38 -0800 (PST)
+Received: (nullmailer pid 1935053 invoked by uid 1000);
+ Fri, 30 Dec 2022 16:34:28 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v4 07/11] arm64: dts: qcom: sm8350: Remove mmxc
- power-domain-name
-Content-Language: en-US
-To: Robert Foss <robert.foss@linaro.org>, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
- airlied@gmail.com, daniel@ffwll.ch, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, agross@kernel.org, andersson@kernel.org,
- konrad.dybcio@somainline.org, quic_jesszhan@quicinc.com,
- angelogioacchino.delregno@somainline.org, loic.poulain@linaro.org,
- vkoul@kernel.org, a39.skl@gmail.com, quic_khsieh@quicinc.com,
- quic_vpolimer@quicinc.com, swboyd@chromium.org, dianders@chromium.org,
- liushixin2@huawei.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jonathan Marek <jonathan@marek.ca>, vinod.koul@linaro.org
-References: <20221230153554.105856-1-robert.foss@linaro.org>
- <20221230153554.105856-8-robert.foss@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221230153554.105856-8-robert.foss@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Rob Herring <robh@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+In-Reply-To: <20221229133205.981397-3-luca.ceresoli@bootlin.com>
+References: <20221229133205.981397-1-luca.ceresoli@bootlin.com>
+ <20221229133205.981397-3-luca.ceresoli@bootlin.com>
+Message-Id: <167241769230.1925726.8527129486424295727.robh@kernel.org>
+Subject: Re: [PATCH v3 02/21] dt-bindings: display: tegra: vi: add 'vip'
+ property and example
+Date: Fri, 30 Dec 2022 10:34:28 -0600
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,25 +64,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>, linux-tegra@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Thierry Reding <thierry.reding@gmail.com>, Dmitry Osipenko <digetx@gmail.com>,
+ linux-media@vger.kernel.org, Richard Leitner <richard.leitner@skidata.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/12/2022 16:35, Robert Foss wrote:
-> The mmxc power-domain-name is not required, and is not
-> used by either earlier or later SoC versions (sm8250 / sm8450).
+
+On Thu, 29 Dec 2022 14:31:46 +0100, Luca Ceresoli wrote:
+> The Tegra20 VI peripheral can receive parallel input from the VIP parallel
+> input module. Add it to the allowed properties and augment the existing
+> nvidia,tegra20-vi example to show a 'vip' property.
 > 
-> Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> 
 > ---
+> 
+> Changed in v3 (suggested by Rob Herring):
+>  - drop 'endpoint', unneeded as there's no extra properties in the
+>    endpoints
+> 
+> Changed in v2 (suggested by Krzysztof Kozlowski):
+>  - rename "i2c3" -> "ic2"
+>  - add review tag
+> ---
+>  .../display/tegra/nvidia,tegra20-vi.yaml      | 64 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  2 files changed, 65 insertions(+)
+> 
 
-Please, do not mix fixes, cleanups and new features. This delays
-applying of fixes for many, many days without a need and causes a lot of
-duplicated work...
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-This SHOULD be merged long time ago so I won't waste time on such stuff.
-But because it was always waiting for rest of patches it was never merged...
+yamllint warnings/errors:
 
-Best regards,
-Krzysztof
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.example.dtb: vi@54080000: vip: Unevaluated properties are not allowed ('channel@0' was unexpected)
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.example.dtb: vi@54080000: vip: 'ports' is a required property
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.example.dtb: vip: Unevaluated properties are not allowed ('channel@0' was unexpected)
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.example.dtb: vip: 'ports' is a required property
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221229133205.981397-3-luca.ceresoli@bootlin.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
