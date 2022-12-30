@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3E12659A6C
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Dec 2022 17:12:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AEEE659A72
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Dec 2022 17:14:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE84D10E060;
-	Fri, 30 Dec 2022 16:12:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5500E10E058;
+	Fri, 30 Dec 2022 16:14:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5438B10E060
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Dec 2022 16:12:21 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id j17so22776690lfr.3
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Dec 2022 08:12:21 -0800 (PST)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43E2710E058
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Dec 2022 16:14:50 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id m6so21891859lfj.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Dec 2022 08:14:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=GBbD6UJxbg5TeHZvm6bxZJed/H/TqNWwFVXvTuH++oI=;
- b=YuGLUyTlg0z3sWXGPKIe87R6tClSoUEotXhn0yxmvxF1WcLoL8KDnAa7iMezRL1VR0
- KrTpcFUnzEspHqJXyiuxm+bwvdj7qHL7fJQMRNjQZevRHtNOF+1Kmia0zBfGjucqC8ci
- xKp0AfwHXUYK8+JbwDiXz6tG2tgv1NLYCiBNOQ/FOXNM/3eFm/rK2aXujZAN96HdnTll
- Snl8z4QWDYjygcR45jTCNZANm3cFsHOxdZA/VpGnj2DvlnPvit5MA7w/zU9XV+1q2jva
- ZRNYowto8UFSOg8JsWDNgoTBaTF9rp6B2bGxRCMmP2q6QJDaVpBs77VWXmG5USPRTQeT
- jrkA==
+ bh=Jbyv4Oy8didpwFYD17V58dHAAX/DTrU/zE0z4pQAgYo=;
+ b=To2ksXIJV9+WbeESZs4xX0hYjVnUCAO4VCpaHiAeqtYOYKKCu64D+fUEBE+Jrr6qIP
+ R/eTASpH7PGcWf8qszwbDC7n/9gdjeXMjrTBPc8iLqvBCKYTpU4eOrHgDQaC4ybgWGKq
+ q/fOUTvwI/e5ld0Eqzbuw/BLJj6f+uTK81hNG1kYpy2pk5abJXnTJ40aDty9D4sPCV45
+ iCyl5bFYVIjl4hTAfg80QkDr4p9sCnGH1YOPeVekJbSCF+TVzW+5OrsKwO0t17ffCgZd
+ RJl82P6e+SqL3JB3EuaVd6VRw4W9bUuO8f8nMx+AjQ1wJYMtGCLwv2+uuHjwWRuzjcXj
+ Zujg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GBbD6UJxbg5TeHZvm6bxZJed/H/TqNWwFVXvTuH++oI=;
- b=T0lVcfADm9WXpuiG7ny3AbLImKuWSSbSCYbBdgROmiq1dA3JoIHqJgcFoR0UmvWGsb
- nxydKs3URB5UY87pnQirE3zilvL6zgz5QvIib/gSGvXRbEJVx/kL5aGnXMkeKAFP/QF0
- mEsAPEVEADMmUbge9kAC/xErA8Htg+VtMlsyCJe60AHwSpcKbTNYNq+lRlWPN6hpW5i0
- 23AKFjZEu0hG1kwuptAP7jFUUJrWUOclhSYEugD29L7MgsTlyVW+1Uyl0e465AVGwgZ4
- 06fmUEiN/N30W1w4lhxE5TExDPpVDBLDF7iuXYXD+54Fyy9bGlQiEBFq6A6SNUJEDjNK
- Sq5Q==
-X-Gm-Message-State: AFqh2kquRdxOFfQ6O9LvwkBC0+VH+I/fMG4rxDqxp8/DUML5vyLQyluS
- TwJGlm+5NTPNQm8nv4WCCdNQTw==
-X-Google-Smtp-Source: AMrXdXtvYA8wjxT8SRcJt+MfkDiV6OP17b2Fh0czUZwLZzNjAkGXbZD61rZlVwh+ZeU9wafo9PeAeA==
-X-Received: by 2002:a05:6512:4015:b0:4b7:31c:7779 with SMTP id
- br21-20020a056512401500b004b7031c7779mr10401585lfb.4.1672416739493; 
- Fri, 30 Dec 2022 08:12:19 -0800 (PST)
+ bh=Jbyv4Oy8didpwFYD17V58dHAAX/DTrU/zE0z4pQAgYo=;
+ b=xplwa1vU1gZrYvFxedbBA6fSM7lbmXlRYO4v+2I1dvaYzq8oFbTDaq0xPXc+pMrvKD
+ 6RBt92FCbclRIH/ETKL7hwb1IQg16ka8+pK+v9m0XuwLZzWTXS8hYZdbw54XJl/m0erZ
+ eaviFYLEmq32R1aCPQnHGX9mqEKta2tgSmH0eUejgTMEuLJM9Q3BmvFMbfJ4okZeYZ6i
+ nJrHtTn0qQNex8XmoUYNKUIuIHJlzC2gIMB4uthLjYa4fEtghelNOdTu8xCjXzpJlNYF
+ b9ouU+L9ju3rfH6NwJcEsV1if9bfDzX1QX5OZX+QWdc56NRWi3ZoP3H53m2wxdUDUt1T
+ eitw==
+X-Gm-Message-State: AFqh2kqFsfbRN74rxTs27lrmg5bdp0tI/3loNwynsUavNYoqZXlKqLF/
+ ZBhkCwLaKNq5YmYOp/e6ijxQrw==
+X-Google-Smtp-Source: AMrXdXvt2vZu5fuaitjDO5j8xBPAxgO+bIc23hMUVB0akOKLgqyj9XAcwvHkgYQWNICQMS6eagpzuw==
+X-Received: by 2002:ac2:5394:0:b0:4b4:e2c9:9b25 with SMTP id
+ g20-20020ac25394000000b004b4e2c99b25mr8707849lfh.44.1672416888646; 
+ Fri, 30 Dec 2022 08:14:48 -0800 (PST)
 Received: from [192.168.0.20]
  (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
  by smtp.gmail.com with ESMTPSA id
- o22-20020a056512051600b004a44ffb1050sm3509314lfb.171.2022.12.30.08.12.17
+ j18-20020a056512109200b00498f67cbfa9sm3539912lfg.22.2022.12.30.08.14.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Dec 2022 08:12:18 -0800 (PST)
-Message-ID: <deb17787-1a5a-89a3-3ecf-7690b4149f5c@linaro.org>
-Date: Fri, 30 Dec 2022 17:12:17 +0100
+ Fri, 30 Dec 2022 08:14:48 -0800 (PST)
+Message-ID: <b32cf5e6-15be-4055-35b1-ad9d90e3c0ad@linaro.org>
+Date: Fri, 30 Dec 2022 17:14:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH v4 08/11] arm64: dts: qcom: sm8350: Use 2 interconnect
- cells
+Subject: Re: [PATCH v4 07/11] arm64: dts: qcom: sm8350: Remove mmxc
+ power-domain-name
 Content-Language: en-US
 To: Robert Foss <robert.foss@linaro.org>, robdclark@gmail.com,
  quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
@@ -71,9 +71,9 @@ To: Robert Foss <robert.foss@linaro.org>, robdclark@gmail.com,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  Jonathan Marek <jonathan@marek.ca>, vinod.koul@linaro.org
 References: <20221230153554.105856-1-robert.foss@linaro.org>
- <20221230153554.105856-9-robert.foss@linaro.org>
+ <20221230153554.105856-8-robert.foss@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221230153554.105856-9-robert.foss@linaro.org>
+In-Reply-To: <20221230153554.105856-8-robert.foss@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,20 +93,19 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 30/12/2022 16:35, Robert Foss wrote:
-> Use two interconnect cells in order to optionally
-> support a path tag.
+> The mmxc power-domain-name is not required, and is not
+> used by either earlier or later SoC versions (sm8250 / sm8450).
 > 
 > Signed-off-by: Robert Foss <robert.foss@linaro.org>
 > Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->  arch/arm64/boot/dts/qcom/sm8350.dtsi | 28 ++++++++++++++--------------
->  1 file changed, 14 insertions(+), 14 deletions(-)
-> 
 
-I think you need to rebase to include:
-https://lore.kernel.org/all/167233461761.1099840.5517525898039031248.b4-ty@kernel.org/
+Please, do not mix fixes, cleanups and new features. This delays
+applying of fixes for many, many days without a need and causes a lot of
+duplicated work...
 
-On which tree/revision did you base this?
+This SHOULD be merged long time ago so I won't waste time on such stuff.
+But because it was always waiting for rest of patches it was never merged...
 
 Best regards,
 Krzysztof
