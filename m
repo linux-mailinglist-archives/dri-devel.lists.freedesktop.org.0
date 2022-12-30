@@ -2,54 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FCE7659727
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Dec 2022 11:15:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC19B659730
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Dec 2022 11:20:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC92C10E109;
-	Fri, 30 Dec 2022 10:15:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54D1B10E097;
+	Fri, 30 Dec 2022 10:20:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A791910E109
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Dec 2022 10:15:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1672395336; x=1703931336;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=17bh9E50tNvTOl4ArawPNxCifke+G6sVd6QTrXMUd+4=;
- b=U5d5j9owXJ2cWp0gwikF8Cn4xxLuanOhTcOBkbj+t7rBlUASn7QsRb3R
- 2X65D9hbqyZPnm7YmqNJXmTYz0W5xyfkP5qWaAsxf0X3ZC1YasXfgHpX3
- WsZDcJc6FCYiAETXFpxSYO+v0bE0fY5CDKMerqKiSTK+Wvh0c+DZFWQAC
- poVBIQOpEWF8uWjgonZ9xlJX71BsDZx3AzUdMrZgCi8GrnHKnSI+QQXiZ
- CEdJ1gWyFVtEHXWrtwWNt1mCmaZPEWlfG2GkIjMqW4EDx8jN3azsYYnFi
- mqUZbFSsfjKoiKveUc7AnZMGETLe8LrtIv4kfuEviYGxEJQiK97NFQ6wt w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10575"; a="321258648"
-X-IronPort-AV: E=Sophos;i="5.96,287,1665471600"; d="scan'208";a="321258648"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2022 02:15:35 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10575"; a="655826180"
-X-IronPort-AV: E=Sophos;i="5.96,287,1665471600"; d="scan'208";a="655826180"
-Received: from joe-255.igk.intel.com (HELO localhost) ([172.22.229.67])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2022 02:15:33 -0800
-Date: Fri, 30 Dec 2022 11:15:32 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Mikko Perttunen <cyndis@kapsi.fi>
-Subject: Re: [PATCH] drm/tegra: submit: No need for Null pointer check before
- kfree
-Message-ID: <20221230101532.GA1290969@linux.intel.com>
-References: <Y6sn7XptKyk5cbrA@qemulion>
- <864f2fdd-4289-a178-bbf1-c2a6a579c58c@kapsi.fi>
- <Y6w/4IzoMFsVnCmu@qemulion>
- <280170a7-de12-f362-cda3-11208ead0a88@kapsi.fi>
- <20221230091501.GA1285371@linux.intel.com>
- <65468c84-fc40-e4e1-0adb-ddfc23ec4fb9@kapsi.fi>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C55310E097;
+ Fri, 30 Dec 2022 10:20:48 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 76B746602CB4;
+ Fri, 30 Dec 2022 10:20:46 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1672395646;
+ bh=b2pYw7lxG1ukVjBDBJg/njDZAVpbkFm8VnwKP2v/e9w=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=fq1wIC7/vqAd8KBxKeXj7E2/QwU7kJ4bT49hmoKNPBh6F8+QJbZswN05QfVEiRqb7
+ gqD2snPO/zEl3/OjCgu5FpQMCLHSZfpX8wbujsX0r/aiiuSStcMAeGsuFMAixT6SNb
+ RyyLbajafnYs8/r4jy4P1wSQCPsbjYkqHuUNaVNAVxrNvVYxNnvJT113yTxH1DOcA8
+ 3HwfGx3PpcVOqXKrHXn+kvf0KB1hEzMZnw2lVPL9z3FsatYq6U8vN+IDmG5q00a8t6
+ CfJNELD8o5ioFJu1pwkO2NrbzPH45wEpZYEQamTMidoBw65GhTA3FHxG3o7jROGkuv
+ HkP0PzQdwHzGg==
+Date: Fri, 30 Dec 2022 11:20:42 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [RFC PATCH 04/20] drm/sched: Convert drm scheduler to use a
+ work queue rather than kthread
+Message-ID: <20221230112042.2ddd1946@collabora.com>
+In-Reply-To: <20221222222127.34560-5-matthew.brost@intel.com>
+References: <20221222222127.34560-1-matthew.brost@intel.com>
+ <20221222222127.34560-5-matthew.brost@intel.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <65468c84-fc40-e4e1-0adb-ddfc23ec4fb9@kapsi.fi>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,108 +55,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Deepak R Varma <drv@mailo.com>,
- Saurabh Singh Sengar <ssengar@microsoft.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 30, 2022 at 12:01:23PM +0200, Mikko Perttunen wrote:
-> On 12/30/22 11:15, Stanislaw Gruszka wrote:
-> > On Wed, Dec 28, 2022 at 03:17:59PM +0200, Mikko Perttunen wrote:
-> > > On 12/28/22 15:08, Deepak R Varma wrote:
-> > > > On Wed, Dec 28, 2022 at 02:28:54PM +0200, Mikko Perttunen wrote:
-> > > > > On 12/27/22 19:14, Deepak R Varma wrote:
-> > > > > > kfree() & vfree() internally perform NULL check on the pointer handed
-> > > > > > to it and take no action if it indeed is NULL. Hence there is no need
-> > > > > > for a pre-check of the memory pointer before handing it to
-> > > > > > kfree()/vfree().
-> > > > > > 
-> > > > > > Issue reported by ifnullfree.cocci Coccinelle semantic patch script.
-> > > > > > 
-> > > > > > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > > > > > ---
-> > > > > >     drivers/gpu/drm/tegra/submit.c | 4 ++--
-> > > > > >     1 file changed, 2 insertions(+), 2 deletions(-)
-> > > > > > 
-> > > > > > diff --git a/drivers/gpu/drm/tegra/submit.c b/drivers/gpu/drm/tegra/submit.c
-> > > > > > index 066f88564169..06f836db99d0 100644
-> > > > > > --- a/drivers/gpu/drm/tegra/submit.c
-> > > > > > +++ b/drivers/gpu/drm/tegra/submit.c
-> > > > > > @@ -680,8 +680,8 @@ int tegra_drm_ioctl_channel_submit(struct drm_device *drm, void *data,
-> > > > > >     		kfree(job_data->used_mappings);
-> > > > > >     	}
-> > > > > > 
-> > > > > > -	if (job_data)
-> > > > > > -		kfree(job_data);
-> > > > > > +	kfree(job_data);
-> > > > > > +
-> > > > > >     put_bo:
-> > > > > >     	gather_bo_put(&bo->base);
-> > > > > >     unlock:
-> > > > > > --
-> > > > > > 2.34.1
-> > > > > > 
-> > > > > > 
-> > > > > > 
-> > > > > 
-> > > > > It continues to be the case that I think this transform is bad. Same applies
-> > > > > to the host1x patch.
-> > > > 
-> > > > Hello Mikko,
-> > > > Thank you for responding to the patch proposal. Could you please explain why is
-> > > > this bad?
-> > > > 
-> > > > Regards,
-> > > > ./drv
-> > > > 
-> > > > > 
-> > > > > Mikko
-> > > > 
-> > > > 
-> > > 
-> > > Hi,
-> > > 
-> > > it gets rid of visual hints on code paths indicating the possible liveness
-> > > of pointer variables. I.e., after the change, whether the pointer can be
-> > > NULL or not is more difficult to reason about locally, instead requiring
-> > > more global reasoning which is mentally more taxing.
-> > > 
-> > > Since C's type system doesn't help with tracking these kinds of things, I
-> > > believe it is important to have these kinds of local contextual cues to help
-> > > the programmer.
-> > 
-> > I agree with your point of view. But regarding this particular patch,
-> > at least on code base I can see, after free_job_data label job_done
-> > can not be NULL. So patch seems to be ok, but maybe changelog need to
-> > be different
-> > 
-> > Regards
-> > Stanislaw
-> 
-> It can be NULL; see:
-> 
->         job->user_data = job_data;
->         job->release = release_job;
->         job->timeout = 10000;
-> 
->         /*
->          * job_data is now part of job reference counting, so don't release
->          * it from here.
->          */
->         job_data = NULL;
-> 
-> If we go into free_job_data after this code (which happens if there is no
-> error, or if host1x_job_submit fails), job_data will be NULL.
-> 
-> The memory is instead released in the 'put_job' label; host1x_job_put ends
-> up calling release_job, which does the kfree.
-> 
-> (Yes, it is rather complicated..)
+Hello Matthew,
 
-Ok, then better to keep the check.
+On Thu, 22 Dec 2022 14:21:11 -0800
+Matthew Brost <matthew.brost@intel.com> wrote:
 
-Regards
-Stanislaw
+> In XE, the new Intel GPU driver, a choice has made to have a 1 to 1
+> mapping between a drm_gpu_scheduler and drm_sched_entity. At first this
+> seems a bit odd but let us explain the reasoning below.
+> 
+> 1. In XE the submission order from multiple drm_sched_entity is not
+> guaranteed to be the same completion even if targeting the same hardware
+> engine. This is because in XE we have a firmware scheduler, the GuC,
+> which allowed to reorder, timeslice, and preempt submissions. If a using
+> shared drm_gpu_scheduler across multiple drm_sched_entity, the TDR falls
+> apart as the TDR expects submission order == completion order. Using a
+> dedicated drm_gpu_scheduler per drm_sched_entity solve this problem.
+
+Oh, that's interesting. I've been trying to solve the same sort of
+issues to support Arm's new Mali GPU which is relying on a FW-assisted
+scheduling scheme (you give the FW N streams to execute, and it does
+the scheduling between those N command streams, the kernel driver
+does timeslice scheduling to update the command streams passed to the
+FW). I must admit I gave up on using drm_sched at some point, mostly
+because the integration with drm_sched was painful, but also because I
+felt trying to bend drm_sched to make it interact with a
+timeslice-oriented scheduling model wasn't really future proof. Giving
+drm_sched_entity exlusive access to a drm_gpu_scheduler probably might
+help for a few things (didn't think it through yet), but I feel it's
+coming short on other aspects we have to deal with on Arm GPUs. Here
+are a few things I noted while working on the drm_sched-based PoC:
+
+- The complexity to suspend/resume streams and recover from failures
+  remains quite important (because everything is still very asynchronous
+  under the hood). Sure, you don't have to do this fancy
+  timeslice-based scheduling, but that's still a lot of code, and
+  AFAICT, it didn't integrate well with drm_sched TDR (my previous
+  attempt at reconciling them has been unsuccessful, but maybe your
+  patches would help there)
+- You lose one of the nice thing that's brought by timeslice-based
+  scheduling: a tiny bit of fairness. That is, if one stream is queuing
+  a compute job that's monopolizing the GPU core, you know the kernel
+  part of the scheduler will eventually evict it and let other streams
+  with same or higher priority run, even before the job timeout
+  kicks in.
+- Stream slots exposed by the Arm FW are not exactly HW queues that run
+  things concurrently. The FW can decide to let only the stream with the
+  highest priority get access to the various HW resources (GPU cores,
+  tiler, ...), and let other streams starve. That means you might get
+  spurious timeouts on some jobs/sched-entities while they didn't even
+  get a chance to run.
+
+So overall, and given I'm no longer the only one having to deal with a
+FW scheduler that's designed with timeslice scheduling in mind, I'm
+wondering if it's not time to design a common timeslice-based scheduler
+instead of trying to bend drivers to use the model enforced by
+drm_sched. But that's just my 2 cents, of course.
+
+Regards,
+
+Boris
