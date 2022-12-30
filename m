@@ -1,63 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6722865A4FC
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Dec 2022 15:30:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 082EE65A4F6
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Dec 2022 15:30:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C762310E11F;
-	Sat, 31 Dec 2022 14:30:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7730810E0FD;
+	Sat, 31 Dec 2022 14:30:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
- [IPv6:2001:4860:4864:20::31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD03E10E067
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Dec 2022 06:36:02 +0000 (UTC)
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-15027746720so8881309fac.13
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Dec 2022 22:36:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=GAvkJUoPDYmWRhAwgSj95u5byto+2nWkIpy69HcVzzA=;
- b=chmxPcmZDfrqDkOb6grw5n9WABwC7AWm9NlE1JDaiZZVXSjJ0sTBOCA65G6ANggrp4
- vZhXEMQwEMhw1TnKRlDtIz2+9kmySb60qBl9lliQwjy225K7qGxeKyjp17ocxLHj21F1
- WjWW/Keir209f60myxHUh3MLgunDT8F4a6B3p7bRkTPDvWCyBqQMOovUxaJ3B/fIg1/x
- QwTtfarB29BSW6+WY9me3g666RVfvCG3JXyF4K3VOZPdLEX85petPfRFz7tcAy9WXG6G
- kz6aEl4nTZwiwAMyjwk6erNtMiqGF4ANOl62eqOcqxiaxWTaz2bhHAZ8gjLkhsiz+bnN
- E9yQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GAvkJUoPDYmWRhAwgSj95u5byto+2nWkIpy69HcVzzA=;
- b=HTFokjdJY9r4qYZOfqzvwqVMvrPv9O0pkT8D540piHWjsN0hNXTmEZq95nv8BHN5L1
- 3m2ZGuBhn1mMcEiK76V1s9K+kvvpR6ozRBh8W2z3i4OJox+n2ePIEDK2q0tOhpCXWPVu
- QfVVD+TdsBF3p8kF2yLThTRJA6Igl/ZMu8hkKI1uYwueLcWbENLBqiVIo/D4vW5R6HWV
- JBaETOBeu2sd72tW4y9097cQBs3NL4fU7FiSYMsNs93xfaa0ZxM3JeywxuPr7vVS4koI
- tuflFD6nEouwGPDM0w6jXdAbeW0VDJgbCwKM/cODilFBTX47Vt6E9A3JRw5um74BPTl1
- hvwQ==
-X-Gm-Message-State: AFqh2kqfX91zjoVjnJpafB6uP08FqDE2zb3hYZ1cP0EqGhZtW1I2QK+l
- qawS9z1TdDYyw4t5/Yg6tGo=
-X-Google-Smtp-Source: AMrXdXu8tuII+NQ94TSjxHteZaU5UKVhWyRIdtPSP8n4vzqiJe3EBkB9K95dp/oEC/QKGMbL8PYeng==
-X-Received: by 2002:a05:6870:be85:b0:144:4c04:4b73 with SMTP id
- nx5-20020a056870be8500b001444c044b73mr15306401oab.50.1672382161887; 
- Thu, 29 Dec 2022 22:36:01 -0800 (PST)
-Received: from protoss.cs.ucr.edu (protoss.cs.ucr.edu. [169.235.26.60])
- by smtp.gmail.com with ESMTPSA id
- o10-20020a4abe8a000000b004a0ad937ccdsm8281508oop.1.2022.12.29.22.36.00
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 29 Dec 2022 22:36:01 -0800 (PST)
-From: Hang Zhang <zh.nvgt@gmail.com>
-To: 
-Subject: [PATCH] fbmem: prevent potential use-after-free issues with
- console_lock()
-Date: Thu, 29 Dec 2022 22:35:28 -0800
-Message-Id: <20221230063528.41037-1-zh.nvgt@gmail.com>
-X-Mailer: git-send-email 2.39.0
+X-Greylist: delayed 2611 seconds by postgrey-1.36 at gabe;
+ Fri, 30 Dec 2022 09:08:24 UTC
+Received: from formenos.hmeau.com (helcar.hmeau.com [216.24.177.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58CFC10E117
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Dec 2022 09:08:24 +0000 (UTC)
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+ by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+ id 1pBAh4-00CHKd-2Z; Fri, 30 Dec 2022 16:24:47 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation);
+ Fri, 30 Dec 2022 16:24:46 +0800
+Date: Fri, 30 Dec 2022 16:24:46 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Rijo Thomas <Rijo-john.Thomas@amd.com>
+Subject: Re: [PATCH v2] crypto: ccp - Allocate TEE ring and cmd buffer using
+ DMA APIs
+Message-ID: <Y66gTtjZf5ZT0lP0@gondor.apana.org.au>
+References: <651349f55060767a9a51316c966c1e5daa57a644.1670919979.git.Rijo-john.Thomas@amd.com>
+ <20221215132917.GA11061@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <5771ea99-eef7-7321-dd67-4c42c0cbb721@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5771ea99-eef7-7321-dd67-4c42c0cbb721@amd.com>
 X-Mailman-Approved-At: Sat, 31 Dec 2022 14:30:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,56 +45,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Hang Zhang <zh.nvgt@gmail.com>,
- Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: John Allen <john.allen@amd.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ Jeremi Piotrowski <jpiotrowski@linux.microsoft.com>,
+ Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>,
+ Jeshwanth <JESHWANTHKUMAR.NK@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S . Miller" <davem@davemloft.net>,
+ linaro-mm-sig@lists.linaro.org, Jens Wiklander <jens.wiklander@linaro.org>,
+ linux-crypto@vger.kernel.org, stable@vger.kernel.org,
+ Mythri PK <Mythri.Pandeshwarakrishna@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In do_fb_ioctl(), user specified "fb_info" can be freed in the callee
-fbcon_get_con2fb_map_ioctl() -> set_con2fb_map() ->
-con2fb_release_oldinfo(), this free operation is protected by
-console_lock() in fbcon_set_con2fb_map_ioctl(), it also results in
-the change of certain states such as "minfo->dead" in matroxfb_remove(),
-so that it can be checked to avoid use-after-free before the use sites
-(e.g., the check at the beginning of matroxfb_ioctl()). However,
-the problem is that the use site is not protected by the same locks
-as for the free operation, e.g., "default" case in do_fb_ioctl()
-can lead to "matroxfb_ioctl()" but it's not protected by console_lock(),
-which can invalidate the aforementioned state set and check in a
-concurrent setting.
+On Fri, Dec 23, 2022 at 05:45:24PM +0530, Rijo Thomas wrote:
+>
+> > dma_alloc_coherent memory is just as contiguous as __get_free_pages, and
+> > calling dma_alloc_coherent from a guest does not guarantee that the memory is
+> > contiguous in host memory either. The memory would look contiguous from the
+> > device point of view thanks to the IOMMU though (in both cases). So this is not
+> > about being contiguous but other properties that you might rely on (dma mask
+> > most likely, or coherent if you're not running this on x86?).
+> > 
+> > Can you confirm why this fixes things and update the comment to reflect that.
+> 
+> I see what you are saying.
+> 
+> We verified this in Xen Dom0 PV guest, where dma_alloc_coherent() returned a memory
+> that is contiguous in machine address space, and the machine address was returned
+> in the dma handle (buf->dma).
 
-Prevent the potential use-after-free issues by protecting the "default"
-case in do_fb_ioctl() with console_lock(), similarly as for many other
-cases like "case FBIOBLANK" and "case FBIOPAN_DISPLAY".
+So is this even relevant to the mainstream kernel or is this patch
+only needed for Xen Dom0?
 
-Signed-off-by: Hang Zhang <zh.nvgt@gmail.com>
----
- drivers/video/fbdev/core/fbmem.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index 1e70d8c67653..8b1a1527d18a 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -1182,6 +1182,7 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
- 		console_unlock();
- 		break;
- 	default:
-+		console_lock();
- 		lock_fb_info(info);
- 		fb = info->fbops;
- 		if (fb->fb_ioctl)
-@@ -1189,6 +1190,7 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
- 		else
- 			ret = -ENOTTY;
- 		unlock_fb_info(info);
-+		console_unlock();
- 	}
- 	return ret;
- }
+Thanks,
 -- 
-2.39.0
-
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
