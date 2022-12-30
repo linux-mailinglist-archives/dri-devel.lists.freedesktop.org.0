@@ -2,50 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD61659781
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Dec 2022 12:12:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF36C6597B0
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Dec 2022 12:32:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C18A10E1C9;
-	Fri, 30 Dec 2022 11:12:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CF9310E1D2;
+	Fri, 30 Dec 2022 11:32:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8887310E1C8
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Dec 2022 11:12:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1672398757; x=1703934757;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=zQi3/q/+hsatMwGKr+Jc98p4qlBVrYNCOl5Qzyx4RGU=;
- b=LOrSqOIM0Kd0VV5kbB0aKyRklkm2Kh7TRaw9Gt1Decfq88iE67Aef/36
- Q3DWiw01Ydlp4Kl++/p279Erl0iVd/cnhy9btnBAFg+9TpFb4Vr3JRJb8
- kA35zcV7Lw827Was2b02smT+sW0O2WasKfqIM/Zmli2CC6TZ8u4Oc1J4f
- s15C6GUnnqFi7rHK1ShKz3x7kGmpHhhdVi5IKfSLobSuBVoVfb9sNbeAr
- n66dVDVpDinmK6OJL0/pWrAeGz5Sc7JX52kDMupdtYwAFrbD2bTg/HF7m
- 6viHSXgjXO1RwjWCPz4ptHh+8QgqaxqXekkB0No9jOtQmUJO01MBnmU0R w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10575"; a="323178232"
-X-IronPort-AV: E=Sophos;i="5.96,287,1665471600"; d="scan'208";a="323178232"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2022 03:12:37 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10575"; a="655839540"
-X-IronPort-AV: E=Sophos;i="5.96,287,1665471600"; d="scan'208";a="655839540"
-Received: from ahedstro-mobl.ger.corp.intel.com (HELO
- thellstr-mobl1.intel.com) ([10.249.254.202])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2022 03:12:35 -0800
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: dri-devel@lists.freedesktop.org,
-	christian.koenig@amd.com
-Subject: [RFC PATCH 1/1] mm: Add interfaces to back up and recover folio
- contents using swap
-Date: Fri, 30 Dec 2022 12:11:59 +0100
-Message-Id: <20221230111159.75410-2-thomas.hellstrom@linux.intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE87910E06B
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Dec 2022 11:32:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672399939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+/oAGKz8UHTa57iRKW4s5lGYuywGUey4a7vrsAc6ygU=;
+ b=iZF4+R1pDp7iIhOlMeUC+kl5ELauorpMLhz2SfaZEl21GnBAflAftwHgXSjuqOf+uGTFzX
+ iPIGCG/Dgn0JBeyarzDXBRmfx4WcfILwdc+rElSk9o3VCx6HFNO3EHtSgUpCCkvTCI0qdI
+ Xxh6vtxD2yUWRt8yqy6AaGlns75lauM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-638-2wso5Y9QNMW9qXL_TQtJSQ-1; Fri, 30 Dec 2022 06:32:18 -0500
+X-MC-Unique: 2wso5Y9QNMW9qXL_TQtJSQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ t18-20020adfa2d2000000b00277e6c6f275so1440431wra.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Dec 2022 03:32:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+/oAGKz8UHTa57iRKW4s5lGYuywGUey4a7vrsAc6ygU=;
+ b=mziVNj7JYGrZVY5ElSkoKYPINTzeMbz1XKPN/Vuw2m6hOC4DPLvfzQMeE83frJ8YuI
+ dyWvG2EqyUxJb3olB6XJGwN7yqnb3Ayquggxf7MR78m3fr4r8Ajogt2JH3NCQ2EkcQ4j
+ iEePk3PXIhdX5yK2ZqkfXjSL8BKzZ/ETn94S4KojVHhw/4nwHIn4JkiEacrM+yzhyx7E
+ GcvupnInUA6/c5f2OTXr7DQ5lpXpTo++mJ0wgC6er5AKYoxMLssOuqxd2ukuJ1cOxxPb
+ cloB6NXLeQ6+hU2QfgzDToDmrHBDzmXHxpN/qLvKCSmKfQVzjL1TkSX7WRjlw2F0JEL6
+ bHHw==
+X-Gm-Message-State: AFqh2kqF4ZLgc8L8HOjg3JYvm2CB/domAokjiQDZMFwkOciiWtUxvnbA
+ DN8jINSa36NWZVPfkOXRil9hYQqWaPvLq9+6DEi8cKCrO+FcQhBBoowPrrnQ1B3hoCybuHbYalg
+ QXiDKEa6j7PutrnKOeYlcMgViPK5U
+X-Received: by 2002:a05:600c:1da3:b0:3d3:4dbc:75ef with SMTP id
+ p35-20020a05600c1da300b003d34dbc75efmr22353791wms.17.1672399937560; 
+ Fri, 30 Dec 2022 03:32:17 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXujD8ZzgS7Pb826oREyFiC1KNraLQbuNX7XL2S+SNLv8iwIINUvUgMCaq86xR2bPIYl4qfNTA==
+X-Received: by 2002:a05:600c:1da3:b0:3d3:4dbc:75ef with SMTP id
+ p35-20020a05600c1da300b003d34dbc75efmr22353756wms.17.1672399937268; 
+ Fri, 30 Dec 2022 03:32:17 -0800 (PST)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ y22-20020a1c4b16000000b003d01b84e9b2sm27638432wma.27.2022.12.30.03.32.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Dec 2022 03:32:16 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/4] Add PinePhone Pro display support
+Date: Fri, 30 Dec 2022 12:31:50 +0100
+Message-Id: <20221230113155.3430142-1-javierm@redhat.com>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221230111159.75410-1-thomas.hellstrom@linux.intel.com>
-References: <20221230111159.75410-1-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,320 +80,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: Neal Gompa <ngompa13@gmail.com>, dri-devel@lists.freedesktop.org,
+ Martijn Braam <martijn@brixit.nl>, Caleb Connolly <kc@postmarketos.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ =?UTF-8?q?Kamil=20Trzci=C5=84ski?= <ayufan@ayufan.eu>,
+ Sam Ravnborg <sam@ravnborg.org>, Javier Martinez Canillas <javierm@redhat.com>,
+ linux-rockchip@lists.infradead.org, Jagan Teki <jagan@amarulasolutions.com>,
+ Peter Robinson <pbrobinson@gmail.com>, devicetree@vger.kernel.org,
+ Robert Mader <robert.mader@posteo.de>, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Onuralp Sezer <thunderbirdtr@fedoraproject.org>,
+ Tom Fitzhenry <tom@tom-fitzhenry.me.uk>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Ondrej Jirman <megi@xff.cz>, Maya Matuszczyk <maccraft123mc@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-GPU drivers have traditionally used shmem to back up GPU buffer contents
-for swap on physical memory shortage. Some integrated GPU drivers use
-shmem files as the backing storage for their GPU buffers, other drivers,
-in particular drivers that need a Write-Combining caching strategy on
-system pages, (but also drivers for discrete gpus in general) need to copy
-to shmem on anticipated memory shortage.
+This series add support for the display present in the PinePhone Pro.
 
-The latter strategy does not lend itself very well to shrinker usage,
-since in the shrinker, shmem memory up to PMD size first has to be
-allocated before the gpu buffer page can be transitioned to normal caching
-and handed back to the system.
-This memory allocation will dive into kernel reserves allocating shmem
-pages which aren't freed until a writeback happens from kswapd, which
-makes the approach very fragile at best. Possibly one could transition
-caching and split huge pages to be backed up before copying to shmem as an
-alternative strategy.
+Patch #1 adds a driver for panels using the Himax HX8394 panel controller,
+such as the HSD060BHW4 720x1440 TFT LCD panel present in the PinePhone Pro.
 
-Another approach is outlined in this RFC.
+Patch #2 adds a devicetree binding schema for this driver and patch #3 adds
+an entry for the driver in the MAINTAINERS file.
 
-Add interfaces for GPU drivers to directly insert pages into the
-swap-cache, thereby bypassing shmem and avoiding the shmem page
-allocation at shrink time completely, as well as the content copy.
+Finally patch #4 adds the needed devicetree nodes in the PinePhone Pro DTS,
+to enable both the display and the touchscreen. This makes the upstream DTS
+much more usable and will allow for example to enable support for the phone
+in the Fedora distribution.
 
-Also add a kunit test for experimenting with the interface functionality,
-currently it seems PMD size folios doesn't work properly. Needs
-further investigation if this is a viable approach. Also cgroup
-accounting needs a thorough revisit.
+I only added myself as the maintainer for the driver because I don't know
+if Kamil and Ondrej that worked in the driver would be interested. Please
+let me know folks if you are, and I can add you too in the next revision.
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- mm/Makefile                 |   3 +-
- mm/swap_backup_folio.c      | 134 ++++++++++++++++++++++++++++++++++++
- mm/swap_backup_folio_test.c | 109 +++++++++++++++++++++++++++++
- 3 files changed, 245 insertions(+), 1 deletion(-)
- create mode 100644 mm/swap_backup_folio.c
- create mode 100644 mm/swap_backup_folio_test.c
+This is a v4 of the patch-set that addresses issues pointed out in v3:
 
-diff --git a/mm/Makefile b/mm/Makefile
-index 8e105e5b3e29..c7432d607f7a 100644
---- a/mm/Makefile
-+++ b/mm/Makefile
-@@ -54,7 +54,7 @@ obj-y			:= filemap.o mempool.o oom_kill.o fadvise.o \
- 			   mm_init.o percpu.o slab_common.o \
- 			   compaction.o \
- 			   interval_tree.o list_lru.o workingset.o \
--			   debug.o gup.o mmap_lock.o $(mmu-y)
-+			   debug.o gup.o mmap_lock.o swap_backup_folio.o $(mmu-y)
- 
- # Give 'page_alloc' its own module-parameter namespace
- page-alloc-y := page_alloc.o
-@@ -138,3 +138,4 @@ obj-$(CONFIG_IO_MAPPING) += io-mapping.o
- obj-$(CONFIG_HAVE_BOOTMEM_INFO_NODE) += bootmem_info.o
- obj-$(CONFIG_GENERIC_IOREMAP) += ioremap.o
- obj-$(CONFIG_SHRINKER_DEBUG) += shrinker_debug.o
-+obj-m += swap_backup_folio_test.o
-diff --git a/mm/swap_backup_folio.c b/mm/swap_backup_folio.c
-new file mode 100644
-index 000000000000..76b761a19f99
---- /dev/null
-+++ b/mm/swap_backup_folio.c
-@@ -0,0 +1,134 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/mm_types.h>
-+#include <linux/module.h>
-+#include <linux/pagemap.h>
-+#include <linux/swap.h>
-+
-+#include "swap.h"
-+
-+/**
-+ * swap_backup_folio() - Insert an unmapped and dirty folio into the swap-cache.
-+ * @folio: The folio to insert.
-+ * @wbc: The struct writeback_control for immediate writeback or NULL.
-+ *
-+ * Insert a folio into the swap cache and get a swp_entry_t back as a reference.
-+ * If the swap cache folio should be subject of immediate writeback to
-+ * a swap device, @wbc should be non-NULL and point to a struct writeback_control
-+ * populated accordingly. After a call to swap_backup_folio() the caller can
-+ * drop its folio reference and use swap_recover_folio() to get the folio
-+ * content back. Currently only PAGE_SIZE folios work, or if CONFIG_THP_SWAP is
-+ * enabled, HPAGE_PMD_NR*PAGE_SIZE may work as well.
-+ * TODO: Add a gfp_t to control the needed add_to_swap_cache radix tree
-+ * allocation?
-+ *
-+ * Return: A swp_entry_t. If its .val field is zero, an error occurred.
-+ */
-+swp_entry_t swap_backup_folio(struct folio *folio,
-+			      struct writeback_control *wbc)
-+{
-+	swp_entry_t swap = {};
-+
-+	if (folio_nr_pages(folio) != 1 &&
-+	    !(IS_ENABLED(CONFIG_THP_SWAP) &&
-+	      folio_nr_pages(folio) == HPAGE_PMD_NR))
-+		return swap;
-+
-+	folio_lock(folio);
-+	__folio_mark_uptodate(folio);
-+	__folio_set_swapbacked(folio);
-+
-+	swap = folio_alloc_swap(folio);
-+	if (!swap.val) {
-+		folio_unlock(folio);
-+		return swap;
-+	}
-+
-+	mem_cgroup_charge(folio, NULL, GFP_HIGHUSER_MOVABLE);
-+
-+	if (add_to_swap_cache(folio, swap, __GFP_HIGH | __GFP_NOWARN, NULL) == 0) {
-+		int ret = -EINVAL;
-+
-+		/*
-+		 * Add a swapcount to prevent immediate swap-space reclaim of
-+		 * this entry. It's paired with a swap_free() in
-+		 * swap_recover_folio().
-+		 */
-+		swap_shmem_alloc(swap);
-+		folio_add_lru(folio);
-+
-+		/*
-+		 * Stolen from pageout(). The folio_test_writeback() looks a
-+		 * bit arbitrary, as writepage unlocks the folio and the
-+		 * writeback may complete at any time...
-+		 */
-+		if (wbc && folio_clear_dirty_for_io(folio)) {
-+			folio_set_reclaim(folio);
-+			ret = swap_writepage(folio_page(folio, 0), wbc);
-+			if (!folio_test_writeback(folio))
-+				folio_clear_reclaim(folio);
-+		}
-+
-+		if (ret)
-+			folio_unlock(folio);
-+		return swap;
-+	}
-+
-+	put_swap_folio(folio, swap);
-+	folio_clear_swapbacked(folio);
-+	folio_mark_dirty(folio);
-+	folio_unlock(folio);
-+
-+	return swap;
-+}
-+EXPORT_SYMBOL(swap_backup_folio);
-+
-+/**
-+ * swap_recover_folio() - Recover folio content that was previously backed up
-+ * @swap: The swp_entry_t returned from swap_backup_folio().
-+ *
-+ * Recovers content that was previously backed up using swap_backup_folio().
-+ * TODO: If a new folio is allocated, explain how the allocation policy is
-+ * chosen. We may want to add that as an argument to the function
-+ * together with a suitable gfp_t.
-+ *
-+ * Return: Pointer to folio containing the backed up content. This may or may
-+ * not be the same folio used in the call to swap_backup_folio().
-+ */
-+struct folio *swap_recover_folio(swp_entry_t swap)
-+{
-+	struct folio *folio = swap_cache_get_folio(swap, NULL, 0);
-+
-+	if (!folio) {
-+		/*
-+		 * TODO: Use a fake vma (like shmem) for the desired
-+		 * allocation policy?
-+		 */
-+		struct vm_fault vmf = {};
-+		struct page *page;
-+
-+		/*
-+		 * FIXME: Does this really work with PMD size folios, or
-+		 * do we need to retry from start after readahead?
-+		 */
-+		page = swap_cluster_readahead(swap, GFP_HIGHUSER_MOVABLE, &vmf);
-+		if (page)
-+			folio = page_folio(page);
-+	}
-+
-+	if (!folio)
-+		return ERR_PTR(-ENOMEM);
-+
-+	folio_lock(folio);
-+	WARN_ON(!folio_test_swapcache(folio) ||
-+		folio_swap_entry(folio).val != swap.val ||
-+		!folio_test_uptodate(folio));
-+	folio_wait_writeback(folio);
-+	arch_swap_restore(swap, folio);
-+	delete_from_swap_cache(folio);
-+	folio_unlock(folio);
-+	swap_free(swap);
-+
-+	return folio;
-+}
-+EXPORT_SYMBOL(swap_recover_folio);
-diff --git a/mm/swap_backup_folio_test.c b/mm/swap_backup_folio_test.c
-new file mode 100644
-index 000000000000..1d6a9447d78a
---- /dev/null
-+++ b/mm/swap_backup_folio_test.c
-@@ -0,0 +1,109 @@
-+// SPDX-License-Identifier: MIT or GPL-2.0
-+/*
-+ * Copyright © 2022 Intel Corporation
-+ */
-+
-+#include <kunit/test.h>
-+#include <linux/delay.h>
-+#include <linux/swap.h>
-+
-+/* TODO: Use memory- and swap size info to determine this. */
-+#define MAX_BACKUP_FOLIOS 5000000
-+
-+swp_entry_t swap_backup_folio(struct folio *folio, struct writeback_control *wbc);
-+struct folio *swap_recover_folio(swp_entry_t swap);
-+
-+static struct writeback_control __maybe_unused wbc = {
-+	.sync_mode = WB_SYNC_NONE,
-+	.nr_to_write = SWAP_CLUSTER_MAX,
-+	.range_start = 0,
-+	.range_end = LLONG_MAX,
-+	.for_reclaim = 1,
-+};
-+
-+struct gpu_swapped_page {
-+	struct list_head link;
-+	swp_entry_t swap;
-+};
-+
-+static void swap_backup_test(struct kunit *test)
-+{
-+	gfp_t gfp = GFP_HIGHUSER_MOVABLE | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;
-+	struct gpu_swapped_page *gsp, *next;
-+	struct folio *folio;
-+	LIST_HEAD(list);
-+	int i = 0;
-+
-+	do {
-+		/*
-+		 * Expect folio_alloc() (out-of-physical-memory) or
-+		 * swap_backup_folio() (out-of-swap-space) to fail before
-+		 * this kzalloc().
-+		 */
-+		gsp = kzalloc(sizeof(*gsp), GFP_KERNEL);
-+		if (!gsp) {
-+			KUNIT_FAIL(test, "alloc gsp failed.\n");
-+			break;
-+		}
-+
-+		folio = vma_alloc_folio(gfp, 0, NULL, 0, false);
-+		if (!folio) {
-+			kunit_info(test, "folio_alloc failed.\n");
-+			kfree(gsp);
-+			break;
-+		}
-+
-+		folio_mark_dirty(folio);
-+
-+		/* Use &wbc instead of NULL here to trigger immediate writeback. */
-+		gsp->swap = swap_backup_folio(folio, NULL);
-+		if (gsp->swap.val == 0) {
-+			kunit_info(test, "swap_backup_folio() failed.\n");
-+			folio_put(folio);
-+			kfree(gsp);
-+			break;
-+		}
-+
-+		list_add_tail(&gsp->link, &list);
-+		folio_put(folio);
-+		if (i % 1000 == 0)
-+			kunit_info(test, "Backed up %d\n", i);
-+	} while (i++ < MAX_BACKUP_FOLIOS);
-+
-+	kunit_info(test, "Backup total: %d. Now sleeping for 10s.\n", i);
-+	ssleep(10);
-+
-+	i = 0;
-+	list_for_each_entry_safe(gsp, next, &list, link) {
-+		folio = swap_recover_folio(gsp->swap);
-+		if (IS_ERR(folio)) {
-+			KUNIT_FAIL(test, "swap_recover_folio() failed.\n");
-+		} else {
-+			folio->memcg_data = 0;
-+			folio_put(folio);
-+		}
-+		list_del(&gsp->link);
-+		kfree(gsp);
-+		i++;
-+
-+		if (i % 1000 == 0)
-+			kunit_info(test, "Recovered %d\n", i);
-+	}
-+
-+	kunit_info(test, "Recover_total: %d\n", i);
-+}
-+
-+static struct kunit_case swap_backup_tests[] = {
-+	KUNIT_CASE(swap_backup_test),
-+	{}
-+};
-+
-+static struct kunit_suite swap_backup_test_suite = {
-+	.name = "swap_backup_folio",
-+	.test_cases = swap_backup_tests,
-+};
-+
-+kunit_test_suite(swap_backup_test_suite);
-+
-+MODULE_AUTHOR("Intel Corporation");
-+MODULE_LICENSE("Dual MIT/GPL");
+https://lists.freedesktop.org/archives/dri-devel/2022-December/384560.html
+
+The patches were tested on a PinePhone Pro Explorer Edition using a Fedora
+37 Workstation image.
+
+Best regards,
+Javier
+
+Changes in v4:
+- Add fallback "himax,hx8394" compatible for the panel controller (Jagan Teki).
+- Add Tom Fitzhenry's Tested-by tag.
+- Add Sam Ravnborg's Acked-by tag.
+- Add Tom Fitzhenry's Tested-by tag.
+- Keep the DTS nodes sorted alphabetically (Tom Fitzhenry).
+
+Changes in v3:
+- Fix example snippet for `make dt_binding_check` to pass (Krzysztof Kozlowski).
+- Add Sam Ravnborg's reviwed-by tag.
+- Move driver patch after one introducing the DT binding (Sam Ravnborg).
+
+Changes in v2:
+- Drop redundant "bindings" in subject (Krzysztof Kozlowski).
+- Drop "device tree bindings" in title (Krzysztof Kozlowski).
+- Put port next to other "true" properties (Krzysztof Kozlowski).
+- Add Krzysztof Kozlowski's Reviewed-by tag.
+- Add year to driver's copyright notice (Sam Ravnborg)
+- Remove unused <video/display_timing.h> header include (Sam Ravnborg).
+- Use mipi_dsi_dcs_write_seq() helper and drop custom macro (Sam Ravnborg).
+- Drop unnecessary info messages and move useful one to debug (Sam Ravnborg).
+- Fix regulator node names (Maya Matuszczyk).
+- Drop non-existent "poweroff-in-suspend" property (Maya Matuszczyk).
+- Remove unnecessary comments in panel node (Maya Matuszczyk).
+
+Javier Martinez Canillas (2):
+  dt-bindings: display: Add Himax HX8394 panel controller
+  MAINTAINERS: Add entry for Himax HX8394 panel controller driver
+
+Kamil Trzciński (1):
+  drm: panel: Add Himax HX8394 panel controller driver
+
+Ondrej Jirman (1):
+  arm64: dts: rk3399-pinephone-pro: Add internal display support
+
+ .../bindings/display/panel/himax,hx8394.yaml  |  75 +++
+ MAINTAINERS                                   |   7 +
+ .../dts/rockchip/rk3399-pinephone-pro.dts     | 123 +++++
+ drivers/gpu/drm/panel/Kconfig                 |  12 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-himax-hx8394.c    | 446 ++++++++++++++++++
+ 6 files changed, 664 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-himax-hx8394.c
+
 -- 
 2.38.1
 
