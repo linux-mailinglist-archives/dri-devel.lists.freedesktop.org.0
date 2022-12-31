@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5820D65A72E
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Dec 2022 22:50:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5496A65A731
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Dec 2022 22:50:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95B3610E2A2;
-	Sat, 31 Dec 2022 21:50:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F5F710E144;
+	Sat, 31 Dec 2022 21:50:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay05.th.seeweb.it (relay05.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::166])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98FA410E298
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Dec 2022 21:50:31 +0000 (UTC)
+Received: from relay08.th.seeweb.it (relay08.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE20610E2A4
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Dec 2022 21:50:34 +0000 (UTC)
 Received: from localhost.localdomain (94-211-6-86.cable.dynamic.v4.ziggo.nl
  [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 2672D3ED3E;
- Sat, 31 Dec 2022 22:50:29 +0100 (CET)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id E15C03ED5A;
+ Sat, 31 Dec 2022 22:50:32 +0100 (CET)
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: phone-devel@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [RFC PATCH 2/7] drm/msm/dpu: Disable pingpong TE on DPU 5.0.0 and
- above
-Date: Sat, 31 Dec 2022 22:50:01 +0100
-Message-Id: <20221231215006.211860-3-marijn.suijten@somainline.org>
+Subject: [RFC PATCH 3/7] drm/msm/dpu: Disable MDP vsync source selection on
+ DPU 5.0.0 and above
+Date: Sat, 31 Dec 2022 22:50:02 +0100
+Message-Id: <20221231215006.211860-4-marijn.suijten@somainline.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221231215006.211860-1-marijn.suijten@somainline.org>
 References: <20221231215006.211860-1-marijn.suijten@somainline.org>
@@ -55,6 +55,7 @@ Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
  Adam Skladowski <a39.skl@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
  Martin Botka <martin.botka@somainline.org>,
  ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
+ Kalyan Thota <quic_kalyant@quicinc.com>,
  Loic Poulain <loic.poulain@linaro.org>,
  Jami Kettunen <jami.kettunen@somainline.org>,
  Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
@@ -64,197 +65,183 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Since hardware revision 5.0.0 the TE configuration moved out of the
-PINGPONG block into the INTF block.  Writing these registers has no
-effect, and is omitted downstream via the DPU/SDE_PINGPONG_TE feature
-flag.  This flag is only added to PINGPONG blocks used by hardware prior
-to 5.0.0.
+PINGPONG block into the INTF block, including vsync source selection
+that was previously part of MDP top.  Writing to the MDP_VSYNC_SEL
+register has no effect anymore and is omitted downstream via the
+DPU/SDE_MDP_VSYNC_SEL feature flag.  This flag is only added to INTF
+blocks used by hardware prior to 5.0.0.
 
 The code that writes to these registers in the INTF block will follow in
 subsequent patches.
 
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 ---
- .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  |  5 +-
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 53 +++++++++++--------
- .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   | 18 ++++---
- 3 files changed, 44 insertions(+), 32 deletions(-)
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 33 ++++++++++--
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    | 52 +++++++++++++------
+ 3 files changed, 66 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-index ae28b2b93e69..7e5ba52197cd 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-@@ -582,7 +582,7 @@ static bool dpu_encoder_phys_cmd_is_ongoing_pptx(
- {
- 	struct dpu_hw_pp_vsync_info info;
- 
--	if (!phys_enc)
-+	if (!phys_enc || !phys_enc->hw_pp->ops.get_vsync_info)
- 		return false;
- 
- 	phys_enc->hw_pp->ops.get_vsync_info(phys_enc->hw_pp, &info);
-@@ -607,6 +607,9 @@ static void dpu_encoder_phys_cmd_prepare_commit(
- 	if (!dpu_encoder_phys_cmd_is_master(phys_enc))
- 		return;
- 
-+	if (!phys_enc->hw_pp->ops.get_autorefresh || !phys_enc->hw_pp->ops.setup_autorefresh)
-+		return;
-+
- 	/* If autorefresh is already disabled, we have nothing to do */
- 	if (!phys_enc->hw_pp->ops.get_autorefresh(phys_enc->hw_pp, NULL))
- 		return;
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 9814ad52cc04..39d4b293710c 100644
+index 39d4b293710c..1cfe94494135 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -59,11 +59,18 @@
- #define MIXER_SC7180_MASK \
- 	(BIT(DPU_DIM_LAYER) | BIT(DPU_MIXER_COMBINED_ALPHA))
+@@ -407,7 +407,7 @@ static const struct dpu_mdp_cfg msm8998_mdp[] = {
+ 	{
+ 	.name = "top_0", .id = MDP_TOP,
+ 	.base = 0x0, .len = 0x458,
+-	.features = 0,
++	.features = BIT(DPU_MDP_VSYNC_SEL),
+ 	.highest_bank_bit = 0x2,
+ 	.clk_ctrls[DPU_CLK_CTRL_VIG0] = {
+ 			.reg_off = 0x2AC, .bit_off = 0},
+@@ -436,7 +436,7 @@ static const struct dpu_mdp_cfg sdm845_mdp[] = {
+ 	{
+ 	.name = "top_0", .id = MDP_TOP,
+ 	.base = 0x0, .len = 0x45C,
+-	.features = BIT(DPU_MDP_AUDIO_SELECT),
++	.features = BIT(DPU_MDP_AUDIO_SELECT) | BIT(DPU_MDP_VSYNC_SEL),
+ 	.highest_bank_bit = 0x2,
+ 	.clk_ctrls[DPU_CLK_CTRL_VIG0] = {
+ 			.reg_off = 0x2AC, .bit_off = 0},
+@@ -512,6 +512,31 @@ static const struct dpu_mdp_cfg sm6115_mdp[] = {
+ 	},
+ };
  
--#define PINGPONG_SDM845_MASK BIT(DPU_PINGPONG_DITHER)
-+#define PINGPONG_SDM845_MASK \
-+	(BIT(DPU_PINGPONG_DITHER) | BIT(DPU_PINGPONG_TE))
- 
--#define PINGPONG_SDM845_SPLIT_MASK \
-+#define PINGPONG_SDM845_TE2_MASK \
- 	(PINGPONG_SDM845_MASK | BIT(DPU_PINGPONG_TE2))
- 
-+#define PINGPONG_SM8150_MASK \
-+	(BIT(DPU_PINGPONG_DITHER))
++static const struct dpu_mdp_cfg sdm8150_mdp[] = {
++	{
++	.name = "top_0", .id = MDP_TOP,
++	.base = 0x0, .len = 0x45C,
++	.features = BIT(DPU_MDP_AUDIO_SELECT),
++	.highest_bank_bit = 0x2,
++	.clk_ctrls[DPU_CLK_CTRL_VIG0] = {
++			.reg_off = 0x2AC, .bit_off = 0},
++	.clk_ctrls[DPU_CLK_CTRL_VIG1] = {
++			.reg_off = 0x2B4, .bit_off = 0},
++	.clk_ctrls[DPU_CLK_CTRL_VIG2] = {
++			.reg_off = 0x2BC, .bit_off = 0},
++	.clk_ctrls[DPU_CLK_CTRL_VIG3] = {
++			.reg_off = 0x2C4, .bit_off = 0},
++	.clk_ctrls[DPU_CLK_CTRL_DMA0] = {
++			.reg_off = 0x2AC, .bit_off = 8},
++	.clk_ctrls[DPU_CLK_CTRL_DMA1] = {
++			.reg_off = 0x2B4, .bit_off = 8},
++	.clk_ctrls[DPU_CLK_CTRL_CURSOR0] = {
++			.reg_off = 0x2BC, .bit_off = 8},
++	.clk_ctrls[DPU_CLK_CTRL_CURSOR1] = {
++			.reg_off = 0x2C4, .bit_off = 8},
++	},
++};
 +
-+#define PINGPONG_SM8150_TE2_MASK \
-+	(PINGPONG_SM8150_MASK | BIT(DPU_PINGPONG_TE2))
-+
- #define CTL_SC7280_MASK \
- 	(BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE) | BIT(DPU_CTL_VM_CFG))
+ static const struct dpu_mdp_cfg sm8250_mdp[] = {
+ 	{
+ 	.name = "top_0", .id = MDP_TOP,
+@@ -1901,8 +1926,8 @@ static const struct dpu_mdss_cfg sm6115_dpu_cfg = {
  
-@@ -1156,21 +1163,21 @@ static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
- 	.len = 0x20, .version = 0x20000},
+ static const struct dpu_mdss_cfg sm8150_dpu_cfg = {
+ 	.caps = &sm8150_dpu_caps,
+-	.mdp_count = ARRAY_SIZE(sdm845_mdp),
+-	.mdp = sdm845_mdp,
++	.mdp_count = ARRAY_SIZE(sdm8150_mdp),
++	.mdp = sdm8150_mdp,
+ 	.ctl_count = ARRAY_SIZE(sm8150_ctl),
+ 	.ctl = sm8150_ctl,
+ 	.sspp_count = ARRAY_SIZE(sdm845_sspp),
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index 3b645d5aa9aa..e0e153889ab7 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -93,6 +93,7 @@ enum {
+ 	DPU_MDP_UBWC_1_0,
+ 	DPU_MDP_UBWC_1_5,
+ 	DPU_MDP_AUDIO_SELECT,
++	DPU_MDP_VSYNC_SEL,
+ 	DPU_MDP_MAX
  };
  
--#define PP_BLK_TE(_name, _id, _base, _merge_3d, _sblk, _done, _rdptr) \
-+#define PP_BLK_TE(_name, _id, _base, _features, _merge_3d, _sblk, _done, _rdptr) \
- 	{\
- 	.name = _name, .id = _id, \
- 	.base = _base, .len = 0xd4, \
--	.features = PINGPONG_SDM845_SPLIT_MASK, \
-+	.features = _features, \
- 	.merge_3d = _merge_3d, \
- 	.sblk = &_sblk, \
- 	.intr_done = _done, \
- 	.intr_rdptr = _rdptr, \
- 	}
--#define PP_BLK(_name, _id, _base, _merge_3d, _sblk, _done, _rdptr) \
-+#define PP_BLK(_name, _id, _base, _features, _merge_3d, _sblk, _done, _rdptr) \
- 	{\
- 	.name = _name, .id = _id, \
- 	.base = _base, .len = 0xd4, \
--	.features = PINGPONG_SDM845_MASK, \
-+	.features = _features, \
- 	.merge_3d = _merge_3d, \
- 	.sblk = &_sblk, \
- 	.intr_done = _done, \
-@@ -1178,55 +1185,55 @@ static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
- 	}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+index c3110a25a30d..2e699c9ad13c 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+@@ -151,28 +151,16 @@ static void dpu_hw_get_danger_status(struct dpu_hw_mdp *mdp,
+ 	status->sspp[SSPP_CURSOR1] = (value >> 26) & 0x3;
+ }
  
- static const struct dpu_pingpong_cfg sdm845_pp[] = {
--	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, 0, sdm845_pp_sblk_te,
-+	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SDM845_TE2_MASK, 0, sdm845_pp_sblk_te,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
--	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, 0, sdm845_pp_sblk_te,
-+	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, PINGPONG_SDM845_TE2_MASK, 0, sdm845_pp_sblk_te,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13)),
--	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, 0, sdm845_pp_sblk,
-+	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, PINGPONG_SDM845_MASK, 0, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 14)),
--	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, 0, sdm845_pp_sblk,
-+	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, PINGPONG_SDM845_MASK, 0, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
- };
- 
- static struct dpu_pingpong_cfg sc7180_pp[] = {
--	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, 0, sdm845_pp_sblk_te, -1, -1),
--	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, 0, sdm845_pp_sblk_te, -1, -1),
-+	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_TE2_MASK, 0, sdm845_pp_sblk_te, -1, -1),
-+	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, PINGPONG_SM8150_TE2_MASK, 0, sdm845_pp_sblk_te, -1, -1),
- };
- 
- static const struct dpu_pingpong_cfg sm8150_pp[] = {
--	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, MERGE_3D_0, sdm845_pp_sblk_te,
-+	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_TE2_MASK, MERGE_3D_0, sdm845_pp_sblk_te,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
--	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, MERGE_3D_0, sdm845_pp_sblk_te,
-+	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, PINGPONG_SM8150_TE2_MASK, MERGE_3D_0, sdm845_pp_sblk_te,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13)),
--	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, MERGE_3D_1, sdm845_pp_sblk,
-+	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 14)),
--	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, MERGE_3D_1, sdm845_pp_sblk,
-+	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
--	PP_BLK("pingpong_4", PINGPONG_4, 0x72000, MERGE_3D_2, sdm845_pp_sblk,
-+	PP_BLK("pingpong_4", PINGPONG_4, 0x72000, PINGPONG_SM8150_MASK, MERGE_3D_2, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
- 			-1),
--	PP_BLK("pingpong_5", PINGPONG_5, 0x72800, MERGE_3D_2, sdm845_pp_sblk,
-+	PP_BLK("pingpong_5", PINGPONG_5, 0x72800, PINGPONG_SM8150_MASK, MERGE_3D_2, sdm845_pp_sblk,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 31),
- 			-1),
- };
- 
- static const struct dpu_pingpong_cfg sc7280_pp[] = {
--	PP_BLK("pingpong_0", PINGPONG_0, 0x59000, 0, sc7280_pp_sblk, -1, -1),
--	PP_BLK("pingpong_1", PINGPONG_1, 0x6a000, 0, sc7280_pp_sblk, -1, -1),
--	PP_BLK("pingpong_2", PINGPONG_2, 0x6b000, 0, sc7280_pp_sblk, -1, -1),
--	PP_BLK("pingpong_3", PINGPONG_3, 0x6c000, 0, sc7280_pp_sblk, -1, -1),
-+	PP_BLK("pingpong_0", PINGPONG_0, 0x59000, PINGPONG_SM8150_MASK, 0, sc7280_pp_sblk, -1, -1),
-+	PP_BLK("pingpong_1", PINGPONG_1, 0x6a000, PINGPONG_SM8150_MASK, 0, sc7280_pp_sblk, -1, -1),
-+	PP_BLK("pingpong_2", PINGPONG_2, 0x6b000, PINGPONG_SM8150_MASK, 0, sc7280_pp_sblk, -1, -1),
-+	PP_BLK("pingpong_3", PINGPONG_3, 0x6c000, PINGPONG_SM8150_MASK, 0, sc7280_pp_sblk, -1, -1),
- };
- 
- static struct dpu_pingpong_cfg qcm2290_pp[] = {
--	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, 0, sdm845_pp_sblk,
-+	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_MASK, 0, sdm845_pp_sblk,
- 		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
- 		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
- };
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-index 0fcad9760b6f..30896c057f87 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-@@ -274,14 +274,16 @@ static int dpu_hw_pp_setup_dsc(struct dpu_hw_pingpong *pp)
- static void _setup_pingpong_ops(struct dpu_hw_pingpong *c,
- 				unsigned long features)
+-static void dpu_hw_setup_vsync_source(struct dpu_hw_mdp *mdp,
++static void dpu_hw_setup_vsync_source_v1(struct dpu_hw_mdp *mdp,
+ 		struct dpu_vsync_source_cfg *cfg)
  {
--	c->ops.setup_tearcheck = dpu_hw_pp_setup_te_config;
--	c->ops.enable_tearcheck = dpu_hw_pp_enable_te;
--	c->ops.connect_external_te = dpu_hw_pp_connect_external_te;
--	c->ops.get_vsync_info = dpu_hw_pp_get_vsync_info;
--	c->ops.setup_autorefresh = dpu_hw_pp_setup_autorefresh_config;
--	c->ops.get_autorefresh = dpu_hw_pp_get_autorefresh_config;
--	c->ops.poll_timeout_wr_ptr = dpu_hw_pp_poll_timeout_wr_ptr;
--	c->ops.get_line_count = dpu_hw_pp_get_line_count;
-+	if (test_bit(DPU_PINGPONG_TE, &features)) {
-+		c->ops.setup_tearcheck = dpu_hw_pp_setup_te_config;
-+		c->ops.enable_tearcheck = dpu_hw_pp_enable_te;
-+		c->ops.connect_external_te = dpu_hw_pp_connect_external_te;
-+		c->ops.get_vsync_info = dpu_hw_pp_get_vsync_info;
-+		c->ops.setup_autorefresh = dpu_hw_pp_setup_autorefresh_config;
-+		c->ops.get_autorefresh = dpu_hw_pp_get_autorefresh_config;
-+		c->ops.poll_timeout_wr_ptr = dpu_hw_pp_poll_timeout_wr_ptr;
-+		c->ops.get_line_count = dpu_hw_pp_get_line_count;
+ 	struct dpu_hw_blk_reg_map *c;
+-	u32 reg, wd_load_value, wd_ctl, wd_ctl2, i;
+-	static const u32 pp_offset[PINGPONG_MAX] = {0xC, 0x8, 0x4, 0x13, 0x18};
++	u32 reg, wd_load_value, wd_ctl, wd_ctl2;
+ 
+-	if (!mdp || !cfg || (cfg->pp_count > ARRAY_SIZE(cfg->ppnumber)))
++	if (!mdp || !cfg)
+ 		return;
+ 
+ 	c = &mdp->hw;
+-	reg = DPU_REG_READ(c, MDP_VSYNC_SEL);
+-	for (i = 0; i < cfg->pp_count; i++) {
+-		int pp_idx = cfg->ppnumber[i] - PINGPONG_0;
+-
+-		if (pp_idx >= ARRAY_SIZE(pp_offset))
+-			continue;
+-
+-		reg &= ~(0xf << pp_offset[pp_idx]);
+-		reg |= (cfg->vsync_source & 0xf) << pp_offset[pp_idx];
+-	}
+-	DPU_REG_WRITE(c, MDP_VSYNC_SEL, reg);
+ 
+ 	if (cfg->vsync_source >= DPU_VSYNC_SOURCE_WD_TIMER_4 &&
+ 			cfg->vsync_source <= DPU_VSYNC_SOURCE_WD_TIMER_0) {
+@@ -219,6 +207,33 @@ static void dpu_hw_setup_vsync_source(struct dpu_hw_mdp *mdp,
+ 	}
+ }
+ 
++static void dpu_hw_setup_vsync_source(struct dpu_hw_mdp *mdp,
++		struct dpu_vsync_source_cfg *cfg)
++{
++	struct dpu_hw_blk_reg_map *c;
++	u32 reg, i;
++	static const u32 pp_offset[PINGPONG_MAX] = {0xC, 0x8, 0x4, 0x13, 0x18};
++
++	if (!mdp || !cfg || (cfg->pp_count > ARRAY_SIZE(cfg->ppnumber)))
++		return;
++
++	c = &mdp->hw;
++
++	reg = DPU_REG_READ(c, MDP_VSYNC_SEL);
++	for (i = 0; i < cfg->pp_count; i++) {
++		int pp_idx = cfg->ppnumber[i] - PINGPONG_0;
++
++		if (pp_idx >= ARRAY_SIZE(pp_offset))
++			continue;
++
++		reg &= ~(0xf << pp_offset[pp_idx]);
++		reg |= (cfg->vsync_source & 0xf) << pp_offset[pp_idx];
 +	}
- 	c->ops.setup_dsc = dpu_hw_pp_setup_dsc;
- 	c->ops.enable_dsc = dpu_hw_pp_dsc_enable;
- 	c->ops.disable_dsc = dpu_hw_pp_dsc_disable;
++	DPU_REG_WRITE(c, MDP_VSYNC_SEL, reg);
++
++	dpu_hw_setup_vsync_source_v1(mdp, cfg);
++}
++
+ static void dpu_hw_get_safe_status(struct dpu_hw_mdp *mdp,
+ 		struct dpu_danger_safe_status *status)
+ {
+@@ -266,7 +281,12 @@ static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
+ 	ops->setup_split_pipe = dpu_hw_setup_split_pipe;
+ 	ops->setup_clk_force_ctrl = dpu_hw_setup_clk_force_ctrl;
+ 	ops->get_danger_status = dpu_hw_get_danger_status;
+-	ops->setup_vsync_source = dpu_hw_setup_vsync_source;
++
++	if (cap & BIT(DPU_MDP_VSYNC_SEL))
++		ops->setup_vsync_source = dpu_hw_setup_vsync_source;
++	else
++		ops->setup_vsync_source = dpu_hw_setup_vsync_source_v1;
++
+ 	ops->get_safe_status = dpu_hw_get_safe_status;
+ 
+ 	if (cap & BIT(DPU_MDP_AUDIO_SELECT))
 -- 
 2.39.0
 
