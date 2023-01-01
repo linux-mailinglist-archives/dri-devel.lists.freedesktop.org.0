@@ -1,72 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1D3265A8D2
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Jan 2023 05:28:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B4D65A9A5
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Jan 2023 12:01:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF81A10E075;
-	Sun,  1 Jan 2023 04:28:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6029E10E091;
+	Sun,  1 Jan 2023 11:01:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B07510E075
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Jan 2023 04:28:26 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id cf42so37285121lfb.1
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Dec 2022 20:28:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=oH8K9f7UyJRuodGJ3yPCdaObtlNSOzXxH0uzeAO3bPo=;
- b=Ai8jQqzHZ/LlGgMhch3jtj6uaayE2qcuJ/awNPLcOAGYEutF/BCD/xQ4x9QmWBbMsM
- NNsbwmrdzyV5c1AOzeCM0PlMw7PYo7mb2RI7VSAIdhkzOv34o9lmx3SnTH955c5q/WK6
- jMYvr4atUtZLWFb4O3qwdUO56X/5UXfWbkx56FoJufUfjwMDvPfDT0DYnndlzw2MP21S
- weVijkSrjak1l122uNmTlM+8NLna10CIXMSBaMsysgZ0mmgHOJluexlb17P3x9D4UJ3c
- BAmwlcXQy6NRS8KYMu1xR2XgQUNtR0dMX3fuhuMRTP7SL04dXgFI+oRf/lgohIMuailC
- OHvg==
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DA2D10E072
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Jan 2023 11:01:08 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ i17-20020a05600c355100b003d99434b1cfso8297999wmq.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 01 Jan 2023 03:01:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=fbN4sgockCVO/B+yBctAM+MEuOBH+6vJWelCNlHH77g=;
+ b=QVmcBv8W8kVU5ZEJXj3c/wGX88kQTr7TbdErLuN6PnTdUO0apb/X4SRfpx71YRVJ8D
+ Fis9EZUjwNcE8xWOSiGO0OI62cRPlRXZoVNBv2XWkfWCrFKxjcq69Vq1ijVrcUOYdCqN
+ LDA2fJsi75fq7ZnG+7WuO40VexQjL8R2L7FDE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oH8K9f7UyJRuodGJ3yPCdaObtlNSOzXxH0uzeAO3bPo=;
- b=1eoJIg2h6MdTt/dtVncswSsmsYqFxePduvAu48TA2wSB3g1g3hk7YsMOjWbPkrNoMT
- Li0Q2to61LSkg4r8vPkMbV7intOLOhNQ0a1pCCXW+q67eBledVQZprpgU7EairkNU3ZG
- 1McgLLbqQwyi7v/BllinhDKNPY1kw0HFUv2MqXageJqP9ZOCHHdWYux2F1KNClblJak4
- sC1ML+zYawv5ic6eUJuDhxtjYpTwaTW9i1gtV352L/Jh7ZIOtzeON9XM/ovMt/T3pcdh
- S85m/uUb6kvPP5aebCKD4JizSefTxfu5Mb445fyBdCKH6HmsQWpVFG/ixI8iuZPfwse8
- zzSA==
-X-Gm-Message-State: AFqh2kqNU6XuN3lHveiOMioHbOZMCFGyl3CnXbcuj5RULZZeO7+aoZTx
- ZGpagZRMK+AWcTY83SEBWkaTqw==
-X-Google-Smtp-Source: AMrXdXvo4ZJmLN9FDqA8FOdIn63YSqaUle9vpmVE/whEmg6m1YU/5EVmBxKcIamme2TyWCUSLBEWBw==
-X-Received: by 2002:ac2:4894:0:b0:4bb:710e:bf8 with SMTP id
- x20-20020ac24894000000b004bb710e0bf8mr10208282lfc.16.1672547304783; 
- Sat, 31 Dec 2022 20:28:24 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- v20-20020ac258f4000000b004cb23904bd9sm971539lfo.144.2022.12.31.20.28.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 31 Dec 2022 20:28:24 -0800 (PST)
-Message-ID: <925e8214-4193-bee3-c26b-f7679a60484e@linaro.org>
-Date: Sun, 1 Jan 2023 06:28:23 +0200
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fbN4sgockCVO/B+yBctAM+MEuOBH+6vJWelCNlHH77g=;
+ b=XBoe2NG3P3GYvQtyOrWnww/eQR6elsArO63cfODgmeC90yyg5xb79AZYxr+JHv7mXk
+ 6884H8NeFAzmEZ1/3A/aee0sek2P2EU+3oCYK+lKsTm7cOy9AK6ad1U+9jFSw91IDDDE
+ QDI77T0nsPK6gf0gAKN5NKvZslF1otiAn+x4vL4Uff5IKzn7t695PS8KeCE3nAf7aHEL
+ Ynh0N74oXUwKrdMrTtVRv5RfTm0uq6WGBJTZ9T/IppqlD+HV8dVZc2e+7GXBy/xvn3Kv
+ 435R2ho46QTVCUcKGS8R9Rb/Cz2BcG2/cw1I4Rvn3eWKOxDyGiMWu6cKa6b+W8q4Ox/J
+ e5Fg==
+X-Gm-Message-State: AFqh2krJgkRYZwFcrM6fftw66yEIddRlWlwUrwaH+g0ORH1Pes59PY+E
+ yNXQfOgUdLZv28EJsYAsbrPH4Q==
+X-Google-Smtp-Source: AMrXdXune319SggnWIBXR1AabzXHhNu+EsgO2NQYTsfiVAs8HyAFsHZ5qwM33WVqP6tAWwJOK/Huwg==
+X-Received: by 2002:a05:600c:601e:b0:3d4:a1ba:a971 with SMTP id
+ az30-20020a05600c601e00b003d4a1baa971mr26670294wmb.24.1672570866625; 
+ Sun, 01 Jan 2023 03:01:06 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ z13-20020adff74d000000b002366f9bd717sm29782141wrp.45.2023.01.01.03.01.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 01 Jan 2023 03:01:05 -0800 (PST)
+Date: Sun, 1 Jan 2023 12:01:02 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PULL] drm-intel-fixes
+Message-ID: <Y7Fn7jyvyhsa48Bi@phenom.ffwll.local>
+References: <Y662ijDHrZCjTFla@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [RFC PATCH 2/7] drm/msm/dpu: Disable pingpong TE on DPU 5.0.0 and
- above
-Content-Language: en-GB
-To: Marijn Suijten <marijn.suijten@somainline.org>,
- phone-devel@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Neil Armstrong <neil.armstrong@linaro.org>
-References: <20221231215006.211860-1-marijn.suijten@somainline.org>
- <20221231215006.211860-3-marijn.suijten@somainline.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20221231215006.211860-3-marijn.suijten@somainline.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y662ijDHrZCjTFla@intel.com>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,224 +69,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
- dri-devel@lists.freedesktop.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Adam Skladowski <a39.skl@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
- Loic Poulain <loic.poulain@linaro.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- freedreno@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/12/2022 23:50, Marijn Suijten wrote:
-> Since hardware revision 5.0.0 the TE configuration moved out of the
-> PINGPONG block into the INTF block.  Writing these registers has no
-> effect, and is omitted downstream via the DPU/SDE_PINGPONG_TE feature
-> flag.  This flag is only added to PINGPONG blocks used by hardware prior
-> to 5.0.0.
+On Fri, Dec 30, 2022 at 04:59:38AM -0500, Rodrigo Vivi wrote:
+> Hi Dave and Daniel,
 > 
-> The code that writes to these registers in the INTF block will follow in
-> subsequent patches.
+> Here goes the initial fixes for 6.2.
 > 
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> ---
->   .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  |  5 +-
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 53 +++++++++++--------
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   | 18 ++++---
->   3 files changed, 44 insertions(+), 32 deletions(-)
+> The most critical ones seems to be the evict fix from Matt and
+> the MIPI DSI from Jani. Both targeting stable trees.
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> index ae28b2b93e69..7e5ba52197cd 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> @@ -582,7 +582,7 @@ static bool dpu_encoder_phys_cmd_is_ongoing_pptx(
->   {
->   	struct dpu_hw_pp_vsync_info info;
->   
-> -	if (!phys_enc)
-> +	if (!phys_enc || !phys_enc->hw_pp->ops.get_vsync_info)
->   		return false;
->   
->   	phys_enc->hw_pp->ops.get_vsync_info(phys_enc->hw_pp, &info);
-> @@ -607,6 +607,9 @@ static void dpu_encoder_phys_cmd_prepare_commit(
+> I'm sorry for sending this on a Friday and not on a Thursday as
+> usual. Where did this week go? Worst case this wait one week
+> and I get it rebased and resent earlier next week.
+> 
+> Where did 2022 go? Happy New Year!
 
-This function works only with the hw_pp and if I'm not mistaken it 
-becomes void for newer platforms. Please consider moving completely to 
-the dpu_hw_pp.c Then we'd have a single optional callback instead of 
-having a pile of them.
+Cheers to you too!
 
->   	if (!dpu_encoder_phys_cmd_is_master(phys_enc))
->   		return;
->   
-> +	if (!phys_enc->hw_pp->ops.get_autorefresh || !phys_enc->hw_pp->ops.setup_autorefresh)
-> +		return;
-> +
->   	/* If autorefresh is already disabled, we have nothing to do */
->   	if (!phys_enc->hw_pp->ops.get_autorefresh(phys_enc->hw_pp, NULL))
->   		return;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index 9814ad52cc04..39d4b293710c 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -59,11 +59,18 @@
->   #define MIXER_SC7180_MASK \
->   	(BIT(DPU_DIM_LAYER) | BIT(DPU_MIXER_COMBINED_ALPHA))
->   
-> -#define PINGPONG_SDM845_MASK BIT(DPU_PINGPONG_DITHER)
-> +#define PINGPONG_SDM845_MASK \
-> +	(BIT(DPU_PINGPONG_DITHER) | BIT(DPU_PINGPONG_TE))
->   
-> -#define PINGPONG_SDM845_SPLIT_MASK \
-> +#define PINGPONG_SDM845_TE2_MASK \
->   	(PINGPONG_SDM845_MASK | BIT(DPU_PINGPONG_TE2))
->   
-> +#define PINGPONG_SM8150_MASK \
-> +	(BIT(DPU_PINGPONG_DITHER))
-> +
-> +#define PINGPONG_SM8150_TE2_MASK \
-> +	(PINGPONG_SM8150_MASK | BIT(DPU_PINGPONG_TE2))
-> +
->   #define CTL_SC7280_MASK \
->   	(BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE) | BIT(DPU_CTL_VM_CFG))
->   
-> @@ -1156,21 +1163,21 @@ static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
->   	.len = 0x20, .version = 0x20000},
->   };
->   
-> -#define PP_BLK_TE(_name, _id, _base, _merge_3d, _sblk, _done, _rdptr) \
-> +#define PP_BLK_TE(_name, _id, _base, _features, _merge_3d, _sblk, _done, _rdptr) \
->   	{\
->   	.name = _name, .id = _id, \
->   	.base = _base, .len = 0xd4, \
-> -	.features = PINGPONG_SDM845_SPLIT_MASK, \
-> +	.features = _features, \
->   	.merge_3d = _merge_3d, \
->   	.sblk = &_sblk, \
->   	.intr_done = _done, \
->   	.intr_rdptr = _rdptr, \
->   	}
-> -#define PP_BLK(_name, _id, _base, _merge_3d, _sblk, _done, _rdptr) \
-> +#define PP_BLK(_name, _id, _base, _features, _merge_3d, _sblk, _done, _rdptr) \
->   	{\
->   	.name = _name, .id = _id, \
->   	.base = _base, .len = 0xd4, \
-> -	.features = PINGPONG_SDM845_MASK, \
-> +	.features = _features, \
->   	.merge_3d = _merge_3d, \
->   	.sblk = &_sblk, \
->   	.intr_done = _done, \
-> @@ -1178,55 +1185,55 @@ static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
->   	}
->   
->   static const struct dpu_pingpong_cfg sdm845_pp[] = {
-> -	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, 0, sdm845_pp_sblk_te,
-> +	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SDM845_TE2_MASK, 0, sdm845_pp_sblk_te,
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-> -	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, 0, sdm845_pp_sblk_te,
-> +	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, PINGPONG_SDM845_TE2_MASK, 0, sdm845_pp_sblk_te,
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13)),
-> -	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, 0, sdm845_pp_sblk,
-> +	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, PINGPONG_SDM845_MASK, 0, sdm845_pp_sblk,
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 14)),
-> -	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, 0, sdm845_pp_sblk,
-> +	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, PINGPONG_SDM845_MASK, 0, sdm845_pp_sblk,
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
->   };
->   
->   static struct dpu_pingpong_cfg sc7180_pp[] = {
-> -	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, 0, sdm845_pp_sblk_te, -1, -1),
-> -	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, 0, sdm845_pp_sblk_te, -1, -1),
-> +	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_TE2_MASK, 0, sdm845_pp_sblk_te, -1, -1),
-> +	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, PINGPONG_SM8150_TE2_MASK, 0, sdm845_pp_sblk_te, -1, -1),
->   };
->   
->   static const struct dpu_pingpong_cfg sm8150_pp[] = {
-> -	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, MERGE_3D_0, sdm845_pp_sblk_te,
-> +	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_TE2_MASK, MERGE_3D_0, sdm845_pp_sblk_te,
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-> -	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, MERGE_3D_0, sdm845_pp_sblk_te,
-> +	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, PINGPONG_SM8150_TE2_MASK, MERGE_3D_0, sdm845_pp_sblk_te,
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13)),
-> -	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, MERGE_3D_1, sdm845_pp_sblk,
-> +	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 14)),
-> -	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, MERGE_3D_1, sdm845_pp_sblk,
-> +	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, PINGPONG_SM8150_MASK, MERGE_3D_1, sdm845_pp_sblk,
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
-> -	PP_BLK("pingpong_4", PINGPONG_4, 0x72000, MERGE_3D_2, sdm845_pp_sblk,
-> +	PP_BLK("pingpong_4", PINGPONG_4, 0x72000, PINGPONG_SM8150_MASK, MERGE_3D_2, sdm845_pp_sblk,
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
->   			-1),
-> -	PP_BLK("pingpong_5", PINGPONG_5, 0x72800, MERGE_3D_2, sdm845_pp_sblk,
-> +	PP_BLK("pingpong_5", PINGPONG_5, 0x72800, PINGPONG_SM8150_MASK, MERGE_3D_2, sdm845_pp_sblk,
->   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 31),
->   			-1),
->   };
->   
->   static const struct dpu_pingpong_cfg sc7280_pp[] = {
-> -	PP_BLK("pingpong_0", PINGPONG_0, 0x59000, 0, sc7280_pp_sblk, -1, -1),
-> -	PP_BLK("pingpong_1", PINGPONG_1, 0x6a000, 0, sc7280_pp_sblk, -1, -1),
-> -	PP_BLK("pingpong_2", PINGPONG_2, 0x6b000, 0, sc7280_pp_sblk, -1, -1),
-> -	PP_BLK("pingpong_3", PINGPONG_3, 0x6c000, 0, sc7280_pp_sblk, -1, -1),
-> +	PP_BLK("pingpong_0", PINGPONG_0, 0x59000, PINGPONG_SM8150_MASK, 0, sc7280_pp_sblk, -1, -1),
-> +	PP_BLK("pingpong_1", PINGPONG_1, 0x6a000, PINGPONG_SM8150_MASK, 0, sc7280_pp_sblk, -1, -1),
-> +	PP_BLK("pingpong_2", PINGPONG_2, 0x6b000, PINGPONG_SM8150_MASK, 0, sc7280_pp_sblk, -1, -1),
-> +	PP_BLK("pingpong_3", PINGPONG_3, 0x6c000, PINGPONG_SM8150_MASK, 0, sc7280_pp_sblk, -1, -1),
->   };
->   
->   static struct dpu_pingpong_cfg qcm2290_pp[] = {
-> -	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, 0, sdm845_pp_sblk,
-> +	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_MASK, 0, sdm845_pp_sblk,
->   		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
->   		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
->   };
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-> index 0fcad9760b6f..30896c057f87 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-> @@ -274,14 +274,16 @@ static int dpu_hw_pp_setup_dsc(struct dpu_hw_pingpong *pp)
->   static void _setup_pingpong_ops(struct dpu_hw_pingpong *c,
->   				unsigned long features)
->   {
-> -	c->ops.setup_tearcheck = dpu_hw_pp_setup_te_config;
-> -	c->ops.enable_tearcheck = dpu_hw_pp_enable_te;
-> -	c->ops.connect_external_te = dpu_hw_pp_connect_external_te;
-> -	c->ops.get_vsync_info = dpu_hw_pp_get_vsync_info;
-> -	c->ops.setup_autorefresh = dpu_hw_pp_setup_autorefresh_config;
-> -	c->ops.get_autorefresh = dpu_hw_pp_get_autorefresh_config;
-> -	c->ops.poll_timeout_wr_ptr = dpu_hw_pp_poll_timeout_wr_ptr;
-> -	c->ops.get_line_count = dpu_hw_pp_get_line_count;
-> +	if (test_bit(DPU_PINGPONG_TE, &features)) {
-> +		c->ops.setup_tearcheck = dpu_hw_pp_setup_te_config;
-> +		c->ops.enable_tearcheck = dpu_hw_pp_enable_te;
-> +		c->ops.connect_external_te = dpu_hw_pp_connect_external_te;
-> +		c->ops.get_vsync_info = dpu_hw_pp_get_vsync_info;
-> +		c->ops.setup_autorefresh = dpu_hw_pp_setup_autorefresh_config;
-> +		c->ops.get_autorefresh = dpu_hw_pp_get_autorefresh_config;
-> +		c->ops.poll_timeout_wr_ptr = dpu_hw_pp_poll_timeout_wr_ptr;
-> +		c->ops.get_line_count = dpu_hw_pp_get_line_count;
-> +	}
->   	c->ops.setup_dsc = dpu_hw_pp_setup_dsc;
->   	c->ops.enable_dsc = dpu_hw_pp_dsc_enable;
->   	c->ops.disable_dsc = dpu_hw_pp_dsc_disable;
+> Cheers,
+> Rodrigo.
+> 
+> 
+> drm-intel-fixes-2022-12-30:
+> - fix TLB invalidation for DG2 and newer platforms. (Andrzej)
+> - Remove __maybe_unused from mtl_info (Lucas)
+> - improve the catch-all evict to handle lock contention (Matt Auld)
+> - Fix two issues with over-size (GuC/HuC) firmware files (John)
+> - Fix DSI resume issues on ICL+ (Jani)
+> 
+> Thanks,
+> Rodrigo.
+> 
+> The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
+> 
+>   Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
+> 
+> are available in the Git repository at:
+> 
+>   git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2022-12-30
+
+Pulled, I'll try to get it out for Linus to include it in -rc2 still.
+
+> for you to fetch changes up to 6217e9f05a74df48c77ee68993d587cdfdb1feb7:
+> 
+>   drm/i915/dsi: fix MIPI_BKLT_EN_1 native GPIO index (2022-12-30 04:28:46 -0500)
+> 
+> ----------------------------------------------------------------
+> - fix TLB invalidation for DG2 and newer platforms. (Andrzej)
+> - Remove __maybe_unused from mtl_info (Lucas)
+> - improve the catch-all evict to handle lock contention (Matt Auld)
+
+Just a quick comment, this one has
+
+Fixes: 7e00897be8bf ("drm/i915: Add object locking to i915_gem_evict_for_node and i915_gem_evict_something, v2.")
+
+but I don't think that's entirely accurate. I might mix up some details
+(and today is not the day to dig these out) and it's been two years
+already when I discussed this Maarten, but this issue is older. It got
+introduced with the conversion to per-object locking, and then somewhat
+artfully papered over with the async object pinning infrastructure (which
+had the design issue of being flat out in violation of upstream locking
+hierarchy).
+
+In practice it makes no difference, because there's no way you can
+backport any of this to a point before the locking rework from Maarten (or
+alternatively, revert until the glorious struct_mutex days). A bit more
+review on a core locking change like this would have been good though imo.
+
+Cheers, Daniel
+
+> - Fix two issues with over-size (GuC/HuC) firmware files (John)
+> - Fix DSI resume issues on ICL+ (Jani)
+> 
+> ----------------------------------------------------------------
+> Andrzej Hajda (1):
+>       drm/i915: fix TLB invalidation for Gen12.50 video and compute engines
+> 
+> Jani Nikula (2):
+>       drm/i915/dsi: add support for ICL+ native MIPI GPIO sequence
+>       drm/i915/dsi: fix MIPI_BKLT_EN_1 native GPIO index
+> 
+> John Harrison (1):
+>       drm/i915/uc: Fix two issues with over-size firmware files
+> 
+> Lucas De Marchi (1):
+>       drm/i915: Remove __maybe_unused from mtl_info
+> 
+> Matthew Auld (1):
+>       drm/i915: improve the catch-all evict to handle lock contention
+> 
+>  drivers/gpu/drm/i915/display/intel_dsi_vbt.c    | 94 ++++++++++++++++++++++++-
+>  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c  | 59 +++++++++++++---
+>  drivers/gpu/drm/i915/gem/i915_gem_mman.c        |  2 +-
+>  drivers/gpu/drm/i915/gt/intel_gt.c              |  8 ++-
+>  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c        | 42 +++++++----
+>  drivers/gpu/drm/i915/i915_gem_evict.c           | 37 +++++++---
+>  drivers/gpu/drm/i915/i915_gem_evict.h           |  4 +-
+>  drivers/gpu/drm/i915/i915_irq.c                 |  3 +
+>  drivers/gpu/drm/i915/i915_pci.c                 |  1 -
+>  drivers/gpu/drm/i915/i915_reg.h                 |  1 +
+>  drivers/gpu/drm/i915/i915_vma.c                 |  2 +-
+>  drivers/gpu/drm/i915/selftests/i915_gem_evict.c |  4 +-
+>  12 files changed, 212 insertions(+), 45 deletions(-)
 
 -- 
-With best wishes
-Dmitry
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
