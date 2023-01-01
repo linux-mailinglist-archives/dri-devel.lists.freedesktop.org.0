@@ -2,52 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB0565AB2B
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Jan 2023 20:30:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4916365ABAD
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Jan 2023 22:21:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4478710E07B;
-	Sun,  1 Jan 2023 19:30:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69E2710E173;
+	Sun,  1 Jan 2023 21:21:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB5210E07B
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Jan 2023 19:30:27 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5620360DF1;
- Sun,  1 Jan 2023 19:30:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B2A53C433D2;
- Sun,  1 Jan 2023 19:30:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1672601425;
- bh=ohMCezbtIQBRAV5WuTKDDWJnAhLotvcWzSMbDWmFQR8=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=HNwF/uF5Z/XtHV0AMuONZ3Qx3U1+MW7OMJnZJbBWfQzVTlIxJJZDgw9WCqRQFBNI5
- /uE6h968qfGjuZGvsUMBLP4N+gHLln+QPVKkcG0+hXB8KfQxWfRqCylQmL3GWZWcRi
- SVENnT826r9iujWWfkWH4QywqNonbMzUfWiQNnGsWJvQNvKGqZ95kKFj1PEtvr5WXP
- DQ6kxnb7xyOeEqp/D7qBidu4raBeziO6Jq2mdtc9vNFQTbSFNUTHlPZhbL2tQx/64S
- 9sIlVT6qpy3j4beQJVYECQmh9ZYeMPP6OBUExDYLuV9ujUpl76vYBQrHV0ahRTGBen
- tbmyxTxVaFNVQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- A3131C197B4; Sun,  1 Jan 2023 19:30:25 +0000 (UTC)
-Subject: Re: [PULL] drm-fixes for -rc2 if I'm not too late :-)
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <Y7GDIi18rJ/YgbYn@phenom.ffwll.local>
-References: <Y7GDIi18rJ/YgbYn@phenom.ffwll.local>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <Y7GDIi18rJ/YgbYn@phenom.ffwll.local>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2023-01-01
-X-PR-Tracked-Commit-Id: a9f5a752e86f1897c3b377b6b861576a4c1a2ff0
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 8b41948296b76588f5ebaf7cbc5be5c803ece70a
-Message-Id: <167260142566.13445.16240168930511041613.pr-tracker-bot@kernel.org>
-Date: Sun, 01 Jan 2023 19:30:25 +0000
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C82F310E173
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Jan 2023 21:21:23 +0000 (UTC)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+ id CDCFD1C09F4; Sun,  1 Jan 2023 22:21:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+ t=1672608080;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Aq0v+DYHcUKp6Xj+Ok8b/poNMw5kQJV4suii1vowS2Y=;
+ b=hp4FrWfGD9sf/WF/sIKeSJh2cWjkqGkhJgEbwyHMiXN7Xf4KewzwFCmD59UY7hXAraoIOq
+ Exgfp8xbd9cPZL8Oy5UZ4IBa+EWGo967xtUlVWDyBC8oAATD5qC0UYN9yAdsWtHijeluIm
+ 6rGR62jAzP9MiMHQHk22l8L9lRoAu9g=
+Date: Sun, 1 Jan 2023 22:21:20 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v4 0/4] Add PinePhone Pro display support
+Message-ID: <Y7H5UJOz/zYuZn7j@duo.ucw.cz>
+References: <20221230113155.3430142-1-javierm@redhat.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="RTMPi14+3aUpRgHm"
+Content-Disposition: inline
+In-Reply-To: <20221230113155.3430142-1-javierm@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,22 +46,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Neal Gompa <ngompa13@gmail.com>, dri-devel@lists.freedesktop.org,
+ Martijn Braam <martijn@brixit.nl>, Caleb Connolly <kc@postmarketos.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Kamil =?utf-8?Q?Trzci=C5=84ski?= <ayufan@ayufan.eu>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-rockchip@lists.infradead.org,
+ Jagan Teki <jagan@amarulasolutions.com>, Peter Robinson <pbrobinson@gmail.com>,
+ devicetree@vger.kernel.org, Robert Mader <robert.mader@posteo.de>,
+ Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Onuralp Sezer <thunderbirdtr@fedoraproject.org>, linux-kernel@vger.kernel.org,
+ Tom Fitzhenry <tom@tom-fitzhenry.me.uk>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Ondrej Jirman <megi@xff.cz>, Maya Matuszczyk <maccraft123mc@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Sun, 1 Jan 2023 13:57:06 +0100:
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-01-01
+--RTMPi14+3aUpRgHm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/8b41948296b76588f5ebaf7cbc5be5c803ece70a
+Hi!
 
-Thank you!
+> This series add support for the display present in the PinePhone Pro.
+>=20
+> Patch #1 adds a driver for panels using the Himax HX8394 panel controller,
+> such as the HSD060BHW4 720x1440 TFT LCD panel present in the PinePhone Pr=
+o.
+>=20
+> Patch #2 adds a devicetree binding schema for this driver and patch #3 ad=
+ds
+> an entry for the driver in the MAINTAINERS file.
+>=20
+> Finally patch #4 adds the needed devicetree nodes in the PinePhone Pro DT=
+S,
+> to enable both the display and the touchscreen. This makes the upstream D=
+TS
+> much more usable and will allow for example to enable support for the pho=
+ne
+> in the Fedora distribution.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Thanks for the series. Please cc: phone-devel@vger.kernel.org with
+future patches.
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--RTMPi14+3aUpRgHm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY7H5UAAKCRAw5/Bqldv6
+8umEAKCiiwwQLTUUm7OHMP64I5tMJAdxgACfQsIjJN7Qg6MhlcLpmicQs5rvGSs=
+=0ZNJ
+-----END PGP SIGNATURE-----
+
+--RTMPi14+3aUpRgHm--
