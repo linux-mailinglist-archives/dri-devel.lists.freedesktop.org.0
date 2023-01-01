@@ -2,38 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4916365ABAD
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Jan 2023 22:21:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C7F265AC0B
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Jan 2023 23:18:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69E2710E173;
-	Sun,  1 Jan 2023 21:21:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA27710E179;
+	Sun,  1 Jan 2023 22:18:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C82F310E173
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Jan 2023 21:21:23 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id CDCFD1C09F4; Sun,  1 Jan 2023 22:21:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
- t=1672608080;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Aq0v+DYHcUKp6Xj+Ok8b/poNMw5kQJV4suii1vowS2Y=;
- b=hp4FrWfGD9sf/WF/sIKeSJh2cWjkqGkhJgEbwyHMiXN7Xf4KewzwFCmD59UY7hXAraoIOq
- Exgfp8xbd9cPZL8Oy5UZ4IBa+EWGo967xtUlVWDyBC8oAATD5qC0UYN9yAdsWtHijeluIm
- 6rGR62jAzP9MiMHQHk22l8L9lRoAu9g=
-Date: Sun, 1 Jan 2023 22:21:20 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v4 0/4] Add PinePhone Pro display support
-Message-ID: <Y7H5UJOz/zYuZn7j@duo.ucw.cz>
-References: <20221230113155.3430142-1-javierm@redhat.com>
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
+ [IPv6:2001:4860:4864:20::2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C365710E170;
+ Sun,  1 Jan 2023 22:18:24 +0000 (UTC)
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-12c8312131fso31558985fac.4; 
+ Sun, 01 Jan 2023 14:18:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=yy52nz5EWhcJsvWpjun3W8BAed7Pu6I0tRm9djceBtE=;
+ b=aUKgOPghXlTvzrc6u7k5kEW3PvtUpuXnRdFSLQ/HFxtA6NEyFCGeIJl5XEM3oSYvMf
+ yYBCOvMvrbLLqsn3ljLul0VQ5m1mief/TwD2BvREIf58XjoWaiKgm+6hfJ6TI46cjZEe
+ AaJGQ+Nuy/06MFO1sIE2johDMzmR9gjbY6uzGckDHw+JpdCEZlGlfMQVIzZe4KgGTlXj
+ /Kzwr9YunMYk8/bflwQVODouOYRc9Da+KNWAaky0VoTNcP3OzsJbGd/mSE90Knh8mm3k
+ uhoVFbWcZ8nqA4GFNaw4ztPW1vXQ6waLEtTUg0JNhL7Q1TwR0Bwj91flhywYpdXOApta
+ N/1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yy52nz5EWhcJsvWpjun3W8BAed7Pu6I0tRm9djceBtE=;
+ b=R6AlniXLPKB9reyGkm2uJr3vHi37ygrs1pByU06VUB+EwgU3nBQKLA3nN0J5vwINb1
+ aWgz9/hRF5Fy8WzFTEm/xDtlFWKtkQ6TfrTBmA+xNvMhg870V4sDV2v6WzBs2VHN1pmB
+ hqtXi1NbTSXzXuz7Yxq5bsWIqC4OTI9umCRXfA5fkfgj9N9kPIcNBdgo8qHN115cglSr
+ PQ10X3FumJr294f65RyM9TcoYOakq6KKdrFFSDqF1h5o9TJJF7C5XSvnlmVNQcrTEYrg
+ OemBjsLvR5KE2ciJV4HzOSWaJ593lYvHQggdVJUQwHdf0V55nSRXCVJF8UsDTr+wUHtd
+ lyVA==
+X-Gm-Message-State: AFqh2koSKMxQpDq1IIeZH+HT31q7lVQv8iA3DoJFoStxbKFf27tgzGSR
+ THvVd7fqzfZxwi/q/O+gTh1qTwD4VPJZZo1fO1E=
+X-Google-Smtp-Source: AMrXdXte8iX8MMHmEPzIXd/8vUmQGEbPcEziUE4Pov+05WakJv8QOTo5ISycioy38t6wUo32zfYPD4Qn9C2ptiMz+wk=
+X-Received: by 2002:a05:6870:513:b0:13d:51fe:3404 with SMTP id
+ j19-20020a056870051300b0013d51fe3404mr2226606oao.183.1672611504025; Sun, 01
+ Jan 2023 14:18:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="RTMPi14+3aUpRgHm"
-Content-Disposition: inline
-In-Reply-To: <20221230113155.3430142-1-javierm@redhat.com>
+References: <20221229101846.981223-1-konrad.dybcio@linaro.org>
+ <20221229104730.guopbgyleb6hif4h@SoMainline.org>
+In-Reply-To: <20221229104730.guopbgyleb6hif4h@SoMainline.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Sun, 1 Jan 2023 14:18:11 -0800
+Message-ID: <CAF6AEGvCT5S0KhcnUwGAbVqZXKxAQk4gfCegucAfQvy+Pgr4+A@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/adreno: Make adreno quirks not overwrite each
+ other
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,64 +67,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neal Gompa <ngompa13@gmail.com>, dri-devel@lists.freedesktop.org,
- Martijn Braam <martijn@brixit.nl>, Caleb Connolly <kc@postmarketos.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Kamil =?utf-8?Q?Trzci=C5=84ski?= <ayufan@ayufan.eu>,
- Sam Ravnborg <sam@ravnborg.org>, linux-rockchip@lists.infradead.org,
- Jagan Teki <jagan@amarulasolutions.com>, Peter Robinson <pbrobinson@gmail.com>,
- devicetree@vger.kernel.org, Robert Mader <robert.mader@posteo.de>,
- Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org,
- Onuralp Sezer <thunderbirdtr@fedoraproject.org>, linux-kernel@vger.kernel.org,
- Tom Fitzhenry <tom@tom-fitzhenry.me.uk>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Ondrej Jirman <megi@xff.cz>, Maya Matuszczyk <maccraft123mc@gmail.com>
+Cc: freedreno@lists.freedesktop.org, Emma Anholt <emma@anholt.net>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ andersson@kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, krzysztof.kozlowski@linaro.org,
+ agross@kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Dec 29, 2022 at 2:47 AM Marijn Suijten
+<marijn.suijten@somainline.org> wrote:
+>
+> On 2022-12-29 11:18:45, Konrad Dybcio wrote:
+> > So far the adreno quirks have all been assigned with an OR operator,
+> > which is problematic, because they were assigned consecutive integer
+> > values, which makes checking them with an AND operator kind of no bueno..
+> >
+> > Switch to using BIT(n) so that only the quirks that the programmer chose
+> > are taken into account when evaluating info->quirks & ADRENO_QUIRK_...
+> >
+> > Fixes: b5f103ab98c7 ("drm/msm: gpu: Add A5XX target support")
+> > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>
+> Nice catch!
+>
+> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+>
+> Not sure if it's the right Fixes commit though, as it would have worked
+> when ADRENO_QUIRK_LMLOADKILL_DISABLE was added with constant 4 instead
+> of 3 in 370063ee427a ("drm/msm/adreno: Add A540 support"), but then
+> using bitflags in an enum value type is invalid anyway, AFAIK.
 
---RTMPi14+3aUpRgHm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It isn't a thing that c++ like so much, but for c code, gdb will
+decode enum bitfields in a sensible way (IIRC).  Also, maybe it
+doesn't matter at this point, but it would conflict for stable
+backports prior to adding LMLOADKILL_DISABLE.
 
-Hi!
+with the fixes msg corrected,
 
-> This series add support for the display present in the PinePhone Pro.
->=20
-> Patch #1 adds a driver for panels using the Himax HX8394 panel controller,
-> such as the HSD060BHW4 720x1440 TFT LCD panel present in the PinePhone Pr=
-o.
->=20
-> Patch #2 adds a devicetree binding schema for this driver and patch #3 ad=
-ds
-> an entry for the driver in the MAINTAINERS file.
->=20
-> Finally patch #4 adds the needed devicetree nodes in the PinePhone Pro DT=
-S,
-> to enable both the display and the touchscreen. This makes the upstream D=
-TS
-> much more usable and will allow for example to enable support for the pho=
-ne
-> in the Fedora distribution.
+Reviewed-by: Rob Clark <robdclark@gmail.com>
 
-Thanks for the series. Please cc: phone-devel@vger.kernel.org with
-future patches.
-
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---RTMPi14+3aUpRgHm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY7H5UAAKCRAw5/Bqldv6
-8umEAKCiiwwQLTUUm7OHMP64I5tMJAdxgACfQsIjJN7Qg6MhlcLpmicQs5rvGSs=
-=0ZNJ
------END PGP SIGNATURE-----
-
---RTMPi14+3aUpRgHm--
+> - Marijn
+>
+> > ---
+> >  drivers/gpu/drm/msm/adreno/adreno_gpu.h | 10 ++++------
+> >  1 file changed, 4 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> > index c85857c0a228..5eb254c9832a 100644
+> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> > @@ -29,11 +29,9 @@ enum {
+> >       ADRENO_FW_MAX,
+> >  };
+> >
+> > -enum adreno_quirks {
+> > -     ADRENO_QUIRK_TWO_PASS_USE_WFI = 1,
+> > -     ADRENO_QUIRK_FAULT_DETECT_MASK = 2,
+> > -     ADRENO_QUIRK_LMLOADKILL_DISABLE = 3,
+> > -};
+> > +#define ADRENO_QUIRK_TWO_PASS_USE_WFI                BIT(0)
+> > +#define ADRENO_QUIRK_FAULT_DETECT_MASK               BIT(1)
+> > +#define ADRENO_QUIRK_LMLOADKILL_DISABLE              BIT(2)
+> >
+> >  struct adreno_rev {
+> >       uint8_t  core;
+> > @@ -65,7 +63,7 @@ struct adreno_info {
+> >       const char *name;
+> >       const char *fw[ADRENO_FW_MAX];
+> >       uint32_t gmem;
+> > -     enum adreno_quirks quirks;
+> > +     u64 quirks;
+> >       struct msm_gpu *(*init)(struct drm_device *dev);
+> >       const char *zapfw;
+> >       u32 inactive_period;
+> > --
+> > 2.39.0
+> >
