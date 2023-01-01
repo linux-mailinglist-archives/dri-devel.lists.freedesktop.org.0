@@ -1,68 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 896D565AAB7
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Jan 2023 17:42:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 507E965AABE
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Jan 2023 17:48:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C70A410E0B4;
-	Sun,  1 Jan 2023 16:42:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8516E10E0C2;
+	Sun,  1 Jan 2023 16:48:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 813DB10E084
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Jan 2023 16:42:28 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id s25so27088593lji.2
- for <dri-devel@lists.freedesktop.org>; Sun, 01 Jan 2023 08:42:28 -0800 (PST)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A1CF10E0C2
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Jan 2023 16:48:25 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id x37so20184477ljq.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 01 Jan 2023 08:48:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=DyHmJqMwBFUTDUCLBa6xYcpZiFOVVP1mRqK8f17ZqlQ=;
- b=nlo6vvboC1gDKb90dwiGsoLvLW04p9t5Iuivx1rAOrJQ6IdEGnrYpwh7jiDBPfE/3D
- /SMwuvv2zdSpkX3dgprB2gdElbPIkRczorWVOEB821htUEsSZdQlXni1KB2PltWAtEiU
- duBP9BJ+ZUkQTfY3MHdF5GDxVfYlrnXii5Fe+uSAh2XXhhXWVppStGOaYMrQ0N3kRayx
- uDlPAxzZyXRVO7PyNKmoKgq2xT3baa+YWX5aLoMUFQ32mQGvmiqRLJqeQMA+YQ/0kBGG
- nG4V/dc/WuOXxNT7AqOKI3SGw0IDcnnOmQUljoQy3JwlvVxahlXdRn5EAaePVMzvq6E9
- Ga5Q==
+ bh=Ge4PP1SVJmKzIUfpzygbNjv7xfpf7GwfAHU5wdsn3v8=;
+ b=iyWofjg1cuc1wFt7FbNU03134Ig4lU4d7FLbhbPl/5XKtZZzoggW9hhf/5Bn+T6NRV
+ vyntxu9tdPh1FFPRtc2lY87M26ZGGIJvH+dsuUEHpuuTK3+I2rrTkAMDLJJEDFotdKTu
+ poawfAgq6/2fO+SRgzqMWgpDpBv8DpBjh57Bmg3fVlvJ5YcrAG3/2X4uuAUeNeZI/ALY
+ PvcQkh+5DnchCubmpZoa2BeP/bFzZsL4cO1PNVoidx0jjCQGZaR2PpUGEIp7uwaL8hhu
+ IV19ZfdqZlmWN41RXaFzCWFCpY61XLp2dAJuKLIjTyK4ooYqDjR36JiFbpihzlNBi+xx
+ VIcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DyHmJqMwBFUTDUCLBa6xYcpZiFOVVP1mRqK8f17ZqlQ=;
- b=UXtsaSjQiyzZpHmGUj4cFILLVCFdd9Y/Zb3VovMx8MHBS0FdvO5GDOO5QoLRN2LjBW
- l8Q5jSgFGvzCdVoXsfUn4OwCOu3wifI6eoeITssQlanakT6woqfLA+JBvt+b+h8WDrwx
- s7pwCab2+O7OLnA+3/9qqwxUzw5Se3GoksgQBpT70coLUAC8uiNVRIUANF8DSN60QKVF
- 1PIfVPcy5SgfsOCRC466KMR3JjL08+C2Vg4+td3Y1a2+o64DSX73KIAXfV/UCJSK5pHh
- nar55CLwAGzi7c/WRWv5ziSRJba54Y43v2hKGSk/+cMZZJ4nCSsm73xbWbjIA10YpVIE
- YRSA==
-X-Gm-Message-State: AFqh2kqYyicvKr7Umgn7jO0WqU6E+XjtGTBsbfOTt1jVLDMOm5GqxVDr
- y1zRNo1cBLpVA5WG9P1FULwpxA==
-X-Google-Smtp-Source: AMrXdXtaUkfXq3/pXQqKV7l0Qid+mJyMwHrwTgiPlwkTGs86H4Do7vJZvJh904esgyxZHUHgnau53Q==
-X-Received: by 2002:a2e:a54d:0:b0:27f:bc58:3926 with SMTP id
- e13-20020a2ea54d000000b0027fbc583926mr8113638ljn.43.1672591346531; 
- Sun, 01 Jan 2023 08:42:26 -0800 (PST)
+ bh=Ge4PP1SVJmKzIUfpzygbNjv7xfpf7GwfAHU5wdsn3v8=;
+ b=46h9v9XZlQkbC1lNWityGXtLiT1fnlujBavgn8mmvF2MOBaTHGiNRUjna2TPNhgw2h
+ 8cSmYMosgLA8jqOGAwdZwEd3z4w6/xaksLQVq9bP6b+6iDGAsuDpyoPbDy+zZ49aphaJ
+ 0ioEDMwk4PBAZFDnu0rejeEHXGSi2DkJdTfejUsyuU+qIj7VidPkSRBU6dTALn9Z/Sao
+ 31ZyyHxO9Ql22ubIkOzchi7cIGW3WxitYZL5nBy167xffhlTy+gU71I1OzsT3iNsf13k
+ 8Ko8LfZGUCwib3MIfMULOByGJ/ln1toCBpTDMg3v7LEYtFKfmjeZKuBIY0Is0PYEU4kk
+ xjBg==
+X-Gm-Message-State: AFqh2kpPdw5/+4pqQT6m0fCt1dQFlwgaktnSAE23ri/aecyAcRTWkcGy
+ ZCGz86GcS/UqwS1ts5lRZ8ljSw==
+X-Google-Smtp-Source: AMrXdXsbed8972ttl4tuW+r6II/l4+IDIN3XfWFXtwKU+S+h7RqPDrhNKmmYR0qUvjU6oenThQCNSA==
+X-Received: by 2002:a2e:88c2:0:b0:27f:d050:d95c with SMTP id
+ a2-20020a2e88c2000000b0027fd050d95cmr4172562ljk.10.1672591703879; 
+ Sun, 01 Jan 2023 08:48:23 -0800 (PST)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- s9-20020a2eb8c9000000b00267232d0652sm3055761ljp.46.2023.01.01.08.42.25
+ e26-20020a05651c039a00b0027e4da2d952sm3014101ljp.68.2023.01.01.08.48.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 01 Jan 2023 08:42:25 -0800 (PST)
-Message-ID: <3dceb85f-1c1c-e8c6-1cc7-3c75f3f4c0b7@linaro.org>
-Date: Sun, 1 Jan 2023 18:42:25 +0200
+ Sun, 01 Jan 2023 08:48:23 -0800 (PST)
+Message-ID: <9d77ed88-a6b7-74f0-4f0e-f67b3ab15982@linaro.org>
+Date: Sun, 1 Jan 2023 18:48:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH] drm/msm/adreno: Make adreno quirks not overwrite each
- other
+Subject: Re: [PATCH] drm/msm/a2xx: support loading legacy (iMX) firmware
 Content-Language: en-GB
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- andersson@kernel.org, agross@kernel.org, krzysztof.kozlowski@linaro.org
-References: <20221229101846.981223-1-konrad.dybcio@linaro.org>
+To: Fabio Estevam <festevam@gmail.com>
+References: <20230101155753.779176-1-dmitry.baryshkov@linaro.org>
+ <CAOMZO5AaZrXe8w7XhzG5LzCxdodOde-5ACV6Kgd8B+uYneKxWA@mail.gmail.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20221229101846.981223-1-konrad.dybcio@linaro.org>
+In-Reply-To: <CAOMZO5AaZrXe8w7XhzG5LzCxdodOde-5ACV6Kgd8B+uYneKxWA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,30 +76,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Emma Anholt <emma@anholt.net>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>,
+Cc: Jonathan Marek <jonathan@marek.ca>, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Jordan Crouse <jordan@cosmicpenguin.net>, marijn.suijten@somainline.org,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/12/2022 12:18, Konrad Dybcio wrote:
-> So far the adreno quirks have all been assigned with an OR operator,
-> which is problematic, because they were assigned consecutive integer
-> values, which makes checking them with an AND operator kind of no bueno..
+On 01/01/2023 18:38, Fabio Estevam wrote:
+> Hi Dmitry,
 > 
-> Switch to using BIT(n) so that only the quirks that the programmer chose
-> are taken into account when evaluating info->quirks & ADRENO_QUIRK_...
+> On Sun, Jan 1, 2023 at 12:58 PM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+>>
+>> Support loading A200 firmware generated from the iMX firmware header
+>> files. The firmware lacks protection support, however it allows GPU to
+>> function properly while using the firmware files with clear license
+>> which allows redistribution.
 > 
-> Fixes: b5f103ab98c7 ("drm/msm: gpu: Add A5XX target support")
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Could you please share more details as to what firmware you are using
+> with the i.MX53?
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+I have been testing i.MX53 with the firmware generated from EfikaMX 
+generated files 
+(https://github.com/genesi/linux-legacy/tree/master/drivers/mxc/amd-gpu).
 
-> ---
->   drivers/gpu/drm/msm/adreno/adreno_gpu.h | 10 ++++------
->   1 file changed, 4 insertions(+), 6 deletions(-)-- 
+> Is it available on the linux-firmare repository?
+
+Not yet. As the firmware have clear attribution and clear licence 
+(BSD-3) which allows redistribution, I'm going to send pull request to 
+linux-firmware as soon as the approach, presented in this patch, is 
+accepted by Rob.
+
+-- 
 With best wishes
 Dmitry
 
