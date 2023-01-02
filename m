@@ -1,49 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A347665ADB6
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 08:30:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42C8565ADEE
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 09:15:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCF9E10E0CC;
-	Mon,  2 Jan 2023 07:30:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 762FA10E189;
+	Mon,  2 Jan 2023 08:14:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BACA10E0CC;
- Mon,  2 Jan 2023 07:30:24 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51A5410E189
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 08:14:54 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 66AE56602CC0;
- Mon,  2 Jan 2023 07:30:22 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1672644622;
- bh=nZ1tiiKOV6PR1uS9qRcTHIV9dyzlwjFIHSSkrVZ8yC4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=XG3D+CQiQmsN0ML2WTNyWCeX105+p+Ti/x87rl55aF8mIgt0l3uyvcaS787/9r95F
- fObcDjCpHaZJiYEccrqIvETIKffiHax/+gtABruHJZFKKN5yjrQKI5FUgGfA73zt7u
- RiB6mjRefdlkCxeztEbNjsyH5DNdFSXorWKKjF+mFrnYS7JF0CMPal0S8oAlhw5Rj/
- S1mewS1ub8ifxOUPPKIox+FW8ZXmEsGdsbzMNCLag/3iLu/S+OsJ1Uj20xEGkFf8lx
- cHK/RtXxmtMLeaiWUmnBkvLVcj4tVBjo5PJGQ/smDLyBQ+Gpmzhkz57GaBTNu/ZNQA
- VQuMDkX1WB1Nw==
-Date: Mon, 2 Jan 2023 08:30:19 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [RFC PATCH 04/20] drm/sched: Convert drm scheduler to use a
- work queue rather than kthread
-Message-ID: <20230102083019.24b99647@collabora.com>
-In-Reply-To: <20221230125508.57af8a14@collabora.com>
-References: <20221222222127.34560-1-matthew.brost@intel.com>
- <20221222222127.34560-5-matthew.brost@intel.com>
- <20221230112042.2ddd1946@collabora.com>
- <20221230125508.57af8a14@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id F39B933F5D;
+ Mon,  2 Jan 2023 08:14:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1672647293; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=AvqS47Pvo1SFIFO+JmNDuK4HmkZwgNNPhm50U+NwQHM=;
+ b=nZkYfSc7GhBE79v9P9NXiSqgrFg5S/sCBUrySAkB8waJa6UgJpnVQNdK2R1wto8FnWzpCe
+ 83xH6yvKoGHwc/4eBlTtNKlTdOY9sUq8Nwf9KzpLD1k59PpWbKzV/SgJ8SZobXve5tysCO
+ atJvExguxKnCluyFOavMcP0NWm3gOS8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1672647293;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=AvqS47Pvo1SFIFO+JmNDuK4HmkZwgNNPhm50U+NwQHM=;
+ b=vO66St5Y6KfDMll8gfSc/4Ar1kLKdH2n2mhmCycg5L0U/r9Jp9PGH3xVKs+wUIdcuz8rFq
+ UMq5650YCxnOBZBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DA189139C8;
+ Mon,  2 Jan 2023 08:14:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id FQ5fNHySsmOGHgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 02 Jan 2023 08:14:52 +0000
+Message-ID: <8c0a1792-c2bd-375f-fa56-747e34b085f4@suse.de>
+Date: Mon, 2 Jan 2023 09:14:52 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [RFC PATCH 00/20] Initial Xe driver submission
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20221222222127.34560-1-matthew.brost@intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20221222222127.34560-1-matthew.brost@intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------YIXEzbo57QU4EbLPAmyDFUX8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,95 +70,265 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 30 Dec 2022 12:55:08 +0100
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------YIXEzbo57QU4EbLPAmyDFUX8
+Content-Type: multipart/mixed; boundary="------------W9nNRmBf6PgqUJMw0LP859AO";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Message-ID: <8c0a1792-c2bd-375f-fa56-747e34b085f4@suse.de>
+Subject: Re: [RFC PATCH 00/20] Initial Xe driver submission
+References: <20221222222127.34560-1-matthew.brost@intel.com>
+In-Reply-To: <20221222222127.34560-1-matthew.brost@intel.com>
 
-> On Fri, 30 Dec 2022 11:20:42 +0100
-> Boris Brezillon <boris.brezillon@collabora.com> wrote:
-> 
-> > Hello Matthew,
-> > 
-> > On Thu, 22 Dec 2022 14:21:11 -0800
-> > Matthew Brost <matthew.brost@intel.com> wrote:
-> >   
-> > > In XE, the new Intel GPU driver, a choice has made to have a 1 to 1
-> > > mapping between a drm_gpu_scheduler and drm_sched_entity. At first this
-> > > seems a bit odd but let us explain the reasoning below.
-> > > 
-> > > 1. In XE the submission order from multiple drm_sched_entity is not
-> > > guaranteed to be the same completion even if targeting the same hardware
-> > > engine. This is because in XE we have a firmware scheduler, the GuC,
-> > > which allowed to reorder, timeslice, and preempt submissions. If a using
-> > > shared drm_gpu_scheduler across multiple drm_sched_entity, the TDR falls
-> > > apart as the TDR expects submission order == completion order. Using a
-> > > dedicated drm_gpu_scheduler per drm_sched_entity solve this problem.    
-> > 
-> > Oh, that's interesting. I've been trying to solve the same sort of
-> > issues to support Arm's new Mali GPU which is relying on a FW-assisted
-> > scheduling scheme (you give the FW N streams to execute, and it does
-> > the scheduling between those N command streams, the kernel driver
-> > does timeslice scheduling to update the command streams passed to the
-> > FW). I must admit I gave up on using drm_sched at some point, mostly
-> > because the integration with drm_sched was painful, but also because I
-> > felt trying to bend drm_sched to make it interact with a
-> > timeslice-oriented scheduling model wasn't really future proof. Giving
-> > drm_sched_entity exlusive access to a drm_gpu_scheduler probably might
-> > help for a few things (didn't think it through yet), but I feel it's
-> > coming short on other aspects we have to deal with on Arm GPUs.  
-> 
-> Ok, so I just had a quick look at the Xe driver and how it
-> instantiates the drm_sched_entity and drm_gpu_scheduler, and I think I
-> have a better understanding of how you get away with using drm_sched
-> while still controlling how scheduling is really done. Here
-> drm_gpu_scheduler is just a dummy abstract that let's you use the
-> drm_sched job queuing/dep/tracking mechanism. The whole run-queue
-> selection is dumb because there's only one entity ever bound to the
-> scheduler (the one that's part of the xe_guc_engine object which also
-> contains the drm_gpu_scheduler instance). I guess the main issue we'd
-> have on Arm is the fact that the stream doesn't necessarily get
-> scheduled when ->run_job() is called, it can be placed in the runnable
-> queue and be picked later by the kernel-side scheduler when a FW slot
-> gets released. That can probably be sorted out by manually disabling the
-> job timer and re-enabling it when the stream gets picked by the
-> scheduler. But my main concern remains, we're basically abusing
-> drm_sched here.
-> 
-> For the Arm driver, that means turning the following sequence
-> 
-> 1. wait for job deps
-> 2. queue job to ringbuf and push the stream to the runnable
->    queue (if it wasn't queued already). Wakeup the timeslice scheduler
->    to re-evaluate (if the stream is not on a FW slot already)
-> 3. stream gets picked by the timeslice scheduler and sent to the FW for
->    execution
-> 
-> into
-> 
-> 1. queue job to entity which takes care of waiting for job deps for
->    us
-> 2. schedule a drm_sched_main iteration
-> 3. the only available entity is picked, and the first job from this
->    entity is dequeued. ->run_job() is called: the job is queued to the
->    ringbuf and the stream is pushed to the runnable queue (if it wasn't
->    queued already). Wakeup the timeslice scheduler to re-evaluate (if
->    the stream is not on a FW slot already)
-> 4. stream gets picked by the timeslice scheduler and sent to the FW for
->    execution
-> 
-> That's one extra step we don't really need. To sum-up, yes, all the
-> job/entity tracking might be interesting to share/re-use, but I wonder
-> if we couldn't have that without pulling out the scheduling part of
-> drm_sched, or maybe I'm missing something, and there's something in
-> drm_gpu_scheduler you really need.
+--------------W9nNRmBf6PgqUJMw0LP859AO
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-On second thought, that's probably an acceptable overhead (not even
-sure the extra step I was mentioning exists in practice, because dep
-fence signaled state is checked as part of the drm_sched_main
-iteration, so that's basically replacing the worker I schedule to
-check job deps), and I like the idea of being able to re-use drm_sched
-dep-tracking without resorting to invasive changes to the existing
-logic, so I'll probably give it a try.
+SGkNCg0KQW0gMjIuMTIuMjIgdW0gMjM6MjEgc2NocmllYiBNYXR0aGV3IEJyb3N0Og0KPiBI
+ZWxsbywNCj4gDQo+IFRoaXMgaXMgYSBzdWJtaXNzaW9uIGZvciBYZSwgYSBuZXcgZHJpdmVy
+IGZvciBJbnRlbCBHUFVzIHRoYXQgc3VwcG9ydHMgYm90aA0KPiBpbnRlZ3JhdGVkIGFuZCBk
+aXNjcmV0ZSBwbGF0Zm9ybXMgc3RhcnRpbmcgd2l0aCBUaWdlciBMYWtlIChmaXJzdCBwbGF0
+Zm9ybSB3aXRoDQo+IEludGVsIFhlIEFyY2hpdGVjdHVyZSkuIFRoZSBpbnRlbnRpb24gb2Yg
+dGhpcyBuZXcgZHJpdmVyIGlzIHRvIGhhdmUgYSBmcmVzaCBiYXNlDQo+IHRvIHdvcmsgZnJv
+bSB0aGF0IGlzIHVuZW5jdW1iZXJlZCBieSBvbGRlciBwbGF0Zm9ybXMsIHdoaWxzdCBhbHNv
+IHRha2luZyB0aGUNCj4gb3Bwb3J0dW5pdHkgdG8gcmVhcmNoaXRlY3Qgb3VyIGRyaXZlciB0
+byBpbmNyZWFzZSBzaGFyaW5nIGFjcm9zcyB0aGUgZHJtDQo+IHN1YnN5c3RlbSwgYm90aCBs
+ZXZlcmFnaW5nIGFuZCBhbGxvd2luZyB1cyB0byBjb250cmlidXRlIG1vcmUgdG93YXJkcyBv
+dGhlcg0KPiBzaGFyZWQgY29tcG9uZW50cyBsaWtlIFRUTSBhbmQgZHJtL3NjaGVkdWxlci4g
+VGhlIG1lbW9yeSBtb2RlbCBpcyBiYXNlZCBvbiBWTQ0KPiBiaW5kIHdoaWNoIGlzIHNpbWls
+YXIgdG8gdGhlIGk5MTUgaW1wbGVtZW50YXRpb24uIExpa2V3aXNlIHRoZSBleGVjYnVmDQo+
+IGltcGxlbWVudGF0aW9uIGZvciBYZSBpcyB2ZXJ5IHNpbWlsYXIgdG8gZXhlY2J1ZjMgaW4g
+dGhlIGk5MTUgWzFdLg0KDQpBZnRlciBYZSBoYXMgc3RhYmlsaXplZCwgd2lsbCBpOTE1IGxv
+b3NlIHRoZSBhYmlsaXR5IHRvIGRyaXZlIHRoaXMgDQpoYXJkd2FyZSAoYW5kIHBvc3NpYmx5
+IG90aGVyKT8gIEknbSBzcGVjZmljYWxseSB0aGlua2luZyBvZiB0aGUgaTkxNSANCmNvZGUg
+dGhhdCByZXF1aXJlcyBUVE0uIEtlZXBpbmcgdGhhdCBkZXBlbmRlY3kgd2l0aGluIFhlIG9u
+bHkgbWlnaHQgDQpiZW5lZml0IERSTSBhcyBhIHdob2xlLg0KDQo+IA0KPiBUaGUgY29kZSBp
+cyBhdCBhIHN0YWdlIHdoZXJlIGl0IGlzIGFscmVhZHkgZnVuY3Rpb25hbCBhbmQgaGFzIGV4
+cGVyaW1lbnRhbA0KPiBzdXBwb3J0IGZvciBtdWx0aXBsZSBwbGF0Zm9ybXMgc3RhcnRpbmcg
+ZnJvbSBUaWdlciBMYWtlLCB3aXRoIGluaXRpYWwgc3VwcG9ydA0KPiBpbXBsZW1lbnRlZCBp
+biBNZXNhIChmb3IgSXJpcyBhbmQgQW52LCBvdXIgT3BlbkdMIGFuZCBWdWxrYW4gZHJpdmVy
+cyksIGFzIHdlbGwNCj4gYXMgaW4gTkVPIChmb3IgT3BlbkNMIGFuZCBMZXZlbDApLiBBIE1l
+c2EgTVIgaGFzIGJlZW4gcG9zdGVkIFsyXSBhbmQgTkVPDQo+IGltcGxlbWVudGF0aW9uIHdp
+bGwgYmUgcmVsZWFzZWQgcHVibGljbHkgZWFybHkgbmV4dCB5ZWFyLiBXZSBhbHNvIGhhdmUg
+YSBzdWl0ZQ0KPiBvZiBJR1RzIGZvciBYRSB0aGF0IHdpbGwgYXBwZWFyIG9uIHRoZSBJR1Qg
+bGlzdCBzaG9ydGx5Lg0KPiANCj4gSXQgaGFzIGJlZW4gYnVpbHQgd2l0aCB0aGUgYXNzdW1w
+dGlvbiBvZiBzdXBwb3J0aW5nIG11bHRpcGxlIGFyY2hpdGVjdHVyZXMgZnJvbQ0KPiB0aGUg
+Z2V0LWdvLCByaWdodCBub3cgd2l0aCB0ZXN0cyBydW5uaW5nIGJvdGggb24gWDg2IGFuZCBB
+Uk0gaG9zdHMuIEFuZCB3ZQ0KPiBpbnRlbmQgdG8gY29udGludWUgd29ya2luZyBvbiBpdCBh
+bmQgaW1wcm92aW5nIG9uIGl0IGFzIHBhcnQgb2YgdGhlIGtlcm5lbA0KPiBjb21tdW5pdHkg
+dXBzdHJlYW0uDQo+IA0KPiBUaGUgbmV3IFhlIGRyaXZlciBsZXZlcmFnZXMgYSBsb3QgZnJv
+bSBpOTE1IGFuZCB3b3JrIG9uIGk5MTUgY29udGludWVzIGFzIHdlDQo+IHJlYWR5IFhlIGZv
+ciBwcm9kdWN0aW9uIHRocm91Z2hvdXQgMjAyMy4NCj4gDQo+IEFzIGZvciBkaXNwbGF5LCB0
+aGUgaW50ZW50IGlzIHRvIHNoYXJlIHRoZSBkaXNwbGF5IGNvZGUgd2l0aCB0aGUgaTkxNSBk
+cml2ZXIgc28NCj4gdGhhdCB0aGVyZSBpcyBtYXhpbXVtIHJldXNlIHRoZXJlLiBDdXJyZW50
+bHkgdGhpcyBpcyBiZWluZyBkb25lIGJ5IGNvbXBpbGluZyB0aGUNCj4gZGlzcGxheSBjb2Rl
+IHR3aWNlLCBidXQgYWx0ZXJuYXRpdmVzIHRvIHRoYXQgYXJlIHVuZGVyIGNvbnNpZGVyYXRp
+b24gYW5kIHdlIHdhbnQNCj4gdG8gaGF2ZSBtb3JlIGRpc2N1c3Npb24gb24gd2hhdCB0aGUg
+YmVzdCBmaW5hbCBzb2x1dGlvbiB3aWxsIGxvb2sgbGlrZSBvdmVyIHRoZQ0KPiBuZXh0IGZl
+dyBtb250aHMuIFJpZ2h0IG5vdywgd29yayBpcyBvbmdvaW5nIGluIHJlZmFjdG9yaW5nIHRo
+ZSBkaXNwbGF5IGNvZGViYXNlDQo+IHRvIHJlbW92ZSBhcyBtdWNoIGFzIHBvc3NpYmxlIGFu
+eSB1bm5lY2Vzc2FyeSBkZXBlbmRlbmNpZXMgb24gaTkxNSBzcGVjaWZpYyBkYXRhDQo+IHN0
+cnVjdHVyZXMgdGhlcmUuLg0KDQpDb3VsZCBib3RoIGRyaXZlcnMgcmVzaWRlIGluIGEgY29t
+bW9uIHBhcmVudCBkaXJlY3RvcnkgYW5kIHNoYXJlIA0Kc29tZXRoaW5nIGxpa2UgYSBEUk0g
+SW50ZWwgaGVscGVyIG1vZHVsZSB3aXRoIHRoZSBjb21tb24gY29kZT8gVGhpcyANCndvdWxk
+IGZpdCB3ZWxsIHdpdGggdGhlIGNvbW1vbiBkZXNpZ24gb2YgRFJNIGhlbHBlcnMuDQoNCkJl
+c3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IFdlIGN1cnJlbnRseSBoYXZlIDIgc3VibWlz
+c2lvbiBiYWNrZW5kcywgZXhlY2xpc3RzIGFuZCBHdUMuIFRoZSBleGVjbGlzdCBpcw0KPiBt
+ZWFudCBtb3N0bHkgZm9yIHRlc3RpbmcgYW5kIGlzIG5vdCBmdWxseSBmdW5jdGlvbmFsIHdo
+aWxlIEd1QyBiYWNrZW5kIGlzIGZ1bGx5DQo+IGZ1bmN0aW9uYWwuIEFzIHdpdGggdGhlIGk5
+MTUgYW5kIEd1QyBzdWJtaXNzaW9uLCBpbiBYZSB0aGUgR3VDIGZpcm13YXJlIGlzDQo+IHJl
+cXVpcmVkIGFuZCBzaG91bGQgYmUgcGxhY2VkIGluIC9saWIvZmlybXdhcmUveGUuDQo+IA0K
+PiBUaGUgR3VDIGZpcm13YXJlIGNhbiBiZSBmb3VuZCBpbiB0aGUgYmVsb3cgbG9jYXRpb246
+DQo+IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2Zp
+cm13YXJlL2xpbnV4LWZpcm13YXJlLmdpdC90cmVlL2k5MTUNCj4gDQo+IFRoZSBlYXNpZXN0
+IHdheSB0byBzZXR1cCBmaXJtd2FyZSBpczoNCj4gY3AgLXIgL2xpYi9maXJtd2FyZS9pOTE1
+IC9saWIvZmlybXdhcmUveGUNCj4gDQo+IFRoZSBjb2RlIGhhcyBiZWVuIG9yZ2FuaXplZCBz
+dWNoIHRoYXQgd2UgaGF2ZSBhbGwgcGF0Y2hlcyB0aGF0IHRvdWNoIGFyZWFzDQo+IG91dHNp
+ZGUgb2YgZHJtL3hlIGZpcnN0IGZvciByZXZpZXcsIGFuZCB0aGVuIHRoZSBhY3R1YWwgbmV3
+IGRyaXZlciBpbiBhIHNlcGFyYXRlDQo+IGNvbW1pdC4gVGhlIGNvZGUgd2hpY2ggaXMgb3V0
+c2lkZSBvZiBkcm0veGUgaXMgaW5jbHVkZWQgaW4gdGhpcyBSRkMgd2hpbGUNCj4gZHJtL3hl
+IGlzIG5vdCBkdWUgdG8gdGhlIHNpemUgb2YgdGhlIGNvbW1pdC4gVGhlIGRybS94ZSBpcyBj
+b2RlIGlzIGF2YWlsYWJsZSBpbg0KPiBhIHB1YmxpYyByZXBvIGxpc3RlZCBiZWxvdy4NCj4g
+DQo+IFhlIGRyaXZlciBjb21taXQ6DQo+IGh0dHBzOi8vY2dpdC5mcmVlZGVza3RvcC5vcmcv
+ZHJtL2RybS14ZS9jb21taXQvP2g9ZHJtLXhlLW5leHQmaWQ9OWNiMDE2ZWJiYjZhMjc1ZjU3
+YjFjYjUxMmI5NWQ1YTg0MjM5MWFkNw0KPiANCj4gWGUga2VybmVsIHJlcG86DQo+IGh0dHBz
+Oi8vY2dpdC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybS14ZS8NCj4gDQo+IFRoZXJlJ3MgYSBs
+b3Qgb2Ygd29yayBzdGlsbCB0byBoYXBwZW4gb24gWGUgYnV0IHdlJ3JlIHZlcnkgZXhjaXRl
+ZCBhYm91dCBpdCBhbmQNCj4gd2FudGVkIHRvIHNoYXJlIGl0IGVhcmx5IGFuZCB3ZWxjb21l
+IGZlZWRiYWNrIGFuZCBkaXNjdXNzaW9uLg0KPiANCj4gQ2hlZXJzLA0KPiBNYXR0aGV3IEJy
+b3N0DQo+IA0KPiBbMV0gaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Nlcmll
+cy8xMDU4NzkvDQo+IFsyXSBodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvbWVzYS9t
+ZXNhLy0vbWVyZ2VfcmVxdWVzdHMvMjA0MTgNCj4gDQo+IE1hYXJ0ZW4gTGFua2hvcnN0ICgx
+Mik6DQo+ICAgIGRybS9hbWQ6IENvbnZlcnQgYW1kZ3B1IHRvIHVzZSBzdWJhbGxvY2F0aW9u
+IGhlbHBlci4NCj4gICAgZHJtL3JhZGVvbjogVXNlIHRoZSBkcm0gc3ViYWxsb2NhdGlvbiBt
+YW5hZ2VyIGltcGxlbWVudGF0aW9uLg0KPiAgICBkcm0vaTkxNTogUmVtb3ZlIGdlbSBhbmQg
+b3ZlcmxheSBmcm9udGJ1ZmZlciB0cmFja2luZw0KPiAgICBkcm0vaTkxNS9kaXNwbGF5OiBO
+ZXV0ZXIgZnJvbnRidWZmZXIgdHJhY2tpbmcgaGFyZGVyDQo+ICAgIGRybS9pOTE1L2Rpc3Bs
+YXk6IEFkZCBtb3JlIG1hY3JvcyB0byByZW1vdmUgYWxsIGRpcmVjdCBjYWxscyB0byB1bmNv
+cmUNCj4gICAgZHJtL2k5MTUvZGlzcGxheTogUmVtb3ZlIGFsbCB1bmNvcmUgbW1pbyBhY2Nl
+c3NlcyBpbiBmYXZvciBvZiBpbnRlbF9kZQ0KPiAgICBkcm0vaTkxNTogUmVuYW1lIGZpbmRf
+c2VjdGlvbiB0byBmaW5kX2JkYl9zZWN0aW9uDQo+ICAgIGRybS9pOTE1L3JlZ3M6IFNldCBE
+SVNQTEFZX01NSU9fQkFTRSB0byAwIGZvciB4ZQ0KPiAgICBkcm0vaTkxNS9kaXNwbGF5OiBG
+aXggYSB1c2UtYWZ0ZXItZnJlZSB3aGVuIGludGVsX2VkcF9pbml0X2Nvbm5lY3Rvcg0KPiAg
+ICAgIGZhaWxzDQo+ICAgIGRybS9pOTE1L2Rpc3BsYXk6IFJlbWFpbmluZyBjaGFuZ2VzIHRv
+IG1ha2UgeGUgY29tcGlsZQ0KPiAgICBzb3VuZC9oZGE6IEFsbG93IFhFIGFzIGk5MTUgcmVw
+bGFjZW1lbnQgZm9yIHNvdW5kDQo+ICAgIG1laS9oZGNwOiBBbHNvIGVuYWJsZSBmb3IgWEUN
+Cj4gDQo+IE1hdHRoZXcgQnJvc3QgKDUpOg0KPiAgICBkcm0vc2NoZWQ6IENvbnZlcnQgZHJt
+IHNjaGVkdWxlciB0byB1c2UgYSB3b3JrIHF1ZXVlIHJhdGhlciB0aGFuDQo+ICAgICAga3Ro
+cmVhZA0KPiAgICBkcm0vc2NoZWQ6IEFkZCBnZW5lcmljIHNjaGVkdWxlciBtZXNzYWdlIGlu
+dGVyZmFjZQ0KPiAgICBkcm0vc2NoZWQ6IFN0YXJ0IHJ1biB3cSBiZWZvcmUgVERSIGluIGRy
+bV9zY2hlZF9zdGFydA0KPiAgICBkcm0vc2NoZWQ6IFN1Ym1pdCBqb2IgYmVmb3JlIHN0YXJ0
+aW5nIFREUg0KPiAgICBkcm0vc2NoZWQ6IEFkZCBoZWxwZXIgdG8gc2V0IFREUiB0aW1lb3V0
+DQo+IA0KPiBUaG9tYXMgSGVsbHN0csO2bSAoMyk6DQo+ICAgIGRybS9zdWJhbGxvYzogSW50
+cm9kdWNlIGEgZ2VuZXJpYyBzdWJhbGxvY2F0aW9uIG1hbmFnZXINCj4gICAgZHJtOiBBZGQg
+YSBncHUgcGFnZS10YWJsZSB3YWxrZXIgaGVscGVyDQo+ICAgIGRybS90dG06IERvbid0IHBy
+aW50IGVycm9yIG1lc3NhZ2UgaWYgZXZpY3Rpb24gd2FzIGludGVycnVwdGVkDQo+IA0KPiAg
+IGRyaXZlcnMvZ3B1L2RybS9LY29uZmlnICAgICAgICAgICAgICAgICAgICAgICB8ICAgNSAr
+DQo+ICAgZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgIHwg
+ICA0ICsNCj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9LY29uZmlnICAgICAgICAg
+ICAgfCAgIDEgKw0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdS5oICAg
+ICAgICAgICB8ICAyNiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
+dV9kZWJ1Z2ZzLmMgICB8ICAxNCArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
+L2FtZGdwdV9kZXZpY2UuYyAgICB8ICAxMiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQv
+YW1kZ3B1L2FtZGdwdV9pYi5jICAgICAgICB8ICAgNSArLQ0KPiAgIGRyaXZlcnMvZ3B1L2Ry
+bS9hbWQvYW1kZ3B1L2FtZGdwdV9vYmplY3QuaCAgICB8ICAyMyArLQ0KPiAgIGRyaXZlcnMv
+Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9yaW5nLmggICAgICB8ICAgMyArLQ0KPiAgIGRy
+aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9zYS5jICAgICAgICB8IDMyMCArLS0t
+LS0tLS0tLS0tLS0tLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX3B0X3dhbGsuYyAgICAg
+ICAgICAgICAgICAgfCAxNTkgKysrKysrKysrDQo+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9z
+dWJhbGxvYy5jICAgICAgICAgICAgICAgIHwgMzAxICsrKysrKysrKysrKysrKysNCj4gICBk
+cml2ZXJzL2dwdS9kcm0vaTkxNS9NYWtlZmlsZSAgICAgICAgICAgICAgICAgfCAgIDIgKy0N
+Cj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2hzd19pcHMuYyAgICAgICAgfCAg
+IDcgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2k5eHhfcGxhbmUuYyAg
+ICAgfCAgIDEgKw0KPiAgIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfYXRv
+bWljLmMgICB8ICAgMiArDQo+ICAgLi4uL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2F0
+b21pY19wbGFuZS5jIHwgIDI1ICstDQo+ICAgLi4uL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2lu
+dGVsX2JhY2tsaWdodC5jICAgIHwgICAyICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUv
+ZGlzcGxheS9pbnRlbF9iaW9zLmMgICAgIHwgIDcxICsrLS0NCj4gICBkcml2ZXJzL2dwdS9k
+cm0vaTkxNS9kaXNwbGF5L2ludGVsX2J3LmMgICAgICAgfCAgMzYgKy0NCj4gICBkcml2ZXJz
+L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2NkY2xrLmMgICAgfCAgNjggKystLQ0KPiAg
+IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfY29sb3IuYyAgICB8ICAgMSAr
+DQo+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9jcnRjLmMgICAgIHwg
+IDE0ICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9jdXJzb3Iu
+YyAgIHwgIDE0ICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9k
+ZS5oICAgICAgIHwgIDM4ICsrKw0KPiAgIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
+aW50ZWxfZGlzcGxheS5jICB8IDE1NSArKysrKysrLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0v
+aTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXkuaCAgfCAgIDkgKy0NCj4gICAuLi4vZ3B1L2Ry
+bS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV9jb3JlLmggfCAgIDUgKy0NCj4gICAuLi4v
+ZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5X2RlYnVnZnMuYyAgfCAgIDggKw0KPiAg
+IC4uLi9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXlfcG93ZXIuYyAgICB8ICA0MCAr
+Ky0NCj4gICAuLi4vZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5X3Bvd2VyLmggICAg
+fCAgIDYgKw0KPiAgIC4uLi9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV9wb3dlcl9tYXAu
+YyAgICB8ICAgNyArDQo+ICAgLi4uL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5X3Bvd2Vy
+X3dlbGwuYyAgIHwgIDI0ICstDQo+ICAgLi4uL2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlz
+cGxheV9yZWdfZGVmcy5oIHwgICA0ICsNCj4gICAuLi4vZHJtL2k5MTUvZGlzcGxheS9pbnRl
+bF9kaXNwbGF5X3RyYWNlLmggICAgfCAgIDYgKw0KPiAgIC4uLi9kcm0vaTkxNS9kaXNwbGF5
+L2ludGVsX2Rpc3BsYXlfdHlwZXMuaCAgICB8ICAzMiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L2Rpc3BsYXkvaW50ZWxfZG1jLmMgICAgICB8ICAxNyArLQ0KPiAgIGRyaXZlcnMv
+Z3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYyAgICAgICB8ICAxMSArLQ0KPiAgIGRy
+aXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHBfYXV4LmMgICB8ICAgNiArDQo+
+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcGlvX3BoeS5jIHwgICA5
+ICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcGlvX3BoeS5o
+IHwgIDE1ICsNCj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwbGwu
+YyAgICAgfCAgIDggKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVs
+X2RwbGxfbWdyLmMgfCAgIDQgKw0KPiAgIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
+aW50ZWxfZHJycy5jICAgICB8ICAgMSArDQo+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
+cGxheS9pbnRlbF9kc2IuYyAgICAgIHwgMTI0ICsrKysrLS0NCj4gICBkcml2ZXJzL2dwdS9k
+cm0vaTkxNS9kaXNwbGF5L2ludGVsX2RzaV92YnQuYyAgfCAgMjYgKy0NCj4gICBkcml2ZXJz
+L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2ZiLmMgICAgICAgfCAxMDggKysrKy0tDQo+
+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9mYl9waW4uYyAgIHwgICA2
+IC0NCj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2ZiYy5jICAgICAg
+fCAgNDkgKystDQo+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9mYmRl
+di5jICAgIHwgMTA4ICsrKysrLQ0KPiAgIC4uLi9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRl
+bF9mcm9udGJ1ZmZlci5jICB8IDEwMyArLS0tLS0NCj4gICAuLi4vZ3B1L2RybS9pOTE1L2Rp
+c3BsYXkvaW50ZWxfZnJvbnRidWZmZXIuaCAgfCAgNjcgKy0tLQ0KPiAgIGRyaXZlcnMvZ3B1
+L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZ21idXMuYyAgICB8ICAgMiArLQ0KPiAgIGRyaXZl
+cnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRjcC5jICAgICB8ICAgOSArLQ0KPiAg
+IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRtaS5jICAgICB8ICAgMSAt
+DQo+ICAgLi4uL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2xwZV9hdWRpby5oICAgIHwg
+ICA4ICsNCj4gICAuLi4vZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9tb2Rlc2V0X3NldHVwLmMg
+ICAgfCAgMTEgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX29w
+cmVnaW9uLmMgfCAgIDIgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2lu
+dGVsX292ZXJsYXkuYyAgfCAgMTQgLQ0KPiAgIC4uLi9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
+bnRlbF9wY2hfZGlzcGxheS5oICB8ICAxNiArDQo+ICAgLi4uL2dwdS9kcm0vaTkxNS9kaXNw
+bGF5L2ludGVsX3BjaF9yZWZjbGsuaCAgIHwgICA4ICsNCj4gICBkcml2ZXJzL2dwdS9kcm0v
+aTkxNS9kaXNwbGF5L2ludGVsX3BpcGVfY3JjLmMgfCAgIDEgKw0KPiAgIC4uLi9kcm0vaTkx
+NS9kaXNwbGF5L2ludGVsX3BsYW5lX2luaXRpYWwuYyAgICB8ICAgMyArLQ0KPiAgIGRyaXZl
+cnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfcHNyLmMgICAgICB8ICAgMSArDQo+ICAg
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9zcHJpdGUuYyAgIHwgIDIxICsr
+DQo+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF92YnRfZGVmcy5oIHwg
+ICAyICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF92Z2EuYyAg
+ICAgIHwgICA1ICsNCj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L3NrbF9zY2Fs
+ZXIuYyAgICAgfCAgIDIgKw0KPiAgIC4uLi9kcm0vaTkxNS9kaXNwbGF5L3NrbF91bml2ZXJz
+YWxfcGxhbmUuYyAgICB8ICA1MiArKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNw
+bGF5L3NrbF93YXRlcm1hcmsuYyAgfCAgMjUgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vaTkx
+NS9nZW0vaTkxNV9nZW1fY2xmbHVzaC5jICAgfCAgIDQgLQ0KPiAgIGRyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L2dlbS9pOTE1X2dlbV9kb21haW4uYyAgICB8ICAgNyAtDQo+ICAgLi4uL2dwdS9k
+cm0vaTkxNS9nZW0vaTkxNV9nZW1fZXhlY2J1ZmZlci5jICAgIHwgICAyIC0NCj4gICBkcml2
+ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fb2JqZWN0LmMgICAgfCAgMjUgLS0NCj4g
+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fb2JqZWN0LmggICAgfCAgMjIg
+LS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fcGh5cy5jICAgICAg
+fCAgIDQgLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2d0X3JlZ3MuaCAg
+ICAgICB8ICAgMyArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZHJpdmVyLmMg
+ICAgICAgICAgICB8ICAgMSArDQo+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9nZW0u
+YyAgICAgICAgICAgICAgIHwgICA4IC0NCj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1
+X2dlbV9ndHQuYyAgICAgICAgICAgfCAgIDEgLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9pOTE1
+L2k5MTVfcmVnX2RlZnMuaCAgICAgICAgICB8ICAgOCArDQo+ICAgZHJpdmVycy9ncHUvZHJt
+L2k5MTUvaTkxNV92bWEuYyAgICAgICAgICAgICAgIHwgIDEyIC0NCj4gICBkcml2ZXJzL2dw
+dS9kcm0vcmFkZW9uL3JhZGVvbi5oICAgICAgICAgICAgICAgfCAgNTUgKy0tDQo+ICAgZHJp
+dmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25faWIuYyAgICAgICAgICAgIHwgIDEyICstDQo+
+ICAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fb2JqZWN0LmggICAgICAgIHwgIDI1
+ICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fc2EuYyAgICAgICAgICAg
+IHwgMzE0ICsrLS0tLS0tLS0tLS0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9y
+YWRlb25fc2VtYXBob3JlLmMgICAgIHwgICA2ICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Nj
+aGVkdWxlci9zY2hlZF9tYWluLmMgICAgICAgIHwgMTgyICsrKysrKystLS0NCj4gICBkcml2
+ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jICAgICAgICAgICAgICAgICAgfCAgIDMgKy0NCj4g
+ICBkcml2ZXJzL21pc2MvbWVpL2hkY3AvS2NvbmZpZyAgICAgICAgICAgICAgICAgfCAgIDIg
+Ky0NCj4gICBkcml2ZXJzL21pc2MvbWVpL2hkY3AvbWVpX2hkY3AuYyAgICAgICAgICAgICAg
+fCAgIDMgKy0NCj4gICBpbmNsdWRlL2RybS9kcm1fcHRfd2Fsay5oICAgICAgICAgICAgICAg
+ICAgICAgfCAxNjEgKysrKysrKysrDQo+ICAgaW5jbHVkZS9kcm0vZHJtX3N1YmFsbG9jLmgg
+ICAgICAgICAgICAgICAgICAgIHwgMTEyICsrKysrKw0KPiAgIGluY2x1ZGUvZHJtL2dwdV9z
+Y2hlZHVsZXIuaCAgICAgICAgICAgICAgICAgICB8ICA0MSArKy0NCj4gICBzb3VuZC9oZGEv
+aGRhY19pOTE1LmMgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMTcgKy0NCj4gICBzb3Vu
+ZC9wY2kvaGRhL2hkYV9pbnRlbC5jICAgICAgICAgICAgICAgICAgICAgfCAgNTYgKy0tDQo+
+ICAgc291bmQvc29jL2ludGVsL2F2cy9jb3JlLmMgICAgICAgICAgICAgICAgICAgIHwgIDEz
+ICstDQo+ICAgc291bmQvc29jL3NvZi9pbnRlbC9oZGEuYyAgICAgICAgICAgICAgICAgICAg
+IHwgICA3ICstDQo+ICAgOTggZmlsZXMgY2hhbmdlZCwgMjA3NiBpbnNlcnRpb25zKCspLCAx
+MzI1IGRlbGV0aW9ucygtKQ0KPiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9k
+cm0vZHJtX3B0X3dhbGsuYw0KPiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9k
+cm0vZHJtX3N1YmFsbG9jLmMNCj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgaW5jbHVkZS9kcm0v
+ZHJtX3B0X3dhbGsuaA0KPiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL2RybS9kcm1f
+c3ViYWxsb2MuaA0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJp
+dmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpN
+YXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFH
+IE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+
+--------------W9nNRmBf6PgqUJMw0LP859AO--
+
+--------------YIXEzbo57QU4EbLPAmyDFUX8
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmOyknwFAwAAAAAACgkQlh/E3EQov+Dl
+6RAAo2601qgRHDV1Cq9b6WZPwtv8RaQAnKQCC2glu+TUfc3mKJykVcrym9H3Usg+1Nxj+LVcfwFP
+YnEi7DYMoKK1LChj5vcSu+dXhQAWwlhsEnp/LoLESDSy1czxL31YMONmH6o1vzRUFDM8P4S5o29k
+5fEKiMnErT3ftQNj8/OeerFlVzpO7+N0FD7lxfyI+sEDax5iKojpcXCU9kA1cnn7Xq+wQ62vWr2c
+asSk2l7CNHYcd5aIdqsH8trxd7fA54nLxkoEDxb3DSM+MOX5YAzqRmICRX1i6pqSDpm075Okp/rU
+5i+4s/ZH2SXdGm4DZf4rMq4i708p4KoJG22w+UJRV18F8d35KwAAddDM+PfgqorAwqjOQB8neV38
++N64PBP+yDFAQwSjSIp29KbTlTdgGTpTUECLaCgkl6gIcXTwq0cDc9sJgJ+Im5z6wZCWMqfczTiP
+v1iRh/OjE/noXI9Y5C0fCbxxoxUzQp/kRgafXZauaZfGdRcMTUi426MyPpiGf4rs7NA3PuccRzQm
+lGPdpp7UhaufP/aOY9L7wm4jHngw5vSVh2SlAT99eSJmnurYPhoC6Vm0NO+XPRiyl+L/+k1f250Z
+/FjUW/bb9oMYeQ5CcSaUdXc4sgpkHziQEvYluvbB98GsbN0BajbEdnGEQnUWj5Sy7KfkE4prtX6x
+Jac=
+=XI32
+-----END PGP SIGNATURE-----
+
+--------------YIXEzbo57QU4EbLPAmyDFUX8--
