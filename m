@@ -1,63 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99D7F65B38B
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 15:48:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E000265B3A1
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 15:58:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7282D10E11A;
-	Mon,  2 Jan 2023 14:48:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E04CD10E194;
+	Mon,  2 Jan 2023 14:58:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B5B410E11A
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 14:48:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1672670903; bh=cUUTc8Fvgowvs3kRn4xQ5Ko18CAYd2NLfEAuO5+9Il0=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=sD1gBsVq08UZG71PKBLJYyt449w8RFoLAtADqA7lKzYYXIiP4q1IrLsA5nsx/puCh
- PbP1yLh92PZwboVF6SaxJ7E8Z8XfthrzMjOyHyKrShzBin83Pw1HHow18vG8r4NTZy
- wwRq7pVdKlZMMHb/+CbolLS51iG0mTestS/4NWMMs4AZHVffTQrA9wtfCzMM0lqOcT
- BEUCVlutiiFB2krRoHQJuTKTEWQhksOw/IMNR02m2b4TV70Yxr/W9ulk0zT7wNLWm4
- jthcfUy3hDU+57pjRq8sAWQAYlTt9SQdB7D4QDQskV4H4+jcRQCFflgApd6EDXNomR
- pHT/4H+IRSLDg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([92.116.130.137]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MN5if-1pVG2U07HB-00J0eB; Mon, 02
- Jan 2023 15:48:23 +0100
-Message-ID: <17a2982e-f4e8-f8bd-db8f-dd14bf27b4e7@gmx.de>
-Date: Mon, 2 Jan 2023 15:48:21 +0100
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BBF010E194
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 14:58:05 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id r205so25108033oib.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Jan 2023 06:58:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kali.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=s9p0FL090tcn9uNjUKtunfgcZRh/fsCJDY+TAZOItmw=;
+ b=fXVkVmfkyFQlMITqEeKVgwhR8nwLCwIpHs/CJrRIrPjp9LFRUXVXj59Dv1U/315+WK
+ ZUnqyyhsfZfTOmmRYAsuAEe/q0YbMFYM8ZMQuETG7OuTKOXgELxYx8T9FvPSSZk/cBDP
+ pTZkqu9XdzPJpxcrOMbxyz8gIRZLImPs6J5vDSWPkxvJOCh7WiM0eM1RoeySE5TwRMRE
+ wuaqGF7I8GbF/86nM3i3HHfq9w49ULkA2f6rM4SHIDqNpU9sapli+TEyfVAWP0fvBX33
+ KH6JISK+UVtdLwZssDFAI2J1RjsvN+0lZC6PvvudezRDf7iYPKqeg/DLQ+4hCXUuwV3M
+ pTqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=s9p0FL090tcn9uNjUKtunfgcZRh/fsCJDY+TAZOItmw=;
+ b=rIfg8RqHfaNqWC9G5AOcBMYLXjK11O/JhBLmKN/b/Md/rKXQ7xMFZxL3VbCyKowhjw
+ G/ERoCEy4C5i381vOLiq660S4SlBTYh9+EN7Ta/K+BjZp+GeslySPQcxQ9lxLJzeFH/K
+ PTkadhFg1+XmBEqJ7wKcihQliDuHy5j9sDJ9Xlale3Un3voo84Rxsa23QF1CGJGtEbrp
+ PmbSL1nnxNrSDH7DUScyt6L7eEnNQ4i3Jlxevc1HEirCklZ+FQss0c5jtcA1aj4Z5pDW
+ 4pwjkM/g8aWAAB7RW+mP/u1VUrC87tTcKlDDsp+YJW1YDtN16MLf/5gwHlW45n01i2mt
+ AqKQ==
+X-Gm-Message-State: AFqh2ko96OM2QSjszVwNtXedbRhZoybe3oeIY0DP32e0MGmkTswbyUSx
+ ZbvQe4qwMdk+7p15ddsAnS9Byg==
+X-Google-Smtp-Source: AMrXdXtqm14v47morVxx5TFp3Tkpo5i142SpySDVJeOKXdlF3CpehSpmGH/GMiFeMiafiiW5ql4Ytg==
+X-Received: by 2002:aca:a896:0:b0:35e:a6cf:6023 with SMTP id
+ r144-20020acaa896000000b0035ea6cf6023mr17797072oie.46.1672671484556; 
+ Mon, 02 Jan 2023 06:58:04 -0800 (PST)
+Received: from [192.168.11.24]
+ (23-118-233-243.lightspeed.snantx.sbcglobal.net. [23.118.233.243])
+ by smtp.gmail.com with ESMTPSA id
+ db6-20020a0568306b0600b00683e4084740sm9807805otb.10.2023.01.02.06.58.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Jan 2023 06:58:04 -0800 (PST)
+Message-ID: <145f7d4c-9ff6-2673-6504-564b6f13cf00@kali.org>
+Date: Mon, 2 Jan 2023 08:58:02 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] matroxfb: G200eW: Increase max memory from 1 MB to 16 MB
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.0
+Subject: Re: [PATCH 1/2] drm/panel-edp: fix name for IVO product id 854b
 Content-Language: en-US
-To: Paul Menzel <pmenzel@molgen.mpg.de>, "Z. Liu" <liuzx@knownsec.com>
-References: <20230102135731.6487-1-pmenzel@molgen.mpg.de>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20230102135731.6487-1-pmenzel@molgen.mpg.de>
+To: Johan Hovold <johan@kernel.org>
+References: <20221231142721.338643-1-abel.vesa@linaro.org>
+ <CAKXuJqjiEpxnX_E=HGqEaX91YA7XUmUoaK0NQqXHJCUkcqUPoQ@mail.gmail.com>
+ <Y7KUFMjnra22YGlv@hovoldconsulting.com>
+From: Steev Klimaszewski <steev@kali.org>
+In-Reply-To: <Y7KUFMjnra22YGlv@hovoldconsulting.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:8eWfw4Opnqkzxf+1Ev79iySp2RH8FDZc46AiwNc3lV8sHnsUFte
- xLvNG2vJLuvr5TD3q2zUoVnuIq62vEur8NRiJq7o4pib6toIMrTia5S6gTslmF9e9CS4Kkj
- HoI5n5TbXYIczVViYf5cM7e/w7ekz6GH2UW0641AnDFWTzy5+QEwQ/R+2lpRDKrnXP9YFlS
- 0mt/7r2YOVGS30eLPCKhA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:z6gzU0P4Vkk=;dQYG9VM4sTyZ0ppmp5CCsi7GSut
- GDuitMne9sLdvy5EKVAwni+274uOK1jvMkCfssSsjpDCpi6YHvBXUoFGQVaT/QEYP0IFyGGae
- Fh2UXq9hv2FXUFokyhxP6OmbELq6G5IotwKXCHszdU9o9zrR+Cu/USPuaftynrVEA+LdpOv8M
- QrFtSHKUF4Bz7ZmAZiVBE581Yn8P/0Nf2khlAu8lP283SeeCXrljHkYKsiV9deECUZSnYQAXG
- Pz0UzlJoFKLGMO/LaQQ8AfYCgn7M0UFSlDDC2AtS/u4NNjHmMkXoi88YALov9VEiqwhTmMygb
- 0zj6knzAXWC35VkDnS0e7hFbF5f0Wlw1HwFDxsJLDMTYvuVu+VVlJkzaIDvxQW5/d5g4m60EP
- WNJKvPath2U1ux8m9zvBPgQOxrJA1G15KG994xSAMX1orJ6sKFjyKmbTV8k+wpEvfdFyB0K94
- 8V4R6bm9MXAB6RGQ3KJhgVnrxCr4xlTXefRxwCQzTD+iZ9pI4Jp/xbCMmEBNcNZvu8TQzp+ZM
- rtsJ75tShkzjvJ6HJkMhe3wjTG+vWnnVYGy086+iR4b6un5nu1OtPeCILB2fg/i8NJodIKAaV
- YJRACTjwiQr9wfgm5Swh1tFo6Sauv4oLp4HV5cAsOREDkXrHX4mZZ6ZoObWM1gBWlKGV9xAcY
- VXIbLv+y6y88/8E5+c6V5qsdSf7bNgPqkTsOJxAmx229irjZxSXI0nascGN/ceffp//chH/pZ
- ck0vA7oYg6L6AZeGp47MPzBy30LRRs2dg0t7TXyqwFeBzFKDD6tdJ4Ix+4Uxa4hcyzBysdZSh
- kEsw1UzKOOhcVCD/5W2hR7pwVVO79jBs5hxciNYe1zTMdGXV18cQYWDhJkGycY/4FMGguvYDa
- HGQwEcdA3cISEpcezc1sE1IW2VoGozI7w93+vS0VYCV31i/DC1QaEsCWDBgR4MVjQy/j0JNsm
- 0cvPRuBttroAuvFizkPwr2NbmPY=
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,73 +77,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- it+linux-fbdev@molgen.mpg.de, stable@vger.kernel.org
+Cc: Sam Ravnborg <sam@ravnborg.org>, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, Abel Vesa <abel.vesa@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/2/23 14:57, Paul Menzel wrote:
-> Commit 62d89a7d49af ("video: fbdev: matroxfb: set maxvram of vbG200eW to
-> the same as vbG200 to avoid black screen") accidently decreases the
-> maximum memory size for the Matrox G200eW (102b:0532) from 8 MB to 1 MB
-> by missing one zero. This caused the driver initialization to fail with
-> the messages below, as the minimum required VRAM size is 2 MB:
->
->       [    9.436420] matroxfb: Matrox MGA-G200eW (PCI) detected
->       [    9.444502] matroxfb: cannot determine memory size
->       [    9.449316] matroxfb: probe of 0000:0a:03.0 failed with error -=
-1
->
-> So, add the missing 0 to make it the intended 16 MB. Successfully tested=
- on
-> the Dell PowerEdge R910/0KYD3D, BIOS 2.10.0 08/29/2013, that the warning=
- is
-> gone.
->
-> While at it, add a leading 0 to the maxdisplayable entry, so it=E2=80=99=
-s aligned
-> properly. The value could probably also be increased from 8 MB to 16 MB,=
- as
-> the G200 uses the same values, but I have not checked any datasheet.
->
-> Note, matroxfb is obsolete and superseded by the maintained DRM driver
-> mga200, which is used by default on most systems where both drivers are
-> available. Therefore, on most systems it was only a cosmetic issue.
->
-> Fixes: 62d89a7d49af ("video: fbdev: matroxfb: set maxvram of vbG200eW to=
- the same as vbG200 to avoid black screen")
-> Link: https://lore.kernel.org/linux-fbdev/972999d3-b75d-5680-fcef-6e6905=
-c52ac5@suse.de/T/#mb6953a9995ebd18acc8552f99d6db39787aec775
-> Cc: it+linux-fbdev@molgen.mpg.de
-> Cc: Z. Liu <liuzx@knownsec.com>
-> Cc: Rich Felker <dalias@libc.org>
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
 
-applied this v1 version to the fbdev git tree.
-Thanks!
-Helge
-
-
-> ---
->   drivers/video/fbdev/matrox/matroxfb_base.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+On 1/2/23 2:21 AM, Johan Hovold wrote:
+> On Sun, Jan 01, 2023 at 10:58:42PM -0600, Steev Klimaszewski wrote:
+>> On Sat, Dec 31, 2022 at 8:27 AM Abel Vesa <abel.vesa@linaro.org> wrote:
+>>> The actual name is R133NW4K-R0.
+>>>
+>>> Fixes: 0f9fa5f58c784 ("drm/panel-edp: add IVO M133NW4J-R3 panel entry")
+>>> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+>>> ---
+>>>
+>>> Assuming the information from here is correct:
+>>> https://raw.githubusercontent.com/linuxhw/EDID/master/DigitalDisplay.md
+>>>
+>>>   drivers/gpu/drm/panel/panel-edp.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+>>> index 5cb8dc2ebe18..ef70928c3ccb 100644
+>>> --- a/drivers/gpu/drm/panel/panel-edp.c
+>>> +++ b/drivers/gpu/drm/panel/panel-edp.c
+>>> @@ -1891,7 +1891,7 @@ static const struct edp_panel_entry edp_panels[] = {
+>>>          EDP_PANEL_ENTRY('C', 'M', 'N', 0x1247, &delay_200_500_e80_d50, "N120ACA-EA1"),
+>>>
+>>>          EDP_PANEL_ENTRY('I', 'V', 'O', 0x057d, &delay_200_500_e200, "R140NWF5 RH"),
+>>> -       EDP_PANEL_ENTRY('I', 'V', 'O', 0x854b, &delay_200_500_p2e100, "M133NW4J-R3"),
+>>> +       EDP_PANEL_ENTRY('I', 'V', 'O', 0x854b, &delay_200_500_p2e100, "R133NW4K-R0"),
+>>>
+>>>          EDP_PANEL_ENTRY('K', 'D', 'B', 0x0624, &kingdisplay_kd116n21_30nv_a010.delay, "116N21-30NV-A010"),
+>>>          EDP_PANEL_ENTRY('K', 'D', 'B', 0x1120, &delay_200_500_e80_d50, "116N29-30NK-C007"),
+>>> --
+>>> 2.34.1
+>>>
+>> Thanks for this - when I was looking for the panel, I simply went with
+>> what I found on panel-look.
+> Did you check what string your panel reports? For example, using
+> something like:
 >
-> diff --git a/drivers/video/fbdev/matrox/matroxfb_base.c b/drivers/video/=
-fbdev/matrox/matroxfb_base.c
-> index 0d3cee7ae7268..a043a737ea9f7 100644
-> --- a/drivers/video/fbdev/matrox/matroxfb_base.c
-> +++ b/drivers/video/fbdev/matrox/matroxfb_base.c
-> @@ -1378,8 +1378,8 @@ static struct video_board vbG200 =3D {
->   	.lowlevel =3D &matrox_G100
->   };
->   static struct video_board vbG200eW =3D {
-> -	.maxvram =3D 0x100000,
-> -	.maxdisplayable =3D 0x800000,
-> +	.maxvram =3D 0x1000000,
-> +	.maxdisplayable =3D 0x0800000,
->   	.accelID =3D FB_ACCEL_MATROX_MGAG200,
->   	.lowlevel =3D &matrox_G100
->   };
+> 	# strings /sys/class/drm/card0-eDP-1/edid
+> 	...
+> 	B133UAN02.1
+>
+> Johan
+
+Hi Johan,
+
+At the time, I did not, and I do not know why I didn't.
+
+I am showing
+
+"R133NW4K R0"
+
+-- steev
+
 
