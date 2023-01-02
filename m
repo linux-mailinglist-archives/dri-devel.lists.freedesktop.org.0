@@ -2,73 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCE0765B2C1
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 14:38:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B22365B2E7
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 14:51:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 073A310E339;
-	Mon,  2 Jan 2023 13:38:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1098A10E33D;
+	Mon,  2 Jan 2023 13:51:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com
- [IPv6:2607:f8b0:4864:20::836])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F3A310E339
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 13:38:35 +0000 (UTC)
-Received: by mail-qt1-x836.google.com with SMTP id h21so22416767qta.12
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Jan 2023 05:38:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date
- :mime-version:in-reply-to:references:user-agent:from:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yUeJe0drBbTMgiYkIr+hpKI3FSwnBgCuZWCVk8bkpiQ=;
- b=sJKeU3WCdOQHKogctAuHoH1Lb5awwjpVpHefGzuQH49JgYhK41rW3ae5mHbdmBGjsY
- UnNOamQKAW85+d3DJvYxWEY0sQwr8sxKKtQaJB5/ZBhMt7NlGdpExaGUTvd1Ym8DFBJN
- z/E2hVpZRbW12fzg0X2Kj7ZDsGIcLif6Q2AhzKLokR+qFZiuaAbfbrrFr+unYfzjUdTo
- IBWE8DrMPJ7CwXxGloffvAvF0SeiBqq0lV8Vq6+n+EzQHdffJcGYNIxvZMkpsWb/VBo6
- wuXMNTIGHn3SZ4HlhcRTVEyDdo/VUZ2atZFin0VDm7biJW7nnru9XUW+S1aJ2RCzJq8Z
- kYbA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4836710E30C
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 13:51:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672667506;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yafyz4ioVVvoQAhwV2aIRVvfD9yfwhAh4dPTo7SXFJY=;
+ b=SbGAmqTDs85+QPY3fBBL8d/iNFN4cm2IWZKLg9uuJg/weKA3lzN6OvBzxT9mZhlhlec8Cu
+ wQnCr8s4zvY+cyu9VSA2SlIhPQf9/jOk26S4CQD22xJPFaKYejt8sa8P21BlYe9MjtmrN6
+ xao+EqKb6r1TfWyT6OVMTAzsVNhFAMo=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-45-GEUwwVr3M8m4HIjq9B3t8w-1; Mon, 02 Jan 2023 08:51:45 -0500
+X-MC-Unique: GEUwwVr3M8m4HIjq9B3t8w-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m38-20020a05600c3b2600b003d23f8c6ebdso10422412wms.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Jan 2023 05:51:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date
- :mime-version:in-reply-to:references:user-agent:from
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yUeJe0drBbTMgiYkIr+hpKI3FSwnBgCuZWCVk8bkpiQ=;
- b=1iLBjilwyvhusdgiENnQxXxhfrAdOSttJwA+9o7RXmD2//4KhwfRVM7gD+vgukaTrd
- GQVQWjEQZ8mnOAZaU+CdXnf2nqMuPct04fMOEfxI5MlHr+4TqLoKiTeSxUJ2eSiH1NBX
- bLOnhlpT5hFS9qfSX+6MG/Tqrapmy5opXdO71V3qhhLo+30gge0GgM8QRoKIaD5sliW/
- snCbY5jRp8cwXllP0p0OcLuJob3BlZSkGUHK1oisH2OgJ6KMuX48OswH8O8QPBpKD9HD
- ylcLw0OkNkPM8oLKDHZcPmZWC5yQ1SDB9y++OzxzUE/tvpV/mnzVLiY4rSJhCWPSRRlT
- hwdw==
-X-Gm-Message-State: AFqh2ko7wBSv/FIRl9sPr1/CRBboNCFMdCAffkxdaZiBwz+fxxdBOspa
- GfCpsip7j4RcQIxLMwR4cbIPZFaugQH3DrAeXHb+gA==
-X-Google-Smtp-Source: AMrXdXsRzYNVZ3d4bkKeYiAZTwzM9YRTxsFtaA7lSB3wLl6IBFcwrL0JOddsqmMqIzrw5hKkoMpSWmO5PrVO7+oREAw=
-X-Received: by 2002:ac8:4d50:0:b0:3a8:a6e:1b4 with SMTP id
- x16-20020ac84d50000000b003a80a6e01b4mr1646554qtv.313.1672666714390; 
- Mon, 02 Jan 2023 05:38:34 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 2 Jan 2023 13:38:33 +0000
-From: Guillaume Ranquet <granquet@baylibre.com>
-User-Agent: meli 0.7.2
-References: <20220919-v3-0-a803f2660127@baylibre.com>
- <20220919-v3-2-a803f2660127@baylibre.com>
- <7da1e73a0cca6867a060d5b69d45e8d4dfc89748.camel@mediatek.com>
-In-Reply-To: <7da1e73a0cca6867a060d5b69d45e8d4dfc89748.camel@mediatek.com>
+ bh=Yafyz4ioVVvoQAhwV2aIRVvfD9yfwhAh4dPTo7SXFJY=;
+ b=HBamu4UWPy5M2x6kOjg+U1nEuFoldnOfDiLGCikG29SmtN2JZ9tGaaK2Unf2SZSrnN
+ WwqVn1Mt1+5olSjFEVaJODfSW4kIsifF7O+ngFtDb82mcx3CvL5XIF5avm27McjI8ki7
+ hykvXZ9jaT+SUABWSNhRB9mFQ5tBdnko0ZIvr+SQwWRBo80LeT6LhWva+n40g3GWZYbX
+ uA3t7CD+l9B+V94wTLVunVk2FWVuXvb04c7mFEjfGLvN12+oy8s/zD21sRTLxegKJiJC
+ 6nNzLBukI0Gn9yL71meL5N45GthKV/490JPFh2yI9VEE4TM4v1NfRmsB9NBjegD4/dQF
+ MJFg==
+X-Gm-Message-State: AFqh2kpPIQzh8dEQXDGSJcUL7sCXDpRIG9sbRU2uqILaqEyPt5O1yBn7
+ lE1/9wA3SCo4NpsZJ4WyYWlkCGNa9+NPhJs3UD1cb0c8DIVgEzUSG8768YI5HWZ/JTDEc+sC+mX
+ NDfIPDbfBE8zzQzsjCzKCq2x4/74V
+X-Received: by 2002:a05:600c:3d0e:b0:3d2:3ca2:2d4f with SMTP id
+ bh14-20020a05600c3d0e00b003d23ca22d4fmr31097439wmb.36.1672667503873; 
+ Mon, 02 Jan 2023 05:51:43 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvbJtUehka09TTHzpZ3/tNKAm+H+SNwIOl23IORGJcibzel5onetyN+N+qYZrSa/x/EZ634SA==
+X-Received: by 2002:a05:600c:3d0e:b0:3d2:3ca2:2d4f with SMTP id
+ bh14-20020a05600c3d0e00b003d23ca22d4fmr31097417wmb.36.1672667503668; 
+ Mon, 02 Jan 2023 05:51:43 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ f18-20020a05600c4e9200b003d35c845cbbsm48786206wmq.21.2023.01.02.05.51.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Jan 2023 05:51:43 -0800 (PST)
+Message-ID: <eead4707-e73f-f648-edc6-8415bbb25b8b@redhat.com>
+Date: Mon, 2 Jan 2023 14:51:42 +0100
 MIME-Version: 1.0
-Date: Mon, 2 Jan 2023 13:38:33 +0000
-Message-ID: <CABnWg9tf8Sx8S0d8mGowZ80YmZLz6cX2iyxZyKYCGbH_RKMKyA@mail.gmail.com>
-Subject: Re: [PATCH v3 02/12] dt-bindings: display: mediatek: add MT8195 hdmi
- bindings
-To: CK Hu <ck.hu@mediatek.com>, "robh+dt@kernel.org" <robh+dt@kernel.org>, 
- "kishon@ti.com" <kishon@ti.com>, Chunfeng Yun <Chunfeng.Yun@mediatek.com>, 
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- Jitao Shi <jitao.shi@mediatek.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, 
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "airlied@gmail.com" <airlied@gmail.com>, 
- "rzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "koul@kernel.org" <vkoul@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v4 2/4] drm: panel: Add Himax HX8394 panel controller
+ driver
+To: =?UTF-8?Q?Ond=c5=99ej_Jirman?= <megi@xff.cz>,
+ linux-kernel@vger.kernel.org, =?UTF-8?Q?Kamil_Trzci=c5=84ski?=
+ <ayufan@ayufan.eu>, Martijn Braam <martijn@brixit.nl>,
+ Sam Ravnborg <sam@ravnborg.org>, Robert Mader <robert.mader@posteo.de>,
+ Tom Fitzhenry <tom@tom-fitzhenry.me.uk>,
+ Peter Robinson <pbrobinson@gmail.com>,
+ Onuralp Sezer <thunderbirdtr@fedoraproject.org>,
+ dri-devel@lists.freedesktop.org, Maya Matuszczyk <maccraft123mc@gmail.com>,
+ Neal Gompa <ngompa13@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Jagan Teki <jagan@amarulasolutions.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Thierry Reding <thierry.reding@gmail.com>
+References: <20221230113155.3430142-1-javierm@redhat.com>
+ <20221230113155.3430142-3-javierm@redhat.com>
+ <20221230154043.7v3zmzqdrnouqzd2@core>
+ <7120dfd4-305f-69ac-fee8-123196ed06a9@redhat.com>
+ <20230102105915.gbfhletcm4dunrlf@core>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20230102105915.gbfhletcm4dunrlf@core>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,134 +101,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "evicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "ri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Mac Shen <Mac.Shen@mediatek.com>, Stuart Lee <Stuart.Lee@mediatek.com>,
- "rzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
- "inux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
- "inux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 26 Dec 2022 06:18, CK Hu (=E8=83=A1=E4=BF=8A=E5=85=89) <ck.hu@media=
-tek.com> wrote:
->Hi, Guillaume:
->
->On Fri, 2022-11-04 at 15:09 +0100, Guillaume Ranquet wrote:
->> Add mt8195 SoC bindings for hdmi and hdmi-ddc
->>
->> On mt8195 the ddc i2c controller is part of the hdmi IP block and
->> thus has no
->> specific register range, power domain or interrupt, making it simpler
->> than its the legacy "mediatek,hdmi-ddc" binding.
->>
->> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
->> ---
->>
->
->[snip]
->
->> a/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-
->> hdmi-ddc.yaml
->> b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-
->> hdmi-ddc.yaml
->> new file mode 100644
->> index 000000000000..2dc273689584
->> --- /dev/null
->> +++
->> b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-
->> hdmi-ddc.yaml
->> @@ -0,0 +1,51 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id:
->> https://urldefense.com/v3/__http://devicetree.org/schemas/display/mediat=
-ek/mediatek,mt8195-hdmi-ddc.yaml*__;Iw!!CTRNKA9wMg0ARbw!wwVQuq5lzW0lvUFUkVX=
-PWT8cIu96xdkn4tMams1E55qyxEZmgV1i0WfpOlq57w$
->>
->> +$schema:
->> https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml=
-*__;Iw!!CTRNKA9wMg0ARbw!wwVQuq5lzW0lvUFUkVXPWT8cIu96xdkn4tMams1E55qyxEZmgV1=
-i0WdSGOSxzw$
->>
->> +
->> +title: Mediatek HDMI DDC for mt8195
->> +
->> +maintainers:
->> +  - CK Hu <ck.hu@mediatek.com>
->> +  - Jitao shi <jitao.shi@mediatek.com>
->> +
->> +description: |
->> +  The HDMI DDC i2c controller is used to interface with the HDMI DDC
->> pins.
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - mediatek,mt8195-hdmi-ddc
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +  clock-names:
->> +    items:
->> +      - const: ddc
->> +
->> +  mediatek,hdmi:
->> +    $ref: /schemas/types.yaml#/definitions/phandle
->> +    description:
->> +      A phandle to the mt8195 hdmi controller
->> +
->> +required:
->> +  - compatible
->> +  - clocks
->> +  - clock-names
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    #include <dt-bindings/interrupt-controller/irq.h>
->> +    hdmiddc0: i2c {
->> +      compatible =3D "mediatek,mt8195-hdmi-ddc";
->> +      mediatek,hdmi =3D <&hdmi0>;
->> +      clocks =3D <&clk26m>;
->> +      clock-names =3D "ddc";
->> +    };
->
->I think we should not have a virtual device. This ddc is part of
->mt8195-hdmi device, so just keep mt8195-hdmi, and let mt8195-hdmi
->driver to probe the sub driver of ddc driver.
->
->Regards,
->CK
+Hello Ondřej,
 
-Hi CK,
+On 1/2/23 11:59, Ondřej Jirman wrote:
 
-Thx for your input.
-Though I would strongly prefer to keep the ddc as a separate "virtual devic=
-e".
+[...]
 
-It aligns better with the goal of reusing as much code as possible
-from the HDMI V1 IP,
-which is something you have been advocating since V1 of this patch
-quite some time ago
-and has shaped this patch.
-
-To me we are in a state that is clean and avoids branching in the hdmi
-common code.
-Would you reconsider and allow the use of that virtual device?
-
-Thx,
-Guillaume.
-
+>> Yes, because as you said were debug printks. Feel free to propose adding the
+>> debug printks if you consider useful for normal usage and not just for devel
+>> purposes.
+> 
+> I already did, and used them do debug and fix the issues. This submission just
+> doesn't include the fixes.
 >
->> +
->> +...
+
+I missed the fixes, I think that cherry-picked and squashed from your tree
+before you added commit f19ce7bb7d72 ("arm64: dts: rk3399-pinephone-pro:
+Use unused GPLL for VOPs DCLK") at least.
+ 
+>>> hooks. Have you tested the driver thoroughly with various DRM apps,
+>>> with DPM/suspend/resume, etc.?
+>>>
 >>
+>> I did not. I wasn't expecting suspend and resume to work on the PPP given its
+>> support is quite minimal currently.
+> 
+> System suspend/resume works and is used by distributions. Display blanking is
+> also used by normal distros, even if you don't use system suspend/resume.
+>
+
+I know but my point was that the PPP mainline support isn't ready to be used
+as a daily driver in practice. So I didn't consider susped/resume or display
+blank as a requirement to upstream an initial support for the panel driver.
+
+[...]
+
+>>> Also, have you checked the clocks are actually configured correctly by the
+>>> rk3399 cru driver? I have a lot of trouble with that, too. clk driver sometimes
+>>> selects the fractional clock, but does not give it the necessary >20x difference
+>>> between input/output clock rates. You'll only notice if you measure clock rates
+>>> directly, by looking at actual refresh rate, by using some testing DRM app.
+>>> Clock subsystem sometimes shuffles things around if you switch VOPs and use big
+>>> VOP for mipi-dsi display, instead of the default small VOP.
+>>>
+>>
+>> I have not. Just verified that the display was working on my PPP and could start
+>> a mutter wayland session. We could fix the clock configuration as follow-up IMO.
+> 
+> The display output will be broken after you fix the assigned-clocks in DT to
+> expected values (use GPLL parent, to make the HW generate the exact pixel clock
+> defined in the display mode). So this needs to be dealt with now, not later.
+> 
+> 
+> The driver issues are all known at this time and have fixes available, unlike
+> a year ago:
+> 
+
+My goal was to have some initial support in mainline even if there could be some
+issues. IMO it is better to use upstream as a baseline and attempt to support the
+PPP incrementally.
+
+But since you are aware of the issues and know what are the available fixes, I'll
+let you continue with the effort and take care of the patches. Hopefully there may
+be things that will be helpful, such as the binding schema patch and the collected
+tags. I can also take care of pushing the DRM bits to the drm-misc-next tree once
+you feel that those are ready to get merged.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
