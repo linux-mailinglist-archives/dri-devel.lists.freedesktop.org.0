@@ -1,49 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6E165AF72
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 11:19:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2726565AF6D
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 11:18:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13E0D88668;
-	Mon,  2 Jan 2023 10:19:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9871810E2EE;
+	Mon,  2 Jan 2023 10:18:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2C6710E2F2
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 10:19:00 +0000 (UTC)
+X-Greylist: delayed 517 seconds by postgrey-1.36 at gabe;
+ Mon, 02 Jan 2023 10:18:44 UTC
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80FAA10E2EE
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 10:18:44 +0000 (UTC)
 Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 302A9qqU020600;
- Mon, 2 Jan 2023 04:09:52 -0600
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 302A9sXf058454;
+ Mon, 2 Jan 2023 04:09:54 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1672654192;
- bh=Mg3AyUN846SUQjhDjid9cnT80rRAdCVQ+lIWPCNutzU=;
+ s=ti-com-17Q1; t=1672654194;
+ bh=B2cqMWidbM3x8lG47YBA2/5FvuU+3OolvAYBKB/3CUc=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=pkZzgY3EPQPnSgVX9p95IzurRCh8wIpBAfUWmFPmRAvDuTGSU/ou+R/w3DuZYdbYw
- 7KeAaWfxpWUQRpfxHYQ7NlYSaJuD0Zzc4SBimG06cEH95IRY/New6+WfZEIP6kQH/y
- 5wuyjcltRBILivyqpgcBiMxeeSLIt2Jj9AitHkFw=
-Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 302A9qHB019771
+ b=UxxXXCbgohm2eODzRVfZqGmHkpYgSmuQERHXdU6xuUoegjGar2DuDxi0ZCd/l4mXO
+ qBRDlwRh1KE4k7k8CJctOtdGVfZQ/F+EIts9JKQVCmEEA5BOdrl6qX1Rwik8SRW8+I
+ yVN9lFPBJfClNYQjOGb3Pb1heEg2O4OhckrKexUw=
+Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 302A9s4b019779
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 2 Jan 2023 04:09:52 -0600
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ Mon, 2 Jan 2023 04:09:54 -0600
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Mon, 2
- Jan 2023 04:09:52 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ Jan 2023 04:09:54 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Mon, 2 Jan 2023 04:09:52 -0600
+ Frontend Transport; Mon, 2 Jan 2023 04:09:54 -0600
 Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 302A9olm014119;
- Mon, 2 Jan 2023 04:09:51 -0600
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 302A9qU6031953;
+ Mon, 2 Jan 2023 04:09:53 -0600
 From: Rahul T R <r-ravikumar@ti.com>
 To: <dri-devel@lists.freedesktop.org>, <robh+dt@kernel.org>,
  <krzysztof.kozlowski+dt@linaro.org>, <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v10 2/5] dt-bindings: display: bridge: cdns,
- dsi: Add compatible for dsi on j721e
-Date: Mon, 2 Jan 2023 15:39:39 +0530
-Message-ID: <20230102100942.1828-3-r-ravikumar@ti.com>
+Subject: [PATCH v10 3/5] drm/bridge: cdns-dsi: Move to drm/bridge/cadence
+Date: Mon, 2 Jan 2023 15:39:40 +0530
+Message-ID: <20230102100942.1828-4-r-ravikumar@ti.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230102100942.1828-1-r-ravikumar@ti.com>
 References: <20230102100942.1828-1-r-ravikumar@ti.com>
@@ -72,59 +73,86 @@ Cc: mparab@cadence.com, a-bhatia1@ti.com, jonas@kwiboo.se, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add compatible to support dsi bridge on j721e
+Move the cadence dsi bridge under drm/bridge/cadence
+directory, to prepare for adding j721e wrapper
+support
 
 Signed-off-by: Rahul T R <r-ravikumar@ti.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- .../bindings/display/bridge/cdns,dsi.yaml     | 25 ++++++++++++++++++-
- 1 file changed, 24 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/Kconfig                        | 11 -----------
+ drivers/gpu/drm/bridge/Makefile                       |  1 -
+ drivers/gpu/drm/bridge/cadence/Kconfig                | 11 +++++++++++
+ drivers/gpu/drm/bridge/cadence/Makefile               |  2 ++
+ .../bridge/{cdns-dsi.c => cadence/cdns-dsi-core.c}    |  0
+ 5 files changed, 13 insertions(+), 12 deletions(-)
+ rename drivers/gpu/drm/bridge/{cdns-dsi.c => cadence/cdns-dsi-core.c} (100%)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
-index 3161c33093c1..23060324d16e 100644
---- a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
-@@ -16,9 +16,15 @@ properties:
-   compatible:
-     enum:
-       - cdns,dsi
-+      - ti,j721e-dsi
+diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+index 57946d80b02d..8b2226f72b24 100644
+--- a/drivers/gpu/drm/bridge/Kconfig
++++ b/drivers/gpu/drm/bridge/Kconfig
+@@ -15,17 +15,6 @@ config DRM_PANEL_BRIDGE
+ menu "Display Interface Bridges"
+ 	depends on DRM && DRM_BRIDGE
  
-   reg:
--    maxItems: 1
-+    minItems: 1
-+    items:
-+      - description:
-+          Register block for controller's registers.
-+      - description:
-+          Register block for wrapper settings registers in case of TI J7 SoCs.
- 
-   clocks:
-     items:
-@@ -67,6 +73,23 @@ properties:
- allOf:
-   - $ref: ../dsi-controller.yaml#
- 
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: ti,j721e-dsi
-+    then:
-+      properties:
-+        reg:
-+          minItems: 2
-+          maxItems: 2
-+        power-domains:
-+          maxItems: 1
-+    else:
-+      properties:
-+        reg:
-+          maxItems: 1
+-config DRM_CDNS_DSI
+-	tristate "Cadence DPI/DSI bridge"
+-	select DRM_KMS_HELPER
+-	select DRM_MIPI_DSI
+-	select DRM_PANEL_BRIDGE
+-	select GENERIC_PHY_MIPI_DPHY
+-	depends on OF
+-	help
+-	  Support Cadence DPI to DSI bridge. This is an internal
+-	  bridge and is meant to be directly embedded in a SoC.
+-
+ config DRM_CHIPONE_ICN6211
+ 	tristate "Chipone ICN6211 MIPI-DSI/RGB Converter bridge"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+index 1884803c6860..52f6e8b4a821 100644
+--- a/drivers/gpu/drm/bridge/Makefile
++++ b/drivers/gpu/drm/bridge/Makefile
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+-obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
+ obj-$(CONFIG_DRM_CHIPONE_ICN6211) += chipone-icn6211.o
+ obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
+ obj-$(CONFIG_DRM_CROS_EC_ANX7688) += cros-ec-anx7688.o
+diff --git a/drivers/gpu/drm/bridge/cadence/Kconfig b/drivers/gpu/drm/bridge/cadence/Kconfig
+index 1d06182bea71..8fbb46c66094 100644
+--- a/drivers/gpu/drm/bridge/cadence/Kconfig
++++ b/drivers/gpu/drm/bridge/cadence/Kconfig
+@@ -25,3 +25,14 @@ config DRM_CDNS_MHDP8546_J721E
+ 	  initializes the J721E Display Port and sets up the
+ 	  clock and data muxes.
+ endif
 +
- required:
-   - compatible
-   - reg
++config DRM_CDNS_DSI
++	tristate "Cadence DPI/DSI bridge"
++	select DRM_KMS_HELPER
++	select DRM_MIPI_DSI
++	select DRM_PANEL_BRIDGE
++	select GENERIC_PHY_MIPI_DPHY
++	depends on OF
++	help
++	  Support Cadence DPI to DSI bridge. This is an internal
++	  bridge and is meant to be directly embedded in a SoC.
+diff --git a/drivers/gpu/drm/bridge/cadence/Makefile b/drivers/gpu/drm/bridge/cadence/Makefile
+index 4d2db8df1bc6..e3d8e9a40784 100644
+--- a/drivers/gpu/drm/bridge/cadence/Makefile
++++ b/drivers/gpu/drm/bridge/cadence/Makefile
+@@ -2,3 +2,5 @@
+ obj-$(CONFIG_DRM_CDNS_MHDP8546) += cdns-mhdp8546.o
+ cdns-mhdp8546-y := cdns-mhdp8546-core.o cdns-mhdp8546-hdcp.o
+ cdns-mhdp8546-$(CONFIG_DRM_CDNS_MHDP8546_J721E) += cdns-mhdp8546-j721e.o
++obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
++cdns-dsi-y := cdns-dsi-core.o
+diff --git a/drivers/gpu/drm/bridge/cdns-dsi.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+similarity index 100%
+rename from drivers/gpu/drm/bridge/cdns-dsi.c
+rename to drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 -- 
 2.39.0
 
