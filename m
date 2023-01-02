@@ -2,46 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A654465B24C
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 13:46:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B664B65B285
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 14:09:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE58210E32A;
-	Mon,  2 Jan 2023 12:46:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B19F10E319;
+	Mon,  2 Jan 2023 13:09:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4095B10E325
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 12:46:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=EkIim5Qhdei/GZrIFCByhOVnCoe77Q9TQDRbE5UKI+A=; b=qQJiuydB5TEIFJHXgTHppFD/YY
- /vZPKkyMU+bIKPS6PIugb2Z7D2w30gemoD+07tjpy6kfcwx7VLPfM3lcJqdKEvZeDirjyOGWvpsO/
- H60iymM4Ez8Qx6BIXk4bp9oy1cicalGyyNIfgME88yfAt/ODMcoUbT/1ZmXr4UZjm+ROwfNYjZiqS
- hIrI3FmCsVwwBDhsq8M5GwqchEDM0Zkk9/YXQkqYVHx8kXFs3yMgPWXEXB9bb/VnZqVOye0tVj9Rn
- Zs4atbtfi5To9B4f3DJc8K09e3JPdzF0eo+VMBtfvvxmPhceddbTZacqjAA/zDMQD3owab/BoNZ0a
- HcyXKpJg==;
-Received: from [187.36.234.139] (helo=bowie..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pCKCQ-00FGSv-EC; Mon, 02 Jan 2023 13:45:55 +0100
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Maxime Ripard <mripard@kernel.org>, Emma Anholt <emma@anholt.net>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 2/2] drm/vc4: replace obj lookup steps with
- drm_gem_objects_lookup
-Date: Mon,  2 Jan 2023 09:45:35 -0300
-Message-Id: <20230102124535.139202-3-mcanal@igalia.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230102124535.139202-1-mcanal@igalia.com>
-References: <20230102124535.139202-1-mcanal@igalia.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7964710E319
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 13:09:35 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BA2EA7C5;
+ Mon,  2 Jan 2023 14:09:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1672664973;
+ bh=zIk6QQNUSftzZ+hGLOFlX3yOnoZ98+39j7t0QiP1bMc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=i+F7T6+qUfCRnFGVOaNGqS8fMVVRPVbBGa46KSSWiCMAJ/mUZWi1FE4cCjmYtMhr9
+ QCs6KuO8K0Eo4SSW2I9758V12XC9PuH50n+KyT48t+Amen42nNygWa+FcJ/FtBGj8Y
+ 7IPr90saLP9i3WQV3vgAopAe4AsDPeo6ee1QaCfU=
+Date: Mon, 2 Jan 2023 15:09:30 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Rahul T R <r-ravikumar@ti.com>
+Subject: Re: [PATCH v10 1/5] dt-bindings: display: bridge: Convert
+ cdns,dsi.txt to yaml
+Message-ID: <Y7LXijFeN7zXLqWD@pendragon.ideasonboard.com>
+References: <20230102100942.1828-1-r-ravikumar@ti.com>
+ <20230102100942.1828-2-r-ravikumar@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230102100942.1828-2-r-ravikumar@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,96 +48,321 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Melissa Wen <mwen@igalia.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- dri-devel@lists.freedesktop.org
+Cc: mparab@cadence.com, jernej.skrabec@gmail.com,
+ krzysztof.kozlowski+dt@linaro.org, a-bhatia1@ti.com, narmstrong@baylibre.com,
+ airlied@linux.ie, tomi.valkeinen@ideasonboard.com, sjakhade@cadence.com,
+ jonas@kwiboo.se, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, robh+dt@kernel.org, robert.foss@linaro.org,
+ andrzej.hajda@intel.com, jpawar@cadence.com, lee.jones@linaro.org,
+ vigneshr@ti.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As vc4_cl_lookup_bos() performs the same steps as drm_gem_objects_lookup(),
-replace the open-coded implementation in vc4 to simply use the DRM function.
+Hi Rahul,
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/vc4/vc4_gem.c | 43 ++---------------------------------
- 1 file changed, 2 insertions(+), 41 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
-index d6985d067e34..03648f954985 100644
---- a/drivers/gpu/drm/vc4/vc4_gem.c
-+++ b/drivers/gpu/drm/vc4/vc4_gem.c
-@@ -746,7 +746,6 @@ vc4_cl_lookup_bos(struct drm_device *dev,
- 		  struct vc4_exec_info *exec)
- {
- 	struct drm_vc4_submit_cl *args = exec->args;
--	uint32_t *handles;
- 	int ret = 0;
- 	int i;
- 
-@@ -760,43 +759,8 @@ vc4_cl_lookup_bos(struct drm_device *dev,
- 		return -EINVAL;
- 	}
- 
--	exec->bo = kvmalloc_array(exec->bo_count,
--				    sizeof(struct drm_gem_dma_object *),
--				    GFP_KERNEL | __GFP_ZERO);
--	if (!exec->bo) {
--		DRM_ERROR("Failed to allocate validated BO pointers\n");
--		return -ENOMEM;
--	}
--
--	handles = kvmalloc_array(exec->bo_count, sizeof(uint32_t), GFP_KERNEL);
--	if (!handles) {
--		ret = -ENOMEM;
--		DRM_ERROR("Failed to allocate incoming GEM handles\n");
--		goto fail;
--	}
--
--	if (copy_from_user(handles, u64_to_user_ptr(args->bo_handles),
--			   exec->bo_count * sizeof(uint32_t))) {
--		ret = -EFAULT;
--		DRM_ERROR("Failed to copy in GEM handles\n");
--		goto fail;
--	}
--
--	spin_lock(&file_priv->table_lock);
--	for (i = 0; i < exec->bo_count; i++) {
--		struct drm_gem_object *bo = idr_find(&file_priv->object_idr,
--						     handles[i]);
--		if (!bo) {
--			DRM_DEBUG("Failed to look up GEM BO %d: %d\n",
--				  i, handles[i]);
--			ret = -EINVAL;
--			break;
--		}
--
--		drm_gem_object_get(bo);
--		exec->bo[i] = bo;
--	}
--	spin_unlock(&file_priv->table_lock);
-+	ret = drm_gem_objects_lookup(file_priv, u64_to_user_ptr(args->bo_handles),
-+				     exec->bo_count, &exec->bo);
- 
- 	if (ret)
- 		goto fail_put_bo;
-@@ -807,7 +771,6 @@ vc4_cl_lookup_bos(struct drm_device *dev,
- 			goto fail_dec_usecnt;
- 	}
- 
--	kvfree(handles);
- 	return 0;
- 
- fail_dec_usecnt:
-@@ -827,8 +790,6 @@ vc4_cl_lookup_bos(struct drm_device *dev,
- 	for (i = 0; i < exec->bo_count && exec->bo[i]; i++)
- 		drm_gem_object_put(exec->bo[i]);
- 
--fail:
--	kvfree(handles);
- 	kvfree(exec->bo);
- 	exec->bo = NULL;
- 	return ret;
+On Mon, Jan 02, 2023 at 03:39:38PM +0530, Rahul T R wrote:
+> Convert cdns,dsi.txt binding to yaml format
+> 
+> Signed-off-by: Rahul T R <r-ravikumar@ti.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../bindings/display/bridge/cdns,dsi.txt      | 112 -------------
+>  .../bindings/display/bridge/cdns,dsi.yaml     | 157 ++++++++++++++++++
+>  2 files changed, 157 insertions(+), 112 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt
+> deleted file mode 100644
+> index 525a4bfd8634..000000000000
+> --- a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt
+> +++ /dev/null
+> @@ -1,112 +0,0 @@
+> -Cadence DSI bridge
+> -==================
+> -
+> -The Cadence DSI bridge is a DPI to DSI bridge supporting up to 4 DSI lanes.
+> -
+> -Required properties:
+> -- compatible: should be set to "cdns,dsi".
+> -- reg: physical base address and length of the controller's registers.
+> -- interrupts: interrupt line connected to the DSI bridge.
+> -- clocks: DSI bridge clocks.
+> -- clock-names: must contain "dsi_p_clk" and "dsi_sys_clk".
+> -- phys: phandle link to the MIPI D-PHY controller.
+> -- phy-names: must contain "dphy".
+> -- #address-cells: must be set to 1.
+> -- #size-cells: must be set to 0.
+> -
+> -Optional properties:
+> -- resets: DSI reset lines.
+> -- reset-names: can contain "dsi_p_rst".
+> -
+> -Required subnodes:
+> -- ports: Ports as described in Documentation/devicetree/bindings/graph.txt.
+> -  2 ports are available:
+> -  * port 0: this port is only needed if some of your DSI devices are
+> -	    controlled through  an external bus like I2C or SPI. Can have at
+> -	    most 4 endpoints. The endpoint number is directly encoding the
+> -	    DSI virtual channel used by this device.
+> -  * port 1: represents the DPI input.
+> -  Other ports will be added later to support the new kind of inputs.
+> -
+> -- one subnode per DSI device connected on the DSI bus. Each DSI device should
+> -  contain a reg property encoding its virtual channel.
+> -
+> -Example:
+> -	dsi0: dsi@fd0c0000 {
+> -		compatible = "cdns,dsi";
+> -		reg = <0x0 0xfd0c0000 0x0 0x1000>;
+> -		clocks = <&pclk>, <&sysclk>;
+> -		clock-names = "dsi_p_clk", "dsi_sys_clk";
+> -		interrupts = <1>;
+> -		phys = <&dphy0>;
+> -		phy-names = "dphy";
+> -		#address-cells = <1>;
+> -		#size-cells = <0>;
+> -
+> -		ports {
+> -			#address-cells = <1>;
+> -			#size-cells = <0>;
+> -
+> -			port@1 {
+> -				reg = <1>;
+> -				dsi0_dpi_input: endpoint {
+> -					remote-endpoint = <&xxx_dpi_output>;
+> -				};
+> -			};
+> -		};
+> -
+> -		panel: dsi-dev@0 {
+> -			compatible = "<vendor,panel>";
+> -			reg = <0>;
+> -		};
+> -	};
+> -
+> -or
+> -
+> -	dsi0: dsi@fd0c0000 {
+> -		compatible = "cdns,dsi";
+> -		reg = <0x0 0xfd0c0000 0x0 0x1000>;
+> -		clocks = <&pclk>, <&sysclk>;
+> -		clock-names = "dsi_p_clk", "dsi_sys_clk";
+> -		interrupts = <1>;
+> -		phys = <&dphy1>;
+> -		phy-names = "dphy";
+> -		#address-cells = <1>;
+> -		#size-cells = <0>;
+> -
+> -		ports {
+> -			#address-cells = <1>;
+> -			#size-cells = <0>;
+> -
+> -			port@0 {
+> -				reg = <0>;
+> -				#address-cells = <1>;
+> -				#size-cells = <0>;
+> -
+> -				dsi0_output: endpoint@0 {
+> -					reg = <0>;
+> -					remote-endpoint = <&dsi_panel_input>;
+> -				};
+> -			};
+> -
+> -			port@1 {
+> -				reg = <1>;
+> -				dsi0_dpi_input: endpoint {
+> -					remote-endpoint = <&xxx_dpi_output>;
+> -				};
+> -			};
+> -		};
+> -	};
+> -
+> -	i2c@xxx {
+> -		panel: panel@59 {
+> -			compatible = "<vendor,panel>";
+> -			reg = <0x59>;
+> -
+> -			port {
+> -				dsi_panel_input: endpoint {
+> -					remote-endpoint = <&dsi0_output>;
+> -				};
+> -			};
+> -		};
+> -	};
+> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
+> new file mode 100644
+> index 000000000000..3161c33093c1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
+> @@ -0,0 +1,157 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/cdns,dsi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Cadence DSI bridge
+> +
+> +maintainers:
+> +  - Boris Brezillon <boris.brezillon@bootlin.com>
+> +
+> +description: |
+> +   CDNS DSI is a bridge device which converts DPI to DSI
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - cdns,dsi
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: PSM clock, used by the IP
+> +      - description: sys clock, used by the IP
+> +
+> +  clock-names:
+> +    items:
+> +      - const: dsi_p_clk
+> +      - const: dsi_sys_clk
+> +
+> +  phys:
+> +    maxItems: 1
+> +
+> +  phy-names:
+> +    const: dphy
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  reset-names:
+> +    const: dsi_p_rst
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output port representing the DSI output. It can have
+> +          at most 4 endpoints. The endpoint number is directly encoding
+> +          the DSI virtual channel used by this device.
+
+Using endpoints to model virtual channels isn't great, but that's not an
+issue with this patch.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Input port representing the DPI input.
+> +
+> +    required:
+> +      - port@1
+> +
+> +allOf:
+> +  - $ref: ../dsi-controller.yaml#
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - phys
+> +  - phy-names
+> +  - ports
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    bus {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        dsi@fd0c0000 {
+> +            compatible = "cdns,dsi";
+> +            reg = <0x0 0xfd0c0000 0x0 0x1000>;
+> +            clocks = <&pclk>, <&sysclk>;
+> +            clock-names = "dsi_p_clk", "dsi_sys_clk";
+> +            interrupts = <1>;
+> +            phys = <&dphy0>;
+> +            phy-names = "dphy";
+> +
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +                    endpoint {
+> +                        remote-endpoint = <&xxx_dpi_output>;
+> +                    };
+> +                };
+> +            };
+> +
+> +            panel@0 {
+> +                compatible = "panasonic,vvx10f034n00";
+> +                reg = <0>;
+> +                power-supply = <&vcc_lcd_reg>;
+> +            };
+> +        };
+> +    };
+> +
+> +  - |
+> +    bus {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        dsi@fd0c0000 {
+> +            compatible = "cdns,dsi";
+> +            reg = <0x0 0xfd0c0000 0x0 0x1000>;
+> +            clocks = <&pclk>, <&sysclk>;
+> +            clock-names = "dsi_p_clk", "dsi_sys_clk";
+> +            interrupts = <1>;
+> +            phys = <&dphy1>;
+> +            phy-names = "dphy";
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +
+> +                    endpoint@0 {
+> +                        reg = <0>;
+> +                        remote-endpoint = <&dsi_panel_input>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +                    endpoint {
+> +                        remote-endpoint = <&xxx_dpi_output>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+
 -- 
-2.38.1
+Regards,
 
+Laurent Pinchart
