@@ -2,29 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7133765B31A
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 15:03:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7E4B65B2FC
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 14:58:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1900810E343;
-	Mon,  2 Jan 2023 14:03:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C17A610E33E;
+	Mon,  2 Jan 2023 13:58:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 349 seconds by postgrey-1.36 at gabe;
- Mon, 02 Jan 2023 14:03:48 UTC
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35BB510E343
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 14:03:48 +0000 (UTC)
-Received: from handsomejack.molgen.mpg.de (handsomejack.molgen.mpg.de
- [141.14.17.248])
- by mx.molgen.mpg.de (Postfix) with ESMTP id 5E15B60027FC1;
- Mon,  2 Jan 2023 14:57:57 +0100 (CET)
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-To: Helge Deller <deller@gmx.de>,
-	"Z. Liu" <liuzx@knownsec.com>
-Subject: [PATCH] matroxfb: G200eW: Increase max memory from 1 MB to 16 MB
-Date: Mon,  2 Jan 2023 14:57:30 +0100
-Message-Id: <20230102135731.6487-1-pmenzel@molgen.mpg.de>
-X-Mailer: git-send-email 2.39.0
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 752F410E33E
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 13:58:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=nzcvpLcYCt5neYgexYxu8AQHxkEEAl9FR+0zzVReMEs=; b=Nj40IlB4HUlGv6VaXRsGUxmFCq
+ 2uynkQbuWX+oDoXsOWiQqofkBCCQkHvy9tTfYsyrBAQrc60LhrTl+XrRCO7paPXxLI9RxBq//SA9H
+ j/iGh3JUUvI3B1VjhGcuDwl0f2w7qmWWBwzTnqcmN1STvMAitXHqnlNmIV7zox7YNfd0LjYyvoaSx
+ wHjp1KyOAM8IwBjgdLdloJt5kXVDtCq+NP1YQhVhRym+gQmn7KH2P6qepuo3bhOTnTcwXdqKMoz7w
+ Qw6LnwAfgK2q/1dlDaN5IsK2Aq0P1OnbbzRmSPfXHkIj8HGObgeyVNo1bNY5s2XTILxVHmzMM3ufW
+ mSjqGg/w==;
+Received: from [187.36.234.139] (helo=bowie..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pCLKH-00FJac-9i; Mon, 02 Jan 2023 14:58:05 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Maxime Ripard <mripard@kernel.org>, Emma Anholt <emma@anholt.net>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/vc4: Check for valid formats
+Date: Mon,  2 Jan 2023 10:57:57 -0300
+Message-Id: <20230102135757.262676-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -40,61 +51,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Menzel <pmenzel@molgen.mpg.de>, linux-fbdev@vger.kernel.org,
- Rich Felker <dalias@libc.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, it+linux-fbdev@molgen.mpg.de,
- stable@vger.kernel.org
+Cc: Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 62d89a7d49af ("video: fbdev: matroxfb: set maxvram of vbG200eW to
-the same as vbG200 to avoid black screen") accidently decreases the
-maximum memory size for the Matrox G200eW (102b:0532) from 8 MB to 1 MB
-by missing one zero. This caused the driver initialization to fail with
-the messages below, as the minimum required VRAM size is 2 MB:
+Currently, vc4 is not checking valid formats before creating a
+framebuffer, which is triggering the IGT test
+igt@kms_addfb_basic@addfb25-bad-modifier to fail, as vc4 accepts
+to create a framebuffer with an invalid modifier. Therefore, check
+for valid formats before creating framebuffers on vc4 and vc5 in
+order to avoid creating framebuffers with invalid formats.
 
-     [    9.436420] matroxfb: Matrox MGA-G200eW (PCI) detected
-     [    9.444502] matroxfb: cannot determine memory size
-     [    9.449316] matroxfb: probe of 0000:0a:03.0 failed with error -1
-
-So, add the missing 0 to make it the intended 16 MB. Successfully tested on
-the Dell PowerEdge R910/0KYD3D, BIOS 2.10.0 08/29/2013, that the warning is
-gone.
-
-While at it, add a leading 0 to the maxdisplayable entry, so it’s aligned
-properly. The value could probably also be increased from 8 MB to 16 MB, as
-the G200 uses the same values, but I have not checked any datasheet.
-
-Note, matroxfb is obsolete and superseded by the maintained DRM driver
-mga200, which is used by default on most systems where both drivers are
-available. Therefore, on most systems it was only a cosmetic issue.
-
-Fixes: 62d89a7d49af ("video: fbdev: matroxfb: set maxvram of vbG200eW to the same as vbG200 to avoid black screen")
-Link: https://lore.kernel.org/linux-fbdev/972999d3-b75d-5680-fcef-6e6905c52ac5@suse.de/T/#mb6953a9995ebd18acc8552f99d6db39787aec775
-Cc: it+linux-fbdev@molgen.mpg.de
-Cc: Z. Liu <liuzx@knownsec.com>
-Cc: Rich Felker <dalias@libc.org>
-Cc: stable@vger.kernel.org
-Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/video/fbdev/matrox/matroxfb_base.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/vc4/vc4_kms.c | 23 ++++++++++++++++++++++-
+ 1 file changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/matrox/matroxfb_base.c b/drivers/video/fbdev/matrox/matroxfb_base.c
-index 0d3cee7ae7268..a043a737ea9f7 100644
---- a/drivers/video/fbdev/matrox/matroxfb_base.c
-+++ b/drivers/video/fbdev/matrox/matroxfb_base.c
-@@ -1378,8 +1378,8 @@ static struct video_board vbG200 = {
- 	.lowlevel = &matrox_G100
+diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+index 53d9f30460cf..5d1afd66fcc1 100644
+--- a/drivers/gpu/drm/vc4/vc4_kms.c
++++ b/drivers/gpu/drm/vc4/vc4_kms.c
+@@ -500,6 +500,27 @@ static struct drm_framebuffer *vc4_fb_create(struct drm_device *dev,
+		mode_cmd = &mode_cmd_local;
+	}
+
++	if (!drm_any_plane_has_format(dev, mode_cmd->pixel_format,
++				      mode_cmd->modifier[0])) {
++		drm_dbg_kms(dev, "Unsupported pixel format %p4cc / modifier 0x%llx\n",
++			    &mode_cmd->pixel_format, mode_cmd->modifier[0]);
++		return ERR_PTR(-EINVAL);
++	}
++
++	return drm_gem_fb_create(dev, file_priv, mode_cmd);
++}
++
++static struct drm_framebuffer *vc5_fb_create(struct drm_device *dev,
++					     struct drm_file *file_priv,
++					     const struct drm_mode_fb_cmd2 *mode_cmd)
++{
++	if (!drm_any_plane_has_format(dev, mode_cmd->pixel_format,
++				      mode_cmd->modifier[0])) {
++		drm_dbg_kms(dev, "Unsupported pixel format %p4cc / modifier 0x%llx\n",
++			    &mode_cmd->pixel_format, mode_cmd->modifier[0]);
++		return ERR_PTR(-EINVAL);
++	}
++
+	return drm_gem_fb_create(dev, file_priv, mode_cmd);
+ }
+
+@@ -1033,7 +1054,7 @@ static const struct drm_mode_config_funcs vc4_mode_funcs = {
+ static const struct drm_mode_config_funcs vc5_mode_funcs = {
+	.atomic_check = vc4_atomic_check,
+	.atomic_commit = drm_atomic_helper_commit,
+-	.fb_create = drm_gem_fb_create,
++	.fb_create = vc5_fb_create,
  };
- static struct video_board vbG200eW = {
--	.maxvram = 0x100000,
--	.maxdisplayable = 0x800000,
-+	.maxvram = 0x1000000,
-+	.maxdisplayable = 0x0800000,
- 	.accelID = FB_ACCEL_MATROX_MGAG200,
- 	.lowlevel = &matrox_G100
- };
--- 
-2.39.0
+
+ int vc4_kms_load(struct drm_device *dev)
+--
+2.38.1
 
