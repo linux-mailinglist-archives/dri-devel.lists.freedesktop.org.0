@@ -1,48 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 602A465AE9E
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 10:24:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F9F065AEA6
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 10:29:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6705310E17E;
-	Mon,  2 Jan 2023 09:24:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E8FC10E1A4;
+	Mon,  2 Jan 2023 09:29:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ED1210E17E;
- Mon,  2 Jan 2023 09:24:29 +0000 (UTC)
-Received: from [192.168.2.142] (109-252-113-89.nat.spd-mgts.ru
- [109.252.113.89])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 5FDC96602CC0;
- Mon,  2 Jan 2023 09:24:27 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1672651468;
- bh=7tN/fQbkEDsjA4k9IBjHGq9Y43QCGstNSr5W+MmkBh8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=j10vMCG3A1PQJzNKoxbsnm2QOWRGF9YGNn9bgCn26MCaF+LvI0CtuWysa9XdVmkUU
- shFKMKaNVQpcbok8teIVUknV6xnwJTx2iu74exclavg8QxheYYkBluXgP96ACBabhs
- kt5aosOWP/MEIStaKgDz0wZvsMjnoRUQi1cIWrFbw676uDHc5DFYHU+/Q0UiLnQbO4
- iMs46Ftd0tkzuPElDgI8EUMTW+CI8Qlt+7F7F9wDLwSm5RAklaSdkKXuPjE53LCavh
- gmZs1LawTWIfhhsYqGGbCj68yc5GxEA+iZnIf0x/83gtWDVX9gKjxag98rA+cq0/pM
- LGfnO+C9a6dWw==
-Message-ID: <6ef84968-2874-49b0-9fbc-bdc897382b0e@collabora.com>
-Date: Mon, 2 Jan 2023 12:24:24 +0300
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F0DA10E1A4
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 09:29:08 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id n1so28591110ljg.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Jan 2023 01:29:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=54SvQg7V4G/yUh34P1HenewD+ErkpsXyiXw5J7ZoDjA=;
+ b=W1dFFFJQ94xENzXF4W1kr5P5CDMV8x20VuJoghbLlglWHn8ADNBIL1ONLGH6XssNvK
+ MmNu50NfeWZOPQWTnAJzGDkxCHPZwPtcZ6rNWwHAQDDmAqROm5vmUFaAQ5PFi3fKfwbA
+ xhI+mjiOf3ELU3c8DGzfPxENe1Egg34m+dkG1X/JF6XvGHU8pFJuygYiE7V8OudPWTOJ
+ lR/MDOBNGq6xFTZse/m7bzxf3Mq2fpo2qOFXFNe7BQLgz2twsRpKbgt7iKQjqihx0FR5
+ KRUq5hR4Iqz4DKedaBFWF3vDe7hwwuMA1FnJ/GwMMgzuH/YT0BK2iqDO/hO8nKQy02KO
+ s35A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=54SvQg7V4G/yUh34P1HenewD+ErkpsXyiXw5J7ZoDjA=;
+ b=d36IFRyKXRpxYG9zF5cXZ5ewF+uvIIvKkvztDQxFN46Hu51UrZFvbuwnvgRf9VVSDd
+ pze5hZdF8ENB/LuULHqX65G91UU2wpLwtcJCO78ZeagYvMjaLot3R+Wd0fs3NreFifnM
+ HCS+fngv1R3zqtc2EOotWTy3sI3Plp1qsAC7uvh0GM4O4RuYx59G3mXmsgIouRix/x67
+ 5ddeW0giXqhZoI0cDfbHOTgHdjXMWiLiKUJVa8/Y72E8OUnPDeE3cTseJbXzUwIgdO+l
+ A1HH8nBISlovvwXtnmWiPZ2LC8RHqMO0fFhDzCi+3GAgbdsZu5JOpjtFUBNrdxZ5oXYd
+ gljQ==
+X-Gm-Message-State: AFqh2kqMOKX0eb6OZQK2jq416hRAQflEfzdGiAQnXvMRdKX+E0Bkcotx
+ YuelFo0NeiOCidT9fYdJ/jOI9w==
+X-Google-Smtp-Source: AMrXdXtedchdcPFKbA0yA741M6X/8cIi4PDMmyDbu2yHmKpgVk0+RWUIRZS0TRgijzMsK4XvP6/xTA==
+X-Received: by 2002:a2e:8396:0:b0:27b:5596:1e4d with SMTP id
+ x22-20020a2e8396000000b0027b55961e4dmr9977811ljg.34.1672651746779; 
+ Mon, 02 Jan 2023 01:29:06 -0800 (PST)
+Received: from [192.168.1.101] (abxi45.neoplus.adsl.tpnet.pl. [83.9.2.45])
+ by smtp.gmail.com with ESMTPSA id
+ h21-20020a2ea495000000b00279e41de7e6sm3216902lji.3.2023.01.02.01.29.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Jan 2023 01:29:06 -0800 (PST)
+Message-ID: <62310fb8-4159-36e1-07cc-21b248daf198@linaro.org>
+Date: Mon, 2 Jan 2023 10:29:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH 12/13] drm/scheduler: rework entity flush, kill and fini
-To: youling257 <youling257@gmail.com>, robdclark@gmail.com
-References: <CAF6AEGv=GJm5Hyea7a0oDgWDYXw72HwTB4sreeppYVEKCsw0Ew@mail.gmail.com>
- <20230101182907.1662-1-youling257@gmail.com>
+Subject: Re: [RFC PATCH 1/7] drm/msm/dpu: Remove unused INTF0 interrupt mask
+ from sm6115/qcm2290
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ phone-devel@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+References: <20221231215006.211860-1-marijn.suijten@somainline.org>
+ <20221231215006.211860-2-marijn.suijten@somainline.org>
 Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230101182907.1662-1-youling257@gmail.com>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20221231215006.211860-2-marijn.suijten@somainline.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,51 +79,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jonathan@marek.ca, ckoenig.leichtzumerken@gmail.com,
- dri-devel@lists.freedesktop.org, luben.tuikov@amd.com,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com
+Cc: freedreno@lists.freedesktop.org, Loic Poulain <loic.poulain@linaro.org>,
+ linux-kernel@vger.kernel.org, Jami Kettunen <jami.kettunen@somainline.org>,
+ Bjorn Andersson <andersson@kernel.org>, Adam Skladowski <a39.skl@gmail.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, Vinod Koul <vkoul@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/1/23 21:29, youling257 wrote:
-> Linux 6.2-rc1 has memory leak on amdgpu, git bisect bad commit is "drm/scheduler: rework entity flush, kill and fini".
-> git bisect start
-> # status: waiting for both good and bad commits
-> # good: [eb7081409f94a9a8608593d0fb63a1aa3d6f95d8] Linux 6.1-rc6
-> git bisect good eb7081409f94a9a8608593d0fb63a1aa3d6f95d8
-> # status: waiting for bad commit, 1 good commit known
-> # bad: [66efff515a6500d4b4976fbab3bee8b92a1137fb] Merge tag 'amd-drm-next-6.2-2022-12-07' of https://gitlab.freedesktop.org/agd5f/linux into drm-next
-> git bisect bad 66efff515a6500d4b4976fbab3bee8b92a1137fb
-> # good: [49e8e6343df688d68b12c2af50791ca37520f0b7] Merge tag 'amd-drm-next-6.2-2022-11-04' of https://gitlab.freedesktop.org/agd5f/linux into drm-next
-> git bisect good 49e8e6343df688d68b12c2af50791ca37520f0b7
-> # bad: [fc58764bbf602b65a6f63c53e5fd6feae76c510c] Merge tag 'amd-drm-next-6.2-2022-11-18' of https://gitlab.freedesktop.org/agd5f/linux into drm-next
-> git bisect bad fc58764bbf602b65a6f63c53e5fd6feae76c510c
-> # bad: [4e291f2f585313efa5200cce655e17c94906e50a] Merge tag 'drm-misc-next-2022-11-10-1' of git://anongit.freedesktop.org/drm/drm-misc into drm-next
-> git bisect bad 4e291f2f585313efa5200cce655e17c94906e50a
-> # good: [78a43c7e3b2ff5aed1809f93b4f87a418355789e] drm/nouveau/gr/gf100-: make global attrib_cb actually global
-> git bisect good 78a43c7e3b2ff5aed1809f93b4f87a418355789e
-> # bad: [611fc22c9e5e13276c819a7f7a7d19b794bbed1a] drm/arm/hdlcd: remove calls to drm_mode_config_cleanup()
-> git bisect bad 611fc22c9e5e13276c819a7f7a7d19b794bbed1a
-> # bad: [a8d9621b9fc67957b3de334cc1b5f47570fb90a0] drm/ingenic: Don't set struct drm_driver.output_poll_changed
-> git bisect bad a8d9621b9fc67957b3de334cc1b5f47570fb90a0
-> # good: [2cf9886e281678ae9ee57e24a656749071d543bb] drm/scheduler: remove drm_sched_dependency_optimized
-> git bisect good 2cf9886e281678ae9ee57e24a656749071d543bb
-> # bad: [8e4e4c2f53ffcb0ef746dc3b87ce1a57c5c94c7d] Merge drm/drm-next into drm-misc-next
-> git bisect bad 8e4e4c2f53ffcb0ef746dc3b87ce1a57c5c94c7d
-> # bad: [47078311b8efebdefd5b3b2f87e2b02b14f49c66] drm/ingenic: Fix missing platform_driver_unregister() call in ingenic_drm_init()
-> git bisect bad 47078311b8efebdefd5b3b2f87e2b02b14f49c66
-> # bad: [a82f30b04c6aaefe62cbbfd297e1bb23435b6b3a] drm/scheduler: rename dependency callback into prepare_job
-> git bisect bad a82f30b04c6aaefe62cbbfd297e1bb23435b6b3a
-> # bad: [2fdb8a8f07c2f1353770a324fd19b8114e4329ac] drm/scheduler: rework entity flush, kill and fini
-> git bisect bad 2fdb8a8f07c2f1353770a324fd19b8114e4329ac
-> # first bad commit: [2fdb8a8f07c2f1353770a324fd19b8114e4329ac] drm/scheduler: rework entity flush, kill and fini
+
+
+On 31.12.2022 22:50, Marijn Suijten wrote:
+> Neither of these SoCs has INTF0, they only have a DSI interface on index
+> 1.  Stop enabling an interrupt that can't fire.
+Double space.
+
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Konrad
 > 
-> @Rob Clark, i test your patch fixed my problem.
-
-The linux-next already carried the fix for a couple weeks. It will land
-to 6.2-rc once drm-fixes branch will be synced with the 6.2.
-
--- 
-Best regards,
-Dmitry
-
+> Fixes: 3581b7062cec ("drm/msm/disp/dpu1: add support for display on SM6115")
+> Fixes: 5334087ee743 ("drm/msm: add support for QCM2290 MDSS")
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index 2196e205efa5..9814ad52cc04 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -90,6 +90,11 @@
+>  			 BIT(MDP_AD4_0_INTR) | \
+>  			 BIT(MDP_AD4_1_INTR))
+>  
+> +#define IRQ_QCM2290_MASK (BIT(MDP_SSPP_TOP0_INTR) | \
+> +			 BIT(MDP_SSPP_TOP0_INTR2) | \
+> +			 BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> +			 BIT(MDP_INTF1_INTR))
+> +
+>  #define IRQ_SC7180_MASK (BIT(MDP_SSPP_TOP0_INTR) | \
+>  			 BIT(MDP_SSPP_TOP0_INTR2) | \
+>  			 BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> @@ -1884,7 +1889,7 @@ static const struct dpu_mdss_cfg sm6115_dpu_cfg = {
+>  	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+>  	.vbif = sdm845_vbif,
+>  	.perf = &sm6115_perf_data,
+> -	.mdss_irqs = IRQ_SC7180_MASK,
+> +	.mdss_irqs = IRQ_QCM2290_MASK,
+>  };
+>  
+>  static const struct dpu_mdss_cfg sm8150_dpu_cfg = {
+> @@ -2008,7 +2013,7 @@ static const struct dpu_mdss_cfg qcm2290_dpu_cfg = {
+>  	.reg_dma_count = 1,
+>  	.dma_cfg = &sdm845_regdma,
+>  	.perf = &qcm2290_perf_data,
+> -	.mdss_irqs = IRQ_SC7180_MASK,
+> +	.mdss_irqs = IRQ_QCM2290_MASK,
+>  };
+>  
+>  static const struct dpu_mdss_hw_cfg_handler cfg_handler[] = {
