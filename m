@@ -2,68 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A74D65AF96
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 11:33:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C374665AF98
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 11:34:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 086AC10E2FC;
-	Mon,  2 Jan 2023 10:33:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05B3188284;
+	Mon,  2 Jan 2023 10:34:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB40310E2FB
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 10:33:25 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 632FA33CB9;
- Mon,  2 Jan 2023 10:33:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1672655604; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6eJsI75I6VbxlBLahJnyhSDORTntl8iYiCh6UpDGQDg=;
- b=XsQUEXCvumvUT262KQ2TnE8E68dkxKw24C8f4cfhPAqy1N1Rjy0qRTARuGyA5YDc7ZpkfQ
- UmuI12hsL7Gk0pjbWeyNhGw0DVNaPtBpKrxck6BhE4J1leAOsU3C2SywbrWlOFSeP8uGoR
- beliBRVyyqYZhdykSqmcDsfJNHcrlOc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1672655604;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6eJsI75I6VbxlBLahJnyhSDORTntl8iYiCh6UpDGQDg=;
- b=eTkSufnMs6O53Bjsc6rFYGFG4747AgmbxhTcjaqzPQydrAQJ0m+lqtx75aupkbOt/Un4j7
- uu/dzs7zuI4w2QBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 274BB139C8;
- Mon,  2 Jan 2023 10:33:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id GqSxCPSysmNdWAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 02 Jan 2023 10:33:24 +0000
-Message-ID: <f130dcb9-6fe5-965c-c8fc-03b00f63dc62@suse.de>
-Date: Mon, 2 Jan 2023 11:33:23 +0100
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53DAA10E2FD
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 10:34:01 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ b24-20020a05600c4a9800b003d21efdd61dso20301892wmp.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Jan 2023 02:34:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8mgGt+WDil8dXaAkpJ8qZ0avMhy4Myb58QPGVDym6jk=;
+ b=yNsiE5cnW7N2EYqUIgR6oylWXDpokhhUBC++Hyr5GSKhbbGYxxLF6AxDzhQlxgp8bB
+ iP9FHXzLpMBT4+H0U+GeaOZgaqPkosrF71zTJbgP0DTCTH9Iep+XVGkqJPQ1AOwrWdKi
+ gyUCqDrOD0r3EbPZfuAHfx4yVfSW0Ww1GfTy/GOP7wWX+VgUzWfWDepBAvPLMOsoNCmn
+ 0CJyADgaPbJFbsBqtM5gEmmtlJ+ndqG80yihZN4wiwzcNdNQv/eJbAfTVlioeKWnBQ8g
+ u7Mk+2qHk6PzpoxLBm+ikqT+ux1UVPpr6X6D0Oxepk3AV8ORdC3Fqr22906Vtn31Ju5R
+ mL3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8mgGt+WDil8dXaAkpJ8qZ0avMhy4Myb58QPGVDym6jk=;
+ b=oC2ODoSBS1gQL1jO+05F+P3nNmrmj1SWxGdfhAIOdnynBWsTsbcLwI0UDFfNZgeNzs
+ EFQ2ms0wxonoZ63AjIYt+JGtiZY2zAnDHrXBTDTpuKZ0r9mzg7H/qqUkKBnu5iETf6Ri
+ dXT1W7EQw+M2mFYwcpG+lLYhiNRKlWyQN3Wz5d6iIM7y8OyMiU2NHDwwmeP0yt9jOkI8
+ eBn5NqITCJw5lNBqawrLNsuoWEdph7SgtOZczjl3Keips4AUYERKhVLCffM7gqujj7VF
+ 4ifGpEyr9aI4ACvkwCsrTMi/NbPJ7fvPs0HuR5x7HwXgaufsdiINYj822eJ1vMr28iY2
+ +OrQ==
+X-Gm-Message-State: AFqh2kqMIIX8R6104T70xs7Qd3vAO86W4QI/Vh3+N4YPqoovlwl9Ik78
+ wCsHHCpp7wkzJNeElvSDDjle9A==
+X-Google-Smtp-Source: AMrXdXtR8Zpqr1OOrcZbsXvxGi2rMh686vRDHyobS4MDPmdqNXmhUxFGkbSoZEpsVKm7yR6UFphmcg==
+X-Received: by 2002:a05:600c:1e09:b0:3cf:b73f:bf8f with SMTP id
+ ay9-20020a05600c1e0900b003cfb73fbf8fmr28237316wmb.7.1672655639818; 
+ Mon, 02 Jan 2023 02:33:59 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ z10-20020a05600c0a0a00b003d96efd09b7sm39558447wmp.19.2023.01.02.02.33.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Jan 2023 02:33:59 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+In-Reply-To: <20221202115223.39051-1-tomeu.vizoso@collabora.com>
+References: <20221202115223.39051-1-tomeu.vizoso@collabora.com>
+Subject: Re: (subset) [PATCH v6 0/8] Support for the NPU in Vim3
+Message-Id: <167265563884.375287.14738065029964626826.b4-ty@linaro.org>
+Date: Mon, 02 Jan 2023 11:33:58 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v4 1/2] drm/tiny: ili9486: Enable driver module autoloading
-Content-Language: en-US
-To: Carlo Caione <ccaione@baylibre.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Mark Brown <broonie@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-References: <20221116-s905x_spi_ili9486-v4-0-f86b4463b9e4@baylibre.com>
- <20221116-s905x_spi_ili9486-v4-1-f86b4463b9e4@baylibre.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20221116-s905x_spi_ili9486-v4-1-f86b4463b9e4@baylibre.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------7WWAL69xIlEamlHVjhWSj1Wb"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.10.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,82 +73,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Kevin Hilman <khilman@baylibre.com>, italonicola@collabora.com,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR VIVANTE GPU IP" <dri-devel@lists.freedesktop.org>,
+ "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
+ <etnaviv@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ "open list:ARM/Amlogic Meson SoC support" <linux-amlogic@lists.infradead.org>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ "moderated list:ARM/Amlogic Meson SoC support"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------7WWAL69xIlEamlHVjhWSj1Wb
-Content-Type: multipart/mixed; boundary="------------lFQiV1JmjYK2euoxfpbFl4rz";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Carlo Caione <ccaione@baylibre.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Mark Brown <broonie@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
-Message-ID: <f130dcb9-6fe5-965c-c8fc-03b00f63dc62@suse.de>
-Subject: Re: [PATCH v4 1/2] drm/tiny: ili9486: Enable driver module
- autoloading
-References: <20221116-s905x_spi_ili9486-v4-0-f86b4463b9e4@baylibre.com>
- <20221116-s905x_spi_ili9486-v4-1-f86b4463b9e4@baylibre.com>
-In-Reply-To: <20221116-s905x_spi_ili9486-v4-1-f86b4463b9e4@baylibre.com>
+Hi,
 
---------------lFQiV1JmjYK2euoxfpbFl4rz
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Fri, 2 Dec 2022 12:52:12 +0100, Tomeu Vizoso wrote:
+> This series adds support for the Verisilicon VIPNano-QI NPU in the A311D
+> as in the VIM3 board.
+> 
+> The IP is very closely based on previous Vivante GPUs, so the etnaviv
+> kernel driver works basically unchanged.
+> 
+> The userspace part of the driver is being reviewed at:
+> 
+> [...]
 
-SGkNCg0KQW0gMTkuMTIuMjIgdW0gMTA6MDIgc2NocmllYiBDYXJsbyBDYWlvbmU6DQo+IFNQ
-SSBkZXZpY2VzIHVzZSB0aGUgc3BpX2RldmljZV9pZCBmb3IgbW9kdWxlIGF1dG9sb2FkaW5n
-IGV2ZW4gb24NCj4gc3lzdGVtcyB1c2luZyBkZXZpY2UgdHJlZS4NCj4gDQo+IEFkZCB0aGUg
-c3BpX2RldmljZV9pZCBlbnRyeSB0byBlbmFibGUgYXV0b2xvYWRpbmcgZm9yIHRoZSAzLjVp
-bmNoIFJQaQ0KPiBEaXNwbGF5IChycGktbGNkLTM1IGFuZCBwaXNjcmVlbikuDQo+IA0KPiBS
-ZXZpZXdlZC1ieTogTmVpbCBBcm1zdHJvbmcgPG5laWwuYXJtc3Ryb25nQGxpbmFyby5vcmc+
-DQo+IFNpZ25lZC1vZmYtYnk6IENhcmxvIENhaW9uZSA8Y2NhaW9uZUBiYXlsaWJyZS5jb20+
-DQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS90aW55L2lsaTk0ODYuYyB8IDIgKysNCj4g
-ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL3RpbnkvaWxpOTQ4Ni5jIGIvZHJpdmVycy9ncHUvZHJtL3Rpbnkv
-aWxpOTQ4Ni5jDQo+IGluZGV4IDFiYjg0NzQ2NmIxMC4uOGJmMGRjYTBiMDVkIDEwMDY0NA0K
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGlueS9pbGk5NDg2LmMNCj4gKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL3RpbnkvaWxpOTQ4Ni5jDQo+IEBAIC0xODMsNiArMTgzLDggQEAgTU9EVUxF
-X0RFVklDRV9UQUJMRShvZiwgaWxpOTQ4Nl9vZl9tYXRjaCk7DQo+ICAgDQo+ICAgc3RhdGlj
-IGNvbnN0IHN0cnVjdCBzcGlfZGV2aWNlX2lkIGlsaTk0ODZfaWRbXSA9IHsNCj4gICAJeyAi
-aWxpOTQ4NiIsIDAgfSwNCj4gKwl7ICJycGktbGNkLTM1IiwgMCB9LA0KPiArCXsgInBpc2Ny
-ZWVuIiwgMCB9LA0KDQpBbHBoYWJldGljYWwgc29ydGluZyBwbGVhc2UuDQoNCldpdGggdGhh
-dDoNCg0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNl
-LmRlPg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+ICAgCXsgfQ0KPiAgIH07DQo+ICAg
-TU9EVUxFX0RFVklDRV9UQUJMRShzcGksIGlsaTk0ODZfaWQpOw0KPiANCg0KLS0gDQpUaG9t
-YXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2Fy
-ZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJl
-cmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xo
-cmVyOiBJdm8gVG90ZXYNCg==
+Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git (v6.3/drivers)
 
---------------lFQiV1JmjYK2euoxfpbFl4rz--
+[3/8] soc: amlogic: meson-pwrc: Add NNA power domain for A311D
+      https://git.kernel.org/amlogic/c/9a217b7e895313a4d42f7a6c48b6237a595945f4
 
---------------7WWAL69xIlEamlHVjhWSj1Wb
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+These changes has been applied on the intermediate git tree [1].
 
------BEGIN PGP SIGNATURE-----
+The v6.3/drivers branch will then be sent via a formal Pull Request to the Linux SoC maintainers
+for inclusion in their intermediate git branches in order to be sent to Linus during
+the next merge window, or sooner if it's a set of fixes.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmOysvMFAwAAAAAACgkQlh/E3EQov+Cx
-6Q/8C7H2mRrKBkyOcenR8/D31dmZKvfuYILszuUaFTw7vwuEJVYtLZr5312jyd81mbm2dCEqpsa0
-HM6bsMdoLSb3+DRggr3lsKsq/Q9wAY3sc0psU1of8HodstBrxZ+z1Pyqi0irRVVAtl494RbXKqAX
-lwXKfuQX16tkdeWLELAUePTjouTBvY/lebdIZJ1iNHDGIhVc0UBdN5cm62IJ6ysswIosbV1ZLL8U
-ZsS1HnJ8M7fhLrYkaPkYjWU6YoNynzDifTxsULYG69w0h+98P67F564uNt2YC5ClqiIWnIdroTbY
-vozAP8bM5EMGG9XqfTOy7WK+hHli7nPxJXpgNFCeVHt61hGQUalIGuRtGjzq42/qdioGE5EMgcOt
-pOroZMnDNtvSz/OELridHwAs12iHwa/seFCLZkEi9gXQKlBtuZWfukD0fl9rPFQ01QiUf+1XtChU
-glg5SlPvtMwQpG6YsDUoE+fQex/MiC42H5MN3x8ItMZse9PTavQd1CNMdVnuKIpxqVxHeTYIHcOa
-v39clRVI669ZTt4jlBNTNey+SzmzUKFKOXqqhKgPrXdB+qn/qTYXwvKnIMLi8MGkNRmX4WoublT1
-quPPwsLFNlYNYHzTrAu7kfwPivoXkv4pXIHUbaLqba0AJbClDD/hCqvdTyfZA3jyNpAHqu6Ikyjw
-L24=
-=cHPN
------END PGP SIGNATURE-----
+In the cases of fixes, those will be merged in the current release candidate
+kernel and as soon they appear on the Linux master branch they will be
+backported to the previous Stable and Long-Stable kernels [2].
 
---------------7WWAL69xIlEamlHVjhWSj1Wb--
+The intermediate git branches are merged daily in the linux-next tree [3],
+people are encouraged testing these pre-release kernels and report issues on the
+relevant mailing-lists.
+
+If problems are discovered on those changes, please submit a signed-off-by revert
+patch followed by a corrective changeset.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+
+-- 
+Neil
