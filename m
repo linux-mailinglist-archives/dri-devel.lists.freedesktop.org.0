@@ -1,151 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A92D65B293
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 14:21:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3005265B2A9
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 14:28:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 488EC10E335;
-	Mon,  2 Jan 2023 13:21:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0257C10E33C;
+	Mon,  2 Jan 2023 13:28:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16AC910E334;
- Mon,  2 Jan 2023 13:21:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1672665679; x=1704201679;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=yi37zrE0XjjpRVZrj0JzNE35+0hwGyg6UI5f8hBXIAs=;
- b=LMJXC+YcxCGogshTGnCAExgCDZjP/lTuVPSX/hwRpXsVSNLUmaLCPuKE
- KoU4aksBR/IWTdqCeWO6GtGxMiHs9apGADvCBwTf+K31k8MiAUcY5wciR
- GOAM2IF4QOH2CTJJbKjve4C2Yq4b+obCjp1cER2lgXWfkGrMxk4NSGnV7
- VwvnlwdTRS4/LGNxmh/q5f3VDdLtZFsz6Sv/Mv2fRjSkMrVzUoylG41J0
- Jx/nrOqkN/XEDUPnzCqJOyd0ULg+ameHeL5scGds1QOSUtP9a698jEbMK
- uOOFR0XNg89ZAmOMYjLO2GOhyEpi7rbcnhioOr/tSnGKRCU37FfzTYw6p A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="348701426"
-X-IronPort-AV: E=Sophos;i="5.96,294,1665471600"; d="scan'208";a="348701426"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jan 2023 05:21:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="632139344"
-X-IronPort-AV: E=Sophos;i="5.96,294,1665471600"; d="scan'208";a="632139344"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga006.jf.intel.com with ESMTP; 02 Jan 2023 05:21:18 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Mon, 2 Jan 2023 05:21:17 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Mon, 2 Jan 2023 05:21:16 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Mon, 2 Jan 2023 05:21:16 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.170)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Mon, 2 Jan 2023 05:21:16 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cwNhHrrreTXfLMBAbkFRyoWYw/xiRsUCwHY10OpZN8tEW7eya8I2bJs24Myz46bl4r2QnqjMfDygIJXvy/QMsJZBKgIZ1LiRYS0w5ALdbM962Xcn2JGAHZpxSilZWw772UVDnsVzAtlaB4tF6QVEoozDKoOMwBTlEpgdmbh4i1ct+AYAzCamHR4i14cJqHX7nrh3KfIKbAjaC4WRqWRNKgIMuHLCu/6w8b+cHzv0zOyjLswGVi2dy5HNAyAWz4Pk1C0yfGwDXuyCKxcOMa2GWwdeDRQ4UIxks4QZIlEkfzsLdIm2pIoaZx/w9duxYK13kfPtiZ3mc2gGVhP6M04hYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z6reRh/Hg7Y13TZee//KkwqCv1pbAbOxkS0f1dL0ptM=;
- b=I9pF0I/uT9ch9pkEBkmDb1rVGgJNiylU0beTSWC6zjT14YPBDm6iQ4PBP/oL/6x9bdOJeoJavOHP8aUv1ciha2ggaePuxO7BdzIjBGyZ40/O5WNldUKmi2BkLYBfxsVkaaBBQeHv14ThLjlh1XOvFz9kb2E3pmcZtRgH9urRwLImDB+ESNfRhyQW1EcUYi6Ign64kcpToad113Ab9Fzhy12ZnLMXlcGOn2qBkIh7D/vXyT2YofvXlEvv6SWVsZW2Y3L+4izlYSkfs1SpgHmjbZlwbCO5Ltmt2Jfd6M5keYYGRHb8LAMYza9AhvsVuJqkc4PzPOocb4l0nGvmaCY1ug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH0PR11MB5409.namprd11.prod.outlook.com (2603:10b6:610:d0::7)
- by PH7PR11MB7121.namprd11.prod.outlook.com (2603:10b6:510:20c::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Mon, 2 Jan
- 2023 13:21:15 +0000
-Received: from CH0PR11MB5409.namprd11.prod.outlook.com
- ([fe80::2f13:f639:2761:bb6c]) by CH0PR11MB5409.namprd11.prod.outlook.com
- ([fe80::2f13:f639:2761:bb6c%3]) with mapi id 15.20.5944.019; Mon, 2 Jan 2023
- 13:21:14 +0000
-Message-ID: <ea3f6b18-aaff-fd54-6069-3bb497bc0f3a@intel.com>
-Date: Mon, 2 Jan 2023 15:20:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Use "%zu" to format size_t
-Content-Language: en-US
-To: Nirmoy Das <nirmoy.das@intel.com>, <intel-gfx@lists.freedesktop.org>
-References: <20221230183500.20553-1-nirmoy.das@intel.com>
-From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-In-Reply-To: <20221230183500.20553-1-nirmoy.das@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0085.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1e::9) To CH0PR11MB5409.namprd11.prod.outlook.com
- (2603:10b6:610:d0::7)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D1F410E336
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 13:28:26 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85EA87C5;
+ Mon,  2 Jan 2023 14:28:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1672666104;
+ bh=rbeGpq3naQxSZttEKEE6NMpQcDgNxWwuFSuPnTT7fuE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bR5Mv3YeY+DSKbnlyhNx5O1f8dW5tUepRg4hRrlOgqAjxbRat3o+Fc/xEKQYkbwNY
+ 5ADargL9TT9/YKHMOdGH6FAUIdeGAJ0zs5M6q2FhCuIg5/IJl+bhlMzRkzoqC0uJcs
+ XkcnjpThq8Fo7UMLnRNmvo2d6S15p4FMKVdnt6Ts=
+Date: Mon, 2 Jan 2023 15:28:21 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Rahul T R <r-ravikumar@ti.com>
+Subject: Re: [PATCH v10 4/5] drm/bridge: cdns-dsi: Create a header file
+Message-ID: <Y7Lb9dGahBYnwRlS@pendragon.ideasonboard.com>
+References: <20230102100942.1828-1-r-ravikumar@ti.com>
+ <20230102100942.1828-5-r-ravikumar@ti.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR11MB5409:EE_|PH7PR11MB7121:EE_
-X-MS-Office365-Filtering-Correlation-Id: c37489a5-1878-4de8-19ec-08daecc438ee
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Dinu3YczA08a7GV0JTShTAFZ9TnlkxRijtC9yLQsMir9D6MMuDeYCkALymgpIR/k2WInraI3aiazIeb0VO68fdJcUYjNF47MkxBAM/CVSjKZRosGy/MTq65H7574YAVFRPwEQVvdQ7/10115pbrHYzWWaRwylABATpmvomFsG/FXwPBtJ66wJRw7QH/BLMMxZyJFN/qy+UyQoNc3k1HSKtvE73gouTUhYRyX7SSfWkX5vgExsjYSURCwOvutqrEzXOlVAz2GrVCQfnI8E4K13VgYWF7WWevmNlaXeHNaNMvtcqPyTyAXaz5udWxF4loULX2CwIvTLco88kCFoTiTKHIzx5mYSXoKV2ijQ+qR2Vm7iGqEKe8pnDfDfZiC1PQhYXFJmtzbGanL4HtAWJtS9Mn/exzprkEDcvnH3GU5C+9N/mFyi6PqIhmhW1ZoFbsuPWp1IDyjPNtES4vf2Vkc9MPKY5DSkfM+mHXJ7GjS09icGO5cAMlj8tO1yhIkGqUKcakjR4f2uaS2qKb3d7SJNhgRLRyji2iI1j4YLvgo9PjLqxZIdlC50u4U/wG2KIM5jTCyr4sEqgyTTMNK35rXLdvN90SEVb6XO5Fka6HfvnppjonYX5BDqsSu5KUGpou//9A+hU13OQOaCAa0cB/yEMbUjC7FsXTHPx8GpMF97sUG7ZzQ45MuFA4oAPvskaOUyh5CnqMXZTId4LMF8TlrqNFJc15a1ObOvHP3Tyr0Bjbzx9vbKf320vNqpnI/yQYO
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH0PR11MB5409.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(396003)(376002)(366004)(136003)(39860400002)(346002)(451199015)(5660300002)(31686004)(2906002)(4744005)(41300700001)(8676002)(4326008)(8936002)(66556008)(66946007)(66476007)(316002)(478600001)(6486002)(53546011)(2616005)(26005)(186003)(6512007)(6666004)(83380400001)(6506007)(82960400001)(38100700002)(31696002)(86362001)(36756003)(22166006)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TGQ3dlFHKzJrTXNRRS9qZ2hCWDVGeUFCWmt5WHFnRVZqSkdpOGhld2cwbmpS?=
- =?utf-8?B?U3BmT0w0OUJobmZmR0EzR0xJODN1NHNJT0lNTm9TTmJSSEhyZ3RwVWhLUVQx?=
- =?utf-8?B?aWhLYUVZN0h3aDhSYWxiVDZTM3oyVXNMMEl4YkNRVENPMlJ2N2pEaWg5c3RC?=
- =?utf-8?B?dGJJcEVRUncrMGxpOC9hY213M2NscVVMdzNhMTFjRG56TGxVLzIrM21lck1L?=
- =?utf-8?B?VDVSeHdBbEtDOWtEdHowZHliTys1cmJ1YkhiaVJ5UUZXUDUrTC83T0xZZkp6?=
- =?utf-8?B?UTJJWUs2VWgwbC9MUjUvVE1aYXBCQ0I4UU5IRjlkT0h2ZjlXNVM5Y2h2Um5o?=
- =?utf-8?B?clE5eEc0R0ppUWYyaHB5K0JEc0dPMkloSVo4RlNSMW1sbEMrV2dXcjdKa3JS?=
- =?utf-8?B?c2doblZLdjlna3NxcWR3RVduUjM0SUlkcVBxbm9QS1hzL1k0Y1MzSURySVp4?=
- =?utf-8?B?Nm44UXE2SHcvRUo3R3VLZ2t1SlZQWFVQSmxMMDhPZ0tlYTFiekE5UTJyREhK?=
- =?utf-8?B?ZFRsUnp2SkJBamRQWStPamo3Z3lRUEpuWVRNWnhmNFVMYngxK3F1bldpTG5J?=
- =?utf-8?B?ZUtsdDh3NTEyajhWcGx0aE5mQlVmRHozLzZSZUsyclA1ZGtFY3VwSFRENHhW?=
- =?utf-8?B?UXpQTGpWUWg3bGVKYld4OSs2L3FoU3FHNFlMV3ljd2U1a3VjamhET0kvQndh?=
- =?utf-8?B?VzVvajFPSi94RHNQVTZqRGhLeDNRamQ2SHNFMGVRWSt2U3RRYXRkTi92UlYy?=
- =?utf-8?B?ZkZDTitydUk1NjJISG1uRnY1bUE5K1dYTkh6ajdFMHFtT1dxZm9SSmxBMzFl?=
- =?utf-8?B?OVFnaVB3cUdoMUpDZ0F2V3RscUJ6RlNuOEQyWjZFRmFDUHdZcUV2TFBvQ1Uz?=
- =?utf-8?B?dVJOL2ZMWGdYV2F5N3JmZU4wUWlZSzdkL3lERVo0cTc4MTZ1VVdMRElNM2Vq?=
- =?utf-8?B?aVZPUldXSWcwalhEWlNjdmN1RzVSZ2tTUVNjdjIwNEV6YWx0QzZUdUJ2VGti?=
- =?utf-8?B?aXNnR1Y2VlNob0dNN3FCU2UzQmRxK3YyRlV5NUpIQ2JLVnZCaWhGWnZHRU1K?=
- =?utf-8?B?UWp3WmhIYkJFaGpaLzk2RUlxQzFRS3JhTDhoSXZ4d1MxaUVmRHpWME50aSt3?=
- =?utf-8?B?Z1RyQ1VySzk2YXl6SHdpV24yN2Y3OFdLM0oyWE1wcWJIQ1MwVzhwQTBmeGZ5?=
- =?utf-8?B?a3Yvc2psV1BUbFVmMHlaYVB3aE5Ib2Y5WjBjbFNDcUFnWXlJVjZ1cFNXSDdG?=
- =?utf-8?B?TjhBR1V3TXVldm9NR1dFL0ZnQzFSOUJxMU5qckxtZWJoVlQrSkFJUHlNTjJS?=
- =?utf-8?B?bU9zUHJnZGdTdHovQkY1eHRMSHhYVUUrcm51cUVTM29BQnlaSHpxcHBMVVZa?=
- =?utf-8?B?YXZrazl5UTlwQ3hwRU1TbXl5RlQ5ZlcxVUNMU2pmdXRhWERaKzhlTjBoaUZw?=
- =?utf-8?B?ZDBJZDE0cWxYVnhwdzFaWDNzdDVIRVowTENuSk9hMVJQQlIxZ3ViS28weE1X?=
- =?utf-8?B?d1ZQaU9qSGJaYXgzeGFweStlakVsY2I0OGdBZjUzbnV5eThFQ3NDZS82ZnNV?=
- =?utf-8?B?bDhtbkh0b1psV1phTnkvZGpTWjZxNDdmeEhkMTUyQWQyZlV6RDRPd2ZGenZC?=
- =?utf-8?B?UEN5NlJyQlhlQWd1eUUzNVZiN2J4QXczT3ZsSEE4Z2JiMFlMbWprMUx3OUVM?=
- =?utf-8?B?Q01Fc0hLT2tYd3RHelBXVEZOYTQzemRjdFFWNE5jUWlXRmlhMDhEa05Ednpx?=
- =?utf-8?B?NHpFcy8xMDk4YlRGbksxZjVSL00rRVBTNWlHK1JCQ1RkdXdhZVlQYVZQQ2xE?=
- =?utf-8?B?NWExT0lKQk1wdlZUNkJ0ZEMxVXFMcEYxZE1RUUZ1S2dtUnc3MWhic1ZzamFV?=
- =?utf-8?B?VXdWWkZudXg5d3I2ZVd6L0t6L0cwcm9QMkxWU3pMUXpuWlI5NU14S2lhakFQ?=
- =?utf-8?B?SGJEYU1vNFZaN1lBT2VBTnNpenY4WkJ2dmlqQ2UySlBtUDQ3TTFmdGcwM1hP?=
- =?utf-8?B?NURwZ2cydWlEcmpCcVpDZFlYajB1Q1ljckozQVhSNE5vWEplR1g1dC8yNlpY?=
- =?utf-8?B?d2ZwZStlMDAxRlZtZ3VBSHVmVVBmUGQ2MWx1WDZWck4xVmF1YVJlWGduVnVw?=
- =?utf-8?B?T3hFMnA2bWp0NVdNcUZIamtFdDY3SFRRRTBFdy9TU3Z1MUFpTmh4bTJVZjNK?=
- =?utf-8?B?Smc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c37489a5-1878-4de8-19ec-08daecc438ee
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5409.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jan 2023 13:21:14.3294 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eOHfCtMdiMbetoajR7d6xRzh6pmj3uPDwHzoAaAN4CbsO4dcIPeDKnEaUPsHa+iHI9FDgFhumwVGD/Vuto8+dgtu5uLbtsRX8461ciSsuDM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7121
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230102100942.1828-5-r-ravikumar@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,35 +47,1000 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mchehab@kernel.org, rodrigo.vivi@intel.com, andrzej.hajda@intel.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk
+Cc: mparab@cadence.com, jernej.skrabec@gmail.com,
+ krzysztof.kozlowski+dt@linaro.org, a-bhatia1@ti.com, narmstrong@baylibre.com,
+ airlied@linux.ie, tomi.valkeinen@ideasonboard.com, sjakhade@cadence.com,
+ jonas@kwiboo.se, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, robh+dt@kernel.org, robert.foss@linaro.org,
+ andrzej.hajda@intel.com, jpawar@cadence.com, lee.jones@linaro.org,
+ vigneshr@ti.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Nirmoy, thanks for fixing it
+Hi Rahul,
 
-Reviewed-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Thank you for the patch.
 
-On 12/30/22 8:35 PM, Nirmoy Das wrote:
-> Switch to %zu for printing size_t which will
-> fix compilation warning for 32-bit build.
+On Mon, Jan 02, 2023 at 03:39:41PM +0530, Rahul T R wrote:
+> Create a header file for cdns dsi and move
+> register offsets and structure to header,
+> to prepare for adding j721e wrapper support
+
+You don't have to wrap lines at 43 characters, you can go all the way up
+to 72 :-)
+
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+> Signed-off-by: Rahul T R <r-ravikumar@ti.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->   drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 446 +----------------
+>  .../gpu/drm/bridge/cadence/cdns-dsi-core.h    | 458 ++++++++++++++++++
+>  2 files changed, 459 insertions(+), 445 deletions(-)
+>  create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> index e767791e40e0..114443096841 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> @@ -238,7 +238,7 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
->   			goto rebuild_st;
->   		} else {
->   			dev_warn(i915->drm.dev,
-> -				 "Failed to DMA remap %lu pages\n",
-> +				 "Failed to DMA remap %zu pages\n",
->   				 obj->base.size >> PAGE_SHIFT);
->   			goto err_pages;
->   		}
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> index 20bece84ff8c..cba91247ab26 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> @@ -6,10 +6,7 @@
+>   */
+>  
+>  #include <drm/drm_atomic_helper.h>
+> -#include <drm/drm_bridge.h>
+>  #include <drm/drm_drv.h>
+> -#include <drm/drm_mipi_dsi.h>
+> -#include <drm/drm_panel.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <video/mipi_display.h>
+>  
+> @@ -23,448 +20,7 @@
+>  #include <linux/pm_runtime.h>
+>  #include <linux/reset.h>
+>  
+> -#include <linux/phy/phy.h>
+> -#include <linux/phy/phy-mipi-dphy.h>
+> -
+> -#define IP_CONF				0x0
+> -#define SP_HS_FIFO_DEPTH(x)		(((x) & GENMASK(30, 26)) >> 26)
+> -#define SP_LP_FIFO_DEPTH(x)		(((x) & GENMASK(25, 21)) >> 21)
+> -#define VRS_FIFO_DEPTH(x)		(((x) & GENMASK(20, 16)) >> 16)
+> -#define DIRCMD_FIFO_DEPTH(x)		(((x) & GENMASK(15, 13)) >> 13)
+> -#define SDI_IFACE_32			BIT(12)
+> -#define INTERNAL_DATAPATH_32		(0 << 10)
+> -#define INTERNAL_DATAPATH_16		(1 << 10)
+> -#define INTERNAL_DATAPATH_8		(3 << 10)
+> -#define INTERNAL_DATAPATH_SIZE		((x) & GENMASK(11, 10))
+> -#define NUM_IFACE(x)			((((x) & GENMASK(9, 8)) >> 8) + 1)
+> -#define MAX_LANE_NB(x)			(((x) & GENMASK(7, 6)) >> 6)
+> -#define RX_FIFO_DEPTH(x)		((x) & GENMASK(5, 0))
+> -
+> -#define MCTL_MAIN_DATA_CTL		0x4
+> -#define TE_MIPI_POLLING_EN		BIT(25)
+> -#define TE_HW_POLLING_EN		BIT(24)
+> -#define DISP_EOT_GEN			BIT(18)
+> -#define HOST_EOT_GEN			BIT(17)
+> -#define DISP_GEN_CHECKSUM		BIT(16)
+> -#define DISP_GEN_ECC			BIT(15)
+> -#define BTA_EN				BIT(14)
+> -#define READ_EN				BIT(13)
+> -#define REG_TE_EN			BIT(12)
+> -#define IF_TE_EN(x)			BIT(8 + (x))
+> -#define TVG_SEL				BIT(6)
+> -#define VID_EN				BIT(5)
+> -#define IF_VID_SELECT(x)		((x) << 2)
+> -#define IF_VID_SELECT_MASK		GENMASK(3, 2)
+> -#define IF_VID_MODE			BIT(1)
+> -#define LINK_EN				BIT(0)
+> -
+> -#define MCTL_MAIN_PHY_CTL		0x8
+> -#define HS_INVERT_DAT(x)		BIT(19 + ((x) * 2))
+> -#define SWAP_PINS_DAT(x)		BIT(18 + ((x) * 2))
+> -#define HS_INVERT_CLK			BIT(17)
+> -#define SWAP_PINS_CLK			BIT(16)
+> -#define HS_SKEWCAL_EN			BIT(15)
+> -#define WAIT_BURST_TIME(x)		((x) << 10)
+> -#define DATA_ULPM_EN(x)			BIT(6 + (x))
+> -#define CLK_ULPM_EN			BIT(5)
+> -#define CLK_CONTINUOUS			BIT(4)
+> -#define DATA_LANE_EN(x)			BIT((x) - 1)
+> -
+> -#define MCTL_MAIN_EN			0xc
+> -#define DATA_FORCE_STOP			BIT(17)
+> -#define CLK_FORCE_STOP			BIT(16)
+> -#define IF_EN(x)			BIT(13 + (x))
+> -#define DATA_LANE_ULPM_REQ(l)		BIT(9 + (l))
+> -#define CLK_LANE_ULPM_REQ		BIT(8)
+> -#define DATA_LANE_START(x)		BIT(4 + (x))
+> -#define CLK_LANE_EN			BIT(3)
+> -#define PLL_START			BIT(0)
+> -
+> -#define MCTL_DPHY_CFG0			0x10
+> -#define DPHY_C_RSTB			BIT(20)
+> -#define DPHY_D_RSTB(x)			GENMASK(15 + (x), 16)
+> -#define DPHY_PLL_PDN			BIT(10)
+> -#define DPHY_CMN_PDN			BIT(9)
+> -#define DPHY_C_PDN			BIT(8)
+> -#define DPHY_D_PDN(x)			GENMASK(3 + (x), 4)
+> -#define DPHY_ALL_D_PDN			GENMASK(7, 4)
+> -#define DPHY_PLL_PSO			BIT(1)
+> -#define DPHY_CMN_PSO			BIT(0)
+> -
+> -#define MCTL_DPHY_TIMEOUT1		0x14
+> -#define HSTX_TIMEOUT(x)			((x) << 4)
+> -#define HSTX_TIMEOUT_MAX		GENMASK(17, 0)
+> -#define CLK_DIV(x)			(x)
+> -#define CLK_DIV_MAX			GENMASK(3, 0)
+> -
+> -#define MCTL_DPHY_TIMEOUT2		0x18
+> -#define LPRX_TIMEOUT(x)			(x)
+> -
+> -#define MCTL_ULPOUT_TIME		0x1c
+> -#define DATA_LANE_ULPOUT_TIME(x)	((x) << 9)
+> -#define CLK_LANE_ULPOUT_TIME(x)		(x)
+> -
+> -#define MCTL_3DVIDEO_CTL		0x20
+> -#define VID_VSYNC_3D_EN			BIT(7)
+> -#define VID_VSYNC_3D_LR			BIT(5)
+> -#define VID_VSYNC_3D_SECOND_EN		BIT(4)
+> -#define VID_VSYNC_3DFORMAT_LINE		(0 << 2)
+> -#define VID_VSYNC_3DFORMAT_FRAME	(1 << 2)
+> -#define VID_VSYNC_3DFORMAT_PIXEL	(2 << 2)
+> -#define VID_VSYNC_3DMODE_OFF		0
+> -#define VID_VSYNC_3DMODE_PORTRAIT	1
+> -#define VID_VSYNC_3DMODE_LANDSCAPE	2
+> -
+> -#define MCTL_MAIN_STS			0x24
+> -#define MCTL_MAIN_STS_CTL		0x130
+> -#define MCTL_MAIN_STS_CLR		0x150
+> -#define MCTL_MAIN_STS_FLAG		0x170
+> -#define HS_SKEWCAL_DONE			BIT(11)
+> -#define IF_UNTERM_PKT_ERR(x)		BIT(8 + (x))
+> -#define LPRX_TIMEOUT_ERR		BIT(7)
+> -#define HSTX_TIMEOUT_ERR		BIT(6)
+> -#define DATA_LANE_RDY(l)		BIT(2 + (l))
+> -#define CLK_LANE_RDY			BIT(1)
+> -#define PLL_LOCKED			BIT(0)
+> -
+> -#define MCTL_DPHY_ERR			0x28
+> -#define MCTL_DPHY_ERR_CTL1		0x148
+> -#define MCTL_DPHY_ERR_CLR		0x168
+> -#define MCTL_DPHY_ERR_FLAG		0x188
+> -#define ERR_CONT_LP(x, l)		BIT(18 + ((x) * 4) + (l))
+> -#define ERR_CONTROL(l)			BIT(14 + (l))
+> -#define ERR_SYNESC(l)			BIT(10 + (l))
+> -#define ERR_ESC(l)			BIT(6 + (l))
+> -
+> -#define MCTL_DPHY_ERR_CTL2		0x14c
+> -#define ERR_CONT_LP_EDGE(x, l)		BIT(12 + ((x) * 4) + (l))
+> -#define ERR_CONTROL_EDGE(l)		BIT(8 + (l))
+> -#define ERR_SYN_ESC_EDGE(l)		BIT(4 + (l))
+> -#define ERR_ESC_EDGE(l)			BIT(0 + (l))
+> -
+> -#define MCTL_LANE_STS			0x2c
+> -#define PPI_C_TX_READY_HS		BIT(18)
+> -#define DPHY_PLL_LOCK			BIT(17)
+> -#define PPI_D_RX_ULPS_ESC(x)		(((x) & GENMASK(15, 12)) >> 12)
+> -#define LANE_STATE_START		0
+> -#define LANE_STATE_IDLE			1
+> -#define LANE_STATE_WRITE		2
+> -#define LANE_STATE_ULPM			3
+> -#define LANE_STATE_READ			4
+> -#define DATA_LANE_STATE(l, val)		\
+> -	(((val) >> (2 + 2 * (l) + ((l) ? 1 : 0))) & GENMASK((l) ? 1 : 2, 0))
+> -#define CLK_LANE_STATE_HS		2
+> -#define CLK_LANE_STATE(val)		((val) & GENMASK(1, 0))
+> -
+> -#define DSC_MODE_CTL			0x30
+> -#define DSC_MODE_EN			BIT(0)
+> -
+> -#define DSC_CMD_SEND			0x34
+> -#define DSC_SEND_PPS			BIT(0)
+> -#define DSC_EXECUTE_QUEUE		BIT(1)
+> -
+> -#define DSC_PPS_WRDAT			0x38
+> -
+> -#define DSC_MODE_STS			0x3c
+> -#define DSC_PPS_DONE			BIT(1)
+> -#define DSC_EXEC_DONE			BIT(2)
+> -
+> -#define CMD_MODE_CTL			0x70
+> -#define IF_LP_EN(x)			BIT(9 + (x))
+> -#define IF_VCHAN_ID(x, c)		((c) << ((x) * 2))
+> -
+> -#define CMD_MODE_CTL2			0x74
+> -#define TE_TIMEOUT(x)			((x) << 11)
+> -#define FILL_VALUE(x)			((x) << 3)
+> -#define ARB_IF_WITH_HIGHEST_PRIORITY(x)	((x) << 1)
+> -#define ARB_ROUND_ROBIN_MODE		BIT(0)
+> -
+> -#define CMD_MODE_STS			0x78
+> -#define CMD_MODE_STS_CTL		0x134
+> -#define CMD_MODE_STS_CLR		0x154
+> -#define CMD_MODE_STS_FLAG		0x174
+> -#define ERR_IF_UNDERRUN(x)		BIT(4 + (x))
+> -#define ERR_UNWANTED_READ		BIT(3)
+> -#define ERR_TE_MISS			BIT(2)
+> -#define ERR_NO_TE			BIT(1)
+> -#define CSM_RUNNING			BIT(0)
+> -
+> -#define DIRECT_CMD_SEND			0x80
+> -
+> -#define DIRECT_CMD_MAIN_SETTINGS	0x84
+> -#define TRIGGER_VAL(x)			((x) << 25)
+> -#define CMD_LP_EN			BIT(24)
+> -#define CMD_SIZE(x)			((x) << 16)
+> -#define CMD_VCHAN_ID(x)			((x) << 14)
+> -#define CMD_DATATYPE(x)			((x) << 8)
+> -#define CMD_LONG			BIT(3)
+> -#define WRITE_CMD			0
+> -#define READ_CMD			1
+> -#define TE_REQ				4
+> -#define TRIGGER_REQ			5
+> -#define BTA_REQ				6
+> -
+> -#define DIRECT_CMD_STS			0x88
+> -#define DIRECT_CMD_STS_CTL		0x138
+> -#define DIRECT_CMD_STS_CLR		0x158
+> -#define DIRECT_CMD_STS_FLAG		0x178
+> -#define RCVD_ACK_VAL(val)		((val) >> 16)
+> -#define RCVD_TRIGGER_VAL(val)		(((val) & GENMASK(14, 11)) >> 11)
+> -#define READ_COMPLETED_WITH_ERR		BIT(10)
+> -#define BTA_FINISHED			BIT(9)
+> -#define BTA_COMPLETED			BIT(8)
+> -#define TE_RCVD				BIT(7)
+> -#define TRIGGER_RCVD			BIT(6)
+> -#define ACK_WITH_ERR_RCVD		BIT(5)
+> -#define ACK_RCVD			BIT(4)
+> -#define READ_COMPLETED			BIT(3)
+> -#define TRIGGER_COMPLETED		BIT(2)
+> -#define WRITE_COMPLETED			BIT(1)
+> -#define SENDING_CMD			BIT(0)
+> -
+> -#define DIRECT_CMD_STOP_READ		0x8c
+> -
+> -#define DIRECT_CMD_WRDATA		0x90
+> -
+> -#define DIRECT_CMD_FIFO_RST		0x94
+> -
+> -#define DIRECT_CMD_RDDATA		0xa0
+> -
+> -#define DIRECT_CMD_RD_PROPS		0xa4
+> -#define RD_DCS				BIT(18)
+> -#define RD_VCHAN_ID(val)		(((val) >> 16) & GENMASK(1, 0))
+> -#define RD_SIZE(val)			((val) & GENMASK(15, 0))
+> -
+> -#define DIRECT_CMD_RD_STS		0xa8
+> -#define DIRECT_CMD_RD_STS_CTL		0x13c
+> -#define DIRECT_CMD_RD_STS_CLR		0x15c
+> -#define DIRECT_CMD_RD_STS_FLAG		0x17c
+> -#define ERR_EOT_WITH_ERR		BIT(8)
+> -#define ERR_MISSING_EOT			BIT(7)
+> -#define ERR_WRONG_LENGTH		BIT(6)
+> -#define ERR_OVERSIZE			BIT(5)
+> -#define ERR_RECEIVE			BIT(4)
+> -#define ERR_UNDECODABLE			BIT(3)
+> -#define ERR_CHECKSUM			BIT(2)
+> -#define ERR_UNCORRECTABLE		BIT(1)
+> -#define ERR_FIXED			BIT(0)
+> -
+> -#define VID_MAIN_CTL			0xb0
+> -#define VID_IGNORE_MISS_VSYNC		BIT(31)
+> -#define VID_FIELD_SW			BIT(28)
+> -#define VID_INTERLACED_EN		BIT(27)
+> -#define RECOVERY_MODE(x)		((x) << 25)
+> -#define RECOVERY_MODE_NEXT_HSYNC	0
+> -#define RECOVERY_MODE_NEXT_STOP_POINT	2
+> -#define RECOVERY_MODE_NEXT_VSYNC	3
+> -#define REG_BLKEOL_MODE(x)		((x) << 23)
+> -#define REG_BLKLINE_MODE(x)		((x) << 21)
+> -#define REG_BLK_MODE_NULL_PKT		0
+> -#define REG_BLK_MODE_BLANKING_PKT	1
+> -#define REG_BLK_MODE_LP			2
+> -#define SYNC_PULSE_HORIZONTAL		BIT(20)
+> -#define SYNC_PULSE_ACTIVE		BIT(19)
+> -#define BURST_MODE			BIT(18)
+> -#define VID_PIXEL_MODE_MASK		GENMASK(17, 14)
+> -#define VID_PIXEL_MODE_RGB565		(0 << 14)
+> -#define VID_PIXEL_MODE_RGB666_PACKED	(1 << 14)
+> -#define VID_PIXEL_MODE_RGB666		(2 << 14)
+> -#define VID_PIXEL_MODE_RGB888		(3 << 14)
+> -#define VID_PIXEL_MODE_RGB101010	(4 << 14)
+> -#define VID_PIXEL_MODE_RGB121212	(5 << 14)
+> -#define VID_PIXEL_MODE_YUV420		(8 << 14)
+> -#define VID_PIXEL_MODE_YUV422_PACKED	(9 << 14)
+> -#define VID_PIXEL_MODE_YUV422		(10 << 14)
+> -#define VID_PIXEL_MODE_YUV422_24B	(11 << 14)
+> -#define VID_PIXEL_MODE_DSC_COMP		(12 << 14)
+> -#define VID_DATATYPE(x)			((x) << 8)
+> -#define VID_VIRTCHAN_ID(iface, x)	((x) << (4 + (iface) * 2))
+> -#define STOP_MODE(x)			((x) << 2)
+> -#define START_MODE(x)			(x)
+> -
+> -#define VID_VSIZE1			0xb4
+> -#define VFP_LEN(x)			((x) << 12)
+> -#define VBP_LEN(x)			((x) << 6)
+> -#define VSA_LEN(x)			(x)
+> -
+> -#define VID_VSIZE2			0xb8
+> -#define VACT_LEN(x)			(x)
+> -
+> -#define VID_HSIZE1			0xc0
+> -#define HBP_LEN(x)			((x) << 16)
+> -#define HSA_LEN(x)			(x)
+> -
+> -#define VID_HSIZE2			0xc4
+> -#define HFP_LEN(x)			((x) << 16)
+> -#define HACT_LEN(x)			(x)
+> -
+> -#define VID_BLKSIZE1			0xcc
+> -#define BLK_EOL_PKT_LEN(x)		((x) << 15)
+> -#define BLK_LINE_EVENT_PKT_LEN(x)	(x)
+> -
+> -#define VID_BLKSIZE2			0xd0
+> -#define BLK_LINE_PULSE_PKT_LEN(x)	(x)
+> -
+> -#define VID_PKT_TIME			0xd8
+> -#define BLK_EOL_DURATION(x)		(x)
+> -
+> -#define VID_DPHY_TIME			0xdc
+> -#define REG_WAKEUP_TIME(x)		((x) << 17)
+> -#define REG_LINE_DURATION(x)		(x)
+> -
+> -#define VID_ERR_COLOR1			0xe0
+> -#define COL_GREEN(x)			((x) << 12)
+> -#define COL_RED(x)			(x)
+> -
+> -#define VID_ERR_COLOR2			0xe4
+> -#define PAD_VAL(x)			((x) << 12)
+> -#define COL_BLUE(x)			(x)
+> -
+> -#define VID_VPOS			0xe8
+> -#define LINE_VAL(val)			(((val) & GENMASK(14, 2)) >> 2)
+> -#define LINE_POS(val)			((val) & GENMASK(1, 0))
+> -
+> -#define VID_HPOS			0xec
+> -#define HORIZ_VAL(val)			(((val) & GENMASK(17, 3)) >> 3)
+> -#define HORIZ_POS(val)			((val) & GENMASK(2, 0))
+> -
+> -#define VID_MODE_STS			0xf0
+> -#define VID_MODE_STS_CTL		0x140
+> -#define VID_MODE_STS_CLR		0x160
+> -#define VID_MODE_STS_FLAG		0x180
+> -#define VSG_RECOVERY			BIT(10)
+> -#define ERR_VRS_WRONG_LEN		BIT(9)
+> -#define ERR_LONG_READ			BIT(8)
+> -#define ERR_LINE_WRITE			BIT(7)
+> -#define ERR_BURST_WRITE			BIT(6)
+> -#define ERR_SMALL_HEIGHT		BIT(5)
+> -#define ERR_SMALL_LEN			BIT(4)
+> -#define ERR_MISSING_VSYNC		BIT(3)
+> -#define ERR_MISSING_HSYNC		BIT(2)
+> -#define ERR_MISSING_DATA		BIT(1)
+> -#define VSG_RUNNING			BIT(0)
+> -
+> -#define VID_VCA_SETTING1		0xf4
+> -#define BURST_LP			BIT(16)
+> -#define MAX_BURST_LIMIT(x)		(x)
+> -
+> -#define VID_VCA_SETTING2		0xf8
+> -#define MAX_LINE_LIMIT(x)		((x) << 16)
+> -#define EXACT_BURST_LIMIT(x)		(x)
+> -
+> -#define TVG_CTL				0xfc
+> -#define TVG_STRIPE_SIZE(x)		((x) << 5)
+> -#define TVG_MODE_MASK			GENMASK(4, 3)
+> -#define TVG_MODE_SINGLE_COLOR		(0 << 3)
+> -#define TVG_MODE_VSTRIPES		(2 << 3)
+> -#define TVG_MODE_HSTRIPES		(3 << 3)
+> -#define TVG_STOPMODE_MASK		GENMASK(2, 1)
+> -#define TVG_STOPMODE_EOF		(0 << 1)
+> -#define TVG_STOPMODE_EOL		(1 << 1)
+> -#define TVG_STOPMODE_NOW		(2 << 1)
+> -#define TVG_RUN				BIT(0)
+> -
+> -#define TVG_IMG_SIZE			0x100
+> -#define TVG_NBLINES(x)			((x) << 16)
+> -#define TVG_LINE_SIZE(x)		(x)
+> -
+> -#define TVG_COLOR1			0x104
+> -#define TVG_COL1_GREEN(x)		((x) << 12)
+> -#define TVG_COL1_RED(x)			(x)
+> -
+> -#define TVG_COLOR1_BIS			0x108
+> -#define TVG_COL1_BLUE(x)		(x)
+> -
+> -#define TVG_COLOR2			0x10c
+> -#define TVG_COL2_GREEN(x)		((x) << 12)
+> -#define TVG_COL2_RED(x)			(x)
+> -
+> -#define TVG_COLOR2_BIS			0x110
+> -#define TVG_COL2_BLUE(x)		(x)
+> -
+> -#define TVG_STS				0x114
+> -#define TVG_STS_CTL			0x144
+> -#define TVG_STS_CLR			0x164
+> -#define TVG_STS_FLAG			0x184
+> -#define TVG_STS_RUNNING			BIT(0)
+> -
+> -#define STS_CTL_EDGE(e)			((e) << 16)
+> -
+> -#define DPHY_LANES_MAP			0x198
+> -#define DAT_REMAP_CFG(b, l)		((l) << ((b) * 8))
+> -
+> -#define DPI_IRQ_EN			0x1a0
+> -#define DPI_IRQ_CLR			0x1a4
+> -#define DPI_IRQ_STS			0x1a8
+> -#define PIXEL_BUF_OVERFLOW		BIT(0)
+> -
+> -#define DPI_CFG				0x1ac
+> -#define DPI_CFG_FIFO_DEPTH(x)		((x) >> 16)
+> -#define DPI_CFG_FIFO_LEVEL(x)		((x) & GENMASK(15, 0))
+> -
+> -#define TEST_GENERIC			0x1f0
+> -#define TEST_STATUS(x)			((x) >> 16)
+> -#define TEST_CTRL(x)			(x)
+> -
+> -#define ID_REG				0x1fc
+> -#define REV_VENDOR_ID(x)		(((x) & GENMASK(31, 20)) >> 20)
+> -#define REV_PRODUCT_ID(x)		(((x) & GENMASK(19, 12)) >> 12)
+> -#define REV_HW(x)			(((x) & GENMASK(11, 8)) >> 8)
+> -#define REV_MAJOR(x)			(((x) & GENMASK(7, 4)) >> 4)
+> -#define REV_MINOR(x)			((x) & GENMASK(3, 0))
+> -
+> -#define DSI_OUTPUT_PORT			0
+> -#define DSI_INPUT_PORT(inputid)		(1 + (inputid))
+> -
+> -#define DSI_HBP_FRAME_OVERHEAD		12
+> -#define DSI_HSA_FRAME_OVERHEAD		14
+> -#define DSI_HFP_FRAME_OVERHEAD		6
+> -#define DSI_HSS_VSS_VSE_FRAME_OVERHEAD	4
+> -#define DSI_BLANKING_FRAME_OVERHEAD	6
+> -#define DSI_NULL_FRAME_OVERHEAD		6
+> -#define DSI_EOT_PKT_SIZE		4
+> -
+> -struct cdns_dsi_output {
+> -	struct mipi_dsi_device *dev;
+> -	struct drm_panel *panel;
+> -	struct drm_bridge *bridge;
+> -	union phy_configure_opts phy_opts;
+> -};
+> -
+> -enum cdns_dsi_input_id {
+> -	CDNS_SDI_INPUT,
+> -	CDNS_DPI_INPUT,
+> -	CDNS_DSC_INPUT,
+> -};
+> -
+> -struct cdns_dsi_cfg {
+> -	unsigned int hfp;
+> -	unsigned int hsa;
+> -	unsigned int hbp;
+> -	unsigned int hact;
+> -	unsigned int htotal;
+> -};
+> -
+> -struct cdns_dsi_input {
+> -	enum cdns_dsi_input_id id;
+> -	struct drm_bridge bridge;
+> -};
+> -
+> -struct cdns_dsi {
+> -	struct mipi_dsi_host base;
+> -	void __iomem *regs;
+> -	struct cdns_dsi_input input;
+> -	struct cdns_dsi_output output;
+> -	unsigned int direct_cmd_fifo_depth;
+> -	unsigned int rx_fifo_depth;
+> -	struct completion direct_cmd_comp;
+> -	struct clk *dsi_p_clk;
+> -	struct reset_control *dsi_p_rst;
+> -	struct clk *dsi_sys_clk;
+> -	bool link_initialized;
+> -	bool phy_initialized;
+> -	struct phy *dphy;
+> -};
+> +#include "cdns-dsi-core.h"
+>  
+>  static inline struct cdns_dsi *input_to_dsi(struct cdns_dsi_input *input)
+>  {
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
+> new file mode 100644
+> index 000000000000..65cc77f19b39
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
+> @@ -0,0 +1,458 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright: 2017 Cadence Design Systems, Inc.
+> + *
+> + * Author: Boris Brezillon <boris.brezillon@bootlin.com>
+> + */
+> +
+> +#ifndef CDNS_DSI_H
+
+I'd use __CDNS_DSI_H or __CDNS_DSI_H__, it's customary to prefix header
+guards with __ (don't forget to update the one at the end of the file).
+
+> +#define CDNS_DSI_H
+> +
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_panel.h>
+> +
+
+Include linux/bits.h for BIT() and GENMASK() and linux/completion.h for
+struct completion.
+
+> +#include <linux/phy/phy.h>
+> +#include <linux/phy/phy-mipi-dphy.h>
+
+This header file isn't needed here, you can keep it in cdns-dsi-core.c.
+
+> +
+> +#define IP_CONF				0x0
+> +#define SP_HS_FIFO_DEPTH(x)		(((x) & GENMASK(30, 26)) >> 26)
+> +#define SP_LP_FIFO_DEPTH(x)		(((x) & GENMASK(25, 21)) >> 21)
+> +#define VRS_FIFO_DEPTH(x)		(((x) & GENMASK(20, 16)) >> 16)
+> +#define DIRCMD_FIFO_DEPTH(x)		(((x) & GENMASK(15, 13)) >> 13)
+> +#define SDI_IFACE_32			BIT(12)
+> +#define INTERNAL_DATAPATH_32		(0 << 10)
+> +#define INTERNAL_DATAPATH_16		(1 << 10)
+> +#define INTERNAL_DATAPATH_8		(3 << 10)
+> +#define INTERNAL_DATAPATH_SIZE		((x) & GENMASK(11, 10))
+> +#define NUM_IFACE(x)			((((x) & GENMASK(9, 8)) >> 8) + 1)
+> +#define MAX_LANE_NB(x)			(((x) & GENMASK(7, 6)) >> 6)
+> +#define RX_FIFO_DEPTH(x)		((x) & GENMASK(5, 0))
+> +
+> +#define MCTL_MAIN_DATA_CTL		0x4
+> +#define TE_MIPI_POLLING_EN		BIT(25)
+> +#define TE_HW_POLLING_EN		BIT(24)
+> +#define DISP_EOT_GEN			BIT(18)
+> +#define HOST_EOT_GEN			BIT(17)
+> +#define DISP_GEN_CHECKSUM		BIT(16)
+> +#define DISP_GEN_ECC			BIT(15)
+> +#define BTA_EN				BIT(14)
+> +#define READ_EN				BIT(13)
+> +#define REG_TE_EN			BIT(12)
+> +#define IF_TE_EN(x)			BIT(8 + (x))
+> +#define TVG_SEL				BIT(6)
+> +#define VID_EN				BIT(5)
+> +#define IF_VID_SELECT(x)		((x) << 2)
+> +#define IF_VID_SELECT_MASK		GENMASK(3, 2)
+> +#define IF_VID_MODE			BIT(1)
+> +#define LINK_EN				BIT(0)
+> +
+> +#define MCTL_MAIN_PHY_CTL		0x8
+> +#define HS_INVERT_DAT(x)		BIT(19 + ((x) * 2))
+> +#define SWAP_PINS_DAT(x)		BIT(18 + ((x) * 2))
+> +#define HS_INVERT_CLK			BIT(17)
+> +#define SWAP_PINS_CLK			BIT(16)
+> +#define HS_SKEWCAL_EN			BIT(15)
+> +#define WAIT_BURST_TIME(x)		((x) << 10)
+> +#define DATA_ULPM_EN(x)			BIT(6 + (x))
+> +#define CLK_ULPM_EN			BIT(5)
+> +#define CLK_CONTINUOUS			BIT(4)
+> +#define DATA_LANE_EN(x)			BIT((x) - 1)
+> +
+> +#define MCTL_MAIN_EN			0xc
+> +#define DATA_FORCE_STOP			BIT(17)
+> +#define CLK_FORCE_STOP			BIT(16)
+> +#define IF_EN(x)			BIT(13 + (x))
+> +#define DATA_LANE_ULPM_REQ(l)		BIT(9 + (l))
+> +#define CLK_LANE_ULPM_REQ		BIT(8)
+> +#define DATA_LANE_START(x)		BIT(4 + (x))
+> +#define CLK_LANE_EN			BIT(3)
+> +#define PLL_START			BIT(0)
+> +
+> +#define MCTL_DPHY_CFG0			0x10
+> +#define DPHY_C_RSTB			BIT(20)
+> +#define DPHY_D_RSTB(x)			GENMASK(15 + (x), 16)
+> +#define DPHY_PLL_PDN			BIT(10)
+> +#define DPHY_CMN_PDN			BIT(9)
+> +#define DPHY_C_PDN			BIT(8)
+> +#define DPHY_D_PDN(x)			GENMASK(3 + (x), 4)
+> +#define DPHY_ALL_D_PDN			GENMASK(7, 4)
+> +#define DPHY_PLL_PSO			BIT(1)
+> +#define DPHY_CMN_PSO			BIT(0)
+> +
+> +#define MCTL_DPHY_TIMEOUT1		0x14
+> +#define HSTX_TIMEOUT(x)			((x) << 4)
+> +#define HSTX_TIMEOUT_MAX		GENMASK(17, 0)
+> +#define CLK_DIV(x)			(x)
+> +#define CLK_DIV_MAX			GENMASK(3, 0)
+> +
+> +#define MCTL_DPHY_TIMEOUT2		0x18
+> +#define LPRX_TIMEOUT(x)			(x)
+> +
+> +#define MCTL_ULPOUT_TIME		0x1c
+> +#define DATA_LANE_ULPOUT_TIME(x)	((x) << 9)
+> +#define CLK_LANE_ULPOUT_TIME(x)		(x)
+> +
+> +#define MCTL_3DVIDEO_CTL		0x20
+> +#define VID_VSYNC_3D_EN			BIT(7)
+> +#define VID_VSYNC_3D_LR			BIT(5)
+> +#define VID_VSYNC_3D_SECOND_EN		BIT(4)
+> +#define VID_VSYNC_3DFORMAT_LINE		(0 << 2)
+> +#define VID_VSYNC_3DFORMAT_FRAME	(1 << 2)
+> +#define VID_VSYNC_3DFORMAT_PIXEL	(2 << 2)
+> +#define VID_VSYNC_3DMODE_OFF		0
+> +#define VID_VSYNC_3DMODE_PORTRAIT	1
+> +#define VID_VSYNC_3DMODE_LANDSCAPE	2
+> +
+> +#define MCTL_MAIN_STS			0x24
+> +#define MCTL_MAIN_STS_CTL		0x130
+> +#define MCTL_MAIN_STS_CLR		0x150
+> +#define MCTL_MAIN_STS_FLAG		0x170
+> +#define HS_SKEWCAL_DONE			BIT(11)
+> +#define IF_UNTERM_PKT_ERR(x)		BIT(8 + (x))
+> +#define LPRX_TIMEOUT_ERR		BIT(7)
+> +#define HSTX_TIMEOUT_ERR		BIT(6)
+> +#define DATA_LANE_RDY(l)		BIT(2 + (l))
+> +#define CLK_LANE_RDY			BIT(1)
+> +#define PLL_LOCKED			BIT(0)
+> +
+> +#define MCTL_DPHY_ERR			0x28
+> +#define MCTL_DPHY_ERR_CTL1		0x148
+> +#define MCTL_DPHY_ERR_CLR		0x168
+> +#define MCTL_DPHY_ERR_FLAG		0x188
+> +#define ERR_CONT_LP(x, l)		BIT(18 + ((x) * 4) + (l))
+> +#define ERR_CONTROL(l)			BIT(14 + (l))
+> +#define ERR_SYNESC(l)			BIT(10 + (l))
+> +#define ERR_ESC(l)			BIT(6 + (l))
+> +
+> +#define MCTL_DPHY_ERR_CTL2		0x14c
+> +#define ERR_CONT_LP_EDGE(x, l)		BIT(12 + ((x) * 4) + (l))
+> +#define ERR_CONTROL_EDGE(l)		BIT(8 + (l))
+> +#define ERR_SYN_ESC_EDGE(l)		BIT(4 + (l))
+> +#define ERR_ESC_EDGE(l)			BIT(0 + (l))
+> +
+> +#define MCTL_LANE_STS			0x2c
+> +#define PPI_C_TX_READY_HS		BIT(18)
+> +#define DPHY_PLL_LOCK			BIT(17)
+> +#define PPI_D_RX_ULPS_ESC(x)		(((x) & GENMASK(15, 12)) >> 12)
+> +#define LANE_STATE_START		0
+> +#define LANE_STATE_IDLE			1
+> +#define LANE_STATE_WRITE		2
+> +#define LANE_STATE_ULPM			3
+> +#define LANE_STATE_READ			4
+> +#define DATA_LANE_STATE(l, val)		\
+> +	(((val) >> (2 + 2 * (l) + ((l) ? 1 : 0))) & GENMASK((l) ? 1 : 2, 0))
+> +#define CLK_LANE_STATE_HS		2
+> +#define CLK_LANE_STATE(val)		((val) & GENMASK(1, 0))
+> +
+> +#define DSC_MODE_CTL			0x30
+> +#define DSC_MODE_EN			BIT(0)
+> +
+> +#define DSC_CMD_SEND			0x34
+> +#define DSC_SEND_PPS			BIT(0)
+> +#define DSC_EXECUTE_QUEUE		BIT(1)
+> +
+> +#define DSC_PPS_WRDAT			0x38
+> +
+> +#define DSC_MODE_STS			0x3c
+> +#define DSC_PPS_DONE			BIT(1)
+> +#define DSC_EXEC_DONE			BIT(2)
+> +
+> +#define CMD_MODE_CTL			0x70
+> +#define IF_LP_EN(x)			BIT(9 + (x))
+> +#define IF_VCHAN_ID(x, c)		((c) << ((x) * 2))
+> +
+> +#define CMD_MODE_CTL2			0x74
+> +#define TE_TIMEOUT(x)			((x) << 11)
+> +#define FILL_VALUE(x)			((x) << 3)
+> +#define ARB_IF_WITH_HIGHEST_PRIORITY(x)	((x) << 1)
+> +#define ARB_ROUND_ROBIN_MODE		BIT(0)
+> +
+> +#define CMD_MODE_STS			0x78
+> +#define CMD_MODE_STS_CTL		0x134
+> +#define CMD_MODE_STS_CLR		0x154
+> +#define CMD_MODE_STS_FLAG		0x174
+> +#define ERR_IF_UNDERRUN(x)		BIT(4 + (x))
+> +#define ERR_UNWANTED_READ		BIT(3)
+> +#define ERR_TE_MISS			BIT(2)
+> +#define ERR_NO_TE			BIT(1)
+> +#define CSM_RUNNING			BIT(0)
+> +
+> +#define DIRECT_CMD_SEND			0x80
+> +
+> +#define DIRECT_CMD_MAIN_SETTINGS	0x84
+> +#define TRIGGER_VAL(x)			((x) << 25)
+> +#define CMD_LP_EN			BIT(24)
+> +#define CMD_SIZE(x)			((x) << 16)
+> +#define CMD_VCHAN_ID(x)			((x) << 14)
+> +#define CMD_DATATYPE(x)			((x) << 8)
+> +#define CMD_LONG			BIT(3)
+> +#define WRITE_CMD			0
+> +#define READ_CMD			1
+> +#define TE_REQ				4
+> +#define TRIGGER_REQ			5
+> +#define BTA_REQ				6
+> +
+> +#define DIRECT_CMD_STS			0x88
+> +#define DIRECT_CMD_STS_CTL		0x138
+> +#define DIRECT_CMD_STS_CLR		0x158
+> +#define DIRECT_CMD_STS_FLAG		0x178
+> +#define RCVD_ACK_VAL(val)		((val) >> 16)
+> +#define RCVD_TRIGGER_VAL(val)		(((val) & GENMASK(14, 11)) >> 11)
+> +#define READ_COMPLETED_WITH_ERR		BIT(10)
+> +#define BTA_FINISHED			BIT(9)
+> +#define BTA_COMPLETED			BIT(8)
+> +#define TE_RCVD				BIT(7)
+> +#define TRIGGER_RCVD			BIT(6)
+> +#define ACK_WITH_ERR_RCVD		BIT(5)
+> +#define ACK_RCVD			BIT(4)
+> +#define READ_COMPLETED			BIT(3)
+> +#define TRIGGER_COMPLETED		BIT(2)
+> +#define WRITE_COMPLETED			BIT(1)
+> +#define SENDING_CMD			BIT(0)
+> +
+> +#define DIRECT_CMD_STOP_READ		0x8c
+> +
+> +#define DIRECT_CMD_WRDATA		0x90
+> +
+> +#define DIRECT_CMD_FIFO_RST		0x94
+> +
+> +#define DIRECT_CMD_RDDATA		0xa0
+> +
+> +#define DIRECT_CMD_RD_PROPS		0xa4
+> +#define RD_DCS				BIT(18)
+> +#define RD_VCHAN_ID(val)		(((val) >> 16) & GENMASK(1, 0))
+> +#define RD_SIZE(val)			((val) & GENMASK(15, 0))
+> +
+> +#define DIRECT_CMD_RD_STS		0xa8
+> +#define DIRECT_CMD_RD_STS_CTL		0x13c
+> +#define DIRECT_CMD_RD_STS_CLR		0x15c
+> +#define DIRECT_CMD_RD_STS_FLAG		0x17c
+> +#define ERR_EOT_WITH_ERR		BIT(8)
+> +#define ERR_MISSING_EOT			BIT(7)
+> +#define ERR_WRONG_LENGTH		BIT(6)
+> +#define ERR_OVERSIZE			BIT(5)
+> +#define ERR_RECEIVE			BIT(4)
+> +#define ERR_UNDECODABLE			BIT(3)
+> +#define ERR_CHECKSUM			BIT(2)
+> +#define ERR_UNCORRECTABLE		BIT(1)
+> +#define ERR_FIXED			BIT(0)
+> +
+> +#define VID_MAIN_CTL			0xb0
+> +#define VID_IGNORE_MISS_VSYNC		BIT(31)
+> +#define VID_FIELD_SW			BIT(28)
+> +#define VID_INTERLACED_EN		BIT(27)
+> +#define RECOVERY_MODE(x)		((x) << 25)
+> +#define RECOVERY_MODE_NEXT_HSYNC	0
+> +#define RECOVERY_MODE_NEXT_STOP_POINT	2
+> +#define RECOVERY_MODE_NEXT_VSYNC	3
+> +#define REG_BLKEOL_MODE(x)		((x) << 23)
+> +#define REG_BLKLINE_MODE(x)		((x) << 21)
+> +#define REG_BLK_MODE_NULL_PKT		0
+> +#define REG_BLK_MODE_BLANKING_PKT	1
+> +#define REG_BLK_MODE_LP			2
+> +#define SYNC_PULSE_HORIZONTAL		BIT(20)
+> +#define SYNC_PULSE_ACTIVE		BIT(19)
+> +#define BURST_MODE			BIT(18)
+> +#define VID_PIXEL_MODE_MASK		GENMASK(17, 14)
+> +#define VID_PIXEL_MODE_RGB565		(0 << 14)
+> +#define VID_PIXEL_MODE_RGB666_PACKED	(1 << 14)
+> +#define VID_PIXEL_MODE_RGB666		(2 << 14)
+> +#define VID_PIXEL_MODE_RGB888		(3 << 14)
+> +#define VID_PIXEL_MODE_RGB101010	(4 << 14)
+> +#define VID_PIXEL_MODE_RGB121212	(5 << 14)
+> +#define VID_PIXEL_MODE_YUV420		(8 << 14)
+> +#define VID_PIXEL_MODE_YUV422_PACKED	(9 << 14)
+> +#define VID_PIXEL_MODE_YUV422		(10 << 14)
+> +#define VID_PIXEL_MODE_YUV422_24B	(11 << 14)
+> +#define VID_PIXEL_MODE_DSC_COMP		(12 << 14)
+> +#define VID_DATATYPE(x)			((x) << 8)
+> +#define VID_VIRTCHAN_ID(iface, x)	((x) << (4 + (iface) * 2))
+> +#define STOP_MODE(x)			((x) << 2)
+> +#define START_MODE(x)			(x)
+> +
+> +#define VID_VSIZE1			0xb4
+> +#define VFP_LEN(x)			((x) << 12)
+> +#define VBP_LEN(x)			((x) << 6)
+> +#define VSA_LEN(x)			(x)
+> +
+> +#define VID_VSIZE2			0xb8
+> +#define VACT_LEN(x)			(x)
+> +
+> +#define VID_HSIZE1			0xc0
+> +#define HBP_LEN(x)			((x) << 16)
+> +#define HSA_LEN(x)			(x)
+> +
+> +#define VID_HSIZE2			0xc4
+> +#define HFP_LEN(x)			((x) << 16)
+> +#define HACT_LEN(x)			(x)
+> +
+> +#define VID_BLKSIZE1			0xcc
+> +#define BLK_EOL_PKT_LEN(x)		((x) << 15)
+> +#define BLK_LINE_EVENT_PKT_LEN(x)	(x)
+> +
+> +#define VID_BLKSIZE2			0xd0
+> +#define BLK_LINE_PULSE_PKT_LEN(x)	(x)
+> +
+> +#define VID_PKT_TIME			0xd8
+> +#define BLK_EOL_DURATION(x)		(x)
+> +
+> +#define VID_DPHY_TIME			0xdc
+> +#define REG_WAKEUP_TIME(x)		((x) << 17)
+> +#define REG_LINE_DURATION(x)		(x)
+> +
+> +#define VID_ERR_COLOR1			0xe0
+> +#define COL_GREEN(x)			((x) << 12)
+> +#define COL_RED(x)			(x)
+> +
+> +#define VID_ERR_COLOR2			0xe4
+> +#define PAD_VAL(x)			((x) << 12)
+> +#define COL_BLUE(x)			(x)
+> +
+> +#define VID_VPOS			0xe8
+> +#define LINE_VAL(val)			(((val) & GENMASK(14, 2)) >> 2)
+> +#define LINE_POS(val)			((val) & GENMASK(1, 0))
+> +
+> +#define VID_HPOS			0xec
+> +#define HORIZ_VAL(val)			(((val) & GENMASK(17, 3)) >> 3)
+> +#define HORIZ_POS(val)			((val) & GENMASK(2, 0))
+> +
+> +#define VID_MODE_STS			0xf0
+> +#define VID_MODE_STS_CTL		0x140
+> +#define VID_MODE_STS_CLR		0x160
+> +#define VID_MODE_STS_FLAG		0x180
+> +#define VSG_RECOVERY			BIT(10)
+> +#define ERR_VRS_WRONG_LEN		BIT(9)
+> +#define ERR_LONG_READ			BIT(8)
+> +#define ERR_LINE_WRITE			BIT(7)
+> +#define ERR_BURST_WRITE			BIT(6)
+> +#define ERR_SMALL_HEIGHT		BIT(5)
+> +#define ERR_SMALL_LEN			BIT(4)
+> +#define ERR_MISSING_VSYNC		BIT(3)
+> +#define ERR_MISSING_HSYNC		BIT(2)
+> +#define ERR_MISSING_DATA		BIT(1)
+> +#define VSG_RUNNING			BIT(0)
+> +
+> +#define VID_VCA_SETTING1		0xf4
+> +#define BURST_LP			BIT(16)
+> +#define MAX_BURST_LIMIT(x)		(x)
+> +
+> +#define VID_VCA_SETTING2		0xf8
+> +#define MAX_LINE_LIMIT(x)		((x) << 16)
+> +#define EXACT_BURST_LIMIT(x)		(x)
+> +
+> +#define TVG_CTL				0xfc
+> +#define TVG_STRIPE_SIZE(x)		((x) << 5)
+> +#define TVG_MODE_MASK			GENMASK(4, 3)
+> +#define TVG_MODE_SINGLE_COLOR		(0 << 3)
+> +#define TVG_MODE_VSTRIPES		(2 << 3)
+> +#define TVG_MODE_HSTRIPES		(3 << 3)
+> +#define TVG_STOPMODE_MASK		GENMASK(2, 1)
+> +#define TVG_STOPMODE_EOF		(0 << 1)
+> +#define TVG_STOPMODE_EOL		(1 << 1)
+> +#define TVG_STOPMODE_NOW		(2 << 1)
+> +#define TVG_RUN				BIT(0)
+> +
+> +#define TVG_IMG_SIZE			0x100
+> +#define TVG_NBLINES(x)			((x) << 16)
+> +#define TVG_LINE_SIZE(x)		(x)
+> +
+> +#define TVG_COLOR1			0x104
+> +#define TVG_COL1_GREEN(x)		((x) << 12)
+> +#define TVG_COL1_RED(x)			(x)
+> +
+> +#define TVG_COLOR1_BIS			0x108
+> +#define TVG_COL1_BLUE(x)		(x)
+> +
+> +#define TVG_COLOR2			0x10c
+> +#define TVG_COL2_GREEN(x)		((x) << 12)
+> +#define TVG_COL2_RED(x)			(x)
+> +
+> +#define TVG_COLOR2_BIS			0x110
+> +#define TVG_COL2_BLUE(x)		(x)
+> +
+> +#define TVG_STS				0x114
+> +#define TVG_STS_CTL			0x144
+> +#define TVG_STS_CLR			0x164
+> +#define TVG_STS_FLAG			0x184
+> +#define TVG_STS_RUNNING			BIT(0)
+> +
+> +#define STS_CTL_EDGE(e)			((e) << 16)
+> +
+> +#define DPHY_LANES_MAP			0x198
+> +#define DAT_REMAP_CFG(b, l)		((l) << ((b) * 8))
+> +
+> +#define DPI_IRQ_EN			0x1a0
+> +#define DPI_IRQ_CLR			0x1a4
+> +#define DPI_IRQ_STS			0x1a8
+> +#define PIXEL_BUF_OVERFLOW		BIT(0)
+> +
+> +#define DPI_CFG				0x1ac
+> +#define DPI_CFG_FIFO_DEPTH(x)		((x) >> 16)
+> +#define DPI_CFG_FIFO_LEVEL(x)		((x) & GENMASK(15, 0))
+> +
+> +#define TEST_GENERIC			0x1f0
+> +#define TEST_STATUS(x)			((x) >> 16)
+> +#define TEST_CTRL(x)			(x)
+> +
+> +#define ID_REG				0x1fc
+> +#define REV_VENDOR_ID(x)		(((x) & GENMASK(31, 20)) >> 20)
+> +#define REV_PRODUCT_ID(x)		(((x) & GENMASK(19, 12)) >> 12)
+> +#define REV_HW(x)			(((x) & GENMASK(11, 8)) >> 8)
+> +#define REV_MAJOR(x)			(((x) & GENMASK(7, 4)) >> 4)
+> +#define REV_MINOR(x)			((x) & GENMASK(3, 0))
+> +
+> +#define DSI_OUTPUT_PORT			0
+> +#define DSI_INPUT_PORT(inputid)		(1 + (inputid))
+> +
+> +#define DSI_HBP_FRAME_OVERHEAD		12
+> +#define DSI_HSA_FRAME_OVERHEAD		14
+> +#define DSI_HFP_FRAME_OVERHEAD		6
+> +#define DSI_HSS_VSS_VSE_FRAME_OVERHEAD	4
+> +#define DSI_BLANKING_FRAME_OVERHEAD	6
+> +#define DSI_NULL_FRAME_OVERHEAD		6
+> +#define DSI_EOT_PKT_SIZE		4
+
+None of the above macros are used in
+drivers/gpu/drm/bridge/cadence/cdns-dsi-j721e.c in patch 5/5, so I would
+keep them in the .c file to minimize changes.
+
+> +
+
+Missing forward declarations:
+
+struct clk;
+struct reset_control;
+
+I would also add
+
+struct drm_panel;
+
+(in alphabetical order) and drop inclusion of drm_panel.h.
+
+Conditionally-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+with these small issues addressed.
+
+> +struct cdns_dsi_output {
+> +	struct mipi_dsi_device *dev;
+> +	struct drm_panel *panel;
+> +	struct drm_bridge *bridge;
+> +	union phy_configure_opts phy_opts;
+> +};
+> +
+> +enum cdns_dsi_input_id {
+> +	CDNS_SDI_INPUT,
+> +	CDNS_DPI_INPUT,
+> +	CDNS_DSC_INPUT,
+> +};
+> +
+> +struct cdns_dsi_cfg {
+> +	unsigned int hfp;
+> +	unsigned int hsa;
+> +	unsigned int hbp;
+> +	unsigned int hact;
+> +	unsigned int htotal;
+> +};
+> +
+> +struct cdns_dsi_input {
+> +	enum cdns_dsi_input_id id;
+> +	struct drm_bridge bridge;
+> +};
+> +
+> +struct cdns_dsi {
+> +	struct mipi_dsi_host base;
+> +	void __iomem *regs;
+> +	struct cdns_dsi_input input;
+> +	struct cdns_dsi_output output;
+> +	unsigned int direct_cmd_fifo_depth;
+> +	unsigned int rx_fifo_depth;
+> +	struct completion direct_cmd_comp;
+> +	struct clk *dsi_p_clk;
+> +	struct reset_control *dsi_p_rst;
+> +	struct clk *dsi_sys_clk;
+> +	bool link_initialized;
+> +	bool phy_initialized;
+> +	struct phy *dphy;
+> +};
+> +
+> +#endif /* !CDNS_DSI_H */
+
+-- 
+Regards,
+
+Laurent Pinchart
