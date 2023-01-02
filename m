@@ -1,62 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29E665AF2F
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 11:02:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9E365AF3C
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 11:03:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77BC210E2E8;
-	Mon,  2 Jan 2023 10:02:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1939910E2E9;
+	Mon,  2 Jan 2023 10:03:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F10EF10E2E8
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 10:02:05 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id n1so28651798ljg.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Jan 2023 02:02:05 -0800 (PST)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F8D710E2E9
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 10:03:52 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id g10so6264992wmo.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Jan 2023 02:03:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=uUvNSUQPHRgkJykKaq60wHpn/k1eJNyp+U1eUmaZ3RQ=;
- b=iCYYVJ9YOn2urXXQ5oAg/nIvLhmW16eVFVswPtvi7YU1Ol8ahihnipPCpixMxuwB5k
- Dib96+ylAQwD5TvlJjvjfGBrCvwuoG/tH7K7xfLL226pY21IRFTjZYkeP0qhm/idmdz0
- +rAuYkYaIFdtYC2JFVRITVbmbsRbmWbbUlKqzZMqmY27YRwKjRIqGIeQX7IwnX7FG+Gk
- UMfVAzA9ju+x1Ow+GuL/CGvt7dEIGsPXQzuEzrMktBdJ/xgFBfMhFfKuB/wGz/NqB7zH
- fWRRpJc0W8j3jVUa8kC0BUJg1kpQ3QR/KgAh9QfmAELdtaOkRNQJlO3/zRAoLFTedp72
- jq9g==
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1A/c903RG4DRD/KA4H0kqMsL+9GohbLG+0ZnJrSJAlQ=;
+ b=D+1k9L0qY0P1Ji/qNFpRhC5aixsA7eIu6QVRV9pnRf2ULMiRuUt+m8lZKp9TX8qR3g
+ E1pklVDK9x3S+rMDlU4lfVWM7Yyj9Cz+R/r/8Tbn1MJ5cAHVkU2RIu9Gaau1OnaFifHX
+ kFpJXKaGvnSY2xQwmwS0B7u1yOdSRk7dCwM7V9a2GEPsWkMAUWJQRR7KtleUM119053u
+ DMYyMTz5Q4ZLYs7glMovTp5NAV1QL0J7seK3+rhzmDxX+L/XSwkMgPBZkKpa0Jz3JLiP
+ AHXjoPl2MY1Qx05Rs34jAbqQhv3phgF7lSO7jSXb/Ghm/P/Qzaj23bzSMpIYIo2SsLpB
+ nBKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=uUvNSUQPHRgkJykKaq60wHpn/k1eJNyp+U1eUmaZ3RQ=;
- b=FwenlJZ//QcMOCyS7EYwW2af0a+qr6Co3rHIUQFRZEevxIAp2jGYwoz14aFxxI0Mlz
- 3hgpKtPgZYVxhLIO1vsHGPfIFj0AG66ATmu3Im3YucpKCL+ufMPPGnTCefMfHvzAuiMs
- JuKbSuza7ZBHJ3/RQJsgHsb7pOqYZK3RHG4668gX6sDKEu20iDKkRTdoOzIlaJsFM1vP
- 4GLWcqu5Pb0mverIXSAwnp84TWB3vNJ7ubPtNifzhjdEYAqj0HY2uuFQpf1AvApKTR+B
- Gm7Gjbpu4Y33xx1zmEiEfcjO9Ca7T3NTwzxAspOyodp9hLUozyhOASt3MEbpFAlQgS2q
- Y+dQ==
-X-Gm-Message-State: AFqh2kq46WumMfhfclc1SxpqiaNNZbyrOeXdKNz8GKZnJKYbfK4KDjyR
- mnK20SlFLjmlP+JULE8q1xIO7A==
-X-Google-Smtp-Source: AMrXdXvfLsZkvxPPh8PFHQUMvkJ0H+nafczyfPXnm02C8MEAtMKQUqjKxuCdl2/VXh4468x7Y+mGOQ==
-X-Received: by 2002:a2e:b011:0:b0:27f:e512:f2ef with SMTP id
- y17-20020a2eb011000000b0027fe512f2efmr2463676ljk.44.1672653724222; 
- Mon, 02 Jan 2023 02:02:04 -0800 (PST)
-Received: from localhost.localdomain (abxi45.neoplus.adsl.tpnet.pl.
- [83.9.2.45]) by smtp.gmail.com with ESMTPSA id
- p21-20020a2e9a95000000b0027fc14cdfa5sm2132001lji.42.2023.01.02.02.02.02
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1A/c903RG4DRD/KA4H0kqMsL+9GohbLG+0ZnJrSJAlQ=;
+ b=Bk5KFvj2XlXm+A2VGxFuvNjEBhXPOKyvGbaRw5KMm9yFWSY1JvdTGGtQar/dpwg/jf
+ rOOasQhec+DZdq6sD+hMbo3nwG3DSDPJnnLyW57xuSmpC+ZEk++hVx9GIELEcJ0Mi2pe
+ lmhh3g8h9upLigsc1rlSkPcSpJB1CdB3xQoFZuqdbGjObYALTLsbe5cAg3+dujEXkfJy
+ zxdT1v3aEQifZ1r5RDeT7IWRkCKwrD4vzKhyxLVVfrTRkJxn+hIJQTSC5OElCwswxS8T
+ U0jRYZxiw9hn21VdngZgS6PMyyB1J4nvLt3xScwLRru5rnv+KhWiXxzXg5/kYGfYMnoP
+ T5bQ==
+X-Gm-Message-State: AFqh2kqZN4wxdN0JbjcpQaQyB1VpBVcooQvTcX+0npYx8mPlWczyRTbx
+ LTGN5gmCgnQqvX3Kl2nb8kycTlce/2VTTv3p
+X-Google-Smtp-Source: AMrXdXt0Bh9wmwk3RF4bAotZJsEsotBcms18Id+jqLzrnyIEkrT9a0ZIrdm1+6Wcvuc6QGNHjinrCg==
+X-Received: by 2002:a7b:cbd4:0:b0:3d3:3d51:7d44 with SMTP id
+ n20-20020a7bcbd4000000b003d33d517d44mr28810985wmi.33.1672653830942; 
+ Mon, 02 Jan 2023 02:03:50 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ by smtp.gmail.com with ESMTPSA id
+ i25-20020a1c5419000000b003c6c182bef9sm50636137wmb.36.2023.01.02.02.03.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Jan 2023 02:02:03 -0800 (PST)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-To: linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org,
- krzysztof.kozlowski@linaro.org
-Subject: [PATCH v2] drm/msm/adreno: Make adreno quirks not overwrite each other
-Date: Mon,  2 Jan 2023 11:02:00 +0100
-Message-Id: <20230102100201.77286-1-konrad.dybcio@linaro.org>
-X-Mailer: git-send-email 2.39.0
+ Mon, 02 Jan 2023 02:03:50 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Daniel Vetter <daniel@ffwll.ch>, Mark Brown <broonie@kernel.org>,
+ Jerome Brunet <jbrunet@baylibre.com>, Carlo Caione <ccaione@baylibre.com>,
+ Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Kevin Hilman <khilman@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+In-Reply-To: <20221116-s905x_spi_ili9486-v4-0-f86b4463b9e4@baylibre.com>
+References: <20221116-s905x_spi_ili9486-v4-0-f86b4463b9e4@baylibre.com>
+Subject: Re: [PATCH v4 0/2] Make ILI9486 driver working with 16-bits SPI
+ controllers
+Message-Id: <167265383013.332488.18055553575413500835.b4-ty@linaro.org>
+Date: Mon, 02 Jan 2023 11:03:50 +0100
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.10.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,64 +77,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-So far the adreno quirks have all been assigned with an OR operator,
-which is problematic, because they were assigned consecutive integer
-values, which makes checking them with an AND operator kind of no bueno..
+Hi,
 
-Switch to using BIT(n) so that only the quirks that the programmer chose
-are taken into account when evaluating info->quirks & ADRENO_QUIRK_...
+On Mon, 19 Dec 2022 10:02:36 +0100, Carlo Caione wrote:
+> This patchset is trying to fix problems seen on S905X boards when interfacing
+> with an ILI9486 equipped SPI panel.
+> 
+> 
 
-Fixes: 370063ee427a ("drm/msm/adreno: Add A540 support")
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-Reviewed-by: Rob Clark <robdclark@gmail.com>
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
-v1 -> v2:
-- pick up tags
-- correct the Fixes: tag
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
 
- drivers/gpu/drm/msm/adreno/adreno_gpu.h | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+[1/2] drm/tiny: ili9486: Enable driver module autoloading
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=e9c7cfe7b71d26ee4a9f17192632f3d0ff246001
+[2/2] drm/tiny: ili9486: Do not assume 8-bit only SPI controllers
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=77772e607522daa61f3af74df018559db75c43d6
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index c85857c0a228..5eb254c9832a 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -29,11 +29,9 @@ enum {
- 	ADRENO_FW_MAX,
- };
- 
--enum adreno_quirks {
--	ADRENO_QUIRK_TWO_PASS_USE_WFI = 1,
--	ADRENO_QUIRK_FAULT_DETECT_MASK = 2,
--	ADRENO_QUIRK_LMLOADKILL_DISABLE = 3,
--};
-+#define ADRENO_QUIRK_TWO_PASS_USE_WFI		BIT(0)
-+#define ADRENO_QUIRK_FAULT_DETECT_MASK		BIT(1)
-+#define ADRENO_QUIRK_LMLOADKILL_DISABLE		BIT(2)
- 
- struct adreno_rev {
- 	uint8_t  core;
-@@ -65,7 +63,7 @@ struct adreno_info {
- 	const char *name;
- 	const char *fw[ADRENO_FW_MAX];
- 	uint32_t gmem;
--	enum adreno_quirks quirks;
-+	u64 quirks;
- 	struct msm_gpu *(*init)(struct drm_device *dev);
- 	const char *zapfw;
- 	u32 inactive_period;
 -- 
-2.39.0
-
+Neil
