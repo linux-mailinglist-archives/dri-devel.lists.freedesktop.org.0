@@ -1,53 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1D9D65B158
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 12:42:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D835065B1B1
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 13:01:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D64E710E0FC;
-	Mon,  2 Jan 2023 11:42:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D45BD10E344;
+	Mon,  2 Jan 2023 12:01:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30A4710E0FC;
- Mon,  2 Jan 2023 11:42:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1672659771; x=1704195771;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version:content-transfer-encoding;
- bh=CjdPnWrP4bYOBQEgF6A4krUnZv7zbiEIpHAaYuWioII=;
- b=DyTsQHMZ2sYnsFJXa7TBDt+YXMIPGKT1Jx5Fqk5NmLRjiJkc5aGZ48xO
- WkJLx3MlDsD6jPXOw1PTBTRmY+KP/XmBQUC1glQdfvTGBQA7Nsggxe+F5
- YfRqMHIX1DAW6rtGUmrO9w4G+ZF5ODRfz2NnVSNZWXeaNuL4E6DymE5C+
- +SqsdOrrN0pM8KpiTM3XQnnXLoozJ+uaRTs1QJVFttBKQLPsLDwucBIzU
- djfufHdEkDfBT79lt4GZlIZV5tozVB7pDM8gJsKtzzvhXhG6o2K5Z7Z6+
- hXx1EALPsCKGnBbYbKez30mtVDf7QMkc7LlfMsbVk+3/xMT7xGKkv72eM A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10577"; a="309239827"
-X-IronPort-AV: E=Sophos;i="5.96,293,1665471600"; d="scan'208";a="309239827"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jan 2023 03:42:50 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10577"; a="743174737"
-X-IronPort-AV: E=Sophos;i="5.96,293,1665471600"; d="scan'208";a="743174737"
-Received: from shoey-mobl.ger.corp.intel.com (HELO localhost) ([10.252.9.185])
- by fmsmga003-auth.fm.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 03:42:48 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Matthew Brost
- <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [RFC PATCH 00/20] Initial Xe driver submission
-In-Reply-To: <8c0a1792-c2bd-375f-fa56-747e34b085f4@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221222222127.34560-1-matthew.brost@intel.com>
- <8c0a1792-c2bd-375f-fa56-747e34b085f4@suse.de>
-Date: Mon, 02 Jan 2023 13:42:46 +0200
-Message-ID: <87cz7xyxft.fsf@intel.com>
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72DAD10E344
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 12:01:29 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id D003B580C7A;
+ Mon,  2 Jan 2023 07:01:26 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Mon, 02 Jan 2023 07:01:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm3; t=1672660886; x=1672668086; bh=uEKmG+6dNXPgUJX+bG2DQMjEj
+ SeELmo5mzB+Sfe2Ijs=; b=aH9ptOHGgwDqNDOWzPlQI3GzhncviGWnhB09eGkVA
+ 7mQUfbSPn/AgZHfrWwiUPvTpsTIdLGh7WgOawj82EqHKG8Z5MhtcMWJ+wN1agZYP
+ zQQiiVc/GKEUsVzkmIQTDb9pQVLS7WswWksVXflggl8tke2SLrK0VrSlWuKXB1YM
+ yYDMSMzNeSeUqAAWFFrsICZj4qtvb7N2XBhAPMvj1ZpXNw2n08gcGUt7JbaEIw6H
+ DtaDpzyDj55jJeloo1SsNlzm3VqGRuEZrp7TVn1+RnpMI4jZhLoP1CmIcMt+mSJd
+ ZSCkFrt+JAoQ9Scv60yRo15WIjFi6ME2vNk6cT1DJAeCw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+ 1672660886; x=1672668086; bh=uEKmG+6dNXPgUJX+bG2DQMjEjSeELmo5mzB
+ +Sfe2Ijs=; b=Ey02JA7ym7ZhluUrnVsLJphnMC8hixoTHKKZUZ0Lrr8kwKBe+6e
+ uj2GUVQ0sIpPXGdlapXhku1KWfA3KtwfqK32k2TxKacrPkdWVwi7eVgKmJjY5uPi
+ /Gt8FcsxjZrvvngbKW8FeXuiWEHLgcJHIikbvs4qT5toj0BpfmATbzCYb/KpNlLN
+ VM8rm/z+AbAUpgihxy36NeMO1/phtAutMuB9mhh4ISKMXkulfMe4WSHHJRRej0vJ
+ 7zkWQ0skeEHk6FkWIfFbsy9vEuT/aXFOdmiJwL6qLyMO6pD416QOwTJIXZzlPHXw
+ VWFAMNH/8ioMcd9MXnDLJ0JpvearWFY7C5A==
+X-ME-Sender: <xms:lseyY86NN9i2I1_iZ-XjPX-IeZOGwGziQ1vNq0tdCsfmmvWkFiqQBw>
+ <xme:lseyY96Q7J5nxwVH7at4wKEGDLPvoFk4k92Opmea9cLsgs2StablExVC3TRVD4rw8
+ 5_9Bi6dNLfQIbmSwlY>
+X-ME-Received: <xmr:lseyY7d66TwjBIc8_5YtEs__gsNONU7t3HqjMVAwB6f2mfIXEI3FrDoEChgEPrESvJNrNUzH0xvj17Lfl33TwHxNQlMInVFhdW4XrrId2K78gQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjedvgdefiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepkeetudejieejfefhjeeutddugedtjeffffdvtedtieegkeffieelleegvefgvddv
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgi
+ himhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:lseyYxIWQctBa9k2a8OMryC5KcCxx7eocESvaG5Qg6fJqc_st63iEA>
+ <xmx:lseyYwJWZjVaoUeu0bl0Bex5KLk4xvmoYektkFxJQ2a3mns-o2ZI4Q>
+ <xmx:lseyYywHlzSSqyn9Zt3Y5ngQ6fj3P1odVYZaW8pFR8YicN7mitrc1Q>
+ <xmx:lseyY21ZudLiaqI3eGeEjRicZ5UFwTEchMFZqQ-lP3RQEG3o3EeBCQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 2 Jan 2023 07:01:25 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] drm/bridge: panel: Prevent ERR_PTR Dereference
+Date: Mon,  2 Jan 2023 13:01:23 +0100
+Message-Id: <20230102120123.19062-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,281 +86,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Dan Carpenter <error27@gmail.com>, kernel test robot <lkp@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 02 Jan 2023, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Hi
->
-> Am 22.12.22 um 23:21 schrieb Matthew Brost:
->> Hello,
->>=20
->> This is a submission for Xe, a new driver for Intel GPUs that supports b=
-oth
->> integrated and discrete platforms starting with Tiger Lake (first platfo=
-rm with
->> Intel Xe Architecture). The intention of this new driver is to have a fr=
-esh base
->> to work from that is unencumbered by older platforms, whilst also taking=
- the
->> opportunity to rearchitect our driver to increase sharing across the drm
->> subsystem, both leveraging and allowing us to contribute more towards ot=
-her
->> shared components like TTM and drm/scheduler. The memory model is based =
-on VM
->> bind which is similar to the i915 implementation. Likewise the execbuf
->> implementation for Xe is very similar to execbuf3 in the i915 [1].
->
-> After Xe has stabilized, will i915 loose the ability to drive this=20
-> hardware (and possibly other)?  I'm specfically thinking of the i915=20
-> code that requires TTM. Keeping that dependecy within Xe only might=20
-> benefit DRM as a whole.
+Commit 5ea6b1702781 ("drm/panel: Add prepare_prev_first flag to
+drm_panel") introduced an access to the bridge pointer in the
+devm_drm_panel_bridge_add_typed() function.
 
-There's going to be a number of platforms supported by both drivers, and
-from purely a i915 standpoint dropping any currently supported platforms
-or that dependency from i915 would be a regression.
+However, due to the unusual ERR_PTR check when getting that pointer, the
+pointer access is done even though the pointer might be an error
+pointer.
 
->>=20
->> The code is at a stage where it is already functional and has experiment=
-al
->> support for multiple platforms starting from Tiger Lake, with initial su=
-pport
->> implemented in Mesa (for Iris and Anv, our OpenGL and Vulkan drivers), a=
-s well
->> as in NEO (for OpenCL and Level0). A Mesa MR has been posted [2] and NEO
->> implementation will be released publicly early next year. We also have a=
- suite
->> of IGTs for XE that will appear on the IGT list shortly.
->>=20
->> It has been built with the assumption of supporting multiple architectur=
-es from
->> the get-go, right now with tests running both on X86 and ARM hosts. And =
-we
->> intend to continue working on it and improving on it as part of the kern=
-el
->> community upstream.
->>=20
->> The new Xe driver leverages a lot from i915 and work on i915 continues a=
-s we
->> ready Xe for production throughout 2023.
->>=20
->> As for display, the intent is to share the display code with the i915 dr=
-iver so
->> that there is maximum reuse there. Currently this is being done by compi=
-ling the
->> display code twice, but alternatives to that are under consideration and=
- we want
->> to have more discussion on what the best final solution will look like o=
-ver the
->> next few months. Right now, work is ongoing in refactoring the display c=
-odebase
->> to remove as much as possible any unnecessary dependencies on i915 speci=
-fic data
->> structures there..
->
-> Could both drivers reside in a common parent directory and share=20
-> something like a DRM Intel helper module with the common code? This=20
-> would fit well with the common design of DRM helpers.
+Rework the function for a more traditional design that will return
+immediately if it gets an ERR_PTR so that we never access the pointer in
+that case.
 
-I think it's too early to tell.
+Fixes: 5ea6b1702781 ("drm/panel: Add prepare_prev_first flag to drm_panel")
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <error27@gmail.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/bridge/panel.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-For one thing, setting that up would be a lot of up front infrastructure
-work. I'm not sure how to even pull that off when Xe is still
-out-of-tree and i915 development plunges on upstream as ever.
+diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+index 1708098fba6d..e8aae3cdc73d 100644
+--- a/drivers/gpu/drm/bridge/panel.c
++++ b/drivers/gpu/drm/bridge/panel.c
+@@ -357,15 +357,16 @@ struct drm_bridge *devm_drm_panel_bridge_add_typed(struct device *dev,
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	bridge = drm_panel_bridge_add_typed(panel, connector_type);
+-	if (!IS_ERR(bridge)) {
+-		*ptr = bridge;
+-		devres_add(dev, ptr);
+-	} else {
++	if (IS_ERR(bridge)) {
+ 		devres_free(ptr);
++		return bridge;
+ 	}
+ 
+ 	bridge->pre_enable_prev_first = panel->prepare_prev_first;
+ 
++	*ptr = bridge;
++	devres_add(dev, ptr);
++
+ 	return bridge;
+ }
+ EXPORT_SYMBOL(devm_drm_panel_bridge_add_typed);
+-- 
+2.38.1
 
-For another, realistically, the overlap between supported platforms is
-going to end at some point, and eventually new platforms are only going
-to be supported with Xe. That's going to open up new possibilities for
-refactoring also the display code. I think it would be premature to lock
-in to a common directory structure or a common helper module at this
-point.
-
-I'm not saying no to the idea, and we've contemplated it before, but I
-think there are still too many moving parts to decide to go that way.
-
-
-BR,
-Jani.
-
-
->
-> Best regards
-> Thomas
->
->>=20
->> We currently have 2 submission backends, execlists and GuC. The execlist=
- is
->> meant mostly for testing and is not fully functional while GuC backend i=
-s fully
->> functional. As with the i915 and GuC submission, in Xe the GuC firmware =
-is
->> required and should be placed in /lib/firmware/xe.
->>=20
->> The GuC firmware can be found in the below location:
->> https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.=
-git/tree/i915
->>=20
->> The easiest way to setup firmware is:
->> cp -r /lib/firmware/i915 /lib/firmware/xe
->>=20
->> The code has been organized such that we have all patches that touch are=
-as
->> outside of drm/xe first for review, and then the actual new driver in a =
-separate
->> commit. The code which is outside of drm/xe is included in this RFC while
->> drm/xe is not due to the size of the commit. The drm/xe is code is avail=
-able in
->> a public repo listed below.
->>=20
->> Xe driver commit:
->> https://cgit.freedesktop.org/drm/drm-xe/commit/?h=3Ddrm-xe-next&id=3D9cb=
-016ebbb6a275f57b1cb512b95d5a842391ad7
->>=20
->> Xe kernel repo:
->> https://cgit.freedesktop.org/drm/drm-xe/
->>=20
->> There's a lot of work still to happen on Xe but we're very excited about=
- it and
->> wanted to share it early and welcome feedback and discussion.
->>=20
->> Cheers,
->> Matthew Brost
->>=20
->> [1] https://patchwork.freedesktop.org/series/105879/
->> [2] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/20418
->>=20
->> Maarten Lankhorst (12):
->>    drm/amd: Convert amdgpu to use suballocation helper.
->>    drm/radeon: Use the drm suballocation manager implementation.
->>    drm/i915: Remove gem and overlay frontbuffer tracking
->>    drm/i915/display: Neuter frontbuffer tracking harder
->>    drm/i915/display: Add more macros to remove all direct calls to uncore
->>    drm/i915/display: Remove all uncore mmio accesses in favor of intel_de
->>    drm/i915: Rename find_section to find_bdb_section
->>    drm/i915/regs: Set DISPLAY_MMIO_BASE to 0 for xe
->>    drm/i915/display: Fix a use-after-free when intel_edp_init_connector
->>      fails
->>    drm/i915/display: Remaining changes to make xe compile
->>    sound/hda: Allow XE as i915 replacement for sound
->>    mei/hdcp: Also enable for XE
->>=20
->> Matthew Brost (5):
->>    drm/sched: Convert drm scheduler to use a work queue rather than
->>      kthread
->>    drm/sched: Add generic scheduler message interface
->>    drm/sched: Start run wq before TDR in drm_sched_start
->>    drm/sched: Submit job before starting TDR
->>    drm/sched: Add helper to set TDR timeout
->>=20
->> Thomas Hellstr=C3=B6m (3):
->>    drm/suballoc: Introduce a generic suballocation manager
->>    drm: Add a gpu page-table walker helper
->>    drm/ttm: Don't print error message if eviction was interrupted
->>=20
->>   drivers/gpu/drm/Kconfig                       |   5 +
->>   drivers/gpu/drm/Makefile                      |   4 +
->>   drivers/gpu/drm/amd/amdgpu/Kconfig            |   1 +
->>   drivers/gpu/drm/amd/amdgpu/amdgpu.h           |  26 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c   |  14 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  12 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c        |   5 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.h    |  23 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h      |   3 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_sa.c        | 320 +-----------------
->>   drivers/gpu/drm/drm_pt_walk.c                 | 159 +++++++++
->>   drivers/gpu/drm/drm_suballoc.c                | 301 ++++++++++++++++
->>   drivers/gpu/drm/i915/Makefile                 |   2 +-
->>   drivers/gpu/drm/i915/display/hsw_ips.c        |   7 +-
->>   drivers/gpu/drm/i915/display/i9xx_plane.c     |   1 +
->>   drivers/gpu/drm/i915/display/intel_atomic.c   |   2 +
->>   .../gpu/drm/i915/display/intel_atomic_plane.c |  25 +-
->>   .../gpu/drm/i915/display/intel_backlight.c    |   2 +-
->>   drivers/gpu/drm/i915/display/intel_bios.c     |  71 ++--
->>   drivers/gpu/drm/i915/display/intel_bw.c       |  36 +-
->>   drivers/gpu/drm/i915/display/intel_cdclk.c    |  68 ++--
->>   drivers/gpu/drm/i915/display/intel_color.c    |   1 +
->>   drivers/gpu/drm/i915/display/intel_crtc.c     |  14 +-
->>   drivers/gpu/drm/i915/display/intel_cursor.c   |  14 +-
->>   drivers/gpu/drm/i915/display/intel_de.h       |  38 +++
->>   drivers/gpu/drm/i915/display/intel_display.c  | 155 +++++++--
->>   drivers/gpu/drm/i915/display/intel_display.h  |   9 +-
->>   .../gpu/drm/i915/display/intel_display_core.h |   5 +-
->>   .../drm/i915/display/intel_display_debugfs.c  |   8 +
->>   .../drm/i915/display/intel_display_power.c    |  40 ++-
->>   .../drm/i915/display/intel_display_power.h    |   6 +
->>   .../i915/display/intel_display_power_map.c    |   7 +
->>   .../i915/display/intel_display_power_well.c   |  24 +-
->>   .../drm/i915/display/intel_display_reg_defs.h |   4 +
->>   .../drm/i915/display/intel_display_trace.h    |   6 +
->>   .../drm/i915/display/intel_display_types.h    |  32 +-
->>   drivers/gpu/drm/i915/display/intel_dmc.c      |  17 +-
->>   drivers/gpu/drm/i915/display/intel_dp.c       |  11 +-
->>   drivers/gpu/drm/i915/display/intel_dp_aux.c   |   6 +
->>   drivers/gpu/drm/i915/display/intel_dpio_phy.c |   9 +-
->>   drivers/gpu/drm/i915/display/intel_dpio_phy.h |  15 +
->>   drivers/gpu/drm/i915/display/intel_dpll.c     |   8 +-
->>   drivers/gpu/drm/i915/display/intel_dpll_mgr.c |   4 +
->>   drivers/gpu/drm/i915/display/intel_drrs.c     |   1 +
->>   drivers/gpu/drm/i915/display/intel_dsb.c      | 124 +++++--
->>   drivers/gpu/drm/i915/display/intel_dsi_vbt.c  |  26 +-
->>   drivers/gpu/drm/i915/display/intel_fb.c       | 108 ++++--
->>   drivers/gpu/drm/i915/display/intel_fb_pin.c   |   6 -
->>   drivers/gpu/drm/i915/display/intel_fbc.c      |  49 ++-
->>   drivers/gpu/drm/i915/display/intel_fbdev.c    | 108 +++++-
->>   .../gpu/drm/i915/display/intel_frontbuffer.c  | 103 +-----
->>   .../gpu/drm/i915/display/intel_frontbuffer.h  |  67 +---
->>   drivers/gpu/drm/i915/display/intel_gmbus.c    |   2 +-
->>   drivers/gpu/drm/i915/display/intel_hdcp.c     |   9 +-
->>   drivers/gpu/drm/i915/display/intel_hdmi.c     |   1 -
->>   .../gpu/drm/i915/display/intel_lpe_audio.h    |   8 +
->>   .../drm/i915/display/intel_modeset_setup.c    |  11 +-
->>   drivers/gpu/drm/i915/display/intel_opregion.c |   2 +-
->>   drivers/gpu/drm/i915/display/intel_overlay.c  |  14 -
->>   .../gpu/drm/i915/display/intel_pch_display.h  |  16 +
->>   .../gpu/drm/i915/display/intel_pch_refclk.h   |   8 +
->>   drivers/gpu/drm/i915/display/intel_pipe_crc.c |   1 +
->>   .../drm/i915/display/intel_plane_initial.c    |   3 +-
->>   drivers/gpu/drm/i915/display/intel_psr.c      |   1 +
->>   drivers/gpu/drm/i915/display/intel_sprite.c   |  21 ++
->>   drivers/gpu/drm/i915/display/intel_vbt_defs.h |   2 +-
->>   drivers/gpu/drm/i915/display/intel_vga.c      |   5 +
->>   drivers/gpu/drm/i915/display/skl_scaler.c     |   2 +
->>   .../drm/i915/display/skl_universal_plane.c    |  52 ++-
->>   drivers/gpu/drm/i915/display/skl_watermark.c  |  25 +-
->>   drivers/gpu/drm/i915/gem/i915_gem_clflush.c   |   4 -
->>   drivers/gpu/drm/i915/gem/i915_gem_domain.c    |   7 -
->>   .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |   2 -
->>   drivers/gpu/drm/i915/gem/i915_gem_object.c    |  25 --
->>   drivers/gpu/drm/i915/gem/i915_gem_object.h    |  22 --
->>   drivers/gpu/drm/i915/gem/i915_gem_phys.c      |   4 -
->>   drivers/gpu/drm/i915/gt/intel_gt_regs.h       |   3 +-
->>   drivers/gpu/drm/i915/i915_driver.c            |   1 +
->>   drivers/gpu/drm/i915/i915_gem.c               |   8 -
->>   drivers/gpu/drm/i915/i915_gem_gtt.c           |   1 -
->>   drivers/gpu/drm/i915/i915_reg_defs.h          |   8 +
->>   drivers/gpu/drm/i915/i915_vma.c               |  12 -
->>   drivers/gpu/drm/radeon/radeon.h               |  55 +--
->>   drivers/gpu/drm/radeon/radeon_ib.c            |  12 +-
->>   drivers/gpu/drm/radeon/radeon_object.h        |  25 +-
->>   drivers/gpu/drm/radeon/radeon_sa.c            | 314 ++---------------
->>   drivers/gpu/drm/radeon/radeon_semaphore.c     |   6 +-
->>   drivers/gpu/drm/scheduler/sched_main.c        | 182 +++++++---
->>   drivers/gpu/drm/ttm/ttm_bo.c                  |   3 +-
->>   drivers/misc/mei/hdcp/Kconfig                 |   2 +-
->>   drivers/misc/mei/hdcp/mei_hdcp.c              |   3 +-
->>   include/drm/drm_pt_walk.h                     | 161 +++++++++
->>   include/drm/drm_suballoc.h                    | 112 ++++++
->>   include/drm/gpu_scheduler.h                   |  41 ++-
->>   sound/hda/hdac_i915.c                         |  17 +-
->>   sound/pci/hda/hda_intel.c                     |  56 +--
->>   sound/soc/intel/avs/core.c                    |  13 +-
->>   sound/soc/sof/intel/hda.c                     |   7 +-
->>   98 files changed, 2076 insertions(+), 1325 deletions(-)
->>   create mode 100644 drivers/gpu/drm/drm_pt_walk.c
->>   create mode 100644 drivers/gpu/drm/drm_suballoc.c
->>   create mode 100644 include/drm/drm_pt_walk.h
->>   create mode 100644 include/drm/drm_suballoc.h
->>=20
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
