@@ -2,60 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B41DD65AFAF
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 11:39:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA52865AFB3
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 11:40:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25B7510E2FE;
-	Mon,  2 Jan 2023 10:39:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DEA710E2FB;
+	Mon,  2 Jan 2023 10:40:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 324EC10E2FD
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 10:39:48 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id h16so25927922wrz.12
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Jan 2023 02:39:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TN3FpV1I7tFu/Kpha9CDnNvHD7KVpRjqtfkjCmVPUO0=;
- b=CakuEVBcyWpVCHtq/gK0WL8H5kopdxqYu/fVo/dM+vHh1V8sZ+azV8nsGYLtljTXD/
- Jan0bb1u2z6DBTbYgWOe3F3oWRQkEXTN7ztpNDX9uesOCbQwTs9b9Gy1XnACehMALSO9
- epAapZem3wE9CprqWtC4EIdMuPaKyykdTAI9wvrGR8ecRb9OdNyNT5dW/mHVs/l8/LEX
- vzsBl2x2BPr3Ifx3ZZcZZBGkUw1+odEJ4t+2weznXeuIh+RfNJcTOzij+gzqWzQ3DqQR
- wh88hwAqkaRW9U7tYi3O+oxdt5Q5UAigMXZtSxG5GVpOOl3XSzR82YsrFvWlDDt7UISs
- 7Yvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TN3FpV1I7tFu/Kpha9CDnNvHD7KVpRjqtfkjCmVPUO0=;
- b=R0hRkHsnN0I58v6gTiE2Y3rwFLAxeyDSFYSMvuv0PA8nTPa5/msmPBOgVBeOGX7/Ee
- W4jDqYXBhyzgAsRKFjOF0MzIJdDuDdCYhzLLKHxhkK5TqhpGKbohpmztYC8pp8bUUo1x
- ul/yoQRq7qG15bNu4dGcMCWRKjIr3VWrv/jRidE5k3skwk5tqG9ObTaZSp6Ydr/Xpm/K
- L4m4WIPLDDg6/A0ZHPF2BrCbXO6dbRaL4K7Ca5R0vg4+aC3uaWwzMfxd5H5dkY2s95Lw
- W/27hpyKmynNdFwLVWY+xgitnzY+S+0DCngxlfM7fawHY4BUkwnkG2MdB28L7q+kxJI4
- UCfw==
-X-Gm-Message-State: AFqh2kpc2cITz6hQBbd275k4fNZ6p2iKPEV2Kh3gqq6Go+2a75UrigXj
- TV53q7cBrnGzuh4xFJAmCDYEVw==
-X-Google-Smtp-Source: AMrXdXvJmLCCviOiLhVE2Fn/tGQ7qfOD6ZJjjx6/aj9+9AjFtmpkJtNmUE2jJpa+634KcFkd2p2Kuw==
-X-Received: by 2002:adf:f243:0:b0:26d:798f:ab8a with SMTP id
- b3-20020adff243000000b0026d798fab8amr22489628wrp.68.1672655986705; 
- Mon, 02 Jan 2023 02:39:46 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
- by smtp.gmail.com with ESMTPSA id
- r14-20020a5d4e4e000000b002549b649b62sm27810881wrt.50.2023.01.02.02.39.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Jan 2023 02:39:46 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-In-Reply-To: <20221202115223.39051-1-tomeu.vizoso@collabora.com>
-References: <20221202115223.39051-1-tomeu.vizoso@collabora.com>
-Subject: Re: (subset) [PATCH v6 0/8] Support for the NPU in Vim3
-Message-Id: <167265598564.387036.9948295692448105822.b4-ty@linaro.org>
-Date: Mon, 02 Jan 2023 11:39:45 +0100
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
+ [64.147.123.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8537110E2FB
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 10:40:26 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 80D0F32008FC;
+ Mon,  2 Jan 2023 05:40:22 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Mon, 02 Jan 2023 05:40:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1672656022; x=
+ 1672742422; bh=oQNmiZs+lxOjtmSo7HfzHjO8S8CzxpfTKAw+Zpl1GqE=; b=B
+ NjYe1ug0jfoGXUABDrMQWtPDKWNrhu461bBF6/1M+ox/ZIgSn2mSjdYAltl+AzHt
+ 80zsY1ksG5nWtnM3jqoTqe15T1qeHi6iH2I3pSWaB7ixvL/4DFnLzJqb4BWFp7tB
+ dbyVjUgx5bRomIGZJo2RPOoLQb0WaGrxejbisWBzym5396yo94JKkd8At2PPtvJl
+ qR1vJich/laNubOx3SuY6Ia/v3DtGojs4IEdI0UA/NVMTD5nSbqs6Rdp0XX9NYhM
+ gYFiDWxY4+gzQCZPnQDKxoQ0GdNDaeATi0Tw8mA8qukjrFuwlj2igcodZ5TbTEml
+ z2/01lvZWKuGXJm0CzcBg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672656022; x=
+ 1672742422; bh=oQNmiZs+lxOjtmSo7HfzHjO8S8CzxpfTKAw+Zpl1GqE=; b=n
+ kMO9p7P24DTryC2nWgiFjszCh8jItvEDsmKuIWrKjMJJyWqNbh55cGS0p/Hi1zJg
+ FmQW/g6hPuZJgVVxgRc8yS7hc3ox/cd3yBN/DIntjlECAffy/JUXmK91aK9UOUcY
+ RZy60QFPjFnTcGb0COVbtOWu6HoKFNUkXLfRZNloJmW/d+5eZ3g1hVJIw7kWGiYF
+ jiHx9+6mD4Lr3dIS4eUaCqznvPQOyqJiUUWH6uIOmr0gxnjnEmzyYSxG2kXXCG58
+ bKoSXFF6BPVJS2722T68vCvra75xz1Wm8q7yXB5CrwHWP03D0gGiAkFr4+497HtO
+ Hi5WzXBbBApyme/RDMu5g==
+X-ME-Sender: <xms:lbSyY23RAAxRb0BrZUo2eNsz_k_7bjwY5D8cgBKEvIV9QrOCk8N8_w>
+ <xme:lbSyY5E187YqN51VVhEB4FJQY1XeqqDlgPBnwkiRoZhFhPPrjTQ3AXJr8FC6KLOrk
+ iD4-4cQTB6Ei3e-SJk>
+X-ME-Received: <xmr:lbSyY-5sun5Ak0LJAgmPm0UltMqWp_NUJW5SF_1vZbElFuTpgEHjv-cipHnTk0kCVQ68drsPsvzLq_21zuZI9H82ItdC0vKrQDUkUrnc712CUg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjedvgddulecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvfevjghfuffkffggtgfgofesthekredtredtjeenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeeifeeigeelhfehkeeltdetjeetueelteeuveekueevffduhefffefhhfeh
+ gfehieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:lbSyY32hiYda6lv6Dgg1_PMUl52y60ApS8N5DX2tCTLg24vXNRjvJA>
+ <xmx:lbSyY5HUL94Q93UbXn5rbjeQFPY9ZmMCLfehT_0rw8CIKD7_u-TmLQ>
+ <xmx:lbSyYw9k6scHFPt3874B1GQwF_OcnGeB2yIhjKcXH7K-6IltCdB89w>
+ <xmx:lrSyY_U_ZWVRgtKhzHKsFrAqRVkkiEre-Tsj-_tE4R8_5OWfpr-ASg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 2 Jan 2023 05:40:21 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Maíra Canal <mcanal@igalia.com>,
+ Maxime Ripard <mripard@kernel.org>, Emma Anholt <emma@anholt.net>
+In-Reply-To: <20221229194638.178712-1-mcanal@igalia.com>
+References: <20221229194638.178712-1-mcanal@igalia.com>
+Subject: Re: (subset) [PATCH] drm/vc4: drop all currently held locks if
+ deadlock happens
+Message-Id: <167265599737.7906.15803690746659540288.b4-ty@cerno.tech>
+Date: Mon, 02 Jan 2023 11:39:57 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -72,62 +86,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Kevin Hilman <khilman@baylibre.com>, italonicola@collabora.com,
- "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
- <etnaviv@lists.freedesktop.org>,
- "open list:DRM DRIVERS FOR VIVANTE GPU IP" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- "open list:ARM/Amlogic Meson SoC support" <linux-amlogic@lists.infradead.org>,
- "moderated list:ARM/Amlogic Meson SoC support"
- <linux-arm-kernel@lists.infradead.org>, Jerome Brunet <jbrunet@baylibre.com>
+Cc: Melissa Wen <mwen@igalia.com>, Stefan Wahren <stefan.wahren@i2se.com>, André Almeida <andrealmeid@igalia.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Fri, 2 Dec 2022 12:52:12 +0100, Tomeu Vizoso wrote:
-> This series adds support for the Verisilicon VIPNano-QI NPU in the A311D
-> as in the VIM3 board.
+On Thu, 29 Dec 2022 16:46:38 -0300, Maíra Canal wrote:
+> If vc4_hdmi_reset_link() returns -EDEADLK, it means that a deadlock
+> happened in the locking context. This situation should be addressed by
+> dropping all currently held locks and block until the contended lock
+> becomes available. Currently, vc4 is not dealing with the deadlock
+> properly, producing the following output when PROVE_LOCKING is enabled:
 > 
-> The IP is very closely based on previous Vivante GPUs, so the etnaviv
-> kernel driver works basically unchanged.
-> 
-> The userspace part of the driver is being reviewed at:
+> [  825.612809] ------------[ cut here ]------------
+> [  825.612852] WARNING: CPU: 1 PID: 116 at drivers/gpu/drm/drm_modeset_lock.c:276 drm_modeset_drop_locks+0x60/0x68 [drm]
+> [  825.613458] Modules linked in: 8021q mrp garp stp llc
+> raspberrypi_cpufreq brcmfmac brcmutil crct10dif_ce hci_uart cfg80211
+> btqca btbcm bluetooth vc4 raspberrypi_hwmon snd_soc_hdmi_codec cec
+> clk_raspberrypi ecdh_generic drm_display_helper ecc rfkill
+> drm_dma_helper drm_kms_helper pwm_bcm2835 bcm2835_thermal bcm2835_rng
+> rng_core i2c_bcm2835 drm fuse ip_tables x_tables ipv6
+> [  825.613735] CPU: 1 PID: 116 Comm: kworker/1:2 Tainted: G        W 6.1.0-rc6-01399-g941aae326315 #3
+> [  825.613759] Hardware name: Raspberry Pi 3 Model B Rev 1.2 (DT)
+> [  825.613777] Workqueue: events output_poll_execute [drm_kms_helper]
+> [  825.614038] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [  825.614063] pc : drm_modeset_drop_locks+0x60/0x68 [drm]
+> [  825.614603] lr : drm_helper_probe_detect+0x120/0x1b4 [drm_kms_helper]
+> [  825.614829] sp : ffff800008313bf0
+> [  825.614844] x29: ffff800008313bf0 x28: ffffcd7778b8b000 x27: 0000000000000000
+> [  825.614883] x26: 0000000000000001 x25: 0000000000000001 x24: ffff677cc35c2758
+> [  825.614920] x23: ffffcd7707d01430 x22: ffffcd7707c3edc7 x21: 0000000000000001
+> [  825.614958] x20: 0000000000000000 x19: ffff800008313c10 x18: 000000000000b6d3
+> [  825.614995] x17: ffffcd777835e214 x16: ffffcd7777cef870 x15: fffff81000000000
+> [  825.615033] x14: 0000000000000000 x13: 0000000000000099 x12: 0000000000000002
+> [  825.615070] x11: 72917988020af800 x10: 72917988020af800 x9 : 72917988020af800
+> [  825.615108] x8 : ffff677cc665e0a8 x7 : d00a8c180000110c x6 : ffffcd77774c0054
+> [  825.615145] x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
+> [  825.615181] x2 : ffff677cc55e1880 x1 : ffffcd7777cef8ec x0 : ffff800008313c10
+> [  825.615219] Call trace:
+> [  825.615232]  drm_modeset_drop_locks+0x60/0x68 [drm]
+> [  825.615773]  drm_helper_probe_detect+0x120/0x1b4 [drm_kms_helper]
+> [  825.616003]  output_poll_execute+0xe4/0x224 [drm_kms_helper]
+> [  825.616233]  process_one_work+0x2b4/0x618
+> [  825.616264]  worker_thread+0x24c/0x464
+> [  825.616288]  kthread+0xec/0x110
+> [  825.616310]  ret_from_fork+0x10/0x20
+> [  825.616335] irq event stamp: 7634
+> [  825.616349] hardirqs last  enabled at (7633): [<ffffcd777831ee90>] _raw_spin_unlock_irq+0x3c/0x78
+> [  825.616384] hardirqs last disabled at (7634): [<ffffcd7778315a78>] __schedule+0x134/0x9f0
+> [  825.616411] softirqs last  enabled at (7630): [<ffffcd7707aacea0>] local_bh_enable+0x4/0x30 [ipv6]
+> [  825.617019] softirqs last disabled at (7618): [<ffffcd7707aace70>] local_bh_disable+0x4/0x30 [ipv6]
+> [  825.617586] ---[ end trace 0000000000000000 ]---
 > 
 > [...]
 
-Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git (v6.3/arm64-dt)
+Applied to drm/drm-misc (drm-misc-next).
 
-[4/8] arm64: dts: Add DT node for the VIPNano-QI on the A311D
-      https://git.kernel.org/amlogic/c/18b542e544d3bd00e55d7135ee673b34dbfdb9b9
-[8/8] arm64: dts: Fix NPU power domain references in Amlogic G12-based SoCs
-      (no commit info)
-
-These changes has been applied on the intermediate git tree [1].
-
-The v6.3/arm64-dt branch will then be sent via a formal Pull Request to the Linux SoC maintainers
-for inclusion in their intermediate git branches in order to be sent to Linus during
-the next merge window, or sooner if it's a set of fixes.
-
-In the cases of fixes, those will be merged in the current release candidate
-kernel and as soon they appear on the Linux master branch they will be
-backported to the previous Stable and Long-Stable kernels [2].
-
-The intermediate git branches are merged daily in the linux-next tree [3],
-people are encouraged testing these pre-release kernels and report issues on the
-relevant mailing-lists.
-
-If problems are discovered on those changes, please submit a signed-off-by revert
-patch followed by a corrective changeset.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
-[3] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-
--- 
-Neil
+Thanks!
+Maxime
