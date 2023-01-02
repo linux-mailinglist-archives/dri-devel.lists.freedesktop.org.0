@@ -1,60 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0233F65B5A8
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 18:11:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D33DD65B689
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 19:21:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B244D10E1AD;
-	Mon,  2 Jan 2023 17:11:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12EA710E1C1;
+	Mon,  2 Jan 2023 18:21:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
- [IPv6:2607:f8b0:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27D1110E1AD
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 17:11:01 +0000 (UTC)
-Received: by mail-oi1-x232.google.com with SMTP id e205so25342851oif.11
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Jan 2023 09:11:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fkrlTW01QZiW+rfRh4HCDBkrk4FHHNPvdhykJiEQI9E=;
- b=PSrfo52rXafgrME6wfouzPUZakPSi4zMi0esKLyfcUTdw3ZaLwczE7cqwq4+MAKDTp
- OPl7k/UcH/KvwiuB2Ijya3ZTt/RKJkdMX+lFk1LSSQFO/zSpVva0jt/XMT+DFhJyXmtv
- Dlg+29EtE39mSsu0+YR5gcVXPIgrI3oD6ZWMXHSW6Ja0FiNjgFuWd/WMvpBPRYm+Y2/M
- 58YQCvE3Lxv7wYTUSWuWAcFMnMtr18bpUR8C+elEZ83RfcTyOs+rzRY011f1EPN5s+pi
- XWz0wLru8QmRF8N+6vF7Vn/3sS3eBC51zuFFPivBzOGyGSRasKOasO1UrkShD5TdzviP
- m9HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fkrlTW01QZiW+rfRh4HCDBkrk4FHHNPvdhykJiEQI9E=;
- b=CFY5okolnQzRoFgPHulCTO7fFjKQOz1hQfvkBKoiX67jXtvp8XSaeFDm4adVWIJvwB
- IP76THf5iCwe06Z0Or4/NY3X9BuDDq510SOO4cqN/XTRWVE5Ko0rXGcV69OX/IN3A6Zl
- C4dfPvrHPbXDiasxc0sbnOYHwDHyde8JlXwvX8/t9bnOjI+UGt+Y35Ig4gJg863jd0fU
- uHFum/A0+tTgQE/C1VRG5XKSH5EQPFtTy0EkFTNiHZEeB/uPaf7DLPn1HOCXFwDzjEfu
- jDadxDu/EIttqapnAzzkgF1uAFZd/KAXVFaEKkIUJNIbxeYVYGNIYyc/rloktt1/Tm8d
- eWDQ==
-X-Gm-Message-State: AFqh2kqavBUJuT8SH0JHWaUYyT4VmlrWPJdrf8goQANZ7epz+2v8i/jU
- ERB5trsy8WpBkeka0Q0eyUDbZOHX0tJRKS8x+ZD75A==
-X-Google-Smtp-Source: AMrXdXudAWzRSkReGXrlA2k8y1GjMgzJ0Sqz2gL9E0bvitUpLzt30zx7sw5KpOjYmAMpIKholY97galZNRmQhhE4MY4=
-X-Received: by 2002:a05:6808:3090:b0:35e:5a1b:825c with SMTP id
- bl16-20020a056808309000b0035e5a1b825cmr2536418oib.155.1672679460249; Mon, 02
- Jan 2023 09:11:00 -0800 (PST)
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F20710E1C1
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 18:21:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+ t=1672683643; bh=l5eFdlgx+VAP0BeHLUtw9bf3seXl0g8MDnD92C6hEZg=;
+ h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+ MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
+ b=EkJJlYSDym9aBoHWX0MTXz78y/KcdI/3h045DudkCBTy6QMvvqUeAiYCkfWEtuD4L
+ 12y7r2L2U5FGHCGDGt4Es4XnbMvPTCH015b3/BCHNT7+ucyfRNZJr4e3/D97jAL8/8
+ vY/Bw3bGB5Uk0eqi5OOzHT765Ep4Ng5ZHJQ3Zm14=
+Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
+ via ip-206.mailobj.net [213.182.55.206]
+ Mon,  2 Jan 2023 19:20:42 +0100 (CET)
+X-EA-Auth: 1TipYpPawqPMVWURTIUa3Q9huT/sskdTH3CKY3E5NqMDlZcXzmSa7O60tFZSxlW4XUJP6QN1+lF3/JSXJcYtR/S2WkmYVfuP
+Date: Mon, 2 Jan 2023 23:50:36 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Mikko Perttunen <cyndis@kapsi.fi>
+Subject: Re: [PATCH] drm/tegra: submit: No need for Null pointer check before
+ kfree
+Message-ID: <Y7MgdKD14kLwOo0S@qemulion>
+References: <Y6sn7XptKyk5cbrA@qemulion>
+ <864f2fdd-4289-a178-bbf1-c2a6a579c58c@kapsi.fi>
+ <Y6w/4IzoMFsVnCmu@qemulion>
+ <280170a7-de12-f362-cda3-11208ead0a88@kapsi.fi>
+ <20221230091501.GA1285371@linux.intel.com>
+ <65468c84-fc40-e4e1-0adb-ddfc23ec4fb9@kapsi.fi>
+ <a815b74d-c158-73b6-cfc8-583826277b5c@kapsi.fi>
 MIME-Version: 1.0
-References: <20221230153554.105856-1-robert.foss@linaro.org>
- <20221230153554.105856-9-robert.foss@linaro.org>
- <deb17787-1a5a-89a3-3ecf-7690b4149f5c@linaro.org>
-In-Reply-To: <deb17787-1a5a-89a3-3ecf-7690b4149f5c@linaro.org>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Mon, 2 Jan 2023 18:10:49 +0100
-Message-ID: <CAG3jFysU84LRcqQOspub+9vtsP3syiksrGX6D7i3ff+X6+mbTA@mail.gmail.com>
-Subject: Re: [PATCH v4 08/11] arm64: dts: qcom: sm8350: Use 2 interconnect
- cells
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a815b74d-c158-73b6-cfc8-583826277b5c@kapsi.fi>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,45 +53,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: konrad.dybcio@somainline.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, liushixin2@huawei.com,
- krzysztof.kozlowski+dt@linaro.org, angelogioacchino.delregno@somainline.org,
- quic_vpolimer@quicinc.com, vinod.koul@linaro.org,
- Jonathan Marek <jonathan@marek.ca>, quic_khsieh@quicinc.com, agross@kernel.org,
- quic_jesszhan@quicinc.com, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, a39.skl@gmail.com, quic_abhinavk@quicinc.com,
- swboyd@chromium.org, robh+dt@kernel.org, sean@poorly.run,
- loic.poulain@linaro.org, andersson@kernel.org, dianders@chromium.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>, vkoul@kernel.org,
- dmitry.baryshkov@linaro.org, freedreno@lists.freedesktop.org
+Cc: drv@mailo.com, Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 30 Dec 2022 at 17:12, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 30/12/2022 16:35, Robert Foss wrote:
-> > Use two interconnect cells in order to optionally
-> > support a path tag.
+On Fri, Dec 30, 2022 at 12:03:25PM +0200, Mikko Perttunen wrote:
+> On 12/30/22 12:01, Mikko Perttunen wrote:
+> > On 12/30/22 11:15, Stanislaw Gruszka wrote:
+> > > On Wed, Dec 28, 2022 at 03:17:59PM +0200, Mikko Perttunen wrote:
+> > > > On 12/28/22 15:08, Deepak R Varma wrote:
+> > > > > On Wed, Dec 28, 2022 at 02:28:54PM +0200, Mikko Perttunen wrote:
+> > > > > > On 12/27/22 19:14, Deepak R Varma wrote:
+> > > > > > > kfree() & vfree() internally perform NULL check on the pointer handed
+> > > > > > > to it and take no action if it indeed is NULL. Hence there is no need
+> > > > > > > for a pre-check of the memory pointer before handing it to
+> > > > > > > kfree()/vfree().
+> > > > > > >
+> > > > > > > Issue reported by ifnullfree.cocci Coccinelle semantic patch script.
+> > > > > > >
+> > > > > > > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > > > > > > ---
+> > > > > > >     drivers/gpu/drm/tegra/submit.c | 4 ++--
+> > > > > > >     1 file changed, 2 insertions(+), 2 deletions(-)
+> > > > > > >
+> > > > > > > diff --git a/drivers/gpu/drm/tegra/submit.c
+> > > > > > > b/drivers/gpu/drm/tegra/submit.c
+> > > > > > > index 066f88564169..06f836db99d0 100644
+> > > > > > > --- a/drivers/gpu/drm/tegra/submit.c
+> > > > > > > +++ b/drivers/gpu/drm/tegra/submit.c
+> > > > > > > @@ -680,8 +680,8 @@ int
+> > > > > > > tegra_drm_ioctl_channel_submit(struct drm_device
+> > > > > > > *drm, void *data,
+> > > > > > >             kfree(job_data->used_mappings);
+> > > > > > >         }
+> > > > > > >
+> > > > > > > -    if (job_data)
+> > > > > > > -        kfree(job_data);
+> > > > > > > +    kfree(job_data);
+> > > > > > > +
+> > > > > > >     put_bo:
+> > > > > > >         gather_bo_put(&bo->base);
+> > > > > > >     unlock:
+> > > > > > > --
+> > > > > > > 2.34.1
+> > > > > > >
+> > > > > > >
+> > > > > > >
+> > > > > >
+> > > > > > It continues to be the case that I think this transform
+> > > > > > is bad. Same applies
+> > > > > > to the host1x patch.
+> > > > >
+> > > > > Hello Mikko,
+> > > > > Thank you for responding to the patch proposal. Could you
+> > > > > please explain why is
+> > > > > this bad?
+> > > > >
+> > > > > Regards,
+> > > > > ./drv
+> > > > >
+> > > > > >
+> > > > > > Mikko
+> > > > >
+> > > > >
+> > > >
+> > > > Hi,
+> > > >
+> > > > it gets rid of visual hints on code paths indicating the
+> > > > possible liveness
+> > > > of pointer variables. I.e., after the change, whether the pointer can be
+> > > > NULL or not is more difficult to reason about locally, instead requiring
+> > > > more global reasoning which is mentally more taxing.
+> > > >
+> > > > Since C's type system doesn't help with tracking these kinds of
+> > > > things, I
+> > > > believe it is important to have these kinds of local contextual
+> > > > cues to help
+> > > > the programmer.
+> > >
+> > > I agree with your point of view. But regarding this particular patch,
+> > > at least on code base I can see, after free_job_data label job_done
+> > > can not be NULL. So patch seems to be ok, but maybe changelog need to
+> > > be different
+> > >
+> > > Regards
+> > > Stanislaw
 > >
-> > Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> > Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> > ---
-> >  arch/arm64/boot/dts/qcom/sm8350.dtsi | 28 ++++++++++++++--------------
-> >  1 file changed, 14 insertions(+), 14 deletions(-)
+> > It can be NULL; see:
 > >
+> >          job->user_data = job_data;
+> >          job->release = release_job;
+> >          job->timeout = 10000;
+> >
+> >          /*
+> >           * job_data is now part of job reference counting, so don't
+> > release
+> >           * it from here.
+> >           */
+> >          job_data = NULL;
+> >
+> > If we go into free_job_data after this code (which happens if there is
+> > no error, or if host1x_job_submit fails), job_data will be NULL.
+> >
+> > The memory is instead released in the 'put_job' label; host1x_job_put
+> > ends up calling release_job, which does the kfree.
 >
-> I think you need to rebase to include:
-> https://lore.kernel.org/all/167233461761.1099840.5517525898039031248.b4-ty@kernel.org/
+> Well, the refcount is dropped -- it's not necessarily freed immediately, if
+> the job is in execution.
 
-Ah, I see. Functionally I seemed to do fine without those commits.
+Thanks Mikko. I Agree. Hence I think there is no change for the program at
+runtime. The proposed change looks safe to me.
 
->
-> On which tree/revision did you base this?
-
-msm/drm-msm-display-for-6.2
+./drv
 
 >
-> Best regards,
-> Krzysztof
+> Mikko
 >
+> >
+> > (Yes, it is rather complicated..)
+> >
+> > Thanks,
+> > Mikko
+>
+
+
