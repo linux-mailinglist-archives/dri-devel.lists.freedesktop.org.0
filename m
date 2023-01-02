@@ -1,80 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EEFB65B6DF
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 20:13:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 709B465B710
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Jan 2023 21:25:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBD9710E384;
-	Mon,  2 Jan 2023 19:13:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B86E510E1B7;
+	Mon,  2 Jan 2023 20:25:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AC6710E384
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 19:13:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 301D110E1B7
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Jan 2023 20:25:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672686800;
+ s=mimecast20190719; t=1672691150;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rS6IkM26a9yODRpF7B+x34s+L3GGgZHwy27uItfaRms=;
- b=Bh/yMX7/yZaheRfjhmmv5r7P+xSuGsECgQWpGMYZ6jOjXP9m7KNmOdzO5cEwcsf1mZcXRK
- 6/yaZRZ2KUjpebqYomt9SQQLY/GML8Aod6D06qkTI6GYlKospsQa19710EU9V7pgz5U4Ow
- 9U0LcEMgl+MAxp/89qygUTxwfnvG9Fk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xCNMgkWa09fEzea1HqZoR7Nx7p6LXc3d3hq975HBBf8=;
+ b=c2M3eULR4SrHEtadMH4w/oKeDoXpeGqfj8oQlSa03jFY7D95X1+aY1KEvQg7LwT8PUHrMt
+ Ol44dyYQDgwhswErbn7izCNmqSg3OhD8ZtxbXS/gscBVDefX8P3VglApc90+MvrVnUkS8d
+ 6eBnY2VDXJlCw19yaTZixy94QcSAHno=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-217-K-Wp2r2tNP6iRUOaAUI7cQ-1; Mon, 02 Jan 2023 14:13:19 -0500
-X-MC-Unique: K-Wp2r2tNP6iRUOaAUI7cQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- p34-20020a05600c1da200b003d990064285so9755221wms.8
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Jan 2023 11:13:18 -0800 (PST)
+ us-mta-495-9L93zUMuNBeB21iFykTg_Q-1; Mon, 02 Jan 2023 15:25:49 -0500
+X-MC-Unique: 9L93zUMuNBeB21iFykTg_Q-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ n13-20020adfc60d000000b0029bdfcf52eeso311884wrg.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Jan 2023 12:25:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rS6IkM26a9yODRpF7B+x34s+L3GGgZHwy27uItfaRms=;
- b=x0b1tdiq483KVfjf/yTnBml44wjg/XaGijozm8mDpe4v1Bf7mPBCLpy3Y2lNK+G+OA
- qLXQ19okTflEY1ObBVMJcgyFEOoJtd1ftMnzmT0Glgs9w38B+sadlAK4A5kgp8NKVRKV
- a9PcAMeUHOZpKSLqwtEfKRKVJ+LgEGzTdH3alNkGLHwoBneUGErB0X3DaNpGcA/plPXS
- qVd2m/ply0u0v2/njDF5eLQNS1t6k4GUtYT2m9DmkpauC6w2/SQKgbDJtaVsea94J3+V
- LuKN0SCE1pKhx2CGzalessvCy8E3hO7cCM9ds+TVnAmRFnYqM1ymjXe6jdL2RxBEb4J2
- 0UWA==
-X-Gm-Message-State: AFqh2koD9fwT+j895bEMWUw2JAponpbTtnj2o6wkz2a2imTp5rsdVApg
- L8XDGJjZoifBz+aeOBel9bMiaQqeADtht6i6trS3vVmxhxKMWUAYD9r5SNsVVgdpBcuFVXWLkCi
- TWL5ZxUA1Umx9U6aC/NjGryGB25tE
-X-Received: by 2002:adf:f00c:0:b0:242:63e5:fdaa with SMTP id
- j12-20020adff00c000000b0024263e5fdaamr23459084wro.62.1672686798041; 
- Mon, 02 Jan 2023 11:13:18 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXt9wGF7fw14CLhRRj6sqQE3EQYPOSo+EpyWbo8tgMFVfQRNnX3BMShvwWiSB7JImfYWjXddSw==
-X-Received: by 2002:adf:f00c:0:b0:242:63e5:fdaa with SMTP id
- j12-20020adff00c000000b0024263e5fdaamr23459073wro.62.1672686797810; 
- Mon, 02 Jan 2023 11:13:17 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xCNMgkWa09fEzea1HqZoR7Nx7p6LXc3d3hq975HBBf8=;
+ b=bjjiiGKUEuMiWxZfKT/ASeNW+jBAtVTb7ibuYeoi2kE/oa9aWjhRWk2ysI+l4uWLVJ
+ 3Dzp7tYE/nc6iQUccUa67kTO+neVqEwt3FW+dny83KQo5pp/keLiuEiDrsZfgFYGA9dA
+ EL7txz15zJmW0cOoBRxtRo3BzzyUSYyEqO2EyP9WxD75BNPr/LShfBwWm+HN6QTtgWev
+ 3TvnvEcWU3PqDCCzC6RX/BBctlPSN/5rD726IIWDjZ0I6L+Rhlx6LTmLxfq8B8WVnMXv
+ oFujapDVijTYf8Zn1m5l9ckMs7ZgRcfYQ6bJWapdsJeks57+cxb1cDARodiA80s6IMv/
+ wkOQ==
+X-Gm-Message-State: AFqh2kpwzfpQXZ/54XkENOCTu5PvDomt1deZyu+3mZC5FGGDJ3gzUY8y
+ qySTdMT0aqUlGPMxzXde/vs+pPFeeS+boydqe2yrMzMXRHiwBea4vpk49chEo8CseAimPPjjfkU
+ JWZKv0iwP294OP5VSkkpzbxh+83Oi
+X-Received: by 2002:a05:600c:1c85:b0:3d3:4b18:27c6 with SMTP id
+ k5-20020a05600c1c8500b003d34b1827c6mr29159456wms.11.1672691148001; 
+ Mon, 02 Jan 2023 12:25:48 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXucLyQjV1JdUh/Oxhsrc63ax4d9VZwsRvpyJNghr8LaaYhJT1s03Mg1ltldjdSwypzvI/Jtqw==
+X-Received: by 2002:a05:600c:1c85:b0:3d3:4b18:27c6 with SMTP id
+ k5-20020a05600c1c8500b003d34b1827c6mr29159442wms.11.1672691147819; 
+ Mon, 02 Jan 2023 12:25:47 -0800 (PST)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- u17-20020adfeb51000000b0026e94493858sm29025917wrn.106.2023.01.02.11.13.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Jan 2023 11:13:17 -0800 (PST)
-Message-ID: <e7b9e76e-8f34-75c8-2136-095bd42a0bf8@redhat.com>
-Date: Mon, 2 Jan 2023 20:13:16 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 00/14] drm/panel: Make panel drivers use existing DSI
- write macros
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20221228014757.3170486-1-javierm@redhat.com>
- <Y7Mp1diWRWgiHsw0@ravnborg.org>
+ f18-20020a05600c4e9200b003d35c845cbbsm50061135wmq.21.2023.01.02.12.25.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Jan 2023 12:25:47 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <Y7Mp1diWRWgiHsw0@ravnborg.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/2] drm/mipi-dsi: Fix mipi_dsi_dcs_write_seq() macro
+ definition format
+Date: Mon,  2 Jan 2023 21:25:41 +0100
+Message-Id: <20230102202542.3494677-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,59 +81,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>, Purism Kernel Team <kernel@puri.sm>,
- =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Nick Desaulniers <ndesaulniers@google.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ llvm@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>,
+ Nathan Chancellor <nathan@kernel.org>, dri-devel@lists.freedesktop.org,
+ Tom Rix <trix@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/2/23 20:00, Sam Ravnborg wrote:
-> Hi Javier.
-> 
-> On Wed, Dec 28, 2022 at 02:47:43AM +0100, Javier Martinez Canillas wrote:
->> Hello,
->>
->> This series contains cleanups for DRM panel drivers that define their own
->> DSI write macros instead of using what's already in <drm/drm_mipi_dsi.h>.
->>
->> The changes are quite trivial but I've only tested this with allmodconfig
->> and `make M=drivers/gpu/drm/panel/` so please review and testing would be
->> highly appreciated.
-> 
-> Nice cleanup - I like it.
+Change made using a `clang-format -i include/drm/drm_mipi_dsi.h` command.
 
-Thanks.
+Suggested-by: Sam Ravnborg <sam@ravnborg.org>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
-> In most of the patches there is some trivial indent that should be
-> fixed, I think I noted it everywhere.
->
+Changes in v2:
+- New patch in v2.
 
-Yup, I just used sed -i to modify in-place but the new macro _seq suffix
-caused the wrong indent everywhere. I'll fix them in v2.
+ include/drm/drm_mipi_dsi.h | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
+
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index 20b21b577dea..e9d1e8a7fc7e 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -303,15 +303,18 @@ int mipi_dsi_dcs_get_display_brightness(struct mipi_dsi_device *dsi,
+  * @cmd: Command
+  * @seq: buffer containing data to be transmitted
+  */
+-#define mipi_dsi_dcs_write_seq(dsi, cmd, seq...) do {				\
+-		static const u8 d[] = { cmd, seq };				\
+-		struct device *dev = &dsi->dev;	\
+-		int ret;						\
+-		ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));	\
+-		if (ret < 0) {						\
+-			dev_err_ratelimited(dev, "sending command %#02x failed: %d\n", cmd, ret); \
+-			return ret;						\
+-		}						\
++#define mipi_dsi_dcs_write_seq(dsi, cmd, seq...)                           \
++	do {                                                               \
++		static const u8 d[] = { cmd, seq };                        \
++		struct device *dev = &dsi->dev;                            \
++		int ret;                                                   \
++		ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));    \
++		if (ret < 0) {                                             \
++			dev_err_ratelimited(                               \
++				dev, "sending command %#02x failed: %d\n", \
++				cmd, ret);                                 \
++			return ret;                                        \
++		}                                                          \
+ 	} while (0)
  
-> Sorry - but no testing.
->
-
-No worries, I also just build tested the drivers since I lack the HW but
-the changes are pretty trivial so I expect no functional changes.
- 
-> The last patch is buggy - see the comment.
-
-Indeed. Thanks for pointing that out! I completely missed that the macro
-was different than the others.
-
-> I suggest to land patch 1 now (with the fix), this makes it easier for
-> others to test on top of drm-misc-next.
->
-
-Agreed. I'll just post that one as a v2 and then the rest as a separate
-series after pushing that to drm-misc-next.
-
+ /**
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.38.1
 
