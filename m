@@ -1,39 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F004665C05F
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 14:01:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E04FD65C062
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 14:02:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F214A89083;
-	Tue,  3 Jan 2023 13:01:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61D4210E25B;
+	Tue,  3 Jan 2023 13:02:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9E1ED89083
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 13:01:14 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6C8471516;
- Tue,  3 Jan 2023 05:01:55 -0800 (PST)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6E6EC3F587;
- Tue,  3 Jan 2023 05:01:11 -0800 (PST)
-Message-ID: <7897d4a6-bf43-becd-3437-7a254f38f6be@arm.com>
-Date: Tue, 3 Jan 2023 13:01:07 +0000
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EF1110E1F4;
+ Tue,  3 Jan 2023 13:02:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1672750965; x=1704286965;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=PK+oUJ6eGND3B16m76PznzI5xpweZ5qE8FXd8hl4Lsc=;
+ b=Niqii+jJfgtmzl409HXy4UU4UlLs2980vtt34wFWvPLs2+/pSRgew+kG
+ eG/7ZH3YR8CzAwy0b2S5ghgYpFgTB4RpvFtnx80Vorl5G4Wa//UhkOInV
+ Z8PvJCc+UmsDhDQhvwDIqqzgGy59y9gT4Jya6AtUZ0pzg2i5d0cFko5EO
+ gVhmgZ74ZPjqxqASHsD/aVysClsx8Orefafn3hxdOE583VXQgfJazVHVl
+ ynYcGEpuZt40IUtm03Ctu8ZQnKp9e05gdKsEHoEN/pZzHCtAsNrAhJey0
+ LqymFsjnugWkk3GVGnOGKbRQNSE96Tl4jpC1VNmbTRBiYFyXYKKHlY9ey g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="322886001"
+X-IronPort-AV: E=Sophos;i="5.96,297,1665471600"; d="scan'208";a="322886001"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2023 05:02:44 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="648199269"
+X-IronPort-AV: E=Sophos;i="5.96,297,1665471600"; d="scan'208";a="648199269"
+Received: from adorney-mobl.ger.corp.intel.com (HELO [10.213.222.30])
+ ([10.213.222.30])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2023 05:02:17 -0800
+Message-ID: <7d6df13c-6c2e-d713-edc8-128d6e19f187@linux.intel.com>
+Date: Tue, 3 Jan 2023 13:02:15 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 2/3] iommu/sound: Use component_match_add_of helper
-To: Sean Anderson <sean.anderson@seco.com>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-References: <20221222233759.1934852-1-sean.anderson@seco.com>
- <20221222233759.1934852-3-sean.anderson@seco.com>
-Content-Language: en-GB
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20221222233759.1934852-3-sean.anderson@seco.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [Intel-gfx] [RFC PATCH 04/20] drm/sched: Convert drm scheduler to
+ use a work queue rather than kthread
+Content-Language: en-US
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20221222222127.34560-1-matthew.brost@intel.com>
+ <20221222222127.34560-5-matthew.brost@intel.com>
+ <20221230112042.2ddd1946@collabora.com>
+ <20221230125508.57af8a14@collabora.com>
+ <20230102083019.24b99647@collabora.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20230102083019.24b99647@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,92 +67,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, Joerg Roedel <joro@8bytes.org>,
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
- linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
- Mark Brown <broonie@kernel.org>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sean,
 
-On 22/12/2022 11:37 pm, Sean Anderson wrote:
-> Convert users of component_match_add_release with component_release_of
-> and component_compare_of to component_match_add_of.
+On 02/01/2023 07:30, Boris Brezillon wrote:
+> On Fri, 30 Dec 2022 12:55:08 +0100
+> Boris Brezillon <boris.brezillon@collabora.com> wrote:
 > 
-> Signed-off-by: Sean Anderson <sean.anderson@seco.com>
-> Acked-by: Mark Brown <broonie@kernel.org>
-> ---
+>> On Fri, 30 Dec 2022 11:20:42 +0100
+>> Boris Brezillon <boris.brezillon@collabora.com> wrote:
+>>
+>>> Hello Matthew,
+>>>
+>>> On Thu, 22 Dec 2022 14:21:11 -0800
+>>> Matthew Brost <matthew.brost@intel.com> wrote:
+>>>    
+>>>> In XE, the new Intel GPU driver, a choice has made to have a 1 to 1
+>>>> mapping between a drm_gpu_scheduler and drm_sched_entity. At first this
+>>>> seems a bit odd but let us explain the reasoning below.
+>>>>
+>>>> 1. In XE the submission order from multiple drm_sched_entity is not
+>>>> guaranteed to be the same completion even if targeting the same hardware
+>>>> engine. This is because in XE we have a firmware scheduler, the GuC,
+>>>> which allowed to reorder, timeslice, and preempt submissions. If a using
+>>>> shared drm_gpu_scheduler across multiple drm_sched_entity, the TDR falls
+>>>> apart as the TDR expects submission order == completion order. Using a
+>>>> dedicated drm_gpu_scheduler per drm_sched_entity solve this problem.
+>>>
+>>> Oh, that's interesting. I've been trying to solve the same sort of
+>>> issues to support Arm's new Mali GPU which is relying on a FW-assisted
+>>> scheduling scheme (you give the FW N streams to execute, and it does
+>>> the scheduling between those N command streams, the kernel driver
+>>> does timeslice scheduling to update the command streams passed to the
+>>> FW). I must admit I gave up on using drm_sched at some point, mostly
+>>> because the integration with drm_sched was painful, but also because I
+>>> felt trying to bend drm_sched to make it interact with a
+>>> timeslice-oriented scheduling model wasn't really future proof. Giving
+>>> drm_sched_entity exlusive access to a drm_gpu_scheduler probably might
+>>> help for a few things (didn't think it through yet), but I feel it's
+>>> coming short on other aspects we have to deal with on Arm GPUs.
+>>
+>> Ok, so I just had a quick look at the Xe driver and how it
+>> instantiates the drm_sched_entity and drm_gpu_scheduler, and I think I
+>> have a better understanding of how you get away with using drm_sched
+>> while still controlling how scheduling is really done. Here
+>> drm_gpu_scheduler is just a dummy abstract that let's you use the
+>> drm_sched job queuing/dep/tracking mechanism. The whole run-queue
+>> selection is dumb because there's only one entity ever bound to the
+>> scheduler (the one that's part of the xe_guc_engine object which also
+>> contains the drm_gpu_scheduler instance). I guess the main issue we'd
+>> have on Arm is the fact that the stream doesn't necessarily get
+>> scheduled when ->run_job() is called, it can be placed in the runnable
+>> queue and be picked later by the kernel-side scheduler when a FW slot
+>> gets released. That can probably be sorted out by manually disabling the
+>> job timer and re-enabling it when the stream gets picked by the
+>> scheduler. But my main concern remains, we're basically abusing
+>> drm_sched here.
+>>
+>> For the Arm driver, that means turning the following sequence
+>>
+>> 1. wait for job deps
+>> 2. queue job to ringbuf and push the stream to the runnable
+>>     queue (if it wasn't queued already). Wakeup the timeslice scheduler
+>>     to re-evaluate (if the stream is not on a FW slot already)
+>> 3. stream gets picked by the timeslice scheduler and sent to the FW for
+>>     execution
+>>
+>> into
+>>
+>> 1. queue job to entity which takes care of waiting for job deps for
+>>     us
+>> 2. schedule a drm_sched_main iteration
+>> 3. the only available entity is picked, and the first job from this
+>>     entity is dequeued. ->run_job() is called: the job is queued to the
+>>     ringbuf and the stream is pushed to the runnable queue (if it wasn't
+>>     queued already). Wakeup the timeslice scheduler to re-evaluate (if
+>>     the stream is not on a FW slot already)
+>> 4. stream gets picked by the timeslice scheduler and sent to the FW for
+>>     execution
+>>
+>> That's one extra step we don't really need. To sum-up, yes, all the
+>> job/entity tracking might be interesting to share/re-use, but I wonder
+>> if we couldn't have that without pulling out the scheduling part of
+>> drm_sched, or maybe I'm missing something, and there's something in
+>> drm_gpu_scheduler you really need.
 > 
-> Changes in v2:
-> - Split off from helper addition
-> 
->   drivers/iommu/mtk_iommu.c    | 3 +--
->   drivers/iommu/mtk_iommu_v1.c | 3 +--
->   sound/soc/codecs/wcd938x.c   | 6 ++----
->   3 files changed, 4 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-> index 2ab2ecfe01f8..483b7a9e4410 100644
-> --- a/drivers/iommu/mtk_iommu.c
-> +++ b/drivers/iommu/mtk_iommu.c
-> @@ -1079,8 +1079,7 @@ static int mtk_iommu_mm_dts_parse(struct device *dev, struct component_match **m
->   		}
->   		data->larb_imu[id].dev = &plarbdev->dev;
->   
-> -		component_match_add_release(dev, match, component_release_of,
-> -					    component_compare_of, larbnode);
-> +		component_match_add_of(dev, match, larbnode);
+> On second thought, that's probably an acceptable overhead (not even
+> sure the extra step I was mentioning exists in practice, because dep
+> fence signaled state is checked as part of the drm_sched_main
+> iteration, so that's basically replacing the worker I schedule to
+> check job deps), and I like the idea of being able to re-use drm_sched
+> dep-tracking without resorting to invasive changes to the existing
+> logic, so I'll probably give it a try.
 
-I've long since given up trying to make sense of how the DRM tree works, 
-but the conflicting change is definitely already in mainline:
+I agree with the concerns and think that how Xe proposes to integrate 
+with drm_sched is a problem, or at least significantly inelegant.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=b5765a1b44bea9dfcae69c53ffeb4c689d0922a7
+AFAICT it proposes to have 1:1 between *userspace* created contexts (per 
+context _and_ engine) and drm_sched. I am not sure avoiding invasive 
+changes to the shared code is in the spirit of the overall idea and 
+instead opportunity should be used to look at way to refactor/improve 
+drm_sched.
 
-Thanks,
-Robin.
+Even on the low level, the idea to replace drm_sched threads with 
+workers has a few problems.
 
->   	}
->   
->   	/* Get smi-(sub)-common dev from the last larb. */
-> diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
-> index 6e0e65831eb7..fb09ed6bf550 100644
-> --- a/drivers/iommu/mtk_iommu_v1.c
-> +++ b/drivers/iommu/mtk_iommu_v1.c
-> @@ -672,8 +672,7 @@ static int mtk_iommu_v1_probe(struct platform_device *pdev)
->   		}
->   		data->larb_imu[i].dev = &plarbdev->dev;
->   
-> -		component_match_add_release(dev, &match, component_release_of,
-> -					    component_compare_of, larbnode);
-> +		component_match_add_of(dev, &match, larbnode);
->   	}
->   
->   	platform_set_drvdata(pdev, data);
-> diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
-> index aca06a4026f3..2f8444e54083 100644
-> --- a/sound/soc/codecs/wcd938x.c
-> +++ b/sound/soc/codecs/wcd938x.c
-> @@ -4474,8 +4474,7 @@ static int wcd938x_add_slave_components(struct wcd938x_priv *wcd938x,
->   	}
->   
->   	of_node_get(wcd938x->rxnode);
-> -	component_match_add_release(dev, matchptr, component_release_of,
-> -				    component_compare_of, wcd938x->rxnode);
-> +	component_match_add_of(dev, matchptr, wcd938x->rxnode);
->   
->   	wcd938x->txnode = of_parse_phandle(np, "qcom,tx-device", 0);
->   	if (!wcd938x->txnode) {
-> @@ -4483,8 +4482,7 @@ static int wcd938x_add_slave_components(struct wcd938x_priv *wcd938x,
->   		return -ENODEV;
->   	}
->   	of_node_get(wcd938x->txnode);
-> -	component_match_add_release(dev, matchptr, component_release_of,
-> -				    component_compare_of, wcd938x->txnode);
-> +	component_match_add_of(dev, matchptr, wcd938x->txnode);
->   	return 0;
->   }
->   
+To start with, the pattern of:
+
+   while (not_stopped) {
+	keep picking jobs
+   }
+
+Feels fundamentally in disagreement with workers (while obviously fits 
+perfectly with the current kthread design).
+
+Secondly, it probably demands separate workers (not optional), otherwise 
+behaviour of shared workqueues has either the potential to explode 
+number kernel threads anyway, or add latency.
+
+What would be interesting to learn is whether the option of refactoring 
+drm_sched to deal with out of order completion was considered and what 
+were the conclusions.
+
+Second option perhaps to split out the drm_sched code into parts which 
+would lend themselves more to "pick and choose" of its functionalities. 
+Specifically, Xe wants frontend dependency tracking, but not any 
+scheduling really (neither least busy drm_sched, neither FIFO/RQ entity 
+picking), so even having all these data structures in memory is a waste.
+
+With the first option then the end result could be drm_sched per engine 
+class (hardware view), which I think fits with the GuC model. Give all 
+schedulable contexts (entities) to the GuC and then mostly forget about 
+them. Timeslicing and re-ordering and all happens transparently to the 
+kernel from that point until completion.
+
+Or with the second option you would build on some smaller refactored 
+sub-components of drm_sched, by maybe splitting the dependency tracking 
+from scheduling (RR/FIFO entity picking code).
+
+Second option is especially a bit vague and I haven't thought about the 
+required mechanics, but it just appeared too obvious the proposed design 
+has a bit too much impedance mismatch.
+
+Oh and as a side note, when I went into the drm_sched code base to 
+remind myself how things worked, it is quite easy to find some FIXME 
+comments which suggest people working on it are unsure of locking desing 
+there and such. So perhaps that all needs cleanup too, I mean would 
+benefit from refactoring/improving work as brainstormed above anyway.
+
+Regards,
+
+Tvrtko
