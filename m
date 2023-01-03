@@ -1,66 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4797865C145
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 14:55:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7622665C14E
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 14:56:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35C8210E3CE;
-	Tue,  3 Jan 2023 13:54:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1844010E3D9;
+	Tue,  3 Jan 2023 13:56:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E26D10E3CF;
- Tue,  3 Jan 2023 13:54:53 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 281A910E260;
+ Tue,  3 Jan 2023 13:56:53 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id BD6DF3E904;
- Tue,  3 Jan 2023 13:54:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1672754091; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lPjJ65LXLSP5211IEL4Pol3CqU430+xRcc/7OVK2aG8=;
- b=zOUbHmOJlDlsryeOjHKtFYQM9HIWsmYVu0mAWhci9ERLDdF3OeUiSCru0JdO4z32SCL4oJ
- z/BbTh7J20YuzT1D/rh8GIl06dOQybJbthpt6mVgKFtmtuxYBkmDL6zXOCoqqgSjdQnqZ3
- WZWD+ej78TLbiMh9JLLxIdjilR7skds=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1672754091;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lPjJ65LXLSP5211IEL4Pol3CqU430+xRcc/7OVK2aG8=;
- b=PsVNrqGLsyiKHDBNQfPQUxbfu85wANuMx69vJSS1n36XOKgiUoIhrc+1zD1Y4lhZDsBmTa
- tazSzMFNHS8RzwAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6E3181390C;
- Tue,  3 Jan 2023 13:54:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id e8tCGasztGPjNQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 03 Jan 2023 13:54:51 +0000
-Message-ID: <e92e498a-2da3-7bb8-5d79-f78c650e3a02@suse.de>
-Date: Tue, 3 Jan 2023 14:54:50 +0100
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 82CBB6600359;
+ Tue,  3 Jan 2023 13:56:51 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1672754211;
+ bh=kdTJCjiczAjPRVV9Q7vA/IaroWz+4ZC1jx5GxLoSlj0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=mbD1Hs3UWbDSG6uL0fjYrRCqOu5SWTMk9WvQgQFzknMJ4ynxSV8vPvTHbPV99Sr17
+ sjLJ3MfZaXTAp99DKbAsO+GT8Wkv8eAB0nKjiO84M5Ei/y8E4D5ZiRe36TrgKtjZqZ
+ CjDvoo5OVcNU+gPjlz9BKaaAIGIKo6cBSdyY8qFbMchA6N7UfD9iEyZYirNfOAha0F
+ XqpRnlaN9ec3O3NRUtNqCQArJQmkmoYYo+DgFrKaAQOofHIn9i2arpGUBjP1QUuKYO
+ 5V+Pasas6nuDESAnsmtdhxdVUHCtjeX0Vx3wJmHBu65J0FK9Q3QG1Y6Rd4p5mynxYX
+ jNaXiW1wUunEg==
+Date: Tue, 3 Jan 2023 14:56:48 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [RFC PATCH 00/20] Initial Xe driver submission
+Message-ID: <20230103145648.24947c06@collabora.com>
+In-Reply-To: <87cz7xyxft.fsf@intel.com>
+References: <20221222222127.34560-1-matthew.brost@intel.com>
+ <8c0a1792-c2bd-375f-fa56-747e34b085f4@suse.de>
+ <87cz7xyxft.fsf@intel.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 09/18] vfio-mdev/mdpy-fb: Do not set struct
- fb_info.apertures
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
- airlied@gmail.com, deller@gmx.de
-References: <20221219160516.23436-1-tzimmermann@suse.de>
- <20221219160516.23436-10-tzimmermann@suse.de>
- <12990f75-6b72-7ed7-0593-1c542d71f0f0@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <12990f75-6b72-7ed7-0593-1c542d71f0f0@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------x40lYiYs0eNp1acnmwtMEKvD"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,89 +55,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Kirti Wankhede <kwankhede@nvidia.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------x40lYiYs0eNp1acnmwtMEKvD
-Content-Type: multipart/mixed; boundary="------------UdOWonX0FCjJ3gZ430ygyHXY";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
- airlied@gmail.com, deller@gmx.de
-Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Kirti Wankhede <kwankhede@nvidia.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
-Message-ID: <e92e498a-2da3-7bb8-5d79-f78c650e3a02@suse.de>
-Subject: Re: [PATCH 09/18] vfio-mdev/mdpy-fb: Do not set struct
- fb_info.apertures
-References: <20221219160516.23436-1-tzimmermann@suse.de>
- <20221219160516.23436-10-tzimmermann@suse.de>
- <12990f75-6b72-7ed7-0593-1c542d71f0f0@redhat.com>
-In-Reply-To: <12990f75-6b72-7ed7-0593-1c542d71f0f0@redhat.com>
+Hi,
 
---------------UdOWonX0FCjJ3gZ430ygyHXY
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Mon, 02 Jan 2023 13:42:46 +0200
+Jani Nikula <jani.nikula@linux.intel.com> wrote:
 
-DQoNCkFtIDIwLjEyLjIyIHVtIDEwOjMyIHNjaHJpZWIgSmF2aWVyIE1hcnRpbmV6IENhbmls
-bGFzOg0KPiBbYWRkaW5nIEtpcnRpIFdhbmtoZWRlIGFuZCBrdm1Admdlci5rZXJuZWwub3Jn
-IHRvIENjIGxpc3RdDQo+IA0KPiBPbiAxMi8xOS8yMiAxNzowNSwgVGhvbWFzIFppbW1lcm1h
-bm4gd3JvdGU6DQo+PiBHZW5lcmljIGZiZGV2IGRyaXZlcnMgdXNlIHRoZSBhcGVydHVyZXMg
-ZmllbGQgaW4gc3RydWN0IGZiX2luZm8gdG8NCj4+IGNvbnRyb2wgb3duZXJzaGlwIG9mIHRo
-ZSBmcmFtZWJ1ZmZlciBtZW1vcnkgYW5kIGdyYXBoaWNzIGRldmljZS4gRG8NCj4+IG5vdCBz
-ZXQgdGhlIHZhbHVlcyBpbiBtZHB5LWZiLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRob21h
-cyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4gLS0tDQo+PiAgIHNhbXBs
-ZXMvdmZpby1tZGV2L21kcHktZmIuYyB8IDggLS0tLS0tLS0NCj4+ICAgMSBmaWxlIGNoYW5n
-ZWQsIDggZGVsZXRpb25zKC0pDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL3NhbXBsZXMvdmZpby1t
-ZGV2L21kcHktZmIuYyBiL3NhbXBsZXMvdmZpby1tZGV2L21kcHktZmIuYw0KPj4gaW5kZXgg
-OWVjOTNkOTBlOGE1Li4xZGU1ODAxY2QyZTggMTAwNjQ0DQo+PiAtLS0gYS9zYW1wbGVzL3Zm
-aW8tbWRldi9tZHB5LWZiLmMNCj4+ICsrKyBiL3NhbXBsZXMvdmZpby1tZGV2L21kcHktZmIu
-Yw0KPj4gQEAgLTE2MSwxNCArMTYxLDYgQEAgc3RhdGljIGludCBtZHB5X2ZiX3Byb2JlKHN0
-cnVjdCBwY2lfZGV2ICpwZGV2LA0KPj4gICAJCWdvdG8gZXJyX3JlbGVhc2VfZmI7DQo+PiAg
-IAl9DQo+PiAgIA0KPj4gLQlpbmZvLT5hcGVydHVyZXMgPSBhbGxvY19hcGVydHVyZXMoMSk7
-DQo+PiAtCWlmICghaW5mby0+YXBlcnR1cmVzKSB7DQo+PiAtCQlyZXQgPSAtRU5PTUVNOw0K
-Pj4gLQkJZ290byBlcnJfdW5tYXA7DQo+PiAtCX0NCj4+IC0JaW5mby0+YXBlcnR1cmVzLT5y
-YW5nZXNbMF0uYmFzZSA9IGluZm8tPmZpeC5zbWVtX3N0YXJ0Ow0KPj4gLQlpbmZvLT5hcGVy
-dHVyZXMtPnJhbmdlc1swXS5zaXplID0gaW5mby0+Zml4LnNtZW1fbGVuOw0KPj4gLQ0KPj4g
-ICAJaW5mby0+ZmJvcHMgPSAmbWRweV9mYl9vcHM7DQo+PiAgIAlpbmZvLT5mbGFncyA9IEZC
-SU5GT19ERUZBVUxUOw0KPj4gICAJaW5mby0+cHNldWRvX3BhbGV0dGUgPSBwYXItPnBhbGV0
-dGU7DQo+IFJldmlld2VkLWJ5OiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgPGphdmllcm1A
-cmVkaGF0LmNvbT4NCj4gDQo+IEJ1dCBJIHRoaW5rIGFuIGFjayBmcm9tIEtpcnRpIFdhbmto
-ZWRlIG9yIG90aGVyIHZpcnQgZm9sayBpcyBuZWVkZWQgaWYgeW91DQo+IHdhbnQgdG8gbWVy
-Z2UgdGhpcyB0aHJvdWdoIGRybS1taXNjLW5leHQuDQoNCnBpbmcuIENvdWxkIEkgaGF2ZSBh
-IHJldmlldyBmcm9tIHRoZSB2ZmlvIGRldnMsIHBsZWFzZS4NCg0KQmVzdCByZWdhcmRzDQpU
-aG9tYXMNCg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVy
-IERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhm
-ZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7D
-vHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+> On Mon, 02 Jan 2023, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > Hi
+> >
+> > Am 22.12.22 um 23:21 schrieb Matthew Brost:  
+> >> Hello,
+> >> 
+> >> This is a submission for Xe, a new driver for Intel GPUs that supports both
+> >> integrated and discrete platforms starting with Tiger Lake (first platform with
+> >> Intel Xe Architecture). The intention of this new driver is to have a fresh base
+> >> to work from that is unencumbered by older platforms, whilst also taking the
+> >> opportunity to rearchitect our driver to increase sharing across the drm
+> >> subsystem, both leveraging and allowing us to contribute more towards other
+> >> shared components like TTM and drm/scheduler. The memory model is based on VM
+> >> bind which is similar to the i915 implementation. Likewise the execbuf
+> >> implementation for Xe is very similar to execbuf3 in the i915 [1].  
+> >
+> > After Xe has stabilized, will i915 loose the ability to drive this 
+> > hardware (and possibly other)?  I'm specfically thinking of the i915 
+> > code that requires TTM. Keeping that dependecy within Xe only might 
+> > benefit DRM as a whole.  
+> 
+> There's going to be a number of platforms supported by both drivers, and
+> from purely a i915 standpoint dropping any currently supported platforms
+> or that dependency from i915 would be a regression.
+> 
+> >> 
+> >> The code is at a stage where it is already functional and has experimental
+> >> support for multiple platforms starting from Tiger Lake, with initial support
+> >> implemented in Mesa (for Iris and Anv, our OpenGL and Vulkan drivers), as well
+> >> as in NEO (for OpenCL and Level0). A Mesa MR has been posted [2] and NEO
+> >> implementation will be released publicly early next year. We also have a suite
+> >> of IGTs for XE that will appear on the IGT list shortly.
+> >> 
+> >> It has been built with the assumption of supporting multiple architectures from
+> >> the get-go, right now with tests running both on X86 and ARM hosts. And we
+> >> intend to continue working on it and improving on it as part of the kernel
+> >> community upstream.
+> >> 
+> >> The new Xe driver leverages a lot from i915 and work on i915 continues as we
+> >> ready Xe for production throughout 2023.
+> >> 
+> >> As for display, the intent is to share the display code with the i915 driver so
+> >> that there is maximum reuse there. Currently this is being done by compiling the
+> >> display code twice, but alternatives to that are under consideration and we want
+> >> to have more discussion on what the best final solution will look like over the
+> >> next few months. Right now, work is ongoing in refactoring the display codebase
+> >> to remove as much as possible any unnecessary dependencies on i915 specific data
+> >> structures there..  
+> >
+> > Could both drivers reside in a common parent directory and share 
+> > something like a DRM Intel helper module with the common code? This 
+> > would fit well with the common design of DRM helpers.  
+> 
+> I think it's too early to tell.
+> 
+> For one thing, setting that up would be a lot of up front infrastructure
+> work. I'm not sure how to even pull that off when Xe is still
+> out-of-tree and i915 development plunges on upstream as ever.
+> 
+> For another, realistically, the overlap between supported platforms is
+> going to end at some point, and eventually new platforms are only going
+> to be supported with Xe. That's going to open up new possibilities for
+> refactoring also the display code. I think it would be premature to lock
+> in to a common directory structure or a common helper module at this
+> point.
+> 
+> I'm not saying no to the idea, and we've contemplated it before, but I
+> think there are still too many moving parts to decide to go that way.
 
---------------UdOWonX0FCjJ3gZ430ygyHXY--
+FWIW, I actually have the same dilemma with the driver for new Mali GPUs
+I'm working on. I initially started making it a sub-driver of the
+existing panfrost driver (some HW blocks are similar, like the
+IOMMU and a few other things, and some SW abstracts can be shared here
+and there, like the GEM allocator logic). But I'm now considering
+forking the driver (after Alyssa planted the seed :-)), not only
+because I want to start from a clean sheet on the the uAPI front
+(wouldn't be an issue in your case, because you're talking about
+sharing helpers, not the driver frontend), but also because any refactor
+to panfrost is a potential source of regression for existing users. So,
+I tend to agree with Jani here, trying to share code before things have
+settled down is likely to cause pain to both Xe and i915
+users+developers.
 
---------------x40lYiYs0eNp1acnmwtMEKvD
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Best Regards,
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmO0M6oFAwAAAAAACgkQlh/E3EQov+Cn
-FBAAj4qcPw5/JJZ1bFRUtXXnzawgXo97xQ5NWU07BD1q6MhOlEmGgSI0e0ruEuFs1afzHgUd/pfk
-TuBd1ZDPKC0EsW/zxI+Gjys7VgkUvk7cx28VNrryz7UAiRNWrhx9ndqBsjTxqIb9qj/wIH6BOq7D
-NOvElo4VriWEdNV6fMiyfK4bvOB3B//xIbRk1IqFtm0z3HzRfeorUPVLKGR68cyB2Ftae6vjjhqS
-XA2t3yGlgXPTn/uH/kfwLw7yCYFij9ncffE9fofWlGNAlB46j58y51sQb4nPbYs1KCyqvl9Iy80n
-nyQJ76JAli1LQhfgPpdZIb3YoE0UrIARKt2BZpfqjYUG2nH20Kd3Pz2Flp6DyfS8+Kg3nmt6z+yo
-ESsU4M+4GkwsuLNbe9cILXWfWegOk/gMEelue0CZSzMd10+WG3oZQn10/NcJ4QiBNQf55OYw+MmW
-J2SwrIBPguWsiz6QvN4Qgr8Vt9sjwWnp1LwHwDRr7O4LzwpPpUgD2vAn4jzpZoYxrf32EDC+VdJU
-Im8aCy8b9ywxm+TafzQ5fOA0raPTisgmqGEvvXWCKMSstSDqkPi+e8fgFcZipe0MNLoqWEfq7wYU
-zrx52evfoWuzqEYLyb8o+cwfqqepskD5TSjomZt2UKp87500MlSqmmuRbLazopKIG6TT0WTEc6fb
-w+k=
-=tbnT
------END PGP SIGNATURE-----
-
---------------x40lYiYs0eNp1acnmwtMEKvD--
+Boris
