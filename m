@@ -2,46 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4838665C760
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 20:21:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A81E665C79F
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 20:39:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3445010E4C5;
-	Tue,  3 Jan 2023 19:21:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17AB210E035;
+	Tue,  3 Jan 2023 19:39:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C67810E4C5
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 19:21:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=8bdehVCsLpkqmzb7Gpav1SRqSrQemS3WZLbt8ThYpxA=; b=BUTk4W2JVWhYgnxAOU7wMs72yK
- 39XS3W3x7LUyHuwWZXQrq8Ky74XvE6IudDE225nMt5LffjbAa0RI2mmY7b90pHEwzh1VZCDZJuvGW
- Ng4vgwOjEI/AzbvCwcwVRsmUrXnf7Q8xqgjHfMZM2cbyoabcsZNpyIuX8H7NbP2oBfsQhwJnHMwdL
- xkFSvWYCQE68MSo+upYl+lfPcjKf6QetOTk/LLYTLu7RZnwtiMS4rmFH03Uyp6KrW6UQC2rpgNJ+4
- D1I1knTf1eeWbTrBRrCW7RGSXqpWaN8WRCuMrKjYtwK7vplSRE7Dk7n/KB5FUO6/r86ALKJJq7aYW
- rUqevEzA==;
-Received: from [41.74.137.107] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pCmqU-00GPNn-Pa; Tue, 03 Jan 2023 20:21:10 +0100
-Date: Tue, 3 Jan 2023 18:20:56 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH] drm/v3d: replace open-coded implementation of
- drm_gem_object_lookup
-Message-ID: <20230103192044.ppgipr5irkydrt4s@mail.igalia.com>
-References: <20221227200010.191351-1-mcanal@igalia.com>
- <20221228143509.dsxjhstx54olxaek@mail.igalia.com>
+Received: from mailrelay3-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay3-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:402::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D673F10E035
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 19:38:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=OZHsxszE0Di6P4bQaZT8j5f4I8CSfN4qm7AkNZNCBEQ=;
+ b=JyYhKq5lK/Elag6ChHk/d+ILSz1NAqqgPmqZlLzl5+ChaG1mYDZ3y/RrCXaeeZtXOZdVe7K1A6/AX
+ RLmICT7mHYRdoE0+/WdLbfSXq2CzJECC4tKuJF4bf2Wb6FmJb5Hi2he3umxlIdkaHmdirQ/95W2I1J
+ f6ByhdN0rdlEC0/r5zADxwsSoSDrxhd+WkoUharVnp4fPa7XO4KM4vq4tc0v5tKF+AvBt2r9W2TQhw
+ rS5TGav3T7kglyqjRUhvmZSnO3xP2BBhSVmMDNSO0KcqJfh+AOvMjbcMsUMoOC+Rrd9cPBe7CqdXtT
+ s0tsW2QjdOqdrQ+kB2/IrJFnfWwIFMA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=OZHsxszE0Di6P4bQaZT8j5f4I8CSfN4qm7AkNZNCBEQ=;
+ b=/HywVFknhn/PW4+f44wQBtI1ObcaVmSZZZKdmhuo2TwuwhBsPcJdneDdtjVEoA43VDukAL11eal2P
+ Cj9GTMvAg==
+X-HalOne-ID: 406d26d9-8b9e-11ed-85ad-ede074c87fad
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay3 (Halon) with ESMTPSA
+ id 406d26d9-8b9e-11ed-85ad-ede074c87fad;
+ Tue, 03 Jan 2023 19:38:54 +0000 (UTC)
+Date: Tue, 3 Jan 2023 20:38:52 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Chris Morgan <macroalpha82@gmail.com>
+Subject: Re: [PATCH V7 1/4] drm: of: Add drm_of_get_dsi_bus helper function
+Message-ID: <Y7SETNoCGq7TUXrp@ravnborg.org>
+References: <20230103190707.104595-1-macroalpha82@gmail.com>
+ <20230103190707.104595-2-macroalpha82@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="yunqnuvhld3d7hva"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221228143509.dsxjhstx54olxaek@mail.igalia.com>
+In-Reply-To: <20230103190707.104595-2-macroalpha82@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,114 +57,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
- Emma Anholt <emma@anholt.net>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
+ krzysztof.kozlowski+dt@linaro.org, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, thierry.reding@gmail.com, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, maccraft123mc@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Chris.
 
---yunqnuvhld3d7hva
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7x7cueloyz7ynrv5"
-Content-Disposition: inline
+On Tue, Jan 03, 2023 at 01:07:04PM -0600, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
+> 
+> Add helper function to find DSI host for devices where DSI panel is not
+> a minor of a DSI bus (such as the Samsung AMS495QA01 panel or the
+> official Raspberry Pi touchscreen display).
+> 
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+>  drivers/gpu/drm/drm_of.c | 62 ++++++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_of.h     | 11 +++++++
+>  2 files changed, 73 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+> index 7bbcb999bb75..7d89ac164069 100644
+> --- a/drivers/gpu/drm/drm_of.c
+> +++ b/drivers/gpu/drm/drm_of.c
+> @@ -10,6 +10,7 @@
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_encoder.h>
+> +#include <drm/drm_mipi_dsi.h>
+>  #include <drm/drm_of.h>
+>  #include <drm/drm_panel.h>
+>  
+> @@ -493,3 +494,64 @@ int drm_of_get_data_lanes_count_ep(const struct device_node *port,
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(drm_of_get_data_lanes_count_ep);
+> +
+> +/**
+> + * drm_of_get_dsi_bus - find the DSI bus for a given device
+> + * @dev: parent device of display (SPI, I2C)
+> + * @dsi_host: DSI host to be populated
+> + * @info: DSI device info to be updated with correct DSI node
+> + *
+> + * Given a panel device parented to a non-DSI device, follow the
+> + * devicetree to find the correct DSI host node and populate the
+> + * dsi_host with the correct host and info with the correct node.
 
+I think you need and empty line before Returns ...
+This is what others does in the same file, so for consistency please add
+it.
 
---7x7cueloyz7ynrv5
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+With this detail fixed:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-On 12/28, Melissa Wen wrote:
-> On 12/27, Ma=EDra Canal wrote:
-> > As v3d_submit_tfu_ioctl() performs the same steps as drm_gem_object_loo=
-kup(),
-> > replace the open-code implementation in v3d with its DRM core equivalen=
-t.
-> >=20
-> > Signed-off-by: Ma=EDra Canal <mcanal@igalia.com>
-> > ---
-> >  drivers/gpu/drm/v3d/v3d_gem.c | 7 +------
-> >  1 file changed, 1 insertion(+), 6 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_ge=
-m.c
-> > index 6e152ef26358..5da1806f3969 100644
-> > --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> > +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> > @@ -861,7 +861,6 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *=
-data,
-> > =20
-> >  	job->args =3D *args;
-> > =20
-> > -	spin_lock(&file_priv->table_lock);
-> >  	for (job->base.bo_count =3D 0;
-> >  	     job->base.bo_count < ARRAY_SIZE(args->bo_handles);
-> >  	     job->base.bo_count++) {
-> > @@ -870,20 +869,16 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void=
- *data,
-> >  		if (!args->bo_handles[job->base.bo_count])
-> >  			break;
-> > =20
-> > -		bo =3D idr_find(&file_priv->object_idr,
-> > -			      args->bo_handles[job->base.bo_count]);
-> > +		bo =3D drm_gem_object_lookup(file_priv, args->bo_handles[job->base.b=
-o_count]);
-> >  		if (!bo) {
-> >  			DRM_DEBUG("Failed to look up GEM BO %d: %d\n",
-> >  				  job->base.bo_count,
-> >  				  args->bo_handles[job->base.bo_count]);
-> >  			ret =3D -ENOENT;
-> > -			spin_unlock(&file_priv->table_lock);
-> >  			goto fail;
-> >  		}
-> > -		drm_gem_object_get(bo);
-> >  		job->base.bo[job->base.bo_count] =3D bo;
-> >  	}
-> > -	spin_unlock(&file_priv->table_lock);
->=20
-> Hi Ma=EDra,
->=20
-> Thanks for you patch.
->=20
-> LGTM
->=20
-> Reviewed-by: Melissa Wen <mwen@igalia.com>
-
-Applied to drm-misc-next.
-
-Thanks,
-
-Melissa
->=20
-> > =20
-> >  	ret =3D v3d_lock_bo_reservations(&job->base, &acquire_ctx);
-> >  	if (ret)
-> > --=20
-> > 2.38.1
-> >=20
-
-
-
---7x7cueloyz7ynrv5--
-
---yunqnuvhld3d7hva
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmO0gBgACgkQwqF3j0dL
-ehyBKQ//UGD81cEUVFmpyMxW3cvSSC4LlTmg6skoLx+aax6at7mOHs9QvAvMYc5C
-riLs5e31c3ktzm0ZmVl9VIXEqyTtMjNV4sYo/wIC46A6TePpodw5JL1eWpA1H3Q+
-3dh8/WhejWmV8KDPQQbYov5KEmbSbmzdx6SnxXTUTM53nwv5QSZSr/s66sfZiw7V
-ukdqyEqWrh79T6H70khxjeqObNtQH30F3ORyL+H+lGXNmbnTG2JxWdccnscVKpdK
-bW17c+7GFHNv6pRSjriuJVPRYNbIotobYNuZ5ygpSH4SEQOkLQ7WtThs+v0kuifW
-PAamcOC4DEQT7ewVNa+9+yHF8QWLvyOoZwORm4XQUTeheIsB0TvBfUBn5YcimUGE
-v8MzCxZ7KfoRDVw/9E73EvvsoOvF3oHKJOKPxthge/HEJQkh9dMcaZtqc07Nf8KT
-G/H+00fHumSuDSP+Ex22jtJz3L+QuHpyPPUzMT/RWnM24TYWFzBVZdFKVBJtT9y4
-mY+pTFJU2h55LeFoA4irpEecd4eQTtNHzm9IrzTscL3IPoibBwqLKJRmRgizX9aV
-ue+wxZ++UTLoBOC2fhxYEAI4X4pMN9h1SfKgHBqsi6gQ7uNhb6ENLLhwts9PZbdO
-uM1to/J6H+8hoLaMAMxdhALxg4/T4HCCypd/5jISn6hrTp9pbh0=
-=iH1d
------END PGP SIGNATURE-----
-
---yunqnuvhld3d7hva--
+> + * Returns zero if successful, -EPROBE_DEFER if the DSI host is
+> + * found but not available, or -ENODEV otherwise.
+> + */
+> +int drm_of_get_dsi_bus(struct device *dev,
+> +			      struct mipi_dsi_host **dsi_host,
+> +			      struct mipi_dsi_device_info *info)
+> +{
+> +	struct device_node *endpoint, *dsi_host_node;
+> +
+> +	/*
+> +	 * Get first endpoint child from device.
+> +	 */
+> +	endpoint = of_graph_get_next_endpoint(dev->of_node, NULL);
+> +	if (!endpoint)
+> +		return -ENODEV;
+> +
+> +	/*
+> +	 * Follow the first endpoint to get the DSI host node.
+> +	 */
+> +	dsi_host_node = of_graph_get_remote_port_parent(endpoint);
+> +	if (!dsi_host_node)
+> +		goto error;
+> +
+> +	/*
+> +	 * Get the DSI host from the DSI host node. If we get an error
+> +	 * or the return is null assume we're not ready to probe just
+> +	 * yet. Release the DSI host node since we're done with it.
+> +	 */
+> +	*dsi_host = of_find_mipi_dsi_host_by_node(dsi_host_node);
+> +	of_node_put(dsi_host_node);
+> +	if (IS_ERR_OR_NULL(*dsi_host)) {
+> +		of_node_put(endpoint);
+> +		return -EPROBE_DEFER;
+> +	}
+> +
+> +	/*
+> +	 * Set the node of the mipi_dsi_device_info to the correct node
+> +	 * and then release the endpoint node since we're done with it.
+> +	 */
+> +	info->node = of_graph_get_remote_port(endpoint);
+> +	if (IS_ERR_OR_NULL(info->node))
+> +		goto error;
+> +
+> +	of_node_put(endpoint);
+> +	return 0;
+> +
+> +error:
+> +	of_node_put(endpoint);
+> +	return -ENODEV;
+> +}
+> +EXPORT_SYMBOL_GPL(drm_of_get_dsi_bus);
+> diff --git a/include/drm/drm_of.h b/include/drm/drm_of.h
+> index 10ab58c40746..e27061b02315 100644
+> --- a/include/drm/drm_of.h
+> +++ b/include/drm/drm_of.h
+> @@ -15,6 +15,8 @@ struct drm_encoder;
+>  struct drm_panel;
+>  struct drm_bridge;
+>  struct device_node;
+> +struct mipi_dsi_device_info;
+> +struct mipi_dsi_host;
+>  
+>  /**
+>   * enum drm_lvds_dual_link_pixels - Pixel order of an LVDS dual-link connection
+> @@ -56,6 +58,9 @@ int drm_of_get_data_lanes_count_ep(const struct device_node *port,
+>  				   int port_reg, int reg,
+>  				   const unsigned int min,
+>  				   const unsigned int max);
+> +int drm_of_get_dsi_bus(struct device *dev,
+> +		       struct mipi_dsi_host **dsi_host,
+> +		       struct mipi_dsi_device_info *info);
+>  #else
+>  static inline uint32_t drm_of_crtc_port_mask(struct drm_device *dev,
+>  					  struct device_node *port)
+> @@ -127,6 +132,12 @@ drm_of_get_data_lanes_count_ep(const struct device_node *port,
+>  {
+>  	return -EINVAL;
+>  }
+> +static int drm_of_get_dsi_bus(struct device *dev,
+> +			      struct mipi_dsi_host **dsi_host,
+> +			      struct mipi_dsi_device_info *info)
+> +{
+> +	return -EINVAL;
+> +}
+>  #endif
+>  
+>  /*
+> -- 
+> 2.34.1
