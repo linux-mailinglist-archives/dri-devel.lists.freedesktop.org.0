@@ -1,41 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EDB065BA9B
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 07:11:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28AB665BADB
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 07:46:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D79E10E0CB;
-	Tue,  3 Jan 2023 06:11:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00DF910E038;
+	Tue,  3 Jan 2023 06:46:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B19B010E038;
- Tue,  3 Jan 2023 06:11:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1672726250; bh=0QiT1nP/zMPKUUDkAaMQ9yUdD8F2H0QNgooG7N7zyYo=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
- MIME-Version:Content-Type:In-Reply-To;
- b=CGYs3/tiizCf+/L3lXkL0NWpc0RhDBAuqvsTgaTwyzT14WUXuzEuZoRfol0zCB+Qw
- 4exrqcEUM+8ZxNgVz0czUIghW6dOHz87DaS152oVZ5z4bfBDeUqkwegyJxivA7oefq
- CkWPg3CsS5yg+wqNqkjkLzZy4K9FKL3R7bh9gI8c=
-Received: by b-4.in.mailobj.net [192.168.90.14] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Tue,  3 Jan 2023 07:10:50 +0100 (CET)
-X-EA-Auth: CzIsRrexWLW7eUEvE38Rmurn8QV0CbPV93zNoPpkz0v0X1ipkUmOKjGxx7AZJk/AO0tNh0AGIiqB5iQKzPzEPAcyxOzDhIDX
-Date: Tue, 3 Jan 2023 11:40:44 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Nicolai Stange <nicstange@gmail.com>, Julia Lawall <Julia.Lawall@lip6.fr>
-Subject: Re: [PATCH] drm/i915/fbc: Avoid full proxy f_ops for FBC debug
- attributes
-Message-ID: <Y7PG5Hx5dDE7aHSx@qemulion>
-References: <Y6qmNW6cOHjGwn03@qemulion> <Y6sn1BmhFJFssW0h@intel.com>
- <Y6s0FSK9+F+/oKSf@qemulion> <Y6wl9NhYZG5RjJL7@intel.com>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83B6F10E038
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 06:46:47 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3036kHrS036766;
+ Tue, 3 Jan 2023 00:46:17 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1672728377;
+ bh=GjviG7byUxJQO3JTq97W9RSWN/t+Ue/18g//GetxcNs=;
+ h=From:To:CC:Subject:Date;
+ b=MlEsJlQW28ncTKGiacYeRQHBUGi5M7vNIJIo/32shZD8qHL2gnNgsUA+sZpw9HbJu
+ Wm45kD9SgsBzcxpMF+zL/cmYcIVArF+n+LbSAYQWNW0whH0tTehWT30G85MJMB/h4t
+ Q81CtfSC3AQFmcg0jtl86ihlyeh2W7h+Xlk5LuXU=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3036kG9g042359
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 3 Jan 2023 00:46:16 -0600
+Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Tue, 3
+ Jan 2023 00:46:16 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Tue, 3 Jan 2023 00:46:16 -0600
+Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3036kFhp075217;
+ Tue, 3 Jan 2023 00:46:16 -0600
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>,
+ Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+ <aou@eecs.berkeley.edu>, Matthias Brugger <matthias.bgg@gmail.com>, Guo Ren
+ <guoren@kernel.org>
+Subject: [RFC PATCH 0/4] dt-bindings: Introduce dual-link panels &
+ panel-vendors
+Date: Tue, 3 Jan 2023 12:16:11 +0530
+Message-ID: <20230103064615.5311-1-a-bhatia1@ti.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y6wl9NhYZG5RjJL7@intel.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,153 +71,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Saurabh Singh Sengar <ssengar@microsoft.com>,
- Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Deepak R Varma <drv@mailo.com>, dri-devel@lists.freedesktop.org
+Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
+ Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Aradhya Bhatia <a-bhatia1@ti.com>,
+ Linux Mediatek List <linux-mediatek@lists.infradead.org>,
+ Linux C-SKY Arch List <linux-csky@vger.kernel.org>,
+ Linux RISC-V List <linux-riscv@lists.infradead.org>,
+ Linux ARM Kernel List <linux-arm-kernel@lists.infradead.org>,
+ Rahul T R <r-ravikumar@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 28, 2022 at 06:18:12AM -0500, Rodrigo Vivi wrote:
-> On Tue, Dec 27, 2022 at 11:36:13PM +0530, Deepak R Varma wrote:
-> > On Tue, Dec 27, 2022 at 12:13:56PM -0500, Rodrigo Vivi wrote:
-> > > On Tue, Dec 27, 2022 at 01:30:53PM +0530, Deepak R Varma wrote:
-> > > > Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
-> > > > function adds the overhead of introducing a proxy file operation
-> > > > functions to wrap the original read/write inside file removal protection
-> > > > functions. This adds significant overhead in terms of introducing and
-> > > > managing the proxy factory file operations structure and function
-> > > > wrapping at runtime.
-> > > > As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
-> > > > with debugfs_create_file_unsafe() is suggested to be used instead.  The
-> > > > DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
-> > > > debugfs_file_put() wrappers to protect the original read and write
-> > > > function calls for the debug attributes. There is no need for any
-> > > > runtime proxy file operations to be managed by the debugfs core.
-> > > >
-> > > > This Change is reported by the debugfs_simple_attr.cocci Coccinelle
-> > > > semantic patch.
-> > >
-> > > I just checked here with
-> > > $ make coccicheck M=drivers/gpu/drm/i915/ MODE=context COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
-> >
-> > Hello Rodrigo,
-> > Thank you so much for your review and feedback on the patch proposal.
-> >
-> > >
-> > > The part reported by the this script is the s/SIMPLE/DEBUGFS
-> > > but the change to the unsafe option is not.
-> >
-> > If you look at the original commit of this coccinelle file, it calls out the
-> > need for pairing debugfs_create_file_unsafe() as well. Please review this
-> >
-> > commitID: 5103068eaca2: ("debugfs, coccinelle: check for obsolete DEFINE_SIMPLE_ATTRIBUTE() usage")
->
-> +Nicolai and Julia.
->
-> It looks like coccinelle got right the
-> - DEFINE_SIMPLE_ATTRIBUTE(dsa_fops, dsa_get, dsa_set, dsa_fmt);
-> + DEFINE_DEBUGFS_ATTRIBUTE(dsa_fops, dsa_get, dsa_set, dsa_fmt);
->
-> but it failed badly on
-> - debugfs_create_file(name, mode, parent, data, &dsa_fops)
-> + debugfs_create_file_unsafe(name, mode, parent, data, &dsa_fops)
->
-> >
-> > Based on my review of the code, the functions debugfs_create_file() and
-> > debugfs_create_file_unsafe(), both internally call __debugfs_create_file().
-> > However, they pass debugfs_full_proxy_file_operations and
-> > debugfs_open_proxy_file_operations respectively to it. The former represents the
-> > full proxy factory, where as the later one is lightweight open proxy
-> > implementation of the file operations structure.
-> >
-> > >
-> > > This commit message is not explaining why the unsafe is the suggested
-> > > or who suggested it.
-> >
-> > If you find the response above accurate, I will include these details about
-> > the _unsafe() function in my commit message in v2.
-> >
-> > >
-> > > If you remove the unsafe part feel free to resend adding:
-> >
-> > Please confirm you still believe switching to _unsafe() is not necessary.
->
-> Based on the coccinelle commit it looks like you are right, but cocinelle
-> just failed to detect the case. Let's see what Nicolai and Julia respond
-> before we move with any patch here.
+Hi all,
 
-Hello Nicolai and Julia,
-Can you please review this proposed patch and the feedback comments from Rodrigo
-please?
+Microtips Technology Solutions USA, and Lincoln Technology Solutions are
+2 display panel vendors, and the first 2 patches add their vendor
+prefixes.
 
-Thank you,
-./drv
+The fourth patch, simply introduces the new compatible for the generic
+dual-link panels in the panel-lvds driver. This new compatible is based
+from a new DT binding added in the third patch explained below.
 
->
-> >
-> > >
-> > > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > > (to both patches, this and the drrs one.
-> > >
-> > > Also, it looks like you could contribute with other 2 patches:
-> > > drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c:64:0-23: WARNING: pxp_terminate_fops should be defined with DEFINE_DEBUGFS_ATTRIBUTE
-> > > drivers/gpu/drm/i915/gvt/debugfs.c:150:0-23: WARNING: vgpu_scan_nonprivbb_fops should be defined with DEFINE_DEBUGFS_ATTRIBUTE
-> >
-> > Yes, these are on my list. Was waiting for a feedback on the first submission
-> > before I send more similar patches.
-> >
-> > Appreciate your time and the feedback.
-> >
-> >
-> > Regards,
-> > ./drv
-> >
-> > >
-> > > >
-> > > > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > > > ---
-> > > >  drivers/gpu/drm/i915/display/intel_fbc.c | 12 ++++++------
-> > > >  1 file changed, 6 insertions(+), 6 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
-> > > > index b5ee5ea0d010..4b481e2f908b 100644
-> > > > --- a/drivers/gpu/drm/i915/display/intel_fbc.c
-> > > > +++ b/drivers/gpu/drm/i915/display/intel_fbc.c
-> > > > @@ -1809,10 +1809,10 @@ static int intel_fbc_debugfs_false_color_set(void *data, u64 val)
-> > > >  	return 0;
-> > > >  }
-> > > >
-> > > > -DEFINE_SIMPLE_ATTRIBUTE(intel_fbc_debugfs_false_color_fops,
-> > > > -			intel_fbc_debugfs_false_color_get,
-> > > > -			intel_fbc_debugfs_false_color_set,
-> > > > -			"%llu\n");
-> > > > +DEFINE_DEBUGFS_ATTRIBUTE(intel_fbc_debugfs_false_color_fops,
-> > > > +			 intel_fbc_debugfs_false_color_get,
-> > > > +			 intel_fbc_debugfs_false_color_set,
-> > > > +			 "%llu\n");
-> > > >
-> > > >  static void intel_fbc_debugfs_add(struct intel_fbc *fbc,
-> > > >  				  struct dentry *parent)
-> > > > @@ -1821,8 +1821,8 @@ static void intel_fbc_debugfs_add(struct intel_fbc *fbc,
-> > > >  			    fbc, &intel_fbc_debugfs_status_fops);
-> > > >
-> > > >  	if (fbc->funcs->set_false_color)
-> > > > -		debugfs_create_file("i915_fbc_false_color", 0644, parent,
-> > > > -				    fbc, &intel_fbc_debugfs_false_color_fops);
-> > > > +		debugfs_create_file_unsafe("i915_fbc_false_color", 0644, parent,
-> > > > +					   fbc, &intel_fbc_debugfs_false_color_fops);
-> > > >  }
-> > > >
-> > > >  void intel_fbc_crtc_debugfs_add(struct intel_crtc *crtc)
-> > > > --
-> > > > 2.34.1
-> > > >
-> > > >
-> > > >
-> >
-> >
->
+The third patch introduces a dt-binding for generic dual-link LVDS
+panels. These panels do not have any documented constraints, except for
+their timing characteristics. Further, these panels have 2 pixel-sinks.
+In a dual-link connection between an LVDS encoder and the panel, one
+sink accepts the odd set of LVDS pixels and the other, the even set.
 
+A lot of this has been based from the Advantech,idk-2121wr dual-link
+panel[1] and Maxime's patches for generic LVDS panels[2] (which are
+single-link by default.) and the discussions that happened before they
+were finally merged.
+
+Below are some notes and points that I want to bring forward.
+
+  - The advantech,idk-2121wr panel binding uses 2 boolean properties
+    dual-link-odd/even-pixels, to signify which port sink is being used
+    for which set of LVDS pixels. I too have added similar support and
+    introduced constraints around those properties, so as to not break
+    the ABI... but I believe there is a better way to achieve this.
+
+    A "pixel-type" enum property could be introduced in their stead,
+    which can accept one of the 2 options <dual-lvds-odd-pixels> or
+    <dual-lvds-even-pixels>.
+
+    This method, in my opinion, is more accurate and cleaner to
+    implement in the bindings as well.
+
+    If this does sound a better I can push out a new revision where the
+    driver supports both these methods (to not break the ABI) and the
+    advantech,2121wr panel can remain as an exception.
+
+
+  - As an alternative to the previous point, if that method is not
+    preferred for some reason, the advantech,2121wtr panel binding
+    could then be merged in the panel-dual-lvds binding as part of
+    future work.
+
+
+  - Another tweak, I am looking forward to do as part of future work and
+    would like all your comments is to introduce driver-based
+    implementation of the panel timing parameters, like it is with
+    "panel-simple". The driver can then support both the panel-timing
+    sources (DT node or hard-coded driver structure) and the binding
+    can remove this from the "required" section.
+
+Thank you!
+
+[1]: https://patchwork.freedesktop.org/patch/357122/
+[2]: https://patchwork.freedesktop.org/patch/471228/
+
+Aradhya Bhatia (4):
+  dt-bindings: vendor-prefixes: Add microtips
+  dt-bindings: vendor-prefixes: Add lincolntech
+  dt-bindings: panel: Introduce dual-link LVDS panel
+  drm: panel-lvds: Introduce dual-link panels
+
+ .../display/panel/panel-dual-lvds.yaml        | 157 ++++++++++++++++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   4 +
+ MAINTAINERS                                   |   1 +
+ drivers/gpu/drm/panel/panel-lvds.c            |   1 +
+ 4 files changed, 163 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
+
+-- 
+2.39.0
 
