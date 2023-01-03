@@ -1,59 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D62BB65C822
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 21:36:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B9F465C8CE
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 22:18:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D738810E213;
-	Tue,  3 Jan 2023 20:36:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4F9110E22E;
+	Tue,  3 Jan 2023 21:18:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
- [IPv6:2001:4860:4864:20::2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B18210E213;
- Tue,  3 Jan 2023 20:36:39 +0000 (UTC)
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-15027746720so23074177fac.13; 
- Tue, 03 Jan 2023 12:36:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=DARbbfB1cfRcx5Xv304q3gLYQigPtkLndWCjgoqKBlg=;
- b=MUULpzXODVj3KSyV6X/V9xXUjl2K1nJvW09EiPp6TSKi5ViAQFht20z9FgxFwvuQ49
- tiBFeW9/ElPsVGytdRsLGglK1TXEADxOs+pzuLW/dC5Mn4kc6QEqPS1FNAMjP72N+mb7
- zYDAtsXokUKChBjlD7Nt0TxtxlxgqBwtUhWycx5gS0fzU7nmlYCkeGzEyEivjwOwbW09
- ySI9Ued1GZrgsV+08ofxWwZuMEOlXppxUZYq887F3p+linfLDP2keAyiV+dHZfvheuxl
- zLJZR4yNLBdN9DR0FqIOCNEeL+m6MddwMQY5pTu+HD1+btdhSZxLFqpb+KoBy4L1IXic
- hR1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DARbbfB1cfRcx5Xv304q3gLYQigPtkLndWCjgoqKBlg=;
- b=G49uueWPnjHfowC/BtgWziduRlKMOpcYEPhIyU4RmWIneo1vA8VEUWxq5mwwGbdWko
- MFuzvh1giBHugrnfWyKsQ4pgzqc9CYwXcSLRVq1WrYt9qyC5h3g+2Y0YN1yFl/2c+G2y
- Xni4CaK8a5snu1yWB2gOyJJIYSrVnqZ0PbHb4MQ2H4UYLoxUGhxCsXSe6CobAgiSt8JQ
- VO111cEU+RHDMtHntT8MFA9zHCQvCnzVP6BEbmi9kmJ/yDWVPnrnTYmvlyrgbUeScl+k
- tkDnFsX+NAC8tSbLfnq+31N8rh8Ak5ZpT/U0CLWCRUBxwJMINTSkmPSf1r4zPy50c3y4
- Q+vQ==
-X-Gm-Message-State: AFqh2krZ32r6j9KVLg7QnBK+dpbRrbfW8TFP/t/cZ0rb7fCwAUIr6HTz
- lBAxGtoIdrdhWxg+o/uMlvfE/FckGuTtbo9MOmQ=
-X-Google-Smtp-Source: AMrXdXuI5mtIULbEh6oZUp3W7INMKGCNm6pDPu92qrpaEtFTnRCtG2DBLRzmvSH/FSHCfZi6Uzq7LDG4/a5reDzoFPc=
-X-Received: by 2002:a05:6870:970e:b0:148:3c8f:15ab with SMTP id
- n14-20020a056870970e00b001483c8f15abmr3723607oaq.46.1672778198192; Tue, 03
- Jan 2023 12:36:38 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D3FF10E22E
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 21:18:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
+ Cc:To:Subject:From:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=XwsmUf7E+00xnCD8y3OWHBc6tkQXC19OyY4TKfj8aLY=; b=sI5z5BmKz8DH2i3QKznDDHS499
+ UvhtDL00VHFtqlS4t8/BTLqjOaMzFzm4QBIBNCO+6tw4ZezohCZp+e7adumHlhBuJYyQ7ugZ/iKMJ
+ Y7JEEkn0Ls+MzBt/oBFwaqkygZ+7g/zn8ASwx20yEbqip18bwF++hoWqnU+HIynDPqbZj0H2KR2lV
+ /3c9UfyQgIkfF+brvesuNxKjUXntCHeNgMHDThx1qBv2HaMYC0P+DV6T21wu4SO+w2A71KupO56PI
+ F0zhV5VGeKK01XSsEv7RXeghw/vr1In+Ifn4pClsb1K3x73SMaWF8I5/BvikurvOFnhdpivN1Oqix
+ sZ660SeA==;
+Received: from [187.36.234.139] (helo=[192.168.1.195])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1pCog2-00GUhr-Qo; Tue, 03 Jan 2023 22:18:31 +0100
+Message-ID: <cd5c3f0e-eec1-c492-24af-a0b3efad7e2e@igalia.com>
+Date: Tue, 3 Jan 2023 18:18:26 -0300
 MIME-Version: 1.0
-References: <20221223092858.1830944-1-xurui@kylinos.cn>
-In-Reply-To: <20221223092858.1830944-1-xurui@kylinos.cn>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 3 Jan 2023 15:36:26 -0500
-Message-ID: <CADnq5_PBr4u+7AE8aW6+0n0sru80ktfoGTCSzqgpDr4RD=QM2Q@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/amdgpu: Retry DDC probing on DVI on failure if we
- got an HPD interrupt
-To: xurui <xurui@kylinos.cn>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+Subject: Re: [PATCH v3 11/13] drm/fb-helper: Fix single-probe color-format
+ selection
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, javierm@redhat.com, jose.exposito89@gmail.com,
+ mairacanal@riseup.net, mripard@kernel.org, maarten.lankhorst@linux.intel.com
+References: <20230102112927.26565-1-tzimmermann@suse.de>
+ <20230102112927.26565-12-tzimmermann@suse.de>
+Content-Language: en-US
+In-Reply-To: <20230102112927.26565-12-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,246 +58,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, Xinhui.Pan@amd.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 23, 2022 at 9:23 AM xurui <xurui@kylinos.cn> wrote:
->
-> HPD signals on DVI ports can be fired off before the pins required for
-> DDC probing actually make contact, due to the pins for HPD making
-> contact first. This results in a HPD signal being asserted but DDC
-> probing failing, resulting in hotplugging occasionally failing.
->
-> Rescheduling the hotplug work for a second when we run into an HPD
-> signal with a failing DDC probe usually gives enough time for the rest
-> of the connector's pins to make contact, and fixes this issue.
->
-> Signed-off-by: xurui <xurui@kylinos.cn>
-> Reported-by: kernel test robot<lkp@intel.com>
+Hi Thomas,
 
-Applied.  Thanks!
-
-Alex
-
-
+On 1/2/23 08:29, Thomas Zimmermann wrote:
+> Fix the color-format selection of the single-probe helper. Go
+> through all user-specified values and test each for compatibility
+> with the driver. If none is supported, use the driver-provided
+> default. This guarantees that the console is always available in
+> any color format at least.
+> 
+> Until now, the format selection of the single-probe helper tried
+> to either use a user-specified format or a 32-bit default format.
+> If the user-specified format was not supported by the driver, the
+> selection failed and the display remained blank.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 > ---
-> V1 -> V2: Fixed a compilation error
->
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h           |  2 +-
->  .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    | 22 ++++++++++++++++++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  1 +
->  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  6 ++---
->  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |  6 ++---
->  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  6 ++---
->  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  6 ++---
->  8 files changed, 36 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> index 6b74df446694..b1d901fe578e 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -870,7 +870,7 @@ struct amdgpu_device {
->         struct amdgpu_vkms_output       *amdgpu_vkms_output;
->         struct amdgpu_mode_info         mode_info;
->         /* For pre-DCE11. DCE11 and later are in "struct amdgpu_device->dm" */
-> -       struct work_struct              hotplug_work;
-> +       struct delayed_work         hotplug_work;
->         struct amdgpu_irq_src           crtc_irq;
->         struct amdgpu_irq_src           vline0_irq;
->         struct amdgpu_irq_src           vupdate_irq;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> index 2ebbc6382a06..d2abd334b1b5 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> @@ -996,13 +996,33 @@ amdgpu_connector_dvi_detect(struct drm_connector *connector, bool force)
->                 }
->         }
->
-> +       if (amdgpu_connector->detected_hpd_without_ddc) {
-> +               force = true;
-> +               amdgpu_connector->detected_hpd_without_ddc = false;
-> +       }
-> +
->         if (!force && amdgpu_connector_check_hpd_status_unchanged(connector)) {
->                 ret = connector->status;
->                 goto exit;
->         }
->
-> -       if (amdgpu_connector->ddc_bus)
-> +       if (amdgpu_connector->ddc_bus) {
->                 dret = amdgpu_display_ddc_probe(amdgpu_connector, false);
-> +
-> +               /* Sometimes the pins required for the DDC probe on DVI
-> +                * connectors don't make contact at the same time that the ones
-> +                * for HPD do. If the DDC probe fails even though we had an HPD
-> +                * signal, try again later
-> +                */
-> +               if (!dret && !force &&
-> +                   amdgpu_display_hpd_sense(adev, amdgpu_connector->hpd.hpd)) {
-> +                       DRM_DEBUG_KMS("hpd detected without ddc, retrying in 1 second\n");
-> +                       amdgpu_connector->detected_hpd_without_ddc = true;
-> +                       schedule_delayed_work(&adev->hotplug_work,
-> +                                             msecs_to_jiffies(1000));
-> +                       goto exit;
-> +               }
-> +       }
->         if (dret) {
->                 amdgpu_connector->detected_by_load = false;
->                 amdgpu_connector_free_edid(connector);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> index b22471b3bd63..a876648e3d7a 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> @@ -63,7 +63,7 @@
->  void amdgpu_display_hotplug_work_func(struct work_struct *work)
->  {
->         struct amdgpu_device *adev = container_of(work, struct amdgpu_device,
-> -                                                 hotplug_work);
-> +                                                 hotplug_work.work);
->         struct drm_device *dev = adev_to_drm(adev);
->         struct drm_mode_config *mode_config = &dev->mode_config;
->         struct drm_connector *connector;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> index 8a39300b1a84..93c73faa5714 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> @@ -534,6 +534,7 @@ struct amdgpu_connector {
->         void *con_priv;
->         bool dac_load_detect;
->         bool detected_by_load; /* if the connection status was determined by load */
-> +       bool detected_hpd_without_ddc; /* if an HPD signal was detected on DVI, but ddc probing failed */
->         uint16_t connector_object_id;
->         struct amdgpu_hpd hpd;
->         struct amdgpu_router router;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-> index 248f1a4e915f..e85e57933cc4 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-> @@ -2837,7 +2837,7 @@ static int dce_v10_0_sw_init(void *handle)
->         if (r)
->                 return r;
->
-> -       INIT_WORK(&adev->hotplug_work,
-> +       INIT_DELAYED_WORK(&adev->hotplug_work,
->                   amdgpu_display_hotplug_work_func);
->
->         drm_kms_helper_poll_init(adev_to_drm(adev));
-> @@ -2902,7 +2902,7 @@ static int dce_v10_0_hw_fini(void *handle)
->
->         dce_v10_0_pageflip_interrupt_fini(adev);
->
-> -       flush_work(&adev->hotplug_work);
-> +       flush_delayed_work(&adev->hotplug_work);
->
->         return 0;
->  }
-> @@ -3302,7 +3302,7 @@ static int dce_v10_0_hpd_irq(struct amdgpu_device *adev,
->
->         if (disp_int & mask) {
->                 dce_v10_0_hpd_int_ack(adev, hpd);
-> -               schedule_work(&adev->hotplug_work);
-> +               schedule_delayed_work(&adev->hotplug_work, 0);
->                 DRM_DEBUG("IH: HPD%d\n", hpd + 1);
->         }
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-> index cd9c19060d89..6b406bb7f3f3 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-> @@ -2956,7 +2956,7 @@ static int dce_v11_0_sw_init(void *handle)
->         if (r)
->                 return r;
->
-> -       INIT_WORK(&adev->hotplug_work,
-> +       INIT_DELAYED_WORK(&adev->hotplug_work,
->                   amdgpu_display_hotplug_work_func);
->
->         drm_kms_helper_poll_init(adev_to_drm(adev));
-> @@ -3032,7 +3032,7 @@ static int dce_v11_0_hw_fini(void *handle)
->
->         dce_v11_0_pageflip_interrupt_fini(adev);
->
-> -       flush_work(&adev->hotplug_work);
-> +       flush_delayed_work(&adev->hotplug_work);
->
->         return 0;
->  }
-> @@ -3426,7 +3426,7 @@ static int dce_v11_0_hpd_irq(struct amdgpu_device *adev,
->
->         if (disp_int & mask) {
->                 dce_v11_0_hpd_int_ack(adev, hpd);
-> -               schedule_work(&adev->hotplug_work);
-> +               schedule_delayed_work(&adev->hotplug_work, 0);
->                 DRM_DEBUG("IH: HPD%d\n", hpd + 1);
->         }
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-> index 76323deecc58..2aa21eec0e06 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-> @@ -2715,7 +2715,7 @@ static int dce_v6_0_sw_init(void *handle)
->                 return r;
->
->         /* Pre-DCE11 */
-> -       INIT_WORK(&adev->hotplug_work,
-> +       INIT_DELAYED_WORK(&adev->hotplug_work,
->                   amdgpu_display_hotplug_work_func);
->
->         drm_kms_helper_poll_init(adev_to_drm(adev));
-> @@ -2776,7 +2776,7 @@ static int dce_v6_0_hw_fini(void *handle)
->
->         dce_v6_0_pageflip_interrupt_fini(adev);
->
-> -       flush_work(&adev->hotplug_work);
-> +       flush_delayed_work(&adev->hotplug_work);
->
->         return 0;
->  }
-> @@ -3103,7 +3103,7 @@ static int dce_v6_0_hpd_irq(struct amdgpu_device *adev,
->                 tmp = RREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd]);
->                 tmp |= DC_HPD1_INT_CONTROL__DC_HPD1_INT_ACK_MASK;
->                 WREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd], tmp);
-> -               schedule_work(&adev->hotplug_work);
-> +               schedule_delayed_work(&adev->hotplug_work, 0);
->                 DRM_DEBUG("IH: HPD%d\n", hpd + 1);
->         }
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-> index 01cf3ab111cb..9da338889d36 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-> @@ -2739,7 +2739,7 @@ static int dce_v8_0_sw_init(void *handle)
->                 return r;
->
->         /* Pre-DCE11 */
-> -       INIT_WORK(&adev->hotplug_work,
-> +       INIT_DELAYED_WORK(&adev->hotplug_work,
->                   amdgpu_display_hotplug_work_func);
->
->         drm_kms_helper_poll_init(adev_to_drm(adev));
-> @@ -2802,7 +2802,7 @@ static int dce_v8_0_hw_fini(void *handle)
->
->         dce_v8_0_pageflip_interrupt_fini(adev);
->
-> -       flush_work(&adev->hotplug_work);
-> +       flush_delayed_work(&adev->hotplug_work);
->
->         return 0;
->  }
-> @@ -3195,7 +3195,7 @@ static int dce_v8_0_hpd_irq(struct amdgpu_device *adev,
->                 tmp = RREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd]);
->                 tmp |= DC_HPD1_INT_CONTROL__DC_HPD1_INT_ACK_MASK;
->                 WREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd], tmp);
-> -               schedule_work(&adev->hotplug_work);
-> +               schedule_delayed_work(&adev->hotplug_work, 0);
->                 DRM_DEBUG("IH: HPD%d\n", hpd + 1);
->         }
->
-> --
-> 2.25.1
->
+
+I started to get the following warning on the Raspberry Pi 4 Model B
+(arm64/defconfig) using drm-misc-next:
+
+[    4.376317] [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
+[    4.433587] vc4-drm gpu: [drm] bpp/depth value of 16/24 not supported
+[    4.433617] vc4-drm gpu: [drm] bpp/depth value of 16/24 not supported
+[    4.433629] vc4-drm gpu: [drm] bpp/depth value of 16/24 not supported
+[    4.433640] vc4-drm gpu: [drm] bpp/depth value of 16/24 not supported
+[    4.433650] vc4-drm gpu: [drm] bpp/depth value of 16/24 not supported
+[    4.433658] vc4-drm gpu: [drm] No compatible format found
+[    4.433854] ------------[ cut here ]------------
+[    4.433861] WARNING: CPU: 2 PID: 66 at drivers/gpu/drm/drm_atomic.c:1604 __drm_atomic_helper_set_config+0x2e8/0x314 [drm]
+[    4.434172] Modules linked in: btbcm(+) crct10dif_ce reset_raspberrypi clk_raspberrypi raspberrypi_hwmon bluetooth ecdh_generic ecc
+pwm_bcm2835 broadcom rfkill iproc_rng200 bcm_phy_lib i2c_bcm2835 vc4 rng_core snd_soc_hdmi_codec bcm2711_thermal cec drm_display_helper
+v3d pcie_brcmstb drm_dma_helper gpu_sched genet drm_shmem_helper nvmem_rmem mdio_bcm_unimac drm_kms_helper drm fuse ip_tables x_tables
+ipv6
+[    4.434322] CPU: 2 PID: 66 Comm: kworker/u8:2 Not tainted 6.1.0-rc6-00011-g37c90d589dc0 #29
+[    4.434337] Hardware name: Raspberry Pi 4 Model B Rev 1.4 (DT)
+[    4.434345] Workqueue: events_unbound deferred_probe_work_func
+[    4.434376] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[    4.434390] pc : __drm_atomic_helper_set_config+0x2e8/0x314 [drm]
+[    4.434668] lr : __drm_atomic_helper_set_config+0x64/0x314 [drm]
+[    4.434943] sp : ffff8000082c3840
+[    4.434949] x29: ffff8000082c3850 x28: ffff2d6d448e12c0 x27: 0000000000000001
+[    4.434972] x26: 0000000000000038 x25: ffff2d6d448e12c0 x24: ffff2d6d401a0690
+[    4.434991] x23: ffff2d6d41f74080 x22: ffff2d6d40d8a400 x21: ffff2d6d433fcc00
+[    4.435009] x20: ffff2d6d401a0690 x19: ffff2d6d44b8e180 x18: 0000000000000020
+[    4.435027] x17: 0000000000000010 x16: ffffa6757bee52d0 x15: 0000000000000000
+[    4.435044] x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
+[    4.435063] x11: 0000000000000000 x10: ffff2d6d43240800 x9 : ffff2d6d44b8e200
+[    4.435081] x8 : 0000000000000000 x7 : ffff2d6d44b8e180 x6 : ffff2d6d40d8a400
+[    4.435099] x5 : ffff2d6d45e7ca80 x4 : 0000000000000050 x3 : ffffa675498c3bad
+[    4.435116] x2 : 0000000000000004 x1 : ffff2d6d4323f080 x0 : ffff2d6d433fcc00
+[    4.435136] Call trace:
+[    4.435143]  __drm_atomic_helper_set_config+0x2e8/0x314 [drm]
+[    4.435440]  drm_client_modeset_commit_atomic+0x140/0x244 [drm]
+[    4.435723]  drm_client_modeset_commit_locked+0x50/0x168 [drm]
+[    4.436001]  drm_client_modeset_commit+0x2c/0x54 [drm]
+[    4.436273]  __drm_fb_helper_initial_config_and_unlock+0x548/0x5a0 [drm_kms_helper]
+[    4.436407]  drm_fb_helper_initial_config+0x38/0x50 [drm_kms_helper]
+[    4.436528]  drm_fbdev_client_hotplug+0xa8/0x120 [drm_kms_helper]
+[    4.436648]  drm_fbdev_generic_setup+0x80/0x150 [drm_kms_helper]
+[    4.436768]  vc4_drm_bind+0x1f0/0x22c [vc4]
+[    4.436928]  try_to_bring_up_aggregate_device+0x168/0x1b4
+[    4.436958]  __component_add+0xbc/0x15c
+[    4.436974]  component_add+0x14/0x20
+[    4.436990]  vc4_hdmi_dev_probe+0x1c/0x28 [vc4]
+[    4.437146]  platform_probe+0xa8/0xd0
+[    4.437158]  really_probe+0x130/0x2f4
+[    4.437174]  __driver_probe_device+0xb4/0xe0
+[    4.437189]  driver_probe_device+0x3c/0x1f8
+[    4.437202]  __device_attach_driver+0x118/0x140
+[    4.437217]  bus_for_each_drv+0x84/0xd0
+[    4.437229]  __device_attach+0xd0/0x19c
+[    4.437243]  device_initial_probe+0x14/0x20
+[    4.437256]  bus_probe_device+0x34/0x98
+[    4.437268]  deferred_probe_work_func+0x88/0xc4
+[    4.437282]  process_one_work+0x1cc/0x2c8
+[    4.437295]  worker_thread+0x248/0x458
+[    4.437304]  kthread+0xec/0x198
+[    4.437319]  ret_from_fork+0x10/0x20
+[    4.437333] ---[ end trace 0000000000000000 ]---
+
+After bisecting the problem, I was able to detect that the warning started to
+appear on the commit 37c90d589dc0 ("drm/fb-helper: Fix single-probe color-format
+selection").
+
+Do you have any idea on what might be causing this warning?
+
+Best Regards,
+- Maíra Canal
