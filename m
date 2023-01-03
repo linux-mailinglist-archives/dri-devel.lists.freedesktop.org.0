@@ -1,74 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D9965BD1E
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 10:27:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD47E65BD77
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 10:51:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B488810E3BD;
-	Tue,  3 Jan 2023 09:26:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0F0010E246;
+	Tue,  3 Jan 2023 09:51:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89A4910E3BD
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 09:26:54 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id p36so44845503lfa.12
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Jan 2023 01:26:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/w/HVtfVylFb92xZ3cLJHBmfw9Fvd9M+61nNyBqRlQw=;
- b=RTLhoxkH+nPWqbV4+/wsP1hbkiXd+l89odwyVICOIKfv0tv3vI2z2vgSLpeWzbdf/4
- 7jmOlUMawjAT4OY3fnJMT1/gokohqPxF7zEav5Jw3V6G8/EP990p8jd8ZvQ+YHSZ5SNu
- P8jEtL4VPSoLQsiAcAe1GWE9XzBjGqJuFCsyeUd7axrIgN0MQ+JGCea0Z/9wjFJOXdFq
- tuw+RRIckHLwm6UCUUoP/YLPr+ZSdEFmbqPcx2X4vjjk5c24bUQmsGxqIOfoPsY/jE51
- e0cDJjFz9L+WEY61i+G38N6ICgYtH+c6tQZ1RpyPDYgDRZu4GzhBL7AOC/6Hr5jRbh9o
- RMQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/w/HVtfVylFb92xZ3cLJHBmfw9Fvd9M+61nNyBqRlQw=;
- b=4ypxWYli2q6o/X9y7yULHyn+pzwjbN4rjaR6N1HllZ03jbFS/VhhZEv69D3CtJQabH
- wi9RHknbDRATXvvgnTNWVW4ZRFRYLxaaKvGbhBpnVAQqupnAia2aRocoH38jHtvt4hza
- 7BUKHt3F3ZYgNxrT7Onj68RNoXGBGZqUG5RzmZUYMxM2nzW6UwGpgBBz0BA1mEZ2Duze
- RkXrBkN9kFdL0BO31JbSZwreAE2hLiRac+o7UaJnzVu0N26ksrWQ2kk9ASgOkTcj8XyD
- HYXjiiwo5q2bez5O0XeJyojYVnNIQbF+2OFFvOAYgSGXWGf9h4ENr0aLuHF+khs3a5XX
- fQow==
-X-Gm-Message-State: AFqh2kqTyYVwQsQNuhN4IF2jjQNXXWaKU3Bn+1jBT4vvuHCtvjuat5gR
- 2QEf6yqHh1oQZ7A8+jGncWBghw==
-X-Google-Smtp-Source: AMrXdXtxBjEkK70iD51Dp0X3k5oQpocNZh8ibg9YbJMfLNtcc4svtr8iSFKyEPRp4WwGOQw+jjzdVA==
-X-Received: by 2002:a05:6512:1116:b0:4a4:68b7:dee8 with SMTP id
- l22-20020a056512111600b004a468b7dee8mr15192136lfg.68.1672738012533; 
- Tue, 03 Jan 2023 01:26:52 -0800 (PST)
-Received: from [192.168.0.20]
- (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
- by smtp.gmail.com with ESMTPSA id
- o17-20020ac24351000000b0048a934168c0sm4768418lfl.35.2023.01.03.01.26.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Jan 2023 01:26:52 -0800 (PST)
-Message-ID: <207b6699-fe4f-8ab7-5ddb-4eb2e4183c88@linaro.org>
-Date: Tue, 3 Jan 2023 10:26:50 +0100
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A614810E246
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 09:51:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1672739510; x=1704275510;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=HaOHD/dXS68xXURn+R9LoVsKFBSgwemRrONqLSwdBjc=;
+ b=NtakyB6XHpEW3vX4oFsex3YDT/eCvLNyaXbT+9QbKhgZn8bizmOoxEVC
+ DFGB4EJZ2T9MWdb2IHj/Fj9OfuIwzuNmbYpsVwHojkjdpNWfrk0r9xs2B
+ lj5h21BXLKe+1jkr7oiLEuEm8uTHV+3n4yBIQWOUeWHCRUYXvKv5w81VL
+ Z7edqlDMTATsWnCplAujgHdsC6IigVlTRFQ8UmMKHHCiPUOyAGCX/oUV6
+ wvhA/Jo/ZlcPDtLN1wTfa5JAtYLE4DD89B94hTmC0FNbvl+4hJd1gKhPY
+ Nn1RGEs6IIeNoiDU3hn6sou6Rj3hJvOhl9JmSCC/xHza7SyetT1JIIaXu A==;
+X-IronPort-AV: E=Sophos;i="5.96,296,1665439200"; d="scan'208";a="28217837"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 03 Jan 2023 10:51:47 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Tue, 03 Jan 2023 10:51:47 +0100
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Tue, 03 Jan 2023 10:51:47 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1672739507; x=1704275507;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=HaOHD/dXS68xXURn+R9LoVsKFBSgwemRrONqLSwdBjc=;
+ b=QHbb0E41O1umG0uCnQ5Fy6UNxUpCtrGLEIsoHgDmPE0hJgZtkwvbVJXt
+ 1cvAPJ17LC6UYdr1IOUOaJjUUbPgxJzw82NU7noJlVFT9HbSlIL230lmQ
+ /vW24sKxbwcCCPpzJNnSmHD2g8+NQxnbe0Fuz+mhsRwB9AiUlTFQhdoc7
+ 35avELVf7SdtZbv/NswwojGUum+DRyFGZHYNIyxE2U4nm6m+7wxxCWY2m
+ 7VdQAE3y4/X1v6R/x9ZO+jr/sU6Q7TMyL2dtbYlQ7RB3oy4k/iy53t5nz
+ X6t3zu5Q6FPa11K+zNZAopmR5GPK7S9gYAg9W4kWsdXGcrdC7lBDIpQY0 Q==;
+X-IronPort-AV: E=Sophos;i="5.96,296,1665439200"; d="scan'208";a="28217836"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 03 Jan 2023 10:51:47 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id C74FB280056;
+ Tue,  3 Jan 2023 10:51:46 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>, Fancy Fang <chen.fang@nxp.com>,
+ Tim Harvey <tharvey@gateworks.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v10 00/18] drm: Add Samsung MIPI DSIM bridge
+Date: Tue, 03 Jan 2023 10:51:44 +0100
+Message-ID: <1983452.PIDvDuAF1L@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <a6ad86a0-2831-34aa-2c2a-f6d683dc5713@denx.de>
+References: <kcEE.rJtELH1tRkiK3DwrGM4cgg.ADqA2lER2QE@vtuxmail01.tq-net.de>
+ <a6ad86a0-2831-34aa-2c2a-f6d683dc5713@denx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v4 08/11] arm64: dts: qcom: sm8350: Use 2 interconnect
- cells
-Content-Language: en-US
-To: Robert Foss <robert.foss@linaro.org>
-References: <20221230153554.105856-1-robert.foss@linaro.org>
- <20221230153554.105856-9-robert.foss@linaro.org>
- <deb17787-1a5a-89a3-3ecf-7690b4149f5c@linaro.org>
- <CAG3jFysU84LRcqQOspub+9vtsP3syiksrGX6D7i3ff+X6+mbTA@mail.gmail.com>
- <b8a0d9c5-eb26-c41c-1190-2628977bc582@linaro.org>
- <CAG3jFyuUV79nyjnqNysDKQSyYb4HUSWu-BvxG6LAz1Uavmvkbg@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAG3jFyuUV79nyjnqNysDKQSyYb4HUSWu-BvxG6LAz1Uavmvkbg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,41 +89,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: konrad.dybcio@somainline.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, liushixin2@huawei.com,
- krzysztof.kozlowski+dt@linaro.org, angelogioacchino.delregno@somainline.org,
- quic_vpolimer@quicinc.com, vinod.koul@linaro.org,
- Jonathan Marek <jonathan@marek.ca>, quic_khsieh@quicinc.com, agross@kernel.org,
- quic_jesszhan@quicinc.com, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, a39.skl@gmail.com, quic_abhinavk@quicinc.com,
- swboyd@chromium.org, robh+dt@kernel.org, sean@poorly.run,
- loic.poulain@linaro.org, andersson@kernel.org, dianders@chromium.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>, vkoul@kernel.org,
- dmitry.baryshkov@linaro.org, freedreno@lists.freedesktop.org
+Cc: "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/01/2023 10:24, Robert Foss wrote:
->>>> On which tree/revision did you base this?
->>>
->>> msm/drm-msm-display-for-6.2
->>
->> Then it is not a proper base for DTS changes - you will miss quite some
->> commits. The DTS patches should be based on Bjorn's SoC tree or
->> linux-next (although the latter sometimes can lead to conflicts).
-> 
-> Alright, then in that case this series needs to be split into 3 parts.
-> 
-> The dts fixes, remaining dts changes & the remainder of code.
+Hi Marek,
 
-The split of any fixes (or unrelated cleanups) is good idea anyway.
-However code can go with DTS - just base on linux-next. If you do not
-want to base on linux-next then splitting code from DTS is indeed one
-more good way to send it.
-
+Am Sonntag, 18. Dezember 2022, 00:55:57 CET schrieb Marek Vasut:
+> On 12/16/22 14:25, Alexander Stein wrote:
+> Hi,
 > 
-> Is this what you'd like to see?
+> [...]
+> 
+> > Oh, nice, thanks for the pointer. When setting
+> > 
+> >> samsung,burst-clock-frequency = <668250000>;
+> > 
+> > in imx8mm.dtsi
+> > I get a non-flickering display using 4 lanes. Although admittedly this is
+> > just random guessing. I'm not sure which clock exactly has to be in the
+> > range CHA_DSI_CLK_RANGE is configured to. With 4 lanes SN65DSI84 is
+> > configured for> 
+> > 205-210 MHz (0x29), while I get these PLL PMS settings on DSIM:
+> >> samsung-dsim 32e10000.dsi: PLL freq 668250000, (p 4, m 99, s 0)
+> >> samsung-dsim 32e10000.dsi: hs_clk = 668250000, byte_clk = 83531250,
+> >> esc_clk
+> > 
+> > = 16706250
+> 
+> If I recall it right, minimum PLL frequency is:
+> 
+> fPMS=1.2*width*height*bpp*fps=1.2*800*480*24*60=663.5 MHz
+> 
+> the link frequency is then
+> 
+> fHS=fPMS/lanes/2=82.9 MHz (on the DDR clock lane)
+
+Mh, there is something bogus about this. Right now the PLL freq is set 
+depending on 'samsung,burst-clock-frequency' property. But this actually is 
+somehow depending on the number of lanes I configure. From the debug output 
+hs_clk and PLL freq are identical. AFAICS there is also no divider from PLL to 
+hs_clk in the register map.
+
+> So DSI83 should be in the range of 80..85 MHz input clock if I calculate
+> this right. Can you check what is the value of mode->clock, the
+> mipi_dsi_panel_format_to_bpp() return value, ctx->dsi->lanes in dsi83
+> sm65dsi83_get_dsi_range() ?
+
+A working setup on a tianma,tm070jvhg33 display (1280x800) is:
+> samsung-dsim 32e10000.dsi: PLL freq 891000000, (p 3, m 99, s 0)
+> samsung-dsim 32e10000.dsi: hs_clk = 891000000, byte_clk = 111375000, esc_clk 
+= 18562500
+> sn65dsi83 2-002d: mode->clock: 68200
+> sn65dsi83 2-002d: mode bpp: 24
+> sn65dsi83 2-002d: ctx->dsi->lanes: 3
+> sn65dsi83 2-002d: samsung_dsim_set_pll: 0x37
+
+Calculating backwards, sn64dsi83 is expecting a clock in the range of 275-280 
+MHz. But I fail to see a corresponding clock in the DSIM PLL configuration.
 
 Best regards,
-Krzysztof
+Alexander
+
+> > AFAICS DSIM bridge is configurung hs_clk, byte_clk and esc_clk just from
+> > DT
+> > properties, while SN65DSI84 is using display mode and number of lanes.
+> > 
+> > Is it expected that the DSIM PLL frequencies are set in DT for a specific
+> > bridge/display setup?
+> 
+> No, there should be negotiation between the host and bridge/panel, I
+> tried to propose two variants, but they were all rejected.
+
+
+
 
