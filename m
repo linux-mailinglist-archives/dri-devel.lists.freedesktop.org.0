@@ -1,62 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0234E65C352
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 16:51:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FEED65C385
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 17:06:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 411CB10E07D;
-	Tue,  3 Jan 2023 15:51:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD68510E1FE;
+	Tue,  3 Jan 2023 16:06:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBEC310E1FE
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 15:51:25 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id u12so28579078ljj.11
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Jan 2023 07:51:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=RUhexUPjfctu49ijrOvVNhUuEOSUTEEk6E6bJbkDGTA=;
- b=i1eSJN4VGWQ/TxAhyClQmIsgdsVD8o+hukkc26C4kX5QdktR0EJQGF3syyY/C6XDbk
- HueOSSDUX6UxePXBOH8zmh3nAD4fv/GSF1x+/x8yN3FFsoNTaxT6AxnBkIINf4WHV74u
- RLlyc4+EEz3/n7pkrLqhFx1A9SYjCR7HDfb2SXgrdeVkHEmIt/N0HaCrljZrBIzmDIfj
- mVA3v9UzIH2QdUM1S+A7090eWukDuJsKqHjBItbp6p2/DGQz8JM/3N5CKvG+HH6UOEoz
- NriL1HYeezO4iMS4ZzfJnJHP/E6GYa1n0ZoovgJKkZxJv8Puo2CKNgyvQFyW2dYlZuVC
- ikMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RUhexUPjfctu49ijrOvVNhUuEOSUTEEk6E6bJbkDGTA=;
- b=cg/NgpUon+Lb+CvaOGNxVzWW2syjPvv5osUhYrUFG/CVYfT7jL/Hyz93J9KAg5S6/X
- Zxwz6kd2vvkQEfbC7FczWSp3/HQccRUxP2ogE+oDWYLpPP5nrO0tGwlFXC1YNwllqJ3G
- IU4+BGQbXJ7m+Qa68zriS79ppakap+iCVuJj5kxqhDidLFF3SypLXZubQQt39h1367Em
- QFL+KLfW4ZUGohUdEJwq8TLJyw2sRW5MgGOEwH4wFQXvgDEHIjBFu9hvsL22izmTywbN
- QPloDl/G/NH2NOEj5btO9uDITWLX8ve9esKW0Q8oN7QxsawUyWcRQ6mfVtCOSpGerHok
- UykA==
-X-Gm-Message-State: AFqh2krW0A0AmznESlIuFg+PfVsW+txkvy00VfvIaF/omccuITd3RWUB
- ROuUcG9G8Z+dTD9kO/dM1iIXIA==
-X-Google-Smtp-Source: AMrXdXtNe1t1ZcHez2XnFTgeQm1i6YhgHDCSlLjegsOZRNLx7HygRRCxMOhjRx6K2TcRCO4/Rh6FSw==
-X-Received: by 2002:a05:651c:48e:b0:27d:5e67:cb15 with SMTP id
- s14-20020a05651c048e00b0027d5e67cb15mr16203094ljc.4.1672761083557; 
- Tue, 03 Jan 2023 07:51:23 -0800 (PST)
-Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
- [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- h14-20020a2ea48e000000b0027ffadc61d8sm317414lji.3.2023.01.03.07.51.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Jan 2023 07:51:23 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v2] drm/msm: another fix for the headless Adreno GPU
-Date: Tue,  3 Jan 2023 17:51:22 +0200
-Message-Id: <20230103155122.1170930-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F347110E1FE
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 16:06:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672761959;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/ZZuD56MEBx1Uz4wsJ7mk8SY27ZT7sFQ6kli2wOYT18=;
+ b=i8jxxJ/mRlF2utFt0GOLdhtfwYZor6voFDUmOGZIXoKfxrDfWXUVBUlMS+cDfiZIVCyXnV
+ aIz0hAKUXC3WUj5vs/RlY18fhUMMS9XCoT4W0RHafMNTnemNMSjekSVlkGOK4uQaND+Hzn
+ S5ItTFgBM8Uygh6pMt/k9BGCwmXjAaU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-657-88FOvGZZMFSoFQwVWZ_PGQ-1; Tue, 03 Jan 2023 11:05:56 -0500
+X-MC-Unique: 88FOvGZZMFSoFQwVWZ_PGQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8BCDF18F0244;
+ Tue,  3 Jan 2023 16:05:53 +0000 (UTC)
+Received: from [10.22.34.65] (unknown [10.22.34.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 02E5F4014EBE;
+ Tue,  3 Jan 2023 16:05:50 +0000 (UTC)
+Message-ID: <3e531d65-72a7-a82a-3d18-004aeab9144b@redhat.com>
+Date: Tue, 3 Jan 2023 11:05:50 -0500
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [syzbot] WARNING: locking bug in inet_autobind
+Content-Language: en-US
+To: Felix Kuehling <felix.kuehling@amd.com>,
+ syzbot <syzbot+94cc2a66fc228b23f360@syzkaller.appspotmail.com>,
+ Alexander.Deucher@amd.com, Christian.Koenig@amd.com, David1.Zhou@amd.com,
+ Evan.Quan@amd.com, Harry.Wentland@amd.com, Oak.Zeng@amd.com,
+ Ray.Huang@amd.com, Yong.Zhao@amd.com, airlied@linux.ie,
+ amd-gfx@lists.freedesktop.org, ast@kernel.org, boqun.feng@gmail.com,
+ bpf@vger.kernel.org, daniel@ffwll.ch, daniel@iogearbox.net,
+ davem@davemloft.net, dri-devel@lists.freedesktop.org, dsahern@kernel.org,
+ edumazet@google.com, gautammenghani201@gmail.com, jakub@cloudflare.com,
+ kafai@fb.com, kuba@kernel.org, kuznet@ms2.inr.ac.ru,
+ linux-kernel@vger.kernel.org, mingo@redhat.com, netdev@vger.kernel.org,
+ ozeng@amd.com, pabeni@redhat.com, penguin-kernel@I-love.SAKURA.ne.jp,
+ peterz@infradead.org, rex.zhu@amd.com, songliubraving@fb.com,
+ syzkaller-bugs@googlegroups.com, will@kernel.org, yhs@fb.com,
+ yoshfuji@linux-ipv6.org
+References: <0000000000002ae67f05f0f191aa@google.com>
+ <ea9c2977-f05f-3acd-ee3e-2443229b7b55@amd.com>
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <ea9c2977-f05f-3acd-ee3e-2443229b7b55@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,114 +78,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, kernel test robot <lkp@intel.com>,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix another oops reproducible when rebooting the board with the Adreno
-GPU wokring in the headless mode (e.g. iMX platforms).
+On 1/3/23 10:39, Felix Kuehling wrote:
+> The regression point doesn't make sense. The kernel config doesn't 
+> enable CONFIG_DRM_AMDGPU, so there is no way that a change in AMDGPU 
+> could have caused this regression.
+>
+I agree. It is likely a pre-existing problem or caused by another commit 
+that got triggered because of the change in cacheline alignment caused 
+by commit c0d9271ecbd ("drm/amdgpu: Delete user queue doorbell variable").
 
-Unable to handle kernel NULL pointer dereference at virtual address 00000000 when read
-[00000000] *pgd=74936831, *pte=00000000, *ppte=00000000
-Internal error: Oops: 17 [#1] ARM
-CPU: 0 PID: 51 Comm: reboot Not tainted 6.2.0-rc1-dirty #11
-Hardware name: Freescale i.MX53 (Device Tree Support)
-PC is at msm_atomic_commit_tail+0x50/0x970
-LR is at commit_tail+0x9c/0x188
-pc : [<c06aa430>]    lr : [<c067a214>]    psr: 600e0013
-sp : e0851d30  ip : ee4eb7eb  fp : 00090acc
-r10: 00000058  r9 : c2193014  r8 : c4310000
-r7 : c4759380  r6 : 07bef61d  r5 : 00000000  r4 : 00000000
-r3 : c44cc440  r2 : 00000000  r1 : 00000000  r0 : 00000000
-Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
-Control: 10c5387d  Table: 74910019  DAC: 00000051
-Register r0 information: NULL pointer
-Register r1 information: NULL pointer
-Register r2 information: NULL pointer
-Register r3 information: slab kmalloc-1k start c44cc400 pointer offset 64 size 1024
-Register r4 information: NULL pointer
-Register r5 information: NULL pointer
-Register r6 information: non-paged memory
-Register r7 information: slab kmalloc-128 start c4759380 pointer offset 0 size 128
-Register r8 information: slab kmalloc-2k start c4310000 pointer offset 0 size 2048
-Register r9 information: non-slab/vmalloc memory
-Register r10 information: non-paged memory
-Register r11 information: non-paged memory
-Register r12 information: non-paged memory
-Process reboot (pid: 51, stack limit = 0xc80046d9)
-Stack: (0xe0851d30 to 0xe0852000)
-1d20:                                     c4759380 fbd77200 000005ff 002b9c70
-1d40: c4759380 c4759380 00000000 07bef61d 00000600 c0d6fe7c c2193014 00000058
-1d60: 00090acc c067a214 00000000 c4759380 c4310000 00000000 c44cc854 c067a89c
-1d80: 00000000 00000000 00000000 c4310468 00000000 c4759380 c4310000 c4310468
-1da0: c4310470 c0643258 c4759380 00000000 00000000 c0c4ee24 00000000 c44cc810
-1dc0: 00000000 c0c4ee24 00000000 c44cc810 00000000 0347d2a8 e0851e00 e0851e00
-1de0: c4759380 c067ad20 c4310000 00000000 c44cc810 c27f8718 c44cc854 c067adb8
-1e00: c4933000 00000002 00000001 00000000 00000000 c2130850 00000000 c2130854
-1e20: c25fc488 00000000 c0ff162c 00000000 00000001 00000002 00000000 00000000
-1e40: c43102c0 c43102c0 00000000 0347d2a8 c44cc810 c44cc814 c2133da8 c06d1a60
-1e60: 00000000 00000000 00079028 c2012f24 fee1dead c4933000 00000058 c01431e4
-1e80: 01234567 c0143a20 00000000 00000000 00000000 00000000 00000000 00000000
-1ea0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-1ec0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-1ee0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-1f00: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-1f20: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-1f40: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-1f60: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-1f80: 00000000 00000000 00000000 0347d2a8 00000002 00000004 00000078 00000058
-1fa0: c010028c c0100060 00000002 00000004 fee1dead 28121969 01234567 00079028
-1fc0: 00000002 00000004 00000078 00000058 0002fdc5 00000000 00000000 00090acc
-1fe0: 00000058 becc9c64 b6e97e05 b6e0e5f6 600e0030 fee1dead 00000000 00000000
- msm_atomic_commit_tail from commit_tail+0x9c/0x188
- commit_tail from drm_atomic_helper_commit+0x160/0x188
- drm_atomic_helper_commit from drm_atomic_commit+0xac/0xe0
- drm_atomic_commit from drm_atomic_helper_disable_all+0x1b0/0x1c0
- drm_atomic_helper_disable_all from drm_atomic_helper_shutdown+0x88/0x140
- drm_atomic_helper_shutdown from device_shutdown+0x16c/0x240
- device_shutdown from kernel_restart+0x38/0x90
- kernel_restart from __do_sys_reboot+0x174/0x224
- __do_sys_reboot from ret_fast_syscall+0x0/0x1c
-Exception stack(0xe0851fa8 to 0xe0851ff0)
-1fa0:                   00000002 00000004 fee1dead 28121969 01234567 00079028
-1fc0: 00000002 00000004 00000078 00000058 0002fdc5 00000000 00000000 00090acc
-1fe0: 00000058 becc9c64 b6e97e05 b6e0e5f6
-Code: 15922088 1184421c e1500003 1afffff8 (e5953000)
----[ end trace 0000000000000000 ]---
+Cheers,
+Longman
 
-Fixes: 0a58d2ae572a ("drm/msm: Make .remove and .shutdown HW shutdown consistent")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
 
-Changes since v1:
-- Moved setting of `async' before the call to trace to fix the
-  uninitialized variable warning
-
----
- drivers/gpu/drm/msm/msm_atomic.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
-index 1686fbb611fd..d8cded52cabf 100644
---- a/drivers/gpu/drm/msm/msm_atomic.c
-+++ b/drivers/gpu/drm/msm/msm_atomic.c
-@@ -186,7 +186,12 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
- 	struct msm_kms *kms = priv->kms;
- 	struct drm_crtc *async_crtc = NULL;
- 	unsigned crtc_mask = get_crtc_mask(state);
--	bool async = kms->funcs->vsync_time &&
-+	bool async;
-+
-+	if (!kms)
-+		return;
-+
-+	async = kms->funcs->vsync_time &&
- 			can_do_async(state, &async_crtc);
- 
- 	trace_msm_atomic_commit_tail_start(async, crtc_mask);
--- 
-2.39.0
+> Regards,
+>   Felix
+>
+>
+> Am 2022-12-29 um 01:26 schrieb syzbot:
+>> syzbot has found a reproducer for the following issue on:
+>>
+>> HEAD commit:    1b929c02afd3 Linux 6.2-rc1
+>> git tree:       upstream
+>> console output: https://syzkaller.appspot.com/x/log.txt?x=145c6a68480000
+>> kernel config: 
+>> https://syzkaller.appspot.com/x/.config?x=2651619a26b4d687
+>> dashboard link: 
+>> https://syzkaller.appspot.com/bug?extid=94cc2a66fc228b23f360
+>> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU 
+>> Binutils for Debian) 2.35.2
+>> syz repro: https://syzkaller.appspot.com/x/repro.syz?x=13e13e32480000
+>> C reproducer: https://syzkaller.appspot.com/x/repro.c?x=13790f08480000
+>>
+>> Downloadable assets:
+>> disk image: 
+>> https://storage.googleapis.com/syzbot-assets/d1849f1ca322/disk-1b929c02.raw.xz
+>> vmlinux: 
+>> https://storage.googleapis.com/syzbot-assets/924cb8aa4ada/vmlinux-1b929c02.xz
+>> kernel image: 
+>> https://storage.googleapis.com/syzbot-assets/8c7330dae0a0/bzImage-1b929c02.xz
+>>
+>> The issue was bisected to:
+>>
+>> commit c0d9271ecbd891cdeb0fad1edcdd99ee717a655f
+>> Author: Yong Zhao <Yong.Zhao@amd.com>
+>> Date:   Fri Feb 1 23:36:21 2019 +0000
+>>
+>>      drm/amdgpu: Delete user queue doorbell variables
+>>
+>> bisection log: 
+>> https://syzkaller.appspot.com/x/bisect.txt?x=1433ece4a00000
+>> final oops: https://syzkaller.appspot.com/x/report.txt?x=1633ece4a00000
+>> console output: https://syzkaller.appspot.com/x/log.txt?x=1233ece4a00000
+>>
+>> IMPORTANT: if you fix the issue, please add the following tag to the 
+>> commit:
+>> Reported-by: syzbot+94cc2a66fc228b23f360@syzkaller.appspotmail.com
+>> Fixes: c0d9271ecbd8 ("drm/amdgpu: Delete user queue doorbell variables")
+>>
+>> ------------[ cut here ]------------
+>> Looking for class "l2tp_sock" with key l2tp_socket_class, but found a 
+>> different class "slock-AF_INET6" with the same key
+>> WARNING: CPU: 0 PID: 7280 at kernel/locking/lockdep.c:937 
+>> look_up_lock_class+0x97/0x110 kernel/locking/lockdep.c:937
+>> Modules linked in:
+>> CPU: 0 PID: 7280 Comm: syz-executor835 Not tainted 
+>> 6.2.0-rc1-syzkaller #0
+>> Hardware name: Google Google Compute Engine/Google Compute Engine, 
+>> BIOS Google 10/26/2022
+>> RIP: 0010:look_up_lock_class+0x97/0x110 kernel/locking/lockdep.c:937
+>> Code: 17 48 81 fa e0 e5 f6 8f 74 59 80 3d 5d bc 57 04 00 75 50 48 c7 
+>> c7 00 4d 4c 8a 48 89 04 24 c6 05 49 bc 57 04 01 e8 a9 42 b9 ff <0f> 
+>> 0b 48 8b 04 24 eb 31 9c 5a 80 e6 02 74 95 e8 45 38 02 fa 85 c0
+>> RSP: 0018:ffffc9000b5378b8 EFLAGS: 00010082
+>> RAX: 0000000000000000 RBX: ffffffff91c06a00 RCX: 0000000000000000
+>> RDX: ffff8880292d0000 RSI: ffffffff8166721c RDI: fffff520016a6f09
+>> RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
+>> R10: 0000000080000201 R11: 20676e696b6f6f4c R12: 0000000000000000
+>> R13: ffff88802a5820b0 R14: 0000000000000000 R15: 0000000000000000
+>> FS:  00007f1fd7a97700(0000) GS:ffff8880b9800000(0000) 
+>> knlGS:0000000000000000
+>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>> CR2: 0000000020000100 CR3: 0000000078ab4000 CR4: 00000000003506f0
+>> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+>> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+>> Call Trace:
+>>   <TASK>
+>>   register_lock_class+0xbe/0x1120 kernel/locking/lockdep.c:1289
+>>   __lock_acquire+0x109/0x56d0 kernel/locking/lockdep.c:4934
+>>   lock_acquire kernel/locking/lockdep.c:5668 [inline]
+>>   lock_acquire+0x1e3/0x630 kernel/locking/lockdep.c:5633
+>>   __raw_spin_lock_bh include/linux/spinlock_api_smp.h:126 [inline]
+>>   _raw_spin_lock_bh+0x33/0x40 kernel/locking/spinlock.c:178
+>>   spin_lock_bh include/linux/spinlock.h:355 [inline]
+>>   lock_sock_nested+0x5f/0xf0 net/core/sock.c:3473
+>>   lock_sock include/net/sock.h:1725 [inline]
+>>   inet_autobind+0x1a/0x190 net/ipv4/af_inet.c:177
+>>   inet_send_prepare net/ipv4/af_inet.c:813 [inline]
+>>   inet_send_prepare+0x325/0x4e0 net/ipv4/af_inet.c:807
+>>   inet6_sendmsg+0x43/0xe0 net/ipv6/af_inet6.c:655
+>>   sock_sendmsg_nosec net/socket.c:714 [inline]
+>>   sock_sendmsg+0xd3/0x120 net/socket.c:734
+>>   __sys_sendto+0x23a/0x340 net/socket.c:2117
+>>   __do_sys_sendto net/socket.c:2129 [inline]
+>>   __se_sys_sendto net/socket.c:2125 [inline]
+>>   __x64_sys_sendto+0xe1/0x1b0 net/socket.c:2125
+>>   do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+>>   do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+>>   entry_SYSCALL_64_after_hwframe+0x63/0xcd
+>> RIP: 0033:0x7f1fd78538b9
+>> Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 e1 15 00 00 90 48 89 f8 48 
+>> 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 
+>> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+>> RSP: 002b:00007f1fd7a971f8 EFLAGS: 00000212 ORIG_RAX: 000000000000002c
+>> RAX: ffffffffffffffda RBX: 00007f1fd78f0038 RCX: 00007f1fd78538b9
+>> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000004
+>> RBP: 00007f1fd78f0030 R08: 0000000020000100 R09: 000000000000001c
+>> R10: 0000000004008000 R11: 0000000000000212 R12: 00007f1fd78f003c
+>> R13: 00007f1fd79ffc8f R14: 00007f1fd7a97300 R15: 0000000000022000
+>>   </TASK>
+>>
+>
 
