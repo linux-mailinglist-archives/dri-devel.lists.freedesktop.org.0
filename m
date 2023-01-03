@@ -2,45 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB73265C159
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 14:59:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3BE265C178
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 15:08:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F4CD10E260;
-	Tue,  3 Jan 2023 13:59:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6BEB10E25F;
+	Tue,  3 Jan 2023 14:08:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F270110E260
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 13:59:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=RwhJh94aptbx/atfAeoh9G9VXUeORvLjp6e1451D384=; b=ZjzVoIPQH2BBmxE7WWIV5AfLE4
- Myp4n/+F0JJWost/WMlDLQ9Q0c9eYkDnspr6VbkbfEqsSXqjP3cmSV9uA692ffU9ae5orZfqa8b4P
- uFW29CyB7DaL/lCGBOIUbTrw0Fw7pHRyZ8Z7feocunNii8iAjKp8pH7eBniATaSgtoXpqYf27QE/I
- FMD5YupEHQov9b0UP57VtQjWnP87XSOVcyje/mCWnuxmyGLywOsQpeKJ45/9tvS5k1dvtmOd5RiLt
- WUApIOChavRhzkJCY2RicyaiAtyCb6jumi3kXkZ6z9FxQwhMuos5lqR/HR97iNK8aQm9G5goD9CPy
- gHj53SyA==;
-Received: from [187.36.234.139] (helo=bowie..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pChp8-00GBM0-2g; Tue, 03 Jan 2023 14:59:26 +0100
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2] drm/gem: Check for valid formats
-Date: Tue,  3 Jan 2023 10:59:16 -0300
-Message-Id: <20230103135916.897118-1-mcanal@igalia.com>
-X-Mailer: git-send-email 2.38.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F92A10E25F;
+ Tue,  3 Jan 2023 14:08:00 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 795883E6FD;
+ Tue,  3 Jan 2023 14:07:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1672754876; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HEJD9eeEtIBqJlvqHVyEk27kWefx2FkPEKnJNr3qq0U=;
+ b=ewGcxHKiW6jKTbH2EHIxeZ3AKvkgDmLc7QtmhsL/yUnNFFUNDjZbRqd0WWct2t/5a9wPJf
+ dA+ahj5H4DdfLfIiATZG56JfEYYgWPFwWYvrrRl8I6YXKBqa8rrCcaU3wDq6EWz4vxb6pH
+ Re/u45a/nvpZwudM5kli/yclwSGx9q0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1672754876;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HEJD9eeEtIBqJlvqHVyEk27kWefx2FkPEKnJNr3qq0U=;
+ b=QeHoTZGFuEAc3aJBQH6PZzROsqxCqDNr6gAE/1r4bkinizU/plN1tLdM5Vok77Z2lro8zp
+ +Kn/QwIzf4ZNWJAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 41F5E1392B;
+ Tue,  3 Jan 2023 14:07:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id SuaVDrw2tGMkPQAAMHmgww
+ (envelope-from <tiwai@suse.de>); Tue, 03 Jan 2023 14:07:56 +0000
+Date: Tue, 03 Jan 2023 15:07:55 +0100
+Message-ID: <87mt6zr9s4.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: bskeggs@redhat.com
+Subject: Re: [PATCH] drm/nouveau/mmu: fix Use after Free bug in
+ nvkm_vmm_node_split
+In-Reply-To: <20221230072758.443644-1-zyytlz.wz@163.com>
+References: <20221230072758.443644-1-zyytlz.wz@163.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,85 +66,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Melissa Wen <mwen@igalia.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- dri-devel@lists.freedesktop.org
+Cc: alex000young@gmail.com, security@kernel.org, kherbst@redhat.com,
+ nouveau@lists.freedesktop.org, hackerzheng666@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Zheng Wang <zyytlz.wz@163.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, drm_gem_fb_create() doesn't check if the pixel format is
-supported, which can lead to the acceptance of invalid pixel formats
-e.g. the acceptance of invalid modifiers. Therefore, add a check for
-valid formats on drm_gem_fb_create().
+On Fri, 30 Dec 2022 08:27:58 +0100,
+Zheng Wang wrote:
+> 
+> Here is a function call chain.
+> nvkm_vmm_pfn_map->nvkm_vmm_pfn_split_merge->nvkm_vmm_node_split
+> If nvkm_vma_tail return NULL in nvkm_vmm_node_split, it will
+> finally invoke nvkm_vmm_node_merge->nvkm_vmm_node_delete, which
+> will free the vma. However, nvkm_vmm_pfn_map didn't notice that.
+> It goes into next label and UAF happens.
+> 
+> Fix it by returning the return-value of nvkm_vmm_node_merge
+> instead of NULL.
+> 
+> Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
 
-Moreover, note that this check is only valid for atomic drivers,
-because, for non-atomic drivers, checking drm_any_plane_has_format() is
-not possible since the format list for the primary plane is fake, and
-we'd therefor reject valid formats.
+FWIW, CVE-2023-0030 has been assigned to this bug.
+It's a question whether it really deserves as a security issue, but a
+bug is a bug...
 
-Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
+Ben, could you review this please?
 
-v1 -> v2: https://lore.kernel.org/dri-devel/20230103125322.855089-1-mcanal@igalia.com/T/
-- Check the modifier for each pixel plane in multi-plane formats (Thomas Zimmermann).
-- Use drm_dbg_kms() instead of drm_dbg() (Thomas Zimmermann).
 
----
- Documentation/gpu/todo.rst                   |  7 ++-----
- drivers/gpu/drm/drm_gem_framebuffer_helper.c | 13 +++++++++++++
- 2 files changed, 15 insertions(+), 5 deletions(-)
+thanks,
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 1f8a5ebe188e..68bdafa0284f 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -276,11 +276,8 @@ Various hold-ups:
- - Need to switch to drm_fbdev_generic_setup(), otherwise a lot of the custom fb
-   setup code can't be deleted.
+Takashi
 
--- Many drivers wrap drm_gem_fb_create() only to check for valid formats. For
--  atomic drivers we could check for valid formats by calling
--  drm_plane_check_pixel_format() against all planes, and pass if any plane
--  supports the format. For non-atomic that's not possible since like the format
--  list for the primary plane is fake and we'd therefor reject valid formats.
-+- Need to switch to drm_gem_fb_create(), as now drm_gem_fb_create() checks for
-+  valid formats for atomic drivers.
-
- - Many drivers subclass drm_framebuffer, we'd need a embedding compatible
-   version of the varios drm_gem_fb_create functions. Maybe called
-diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-index e93533b86037..92d748f8553f 100644
---- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-+++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-@@ -9,6 +9,7 @@
- #include <linux/module.h>
-
- #include <drm/drm_damage_helper.h>
-+#include <drm/drm_drv.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem.h>
-@@ -164,6 +165,18 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
-		return -EINVAL;
-	}
-
-+	if (drm_drv_uses_atomic_modeset(dev)) {
-+		for (i = 0; i < info->num_planes; i++) {
-+			if (!drm_any_plane_has_format(dev, mode_cmd->pixel_format,
-+						      mode_cmd->modifier[i])) {
-+				drm_dbg_kms(dev,
-+					    "Unsupported pixel format %p4cc / modifier 0x%llx\n",
-+					    &mode_cmd->pixel_format, mode_cmd->modifier[i]);
-+				return -EINVAL;
-+			}
-+		}
-+	}
-+
-	for (i = 0; i < info->num_planes; i++) {
-		unsigned int width = mode_cmd->width / (i ? info->hsub : 1);
-		unsigned int height = mode_cmd->height / (i ? info->vsub : 1);
---
-2.38.1
-
+> ---
+>  drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
+> index ae793f400ba1..84d6fc87b2e8 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
+> @@ -937,8 +937,8 @@ nvkm_vmm_node_split(struct nvkm_vmm *vmm,
+>  	if (vma->size != size) {
+>  		struct nvkm_vma *tmp;
+>  		if (!(tmp = nvkm_vma_tail(vma, vma->size - size))) {
+> -			nvkm_vmm_node_merge(vmm, prev, vma, NULL, vma->size);
+> -			return NULL;
+> +			tmp = nvkm_vmm_node_merge(vmm, prev, vma, NULL, vma->size);
+> +			return tmp;
+>  		}
+>  		tmp->part = true;
+>  		nvkm_vmm_node_insert(vmm, tmp);
+> -- 
+> 2.25.1
+> 
