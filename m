@@ -2,144 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F9A65C3B3
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 17:19:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91DF065C3BD
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 17:20:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 029E110E263;
-	Tue,  3 Jan 2023 16:19:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6744210E26A;
+	Tue,  3 Jan 2023 16:20:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC78210E263;
- Tue,  3 Jan 2023 16:19:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1672762749; x=1704298749;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=6ICRchekVibNKGEboqQve45ZohoJ9u/XxccUeVpILZY=;
- b=g4Lx0NGT8zyyGIq8Kh2fVSvzcYhpuSXaNEgo6B6zl18ZLjwxuks4AO6Y
- 0R4WSw/u4DKWfJBRUigcxsb7XDmtuyyfeGkqXufEG4BvI0aeH6Qs2hceL
- 3k6wMho/bief8G4e2RZR3CLf5ZNUvwc5Q46kVT8fZvG4ChOuC/b87m8Fm
- n8y6qsz4LE4SqbOGNywkJyNOAgZLS8C3mEswyQXZEeGLHX8iXLMrdy34V
- upKFR4Odd6r5xXsSJ9shCHK2CQA2CzEhZm+xBIcyOrhRzbtXXkyHO6qGG
- Ym8EuG7L3eo9CFb4Qy0GkQwrtTK768dyFtarAXaxQd/S2d3yfNkM0CbMK A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="301373903"
-X-IronPort-AV: E=Sophos;i="5.96,297,1665471600"; d="scan'208";a="301373903"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2023 08:19:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="648264214"
-X-IronPort-AV: E=Sophos;i="5.96,297,1665471600"; d="scan'208";a="648264214"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orsmga007.jf.intel.com with ESMTP; 03 Jan 2023 08:19:00 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 3 Jan 2023 08:18:59 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Tue, 3 Jan 2023 08:18:59 -0800
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.46) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Tue, 3 Jan 2023 08:18:58 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2082.outbound.protection.outlook.com [40.107.237.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3D3C10E3EC;
+ Tue,  3 Jan 2023 16:20:13 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ThlwmwbvjBUkWkqSERNC1QQq/ZV+mLDwGGO1pqMVmqPJwUZyHxN40pp4eUxPJFzHbZSnM9m8nI+Hd6SS+P8XgpA8zNZi6qxJ6LGtJtF4SuElC/F1QK5VkYwF7gVJ8/8LiIxAdc12tM4/G2r6qdQ8fSblwZCXg0Bo2dblLHs1ZHHQMOI/SZOlyJmV9FFuVkrwTsxUE1I/D+0YiGTfksqYXvlDpeeS1A7UZOP5DYj3DCnq4R85Km5bp/QcT5TvWN4OhEpIp0HVAyw+B/xGw3ivgCnB7nbt273oH5g8ifyTB+8S9vxEs6m9MwapFOAMNLh9qi2VuTOxBYLJvOShTwamXQ==
+ b=m0VxiybEPKhg+Q+GlqLwHGFxsbecYt2xxY3hE9fg7kzpgLaaJ+TvBFbyoqZk2MdmhTklHOS6sndRIPHOqEsxbpOeokl5KeDa0Fj9kzNoIRQFwhFHG/YeDkTax61jVZnWxpJNyHAAEQOgVO1n4LJKdzDF8o301wRKZpPpun+peA2YQ9vyhscNPZ5gNnvc15+QVVc3mFZsBdfbucn5NTZRToeHuNzGAcYJKzQnfak2SSj9UBr5ayOwvvb1HysgXGPh/DighbKFE6B8o7G57eSOVhKTvXUrECvPj5d6ISIgLgLBrGksbXbajnyQ+wozW4+VPg8sCEfYZ5NwzPYv7wZAog==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7qf9l08sXI2J1lHUsaQpLd83HMuKplOeVFlVAHZT/04=;
- b=XH71oe4l5h8jku6u78wHLYQmcsA/oSIHBJQRgRXbstz6iNMefkJ84poI+rr+ioAgvo3O0QF0ExzVVaHIEcX8fY+bk7sOe13kSuQUFVkYYDNCwzV92PfTamRwf+fHzZ5vRPMlb5pfS5GDG8cKMJmQVxrNqxRnaEYcDSJBQey1LulpHyXkAw1Lw7hKPknnPQDzVD3BkBgKgobrDdl18nrmarRTr9RKWL1j3EByHXyobmFaro5TMcXhc0VL9waIPZLB8zGBjIFAfkrkin7p81BmjqBCGrrPr12l1XlLN7UHsrWszkhCxfJGL5wa59UOy6d06t6ISONQ8pbbjST5u2H7ew==
+ bh=9rnYhDXPwmDaZg14MhVpGy/iNv6jZQpJtRlI+6hZXhw=;
+ b=baemeL7euCSXsLPYAUCRXzcAneoN1X7B8JjfBmtRSQxwy/7sbwfUW/FIHK+yaf4qnuHhmsWQ/4BV0SzaJeJ7enGaQd2xW+C93EC64L3E+8aImUtBMrAI56KlHZ2hvN9RL9L2Y3QtnqN0ZQRs5pzEqM7mDaiBWEpKgYC4AGMrPcMrrzDN2mwBj0um18VGIYCF25OGRWIM7Wrez+om/f2MYxWYNGnjKg8oLXAA3bdFI3JiUHgU8V7hDl4PFqV46GOwL/nUJXt75rH7nCyKHzPteuRT86icHBOjHuv3PPj4K2H2e620ddkrWykDH11musTj5rt8odIXqFeXHRFK3Y5uSQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9rnYhDXPwmDaZg14MhVpGy/iNv6jZQpJtRlI+6hZXhw=;
+ b=SG3Fds/eRlct2yQ0mIGVbZQQtUpXlDoaPdvxmPmopqf+m7Nn+a7MiwnJLKq9a3lM0VlmDNIEL0uwwXS9y7ChEHiLWYd9ZSBr7KdzIQRQAFKw8lx2OmjXFhhYynYbUB3pZo6ETIaFlaYD5ZEALNDF9p+x1WNeWzcfoDX0MrX0F/A=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by PH0PR11MB5951.namprd11.prod.outlook.com (2603:10b6:510:145::18)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by CY8PR12MB7099.namprd12.prod.outlook.com (2603:10b6:930:61::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Tue, 3 Jan
- 2023 16:18:55 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::499c:efe3:4397:808]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::499c:efe3:4397:808%8]) with mapi id 15.20.5944.019; Tue, 3 Jan 2023
- 16:18:55 +0000
-Date: Tue, 3 Jan 2023 11:18:50 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Alexey Lukyachuk <skif@skif-web.ru>, Ville =?iso-8859-1?Q?Syrj=E4l=E4?=
- <ville.syrjala@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2] drm/i915: dell wyse 3040 shutdown fix
-Message-ID: <Y7RVavxGE6GDLQXJ@intel.com>
-References: <20221225184413.146916-1-skif@skif-web.ru>
- <20221225185507.149677-1-skif@skif-web.ru>
- <Y6sfvUJmrb73AeJh@intel.com>
- <20221227204003.6b0abe65@alexey-Swift-SF314-42>
- <20230102165649.2b8e69e3@alexey-Swift-SF314-42>
- <Y7QjsNBYKumzEvBS@intel.com>
- <20230103190920.754a7b2c@alexey-Swift-SF314-42>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230103190920.754a7b2c@alexey-Swift-SF314-42>
-X-ClientProxiedBy: SJ0PR05CA0043.namprd05.prod.outlook.com
- (2603:10b6:a03:33f::18) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+ 2023 16:20:04 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::c3f5:aede:fa4d:5411]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::c3f5:aede:fa4d:5411%4]) with mapi id 15.20.5944.019; Tue, 3 Jan 2023
+ 16:20:04 +0000
+Message-ID: <a47b840f-b2b8-95d7-ddc0-c9d5dde3c28c@amd.com>
+Date: Tue, 3 Jan 2023 11:20:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [syzbot] WARNING: locking bug in inet_autobind
+Content-Language: en-US
+To: Waiman Long <longman@redhat.com>,
+ syzbot <syzbot+94cc2a66fc228b23f360@syzkaller.appspotmail.com>,
+ Alexander.Deucher@amd.com, Christian.Koenig@amd.com, David1.Zhou@amd.com,
+ Evan.Quan@amd.com, Harry.Wentland@amd.com, Oak.Zeng@amd.com,
+ Ray.Huang@amd.com, Yong.Zhao@amd.com, airlied@linux.ie,
+ amd-gfx@lists.freedesktop.org, ast@kernel.org, boqun.feng@gmail.com,
+ bpf@vger.kernel.org, daniel@ffwll.ch, daniel@iogearbox.net,
+ davem@davemloft.net, dri-devel@lists.freedesktop.org, dsahern@kernel.org,
+ edumazet@google.com, gautammenghani201@gmail.com, jakub@cloudflare.com,
+ kafai@fb.com, kuba@kernel.org, kuznet@ms2.inr.ac.ru,
+ linux-kernel@vger.kernel.org, mingo@redhat.com, netdev@vger.kernel.org,
+ ozeng@amd.com, pabeni@redhat.com, penguin-kernel@I-love.SAKURA.ne.jp,
+ peterz@infradead.org, rex.zhu@amd.com, songliubraving@fb.com,
+ syzkaller-bugs@googlegroups.com, will@kernel.org, yhs@fb.com,
+ yoshfuji@linux-ipv6.org
+References: <0000000000002ae67f05f0f191aa@google.com>
+ <ea9c2977-f05f-3acd-ee3e-2443229b7b55@amd.com>
+ <3e531d65-72a7-a82a-3d18-004aeab9144b@redhat.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+In-Reply-To: <3e531d65-72a7-a82a-3d18-004aeab9144b@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT1PR01CA0118.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2c::27) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|PH0PR11MB5951:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0b168f11-eaab-41e1-fff4-08daeda635f3
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|CY8PR12MB7099:EE_
+X-MS-Office365-Filtering-Correlation-Id: 31ff2f31-e497-4d18-d166-08daeda65f46
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vuFmXbxzrUfQt+UBCE4zuqNz0K5MG+1M7kdholBmuXLmIrcy2ewg24Vgif9ZHaWQzK8N0NW5eykZc9WO/QB3kFUyi9f8lxemHNHKMZv8rwx6p8JDhOgOGPOXNwr9C7PgJBWjaOILsmvq/WJ6P5ZcweRqzwn75pb6PfOfSY/VGzJMxafrtAqjLQGBHSGZJXFGIFhVQfk+SxQYCt6Ywq50/v2/GaWsglsvQ6mZJRuCamIv5HJ3wk6nuF2scbvK0pNYLyZhudNCa66cRcfkfuC4DO/sFZqIWB4h9gsthRrSA+Megk30KRXMYHZ6VZysaiAC/rP2cAyyBVz10tP6sALofsgrMZ/pvHHPQn+dBqHfXa+1OgkhPsBU82RZLwR4gNIWpjyQhOz3tikT2z7KUSurq6fD446HEXBN80JPxTiwHEiF4vNh+HVIYSejPIOvFupZbxb7Hla5GI4b6U26dvnHx2AGbNUKdyD4cd52FJoe1zoB8Yl2FQCfDDr7Uqg7Hv5QHgDlX2RJ/tcV2pLhcb/v0s6pM5noWheUcxyCIZzVRd2+og0lokzlRCq/2sDffxHEfnaGof4Eqa1qY6QH88uvONxvGGp9pVRnHu6NUVK0R9Zap+ChVY8JWWvS8+Lx+8k7brzM4ukhFHU0ERjjYpjrlDU4KTo/igy3NRKiwUu6XIWhftdYd4rFNCW553UqEGKXIjiwFlFnE4pvYt350uTuW44C1EgOAjvFcJJ/RHTmlrLqKHLFuF5gCbgIRvdVmlx/Lwco0+NJUmoloKkLAmRi9A==
+X-Microsoft-Antispam-Message-Info: dq2Tp+gHBUfFNxfGe0itwc/f10k22qm8n499VPSOVnhBErBu9XTTfb4bm/hdjEoGMS2h+nSIt7ZCUOAkQftpIXuABu4uZ7aWQ8NqyPeZBrxePFK2BB9V5EPzgzlfPEaOArBUjwLTTEoMIEf4vhi6xfkePzRJjUoUchANIHM2p5v4ZBeebeNyGMg4wVAcbC+ievUxfaf45rL5KGtUB0jJ5KPXCW5oPBT4pOefWeVQPHOHdTgNNj3pcoSkG5u9KEIpmv8Fay5qzy8sIT3UU4np2LZ3pDEVJGY4at6vPnshNyTv/hh1gSlK5hozjCgBKTZBgiqFB1i/IUB7lE5OrqmU8Hh7UkkNB6K+ps/dYfX6kebZIn0VB13HiQ9QdtTaHxMzqVXsvrayZNGV8uNGfmFetfmpXB96KRGUZ04lZYzoB+wnGsNR97UUWsd9jK5vPXUE2IxvIF5Eum/UOtZ6HrcL/IU2pIULTRpXqer9ZheeOB/zNy3a23cCkyYdilCJjyUiDGOLazbM/7UszYzHMjZLPWy1QzZXqBp6vJ9140+Z2LwhpqyuAUdOtENHV5i6O8NXDcr83o+Gca125/EnHs2zUIxQGBHe5nKOknoTHO3vltoeRqqk7+PZp0eWGaLlKvaWyA7OlcOvYMJE8VplDo3luEmEXi8jVgN23Hb4qXh3LYR9WCxV23TnVmohKSAb1wIJloigpVkrAiQsEKlDqGBfob2x0L5gYH4ADyMGPtrJaGCCC+y9w9Vbgdeqk184urga5Kt5LuchlGp/AYg0qD8JEctlGSxvMqdMbgvtp70eRgKGWAxInIxFsoD1fzHPPWaN5jti8oNKOQ8slSDf/lc4udSTkl3Y3SsWcRbMxBozGNQ=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(376002)(366004)(396003)(136003)(346002)(39860400002)(451199015)(5660300002)(2906002)(44832011)(8936002)(4326008)(8676002)(41300700001)(478600001)(30864003)(316002)(66476007)(66946007)(110136005)(6636002)(66556008)(45080400002)(966005)(6486002)(6666004)(26005)(6512007)(6506007)(83380400001)(66574015)(82960400001)(186003)(38100700002)(2616005)(86362001)(36756003)(22166006);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(396003)(376002)(366004)(39860400002)(346002)(451199015)(41300700001)(8936002)(66946007)(8676002)(5660300002)(7416002)(110136005)(31686004)(316002)(4001150100001)(2906002)(6486002)(53546011)(45080400002)(6506007)(966005)(6666004)(66476007)(478600001)(66556008)(44832011)(31696002)(86362001)(186003)(26005)(6512007)(2616005)(83380400001)(38100700002)(36756003)(921005)(22166006)(99710200001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?bpAyyuKBnVJClfDxPAhDcr2A+Uvy/sPXfv+4KurJxEFeurQ1+mhcPxbSEd?=
- =?iso-8859-1?Q?Odu1wRR77jU6HM2NefJ4VqgXBGNuKjcWdGpvgsKQMQdVsD/xPHLrPAeRHa?=
- =?iso-8859-1?Q?rdtfWzEb/VDTeaP1bQ3RzMEz3PEHzglbx0byA4pqwc5x3D2+a5gysMF4BA?=
- =?iso-8859-1?Q?7ktHMEpVDeuYZeLMvvC+2C4wLXQdmTWnTBT3+99G0JcvlXgdSToQyf1nUr?=
- =?iso-8859-1?Q?ggNW8njE0SEKS0HYW8EgXky8xfvWOSHikV8vUNcC0lkPtq8JHtgKCqLg+I?=
- =?iso-8859-1?Q?JqX2E+qvTSZV8ySs1wAo9+hSZplUY/CdZBhwdDNy2+/ZARz56AzrI602h4?=
- =?iso-8859-1?Q?Dq371MdfcNWSQUlDLLOOR0qMbdZeAyQkw9Lb7eBc8Xd0O3GulOiKVuXqpQ?=
- =?iso-8859-1?Q?KUmJosZczA+P9ltbETcI8Av/LQZ0HIThY+7u56Fy0Fo+YRRG6R/ihkBtuP?=
- =?iso-8859-1?Q?obG9bt/UZJix5upFmzjBqxi3u5tqUWDb99WBlIoZ+toi0G2gAt4EbGQXIt?=
- =?iso-8859-1?Q?VyYeTOLHF2wnd+PcDNvTrEmR7zTWDAVL8A7eQSrc4LLyi4qr0IoLzrPOl+?=
- =?iso-8859-1?Q?ThMNV0LGnkgQk0cQ6Yrh3oYUQM7FPaTh/vI7k3F1DImq8JrFjY+ZCrriWL?=
- =?iso-8859-1?Q?qdXF6Dd7l+6R7Meu6HBHKeGnEOOVP/tifDi2TPHeCaCDXQUFgmQi0HrQVE?=
- =?iso-8859-1?Q?CqsXn4rMO5KrL92tS/HKMyc6wKtfg5Fh4zydIg64O2cmx/MrWxmFn1RMb2?=
- =?iso-8859-1?Q?5fi0kgRtVISqF9uLUiXabzjzZnqkzCV+c70fXIrZ9sF6uAqtnZcAyQ1yfp?=
- =?iso-8859-1?Q?A0U+VkZYyBLWTff5bArezNglPgoAIYwMSEvw/MBBxHzY8ejXB6U4PokXFd?=
- =?iso-8859-1?Q?QrA94doxlBZWYBTqACrq5Pxg6LOMLqmG6fBq5EfDfHb58PJdzlOLcqYhcc?=
- =?iso-8859-1?Q?2A5up4cFoXYaaPOj/eQyBMF0sN6EgrnpdaWF01tnyQcV/G6EfQkco1MG0B?=
- =?iso-8859-1?Q?IG+pQqJfjCsjhDRvUOJGTIBpcHJjCGvQzggCS7buAOPZMwtVAdB9eIXJC1?=
- =?iso-8859-1?Q?GjfdPzTBg9MP3zI5Cr13aydDy6UBOqoqI/CPW9XoPCXEgGw1bL1RgBnUHJ?=
- =?iso-8859-1?Q?cR1aFoT5bKRUXNsz15byJ/koRzkPEkJzFaFnSbgMEgb5X97fv+6nAQSnfh?=
- =?iso-8859-1?Q?boy8TuYZBoF87ZRsqUfOtRQ+ppSTwHPV+TuxBIcA64WWLaQ4SJrve9MxD1?=
- =?iso-8859-1?Q?/547aj3HlC69f1lPNUQOdUMKvtl/oYzrifb/YdjgaMsknnZDwIxYGQ/bPi?=
- =?iso-8859-1?Q?h3g2m2cLmYuAyWlljPwfdg2LDEZM5CR+Q/za5L/BBZGJtJoZqkPpuYRPtT?=
- =?iso-8859-1?Q?6bQvV4nMMB8RZPDXFK83AcO5inZQ0aOWiVqKMoUGtn96m9TO3kciI6UlVR?=
- =?iso-8859-1?Q?ISC+BJCGlnrPcS2NA8SpzZc8FekbpjLRuZzs0LlHTyyJkgqK3BB4ySB0ie?=
- =?iso-8859-1?Q?mpAneapTWoA1G8wqUX09IfstP6gPd7mgfcAsSAheuoR6h9c3M/rW1w3DjY?=
- =?iso-8859-1?Q?TzD9PtYJRTPp5DrM1YmFuPG70uZT4j1erv7bOLh43lCBEo2AG+GZuPio1n?=
- =?iso-8859-1?Q?tphzMHPjJ/hO9TfIrCYPUW3pB7Buh629lzZLEeGNLohCfwCwUG21x8XA?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b168f11-eaab-41e1-fff4-08daeda635f3
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YzdhL3VLdnFuK2pCakQ1SG95MW1jLzh5RndRNHk3K2hWSUs2aHhWdUFESnUy?=
+ =?utf-8?B?Y2dOc0IwOXBsN2ZrTXBaVm1EekdSaElpNDR5V3VIK3RJaURUOVJ5aWZ1ZEZH?=
+ =?utf-8?B?OERvQzlmeStVRlN5NnBxQm5jMUN1ZmpSZElNbmp5WFltZ0d3R1VpNXFzRDN0?=
+ =?utf-8?B?V2k0OEg5NTBMQ3IvTm5hRVlGdXJXNDM3S2FkYmVqbU12R2tHK293dWZuTmJp?=
+ =?utf-8?B?OW9tOUhFejlHRW1KcUlCTC9saVlnUmlzb1FKMHdCWUZMUmFueE9heXAxRjdG?=
+ =?utf-8?B?bVhldFNmTVdKQ01KUWpocXpMSVpFVmdqellhUlE4UXc3dHlqUHNPc3QzTlNL?=
+ =?utf-8?B?N1ZKTmVUbXJHQ0lUSzB0YW1LWGdFSHJoNUtOZGt5eTFTTnFPNnRsZGkvUEJV?=
+ =?utf-8?B?T0I1YlNIUjlMSzN6MkRNQWt5MHIrem1XYjhNak52b3Y0RVROWC9WM3hFOGw4?=
+ =?utf-8?B?M3pNb3pUTnMydWRhaU40eGZzd0NpMzY0QWRUQVh1S3g5M2x4ZDMva0pmKzUv?=
+ =?utf-8?B?VjBNK1NBMU1FdDFlaWRLU2k5eUxOU25kczN1Yi9pSXJneTcrZmorY0d3Nmp3?=
+ =?utf-8?B?UW93Z2daRFAxWXNUVjRXYWhzcnZaamExZVpQS3hmTjdmS0pOQmRlNGxuZ013?=
+ =?utf-8?B?elNMMkRXbWp0WXMvZnhidGl6ZGlkekk5b2lNKzR3WjJGSndNYjVKSWRUM29E?=
+ =?utf-8?B?aXdpenYxNXIzMHVLdzBTOVdCdkNIVUw3ck9DZEhpSGNKUlBZdFJkaGxFRnNl?=
+ =?utf-8?B?Y2c4ZWp4czNod1lZOWtOaW15b3NPOGoybFdmU2tIQUY0V3VwTUd2c1lJb1Rj?=
+ =?utf-8?B?TldJUmpEMi9TQ0xUWFJWWkRLdHdwdnhrTFBCb2VXV2tLdTVNWk04dXBjaEI2?=
+ =?utf-8?B?VGYyOWFsRitHTzlxNGw2U1lEelpOQkFRWW9FSVFKeHVHVGI1QkZoMktoeGFa?=
+ =?utf-8?B?OFhIbFBtOE5RRHVURVV0bkhUMzdSSy9GYk9pd05HYlVxenhmZHNkSCtzN1dE?=
+ =?utf-8?B?VW83SGtCNlFBWktGU0llNVRveWoydjBtVTlub3laT241bDFObHJTekdCY21D?=
+ =?utf-8?B?M3dtbmZGWnVZclJNdENCaEpwd1JtNE9Zc1U2cVY5RGlQVWQ2N1cyaWszaVY0?=
+ =?utf-8?B?a2dvWVA3bUJJYlpOUmo3SzRrUkdUenRkNUdKajlLQWRJamp4MnBBSTI4UHFR?=
+ =?utf-8?B?Y0Z0bHl5RU9TenNyMzVyYXJNTlZpT0MwWWFJbkxlc3B5ZmIzVGQ1YUF4NGZh?=
+ =?utf-8?B?dC9hZjNmV1Nja1YzWVltRWNYYWUrK01oeGNxU3R4THNNakVUU3JrRjRvZCtU?=
+ =?utf-8?B?WGhyR2tnTW5WcUU3Qm1GNWUvUEptWjNaWGNkaTRqV3ppUzBQSS9nazFER2Ft?=
+ =?utf-8?B?N1ZZcnJvUzlIVzBsaEJrUWtiOUxEQnZVSGtDMUVtYWVXb3RKNGI1YmNiRlZt?=
+ =?utf-8?B?RTlJNm84YnpXUVBZMTlxV3drd0tkcVBrVkJFME81d3hMai83UVJGRzVWTXov?=
+ =?utf-8?B?RWZsVTUyMTFzaEdNQ2hEb1lLRjRKbHR1UGowOVpKSURVa0JFdXArSXNFZTVQ?=
+ =?utf-8?B?d2ViUEN0elZUUFVVOExUZHNNQ0VDZkJpNDArQTFWeTFkcXVpV1JkcUM5SDc1?=
+ =?utf-8?B?UW1VSEQyYVVnYnVLWFAxNlVsR3lLOUdVaUM0U3ZNWXNPRGkzNGNlWVE3Y2ls?=
+ =?utf-8?B?R05TYU5TYUsxL055bG85c0c3NnFxaFoyNC9jd0hIWmU4UTVoZlhScEk5TlJI?=
+ =?utf-8?B?MnhtQzR4bTZGb0o0MVJBY25hdWpDYVl6dkkvN1ZWNXBtUkZZT2x3dS82MVJx?=
+ =?utf-8?B?TnI3Z3ZuT0NvSlBIT0NlUlNnU0tzSGVEcklaaklTRWVFdjJYTVh0SStJcnF1?=
+ =?utf-8?B?bUJVRVpSTllEMkZ5T1BlazBYVDgyMzA4UHcrQUc5dkcrYkhYOVFaYjB3TldC?=
+ =?utf-8?B?c205YXRsSmZoYmpXenQ4MGdoaFFBU1dRa3NxQmJDVmZMcEhicjVDeWswNTRU?=
+ =?utf-8?B?Q21UcjUvU1BJS0oyYy9pNEttV25CMGpvL1lOVU5VazArek4rUUN2MVZiTDlB?=
+ =?utf-8?B?TG5zbjh4L0NHUnV1V0d5bGRmQmdoQS9Rdm16b3RKVDZ1bThQZDFkbVVMbkt2?=
+ =?utf-8?Q?I+2+gyqF7C8wGCGJb+V0rAMPd?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31ff2f31-e497-4d18-d166-08daeda65f46
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2023 16:18:55.4383 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2023 16:20:04.7365 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cPlXC02Zwz8B8ELkzYKbXUQUom5KBJeUsFJ01hvxNVx77estrnUvgYqWwJghF/L0MDmP3QpPsPIsNML6q61j3w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5951
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: Rd7Jgb0GF73DkK0L/7u33+dPWdFmagCq7jRIPRqE4nptV1K7ZGDUsOquvsS+/RJue05+5xzooYJS1QUxbzb3EA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7099
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,405 +140,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 03, 2023 at 07:09:20PM +0300, Alexey Lukyachuk wrote:
-> On Tue, 3 Jan 2023 07:46:40 -0500
-> Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
->=20
-> > On Mon, Jan 02, 2023 at 04:56:49PM +0300, Alexey Lukyachuk wrote:
-> > > On Tue, 27 Dec 2022 20:40:03 +0300
-> > > Alexey Lukyachuk <skif@skif-web.ru> wrote:
-> > >=20
-> > > > On Tue, 27 Dec 2022 11:39:25 -0500
-> > > > Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
-> > > >=20
-> > > > > On Sun, Dec 25, 2022 at 09:55:08PM +0300, Alexey Lukyanchuk wrote=
-:
-> > > > > > dell wyse 3040 doesn't peform poweroff properly, but instead re=
-mains in=20
-> > > > > > turned power on state.
-> > > > >=20
-> > > > > okay, the motivation is explained in the commit msg..
-> > > > >=20
-> > > > > > Additional mutex_lock and=20
-> > > > > > intel_crtc_wait_for_next_vblank=20
-> > > > > > feature 6.2 kernel resolve this trouble.
-> > > > >=20
-> > > > > but this why is not very clear... seems that by magic it was foun=
-d,
-> > > > > without explaining what race we are really protecting here.
-> > > > >=20
-> > > > > but even worse is:
-> > > > > what about those many random vblank waits in the code? what's the
-> > > > > reasoning?
-> > > > >=20
-> > > > > >=20
-> > > > > > cc: stable@vger.kernel.org
-> > > > > > original commit Link: https://patchwork.freedesktop.org/patch/5=
-08926/
-> > > > > > fixes: fe0f1e3bfdfeb53e18f1206aea4f40b9bd1f291c
-> > > > > > Signed-off-by: Alexey Lukyanchuk <skif@skif-web.ru>
-> > > > > > ---
-> > > > > > I got some troubles with this device (dell wyse 3040) since ker=
-nel 5.11
-> > > > > > started to use i915_driver_shutdown function. I found solution =
-here:
-> > > > > >=20
-> > > > > > https://lore.kernel.org/dri-devel/Y1wd6ZJ8LdJpCfZL@intel.com/#r
-> > > > > >=20
-> > > > > > ---
-> > > > > >  drivers/gpu/drm/i915/display/intel_audio.c | 37 ++++++++++++++=
-+-------
-> > > > > >  1 file changed, 25 insertions(+), 12 deletions(-)
-> > > > > >=20
-> > > > > > diff --git a/drivers/gpu/drm/i915/display/intel_audio.c b/drive=
-rs/gpu/drm/i915/display/intel_audio.c
-> > > > > > index aacbc6da8..44344ecdf 100644
-> > > > > > --- a/drivers/gpu/drm/i915/display/intel_audio.c
-> > > > > > +++ b/drivers/gpu/drm/i915/display/intel_audio.c
-> > > > > > @@ -336,6 +336,7 @@ static void g4x_audio_codec_disable(struct =
-intel_encoder *encoder,
-> > > > > >  				    const struct drm_connector_state *old_conn_state)
-> > > > > >  {
-> > > > > >  	struct drm_i915_private *dev_priv =3D to_i915(encoder->base.d=
-ev);
-> > > > > > +	struct intel_crtc *crtc =3D to_intel_crtc(old_crtc_state->uap=
-i.crtc);
-> > > > > >  	u32 eldv, tmp;
-> > > > > > =20
-> > > > > >  	tmp =3D intel_de_read(dev_priv, G4X_AUD_VID_DID);
-> > > > > > @@ -348,6 +349,9 @@ static void g4x_audio_codec_disable(struct =
-intel_encoder *encoder,
-> > > > > >  	tmp =3D intel_de_read(dev_priv, G4X_AUD_CNTL_ST);
-> > > > > >  	tmp &=3D ~eldv;
-> > > > > >  	intel_de_write(dev_priv, G4X_AUD_CNTL_ST, tmp);
-> > > > > > +
-> > > > > > +	intel_crtc_wait_for_next_vblank(crtc);
-> > > > > > +	intel_crtc_wait_for_next_vblank(crtc);
-> > > > > >  }
-> > > > > > =20
-> > > > > >  static void g4x_audio_codec_enable(struct intel_encoder *encod=
-er,
-> > > > > > @@ -355,12 +359,15 @@ static void g4x_audio_codec_enable(struct=
- intel_encoder *encoder,
-> > > > > >  				   const struct drm_connector_state *conn_state)
-> > > > > >  {
-> > > > > >  	struct drm_i915_private *dev_priv =3D to_i915(encoder->base.d=
-ev);
-> > > > > > +	struct intel_crtc *crtc =3D to_intel_crtc(crtc_state->uapi.cr=
-tc);
-> > > > > >  	struct drm_connector *connector =3D conn_state->connector;
-> > > > > >  	const u8 *eld =3D connector->eld;
-> > > > > >  	u32 eldv;
-> > > > > >  	u32 tmp;
-> > > > > >  	int len, i;
-> > > > > > =20
-> > > > > > +	intel_crtc_wait_for_next_vblank(crtc);
-> > > > > > +
-> > > > > >  	tmp =3D intel_de_read(dev_priv, G4X_AUD_VID_DID);
-> > > > > >  	if (tmp =3D=3D INTEL_AUDIO_DEVBLC || tmp =3D=3D INTEL_AUDIO_D=
-EVCL)
-> > > > > >  		eldv =3D G4X_ELDV_DEVCL_DEVBLC;
-> > > > > > @@ -493,6 +500,7 @@ static void hsw_audio_codec_disable(struct =
-intel_encoder *encoder,
-> > > > > >  				    const struct drm_connector_state *old_conn_state)
-> > > > > >  {
-> > > > > >  	struct drm_i915_private *dev_priv =3D to_i915(encoder->base.d=
-ev);
-> > > > > > +	struct intel_crtc *crtc =3D to_intel_crtc(old_crtc_state->uap=
-i.crtc);
-> > > > > >  	enum transcoder cpu_transcoder =3D old_crtc_state->cpu_transc=
-oder;
-> > > > > >  	u32 tmp;
-> > > > > > =20
-> > > > > > @@ -508,6 +516,10 @@ static void hsw_audio_codec_disable(struct=
- intel_encoder *encoder,
-> > > > > >  		tmp |=3D AUD_CONFIG_N_VALUE_INDEX;
-> > > > > >  	intel_de_write(dev_priv, HSW_AUD_CFG(cpu_transcoder), tmp);
-> > > > > > =20
-> > > > > > +
-> > > > > > +	intel_crtc_wait_for_next_vblank(crtc);
-> > > > > > +	intel_crtc_wait_for_next_vblank(crtc);
-> > > > > > +
-> > > > > >  	/* Invalidate ELD */
-> > > > > >  	tmp =3D intel_de_read(dev_priv, HSW_AUD_PIN_ELD_CP_VLD);
-> > > > > >  	tmp &=3D ~AUDIO_ELD_VALID(cpu_transcoder);
-> > > > > > @@ -633,6 +645,7 @@ static void hsw_audio_codec_enable(struct i=
-ntel_encoder *encoder,
-> > > > > >  				   const struct drm_connector_state *conn_state)
-> > > > > >  {
-> > > > > >  	struct drm_i915_private *dev_priv =3D to_i915(encoder->base.d=
-ev);
-> > > > > > +	struct intel_crtc *crtc =3D to_intel_crtc(crtc_state->uapi.cr=
-tc);
-> > > > > >  	struct drm_connector *connector =3D conn_state->connector;
-> > > > > >  	enum transcoder cpu_transcoder =3D crtc_state->cpu_transcoder=
-;
-> > > > > >  	const u8 *eld =3D connector->eld;
-> > > > > > @@ -651,12 +664,7 @@ static void hsw_audio_codec_enable(struct =
-intel_encoder *encoder,
-> > > > > >  	tmp &=3D ~AUDIO_ELD_VALID(cpu_transcoder);
-> > > > > >  	intel_de_write(dev_priv, HSW_AUD_PIN_ELD_CP_VLD, tmp);
-> > > > > > =20
-> > > > > > -	/*
-> > > > > > -	 * FIXME: We're supposed to wait for vblank here, but we have=
- vblanks
-> > > > > > -	 * disabled during the mode set. The proper fix would be to p=
-ush the
-> > > > > > -	 * rest of the setup into a vblank work item, queued here, bu=
-t the
-> > > > > > -	 * infrastructure is not there yet.
-> > > > > > -	 */
-> > > > > > +	intel_crtc_wait_for_next_vblank(crtc);
-> > > > > > =20
-> > > > > >  	/* Reset ELD write address */
-> > > > > >  	tmp =3D intel_de_read(dev_priv, HSW_AUD_DIP_ELD_CTRL(cpu_tran=
-scoder));
-> > > > > > @@ -705,6 +713,8 @@ static void ilk_audio_codec_disable(struct =
-intel_encoder *encoder,
-> > > > > >  		aud_cntrl_st2 =3D CPT_AUD_CNTRL_ST2;
-> > > > > >  	}
-> > > > > > =20
-> > > > > > +	mutex_lock(&dev_priv->display.audio.mutex);
-> > > > > > +
-> > > > > >  	/* Disable timestamps */
-> > > > > >  	tmp =3D intel_de_read(dev_priv, aud_config);
-> > > > > >  	tmp &=3D ~AUD_CONFIG_N_VALUE_INDEX;
-> > > > > > @@ -721,6 +731,10 @@ static void ilk_audio_codec_disable(struct=
- intel_encoder *encoder,
-> > > > > >  	tmp =3D intel_de_read(dev_priv, aud_cntrl_st2);
-> > > > > >  	tmp &=3D ~eldv;
-> > > > > >  	intel_de_write(dev_priv, aud_cntrl_st2, tmp);
-> > > > > > +	mutex_unlock(&dev_priv->display.audio.mutex);
-> > > > > > +
-> > > > > > +	intel_crtc_wait_for_next_vblank(crtc);
-> > > > > > +	intel_crtc_wait_for_next_vblank(crtc);
-> > > > > >  }
-> > > > > > =20
-> > > > > >  static void ilk_audio_codec_enable(struct intel_encoder *encod=
-er,
-> > > > > > @@ -740,12 +754,7 @@ static void ilk_audio_codec_enable(struct =
-intel_encoder *encoder,
-> > > > > >  	if (drm_WARN_ON(&dev_priv->drm, port =3D=3D PORT_A))
-> > > > > >  		return;
-> > > > > > =20
-> > > > > > -	/*
-> > > > > > -	 * FIXME: We're supposed to wait for vblank here, but we have=
- vblanks
-> > > > > > -	 * disabled during the mode set. The proper fix would be to p=
-ush the
-> > > > > > -	 * rest of the setup into a vblank work item, queued here, bu=
-t the
-> > > > > > -	 * infrastructure is not there yet.
-> > > > > > -	 */
-> > > > > > +	intel_crtc_wait_for_next_vblank(crtc);
-> > > > > > =20
-> > > > > >  	if (HAS_PCH_IBX(dev_priv)) {
-> > > > > >  		hdmiw_hdmiedid =3D IBX_HDMIW_HDMIEDID(pipe);
-> > > > > > @@ -767,6 +776,8 @@ static void ilk_audio_codec_enable(struct i=
-ntel_encoder *encoder,
-> > > > > > =20
-> > > > > >  	eldv =3D IBX_ELD_VALID(port);
-> > > > > > =20
-> > > > > > +	mutex_lock(&dev_priv->display.audio.mutex);
-> > > > > > +
-> > > > > >  	/* Invalidate ELD */
-> > > > > >  	tmp =3D intel_de_read(dev_priv, aud_cntrl_st2);
-> > > > > >  	tmp &=3D ~eldv;
-> > > > > > @@ -798,6 +809,8 @@ static void ilk_audio_codec_enable(struct i=
-ntel_encoder *encoder,
-> > > > > >  	else
-> > > > > >  		tmp |=3D audio_config_hdmi_pixel_clock(crtc_state);
-> > > > > >  	intel_de_write(dev_priv, aud_config, tmp);
-> > > > > > +
-> > > > > > +	mutex_unlock(&dev_priv->display.audio.mutex);
-> > > > > >  }
-> > > > > > =20
-> > > > > >  /**
-> > > > > > --=20
-> > > > > > 2.25.1
-> > > > > >=20
-> > > >=20
-> > > >=20
-> > > > I would like to say, that this solution was found in drm-tip reposi=
-tory:
-> > > > link: git://anongit.freedesktop.org/drm-tip
-> > > > I will quotate original commit message from Ville Syrj=E4l=E4=20
-> > > > <ville.syrjala@linux.intel.com>: "The spec tells us to do a bunch o=
-f=20
-> > > > vblank waits in the audio enable/disable sequences. Make it so."
-> > > > So it's just a backport of accepted patch.
-> > > > Which i wanna to propagate to stable versions
-> > >=20
-> > >=20
-> > > Yes, I have checked 6.2-rc2 and everything work fine. I want to backp=
-ort
-> > > this commit to 6.0 and 6.1 because my company going to use these vers=
-ions.
-> > > Maybe it will be useful for 5.15, companies and vendors are passionat=
-e about
-> > > LTS kernel ( I am edge to make special version of this patch for 5.15
-> > > because hank 3 will be failed with it.).
-> > > I am fully supportive with you that trouble is in timings/ locking ch=
-anges.
-> > > Early in detecting process I made some sleeps and it's help but not r=
-eliable.
-> > > Regarding to your question about fdo gitlab, I went to do it. And in =
-process
-> > >  ("Before filing the bug, please try to reproduce your issue with the=
- latest
-> > >  kernel. Use the latest drm-tip branch") I found that trouble is reso=
-lves.
-> > > Using bisect and tests, I got needed commit.
-> >=20
-> > okay, so the only commit we need is this:
-> > https://patchwork.freedesktop.org/patch/508926/
-> > ?
-> >=20
-> > and nothing else?
->=20
-> Yes, this patch is enough.
->=20
-> >=20
-> > If we want this to be included in older released active kernel versions=
- we
-> > need to follow this process:
-> >=20
-> > https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-> >=20
-> > We cannot create a new patch like the origin of this thread.
-> >=20
->=20
-> May I ask you for a little additional explanation?
-> I submitted my patch with adding <stable@vger.kernel.org> to CC.
-> What else should I do?
-> Maybe I should send new thread and send it only to <stable@vger.kernel.or=
-g> ?
-> Should I make separate version for 5.15 lts?
 
-Your patch is not the right approach. Please read the rules in the given li=
-nk.
+Am 2023-01-03 um 11:05 schrieb Waiman Long:
+> On 1/3/23 10:39, Felix Kuehling wrote:
+>> The regression point doesn't make sense. The kernel config doesn't 
+>> enable CONFIG_DRM_AMDGPU, so there is no way that a change in AMDGPU 
+>> could have caused this regression.
+>>
+> I agree. It is likely a pre-existing problem or caused by another 
+> commit that got triggered because of the change in cacheline alignment 
+> caused by commit c0d9271ecbd ("drm/amdgpu: Delete user queue doorbell 
+> variable").
+I don't think the change can affect cache line alignment. The entire 
+amdgpu driver doesn't even get compiled in the kernel config that was 
+used, and the change doesn't touch any files outside 
+drivers/gpu/drm/amd/amdgpu:
 
-But also, even if you were backporting the original patch following the wri=
-tten
-rules, it looks like Jani doesn't agree that it is a right fix, but just ma=
-sking
-the issue by coincidence apparently, if I understood him well.
+# CONFIG_DRM_AMDGPU is not set
 
-Ville, thoughts on this issue and what patches to backport?
+My guess would be that it's an intermittent bug that is confusing bisect.
 
->=20
-> > >=20
-> > > Also I add log (by netconsole) from 5.15 kernel
-> > >=20
-> > > [   60.031680] ------------[ cut here ]------------
-> > > [   60.031709] i915 0000:00:02.0: drm_WARN_ON(!intel_irqs_enabled(dev=
-_priv))
-> > > [   60.031766] WARNING: CPU: 1 PID: 1964 at drivers/gpu/drm/i915/i915=
-_irq.c:527 i915_enable_pipestat+0x1b9/0x230 [i915]
-> > > [   60.032016] Modules linked in: snd_soc_sst_cht_bsw_rt5672 snd_hdmi=
-_lpe_audio mei_hdcp intel_rapl_msr intel_powerclamp coretemp kvm_intel kvm =
-punit_atom_debug crct10dif_pclmul ghash_clmulni_intel joydev input_leds aes=
-ni_intel crypto_simd cryptd snd_sof_acpi_intel_byt intel_cstate snd_sof_int=
-el_ipc snd_sof_acpi snd_sof_intel_atom dell_wmi snd_sof_xtensa_dsp snd_sof =
-dell_smbios ledtrig_audio dcdbas snd_intel_sst_acpi nls_iso8859_1 snd_soc_a=
-cpi_intel_match sparse_keymap snd_soc_acpi i915 efi_pstore snd_intel_sst_co=
-re wmi_bmof dell_wmi_descriptor snd_soc_sst_atom_hifi2_platform snd_soc_rt5=
-670 snd_intel_dspcfg intel_chtdc_ti_pwrbtn snd_soc_rl6231 snd_intel_sdw_acp=
-i ttm drm_kms_helper snd_soc_core cec snd_compress ac97_bus rc_core process=
-or_thermal_device_pci_legacy snd_pcm_dmaengine i2c_algo_bit processor_therm=
-al_device fb_sys_fops processor_thermal_rfim snd_pcm snd_seq_midi syscopyar=
-ea processor_thermal_mbox sysfillrect processor_thermal_rapl intel_rapl_com=
-mon mei_txe intel_soc_dts_iosf
-> > > [   60.032231]  snd_seq_midi_event mei intel_xhci_usb_role_switch sys=
-imgblt snd_rawmidi snd_seq snd_seq_device snd_timer snd soundcore 8250_dw i=
-nt3406_thermal mac_hid int3403_thermal int340x_thermal_zone int3400_thermal=
- acpi_pad intel_int0002_vgpio acpi_thermal_rel sch_fq_codel ipmi_devintf ip=
-mi_msghandler msr parport_pc ppdev lp parport drm ip_tables x_tables autofs=
-4 overlay hid_logitech_hidpp hid_logitech_dj hid_generic usbhid hid netcons=
-ole mmc_block crc32_pclmul r8169 realtek lpc_ich sdhci_pci xhci_pci cqhci x=
-hci_pci_renesas dw_dmac wmi sdhci_acpi video dw_dmac_core intel_soc_pmic_ch=
-tdc_ti sdhci
-> > > [   60.032427] CPU: 1 PID: 1964 Comm: plymouthd Not tainted 5.15.0-57=
--generic #63~20.04.1-Ubuntu
-> > > [   60.032440] Hardware name: Dell Inc. Wyse 3040 Thin Client/0G56C0,=
- BIOS 1.2.4 01/18/2018
-> > > [   60.032450] RIP: 0010:i915_enable_pipestat+0x1b9/0x230 [i915]
-> > > [   60.032669] Code: 89 55 cc 44 89 5d d0 44 89 4d d4 e8 c1 15 ae d8 =
-48 8b 55 c0 48 c7 c1 a8 72 b5 c0 48 c7 c7 54 b5 b8 c0 48 89 c6 e8 0e 21 f5 =
-d8 <0f> 0b 44 8b 55 cc 44 8b 5d d0 44 8b 4d d4 e9 9d fe ff ff 4c 89 f6
-> > > [   60.032682] RSP: 0018:ffffaaa50070b878 EFLAGS: 00010086
-> > > [   60.032694] RAX: 0000000000000000 RBX: ffff980ec8080000 RCX: fffff=
-fff9ab7a748
-> > > [   60.032703] RDX: 00000000ffffdfff RSI: ffffaaa50070b6b8 RDI: 00000=
-00000000001
-> > > [   60.032713] RBP: ffffaaa50070b8c0 R08: 0000000000000003 R09: 00000=
-00000000001
-> > > [   60.032721] R10: ffffffff9b21f3b6 R11: 000000009b21f38a R12: 00000=
-00000000004
-> > > [   60.032730] R13: 0000000000000000 R14: 0000000000000000 R15: ffff9=
-80ec8080000
-> > > [   60.032740] FS:  00007f0967eec740(0000) GS:ffff980f34280000(0000) =
-knlGS:0000000000000000
-> > > [   60.032752] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > [   60.032762] CR2: 00007f7f5f21eaa4 CR3: 000000000a34a000 CR4: 00000=
-000001006e0
-> > > [   60.032772] Call Trace:
-> > > [   60.032781]  <TASK>
-> > > [   60.032793]  ? drm_crtc_vblank_helper_get_vblank_timestamp_interna=
-l+0xe0/0x370 [drm]
-> > > [   60.032899]  i965_enable_vblank+0x3d/0x60 [i915]
-> > > [   60.033139]  drm_vblank_enable+0xfd/0x1a0 [drm]
-> > > [   60.033240]  drm_vblank_get+0xaf/0x100 [drm]
-> > > [   60.033335]  drm_crtc_vblank_get+0x17/0x20 [drm]
-> > > [   60.033426]  intel_pipe_update_start+0x128/0x2f0 [i915]
-> > > [   60.033689]  ? wait_woken+0x60/0x60
-> > > [   60.033710]  intel_update_crtc+0xd2/0x420 [i915]
-> > > [   60.033969]  intel_commit_modeset_enables+0x74/0xa0 [i915]
-> > > [   60.034228]  intel_atomic_commit_tail+0x587/0x14e0 [i915]
-> > > [   60.034488]  intel_atomic_commit+0x3a6/0x410 [i915]
-> > > [   60.034746]  drm_atomic_commit+0x4a/0x60 [drm]
-> > > [   60.034849]  drm_atomic_helper_set_config+0x80/0xc0 [drm_kms_helpe=
-r]
-> > > [   60.034921]  drm_mode_setcrtc+0x1ff/0x7d0 [drm]
-> > > [   60.035011]  ? drm_mode_getcrtc+0x1e0/0x1e0 [drm]
-> > > [   60.035098]  drm_ioctl_kernel+0xb2/0x100 [drm]
-> > > [   60.035182]  drm_ioctl+0x275/0x4a0 [drm]
-> > > [   60.035265]  ? drm_mode_getcrtc+0x1e0/0x1e0 [drm]
-> > > [   60.035354]  __x64_sys_ioctl+0x95/0xd0
-> > > [   60.035372]  do_syscall_64+0x5c/0xc0
-> > > [   60.035388]  ? exit_to_user_mode_prepare+0x3d/0x1c0
-> > > [   60.035404]  ? syscall_exit_to_user_mode+0x27/0x50
-> > > [   60.035418]  ? do_syscall_64+0x69/0xc0
-> > > [   60.035431]  ? syscall_exit_to_user_mode+0x27/0x50
-> > > [   60.035445]  ? do_syscall_64+0x69/0xc0
-> > > [   60.035459]  ? syscall_exit_to_user_mode+0x27/0x50
-> > > [   60.035474]  ? do_syscall_64+0x69/0xc0
-> > > [   60.035487]  ? do_syscall_64+0x69/0xc0
-> > > [   60.035501]  ? do_syscall_64+0x69/0xc0
-> > > [   60.035514]  entry_SYSCALL_64_after_hwframe+0x61/0xcb
-> > > [   60.035528] RIP: 0033:0x7f09681aa3ab
-> > > [   60.035542] Code: 0f 1e fa 48 8b 05 e5 7a 0d 00 64 c7 00 26 00 00 =
-00 48 c7 c0 ff ff ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa b8 10 00 00 00 0f =
-05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d b5 7a 0d 00 f7 d8 64 89 01 48
-> > > [   60.035554] RSP: 002b:00007fff40931638 EFLAGS: 00000246 ORIG_RAX: =
-0000000000000010
-> > > [   60.035567] RAX: ffffffffffffffda RBX: 00007fff40931670 RCX: 00007=
-f09681aa3ab
-> > > [   60.035576] RDX: 00007fff40931670 RSI: 00000000c06864a2 RDI: 00000=
-00000000009
-> > > [   60.035584] RBP: 00000000c06864a2 R08: 0000000000000000 R09: 00005=
-560dd410090
-> > > [   60.035592] R10: 0000000000000000 R11: 0000000000000246 R12: 00000=
-0000000007f
-> > > [   60.035601] R13: 0000000000000009 R14: 00005560dd40ffe0 R15: 00005=
-560dd410020
-> > > [   60.035613]  </TASK>
-> > > [   60.035622] ---[ end trace a700e85625cc752d ]---
->=20
+Regards,
+   Felix
+
+
+>
+> Cheers,
+> Longman
+>
+>
+>> Regards,
+>>   Felix
+>>
+>>
+>> Am 2022-12-29 um 01:26 schrieb syzbot:
+>>> syzbot has found a reproducer for the following issue on:
+>>>
+>>> HEAD commit:    1b929c02afd3 Linux 6.2-rc1
+>>> git tree:       upstream
+>>> console output: 
+>>> https://syzkaller.appspot.com/x/log.txt?x=145c6a68480000
+>>> kernel config: 
+>>> https://syzkaller.appspot.com/x/.config?x=2651619a26b4d687
+>>> dashboard link: 
+>>> https://syzkaller.appspot.com/bug?extid=94cc2a66fc228b23f360
+>>> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU 
+>>> Binutils for Debian) 2.35.2
+>>> syz repro: https://syzkaller.appspot.com/x/repro.syz?x=13e13e32480000
+>>> C reproducer: https://syzkaller.appspot.com/x/repro.c?x=13790f08480000
+>>>
+>>> Downloadable assets:
+>>> disk image: 
+>>> https://storage.googleapis.com/syzbot-assets/d1849f1ca322/disk-1b929c02.raw.xz
+>>> vmlinux: 
+>>> https://storage.googleapis.com/syzbot-assets/924cb8aa4ada/vmlinux-1b929c02.xz
+>>> kernel image: 
+>>> https://storage.googleapis.com/syzbot-assets/8c7330dae0a0/bzImage-1b929c02.xz
+>>>
+>>> The issue was bisected to:
+>>>
+>>> commit c0d9271ecbd891cdeb0fad1edcdd99ee717a655f
+>>> Author: Yong Zhao <Yong.Zhao@amd.com>
+>>> Date:   Fri Feb 1 23:36:21 2019 +0000
+>>>
+>>>      drm/amdgpu: Delete user queue doorbell variables
+>>>
+>>> bisection log: 
+>>> https://syzkaller.appspot.com/x/bisect.txt?x=1433ece4a00000
+>>> final oops: https://syzkaller.appspot.com/x/report.txt?x=1633ece4a00000
+>>> console output: 
+>>> https://syzkaller.appspot.com/x/log.txt?x=1233ece4a00000
+>>>
+>>> IMPORTANT: if you fix the issue, please add the following tag to the 
+>>> commit:
+>>> Reported-by: syzbot+94cc2a66fc228b23f360@syzkaller.appspotmail.com
+>>> Fixes: c0d9271ecbd8 ("drm/amdgpu: Delete user queue doorbell 
+>>> variables")
+>>>
+>>> ------------[ cut here ]------------
+>>> Looking for class "l2tp_sock" with key l2tp_socket_class, but found 
+>>> a different class "slock-AF_INET6" with the same key
+>>> WARNING: CPU: 0 PID: 7280 at kernel/locking/lockdep.c:937 
+>>> look_up_lock_class+0x97/0x110 kernel/locking/lockdep.c:937
+>>> Modules linked in:
+>>> CPU: 0 PID: 7280 Comm: syz-executor835 Not tainted 
+>>> 6.2.0-rc1-syzkaller #0
+>>> Hardware name: Google Google Compute Engine/Google Compute Engine, 
+>>> BIOS Google 10/26/2022
+>>> RIP: 0010:look_up_lock_class+0x97/0x110 kernel/locking/lockdep.c:937
+>>> Code: 17 48 81 fa e0 e5 f6 8f 74 59 80 3d 5d bc 57 04 00 75 50 48 c7 
+>>> c7 00 4d 4c 8a 48 89 04 24 c6 05 49 bc 57 04 01 e8 a9 42 b9 ff <0f> 
+>>> 0b 48 8b 04 24 eb 31 9c 5a 80 e6 02 74 95 e8 45 38 02 fa 85 c0
+>>> RSP: 0018:ffffc9000b5378b8 EFLAGS: 00010082
+>>> RAX: 0000000000000000 RBX: ffffffff91c06a00 RCX: 0000000000000000
+>>> RDX: ffff8880292d0000 RSI: ffffffff8166721c RDI: fffff520016a6f09
+>>> RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
+>>> R10: 0000000080000201 R11: 20676e696b6f6f4c R12: 0000000000000000
+>>> R13: ffff88802a5820b0 R14: 0000000000000000 R15: 0000000000000000
+>>> FS:  00007f1fd7a97700(0000) GS:ffff8880b9800000(0000) 
+>>> knlGS:0000000000000000
+>>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>> CR2: 0000000020000100 CR3: 0000000078ab4000 CR4: 00000000003506f0
+>>> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+>>> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+>>> Call Trace:
+>>>   <TASK>
+>>>   register_lock_class+0xbe/0x1120 kernel/locking/lockdep.c:1289
+>>>   __lock_acquire+0x109/0x56d0 kernel/locking/lockdep.c:4934
+>>>   lock_acquire kernel/locking/lockdep.c:5668 [inline]
+>>>   lock_acquire+0x1e3/0x630 kernel/locking/lockdep.c:5633
+>>>   __raw_spin_lock_bh include/linux/spinlock_api_smp.h:126 [inline]
+>>>   _raw_spin_lock_bh+0x33/0x40 kernel/locking/spinlock.c:178
+>>>   spin_lock_bh include/linux/spinlock.h:355 [inline]
+>>>   lock_sock_nested+0x5f/0xf0 net/core/sock.c:3473
+>>>   lock_sock include/net/sock.h:1725 [inline]
+>>>   inet_autobind+0x1a/0x190 net/ipv4/af_inet.c:177
+>>>   inet_send_prepare net/ipv4/af_inet.c:813 [inline]
+>>>   inet_send_prepare+0x325/0x4e0 net/ipv4/af_inet.c:807
+>>>   inet6_sendmsg+0x43/0xe0 net/ipv6/af_inet6.c:655
+>>>   sock_sendmsg_nosec net/socket.c:714 [inline]
+>>>   sock_sendmsg+0xd3/0x120 net/socket.c:734
+>>>   __sys_sendto+0x23a/0x340 net/socket.c:2117
+>>>   __do_sys_sendto net/socket.c:2129 [inline]
+>>>   __se_sys_sendto net/socket.c:2125 [inline]
+>>>   __x64_sys_sendto+0xe1/0x1b0 net/socket.c:2125
+>>>   do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+>>>   do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+>>>   entry_SYSCALL_64_after_hwframe+0x63/0xcd
+>>> RIP: 0033:0x7f1fd78538b9
+>>> Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 e1 15 00 00 90 48 89 f8 48 
+>>> 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 
+>>> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+>>> RSP: 002b:00007f1fd7a971f8 EFLAGS: 00000212 ORIG_RAX: 000000000000002c
+>>> RAX: ffffffffffffffda RBX: 00007f1fd78f0038 RCX: 00007f1fd78538b9
+>>> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000004
+>>> RBP: 00007f1fd78f0030 R08: 0000000020000100 R09: 000000000000001c
+>>> R10: 0000000004008000 R11: 0000000000000212 R12: 00007f1fd78f003c
+>>> R13: 00007f1fd79ffc8f R14: 00007f1fd7a97300 R15: 0000000000022000
+>>>   </TASK>
+>>>
+>>
+>
