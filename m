@@ -2,50 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B25765C584
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 18:58:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5842365C5A3
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 19:04:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA6910E27A;
-	Tue,  3 Jan 2023 17:57:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C84910E27B;
+	Tue,  3 Jan 2023 18:04:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay6-1.pub.mailoutpod2-cph3.one.com
- (mailrelay6-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:405::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 195F710E27A
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 17:57:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=EwBUdzJnCB54BTqWse1nZK/N6bNLSBfDFML/k/6VIUE=;
- b=lw4USXznYFEFEaWwMu2cHNwgZVRZD54ExKDonRw6lTgJ4Sqj6g0jklkjVnAloz1WgHGhkIulGxVeR
- 5EWh86q3u68/Pec8qPsv+VCtDIUcQxI78Br5HT1XOSuJ1RAnYQlniaqrzxyML1T0KkkF/uUo6grtyP
- 26ZWoHJXz5OI/JQkLaEyR2bOUJQZIjoykP0A2Fs3H6OHWZ9ipfP5+IMnhgHixs/QPK+xCFT8im5aXv
- 6AvJNVFQHT9SmIIrRLhKkCg3Kao+DuinggMN+uurr2J+rZmGpJ7ZZCX7xdWOc74Qo2VvSg8G2VUOnx
- ZeW1qkLdkjagll8kpaxxkisKbO6wCpg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=EwBUdzJnCB54BTqWse1nZK/N6bNLSBfDFML/k/6VIUE=;
- b=2n7wzIrWTU2yMXsaFUcN1Ez8vycYmeYJXmTGtFyrzgGcWr6onAXIswMu7OHYOU6Hiy+Pzl+9BC9aY
- 4yMf6cmDw==
-X-HalOne-ID: 216ee96d-8b90-11ed-a170-cde5ad41a1dd
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay6 (Halon) with ESMTPSA
- id 216ee96d-8b90-11ed-a170-cde5ad41a1dd;
- Tue, 03 Jan 2023 17:57:49 +0000 (UTC)
-Date: Tue, 3 Jan 2023 18:57:48 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 1/2] dt-bindings: display: panel: document the Visionox
- VTDR6130 AMOLED DSI Panel bindings
-Message-ID: <Y7RsnBkgnWbF3uMj@ravnborg.org>
-References: <20230103-topic-sm8550-upstream-vtdr6130-panel-v1-0-9b746b858378@linaro.org>
- <20230103-topic-sm8550-upstream-vtdr6130-panel-v1-1-9b746b858378@linaro.org>
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 572E510E3F4
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 18:04:08 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4NmgbS4vD2z9scX;
+ Tue,  3 Jan 2023 19:04:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1672769044;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IwijEIbSvLC/U34WE9PzGXqnqBCMcP9iTPyy7f2QEyE=;
+ b=jmyr4xz/D70NMFYmVSJfdwBO6t9PU9VVSDmNxOy0Ggv9AcwmF1ZldDzr1iCCmB0ibOxTzY
+ 6WzbsrThPtwgUFIIz0Ea5ypZuk5syy3PdY5VEvtfU6p3UQOk9YiTCZuc89XC6XkrPK8zWu
+ 5eOZW+iBTVeyIf2LwlXbvRx39MsJSC0tO7ti43AxqmECJ/3IwTkwikJjsH8UIhaWjvvoOc
+ jACx0tp1dwpIsvQnfGXyVdlQJoeBlvj5CLJYG31F2nC8BAT/++OG7ncovYtIaI5ioOxqiH
+ 9E6Zw9kYkWSKnxFBSj2xQ88+hITcxGmMLzmyJ8zvvlMj+X9+17omuymVsq5O1w==
+Message-ID: <a62cd71c-f025-739a-4822-58ff8fa78cbd@mailbox.org>
+Date: Tue, 3 Jan 2023 19:04:00 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230103-topic-sm8550-upstream-vtdr6130-panel-v1-1-9b746b858378@linaro.org>
+Subject: Re: renesas/master bisection:
+ igt-kms-rockchip.kms_vblank.pipe-A-wait-forked on rk3399-gru-kevin
+Content-Language: en-CA
+To: Brian Norris <briannorris@chromium.org>, Mark Brown <broonie@kernel.org>, 
+ Sean Paul <seanpaul@chromium.org>
+References: <6398848e.170a0220.f8e8e.d44f@mx.google.com>
+ <Y5itf0+yNIQa6fU4@sirena.org.uk> <Y5qOwmqIIp+2qWOy@google.com>
+ <Y6OCg9BPnJvimQLT@google.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <Y6OCg9BPnJvimQLT@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: mbhrkj4mmbk6ah919fxwhkezapfhjmhc
+X-MBO-RS-ID: 098d62100c117ff1898
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,87 +60,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, kernelci-results@groups.io,
+ bot@kernelci.org, Jonas Karlman <jonas@kwiboo.se>,
+ Robert Foss <robert.foss@linaro.org>, Douglas Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, gtucker@collabora.com,
+ linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
-
-On Tue, Jan 03, 2023 at 03:22:27PM +0100, Neil Armstrong wrote:
-> Document the 1080x2400 Visionox VTDR6130 AMOLED DSI Panel bindings.
+On 12/21/22 23:02, Brian Norris wrote:
+> Hi Mark, Sean, (and dri-devel)
 > 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  .../bindings/display/panel/visionox,vtdr6130.yaml  | 53 ++++++++++++++++++++++
->  1 file changed, 53 insertions(+)
+> On Wed, Dec 14, 2022 at 07:04:37PM -0800, Brian Norris wrote:
+>> On Tue, Dec 13, 2022 at 04:51:11PM +0000, Mark Brown wrote:
+>>> On Tue, Dec 13, 2022 at 05:56:30AM -0800, KernelCI bot wrote:
+>>>
+>>> The KernelCI bisection bot found regressions in at least two KMS tests
+>>> in the Renesas tree on rk3399-gru-kevin just after the Renesas tree
+>>> merged up mainline:
+>>>
+>>>    igt-kms-rockchip.kms_vblank.pipe-A-wait-forked 
+>>>    igt-kms-rockchip.kms_vblank.pipe-A-query-busy
+>>>
+>>> which it bisected to ca871659ec16 ("drm/bridge: analogix_dp: Support
+>>> PSR-exit to disable transition").  I'm not *100%* sure I trust the
+>>> bisection but it sure is suspicous that two separate bisects for related
+>>> issues landed on the same commit.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/visionox,vtdr6130.yaml b/Documentation/devicetree/bindings/display/panel/visionox,vtdr6130.yaml
-> new file mode 100644
-> index 000000000000..49e2fd4b4e99
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/visionox,vtdr6130.yaml
-> @@ -0,0 +1,53 @@
-> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/visionox,vtdr6130.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Visionox VTDR6130 AMOLED DSI Panel
-> +
-> +maintainers:
-> +  - Neil Armstrong <neil.armstrong@linaro.org>
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: visionox,vtdr6130
-> +
-> +  vddio-supply: true
-> +  vci-supply: true
-> +  vdd-supply: true
-These 3 looks wrong to me, as the above are not documented in panel-common.
-But maybe I miss something and this is OK?
-
-	Sam
-
-> +  port: true
-> +  reset-gpios: true
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - vddio-supply
-> +  - vci-supply
-> +  - vdd-supply
-> +  - reset-gpios
-> +  - port
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    panel {
-> +        compatible = "visionox,vtdr6130";
-> +
-> +        vddio-supply = <&vreg_l12b_1p8>;
-> +        vci-supply = <&vreg_l13b_3p0>;
-> +        vdd-supply = <&vreg_l11b_1p2>;
-> +
-> +        reset-gpios = <&tlmm 133 GPIO_ACTIVE_LOW>;
-> +
-> +        port {
-> +            panel0_in: endpoint {
-> +                remote-endpoint = <&dsi0_out>;
-> +            };
-> +        };
-> +    };
-> +...
+> ...
 > 
-> -- 
-> 2.34.1
+>>> | IGT-Version: 1.26-gf8a4a0b (aarch64) (Linux: 6.1.0 aarch64)
+>>> | <14>[   35.444448] [IGT] drm_read: starting subtest short-buffer-wakeup
+>>> | Starting subtest: short-buffer-wakeup
+>>> | 
+>>> | (| drm_read:350) CRITICAL: Test assertion failure function generate_event, file ../tests/drm_read.c:65:
+>>> | (drm_read:350) CRITICAL: <14>[   36.155642] [IGT] drm_read: exiting, ret=98
+>>> | Failed assertion: kmstest_get_vblank(fd, pipe, DRM_VBLANK_EVENT)
+>>> | 
+>>> | (drm_read:350) CRITICAL: Last errno: 22, Invalid argument
+>>> | Stack trace:
+>>> | 
+>>> |   #0 ../lib/igt_core.c:1933 __igt_fail_assert()
+>>> |   #1 [<unknown>+0xd5362770]
+>>> |   #2 [<unknown>+0xd536193c]
+>>> |   #3 [__libc_start_main+0xe8]
+>>> |   #4 [<unknown>+0xd5361974]
+>>> |   #5 [<unknown<6>[   36.162851] Console: switching to colour frame buffer device 300x100>+0xd5361974]
+>>> | Subtest short-buffer-wakeup failed.
+> 
+> ...
+> 
+>> I'll look some more, but this might be a difference of test setup, such
+>> that my setup has the issue before and after that commit, but your setup
+>> sees a regression.
+> 
+> I believe this is the case; things are broken both before and after, but
+> depending on test sequencing, etc., they might have seemed less broken
+> before.
+> 
+> When we're failing, we're getting EINVAL from drm_vblank_get(). That
+> essentially means that vblank has been disabled (drm_crtc_vblank_off()).
+> As it happens, this is exactly what we do when we enter PSR (Panel Self
+> Refresh).
+> 
+> Now, these test cases (especially 'kms_vblank.pipe-A-wait-forked') seem
+> to display a static image, and then wait for a bunch of vblank events.
+> This is exactly the sort of case where we should enter PSR, and so we're
+> likely to disable vblank events. Thus, if everything is working right,
+> we will often hit EINVAL in ioctl(DRM_IOCTL_WAIT_VBLANK) ... ->
+> drm_vblank_get(), and fail the test.
+> 
+> As to why this appears to be a regression: like mentioned in my previous
+> mail, these tests tend to hose the Analogix PSR state before my patch
+> set. When PSR is hosed, we tend to stay with PSR disabled, and so
+> drm_vblank_get() doesn't return EINVAL, and the test is happy. (Never
+> mind that the display is likely non-functional.) [0]
+> 
+> So how to fix this?
+> 
+> 1. ignore it; it's "just" a test failure, IIUC [1]
+> 2. change the test, to skip this test if the device has PSR
+> 3. leave vblank enabled even in the presence of PSR
+> 4. otherwise modify the vblank ioctl interface, such that one can "wait"
+>    for a vblank that won't come (because the display is in self-refresh
+>    / there are no new frames or vblanks)
+
+FWIW, a couple more alternatives:
+
+5. Go/stay out of PSR while vblank interrupts are enabled (probably want to make sure vblankoffdelay is set up such that vblank interrupts are disabled ASAP)
+6. Use fallback timers for vblank events while in PSR (there might be some infrastructure for this, since some drivers don't have real vblank interrupts)
+
+
+> [1] Or is it? I don't really know the DRM_IOCTL_WAIT_VBLANK ABI
+>     contract in the presence of PSR, but I believe the upstream PSR
+>     support has always worked this way. I could imagine
+>     DRM_IOCTL_WAIT_VBLANK users might not love seeing EINVAL here
+>     though.
+
+Yeah, that's pretty likely to cause issues with existing real-world user space.
+
+
+-- 
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
+
