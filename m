@@ -1,56 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077D065C3E8
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 17:31:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD39265C41E
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 17:40:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD14A10E26D;
-	Tue,  3 Jan 2023 16:31:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9377A10E26E;
+	Tue,  3 Jan 2023 16:40:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61E6A10E070
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 16:31:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1672763467; x=1704299467;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=cuLVXqBKitfJu7cWSS3kXh4OUsfRP4UzwtSLqsbAn2c=;
- b=F55d2vo1eNrJURNhdS44r/ozY4Ys6c7kdvDeEqfbIcX7g/7KTmVHgKJR
- 3sin120xew0fUkl39A7YYkQukrvT9HkKpH3Ylz2zEu1ECmmq+1DxMIhnE
- srQLgFF3KjF16vNPQiW9YCiWhIBYfTYcrvncYVCeegdN5ICaiaaFCcHSU
- rdWg8iROTWFVM09WqG2A5pAttpnnlnx7P07KN3eiyy4WCKGXZpnaG9aX0
- W4V3odjFvc1GY9i8QEHx8ZHN8T7h7IKry4GaR9cgIzDrXAUVAb4n8Sxdm
- c5m51PjxHI5erp6aU+SQpZ0cGCjreddaE542YkQrSiXCHXai2fchWOOgz w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="301376989"
-X-IronPort-AV: E=Sophos;i="5.96,297,1665471600"; d="scan'208";a="301376989"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2023 08:31:02 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="900230341"
-X-IronPort-AV: E=Sophos;i="5.96,297,1665471600"; d="scan'208";a="900230341"
-Received: from adorney-mobl.ger.corp.intel.com (HELO [10.213.222.30])
- ([10.213.222.30])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2023 08:31:00 -0800
-Message-ID: <5b12840a-6449-9f04-2161-37eea635d7e7@linux.intel.com>
-Date: Tue, 3 Jan 2023 16:30:58 +0000
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C651510E26E
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 16:40:10 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 819861516;
+ Tue,  3 Jan 2023 08:40:51 -0800 (PST)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 804AE3F71A;
+ Tue,  3 Jan 2023 08:40:07 -0800 (PST)
+Message-ID: <832f3200-77ac-1ee0-e1b5-5f56353cba36@arm.com>
+Date: Tue, 3 Jan 2023 16:39:59 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH] drm: Replace DRM_DEBUG with drm_dbg_core in file and
- ioctl handling
-Content-Language: en-US
-To: Simon Ser <contact@emersion.fr>
-References: <20221223112302.320097-1-tvrtko.ursulin@linux.intel.com>
- <Ouj8KzpA0lrnzC2YtFbX5tEX0Ul5cCTyrv3EU8NV43vW4OvkygMxFbbmZuuNHzVQd0sve9fgk2ZcATKeu1inEq12B9W4SYGGTdDWLBfuUWo=@emersion.fr>
- <c7337539-9d75-49c5-286a-d94e3e78c4df@linux.intel.com>
- <xnufxH1XoaGhgn-6c2f0sIWqdDktkVmzwOVZqN5R_W5elPxJnzD3ZIXOzUd3vg7RcatrWvxFvElw9JF7MdduIdpAkvT4iilppyO43KEr-no=@emersion.fr>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <xnufxH1XoaGhgn-6c2f0sIWqdDktkVmzwOVZqN5R_W5elPxJnzD3ZIXOzUd3vg7RcatrWvxFvElw9JF7MdduIdpAkvT4iilppyO43KEr-no=@emersion.fr>
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 2/3] iommu/sound: Use component_match_add_of helper
+Content-Language: en-GB
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20221222233759.1934852-1-sean.anderson@seco.com>
+ <20221222233759.1934852-3-sean.anderson@seco.com>
+ <7897d4a6-bf43-becd-3437-7a254f38f6be@arm.com>
+ <20230103161550.4tui3ihl65olvkd7@houat>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20230103161550.4tui3ihl65olvkd7@houat>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,26 +46,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: alsa-devel@alsa-project.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Sean Anderson <sean.anderson@seco.com>, Will Deacon <will@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, Takashi Iwai <tiwai@suse.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>, iommu@lists.linux.dev,
+ Mark Brown <broonie@kernel.org>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Yong Wu <yong.wu@mediatek.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 03/01/2023 15:39, Simon Ser wrote:
-> On Tuesday, January 3rd, 2023 at 16:37, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+On 03/01/2023 4:15 pm, Maxime Ripard wrote:
+> Hi Robin,
 > 
->> On 23/12/2022 11:26, Simon Ser wrote:
+> On Tue, Jan 03, 2023 at 01:01:07PM +0000, Robin Murphy wrote:
+>> Hi Sean,
 >>
->>> Reviewed-by: Simon Ser contact@emersion.fr
+>> On 22/12/2022 11:37 pm, Sean Anderson wrote:
+>>> Convert users of component_match_add_release with component_release_of
+>>> and component_compare_of to component_match_add_of.
+>>>
+>>> Signed-off-by: Sean Anderson <sean.anderson@seco.com>
+>>> Acked-by: Mark Brown <broonie@kernel.org>
+>>> ---
+>>>
+>>> Changes in v2:
+>>> - Split off from helper addition
+>>>
+>>>    drivers/iommu/mtk_iommu.c    | 3 +--
+>>>    drivers/iommu/mtk_iommu_v1.c | 3 +--
+>>>    sound/soc/codecs/wcd938x.c   | 6 ++----
+>>>    3 files changed, 4 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+>>> index 2ab2ecfe01f8..483b7a9e4410 100644
+>>> --- a/drivers/iommu/mtk_iommu.c
+>>> +++ b/drivers/iommu/mtk_iommu.c
+>>> @@ -1079,8 +1079,7 @@ static int mtk_iommu_mm_dts_parse(struct device *dev, struct component_match **m
+>>>    		}
+>>>    		data->larb_imu[id].dev = &plarbdev->dev;
+>>> -		component_match_add_release(dev, match, component_release_of,
+>>> -					    component_compare_of, larbnode);
+>>> +		component_match_add_of(dev, match, larbnode);
 >>
->> Thanks - adding some drm-misc maintainers to consider pulling the patch in.
+>> I've long since given up trying to make sense of how the DRM tree works, but
+>> the conflicting change is definitely already in mainline:
+>>
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=b5765a1b44bea9dfcae69c53ffeb4c689d0922a7
 > 
-> I can push the patches if you don't have commit rights.
+> As far as I can see, that patch doesn't affect DRM at all, and the
+> commit you pointed to doesn't either, nor has it been merged through the
+> DRM tree.
 
-Don't think I do - drm-intel only. Great if you can then, thanks!
+Right it doesn't affect DRM, and was merged via the IOMMU tree, but it 
+does affect *this* patch, which Sean has based on a drm-next branch that 
+seemingly still wasn't up to date with 6.2-rc1 at the time.
 
-Regards,
+Since v2 had already been posted, it seemed like a bright idea to 
+comment here to clarify that it was still relevant, rather than bumping 
+the old thread to reply directly. Apologies for any confusion.
 
-Tvrtko
+In practical terms I think it's merely a case of dropping this hunk; the 
+other one in mtk_iommu_v1.c looks fine to me.
+
+Cheers,
+Robin.
+
+> Can you expand a bit on how we're involved in this, what we should
+> clarify or help with?
+> 
+> Maxime
