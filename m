@@ -2,79 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EBBB65BC41
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 09:32:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB7E065BD19
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 10:24:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 372EE10E3AB;
-	Tue,  3 Jan 2023 08:32:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F362710E3BE;
+	Tue,  3 Jan 2023 09:24:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E462710E3AB
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 08:32:17 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id v23so20969071ljj.9
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Jan 2023 00:32:17 -0800 (PST)
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
+ [IPv6:2001:4860:4864:20::33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0860910E3BD
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 09:24:31 +0000 (UTC)
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-12c8312131fso36190535fac.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Jan 2023 01:24:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+eQuzBlsYHsLGCB8bOG5IW6L2kvDsW6xtprRoZMICuU=;
- b=tmr45XwFeEugin61Rnftw28ni6bHN0sEbHxVWVWq+J4OVvg/AlM1rrw+gIQUqGnU1Z
- JYyJFmdeo0DMfQ02tNVOkFPo6OEy+GJ1H6pTCbS0FoBxFa/0JNxZf9ZTy6an06BSniiI
- gIaQ8ozWSRcvyf+qVmdoASAjj6KmIK3dFVM6KqQahH3uiX7WinVX53Cu0fcU099v/1R0
- oYbWkHacnBUD+fxQ2Q6AVDc9FRZoYQ8or2dTrRm6Q/9lBeT3DRuVMijPCpVpxOKfFj1C
- QoKk5Zg67+jTD8ahyRydOHtrOIAhE0PjYHj+RZfr+xmh9YYQ0QVqyIeD2AzBRnSJfQle
- DwgA==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=mzcK4BlDrehna2Cf5WyLld2E+p/c7PCOy1ZvlyaJP1k=;
+ b=bR1gztSKPi5u6/qmjSq8JJxxv3wfyJmMLpirn/KjmYibxhjZo7U5fODxttptFG4MZ4
+ 0IXObSQFL1xNHqEy9yAzbxhEb+FU5HZHEK34C6Ofn5xjvKJTxUVdiTMnzTXI5lLY6jmn
+ uqPKflfmFLiTiOLvpmlbSeXcHUMzp4BHwLzZ+gx+mL/n09kl/h3U90Lxgu9xZyERDy+X
+ pN+aGzLOCuL5GZJI2FeIyy8y1r7QTz61jIjmrPeSChzLCOCVEiunaEiVXRndm9YbAak0
+ tpw42Yi+0S4wXmyg/of7mbrSehHDNbYtLyhTXH05Yrk8uYo3xyuziGAMU9T+Hc9Ke44Z
+ F8MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+eQuzBlsYHsLGCB8bOG5IW6L2kvDsW6xtprRoZMICuU=;
- b=6O2GrW0zz3h76wQ7QyY4IF7KE/eWEuhnO99Bi8p1EVY7GuBBq7eqTkPqIWntfNW7cL
- HmFeHgi7XozpymUHS2dUlEddYF+Q+YliA9VMuh6qPufoQmBPdQtuNTygNsu9MA6Qi9oj
- ijlNXGaR6VaiZV+TRlKSjmauHDyC1DQU3uloy9VFtmmzNdfIka5d640BT56IX4JUyHT7
- DzDuZWLnU0yspIUJzJzU67T7Skacq+SgUKOgDbUP/fLAg0rGc6oPye2ZhhYxqQwTmFVD
- Oq6ehunpYp0g/Y6khwxmwymKu+5hl/OcG3qexIc8hRqPy8TEJqOKJeCIZbeJYqVp7cwJ
- xKyA==
-X-Gm-Message-State: AFqh2kpS3P0WqzsIDS8XSROvXuUHmgtqf/SNOPt50ArD/ixU2ZQvZFbG
- XgaCAMhQ/Ut7DSVBLTzljjG6qg==
-X-Google-Smtp-Source: AMrXdXsA9XjC9cfI2AczZE2h0DMdZ39MbWCjrc47B4sm8jNdTVX0eh4KTY7ZYYepdPoUjflQRgjQtg==
-X-Received: by 2002:a2e:bd0c:0:b0:27f:aa2b:61da with SMTP id
- n12-20020a2ebd0c000000b0027faa2b61damr10160611ljq.14.1672734736218; 
- Tue, 03 Jan 2023 00:32:16 -0800 (PST)
-Received: from [192.168.0.20]
- (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
- by smtp.gmail.com with ESMTPSA id
- c20-20020a2ebf14000000b0027fffd54dadsm42145ljr.73.2023.01.03.00.32.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Jan 2023 00:32:15 -0800 (PST)
-Message-ID: <85837957-f6d2-4722-7693-98c6cf932096@linaro.org>
-Date: Tue, 3 Jan 2023 09:32:14 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mzcK4BlDrehna2Cf5WyLld2E+p/c7PCOy1ZvlyaJP1k=;
+ b=6GWu77V/2qS9TEDaq0gdW+hE5UHhuXUccOIIDe76HgaEsjPYwnJRtkReLWfCOlD687
+ /CC+fIWdmDV35mCmnYHMuGJc3by2Ef1zxZi5jd02k791Hwg/3LJmZDqqBSkDdlPQP9So
+ ryH2EAQkfz7bIV0p7XxdWXsSOM/dUSm+0WVX04l8Dm60w1Hp5xt4AdjYYEwatMxeeyhG
+ ry9LlL3udzkVfn/gMeu+f3EJECuNNuJf8Ggil1q8PMBgNxRPhtMcihh3v4KaQvrPI3XY
+ MH7bxjp0Xq6p9sbmO8JJxCePYDfLCMV/p/Wy8jXEcGbQfJQpr1BwPlOMhCcyfPg9AHGW
+ AWSQ==
+X-Gm-Message-State: AFqh2koSjqHzlQgMZlVZZ1DCfgD9lc1KA7Xh5aQMVO3ZRxOBFrtNrdKo
+ kiv00+yX6wbiZuvwp5X4uMyKGuG4Ro+InW8ZA0xxsA==
+X-Google-Smtp-Source: AMrXdXu7+GEt205lhs8PRbBO9C5QHjATHLZxARTl42LbFtqkt0s4GGajjKBhO17x3s7QodHXVkcp8SHp01rNiJX+xZo=
+X-Received: by 2002:a05:6870:fb90:b0:150:22dd:1f54 with SMTP id
+ kv16-20020a056870fb9000b0015022dd1f54mr1713164oab.155.1672737870170; Tue, 03
+ Jan 2023 01:24:30 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [RFC PATCH 3/4] dt-bindings: panel: Introduce dual-link LVDS panel
-Content-Language: en-US
-To: Aradhya Bhatia <a-bhatia1@ti.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime@cerno.tech>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Matthias Brugger <matthias.bgg@gmail.com>, Guo Ren <guoren@kernel.org>
-References: <20230103064615.5311-1-a-bhatia1@ti.com>
- <20230103064615.5311-4-a-bhatia1@ti.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230103064615.5311-4-a-bhatia1@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221230153554.105856-1-robert.foss@linaro.org>
+ <20221230153554.105856-9-robert.foss@linaro.org>
+ <deb17787-1a5a-89a3-3ecf-7690b4149f5c@linaro.org>
+ <CAG3jFysU84LRcqQOspub+9vtsP3syiksrGX6D7i3ff+X6+mbTA@mail.gmail.com>
+ <b8a0d9c5-eb26-c41c-1190-2628977bc582@linaro.org>
+In-Reply-To: <b8a0d9c5-eb26-c41c-1190-2628977bc582@linaro.org>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Tue, 3 Jan 2023 10:24:19 +0100
+Message-ID: <CAG3jFyuUV79nyjnqNysDKQSyYb4HUSWu-BvxG6LAz1Uavmvkbg@mail.gmail.com>
+Subject: Re: [PATCH v4 08/11] arm64: dts: qcom: sm8350: Use 2 interconnect
+ cells
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,179 +70,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Mediatek List <linux-mediatek@lists.infradead.org>,
- Linux C-SKY Arch List <linux-csky@vger.kernel.org>,
- Linux RISC-V List <linux-riscv@lists.infradead.org>,
- Linux ARM Kernel List <linux-arm-kernel@lists.infradead.org>,
- Rahul T R <r-ravikumar@ti.com>
+Cc: konrad.dybcio@somainline.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, liushixin2@huawei.com,
+ krzysztof.kozlowski+dt@linaro.org, angelogioacchino.delregno@somainline.org,
+ quic_vpolimer@quicinc.com, vinod.koul@linaro.org,
+ Jonathan Marek <jonathan@marek.ca>, quic_khsieh@quicinc.com, agross@kernel.org,
+ quic_jesszhan@quicinc.com, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, a39.skl@gmail.com, quic_abhinavk@quicinc.com,
+ swboyd@chromium.org, robh+dt@kernel.org, sean@poorly.run,
+ loic.poulain@linaro.org, andersson@kernel.org, dianders@chromium.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, vkoul@kernel.org,
+ dmitry.baryshkov@linaro.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/01/2023 07:46, Aradhya Bhatia wrote:
-> Dual-link LVDS interfaces have 2 links, with even pixels traveling on
-> one link, and odd pixels on the other. These panels are also generic in
-> nature, with no documented constraints, much like their single-link
-> counterparts, "panel-lvds".
-> 
-> Add a new compatible, "panel-dual-lvds", and a dt-binding document for
-> these panels.
-> 
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> ---
->  .../display/panel/panel-dual-lvds.yaml        | 157 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  2 files changed, 158 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml b/Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
-> new file mode 100644
-> index 000000000000..88a7aa2410be
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
-> @@ -0,0 +1,157 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/panel-dual-lvds.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Generic Dual-Link LVDS Display Panel
-> +
-> +maintainers:
-> +  - Aradhya Bhatia <a-bhatia1@ti.com>
-> +  - Thierry Reding <thierry.reding@gmail.com>
-> +
-> +description: |
-> +  A dual-LVDS interface is a dual-link connection with the even pixels
-> +  traveling on one link, and the odd pixels traveling on the other.
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +  - $ref: /schemas/display/lvds.yaml/#
+On Tue, 3 Jan 2023 at 08:59, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 02/01/2023 18:10, Robert Foss wrote:
+> > On Fri, 30 Dec 2022 at 17:12, Krzysztof Kozlowski
+> > <krzysztof.kozlowski@linaro.org> wrote:
+> >>
+> >> On 30/12/2022 16:35, Robert Foss wrote:
+> >>> Use two interconnect cells in order to optionally
+> >>> support a path tag.
+> >>>
+> >>> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> >>> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> >>> ---
+> >>>  arch/arm64/boot/dts/qcom/sm8350.dtsi | 28 ++++++++++++++--------------
+> >>>  1 file changed, 14 insertions(+), 14 deletions(-)
+> >>>
+> >>
+> >> I think you need to rebase to include:
+> >> https://lore.kernel.org/all/167233461761.1099840.5517525898039031248.b4-ty@kernel.org/
+> >
+> > Ah, I see. Functionally I seemed to do fine without those commits.
+> >
+> >>
+> >> On which tree/revision did you base this?
+> >
+> > msm/drm-msm-display-for-6.2
+>
+> Then it is not a proper base for DTS changes - you will miss quite some
+> commits. The DTS patches should be based on Bjorn's SoC tree or
+> linux-next (although the latter sometimes can lead to conflicts).
 
-Drop trailing /
+Alright, then in that case this series needs to be split into 3 parts.
 
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - lincolntech,lcd185-101ct
-> +              - microtips,13-101hieb0hf0-s
-> +          - const: panel-dual-lvds
-> +      - const: panel-dual-lvds
+The dts fixes, remaining dts changes & the remainder of code.
 
-You cannot have this compatible alone.
+Is this what you'd like to see?
 
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: The sink for first set of LVDS pixels.
-> +
-> +        properties:
-> +          dual-lvds-odd-pixels:
-> +            type: boolean
-> +
-> +          dual-lvds-even-pixels:
-> +            type: boolean
-> +
-> +        oneOf:
-> +          - required: [dual-lvds-odd-pixels]
-> +          - required: [dual-lvds-even-pixels]
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: The sink for second set of LVDS pixels.
-> +
-> +        properties:
-> +          dual-lvds-even-pixels:
-> +            type: boolean
-> +
-> +          dual-lvds-odd-pixels:
-> +            type: boolean
-> +
-> +        oneOf:
-> +          - required: [dual-lvds-even-pixels]
-> +          - required: [dual-lvds-odd-pixels]
-> +
-> +    allOf:
-> +      - if:
-> +          properties:
-> +            port@0:
-> +              properties:
-> +                dual-lvds-odd-pixels: true
-
-That's not correct clause. It has no effect.
-
-> +              required:
-> +                - dual-lvds-odd-pixels
-> +        then:
-> +          properties:
-> +            port@1:
-> +              properties:
-> +                dual-lvds-even-pixels: true
-> +                dual-lvds-odd-pixels: false
-
-Why do you need this? Your oneOf before already solves it.
-
-> +
-> +      - if:
-> +          properties:
-> +            port@0:
-> +              properties:
-> +                dual-lvds-even-pixels: true
-> +              required:
-> +                - dual-lvds-even-pixels
-> +        then:
-> +          properties:
-> +            port@1:
-> +              properties:
-> +                dual-lvds-odd-pixels: true
-> +                dual-lvds-even-pixels: false
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +  port: false
-> +
-> +unevaluatedProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - width-mm
-> +  - height-mm
-> +  - data-mapping
-> +  - panel-timing
-> +  - ports
-> +
-> +examples:
-> +  - |+
-
-Drop +
-
-> +    panel-dual-lvds {
-
-Just "panel". Node names should be generic.
-
-> +      compatible = "microtips,13-101hieb0hf0-s", "panel-dual-lvds";
-> +
-> +      width-mm = <217>;
-> +      height-mm = <136>;
-> +
-
-Best regards,
-Krzysztof
-
+>
+>
+> Best regards,
+> Krzysztof
+>
