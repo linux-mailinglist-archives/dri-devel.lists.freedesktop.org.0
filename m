@@ -1,47 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A27265C666
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 19:39:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07C8E65C6EE
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 20:07:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FD7F10E4C8;
-	Tue,  3 Jan 2023 18:39:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62B2210E4BA;
+	Tue,  3 Jan 2023 19:07:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36EBB10E4AA;
- Tue,  3 Jan 2023 18:39:52 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 9A72DB810AF;
- Tue,  3 Jan 2023 18:39:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 694E8C433D2;
- Tue,  3 Jan 2023 18:39:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1672771188;
- bh=1sB5EN2qD8GrQKjdJZrnAalkGApHEBaqO3LLSQoUEKU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IsJSq2HFa5H6ZfeLCecWgA8G5yupVMD38GACWcFBMLrCV7+HlNpv0ukGJClydJ3LQ
- YZOtKapLat11oSzVpyDY+25jLQyuvu4jtjt/xga+7yk6X/DLPDeV8Jvtirwbp4bPia
- QD/mRrwwVIPIhhaLTlXWqHa5QIlE43HV+GzQkpWyxre6xzYGscZIc6htaehsBde6Dt
- 59pf4o5vIrS6VbR6OVwq8gXsGFn6yGQbauQLnNZ4ukIwrR8sCm+eVE3JRsu6NDOlFV
- 5nyjTiPykGvC31TKz0wD5dLRrRaYGJADWLgGvzonC/Nhe12arphZcnZJFSOFIj6HMH
- VlWB5veT6x6vA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 04/10] drm/amd/display: Report to ACPI video if no
- panels were found
-Date: Tue,  3 Jan 2023 13:39:28 -0500
-Message-Id: <20230103183934.2022663-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230103183934.2022663-1-sashal@kernel.org>
-References: <20230103183934.2022663-1-sashal@kernel.org>
+Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
+ [IPv6:2001:4860:4864:20::2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F032110E4BA
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 19:07:12 +0000 (UTC)
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-1441d7d40c6so37861701fac.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Jan 2023 11:07:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=USvKgiAPMhAy/9BXMiGdBIzgvIIPEyBr90rzPBia1lQ=;
+ b=BogNOQMXGscV/PNfPtNIXQ+l4PnWaHfNKE/mkN9S01aQY33TCcu+rCsD2VJf1f+eaT
+ g9Oes7chIW9wFsiteJVsY20YSdqrtiEzsibVxhu+OiqEsdebNQtPsx878WFL41115e9g
+ UVBZ5rHq32tygcnioTYh068/FqMauETJHOmhvElIYwEcYDpVM4NyXklZ918Qecw6XtLB
+ o4AIGRd2AoH+74KIsLb2Q7Q9d97hO0juN+7hF+eMpvt8CsTgix4Fo9rS7lEjWBozqW8m
+ rPmecvoM1BxJcWl5cS+uzLtcVqJXTunAJS+4qxwuicNEm0hJZ4mVGqE40f1VFFr/unIe
+ R6fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=USvKgiAPMhAy/9BXMiGdBIzgvIIPEyBr90rzPBia1lQ=;
+ b=hZ+mswof+nnXQhC0unqWkqODkBaKP+ne2bJGNamI7KgOvGUkk0AE4kXVviYK8NnJwY
+ lWfvgefitRL1ZczZa5sumcePwIXJ14vZBCKYaiXib1O+6WQdfugbJrRGOHR/JU73PE+U
+ AcbkKR5l+HgVpqiWgyK0EGLIcwBzlNagEoBbruI+LqmnrdsGJ/K1oVu18SRemsX+Igqn
+ iAe3KmkzbUAtYTjinL5iOUo/qhrGE++4Ez7TQwqI6b1KJO79PPGwQPrAN9HgqtGskQ3s
+ jUgpKrqVifyTRz1Zdk4PLSyIEQRxee+B7fcCqS0Lg0aEOMrvAW3B0c7iIECO0UDiPJRi
+ XGNw==
+X-Gm-Message-State: AFqh2kp4JFpbBPxDWvNsJOKERafJrQJLaw/p6W91s398jnRv+7+yGQDf
+ ovf3J53UtN19tGvHaJSnf8PR6slvRmo=
+X-Google-Smtp-Source: AMrXdXtGNMtBwha02Tmu9U+Hj18evMBRiTxlYHZoPF3iuu+S6yMosoMfI7g0aa/7E+6zd4xLHpZHDQ==
+X-Received: by 2002:a05:6870:f707:b0:14f:f223:faad with SMTP id
+ ej7-20020a056870f70700b0014ff223faadmr15526419oab.15.1672772832000; 
+ Tue, 03 Jan 2023 11:07:12 -0800 (PST)
+Received: from localhost.localdomain ([76.244.6.13])
+ by smtp.gmail.com with ESMTPSA id
+ s24-20020a056870ea9800b0014c7958c55bsm14752207oap.42.2023.01.03.11.07.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Jan 2023 11:07:11 -0800 (PST)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v7 0/4] drm/panel: Add Magnachip D53E6EA8966 Panel Controller
+Date: Tue,  3 Jan 2023 13:07:03 -0600
+Message-Id: <20230103190707.104595-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,56 +69,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com, sunpeng.li@amd.com,
- dri-devel@lists.freedesktop.org,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Rodrigo.Siqueira@amd.com,
- roman.li@amd.com, amd-gfx@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>, mdaenzer@redhat.com,
- aurabindo.pillai@amd.com, Mario Limonciello <mario.limonciello@amd.com>,
- Jerry.Zuo@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
+ krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
+ linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ thierry.reding@gmail.com, tzimmermann@suse.de, maccraft123mc@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+From: Chris Morgan <macromorgan@hotmail.com>
 
-[ Upstream commit c573e240609ff781a0246c0c8c8351abd0475287 ]
+Add the Magnachip D53E6EA8966 panel IC controller for display panels
+such as the Samsung AMS495QA01 panel as found on the Anbernic RG503.
+This panel uses DSI to receive video signals, but 3-wire SPI to receive
+command signals using DBI.
 
-On desktop APUs amdgpu doesn't create a native backlight device
-as no eDP panels are found.  However if the BIOS has reported
-backlight control methods in the ACPI tables then an acpi_video0
-backlight device will be made 8 seconds after boot.
+Changes since V6:
+ - Fixed a trivial error with definition of drm_of_get_dsi_bus().
+   Reported-by: kernel test robot <lkp@intel.com>
 
-This has manifested in a power slider on a number of desktop APUs
-ranging from Ryzen 5000 through Ryzen 7000 on various motherboard
-manufacturers. To avoid this, report to the acpi video detection
-that the system does not have any panel connected in the native
-driver.
+Changes since V5:
+ - Reverted dt binding documentation name back to
+   samsung,ams495qa01.yaml.
+ - Removed no longer needed of_graph.h header file.
+ - Added backlight as a dependency.
 
-Link: https://bugzilla.redhat.com/show_bug.cgi?id=1783786
-Reported-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Changes since V4:
+ - Renamed driver from the panel model to the panel IC controller per
+   DRM team.
+ - Added a drm_of helper function of drm_of_get_dsi_bus() to handle
+   finding and populating the DSI node when the DSI node is not the
+   parent of the DSI controlled display.
+ - Converted the documented commands to constants to make it more
+   readable.
+ - Reset GPIO is now required and documented as GPIO_ACTIVE_LOW.
+ - Removed "prepared" logic from panel.
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 512c32327eb1..b73f61ac5dd5 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -4371,6 +4371,10 @@ static int amdgpu_dm_initialize_drm_device(struct amdgpu_device *adev)
- 		amdgpu_set_panel_orientation(&aconnector->base);
- 	}
- 
-+	/* If we didn't find a panel, notify the acpi video detection */
-+	if (dm->adev->flags & AMD_IS_APU && dm->num_of_edps == 0)
-+		acpi_video_report_nolcd();
-+
- 	/* Software is initialized. Now we can register interrupt handlers. */
- 	switch (adev->asic_type) {
- #if defined(CONFIG_DRM_AMD_DC_SI)
+Changes since V3:
+ - Updated documentation to add spi-peripheral-props.yaml per updates
+   made for similar devices. Note that I removed a "Reviewed-by" tag
+   from Rob Herring since this change probably needs to be confirmed.
+ - Added binding for RG503, since this device is now accepted with this
+   request: https://lore.kernel.org/linux-rockchip/166274831283.21181.6861718157177507544.b4-ty@sntech.de/
+
+Changes since V2:
+ - Added 50hz mode at request of userspace devs.
+ - Renamed "dupa" to panel name. Good catch Maya.
+ - Added Maya's Signed-off-by.
+ - Removed check for max backlight, since it is already done by
+   backlight_device_set_brightness.
+ - Fixed minor formatting issues on devicetree binding documentation
+   and added port to provided example.
+
+Changes since V1:
+ - Removed errant reference to backlight in documentation. This is an
+   OLED panel.
+ - Made elvss regulator optional. In my case its hard wired and not
+   controllable.
+ - Added "prepared" enum to track panel status to prevent unbalanced
+   regulator enable/disable.
+
+Chris Morgan (4):
+  drm: of: Add drm_of_get_dsi_bus helper function
+  dt-bindings: display: panel: Add Samsung AMS495QA01
+  drm/panel: Add Magnachip D53E6EA8966 Panel Driver
+  arm64: dts: rockchip: add display to RG503
+
+ .../display/panel/samsung,ams495qa01.yaml     |  57 ++
+ .../dts/rockchip/rk3566-anbernic-rg503.dts    |  55 ++
+ drivers/gpu/drm/drm_of.c                      |  62 +++
+ drivers/gpu/drm/panel/Kconfig                 |  11 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../drm/panel/panel-magnachip-d53e6ea8966.c   | 514 ++++++++++++++++++
+ include/drm/drm_of.h                          |  11 +
+ 7 files changed, 711 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,ams495qa01.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c
+
 -- 
-2.35.1
+2.34.1
 
