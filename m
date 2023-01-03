@@ -1,51 +1,91 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B9F465C8CE
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 22:18:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C5A765C944
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Jan 2023 23:19:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4F9110E22E;
-	Tue,  3 Jan 2023 21:18:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C35810E27F;
+	Tue,  3 Jan 2023 22:19:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D3FF10E22E
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 21:18:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
- Cc:To:Subject:From:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=XwsmUf7E+00xnCD8y3OWHBc6tkQXC19OyY4TKfj8aLY=; b=sI5z5BmKz8DH2i3QKznDDHS499
- UvhtDL00VHFtqlS4t8/BTLqjOaMzFzm4QBIBNCO+6tw4ZezohCZp+e7adumHlhBuJYyQ7ugZ/iKMJ
- Y7JEEkn0Ls+MzBt/oBFwaqkygZ+7g/zn8ASwx20yEbqip18bwF++hoWqnU+HIynDPqbZj0H2KR2lV
- /3c9UfyQgIkfF+brvesuNxKjUXntCHeNgMHDThx1qBv2HaMYC0P+DV6T21wu4SO+w2A71KupO56PI
- F0zhV5VGeKK01XSsEv7RXeghw/vr1In+Ifn4pClsb1K3x73SMaWF8I5/BvikurvOFnhdpivN1Oqix
- sZ660SeA==;
-Received: from [187.36.234.139] (helo=[192.168.1.195])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1pCog2-00GUhr-Qo; Tue, 03 Jan 2023 22:18:31 +0100
-Message-ID: <cd5c3f0e-eec1-c492-24af-a0b3efad7e2e@igalia.com>
-Date: Tue, 3 Jan 2023 18:18:26 -0300
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2041.outbound.protection.outlook.com [40.107.92.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 250E710E234;
+ Tue,  3 Jan 2023 22:19:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Zxobp6WLOIcwE/f24eVU7di3NGgmfH/9MAxtnhEXW9kbSGsZ7yLv+EJkVJwvLS6UzFQoKQvdaieKY555/8LhePHTTzfNL0w6xgY1aaHvrYbcgYYf2ovATGZTVbyEKOojpmxDzWDZLdCy3Y6IDbfUOT9R8uooKruzNZr09nP3hJqpiDkI8hLQzeH7DqiXyEvMATwTkpqNXZ5Qe6IkiZZknmjNlpN0uwNFlwV3sdML8k9nsf220T9iFPrsioFXdFWz2RbSZgzfwpUET9KpGDNjBiN5caHOeXzl8ZEnisMzjdb6r6um5W188EoXiiALdxafx92+Up9mw7CKwCkozupRJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WqXSe+AJMrkOBoL4uVjA4IC+WOUOOfRA8zklLZZR1Dw=;
+ b=USBmF0lm9xBQDOmVOo2Eqt7CKJ6/oNRuo9Tg9FVxQdSPngjdEokYhhkn1uXODmd7AIquYR6zOCg2zJffZjTM87OuVg7nqu0nJ9MgkNOhwSrq3dRsMnSi+pp9bP7rKeq/9NGUW/1/Kfe1zvJ05EyCquiisI9DOO0ErBq0wlCdkU+Cvjqln5KDCmrfukyh+k7UsHMZDssxVT4uWfSM3BepTjWGOCgDFfmgSBPX3A6g3t2lRRGAwbkJ39UVL+nmKtyCI8oluww6+vf42BjZ1/LqdsQ7FbcPhGzdNuSoW+K3q6WNqrKhggA0tLtJYxbKKcDGt86MyP3K/oZc17qIHLp/xQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WqXSe+AJMrkOBoL4uVjA4IC+WOUOOfRA8zklLZZR1Dw=;
+ b=gLPwk9WDvrTZHisNd3yOjYX3xHKgX3pSwvAjgn1dV7XXRS4LBcwEyMgETb9bZbLtuWxTXsD2XxMAGa+UEgrZCsHFiDKndVZZ0tiHsDjQq+oEHfJfBaTr9eqeslqsnlh6L1VEYbfpt4GlgHQb4C1FBSfliUY6FUdQ3OrRa4IGxhY=
+Received: from DS7PR05CA0105.namprd05.prod.outlook.com (2603:10b6:8:56::19) by
+ MN2PR12MB4319.namprd12.prod.outlook.com (2603:10b6:208:1dc::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.18; Tue, 3 Jan
+ 2023 22:19:26 +0000
+Received: from DS1PEPF0000E652.namprd02.prod.outlook.com
+ (2603:10b6:8:56:cafe::67) by DS7PR05CA0105.outlook.office365.com
+ (2603:10b6:8:56::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.14 via Frontend
+ Transport; Tue, 3 Jan 2023 22:19:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS1PEPF0000E652.mail.protection.outlook.com (10.167.18.8) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5944.8 via Frontend Transport; Tue, 3 Jan 2023 22:19:26 +0000
+Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 3 Jan
+ 2023 16:19:25 -0600
+From: Mario Limonciello <mario.limonciello@amd.com>
+To: Alex Deucher <alexander.deucher@amd.com>
+Subject: [PATCH v4 00/27] Recover from failure to probe GPU
+Date: Tue, 3 Jan 2023 16:18:19 -0600
+Message-ID: <20230103221852.22813-1-mario.limonciello@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-Subject: Re: [PATCH v3 11/13] drm/fb-helper: Fix single-probe color-format
- selection
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, javierm@redhat.com, jose.exposito89@gmail.com,
- mairacanal@riseup.net, mripard@kernel.org, maarten.lankhorst@linux.intel.com
-References: <20230102112927.26565-1-tzimmermann@suse.de>
- <20230102112927.26565-12-tzimmermann@suse.de>
-Content-Language: en-US
-In-Reply-To: <20230102112927.26565-12-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF0000E652:EE_|MN2PR12MB4319:EE_
+X-MS-Office365-Filtering-Correlation-Id: f9a3aaed-1354-4942-cdb2-08daedd89361
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1vPGplQuXwe4/QCxca+UfPS4+C1E7YP4FKr7U6DwOWq8cKyV7TY+KaopeXPaAMwXG3NIn9BamJfyXS2lww9HpRZqAM/FknJgHsMVIn2E1m8Lu/IWRlpEXtSHweqL8AEoyk55BLMwemNz6/IznSAmoPWGNRId2IIMaoHfagksZY1K6GLrZAnaramSsDD7p639mjDIUqfwifWXxTpoaiyq9fiOanUpE21TjpN9c1JwQOHj+0wCR38A6t489s0MHDy/FMnnyx8BdSYKrArN2UxJdYSxvXah5k+gSuBmXPO2ikBonno7CeGeJBT9p4lFJnpKBz0RDAqaAgWBBaoejLcISMAPCrH6jV3iYcD3jGXSHDX21fan8oQfpXTDN4uJIQ8JenVBBwN3/i5BTe78LFqaip4djM+iw3zgwQC1F2m02srUyvV623kQo01OczZK8LzDU+HDFnmFD8ydRqTzC5/l/h4FzqOztKtHpG9vjsV4RwWpSeM0M3dJC16e0OdlGKoiiEptZ161EmaK4wtHe6OhaNGAzY+ieubPLY41kY7/MAKqeC8yF5JEMM+e617YrQMDUEo1GJIJjucREhWWRnRjSm+ghiKAppNDegk91lsC0AoKT8/seVxeYdOiZh7R/w8KwLcsp4gVGnh+kR7D9gfmBwS0a2CWii7LUZBf8rbrywPvOSisYv57+oJ24Ce9GUkxIlFLOnp6DmLMseAg6u/3cA5riOM409d51g27FqFjPQkHatT2FLChI6jR65z2R+4YuFefgEcC/eij2DDVW89iVA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(396003)(376002)(346002)(136003)(451199015)(36840700001)(46966006)(40470700004)(6666004)(36860700001)(40480700001)(7696005)(478600001)(16526019)(82740400003)(36756003)(82310400005)(356005)(81166007)(26005)(186003)(2906002)(336012)(37006003)(2616005)(6636002)(54906003)(40460700003)(316002)(1076003)(44832011)(70206006)(8676002)(70586007)(6862004)(8936002)(83380400001)(5660300002)(47076005)(86362001)(426003)(41300700001)(4326008)(22166009)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2023 22:19:26.6944 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9a3aaed-1354-4942-cdb2-08daedd89361
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E652.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4319
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,96 +98,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Lazar Lijo <Lijo.Lazar@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Carlos Soriano Sanchez <csoriano@redhat.com>, christian.koenig@amd.com,
+ Mario Limonciello <mario.limonciello@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+One of the first thing that KMS drivers do during initialization is
+destroy the system firmware framebuffer by means of
+`drm_aperture_remove_conflicting_pci_framebuffers`
 
-On 1/2/23 08:29, Thomas Zimmermann wrote:
-> Fix the color-format selection of the single-probe helper. Go
-> through all user-specified values and test each for compatibility
-> with the driver. If none is supported, use the driver-provided
-> default. This guarantees that the console is always available in
-> any color format at least.
-> 
-> Until now, the format selection of the single-probe helper tried
-> to either use a user-specified format or a 32-bit default format.
-> If the user-specified format was not supported by the driver, the
-> selection failed and the display remained blank.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
+This means that if for any reason the GPU failed to probe the user
+will be stuck with at best a screen frozen at the last thing that
+was shown before the KMS driver continued it's probe.
 
-I started to get the following warning on the Raspberry Pi 4 Model B
-(arm64/defconfig) using drm-misc-next:
+The problem is most pronounced when new GPU support is introduced
+because users will need to have a recent linux-firmware snapshot
+on their system when they boot a kernel with matching support.
 
-[    4.376317] [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
-[    4.433587] vc4-drm gpu: [drm] bpp/depth value of 16/24 not supported
-[    4.433617] vc4-drm gpu: [drm] bpp/depth value of 16/24 not supported
-[    4.433629] vc4-drm gpu: [drm] bpp/depth value of 16/24 not supported
-[    4.433640] vc4-drm gpu: [drm] bpp/depth value of 16/24 not supported
-[    4.433650] vc4-drm gpu: [drm] bpp/depth value of 16/24 not supported
-[    4.433658] vc4-drm gpu: [drm] No compatible format found
-[    4.433854] ------------[ cut here ]------------
-[    4.433861] WARNING: CPU: 2 PID: 66 at drivers/gpu/drm/drm_atomic.c:1604 __drm_atomic_helper_set_config+0x2e8/0x314 [drm]
-[    4.434172] Modules linked in: btbcm(+) crct10dif_ce reset_raspberrypi clk_raspberrypi raspberrypi_hwmon bluetooth ecdh_generic ecc
-pwm_bcm2835 broadcom rfkill iproc_rng200 bcm_phy_lib i2c_bcm2835 vc4 rng_core snd_soc_hdmi_codec bcm2711_thermal cec drm_display_helper
-v3d pcie_brcmstb drm_dma_helper gpu_sched genet drm_shmem_helper nvmem_rmem mdio_bcm_unimac drm_kms_helper drm fuse ip_tables x_tables
-ipv6
-[    4.434322] CPU: 2 PID: 66 Comm: kworker/u8:2 Not tainted 6.1.0-rc6-00011-g37c90d589dc0 #29
-[    4.434337] Hardware name: Raspberry Pi 4 Model B Rev 1.4 (DT)
-[    4.434345] Workqueue: events_unbound deferred_probe_work_func
-[    4.434376] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[    4.434390] pc : __drm_atomic_helper_set_config+0x2e8/0x314 [drm]
-[    4.434668] lr : __drm_atomic_helper_set_config+0x64/0x314 [drm]
-[    4.434943] sp : ffff8000082c3840
-[    4.434949] x29: ffff8000082c3850 x28: ffff2d6d448e12c0 x27: 0000000000000001
-[    4.434972] x26: 0000000000000038 x25: ffff2d6d448e12c0 x24: ffff2d6d401a0690
-[    4.434991] x23: ffff2d6d41f74080 x22: ffff2d6d40d8a400 x21: ffff2d6d433fcc00
-[    4.435009] x20: ffff2d6d401a0690 x19: ffff2d6d44b8e180 x18: 0000000000000020
-[    4.435027] x17: 0000000000000010 x16: ffffa6757bee52d0 x15: 0000000000000000
-[    4.435044] x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
-[    4.435063] x11: 0000000000000000 x10: ffff2d6d43240800 x9 : ffff2d6d44b8e200
-[    4.435081] x8 : 0000000000000000 x7 : ffff2d6d44b8e180 x6 : ffff2d6d40d8a400
-[    4.435099] x5 : ffff2d6d45e7ca80 x4 : 0000000000000050 x3 : ffffa675498c3bad
-[    4.435116] x2 : 0000000000000004 x1 : ffff2d6d4323f080 x0 : ffff2d6d433fcc00
-[    4.435136] Call trace:
-[    4.435143]  __drm_atomic_helper_set_config+0x2e8/0x314 [drm]
-[    4.435440]  drm_client_modeset_commit_atomic+0x140/0x244 [drm]
-[    4.435723]  drm_client_modeset_commit_locked+0x50/0x168 [drm]
-[    4.436001]  drm_client_modeset_commit+0x2c/0x54 [drm]
-[    4.436273]  __drm_fb_helper_initial_config_and_unlock+0x548/0x5a0 [drm_kms_helper]
-[    4.436407]  drm_fb_helper_initial_config+0x38/0x50 [drm_kms_helper]
-[    4.436528]  drm_fbdev_client_hotplug+0xa8/0x120 [drm_kms_helper]
-[    4.436648]  drm_fbdev_generic_setup+0x80/0x150 [drm_kms_helper]
-[    4.436768]  vc4_drm_bind+0x1f0/0x22c [vc4]
-[    4.436928]  try_to_bring_up_aggregate_device+0x168/0x1b4
-[    4.436958]  __component_add+0xbc/0x15c
-[    4.436974]  component_add+0x14/0x20
-[    4.436990]  vc4_hdmi_dev_probe+0x1c/0x28 [vc4]
-[    4.437146]  platform_probe+0xa8/0xd0
-[    4.437158]  really_probe+0x130/0x2f4
-[    4.437174]  __driver_probe_device+0xb4/0xe0
-[    4.437189]  driver_probe_device+0x3c/0x1f8
-[    4.437202]  __device_attach_driver+0x118/0x140
-[    4.437217]  bus_for_each_drv+0x84/0xd0
-[    4.437229]  __device_attach+0xd0/0x19c
-[    4.437243]  device_initial_probe+0x14/0x20
-[    4.437256]  bus_probe_device+0x34/0x98
-[    4.437268]  deferred_probe_work_func+0x88/0xc4
-[    4.437282]  process_one_work+0x1cc/0x2c8
-[    4.437295]  worker_thread+0x248/0x458
-[    4.437304]  kthread+0xec/0x198
-[    4.437319]  ret_from_fork+0x10/0x20
-[    4.437333] ---[ end trace 0000000000000000 ]---
+However the problem is further exaggerated in the case of amdgpu because
+it has migrated to "IP discovery" where amdgpu will attempt to load
+on "ALL" AMD GPUs even if the driver is missing support for IP blocks
+contained in that GPU.
 
-After bisecting the problem, I was able to detect that the warning started to
-appear on the commit 37c90d589dc0 ("drm/fb-helper: Fix single-probe color-format
-selection").
+IP discovery requires some probing and isn't run until after the
+framebuffer has been destroyed.
 
-Do you have any idea on what might be causing this warning?
+This means a situation can occur where a user purchases a new GPU not
+yet supported by a distribution and when booting the installer it will
+"freeze" even if the distribution doesn't have the matching kernel support
+for those IP blocks.
 
-Best Regards,
-- Maíra Canal
+The perfect example of this is Ubuntu 22.10 and the new dGPUs just
+launched by AMD.  The installation media ships with kernel 5.19 (which
+has IP discovery) but the amdgpu support for those IP blocks landed in
+kernel 6.0. The matching linux-firmware was released after 22.10's launch.
+The screen will freeze without nomodeset. Even if a user manages to install
+and then upgrades to kernel 6.0 after install they'll still have the
+problem of missing firmware, and the same experience.
+
+This is quite jarring for users, particularly if they don't know
+that they have to use "nomodeset" to install.
+
+To help the situation make changes to GPU discovery:
+1) Delay releasing the firmware framebuffer until after early_init
+completed.  This will help the situation of an older kernel that doesn't
+yet support the IP blocks probing a new GPU. IP discovery will have failed.
+2) Request loading all PSP, VCN, SDMA, SMU, DMCUB, MES and GC microcode
+into memory during early_init. This will help the situation of new enough
+kernel for the IP discovery phase to otherwise pass but missing microcode
+from linux-firmware.git.
+
+v3->v4:
+ * Rework to delay framebuffer release until early_init is done
+ * Make individual IPs load microcode during early init phase
+ * Add SMU and DMCUB cases for early_init loading
+ * Add some new helper code for wrapping request_firmware calls (needed for
+   early_init to return something besides -ENOENT)
+v2->v3:
+ * Pick up tags for patches 1-10
+ * Rework patch 11 to not validate during discovery
+ * Fix bugs with GFX9 due to gfx.num_gfx_rings not being set during discovery
+ * Fix naming scheme for SDMA on dGPUs
+v1->v2:
+ * Take the suggestion from v1 thread to delay the framebuffer release until
+   ip discovery is done. This patch is CC to stable to that older stable
+   kernels with IP discovery won't try to probe unknown IP.
+ * Drop changes to drm aperature.
+ * Fetch SDMA, VCN, MES, GC and PSP microcode during IP discovery.
+Mario Limonciello (27):
+  drm/amd: Delay removal of the firmware framebuffer
+  drm/amd: Add a legacy mapping to "amdgpu_ucode_ip_version_decode"
+  drm/amd: Convert SMUv11 microcode to use
+    `amdgpu_ucode_ip_version_decode`
+  drm/amd: Convert SMUv13 microcode to use
+    `amdgpu_ucode_ip_version_decode`
+  drm/amd: Add a new helper for loading/validating microcode
+  drm/amd: Use `amdgpu_ucode_load` helper for SDMA
+  drm/amd: Convert SDMA to use `amdgpu_ucode_ip_version_decode`
+  drm/amd: Make SDMA firmware load failures less noisy.
+  drm/amd: Use `amdgpu_ucode_load` helper for VCN
+  drm/amd: Load VCN microcode during early_init
+  drm/amd: Load MES microcode during early_init
+  drm/amd: Use `amdgpu_ucode_load` helper for MES
+  drm/amd: Remove superfluous assignment for `adev->mes.adev`
+  drm/amd: Use `amdgpu_ucode_load` helper for GFX9
+  drm/amd: Load GFX9 microcode during early_init
+  drm/amd: Use `amdgpu_ucode_load` helper for GFX10
+  drm/amd: Load GFX10 microcode during early_init
+  drm/amd: Use `amdgpu_ucode_load` helper for GFX11
+  drm/amd: Load GFX11 microcode during early_init
+  drm/amd: Parse both v1 and v2 TA microcode headers using same function
+  drm/amd: Avoid BUG() for case of SRIOV missing IP version
+  drm/amd: Load PSP microcode during early_init
+  drm/amd: Use `amdgpu_ucode_load` helper for PSP
+  drm/amd/display: Load DMUB microcode during early_init
+  drm/amd: Use `amdgpu_ucode_load` helper for SMU
+  drm/amd: Load SMU microcode during early_init
+  drm/amd: Optimize SRIOV switch/case for PSP microcode load
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |   8 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |   6 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c       |  60 ++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mes.h       |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c       | 276 +++++++++---------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h       |  15 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.c      |  18 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.h      |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c     | 245 ++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.h     |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c       | 103 +++----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.h       |   1 +
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c        | 117 ++------
+ drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c        | 101 +++----
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c         | 101 ++-----
+ drivers/gpu/drm/amd/amdgpu/mes_v10_1.c        |  98 ++-----
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c        |  89 ++----
+ drivers/gpu/drm/amd/amdgpu/psp_v10_0.c        |  80 +----
+ drivers/gpu/drm/amd/amdgpu/psp_v11_0.c        | 129 +-------
+ drivers/gpu/drm/amd/amdgpu/psp_v12_0.c        |  75 +----
+ drivers/gpu/drm/amd/amdgpu/psp_v13_0.c        |  27 +-
+ drivers/gpu/drm/amd/amdgpu/psp_v13_0_4.c      |  14 +-
+ drivers/gpu/drm/amd/amdgpu/psp_v3_1.c         |  16 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c        |  47 +--
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c        |  30 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c        |  55 +---
+ drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c        |  25 +-
+ drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c         |   5 +-
+ drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c         |   5 +-
+ drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c         |   5 +-
+ drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c         |   5 +-
+ drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c         |   5 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  89 ++++--
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c     |  12 +-
+ .../gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c    |  40 +--
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c    |  17 +-
+ 36 files changed, 751 insertions(+), 1174 deletions(-)
+
+-- 
+2.34.1
+
