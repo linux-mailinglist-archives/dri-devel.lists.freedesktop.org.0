@@ -2,43 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 728B265D3A7
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 14:03:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEEB265D3AF
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 14:03:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA35110E0B0;
-	Wed,  4 Jan 2023 13:03:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44F8F10E1C9;
+	Wed,  4 Jan 2023 13:03:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAEB610E109
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jan 2023 13:03:16 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E4FA10E0B0
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jan 2023 13:03:17 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 3ADD86602D13;
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id A5F826602D14;
  Wed,  4 Jan 2023 13:03:15 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1672837395;
- bh=0y+rpVvzwhYvzmKLYw7lUlliQJlfh+XouQYi3mXOc9M=;
+ s=mail; t=1672837396;
+ bh=KRwLsGyLFh5+OOQ/19JO6n21nMZ0lU8npKkIdiqDkdY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=L+7pfP4B1Lti5ZHJx+HbX4csgBhSzIrg9ZCr/jLYHHf1ZPPr14osi983dz8nxUhCH
- ciXqpefQrJRrFzA5YDFdRXf0HN9gdabLE6cMits/9jVdwAqpy41GnKZE6z4GyEdm3W
- /O4oEkcP9RWLIUZnFWkrFlUebwWBJquoTzL4qJsIoHDOSeg+/b+IZ2+Tbmpcb+Oa9Q
- ESVV/kqvEbNETSrpz2AKVZOlaX68aTw+IFxw3V5ONMS3A1tS5s0pr7nIEJUD7G14YM
- GnSWpOuhO1+SlNXSQUK0kp9uiLrQ8xKHXN5+UFsZ2lhZm2wQnL5nZrw5M+q/PMbanG
- KxRuiKxcbUFRw==
+ b=oun/Petp17+ABOjph8vOhoQVYc70rihh+XYZM4AWhsPPWpdrWZpoPUz9RlYe8JL7h
+ NzKvvr3QJl1o4Q4NS/m7lssR2AAechLe7bUIawOWLUlDtN7tbi770XghkpVZMdME1q
+ tC8bsN/qqYtX3BXxowOYAtQsDVChhtpUJAt6qhkoRcgAgT5DPAovOfm8ZornkAb9on
+ E/k7LW99Pl2pLZtlWB5CFs+cB3y1UGwisRRe4Qm6zDYZy96aE8wuG+hW+iQglnGg1p
+ LY9ETwcTCcLTxHRUPuDNEnkAtagBxK4HJeKjZw1jobKvVgJZua2O/KbJukzxcjlhss
+ VYzLFQnrnAk0A==
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Rob Herring <robh+dt@kernel.org>,
  Tomeu Vizoso <tomeu.vizoso@collabora.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH RFC 1/4] drm/panfrost: Provide a dummy show_fdinfo()
- implementation
-Date: Wed,  4 Jan 2023 14:03:05 +0100
-Message-Id: <20230104130308.3467806-2-boris.brezillon@collabora.com>
+Subject: [PATCH RFC 2/4] drm/panfrost: Track BO resident size
+Date: Wed,  4 Jan 2023 14:03:06 +0100
+Message-Id: <20230104130308.3467806-3-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230104130308.3467806-1-boris.brezillon@collabora.com>
 References: <20230104130308.3467806-1-boris.brezillon@collabora.com>
@@ -61,42 +59,67 @@ Cc: Boris Brezillon <boris.brezillon@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provide a dummy show_fdinfo() implementation exposing drm-driver and
-drm-client-id. More stats will be added soon.
+Heap BOs use an on-demand allocation scheme, meaning that the resident
+size is different from the BO side. Track resident size so we can more
+accurately per-FD expose memory usage.
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_drv.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panfrost/panfrost_gem.h          | 7 +++++++
+ drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c | 1 +
+ drivers/gpu/drm/panfrost/panfrost_mmu.c          | 2 ++
+ 3 files changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 2fa5afe21288..6ee43559fc14 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -515,7 +515,22 @@ static const struct drm_ioctl_desc panfrost_drm_driver_ioctls[] = {
- 	PANFROST_IOCTL(MADVISE,		madvise,	DRM_RENDER_ALLOW),
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
+index 8088d5fd8480..58f5d091c983 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.h
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
+@@ -36,6 +36,13 @@ struct panfrost_gem_object {
+ 	 */
+ 	atomic_t gpu_usecount;
+ 
++	/* Actual memory used by the BO. Should be zero before pages are
++	 * pinned, then the size of the BO, unless it's a heap BO. In
++	 * this case the resident size is updated when the fault handler
++	 * allocates memory.
++	 */
++	size_t resident_size;
++
+ 	bool noexec		:1;
+ 	bool is_heap		:1;
  };
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
+index bf0170782f25..efbc8dec4a9f 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
+@@ -54,6 +54,7 @@ static bool panfrost_gem_purge(struct drm_gem_object *obj)
+ 	panfrost_gem_teardown_mappings_locked(bo);
+ 	drm_gem_shmem_purge_locked(&bo->base);
+ 	ret = true;
++	bo->resident_size = 0;
  
--DEFINE_DRM_GEM_FOPS(panfrost_drm_driver_fops);
-+static void panfrost_show_fdinfo(struct seq_file *m, struct file *f)
-+{
-+	struct drm_file *file = f->private_data;
-+	struct panfrost_file_priv *panfrost_priv = file->driver_priv;
-+
-+	seq_printf(m, "drm-driver:\t%s\n", file->minor->dev->driver->name);
-+	seq_printf(m, "drm-client-id:\t%llu\n", panfrost_priv->sched_entity[0].fence_context);
-+}
-+
-+static const struct file_operations panfrost_drm_driver_fops = {
-+	.owner = THIS_MODULE,
-+	DRM_GEM_FOPS,
-+#ifdef CONFIG_PROC_FS
-+	.show_fdinfo = panfrost_show_fdinfo,
-+#endif
-+};
+ 	mutex_unlock(&shmem->pages_lock);
  
- /*
-  * Panfrost driver version:
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index 4e83a1891f3e..454799d5a0ef 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -340,6 +340,7 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
+ 	mmu_map_sg(pfdev, mapping->mmu, mapping->mmnode.start << PAGE_SHIFT,
+ 		   prot, sgt);
+ 	mapping->active = true;
++	bo->resident_size = bo->base.base.size;
+ 
+ 	return 0;
+ }
+@@ -508,6 +509,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 		}
+ 	}
+ 
++	bo->resident_size += SZ_2M;
+ 	mutex_unlock(&bo->base.pages_lock);
+ 
+ 	sgt = &bo->sgts[page_offset / (SZ_2M / PAGE_SIZE)];
 -- 
 2.38.1
 
