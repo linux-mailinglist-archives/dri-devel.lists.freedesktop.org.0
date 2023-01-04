@@ -1,59 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00ACB65DBF9
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 19:15:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1370F65DC34
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 19:34:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6465310E46C;
-	Wed,  4 Jan 2023 18:15:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D110C10E471;
+	Wed,  4 Jan 2023 18:34:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
- [IPv6:2001:4860:4864:20::34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E61610E45C;
- Wed,  4 Jan 2023 18:15:45 +0000 (UTC)
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-12c8312131fso40724356fac.4; 
- Wed, 04 Jan 2023 10:15:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=HyIkpauZKTPmczbPiJe25KjukXJKPWz4lx8J7k0wqLg=;
- b=B1OIGpHAIBq66tSi3o/ydgsdgU0Nw9DIKnsPNFPFburz6PZ6iU1wP5BVvx6ZA3Pr4F
- yo/QULWRGTeQ238ssSchSSDqI1E9MwNX1V+q3eQi4LBFi2QblDYuZURw6KgZd8lbm26J
- BNeJUbndWVmo9wHR9mErmQXroIYIF0o98fhzOlfwP6KoGgvDmfpBGSuKKHF4xJmH+zNA
- Mp4ie99cEySje00muexXV+dfM+Pat086sWTZYxY0AhrfOg+085bbfu4H2aB+4Tq1SH70
- lj1oUo+xK0FRvZwZ9rK9H+W2aop1RE/9iJHBaorUfx628bZ3/QisnT73p/elCR3GrmFo
- CadQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HyIkpauZKTPmczbPiJe25KjukXJKPWz4lx8J7k0wqLg=;
- b=gvsDvwDyIwcVGDU0pWVcgo7sjIPpx9ifliv3XvMro6E47RCIAT3gBX8IhFNgTMUkez
- fO1JtBZ1hjpVUp0klOUo3z3b4l8QK8tuyxYG11xICxZhb95cI1zbMzRrQ2wAfVEYbjQ0
- hh3VIXpBl7kuop/HEOx4ZH++wxe1C6S2PhTM2UAcVRPCkj8y4NWcn36FiLyTdv0qwxKS
- O6CWk+nTjWAgAjJnURn7PGnFJCKxh6n3bvMqMat2pJ/lklQndvrQL15mRKRVDzzEGahH
- NU0Yg8dvlkOrEGhjzBWuP3VD6si9LbwNZi46zEhd7RnMPpQVM+z6+e3tYt1LN/eOnkXj
- nALA==
-X-Gm-Message-State: AFqh2koVPMLzopLPpWb5bxeRqET03/gj/PzWK1fNPiLB8jrjrxKYyVf+
- ouHHjCtguDJln/iexaPoulAKIvbpzhZvquhgg5E=
-X-Google-Smtp-Source: AMrXdXviJLkKrf6VD0qTPGMIX9nLRZKBabViahE/tZMOxAF/6P1SxuZiilBBLbF1Qbp1lz8JxLAb2qUuEnm/H39UHng=
-X-Received: by 2002:a05:6870:4d14:b0:144:5f0d:9fcb with SMTP id
- pn20-20020a0568704d1400b001445f0d9fcbmr2649579oab.38.1672856144370; Wed, 04
- Jan 2023 10:15:44 -0800 (PST)
+X-Greylist: delayed 531 seconds by postgrey-1.36 at gabe;
+ Wed, 04 Jan 2023 18:34:05 UTC
+Received: from out-27.mta0.migadu.com (out-27.mta0.migadu.com [91.218.175.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9788110E602
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jan 2023 18:34:05 +0000 (UTC)
+Message-ID: <8c8d0276-61a8-71d6-17b0-f6b384ab9d94@ansari.sh>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ansari.sh; s=key1;
+ t=1672856712;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YA77oMQK9dnhf7Oks42BIC4ztoRLvubvmAH6B2dZmTI=;
+ b=Vvuiryv2nwN3gI5tONEXZkQ+cZOgnxmoMysvuRzO9rBLNvOnUOGas27u90oW7gZQhwTZAd
+ HLkZWlhanczaZR6/NZDIljo518A6EuQtEbaHH2T/VZrCJR0TRpwuNd/KFkd80PZD4qQBgA
+ JP0DKUWM7kSlrMoxOwQgnr/W2sEniHI=
+Date: Wed, 4 Jan 2023 18:25:10 +0000
 MIME-Version: 1.0
-References: <20230103155122.1170930-1-dmitry.baryshkov@linaro.org>
- <6c058038-130c-6de6-3554-053f7d94f732@quicinc.com>
-In-Reply-To: <6c058038-130c-6de6-3554-053f7d94f732@quicinc.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 4 Jan 2023 10:15:44 -0800
-Message-ID: <CAF6AEGujbM-LYme4LYmGk_xV8-AUoEkPNvk1cTAg9jUoLUOVOg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm: another fix for the headless Adreno GPU
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 2/2] drm/panel: add visionox vtdr6130 DSI panel driver
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20230103-topic-sm8550-upstream-vtdr6130-panel-v1-0-9b746b858378@linaro.org>
+ <20230103-topic-sm8550-upstream-vtdr6130-panel-v1-2-9b746b858378@linaro.org>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Rayyan Ansari <rayyan@ansari.sh>
+In-Reply-To: <20230103-topic-sm8550-upstream-vtdr6130-panel-v1-2-9b746b858378@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,135 +55,445 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, kernel test robot <lkp@intel.com>,
- Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 4, 2023 at 10:09 AM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 1/3/2023 7:51 AM, Dmitry Baryshkov wrote:
-> > Fix another oops reproducible when rebooting the board with the Adreno
-> > GPU wokring in the headless mode (e.g. iMX platforms).
-> wokring ---> working
-> >
-> > Unable to handle kernel NULL pointer dereference at virtual address 00000000 when read
-> > [00000000] *pgd=74936831, *pte=00000000, *ppte=00000000
-> > Internal error: Oops: 17 [#1] ARM
-> > CPU: 0 PID: 51 Comm: reboot Not tainted 6.2.0-rc1-dirty #11
-> > Hardware name: Freescale i.MX53 (Device Tree Support)
-> > PC is at msm_atomic_commit_tail+0x50/0x970
-> > LR is at commit_tail+0x9c/0x188
-> > pc : [<c06aa430>]    lr : [<c067a214>]    psr: 600e0013
-> > sp : e0851d30  ip : ee4eb7eb  fp : 00090acc
-> > r10: 00000058  r9 : c2193014  r8 : c4310000
-> > r7 : c4759380  r6 : 07bef61d  r5 : 00000000  r4 : 00000000
-> > r3 : c44cc440  r2 : 00000000  r1 : 00000000  r0 : 00000000
-> > Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
-> > Control: 10c5387d  Table: 74910019  DAC: 00000051
-> > Register r0 information: NULL pointer
-> > Register r1 information: NULL pointer
-> > Register r2 information: NULL pointer
-> > Register r3 information: slab kmalloc-1k start c44cc400 pointer offset 64 size 1024
-> > Register r4 information: NULL pointer
-> > Register r5 information: NULL pointer
-> > Register r6 information: non-paged memory
-> > Register r7 information: slab kmalloc-128 start c4759380 pointer offset 0 size 128
-> > Register r8 information: slab kmalloc-2k start c4310000 pointer offset 0 size 2048
-> > Register r9 information: non-slab/vmalloc memory
-> > Register r10 information: non-paged memory
-> > Register r11 information: non-paged memory
-> > Register r12 information: non-paged memory
-> > Process reboot (pid: 51, stack limit = 0xc80046d9)
-> > Stack: (0xe0851d30 to 0xe0852000)
-> > 1d20:                                     c4759380 fbd77200 000005ff 002b9c70
-> > 1d40: c4759380 c4759380 00000000 07bef61d 00000600 c0d6fe7c c2193014 00000058
-> > 1d60: 00090acc c067a214 00000000 c4759380 c4310000 00000000 c44cc854 c067a89c
-> > 1d80: 00000000 00000000 00000000 c4310468 00000000 c4759380 c4310000 c4310468
-> > 1da0: c4310470 c0643258 c4759380 00000000 00000000 c0c4ee24 00000000 c44cc810
-> > 1dc0: 00000000 c0c4ee24 00000000 c44cc810 00000000 0347d2a8 e0851e00 e0851e00
-> > 1de0: c4759380 c067ad20 c4310000 00000000 c44cc810 c27f8718 c44cc854 c067adb8
-> > 1e00: c4933000 00000002 00000001 00000000 00000000 c2130850 00000000 c2130854
-> > 1e20: c25fc488 00000000 c0ff162c 00000000 00000001 00000002 00000000 00000000
-> > 1e40: c43102c0 c43102c0 00000000 0347d2a8 c44cc810 c44cc814 c2133da8 c06d1a60
-> > 1e60: 00000000 00000000 00079028 c2012f24 fee1dead c4933000 00000058 c01431e4
-> > 1e80: 01234567 c0143a20 00000000 00000000 00000000 00000000 00000000 00000000
-> > 1ea0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> > 1ec0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> > 1ee0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> > 1f00: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> > 1f20: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> > 1f40: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> > 1f60: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> > 1f80: 00000000 00000000 00000000 0347d2a8 00000002 00000004 00000078 00000058
-> > 1fa0: c010028c c0100060 00000002 00000004 fee1dead 28121969 01234567 00079028
-> > 1fc0: 00000002 00000004 00000078 00000058 0002fdc5 00000000 00000000 00090acc
-> > 1fe0: 00000058 becc9c64 b6e97e05 b6e0e5f6 600e0030 fee1dead 00000000 00000000
-> >   msm_atomic_commit_tail from commit_tail+0x9c/0x188
-> >   commit_tail from drm_atomic_helper_commit+0x160/0x188
-> >   drm_atomic_helper_commit from drm_atomic_commit+0xac/0xe0
-> >   drm_atomic_commit from drm_atomic_helper_disable_all+0x1b0/0x1c0
-> >   drm_atomic_helper_disable_all from drm_atomic_helper_shutdown+0x88/0x140
-> >   drm_atomic_helper_shutdown from device_shutdown+0x16c/0x240
-> >   device_shutdown from kernel_restart+0x38/0x90
-> >   kernel_restart from __do_sys_reboot+0x174/0x224
-> >   __do_sys_reboot from ret_fast_syscall+0x0/0x1c
-> > Exception stack(0xe0851fa8 to 0xe0851ff0)
-> > 1fa0:                   00000002 00000004 fee1dead 28121969 01234567 00079028
-> > 1fc0: 00000002 00000004 00000078 00000058 0002fdc5 00000000 00000000 00090acc
-> > 1fe0: 00000058 becc9c64 b6e97e05 b6e0e5f6
-> > Code: 15922088 1184421c e1500003 1afffff8 (e5953000)
-> > ---[ end trace 0000000000000000 ]---
-> >
-> > Fixes: 0a58d2ae572a ("drm/msm: Make .remove and .shutdown HW shutdown consistent")
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->
-> How is this null pointer hitting?
->
-> priv->kms is assigned in the msm_drm_init() which happens in the bind.
+Hello,
+I am not a maintainer, but I thought I might give a few comments.
 
-I think we want to solve this higher up.. hitting atomic commit path
-on a device which has no kms resources (planes, CRTCs, etc) seems
-pretty wrong
+On 03/01/2023 14:22, Neil Armstrong wrote:
+> Add support for the 1080x2400 Visionox VTDR6130 AMOLED DSI panel
+> found on the Qualcomm SM8550 MTP board.
+> 
+> By default the the panel is configured to work with DSI compressed
+> streams, but can work in uncompressed video mode since 1080x2400 in
+> RGB888 fits in the 4 DSI lanes bandwidth.
+> 
+> While display compression is preferred for performance and power
+> reasons, let's start with the uncompressed video mode support and
+> add the DSC support later on.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>   drivers/gpu/drm/panel/Kconfig                   |   8 +
+>   drivers/gpu/drm/panel/Makefile                  |   1 +
+>   drivers/gpu/drm/panel/panel-visionox-vtdr6130.c | 366 ++++++++++++++++++++++++
+>   3 files changed, 375 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index 737edcdf9eef..fd1d7e6f536b 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -717,6 +717,14 @@ config DRM_PANEL_VISIONOX_RM69299
+>   	  Say Y here if you want to enable support for Visionox
+>   	  RM69299  DSI Video Mode panel.
+>   
+> +config DRM_PANEL_VISIONOX_VTDR6130
+> +	tristate "Visionox VTDR6130"
+> +	depends on OF
+> +	depends on DRM_MIPI_DSI
+> +	help
+> +	  Say Y here if you want to enable support for Visionox
+> +	  VTDR6130 1080x2400 AMOLED DSI panel.
+> +
+>   config DRM_PANEL_WIDECHIPS_WS2401
+>   	tristate "Widechips WS2401 DPI panel driver"
+>   	depends on SPI && GPIOLIB
+> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+> index f8f9d9f6a307..1966404fcf7a 100644
+> --- a/drivers/gpu/drm/panel/Makefile
+> +++ b/drivers/gpu/drm/panel/Makefile
+> @@ -73,5 +73,6 @@ obj-$(CONFIG_DRM_PANEL_TPO_TD043MTEA1) += panel-tpo-td043mtea1.o
+>   obj-$(CONFIG_DRM_PANEL_TPO_TPG110) += panel-tpo-tpg110.o
+>   obj-$(CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA) += panel-truly-nt35597.o
+>   obj-$(CONFIG_DRM_PANEL_VISIONOX_RM69299) += panel-visionox-rm69299.o
+> +obj-$(CONFIG_DRM_PANEL_VISIONOX_VTDR6130) += panel-visionox-vtdr6130.o
+>   obj-$(CONFIG_DRM_PANEL_WIDECHIPS_WS2401) += panel-widechips-ws2401.o
+>   obj-$(CONFIG_DRM_PANEL_XINPENG_XPP055C272) += panel-xinpeng-xpp055c272.o
+> diff --git a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
+> new file mode 100644
+> index 000000000000..94ad2a32efc9
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
+> @@ -0,0 +1,366 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +// Copyright (c) 2023, Linaro Limited
+> +
+> +#include <linux/backlight.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_modes.h>
+> +#include <drm/drm_panel.h>
+> +#include <drm/display/drm_dsc.h>
+> +#include <linux/regulator/consumer.h>
+> +
+> +struct visionox_vtdr6130 {
+> +	struct drm_panel panel;
+> +	struct mipi_dsi_device *dsi;
+> +	struct gpio_desc *reset_gpio;
+> +	struct regulator_bulk_data supplies[3];
+> +	bool prepared;
+> +};
+> +
+> +static inline struct visionox_vtdr6130 *to_visionox_vtdr6130(struct drm_panel *panel)
+> +{
+> +	return container_of(panel, struct visionox_vtdr6130, panel);
+> +}
+> +
+> +static inline int visionox_vtdr6130_dsi_write(struct mipi_dsi_device *dsi, const void *seq,
+> +					      size_t len)
+> +{
+> +	return mipi_dsi_dcs_write_buffer(dsi, seq, len);
+> +}
+> +
+> +#define dsi_dcs_write_seq(dsi, seq...)					\
+> +	{								\
+> +		const u8 d[] = { seq };					\
+> +		visionox_vtdr6130_dsi_write(dsi, d, ARRAY_SIZE(d));	\
+> +	}
+> +
+> +static void visionox_vtdr6130_reset(struct visionox_vtdr6130 *ctx)
+> +{
+> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+> +	usleep_range(10000, 11000);
+> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> +	usleep_range(10000, 11000);
+> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+> +	usleep_range(10000, 11000);
+> +}
+> +
+> +static int visionox_vtdr6130_on(struct visionox_vtdr6130 *ctx)
+> +{
+> +	struct mipi_dsi_device *dsi = ctx->dsi;
+> +	struct device *dev = &dsi->dev;
+> +	int ret;
+> +
+> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+> +
+> +	dsi_dcs_write_seq(dsi, 0x03, 0x01);
+> +	dsi_dcs_write_seq(dsi, 0x35, 0x00);
+> +	dsi_dcs_write_seq(dsi, 0x53, 0x20);
+> +	dsi_dcs_write_seq(dsi, 0x51, 0x00, 0x00);
+> +	dsi_dcs_write_seq(dsi, 0x59, 0x09);
+> +	dsi_dcs_write_seq(dsi, 0x6c, 0x01);
+> +	dsi_dcs_write_seq(dsi, 0x6d, 0x00);
+> +	dsi_dcs_write_seq(dsi, 0x6f, 0x01);
+> +	dsi_dcs_write_seq(dsi, 0x70,
+> +			  0x12, 0x00, 0x00, 0xab, 0x30, 0x80, 0x09, 0x60, 0x04,
+> +			  0x38, 0x00, 0x28, 0x02, 0x1c, 0x02, 0x1c, 0x02, 0x00,
+> +			  0x02, 0x0e, 0x00, 0x20, 0x03, 0xdd, 0x00, 0x07, 0x00,
+> +			  0x0c, 0x02, 0x77, 0x02, 0x8b, 0x18, 0x00, 0x10, 0xf0,
+> +			  0x07, 0x10, 0x20, 0x00, 0x06, 0x0f, 0x0f, 0x33, 0x0e,
+> +			  0x1c, 0x2a, 0x38, 0x46, 0x54, 0x62, 0x69, 0x70, 0x77,
+> +			  0x79, 0x7b, 0x7d, 0x7e, 0x02, 0x02, 0x22, 0x00, 0x2a,
+> +			  0x40, 0x2a, 0xbe, 0x3a, 0xfc, 0x3a, 0xfa, 0x3a, 0xf8,
+> +			  0x3b, 0x38, 0x3b, 0x78, 0x3b, 0xb6, 0x4b, 0xb6, 0x4b,
+> +			  0xf4, 0x4b, 0xf4, 0x6c, 0x34, 0x84, 0x74, 0x00, 0x00,
+> +			  0x00, 0x00, 0x00, 0x00);
+> +	dsi_dcs_write_seq(dsi, 0xf0, 0xaa, 0x10);
+> +	dsi_dcs_write_seq(dsi, 0xb1,
+> +			  0x01, 0x38, 0x00, 0x14, 0x00, 0x1c, 0x00, 0x01, 0x66,
+> +			  0x00, 0x14, 0x00, 0x14, 0x00, 0x01, 0x66, 0x00, 0x14,
+> +			  0x05, 0xcc, 0x00);
+> +	dsi_dcs_write_seq(dsi, 0xf0, 0xaa, 0x13);
+> +	dsi_dcs_write_seq(dsi, 0xce,
+> +			  0x09, 0x11, 0x09, 0x11, 0x08, 0xc1, 0x07, 0xfa, 0x05,
+> +			  0xa4, 0x00, 0x3c, 0x00, 0x34, 0x00, 0x24, 0x00, 0x0c,
+> +			  0x00, 0x0c, 0x04, 0x00, 0x35);
+> +	dsi_dcs_write_seq(dsi, 0xf0, 0xaa, 0x14);
+> +	dsi_dcs_write_seq(dsi, 0xb2, 0x03, 0x33);
+> +	dsi_dcs_write_seq(dsi, 0xb4,
+> +			  0x00, 0x33, 0x00, 0x00, 0x00, 0x3e, 0x00, 0x00, 0x00,
+> +			  0x3e, 0x00, 0x00);
+> +	dsi_dcs_write_seq(dsi, 0xb5,
+> +			  0x00, 0x09, 0x09, 0x09, 0x09, 0x09, 0x09, 0x06, 0x01);
+> +	dsi_dcs_write_seq(dsi, 0xb9, 0x00, 0x00, 0x08, 0x09, 0x09, 0x09);
+> +	dsi_dcs_write_seq(dsi, 0xbc,
+> +			  0x10, 0x00, 0x00, 0x06, 0x11, 0x09, 0x3b, 0x09, 0x47,
+> +			  0x09, 0x47, 0x00);
+> +	dsi_dcs_write_seq(dsi, 0xbe,
+> +			  0x10, 0x10, 0x00, 0x08, 0x22, 0x09, 0x19, 0x09, 0x25,
+> +			  0x09, 0x25, 0x00);
+> +	dsi_dcs_write_seq(dsi, 0xff, 0x5a, 0x80);
+> +	dsi_dcs_write_seq(dsi, 0x65, 0x14);
+> +	dsi_dcs_write_seq(dsi, 0xfa, 0x08, 0x08, 0x08);
+> +	dsi_dcs_write_seq(dsi, 0xff, 0x5a, 0x81);
+> +	dsi_dcs_write_seq(dsi, 0x65, 0x05);
+> +	dsi_dcs_write_seq(dsi, 0xf3, 0x0f);
+> +	dsi_dcs_write_seq(dsi, 0xf0, 0xaa, 0x00);
+> +	dsi_dcs_write_seq(dsi, 0xff, 0x5a, 0x82);
+> +	dsi_dcs_write_seq(dsi, 0xf9, 0x00);
+> +	dsi_dcs_write_seq(dsi, 0xff, 0x51, 0x83);
+> +	dsi_dcs_write_seq(dsi, 0x65, 0x04);
+> +	dsi_dcs_write_seq(dsi, 0xf8, 0x00);
+> +	dsi_dcs_write_seq(dsi, 0xff, 0x5a, 0x00);
+> +	dsi_dcs_write_seq(dsi, 0x65, 0x01);
+> +	dsi_dcs_write_seq(dsi, 0xf4, 0x9a);
+> +	dsi_dcs_write_seq(dsi, 0xff, 0x5a, 0x00);
+> +
+> +	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
+> +		return ret;
+> +	}
+> +	msleep(120);
+> +
+> +	ret = mipi_dsi_dcs_set_display_on(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to set display on: %d\n", ret);
+> +		return ret;
+> +	}
+> +	msleep(20);
+> +
+> +	return 0;
+> +}
+> +
+> +static int visionox_vtdr6130_off(struct visionox_vtdr6130 *ctx)
+> +{
+> +	struct mipi_dsi_device *dsi = ctx->dsi;
+> +	struct device *dev = &dsi->dev;
+> +	int ret;
+> +
+> +	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+> +
+> +	ret = mipi_dsi_dcs_set_display_off(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to set display off: %d\n", ret);
+> +		return ret;
+> +	}
+> +	msleep(20);
+> +
+> +	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+> +		return ret;
+> +	}
+> +	msleep(120);
+> +
+> +	return 0;
+> +}
+> +
+> +static int visionox_vtdr6130_prepare(struct drm_panel *panel)
+> +{
+> +	struct visionox_vtdr6130 *ctx = to_visionox_vtdr6130(panel);
+> +	struct device *dev = &ctx->dsi->dev;
+> +	int ret;
+> +
+> +	if (ctx->prepared)
+> +		return 0;
+> +
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies),
+> +				    ctx->supplies);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	visionox_vtdr6130_reset(ctx);
+> +
+> +	ret = visionox_vtdr6130_on(ctx);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to initialize panel: %d\n", ret);
+> +		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> +		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> +		return ret;
+> +	}
+> +
+> +	/* Explicitly disable DSC since compression is on by default on the panel */
+> +	mipi_dsi_compression_mode(ctx->dsi, false);
+> +
+> +	ctx->prepared = true;
+> +	return 0;
+> +}
+> +
+> +static int visionox_vtdr6130_unprepare(struct drm_panel *panel)
+> +{
+> +	struct visionox_vtdr6130 *ctx = to_visionox_vtdr6130(panel);
+> +	struct device *dev = &ctx->dsi->dev;
+> +	int ret;
+> +
+> +	if (!ctx->prepared)
+> +		return 0;
+> +
+> +	ret = visionox_vtdr6130_off(ctx);
+> +	if (ret < 0)
+> +		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
+> +
+> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> +
+> +	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> +
+> +	ctx->prepared = false;
+> +	return 0;
+> +}
+> +
+> +static const struct drm_display_mode visionox_vtdr6130_mode = {
+> +	.clock = (1080 + 20 + 2 + 20) * (2400 + 20 + 2 + 18) * 144 / 1000,
+> +	.hdisplay = 1080,
+> +	.hsync_start = 1080 + 20,
+> +	.hsync_end = 1080 + 20 + 2,
+> +	.htotal = 1080 + 20 + 2 + 20,
+> +	.vdisplay = 2400,
+> +	.vsync_start = 2400 + 20,
+> +	.vsync_end = 2400 + 20 + 2,
+> +	.vtotal = 2400 + 20 + 2 + 18,
+> +	.width_mm = 0,
+> +	.height_mm = 0,
+> +};
+> +
+> +static int visionox_vtdr6130_get_modes(struct drm_panel *panel,
+> +				       struct drm_connector *connector)
+> +{
+> +	struct drm_display_mode *mode;
+> +
+> +	mode = drm_mode_duplicate(connector->dev, &visionox_vtdr6130_mode);
+> +	if (!mode)
+> +		return -ENOMEM;
+> +
+> +	drm_mode_set_name(mode);
+> +
+> +	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+> +	connector->display_info.width_mm = mode->width_mm;
+> +	connector->display_info.height_mm = mode->height_mm;
+> +	drm_mode_probed_add(connector, mode);
+> +
+> +	return 1;
+> +}
+> +
+> +static const struct drm_panel_funcs visionox_vtdr6130_panel_funcs = {
+> +	.prepare = visionox_vtdr6130_prepare,
+> +	.unprepare = visionox_vtdr6130_unprepare,
+> +	.get_modes = visionox_vtdr6130_get_modes,
+> +};
+> +
+> +static int visionox_vtdr6130_bl_update_status(struct backlight_device *bl)
+> +{
+> +	struct mipi_dsi_device *dsi = bl_get_data(bl);
+> +	u16 brightness = backlight_get_brightness(bl);
+> +	int ret;
+> +
+> +	ret = mipi_dsi_dcs_set_display_brightness(dsi, cpu_to_le16(brightness));
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct backlight_ops visionox_vtdr6130_bl_ops = {
+> +	.update_status = visionox_vtdr6130_bl_update_status,
+> +};
+> +
+> +static struct backlight_device *
+> +visionox_vtdr6130_create_backlight(struct mipi_dsi_device *dsi)
+> +{
+> +	struct device *dev = &dsi->dev;
+> +	const struct backlight_properties props = {
+> +		.type = BACKLIGHT_RAW,
+> +		.brightness = 4095,
+> +		.max_brightness = 4095,
+> +	};
+> +
+> +	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
+> +					      &visionox_vtdr6130_bl_ops, &props);
+> +}
+> +
+> +static int visionox_vtdr6130_probe(struct mipi_dsi_device *dsi)
+> +{
+> +	struct device *dev = &dsi->dev;
+> +	struct visionox_vtdr6130 *ctx;
+> +	int ret;
+> +
+> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+> +	if (!ctx)
+> +		return -ENOMEM;
+> +
+> +	ctx->supplies[0].supply = "vddio";
+> +	ctx->supplies[1].supply = "vci";
+> +	ctx->supplies[2].supply = "vdd";
+> +
+> +	ret = devm_regulator_bulk_get(&dsi->dev, ARRAY_SIZE(ctx->supplies),
+> +				      ctx->supplies);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+> +	if (IS_ERR(ctx->reset_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
+> +				     "Failed to get reset-gpios\n");
+> +
+> +	ctx->dsi = dsi;
+> +	mipi_dsi_set_drvdata(dsi, ctx);
+> +
+> +	dsi->lanes = 4;
+> +	dsi->format = MIPI_DSI_FMT_RGB888;
+> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_NO_EOT_PACKET |
+> +			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
+> +
+> +	drm_panel_init(&ctx->panel, dev, &visionox_vtdr6130_panel_funcs,
+> +		       DRM_MODE_CONNECTOR_DSI);
+> +
+> +	ctx->panel.backlight = visionox_vtdr6130_create_backlight(dsi);
+> +	if (IS_ERR(ctx->panel.backlight))
+> +		return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
+> +				     "Failed to create backlight\n");
+> +
+> +	drm_panel_add(&ctx->panel);
+> +
+> +	ret = mipi_dsi_attach(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
+> +		drm_panel_remove(&ctx->panel);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void visionox_vtdr6130_remove(struct mipi_dsi_device *dsi)
+> +{
+> +	struct visionox_vtdr6130 *ctx = mipi_dsi_get_drvdata(dsi);
+> +	int ret;
+> +
+> +	ret = mipi_dsi_detach(dsi);
+> +	if (ret < 0)
+> +		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
+> +
+> +	drm_panel_remove(&ctx->panel);
+> +}
+> +
+> +static const struct of_device_id visionox_vtdr6130_of_match[] = {
+> +	{ .compatible = "visionox,vtdr6130" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, visionox_vtdr6130_of_match);
+> +
+> +static struct mipi_dsi_driver visionox_vtdr6130_driver = {
+> +	.probe = visionox_vtdr6130_probe,
+> +	.remove = visionox_vtdr6130_remove,
+> +	.driver = {
+> +		.name = "panel-visionox-vtdr6130",
+> +		.of_match_table = visionox_vtdr6130_of_match,
+> +	},
+> +};
+> +module_mipi_dsi_driver(visionox_vtdr6130_driver);
+> +
+> +MODULE_AUTHOR("Neil Armstron <neil.armstrong@linaro.org>");
 
-BR,
--R
+Missed a "g" here :-)
 
-> Only then we register the dri card for the commit which means commit
-> cannot come before that.
->
-> So, how can this sequence be possible?
->
-> > ---
-> >
-> > Changes since v1:
-> > - Moved setting of `async' before the call to trace to fix the
-> >    uninitialized variable warning
-> >
-> > ---
-> >   drivers/gpu/drm/msm/msm_atomic.c | 7 ++++++-
-> >   1 file changed, 6 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
-> > index 1686fbb611fd..d8cded52cabf 100644
-> > --- a/drivers/gpu/drm/msm/msm_atomic.c
-> > +++ b/drivers/gpu/drm/msm/msm_atomic.c
-> > @@ -186,7 +186,12 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
-> >       struct msm_kms *kms = priv->kms;
-> >       struct drm_crtc *async_crtc = NULL;
-> >       unsigned crtc_mask = get_crtc_mask(state);
-> > -     bool async = kms->funcs->vsync_time &&
-> > +     bool async;
-> > +
-> > +     if (!kms)
-> > +             return;
-> > +
-> > +     async = kms->funcs->vsync_time &&
-> >                       can_do_async(state, &async_crtc);
-> >
-> >       trace_msm_atomic_commit_tail_start(async, crtc_mask);
+> +MODULE_DESCRIPTION("Panel driver for the visionox VTDR6130 AMOLED DSI panel");
+
+I am not sure how the company capitalises the name, but to keep it 
+consistent with the other mentions, I think it should be "Visionox".
+
+> +MODULE_LICENSE("GPL");
+> 
+
+-- 
+Rayyan Ansari
+https://ansari.sh
+
