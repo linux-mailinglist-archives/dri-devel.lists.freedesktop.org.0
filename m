@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 038CA65E0F8
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 00:34:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FEBE65E100
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 00:40:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C379E10E0EE;
-	Wed,  4 Jan 2023 23:34:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ACE088784;
+	Wed,  4 Jan 2023 23:40:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9118C10E0EE
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jan 2023 23:34:31 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id z7so18400108pfq.13
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Jan 2023 15:34:31 -0800 (PST)
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
+ [IPv6:2607:f8b0:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBD2810E0DB
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jan 2023 23:40:23 +0000 (UTC)
+Received: by mail-pf1-x431.google.com with SMTP id e21so14524820pfl.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Jan 2023 15:40:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:user-agent:content-transfer-encoding:references
  :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
  :date:message-id:reply-to;
- bh=ZsTGtNUYgjtDy48ii9SWpqUX/tn7xRyFy1abYeOzEeM=;
- b=gzrFYlIgEOBZmzABvW5FxnlGlhD0307Tz8sifpNHwNLQi6QnDBdwqr9z6ZSsGtpjhM
- JQDryPxao4vLwwdUgKj80bfYVoZfE+LhuXbgl2n2RP0ZR97b7sWp4PQ4C9U+CBbrHb+o
- rx5NnpxxWJPBKoaJ/BaNTeJXa/GDcm2tPTs9M=
+ bh=f1aJirrzGPHHin7JcatS3whj2Q5K38dkM4au+J3Fmxo=;
+ b=UHxRdrDbiLSZzspa4SRZbOLH0e1wcxpDvr1ekeQuaKV3VWxDwOookOHa1yoG8Z8LC+
+ 0JDGAlmxdq/T5zT10osCs9f8AabUKZXqFdEsbBsFdqG7hL4DZpnJI/naGDtfHBwqKQog
+ O8xHqwJIeUfjCc8+Y2By0PNgp2z5wTSwdT8Hk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:user-agent:content-transfer-encoding:references
  :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ZsTGtNUYgjtDy48ii9SWpqUX/tn7xRyFy1abYeOzEeM=;
- b=X0AgphvT9MZtIuz/0TS8lE8t2l8aDjIz4XwQrlMZXKnzNkxgvo4UOpZF/88FQa5RQ9
- HL9oMNAsPyrfj7bN1Le4yJQrH1AS38NcfD7UT0pTtOvzI9JHYgA5FeYQqWam8gFBSKLJ
- NQI9Yi2stalEVFOo8GvBWPrWo1ll+F0XqTS6nYqz6sNeE9/Tt+/bHq+KVs3kzFtuaKPm
- D0nw7XiFUNs88hE0weLdWIzvXe/WUa+FBE1IaDTvHJOwKKdFglnEsPNnvnbTP0xGMqrz
- p8jmk2EqtXBvFEqoeoexY/Uw+lNna3AU8dfAzwAnPLSGo4/3sdesN5amISsZZqHcm2S1
- fzsg==
-X-Gm-Message-State: AFqh2koFrwPZXDqXnbK7MBwIOU/m2VDpfgtP1xZcw2x4PRwPiuOCdeLg
- okcCr8MKpPjEsdD+9KPmykniLQ==
-X-Google-Smtp-Source: AMrXdXuHSrx7lumgdyTyyXJ+jyhjixl13lLXCg4/PFeav0k/B1D/5ie3vttZHx6wN88Z0vLH75xzsg==
-X-Received: by 2002:a62:18d6:0:b0:581:710e:56ad with SMTP id
- 205-20020a6218d6000000b00581710e56admr30057260pfy.23.1672875271074; 
- Wed, 04 Jan 2023 15:34:31 -0800 (PST)
+ bh=f1aJirrzGPHHin7JcatS3whj2Q5K38dkM4au+J3Fmxo=;
+ b=ZbFcYInsHlrg4IU7syMsqDIHY9QWmyeoOwsjNA+O8uSBYuhMN92Rd207JX6oD9yOlM
+ CfnZNzZ2Qpih6KTd7dv5SzkWakUUTpSzs9vzLfGotjv/L6cjNw+hkUFPys30UgjPRCmO
+ 7EU6vp0tMYyJMgbeXfhBAGgC4cHU+BfKyDsdFp90+8sPLjFkRD6pmj31BfEHlDS/Bs81
+ 9iJQOk9nyKIgiQuj/Qi+0GfuTW9NljDRCc0j0oYpvvL2OYuufHdlzoFjW5EcuApT62wa
+ DN4w7DHIyObs7PMkL/LlQAJY6MRX8DW+pOX8+xcwOeDX0Wp2mYMH19fb1VzV9+2Lz1K0
+ JGXQ==
+X-Gm-Message-State: AFqh2kqwUdBIVIYcBQRTwZJGOPqr1tIqYAlvqcbG2er9zGQbcFimvjdZ
+ usKaDnNG0R+EBsSlMqIz12JoRg==
+X-Google-Smtp-Source: AMrXdXvODBwj2kBSNRSiXlhXaUvvuKMUQR6JCWdWs4suEmlOkzQVKEgIaT3pbhE5xPx5+ccX5pqhgw==
+X-Received: by 2002:a62:cf83:0:b0:582:e4fd:bea9 with SMTP id
+ b125-20020a62cf83000000b00582e4fdbea9mr5417890pfg.17.1672875623358; 
+ Wed, 04 Jan 2023 15:40:23 -0800 (PST)
 Received: from ?IPv6:2620:15c:90:200:f5c2:37ee:dcb2:8ca8?
  ([2620:15c:90:200:f5c2:37ee:dcb2:8ca8])
  by smtp.gmail.com with ESMTPSA id
- h1-20020a056a00000100b0058124f92399sm18104314pfk.219.2023.01.04.15.34.29
+ v63-20020a622f42000000b00575d90636dcsm22964190pfv.6.2023.01.04.15.40.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Jan 2023 15:34:30 -0800 (PST)
-Message-ID: <03746298ad5a7996c5eba2efba185650beae1ce6.camel@chromium.org>
-Subject: Re: [PATCH v3 4/7] drm/i915/pxp: Invalidate all PXP fw sessions
- during teardown
+ Wed, 04 Jan 2023 15:40:22 -0800 (PST)
+Message-ID: <a950a9cc596aa4cb20b14b2ef26d1441a788b71c.camel@chromium.org>
+Subject: Re: [PATCH v3 5/7] drm/i915/pxp: Trigger the global teardown for
+ before suspending
 From: Juston Li <justonli@chromium.org>
 To: Alan Previn <alan.previn.teres.alexis@intel.com>, 
  intel-gfx@lists.freedesktop.org
-Date: Wed, 04 Jan 2023 15:34:29 -0800
-In-Reply-To: <20221221230628.2715916-5-alan.previn.teres.alexis@intel.com>
+Date: Wed, 04 Jan 2023 15:40:21 -0800
+In-Reply-To: <20221221230628.2715916-6-alan.previn.teres.alexis@intel.com>
 References: <20221221230628.2715916-1-alan.previn.teres.alexis@intel.com>
- <20221221230628.2715916-5-alan.previn.teres.alexis@intel.com>
+ <20221221230628.2715916-6-alan.previn.teres.alexis@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 User-Agent: Evolution 3.46.0-2 
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,199 +81,142 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-12-21 at 15:06 -0800, Alan Previn wrote:
-> A gap was recently discovered where if an application did not
-> invalidate all of the stream keys (intentionally or not), and the
-> driver did a full PXP global teardown on the GT subsystem, we
-> find that future session creation would fail on the security
-> firmware's side of the equation. i915 is the entity that needs
-> ensure the sessions' state across both iGT and security firmware
-> are at a known clean point when performing a full global teardown.
->=20
-> Architecturally speaking, i915 should inspect all active sessions
-> and submit the invalidate-stream-key PXP command to the security
-> firmware for each of them. However, for the upstream i915 driver
-> we only support the arbitration session that can be created
-> so that will be the only session we will cleanup.
->=20
-> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
-
-Reviewed-by: Juston Li <justonli@chromium.org>
-
-> ---
-> =C2=A0drivers/gpu/drm/i915/pxp/intel_pxp.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
-> =C2=A0.../drm/i915/pxp/intel_pxp_cmd_interface_42.h | 15 ++++++++
-> =C2=A0.../i915/pxp/intel_pxp_cmd_interface_cmn.h=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 3 ++
-> =C2=A0drivers/gpu/drm/i915/pxp/intel_pxp_session.c=C2=A0 |=C2=A0 2 ++
-> =C2=A0drivers/gpu/drm/i915/pxp/intel_pxp_tee.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 35
-> +++++++++++++++++++
-> =C2=A05 files changed, 56 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.h
-> b/drivers/gpu/drm/i915/pxp/intel_pxp.h
-> index 04440fada711..9658d3005222 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp.h
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.h
-> @@ -24,6 +24,7 @@ void intel_pxp_init_hw(struct intel_pxp *pxp);
-> =C2=A0void intel_pxp_fini_hw(struct intel_pxp *pxp);
-> =C2=A0
-> =C2=A0void intel_pxp_mark_termination_in_progress(struct intel_pxp *pxp);
-> +void intel_pxp_tee_end_arb_fw_session(struct intel_pxp *pxp, u32
-> arb_session_id);
-> =C2=A0
-> =C2=A0int intel_pxp_start(struct intel_pxp *pxp);
-> =C2=A0
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_42.h
-> b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_42.h
-> index 739f9072fa5f..26f7d9f01bf3 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_42.h
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_42.h
-> @@ -12,6 +12,9 @@
-> =C2=A0/* PXP-Opcode for Init Session */
-> =C2=A0#define PXP42_CMDID_INIT_SESSION 0x1e
-> =C2=A0
-> +/* PXP-Opcode for Invalidate Stream Key */
-> +#define PXP42_CMDID_INVALIDATE_STREAM_KEY 0x00000007
-> +
-> =C2=A0/* PXP-Input-Packet: Init Session (Arb-Session) */
-> =C2=A0struct pxp42_create_arb_in {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct pxp_cmd_header hea=
-der;
-> @@ -25,4 +28,16 @@ struct pxp42_create_arb_out {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct pxp_cmd_header hea=
-der;
-> =C2=A0} __packed;
-> =C2=A0
-> +/* PXP-Input-Packet: Invalidate Stream Key */
-> +struct pxp42_inv_stream_key_in {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct pxp_cmd_header header;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u32 rsvd[3];
-> +} __packed;
-> +
-> +/* PXP-Output-Packet: Invalidate Stream Key */
-> +struct pxp42_inv_stream_key_out {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct pxp_cmd_header header;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u32 rsvd;
-> +} __packed;
-> +
-> =C2=A0#endif /* __INTEL_PXP_FW_INTERFACE_42_H__ */
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
-> b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
-> index c2f23394f9b8..69e34ec49e78 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
-> @@ -27,6 +27,9 @@ struct pxp_cmd_header {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0union {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0u32 status; /* out */
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0u32 stream_id; /* in */
-> +#define PXP_CMDHDR_EXTDATA_SESSION_VALID GENMASK(0, 0)
-> +#define PXP_CMDHDR_EXTDATA_APP_TYPE GENMASK(1, 1)
-> +#define PXP_CMDHDR_EXTDATA_SESSION_ID GENMASK(17, 2)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0};
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* Length of the message =
-(excluding the header) */
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u32 buffer_len;
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> index ae413580b81a..74ed7e16e481 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> @@ -110,6 +110,8 @@ static int
-> pxp_terminate_arb_session_and_global(struct intel_pxp *pxp)
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0intel_uncore_write(gt->un=
-core, PXP_GLOBAL_TERMINATE, 1);
-> =C2=A0
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0intel_pxp_tee_end_arb_fw_sessi=
-on(pxp, ARB_SESSION);
-> +
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return ret;
-> =C2=A0}
-> =C2=A0
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-> b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-> index bef6d7f8ac55..9e247f38f3bd 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-> @@ -311,3 +311,38 @@ int intel_pxp_tee_cmd_create_arb_session(struct
-> intel_pxp *pxp,
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return ret;
-> =C2=A0}
-> +
-> +void intel_pxp_tee_end_arb_fw_session(struct intel_pxp *pxp, u32
-> session_id)
-> +{
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct drm_i915_private *i915 =
-=3D pxp->ctrl_gt->i915;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct pxp42_inv_stream_key_in=
- msg_in =3D {0};
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct pxp42_inv_stream_key_ou=
-t msg_out =3D {0};
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int ret, trials =3D 0;
-> +
-> +try_again:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0memset(&msg_in, 0, sizeof(msg_=
-in));
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0memset(&msg_out, 0, sizeof(msg=
-_out));
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0msg_in.header.api_version =3D =
-PXP_APIVER(4, 2);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0msg_in.header.command_id =3D P=
-XP42_CMDID_INVALIDATE_STREAM_KEY;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0msg_in.header.buffer_len =3D s=
-izeof(msg_in) -
-> sizeof(msg_in.header);
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0msg_in.header.stream_id =3D
-> FIELD_PREP(PXP_CMDHDR_EXTDATA_SESSION_VALID, 1);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0msg_in.header.stream_id |=3D
-> FIELD_PREP(PXP_CMDHDR_EXTDATA_APP_TYPE, 0);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0msg_in.header.stream_id |=3D
-> FIELD_PREP(PXP_CMDHDR_EXTDATA_SESSION_ID, session_id);
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D intel_pxp_tee_io_messa=
-ge(pxp,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- &msg_in, sizeof(msg_in),
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- &msg_out, sizeof(msg_out),
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- NULL);
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* Cleanup coherency between G=
-T and Firmware is critical, so
-> try again if it fails */
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if ((ret || msg_out.header.sta=
-tus !=3D 0x0) && ++trials < 3)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0goto try_again;
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (ret)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0drm_err(&i915->drm, "Failed to send tee msg for inv-
-> stream-key-%d, ret=3D[%d]\n",
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0session_i=
-d, ret);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0else if (msg_out.header.status=
- !=3D 0x0)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0drm_warn(&i915->drm, "PXP firmware failed inv-stream-
-> key-%d with status 0x%08x\n",
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 session_=
-id, msg_out.header.status);
-> +}
+T24gV2VkLCAyMDIyLTEyLTIxIGF0IDE1OjA2IC0wODAwLCBBbGFuIFByZXZpbiB3cm90ZToKPiBB
+IGRyaXZlciBidWcgd2FzIHJlY2VudGx5IGRpc2NvdmVyZWQgd2hlcmUgdGhlIHNlY3VyaXR5IGZp
+cm13YXJlIHdhcwo+IHJlY2VpdmluZyBpbnRlcm5hbCBIVyBzaWduYWxzIGluZGljYXRpbmcgdGhh
+dCBzZXNzaW9uIGtleSBleHBpcmF0aW9ucwo+IGhhZCBvY2N1cnJlZC4gQXJjaGl0ZWN0dXJhbGx5
+LCB0aGUgZmlybXdhcmUgd2FzIGV4cGVjdGluZyBhIHJlc3BvbnNlCj4gZnJvbSB0aGUgR3VDIHRv
+IGFja25vd2xlZGdlIHRoZSBldmVudCB3aXRoIHRoZSBmaXJtd2FyZSBzaWRlLgo+IEhvd2V2ZXIg
+dGhlIE9TIHdhcyBpbiBhIHN1c3BlbmRlZCBzdGF0ZSBhbmQgR3VDIGhhZCBiZWVuIHJlc2V0Lgo+
+IAo+IEludGVybmFsIHNwZWNpZmljYXRpb25zIGFjdHVhbGx5IHJlcXVpcmVkIHRoZSBkcml2ZXIg
+dG8gZW5zdXJlCj4gdGhhdCBhbGwgYWN0aXZlIHNlc3Npb25zIGJlIHByb3Blcmx5IGNsZWFuZWQg
+dXAgaW4gc3VjaCBjYXNlcyB3aGVyZQo+IHRoZSBzeXN0ZW0gaXMgc3VzcGVuZGVkIGFuZCB0aGUg
+R3VDIHBvdGVudGlhbGx5IHVuYWJsZSB0byByZXNwb25kLgo+IAo+IFRoaXMgcGF0Y2ggYWRkcyB0
+aGUgZ2xvYmFsIHRlYXJkb3duIGNvZGUgaW4gaTkxNSdzIHN1c3BlbmRfcHJlcGFyZQo+IGNvZGUg
+cGF0aC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBBbGFuIFByZXZpbiA8YWxhbi5wcmV2aW4udGVyZXMu
+YWxleGlzQGludGVsLmNvbT4KPiAtLS0KPiDCoGRyaXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9pbnRl
+bF9weHAuY8KgwqDCoMKgwqDCoMKgwqAgfCA2MCArKysrKysrKysrKysrKysrKy0KPiAtLQo+IMKg
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvcHhwL2ludGVsX3B4cC5owqDCoMKgwqDCoMKgwqDCoCB8wqAg
+MSArCj4gwqBkcml2ZXJzL2dwdS9kcm0vaTkxNS9weHAvaW50ZWxfcHhwX3BtLmPCoMKgwqDCoMKg
+IHzCoCAyICstCj4gwqBkcml2ZXJzL2dwdS9kcm0vaTkxNS9weHAvaW50ZWxfcHhwX3Nlc3Npb24u
+YyB8wqAgOSArKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9pbnRlbF9weHBfc2Vzc2lv
+bi5oIHzCoCA1ICsrCj4gwqA1IGZpbGVzIGNoYW5nZWQsIDY0IGluc2VydGlvbnMoKyksIDEzIGRl
+bGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9weHAvaW50
+ZWxfcHhwLmMKPiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9pbnRlbF9weHAuYwo+IGluZGV4
+IGNmYzlhZjhiM2QyMS4uOTZhOTg4ZWZkMjM3IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L3B4cC9pbnRlbF9weHAuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9p
+bnRlbF9weHAuYwo+IEBAIC0yNzAsNiArMjcwLDU1IEBAIHN0YXRpYyBib29sIHB4cF9jb21wb25l
+bnRfYm91bmQoc3RydWN0IGludGVsX3B4cAo+ICpweHApCj4gwqDCoMKgwqDCoMKgwqDCoHJldHVy
+biBib3VuZDsKPiDCoH0KPiDCoAo+ICtzdGF0aWMgaW50IF9fcHhwX2dsb2JhbF90ZWFyZG93bl9s
+b2NrZWQoc3RydWN0IGludGVsX3B4cCAqcHhwLCBib29sCj4gdGVybWluYXRlX2Zvcl9jbGVhbnVw
+KQo+ICt7Cj4gK8KgwqDCoMKgwqDCoMKgaWYgKHRlcm1pbmF0ZV9mb3JfY2xlYW51cCkgewo+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoIXB4cC0+YXJiX2lzX3ZhbGlkKQo+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIDA7Cj4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoC8qCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCAqIFRvIGVuc3VyZSBzeW5jaHJvbm91cyBhbmQgY29oZXJlbnQgc2Vzc2lvbgo+
+IHRlYXJkb3duIGNvbXBsZXRpb24KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICog
+aW4gcmVzcG9uc2UgdG8gc3VzcGVuZCBvciBzaHV0ZG93biB0cmlnZ2VycywgZG9uJ3QKPiB1c2Vy
+IGEgd29ya2VyLgoKbml0OiB0eXBvIHVzZXIgLT4gdXNlCgpSZXZpZXdlZC1ieTogSnVzdG9uIExp
+IDxqdXN0b25saUBjaHJvbWl1bS5vcmc+Cgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgKi8KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaW50ZWxfcHhwX21hcmtfdGVy
+bWluYXRpb25faW5fcHJvZ3Jlc3MocHhwKTsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgaW50ZWxfcHhwX3Rlcm1pbmF0ZShweHAsIGZhbHNlKTsKPiArwqDCoMKgwqDCoMKgwqB9IGVs
+c2Ugewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAocHhwLT5hcmJfaXNfdmFs
+aWQpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1
+cm4gMDsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgLyoKPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgICogSWYgd2UgYXJlIG5vdCBpbiBmaW5hbCB0ZXJtaW5hdGlvbiwg
+YW5kIHRoZSBhcmItCj4gc2Vzc2lvbiBpcyBjdXJyZW50bHkKPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgICogaW5hY3RpdmUsIHdlIGFyZSBkb2luZyBhIHJlc2V0IGFuZCByZXN0YXJ0
+IGR1ZSB0bwo+IHNvbWUgcnVudGltZSBldmVudC4KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgICogVXNlIHRoZSB3b3JrZXIgdGhhdCB3YXMgZGVzaWduZWQgZm9yIHRoaXMuCj4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqBweHBfcXVldWVfdGVybWluYXRpb24ocHhwKTsKPiArwqDCoMKgwqDCoMKgwqB9Cj4g
+Kwo+ICvCoMKgwqDCoMKgwqDCoGlmICghd2FpdF9mb3JfY29tcGxldGlvbl90aW1lb3V0KCZweHAt
+PnRlcm1pbmF0aW9uLAo+IG1zZWNzX3RvX2ppZmZpZXMoMjUwKSkpCj4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoHJldHVybiAtRVRJTUVET1VUOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBy
+ZXR1cm4gMDsKPiArfQo+ICsKPiArdm9pZCBpbnRlbF9weHBfZW5kKHN0cnVjdCBpbnRlbF9weHAg
+KnB4cCkKPiArewo+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICppOTE1
+ID0gcHhwLT5jdHJsX2d0LT5pOTE1Owo+ICvCoMKgwqDCoMKgwqDCoGludGVsX3dha2VyZWZfdCB3
+YWtlcmVmOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBpZiAoIWludGVsX3B4cF9pc19lbmFibGVkKHB4
+cCkpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybjsKPiArCj4gK8KgwqDC
+oMKgwqDCoMKgd2FrZXJlZiA9IGludGVsX3J1bnRpbWVfcG1fZ2V0KCZpOTE1LT5ydW50aW1lX3Bt
+KTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgbXV0ZXhfbG9jaygmcHhwLT5hcmJfbXV0ZXgpOwo+ICsK
+PiArwqDCoMKgwqDCoMKgwqBpZiAoX19weHBfZ2xvYmFsX3RlYXJkb3duX2xvY2tlZChweHAsIHRy
+dWUpKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkcm1fZGJnKCZpOTE1LT5kcm0s
+ICJQWFAgZW5kIHRpbWVkIG91dFxuIik7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoG11dGV4X3VubG9j
+aygmcHhwLT5hcmJfbXV0ZXgpOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBpbnRlbF9weHBfZmluaV9o
+dyhweHApOwo+ICvCoMKgwqDCoMKgwqDCoGludGVsX3J1bnRpbWVfcG1fcHV0KCZpOTE1LT5ydW50
+aW1lX3BtLCB3YWtlcmVmKTsKPiArfQo+ICsKPiDCoC8qCj4gwqAgKiB0aGUgYXJiIHNlc3Npb24g
+aXMgcmVzdGFydGVkIGZyb20gdGhlIGlycSB3b3JrIHdoZW4gd2UgcmVjZWl2ZQo+IHRoZQo+IMKg
+ICogdGVybWluYXRpb24gY29tcGxldGlvbiBpbnRlcnJ1cHQKPiBAQCAtMjg2LDE2ICszMzUsOSBA
+QCBpbnQgaW50ZWxfcHhwX3N0YXJ0KHN0cnVjdCBpbnRlbF9weHAgKnB4cCkKPiDCoAo+IMKgwqDC
+oMKgwqDCoMKgwqBtdXRleF9sb2NrKCZweHAtPmFyYl9tdXRleCk7Cj4gwqAKPiAtwqDCoMKgwqDC
+oMKgwqBpZiAocHhwLT5hcmJfaXNfdmFsaWQpCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoGdvdG8gdW5sb2NrOwo+IC0KPiAtwqDCoMKgwqDCoMKgwqBweHBfcXVldWVfdGVybWluYXRp
+b24ocHhwKTsKPiAtCj4gLcKgwqDCoMKgwqDCoMKgaWYgKCF3YWl0X2Zvcl9jb21wbGV0aW9uX3Rp
+bWVvdXQoJnB4cC0+dGVybWluYXRpb24sCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoG1zZWNzX3Rv
+X2ppZmZpZXMoMjUwKSkpIHsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0ID0g
+LUVUSU1FRE9VVDsKPiArwqDCoMKgwqDCoMKgwqByZXQgPSBfX3B4cF9nbG9iYWxfdGVhcmRvd25f
+bG9ja2VkKHB4cCwgZmFsc2UpOwo+ICvCoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvIHVubG9jazsKPiAtwqDCoMKgwqDCoMKgwqB9Cj4g
+wqAKPiDCoMKgwqDCoMKgwqDCoMKgLyogbWFrZSBzdXJlIHRoZSBjb21waWxlciBkb2Vzbid0IG9w
+dGltaXplIHRoZSBkb3VibGUgYWNjZXNzCj4gKi8KPiDCoMKgwqDCoMKgwqDCoMKgYmFycmllcigp
+Owo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9weHAvaW50ZWxfcHhwLmgKPiBi
+L2RyaXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9pbnRlbF9weHAuaAo+IGluZGV4IDk2NThkMzAwNTIy
+Mi4uM2RlZDA4OTBjZDI3IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9p
+bnRlbF9weHAuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9pbnRlbF9weHAuaAo+
+IEBAIC0yNyw2ICsyNyw3IEBAIHZvaWQgaW50ZWxfcHhwX21hcmtfdGVybWluYXRpb25faW5fcHJv
+Z3Jlc3Moc3RydWN0Cj4gaW50ZWxfcHhwICpweHApOwo+IMKgdm9pZCBpbnRlbF9weHBfdGVlX2Vu
+ZF9hcmJfZndfc2Vzc2lvbihzdHJ1Y3QgaW50ZWxfcHhwICpweHAsIHUzMgo+IGFyYl9zZXNzaW9u
+X2lkKTsKPiDCoAo+IMKgaW50IGludGVsX3B4cF9zdGFydChzdHJ1Y3QgaW50ZWxfcHhwICpweHAp
+Owo+ICt2b2lkIGludGVsX3B4cF9lbmQoc3RydWN0IGludGVsX3B4cCAqcHhwKTsKPiDCoAo+IMKg
+aW50IGludGVsX3B4cF9rZXlfY2hlY2soc3RydWN0IGludGVsX3B4cCAqcHhwLAo+IMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBkcm1faTkxNV9n
+ZW1fb2JqZWN0ICpvYmosCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9p
+bnRlbF9weHBfcG0uYwo+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvcHhwL2ludGVsX3B4cF9wbS5j
+Cj4gaW5kZXggODkyZDM5Y2M2MWMxLi5lNDI3NDY0YWExMzEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvcHhwL2ludGVsX3B4cF9wbS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2k5MTUvcHhwL2ludGVsX3B4cF9wbS5jCj4gQEAgLTE2LDcgKzE2LDcgQEAgdm9pZCBpbnRlbF9w
+eHBfc3VzcGVuZF9wcmVwYXJlKHN0cnVjdCBpbnRlbF9weHAKPiAqcHhwKQo+IMKgwqDCoMKgwqDC
+oMKgwqBpZiAoIWludGVsX3B4cF9pc19lbmFibGVkKHB4cCkpCj4gwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqByZXR1cm47Cj4gwqAKPiAtwqDCoMKgwqDCoMKgwqBweHAtPmFyYl9pc192
+YWxpZCA9IGZhbHNlOwo+ICvCoMKgwqDCoMKgwqDCoGludGVsX3B4cF9lbmQocHhwKTsKPiDCoAo+
+IMKgwqDCoMKgwqDCoMKgwqBpbnRlbF9weHBfaW52YWxpZGF0ZShweHApOwo+IMKgfQo+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9weHAvaW50ZWxfcHhwX3Nlc3Npb24uYwo+IGIv
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvcHhwL2ludGVsX3B4cF9zZXNzaW9uLmMKPiBpbmRleCA3NGVk
+N2UxNmU0ODEuLmQ4Mjc4YzQwMDJlMyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkx
+NS9weHAvaW50ZWxfcHhwX3Nlc3Npb24uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3B4
+cC9pbnRlbF9weHBfc2Vzc2lvbi5jCj4gQEAgLTExNSwxMSArMTE1LDE0IEBAIHN0YXRpYyBpbnQK
+PiBweHBfdGVybWluYXRlX2FyYl9zZXNzaW9uX2FuZF9nbG9iYWwoc3RydWN0IGludGVsX3B4cCAq
+cHhwKQo+IMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gcmV0Owo+IMKgfQo+IMKgCj4gLXN0YXRpYyB2
+b2lkIHB4cF90ZXJtaW5hdGUoc3RydWN0IGludGVsX3B4cCAqcHhwKQo+ICt2b2lkIGludGVsX3B4
+cF90ZXJtaW5hdGUoc3RydWN0IGludGVsX3B4cCAqcHhwLCBib29sIHJlc3RhcnRfYXJiKQo+IMKg
+ewo+IMKgwqDCoMKgwqDCoMKgwqBpbnQgcmV0Owo+IMKgCj4gLcKgwqDCoMKgwqDCoMKgcHhwLT5o
+d19zdGF0ZV9pbnZhbGlkYXRlZCA9IHRydWU7Cj4gK8KgwqDCoMKgwqDCoMKgaWYgKHJlc3RhcnRf
+YXJiKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBweHAtPmh3X3N0YXRlX2ludmFs
+aWRhdGVkID0gdHJ1ZTsKPiArwqDCoMKgwqDCoMKgwqBlbHNlCj4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoHB4cC0+aHdfc3RhdGVfaW52YWxpZGF0ZWQgPSBmYWxzZTsKPiDCoAo+IMKg
+wqDCoMKgwqDCoMKgwqAvKgo+IMKgwqDCoMKgwqDCoMKgwqAgKiBpZiB3ZSBmYWlsIHRvIHN1Ym1p
+dCB0aGUgdGVybWluYXRpb24gdGhlcmUgaXMgbm8gcG9pbnQgaW4KPiB3YWl0aW5nIGZvcgo+IEBA
+IC0xNjcsNyArMTcwLDcgQEAgc3RhdGljIHZvaWQgcHhwX3Nlc3Npb25fd29yayhzdHJ1Y3Qgd29y
+a19zdHJ1Y3QKPiAqd29yaykKPiDCoAo+IMKgwqDCoMKgwqDCoMKgwqBpZiAoZXZlbnRzICYgUFhQ
+X1RFUk1JTkFUSU9OX1JFUVVFU1QpIHsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oGV2ZW50cyAmPSB+UFhQX1RFUk1JTkFUSU9OX0NPTVBMRVRFOwo+IC3CoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqBweHBfdGVybWluYXRlKHB4cCk7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoGludGVsX3B4cF90ZXJtaW5hdGUocHhwLCB0cnVlKTsKPiDCoMKgwqDCoMKgwqDC
+oMKgfQo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoGlmIChldmVudHMgJiBQWFBfVEVSTUlOQVRJT05f
+Q09NUExFVEUpCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9pbnRlbF9w
+eHBfc2Vzc2lvbi5oCj4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9weHAvaW50ZWxfcHhwX3Nlc3Np
+b24uaAo+IGluZGV4IDkwM2FjNTJjZmZhMS4uNGY5NDRiNjNiNWI2IDEwMDY0NAo+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9pbnRlbF9weHBfc2Vzc2lvbi5oCj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvcHhwL2ludGVsX3B4cF9zZXNzaW9uLmgKPiBAQCAtMTIsOSArMTIsMTQg
+QEAgc3RydWN0IGludGVsX3B4cDsKPiDCoAo+IMKgI2lmZGVmIENPTkZJR19EUk1fSTkxNV9QWFAK
+PiDCoHZvaWQgaW50ZWxfcHhwX3Nlc3Npb25fbWFuYWdlbWVudF9pbml0KHN0cnVjdCBpbnRlbF9w
+eHAgKnB4cCk7Cj4gK3ZvaWQgaW50ZWxfcHhwX3Rlcm1pbmF0ZShzdHJ1Y3QgaW50ZWxfcHhwICpw
+eHAsIGJvb2wgcmVzdGFydF9hcmIpOwo+IMKgI2Vsc2UKPiDCoHN0YXRpYyBpbmxpbmUgdm9pZCBp
+bnRlbF9weHBfc2Vzc2lvbl9tYW5hZ2VtZW50X2luaXQoc3RydWN0Cj4gaW50ZWxfcHhwICpweHAp
+Cj4gwqB7Cj4gwqB9Cj4gKwo+ICtzdGF0aWMgaW5saW5lIHZvaWQgaW50ZWxfcHhwX3Rlcm1pbmF0
+ZShzdHJ1Y3QgaW50ZWxfcHhwICpweHAsIGJvb2wKPiByZXN0YXJ0X2FyYikKPiArewo+ICt9Cj4g
+wqAjZW5kaWYKPiDCoCNlbmRpZiAvKiBfX0lOVEVMX1BYUF9TRVNTSU9OX0hfXyAqLwoK
 
