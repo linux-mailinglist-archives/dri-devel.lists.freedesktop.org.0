@@ -1,48 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A640265CE02
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 09:05:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAD2965CE00
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 09:05:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAC1D10E433;
-	Wed,  4 Jan 2023 08:05:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D74110E431;
+	Wed,  4 Jan 2023 08:05:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B19910E234
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Jan 2023 22:08:51 +0000 (UTC)
-Received: from fsav112.sakura.ne.jp (fsav112.sakura.ne.jp [27.133.134.239])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 303M7k2O030536;
- Wed, 4 Jan 2023 07:07:46 +0900 (JST)
- (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav112.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav112.sakura.ne.jp);
- Wed, 04 Jan 2023 07:07:46 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav112.sakura.ne.jp)
-Received: from [192.168.1.20] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 303M7j07030532
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Wed, 4 Jan 2023 07:07:45 +0900 (JST)
- (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <2b35515e-5ad0-ee84-c90f-cb61428be4e4@I-love.SAKURA.ne.jp>
-Date: Wed, 4 Jan 2023 07:07:45 +0900
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1E7F10E089;
+ Wed,  4 Jan 2023 07:29:55 +0000 (UTC)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
+ [91.154.32.225])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6BFD2108;
+ Wed,  4 Jan 2023 08:29:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1672817393;
+ bh=82pyUUf7pT/43ndvROF+ofhgFaSVX8TXD5BpYvrTqWQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=BzOjKTVtnZiVl2irEaEBv8gP58/0VhKIey2Y5UxsL04+LgLkJz52MpgvtcEJEXusj
+ JTpjxJ1MhD2VogxBE/Bh1/8Vd2F9tyDbomBRKNd9/VgorZufwyRGfFZBu9tQIB42Ed
+ 5ng03o56Tixj8izNubKzvw4OipOFP835K5nYs0U8=
+Message-ID: <baa8df6b-ecd4-6df8-9fb5-6a3a39e1a04f@ideasonboard.com>
+Date: Wed, 4 Jan 2023 09:29:49 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [syzbot] WARNING: locking bug in inet_autobind
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 0/7] drm/bridge_connector: perform HPD enablement
+ automatically
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Lucas Stach <l.stach@pengutronix.de>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20221102180705.459294-1-dmitry.baryshkov@linaro.org>
+ <362452c5-8858-9ac5-e0ca-8ff993e966b7@linaro.org>
 Content-Language: en-US
-To: Felix Kuehling <felix.kuehling@amd.com>, Waiman Long <longman@redhat.com>,
- edumazet@google.com, jakub@cloudflare.com
-References: <0000000000002ae67f05f0f191aa@google.com>
- <ea9c2977-f05f-3acd-ee3e-2443229b7b55@amd.com>
- <3e531d65-72a7-a82a-3d18-004aeab9144b@redhat.com>
- <a47b840f-b2b8-95d7-ddc0-c9d5dde3c28c@amd.com>
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <a47b840f-b2b8-95d7-ddc0-c9d5dde3c28c@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <362452c5-8858-9ac5-e0ca-8ff993e966b7@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Wed, 04 Jan 2023 08:05:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,47 +63,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yong.Zhao@amd.com, songliubraving@fb.com, Christian.Koenig@amd.com,
- airlied@linux.ie, yhs@fb.com, ast@kernel.org, Ray.Huang@amd.com,
- will@kernel.org, David1.Zhou@amd.com,
- syzbot <syzbot+94cc2a66fc228b23f360@syzkaller.appspotmail.com>, ozeng@amd.com,
- daniel@iogearbox.net, Oak.Zeng@amd.com, peterz@infradead.org, mingo@redhat.com,
- kuba@kernel.org, pabeni@redhat.com, boqun.feng@gmail.com,
- syzkaller-bugs@googlegroups.com, kuznet@ms2.inr.ac.ru, Evan.Quan@amd.com,
- yoshfuji@linux-ipv6.org, netdev@vger.kernel.org, dsahern@kernel.org,
- davem@davemloft.net, gautammenghani201@gmail.com, Alexander.Deucher@amd.com,
- rex.zhu@amd.com, kafai@fb.com
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023/01/04 1:20, Felix Kuehling wrote:
+On 28/12/2022 23:58, Dmitry Baryshkov wrote:
+> On 02/11/2022 20:06, Dmitry Baryshkov wrote:
+>>  From all the drivers using drm_bridge_connector only iMX/dcss and OMAP
+>> DRM driver do a proper work of calling
+>> drm_bridge_connector_en/disable_hpd() in right places. Rather than
+>> teaching each and every driver how to properly handle
+>> drm_bridge_connector's HPD, make that automatic.
+>>
+>> Add two additional drm_connector helper funcs: enable_hpd() and
+>> disable_hpd(). Make drm_kms_helper_poll_* functions call them (as this
+>> is the time where the drm_bridge_connector's functions are called by the
+>> drivers too).
 > 
-> Am 2023-01-03 um 11:05 schrieb Waiman Long:
->> On 1/3/23 10:39, Felix Kuehling wrote:
->>> The regression point doesn't make sense. The kernel config doesn't enable CONFIG_DRM_AMDGPU, so there is no way that a change in AMDGPU could have caused this regression.
->>>
->> I agree. It is likely a pre-existing problem or caused by another commit that got triggered because of the change in cacheline alignment caused by commit c0d9271ecbd ("drm/amdgpu: Delete user queue doorbell variable").
-> I don't think the change can affect cache line alignment. The entire amdgpu driver doesn't even get compiled in the kernel config that was used, and the change doesn't touch any files outside drivers/gpu/drm/amd/amdgpu:
+> Since we are at the beginning of the development window, gracious ping 
+> for this patchset.
 > 
-> # CONFIG_DRM_AMDGPU is not set
-> 
-> My guess would be that it's an intermittent bug that is confusing bisect.
-> 
-> Regards,
->   Felix
+> It would be nice to finally handle the bridge_connector's hpd properly. 
+> Calling drm_bridge_connector_enable_hpd() from 
+> drm_bridge_connector_init() is not a proper way to do this. It results 
+> in calling bridge->funcs->hpd_enable() before the rest of the pipeline 
+> was set up properly.
 
-This was already explained in https://groups.google.com/g/syzkaller-bugs/c/1rmGDmbXWIw/m/nIQm0EmxBAAJ .
+For the series:
 
-Jakub Sitnicki suggested
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-  What if we revisit Eric's lockdep splat fix in 37159ef2c1ae ("l2tp: fix
-  a lockdep splat") and: 
+I've been using this series in my local branch for quite a while to fix 
+the HPD issues. Works for me.
 
-  1. remove the lockdep_set_class_and_name(...) call in l2tp; it looks
-     like an odd case within the network stack, and
+I still think the "fix" aspect should be highlighted more here, as the 
+current upstream triggers a WARN for "Hot plug detection already 
+enabled" (at least) on OMAP.
 
-  2. switch to bh_lock_sock_nested in l2tp_xmit_core so that we don't
-     break what has been fixed in 37159ef2c1ae.
-
-and we are waiting for response from Eric Dumazet.
+  Tomi
 
