@@ -1,53 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD8F65CF3F
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 10:11:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E3465CF82
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 10:27:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7942610E4F8;
-	Wed,  4 Jan 2023 09:11:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD6C110E4F9;
+	Wed,  4 Jan 2023 09:27:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A38310E4F8
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jan 2023 09:11:54 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4Nn3kr6Qqnz9sb8;
- Wed,  4 Jan 2023 10:11:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1672823508;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y/YMNvlcuDVXZXXgwshuHizP1Psn5PFmk1rFDbqkr0o=;
- b=afo5rT8vBw3yeiARt4TG4K3miBUH7fiOKNabUg2jYJuK9nBMnsdESSezJy8IDKjHIKIVQf
- I+0LgMLJogCAyLMWLu+bAnOzFpbyZF07mS/SjjHmSSv3qrsxqryMBPLRjHkcuMdEFA1EsR
- bfKCBq71E6RAFPlEvQcDZkLsp3Z+uxqzTR3Fxm7YL4Qi/wNB/ScV2FH0BOS+nzTyvzjwZY
- fIQgrF0CDubfq/DT/CYjSWg/fQRDxSOHKfI4URxTQN0YJYuR+ZMxYjhESHKqHa7jOfvOJp
- sgtVKryr7YN79Hbtw8ueWh+9jsqVTg4qVlUcHTlHzFmk0fmjaWWNPUW3/kyesA==
-Message-ID: <9ff68af1-63f6-1a95-6380-d0d8503fe511@mailbox.org>
-Date: Wed, 4 Jan 2023 10:11:46 +0100
+Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay5-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:404::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 423FE10E4F9
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jan 2023 09:27:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=2DXwEG/gDuXeSPpZjXIXMjYCJ0FeZAl+aZ5Y9/GpzH8=;
+ b=xllPdRwcrFK+BPin+Gj0X+3YEWsU/EDmvljxuDSq3DynzcPzsJSSNzST6w7nmGAvHLfnHaS3pXqe8
+ hrKj+ntU6q4rBpGKGZd+8Rwf0qXxAjLrTJQ6Kh56fLec7kr8K4QuYyPrf9pqWaZMhYovhh4/fWdZe3
+ zRdMHW4uf2P49fGXPrfBhWXMD4ofT9biWcRWVfnAbcrNzGVQ7zWSvC3Qrkw+j1xmAWDXzyZg/fLbuA
+ v+S/r+J5onMSnCVImCKZdb1uxBs4618ktCQmXfaxl7bvhs7IaimBp2EakGoLa6JOSmPNirapTq+CKk
+ 949a9gfsFG0GQApaOYK9oAG5IqttuAg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=2DXwEG/gDuXeSPpZjXIXMjYCJ0FeZAl+aZ5Y9/GpzH8=;
+ b=Q0fnIRs0JZ7uliqgZ6c1ks9IDhxdKRfY+mbj1zuOrZtyL0hIdAR4Wq3QL2wg/HzP2OhaWvEc23QSD
+ OesI8hrDQ==
+X-HalOne-ID: f5253b6e-8c11-11ed-9c1d-7703b0afff57
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay5 (Halon) with ESMTPSA
+ id f5253b6e-8c11-11ed-9c1d-7703b0afff57;
+ Wed, 04 Jan 2023 09:27:09 +0000 (UTC)
+Date: Wed, 4 Jan 2023 10:27:08 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 2/2] drm/panel: add visionox vtdr6130 DSI panel driver
+Message-ID: <Y7VGbPoNVYBwfnlc@ravnborg.org>
+References: <20230103-topic-sm8550-upstream-vtdr6130-panel-v1-0-9b746b858378@linaro.org>
+ <20230103-topic-sm8550-upstream-vtdr6130-panel-v1-2-9b746b858378@linaro.org>
+ <Y7RwuZKh1XMMuB70@ravnborg.org>
+ <e9f2befa-a433-c737-ce96-2f94556b290c@linaro.org>
 MIME-Version: 1.0
-Subject: Re: renesas/master bisection:
- igt-kms-rockchip.kms_vblank.pipe-A-wait-forked on rk3399-gru-kevin
-Content-Language: en-CA
-To: Brian Norris <briannorris@chromium.org>
-References: <6398848e.170a0220.f8e8e.d44f@mx.google.com>
- <Y5itf0+yNIQa6fU4@sirena.org.uk> <Y5qOwmqIIp+2qWOy@google.com>
- <Y6OCg9BPnJvimQLT@google.com>
- <a62cd71c-f025-739a-4822-58ff8fa78cbd@mailbox.org>
- <Y7TgXA+bnkPm4y/6@google.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <Y7TgXA+bnkPm4y/6@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: hmsgu73cckecf7er31jwhdesycgnb9c1
-X-MBO-RS-ID: a481b6749b27126c508
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e9f2befa-a433-c737-ce96-2f94556b290c@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,70 +59,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, kernelci-results@groups.io,
- bot@kernelci.org, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Robert Foss <robert.foss@linaro.org>, Mark Brown <broonie@kernel.org>,
- Sean Paul <seanpaul@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, gtucker@collabora.com,
- linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/4/23 03:11, Brian Norris wrote:
-> On Tue, Jan 03, 2023 at 07:04:00PM +0100, Michel Dänzer wrote:
->> On 12/21/22 23:02, Brian Norris wrote:
+Hi Neil,
+
 > 
->>> 3. leave vblank enabled even in the presence of PSR
+> > 
+> > > +
+> > > +struct visionox_vtdr6130 {
+> > > +	struct drm_panel panel;
+> > > +	struct mipi_dsi_device *dsi;
+> > > +	struct gpio_desc *reset_gpio;
+> > > +	struct regulator_bulk_data supplies[3];
+> > > +	bool prepared;
+> > > +};
+> > > +
+> > > +static inline struct visionox_vtdr6130 *to_visionox_vtdr6130(struct drm_panel *panel)
+> > > +{
+> > > +	return container_of(panel, struct visionox_vtdr6130, panel);
+> > > +}
+> > > +
+> > > +static inline int visionox_vtdr6130_dsi_write(struct mipi_dsi_device *dsi, const void *seq,
+> > > +					      size_t len)
+> > > +{
+> > > +	return mipi_dsi_dcs_write_buffer(dsi, seq, len);
+> > > +}
+> > > +
+> > > +#define dsi_dcs_write_seq(dsi, seq...)					\
+> > > +	{								\
+> > > +		const u8 d[] = { seq };					\
+> > > +		visionox_vtdr6130_dsi_write(dsi, d, ARRAY_SIZE(d));	\
+> > > +	}
+> > Please use mipi_dsi_dcs_write_seq()
+> > No need to add your own macros here.
+> > 
+> > This will also add a little bit of error reporting that is missing here.
 > 
-> I'm leaning toward this.
+> OK, should I add a check and return in the macro in case of error ?
+> Checkpatch emits some warning when this is done.
 
-If this means vblank interrupts will arrive as expected even while in PSR, that may be the ideal solution indeed.
+I expect you can use the macro as-is like this:
+- dsi_dcs_write_seq(dsi, 0x51, 0x00, 0x00);
++ mipi_dsi_dcs_write_seq(dsi, 0x51, 0x00, 0x00);
 
+So no need to create your own macro at all - just use the already
+existing mipi_dsi_dcs_write_seq().
 
->> 5. Go/stay out of PSR while vblank interrupts are enabled (probably want to make sure vblankoffdelay is set up such that vblank interrupts are disabled ASAP)
 > 
-> That seems not extremely nice, to waste power. Based on the earlier
-> downstream implementation (which left vblank interrupts enabled), I'd
-> wager there's a much larger power win from PSR (on the display-transport
-> and memory-bandwidth costs), relative to the power cost of vblank
-> interrupts.
+> > 
+> > 
+> > > +
+> > > +static void visionox_vtdr6130_reset(struct visionox_vtdr6130 *ctx)
+> > > +{
+> > > +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+> > > +	usleep_range(10000, 11000);
+> > > +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> > > +	usleep_range(10000, 11000);
+> > > +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+> > > +	usleep_range(10000, 11000);
+> > > +}
+> > I have seen this pattern before - and I am still confused if the HW
+> > really requires the 0 => 1 => 0 sequence.
+> > I would expect writing 1 - wait and then writing 0 would do it.
 > 
-> Also, messing with vblankoffdelay sounds likely to trigger the races
-> mentioned in the drm_vblank.c kerneldoc.
+> It's what downstream code uses and recommend all over the place, if it's an issue
+> I can try to remove the first set_value
+This was a fly-by comment - do what you find best.
 
-Not sure how likely that is, quite a few drivers are setting dev->vblank_disable_immediate = true.
-
-With that, vblank interrupts should generally be enabled only while there are screen updates as well[0], in which case PSR shouldn't be possible anyway.
-
-[0] There may be user space which uses the vblank ioctls even while there are no screen updates though, which would prevent PSR in this case.
-
-
->>> [1] Or is it? I don't really know the DRM_IOCTL_WAIT_VBLANK ABI
->>>     contract in the presence of PSR, but I believe the upstream PSR
->>>     support has always worked this way. I could imagine
->>>     DRM_IOCTL_WAIT_VBLANK users might not love seeing EINVAL here
->>>     though.
->>
->> Yeah, that's pretty likely to cause issues with existing real-world user space.
+> > > +
+> > > +	ret = mipi_dsi_dcs_set_display_brightness(dsi, cpu_to_le16(brightness));
+> > mipi_dsi_dcs_set_display_brightness() take u16 as brightness - so this
+> > will do an implicit conversion.
 > 
-> OK. Any hints as to what kind of user space uses this?
+> I know, but the panel needs an inversed value, so perhaps I should directly
+> call mipi_dsi_dcs_write_buffer() here instead of needing a double
+> inversion.
+If the generic one cannot be used without tricks like this, then yes, it
+is better to hand-roll your own with a suitable comment.
 
-I don't have any specific example, just thinking about how user space could respond to the vblank ioctls returning an error, and it would seem to be generally either of:
-
-* Just run non-throttled, which might negate any energy savings from PSR
-* Fail to work altogether
-
-
-> I'm in part simply curious, but I'm also wondering what the
-> error-handling and reliability (e.g., what if vblanks don't come?)
-> expectations might be in practice.
-
-If vblank events never come, user space might freeze.
-
-
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
-
+	Sam
