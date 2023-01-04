@@ -1,64 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4256065CF24
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 10:09:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60EEA65CF1F
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 10:08:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0263910E50A;
-	Wed,  4 Jan 2023 09:08:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F76610E500;
+	Wed,  4 Jan 2023 09:08:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70A5410E503
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jan 2023 09:08:48 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- g25-20020a7bc4d9000000b003d97c8d4941so20302297wmk.4
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Jan 2023 01:08:48 -0800 (PST)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A13BA10E500
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jan 2023 09:08:49 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ b24-20020a05600c4a9800b003d21efdd61dso25921544wmp.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Jan 2023 01:08:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=RLgWl/+12+zYaLEmWDfGej8mqhlvU+lC1KAgdBYbhOc=;
- b=fBpz2cR/BQrD2tt7gREAr8ZabnXD8IRRis/Ub2MJSH1aj55C6B4l056SBEOxxH0g5J
- 5emTxod52CCJ9LDqQk7+J0leY+/AEX6eWxQ7ZbsBRZ9KR4o9pBPBFdlIkAJJv1bb7MBr
- ga3hnCz8cU2Z8fHZW6gbcMVt0KcS3lur+DvS1ebWwO5FH2XmVIcjyGFSK0Y1Jwvb+4TX
- G3MYIKnHXRsrEGHALpZqA02+0arhxa3G2gQMj3BGZ2mYNO8BKTGsj3Dk2mwPu0xdQMBf
- ucgSYmRND1BemQuA3s68G/d6pBlk/3ChE+e6IryCtjhwHuUKEiRO0AEkQQ9/qaErmK1E
- ByDQ==
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=ywhy8rwxYugaCOCt736qav9wiltG83VAN5edYIDMMK0=;
+ b=gigiGe5rRb34aJVuvZjpbTHFslzpbK2INEVyJg46HZdizq9iJkHqeWLrcZY53ohhlh
+ fikpvJ8gRcsyuZxgSLEmhcJG+kPGas5eE3ZOrkRn2EwYTkWHR/JmKRZ97lNGxQnLX4uG
+ DlNIdZFuWWoWA6HrcISfJh9C7+LFbZQWXg9mJDhkhB7ieSb2K5yjS5fqaCWu8BAOgnhZ
+ pnDS8UAX9fljmbMBwsSU8AjMrFd+EghtZhCJV44K8OSvCNnAubvO7sgsMk79uYsucp0C
+ vwVR8lT3MF0MF8DlhgAlczYqfETFbVYvASaAFQKXxSmGdnETbNxvVGz+MZDrZF2RxfXd
+ HJbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RLgWl/+12+zYaLEmWDfGej8mqhlvU+lC1KAgdBYbhOc=;
- b=7eLjgVmJpIThApHqky6+BlW9wKZxhDfYM6hYMIFeOSKiGI/zQlD34XIad5X49T1iTe
- gVQs3FA17HgcPt4SXnaHOzDwGRjF0qlIu3vJj5mNQZJxlmkO7QZ93ybUi+gv1xjSF2qk
- o8v3DoosBp/e2TaWsmVR9OSdoqOgahYPdmmsCQ+tdO8CNwCELbDvXykaLouY18HfVDDH
- 097nWEgCrscethlixexZY3MC0cikElnYav2xloaeoOJ1SOEFnQNORMqr/scVhzG4Mce6
- SS+SmGtlfZSCP2v4JL6gP2IN8pIbUDcmJc6AlvUVDF9RClioSHYp/wwTOmXMWXCiVSem
- /mBA==
-X-Gm-Message-State: AFqh2kqrL2xRP2DAGpIIG0/YqXkemPjVkDU64+awUG4M/RVLMA5DMDLC
- TdwuGiWFyy7gwvu5isGyhDsKSSGB03fAaZrL
-X-Google-Smtp-Source: AMrXdXue543tPVOInDtzTa5ylHEcT2zRX1xuy44MXPa77K3UY9MtF3gnab0PLt7WNDRoSiczUipSSQ==
-X-Received: by 2002:a05:600c:512a:b0:3d3:3c60:b2bb with SMTP id
- o42-20020a05600c512a00b003d33c60b2bbmr33281924wms.23.1672823326934; 
- Wed, 04 Jan 2023 01:08:46 -0800 (PST)
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ywhy8rwxYugaCOCt736qav9wiltG83VAN5edYIDMMK0=;
+ b=ZGTFPMqsVtpryg0NLcXA82aBY8kbSP6/27brJggcQkolRYDVCFGYBC6FObE7MR035Y
+ 1y2/DMhk/4jkPFwTxCELz0CM8fgPS1bEBvK7XkqTEfYlW/bLyb22ry07Bk2YJ39dhUaq
+ c4Tg+Me+OIiu20hkltqbPgJIQG02laVzShi9IWjyMrLVJ82dbUG83ft/W9tIJ/NACeVM
+ Kth1kNjaywE5rt911qL8xj5QCPDns7wYCFlHTtJFeNvgbsB/86odgGnirj4GfJ1W+I1D
+ 7bWHrjl3m6vhtNPG4hu8MMP3K7KRxpVd2sF2f38IHIX2hKin/0xJrdA5BNg/8RtVGGbS
+ tj1Q==
+X-Gm-Message-State: AFqh2kp6115lv4+ZvDDbYqfs9vfzdspugPmJQQ+nkzdMQ0aRa8wOsuis
+ QJWjAq4sUD6TmN5ImQ4RaTuM3+Dgh3q3x8kM
+X-Google-Smtp-Source: AMrXdXv6qX18TiGEiG+Y4uCV64Ch859OaM/nIrmW1EaY04J7vq8U2dgvbt0GY9jY+48Ed5nWeP9bkg==
+X-Received: by 2002:a05:600c:254:b0:3d2:2c86:d2b2 with SMTP id
+ 20-20020a05600c025400b003d22c86d2b2mr41360582wmj.24.1672823328004; 
+ Wed, 04 Jan 2023 01:08:48 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- j34-20020a05600c1c2200b003d98438a43asm36124622wms.34.2023.01.04.01.08.45
+ j34-20020a05600c1c2200b003d98438a43asm36124622wms.34.2023.01.04.01.08.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Jan 2023 01:08:46 -0800 (PST)
+ Wed, 04 Jan 2023 01:08:47 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [PATCH 0/6] drm/msm: add support for SM8450
 Date: Wed, 04 Jan 2023 10:08:43 +0100
-Message-Id: <20230103-topic-sm8550-upstream-mdss-dsi-v1-0-9ccd7e652fcd@linaro.org>
+Subject: [PATCH 1/6] dt-bindings: display/msm: document the SM8550 DSI PHY
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIABtCtWMC/x2NQQqDMBAAvyJ77kJMCNh+pfSwJmtdMDFkVQri3
- xs8zhxmTlCuwgqv7oTKh6isuUH/6CDMlL+MEhuDNdaZ3jjc1iIBNQ3eG9yLbpUpYYqqGFXQ+UAD
- BSZvn9AiIynjWCmHuWXyvixNlsqT/O7r+3Ndf1O0oWqFAAAA
+Message-Id: <20230103-topic-sm8550-upstream-mdss-dsi-v1-1-9ccd7e652fcd@linaro.org>
+References: <20230103-topic-sm8550-upstream-mdss-dsi-v1-0-9ccd7e652fcd@linaro.org>
+In-Reply-To: <20230103-topic-sm8550-upstream-mdss-dsi-v1-0-9ccd7e652fcd@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -84,64 +83,26 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds support for the MDSS/DPU/DSI on the Qualcomm SM8550 platform.
+Document the SM8550 DSI PHY which is very close from the 7nm
+and 5nm DSI PHYs found in earlier platforms.
 
-This patchset is based on the SM8450 display support serie at [1].
-
-In order to work, the following patchsets are required:
-- PM8550 LDO fix at [2]
-- DISPCC driver at [3]
-
-+ the DT changes.
-
-[1] https://lore.kernel.org/all/20221207012231.112059-1-dmitry.baryshkov@linaro.org/
-[2] https://lore.kernel.org/all/20230102-topic-sm8550-upstream-fixes-reg-l11b-nldo-v1-1-d97def246338@linaro.org/
-[3] https://lore.kernel.org/all/20230103-topic-sm8550-upstream-dispcc-v1-0-81bfcc26b2dc@linaro.org/
-
-To: Rob Clark <robdclark@gmail.com>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Sean Paul <sean@poorly.run>
-To: David Airlie <airlied@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-To: Rob Herring <robh+dt@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-To: Jonathan Marek <jonathan@marek.ca>
-Cc: linux-arm-msm@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: freedreno@lists.freedesktop.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-
 ---
-Neil Armstrong (6):
-      dt-bindings: display/msm: document the SM8550 DSI PHY
-      dt-bindings: display/msm: document the display hardware for SM8550
-      drm/msm/dpu: add support for SM8550
-      drm/msm: mdss: add support for SM8550
-      drm/msm/dsi: add support for DSI-PHY on SM8550
-      drm/msm/dsi: add support for DSI 2.7.0
+ Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
- .../bindings/display/msm/dsi-phy-7nm.yaml          |   1 +
- .../bindings/display/msm/qcom,sm8550-dpu.yaml      | 134 +++++++++
- .../bindings/display/msm/qcom,sm8550-mdss.yaml     | 331 +++++++++++++++++++++
- drivers/gpu/drm/msm/Kconfig                        |   4 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     | 197 ++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   2 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
- drivers/gpu/drm/msm/dsi/dsi_cfg.c                  |  16 +
- drivers/gpu/drm/msm/dsi/dsi_cfg.h                  |   1 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   2 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |   1 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          | 102 +++++--
- drivers/gpu/drm/msm/msm_mdss.c                     |   2 +
- 14 files changed, 775 insertions(+), 20 deletions(-)
----
-base-commit: d862fd95b9c924bd0a257f7708a6e3868d39ff43
-change-id: 20230103-topic-sm8550-upstream-mdss-dsi-35ca8acea529
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+index bffd161fedfd..f72727f81076 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+@@ -15,6 +15,7 @@ allOf:
+ properties:
+   compatible:
+     enum:
++      - qcom,dsi-phy-4nm-8550
+       - qcom,dsi-phy-5nm-8350
+       - qcom,dsi-phy-5nm-8450
+       - qcom,dsi-phy-7nm
 
-Best regards,
 -- 
-Neil Armstrong <neil.armstrong@linaro.org>
+2.34.1
