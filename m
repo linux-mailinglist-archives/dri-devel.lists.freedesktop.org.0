@@ -1,52 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCCF365D446
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 14:32:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB7EE65D51B
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 15:09:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FBE410E1E7;
-	Wed,  4 Jan 2023 13:32:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08B9910E0A9;
+	Wed,  4 Jan 2023 14:09:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3006::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1528110E1E7
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jan 2023 13:32:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202212;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=IOSyy9qLnE23gYPkxy+Uq+fU0lOhXKd4jlSpT2dlU5A=; b=O+uu13MHgjvquntLx1syJgqHOC
- tmpzfh17d2gQLO8gwkzRIXpvHhnWUXBiMOySVGk87Cs21nrI0LT9qnGy94cmR9Zsn1cAAQUvKrNYm
- YnBwhZsHy0F7BP0EAdRYEI0lbWVJfgSOBNE4TwkO3tVf/skdSeFhuwSwfk4fCPkJPOvpleHXIk1sf
- P0lTi1AQdn+RyUjpdFuWWemUzr/WH1CwN4barmJfri/ZnPVElPiXybJ90jHeU9t44c/qCcz7I/0Nc
- v/lT0dray+ZZ6fmw44qs+SSMcUO6H4psGouO3PnvkEVnxGJnSzjPFpO8r/bvCLQCeHDfZjtvFpdPk
- h5z/7ywQ==;
-Received: from [2a01:799:95e:b600:b244:dd1d:d193:f437] (port=51160)
- by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
- (envelope-from <noralf@tronnes.org>) id 1pD3sh-00BPi2-8O;
- Wed, 04 Jan 2023 14:32:36 +0100
-Message-ID: <49575355-8572-500f-d66e-6f6497359e6a@tronnes.org>
-Date: Wed, 4 Jan 2023 14:32:31 +0100
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A98D510E05C;
+ Wed,  4 Jan 2023 14:09:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1672841341; x=1704377341;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=HCOvoASy+qbpDqBB8eBzzhSQ2v8lak3B7DRvotc2hZ4=;
+ b=k5X1gNvN6uxi1ycaodF5u4MrDv9l9KHjpfx6BUf+8ajRxxncHa7YiOa9
+ wPAGKu1H038FWiw7NPvlfqN262AuglqC4znSjvJmMCA7f9b+ZXA3uISin
+ PEIqF46/TbHoQDayAR8Z9G3JlG+GwW9tqhvuA+kus+jeL2Prh3Rv4iTeK
+ otC9Q2+AFWbX+LoDwLYP70rov2apYokKL4eGz/DWdH9Tuo/kv4wPc5jCZ
+ Q9FYWYr/v1jK0joI9PGODPeWFu2++5NpGz4cez16udWp3wOUlxD4AveHw
+ QEeYNjRXzuDV8xrcsV5Xj3/rJMzuMAh1EiayCS2TX/lSfbfJVM4JUHKEN A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="302310106"
+X-IronPort-AV: E=Sophos;i="5.96,300,1665471600"; d="scan'208";a="302310106"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jan 2023 06:09:00 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="983940643"
+X-IronPort-AV: E=Sophos;i="5.96,300,1665471600"; d="scan'208";a="983940643"
+Received: from mkabdel-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.25.63])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jan 2023 06:08:57 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Alexey Lukyachuk <skif@skif-web.ru>
+Subject: Re: [Intel-gfx] [PATCH v2] drm/i915: dell wyse 3040 shutdown fix
+In-Reply-To: <20230103132426.0c6d144f@alexey-Swift-SF314-42>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20221225184413.146916-1-skif@skif-web.ru>
+ <20221225185507.149677-1-skif@skif-web.ru> <Y6sfvUJmrb73AeJh@intel.com>
+ <20221227204003.6b0abe65@alexey-Swift-SF314-42>
+ <20230102165649.2b8e69e3@alexey-Swift-SF314-42> <87a630ylg5.fsf@intel.com>
+ <20230103132426.0c6d144f@alexey-Swift-SF314-42>
+Date: Wed, 04 Jan 2023 16:08:55 +0200
+Message-ID: <87sfgqwfwo.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 2/9] drm/gud: use new debugfs device-centered functions
-Content-Language: en-US
-To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20221226155029.244355-1-mcanal@igalia.com>
- <20221226155029.244355-3-mcanal@igalia.com>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20221226155029.244355-3-mcanal@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,28 +61,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
- Tomi Valkeinen <tomba@kernel.org>, Emma Anholt <emma@anholt.net>,
- Alexey Brodkin <abrodkin@synopsys.com>, Liviu Dudau <liviu.dudau@arm.com>,
- etnaviv@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
- Melissa Wen <mwen@igalia.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- David Airlie <airlied@redhat.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 03 Jan 2023, Alexey Lukyachuk <skif@skif-web.ru> wrote:
+> On Tue, 03 Jan 2023 12:14:02 +0200
+> Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>
+>> On Mon, 02 Jan 2023, Alexey Lukyachuk <skif@skif-web.ru> wrote:
+>> > Regarding to your question about fdo gitlab, I went to do it.
+>> 
+>> What's the URL for the issue?
+>> 
+>> BR,
+>> Jani.
+>> 
+>
+> I have not submited issue in bug tracker because I found solution in git.
+> ("Before filing the bug, please try to reproduce your issue with the 
+> latest kernel. Use the latest drm-tip branch from 
+> http://cgit.freedesktop.org/drm-tip and build as instructed on 
+> our Build Guide.")
+>
+> Should I do it?
+
+Shot in the dark first, does snd_intel_dspcfg.dsp_driver=1 module
+parameter help on the affected kernels? Should be easy enough to test.
+
+BR,
+Jani.
 
 
-On 12/26/22 16:50, Maíra Canal wrote:
-> Replace the use of drm_debugfs_create_files() with the new
-> drm_debugfs_add_file() function, which center the debugfs files
-> management on the drm_device instead of drm_minor. Moreover, remove the
-> debugfs_init hook and add the debugfs files directly on gud_probe(),
-> before drm_dev_register().
-> 
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
-> ---
-
-Acked-by: Noralf Trønnes <noralf@tronnes.org>
+-- 
+Jani Nikula, Intel Open Source Graphics Center
