@@ -1,57 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7CB65D098
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 11:26:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2A3165D0AC
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 11:31:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DB0110E117;
-	Wed,  4 Jan 2023 10:26:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB4610E069;
+	Wed,  4 Jan 2023 10:31:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B95E10E117
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jan 2023 10:26:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1672827961; x=1704363961;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=oDQiSmQz32bE9m/txPPTPG+m+a0NhSrdTGiZxxiTnVg=;
- b=EuOEPlGJjoNK9X5wGOt3UNsOS8BKf3tQrqCswhao7A8r1PC6H5dxIopk
- kjl/FWuapFPFYa7BZHQHyqHofedI0Dy526a/kBjeyQGTBzoxllcked5Q4
- TB2gKXtoOi0eRSWWUyXnoIHsfgyBA85fGidOq3F7CN5NFz/nYv0OvRNXr
- cg/1aYO/84VyPRXHXB0ONJS1MThdNFs9qENBBj3I/DqrCOjy4PoRTL24w
- MnIWvGrhaij1GvuN6yzz9VR28VUbSEmQKke57p5tDeWrn0b1DmBFVBzvM
- wYynCjAYeFV7hFgdaBLf75HHPTjI14mlFMp2FjjGAXtZR0dnjG/68gfVL g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="386337465"
-X-IronPort-AV: E=Sophos;i="5.96,299,1665471600"; d="scan'208";a="386337465"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jan 2023 02:25:59 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="718405565"
-X-IronPort-AV: E=Sophos;i="5.96,299,1665471600"; d="scan'208";a="718405565"
-Received: from mkabdel-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.25.63])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jan 2023 02:25:57 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "20220920062316.43162-1-william.tseng@intel.com"
- <20220920062316.43162-1-william.tseng@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH v4] drm/edid: ignore the CEA modes not defined in CEA-861-D
-In-Reply-To: <SJ0PR11MB58946275D10EBF8AED8A14C5F11B9@SJ0PR11MB5894.namprd11.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220613122655.12432-1-william.tseng@intel.com>
- <20220920062316.43162-1-william.tseng@intel.com>
- <878rmepmko.fsf@intel.com>
- <SJ0PR11MB58944CA27943062C69693C62F14C9@SJ0PR11MB5894.namprd11.prod.outlook.com>
- <SJ0PR11MB58946275D10EBF8AED8A14C5F11B9@SJ0PR11MB5894.namprd11.prod.outlook.com>
-Date: Wed, 04 Jan 2023 12:25:55 +0200
-Message-ID: <87bkney4ss.fsf@intel.com>
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2047.outbound.protection.outlook.com [40.107.92.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42DD310E069
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jan 2023 10:31:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EeWjveuY7k6YgYOIDzHC71egf1OLFQ7NU9zHA2lhl2wvPP9hRHCXFj0UTRqIOhSWLEDZu/Fwqi4oTosFSIaXxs/RHNubz+4OoVxI7ODP4t4DeIANUfM8BKLChqeFw3MtDFv5x5E2dPXMgbPoElX/FBmq9kB39MbssFtXhax5Ul1Ki9QvwGKrgZ8ydmRYyd498OI2wxVOufAyWymWh0eumifR6Fo9+R5fApZ/xrAA+UuCs/n81XFQdxmvU6J1iLvG2BzNpcLpt9JXEAu2SPbuVI/mEDciAvqek9uGCnAssMXmg5Rf+SGbvIsSebu11vCtLo9X/DRmR+2L88lClpNqXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lIZj2FSIyHlljJg5aN4oUpqwXl2Zvhw8LuwlJWOSEDU=;
+ b=iFXXLd+6YaVgTha2iJcsN+XuYQHFQsCaYIyVhwp/iAPaJDyDrz4icjJ35CKFYBpIfZARjRD24GfFxiOgdWyvqyrh7BGmAlEgVeNubh0jLac0ASdHkEZtuwsypHoQWo6y38BxTSpy8xqdnDqGBzDZIXU7OIQBnlb86FirX2qylywLFNl1wnVCKONnCZALuWDyIWMo/8OTite8NONe8TNOMm6gwerOcFX8l0NHIfhS1Rvy8YFhdQTJrcNasFF7r5YlDAgUve5otQ8beNa45tZt2GBOgtdGIMITfxlYSTJTcIsMZ0tN97gwSbnmYEhTAwcC5DUGkgww0L237c7zE9GPsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lIZj2FSIyHlljJg5aN4oUpqwXl2Zvhw8LuwlJWOSEDU=;
+ b=4po7I2nf0GoGcKeXKWK6Xgv6UoBDwQZfANVJa2kdlzLa+cCnwUnl6gp+wYO5/aTkU/TThIxSNIo0Uxd1DKclHiqtYtKViAcxQzy4v8xj1MyROM5sV7Xow9uPnobNsS6jEsSzn9c23E/N1MkYZPNgDwrdf50N50/fBgiZPQ4Jjk8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by PH7PR12MB6809.namprd12.prod.outlook.com (2603:10b6:510:1af::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Wed, 4 Jan
+ 2023 10:31:48 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::80d8:934f:caa7:67b0]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::80d8:934f:caa7:67b0%3]) with mapi id 15.20.5944.019; Wed, 4 Jan 2023
+ 10:31:48 +0000
+Message-ID: <ac777256-2400-1b19-81ce-af9ec7adfe9c@amd.com>
+Date: Wed, 4 Jan 2023 11:31:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [RFC] TTM shrinking revisited
+Content-Language: en-US
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+References: <20221230111159.75410-1-thomas.hellstrom@linux.intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20221230111159.75410-1-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0137.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9e::12) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH7PR12MB6809:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1c7146a8-015e-487d-e994-08daee3ee29a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4/6jEbJ11jVrdixIsE/D5LyEjdJgvkHUJtaZp/wePrbrJNmtK+QL+GTDxnp3W+TBFq0/QAvpXqbnw+3CWFZG95UHo2+62/tQrDMwDVuyGLqNyPjVY5/UVw8wZ2WmkJLNWhlgqtF0UhwpONzwK9v8VAEeuGJJ8xIZWqRQgI/pGcped6u2wKShQXC5qo2KdbtHnEeciDfEC5yK2wIglYFMnQ20/6SZ+l9w/ctSfaxN4rMhQpIeg93GhCYCccfNBRuaw0LKY5ge4S9YfCcJck2fcbSm0irgQnvwZTdZIe+EpyE2UbTZssF6SDRlb39aoaCYiWTNnF3m8y7lwX+o9PGC4uOow9Y4t7JB0tcyVf+siqhpoML3ilQM4wUJN4QSFjIMv+SSQk0ML41JIAyXQD5A1JKomQIqzCMGGNICNxZKCxpyAZvj2trgW99P2R+0RCSBdCGYaPqQ3D/Bfr8dNHXuiBvLCI5juDjjUqaM7AxwKKjI54yhQ8k9SpBWnXbv4GIb/9oqOdbaOGzLNT5EEoufE9W81NSnPeH9YJgP6oVevZ4L7Q7f5kQaoeFVWHOlrCCcrXFrL/42Vk5thfKQ7XC+CjuiIw/yeRB7+4NX5CcAZrV5HVjw7fZ4QBMKK07wF5vMazh7Nysj2hWyyLc4Q0mZEuAGUP6/yiDP+WaZQzuuRgG+NnNY1f6Ecx5KpTue3vDXrIU3QF3KMVEb/NZ2htPcPZVnqtz1Vk4WvVBw865+KnU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(366004)(396003)(136003)(376002)(39860400002)(346002)(451199015)(66574015)(83380400001)(31696002)(86362001)(8936002)(5660300002)(38100700002)(2906002)(41300700001)(6666004)(478600001)(26005)(6506007)(2616005)(8676002)(6512007)(316002)(186003)(66476007)(66946007)(6486002)(66556008)(31686004)(36756003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YU9UWUk4Y28ra2M0T3dlVUVXZnFBSXdNeEhWaG9STVBtc0c3NmVnaDVYSFpW?=
+ =?utf-8?B?MFB6bW9tbmNYYXhsci9oeld1R1M2SzJ5T0hlQ25VUmFQZkMxaWZzdWpFbHJk?=
+ =?utf-8?B?TmNVZEVHR3llWnErdXArMFlaMnhQVGdFeDBsWUxzM1U2UmNSVndaandxa0FJ?=
+ =?utf-8?B?dVM1dEdsL1pwTUk1cjR0cWh5MHc0QU9FQzF1ajNGWkUreHJHMkYzZ2o3TEhh?=
+ =?utf-8?B?WTZwQ2Y1bWEwRFc4QTVub0hMSEw3SFYybWwwbEhSSW51VGhPWnl0Wkx3U3Jz?=
+ =?utf-8?B?SEp2UDBTeDM4WG9VclFWQjRDcEZvR1dCUERwWHR2SStmRmpXdzNUWXlwUWth?=
+ =?utf-8?B?VFd5NFN6MkE0RGxGNzJndVpVWkZ6aGZnVDJHMmFmRkRQQmYxTmNDc2Q3Rmdy?=
+ =?utf-8?B?QnZlNXpoeE9sQlE2SVVGcXNxUCtTTXRheHh1UTJydDRDaTNkV3RUdTNCakUz?=
+ =?utf-8?B?YlpuTjQ5Wjd5TEpTN0JyZHpGeVpoc25sNDhpNlpzKzBBdGQzWHNlN0lvdXlU?=
+ =?utf-8?B?YVJKaGl4Y290cGlVb3JQMXFESDZWVk1KUE9aenpkaVE1NExnZ0VRRjk4Nno4?=
+ =?utf-8?B?TzhTdE9mRmpvSjJ2am9oVXpRTDdVMnJIZTRRWHdxTHcxcmh0eGxiMWUwRUlI?=
+ =?utf-8?B?eVlWVU5IYWRQRENaaXZueHlENkdTY09lanlnQmlMV1ljclRYclBjUjZ4QW5z?=
+ =?utf-8?B?OUdNTWh3SjlWdFV6dk8vUkF1YmhBeGRMeFpQRXlBVkE5dXZTNFBrdlI2czJT?=
+ =?utf-8?B?clR1d2VXN0xUNEpHS1JoZ2J3UTFvdFhhOUhYQmpnZ3ZWSWdxbTN5clo4UVha?=
+ =?utf-8?B?ZkRRekVWbEJQTmEycUFFL2R1bmJmVDQ2VnJ3Zy9FY0ZpaExMY0RqNWg3cFhv?=
+ =?utf-8?B?M2tlRGVVbVlreThwWEJndy9pUkNwendPbXlDNjhDcXVtRk9XUXBtYW5lT29v?=
+ =?utf-8?B?ODNqbmxzT2RweURpMzdPVzZEb2RmZUVXenFaT3FJbHluRUY1ek1OcVBRMXJK?=
+ =?utf-8?B?Mksyc212M2trdDFjaUlzWUEraVpTVUtGTk14Y1JvVkd5dnExeGJKdWpBenNj?=
+ =?utf-8?B?VTQ3MDZRZ282Q3FYM2p0eXBlZEM0RzNkZzBFZkxGVGRDcDk2dVF3SlFsaHU2?=
+ =?utf-8?B?cHdlYUNtOXNPNERwMDZSTHV2M014amtDTk4yZlRHWU1MSWpLWHJ0Rmthc0hi?=
+ =?utf-8?B?d3J1bG1MMVlVZ1R5aXRYWUxPTEx3NzhPRGE0L1VaQTBzZ2tLVWFyN2Q3bXRs?=
+ =?utf-8?B?R1VvT3BlVnRLdENBa3d2Y1ZTdEdjazd4aHVNemNrZWdVbEoyY3BkbEQ3cFh0?=
+ =?utf-8?B?UHBnR1dDS3NMSEQzQzBRYmRwcGh2VitoeU53bSsxQTN5TXpJeklvYnZsMTFi?=
+ =?utf-8?B?bjczYUkydnU1K1RneUNqVnp1SVd5SGJHYjRFWWFPVFNQN3lTQkR4MmZkYTMw?=
+ =?utf-8?B?ZGMwQk5ZN0cwSm9lWDJrdmppbW43OCtJQkJkTTV1d1NzTG05a0ZBT2RXNlZK?=
+ =?utf-8?B?THNLMmlZZStFeW41am9DYXlNMnJFbDgxdWlSSjhpc0djYXBxRFpaR1I0VVND?=
+ =?utf-8?B?VTVsbHUxcWY2a0FmMHVqd2g1OVIzRmx5amFIU0N4aTlBR1Z6eVdRdkxKZDB0?=
+ =?utf-8?B?UWR6V2ZJdVZmSXM2YU9iL2VMbjZBZzdPNFFhVFhESmhaYnRPNUV2Y3RYVDZv?=
+ =?utf-8?B?MFBqTWV4RTh2V0VGWTEyZ0R3Uy8yYkU4bmt4Sm9HcFJOMFB2QlZpSnJKNnVH?=
+ =?utf-8?B?c1h4dHg3QWU2OFFzRm1RTlFiVit4cnVXdlM2enRneU04TzNMV0lMZy9ndUdG?=
+ =?utf-8?B?bG9pNzFOMEFOZDNTVnJoOExsbDdJdHBuSVBDV1pzR2dWSG5aODRMYk5OTk1M?=
+ =?utf-8?B?eGFLNlVndk1pNHJnWXpQYVg0cGVJeStWdTJOZFowVEszUCs0dzhHcEVkamYx?=
+ =?utf-8?B?Yi9zc2crWnc0Yk9ieFVPbjhQekRaR0NpQjlvYk5lWVcxK1ZEWmg4cVhnb2VX?=
+ =?utf-8?B?dHV3Z1p2TzJLUEtRdXY0NUtkWGZlN2xxSXRkVnlyNlN1VTI0eFhTZUNqNGl5?=
+ =?utf-8?B?MVZvZkdsb0xUY2dKOXRWRndJZ1dXZXpXK2pqZmxGTGNDZlpER0cwQnhnMUVJ?=
+ =?utf-8?Q?ZxoEQL3xuhuOWXu4kGMNyeBVp?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c7146a8-015e-487d-e994-08daee3ee29a
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2023 10:31:48.5876 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CZr6gZzsAk+yPbQj6sVvM8HTyqzyjHTbJncrC7Mu5+s/vciR7qBRhPHnwi7o5nRO
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6809
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,163 +125,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Lee, Shawn C" <shawn.c.lee@intel.com>, Wayne Lin <waynelin@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 06 Dec 2022, "Tseng, William" <william.tseng@intel.com> wrote:
-> Hi Jani
+Am 30.12.22 um 12:11 schrieb Thomas Hellström:
+> Hi, Christian, others.
 >
-> May I have your comment about this patch?
-> BTW, this is the link to the binary EDID,  https://gitlab.freedesktop.org=
-/drm/intel/-/issues/6153#note_1558419.
-> Thank you.
+> I'm starting to take a look at the TTM shrinker again. We'll probably be
+> needing it at least for supporting integrated hardware with the xe driver.
+>
+> So assuming that the last attempt failed because of the need to allocate
+> shmem pages and lack of writeback at shrink time, I was thinking of the
+> following approach: (A rough design sketch of the core support for the
+> last bullet is in patch 1/1. It of course needs polishing if the interface
+> is at all accepted by the mm people).
+>
+> Before embarking on this, any feedback or comments would be greatly
+> appreciated:
+>
+> *) Avoid TTM swapping when no swap space is available. Better to adjust the
+>     TTM swapout watermark, as no pages can be freed to the system anyway.
+> *) Complement the TTM swapout watermark with a shrinker.
+>     For cached pages, that may hopefully remove the need for the watermark.
+>     Possibly a watermark needs to remain for wc pages and / or dma pages,
+>     depending on how well shrinking them works.
 
-I must admit I didn't initially understand what the root cause here was.
+Yeah, that's what I've already tried and failed miserable exactly 
+because of what you described above.
 
-I was looking at this again in the context of other EDID parsing
-changes, and took the liberty of fixing this in a slightly different,
-and more compact, way [1].
+> *) Trigger immediate writeback of pages handed to the swapcache / shmem,
+>     at least when the shrinker is called from kswapd.
 
-Later in the same series, I also opt to send the actual VIC in the AVI
-infoframe if the sink lists the VIC in the CTA VDB [2].
+Not sure if that's really valuable.
 
-Testing of [1] would be appreciated, and if it isn't too much trouble,
-also patches 1-5 in the series to see if [2] is a reasonable choice.
+> *) Hide ttm_tt_swap[out|in] details in the ttm_pool code. In the pool code
+>     we have more details about the backing pages and can split pages,
+>     transition caching state and copy as necessary. Also investigate the
+>     possibility of reusing pool pages in a smart way if copying is needed.
+
+Well I think we don't need to split pages at all. The higher order pages 
+are just allocated for better TLB utilization and could (in theory) be 
+freed as individual pages as well. It's just that MM doesn't support 
+that atm.
+
+But I really like the idea of moving more of this logic into the ttm_pool.
+
+> *) See if we can directly insert pages into the swap-cache instead of
+>     taking the shmem detour, something along with the attached patch 1 RFC.
+
+Yeah, that strongly looks like we way to go. Maybe in combination with 
+being able to swap WC/UC pages directly out.
+
+While swapping them in again an extra copy doesn't hurt us, but for the 
+other way that really sucks.
 
 Thanks,
-Jani.
-
-
-[1] https://patchwork.freedesktop.org/patch/msgid/c3e78cc6d01ed237f71ad0038=
-826b08d83d75eef.1672826282.git.jani.nikula@intel.com
-[2] https://patchwork.freedesktop.org/patch/msgid/775124fd07a5b7892e869becc=
-3dd8dadb328ae5f.1672826282.git.jani.nikula@intel.com
-
+Christian.
 
 >
+> Thanks,
+> Thomas
 >
-> Regards
-> William
->
-> -----Original Message-----
-> From: Tseng, William=20
-> Sent: Tuesday, September 20, 2022 4:23 PM
-> To: Jani Nikula <jani.nikula@linux.intel.com>; dri-devel@lists.freedeskto=
-p.org
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>; Wayne Lin <w=
-aynelin@amd.com>; Lee, Shawn C <shawn.c.lee@intel.com>
-> Subject: RE: [PATCH v4] drm/edid: ignore the CEA modes not defined in CEA=
--861-D
->
-> For EDID, please refer to the attachment on the link.
-> https://gitlab.freedesktop.org/drm/intel/-/issues/6153#note_1558419
->
->
-> Regards
-> William
->
-> -----Original Message-----
-> From: Jani Nikula <jani.nikula@linux.intel.com>
-> Sent: Tuesday, September 20, 2022 2:49 PM
-> To: Tseng, William <william.tseng@intel.com>; dri-devel@lists.freedesktop=
-.org
-> Cc: Tseng, William <william.tseng@intel.com>; Ville Syrj=C3=A4l=C3=A4 <vi=
-lle.syrjala@linux.intel.com>; Wayne Lin <waynelin@amd.com>; Lee, Shawn C <s=
-hawn.c.lee@intel.com>
-> Subject: Re: [PATCH v4] drm/edid: ignore the CEA modes not defined in CEA=
--861-D
->
-> On Tue, 20 Sep 2022, William Tseng <william.tseng@intel.com> wrote:
->> This is a workaround for HDMI 1.4 sink which has a CEA mode with=20
->> higher vic than what is defined in CEA-861-D.
->>
->> As an example, a HDMI 1.4 sink has the video format 2560x1080p to be=20
->> displayed and the video format is indicated by both SVD (with vic 90=20
->> and picture aspect ratio 64:27) and DTD.  When connecting to such=20
->> sink, source can't output the video format in SVD because an error is=20
->> returned by drm_hdmi_avi_infoframe_from_display_mode(), which can't=20
->> fill the infoframe with picture aspect ratio 64:27 and the vic, which=20
->> is originally 90 and is changed to 0 by drm_mode_cea_vic().
->>
->> To work around it, do not set the vic 0 so the corresponding mode may=20
->> be accepted in drm_hdmi_avi_infoframe_from_display_mode() and be dispaly=
-ed.
->>
->> v1: initial version.
->> v2: change the logic in drm_hdmi_avi_infoframe_from_display_mode().
->> v3: fix typo.
->> v4: add revision history.
->>
->> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->> Cc: Jani Nikula <jani.nikula@linux.intel.com>
->> Cc: Wayne Lin <waynelin@amd.com>
->> Cc: Lee Shawn C <shawn.c.lee@intel.com>
->> Signed-off-by: William Tseng <william.tseng@intel.com>
->
-> Please attach the offending EDID to the bug [1]. I won't ack this before =
-we see the EDID in question.
->
->
-> BR,
-> Jani.
->
->
-> [1] https://gitlab.freedesktop.org/drm/intel/-/issues/6153
->
->> ---
->>  drivers/gpu/drm/drm_edid.c | 10 ++++++----
->>  1 file changed, 6 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c=20
->> index eaa819381281..3c6a4e09b2d6 100644
->> --- a/drivers/gpu/drm/drm_edid.c
->> +++ b/drivers/gpu/drm/drm_edid.c
->> @@ -6640,7 +6640,8 @@ static u8 drm_mode_hdmi_vic(const struct=20
->> drm_connector *connector,  }
->>=20=20
->>  static u8 drm_mode_cea_vic(const struct drm_connector *connector,
->> -			   const struct drm_display_mode *mode)
->> +			   const struct drm_display_mode *mode,
->> +			   bool is_hdmi2_sink)
->>  {
->>  	u8 vic;
->>=20=20
->> @@ -6660,7 +6661,7 @@ static u8 drm_mode_cea_vic(const struct drm_connec=
-tor *connector,
->>  	 * HDMI 2.0 VIC range: 1 <=3D VIC <=3D 107 (CEA-861-F). So we
->>  	 * have to make sure we dont break HDMI 1.4 sinks.
->>  	 */
->> -	if (!is_hdmi2_sink(connector) && vic > 64)
->> +	if (!is_hdmi2_sink && vic > 64)
->>  		return 0;
->>=20=20
->>  	return vic;
->> @@ -6691,7 +6692,7 @@ drm_hdmi_avi_infoframe_from_display_mode(struct hd=
-mi_avi_infoframe *frame,
->>  	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
->>  		frame->pixel_repeat =3D 1;
->>=20=20
->> -	vic =3D drm_mode_cea_vic(connector, mode);
->> +	vic =3D drm_mode_cea_vic(connector, mode, true);
->>  	hdmi_vic =3D drm_mode_hdmi_vic(connector, mode);
->>=20=20
->>  	frame->picture_aspect =3D HDMI_PICTURE_ASPECT_NONE; @@ -6735,7 +6736,8=
-=20
->> @@ drm_hdmi_avi_infoframe_from_display_mode(struct hdmi_avi_infoframe *f=
-rame,
->>  		picture_aspect =3D HDMI_PICTURE_ASPECT_NONE;
->>  	}
->>=20=20
->> -	frame->video_code =3D vic;
->> +	frame->video_code =3D drm_mode_cea_vic(connector, mode,
->> +						is_hdmi2_sink(connector));
->>  	frame->picture_aspect =3D picture_aspect;
->>  	frame->active_aspect =3D HDMI_ACTIVE_ASPECT_PICTURE;
->>  	frame->scan_mode =3D HDMI_SCAN_MODE_UNDERSCAN;
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
