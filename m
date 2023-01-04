@@ -1,60 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E09265DB81
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 18:48:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAC5165DBBF
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 18:58:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 311EF10E468;
-	Wed,  4 Jan 2023 17:48:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0E1310E45D;
+	Wed,  4 Jan 2023 17:58:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
- [IPv6:2607:f8b0:4864:20::b34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95D5D10E468
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jan 2023 17:48:29 +0000 (UTC)
-Received: by mail-yb1-xb34.google.com with SMTP id g4so37360391ybg.7
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Jan 2023 09:48:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=h6ernteAwaoJavQln9yDUlEHLQyyCv6s+N2K/1h5NJc=;
- b=c8T0coN2VqEx+gs0ROuXhPs7kCS4obyZ/UI06gKIGvD0Ihja5IGREFjVP+Xxd98hZj
- JmN6Hn34JL/q+Xe5Chb4rHZLYeJKTGtGlwWMd5x8kJy8znBPKE6/o5tJ2P9UAXTSSgnK
- MtzmlTkj/kIwQNIChRWNpZlXaR43D3nX6jpSSo5VuCbxd3//AF2ac8LKvsJKTEs4ot09
- LLNkYJuein+LHqM/4NmAVGNItnrA3aVURF2hHR0cB7punrzIHp1y8EDj1LJdZQ7uQNcu
- zvLexEulaVLFfNrInPdeLZZaK9a/1BABQAZqTJfRnANh7asjBt/H+PsBVOddTmRPWC86
- 0uug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=h6ernteAwaoJavQln9yDUlEHLQyyCv6s+N2K/1h5NJc=;
- b=sIGmo75NRRPVDVCj2zE5nuwzsYDKs4Gwotm4n5FI0m/iyEyG1rEXuY2EgmoVhYRocj
- 7W/K/PFj/28/RTI7V6b3jAw0fOhhmldrX6ErqodoCzGzGWcFHywRrJNelltjqcTb5FWM
- YYdZj7fE7d/jQXLxZrknAoXTB5sDdRH3je/bIbjO2O6Cx9S292LxhTSZR+ZmhuidZyTi
- 0p4uJj7ojIoQ/f7CFcqhv4trPIp918uOmZQ+3TlBWyAXY6/mFzTPVEDe+DsLNONvrRIT
- otPgMN++DY56ESU6sz7sFe0Jlpb5ITSx0mzg8jrKdO6nEdpFr3uyWjx5OV6lrz+fjzhZ
- 4Ctw==
-X-Gm-Message-State: AFqh2krsBEzixu23LZ2V3ubwOLmRDity6lwxxeS+LcGL+et8UvK11NeB
- /JzkHtc86OClqsrxnqbQn6dcTwuuoSlQ5QGejXAnRN834MlLmA==
-X-Google-Smtp-Source: AMrXdXuACj2NxKuibRwSdOimb0397QQRnaQeVI/kN9TdsBU3F52F+lvf5NW7TBxyVHHjkeuwiN4WM5G/dxrKKeA1TIs=
-X-Received: by 2002:a25:606:0:b0:709:9335:236e with SMTP id
- 6-20020a250606000000b007099335236emr4325601ybg.288.1672854508646; Wed, 04 Jan
- 2023 09:48:28 -0800 (PST)
+X-Greylist: delayed 429 seconds by postgrey-1.36 at gabe;
+ Wed, 04 Jan 2023 17:58:49 UTC
+Received: from mail2-relais-roc.national.inria.fr
+ (mail2-relais-roc.national.inria.fr [192.134.164.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54C6310E45D;
+ Wed,  4 Jan 2023 17:58:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inria.fr; s=dc;
+ h=date:from:to:cc:subject:in-reply-to:message-id:
+ references:mime-version;
+ bh=jPIOICMJamB8Q+k5NZeaoYSyd6m7DdgJ938P616hzCc=;
+ b=QQY9ert9138tBSipHgPuDLMcAPtLB2fm0L8B1JdP2te+pSz0p6WnxmEG
+ NEiFbSoMLo6aFvP12O7CnxGlwplm4rRSIdzsWz3xRrXnZ+fMbZZfSkS/A
+ djFmMTCati7ETdLEiovvya0zvAuiEQZ1lv5PB/sQ5Ei1MGpIcZcyhYA/c U=;
+Authentication-Results: mail2-relais-roc.national.inria.fr;
+ dkim=none (message not signed) header.i=none;
+ spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr;
+ dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.96,300,1665439200"; d="scan'208";a="85986134"
+Received: from 214.123.68.85.rev.sfr.net (HELO hadrien) ([85.68.123.214])
+ by mail2-relais-roc.national.inria.fr with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2023 18:51:38 +0100
+Date: Wed, 4 Jan 2023 18:51:37 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Deepak R Varma <drv@mailo.com>
+Subject: Re: [PATCH] drm/i915/fbc: Avoid full proxy f_ops for FBC debug
+ attributes
+In-Reply-To: <Y7PG5Hx5dDE7aHSx@qemulion>
+Message-ID: <alpine.DEB.2.22.394.2301041850570.7216@hadrien>
+References: <Y6qmNW6cOHjGwn03@qemulion> <Y6sn1BmhFJFssW0h@intel.com>
+ <Y6s0FSK9+F+/oKSf@qemulion> <Y6wl9NhYZG5RjJL7@intel.com>
+ <Y7PG5Hx5dDE7aHSx@qemulion>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-References: <20230103-topic-sm8550-upstream-mdss-dsi-v1-0-9ccd7e652fcd@linaro.org>
- <20230103-topic-sm8550-upstream-mdss-dsi-v1-3-9ccd7e652fcd@linaro.org>
- <96ccae6f-3788-e030-480f-7aa2478ca560@linaro.org>
- <de3860ba-40f9-cdd5-097c-e015f6b19255@linaro.org>
-In-Reply-To: <de3860ba-40f9-cdd5-097c-e015f6b19255@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 4 Jan 2023 19:48:17 +0200
-Message-ID: <CAA8EJpoi8QFpvR0qWpNpenZKzEZAQpwp3gNpGd3RwHovgC+Odw@mail.gmail.com>
-Subject: Re: [PATCH 3/6] drm/msm/dpu: add support for SM8550
-To: neil.armstrong@linaro.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,137 +56,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonathan Marek <jonathan@marek.ca>, devicetree@vger.kernel.org,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-arm-msm@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>,
+ Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Julia Lawall <Julia.Lawall@lip6.fr>, Nicolai Stange <nicstange@gmail.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 4 Jan 2023 at 12:08, Neil Armstrong <neil.armstrong@linaro.org> wrote:
->
-> On 04/01/2023 10:45, Dmitry Baryshkov wrote:
-> > On 04/01/2023 11:08, Neil Armstrong wrote:
-> >> Add definitions for the display hardware used on Qualcomm SM8550
-> >> platform.
-> >>
-> >> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> >> ---
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 197 +++++++++++++++++++++++++
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |   1 +
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h    |   2 +
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c        |   1 +
-> >>   4 files changed, 201 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> >> index b4ca123d8e69..adf5e25269dc 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->
-> <snip>
->
-> >> @@ -776,6 +821,45 @@ static const struct dpu_ctl_cfg sm8450_ctl[] = {
-> >>       },
-> >>   };
-> >> +static const struct dpu_ctl_cfg sm8550_ctl[] = {
-> >> +    {
-> >> +    .name = "ctl_0", .id = CTL_0,
-> >> +    .base = 0x15000, .len = 0x290,?
-> >> +    .features = BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_SPLIT_DISPLAY) | BIT(DPU_CTL_FETCH_ACTIVE),
-> >
-> > CTL_SC7280_MASK | BIT(DPU_CTL_SPLIT_DISPLAY) ?
->
-> Indeed DPU_CTL_VM_CFG is missing, will switch to that.
->
-> >
-> >> +    .intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
-> >> +    },
-> >> +    {
-> >> +    .name = "ctl_1", .id = CTL_1,
-> >> +    .base = 0x16000, .len = 0x290,
-> >> +    .features = BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_SPLIT_DISPLAY) | BIT(DPU_CTL_FETCH_ACTIVE),
-> >> +    .intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
-> >> +    },
-> >> +    {
-> >> +    .name = "ctl_2", .id = CTL_2,
-> >> +    .base = 0x17000, .len = 0x290,
-> >> +    .features = BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE),
-> >
-> > CTL_SC7280_MASK?
->
-> Ack
->
-> >
-> >> +    .intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 11),
-> >> +    },
-> >> +    {
-> >> +    .name = "ctl_3", .id = CTL_3,
-> >> +    .base = 0x18000, .len = 0x290,
-> >> +    .features = BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE),
-> >> +    .intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 12),
-> >> +    },
-> >> +    {
-> >> +    .name = "ctl_4", .id = CTL_4,
-> >> +    .base = 0x19000, .len = 0x290,
-> >> +    .features = BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE),
-> >> +    .intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 13),
-> >> +    },
-> >> +    {
-> >> +    .name = "ctl_5", .id = CTL_5,
-> >> +    .base = 0x1a000, .len = 0x290,
-> >> +    .features = BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE),
-> >> +    .intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 23),
-> >> +    },
-> >> +};
-> >> +
-> >>   static const struct dpu_ctl_cfg sc7280_ctl[] = {
-> >>       {
-> >>       .name = "ctl_0", .id = CTL_0,
->
-> <snip>
->
-> >> @@ -1268,6 +1386,16 @@ static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
-> >>       .len = 0x20, .version = 0x20000},
-> >>   };
-> >> +#define PP_BLK_DIPHER(_name, _id, _base, _merge_3d, _sblk, _done, _rdptr) \
-> >> +    {\
-> >> +    .name = _name, .id = _id, \
-> >> +    .base = _base, .len = 0, \
-> >
-> > len = 0 looks incorrect. Any particular reason why can't we use plain PP_BLK here?
->
-> The TE block has been moved to the DSI INTF blocks since SM8350 I think, or earlier.
-
-I think, 8150. Marijn has been working on adding support for INTF-based TE.
-
-> This removes the DPU_PINGPONG_DITHER feature used downstream to enable the PP TE callbacks.
-> Since there's only the DIPHER sub-block remaining, this is why I set len to 0.
-
-I went on with some research. Usually PP len is 0xd4. However it seems
-since 8350 (since the change of DSC block) the PP size should be 0x0),
-despite dowsnstream DTs having sde-pp-size=0xd4 for sm8350 and sm8450
-(or 0x4 for neo, DPU 9.1.0).
-So, it looks like you are correct here (and we should fix 8350/8450
-patches instead).
-
->
-> >
-> >> +    .features = BIT(DPU_PINGPONG_DITHER), \
-> >> +    .merge_3d = _merge_3d, \
-> >> +    .sblk = &_sblk, \
-> >> +    .intr_done = _done, \
-> >> +    .intr_rdptr = _rdptr, \
-> >> +    }
-> >>   #define PP_BLK_TE(_name, _id, _base, _merge_3d, _sblk, _done, _rdptr) \
-> >>       {\
-> >>       .name = _name, .id = _id, \
->
-> <snip>
->
 
 
--- 
-With best wishes
-Dmitry
+On Tue, 3 Jan 2023, Deepak R Varma wrote:
+
+> On Wed, Dec 28, 2022 at 06:18:12AM -0500, Rodrigo Vivi wrote:
+> > On Tue, Dec 27, 2022 at 11:36:13PM +0530, Deepak R Varma wrote:
+> > > On Tue, Dec 27, 2022 at 12:13:56PM -0500, Rodrigo Vivi wrote:
+> > > > On Tue, Dec 27, 2022 at 01:30:53PM +0530, Deepak R Varma wrote:
+> > > > > Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
+> > > > > function adds the overhead of introducing a proxy file operation
+> > > > > functions to wrap the original read/write inside file removal protection
+> > > > > functions. This adds significant overhead in terms of introducing and
+> > > > > managing the proxy factory file operations structure and function
+> > > > > wrapping at runtime.
+> > > > > As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
+> > > > > with debugfs_create_file_unsafe() is suggested to be used instead.  The
+> > > > > DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
+> > > > > debugfs_file_put() wrappers to protect the original read and write
+> > > > > function calls for the debug attributes. There is no need for any
+> > > > > runtime proxy file operations to be managed by the debugfs core.
+> > > > >
+> > > > > This Change is reported by the debugfs_simple_attr.cocci Coccinelle
+> > > > > semantic patch.
+> > > >
+> > > > I just checked here with
+> > > > $ make coccicheck M=drivers/gpu/drm/i915/ MODE=context COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
+> > >
+> > > Hello Rodrigo,
+> > > Thank you so much for your review and feedback on the patch proposal.
+> > >
+> > > >
+> > > > The part reported by the this script is the s/SIMPLE/DEBUGFS
+> > > > but the change to the unsafe option is not.
+> > >
+> > > If you look at the original commit of this coccinelle file, it calls out the
+> > > need for pairing debugfs_create_file_unsafe() as well. Please review this
+> > >
+> > > commitID: 5103068eaca2: ("debugfs, coccinelle: check for obsolete DEFINE_SIMPLE_ATTRIBUTE() usage")
+> >
+> > +Nicolai and Julia.
+> >
+> > It looks like coccinelle got right the
+> > - DEFINE_SIMPLE_ATTRIBUTE(dsa_fops, dsa_get, dsa_set, dsa_fmt);
+> > + DEFINE_DEBUGFS_ATTRIBUTE(dsa_fops, dsa_get, dsa_set, dsa_fmt);
+> >
+> > but it failed badly on
+> > - debugfs_create_file(name, mode, parent, data, &dsa_fops)
+> > + debugfs_create_file_unsafe(name, mode, parent, data, &dsa_fops)
+> >
+> > >
+> > > Based on my review of the code, the functions debugfs_create_file() and
+> > > debugfs_create_file_unsafe(), both internally call __debugfs_create_file().
+> > > However, they pass debugfs_full_proxy_file_operations and
+> > > debugfs_open_proxy_file_operations respectively to it. The former represents the
+> > > full proxy factory, where as the later one is lightweight open proxy
+> > > implementation of the file operations structure.
+> > >
+> > > >
+> > > > This commit message is not explaining why the unsafe is the suggested
+> > > > or who suggested it.
+> > >
+> > > If you find the response above accurate, I will include these details about
+> > > the _unsafe() function in my commit message in v2.
+> > >
+> > > >
+> > > > If you remove the unsafe part feel free to resend adding:
+> > >
+> > > Please confirm you still believe switching to _unsafe() is not necessary.
+> >
+> > Based on the coccinelle commit it looks like you are right, but cocinelle
+> > just failed to detect the case. Let's see what Nicolai and Julia respond
+> > before we move with any patch here.
+>
+> Hello Nicolai and Julia,
+> Can you please review this proposed patch and the feedback comments from Rodrigo
+> please?
+
+I'm not an expert on this issue.  If the semantic patch needs to change in
+some way, I would be happy to take any improvements.
+
+julia
+
+
+>
+> Thank you,
+> ./drv
+>
+> >
+> > >
+> > > >
+> > > > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > > > (to both patches, this and the drrs one.
+> > > >
+> > > > Also, it looks like you could contribute with other 2 patches:
+> > > > drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c:64:0-23: WARNING: pxp_terminate_fops should be defined with DEFINE_DEBUGFS_ATTRIBUTE
+> > > > drivers/gpu/drm/i915/gvt/debugfs.c:150:0-23: WARNING: vgpu_scan_nonprivbb_fops should be defined with DEFINE_DEBUGFS_ATTRIBUTE
+> > >
+> > > Yes, these are on my list. Was waiting for a feedback on the first submission
+> > > before I send more similar patches.
+> > >
+> > > Appreciate your time and the feedback.
+> > >
+> > >
+> > > Regards,
+> > > ./drv
+> > >
+> > > >
+> > > > >
+> > > > > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > > > > ---
+> > > > >  drivers/gpu/drm/i915/display/intel_fbc.c | 12 ++++++------
+> > > > >  1 file changed, 6 insertions(+), 6 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
+> > > > > index b5ee5ea0d010..4b481e2f908b 100644
+> > > > > --- a/drivers/gpu/drm/i915/display/intel_fbc.c
+> > > > > +++ b/drivers/gpu/drm/i915/display/intel_fbc.c
+> > > > > @@ -1809,10 +1809,10 @@ static int intel_fbc_debugfs_false_color_set(void *data, u64 val)
+> > > > >  	return 0;
+> > > > >  }
+> > > > >
+> > > > > -DEFINE_SIMPLE_ATTRIBUTE(intel_fbc_debugfs_false_color_fops,
+> > > > > -			intel_fbc_debugfs_false_color_get,
+> > > > > -			intel_fbc_debugfs_false_color_set,
+> > > > > -			"%llu\n");
+> > > > > +DEFINE_DEBUGFS_ATTRIBUTE(intel_fbc_debugfs_false_color_fops,
+> > > > > +			 intel_fbc_debugfs_false_color_get,
+> > > > > +			 intel_fbc_debugfs_false_color_set,
+> > > > > +			 "%llu\n");
+> > > > >
+> > > > >  static void intel_fbc_debugfs_add(struct intel_fbc *fbc,
+> > > > >  				  struct dentry *parent)
+> > > > > @@ -1821,8 +1821,8 @@ static void intel_fbc_debugfs_add(struct intel_fbc *fbc,
+> > > > >  			    fbc, &intel_fbc_debugfs_status_fops);
+> > > > >
+> > > > >  	if (fbc->funcs->set_false_color)
+> > > > > -		debugfs_create_file("i915_fbc_false_color", 0644, parent,
+> > > > > -				    fbc, &intel_fbc_debugfs_false_color_fops);
+> > > > > +		debugfs_create_file_unsafe("i915_fbc_false_color", 0644, parent,
+> > > > > +					   fbc, &intel_fbc_debugfs_false_color_fops);
+> > > > >  }
+> > > > >
+> > > > >  void intel_fbc_crtc_debugfs_add(struct intel_crtc *crtc)
+> > > > > --
+> > > > > 2.34.1
+> > > > >
+> > > > >
+> > > > >
+> > >
+> > >
+> >
+>
+>
+>
