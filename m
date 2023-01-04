@@ -2,117 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A3165D0AC
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 11:31:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5947365D0B7
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 11:34:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB4610E069;
-	Wed,  4 Jan 2023 10:31:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0139410E132;
+	Wed,  4 Jan 2023 10:34:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2047.outbound.protection.outlook.com [40.107.92.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42DD310E069
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jan 2023 10:31:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EeWjveuY7k6YgYOIDzHC71egf1OLFQ7NU9zHA2lhl2wvPP9hRHCXFj0UTRqIOhSWLEDZu/Fwqi4oTosFSIaXxs/RHNubz+4OoVxI7ODP4t4DeIANUfM8BKLChqeFw3MtDFv5x5E2dPXMgbPoElX/FBmq9kB39MbssFtXhax5Ul1Ki9QvwGKrgZ8ydmRYyd498OI2wxVOufAyWymWh0eumifR6Fo9+R5fApZ/xrAA+UuCs/n81XFQdxmvU6J1iLvG2BzNpcLpt9JXEAu2SPbuVI/mEDciAvqek9uGCnAssMXmg5Rf+SGbvIsSebu11vCtLo9X/DRmR+2L88lClpNqXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lIZj2FSIyHlljJg5aN4oUpqwXl2Zvhw8LuwlJWOSEDU=;
- b=iFXXLd+6YaVgTha2iJcsN+XuYQHFQsCaYIyVhwp/iAPaJDyDrz4icjJ35CKFYBpIfZARjRD24GfFxiOgdWyvqyrh7BGmAlEgVeNubh0jLac0ASdHkEZtuwsypHoQWo6y38BxTSpy8xqdnDqGBzDZIXU7OIQBnlb86FirX2qylywLFNl1wnVCKONnCZALuWDyIWMo/8OTite8NONe8TNOMm6gwerOcFX8l0NHIfhS1Rvy8YFhdQTJrcNasFF7r5YlDAgUve5otQ8beNa45tZt2GBOgtdGIMITfxlYSTJTcIsMZ0tN97gwSbnmYEhTAwcC5DUGkgww0L237c7zE9GPsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lIZj2FSIyHlljJg5aN4oUpqwXl2Zvhw8LuwlJWOSEDU=;
- b=4po7I2nf0GoGcKeXKWK6Xgv6UoBDwQZfANVJa2kdlzLa+cCnwUnl6gp+wYO5/aTkU/TThIxSNIo0Uxd1DKclHiqtYtKViAcxQzy4v8xj1MyROM5sV7Xow9uPnobNsS6jEsSzn9c23E/N1MkYZPNgDwrdf50N50/fBgiZPQ4Jjk8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by PH7PR12MB6809.namprd12.prod.outlook.com (2603:10b6:510:1af::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Wed, 4 Jan
- 2023 10:31:48 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::80d8:934f:caa7:67b0]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::80d8:934f:caa7:67b0%3]) with mapi id 15.20.5944.019; Wed, 4 Jan 2023
- 10:31:48 +0000
-Message-ID: <ac777256-2400-1b19-81ce-af9ec7adfe9c@amd.com>
-Date: Wed, 4 Jan 2023 11:31:43 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F92D10E132
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jan 2023 10:34:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=nDwbdzze0m7rkXNVr0rLJ7mBoT6ba2Jk6+NIu59pzU0=; b=dMR2Bqi2NX1vFitg5GsNcGER3F
+ 9PuvvTyVwdrH91pdMW33uYHWLEbpRQMkoV/M0tjTF87qan8enDENB8wxFDh5/Wnn2zE7/DpaLAnO7
+ Lc6roYbhdAvuSyQTREzxTcVl9DSJ0Qum0udXiswOW5+QVFgRiiGPBfyt3Z/ugpC6LSUI0rctQBHnL
+ XjMTPjd1Ebvv5RcGTcyMizsMPi2hkk+y2o0Ceo/k53ouHqXCPTLzGoccmAwLTbXBtv0Gr9IGoLRdx
+ S/qTgBUpGUrh/2pxWsF4+7FrI3OeLme6TeP42uBKGgRjG3BGR+p1CI/gLgkG86xDlQAofaZNyV0gu
+ VJApYN7A==;
+Received: from [187.36.234.139] (helo=[192.168.1.195])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1pD16L-00Gw4l-KC; Wed, 04 Jan 2023 11:34:29 +0100
+Message-ID: <e84e9a28-3f7c-6f12-53d4-9d1023aa9d18@igalia.com>
+Date: Wed, 4 Jan 2023 07:34:24 -0300
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC] TTM shrinking revisited
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v3 11/13] drm/fb-helper: Fix single-probe color-format
+ selection
+To: Thomas Zimmermann <tzimmermann@suse.de>, =?UTF-8?Q?Ma=c3=adra_Canal?=
+ <mcanal@igalia.com>, daniel@ffwll.ch, airlied@gmail.com, javierm@redhat.com,
+ jose.exposito89@gmail.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com
+References: <20230102112927.26565-1-tzimmermann@suse.de>
+ <20230102112927.26565-12-tzimmermann@suse.de>
+ <cd5c3f0e-eec1-c492-24af-a0b3efad7e2e@igalia.com>
+ <afb68161-1f16-41ec-1883-7e79c201e9b6@suse.de>
 Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-References: <20221230111159.75410-1-thomas.hellstrom@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20221230111159.75410-1-thomas.hellstrom@linux.intel.com>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <afb68161-1f16-41ec-1883-7e79c201e9b6@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0137.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9e::12) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH7PR12MB6809:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1c7146a8-015e-487d-e994-08daee3ee29a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4/6jEbJ11jVrdixIsE/D5LyEjdJgvkHUJtaZp/wePrbrJNmtK+QL+GTDxnp3W+TBFq0/QAvpXqbnw+3CWFZG95UHo2+62/tQrDMwDVuyGLqNyPjVY5/UVw8wZ2WmkJLNWhlgqtF0UhwpONzwK9v8VAEeuGJJ8xIZWqRQgI/pGcped6u2wKShQXC5qo2KdbtHnEeciDfEC5yK2wIglYFMnQ20/6SZ+l9w/ctSfaxN4rMhQpIeg93GhCYCccfNBRuaw0LKY5ge4S9YfCcJck2fcbSm0irgQnvwZTdZIe+EpyE2UbTZssF6SDRlb39aoaCYiWTNnF3m8y7lwX+o9PGC4uOow9Y4t7JB0tcyVf+siqhpoML3ilQM4wUJN4QSFjIMv+SSQk0ML41JIAyXQD5A1JKomQIqzCMGGNICNxZKCxpyAZvj2trgW99P2R+0RCSBdCGYaPqQ3D/Bfr8dNHXuiBvLCI5juDjjUqaM7AxwKKjI54yhQ8k9SpBWnXbv4GIb/9oqOdbaOGzLNT5EEoufE9W81NSnPeH9YJgP6oVevZ4L7Q7f5kQaoeFVWHOlrCCcrXFrL/42Vk5thfKQ7XC+CjuiIw/yeRB7+4NX5CcAZrV5HVjw7fZ4QBMKK07wF5vMazh7Nysj2hWyyLc4Q0mZEuAGUP6/yiDP+WaZQzuuRgG+NnNY1f6Ecx5KpTue3vDXrIU3QF3KMVEb/NZ2htPcPZVnqtz1Vk4WvVBw865+KnU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(396003)(136003)(376002)(39860400002)(346002)(451199015)(66574015)(83380400001)(31696002)(86362001)(8936002)(5660300002)(38100700002)(2906002)(41300700001)(6666004)(478600001)(26005)(6506007)(2616005)(8676002)(6512007)(316002)(186003)(66476007)(66946007)(6486002)(66556008)(31686004)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YU9UWUk4Y28ra2M0T3dlVUVXZnFBSXdNeEhWaG9STVBtc0c3NmVnaDVYSFpW?=
- =?utf-8?B?MFB6bW9tbmNYYXhsci9oeld1R1M2SzJ5T0hlQ25VUmFQZkMxaWZzdWpFbHJk?=
- =?utf-8?B?TmNVZEVHR3llWnErdXArMFlaMnhQVGdFeDBsWUxzM1U2UmNSVndaandxa0FJ?=
- =?utf-8?B?dVM1dEdsL1pwTUk1cjR0cWh5MHc0QU9FQzF1ajNGWkUreHJHMkYzZ2o3TEhh?=
- =?utf-8?B?WTZwQ2Y1bWEwRFc4QTVub0hMSEw3SFYybWwwbEhSSW51VGhPWnl0Wkx3U3Jz?=
- =?utf-8?B?SEp2UDBTeDM4WG9VclFWQjRDcEZvR1dCUERwWHR2SStmRmpXdzNUWXlwUWth?=
- =?utf-8?B?VFd5NFN6MkE0RGxGNzJndVpVWkZ6aGZnVDJHMmFmRkRQQmYxTmNDc2Q3Rmdy?=
- =?utf-8?B?QnZlNXpoeE9sQlE2SVVGcXNxUCtTTXRheHh1UTJydDRDaTNkV3RUdTNCakUz?=
- =?utf-8?B?YlpuTjQ5Wjd5TEpTN0JyZHpGeVpoc25sNDhpNlpzKzBBdGQzWHNlN0lvdXlU?=
- =?utf-8?B?YVJKaGl4Y290cGlVb3JQMXFESDZWVk1KUE9aenpkaVE1NExnZ0VRRjk4Nno4?=
- =?utf-8?B?TzhTdE9mRmpvSjJ2am9oVXpRTDdVMnJIZTRRWHdxTHcxcmh0eGxiMWUwRUlI?=
- =?utf-8?B?eVlWVU5IYWRQRENaaXZueHlENkdTY09lanlnQmlMV1ljclRYclBjUjZ4QW5z?=
- =?utf-8?B?OUdNTWh3SjlWdFV6dk8vUkF1YmhBeGRMeFpQRXlBVkE5dXZTNFBrdlI2czJT?=
- =?utf-8?B?clR1d2VXN0xUNEpHS1JoZ2J3UTFvdFhhOUhYQmpnZ3ZWSWdxbTN5clo4UVha?=
- =?utf-8?B?ZkRRekVWbEJQTmEycUFFL2R1bmJmVDQ2VnJ3Zy9FY0ZpaExMY0RqNWg3cFhv?=
- =?utf-8?B?M2tlRGVVbVlreThwWEJndy9pUkNwendPbXlDNjhDcXVtRk9XUXBtYW5lT29v?=
- =?utf-8?B?ODNqbmxzT2RweURpMzdPVzZEb2RmZUVXenFaT3FJbHluRUY1ek1OcVBRMXJK?=
- =?utf-8?B?Mksyc212M2trdDFjaUlzWUEraVpTVUtGTk14Y1JvVkd5dnExeGJKdWpBenNj?=
- =?utf-8?B?VTQ3MDZRZ282Q3FYM2p0eXBlZEM0RzNkZzBFZkxGVGRDcDk2dVF3SlFsaHU2?=
- =?utf-8?B?cHdlYUNtOXNPNERwMDZSTHV2M014amtDTk4yZlRHWU1MSWpLWHJ0Rmthc0hi?=
- =?utf-8?B?d3J1bG1MMVlVZ1R5aXRYWUxPTEx3NzhPRGE0L1VaQTBzZ2tLVWFyN2Q3bXRs?=
- =?utf-8?B?R1VvT3BlVnRLdENBa3d2Y1ZTdEdjazd4aHVNemNrZWdVbEoyY3BkbEQ3cFh0?=
- =?utf-8?B?UHBnR1dDS3NMSEQzQzBRYmRwcGh2VitoeU53bSsxQTN5TXpJeklvYnZsMTFi?=
- =?utf-8?B?bjczYUkydnU1K1RneUNqVnp1SVd5SGJHYjRFWWFPVFNQN3lTQkR4MmZkYTMw?=
- =?utf-8?B?ZGMwQk5ZN0cwSm9lWDJrdmppbW43OCtJQkJkTTV1d1NzTG05a0ZBT2RXNlZK?=
- =?utf-8?B?THNLMmlZZStFeW41am9DYXlNMnJFbDgxdWlSSjhpc0djYXBxRFpaR1I0VVND?=
- =?utf-8?B?VTVsbHUxcWY2a0FmMHVqd2g1OVIzRmx5amFIU0N4aTlBR1Z6eVdRdkxKZDB0?=
- =?utf-8?B?UWR6V2ZJdVZmSXM2YU9iL2VMbjZBZzdPNFFhVFhESmhaYnRPNUV2Y3RYVDZv?=
- =?utf-8?B?MFBqTWV4RTh2V0VGWTEyZ0R3Uy8yYkU4bmt4Sm9HcFJOMFB2QlZpSnJKNnVH?=
- =?utf-8?B?c1h4dHg3QWU2OFFzRm1RTlFiVit4cnVXdlM2enRneU04TzNMV0lMZy9ndUdG?=
- =?utf-8?B?bG9pNzFOMEFOZDNTVnJoOExsbDdJdHBuSVBDV1pzR2dWSG5aODRMYk5OTk1M?=
- =?utf-8?B?eGFLNlVndk1pNHJnWXpQYVg0cGVJeStWdTJOZFowVEszUCs0dzhHcEVkamYx?=
- =?utf-8?B?Yi9zc2crWnc0Yk9ieFVPbjhQekRaR0NpQjlvYk5lWVcxK1ZEWmg4cVhnb2VX?=
- =?utf-8?B?dHV3Z1p2TzJLUEtRdXY0NUtkWGZlN2xxSXRkVnlyNlN1VTI0eFhTZUNqNGl5?=
- =?utf-8?B?MVZvZkdsb0xUY2dKOXRWRndJZ1dXZXpXK2pqZmxGTGNDZlpER0cwQnhnMUVJ?=
- =?utf-8?Q?ZxoEQL3xuhuOWXu4kGMNyeBVp?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c7146a8-015e-487d-e994-08daee3ee29a
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2023 10:31:48.5876 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CZr6gZzsAk+yPbQj6sVvM8HTyqzyjHTbJncrC7Mu5+s/vciR7qBRhPHnwi7o5nRO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6809
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,65 +61,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 30.12.22 um 12:11 schrieb Thomas Hellström:
-> Hi, Christian, others.
->
-> I'm starting to take a look at the TTM shrinker again. We'll probably be
-> needing it at least for supporting integrated hardware with the xe driver.
->
-> So assuming that the last attempt failed because of the need to allocate
-> shmem pages and lack of writeback at shrink time, I was thinking of the
-> following approach: (A rough design sketch of the core support for the
-> last bullet is in patch 1/1. It of course needs polishing if the interface
-> is at all accepted by the mm people).
->
-> Before embarking on this, any feedback or comments would be greatly
-> appreciated:
->
-> *) Avoid TTM swapping when no swap space is available. Better to adjust the
->     TTM swapout watermark, as no pages can be freed to the system anyway.
-> *) Complement the TTM swapout watermark with a shrinker.
->     For cached pages, that may hopefully remove the need for the watermark.
->     Possibly a watermark needs to remain for wc pages and / or dma pages,
->     depending on how well shrinking them works.
+On 1/4/23 05:14, Thomas Zimmermann wrote:
+> Hi
+> 
+> Thanks for reporting the problem.
+> 
+> Am 03.01.23 um 22:18 schrieb Maíra Canal:
+>> Hi Thomas,
+>>
+>> On 1/2/23 08:29, Thomas Zimmermann wrote:
+>>> Fix the color-format selection of the single-probe helper. Go
+>>> through all user-specified values and test each for compatibility
+>>> with the driver. If none is supported, use the driver-provided
+>>> default. This guarantees that the console is always available in
+>>> any color format at least.
+>>>
+>>> Until now, the format selection of the single-probe helper tried
+>>> to either use a user-specified format or a 32-bit default format.
+>>> If the user-specified format was not supported by the driver, the
+>>> selection failed and the display remained blank.
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+>>> ---
+>>
+>> I started to get the following warning on the Raspberry Pi 4 Model B
+>> (arm64/defconfig) using drm-misc-next:
+>>
+>> [    4.376317] [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
+>> [    4.433587] vc4-drm gpu: [drm] bpp/depth value of 16/24 not supported
+>> [    4.433617] vc4-drm gpu: [drm] bpp/depth value of 16/24 not supported
+>> [    4.433629] vc4-drm gpu: [drm] bpp/depth value of 16/24 not supported
+>> [    4.433640] vc4-drm gpu: [drm] bpp/depth value of 16/24 not supported
+>> [    4.433650] vc4-drm gpu: [drm] bpp/depth value of 16/24 not supported
+>> [    4.433658] vc4-drm gpu: [drm] No compatible format found
+>> [    4.433854] ------------[ cut here ]------------
+>> [    4.433861] WARNING: CPU: 2 PID: 66 at drivers/gpu/drm/drm_atomic.c:1604 __drm_atomic_helper_set_config+0x2e8/0x314 [drm]
+>> [    4.434172] Modules linked in: btbcm(+) crct10dif_ce reset_raspberrypi clk_raspberrypi raspberrypi_hwmon bluetooth ecdh_generic ecc
+>> pwm_bcm2835 broadcom rfkill iproc_rng200 bcm_phy_lib i2c_bcm2835 vc4 rng_core snd_soc_hdmi_codec bcm2711_thermal cec drm_display_helper
+>> v3d pcie_brcmstb drm_dma_helper gpu_sched genet drm_shmem_helper nvmem_rmem mdio_bcm_unimac drm_kms_helper drm fuse ip_tables x_tables
+>> ipv6
+>> [    4.434322] CPU: 2 PID: 66 Comm: kworker/u8:2 Not tainted 6.1.0-rc6-00011-g37c90d589dc0 #29
+>> [    4.434337] Hardware name: Raspberry Pi 4 Model B Rev 1.4 (DT)
+>> [    4.434345] Workqueue: events_unbound deferred_probe_work_func
+>> [    4.434376] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+>> [    4.434390] pc : __drm_atomic_helper_set_config+0x2e8/0x314 [drm]
+>> [    4.434668] lr : __drm_atomic_helper_set_config+0x64/0x314 [drm]
+>> [    4.434943] sp : ffff8000082c3840
+>> [    4.434949] x29: ffff8000082c3850 x28: ffff2d6d448e12c0 x27: 0000000000000001
+>> [    4.434972] x26: 0000000000000038 x25: ffff2d6d448e12c0 x24: ffff2d6d401a0690
+>> [    4.434991] x23: ffff2d6d41f74080 x22: ffff2d6d40d8a400 x21: ffff2d6d433fcc00
+>> [    4.435009] x20: ffff2d6d401a0690 x19: ffff2d6d44b8e180 x18: 0000000000000020
+>> [    4.435027] x17: 0000000000000010 x16: ffffa6757bee52d0 x15: 0000000000000000
+>> [    4.435044] x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
+>> [    4.435063] x11: 0000000000000000 x10: ffff2d6d43240800 x9 : ffff2d6d44b8e200
+>> [    4.435081] x8 : 0000000000000000 x7 : ffff2d6d44b8e180 x6 : ffff2d6d40d8a400
+>> [    4.435099] x5 : ffff2d6d45e7ca80 x4 : 0000000000000050 x3 : ffffa675498c3bad
+>> [    4.435116] x2 : 0000000000000004 x1 : ffff2d6d4323f080 x0 : ffff2d6d433fcc00
+>> [    4.435136] Call trace:
+>> [    4.435143]  __drm_atomic_helper_set_config+0x2e8/0x314 [drm]
+>> [    4.435440]  drm_client_modeset_commit_atomic+0x140/0x244 [drm]
+>> [    4.435723]  drm_client_modeset_commit_locked+0x50/0x168 [drm]
+>> [    4.436001]  drm_client_modeset_commit+0x2c/0x54 [drm]
+>> [    4.436273]  __drm_fb_helper_initial_config_and_unlock+0x548/0x5a0 [drm_kms_helper]
+>> [    4.436407]  drm_fb_helper_initial_config+0x38/0x50 [drm_kms_helper]
+>> [    4.436528]  drm_fbdev_client_hotplug+0xa8/0x120 [drm_kms_helper]
+>> [    4.436648]  drm_fbdev_generic_setup+0x80/0x150 [drm_kms_helper]
+>> [    4.436768]  vc4_drm_bind+0x1f0/0x22c [vc4]
+>> [    4.436928]  try_to_bring_up_aggregate_device+0x168/0x1b4
+>> [    4.436958]  __component_add+0xbc/0x15c
+>> [    4.436974]  component_add+0x14/0x20
+>> [    4.436990]  vc4_hdmi_dev_probe+0x1c/0x28 [vc4]
+>> [    4.437146]  platform_probe+0xa8/0xd0
+>> [    4.437158]  really_probe+0x130/0x2f4
+>> [    4.437174]  __driver_probe_device+0xb4/0xe0
+>> [    4.437189]  driver_probe_device+0x3c/0x1f8
+>> [    4.437202]  __device_attach_driver+0x118/0x140
+>> [    4.437217]  bus_for_each_drv+0x84/0xd0
+>> [    4.437229]  __device_attach+0xd0/0x19c
+>> [    4.437243]  device_initial_probe+0x14/0x20
+>> [    4.437256]  bus_probe_device+0x34/0x98
+>> [    4.437268]  deferred_probe_work_func+0x88/0xc4
+>> [    4.437282]  process_one_work+0x1cc/0x2c8
+>> [    4.437295]  worker_thread+0x248/0x458
+>> [    4.437304]  kthread+0xec/0x198
+>> [    4.437319]  ret_from_fork+0x10/0x20
+>> [    4.437333] ---[ end trace 0000000000000000 ]---
+>>
+>> After bisecting the problem, I was able to detect that the warning started to
+>> appear on the commit 37c90d589dc0 ("drm/fb-helper: Fix single-probe color-format
+>> selection").
+>>
+>> Do you have any idea on what might be causing this warning?
+> 
+> vc4 wants 16 bits per pixel and 24-bit color depth at the same time. That makes no sense.
+> 
+> Does it work if you call drm_fbdev_generic_setup() with 32 bpp at [1]? Like this:
+> 
+>    drm_fbdev_generic_setup(drm, 32)
 
-Yeah, that's what I've already tried and failed miserable exactly 
-because of what you described above.
+I wasn't able to reproduce the problem again with 32 bpp. Maybe you could send a patch
+fixing it, so that Maxime could that a look and check if there is any problem with using
+32 bpp.
 
-> *) Trigger immediate writeback of pages handed to the swapcache / shmem,
->     at least when the shrinker is called from kswapd.
+Thanks for figuring out the problem!
 
-Not sure if that's really valuable.
+Best Regards,
+- Maíra Canal
 
-> *) Hide ttm_tt_swap[out|in] details in the ttm_pool code. In the pool code
->     we have more details about the backing pages and can split pages,
->     transition caching state and copy as necessary. Also investigate the
->     possibility of reusing pool pages in a smart way if copying is needed.
-
-Well I think we don't need to split pages at all. The higher order pages 
-are just allocated for better TLB utilization and could (in theory) be 
-freed as individual pages as well. It's just that MM doesn't support 
-that atm.
-
-But I really like the idea of moving more of this logic into the ttm_pool.
-
-> *) See if we can directly insert pages into the swap-cache instead of
->     taking the shmem detour, something along with the attached patch 1 RFC.
-
-Yeah, that strongly looks like we way to go. Maybe in combination with 
-being able to swap WC/UC pages directly out.
-
-While swapping them in again an extra copy doesn't hurt us, but for the 
-other way that really sucks.
-
-Thanks,
-Christian.
-
->
-> Thanks,
+> 
+> Best regards
 > Thomas
->
-
+> 
+> [1] https://elixir.bootlin.com/linux/v6.2-rc2/source/drivers/gpu/drm/vc4/vc4_drv.c#L391
+> 
+>>
+>> Best Regards,
+>> - Maíra Canal
+> 
