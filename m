@@ -2,51 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E80D65D05A
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 11:07:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6BB65D05F
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Jan 2023 11:08:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B8C410E566;
-	Wed,  4 Jan 2023 10:07:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD94710E568;
+	Wed,  4 Jan 2023 10:08:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 460AB10E564;
- Wed,  4 Jan 2023 10:07:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1672826836; x=1704362836;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=f28yXyuPCw5qqjy3tYDOeHUtVROKLB9vceXiiKc241A=;
- b=Kz6kcLplcdnPaHQxbstsyEFhjCY0tD3aVLf9yojogmlBiyk89L/b1BZf
- D3W5z61xNgRS5zt4WBmgjCuifQewWIQ/MhXlI/O7kfM5idef414Xbjx7H
- uZ4je2NlmsVP1zGni7J0EJhKIDBjISfpJ/o5V41tL1H6jfpVHgvOkeV9a
- Kpl0jT8zNas+ckgHoDCU1T1LWX8qGr6EnnNKVy9xtbXdUeB9d7M0HlAUj
- Zo0iUuuGnJJUAsM1kcozNdFygoWgR9DR6X5hXnCbZgSNeE9UYVIG2c89R
- t3T5zSFcbzYUtGhpndM3Q3MzboD+TQjAQddMDB6oQFcVZs/eJd4+Watdt Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="408157085"
-X-IronPort-AV: E=Sophos;i="5.96,299,1665471600"; d="scan'208";a="408157085"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jan 2023 02:07:15 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="723590998"
-X-IronPort-AV: E=Sophos;i="5.96,299,1665471600"; d="scan'208";a="723590998"
-Received: from mkabdel-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.25.63])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jan 2023 02:07:14 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v7 22/22] drm/i915/panel: move panel fixed EDID to struct
- intel_panel
-Date: Wed,  4 Jan 2023 12:05:37 +0200
-Message-Id: <94814815b820135ca259d97f463c80628cabf9f6.1672826282.git.jani.nikula@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1672826282.git.jani.nikula@intel.com>
-References: <cover.1672826282.git.jani.nikula@intel.com>
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CAB510E56A
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Jan 2023 10:08:29 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ b24-20020a05600c4a9800b003d21efdd61dso26032030wmp.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Jan 2023 02:08:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=qWVpoQHblmDwFl1sBCobe3EL1RtatjgZTaxQDVY+onE=;
+ b=ZeVEphlwDCu2OKKQwSIylb81iKaUYqLHC2OaOx5XWZ5KsDkI/M55LIqWkRhMCzngJu
+ RAiJuAXSl1C3Ke7OzI+PEU8fJgAW8GycgTgSY/xYJVGgnh/mX9sV+xPV6nbRAutQfLcJ
+ UXjMqYHbV62rM+L4wM6JD0BuUqwOV4HjcLcK5bNbt099XTklfejMJSLMA4lbHuY9/GqS
+ 60zr9ost44CL3S79xYyA/hUExW1rKdjEKXEC2S3QMMd9J7QbGcy+e2V2fz3XLi7inCqD
+ mlIM23cnFO6H/8bJ0GCCgSHM2bHSBV3WVwNHRnV37YVSvnJhBRgN5xEg6dDFqVU4m0fZ
+ fK3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qWVpoQHblmDwFl1sBCobe3EL1RtatjgZTaxQDVY+onE=;
+ b=ec7BTxoe80J8kxShspJWO5CboRilqh+kS7nDBRLjl++wVEz9M5xSIW8TLmDN0DpwNc
+ Gc9ZOd8IbeqFwUzPBhsLzQ3iTpk9427RxJR2aJwxymN9IpU7RYDrCy85vmu14qpmZwRF
+ p6f8lMOJ8gK63Re0f1ahrTSPNMFsXTZbtVbr52nnEY3582EWXt9es0wVnZX4QmP90nGW
+ aJsnWkLBtG0VVSnD27s6AgJO1reQ06LWby9Ie+wK+UuV+7gkb14ULZzuTnQ47O1MyHqz
+ 3nxJ4eZr4pLafywMaWG3ZkMyDOmF0Xwk05W8RxXZRvCS62czT3ZTkXfMWS3wTZ0Lv2qF
+ 9Cjg==
+X-Gm-Message-State: AFqh2kqZY/zk4eiatV9eqUEGED2UWsXVLXdePGQTsgdcFaqpkuo3FwjW
+ 4CgwGX6lOziUpICs1x25l0ObQw==
+X-Google-Smtp-Source: AMrXdXtPRTRJrapRYcjS0g4PAGHwCub3tO5l2N4viWO3LyullBOoY5kSV31s6n8XAbIUP5KmHcMObw==
+X-Received: by 2002:a7b:cb59:0:b0:3d3:5709:68e8 with SMTP id
+ v25-20020a7bcb59000000b003d3570968e8mr33358155wmj.36.1672826907903; 
+ Wed, 04 Jan 2023 02:08:27 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:102f:89e:4a9f:68c?
+ ([2a01:e0a:982:cbb0:102f:89e:4a9f:68c])
+ by smtp.gmail.com with ESMTPSA id
+ i25-20020a1c5419000000b003c6c182bef9sm58991052wmb.36.2023.01.04.02.08.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Jan 2023 02:08:27 -0800 (PST)
+Message-ID: <de3860ba-40f9-cdd5-097c-e015f6b19255@linaro.org>
+Date: Wed, 4 Jan 2023 11:08:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 3/6] drm/msm/dpu: add support for SM8550
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonathan Marek <jonathan@marek.ca>
+References: <20230103-topic-sm8550-upstream-mdss-dsi-v1-0-9ccd7e652fcd@linaro.org>
+ <20230103-topic-sm8550-upstream-mdss-dsi-v1-3-9ccd7e652fcd@linaro.org>
+ <96ccae6f-3788-e030-480f-7aa2478ca560@linaro.org>
+Organization: Linaro Developer Services
+In-Reply-To: <96ccae6f-3788-e030-480f-7aa2478ca560@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,265 +85,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
+Reply-To: neil.armstrong@linaro.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's a bit confusing to have two cached EDIDs in struct intel_connector
-with slightly different purposes. Make the distinction a bit clearer by
-moving the EDID cached for eDP and LVDS panels at connector init time to
-struct intel_panel, and name it fixed_edid. That's what it is, a fixed
-EDID for the panels.
+On 04/01/2023 10:45, Dmitry Baryshkov wrote:
+> On 04/01/2023 11:08, Neil Armstrong wrote:
+>> Add definitions for the display hardware used on Qualcomm SM8550
+>> platform.
+>>
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 197 +++++++++++++++++++++++++
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |   1 +
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h    |   2 +
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c        |   1 +
+>>   4 files changed, 201 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> index b4ca123d8e69..adf5e25269dc 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
 
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/i915/display/icl_dsi.c        |  2 +-
- .../gpu/drm/i915/display/intel_connector.c    |  3 ---
- .../drm/i915/display/intel_display_types.h    |  6 ++++--
- drivers/gpu/drm/i915/display/intel_dp.c       | 20 +++++++++----------
- drivers/gpu/drm/i915/display/intel_dvo.c      |  2 +-
- drivers/gpu/drm/i915/display/intel_lvds.c     | 11 +++++-----
- drivers/gpu/drm/i915/display/intel_panel.c    | 10 +++++++++-
- drivers/gpu/drm/i915/display/intel_panel.h    |  4 +++-
- drivers/gpu/drm/i915/display/intel_sdvo.c     |  2 +-
- drivers/gpu/drm/i915/display/vlv_dsi.c        |  2 +-
- 10 files changed, 35 insertions(+), 27 deletions(-)
+<snip>
 
-diff --git a/drivers/gpu/drm/i915/display/icl_dsi.c b/drivers/gpu/drm/i915/display/icl_dsi.c
-index ae14c794c4bc..d56d01f07bb7 100644
---- a/drivers/gpu/drm/i915/display/icl_dsi.c
-+++ b/drivers/gpu/drm/i915/display/icl_dsi.c
-@@ -2054,7 +2054,7 @@ void icl_dsi_init(struct drm_i915_private *dev_priv)
- 		goto err;
- 	}
- 
--	intel_panel_init(intel_connector);
-+	intel_panel_init(intel_connector, NULL);
- 
- 	intel_backlight_setup(intel_connector, INVALID_PIPE);
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_connector.c b/drivers/gpu/drm/i915/display/intel_connector.c
-index 4814d4e2f7f9..257afac34839 100644
---- a/drivers/gpu/drm/i915/display/intel_connector.c
-+++ b/drivers/gpu/drm/i915/display/intel_connector.c
-@@ -99,9 +99,6 @@ void intel_connector_destroy(struct drm_connector *connector)
- 
- 	intel_hdcp_cleanup(intel_connector);
- 
--	if (!IS_ERR_OR_NULL(intel_connector->edid))
--		drm_edid_free(intel_connector->edid);
--
- 	intel_panel_fini(intel_connector);
- 
- 	drm_connector_cleanup(connector);
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index 34dc850340b8..6feb232bb1c2 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -351,6 +351,9 @@ struct intel_vbt_panel_data {
- };
- 
- struct intel_panel {
-+	/* Fixed EDID for eDP and LVDS. May hold ERR_PTR for invalid EDID. */
-+	const struct drm_edid *fixed_edid;
-+
- 	struct list_head fixed_modes;
- 
- 	/* backlight */
-@@ -591,8 +594,7 @@ struct intel_connector {
- 	/* Panel info for eDP and LVDS */
- 	struct intel_panel panel;
- 
--	/* Cached EDID for eDP and LVDS. May hold ERR_PTR for invalid EDID. */
--	const struct drm_edid *edid;
-+	/* Cached EDID for detect. */
- 	const struct drm_edid *detect_edid;
- 
- 	/* Number of times hotplug detection was tried after an HPD interrupt */
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 67f2cb048ac1..3f4396b5f029 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -4480,18 +4480,19 @@ bool intel_digital_port_connected(struct intel_encoder *encoder)
- static const struct drm_edid *
- intel_dp_get_edid(struct intel_dp *intel_dp)
- {
--	struct intel_connector *intel_connector = intel_dp->attached_connector;
-+	struct intel_connector *connector = intel_dp->attached_connector;
-+	const struct drm_edid *fixed_edid = connector->panel.fixed_edid;
- 
--	/* use cached edid if we have one */
--	if (intel_connector->edid) {
-+	/* Use panel fixed edid if we have one */
-+	if (fixed_edid) {
- 		/* invalid edid */
--		if (IS_ERR(intel_connector->edid))
-+		if (IS_ERR(fixed_edid))
- 			return NULL;
- 
--		return drm_edid_dup(intel_connector->edid);
--	} else
--		return drm_edid_read_ddc(&intel_connector->base,
--					 &intel_dp->aux.ddc);
-+		return drm_edid_dup(fixed_edid);
-+	}
-+
-+	return drm_edid_read_ddc(&connector->base, &intel_dp->aux.ddc);
- }
- 
- static void
-@@ -5316,7 +5317,6 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
- 	} else {
- 		drm_edid = ERR_PTR(-ENOENT);
- 	}
--	intel_connector->edid = drm_edid;
- 
- 	intel_bios_init_panel_late(dev_priv, &intel_connector->panel, encoder->devdata,
- 				   IS_ERR(drm_edid) ? NULL : drm_edid);
-@@ -5343,7 +5343,7 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
- 		goto out_vdd_off;
- 	}
- 
--	intel_panel_init(intel_connector);
-+	intel_panel_init(intel_connector, drm_edid);
- 
- 	intel_edp_backlight_setup(intel_dp, intel_connector);
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_dvo.c b/drivers/gpu/drm/i915/display/intel_dvo.c
-index 4aeae0f3ac91..0be8105cb18a 100644
---- a/drivers/gpu/drm/i915/display/intel_dvo.c
-+++ b/drivers/gpu/drm/i915/display/intel_dvo.c
-@@ -554,6 +554,6 @@ void intel_dvo_init(struct drm_i915_private *i915)
- 		 */
- 		intel_panel_add_encoder_fixed_mode(connector, encoder);
- 
--		intel_panel_init(connector);
-+		intel_panel_init(connector, NULL);
- 	}
- }
-diff --git a/drivers/gpu/drm/i915/display/intel_lvds.c b/drivers/gpu/drm/i915/display/intel_lvds.c
-index 9f6910bba2e9..a1557d84ce0a 100644
---- a/drivers/gpu/drm/i915/display/intel_lvds.c
-+++ b/drivers/gpu/drm/i915/display/intel_lvds.c
-@@ -477,10 +477,11 @@ static int intel_lvds_compute_config(struct intel_encoder *intel_encoder,
- static int intel_lvds_get_modes(struct drm_connector *connector)
- {
- 	struct intel_connector *intel_connector = to_intel_connector(connector);
-+	const struct drm_edid *fixed_edid = intel_connector->panel.fixed_edid;
- 
--	/* use cached edid if we have one */
--	if (!IS_ERR_OR_NULL(intel_connector->edid)) {
--		drm_edid_connector_update(connector, intel_connector->edid);
-+	/* Use panel fixed edid if we have one */
-+	if (!IS_ERR_OR_NULL(fixed_edid)) {
-+		drm_edid_connector_update(connector, fixed_edid);
- 
- 		return drm_edid_connector_add_modes(connector);
- 	}
-@@ -974,8 +975,6 @@ void intel_lvds_init(struct drm_i915_private *dev_priv)
- 	} else {
- 		drm_edid = ERR_PTR(-ENOENT);
- 	}
--	intel_connector->edid = drm_edid;
--
- 	intel_bios_init_panel_late(dev_priv, &intel_connector->panel, NULL,
- 				   IS_ERR(drm_edid) ? NULL : drm_edid);
- 
-@@ -1000,7 +999,7 @@ void intel_lvds_init(struct drm_i915_private *dev_priv)
- 	if (!intel_panel_preferred_fixed_mode(intel_connector))
- 		goto failed;
- 
--	intel_panel_init(intel_connector);
-+	intel_panel_init(intel_connector, drm_edid);
- 
- 	intel_backlight_setup(intel_connector, INVALID_PIPE);
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_panel.c b/drivers/gpu/drm/i915/display/intel_panel.c
-index 3b1004b019a8..42aa04bac261 100644
---- a/drivers/gpu/drm/i915/display/intel_panel.c
-+++ b/drivers/gpu/drm/i915/display/intel_panel.c
-@@ -31,6 +31,8 @@
- #include <linux/kernel.h>
- #include <linux/pwm.h>
- 
-+#include <drm/drm_edid.h>
-+
- #include "i915_reg.h"
- #include "intel_backlight.h"
- #include "intel_connector.h"
-@@ -670,10 +672,13 @@ void intel_panel_init_alloc(struct intel_connector *connector)
- 	INIT_LIST_HEAD(&panel->fixed_modes);
- }
- 
--int intel_panel_init(struct intel_connector *connector)
-+int intel_panel_init(struct intel_connector *connector,
-+		     const struct drm_edid *fixed_edid)
- {
- 	struct intel_panel *panel = &connector->panel;
- 
-+	panel->fixed_edid = fixed_edid;
-+
- 	intel_backlight_init_funcs(panel);
- 
- 	if (!has_drrs_modes(connector))
-@@ -692,6 +697,9 @@ void intel_panel_fini(struct intel_connector *connector)
- 	struct intel_panel *panel = &connector->panel;
- 	struct drm_display_mode *fixed_mode, *next;
- 
-+	if (!IS_ERR_OR_NULL(panel->fixed_edid))
-+		drm_edid_free(panel->fixed_edid);
-+
- 	intel_backlight_destroy(panel);
- 
- 	intel_bios_fini_panel(panel);
-diff --git a/drivers/gpu/drm/i915/display/intel_panel.h b/drivers/gpu/drm/i915/display/intel_panel.h
-index 4b51e1c51da6..15a8c897b33f 100644
---- a/drivers/gpu/drm/i915/display/intel_panel.h
-+++ b/drivers/gpu/drm/i915/display/intel_panel.h
-@@ -13,13 +13,15 @@ enum drrs_type;
- struct drm_connector;
- struct drm_connector_state;
- struct drm_display_mode;
-+struct drm_edid;
- struct drm_i915_private;
- struct intel_connector;
- struct intel_crtc_state;
- struct intel_encoder;
- 
- void intel_panel_init_alloc(struct intel_connector *connector);
--int intel_panel_init(struct intel_connector *connector);
-+int intel_panel_init(struct intel_connector *connector,
-+		     const struct drm_edid *fixed_edid);
- void intel_panel_fini(struct intel_connector *connector);
- enum drm_connector_status
- intel_panel_detect(struct drm_connector *connector, bool force);
-diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
-index 21805c15d5eb..c58e5cfa8e88 100644
---- a/drivers/gpu/drm/i915/display/intel_sdvo.c
-+++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
-@@ -2903,7 +2903,7 @@ intel_sdvo_lvds_init(struct intel_sdvo *intel_sdvo, u16 type)
- 		mutex_unlock(&i915->drm.mode_config.mutex);
- 	}
- 
--	intel_panel_init(intel_connector);
-+	intel_panel_init(intel_connector, NULL);
- 
- 	if (!intel_panel_preferred_fixed_mode(intel_connector))
- 		goto err;
-diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
-index 662bdb656aa3..2289f6b1b4eb 100644
---- a/drivers/gpu/drm/i915/display/vlv_dsi.c
-+++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
-@@ -1983,7 +1983,7 @@ void vlv_dsi_init(struct drm_i915_private *dev_priv)
- 		goto err_cleanup_connector;
- 	}
- 
--	intel_panel_init(intel_connector);
-+	intel_panel_init(intel_connector, NULL);
- 
- 	intel_backlight_setup(intel_connector, INVALID_PIPE);
- 
--- 
-2.34.1
+>> @@ -776,6 +821,45 @@ static const struct dpu_ctl_cfg sm8450_ctl[] = {
+>>       },
+>>   };
+>> +static const struct dpu_ctl_cfg sm8550_ctl[] = {
+>> +    {
+>> +    .name = "ctl_0", .id = CTL_0,
+>> +    .base = 0x15000, .len = 0x290,?
+>> +    .features = BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_SPLIT_DISPLAY) | BIT(DPU_CTL_FETCH_ACTIVE),
+> 
+> CTL_SC7280_MASK | BIT(DPU_CTL_SPLIT_DISPLAY) ?
+
+Indeed DPU_CTL_VM_CFG is missing, will switch to that.
+
+> 
+>> +    .intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
+>> +    },
+>> +    {
+>> +    .name = "ctl_1", .id = CTL_1,
+>> +    .base = 0x16000, .len = 0x290,
+>> +    .features = BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_SPLIT_DISPLAY) | BIT(DPU_CTL_FETCH_ACTIVE),
+>> +    .intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
+>> +    },
+>> +    {
+>> +    .name = "ctl_2", .id = CTL_2,
+>> +    .base = 0x17000, .len = 0x290,
+>> +    .features = BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE),
+> 
+> CTL_SC7280_MASK?
+
+Ack
+
+> 
+>> +    .intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 11),
+>> +    },
+>> +    {
+>> +    .name = "ctl_3", .id = CTL_3,
+>> +    .base = 0x18000, .len = 0x290,
+>> +    .features = BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE),
+>> +    .intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 12),
+>> +    },
+>> +    {
+>> +    .name = "ctl_4", .id = CTL_4,
+>> +    .base = 0x19000, .len = 0x290,
+>> +    .features = BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE),
+>> +    .intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 13),
+>> +    },
+>> +    {
+>> +    .name = "ctl_5", .id = CTL_5,
+>> +    .base = 0x1a000, .len = 0x290,
+>> +    .features = BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE),
+>> +    .intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 23),
+>> +    },
+>> +};
+>> +
+>>   static const struct dpu_ctl_cfg sc7280_ctl[] = {
+>>       {
+>>       .name = "ctl_0", .id = CTL_0,
+
+<snip>
+
+>> @@ -1268,6 +1386,16 @@ static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
+>>       .len = 0x20, .version = 0x20000},
+>>   };
+>> +#define PP_BLK_DIPHER(_name, _id, _base, _merge_3d, _sblk, _done, _rdptr) \
+>> +    {\
+>> +    .name = _name, .id = _id, \
+>> +    .base = _base, .len = 0, \
+> 
+> len = 0 looks incorrect. Any particular reason why can't we use plain PP_BLK here?
+
+The TE block has been moved to the DSI INTF blocks since SM8350 I think, or earlier.
+
+This removes the DPU_PINGPONG_DITHER feature used downstream to enable the PP TE callbacks.
+
+Since there's only the DIPHER sub-block remaining, this is why I set len to 0.
+
+> 
+>> +    .features = BIT(DPU_PINGPONG_DITHER), \
+>> +    .merge_3d = _merge_3d, \
+>> +    .sblk = &_sblk, \
+>> +    .intr_done = _done, \
+>> +    .intr_rdptr = _rdptr, \
+>> +    }
+>>   #define PP_BLK_TE(_name, _id, _base, _merge_3d, _sblk, _done, _rdptr) \
+>>       {\
+>>       .name = _name, .id = _id, \
+
+<snip>
 
