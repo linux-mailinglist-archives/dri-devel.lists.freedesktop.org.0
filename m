@@ -1,66 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FEBE65E100
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 00:40:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F20A65E104
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 00:41:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ACE088784;
-	Wed,  4 Jan 2023 23:40:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A36310E0F6;
+	Wed,  4 Jan 2023 23:40:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
- [IPv6:2607:f8b0:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBD2810E0DB
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Jan 2023 23:40:23 +0000 (UTC)
-Received: by mail-pf1-x431.google.com with SMTP id e21so14524820pfl.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Jan 2023 15:40:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=f1aJirrzGPHHin7JcatS3whj2Q5K38dkM4au+J3Fmxo=;
- b=UHxRdrDbiLSZzspa4SRZbOLH0e1wcxpDvr1ekeQuaKV3VWxDwOookOHa1yoG8Z8LC+
- 0JDGAlmxdq/T5zT10osCs9f8AabUKZXqFdEsbBsFdqG7hL4DZpnJI/naGDtfHBwqKQog
- O8xHqwJIeUfjCc8+Y2By0PNgp2z5wTSwdT8Hk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=f1aJirrzGPHHin7JcatS3whj2Q5K38dkM4au+J3Fmxo=;
- b=ZbFcYInsHlrg4IU7syMsqDIHY9QWmyeoOwsjNA+O8uSBYuhMN92Rd207JX6oD9yOlM
- CfnZNzZ2Qpih6KTd7dv5SzkWakUUTpSzs9vzLfGotjv/L6cjNw+hkUFPys30UgjPRCmO
- 7EU6vp0tMYyJMgbeXfhBAGgC4cHU+BfKyDsdFp90+8sPLjFkRD6pmj31BfEHlDS/Bs81
- 9iJQOk9nyKIgiQuj/Qi+0GfuTW9NljDRCc0j0oYpvvL2OYuufHdlzoFjW5EcuApT62wa
- DN4w7DHIyObs7PMkL/LlQAJY6MRX8DW+pOX8+xcwOeDX0Wp2mYMH19fb1VzV9+2Lz1K0
- JGXQ==
-X-Gm-Message-State: AFqh2kqwUdBIVIYcBQRTwZJGOPqr1tIqYAlvqcbG2er9zGQbcFimvjdZ
- usKaDnNG0R+EBsSlMqIz12JoRg==
-X-Google-Smtp-Source: AMrXdXvODBwj2kBSNRSiXlhXaUvvuKMUQR6JCWdWs4suEmlOkzQVKEgIaT3pbhE5xPx5+ccX5pqhgw==
-X-Received: by 2002:a62:cf83:0:b0:582:e4fd:bea9 with SMTP id
- b125-20020a62cf83000000b00582e4fdbea9mr5417890pfg.17.1672875623358; 
- Wed, 04 Jan 2023 15:40:23 -0800 (PST)
-Received: from ?IPv6:2620:15c:90:200:f5c2:37ee:dcb2:8ca8?
- ([2620:15c:90:200:f5c2:37ee:dcb2:8ca8])
- by smtp.gmail.com with ESMTPSA id
- v63-20020a622f42000000b00575d90636dcsm22964190pfv.6.2023.01.04.15.40.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Jan 2023 15:40:22 -0800 (PST)
-Message-ID: <a950a9cc596aa4cb20b14b2ef26d1441a788b71c.camel@chromium.org>
-Subject: Re: [PATCH v3 5/7] drm/i915/pxp: Trigger the global teardown for
- before suspending
-From: Juston Li <justonli@chromium.org>
-To: Alan Previn <alan.previn.teres.alexis@intel.com>, 
- intel-gfx@lists.freedesktop.org
-Date: Wed, 04 Jan 2023 15:40:21 -0800
-In-Reply-To: <20221221230628.2715916-6-alan.previn.teres.alexis@intel.com>
-References: <20221221230628.2715916-1-alan.previn.teres.alexis@intel.com>
- <20221221230628.2715916-6-alan.previn.teres.alexis@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.46.0-2 
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CF6610E0F4;
+ Wed,  4 Jan 2023 23:40:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1672875654; x=1704411654;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=ia/LAF4klJ/QUAfmikYV8HEDtOf5+wMLm2ep1L6NUEM=;
+ b=IWCdsE0g7ydwHdCoL2GikPhK6Scm+Ddc47EMCjeWXDwEWCu8+2rZmUby
+ RTNNFuHkNxGcE2pZIVKCOHe7M8lIRgp7rxLYo73onUkflSCB7YPhFgTRX
+ +nFk+6vtf85BBPn1XJ84r3StC3Rq9Hde2uB3YINnrQTMCk5Pru4g2kumg s=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 04 Jan 2023 15:40:53 -0800
+X-QCInternal: smtphost
+Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jan 2023 15:40:53 -0800
+Received: from JESSZHAN.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Wed, 4 Jan 2023 15:40:50 -0800
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+Subject: [RFC PATCH v3 0/3] Support for Solid Fill Planes
+Date: Wed, 4 Jan 2023 15:40:33 -0800
+Message-ID: <20230104234036.636-1-quic_jesszhan@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,150 +56,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alexander Usyskin <alexander.usyskin@intel.com>,
- dri-devel@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tomas Winkler <tomas.winkler@intel.com>
+Cc: sebastian.wick@redhat.com, ppaalanen@gmail.com,
+ linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, daniel.vetter@ffwll.ch,
+ seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
+ dmitry.baryshkov@linaro.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ wayland-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDIyLTEyLTIxIGF0IDE1OjA2IC0wODAwLCBBbGFuIFByZXZpbiB3cm90ZToKPiBB
-IGRyaXZlciBidWcgd2FzIHJlY2VudGx5IGRpc2NvdmVyZWQgd2hlcmUgdGhlIHNlY3VyaXR5IGZp
-cm13YXJlIHdhcwo+IHJlY2VpdmluZyBpbnRlcm5hbCBIVyBzaWduYWxzIGluZGljYXRpbmcgdGhh
-dCBzZXNzaW9uIGtleSBleHBpcmF0aW9ucwo+IGhhZCBvY2N1cnJlZC4gQXJjaGl0ZWN0dXJhbGx5
-LCB0aGUgZmlybXdhcmUgd2FzIGV4cGVjdGluZyBhIHJlc3BvbnNlCj4gZnJvbSB0aGUgR3VDIHRv
-IGFja25vd2xlZGdlIHRoZSBldmVudCB3aXRoIHRoZSBmaXJtd2FyZSBzaWRlLgo+IEhvd2V2ZXIg
-dGhlIE9TIHdhcyBpbiBhIHN1c3BlbmRlZCBzdGF0ZSBhbmQgR3VDIGhhZCBiZWVuIHJlc2V0Lgo+
-IAo+IEludGVybmFsIHNwZWNpZmljYXRpb25zIGFjdHVhbGx5IHJlcXVpcmVkIHRoZSBkcml2ZXIg
-dG8gZW5zdXJlCj4gdGhhdCBhbGwgYWN0aXZlIHNlc3Npb25zIGJlIHByb3Blcmx5IGNsZWFuZWQg
-dXAgaW4gc3VjaCBjYXNlcyB3aGVyZQo+IHRoZSBzeXN0ZW0gaXMgc3VzcGVuZGVkIGFuZCB0aGUg
-R3VDIHBvdGVudGlhbGx5IHVuYWJsZSB0byByZXNwb25kLgo+IAo+IFRoaXMgcGF0Y2ggYWRkcyB0
-aGUgZ2xvYmFsIHRlYXJkb3duIGNvZGUgaW4gaTkxNSdzIHN1c3BlbmRfcHJlcGFyZQo+IGNvZGUg
-cGF0aC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBBbGFuIFByZXZpbiA8YWxhbi5wcmV2aW4udGVyZXMu
-YWxleGlzQGludGVsLmNvbT4KPiAtLS0KPiDCoGRyaXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9pbnRl
-bF9weHAuY8KgwqDCoMKgwqDCoMKgwqAgfCA2MCArKysrKysrKysrKysrKysrKy0KPiAtLQo+IMKg
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvcHhwL2ludGVsX3B4cC5owqDCoMKgwqDCoMKgwqDCoCB8wqAg
-MSArCj4gwqBkcml2ZXJzL2dwdS9kcm0vaTkxNS9weHAvaW50ZWxfcHhwX3BtLmPCoMKgwqDCoMKg
-IHzCoCAyICstCj4gwqBkcml2ZXJzL2dwdS9kcm0vaTkxNS9weHAvaW50ZWxfcHhwX3Nlc3Npb24u
-YyB8wqAgOSArKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9pbnRlbF9weHBfc2Vzc2lv
-bi5oIHzCoCA1ICsrCj4gwqA1IGZpbGVzIGNoYW5nZWQsIDY0IGluc2VydGlvbnMoKyksIDEzIGRl
-bGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9weHAvaW50
-ZWxfcHhwLmMKPiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9pbnRlbF9weHAuYwo+IGluZGV4
-IGNmYzlhZjhiM2QyMS4uOTZhOTg4ZWZkMjM3IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L3B4cC9pbnRlbF9weHAuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9p
-bnRlbF9weHAuYwo+IEBAIC0yNzAsNiArMjcwLDU1IEBAIHN0YXRpYyBib29sIHB4cF9jb21wb25l
-bnRfYm91bmQoc3RydWN0IGludGVsX3B4cAo+ICpweHApCj4gwqDCoMKgwqDCoMKgwqDCoHJldHVy
-biBib3VuZDsKPiDCoH0KPiDCoAo+ICtzdGF0aWMgaW50IF9fcHhwX2dsb2JhbF90ZWFyZG93bl9s
-b2NrZWQoc3RydWN0IGludGVsX3B4cCAqcHhwLCBib29sCj4gdGVybWluYXRlX2Zvcl9jbGVhbnVw
-KQo+ICt7Cj4gK8KgwqDCoMKgwqDCoMKgaWYgKHRlcm1pbmF0ZV9mb3JfY2xlYW51cCkgewo+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoIXB4cC0+YXJiX2lzX3ZhbGlkKQo+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIDA7Cj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoC8qCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCAqIFRvIGVuc3VyZSBzeW5jaHJvbm91cyBhbmQgY29oZXJlbnQgc2Vzc2lvbgo+
-IHRlYXJkb3duIGNvbXBsZXRpb24KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICog
-aW4gcmVzcG9uc2UgdG8gc3VzcGVuZCBvciBzaHV0ZG93biB0cmlnZ2VycywgZG9uJ3QKPiB1c2Vy
-IGEgd29ya2VyLgoKbml0OiB0eXBvIHVzZXIgLT4gdXNlCgpSZXZpZXdlZC1ieTogSnVzdG9uIExp
-IDxqdXN0b25saUBjaHJvbWl1bS5vcmc+Cgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgKi8KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaW50ZWxfcHhwX21hcmtfdGVy
-bWluYXRpb25faW5fcHJvZ3Jlc3MocHhwKTsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgaW50ZWxfcHhwX3Rlcm1pbmF0ZShweHAsIGZhbHNlKTsKPiArwqDCoMKgwqDCoMKgwqB9IGVs
-c2Ugewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAocHhwLT5hcmJfaXNfdmFs
-aWQpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1
-cm4gMDsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgLyoKPiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgICogSWYgd2UgYXJlIG5vdCBpbiBmaW5hbCB0ZXJtaW5hdGlvbiwg
-YW5kIHRoZSBhcmItCj4gc2Vzc2lvbiBpcyBjdXJyZW50bHkKPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgICogaW5hY3RpdmUsIHdlIGFyZSBkb2luZyBhIHJlc2V0IGFuZCByZXN0YXJ0
-IGR1ZSB0bwo+IHNvbWUgcnVudGltZSBldmVudC4KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgICogVXNlIHRoZSB3b3JrZXIgdGhhdCB3YXMgZGVzaWduZWQgZm9yIHRoaXMuCj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqBweHBfcXVldWVfdGVybWluYXRpb24ocHhwKTsKPiArwqDCoMKgwqDCoMKgwqB9Cj4g
-Kwo+ICvCoMKgwqDCoMKgwqDCoGlmICghd2FpdF9mb3JfY29tcGxldGlvbl90aW1lb3V0KCZweHAt
-PnRlcm1pbmF0aW9uLAo+IG1zZWNzX3RvX2ppZmZpZXMoMjUwKSkpCj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoHJldHVybiAtRVRJTUVET1VUOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBy
-ZXR1cm4gMDsKPiArfQo+ICsKPiArdm9pZCBpbnRlbF9weHBfZW5kKHN0cnVjdCBpbnRlbF9weHAg
-KnB4cCkKPiArewo+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICppOTE1
-ID0gcHhwLT5jdHJsX2d0LT5pOTE1Owo+ICvCoMKgwqDCoMKgwqDCoGludGVsX3dha2VyZWZfdCB3
-YWtlcmVmOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBpZiAoIWludGVsX3B4cF9pc19lbmFibGVkKHB4
-cCkpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybjsKPiArCj4gK8KgwqDC
-oMKgwqDCoMKgd2FrZXJlZiA9IGludGVsX3J1bnRpbWVfcG1fZ2V0KCZpOTE1LT5ydW50aW1lX3Bt
-KTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgbXV0ZXhfbG9jaygmcHhwLT5hcmJfbXV0ZXgpOwo+ICsK
-PiArwqDCoMKgwqDCoMKgwqBpZiAoX19weHBfZ2xvYmFsX3RlYXJkb3duX2xvY2tlZChweHAsIHRy
-dWUpKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkcm1fZGJnKCZpOTE1LT5kcm0s
-ICJQWFAgZW5kIHRpbWVkIG91dFxuIik7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoG11dGV4X3VubG9j
-aygmcHhwLT5hcmJfbXV0ZXgpOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBpbnRlbF9weHBfZmluaV9o
-dyhweHApOwo+ICvCoMKgwqDCoMKgwqDCoGludGVsX3J1bnRpbWVfcG1fcHV0KCZpOTE1LT5ydW50
-aW1lX3BtLCB3YWtlcmVmKTsKPiArfQo+ICsKPiDCoC8qCj4gwqAgKiB0aGUgYXJiIHNlc3Npb24g
-aXMgcmVzdGFydGVkIGZyb20gdGhlIGlycSB3b3JrIHdoZW4gd2UgcmVjZWl2ZQo+IHRoZQo+IMKg
-ICogdGVybWluYXRpb24gY29tcGxldGlvbiBpbnRlcnJ1cHQKPiBAQCAtMjg2LDE2ICszMzUsOSBA
-QCBpbnQgaW50ZWxfcHhwX3N0YXJ0KHN0cnVjdCBpbnRlbF9weHAgKnB4cCkKPiDCoAo+IMKgwqDC
-oMKgwqDCoMKgwqBtdXRleF9sb2NrKCZweHAtPmFyYl9tdXRleCk7Cj4gwqAKPiAtwqDCoMKgwqDC
-oMKgwqBpZiAocHhwLT5hcmJfaXNfdmFsaWQpCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoGdvdG8gdW5sb2NrOwo+IC0KPiAtwqDCoMKgwqDCoMKgwqBweHBfcXVldWVfdGVybWluYXRp
-b24ocHhwKTsKPiAtCj4gLcKgwqDCoMKgwqDCoMKgaWYgKCF3YWl0X2Zvcl9jb21wbGV0aW9uX3Rp
-bWVvdXQoJnB4cC0+dGVybWluYXRpb24sCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoG1zZWNzX3Rv
-X2ppZmZpZXMoMjUwKSkpIHsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0ID0g
-LUVUSU1FRE9VVDsKPiArwqDCoMKgwqDCoMKgwqByZXQgPSBfX3B4cF9nbG9iYWxfdGVhcmRvd25f
-bG9ja2VkKHB4cCwgZmFsc2UpOwo+ICvCoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvIHVubG9jazsKPiAtwqDCoMKgwqDCoMKgwqB9Cj4g
-wqAKPiDCoMKgwqDCoMKgwqDCoMKgLyogbWFrZSBzdXJlIHRoZSBjb21waWxlciBkb2Vzbid0IG9w
-dGltaXplIHRoZSBkb3VibGUgYWNjZXNzCj4gKi8KPiDCoMKgwqDCoMKgwqDCoMKgYmFycmllcigp
-Owo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9weHAvaW50ZWxfcHhwLmgKPiBi
-L2RyaXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9pbnRlbF9weHAuaAo+IGluZGV4IDk2NThkMzAwNTIy
-Mi4uM2RlZDA4OTBjZDI3IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9p
-bnRlbF9weHAuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9pbnRlbF9weHAuaAo+
-IEBAIC0yNyw2ICsyNyw3IEBAIHZvaWQgaW50ZWxfcHhwX21hcmtfdGVybWluYXRpb25faW5fcHJv
-Z3Jlc3Moc3RydWN0Cj4gaW50ZWxfcHhwICpweHApOwo+IMKgdm9pZCBpbnRlbF9weHBfdGVlX2Vu
-ZF9hcmJfZndfc2Vzc2lvbihzdHJ1Y3QgaW50ZWxfcHhwICpweHAsIHUzMgo+IGFyYl9zZXNzaW9u
-X2lkKTsKPiDCoAo+IMKgaW50IGludGVsX3B4cF9zdGFydChzdHJ1Y3QgaW50ZWxfcHhwICpweHAp
-Owo+ICt2b2lkIGludGVsX3B4cF9lbmQoc3RydWN0IGludGVsX3B4cCAqcHhwKTsKPiDCoAo+IMKg
-aW50IGludGVsX3B4cF9rZXlfY2hlY2soc3RydWN0IGludGVsX3B4cCAqcHhwLAo+IMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBkcm1faTkxNV9n
-ZW1fb2JqZWN0ICpvYmosCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9p
-bnRlbF9weHBfcG0uYwo+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvcHhwL2ludGVsX3B4cF9wbS5j
-Cj4gaW5kZXggODkyZDM5Y2M2MWMxLi5lNDI3NDY0YWExMzEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvcHhwL2ludGVsX3B4cF9wbS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L2k5MTUvcHhwL2ludGVsX3B4cF9wbS5jCj4gQEAgLTE2LDcgKzE2LDcgQEAgdm9pZCBpbnRlbF9w
-eHBfc3VzcGVuZF9wcmVwYXJlKHN0cnVjdCBpbnRlbF9weHAKPiAqcHhwKQo+IMKgwqDCoMKgwqDC
-oMKgwqBpZiAoIWludGVsX3B4cF9pc19lbmFibGVkKHB4cCkpCj4gwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqByZXR1cm47Cj4gwqAKPiAtwqDCoMKgwqDCoMKgwqBweHAtPmFyYl9pc192
-YWxpZCA9IGZhbHNlOwo+ICvCoMKgwqDCoMKgwqDCoGludGVsX3B4cF9lbmQocHhwKTsKPiDCoAo+
-IMKgwqDCoMKgwqDCoMKgwqBpbnRlbF9weHBfaW52YWxpZGF0ZShweHApOwo+IMKgfQo+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9weHAvaW50ZWxfcHhwX3Nlc3Npb24uYwo+IGIv
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvcHhwL2ludGVsX3B4cF9zZXNzaW9uLmMKPiBpbmRleCA3NGVk
-N2UxNmU0ODEuLmQ4Mjc4YzQwMDJlMyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkx
-NS9weHAvaW50ZWxfcHhwX3Nlc3Npb24uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3B4
-cC9pbnRlbF9weHBfc2Vzc2lvbi5jCj4gQEAgLTExNSwxMSArMTE1LDE0IEBAIHN0YXRpYyBpbnQK
-PiBweHBfdGVybWluYXRlX2FyYl9zZXNzaW9uX2FuZF9nbG9iYWwoc3RydWN0IGludGVsX3B4cCAq
-cHhwKQo+IMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gcmV0Owo+IMKgfQo+IMKgCj4gLXN0YXRpYyB2
-b2lkIHB4cF90ZXJtaW5hdGUoc3RydWN0IGludGVsX3B4cCAqcHhwKQo+ICt2b2lkIGludGVsX3B4
-cF90ZXJtaW5hdGUoc3RydWN0IGludGVsX3B4cCAqcHhwLCBib29sIHJlc3RhcnRfYXJiKQo+IMKg
-ewo+IMKgwqDCoMKgwqDCoMKgwqBpbnQgcmV0Owo+IMKgCj4gLcKgwqDCoMKgwqDCoMKgcHhwLT5o
-d19zdGF0ZV9pbnZhbGlkYXRlZCA9IHRydWU7Cj4gK8KgwqDCoMKgwqDCoMKgaWYgKHJlc3RhcnRf
-YXJiKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBweHAtPmh3X3N0YXRlX2ludmFs
-aWRhdGVkID0gdHJ1ZTsKPiArwqDCoMKgwqDCoMKgwqBlbHNlCj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoHB4cC0+aHdfc3RhdGVfaW52YWxpZGF0ZWQgPSBmYWxzZTsKPiDCoAo+IMKg
-wqDCoMKgwqDCoMKgwqAvKgo+IMKgwqDCoMKgwqDCoMKgwqAgKiBpZiB3ZSBmYWlsIHRvIHN1Ym1p
-dCB0aGUgdGVybWluYXRpb24gdGhlcmUgaXMgbm8gcG9pbnQgaW4KPiB3YWl0aW5nIGZvcgo+IEBA
-IC0xNjcsNyArMTcwLDcgQEAgc3RhdGljIHZvaWQgcHhwX3Nlc3Npb25fd29yayhzdHJ1Y3Qgd29y
-a19zdHJ1Y3QKPiAqd29yaykKPiDCoAo+IMKgwqDCoMKgwqDCoMKgwqBpZiAoZXZlbnRzICYgUFhQ
-X1RFUk1JTkFUSU9OX1JFUVVFU1QpIHsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oGV2ZW50cyAmPSB+UFhQX1RFUk1JTkFUSU9OX0NPTVBMRVRFOwo+IC3CoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqBweHBfdGVybWluYXRlKHB4cCk7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoGludGVsX3B4cF90ZXJtaW5hdGUocHhwLCB0cnVlKTsKPiDCoMKgwqDCoMKgwqDC
-oMKgfQo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoGlmIChldmVudHMgJiBQWFBfVEVSTUlOQVRJT05f
-Q09NUExFVEUpCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9pbnRlbF9w
-eHBfc2Vzc2lvbi5oCj4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9weHAvaW50ZWxfcHhwX3Nlc3Np
-b24uaAo+IGluZGV4IDkwM2FjNTJjZmZhMS4uNGY5NDRiNjNiNWI2IDEwMDY0NAo+IC0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9pOTE1L3B4cC9pbnRlbF9weHBfc2Vzc2lvbi5oCj4gKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvcHhwL2ludGVsX3B4cF9zZXNzaW9uLmgKPiBAQCAtMTIsOSArMTIsMTQg
-QEAgc3RydWN0IGludGVsX3B4cDsKPiDCoAo+IMKgI2lmZGVmIENPTkZJR19EUk1fSTkxNV9QWFAK
-PiDCoHZvaWQgaW50ZWxfcHhwX3Nlc3Npb25fbWFuYWdlbWVudF9pbml0KHN0cnVjdCBpbnRlbF9w
-eHAgKnB4cCk7Cj4gK3ZvaWQgaW50ZWxfcHhwX3Rlcm1pbmF0ZShzdHJ1Y3QgaW50ZWxfcHhwICpw
-eHAsIGJvb2wgcmVzdGFydF9hcmIpOwo+IMKgI2Vsc2UKPiDCoHN0YXRpYyBpbmxpbmUgdm9pZCBp
-bnRlbF9weHBfc2Vzc2lvbl9tYW5hZ2VtZW50X2luaXQoc3RydWN0Cj4gaW50ZWxfcHhwICpweHAp
-Cj4gwqB7Cj4gwqB9Cj4gKwo+ICtzdGF0aWMgaW5saW5lIHZvaWQgaW50ZWxfcHhwX3Rlcm1pbmF0
-ZShzdHJ1Y3QgaW50ZWxfcHhwICpweHAsIGJvb2wKPiByZXN0YXJ0X2FyYikKPiArewo+ICt9Cj4g
-wqAjZW5kaWYKPiDCoCNlbmRpZiAvKiBfX0lOVEVMX1BYUF9TRVNTSU9OX0hfXyAqLwoK
+Introduce and add support for a solid_fill property. When the solid_fill
+property is set, and the framebuffer is set to NULL, memory fetch will be
+disabled.
+
+In addition, loosen the NULL FB checks within the atomic commit callstack
+to allow a NULL FB when the solid_fill property is set and add FB checks
+in methods where the FB was previously assumed to be non-NULL.
+
+Finally, have the DPU driver use drm_plane_state.solid_fill and instead of
+dpu_plane_state.color_fill, and add extra checks in the DPU atomic commit
+callstack to account for a NULL FB in cases where solid_fill is set.
+
+Some drivers support hardware that have optimizations for solid fill
+planes. This series aims to expose these capabilities to userspace as
+some compositors have a solid fill flag (ex. SOLID_COLOR in the Android
+hardware composer HAL) that can be set by apps like the Android Gears
+app.
+
+Userspace can set the solid_fill property to a blob containing the
+appropriate version number and solid fill color (in RGB323232 format) and
+setting the framebuffer to NULL.
+
+Note: Currently, there's only one version of the solid_fill blob property.
+However if other drivers want to support a similar feature, but require
+more than just the solid fill color, they can extend this feature by
+creating additional versions of the drm_solid_fill struct.
+
+Changes in V2:
+- Dropped SOLID_FILL_FORMAT property (Simon)
+- Switched to implementing solid_fill property as a blob (Simon, Dmitry)
+- Changed to checks for if solid_fill_blob is set (Dmitry)
+- Abstracted (plane_state && !solid_fill_blob) checks to helper method
+  (Dmitry)
+- Removed DPU_PLANE_COLOR_FILL_FLAG
+- Fixed whitespace and indentation issues (Dmitry)
+
+Changes in V3:
+- Fixed some logic errors in atomic checks (Dmitry)
+- Introduced drm_plane_has_visible_data() and drm_atomic_check_fb() helper
+  methods (Dmitry)
+
+Jessica Zhang (3):
+  drm: Introduce solid fill property for drm plane
+  drm: Adjust atomic checks for solid fill color
+  drm/msm/dpu: Use color_fill property for DPU planes
+
+ drivers/gpu/drm/drm_atomic.c              | 136 +++++++++++++---------
+ drivers/gpu/drm/drm_atomic_helper.c       |  34 +++---
+ drivers/gpu/drm/drm_atomic_state_helper.c |   9 ++
+ drivers/gpu/drm/drm_atomic_uapi.c         |  59 ++++++++++
+ drivers/gpu/drm/drm_blend.c               |  17 +++
+ drivers/gpu/drm/drm_plane.c               |   8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |   9 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c |  65 +++++++----
+ include/drm/drm_atomic_helper.h           |   5 +-
+ include/drm/drm_blend.h                   |   1 +
+ include/drm/drm_plane.h                   |  62 ++++++++++
+ 11 files changed, 302 insertions(+), 103 deletions(-)
+
+-- 
+2.38.1
 
