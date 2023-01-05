@@ -1,84 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 119ED65EAAE
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 13:31:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4BD65EAB0
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 13:33:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DF1F10E6FF;
-	Thu,  5 Jan 2023 12:31:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 786BF10E702;
+	Thu,  5 Jan 2023 12:33:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D11210E702
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 12:31:46 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id cf42so54802950lfb.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 04:31:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=oIFqJ2FUub3KBG2R5dCykiETjNtSxdajFNxKC1jZqWM=;
- b=kAN8oyePsPoUHtkrmxcy9IcLC5UnpjIIvcquPhkZoCUbA9T1IYV6Div3yuGVjfbMZU
- 44xU7l8pE3pFMHfb+N3Hq9KUlnGzrpGQhC9RlSzuCJSv+26GOoQ594Ba/W0IuU0tfKuv
- wo42ISHQjzIbbUZoaXnB1Xb03WcNAqIwqycJnVsenBRlgXULm7wZl6tsgrKvMwKNByiY
- qnzp1/zkUv1nkzWmcAc5tUbXpMTL1GlyuEmoo4ECvU+h0yctKpmG1l4YOHlJQYtUe9eA
- abu4MetJBupouhtU/qV/DIYHkd07wFt5yb0cJWa4V1ysjozHAddLjBQ5FeafC1bLWjEM
- Q5RQ==
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF6B10E702
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 12:32:58 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ fm16-20020a05600c0c1000b003d96fb976efso1176701wmb.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 04:32:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=tZhcinkOTnvAe8R0O1HayChyO3oZrEsuwBb67CtDUVc=;
+ b=MvQE8iv//vAyYAgvVy9zWuDWJR+QR6Qxe6nM5CrIIp+8OZNAU9BLar5+f3w2hl5QJD
+ bC2bkToWhLfGadzJb7jU69SRbrkTZa7/RvFGz6emHwv4wwsyFDiE2f8aKHyZGCrATZJ7
+ D7xxH5ZsxJxXBNnmbLfMqeglSk7pEFhBpOxuo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oIFqJ2FUub3KBG2R5dCykiETjNtSxdajFNxKC1jZqWM=;
- b=rFVc/cbGjSstOqvPLab/mqDAj/xwO7Yw++Jn8+bojer4ID76awSM4YS99W4V+J/V3R
- h02aQ/VKeiCsZsK8yPDp6wZcZBJnFuviS8ZVxhj6BQO7NDKXDHf/5rDYAnm7pPbcG03v
- IbYiQmN/DigtPhASldlDDAidpMpZTlhgoCaViZBZeQgyS7QetUQavmHduVjUVKNyXx4a
- +q38NZ7ai8sepYZn5e3iEJue1J1DCRJ+WRsKqX7alMRbK/Uq384gcxNy/GBDJBLDBc/M
- 66RKESynBqLzxjomOamgW2+ZUTx2py4fJ5/PnV8B4DktOsmA7jNvWgvI1M78Q9hlsJLi
- SFkQ==
-X-Gm-Message-State: AFqh2kqUiN2UU8bGjIib6m9Hp9K6ZZY1jZXc5IPwb6g23OtsynIJ/wcL
- FyHdF8uEhi0zT581Z93VH4O7/Q==
-X-Google-Smtp-Source: AMrXdXs1Ic63PTBM7olfEHl8M8WpZbHuxq/8HDfCGzBrF4O5dxEmZvRBQOxx6bkwpIsT35uxwKQrxg==
-X-Received: by 2002:ac2:58e1:0:b0:4b5:4606:7ad9 with SMTP id
- v1-20020ac258e1000000b004b546067ad9mr14544367lfo.39.1672921904371; 
- Thu, 05 Jan 2023 04:31:44 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ bh=tZhcinkOTnvAe8R0O1HayChyO3oZrEsuwBb67CtDUVc=;
+ b=iy/0Rw/0RFLk5K7pEjlccl6cKiJwfv7fZTqVvwdycOH6c4N+egReEvJJZ8zeshL3RC
+ CBDEeGQBHLHrEB4q10tYdtsDad0WHLW6cTYq6gJMmVyS7T8wRIBsgvVVR7C9RPJx9HVY
+ aDHAyEZ5F7Fr8aCncLx+rSTrA1BXgC/LoWGmB3UpBTiV1WJLywNGCO8rrnpSLCtAVCfd
+ 1LwvDBexS4U33XLc2VviWqIzmKH3CyvicON2+a3focyz3SQM334taX9G13/FXTLTdab9
+ RJUP5wL6xROy9xe9eqC2Ri8FekwMiLBnyXAb4H2z+ENK+YezU5YR3IrdzzP7G3v/QndC
+ kgng==
+X-Gm-Message-State: AFqh2kpabQDEfr1A4f0qHQEKF8N1bj417DmuFtX/SvmUhOMyva9D9gyJ
+ hOwurVBSW+hvJaJVGqEzT5LHAw==
+X-Google-Smtp-Source: AMrXdXu/EH+d4eF7nfuHQYtcb/TjjFuPvMS/Tgq+kKV/zqZ0HZTPGNEg/8xGPAKGksgxCJe+pAS3qQ==
+X-Received: by 2002:a05:600c:1603:b0:3d1:c895:930c with SMTP id
+ m3-20020a05600c160300b003d1c895930cmr35764338wmn.35.1672921976818; 
+ Thu, 05 Jan 2023 04:32:56 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- x3-20020a056512130300b004cb10601096sm3471695lfu.136.2023.01.05.04.31.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 04:31:43 -0800 (PST)
-Message-ID: <64c66b81-b347-f659-1038-c104eb5c5468@linaro.org>
-Date: Thu, 5 Jan 2023 14:31:42 +0200
+ be9-20020a05600c1e8900b003c6bd12ac27sm2276661wmb.37.2023.01.05.04.32.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Jan 2023 04:32:56 -0800 (PST)
+Date: Thu, 5 Jan 2023 13:32:53 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [RFC 3/3] drm: Update file owner during use
+Message-ID: <Y7bDdU0nZg+6GBZL@phenom.ffwll.local>
+References: <20221130133407.2689864-1-tvrtko.ursulin@linux.intel.com>
+ <20221130133407.2689864-4-tvrtko.ursulin@linux.intel.com>
+ <Y4dmKgn8X4yPUnqk@phenom.ffwll.local>
+ <157dcd11-ea4d-b22a-b10f-0934451d3c1d@linux.intel.com>
+ <3eccd500-9e69-111d-54bd-90e6292b2b98@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v3 0/7] drm/bridge_connector: perform HPD enablement
- automatically
-Content-Language: en-GB
-To: neil.armstrong@linaro.org,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Lucas Stach <l.stach@pengutronix.de>, Philipp Zabel
- <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20221102180705.459294-1-dmitry.baryshkov@linaro.org>
- <362452c5-8858-9ac5-e0ca-8ff993e966b7@linaro.org>
- <baa8df6b-ecd4-6df8-9fb5-6a3a39e1a04f@ideasonboard.com>
- <37e48125-072d-e55d-d997-67fd3796a779@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <37e48125-072d-e55d-d997-67fd3796a779@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <3eccd500-9e69-111d-54bd-90e6292b2b98@amd.com>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,60 +75,353 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/01/2023 11:05, Neil Armstrong wrote:
-> On 04/01/2023 08:29, Tomi Valkeinen wrote:
->> On 28/12/2022 23:58, Dmitry Baryshkov wrote:
->>> On 02/11/2022 20:06, Dmitry Baryshkov wrote:
->>>> Â From all the drivers using drm_bridge_connector only iMX/dcss and OMAP
->>>> DRM driver do a proper work of calling
->>>> drm_bridge_connector_en/disable_hpd() in right places. Rather than
->>>> teaching each and every driver how to properly handle
->>>> drm_bridge_connector's HPD, make that automatic.
->>>>
->>>> Add two additional drm_connector helper funcs: enable_hpd() and
->>>> disable_hpd(). Make drm_kms_helper_poll_* functions call them (as this
->>>> is the time where the drm_bridge_connector's functions are called by 
->>>> the
->>>> drivers too).
->>>
->>> Since we are at the beginning of the development window, gracious 
->>> ping for this patchset.
->>>
->>> It would be nice to finally handle the bridge_connector's hpd 
->>> properly. Calling drm_bridge_connector_enable_hpd() from 
->>> drm_bridge_connector_init() is not a proper way to do this. It 
->>> results in calling bridge->funcs->hpd_enable() before the rest of the 
->>> pipeline was set up properly.
->>
->> For the series:
->>
->> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>
->> I've been using this series in my local branch for quite a while to 
->> fix the HPD issues. Works for me.
+On Fri, Dec 02, 2022 at 10:01:01AM +0100, Christian König wrote:
+> Am 01.12.22 um 12:09 schrieb Tvrtko Ursulin:
+> > 
+> > On 30/11/2022 14:18, Daniel Vetter wrote:
+> > > On Wed, Nov 30, 2022 at 01:34:07PM +0000, Tvrtko Ursulin wrote:
+> > > > From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > > > 
+> > > > With the typical model where the display server opends the file
+> > > > descriptor
+> > > > and then hands it over to the client we were showing stale data in
+> > > > debugfs.
+> > > > 
+> > > > Fix it by updating the drm_file->pid on ioctl access from a different
+> > > > process.
+> > > > 
+> > > > The field is also made RCU protected to allow for lockless
+> > > > readers. Update
+> > > > side is protected with dev->filelist_mutex.
+> > > > 
+> > > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > > > Cc: "Christian König" <christian.koenig@amd.com>
+> > > > ---
+> > > >   drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c |  6 +++--
+> > > >   drivers/gpu/drm/drm_auth.c              |  3 ++-
+> > > >   drivers/gpu/drm/drm_debugfs.c           | 10 ++++----
+> > > >   drivers/gpu/drm/drm_file.c              | 32
+> > > > ++++++++++++++++++++++++-
+> > > >   drivers/gpu/drm/drm_ioctl.c             |  3 +++
+> > > >   drivers/gpu/drm/nouveau/nouveau_drm.c   |  5 +++-
+> > > >   drivers/gpu/drm/vmwgfx/vmwgfx_gem.c     |  6 +++--
+> > > >   include/drm/drm_file.h                  | 13 ++++++++--
+> > > >   8 files changed, 65 insertions(+), 13 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> > > > b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> > > > index 30e24da1f398..385deb044058 100644
+> > > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> > > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> > > > @@ -959,6 +959,7 @@ static int
+> > > > amdgpu_debugfs_gem_info_show(struct seq_file *m, void *unused)
+> > > >       list_for_each_entry(file, &dev->filelist, lhead) {
+> > > >           struct task_struct *task;
+> > > >           struct drm_gem_object *gobj;
+> > > > +        struct pid *pid;
+> > > >           int id;
+> > > >             /*
+> > > > @@ -968,8 +969,9 @@ static int
+> > > > amdgpu_debugfs_gem_info_show(struct seq_file *m, void *unused)
+> > > >            * Therefore, we need to protect this ->comm access
+> > > > using RCU.
+> > > >            */
+> > > >           rcu_read_lock();
+> > > > -        task = pid_task(file->pid, PIDTYPE_TGID);
+> > > > -        seq_printf(m, "pid %8d command %s:\n", pid_nr(file->pid),
+> > > > +        pid = rcu_dereference(file->pid);
+> > > > +        task = pid_task(pid, PIDTYPE_TGID);
+> > > > +        seq_printf(m, "pid %8d command %s:\n", pid_nr(pid),
+> > > >                  task ? task->comm : "<unknown>");
+> > > >           rcu_read_unlock();
+> > > >   diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+> > > > index cf92a9ae8034..2ed2585ded37 100644
+> > > > --- a/drivers/gpu/drm/drm_auth.c
+> > > > +++ b/drivers/gpu/drm/drm_auth.c
+> > > > @@ -235,7 +235,8 @@ static int drm_new_set_master(struct
+> > > > drm_device *dev, struct drm_file *fpriv)
+> > > >   static int
+> > > >   drm_master_check_perm(struct drm_device *dev, struct drm_file
+> > > > *file_priv)
+> > > >   {
+> > > > -    if (file_priv->pid == task_pid(current) && file_priv->was_master)
+> > > > +    if (file_priv->was_master &&
+> > > > +        rcu_access_pointer(file_priv->pid) == task_pid(current))
+> > > 
+> > > This scares me, and also makes me wonder whether we really want to
+> > > conflate the original owner with the rendering owner. And also,
+> > > whether we
+> > > really want to keep updating that, because for some of the "bind an
+> > > fd to
+> > > a pid" use-cases like svm we really do not want to ever again allow a
+> > > change.
+> > > 
+> > > So sligthly different idea:
+> > > - we have a separate render pid/drm_file owner frome the open()
+> > > owner that
+> > >    we track in drm_auth.c
+> > > - that one is set the first time a driver specific ioctl is called
+> > > (which
+> > >    for the "pass me the fd" dri3 mode should never be the compositor)
+> > > - we start out with nothing and only set it once, which further
+> > > simplifies
+> > >    the model (still need the mutex for concurrent first ioctl ofc)
+> > 
+> > Simpler solution sounds plausible and mostly works for me. Certainly is
+> > attractive to simplify things. And as the disclaimer I put in the cover
+> > letter - I wasn't really sure at all if passing a master fd is a thing
+> > or not. Happy to implement your version if that will be the decision.
+> > 
+> > The only downside I can think of right now with having two owners is if
+> > someone is "naughty" and actually uses the fd for rendering from two
+> > sides. That wouldn't conceptually work for what I am doing in the cgroup
+> > controller, where I need to attribute GPU usage to a process, which is a
+> > lookup from struct pid -> list of drm_files -> etc. So in the two owners
+> > scheme I would just need to ignore the "open owner" and rely that
+> > "render ownder" truly is the only one doing the rendering. Or maybe I'd
+> > need to add support for multiple owners as well.. would be a bit
+> > annoying probably.
+> > 
+> > Hm now that I think about more.. the one shot nature of this scheme
+> > would have another downside. One could just send the fd back to itself
+> > via a throway forked helper, which only does one ioctl before sending it
+> > back, and then the "render owner" is forever lost. The proposal as I had
+> > it would be immune to this problem at least.
+> > 
+> > > Eventually we could then use that to enforce static binding to a pid,
+> > > which is what we want for svm style models, i.e. if the pid changes, the
+> > > fd does an -EACCESS or similar.
+> > > 
+> > > Thoughts?
+> > 
+> > This use case I am not familiar with at all so can't comment. Only
+> > intuitively I would ask - why is it something that needs to be solved at
+> > the DRM level? Because essentially it sounds like there is a want to
+> > disallow sending fds via sockets.
 
-Thanks!
+Disallowing passing isn't the idea I had. It's to disallow passing to more
+than one recipient, once that recipient has started using the fd for real.
 
->>
->> I still think the "fix" aspect should be highlighted more here, as the 
->> current upstream triggers a WARN for "Hot plug detection already 
->> enabled" (at least) on OMAP.
+> I think we should only disallow binding an fd to a different process when
+> there is a reason to do so.
 > 
-> LGTM then !
+> For SVM it's an rather obvious security problem when we allow accessing the
+> address space of another process. But this should probably be handled in the
+> SVM code, not here. E.g. we check during CS if the mm_struct is still the
+> same. Which pid or tgid this fd has last or initially used it completely
+> irrelevant to this.
+
+Yeah my idea was to also then build the SVM check on top of this as
+enforcement.
+
+> For the case of an master fd I actually don't see the reason why we should
+> limit that? And fd can become master if it either was master before or has
+> CAP_SYS_ADMIN. Why would we want an extra check for the pid/tgid here?
+
+This is just info/debug printing, I don't see the connection to
+drm_auth/master stuff? Aside from the patch mixes up the master opener and
+the current user due to fd passing or something like that.
+
+Note that we cannot do that (I think at least, after pondering this some
+more) because it would break the logind master fd passing scheme - there
+the receiving compositor is explicitly _not_ allowed to acquire master
+rights on its own. So the master priviledges must not move with the fd or
+things can go wrong.
+-Daniel
+
+
+
 > 
-> Tomi, Dmitry, I can push the whole serie via drm-misc-next or -fixes 
-> then, as you wish.
-
-
-I'm fine either way. We have been living with the warning for some time, 
-so I don't think there is any urgency to get rid of it immediately.
+> Regards,
+> Christian.
+> 
+> > 
+> > Regards,
+> > 
+> > Tvrtko
+> > 
+> > > -Daniel
+> > > 
+> > > 
+> > > >           return 0;
+> > > >         if (!capable(CAP_SYS_ADMIN))
+> > > > diff --git a/drivers/gpu/drm/drm_debugfs.c
+> > > > b/drivers/gpu/drm/drm_debugfs.c
+> > > > index 42f657772025..9d4e3146a2b8 100644
+> > > > --- a/drivers/gpu/drm/drm_debugfs.c
+> > > > +++ b/drivers/gpu/drm/drm_debugfs.c
+> > > > @@ -90,15 +90,17 @@ static int drm_clients_info(struct seq_file
+> > > > *m, void *data)
+> > > >        */
+> > > >       mutex_lock(&dev->filelist_mutex);
+> > > >       list_for_each_entry_reverse(priv, &dev->filelist, lhead) {
+> > > > -        struct task_struct *task;
+> > > >           bool is_current_master = drm_is_current_master(priv);
+> > > > +        struct task_struct *task;
+> > > > +        struct pid *pid;
+> > > >   -        rcu_read_lock(); /* locks pid_task()->comm */
+> > > > -        task = pid_task(priv->pid, PIDTYPE_TGID);
+> > > > +        rcu_read_lock(); /* Locks priv->pid and pid_task()->comm! */
+> > > > +        pid = rcu_dereference(priv->pid);
+> > > > +        task = pid_task(pid, PIDTYPE_TGID);
+> > > >           uid = task ? __task_cred(task)->euid : GLOBAL_ROOT_UID;
+> > > >           seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u\n",
+> > > >                  task ? task->comm : "<unknown>",
+> > > > -               pid_vnr(priv->pid),
+> > > > +               pid_vnr(pid),
+> > > >                  priv->minor->index,
+> > > >                  is_current_master ? 'y' : 'n',
+> > > >                  priv->authenticated ? 'y' : 'n',
+> > > > diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> > > > index 20a9aef2b398..3433f9610dba 100644
+> > > > --- a/drivers/gpu/drm/drm_file.c
+> > > > +++ b/drivers/gpu/drm/drm_file.c
+> > > > @@ -156,7 +156,7 @@ struct drm_file *drm_file_alloc(struct
+> > > > drm_minor *minor)
+> > > >       if (!file)
+> > > >           return ERR_PTR(-ENOMEM);
+> > > >   -    file->pid = get_pid(task_tgid(current));
+> > > > +    rcu_assign_pointer(file->pid, get_pid(task_tgid(current)));
+> > > >       file->minor = minor;
+> > > >         /* for compatibility root is always authenticated */
+> > > > @@ -502,6 +502,36 @@ int drm_release(struct inode *inode, struct
+> > > > file *filp)
+> > > >   }
+> > > >   EXPORT_SYMBOL(drm_release);
+> > > >   +void drm_file_update_pid(struct drm_file *filp)
+> > > > +{
+> > > > +    struct drm_device *dev;
+> > > > +    struct pid *pid, *old;
+> > > > +
+> > > > +    /* Master nodes are not expected to be passed between
+> > > > processes. */
+> > > > +    if (filp->was_master)
+> > > > +        return;
+> > > > +
+> > > > +    pid = task_tgid(current);
+> > > > +
+> > > > +    /*
+> > > > +     * Quick unlocked check since the model is a single
+> > > > handover followed by
+> > > > +     * exclusive repeated use.
+> > > > +     */
+> > > > +    if (pid == rcu_access_pointer(filp->pid))
+> > > > +        return;
+> > > > +
+> > > > +    dev = filp->minor->dev;
+> > > > +    mutex_lock(&dev->filelist_mutex);
+> > > > +    old = rcu_replace_pointer(filp->pid, pid, 1);
+> > > > +    mutex_unlock(&dev->filelist_mutex);
+> > > > +
+> > > > +    if (pid != old) {
+> > > > +        get_pid(pid);
+> > > > +        synchronize_rcu();
+> > > > +        put_pid(old);
+> > > > +    }
+> > > > +}
+> > > > +
+> > > >   /**
+> > > >    * drm_release_noglobal - release method for DRM file
+> > > >    * @inode: device inode
+> > > > diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+> > > > index 7c9d66ee917d..305b18d9d7b6 100644
+> > > > --- a/drivers/gpu/drm/drm_ioctl.c
+> > > > +++ b/drivers/gpu/drm/drm_ioctl.c
+> > > > @@ -775,6 +775,9 @@ long drm_ioctl_kernel(struct file *file,
+> > > > drm_ioctl_t *func, void *kdata,
+> > > >       struct drm_device *dev = file_priv->minor->dev;
+> > > >       int retcode;
+> > > >   +    /* Update drm_file owner if fd was passed along. */
+> > > > +    drm_file_update_pid(file_priv);
+> > > > +
+> > > >       if (drm_dev_is_unplugged(dev))
+> > > >           return -ENODEV;
+> > > >   diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c
+> > > > b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> > > > index 80f154b6adab..a763d3ee61fb 100644
+> > > > --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
+> > > > +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> > > > @@ -1097,7 +1097,10 @@ nouveau_drm_open(struct drm_device *dev,
+> > > > struct drm_file *fpriv)
+> > > >       }
+> > > >         get_task_comm(tmpname, current);
+> > > > -    snprintf(name, sizeof(name), "%s[%d]", tmpname,
+> > > > pid_nr(fpriv->pid));
+> > > > +    rcu_read_lock();
+> > > > +    snprintf(name, sizeof(name), "%s[%d]",
+> > > > +         tmpname, pid_nr(rcu_dereference(fpriv->pid)));
+> > > > +    rcu_read_unlock();
+> > > >         if (!(cli = kzalloc(sizeof(*cli), GFP_KERNEL))) {
+> > > >           ret = -ENOMEM;
+> > > > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+> > > > b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+> > > > index f2985337aa53..3853d9bb9ab8 100644
+> > > > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+> > > > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+> > > > @@ -251,6 +251,7 @@ static int vmw_debugfs_gem_info_show(struct
+> > > > seq_file *m, void *unused)
+> > > >       list_for_each_entry(file, &dev->filelist, lhead) {
+> > > >           struct task_struct *task;
+> > > >           struct drm_gem_object *gobj;
+> > > > +        struct pid *pid;
+> > > >           int id;
+> > > >             /*
+> > > > @@ -260,8 +261,9 @@ static int vmw_debugfs_gem_info_show(struct
+> > > > seq_file *m, void *unused)
+> > > >            * Therefore, we need to protect this ->comm access
+> > > > using RCU.
+> > > >            */
+> > > >           rcu_read_lock();
+> > > > -        task = pid_task(file->pid, PIDTYPE_TGID);
+> > > > -        seq_printf(m, "pid %8d command %s:\n", pid_nr(file->pid),
+> > > > +        pid = rcu_dereference(file->pid);
+> > > > +        task = pid_task(pid, PIDTYPE_TGID);
+> > > > +        seq_printf(m, "pid %8d command %s:\n", pid_nr(pid),
+> > > >                  task ? task->comm : "<unknown>");
+> > > >           rcu_read_unlock();
+> > > >   diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> > > > index 0d1f853092ab..27d545131d4a 100644
+> > > > --- a/include/drm/drm_file.h
+> > > > +++ b/include/drm/drm_file.h
+> > > > @@ -255,8 +255,15 @@ struct drm_file {
+> > > >       /** @master_lookup_lock: Serializes @master. */
+> > > >       spinlock_t master_lookup_lock;
+> > > >   -    /** @pid: Process that opened this file. */
+> > > > -    struct pid *pid;
+> > > > +    /**
+> > > > +     * @pid: Process that is using this file.
+> > > > +     *
+> > > > +     * Must only be dereferenced under a rcu_read_lock or equivalent.
+> > > > +     *
+> > > > +     * Updates are guarded with dev->filelist_mutex and
+> > > > reference must be
+> > > > +     * dropped after a RCU grace period to accommodate lockless
+> > > > readers.
+> > > > +     */
+> > > > +    struct pid __rcu *pid;
+> > > >         /** @magic: Authentication magic, see @authenticated. */
+> > > >       drm_magic_t magic;
+> > > > @@ -415,6 +422,8 @@ static inline bool drm_is_accel_client(const
+> > > > struct drm_file *file_priv)
+> > > >       return file_priv->minor->type == DRM_MINOR_ACCEL;
+> > > >   }
+> > > >   +void drm_file_update_pid(struct drm_file *);
+> > > > +
+> > > >   int drm_open(struct inode *inode, struct file *filp);
+> > > >   int drm_open_helper(struct file *filp, struct drm_minor *minor);
+> > > >   ssize_t drm_read(struct file *filp, char __user *buffer,
+> > > > -- 
+> > > > 2.34.1
+> > > > 
+> > > 
+> 
 
 -- 
-With best wishes
-Dmitry
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
