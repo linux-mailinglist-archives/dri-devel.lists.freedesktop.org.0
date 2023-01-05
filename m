@@ -2,86 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 934B765E657
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 09:01:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 302A565E65B
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 09:01:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 298AE10E6BD;
-	Thu,  5 Jan 2023 08:00:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFE9510E6BE;
+	Thu,  5 Jan 2023 08:01:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C64810E6BD
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 08:00:53 +0000 (UTC)
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3057m6nE036979; Thu, 5 Jan 2023 08:00:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=5zKaQOA6IGKVjD/e3CeInd78n2sD2CM5QMQ3/3xpoGk=;
- b=EW9DXA6n2b01/pIeafCvQxNtyVXERMmUKUcexO4zlYK5qRyuT9us8zoLA1/5lQbJ5qy1
- /ynaFOc6HqsRRtM5cMcTDaEcpaDP3cNwOJZOuVePS8htJeyrPbhJ8rQ2ZgmFJgwv1kp7
- +ie99xvIvOusHkzPu9qCmrCY0hSNGXBHH83tQloT802o/xA3CQsVRQahUm92P4+4x1py
- ZpGD0hOq3cQHnX10/yPwafM6UobAeQxrhuzUBtCNnb/PdsaDsxNCVkeQxgeb5EEozmRK
- fI3YcoD3kZG7G9vDTutVltfhiRsvVrWe3mOPf6qZd93S/XvTZt8+Zab06nqszpW27rnA dw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mwtfm06tp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Jan 2023 08:00:14 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3057mKYR037398;
- Thu, 5 Jan 2023 08:00:13 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mwtfm06qu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Jan 2023 08:00:13 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3051RcWN000986;
- Thu, 5 Jan 2023 08:00:10 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
- by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3mtcq6mpf0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Jan 2023 08:00:10 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 305806Vv45351190
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 5 Jan 2023 08:00:06 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 69A8E2005A;
- Thu,  5 Jan 2023 08:00:06 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A2D7920043;
- Thu,  5 Jan 2023 08:00:04 +0000 (GMT)
-Received: from osiris (unknown [9.171.68.186])
- by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Thu,  5 Jan 2023 08:00:04 +0000 (GMT)
-Date: Thu, 5 Jan 2023 09:00:03 +0100
-From: Heiko Carstens <hca@linux.ibm.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH 00/14] Remove clang's -Qunused-arguments from
- KBUILD_CPPFLAGS
-Message-ID: <Y7aDg5BqjRDZrOR/@osiris>
-References: <20221228-drop-qunused-arguments-v1-0-658cbc8fc592@kernel.org>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11DDA10E6BE;
+ Thu,  5 Jan 2023 08:01:36 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 296C1B81A0C;
+ Thu,  5 Jan 2023 08:01:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 642C0C433D2;
+ Thu,  5 Jan 2023 08:01:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1672905693;
+ bh=LVyg+cyK1Nc4wdQGz1UH28N+2JKAjcGMMQTRSam2CZc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RdxU6w79YsogRTknVUR0WvT/1ZXI3HgeJ9+xsx/kuqWWYbqR13bKZ/aFCwdMi4hW+
+ bosdR/Envtwv+qzgqmbsrCdoL1KI9WFwXKutMu9JO0rQz+VA9R9a9KqV+UOV9SROjv
+ YaA1ytlYVWQwpCSjgvFjjQnIBXP9DqRHyB2xyWwk=
+Date: Thu, 5 Jan 2023 09:01:31 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Dragos-Marian Panait <dragos.panait@windriver.com>
+Subject: Re: [PATCH 4.19 1/1] drm/amdkfd: Check for null pointer after
+ calling kmemdup
+Message-ID: <Y7aD2zJq6jBWUxbO@kroah.com>
+References: <20230103184308.511448-1-dragos.panait@windriver.com>
+ <20230103184308.511448-2-dragos.panait@windriver.com>
+ <Y7Vz8mm0X+1h844b@kroah.com>
+ <a8c6859f-5876-08cf-5949-ecf88e6bb528@amd.com>
+ <CADnq5_Ons+yMyGxcSaFaOb5uNXooHgH_4N=ThHOGYaW9Pb_Q8A@mail.gmail.com>
+ <Y7WRq7MaFaIJ2uGF@kroah.com>
+ <7c0cb998-d714-235e-8c2b-efe0315eed7f@windriver.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20221228-drop-qunused-arguments-v1-0-658cbc8fc592@kernel.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: HN0SRG90u-IN-eEqiy_9QPgOJjfvpn1A
-X-Proofpoint-ORIG-GUID: AWGhRIIBoEln5sOF-oxHHjt5w7QDkV0-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-05_02,2023-01-04_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 adultscore=0 bulkscore=0 malwarescore=0 mlxlogscore=670
- mlxscore=0 suspectscore=0 phishscore=0 impostorscore=0 clxscore=1011
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301050062
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7c0cb998-d714-235e-8c2b-efe0315eed7f@windriver.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,39 +56,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: trix@redhat.com, dave.hansen@linux.intel.com,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- agordeev@linux.ibm.com, linux-s390@vger.kernel.org,
- kernel test robot <lkp@intel.com>, mpe@ellerman.id.au, masahiroy@kernel.org,
- x86@kernel.org, Rodrigo.Siqueira@amd.com, christophe.leroy@csgroup.eu,
- mingo@redhat.com, borntraeger@linux.ibm.com, llvm@lists.linux.dev,
- nicolas@fjasle.eu, gor@linux.ibm.com, linux-kbuild@vger.kernel.org,
- sunpeng.li@amd.com, npiggin@gmail.com, bp@alien8.de, tglx@linutronix.de,
- tsbogend@alpha.franken.de, Xinhui.Pan@amd.com, ndesaulniers@google.com,
- linux-mips@vger.kernel.org, svens@linux.ibm.com, alexander.deucher@amd.com,
- linuxppc-dev@lists.ozlabs.org, christian.koenig@amd.com
+Cc: David Zhou <David1.Zhou@amd.com>, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ Jiasheng Jiang <jiasheng@iscas.ac.cn>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ stable@vger.kernel.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 04, 2023 at 12:54:18PM -0700, Nathan Chancellor wrote:
-> Hi all,
-...
-> This series has seen my personal test framework, which tests several different
-> configurations and architectures, with LLVM tip of tree (16.0.0). I have done
-> defconfig, allmodconfig, and allnoconfig builds for arm, arm64, i386, mips,
-> powerpc, riscv, s390, and x86_64 with GCC 12.2.0 as well but I am hoping the
-> rest of the test infrastructure will catch any lurking problems.
+On Wed, Jan 04, 2023 at 08:05:57PM +0200, Dragos-Marian Panait wrote:
 > 
-> I would like this series to stay together so that there is no opportunity for
-> breakage so please consider giving acks so that this can be carried via the
-> kbuild tree.
-...
->       s390/vdso: Drop unused '-s' flag from KBUILD_AFLAGS_64
->       s390/vdso: Drop '-shared' from KBUILD_CFLAGS_64
->       s390/purgatory: Remove unused '-MD' and unnecessary '-c' flags
-...
->  arch/s390/kernel/vdso64/Makefile            |  4 +--
->  arch/s390/purgatory/Makefile                |  2 +-
+> On 04.01.2023 16:48, Greg KH wrote:
+> > On Wed, Jan 04, 2023 at 09:35:03AM -0500, Alex Deucher wrote:
+> > > On Wed, Jan 4, 2023 at 8:23 AM Christian König <christian.koenig@amd.com> wrote:
+> > > > Am 04.01.23 um 13:41 schrieb Greg KH:
+> > > > > On Tue, Jan 03, 2023 at 08:43:08PM +0200, Dragos-Marian Panait wrote:
+> > > > > > From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+> > > > > > 
+> > > > > > [ Upstream commit abfaf0eee97925905e742aa3b0b72e04a918fa9e ]
+> > > > > > 
+> > > > > > As the possible failure of the allocation, kmemdup() may return NULL
+> > > > > > pointer.
+> > > > > > Therefore, it should be better to check the 'props2' in order to prevent
+> > > > > > the dereference of NULL pointer.
+> > > > > > 
+> > > > > > Fixes: 3a87177eb141 ("drm/amdkfd: Add topology support for dGPUs")
+> > > > > > Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+> > > > > > Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+> > > > > > Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+> > > > > > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> > > > > > Signed-off-by: Dragos-Marian Panait <dragos.panait@windriver.com>
+> > > > > > ---
+> > > > > >    drivers/gpu/drm/amd/amdkfd/kfd_crat.c | 3 +++
+> > > > > >    1 file changed, 3 insertions(+)
+> > > > > For obvious reasons, I can't take a patch for 4.19.y and not newer
+> > > > > kernel releases, right?
+> > > > > 
+> > > > > Please provide backports for all kernels if you really need to see this
+> > > > > merged.  And note, it's not a real bug at all, and given that a CVE was
+> > > > > allocated for it that makes me want to even more reject it to show the
+> > > > > whole folly of that mess.
+> > > > Well as far as I can see this is nonsense to back port.
+> > > > 
+> > > > The code in question is only used only once during driver load and then
+> > > > never again, that exactly this allocation fails while tons of other are
+> > > > made before and after is extremely unlikely.
+> > > > 
+> > > > It's nice to have it fixed in newer kernels, but not worth a backport
+> > > > and certainly not stuff for a CVE.
+> > > It's already fixed in Linus' tree:
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=abfaf0eee97925905e742aa3b0b72e04a918fa9e
+> > Yes, that's what the above commit shows...
+> > 
+> > confused,
+> > 
+> > greg k-h
+> Just for completeness, I also sent out patches for 5.4 and 5.10 stable
+> branches.
+> 5.15 stable branch already has this change: https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-5.15.y&id=5609b7803947eea1711516dd8659c7ed39f5a868
 
-For the s390 bits:
-Acked-by: Heiko Carstens <hca@linux.ibm.com>
+Again, this is not a real bug and someone needs to go and invalidate
+that CVE so you don't have to worry about it anymore.  I suggest that
+you do that if your company cares about tracking CVEs.
+
+thanks,
+
+greg k-h
