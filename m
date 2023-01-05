@@ -2,39 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E07165E947
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 11:49:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D39F65EA0E
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 12:37:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DED810E6E7;
-	Thu,  5 Jan 2023 10:49:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECE1810E6ED;
+	Thu,  5 Jan 2023 11:37:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B68CF10E6E7
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 10:49:22 +0000 (UTC)
-Date: Thu, 05 Jan 2023 10:49:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1672915760; x=1673174960;
- bh=g0El+7yEvwMYEEvSaouDVwaxCIF4rrmA90wOk7mWPhA=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=DawvJUOCNabBNWXVwcYffqcSBfmBgFrvPDATekm/RdsV9hlBCwDlpyuuUReIjvD32
- /alvVGXq0TkS7O4jD7SHyoj+aOyn9Kg9alUsPBgvO/wSH08D/dY0T0Ti4G/kF/MdwT
- VGOJVfWbE8X9g0U348A1fq9FC7ghAHonqwKJj2SODc2EdkyczgFmH0sjx2DN05F4+7
- CHMMTOecw1L4V5kHpPIcafgtGyVhlwqE3GiiiGBvkvyFRSPI4iPVijX8c0KfQfkd76
- 1QKeZL0D2NgrhYIxRPhi+UuGcJDwcaj/UU/tcDUFiUiEyg9E/VH9ZdkvnH2I8v6wte
- Jx4wa/UZQ8AjA==
-To: Yi Xie <yixie@google.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm/vkms: Add a DRM render node to vkms
-Message-ID: <lLLNWDA7BZobVyngTCQom4A04_kK7GpfiETvVOtk1pPILE0T1fQhyCgmG7A3ag_jQ6yC4-Eq1Fbjl_2At777yS55Wc_rvH9_UZPu-7gfm2Q=@emersion.fr>
-In-Reply-To: <20230105052325.514970-1-yixie@google.com>
-References: <20230105052325.514970-1-yixie@google.com>
-Feedback-ID: 1358184:user:proton
+X-Greylist: delayed 11043 seconds by postgrey-1.36 at gabe;
+ Thu, 05 Jan 2023 11:37:44 UTC
+Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09F4610E6ED
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 11:37:43 +0000 (UTC)
+X-QQ-mid: bizesmtp73t1672907600t7kiowh9
+Received: from localhost.localdomain ( [58.240.82.166])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Thu, 05 Jan 2023 16:33:11 +0800 (CST)
+X-QQ-SSF: 01400000000000C0N000000A0000000
+X-QQ-FEAT: D2GZf6M6C/iCwLhI5s4pAMrmi3WaBAl8232OajtLA+18VBi+HhOkSrocauFMs
+ FPY+2WP+fpkQ7ThDF3rVWoeFrwR1RcPBZOQVoaVf5Mk07xz1816dAz+kthCZhpAGDTXooy9
+ AJDYGUmctSY6GAL8O0cbCtnrM2lcFMjACfPnDivoxiPNgMZ4hsoC4Kjj4BqhwNeZ/kW6GdW
+ o+ELXD1SaWXQaytCqpCRZe8+pnRe6HZ9F9uk6UUZ9lTH/wZa90Eeq1HSZF5BOuKRN1WcC+P
+ uTa+Dpfl4VqsFh7RU2tJfDHhhgaCGachH9l2KeaHqIhC9eg2efPaZYHxG6TAMpj8hxvL0Zg
+ ev4VnH3dWQ0L9LznFzgSAmRsVHmLNIzrgW7sSllwr3nDKwIUJNRbi49Rp0Le+dONQ9Qwkny
+ q5aRa0zFAUQ=
+X-QQ-GoodBg: 1
+From: Zhen Ni <nizhen@uniontech.com>
+To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, airlied@gmail.com
+Subject: [PATCH] drm: msm: Fix error check return value of
+ irq_of_parse_and_map()
+Date: Thu,  5 Jan 2023 16:33:06 +0800
+Message-Id: <20230105083306.1638656-1-nizhen@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybglogicsvr:qybglogicsvr5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,21 +51,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: melissa.srw@gmail.com, hamohammed.sa@gmail.com,
- dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
- lepton@google.com
+Cc: Zhen Ni <nizhen@uniontech.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, January 5th, 2023 at 06:23, Yi Xie <yixie@google.com> wrote:
+The irq_of_parse_and_map() function returns 0 on failure, and does not
+return an negative value.
 
-> Some libraries including Mesa and virglrenderer require a render node to
-> fully function. By adding a render node to vkms those libraries will
-> work properly, supporting use cases like running crosvm with virgl GPU
-> support via llvmpipe on a headless virtual machine.
+Signed-off-by: Zhen Ni <nizhen@uniontech.com>
+---
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-This doesn't sound like a good idea to me. Devices without render
-capabilities should not fake it.
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index 89aadd3b3202..3891d9d4a602 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -1953,9 +1953,9 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
+ 	}
+ 
+ 	msm_host->irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
+-	if (msm_host->irq < 0) {
+-		ret = msm_host->irq;
+-		dev_err(&pdev->dev, "failed to get irq: %d\n", ret);
++	if (!msm_host->irq) {
++		ret = -EINVAL;
++		dev_err(&pdev->dev, "failed to get irq\n");
+ 		return ret;
+ 	}
+ 
+-- 
+2.20.1
 
-User-space (e.g. wlroots) relies on "no render node" to enable
-software rendering (Pixman instead of GL).
