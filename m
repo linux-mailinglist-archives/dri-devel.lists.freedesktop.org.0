@@ -2,48 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB3365F516
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 21:16:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2365965F541
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 21:34:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3192610E811;
-	Thu,  5 Jan 2023 20:16:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C76B910E80E;
+	Thu,  5 Jan 2023 20:34:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08BE510E811
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 20:16:42 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1pDWfG-00011k-UO; Thu, 05 Jan 2023 21:16:38 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pDWfF-004441-1I; Thu, 05 Jan 2023 21:16:37 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pDWfE-00AVZS-8l; Thu, 05 Jan 2023 21:16:36 +0100
-Date: Thu, 5 Jan 2023 21:16:36 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/drv: Make use of local variable driver in
- drm_dev_register()
-Message-ID: <20230105201636.slzwxyqqrkwwe7gr@pengutronix.de>
-References: <20221219183147.1639399-1-u.kleine-koenig@pengutronix.de>
- <769f62a9-da8a-188f-fd83-494ce0a7c566@suse.de>
- <Y7bfqaLUaqXBsBmr@phenom.ffwll.local>
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam02on2060.outbound.protection.outlook.com [40.107.212.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 480AD10E80E;
+ Thu,  5 Jan 2023 20:34:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k2OEKleDsgWliDxgmFtlJKb1TVhhXY1mjLpjiW9k/JlEWQ3QRDaOUiS/Ueepbr6M7yneTqjdaeNh/7q1wWW2P1D4eax5mUFqT+cUS5P7ks1eTmPgPioHms5PKukI0z13PcEsjAnnlAR+HAK+WA4JbJQ2BwnPRil7mu029CplB4/UnXvcZ8XGIoooCeSwG3X2jy07GS8G7V6sIXDVR5NsGcD582Kv4KBMZ3BJRAvki+EgUxKVFY6e0uPCNBsazUHGU/ETuSYoHJ8WYMzhg5YXMFrNg39ezJtA5N98G4ajLuopYrMPoWKKtqaRpbKTstoheeMMvTEs+rympOkj9m/OBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7BhHmMprS3cHj6RuoN2L9pvN1wQhd3ChfSV3QwcCl3A=;
+ b=ARPqHY4XKcS5O9r+Le0VhEy1z3mJylqY+oKy0/i3mZBmYWdE14PUje9CXT1BelzURPIhFZ3DI5t58+vGLbn/9PS1T63Es2vHVU6ciL32Wqgm+WMJ5L19ck3Sk6qv16LQZsM3G+k4hON3VkXC5E+jSQGF6GxM3u9rR6NXUwueTDFEbQXRepH7iOQPjmw49uH/swdSECGgrkfxgnz1XnF6/4AIUNfZz7W0zBmxYDHOKROXnc0pb1IFboRIYqy7zmbZ9vdYYYEO0Mf3TEb16aNr0+F5q812NckP9dyY/ctddX7eKo3UnMK1x6/iwpsmzpt09a9WV89Z4mzhw0UB0Z2weQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7BhHmMprS3cHj6RuoN2L9pvN1wQhd3ChfSV3QwcCl3A=;
+ b=GNIkCUKYz6c16aUlPz80ZC2i5JksC179AOmug0UuAPCCi6ulT/HVIEZpu/T4LwPaqsJCkn2jLuYgxBqKbfuirb4NSX7CakAgqW18bnu3bfLZIC3DbMrGfhx8J0fS1qvmmi2DSZftWlRA8qeQ2P1a52hfLc4nDSMMTbik4xVccWQ=
+Received: from MW4PR02CA0014.namprd02.prod.outlook.com (2603:10b6:303:16d::29)
+ by PH0PR12MB7790.namprd12.prod.outlook.com (2603:10b6:510:289::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Thu, 5 Jan
+ 2023 20:34:37 +0000
+Received: from CO1NAM11FT108.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:16d:cafe::dc) by MW4PR02CA0014.outlook.office365.com
+ (2603:10b6:303:16d::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.15 via Frontend
+ Transport; Thu, 5 Jan 2023 20:34:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT108.mail.protection.outlook.com (10.13.175.226) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5966.18 via Frontend Transport; Thu, 5 Jan 2023 20:34:37 +0000
+Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 5 Jan
+ 2023 14:34:34 -0600
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+To: <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH v3] drm/amd/display: fix PSR-SU/DSC interoperability support
+Date: Thu, 5 Jan 2023 15:33:52 -0500
+Message-ID: <20230105203353.378805-1-hamza.mahfooz@amd.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ez7bb6rvuubelubm"
-Content-Disposition: inline
-In-Reply-To: <Y7bfqaLUaqXBsBmr@phenom.ffwll.local>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT108:EE_|PH0PR12MB7790:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6f27c48a-5d28-4aa6-f1fb-08daef5c4362
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8btZJwoDoVlahqgOmjFm78YEYn9Vbtc/OEAMop+8SHyag3CyT6pm/1qY0HarId0BxERhvtOc23PXun18CCXCRI0rK6itjcRTWs3wTZ9HzL4UhnpxLDDd6M6xng8hz67sfoBitMhwjCgcJAS6gSt5Qzc2DBRpZUQQBn108F6T6/4zF24a+oCkOjyHPTEyRvr7F4GruP7NUehbK1QAnLiynnvf/JmIG3Yhyi3zHbOfHf0nM6eKBSE+2M5sYh/DkFG6RpYOdxZVcQVecKWqee0EPi4kYRrsBEcl/bTxg45z9i131/+kOYk9nA4DwJuNC0/szmO79boudsLFqi5x5uoAAza/bnrOSFWkHhb4DlPe2qgoigc5b858WSotcUebwJF1pY8Zt/ijOad7AK7Q8ljo+UZWefdhAGyKyujv1RDzlNPadTItTgeKMgCyp5tt+D5qVzsqPvlLs/l8w7QstiqYrbqSnE6Mt8+V5/40UxqaFE1Js4GBSdLj2YwRhDvRo30Zeq/gwnAngHKgsV7EurWcgApcaM6w+1mDAJ2PflySYR5MuFMialjEUTFxcr21JPfXnWe95Y1Yq7azI9gRoJMq9KNhHHKK0kE2zvEAiQo8Wo1x4NlHN/Nmmhq/1ShMLIxd8sn2ouPqGyWXgIw8qZuddo0kaKq+3h0DgsyqDDnKWBYgB+9ET6Le/yvs8+UoaGs0o9OqW5QLgjYMEDtgw7pfnDEzrkOQcRG3Z1N+yoxj9YcSVcD/s3b9ODTmW9eMOvxISgWqGCCPXtvnBB/3hgeLeA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(376002)(346002)(396003)(39860400002)(136003)(451199015)(36840700001)(40470700004)(46966006)(47076005)(8936002)(44832011)(426003)(83380400001)(6666004)(41300700001)(2906002)(336012)(70586007)(1076003)(36860700001)(70206006)(4326008)(5660300002)(82740400003)(8676002)(186003)(6916009)(2616005)(478600001)(356005)(16526019)(26005)(40480700001)(81166007)(316002)(54906003)(36756003)(40460700003)(82310400005)(86362001)(36900700001)(16060500005);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2023 20:34:37.1215 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f27c48a-5d28-4aa6-f1fb-08daef5c4362
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT108.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7790
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,61 +98,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- kernel@pengutronix.de
+Cc: Robin Chen <po-tchen@amd.com>, David Zhang <dingchen.zhang@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nicholas
+ Kazlauskas <nicholas.kazlauskas@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Camille Cho <Camille.Cho@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Shirish S <shirish.s@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Po Ting Chen <robin.chen@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Anthony Koo <Anthony.Koo@amd.com>, Pavle Kotarac <Pavle.Kotarac@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Currently, there are issues with enabling PSR-SU + DSC. This stems from
+the fact that DSC imposes a slice height on transmitted video data and
+we are not conforming to that slice height in PSR-SU regions. So, pass
+slice_height into su_y_granularity to feed the DSC slice height into
+PSR-SU code.
 
---ez7bb6rvuubelubm
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+---
+v2: move code to modules/power.
+v3: use ASSERT() instead of WARN() and add a condition that clarifies
+    that PSR-SU + DSC can only be enabled on an eDP connection.
+---
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c |  3 ++
+ .../amd/display/modules/power/power_helpers.c | 31 +++++++++++++++++++
+ .../amd/display/modules/power/power_helpers.h |  3 ++
+ 3 files changed, 37 insertions(+)
 
-Hello Daniel,
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c
+index 26291db0a3cf..872d06fe1436 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c
+@@ -122,6 +122,9 @@ bool amdgpu_dm_link_setup_psr(struct dc_stream_state *stream)
+ 		psr_config.allow_multi_disp_optimizations =
+ 			(amdgpu_dc_feature_mask & DC_PSR_ALLOW_MULTI_DISP_OPT);
+ 
++		if (!psr_su_set_y_granularity(dc, link, stream, &psr_config))
++			return false;
++
+ 		ret = dc_link_setup_psr(link, stream, &psr_config, &psr_context);
+ 
+ 	}
+diff --git a/drivers/gpu/drm/amd/display/modules/power/power_helpers.c b/drivers/gpu/drm/amd/display/modules/power/power_helpers.c
+index 9b5d9b2c9a6a..381f708ef756 100644
+--- a/drivers/gpu/drm/amd/display/modules/power/power_helpers.c
++++ b/drivers/gpu/drm/amd/display/modules/power/power_helpers.c
+@@ -916,3 +916,34 @@ bool mod_power_only_edp(const struct dc_state *context, const struct dc_stream_s
+ {
+ 	return context && context->stream_count == 1 && dc_is_embedded_signal(stream->signal);
+ }
++
++bool psr_su_set_y_granularity(struct dc *dc, struct dc_link *link,
++			      struct dc_stream_state *stream,
++			      struct psr_config *config)
++{
++	uint16_t pic_height;
++	uint8_t slice_height;
++
++	if (!dc->caps.edp_dsc_support ||
++	    link->panel_config.dsc.disable_dsc_edp ||
++	    !link->dpcd_caps.dsc_caps.dsc_basic_caps.fields.dsc_support.DSC_SUPPORT ||
++	    !(link->connector_signal & SIGNAL_TYPE_EDP) ||
++	    !stream->timing.dsc_cfg.num_slices_v)
++		return true;
++
++	pic_height = stream->timing.v_addressable +
++		stream->timing.v_border_top + stream->timing.v_border_bottom;
++	slice_height = pic_height / stream->timing.dsc_cfg.num_slices_v;
++
++	if (slice_height) {
++		if (config->su_y_granularity &&
++		    (slice_height % config->su_y_granularity)) {
++			ASSERT(0);
++			return false;
++		}
++
++		config->su_y_granularity = slice_height;
++	}
++
++	return true;
++}
+diff --git a/drivers/gpu/drm/amd/display/modules/power/power_helpers.h b/drivers/gpu/drm/amd/display/modules/power/power_helpers.h
+index 316452e9dbc9..bb16b37b83da 100644
+--- a/drivers/gpu/drm/amd/display/modules/power/power_helpers.h
++++ b/drivers/gpu/drm/amd/display/modules/power/power_helpers.h
+@@ -59,4 +59,7 @@ void mod_power_calc_psr_configs(struct psr_config *psr_config,
+ 		const struct dc_stream_state *stream);
+ bool mod_power_only_edp(const struct dc_state *context,
+ 		const struct dc_stream_state *stream);
++bool psr_su_set_y_granularity(struct dc *dc, struct dc_link *link,
++			      struct dc_stream_state *stream,
++			      struct psr_config *config);
+ #endif /* MODULES_POWER_POWER_HELPERS_H_ */
+-- 
+2.38.1
 
-On Thu, Jan 05, 2023 at 03:33:13PM +0100, Daniel Vetter wrote:
-> On Tue, Dec 20, 2022 at 08:24:18AM +0100, Thomas Zimmermann wrote:
-> > Hi
-> >=20
-> > Am 19.12.22 um 19:31 schrieb Uwe Kleine-K=F6nig:
-> > > There is a local variable that contains dev->driver. Make use of it
-> > > instead of "open coding" it.
-> > >=20
-> > > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> >=20
-> > Added to drm-misc-next. Thanks a lot.
->=20
-> Given that Uwe has a pile of drm commits all over, time for drm-misc
-> commit rights?
-
-I feel honored, but if you ask me, that's not necessary/sensible. At
-least up to now my patches are more or less drive-by changes and letting
-them go through someone else with commit access is fine for me. There is
-no driver in the drm area I feel responsible for.
-
-Or is this about reducing maintainer load on your end?
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---ez7bb6rvuubelubm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmO3MCEACgkQwfwUeK3K
-7AmoXQf/d3/FUOu1J8PQAQsrA0ecu99P/Nm3sTvOWsPYjyR1UFLpVl4JIHWHCMvK
-Mq3n7+HqNctqODr4QJ9Fb6roFwgPcFCR9G6PfmbBAw5d1oJeYEKUfdbWJhk0SJiX
-blOZ2o3h52TlAKBWrRU5OfzJIhkbObhYhGfujp6O6nLqhcdZzAMazyigmNaTHTPE
-hZcvP2WlvkWesZzoI3CVbWoo3mjDjINqdgR6vmPYSeE4onidtz4pSHHTAkeeu3Ft
-sPpbv39DtxmOCJLAHQqES219r+FhWCU0Ks97FiSRkyIoAHZHyK68jxgIgNHrClu+
-168yI3wjC8X14bH3JSlLexprEYBR1Q==
-=ubgQ
------END PGP SIGNATURE-----
-
---ez7bb6rvuubelubm--
