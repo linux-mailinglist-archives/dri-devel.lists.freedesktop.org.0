@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9323765F1A5
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 18:02:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0C565F1AA
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 18:02:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FD5610E762;
-	Thu,  5 Jan 2023 17:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BFA010E766;
+	Thu,  5 Jan 2023 17:02:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2061.outbound.protection.outlook.com [40.107.220.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8EDC10E08D;
- Thu,  5 Jan 2023 17:01:59 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2071.outbound.protection.outlook.com [40.107.243.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D394B10E762;
+ Thu,  5 Jan 2023 17:02:01 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WwSfTK1vxeli12B7AXB6oWmryAv6UxmTQ5PKcglwV9bb8nXHz8/jOWFadIstzbhWQgPeI8QpOI1vn6AIhp8+Tpac2ftmMaaEOVT6sl5O8L4IMZlymXCXT/iYZhNliDavn+CqimwEYJ+o+FjVDaeWGFRWxeIXrfm0i51SDHioPahJS0dWVsCC1gPzB28lB4CF6hUg72P5AOHpl0YhBE1wGhxWpCR5iwgd7r7I6/yYONTs2UhqsOldIhVXynT/vEfw0jsZ8v/vqEsLH7iROHpP6ZJqwO6zICmrFEOGHRvWDROrgCOtHWo1WhCAa8Jz5gH6oZANlaZK+48GGFNdr3Cq+g==
+ b=AjytY9IOZTzEbG2zD/OulK2O46hwCQqMHhPefpZIDev6W5msWast2qp6c/O9qeQq/1Rhmj8joQCfQPWWWsGel0ZJc+hIqBWkRIVBtAlHWDteaTbNYSEKa0aOiPRaGawLgdkQHXe9fqWN0CQCIt3l8AVtq/MFF5YAEcph9Hgh1LQTKIFF0LgZkDHStmxJbLvjpE2BZQoP05CRmTVBZv7OeKigvS3NsrVHnzJOjVdFf96TKugOe1cWmdpdrhHq+ircR+FUdK9l1SrQ7NM0jbrgxhsnNbrg5DFVl6lBrXu0sADNuS1TRk3oX83EFbxjYTDv+dzCYhbo7tWUVhBPSce3Jg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FTLNGpVA0h+SXLS+KiTeOahDLsAlGKgmtm5t+7ygJjY=;
- b=C3GRD2hzPeCaFb4AxIg/kTO6hcccCrTdUxTsKaUmAmUcoP7U6O9CNitWB4zSUkmnT21lYCivF09tLx1Pulf245sxuyvLWm/XaFE/JIHoY9v0b1UOtFk6F6NKq6RdUIjxd4vMTSzIFlH6pCAPHIcRvAy3Bn/X7FS9qF+4p3tu303hF6pc8d1kNpaJ6eoDz9+Sm4BmLicA4zI2OJtpOJMBvu350YLNQw/vFNs6xG91jv5aOHLj7kLD9nfRgVKYUA1kdr5ptCz1a7VdUGtOgAI9ww1DwlqV5IqzwHWiCKz6dM3tZGVlU98yfyMkhT5CnAPTiRU98/6oZoGLgHIcHWySvQ==
+ bh=l1lY2vYgSVAp2mPpxW3GHrY/ayHmaixJMwuQd82ua7U=;
+ b=NFJUKqtA31C90t0dU3XsItiCV9RiwDJ/ie7XbNeRPooogDY8rSj/PNziYP88HZ2m2AgpcDEneJtmQ5jZKM6sy0n4ZKQnO6iGAdNq8+vVmlxFQhwuJRy7EayrNkbwj7gQ1krllqlZfUHJ25q5+e/vwY1iVuP8ZhrXwe7izqsjhLd0vQVeF3X/VZACiDBPqzJudkZHTAbt8dFSQQHCQYKuL67CD07QoSNBA71AZVYK5BKXUv7zQ/gygYAyTssJnemFFmWgfDpH4tzSmXzviFmEFsqYoPFtryzDVRkgfKpLpFOdYK4Il3w2CuqYKmE1e5QP7AVu/2sKrkIsaok13DE18A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FTLNGpVA0h+SXLS+KiTeOahDLsAlGKgmtm5t+7ygJjY=;
- b=V4DZ20VnXrRVxnhwkiamPcViKOfukekj8tNOOqFki5LkFPL7/5r93Kjz1KGVXcAmEtZuMvwVY+hXwKPEAgK1LuCYbWTjGQuat4MlBfBl+/cGSdp5WUONwRmUQHzW8nDEH5A3vljZf/48qb2PGe2Nd6riQusM2ZFgtuxJNc7na/U=
-Received: from BN0PR02CA0009.namprd02.prod.outlook.com (2603:10b6:408:e4::14)
- by MW3PR12MB4412.namprd12.prod.outlook.com (2603:10b6:303:58::10)
+ bh=l1lY2vYgSVAp2mPpxW3GHrY/ayHmaixJMwuQd82ua7U=;
+ b=nBTIsd8GblkqKL0rtf+FPzcnCIQK0BZYUZtbNG71O1CY2IWXciE9jbec6d3uMMCG2VThvFtp672J+7Oyj93XxNzsRoa07qso1C/XkqmREsJ1F+0EBsnZ43DnIPa+DwA40BlQ3Q3OW7PsF/MogYI2L1XMmB9SGSlGpnpWIbapnJc=
+Received: from BN0PR02CA0024.namprd02.prod.outlook.com (2603:10b6:408:e4::29)
+ by PH8PR12MB7256.namprd12.prod.outlook.com (2603:10b6:510:223::15)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Thu, 5 Jan
- 2023 17:01:57 +0000
+ 2023 17:01:59 +0000
 Received: from BN8NAM11FT107.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:e4:cafe::53) by BN0PR02CA0009.outlook.office365.com
- (2603:10b6:408:e4::14) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:408:e4:cafe::e6) by BN0PR02CA0024.outlook.office365.com
+ (2603:10b6:408:e4::29) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.15 via Frontend
- Transport; Thu, 5 Jan 2023 17:01:56 +0000
+ Transport; Thu, 5 Jan 2023 17:01:59 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -47,47 +47,48 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  BN8NAM11FT107.mail.protection.outlook.com (10.13.176.149) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5966.18 via Frontend Transport; Thu, 5 Jan 2023 17:01:56 +0000
+ 15.20.5966.18 via Frontend Transport; Thu, 5 Jan 2023 17:01:59 +0000
 Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 5 Jan
- 2023 11:01:55 -0600
+ 2023 11:01:56 -0600
 From: Mario Limonciello <mario.limonciello@amd.com>
 To: Alex Deucher <alexander.deucher@amd.com>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v7 01/45] drm/amd: Delay removal of the firmware framebuffer
-Date: Thu, 5 Jan 2023 11:00:47 -0600
-Message-ID: <20230105170138.717-2-mario.limonciello@amd.com>
+Subject: [PATCH v7 02/45] drm/amd: Add a legacy mapping to
+ "amdgpu_ucode_ip_version_decode"
+Date: Thu, 5 Jan 2023 11:00:48 -0600
+Message-ID: <20230105170138.717-3-mario.limonciello@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230105170138.717-1-mario.limonciello@amd.com>
 References: <20230105170138.717-1-mario.limonciello@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [10.180.168.240]
 X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT107:EE_|MW3PR12MB4412:EE_
-X-MS-Office365-Filtering-Correlation-Id: 226e5475-d060-4965-ccea-08daef3e8d88
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT107:EE_|PH8PR12MB7256:EE_
+X-MS-Office365-Filtering-Correlation-Id: 31c6ff12-e82e-4026-efb3-08daef3e8ef7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QiNXOZsYrjQ+g2q5FC5H6zhhLmcHy7ywfsaHxWx6IF7HL/vNMoJ+LnPqSOK6ZcPMwpobPFVG2Ng4PQpB8aMi1F6jJmPg9MXjjCN7baOT6FojWEw2/EJ3rYHodQLi7hhVZ/xDhblhVZzbDOCbhY7QaVqIdwD4L4z+/5N+xKHhJWHfCSwk4c0j3GczRlVf5pgx/gbxAV9Bt3R7FJVLcy4e4I2LqcHCpUlEKCzfu/lUflmssbKNYCL4tPRM9+pAZSuCEy9uH7iQ75WW7CWlXK56n6bksUdCI9bN79/ZECRPJXI4obuCpAVo8m5tuIFJddERklJq1fHt2c7wgTPndqYqk9yunYIxSR5n3N9SvCNvq9HW6SEShne43LT7n4mMAdKYRxoF0YK8A9QsKemfv8q0IDMlNdr0AeS1WQ/k00unK1dCly3TzCVtm22Z27Z8KFhPrPOnfzUIPnCwAFMPNGnFgFDU6C2jbX35+SZy0GaQrliVHhgcUGW9Db8bNdkKztY+8YfshxcoiCMkc1DfyjLkrfEt19Ua5FuB/suCG904ntfnuk9vlmJ4yOOGpazbJVPGIG1nb83ehDE5Q4v81N3KxS/i91a7K83YldF99Sn4U+8EvgysCtEcDcvPizWVi9M44tZwLaz6CfSanNHMORjNWyL5+ac5vtCWEzO0O7RBi9RP8rP0v+l3vW/6nWpOKUUWS4d9PowN//PlswSujdC2uQwadQNH2jzvPbPVBJOrvBU=
+X-Microsoft-Antispam-Message-Info: WNdtYrgQDQVOY8eIaJKDYQlmMhMJzOxzzEWObcX/w05GVX8DlE0/xPZhQJtHqKjdzi5WyW6FeNuOWrWlAyLNWpBaW6pG2CXnw8iqZa3xxyIqnouKS7svmHRVB0Fq8p2imBnnzaWRMo75Kkdh8OnWJMDJBsR11qnze0JU4faqKfNITLlFOUKSkJmaJtIWjV/egZMo3kP7e3xsJ+pNzz9lTg0sgSrvi68YO1KMuC4ZGV1lyh6f09IvEw/Vu4wExk1Iaim7tM+bHm92P4p5Fwaoob3KZnEEX7u5dCspMkTNMcFoAji9zSwl4kUvPAAMpGYqRR2PvbYoJwSDh8DcP3UyPNbektL/RFdXD6n6T0g/QbcWde2uyTNWTWG84VCmU/KfutZq8Vo4trfS6cXqoL1bX0ZW/cVJ8rIEeUZifSHwjrO8GCxJrlkEgBBJX74UUDXb16Sptayo64QPGqtyDyv/nw/qP4LuO2jFB9tt01QXBSpILXG/yrVs9clGS6ocSBFANr5WMsWB4xa38xQj1jIDLcMFC5AUS/kC4TZbapZFQnlsgX0ElRY3+eHzYf8oSN5NjpBZ+PHWpk0Jjh4ZXMjesrSgOKAAvjiIfE6NHXohEgiP3YCEUjChqoexVrKzZ07voVPyfOBjgX+UzFj5ILmlV89QBWvTgMKiR3BgAPbpKAvD6i+DgHfunnkiAgA7xLJhi5mxPqHKQgYVbllkd9q6vtAmFiEJA3j9PBm7N8uNmq0=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(346002)(396003)(376002)(136003)(451199015)(36840700001)(46966006)(40470700004)(44832011)(2616005)(36860700001)(47076005)(336012)(83380400001)(426003)(40480700001)(86362001)(81166007)(82310400005)(40460700003)(82740400003)(1076003)(356005)(36756003)(54906003)(2906002)(110136005)(70206006)(316002)(41300700001)(8936002)(70586007)(8676002)(5660300002)(4326008)(186003)(26005)(6666004)(16526019)(7696005)(478600001)(36900700001);
+ SFS:(13230022)(4636009)(39860400002)(346002)(136003)(376002)(396003)(451199015)(36840700001)(46966006)(40470700004)(81166007)(356005)(82740400003)(40480700001)(36756003)(82310400005)(7696005)(40460700003)(86362001)(70206006)(316002)(2616005)(16526019)(70586007)(478600001)(186003)(1076003)(26005)(5660300002)(54906003)(6666004)(110136005)(8676002)(4326008)(2906002)(36860700001)(426003)(47076005)(8936002)(44832011)(336012)(41300700001)(83380400001)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2023 17:01:56.7597 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 226e5475-d060-4965-ccea-08daef3e8d88
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2023 17:01:59.1502 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31c6ff12-e82e-4026-efb3-08daef3e8ef7
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT107.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4412
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,88 +101,264 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Lijo Lazar <lijo.lazar@amd.com>, Javier Martinez Canillas <javierm@redhat.com>,
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>, Lijo
+ Lazar <lijo.lazar@amd.com>, Javier Martinez Canillas <javierm@redhat.com>,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Carlos Soriano Sanchez <csoriano@redhat.com>, stable@vger.kernel.org,
- christian.koenig@amd.com, Mario Limonciello <mario.limonciello@amd.com>
+ Carlos Soriano Sanchez <csoriano@redhat.com>, christian.koenig@amd.com,
+ Mario Limonciello <mario.limonciello@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Removing the firmware framebuffer from the driver means that even
-if the driver doesn't support the IP blocks in a GPU it will no
-longer be functional after the driver fails to initialize.
+This will allow other parts of the driver that currently special
+case firmware file names to before IP version style naming to just
+have a single call to `amdgpu_ucode_ip_version_decode`.
 
-This change will ensure that unsupported IP blocks at least cause
-the driver to work with the EFI framebuffer.
-
-Cc: stable@vger.kernel.org
-Suggested-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Acked-by: Christian König <christian.koenig@amd.com>
 Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 8 ++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    | 6 ------
- 2 files changed, 8 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c | 221 ++++++++++++++++++++++
+ 1 file changed, 221 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 9a1a5c2864a0..cdb681398a99 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -37,6 +37,7 @@
- #include <linux/pci-p2pdma.h>
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
+index 5cb62e6249c2..eafcddce58d3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
+@@ -1059,12 +1059,233 @@ int amdgpu_ucode_init_bo(struct amdgpu_device *adev)
+ 	return 0;
+ }
  
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_aperture.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/amdgpu_drm.h>
- #include <linux/vgaarb.h>
-@@ -89,6 +90,8 @@ MODULE_FIRMWARE("amdgpu/navi12_gpu_info.bin");
- #define AMDGPU_MAX_RETRY_LIMIT		2
- #define AMDGPU_RETRY_SRIOV_RESET(r) ((r) == -EBUSY || (r) == -ETIMEDOUT || (r) == -EINVAL)
- 
-+static const struct drm_driver amdgpu_kms_driver;
++static const char *amdgpu_ucode_legacy_naming(struct amdgpu_device *adev, int block_type)
++{
++	if (block_type == MP0_HWIP) {
++		switch (adev->ip_versions[MP0_HWIP][0]) {
++		case IP_VERSION(9, 0, 0):
++			switch (adev->asic_type) {
++			case CHIP_VEGA10:
++				return "vega10";
++			case CHIP_VEGA12:
++				return "vega12";
++			default:
++				return NULL;
++			}
++			break;
++		case IP_VERSION(10, 0, 0):
++		case IP_VERSION(10, 0, 1):
++			if (adev->asic_type == CHIP_RAVEN) {
++				if (adev->apu_flags & AMD_APU_IS_RAVEN2)
++					return "raven2";
++				else if (adev->apu_flags & AMD_APU_IS_PICASSO)
++					return "picasso";
++				return "raven";
++			}
++			break;
++		case IP_VERSION(11, 0, 0):
++			return "navi10";
++		case IP_VERSION(11, 0, 2):
++			return "vega20";
++		case IP_VERSION(11, 0, 4):
++			return "arcturus";
++		case IP_VERSION(11, 0, 5):
++			return "navi14";
++		case IP_VERSION(11, 0, 7):
++			return "sienna_cichlid";
++		case IP_VERSION(11, 0, 9):
++			return "navi12";
++		case IP_VERSION(11, 0, 11):
++			return "navy_flounder";
++		case IP_VERSION(11, 0, 12):
++			return "dimgrey_cavefish";
++		case IP_VERSION(11, 0, 13):
++			return "beige_goby";
++		case IP_VERSION(11, 5, 0):
++			return "vangogh";
++		case IP_VERSION(12, 0, 1):
++			if (adev->asic_type == CHIP_RENOIR) {
++				if (adev->apu_flags & AMD_APU_IS_RENOIR)
++					return "renoir";
++				return "green_sardine";
++			}
++			break;
++		case IP_VERSION(13, 0, 2):
++			return "aldebaran";
++		case IP_VERSION(13, 0, 1):
++		case IP_VERSION(13, 0, 3):
++			return "yellow_carp";
++		}
++	} else if (block_type == MP1_HWIP) {
++		switch (adev->ip_versions[MP1_HWIP][0]) {
++		case IP_VERSION(9, 0, 0):
++		case IP_VERSION(10, 0, 0):
++		case IP_VERSION(10, 0, 1):
++		case IP_VERSION(11, 0, 2):
++			if (adev->asic_type == CHIP_ARCTURUS)
++				return "arcturus_smc";
++			return NULL;
++		case IP_VERSION(11, 0, 0):
++			return "navi10_smc";
++		case IP_VERSION(11, 0, 5):
++			return "navi14_smc";
++		case IP_VERSION(11, 0, 9):
++			return "navi12_smc";
++		case IP_VERSION(11, 0, 7):
++			return "sienna_cichlid_smc";
++		case IP_VERSION(11, 0, 11):
++			return "navy_flounder_smc";
++		case IP_VERSION(11, 0, 12):
++			return "dimgrey_cavefish_smc";
++		case IP_VERSION(11, 0, 13):
++			return "beige_goby_smc";
++		case IP_VERSION(13, 0, 2):
++			return "aldebaran_smc";
++		}
++	} else if (block_type == SDMA0_HWIP) {
++		switch (adev->ip_versions[SDMA0_HWIP][0]) {
++		case IP_VERSION(4, 0, 0):
++			return "vega10_sdma";
++		case IP_VERSION(4, 0, 1):
++			return "vega12_sdma";
++		case IP_VERSION(4, 1, 0):
++		case IP_VERSION(4, 1, 1):
++			if (adev->apu_flags & AMD_APU_IS_RAVEN2)
++				return "raven2_sdma";
++			else if (adev->apu_flags & AMD_APU_IS_PICASSO)
++				return "picasso_sdma";
++			return "raven_sdma";
++		case IP_VERSION(4, 1, 2):
++			if (adev->apu_flags & AMD_APU_IS_RENOIR)
++				return "renoir_sdma";
++			return "green_sardine_sdma";
++		case IP_VERSION(4, 2, 0):
++			return "vega20_sdma";
++		case IP_VERSION(4, 2, 2):
++			return "arcturus_sdma";
++		case IP_VERSION(4, 4, 0):
++			return "aldebaran_sdma";
++		case IP_VERSION(5, 0, 0):
++			return "navi10_sdma";
++		case IP_VERSION(5, 0, 1):
++			return "cyan_skillfish2_sdma";
++		case IP_VERSION(5, 0, 2):
++			return "navi14_sdma";
++		case IP_VERSION(5, 0, 5):
++			return "navi12_sdma";
++		case IP_VERSION(5, 2, 0):
++			return "sienna_cichlid_sdma";
++		case IP_VERSION(5, 2, 2):
++			return "navy_flounder_sdma";
++		case IP_VERSION(5, 2, 4):
++			return "dimgrey_cavefish_sdma";
++		case IP_VERSION(5, 2, 5):
++			return "beige_goby_sdma";
++		case IP_VERSION(5, 2, 3):
++			return "yellow_carp_sdma";
++		case IP_VERSION(5, 2, 1):
++			return "vangogh_sdma";
++		}
++	} else if (block_type == UVD_HWIP) {
++		switch (adev->ip_versions[UVD_HWIP][0]) {
++		case IP_VERSION(1, 0, 0):
++		case IP_VERSION(1, 0, 1):
++			if (adev->apu_flags & AMD_APU_IS_RAVEN2)
++				return "raven2_vcn";
++			else if (adev->apu_flags & AMD_APU_IS_PICASSO)
++				return "picasso_vcn";
++			return "raven_vcn";
++		case IP_VERSION(2, 5, 0):
++			return "arcturus_vcn";
++		case IP_VERSION(2, 2, 0):
++			if (adev->apu_flags & AMD_APU_IS_RENOIR)
++				return "renoir_vcn";
++			return "green_sardine_vcn";
++		case IP_VERSION(2, 6, 0):
++			return "aldebaran_vcn";
++		case IP_VERSION(2, 0, 0):
++			return "navi10_vcn";
++		case IP_VERSION(2, 0, 2):
++			if (adev->asic_type == CHIP_NAVI12)
++				return "navi12_vcn";
++			return "navi14_vcn";
++		case IP_VERSION(3, 0, 0):
++		case IP_VERSION(3, 0, 64):
++		case IP_VERSION(3, 0, 192):
++			if (adev->ip_versions[GC_HWIP][0] == IP_VERSION(10, 3, 0))
++				return "sienna_cichlid_vcn";
++			return "navy_flounder_vcn";
++		case IP_VERSION(3, 0, 2):
++			return "vangogh_vcn";
++		case IP_VERSION(3, 0, 16):
++			return "dimgrey_cavefish_vcn";
++		case IP_VERSION(3, 0, 33):
++			return "beige_goby_vcn";
++		case IP_VERSION(3, 1, 1):
++			return "yellow_carp_vcn";
++		}
++	} else if (block_type == GC_HWIP) {
++		switch (adev->ip_versions[GC_HWIP][0]) {
++		case IP_VERSION(9, 0, 1):
++			return "vega10";
++		case IP_VERSION(9, 2, 1):
++			return "vega12";
++		case IP_VERSION(9, 4, 0):
++			return "vega20";
++		case IP_VERSION(9, 2, 2):
++		case IP_VERSION(9, 1, 0):
++			if (adev->apu_flags & AMD_APU_IS_RAVEN2)
++				return "raven2";
++			else if (adev->apu_flags & AMD_APU_IS_PICASSO)
++				return "picasso";
++			return "raven";
++		case IP_VERSION(9, 4, 1):
++			return "arcturus";
++		case IP_VERSION(9, 3, 0):
++			if (adev->apu_flags & AMD_APU_IS_RENOIR)
++				return "renoir";
++			return "green_sardine";
++		case IP_VERSION(9, 4, 2):
++			return "aldebaran";
++		case IP_VERSION(10, 1, 10):
++			return "navi10";
++		case IP_VERSION(10, 1, 1):
++			return "navi14";
++		case IP_VERSION(10, 1, 2):
++			return "navi12";
++		case IP_VERSION(10, 3, 0):
++			return "sienna_cichlid";
++		case IP_VERSION(10, 3, 2):
++			return "navy_flounder";
++		case IP_VERSION(10, 3, 1):
++			return "vangogh";
++		case IP_VERSION(10, 3, 4):
++			return "dimgrey_cavefish";
++		case IP_VERSION(10, 3, 5):
++			return "beige_goby";
++		case IP_VERSION(10, 3, 3):
++			return "yellow_carp";
++		case IP_VERSION(10, 1, 3):
++		case IP_VERSION(10, 1, 4):
++			return "cyan_skillfish2";
++		}
++	}
++	return NULL;
++}
 +
- const char *amdgpu_asic_name[] = {
- 	"TAHITI",
- 	"PITCAIRN",
-@@ -3685,6 +3688,11 @@ int amdgpu_device_init(struct amdgpu_device *adev,
- 	if (r)
- 		return r;
+ void amdgpu_ucode_ip_version_decode(struct amdgpu_device *adev, int block_type, char *ucode_prefix, int len)
+ {
+ 	int maj, min, rev;
+ 	char *ip_name;
++	const char *legacy;
+ 	uint32_t version = adev->ip_versions[block_type][0];
  
-+	/* Get rid of things like offb */
-+	r = drm_aperture_remove_conflicting_pci_framebuffers(adev->pdev, &amdgpu_kms_driver);
-+	if (r)
-+		return r;
++	legacy = amdgpu_ucode_legacy_naming(adev, block_type);
++	if (legacy) {
++		snprintf(ucode_prefix, len, "%s", legacy);
++		return;
++	}
 +
- 	/* Enable TMZ based on IP_VERSION */
- 	amdgpu_gmc_tmz_set(adev);
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index db7e34eacc35..b9f14ec9edb2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -23,7 +23,6 @@
-  */
- 
- #include <drm/amdgpu_drm.h>
--#include <drm/drm_aperture.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_vblank.h>
-@@ -2096,11 +2095,6 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
- 	}
- #endif
- 
--	/* Get rid of things like offb */
--	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, &amdgpu_kms_driver);
--	if (ret)
--		return ret;
--
- 	adev = devm_drm_dev_alloc(&pdev->dev, &amdgpu_kms_driver, typeof(*adev), ddev);
- 	if (IS_ERR(adev))
- 		return PTR_ERR(adev);
+ 	switch (block_type) {
+ 	case GC_HWIP:
+ 		ip_name = "gc";
 -- 
 2.34.1
 
