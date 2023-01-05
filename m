@@ -2,61 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F03665E2A5
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 02:47:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C608365E2AB
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 02:50:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B614A10E61D;
-	Thu,  5 Jan 2023 01:47:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01AD810E61F;
+	Thu,  5 Jan 2023 01:50:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38FAB10E61B
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 01:47:46 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id v25so5650394lfe.12
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Jan 2023 17:47:46 -0800 (PST)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1AF410E61E
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 01:50:35 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id f34so53028102lfv.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Jan 2023 17:50:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=zPMYwSsk8tBoD9ByCV2R49R0agpdKXec85LETf3uKYU=;
- b=LBfL8CYGYhc/3vgFJirN4UZ6A+3/Wj5BWlntHllyOgaB6lTGYn8qn/Z79zB8JBRSW/
- yUT+PCkX+hVyPyELWkiKNr66E0FyIlGi1niHhZoF4A/bfQ7wIBMST5WZ2LIHMR6e+dSm
- UYge1uWut6MLHQMBHBHGGD7jp6KyjsLOhyrzAc6hKIqD/qbUgzDUftiru6XZPlHzmAcA
- MEAfegV3eXTT1qLVbdWJaUC+stcb2VFyuRrh5K6N3L9xFqg9kiyRIpMhNk5dsMUyVR0F
- hRSyJeAPeay4b9MgHSHXL28EcaBaWdZ/JhfCoPwiH3YCTI8EzzbifHyZpAXeigPv7C+c
- 5KjQ==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6JDNPCrXmgVUWvMzL7JdWByPNqCXxjnlLiCHyIsb4kU=;
+ b=MvaUMjaJgMgogTaacRoSynDVgkj06uukHo/MD2z+5IKJUn5ddI3edBpdukapU+GNFX
+ 6ypyeNilAq9BdEAFcbm3oZSE+VEDJfJqZy7kZafaqNhWUFwqQbtLI+HdDPKGY9KRLoVC
+ 0ywIj0Krq8CzVKhAF8UqmpPZ1sA/Z6+K1yFI4n73sHf74kgvGtk2ewVf9uRm+2YOurAO
+ vnOv7OEi/d+6lpFWzxvvKeSn8zjTda6i4BOgXIT2Ua8HPpV00OEF2vM9bF42gbgOdtwF
+ cadxsNWk7KXNJNEsfn/XN86Po5FfMU/Do8NcA3M61vBgrynDInMr/3U/U2fa3xG0J4Zj
+ X8Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=zPMYwSsk8tBoD9ByCV2R49R0agpdKXec85LETf3uKYU=;
- b=gygf2DETN9TKg4if7a8TavaY4C2GuSsZ5AX2hGHG1CdFv01QaosY1MMHRl/KKV5IDf
- 3DjmsmwpqM6i+nsr0CggAvXzifqzrLEmkyM+O9xhvTHr/+XOtbl191N4T/iNqDPobnGu
- L7KNI/NMwao1gPAw8yrCGeiBzOK49h6tGBhGXC2IwNWd+GXJo5J6wqjrBzxmpaequWm7
- nvXGi65Ekv4sSk6lMxcNK2bJ815UZnT5ZbUT773hNKc3ZUCvlYUGnaNVkNJYVSbyXBir
- pTSIhx+ukdK6JHBVR+cGygtRe0IR+zFcUVyTmO1BPMBo/YcLulInsC+0y8iSUAzGEZaH
- qbjA==
-X-Gm-Message-State: AFqh2kpV3DVX2l8N2E6McsqTaN8IVCxPaXn7CmC4nZDZn/ek48hYgDpe
- kSQUIDslaZbBoE0mo5UB5oKK8Q==
-X-Google-Smtp-Source: AMrXdXsiB7Ag4h8E8vqkQZVzO528e8rhNG57Ky2RNhxWQlVTjf5k9GweVngAHvzUc/7o8EtSzVS6aw==
-X-Received: by 2002:a05:6512:1116:b0:4a4:68b7:dee8 with SMTP id
- l22-20020a056512111600b004a468b7dee8mr17017669lfg.68.1672883265175; 
- Wed, 04 Jan 2023 17:47:45 -0800 (PST)
-Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
- [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- o5-20020ac24e85000000b004c2e1d7d9a3sm5302124lfr.146.2023.01.04.17.47.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Jan 2023 17:47:44 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v3] drm/msm: another fix for the headless Adreno GPU
-Date: Thu,  5 Jan 2023 03:47:43 +0200
-Message-Id: <20230105014743.1478110-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.0
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6JDNPCrXmgVUWvMzL7JdWByPNqCXxjnlLiCHyIsb4kU=;
+ b=MaNLREU6fC0nzCKgjhU11uXfWEsyoMQ4bDxx3kv6yRmcWjcvWmqgqfTWIuEJ9PNVle
+ PXFYaX6eHVErcQ01fmxPRamPTxex8fCOSo87yWbA+q2jlCVhO5JiYTmau8ietKoFiBXG
+ bg4nkicUP2PAB5FIbXQaw5zM5coUu5fKw/c3MdtAQXzJhQiApWGB9TcwSCH5NgS+JUVo
+ zuqu532R3JLUZyI5bgWWDvYeRU2xsNp+L51/zjn7CAkfEWvZPZs6TPCvR4LT6fisPMk8
+ Gu1dI6P4SO8VOm+DMqKMZ30cl64QrEdEhERVIau10C8CVTMr+CcSqpdhtHDtrccChVXA
+ GCxA==
+X-Gm-Message-State: AFqh2kqq+mGZg2hyYvTyQubrf01ohiMW0r4PnKWCSqnmRPFNLrpTUicx
+ D3wMiAnBqoBoRJKEQPQMEamJGCphDkBfz6KZ
+X-Google-Smtp-Source: AMrXdXsuFEYRr6EwDYQOpFrUvRBJvSb4+lVgH/TIoeA9bHBB3WC18mdaNSHT2ipWR36asubCvVkgbg==
+X-Received: by 2002:a05:6512:ea2:b0:4b5:5bcc:cbcd with SMTP id
+ bi34-20020a0565120ea200b004b55bcccbcdmr13948131lfb.0.1672883434145; 
+ Wed, 04 Jan 2023 17:50:34 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ f23-20020ac25337000000b004a27d2ea029sm5273648lfh.172.2023.01.04.17.50.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Jan 2023 17:50:33 -0800 (PST)
+Message-ID: <9d1be5e6-b2eb-3238-c562-9bc1c8c375bc@linaro.org>
+Date: Thu, 5 Jan 2023 03:50:33 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [RFC PATCH v3 1/3] drm: Introduce solid fill property for drm
+ plane
+Content-Language: en-GB
+To: Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
+References: <20230104234036.636-1-quic_jesszhan@quicinc.com>
+ <20230104234036.636-2-quic_jesszhan@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230104234036.636-2-quic_jesszhan@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,112 +77,297 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, kernel test robot <lkp@intel.com>,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
+Cc: sebastian.wick@redhat.com, ppaalanen@gmail.com,
+ linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, daniel.vetter@ffwll.ch,
+ seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
+ wayland-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix another oops reproducible when rebooting the board with the Adreno
-GPU working in the headless mode (e.g. iMX platforms).
+On 05/01/2023 01:40, Jessica Zhang wrote:
+> Add support for solid_fill property to drm_plane. In addition, add
+> support for setting and getting the values for solid_fill.
+> 
+> solid_fill holds data for supporting solid fill planes. The property
+> accepts an RGB323232 value and the driver data is formatted as such:
+> 
+> struct drm_solid_fill {
+> 	u32 r;
+> 	u32 g;
+> 	u32 b;
+> };
 
-Unable to handle kernel NULL pointer dereference at virtual address 00000000 when read
-[00000000] *pgd=74936831, *pte=00000000, *ppte=00000000
-Internal error: Oops: 17 [#1] ARM
-CPU: 0 PID: 51 Comm: reboot Not tainted 6.2.0-rc1-dirty #11
-Hardware name: Freescale i.MX53 (Device Tree Support)
-PC is at msm_atomic_commit_tail+0x50/0x970
-LR is at commit_tail+0x9c/0x188
-pc : [<c06aa430>]    lr : [<c067a214>]    psr: 600e0013
-sp : e0851d30  ip : ee4eb7eb  fp : 00090acc
-r10: 00000058  r9 : c2193014  r8 : c4310000
-r7 : c4759380  r6 : 07bef61d  r5 : 00000000  r4 : 00000000
-r3 : c44cc440  r2 : 00000000  r1 : 00000000  r0 : 00000000
-Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
-Control: 10c5387d  Table: 74910019  DAC: 00000051
-Register r0 information: NULL pointer
-Register r1 information: NULL pointer
-Register r2 information: NULL pointer
-Register r3 information: slab kmalloc-1k start c44cc400 pointer offset 64 size 1024
-Register r4 information: NULL pointer
-Register r5 information: NULL pointer
-Register r6 information: non-paged memory
-Register r7 information: slab kmalloc-128 start c4759380 pointer offset 0 size 128
-Register r8 information: slab kmalloc-2k start c4310000 pointer offset 0 size 2048
-Register r9 information: non-slab/vmalloc memory
-Register r10 information: non-paged memory
-Register r11 information: non-paged memory
-Register r12 information: non-paged memory
-Process reboot (pid: 51, stack limit = 0xc80046d9)
-Stack: (0xe0851d30 to 0xe0852000)
-1d20:                                     c4759380 fbd77200 000005ff 002b9c70
-1d40: c4759380 c4759380 00000000 07bef61d 00000600 c0d6fe7c c2193014 00000058
-1d60: 00090acc c067a214 00000000 c4759380 c4310000 00000000 c44cc854 c067a89c
-1d80: 00000000 00000000 00000000 c4310468 00000000 c4759380 c4310000 c4310468
-1da0: c4310470 c0643258 c4759380 00000000 00000000 c0c4ee24 00000000 c44cc810
-1dc0: 00000000 c0c4ee24 00000000 c44cc810 00000000 0347d2a8 e0851e00 e0851e00
-1de0: c4759380 c067ad20 c4310000 00000000 c44cc810 c27f8718 c44cc854 c067adb8
-1e00: c4933000 00000002 00000001 00000000 00000000 c2130850 00000000 c2130854
-1e20: c25fc488 00000000 c0ff162c 00000000 00000001 00000002 00000000 00000000
-1e40: c43102c0 c43102c0 00000000 0347d2a8 c44cc810 c44cc814 c2133da8 c06d1a60
-1e60: 00000000 00000000 00079028 c2012f24 fee1dead c4933000 00000058 c01431e4
-1e80: 01234567 c0143a20 00000000 00000000 00000000 00000000 00000000 00000000
-1ea0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-1ec0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-1ee0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-1f00: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-1f20: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-1f40: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-1f60: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-1f80: 00000000 00000000 00000000 0347d2a8 00000002 00000004 00000078 00000058
-1fa0: c010028c c0100060 00000002 00000004 fee1dead 28121969 01234567 00079028
-1fc0: 00000002 00000004 00000078 00000058 0002fdc5 00000000 00000000 00090acc
-1fe0: 00000058 becc9c64 b6e97e05 b6e0e5f6 600e0030 fee1dead 00000000 00000000
- msm_atomic_commit_tail from commit_tail+0x9c/0x188
- commit_tail from drm_atomic_helper_commit+0x160/0x188
- drm_atomic_helper_commit from drm_atomic_commit+0xac/0xe0
- drm_atomic_commit from drm_atomic_helper_disable_all+0x1b0/0x1c0
- drm_atomic_helper_disable_all from drm_atomic_helper_shutdown+0x88/0x140
- drm_atomic_helper_shutdown from device_shutdown+0x16c/0x240
- device_shutdown from kernel_restart+0x38/0x90
- kernel_restart from __do_sys_reboot+0x174/0x224
- __do_sys_reboot from ret_fast_syscall+0x0/0x1c
-Exception stack(0xe0851fa8 to 0xe0851ff0)
-1fa0:                   00000002 00000004 fee1dead 28121969 01234567 00079028
-1fc0: 00000002 00000004 00000078 00000058 0002fdc5 00000000 00000000 00090acc
-1fe0: 00000058 becc9c64 b6e97e05 b6e0e5f6
-Code: 15922088 1184421c e1500003 1afffff8 (e5953000)
----[ end trace 0000000000000000 ]---
+This description is unnecessary (and confusing), since you describe 
+drm_solid_fill_info below.
 
-Fixes: 0a58d2ae572a ("drm/msm: Make .remove and .shutdown HW shutdown consistent")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
+> 
+> To enable solid fill planes, userspace must assigned solid_fill to a
 
-Changes since v2:
-- Moved the condition check from msm_atomic_commit_tail() to msm_drv_shutdown()
+must assign. Also the phrasing seems strange. The blob is assigned to 
+the 'solid_fill' property, not the other way around.
 
-Changes since v1:
-- Moved setting of `async' before the call to trace to fix the
-  uninitialized variable warning
+> property blob containing the following information:
 
----
- drivers/gpu/drm/msm/msm_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This should clearly describe if solid_fill overrides FB or if FB 
+overrides solid_fill. Also please extend properties documentation in 
+Documentation/gpu/drm-kms.rst.
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 8b0b0ac74a6f..45e81eb148a8 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -1278,7 +1278,7 @@ void msm_drv_shutdown(struct platform_device *pdev)
- 	 * msm_drm_init, drm_dev->registered is used as an indicator that the
- 	 * shutdown will be successful.
- 	 */
--	if (drm && drm->registered)
-+	if (drm && drm->registered && priv->kms)
- 		drm_atomic_helper_shutdown(drm);
- }
- 
+> 
+> struct drm_solid_fill_info {
+> 	u8 version;
+> 	u32 r, g, b;
+> };
+> 
+> Changes in V2:
+> - Changed solid_fill property to a property blob (Simon, Dmitry)
+> - Added drm_solid_fill struct (Simon)
+> - Added drm_solid_fill_info struct (Simon)
+> 
+> Changes in V3:
+> - Corrected typo in drm_solid_fill struct documentation
+> 
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>   drivers/gpu/drm/drm_atomic_state_helper.c |  9 ++++
+>   drivers/gpu/drm/drm_atomic_uapi.c         | 59 +++++++++++++++++++++++
+>   drivers/gpu/drm/drm_blend.c               | 17 +++++++
+>   include/drm/drm_blend.h                   |  1 +
+>   include/drm/drm_plane.h                   | 43 +++++++++++++++++
+>   5 files changed, 129 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index dfb57217253b..c96fd1f2ad99 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -253,6 +253,11 @@ void __drm_atomic_helper_plane_state_reset(struct drm_plane_state *plane_state,
+>   	plane_state->alpha = DRM_BLEND_ALPHA_OPAQUE;
+>   	plane_state->pixel_blend_mode = DRM_MODE_BLEND_PREMULTI;
+>   
+> +	if (plane_state->solid_fill_blob) {
+> +		drm_property_blob_put(plane_state->solid_fill_blob);
+> +		plane_state->solid_fill_blob = NULL;
+> +	}
+> +
+>   	if (plane->color_encoding_property) {
+>   		if (!drm_object_property_get_default_value(&plane->base,
+>   							   plane->color_encoding_property,
+> @@ -335,6 +340,9 @@ void __drm_atomic_helper_plane_duplicate_state(struct drm_plane *plane,
+>   	if (state->fb)
+>   		drm_framebuffer_get(state->fb);
+>   
+> +	if (state->solid_fill_blob)
+> +		drm_property_blob_get(state->solid_fill_blob);
+> +
+>   	state->fence = NULL;
+>   	state->commit = NULL;
+>   	state->fb_damage_clips = NULL;
+> @@ -384,6 +392,7 @@ void __drm_atomic_helper_plane_destroy_state(struct drm_plane_state *state)
+>   		drm_crtc_commit_put(state->commit);
+>   
+>   	drm_property_blob_put(state->fb_damage_clips);
+> +	drm_property_blob_put(state->solid_fill_blob);
+>   }
+>   EXPORT_SYMBOL(__drm_atomic_helper_plane_destroy_state);
+>   
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> index c06d0639d552..8a1d2fb7a757 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -316,6 +316,55 @@ drm_atomic_set_crtc_for_connector(struct drm_connector_state *conn_state,
+>   }
+>   EXPORT_SYMBOL(drm_atomic_set_crtc_for_connector);
+>   
+> +static void drm_atomic_convert_solid_fill_info(struct drm_solid_fill *out,
+> +		struct drm_solid_fill_info *in)
+
+No need for a separate function, you can inline this.
+
+> +{
+> +	out->r = in->r;
+> +	out->g = in->g;
+> +	out->b = in->b;
+> +}
+> +
+> +static int drm_atomic_set_solid_fill_prop(struct drm_plane_state *state,
+> +		struct drm_property_blob *blob)
+> +{
+> +	int ret = 0;
+> +	int blob_version;
+> +
+> +	if (blob == state->solid_fill_blob)
+> +		return 0;
+> +
+> +	drm_property_blob_put(state->solid_fill_blob);
+> +	state->solid_fill_blob = NULL;
+> +
+> +	memset(&state->solid_fill, 0, sizeof(state->solid_fill));
+> +
+> +	if (blob) {
+> +		if (blob->length != sizeof(struct drm_solid_fill_info)) {
+> +			drm_dbg_atomic(state->plane->dev,
+> +					"[PLANE:%d:%s] bad solid fill blob length: %zu\n",
+> +					state->plane->base.id, state->plane->name,
+> +					blob->length);
+> +			return -EINVAL;
+> +		}
+> +
+> +		blob_version = ((struct drm_solid_fill_info *)blob->data)->version;
+
+Please assign blob->data to temporary var.
+
+> +
+> +		/* Append with more versions if necessary */
+
+s/Append/Add/
+
+> +		if (blob_version == 1) {
+> +			drm_atomic_convert_solid_fill_info(&state->solid_fill, blob->data);
+> +		} else {
+> +			drm_dbg_atomic(state->plane->dev,
+> +					"[PLANE:%d:%s] failed to set solid fill (ret=%d)\n",
+> +					state->plane->base.id, state->plane->name,
+> +					ret);
+> +			return -EINVAL;
+> +		}
+> +		state->solid_fill_blob = drm_property_blob_get(blob);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>   static void set_out_fence_for_crtc(struct drm_atomic_state *state,
+>   				   struct drm_crtc *crtc, s32 __user *fence_ptr)
+>   {
+> @@ -544,6 +593,13 @@ static int drm_atomic_plane_set_property(struct drm_plane *plane,
+>   		state->src_w = val;
+>   	} else if (property == config->prop_src_h) {
+>   		state->src_h = val;
+> +	} else if (property == plane->solid_fill_property) {
+> +		struct drm_property_blob *solid_fill = drm_property_lookup_blob(dev, val);
+> +
+> +		ret = drm_atomic_set_solid_fill_prop(state, solid_fill);
+> +		drm_property_blob_put(solid_fill);
+> +
+> +		return ret;
+>   	} else if (property == plane->alpha_property) {
+>   		state->alpha = val;
+>   	} else if (property == plane->blend_mode_property) {
+> @@ -616,6 +672,9 @@ drm_atomic_plane_get_property(struct drm_plane *plane,
+>   		*val = state->src_w;
+>   	} else if (property == config->prop_src_h) {
+>   		*val = state->src_h;
+> +	} else if (property == plane->solid_fill_property) {
+> +		*val = state->solid_fill_blob ?
+> +			state->solid_fill_blob->base.id : 0;
+>   	} else if (property == plane->alpha_property) {
+>   		*val = state->alpha;
+>   	} else if (property == plane->blend_mode_property) {
+> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+> index b4c8cab7158c..17ab645c8309 100644
+> --- a/drivers/gpu/drm/drm_blend.c
+> +++ b/drivers/gpu/drm/drm_blend.c
+> @@ -616,3 +616,20 @@ int drm_plane_create_blend_mode_property(struct drm_plane *plane,
+>   	return 0;
+>   }
+>   EXPORT_SYMBOL(drm_plane_create_blend_mode_property);
+> +
+> +int drm_plane_create_solid_fill_property(struct drm_plane *plane)
+> +{
+> +	struct drm_property *prop;
+> +
+> +	prop = drm_property_create(plane->dev,
+> +			DRM_MODE_PROP_ATOMIC | DRM_MODE_PROP_BLOB,
+> +			"solid_fill", 0);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +
+> +	drm_object_attach_property(&plane->base, prop, 0);
+> +	plane->solid_fill_property = prop;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_plane_create_solid_fill_property);
+> diff --git a/include/drm/drm_blend.h b/include/drm/drm_blend.h
+> index 88bdfec3bd88..0338a860b9c8 100644
+> --- a/include/drm/drm_blend.h
+> +++ b/include/drm/drm_blend.h
+> @@ -58,4 +58,5 @@ int drm_atomic_normalize_zpos(struct drm_device *dev,
+>   			      struct drm_atomic_state *state);
+>   int drm_plane_create_blend_mode_property(struct drm_plane *plane,
+>   					 unsigned int supported_modes);
+> +int drm_plane_create_solid_fill_property(struct drm_plane *plane);
+>   #endif
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> index 447e664e49d5..3b9da06f358b 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -40,6 +40,25 @@ enum drm_scaling_filter {
+>   	DRM_SCALING_FILTER_NEAREST_NEIGHBOR,
+>   };
+>   
+> +/**
+> + * struct drm_solid_fill_info - User info for solid fill planes
+> + */
+> +struct drm_solid_fill_info {
+> +	__u8 version;
+> +	__u32 r, g, b;
+> +};
+> +
+> +/**
+> + * struct solid_fill_property - RGB values for solid fill plane
+> + *
+> + * Note: This is the V1 for this feature
+> + */
+> +struct drm_solid_fill {
+> +	uint32_t r;
+> +	uint32_t g;
+> +	uint32_t b;
+> +};
+> +
+>   /**
+>    * struct drm_plane_state - mutable plane state
+>    *
+> @@ -116,6 +135,23 @@ struct drm_plane_state {
+>   	/** @src_h: height of visible portion of plane (in 16.16) */
+>   	uint32_t src_h, src_w;
+>   
+> +	/**
+> +	 * @solid_fill_blob:
+> +	 *
+> +	 * Blob containing relevant information for a solid fill plane
+> +	 * including pixel format and data. See
+> +	 * drm_plane_create_solid_fill_property() for more details.
+> +	 */
+> +	struct drm_property_blob *solid_fill_blob;
+> +
+> +	/**
+> +	 * @solid_fill:
+> +	 *
+> +	 * Pixel data for solid fill planes. See
+> +	 * drm_plane_create_solid_fill_property() for more details.
+> +	 */
+> +	struct drm_solid_fill solid_fill;
+> +
+>   	/**
+>   	 * @alpha:
+>   	 * Opacity of the plane with 0 as completely transparent and 0xffff as
+> @@ -699,6 +735,13 @@ struct drm_plane {
+>   	 */
+>   	struct drm_plane_state *state;
+>   
+> +	/*
+> +	 * @solid_fill_property:
+> +	 * Optional solid_fill property for this plane. See
+> +	 * drm_plane_create_solid_fill_property().
+> +	 */
+> +	struct drm_property *solid_fill_property;
+> +
+>   	/**
+>   	 * @alpha_property:
+>   	 * Optional alpha property for this plane. See
+
 -- 
-2.39.0
+With best wishes
+Dmitry
 
