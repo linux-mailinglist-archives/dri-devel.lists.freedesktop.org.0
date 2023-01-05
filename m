@@ -2,83 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A5D65EE65
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 15:09:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AEEE65EE6D
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 15:10:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91A5710E737;
-	Thu,  5 Jan 2023 14:09:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7A7C10E739;
+	Thu,  5 Jan 2023 14:10:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0727A10E738
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 14:09:54 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- p1-20020a05600c1d8100b003d8c9b191e0so1394013wms.4
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 06:09:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:reply-to:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=P1d2K6EBLa0i9DYaOKFUZQuPA0/Q9AJBs0TBBGG9+5A=;
- b=fn3+0a53GsD702FNVt2A2IeOlAl+jUqW5lYG0rbNJBErCRhu8dhmNB5chNV3Z712bV
- evZ5jv/7fR2HkKkAntN+zVrbFkzu/MaVYym+TPJ50CEOasGEQyb96g6Amhyf/78faxft
- STG1mF8FmnAIVNyfzx+ckQAtTWDHok66ImQccOLaAnIl/oN71WSFJox0EVFLkvyDe8KZ
- KCuyruYiVt43gKRVz5kBurjPIQ7Etd8uN6xzvDptt41Kubux6E824NBRMF1vJCXoTCxl
- bI8x2lG56dXPQ8+3SFa2zWVUtowN4qSUWIG6lF+EXSGg7sxT0WV7SttZ7grcxk1FFydf
- B/Ag==
+Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com
+ [IPv6:2607:f8b0:4864:20::e2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7B6510E738
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 14:10:37 +0000 (UTC)
+Received: by mail-vs1-xe2b.google.com with SMTP id m2so38126699vsv.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 06:10:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=OoHN6ySxYO4Kc0OH2PTTJjJsigrGnLpjiR92br9lo2Y=;
+ b=i8OLaBMTetFETQyoP1x8vEAjC/+92l9lpM7E2CQimENu9e2xVd9Kq/SAG9cJ/Nz7/U
+ q4kTFBGKqC5Xyv0vSXu+CVwyiFrgqn3RvbCIw4mTFQt9aSzHXZ712z6l7soeoRtjL8T0
+ 3+JYkelC8UlU5DKMOnCkJfiZ3DNbwiGrFR7fhhi1w070RyfxbkGr25gkkiwTq/uhmlIH
+ tZuwz2s1Z3vD8p2iZHQplPLBuecktX+8chjN7AeCRruvNtTLRjR6qZc98PScvi4pP9LC
+ J5iUgneayHa608n7UpoEEqUPE9Yl+dhQX2ONHP/68W6zJSEWTGvEfAuUS99Tsn/BD1ze
+ 5ccg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:reply-to:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=P1d2K6EBLa0i9DYaOKFUZQuPA0/Q9AJBs0TBBGG9+5A=;
- b=c2GzTj3yCVeuGD7O14PG1ZoB3K2n0m3a/pTZxh76Rctua4VBB4EtPZiEyTkHCEasHS
- tQsd3ylaJO0lfYSRtxrZ76xapx0DDg44oxh/A3/CDrgyjD1txAjFZ+B4/Mf6GrTN+J6B
- g4yevbYZgaw6x0kw1YjChKYnknoSJqVP+DiVn2l2t5kO+natxB0ksapviMPehElKaD1L
- bEbDhnb+RjusTQlQuhDcg5SVswB1D0dxx2V0e+HjgCHL4MIuU6auKbhVEe1DsTaFmWHH
- dpDqHnBO4/Cnv2Cyr4SUJ5X4aXJQcu2foR6FuwM+Fmmw9YcKBb8KFFADurVHA1HRnzWx
- QqiQ==
-X-Gm-Message-State: AFqh2kpqiKHlNAJZk0Jr4ppjAnWA7QpbNOHKVm7IoHv4MOdydhKWTvcj
- hN597NcDfubhaV54aK9Z4ouohQ==
-X-Google-Smtp-Source: AMrXdXthpMyfs3cO+WKLMQ4K1r95WyC+VFsKtEiWz6BGuZw4n1JeOQmBiUhRbgIDSc9jVBl8lIuWcw==
-X-Received: by 2002:a05:600c:4b1b:b0:3d2:1d51:2477 with SMTP id
- i27-20020a05600c4b1b00b003d21d512477mr44697947wmp.11.1672927792485; 
- Thu, 05 Jan 2023 06:09:52 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:1e12:c16d:1898:607c?
- ([2a01:e0a:982:cbb0:1e12:c16d:1898:607c])
- by smtp.gmail.com with ESMTPSA id
- f19-20020a05600c155300b003d98a7aa12csm2914216wmg.16.2023.01.05.06.09.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 06:09:52 -0800 (PST)
-Message-ID: <36ea5022-f915-11d5-068a-e5680faf67ba@linaro.org>
-Date: Thu, 5 Jan 2023 15:09:50 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OoHN6ySxYO4Kc0OH2PTTJjJsigrGnLpjiR92br9lo2Y=;
+ b=QiIKuowUqL1Xx734iqjb/H9ckYz2jWfAnsoTll/Vg+jT3syH9cfPPTzxvsaQTZJDXt
+ BOUmfr9yvyX29hN2bTemfDD8VOcj/BHDt9xTL61ahepLqArtxMrRrD67p1Qxm6Kqsb6f
+ oPLZfspsL4G7zOqjCq6PVU4JAneVdF9+s2tEMaa9xooVUcOw8N/a72XyzO/myjJd4EM8
+ 20W2Vz/rlAUD4U+YKanJbl39kw9AyWf5Gbst4GtqLAzN1LO03A2HWqvAVO1SVzzmUKam
+ hjLKfIBpcT7wcNNkEQBM4J2ZeQJZpkEfXYBphkVhlGaJWBkb3sZ/hVh4I2L3GDeziN7v
+ QVrw==
+X-Gm-Message-State: AFqh2krboJfZll6I/JL5pyhttD/70bsjvPwB1Kn/nvXQsexu2QpEaaCD
+ gb+BZPw9mMq07Sr2bmiVqaVhh2rscqKzBRHS8UD09A==
+X-Google-Smtp-Source: AMrXdXtBWeSCBBVb4XiX1AHyeVf8aJlLE6/7zF3F5us2u3ABxMP1gkT8tPzFVkRbc/SmX9X/1pVanJrNzxKjrz3Miiw=
+X-Received: by 2002:a05:6102:45b:b0:3cb:ebf:ba6e with SMTP id
+ e27-20020a056102045b00b003cb0ebfba6emr3307930vsq.54.1672927836817; Thu, 05
+ Jan 2023 06:10:36 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v3 4/7] drm/imx/dcss: stop using
- drm_bridge_connector_en/disable_hpd()
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Lucas Stach <l.stach@pengutronix.de>, Philipp Zabel
- <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Tomi Valkeinen <tomba@kernel.org>
-References: <20221102180705.459294-1-dmitry.baryshkov@linaro.org>
- <20221102180705.459294-5-dmitry.baryshkov@linaro.org>
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Organization: Linaro Developer Services
-In-Reply-To: <20221102180705.459294-5-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230105052325.514970-1-yixie@google.com>
+ <Y7a2Viw/1RUNCGkD@phenom.ffwll.local>
+ <CAHf1YQ4AZoOd=Q7KVqb1gQm3=TtiS_8-uxFY93syov1AgUT=CQ@mail.gmail.com>
+ <Y7bVNT0sf5cwEHuj@phenom.ffwll.local>
+In-Reply-To: <Y7bVNT0sf5cwEHuj@phenom.ffwll.local>
+From: Yi Xie <yixie@google.com>
+Date: Thu, 5 Jan 2023 23:10:23 +0900
+Message-ID: <CAHf1YQ55f2mN14ytCz=AB=VSvO8ByKoV59dF50gWVcjcgMkTHg@mail.gmail.com>
+Subject: Re: [PATCH] drm/vkms: Add a DRM render node to vkms
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,77 +67,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
+Cc: melissa.srw@gmail.com, hamohammed.sa@gmail.com,
+ dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
+ lepton@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/11/2022 19:07, Dmitry Baryshkov wrote:
-> The functionality of drm_bridge_connector_enable_hpd() and
-> drm_bridge_connector_disable_hpd() is provided automatically by the
-> drm_kms_poll helpers. Stop calling these functions manually.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/imx/dcss/dcss-dev.c | 4 ----
->   drivers/gpu/drm/imx/dcss/dcss-kms.c | 2 --
->   2 files changed, 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/imx/dcss/dcss-dev.c b/drivers/gpu/drm/imx/dcss/dcss-dev.c
-> index 3f5750cc2673..0d8e44f20ec4 100644
-> --- a/drivers/gpu/drm/imx/dcss/dcss-dev.c
-> +++ b/drivers/gpu/drm/imx/dcss/dcss-dev.c
-> @@ -257,8 +257,6 @@ int dcss_dev_suspend(struct device *dev)
->   	struct dcss_kms_dev *kms = container_of(ddev, struct dcss_kms_dev, base);
->   	int ret;
->   
-> -	drm_bridge_connector_disable_hpd(kms->connector);
-> -
->   	drm_mode_config_helper_suspend(ddev);
->   
->   	if (pm_runtime_suspended(dev))
-> @@ -292,8 +290,6 @@ int dcss_dev_resume(struct device *dev)
->   
->   	drm_mode_config_helper_resume(ddev);
->   
-> -	drm_bridge_connector_enable_hpd(kms->connector);
-> -
->   	return 0;
->   }
->   #endif /* CONFIG_PM_SLEEP */
-> diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-> index b4f82ebca532..16ef8aa6da37 100644
-> --- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
-> +++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-> @@ -151,7 +151,6 @@ struct dcss_kms_dev *dcss_kms_attach(struct dcss_dev *dcss)
->   	return kms;
->   
->   cleanup_crtc:
-> -	drm_bridge_connector_disable_hpd(kms->connector);
->   	drm_kms_helper_poll_fini(drm);
->   	dcss_crtc_deinit(crtc, drm);
->   
-> @@ -167,7 +166,6 @@ void dcss_kms_detach(struct dcss_kms_dev *kms)
->   	struct drm_device *drm = &kms->base;
->   
->   	drm_dev_unregister(drm);
-> -	drm_bridge_connector_disable_hpd(kms->connector);
->   	drm_kms_helper_poll_fini(drm);
->   	drm_atomic_helper_shutdown(drm);
->   	drm_crtc_vblank_off(&kms->crtc.base);
+On Thu, Jan 5, 2023 at 10:48 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Thu, Jan 05, 2023 at 09:52:26PM +0900, Yi Xie wrote:
+> > > This doesn't sound like a good idea to me. Devices without render
+> > > capabilities should not fake it.
+> > >
+> > > User-space (e.g. wlroots) relies on "no render node" to enable
+> > > software rendering (Pixman instead of GL).
+> >
+> > We have virtgpu driver that exports a render node even when virgl is
+> > not supported.
+> > Mesa has special code path to enable software rendering on it:
+> > https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/egl/drivers/dri2/platform_device.c#L296
+> > We can do the same for vkms to force software rendering.
+>
+> Yeah that is the old kmsro mesa issue, for every combination of kms and
+> gem device you need one to make this work.
+>
+> > On Thu, Jan 5, 2023 at 8:36 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >
+> > > On Thu, Jan 05, 2023 at 02:23:25PM +0900, Yi Xie wrote:
+> > > > Some libraries including Mesa and virglrenderer require a render node to
+> > > > fully function. By adding a render node to vkms those libraries will
+> > > > work properly, supporting use cases like running crosvm with virgl GPU
+> > > > support via llvmpipe on a headless virtual machine.
+> > >
+> > > This is what vgem exists for. More or less at least ... I'm honestly not
+> > > really understanding what you're trying to fix here, it sounds a bit like
+> > > userspace being stupid.
+> > > -Daniel
+> > The problem with vgem is that it crashes llvmpipe while working with vkms.
+> > Looks like it's due to the same reason as described in this thread in Mesa:
+> > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/5830
+>
+> I'm not finding any bug description in there and how/why something
+> crashes?
 
+The discussion is in the comment section under the first comment by
+Emil Velikov.
+It's folded by default (inside "6 replies" at the bottom).
 
-I get:
-/drivers/gpu/drm/imx/dcss/dcss-dev.c: In function ‘dcss_dev_suspend’:
-/drivers/gpu/drm/imx/dcss/dcss-dev.c:256:23: warning: unused variable ‘kms’ [-Wunused-variable]
-   256 |  struct dcss_kms_dev *kms = container_of(ddev, struct dcss_kms_dev, base);
-       |                       ^~~
-/drivers/gpu/drm/imx/dcss/dcss-dev.c: In function ‘dcss_dev_resume’:
-/drivers/gpu/drm/imx/dcss/dcss-dev.c:277:23: warning: unused variable ‘kms’ [-Wunused-variable]
-   277 |  struct dcss_kms_dev *kms = container_of(ddev, struct dcss_kms_dev, base);
-       |                       ^~~
+>
+> > Importing buffers allocated by vgem to vkms seems to be unexpected and
+> > causes the crash. If we create a render node on vkms then llvmpipe will use
+> > vkms to allocate buffers and it no longer crashes.
+>
+> Uh importing vgem into virtio might not work because those sometimes need
+> special buffers iirc. But importing vgem into vkms really should work,
+> there's no technical reason it cannot. If it doesn't, then the right fix
+> would be to fix that, not paper around it.
 
-I'll fix while applying,
+The crash stack trace looks like this:
+https://gist.github.com/imxieyi/03053ae79cee2e614850fd41829e1da2
 
-Neil
+Even if we fix the crash issue with vgem, we still need to workaround
+quite a few
+places that has explicitly blocked vgem. A notable example is virglrenderer:
+https://gitlab.freedesktop.org/virgl/virglrenderer/-/blob/master/src/vrend_winsys_gbm.c#L121
+
+Actually I have tried to force running virglrenderer on vgem and it
+didn't work. I
+didn't look into why it wasn't working but I guess that's the reason
+for blocking
+vgem in the first place. Virglrenderer works well on vkms with render node
+enabled though.
+
+> -Daniel
+>
+> >
+> > > >
+> > > > Signed-off-by: Yi Xie <yixie@google.com>
+> > > > ---
+> > > >  drivers/gpu/drm/vkms/vkms_drv.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> > > > index 293dbca50c31..8eea5d4dece8 100644
+> > > > --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> > > > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> > > > @@ -113,7 +113,7 @@ static void vkms_config_debugfs_init(struct drm_minor *minor)
+> > > >  }
+> > > >
+> > > >  static const struct drm_driver vkms_driver = {
+> > > > -     .driver_features        = DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_GEM,
+> > > > +     .driver_features        = DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_GEM | DRIVER_RENDER,
+> > > >       .release                = vkms_release,
+> > > >       .fops                   = &vkms_driver_fops,
+> > > >       DRM_GEM_SHMEM_DRIVER_OPS,
+> > > > --
+> > > > 2.39.0.314.g84b9a713c41-goog
+> > > >
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
