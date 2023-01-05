@@ -2,38 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C359E65EAA8
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 13:28:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 119ED65EAAE
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 13:31:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0BA510E6FD;
-	Thu,  5 Jan 2023 12:28:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DF1F10E6FF;
+	Thu,  5 Jan 2023 12:31:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA20610E6FD
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 12:28:52 +0000 (UTC)
-Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1pDPMY-0002B2-4e; Thu, 05 Jan 2023 13:28:50 +0100
-Message-ID: <c32ea02c-d706-ea2f-aa13-660b8db958ef@leemhuis.info>
-Date: Thu, 5 Jan 2023 13:28:49 +0100
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D11210E702
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 12:31:46 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id cf42so54802950lfb.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 04:31:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=oIFqJ2FUub3KBG2R5dCykiETjNtSxdajFNxKC1jZqWM=;
+ b=kAN8oyePsPoUHtkrmxcy9IcLC5UnpjIIvcquPhkZoCUbA9T1IYV6Div3yuGVjfbMZU
+ 44xU7l8pE3pFMHfb+N3Hq9KUlnGzrpGQhC9RlSzuCJSv+26GOoQ594Ba/W0IuU0tfKuv
+ wo42ISHQjzIbbUZoaXnB1Xb03WcNAqIwqycJnVsenBRlgXULm7wZl6tsgrKvMwKNByiY
+ qnzp1/zkUv1nkzWmcAc5tUbXpMTL1GlyuEmoo4ECvU+h0yctKpmG1l4YOHlJQYtUe9eA
+ abu4MetJBupouhtU/qV/DIYHkd07wFt5yb0cJWa4V1ysjozHAddLjBQ5FeafC1bLWjEM
+ Q5RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oIFqJ2FUub3KBG2R5dCykiETjNtSxdajFNxKC1jZqWM=;
+ b=rFVc/cbGjSstOqvPLab/mqDAj/xwO7Yw++Jn8+bojer4ID76awSM4YS99W4V+J/V3R
+ h02aQ/VKeiCsZsK8yPDp6wZcZBJnFuviS8ZVxhj6BQO7NDKXDHf/5rDYAnm7pPbcG03v
+ IbYiQmN/DigtPhASldlDDAidpMpZTlhgoCaViZBZeQgyS7QetUQavmHduVjUVKNyXx4a
+ +q38NZ7ai8sepYZn5e3iEJue1J1DCRJ+WRsKqX7alMRbK/Uq384gcxNy/GBDJBLDBc/M
+ 66RKESynBqLzxjomOamgW2+ZUTx2py4fJ5/PnV8B4DktOsmA7jNvWgvI1M78Q9hlsJLi
+ SFkQ==
+X-Gm-Message-State: AFqh2kqUiN2UU8bGjIib6m9Hp9K6ZZY1jZXc5IPwb6g23OtsynIJ/wcL
+ FyHdF8uEhi0zT581Z93VH4O7/Q==
+X-Google-Smtp-Source: AMrXdXs1Ic63PTBM7olfEHl8M8WpZbHuxq/8HDfCGzBrF4O5dxEmZvRBQOxx6bkwpIsT35uxwKQrxg==
+X-Received: by 2002:ac2:58e1:0:b0:4b5:4606:7ad9 with SMTP id
+ v1-20020ac258e1000000b004b546067ad9mr14544367lfo.39.1672921904371; 
+ Thu, 05 Jan 2023 04:31:44 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ x3-20020a056512130300b004cb10601096sm3471695lfu.136.2023.01.05.04.31.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Jan 2023 04:31:43 -0800 (PST)
+Message-ID: <64c66b81-b347-f659-1038-c104eb5c5468@linaro.org>
+Date: Thu, 5 Jan 2023 14:31:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [REGRESSION] GM20B probe fails after commit 2541626cfb79
-Content-Language: en-US, de-DE
-To: bskeggs@redhat.com, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>
-References: <20221228144914.z7t7a4fdwvbblnak@wslaptop>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <20221228144914.z7t7a4fdwvbblnak@wslaptop>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1672921732;
- 522eca5f; 
-X-HE-SMSGID: 1pDPMY-0002B2-4e
+Subject: Re: [PATCH v3 0/7] drm/bridge_connector: perform HPD enablement
+ automatically
+Content-Language: en-GB
+To: neil.armstrong@linaro.org,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Lucas Stach <l.stach@pengutronix.de>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20221102180705.459294-1-dmitry.baryshkov@linaro.org>
+ <362452c5-8858-9ac5-e0ca-8ff993e966b7@linaro.org>
+ <baa8df6b-ecd4-6df8-9fb5-6a3a39e1a04f@ideasonboard.com>
+ <37e48125-072d-e55d-d997-67fd3796a779@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <37e48125-072d-e55d-d997-67fd3796a779@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,104 +91,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
- regressions@lists.linux.dev, dri-devel@lists.freedesktop.org,
- airlied@redhat.com
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[adding Karol and Lyude to the list of recipients]
+On 04/01/2023 11:05, Neil Armstrong wrote:
+> On 04/01/2023 08:29, Tomi Valkeinen wrote:
+>> On 28/12/2022 23:58, Dmitry Baryshkov wrote:
+>>> On 02/11/2022 20:06, Dmitry Baryshkov wrote:
+>>>>  From all the drivers using drm_bridge_connector only iMX/dcss and OMAP
+>>>> DRM driver do a proper work of calling
+>>>> drm_bridge_connector_en/disable_hpd() in right places. Rather than
+>>>> teaching each and every driver how to properly handle
+>>>> drm_bridge_connector's HPD, make that automatic.
+>>>>
+>>>> Add two additional drm_connector helper funcs: enable_hpd() and
+>>>> disable_hpd(). Make drm_kms_helper_poll_* functions call them (as this
+>>>> is the time where the drm_bridge_connector's functions are called by 
+>>>> the
+>>>> drivers too).
+>>>
+>>> Since we are at the beginning of the development window, gracious 
+>>> ping for this patchset.
+>>>
+>>> It would be nice to finally handle the bridge_connector's hpd 
+>>> properly. Calling drm_bridge_connector_enable_hpd() from 
+>>> drm_bridge_connector_init() is not a proper way to do this. It 
+>>> results in calling bridge->funcs->hpd_enable() before the rest of the 
+>>> pipeline was set up properly.
+>>
+>> For the series:
+>>
+>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>
+>> I've been using this series in my local branch for quite a while to 
+>> fix the HPD issues. Works for me.
 
-Hi, this is your Linux kernel regression tracker. Top-posting for once,
-to make this easily accessible to everyone.
+Thanks!
 
-On 28.12.22 15:49, Diogo Ivo wrote:
-> Hello,
+>>
+>> I still think the "fix" aspect should be highlighted more here, as the 
+>> current upstream triggers a WARN for "Hot plug detection already 
+>> enabled" (at least) on OMAP.
 > 
-> Commit 2541626cfb79 breaks GM20B probe with
-> the following kernel log:
-Just wondering: is anyone looking on this? The report was posted more
-than a week ago and didn't even get a single reply yet afaics. This of
-course can happen at this time of the year, but I nevertheless thought a
-quick status inquiry might be a good idea at this point.
+> LGTM then !
+> 
+> Tomi, Dmitry, I can push the whole serie via drm-misc-next or -fixes 
+> then, as you wish.
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
 
-> [    2.153892] ------------[ cut here ]------------
-> [    2.153897] WARNING: CPU: 1 PID: 36 at drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgf100.c:273 gf100_vmm_valid+0x2c4/0x390
-> [    2.153916] Modules linked in:
-> [    2.153922] CPU: 1 PID: 36 Comm: kworker/u8:1 Not tainted 6.1.0+ #1
-> [    2.153929] Hardware name: Google Pixel C (DT)
-> [    2.153933] Workqueue: events_unbound deferred_probe_work_func
-> [    2.153943] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [    2.153950] pc : gf100_vmm_valid+0x2c4/0x390
-> [    2.153959] lr : gf100_vmm_valid+0xb4/0x390
-> [    2.153966] sp : ffffffc009e134b0
-> [    2.153969] x29: ffffffc009e134b0 x28: 0000000000000000 x27: ffffffc008fd44c8
-> [    2.153979] x26: 00000000ffffffea x25: ffffffc0087b98d0 x24: ffffff8080f89038
-> [    2.153987] x23: ffffff8081fadc08 x22: 0000000000000000 x21: 0000000000000000
-> [    2.153995] x20: ffffff8080f8a000 x19: ffffffc009e13678 x18: 0000000000000000
-> [    2.154003] x17: f37a8b93418958e6 x16: ffffffc009f0d000 x15: 0000000000000000
-> [    2.154011] x14: 0000000000000002 x13: 000000000003a020 x12: ffffffc008000000
-> [    2.154019] x11: 0000000102913000 x10: 0000000000000000 x9 : 0000000000000000
-> [    2.154026] x8 : ffffffc009e136d8 x7 : ffffffc008fd44c8 x6 : ffffff80803d0f00
-> [    2.154034] x5 : 0000000000000000 x4 : ffffff8080f88c00 x3 : 0000000000000010
-> [    2.154041] x2 : 000000000000000c x1 : 00000000ffffffea x0 : 00000000ffffffea
-> [    2.154050] Call trace:
-> [    2.154053]  gf100_vmm_valid+0x2c4/0x390
-> [    2.154061]  nvkm_vmm_map_valid+0xd4/0x204
-> [    2.154069]  nvkm_vmm_map_locked+0xa4/0x344
-> [    2.154076]  nvkm_vmm_map+0x50/0x84
-> [    2.154083]  nvkm_firmware_mem_map+0x84/0xc4
-> [    2.154094]  nvkm_falcon_fw_oneinit+0xc8/0x320
-> [    2.154101]  nvkm_acr_oneinit+0x428/0x5b0
-> [    2.154109]  nvkm_subdev_oneinit_+0x50/0x104
-> [    2.154114]  nvkm_subdev_init_+0x3c/0x12c
-> [    2.154119]  nvkm_subdev_init+0x60/0xa0
-> [    2.154125]  nvkm_device_init+0x14c/0x2a0
-> [    2.154133]  nvkm_udevice_init+0x60/0x9c
-> [    2.154140]  nvkm_object_init+0x48/0x1b0
-> [    2.154144]  nvkm_ioctl_new+0x168/0x254
-> [    2.154149]  nvkm_ioctl+0xd0/0x220
-> [    2.154153]  nvkm_client_ioctl+0x10/0x1c
-> [    2.154162]  nvif_object_ctor+0xf4/0x22c
-> [    2.154168]  nvif_device_ctor+0x28/0x70
-> [    2.154174]  nouveau_cli_init+0x150/0x590
-> [    2.154180]  nouveau_drm_device_init+0x60/0x2a0
-> [    2.154187]  nouveau_platform_device_create+0x90/0xd0
-> [    2.154193]  nouveau_platform_probe+0x3c/0x9c
-> [    2.154200]  platform_probe+0x68/0xc0
-> [    2.154207]  really_probe+0xbc/0x2dc
-> [    2.154211]  __driver_probe_device+0x78/0xe0
-> [    2.154216]  driver_probe_device+0xd8/0x160
-> [    2.154221]  __device_attach_driver+0xb8/0x134
-> [    2.154226]  bus_for_each_drv+0x78/0xd0
-> [    2.154230]  __device_attach+0x9c/0x1a0
-> [    2.154234]  device_initial_probe+0x14/0x20
-> [    2.154239]  bus_probe_device+0x98/0xa0
-> [    2.154243]  deferred_probe_work_func+0x88/0xc0
-> [    2.154247]  process_one_work+0x204/0x40c
-> [    2.154256]  worker_thread+0x230/0x450
-> [    2.154261]  kthread+0xc8/0xcc
-> [    2.154266]  ret_from_fork+0x10/0x20
-> [    2.154273] ---[ end trace 0000000000000000 ]---
-> [    2.154278] nouveau 57000000.gpu: pmu: map -22
-> [    2.154285] nouveau 57000000.gpu: acr: one-time init failed, -22
-> [    2.154559] nouveau 57000000.gpu: init failed with -22
-> [    2.154564] nouveau: DRM-master:00000000:00000080: init failed with -22
-> [    2.154574] nouveau 57000000.gpu: DRM-master: Device allocation failed: -22
-> [    2.162905] nouveau: probe of 57000000.gpu failed with error -22
-> 
-> #regzbot introduced: 2541626cfb79
-> 
-> Thanks,
-> 
-> Diogo Ivo
-> 
-> 
+I'm fine either way. We have been living with the warning for some time, 
+so I don't think there is any urgency to get rid of it immediately.
 
-#regzbot poke
+-- 
+With best wishes
+Dmitry
+
