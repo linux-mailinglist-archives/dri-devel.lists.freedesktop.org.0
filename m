@@ -1,58 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D161B65E8FB
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 11:25:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2539665E904
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 11:31:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17BA310E6E2;
-	Thu,  5 Jan 2023 10:25:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 797A110E6E4;
+	Thu,  5 Jan 2023 10:31:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B6D210E6E2
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 10:25:18 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id
- h7-20020a17090aa88700b00225f3e4c992so1615715pjq.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 02:25:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Dt0BUqKwqWWibWQTb1wPCoKjm4VxsUkn0xweZKKMDlI=;
- b=YVRGKFa0easmpbhxNK49mPSwSm4p0yLlLolRTqAAayxsax3xiNb/DSU6taZNhLfwg2
- NwU/6V3PZ+hSXVdRw9G7LGmz5qE5R2f+uFoPn72pC1tJ2p7L4DjEcG1XFmIQqHqu2QH+
- jn+Z3syF3bwWcXBb55yis6EiEW7pTcDYekbDg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Dt0BUqKwqWWibWQTb1wPCoKjm4VxsUkn0xweZKKMDlI=;
- b=wC4LwemEho6YkjigY/P5wz+FB8d2esyYcl/tEi3I1upWRqd0KWhxgV59qkQm7HAc1G
- trUQy3dj8RitoAgkFCZe1z7CaMY51ZnKX6FgTBypd0U+8Y0HfxWlq9J23TNXNKhp4Iu5
- WxxAgjRet3OKfryWAcZAnWXJ9Yhrk3H3CuG825P/HRAJ9L+crI3r2BU5usQ3gZ1iEMnx
- eaTAeWjzTzarqyQCVVkNNfu/Lt44+6Xz0UnAkc68qAdw97KaV0ap0H6m6xjjT7knJIBD
- kDHV4DRYuI2xRScONzo2/wZM9taKEPGFjGeqK2YBE0n7Q8LIOCzPWLhmyogT0ZGSEXRb
- ++qg==
-X-Gm-Message-State: AFqh2kqfn8ZcEn+SsFJHXJyXqSYb/ZFvLquHYR4XKWm5IJKD5R+20TMG
- 4XMqc/i9pzCDWHRdjYqNU9ecIPVBPp301kKRc5Gy7jS0OQMvSQ==
-X-Google-Smtp-Source: AMrXdXtH8U8MGVN+aDur6Y5usog53kmDoioY+u7d3Z2CRLX/YuYF2BfABux+LurZUiHsDsT7IgRi8tjHf6ScJFu4mbA=
-X-Received: by 2002:a17:902:bf45:b0:189:505b:73dd with SMTP id
- u5-20020a170902bf4500b00189505b73ddmr2984463pls.143.1672914317807; Thu, 05
- Jan 2023 02:25:17 -0800 (PST)
+X-Greylist: delayed 58646 seconds by postgrey-1.36 at gabe;
+ Thu, 05 Jan 2023 10:31:21 UTC
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD8CB10E6E4
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 10:31:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1672914679; bh=HdTaM69YzlM7AWTFyHXLA1zjDBcCzf/dJ1df7pUtA/k=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=RXTvGhBnhOsZEJOiek0QbgAawv2ugUNvjAp/Y1+lP9ebOptf9YrENXHWSZQRoWiuN
+ DBgX/+oWDob8rhh1P7qLN16NE9s6xXS/sC7Rnd7QGk8qS5vKbY36ClWTiOwqvGIDUe
+ 38PJGWl5xFCU4mDQVzHFuu07/GnG11zhF6fcg5LtB3qf6m8C0RisBPjIEpOSAtm36g
+ LlQ6nXOQRBeirG3OqBZoUDxAKm5cE/FZ5mx1o374j16yKl8OpH2tWEgQdiQTrp76eb
+ 7mRwS4JR8io0jLdvDvSOMHwiOxAxu4bNqN3VMOacwcNCdY6LHWS5vxiAUBBaGbwZ88
+ mB6QnrOFQ82OA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([92.116.173.134]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M89Kr-1p8igv3HSV-005KA5; Thu, 05
+ Jan 2023 11:31:18 +0100
+Message-ID: <ed7a65bb-f521-e5a5-85eb-0f24b023421b@gmx.de>
+Date: Thu, 5 Jan 2023 11:31:17 +0100
 MIME-Version: 1.0
-References: <20221230063528.41037-1-zh.nvgt@gmail.com>
- <2711de96-fcbe-5611-657a-ab29becd2ff6@gmx.de>
- <CAKMK7uEOX5n64cjzMt9GRQaS13HFPFyOeqdrkmzc035U5_T8tg@mail.gmail.com>
-In-Reply-To: <CAKMK7uEOX5n64cjzMt9GRQaS13HFPFyOeqdrkmzc035U5_T8tg@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 5 Jan 2023 11:25:06 +0100
-Message-ID: <CAKMK7uE7CAXO50JPQ6ziQGGehqfDK2UanBQbfLdUH2RwrwXUvw@mail.gmail.com>
-Subject: Re: [PATCH] fbmem: prevent potential use-after-free issues with
- console_lock()
-To: Helge Deller <deller@gmx.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [GIT PULL] fbdev fixes for v6.2-rc3
+Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <Y7aGw/irynC61O85@ls3530>
+ <CAKMK7uEnFBo_YfU8OTvMS8+YkoGS=vmpGQPMa9PKxGOB3pd7nA@mail.gmail.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <CAKMK7uEnFBo_YfU8OTvMS8+YkoGS=vmpGQPMa9PKxGOB3pd7nA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:vP4qg4Ik2xnHi9jKgGd7IyG0tMSl/rKMrdlhpkkF4WKn94KVpl7
+ AidKo+tAbMC5shZXoITBMNCJ3aEWzPY0DEVApA6mj1lhpaDWgkeGdbz7PQ8R6z+jHK788qP
+ PUP5FpjrAFOksi6//oVXlUJUz7Pki4XBF7A4UjEk3O4yLmw1cf/4aUOI/iVZO+UNU3IfBj1
+ C/92kRV1UM+wW2+OtwGCg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:JKWTuPJdwUo=;76xy/qSTu3Q8WMlQ9AIUR0ckxBy
+ 1JvLVdlUcX2Tzq2k5NOvR6fKfIlbBlfTJ1vzpHAhpD6G2pC4MkBJfZw5HQj6jFLO8Wz60ctT3
+ 0E+SpPCC65G65hWl/k2roZ03uk7h+tfM8s0db8ynyrQ1F6vFR+SkQ0cK7wVgpSbMgsrDY5YpG
+ yz4xiEH6s51mq7jpJw743aQNk2LBMShrYSk8LhyzOTNJFoattXtVV6DkiapnoS6hI/sCBf/VD
+ 0Q1Nz2MqoKvmZ6OeEkkPH1WUL2SsmsojHevh3F0tbfjQcgvNSF+i6QyAC98AYmf62of1fwvrd
+ so8XE/tX6Ae6mm0xEoNvBW4UhbyF7vWloBEgzASFWA1ZzmaXNxfZSbxXw3nDoQd+Env+R9GdF
+ nZHsuTmJjcWPkMqBXgfDAG2AZsl4hgn6h+wBEGQwXpnwN1pkKWlEFCHWuP6CkQ3pGtwQQbZDU
+ /UMXw1ixmzkTxtpezMd3wfsBHXu3abfuVuKWPEUZnQ5VfCGQ4vEXDm5C2NPl4QWYJChOMCQaM
+ 2qcWTiSt5b0deo6MIVJ6M/l3gOjmh8DE7+4T/FmsqP0NKNK+CjkOxPY5NJb3I6xGKrUmhmnpL
+ vjCS2erU0RoYmF+xvQqzWOaC3ELnDdB/FBqHQUE8WKBSda1HPZSWaT+RZ7DPCfRVJFEWqsKTz
+ rcM7PTNgSv5jt+DidbgUF2KOOXDSzkQg0u419GMVR3VHXHM2qpNDHsHoTL19x2n+SbU5wxI9L
+ fppl2XVAD3+sNTdF9bW51RyUmHdI6Y+ERh6kpIWg+etNEk5IZssvje0nVYFAE9jFhIJrnJXeA
+ rxx0JxPLYyYBAwEt772EyMd6KTos7EfhgKjwTL2D+IbR+ZiIaAjKyPbgrbu2/U5TFZN1+uom9
+ 7M3TYZDyPXD2mkneLj+X0fl80uCERzaInhFfwcLuyv4QZs+FWGAHuxJUvArlaYFhgX0SVS2iu
+ i3oLFPcBYE4vunUEjepTHhmOC/s=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,109 +73,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Hang Zhang <zh.nvgt@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-fbdev@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 5 Jan 2023 at 11:21, Daniel Vetter <daniel@ffwll.ch> wrote:
+On 1/5/23 11:22, Daniel Vetter wrote:
+> On Thu, 5 Jan 2023 at 09:14, Helge Deller <deller@gmx.de> wrote:
+>>
+>> Hi Linus,
+>>
+>> please pull the fbdev driver updates for 6.2-rc3, to receive
+>> fixes for matroxfb, offb, omapfb and fbmem.
+>>
+>> Thanks,
+>> Helge
+>>
+>> ----
+>>
+>> The following changes since commit 1b929c02afd37871d5afb9d498426f83432e=
+71c2:
+>>
+>>    Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
+>>
+>> are available in the Git repository at:
+>>
+>>    http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.gi=
+t tags/fbdev-for-6.2-rc3
+>>
+>> for you to fetch changes up to 764043cccd7232a783753a612d628fc0cb7854be=
+:
+>>
+>>    fbdev: omapfb: avoid stack overflow warning (2023-01-04 19:09:40 +01=
+00)
+>>
+>> ----------------------------------------------------------------
+>> fbdev updates for kernel 6.2-rc3:
+>>
+>> - Fix Matrox G200eW initialization failure
+>> - Fix build failure of offb driver when built as module
+>> - Optimize stack usage in omapfb
+>> - Prevent use-after-free in fbmem
+>>
+>> ----------------------------------------------------------------
+>> Arnd Bergmann (1):
+>>        fbdev: omapfb: avoid stack overflow warning
+>>
+>> Hang Zhang (1):
+>>        fbdev: fbmem: prevent potential use-after-free issues with conso=
+le_lock()
 >
-> Hi Helge
->
-> On Mon, 2 Jan 2023 at 16:28, Helge Deller <deller@gmx.de> wrote:
-> >
-> > On 12/30/22 07:35, Hang Zhang wrote:
-> > > In do_fb_ioctl(), user specified "fb_info" can be freed in the callee
-> > > fbcon_get_con2fb_map_ioctl() -> set_con2fb_map() ->
-> > > con2fb_release_oldinfo(), this free operation is protected by
-> > > console_lock() in fbcon_set_con2fb_map_ioctl(), it also results in
-> > > the change of certain states such as "minfo->dead" in matroxfb_remove(),
-> > > so that it can be checked to avoid use-after-free before the use sites
-> > > (e.g., the check at the beginning of matroxfb_ioctl()). However,
-> > > the problem is that the use site is not protected by the same locks
-> > > as for the free operation, e.g., "default" case in do_fb_ioctl()
-> > > can lead to "matroxfb_ioctl()" but it's not protected by console_lock(),
-> > > which can invalidate the aforementioned state set and check in a
-> > > concurrent setting.
-> > >
-> > > Prevent the potential use-after-free issues by protecting the "default"
-> > > case in do_fb_ioctl() with console_lock(), similarly as for many other
-> > > cases like "case FBIOBLANK" and "case FBIOPAN_DISPLAY".
-> > >
-> > > Signed-off-by: Hang Zhang <zh.nvgt@gmail.com>
-> >
-> > applied to fbdev git tree.
->
-> The patch above makes no sense at all to me:
->
-> - fb_info is protected by lock_fb_info and
-> - the lifetime of fb_info is protected by the get/put functions
-> - yes there's the interaction with con2fb, which is protected by
-> console_lock, but the lifetime guarantees are ensured by the device
-> removal
-> - which means any stuff happening in matroxfb_remove is also not a
-> concern here (unless matroxfb completely gets all the device lifetime
-> stuff wrong, but it doesn't look like it's any worse than any of the
-> other fbdev drivers that we haven't recently fixed up due to the
-> takeover issues with firmware drivers
+> I looked at this, and even by fbdev locking standards this makes
+> absolutely no sense to me. I think this should be dropped before we've
+> reached some sort of conclusion on what is going on, or whether this
+> is just pure static checker conjecture without fully understanding how
+> this is supposed to work really.
+> -Daniel
 
-I have also a really hard timing finding the con2fb map use in the
-matroxfb ioctl code, but that just might be that I didn't look
-carefully enough. Maybe that would shed some light on this.
--Daniel
+Sure.
 
+I'll send a new pull request where this patch is dropped.
 
->
-> On the very clear downside this now means we take console_lock for the
-> vblank ioctl (which is a device driver extension for reasons, despite
-> that it's a standard fbdev ioctl), which is no good at all given how
-> console_lock() is a really expensive lock.
->
-> Unless I'm massively missing something, can you pls push the revert
-> before this lands in Linus' tree?
->
-> Thanks, Daniel
->
-> > Thanks,
-> > Helge
-> >
-> > > ---
-> > >   drivers/video/fbdev/core/fbmem.c | 2 ++
-> > >   1 file changed, 2 insertions(+)
-> > >
-> > > diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> > > index 1e70d8c67653..8b1a1527d18a 100644
-> > > --- a/drivers/video/fbdev/core/fbmem.c
-> > > +++ b/drivers/video/fbdev/core/fbmem.c
-> > > @@ -1182,6 +1182,7 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
-> > >               console_unlock();
-> > >               break;
-> > >       default:
-> > > +             console_lock();
-> > >               lock_fb_info(info);
-> > >               fb = info->fbops;
-> > >               if (fb->fb_ioctl)
-> > > @@ -1189,6 +1190,7 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
-> > >               else
-> > >                       ret = -ENOTTY;
-> > >               unlock_fb_info(info);
-> > > +             console_unlock();
-> > >       }
-> > >       return ret;
-> > >   }
-> >
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+Thanks!
+Helge
 
 
+>
+>> Paul Menzel (1):
+>>        fbdev: matroxfb: G200eW: Increase max memory from 1 MB to 16 MB
+>>
+>> Randy Dunlap (1):
+>>        fbdev: make offb driver tristate
+>>
+>> Xu Panda (2):
+>>        fbdev: omapfb: use strscpy() to instead of strncpy()
+>>        fbdev: atyfb: use strscpy() to instead of strncpy()
+>>
+>>   drivers/video/fbdev/Kconfig                |  4 ++--
+>>   drivers/video/fbdev/aty/atyfb_base.c       |  3 +--
+>>   drivers/video/fbdev/core/fbmem.c           |  2 ++
+>>   drivers/video/fbdev/matrox/matroxfb_base.c |  4 ++--
+>>   drivers/video/fbdev/omap/omapfb_main.c     |  5 ++---
+>>   drivers/video/fbdev/omap2/omapfb/dss/dsi.c | 28 ++++++++++++++++++---=
+-------
+>>   6 files changed, 27 insertions(+), 19 deletions(-)
+>
+>
+>
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
