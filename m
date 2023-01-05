@@ -1,54 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF7B65F463
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 20:26:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D216765F47E
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 20:31:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52E2910E129;
-	Thu,  5 Jan 2023 19:26:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B1D610E489;
+	Thu,  5 Jan 2023 19:31:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D287310E129
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 19:26:49 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 151F6B81B32;
- Thu,  5 Jan 2023 19:26:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A1E86C433EF;
- Thu,  5 Jan 2023 19:26:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1672946806;
- bh=s5g0WENZb5vwVZOYV8eJY5ke6jHO1BmPYsSPvs74uc8=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=sGthtr9Y87pT0RGc0Es0XVEsdyaLR9+8zLFNLFQV2Lw3B4d/toBBrCWvYvC9AEcNY
- E0mzrZwkvnw+AlIELMqvCS5P9nDwnOH19ymKvk9MROY1lmPv+1Okxss3ISaGWN20DW
- BdWE1UYBFh4EdtZVlvFenYAea7WYrinMYgo+LeT1aB/xAm2WjSmFKHDIYeHfhE1h1Z
- OPJ0iVXyMTTN2i5AodQQgl+jlzon3w2XnJMQplfSj4n2lpfyxOq4Nx+l1gHclT8nVK
- d9s4I+hO5s9C9kJ4KMdh1J48LL03MmPEmvLdfJMeaPXuQ0K0ie/BycgwsdAqL0OlUz
- PF3uHL9RuGnbg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 8FB2CE5724A; Thu,  5 Jan 2023 19:26:46 +0000 (UTC)
-Subject: Re: [GIT PULL - v2] fbdev fixes for v6.2-rc3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <Y7aweqyDS7EmnDj8@ls3530>
-References: <Y7aweqyDS7EmnDj8@ls3530>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <Y7aweqyDS7EmnDj8@ls3530>
-X-PR-Tracked-Remote: http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git
- tags/fbdev-for-6.2-rc3
-X-PR-Tracked-Commit-Id: 634cf6ead93988b0da9ac054521ab63a3ba189db
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 5e9af4b42660b2a8db067db8ff03db8a268d6a95
-Message-Id: <167294680658.18567.5299201102789509394.pr-tracker-bot@kernel.org>
-Date: Thu, 05 Jan 2023 19:26:46 +0000
-To: Helge Deller <deller@gmx.de>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5828D10E49B
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 19:31:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=6ng+7yFDWt9LxupRFip41Ax8DmuR3ZIMGl3JGKRkSCM=; b=IhWo/ViZZotddgwnge91joIdD4
+ 0QJtZLN9QO/xB3TuOerTdBCV+0q+Ka/r6dheIvcSdSucO+ZSAkRZ0mKMiTDkXJ/tQkrg+BMR8H6d4
+ NCk83lxooSipqYGYT9e/skAoPgW9mn0JriK44nCGuYwjrW04uZtcHUy15JZA9bffX190DdUsnoIGp
+ GPLGaVm/0QgJy837Y7FYfdgaGjqVvLDtboQlLk7iVC9xsIu34VbeelE1JpjqFXNmqXWnUYCptin6K
+ CSl8wzC62l18t5Fc4fkAUUp5BgkvUrcOdSJPyPFq6ZaO+wVorKUbe8Rf1kXy8tx72/wnHpzmF7rNI
+ GAd3OWFQ==;
+Received: from [187.36.234.139] (helo=bowie..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pDVx0-000Kcs-7a; Thu, 05 Jan 2023 20:30:54 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 1/2] drm/debugfs: use octal permissions instead of symbolic
+ permissions
+Date: Thu,  5 Jan 2023 16:30:38 -0300
+Message-Id: <20230105193039.287677-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.39.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,20 +56,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
+Cc: Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Thu, 5 Jan 2023 12:11:54 +0100:
+Currently, debugfs functions are using symbolic macros as permission
+bits, but checkpatch reinforces permission bits in the octal form, as
+they are more readable and easier to understand [1].
 
-> http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.2-rc3
+Therefore, use octal permission bits in all debugfs functions.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/5e9af4b42660b2a8db067db8ff03db8a268d6a95
+[1] https://docs.kernel.org/dev-tools/checkpatch.html#permissions
 
-Thank you!
+Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+---
+ drivers/gpu/drm/drm_debugfs.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index 5ea237839439..4f643a490dc3 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -207,7 +207,7 @@ void drm_debugfs_create_files(const struct drm_info_list *files, int count,
+ 
+ 		tmp->minor = minor;
+ 		tmp->dent = debugfs_create_file(files[i].name,
+-						S_IFREG | S_IRUGO, root, tmp,
++						0444, root, tmp,
+ 						&drm_debugfs_fops);
+ 		tmp->info_ent = &files[i];
+ 
+@@ -246,7 +246,7 @@ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+ 		dev->driver->debugfs_init(minor);
+ 
+ 	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
+-		debugfs_create_file(entry->file.name, S_IFREG | S_IRUGO,
++		debugfs_create_file(entry->file.name, 0444,
+ 				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
+ 		list_del(&entry->list);
+ 	}
+@@ -263,7 +263,7 @@ void drm_debugfs_late_register(struct drm_device *dev)
+ 		return;
+ 
+ 	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
+-		debugfs_create_file(entry->file.name, S_IFREG | S_IRUGO,
++		debugfs_create_file(entry->file.name, 0444,
+ 				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
+ 		list_del(&entry->list);
+ 	}
+@@ -508,15 +508,15 @@ void drm_debugfs_connector_add(struct drm_connector *connector)
+ 	connector->debugfs_entry = root;
+ 
+ 	/* force */
+-	debugfs_create_file("force", S_IRUGO | S_IWUSR, root, connector,
++	debugfs_create_file("force", 0644, root, connector,
+ 			    &drm_connector_fops);
+ 
+ 	/* edid */
+-	debugfs_create_file("edid_override", S_IRUGO | S_IWUSR, root, connector,
++	debugfs_create_file("edid_override", 0644, root, connector,
+ 			    &drm_edid_fops);
+ 
+ 	/* vrr range */
+-	debugfs_create_file("vrr_range", S_IRUGO, root, connector,
++	debugfs_create_file("vrr_range", 0444, root, connector,
+ 			    &vrr_range_fops);
+ 
+ 	/* max bpc */
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.39.0
+
