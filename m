@@ -2,136 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304DF65EAA7
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 13:27:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C359E65EAA8
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 13:28:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E508810E6FA;
-	Thu,  5 Jan 2023 12:27:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0BA510E6FD;
+	Thu,  5 Jan 2023 12:28:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71AEF10E6FA
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 12:27:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1672921662; x=1704457662;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=LzqI6pLpGEcfyKimY20IWfm5/MrrsvgZ513Rx8ZeAEs=;
- b=ePGsD3hqWYpNovpMB4sXLLKa4nEudSRja5tdF6AKfZsN6GIlgzyFVysI
- UuxbZEs3+S+mJuBa1/iABZ5p4Ij9bbIB+PfjlHI+45YAEfLuFq5cw5Xql
- NtZ14R4pNOPpsrfvdBnjJBwDbmvofRgP7L04Cv7V1wwIQ+DqeL4anhUFK
- sctW1rY80j4kqvJcBXbkz7gPs/r8AKAnGKh95683YK0G7V5dD8hRYyyH/
- pPTJXKxblt4U9a+xo62DSHZzL7RiIcuOHfG6MvyAjs1C4hkqopW81RBee
- 2+RELl4QQnO17KriTXOvAXPFBMxhJAaZgV7YJSeNEo9oSCpH+w1Gfgnu/ w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="384483998"
-X-IronPort-AV: E=Sophos;i="5.96,302,1665471600"; d="scan'208";a="384483998"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2023 04:27:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="763115145"
-X-IronPort-AV: E=Sophos;i="5.96,302,1665471600"; d="scan'208";a="763115145"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga002.fm.intel.com with ESMTP; 05 Jan 2023 04:27:40 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 5 Jan 2023 04:27:40 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 5 Jan 2023 04:27:40 -0800
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.41) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 5 Jan 2023 04:27:39 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i6mtdxzfToGKy7UnDwo9U2Le02Ogmbus7j/Ub4zjggx97dMh8WdrPb8P/RMNdHRx5VPZ8AQyp9Gi3vNLdIC2aq1CzNSOjHD4/TYfXxR53KAoGlfJftiX1f6Zm5koQ7S5fGf7qFsqjv1cYK1sV2I1gK+AehcNcBo8B9m9CzfYC4Gdik92JSxE4DcHek5vwSb+wNZIRVFJ0wXwhEfaH4t9ZP6S18U19HFYtYjyW9M6UL18o3kVIyBDZsbzYuUWMmfNmZhtxtVBiwlI1Cfn5JDJnt6TBPqVy8524StXg9AWDgXvkLfJza6RsjdXucbdGrd0GTaYAYgq37SyoBPJ7Gw8xg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HEaQ9gvCSVr8eUaiXNIYUU5AZJAaOB5fNtPf0VNUZdU=;
- b=NAJf5loKHoq2FNxhfO5IzxKWh4582loHY3U2iuKWCfrds2LESqTtiYFec+Jb3aiXbXHs0cShLKaDFUie4EhcATg1uysvedn/1YYCAWOkRhdpwIxoagS5crjN6OXftxW5p2ZQDtP3GX1hjD2fQ2KT+7nT3Vcngouba9GxBi7z374HEkL/Hg15G4LiQXRxIHc0TaUopNiH+rqsGJFjsqh/48Q7EW7Nx6cnxbthsUZGJ6JgoAcu6uD46vDGW5wG2d9Si0mQIuodVCOn2vD/o0v4NzU8lWrlW90pFAZjAm8MyzxTBSabitDnWgNk2SvtRWKGn8++7BOGMQcv74xu6ycfPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by BN9PR11MB5242.namprd11.prod.outlook.com (2603:10b6:408:133::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Thu, 5 Jan
- 2023 12:27:38 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::499c:efe3:4397:808]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::499c:efe3:4397:808%8]) with mapi id 15.20.5944.019; Thu, 5 Jan 2023
- 12:27:38 +0000
-Date: Thu, 5 Jan 2023 07:27:33 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm: document better that drivers shouldn't use
- drm_minor directly
-Message-ID: <Y7bCNYSqqZKyCTKW@intel.com>
-References: <20230104211754.1967591-1-daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230104211754.1967591-1-daniel.vetter@ffwll.ch>
-X-ClientProxiedBy: BY5PR20CA0004.namprd20.prod.outlook.com
- (2603:10b6:a03:1f4::17) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA20610E6FD
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 12:28:52 +0000 (UTC)
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1pDPMY-0002B2-4e; Thu, 05 Jan 2023 13:28:50 +0100
+Message-ID: <c32ea02c-d706-ea2f-aa13-660b8db958ef@leemhuis.info>
+Date: Thu, 5 Jan 2023 13:28:49 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|BN9PR11MB5242:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3b7365e5-6d00-463b-f12d-08daef183b12
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /hnuhfceHiOSLTk6CTOqVtc8nqPZzZTEHKFPzvRcoQY9mlGjuZ1j3VvMmhWN6fIkQA1GP4jSWycNQ2nSOjdVqKSjx5rZjxq7DVwNU3SYzCk4G/XbscACGWSsERaiBCUvtjDz87l0Jn9N2lETxzjgLYWOjXRDv2QFB47QAnVIYLgXJJbn3v73+crTJDg0GHVfHpqQyHg8Q+C1Esb0J+CMGRTVO43tvYuXt6V86wSidQy1nAU4hu3GiaEraxYgPHHSi4aSe5ZMc5Rtre76kusibgsi8tEUjQGI1JH8wdFrlAeXcjouS8Nwc4MIakksaIvIBgAb1cK65zwfvjb1JzBeLMwvwIGeBupuNxGMuPgF+2fQaNfjcuo86tWGa0syOWI6JliuqAk1FUfguzvzxwD+91SeyDxkizPLEnmxcIcHf3ReJDKC7hkI+zHudSF8oqt6wCk20qgJOrymFqVJqWYn8unOusCDvpolncMp/Nd9s7RJ7RDbYQAmVqolf/qASb4GlxGEFAGylfJeUMu6nVLELKmfjBGTtQDsJSX6Rfdn/FPVSjKaSrU71ihPC7dkZmajQY0TlNZrMl+tzzoM/UQ+MHzOrt5qSmZSERJv5CyoGWuq/y5tvySLJ0MlCm0dGeH83rgYZupm5VHuQNOCJv2vKA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(396003)(376002)(136003)(39860400002)(346002)(366004)(451199015)(5660300002)(2906002)(8936002)(44832011)(8676002)(41300700001)(6666004)(4326008)(66899015)(6486002)(66946007)(66476007)(6916009)(54906003)(66556008)(316002)(478600001)(6512007)(26005)(186003)(6506007)(107886003)(66574015)(83380400001)(82960400001)(38100700002)(2616005)(86362001)(36756003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?KXgXvAhyaAo2vvz14BhX2ls7D7JEPbT/QAzo5a48CJ17GIFG36lJMSwdC4?=
- =?iso-8859-1?Q?5g4QGsbieRKGFuoPD7X4bYlRO9RqMtH1akqY5VKJnD8hEo5S7vn6NPKJQD?=
- =?iso-8859-1?Q?P8kARGU7q7hUP3qm6Fmd3Fp5plHZKPQBmgW42hnEoc4OapjUIBu6//tO83?=
- =?iso-8859-1?Q?WQvQS6Ock21GuQC9IJx6kNq9wEtpIn2VWWJngbypMiEMtfkCqyeXFobRjq?=
- =?iso-8859-1?Q?8yIQAbcEjH6pu4+T65VD6WaDPuiRBfsUqaxN7qmD0uu8bHAjJ0VjmUglca?=
- =?iso-8859-1?Q?lzE3BXYlpd3IfZaD2qCuXfjmY4+EYNsc27LbyBnkDHVyjSeP2Yby1u4SHU?=
- =?iso-8859-1?Q?yA5RdfMlD6sLjFOMgzcQsbCR0PVHFlFUS8cbvRLTloGAjFFaQwN9HW+z5p?=
- =?iso-8859-1?Q?LT3sDTP3wG5flvQ6WCiqUZHi7g2W5nitOJhZCOkyUNlpKEANbiFMQr0IZu?=
- =?iso-8859-1?Q?MCJ++jKZTVhVGxB1AFK1XdraKfL6Bic2MVq+aYr/wOzUOm4wZ/w0kwftDU?=
- =?iso-8859-1?Q?RypNofZH6M0OM5ZdoW7+DtuI1qNuQjZEb+KG9Jj7rUAyrtUuAk9RhIO/cg?=
- =?iso-8859-1?Q?c5u3aafkIdMxWqBcIXwslall+44bvxxYxWopKLb89L5ZWTkx4a+rQHchb7?=
- =?iso-8859-1?Q?uE1LDPaZ4dpYMVjNfoIfASWM6CSWhuTBO3v1gmRWy9ODE0wRagz8r2KQ4T?=
- =?iso-8859-1?Q?UXIhnlLoRqYiQ0gWPguLhbDA88ukPG3YQ/11KAhV6eEvcI6JcfRCZp9ubb?=
- =?iso-8859-1?Q?flIiBOGTxW9Q/g0Hnxb2YimXoOkqEOgq0evJF4GZHjzobanTrTjBGa3v7/?=
- =?iso-8859-1?Q?uXOBmHu06NIP8cTxiqavaq3h3/3GVNc9fNJvatXlj7gCyW+Bv/W8qK6IPD?=
- =?iso-8859-1?Q?aYjDheHGZXT+COqSWcKlkZtwHQS9p8Ds47Y8dOe8vnHkINV/g2qYUkyHOL?=
- =?iso-8859-1?Q?neUGt80L3xTigeqR3IJPkQ5M3EU6SH9HoiVDNn5lk39oWiPV+eG9GxcuMm?=
- =?iso-8859-1?Q?lnFXM3lmcXmD2X5caCb9wgATI340zVsy2xzn4xr3guw0PCeXZdT0XCchYB?=
- =?iso-8859-1?Q?rcEnXfPyhtQ0Hlb0vP1ey/Fl0ndHWlkyfrg8pFcxCOj1l9c5GYsH1V4MxC?=
- =?iso-8859-1?Q?slslPTXVG9GV4KNrLLyPgZfqYEoGfDFXjVR4Z0JgD5Vbs8h+uVj6YxffEs?=
- =?iso-8859-1?Q?DDSKQ/v1I2Ez+VtOmVKXHoaMEUI2V1XgIBwFlKiP05bkEDclpeovdgY0w+?=
- =?iso-8859-1?Q?ZUjwCU8yWutCYeGFHkpf6atOBVUelrY3t3lc9ONuULA8kZZwCiYa8LOzOs?=
- =?iso-8859-1?Q?QBomQn01mXzTEEsnU3dlV0X872p3bJ6gksUngjKSbfvc0WvWDlkc0OEBja?=
- =?iso-8859-1?Q?/EYE6Tou1asMjuw51ukNJyIfTx2aLhSJBWIWOCtDQpUL/020UlZrAMHFZ6?=
- =?iso-8859-1?Q?tdiocRgT0o+jxCOEDjwFnxkrT00ljqJCUCoOStY+vXi3+Y8ffs+X1ohC0x?=
- =?iso-8859-1?Q?mzgkuqozrknlidXKeiTqbTeVpjDxLIn2EJUb69bzqdOpxsmpo4NTPiEuFu?=
- =?iso-8859-1?Q?vP5DyNnKm1h+RQIKBtqG7rjTjG6hzaiT6/UUrFLbMrgArBXU5eMR3+Ubg2?=
- =?iso-8859-1?Q?1Z9u3KVqgfGaqHEgEgDkjlWEKciA2Dm/QG?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b7365e5-6d00-463b-f12d-08daef183b12
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2023 12:27:37.8665 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: a5Wl/ezZ4r77HaT35S+PgzfOGBhm/pwW38/xXMDgsRWHtIJECZuO4NOZbf5Zhf2t6fv4MYNHe9FlVEIEfMUSAg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5242
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [REGRESSION] GM20B probe fails after commit 2541626cfb79
+Content-Language: en-US, de-DE
+To: bskeggs@redhat.com, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>
+References: <20221228144914.z7t7a4fdwvbblnak@wslaptop>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <20221228144914.z7t7a4fdwvbblnak@wslaptop>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1672921732;
+ 522eca5f; 
+X-HE-SMSGID: 1pDPMY-0002B2-4e
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,71 +46,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Melissa Wen <mwen@igalia.com>, Maxime Ripard <maxime@cerno.tech>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Wambui Karuga <wambui.karugax@gmail.com>
+Cc: nouveau@lists.freedesktop.org, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
+ regressions@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 04, 2023 at 10:17:54PM +0100, Daniel Vetter wrote:
-> The documentation for struct drm_minor already states this, but that's
-> not always that easy to find.
-> 
-> Also due to historical reasons we still have the minor-centric (like
-> drm_debugfs_create_files), but since this is now getting fixed we can
-> put a few more pointers in place as to how this should be done
-> ideally.
-> 
-> Motvated by some discussion with Rodrigo on irc about how drm/xe
-> should lay out its sysfs interfaces.
+[adding Karol and Lyude to the list of recipients]
 
-Thank you!
+Hi, this is your Linux kernel regression tracker. Top-posting for once,
+to make this easily accessible to everyone.
 
-Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+On 28.12.22 15:49, Diogo Ivo wrote:
+> Hello,
+> 
+> Commit 2541626cfb79 breaks GM20B probe with
+> the following kernel log:
+Just wondering: is anyone looking on this? The report was posted more
+than a week ago and didn't even get a single reply yet afaics. This of
+course can happen at this time of the year, but I nevertheless thought a
+quick status inquiry might be a good idea at this point.
 
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
+
+> [    2.153892] ------------[ cut here ]------------
+> [    2.153897] WARNING: CPU: 1 PID: 36 at drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgf100.c:273 gf100_vmm_valid+0x2c4/0x390
+> [    2.153916] Modules linked in:
+> [    2.153922] CPU: 1 PID: 36 Comm: kworker/u8:1 Not tainted 6.1.0+ #1
+> [    2.153929] Hardware name: Google Pixel C (DT)
+> [    2.153933] Workqueue: events_unbound deferred_probe_work_func
+> [    2.153943] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [    2.153950] pc : gf100_vmm_valid+0x2c4/0x390
+> [    2.153959] lr : gf100_vmm_valid+0xb4/0x390
+> [    2.153966] sp : ffffffc009e134b0
+> [    2.153969] x29: ffffffc009e134b0 x28: 0000000000000000 x27: ffffffc008fd44c8
+> [    2.153979] x26: 00000000ffffffea x25: ffffffc0087b98d0 x24: ffffff8080f89038
+> [    2.153987] x23: ffffff8081fadc08 x22: 0000000000000000 x21: 0000000000000000
+> [    2.153995] x20: ffffff8080f8a000 x19: ffffffc009e13678 x18: 0000000000000000
+> [    2.154003] x17: f37a8b93418958e6 x16: ffffffc009f0d000 x15: 0000000000000000
+> [    2.154011] x14: 0000000000000002 x13: 000000000003a020 x12: ffffffc008000000
+> [    2.154019] x11: 0000000102913000 x10: 0000000000000000 x9 : 0000000000000000
+> [    2.154026] x8 : ffffffc009e136d8 x7 : ffffffc008fd44c8 x6 : ffffff80803d0f00
+> [    2.154034] x5 : 0000000000000000 x4 : ffffff8080f88c00 x3 : 0000000000000010
+> [    2.154041] x2 : 000000000000000c x1 : 00000000ffffffea x0 : 00000000ffffffea
+> [    2.154050] Call trace:
+> [    2.154053]  gf100_vmm_valid+0x2c4/0x390
+> [    2.154061]  nvkm_vmm_map_valid+0xd4/0x204
+> [    2.154069]  nvkm_vmm_map_locked+0xa4/0x344
+> [    2.154076]  nvkm_vmm_map+0x50/0x84
+> [    2.154083]  nvkm_firmware_mem_map+0x84/0xc4
+> [    2.154094]  nvkm_falcon_fw_oneinit+0xc8/0x320
+> [    2.154101]  nvkm_acr_oneinit+0x428/0x5b0
+> [    2.154109]  nvkm_subdev_oneinit_+0x50/0x104
+> [    2.154114]  nvkm_subdev_init_+0x3c/0x12c
+> [    2.154119]  nvkm_subdev_init+0x60/0xa0
+> [    2.154125]  nvkm_device_init+0x14c/0x2a0
+> [    2.154133]  nvkm_udevice_init+0x60/0x9c
+> [    2.154140]  nvkm_object_init+0x48/0x1b0
+> [    2.154144]  nvkm_ioctl_new+0x168/0x254
+> [    2.154149]  nvkm_ioctl+0xd0/0x220
+> [    2.154153]  nvkm_client_ioctl+0x10/0x1c
+> [    2.154162]  nvif_object_ctor+0xf4/0x22c
+> [    2.154168]  nvif_device_ctor+0x28/0x70
+> [    2.154174]  nouveau_cli_init+0x150/0x590
+> [    2.154180]  nouveau_drm_device_init+0x60/0x2a0
+> [    2.154187]  nouveau_platform_device_create+0x90/0xd0
+> [    2.154193]  nouveau_platform_probe+0x3c/0x9c
+> [    2.154200]  platform_probe+0x68/0xc0
+> [    2.154207]  really_probe+0xbc/0x2dc
+> [    2.154211]  __driver_probe_device+0x78/0xe0
+> [    2.154216]  driver_probe_device+0xd8/0x160
+> [    2.154221]  __device_attach_driver+0xb8/0x134
+> [    2.154226]  bus_for_each_drv+0x78/0xd0
+> [    2.154230]  __device_attach+0x9c/0x1a0
+> [    2.154234]  device_initial_probe+0x14/0x20
+> [    2.154239]  bus_probe_device+0x98/0xa0
+> [    2.154243]  deferred_probe_work_func+0x88/0xc0
+> [    2.154247]  process_one_work+0x204/0x40c
+> [    2.154256]  worker_thread+0x230/0x450
+> [    2.154261]  kthread+0xc8/0xcc
+> [    2.154266]  ret_from_fork+0x10/0x20
+> [    2.154273] ---[ end trace 0000000000000000 ]---
+> [    2.154278] nouveau 57000000.gpu: pmu: map -22
+> [    2.154285] nouveau 57000000.gpu: acr: one-time init failed, -22
+> [    2.154559] nouveau 57000000.gpu: init failed with -22
+> [    2.154564] nouveau: DRM-master:00000000:00000080: init failed with -22
+> [    2.154574] nouveau 57000000.gpu: DRM-master: Device allocation failed: -22
+> [    2.162905] nouveau: probe of 57000000.gpu failed with error -22
 > 
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Wambui Karuga <wambui.karugax@gmail.com>
-> Cc: Maíra Canal <mcanal@igalia.com>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Melissa Wen <mwen@igalia.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  include/drm/drm_device.h | 17 +++++++++++++++--
->  1 file changed, 15 insertions(+), 2 deletions(-)
+> #regzbot introduced: 2541626cfb79
 > 
-> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-> index 9923c7a6885e..b40e07e004ee 100644
-> --- a/include/drm/drm_device.h
-> +++ b/include/drm/drm_device.h
-> @@ -87,10 +87,23 @@ struct drm_device {
->  	 */
->  	void *dev_private;
->  
-> -	/** @primary: Primary node */
-> +	/**
-> +	 * @primary:
-> +	 *
-> +	 * Primary node. Drivers should not interact with this
-> +	 * directly. debugfs interface can be registered with
-> +	 * drm_debugfs_add_file(), and sysfs should be directly added on the
-> +	 * hardwire struct device @dev.
-> +	 */
->  	struct drm_minor *primary;
->  
-> -	/** @render: Render node */
-> +	/**
-> +	 * @render:
-> +	 *
-> +	 * Render node. Drivers should not interact with this directly ever.
-> +	 * Drivers should not expose any additional interfaces in debugfs or
-> +	 * sysfs on thise node.
-> +	 */
->  	struct drm_minor *render;
->  
->  	/**
-> -- 
-> 2.37.2
+> Thanks,
 > 
+> Diogo Ivo
+> 
+> 
+
+#regzbot poke
