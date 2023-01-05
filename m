@@ -1,76 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6ED65ECA2
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 14:16:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACD6C65ECB2
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 14:17:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2239410E710;
-	Thu,  5 Jan 2023 13:16:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08A4110E712;
+	Thu,  5 Jan 2023 13:17:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D92F10E710
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 13:16:14 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id f34so54901474lfv.10
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 05:16:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=JxxqW2U4VV6Fh7w9J7Z3fimLOgBH/JK80j7RpKFTc0s=;
- b=PTD+Rt+3JSezzXjzDA6SPux9bO6VcdDD8B2UgufvaMXU3gdVRYcPaslvOzToI9taoV
- WAzYP6ZU2BVVl6y0U6c/lxb7XMIp3KC9LOyYTzs7WFpTu2XSyJKULd04UAMcecEvZGPc
- 8WMunjDLIltqmrGC+q2GTZ8ZvlrrBfyd4aYv5D728gGh4DTTZ6InRTDX1N16v2LjkJFO
- SYeTQp73rcmExGawY3JyaASMUhtjV6KmGmx8eO5wGfMRO7cX1KJ1gThqY76yARojMNa2
- sZL918uFGQcoBmSeWxfluV9RNSLALNZ1iriTGu1mE5oCjv6gPw6qfidt4XlfeDrduZ/S
- PaHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JxxqW2U4VV6Fh7w9J7Z3fimLOgBH/JK80j7RpKFTc0s=;
- b=Ba5wH080kzJZHIVi0Cp5tkmXHqikJu7i8Rs6cmOBS9ioyWr51n+rmGEoiNVtMNmYlU
- lGfP+ybRd5Gh7k6qwKsJkhrCjT0WylZVP8J1onGENfs+Gt1SAT7w+8FhPHLIV7bU5mg4
- Z4L3KQibtnkaB+fV9cjNqTX+st9QWEVUzo4SexhJN4RfajQbDr6Xk7FzVR6PLgff6mNf
- fQX88VdvsvjZWG9MIBLNTnHLKs5eLun2lVJlRXVg2LIjN9fyxXrGADzLXDqBo1Kc03o7
- KT9TOCkpHneP5tNCDpuxZ8yH9iAxaszOxJ2Nc08/3y18Npd9JEshbi1wvByeF7BjkgnK
- nF2w==
-X-Gm-Message-State: AFqh2kp7Kb4VZ2SJ4hr8tDxIRAgNOl1RLVw14OvRwopiDlb18mHCcBpn
- 4n0Nuh+rnb4kIHdisRMj4go1FA==
-X-Google-Smtp-Source: AMrXdXvbg2vxFXLTao4kRQnA/Il84ArFmU6NTMdpRsur7+pI2j1P8LoLMHueA5P1bWzcYWx6nOx5tw==
-X-Received: by 2002:ac2:4c8e:0:b0:4b6:ee97:36d2 with SMTP id
- d14-20020ac24c8e000000b004b6ee9736d2mr14003242lfl.40.1672924572561; 
- Thu, 05 Jan 2023 05:16:12 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- o5-20020ac24e85000000b004c2e1d7d9a3sm5469102lfr.146.2023.01.05.05.16.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 05:16:12 -0800 (PST)
-Message-ID: <47cd5078-f994-e05a-624c-4e221dc74294@linaro.org>
-Date: Thu, 5 Jan 2023 15:16:11 +0200
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44AF110E712
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 13:17:45 +0000 (UTC)
+Received: from fsav313.sakura.ne.jp (fsav313.sakura.ne.jp [153.120.85.144])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 305DHOub054514;
+ Thu, 5 Jan 2023 22:17:24 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav313.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav313.sakura.ne.jp);
+ Thu, 05 Jan 2023 22:17:24 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav313.sakura.ne.jp)
+Received: from [192.168.1.20] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 305DHOkc054511
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Thu, 5 Jan 2023 22:17:24 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <032386fc-fffb-1f17-8cfd-94b35b6947ee@I-love.SAKURA.ne.jp>
+Date: Thu, 5 Jan 2023 22:17:24 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v9 08/15] drm/bridge: add psr support for panel bridge
- callbacks
-Content-Language: en-GB
-To: Vinod Polimera <quic_vpolimer@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
- quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
- quic_vproddut@quicinc.com, quic_khsieh@quicinc.com, dianders@chromium.org,
- linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com, swboyd@chromium.org
-References: <1671012352-1825-1-git-send-email-quic_vpolimer@quicinc.com>
- <1671012352-1825-9-git-send-email-quic_vpolimer@quicinc.com>
- <Y7bMcLHr79uhfJv2@phenom.ffwll.local>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <Y7bMcLHr79uhfJv2@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] fbcon: Use kzalloc() in fbcon_prepare_logo()
+Content-Language: en-US
+To: Alexander Potapenko <glider@google.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ kasan-dev <kasan-dev@googlegroups.com>, Helge Deller <deller@gmx.de>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>
+References: <cad03d25-0ea0-32c4-8173-fd1895314bce@I-love.SAKURA.ne.jp>
+ <CAMuHMdUH4CU9EfoirSxjivg08FDimtstn7hizemzyQzYeq6b6g@mail.gmail.com>
+ <86bdfea2-7125-2e54-c2c0-920f28ff80ce@I-love.SAKURA.ne.jp>
+ <CAG_fn=VJrJDNSea6DksLt5uBe_sDu0+8Ofg+ifscOyDdMKj3XQ@mail.gmail.com>
+ <Y7a6XkCNTkxxGMNC@phenom.ffwll.local>
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <Y7a6XkCNTkxxGMNC@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,118 +65,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/01/2023 15:11, Daniel Vetter wrote:
-> On Wed, Dec 14, 2022 at 03:35:45PM +0530, Vinod Polimera wrote:
->> This change will handle the psr entry exit cases in the panel
->> bridge atomic callback functions. For example, the panel power
->> should not turn off if the panel is entering psr.
+On 2023/01/05 20:54, Daniel Vetter wrote:
+>>> . Plain memset() in arch/x86/include/asm/string_64.h is redirected to __msan_memset()
+>>> but memsetXX() are not redirected to __msan_memsetXX(). That is, memory initialization
+>>> via memsetXX() results in KMSAN's shadow memory being not updated.
+>>>
+>>> KMSAN folks, how should we fix this problem?
+>>> Redirect assembly-implemented memset16(size) to memset(size*2) if KMSAN is enabled?
+>>>
 >>
->> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
->> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
-> 
-> I think this is all a nice integration of the sr helpers and bridge stuff
-> and makes sense to me. For the 2 bridge patches and the drm core atomic
-> patch:
-> 
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-Thank you! I was looking at the patchset and wondering if anybody from 
-drm core can actually review the core bits.
-
-Could you please send all r-b letters, so that we don't loose them when 
-applying the patches from patchwork?
-
-> 
->> ---
->>   drivers/gpu/drm/bridge/panel.c | 48 ++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 48 insertions(+)
+>> I think the easiest way to fix it would be disable memsetXX asm
+>> implementations by something like:
 >>
->> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
->> index 3558cbf..5e77e38 100644
->> --- a/drivers/gpu/drm/bridge/panel.c
->> +++ b/drivers/gpu/drm/bridge/panel.c
->> @@ -113,6 +113,18 @@ static void panel_bridge_atomic_pre_enable(struct drm_bridge *bridge,
->>   				struct drm_bridge_state *old_bridge_state)
->>   {
->>   	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
->> +	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
->> +	struct drm_encoder *encoder = bridge->encoder;
->> +	struct drm_crtc *crtc;
->> +	struct drm_crtc_state *old_crtc_state;
->> +
->> +	crtc = drm_atomic_get_new_crtc_for_encoder(atomic_state, encoder);
->> +	if (!crtc)
->> +		return;
->> +
->> +	old_crtc_state = drm_atomic_get_old_crtc_state(atomic_state, crtc);
->> +	if (old_crtc_state && old_crtc_state->self_refresh_active)
->> +		return;
->>   
->>   	drm_panel_prepare(panel_bridge->panel);
->>   }
->> @@ -121,6 +133,18 @@ static void panel_bridge_atomic_enable(struct drm_bridge *bridge,
->>   				struct drm_bridge_state *old_bridge_state)
->>   {
->>   	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
->> +	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
->> +	struct drm_encoder *encoder = bridge->encoder;
->> +	struct drm_crtc *crtc;
->> +	struct drm_crtc_state *old_crtc_state;
->> +
->> +	crtc = drm_atomic_get_new_crtc_for_encoder(atomic_state, encoder);
->> +	if (!crtc)
->> +		return;
->> +
->> +	old_crtc_state = drm_atomic_get_old_crtc_state(atomic_state, crtc);
->> +	if (old_crtc_state && old_crtc_state->self_refresh_active)
->> +		return;
->>   
->>   	drm_panel_enable(panel_bridge->panel);
->>   }
->> @@ -129,6 +153,18 @@ static void panel_bridge_atomic_disable(struct drm_bridge *bridge,
->>   				struct drm_bridge_state *old_bridge_state)
->>   {
->>   	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
->> +	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
->> +	struct drm_encoder *encoder = bridge->encoder;
->> +	struct drm_crtc *crtc;
->> +	struct drm_crtc_state *new_crtc_state;
->> +
->> +	crtc = drm_atomic_get_old_crtc_for_encoder(atomic_state, encoder);
->> +	if (!crtc)
->> +		return;
->> +
->> +	new_crtc_state = drm_atomic_get_new_crtc_state(atomic_state, crtc);
->> +	if (new_crtc_state && new_crtc_state->self_refresh_active)
->> +		return;
->>   
->>   	drm_panel_disable(panel_bridge->panel);
->>   }
->> @@ -137,6 +173,18 @@ static void panel_bridge_atomic_post_disable(struct drm_bridge *bridge,
->>   				struct drm_bridge_state *old_bridge_state)
->>   {
->>   	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
->> +	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
->> +	struct drm_encoder *encoder = bridge->encoder;
->> +	struct drm_crtc *crtc;
->> +	struct drm_crtc_state *new_crtc_state;
->> +
->> +	crtc = drm_atomic_get_old_crtc_for_encoder(atomic_state, encoder);
->> +	if (!crtc)
->> +		return;
->> +
->> +	new_crtc_state = drm_atomic_get_new_crtc_state(atomic_state, crtc);
->> +	if (new_crtc_state && new_crtc_state->self_refresh_active)
->> +		return;
->>   
->>   	drm_panel_unprepare(panel_bridge->panel);
->>   }
->> -- 
->> 2.7.4
+>> -------------------------------------------------------------------------------------------------
+>> diff --git a/arch/x86/include/asm/string_64.h b/arch/x86/include/asm/string_64.h
+>> index 888731ccf1f67..5fb330150a7d1 100644
+>> --- a/arch/x86/include/asm/string_64.h
+>> +++ b/arch/x86/include/asm/string_64.h
+>> @@ -33,6 +33,7 @@ void *memset(void *s, int c, size_t n);
+>>  #endif
+>>  void *__memset(void *s, int c, size_t n);
 >>
+>> +#if !defined(__SANITIZE_MEMORY__)
+>>  #define __HAVE_ARCH_MEMSET16
+>>  static inline void *memset16(uint16_t *s, uint16_t v, size_t n)
+>>  {
+>> @@ -68,6 +69,7 @@ static inline void *memset64(uint64_t *s, uint64_t
+>> v, size_t n)
+>>                      : "memory");
+>>         return s;
+>>  }
+>> +#endif
 > 
+> So ... what should I do here? Can someone please send me a revert or patch
+> to apply. I don't think I should do this, since I already tossed my credit
+> for not looking at stuff carefully enough into the wind :-)
+> -Daniel
+> 
+>>
+>>  #define __HAVE_ARCH_MEMMOVE
+>>  #if defined(__SANITIZE_MEMORY__) && defined(__NO_FORTIFY)
+>> -------------------------------------------------------------------------------------------------
+>>
+>> This way we'll just pick the existing C implementations instead of
+>> reinventing them.
+>>
 
--- 
-With best wishes
-Dmitry
+I'd like to avoid touching per-arch asm/string.h files if possible.
+
+Can't we do like below (i.e. keep asm implementations as-is, but
+automatically redirect to __msan_memset()) ? If yes, we could move all
+__msan_*() redirection from per-arch asm/string.h files to the common
+linux/string.h file?
+
+diff --git a/include/linux/string.h b/include/linux/string.h
+index c062c581a98b..403813b04e00 100644
+--- a/include/linux/string.h
++++ b/include/linux/string.h
+@@ -360,4 +360,15 @@ static __always_inline size_t str_has_prefix(const char *str, const char *prefix
+ 	return strncmp(str, prefix, len) == 0 ? len : 0;
+ }
+ 
++#if defined(__SANITIZE_MEMORY__) && defined(__NO_FORTIFY)
++#undef memset
++#define memset(dest, src, count) __msan_memset((dest), (src), (count))
++#undef memset16
++#define memset16(dest, src, count) __msan_memset((dest), (src), (count) << 1)
++#undef memset32
++#define memset32(dest, src, count) __msan_memset((dest), (src), (count) << 2)
++#undef memset64
++#define memset64(dest, src, count) __msan_memset((dest), (src), (count) << 3)
++#endif
++
+ #endif /* _LINUX_STRING_H_ */
+
 
