@@ -1,63 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C54C65F01E
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 16:32:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCD7365F023
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 16:34:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F08B10E04E;
-	Thu,  5 Jan 2023 15:31:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9A0110E122;
+	Thu,  5 Jan 2023 15:34:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7145A10E04E
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 15:31:54 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id i9so53244431edj.4
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 07:31:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=w25CRq7X7QjgBESktEU1bcMhIgiIAnO0X2JwG3jpv7o=;
- b=C6cDu+/RJPWocSFLdJZyzSCN20uorOp8GLhpSp39aEbh4DEbSQZ1SofgnwFM7REYki
- w3n/2wdOQA1Xqvbh9CuS/OCzs8Dcl7B/LJiVIMnJQeFGVvbmfFW8Yd4SucomUGeKDHpw
- WJKvm9mJUkZlkxuhC/4gbhQ8bUJ4/27WYqiKc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=w25CRq7X7QjgBESktEU1bcMhIgiIAnO0X2JwG3jpv7o=;
- b=OKTjGptWk1HN1lHL2fqwwl8GjkJqTLc75zkIEZbG42FZp7b3OHZMMjt3xH4qLKvR+U
- 7Ljbk0AyOKU6CV/AWgVMxRHFX+vRvNNJ9nuJJS78mHPQk3wdDaL0mg90LL1iUr+PopE/
- 2vcyZAfS2tPo3Ay5kByWt3BGjlv4t9PVTszkuAyWvbt97yQ0Vq3ktR5IUuW+8m7F17I+
- 9lMLbx2BUwZY01XvNv7wppPxDR9c1JcOMGX32TBXslLl/rRJ9QWnCXquhPGlCNH5k0YZ
- B+YQ1Cgpa02cqvZM2ttNo3z9yH45WjZwi9H3pT6oN1HUnjGYB5iy1y1X105/Hy+wWHIo
- RXog==
-X-Gm-Message-State: AFqh2koCieJp55fVBMA6S8k984tZ7RAVXpvaJC5K/MVKReqvHCm+enac
- JhOKLQadtpTw70TZCWx4jbjdGw==
-X-Google-Smtp-Source: AMrXdXu3eF2dkR/y6JRlNEUkke8JcZQH1E7woxI0rS6tqozMIb1lnt67cxrnOlkgD5jw7IlQANIAzA==
-X-Received: by 2002:a05:6402:530d:b0:47e:f535:e9a0 with SMTP id
- eo13-20020a056402530d00b0047ef535e9a0mr42430505edb.24.1672932712949; 
- Thu, 05 Jan 2023 07:31:52 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- p25-20020aa7cc99000000b004678b543163sm16011020edt.0.2023.01.05.07.31.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 07:31:51 -0800 (PST)
-Date: Thu, 5 Jan 2023 16:31:49 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH RFC 1/4] drm/panfrost: Provide a dummy show_fdinfo()
- implementation
-Message-ID: <Y7btZUve7rDA/ctq@phenom.ffwll.local>
-References: <20230104130308.3467806-1-boris.brezillon@collabora.com>
- <20230104130308.3467806-2-boris.brezillon@collabora.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E72C310E122
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 15:33:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1672932839; x=1704468839;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=d9qCGfnbvV19YiK+oGf2OAoM9AmsakV5jBBNht6wFH0=;
+ b=RUg/oDH99oWWSFK5zCzfmEZQpA8cAYwLefAf40po42+a5kNIx4/KMoBt
+ f4UF1sEftm0ej268dxg1Bsc97ykfmaZHffVxrSUz14d3G+snqTzn0MoWK
+ PNsRR/RvGEtlmHVTTHLLAzm+QGnRU08n21c/+pyYRBXYbtdG219U9bggi
+ lq5paF4qNOKcBqNl3XjiNrOPHwVkuTzNpSFwQG12NEc+LOLnBURI5lSYr
+ tDeORLNj08+NeXXZs0BbFZI88Ay4KeW4RgQEReF3ld1eEuefuxmpor/Rb
+ z3gwTIJyB7gNuMS2jimwLV8uRMYB9rASfu/zpGs2qslbKz/E0FBq5/2LZ w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="349448707"
+X-IronPort-AV: E=Sophos;i="5.96,303,1665471600"; d="scan'208";a="349448707"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2023 07:33:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="797964616"
+X-IronPort-AV: E=Sophos;i="5.96,303,1665471600"; d="scan'208";a="797964616"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmsmga001.fm.intel.com with ESMTP; 05 Jan 2023 07:33:03 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1pDSEl-004oxQ-31; Thu, 05 Jan 2023 17:32:59 +0200
+Date: Thu, 5 Jan 2023 17:32:59 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Pin-yen Lin <treapking@chromium.org>
+Subject: Re: [PATCH v7 2/9] platform/chrome: cros_ec_typec: Purge blocking
+ switch devlinks
+Message-ID: <Y7btq4kLxrE4v3TL@smile.fi.intel.com>
+References: <20230105132457.4125372-1-treapking@chromium.org>
+ <20230105132457.4125372-3-treapking@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230104130308.3467806-2-boris.brezillon@collabora.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+In-Reply-To: <20230105132457.4125372-3-treapking@chromium.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,63 +62,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
+ chrome-platform@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ =?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
+ Prashant Malani <pmalani@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 04, 2023 at 02:03:05PM +0100, Boris Brezillon wrote:
-> Provide a dummy show_fdinfo() implementation exposing drm-driver and
-> drm-client-id. More stats will be added soon.
+On Thu, Jan 05, 2023 at 09:24:50PM +0800, Pin-yen Lin wrote:
+> From: Prashant Malani <pmalani@chromium.org>
 > 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
+> When using OF graph, the fw_devlink code will create links between the
+> individual port driver (cros-ec-typec here) and the parent device for
+> a Type-C switch (like mode-switch). Since the mode-switch will in turn
+> have the usb-c-connector (i.e the child of the port driver) as a
+> supplier, fw_devlink will not be able to resolve the cyclic dependency
+> correctly.
 > 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 2fa5afe21288..6ee43559fc14 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -515,7 +515,22 @@ static const struct drm_ioctl_desc panfrost_drm_driver_ioctls[] = {
->  	PANFROST_IOCTL(MADVISE,		madvise,	DRM_RENDER_ALLOW),
->  };
->  
-> -DEFINE_DRM_GEM_FOPS(panfrost_drm_driver_fops);
-> +static void panfrost_show_fdinfo(struct seq_file *m, struct file *f)
-> +{
-> +	struct drm_file *file = f->private_data;
-> +	struct panfrost_file_priv *panfrost_priv = file->driver_priv;
-> +
-> +	seq_printf(m, "drm-driver:\t%s\n", file->minor->dev->driver->name);
-> +	seq_printf(m, "drm-client-id:\t%llu\n", panfrost_priv->sched_entity[0].fence_context);
+> As a result, the mode-switch driver probe() never runs, so mode-switches
+> are never registered. Because of that, the port driver probe constantly
+> fails with -EPROBE_DEFER, because the Type-C connector class requires all
+> switch devices to be registered prior to port registration.
+> 
+> To break this deadlock and allow the mode-switch registration to occur,
+> purge all the usb-c-connector nodes' absent suppliers. This eliminates
+> the connector as a supplier for a switch and allows it to be probed.
 
-I think at this point we really need to not just have a document that says
-what this should look like, but drm infrastructure with shared code.
-Drivers all inventing their fdinfo really doesn't seem like a great idea
-to me.
--Daniel
-
-> +}
-> +
-> +static const struct file_operations panfrost_drm_driver_fops = {
-> +	.owner = THIS_MODULE,
-> +	DRM_GEM_FOPS,
-> +#ifdef CONFIG_PROC_FS
-> +	.show_fdinfo = panfrost_show_fdinfo,
-> +#endif
-> +};
->  
->  /*
->   * Panfrost driver version:
-> -- 
-> 2.38.1
+> Signed-off-by: Prashant Malani <pmalani@chromium.org>
 > 
+> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+
+Tag block mustn't have the blank line(s).
+
+...
+
+> +	/*
+> +	 * OF graph may have set up some device links with switches, since
+> +	 * connectors have their own compatible. Purge these to avoid a deadlock
+> +	 * in switch probe (the switch mistakenly assumes the connector is a
+> +	 * supplier).
+> +	 */
+
+Perhaps even
+
+	/*
+	 * OF graph may have set up some device links with switches,
+	 * since connectors have their own compatible. Purge these
+	 * to avoid a deadlock in switch probe (the switch mistakenly
+	 * assumes the connector is a supplier).
+	 */
+
+?
+
+> +	if (dev->of_node)
+
+I would use if (dev_of_node(dev)), but it's up to you and maintainers.
+
+> +		device_for_each_child_node(dev, fwnode)
+> +			fw_devlink_purge_absent_suppliers(fwnode);
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+With Best Regards,
+Andy Shevchenko
+
+
