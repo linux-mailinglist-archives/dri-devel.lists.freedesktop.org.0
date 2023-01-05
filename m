@@ -1,79 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74EDD65F111
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 17:25:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C55C065F122
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 17:30:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1424710E11F;
-	Thu,  5 Jan 2023 16:25:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC70510E75C;
+	Thu,  5 Jan 2023 16:29:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51B5110E11F
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 16:25:38 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 305D01jw030387; Thu, 5 Jan 2023 16:25:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=qAbvP7pebfchHRIY4TdEKr/tY4nBQhqVIWFADnt+jpM=;
- b=PzSuG1bAOEsTnva4oYb7/8Ciav+wHEyqVeGsRTVFgKUEpFXXJWJ23x3lYHm9X75Zen2f
- exSNjiK6dt3XWGQZJjlTCQnWvexRQhXLA63IJ8TgwghgqB2Jxp6xzQkZ+DOfT7xhICMD
- pZh2G4lc9BEpNKqhn/qjlhFX54FxhbbcB5SgCqsX1szPreM88bQcVqhpgP4WY18Fbohy
- d9HnJr+8YAQ9cuA0YBK8hhrZT6pTUmI/p60eYxxgYSZG9OJII3yf05kKPoP7lVGviqjA
- BaLCYdjBugEdUMYUqcBB0GtgSFEDlL51QFzPmWUmTTtsCyyRfk32MnKpK4CXQPZrgxyX 0g== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mwj4hhqg4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Jan 2023 16:25:34 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 305GPXtJ005857
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 5 Jan 2023 16:25:33 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 5 Jan 2023
- 08:25:32 -0800
-Message-ID: <ff231f90-9b67-7f47-b543-e8194f3cdec6@quicinc.com>
-Date: Thu, 5 Jan 2023 09:25:32 -0700
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FA5610E75E
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 16:29:56 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id m7so2222676wrn.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 08:29:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=hriix7PNjl3Fx5Lwj5vGvmpV6J+F4oqIBHmzWDNV1zY=;
+ b=Xkf28zaruVrLmqa0GfGmuAvqQQX+dB8u4vBIZu3Zqzswl7V0McjDKsYjGqvgAnDPVt
+ JAfXVw2P8vm4NtD5ER0v9cpo5fq34lBw+gZ7lyOmQSBDrvgtT42XqrYiXIz43PC1aoqp
+ dm4offnZy34FIeCS0B3FEa0zUz3dEn5dYFCKk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hriix7PNjl3Fx5Lwj5vGvmpV6J+F4oqIBHmzWDNV1zY=;
+ b=6nJqwHBObD9LohNOZg0E6jxLYgq4oJfRB3E637PUPzemMsZmGddSNYUlDyRzd/q+fj
+ 4fpEVer3oVAulI2FKomS853Ug3FdFIzWwS5c0JbNqDJsa+Zo+yPSNGBxab4O+gyDK8IK
+ VbWnd6M0W7IWfxYVeAzKh4yX5c28RyBw1vGd77HeBt6rdFKzERwL+s6NB2Z+QSkSdZHx
+ s2QgywPNgVhLeYLvMxNfaelKw+vwychTIBJN7I9gNzBlpKh0Pc7o7nInQAMsaRnLo/zq
+ Jez2ULCVbsl98He6pVjjIl4UNOs7IvOyr1PZdd629eoGbsIvetyk9iL8nDC75DJ/UNfF
+ H7ww==
+X-Gm-Message-State: AFqh2kojZWOXByhu0K+JuYy3G+5mxYcxRJyJT6GSXXhDRbBOXXy9PVwl
+ stasO3958A9NxPN2ODYgciQJig==
+X-Google-Smtp-Source: AMrXdXvytt3BictUpSrNMsVMjqYxBg9ULQXEcgl2Nkqae4pxiPmHRRghamOTQFr1zyRYajkEyGj8ag==
+X-Received: by 2002:adf:f9cb:0:b0:285:d0ba:92e2 with SMTP id
+ w11-20020adff9cb000000b00285d0ba92e2mr22521193wrr.47.1672936194547; 
+ Thu, 05 Jan 2023 08:29:54 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ x15-20020a5d490f000000b00236883f2f5csm36488463wrq.94.2023.01.05.08.29.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Jan 2023 08:29:53 -0800 (PST)
+Date: Thu, 5 Jan 2023 17:29:51 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: Re: [PATCH 00/19] Introduce __xchg, non-atomic xchg
+Message-ID: <Y7b6/7coJEVlTVxK@phenom.ffwll.local>
+Mail-Followup-To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Mark Rutland <mark.rutland@arm.com>, linux-m68k@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org,
+ Boqun Feng <boqun.feng@gmail.com>, linux-xtensa@linux-xtensa.org,
+ Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
+ openrisc@lists.librecores.org, loongarch@lists.linux.dev,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
+References: <20221222114635.1251934-1-andrzej.hajda@intel.com>
+ <20221222092147.d2bb177c67870884f2e59a9b@linux-foundation.org>
+ <6e727952-3ad0-fcc3-82f1-c465dcffd56f@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v4 1/7] accel/ivpu: Introduce a new DRM driver for Intel
- VPU
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>, Jacek Lawrynowicz
- <jacek.lawrynowicz@linux.intel.com>
-References: <20221208110733.5498-1-jacek.lawrynowicz@linux.intel.com>
- <20221208110733.5498-2-jacek.lawrynowicz@linux.intel.com>
- <Y7bJLkXF7xFYX4Qe@phenom.ffwll.local>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <Y7bJLkXF7xFYX4Qe@phenom.ffwll.local>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: fS8RqpzF-mYoQ74lx34woilB1FpWA_mZ
-X-Proofpoint-ORIG-GUID: fS8RqpzF-mYoQ74lx34woilB1FpWA_mZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-05_07,2023-01-05_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- lowpriorityscore=0 malwarescore=0 spamscore=0 bulkscore=0 impostorscore=0
- suspectscore=0 mlxlogscore=999 clxscore=1011 adultscore=0 phishscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301050129
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6e727952-3ad0-fcc3-82f1-c465dcffd56f@intel.com>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,67 +90,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
- dri-devel@lists.freedesktop.org, stanislaw.gruszka@linux.intel.com,
- tzimmermann@suse.de, andrzej.kacprowski@linux.intel.com
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-m68k@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, linux-xtensa@linux-xtensa.org,
+ Arnd Bergmann <arnd@arndb.de>, Boqun Feng <boqun.feng@gmail.com>,
+ openrisc@lists.librecores.org, loongarch@lists.linux.dev,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-alpha@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/5/2023 5:57 AM, Daniel Vetter wrote:
-> On Thu, Dec 08, 2022 at 12:07:27PM +0100, Jacek Lawrynowicz wrote:
->> +static const struct drm_driver driver = {
->> +	.driver_features = DRIVER_GEM | DRIVER_COMPUTE_ACCEL,
+On Thu, Dec 29, 2022 at 10:54:50AM +0100, Andrzej Hajda wrote:
+> Forgive me late response - Holidays,
 > 
-> So I was wondering whether this is a bright idea, and whether we shouldn't
-> just go ahead and infuse more meaning into accel vs render nodes.
+> On 22.12.2022 18:21, Andrew Morton wrote:
+> > On Thu, 22 Dec 2022 12:46:16 +0100 Andrzej Hajda <andrzej.hajda@intel.com> wrote:
+> > 
+> > > Hi all,
+> > > 
+> > > I hope there will be place for such tiny helper in kernel.
+> > > Quick cocci analyze shows there is probably few thousands places
+> > > where it could be useful.
+> > So to clarify, the intent here is a simple readability cleanup for
+> > existing open-coded exchange operations.
 > 
-> The uapi relevant part of render nodes is that they're multi-user safe, at
-> least as much as feasible. Every new open() gives you a new private
-> accelerator. This also has implications on how userspace drivers iterate
-> them, they just open them all in turn and check whether it's the right
-> one - because userspace apis allow applications to enumerate them all.
-> Which also means that any devicie initialization at open() time is a
-> really bad idea.
+> And replace private helpers with common one, see the last patch - the
+> ultimate goal
+> would be to replace all occurrences of fetch_and_zero with __xchg.
 > 
-> A lot of the compute accelerators otoh (well habanalabs) are single user,
-> init can be done at open() time because you only open this when you
-> actually know you're going to use it.
+> > The intent is *not* to
+> > identify existing xchg() sites which are unnecessarily atomic and to
+> > optimize them by using the non-atomic version.
+> > 
+> > Have you considered the latter?
 > 
-> So given this, shouldn't multi-user inference engines be more like render
-> drivers, and less like accel? So DRIVER_RENDER, but still under
-> drivers/accel.
-> 
-> This way that entire separate /dev node would actually become meaningful
-> beyond just the basic bikeshed:
-> - render nodes are multi user, safe to iterate and open() just for
->    iteration
-> - accel nodes are single user, you really should not ever open them unless
->    you want to use them
-> 
-> Of course would need a doc patch :-)
-> 
-> Thoughts?
-> -Daniel
+> If you mean some way of (semi-)automatic detection of such cases, then no.
+> Anyway this could be quite interesting challenge.
 
-Hmm.
+My take is that unless there is very clear demand for this macro from
+outside of i915, it's not worth it. All that fetch_and_zero zero achieved
+is make i915 code a lot more confusing to read for people who don't know
+this thing. And it replaces 2 entirely standard lines of 0, every often
+clearing pointers in data structures where you really want the verbosity
+to have a reminder and thinking about the locking.
 
-I admit, I thought DRIVER_ACCEL was the same as DRIVER_RENDER, except 
-that DRIVER_ACCEL dropped the "legacy" dual node setup and also avoided 
-"legacy" userspace.
+Plus it smells way too much like the cmpxchg family of atomic functions,
+addig further to the locking confuion.
 
-qaic is multi-user.  I thought habana was the same, at-least for 
-inference.  Oded, am I wrong?
+Imo the right approach is to just open code this macro in i915 and then
+drop it. Again, unless enough people outside of i915 really really want
+this, and want to lift this to a kernel idiom.
+-Daniel
 
-So, if DRIVER_ACCEL is for single-user (training?), and multi-user ends 
-up in DRIVER_RENDER, that would seem to mean qaic ends up using 
-DRIVER_RENDER and not DRIVER_ACCEL.  Then qaic ends up over under 
-/dev/dri with both a card node (never used) and a render node.  That 
-would seem to mean that the "legacy" userspace would open qaic nodes by 
-default - something I understood Oded was trying to avoid.
+> 
+> > 
+> > > I am not sure who is good person to review/ack such patches,
+> > I can take 'em.
+> > 
+> > > so I've used my intuition to construct to/cc lists, sorry for mistakes.
+> > > This is the 2nd approach of the same idea, with comments addressed[0].
+> > > 
+> > > The helper is tiny and there are advices we can leave without it, so
+> > > I want to present few arguments why it would be good to have it:
+> > > 
+> > > 1. Code readability/simplification/number of lines:
+> > > 
+> > > Real example from drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c:
+> > > -       previous_min_rate = evport->qos.min_rate;
+> > > -       evport->qos.min_rate = min_rate;
+> > > +       previous_min_rate = __xchg(evport->qos.min_rate, min_rate);
+> > > 
+> > > For sure the code is more compact, and IMHO more readable.
+> > > 
+> > > 2. Presence of similar helpers in other somehow related languages/libs:
+> > > 
+> > > a) Rust[1]: 'replace' from std::mem module, there is also 'take'
+> > >      helper (__xchg(&x, 0)), which is the same as private helper in
+> > >      i915 - fetch_and_zero, see latest patch.
+> > > b) C++ [2]: 'exchange' from utility header.
+> > > 
+> > > If the idea is OK there are still 2 qestions to answer:
+> > > 
+> > > 1. Name of the helper, __xchg follows kernel conventions,
+> > >      but for me Rust names are also OK.
+> > I like replace(), or, shockingly, exchange().
+> > 
+> > But...   Can we simply make swap() return the previous value?
+> > 
+> > 	previous_min_rate = swap(&evport->qos.min_rate, min_rate);
+> 
+> As Alexander already pointed out, swap requires 'references' to two
+> variables,
+> in contrast to xchg which requires reference to variable and value.
+> So we cannot use swap for cases:
+>     old_value = __xchg(&x, new_value);
+> 
+> Regards
+> Andrzej
+> 
 
-If there really a usecase for DRIVER_ACCEL to support single-user?  I 
-wonder why we can't default to multi-user, and if a particular 
-user/driver has a single-user usecase, it enforces that in a driver 
-specific manner?
-
--Jeff
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
