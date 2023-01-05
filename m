@@ -2,67 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B111965EEE3
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 15:38:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3F5465EEF9
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 15:41:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FDFD10E73F;
-	Thu,  5 Jan 2023 14:38:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8404510E742;
+	Thu,  5 Jan 2023 14:41:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BCE210E73F
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 14:38:42 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id co23so36357063wrb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 06:38:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wVtkjpd1m5CHpqjkgjmo86bTVFs9jvutUQ4eD41Hm9g=;
- b=NzuwNKy8Ow+MANdie+j+x4B9s960DR90E2MnehzGKe3PurQC2DCydzdAIfUDqpGSs8
- ghkY3BWq8N1OxbwBNA0l5jg0cEfOf2IlVy/KNJ8Ymdmcjm4uM5AvP8Gv3Ad+TXbu+f9n
- xBDs16qMuOMcjOle134JGGRL6rO19cf8k4xXM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wVtkjpd1m5CHpqjkgjmo86bTVFs9jvutUQ4eD41Hm9g=;
- b=ChER/jUpIFdVNM1eb5xBCBoVJfucfatDBYrNEUyv9BczO1jNSJLs+WL8u7Dg5f27v7
- qitpm9V1B6WrOYh27Z/IxuFgnThG+e1EdbYpVmRLkZG293EQEud3yBt7VaxEOQRkPeR2
- T5X4DLc4WPTk7wDTbXVefQGQOQjFw3q7lgGpG/C5HUBLEJO8K+beuJpgrH8rz4UcZ+Aj
- Et6Q9sVia+IV/RGDAvZlxNRk/e6+o6g0FIeaevaWMClhUx3RyUQ2zXUjbUqd1a/vAz+y
- Rk1khFHoYSeeGsEeHirxrrxQNY2LG61YaeVl2hh6rLQMg28csmxvZ/JNit+f5D7Rabah
- Eq6w==
-X-Gm-Message-State: AFqh2koJQXssGdCfmj8Ie2qUXH9KQS8TxM7D1FeaNsN6PDQdhvABplCI
- nmY5NkJ2nARhCCfnhzfonJwB8g==
-X-Google-Smtp-Source: AMrXdXuSsMZhhd80+6OXhv75jCIyGLpgvyQQ+TVLgcPbSzqYqBhxo3s87MG+XFl/BzyUXYOexu5Z8Q==
-X-Received: by 2002:a05:6000:5c9:b0:2b0:bc05:b463 with SMTP id
- bh9-20020a05600005c900b002b0bc05b463mr1943816wrb.7.1672929520678; 
- Thu, 05 Jan 2023 06:38:40 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- h15-20020a05600c314f00b003d99469ece1sm2845649wmo.24.2023.01.05.06.38.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 06:38:39 -0800 (PST)
-Date: Thu, 5 Jan 2023 15:38:37 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Patrick Thompson <ptf@google.com>
-Subject: Re: [PATCH] drm: Add orientation quirk for Lenovo ideapad D330-10IGL
-Message-ID: <Y7bg7WQs0OtMLmAW@phenom.ffwll.local>
-Mail-Followup-To: Patrick Thompson <ptf@google.com>,
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20221220205826.178008-1-ptf@google.com>
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C290710E744
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 14:41:47 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-267-TONGIBv5N4Gn3vUIarjFdA-1; Thu, 05 Jan 2023 14:41:44 +0000
+X-MC-Unique: TONGIBv5N4Gn3vUIarjFdA-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 5 Jan
+ 2023 14:41:43 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.044; Thu, 5 Jan 2023 14:41:43 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Daniel Vetter' <daniel@ffwll.ch>
+Subject: RE: [Intel-gfx] [PATCH 1/5] linux/minmax.h: add non-atomic version of
+ xchg
+Thread-Topic: [Intel-gfx] [PATCH 1/5] linux/minmax.h: add non-atomic version
+ of xchg
+Thread-Index: AQHZC+X/n2yHksRnF0Csd/+tl8P8Ka5qAX6ggCX6JSGAAADCAIAAC3eAgAAFAzA=
+Date: Thu, 5 Jan 2023 14:41:43 +0000
+Message-ID: <6617dfb150f94cbb9654a585843e3287@AcuMS.aculab.com>
+References: <20221209154843.4162814-1-andrzej.hajda@intel.com>
+ <f58ab17e5c6c4a4e8b0d687b44618c51@AcuMS.aculab.com>
+ <Y7bK8drngH/NIlOa@phenom.ffwll.local> <875ydlw1p4.fsf@intel.com>
+ <733cd0037bd14a269b54d701e1b80323@AcuMS.aculab.com>
+ <Y7ba8UlkhjpJI4F0@phenom.ffwll.local>
+In-Reply-To: <Y7ba8UlkhjpJI4F0@phenom.ffwll.local>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221220205826.178008-1-ptf@google.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,46 +61,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ 'Andrzej Hajda' <andrzej.hajda@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 20, 2022 at 03:58:26PM -0500, Patrick Thompson wrote:
-> Panel is 800x1280 but mounted on a detachable form factor sideways.
-> 
-> Signed-off-by: Patrick Thompson <ptf@google.com>
+From: Daniel Vetter
+> Sent: 05 January 2023 14:13
+...
+> > > So here we are, with Andrzej looking to add the common helper. And th=
+e
+> > > same concerns crop up. What should it be called to make it clear that
+> > > it's not atomic? Is that possible?
+> >
+> > old_value =3D read_write(variable, new_value);
+> >
+> > But two statements are much clearer.
+>=20
+> Yeah this is my point for fetch_and_zero or any of the other proposals.
+> We're essentially replacing these two lines:
+>=20
+> =09var =3D some->pointer->chase;
+> =09some->pointer->chase =3D NULL;
+>=20
+> with a macro. C is verbose, and sometimes painfully so,
 
-Applied to drm-misc-fixes, thanks for your patch.
--Daniel
+Try ADA or VHDL :-)
 
-> ---
-> 
->  drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> index 52d8800a8ab86..3659f0465a724 100644
-> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> @@ -304,6 +304,12 @@ static const struct dmi_system_id orientation_data[] = {
->  		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad D330-10IGM"),
->  		},
->  		.driver_data = (void *)&lcd1200x1920_rightside_up,
-> +	}, {	/* Lenovo Ideapad D330-10IGL (HD) */
-> +		.matches = {
-> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> +		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad D330-10IGL"),
-> +		},
-> +		.driver_data = (void *)&lcd800x1280_rightside_up,
->  	}, {	/* Lenovo Yoga Book X90F / X91F / X91L */
->  		.matches = {
->  		  /* Non exact match to match all versions */
-> -- 
-> 2.39.0.314.g84b9a713c41-goog
-> 
+> if the pointer
+> chase is really to onerous then I think that should be refactored with a
+> meaningfully locally name variable, not fancy macros wrapped around to
+> golf a few characters away.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Provided 'var' is a local the compiler is pretty likely to only do the
+'pointer chase' once.
+You can also do:
+=09var =3D NULL;
+=09swap(some->pointer->chase, var);
+and get pretty much the same object code.
+
+> But what about swap() you ask? That one needs a temp variable, and it doe=
+s
+> make sense to hide that in a ({}) block in a macro.
+
+Sometimes, but not enough for the 'missed opportunity for swap()'
+message.=20
+
+> But for the above two
+> lines I really don't see a point outside of obfuscated C contexts.
+
+Indeed.
+
+Isn't the suggested __xchg() in one of the 'reserved for implementation'
+namespaces - so shouldn't be a function that might be expected to be
+actually used.
+
+=09David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
+
