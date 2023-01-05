@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E5A65EB7D
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 14:00:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92C5965EBB7
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 14:02:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C611B10E724;
-	Thu,  5 Jan 2023 13:00:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AB7310E714;
+	Thu,  5 Jan 2023 13:02:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B18D910E726
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 13:00:14 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- g25-20020a7bc4d9000000b003d97c8d4941so1230509wmk.4
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 05:00:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=hzorT7PWxGOJ2m5OeY0o02FLMEQzdF4Uv+hPiv+hTlY=;
- b=iN7/mxumzGeGu6S7A5svBbKMb1w8V5UkCspfxz88VQSuNN/Dx+Mcx3P1y8LXvB/x/F
- Mc8QYzFC+c83IQWFnBHw8fv6wWn4piVWzomlw204mbx4NnYTqsZIusn/jE2cJwr7e9kO
- htKHb5vtXSTJLROzlXYwRsT8kLLAOPKM6y4u8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hzorT7PWxGOJ2m5OeY0o02FLMEQzdF4Uv+hPiv+hTlY=;
- b=AC76PAh/DwnHFiQTgrrqX3TLNhJrFnqLl0d+exdX0lG9ZSAIPiSDiiZNzZZ5MQgg2N
- BcwanfuCVZ/N6HBeeH9b9INUTq69iZDU6SJA3UmWrTtnCvRNSZ5cZPpjmMRgXKng89K/
- anvtIaE7uuTiRRc1LuX5dEtLdgKid/nGqxXKEOTa9Vpk9UA4xbxJjtCs1uTl9mHr7i4u
- 4zSkDRqFvmZgAFLqdTd6TkyE+SsvVWb+UVNytFDOaQdEP6CwqjsN5d1dcIvFNCbkI1jA
- BwJk5KdqyqHsb2ZstTg9Txm4Bkksf9eK15lwVw4m64cbJZWYlrPWi9gnAM+bc7PgCQOL
- pXiQ==
-X-Gm-Message-State: AFqh2kqg8vO3Q8fY+9qF5ekdoA6ruz09mcDTVkxXInADr6y/wIKwvhQf
- gelUjzdHBA5Wdn2g31PIV05X6w==
-X-Google-Smtp-Source: AMrXdXs3ssTahaCBzBQg8Q7qRFXeear3J9IbNNtQefbUtAXYN435uMV3d6KUmY/EKDUnOgQ38LJzTw==
-X-Received: by 2002:a05:600c:21c1:b0:3d3:45c6:b641 with SMTP id
- x1-20020a05600c21c100b003d345c6b641mr37205922wmj.22.1672923613186; 
- Thu, 05 Jan 2023 05:00:13 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- z6-20020a05600c0a0600b003d96efd09b7sm2807655wmp.19.2023.01.05.05.00.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 05:00:12 -0800 (PST)
-Date: Thu, 5 Jan 2023 14:00:10 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-buf: fix dma_buf_export init
- order v2
-Message-ID: <Y7bJ2kTYbl30M67f@phenom.ffwll.local>
-References: <20221209071535.933698-1-christian.koenig@amd.com>
- <CAO_48GEQmsiJ96iu16UKg-QWJDNK=y-QTcDOKTMc3CMt+S993g@mail.gmail.com>
- <Y5ixrgOsWBTzonq9@phenom.ffwll.local>
- <ead9f3f0-a9fd-4889-d698-0c77c89bcbc3@gmail.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8A1510E714
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 13:01:58 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D2D0A22C0D;
+ Thu,  5 Jan 2023 13:01:50 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9B0A6138DF;
+ Thu,  5 Jan 2023 13:01:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id CjDWJD7KtmOEXwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 05 Jan 2023 13:01:50 +0000
+Message-ID: <d5d44da7-2ca9-d26d-7474-223abb8f6aa3@suse.de>
+Date: Thu, 5 Jan 2023 14:01:50 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ead9f3f0-a9fd-4889-d698-0c77c89bcbc3@gmail.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [RESEND PATCH linux-next v2 00/10] drm: Remove some obsolete
+ drivers(tdfx, mga, i810, savage, r128, sis, via)
+Content-Language: en-US
+To: Cai Huoqing <cai.huoqing@linux.dev>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Borislav Petkov <bp@suse.de>, Randy Dunlap <rdunlap@infradead.org>,
+ Danilo Krummrich <dakr@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20221203102502.3185-1-cai.huoqing@linux.dev>
+ <20221208124207.GA7628@chq-T47> <Y7bFNQ5a+qAcxWj+@phenom.ffwll.local>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <Y7bFNQ5a+qAcxWj+@phenom.ffwll.local>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------788T3eX9uGKbgsAhXWxKYVlB"
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -2.10
+X-Spamd-Result: default: False [-2.10 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
+ HAS_ATTACHMENT(0.00)[]; TO_MATCH_ENVRCPT_SOME(0.00)[];
+ MIME_BASE64_TEXT(0.10)[]; RCPT_COUNT_SEVEN(0.00)[10];
+ SIGNED_PGP(-2.00)[];
+ FREEMAIL_TO(0.00)[linux.dev,linux.intel.com,kernel.org,gmail.com,suse.de,infradead.org,redhat.com,ravnborg.org,vger.kernel.org,lists.freedesktop.org];
+ FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
+ RCVD_COUNT_TWO(0.00)[2]; RCVD_TLS_ALL(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,314 +76,199 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, cuigaosheng1@huawei.com,
- linaro-mm-sig@lists.linaro.org, quic_charante@quicinc.com,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 13, 2022 at 07:17:41PM +0100, Christian König wrote:
-> Am 13.12.22 um 18:09 schrieb Daniel Vetter:
-> > On Sat, Dec 10, 2022 at 08:43:47AM +0530, Sumit Semwal wrote:
-> > > Hi Christian,
-> > > 
-> > > On Fri, 9 Dec 2022 at 12:45, Christian König
-> > > <ckoenig.leichtzumerken@gmail.com> wrote:
-> > > > The init order and resulting error handling in dma_buf_export
-> > > > was pretty messy.
-> > > > 
-> > > > Subordinate objects like the file and the sysfs kernel objects
-> > > > were initializing and wiring itself up with the object in the
-> > > > wrong order resulting not only in complicating and partially
-> > > > incorrect error handling, but also in publishing only halve
-> > > > initialized DMA-buf objects.
-> > > > 
-> > > > Clean this up thoughtfully by allocating the file independent
-> > > > of the DMA-buf object. Then allocate and initialize the DMA-buf
-> > > > object itself, before publishing it through sysfs. If everything
-> > > > works as expected the file is then connected with the DMA-buf
-> > > > object and publish it through debugfs.
-> > > > 
-> > > > Also adds the missing dma_resv_fini() into the error handling.
-> > > > 
-> > > > v2: add some missing changes to dma_bug_getfile() and a missing NULL
-> > > >      check in dma_buf_file_release()
-> > > > 
-> > > > Signed-off-by: Christian König <christian.koenig@amd.com>
-> > > Thank you for this nice cleanup.
-> > > Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
-> > For reasons that aren't clear to me this ended up in drm-misc-fixes, but
-> > doesn't have a Fixes: or cc: stable tag, and because it missed the merge
-> > window it now wont go into any stable releases.
-> 
-> Mhm, crap I was hoping I would get that in before the merge window.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------788T3eX9uGKbgsAhXWxKYVlB
+Content-Type: multipart/mixed; boundary="------------hvO40fwdB0qR1UubastegmCo";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Cai Huoqing <cai.huoqing@linux.dev>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Borislav Petkov <bp@suse.de>, Randy Dunlap <rdunlap@infradead.org>,
+ Danilo Krummrich <dakr@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <d5d44da7-2ca9-d26d-7474-223abb8f6aa3@suse.de>
+Subject: Re: [RESEND PATCH linux-next v2 00/10] drm: Remove some obsolete
+ drivers(tdfx, mga, i810, savage, r128, sis, via)
+References: <20221203102502.3185-1-cai.huoqing@linux.dev>
+ <20221208124207.GA7628@chq-T47> <Y7bFNQ5a+qAcxWj+@phenom.ffwll.local>
+In-Reply-To: <Y7bFNQ5a+qAcxWj+@phenom.ffwll.local>
 
-Well even then, if it's for -fixes it should have had cc: stable. Or
-neither of those things.
+--------------hvO40fwdB0qR1UubastegmCo
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> Should I push it to drm-misc-next  with a CC: stable tag then?
-> 
-> It's more of a theoretical issues if we run into problems during sysfs
-> creation.
+SGkNCg0KQW0gMDUuMDEuMjMgdW0gMTM6NDAgc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPiBP
+biBUaHUsIERlYyAwOCwgMjAyMiBhdCAwODo0MjowN1BNICswODAwLCBDYWkgSHVvcWluZyB3
+cm90ZToNCj4+IE9uIDAzIDEy5pyIIDIyIDE4OjIyOjUxLCBDYWkgSHVvcWluZyB3cm90ZToN
+Cj4+PiBDb21taXQgMzk5NTE2YWIwZmVlICgiTUFJTlRBSU5FUlM6IEFkZCBhIGJ1bmNoIG9m
+IGxlZ2FjeSAoVU1TKSBEUk0gZHJpdmVycyIpDQo+Pj4gbWFya2VkIHRoZXNlIGRyaXZlcnMg
+b2Jzb2xldGUgNyB5ZWFycyBhZ28uDQo+Pj4gQW5kIHRoZSBtZXNhIFVNRCBvZiB0aGVzZSBk
+cm0gZHJpdmVycyBhbHJlYWR5IGluIGRlcHJlY2F0ZWQgbGlzdA0KPj4+IGluIHRoZSBsaW5r
+OiBodHRwczovL2RvY3MubWVzYTNkLm9yZy9zeXN0ZW1zLmh0bWwNCj4+Pg0KPj4+IDNkZngg
+R2xpZGUtLT5kcml2ZXIvZ3B1L2RybS90ZGZ4DQo+Pj4gTWF0cm94LS0+ZHJpdmVyL2dwdS9k
+cm0vbWdhDQo+Pj4gSW50ZWwgaTgxMC0tPmRyaXZlci9ncHUvZHJtL2k4MTANCj4+PiBTMyBT
+YXZhZ2UtLT5kcml2ZXJzL2dwdS9kcm0vc2F2YWdlDQo+Pj4gQVRJIFJhZ2UgMTI4LT5kcml2
+ZXJzL2dwdS9kcm0vcjEyOA0KPj4+IFNpbGljb24gSW50ZWdyYXRlZCBTeXN0ZW1zLT5kcml2
+ZXJzL2dwdS9kcm0vc2lzDQo+Pj4gVklBIFVuaWNocm9tZS0+ZHJpdmVycy9ncHUvZHJtL3Zp
+YQ0KPj4+DQo+Pj4gdjEtPnYyOg0KPj4+IDEuQWRkIGRybSB2aWEgZHJpdmVyIHRvIHRoZSBw
+YXRjaHNldC4NCj4+PiAyLlJlbW92ZSByZWxhdGVkIGRybV9wY2lpZHMuDQo+Pj4gMy5SZW1v
+dmUgcmVsYXRlZCBkcm0gdWFwaSBoZWFkZXIgZmlsZXMuDQo+Pj4gNC5zcGxpdCB0byBzZXJp
+ZXMgYXZvaWQgbGFyZ2UgcGF0Y2ggZW1haWwuDQo+PiBKdXN0IHBpbmcgdGhlc2UgcGF0Y2gg
+c2VyaWVzLg0KPj4gVGhlIHYxIGNvbW1lbnRzIGhlcmUsDQo+PiBodHRwczovL2xvcmUua2Vy
+bmVsLm9yZy9sa21sLzM5ZDhhYzFhLWQ5MmYtN2NkYy0xNGNkLTk0NDM0MmY3OGMxYUBzdXNl
+LmRlLw0KPiANCj4gQXJlIHdlIHJlYWxseSBzdXJlIHRoYXQgYWxsIHVzZXJzIG9mIHRoZXNl
+IGFyZSBnb25lPyBBbHNvLCBJJ20gbm90IHJlYWxseQ0KPiBzZWVpbmcgdGhlIGJlbmVmaXQg
+b2YgdGhpcywgd2UndmUgbWFuYWdlZCB0byBzcGxpdCBvdXQgdGhlIGxlZ2FjeSBjb2RlDQo+
+IHF1aXRlIHdlbGwsIHNvIGNhcnJ5aW5nIGFyb3VuZCBpc24ndCBodXJ0aW5nIGFueXRoaW5n
+IGFmYWljcz8NCg0KTXkgZmlyc3QgcmVhY3Rpb24gd2FzICdubyB3YXknLiBCdXQgdGhlbiBJ
+IHRob3VnaHQgYWJvdXQgcG9zc2libGUgdXNlcnMgDQpvZiB0aGlzIGNvZGUgYW5kIEkgY2Fu
+bm90IHNlZSBhbnlvbmUgcmVseWluZyBvbiBpdC4gWW91J2QgbmVlZCBhbiANCmFuY2llbnQg
+dXNlcnNwYWNlIE1lc2EgbGlicmFyeSBwbHVzIHRoZSBtb3N0IHJlY2VudCBrZXJuZWwuIEFu
+ZCBhbGwgdGhlIA0KcmVuZGVyaW5nIGlzIE9wZW5HTCAxLnguIEFyZSB0aGVyZSBldmVuIExp
+bnV4IHByb2dyYW1zIGZvciB0aGF0Pw0KDQpTbyBhcyBmYXIgYXMgSSdtIGNvbmNlcm5lZA0K
+DQpBY2tlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQoN
+CkRSTSdzIGxlZ2FjeSBpbmZyYXN0cnVjdHVyZSBjb3VsZCBiZSBrZXB0IGZvciBhIGZldyBt
+b3JlIHJlbGVhc2VzLiBKdXN0IA0KaW4gY2FzZSBvbmUgb2YgdGhlIGRyaXZlcnMgbWFrZXMg
+YSBjb21lYmFjay4NCg0KVGhlcmUgaXMgY29kZSBpbiBub3V2ZWF1IHRoYXQgdXNlcyBsZWdh
+Y3kgZnVuY3Rpb25hbGl0eSBmb3IgaXRzIGFuY2llbnQgDQp1c2Vyc3BhY2UuIEkgdGhpbmsg
+d2Ugc2hvdWxkIHNjcmFwIHRoYXQgYXMgd2VsbC4gKFNlZSANCk5PVVZFQVVfTEVHQUNZX0NU
+WF9TVVBQT1JULikNCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiAtRGFuaWVsDQo+IA0K
+Pj4NCj4+IFRoYW5rcywNCj4+IENhaQ0KPj4+DQo+Pj4gQ2FpIEh1b3FpbmcgKDEwKToNCj4+
+PiAgICBkcm06IFJlbW92ZSB0aGUgb2Jzb2xldGUgZHJpdmVyLWk4MTANCj4+PiAgICBkcm06
+IFJlbW92ZSB0aGUgb2Jzb2xldGUgZHJpdmVyLW1nYQ0KPj4+ICAgIGRybTogUmVtb3ZlIHRo
+ZSBvYnNvbGV0ZSBkcml2ZXItcjEyOA0KPj4+ICAgIGRybTogUmVtb3ZlIHRoZSBvYnNvbGV0
+ZSBkcml2ZXItc2F2YWdlDQo+Pj4gICAgZHJtOiBSZW1vdmUgdGhlIG9ic29sZXRlIGRyaXZl
+ci1zaXMNCj4+PiAgICBkcm06IFJlbW92ZSB0aGUgb2Jzb2xldGUgZHJpdmVyLXRkZngNCj4+
+PiAgICBkcm06IFJlbW92ZSB0aGUgb2Jzb2xldGUgZHJpdmVyLXZpYQ0KPj4+ICAgIGRybTog
+QWRkIGNvbW1lbnRzIHRvIEtjb25maWcNCj4+PiAgICBkcm06IFJlbW92ZSBzb21lIG9ic29s
+ZXRlIGRybSBwY2lpZHModGRmeCwgbWdhLCBpODEwLCBzYXZhZ2UsIHIxMjgsDQo+Pj4gICAg
+ICBzaXMsIHZpYSkNCj4+PiAgICBNQUlOVEFJTkVSUzogUmVtb3ZlIHNvbWUgb2Jzb2xldGUg
+ZHJpdmVycyBpbmZvKHRkZngsIG1nYSwgaTgxMCwNCj4+PiAgICAgIHNhdmFnZSwgcjEyOCwg
+c2lzKQ0KPj4+DQo+Pj4gICBNQUlOVEFJTkVSUyAgICAgICAgICAgICAgICAgICAgICAgICAg
+IHwgICAyOSAtDQo+Pj4gICBkcml2ZXJzL2dwdS9kcm0vS2NvbmZpZyAgICAgICAgICAgICAg
+IHwgICA1OSArLQ0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlICAgICAgICAgICAg
+ICB8ICAgIDcgLQ0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL2k4MTAvTWFrZWZpbGUgICAgICAg
+ICB8ICAgIDggLQ0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL2k4MTAvaTgxMF9kbWEuYyAgICAg
+ICB8IDEyNjYgLS0tLS0tLS0tDQo+Pj4gICBkcml2ZXJzL2dwdS9kcm0vaTgxMC9pODEwX2Ry
+di5jICAgICAgIHwgIDEwMSAtDQo+Pj4gICBkcml2ZXJzL2dwdS9kcm0vaTgxMC9pODEwX2Ry
+di5oICAgICAgIHwgIDI0NiAtLQ0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL21nYS9NYWtlZmls
+ZSAgICAgICAgICB8ICAgMTEgLQ0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL21nYS9tZ2FfZG1h
+LmMgICAgICAgICB8IDExNjggLS0tLS0tLS0NCj4+PiAgIGRyaXZlcnMvZ3B1L2RybS9tZ2Ev
+bWdhX2Rydi5jICAgICAgICAgfCAgMTA0IC0NCj4+PiAgIGRyaXZlcnMvZ3B1L2RybS9tZ2Ev
+bWdhX2Rydi5oICAgICAgICAgfCAgNjg1IC0tLS0tDQo+Pj4gICBkcml2ZXJzL2dwdS9kcm0v
+bWdhL21nYV9pb2MzMi5jICAgICAgIHwgIDE5NyAtLQ0KPj4+ICAgZHJpdmVycy9ncHUvZHJt
+L21nYS9tZ2FfaXJxLmMgICAgICAgICB8ICAxNjkgLS0NCj4+PiAgIGRyaXZlcnMvZ3B1L2Ry
+bS9tZ2EvbWdhX3N0YXRlLmMgICAgICAgfCAxMDk5IC0tLS0tLS0tDQo+Pj4gICBkcml2ZXJz
+L2dwdS9kcm0vbWdhL21nYV93YXJwLmMgICAgICAgIHwgIDE2NyAtLQ0KPj4+ICAgZHJpdmVy
+cy9ncHUvZHJtL3IxMjgvTWFrZWZpbGUgICAgICAgICB8ICAgMTAgLQ0KPj4+ICAgZHJpdmVy
+cy9ncHUvZHJtL3IxMjgvYXRpX3BjaWdhcnQuYyAgICB8ICAyMjggLS0NCj4+PiAgIGRyaXZl
+cnMvZ3B1L2RybS9yMTI4L2F0aV9wY2lnYXJ0LmggICAgfCAgIDMxIC0NCj4+PiAgIGRyaXZl
+cnMvZ3B1L2RybS9yMTI4L3IxMjhfY2NlLmMgICAgICAgfCAgOTQ0IC0tLS0tLS0NCj4+PiAg
+IGRyaXZlcnMvZ3B1L2RybS9yMTI4L3IxMjhfZHJ2LmMgICAgICAgfCAgMTE2IC0NCj4+PiAg
+IGRyaXZlcnMvZ3B1L2RybS9yMTI4L3IxMjhfZHJ2LmggICAgICAgfCAgNTQ0IC0tLS0NCj4+
+PiAgIGRyaXZlcnMvZ3B1L2RybS9yMTI4L3IxMjhfaW9jMzIuYyAgICAgfCAgMTk5IC0tDQo+
+Pj4gICBkcml2ZXJzL2dwdS9kcm0vcjEyOC9yMTI4X2lycS5jICAgICAgIHwgIDExOCAtDQo+
+Pj4gICBkcml2ZXJzL2dwdS9kcm0vcjEyOC9yMTI4X3N0YXRlLmMgICAgIHwgMTY0MSAtLS0t
+LS0tLS0tLQ0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL3NhdmFnZS9NYWtlZmlsZSAgICAgICB8
+ICAgIDkgLQ0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL3NhdmFnZS9zYXZhZ2VfYmNpLmMgICB8
+IDEwODIgLS0tLS0tLS0NCj4+PiAgIGRyaXZlcnMvZ3B1L2RybS9zYXZhZ2Uvc2F2YWdlX2Ry
+di5jICAgfCAgIDkxIC0NCj4+PiAgIGRyaXZlcnMvZ3B1L2RybS9zYXZhZ2Uvc2F2YWdlX2Ry
+di5oICAgfCAgNTgwIC0tLS0NCj4+PiAgIGRyaXZlcnMvZ3B1L2RybS9zYXZhZ2Uvc2F2YWdl
+X3N0YXRlLmMgfCAxMTY5IC0tLS0tLS0tDQo+Pj4gICBkcml2ZXJzL2dwdS9kcm0vc2lzL01h
+a2VmaWxlICAgICAgICAgIHwgICAxMCAtDQo+Pj4gICBkcml2ZXJzL2dwdS9kcm0vc2lzL3Np
+c19kcnYuYyAgICAgICAgIHwgIDE0MyAtDQo+Pj4gICBkcml2ZXJzL2dwdS9kcm0vc2lzL3Np
+c19kcnYuaCAgICAgICAgIHwgICA4MCAtDQo+Pj4gICBkcml2ZXJzL2dwdS9kcm0vc2lzL3Np
+c19tbS5jICAgICAgICAgIHwgIDM2MyAtLS0NCj4+PiAgIGRyaXZlcnMvZ3B1L2RybS90ZGZ4
+L01ha2VmaWxlICAgICAgICAgfCAgICA4IC0NCj4+PiAgIGRyaXZlcnMvZ3B1L2RybS90ZGZ4
+L3RkZnhfZHJ2LmMgICAgICAgfCAgIDkwIC0NCj4+PiAgIGRyaXZlcnMvZ3B1L2RybS90ZGZ4
+L3RkZnhfZHJ2LmggICAgICAgfCAgIDQ3IC0NCj4+PiAgIGRyaXZlcnMvZ3B1L2RybS92aWEv
+TWFrZWZpbGUgICAgICAgICAgfCAgICA4IC0NCj4+PiAgIGRyaXZlcnMvZ3B1L2RybS92aWEv
+dmlhXzNkX3JlZy5oICAgICAgfCAxNzcxIC0tLS0tLS0tLS0tLQ0KPj4+ICAgZHJpdmVycy9n
+cHUvZHJtL3ZpYS92aWFfZHJpMS5jICAgICAgICB8IDM2MzAgLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLQ0KPj4+ICAgaW5jbHVkZS9kcm0vZHJtX3BjaWlkcy5oICAgICAgICAgICAgICB8
+ICAxMTIgLQ0KPj4+ICAgaW5jbHVkZS91YXBpL2RybS9pODEwX2RybS5oICAgICAgICAgICB8
+ICAyOTIgLS0NCj4+PiAgIGluY2x1ZGUvdWFwaS9kcm0vbWdhX2RybS5oICAgICAgICAgICAg
+fCAgNDI5IC0tLQ0KPj4+ICAgaW5jbHVkZS91YXBpL2RybS9yMTI4X2RybS5oICAgICAgICAg
+ICB8ICAzMzYgLS0tDQo+Pj4gICBpbmNsdWRlL3VhcGkvZHJtL3NhdmFnZV9kcm0uaCAgICAg
+ICAgIHwgIDIyMCAtLQ0KPj4+ICAgaW5jbHVkZS91YXBpL2RybS9zaXNfZHJtLmggICAgICAg
+ICAgICB8ICAgNzcgLQ0KPj4+ICAgaW5jbHVkZS91YXBpL2RybS92aWFfZHJtLmggICAgICAg
+ICAgICB8ICAyODIgLS0NCj4+PiAgIDQ2IGZpbGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
+LCAxOTk3NSBkZWxldGlvbnMoLSkNCj4+PiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJz
+L2dwdS9kcm0vaTgxMC9NYWtlZmlsZQ0KPj4+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0IGRyaXZl
+cnMvZ3B1L2RybS9pODEwL2k4MTBfZG1hLmMNCj4+PiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBk
+cml2ZXJzL2dwdS9kcm0vaTgxMC9pODEwX2Rydi5jDQo+Pj4gICBkZWxldGUgbW9kZSAxMDA2
+NDQgZHJpdmVycy9ncHUvZHJtL2k4MTAvaTgxMF9kcnYuaA0KPj4+ICAgZGVsZXRlIG1vZGUg
+MTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9tZ2EvTWFrZWZpbGUNCj4+PiAgIGRlbGV0ZSBtb2Rl
+IDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vbWdhL21nYV9kbWEuYw0KPj4+ICAgZGVsZXRlIG1v
+ZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9tZ2EvbWdhX2Rydi5jDQo+Pj4gICBkZWxldGUg
+bW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL21nYS9tZ2FfZHJ2LmgNCj4+PiAgIGRlbGV0
+ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vbWdhL21nYV9pb2MzMi5jDQo+Pj4gICBk
+ZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL21nYS9tZ2FfaXJxLmMNCj4+PiAg
+IGRlbGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vbWdhL21nYV9zdGF0ZS5jDQo+
+Pj4gICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL21nYS9tZ2Ffd2FycC5j
+DQo+Pj4gICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3IxMjgvTWFrZWZp
+bGUNCj4+PiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vcjEyOC9hdGlf
+cGNpZ2FydC5jDQo+Pj4gICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3Ix
+MjgvYXRpX3BjaWdhcnQuaA0KPj4+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1
+L2RybS9yMTI4L3IxMjhfY2NlLmMNCj4+PiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJz
+L2dwdS9kcm0vcjEyOC9yMTI4X2Rydi5jDQo+Pj4gICBkZWxldGUgbW9kZSAxMDA2NDQgZHJp
+dmVycy9ncHUvZHJtL3IxMjgvcjEyOF9kcnYuaA0KPj4+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0
+IGRyaXZlcnMvZ3B1L2RybS9yMTI4L3IxMjhfaW9jMzIuYw0KPj4+ICAgZGVsZXRlIG1vZGUg
+MTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9yMTI4L3IxMjhfaXJxLmMNCj4+PiAgIGRlbGV0ZSBt
+b2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vcjEyOC9yMTI4X3N0YXRlLmMNCj4+PiAgIGRl
+bGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vc2F2YWdlL01ha2VmaWxlDQo+Pj4g
+ICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3NhdmFnZS9zYXZhZ2VfYmNp
+LmMNCj4+PiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vc2F2YWdlL3Nh
+dmFnZV9kcnYuYw0KPj4+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9z
+YXZhZ2Uvc2F2YWdlX2Rydi5oDQo+Pj4gICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9n
+cHUvZHJtL3NhdmFnZS9zYXZhZ2Vfc3RhdGUuYw0KPj4+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0
+IGRyaXZlcnMvZ3B1L2RybS9zaXMvTWFrZWZpbGUNCj4+PiAgIGRlbGV0ZSBtb2RlIDEwMDY0
+NCBkcml2ZXJzL2dwdS9kcm0vc2lzL3Npc19kcnYuYw0KPj4+ICAgZGVsZXRlIG1vZGUgMTAw
+NjQ0IGRyaXZlcnMvZ3B1L2RybS9zaXMvc2lzX2Rydi5oDQo+Pj4gICBkZWxldGUgbW9kZSAx
+MDA2NDQgZHJpdmVycy9ncHUvZHJtL3Npcy9zaXNfbW0uYw0KPj4+ICAgZGVsZXRlIG1vZGUg
+MTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS90ZGZ4L01ha2VmaWxlDQo+Pj4gICBkZWxldGUgbW9k
+ZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3RkZngvdGRmeF9kcnYuYw0KPj4+ICAgZGVsZXRl
+IG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS90ZGZ4L3RkZnhfZHJ2LmgNCj4+PiAgIGRl
+bGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vdmlhL01ha2VmaWxlDQo+Pj4gICBk
+ZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3ZpYS92aWFfM2RfcmVnLmgNCj4+
+PiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vdmlhL3ZpYV9kcmkxLmMN
+Cj4+PiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL3VhcGkvZHJtL2k4MTBfZHJtLmgN
+Cj4+PiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL3VhcGkvZHJtL21nYV9kcm0uaA0K
+Pj4+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvdWFwaS9kcm0vcjEyOF9kcm0uaA0K
+Pj4+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvdWFwaS9kcm0vc2F2YWdlX2RybS5o
+DQo+Pj4gICBkZWxldGUgbW9kZSAxMDA2NDQgaW5jbHVkZS91YXBpL2RybS9zaXNfZHJtLmgN
+Cj4+PiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL3VhcGkvZHJtL3ZpYV9kcm0uaA0K
+Pj4+DQo+Pj4gLS0gDQo+Pj4gMi4yNS4xDQo+Pj4NCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1l
+cm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRp
+b25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJt
+YW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZv
+IFRvdGV2DQo=
 
-Nah, it's really not a practical bugfix imo, so neither -fixes nor stable
-material imo.
+--------------hvO40fwdB0qR1UubastegmCo--
 
-> > So either this isn't a fix and should have landed in drm-misc-next or so,
-> > or it was, and then it should have had Fixes: line (and cc: stable most
-> > likely too).
-> > 
-> > I spotted this becaue it caused a conflict in drm-tip that was left behind
-> > unresovled. I fixed it up.
-> 
-> Well then there is something wrong with drm-tip, cause I've fixed that up
-> before.
+--------------788T3eX9uGKbgsAhXWxKYVlB
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-This can happen if you have a massively mismatched git version compared to
-everyone else. git tends to change it's rr format occasionally :-/ Modern
-distro instead of lts works best so everyone has roughly the same git.
--Daniel
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> Regards,
-> Christian.
-> 
-> > 
-> > Tsk :-)
-> > -Daniel
-> > 
-> > > Best,
-> > > Sumit.
-> > > > ---
-> > > >   drivers/dma-buf/dma-buf-sysfs-stats.c |  7 +--
-> > > >   drivers/dma-buf/dma-buf-sysfs-stats.h |  4 +-
-> > > >   drivers/dma-buf/dma-buf.c             | 84 +++++++++++++--------------
-> > > >   3 files changed, 43 insertions(+), 52 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> > > > index 2bba0babcb62..4b680e10c15a 100644
-> > > > --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-> > > > +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> > > > @@ -168,14 +168,11 @@ void dma_buf_uninit_sysfs_statistics(void)
-> > > >          kset_unregister(dma_buf_stats_kset);
-> > > >   }
-> > > > 
-> > > > -int dma_buf_stats_setup(struct dma_buf *dmabuf)
-> > > > +int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
-> > > >   {
-> > > >          struct dma_buf_sysfs_entry *sysfs_entry;
-> > > >          int ret;
-> > > > 
-> > > > -       if (!dmabuf || !dmabuf->file)
-> > > > -               return -EINVAL;
-> > > > -
-> > > >          if (!dmabuf->exp_name) {
-> > > >                  pr_err("exporter name must not be empty if stats needed\n");
-> > > >                  return -EINVAL;
-> > > > @@ -192,7 +189,7 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
-> > > > 
-> > > >          /* create the directory for buffer stats */
-> > > >          ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, NULL,
-> > > > -                                  "%lu", file_inode(dmabuf->file)->i_ino);
-> > > > +                                  "%lu", file_inode(file)->i_ino);
-> > > >          if (ret)
-> > > >                  goto err_sysfs_dmabuf;
-> > > > 
-> > > > diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-buf-sysfs-stats.h
-> > > > index a49c6e2650cc..7a8a995b75ba 100644
-> > > > --- a/drivers/dma-buf/dma-buf-sysfs-stats.h
-> > > > +++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
-> > > > @@ -13,7 +13,7 @@
-> > > >   int dma_buf_init_sysfs_statistics(void);
-> > > >   void dma_buf_uninit_sysfs_statistics(void);
-> > > > 
-> > > > -int dma_buf_stats_setup(struct dma_buf *dmabuf);
-> > > > +int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file);
-> > > > 
-> > > >   void dma_buf_stats_teardown(struct dma_buf *dmabuf);
-> > > >   #else
-> > > > @@ -25,7 +25,7 @@ static inline int dma_buf_init_sysfs_statistics(void)
-> > > > 
-> > > >   static inline void dma_buf_uninit_sysfs_statistics(void) {}
-> > > > 
-> > > > -static inline int dma_buf_stats_setup(struct dma_buf *dmabuf)
-> > > > +static inline int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
-> > > >   {
-> > > >          return 0;
-> > > >   }
-> > > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > > > index e6f36c014c4c..eb6b59363c4f 100644
-> > > > --- a/drivers/dma-buf/dma-buf.c
-> > > > +++ b/drivers/dma-buf/dma-buf.c
-> > > > @@ -95,10 +95,11 @@ static int dma_buf_file_release(struct inode *inode, struct file *file)
-> > > >                  return -EINVAL;
-> > > > 
-> > > >          dmabuf = file->private_data;
-> > > > -
-> > > > -       mutex_lock(&db_list.lock);
-> > > > -       list_del(&dmabuf->list_node);
-> > > > -       mutex_unlock(&db_list.lock);
-> > > > +       if (dmabuf) {
-> > > > +               mutex_lock(&db_list.lock);
-> > > > +               list_del(&dmabuf->list_node);
-> > > > +               mutex_unlock(&db_list.lock);
-> > > > +       }
-> > > > 
-> > > >          return 0;
-> > > >   }
-> > > > @@ -523,17 +524,17 @@ static inline int is_dma_buf_file(struct file *file)
-> > > >          return file->f_op == &dma_buf_fops;
-> > > >   }
-> > > > 
-> > > > -static struct file *dma_buf_getfile(struct dma_buf *dmabuf, int flags)
-> > > > +static struct file *dma_buf_getfile(size_t size, int flags)
-> > > >   {
-> > > >          static atomic64_t dmabuf_inode = ATOMIC64_INIT(0);
-> > > > -       struct file *file;
-> > > >          struct inode *inode = alloc_anon_inode(dma_buf_mnt->mnt_sb);
-> > > > +       struct file *file;
-> > > > 
-> > > >          if (IS_ERR(inode))
-> > > >                  return ERR_CAST(inode);
-> > > > 
-> > > > -       inode->i_size = dmabuf->size;
-> > > > -       inode_set_bytes(inode, dmabuf->size);
-> > > > +       inode->i_size = size;
-> > > > +       inode_set_bytes(inode, size);
-> > > > 
-> > > >          /*
-> > > >           * The ->i_ino acquired from get_next_ino() is not unique thus
-> > > > @@ -547,8 +548,6 @@ static struct file *dma_buf_getfile(struct dma_buf *dmabuf, int flags)
-> > > >                                   flags, &dma_buf_fops);
-> > > >          if (IS_ERR(file))
-> > > >                  goto err_alloc_file;
-> > > > -       file->private_data = dmabuf;
-> > > > -       file->f_path.dentry->d_fsdata = dmabuf;
-> > > > 
-> > > >          return file;
-> > > > 
-> > > > @@ -614,19 +613,11 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
-> > > >          size_t alloc_size = sizeof(struct dma_buf);
-> > > >          int ret;
-> > > > 
-> > > > -       if (!exp_info->resv)
-> > > > -               alloc_size += sizeof(struct dma_resv);
-> > > > -       else
-> > > > -               /* prevent &dma_buf[1] == dma_buf->resv */
-> > > > -               alloc_size += 1;
-> > > > -
-> > > > -       if (WARN_ON(!exp_info->priv
-> > > > -                         || !exp_info->ops
-> > > > -                         || !exp_info->ops->map_dma_buf
-> > > > -                         || !exp_info->ops->unmap_dma_buf
-> > > > -                         || !exp_info->ops->release)) {
-> > > > +       if (WARN_ON(!exp_info->priv || !exp_info->ops
-> > > > +                   || !exp_info->ops->map_dma_buf
-> > > > +                   || !exp_info->ops->unmap_dma_buf
-> > > > +                   || !exp_info->ops->release))
-> > > >                  return ERR_PTR(-EINVAL);
-> > > > -       }
-> > > > 
-> > > >          if (WARN_ON(exp_info->ops->cache_sgt_mapping &&
-> > > >                      (exp_info->ops->pin || exp_info->ops->unpin)))
-> > > > @@ -638,10 +629,21 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
-> > > >          if (!try_module_get(exp_info->owner))
-> > > >                  return ERR_PTR(-ENOENT);
-> > > > 
-> > > > +       file = dma_buf_getfile(exp_info->size, exp_info->flags);
-> > > > +       if (IS_ERR(file)) {
-> > > > +               ret = PTR_ERR(file);
-> > > > +               goto err_module;
-> > > > +       }
-> > > > +
-> > > > +       if (!exp_info->resv)
-> > > > +               alloc_size += sizeof(struct dma_resv);
-> > > > +       else
-> > > > +               /* prevent &dma_buf[1] == dma_buf->resv */
-> > > > +               alloc_size += 1;
-> > > >          dmabuf = kzalloc(alloc_size, GFP_KERNEL);
-> > > >          if (!dmabuf) {
-> > > >                  ret = -ENOMEM;
-> > > > -               goto err_module;
-> > > > +               goto err_file;
-> > > >          }
-> > > > 
-> > > >          dmabuf->priv = exp_info->priv;
-> > > > @@ -653,44 +655,36 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
-> > > >          init_waitqueue_head(&dmabuf->poll);
-> > > >          dmabuf->cb_in.poll = dmabuf->cb_out.poll = &dmabuf->poll;
-> > > >          dmabuf->cb_in.active = dmabuf->cb_out.active = 0;
-> > > > +       mutex_init(&dmabuf->lock);
-> > > > +       INIT_LIST_HEAD(&dmabuf->attachments);
-> > > > 
-> > > >          if (!resv) {
-> > > > -               resv = (struct dma_resv *)&dmabuf[1];
-> > > > -               dma_resv_init(resv);
-> > > > +               dmabuf->resv = (struct dma_resv *)&dmabuf[1];
-> > > > +               dma_resv_init(dmabuf->resv);
-> > > > +       } else {
-> > > > +               dmabuf->resv = resv;
-> > > >          }
-> > > > -       dmabuf->resv = resv;
-> > > > 
-> > > > -       file = dma_buf_getfile(dmabuf, exp_info->flags);
-> > > > -       if (IS_ERR(file)) {
-> > > > -               ret = PTR_ERR(file);
-> > > > +       ret = dma_buf_stats_setup(dmabuf, file);
-> > > > +       if (ret)
-> > > >                  goto err_dmabuf;
-> > > > -       }
-> > > > 
-> > > > +       file->private_data = dmabuf;
-> > > > +       file->f_path.dentry->d_fsdata = dmabuf;
-> > > >          dmabuf->file = file;
-> > > > 
-> > > > -       mutex_init(&dmabuf->lock);
-> > > > -       INIT_LIST_HEAD(&dmabuf->attachments);
-> > > > -
-> > > >          mutex_lock(&db_list.lock);
-> > > >          list_add(&dmabuf->list_node, &db_list.head);
-> > > >          mutex_unlock(&db_list.lock);
-> > > > 
-> > > > -       ret = dma_buf_stats_setup(dmabuf);
-> > > > -       if (ret)
-> > > > -               goto err_sysfs;
-> > > > -
-> > > >          return dmabuf;
-> > > > 
-> > > > -err_sysfs:
-> > > > -       /*
-> > > > -        * Set file->f_path.dentry->d_fsdata to NULL so that when
-> > > > -        * dma_buf_release() gets invoked by dentry_ops, it exits
-> > > > -        * early before calling the release() dma_buf op.
-> > > > -        */
-> > > > -       file->f_path.dentry->d_fsdata = NULL;
-> > > > -       fput(file);
-> > > >   err_dmabuf:
-> > > > +       if (!resv)
-> > > > +               dma_resv_fini(dmabuf->resv);
-> > > >          kfree(dmabuf);
-> > > > +err_file:
-> > > > +       fput(file);
-> > > >   err_module:
-> > > >          module_put(exp_info->owner);
-> > > >          return ERR_PTR(ret);
-> > > > --
-> > > > 2.34.1
-> > > > 
-> > > 
-> > > -- 
-> > > Thanks and regards,
-> > > 
-> > > Sumit Semwal (he / him)
-> > > Tech Lead - LCG, Vertical Technologies
-> > > Linaro.org │ Open source software for ARM SoCs
-> > > _______________________________________________
-> > > Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> > > To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
-> 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmO2yj4FAwAAAAAACgkQlh/E3EQov+B8
+JxAAueaQ1fZWgyNoCRZd0zVkm/NaPA3GojXcVhrvYLLxZP7tYsRYufO1v81/U3BkHqP4FRbGbrFg
+JaWcoS0GgFCMv16oNQ1ZenJZsA4Mf4QzXuFCZ0hnDo6Rvz5JGajPxVGieF/DGMpLo/NMLUHd6JAP
+w1tXwuSccqOEkRcqVcH1rqN2Qplu6wuu//fJVxbxmaL45T2LTd/6oiDJ47CXFkk44I/5CFI94J0X
+Yy+zPX1WLE/wHTq+b5nWI2GuhbCMn537YFM+W80iYae0nMLV3kUHjCrnnYwRc6DmbG/aoCD42RqG
+RxTMZqdM54jNL7xjhC9VhF8Boo7MndBGwaLScR+2NRULD9G2ZgY5YDT7ARzKwm/uircW29DvGgHm
+HtLsFRQVXGNw8DJBi5Q1j/YP8iVH3KzS3+LwVazVhJFuhbjlfUZYZLjzmv2PAr6mW710Dfv5yVtl
+bfR1INT2k6CuIffLQW7qeIo6rZUhTADs17N1HqowTSvLu2fBkaHKxNyAggWIwT4gvtdJtMJ03Q+v
+xnEk8pIhUKorA2iY/yk88YGnyXwrJUEsqiAU/yCi32TXL37NRPt76dsZPS4WJeXUJ2+tcto1Rzur
+koyldwRh66pzUpgFZYBvM5KZY6vW77+CYUN2QIFBc7WWsF0EcuZQHmVkKaFI1yIINF0ZVIelXByb
+nh4=
+=Ycyy
+-----END PGP SIGNATURE-----
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--------------788T3eX9uGKbgsAhXWxKYVlB--
