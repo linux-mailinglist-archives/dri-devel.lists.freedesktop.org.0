@@ -2,44 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A43865EDB7
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 14:47:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC5165EDC3
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 14:48:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04B5510E730;
-	Thu,  5 Jan 2023 13:47:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0E6810E731;
+	Thu,  5 Jan 2023 13:48:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F2A310E731
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 13:47:47 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id BE04AB81AEB;
- Thu,  5 Jan 2023 13:47:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F226C433EF;
- Thu,  5 Jan 2023 13:47:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1672926464;
- bh=hvYlZun1V9ia6MvbkglHwpnSsKWMQMEdGZSkjARxpus=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pslL6VhveSNnnvoa7GN/G2CXo4AomFZlhKE8+BqKSIwC5tmQD9zS4Y+nwwxF5BVtP
- lcqEtw9oqeh5GcYfq4YW2vz2b9AvXqHVrdwrM9458+wvEU/hS3EfE2zSy4kn1ryPT6
- gA9yzsWM+6dP0bmIP5XU8uKQSbUXZITHxFwSlC57wcTB7yJlZyMiTtImnOGGVAD1/z
- kFnYmpms6I4BZnOR96m9jRbh5ZPBjjv+6ONSzRff6bdvDaLIdWhgI0Aa2xvfgkSL60
- Ww1z89/t2uJslv6fWyoO57RjlrRdpd5jd1qUs12568hlG0iHgyLgnN61e3tV6ki+Wk
- nqokI4NmcDWIg==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Robert Jarzmik <robert.jarzmik@free.fr>
-Subject: [PATCH 23/27] fbdev: remove w100fb driver
-Date: Thu,  5 Jan 2023 14:46:18 +0100
-Message-Id: <20230105134622.254560-24-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230105134622.254560-1-arnd@kernel.org>
-References: <20230105134622.254560-1-arnd@kernel.org>
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90E1610E731
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 13:48:41 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ bi26-20020a05600c3d9a00b003d3404a89faso2286931wmb.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 05:48:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ht+mwzQQ1ue4JMqqEj6Zjsmb8YHcRFrqWIftaKnYluY=;
+ b=KQg2KbN8oFebn2myQwOAJADTIHMF/RKao4MDfWLOvhuR+yOTqkdSLHSYeg46C3PlRA
+ pTlT5G5viMlN0paVYEQsmxMAxD79ZVPdwn6OE6HvCB3Ncggk6UZ4s3nuHMgbhh34OTB8
+ rOje9whMg9evsJXjqlz3ub+Bx44MQ4IcHYwlU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ht+mwzQQ1ue4JMqqEj6Zjsmb8YHcRFrqWIftaKnYluY=;
+ b=xn856DHQUeex4r8mK8VXCXFvE+kHOvqMixwBOm9UzIljhS23bLQQaO7k2W4nJ7Myn4
+ 7hR37ONtxhtXTr42v+J3RQRnhiysA5o17coa252+c2YDH9FibUTOSdhPZGN4NGwQusLv
+ KGNxQaNkitPu0NuNrXossTdkjCfwwbPfNg741xzQExehmavbVFZYtdSblLSEb89GYiJZ
+ Se3FL/enyZKWLAKAuz3BClfkiC4Afvou8wB2q4nSEC0blZqoFTLS8RI8jfO7Li5sM5JJ
+ BFrOZZbyDpPZPIwAbcXtXux889is9lFVbhPkdIJw719pBIeDHaahMpEKmb4lFraFnt2Y
+ U1wA==
+X-Gm-Message-State: AFqh2koRtGmuICwT+snu48Obvbl9o2jy1GGeP0d7Yx8GcYwB4e9a8wSP
+ gXasRqILnj89LTUFeqMzUWrDWQ==
+X-Google-Smtp-Source: AMrXdXuTDecor7kZcvOYOsAj+3nBaic1/VfYtiQq2JGAaKE3v4Wvz75SoBfEliAZ1VVySM3bjAuppA==
+X-Received: by 2002:a05:600c:248:b0:3d3:5d47:271c with SMTP id
+ 8-20020a05600c024800b003d35d47271cmr35815941wmj.12.1672926520077; 
+ Thu, 05 Jan 2023 05:48:40 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ m18-20020a05600c4f5200b003c71358a42dsm3272293wmq.18.2023.01.05.05.48.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Jan 2023 05:48:39 -0800 (PST)
+Date: Thu, 5 Jan 2023 14:48:37 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Yi Xie <yixie@google.com>
+Subject: Re: [PATCH] drm/vkms: Add a DRM render node to vkms
+Message-ID: <Y7bVNT0sf5cwEHuj@phenom.ffwll.local>
+References: <20230105052325.514970-1-yixie@google.com>
+ <Y7a2Viw/1RUNCGkD@phenom.ffwll.local>
+ <CAHf1YQ4AZoOd=Q7KVqb1gQm3=TtiS_8-uxFY93syov1AgUT=CQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHf1YQ4AZoOd=Q7KVqb1gQm3=TtiS_8-uxFY93syov1AgUT=CQ@mail.gmail.com>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,82 +71,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Arnd Bergmann <arnd@arndb.de>, Helge Deller <deller@gmx.de>,
- linux-kernel@vger.kernel.org, Haojian Zhuang <haojian.zhuang@gmail.com>,
- Daniel Mack <daniel@zonque.org>, linux-arm-kernel@lists.infradead.org
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
+ dri-devel@lists.freedesktop.org, melissa.srw@gmail.com, lepton@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Thu, Jan 05, 2023 at 09:52:26PM +0900, Yi Xie wrote:
+> > This doesn't sound like a good idea to me. Devices without render
+> > capabilities should not fake it.
+> >
+> > User-space (e.g. wlroots) relies on "no render node" to enable
+> > software rendering (Pixman instead of GL).
+> 
+> We have virtgpu driver that exports a render node even when virgl is
+> not supported.
+> Mesa has special code path to enable software rendering on it:
+> https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/egl/drivers/dri2/platform_device.c#L296
+> We can do the same for vkms to force software rendering.
 
-The w100fb was used on various PXA based pocketpc machines,
-all of which are now removed, so remove this dirver sd well.
+Yeah that is the old kmsro mesa issue, for every combination of kms and
+gem device you need one to make this work.
 
-Cc: Helge Deller <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/video/fbdev/Kconfig  |   17 -
- drivers/video/fbdev/Makefile |    1 -
- drivers/video/fbdev/w100fb.c | 1644 ----------------------------------
- drivers/video/fbdev/w100fb.h |  924 -------------------
- include/video/w100fb.h       |  147 ---
- 5 files changed, 2733 deletions(-)
- delete mode 100644 drivers/video/fbdev/w100fb.c
- delete mode 100644 drivers/video/fbdev/w100fb.h
- delete mode 100644 include/video/w100fb.h
+> On Thu, Jan 5, 2023 at 8:36 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Thu, Jan 05, 2023 at 02:23:25PM +0900, Yi Xie wrote:
+> > > Some libraries including Mesa and virglrenderer require a render node to
+> > > fully function. By adding a render node to vkms those libraries will
+> > > work properly, supporting use cases like running crosvm with virgl GPU
+> > > support via llvmpipe on a headless virtual machine.
+> >
+> > This is what vgem exists for. More or less at least ... I'm honestly not
+> > really understanding what you're trying to fix here, it sounds a bit like
+> > userspace being stupid.
+> > -Daniel
+> The problem with vgem is that it crashes llvmpipe while working with vkms.
+> Looks like it's due to the same reason as described in this thread in Mesa:
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/5830
 
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 3152f1a06a39..2f5219cc36b4 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -1841,23 +1841,6 @@ config FB_FSL_DIU
- 	help
- 	  Framebuffer driver for the Freescale SoC DIU
- 
--config FB_W100
--	tristate "W100 frame buffer support"
--	depends on FB && HAS_IOMEM && (ARCH_PXA || COMPILE_TEST)
--	select FB_CFB_FILLRECT
--	select FB_CFB_COPYAREA
--	select FB_CFB_IMAGEBLIT
--	help
--	  Frame buffer driver for the w100 as found on the Sharp SL-Cxx series.
--	  It can also drive the w3220 chip found on iPAQ hx4700.
--
--	  This driver is also available as a module ( = code which can be
--	  inserted and removed from the running kernel whenever you want). The
--	  module will be called w100fb. If you want to compile it as a module,
--	  say M here and read <file:Documentation/kbuild/modules.rst>.
--
--	  If unsure, say N.
--
- config FB_SH_MOBILE_LCDC
- 	tristate "SuperH Mobile LCDC framebuffer support"
- 	depends on FB && HAVE_CLK && HAS_IOMEM
-diff --git a/drivers/video/fbdev/Makefile b/drivers/video/fbdev/Makefile
-index e5206c3331d6..e6b0ae094b8b 100644
---- a/drivers/video/fbdev/Makefile
-+++ b/drivers/video/fbdev/Makefile
-@@ -84,7 +84,6 @@ obj-$(CONFIG_FB_PXA)		  += pxafb.o
- obj-$(CONFIG_FB_PXA168)		  += pxa168fb.o
- obj-$(CONFIG_PXA3XX_GCU)	  += pxa3xx-gcu.o
- obj-$(CONFIG_MMP_DISP)           += mmp/
--obj-$(CONFIG_FB_W100)		  += w100fb.o
- obj-$(CONFIG_FB_AU1100)		  += au1100fb.o
- obj-$(CONFIG_FB_AU1200)		  += au1200fb.o
- obj-$(CONFIG_FB_VT8500)		  += vt8500lcdfb.o
-diff --git a/drivers/video/fbdev/w100fb.c b/drivers/video/fbdev/w100fb.c
-deleted file mode 100644
-index 4e641a780726..000000000000
-diff --git a/drivers/video/fbdev/w100fb.h b/drivers/video/fbdev/w100fb.h
-deleted file mode 100644
-index 52c96d155b4c..000000000000
-diff --git a/include/video/w100fb.h b/include/video/w100fb.h
-deleted file mode 100644
-index a614654d8598..000000000000
+I'm not finding any bug description in there and how/why something
+crashes?
+
+> Importing buffers allocated by vgem to vkms seems to be unexpected and
+> causes the crash. If we create a render node on vkms then llvmpipe will use
+> vkms to allocate buffers and it no longer crashes.
+
+Uh importing vgem into virtio might not work because those sometimes need
+special buffers iirc. But importing vgem into vkms really should work,
+there's no technical reason it cannot. If it doesn't, then the right fix
+would be to fix that, not paper around it.
+-Daniel
+
+> 
+> > >
+> > > Signed-off-by: Yi Xie <yixie@google.com>
+> > > ---
+> > >  drivers/gpu/drm/vkms/vkms_drv.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> > > index 293dbca50c31..8eea5d4dece8 100644
+> > > --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> > > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> > > @@ -113,7 +113,7 @@ static void vkms_config_debugfs_init(struct drm_minor *minor)
+> > >  }
+> > >
+> > >  static const struct drm_driver vkms_driver = {
+> > > -     .driver_features        = DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_GEM,
+> > > +     .driver_features        = DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_GEM | DRIVER_RENDER,
+> > >       .release                = vkms_release,
+> > >       .fops                   = &vkms_driver_fops,
+> > >       DRM_GEM_SHMEM_DRIVER_OPS,
+> > > --
+> > > 2.39.0.314.g84b9a713c41-goog
+> > >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
 -- 
-2.39.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
