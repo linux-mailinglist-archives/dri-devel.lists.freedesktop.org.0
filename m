@@ -2,72 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F96165E10E
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 00:41:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9D4065E22B
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 02:06:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98AEE10E47A;
-	Wed,  4 Jan 2023 23:41:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B0BA10E615;
+	Thu,  5 Jan 2023 01:06:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF42310E478;
- Wed,  4 Jan 2023 23:41:19 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 304N5CaE016615; Wed, 4 Jan 2023 23:41:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=rLCLAkCOSO5a6DBivav4Cuv7JOvOGIwCLvYQv7LH0UU=;
- b=B9hhiO3PjVIpnPMoDvIsMscfOtbHirHQTmJgIVqrw5cW1E2ctx6BsjxaITz1Uaov96bd
- LyJ3N+Oj6ap4GdzOINGh2ylYK0fDdiyp3Sgx7464shzZLTMFAEYYzwa0XU3YpEFPwaJg
- d+xAZ3UoS+tP4BKGKj87SbyEnk7FOl6cJ3TNt5nqgIFUZWett1dwOuj3Hd9/8GLmuBoz
- rbDDx/dvH3kyG6qWZaCKEayzgdQJM+3i3jfDlWDce5Yex5OSha+r793e8dY+5/zc6eHG
- T7uk39/1mbyKEA8bMndmLmOmjiAe/Dkdw7Xtuae1bjRaLlxeGMMlzAGlwcElpcswD9YE iA== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mvsvwu2fp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 04 Jan 2023 23:41:06 +0000
-Received: from nasanex01b.na.qualcomm.com (corens_vlan604_snip.qualcomm.com
- [10.53.140.1])
- by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 304Nf5Y7010620
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 4 Jan 2023 23:41:05 GMT
-Received: from JESSZHAN.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Wed, 4 Jan 2023 15:41:03 -0800
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-To: <freedreno@lists.freedesktop.org>
-Subject: [RFC PATCH v3 3/3] drm/msm/dpu: Use color_fill property for DPU planes
-Date: Wed, 4 Jan 2023 15:40:36 -0800
-Message-ID: <20230104234036.636-4-quic_jesszhan@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230104234036.636-1-quic_jesszhan@quicinc.com>
-References: <20230104234036.636-1-quic_jesszhan@quicinc.com>
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6061110E615;
+ Thu,  5 Jan 2023 01:06:00 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4NnSvk6035z4xyY;
+ Thu,  5 Jan 2023 12:05:53 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1672880755;
+ bh=2DlQM3PNbWfEbIMdLPJ6D4XabmS9FmziJAsp7+tKym0=;
+ h=Date:From:To:Cc:Subject:From;
+ b=BJB94/miDJVCAXxDboH8LeueeKSYXmzU+TioGau0u/r7t13VcZ8NKevIkPlo0UMOY
+ zKjVOqTQxbjk5vsznJ04cBgcXs0wldxaEqDzSWNUE6mnG7YXK7r+TWTEfephfc3ohg
+ /+WofWASuah5CH1yKrgpC+u7jmdttG+3OvWpCYWnIFyLWr6414dp/cQhPXCZVlZMLN
+ lsONDXcw0NXi0i2P9mqUAo7zG+Zr3RnSR8ogUAeWx3uJrBzc28qC4Tz011PI6LqQP/
+ NKG62U5vwskRErK6zx7XLpx57Y4HZlrzRVy1Z4PQR5J2nHpTFUkkbyKRce9DXdulHy
+ /2sWI7VM4OEsA==
+Date: Thu, 5 Jan 2023 12:05:52 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: linux-next: duplicate patches in the drm tree
+Message-ID: <20230105120552.77bcaceb@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: oWkokOxed0tOHCxQJuWyVkGrA9tJUIry
-X-Proofpoint-ORIG-GUID: oWkokOxed0tOHCxQJuWyVkGrA9tJUIry
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-04_07,2023-01-04_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0
- mlxlogscore=955 phishscore=0 clxscore=1015 malwarescore=0 impostorscore=0
- lowpriorityscore=0 suspectscore=0 mlxscore=0 adultscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301040193
+Content-Type: multipart/signed; boundary="Sig_/xAv5h+U54DYQAowicK6_TeW";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,204 +49,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sebastian.wick@redhat.com, ppaalanen@gmail.com,
- linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, daniel.vetter@ffwll.ch,
- seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
- dmitry.baryshkov@linaro.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
- wayland-devel@lists.freedesktop.org
+Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Initialize and use the color_fill properties for planes in DPU driver. In
-addition, relax framebuffer requirements within atomic commit path and
-add checks for NULL framebuffers. Finally, drop DPU_PLANE_COLOR_FILL_FLAG
-as it's unused.
+--Sig_/xAv5h+U54DYQAowicK6_TeW
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Changes since V2:
-- Fixed dropped 'const' warning
-- Dropped use of solid_fill_format
-- Switched to using drm_plane_solid_fill_enabled helper method
-- Added helper to convert color fill to BGR888 (Rob)
-- Added support for solid fill on planes of varying sizes
-- Removed DPU_PLANE_COLOR_FILL_FLAG
+Hi all,
 
-Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  9 +++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 65 ++++++++++++++---------
- 2 files changed, 49 insertions(+), 25 deletions(-)
+The following commits also exist in other trees in linux-next as different
+commits (but the same patch):
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 13ce321283ff..0695b70ea1b7 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -409,6 +409,7 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
- 	struct drm_plane_state *state;
- 	struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc->state);
- 	struct dpu_plane_state *pstate = NULL;
-+	const struct msm_format *fmt;
- 	struct dpu_format *format;
- 	struct dpu_hw_ctl *ctl = mixer->lm_ctl;
- 
-@@ -441,7 +442,13 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
- 				sspp_idx - SSPP_VIG0,
- 				state->fb ? state->fb->base.id : -1);
- 
--		format = to_dpu_format(msm_framebuffer_format(pstate->base.fb));
-+		if (pstate->base.fb)
-+			fmt = msm_framebuffer_format(pstate->base.fb);
-+		else
-+			fmt = dpu_get_msm_format(&_dpu_crtc_get_kms(crtc)->base,
-+					DRM_FORMAT_ABGR8888, 0);
-+
-+		format = to_dpu_format(fmt);
- 
- 		if (pstate->stage == DPU_STAGE_BASE && format->alpha_enable)
- 			bg_alpha_enable = true;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 86719020afe2..51a7507373f7 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -44,7 +44,6 @@
- 
- #define DPU_NAME_SIZE  12
- 
--#define DPU_PLANE_COLOR_FILL_FLAG	BIT(31)
- #define DPU_ZPOS_MAX 255
- 
- /* multirect rect index */
-@@ -105,7 +104,6 @@ struct dpu_plane {
- 	enum dpu_sspp pipe;
- 
- 	struct dpu_hw_pipe *pipe_hw;
--	uint32_t color_fill;
- 	bool is_error;
- 	bool is_rt_pipe;
- 	const struct dpu_mdss_cfg *catalog;
-@@ -678,6 +676,17 @@ static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
- 				&scaler3_cfg);
- }
- 
-+static uint32_t _dpu_plane_get_fill_color(struct drm_solid_fill solid_fill)
-+{
-+	uint32_t ret = 0;
-+
-+	ret |= ((uint8_t) solid_fill.b) << 16;
-+	ret |= ((uint8_t) solid_fill.g) << 8;
-+	ret |= ((uint8_t) solid_fill.r);
-+
-+	return ret;
-+}
-+
- /**
-  * _dpu_plane_color_fill - enables color fill on plane
-  * @pdpu:   Pointer to DPU plane object
-@@ -1001,12 +1010,17 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 
- 	dst = drm_plane_state_dest(new_plane_state);
- 
--	fb_rect.x2 = new_plane_state->fb->width;
--	fb_rect.y2 = new_plane_state->fb->height;
-+	if (new_plane_state->fb) {
-+		fb_rect.x2 = new_plane_state->fb->width;
-+		fb_rect.y2 = new_plane_state->fb->height;
-+	}
- 
- 	max_linewidth = pdpu->catalog->caps->max_linewidth;
- 
--	fmt = to_dpu_format(msm_framebuffer_format(new_plane_state->fb));
-+	if (new_plane_state->fb)
-+		fmt = to_dpu_format(msm_framebuffer_format(new_plane_state->fb));
-+	else
-+		fmt = dpu_get_dpu_format(DRM_FORMAT_ABGR8888);
- 
- 	min_src_size = DPU_FORMAT_IS_YUV(fmt) ? 2 : 1;
- 
-@@ -1018,7 +1032,7 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 		return -EINVAL;
- 
- 	/* check src bounds */
--	} else if (!dpu_plane_validate_src(&src, &fb_rect, min_src_size)) {
-+	} else if (new_plane_state->fb && !dpu_plane_validate_src(&src, &fb_rect, min_src_size)) {
- 		DPU_DEBUG_PLANE(pdpu, "invalid source " DRM_RECT_FMT "\n",
- 				DRM_RECT_ARG(&src));
- 		return -E2BIG;
-@@ -1086,9 +1100,10 @@ void dpu_plane_flush(struct drm_plane *plane)
- 	if (pdpu->is_error)
- 		/* force white frame with 100% alpha pipe output on error */
- 		_dpu_plane_color_fill(pdpu, 0xFFFFFF, 0xFF);
--	else if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG)
-+	else if (!(plane->state->fb) && drm_plane_solid_fill_enabled(plane->state))
- 		/* force 100% alpha */
--		_dpu_plane_color_fill(pdpu, pdpu->color_fill, 0xFF);
-+		_dpu_plane_color_fill(pdpu, _dpu_plane_get_fill_color(plane->state->solid_fill),
-+				0xFF);
- 	else if (pdpu->pipe_hw && pdpu->pipe_hw->ops.setup_csc) {
- 		const struct dpu_format *fmt = to_dpu_format(msm_framebuffer_format(plane->state->fb));
- 		const struct dpu_csc_cfg *csc_ptr = _dpu_plane_get_csc(pdpu, fmt);
-@@ -1127,23 +1142,30 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
- 	struct drm_crtc *crtc = state->crtc;
- 	struct drm_framebuffer *fb = state->fb;
- 	bool is_rt_pipe, update_qos_remap;
--	const struct dpu_format *fmt =
--		to_dpu_format(msm_framebuffer_format(fb));
-+	const struct dpu_format *fmt;
- 	struct dpu_hw_pipe_cfg pipe_cfg;
- 
--	memset(&pipe_cfg, 0, sizeof(struct dpu_hw_pipe_cfg));
--
--	_dpu_plane_set_scanout(plane, pstate, &pipe_cfg, fb);
--
- 	pstate->pending = true;
- 
- 	is_rt_pipe = (dpu_crtc_get_client_type(crtc) != NRT_CLIENT);
- 	_dpu_plane_set_qos_ctrl(plane, false, DPU_PLANE_QOS_PANIC_CTRL);
- 
--	DPU_DEBUG_PLANE(pdpu, "FB[%u] " DRM_RECT_FP_FMT "->crtc%u " DRM_RECT_FMT
--			", %4.4s ubwc %d\n", fb->base.id, DRM_RECT_FP_ARG(&state->src),
--			crtc->base.id, DRM_RECT_ARG(&state->dst),
--			(char *)&fmt->base.pixel_format, DPU_FORMAT_IS_UBWC(fmt));
-+	/* override for color fill */
-+	if (!fb && drm_plane_solid_fill_enabled(plane->state)) {
-+		/* skip remaining processing on color fill */
-+		return;
-+	}
-+
-+	memset(&pipe_cfg, 0, sizeof(struct dpu_hw_pipe_cfg));
-+
-+	fmt = to_dpu_format(msm_framebuffer_format(fb));
-+	_dpu_plane_set_scanout(plane, pstate, &pipe_cfg, fb);
-+
-+	if (fb)
-+		DPU_DEBUG_PLANE(pdpu, "FB[%u] " DRM_RECT_FP_FMT "->crtc%u " DRM_RECT_FMT
-+				", %4.4s ubwc %d\n", fb->base.id, DRM_RECT_FP_ARG(&state->src),
-+				crtc->base.id, DRM_RECT_ARG(&state->dst),
-+				(char *)&fmt->base.pixel_format, DPU_FORMAT_IS_UBWC(fmt));
- 
- 	pipe_cfg.src_rect = state->src;
- 
-@@ -1155,12 +1177,6 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
- 
- 	pipe_cfg.dst_rect = state->dst;
- 
--	/* override for color fill */
--	if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG) {
--		/* skip remaining processing on color fill */
--		return;
--	}
--
- 	if (pdpu->pipe_hw->ops.setup_rects) {
- 		pdpu->pipe_hw->ops.setup_rects(pdpu->pipe_hw,
- 				&pipe_cfg,
-@@ -1511,6 +1527,7 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
- 		DPU_ERROR("failed to install zpos property, rc = %d\n", ret);
- 
- 	drm_plane_create_alpha_property(plane);
-+	drm_plane_create_solid_fill_property(plane);
- 	drm_plane_create_blend_mode_property(plane,
- 			BIT(DRM_MODE_BLEND_PIXEL_NONE) |
- 			BIT(DRM_MODE_BLEND_PREMULTI) |
--- 
-2.38.1
+  9f1ecfc5dcb4 ("drm/scheduler: Fix lockup in drm_sched_entity_kill()")
+  4333472f8d7b ("drm/imx: ipuv3-plane: Fix overlay plane width")
 
+They are also in the drm-misc-fixes tree.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/xAv5h+U54DYQAowicK6_TeW
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmO2InAACgkQAVBC80lX
+0GyUowf/SY5F+tn+BCckr3tc4JOkakwv9nLCwyJ2kiF1o8/gYamIvbwdGn+A6mY6
+0RqS3AR2PLjRL/hoN2yFdA9VMz6eB9+xgT/IJkAny02TTvBqLueD4kCFeiht4iJQ
+LLz7Y5h3Fs6x/c1DoKg4lua555DBluWWccfqm+D9nqbfbXW87yIo+5UK4xiL5jjP
+tRa9GtO8X+pNZiq75C19cNso1/ZNto195rz3DM6zHk8bU56qOFxTZJeCYfUjDu7X
+Aa0ApGk5tiIlUwnW4x8iTUV3jEYeWPpwNE7BtLE1ck0owgt0UySZg3kHKQWzV+PO
+iF/ZP9YJittbWohjrPBOCKR6WrIvKQ==
+=9W1S
+-----END PGP SIGNATURE-----
+
+--Sig_/xAv5h+U54DYQAowicK6_TeW--
