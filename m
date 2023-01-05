@@ -2,73 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347F065E63D
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 08:49:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 934B765E657
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 09:01:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3814010E6BB;
-	Thu,  5 Jan 2023 07:49:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 298AE10E6BD;
+	Thu,  5 Jan 2023 08:00:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C6D310E6B7;
- Thu,  5 Jan 2023 07:49:12 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 189B9581DC0;
- Thu,  5 Jan 2023 02:49:12 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 05 Jan 2023 02:49:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1672904952; x=1672912152; bh=jERi6VHhZyEw8Hj9FyQGp/xfIG6K+UHce3C
- ChzdMIvk=; b=Iww1pA3MGTXWPQ1eTb/OXo4Ny8+eQBU8kyo4RyvZqJqwx/dfesh
- MkOMW8cWExez8bkjiXCaxGY0r5EJUDfk/cHpkKFMZ9D97nsCX9Ksdjeycw+cc1Ix
- G16086Rcbu4cuuiZAjJU2bm8V97m482ZLtlbFwtDw+2tbcYAkblgGZsUv0uIIEFk
- 15uOxWFsa1sB94G94+juba/hTaHAJBB/kAi/jjHFFqgudJUoHv27t2xWFyBkrJ89
- Pya+42IyA0IR1k1eg0Cba7e2Qv4oqfyWR4WsmzfgKiWu9TfiPYu2N2nIgu7PutbH
- TI0Ld7OUbk1OJrJOEA9R5OvqEXBCOJZRL5A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:message-id:mime-version
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672904952; x=
- 1672912152; bh=jERi6VHhZyEw8Hj9FyQGp/xfIG6K+UHce3CChzdMIvk=; b=L
- tQqLQti0J66rBSPfYh88wWmne8DmrdcGQefShGHy+Zyxi/rWfqfQKuk7R96eUX+D
- XBMSUKXETPCb8uPX9A6L0J27ZOhTpyQFjkc/rh648U3+jAL9oBVC5g7YkBYB5VHy
- A2UapB1wgyqckjcWbCOPgWQEPsE8HdsDt/2MT7KssGh9nvAtPwb3w1tHqBaxTTQr
- 2xFxoCutr2xpFmfVm0oNcQgrNLRQvIBA8O5dhoMPNFrEq9zsXu2Zb2eLDavnLUaS
- zeS8183024EZEfECiUFIcWvxadPyZPdH50kYyMqdQDshi7BZNTZQvF4mFqq1P+Jl
- dw1sINHv0sVSo8WSEZd6A==
-X-ME-Sender: <xms:94C2Y22mmCpITFoi0l3qd6TcZM-FUsdg-KG3ecytnv4-e2TfJEYyHQ>
- <xme:94C2Y5Hm9oIYLrwsc1UmbCXw_qQ91z462ry1kl_iDbocKNU5SehlmZVE3Bxe_4uaT
- Wmv5zxwqHrgI__Mb-k>
-X-ME-Received: <xmr:94C2Y-7JUtn8B1hpv3kJvToZzFt4ZNsDuHiGEKIbvc0T2DXYr6CYBWNRP6J5UMS3MI1p9FTrwxhCAeH3kPBy3I2K_DdLhr9sGC1toBDdQ2Sr9Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeejgdduudegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkgggtugesghdtreertddtudenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeekheejgeeuhfethffgheekhedufeduhfejgfehffekudefgedugffhkeefhfev
- vdenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
- thgvtghh
-X-ME-Proxy: <xmx:94C2Y30697kFJGAHOu6jutJom5DwozCskSo5WrgeY6EeSvNZn77-jQ>
- <xmx:94C2Y5H5T9rTLRmaD9RkQwhSodEOCRQO0DkzEP97eeyjt5PHmIjVEA>
- <xmx:94C2Yw8l2B4ffYmfFCOhPvGvYda4rmwBM0TgBBd5G27gXxwaFLW8yA>
- <xmx:-IC2Yy17ygS_0cldCUwdO3xSjJVA911pvvuWEe2N6mSTM_yxC2HZFQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 5 Jan 2023 02:49:10 -0500 (EST)
-Date: Thu, 5 Jan 2023 08:49:09 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20230105074909.qd2h23hpxac4lxi7@houat>
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C64810E6BD
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 08:00:53 +0000 (UTC)
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3057m6nE036979; Thu, 5 Jan 2023 08:00:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=5zKaQOA6IGKVjD/e3CeInd78n2sD2CM5QMQ3/3xpoGk=;
+ b=EW9DXA6n2b01/pIeafCvQxNtyVXERMmUKUcexO4zlYK5qRyuT9us8zoLA1/5lQbJ5qy1
+ /ynaFOc6HqsRRtM5cMcTDaEcpaDP3cNwOJZOuVePS8htJeyrPbhJ8rQ2ZgmFJgwv1kp7
+ +ie99xvIvOusHkzPu9qCmrCY0hSNGXBHH83tQloT802o/xA3CQsVRQahUm92P4+4x1py
+ ZpGD0hOq3cQHnX10/yPwafM6UobAeQxrhuzUBtCNnb/PdsaDsxNCVkeQxgeb5EEozmRK
+ fI3YcoD3kZG7G9vDTutVltfhiRsvVrWe3mOPf6qZd93S/XvTZt8+Zab06nqszpW27rnA dw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mwtfm06tp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Jan 2023 08:00:14 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3057mKYR037398;
+ Thu, 5 Jan 2023 08:00:13 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mwtfm06qu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Jan 2023 08:00:13 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3051RcWN000986;
+ Thu, 5 Jan 2023 08:00:10 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+ by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3mtcq6mpf0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Jan 2023 08:00:10 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 305806Vv45351190
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 5 Jan 2023 08:00:06 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 69A8E2005A;
+ Thu,  5 Jan 2023 08:00:06 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A2D7920043;
+ Thu,  5 Jan 2023 08:00:04 +0000 (GMT)
+Received: from osiris (unknown [9.171.68.186])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Thu,  5 Jan 2023 08:00:04 +0000 (GMT)
+Date: Thu, 5 Jan 2023 09:00:03 +0100
+From: Heiko Carstens <hca@linux.ibm.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [PATCH 00/14] Remove clang's -Qunused-arguments from
+ KBUILD_CPPFLAGS
+Message-ID: <Y7aDg5BqjRDZrOR/@osiris>
+References: <20221228-drop-qunused-arguments-v1-0-658cbc8fc592@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="jgjy2rtom6zrwpcw"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20221228-drop-qunused-arguments-v1-0-658cbc8fc592@kernel.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: HN0SRG90u-IN-eEqiy_9QPgOJjfvpn1A
+X-Proofpoint-ORIG-GUID: AWGhRIIBoEln5sOF-oxHHjt5w7QDkV0-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-05_02,2023-01-04_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ priorityscore=1501 adultscore=0 bulkscore=0 malwarescore=0 mlxlogscore=670
+ mlxscore=0 suspectscore=0 phishscore=0 impostorscore=0 clxscore=1011
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301050062
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,100 +94,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: trix@redhat.com, dave.hansen@linux.intel.com,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ agordeev@linux.ibm.com, linux-s390@vger.kernel.org,
+ kernel test robot <lkp@intel.com>, mpe@ellerman.id.au, masahiroy@kernel.org,
+ x86@kernel.org, Rodrigo.Siqueira@amd.com, christophe.leroy@csgroup.eu,
+ mingo@redhat.com, borntraeger@linux.ibm.com, llvm@lists.linux.dev,
+ nicolas@fjasle.eu, gor@linux.ibm.com, linux-kbuild@vger.kernel.org,
+ sunpeng.li@amd.com, npiggin@gmail.com, bp@alien8.de, tglx@linutronix.de,
+ tsbogend@alpha.franken.de, Xinhui.Pan@amd.com, ndesaulniers@google.com,
+ linux-mips@vger.kernel.org, svens@linux.ibm.com, alexander.deucher@amd.com,
+ linuxppc-dev@lists.ozlabs.org, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Jan 04, 2023 at 12:54:18PM -0700, Nathan Chancellor wrote:
+> Hi all,
+...
+> This series has seen my personal test framework, which tests several different
+> configurations and architectures, with LLVM tip of tree (16.0.0). I have done
+> defconfig, allmodconfig, and allnoconfig builds for arm, arm64, i386, mips,
+> powerpc, riscv, s390, and x86_64 with GCC 12.2.0 as well but I am hoping the
+> rest of the test infrastructure will catch any lurking problems.
+> 
+> I would like this series to stay together so that there is no opportunity for
+> breakage so please consider giving acks so that this can be carried via the
+> kbuild tree.
+...
+>       s390/vdso: Drop unused '-s' flag from KBUILD_AFLAGS_64
+>       s390/vdso: Drop '-shared' from KBUILD_CFLAGS_64
+>       s390/purgatory: Remove unused '-MD' and unnecessary '-c' flags
+...
+>  arch/s390/kernel/vdso64/Makefile            |  4 +--
+>  arch/s390/purgatory/Makefile                |  2 +-
 
---jgjy2rtom6zrwpcw
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Dave, Daniel,
-
-Here's this week drm-misc-fixes PR
-
-Maxime
-
-drm-misc-fixes-2023-01-05:
-Several fixes to fix the error path of dma_buf_export, add a missing
-structure declaration resulting in a compiler warning, fix the GEM
-handle refcounting in panfrost, fix a corrupted image with AFBC on
-meson, a memleak in virtio, improper plane width for imx, and a lockup
-in drm_sched_entity_kill()
-The following changes since commit 88603b6dc419445847923fcb7fe5080067a30f98:
-
-  Linux 6.2-rc2 (2023-01-01 13:53:16 -0800)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-01-05
-
-for you to fetch changes up to 69555549cfa42e10f2fdd2699ed4e34d9d4f392b:
-
-  drm/scheduler: Fix lockup in drm_sched_entity_kill() (2023-01-03 14:49:59=
- +0300)
-
-----------------------------------------------------------------
-Several fixes to fix the error path of dma_buf_export, add a missing
-structure declaration resulting in a compiler warning, fix the GEM
-handle refcounting in panfrost, fix a corrupted image with AFBC on
-meson, a memleak in virtio, improper plane width for imx, and a lockup
-in drm_sched_entity_kill()
-
-----------------------------------------------------------------
-Carlo Caione (1):
-      drm/meson: Reduce the FIFO lines held when AFBC is not used
-
-Christian K=F6nig (1):
-      dma-buf: fix dma_buf_export init order v2
-
-Dmitry Osipenko (1):
-      drm/scheduler: Fix lockup in drm_sched_entity_kill()
-
-Ma Jun (1):
-      drm/plane-helper: Add the missing declaration of drm_atomic_state
-
-Maxime Ripard (1):
-      Merge drm/drm-fixes into drm-misc-fixes
-
-Philipp Zabel (1):
-      drm/imx: ipuv3-plane: Fix overlay plane width
-
-Steven Price (1):
-      drm/panfrost: Fix GEM handle creation ref-counting
-
-Xiu Jianfeng (1):
-      drm/virtio: Fix memory leak in virtio_gpu_object_create()
-
- drivers/dma-buf/dma-buf-sysfs-stats.c    |  7 +--
- drivers/dma-buf/dma-buf-sysfs-stats.h    |  4 +-
- drivers/dma-buf/dma-buf.c                | 82 +++++++++++++++-------------=
-----
- drivers/gpu/drm/imx/ipuv3-plane.c        | 14 +++---
- drivers/gpu/drm/meson/meson_viu.c        |  5 +-
- drivers/gpu/drm/panfrost/panfrost_drv.c  | 27 +++++++----
- drivers/gpu/drm/panfrost/panfrost_gem.c  | 16 +------
- drivers/gpu/drm/panfrost/panfrost_gem.h  |  5 +-
- drivers/gpu/drm/scheduler/sched_entity.c |  2 +-
- drivers/gpu/drm/scheduler/sched_main.c   |  4 +-
- drivers/gpu/drm/virtio/virtgpu_object.c  |  6 ++-
- include/drm/drm_plane_helper.h           |  1 +
- 12 files changed, 80 insertions(+), 93 deletions(-)
-
---jgjy2rtom6zrwpcw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY7aA9QAKCRDj7w1vZxhR
-xYGOAP4tgW1mOHH2FRfU6UOL02qHE5dpFcj1RuOMD2e1vM61LAD/RdOBMVe5mwkb
-sv4ePNgCkBbG0XpIQyz8J9gAPomDNgQ=
-=DTqo
------END PGP SIGNATURE-----
-
---jgjy2rtom6zrwpcw--
+For the s390 bits:
+Acked-by: Heiko Carstens <hca@linux.ibm.com>
