@@ -2,75 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E58965E628
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 08:38:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 347F065E63D
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 08:49:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25A6D10E6B9;
-	Thu,  5 Jan 2023 07:38:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3814010E6BB;
+	Thu,  5 Jan 2023 07:49:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D421010E6B9
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 07:38:47 +0000 (UTC)
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C6D310E6B7;
+ Thu,  5 Jan 2023 07:49:12 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 2855B5C0198;
- Thu,  5 Jan 2023 02:38:45 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 189B9581DC0;
+ Thu,  5 Jan 2023 02:49:12 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 05 Jan 2023 02:38:45 -0500
+ by compute4.internal (MEProxy); Thu, 05 Jan 2023 02:49:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1672904325; x=1672990725; bh=r7qCgS6Rkr
- fEToI5NkCiDde4ax0xq/Y2Qx2BlziM3AU=; b=qQ83nZ8yfncMw+6g+7hQdbmS95
- enjwphZ/YVEYarfvgzQux4CjUc4T8LWqI9hPtcsLNGXwptqTt+XjjoEDE85WCtHW
- paflxE8N3PNJuJao/85dw+t4tnC7tyNVMdWP0Yq4tSgkWbndwv9frXjTnbWfBD9+
- +26hIKcjn/QYeV8dtCwUXKPtj4vi6QyNz4PyZphPVV1ihv70LbAhjSV2p2MWBxtl
- vuDoQMwKY527hjcmpdyYiQHZJAJ61uDn3H71uxXJpvgzLxWLo5DMwBSckghxDaMo
- GQbw7FNJGIQR4MX6jO2M71GmScKv6Q9poJKFNlaUdfJtBSWoKcfwm2Pg0pQw==
+ :cc:content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to; s=fm3; t=
+ 1672904952; x=1672912152; bh=jERi6VHhZyEw8Hj9FyQGp/xfIG6K+UHce3C
+ ChzdMIvk=; b=Iww1pA3MGTXWPQ1eTb/OXo4Ny8+eQBU8kyo4RyvZqJqwx/dfesh
+ MkOMW8cWExez8bkjiXCaxGY0r5EJUDfk/cHpkKFMZ9D97nsCX9Ksdjeycw+cc1Ix
+ G16086Rcbu4cuuiZAjJU2bm8V97m482ZLtlbFwtDw+2tbcYAkblgGZsUv0uIIEFk
+ 15uOxWFsa1sB94G94+juba/hTaHAJBB/kAi/jjHFFqgudJUoHv27t2xWFyBkrJ89
+ Pya+42IyA0IR1k1eg0Cba7e2Qv4oqfyWR4WsmzfgKiWu9TfiPYu2N2nIgu7PutbH
+ TI0Ld7OUbk1OJrJOEA9R5OvqEXBCOJZRL5A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1672904325; x=1672990725; bh=r7qCgS6RkrfEToI5NkCiDde4ax0x
- q/Y2Qx2BlziM3AU=; b=a9Mubvmcic2SSf7S9J6h77YuJCKW9TvrfcOmzfU03itm
- 1p8O+YYXMgxQOMZDHLca9YpUBffSAbTfmcdfOJ5d/8ZcTbF3HiT4DBYGxlZTdRCo
- GhH5nGoRqc1g2aF04ueI5F/KRc2/Q9Ukwgnrur7YkbgWd2O4Uhwwpd+stoHTG8hZ
- Js/7AHHN4x+cHk7Zlwei1lpoZsezGU7PKcWedXlGkGFOME00hvdIDvep085KjYth
- 7P075t1nYFsWGPY53EIQXgT4uLEVZ1P/LIfpMvn8jXkGeDqTg9D4gYsXyH4u23pe
- Ri3irYJdtlOc3yXeSAFR/yMzYcEtL7j58vO6JOfybg==
-X-ME-Sender: <xms:hH62Y9xBXtBufJCp17_XaCjpw9EE5FqOoW6H6-WV3_v6ad9nyuZ8HA>
- <xme:hH62Y9TOEy7Ky_QrNba39TSJ_f2iiPO3n-Ro_Rl-NWMyn-PCi6YVDsmWrNkBH1-Zi
- WTXsEe-NuN_MVJclik>
-X-ME-Received: <xmr:hH62Y3XgEeXKlc_SvWYkApuDSPHIjmiz2anJSAF7_l6MrXho8qgB9V5DiVnAhkYerR7gcoOu-7UdjLGXredOn3nmzoq8zAGg7kGGGNwEVtnf3w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeejgdduudefucetufdoteggodetrfdotf
+ :feedback-id:from:from:in-reply-to:message-id:mime-version
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672904952; x=
+ 1672912152; bh=jERi6VHhZyEw8Hj9FyQGp/xfIG6K+UHce3CChzdMIvk=; b=L
+ tQqLQti0J66rBSPfYh88wWmne8DmrdcGQefShGHy+Zyxi/rWfqfQKuk7R96eUX+D
+ XBMSUKXETPCb8uPX9A6L0J27ZOhTpyQFjkc/rh648U3+jAL9oBVC5g7YkBYB5VHy
+ A2UapB1wgyqckjcWbCOPgWQEPsE8HdsDt/2MT7KssGh9nvAtPwb3w1tHqBaxTTQr
+ 2xFxoCutr2xpFmfVm0oNcQgrNLRQvIBA8O5dhoMPNFrEq9zsXu2Zb2eLDavnLUaS
+ zeS8183024EZEfECiUFIcWvxadPyZPdH50kYyMqdQDshi7BZNTZQvF4mFqq1P+Jl
+ dw1sINHv0sVSo8WSEZd6A==
+X-ME-Sender: <xms:94C2Y22mmCpITFoi0l3qd6TcZM-FUsdg-KG3ecytnv4-e2TfJEYyHQ>
+ <xme:94C2Y5Hm9oIYLrwsc1UmbCXw_qQ91z462ry1kl_iDbocKNU5SehlmZVE3Bxe_4uaT
+ Wmv5zxwqHrgI__Mb-k>
+X-ME-Received: <xmr:94C2Y-7JUtn8B1hpv3kJvToZzFt4ZNsDuHiGEKIbvc0T2DXYr6CYBWNRP6J5UMS3MI1p9FTrwxhCAeH3kPBy3I2K_DdLhr9sGC1toBDdQ2Sr9Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeejgdduudegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
- ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:hH62Y_gbBT-vCZDspFavXD0M6fcZN2rKofFAoEiKhjqnIdNJOmu44w>
- <xmx:hH62Y_B8MYGJTtN5Cu8ItgWVPwNL4RVgi4P3eUnS-OE8qI1D9bpWKA>
- <xmx:hH62Y4JueEZCEsMWeHFJmpSIL28mLoAZHB6MG5kzeVh7D7iIrPQNAQ>
- <xmx:hX62Yz7jYSN9iT7FrZGlBz9NAWC1FaG5duf_C0XnEhYk7zLTRCl5cw>
+ cujfgurhepfffhvfevuffkgggtugesghdtreertddtudenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeekheejgeeuhfethffgheekhedufeduhfejgfehffekudefgedugffhkeefhfev
+ vdenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
+ hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
+ thgvtghh
+X-ME-Proxy: <xmx:94C2Y30697kFJGAHOu6jutJom5DwozCskSo5WrgeY6EeSvNZn77-jQ>
+ <xmx:94C2Y5H5T9rTLRmaD9RkQwhSodEOCRQO0DkzEP97eeyjt5PHmIjVEA>
+ <xmx:94C2Yw8l2B4ffYmfFCOhPvGvYda4rmwBM0TgBBd5G27gXxwaFLW8yA>
+ <xmx:-IC2Yy17ygS_0cldCUwdO3xSjJVA911pvvuWEe2N6mSTM_yxC2HZFQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 5 Jan 2023 02:38:44 -0500 (EST)
-Date: Thu, 5 Jan 2023 08:38:41 +0100
+ 5 Jan 2023 02:49:10 -0500 (EST)
+Date: Thu, 5 Jan 2023 08:49:09 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm: document better that drivers shouldn't use
- drm_minor directly
-Message-ID: <20230105073841.m3xpxga7qee762qj@houat>
-References: <20230104211754.1967591-1-daniel.vetter@ffwll.ch>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20230105074909.qd2h23hpxac4lxi7@houat>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="e4rvxo5lgsyu2nom"
+ protocol="application/pgp-signature"; boundary="jgjy2rtom6zrwpcw"
 Content-Disposition: inline
-In-Reply-To: <20230104211754.1967591-1-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,55 +81,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Melissa Wen <mwen@igalia.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Wambui Karuga <wambui.karugax@gmail.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---e4rvxo5lgsyu2nom
+--jgjy2rtom6zrwpcw
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 04, 2023 at 10:17:54PM +0100, Daniel Vetter wrote:
-> The documentation for struct drm_minor already states this, but that's
-> not always that easy to find.
->=20
-> Also due to historical reasons we still have the minor-centric (like
-> drm_debugfs_create_files), but since this is now getting fixed we can
-> put a few more pointers in place as to how this should be done
-> ideally.
->=20
-> Motvated by some discussion with Rodrigo on irc about how drm/xe
+Hi Dave, Daniel,
 
-  ^ Motivated
-
-> should lay out its sysfs interfaces.
->=20
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Wambui Karuga <wambui.karugax@gmail.com>
-> Cc: Ma=EDra Canal <mcanal@igalia.com>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Melissa Wen <mwen@igalia.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-
-Acked-by: Maxime Ripard <maxime@cerno.tech>
+Here's this week drm-misc-fixes PR
 
 Maxime
 
---e4rvxo5lgsyu2nom
+drm-misc-fixes-2023-01-05:
+Several fixes to fix the error path of dma_buf_export, add a missing
+structure declaration resulting in a compiler warning, fix the GEM
+handle refcounting in panfrost, fix a corrupted image with AFBC on
+meson, a memleak in virtio, improper plane width for imx, and a lockup
+in drm_sched_entity_kill()
+The following changes since commit 88603b6dc419445847923fcb7fe5080067a30f98:
+
+  Linux 6.2-rc2 (2023-01-01 13:53:16 -0800)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-01-05
+
+for you to fetch changes up to 69555549cfa42e10f2fdd2699ed4e34d9d4f392b:
+
+  drm/scheduler: Fix lockup in drm_sched_entity_kill() (2023-01-03 14:49:59=
+ +0300)
+
+----------------------------------------------------------------
+Several fixes to fix the error path of dma_buf_export, add a missing
+structure declaration resulting in a compiler warning, fix the GEM
+handle refcounting in panfrost, fix a corrupted image with AFBC on
+meson, a memleak in virtio, improper plane width for imx, and a lockup
+in drm_sched_entity_kill()
+
+----------------------------------------------------------------
+Carlo Caione (1):
+      drm/meson: Reduce the FIFO lines held when AFBC is not used
+
+Christian K=F6nig (1):
+      dma-buf: fix dma_buf_export init order v2
+
+Dmitry Osipenko (1):
+      drm/scheduler: Fix lockup in drm_sched_entity_kill()
+
+Ma Jun (1):
+      drm/plane-helper: Add the missing declaration of drm_atomic_state
+
+Maxime Ripard (1):
+      Merge drm/drm-fixes into drm-misc-fixes
+
+Philipp Zabel (1):
+      drm/imx: ipuv3-plane: Fix overlay plane width
+
+Steven Price (1):
+      drm/panfrost: Fix GEM handle creation ref-counting
+
+Xiu Jianfeng (1):
+      drm/virtio: Fix memory leak in virtio_gpu_object_create()
+
+ drivers/dma-buf/dma-buf-sysfs-stats.c    |  7 +--
+ drivers/dma-buf/dma-buf-sysfs-stats.h    |  4 +-
+ drivers/dma-buf/dma-buf.c                | 82 +++++++++++++++-------------=
+----
+ drivers/gpu/drm/imx/ipuv3-plane.c        | 14 +++---
+ drivers/gpu/drm/meson/meson_viu.c        |  5 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c  | 27 +++++++----
+ drivers/gpu/drm/panfrost/panfrost_gem.c  | 16 +------
+ drivers/gpu/drm/panfrost/panfrost_gem.h  |  5 +-
+ drivers/gpu/drm/scheduler/sched_entity.c |  2 +-
+ drivers/gpu/drm/scheduler/sched_main.c   |  4 +-
+ drivers/gpu/drm/virtio/virtgpu_object.c  |  6 ++-
+ include/drm/drm_plane_helper.h           |  1 +
+ 12 files changed, 80 insertions(+), 93 deletions(-)
+
+--jgjy2rtom6zrwpcw
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY7Z+eQAKCRDj7w1vZxhR
-xWxVAQDbPlmQWwwy9D2QzX9hoeogfEPDVqrmJD2vRUdJ79RqowD/cWbWbq2V0HS1
-Tuq4LgwCA92H002nikeO5YA6F7/EwA0=
-=IGP9
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY7aA9QAKCRDj7w1vZxhR
+xYGOAP4tgW1mOHH2FRfU6UOL02qHE5dpFcj1RuOMD2e1vM61LAD/RdOBMVe5mwkb
+sv4ePNgCkBbG0XpIQyz8J9gAPomDNgQ=
+=DTqo
 -----END PGP SIGNATURE-----
 
---e4rvxo5lgsyu2nom--
+--jgjy2rtom6zrwpcw--
