@@ -1,52 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B886C65F079
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 16:50:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B69D65F07D
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 16:51:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DD3110E123;
-	Thu,  5 Jan 2023 15:50:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C87C810E0F9;
+	Thu,  5 Jan 2023 15:51:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EED6F10E11F
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 15:50:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1672933821; x=1704469821;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=RJatMYrbPfEvNurBxtLaBiUJD4LCEtP8VKvLxxz/leM=;
- b=QPQuRG5/X0TGbFwY1aNpTZPPg0xboE5ar9Nt+QhfifD6+lTGESvGjUf0
- rBc1bZOy1SFh2k50fV2mwD3IqabbnVgHxV2BcacGGjtJ8f52jzQxnTpIl
- NN32R9iBkulz6XQRVFXZKvBlAtsHXGCbhT/Q+7ZzFyWJEC1p+usM843LA
- gjwz7SNkGXSqnyj0qvQo8fQrHycDm6PJX/qC0cXra6ZtHy8MD7KEp8cRO
- s8OKqO04H8HpkIdRci3SWduaUlBvZY7/02dJXRaDM88H8E+hLASn98nZk
- PVlO+jbxle7CbVkpsztBSHfZuhnWliYAjsSHjJhJSfEsIye39CRl84aKk g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="310026050"
-X-IronPort-AV: E=Sophos;i="5.96,303,1665471600"; d="scan'208";a="310026050"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2023 07:50:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="633190458"
-X-IronPort-AV: E=Sophos;i="5.96,303,1665471600"; d="scan'208";a="633190458"
-Received: from lkp-server02.sh.intel.com (HELO f1920e93ebb5) ([10.239.97.151])
- by orsmga006.jf.intel.com with ESMTP; 05 Jan 2023 07:50:18 -0800
-Received: from kbuild by f1920e93ebb5 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pDSVV-0001zD-1E;
- Thu, 05 Jan 2023 15:50:17 +0000
-Date: Thu, 05 Jan 2023 23:49:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- cc3c08b41a9c9402ead726ec6deb1217081d0d8b
-Message-ID: <63b6f194.O4eKwdyFWFrII4HE%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
+ [IPv6:2607:f8b0:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41F8010E0F9
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 15:51:17 +0000 (UTC)
+Received: by mail-pg1-x52a.google.com with SMTP id q9so7801092pgq.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 07:51:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Vehu6SibZXNd9DBSH45bbZRoxaXZLO9oW66VfFNAj1w=;
+ b=FoT/fjUuC3jmFUKcOiBh1sLiiDp9LD1QAEHg0FAKePgPp96awgCBe1K+I+PTwQfbCq
+ MGGId+pH8XvNw1fbMX7YTVZCCpNJzLVJLU3RzI95G3vU472DHKlDIzWL1vIPLLqtvCI8
+ dQbQJsB2+QSoeKQx7OYmuC/bzboSWcOK4f6xM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Vehu6SibZXNd9DBSH45bbZRoxaXZLO9oW66VfFNAj1w=;
+ b=pqodtm2wgajoUnAMiN4VFtW/Cm4IgwBH2p3LxUTkMeL4GkJM0ZpAT44mvnS+m/ypes
+ hfpWTCRrGabihoC3muyN/fK9KOaJGtoQg+varrS5dcbSpf2Xw/hrpmh1aK4Fg3EgH22/
+ rLMS1It37bPWBwklZ5eTS2cJ0YaXhtxDPx1rPIMDG/W6X5FMNt7LhOgssXsWxk++NqCv
+ lVXtIarMNRbKEP2Wddn97DmH7N2bgJN8q45HqjUVcSJXd1z85K5iTC9BVThaW4E7d1Ue
+ NH+fagtTxwJ1goh1AnrXudUR0yyelt2Nd2Hmu55wj6DZLdt/TUt3fCcPaQr9lEF9RV/U
+ w3FA==
+X-Gm-Message-State: AFqh2krah23/MyB+3sU7j3n/0Nh9MvGTQJF0r6570IAfVuirJirtGmMv
+ x2uxPSIeqvq3nZ3tLFaBiV8Zzr26MBK+7sQT/5qMSw==
+X-Google-Smtp-Source: AMrXdXtzSr9b1UM1qAhXqA+WWM6oaRyyybWfzNmLPWOIwCP6O0fMxDEpHTWnPtHV+GDjtQzSbdEvghenD8Xuf5wZVLg=
+X-Received: by 2002:a65:674e:0:b0:479:27db:27b4 with SMTP id
+ c14-20020a65674e000000b0047927db27b4mr2485267pgu.454.1672933876791; Thu, 05
+ Jan 2023 07:51:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20230103125322.855089-1-mcanal@igalia.com>
+ <de3c30a2-d9c6-cf5c-d4bc-e90bd3993f6b@suse.de>
+ <Y7brvC7lvhtQCeU/@phenom.ffwll.local>
+ <87a69797-9d8e-fdf3-19fb-34d85311bdb5@suse.de>
+In-Reply-To: <87a69797-9d8e-fdf3-19fb-34d85311bdb5@suse.de>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 5 Jan 2023 16:51:04 +0100
+Message-ID: <CAKMK7uGYtv2enSPYWDGc3aT4XVg9BTgzPGKVDwjQruBPDssmhg@mail.gmail.com>
+Subject: Re: [PATCH] drm/gem: Check for valid formats
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,131 +66,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-block@vger.kernel.org, Linux Memory Management List <linux-mm@kvack.org>,
- loongarch@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-omap@vger.kernel.org
+Cc: Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: cc3c08b41a9c9402ead726ec6deb1217081d0d8b  Add linux-next specific files for 20230105
+On Thu, 5 Jan 2023 at 16:43, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>
+> Hi
+>
+> Am 05.01.23 um 16:24 schrieb Daniel Vetter:
+> > On Tue, Jan 03, 2023 at 02:16:30PM +0100, Thomas Zimmermann wrote:
+> >> Hi,
+> >>
+> >> thanks for the follow-up patch.
+> >>
+> >> Am 03.01.23 um 13:53 schrieb Ma=C3=ADra Canal:
+> >>> Currently, drm_gem_fb_create() doesn't check if the pixel format is
+> >>> supported, which can lead to the acceptance of invalid pixel formats
+> >>> e.g. the acceptance of invalid modifiers. Therefore, add a check for
+> >>> valid formats on drm_gem_fb_create().
+> >>>
+> >>> Moreover, note that this check is only valid for atomic drivers,
+> >>> because, for non-atomic drivers, checking drm_any_plane_has_format() =
+is
+> >>> not possible since the format list for the primary plane is fake, and
+> >>> we'd therefor reject valid formats.
+> >>>
+> >>> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> >>> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> >>> ---
+> >>>    Documentation/gpu/todo.rst                   | 7 ++-----
+> >>>    drivers/gpu/drm/drm_gem_framebuffer_helper.c | 9 +++++++++
+> >>>    2 files changed, 11 insertions(+), 5 deletions(-)
+> >>>
+> >>> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> >>> index 1f8a5ebe188e..68bdafa0284f 100644
+> >>> --- a/Documentation/gpu/todo.rst
+> >>> +++ b/Documentation/gpu/todo.rst
+> >>> @@ -276,11 +276,8 @@ Various hold-ups:
+> >>>    - Need to switch to drm_fbdev_generic_setup(), otherwise a lot of =
+the custom fb
+> >>>      setup code can't be deleted.
+> >>> -- Many drivers wrap drm_gem_fb_create() only to check for valid form=
+ats. For
+> >>> -  atomic drivers we could check for valid formats by calling
+> >>> -  drm_plane_check_pixel_format() against all planes, and pass if any=
+ plane
+> >>> -  supports the format. For non-atomic that's not possible since like=
+ the format
+> >>> -  list for the primary plane is fake and we'd therefor reject valid =
+formats.
+> >>> +- Need to switch to drm_gem_fb_create(), as now drm_gem_fb_create() =
+checks for
+> >>> +  valid formats for atomic drivers.
+> >>>    - Many drivers subclass drm_framebuffer, we'd need a embedding com=
+patible
+> >>>      version of the varios drm_gem_fb_create functions. Maybe called
+> >>> diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/g=
+pu/drm/drm_gem_framebuffer_helper.c
+> >>> index e93533b86037..b8a615a138cd 100644
+> >>> --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> >>> +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> >>> @@ -9,6 +9,7 @@
+> >>>    #include <linux/module.h>
+> >>>    #include <drm/drm_damage_helper.h>
+> >>> +#include <drm/drm_drv.h>
+> >>>    #include <drm/drm_fourcc.h>
+> >>>    #include <drm/drm_framebuffer.h>
+> >>>    #include <drm/drm_gem.h>
+> >>> @@ -164,6 +165,14 @@ int drm_gem_fb_init_with_funcs(struct drm_device=
+ *dev,
+> >>>             return -EINVAL;
+> >>>     }
+> >>> +   if (drm_drv_uses_atomic_modeset(dev) &&
+> >>> +       !drm_any_plane_has_format(dev, mode_cmd->pixel_format,
+> >>> +                                 mode_cmd->modifier[0])) {
+> >>
+> >> Because this is a generic helper, it has to handle the odd cases as we=
+ll.
+> >> Here we cannot assume modifier[0], because there's a modifier for each=
+ pixel
+> >> plane in multi-plane formats. (That's a different type of plane than t=
+he
+> >> struct plane we're passing in.) If one combination isn't supported, th=
+e
+> >> helper should fail.
+> >
+> > This was a mistake in the addfb2 design, we later rectified that all
+> > modifiers must match. This is because the modifier itsel can change the
+> > number of planes (for aux compression planes and stuff like that).
+> >
+> > The full drm format description is the (drm_fourcc, drm_format_modifier=
+)
+> > pair.
+>
+> Does this mean that only modifier[0] will ever contain a valid value, OR
+> that all modifiers[i] have to contain the same value?
 
-Error/Warning reports:
+All must have the same, addfb checks for that. See framebuffer_check()
+-Daniel
 
-https://lore.kernel.org/oe-kbuild-all/202212090509.NjAl9tbo-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202212170128.DFuMhkwh-lkp@intel.com
+>
+> Best regards
+> Thomas
+>
+> >
+> > This should be documented somewhere already, if not, good idea to updat=
+e
+> > addfb docs (or make them happen in the first place).
+> > -Daniel
+> >
+> >>
+> >> We get the number of pixel planes from the format info. So the correct
+> >> implementation is something like that
+> >>
+> >> if (drm_drv_uses_atomic_modeset())) {
+> >>      for (i =3D 0; i < info->num_planes; ++i) {
+> >>              if (!drm_any_plane_has_format(dev, pixel_format, \
+> >>                              modifier[i]) {
+> >>                      drm_dbg_kms(dev, "error msg");
+> >>                      return -EINVAL;
+> >>              }
+> >>          }
+> >> }
+> >>
+> >>
+> >>> +           drm_dbg(dev, "Unsupported pixel format %p4cc / modifier 0=
+x%llx\n",
+> >>
+> >> drm_dbg() is for drivers. Use drm_dbg_kms() please.
+> >>
+> >> Best regards
+> >> Thomas
+> >>
+> >>
+> >>> +                   &mode_cmd->pixel_format, mode_cmd->modifier[0]);
+> >>> +           return -EINVAL;
+> >>> +   }
+> >>> +
+> >>>     for (i =3D 0; i < info->num_planes; i++) {
+> >>>             unsigned int width =3D mode_cmd->width / (i ? info->hsub =
+: 1);
+> >>>             unsigned int height =3D mode_cmd->height / (i ? info->vsu=
+b : 1);
+> >>
+> >> --
+> >> Thomas Zimmermann
+> >> Graphics Driver Developer
+> >> SUSE Software Solutions Germany GmbH
+> >> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> >> (HRB 36809, AG N=C3=BCrnberg)
+> >> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
+> >
+> >
+> >
+> >
+>
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
 
-Error/Warning: (recently discovered and may have been fixed)
 
-Documentation/gpu/drm-internals:179: ./include/drm/drm_file.h:411: WARNING: undefined label: drm_accel_node (if the link has no caption the label must precede a section header)
-Warning: tools/power/cpupower/man/cpupower-powercap-info.1 references a file that doesn't exist: Documentation/power/powercap/powercap.txt
-aarch64-linux-ld: ID map text too big or misaligned
-arch/loongarch/kernel/asm-offsets.c:265:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
-drivers/gpu/drm/ttm/ttm_bo_util.c:364:32: error: implicit declaration of function 'vmap'; did you mean 'kmap'? [-Werror=implicit-function-declaration]
-drivers/gpu/drm/ttm/ttm_bo_util.c:429:17: error: implicit declaration of function 'vunmap'; did you mean 'kunmap'? [-Werror=implicit-function-declaration]
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
-
-drivers/block/null_blk/zoned.c:769 zone_cond_store() warn: potential spectre issue 'dev->zones' [w] (local cap)
-drivers/clk/qcom/camcc-sm6350.c:1745:15: sparse: sparse: symbol 'camcc_sm6350_hws' was not declared. Should it be static?
-fs/udf/file.c:177 udf_file_write_iter() warn: inconsistent returns '&iinfo->i_data_sem'.
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- arm64-allyesconfig
-|   `-- aarch64-linux-ld:ID-map-text-too-big-or-misaligned
-|-- loongarch-allyesconfig
-|   `-- arch-loongarch-kernel-asm-offsets.c:warning:no-previous-prototype-for-output_pbe_defines
-|-- mips-allyesconfig
-|   |-- drivers-gpu-drm-ttm-ttm_bo_util.c:error:implicit-declaration-of-function-vmap
-|   `-- drivers-gpu-drm-ttm-ttm_bo_util.c:error:implicit-declaration-of-function-vunmap
-|-- parisc-randconfig-m041-20230102
-|   `-- fs-udf-file.c-udf_file_write_iter()-warn:inconsistent-returns-iinfo-i_data_sem-.
-|-- riscv-randconfig-m031-20230105
-|   |-- drivers-block-null_blk-zoned.c-zone_cond_store()-warn:potential-spectre-issue-dev-zones-w-(local-cap)
-|   `-- drivers-regulator-tps65219-regulator.c-tps65219_regulator_probe()-warn:unsigned-rdev-is-never-less-than-zero.
-|-- riscv-randconfig-s032-20230105
-|   `-- drivers-clk-qcom-camcc-sm6350.c:sparse:sparse:symbol-camcc_sm6350_hws-was-not-declared.-Should-it-be-static
-`-- x86_64-allnoconfig
-    |-- Documentation-gpu-drm-internals:.-include-drm-drm_file.h:WARNING:undefined-label:drm_accel_node-(if-the-link-has-no-caption-the-label-must-precede-a-section-header)
-    `-- Warning:tools-power-cpupower-man-cpupower-powercap-info.-references-a-file-that-doesn-t-exist:Documentation-power-powercap-powercap.txt
-clang_recent_errors
-`-- x86_64-rhel-8.3-rust
-    `-- vmlinux.o:warning:objtool:___ksymtab_gpl-_RNvNtCsfATHBUcknU9_6kernel5print16call_printk_cont:data-relocation-to-ENDBR:_RNvNtCsfATHBUcknU9_6kernel5print16call_printk_cont
-
-elapsed time: 726m
-
-configs tested: 62
-configs skipped: 2
-
-gcc tested configs:
-um                             i386_defconfig
-x86_64                            allnoconfig
-um                           x86_64_defconfig
-i386                                defconfig
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                           rhel-8.3-bpf
-x86_64                           rhel-8.3-syz
-m68k                             allmodconfig
-powerpc                           allnoconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                         rhel-8.3-kunit
-x86_64                        randconfig-a006
-x86_64                          rhel-8.3-func
-i386                          randconfig-a014
-x86_64                           rhel-8.3-kvm
-arc                              allyesconfig
-i386                          randconfig-a012
-alpha                            allyesconfig
-i386                          randconfig-a016
-x86_64                              defconfig
-m68k                             allyesconfig
-arc                                 defconfig
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-ia64                             allmodconfig
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-i386                          randconfig-a001
-alpha                               defconfig
-arc                  randconfig-r043-20230105
-s390                                defconfig
-i386                          randconfig-a003
-s390                             allmodconfig
-x86_64                        randconfig-a015
-i386                          randconfig-a005
-s390                 randconfig-r044-20230105
-i386                             allyesconfig
-arm                                 defconfig
-s390                             allyesconfig
-riscv                randconfig-r042-20230105
-sh                               allmodconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-
-clang tested configs:
-x86_64                          rhel-8.3-rust
-x86_64                        randconfig-a001
-i386                          randconfig-a013
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-i386                          randconfig-a011
-i386                          randconfig-a015
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-arm                  randconfig-r046-20230105
-i386                          randconfig-a002
-x86_64                        randconfig-a016
-hexagon              randconfig-r041-20230105
-i386                          randconfig-a004
-hexagon              randconfig-r045-20230105
-i386                          randconfig-a006
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
