@@ -2,52 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3F5465EEF9
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 15:41:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F0C265EF15
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 15:45:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8404510E742;
-	Thu,  5 Jan 2023 14:41:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32CCB10E741;
+	Thu,  5 Jan 2023 14:45:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C290710E744
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 14:41:47 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-267-TONGIBv5N4Gn3vUIarjFdA-1; Thu, 05 Jan 2023 14:41:44 +0000
-X-MC-Unique: TONGIBv5N4Gn3vUIarjFdA-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 5 Jan
- 2023 14:41:43 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.044; Thu, 5 Jan 2023 14:41:43 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Daniel Vetter' <daniel@ffwll.ch>
-Subject: RE: [Intel-gfx] [PATCH 1/5] linux/minmax.h: add non-atomic version of
- xchg
-Thread-Topic: [Intel-gfx] [PATCH 1/5] linux/minmax.h: add non-atomic version
- of xchg
-Thread-Index: AQHZC+X/n2yHksRnF0Csd/+tl8P8Ka5qAX6ggCX6JSGAAADCAIAAC3eAgAAFAzA=
-Date: Thu, 5 Jan 2023 14:41:43 +0000
-Message-ID: <6617dfb150f94cbb9654a585843e3287@AcuMS.aculab.com>
-References: <20221209154843.4162814-1-andrzej.hajda@intel.com>
- <f58ab17e5c6c4a4e8b0d687b44618c51@AcuMS.aculab.com>
- <Y7bK8drngH/NIlOa@phenom.ffwll.local> <875ydlw1p4.fsf@intel.com>
- <733cd0037bd14a269b54d701e1b80323@AcuMS.aculab.com>
- <Y7ba8UlkhjpJI4F0@phenom.ffwll.local>
-In-Reply-To: <Y7ba8UlkhjpJI4F0@phenom.ffwll.local>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 000CF10E745
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 14:45:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672929927;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IygfhRQXV+vMkAtrcWNsDzrc29ZOAS6VlK+vnheQF7Q=;
+ b=D5wbEYkB+eHK6JgC2ARejsNQ+osQSdffhCsBPiaJWiBO81MVZDU4iZ+zWJyQAfRFTmiQmY
+ S2Cwg0m6cVdlehu3ytQfnVPKmxhnE25vdloW7jY/kP7ffdGcOxZi1VFsybwKKkNtALzQDv
+ G+cSG0Jn1CCDJ7EaTCMBr/lyQIVBOxY=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-183-6e7h_W3gP6KEZxhhNjWY7A-1; Thu, 05 Jan 2023 09:45:25 -0500
+X-MC-Unique: 6e7h_W3gP6KEZxhhNjWY7A-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ u13-20020a056512128d00b004b53d7241f6so12892407lfs.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 06:45:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=IygfhRQXV+vMkAtrcWNsDzrc29ZOAS6VlK+vnheQF7Q=;
+ b=RoP7Ldz7F0EwRgd7cQArLeP65x/znIgaXZBKy029jGzgpRcpCf4iM26oI8z99jU20f
+ XdlJbcSjCbtAU1uvv/3AM1ReNsSN2Nx0H6necq5UDCOLNO3fuISDyIrrr5CIk40VgbRI
+ a2JRkUbq/HkHPV1Ti2huTDAClHZ8x5M5l6V2V/nXfTUi1PJ1bm528qmdqm7hmb4Xk9QZ
+ D0kE3hZDnm5TFRaab037EqLauqehUQJ9Zh4ZsmzWRmZq2ilenAHZsA/iIIs1bw+9/GS3
+ ym5niZ7hdWuDQtERUqIN5iGwLrAHtC/l8/eEZWSjcMz8ztgrWcS1QpnvMIFW3o11CGRU
+ SBFg==
+X-Gm-Message-State: AFqh2kqbOxZhxF97x01jZ/XrdBYK9erqZof+5oYabAzASsdETDJdpj2T
+ ECBakuG15zbWuSce0xxaeNjX6IG2bIIrwEtjRpvZl9/VkcOj5PT2EWEIiS/VkmqV2ANvRQBfHVl
+ YX25w8pYfcYfkEZa+BMd/NT2SEGih1Fjow6V5AJIb+Gr6
+X-Received: by 2002:a05:651c:22b:b0:27f:b397:db7d with SMTP id
+ z11-20020a05651c022b00b0027fb397db7dmr2709084ljn.323.1672929924278; 
+ Thu, 05 Jan 2023 06:45:24 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvLSm4cJ8Vb8dZ62NZRvXIQvGMXHBJiY0DZG4MVqkypnRpkR5DAKnuwfANsnYjxYNwT9y49VCJ+oi2KP5B6xGg=
+X-Received: by 2002:a05:651c:22b:b0:27f:b397:db7d with SMTP id
+ z11-20020a05651c022b00b0027fb397db7dmr2709080ljn.323.1672929924066; Thu, 05
+ Jan 2023 06:45:24 -0800 (PST)
 MIME-Version: 1.0
+References: <20221212182137.374625-1-harry.wentland@amd.com>
+ <20221212182137.374625-17-harry.wentland@amd.com>
+ <114c2e02-41c8-8576-f88d-1c50f41deb9e@mailbox.org>
+ <20221214110128.1cd58dea@eldfell>
+ <b53b1d6e-e81c-98d0-7a7f-a6d5fede90fc@amd.com>
+In-Reply-To: <b53b1d6e-e81c-98d0-7a7f-a6d5fede90fc@amd.com>
+From: Sebastian Wick <sebastian.wick@redhat.com>
+Date: Thu, 5 Jan 2023 15:45:12 +0100
+Message-ID: <CA+hFU4z=-RRmeh6-D9Ydk1_aPq8jjQq34gYbdd+oLVkiS6HmZQ@mail.gmail.com>
+Subject: Re: [PATCH 16/16] drm/amd/display: Don't restrict bpc to 8 bpc
+To: Harry Wentland <harry.wentland@amd.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,71 +81,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- 'Andrzej Hajda' <andrzej.hajda@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: amd-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ dri-devel@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
+ Uma Shankar <uma.shankar@intel.com>, Vitaly.Prosyak@amd.com,
+ Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Vetter
-> Sent: 05 January 2023 14:13
-...
-> > > So here we are, with Andrzej looking to add the common helper. And th=
-e
-> > > same concerns crop up. What should it be called to make it clear that
-> > > it's not atomic? Is that possible?
+On Fri, Dec 23, 2022 at 8:10 PM Harry Wentland <harry.wentland@amd.com> wro=
+te:
+>
+>
+>
+> On 12/14/22 04:01, Pekka Paalanen wrote:
+> > On Tue, 13 Dec 2022 18:20:59 +0100
+> > Michel D=C3=A4nzer <michel.daenzer@mailbox.org> wrote:
 > >
-> > old_value =3D read_write(variable, new_value);
+> >> On 12/12/22 19:21, Harry Wentland wrote:
+> >>> This will let us pass kms_hdr.bpc_switch.
+> >>>
+> >>> I don't see any good reasons why we still need to
+> >>> limit bpc to 8 bpc and doing so is problematic when
+> >>> we enable HDR.
+> >>>
+> >>> If I remember correctly there might have been some
+> >>> displays out there where the advertised link bandwidth
+> >>> was not large enough to drive the default timing at
+> >>> max bpc. This would leave to an atomic commit/check
+> >>> failure which should really be handled in compositors
+> >>> with some sort of fallback mechanism.
+> >>>
+> >>> If this somehow turns out to still be an issue I
+> >>> suggest we add a module parameter to allow users to
+> >>> limit the max_bpc to a desired value.
+> >>
+> >> While leaving the fallback for user space to handle makes some sense
+> >> in theory, in practice most KMS display servers likely won't handle
+> >> it.
+> >>
+> >> Another issue is that if mode validation is based on the maximum bpc
+> >> value, it may reject modes which would work with lower bpc.
+> >>
+> >>
+> >> What Ville (CC'd) suggested before instead (and what i915 seems to be
+> >> doing already) is that the driver should do mode validation based on
+> >> the *minimum* bpc, and automatically make the effective bpc lower
+> >> than the maximum as needed to make the rest of the atomic state work.
 > >
-> > But two statements are much clearer.
->=20
-> Yeah this is my point for fetch_and_zero or any of the other proposals.
-> We're essentially replacing these two lines:
->=20
-> =09var =3D some->pointer->chase;
-> =09some->pointer->chase =3D NULL;
->=20
-> with a macro. C is verbose, and sometimes painfully so,
+> > A driver is always allowed to choose a bpc lower than max_bpc, so it
+> > very well should do so when necessary due to *known* hardware etc.
+> > limitations.
+> >
+>
+> I spent a bunch of time to figure out how this actually pans out in
+> amdgpu and it looks like we're doing the right thing, i.e. if bandwidth
+> limitations require it we'll downgrade bpc appropriately. These changes
+> happened over the last couple years or so. So while raising the default
+> max_bpc wasn't safe in amdgpu years ago it is completely fine now.
+>
+> As for the relevant code it's mostly handled in create_validate_stream_fo=
+r_sink
+> in amdgpu_dm.c where we iterate over a stream's mode validation with
+> decreasing bpc if it fails (down to a bpc of 6).
+>
+> For HDMI we also have a separate adjust_colour_depth_from_display_info
+> function that downgrades bpc in order to fit within the max_tmds_clock.
+>
+> So, in short, this change should not lead to displays not lighting up
+> because we no longer force a given bpc.
 
-Try ADA or VHDL :-)
+Very good!
 
-> if the pointer
-> chase is really to onerous then I think that should be refactored with a
-> meaningfully locally name variable, not fancy macros wrapped around to
-> golf a few characters away.
+>
+> > So things like mode validation cannot just look at a single max or min
+> > bpc, but it needs to figure out if there is any usable bpc value that
+> > makes the mode work.
+> >
+> > The max_bpc knob exists only for the cases where the sink undetectably
+> > malfunctions unless the bpc is artificially limited more than seems
+> > necessary. That malfunction requires a human to detect, and reconfigure
+> > their system as we don't have a quirk database for this I think.
+> >
+> > The question of userspace wanting a specific bpc is a different matter
+> > and an unsolved one. It also ties to userspace wanting to use the
+> > current mode to avoid a mode switch between e.g. hand-off from firmware
+> > boot splash to proper userspace. That's also unsolved AFAIK.
+> >
+>
+> Agreed, the current "max bpc" just sets a max. We'd probably want a
+> "min bpc" if userspace needs a minimum (e.g., for HDR).
 
-Provided 'var' is a local the compiler is pretty likely to only do the
-'pointer chase' once.
-You can also do:
-=09var =3D NULL;
-=09swap(some->pointer->chase, var);
-and get pretty much the same object code.
+To be clear: we need this. I've argued before that we need a min bpc
+setting because we'd rather not enable HDR if we can't get the bit
+depth required for it and there is no other mechanism to control this.
+The other remaining kernel problem for HDR is that we still have no
+control over YCC/RGB selection on the cable and thus can't choose the
+correct color space infoframe.
 
-> But what about swap() you ask? That one needs a temp variable, and it doe=
-s
-> make sense to hide that in a ({}) block in a macro.
-
-Sometimes, but not enough for the 'missed opportunity for swap()'
-message.=20
-
-> But for the above two
-> lines I really don't see a point outside of obfuscated C contexts.
-
-Indeed.
-
-Isn't the suggested __xchg() in one of the 'reserved for implementation'
-namespaces - so shouldn't be a function that might be expected to be
-actually used.
-
-=09David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+>
+> Harry
+>
+> > OTOH, we have the discussion that concluded as
+> > https://gitlab.freedesktop.org/wayland/weston/-/issues/612#note_1359898
+> > which really puts userspace in charge of max_bpc, so the driver-chosen
+> > default value does not have much impact as long as it makes the
+> > firmware-chosen video mode to continue, as requested in
+> > https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/995
+> > given that userspace cannot know what the actual bpc currently is nor
+> > set the exact bpc to keep it the same.
+> >
+> >
+> > Thanks,
+> > pq
+>
 
