@@ -1,63 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE2165E8A8
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 11:10:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E08C965E8D9
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 11:21:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70CA010E6E3;
-	Thu,  5 Jan 2023 10:10:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01C1E10E6DC;
+	Thu,  5 Jan 2023 10:21:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF79310E6E4
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 10:10:24 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id s9so3589991wru.13
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 02:10:24 -0800 (PST)
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07ACD10E6D4
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 10:21:18 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id g20so16742697pfb.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 02:21:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=4m7Y1s94kgAPUcUdp5h11Z9DHNnKQurlv6ak2yowHjs=;
- b=R0uXYiLwKSXOcR0DKAlH0FMa0APRfzZDFoqhx+0DFVI3zhwAl1pfaR+JtzIAgUfami
- 2GP9dVb/OG2cIn2YhvNrWycWnCMdlqPHNbC1c5yl334O6+TgjdbnZ7UClNb9GwM22eCq
- fL12JAJoTw1cweQyIZCeiaGLDrPL4NU/VG15Q=
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=6ZK4nzjpwYyPyn93IloxZTntg6CUAnuhsiuX1hJc/KI=;
+ b=NuTSU+tAnwC8J4btJEi46FZKTDoZWSpXhsZZzvvEeCRUZI31x8P+7W/qyYZB6cEEZK
+ 0KfqehuBvr3rjXJk15PxC+x+93bMexZ1PTi8huCZmuuTQwSpPawXccgf2pmEghY9bMvX
+ RzGNrLQAa48wSr1uQzuiAGZF/YjK7ZhJfA8YU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4m7Y1s94kgAPUcUdp5h11Z9DHNnKQurlv6ak2yowHjs=;
- b=KlrxMGHe+11G1H9mN9+Dg9L0xpa82FkKlZA+wnjDOpC1aIptCa/uuDV1axnRkRxlZd
- t6xW6px7MEb2hKft/rom8WDI5NKHHmm9XA2GbG0CnNowfZp/Wk0yAgUgcEfoXV/PgaOK
- G8wf4Glh/NzxY4n7KkmOqnovTHJTCBX97q5zDigXa1meI1ay+JDmxY4frtOisFeQnog2
- 9vYX/XKhTKnewdxHEo6jspKE3jCs25w3wHaTLDp+cybeTYuJ2O0lTTm8TtVo6c6cIjew
- yfO7JRHh3AgSNka8ZCh829HOp5W2MY29RC1Lcgv9Xvn1Z1/4n9E5q0oCzHpfdE2i5LRL
- 9qlQ==
-X-Gm-Message-State: AFqh2kr2YdVlGqFFAZ5ZD8EiPh1lygxlD91kE6wUL/h9XOA09BUPHGYW
- 0HBJB4BaNEsEIne2GC4kgmzIIw==
-X-Google-Smtp-Source: AMrXdXv3rYhOw3jTnPpGDoJn2ZZLNhkkxRPeCO28fLZUCUWTWzVP8qtiGLjbodu5BNhH4JzWDkQCSg==
-X-Received: by 2002:adf:db12:0:b0:242:203c:9ed4 with SMTP id
- s18-20020adfdb12000000b00242203c9ed4mr33125952wri.55.1672913423129; 
- Thu, 05 Jan 2023 02:10:23 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- n14-20020adfe34e000000b002366dd0e030sm36410769wrj.68.2023.01.05.02.10.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 02:10:22 -0800 (PST)
-Date: Thu, 5 Jan 2023 11:10:19 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PULL] drm-misc-fixes
-Message-ID: <Y7aiC/5eJBKhDjGx@phenom.ffwll.local>
-References: <20230105074909.qd2h23hpxac4lxi7@houat>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6ZK4nzjpwYyPyn93IloxZTntg6CUAnuhsiuX1hJc/KI=;
+ b=Pd+PweNlBalQAWwUIdWgVNu6EFJebM5sqWjPoSZ0PK+1dqRfHTVdmb+Dryzop04gmz
+ ckskwOUy+x7VrH+4CWLv2+NBpZySqwQ+IzIVMOlbvU8A0Wtw88oz1xmlL8F2pSLdGkQc
+ dpMR/E8oqFJ9AKEt0SfL2n2N5x48f3k0FAX6S2rgS1S3MESPBC2W/vHEiEHcNtSg20WE
+ c4fEpUnw6bgxkjCbrBFxK4x84t7AtT1U5G+ubQxNE8Z9MLBN28CGYDVY68fSwvnxSmBG
+ 9GJVZYKlK71GT7Vcnznrmmt9F4Rg7+yZZxCgvbJyJODgug5K3VRpWvZ+IPUZ7eeaM5rf
+ GPaw==
+X-Gm-Message-State: AFqh2krlj6+Nmqg0PEPWn77BaqjTNmdjoAFv0v1BRK4E4CfjVhdVUlFx
+ oIX0nUDOPq1GeEh5Vphme5pcLencrsJyBbpnUd3wrQ==
+X-Google-Smtp-Source: AMrXdXssy7ciG/1su3bGuzOuebGGe/Miuoaa+b1nRbxfY/bK92mfuvYqvrAxm2xmyTnyeF75o20imvtTyBVEbJ5RYRs=
+X-Received: by 2002:a63:1b59:0:b0:478:b792:dea6 with SMTP id
+ b25-20020a631b59000000b00478b792dea6mr3746828pgm.445.1672914077499; Thu, 05
+ Jan 2023 02:21:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230105074909.qd2h23hpxac4lxi7@houat>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+References: <20221230063528.41037-1-zh.nvgt@gmail.com>
+ <2711de96-fcbe-5611-657a-ab29becd2ff6@gmx.de>
+In-Reply-To: <2711de96-fcbe-5611-657a-ab29becd2ff6@gmx.de>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 5 Jan 2023 11:21:05 +0100
+Message-ID: <CAKMK7uEOX5n64cjzMt9GRQaS13HFPFyOeqdrkmzc035U5_T8tg@mail.gmail.com>
+Subject: Re: [PATCH] fbmem: prevent potential use-after-free issues with
+ console_lock()
+To: Helge Deller <deller@gmx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,88 +63,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Hang Zhang <zh.nvgt@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 05, 2023 at 08:49:09AM +0100, Maxime Ripard wrote:
-> Hi Dave, Daniel,
-> 
-> Here's this week drm-misc-fixes PR
-> 
-> Maxime
-> 
-> drm-misc-fixes-2023-01-05:
-> Several fixes to fix the error path of dma_buf_export, add a missing
-> structure declaration resulting in a compiler warning, fix the GEM
-> handle refcounting in panfrost, fix a corrupted image with AFBC on
-> meson, a memleak in virtio, improper plane width for imx, and a lockup
-> in drm_sched_entity_kill()
-> The following changes since commit 88603b6dc419445847923fcb7fe5080067a30f98:
-> 
->   Linux 6.2-rc2 (2023-01-01 13:53:16 -0800)
-> 
-> are available in the Git repository at:
-> 
->   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-01-05
-> 
-> for you to fetch changes up to 69555549cfa42e10f2fdd2699ed4e34d9d4f392b:
+Hi Helge
 
-Pülled, danke vielmals.
--Daniel
+On Mon, 2 Jan 2023 at 16:28, Helge Deller <deller@gmx.de> wrote:
+>
+> On 12/30/22 07:35, Hang Zhang wrote:
+> > In do_fb_ioctl(), user specified "fb_info" can be freed in the callee
+> > fbcon_get_con2fb_map_ioctl() -> set_con2fb_map() ->
+> > con2fb_release_oldinfo(), this free operation is protected by
+> > console_lock() in fbcon_set_con2fb_map_ioctl(), it also results in
+> > the change of certain states such as "minfo->dead" in matroxfb_remove(),
+> > so that it can be checked to avoid use-after-free before the use sites
+> > (e.g., the check at the beginning of matroxfb_ioctl()). However,
+> > the problem is that the use site is not protected by the same locks
+> > as for the free operation, e.g., "default" case in do_fb_ioctl()
+> > can lead to "matroxfb_ioctl()" but it's not protected by console_lock(),
+> > which can invalidate the aforementioned state set and check in a
+> > concurrent setting.
+> >
+> > Prevent the potential use-after-free issues by protecting the "default"
+> > case in do_fb_ioctl() with console_lock(), similarly as for many other
+> > cases like "case FBIOBLANK" and "case FBIOPAN_DISPLAY".
+> >
+> > Signed-off-by: Hang Zhang <zh.nvgt@gmail.com>
+>
+> applied to fbdev git tree.
 
-> 
->   drm/scheduler: Fix lockup in drm_sched_entity_kill() (2023-01-03 14:49:59 +0300)
-> 
-> ----------------------------------------------------------------
-> Several fixes to fix the error path of dma_buf_export, add a missing
-> structure declaration resulting in a compiler warning, fix the GEM
-> handle refcounting in panfrost, fix a corrupted image with AFBC on
-> meson, a memleak in virtio, improper plane width for imx, and a lockup
-> in drm_sched_entity_kill()
-> 
-> ----------------------------------------------------------------
-> Carlo Caione (1):
->       drm/meson: Reduce the FIFO lines held when AFBC is not used
-> 
-> Christian König (1):
->       dma-buf: fix dma_buf_export init order v2
-> 
-> Dmitry Osipenko (1):
->       drm/scheduler: Fix lockup in drm_sched_entity_kill()
-> 
-> Ma Jun (1):
->       drm/plane-helper: Add the missing declaration of drm_atomic_state
-> 
-> Maxime Ripard (1):
->       Merge drm/drm-fixes into drm-misc-fixes
-> 
-> Philipp Zabel (1):
->       drm/imx: ipuv3-plane: Fix overlay plane width
-> 
-> Steven Price (1):
->       drm/panfrost: Fix GEM handle creation ref-counting
-> 
-> Xiu Jianfeng (1):
->       drm/virtio: Fix memory leak in virtio_gpu_object_create()
-> 
->  drivers/dma-buf/dma-buf-sysfs-stats.c    |  7 +--
->  drivers/dma-buf/dma-buf-sysfs-stats.h    |  4 +-
->  drivers/dma-buf/dma-buf.c                | 82 +++++++++++++++-----------------
->  drivers/gpu/drm/imx/ipuv3-plane.c        | 14 +++---
->  drivers/gpu/drm/meson/meson_viu.c        |  5 +-
->  drivers/gpu/drm/panfrost/panfrost_drv.c  | 27 +++++++----
->  drivers/gpu/drm/panfrost/panfrost_gem.c  | 16 +------
->  drivers/gpu/drm/panfrost/panfrost_gem.h  |  5 +-
->  drivers/gpu/drm/scheduler/sched_entity.c |  2 +-
->  drivers/gpu/drm/scheduler/sched_main.c   |  4 +-
->  drivers/gpu/drm/virtio/virtgpu_object.c  |  6 ++-
->  include/drm/drm_plane_helper.h           |  1 +
->  12 files changed, 80 insertions(+), 93 deletions(-)
+The patch above makes no sense at all to me:
 
+- fb_info is protected by lock_fb_info and
+- the lifetime of fb_info is protected by the get/put functions
+- yes there's the interaction with con2fb, which is protected by
+console_lock, but the lifetime guarantees are ensured by the device
+removal
+- which means any stuff happening in matroxfb_remove is also not a
+concern here (unless matroxfb completely gets all the device lifetime
+stuff wrong, but it doesn't look like it's any worse than any of the
+other fbdev drivers that we haven't recently fixed up due to the
+takeover issues with firmware drivers
+
+On the very clear downside this now means we take console_lock for the
+vblank ioctl (which is a device driver extension for reasons, despite
+that it's a standard fbdev ioctl), which is no good at all given how
+console_lock() is a really expensive lock.
+
+Unless I'm massively missing something, can you pls push the revert
+before this lands in Linus' tree?
+
+Thanks, Daniel
+
+> Thanks,
+> Helge
+>
+> > ---
+> >   drivers/video/fbdev/core/fbmem.c | 2 ++
+> >   1 file changed, 2 insertions(+)
+> >
+> > diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+> > index 1e70d8c67653..8b1a1527d18a 100644
+> > --- a/drivers/video/fbdev/core/fbmem.c
+> > +++ b/drivers/video/fbdev/core/fbmem.c
+> > @@ -1182,6 +1182,7 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
+> >               console_unlock();
+> >               break;
+> >       default:
+> > +             console_lock();
+> >               lock_fb_info(info);
+> >               fb = info->fbops;
+> >               if (fb->fb_ioctl)
+> > @@ -1189,6 +1190,7 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
+> >               else
+> >                       ret = -ENOTTY;
+> >               unlock_fb_info(info);
+> > +             console_unlock();
+> >       }
+> >       return ret;
+> >   }
+>
 
 
 -- 
