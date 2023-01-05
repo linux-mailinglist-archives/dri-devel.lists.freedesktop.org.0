@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D216765F47E
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 20:31:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB8C65F47D
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 20:31:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B1D610E489;
-	Thu,  5 Jan 2023 19:31:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 915D110E48D;
+	Thu,  5 Jan 2023 19:31:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5828D10E49B
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACE4C10E495
  for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 19:31:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=6ng+7yFDWt9LxupRFip41Ax8DmuR3ZIMGl3JGKRkSCM=; b=IhWo/ViZZotddgwnge91joIdD4
- 0QJtZLN9QO/xB3TuOerTdBCV+0q+Ka/r6dheIvcSdSucO+ZSAkRZ0mKMiTDkXJ/tQkrg+BMR8H6d4
- NCk83lxooSipqYGYT9e/skAoPgW9mn0JriK44nCGuYwjrW04uZtcHUy15JZA9bffX190DdUsnoIGp
- GPLGaVm/0QgJy837Y7FYfdgaGjqVvLDtboQlLk7iVC9xsIu34VbeelE1JpjqFXNmqXWnUYCptin6K
- CSl8wzC62l18t5Fc4fkAUUp5BgkvUrcOdSJPyPFq6ZaO+wVorKUbe8Rf1kXy8tx72/wnHpzmF7rNI
- GAd3OWFQ==;
+ bh=1HKiKe9373ka0mN6FKm4s+rwzUKEimlYW6GYpQhj2R0=; b=BP1CBMV6B67FIuqRybXYKOA2B+
+ ukIVpCrzPqF55wKxlPxuZVlPMtVL75I18T3ifxC4IVzFi8RB0jd+XwvBnLU9OQOGas67ACHz79RRd
+ WEiLzTZWTiP82i9293zQ3NDHbNo2AQbWYvZ9doknOM2OutUvtqn9RHmCbIpO1tCBHhaSEwq7OP7pK
+ LYYo+C/K+Jg80OTA675SJ2PjIYFaoPql2tZFETHAN8Xybq+cOJKoWuX8o/yhxqFGgx8o0t3dUvjMp
+ bFFaf9yj+kjcg1GnPgR1KP9Hj2a2OeCdm9u3LAEJer6GZy5GYAb8H80gEg/ENEa73QjuVK/SkuqxK
+ 9fSdN8kg==;
 Received: from [187.36.234.139] (helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pDVx0-000Kcs-7a; Thu, 05 Jan 2023 20:30:54 +0100
+ id 1pDVx4-000Kcs-UY; Thu, 05 Jan 2023 20:30:59 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Stephen Rothwell <sfr@canb.auug.org.au>,
  Jani Nikula <jani.nikula@linux.intel.com>,
@@ -36,11 +36,12 @@ To: Stephen Rothwell <sfr@canb.auug.org.au>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 1/2] drm/debugfs: use octal permissions instead of symbolic
- permissions
-Date: Thu,  5 Jan 2023 16:30:38 -0300
-Message-Id: <20230105193039.287677-1-mcanal@igalia.com>
+Subject: [PATCH 2/2] drm/debugfs: add descriptions to struct parameters
+Date: Thu,  5 Jan 2023 16:30:39 -0300
+Message-Id: <20230105193039.287677-2-mcanal@igalia.com>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230105193039.287677-1-mcanal@igalia.com>
+References: <20230105193039.287677-1-mcanal@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -63,70 +64,74 @@ Cc: Melissa Wen <mwen@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, debugfs functions are using symbolic macros as permission
-bits, but checkpatch reinforces permission bits in the octal form, as
-they are more readable and easier to understand [1].
+The structs drm_debugfs_info and drm_debugfs_entry don't have
+descriptions for their parameters, which is causing the following warnings:
 
-Therefore, use octal permission bits in all debugfs functions.
+include/drm/drm_debugfs.h:93: warning: Function parameter or member
+'name' not described in 'drm_debugfs_info'
+include/drm/drm_debugfs.h:93: warning: Function parameter or member
+'show' not described in 'drm_debugfs_info'
+include/drm/drm_debugfs.h:93: warning: Function parameter or member
+'driver_features' not described in 'drm_debugfs_info'
+include/drm/drm_debugfs.h:93: warning: Function parameter or member
+'data' not described in 'drm_debugfs_info'
+include/drm/drm_debugfs.h:105: warning: Function parameter or member
+'dev' not described in 'drm_debugfs_entry'
+include/drm/drm_debugfs.h:105: warning: Function parameter or member
+'file' not described in 'drm_debugfs_entry'
+include/drm/drm_debugfs.h:105: warning: Function parameter or member
+'list' not described in 'drm_debugfs_entry'
 
-[1] https://docs.kernel.org/dev-tools/checkpatch.html#permissions
+Therefore, fix the warnings by adding descriptions to all struct
+parameters.
 
-Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/drm_debugfs.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ include/drm/drm_debugfs.h | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 5ea237839439..4f643a490dc3 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -207,7 +207,7 @@ void drm_debugfs_create_files(const struct drm_info_list *files, int count,
+diff --git a/include/drm/drm_debugfs.h b/include/drm/drm_debugfs.h
+index 53b7297260a5..7616f457ce70 100644
+--- a/include/drm/drm_debugfs.h
++++ b/include/drm/drm_debugfs.h
+@@ -86,9 +86,22 @@ struct drm_info_node {
+  * core.
+  */
+ struct drm_debugfs_info {
++	/** @name: File name */
+ 	const char *name;
++
++	/**
++	 * @show:
++	 *
++	 * Show callback. &seq_file->private will be set to the &struct
++	 * drm_debugfs_entry corresponding to the instance of this info
++	 * on a given &struct drm_device.
++	 */
+ 	int (*show)(struct seq_file*, void*);
++
++	/** @driver_features: Required driver features for this entry. */
+ 	u32 driver_features;
++
++	/** @data: Driver-private data, should not be device-specific. */
+ 	void *data;
+ };
  
- 		tmp->minor = minor;
- 		tmp->dent = debugfs_create_file(files[i].name,
--						S_IFREG | S_IRUGO, root, tmp,
-+						0444, root, tmp,
- 						&drm_debugfs_fops);
- 		tmp->info_ent = &files[i];
+@@ -99,8 +112,13 @@ struct drm_debugfs_info {
+  * drm_debugfs_info on a &struct drm_device.
+  */
+ struct drm_debugfs_entry {
++	/** @dev: &struct drm_device for this node. */
+ 	struct drm_device *dev;
++
++	/** @file: Template for this node. */
+ 	struct drm_debugfs_info file;
++
++	/** @list: Linked list of all device nodes. */
+ 	struct list_head list;
+ };
  
-@@ -246,7 +246,7 @@ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
- 		dev->driver->debugfs_init(minor);
- 
- 	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
--		debugfs_create_file(entry->file.name, S_IFREG | S_IRUGO,
-+		debugfs_create_file(entry->file.name, 0444,
- 				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
- 		list_del(&entry->list);
- 	}
-@@ -263,7 +263,7 @@ void drm_debugfs_late_register(struct drm_device *dev)
- 		return;
- 
- 	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
--		debugfs_create_file(entry->file.name, S_IFREG | S_IRUGO,
-+		debugfs_create_file(entry->file.name, 0444,
- 				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
- 		list_del(&entry->list);
- 	}
-@@ -508,15 +508,15 @@ void drm_debugfs_connector_add(struct drm_connector *connector)
- 	connector->debugfs_entry = root;
- 
- 	/* force */
--	debugfs_create_file("force", S_IRUGO | S_IWUSR, root, connector,
-+	debugfs_create_file("force", 0644, root, connector,
- 			    &drm_connector_fops);
- 
- 	/* edid */
--	debugfs_create_file("edid_override", S_IRUGO | S_IWUSR, root, connector,
-+	debugfs_create_file("edid_override", 0644, root, connector,
- 			    &drm_edid_fops);
- 
- 	/* vrr range */
--	debugfs_create_file("vrr_range", S_IRUGO, root, connector,
-+	debugfs_create_file("vrr_range", 0444, root, connector,
- 			    &vrr_range_fops);
- 
- 	/* max bpc */
 -- 
 2.39.0
 
