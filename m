@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C825665ECEE
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 14:25:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9DC365ECEF
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 14:25:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FCD810E727;
-	Thu,  5 Jan 2023 13:25:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D41F10E728;
+	Thu,  5 Jan 2023 13:25:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D90F10E727
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 13:25:45 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id
- o1-20020a17090a678100b00219cf69e5f0so2025582pjj.2
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 05:25:45 -0800 (PST)
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86C8510E728
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 13:25:51 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id
+ m7-20020a17090a730700b00225ebb9cd01so1994232pjk.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 05:25:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jwazAT3xSqlENEhA4Hb3uCHKQB6Uz2GRMq6wM/0+luw=;
- b=g/RgxtrwuPP6cH6ICV+A6rBkTivvevCaa+khZPHbYDr4YLDNIxnG7Z+qd973LPSR52
- sD6v7xWHifD5y8A93/lBlXezvT3J/aF5uVyY29bbOxr/pQGGWHxEeGHJTk6TbYO9AFZC
- 0d3fF9cdnbRj3tX2ci2YwtFsUHxTS50KbBHYY=
+ bh=Iwwp3U8ZO9l33wBPdYbUslPJS4OdAaqOipDsvKHUvw4=;
+ b=NFmtJxruhfDGIscARXxUxMnJ8bIDMuz6GQyFZIJpUMR2vjBWuzVlo1Ntr6U0LjVom8
+ jNDEYi1Y1rKoBEpPcsjuNym42klClmWKmfb42EidVOf3/eE3lt8Bnzioy5yhIIV+BvO6
+ 1wLN3JL8YsKkZ758whFfLrA/OYsJfIEyGxDUg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jwazAT3xSqlENEhA4Hb3uCHKQB6Uz2GRMq6wM/0+luw=;
- b=CppnAxF91nPSKnch7u2c2NVMBqF7j72Dnq88Oz+zr24nJ8dg0NSPLtd0m18TjzcvNc
- TuSMlx1EOtVQ3g2PvajVksfggCuEFYsx07ZkJxHyKwZl8xjVnbcGjpMicg7seDzbCYcs
- 1lhUbiFHFTKygKmI1GBhyvtXdglPQ3j1GZ6rM+SSAEKlX6H3Xy1wKA1DihOXIoDyQMTm
- T3KNs8R5yHGJSK3XGfuy9tbvjlRrI7t25FROZwfDXcNeqnveN7pFAt8ZV8JbgLOx3uyI
- dbDH3P0rPtdTq7ct4WNKePtOLv2ed7iGj1TComuC75vxkGaJKsDDO5opscdZhnXPMNuu
- /1Iw==
-X-Gm-Message-State: AFqh2kr20mowAwiBgWwSxGNtQJWTu4kNYcKNuoy26ua0l09ZfLgox3yG
- TkU9Cxp6ebq8WYq5o446PjFNQA==
-X-Google-Smtp-Source: AMrXdXsauXU8ihD1CPxPhxZocim3FvOFINpzc1qf6ZPu2Mf9DY+6Aymp5YhOTJ947preLdJEkZv66g==
-X-Received: by 2002:a17:90b:3d0e:b0:226:59d6:e824 with SMTP id
- pt14-20020a17090b3d0e00b0022659d6e824mr20193681pjb.48.1672925145331; 
- Thu, 05 Jan 2023 05:25:45 -0800 (PST)
+ bh=Iwwp3U8ZO9l33wBPdYbUslPJS4OdAaqOipDsvKHUvw4=;
+ b=5ZYhYxjzN9FJ18OsxyikmlMFJPP1ksb961MZQ4NUB4eVOyFzIK8BLujR4IbuuIogKB
+ sPYpY7d2TESiYj1A06+qbGACAEvtRfnxNkgqiO1iB87QiU1bFGBEQ8ihlWdnNvzjTZL+
+ 7r2OWTIGFGmgZ/Vds3UL+R92mvfzz9l8Plg+eGJXSc3bjnBeRn96TCsu8eqvevtzyVCt
+ rmYg/s5APIeJ8kwseqX/S82K1p+Or7SXt+F+cdoKOMGluxI+gX5t8LQiBsPHoNiKzDF5
+ gWvB02wK1ndlaXioVX9SnY+qou/wAQcHmqNx+QYXeSCEhxJTgXV9fWv2wzymMOFuygcN
+ q4Mw==
+X-Gm-Message-State: AFqh2kpZS5ydz2G9FmMccS97GDxxh1G7m/vM1XIl44TNpQxoEaO/Z3Yx
+ Jl3goDzXBs0xPdSFiaY/e8xqVQ==
+X-Google-Smtp-Source: AMrXdXsVgq9H0r6nMlqdgVJ8rT31POYJpyYs+lssnDycN2WN43sj16tzoY0ymo5PnPD/iwAfQxhzwg==
+X-Received: by 2002:a17:90b:3797:b0:226:3981:1ae3 with SMTP id
+ mz23-20020a17090b379700b0022639811ae3mr24411009pjb.28.1672925151173; 
+ Thu, 05 Jan 2023 05:25:51 -0800 (PST)
 Received: from treapking.tpe.corp.google.com
  ([2401:fa00:1:10:7a61:eb85:2e3:2bd0])
  by smtp.gmail.com with ESMTPSA id
- gk22-20020a17090b119600b00225e670e4c7sm1372682pjb.35.2023.01.05.05.25.40
+ gk22-20020a17090b119600b00225e670e4c7sm1372682pjb.35.2023.01.05.05.25.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 05:25:45 -0800 (PST)
+ Thu, 05 Jan 2023 05:25:50 -0800 (PST)
 From: Pin-yen Lin <treapking@chromium.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
@@ -65,9 +65,10 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  "Rafael J . Wysocki" <rafael@kernel.org>,
  Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>,
  Guenter Roeck <groeck@chromium.org>
-Subject: [PATCH v7 6/9] drm/bridge: anx7625: Register Type C mode switches
-Date: Thu,  5 Jan 2023 21:24:54 +0800
-Message-Id: <20230105132457.4125372-7-treapking@chromium.org>
+Subject: [PATCH v7 7/9] dt/bindings: drm/bridge: it6505: Add mode-switch
+ support
+Date: Thu,  5 Jan 2023 21:24:55 +0800
+Message-Id: <20230105132457.4125372-8-treapking@chromium.org>
 X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
 In-Reply-To: <20230105132457.4125372-1-treapking@chromium.org>
 References: <20230105132457.4125372-1-treapking@chromium.org>
@@ -97,191 +98,159 @@ Cc: Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Register USB Type-C mode switches when the "mode-switch" property and
-relevant port are available in Device Tree. Configure the crosspoint
-switch based on the entered alternate mode for a specific Type-C
-connector.
+ITE IT6505 can be used in systems to switch the DP traffic between
+two downstreams, which can be USB Type-C DisplayPort alternate mode
+lane or regular DisplayPort output ports.
+
+Update the binding to accommodate this usage by introducing a
+data-lanes and a mode-switch property on endpoints.
 
 Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 
 ---
 
 Changes in v7:
-- Fixed style issues in anx7625 driver
-- Removed DT property validation in anx7625 driver.
-- Extracted common codes to another commit.
+- Fixed issues reported by dt_binding_check.
+- Updated the schema and the example dts for data-lanes.
+- Changed to generic naming for the example dts node.
 
 Changes in v6:
-- Squashed to a single patch
+- Remove switches node and use endpoints and data-lanes property to
+  describe the connections.
 
- drivers/gpu/drm/bridge/analogix/Kconfig   |  1 +
- drivers/gpu/drm/bridge/analogix/anx7625.c | 88 +++++++++++++++++++++++
- drivers/gpu/drm/bridge/analogix/anx7625.h | 13 ++++
- 3 files changed, 102 insertions(+)
+ .../bindings/display/bridge/ite,it6505.yaml   | 95 ++++++++++++++++---
+ 1 file changed, 84 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/Kconfig b/drivers/gpu/drm/bridge/analogix/Kconfig
-index 173dada218ec..992b43ed1dd7 100644
---- a/drivers/gpu/drm/bridge/analogix/Kconfig
-+++ b/drivers/gpu/drm/bridge/analogix/Kconfig
-@@ -34,6 +34,7 @@ config DRM_ANALOGIX_ANX7625
- 	tristate "Analogix Anx7625 MIPI to DP interface support"
- 	depends on DRM
- 	depends on OF
-+	depends on TYPEC || TYPEC=n
- 	select DRM_DISPLAY_DP_HELPER
- 	select DRM_DISPLAY_HDCP_HELPER
- 	select DRM_DISPLAY_HELPER
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 1cf242130b91..2bb504a8d789 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -15,6 +15,8 @@
- #include <linux/regulator/consumer.h>
- #include <linux/slab.h>
- #include <linux/types.h>
-+#include <linux/usb/typec_dp.h>
-+#include <linux/usb/typec_mux.h>
- #include <linux/workqueue.h>
+diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+index b16a9d9127dd..1ee7cd0d2035 100644
+--- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+@@ -77,20 +77,45 @@ properties:
+         unevaluatedProperties: false
+         description: Video port for DP output
  
- #include <linux/of_gpio.h>
-@@ -2572,6 +2574,86 @@ static void anx7625_runtime_disable(void *data)
- 	pm_runtime_disable(data);
- }
+-        properties:
+-          endpoint:
++        patternProperties:
++          "^endpoint@[01]$":
+             $ref: /schemas/graph.yaml#/$defs/endpoint-base
+             unevaluatedProperties: false
  
-+static void anx7625_set_crosspoint_switch(struct anx7625_data *ctx,
-+					  enum typec_orientation orientation)
-+{
-+	if (orientation == TYPEC_ORIENTATION_NORMAL) {
-+		anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_0,
-+				  SW_SEL1_SSRX_RX1 | SW_SEL1_DPTX0_RX2);
-+		anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_1,
-+				  SW_SEL2_SSTX_TX1 | SW_SEL2_DPTX1_TX2);
-+	} else if (orientation == TYPEC_ORIENTATION_REVERSE) {
-+		anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_0,
-+				  SW_SEL1_SSRX_RX2 | SW_SEL1_DPTX0_RX1);
-+		anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_1,
-+				  SW_SEL2_SSTX_TX2 | SW_SEL2_DPTX1_TX1);
-+	}
-+}
+             properties:
++              reg:
++                maxItems: 1
 +
-+static void anx7625_typec_two_ports_update(struct anx7625_data *ctx)
-+{
-+	struct drm_dp_typec_switch_desc switch_desc = ctx->switch_desc;
-+	/* Check if both ports available and do nothing to retain the current one */
-+	if (switch_desc.typec_ports[0].dp_connected && switch_desc.typec_ports[1].dp_connected)
-+		return;
++              remote-endpoint: true
 +
-+	if (switch_desc.typec_ports[0].dp_connected)
-+		anx7625_set_crosspoint_switch(ctx, TYPEC_ORIENTATION_NORMAL);
-+	else if (switch_desc.typec_ports[1].dp_connected)
-+		anx7625_set_crosspoint_switch(ctx, TYPEC_ORIENTATION_REVERSE);
-+}
+               data-lanes:
+-                minItems: 1
+-                uniqueItems: true
+-                items:
+-                  - enum: [ 0, 1 ]
+-                  - const: 1
+-                  - const: 2
+-                  - const: 3
++                oneOf:
++                  - minItems: 1
++                    maxItems: 1
++                    items:
++                      enum: [0, 1, 2, 3]
 +
-+static int anx7625_typec_mux_set(struct typec_mux_dev *mux,
-+				 struct typec_mux_state *state)
-+{
-+	struct drm_dp_typec_port_data *port_data = typec_mux_get_drvdata(mux);
-+	struct anx7625_data *ctx = (struct anx7625_data *) port_data->data;
-+	struct device *dev = &ctx->client->dev;
-+	struct drm_dp_typec_switch_desc switch_desc = ctx->switch_desc;
-+	bool new_dp_connected, old_dp_connected;
++                  - items:
++                      - const: 0
++                      - const: 1
 +
-+	if (switch_desc.num_typec_switches == 1)
-+		return 0;
++                  - items:
++                      - const: 2
++                      - const: 3
 +
-+	old_dp_connected = switch_desc.typec_ports[0].dp_connected ||
-+			   switch_desc.typec_ports[1].dp_connected;
++                  - items:
++                      - const: 0
++                      - const: 1
++                      - const: 2
++                      - const: 3
 +
-+	port_data->dp_connected = state->alt &&
-+				  state->alt->svid == USB_TYPEC_DP_SID &&
-+				  state->alt->mode == USB_TYPEC_DP_MODE;
++              mode-switch:
++                type: boolean
++                description: Register this node as a Type-C mode switch or not.
 +
-+	dev_dbg(dev, "mux_set dp_connected: c0=%d, c1=%d\n",
-+		switch_desc.typec_ports[0].dp_connected, switch_desc.typec_ports[1].dp_connected);
-+
-+	new_dp_connected = switch_desc.typec_ports[0].dp_connected ||
-+			   switch_desc.typec_ports[1].dp_connected;
-+
-+	/* dp on, power on first */
-+	if (!old_dp_connected && new_dp_connected)
-+		pm_runtime_get_sync(dev);
-+
-+	anx7625_typec_two_ports_update(ctx);
-+
-+	/* dp off, power off last */
-+	if (old_dp_connected && !new_dp_connected)
-+		pm_runtime_put_sync(dev);
-+
-+	return 0;
-+}
-+
-+static void anx7625_unregister_typec_switches(struct anx7625_data *ctx)
-+{
-+	drm_dp_unregister_typec_switches(&ctx->switch_desc);
-+}
-+
-+static int anx7625_register_typec_switches(struct device *dev, struct anx7625_data *ctx)
-+{
-+	struct device_node *port = of_graph_get_port_by_id(dev->of_node, 1);
-+
-+	return drm_dp_register_typec_switches(dev, port, &ctx->switch_desc,
-+					      ctx, anx7625_typec_mux_set);
-+}
-+
- static int anx7625_i2c_probe(struct i2c_client *client)
- {
- 	struct anx7625_data *platform;
-@@ -2679,6 +2761,10 @@ static int anx7625_i2c_probe(struct i2c_client *client)
- 	if (platform->pdata.intp_irq)
- 		queue_work(platform->workqueue, &platform->work);
++            required:
++              - reg
++              - remote-endpoint
  
-+	ret = anx7625_register_typec_switches(dev, platform);
-+	if (ret && ret != -ENODEV)
-+		dev_warn(dev, "Didn't register Type-C switches, err: %d\n", ret);
+     required:
+       - port@0
+@@ -102,7 +127,6 @@ required:
+   - pwr18-supply
+   - interrupts
+   - reset-gpios
+-  - extcon
+   - ports
+ 
+ additionalProperties: false
+@@ -139,8 +163,11 @@ examples:
+                 };
+ 
+                 port@1 {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
+                     reg = <1>;
+-                    it6505_out: endpoint {
++                    it6505_out: endpoint@0 {
++                        reg = <0>;
+                         remote-endpoint = <&dp_in>;
+                         data-lanes = <0 1>;
+                     };
+@@ -148,3 +175,49 @@ examples:
+             };
+         };
+     };
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
 +
- 	platform->bridge.funcs = &anx7625_bridge_funcs;
- 	platform->bridge.of_node = client->dev.of_node;
- 	if (!anx7625_of_panel_on_aux_bus(&client->dev))
-@@ -2730,6 +2816,8 @@ static void anx7625_i2c_remove(struct i2c_client *client)
- 
- 	drm_bridge_remove(&platform->bridge);
- 
-+	anx7625_unregister_typec_switches(platform);
++    i2c3 {
++        #address-cells = <1>;
++        #size-cells = <0>;
 +
- 	if (platform->pdata.intp_irq)
- 		destroy_workqueue(platform->workqueue);
- 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-index 14f33d6be289..38abbd3d6b36 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-@@ -55,6 +55,18 @@
- #define HPD_STATUS_CHANGE 0x80
- #define HPD_STATUS 0x80
- 
-+#define TCPC_SWITCH_0 0xB4
-+#define SW_SEL1_DPTX0_RX2 BIT(0)
-+#define SW_SEL1_DPTX0_RX1 BIT(1)
-+#define SW_SEL1_SSRX_RX2 BIT(4)
-+#define SW_SEL1_SSRX_RX1 BIT(5)
++        dp-bridge@5c {
++            compatible = "ite,it6505";
++            interrupts = <8 IRQ_TYPE_LEVEL_LOW 8 0>;
++            reg = <0x5c>;
++            pinctrl-names = "default";
++            pinctrl-0 = <&it6505_pins>;
++            ovdd-supply = <&mt6366_vsim2_reg>;
++            pwr18-supply = <&pp1800_dpbrdg_dx>;
++            reset-gpios = <&pio 177 0>;
 +
-+#define TCPC_SWITCH_1 0xB5
-+#define SW_SEL2_DPTX1_TX2 BIT(0)
-+#define SW_SEL2_DPTX1_TX1 BIT(1)
-+#define SW_SEL2_SSTX_TX2 BIT(4)
-+#define SW_SEL2_SSTX_TX1 BIT(5)
-+
- /******** END of I2C Address 0x58 ********/
- 
- /***************************************************************/
-@@ -479,6 +491,7 @@ struct anx7625_data {
- 	struct drm_connector *connector;
- 	struct mipi_dsi_device *dsi;
- 	struct drm_dp_aux aux;
-+	struct drm_dp_typec_switch_desc switch_desc;
- };
- 
- #endif  /* __ANX7625_H__ */
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++                port@0 {
++                    reg = <0>;
++                    it6505_dpi_in: endpoint {
++                        remote-endpoint = <&dpi_out>;
++                    };
++                };
++                port@1 {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++                    reg = <1>;
++                    ite_typec0: endpoint@0 {
++                        reg = <0>;
++                        mode-switch;
++                        data-lanes = <0 1>;
++                        remote-endpoint = <&typec_port0>;
++                    };
++                    ite_typec1: endpoint@1 {
++                        reg = <1>;
++                        mode-switch;
++                        data-lanes = <2 3>;
++                        remote-endpoint = <&typec_port1>;
++                    };
++                };
++            };
++        };
++    };
 -- 
 2.39.0.314.g84b9a713c41-goog
 
