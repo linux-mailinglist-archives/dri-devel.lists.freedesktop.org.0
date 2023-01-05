@@ -2,69 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B04A65EAFF
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 13:50:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77F9D65EB1C
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 13:52:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F124210E127;
-	Thu,  5 Jan 2023 12:49:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDE9910E706;
+	Thu,  5 Jan 2023 12:52:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7021610E127
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 12:49:57 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id d4so28030895wrw.6
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 04:49:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=T3qMRF1GNRdJeDqkXuS2/nTO+iJTQuqw4vXy5aAbbK8=;
- b=X+2PEgw8rt7VT+EdaBphMOTic4+GLKrNo5BKPs7V4isiRAFuLwaAvBB6hEhMvsxkTp
- TfkDrSAUw0xWRoTQPLvLromGbOrePs0K7f+ta91kcazZvGWcblftX3Med5BuNdwvXdw1
- N0Uwmd5JJ+ifHeVx/lfVVXJJBgQUokhffq46c=
+Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com
+ [IPv6:2607:f8b0:4864:20::e2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40AF810E706
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 12:52:39 +0000 (UTC)
+Received: by mail-vs1-xe2f.google.com with SMTP id 3so37934154vsq.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 04:52:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=2CRm7bk9DTpojIaX1q1B2ElokleMNyF1cDSFRq+rJv0=;
+ b=BrfC+PtkVxf2aCUyUKwg7G7EMBPTNCWsieKyNkTaE1INnnwE/uR+jH+fZpE0pAq9Jh
+ lquwxCy8gPOcgZHUiaQdFwMLH7oXHs0NpOHJ1+mLfcxAIqsx38MpP+ZrJ00ibNRxIeYl
+ +I5oEgAGVyuRqJfkh/DuZ1P+8GeNr1LlrCfS6UOYUrevfWx+M8iY6EyvdS2l44MZGTLt
+ kDoB6EldJKh6hmm49s0/BKYGtL2aS0enL3u4//C+2Qh0DPCk8uU9wUgQi0usqhEiQUjD
+ xD8SyLP1IKlOMctzUvVQeV0LpMGvThb/nTnsBpOxDj1ysG9ubHarYmIbcN5UQ4MZDJph
+ dtzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=T3qMRF1GNRdJeDqkXuS2/nTO+iJTQuqw4vXy5aAbbK8=;
- b=ejfVmH8lzbUn+AloyGwcKAzKanZSdTcJPt6LvNCn6ZPpFu/ovOVyNxr8UctydHZTu4
- 0j2LBhhGNjWEjM7tERsg9AkGu0pIbn6tKFOPNSrQwCvvInxHfK8q/h6RdVPFkGTGxtJr
- cKh8iHFlBtZ4LzH8Y5CrpDSFjZ0vFXcVQgYwsTPeTYuKWSpc6NqSKt+Gem2XZY+C/JSX
- My20gZidq9jXHlc+SoZbjJ8RMGtWosAQ0xLUCCsU93SfKneq4xamgInhcN3YJfTLk7NO
- 9Zm4WTu89L4u9uTBU4X6JN5h3nY1g9eilHn4rrYv+7is+cTeVIeXIbPDjYZvCgqYoo5N
- alsg==
-X-Gm-Message-State: AFqh2kpxycwOFKB5Xa8FahaNxbLnNi5qBaVUiS0+TQE5UKwRNTQYRXcz
- WA2kXPoEEzgwgmhOeQZpgfyfVA==
-X-Google-Smtp-Source: AMrXdXszzCjklGnfpRwtfSRuYLCAYmB6iRZ01GByyDPZYpy5kgOcT+REOcuLIRSEsB2bdG+WQDpvAw==
-X-Received: by 2002:a5d:5965:0:b0:27f:1c70:58c3 with SMTP id
- e37-20020a5d5965000000b0027f1c7058c3mr22851191wri.24.1672922995942; 
- Thu, 05 Jan 2023 04:49:55 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- c11-20020a5d4ccb000000b002b6bcc0b64dsm382668wrt.4.2023.01.05.04.49.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 04:49:55 -0800 (PST)
-Date: Thu, 5 Jan 2023 13:49:53 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH] drm/msm: Add MSM_SUBMIT_BO_NO_IMPLICIT
-Message-ID: <Y7bHcRAvk6GgMi5F@phenom.ffwll.local>
-Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Chia-I Wu <olvaffe@gmail.com>,
- Rob Clark <robdclark@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- open list <linux-kernel@vger.kernel.org>
-References: <20221206192123.661448-1-robdclark@gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2CRm7bk9DTpojIaX1q1B2ElokleMNyF1cDSFRq+rJv0=;
+ b=23izt/y6ZZWdYjL7cAl5P+qummkKc0ICKXsnVE6kGQ4i6Oz6CKOK2SHYHz5qp5NoSN
+ fU0Z2GaEgMUv1h2gieIshhr+5v07Kn5zDv27kWzDULK5PA0LK3gyYpXdPueq7stglGJ/
+ fvEaeQmRo+Ixy6M2lqODiSKDUDhEwvT3SG1nRT9EllKVCtgR8GIFP/jk4Rj7AzqfBhkE
+ vJlOT+Xq5tIgwTZ2wCcZJ2ySYDZqHrJz1UbT/rTxYOSUiUBnKQrCpUFFh99K22lB63Io
+ IeWFKgVdItpEvEoTT5cn6+XE565t8z4cP6cLvWCZpFjLwocefnbhcm65JCThW/yhNAsW
+ vgrg==
+X-Gm-Message-State: AFqh2kr/hxiRhoF6K/H2DtJ57prEXLua1zxIPZ6evE3jtylpdm1iWm/e
+ Oyfq7hWMFpB8IBpEE3uc7BRVIc6jtoy3271cTJ8ikQ==
+X-Google-Smtp-Source: AMrXdXtZxxI6MDy7cZcAA/lnlcaPsrREkbq/DfgvwxXLtUJMu6DSN3bZFEwUhdIu4emutckh5vADRqoxx6EPgi2hQe4=
+X-Received: by 2002:a05:6102:45b:b0:3cb:ebf:ba6e with SMTP id
+ e27-20020a056102045b00b003cb0ebfba6emr3275813vsq.54.1672923158126; Thu, 05
+ Jan 2023 04:52:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221206192123.661448-1-robdclark@gmail.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+References: <20230105052325.514970-1-yixie@google.com>
+ <Y7a2Viw/1RUNCGkD@phenom.ffwll.local>
+In-Reply-To: <Y7a2Viw/1RUNCGkD@phenom.ffwll.local>
+From: Yi Xie <yixie@google.com>
+Date: Thu, 5 Jan 2023 21:52:26 +0900
+Message-ID: <CAHf1YQ4AZoOd=Q7KVqb1gQm3=TtiS_8-uxFY93syov1AgUT=CQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/vkms: Add a DRM render node to vkms
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,99 +65,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: melissa.srw@gmail.com, hamohammed.sa@gmail.com,
+ dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
+ lepton@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 06, 2022 at 11:21:23AM -0800, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> In cases where implicit sync is used, it is still useful (for things
-> like sub-allocation, etc) to allow userspace to opt-out of implicit
-> sync on per-BO basis.
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/msm/msm_drv.c        |  3 ++-
->  drivers/gpu/drm/msm/msm_gem_submit.c | 11 +++++++++++
->  include/uapi/drm/msm_drm.h           |  4 +++-
->  3 files changed, 16 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index 017a512982a2..e0e1199a822f 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -45,9 +45,10 @@
->   * - 1.7.0 - Add MSM_PARAM_SUSPENDS to access suspend count
->   * - 1.8.0 - Add MSM_BO_CACHED_COHERENT for supported GPUs (a6xx)
->   * - 1.9.0 - Add MSM_SUBMIT_FENCE_SN_IN
-> + * - 1.10.0 - Add MSM_SUBMIT_BO_NO_IMPLICIT
->   */
->  #define MSM_VERSION_MAJOR	1
-> -#define MSM_VERSION_MINOR	9
-> +#define MSM_VERSION_MINOR	10
->  #define MSM_VERSION_PATCHLEVEL	0
->  
->  static const struct drm_mode_config_funcs mode_config_funcs = {
-> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-> index eb3536e3d66a..8bad07a04f85 100644
-> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
-> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-> @@ -334,9 +334,20 @@ static int submit_fence_sync(struct msm_gem_submit *submit, bool no_implicit)
->  		if (ret)
->  			return ret;
->  
-> +		/* If userspace has determined that explicit fencing is
-> +		 * used, it can disable implicit sync on the entire
-> +		 * submit:
-> +		 */
->  		if (no_implicit)
->  			continue;
->  
-> +		/* Otherwise userspace can ask for implicit sync to be
-> +		 * disabled on specific buffers.  This is useful for internal
-> +		 * usermode driver managed buffers, suballocation, etc.
-> +		 */
-> +		if (submit->bos[i].flags & MSM_SUBMIT_BO_NO_IMPLICIT)
-> +			continue;
-> +
->  		ret = drm_sched_job_add_implicit_dependencies(&submit->base,
+> This doesn't sound like a good idea to me. Devices without render
+> capabilities should not fake it.
+>
+> User-space (e.g. wlroots) relies on "no render node" to enable
+> software rendering (Pixman instead of GL).
 
-Won't this break shrinkers and fun stuff like that? It's why we added the
-new USAGE_OTHER fence slot at least, and also why I wonder whether we
-shouldn't push this into the helper to make the right call. Every driver
-kinda needs the same wheel.
--Daniel
+We have virtgpu driver that exports a render node even when virgl is
+not supported.
+Mesa has special code path to enable software rendering on it:
+https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/egl/drivers/dri2/platform_device.c#L296
+We can do the same for vkms to force software rendering.
 
->  							      obj,
->  							      write);
-> diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-> index f54b48ef6a2d..329100016e7c 100644
-> --- a/include/uapi/drm/msm_drm.h
-> +++ b/include/uapi/drm/msm_drm.h
-> @@ -222,10 +222,12 @@ struct drm_msm_gem_submit_cmd {
->  #define MSM_SUBMIT_BO_READ             0x0001
->  #define MSM_SUBMIT_BO_WRITE            0x0002
->  #define MSM_SUBMIT_BO_DUMP             0x0004
-> +#define MSM_SUBMIT_BO_NO_IMPLICIT      0x0008
->  
->  #define MSM_SUBMIT_BO_FLAGS            (MSM_SUBMIT_BO_READ | \
->  					MSM_SUBMIT_BO_WRITE | \
-> -					MSM_SUBMIT_BO_DUMP)
-> +					MSM_SUBMIT_BO_DUMP | \
-> +					MSM_SUBMIT_BO_NO_IMPLICIT)
->  
->  struct drm_msm_gem_submit_bo {
->  	__u32 flags;          /* in, mask of MSM_SUBMIT_BO_x */
-> -- 
-> 2.38.1
-> 
+On Thu, Jan 5, 2023 at 8:36 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Thu, Jan 05, 2023 at 02:23:25PM +0900, Yi Xie wrote:
+> > Some libraries including Mesa and virglrenderer require a render node to
+> > fully function. By adding a render node to vkms those libraries will
+> > work properly, supporting use cases like running crosvm with virgl GPU
+> > support via llvmpipe on a headless virtual machine.
+>
+> This is what vgem exists for. More or less at least ... I'm honestly not
+> really understanding what you're trying to fix here, it sounds a bit like
+> userspace being stupid.
+> -Daniel
+The problem with vgem is that it crashes llvmpipe while working with vkms.
+Looks like it's due to the same reason as described in this thread in Mesa:
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/5830
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Importing buffers allocated by vgem to vkms seems to be unexpected and
+causes the crash. If we create a render node on vkms then llvmpipe will use
+vkms to allocate buffers and it no longer crashes.
+
+> >
+> > Signed-off-by: Yi Xie <yixie@google.com>
+> > ---
+> >  drivers/gpu/drm/vkms/vkms_drv.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> > index 293dbca50c31..8eea5d4dece8 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> > @@ -113,7 +113,7 @@ static void vkms_config_debugfs_init(struct drm_minor *minor)
+> >  }
+> >
+> >  static const struct drm_driver vkms_driver = {
+> > -     .driver_features        = DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_GEM,
+> > +     .driver_features        = DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_GEM | DRIVER_RENDER,
+> >       .release                = vkms_release,
+> >       .fops                   = &vkms_driver_fops,
+> >       DRM_GEM_SHMEM_DRIVER_OPS,
+> > --
+> > 2.39.0.314.g84b9a713c41-goog
+> >
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
