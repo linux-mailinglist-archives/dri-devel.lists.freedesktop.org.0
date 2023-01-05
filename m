@@ -1,49 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302A565E65B
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 09:01:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D4965E674
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Jan 2023 09:07:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFE9510E6BE;
-	Thu,  5 Jan 2023 08:01:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44FBA10E6BF;
+	Thu,  5 Jan 2023 08:07:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11DDA10E6BE;
- Thu,  5 Jan 2023 08:01:36 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16C0410E6BF
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Jan 2023 08:07:38 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 296C1B81A0C;
- Thu,  5 Jan 2023 08:01:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 642C0C433D2;
- Thu,  5 Jan 2023 08:01:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1672905693;
- bh=LVyg+cyK1Nc4wdQGz1UH28N+2JKAjcGMMQTRSam2CZc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RdxU6w79YsogRTknVUR0WvT/1ZXI3HgeJ9+xsx/kuqWWYbqR13bKZ/aFCwdMi4hW+
- bosdR/Envtwv+qzgqmbsrCdoL1KI9WFwXKutMu9JO0rQz+VA9R9a9KqV+UOV9SROjv
- YaA1ytlYVWQwpCSjgvFjjQnIBXP9DqRHyB2xyWwk=
-Date: Thu, 5 Jan 2023 09:01:31 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Dragos-Marian Panait <dragos.panait@windriver.com>
-Subject: Re: [PATCH 4.19 1/1] drm/amdkfd: Check for null pointer after
- calling kmemdup
-Message-ID: <Y7aD2zJq6jBWUxbO@kroah.com>
-References: <20230103184308.511448-1-dragos.panait@windriver.com>
- <20230103184308.511448-2-dragos.panait@windriver.com>
- <Y7Vz8mm0X+1h844b@kroah.com>
- <a8c6859f-5876-08cf-5949-ecf88e6bb528@amd.com>
- <CADnq5_Ons+yMyGxcSaFaOb5uNXooHgH_4N=ThHOGYaW9Pb_Q8A@mail.gmail.com>
- <Y7WRq7MaFaIJ2uGF@kroah.com>
- <7c0cb998-d714-235e-8c2b-efe0315eed7f@windriver.com>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9E8AF6B7DC;
+ Thu,  5 Jan 2023 08:07:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1672906056; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aZyy1Qep+m3vtWrm4eFSK9t8nOLoqtSHodk3Ft/dxXs=;
+ b=hT6xHfP/ZtNaWU7/1QNZKxGhB+bQthBrxXTKMxHVnTWM/FYEijgMzb9qfA7iPtvf4jLq+C
+ zjjyFDJAas466tBWkPYBriXlp91cunN5ojWjAmghmuF4uyHfULTrzDs4hMxqgWmxVuzwkn
+ gPbFzZTS2sWCjfe+19Ws+7/Rjf0RlYo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1672906056;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aZyy1Qep+m3vtWrm4eFSK9t8nOLoqtSHodk3Ft/dxXs=;
+ b=N29YK9ASSLwT3LB3VNlqSKmg1dmiPlyS8+J7XP7Kelja8Y83onCRduxPnefusuBuZL6qYc
+ lr3sa7ro42JaWECA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6679713338;
+ Thu,  5 Jan 2023 08:07:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id eU71F0iFtmNZEQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 05 Jan 2023 08:07:36 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: mripard@kernel.org, emma@anholt.net, airlied@gmail.com, daniel@ffwll.ch
+Subject: [PATCH] drm/vc4: Start console with 32 bpp / 24 depth
+Date: Thu,  5 Jan 2023 09:07:34 +0100
+Message-Id: <20230105080734.23554-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7c0cb998-d714-235e-8c2b-efe0315eed7f@windriver.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,70 +64,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Zhou <David1.Zhou@amd.com>, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- stable@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 04, 2023 at 08:05:57PM +0200, Dragos-Marian Panait wrote:
-> 
-> On 04.01.2023 16:48, Greg KH wrote:
-> > On Wed, Jan 04, 2023 at 09:35:03AM -0500, Alex Deucher wrote:
-> > > On Wed, Jan 4, 2023 at 8:23 AM Christian K�nig <christian.koenig@amd.com> wrote:
-> > > > Am 04.01.23 um 13:41 schrieb Greg KH:
-> > > > > On Tue, Jan 03, 2023 at 08:43:08PM +0200, Dragos-Marian Panait wrote:
-> > > > > > From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> > > > > > 
-> > > > > > [ Upstream commit abfaf0eee97925905e742aa3b0b72e04a918fa9e ]
-> > > > > > 
-> > > > > > As the possible failure of the allocation, kmemdup() may return NULL
-> > > > > > pointer.
-> > > > > > Therefore, it should be better to check the 'props2' in order to prevent
-> > > > > > the dereference of NULL pointer.
-> > > > > > 
-> > > > > > Fixes: 3a87177eb141 ("drm/amdkfd: Add topology support for dGPUs")
-> > > > > > Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> > > > > > Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-> > > > > > Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
-> > > > > > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> > > > > > Signed-off-by: Dragos-Marian Panait <dragos.panait@windriver.com>
-> > > > > > ---
-> > > > > >    drivers/gpu/drm/amd/amdkfd/kfd_crat.c | 3 +++
-> > > > > >    1 file changed, 3 insertions(+)
-> > > > > For obvious reasons, I can't take a patch for 4.19.y and not newer
-> > > > > kernel releases, right?
-> > > > > 
-> > > > > Please provide backports for all kernels if you really need to see this
-> > > > > merged.  And note, it's not a real bug at all, and given that a CVE was
-> > > > > allocated for it that makes me want to even more reject it to show the
-> > > > > whole folly of that mess.
-> > > > Well as far as I can see this is nonsense to back port.
-> > > > 
-> > > > The code in question is only used only once during driver load and then
-> > > > never again, that exactly this allocation fails while tons of other are
-> > > > made before and after is extremely unlikely.
-> > > > 
-> > > > It's nice to have it fixed in newer kernels, but not worth a backport
-> > > > and certainly not stuff for a CVE.
-> > > It's already fixed in Linus' tree:
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=abfaf0eee97925905e742aa3b0b72e04a918fa9e
-> > Yes, that's what the above commit shows...
-> > 
-> > confused,
-> > 
-> > greg k-h
-> Just for completeness, I also sent out patches for 5.4 and 5.10 stable
-> branches.
-> 5.15 stable branch already has this change: https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-5.15.y&id=5609b7803947eea1711516dd8659c7ed39f5a868
+Invoke the generic console emulation with a 32 bits per pixel. The
+preferred color depth is 24, so the current value of 16 bpp is too
+small. This results in the following error message
 
-Again, this is not a real bug and someone needs to go and invalidate
-that CVE so you don't have to worry about it anymore.  I suggest that
-you do that if your company cares about tracking CVEs.
+vc4-drm gpu: [drm] bpp/depth value of 16/24 not supported
+vc4-drm gpu: [drm] No compatible format found
+------------[ cut here ]------------
+WARNING: CPU: 2 PID: 66 at drivers/gpu/drm/drm_atomic.c:1604 __drm_atomic_helper_set_config+0x2e8/0x314 [drm]
 
-thanks,
+The problem has been present for a long, but has only now surfaced
+as commit 37c90d589dc0 ("drm/fb-helper: Fix single-probe color-format
+selection") attempts to improve selection of the color format.
 
-greg k-h
+See [1] for the initial bug report.
+
+Reported-by: Maíra Canal <mcanal@igalia.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Tested-by: Maíra Canal <mcanal@igalia.com>
+Fixes: 37c90d589dc0 ("drm/fb-helper: Fix single-probe color-format selection")
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Link: https://lore.kernel.org/dri-devel/20230102112927.26565-1-tzimmermann@suse.de/T/#mb09eb6f615f4b0302c78f250b4241ee48d1915f8 # 1
+---
+ drivers/gpu/drm/vc4/vc4_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index 0ccaee57fe9a..64423b79982f 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -387,7 +387,7 @@ static int vc4_drm_bind(struct device *dev)
+ 	if (ret < 0)
+ 		goto unbind_all;
+ 
+-	drm_fbdev_generic_setup(drm, 16);
++	drm_fbdev_generic_setup(drm, 32);
+ 
+ 	return 0;
+ 
+-- 
+2.39.0
+
