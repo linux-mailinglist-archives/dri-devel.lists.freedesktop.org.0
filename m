@@ -1,58 +1,108 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C94D65FCAA
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 09:23:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01ED265FC9F
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 09:23:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18EE610E50F;
-	Fri,  6 Jan 2023 08:23:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6467510E0FF;
+	Fri,  6 Jan 2023 08:23:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6D9210E824
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 01:55:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1672970115; x=1704506115;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=SetiCr7n9O1dWrcaUGSsTlVmkOPS0kCXmINa3t7Wa0k=;
- b=luCDgtWJAupasygWQXLpgd+rEfUb+j2rBeos6+m+KMHnIwGDxdMXre3W
- UxMzPl46MF/HoopYnihSWpqpJ2XaAokS5HKGxnYIowCeKHKfvJy/aVkyQ
- PbizHQtlM/y1bNjDMufmg4UOMWNtoOmDM3fCISayFijf4p15iT6A2c0EB
- sJoEZhke4+mi1qqB67lY2s5OXQlDuMVsHymYEJg5ivui1+z83Y4ne6xsS
- Z++6915X4VW2xoYd5pp3fgStkhn1/k5fd3sj97ItaqtMCUHfjV/NtBOZD
- /jiz80YUFZLso9lnF9DFDtO9wdILk9hmUIKZpEVjYSD1RaEHR45bBDaAv Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="349591694"
-X-IronPort-AV: E=Sophos;i="5.96,303,1665471600"; d="scan'208";a="349591694"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2023 17:55:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="655793616"
-X-IronPort-AV: E=Sophos;i="5.96,303,1665471600"; d="scan'208";a="655793616"
-Received: from lkp-server02.sh.intel.com (HELO f1920e93ebb5) ([10.239.97.151])
- by orsmga002.jf.intel.com with ESMTP; 05 Jan 2023 17:55:07 -0800
-Received: from kbuild by f1920e93ebb5 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pDbwo-0002pR-0S;
- Fri, 06 Jan 2023 01:55:06 +0000
-Date: Fri, 6 Jan 2023 09:54:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Siddh Raman Pant <code@siddh.me>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Simon Ser <contact@emersion.fr>, Jim Cromie <jim.cromie@gmail.com>
-Subject: Re: [PATCH v4 01/10] drm/print: Fix and add support for NULL as
- first argument in drm_* macros
-Message-ID: <202301060952.mup8Ln5X-lkp@intel.com>
-References: <7acc7401b5ad0aec973948822bfa906a9615c43e.1672957022.git.code@siddh.me>
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+ (mail-he1eur04on2047.outbound.protection.outlook.com [40.107.7.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C1B510E2B6
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 05:50:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ApfH6hh0zSCYqaFkWA93CcXFWD1DO6A5n4il/bnU0yqjQ1Nzog81KJN9CK1v89N0FJVvRQ+9moVwfNj8HoSv1fXR2gGkjX3Tcp2430gwk5nO/4OzlDtbxFgTSlQkLiJTqpk8UFiokZvxu/3H2E65YnEU5ol6BIPQxdJU1EGmRDBwOrPDxLPqGSFZ+2WvwGt7+6K+ZAJBQ9bEwmshNx5OA0WnxRYS5X+tPi76ueaLk+0OX1Ksh73DRnm63Fy85R3BrIs+Ieqh56K63wSWt4BO7n+IBFM4OaB/+rbeNvFduRwjj0Xej5ZHzEKozluAyBHxVbpRwGoXKVCuOicZX5lmGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QKCuRn8cptq0WsW7Eq2RPwQx0dCe5xPm/7Isd66NSRo=;
+ b=GSMizcgjHC/DXn7Cs4blgmzb3vRaqto+lZeRzNy6eeVAbN16fqN+hWetbwTRNj8+qdXkHaptTHYre4+rx1LfPc7C9MIvPXnXGZhpDuVaiNgj5kR9sqy/NQcVKIJlySa8Jyjv17vLCLZ+k2CiIfQYjn+OPug0RaGoJEfUJNmBTpceUD/pNpFQuPubz8BN6sCff7kfSTIoCB8+c0sjBTxfOgwhqKdXMxEKGTPnVZMFPjZXPRh/nQDwlXWVQ6ggN8RGe8qPdanHlleh0RaLLYiW8o3OdZuHhCJLMa8K6NC5cvmky7ZXr5SQ44skXLhUd2QTobfts6ocZ/2NRHjK+rTw6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QKCuRn8cptq0WsW7Eq2RPwQx0dCe5xPm/7Isd66NSRo=;
+ b=jg8ls0CflpvNcvrAyHx7MtpPM9mWvfAVmFk60ZGfm6EaSn6a/oxWEhWRyHdxm7VE2zDO60495R9lkQ1HrT9In/TOXCr4hO2Lse1BB7eclhgYncY3X0FUyIj4yAfanrG32Gq4aiuiosySsFj+hjr1HiyEmMh5l+LuzYy2GBD7iOA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by DB9PR04MB9500.eurprd04.prod.outlook.com (2603:10a6:10:361::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Fri, 6 Jan
+ 2023 05:50:32 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::5098:b45:626e:a5c1]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::5098:b45:626e:a5c1%7]) with mapi id 15.20.5944.019; Fri, 6 Jan 2023
+ 05:50:31 +0000
+From: Liu Ying <victor.liu@nxp.com>
+To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v14 5/6] drm/imx: Introduce i.MX8qm/qxp DPU DRM
+Date: Fri,  6 Jan 2023 13:50:55 +0800
+Message-Id: <20230106055056.2883302-6-victor.liu@nxp.com>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20230106055056.2883302-1-victor.liu@nxp.com>
+References: <20230106055056.2883302-1-victor.liu@nxp.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SGXP274CA0001.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::13)
+ To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="OCS9MZcOQFoTHvxM"
-Content-Disposition: inline
-In-Reply-To: <7acc7401b5ad0aec973948822bfa906a9615c43e.1672957022.git.code@siddh.me>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DB9PR04MB9500:EE_
+X-MS-Office365-Filtering-Correlation-Id: cb94fb24-a7b3-4638-8d30-08daefa9ebcd
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OFbnLPvM96pP02wBIncwrioOKi+OU3XPpCLU/KtZYxd5SrRwo798HJMjuqNxzJ3sQhkI175vMJVDIiUs9CFQUzwaq2ucljaZ9FkPBrBsIWqJpFZ1MFVxoATl8XMjN0yLbtpUZA/+D/krDsDWhtP9yI81yak71IIpOio+ZkeiFEzoZeZRiS/kuW3QCXeBaTyQWOnUSDVzkIoJgrgbjXjau2RNgCh4GkH9lYwiatcDLhz95KToZdWvYLAH9diMhM7nmSuYwl64dNYCmklQOmxVlCE3dTpPrGg/s2mYjQBNwErIUvpay03AcYoVXncxe+DswWr0Wyo37hMwJ2TG424G9TifL9xGn2/cisctf+/qGy9/Viu9u6McHrvG2WYX7u9/YKAgd/dJScDjXAOV3ttAVlmweUCPW3LCzgf1VjEUMz7qEtgkzr4eC9P6D1G1mkgnXQHzIR6ijf/lZ6yRaUNoPHPDy7VRsynFrbhxnTj0PwWqzaSwwn3E5KHA0wqyw6LPbtZ1M4FFZuxyP7nD0+zTrPnV0qmLlacebJ/1UEtS6awu3p/UnPkfWTupWjwozEZES4zIHSDGo5LeJwiTzK0TnhTiQuFpz3Gd5LLBZmyu8yTfi9zUOtAKVUCbtoM6QrQWXl7/NuIp7tutNOGER5neYBzvupk2EtzGZm8ixbptcGncpXQHMFLQjzHaXZmE5NkypfeLyTZffu4URjw4s0j7v2UcvWz56RiqNQRGCd1eTLm4oH8ld5w7VHzI4w3nWm5M
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(346002)(376002)(39860400002)(366004)(396003)(136003)(451199015)(186003)(2616005)(26005)(83380400001)(86362001)(38350700002)(36756003)(6512007)(38100700002)(1076003)(30864003)(2906002)(4326008)(5660300002)(66946007)(8936002)(41300700001)(7416002)(8676002)(66476007)(316002)(66556008)(6666004)(478600001)(6486002)(966005)(52116002)(6506007)(559001)(579004)(309714004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MHGCR7k9YHmbxBPJVZp3s6K1ikRLJ3b4UJGOv09/9kqW5ZCOVnu9RgxDfrgi?=
+ =?us-ascii?Q?jG5fSwhE659tsBjKyhlOla0M9E3QwmdE54Ix2Y5GZ4KXrxSSWYnklt8d5MaF?=
+ =?us-ascii?Q?FB2CxnEMaJm3DD3uozrjJODZZBOUOYJwOQXuK5KaGu80uG/bnXnOdEn9te28?=
+ =?us-ascii?Q?LuRTRqSyzBojwgj6UaFHkyKIK4O9b7W/n0mFCq19wJ/zVgSXoRX7KXXuf3Cw?=
+ =?us-ascii?Q?JYR+vxnHBLm08XFBXNvFb7UvJIPBk5b/GBLU+QByJhWp7kjNgBGsfvnb+vyf?=
+ =?us-ascii?Q?XOBG/Cq4PzxF9ZdfBeUdI+G/vlspCSNxmuwlglEtKrkGSDw57Tg4BEobQDrS?=
+ =?us-ascii?Q?pef/4leiSBrKbUNnBCOZ1JmcymSTtDFUOlKbcl5w3b/m9QdAJUKGqBT9Dtf0?=
+ =?us-ascii?Q?vwnmyX093BbgeZqGK6pmJsTjhua3MoHuAMmCe/2CW7tZFaJPMrsRiKBDyvPN?=
+ =?us-ascii?Q?c/NNuHRPmLzfiXdxvJ7FIWuUMe7Rm5WSyiFs8CrctzaWFlnZJ3MHk6zkJZeG?=
+ =?us-ascii?Q?E5eTvyMHqcPBPnMI8Ky/0utZOR58rpJ215uDTWH1YfrCa61GvuWwz0MjiOdB?=
+ =?us-ascii?Q?wCdh9PlnYjMuzfy6lvMgILn1Bs5m6ThAvwi6adXdi3DQUzMh7RpAXvKAQdQj?=
+ =?us-ascii?Q?IciMAjZBOMn0ZnrlI30Z/XtnqhFG3JjVCTZVAF/7GFDhQ9ynqptQKhbOixy5?=
+ =?us-ascii?Q?38px7LRav5iihJF5dBiyRJMmy6TYKQRTH29LXwmJkJL6K7+mKHVpEwQ3DNgI?=
+ =?us-ascii?Q?kMVYX0rl7+oR3NTv2ucbPjUz2b5mJLodQBo51xTHS2mro5Smn0pRnvcfKKUO?=
+ =?us-ascii?Q?wj6C62HDVveCtP/9bcwpCdY6hbm6asu6th84No4OEdGEcwDoAyZiT6DrkmV8?=
+ =?us-ascii?Q?9Y/TRP2lzMaTyOL1yxLzi06jRpbQaHP6d/ejT5MIT/P2xcTJa2Vtp7NuCp6m?=
+ =?us-ascii?Q?l8rHc5OzUyR2Ec69KKVrbyq/XXMEP+dnlgb94ebiugxYN6ssU2TqrkhfZPG3?=
+ =?us-ascii?Q?BPHA2bP1mG0iFth7eL4UQUSV4V5fiIA/VaJAZyTzI62beTr8P0QxVJXcHa7j?=
+ =?us-ascii?Q?kFKBfVL5yUIzcmMI6w0OWWrDW/H4V1gvL5A9iSTEXF/dwCnTnYPecTdl+1RM?=
+ =?us-ascii?Q?VV+/fQueDjnJWMkS9ZJUwc22ZxpXiqLDFT3dAKlviQS53RanMP0rObXSiDQJ?=
+ =?us-ascii?Q?Z/+JTVBcckiCaTSk6SiEHBWhtwoL6TAIN8aJX1KiGB1gW4ZDYsZ2K6SAYvxF?=
+ =?us-ascii?Q?LdpQ+JLTNGI86RhdW4yldxl3jxaTO/5EoxeZasAFwxrcBFADpbR4jbKcl0c9?=
+ =?us-ascii?Q?B+C3s64+snBPjR3pno0H4Pd0wWgE937MEUz2Aovk2QMTf/XyEwmCa3+BpBJg?=
+ =?us-ascii?Q?a1VBF++astzyFQokdpqypbMHWGLGzNPVDcC4ytAKNkdJq8YFP+LZMjY+AFfU?=
+ =?us-ascii?Q?Y3mJgH8M4zBUHJ4hOOvHROjkakZqu+41P2uq2NC5XD7o1kBpAYKIMp4rz54M?=
+ =?us-ascii?Q?Z0VZw/yPEc9fMHttjIaX0Mq0RKhcl8UfR33tav3n+4UNkUWQgS8s8iTolQAY?=
+ =?us-ascii?Q?b72kKiL+zxGi5wEQwUT8YievD5uf2LUAQuBaXAVN?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb94fb24-a7b3-4638-8d30-08daefa9ebcd
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2023 05:50:31.7691 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /rLGUqiZpVJ2x8ppjW/yvEJBS7CoKhaIhjnx+KFvv3+Dm+ra5wMIVbKM89i4aAb0PSSJp3fQ94eGz8x6dapV1g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9500
 X-Mailman-Approved-At: Fri, 06 Jan 2023 08:23:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,14719 +116,10220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, oe-kbuild-all@lists.linux.dev
+Cc: tzimmermann@suse.de, marcel.ziswiler@toradex.com, s.hauer@pengutronix.de,
+ robh+dt@kernel.org, linux-imx@nxp.com, krzysztof.kozlowski+dt@linaro.org,
+ laurentiu.palcu@oss.nxp.com, guido.gunther@puri.sm, shawnguo@kernel.org,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch introduces i.MX8qm/qxp Display Processing Unit(DPU) DRM support.
 
---OCS9MZcOQFoTHvxM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+DPU is comprised of two main components that include a blit engine for
+2D graphics accelerations(with composition support) and a display
+controller for display output processing, as well as a command sequencer.
+Outside of DPU, optional prefetch engines, a.k.a, Prefetch Resolve
+Gasket(PRG) and Display Prefetch Resolve(DPR), can fetch data from memory
+prior to some DPU fetchunits of blit engine and display controller.  The
+prefetch engines support reading linear formats and resolving Vivante GPU
+tile formats.
 
-Hi Siddh,
+This patch adds kernel modesetting support for the display controller part.
+The driver supports two CRTCs per display controller, planes backed by
+four fetchunits(decode0/1, fetchlayer, fetchwarp), fetchunit allocation
+logic for the two CRTCs, prefetch engines(with tile resolving supported),
+plane upscaling/deinterlacing/yuv2rgb CSC/alpha blending and CRTC gamma
+correction.  The registers of the controller is accessed without command
+sequencer involved, instead just by using CPU.
 
-Thank you for the patch! Perhaps something to improve:
+Reference manual can be found at:
+https://www.nxp.com/webapp/Download?colCode=IMX8DQXPRM
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.2-rc2 next-20230105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Reviewed-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+---
+v13->v14:
+* Rebase upto the latest drm-misc-next branch(v6.1-rc6 based).
+* Include drm_fbdev_generic.h in dpu_drv.c due to the rebase.
+* Fix dpu drm driver suspend/resume by properly get drm device through
+  dev_get_drvdata().
+* Use pm_ptr() macro for dpu core driver PM operations.
+* Use pm_sleep_ptr() macro for dpu drm driver PM operations.
+* Use DEFINE_SIMPLE_DEV_PM_OPS() macro to define dpu drm driver PM operations,
+  instead of SIMPLE_DEV_PM_OPS().
+* Update year of Copyright.
+* Add SoC series name 'i.MX8'/'IMX8'/'imx8' to dpu driver module decription,
+  Kconfig name, dpu driver names and dpu driver object name.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Siddh-Raman-Pant/drm-print-Fix-and-add-support-for-NULL-as-first-argument-in-drm_-macros/20230106-062743
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/7acc7401b5ad0aec973948822bfa906a9615c43e.1672957022.git.code%40siddh.me
-patch subject: [PATCH v4 01/10] drm/print: Fix and add support for NULL as first argument in drm_* macros
-config: ia64-allyesconfig
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/8b796b03036f712417f8a87f85cdf9ac66d736ac
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Siddh-Raman-Pant/drm-print-Fix-and-add-support-for-NULL-as-first-argument-in-drm_-macros/20230106-062743
-        git checkout 8b796b03036f712417f8a87f85cdf9ac66d736ac
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/gpu/drm/
+v12->v13:
+* Drop 'drm->irq_enabled = true;' to fix a potential build break
+  reported by 'kernel test robot <lkp@intel.com>'. drm->irq_enabled
+  should not be used by imx-dpu drm as it is only used by legacy
+  drivers with userspace modesetting.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+v11->v12:
+* Rebase upon v6.1-rc1.
+* Minor update on Kconfigs, struct names and macro names due to the rebase.
 
-All warnings (new ones prefixed by >>):
+v10->v11:
+* Rebase upon v6.0-rc1.
+* Include drm_blend.h and drm_framebuffer.h in dpu-kms.c and dpu-plane.c
+  to fix build errors due to the rebase.
+* Fix a checkpatch warning for dpu-crtc.c.
+* Properly use dev_err_probe() to return it's return value directly where
+  possible.
 
-   In file included from drivers/gpu/drm/drm_atomic.c:43:
-   drivers/gpu/drm/drm_atomic.c: In function 'drm_crtc_commit_wait':
-   include/drm/drm_print.h:482:25: error: implicit declaration of function '__drm_get_dev_ptr'; did you mean '___drm_get_dev_ptr'? [-Werror=implicit-function-declaration]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:495:33: note: in expansion of macro '__drm_get_dev_ptr'
-     495 |         struct device *__dev_ = __drm_get_dev_ptr(drm);                 \
-         |                                 ^~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:513:9: note: in expansion of macro '__drm_printk'
-     513 |         __drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:79:17: note: in expansion of macro 'drm_err'
-      79 |                 drm_err(commit->crtc->dev, "hw_done timed out\n");
-         |                 ^~~~~~~
->> include/drm/drm_print.h:480:9: warning: initialization of 'struct device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     480 |         _Generic((drm),                                                 \
-         |         ^~~~~~~~
-   include/drm/drm_print.h:495:33: note: in expansion of macro '__drm_get_dev_ptr'
-     495 |         struct device *__dev_ = __drm_get_dev_ptr(drm);                 \
-         |                                 ^~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:513:9: note: in expansion of macro '__drm_printk'
-     513 |         __drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:79:17: note: in expansion of macro 'drm_err'
-      79 |                 drm_err(commit->crtc->dev, "hw_done timed out\n");
-         |                 ^~~~~~~
->> include/drm/drm_print.h:480:9: warning: initialization of 'struct device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     480 |         _Generic((drm),                                                 \
-         |         ^~~~~~~~
-   include/drm/drm_print.h:495:33: note: in expansion of macro '__drm_get_dev_ptr'
-     495 |         struct device *__dev_ = __drm_get_dev_ptr(drm);                 \
-         |                                 ^~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:513:9: note: in expansion of macro '__drm_printk'
-     513 |         __drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:89:17: note: in expansion of macro 'drm_err'
-      89 |                 drm_err(commit->crtc->dev, "flip_done timed out\n");
-         |                 ^~~~~~~
-   drivers/gpu/drm/drm_atomic.c: In function 'drm_atomic_state_init':
->> include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:145:9: note: in expansion of macro 'drm_dbg_atomic'
-     145 |         drm_dbg_atomic(dev, "Allocated atomic state %p\n", state);
-         |         ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/drm_atomic.c: In function 'drm_atomic_state_default_clear':
->> include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:196:9: note: in expansion of macro 'drm_dbg_atomic'
-     196 |         drm_dbg_atomic(dev, "Clearing atomic state %p\n", state);
-         |         ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/drm_atomic.c: In function '__drm_atomic_state_free':
->> include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:306:9: note: in expansion of macro 'drm_dbg_atomic'
-     306 |         drm_dbg_atomic(state->dev, "Freeing atomic state %p\n", state);
-         |         ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/drm_atomic.c: In function 'drm_atomic_get_crtc_state':
->> include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:363:9: note: in expansion of macro 'drm_dbg_atomic'
-     363 |         drm_dbg_atomic(state->dev, "Added [CRTC:%d:%s] %p state to %p\n",
-         |         ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/drm_atomic.c: In function 'drm_atomic_crtc_check':
->> include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:384:17: note: in expansion of macro 'drm_dbg_atomic'
-     384 |                 drm_dbg_atomic(crtc->dev,
-         |                 ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
->> include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:396:17: note: in expansion of macro 'drm_dbg_atomic'
-     396 |                 drm_dbg_atomic(crtc->dev,
-         |                 ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
->> include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:404:17: note: in expansion of macro 'drm_dbg_atomic'
-     404 |                 drm_dbg_atomic(crtc->dev,
-         |                 ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
->> include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:422:17: note: in expansion of macro 'drm_dbg_atomic'
-     422 |                 drm_dbg_atomic(crtc->dev,
-         |                 ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/drm_atomic.c: In function 'drm_atomic_connector_check':
->> include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:469:17: note: in expansion of macro 'drm_dbg_atomic'
-     469 |                 drm_dbg_atomic(connector->dev,
-         |                 ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
->> include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:480:17: note: in expansion of macro 'drm_dbg_atomic'
-     480 |                 drm_dbg_atomic(connector->dev,
-         |                 ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
->> include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:489:25: note: in expansion of macro 'drm_dbg_atomic'
-     489 |                         drm_dbg_atomic(connector->dev,
-         |                         ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/drm_atomic.c: In function 'drm_atomic_get_plane_state':
->> include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:549:9: note: in expansion of macro 'drm_dbg_atomic'
-     549 |         drm_dbg_atomic(plane->dev, "Added [PLANE:%d:%s] %p state to %p\n",
-         |         ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/drm_atomic.c: In function 'drm_atomic_plane_check':
->> include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:606:17: note: in expansion of macro 'drm_dbg_atomic'
-     606 |                 drm_dbg_atomic(plane->dev, "[PLANE:%d:%s] CRTC set but no FB\n",
-         |                 ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
->> include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:610:17: note: in expansion of macro 'drm_dbg_atomic'
-     610 |                 drm_dbg_atomic(plane->dev, "[PLANE:%d:%s] FB set but no CRTC\n",
-         |                 ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
->> include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:621:17: note: in expansion of macro 'drm_dbg_atomic'
-     621 |                 drm_dbg_atomic(plane->dev,
-         |                 ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
->> include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:632:17: note: in expansion of macro 'drm_dbg_atomic'
-     632 |                 drm_dbg_atomic(plane->dev,
-         |                 ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
->> include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:644:17: note: in expansion of macro 'drm_dbg_atomic'
-     644 |                 drm_dbg_atomic(plane->dev,
-         |                 ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
->> include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:660:17: note: in expansion of macro 'drm_dbg_atomic'
-     660 |                 drm_dbg_atomic(plane->dev,
-         |                 ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
-   include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:687:25: note: in expansion of macro 'drm_dbg_atomic'
-     687 |                         drm_dbg_atomic(plane->dev,
-         |                         ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
-   include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:698:17: note: in expansion of macro 'drm_dbg_atomic'
-     698 |                 drm_dbg_atomic(plane->dev,
-         |                 ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/drm_atomic.c: In function 'drm_atomic_get_private_obj_state':
-   include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:866:9: note: in expansion of macro 'drm_dbg_atomic'
-     866 |         drm_dbg_atomic(state->dev,
-         |         ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/drm_atomic.c: In function 'drm_atomic_get_connector_state':
-   include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:1048:9: note: in expansion of macro 'drm_dbg_atomic'
-    1048 |         drm_dbg_atomic(connector->dev, "Added [CONNECTOR:%d:%s] %p state to %p\n",
-         |         ^~~~~~~~~~~~~~
-   include/drm/drm_print.h:360:63: note: expected 'const struct device *' but argument is of type 'int'
-     360 | void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-         |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/drm_atomic.c: In function 'drm_atomic_add_encoder_bridges':
-   include/drm/drm_print.h:482:25: warning: passing argument 2 of '__drm_dev_dbg' makes pointer from integer without a cast [-Wint-conversion]
-     482 |                         __drm_get_dev_ptr((drm), true),                 \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/drm/drm_print.h:411:29: note: in definition of macro 'drm_dev_dbg'
-     411 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-         |                             ^~~
-   include/drm/drm_print.h:542:21: note: in expansion of macro '__drm_get_dev_ptr'
-     542 |         drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic.c:1181:9: note: in expansion of macro 'drm_dbg_atomic'
-    1181 |         drm_dbg_atomic(encoder->dev,
-..
+v9->v10:
+* Make 'checkpatch.pl --strict' happier.
+* Add Laurentiu's R-b tag.
 
+v8->v9:
+* Use drm_atomic_get_new_plane_state() in dpu_plane_atomic_update(). (Laurentiu)
+* Drop getting DPU DT alias ID, as it is unused.
+* Get the DPR interrupt(dpr_wrap) by name.
 
-vim +480 include/drm/drm_print.h
+v7->v8:
+* Update dpu_plane_atomic_check() and dpu_plane_atomic_update(), due to DRM
+  plane helper functions API change(atomic_check and atomic_update) from DRM
+  atomic core.  Also, rename plane->state variables and relevant DPU plane
+  state variables in those two functions to reflect they are new states, like
+  the patch 'drm: Rename plane->state variables in atomic update and disable'
+  recently landed in drm-misc-next.
+* Replace drm_gem_fb_prepare_fb() with drm_gem_plane_helper_prepare_fb(),
+  due to DRM core API change.
+* Use 256byte DPR burst length for GPU standard tile and 128byte DPR burst
+  length for 32bpp GPU super tile to align with the latest version of internal
+  HW documention.
 
-   473	
-   474	/**
-   475	 * __drm_get_dev_ptr - Helper to get device pointer even if NULL is passed.
-   476	 *		       Primarily for use in drm_*() print macros, since they
-   477	 *		       need to handle NULL as the first argument passed.
-   478	 */
-   479	#define  __drm_get_dev_ptr(drm) \
- > 480		_Generic((drm),							\
-   481			struct drm_device * :					\
- > 482				__drm_get_dev_ptr((drm), true),			\
-   483			struct device * :					\
-   484				__drm_get_dev_ptr((drm), false),		\
-   485			default :						\
-   486				NULL						\
-   487		)
-   488	
-   489	/**
-   490	 * Helper for struct drm_device based logging (prefer this over struct device).
-   491	 * Also supports struct device ptr as an argument for edge cases.
-   492	 */
-   493	#define __drm_printk(drm, level, type, fmt, ...)			\
-   494	({									\
- > 495		struct device *__dev_ = __drm_get_dev_ptr(drm);			\
-   496		if (__dev_)							\
-   497			dev_##level##type(__dev_, "[drm] " fmt, ##__VA_ARGS__);	\
-   498		else								\
-   499			pr_##level##type("[drm] " fmt, ##__VA_ARGS__);		\
-   500	})
-   501	
-   502	
-   503	#define drm_info(drm, fmt, ...)					\
-   504		__drm_printk((drm), info,, fmt, ##__VA_ARGS__)
-   505	
-   506	#define drm_notice(drm, fmt, ...)				\
-   507		__drm_printk((drm), notice,, fmt, ##__VA_ARGS__)
-   508	
-   509	#define drm_warn(drm, fmt, ...)					\
-   510		__drm_printk((drm), warn,, fmt, ##__VA_ARGS__)
-   511	
-   512	#define drm_err(drm, fmt, ...)					\
-   513		__drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
-   514	
-   515	
-   516	#define drm_info_once(drm, fmt, ...)				\
-   517		__drm_printk((drm), info, _once, fmt, ##__VA_ARGS__)
-   518	
-   519	#define drm_notice_once(drm, fmt, ...)				\
-   520		__drm_printk((drm), notice, _once, fmt, ##__VA_ARGS__)
-   521	
-   522	#define drm_warn_once(drm, fmt, ...)				\
-   523		__drm_printk((drm), warn, _once, fmt, ##__VA_ARGS__)
-   524	
-   525	#define drm_err_once(drm, fmt, ...)				\
-   526		__drm_printk((drm), err, _once, "*ERROR* " fmt, ##__VA_ARGS__)
-   527	
-   528	
-   529	#define drm_err_ratelimited(drm, fmt, ...)				\
-   530		__drm_printk((drm), err, _ratelimited, "*ERROR* " fmt, ##__VA_ARGS__)
-   531	
-   532	
-   533	#define drm_dbg_core(drm, fmt, ...)					\
-   534		drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_CORE, fmt, ##__VA_ARGS__)
-   535	#define drm_dbg_driver(drm, fmt, ...)					\
- > 536		drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-   537	#define drm_dbg_kms(drm, fmt, ...)					\
-   538		drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_KMS, fmt, ##__VA_ARGS__)
-   539	#define drm_dbg_prime(drm, fmt, ...)					\
-   540		drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_PRIME, fmt, ##__VA_ARGS__)
-   541	#define drm_dbg_atomic(drm, fmt, ...)					\
-   542		drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-   543	#define drm_dbg_vbl(drm, fmt, ...)					\
-   544		drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_VBL, fmt, ##__VA_ARGS__)
-   545	#define drm_dbg_state(drm, fmt, ...)					\
-   546		drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_STATE, fmt, ##__VA_ARGS__)
-   547	#define drm_dbg_lease(drm, fmt, ...)					\
-   548		drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_LEASE, fmt, ##__VA_ARGS__)
-   549	#define drm_dbg_dp(drm, fmt, ...)					\
-   550		drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_DP, fmt, ##__VA_ARGS__)
-   551	#define drm_dbg_drmres(drm, fmt, ...)					\
-   552		drm_dev_dbg(__drm_get_dev_ptr(drm), DRM_UT_DRMRES, fmt, ##__VA_ARGS__)
-   553	
+v6->v7:
+* Fix return value of dpu_get_irqs() if platform_get_irq() fails. (Laurentiu)
+* Use the function array dpu_irq_handler[] to store individual DPU irq handlers.
+  (Laurentiu)
+* Call get/put() hooks directly to get/put DPU fetchunits for DPU plane groups.
+  (Laurentiu)
+* Shorten the names of individual DPU irq handlers by using DPU unit abbrev
+  names to make writing dpu_irq_handler[] easier.
 
+v5->v6:
+* Do not use macros where possible. (Laurentiu)
+* Break dpu_plane_atomic_check() into some smaller functions. (Laurentiu)
+* Address some minor comments from Laurentiu.
+* Add dpu_crtc_err() helper marco to tell dmesg which CRTC generates error.
+* Drop calling dev_set_drvdata() from dpu_drm_bind/unbind() as it is done
+  in dpu_drm_probe().
+* Some trivial tweaks.
+
+v4->v5:
+* Rebase up onto the latest drm-misc-next branch and remove the hook to
+  drm_atomic_helper_legacy_gamma_set(), because it was dropped by the newly
+  landed commit 'drm: automatic legacy gamma support'.
+* Remove a redundant blank line from dpu_plane_atomic_update().
+
+v3->v4:
+* No change.
+
+v2->v3:
+* Fix build warnings Reported-by: kernel test robot <lkp@intel.com>.
+* Drop build dependency on IMX_SCU, as dummy SCU functions have been added in
+  header files by the patch 'firmware: imx: add dummy functions' which has
+  landed in linux-next/master branch.
+
+v1->v2:
+* Add compatible for i.MX8qm DPU, as this is tested with i.MX8qm LVDS displays.
+  (Laurentiu)
+* Fix PRG burst size and stride. (Laurentiu)
+* Put 'ports' OF node to fix the bail-out logic in dpu_drm_probe(). (Laurentiu)
+
+ drivers/gpu/drm/imx/Kconfig               |    1 +
+ drivers/gpu/drm/imx/Makefile              |    1 +
+ drivers/gpu/drm/imx/dpu/Kconfig           |    9 +
+ drivers/gpu/drm/imx/dpu/Makefile          |   10 +
+ drivers/gpu/drm/imx/dpu/dpu-constframe.c  |  171 ++++
+ drivers/gpu/drm/imx/dpu/dpu-core.c        | 1044 +++++++++++++++++++++
+ drivers/gpu/drm/imx/dpu/dpu-crtc.c        |  969 +++++++++++++++++++
+ drivers/gpu/drm/imx/dpu/dpu-crtc.h        |   72 ++
+ drivers/gpu/drm/imx/dpu/dpu-disengcfg.c   |  117 +++
+ drivers/gpu/drm/imx/dpu/dpu-dprc.c        |  715 ++++++++++++++
+ drivers/gpu/drm/imx/dpu/dpu-dprc.h        |   40 +
+ drivers/gpu/drm/imx/dpu/dpu-drv.c         |  294 ++++++
+ drivers/gpu/drm/imx/dpu/dpu-drv.h         |   28 +
+ drivers/gpu/drm/imx/dpu/dpu-extdst.c      |  299 ++++++
+ drivers/gpu/drm/imx/dpu/dpu-fetchdecode.c |  292 ++++++
+ drivers/gpu/drm/imx/dpu/dpu-fetcheco.c    |  224 +++++
+ drivers/gpu/drm/imx/dpu/dpu-fetchlayer.c  |  152 +++
+ drivers/gpu/drm/imx/dpu/dpu-fetchunit.c   |  610 ++++++++++++
+ drivers/gpu/drm/imx/dpu/dpu-fetchunit.h   |  195 ++++
+ drivers/gpu/drm/imx/dpu/dpu-fetchwarp.c   |  248 +++++
+ drivers/gpu/drm/imx/dpu/dpu-framegen.c    |  395 ++++++++
+ drivers/gpu/drm/imx/dpu/dpu-gammacor.c    |  223 +++++
+ drivers/gpu/drm/imx/dpu/dpu-hscaler.c     |  275 ++++++
+ drivers/gpu/drm/imx/dpu/dpu-kms.c         |  542 +++++++++++
+ drivers/gpu/drm/imx/dpu/dpu-kms.h         |   23 +
+ drivers/gpu/drm/imx/dpu/dpu-layerblend.c  |  348 +++++++
+ drivers/gpu/drm/imx/dpu/dpu-plane.c       |  804 ++++++++++++++++
+ drivers/gpu/drm/imx/dpu/dpu-plane.h       |   59 ++
+ drivers/gpu/drm/imx/dpu/dpu-prg.c         |  433 +++++++++
+ drivers/gpu/drm/imx/dpu/dpu-prg.h         |   45 +
+ drivers/gpu/drm/imx/dpu/dpu-prv.h         |  231 +++++
+ drivers/gpu/drm/imx/dpu/dpu-tcon.c        |  250 +++++
+ drivers/gpu/drm/imx/dpu/dpu-vscaler.c     |  308 ++++++
+ drivers/gpu/drm/imx/dpu/dpu.h             |  385 ++++++++
+ 34 files changed, 9812 insertions(+)
+ create mode 100644 drivers/gpu/drm/imx/dpu/Kconfig
+ create mode 100644 drivers/gpu/drm/imx/dpu/Makefile
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-constframe.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-core.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-crtc.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-crtc.h
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-disengcfg.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-dprc.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-dprc.h
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-drv.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-drv.h
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-extdst.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchdecode.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetcheco.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchlayer.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchunit.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchunit.h
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchwarp.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-framegen.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-gammacor.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-hscaler.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-kms.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-kms.h
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-layerblend.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-plane.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-plane.h
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-prg.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-prg.h
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-prv.h
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-tcon.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-vscaler.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu.h
+
+diff --git a/drivers/gpu/drm/imx/Kconfig b/drivers/gpu/drm/imx/Kconfig
+index e5749927fd6c..8d60282e2cc9 100644
+--- a/drivers/gpu/drm/imx/Kconfig
++++ b/drivers/gpu/drm/imx/Kconfig
+@@ -1,4 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ 
+ source "drivers/gpu/drm/imx/dcss/Kconfig"
++source "drivers/gpu/drm/imx/dpu/Kconfig"
+ source "drivers/gpu/drm/imx/ipuv3/Kconfig"
+diff --git a/drivers/gpu/drm/imx/Makefile b/drivers/gpu/drm/imx/Makefile
+index 909622864716..9cc8cb3c0bc0 100644
+--- a/drivers/gpu/drm/imx/Makefile
++++ b/drivers/gpu/drm/imx/Makefile
+@@ -1,4 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
++obj-$(CONFIG_DRM_IMX8_DPU) += dpu/
+ obj-$(CONFIG_DRM_IMX_DCSS) += dcss/
+ obj-$(CONFIG_DRM_IMX) += ipuv3/
+diff --git a/drivers/gpu/drm/imx/dpu/Kconfig b/drivers/gpu/drm/imx/dpu/Kconfig
+new file mode 100644
+index 000000000000..eb45ecdcb071
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/Kconfig
+@@ -0,0 +1,9 @@
++config DRM_IMX8_DPU
++	tristate "DRM support for Freescale i.MX8 DPU Graphics"
++	select DRM_KMS_HELPER
++	select VIDEOMODE_HELPERS
++	select DRM_GEM_DMA_HELPER
++	depends on DRM && OF && ARCH_MXC
++	depends on COMMON_CLK
++	help
++	  enable Freescale i.MX8 DPU graphics support
+diff --git a/drivers/gpu/drm/imx/dpu/Makefile b/drivers/gpu/drm/imx/dpu/Makefile
+new file mode 100644
+index 000000000000..c7aeeafb069c
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/Makefile
+@@ -0,0 +1,10 @@
++# SPDX-License-Identifier: GPL-2.0
++
++imx8-dpu-drm-objs := dpu-constframe.o dpu-core.o dpu-crtc.o \
++		     dpu-disengcfg.o dpu-dprc.o dpu-drv.o dpu-extdst.o \
++		     dpu-fetchdecode.o dpu-fetcheco.o dpu-fetchlayer.o \
++		     dpu-fetchwarp.o dpu-fetchunit.o dpu-framegen.o \
++		     dpu-gammacor.o dpu-hscaler.o dpu-kms.o dpu-layerblend.o \
++		     dpu-plane.o dpu-prg.o dpu-tcon.o dpu-vscaler.o
++
++obj-$(CONFIG_DRM_IMX8_DPU) += imx8-dpu-drm.o
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-constframe.c b/drivers/gpu/drm/imx/dpu/dpu-constframe.c
+new file mode 100644
+index 000000000000..aa7064cd1cb4
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-constframe.c
+@@ -0,0 +1,171 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright (C) 2016 Freescale Semiconductor, Inc.
++ * Copyright 2017-2020,2023 NXP
++ */
++
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/mutex.h>
++#include <linux/sizes.h>
++
++#include "dpu-prv.h"
++
++#define STATICCONTROL		0x8
++
++#define FRAMEDIMENSIONS		0xc
++#define  WIDTH(w)		(((w) - 1) & 0x3fff)
++#define  HEIGHT(h)		((((h) - 1) & 0x3fff) << 16)
++
++#define CONSTANTCOLOR		0x10
++#define  RED(r)			(((r) & 0xff) << 24)
++#define  GREEN(g)		(((g) & 0xff) << 16)
++#define  BLUE(b)		(((b) & 0xff) << 8)
++#define  ALPHA(a)		((a) & 0xff)
++
++struct dpu_constframe {
++	void __iomem *pec_base;
++	void __iomem *base;
++	struct mutex mutex;
++	unsigned int id;
++	unsigned int index;
++	enum dpu_link_id link_id;
++	bool inuse;
++	struct dpu_soc *dpu;
++};
++
++static const enum dpu_link_id
++dpu_cf_link_id[] = {LINK_ID_CONSTFRAME0, LINK_ID_CONSTFRAME1,
++		    LINK_ID_CONSTFRAME4, LINK_ID_CONSTFRAME5};
++
++static inline void dpu_cf_write(struct dpu_constframe *cf,
++				unsigned int offset, u32 value)
++{
++	writel(value, cf->base + offset);
++}
++
++static void dpu_cf_enable_shden(struct dpu_constframe *cf)
++{
++	dpu_cf_write(cf, STATICCONTROL, SHDEN);
++}
++
++enum dpu_link_id dpu_cf_get_link_id(struct dpu_constframe *cf)
++{
++	return cf->link_id;
++}
++
++void dpu_cf_framedimensions(struct dpu_constframe *cf, unsigned int w,
++			    unsigned int h)
++{
++	dpu_cf_write(cf, FRAMEDIMENSIONS, WIDTH(w) | HEIGHT(h));
++}
++
++void dpu_cf_constantcolor_black(struct dpu_constframe *cf)
++{
++	dpu_cf_write(cf, CONSTANTCOLOR, 0);
++}
++
++void dpu_cf_constantcolor_blue(struct dpu_constframe *cf)
++{
++	dpu_cf_write(cf, CONSTANTCOLOR, BLUE(0xff));
++}
++
++static struct dpu_constframe *dpu_cf_get(struct dpu_soc *dpu, unsigned int id)
++{
++	struct dpu_constframe *cf;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(dpu->cf_priv); i++) {
++		cf = dpu->cf_priv[i];
++		if (cf->id == id)
++			break;
++	}
++
++	if (i == ARRAY_SIZE(dpu->cf_priv))
++		return ERR_PTR(-EINVAL);
++
++	mutex_lock(&cf->mutex);
++
++	if (cf->inuse) {
++		mutex_unlock(&cf->mutex);
++		return ERR_PTR(-EBUSY);
++	}
++
++	cf->inuse = true;
++
++	mutex_unlock(&cf->mutex);
++
++	return cf;
++}
++
++static void dpu_cf_put(struct dpu_constframe *cf)
++{
++	if (IS_ERR_OR_NULL(cf))
++		return;
++
++	mutex_lock(&cf->mutex);
++
++	cf->inuse = false;
++
++	mutex_unlock(&cf->mutex);
++}
++
++/* ConstFrame for safety stream */
++struct dpu_constframe *dpu_cf_safe_get(struct dpu_soc *dpu,
++				       unsigned int stream_id)
++{
++	return dpu_cf_get(dpu, stream_id + DPU_SAFETY_STREAM_OFFSET);
++}
++
++void dpu_cf_safe_put(struct dpu_constframe *cf)
++{
++	return dpu_cf_put(cf);
++}
++
++/* ConstFrame for content stream */
++struct dpu_constframe *dpu_cf_cont_get(struct dpu_soc *dpu,
++				       unsigned int stream_id)
++{
++	return dpu_cf_get(dpu, stream_id);
++}
++
++void dpu_cf_cont_put(struct dpu_constframe *cf)
++{
++	return dpu_cf_put(cf);
++}
++
++void dpu_cf_hw_init(struct dpu_soc *dpu, unsigned int index)
++{
++	dpu_cf_enable_shden(dpu->cf_priv[index]);
++}
++
++int dpu_cf_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long pec_base, unsigned long base)
++{
++	struct dpu_constframe *cf;
++
++	cf = devm_kzalloc(dpu->dev, sizeof(*cf), GFP_KERNEL);
++	if (!cf)
++		return -ENOMEM;
++
++	dpu->cf_priv[index] = cf;
++
++	cf->pec_base = devm_ioremap(dpu->dev, pec_base, SZ_16);
++	if (!cf->pec_base)
++		return -ENOMEM;
++
++	cf->base = devm_ioremap(dpu->dev, base, SZ_32);
++	if (!cf->base)
++		return -ENOMEM;
++
++	cf->dpu = dpu;
++	cf->id = id;
++	cf->index = index;
++	cf->link_id = dpu_cf_link_id[index];
++
++	mutex_init(&cf->mutex);
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-core.c b/drivers/gpu/drm/imx/dpu/dpu-core.c
+new file mode 100644
+index 000000000000..d6116b3e4ed7
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-core.c
+@@ -0,0 +1,1044 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright (C) 2016 Freescale Semiconductor, Inc.
++ * Copyright 2017-2020,2022,2023 NXP
++ */
++
++#include <linux/dma-mapping.h>
++#include <linux/io.h>
++#include <linux/irq.h>
++#include <linux/irqchip/chained_irq.h>
++#include <linux/module.h>
++#include <linux/of_device.h>
++#include <linux/of_graph.h>
++#include <linux/platform_device.h>
++#include <linux/pm_domain.h>
++#include <linux/pm_runtime.h>
++#include <linux/sizes.h>
++
++#include "dpu.h"
++#include "dpu-prv.h"
++
++static inline u32 dpu_comctrl_read(struct dpu_soc *dpu, unsigned int offset)
++{
++	return readl(dpu->comctrl_reg + offset);
++}
++
++static inline void dpu_comctrl_write(struct dpu_soc *dpu,
++				     unsigned int offset, u32 value)
++{
++	writel(value, dpu->comctrl_reg + offset);
++}
++
++/* Constant Frame */
++static const unsigned int cf_ids[] = {0, 1, 4, 5};
++static const enum dpu_unit_type cf_types[] = {DPU_DISP, DPU_DISP,
++					      DPU_DISP, DPU_DISP};
++static const unsigned long cf_ofss[] = {0x4400, 0x5400, 0x4c00, 0x5c00};
++static const unsigned long cf_pec_ofss[] = {0x960, 0x9e0, 0x9a0, 0xa20};
++
++static const struct dpu_units dpu_cfs = {
++	.ids = cf_ids,
++	.types = cf_types,
++	.ofss = cf_ofss,
++	.pec_ofss = cf_pec_ofss,
++	.cnt = ARRAY_SIZE(cf_ids),
++	.name = "ConstFrame",
++	.init = dpu_cf_init,
++	.hw_init = dpu_cf_hw_init,
++};
++
++/* Display Engine Configuration */
++static const unsigned int dec_ids[] = {0, 1};
++static const enum dpu_unit_type dec_types[] = {DPU_DISP, DPU_DISP};
++static const unsigned long dec_ofss[] = {0xb400, 0xb420};
++
++static const struct dpu_units dpu_decs = {
++	.ids = dec_ids,
++	.types = dec_types,
++	.ofss = dec_ofss,
++	.pec_ofss = NULL,
++	.cnt = ARRAY_SIZE(dec_ids),
++	.name = "DisEngCfg",
++	.init = dpu_dec_init,
++	.hw_init = dpu_dec_hw_init,
++};
++
++/* External Destination */
++static const unsigned int ed_ids[] = {0, 1, 4, 5};
++static const enum dpu_unit_type ed_types[] = {DPU_DISP, DPU_DISP,
++					      DPU_DISP, DPU_DISP};
++static const unsigned long ed_ofss[] = {0x4800, 0x5800, 0x5000, 0x6000};
++static const unsigned long ed_pec_ofss[] = {0x980, 0xa00, 0x9c0, 0xa40};
++
++static const struct dpu_units dpu_eds = {
++	.ids = ed_ids,
++	.types = ed_types,
++	.ofss = ed_ofss,
++	.pec_ofss = ed_pec_ofss,
++	.cnt = ARRAY_SIZE(ed_ids),
++	.name = "ExtDst",
++	.init = dpu_ed_init,
++	.hw_init = dpu_ed_hw_init,
++};
++
++/* Fetch Decode */
++static const unsigned int fd_ids[] = {0, 1, 9};
++static const enum dpu_unit_type fd_types[] = {DPU_DISP, DPU_DISP, DPU_BLIT};
++static const unsigned long fd_ofss[] = {0x6c00, 0x7800, 0x1000};
++static const unsigned long fd_pec_ofss[] = {0xa80, 0xaa0, 0x820};
++
++static const struct dpu_units dpu_fds = {
++	.ids = fd_ids,
++	.types = fd_types,
++	.ofss = fd_ofss,
++	.pec_ofss = fd_pec_ofss,
++	.cnt = ARRAY_SIZE(fd_ids),
++	.name = "FetchDecode",
++	.init = dpu_fd_init,
++	.hw_init = dpu_fd_hw_init,
++};
++
++/* Fetch ECO */
++static const unsigned int fe_ids[] = {0, 1, 2, 9};
++static const enum dpu_unit_type fe_types[] = {DPU_DISP, DPU_DISP,
++					      DPU_DISP, DPU_BLIT};
++static const unsigned long fe_ofss[] = {0x7400, 0x8000, 0x6800, 0x1c00};
++static const unsigned long fe_pec_ofss[] = {0xa90, 0xab0, 0xa70, 0x850};
++
++static const struct dpu_units dpu_fes = {
++	.ids = fe_ids,
++	.types = fe_types,
++	.ofss = fe_ofss,
++	.pec_ofss = fe_pec_ofss,
++	.cnt = ARRAY_SIZE(fe_ids),
++	.name = "FetchEco",
++	.init = dpu_fe_init,
++	.hw_init = dpu_fe_hw_init,
++};
++
++/* Frame Generator */
++static const unsigned int fg_ids[] = {0, 1};
++static const enum dpu_unit_type fg_types[] = {DPU_DISP, DPU_DISP};
++static const unsigned long fg_ofss[] = {0xb800, 0xd400};
++
++static const struct dpu_units dpu_fgs = {
++	.ids = fg_ids,
++	.types = fg_types,
++	.ofss = fg_ofss,
++	.pec_ofss = NULL,
++	.cnt = ARRAY_SIZE(fg_ids),
++	.name = "FrameGen",
++	.init = dpu_fg_init,
++	.hw_init = dpu_fg_hw_init,
++};
++
++/* Fetch Layer */
++static const unsigned int fl_ids[] = {0};
++static const enum dpu_unit_type fl_types[] = {DPU_DISP};
++static const unsigned long fl_ofss[] = {0x8400};
++static const unsigned long fl_pec_ofss[] = {0xac0};
++
++static const struct dpu_units dpu_fls = {
++	.ids = fl_ids,
++	.types = fl_types,
++	.ofss = fl_ofss,
++	.pec_ofss = fl_pec_ofss,
++	.cnt = ARRAY_SIZE(fl_ids),
++	.name = "FetchLayer",
++	.init = dpu_fl_init,
++	.hw_init = dpu_fl_hw_init,
++};
++
++/* Fetch Warp */
++static const unsigned int fw_ids[] = {2, 9};
++static const enum dpu_unit_type fw_types[] = {DPU_DISP, DPU_BLIT};
++static const unsigned long fw_ofss[] = {0x6400, 0x1800};
++static const unsigned long fw_pec_ofss[] = {0xa60, 0x840};
++
++static const struct dpu_units dpu_fws = {
++	.ids = fw_ids,
++	.types = fw_types,
++	.ofss = fw_ofss,
++	.pec_ofss = fw_pec_ofss,
++	.cnt = ARRAY_SIZE(fw_ids),
++	.name = "FetchWarp",
++	.init = dpu_fw_init,
++	.hw_init = dpu_fw_hw_init,
++};
++
++/* Gamma Correction */
++static const unsigned int gc_ids[] = {0, 1};
++static const enum dpu_unit_type gc_types[] = {DPU_DISP, DPU_DISP};
++static const unsigned long gc_ofss[] = {0xc000, 0xdc00};
++
++static const struct dpu_units dpu_gcs = {
++	.ids = gc_ids,
++	.types = gc_types,
++	.ofss = gc_ofss,
++	.pec_ofss = NULL,
++	.cnt = ARRAY_SIZE(gc_ids),
++	.name = "GammaCor",
++	.init = dpu_gc_init,
++	.hw_init = dpu_gc_hw_init,
++};
++
++/* Horizontal Scaler */
++static const unsigned int hs_ids[] = {4, 5, 9};
++static const enum dpu_unit_type hs_types[] = {DPU_DISP, DPU_DISP, DPU_BLIT};
++static const unsigned long hs_ofss[] = {0x9000, 0x9c00, 0x3000};
++static const unsigned long hs_pec_ofss[] = {0xb00, 0xb60, 0x8c0};
++
++static const struct dpu_units dpu_hss = {
++	.ids = hs_ids,
++	.types = hs_types,
++	.ofss = hs_ofss,
++	.pec_ofss = hs_pec_ofss,
++	.cnt = ARRAY_SIZE(hs_ids),
++	.name = "HScaler",
++	.init = dpu_hs_init,
++	.hw_init = dpu_hs_hw_init,
++};
++
++/* Layer Blend */
++static const unsigned int lb_ids[] = {0, 1, 2, 3};
++static const enum dpu_unit_type lb_types[] = {DPU_DISP, DPU_DISP,
++					      DPU_DISP, DPU_DISP};
++static const unsigned long lb_ofss[] = {0xa400, 0xa800, 0xac00, 0xb000};
++static const unsigned long lb_pec_ofss[] = {0xba0, 0xbc0, 0xbe0, 0xc00};
++
++static const struct dpu_units dpu_lbs = {
++	.ids = lb_ids,
++	.types = lb_types,
++	.ofss = lb_ofss,
++	.pec_ofss = lb_pec_ofss,
++	.cnt = ARRAY_SIZE(lb_ids),
++	.name = "LayerBlend",
++	.init = dpu_lb_init,
++	.hw_init = dpu_lb_hw_init,
++};
++
++/* Timing Controller */
++static const unsigned int tcon_ids[] = {0, 1};
++static const enum dpu_unit_type tcon_types[] = {DPU_DISP, DPU_DISP};
++static const unsigned long tcon_ofss[] = {0xc800, 0xe400};
++
++static const struct dpu_units dpu_tcons = {
++	.ids = tcon_ids,
++	.types = tcon_types,
++	.ofss = tcon_ofss,
++	.pec_ofss = NULL,
++	.cnt = ARRAY_SIZE(tcon_ids),
++	.name = "TCON",
++	.init = dpu_tcon_init,
++	.hw_init = dpu_tcon_hw_init,
++};
++
++/* Vertical Scaler */
++static const unsigned int vs_ids[] = {4, 5, 9};
++static const enum dpu_unit_type vs_types[] = {DPU_DISP, DPU_DISP, DPU_BLIT};
++static const unsigned long vs_ofss[] = {0x9400, 0xa000, 0x3400};
++static const unsigned long vs_pec_ofss[] = {0xb20, 0xb80, 0x8e0};
++
++static const struct dpu_units dpu_vss = {
++	.ids = vs_ids,
++	.types = vs_types,
++	.ofss = vs_ofss,
++	.pec_ofss = vs_pec_ofss,
++	.cnt = ARRAY_SIZE(vs_ids),
++	.name = "VScaler",
++	.init = dpu_vs_init,
++	.hw_init = dpu_vs_hw_init,
++};
++
++static const struct dpu_units *dpu_all_units[] = {
++	&dpu_cfs,
++	&dpu_decs,
++	&dpu_eds,
++	&dpu_fds,
++	&dpu_fes,
++	&dpu_fgs,
++	&dpu_fls,
++	&dpu_fws,
++	&dpu_gcs,
++	&dpu_hss,
++	&dpu_lbs,
++	&dpu_tcons,
++	&dpu_vss,
++};
++
++static inline void dpu_detach_pm_domain(struct device **pd_dev,
++					struct device_link **pd_link)
++{
++	if (!IS_ERR_OR_NULL(*pd_link))
++		device_link_del(*pd_link);
++	if (!IS_ERR_OR_NULL(*pd_dev))
++		dev_pm_domain_detach(*pd_dev, true);
++
++	*pd_dev = NULL;
++	*pd_link = NULL;
++}
++
++static void dpu_detach_pm_domains(struct dpu_soc *dpu)
++{
++	dpu_detach_pm_domain(&dpu->pd_pll1_dev, &dpu->pd_pll1_link);
++	dpu_detach_pm_domain(&dpu->pd_pll0_dev, &dpu->pd_pll0_link);
++	dpu_detach_pm_domain(&dpu->pd_dc_dev, &dpu->pd_dc_link);
++}
++
++static inline int dpu_attach_pm_domain(struct dpu_soc *dpu,
++				       struct device **pd_dev,
++				       struct device_link **pd_link,
++				       const char *name)
++{
++	u32 flags = DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME | DL_FLAG_RPM_ACTIVE;
++	int ret;
++
++	*pd_dev = dev_pm_domain_attach_by_name(dpu->dev, name);
++	if (IS_ERR(*pd_dev)) {
++		ret = PTR_ERR(*pd_dev);
++		dev_err(dpu->dev,
++			"failed to attach %s pd dev: %d\n", name, ret);
++		return ret;
++	}
++
++	*pd_link = device_link_add(dpu->dev, *pd_dev, flags);
++	if (IS_ERR(*pd_link)) {
++		ret = PTR_ERR(*pd_link);
++		dev_err(dpu->dev, "failed to add device link to %s pd dev: %d\n",
++			name, ret);
++		return ret;
++	}
++
++	return 0;
++}
++
++static int dpu_attach_pm_domains(struct dpu_soc *dpu)
++{
++	int ret;
++
++	ret = dpu_attach_pm_domain(dpu, &dpu->pd_dc_dev, &dpu->pd_dc_link, "dc");
++	if (ret)
++		goto err_out;
++
++	ret = dpu_attach_pm_domain(dpu, &dpu->pd_pll0_dev, &dpu->pd_pll0_link,
++				   "pll0");
++	if (ret)
++		goto err_out;
++
++	ret = dpu_attach_pm_domain(dpu, &dpu->pd_pll1_dev, &dpu->pd_pll1_link,
++				   "pll1");
++	if (ret)
++		goto err_out;
++
++	return 0;
++err_out:
++	dpu_detach_pm_domains(dpu);
++
++	return ret;
++}
++
++static void dpu_units_addr_dbg(struct dpu_soc *dpu, unsigned long dpu_base)
++{
++	const struct dpu_units *us;
++	int i, j;
++
++	dev_dbg(dpu->dev, "Common Control: 0x%08lx\n", dpu_base);
++
++	for (i = 0; i < ARRAY_SIZE(dpu_all_units); i++) {
++		us = dpu_all_units[i];
++
++		for (j = 0; j < us->cnt; j++) {
++			if (us->pec_ofss) {
++				dev_dbg(dpu->dev,
++					"%s%d: pixengcfg @ 0x%08lx, unit @ 0x%08lx\n",
++					us->name, us->ids[j],
++					dpu_base + us->pec_ofss[j],
++					dpu_base + us->ofss[j]);
++			} else {
++				dev_dbg(dpu->dev,
++					"%s%d: unit @ 0x%08lx\n", us->name,
++					us->ids[j], dpu_base + us->ofss[j]);
++			}
++		}
++	}
++}
++
++static int dpu_get_irqs(struct platform_device *pdev, struct dpu_soc *dpu)
++{
++	unsigned int i, j;
++
++	/* do not get the reserved irq */
++	for (i = 0, j = 0; i < DPU_IRQ_COUNT - 1; i++, j++) {
++		if (i == DPU_IRQ_RESERVED)
++			j++;
++
++		dpu->irq[j] = platform_get_irq(pdev, i);
++		if (dpu->irq[j] < 0)
++			return dev_err_probe(dpu->dev, dpu->irq[j], "failed to get irq\n");
++	}
++
++	return 0;
++}
++
++static void dpu_irq_handle(struct irq_desc *desc, enum dpu_irq irq)
++{
++	struct dpu_soc *dpu = irq_desc_get_handler_data(desc);
++	struct irq_chip *chip = irq_desc_get_chip(desc);
++	unsigned int virq;
++	u32 status;
++
++	chained_irq_enter(chip, desc);
++
++	status = dpu_comctrl_read(dpu, USERINTERRUPTSTATUS(irq / 32));
++	status &= dpu_comctrl_read(dpu, USERINTERRUPTENABLE(irq / 32));
++
++	if (status & BIT(irq % 32)) {
++		virq = irq_linear_revmap(dpu->domain, irq);
++		if (virq)
++			generic_handle_irq(virq);
++	}
++
++	chained_irq_exit(chip, desc);
++}
++
++static void dpu_dec_framecomplete0_irq_handler(struct irq_desc *desc)
++{
++	dpu_irq_handle(desc, DPU_IRQ_DISENGCFG_FRAMECOMPLETE0);
++}
++
++static void dpu_dec_framecomplete1_irq_handler(struct irq_desc *desc)
++{
++	dpu_irq_handle(desc, DPU_IRQ_DISENGCFG_FRAMECOMPLETE1);
++}
++
++static void dpu_dec_seqcomplete0_irq_handler(struct irq_desc *desc)
++{
++	dpu_irq_handle(desc, DPU_IRQ_DISENGCFG_SEQCOMPLETE0);
++}
++
++static void dpu_dec_seqcomplete1_irq_handler(struct irq_desc *desc)
++{
++	dpu_irq_handle(desc, DPU_IRQ_DISENGCFG_SEQCOMPLETE1);
++}
++
++static void dpu_dec_shdload0_irq_handler(struct irq_desc *desc)
++{
++	dpu_irq_handle(desc, DPU_IRQ_DISENGCFG_SHDLOAD0);
++}
++
++static void dpu_dec_shdload1_irq_handler(struct irq_desc *desc)
++{
++	dpu_irq_handle(desc, DPU_IRQ_DISENGCFG_SHDLOAD1);
++}
++
++static void dpu_ed0_shdload_irq_handler(struct irq_desc *desc)
++{
++	dpu_irq_handle(desc, DPU_IRQ_EXTDST0_SHDLOAD);
++}
++
++static void dpu_ed1_shdload_irq_handler(struct irq_desc *desc)
++{
++	dpu_irq_handle(desc, DPU_IRQ_EXTDST1_SHDLOAD);
++}
++
++static void dpu_ed4_shdload_irq_handler(struct irq_desc *desc)
++{
++	dpu_irq_handle(desc, DPU_IRQ_EXTDST4_SHDLOAD);
++}
++
++static void dpu_ed5_shdload_irq_handler(struct irq_desc *desc)
++{
++	dpu_irq_handle(desc, DPU_IRQ_EXTDST5_SHDLOAD);
++}
++
++static void (* const dpu_irq_handler[DPU_IRQ_COUNT])(struct irq_desc *desc) = {
++	[DPU_IRQ_EXTDST0_SHDLOAD]          = dpu_ed0_shdload_irq_handler,
++	[DPU_IRQ_EXTDST4_SHDLOAD]          = dpu_ed4_shdload_irq_handler,
++	[DPU_IRQ_EXTDST1_SHDLOAD]          = dpu_ed1_shdload_irq_handler,
++	[DPU_IRQ_EXTDST5_SHDLOAD]          = dpu_ed5_shdload_irq_handler,
++	[DPU_IRQ_DISENGCFG_SHDLOAD0]       = dpu_dec_shdload0_irq_handler,
++	[DPU_IRQ_DISENGCFG_FRAMECOMPLETE0] = dpu_dec_framecomplete0_irq_handler,
++	[DPU_IRQ_DISENGCFG_SEQCOMPLETE0]   = dpu_dec_seqcomplete0_irq_handler,
++	[DPU_IRQ_DISENGCFG_SHDLOAD1]       = dpu_dec_shdload1_irq_handler,
++	[DPU_IRQ_DISENGCFG_FRAMECOMPLETE1] = dpu_dec_framecomplete1_irq_handler,
++	[DPU_IRQ_DISENGCFG_SEQCOMPLETE1]   = dpu_dec_seqcomplete1_irq_handler,
++	[DPU_IRQ_RESERVED]                 = NULL, /* do not use */
++};
++
++int dpu_map_irq(struct dpu_soc *dpu, int irq)
++{
++	int virq = irq_linear_revmap(dpu->domain, irq);
++
++	if (!virq)
++		virq = irq_create_mapping(dpu->domain, irq);
++
++	return virq;
++}
++
++static const unsigned long unused_irq[2] = {0x00000000, 0xfffe0008};
++
++static void dpu_irq_hw_init(struct dpu_soc *dpu)
++{
++	int i;
++
++	for (i = 0; i < DPU_IRQ_COUNT; i += 32) {
++		/* mask and clear all interrupts */
++		dpu_comctrl_write(dpu, USERINTERRUPTENABLE(i / 32), 0);
++		dpu_comctrl_write(dpu, USERINTERRUPTCLEAR(i / 32),
++				  ~unused_irq[i / 32]);
++		dpu_comctrl_write(dpu, INTERRUPTENABLE(i / 32), 0);
++		dpu_comctrl_write(dpu, INTERRUPTCLEAR(i / 32),
++				  ~unused_irq[i / 32]);
++
++		/* set all interrupts to user mode */
++		dpu_comctrl_write(dpu, USERINTERRUPTMASK(i / 32),
++				  ~unused_irq[i / 32]);
++	}
++}
++
++static int dpu_irq_init(struct dpu_soc *dpu)
++{
++	struct device *dev = dpu->dev;
++	struct irq_chip_generic *gc;
++	struct irq_chip_type *ct;
++	int ret, i;
++
++	dpu->domain = irq_domain_add_linear(dev->of_node, DPU_IRQ_COUNT,
++					    &irq_generic_chip_ops, dpu);
++	if (!dpu->domain) {
++		dev_err(dev, "failed to add irq domain\n");
++		return -ENODEV;
++	}
++
++	ret = irq_alloc_domain_generic_chips(dpu->domain, 32, 1, "DPU",
++					     handle_level_irq, 0, 0, 0);
++	if (ret) {
++		dev_err(dev, "failed to alloc generic irq chips: %d\n", ret);
++		irq_domain_remove(dpu->domain);
++		return ret;
++	}
++
++	for (i = 0; i < DPU_IRQ_COUNT; i += 32) {
++		gc = irq_get_domain_generic_chip(dpu->domain, i);
++		gc->reg_base = dpu->comctrl_reg;
++		gc->unused = unused_irq[i / 32];
++		ct = gc->chip_types;
++		ct->chip.irq_ack = irq_gc_ack_set_bit;
++		ct->chip.irq_mask = irq_gc_mask_clr_bit;
++		ct->chip.irq_unmask = irq_gc_mask_set_bit;
++		ct->regs.ack = USERINTERRUPTCLEAR(i / 32);
++		ct->regs.mask = USERINTERRUPTENABLE(i / 32);
++	}
++
++	for (i = 0; i < DPU_IRQ_COUNT; i++) {
++		if (!dpu_irq_handler[i])
++			continue;
++
++		irq_set_chained_handler_and_data(dpu->irq[i],
++						 dpu_irq_handler[i],
++						 dpu);
++	}
++
++	return ret;
++}
++
++static void dpu_irq_exit(struct dpu_soc *dpu)
++{
++	unsigned int i, irq;
++
++	for (i = 0; i < DPU_IRQ_COUNT; i++) {
++		if (!dpu_irq_handler[i])
++			continue;
++
++		irq_set_chained_handler_and_data(dpu->irq[i], NULL, NULL);
++	}
++
++	for (i = 0; i < DPU_IRQ_COUNT; i++) {
++		irq = irq_linear_revmap(dpu->domain, i);
++		if (irq)
++			irq_dispose_mapping(irq);
++	}
++
++	irq_domain_remove(dpu->domain);
++}
++
++static void dpu_submodules_hw_init(struct dpu_soc *dpu)
++{
++	const struct dpu_units *us;
++	int i, j;
++
++	for (i = 0; i < ARRAY_SIZE(dpu_all_units); i++) {
++		us = dpu_all_units[i];
++
++		for (j = 0; j < us->cnt; j++)
++			us->hw_init(dpu, j);
++	}
++}
++
++static int dpu_submodules_init(struct dpu_soc *dpu, unsigned long dpu_base)
++{
++	const struct dpu_units *us;
++	unsigned long pec_ofs;
++	int i, j, ret;
++
++	for (i = 0; i < ARRAY_SIZE(dpu_all_units); i++) {
++		us = dpu_all_units[i];
++
++		for (j = 0; j < us->cnt; j++) {
++			pec_ofs = us->pec_ofss ? dpu_base + us->pec_ofss[j] : 0;
++
++			ret = us->init(dpu, j, us->ids[j], us->types[j],
++				       pec_ofs, dpu_base + us->ofss[j]);
++			if (ret) {
++				dev_err(dpu->dev,
++					"failed to initialize %s%d: %d\n",
++						us->name, us->ids[j], ret);
++				return ret;
++			}
++		}
++	}
++
++	return 0;
++}
++
++static int platform_remove_devices_fn(struct device *dev, void *unused)
++{
++	struct platform_device *pdev = to_platform_device(dev);
++
++	platform_device_unregister(pdev);
++
++	return 0;
++}
++
++static void platform_device_unregister_children(struct platform_device *pdev)
++{
++	device_for_each_child(&pdev->dev, NULL, platform_remove_devices_fn);
++}
++
++struct dpu_platform_reg {
++	struct dpu_client_platformdata pdata;
++	const char *name;
++};
++
++static struct dpu_platform_reg client_reg[] = {
++	{
++	  .pdata = {
++		.stream_id = 0,
++		.dec_frame_complete_irq	= DPU_IRQ_DISENGCFG_FRAMECOMPLETE0,
++		.dec_seq_complete_irq	= DPU_IRQ_DISENGCFG_SEQCOMPLETE0,
++		.dec_shdld_irq		= DPU_IRQ_DISENGCFG_SHDLOAD0,
++		.ed_cont_shdld_irq	= DPU_IRQ_EXTDST0_SHDLOAD,
++		.ed_safe_shdld_irq	= DPU_IRQ_EXTDST4_SHDLOAD,
++	   },
++	  .name = "imx8-dpu-crtc",
++	}, {
++	  .pdata = {
++		.stream_id = 1,
++		.dec_frame_complete_irq	= DPU_IRQ_DISENGCFG_FRAMECOMPLETE1,
++		.dec_seq_complete_irq	= DPU_IRQ_DISENGCFG_SEQCOMPLETE1,
++		.dec_shdld_irq		= DPU_IRQ_DISENGCFG_SHDLOAD1,
++		.ed_cont_shdld_irq	= DPU_IRQ_EXTDST1_SHDLOAD,
++		.ed_safe_shdld_irq	= DPU_IRQ_EXTDST5_SHDLOAD,
++	  },
++	  .name = "imx8-dpu-crtc",
++	}
++};
++
++static DEFINE_MUTEX(dpu_client_id_mutex);
++static int dpu_client_id;
++
++static int dpu_get_layerblends_for_plane_grp(struct dpu_soc *dpu,
++					     struct dpu_plane_res *res)
++{
++	int i, ret;
++
++	res->lb_cnt = dpu_lbs.cnt;
++
++	res->lb = devm_kcalloc(dpu->dev, res->lb_cnt, sizeof(*res->lb),
++			       GFP_KERNEL);
++	if (!res->lb)
++		return -ENOMEM;
++
++	for (i = 0; i < res->lb_cnt; i++) {
++		res->lb[i] = dpu_lb_get(dpu, lb_ids[i]);
++		if (IS_ERR(res->lb[i])) {
++			ret = PTR_ERR(res->lb[i]);
++			dev_err(dpu->dev, "failed to get %s%d: %d\n",
++				dpu_lbs.name, lb_ids[i], ret);
++			return ret;
++		}
++	}
++
++	return 0;
++}
++
++static int
++dpu_get_fetchunits_for_plane_grp(struct dpu_soc *dpu,
++				 const struct dpu_units *us,
++				 struct dpu_fetchunit ***fu,
++				 unsigned int *cnt,
++				 struct dpu_fetchunit *
++						(*get)(struct dpu_soc *dpu,
++						       unsigned int id))
++{
++	unsigned int fu_cnt = 0;
++	int i, j, ret;
++
++	for (i = 0; i < us->cnt; i++) {
++		if (us->types[i] == DPU_DISP)
++			fu_cnt++;
++	}
++
++	*cnt = fu_cnt;
++
++	*fu = devm_kcalloc(dpu->dev, fu_cnt, sizeof(**fu), GFP_KERNEL);
++	if (!(*fu))
++		return -ENOMEM;
++
++	for (i = 0, j = 0; i < us->cnt; i++) {
++		if (us->types[i] != DPU_DISP)
++			continue;
++
++		(*fu)[j] = get(dpu, us->ids[i]);
++		if (IS_ERR((*fu)[j])) {
++			ret = PTR_ERR((*fu)[j]);
++			dev_err(dpu->dev, "failed to get %s%d: %d\n",
++				us->name, us->ids[i], ret);
++			return ret;
++		}
++		j++;
++	}
++
++	return 0;
++}
++
++static void dpu_add_fetchunits_to_plane_grp_list(struct list_head *list,
++						 struct dpu_fetchunit ***fu,
++						 unsigned int *cnt)
++{
++	int i;
++
++	for (i = *cnt - 1; i >= 0; i--)
++		dpu_fu_add_to_list((*fu)[i], list);
++}
++
++static int dpu_get_plane_grp_res(struct dpu_soc *dpu,
++				 struct dpu_plane_grp *grp)
++{
++	struct dpu_plane_res *res = &grp->res;
++	struct {
++		const struct dpu_units *us;
++		struct dpu_fetchunit ***fu;
++		unsigned int *cnt;
++		struct dpu_fetchunit *(*get)(struct dpu_soc *dpu,
++					     unsigned int id);
++	} fus[] = {
++		{&dpu_fds, &res->fd, &res->fd_cnt, dpu_fd_get},
++		{&dpu_fls, &res->fl, &res->fl_cnt, dpu_fl_get},
++		{&dpu_fws, &res->fw, &res->fw_cnt, dpu_fw_get},
++	};
++	int i, ret;
++
++	INIT_LIST_HEAD(&grp->fu_list);
++
++	ret = dpu_get_layerblends_for_plane_grp(dpu, res);
++	if (ret)
++		return ret;
++
++	for (i = 0; i < ARRAY_SIZE(fus); i++) {
++		ret = dpu_get_fetchunits_for_plane_grp(dpu, fus[i].us, fus[i].fu,
++						       fus[i].cnt, fus[i].get);
++		if (ret)
++			return ret;
++	}
++
++	for (i = 0; i < ARRAY_SIZE(fus); i++)
++		dpu_add_fetchunits_to_plane_grp_list(&grp->fu_list,
++						     fus[i].fu, fus[i].cnt);
++
++	grp->hw_plane_cnt = res->fd_cnt + res->fl_cnt + res->fw_cnt;
++
++	return ret;
++}
++
++static void
++dpu_put_fetchunits_for_plane_grp(struct dpu_fetchunit ***fu,
++				 unsigned int *cnt,
++				 void (*put)(struct dpu_fetchunit *fu))
++{
++	int i;
++
++	for (i = 0; i < *cnt; i++)
++		put((*fu)[i]);
++
++	*cnt = 0;
++}
++
++static void dpu_put_plane_grp_res(struct dpu_plane_grp *grp)
++{
++	struct dpu_plane_res *res = &grp->res;
++	struct list_head *l, *tmp;
++	struct {
++		struct dpu_fetchunit ***fu;
++		unsigned int *cnt;
++		void (*put)(struct dpu_fetchunit *fu);
++	} fus[] = {
++		{&res->fd, &res->fd_cnt, dpu_fd_put},
++		{&res->fl, &res->fl_cnt, dpu_fl_put},
++		{&res->fw, &res->fw_cnt, dpu_fw_put},
++	};
++	int i;
++
++	grp->hw_plane_cnt = 0;
++
++	list_for_each_safe(l, tmp, &grp->fu_list)
++		list_del(l);
++
++	for (i = 0; i < ARRAY_SIZE(fus); i++)
++		dpu_put_fetchunits_for_plane_grp(fus[i].fu,
++						 fus[i].cnt, fus[i].put);
++
++	for (i = 0; i < res->lb_cnt; i++)
++		dpu_lb_put(res->lb[i]);
++	res->lb_cnt = 0;
++}
++
++static int dpu_add_client_devices(struct dpu_soc *dpu)
++{
++	struct device *dev = dpu->dev;
++	struct dpu_platform_reg *reg;
++	struct dpu_crtc_grp *crtc_grp;
++	struct dpu_plane_grp *plane_grp;
++	size_t client_cnt, reg_size;
++	int i, id, ret;
++
++	client_cnt = ARRAY_SIZE(client_reg);
++
++	reg = devm_kcalloc(dev, client_cnt, sizeof(*reg), GFP_KERNEL);
++	if (!reg)
++		return -ENOMEM;
++
++	crtc_grp = devm_kzalloc(dev, sizeof(*crtc_grp), GFP_KERNEL);
++	if (!crtc_grp)
++		return -ENOMEM;
++
++	plane_grp = devm_kzalloc(dev, sizeof(*plane_grp), GFP_KERNEL);
++	if (!plane_grp)
++		return -ENOMEM;
++
++	crtc_grp->plane_grp = plane_grp;
++
++	mutex_lock(&dpu_client_id_mutex);
++	id = dpu_client_id;
++	dpu_client_id += client_cnt;
++	mutex_unlock(&dpu_client_id_mutex);
++
++	reg_size = client_cnt * sizeof(struct dpu_platform_reg);
++	memcpy(reg, &client_reg[0], reg_size);
++
++	ret = dpu_get_plane_grp_res(dpu, plane_grp);
++	if (ret)
++		goto err_get_plane_res;
++
++	for (i = 0; i < client_cnt; i++) {
++		struct platform_device *pdev;
++		struct device_node *np;
++
++		/* Associate subdevice with the corresponding port node. */
++		np = of_graph_get_port_by_id(dev->of_node, i);
++		if (!np) {
++			dev_info(dev,
++				 "no port@%d node in %s, not using DISP%d\n",
++				 i, dev->of_node->full_name, i);
++			continue;
++		}
++
++		reg[i].pdata.crtc_grp = crtc_grp;
++
++		pdev = platform_device_alloc(reg[i].name, id++);
++		if (!pdev) {
++			ret = -ENOMEM;
++			goto err_register;
++		}
++
++		pdev->dev.parent = dev;
++		pdev->dev.of_node = np;
++		pdev->dev.coherent_dma_mask = DMA_BIT_MASK(32);
++		pdev->dev.dma_mask = &pdev->dev.coherent_dma_mask;
++
++		reg[i].pdata.of_node = np;
++		ret = platform_device_add_data(pdev, &reg[i].pdata,
++					       sizeof(reg[i].pdata));
++		if (!ret)
++			ret = platform_device_add(pdev);
++		if (ret) {
++			platform_device_put(pdev);
++			goto err_register;
++		}
++	}
++
++	return ret;
++
++err_register:
++	platform_device_unregister_children(to_platform_device(dev));
++err_get_plane_res:
++	dpu_put_plane_grp_res(plane_grp);
++
++	return ret;
++}
++
++static int dpu_core_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct dpu_soc *dpu;
++	struct resource *res;
++	unsigned long dpu_base;
++	int ret;
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (!res)
++		return -ENODEV;
++
++	dpu_base = res->start;
++
++	dpu = devm_kzalloc(dev, sizeof(*dpu), GFP_KERNEL);
++	if (!dpu)
++		return -ENOMEM;
++
++	dpu->dev = dev;
++
++	dpu_units_addr_dbg(dpu, dpu_base);
++
++	ret = dpu_get_irqs(pdev, dpu);
++	if (ret)
++		return ret;
++
++	dpu->comctrl_reg = devm_ioremap(dev, dpu_base, SZ_512);
++	if (!dpu->comctrl_reg)
++		return -ENOMEM;
++
++	ret = dpu_attach_pm_domains(dpu);
++	if (ret)
++		return ret;
++
++	dpu->clk_cfg = devm_clk_get(dev, "cfg");
++	if (IS_ERR(dpu->clk_cfg)) {
++		ret = PTR_ERR(dpu->clk_cfg);
++		dev_err_probe(dev, ret, "failed to get cfg clock\n");
++		goto failed_clk_cfg_get;
++	}
++
++	dpu->clk_axi = devm_clk_get(dev, "axi");
++	if (IS_ERR(dpu->clk_axi)) {
++		ret = PTR_ERR(dpu->clk_axi);
++		dev_err_probe(dev, ret, "failed to get axi clock\n");
++		goto failed_clk_axi_get;
++	}
++
++	ret = dpu_irq_init(dpu);
++	if (ret)
++		goto failed_irq_init;
++
++	ret = dpu_submodules_init(dpu, dpu_base);
++	if (ret)
++		goto failed_submodules_init;
++
++	platform_set_drvdata(pdev, dpu);
++
++	pm_runtime_enable(dev);
++
++	ret = dpu_add_client_devices(dpu);
++	if (ret) {
++		dev_err(dev, "failed to add client devices: %d\n", ret);
++		goto failed_add_clients;
++	}
++
++	return ret;
++
++failed_add_clients:
++	pm_runtime_disable(dev);
++failed_submodules_init:
++	dpu_irq_exit(dpu);
++failed_irq_init:
++failed_clk_axi_get:
++failed_clk_cfg_get:
++	dpu_detach_pm_domains(dpu);
++	return ret;
++}
++
++static int dpu_core_remove(struct platform_device *pdev)
++{
++	struct dpu_soc *dpu = platform_get_drvdata(pdev);
++
++	platform_device_unregister_children(pdev);
++	pm_runtime_disable(dpu->dev);
++	dpu_irq_exit(dpu);
++	dpu_detach_pm_domains(dpu);
++
++	return 0;
++}
++
++static int dpu_runtime_suspend(struct device *dev)
++{
++	struct platform_device *pdev = to_platform_device(dev);
++	struct dpu_soc *dpu = platform_get_drvdata(pdev);
++
++	clk_disable_unprepare(dpu->clk_axi);
++	clk_disable_unprepare(dpu->clk_cfg);
++
++	dev_dbg(dev, "suspended\n");
++
++	return 0;
++}
++
++static int dpu_runtime_resume(struct device *dev)
++{
++	struct platform_device *pdev = to_platform_device(dev);
++	struct dpu_soc *dpu = platform_get_drvdata(pdev);
++	int ret;
++
++	ret = clk_prepare_enable(dpu->clk_cfg);
++	if (ret) {
++		dev_err(dev, "failed to enable cfg clock: %d\n", ret);
++		return ret;
++	}
++	ret = clk_prepare_enable(dpu->clk_axi);
++	if (ret) {
++		clk_disable_unprepare(dpu->clk_cfg);
++		dev_err(dev, "failed to enable axi clock: %d\n", ret);
++		return ret;
++	}
++
++	dpu_irq_hw_init(dpu);
++
++	dpu_submodules_hw_init(dpu);
++
++	dev_dbg(dev, "resumed\n");
++
++	return ret;
++}
++
++static const struct dev_pm_ops dpu_pm_ops = {
++	SET_LATE_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
++				     pm_runtime_force_resume)
++	SET_RUNTIME_PM_OPS(dpu_runtime_suspend, dpu_runtime_resume, NULL)
++};
++
++const struct of_device_id dpu_dt_ids[] = {
++	{ .compatible = "fsl,imx8qm-dpu" },
++	{ .compatible = "fsl,imx8qxp-dpu" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, dpu_dt_ids);
++
++struct platform_driver dpu_core_driver = {
++	.driver = {
++		.pm = pm_ptr(&dpu_pm_ops),
++		.name = "dpu-core",
++		.of_match_table = dpu_dt_ids,
++	},
++	.probe = dpu_core_probe,
++	.remove = dpu_core_remove,
++};
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-crtc.c b/drivers/gpu/drm/imx/dpu/dpu-crtc.c
+new file mode 100644
+index 000000000000..61f261f31d04
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-crtc.c
+@@ -0,0 +1,969 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright 2017-2020,2022,2023 NXP
++ */
++
++#include <linux/component.h>
++#include <linux/irq.h>
++#include <linux/irqflags.h>
++#include <linux/pm_runtime.h>
++#include <linux/preempt.h>
++#include <linux/spinlock.h>
++
++#include <drm/drm_atomic.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_atomic_state_helper.h>
++#include <drm/drm_color_mgmt.h>
++
++#include "dpu.h"
++#include "dpu-crtc.h"
++#include "dpu-dprc.h"
++#include "dpu-drv.h"
++#include "dpu-plane.h"
++
++#define DPU_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(_name)			\
++do {									\
++	unsigned long ret;						\
++	ret = wait_for_completion_timeout(&dpu_crtc->_name, HZ);	\
++	if (ret == 0)							\
++		dpu_crtc_err(crtc, "%s: wait for " #_name " timeout\n",	\
++							__func__);	\
++} while (0)
++
++#define DPU_CRTC_WAIT_FOR_FRAMEGEN_FRAME_CNT_MOVING(fg)			\
++do {									\
++	if (dpu_fg_wait_for_frame_counter_moving(fg))			\
++		dpu_crtc_err(crtc,					\
++			"%s: FrameGen frame counter isn't moving\n",	\
++							__func__);	\
++} while (0)
++
++#define DPU_CRTC_CHECK_FRAMEGEN_FIFO(fg)				\
++do {									\
++	typeof(fg) _fg = (fg);						\
++	if (dpu_fg_secondary_requests_to_read_empty_fifo(_fg)) {	\
++		dpu_fg_secondary_clear_channel_status(_fg);		\
++		dpu_crtc_err(crtc, "%s: FrameGen FIFO empty\n",		\
++							__func__);	\
++	}								\
++} while (0)
++
++#define DPU_CRTC_WAIT_FOR_FRAMEGEN_SECONDARY_SYNCUP(fg)			\
++do {									\
++	if (dpu_fg_wait_for_secondary_syncup(fg))			\
++		dpu_crtc_err(crtc,					\
++			"%s: FrameGen secondary channel isn't syncup\n",\
++							__func__);	\
++} while (0)
++
++static u32 dpu_crtc_get_vblank_counter(struct drm_crtc *crtc)
++{
++	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
++
++	if (pm_runtime_active(dpu_crtc->dev->parent))
++		return dpu_fg_get_frame_index(dpu_crtc->fg);
++	else
++		return (u32)drm_crtc_vblank_count(crtc);
++}
++
++static int dpu_crtc_enable_vblank(struct drm_crtc *crtc)
++{
++	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
++
++	enable_irq(dpu_crtc->dec_frame_complete_irq);
++
++	return 0;
++}
++
++static void dpu_crtc_disable_vblank(struct drm_crtc *crtc)
++{
++	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
++
++	disable_irq_nosync(dpu_crtc->dec_frame_complete_irq);
++}
++
++static irqreturn_t
++dpu_crtc_dec_frame_complete_irq_handler(int irq, void *dev_id)
++{
++	struct dpu_crtc *dpu_crtc = dev_id;
++	struct drm_crtc *crtc = &dpu_crtc->base;
++	unsigned long flags;
++
++	drm_crtc_handle_vblank(crtc);
++
++	spin_lock_irqsave(&crtc->dev->event_lock, flags);
++	if (dpu_crtc->event) {
++		drm_crtc_send_vblank_event(crtc, dpu_crtc->event);
++		dpu_crtc->event = NULL;
++		drm_crtc_vblank_put(crtc);
++	}
++	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++
++	return IRQ_HANDLED;
++}
++
++static irqreturn_t dpu_crtc_common_irq_handler(int irq, void *dev_id)
++{
++	struct dpu_crtc *dpu_crtc = dev_id;
++	struct drm_crtc *crtc = &dpu_crtc->base;
++
++	if (irq == dpu_crtc->dec_seq_complete_irq) {
++		complete(&dpu_crtc->dec_seq_complete_done);
++	} else if (irq == dpu_crtc->dec_shdld_irq) {
++		complete(&dpu_crtc->dec_shdld_done);
++	} else if (irq == dpu_crtc->ed_cont_shdld_irq) {
++		complete(&dpu_crtc->ed_cont_shdld_done);
++	} else if (irq == dpu_crtc->ed_safe_shdld_irq) {
++		complete(&dpu_crtc->ed_safe_shdld_done);
++	} else {
++		dpu_crtc_err(crtc, "invalid CRTC irq(%u)\n", irq);
++		return IRQ_NONE;
++	}
++
++	return IRQ_HANDLED;
++}
++
++static const struct drm_crtc_funcs dpu_crtc_funcs = {
++	.reset			= drm_atomic_helper_crtc_reset,
++	.destroy		= drm_crtc_cleanup,
++	.set_config		= drm_atomic_helper_set_config,
++	.page_flip		= drm_atomic_helper_page_flip,
++	.atomic_duplicate_state	= drm_atomic_helper_crtc_duplicate_state,
++	.atomic_destroy_state	= drm_atomic_helper_crtc_destroy_state,
++	.get_vblank_counter	= dpu_crtc_get_vblank_counter,
++	.enable_vblank		= dpu_crtc_enable_vblank,
++	.disable_vblank		= dpu_crtc_disable_vblank,
++	.get_vblank_timestamp	= drm_crtc_vblank_helper_get_vblank_timestamp,
++};
++
++static void dpu_crtc_queue_state_event(struct drm_crtc *crtc)
++{
++	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
++
++	spin_lock_irq(&crtc->dev->event_lock);
++	if (crtc->state->event) {
++		WARN_ON(drm_crtc_vblank_get(crtc));
++		WARN_ON(dpu_crtc->event);
++		dpu_crtc->event = crtc->state->event;
++		crtc->state->event = NULL;
++	}
++	spin_unlock_irq(&crtc->dev->event_lock);
++}
++
++static enum drm_mode_status
++dpu_crtc_mode_valid(struct drm_crtc *crtc, const struct drm_display_mode *mode)
++{
++	if (mode->crtc_clock > DPU_FRAMEGEN_MAX_CLOCK)
++		return MODE_CLOCK_HIGH;
++
++	return MODE_OK;
++}
++
++static int dpu_crtc_pm_runtime_get_sync(struct dpu_crtc *dpu_crtc)
++{
++	int ret;
++
++	ret = pm_runtime_get_sync(dpu_crtc->dev->parent);
++	if (ret < 0) {
++		pm_runtime_put_noidle(dpu_crtc->dev->parent);
++		dpu_crtc_err(&dpu_crtc->base,
++			     "failed to get parent device RPM sync: %d\n", ret);
++	}
++
++	return ret;
++}
++
++static int dpu_crtc_pm_runtime_put(struct dpu_crtc *dpu_crtc)
++{
++	int ret;
++
++	ret = pm_runtime_put(dpu_crtc->dev->parent);
++	if (ret < 0)
++		dpu_crtc_err(&dpu_crtc->base,
++			     "failed to put parent device RPM: %d\n", ret);
++
++	return ret;
++}
++
++static void dpu_crtc_mode_set_nofb(struct drm_crtc *crtc)
++{
++	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
++	struct drm_display_mode *adj = &crtc->state->adjusted_mode;
++	enum dpu_link_id cf_link;
++
++	dpu_crtc_dbg(crtc, "mode " DRM_MODE_FMT "\n", DRM_MODE_ARG(adj));
++
++	/* request power-on when we start to set mode for CRTC */
++	dpu_crtc_pm_runtime_get_sync(dpu_crtc);
++
++	dpu_fg_displaymode(dpu_crtc->fg, FG_DM_SEC_ON_TOP);
++	dpu_fg_panic_displaymode(dpu_crtc->fg, FG_DM_CONSTCOL);
++	dpu_fg_cfg_videomode(dpu_crtc->fg, adj);
++
++	dpu_tcon_cfg_videomode(dpu_crtc->tcon, adj);
++	dpu_tcon_set_fmt(dpu_crtc->tcon);
++
++	dpu_cf_framedimensions(dpu_crtc->cf_cont,
++			       adj->crtc_hdisplay, adj->crtc_vdisplay);
++	dpu_cf_framedimensions(dpu_crtc->cf_safe,
++			       adj->crtc_hdisplay, adj->crtc_vdisplay);
++	/* constframe in content stream shows black frame - CRTC background */
++	dpu_cf_constantcolor_black(dpu_crtc->cf_cont);
++	/* constframe in safety stream shows blue frame */
++	dpu_cf_constantcolor_blue(dpu_crtc->cf_safe);
++
++	cf_link = dpu_cf_get_link_id(dpu_crtc->cf_safe);
++	dpu_ed_pec_src_sel(dpu_crtc->ed_safe, cf_link);
++
++	cf_link = dpu_cf_get_link_id(dpu_crtc->cf_cont);
++	dpu_ed_pec_src_sel(dpu_crtc->ed_cont, cf_link);
++}
++
++static int dpu_crtc_atomic_check_gamma(struct drm_crtc *crtc,
++				       struct drm_crtc_state *state)
++{
++	size_t lut_size;
++
++	if (!state->color_mgmt_changed || !state->gamma_lut)
++		return 0;
++
++	if (crtc->state->gamma_lut &&
++	    crtc->state->gamma_lut->base.id == state->gamma_lut->base.id)
++		return 0;
++
++	if (state->gamma_lut->length % sizeof(struct drm_color_lut)) {
++		dpu_crtc_dbg(crtc, "wrong gamma_lut length\n");
++		return -EINVAL;
++	}
++
++	lut_size = state->gamma_lut->length / sizeof(struct drm_color_lut);
++	if (lut_size != 256) {
++		dpu_crtc_dbg(crtc, "gamma_lut size is not 256\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
++				 struct drm_atomic_state *state)
++{
++	struct drm_crtc_state *crtc_state;
++	int ret;
++
++	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
++
++	ret = dpu_crtc_atomic_check_gamma(crtc, crtc_state);
++	if (ret)
++		return ret;
++
++	/* force a mode set if the CRTC is changed to active */
++	if (crtc_state->active_changed && crtc_state->active) {
++		/*
++		 * If mode_changed is set by us, call
++		 * drm_atomic_helper_check_modeset() as it's Kerneldoc requires.
++		 */
++		if (!crtc_state->mode_changed) {
++			crtc_state->mode_changed = true;
++
++			ret = drm_atomic_helper_check_modeset(crtc->dev, state);
++			if (ret)
++				return ret;
++		}
++	}
++
++	return ret;
++}
++
++static void dpu_crtc_atomic_begin(struct drm_crtc *crtc,
++				  struct drm_atomic_state *state)
++{
++	struct drm_crtc_state *old_crtc_state;
++	struct drm_atomic_state *old_state;
++	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
++	struct drm_plane *plane;
++	struct drm_plane_state *old_plane_state;
++	struct dpu_plane_state *old_dpstate;
++	struct dpu_fetchunit *fu;
++	const struct dpu_fetchunit_ops *fu_ops;
++	enum dpu_link_id cf_link;
++	int i;
++
++	old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
++	old_state = old_crtc_state->state;
++
++	/* do nothing if planes keep being disabled */
++	if (old_crtc_state->plane_mask == 0 && crtc->state->plane_mask == 0)
++		return;
++
++	/* request power-on when any plane starts to be active */
++	if (old_crtc_state->plane_mask == 0 && crtc->state->plane_mask != 0)
++		dpu_crtc_pm_runtime_get_sync(dpu_crtc);
++
++	/*
++	 * Disable relevant planes' resources in SHADOW only.
++	 * Whether any of them would be disabled or kept running depends
++	 * on new plane states in the new global atomic state.
++	 */
++	for_each_old_plane_in_state(old_state, plane, old_plane_state, i) {
++		old_dpstate = to_dpu_plane_state(old_plane_state);
++
++		if (!old_plane_state->fb)
++			continue;
++
++		if (old_plane_state->crtc != crtc)
++			continue;
++
++		fu = old_dpstate->source;
++
++		fu_ops = dpu_fu_get_ops(fu);
++
++		fu_ops->disable_src_buf(fu);
++
++		if (old_dpstate->is_top) {
++			cf_link = dpu_cf_get_link_id(dpu_crtc->cf_cont);
++			dpu_ed_pec_src_sel(dpu_crtc->ed_cont, cf_link);
++		}
++	}
++}
++
++static void dpu_crtc_set_gammacor(struct dpu_crtc *dpu_crtc)
++{
++	struct drm_crtc *crtc = &dpu_crtc->base;
++	struct drm_color_lut *lut;
++
++	lut = (struct drm_color_lut *)crtc->state->gamma_lut->data;
++
++	dpu_gc_enable_rgb_write(dpu_crtc->gc);
++	dpu_gc_mode(dpu_crtc->gc, GC_GAMMACOR);
++
++	dpu_gc_start_rgb(dpu_crtc->gc, lut);
++	dpu_gc_delta_rgb(dpu_crtc->gc, lut);
++}
++
++static void dpu_crtc_set_gammacor_sync(struct dpu_crtc *dpu_crtc)
++{
++	struct drm_crtc *crtc = &dpu_crtc->base;
++
++	enable_irq(dpu_crtc->dec_shdld_irq);
++
++	dpu_crtc_set_gammacor(dpu_crtc);
++	dpu_fg_shdtokgen(dpu_crtc->fg);
++	DPU_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(dec_shdld_done);
++
++	disable_irq(dpu_crtc->dec_shdld_irq);
++}
++
++static void dpu_crtc_disable_gammacor(struct dpu_crtc *dpu_crtc)
++{
++	dpu_gc_mode(dpu_crtc->gc, GC_NEUTRAL);
++	dpu_gc_disable_rgb_write(dpu_crtc->gc);
++}
++
++static void dpu_crtc_disable_gammacor_sync(struct dpu_crtc *dpu_crtc)
++{
++	struct drm_crtc *crtc = &dpu_crtc->base;
++
++	enable_irq(dpu_crtc->dec_shdld_irq);
++
++	dpu_crtc_disable_gammacor(dpu_crtc);
++	dpu_fg_shdtokgen(dpu_crtc->fg);
++	DPU_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(dec_shdld_done);
++
++	disable_irq(dpu_crtc->dec_shdld_irq);
++}
++
++static void dpu_crtc_atomic_flush(struct drm_crtc *crtc,
++				  struct drm_atomic_state *state)
++{
++	struct drm_crtc_state *old_crtc_state;
++	struct drm_atomic_state *old_state;
++	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
++	struct drm_plane *plane;
++	struct drm_plane_state *old_plane_state;
++	struct dpu_plane_state *old_dpstate;
++	struct dpu_fetchunit *fu;
++	struct dpu_dprc *dprc;
++	const struct dpu_fetchunit_ops *fu_ops;
++	bool need_modeset = drm_atomic_crtc_needs_modeset(crtc->state);
++	unsigned long flags;
++	int i;
++
++	old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
++	old_state = old_crtc_state->state;
++
++	if (old_crtc_state->plane_mask == 0 && crtc->state->plane_mask == 0) {
++		/* Queue a pending vbl event if necessary. */
++		if (!need_modeset && crtc->state->active)
++			dpu_crtc_queue_state_event(crtc);
++		return;
++	}
++
++	if (!need_modeset && crtc->state->active)
++		enable_irq(dpu_crtc->ed_cont_shdld_irq);
++
++	/*
++	 * Don't relinquish CPU until DPRC repeat_en is disabled
++	 * and flush is done(if necessary).
++	 */
++	local_irq_save(flags);
++	preempt_disable();
++
++	/*
++	 * Scan over old plane fetchunits to determine if we
++	 * need to wait for FrameGen frame counter moving in
++	 * the next loop prior to DPRC repeat_en disablement
++	 * or not.
++	 */
++	for_each_old_plane_in_state(old_state, plane, old_plane_state, i) {
++		old_dpstate = to_dpu_plane_state(old_plane_state);
++
++		if (!old_plane_state->fb)
++			continue;
++
++		if (old_plane_state->crtc != crtc)
++			continue;
++
++		fu = old_dpstate->source;
++
++		fu_ops = dpu_fu_get_ops(fu);
++
++		/*
++		 * Sync with FrameGen frame counter moving so that
++		 * we may disable DPRC repeat_en correctly.
++		 */
++		if (!fu_ops->is_enabled(fu) && !need_modeset &&
++		    old_crtc_state->active) {
++			DPU_CRTC_WAIT_FOR_FRAMEGEN_FRAME_CNT_MOVING(dpu_crtc->fg);
++			break;
++		}
++	}
++
++	/*
++	 * Set no stream id for disabled fetchunits of relevant planes.
++	 * Also, disable DPRC repeat_en if necessary.
++	 */
++	for_each_old_plane_in_state(old_state, plane, old_plane_state, i) {
++		old_dpstate = to_dpu_plane_state(old_plane_state);
++
++		if (!old_plane_state->fb)
++			continue;
++
++		if (old_plane_state->crtc != crtc)
++			continue;
++
++		fu = old_dpstate->source;
++
++		fu_ops = dpu_fu_get_ops(fu);
++
++		if (!fu_ops->is_enabled(fu)) {
++			fu_ops->set_no_stream_id(fu);
++
++			dprc = fu_ops->get_dprc(fu);
++			dpu_dprc_disable_repeat_en(dprc);
++		}
++	}
++
++	if (!need_modeset && crtc->state->active) {
++		/*
++		 * Flush plane(s) update out to display & queue a pending
++		 * vbl event if necessary.
++		 */
++		dpu_ed_pec_sync_trigger(dpu_crtc->ed_cont);
++
++		local_irq_restore(flags);
++		preempt_enable();
++
++		if (old_crtc_state->gamma_lut && !crtc->state->gamma_lut)
++			dpu_crtc_disable_gammacor_sync(dpu_crtc);
++		else if (old_crtc_state->gamma_lut && crtc->state->gamma_lut &&
++			 old_crtc_state->gamma_lut->base.id !=
++			 crtc->state->gamma_lut->base.id)
++			dpu_crtc_set_gammacor_sync(dpu_crtc);
++
++		DPU_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(ed_cont_shdld_done);
++
++		disable_irq(dpu_crtc->ed_cont_shdld_irq);
++
++		DPU_CRTC_CHECK_FRAMEGEN_FIFO(dpu_crtc->fg);
++
++		dpu_crtc_queue_state_event(crtc);
++	} else {
++		/*
++		 * Simply flush and hope that any update takes effect
++		 * if CRTC is disabled.  This helps for the case where
++		 * migrating plane(s) from a disabled CRTC to the other
++		 * CRTC.
++		 */
++		if (!crtc->state->active)
++			dpu_ed_pec_sync_trigger(dpu_crtc->ed_cont);
++
++		local_irq_restore(flags);
++		preempt_enable();
++	}
++
++	/* request power-off when all planes are off */
++	if (old_crtc_state->plane_mask != 0 && crtc->state->plane_mask == 0)
++		dpu_crtc_pm_runtime_put(dpu_crtc);
++}
++
++static void dpu_crtc_atomic_enable(struct drm_crtc *crtc,
++				   struct drm_atomic_state *state)
++{
++	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
++	unsigned long flags;
++
++	drm_crtc_vblank_on(crtc);
++
++	enable_irq(dpu_crtc->dec_shdld_irq);
++	enable_irq(dpu_crtc->ed_cont_shdld_irq);
++	enable_irq(dpu_crtc->ed_safe_shdld_irq);
++
++	dpu_fg_enable_clock(dpu_crtc->fg);
++	dpu_ed_pec_sync_trigger(dpu_crtc->ed_cont);
++	dpu_ed_pec_sync_trigger(dpu_crtc->ed_safe);
++	if (crtc->state->gamma_lut)
++		dpu_crtc_set_gammacor(dpu_crtc);
++	else
++		dpu_crtc_disable_gammacor(dpu_crtc);
++	dpu_fg_shdtokgen(dpu_crtc->fg);
++
++	/* don't relinquish CPU until TCON is set to operation mode */
++	local_irq_save(flags);
++	preempt_disable();
++	dpu_fg_enable(dpu_crtc->fg);
++
++	/*
++	 * TKT320590:
++	 * Turn TCON into operation mode as soon as the first dumb
++	 * frame is generated by DPU(we don't relinquish CPU to ensure
++	 * this).  This makes DPR/PRG be able to evade the frame.
++	 */
++	DPU_CRTC_WAIT_FOR_FRAMEGEN_FRAME_CNT_MOVING(dpu_crtc->fg);
++	dpu_tcon_set_operation_mode(dpu_crtc->tcon);
++	local_irq_restore(flags);
++	preempt_enable();
++
++	DPU_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(ed_safe_shdld_done);
++	DPU_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(ed_cont_shdld_done);
++	DPU_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(dec_shdld_done);
++
++	disable_irq(dpu_crtc->ed_safe_shdld_irq);
++	disable_irq(dpu_crtc->ed_cont_shdld_irq);
++	disable_irq(dpu_crtc->dec_shdld_irq);
++
++	DPU_CRTC_WAIT_FOR_FRAMEGEN_SECONDARY_SYNCUP(dpu_crtc->fg);
++
++	DPU_CRTC_CHECK_FRAMEGEN_FIFO(dpu_crtc->fg);
++
++	dpu_crtc_queue_state_event(crtc);
++}
++
++static void dpu_crtc_atomic_disable(struct drm_crtc *crtc,
++				    struct drm_atomic_state *state)
++{
++	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
++	struct drm_plane *plane;
++	struct drm_plane_state *old_plane_state;
++	struct dpu_plane_state *old_dpstate;
++	struct dpu_fetchunit *fu;
++	struct dpu_dprc *dprc;
++	const struct dpu_fetchunit_ops *fu_ops;
++	unsigned long flags;
++	int i;
++
++	enable_irq(dpu_crtc->dec_seq_complete_irq);
++
++	/* don't relinquish CPU until DPRC repeat_en is disabled */
++	local_irq_save(flags);
++	preempt_disable();
++	/*
++	 * Sync to FrameGen frame counter moving so that
++	 * FrameGen can be disabled in the next frame.
++	 */
++	DPU_CRTC_WAIT_FOR_FRAMEGEN_FRAME_CNT_MOVING(dpu_crtc->fg);
++	dpu_fg_disable(dpu_crtc->fg);
++	/*
++	 * There is one frame leftover after FrameGen disablement.
++	 * Sync to FrameGen frame counter moving so that
++	 * DPRC repeat_en can be disabled in the next frame.
++	 */
++	DPU_CRTC_WAIT_FOR_FRAMEGEN_FRAME_CNT_MOVING(dpu_crtc->fg);
++
++	for_each_old_plane_in_state(state, plane, old_plane_state, i) {
++		old_dpstate = to_dpu_plane_state(old_plane_state);
++
++		if (!old_plane_state->fb)
++			continue;
++
++		if (old_plane_state->crtc != crtc)
++			continue;
++
++		fu = old_dpstate->source;
++
++		fu_ops = dpu_fu_get_ops(fu);
++
++		dprc = fu_ops->get_dprc(fu);
++		dpu_dprc_disable_repeat_en(dprc);
++	}
++
++	local_irq_restore(flags);
++	preempt_enable();
++
++	DPU_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(dec_seq_complete_done);
++
++	disable_irq(dpu_crtc->dec_seq_complete_irq);
++
++	dpu_fg_disable_clock(dpu_crtc->fg);
++
++	drm_crtc_vblank_off(crtc);
++
++	spin_lock_irq(&crtc->dev->event_lock);
++	if (crtc->state->event && !crtc->state->active) {
++		drm_crtc_send_vblank_event(crtc, crtc->state->event);
++		crtc->state->event = NULL;
++	}
++	spin_unlock_irq(&crtc->dev->event_lock);
++
++	/* request power-off when CRTC is disabled */
++	dpu_crtc_pm_runtime_put(dpu_crtc);
++}
++
++static bool dpu_crtc_get_scanout_position(struct drm_crtc *crtc,
++					  bool in_vblank_irq,
++					  int *vpos, int *hpos,
++					  ktime_t *stime, ktime_t *etime,
++					  const struct drm_display_mode *mode)
++{
++	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
++	int vdisplay = mode->crtc_vdisplay;
++	int vtotal = mode->crtc_vtotal;
++	int line;
++	bool reliable;
++
++	if (stime)
++		*stime = ktime_get();
++
++	if (pm_runtime_active(dpu_crtc->dev->parent)) {
++		/* line index starts with 0 for the first active output line */
++		line = dpu_fg_get_line_index(dpu_crtc->fg);
++
++		if (line < vdisplay)
++			/* active scanout area - positive */
++			*vpos = line + 1;
++		else
++			/* inside vblank - negative */
++			*vpos = line - (vtotal - 1);
++
++		reliable = true;
++	} else {
++		*vpos = 0;
++		reliable = false;
++	}
++
++	*hpos = 0;
++
++	if (etime)
++		*etime = ktime_get();
++
++	return reliable;
++}
++
++static const struct drm_crtc_helper_funcs dpu_helper_funcs = {
++	.mode_valid		= dpu_crtc_mode_valid,
++	.mode_set_nofb		= dpu_crtc_mode_set_nofb,
++	.atomic_check		= dpu_crtc_atomic_check,
++	.atomic_begin		= dpu_crtc_atomic_begin,
++	.atomic_flush		= dpu_crtc_atomic_flush,
++	.atomic_enable		= dpu_crtc_atomic_enable,
++	.atomic_disable		= dpu_crtc_atomic_disable,
++	.get_scanout_position	= dpu_crtc_get_scanout_position,
++};
++
++static void dpu_crtc_put_resources(struct dpu_crtc *dpu_crtc)
++{
++	dpu_cf_cont_put(dpu_crtc->cf_cont);
++	dpu_cf_safe_put(dpu_crtc->cf_safe);
++	dpu_dec_put(dpu_crtc->dec);
++	dpu_ed_cont_put(dpu_crtc->ed_cont);
++	dpu_ed_safe_put(dpu_crtc->ed_safe);
++	dpu_fg_put(dpu_crtc->fg);
++	dpu_gc_put(dpu_crtc->gc);
++	dpu_tcon_put(dpu_crtc->tcon);
++}
++
++static int dpu_crtc_get_resources(struct dpu_crtc *dpu_crtc)
++{
++	struct dpu_soc *dpu = dev_get_drvdata(dpu_crtc->dev->parent);
++	struct {
++		void **dpu_unit;
++		void *(*get)(struct dpu_soc *dpu, unsigned int id);
++	} resources[] = {
++		{(void *)&dpu_crtc->cf_cont,	(void *)dpu_cf_cont_get},
++		{(void *)&dpu_crtc->cf_safe,	(void *)dpu_cf_safe_get},
++		{(void *)&dpu_crtc->dec,	(void *)dpu_dec_get},
++		{(void *)&dpu_crtc->ed_cont,	(void *)dpu_ed_cont_get},
++		{(void *)&dpu_crtc->ed_safe,	(void *)dpu_ed_safe_get},
++		{(void *)&dpu_crtc->fg,		(void *)dpu_fg_get},
++		{(void *)&dpu_crtc->gc,		(void *)dpu_gc_get},
++		{(void *)&dpu_crtc->tcon,	(void *)dpu_tcon_get},
++	};
++	int i, ret;
++
++	for (i = 0; i < ARRAY_SIZE(resources); i++) {
++		*resources[i].dpu_unit =
++				resources[i].get(dpu, dpu_crtc->stream_id);
++		if (IS_ERR(*resources[i].dpu_unit)) {
++			ret = PTR_ERR(*resources[i].dpu_unit);
++			dpu_crtc_put_resources(dpu_crtc);
++			return ret;
++		}
++	}
++
++	return 0;
++}
++
++static int dpu_crtc_request_irq(struct dpu_crtc *dpu_crtc,
++				unsigned int *crtc_irq,
++				unsigned int dpu_irq,
++				irqreturn_t (*irq_handler)(int irq,
++							   void *dev_id))
++{
++	struct drm_crtc *crtc = &dpu_crtc->base;
++	struct dpu_soc *dpu = dev_get_drvdata(dpu_crtc->dev->parent);
++	int ret;
++
++	*crtc_irq = dpu_map_irq(dpu, dpu_irq);
++	irq_set_status_flags(*crtc_irq, IRQ_DISABLE_UNLAZY);
++	ret = devm_request_irq(dpu_crtc->dev, *crtc_irq, irq_handler,
++			       0, dev_name(dpu_crtc->dev), dpu_crtc);
++	if (ret < 0) {
++		dpu_crtc_err(crtc, "failed to request irq(%u): %d\n",
++			     *crtc_irq, ret);
++		return ret;
++	}
++	disable_irq(*crtc_irq);
++
++	return 0;
++}
++
++static int dpu_crtc_request_irqs(struct dpu_crtc *dpu_crtc,
++				 struct dpu_client_platformdata *pdata)
++{
++	struct {
++		unsigned int *crtc_irq;
++		unsigned int dpu_irq;
++		irqreturn_t (*irq_handler)(int irq, void *dev_id);
++	} irqs[] = {
++		{
++			&dpu_crtc->dec_frame_complete_irq,
++			pdata->dec_frame_complete_irq,
++			dpu_crtc_dec_frame_complete_irq_handler,
++		}, {
++			&dpu_crtc->dec_seq_complete_irq,
++			pdata->dec_seq_complete_irq,
++			dpu_crtc_common_irq_handler,
++		}, {
++			&dpu_crtc->dec_shdld_irq,
++			pdata->dec_shdld_irq,
++			dpu_crtc_common_irq_handler,
++		}, {
++			&dpu_crtc->ed_cont_shdld_irq,
++			pdata->ed_cont_shdld_irq,
++			dpu_crtc_common_irq_handler,
++		}, {
++			&dpu_crtc->ed_safe_shdld_irq,
++			pdata->ed_safe_shdld_irq,
++			dpu_crtc_common_irq_handler,
++		},
++	};
++	int i, ret;
++
++	for (i = 0; i < ARRAY_SIZE(irqs); i++) {
++		ret = dpu_crtc_request_irq(dpu_crtc,
++					   irqs[i].crtc_irq, irqs[i].dpu_irq,
++					   irqs[i].irq_handler);
++		if (ret)
++			return ret;
++	}
++
++	return 0;
++}
++
++static int dpu_crtc_init(struct dpu_crtc *dpu_crtc,
++			 struct dpu_client_platformdata *pdata,
++			 struct dpu_drm_device *dpu_drm)
++{
++	struct drm_device *drm = &dpu_drm->base;
++	struct drm_crtc *crtc = &dpu_crtc->base;
++	struct dpu_plane *dpu_plane;
++	struct dpu_crtc_grp *crtc_grp = pdata->crtc_grp;
++	struct dpu_plane_grp *plane_grp = crtc_grp->plane_grp;
++	unsigned int stream_id = pdata->stream_id;
++	unsigned int crtc_cnt;
++	int i, ret;
++
++	init_completion(&dpu_crtc->dec_seq_complete_done);
++	init_completion(&dpu_crtc->dec_shdld_done);
++	init_completion(&dpu_crtc->ed_cont_shdld_done);
++	init_completion(&dpu_crtc->ed_safe_shdld_done);
++
++	dpu_crtc->grp = crtc_grp;
++	dpu_crtc->stream_id = stream_id;
++	dpu_crtc->hw_plane_cnt = plane_grp->hw_plane_cnt;
++
++	ret = dpu_crtc_get_resources(dpu_crtc);
++	if (ret) {
++		drm_err(drm, "failed to get HW resources for CRTC: %d\n", ret);
++		return ret;
++	}
++
++	plane_grp->cf[stream_id] = dpu_crtc->cf_cont;
++	plane_grp->ed[stream_id] = dpu_crtc->ed_cont;
++
++	/* each CRTC has a primary plane */
++	dpu_plane = dpu_plane_initialize(drm, 0, plane_grp,
++					 DRM_PLANE_TYPE_PRIMARY);
++	if (IS_ERR(dpu_plane)) {
++		ret = PTR_ERR(dpu_plane);
++		drm_err(drm, "failed to init primary plane: %d\n", ret);
++		goto err_put_resources;
++	}
++
++	drm_crtc_helper_add(crtc, &dpu_helper_funcs);
++
++	ret = drm_crtc_init_with_planes(drm, crtc, &dpu_plane->base,
++					NULL, &dpu_crtc_funcs, NULL);
++	if (ret) {
++		drm_err(drm, "failed to add CRTC: %d\n", ret);
++		goto err_put_resources;
++	}
++
++	/* X server assumes 256 element gamma table so let's use that. */
++	ret = drm_mode_crtc_set_gamma_size(crtc, 256);
++	if (ret) {
++		dpu_crtc_err(crtc, "failed to set gamma size: %d\n", ret);
++		goto err_put_resources;
++	}
++
++	drm_crtc_enable_color_mgmt(crtc, 0, false, 256);
++
++	dpu_crtc->encoder->possible_crtcs = drm_crtc_mask(crtc);
++	crtc_grp->crtc_mask |= drm_crtc_mask(crtc);
++	crtc_cnt = hweight32(crtc_grp->crtc_mask);
++
++	/* initialize shared overlay planes for CRTCs in a CRTC group */
++	if (crtc_cnt == DPU_CRTC_CNT_IN_GRP) {
++		/*
++		 * All HW planes in a plane group are shared by CRTCs in a
++		 * CRTC group.  They will be assigned to either primary plane
++		 * or overlay plane dynamically in runtime.  Considering a
++		 * CRTC consumes all HW planes and primary plane takes one
++		 * HW plane, so overlay plane count for a CRTC group should
++		 * be plane_grp->hw_plane_cnt - 1.
++		 */
++		for (i = 1; i < plane_grp->hw_plane_cnt; i++) {
++			dpu_plane =
++				dpu_plane_initialize(drm, crtc_grp->crtc_mask,
++						     plane_grp,
++						     DRM_PLANE_TYPE_OVERLAY);
++			if (IS_ERR(dpu_plane)) {
++				ret = PTR_ERR(dpu_plane);
++				dpu_crtc_err(crtc,
++					     "failed to init overlay plane(%d): %d\n",
++					     i, ret);
++				goto err_put_resources;
++			}
++		}
++	}
++
++	ret = dpu_crtc_pm_runtime_get_sync(dpu_crtc);
++	if (ret < 0)
++		goto err_put_resources;
++
++	ret = dpu_crtc_request_irqs(dpu_crtc, pdata);
++	if (ret)
++		goto err_put_pm_runtime;
++
++	ret = dpu_crtc_pm_runtime_put(dpu_crtc);
++	if (ret < 0)
++		dpu_crtc_put_resources(dpu_crtc);
++
++	return ret;
++
++err_put_pm_runtime:
++	pm_runtime_put(dpu_crtc->dev->parent);
++err_put_resources:
++	dpu_crtc_put_resources(dpu_crtc);
++
++	return ret;
++}
++
++static int dpu_crtc_bind(struct device *dev, struct device *master, void *data)
++{
++	struct dpu_client_platformdata *pdata = dev->platform_data;
++	struct dpu_drm_device *dpu_drm = data;
++	struct dpu_crtc *dpu_crtc;
++	bool found = false;
++	int ret;
++
++	list_for_each_entry(dpu_crtc, &dpu_drm->crtc_list, node) {
++		if (dpu_crtc->np == dev->of_node) {
++			found = true;
++			break;
++		}
++	}
++
++	if (!found) {
++		drm_err(&dpu_drm->base, "failed to find CRTC OF node\n");
++		return -ENODEV;
++	}
++
++	dpu_crtc->dev = dev;
++
++	ret = dpu_crtc_init(dpu_crtc, pdata, dpu_drm);
++	if (ret)
++		return ret;
++
++	dev_set_drvdata(dev, dpu_crtc);
++
++	return ret;
++}
++
++static void dpu_crtc_unbind(struct device *dev, struct device *master,
++			    void *data)
++{
++	struct dpu_crtc *dpu_crtc = dev_get_drvdata(dev);
++
++	dpu_crtc_put_resources(dpu_crtc);
++}
++
++static const struct component_ops dpu_crtc_ops = {
++	.bind = dpu_crtc_bind,
++	.unbind = dpu_crtc_unbind,
++};
++
++static int dpu_crtc_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++
++	if (!dev->platform_data)
++		return -EINVAL;
++
++	return component_add(dev, &dpu_crtc_ops);
++}
++
++static int dpu_crtc_remove(struct platform_device *pdev)
++{
++	component_del(&pdev->dev, &dpu_crtc_ops);
++	return 0;
++}
++
++struct platform_driver dpu_crtc_driver = {
++	.driver = {
++		.name = "imx8-dpu-crtc",
++	},
++	.probe = dpu_crtc_probe,
++	.remove = dpu_crtc_remove,
++};
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-crtc.h b/drivers/gpu/drm/imx/dpu/dpu-crtc.h
+new file mode 100644
+index 000000000000..b303d7518fb5
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-crtc.h
+@@ -0,0 +1,72 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++
++/*
++ * Copyright 2017-2020,2022,2023 NXP
++ */
++
++#ifndef __DPU_CRTC_H__
++#define __DPU_CRTC_H__
++
++#include <linux/completion.h>
++#include <linux/device.h>
++#include <linux/kernel.h>
++#include <linux/of.h>
++
++#include <drm/drm_crtc.h>
++#include <drm/drm_encoder.h>
++#include <drm/drm_print.h>
++#include <drm/drm_vblank.h>
++
++#include "dpu.h"
++
++#define dpu_crtc_dbg(crtc, fmt, ...)					\
++do {									\
++	typeof(crtc) _crtc = (crtc);					\
++	drm_dbg_kms(_crtc->dev, "[CRTC:%d:%s] " fmt,			\
++		    _crtc->base.id, _crtc->name, ##__VA_ARGS__);	\
++} while (0)
++
++#define dpu_crtc_err(crtc, fmt, ...)					\
++do {									\
++	typeof(crtc) _crtc = (crtc);					\
++	drm_err(_crtc->dev, "[CRTC:%d:%s] " fmt,			\
++		_crtc->base.id, _crtc->name, ##__VA_ARGS__);		\
++} while (0)
++
++#define DPU_CRTC_CNT_IN_GRP	2
++
++struct dpu_crtc {
++	struct device		*dev;
++	struct device_node	*np;
++	struct list_head	node;
++	struct drm_crtc		base;
++	struct dpu_crtc_grp	*grp;
++	struct drm_encoder	*encoder;
++	struct dpu_constframe	*cf_cont;
++	struct dpu_constframe	*cf_safe;
++	struct dpu_disengcfg	*dec;
++	struct dpu_extdst	*ed_cont;
++	struct dpu_extdst	*ed_safe;
++	struct dpu_framegen	*fg;
++	struct dpu_gammacor	*gc;
++	struct dpu_tcon		*tcon;
++	unsigned int		stream_id;
++	unsigned int		hw_plane_cnt;
++	unsigned int		dec_frame_complete_irq;
++	unsigned int		dec_seq_complete_irq;
++	unsigned int		dec_shdld_irq;
++	unsigned int		ed_cont_shdld_irq;
++	unsigned int		ed_safe_shdld_irq;
++	struct completion	dec_seq_complete_done;
++	struct completion	dec_shdld_done;
++	struct completion	ed_safe_shdld_done;
++	struct completion	ed_cont_shdld_done;
++	struct drm_pending_vblank_event *event;
++};
++
++static inline struct dpu_crtc *to_dpu_crtc(struct drm_crtc *crtc)
++{
++	return container_of(crtc, struct dpu_crtc, base);
++}
++
++#endif /* __DPU_CRTC_H__ */
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-disengcfg.c b/drivers/gpu/drm/imx/dpu/dpu-disengcfg.c
+new file mode 100644
+index 000000000000..2cb33058c31e
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-disengcfg.c
+@@ -0,0 +1,117 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright (C) 2016 Freescale Semiconductor, Inc.
++ * Copyright 2017-2020,2023 NXP
++ */
++
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/mutex.h>
++#include <linux/sizes.h>
++
++#include "dpu-prv.h"
++
++#define POLARITYCTRL		0xc
++#define  POLHS_HIGH		BIT(0)
++#define  POLVS_HIGH		BIT(1)
++#define  POLEN_HIGH		BIT(2)
++#define  PIXINV_INV		BIT(3)
++
++#define SRCSELECT0		0x10
++#define  PATH_SELECT0		BIT(4)
++#define  MATRIX_FIRST		BIT(4)
++#define  GAMMA_FIRST		0
++#define  SIG_SELECT0		0x3
++#define  SIG_FRAMEGEN		0x0
++#define  SIG_GAMMACOR		0x1
++#define  SIG_MATRIX		0x2
++#define  SIG_DITHER		0x3
++
++struct dpu_disengcfg {
++	void __iomem *base;
++	struct mutex mutex;
++	unsigned int id;
++	unsigned int index;
++	bool inuse;
++	struct dpu_soc *dpu;
++};
++
++static inline void dpu_dec_write(struct dpu_disengcfg *dec,
++				 unsigned int offset, u32 value)
++{
++	writel(value, dec->base + offset);
++}
++
++struct dpu_disengcfg *dpu_dec_get(struct dpu_soc *dpu, unsigned int id)
++{
++	struct dpu_disengcfg *dec;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(dpu->dec_priv); i++) {
++		dec = dpu->dec_priv[i];
++		if (dec->id == id)
++			break;
++	}
++
++	if (i == ARRAY_SIZE(dpu->dec_priv))
++		return ERR_PTR(-EINVAL);
++
++	mutex_lock(&dec->mutex);
++
++	if (dec->inuse) {
++		mutex_unlock(&dec->mutex);
++		return ERR_PTR(-EBUSY);
++	}
++
++	dec->inuse = true;
++
++	mutex_unlock(&dec->mutex);
++
++	return dec;
++}
++
++void dpu_dec_put(struct dpu_disengcfg *dec)
++{
++	if (IS_ERR_OR_NULL(dec))
++		return;
++
++	mutex_lock(&dec->mutex);
++
++	dec->inuse = false;
++
++	mutex_unlock(&dec->mutex);
++}
++
++void dpu_dec_hw_init(struct dpu_soc *dpu, unsigned int index)
++{
++	struct dpu_disengcfg *dec = dpu->dec_priv[index];
++
++	dpu_dec_write(dec, POLARITYCTRL, POLEN_HIGH);
++	dpu_dec_write(dec, SRCSELECT0, GAMMA_FIRST | SIG_FRAMEGEN);
++}
++
++int dpu_dec_init(struct dpu_soc *dpu, unsigned int index,
++		 unsigned int id, enum dpu_unit_type type,
++		 unsigned long unused, unsigned long base)
++{
++	struct dpu_disengcfg *dec;
++
++	dec = devm_kzalloc(dpu->dev, sizeof(*dec), GFP_KERNEL);
++	if (!dec)
++		return -ENOMEM;
++
++	dpu->dec_priv[index] = dec;
++
++	dec->base = devm_ioremap(dpu->dev, base, SZ_32);
++	if (!dec->base)
++		return -ENOMEM;
++
++	dec->dpu = dpu;
++	dec->id = id;
++	dec->index = index;
++
++	mutex_init(&dec->mutex);
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-dprc.c b/drivers/gpu/drm/imx/dpu/dpu-dprc.c
+new file mode 100644
+index 000000000000..261c9566721e
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-dprc.c
+@@ -0,0 +1,715 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright 2017-2020,2022,2023 NXP
++ */
++
++#include <linux/clk.h>
++#include <linux/delay.h>
++#include <linux/firmware/imx/svc/misc.h>
++#include <linux/interrupt.h>
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/of_device.h>
++#include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
++
++#include <dt-bindings/firmware/imx/rsrc.h>
++
++#include "dpu.h"
++#include "dpu-dprc.h"
++#include "dpu-prg.h"
++
++#define SET					0x4
++#define CLR					0x8
++#define TOG					0xc
++
++#define SYSTEM_CTRL0				0x00
++#define  BCMD2AXI_MASTR_ID_CTRL			BIT(16)
++#define  SW_SHADOW_LOAD_SEL			BIT(4)
++#define  SHADOW_LOAD_EN				BIT(3)
++#define  REPEAT_EN				BIT(2)
++#define  SOFT_RESET				BIT(1)
++#define  RUN_EN					BIT(0)	/* self-clearing */
++
++#define IRQ_MASK				0x20
++#define IRQ_MASK_STATUS				0x30
++#define IRQ_NONMASK_STATUS			0x40
++#define  DPR2RTR_FIFO_LOAD_BUF_RDY_UV_ERROR	BIT(7)
++#define  DPR2RTR_FIFO_LOAD_BUF_RDY_YRGB_ERROR	BIT(6)
++#define  DPR2RTR_UV_FIFO_OVFL			BIT(5)
++#define  DPR2RTR_YRGB_FIFO_OVFL			BIT(4)
++#define  IRQ_AXI_READ_ERROR			BIT(3)
++#define  IRQ_DPR_SHADOW_LOADED_MASK		BIT(2)
++#define  IRQ_DPR_RUN				BIT(1)
++#define  IRQ_DPR_CRTL_DONE			BIT(0)
++#define  IRQ_CTRL_MASK				0x7
++
++#define MODE_CTRL0				0x50
++#define  A_COMP_SEL(byte)			(((byte) & 0x3) << 16)
++#define  R_COMP_SEL(byte)			(((byte) & 0x3) << 14)
++#define  G_COMP_SEL(byte)			(((byte) & 0x3) << 12)
++#define  B_COMP_SEL(byte)			(((byte) & 0x3) << 10)
++#define  PIX_UV_SWAP				BIT(9)
++#define  PIX_LUMA_UV_SWAP			BIT(8)
++#define  PIX_SIZE_8BIT				(0 << 6)
++#define  PIX_SIZE_16BIT				(1 << 6)
++#define  PIX_SIZE_32BIT				(2 << 6)
++#define  COMP_2PLANE_EN				BIT(5)
++#define  YUV_EN					BIT(4)
++#define  LINEAR_TILE				(0 << 2)
++#define  GPU_STANDARD_TILE			(1 << 2)
++#define  GPU_SUPER_TILE				(2 << 2)
++#define  VPU_TILE				(3 << 2)
++#define  LINE4					BIT(1)
++#define  LINE8					0
++#define  BUF3					BIT(0)
++#define  BUF2					0
++
++#define FRAME_CTRL0				0x70
++#define  PITCH(n)				(((n) & 0xffff) << 16)
++#define  ROT_FIRST				BIT(4)
++#define  FLIP_FIRST				0
++#define  ROT_ENC_MASK				0xc
++#define  ROT_ENC_0				0x0
++#define  ROT_ENC_90				0x4
++#define  ROT_ENC_270				0xc
++#define  DEGREE(n)				((((n) / 90) & 0x3) << 2)
++#define  VFLIP_EN				BIT(1)
++#define  HFLIP_EN				BIT(0)
++
++#define FRAME_1P_CTRL0				0x90
++#define FRAME_2P_CTRL0				0xe0
++#define  BYTE_64				0x0
++#define  BYTE_128				0x1
++#define  BYTE_256				0x2
++#define  BYTE_512				0x3
++#define  BYTE_1K				0x4
++#define  BYTE_2K				0x5
++#define  BYTE_4K				0x6
++
++#define FRAME_1P_PIX_X_CTRL			0xa0
++#define  NUM_X_PIX_WIDE(n)			((n) & 0xffff)
++
++#define FRAME_1P_PIX_Y_CTRL			0xb0
++#define  NUM_Y_PIX_HIGH(n)			((n) & 0xffff)
++
++#define FRAME_1P_BASE_ADDR_CTRL0		0xc0
++
++#define FRAME_PIX_X_ULC_CTRL			0xf0
++#define  CROP_ULC_X(n)				((n) & 0xffff)
++
++#define FRAME_PIX_Y_ULC_CTRL			0x100
++#define  CROP_ULC_Y(n)				((n) & 0xffff)
++
++#define FRAME_2P_BASE_ADDR_CTRL0		0x110
++
++#define STATUS_CTRL0				0x130
++#define STATUS_CTRL1				0x140
++
++#define RTRAM_CTRL0				0x200
++#define  ABORT					BIT(7)
++#define  STALL					0
++#define  THRES_LOW(n)				(((n) & 0x7) << 4)
++#define  THRES_HIGH(n)				(((n) & 0x7) << 1)
++#define  ROWS_0_6				BIT(0)
++#define  ROWS_0_4				0
++
++#define DPU_DRPC_MAX_STRIDE			0x10000
++#define DPU_DPRC_MAX_RTRAM_WIDTH		2880
++
++struct dpu_dprc {
++	struct device *dev;
++	void __iomem *base;
++	struct list_head list;
++	struct clk *clk_apb;
++	struct clk *clk_b;
++	struct clk *clk_rtram;
++	struct imx_sc_ipc *ipc_handle;
++	spinlock_t spin_lock;
++	u32 sc_resource;
++	bool is_blit;
++
++	/* The second one, if non-NULL, is auxiliary for UV buffer. */
++	struct dpu_prg *prgs[2];
++	bool has_aux_prg;
++	bool use_aux_prg;
++};
++
++static DEFINE_MUTEX(dpu_dprc_list_mutex);
++static LIST_HEAD(dpu_dprc_list);
++
++static inline u32 dpu_dprc_read(struct dpu_dprc *dprc, unsigned int offset)
++{
++	return readl(dprc->base + offset);
++}
++
++static inline void
++dpu_dprc_write(struct dpu_dprc *dprc, unsigned int offset, u32 value)
++{
++	writel(value, dprc->base + offset);
++}
++
++static inline void
++dpu_dprc_set_stream_id(struct dpu_dprc *dprc, unsigned int stream_id)
++{
++	int ret;
++
++	ret = imx_sc_misc_set_control(dprc->ipc_handle, dprc->sc_resource,
++				      IMX_SC_C_KACHUNK_SEL, stream_id);
++	if (ret)
++		dev_warn(dprc->dev, "failed to set KACHUNK_SEL: %d\n", ret);
++}
++
++static inline void
++dpu_dprc_set_prg_sel(struct dpu_dprc *dprc, u32 resource, bool enable)
++{
++	int ret;
++
++	ret = imx_sc_misc_set_control(dprc->ipc_handle,
++				      resource, IMX_SC_C_SEL0, enable);
++	if (ret)
++		dev_warn(dprc->dev, "failed to set SEL0: %d\n", ret);
++}
++
++static void dpu_dprc_reset(struct dpu_dprc *dprc)
++{
++	dpu_dprc_write(dprc, SYSTEM_CTRL0 + SET, SOFT_RESET);
++	usleep_range(10, 20);
++	dpu_dprc_write(dprc, SYSTEM_CTRL0 + CLR, SOFT_RESET);
++}
++
++static void dpu_dprc_enable(struct dpu_dprc *dprc)
++{
++	dpu_prg_enable(dprc->prgs[0]);
++	if (dprc->use_aux_prg)
++		dpu_prg_enable(dprc->prgs[1]);
++}
++
++static void dpu_dprc_reg_update(struct dpu_dprc *dprc)
++{
++	dpu_prg_reg_update(dprc->prgs[0]);
++	if (dprc->use_aux_prg)
++		dpu_prg_reg_update(dprc->prgs[1]);
++}
++
++static void dpu_dprc_enable_ctrl_done_irq(struct dpu_dprc *dprc)
++{
++	unsigned long flags;
++
++	spin_lock_irqsave(&dprc->spin_lock, flags);
++	dpu_dprc_write(dprc, IRQ_MASK + CLR, IRQ_DPR_CRTL_DONE);
++	spin_unlock_irqrestore(&dprc->spin_lock, flags);
++}
++
++void dpu_dprc_configure(struct dpu_dprc *dprc, unsigned int stream_id,
++			unsigned int width, unsigned int height,
++			unsigned int x_offset, unsigned int y_offset,
++			unsigned int stride,
++			const struct drm_format_info *format, u64 modifier,
++			dma_addr_t baddr, dma_addr_t uv_baddr,
++			bool start, bool interlace_frame)
++{
++	struct device *dev = dprc->dev;
++	unsigned int dprc_width = width + x_offset;
++	unsigned int dprc_height;
++	unsigned int p1_w, p1_h;
++	unsigned int prg_stride = width * format->cpp[0];
++	unsigned int bpp = 8 * format->cpp[0];
++	unsigned int preq;
++	unsigned int mt_w = 0, mt_h = 0;	/* micro-tile width/height */
++	u32 val;
++
++	dprc->use_aux_prg = false;
++
++	if (start && !dprc->is_blit)
++		dpu_dprc_set_stream_id(dprc, stream_id);
++
++	if (interlace_frame) {
++		height /= 2;
++		y_offset /= 2;
++	}
++
++	dprc_height = height + y_offset;
++
++	if (format->num_planes > 1) {
++		p1_w = round_up(dprc_width, modifier ? 8 : 64);
++		p1_h = round_up(dprc_height, 8);
++
++		preq = modifier ? BYTE_64 : BYTE_1K;
++
++		dpu_dprc_write(dprc, FRAME_2P_CTRL0, preq);
++		if (dprc->sc_resource == IMX_SC_R_DC_0_BLIT1 ||
++		    dprc->sc_resource == IMX_SC_R_DC_1_BLIT1) {
++			dpu_dprc_set_prg_sel(dprc,
++				dprc->sc_resource == IMX_SC_R_DC_0_BLIT1 ?
++				IMX_SC_R_DC_0_BLIT0 : IMX_SC_R_DC_1_BLIT0,
++				true);
++			dpu_prg_set_auxiliary(dprc->prgs[1]);
++			dprc->has_aux_prg = true;
++		}
++		dpu_dprc_write(dprc, FRAME_2P_BASE_ADDR_CTRL0, uv_baddr);
++	} else {
++		switch (dprc->sc_resource) {
++		case IMX_SC_R_DC_0_BLIT0:
++		case IMX_SC_R_DC_1_BLIT0:
++			dpu_dprc_set_prg_sel(dprc, dprc->sc_resource, false);
++			dpu_prg_set_primary(dprc->prgs[0]);
++			break;
++		case IMX_SC_R_DC_0_BLIT1:
++		case IMX_SC_R_DC_1_BLIT1:
++			dprc->has_aux_prg = false;
++			break;
++		default:
++			break;
++		}
++
++		switch (modifier) {
++		case DRM_FORMAT_MOD_VIVANTE_TILED:
++			p1_w = round_up(dprc_width,
++					format->cpp[0] == 2 ? 8 : 4);
++			break;
++		case DRM_FORMAT_MOD_VIVANTE_SUPER_TILED:
++			if (dprc->is_blit)
++				p1_w = round_up(dprc_width,
++						format->cpp[0] == 2 ? 8 : 4);
++			else
++				p1_w = round_up(dprc_width, 64);
++			break;
++		default:
++			p1_w = round_up(dprc_width,
++					format->cpp[0] == 2 ? 32 : 16);
++			break;
++		}
++		p1_h = round_up(dprc_height, 4);
++	}
++
++	dpu_dprc_write(dprc, FRAME_CTRL0, PITCH(stride));
++
++	switch (modifier) {
++	case DRM_FORMAT_MOD_VIVANTE_TILED:
++		preq = BYTE_256;
++		mt_w = bpp == 16 ? 8 : 4;
++		mt_h = 4;
++		break;
++	case DRM_FORMAT_MOD_VIVANTE_SUPER_TILED:
++		if (bpp == 16) {
++			preq = BYTE_64;
++			mt_w = 8;
++		} else {
++			preq = BYTE_128;
++			mt_w = 4;
++		}
++		mt_h = 4;
++		break;
++	default:
++		preq = BYTE_1K;
++		break;
++	}
++	dpu_dprc_write(dprc, FRAME_1P_CTRL0, preq);
++	dpu_dprc_write(dprc, FRAME_1P_PIX_X_CTRL, NUM_X_PIX_WIDE(p1_w));
++	dpu_dprc_write(dprc, FRAME_1P_PIX_Y_CTRL, NUM_Y_PIX_HIGH(p1_h));
++	dpu_dprc_write(dprc, FRAME_1P_BASE_ADDR_CTRL0, baddr);
++	if (modifier) {
++		dpu_dprc_write(dprc, FRAME_PIX_X_ULC_CTRL,
++			       CROP_ULC_X(round_down(x_offset, mt_w)));
++		dpu_dprc_write(dprc, FRAME_PIX_Y_ULC_CTRL,
++			       CROP_ULC_Y(round_down(y_offset, mt_h)));
++	} else {
++		dpu_dprc_write(dprc, FRAME_PIX_X_ULC_CTRL, CROP_ULC_X(0));
++		dpu_dprc_write(dprc, FRAME_PIX_Y_ULC_CTRL, CROP_ULC_Y(0));
++	}
++
++	dpu_dprc_write(dprc, RTRAM_CTRL0, THRES_LOW(3) | THRES_HIGH(7));
++
++	switch (modifier) {
++	case DRM_FORMAT_MOD_NONE:
++		val = 0;
++		break;
++	case DRM_FORMAT_MOD_VIVANTE_TILED:
++		val = GPU_STANDARD_TILE;
++		break;
++	case DRM_FORMAT_MOD_VIVANTE_SUPER_TILED:
++		val = GPU_SUPER_TILE;
++		break;
++	default:
++		dev_err(dev, "unsupported modifier 0x%016llx\n", modifier);
++		return;
++	}
++	val |= format->num_planes > 1 ? LINE8 : LINE4;
++	val |= BUF2;
++	switch (format->format) {
++	case DRM_FORMAT_ARGB8888:
++	case DRM_FORMAT_XRGB8888:
++	case DRM_FORMAT_ABGR8888:
++	case DRM_FORMAT_XBGR8888:
++	case DRM_FORMAT_RGBA8888:
++	case DRM_FORMAT_RGBX8888:
++	case DRM_FORMAT_BGRA8888:
++	case DRM_FORMAT_BGRX8888:
++		/*
++		 * It turns out pixel components are mapped directly
++		 * without position change via DPR processing with
++		 * the following color component configurations.
++		 * Leave the pixel format to be handled by the
++		 * display controllers.
++		 */
++		val |= A_COMP_SEL(3) | R_COMP_SEL(2) |
++		       G_COMP_SEL(1) | B_COMP_SEL(0);
++		val |= PIX_SIZE_32BIT;
++		break;
++	case DRM_FORMAT_YUYV:
++	case DRM_FORMAT_UYVY:
++		val |= YUV_EN;
++		fallthrough;
++	case DRM_FORMAT_RGB565:
++		val |= PIX_SIZE_16BIT;
++		break;
++	case DRM_FORMAT_NV12:
++	case DRM_FORMAT_NV21:
++		dprc->use_aux_prg = true;
++
++		val |= COMP_2PLANE_EN;
++		val |= YUV_EN;
++		val |= PIX_SIZE_8BIT;
++		break;
++	default:
++		dev_err(dev, "unsupported format 0x%08x\n", format->format);
++		return;
++	}
++	dpu_dprc_write(dprc, MODE_CTRL0, val);
++
++	if (dprc->is_blit) {
++		val = SW_SHADOW_LOAD_SEL | RUN_EN | SHADOW_LOAD_EN;
++		dpu_dprc_write(dprc, SYSTEM_CTRL0, val);
++	} else if (start) {
++		/* software shadow load for the first frame */
++		val = SW_SHADOW_LOAD_SEL | SHADOW_LOAD_EN;
++		dpu_dprc_write(dprc, SYSTEM_CTRL0, val);
++
++		/* and then, run... */
++		val |= RUN_EN | REPEAT_EN;
++		dpu_dprc_write(dprc, SYSTEM_CTRL0, val);
++	}
++
++	dpu_prg_configure(dprc->prgs[0], width, height, x_offset, y_offset,
++			  prg_stride, bpp, baddr, format, modifier, start);
++	if (dprc->use_aux_prg)
++		dpu_prg_configure(dprc->prgs[1], width, height,
++				  x_offset, y_offset,
++				  prg_stride, 8, uv_baddr, format, modifier,
++				  start);
++
++	dpu_dprc_enable(dprc);
++
++	dpu_dprc_reg_update(dprc);
++
++	if (!dprc->is_blit && start)
++		dpu_dprc_enable_ctrl_done_irq(dprc);
++
++	dev_dbg(dev, "w-%u, h-%u, s-%u, fmt-0x%08x, mod-0x%016llx\n",
++		width, height, stride, format->format, modifier);
++}
++
++void dpu_dprc_disable_repeat_en(struct dpu_dprc *dprc)
++{
++	dpu_dprc_write(dprc, SYSTEM_CTRL0 + CLR, REPEAT_EN);
++
++	dev_dbg(dprc->dev, "disable repeat_en\n");
++}
++
++static void dpu_dprc_ctrl_done_handle(struct dpu_dprc *dprc)
++{
++	if (dprc->is_blit)
++		return;
++
++	dpu_dprc_write(dprc, SYSTEM_CTRL0, REPEAT_EN);
++
++	dpu_prg_shadow_enable(dprc->prgs[0]);
++	if (dprc->use_aux_prg)
++		dpu_prg_shadow_enable(dprc->prgs[1]);
++
++	dev_dbg(dprc->dev, "ctrl done handle\n");
++}
++
++static irqreturn_t dpu_dprc_wrap_irq_handler(int irq, void *data)
++{
++	struct dpu_dprc *dprc = data;
++	struct device *dev = dprc->dev;
++	u32 mask, status;
++
++	spin_lock(&dprc->spin_lock);
++
++	/* cache valid irq status */
++	mask = dpu_dprc_read(dprc, IRQ_MASK);
++	mask = ~mask;
++	status = dpu_dprc_read(dprc, IRQ_MASK_STATUS);
++	status &= mask;
++
++	/* mask the irqs being handled */
++	dpu_dprc_write(dprc, IRQ_MASK + SET, status);
++
++	/* clear status register */
++	dpu_dprc_write(dprc, IRQ_MASK_STATUS, status);
++
++	if (status & DPR2RTR_FIFO_LOAD_BUF_RDY_UV_ERROR)
++		dev_err(dev, "DPR to RTRAM FIFO load UV buffer ready error\n");
++
++	if (status & DPR2RTR_FIFO_LOAD_BUF_RDY_YRGB_ERROR)
++		dev_err(dev, "DPR to RTRAM FIFO load YRGB buffer ready error\n");
++
++	if (status & DPR2RTR_UV_FIFO_OVFL)
++		dev_err(dev, "DPR to RTRAM FIFO UV FIFO overflow\n");
++
++	if (status & DPR2RTR_YRGB_FIFO_OVFL)
++		dev_err(dev, "DPR to RTRAM FIFO YRGB FIFO overflow\n");
++
++	if (status & IRQ_AXI_READ_ERROR)
++		dev_err(dev, "AXI read error\n");
++
++	if (status & IRQ_DPR_CRTL_DONE)
++		dpu_dprc_ctrl_done_handle(dprc);
++
++	spin_unlock(&dprc->spin_lock);
++
++	return IRQ_HANDLED;
++}
++
++bool dpu_dprc_rtram_width_supported(struct dpu_dprc *dprc, unsigned int width)
++{
++	return width <= DPU_DPRC_MAX_RTRAM_WIDTH;
++}
++
++bool dpu_dprc_stride_supported(struct dpu_dprc *dprc,
++			       unsigned int stride, unsigned int uv_stride,
++			       unsigned int width, unsigned int x_offset,
++			       const struct drm_format_info *format,
++			       u64 modifier,
++			       dma_addr_t baddr, dma_addr_t uv_baddr)
++{
++	unsigned int prg_stride = width * format->cpp[0];
++	unsigned int bpp = 8 * format->cpp[0];
++
++	if (stride > DPU_DRPC_MAX_STRIDE)
++		return false;
++
++	if (format->num_planes > 1 && stride != uv_stride)
++		return false;
++
++	if (!dpu_prg_stride_supported(dprc->prgs[0], x_offset, bpp,
++				      modifier, prg_stride, baddr))
++		return false;
++
++	if (format->num_planes > 1 &&
++	    !dpu_prg_stride_supported(dprc->prgs[1], x_offset, bpp,
++				      modifier, prg_stride, uv_baddr))
++		return false;
++
++	return true;
++}
++
++struct dpu_dprc *
++dpu_dprc_lookup_by_of_node(struct device *dev, struct device_node *dprc_node)
++{
++	struct dpu_dprc *dprc;
++
++	mutex_lock(&dpu_dprc_list_mutex);
++	list_for_each_entry(dprc, &dpu_dprc_list, list) {
++		if (dprc_node == dprc->dev->of_node) {
++			mutex_unlock(&dpu_dprc_list_mutex);
++			device_link_add(dev, dprc->dev,
++					DL_FLAG_PM_RUNTIME |
++					DL_FLAG_AUTOREMOVE_CONSUMER);
++			return dprc;
++		}
++	}
++	mutex_unlock(&dpu_dprc_list_mutex);
++
++	return NULL;
++}
++
++static const struct of_device_id dpu_dprc_dt_ids[] = {
++	{ .compatible = "fsl,imx8qm-dpr-channel", },
++	{ .compatible = "fsl,imx8qxp-dpr-channel", },
++	{ /* sentinel */ },
++};
++
++static int dpu_dprc_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct device_node *np = dev->of_node;
++	struct resource *res;
++	struct dpu_dprc *dprc;
++	int ret, wrap_irq, i;
++
++	dprc = devm_kzalloc(dev, sizeof(*dprc), GFP_KERNEL);
++	if (!dprc)
++		return -ENOMEM;
++
++	ret = imx_scu_get_handle(&dprc->ipc_handle);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to get SCU ipc handle\n");
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	dprc->base = devm_ioremap_resource(dev, res);
++	if (IS_ERR(dprc->base))
++		return PTR_ERR(dprc->base);
++
++	wrap_irq = platform_get_irq_byname(pdev, "dpr_wrap");
++	if (wrap_irq < 0)
++		return -ENODEV;
++
++	dprc->clk_apb = devm_clk_get(dev, "apb");
++	if (IS_ERR(dprc->clk_apb))
++		return dev_err_probe(dev, PTR_ERR(dprc->clk_apb),
++				     "failed to get apb clock\n");
++
++	dprc->clk_b = devm_clk_get(dev, "b");
++	if (IS_ERR(dprc->clk_b))
++		return dev_err_probe(dev, PTR_ERR(dprc->clk_b),
++				     "failed to get b clock\n");
++
++	dprc->clk_rtram = devm_clk_get(dev, "rtram");
++	if (IS_ERR(dprc->clk_rtram))
++		return dev_err_probe(dev, PTR_ERR(dprc->clk_rtram),
++				     "failed to get rtram clock\n");
++
++	ret = of_property_read_u32(np, "fsl,sc-resource", &dprc->sc_resource);
++	if (ret) {
++		dev_err(dev, "cannot get SC resource %d\n", ret);
++		return ret;
++	}
++
++	switch (dprc->sc_resource) {
++	case IMX_SC_R_DC_0_BLIT1:
++	case IMX_SC_R_DC_1_BLIT1:
++		dprc->has_aux_prg = true;
++		fallthrough;
++	case IMX_SC_R_DC_0_BLIT0:
++	case IMX_SC_R_DC_1_BLIT0:
++		dprc->is_blit = true;
++		fallthrough;
++	case IMX_SC_R_DC_0_FRAC0:
++	case IMX_SC_R_DC_1_FRAC0:
++		break;
++	case IMX_SC_R_DC_0_VIDEO0:
++	case IMX_SC_R_DC_0_VIDEO1:
++	case IMX_SC_R_DC_1_VIDEO0:
++	case IMX_SC_R_DC_1_VIDEO1:
++	case IMX_SC_R_DC_0_WARP:
++	case IMX_SC_R_DC_1_WARP:
++		dprc->has_aux_prg = true;
++		break;
++	default:
++		dev_err(dev, "wrong SC resource %u\n", dprc->sc_resource);
++		return -EINVAL;
++	}
++
++	for (i = 0; i < 2; i++) {
++		if (i == 1 && !dprc->has_aux_prg)
++			break;
++
++		dprc->prgs[i] = dpu_prg_lookup_by_phandle(dev, "fsl,prgs", i);
++		if (!dprc->prgs[i])
++			return -EPROBE_DEFER;
++
++		if (i == 1)
++			dpu_prg_set_auxiliary(dprc->prgs[i]);
++	}
++
++	dprc->dev = dev;
++	spin_lock_init(&dprc->spin_lock);
++
++	ret = devm_request_irq(dev, wrap_irq, dpu_dprc_wrap_irq_handler,
++			       IRQF_SHARED, dev_name(dev), dprc);
++	if (ret < 0) {
++		dev_err(dev, "failed to request dpr_wrap irq(%u): %d\n",
++			wrap_irq, ret);
++		return ret;
++	}
++
++	platform_set_drvdata(pdev, dprc);
++
++	pm_runtime_enable(dev);
++
++	mutex_lock(&dpu_dprc_list_mutex);
++	list_add(&dprc->list, &dpu_dprc_list);
++	mutex_unlock(&dpu_dprc_list_mutex);
++
++	return 0;
++}
++
++static int dpu_dprc_remove(struct platform_device *pdev)
++{
++	struct dpu_dprc *dprc = platform_get_drvdata(pdev);
++
++	mutex_lock(&dpu_dprc_list_mutex);
++	list_del(&dprc->list);
++	mutex_unlock(&dpu_dprc_list_mutex);
++
++	pm_runtime_disable(&pdev->dev);
++
++	return 0;
++}
++
++static int __maybe_unused dpu_dprc_runtime_suspend(struct device *dev)
++{
++	struct platform_device *pdev = to_platform_device(dev);
++	struct dpu_dprc *dprc = platform_get_drvdata(pdev);
++
++	clk_disable_unprepare(dprc->clk_rtram);
++	clk_disable_unprepare(dprc->clk_b);
++	clk_disable_unprepare(dprc->clk_apb);
++
++	return 0;
++}
++
++static int __maybe_unused dpu_dprc_runtime_resume(struct device *dev)
++{
++	struct platform_device *pdev = to_platform_device(dev);
++	struct dpu_dprc *dprc = platform_get_drvdata(pdev);
++	int ret;
++
++	ret = clk_prepare_enable(dprc->clk_apb);
++	if (ret) {
++		dev_err(dev, "failed to enable apb clock: %d\n", ret);
++		return ret;
++	}
++
++	ret = clk_prepare_enable(dprc->clk_b);
++	if (ret) {
++		dev_err(dev, "failed to enable b clock: %d\n", ret);
++		return ret;
++	}
++
++	ret = clk_prepare_enable(dprc->clk_rtram);
++	if (ret) {
++		dev_err(dev, "failed to enable rtram clock: %d\n", ret);
++		return ret;
++	}
++
++	dpu_dprc_reset(dprc);
++
++	/* disable all control irqs and enable all error irqs */
++	spin_lock(&dprc->spin_lock);
++	dpu_dprc_write(dprc, IRQ_MASK, IRQ_CTRL_MASK);
++	spin_unlock(&dprc->spin_lock);
++
++	return ret;
++}
++
++static const struct dev_pm_ops dpu_dprc_pm_ops = {
++	SET_RUNTIME_PM_OPS(dpu_dprc_runtime_suspend,
++			   dpu_dprc_runtime_resume, NULL)
++};
++
++struct platform_driver dpu_dprc_driver = {
++	.probe = dpu_dprc_probe,
++	.remove = dpu_dprc_remove,
++	.driver = {
++		.pm = &dpu_dprc_pm_ops,
++		.name = "dpu-dpr-channel",
++		.of_match_table = dpu_dprc_dt_ids,
++	},
++};
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-dprc.h b/drivers/gpu/drm/imx/dpu/dpu-dprc.h
+new file mode 100644
+index 000000000000..010164ebaef1
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-dprc.h
+@@ -0,0 +1,40 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++
++/*
++ * Copyright 2017-2020,2023 NXP
++ */
++
++#ifndef _DPU_DPRC_H_
++#define _DPU_DPRC_H_
++
++#include <linux/device.h>
++#include <linux/of.h>
++#include <linux/types.h>
++
++#include <drm/drm_fourcc.h>
++
++struct dpu_dprc;
++
++void dpu_dprc_configure(struct dpu_dprc *dprc, unsigned int stream_id,
++			unsigned int width, unsigned int height,
++			unsigned int x_offset, unsigned int y_offset,
++			unsigned int stride,
++			const struct drm_format_info *format, u64 modifier,
++			dma_addr_t baddr, dma_addr_t uv_baddr,
++			bool start, bool interlace_frame);
++
++void dpu_dprc_disable_repeat_en(struct dpu_dprc *dprc);
++
++bool dpu_dprc_rtram_width_supported(struct dpu_dprc *dprc, unsigned int width);
++
++bool dpu_dprc_stride_supported(struct dpu_dprc *dprc,
++			       unsigned int stride, unsigned int uv_stride,
++			       unsigned int width, unsigned int x_offset,
++			       const struct drm_format_info *format,
++			       u64 modifier,
++			       dma_addr_t baddr, dma_addr_t uv_baddr);
++
++struct dpu_dprc *
++dpu_dprc_lookup_by_of_node(struct device *dev, struct device_node *dprc_node);
++
++#endif
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-drv.c b/drivers/gpu/drm/imx/dpu/dpu-drv.c
+new file mode 100644
+index 000000000000..bee1886a62ee
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-drv.c
+@@ -0,0 +1,294 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright 2019,2020,2022,2023 NXP
++ */
++
++#include <linux/component.h>
++#include <linux/dma-mapping.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/pm.h>
++
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_fb_helper.h>
++#include <drm/drm_fbdev_generic.h>
++#include <drm/drm_gem_dma_helper.h>
++#include <drm/drm_modeset_helper.h>
++#include <drm/drm_of.h>
++#include <drm/drm_print.h>
++#include <drm/drm_probe_helper.h>
++
++#include "dpu-drv.h"
++#include "dpu-kms.h"
++
++#define DRIVER_NAME	"imx8-dpu-drm"
++
++static int legacyfb_depth = 32;
++module_param(legacyfb_depth, uint, 0444);
++
++struct dpu_drm_drv_data {
++	struct drm_device *drm_dev;
++	struct list_head crtc_np_list;
++};
++
++DEFINE_DRM_GEM_DMA_FOPS(dpu_drm_driver_fops);
++
++static struct drm_driver dpu_drm_driver = {
++	.driver_features		= DRIVER_MODESET | DRIVER_GEM |
++					  DRIVER_ATOMIC,
++	DRM_GEM_DMA_DRIVER_OPS,
++	.fops				= &dpu_drm_driver_fops,
++	.name				= "imx8-dpu",
++	.desc				= "i.MX8 DPU DRM graphics",
++	.date				= "20200805",
++	.major				= 1,
++	.minor				= 0,
++	.patchlevel			= 0,
++};
++
++static int dpu_drm_bind(struct device *dev)
++{
++	struct dpu_drm_device *dpu_drm;
++	struct drm_device *drm;
++	struct dpu_drm_drv_data *drv_data = dev_get_drvdata(dev);
++	int ret;
++
++	dpu_drm = devm_drm_dev_alloc(dev, &dpu_drm_driver,
++				     struct dpu_drm_device, base);
++	if (IS_ERR(dpu_drm)) {
++		ret = PTR_ERR(dpu_drm);
++		DRM_DEV_ERROR(dev, "failed to alloc drm device: %d\n", ret);
++		return ret;
++	}
++
++	drm = &dpu_drm->base;
++	drv_data->drm_dev = drm;
++
++	ret = dpu_kms_prepare(dpu_drm, &drv_data->crtc_np_list);
++	if (ret) {
++		if (ret != -EPROBE_DEFER)
++			DRM_DEV_ERROR(dev, "failed to prepare kms: %d\n", ret);
++		return ret;
++	}
++
++	ret = component_bind_all(dev, dpu_drm);
++	if (ret) {
++		if (ret != -EPROBE_DEFER)
++			DRM_DEV_ERROR(dev,
++				      "failed to bind all components: %d\n",
++									ret);
++		return ret;
++	}
++
++	drm_mode_config_reset(drm);
++
++	drm_kms_helper_poll_init(drm);
++
++	ret = drm_dev_register(drm, 0);
++	if (ret) {
++		DRM_DEV_ERROR(dev, "failed to register drm device: %d\n", ret);
++		goto out_register;
++	}
++
++	if (legacyfb_depth != 16 && legacyfb_depth != 32) {
++		DRM_DEV_INFO(dev,
++			     "Invalid legacyfb_depth.  Defaulting to 32bpp\n");
++		legacyfb_depth = 32;
++	}
++
++	drm_fbdev_generic_setup(drm, legacyfb_depth);
++
++	return ret;
++
++out_register:
++	drm_kms_helper_poll_fini(drm);
++	component_unbind_all(dev, NULL);
++
++	return ret;
++}
++
++static void dpu_drm_unbind(struct device *dev)
++{
++	struct drm_device *drm = dev_get_drvdata(dev);
++
++	drm_dev_unregister(drm);
++
++	drm_kms_helper_poll_fini(drm);
++
++	drm_atomic_helper_shutdown(drm);
++
++	component_unbind_all(drm->dev, NULL);
++}
++
++static const struct component_master_ops dpu_drm_ops = {
++	.bind = dpu_drm_bind,
++	.unbind = dpu_drm_unbind,
++};
++
++static int compare_of(struct device *dev, void *data)
++{
++	struct device_node *np = data;
++
++	return dev->of_node == np;
++}
++
++static int dpu_drm_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct component_match *match = NULL;
++	struct device_node *np, *ports, *port;
++	struct dpu_drm_drv_data *drv_data;
++	struct dpu_crtc_of_node *crtc_of_node;
++
++	drv_data = devm_kzalloc(dev, sizeof(*drv_data), GFP_KERNEL);
++	if (!drv_data) {
++		DRM_DEV_ERROR(dev, "failed to alloc driver data\n");
++		return -ENOMEM;
++	}
++
++	INIT_LIST_HEAD(&drv_data->crtc_np_list);
++
++	for_each_matching_node(np, dpu_dt_ids) {
++		if (!of_device_is_available(np))
++			continue;
++
++		ports = of_get_child_by_name(np, "ports");
++		if (!ports)
++			ports = np;
++
++		for_each_child_of_node(ports, port) {
++			drm_of_component_match_add(dev, &match, compare_of,
++						   port);
++
++			crtc_of_node = devm_kzalloc(dev, sizeof(*crtc_of_node),
++						    GFP_KERNEL);
++			if (!crtc_of_node) {
++				DRM_DEV_ERROR(dev,
++					      "failed to alloc crtc_of_node\n");
++				of_node_put(ports);
++				return -ENOMEM;
++			}
++
++			crtc_of_node->np = port;
++
++			list_add(&crtc_of_node->list, &drv_data->crtc_np_list);
++		}
++
++		of_node_put(ports);
++	}
++
++	if (!match) {
++		DRM_DEV_ERROR(dev, "no available DPU display output port\n");
++		return -ENODEV;
++	}
++
++	dev_set_drvdata(dev, drv_data);
++
++	return component_master_add_with_match(dev, &dpu_drm_ops, match);
++}
++
++static int dpu_drm_remove(struct platform_device *pdev)
++{
++	component_master_del(&pdev->dev, &dpu_drm_ops);
++
++	return 0;
++}
++
++static int dpu_drm_suspend(struct device *dev)
++{
++	struct dpu_drm_drv_data *drv_data = dev_get_drvdata(dev);
++
++	return drm_mode_config_helper_suspend(drv_data->drm_dev);
++}
++
++static int dpu_drm_resume(struct device *dev)
++{
++	struct dpu_drm_drv_data *drv_data = dev_get_drvdata(dev);
++
++	return drm_mode_config_helper_resume(drv_data->drm_dev);
++}
++
++static DEFINE_SIMPLE_DEV_PM_OPS(dpu_drm_pm_ops, dpu_drm_suspend, dpu_drm_resume);
++
++static struct platform_driver dpu_drm_platform_driver = {
++	.probe = dpu_drm_probe,
++	.remove = dpu_drm_remove,
++	.driver = {
++		.name = DRIVER_NAME,
++		.pm = pm_sleep_ptr(&dpu_drm_pm_ops),
++	},
++};
++
++static struct platform_device *dpu_drm_platform_dev;
++
++static struct platform_driver * const drivers[] = {
++	&dpu_prg_driver,
++	&dpu_dprc_driver,
++	&dpu_core_driver,
++	&dpu_crtc_driver,
++	&dpu_drm_platform_driver,
++};
++
++static int __init dpu_init(void)
++{
++	struct platform_device *pdev;
++	struct device_node *np;
++	int ret;
++
++	ret = platform_register_drivers(drivers, ARRAY_SIZE(drivers));
++	if (ret)
++		return ret;
++
++	/*
++	 * If the DT contains at least one available DPU device, instantiate
++	 * the DRM platform device.
++	 */
++	for_each_matching_node(np, dpu_dt_ids) {
++		if (!of_device_is_available(np))
++			continue;
++
++		pdev = platform_device_alloc(DRIVER_NAME, -1);
++		if (!pdev) {
++			ret = -ENOMEM;
++			goto unregister_drivers;
++		}
++
++		ret = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
++		if (ret)
++			goto unregister_drivers;
++
++		ret = platform_device_add(pdev);
++		if (ret) {
++			platform_device_put(pdev);
++			goto unregister_drivers;
++		}
++
++		dpu_drm_platform_dev = pdev;
++		of_node_put(np);
++		break;
++	}
++
++	return ret;
++
++unregister_drivers:
++	of_node_put(np);
++	platform_unregister_drivers(drivers, ARRAY_SIZE(drivers));
++	return ret;
++}
++module_init(dpu_init);
++
++static void __exit dpu_exit(void)
++{
++	platform_device_unregister(dpu_drm_platform_dev);
++	platform_unregister_drivers(drivers, ARRAY_SIZE(drivers));
++}
++module_exit(dpu_exit);
++
++MODULE_DESCRIPTION("i.MX8 DPU DRM Driver");
++MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
++MODULE_ALIAS("platform:" DRIVER_NAME);
++MODULE_LICENSE("GPL");
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-drv.h b/drivers/gpu/drm/imx/dpu/dpu-drv.h
+new file mode 100644
+index 000000000000..66cd3b1b20eb
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-drv.h
+@@ -0,0 +1,28 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++
++/*
++ * Copyright 2020,2023 NXP
++ */
++
++#ifndef __DPU_DRV_H__
++#define __DPU_DRV_H__
++
++#include <linux/mod_devicetable.h>
++#include <linux/platform_device.h>
++#include <linux/types.h>
++
++#include <drm/drm_device.h>
++
++struct dpu_drm_device {
++	struct drm_device base;
++	struct list_head crtc_list;
++};
++
++extern const struct of_device_id dpu_dt_ids[];
++
++extern struct platform_driver dpu_prg_driver;
++extern struct platform_driver dpu_dprc_driver;
++extern struct platform_driver dpu_core_driver;
++extern struct platform_driver dpu_crtc_driver;
++
++#endif /* __DPU_DRV_H__ */
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-extdst.c b/drivers/gpu/drm/imx/dpu/dpu-extdst.c
+new file mode 100644
+index 000000000000..6c1dd31c9db9
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-extdst.c
+@@ -0,0 +1,299 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright (C) 2016 Freescale Semiconductor, Inc.
++ * Copyright 2017-2020,2022,2023 NXP
++ */
++
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/mutex.h>
++#include <linux/sizes.h>
++
++#include "dpu.h"
++#include "dpu-prv.h"
++
++#define PIXENGCFG_STATIC	0x8
++#define  POWERDOWN		BIT(4)
++#define  SYNC_MODE		BIT(8)
++#define  AUTO			BIT(8)
++#define  SINGLE			0
++#define  DIV_MASK		0xff0000
++#define  DIV(n)			(((n) & 0xff) << 16)
++#define  DIV_RESET		0x80
++
++#define PIXENGCFG_DYNAMIC	0xc
++
++#define PIXENGCFG_REQUEST	0x10
++
++#define PIXENGCFG_TRIGGER	0x14
++#define  SYNC_TRIGGER		BIT(0)
++
++#define STATICCONTROL		0x8
++#define  KICK_MODE		BIT(8)
++#define  EXTERNAL		BIT(8)
++#define  SOFTWARE		0
++#define  PERFCOUNTMODE		BIT(12)
++
++#define CONTROL			0xc
++#define  GAMMAAPPLYENABLE	BIT(0)
++
++#define SOFTWAREKICK		0x10
++#define  KICK			BIT(0)
++
++#define STATUS			0x14
++#define  CNT_ERR_STS		BIT(0)
++
++#define CONTROLWORD		0x18
++#define CURPIXELCNT		0x1c
++#define LASTPIXELCNT		0x20
++#define PERFCOUNTER		0x24
++
++struct dpu_extdst {
++	void __iomem *pec_base;
++	void __iomem *base;
++	struct mutex mutex;
++	unsigned int id;
++	unsigned int index;
++	bool inuse;
++	struct dpu_soc *dpu;
++};
++
++static const enum dpu_link_id src_sels[] = {
++	LINK_ID_NONE,
++	LINK_ID_BLITBLEND9,
++	LINK_ID_CONSTFRAME0,
++	LINK_ID_CONSTFRAME1,
++	LINK_ID_CONSTFRAME4,
++	LINK_ID_CONSTFRAME5,
++	LINK_ID_MATRIX4,
++	LINK_ID_HSCALER4,
++	LINK_ID_VSCALER4,
++	LINK_ID_MATRIX5,
++	LINK_ID_HSCALER5,
++	LINK_ID_VSCALER5,
++	LINK_ID_LAYERBLEND3,
++	LINK_ID_LAYERBLEND2,
++	LINK_ID_LAYERBLEND1,
++	LINK_ID_LAYERBLEND0,
++};
++
++static inline u32 dpu_pec_ed_read(struct dpu_extdst *ed, unsigned int offset)
++{
++	return readl(ed->pec_base + offset);
++}
++
++static inline void dpu_pec_ed_write(struct dpu_extdst *ed,
++				    unsigned int offset, u32 value)
++{
++	writel(value, ed->pec_base + offset);
++}
++
++static inline void dpu_pec_ed_write_mask(struct dpu_extdst *ed,
++					 unsigned int offset,
++					 u32 mask, u32 value)
++{
++	u32 tmp;
++
++	tmp = dpu_pec_ed_read(ed, offset);
++	tmp &= ~mask;
++	dpu_pec_ed_write(ed, offset, tmp | value);
++}
++
++static inline u32 dpu_ed_read(struct dpu_extdst *ed, unsigned int offset)
++{
++	return readl(ed->base + offset);
++}
++
++static inline void dpu_ed_write(struct dpu_extdst *ed,
++				unsigned int offset, u32 value)
++{
++	writel(value, ed->base + offset);
++}
++
++static inline void dpu_ed_write_mask(struct dpu_extdst *ed, unsigned int offset,
++				     u32 mask, u32 value)
++{
++	u32 tmp;
++
++	tmp = dpu_ed_read(ed, offset);
++	tmp &= ~mask;
++	dpu_ed_write(ed, offset, tmp | value);
++}
++
++static inline bool dpu_ed_is_safety_stream(struct dpu_extdst *ed)
++{
++	if (ed->id == DPU_SAFETY_STREAM_OFFSET ||
++	    (ed->id == DPU_SAFETY_STREAM_OFFSET + 1))
++		return true;
++
++	return false;
++}
++
++static void dpu_ed_pec_enable_shden(struct dpu_extdst *ed)
++{
++	dpu_pec_ed_write_mask(ed, PIXENGCFG_STATIC, SHDEN, SHDEN);
++}
++
++void dpu_ed_pec_poweron(struct dpu_extdst *ed)
++{
++	dpu_pec_ed_write_mask(ed, PIXENGCFG_STATIC, POWERDOWN, 0);
++}
++
++static void dpu_ed_pec_sync_mode_single(struct dpu_extdst *ed)
++{
++	dpu_pec_ed_write_mask(ed, PIXENGCFG_STATIC, SYNC_MODE, SINGLE);
++}
++
++static void dpu_ed_pec_div_reset(struct dpu_extdst *ed)
++{
++	dpu_pec_ed_write_mask(ed, PIXENGCFG_STATIC, DIV_MASK, DIV(DIV_RESET));
++}
++
++void dpu_ed_pec_src_sel(struct dpu_extdst *ed, enum dpu_link_id src)
++{
++	struct dpu_soc *dpu = ed->dpu;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(src_sels); i++) {
++		if (src_sels[i] == src) {
++			dpu_pec_ed_write(ed, PIXENGCFG_DYNAMIC, src);
++			return;
++		}
++	}
++
++	dev_err(dpu->dev, "invalid source(0x%02x) for ExtDst%u\n", src, ed->id);
++}
++
++void dpu_ed_pec_sync_trigger(struct dpu_extdst *ed)
++{
++	dpu_pec_ed_write(ed, PIXENGCFG_TRIGGER, SYNC_TRIGGER);
++}
++
++static void dpu_ed_enable_shden(struct dpu_extdst *ed)
++{
++	dpu_ed_write_mask(ed, STATICCONTROL, SHDEN, SHDEN);
++}
++
++static void dpu_ed_kick_mode_external(struct dpu_extdst *ed)
++{
++	dpu_ed_write_mask(ed, STATICCONTROL, KICK_MODE, EXTERNAL);
++}
++
++static void dpu_ed_disable_perfcountmode(struct dpu_extdst *ed)
++{
++	dpu_ed_write_mask(ed, STATICCONTROL, PERFCOUNTMODE, 0);
++}
++
++static void dpu_ed_disable_gamma_apply(struct dpu_extdst *ed)
++{
++	dpu_ed_write_mask(ed, CONTROL, GAMMAAPPLYENABLE, 0);
++}
++
++static struct dpu_extdst *dpu_ed_get(struct dpu_soc *dpu, unsigned int id)
++{
++	struct dpu_extdst *ed;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(dpu->ed_priv); i++) {
++		ed = dpu->ed_priv[i];
++		if (ed->id == id)
++			break;
++	}
++
++	if (i == ARRAY_SIZE(dpu->ed_priv))
++		return ERR_PTR(-EINVAL);
++
++	mutex_lock(&ed->mutex);
++
++	if (ed->inuse) {
++		mutex_unlock(&ed->mutex);
++		return ERR_PTR(-EBUSY);
++	}
++
++	ed->inuse = true;
++
++	mutex_unlock(&ed->mutex);
++
++	return ed;
++}
++
++static void dpu_ed_put(struct dpu_extdst *ed)
++{
++	if (IS_ERR_OR_NULL(ed))
++		return;
++
++	mutex_lock(&ed->mutex);
++
++	ed->inuse = false;
++
++	mutex_unlock(&ed->mutex);
++}
++
++/* ExtDst for safety stream */
++struct dpu_extdst *dpu_ed_safe_get(struct dpu_soc *dpu,
++				   unsigned int stream_id)
++{
++	return dpu_ed_get(dpu, stream_id + DPU_SAFETY_STREAM_OFFSET);
++}
++
++void dpu_ed_safe_put(struct dpu_extdst *ed)
++{
++	return dpu_ed_put(ed);
++}
++
++/* ExtDst for content stream */
++struct dpu_extdst *dpu_ed_cont_get(struct dpu_soc *dpu,
++				   unsigned int stream_id)
++{
++	return dpu_ed_get(dpu, stream_id);
++}
++
++void dpu_ed_cont_put(struct dpu_extdst *ed)
++{
++	return dpu_ed_put(ed);
++}
++
++void dpu_ed_hw_init(struct dpu_soc *dpu, unsigned int index)
++{
++	struct dpu_extdst *ed = dpu->ed_priv[index];
++
++	dpu_ed_pec_src_sel(ed, LINK_ID_NONE);
++	dpu_ed_pec_enable_shden(ed);
++	dpu_ed_pec_poweron(ed);
++	dpu_ed_pec_sync_mode_single(ed);
++	dpu_ed_pec_div_reset(ed);
++	dpu_ed_enable_shden(ed);
++	dpu_ed_disable_perfcountmode(ed);
++	dpu_ed_kick_mode_external(ed);
++	dpu_ed_disable_gamma_apply(ed);
++}
++
++int dpu_ed_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long pec_base, unsigned long base)
++{
++	struct dpu_extdst *ed;
++
++	ed = devm_kzalloc(dpu->dev, sizeof(*ed), GFP_KERNEL);
++	if (!ed)
++		return -ENOMEM;
++
++	dpu->ed_priv[index] = ed;
++
++	ed->pec_base = devm_ioremap(dpu->dev, pec_base, SZ_32);
++	if (!ed->pec_base)
++		return -ENOMEM;
++
++	ed->base = devm_ioremap(dpu->dev, base, SZ_128);
++	if (!ed->base)
++		return -ENOMEM;
++
++	ed->dpu = dpu;
++	ed->id = id;
++	ed->index = index;
++
++	mutex_init(&ed->mutex);
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-fetchdecode.c b/drivers/gpu/drm/imx/dpu/dpu-fetchdecode.c
+new file mode 100644
+index 000000000000..161addb69632
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-fetchdecode.c
+@@ -0,0 +1,292 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright (C) 2016 Freescale Semiconductor, Inc.
++ * Copyright 2017-2020,2022,2023 NXP
++ */
++
++#include <linux/kernel.h>
++#include <linux/mutex.h>
++#include <linux/sizes.h>
++
++#include "dpu.h"
++#include "dpu-fetchunit.h"
++#include "dpu-prv.h"
++
++#define RINGBUFSTARTADDR0	0x10
++#define RINGBUFWRAPADDR0	0x14
++#define FRAMEPROPERTIES0	0x18
++#define FRAMEDIMENSIONS		0x44
++#define FRAMERESAMPLING		0x48
++#define DECODECONTROL		0x4c
++#define SOURCEBUFFERLENGTH	0x50
++#define CONTROL			0x54
++#define CONTROLTRIGGER		0x58
++#define START			0x5c
++#define FETCHTYPE		0x60
++#define DECODERSTATUS		0x64
++#define READADDRESS0		0x68
++#define BURSTBUFFERPROPERTIES	0x6c
++#define STATUS			0x70
++#define HIDDENSTATUS		0x74
++
++#define DPU_FETCHDECODE_DISP_SCALER_OFFSET	4
++#define DPU_FETCHDECODE_REG_OFFSET		0xc
++
++#define DPU_FETCHDECODE_CAP_MASK	(DPU_FETCHUNIT_CAP_USE_FETCHECO | \
++					 DPU_FETCHUNIT_CAP_USE_SCALER |   \
++					 DPU_FETCHUNIT_CAP_PACKED_YUV422)
++
++static const enum dpu_link_id dpu_fd_link_id[] = {
++	LINK_ID_FETCHDECODE0, LINK_ID_FETCHDECODE1, LINK_ID_FETCHDECODE9
++};
++
++static const enum dpu_link_id fd_srcs[3][4] = {
++	{
++		LINK_ID_NONE,
++		LINK_ID_FETCHECO0,
++		LINK_ID_FETCHDECODE1,
++		LINK_ID_FETCHWARP2,
++	}, {
++		LINK_ID_NONE,
++		LINK_ID_FETCHECO1,
++		LINK_ID_FETCHDECODE0,
++		LINK_ID_FETCHWARP2,
++	}, {
++		LINK_ID_NONE,
++		LINK_ID_FETCHECO9,
++		LINK_ID_FETCHWARP9,
++	},
++};
++
++static void dpu_fd_pec_dynamic_src_sel(struct dpu_fetchunit *fu,
++				       enum dpu_link_id src)
++{
++	struct dpu_soc *dpu = fu->dpu;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(fd_srcs[fu->index]); i++) {
++		if (fd_srcs[fu->index][i] == src) {
++			dpu_pec_fu_write(fu, PIXENGCFG_DYNAMIC, src);
++			return;
++		}
++	}
++
++	dev_err(dpu->dev, "%s - invalid source 0x%02x\n", fu->name, src);
++}
++
++static void
++dpu_fd_set_src_buf_dimensions(struct dpu_fetchunit *fu,
++			      unsigned int w, unsigned int h,
++			      const struct drm_format_info *unused,
++			      bool deinterlace)
++{
++	if (deinterlace)
++		h /= 2;
++
++	dpu_fu_write(fu, SOURCEBUFFERDIMENSION(fu),
++		     LINEWIDTH(w) | LINECOUNT(h));
++}
++
++static void dpu_fd_set_fmt(struct dpu_fetchunit *fu,
++			   const struct drm_format_info *format,
++			   enum drm_color_encoding color_encoding,
++			   enum drm_color_range color_range,
++			   bool deinterlace)
++{
++	u32 val, bits = 0, shifts = 0;
++	bool is_planar_yuv = false, is_rastermode_yuv422 = false;
++	bool is_yuv422upsamplingmode_interpolate = false;
++	bool is_inputselect_compact = false;
++	unsigned int bpp;
++
++	switch (format->format) {
++	case DRM_FORMAT_YUYV:
++	case DRM_FORMAT_UYVY:
++		is_rastermode_yuv422 = true;
++		is_yuv422upsamplingmode_interpolate = true;
++		bpp = 16;
++		break;
++	case DRM_FORMAT_NV12:
++	case DRM_FORMAT_NV21:
++		if (deinterlace)
++			is_yuv422upsamplingmode_interpolate = true;
++		is_planar_yuv = true;
++		is_rastermode_yuv422 = true;
++		is_inputselect_compact = true;
++		bpp = format->cpp[0] * 8;
++		break;
++	default:
++		bpp = format->cpp[0] * 8;
++		break;
++	}
++
++	dpu_fu_set_src_bpp(fu, bpp);
++
++	val = dpu_fu_read(fu, CONTROL);
++	val &= ~YUV422UPSAMPLINGMODE_MASK;
++	val &= ~INPUTSELECT_MASK;
++	val &= ~RASTERMODE_MASK;
++	if (is_yuv422upsamplingmode_interpolate)
++		val |= YUV422UPSAMPLINGMODE(YUV422UPSAMPLINGMODE_INTERPOLATE);
++	else
++		val |= YUV422UPSAMPLINGMODE(YUV422UPSAMPLINGMODE_REPLICATE);
++	if (is_inputselect_compact)
++		val |= INPUTSELECT(INPUTSELECT_COMPPACK);
++	else
++		val |= INPUTSELECT(INPUTSELECT_INACTIVE);
++	if (is_rastermode_yuv422)
++		val |= RASTERMODE(RASTERMODE_YUV422);
++	else
++		val |= RASTERMODE(RASTERMODE_NORMAL);
++	dpu_fu_write(fu, CONTROL, val);
++
++	val = dpu_fu_read(fu, LAYERPROPERTY(fu));
++	val &= ~YUVCONVERSIONMODE_MASK;
++	if (format->is_yuv) {
++		if (color_encoding == DRM_COLOR_YCBCR_BT709)
++			val |= YUVCONVERSIONMODE(YUVCONVERSIONMODE_ITU709);
++		else if (color_encoding == DRM_COLOR_YCBCR_BT601 &&
++			 color_range == DRM_COLOR_YCBCR_FULL_RANGE)
++			val |= YUVCONVERSIONMODE(YUVCONVERSIONMODE_ITU601_FR);
++		else
++			val |= YUVCONVERSIONMODE(YUVCONVERSIONMODE_ITU601);
++	} else {
++		val |= YUVCONVERSIONMODE(YUVCONVERSIONMODE_OFF);
++	}
++	dpu_fu_write(fu, LAYERPROPERTY(fu), val);
++
++	dpu_fu_get_pixel_format_bits(fu, format->format, &bits);
++	dpu_fu_get_pixel_format_shifts(fu, format->format, &shifts);
++
++	if (is_planar_yuv) {
++		bits &= ~(U_BITS_MASK | V_BITS_MASK);
++		shifts &= ~(U_SHIFT_MASK | V_SHIFT_MASK);
++	}
++
++	dpu_fu_write(fu, COLORCOMPONENTBITS(fu), bits);
++	dpu_fu_write(fu, COLORCOMPONENTSHIFT(fu), shifts);
++}
++
++static void dpu_fd_set_framedimensions(struct dpu_fetchunit *fu,
++				       unsigned int w, unsigned int h,
++				       bool deinterlace)
++{
++	if (deinterlace)
++		h /= 2;
++
++	dpu_fu_write(fu, FRAMEDIMENSIONS, FRAMEWIDTH(w) | FRAMEHEIGHT(h));
++}
++
++static void dpu_fd_set_ops(struct dpu_fetchunit *fu)
++{
++	memcpy(&fu->ops, &dpu_fu_common_ops, sizeof(dpu_fu_common_ops));
++	fu->ops.set_pec_dynamic_src_sel = dpu_fd_pec_dynamic_src_sel;
++	fu->ops.set_src_buf_dimensions	= dpu_fd_set_src_buf_dimensions;
++	fu->ops.set_fmt			= dpu_fd_set_fmt;
++	fu->ops.set_framedimensions	= dpu_fd_set_framedimensions;
++}
++
++struct dpu_fetchunit *dpu_fd_get(struct dpu_soc *dpu, unsigned int id)
++{
++	struct dpu_fetchunit *fu;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(dpu->fd_priv); i++) {
++		fu = dpu->fd_priv[i];
++		if (fu->id == id)
++			break;
++	}
++
++	if (i == ARRAY_SIZE(dpu->fd_priv))
++		return ERR_PTR(-EINVAL);
++
++	fu->fe = dpu_fe_get(dpu, id);
++	if (IS_ERR(fu->fe))
++		return ERR_CAST(fu->fe);
++
++	fu->hs = dpu_hs_get(dpu, fu->type == DPU_DISP ?
++				id + DPU_FETCHDECODE_DISP_SCALER_OFFSET : id);
++	if (IS_ERR(fu->hs))
++		return ERR_CAST(fu->hs);
++
++	fu->vs = dpu_vs_get(dpu, fu->type == DPU_DISP ?
++				id + DPU_FETCHDECODE_DISP_SCALER_OFFSET : id);
++	if (IS_ERR(fu->vs))
++		return ERR_CAST(fu->vs);
++
++	mutex_lock(&fu->mutex);
++
++	if (fu->inuse) {
++		mutex_unlock(&fu->mutex);
++		return ERR_PTR(-EBUSY);
++	}
++
++	fu->inuse = true;
++
++	mutex_unlock(&fu->mutex);
++
++	return fu;
++}
++
++void dpu_fd_put(struct dpu_fetchunit *fu)
++{
++	if (IS_ERR_OR_NULL(fu))
++		return;
++
++	mutex_lock(&fu->mutex);
++
++	fu->inuse = false;
++
++	mutex_unlock(&fu->mutex);
++}
++
++void dpu_fd_hw_init(struct dpu_soc *dpu, unsigned int index)
++{
++	struct dpu_fetchunit *fu = dpu->fd_priv[index];
++
++	fu->ops.set_pec_dynamic_src_sel(fu, LINK_ID_NONE);
++	dpu_fu_common_hw_init(fu);
++}
++
++int dpu_fd_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long pec_base, unsigned long base)
++{
++	struct dpu_fetchunit *fu;
++	int ret;
++
++	fu = devm_kzalloc(dpu->dev, sizeof(*fu), GFP_KERNEL);
++	if (!fu)
++		return -ENOMEM;
++
++	dpu->fd_priv[index] = fu;
++
++	fu->pec_base = devm_ioremap(dpu->dev, pec_base, SZ_16);
++	if (!fu->pec_base)
++		return -ENOMEM;
++
++	fu->base = devm_ioremap(dpu->dev, base, SZ_2K);
++	if (!fu->base)
++		return -ENOMEM;
++
++	fu->dpu = dpu;
++	fu->id = id;
++	fu->index = index;
++	fu->type = type;
++	fu->link_id = dpu_fd_link_id[index];
++	fu->cap_mask = DPU_FETCHDECODE_CAP_MASK;
++	fu->reg_offset = DPU_FETCHDECODE_REG_OFFSET;
++	snprintf(fu->name, sizeof(fu->name), "FetchDecode%u", id);
++
++	ret = dpu_fu_attach_dprc(fu);
++	if (ret)
++		return dev_err_probe(dpu->dev, ret, "%s - failed to attach DPRC\n",
++				     fu->name);
++
++	dpu_fd_set_ops(fu);
++
++	mutex_init(&fu->mutex);
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-fetcheco.c b/drivers/gpu/drm/imx/dpu/dpu-fetcheco.c
+new file mode 100644
+index 000000000000..7957d84ba4cf
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-fetcheco.c
+@@ -0,0 +1,224 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright 2017-2020,2022,2023 NXP
++ */
++
++#include <linux/kernel.h>
++#include <linux/mutex.h>
++#include <linux/sizes.h>
++
++#include "dpu.h"
++#include "dpu-fetchunit.h"
++#include "dpu-prv.h"
++
++#define FRAMEDIMENSIONS		0x38
++#define FRAMERESAMPLING		0x3c
++#define CONTROL			0x40
++#define CONTROLTRIGGER		0x44
++#define START			0x48
++#define FETCHTYPE		0x4c
++#define BURSTBUFFERPROPERTIES	0x50
++#define HIDDENSTATUS		0x54
++
++static const enum dpu_link_id dpu_fe_link_id[] = {
++	LINK_ID_FETCHECO0, LINK_ID_FETCHECO1,
++	LINK_ID_FETCHECO2, LINK_ID_FETCHECO9
++};
++
++static void
++dpu_fe_set_src_buf_dimensions(struct dpu_fetchunit *fu,
++			      unsigned int w, unsigned int h,
++			      const struct drm_format_info *format,
++			      bool deinterlace)
++{
++	struct dpu_soc *dpu = fu->dpu;
++	unsigned int width, height;
++
++	if (deinterlace) {
++		width = w;
++		height = h / 2;
++	} else {
++		width = w / format->hsub;
++		height = h / format->vsub;
++	}
++
++	switch (format->format) {
++	case DRM_FORMAT_NV12:
++	case DRM_FORMAT_NV21:
++	case DRM_FORMAT_NV16:
++	case DRM_FORMAT_NV61:
++	case DRM_FORMAT_NV24:
++	case DRM_FORMAT_NV42:
++		break;
++	default:
++		dev_warn(dpu->dev,
++			 "%s - unsupported pixel format 0x%08x\n",
++						fu->name, format->format);
++		return;
++	}
++
++	dpu_fu_write(fu, SOURCEBUFFERDIMENSION(fu),
++		     LINEWIDTH(width) | LINECOUNT(height));
++}
++
++static void dpu_fe_set_fmt(struct dpu_fetchunit *fu,
++			   const struct drm_format_info *format,
++			   enum drm_color_encoding unused1,
++			   enum drm_color_range unused2,
++			   bool deinterlace)
++{
++	struct dpu_soc *dpu = fu->dpu;
++	u32 bits = 0, shifts = 0;
++	unsigned int x, y;
++
++	switch (format->format) {
++	case DRM_FORMAT_NV12:
++	case DRM_FORMAT_NV21:
++		break;
++	default:
++		dev_warn(dpu->dev,
++			 "%s - unsupported pixel format 0x%08x\n",
++						fu->name, format->format);
++		return;
++	}
++
++	switch (format->hsub) {
++	case 1:
++		x = 0x4;
++		break;
++	case 2:
++		x = 0x2;
++		break;
++	default:
++		dev_warn(dpu->dev,
++			 "%s - unsupported horizontal subsampling %u\n",
++							fu->name, format->hsub);
++		return;
++	}
++
++	switch (format->vsub) {
++	case 1:
++		y = 0x4;
++		break;
++	case 2:
++		y = 0x2;
++		break;
++	default:
++		dev_warn(dpu->dev,
++			 "%s - unsupported vertical subsampling %u\n",
++							fu->name, format->vsub);
++		return;
++	}
++
++	dpu_fu_set_src_bpp(fu, 16);
++
++	dpu_fu_write_mask(fu, FRAMERESAMPLING, DELTAX_MASK | DELTAY_MASK,
++			  DELTAX(x) | DELTAY(y));
++
++	dpu_fu_write_mask(fu, CONTROL, RASTERMODE_MASK,
++			  RASTERMODE(RASTERMODE_NORMAL));
++
++	dpu_fu_get_pixel_format_bits(fu, format->format, &bits);
++	dpu_fu_get_pixel_format_shifts(fu, format->format, &shifts);
++
++	dpu_fu_write(fu, COLORCOMPONENTBITS(fu), bits & ~Y_BITS_MASK);
++	dpu_fu_write(fu, COLORCOMPONENTSHIFT(fu), shifts & ~Y_SHIFT_MASK);
++}
++
++static void dpu_fe_set_framedimensions(struct dpu_fetchunit *fu,
++				       unsigned int w, unsigned int h,
++				       bool deinterlace)
++{
++	if (deinterlace)
++		h /= 2;
++
++	dpu_fu_write(fu, FRAMEDIMENSIONS, FRAMEWIDTH(w) | FRAMEHEIGHT(h));
++}
++
++static void dpu_fe_set_ops(struct dpu_fetchunit *fu)
++{
++	memcpy(&fu->ops, &dpu_fu_common_ops, sizeof(dpu_fu_common_ops));
++	fu->ops.set_src_buf_dimensions	= dpu_fe_set_src_buf_dimensions;
++	fu->ops.set_fmt			= dpu_fe_set_fmt;
++	fu->ops.set_framedimensions	= dpu_fe_set_framedimensions;
++}
++
++struct dpu_fetchunit *dpu_fe_get(struct dpu_soc *dpu, unsigned int id)
++{
++	struct dpu_fetchunit *fu;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(dpu->fe_priv); i++) {
++		fu = dpu->fe_priv[i];
++		if (fu->id == id)
++			break;
++	}
++
++	if (i == ARRAY_SIZE(dpu->fe_priv))
++		return ERR_PTR(-EINVAL);
++
++	mutex_lock(&fu->mutex);
++
++	if (fu->inuse) {
++		mutex_unlock(&fu->mutex);
++		return ERR_PTR(-EBUSY);
++	}
++
++	fu->inuse = true;
++
++	mutex_unlock(&fu->mutex);
++
++	return fu;
++}
++
++void dpu_fe_put(struct dpu_fetchunit *fu)
++{
++	if (IS_ERR_OR_NULL(fu))
++		return;
++
++	mutex_lock(&fu->mutex);
++
++	fu->inuse = false;
++
++	mutex_unlock(&fu->mutex);
++}
++
++void dpu_fe_hw_init(struct dpu_soc *dpu, unsigned int index)
++{
++	dpu_fu_common_hw_init(dpu->fe_priv[index]);
++}
++
++int dpu_fe_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long pec_base, unsigned long base)
++{
++	struct dpu_fetchunit *fu;
++
++	fu = devm_kzalloc(dpu->dev, sizeof(*fu), GFP_KERNEL);
++	if (!fu)
++		return -ENOMEM;
++
++	dpu->fe_priv[index] = fu;
++
++	fu->pec_base = devm_ioremap(dpu->dev, pec_base, SZ_16);
++	if (!fu->pec_base)
++		return -ENOMEM;
++
++	fu->base = devm_ioremap(dpu->dev, base, SZ_128);
++	if (!fu->base)
++		return -ENOMEM;
++
++	fu->dpu = dpu;
++	fu->id = id;
++	fu->index = index;
++	fu->type = type;
++	fu->link_id = dpu_fe_link_id[index];
++	snprintf(fu->name, sizeof(fu->name), "FetchECO%u", id);
++
++	dpu_fe_set_ops(fu);
++
++	mutex_init(&fu->mutex);
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-fetchlayer.c b/drivers/gpu/drm/imx/dpu/dpu-fetchlayer.c
+new file mode 100644
+index 000000000000..7ffd0ea66a15
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-fetchlayer.c
+@@ -0,0 +1,152 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright (C) 2016 Freescale Semiconductor, Inc.
++ * Copyright 2017-2020,2022,2023 NXP
++ */
++
++#include <linux/kernel.h>
++#include <linux/mutex.h>
++#include <linux/sizes.h>
++
++#include "dpu.h"
++#include "dpu-fetchunit.h"
++#include "dpu-prv.h"
++
++#define FRAMEDIMENSIONS		0x150
++#define FRAMERESAMPLING		0x154
++#define CONTROL			0x158
++#define TRIGGERENABLE		0x15c
++#define CONTROLTRIGGER		0x160
++#define START			0x164
++#define FETCHTYPE		0x168
++#define BURSTBUFFERPROPERTIES	0x16c
++#define STATUS			0x170
++#define HIDDENSTATUS		0x174
++
++static const enum dpu_link_id dpu_fl_link_id[] = {LINK_ID_FETCHLAYER0};
++
++static void dpu_fl_set_fmt(struct dpu_fetchunit *fu,
++			   const struct drm_format_info *format,
++			   enum drm_color_encoding color_encoding,
++			   enum drm_color_range color_range,
++			   bool unused)
++{
++	u32 bits = 0, shifts = 0;
++
++	dpu_fu_set_src_bpp(fu, format->cpp[0] * 8);
++
++	dpu_fu_write_mask(fu, LAYERPROPERTY(fu), YUVCONVERSIONMODE_MASK,
++			  YUVCONVERSIONMODE(YUVCONVERSIONMODE_OFF));
++
++	dpu_fu_get_pixel_format_bits(fu, format->format, &bits);
++	dpu_fu_get_pixel_format_shifts(fu, format->format, &shifts);
++
++	dpu_fu_write(fu, COLORCOMPONENTBITS(fu), bits);
++	dpu_fu_write(fu, COLORCOMPONENTSHIFT(fu), shifts);
++}
++
++static void
++dpu_fl_set_framedimensions(struct dpu_fetchunit *fu, unsigned int w,
++			   unsigned int h, bool unused)
++{
++	dpu_fu_write(fu, FRAMEDIMENSIONS, FRAMEWIDTH(w) | FRAMEHEIGHT(h));
++}
++
++static void dpu_fl_set_ops(struct dpu_fetchunit *fu)
++{
++	memcpy(&fu->ops, &dpu_fu_common_ops, sizeof(dpu_fu_common_ops));
++	fu->ops.set_src_buf_dimensions =
++				dpu_fu_set_src_buf_dimensions_no_deinterlace;
++	fu->ops.set_fmt			= dpu_fl_set_fmt;
++	fu->ops.set_framedimensions	= dpu_fl_set_framedimensions;
++}
++
++struct dpu_fetchunit *dpu_fl_get(struct dpu_soc *dpu, unsigned int id)
++{
++	struct dpu_fetchunit *fu;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(dpu->fl_priv); i++) {
++		fu = dpu->fl_priv[i];
++		if (fu->id == id)
++			break;
++	}
++
++	if (i == ARRAY_SIZE(dpu->fl_priv))
++		return ERR_PTR(-EINVAL);
++
++	mutex_lock(&fu->mutex);
++
++	if (fu->inuse) {
++		mutex_unlock(&fu->mutex);
++		return ERR_PTR(-EBUSY);
++	}
++
++	fu->inuse = true;
++
++	mutex_unlock(&fu->mutex);
++
++	return fu;
++}
++
++void dpu_fl_put(struct dpu_fetchunit *fu)
++{
++	if (IS_ERR_OR_NULL(fu))
++		return;
++
++	mutex_lock(&fu->mutex);
++
++	fu->inuse = false;
++
++	mutex_unlock(&fu->mutex);
++}
++
++void dpu_fl_hw_init(struct dpu_soc *dpu, unsigned int index)
++{
++	struct dpu_fetchunit *fu = dpu->fl_priv[index];
++
++	dpu_fu_common_hw_init(fu);
++	dpu_fu_shdldreq_sticky(fu, 0xff);
++}
++
++int dpu_fl_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long pec_base, unsigned long base)
++{
++	struct dpu_fetchunit *fu;
++	int ret;
++
++	fu = devm_kzalloc(dpu->dev, sizeof(*fu), GFP_KERNEL);
++	if (!fu)
++		return -ENOMEM;
++
++	dpu->fl_priv[index] = fu;
++
++	fu->pec_base = devm_ioremap(dpu->dev, pec_base, SZ_16);
++	if (!fu->pec_base)
++		return -ENOMEM;
++
++	fu->base = devm_ioremap(dpu->dev, base, SZ_2K);
++	if (!fu->base)
++		return -ENOMEM;
++
++	fu->dpu = dpu;
++	fu->id = id;
++	fu->index = index;
++	fu->type = type;
++	fu->sub_id = 0;
++	fu->link_id = dpu_fl_link_id[index];
++	snprintf(fu->name, sizeof(fu->name), "FetchLayer%u", id);
++
++	ret = dpu_fu_attach_dprc(fu);
++	if (ret)
++		return dev_err_probe(dpu->dev, ret, "%s - failed to attach DPRC\n",
++				     fu->name);
++
++	dpu_fl_set_ops(fu);
++
++	mutex_init(&fu->mutex);
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-fetchunit.c b/drivers/gpu/drm/imx/dpu/dpu-fetchunit.c
+new file mode 100644
+index 000000000000..77dab77a88d3
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-fetchunit.c
+@@ -0,0 +1,610 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright 2018-2020,2022,2023 NXP
++ */
++
++#include <linux/bitops.h>
++#include <linux/list.h>
++#include <linux/kernel.h>
++#include <linux/of.h>
++
++#include <drm/drm_blend.h>
++
++#include <dt-bindings/firmware/imx/rsrc.h>
++
++#include "dpu-fetchunit.h"
++
++#define STATICCONTROL			0x8
++#define  SHDLDREQSTICKY(lm)		(((lm) & 0xff) << 24)
++#define  SHDLDREQSTICKY_MASK		(0xff << 24)
++#define  BASEADDRESSAUTOUPDATE(lm)	(((lm) & 0xff) << 16)
++#define  BASEADDRESSAUTOUPDATE_MASK	(0xff << 16)
++
++#define BURSTBUFFERMANAGEMENT		0xc
++#define  SETBURSTLENGTH(n)		(((n) & 0x1f) << 8)
++#define  SETBURSTLENGTH_MASK		0x1f00
++#define  SETNUMBUFFERS(n)		((n) & 0xff)
++#define  SETNUMBUFFERS_MASK		0xff
++#define  LINEMODE_MASK			0x80000000
++#define  LINEMODE_SHIFT			31
++
++#define BASEADDRESS(fu)			(0x10 + SUBID_OFFSET + REG_OFFSET)
++
++#define SOURCEBUFFERATTRIBUTES(fu)	(0x14 + SUBID_OFFSET + REG_OFFSET)
++#define  BITSPERPIXEL_MASK		0x3f0000
++#define  BITSPERPIXEL(bpp)		(((bpp) & 0x3f) << 16)
++#define  STRIDE_MASK			0xffff
++#define  STRIDE(n)			(((n) - 1) & 0xffff)
++
++#define LAYEROFFSET(fu)			(0x24 + SUBID_OFFSET + REG_OFFSET)
++#define  LAYERXOFFSET(x)		((x) & 0x7fff)
++#define  LAYERYOFFSET(y)		(((y) & 0x7fff) << 16)
++
++#define CLIPWINDOWOFFSET(fu)		(0x28 + SUBID_OFFSET + REG_OFFSET)
++#define  CLIPWINDOWXOFFSET(x)		((x) & 0x7fff)
++#define  CLIPWINDOWYOFFSET(y)		(((y) & 0x7fff) << 16)
++
++#define CLIPWINDOWDIMENSIONS(fu)	(0x2c + SUBID_OFFSET + REG_OFFSET)
++#define  CLIPWINDOWWIDTH(w)		(((w) - 1) & 0x3fff)
++#define  CLIPWINDOWHEIGHT(h)		((((h) - 1) & 0x3fff) << 16)
++
++#define CONSTANTCOLOR(fu)		(0x30 + SUBID_OFFSET + REG_OFFSET)
++#define  CONSTANTALPHA_MASK		0xff
++#define  CONSTANTALPHA(n)		((n) & CONSTANTALPHA_MASK)
++
++#define DPU_FETCHUNIT_NO_STREAM_ID	(~0)
++
++enum dpu_linemode {
++	/*
++	 * Mandatory setting for operation in the Display Controller.
++	 * Works also for Blit Engine with marginal performance impact.
++	 */
++	LINEMODE_DISPLAY = 0,
++	/* Recommended setting for operation in the Blit Engine. */
++	LINEMODE_BLIT = (1 << LINEMODE_SHIFT),
++};
++
++struct dpu_fetchunit_pixel_format {
++	u32 pixel_format;
++	u32 bits;
++	u32 shifts;
++};
++
++struct dpu_fetchunit_sc_rsc_map {
++	u32 sc_rsc;
++	enum dpu_link_id link_id;
++};
++
++static const struct dpu_fetchunit_pixel_format pixel_formats[] = {
++	{
++		DRM_FORMAT_ARGB8888,
++		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(8),
++		R_SHIFT(16) | G_SHIFT(8)  | B_SHIFT(0)  | A_SHIFT(24),
++	}, {
++		DRM_FORMAT_XRGB8888,
++		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
++		R_SHIFT(16) | G_SHIFT(8)  | B_SHIFT(0)  | A_SHIFT(0),
++	}, {
++		DRM_FORMAT_ABGR8888,
++		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(8),
++		R_SHIFT(0)  | G_SHIFT(8)  | B_SHIFT(16) | A_SHIFT(24),
++	}, {
++		DRM_FORMAT_XBGR8888,
++		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
++		R_SHIFT(0)  | G_SHIFT(8)  | B_SHIFT(16) | A_SHIFT(0),
++	}, {
++		DRM_FORMAT_RGBA8888,
++		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(8),
++		R_SHIFT(24) | G_SHIFT(16) | B_SHIFT(8)  | A_SHIFT(0),
++	}, {
++		DRM_FORMAT_RGBX8888,
++		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
++		R_SHIFT(24) | G_SHIFT(16) | B_SHIFT(8)  | A_SHIFT(0),
++	}, {
++		DRM_FORMAT_BGRA8888,
++		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(8),
++		R_SHIFT(8)  | G_SHIFT(16) | B_SHIFT(24) | A_SHIFT(0),
++	}, {
++		DRM_FORMAT_BGRX8888,
++		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
++		R_SHIFT(8)  | G_SHIFT(16) | B_SHIFT(24) | A_SHIFT(0),
++	}, {
++		DRM_FORMAT_RGB888,
++		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
++		R_SHIFT(16) | G_SHIFT(8)  | B_SHIFT(0)  | A_SHIFT(0),
++	}, {
++		DRM_FORMAT_BGR888,
++		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
++		R_SHIFT(0)  | G_SHIFT(8)  | B_SHIFT(16) | A_SHIFT(0),
++	}, {
++		DRM_FORMAT_RGB565,
++		R_BITS(5)   | G_BITS(6)   | B_BITS(5)   | A_BITS(0),
++		R_SHIFT(11) | G_SHIFT(5)  | B_SHIFT(0)  | A_SHIFT(0),
++	}, {
++		DRM_FORMAT_YUYV,
++		Y_BITS(8)   | U_BITS(8)   | V_BITS(8)   | A_BITS(0),
++		Y_SHIFT(0)  | U_SHIFT(8)  | V_SHIFT(8)  | A_SHIFT(0),
++	}, {
++		DRM_FORMAT_UYVY,
++		Y_BITS(8)   | U_BITS(8)   | V_BITS(8)   | A_BITS(0),
++		Y_SHIFT(8)  | U_SHIFT(0)  | V_SHIFT(0)  | A_SHIFT(0),
++	}, {
++		DRM_FORMAT_NV12,
++		Y_BITS(8)   | U_BITS(8)   | V_BITS(8)   | A_BITS(0),
++		Y_SHIFT(0)  | U_SHIFT(0)  | V_SHIFT(8)  | A_SHIFT(0),
++	}, {
++		DRM_FORMAT_NV21,
++		Y_BITS(8)   | U_BITS(8)   | V_BITS(8)   | A_BITS(0),
++		Y_SHIFT(0)  | U_SHIFT(8)  | V_SHIFT(0)  | A_SHIFT(0),
++	},
++};
++
++static const struct dpu_fetchunit_sc_rsc_map sc_rsc_maps[] = {
++	{ IMX_SC_R_DC_0_BLIT0,  LINK_ID_FETCHDECODE9 },
++	{ IMX_SC_R_DC_0_BLIT1,  LINK_ID_FETCHWARP9 },
++	{ IMX_SC_R_DC_0_WARP,   LINK_ID_FETCHWARP2 },
++	{ IMX_SC_R_DC_0_VIDEO0, LINK_ID_FETCHDECODE0 },
++	{ IMX_SC_R_DC_0_VIDEO1, LINK_ID_FETCHDECODE1 },
++	{ IMX_SC_R_DC_0_FRAC0,  LINK_ID_FETCHLAYER0 },
++	{ IMX_SC_R_DC_1_BLIT0,  LINK_ID_FETCHDECODE9 },
++	{ IMX_SC_R_DC_1_BLIT1,  LINK_ID_FETCHWARP9 },
++	{ IMX_SC_R_DC_1_WARP,   LINK_ID_FETCHWARP2 },
++	{ IMX_SC_R_DC_1_VIDEO0, LINK_ID_FETCHDECODE0 },
++	{ IMX_SC_R_DC_1_VIDEO1, LINK_ID_FETCHDECODE1 },
++	{ IMX_SC_R_DC_1_FRAC0,  LINK_ID_FETCHLAYER0 },
++};
++
++void dpu_fu_get_pixel_format_bits(struct dpu_fetchunit *fu,
++				  u32 format, u32 *bits)
++{
++	struct dpu_soc *dpu = fu->dpu;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
++		if (pixel_formats[i].pixel_format == format) {
++			*bits = pixel_formats[i].bits;
++			return;
++		}
++	}
++
++	dev_warn(dpu->dev, "%s - unsupported pixel format 0x%08x\n",
++		 fu->name, format);
++}
++
++void dpu_fu_get_pixel_format_shifts(struct dpu_fetchunit *fu,
++				    u32 format, u32 *shifts)
++{
++	struct dpu_soc *dpu = fu->dpu;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
++		if (pixel_formats[i].pixel_format == format) {
++			*shifts = pixel_formats[i].shifts;
++			return;
++		}
++	}
++
++	dev_warn(dpu->dev, "%s - unsupported pixel format 0x%08x\n",
++		 fu->name, format);
++}
++
++static bool dpu_fu_is_enabled(struct dpu_fetchunit *fu)
++{
++	u32 val = dpu_fu_read(fu, LAYERPROPERTY(fu));
++
++	return !!(val & SOURCEBUFFERENABLE);
++}
++
++static void dpu_fu_enable_shden(struct dpu_fetchunit *fu)
++{
++	dpu_fu_write_mask(fu, STATICCONTROL, SHDEN, SHDEN);
++}
++
++static void dpu_fu_baddr_autoupdate(struct dpu_fetchunit *fu, u8 layer_mask)
++{
++	dpu_fu_write_mask(fu, STATICCONTROL, BASEADDRESSAUTOUPDATE_MASK,
++			  BASEADDRESSAUTOUPDATE(layer_mask));
++}
++
++void dpu_fu_shdldreq_sticky(struct dpu_fetchunit *fu, u8 layer_mask)
++{
++	dpu_fu_write_mask(fu, STATICCONTROL, SHDLDREQSTICKY_MASK,
++			  SHDLDREQSTICKY(layer_mask));
++}
++
++static void dpu_fu_set_linemode(struct dpu_fetchunit *fu, enum dpu_linemode mode)
++{
++	dpu_fu_write_mask(fu, BURSTBUFFERMANAGEMENT, LINEMODE_MASK, mode);
++}
++
++static void dpu_fu_set_numbuffers(struct dpu_fetchunit *fu, unsigned int num)
++{
++	dpu_fu_write_mask(fu, BURSTBUFFERMANAGEMENT, SETNUMBUFFERS_MASK,
++			  SETNUMBUFFERS(num));
++}
++
++/* address TKT343664: base address has to align to burst size */
++static unsigned int dpu_fu_burst_size_fixup(dma_addr_t baddr)
++{
++	unsigned int burst_size;
++
++	burst_size = 1 << __ffs(baddr);
++	burst_size = round_up(burst_size, 8);
++	burst_size = min(burst_size, 128U);
++
++	return burst_size;
++}
++
++/* address TKT339017: mismatch between burst size and stride */
++static unsigned int dpu_fu_stride_fixup(unsigned int stride,
++					unsigned int burst_size,
++					dma_addr_t baddr, bool nonzero_mod)
++{
++	if (nonzero_mod)
++		stride = round_up(stride + round_up(baddr % 8, 8), burst_size);
++	else
++		stride = round_up(stride, burst_size);
++
++	return stride;
++}
++
++static void dpu_fu_set_burstlength(struct dpu_fetchunit *fu,
++				   unsigned int x_offset, unsigned int mt_w,
++				   int bpp, dma_addr_t baddr)
++{
++	struct dpu_soc *dpu = fu->dpu;
++	unsigned int burst_size, burst_length;
++	bool nonzero_mod = !!mt_w;
++
++	/* consider PRG x offset to calculate buffer address */
++	if (nonzero_mod)
++		baddr += (x_offset % mt_w) * (bpp / 8);
++
++	burst_size = dpu_fu_burst_size_fixup(baddr);
++	burst_length = burst_size / 8;
++
++	dpu_fu_write_mask(fu, BURSTBUFFERMANAGEMENT, SETBURSTLENGTH_MASK,
++			  SETBURSTLENGTH(burst_length));
++
++	dev_dbg(dpu->dev, "%s burst length is %u\n", fu->name, burst_length);
++}
++
++static void
++dpu_fu_set_baseaddress(struct dpu_fetchunit *fu, unsigned int width,
++		       unsigned int x_offset, unsigned int y_offset,
++		       unsigned int mt_w, unsigned int mt_h,
++		       int bpp, dma_addr_t baddr)
++{
++	unsigned int burst_size, stride;
++	bool nonzero_mod = !!mt_w;
++
++	if (nonzero_mod) {
++		/* consider PRG x offset to calculate buffer address */
++		baddr += (x_offset % mt_w) * (bpp / 8);
++
++		burst_size = dpu_fu_burst_size_fixup(baddr);
++
++		stride = width * (bpp / 8);
++		stride = dpu_fu_stride_fixup(stride, burst_size, baddr,
++					     nonzero_mod);
++
++		/* consider PRG y offset to calculate buffer address */
++		baddr += (y_offset % mt_h) * stride;
++	}
++
++	dpu_fu_write(fu, BASEADDRESS(fu), baddr);
++}
++
++void dpu_fu_set_src_bpp(struct dpu_fetchunit *fu, unsigned int bpp)
++{
++	dpu_fu_write_mask(fu, SOURCEBUFFERATTRIBUTES(fu), BITSPERPIXEL_MASK,
++			  BITSPERPIXEL(bpp));
++}
++
++static void
++dpu_fu_set_src_stride(struct dpu_fetchunit *fu,
++		      unsigned int width, unsigned int x_offset,
++		      unsigned int mt_w, int bpp, unsigned int stride,
++		      dma_addr_t baddr)
++{
++	unsigned int burst_size;
++	bool nonzero_mod = !!mt_w;
++
++	/* consider PRG x offset to calculate buffer address */
++	if (nonzero_mod)
++		baddr += (x_offset % mt_w) * (bpp / 8);
++
++	burst_size = dpu_fu_burst_size_fixup(baddr);
++
++	stride = width * (bpp / 8);
++	stride = dpu_fu_stride_fixup(stride, burst_size, baddr, nonzero_mod);
++
++	dpu_fu_write_mask(fu, SOURCEBUFFERATTRIBUTES(fu), STRIDE_MASK,
++			  STRIDE(stride));
++}
++
++void
++dpu_fu_set_src_buf_dimensions_no_deinterlace(struct dpu_fetchunit *fu,
++					unsigned int w, unsigned int h,
++					const struct drm_format_info *unused1,
++					bool unused2)
++{
++	dpu_fu_write(fu, SOURCEBUFFERDIMENSION(fu),
++		     LINEWIDTH(w) | LINECOUNT(h));
++}
++
++static void dpu_fu_layeroffset(struct dpu_fetchunit *fu, unsigned int x,
++			       unsigned int y)
++{
++	dpu_fu_write(fu, LAYEROFFSET(fu), LAYERXOFFSET(x) | LAYERYOFFSET(y));
++}
++
++static void dpu_fu_clipoffset(struct dpu_fetchunit *fu, unsigned int x,
++			      unsigned int y)
++{
++	dpu_fu_write(fu, CLIPWINDOWOFFSET(fu),
++		     CLIPWINDOWXOFFSET(x) | CLIPWINDOWYOFFSET(y));
++}
++
++static void dpu_fu_clipdimensions(struct dpu_fetchunit *fu, unsigned int w,
++				  unsigned int h)
++{
++	dpu_fu_write(fu, CLIPWINDOWDIMENSIONS(fu),
++		     CLIPWINDOWWIDTH(w) | CLIPWINDOWHEIGHT(h));
++}
++
++static void dpu_fu_set_pixel_blend_mode(struct dpu_fetchunit *fu,
++					unsigned int pixel_blend_mode,
++					u16 alpha, bool fb_format_has_alpha)
++{
++	u32 mode = 0;
++
++	if (pixel_blend_mode == DRM_MODE_BLEND_PREMULTI ||
++	    pixel_blend_mode == DRM_MODE_BLEND_COVERAGE) {
++		mode = ALPHACONSTENABLE;
++
++		if (fb_format_has_alpha)
++			mode |= ALPHASRCENABLE;
++	}
++
++	dpu_fu_write_mask(fu, LAYERPROPERTY(fu),
++			  PREMULCONSTRGB | ALPHA_ENABLE_MASK | RGB_ENABLE_MASK,
++			  mode);
++
++	dpu_fu_write_mask(fu, CONSTANTCOLOR(fu), CONSTANTALPHA_MASK,
++			  CONSTANTALPHA(alpha >> 8));
++}
++
++static void dpu_fu_enable_src_buf(struct dpu_fetchunit *fu)
++{
++	struct dpu_soc *dpu = fu->dpu;
++
++	dpu_fu_write_mask(fu, LAYERPROPERTY(fu), SOURCEBUFFERENABLE,
++			  SOURCEBUFFERENABLE);
++
++	dev_dbg(dpu->dev, "%s enables source buffer in shadow\n", fu->name);
++}
++
++static void dpu_fu_disable_src_buf(struct dpu_fetchunit *fu)
++{
++	struct dpu_soc *dpu = fu->dpu;
++
++	if (fu->ops.set_pec_dynamic_src_sel)
++		fu->ops.set_pec_dynamic_src_sel(fu, LINK_ID_NONE);
++
++	dpu_fu_write_mask(fu, LAYERPROPERTY(fu), SOURCEBUFFERENABLE, 0);
++
++	if (fu->fe)
++		fu->fe->ops.disable_src_buf(fu->fe);
++
++	if (fu->hs) {
++		dpu_hs_pec_clken(fu->hs, CLKEN_DISABLE);
++		dpu_hs_mode(fu->hs, SCALER_NEUTRAL);
++	}
++
++	if (fu->vs) {
++		dpu_vs_pec_clken(fu->vs, CLKEN_DISABLE);
++		dpu_vs_mode(fu->vs, SCALER_NEUTRAL);
++	}
++
++	if (fu->lb) {
++		dpu_lb_pec_clken(fu->lb, CLKEN_DISABLE);
++		dpu_lb_mode(fu->lb, LB_NEUTRAL);
++	}
++
++	dev_dbg(dpu->dev, "%s disables source buffer in shadow\n", fu->name);
++}
++
++static struct dpu_dprc *dpu_fu_get_dprc(struct dpu_fetchunit *fu)
++{
++	return fu->dprc;
++}
++
++static struct dpu_fetchunit *dpu_fu_get_fetcheco(struct dpu_fetchunit *fu)
++{
++	return fu->fe;
++}
++
++static struct dpu_hscaler *dpu_fu_get_hscaler(struct dpu_fetchunit *fu)
++{
++	return fu->hs;
++}
++
++static struct dpu_vscaler *dpu_fu_get_vscaler(struct dpu_fetchunit *fu)
++{
++	return fu->vs;
++}
++
++static void
++dpu_fu_set_layerblend(struct dpu_fetchunit *fu, struct dpu_layerblend *lb)
++{
++	fu->lb = lb;
++}
++
++static bool dpu_fu_is_available(struct dpu_fetchunit *fu)
++{
++	return fu->is_available;
++}
++
++static void dpu_fu_set_available(struct dpu_fetchunit *fu)
++{
++	fu->is_available = true;
++}
++
++static void dpu_fu_set_inavailable(struct dpu_fetchunit *fu)
++{
++	fu->is_available = false;
++}
++
++static void
++dpu_fu_set_stream_id(struct dpu_fetchunit *fu, unsigned int stream_id)
++{
++	struct dpu_soc *dpu = fu->dpu;
++
++	fu->stream_id = stream_id;
++
++	dev_dbg(dpu->dev, "%s sets stream id %u\n", fu->name, stream_id);
++}
++
++static unsigned int dpu_fu_get_stream_id(struct dpu_fetchunit *fu)
++{
++	struct dpu_soc *dpu = fu->dpu;
++
++	dev_dbg(dpu->dev, "%s gets stream id %u\n", fu->name, fu->stream_id);
++
++	return fu->stream_id;
++}
++
++static void dpu_fu_set_no_stream_id(struct dpu_fetchunit *fu)
++{
++	struct dpu_soc *dpu = fu->dpu;
++
++	fu->stream_id = DPU_FETCHUNIT_NO_STREAM_ID;
++
++	dev_dbg(dpu->dev, "%s sets no stream id\n", fu->name);
++}
++
++static bool dpu_fu_has_stream_id(struct dpu_fetchunit *fu)
++{
++	struct dpu_soc *dpu = fu->dpu;
++	bool result = fu->stream_id != DPU_FETCHUNIT_NO_STREAM_ID;
++
++	if (result)
++		dev_dbg(dpu->dev, "%s has stream id\n", fu->name);
++	else
++		dev_dbg(dpu->dev, "%s has no stream id\n", fu->name);
++
++	return result;
++}
++
++static enum dpu_link_id dpu_fu_get_link_id(struct dpu_fetchunit *fu)
++{
++	return fu->link_id;
++}
++
++static u32 dpu_fu_get_cap_mask(struct dpu_fetchunit *fu)
++{
++	return fu->cap_mask;
++}
++
++static const char *dpu_fu_get_name(struct dpu_fetchunit *fu)
++{
++	return fu->name;
++}
++
++const struct dpu_fetchunit_ops dpu_fu_common_ops = {
++	.is_enabled		= dpu_fu_is_enabled,
++	.set_numbuffers		= dpu_fu_set_numbuffers,
++	.set_burstlength	= dpu_fu_set_burstlength,
++	.set_baseaddress	= dpu_fu_set_baseaddress,
++	.set_src_stride		= dpu_fu_set_src_stride,
++	.set_pixel_blend_mode	= dpu_fu_set_pixel_blend_mode,
++	.enable_src_buf		= dpu_fu_enable_src_buf,
++	.disable_src_buf	= dpu_fu_disable_src_buf,
++	.get_dprc		= dpu_fu_get_dprc,
++	.get_fetcheco		= dpu_fu_get_fetcheco,
++	.get_hscaler		= dpu_fu_get_hscaler,
++	.get_vscaler		= dpu_fu_get_vscaler,
++	.set_layerblend		= dpu_fu_set_layerblend,
++	.is_available		= dpu_fu_is_available,
++	.set_available		= dpu_fu_set_available,
++	.set_inavailable	= dpu_fu_set_inavailable,
++	.set_stream_id		= dpu_fu_set_stream_id,
++	.get_stream_id		= dpu_fu_get_stream_id,
++	.set_no_stream_id	= dpu_fu_set_no_stream_id,
++	.has_stream_id		= dpu_fu_has_stream_id,
++	.get_link_id		= dpu_fu_get_link_id,
++	.get_cap_mask		= dpu_fu_get_cap_mask,
++	.get_name		= dpu_fu_get_name,
++};
++
++const struct dpu_fetchunit_ops *dpu_fu_get_ops(struct dpu_fetchunit *fu)
++{
++	return &fu->ops;
++}
++
++struct dpu_fetchunit *dpu_fu_get_from_list(struct list_head *l)
++{
++	return container_of(l, struct dpu_fetchunit, node);
++}
++
++void dpu_fu_add_to_list(struct dpu_fetchunit *fu, struct list_head *l)
++{
++	list_add(&fu->node, l);
++}
++
++void dpu_fu_common_hw_init(struct dpu_fetchunit *fu)
++{
++	dpu_fu_baddr_autoupdate(fu, 0x0);
++	dpu_fu_enable_shden(fu);
++	dpu_fu_set_linemode(fu, LINEMODE_DISPLAY);
++	dpu_fu_layeroffset(fu, 0x0, 0x0);
++	dpu_fu_clipoffset(fu, 0x0, 0x0);
++	dpu_fu_clipdimensions(fu, 0x0, 0x0);
++	dpu_fu_set_numbuffers(fu, 16);
++	dpu_fu_disable_src_buf(fu);
++	dpu_fu_set_no_stream_id(fu);
++}
++
++int dpu_fu_attach_dprc(struct dpu_fetchunit *fu)
++{
++	struct dpu_soc *dpu = fu->dpu;
++	struct device_node *parent = dpu->dev->of_node;
++	struct device_node *dprc_node;
++	u32 rsc;
++	int i, j;
++	int ret;
++
++	for (i = 0; ; i++) {
++		dprc_node = of_parse_phandle(parent, "fsl,dpr-channels", i);
++		if (!dprc_node)
++			break;
++
++		ret = of_property_read_u32(dprc_node, "fsl,sc-resource", &rsc);
++		if (ret) {
++			of_node_put(dprc_node);
++			return ret;
++		}
++
++		for (j = 0; j < ARRAY_SIZE(sc_rsc_maps); j++) {
++			if (sc_rsc_maps[j].sc_rsc == rsc &&
++			    sc_rsc_maps[j].link_id == fu->link_id) {
++				fu->dprc =
++					dpu_dprc_lookup_by_of_node(dpu->dev,
++								   dprc_node);
++				if (!fu->dprc) {
++					of_node_put(dprc_node);
++					return -EPROBE_DEFER;
++				}
++
++				of_node_put(dprc_node);
++				return 0;
++			}
++		}
++
++		of_node_put(dprc_node);
++	}
++
++	return -EINVAL;
++}
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-fetchunit.h b/drivers/gpu/drm/imx/dpu/dpu-fetchunit.h
+new file mode 100644
+index 000000000000..6aa4f96cff51
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-fetchunit.h
+@@ -0,0 +1,195 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++
++/*
++ * Copyright 2019,2020,2022,2023 NXP
++ */
++
++#ifndef __DPU_FETCHUNIT_H__
++#define __DPU_FETCHUNIT_H__
++
++#include <linux/io.h>
++#include <linux/mutex.h>
++
++#include "dpu.h"
++#include "dpu-dprc.h"
++#include "dpu-prv.h"
++
++#define REG_OFFSET			((fu)->reg_offset)
++#define SUBID_OFFSET			(((fu)->sub_id) * 0x28)
++
++#define PIXENGCFG_DYNAMIC		0x8
++
++#define SOURCEBUFFERDIMENSION(fu)	(0x18 + SUBID_OFFSET + REG_OFFSET)
++#define  LINEWIDTH(w)			(((w) - 1) & 0x3fff)
++#define  LINECOUNT(h)			((((h) - 1) & 0x3fff) << 16)
++
++#define COLORCOMPONENTBITS(fu)		(0x1c + SUBID_OFFSET + REG_OFFSET)
++#define  ITUFORMAT			BIT(31)
++#define  R_BITS(n)			(((n) & 0xf) << 24)
++#define  G_BITS(n)			(((n) & 0xf) << 16)
++#define  B_BITS(n)			(((n) & 0xf) << 8)
++#define  A_BITS(n)			((n) & 0xf)
++#define  Y_BITS(n)			R_BITS(n)
++#define  Y_BITS_MASK			0xf000000
++#define  U_BITS(n)			G_BITS(n)
++#define  U_BITS_MASK			0xf0000
++#define  V_BITS(n)			B_BITS(n)
++#define  V_BITS_MASK			0xf00
++
++#define COLORCOMPONENTSHIFT(fu)		(0x20 + SUBID_OFFSET + REG_OFFSET)
++#define  R_SHIFT(n)			(((n) & 0x1f) << 24)
++#define  G_SHIFT(n)			(((n) & 0x1f) << 16)
++#define  B_SHIFT(n)			(((n) & 0x1f) << 8)
++#define  A_SHIFT(n)			((n) & 0x1f)
++#define  Y_SHIFT(n)			R_SHIFT(n)
++#define  Y_SHIFT_MASK			0x1f000000
++#define  U_SHIFT(n)			G_SHIFT(n)
++#define  U_SHIFT_MASK			0x1f0000
++#define  V_SHIFT(n)			B_SHIFT(n)
++#define  V_SHIFT_MASK			0x1f00
++
++#define LAYERPROPERTY(fu)		(0x34 + SUBID_OFFSET + REG_OFFSET)
++#define	 PALETTEENABLE			BIT(0)
++enum dpu_tilemode {
++	TILE_FILL_ZERO,
++	TILE_FILL_CONSTANT,
++	TILE_PAD,
++	TILE_PAD_ZERO,
++};
++
++#define  ALPHASRCENABLE			BIT(8)
++#define  ALPHACONSTENABLE		BIT(9)
++#define  ALPHAMASKENABLE		BIT(10)
++#define  ALPHATRANSENABLE		BIT(11)
++#define  ALPHA_ENABLE_MASK		(ALPHASRCENABLE | ALPHACONSTENABLE | \
++					 ALPHAMASKENABLE | ALPHATRANSENABLE)
++#define  RGBALPHASRCENABLE		BIT(12)
++#define  RGBALPHACONSTENABLE		BIT(13)
++#define  RGBALPHAMASKENABLE		BIT(14)
++#define  RGBALPHATRANSENABLE		BIT(15)
++#define  RGB_ENABLE_MASK		(RGBALPHASRCENABLE |	\
++					 RGBALPHACONSTENABLE |	\
++					 RGBALPHAMASKENABLE |	\
++					 RGBALPHATRANSENABLE)
++#define  PREMULCONSTRGB			BIT(16)
++enum dpu_yuvconversionmode {
++	YUVCONVERSIONMODE_OFF,
++	YUVCONVERSIONMODE_ITU601,
++	YUVCONVERSIONMODE_ITU601_FR,
++	YUVCONVERSIONMODE_ITU709,
++};
++
++#define  YUVCONVERSIONMODE_MASK		0x60000
++#define  YUVCONVERSIONMODE(m)		(((m) & 0x3) << 17)
++#define  GAMMAREMOVEENABLE		BIT(20)
++#define  CLIPWINDOWENABLE		BIT(30)
++#define  SOURCEBUFFERENABLE		BIT(31)
++
++#define  EMPTYFRAME			BIT(31)
++#define  FRAMEWIDTH(w)			(((w) - 1) & 0x3fff)
++#define  FRAMEHEIGHT(h)			((((h) - 1) & 0x3fff) << 16)
++#define  DELTAX_MASK			0x3f000
++#define  DELTAY_MASK			0xfc0000
++#define  DELTAX(x)			(((x) & 0x3f) << 12)
++#define  DELTAY(y)			(((y) & 0x3f) << 18)
++#define  YUV422UPSAMPLINGMODE_MASK	BIT(5)
++#define  YUV422UPSAMPLINGMODE(m)	(((m) & 0x1) << 5)
++enum dpu_yuv422upsamplingmode {
++	YUV422UPSAMPLINGMODE_REPLICATE,
++	YUV422UPSAMPLINGMODE_INTERPOLATE,
++};
++
++#define  INPUTSELECT_MASK		0x18
++#define  INPUTSELECT(s)			(((s) & 0x3) << 3)
++enum dpu_inputselect {
++	INPUTSELECT_INACTIVE,
++	INPUTSELECT_COMPPACK,
++	INPUTSELECT_ALPHAMASK,
++	INPUTSELECT_COORDINATE,
++};
++
++#define  RASTERMODE_MASK		0x7
++#define  RASTERMODE(m)			((m) & 0x7)
++enum dpu_rastermode {
++	RASTERMODE_NORMAL,
++	RASTERMODE_DECODE,
++	RASTERMODE_ARBITRARY,
++	RASTERMODE_PERSPECTIVE,
++	RASTERMODE_YUV422,
++	RASTERMODE_AFFINE,
++};
++
++struct dpu_fetchunit {
++	void __iomem *pec_base;
++	void __iomem *base;
++	char name[13];
++	struct mutex mutex;
++	struct list_head node;
++	unsigned int reg_offset;
++	unsigned int id;
++	unsigned int index;
++	unsigned int sub_id;	/* for fractional fetch units */
++	unsigned int stream_id;
++	enum dpu_unit_type type;
++	enum dpu_link_id link_id;
++	u32 cap_mask;
++	bool inuse;
++	bool is_available;
++	struct dpu_soc *dpu;
++	struct dpu_fetchunit_ops ops;
++	struct dpu_dprc *dprc;
++	struct dpu_fetchunit *fe;
++	struct dpu_hscaler *hs;
++	struct dpu_vscaler *vs;
++	struct dpu_layerblend *lb;
++};
++
++extern const struct dpu_fetchunit_ops dpu_fu_common_ops;
++
++static inline void
++dpu_pec_fu_write(struct dpu_fetchunit *fu, unsigned int offset, u32 value)
++{
++	writel(value, fu->pec_base + offset);
++}
++
++static inline u32 dpu_pec_fu_read(struct dpu_fetchunit *fu, unsigned int offset)
++{
++	return readl(fu->pec_base + offset);
++}
++
++static inline u32 dpu_fu_read(struct dpu_fetchunit *fu, unsigned int offset)
++{
++	return readl(fu->base + offset);
++}
++
++static inline void
++dpu_fu_write(struct dpu_fetchunit *fu, unsigned int offset, u32 value)
++{
++	writel(value, fu->base + offset);
++}
++
++static inline void dpu_fu_write_mask(struct dpu_fetchunit *fu,
++				     unsigned int offset, u32 mask, u32 value)
++{
++	u32 tmp;
++
++	tmp = dpu_fu_read(fu, offset);
++	tmp &= ~mask;
++	dpu_fu_write(fu, offset, tmp | value);
++}
++
++void dpu_fu_get_pixel_format_bits(struct dpu_fetchunit *fu,
++				  u32 format, u32 *bits);
++void dpu_fu_get_pixel_format_shifts(struct dpu_fetchunit *fu,
++				    u32 format, u32 *shifts);
++void dpu_fu_shdldreq_sticky(struct dpu_fetchunit *fu, u8 layer_mask);
++void dpu_fu_set_src_bpp(struct dpu_fetchunit *fu, unsigned int bpp);
++void
++dpu_fu_set_src_buf_dimensions_no_deinterlace(struct dpu_fetchunit *fu,
++					unsigned int w, unsigned int h,
++					const struct drm_format_info *unused1,
++					bool unused2);
++void dpu_fu_common_hw_init(struct dpu_fetchunit *fu);
++int dpu_fu_attach_dprc(struct dpu_fetchunit *fu);
++
++#endif /* __DPU_FETCHUNIT_H__ */
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-fetchwarp.c b/drivers/gpu/drm/imx/dpu/dpu-fetchwarp.c
+new file mode 100644
+index 000000000000..a2afec42507e
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-fetchwarp.c
+@@ -0,0 +1,248 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright 2018-2020,2022,2023 NXP
++ */
++
++#include <linux/kernel.h>
++#include <linux/mutex.h>
++#include <linux/sizes.h>
++
++#include "dpu.h"
++#include "dpu-fetchunit.h"
++#include "dpu-prv.h"
++
++#define FRAMEDIMENSIONS		0x150
++#define FRAMERESAMPLING		0x154
++#define WARPCONTROL		0x158
++#define ARBSTARTX		0x15c
++#define ARBSTARTY		0x160
++#define ARBDELTA		0x164
++#define FIRPOSITIONS		0x168
++#define FIRCOEFFICIENTS		0x16c
++#define CONTROL			0x170
++#define TRIGGERENABLE		0x174
++#define CONTROLTRIGGER		0x178
++#define START			0x17c
++#define FETCHTYPE		0x180
++#define BURSTBUFFERPROPERTIES	0x184
++#define STATUS			0x188
++#define HIDDENSTATUS		0x18c
++
++static const enum dpu_link_id dpu_fw_link_id[] = {
++	LINK_ID_FETCHWARP2, LINK_ID_FETCHWARP9
++};
++
++static const enum dpu_link_id fw_srcs[2][2] = {
++	{
++		LINK_ID_NONE,
++		LINK_ID_FETCHECO2,
++	}, {
++		LINK_ID_NONE,
++		LINK_ID_FETCHECO9,
++	},
++};
++
++static void dpu_fw_pec_dynamic_src_sel(struct dpu_fetchunit *fu,
++				       enum dpu_link_id src)
++{
++	struct dpu_soc *dpu = fu->dpu;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(fw_srcs[fu->index]); i++) {
++		if (fw_srcs[fu->index][i] == src) {
++			dpu_pec_fu_write(fu, PIXENGCFG_DYNAMIC, src);
++			return;
++		}
++	}
++
++	dev_err(dpu->dev, "%s - invalid source 0x%02x\n", fu->name, src);
++}
++
++static void dpu_fw_set_fmt(struct dpu_fetchunit *fu,
++			   const struct drm_format_info *format,
++			   enum drm_color_encoding color_encoding,
++			   enum drm_color_range color_range,
++			   bool unused)
++{
++	u32 val, bits = 0, shifts = 0;
++	bool is_planar_yuv = false, is_rastermode_yuv422 = false;
++	bool is_inputselect_compact = false;
++	unsigned int bpp;
++
++	switch (format->format) {
++	case DRM_FORMAT_NV12:
++	case DRM_FORMAT_NV21:
++		is_planar_yuv = true;
++		is_rastermode_yuv422 = true;
++		is_inputselect_compact = true;
++		bpp = format->cpp[0] * 8;
++		break;
++	default:
++		bpp = format->cpp[0] * 8;
++		break;
++	}
++
++	dpu_fu_set_src_bpp(fu, bpp);
++
++	val = dpu_fu_read(fu, CONTROL);
++	val &= ~INPUTSELECT_MASK;
++	val &= ~RASTERMODE_MASK;
++	if (is_inputselect_compact)
++		val |= INPUTSELECT(INPUTSELECT_COMPPACK);
++	else
++		val |= INPUTSELECT(INPUTSELECT_INACTIVE);
++	if (is_rastermode_yuv422)
++		val |= RASTERMODE(RASTERMODE_YUV422);
++	else
++		val |= RASTERMODE(RASTERMODE_NORMAL);
++	dpu_fu_write(fu, CONTROL, val);
++
++	val = dpu_fu_read(fu, LAYERPROPERTY(fu));
++	val &= ~YUVCONVERSIONMODE_MASK;
++	if (format->is_yuv) {
++		if (color_encoding == DRM_COLOR_YCBCR_BT709)
++			val |= YUVCONVERSIONMODE(YUVCONVERSIONMODE_ITU709);
++		else if (color_encoding == DRM_COLOR_YCBCR_BT601 &&
++			 color_range == DRM_COLOR_YCBCR_FULL_RANGE)
++			val |= YUVCONVERSIONMODE(YUVCONVERSIONMODE_ITU601_FR);
++		else
++			val |= YUVCONVERSIONMODE(YUVCONVERSIONMODE_ITU601);
++	} else {
++		val |= YUVCONVERSIONMODE(YUVCONVERSIONMODE_OFF);
++	}
++	dpu_fu_write(fu, LAYERPROPERTY(fu), val);
++
++	dpu_fu_get_pixel_format_bits(fu, format->format, &bits);
++	dpu_fu_get_pixel_format_shifts(fu, format->format, &shifts);
++
++	if (is_planar_yuv) {
++		bits &= ~(U_BITS_MASK | V_BITS_MASK);
++		shifts &= ~(U_SHIFT_MASK | V_SHIFT_MASK);
++	}
++
++	dpu_fu_write(fu, COLORCOMPONENTBITS(fu), bits);
++	dpu_fu_write(fu, COLORCOMPONENTSHIFT(fu), shifts);
++}
++
++static void
++dpu_fw_set_framedimensions(struct dpu_fetchunit *fu,
++			   unsigned int w, unsigned int h, bool unused)
++{
++	dpu_fu_write(fu, FRAMEDIMENSIONS, FRAMEWIDTH(w) | FRAMEHEIGHT(h));
++}
++
++static void dpu_fw_set_ops(struct dpu_fetchunit *fu)
++{
++	memcpy(&fu->ops, &dpu_fu_common_ops, sizeof(dpu_fu_common_ops));
++	fu->ops.set_pec_dynamic_src_sel = dpu_fw_pec_dynamic_src_sel;
++	fu->ops.set_src_buf_dimensions =
++				dpu_fu_set_src_buf_dimensions_no_deinterlace;
++	fu->ops.set_fmt			= dpu_fw_set_fmt;
++	fu->ops.set_framedimensions	= dpu_fw_set_framedimensions;
++}
++
++struct dpu_fetchunit *dpu_fw_get(struct dpu_soc *dpu, unsigned int id)
++{
++	struct dpu_fetchunit *fu;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(dpu->fw_priv); i++) {
++		fu = dpu->fw_priv[i];
++		if (fu->id == id)
++			break;
++	}
++
++	if (i == ARRAY_SIZE(dpu->fw_priv))
++		return ERR_PTR(-EINVAL);
++
++	fu->fe = dpu_fe_get(dpu, id);
++	if (IS_ERR(fu->fe))
++		return ERR_CAST(fu->fe);
++
++	if (fu->type == DPU_BLIT) {
++		fu->hs = dpu_hs_get(dpu, id);
++		if (IS_ERR(fu->hs))
++			return ERR_CAST(fu->hs);
++
++		fu->vs = dpu_vs_get(dpu, id);
++		if (IS_ERR(fu->vs))
++			return ERR_CAST(fu->vs);
++	}
++
++	mutex_lock(&fu->mutex);
++
++	if (fu->inuse) {
++		mutex_unlock(&fu->mutex);
++		return ERR_PTR(-EBUSY);
++	}
++
++	fu->inuse = true;
++
++	mutex_unlock(&fu->mutex);
++
++	return fu;
++}
++
++void dpu_fw_put(struct dpu_fetchunit *fu)
++{
++	if (IS_ERR_OR_NULL(fu))
++		return;
++
++	mutex_lock(&fu->mutex);
++
++	fu->inuse = false;
++
++	mutex_unlock(&fu->mutex);
++}
++
++void dpu_fw_hw_init(struct dpu_soc *dpu, unsigned int index)
++{
++	struct dpu_fetchunit *fu = dpu->fw_priv[index];
++
++	fu->ops.set_pec_dynamic_src_sel(fu, LINK_ID_NONE);
++	dpu_fu_common_hw_init(fu);
++	dpu_fu_shdldreq_sticky(fu, 0xff);
++}
++
++int dpu_fw_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long pec_base, unsigned long base)
++{
++	struct dpu_fetchunit *fu;
++	int ret;
++
++	fu = devm_kzalloc(dpu->dev, sizeof(*fu), GFP_KERNEL);
++	if (!fu)
++		return -ENOMEM;
++
++	dpu->fw_priv[index] = fu;
++
++	fu->pec_base = devm_ioremap(dpu->dev, pec_base, SZ_16);
++	if (!fu->pec_base)
++		return -ENOMEM;
++
++	fu->base = devm_ioremap(dpu->dev, base, SZ_512);
++	if (!fu->base)
++		return -ENOMEM;
++
++	fu->dpu = dpu;
++	fu->id = id;
++	fu->index = index;
++	fu->type = type;
++	fu->sub_id = 0;
++	fu->link_id = dpu_fw_link_id[index];
++	fu->cap_mask = DPU_FETCHUNIT_CAP_USE_FETCHECO;
++	snprintf(fu->name, sizeof(fu->name), "FetchWarp%u", id);
++
++	ret = dpu_fu_attach_dprc(fu);
++	if (ret)
++		return dev_err_probe(dpu->dev, ret, "%s - failed to attach DPRC\n",
++				     fu->name);
++
++	dpu_fw_set_ops(fu);
++
++	mutex_init(&fu->mutex);
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-framegen.c b/drivers/gpu/drm/imx/dpu/dpu-framegen.c
+new file mode 100644
+index 000000000000..8a34ee2dfddd
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-framegen.c
+@@ -0,0 +1,395 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright (C) 2016 Freescale Semiconductor, Inc.
++ * Copyright 2017-2020,2022,2023 NXP
++ */
++
++#include <linux/clk.h>
++#include <linux/device.h>
++#include <linux/io.h>
++#include <linux/iopoll.h>
++#include <linux/jiffies.h>
++#include <linux/kernel.h>
++#include <linux/mutex.h>
++#include <linux/sizes.h>
++
++#include "dpu.h"
++#include "dpu-prv.h"
++
++#define FGSTCTRL		0x8
++#define  FGSYNCMODE_MASK	0x6
++#define  FGSYNCMODE(n)		((n) << 6)
++
++#define HTCFG1			0xc
++#define  HTOTAL(n)		((((n) - 1) & 0x3fff) << 16)
++#define  HACT(n)		((n) & 0x3fff)
++
++#define HTCFG2			0x10
++#define  HSEN			BIT(31)
++#define  HSBP(n)		((((n) - 1) & 0x3fff) << 16)
++#define  HSYNC(n)		(((n) - 1) & 0x3fff)
++
++#define VTCFG1			0x14
++#define  VTOTAL(n)		((((n) - 1) & 0x3fff) << 16)
++#define  VACT(n)		((n) & 0x3fff)
++
++#define VTCFG2			0x18
++#define  VSEN			BIT(31)
++#define  VSBP(n)		((((n) - 1) & 0x3fff) << 16)
++#define  VSYNC(n)		(((n) - 1) & 0x3fff)
++
++#define INTCONFIG(n)		(0x1c + 4 * (n))
++#define  EN			BIT(31)
++#define  ROW(n)			(((n) & 0x3fff) << 16)
++#define  COL(n)			((n) & 0x3fff)
++
++#define PKICKCONFIG		0x2c
++#define SKICKCONFIG		0x30
++#define SECSTATCONFIG		0x34
++#define FGSRCR1			0x38
++#define FGSRCR2			0x3c
++#define FGSRCR3			0x40
++#define FGSRCR4			0x44
++#define FGSRCR5			0x48
++#define FGSRCR6			0x4c
++#define FGKSDR			0x50
++
++#define PACFG			0x54
++#define SACFG			0x58
++#define  STARTX(n)		(((n) + 1) & 0x3fff)
++#define  STARTY(n)		(((((n) + 1) & 0x3fff)) << 16)
++
++#define FGINCTRL		0x5c
++#define FGINCTRLPANIC		0x60
++#define  FGDM_MASK		0x7
++#define  ENPRIMALPHA		BIT(3)
++#define  ENSECALPHA		BIT(4)
++
++#define FGCCR			0x64
++#define  CCALPHA(a)		(((a) & 0x1) << 30)
++#define  CCRED(r)		(((r) & 0x3ff) << 20)
++#define  CCGREEN(g)		(((g) & 0x3ff) << 10)
++#define  CCBLUE(b)		((b) & 0x3ff)
++
++#define FGENABLE		0x68
++#define  FGEN			BIT(0)
++
++#define FGSLR			0x6c
++#define  SHDTOKGEN		BIT(0)
++
++#define FGENSTS			0x70
++#define  ENSTS			BIT(0)
++
++#define FGTIMESTAMP		0x74
++#define  FRAMEINDEX_SHIFT	14
++#define  FRAMEINDEX_MASK	(DPU_FRAMEGEN_MAX_FRAME_INDEX << \
++				 FRAMEINDEX_SHIFT)
++#define  LINEINDEX_MASK		0x3fff
++
++#define FGCHSTAT		0x78
++#define  SECSYNCSTAT		BIT(24)
++#define  SFIFOEMPTY		BIT(16)
++
++#define FGCHSTATCLR		0x7c
++#define  CLRSECSTAT		BIT(16)
++
++#define FGSKEWMON		0x80
++#define FGSFIFOMIN		0x84
++#define FGSFIFOMAX		0x88
++#define FGSFIFOFILLCLR		0x8c
++#define FGSREPD			0x90
++#define FGSRFTD			0x94
++
++#define KHZ			1000
++#define MIN_PLL_RATE		648000000	/* assume 648MHz */
++
++struct dpu_framegen {
++	void __iomem *base;
++	struct clk *clk_pll;
++	struct clk *clk_disp;
++	struct mutex mutex;
++	unsigned int id;
++	unsigned int index;
++	bool inuse;
++	struct dpu_soc *dpu;
++};
++
++static inline u32 dpu_fg_read(struct dpu_framegen *fg, unsigned int offset)
++{
++	return readl(fg->base + offset);
++}
++
++static inline void dpu_fg_write(struct dpu_framegen *fg,
++				unsigned int offset, u32 value)
++{
++	writel(value, fg->base + offset);
++}
++
++static inline void dpu_fg_write_mask(struct dpu_framegen *fg,
++				     unsigned int offset, u32 mask, u32 value)
++{
++	u32 tmp;
++
++	tmp = dpu_fg_read(fg, offset);
++	tmp &= ~mask;
++	dpu_fg_write(fg, offset, tmp | value);
++}
++
++static void dpu_fg_enable_shden(struct dpu_framegen *fg)
++{
++	dpu_fg_write_mask(fg, FGSTCTRL, SHDEN, SHDEN);
++}
++
++void dpu_fg_syncmode(struct dpu_framegen *fg, enum dpu_fg_syncmode mode)
++{
++	dpu_fg_write_mask(fg, FGSTCTRL, FGSYNCMODE_MASK, FGSYNCMODE(mode));
++}
++
++void dpu_fg_cfg_videomode(struct dpu_framegen *fg, struct drm_display_mode *m)
++{
++	u32 hact, htotal, hsync, hsbp;
++	u32 vact, vtotal, vsync, vsbp;
++	u32 kick_row, kick_col;
++	unsigned long pclk_rate, pll_rate = 0;
++	int div = 0;
++
++	hact = m->crtc_hdisplay;
++	htotal = m->crtc_htotal;
++	hsync = m->crtc_hsync_end - m->crtc_hsync_start;
++	hsbp = m->crtc_htotal - m->crtc_hsync_start;
++
++	vact = m->crtc_vdisplay;
++	vtotal = m->crtc_vtotal;
++	vsync = m->crtc_vsync_end - m->crtc_vsync_start;
++	vsbp = m->crtc_vtotal - m->crtc_vsync_start;
++
++	/* video mode */
++	dpu_fg_write(fg, HTCFG1, HACT(hact)   | HTOTAL(htotal));
++	dpu_fg_write(fg, HTCFG2, HSYNC(hsync) | HSBP(hsbp) | HSEN);
++	dpu_fg_write(fg, VTCFG1, VACT(vact)   | VTOTAL(vtotal));
++	dpu_fg_write(fg, VTCFG2, VSYNC(vsync) | VSBP(vsbp) | VSEN);
++
++	kick_col = hact + 1;
++	kick_row = vact;
++
++	/* pkickconfig */
++	dpu_fg_write(fg, PKICKCONFIG, COL(kick_col) | ROW(kick_row) | EN);
++
++	/* skikconfig */
++	dpu_fg_write(fg, SKICKCONFIG, COL(kick_col) | ROW(kick_row) | EN);
++
++	/* primary and secondary area position configuration */
++	dpu_fg_write(fg, PACFG, STARTX(0) | STARTY(0));
++	dpu_fg_write(fg, SACFG, STARTX(0) | STARTY(0));
++
++	/* alpha */
++	dpu_fg_write_mask(fg, FGINCTRL,      ENPRIMALPHA | ENSECALPHA, 0);
++	dpu_fg_write_mask(fg, FGINCTRLPANIC, ENPRIMALPHA | ENSECALPHA, 0);
++
++	/* constant color is green(used in panic mode)  */
++	dpu_fg_write(fg, FGCCR, CCGREEN(0x3ff));
++
++	clk_set_parent(fg->clk_disp, fg->clk_pll);
++
++	pclk_rate = m->clock * KHZ;
++
++	/* find a minimal even divider for PLL */
++	do {
++		div += 2;
++		pll_rate = pclk_rate * div;
++	} while (pll_rate < MIN_PLL_RATE);
++
++	clk_set_rate(fg->clk_pll, pll_rate);
++	clk_set_rate(fg->clk_disp, pclk_rate);
++}
++
++void dpu_fg_displaymode(struct dpu_framegen *fg, enum dpu_fg_dm mode)
++{
++	dpu_fg_write_mask(fg, FGINCTRL, FGDM_MASK, mode);
++}
++
++void dpu_fg_panic_displaymode(struct dpu_framegen *fg, enum dpu_fg_dm mode)
++{
++	dpu_fg_write_mask(fg, FGINCTRLPANIC, FGDM_MASK, mode);
++}
++
++void dpu_fg_enable(struct dpu_framegen *fg)
++{
++	dpu_fg_write(fg, FGENABLE, FGEN);
++}
++
++void dpu_fg_disable(struct dpu_framegen *fg)
++{
++	dpu_fg_write(fg, FGENABLE, 0);
++}
++
++void dpu_fg_shdtokgen(struct dpu_framegen *fg)
++{
++	dpu_fg_write(fg, FGSLR, SHDTOKGEN);
++}
++
++u32 dpu_fg_get_frame_index(struct dpu_framegen *fg)
++{
++	u32 val = dpu_fg_read(fg, FGTIMESTAMP);
++
++	return (val & FRAMEINDEX_MASK) >> FRAMEINDEX_SHIFT;
++}
++
++int dpu_fg_get_line_index(struct dpu_framegen *fg)
++{
++	u32 val = dpu_fg_read(fg, FGTIMESTAMP);
++
++	return val & LINEINDEX_MASK;
++}
++
++int dpu_fg_wait_for_frame_counter_moving(struct dpu_framegen *fg)
++{
++	u32 frame_index, last_frame_index;
++	unsigned long timeout = jiffies + msecs_to_jiffies(100);
++
++	frame_index = dpu_fg_get_frame_index(fg);
++	do {
++		last_frame_index = frame_index;
++		frame_index = dpu_fg_get_frame_index(fg);
++	} while (last_frame_index == frame_index &&
++						time_before(jiffies, timeout));
++
++	if (last_frame_index == frame_index) {
++		dev_dbg(fg->dpu->dev,
++			"failed to wait for FrameGen%d frame counter moving\n",
++			fg->id);
++		return -ETIMEDOUT;
++	}
++
++	dev_dbg(fg->dpu->dev,
++		"FrameGen%d frame counter moves - last %u, curr %d\n",
++					fg->id, last_frame_index, frame_index);
++	return 0;
++}
++
++bool dpu_fg_secondary_requests_to_read_empty_fifo(struct dpu_framegen *fg)
++{
++	u32 val;
++
++	val = dpu_fg_read(fg, FGCHSTAT);
++
++	return !!(val & SFIFOEMPTY);
++}
++
++void dpu_fg_secondary_clear_channel_status(struct dpu_framegen *fg)
++{
++	dpu_fg_write(fg, FGCHSTATCLR, CLRSECSTAT);
++}
++
++int dpu_fg_wait_for_secondary_syncup(struct dpu_framegen *fg)
++{
++	u32 val;
++	int ret;
++
++	ret = readl_poll_timeout(fg->base + FGCHSTAT, val,
++				 val & SECSYNCSTAT, 5, 100000);
++	if (ret) {
++		dev_dbg(fg->dpu->dev,
++			"failed to wait for FrameGen%u secondary syncup\n",
++								fg->id);
++		return -ETIMEDOUT;
++	}
++
++	dev_dbg(fg->dpu->dev, "FrameGen%u secondary syncup\n", fg->id);
++
++	return 0;
++}
++
++void dpu_fg_enable_clock(struct dpu_framegen *fg)
++{
++	clk_prepare_enable(fg->clk_pll);
++	clk_prepare_enable(fg->clk_disp);
++}
++
++void dpu_fg_disable_clock(struct dpu_framegen *fg)
++{
++	clk_disable_unprepare(fg->clk_disp);
++	clk_disable_unprepare(fg->clk_pll);
++}
++
++struct dpu_framegen *dpu_fg_get(struct dpu_soc *dpu, unsigned int id)
++{
++	struct dpu_framegen *fg;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(dpu->fg_priv); i++) {
++		fg = dpu->fg_priv[i];
++		if (fg->id == id)
++			break;
++	}
++
++	if (i == ARRAY_SIZE(dpu->fg_priv))
++		return ERR_PTR(-EINVAL);
++
++	mutex_lock(&fg->mutex);
++
++	if (fg->inuse) {
++		mutex_unlock(&fg->mutex);
++		return ERR_PTR(-EBUSY);
++	}
++
++	fg->inuse = true;
++
++	mutex_unlock(&fg->mutex);
++
++	return fg;
++}
++
++void dpu_fg_put(struct dpu_framegen *fg)
++{
++	if (IS_ERR_OR_NULL(fg))
++		return;
++
++	mutex_lock(&fg->mutex);
++
++	fg->inuse = false;
++
++	mutex_unlock(&fg->mutex);
++}
++
++void dpu_fg_hw_init(struct dpu_soc *dpu, unsigned int index)
++{
++	struct dpu_framegen *fg = dpu->fg_priv[index];
++
++	dpu_fg_enable_shden(fg);
++	dpu_fg_syncmode(fg, FG_SYNCMODE_OFF);
++}
++
++int dpu_fg_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long unused, unsigned long base)
++{
++	struct dpu_framegen *fg;
++
++	fg = devm_kzalloc(dpu->dev, sizeof(*fg), GFP_KERNEL);
++	if (!fg)
++		return -ENOMEM;
++
++	dpu->fg_priv[index] = fg;
++
++	fg->base = devm_ioremap(dpu->dev, base, SZ_256);
++	if (!fg->base)
++		return -ENOMEM;
++
++	fg->clk_pll = devm_clk_get(dpu->dev, id ? "pll1" : "pll0");
++	if (IS_ERR(fg->clk_pll))
++		return PTR_ERR(fg->clk_pll);
++
++	fg->clk_disp = devm_clk_get(dpu->dev, id ? "disp1" : "disp0");
++	if (IS_ERR(fg->clk_disp))
++		return PTR_ERR(fg->clk_disp);
++
++	fg->dpu = dpu;
++	fg->id = id;
++	fg->index = index;
++
++	mutex_init(&fg->mutex);
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-gammacor.c b/drivers/gpu/drm/imx/dpu/dpu-gammacor.c
+new file mode 100644
+index 000000000000..812b35298ad9
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-gammacor.c
+@@ -0,0 +1,223 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright 2020,2022,2023 NXP
++ */
++
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/mutex.h>
++#include <linux/sizes.h>
++
++#include "dpu.h"
++#include "dpu-prv.h"
++
++#define STATICCONTROL		0x8
++#define  BLUEWRITEENABLE	BIT(1)
++#define  GREENWRITEENABLE	BIT(2)
++#define  REDWRITEENABLE		BIT(3)
++#define  COLORWRITEENABLE	(REDWRITEENABLE |	\
++				 GREENWRITEENABLE |	\
++				 BLUEWRITEENABLE)
++
++#define LUTSTART		0xc
++#define  STARTBLUE(n)		((n) & 0x3ff)
++#define  STARTGREEN(n)		(((n) & 0x3ff) << 10)
++#define  STARTRED(n)		(((n) & 0x3ff) << 20)
++
++#define LUTDELTAS		0x10
++#define  DELTABLUE(n)		((n) & 0x3ff)
++#define  DELTAGREEN(n)		(((n) & 0x3ff) << 10)
++#define  DELTARED(n)		(((n) & 0x3ff) << 20)
++
++#define CONTROL			0x14
++#define  CTRL_MODE_MASK		BIT(0)
++#define  ALHPAMASK		BIT(4)
++#define  ALHPAINVERT		BIT(5)
++
++/* 16-bit to 10-bit */
++#define GAMMACOR_COL_CONVERT(n)	(((n) * 0x3ff) / 0xffff)
++
++struct dpu_gammacor {
++	void __iomem *base;
++	struct mutex mutex;
++	unsigned int id;
++	unsigned int index;
++	bool inuse;
++	struct dpu_soc *dpu;
++};
++
++static inline u32 dpu_gc_read(struct dpu_gammacor *gc, unsigned int offset)
++{
++	return readl(gc->base + offset);
++}
++
++static inline void dpu_gc_write(struct dpu_gammacor *gc,
++				unsigned int offset, u32 value)
++{
++	writel(value, gc->base + offset);
++}
++
++static inline void dpu_gc_write_mask(struct dpu_gammacor *gc,
++				     unsigned int offset, u32 mask, u32 value)
++{
++	u32 tmp;
++
++	tmp = dpu_gc_read(gc, offset);
++	tmp &= ~mask;
++	dpu_gc_write(gc, offset, tmp | value);
++}
++
++static void dpu_gc_enable_shden(struct dpu_gammacor *gc)
++{
++	dpu_gc_write_mask(gc, STATICCONTROL, SHDEN, SHDEN);
++}
++
++void dpu_gc_enable_rgb_write(struct dpu_gammacor *gc)
++{
++	dpu_gc_write_mask(gc, STATICCONTROL, COLORWRITEENABLE, COLORWRITEENABLE);
++}
++
++void dpu_gc_disable_rgb_write(struct dpu_gammacor *gc)
++{
++	dpu_gc_write_mask(gc, STATICCONTROL, COLORWRITEENABLE, 0);
++}
++
++static inline void
++dpu_gc_sample_point_color_convert(u32 *red, u32 *green, u32 *blue)
++{
++	*red   = GAMMACOR_COL_CONVERT(*red);
++	*green = GAMMACOR_COL_CONVERT(*green);
++	*blue  = GAMMACOR_COL_CONVERT(*blue);
++}
++
++void dpu_gc_start_rgb(struct dpu_gammacor *gc, const struct drm_color_lut *lut)
++{
++	struct dpu_soc *dpu = gc->dpu;
++	u32 r = lut[0].red, g = lut[0].green, b = lut[0].blue;
++
++	dpu_gc_sample_point_color_convert(&r, &g, &b);
++
++	dpu_gc_write(gc, LUTSTART, STARTRED(r) | STARTGREEN(g) | STARTBLUE(b));
++
++	dev_dbg(dpu->dev, "GammaCor%u LUT start:\t r-0x%03x g-0x%03x b-0x%03x\n",
++		gc->id, r, g, b);
++}
++
++void dpu_gc_delta_rgb(struct dpu_gammacor *gc, const struct drm_color_lut *lut)
++{
++	struct dpu_soc *dpu = gc->dpu;
++	int i, curr, next;
++	u32 dr, dg, db;
++
++	/* The first delta value is zero. */
++	dpu_gc_write(gc, LUTDELTAS, DELTARED(0) | DELTAGREEN(0) | DELTABLUE(0));
++
++	/*
++	 * Assuming gamma_size = 256, we get additional 32 delta
++	 * values for every 8 sample points, so 33 delta values for
++	 * 33 sample points in total as the GammaCor unit requires.
++	 * A curve with 10-bit resolution will be generated in the
++	 * GammaCor unit internally by a linear interpolation in-between
++	 * the sample points.  Note that the last value in the lookup
++	 * table is lut[255].
++	 */
++	for (i = 0; i < 32; i++) {
++		curr = i * 8;
++		next = curr + 8;
++
++		if (next == 256)
++			next--;
++
++		dr = lut[next].red   - lut[curr].red;
++		dg = lut[next].green - lut[curr].green;
++		db = lut[next].blue  - lut[curr].blue;
++
++		dpu_gc_sample_point_color_convert(&dr, &dg, &db);
++
++		dpu_gc_write(gc, LUTDELTAS,
++			     DELTARED(dr) | DELTAGREEN(dg) | DELTABLUE(db));
++
++		dev_dbg(dpu->dev,
++			"GammaCor%u delta[%d]:\t r-0x%03x g-0x%03x b-0x%03x\n",
++						gc->id, i + 1, dr, dg, db);
++	}
++}
++
++void dpu_gc_mode(struct dpu_gammacor *gc, enum dpu_gc_mode mode)
++{
++	dpu_gc_write_mask(gc, CONTROL, CTRL_MODE_MASK, mode);
++}
++
++struct dpu_gammacor *dpu_gc_get(struct dpu_soc *dpu, unsigned int id)
++{
++	struct dpu_gammacor *gc;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(dpu->gc_priv); i++) {
++		gc = dpu->gc_priv[i];
++		if (gc->id == id)
++			break;
++	}
++
++	if (i == ARRAY_SIZE(dpu->gc_priv))
++		return ERR_PTR(-EINVAL);
++
++	mutex_lock(&gc->mutex);
++
++	if (gc->inuse) {
++		mutex_unlock(&gc->mutex);
++		return ERR_PTR(-EBUSY);
++	}
++
++	gc->inuse = true;
++
++	mutex_unlock(&gc->mutex);
++
++	return gc;
++}
++
++void dpu_gc_put(struct dpu_gammacor *gc)
++{
++	if (IS_ERR_OR_NULL(gc))
++		return;
++
++	mutex_lock(&gc->mutex);
++
++	gc->inuse = false;
++
++	mutex_unlock(&gc->mutex);
++}
++
++void dpu_gc_hw_init(struct dpu_soc *dpu, unsigned int index)
++{
++	struct dpu_gammacor *gc = dpu->gc_priv[index];
++
++	dpu_gc_write(gc, CONTROL, 0);
++	dpu_gc_enable_shden(gc);
++}
++
++int dpu_gc_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long unused, unsigned long base)
++{
++	struct dpu_gammacor *gc;
++
++	gc = devm_kzalloc(dpu->dev, sizeof(*gc), GFP_KERNEL);
++	if (!gc)
++		return -ENOMEM;
++
++	dpu->gc_priv[index] = gc;
++
++	gc->base = devm_ioremap(dpu->dev, base, SZ_32);
++	if (!gc->base)
++		return -ENOMEM;
++
++	gc->dpu = dpu;
++	gc->id = id;
++	gc->index = index;
++
++	mutex_init(&gc->mutex);
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-hscaler.c b/drivers/gpu/drm/imx/dpu/dpu-hscaler.c
+new file mode 100644
+index 000000000000..dc91aef49801
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-hscaler.c
+@@ -0,0 +1,275 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright 2017-2020,2022,2023 NXP
++ */
++
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/mutex.h>
++#include <linux/sizes.h>
++
++#include "dpu.h"
++#include "dpu-prv.h"
++
++#define PIXENGCFG_DYNAMIC		0x8
++#define  PIXENGCFG_DYNAMIC_SRC_SEL_MASK	0x3f
++
++#define STATICCONTROL			0x8
++#define SETUP1				0xc
++#define SETUP2				0x10
++
++#define CONTROL				0x14
++#define  CTRL_MODE_MASK			BIT(0)
++
++struct dpu_hscaler {
++	void __iomem *pec_base;
++	void __iomem *base;
++	struct mutex mutex;
++	unsigned int id;
++	unsigned int index;
++	enum dpu_link_id link_id;
++	bool inuse;
++	struct dpu_soc *dpu;
++};
++
++static const enum dpu_link_id dpu_hs_link_id[] = {
++	LINK_ID_HSCALER4, LINK_ID_HSCALER5, LINK_ID_HSCALER9
++};
++
++static const enum dpu_link_id src_sels[3][4] = {
++	{
++		LINK_ID_NONE,
++		LINK_ID_FETCHDECODE0,
++		LINK_ID_MATRIX4,
++		LINK_ID_VSCALER4,
++	}, {
++		LINK_ID_NONE,
++		LINK_ID_FETCHDECODE1,
++		LINK_ID_MATRIX5,
++		LINK_ID_VSCALER5,
++	}, {
++		LINK_ID_NONE,
++		LINK_ID_MATRIX9,
++		LINK_ID_VSCALER9,
++		LINK_ID_FILTER9,
++	},
++};
++
++static inline u32 dpu_pec_hs_read(struct dpu_hscaler *hs,
++				  unsigned int offset)
++{
++	return readl(hs->pec_base + offset);
++}
++
++static inline void dpu_pec_hs_write(struct dpu_hscaler *hs,
++				    unsigned int offset, u32 value)
++{
++	writel(value, hs->pec_base + offset);
++}
++
++static inline void dpu_pec_hs_write_mask(struct dpu_hscaler *hs,
++					 unsigned int offset,
++					 u32 mask, u32 value)
++{
++	u32 tmp;
++
++	tmp = dpu_pec_hs_read(hs, offset);
++	tmp &= ~mask;
++	dpu_pec_hs_write(hs, offset, tmp | value);
++}
++
++static inline u32 dpu_hs_read(struct dpu_hscaler *hs, unsigned int offset)
++{
++	return readl(hs->base + offset);
++}
++
++static inline void dpu_hs_write(struct dpu_hscaler *hs,
++				unsigned int offset, u32 value)
++{
++	writel(value, hs->base + offset);
++}
++
++static inline void dpu_hs_write_mask(struct dpu_hscaler *hs,
++				     unsigned int offset, u32 mask, u32 value)
++{
++	u32 tmp;
++
++	tmp = dpu_hs_read(hs, offset);
++	tmp &= ~mask;
++	dpu_hs_write(hs, offset, tmp | value);
++}
++
++enum dpu_link_id dpu_hs_get_link_id(struct dpu_hscaler *hs)
++{
++	return hs->link_id;
++}
++
++void dpu_hs_pec_dynamic_src_sel(struct dpu_hscaler *hs, enum dpu_link_id src)
++{
++	struct dpu_soc *dpu = hs->dpu;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(src_sels[hs->index]); i++) {
++		if (src_sels[hs->index][i] == src) {
++			dpu_pec_hs_write_mask(hs, PIXENGCFG_DYNAMIC,
++					      PIXENGCFG_DYNAMIC_SRC_SEL_MASK,
++					      src);
++			return;
++		}
++	}
++
++	dev_err(dpu->dev, "HScaler%u - invalid source 0x%02x\n", hs->id, src);
++}
++
++void dpu_hs_pec_clken(struct dpu_hscaler *hs, enum dpu_pec_clken clken)
++{
++	dpu_pec_hs_write_mask(hs, PIXENGCFG_DYNAMIC, CLKEN_MASK, CLKEN(clken));
++}
++
++static void dpu_hs_enable_shden(struct dpu_hscaler *hs)
++{
++	dpu_hs_write_mask(hs, STATICCONTROL, SHDEN, SHDEN);
++}
++
++void dpu_hs_setup1(struct dpu_hscaler *hs,
++		   unsigned int src_w, unsigned int dst_w)
++{
++	struct dpu_soc *dpu = hs->dpu;
++	u32 scale_factor;
++	u64 tmp64;
++
++	if (src_w == dst_w) {
++		scale_factor = 0x80000;
++	} else {
++		if (src_w > dst_w) {
++			tmp64 = (u64)((u64)dst_w * 0x80000);
++			do_div(tmp64, src_w);
++
++		} else {
++			tmp64 = (u64)((u64)src_w * 0x80000);
++			do_div(tmp64, dst_w);
++		}
++		scale_factor = (u32)tmp64;
++	}
++
++	if (scale_factor > 0x80000) {
++		dev_err(dpu->dev, "HScaler%u - invalid scale factor 0x%08x\n",
++			hs->id, scale_factor);
++		return;
++	}
++
++	dpu_hs_write(hs, SETUP1, SCALE_FACTOR(scale_factor));
++
++	dev_dbg(dpu->dev, "HScaler%u - scale factor 0x%08x\n",
++		hs->id, scale_factor);
++}
++
++void dpu_hs_setup2(struct dpu_hscaler *hs, u32 phase_offset)
++{
++	dpu_hs_write(hs, SETUP2, PHASE_OFFSET(phase_offset));
++}
++
++void dpu_hs_output_size(struct dpu_hscaler *hs, u32 line_num)
++{
++	dpu_hs_write_mask(hs, CONTROL, OUTPUT_SIZE_MASK, OUTPUT_SIZE(line_num));
++}
++
++void dpu_hs_filter_mode(struct dpu_hscaler *hs, enum dpu_scaler_filter_mode m)
++{
++	dpu_hs_write_mask(hs, CONTROL, FILTER_MODE_MASK, FILTER_MODE(m));
++}
++
++void dpu_hs_scale_mode(struct dpu_hscaler *hs, enum dpu_scaler_scale_mode m)
++{
++	dpu_hs_write_mask(hs, CONTROL, SCALE_MODE_MASK, SCALE_MODE(m));
++}
++
++void dpu_hs_mode(struct dpu_hscaler *hs, enum dpu_scaler_mode m)
++{
++	dpu_hs_write_mask(hs, CONTROL, CTRL_MODE_MASK, m);
++}
++
++unsigned int dpu_hs_get_id(struct dpu_hscaler *hs)
++{
++	return hs->id;
++}
++
++struct dpu_hscaler *dpu_hs_get(struct dpu_soc *dpu, unsigned int id)
++{
++	struct dpu_hscaler *hs;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(dpu->hs_priv); i++) {
++		hs = dpu->hs_priv[i];
++		if (hs->id == id)
++			break;
++	}
++
++	if (i == ARRAY_SIZE(dpu->hs_priv))
++		return ERR_PTR(-EINVAL);
++
++	mutex_lock(&hs->mutex);
++
++	if (hs->inuse) {
++		mutex_unlock(&hs->mutex);
++		return ERR_PTR(-EBUSY);
++	}
++
++	hs->inuse = true;
++
++	mutex_unlock(&hs->mutex);
++
++	return hs;
++}
++
++void dpu_hs_put(struct dpu_hscaler *hs)
++{
++	if (IS_ERR_OR_NULL(hs))
++		return;
++
++	mutex_lock(&hs->mutex);
++
++	hs->inuse = false;
++
++	mutex_unlock(&hs->mutex);
++}
++
++void dpu_hs_hw_init(struct dpu_soc *dpu, unsigned int index)
++{
++	struct dpu_hscaler *hs = dpu->hs_priv[index];
++
++	dpu_hs_enable_shden(hs);
++	dpu_hs_setup2(hs, 0);
++	dpu_hs_pec_dynamic_src_sel(hs, LINK_ID_NONE);
++}
++
++int dpu_hs_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long pec_base, unsigned long base)
++{
++	struct dpu_hscaler *hs;
++
++	hs = devm_kzalloc(dpu->dev, sizeof(*hs), GFP_KERNEL);
++	if (!hs)
++		return -ENOMEM;
++
++	dpu->hs_priv[index] = hs;
++
++	hs->pec_base = devm_ioremap(dpu->dev, pec_base, SZ_16);
++	if (!hs->pec_base)
++		return -ENOMEM;
++
++	hs->base = devm_ioremap(dpu->dev, base, SZ_32);
++	if (!hs->base)
++		return -ENOMEM;
++
++	hs->dpu = dpu;
++	hs->id = id;
++	hs->index = index;
++	hs->link_id = dpu_hs_link_id[index];
++
++	mutex_init(&hs->mutex);
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-kms.c b/drivers/gpu/drm/imx/dpu/dpu-kms.c
+new file mode 100644
+index 000000000000..8035cf1dc29a
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-kms.c
+@@ -0,0 +1,542 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright 2017-2020,2022,2023 NXP
++ */
++
++#include <linux/list.h>
++#include <linux/of.h>
++#include <linux/of_graph.h>
++#include <linux/slab.h>
++#include <linux/sort.h>
++
++#include <drm/drm_atomic.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_blend.h>
++#include <drm/drm_bridge.h>
++#include <drm/drm_bridge_connector.h>
++#include <drm/drm_framebuffer.h>
++#include <drm/drm_gem_framebuffer_helper.h>
++#include <drm/drm_managed.h>
++#include <drm/drm_simple_kms_helper.h>
++
++#include "dpu.h"
++#include "dpu-crtc.h"
++#include "dpu-drv.h"
++#include "dpu-kms.h"
++#include "dpu-plane.h"
++
++static int zpos_cmp(const void *a, const void *b)
++{
++	const struct drm_plane_state *sa = *(struct drm_plane_state **)a;
++	const struct drm_plane_state *sb = *(struct drm_plane_state **)b;
++
++	return sa->normalized_zpos - sb->normalized_zpos;
++}
++
++static int dpu_atomic_sort_planes_per_crtc(struct drm_crtc_state *crtc_state,
++					   struct drm_plane_state **plane_states)
++{
++	struct drm_atomic_state *state = crtc_state->state;
++	struct drm_plane *plane;
++	int n = 0;
++
++	drm_atomic_crtc_state_for_each_plane(plane, crtc_state) {
++		struct drm_plane_state *plane_state =
++			drm_atomic_get_plane_state(state, plane);
++		if (IS_ERR(plane_state))
++			return PTR_ERR(plane_state);
++		plane_states[n++] = plane_state;
++	}
++
++	sort(plane_states, n, sizeof(*plane_states), zpos_cmp, NULL);
++
++	return n;
++}
++
++static void
++dpu_atomic_set_top_plane_per_crtc(struct drm_plane_state **plane_states, int n)
++{
++	struct dpu_plane_state *dpstate;
++	int i;
++
++	for (i = 0; i < n; i++) {
++		dpstate = to_dpu_plane_state(plane_states[i]);
++		dpstate->is_top = (i == (n - 1)) ? true : false;
++	}
++}
++
++static int
++dpu_atomic_assign_plane_source_per_crtc(struct dpu_crtc *dpu_crtc,
++					struct drm_plane_state **plane_states,
++					int n, bool use_current_source)
++{
++	struct drm_plane_state *plane_state;
++	struct dpu_plane_state *dpstate;
++	struct dpu_plane *dplane;
++	struct dpu_plane_grp *grp;
++	struct dpu_plane_res *res;
++	struct drm_framebuffer *fb;
++	struct dpu_fetchunit *fu;
++	struct list_head *node;
++	const struct dpu_fetchunit_ops *fu_ops;
++	union dpu_plane_stage stage;
++	struct dpu_layerblend *blend;
++	unsigned int sid = dpu_crtc->stream_id;
++	int i, j;
++	u32 src_w, src_h, dst_w, dst_h;
++	u32 cap_mask;
++	bool fb_is_packed_yuv422, fb_is_interlaced;
++	bool need_fetcheco, need_hscaler, need_vscaler;
++	bool found_fu;
++
++	/* for active planes only */
++	for (i = 0; i < n; i++) {
++		plane_state = plane_states[i];
++		dpstate = to_dpu_plane_state(plane_state);
++
++		/*
++		 * If modeset is not allowed, use the current source for
++		 * the prone-to-put planes so that unnecessary updates and
++		 * spurious EBUSY can be avoided.
++		 */
++		if (use_current_source) {
++			fu_ops = dpu_fu_get_ops(dpstate->source);
++			fu_ops->set_inavailable(dpstate->source);
++			continue;
++		}
++
++		dplane = to_dpu_plane(plane_state->plane);
++		fb = plane_state->fb;
++		grp = dplane->grp;
++		res = &grp->res;
++
++		src_w = plane_state->src_w >> 16;
++		src_h = plane_state->src_h >> 16;
++		dst_w = plane_state->crtc_w;
++		dst_h = plane_state->crtc_h;
++
++		fb_is_packed_yuv422 =
++				drm_format_info_is_yuv_packed(fb->format) &&
++				drm_format_info_is_yuv_sampling_422(fb->format);
++		fb_is_interlaced = !!(fb->flags & DRM_MODE_FB_INTERLACED);
++		need_fetcheco = fb->format->num_planes > 1;
++		need_hscaler = src_w != dst_w;
++		need_vscaler = (src_h != dst_h) || fb_is_interlaced;
++
++		cap_mask = 0;
++		if (need_fetcheco)
++			cap_mask |= DPU_FETCHUNIT_CAP_USE_FETCHECO;
++		if (need_hscaler || need_vscaler)
++			cap_mask |= DPU_FETCHUNIT_CAP_USE_SCALER;
++		if (fb_is_packed_yuv422)
++			cap_mask |= DPU_FETCHUNIT_CAP_PACKED_YUV422;
++
++		/* assign source */
++		found_fu = false;
++		list_for_each(node, &grp->fu_list) {
++			fu = dpu_fu_get_from_list(node);
++
++			fu_ops = dpu_fu_get_ops(fu);
++
++			/* available? */
++			if (!fu_ops->is_available(fu))
++				continue;
++
++			/* enough capability? */
++			if ((cap_mask & fu_ops->get_cap_mask(fu)) != cap_mask)
++				continue;
++
++			/* avoid fetchunit hot migration */
++			if (fu_ops->has_stream_id(fu) &&
++			    fu_ops->get_stream_id(fu) != sid)
++				continue;
++
++			fu_ops->set_inavailable(fu);
++			found_fu = true;
++			break;
++		}
++
++		if (!found_fu)
++			return -EINVAL;
++
++		dpstate->source = fu;
++
++		/* assign stage and blend */
++		if (sid) {
++			j = grp->hw_plane_cnt - (n - i);
++			blend = res->lb[j];
++			if (i == 0)
++				stage.cf = grp->cf[sid];
++			else
++				stage.lb = res->lb[j - 1];
++		} else {
++			blend = res->lb[i];
++			if (i == 0)
++				stage.cf = grp->cf[sid];
++			else
++				stage.lb = res->lb[i - 1];
++		}
++
++		dpstate->stage = stage;
++		dpstate->blend = blend;
++	}
++
++	return 0;
++}
++
++static int dpu_atomic_assign_plane_source(struct drm_atomic_state *state,
++					  u32 crtc_mask_prone_to_put,
++					  bool prone_to_put)
++{
++	struct drm_crtc *crtc;
++	struct drm_crtc_state *crtc_state;
++	struct dpu_crtc *dpu_crtc;
++	struct drm_plane_state **plane_states;
++	bool use_current_source;
++	int i, n;
++	int ret = 0;
++
++	use_current_source = !state->allow_modeset && prone_to_put;
++
++	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
++		/* Skip if no active plane. */
++		if (crtc_state->plane_mask == 0)
++			continue;
++
++		if (prone_to_put !=
++		    !!(drm_crtc_mask(crtc) & crtc_mask_prone_to_put))
++			continue;
++
++		dpu_crtc = to_dpu_crtc(crtc);
++
++		plane_states = kmalloc_array(dpu_crtc->hw_plane_cnt,
++					     sizeof(*plane_states), GFP_KERNEL);
++		if (!plane_states) {
++			ret = -ENOMEM;
++			dpu_crtc_dbg(crtc,
++				     "failed to alloc plane state ptrs: %d\n",
++									ret);
++			return ret;
++		}
++
++		n = dpu_atomic_sort_planes_per_crtc(crtc_state, plane_states);
++		if (n < 0) {
++			dpu_crtc_dbg(crtc, "failed to sort planes: %d\n", n);
++			kfree(plane_states);
++			return n;
++		}
++
++		dpu_atomic_set_top_plane_per_crtc(plane_states, n);
++
++		ret = dpu_atomic_assign_plane_source_per_crtc(dpu_crtc,
++					plane_states, n, use_current_source);
++		if (ret) {
++			dpu_crtc_dbg(crtc,
++				     "failed to assign resource to plane: %d\n",
++									ret);
++			kfree(plane_states);
++			return ret;
++		}
++
++		kfree(plane_states);
++	}
++
++	return ret;
++}
++
++static void dpu_atomic_put_plane_state(struct drm_atomic_state *state,
++				       struct drm_plane *plane)
++{
++	int index = drm_plane_index(plane);
++
++	plane->funcs->atomic_destroy_state(plane, state->planes[index].state);
++	state->planes[index].ptr = NULL;
++	state->planes[index].state = NULL;
++	state->planes[index].old_state = NULL;
++	state->planes[index].new_state = NULL;
++
++	drm_modeset_unlock(&plane->mutex);
++
++	dpu_plane_dbg(plane, "put state\n");
++}
++
++static void dpu_atomic_put_crtc_state(struct drm_atomic_state *state,
++				      struct drm_crtc *crtc)
++{
++	int index = drm_crtc_index(crtc);
++
++	crtc->funcs->atomic_destroy_state(crtc, state->crtcs[index].state);
++	state->crtcs[index].ptr = NULL;
++	state->crtcs[index].state = NULL;
++	state->crtcs[index].old_state = NULL;
++	state->crtcs[index].new_state = NULL;
++
++	drm_modeset_unlock(&crtc->mutex);
++
++	dpu_crtc_dbg(crtc, "put state\n");
++}
++
++static void
++dpu_atomic_put_possible_states_per_crtc(struct drm_crtc_state *crtc_state)
++{
++	struct drm_atomic_state *state = crtc_state->state;
++	struct drm_crtc *crtc = crtc_state->crtc;
++	struct drm_plane *plane;
++	struct drm_plane_state *old_plane_state, *new_plane_state;
++	struct dpu_plane_state *old_dpstate, *new_dpstate;
++
++	drm_atomic_crtc_state_for_each_plane(plane, crtc_state) {
++		old_plane_state = drm_atomic_get_old_plane_state(state, plane);
++		new_plane_state = drm_atomic_get_new_plane_state(state, plane);
++
++		old_dpstate = to_dpu_plane_state(old_plane_state);
++		new_dpstate = to_dpu_plane_state(new_plane_state);
++
++		/* Should be enough to check the below HW plane resources. */
++		if (old_dpstate->stage.ptr != new_dpstate->stage.ptr ||
++		    old_dpstate->source != new_dpstate->source ||
++		    old_dpstate->blend != new_dpstate->blend)
++			return;
++	}
++
++	drm_atomic_crtc_state_for_each_plane(plane, crtc_state)
++		dpu_atomic_put_plane_state(state, plane);
++
++	dpu_atomic_put_crtc_state(state, crtc);
++}
++
++static int dpu_drm_atomic_check(struct drm_device *dev,
++				struct drm_atomic_state *state)
++{
++	struct drm_crtc *crtc;
++	struct drm_crtc_state *crtc_state;
++	struct dpu_crtc *dpu_crtc;
++	struct dpu_plane_grp *plane_grp;
++	struct dpu_fetchunit *fu;
++	struct list_head *node;
++	const struct dpu_fetchunit_ops *fu_ops;
++	u32 crtc_mask_in_state = 0;
++	u32 crtc_mask_in_grps = 0;
++	u32 crtc_mask_prone_to_put;
++	int ret, i;
++
++	ret = drm_atomic_helper_check_modeset(dev, state);
++	if (ret)
++		return ret;
++
++	/* Set crtc_mask_in_state and crtc_mask_in_grps. */
++	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
++		dpu_crtc = to_dpu_crtc(crtc);
++
++		crtc_mask_in_state |= drm_crtc_mask(crtc);
++		crtc_mask_in_grps |= dpu_crtc->grp->crtc_mask;
++	}
++
++	/*
++	 * Those CRTCs in groups but not in the state for check
++	 * are prone to put, because HW resources of their active
++	 * planes are likely unchanged.
++	 */
++	crtc_mask_prone_to_put = crtc_mask_in_grps ^ crtc_mask_in_state;
++
++	/*
++	 * For those CRTCs prone to put, get their CRTC states as well,
++	 * so that all relevant active plane states can be got when
++	 * assigning HW resources to them later on.
++	 */
++	drm_for_each_crtc(crtc, dev) {
++		if ((drm_crtc_mask(crtc) & crtc_mask_prone_to_put) == 0)
++			continue;
++
++		crtc_state = drm_atomic_get_crtc_state(state, crtc);
++		if (IS_ERR(crtc_state))
++			return PTR_ERR(crtc_state);
++	}
++
++	/*
++	 * Set all the fetchunits in the plane groups in question
++	 * to be available, so that they can be assigned to planes.
++	 */
++	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
++		dpu_crtc = to_dpu_crtc(crtc);
++
++		/* Skip the CRTC with stream ID1 in a CRTC group. */
++		if (dpu_crtc->stream_id == 1)
++			continue;
++
++		plane_grp = dpu_crtc->grp->plane_grp;
++
++		list_for_each(node, &plane_grp->fu_list) {
++			fu = dpu_fu_get_from_list(node);
++			fu_ops = dpu_fu_get_ops(fu);
++			fu_ops->set_available(fu);
++		}
++	}
++
++	ret = drm_atomic_normalize_zpos(dev, state);
++	if (ret) {
++		drm_dbg_kms(dev, "failed to normalize zpos: %d\n", ret);
++		return ret;
++	}
++
++	/*
++	 * Assign HW resources to planes in question.
++	 * It is likely to fail due to some reasons, e.g., no enough
++	 * fetchunits, users ask for more features than the HW resources
++	 * can provide, HW resource hot-migration bewteen CRTCs is needed.
++	 *
++	 * Do the assignment for the prone-to-put CRTCs first, as we want
++	 * the planes of them to use the current sources if modeset is not
++	 * allowed.
++	 */
++	ret = dpu_atomic_assign_plane_source(state,
++					     crtc_mask_prone_to_put, true);
++	if (ret) {
++		drm_dbg_kms(dev,
++			    "failed to assign source to prone-to-put plane: %d\n",
++			    ret);
++		return ret;
++	}
++	ret = dpu_atomic_assign_plane_source(state,
++					     crtc_mask_prone_to_put, false);
++	if (ret) {
++		drm_dbg_kms(dev, "failed to assign source to plane: %d\n", ret);
++		return ret;
++	}
++
++	/*
++	 * To gain some performance, put those CRTC and plane states
++	 * which can be put.
++	 */
++	drm_for_each_crtc(crtc, dev) {
++		if (crtc_mask_prone_to_put & drm_crtc_mask(crtc)) {
++			crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
++			if (WARN_ON(!crtc_state))
++				return -EINVAL;
++
++			dpu_atomic_put_possible_states_per_crtc(crtc_state);
++		}
++	}
++
++	return drm_atomic_helper_check_planes(dev, state);
++}
++
++static const struct drm_mode_config_funcs dpu_drm_mode_config_funcs = {
++	.fb_create	= drm_gem_fb_create,
++	.atomic_check	= dpu_drm_atomic_check,
++	.atomic_commit	= drm_atomic_helper_commit,
++};
++
++static int dpu_kms_init_encoder_per_crtc(struct drm_device *drm,
++					 struct dpu_crtc *dpu_crtc)
++{
++	struct drm_encoder *encoder = dpu_crtc->encoder;
++	struct drm_bridge *bridge;
++	struct drm_connector *connector;
++	struct device_node *ep, *remote;
++	int ret = 0;
++
++	ep = of_get_next_child(dpu_crtc->np, NULL);
++	if (!ep) {
++		drm_err(drm, "failed to find CRTC port's endpoint\n");
++		return -ENODEV;
++	}
++
++	remote = of_graph_get_remote_port_parent(ep);
++	if (!remote || !of_device_is_available(remote))
++		goto out;
++	else if (!of_device_is_available(remote->parent))
++		goto out;
++
++	bridge = of_drm_find_bridge(remote);
++	if (!bridge) {
++		ret = -EPROBE_DEFER;
++		drm_dbg_kms(drm, "CRTC(%pOF) failed to find bridge: %d\n",
++			    dpu_crtc->np, ret);
++		goto out;
++	}
++
++	ret = drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_NONE);
++	if (ret) {
++		drm_err(drm, "failed to initialize encoder: %d\n", ret);
++		goto out;
++	}
++
++	ret = drm_bridge_attach(encoder, bridge, NULL,
++				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
++	if (ret) {
++		drm_err(drm, "failed to attach bridge to encoder: %d\n", ret);
++		goto out;
++	}
++
++	connector = drm_bridge_connector_init(drm, encoder);
++	if (IS_ERR(connector)) {
++		ret = PTR_ERR(connector);
++		drm_err(drm,
++			"failed to initialize bridge connector: %d\n", ret);
++		goto out;
++	}
++
++	ret = drm_connector_attach_encoder(connector, encoder);
++	if (ret)
++		drm_err(drm,
++			"failed to attach encoder to connector: %d\n", ret);
++
++out:
++	of_node_put(remote);
++	of_node_put(ep);
++	return ret;
++}
++
++int dpu_kms_prepare(struct dpu_drm_device *dpu_drm,
++		    struct list_head *crtc_np_list)
++{
++	struct drm_device *drm = &dpu_drm->base;
++	struct dpu_crtc_of_node *crtc_of_node;
++	struct dpu_crtc *crtc;
++	int ret, n_crtc = 0;
++
++	INIT_LIST_HEAD(&dpu_drm->crtc_list);
++
++	list_for_each_entry(crtc_of_node, crtc_np_list, list) {
++		crtc = drmm_kzalloc(drm, sizeof(*crtc), GFP_KERNEL);
++		if (!crtc)
++			return -ENOMEM;
++
++		crtc->np = crtc_of_node->np;
++
++		crtc->encoder = drmm_kzalloc(drm, sizeof(*crtc->encoder),
++					     GFP_KERNEL);
++		if (!crtc->encoder)
++			return -ENOMEM;
++
++		list_add(&crtc->node, &dpu_drm->crtc_list);
++
++		n_crtc++;
++	}
++
++	ret = drmm_mode_config_init(drm);
++	if (ret)
++		return ret;
++
++	drm->mode_config.min_width = 60;
++	drm->mode_config.min_height = 60;
++	drm->mode_config.max_width = 8192;
++	drm->mode_config.max_height = 8192;
++	drm->mode_config.funcs = &dpu_drm_mode_config_funcs;
++	drm->mode_config.normalize_zpos = true;
++	drm->max_vblank_count = DPU_FRAMEGEN_MAX_FRAME_INDEX;
++
++	list_for_each_entry(crtc, &dpu_drm->crtc_list, node) {
++		ret = dpu_kms_init_encoder_per_crtc(drm, crtc);
++		if (ret)
++			return ret;
++	}
++
++	ret = drm_vblank_init(drm, n_crtc);
++	if (ret)
++		drm_err(drm, "failed to initialize vblank support: %d\n", ret);
++
++	return ret;
++}
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-kms.h b/drivers/gpu/drm/imx/dpu/dpu-kms.h
+new file mode 100644
+index 000000000000..11cd5a409640
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-kms.h
+@@ -0,0 +1,23 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++
++/*
++ * Copyright 2019,2020,2023 NXP
++ */
++
++#ifndef __DPU_KMS_H__
++#define __DPU_KMS_H__
++
++#include <linux/of.h>
++#include <linux/types.h>
++
++#include "dpu-drv.h"
++
++struct dpu_crtc_of_node {
++	struct device_node *np;
++	struct list_head list;
++};
++
++int dpu_kms_prepare(struct dpu_drm_device *dpu_drm,
++		    struct list_head *crtc_np_list);
++
++#endif
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-layerblend.c b/drivers/gpu/drm/imx/dpu/dpu-layerblend.c
+new file mode 100644
+index 000000000000..676c5052c797
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-layerblend.c
+@@ -0,0 +1,348 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright (C) 2016 Freescale Semiconductor, Inc.
++ * Copyright 2017-2020,2022,2023 NXP
++ */
++
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/mutex.h>
++#include <linux/sizes.h>
++
++#include <drm/drm_blend.h>
++
++#include "dpu.h"
++#include "dpu-prv.h"
++
++#define PIXENGCFG_DYNAMIC			0x8
++#define  PIXENGCFG_DYNAMIC_PRIM_SEL_MASK	0x3f
++#define  PIXENGCFG_DYNAMIC_SEC_SEL_SHIFT	8
++#define  PIXENGCFG_DYNAMIC_SEC_SEL_MASK		0x3f00
++
++#define PIXENGCFG_STATUS			0xc
++
++#define STATICCONTROL				0x8
++#define  SHDTOKSEL_MASK				0x18
++#define  SHDTOKSEL(n)				((n) << 3)
++#define  SHDLDSEL_MASK				0x6
++#define  SHDLDSEL(n)				((n) << 1)
++
++#define CONTROL					0xc
++#define  CTRL_MODE_MASK				BIT(0)
++
++#define BLENDCONTROL				0x10
++#define  ALPHA(a)				(((a) & 0xff) << 16)
++#define  PRIM_C_BLD_FUNC__ONE_MINUS_CONST_ALPHA	0x7
++#define  PRIM_C_BLD_FUNC__ONE_MINUS_SEC_ALPHA	0x5
++#define  PRIM_C_BLD_FUNC__ZERO			0x0
++#define  SEC_C_BLD_FUNC__CONST_ALPHA		(0x6 << 4)
++#define  SEC_C_BLD_FUNC__SEC_ALPHA		(0x4 << 4)
++#define  PRIM_A_BLD_FUNC__ZERO			(0x0 << 8)
++#define  SEC_A_BLD_FUNC__ZERO			(0x0 << 12)
++
++#define POSITION				0x14
++#define  XPOS(x)				((x) & 0x7fff)
++#define  YPOS(y)				(((y) & 0x7fff) << 16)
++
++#define PRIMCONTROLWORD				0x18
++#define SECCONTROLWORD				0x1c
++
++enum dpu_lb_shadow_sel {
++	PRIMARY,	/* background plane */
++	SECONDARY,	/* foreground plane */
++	BOTH,
++};
++
++struct dpu_layerblend {
++	void __iomem *pec_base;
++	void __iomem *base;
++	struct mutex mutex;
++	unsigned int id;
++	unsigned int index;
++	enum dpu_link_id link_id;
++	bool inuse;
++	struct dpu_soc *dpu;
++};
++
++static const enum dpu_link_id dpu_lb_link_id[] = {
++	LINK_ID_LAYERBLEND0, LINK_ID_LAYERBLEND1,
++	LINK_ID_LAYERBLEND2, LINK_ID_LAYERBLEND3
++};
++
++static const enum dpu_link_id prim_sels[] = {
++	/* common options */
++	LINK_ID_NONE,
++	LINK_ID_BLITBLEND9,
++	LINK_ID_CONSTFRAME0,
++	LINK_ID_CONSTFRAME1,
++	LINK_ID_CONSTFRAME4,
++	LINK_ID_CONSTFRAME5,
++	LINK_ID_MATRIX4,
++	LINK_ID_HSCALER4,
++	LINK_ID_VSCALER4,
++	LINK_ID_MATRIX5,
++	LINK_ID_HSCALER5,
++	LINK_ID_VSCALER5,
++	/*
++	 * special options:
++	 * layerblend(n) has n special options,
++	 * from layerblend0 to layerblend(n - 1), e.g.,
++	 * layerblend3 has 3 special options -
++	 * layerblend0/1/2.
++	 */
++	LINK_ID_LAYERBLEND0,
++	LINK_ID_LAYERBLEND1,
++	LINK_ID_LAYERBLEND2,
++	LINK_ID_LAYERBLEND3,
++};
++
++static const enum dpu_link_id sec_sels[] = {
++	LINK_ID_NONE,
++	LINK_ID_FETCHWARP2,
++	LINK_ID_FETCHDECODE0,
++	LINK_ID_FETCHDECODE1,
++	LINK_ID_MATRIX4,
++	LINK_ID_HSCALER4,
++	LINK_ID_VSCALER4,
++	LINK_ID_MATRIX5,
++	LINK_ID_HSCALER5,
++	LINK_ID_VSCALER5,
++	LINK_ID_FETCHLAYER0,
++};
++
++static inline u32 dpu_pec_lb_read(struct dpu_layerblend *lb,
++				  unsigned int offset)
++{
++	return readl(lb->pec_base + offset);
++}
++
++static inline void dpu_pec_lb_write(struct dpu_layerblend *lb,
++				    unsigned int offset, u32 value)
++{
++	writel(value, lb->pec_base + offset);
++}
++
++static inline void dpu_pec_lb_write_mask(struct dpu_layerblend *lb,
++					 unsigned int offset,
++					 u32 mask, u32 value)
++{
++	u32 tmp;
++
++	tmp = dpu_pec_lb_read(lb, offset);
++	tmp &= ~mask;
++	dpu_pec_lb_write(lb, offset, tmp | value);
++}
++
++static inline u32 dpu_lb_read(struct dpu_layerblend *lb, unsigned int offset)
++{
++	return readl(lb->base + offset);
++}
++
++static inline void dpu_lb_write(struct dpu_layerblend *lb,
++				unsigned int offset, u32 value)
++{
++	writel(value, lb->base + offset);
++}
++
++static inline void dpu_lb_write_mask(struct dpu_layerblend *lb,
++				     unsigned int offset, u32 mask, u32 value)
++{
++	u32 tmp;
++
++	tmp = dpu_lb_read(lb, offset);
++	tmp &= ~mask;
++	dpu_lb_write(lb, offset, tmp | value);
++}
++
++enum dpu_link_id dpu_lb_get_link_id(struct dpu_layerblend *lb)
++{
++	return lb->link_id;
++}
++
++void dpu_lb_pec_dynamic_prim_sel(struct dpu_layerblend *lb,
++				 enum dpu_link_id prim)
++{
++	struct dpu_soc *dpu = lb->dpu;
++	int fixed_sels_num = ARRAY_SIZE(prim_sels) - 4;
++	int i;
++
++	for (i = 0; i < fixed_sels_num + lb->id; i++) {
++		if (prim_sels[i] == prim) {
++			dpu_pec_lb_write_mask(lb, PIXENGCFG_DYNAMIC,
++					      PIXENGCFG_DYNAMIC_PRIM_SEL_MASK,
++					      prim);
++			return;
++		}
++	}
++
++	dev_err(dpu->dev, "LayerBlend%u - invalid primary source 0x%02x\n",
++		lb->id, prim);
++}
++
++void dpu_lb_pec_dynamic_sec_sel(struct dpu_layerblend *lb, enum dpu_link_id sec)
++{
++	struct dpu_soc *dpu = lb->dpu;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(sec_sels); i++) {
++		if (sec_sels[i] == sec) {
++			dpu_pec_lb_write_mask(lb, PIXENGCFG_DYNAMIC,
++					PIXENGCFG_DYNAMIC_SEC_SEL_MASK,
++					sec << PIXENGCFG_DYNAMIC_SEC_SEL_SHIFT);
++			return;
++		}
++	}
++
++	dev_err(dpu->dev, "LayerBlend%u - invalid secondary source 0x%02x\n",
++		lb->id, sec);
++}
++
++void dpu_lb_pec_clken(struct dpu_layerblend *lb, enum dpu_pec_clken clken)
++{
++	dpu_pec_lb_write_mask(lb, PIXENGCFG_DYNAMIC, CLKEN_MASK, CLKEN(clken));
++}
++
++static void dpu_lb_enable_shden(struct dpu_layerblend *lb)
++{
++	dpu_lb_write_mask(lb, STATICCONTROL, SHDEN, SHDEN);
++}
++
++static void dpu_lb_shdtoksel(struct dpu_layerblend *lb,
++			     enum dpu_lb_shadow_sel sel)
++{
++	dpu_lb_write_mask(lb, STATICCONTROL, SHDTOKSEL_MASK, SHDTOKSEL(sel));
++}
++
++static void dpu_lb_shdldsel(struct dpu_layerblend *lb,
++			    enum dpu_lb_shadow_sel sel)
++{
++	dpu_lb_write_mask(lb, STATICCONTROL, SHDLDSEL_MASK, SHDLDSEL(sel));
++}
++
++void dpu_lb_mode(struct dpu_layerblend *lb, enum dpu_lb_mode mode)
++{
++	dpu_lb_write_mask(lb, CONTROL, CTRL_MODE_MASK, mode);
++}
++
++void dpu_lb_blendcontrol(struct dpu_layerblend *lb, unsigned int zpos,
++			 unsigned int pixel_blend_mode, u16 alpha)
++{
++	u32 val = PRIM_A_BLD_FUNC__ZERO | SEC_A_BLD_FUNC__ZERO;
++
++	if (zpos == 0) {
++		val |= PRIM_C_BLD_FUNC__ZERO | SEC_C_BLD_FUNC__CONST_ALPHA;
++		alpha = DRM_BLEND_ALPHA_OPAQUE;
++	} else {
++		switch (pixel_blend_mode) {
++		case DRM_MODE_BLEND_PIXEL_NONE:
++			val |= PRIM_C_BLD_FUNC__ONE_MINUS_CONST_ALPHA |
++			       SEC_C_BLD_FUNC__CONST_ALPHA;
++			break;
++		case DRM_MODE_BLEND_PREMULTI:
++			val |= PRIM_C_BLD_FUNC__ONE_MINUS_SEC_ALPHA |
++			       SEC_C_BLD_FUNC__CONST_ALPHA;
++			break;
++		case DRM_MODE_BLEND_COVERAGE:
++			val |= PRIM_C_BLD_FUNC__ONE_MINUS_SEC_ALPHA |
++			       SEC_C_BLD_FUNC__SEC_ALPHA;
++			break;
++		}
++	}
++
++	val |= ALPHA(alpha >> 8);
++
++	dpu_lb_write(lb, BLENDCONTROL, val);
++}
++
++void dpu_lb_position(struct dpu_layerblend *lb, int x, int y)
++{
++	dpu_lb_write(lb, POSITION, XPOS(x) | YPOS(y));
++}
++
++unsigned int dpu_lb_get_id(struct dpu_layerblend *lb)
++{
++	return lb->id;
++}
++
++struct dpu_layerblend *dpu_lb_get(struct dpu_soc *dpu, unsigned int id)
++{
++	struct dpu_layerblend *lb;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(dpu->lb_priv); i++) {
++		lb = dpu->lb_priv[i];
++		if (lb->id == id)
++			break;
++	}
++
++	if (i == ARRAY_SIZE(dpu->lb_priv))
++		return ERR_PTR(-EINVAL);
++
++	mutex_lock(&lb->mutex);
++
++	if (lb->inuse) {
++		mutex_unlock(&lb->mutex);
++		return ERR_PTR(-EBUSY);
++	}
++
++	lb->inuse = true;
++
++	mutex_unlock(&lb->mutex);
++
++	return lb;
++}
++
++void dpu_lb_put(struct dpu_layerblend *lb)
++{
++	if (IS_ERR_OR_NULL(lb))
++		return;
++
++	mutex_lock(&lb->mutex);
++
++	lb->inuse = false;
++
++	mutex_unlock(&lb->mutex);
++}
++
++void dpu_lb_hw_init(struct dpu_soc *dpu, unsigned int index)
++{
++	struct dpu_layerblend *lb = dpu->lb_priv[index];
++
++	dpu_lb_pec_dynamic_prim_sel(lb, LINK_ID_NONE);
++	dpu_lb_pec_dynamic_sec_sel(lb, LINK_ID_NONE);
++	dpu_lb_pec_clken(lb, CLKEN_DISABLE);
++	dpu_lb_shdldsel(lb, BOTH);
++	dpu_lb_shdtoksel(lb, BOTH);
++	dpu_lb_enable_shden(lb);
++}
++
++int dpu_lb_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long pec_base, unsigned long base)
++{
++	struct dpu_layerblend *lb;
++
++	lb = devm_kzalloc(dpu->dev, sizeof(*lb), GFP_KERNEL);
++	if (!lb)
++		return -ENOMEM;
++
++	dpu->lb_priv[index] = lb;
++
++	lb->pec_base = devm_ioremap(dpu->dev, pec_base, SZ_16);
++	if (!lb->pec_base)
++		return -ENOMEM;
++
++	lb->base = devm_ioremap(dpu->dev, base, SZ_32);
++	if (!lb->base)
++		return -ENOMEM;
++
++	lb->dpu = dpu;
++	lb->id = id;
++	lb->index = index;
++	lb->link_id = dpu_lb_link_id[index];
++
++	mutex_init(&lb->mutex);
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-plane.c b/drivers/gpu/drm/imx/dpu/dpu-plane.c
+new file mode 100644
+index 000000000000..db3713e734ad
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-plane.c
+@@ -0,0 +1,804 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright 2017-2020,2022,2023 NXP
++ */
++
++#include <drm/drm_atomic.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_atomic_state_helper.h>
++#include <drm/drm_blend.h>
++#include <drm/drm_color_mgmt.h>
++#include <drm/drm_fb_dma_helper.h>
++#include <drm/drm_framebuffer.h>
++#include <drm/drm_gem_atomic_helper.h>
++#include <drm/drm_gem_dma_helper.h>
++#include <drm/drm_plane_helper.h>
++
++#include "dpu.h"
++#include "dpu-crtc.h"
++#include "dpu-dprc.h"
++#include "dpu-plane.h"
++
++#define FRAC_16_16(mult, div)			(((mult) << 16) / (div))
++
++#define DPU_PLANE_MAX_PITCH			0x10000
++#define DPU_PLANE_MAX_PIX_CNT			8192
++#define DPU_PLANE_MAX_PIX_CNT_WITH_SCALER	2048
++
++static const uint32_t dpu_plane_formats[] = {
++	DRM_FORMAT_ARGB8888,
++	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_ABGR8888,
++	DRM_FORMAT_XBGR8888,
++	DRM_FORMAT_RGBA8888,
++	DRM_FORMAT_RGBX8888,
++	DRM_FORMAT_BGRA8888,
++	DRM_FORMAT_BGRX8888,
++	DRM_FORMAT_RGB565,
++
++	DRM_FORMAT_YUYV,
++	DRM_FORMAT_UYVY,
++	DRM_FORMAT_NV12,
++	DRM_FORMAT_NV21,
++};
++
++static const uint64_t dpu_plane_format_modifiers[] = {
++	DRM_FORMAT_MOD_VIVANTE_TILED,
++	DRM_FORMAT_MOD_VIVANTE_SUPER_TILED,
++	DRM_FORMAT_MOD_LINEAR,
++	DRM_FORMAT_MOD_INVALID,
++};
++
++static unsigned int dpu_plane_get_default_zpos(enum drm_plane_type type)
++{
++	if (type == DRM_PLANE_TYPE_PRIMARY)
++		return 0;
++	else if (type == DRM_PLANE_TYPE_OVERLAY)
++		return 1;
++
++	return 0;
++}
++
++static void dpu_plane_destroy(struct drm_plane *plane)
++{
++	struct dpu_plane *dpu_plane = to_dpu_plane(plane);
++
++	drm_plane_cleanup(plane);
++	kfree(dpu_plane);
++}
++
++static void dpu_plane_reset(struct drm_plane *plane)
++{
++	struct dpu_plane_state *state;
++
++	if (plane->state) {
++		__drm_atomic_helper_plane_destroy_state(plane->state);
++		kfree(to_dpu_plane_state(plane->state));
++		plane->state = NULL;
++	}
++
++	state = kzalloc(sizeof(*state), GFP_KERNEL);
++	if (!state)
++		return;
++
++	__drm_atomic_helper_plane_reset(plane, &state->base);
++
++	plane->state->zpos = dpu_plane_get_default_zpos(plane->type);
++	plane->state->color_encoding = DRM_COLOR_YCBCR_BT709;
++	plane->state->color_range = DRM_COLOR_YCBCR_LIMITED_RANGE;
++}
++
++static struct drm_plane_state *
++dpu_drm_atomic_plane_duplicate_state(struct drm_plane *plane)
++{
++	struct dpu_plane_state *state, *copy;
++
++	if (WARN_ON(!plane->state))
++		return NULL;
++
++	copy = kmalloc(sizeof(*state), GFP_KERNEL);
++	if (!copy)
++		return NULL;
++
++	__drm_atomic_helper_plane_duplicate_state(plane, &copy->base);
++	state = to_dpu_plane_state(plane->state);
++	copy->stage = state->stage;
++	copy->source = state->source;
++	copy->blend = state->blend;
++	copy->is_top = state->is_top;
++
++	return &copy->base;
++}
++
++static void dpu_drm_atomic_plane_destroy_state(struct drm_plane *plane,
++					       struct drm_plane_state *state)
++{
++	__drm_atomic_helper_plane_destroy_state(state);
++	kfree(to_dpu_plane_state(state));
++}
++
++static bool dpu_drm_plane_format_mod_supported(struct drm_plane *plane,
++					       uint32_t format,
++					       uint64_t modifier)
++{
++	switch (format) {
++	case DRM_FORMAT_YUYV:
++	case DRM_FORMAT_UYVY:
++	case DRM_FORMAT_NV12:
++	case DRM_FORMAT_NV21:
++		return modifier == DRM_FORMAT_MOD_LINEAR;
++	case DRM_FORMAT_ARGB8888:
++	case DRM_FORMAT_XRGB8888:
++	case DRM_FORMAT_ABGR8888:
++	case DRM_FORMAT_XBGR8888:
++	case DRM_FORMAT_RGBA8888:
++	case DRM_FORMAT_RGBX8888:
++	case DRM_FORMAT_BGRA8888:
++	case DRM_FORMAT_BGRX8888:
++	case DRM_FORMAT_RGB565:
++		return modifier == DRM_FORMAT_MOD_LINEAR ||
++		       modifier == DRM_FORMAT_MOD_VIVANTE_TILED ||
++		       modifier == DRM_FORMAT_MOD_VIVANTE_SUPER_TILED;
++	default:
++		return false;
++	}
++}
++
++static const struct drm_plane_funcs dpu_plane_funcs = {
++	.update_plane		= drm_atomic_helper_update_plane,
++	.disable_plane		= drm_atomic_helper_disable_plane,
++	.destroy		= dpu_plane_destroy,
++	.reset			= dpu_plane_reset,
++	.atomic_duplicate_state	= dpu_drm_atomic_plane_duplicate_state,
++	.atomic_destroy_state	= dpu_drm_atomic_plane_destroy_state,
++	.format_mod_supported	= dpu_drm_plane_format_mod_supported,
++};
++
++static inline dma_addr_t
++drm_plane_state_to_baseaddr(struct drm_plane_state *state)
++{
++	struct drm_framebuffer *fb = state->fb;
++	struct drm_gem_dma_object *dma_obj;
++	unsigned int x = state->src.x1 >> 16;
++	unsigned int y = state->src.y1 >> 16;
++
++	dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
++
++	if (fb->flags & DRM_MODE_FB_INTERLACED)
++		y /= 2;
++
++	return dma_obj->dma_addr + fb->offsets[0] + fb->pitches[0] * y +
++	       fb->format->cpp[0] * x;
++}
++
++static inline dma_addr_t
++drm_plane_state_to_uvbaseaddr(struct drm_plane_state *state)
++{
++	struct drm_framebuffer *fb = state->fb;
++	struct drm_gem_dma_object *dma_obj;
++	int x = state->src.x1 >> 16;
++	int y = state->src.y1 >> 16;
++
++	dma_obj = drm_fb_dma_get_gem_obj(fb, 1);
++
++	x /= fb->format->hsub;
++	y /= fb->format->vsub;
++
++	if (fb->flags & DRM_MODE_FB_INTERLACED)
++		y /= 2;
++
++	return dma_obj->dma_addr + fb->offsets[1] + fb->pitches[1] * y +
++	       fb->format->cpp[1] * x;
++}
++
++static int dpu_plane_check_no_off_screen(struct drm_plane_state *state,
++					 struct drm_crtc_state *crtc_state)
++{
++	if (state->dst.x1 < 0 || state->dst.y1 < 0 ||
++	    state->dst.x2 > crtc_state->adjusted_mode.hdisplay ||
++	    state->dst.y2 > crtc_state->adjusted_mode.vdisplay) {
++		dpu_plane_dbg(state->plane, "no off screen\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int dpu_plane_check_max_source_resolution(struct drm_plane_state *state)
++{
++	u32 src_w = drm_rect_width(&state->src) >> 16;
++	u32 src_h = drm_rect_height(&state->src) >> 16;
++	u32 dst_w = drm_rect_width(&state->dst);
++	u32 dst_h = drm_rect_height(&state->dst);
++
++	if (src_w == dst_w || src_h == dst_h) {
++		/* without scaling */
++		if (src_w > DPU_PLANE_MAX_PIX_CNT ||
++		    src_h > DPU_PLANE_MAX_PIX_CNT) {
++			dpu_plane_dbg(state->plane,
++				      "invalid source resolution\n");
++			return -EINVAL;
++		}
++	} else {
++		/* with scaling */
++		if (src_w > DPU_PLANE_MAX_PIX_CNT_WITH_SCALER ||
++		    src_h > DPU_PLANE_MAX_PIX_CNT_WITH_SCALER) {
++			dpu_plane_dbg(state->plane,
++				      "invalid source resolution with scale\n");
++			return -EINVAL;
++		}
++	}
++
++	return 0;
++}
++
++static int dpu_plane_check_source_alignment(struct drm_plane_state *state)
++{
++	struct drm_framebuffer *fb = state->fb;
++	bool fb_is_interlaced = !!(fb->flags & DRM_MODE_FB_INTERLACED);
++	u32 src_w = drm_rect_width(&state->src) >> 16;
++	u32 src_h = drm_rect_height(&state->src) >> 16;
++	u32 src_x = state->src.x1 >> 16;
++	u32 src_y = state->src.y1 >> 16;
++
++	if (fb->format->hsub == 2) {
++		if (src_w % 2) {
++			dpu_plane_dbg(state->plane, "bad uv width\n");
++			return -EINVAL;
++		}
++		if (src_x % 2) {
++			dpu_plane_dbg(state->plane, "bad uv xoffset\n");
++			return -EINVAL;
++		}
++	}
++	if (fb->format->vsub == 2) {
++		if (src_h % (fb_is_interlaced ? 4 : 2)) {
++			dpu_plane_dbg(state->plane, "bad uv height\n");
++			return -EINVAL;
++		}
++		if (src_y % (fb_is_interlaced ? 4 : 2)) {
++			dpu_plane_dbg(state->plane, "bad uv yoffset\n");
++			return -EINVAL;
++		}
++	}
++
++	return 0;
++}
++
++static int dpu_plane_check_fb_modifier(struct drm_plane_state *state)
++{
++	struct drm_plane *plane = state->plane;
++	struct drm_framebuffer *fb = state->fb;
++
++	if ((fb->flags & DRM_MODE_FB_MODIFIERS) &&
++	    !plane->funcs->format_mod_supported(plane, fb->format->format,
++						fb->modifier)) {
++		dpu_plane_dbg(plane, "invalid modifier 0x%016llx",
++			      fb->modifier);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++/* for tile formats, framebuffer has to be tile aligned */
++static int dpu_plane_check_tiled_fb_alignment(struct drm_plane_state *state)
++{
++	struct drm_plane *plane = state->plane;
++	struct drm_framebuffer *fb = state->fb;
++
++	switch (fb->modifier) {
++	case DRM_FORMAT_MOD_VIVANTE_TILED:
++		if (fb->width % 4) {
++			dpu_plane_dbg(plane, "bad fb width for VIVANTE tile\n");
++			return -EINVAL;
++		}
++		if (fb->height % 4) {
++			dpu_plane_dbg(plane, "bad fb height for VIVANTE tile\n");
++			return -EINVAL;
++		}
++		break;
++	case DRM_FORMAT_MOD_VIVANTE_SUPER_TILED:
++		if (fb->width % 64) {
++			dpu_plane_dbg(plane,
++				      "bad fb width for VIVANTE super tile\n");
++			return -EINVAL;
++		}
++		if (fb->height % 64) {
++			dpu_plane_dbg(plane,
++				      "bad fb height for VIVANTE super tile\n");
++			return -EINVAL;
++		}
++		break;
++	}
++
++	return 0;
++}
++
++static int dpu_plane_check_no_bt709_full_range(struct drm_plane_state *state)
++{
++	if (state->fb->format->is_yuv &&
++	    state->color_encoding == DRM_COLOR_YCBCR_BT709 &&
++	    state->color_range == DRM_COLOR_YCBCR_FULL_RANGE) {
++		dpu_plane_dbg(state->plane, "no BT709 full range support\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int dpu_plane_check_fb_plane_1(struct drm_plane_state *state)
++{
++	struct drm_plane *plane = state->plane;
++	struct drm_framebuffer *fb = state->fb;
++	dma_addr_t baseaddr = drm_plane_state_to_baseaddr(state);
++	int bpp;
++
++	/* base address alignment */
++	switch (fb->format->format) {
++	case DRM_FORMAT_YUYV:
++	case DRM_FORMAT_UYVY:
++		bpp = 16;
++		break;
++	case DRM_FORMAT_NV12:
++	case DRM_FORMAT_NV21:
++		bpp = 8;
++		break;
++	default:
++		bpp = fb->format->cpp[0] * 8;
++		break;
++	}
++	if ((bpp == 32 && (baseaddr & 0x3)) ||
++	    (bpp == 16 && (baseaddr & 0x1))) {
++		dpu_plane_dbg(plane, "%dbpp fb bad baddr alignment\n", bpp);
++		return -EINVAL;
++	}
++	switch (bpp) {
++	case 32:
++		if (baseaddr & 0x3) {
++			dpu_plane_dbg(plane, "32bpp fb bad baddr alignment\n");
++			return -EINVAL;
++		}
++		break;
++	case 16:
++		if (fb->modifier) {
++			if (baseaddr & 0x1) {
++				dpu_plane_dbg(plane,
++					      "16bpp tile fb bad baddr alignment\n");
++				return -EINVAL;
++			}
++		} else {
++			if (baseaddr & 0x7) {
++				dpu_plane_dbg(plane,
++					      "16bpp fb bad baddr alignment\n");
++				return -EINVAL;
++			}
++		}
++		break;
++	}
++
++	/* pitches[0] range */
++	if (fb->pitches[0] > DPU_PLANE_MAX_PITCH) {
++		dpu_plane_dbg(plane, "fb pitches[0] is out of range\n");
++		return -EINVAL;
++	}
++
++	/* pitches[0] alignment */
++	if ((bpp == 32 && (fb->pitches[0] & 0x3)) ||
++	    (bpp == 16 && (fb->pitches[0] & 0x1))) {
++		dpu_plane_dbg(plane, "%dbpp fb bad pitches[0] alignment\n", bpp);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++/* UV planar check, assuming 16bpp */
++static int dpu_plane_check_fb_plane_2(struct drm_plane_state *state)
++{
++	struct drm_plane *plane = state->plane;
++	struct drm_framebuffer *fb = state->fb;
++	dma_addr_t uv_baseaddr = drm_plane_state_to_uvbaseaddr(state);
++
++	/* base address alignment */
++	if (uv_baseaddr & 0x7) {
++		dpu_plane_dbg(plane, "bad uv baddr alignment\n");
++		return -EINVAL;
++	}
++
++	/* pitches[1] range */
++	if (fb->pitches[1] > DPU_PLANE_MAX_PITCH) {
++		dpu_plane_dbg(plane, "fb pitches[1] is out of range\n");
++		return -EINVAL;
++	}
++
++	/* pitches[1] alignment */
++	if (fb->pitches[1] & 0x1) {
++		dpu_plane_dbg(plane, "fb bad pitches[1] alignment\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int dpu_plane_check_dprc(struct drm_plane_state *state)
++{
++	struct dpu_plane_state *dpstate = to_dpu_plane_state(state);
++	struct drm_framebuffer *fb = state->fb;
++	const struct dpu_fetchunit_ops *fu_ops;
++	struct dpu_dprc *dprc;
++	dma_addr_t baseaddr, uv_baseaddr = 0;
++	u32 src_w = drm_rect_width(&state->src) >> 16;
++	u32 src_x = state->src.x1 >> 16;
++
++	fu_ops = dpu_fu_get_ops(dpstate->source);
++	dprc = fu_ops->get_dprc(dpstate->source);
++
++	if (!dpu_dprc_rtram_width_supported(dprc, src_w)) {
++		dpu_plane_dbg(state->plane, "bad RTRAM width for DPRC\n");
++		return -EINVAL;
++	}
++
++	baseaddr = drm_plane_state_to_baseaddr(state);
++	if (fb->format->num_planes > 1)
++		uv_baseaddr = drm_plane_state_to_uvbaseaddr(state);
++
++	if (!dpu_dprc_stride_supported(dprc, fb->pitches[0], fb->pitches[1],
++				       src_w, src_x, fb->format, fb->modifier,
++				       baseaddr, uv_baseaddr)) {
++		dpu_plane_dbg(state->plane, "bad fb pitches for DPRC\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int dpu_plane_atomic_check(struct drm_plane *plane,
++				  struct drm_atomic_state *state)
++{
++	struct drm_plane_state *new_plane_state =
++				drm_atomic_get_new_plane_state(state, plane);
++	struct dpu_plane_state *new_dpstate =
++				to_dpu_plane_state(new_plane_state);
++	struct drm_framebuffer *fb = new_plane_state->fb;
++	struct drm_crtc_state *crtc_state;
++	int min_scale, ret;
++
++	/* ok to disable */
++	if (!fb) {
++		new_dpstate->source = NULL;
++		new_dpstate->stage.ptr = NULL;
++		new_dpstate->blend = NULL;
++		return 0;
++	}
++
++	if (!new_plane_state->crtc) {
++		dpu_plane_dbg(plane, "no CRTC in plane state\n");
++		return -EINVAL;
++	}
++
++	crtc_state =
++		drm_atomic_get_existing_crtc_state(state, new_plane_state->crtc);
++	if (WARN_ON(!crtc_state))
++		return -EINVAL;
++
++	min_scale = FRAC_16_16(1, DPU_PLANE_MAX_PIX_CNT_WITH_SCALER);
++	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
++						  min_scale, DRM_PLANE_NO_SCALING,
++						  true, false);
++	if (ret) {
++		dpu_plane_dbg(plane, "failed to check plane state: %d\n", ret);
++		return ret;
++	}
++
++	ret = dpu_plane_check_no_off_screen(new_plane_state, crtc_state);
++	if (ret)
++		return ret;
++
++	ret = dpu_plane_check_max_source_resolution(new_plane_state);
++	if (ret)
++		return ret;
++
++	ret = dpu_plane_check_source_alignment(new_plane_state);
++	if (ret)
++		return ret;
++
++	ret = dpu_plane_check_fb_modifier(new_plane_state);
++	if (ret)
++		return ret;
++
++	ret = dpu_plane_check_tiled_fb_alignment(new_plane_state);
++	if (ret)
++		return ret;
++
++	ret = dpu_plane_check_no_bt709_full_range(new_plane_state);
++	if (ret)
++		return ret;
++
++	ret = dpu_plane_check_fb_plane_1(new_plane_state);
++	if (ret)
++		return ret;
++
++	if (fb->format->num_planes > 1) {
++		ret = dpu_plane_check_fb_plane_2(new_plane_state);
++		if (ret)
++			return ret;
++	}
++
++	return dpu_plane_check_dprc(new_plane_state);
++}
++
++static void dpu_plane_atomic_update(struct drm_plane *plane,
++				    struct drm_atomic_state *state)
++{
++	struct dpu_plane *dplane = to_dpu_plane(plane);
++	struct drm_plane_state *new_state =
++				drm_atomic_get_new_plane_state(state, plane);
++	struct dpu_plane_state *new_dpstate = to_dpu_plane_state(new_state);
++	struct dpu_plane_grp *grp = dplane->grp;
++	struct dpu_crtc *dpu_crtc;
++	struct drm_framebuffer *fb = new_state->fb;
++	struct dpu_fetchunit *fu = new_dpstate->source;
++	struct dpu_layerblend *lb = new_dpstate->blend;
++	struct dpu_dprc *dprc;
++	const struct dpu_fetchunit_ops *fu_ops;
++	dma_addr_t baseaddr, uv_baseaddr;
++	enum dpu_link_id fu_link;
++	enum dpu_link_id lb_src_link, stage_link;
++	enum dpu_link_id vs_link;
++	unsigned int src_w, src_h, src_x, src_y, dst_w, dst_h;
++	unsigned int mt_w = 0, mt_h = 0;	/* micro-tile width/height */
++	int bpp;
++	bool prefetch_start = false;
++	bool need_fetcheco = false, need_hscaler = false, need_vscaler = false;
++	bool need_modeset;
++	bool fb_is_interlaced;
++
++	/*
++	 * Do nothing since the plane is disabled by
++	 * crtc_func->atomic_begin/flush.
++	 */
++	if (!fb)
++		return;
++
++	/* Do nothing if CRTC is inactive. */
++	if (!new_state->crtc->state->active)
++		return;
++
++	need_modeset = drm_atomic_crtc_needs_modeset(new_state->crtc->state);
++
++	fb_is_interlaced = !!(fb->flags & DRM_MODE_FB_INTERLACED);
++
++	src_w = drm_rect_width(&new_state->src) >> 16;
++	src_h = drm_rect_height(&new_state->src) >> 16;
++	src_x = new_state->src.x1 >> 16;
++	src_y = new_state->src.y1 >> 16;
++	dst_w = drm_rect_width(&new_state->dst);
++	dst_h = drm_rect_height(&new_state->dst);
++
++	switch (fb->format->format) {
++	case DRM_FORMAT_YUYV:
++	case DRM_FORMAT_UYVY:
++		bpp = 16;
++		break;
++	case DRM_FORMAT_NV12:
++	case DRM_FORMAT_NV21:
++		bpp = 8;
++		break;
++	default:
++		bpp = fb->format->cpp[0] * 8;
++		break;
++	}
++
++	switch (fb->modifier) {
++	case DRM_FORMAT_MOD_VIVANTE_TILED:
++	case DRM_FORMAT_MOD_VIVANTE_SUPER_TILED:
++		mt_w = (bpp == 16) ? 8 : 4;
++		mt_h = 4;
++		break;
++	}
++
++	if (fb->format->num_planes > 1)
++		need_fetcheco = true;
++
++	if (src_w != dst_w)
++		need_hscaler = true;
++
++	if (src_h != dst_h || fb_is_interlaced)
++		need_vscaler = true;
++
++	baseaddr = drm_plane_state_to_baseaddr(new_state);
++	if (need_fetcheco)
++		uv_baseaddr = drm_plane_state_to_uvbaseaddr(new_state);
++
++	dpu_crtc = to_dpu_crtc(new_state->crtc);
++
++	fu_ops = dpu_fu_get_ops(fu);
++
++	if (!fu_ops->has_stream_id(fu) || need_modeset)
++		prefetch_start = true;
++
++	fu_ops->set_layerblend(fu, lb);
++
++	fu_ops->set_burstlength(fu, src_x, mt_w, bpp, baseaddr);
++	fu_ops->set_src_stride(fu, src_w, src_w, mt_w, bpp, fb->pitches[0],
++			       baseaddr);
++	fu_ops->set_src_buf_dimensions(fu, src_w, src_h, fb->format,
++				       fb_is_interlaced);
++	fu_ops->set_fmt(fu, fb->format, new_state->color_encoding,
++			new_state->color_range, fb_is_interlaced);
++	fu_ops->set_pixel_blend_mode(fu, new_state->pixel_blend_mode,
++				     new_state->alpha, fb->format->has_alpha);
++	fu_ops->enable_src_buf(fu);
++	fu_ops->set_framedimensions(fu, src_w, src_h, fb_is_interlaced);
++	fu_ops->set_baseaddress(fu, src_w, src_x, src_y, mt_w, mt_h, bpp,
++				baseaddr);
++	fu_ops->set_stream_id(fu, dpu_crtc->stream_id);
++
++	fu_link = fu_ops->get_link_id(fu);
++	lb_src_link = fu_link;
++
++	dpu_plane_dbg(plane, "uses %s\n", fu_ops->get_name(fu));
++
++	if (need_fetcheco) {
++		struct dpu_fetchunit *fe = fu_ops->get_fetcheco(fu);
++		const struct dpu_fetchunit_ops *fe_ops;
++
++		fe_ops = dpu_fu_get_ops(fe);
++
++		fu_ops->set_pec_dynamic_src_sel(fu, fe_ops->get_link_id(fe));
++
++		fe_ops->set_burstlength(fe, src_x, mt_w, bpp, uv_baseaddr);
++		fe_ops->set_src_stride(fe, src_w, src_x, mt_w, bpp,
++				       fb->pitches[1], uv_baseaddr);
++		fe_ops->set_fmt(fe, fb->format, new_state->color_encoding,
++				new_state->color_range, fb_is_interlaced);
++		fe_ops->set_src_buf_dimensions(fe, src_w, src_h,
++					       fb->format, fb_is_interlaced);
++		fe_ops->set_framedimensions(fe, src_w, src_h, fb_is_interlaced);
++		fe_ops->set_baseaddress(fe, src_w, src_x, src_y / 2,
++					mt_w, mt_h, bpp, uv_baseaddr);
++		fe_ops->enable_src_buf(fe);
++
++		dpu_plane_dbg(plane, "uses %s\n", fe_ops->get_name(fe));
++	} else {
++		if (fu_ops->set_pec_dynamic_src_sel)
++			fu_ops->set_pec_dynamic_src_sel(fu, LINK_ID_NONE);
++	}
++
++	/* VScaler comes first */
++	if (need_vscaler) {
++		struct dpu_vscaler *vs = fu_ops->get_vscaler(fu);
++
++		dpu_vs_pec_dynamic_src_sel(vs, fu_link);
++		dpu_vs_pec_clken(vs, CLKEN_AUTOMATIC);
++		dpu_vs_setup1(vs, src_h, new_state->crtc_h, fb_is_interlaced);
++		dpu_vs_setup2(vs, fb_is_interlaced);
++		dpu_vs_setup3(vs, fb_is_interlaced);
++		dpu_vs_output_size(vs, dst_h);
++		dpu_vs_field_mode(vs, fb_is_interlaced ?
++						SCALER_ALWAYS0 : SCALER_INPUT);
++		dpu_vs_filter_mode(vs, SCALER_LINEAR);
++		dpu_vs_scale_mode(vs, SCALER_UPSCALE);
++		dpu_vs_mode(vs, SCALER_ACTIVE);
++
++		vs_link = dpu_vs_get_link_id(vs);
++		lb_src_link = vs_link;
++
++		dpu_plane_dbg(plane, "uses VScaler%u\n", dpu_vs_get_id(vs));
++	}
++
++	/* and then, HScaler */
++	if (need_hscaler) {
++		struct dpu_hscaler *hs = fu_ops->get_hscaler(fu);
++
++		dpu_hs_pec_dynamic_src_sel(hs, need_vscaler ? vs_link : fu_link);
++		dpu_hs_pec_clken(hs, CLKEN_AUTOMATIC);
++		dpu_hs_setup1(hs, src_w, dst_w);
++		dpu_hs_output_size(hs, dst_w);
++		dpu_hs_filter_mode(hs, SCALER_LINEAR);
++		dpu_hs_scale_mode(hs, SCALER_UPSCALE);
++		dpu_hs_mode(hs, SCALER_ACTIVE);
++
++		lb_src_link = dpu_hs_get_link_id(hs);
++
++		dpu_plane_dbg(plane, "uses HScaler%u\n", dpu_hs_get_id(hs));
++	}
++
++	dprc = fu_ops->get_dprc(fu);
++
++	dpu_dprc_configure(dprc, dpu_crtc->stream_id,
++			   src_w, src_h, src_x, src_y,
++			   fb->pitches[0], fb->format, fb->modifier,
++			   baseaddr, uv_baseaddr,
++			   prefetch_start, fb_is_interlaced);
++
++	if (new_state->normalized_zpos == 0)
++		stage_link = dpu_cf_get_link_id(new_dpstate->stage.cf);
++	else
++		stage_link = dpu_lb_get_link_id(new_dpstate->stage.lb);
++
++	dpu_lb_pec_dynamic_prim_sel(lb, stage_link);
++	dpu_lb_pec_dynamic_sec_sel(lb, lb_src_link);
++	dpu_lb_mode(lb, LB_BLEND);
++	dpu_lb_blendcontrol(lb, new_state->normalized_zpos,
++			    new_state->pixel_blend_mode, new_state->alpha);
++	dpu_lb_pec_clken(lb, CLKEN_AUTOMATIC);
++	dpu_lb_position(lb, new_state->dst.x1, new_state->dst.y1);
++
++	dpu_plane_dbg(plane, "uses LayerBlend%u\n", dpu_lb_get_id(lb));
++
++	if (new_dpstate->is_top)
++		dpu_ed_pec_src_sel(grp->ed[dpu_crtc->stream_id],
++				   dpu_lb_get_link_id(lb));
++}
++
++static const struct drm_plane_helper_funcs dpu_plane_helper_funcs = {
++	.prepare_fb	= drm_gem_plane_helper_prepare_fb,
++	.atomic_check	= dpu_plane_atomic_check,
++	.atomic_update	= dpu_plane_atomic_update,
++};
++
++struct dpu_plane *dpu_plane_initialize(struct drm_device *drm,
++				       unsigned int possible_crtcs,
++				       struct dpu_plane_grp *grp,
++				       enum drm_plane_type type)
++{
++	struct dpu_plane *dpu_plane;
++	struct drm_plane *plane;
++	unsigned int zpos = dpu_plane_get_default_zpos(type);
++	int ret;
++
++	dpu_plane = kzalloc(sizeof(*dpu_plane), GFP_KERNEL);
++	if (!dpu_plane)
++		return ERR_PTR(-ENOMEM);
++
++	dpu_plane->grp = grp;
++
++	plane = &dpu_plane->base;
++
++	ret = drm_universal_plane_init(drm, plane, possible_crtcs,
++				       &dpu_plane_funcs,
++				       dpu_plane_formats,
++				       ARRAY_SIZE(dpu_plane_formats),
++				       dpu_plane_format_modifiers, type, NULL);
++	if (ret) {
++		/*
++		 * The plane is not added to the global plane list, so
++		 * free it manually.
++		 */
++		kfree(dpu_plane);
++		return ERR_PTR(ret);
++	}
++
++	drm_plane_helper_add(plane, &dpu_plane_helper_funcs);
++
++	ret = drm_plane_create_zpos_property(plane,
++					     zpos, 0, grp->hw_plane_cnt - 1);
++	if (ret)
++		return ERR_PTR(ret);
++
++	ret = drm_plane_create_alpha_property(plane);
++	if (ret)
++		return ERR_PTR(ret);
++
++	ret = drm_plane_create_blend_mode_property(plane,
++					BIT(DRM_MODE_BLEND_PIXEL_NONE) |
++					BIT(DRM_MODE_BLEND_PREMULTI) |
++					BIT(DRM_MODE_BLEND_COVERAGE));
++	if (ret)
++		return ERR_PTR(ret);
++
++	ret = drm_plane_create_color_properties(plane,
++					BIT(DRM_COLOR_YCBCR_BT601) |
++					BIT(DRM_COLOR_YCBCR_BT709),
++					BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
++					BIT(DRM_COLOR_YCBCR_FULL_RANGE),
++					DRM_COLOR_YCBCR_BT709,
++					DRM_COLOR_YCBCR_LIMITED_RANGE);
++	if (ret)
++		return ERR_PTR(ret);
++
++	return dpu_plane;
++}
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-plane.h b/drivers/gpu/drm/imx/dpu/dpu-plane.h
+new file mode 100644
+index 000000000000..29f1dcff91bd
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-plane.h
+@@ -0,0 +1,59 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++
++/*
++ * Copyright 2017-2020,2022,2023 NXP
++ */
++
++#ifndef __DPU_PLANE_H__
++#define __DPU_PLANE_H__
++
++#include <linux/kernel.h>
++
++#include <drm/drm_device.h>
++#include <drm/drm_plane.h>
++#include <drm/drm_print.h>
++
++#include "dpu.h"
++
++#define dpu_plane_dbg(plane, fmt, ...)					\
++do {									\
++	typeof(plane) _plane = (plane);					\
++	drm_dbg_kms(_plane->dev, "[PLANE:%d:%s] " fmt,			\
++		    _plane->base.id, _plane->name, ##__VA_ARGS__);	\
++} while (0)
++
++struct dpu_plane {
++	struct drm_plane	base;
++	struct dpu_plane_grp	*grp;
++};
++
++union dpu_plane_stage {
++	struct dpu_constframe	*cf;
++	struct dpu_layerblend	*lb;
++	void			*ptr;
++};
++
++struct dpu_plane_state {
++	struct drm_plane_state	base;
++	union dpu_plane_stage	stage;
++	struct dpu_fetchunit	*source;
++	struct dpu_layerblend	*blend;
++	bool			is_top;
++};
++
++static inline struct dpu_plane *to_dpu_plane(struct drm_plane *plane)
++{
++	return container_of(plane, struct dpu_plane, base);
++}
++
++static inline struct dpu_plane_state *
++to_dpu_plane_state(struct drm_plane_state *plane_state)
++{
++	return container_of(plane_state, struct dpu_plane_state, base);
++}
++
++struct dpu_plane *dpu_plane_initialize(struct drm_device *drm,
++				       unsigned int possible_crtcs,
++				       struct dpu_plane_grp *grp,
++				       enum drm_plane_type type);
++#endif /* __DPU_PLANE_H__ */
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-prg.c b/drivers/gpu/drm/imx/dpu/dpu-prg.c
+new file mode 100644
+index 000000000000..356b6dee2963
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-prg.c
+@@ -0,0 +1,433 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright 2017-2020,2023 NXP
++ */
++
++#include <linux/bitops.h>
++#include <linux/clk.h>
++#include <linux/delay.h>
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_device.h>
++#include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
++
++#include "dpu-prg.h"
++
++#define SET			0x4
++#define CLR			0x8
++#define TOG			0xc
++
++#define PRG_CTRL		0x00
++#define  BYPASS			BIT(0)
++#define  SC_DATA_TYPE_8BIT	0
++#define  SC_DATA_TYPE_10BIT	BIT(2)
++#define  UV_EN			BIT(3)
++#define  HANDSHAKE_MODE_4LINES	0
++#define  HANDSHAKE_MODE_8LINES	BIT(4)
++#define  SHADOW_LOAD_MODE	BIT(5)
++#define  DES_DATA_TYPE_32BPP	(0 << 16)
++#define  DES_DATA_TYPE_24BPP	(1 << 16)
++#define  DES_DATA_TYPE_16BPP	(2 << 16)
++#define  DES_DATA_TYPE_8BPP	(3 << 16)
++#define  SOFTRST		BIT(30)
++#define  SHADOW_EN		BIT(31)
++
++#define PRG_STATUS		0x10
++#define  BUFFER_VALID_B		BIT(1)
++#define  BUFFER_VALID_A		BIT(0)
++
++#define PRG_REG_UPDATE		0x20
++#define  REG_UPDATE		BIT(0)
++
++#define PRG_STRIDE		0x30
++#define  STRIDE(n)		(((n) - 1) & 0xffff)
++
++#define PRG_HEIGHT		0x40
++#define  HEIGHT(n)		(((n) - 1) & 0xffff)
++
++#define PRG_BADDR		0x50
++
++#define PRG_OFFSET		0x60
++#define  Y(n)			(((n) & 0x7) << 16)
++#define  X(n)			((n) & 0xffff)
++
++#define PRG_WIDTH		0x70
++#define  WIDTH(n)		(((n) - 1) & 0xffff)
++
++#define DPU_PRG_MAX_STRIDE	0x10000
++
++struct dpu_prg {
++	struct device *dev;
++	void __iomem *base;
++	struct list_head list;
++	struct clk *clk_apb;
++	struct clk *clk_rtram;
++	bool is_auxiliary;
++};
++
++static DEFINE_MUTEX(dpu_prg_list_mutex);
++static LIST_HEAD(dpu_prg_list);
++
++static inline u32 dpu_prg_read(struct dpu_prg *prg, unsigned int offset)
++{
++	return readl(prg->base + offset);
++}
++
++static inline void
++dpu_prg_write(struct dpu_prg *prg, unsigned int offset, u32 value)
++{
++	writel(value, prg->base + offset);
++}
++
++static void dpu_prg_reset(struct dpu_prg *prg)
++{
++	usleep_range(10, 20);
++	dpu_prg_write(prg, PRG_CTRL + SET, SOFTRST);
++	usleep_range(10, 20);
++	dpu_prg_write(prg, PRG_CTRL + CLR, SOFTRST);
++}
++
++void dpu_prg_enable(struct dpu_prg *prg)
++{
++	dpu_prg_write(prg, PRG_CTRL + CLR, BYPASS);
++}
++
++void dpu_prg_disable(struct dpu_prg *prg)
++{
++	dpu_prg_write(prg, PRG_CTRL, BYPASS);
++}
++
++static int dpu_prg_mod_to_mt_w(struct dpu_prg *prg, u64 modifier,
++			       unsigned int bits_per_pixel, unsigned int *mt_w)
++{
++	switch (modifier) {
++	case DRM_FORMAT_MOD_NONE:
++		*mt_w = 0;
++		break;
++	case DRM_FORMAT_MOD_VIVANTE_TILED:
++	case DRM_FORMAT_MOD_VIVANTE_SUPER_TILED:
++		*mt_w = (bits_per_pixel == 16) ? 8 : 4;
++		break;
++	default:
++		dev_err(prg->dev, "unsupported modifier 0x%016llx\n", modifier);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int dpu_prg_mod_to_mt_h(struct dpu_prg *prg, u64 modifier,
++			       unsigned int *mt_h)
++{
++	switch (modifier) {
++	case DRM_FORMAT_MOD_NONE:
++		*mt_h = 0;
++		break;
++	case DRM_FORMAT_MOD_VIVANTE_TILED:
++	case DRM_FORMAT_MOD_VIVANTE_SUPER_TILED:
++		*mt_h = 4;
++		break;
++	default:
++		dev_err(prg->dev, "unsupported modifier 0x%016llx\n", modifier);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++/* address TKT343664: base address has to align to burst size */
++static unsigned int dpu_prg_burst_size_fixup(dma_addr_t baddr)
++{
++	unsigned int burst_size;
++
++	burst_size = 1 << __ffs(baddr);
++	burst_size = round_up(burst_size, 8);
++	burst_size = min(burst_size, 128U);
++
++	return burst_size;
++}
++
++/* address TKT339017: mismatch between burst size and stride */
++static unsigned int dpu_prg_stride_fixup(unsigned int stride,
++					 unsigned int burst_size,
++					 dma_addr_t baddr, u64 modifier)
++{
++	if (modifier)
++		stride = round_up(stride + round_up(baddr % 8, 8), burst_size);
++	else
++		stride = round_up(stride, burst_size);
++
++	return stride;
++}
++
++void dpu_prg_configure(struct dpu_prg *prg,
++		       unsigned int width, unsigned int height,
++		       unsigned int x_offset, unsigned int y_offset,
++		       unsigned int stride, unsigned int bits_per_pixel,
++		       dma_addr_t baddr,
++		       const struct drm_format_info *format, u64 modifier,
++		       bool start)
++{
++	unsigned int mt_w, mt_h;	/* micro-tile width/height */
++	unsigned int burst_size;
++	dma_addr_t _baddr;
++	u32 val;
++	int ret;
++
++	ret = dpu_prg_mod_to_mt_w(prg, modifier, bits_per_pixel, &mt_w);
++	ret |= dpu_prg_mod_to_mt_h(prg, modifier, &mt_h);
++	if (ret)
++		return;
++
++	if (modifier) {
++		x_offset %= mt_w;
++		y_offset %= mt_h;
++
++		/* consider x offset to calculate stride */
++		_baddr = baddr + (x_offset * (bits_per_pixel / 8));
++	} else {
++		x_offset = 0;
++		y_offset = 0;
++		_baddr = baddr;
++	}
++
++	burst_size = dpu_prg_burst_size_fixup(_baddr);
++
++	stride = dpu_prg_stride_fixup(stride, burst_size, _baddr, modifier);
++
++	/*
++	 * address TKT342628(part 1):
++	 * when prg stride is less or equals to burst size,
++	 * the auxiliary prg height needs to be a half
++	 */
++	if (prg->is_auxiliary && stride <= burst_size) {
++		height /= 2;
++		if (modifier)
++			y_offset /= 2;
++	}
++
++	dpu_prg_write(prg, PRG_STRIDE, STRIDE(stride));
++	dpu_prg_write(prg, PRG_WIDTH, WIDTH(width));
++	dpu_prg_write(prg, PRG_HEIGHT, HEIGHT(height));
++	dpu_prg_write(prg, PRG_OFFSET, X(x_offset) | Y(y_offset));
++	dpu_prg_write(prg, PRG_BADDR, baddr);
++
++	val = SHADOW_LOAD_MODE | SC_DATA_TYPE_8BIT | BYPASS;
++	if (format->format == DRM_FORMAT_NV21 ||
++	    format->format == DRM_FORMAT_NV12) {
++		val |= HANDSHAKE_MODE_8LINES;
++		/*
++		 * address TKT342628(part 2):
++		 * when prg stride is less or equals to burst size,
++		 * we disable UV_EN bit for the auxiliary prg
++		 */
++		if (prg->is_auxiliary && stride > burst_size)
++			val |= UV_EN;
++	} else {
++		val |= HANDSHAKE_MODE_4LINES;
++	}
++	switch (bits_per_pixel) {
++	case 32:
++		val |= DES_DATA_TYPE_32BPP;
++		break;
++	case 24:
++		val |= DES_DATA_TYPE_24BPP;
++		break;
++	case 16:
++		val |= DES_DATA_TYPE_16BPP;
++		break;
++	case 8:
++		val |= DES_DATA_TYPE_8BPP;
++		break;
++	}
++	/* no shadow for the first frame */
++	if (!start)
++		val |= SHADOW_EN;
++	dpu_prg_write(prg, PRG_CTRL, val);
++}
++
++void dpu_prg_reg_update(struct dpu_prg *prg)
++{
++	dpu_prg_write(prg, PRG_REG_UPDATE, REG_UPDATE);
++}
++
++void dpu_prg_shadow_enable(struct dpu_prg *prg)
++{
++	dpu_prg_write(prg, PRG_CTRL + SET, SHADOW_EN);
++}
++
++bool dpu_prg_stride_supported(struct dpu_prg *prg,
++			      unsigned int x_offset,
++			      unsigned int bits_per_pixel, u64 modifier,
++			      unsigned int stride, dma_addr_t baddr)
++{
++	unsigned int mt_w;	/* micro-tile width */
++	unsigned int burst_size;
++	int ret;
++
++	ret = dpu_prg_mod_to_mt_w(prg, modifier, bits_per_pixel, &mt_w);
++	if (ret)
++		return false;
++
++	if (modifier) {
++		x_offset %= mt_w;
++
++		/* consider x offset to calculate stride */
++		baddr += (x_offset * (bits_per_pixel / 8));
++	}
++
++	burst_size = dpu_prg_burst_size_fixup(baddr);
++
++	stride = dpu_prg_stride_fixup(stride, burst_size, baddr, modifier);
++
++	if (stride > DPU_PRG_MAX_STRIDE)
++		return false;
++
++	return true;
++}
++
++void dpu_prg_set_auxiliary(struct dpu_prg *prg)
++{
++	prg->is_auxiliary = true;
++}
++
++void dpu_prg_set_primary(struct dpu_prg *prg)
++{
++	prg->is_auxiliary = false;
++}
++
++struct dpu_prg *
++dpu_prg_lookup_by_phandle(struct device *dev, const char *name, int index)
++{
++	struct device_node *prg_node = of_parse_phandle(dev->of_node,
++							name, index);
++	struct dpu_prg *prg;
++
++	mutex_lock(&dpu_prg_list_mutex);
++	list_for_each_entry(prg, &dpu_prg_list, list) {
++		if (prg_node == prg->dev->of_node) {
++			mutex_unlock(&dpu_prg_list_mutex);
++			device_link_add(dev, prg->dev,
++					DL_FLAG_PM_RUNTIME |
++					DL_FLAG_AUTOREMOVE_CONSUMER);
++			return prg;
++		}
++	}
++	mutex_unlock(&dpu_prg_list_mutex);
++
++	return NULL;
++}
++
++static const struct of_device_id dpu_prg_dt_ids[] = {
++	{ .compatible = "fsl,imx8qm-prg", },
++	{ .compatible = "fsl,imx8qxp-prg", },
++	{ /* sentinel */ },
++};
++
++static int dpu_prg_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct resource *res;
++	struct dpu_prg *prg;
++	int ret;
++
++	prg = devm_kzalloc(dev, sizeof(*prg), GFP_KERNEL);
++	if (!prg)
++		return -ENOMEM;
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	prg->base = devm_ioremap_resource(&pdev->dev, res);
++	if (IS_ERR(prg->base))
++		return PTR_ERR(prg->base);
++
++	prg->clk_apb = devm_clk_get(dev, "apb");
++	if (IS_ERR(prg->clk_apb)) {
++		ret = PTR_ERR(prg->clk_apb);
++		dev_err_probe(dev, ret, "failed to get apb clock\n");
++		return ret;
++	}
++
++	prg->clk_rtram = devm_clk_get(dev, "rtram");
++	if (IS_ERR(prg->clk_rtram)) {
++		ret = PTR_ERR(prg->clk_rtram);
++		dev_err_probe(dev, ret, "failed to get rtram clock\n");
++		return ret;
++	}
++
++	prg->dev = dev;
++	platform_set_drvdata(pdev, prg);
++
++	pm_runtime_enable(dev);
++
++	mutex_lock(&dpu_prg_list_mutex);
++	list_add(&prg->list, &dpu_prg_list);
++	mutex_unlock(&dpu_prg_list_mutex);
++
++	return 0;
++}
++
++static int dpu_prg_remove(struct platform_device *pdev)
++{
++	struct dpu_prg *prg = platform_get_drvdata(pdev);
++
++	mutex_lock(&dpu_prg_list_mutex);
++	list_del(&prg->list);
++	mutex_unlock(&dpu_prg_list_mutex);
++
++	pm_runtime_disable(&pdev->dev);
++
++	return 0;
++}
++
++static int __maybe_unused dpu_prg_runtime_suspend(struct device *dev)
++{
++	struct platform_device *pdev = to_platform_device(dev);
++	struct dpu_prg *prg = platform_get_drvdata(pdev);
++
++	clk_disable_unprepare(prg->clk_rtram);
++	clk_disable_unprepare(prg->clk_apb);
++
++	return 0;
++}
++
++static int __maybe_unused dpu_prg_runtime_resume(struct device *dev)
++{
++	struct platform_device *pdev = to_platform_device(dev);
++	struct dpu_prg *prg = platform_get_drvdata(pdev);
++	int ret;
++
++	ret = clk_prepare_enable(prg->clk_apb);
++	if (ret) {
++		dev_err(dev, "failed to enable apb clock: %d\n", ret);
++		return ret;
++	}
++
++	ret = clk_prepare_enable(prg->clk_rtram);
++	if (ret) {
++		dev_err(dev, "failed to enable rtramclock: %d\n", ret);
++		return ret;
++	}
++
++	dpu_prg_reset(prg);
++
++	return ret;
++}
++
++static const struct dev_pm_ops dpu_prg_pm_ops = {
++	SET_RUNTIME_PM_OPS(dpu_prg_runtime_suspend,
++			   dpu_prg_runtime_resume, NULL)
++};
++
++struct platform_driver dpu_prg_driver = {
++	.probe = dpu_prg_probe,
++	.remove = dpu_prg_remove,
++	.driver = {
++		.pm = &dpu_prg_pm_ops,
++		.name = "dpu-prg",
++		.of_match_table = dpu_prg_dt_ids,
++	},
++};
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-prg.h b/drivers/gpu/drm/imx/dpu/dpu-prg.h
+new file mode 100644
+index 000000000000..e2108c64e12d
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-prg.h
+@@ -0,0 +1,45 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++
++/*
++ * Copyright 2017-2020,2023 NXP
++ */
++
++#ifndef _DPU_PRG_H_
++#define _DPU_PRG_H_
++
++#include <linux/device.h>
++#include <linux/types.h>
++
++#include <drm/drm_fourcc.h>
++
++struct dpu_prg;
++
++void dpu_prg_enable(struct dpu_prg *prg);
++
++void dpu_prg_disable(struct dpu_prg *prg);
++
++void dpu_prg_configure(struct dpu_prg *prg,
++		       unsigned int width, unsigned int height,
++		       unsigned int x_offset, unsigned int y_offset,
++		       unsigned int stride, unsigned int bits_per_pixel,
++		       dma_addr_t baddr,
++		       const struct drm_format_info *format, u64 modifier,
++		       bool start);
++
++void dpu_prg_reg_update(struct dpu_prg *prg);
++
++void dpu_prg_shadow_enable(struct dpu_prg *prg);
++
++bool dpu_prg_stride_supported(struct dpu_prg *prg,
++			      unsigned int x_offset,
++			      unsigned int bits_per_pixel, u64 modifier,
++			      unsigned int stride, dma_addr_t baddr);
++
++void dpu_prg_set_auxiliary(struct dpu_prg *prg);
++
++void dpu_prg_set_primary(struct dpu_prg *prg);
++
++struct dpu_prg *
++dpu_prg_lookup_by_phandle(struct device *dev, const char *name, int index);
++
++#endif
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-prv.h b/drivers/gpu/drm/imx/dpu/dpu-prv.h
+new file mode 100644
+index 000000000000..fa531c5d37f2
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-prv.h
+@@ -0,0 +1,231 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++
++/*
++ * Copyright (C) 2016 Freescale Semiconductor, Inc.
++ * Copyright 2017-2020,2023 NXP
++ */
++
++#ifndef __DPU_PRV_H__
++#define __DPU_PRV_H__
++
++#include <linux/clk.h>
++#include <linux/device.h>
++#include <linux/irqdomain.h>
++
++#include "dpu.h"
++
++/* DPU common control registers */
++#define DPU_COMCTRL_REG(offset)		(offset)
++
++#define IPIDENTIFIER			DPU_COMCTRL_REG(0x0)
++#define LOCKUNLOCK			DPU_COMCTRL_REG(0x40)
++#define LOCKSTATUS			DPU_COMCTRL_REG(0x44)
++#define USERINTERRUPTMASK(n)		DPU_COMCTRL_REG(0x48 + 4 * (n))
++#define INTERRUPTENABLE(n)		DPU_COMCTRL_REG(0x50 + 4 * (n))
++#define INTERRUPTPRESET(n)		DPU_COMCTRL_REG(0x58 + 4 * (n))
++#define INTERRUPTCLEAR(n)		DPU_COMCTRL_REG(0x60 + 4 * (n))
++#define INTERRUPTSTATUS(n)		DPU_COMCTRL_REG(0x68 + 4 * (n))
++#define USERINTERRUPTENABLE(n)		DPU_COMCTRL_REG(0x80 + 4 * (n))
++#define USERINTERRUPTPRESET(n)		DPU_COMCTRL_REG(0x88 + 4 * (n))
++#define USERINTERRUPTCLEAR(n)		DPU_COMCTRL_REG(0x90 + 4 * (n))
++#define USERINTERRUPTSTATUS(n)		DPU_COMCTRL_REG(0x98 + 4 * (n))
++#define GENERALPURPOSE			DPU_COMCTRL_REG(0x100)
++
++#define DPU_SAFETY_STREAM_OFFSET	4
++
++/* shadow enable bit for several DPU units */
++#define SHDEN				BIT(0)
++
++/* Pixel Engine Configuration register fields */
++#define CLKEN_MASK_SHIFT		24
++#define CLKEN_MASK			(0x3 << CLKEN_MASK_SHIFT)
++#define CLKEN(n)			((n) << CLKEN_MASK_SHIFT)
++
++/* H/Vscaler register fields */
++#define SCALE_FACTOR_MASK		0xfffff
++#define SCALE_FACTOR(n)			((n) & 0xfffff)
++#define PHASE_OFFSET_MASK		0x1fffff
++#define PHASE_OFFSET(n)			((n) & 0x1fffff)
++#define OUTPUT_SIZE_MASK		0x3fff0000
++#define OUTPUT_SIZE(n)			((((n) - 1) << 16) & OUTPUT_SIZE_MASK)
++#define FILTER_MODE_MASK		0x100
++#define FILTER_MODE(n)			((n) << 8)
++#define SCALE_MODE_MASK			0x10
++#define SCALE_MODE(n)			((n) << 4)
++
++enum dpu_irq {
++	DPU_IRQ_STORE9_SHDLOAD		 = 0,
++	DPU_IRQ_STORE9_FRAMECOMPLETE	 = 1,
++	DPU_IRQ_STORE9_SEQCOMPLETE	 = 2,
++	DPU_IRQ_EXTDST0_SHDLOAD		 = 3,
++	DPU_IRQ_EXTDST0_FRAMECOMPLETE	 = 4,
++	DPU_IRQ_EXTDST0_SEQCOMPLETE	 = 5,
++	DPU_IRQ_EXTDST4_SHDLOAD		 = 6,
++	DPU_IRQ_EXTDST4_FRAMECOMPLETE	 = 7,
++	DPU_IRQ_EXTDST4_SEQCOMPLETE	 = 8,
++	DPU_IRQ_EXTDST1_SHDLOAD		 = 9,
++	DPU_IRQ_EXTDST1_FRAMECOMPLETE	 = 10,
++	DPU_IRQ_EXTDST1_SEQCOMPLETE	 = 11,
++	DPU_IRQ_EXTDST5_SHDLOAD		 = 12,
++	DPU_IRQ_EXTDST5_FRAMECOMPLETE	 = 13,
++	DPU_IRQ_EXTDST5_SEQCOMPLETE	 = 14,
++	DPU_IRQ_DISENGCFG_SHDLOAD0	 = 15,
++	DPU_IRQ_DISENGCFG_FRAMECOMPLETE0 = 16,
++	DPU_IRQ_DISENGCFG_SEQCOMPLETE0	 = 17,
++	DPU_IRQ_FRAMEGEN0_INT0		 = 18,
++	DPU_IRQ_FRAMEGEN0_INT1		 = 19,
++	DPU_IRQ_FRAMEGEN0_INT2		 = 20,
++	DPU_IRQ_FRAMEGEN0_INT3		 = 21,
++	DPU_IRQ_SIG0_SHDLOAD		 = 22,
++	DPU_IRQ_SIG0_VALID		 = 23,
++	DPU_IRQ_SIG0_ERROR		 = 24,
++	DPU_IRQ_DISENGCFG_SHDLOAD1	 = 25,
++	DPU_IRQ_DISENGCFG_FRAMECOMPLETE1 = 26,
++	DPU_IRQ_DISENGCFG_SEQCOMPLETE1	 = 27,
++	DPU_IRQ_FRAMEGEN1_INT0		 = 28,
++	DPU_IRQ_FRAMEGEN1_INT1		 = 29,
++	DPU_IRQ_FRAMEGEN1_INT2		 = 30,
++	DPU_IRQ_FRAMEGEN1_INT3		 = 31,
++	DPU_IRQ_SIG1_SHDLOAD		 = 32,
++	DPU_IRQ_SIG1_VALID		 = 33,
++	DPU_IRQ_SIG1_ERROR		 = 34,
++	DPU_IRQ_RESERVED		 = 35,
++	DPU_IRQ_CMDSEQ_ERROR		 = 36,
++	DPU_IRQ_COMCTRL_SW0		 = 37,
++	DPU_IRQ_COMCTRL_SW1		 = 38,
++	DPU_IRQ_COMCTRL_SW2		 = 39,
++	DPU_IRQ_COMCTRL_SW3		 = 40,
++	DPU_IRQ_FRAMEGEN0_PRIMSYNC_ON	 = 41,
++	DPU_IRQ_FRAMEGEN0_PRIMSYNC_OFF	 = 42,
++	DPU_IRQ_FRAMEGEN0_SECSYNC_ON	 = 43,
++	DPU_IRQ_FRAMEGEN0_SECSYNC_OFF	 = 44,
++	DPU_IRQ_FRAMEGEN1_PRIMSYNC_ON	 = 45,
++	DPU_IRQ_FRAMEGEN1_PRIMSYNC_OFF	 = 46,
++	DPU_IRQ_FRAMEGEN1_SECSYNC_ON	 = 47,
++	DPU_IRQ_FRAMEGEN1_SECSYNC_OFF	 = 48,
++	DPU_IRQ_COUNT			 = 49,
++};
++
++enum dpu_unit_type {
++	DPU_DISP,
++	DPU_BLIT,
++};
++
++struct dpu_soc {
++	struct device		*dev;
++
++	struct device		*pd_dc_dev;
++	struct device		*pd_pll0_dev;
++	struct device		*pd_pll1_dev;
++	struct device_link	*pd_dc_link;
++	struct device_link	*pd_pll0_link;
++	struct device_link	*pd_pll1_link;
++
++	void __iomem		*comctrl_reg;
++
++	struct clk		*clk_cfg;
++	struct clk		*clk_axi;
++
++	int			irq[DPU_IRQ_COUNT];
++
++	struct irq_domain	*domain;
++
++	struct dpu_constframe	*cf_priv[4];
++	struct dpu_disengcfg	*dec_priv[2];
++	struct dpu_extdst	*ed_priv[4];
++	struct dpu_fetchunit	*fd_priv[3];
++	struct dpu_fetchunit	*fe_priv[4];
++	struct dpu_framegen	*fg_priv[2];
++	struct dpu_fetchunit	*fl_priv[1];
++	struct dpu_fetchunit	*fw_priv[2];
++	struct dpu_gammacor	*gc_priv[2];
++	struct dpu_hscaler	*hs_priv[3];
++	struct dpu_layerblend	*lb_priv[4];
++	struct dpu_tcon		*tcon_priv[2];
++	struct dpu_vscaler	*vs_priv[3];
++};
++
++struct dpu_units {
++	const unsigned int *ids;
++	const enum dpu_unit_type *types;
++	const unsigned long *ofss;
++	const unsigned long *pec_ofss;	/* Pixel Engine Configuration */
++	const unsigned int cnt;
++	const char *name;
++
++	/* software initialization */
++	int (*init)(struct dpu_soc *dpu, unsigned int index,
++		    unsigned int id, enum dpu_unit_type type,
++		    unsigned long pec_base, unsigned long base);
++
++	/* hardware initialization */
++	void (*hw_init)(struct dpu_soc *dpu, unsigned int index);
++};
++
++void dpu_cf_hw_init(struct dpu_soc *dpu, unsigned int index);
++void dpu_dec_hw_init(struct dpu_soc *dpu, unsigned int index);
++void dpu_ed_hw_init(struct dpu_soc *dpu, unsigned int index);
++void dpu_fd_hw_init(struct dpu_soc *dpu, unsigned int index);
++void dpu_fe_hw_init(struct dpu_soc *dpu, unsigned int index);
++void dpu_fg_hw_init(struct dpu_soc *dpu, unsigned int index);
++void dpu_fl_hw_init(struct dpu_soc *dpu, unsigned int index);
++void dpu_fw_hw_init(struct dpu_soc *dpu, unsigned int index);
++void dpu_gc_hw_init(struct dpu_soc *dpu, unsigned int index);
++void dpu_hs_hw_init(struct dpu_soc *dpu, unsigned int index);
++void dpu_lb_hw_init(struct dpu_soc *dpu, unsigned int index);
++void dpu_tcon_hw_init(struct dpu_soc *dpu, unsigned int index);
++void dpu_vs_hw_init(struct dpu_soc *dpu, unsigned int index);
++
++int dpu_cf_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long pec_base, unsigned long base);
++
++int dpu_dec_init(struct dpu_soc *dpu, unsigned int index,
++		 unsigned int id, enum dpu_unit_type type,
++		 unsigned long unused, unsigned long base);
++
++int dpu_ed_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long pec_base, unsigned long base);
++
++int dpu_fd_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long pec_base, unsigned long base);
++
++int dpu_fe_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long pec_base, unsigned long base);
++
++int dpu_fg_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long unused, unsigned long base);
++
++int dpu_fl_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long pec_base, unsigned long base);
++
++int dpu_fw_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long pec_base, unsigned long base);
++
++int dpu_gc_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long unused, unsigned long base);
++
++int dpu_hs_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long pec_base, unsigned long base);
++
++int dpu_lb_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long pec_base, unsigned long base);
++
++int dpu_tcon_init(struct dpu_soc *dpu, unsigned int index,
++		  unsigned int id, enum dpu_unit_type type,
++		  unsigned long unused, unsigned long base);
++
++int dpu_vs_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long pec_base, unsigned long base);
++
++#endif /* __DPU_PRV_H__ */
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-tcon.c b/drivers/gpu/drm/imx/dpu/dpu-tcon.c
+new file mode 100644
+index 000000000000..87f8dc38ff73
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-tcon.c
+@@ -0,0 +1,250 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright (C) 2016 Freescale Semiconductor, Inc.
++ * Copyright 2017-2020,2023 NXP
++ */
++
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/mutex.h>
++#include <linux/sizes.h>
++
++#include "dpu.h"
++#include "dpu-prv.h"
++
++#define SSQCNTS			0x0
++#define SSQCYCLE		0x408
++#define SWRESET			0x40c
++
++#define TCON_CTRL		0x410
++#define  CTRL_RST_VAL		0x01401408
++#define  BYPASS			BIT(3)
++
++#define RSDSINVCTRL		0x414
++
++/* red: MAPBIT 29-20, green: MAPBIT 19-10, blue: MAPBIT 9-0 */
++#define MAPBIT3_0		0x418
++#define MAPBIT7_4		0x41c
++#define MAPBIT11_8		0x420
++#define MAPBIT15_12		0x424
++#define MAPBIT19_16		0x428
++#define MAPBIT23_20		0x42c
++#define MAPBIT27_24		0x430
++#define MAPBIT31_28		0x434
++#define MAPBIT34_32		0x438
++#define MAPBIT3_0_DUAL		0x43c
++#define MAPBIT7_4_DUAL		0x440
++#define MAPBIT11_8_DUAL		0x444
++#define MAPBIT15_12_DUAL	0x448
++#define MAPBIT19_16_DUAL	0x44c
++#define MAPBIT23_20_DUAL	0x450
++#define MAPBIT27_24_DUAL	0x454
++#define MAPBIT31_28_DUAL	0x458
++#define MAPBIT34_32_DUAL	0x45c
++
++#define SPGPOSON(n)		(0x460 + (n) * 16)
++#define SPGMASKON(n)		(0x464 + (n) * 16)
++#define SPGPOSOFF(n)		(0x468 + (n) * 16)
++#define SPGMASKOFF(n)		(0x46c + (n) * 16)
++#define  X(n)			(((n) & 0x7fff) << 16)
++#define  Y(n)			((n) & 0x7fff)
++
++#define SMXSIGS(n)		(0x520 + (n) * 8)
++#define SMXFCTTABLE(n)		(0x524 + (n) * 8)
++#define RESET_OVER_UNFERFLOW	0x580
++#define DUAL_DEBUG		0x584
++
++struct dpu_tcon {
++	void __iomem *base;
++	struct mutex mutex;
++	unsigned int id;
++	unsigned int index;
++	bool inuse;
++	struct dpu_soc *dpu;
++};
++
++static inline u32 dpu_tcon_read(struct dpu_tcon *tcon, unsigned int offset)
++{
++	return readl(tcon->base + offset);
++}
++
++static inline void dpu_tcon_write(struct dpu_tcon *tcon,
++				  unsigned int offset, u32 value)
++{
++	writel(value, tcon->base + offset);
++}
++
++static inline void dpu_tcon_write_mask(struct dpu_tcon *tcon,
++				       unsigned int offset, u32 mask, u32 value)
++{
++	u32 tmp;
++
++	tmp = dpu_tcon_read(tcon, offset);
++	tmp &= ~mask;
++	dpu_tcon_write(tcon, offset, tmp | value);
++}
++
++void dpu_tcon_set_fmt(struct dpu_tcon *tcon)
++{
++	/*
++	 * The pixels reach TCON are always in 30-bit BGR format.
++	 * The first bridge always receives pixels in 30-bit RGB format.
++	 * So, map the format to MEDIA_BUS_FMT_RGB101010_1X30.
++	 */
++	dpu_tcon_write(tcon, MAPBIT3_0,   0x17161514);
++	dpu_tcon_write(tcon, MAPBIT7_4,   0x1b1a1918);
++	dpu_tcon_write(tcon, MAPBIT11_8,  0x0b0a1d1c);
++	dpu_tcon_write(tcon, MAPBIT15_12, 0x0f0e0d0c);
++	dpu_tcon_write(tcon, MAPBIT19_16, 0x13121110);
++	dpu_tcon_write(tcon, MAPBIT23_20, 0x03020100);
++	dpu_tcon_write(tcon, MAPBIT27_24, 0x07060504);
++	dpu_tcon_write(tcon, MAPBIT31_28, 0x00000908);
++}
++
++void dpu_tcon_set_operation_mode(struct dpu_tcon *tcon)
++{
++	dpu_tcon_write_mask(tcon, TCON_CTRL, BYPASS, 0);
++}
++
++void dpu_tcon_cfg_videomode(struct dpu_tcon *tcon, struct drm_display_mode *m)
++{
++	int hdisplay, hsync_start, hsync_end;
++	int vdisplay, vsync_start, vsync_end;
++	int y;
++
++	hdisplay = m->hdisplay;
++	vdisplay = m->vdisplay;
++	hsync_start = m->hsync_start;
++	vsync_start = m->vsync_start;
++	hsync_end = m->hsync_end;
++	vsync_end = m->vsync_end;
++
++	/*
++	 * TKT320590:
++	 * Turn TCON into operation mode later after the first dumb frame is
++	 * generated by DPU.  This makes DPR/PRG be able to evade the frame.
++	 */
++	dpu_tcon_write_mask(tcon, TCON_CTRL, BYPASS, BYPASS);
++
++	/* dsp_control[0]: hsync */
++	dpu_tcon_write(tcon, SPGPOSON(0), X(hsync_start));
++	dpu_tcon_write(tcon, SPGMASKON(0), 0xffff);
++
++	dpu_tcon_write(tcon, SPGPOSOFF(0), X(hsync_end));
++	dpu_tcon_write(tcon, SPGMASKOFF(0), 0xffff);
++
++	dpu_tcon_write(tcon, SMXSIGS(0), 0x2);
++	dpu_tcon_write(tcon, SMXFCTTABLE(0), 0x1);
++
++	/* dsp_control[1]: vsync */
++	dpu_tcon_write(tcon, SPGPOSON(1), X(hsync_start) | Y(vsync_start - 1));
++	dpu_tcon_write(tcon, SPGMASKON(1), 0x0);
++
++	dpu_tcon_write(tcon, SPGPOSOFF(1), X(hsync_start) | Y(vsync_end - 1));
++	dpu_tcon_write(tcon, SPGMASKOFF(1), 0x0);
++
++	dpu_tcon_write(tcon, SMXSIGS(1), 0x3);
++	dpu_tcon_write(tcon, SMXFCTTABLE(1), 0x1);
++
++	/* dsp_control[2]: data enable */
++	/* horizontal */
++	dpu_tcon_write(tcon, SPGPOSON(2), 0x0);
++	dpu_tcon_write(tcon, SPGMASKON(2), 0xffff);
++
++	dpu_tcon_write(tcon, SPGPOSOFF(2), X(hdisplay));
++	dpu_tcon_write(tcon, SPGMASKOFF(2), 0xffff);
++
++	/* vertical */
++	dpu_tcon_write(tcon, SPGPOSON(3), 0x0);
++	dpu_tcon_write(tcon, SPGMASKON(3), 0x7fff0000);
++
++	dpu_tcon_write(tcon, SPGPOSOFF(3), Y(vdisplay));
++	dpu_tcon_write(tcon, SPGMASKOFF(3), 0x7fff0000);
++
++	dpu_tcon_write(tcon, SMXSIGS(2), 0x2c);
++	dpu_tcon_write(tcon, SMXFCTTABLE(2), 0x8);
++
++	/* dsp_control[3]: kachuck */
++	y = vdisplay + 1;
++
++	dpu_tcon_write(tcon, SPGPOSON(4), X(0x0) | Y(y));
++	dpu_tcon_write(tcon, SPGMASKON(4), 0x0);
++
++	dpu_tcon_write(tcon, SPGPOSOFF(4), X(0x20) | Y(y));
++	dpu_tcon_write(tcon, SPGMASKOFF(4), 0x0);
++
++	dpu_tcon_write(tcon, SMXSIGS(3), 0x6);
++	dpu_tcon_write(tcon, SMXFCTTABLE(3), 0x2);
++}
++
++struct dpu_tcon *dpu_tcon_get(struct dpu_soc *dpu, unsigned int id)
++{
++	struct dpu_tcon *tcon;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(dpu->tcon_priv); i++) {
++		tcon = dpu->tcon_priv[i];
++		if (tcon->id == id)
++			break;
++	}
++
++	if (i == ARRAY_SIZE(dpu->tcon_priv))
++		return ERR_PTR(-EINVAL);
++
++	mutex_lock(&tcon->mutex);
++
++	if (tcon->inuse) {
++		mutex_unlock(&tcon->mutex);
++		return ERR_PTR(-EBUSY);
++	}
++
++	tcon->inuse = true;
++
++	mutex_unlock(&tcon->mutex);
++
++	return tcon;
++}
++
++void dpu_tcon_put(struct dpu_tcon *tcon)
++{
++	if (IS_ERR_OR_NULL(tcon))
++		return;
++
++	mutex_lock(&tcon->mutex);
++
++	tcon->inuse = false;
++
++	mutex_unlock(&tcon->mutex);
++}
++
++void dpu_tcon_hw_init(struct dpu_soc *dpu, unsigned int index)
++{
++	/* reset TCON_CTRL to POR default so that TCON works in bypass mode */
++	dpu_tcon_write(dpu->tcon_priv[index], TCON_CTRL, CTRL_RST_VAL);
++}
++
++int dpu_tcon_init(struct dpu_soc *dpu, unsigned int index,
++		  unsigned int id, enum dpu_unit_type type,
++		  unsigned long unused, unsigned long base)
++{
++	struct dpu_tcon *tcon;
++
++	tcon = devm_kzalloc(dpu->dev, sizeof(*tcon), GFP_KERNEL);
++	if (!tcon)
++		return -ENOMEM;
++
++	dpu->tcon_priv[index] = tcon;
++
++	tcon->base = devm_ioremap(dpu->dev, base, SZ_2K);
++	if (!tcon->base)
++		return -ENOMEM;
++
++	tcon->dpu = dpu;
++	tcon->id = id;
++	tcon->index = index;
++
++	mutex_init(&tcon->mutex);
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-vscaler.c b/drivers/gpu/drm/imx/dpu/dpu-vscaler.c
+new file mode 100644
+index 000000000000..b49c32a9083f
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu-vscaler.c
+@@ -0,0 +1,308 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/*
++ * Copyright 2017-2020,2022,2023 NXP
++ */
++
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/mutex.h>
++#include <linux/sizes.h>
++
++#include "dpu.h"
++#include "dpu-prv.h"
++
++#define PIXENGCFG_DYNAMIC		0x8
++#define  PIXENGCFG_DYNAMIC_SRC_SEL_MASK	0x3f
++
++#define STATICCONTROL			0x8
++
++#define SETUP(n)			(0xc + ((n) - 1) * 0x4)
++
++#define CONTROL				0x20
++#define  FIELD_MODE_MASK		0x3000
++#define  FIELD_MODE(n)			((n) << 12)
++#define  CTRL_MODE_MASK			BIT(0)
++
++struct dpu_vscaler {
++	void __iomem *pec_base;
++	void __iomem *base;
++	struct mutex mutex;
++	unsigned int id;
++	unsigned int index;
++	enum dpu_link_id link_id;
++	bool inuse;
++	struct dpu_soc *dpu;
++};
++
++static const enum dpu_link_id dpu_vs_link_id[] = {
++	LINK_ID_VSCALER4, LINK_ID_VSCALER5, LINK_ID_VSCALER9
++};
++
++static const enum dpu_link_id src_sels[3][4] = {
++	{
++		LINK_ID_NONE,
++		LINK_ID_FETCHDECODE0,
++		LINK_ID_MATRIX4,
++		LINK_ID_HSCALER4,
++	}, {
++		LINK_ID_NONE,
++		LINK_ID_FETCHDECODE1,
++		LINK_ID_MATRIX5,
++		LINK_ID_HSCALER5,
++	}, {
++		LINK_ID_NONE,
++		LINK_ID_MATRIX9,
++		LINK_ID_HSCALER9,
++	},
++};
++
++static inline u32 dpu_pec_vs_read(struct dpu_vscaler *vs,
++				  unsigned int offset)
++{
++	return readl(vs->pec_base + offset);
++}
++
++static inline void dpu_pec_vs_write(struct dpu_vscaler *vs,
++				    unsigned int offset, u32 value)
++{
++	writel(value, vs->pec_base + offset);
++}
++
++static inline void dpu_pec_vs_write_mask(struct dpu_vscaler *vs,
++					 unsigned int offset,
++					 u32 mask, u32 value)
++{
++	u32 tmp;
++
++	tmp = dpu_pec_vs_read(vs, offset);
++	tmp &= ~mask;
++	dpu_pec_vs_write(vs, offset, tmp | value);
++}
++
++static inline u32 dpu_vs_read(struct dpu_vscaler *vs, unsigned int offset)
++{
++	return readl(vs->base + offset);
++}
++
++static inline void dpu_vs_write(struct dpu_vscaler *vs,
++				unsigned int offset, u32 value)
++{
++	writel(value, vs->base + offset);
++}
++
++static inline void dpu_vs_write_mask(struct dpu_vscaler *vs,
++				     unsigned int offset, u32 mask, u32 value)
++{
++	u32 tmp;
++
++	tmp = dpu_vs_read(vs, offset);
++	tmp &= ~mask;
++	dpu_vs_write(vs, offset, tmp | value);
++}
++
++enum dpu_link_id dpu_vs_get_link_id(struct dpu_vscaler *vs)
++{
++	return vs->link_id;
++}
++
++void dpu_vs_pec_dynamic_src_sel(struct dpu_vscaler *vs, enum dpu_link_id src)
++{
++	struct dpu_soc *dpu = vs->dpu;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(src_sels[vs->index]); i++) {
++		if (src_sels[vs->index][i] == src) {
++			dpu_pec_vs_write_mask(vs, PIXENGCFG_DYNAMIC,
++					      PIXENGCFG_DYNAMIC_SRC_SEL_MASK,
++					      src);
++			return;
++		}
++	}
++
++	dev_err(dpu->dev, "VScaler%u - invalid source 0x%02x\n", vs->id, src);
++}
++
++void dpu_vs_pec_clken(struct dpu_vscaler *vs, enum dpu_pec_clken clken)
++{
++	dpu_pec_vs_write_mask(vs, PIXENGCFG_DYNAMIC, CLKEN_MASK, CLKEN(clken));
++}
++
++static void dpu_vs_enable_shden(struct dpu_vscaler *vs)
++{
++	dpu_vs_write_mask(vs, STATICCONTROL, SHDEN, SHDEN);
++}
++
++void dpu_vs_setup1(struct dpu_vscaler *vs,
++		   unsigned int src_w, unsigned int dst_w, bool deinterlace)
++{
++	struct dpu_soc *dpu = vs->dpu;
++	u32 scale_factor;
++	u64 tmp64;
++
++	if (deinterlace)
++		dst_w *= 2;
++
++	if (src_w == dst_w) {
++		scale_factor = 0x80000;
++	} else {
++		if (src_w > dst_w) {
++			tmp64 = (u64)((u64)dst_w * 0x80000);
++			do_div(tmp64, src_w);
++
++		} else {
++			tmp64 = (u64)((u64)src_w * 0x80000);
++			do_div(tmp64, dst_w);
++		}
++		scale_factor = (u32)tmp64;
++	}
++
++	if (scale_factor > 0x80000) {
++		dev_err(dpu->dev, "VScaler%u - invalid scale factor 0x%08x\n",
++			vs->id, scale_factor);
++		return;
++	}
++
++	dpu_vs_write(vs, SETUP(1), SCALE_FACTOR(scale_factor));
++
++	dev_dbg(dpu->dev, "VScaler%u - scale factor 0x%08x\n",
++		vs->id, scale_factor);
++}
++
++void dpu_vs_setup2(struct dpu_vscaler *vs, bool deinterlace)
++{
++	/* 0x20000: +0.25 phase offset for deinterlace */
++	u32 phase_offset = deinterlace ? 0x20000 : 0;
++
++	dpu_vs_write(vs, SETUP(2), PHASE_OFFSET(phase_offset));
++}
++
++void dpu_vs_setup3(struct dpu_vscaler *vs, bool deinterlace)
++{
++	/* 0x1e0000: -0.25 phase offset for deinterlace */
++	u32 phase_offset = deinterlace ? 0x1e0000 : 0;
++
++	dpu_vs_write(vs, SETUP(3), PHASE_OFFSET(phase_offset));
++}
++
++void dpu_vs_setup4(struct dpu_vscaler *vs, u32 phase_offset)
++{
++	dpu_vs_write(vs, SETUP(4), PHASE_OFFSET(phase_offset));
++}
++
++void dpu_vs_setup5(struct dpu_vscaler *vs, u32 phase_offset)
++{
++	dpu_vs_write(vs, SETUP(5), PHASE_OFFSET(phase_offset));
++}
++
++void dpu_vs_output_size(struct dpu_vscaler *vs, u32 line_num)
++{
++	dpu_vs_write_mask(vs, CONTROL, OUTPUT_SIZE_MASK, OUTPUT_SIZE(line_num));
++}
++
++void dpu_vs_field_mode(struct dpu_vscaler *vs, enum dpu_scaler_field_mode m)
++{
++	dpu_vs_write_mask(vs, CONTROL, FIELD_MODE_MASK, FIELD_MODE(m));
++}
++
++void dpu_vs_filter_mode(struct dpu_vscaler *vs, enum dpu_scaler_filter_mode m)
++{
++	dpu_vs_write_mask(vs, CONTROL, FILTER_MODE_MASK, FILTER_MODE(m));
++}
++
++void dpu_vs_scale_mode(struct dpu_vscaler *vs, enum dpu_scaler_scale_mode m)
++{
++	dpu_vs_write_mask(vs, CONTROL, SCALE_MODE_MASK, SCALE_MODE(m));
++}
++
++void dpu_vs_mode(struct dpu_vscaler *vs, enum dpu_scaler_mode m)
++{
++	dpu_vs_write_mask(vs, CONTROL, CTRL_MODE_MASK, m);
++}
++
++unsigned int dpu_vs_get_id(struct dpu_vscaler *vs)
++{
++	return vs->id;
++}
++
++struct dpu_vscaler *dpu_vs_get(struct dpu_soc *dpu, unsigned int id)
++{
++	struct dpu_vscaler *vs;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(dpu->vs_priv); i++) {
++		vs = dpu->vs_priv[i];
++		if (vs->id == id)
++			break;
++	}
++
++	if (i == ARRAY_SIZE(dpu->vs_priv))
++		return ERR_PTR(-EINVAL);
++
++	mutex_lock(&vs->mutex);
++
++	if (vs->inuse) {
++		mutex_unlock(&vs->mutex);
++		return ERR_PTR(-EBUSY);
++	}
++
++	vs->inuse = true;
++
++	mutex_unlock(&vs->mutex);
++
++	return vs;
++}
++
++void dpu_vs_put(struct dpu_vscaler *vs)
++{
++	if (IS_ERR_OR_NULL(vs))
++		return;
++
++	mutex_lock(&vs->mutex);
++
++	vs->inuse = false;
++
++	mutex_unlock(&vs->mutex);
++}
++
++void dpu_vs_hw_init(struct dpu_soc *dpu, unsigned int index)
++{
++	struct dpu_vscaler *vs = dpu->vs_priv[index];
++
++	dpu_vs_enable_shden(vs);
++	dpu_vs_setup2(vs, false);
++	dpu_vs_setup3(vs, false);
++	dpu_vs_setup4(vs, 0);
++	dpu_vs_setup5(vs, 0);
++	dpu_vs_pec_dynamic_src_sel(vs, LINK_ID_NONE);
++}
++
++int dpu_vs_init(struct dpu_soc *dpu, unsigned int index,
++		unsigned int id, enum dpu_unit_type type,
++		unsigned long pec_base, unsigned long base)
++{
++	struct dpu_vscaler *vs;
++
++	vs = devm_kzalloc(dpu->dev, sizeof(*vs), GFP_KERNEL);
++	if (!vs)
++		return -ENOMEM;
++
++	dpu->vs_priv[index] = vs;
++
++	vs->pec_base = devm_ioremap(dpu->dev, pec_base, SZ_16);
++	if (!vs->pec_base)
++		return -ENOMEM;
++
++	vs->base = devm_ioremap(dpu->dev, base, SZ_32);
++	if (!vs->base)
++		return -ENOMEM;
++
++	vs->dpu = dpu;
++	vs->id = id;
++	vs->index = index;
++	vs->link_id = dpu_vs_link_id[index];
++
++	mutex_init(&vs->mutex);
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/imx/dpu/dpu.h b/drivers/gpu/drm/imx/dpu/dpu.h
+new file mode 100644
+index 000000000000..da5ba3d14c51
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dpu/dpu.h
+@@ -0,0 +1,385 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++
++/*
++ * Copyright (C) 2016 Freescale Semiconductor, Inc.
++ * Copyright 2017-2020,2023 NXP
++ */
++
++#ifndef __DPU_H__
++#define __DPU_H__
++
++#include <linux/of.h>
++#include <linux/types.h>
++
++#include <drm/drm_color_mgmt.h>
++#include <drm/drm_fourcc.h>
++#include <drm/drm_modes.h>
++
++#define DPU_FRAMEGEN_MAX_FRAME_INDEX	0x3ffff
++#define DPU_FRAMEGEN_MAX_CLOCK		300000	/* in KHz */
++
++#define DPU_FETCHUNIT_CAP_USE_FETCHECO	BIT(0)
++#define DPU_FETCHUNIT_CAP_USE_SCALER	BIT(1)
++#define DPU_FETCHUNIT_CAP_PACKED_YUV422	BIT(2)
++
++struct dpu_dprc;
++struct dpu_fetchunit;
++struct dpu_soc;
++
++enum dpu_link_id {
++	LINK_ID_NONE		= 0x00,
++	LINK_ID_FETCHDECODE9	= 0x01,
++	LINK_ID_FETCHWARP9	= 0x02,
++	LINK_ID_FETCHECO9	= 0x03,
++	LINK_ID_ROP9		= 0x04,
++	LINK_ID_CLUT9		= 0x05,
++	LINK_ID_MATRIX9		= 0x06,
++	LINK_ID_HSCALER9	= 0x07,
++	LINK_ID_VSCALER9	= 0x08,
++	LINK_ID_FILTER9		= 0x09,
++	LINK_ID_BLITBLEND9	= 0x0a,
++	LINK_ID_CONSTFRAME0	= 0x0c,
++	LINK_ID_CONSTFRAME4	= 0x0e,
++	LINK_ID_CONSTFRAME1	= 0x10,
++	LINK_ID_CONSTFRAME5	= 0x12,
++	LINK_ID_FETCHWARP2	= 0x14,
++	LINK_ID_FETCHECO2	= 0x15,
++	LINK_ID_FETCHDECODE0	= 0x16,
++	LINK_ID_FETCHECO0	= 0x17,
++	LINK_ID_FETCHDECODE1	= 0x18,
++	LINK_ID_FETCHECO1	= 0x19,
++	LINK_ID_FETCHLAYER0	= 0x1a,
++	LINK_ID_MATRIX4		= 0x1b,
++	LINK_ID_HSCALER4	= 0x1c,
++	LINK_ID_VSCALER4	= 0x1d,
++	LINK_ID_MATRIX5		= 0x1e,
++	LINK_ID_HSCALER5	= 0x1f,
++	LINK_ID_VSCALER5	= 0x20,
++	LINK_ID_LAYERBLEND0	= 0x21,
++	LINK_ID_LAYERBLEND1	= 0x22,
++	LINK_ID_LAYERBLEND2	= 0x23,
++	LINK_ID_LAYERBLEND3	= 0x24,
++};
++
++enum dpu_fg_syncmode {
++	FG_SYNCMODE_OFF,	/* No side-by-side synchronization. */
++	FG_SYNCMODE_MASTER,	/* Framegen is master. */
++	FG_SYNCMODE_SLAVE_CYC,	/* Runs in cyclic synchronization mode. */
++	FG_SYNCMODE_SLAVE_ONCE,	/* Runs in one time synchronization mode. */
++};
++
++enum dpu_fg_dm {
++	FG_DM_BLACK,
++	FG_DM_CONSTCOL,	/* Constant Color Background is shown. */
++	FG_DM_PRIM,
++	FG_DM_SEC,
++	FG_DM_PRIM_ON_TOP,
++	FG_DM_SEC_ON_TOP,
++	FG_DM_TEST,	/* White color background with test pattern is shown. */
++};
++
++enum dpu_gc_mode {
++	GC_NEUTRAL,	/* Input data is bypassed to the output. */
++	GC_GAMMACOR,
++};
++
++enum dpu_lb_mode {
++	LB_NEUTRAL,	/* Output is same as primary input. */
++	LB_BLEND,
++};
++
++enum dpu_scaler_field_mode {
++	/* Constant 0 indicates frame or top field. */
++	SCALER_ALWAYS0,
++	/* Constant 1 indicates bottom field. */
++	SCALER_ALWAYS1,
++	/* Output field polarity is taken from input field polarity. */
++	SCALER_INPUT,
++	/* Output field polarity toggles, starting with 0 after reset. */
++	SCALER_TOGGLE,
++};
++
++enum dpu_scaler_filter_mode {
++	SCALER_NEAREST,	/* pointer-sampling */
++	SCALER_LINEAR,	/* box filter */
++};
++
++enum dpu_scaler_scale_mode {
++	SCALER_DOWNSCALE,
++	SCALER_UPSCALE,
++};
++
++enum dpu_scaler_mode {
++	/* Pixel by-pass the scaler, all other settings are ignored. */
++	SCALER_NEUTRAL,
++	/* Scaler is active. */
++	SCALER_ACTIVE,
++};
++
++enum dpu_pec_clken {
++	CLKEN_DISABLE = 0x0,
++	CLKEN_AUTOMATIC = 0x1,
++	CLKEN_FULL = 0x3,
++};
++
++int dpu_map_irq(struct dpu_soc *dpu, int irq);
++
++/* Constant Frame Unit */
++struct dpu_constframe;
++enum dpu_link_id dpu_cf_get_link_id(struct dpu_constframe *cf);
++void dpu_cf_framedimensions(struct dpu_constframe *cf, unsigned int w,
++			    unsigned int h);
++void dpu_cf_constantcolor_black(struct dpu_constframe *cf);
++void dpu_cf_constantcolor_blue(struct dpu_constframe *cf);
++struct dpu_constframe *dpu_cf_safe_get(struct dpu_soc *dpu,
++				       unsigned int stream_id);
++void dpu_cf_safe_put(struct dpu_constframe *cf);
++struct dpu_constframe *dpu_cf_cont_get(struct dpu_soc *dpu,
++				       unsigned int stream_id);
++void dpu_cf_cont_put(struct dpu_constframe *cf);
++
++/* Display Engine Configuration Unit */
++struct dpu_disengcfg;
++struct dpu_disengcfg *dpu_dec_get(struct dpu_soc *dpu, unsigned int id);
++void dpu_dec_put(struct dpu_disengcfg *dec);
++
++/* External Destination Unit */
++struct dpu_extdst;
++void dpu_ed_pec_poweron(struct dpu_extdst *ed);
++void dpu_ed_pec_src_sel(struct dpu_extdst *ed, enum dpu_link_id src);
++void dpu_ed_pec_sync_trigger(struct dpu_extdst *ed);
++struct dpu_extdst *dpu_ed_safe_get(struct dpu_soc *dpu,
++				   unsigned int stream_id);
++void dpu_ed_safe_put(struct dpu_extdst *ed);
++struct dpu_extdst *dpu_ed_cont_get(struct dpu_soc *dpu,
++				   unsigned int stream_id);
++void dpu_ed_cont_put(struct dpu_extdst *ed);
++
++/* Fetch Decode Unit */
++struct dpu_fetchunit *dpu_fd_get(struct dpu_soc *dpu, unsigned int id);
++void dpu_fd_put(struct dpu_fetchunit *fu);
++
++/* Fetch ECO Unit */
++struct dpu_fetchunit *dpu_fe_get(struct dpu_soc *dpu, unsigned int id);
++void dpu_fe_put(struct dpu_fetchunit *fu);
++
++/* Fetch Layer Unit */
++struct dpu_fetchunit *dpu_fl_get(struct dpu_soc *dpu, unsigned int id);
++void dpu_fl_put(struct dpu_fetchunit *fu);
++
++/* Fetch Warp Unit */
++struct dpu_fetchunit *dpu_fw_get(struct dpu_soc *dpu, unsigned int id);
++void dpu_fw_put(struct dpu_fetchunit *fu);
++
++/* Frame Generator Unit */
++struct dpu_framegen;
++void dpu_fg_syncmode(struct dpu_framegen *fg, enum dpu_fg_syncmode mode);
++void dpu_fg_cfg_videomode(struct dpu_framegen *fg, struct drm_display_mode *m);
++void dpu_fg_displaymode(struct dpu_framegen *fg, enum dpu_fg_dm mode);
++void dpu_fg_panic_displaymode(struct dpu_framegen *fg, enum dpu_fg_dm mode);
++void dpu_fg_enable(struct dpu_framegen *fg);
++void dpu_fg_disable(struct dpu_framegen *fg);
++void dpu_fg_shdtokgen(struct dpu_framegen *fg);
++u32 dpu_fg_get_frame_index(struct dpu_framegen *fg);
++int dpu_fg_get_line_index(struct dpu_framegen *fg);
++int dpu_fg_wait_for_frame_counter_moving(struct dpu_framegen *fg);
++bool dpu_fg_secondary_requests_to_read_empty_fifo(struct dpu_framegen *fg);
++void dpu_fg_secondary_clear_channel_status(struct dpu_framegen *fg);
++int dpu_fg_wait_for_secondary_syncup(struct dpu_framegen *fg);
++void dpu_fg_enable_clock(struct dpu_framegen *fg);
++void dpu_fg_disable_clock(struct dpu_framegen *fg);
++struct dpu_framegen *dpu_fg_get(struct dpu_soc *dpu, unsigned int id);
++void dpu_fg_put(struct dpu_framegen *fg);
++
++/* Gamma Correction Unit */
++struct dpu_gammacor;
++void dpu_gc_enable_rgb_write(struct dpu_gammacor *gc);
++void dpu_gc_disable_rgb_write(struct dpu_gammacor *gc);
++void dpu_gc_start_rgb(struct dpu_gammacor *gc, const struct drm_color_lut *lut);
++void dpu_gc_delta_rgb(struct dpu_gammacor *gc, const struct drm_color_lut *lut);
++void dpu_gc_mode(struct dpu_gammacor *gc, enum dpu_gc_mode mode);
++struct dpu_gammacor *dpu_gc_get(struct dpu_soc *dpu, unsigned int id);
++void dpu_gc_put(struct dpu_gammacor *gc);
++
++/* Horizontal Scaler Unit */
++struct dpu_hscaler;
++enum dpu_link_id dpu_hs_get_link_id(struct dpu_hscaler *hs);
++void dpu_hs_pec_dynamic_src_sel(struct dpu_hscaler *hs, enum dpu_link_id src);
++void dpu_hs_pec_clken(struct dpu_hscaler *hs, enum dpu_pec_clken clken);
++void dpu_hs_setup1(struct dpu_hscaler *hs,
++		   unsigned int src_w, unsigned int dst_w);
++void dpu_hs_setup2(struct dpu_hscaler *hs, u32 phase_offset);
++void dpu_hs_output_size(struct dpu_hscaler *hs, u32 line_num);
++void dpu_hs_filter_mode(struct dpu_hscaler *hs, enum dpu_scaler_filter_mode m);
++void dpu_hs_scale_mode(struct dpu_hscaler *hs, enum dpu_scaler_scale_mode m);
++void dpu_hs_mode(struct dpu_hscaler *hs, enum dpu_scaler_mode m);
++unsigned int dpu_hs_get_id(struct dpu_hscaler *hs);
++struct dpu_hscaler *dpu_hs_get(struct dpu_soc *dpu, unsigned int id);
++void dpu_hs_put(struct dpu_hscaler *hs);
++
++/* Layer Blend Unit */
++struct dpu_layerblend;
++enum dpu_link_id dpu_lb_get_link_id(struct dpu_layerblend *lb);
++void dpu_lb_pec_dynamic_prim_sel(struct dpu_layerblend *lb,
++				 enum dpu_link_id prim);
++void dpu_lb_pec_dynamic_sec_sel(struct dpu_layerblend *lb,
++				enum dpu_link_id sec);
++void dpu_lb_pec_clken(struct dpu_layerblend *lb, enum dpu_pec_clken clken);
++void dpu_lb_mode(struct dpu_layerblend *lb, enum dpu_lb_mode mode);
++void dpu_lb_blendcontrol(struct dpu_layerblend *lb, unsigned int zpos,
++			 unsigned int pixel_blend_mode, u16 alpha);
++void dpu_lb_position(struct dpu_layerblend *lb, int x, int y);
++unsigned int dpu_lb_get_id(struct dpu_layerblend *lb);
++struct dpu_layerblend *dpu_lb_get(struct dpu_soc *dpu, unsigned int id);
++void dpu_lb_put(struct dpu_layerblend *lb);
++
++/* Timing Controller Unit */
++struct dpu_tcon;
++void dpu_tcon_set_fmt(struct dpu_tcon *tcon);
++void dpu_tcon_set_operation_mode(struct dpu_tcon *tcon);
++void dpu_tcon_cfg_videomode(struct dpu_tcon *tcon, struct drm_display_mode *m);
++struct dpu_tcon *dpu_tcon_get(struct dpu_soc *dpu, unsigned int id);
++void dpu_tcon_put(struct dpu_tcon *tcon);
++
++/* Vertical Scaler Unit */
++struct dpu_vscaler;
++enum dpu_link_id dpu_vs_get_link_id(struct dpu_vscaler *vs);
++void dpu_vs_pec_dynamic_src_sel(struct dpu_vscaler *vs, enum dpu_link_id src);
++void dpu_vs_pec_clken(struct dpu_vscaler *vs, enum dpu_pec_clken clken);
++void dpu_vs_setup1(struct dpu_vscaler *vs,
++		   unsigned int src_w, unsigned int dst_w, bool deinterlace);
++void dpu_vs_setup2(struct dpu_vscaler *vs, bool deinterlace);
++void dpu_vs_setup3(struct dpu_vscaler *vs, bool deinterlace);
++void dpu_vs_setup4(struct dpu_vscaler *vs, u32 phase_offset);
++void dpu_vs_setup5(struct dpu_vscaler *vs, u32 phase_offset);
++void dpu_vs_output_size(struct dpu_vscaler *vs, u32 line_num);
++void dpu_vs_field_mode(struct dpu_vscaler *vs, enum dpu_scaler_field_mode m);
++void dpu_vs_filter_mode(struct dpu_vscaler *vs, enum dpu_scaler_filter_mode m);
++void dpu_vs_scale_mode(struct dpu_vscaler *vs, enum dpu_scaler_scale_mode m);
++void dpu_vs_mode(struct dpu_vscaler *vs, enum dpu_scaler_mode m);
++unsigned int dpu_vs_get_id(struct dpu_vscaler *vs);
++struct dpu_vscaler *dpu_vs_get(struct dpu_soc *dpu, unsigned int id);
++void dpu_vs_put(struct dpu_vscaler *vs);
++
++/* Fetch Units */
++struct dpu_fetchunit_ops {
++	void (*set_pec_dynamic_src_sel)(struct dpu_fetchunit *fu,
++					enum dpu_link_id src);
++
++	bool (*is_enabled)(struct dpu_fetchunit *fu);
++
++	void (*set_stream_id)(struct dpu_fetchunit *fu, unsigned int stream_id);
++
++	unsigned int (*get_stream_id)(struct dpu_fetchunit *fu);
++
++	void (*set_no_stream_id)(struct dpu_fetchunit *fu);
++
++	bool (*has_stream_id)(struct dpu_fetchunit *fu);
++
++	void (*set_numbuffers)(struct dpu_fetchunit *fu, unsigned int num);
++
++	void (*set_burstlength)(struct dpu_fetchunit *fu,
++				unsigned int x_offset, unsigned int mt_w,
++				int bpp, dma_addr_t baddr);
++
++	void (*set_baseaddress)(struct dpu_fetchunit *fu, unsigned int width,
++				unsigned int x_offset, unsigned int y_offset,
++				unsigned int mt_w, unsigned int mt_h,
++				int bpp, dma_addr_t baddr);
++
++	void (*set_src_stride)(struct dpu_fetchunit *fu,
++			       unsigned int width, unsigned int x_offset,
++			       unsigned int mt_w, int bpp, unsigned int stride,
++			       dma_addr_t baddr);
++
++	void (*set_src_buf_dimensions)(struct dpu_fetchunit *fu,
++				       unsigned int w, unsigned int h,
++				       const struct drm_format_info *format,
++				       bool deinterlace);
++
++	void (*set_fmt)(struct dpu_fetchunit *fu,
++			const struct drm_format_info *format,
++			enum drm_color_encoding color_encoding,
++			enum drm_color_range color_range,
++			bool deinterlace);
++
++	void (*set_pixel_blend_mode)(struct dpu_fetchunit *fu,
++				     unsigned int pixel_blend_mode, u16 alpha,
++				     bool fb_format_has_alpha);
++
++	void (*enable_src_buf)(struct dpu_fetchunit *fu);
++	void (*disable_src_buf)(struct dpu_fetchunit *fu);
++
++	void (*set_framedimensions)(struct dpu_fetchunit *fu,
++				    unsigned int w, unsigned int h,
++				    bool deinterlace);
++
++	struct dpu_dprc *(*get_dprc)(struct dpu_fetchunit *fu);
++	struct dpu_fetchunit *(*get_fetcheco)(struct dpu_fetchunit *fu);
++	struct dpu_hscaler *(*get_hscaler)(struct dpu_fetchunit *fu);
++	struct dpu_vscaler *(*get_vscaler)(struct dpu_fetchunit *fu);
++
++	void (*set_layerblend)(struct dpu_fetchunit *fu,
++			       struct dpu_layerblend *lb);
++
++	bool (*is_available)(struct dpu_fetchunit *fu);
++	void (*set_available)(struct dpu_fetchunit *fu);
++	void (*set_inavailable)(struct dpu_fetchunit *fu);
++
++	enum dpu_link_id (*get_link_id)(struct dpu_fetchunit *fu);
++
++	u32 (*get_cap_mask)(struct dpu_fetchunit *fu);
++
++	const char *(*get_name)(struct dpu_fetchunit *fu);
++};
++
++const struct dpu_fetchunit_ops *dpu_fu_get_ops(struct dpu_fetchunit *fu);
++struct dpu_fetchunit *dpu_fu_get_from_list(struct list_head *l);
++void dpu_fu_add_to_list(struct dpu_fetchunit *fu, struct list_head *l);
++
++/* HW resources for a plane group */
++struct dpu_plane_res {
++	struct dpu_fetchunit	**fd;
++	struct dpu_fetchunit	**fe;
++	struct dpu_fetchunit	**fl;
++	struct dpu_fetchunit	**fw;
++	struct dpu_layerblend	**lb;
++	unsigned int		fd_cnt;
++	unsigned int		fe_cnt;
++	unsigned int		fl_cnt;
++	unsigned int		fw_cnt;
++	unsigned int		lb_cnt;
++};
++
++/*
++ * fetchunit/scaler/layerblend resources of a plane group are
++ * shared by the two CRTCs in a CRTC group
++ */
++struct dpu_plane_grp {
++	struct dpu_plane_res	res;
++	struct list_head	node;
++	struct list_head	fu_list;
++	unsigned int		hw_plane_cnt;
++	struct dpu_constframe	*cf[2];
++	struct dpu_extdst	*ed[2];
++};
++
++/* the two CRTCs of one DPU are in a CRTC group */
++struct dpu_crtc_grp {
++	u32			crtc_mask;
++	struct dpu_plane_grp	*plane_grp;
++};
++
++struct dpu_client_platformdata {
++	const unsigned int	stream_id;
++	const unsigned int	dec_frame_complete_irq;
++	const unsigned int	dec_seq_complete_irq;
++	const unsigned int	dec_shdld_irq;
++	const unsigned int	ed_cont_shdld_irq;
++	const unsigned int	ed_safe_shdld_irq;
++	struct dpu_crtc_grp	*crtc_grp;
++
++	struct device_node	*of_node;
++};
++
++#endif /* __DPU_H__ */
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.37.1
 
---OCS9MZcOQFoTHvxM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename=config
-
-#
-# Automatically generated file; DO NOT EDIT.
-# Linux/ia64 6.1.0-rc6 Kernel Configuration
-#
-CONFIG_CC_VERSION_TEXT="ia64-linux-gcc (GCC) 12.1.0"
-CONFIG_CC_IS_GCC=y
-CONFIG_GCC_VERSION=120100
-CONFIG_CLANG_VERSION=0
-CONFIG_AS_IS_GNU=y
-CONFIG_AS_VERSION=23800
-CONFIG_LD_IS_BFD=y
-CONFIG_LD_VERSION=23800
-CONFIG_LLD_VERSION=0
-CONFIG_CC_HAS_ASM_INLINE=y
-CONFIG_CC_HAS_NO_PROFILE_FN_ATTR=y
-CONFIG_PAHOLE_VERSION=123
-CONFIG_CONSTRUCTORS=y
-CONFIG_IRQ_WORK=y
-
-#
-# General setup
-#
-CONFIG_INIT_ENV_ARG_LIMIT=32
-CONFIG_COMPILE_TEST=y
-# CONFIG_WERROR is not set
-CONFIG_LOCALVERSION=""
-CONFIG_BUILD_SALT=""
-CONFIG_DEFAULT_INIT=""
-CONFIG_DEFAULT_HOSTNAME="(none)"
-CONFIG_SYSVIPC=y
-CONFIG_SYSVIPC_SYSCTL=y
-CONFIG_POSIX_MQUEUE=y
-CONFIG_POSIX_MQUEUE_SYSCTL=y
-CONFIG_WATCH_QUEUE=y
-CONFIG_CROSS_MEMORY_ATTACH=y
-CONFIG_USELIB=y
-CONFIG_AUDIT=y
-CONFIG_HAVE_ARCH_AUDITSYSCALL=y
-CONFIG_AUDITSYSCALL=y
-
-#
-# IRQ subsystem
-#
-CONFIG_GENERIC_IRQ_LEGACY=y
-CONFIG_GENERIC_IRQ_PROBE=y
-CONFIG_GENERIC_IRQ_SHOW=y
-CONFIG_GENERIC_PENDING_IRQ=y
-CONFIG_GENERIC_IRQ_INJECTION=y
-CONFIG_GENERIC_IRQ_CHIP=y
-CONFIG_IRQ_DOMAIN=y
-CONFIG_IRQ_SIM=y
-CONFIG_IRQ_DOMAIN_HIERARCHY=y
-CONFIG_IRQ_FASTEOI_HIERARCHY_HANDLERS=y
-CONFIG_GENERIC_MSI_IRQ=y
-CONFIG_GENERIC_MSI_IRQ_DOMAIN=y
-CONFIG_IRQ_MSI_IOMMU=y
-CONFIG_GENERIC_IRQ_DEBUGFS=y
-# end of IRQ subsystem
-
-CONFIG_ARCH_CLOCKSOURCE_DATA=y
-CONFIG_GENERIC_TIME_VSYSCALL=y
-CONFIG_LEGACY_TIMER_TICK=y
-CONFIG_TIME_KUNIT_TEST=y
-CONFIG_CONTEXT_TRACKING=y
-CONFIG_CONTEXT_TRACKING_IDLE=y
-CONFIG_BPF=y
-
-#
-# BPF subsystem
-#
-CONFIG_BPF_SYSCALL=y
-CONFIG_BPF_UNPRIV_DEFAULT_OFF=y
-CONFIG_USERMODE_DRIVER=y
-# end of BPF subsystem
-
-CONFIG_PREEMPT_NONE_BUILD=y
-CONFIG_PREEMPT_NONE=y
-# CONFIG_PREEMPT_VOLUNTARY is not set
-# CONFIG_PREEMPT is not set
-CONFIG_PREEMPT_COUNT=y
-CONFIG_SCHED_CORE=y
-
-#
-# CPU/Task time and stats accounting
-#
-CONFIG_TICK_CPU_ACCOUNTING=y
-# CONFIG_VIRT_CPU_ACCOUNTING_NATIVE is not set
-CONFIG_BSD_PROCESS_ACCT=y
-CONFIG_BSD_PROCESS_ACCT_V3=y
-CONFIG_TASKSTATS=y
-CONFIG_TASK_DELAY_ACCT=y
-CONFIG_TASK_XACCT=y
-CONFIG_TASK_IO_ACCOUNTING=y
-CONFIG_PSI=y
-CONFIG_PSI_DEFAULT_DISABLED=y
-# end of CPU/Task time and stats accounting
-
-CONFIG_CPU_ISOLATION=y
-
-#
-# RCU Subsystem
-#
-CONFIG_TREE_RCU=y
-CONFIG_RCU_EXPERT=y
-CONFIG_SRCU=y
-CONFIG_TREE_SRCU=y
-CONFIG_TASKS_RCU_GENERIC=y
-CONFIG_FORCE_TASKS_RCU=y
-CONFIG_TASKS_RCU=y
-CONFIG_FORCE_TASKS_RUDE_RCU=y
-CONFIG_TASKS_RUDE_RCU=y
-CONFIG_FORCE_TASKS_TRACE_RCU=y
-CONFIG_TASKS_TRACE_RCU=y
-CONFIG_RCU_STALL_COMMON=y
-CONFIG_RCU_NEED_SEGCBLIST=y
-CONFIG_RCU_FANOUT=64
-CONFIG_RCU_FANOUT_LEAF=16
-CONFIG_RCU_NOCB_CPU=y
-CONFIG_RCU_NOCB_CPU_DEFAULT_ALL=y
-CONFIG_TASKS_TRACE_RCU_READ_MB=y
-# end of RCU Subsystem
-
-CONFIG_BUILD_BIN2C=y
-CONFIG_IKCONFIG=y
-CONFIG_IKCONFIG_PROC=y
-CONFIG_IKHEADERS=y
-CONFIG_LOG_BUF_SHIFT=17
-CONFIG_LOG_CPU_MAX_BUF_SHIFT=12
-CONFIG_PRINTK_SAFE_LOG_BUF_SHIFT=13
-CONFIG_PRINTK_INDEX=y
-CONFIG_HAVE_UNSTABLE_SCHED_CLOCK=y
-
-#
-# Scheduler features
-#
-CONFIG_UCLAMP_TASK=y
-CONFIG_UCLAMP_BUCKETS_COUNT=5
-# end of Scheduler features
-
-CONFIG_CC_HAS_INT128=y
-CONFIG_CC_IMPLICIT_FALLTHROUGH="-Wimplicit-fallthrough=5"
-CONFIG_GCC12_NO_ARRAY_BOUNDS=y
-CONFIG_CC_NO_ARRAY_BOUNDS=y
-CONFIG_CGROUPS=y
-CONFIG_PAGE_COUNTER=y
-CONFIG_CGROUP_FAVOR_DYNMODS=y
-CONFIG_MEMCG=y
-CONFIG_MEMCG_KMEM=y
-CONFIG_BLK_CGROUP=y
-CONFIG_CGROUP_WRITEBACK=y
-CONFIG_CGROUP_SCHED=y
-CONFIG_FAIR_GROUP_SCHED=y
-CONFIG_CFS_BANDWIDTH=y
-CONFIG_RT_GROUP_SCHED=y
-CONFIG_UCLAMP_TASK_GROUP=y
-CONFIG_CGROUP_PIDS=y
-CONFIG_CGROUP_RDMA=y
-CONFIG_CGROUP_FREEZER=y
-CONFIG_CGROUP_HUGETLB=y
-CONFIG_CPUSETS=y
-CONFIG_PROC_PID_CPUSET=y
-CONFIG_CGROUP_DEVICE=y
-CONFIG_CGROUP_CPUACCT=y
-CONFIG_CGROUP_BPF=y
-CONFIG_CGROUP_MISC=y
-CONFIG_CGROUP_DEBUG=y
-CONFIG_SOCK_CGROUP_DATA=y
-CONFIG_NAMESPACES=y
-CONFIG_UTS_NS=y
-CONFIG_IPC_NS=y
-CONFIG_USER_NS=y
-CONFIG_PID_NS=y
-CONFIG_NET_NS=y
-CONFIG_CHECKPOINT_RESTORE=y
-CONFIG_SCHED_AUTOGROUP=y
-CONFIG_SYSFS_DEPRECATED=y
-CONFIG_SYSFS_DEPRECATED_V2=y
-CONFIG_RELAY=y
-CONFIG_BLK_DEV_INITRD=y
-CONFIG_INITRAMFS_SOURCE=""
-CONFIG_RD_GZIP=y
-CONFIG_RD_BZIP2=y
-CONFIG_RD_LZMA=y
-CONFIG_RD_XZ=y
-CONFIG_RD_LZO=y
-CONFIG_RD_LZ4=y
-CONFIG_RD_ZSTD=y
-CONFIG_BOOT_CONFIG=y
-CONFIG_BOOT_CONFIG_EMBED=y
-CONFIG_BOOT_CONFIG_EMBED_FILE=""
-CONFIG_INITRAMFS_PRESERVE_MTIME=y
-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE=y
-# CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
-CONFIG_SYSCTL=y
-CONFIG_SYSCTL_ARCH_UNALIGN_NO_WARN=y
-CONFIG_EXPERT=y
-CONFIG_MULTIUSER=y
-CONFIG_SGETMASK_SYSCALL=y
-CONFIG_SYSFS_SYSCALL=y
-CONFIG_FHANDLE=y
-CONFIG_POSIX_TIMERS=y
-CONFIG_PRINTK=y
-CONFIG_BUG=y
-CONFIG_ELF_CORE=y
-CONFIG_BASE_FULL=y
-CONFIG_FUTEX=y
-CONFIG_FUTEX_PI=y
-CONFIG_EPOLL=y
-CONFIG_SIGNALFD=y
-CONFIG_TIMERFD=y
-CONFIG_EVENTFD=y
-CONFIG_SHMEM=y
-CONFIG_AIO=y
-CONFIG_IO_URING=y
-CONFIG_ADVISE_SYSCALLS=y
-CONFIG_MEMBARRIER=y
-CONFIG_KALLSYMS=y
-CONFIG_KALLSYMS_ALL=y
-CONFIG_KCMP=y
-CONFIG_EMBEDDED=y
-CONFIG_PC104=y
-
-#
-# Kernel Performance Events And Counters
-#
-# end of Kernel Performance Events And Counters
-
-CONFIG_SYSTEM_DATA_VERIFICATION=y
-CONFIG_PROFILING=y
-# end of General setup
-
-CONFIG_PGTABLE_LEVELS=3
-
-#
-# Processor type and features
-#
-CONFIG_IA64=y
-CONFIG_64BIT=y
-CONFIG_MMU=y
-CONFIG_STACKTRACE_SUPPORT=y
-CONFIG_GENERIC_CALIBRATE_DELAY=y
-CONFIG_DMI=y
-CONFIG_EFI=y
-CONFIG_SCHED_OMIT_FRAME_POINTER=y
-CONFIG_IA64_UNCACHED_ALLOCATOR=y
-CONFIG_ARCH_USES_PG_UNCACHED=y
-CONFIG_AUDIT_ARCH=y
-CONFIG_ITANIUM=y
-# CONFIG_MCKINLEY is not set
-# CONFIG_IA64_PAGE_SIZE_4KB is not set
-# CONFIG_IA64_PAGE_SIZE_8KB is not set
-CONFIG_IA64_PAGE_SIZE_16KB=y
-# CONFIG_HZ_100 is not set
-CONFIG_HZ_250=y
-# CONFIG_HZ_300 is not set
-# CONFIG_HZ_1000 is not set
-CONFIG_HZ=250
-CONFIG_IA64_BRL_EMU=y
-CONFIG_IA64_L1_CACHE_SHIFT=6
-CONFIG_IA64_SGI_UV=y
-CONFIG_IA64_HP_SBA_IOMMU=y
-CONFIG_IA64_CYCLONE=y
-CONFIG_ARCH_FORCE_MAX_ORDER=17
-CONFIG_SMP=y
-CONFIG_NR_CPUS=4096
-CONFIG_HOTPLUG_CPU=y
-CONFIG_SCHED_SMT=y
-CONFIG_PERMIT_BSP_REMOVE=y
-CONFIG_FORCE_CPEI_RETARGET=y
-CONFIG_ARCH_SELECT_MEMORY_MODEL=y
-CONFIG_ARCH_FLATMEM_ENABLE=y
-CONFIG_ARCH_SPARSEMEM_ENABLE=y
-CONFIG_ARCH_SPARSEMEM_DEFAULT=y
-CONFIG_NUMA=y
-CONFIG_NODES_SHIFT=10
-CONFIG_HAVE_ARCH_NODEDATA_EXTENSION=y
-CONFIG_HAVE_MEMORYLESS_NODES=y
-CONFIG_ARCH_PROC_KCORE_TEXT=y
-CONFIG_IA64_MCA_RECOVERY=y
-CONFIG_IA64_PALINFO=y
-CONFIG_IA64_MC_ERR_INJECT=y
-CONFIG_IA64_ESI=y
-CONFIG_IA64_HP_AML_NFW=y
-CONFIG_KEXEC=y
-CONFIG_CRASH_DUMP=y
-# end of Processor type and features
-
-#
-# Power management and ACPI options
-#
-CONFIG_PM=y
-CONFIG_PM_DEBUG=y
-CONFIG_PM_ADVANCED_DEBUG=y
-CONFIG_DPM_WATCHDOG=y
-CONFIG_DPM_WATCHDOG_TIMEOUT=120
-CONFIG_PM_CLK=y
-CONFIG_PM_GENERIC_DOMAINS=y
-CONFIG_WQ_POWER_EFFICIENT_DEFAULT=y
-CONFIG_PM_GENERIC_DOMAINS_OF=y
-CONFIG_ENERGY_MODEL=y
-CONFIG_ARCH_SUPPORTS_ACPI=y
-CONFIG_ACPI=y
-CONFIG_ARCH_MIGHT_HAVE_ACPI_PDC=y
-CONFIG_ACPI_SYSTEM_POWER_STATES_SUPPORT=y
-CONFIG_ACPI_TABLE_LIB=y
-CONFIG_ACPI_DEBUGGER=y
-CONFIG_ACPI_DEBUGGER_USER=y
-CONFIG_ACPI_SPCR_TABLE=y
-CONFIG_ACPI_EC_DEBUGFS=y
-CONFIG_ACPI_AC=y
-CONFIG_ACPI_BATTERY=y
-CONFIG_ACPI_BUTTON=y
-CONFIG_ACPI_VIDEO=y
-CONFIG_ACPI_FAN=y
-CONFIG_ACPI_DOCK=y
-CONFIG_ACPI_CPU_FREQ_PSS=y
-CONFIG_ACPI_PROCESSOR_CSTATE=y
-CONFIG_ACPI_PROCESSOR_IDLE=y
-CONFIG_ACPI_PROCESSOR=y
-CONFIG_ACPI_IPMI=y
-CONFIG_ACPI_HOTPLUG_CPU=y
-CONFIG_ACPI_THERMAL=y
-CONFIG_ACPI_PLATFORM_PROFILE=y
-CONFIG_ACPI_DEBUG=y
-CONFIG_ACPI_PCI_SLOT=y
-CONFIG_ACPI_CONTAINER=y
-CONFIG_ACPI_HOTPLUG_MEMORY=y
-CONFIG_ACPI_HED=y
-CONFIG_ACPI_CUSTOM_METHOD=y
-CONFIG_ACPI_REDUCED_HARDWARE_ONLY=y
-CONFIG_ACPI_NUMA=y
-CONFIG_ACPI_HMAT=y
-CONFIG_ACPI_WATCHDOG=y
-CONFIG_ACPI_CONFIGFS=y
-CONFIG_ACPI_PFRUT=y
-CONFIG_ACPI_PCC=y
-CONFIG_PMIC_OPREGION=y
-CONFIG_BYTCRC_PMIC_OPREGION=y
-CONFIG_CHTCRC_PMIC_OPREGION=y
-CONFIG_CHT_WC_PMIC_OPREGION=y
-
-#
-# CPU Frequency scaling
-#
-
-#
-# CPU Frequency scaling
-#
-CONFIG_CPU_FREQ=y
-CONFIG_CPU_FREQ_GOV_ATTR_SET=y
-CONFIG_CPU_FREQ_GOV_COMMON=y
-CONFIG_CPU_FREQ_STAT=y
-CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE=y
-# CONFIG_CPU_FREQ_DEFAULT_GOV_POWERSAVE is not set
-# CONFIG_CPU_FREQ_DEFAULT_GOV_USERSPACE is not set
-# CONFIG_CPU_FREQ_DEFAULT_GOV_ONDEMAND is not set
-# CONFIG_CPU_FREQ_DEFAULT_GOV_CONSERVATIVE is not set
-# CONFIG_CPU_FREQ_DEFAULT_GOV_SCHEDUTIL is not set
-CONFIG_CPU_FREQ_GOV_PERFORMANCE=y
-CONFIG_CPU_FREQ_GOV_POWERSAVE=y
-CONFIG_CPU_FREQ_GOV_USERSPACE=y
-CONFIG_CPU_FREQ_GOV_ONDEMAND=y
-CONFIG_CPU_FREQ_GOV_CONSERVATIVE=y
-CONFIG_CPU_FREQ_GOV_SCHEDUTIL=y
-
-#
-# CPU frequency scaling drivers
-#
-CONFIG_CPUFREQ_DT=y
-CONFIG_CPUFREQ_DT_PLATDEV=y
-CONFIG_IA64_ACPI_CPUFREQ=y
-CONFIG_QORIQ_CPUFREQ=y
-# end of CPU Frequency scaling
-# end of CPU Frequency scaling
-# end of Power management and ACPI options
-
-CONFIG_MSPEC=y
-
-#
-# General architecture-dependent options
-#
-CONFIG_CRASH_CORE=y
-CONFIG_KEXEC_CORE=y
-CONFIG_KPROBES=y
-CONFIG_HAVE_64BIT_ALIGNED_ACCESS=y
-CONFIG_KRETPROBES=y
-CONFIG_HAVE_KPROBES=y
-CONFIG_HAVE_KRETPROBES=y
-CONFIG_HAVE_FUNCTION_DESCRIPTORS=y
-CONFIG_HAVE_ARCH_TRACEHOOK=y
-CONFIG_GENERIC_SMP_IDLE_THREAD=y
-CONFIG_ARCH_TASK_STRUCT_ON_STACK=y
-CONFIG_ARCH_TASK_STRUCT_ALLOCATOR=y
-CONFIG_ARCH_THREAD_STACK_ALLOCATOR=y
-CONFIG_HAVE_ASM_MODVERSIONS=y
-CONFIG_ARCH_HAVE_NMI_SAFE_CMPXCHG=y
-CONFIG_LTO_NONE=y
-CONFIG_HAVE_VIRT_CPU_ACCOUNTING=y
-CONFIG_HAVE_VIRT_CPU_ACCOUNTING_GEN=y
-CONFIG_HAVE_MOD_ARCH_SPECIFIC=y
-CONFIG_MODULES_USE_ELF_RELA=y
-CONFIG_HAVE_EXIT_THREAD=y
-CONFIG_PAGE_SIZE_LESS_THAN_64KB=y
-CONFIG_PAGE_SIZE_LESS_THAN_256KB=y
-CONFIG_ISA_BUS_API=y
-CONFIG_COMPAT_32BIT_TIME=y
-CONFIG_LOCK_EVENT_COUNTS=y
-
-#
-# GCOV-based kernel profiling
-#
-CONFIG_GCOV_KERNEL=y
-# end of GCOV-based kernel profiling
-# end of General architecture-dependent options
-
-CONFIG_RT_MUTEXES=y
-CONFIG_BASE_SMALL=0
-CONFIG_MODULE_SIG_FORMAT=y
-CONFIG_MODULES=y
-CONFIG_MODULE_FORCE_LOAD=y
-CONFIG_MODULE_UNLOAD=y
-CONFIG_MODULE_FORCE_UNLOAD=y
-CONFIG_MODULE_UNLOAD_TAINT_TRACKING=y
-CONFIG_MODVERSIONS=y
-CONFIG_ASM_MODVERSIONS=y
-CONFIG_MODULE_SRCVERSION_ALL=y
-CONFIG_MODULE_SIG=y
-CONFIG_MODULE_SIG_FORCE=y
-CONFIG_MODULE_SIG_ALL=y
-CONFIG_MODULE_SIG_SHA1=y
-# CONFIG_MODULE_SIG_SHA224 is not set
-# CONFIG_MODULE_SIG_SHA256 is not set
-# CONFIG_MODULE_SIG_SHA384 is not set
-# CONFIG_MODULE_SIG_SHA512 is not set
-CONFIG_MODULE_SIG_HASH="sha1"
-CONFIG_MODULE_COMPRESS_NONE=y
-# CONFIG_MODULE_COMPRESS_GZIP is not set
-# CONFIG_MODULE_COMPRESS_XZ is not set
-# CONFIG_MODULE_COMPRESS_ZSTD is not set
-CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS=y
-CONFIG_MODPROBE_PATH="/sbin/modprobe"
-CONFIG_BLOCK=y
-CONFIG_BLOCK_LEGACY_AUTOLOAD=y
-CONFIG_BLK_RQ_ALLOC_TIME=y
-CONFIG_BLK_CGROUP_RWSTAT=y
-CONFIG_BLK_DEV_BSG_COMMON=y
-CONFIG_BLK_ICQ=y
-CONFIG_BLK_DEV_BSGLIB=y
-CONFIG_BLK_DEV_INTEGRITY=y
-CONFIG_BLK_DEV_INTEGRITY_T10=y
-CONFIG_BLK_DEV_ZONED=y
-CONFIG_BLK_DEV_THROTTLING=y
-CONFIG_BLK_DEV_THROTTLING_LOW=y
-CONFIG_BLK_WBT=y
-CONFIG_BLK_WBT_MQ=y
-CONFIG_BLK_CGROUP_IOLATENCY=y
-CONFIG_BLK_CGROUP_FC_APPID=y
-CONFIG_BLK_CGROUP_IOCOST=y
-CONFIG_BLK_CGROUP_IOPRIO=y
-CONFIG_BLK_DEBUG_FS=y
-CONFIG_BLK_DEBUG_FS_ZONED=y
-CONFIG_BLK_SED_OPAL=y
-CONFIG_BLK_INLINE_ENCRYPTION=y
-CONFIG_BLK_INLINE_ENCRYPTION_FALLBACK=y
-
-#
-# Partition Types
-#
-CONFIG_PARTITION_ADVANCED=y
-CONFIG_ACORN_PARTITION=y
-CONFIG_ACORN_PARTITION_CUMANA=y
-CONFIG_ACORN_PARTITION_EESOX=y
-CONFIG_ACORN_PARTITION_ICS=y
-CONFIG_ACORN_PARTITION_ADFS=y
-CONFIG_ACORN_PARTITION_POWERTEC=y
-CONFIG_ACORN_PARTITION_RISCIX=y
-CONFIG_AIX_PARTITION=y
-CONFIG_OSF_PARTITION=y
-CONFIG_AMIGA_PARTITION=y
-CONFIG_ATARI_PARTITION=y
-CONFIG_MAC_PARTITION=y
-CONFIG_MSDOS_PARTITION=y
-CONFIG_BSD_DISKLABEL=y
-CONFIG_MINIX_SUBPARTITION=y
-CONFIG_SOLARIS_X86_PARTITION=y
-CONFIG_UNIXWARE_DISKLABEL=y
-CONFIG_LDM_PARTITION=y
-CONFIG_LDM_DEBUG=y
-CONFIG_SGI_PARTITION=y
-CONFIG_ULTRIX_PARTITION=y
-CONFIG_SUN_PARTITION=y
-CONFIG_KARMA_PARTITION=y
-CONFIG_EFI_PARTITION=y
-CONFIG_SYSV68_PARTITION=y
-CONFIG_CMDLINE_PARTITION=y
-# end of Partition Types
-
-CONFIG_BLK_MQ_PCI=y
-CONFIG_BLK_MQ_VIRTIO=y
-CONFIG_BLK_MQ_RDMA=y
-CONFIG_BLK_PM=y
-CONFIG_BLOCK_HOLDER_DEPRECATED=y
-CONFIG_BLK_MQ_STACKING=y
-
-#
-# IO Schedulers
-#
-CONFIG_MQ_IOSCHED_DEADLINE=y
-CONFIG_MQ_IOSCHED_KYBER=y
-CONFIG_IOSCHED_BFQ=y
-CONFIG_BFQ_GROUP_IOSCHED=y
-CONFIG_BFQ_CGROUP_DEBUG=y
-# end of IO Schedulers
-
-CONFIG_PADATA=y
-CONFIG_ASN1=y
-CONFIG_UNINLINE_SPIN_UNLOCK=y
-CONFIG_FREEZER=y
-
-#
-# Executable file formats
-#
-CONFIG_BINFMT_ELF=y
-CONFIG_BINFMT_ELF_KUNIT_TEST=y
-CONFIG_ARCH_BINFMT_ELF_EXTRA_PHDRS=y
-CONFIG_ELFCORE=y
-CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS=y
-CONFIG_BINFMT_SCRIPT=y
-CONFIG_BINFMT_MISC=y
-CONFIG_COREDUMP=y
-# end of Executable file formats
-
-#
-# Memory Management options
-#
-CONFIG_ZPOOL=y
-CONFIG_SWAP=y
-CONFIG_ZSWAP=y
-CONFIG_ZSWAP_DEFAULT_ON=y
-# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_DEFLATE is not set
-CONFIG_ZSWAP_COMPRESSOR_DEFAULT_LZO=y
-# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_842 is not set
-# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_LZ4 is not set
-# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_LZ4HC is not set
-# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_ZSTD is not set
-CONFIG_ZSWAP_COMPRESSOR_DEFAULT="lzo"
-CONFIG_ZSWAP_ZPOOL_DEFAULT_ZBUD=y
-# CONFIG_ZSWAP_ZPOOL_DEFAULT_Z3FOLD is not set
-# CONFIG_ZSWAP_ZPOOL_DEFAULT_ZSMALLOC is not set
-CONFIG_ZSWAP_ZPOOL_DEFAULT="zbud"
-CONFIG_ZBUD=y
-CONFIG_Z3FOLD=y
-CONFIG_ZSMALLOC=y
-CONFIG_ZSMALLOC_STAT=y
-
-#
-# SLAB allocator options
-#
-# CONFIG_SLAB is not set
-CONFIG_SLUB=y
-# CONFIG_SLOB is not set
-CONFIG_SLAB_MERGE_DEFAULT=y
-CONFIG_SLAB_FREELIST_RANDOM=y
-CONFIG_SLAB_FREELIST_HARDENED=y
-CONFIG_SLUB_STATS=y
-CONFIG_SLUB_CPU_PARTIAL=y
-# end of SLAB allocator options
-
-CONFIG_SHUFFLE_PAGE_ALLOCATOR=y
-CONFIG_COMPAT_BRK=y
-CONFIG_SELECT_MEMORY_MODEL=y
-# CONFIG_FLATMEM_MANUAL is not set
-CONFIG_SPARSEMEM_MANUAL=y
-CONFIG_SPARSEMEM=y
-CONFIG_SPARSEMEM_EXTREME=y
-CONFIG_SPARSEMEM_VMEMMAP_ENABLE=y
-CONFIG_SPARSEMEM_VMEMMAP=y
-CONFIG_NUMA_KEEP_MEMINFO=y
-CONFIG_MEMORY_ISOLATION=y
-CONFIG_ARCH_ENABLE_MEMORY_HOTPLUG=y
-CONFIG_ARCH_ENABLE_MEMORY_HOTREMOVE=y
-CONFIG_MEMORY_HOTPLUG=y
-CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE=y
-CONFIG_MEMORY_HOTREMOVE=y
-CONFIG_SPLIT_PTLOCK_CPUS=4
-CONFIG_MEMORY_BALLOON=y
-CONFIG_BALLOON_COMPACTION=y
-CONFIG_COMPACTION=y
-CONFIG_COMPACT_UNEVICTABLE_DEFAULT=1
-CONFIG_PAGE_REPORTING=y
-CONFIG_MIGRATION=y
-CONFIG_HUGETLB_PAGE_SIZE_VARIABLE=y
-CONFIG_CONTIG_ALLOC=y
-CONFIG_PHYS_ADDR_T_64BIT=y
-CONFIG_MMU_NOTIFIER=y
-CONFIG_KSM=y
-CONFIG_DEFAULT_MMAP_MIN_ADDR=4096
-CONFIG_USE_PERCPU_NUMA_NODE_ID=y
-CONFIG_HAVE_SETUP_PER_CPU_AREA=y
-CONFIG_FRONTSWAP=y
-CONFIG_CMA=y
-CONFIG_CMA_DEBUG=y
-CONFIG_CMA_DEBUGFS=y
-CONFIG_CMA_SYSFS=y
-CONFIG_CMA_AREAS=19
-CONFIG_DEFERRED_STRUCT_PAGE_INIT=y
-CONFIG_PAGE_IDLE_FLAG=y
-CONFIG_IDLE_PAGE_TRACKING=y
-CONFIG_ZONE_DMA32=y
-CONFIG_HMM_MIRROR=y
-CONFIG_GET_FREE_REGION=y
-CONFIG_VM_EVENT_COUNTERS=y
-CONFIG_PERCPU_STATS=y
-CONFIG_GUP_TEST=y
-CONFIG_ANON_VMA_NAME=y
-CONFIG_USERFAULTFD=y
-CONFIG_LRU_GEN=y
-CONFIG_LRU_GEN_ENABLED=y
-CONFIG_LRU_GEN_STATS=y
-
-#
-# Data Access Monitoring
-#
-CONFIG_DAMON=y
-CONFIG_DAMON_KUNIT_TEST=y
-CONFIG_DAMON_VADDR=y
-CONFIG_DAMON_PADDR=y
-CONFIG_DAMON_VADDR_KUNIT_TEST=y
-CONFIG_DAMON_SYSFS=y
-CONFIG_DAMON_DBGFS=y
-CONFIG_DAMON_DBGFS_KUNIT_TEST=y
-CONFIG_DAMON_RECLAIM=y
-CONFIG_DAMON_LRU_SORT=y
-# end of Data Access Monitoring
-# end of Memory Management options
-
-CONFIG_NET=y
-CONFIG_NET_INGRESS=y
-CONFIG_NET_EGRESS=y
-CONFIG_NET_REDIRECT=y
-CONFIG_SKB_EXTENSIONS=y
-
-#
-# Networking options
-#
-CONFIG_PACKET=y
-CONFIG_PACKET_DIAG=y
-CONFIG_UNIX=y
-CONFIG_UNIX_SCM=y
-CONFIG_AF_UNIX_OOB=y
-CONFIG_UNIX_DIAG=y
-CONFIG_TLS=y
-CONFIG_TLS_DEVICE=y
-CONFIG_TLS_TOE=y
-CONFIG_XFRM=y
-CONFIG_XFRM_OFFLOAD=y
-CONFIG_XFRM_ALGO=y
-CONFIG_XFRM_USER=y
-CONFIG_XFRM_INTERFACE=y
-CONFIG_XFRM_SUB_POLICY=y
-CONFIG_XFRM_MIGRATE=y
-CONFIG_XFRM_STATISTICS=y
-CONFIG_XFRM_AH=y
-CONFIG_XFRM_ESP=y
-CONFIG_XFRM_IPCOMP=y
-CONFIG_NET_KEY=y
-CONFIG_NET_KEY_MIGRATE=y
-CONFIG_XFRM_ESPINTCP=y
-CONFIG_SMC=y
-CONFIG_SMC_DIAG=y
-CONFIG_XDP_SOCKETS=y
-CONFIG_XDP_SOCKETS_DIAG=y
-CONFIG_INET=y
-CONFIG_IP_MULTICAST=y
-CONFIG_IP_ADVANCED_ROUTER=y
-CONFIG_IP_FIB_TRIE_STATS=y
-CONFIG_IP_MULTIPLE_TABLES=y
-CONFIG_IP_ROUTE_MULTIPATH=y
-CONFIG_IP_ROUTE_VERBOSE=y
-CONFIG_IP_ROUTE_CLASSID=y
-CONFIG_IP_PNP=y
-CONFIG_IP_PNP_DHCP=y
-CONFIG_IP_PNP_BOOTP=y
-CONFIG_IP_PNP_RARP=y
-CONFIG_NET_IPIP=y
-CONFIG_NET_IPGRE_DEMUX=y
-CONFIG_NET_IP_TUNNEL=y
-CONFIG_NET_IPGRE=y
-CONFIG_NET_IPGRE_BROADCAST=y
-CONFIG_IP_MROUTE_COMMON=y
-CONFIG_IP_MROUTE=y
-CONFIG_IP_MROUTE_MULTIPLE_TABLES=y
-CONFIG_IP_PIMSM_V1=y
-CONFIG_IP_PIMSM_V2=y
-CONFIG_SYN_COOKIES=y
-CONFIG_NET_IPVTI=y
-CONFIG_NET_UDP_TUNNEL=y
-CONFIG_NET_FOU=y
-CONFIG_NET_FOU_IP_TUNNELS=y
-CONFIG_INET_AH=y
-CONFIG_INET_ESP=y
-CONFIG_INET_ESP_OFFLOAD=y
-CONFIG_INET_ESPINTCP=y
-CONFIG_INET_IPCOMP=y
-CONFIG_INET_TABLE_PERTURB_ORDER=16
-CONFIG_INET_XFRM_TUNNEL=y
-CONFIG_INET_TUNNEL=y
-CONFIG_INET_DIAG=y
-CONFIG_INET_TCP_DIAG=y
-CONFIG_INET_UDP_DIAG=y
-CONFIG_INET_RAW_DIAG=y
-CONFIG_INET_DIAG_DESTROY=y
-CONFIG_TCP_CONG_ADVANCED=y
-CONFIG_TCP_CONG_BIC=y
-CONFIG_TCP_CONG_CUBIC=y
-CONFIG_TCP_CONG_WESTWOOD=y
-CONFIG_TCP_CONG_HTCP=y
-CONFIG_TCP_CONG_HSTCP=y
-CONFIG_TCP_CONG_HYBLA=y
-CONFIG_TCP_CONG_VEGAS=y
-CONFIG_TCP_CONG_NV=y
-CONFIG_TCP_CONG_SCALABLE=y
-CONFIG_TCP_CONG_LP=y
-CONFIG_TCP_CONG_VENO=y
-CONFIG_TCP_CONG_YEAH=y
-CONFIG_TCP_CONG_ILLINOIS=y
-CONFIG_TCP_CONG_DCTCP=y
-CONFIG_TCP_CONG_CDG=y
-CONFIG_TCP_CONG_BBR=y
-# CONFIG_DEFAULT_BIC is not set
-CONFIG_DEFAULT_CUBIC=y
-# CONFIG_DEFAULT_HTCP is not set
-# CONFIG_DEFAULT_HYBLA is not set
-# CONFIG_DEFAULT_VEGAS is not set
-# CONFIG_DEFAULT_VENO is not set
-# CONFIG_DEFAULT_WESTWOOD is not set
-# CONFIG_DEFAULT_DCTCP is not set
-# CONFIG_DEFAULT_CDG is not set
-# CONFIG_DEFAULT_BBR is not set
-# CONFIG_DEFAULT_RENO is not set
-CONFIG_DEFAULT_TCP_CONG="cubic"
-CONFIG_TCP_MD5SIG=y
-CONFIG_IPV6=y
-CONFIG_IPV6_ROUTER_PREF=y
-CONFIG_IPV6_ROUTE_INFO=y
-CONFIG_IPV6_OPTIMISTIC_DAD=y
-CONFIG_INET6_AH=y
-CONFIG_INET6_ESP=y
-CONFIG_INET6_ESP_OFFLOAD=y
-CONFIG_INET6_ESPINTCP=y
-CONFIG_INET6_IPCOMP=y
-CONFIG_IPV6_MIP6=y
-CONFIG_IPV6_ILA=y
-CONFIG_INET6_XFRM_TUNNEL=y
-CONFIG_INET6_TUNNEL=y
-CONFIG_IPV6_VTI=y
-CONFIG_IPV6_SIT=y
-CONFIG_IPV6_SIT_6RD=y
-CONFIG_IPV6_NDISC_NODETYPE=y
-CONFIG_IPV6_TUNNEL=y
-CONFIG_IPV6_GRE=y
-CONFIG_IPV6_FOU=y
-CONFIG_IPV6_FOU_TUNNEL=y
-CONFIG_IPV6_MULTIPLE_TABLES=y
-CONFIG_IPV6_SUBTREES=y
-CONFIG_IPV6_MROUTE=y
-CONFIG_IPV6_MROUTE_MULTIPLE_TABLES=y
-CONFIG_IPV6_PIMSM_V2=y
-CONFIG_IPV6_SEG6_LWTUNNEL=y
-CONFIG_IPV6_SEG6_HMAC=y
-CONFIG_IPV6_SEG6_BPF=y
-CONFIG_IPV6_RPL_LWTUNNEL=y
-CONFIG_IPV6_IOAM6_LWTUNNEL=y
-CONFIG_NETLABEL=y
-CONFIG_MPTCP=y
-CONFIG_INET_MPTCP_DIAG=y
-CONFIG_MPTCP_IPV6=y
-CONFIG_MPTCP_KUNIT_TEST=y
-CONFIG_NETWORK_SECMARK=y
-CONFIG_NET_PTP_CLASSIFY=y
-CONFIG_NETWORK_PHY_TIMESTAMPING=y
-CONFIG_NETFILTER=y
-CONFIG_NETFILTER_ADVANCED=y
-CONFIG_BRIDGE_NETFILTER=y
-
-#
-# Core Netfilter Configuration
-#
-CONFIG_NETFILTER_INGRESS=y
-CONFIG_NETFILTER_EGRESS=y
-CONFIG_NETFILTER_SKIP_EGRESS=y
-CONFIG_NETFILTER_NETLINK=y
-CONFIG_NETFILTER_FAMILY_BRIDGE=y
-CONFIG_NETFILTER_FAMILY_ARP=y
-CONFIG_NETFILTER_NETLINK_HOOK=y
-CONFIG_NETFILTER_NETLINK_ACCT=y
-CONFIG_NETFILTER_NETLINK_QUEUE=y
-CONFIG_NETFILTER_NETLINK_LOG=y
-CONFIG_NETFILTER_NETLINK_OSF=y
-CONFIG_NF_CONNTRACK=y
-CONFIG_NF_LOG_SYSLOG=y
-CONFIG_NETFILTER_CONNCOUNT=y
-CONFIG_NF_CONNTRACK_MARK=y
-CONFIG_NF_CONNTRACK_SECMARK=y
-CONFIG_NF_CONNTRACK_ZONES=y
-CONFIG_NF_CONNTRACK_PROCFS=y
-CONFIG_NF_CONNTRACK_EVENTS=y
-CONFIG_NF_CONNTRACK_TIMEOUT=y
-CONFIG_NF_CONNTRACK_TIMESTAMP=y
-CONFIG_NF_CONNTRACK_LABELS=y
-CONFIG_NF_CT_PROTO_DCCP=y
-CONFIG_NF_CT_PROTO_GRE=y
-CONFIG_NF_CT_PROTO_SCTP=y
-CONFIG_NF_CT_PROTO_UDPLITE=y
-CONFIG_NF_CONNTRACK_AMANDA=y
-CONFIG_NF_CONNTRACK_FTP=y
-CONFIG_NF_CONNTRACK_H323=y
-CONFIG_NF_CONNTRACK_IRC=y
-CONFIG_NF_CONNTRACK_BROADCAST=y
-CONFIG_NF_CONNTRACK_NETBIOS_NS=y
-CONFIG_NF_CONNTRACK_SNMP=y
-CONFIG_NF_CONNTRACK_PPTP=y
-CONFIG_NF_CONNTRACK_SANE=y
-CONFIG_NF_CONNTRACK_SIP=y
-CONFIG_NF_CONNTRACK_TFTP=y
-CONFIG_NF_CT_NETLINK=y
-CONFIG_NF_CT_NETLINK_TIMEOUT=y
-CONFIG_NF_CT_NETLINK_HELPER=y
-CONFIG_NETFILTER_NETLINK_GLUE_CT=y
-CONFIG_NF_NAT=y
-CONFIG_NF_NAT_AMANDA=y
-CONFIG_NF_NAT_FTP=y
-CONFIG_NF_NAT_IRC=y
-CONFIG_NF_NAT_SIP=y
-CONFIG_NF_NAT_TFTP=y
-CONFIG_NF_NAT_REDIRECT=y
-CONFIG_NF_NAT_MASQUERADE=y
-CONFIG_NETFILTER_SYNPROXY=y
-CONFIG_NF_TABLES=y
-CONFIG_NF_TABLES_INET=y
-CONFIG_NF_TABLES_NETDEV=y
-CONFIG_NFT_NUMGEN=y
-CONFIG_NFT_CT=y
-CONFIG_NFT_FLOW_OFFLOAD=y
-CONFIG_NFT_CONNLIMIT=y
-CONFIG_NFT_LOG=y
-CONFIG_NFT_LIMIT=y
-CONFIG_NFT_MASQ=y
-CONFIG_NFT_REDIR=y
-CONFIG_NFT_NAT=y
-CONFIG_NFT_TUNNEL=y
-CONFIG_NFT_OBJREF=y
-CONFIG_NFT_QUEUE=y
-CONFIG_NFT_QUOTA=y
-CONFIG_NFT_REJECT=y
-CONFIG_NFT_REJECT_INET=y
-CONFIG_NFT_COMPAT=y
-CONFIG_NFT_HASH=y
-CONFIG_NFT_FIB=y
-CONFIG_NFT_FIB_INET=y
-CONFIG_NFT_XFRM=y
-CONFIG_NFT_SOCKET=y
-CONFIG_NFT_OSF=y
-CONFIG_NFT_TPROXY=y
-CONFIG_NFT_SYNPROXY=y
-CONFIG_NF_DUP_NETDEV=y
-CONFIG_NFT_DUP_NETDEV=y
-CONFIG_NFT_FWD_NETDEV=y
-CONFIG_NFT_FIB_NETDEV=y
-CONFIG_NFT_REJECT_NETDEV=y
-CONFIG_NF_FLOW_TABLE_INET=y
-CONFIG_NF_FLOW_TABLE=y
-CONFIG_NF_FLOW_TABLE_PROCFS=y
-CONFIG_NETFILTER_XTABLES=y
-
-#
-# Xtables combined modules
-#
-CONFIG_NETFILTER_XT_MARK=y
-CONFIG_NETFILTER_XT_CONNMARK=y
-CONFIG_NETFILTER_XT_SET=y
-
-#
-# Xtables targets
-#
-CONFIG_NETFILTER_XT_TARGET_AUDIT=y
-CONFIG_NETFILTER_XT_TARGET_CHECKSUM=y
-CONFIG_NETFILTER_XT_TARGET_CLASSIFY=y
-CONFIG_NETFILTER_XT_TARGET_CONNMARK=y
-CONFIG_NETFILTER_XT_TARGET_CONNSECMARK=y
-CONFIG_NETFILTER_XT_TARGET_CT=y
-CONFIG_NETFILTER_XT_TARGET_DSCP=y
-CONFIG_NETFILTER_XT_TARGET_HL=y
-CONFIG_NETFILTER_XT_TARGET_HMARK=y
-CONFIG_NETFILTER_XT_TARGET_IDLETIMER=y
-CONFIG_NETFILTER_XT_TARGET_LED=y
-CONFIG_NETFILTER_XT_TARGET_LOG=y
-CONFIG_NETFILTER_XT_TARGET_MARK=y
-CONFIG_NETFILTER_XT_NAT=y
-CONFIG_NETFILTER_XT_TARGET_NETMAP=y
-CONFIG_NETFILTER_XT_TARGET_NFLOG=y
-CONFIG_NETFILTER_XT_TARGET_NFQUEUE=y
-CONFIG_NETFILTER_XT_TARGET_NOTRACK=y
-CONFIG_NETFILTER_XT_TARGET_RATEEST=y
-CONFIG_NETFILTER_XT_TARGET_REDIRECT=y
-CONFIG_NETFILTER_XT_TARGET_MASQUERADE=y
-CONFIG_NETFILTER_XT_TARGET_TEE=y
-CONFIG_NETFILTER_XT_TARGET_TPROXY=y
-CONFIG_NETFILTER_XT_TARGET_TRACE=y
-CONFIG_NETFILTER_XT_TARGET_SECMARK=y
-CONFIG_NETFILTER_XT_TARGET_TCPMSS=y
-CONFIG_NETFILTER_XT_TARGET_TCPOPTSTRIP=y
-
-#
-# Xtables matches
-#
-CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=y
-CONFIG_NETFILTER_XT_MATCH_BPF=y
-CONFIG_NETFILTER_XT_MATCH_CGROUP=y
-CONFIG_NETFILTER_XT_MATCH_CLUSTER=y
-CONFIG_NETFILTER_XT_MATCH_COMMENT=y
-CONFIG_NETFILTER_XT_MATCH_CONNBYTES=y
-CONFIG_NETFILTER_XT_MATCH_CONNLABEL=y
-CONFIG_NETFILTER_XT_MATCH_CONNLIMIT=y
-CONFIG_NETFILTER_XT_MATCH_CONNMARK=y
-CONFIG_NETFILTER_XT_MATCH_CONNTRACK=y
-CONFIG_NETFILTER_XT_MATCH_CPU=y
-CONFIG_NETFILTER_XT_MATCH_DCCP=y
-CONFIG_NETFILTER_XT_MATCH_DEVGROUP=y
-CONFIG_NETFILTER_XT_MATCH_DSCP=y
-CONFIG_NETFILTER_XT_MATCH_ECN=y
-CONFIG_NETFILTER_XT_MATCH_ESP=y
-CONFIG_NETFILTER_XT_MATCH_HASHLIMIT=y
-CONFIG_NETFILTER_XT_MATCH_HELPER=y
-CONFIG_NETFILTER_XT_MATCH_HL=y
-CONFIG_NETFILTER_XT_MATCH_IPCOMP=y
-CONFIG_NETFILTER_XT_MATCH_IPRANGE=y
-CONFIG_NETFILTER_XT_MATCH_IPVS=y
-CONFIG_NETFILTER_XT_MATCH_L2TP=y
-CONFIG_NETFILTER_XT_MATCH_LENGTH=y
-CONFIG_NETFILTER_XT_MATCH_LIMIT=y
-CONFIG_NETFILTER_XT_MATCH_MAC=y
-CONFIG_NETFILTER_XT_MATCH_MARK=y
-CONFIG_NETFILTER_XT_MATCH_MULTIPORT=y
-CONFIG_NETFILTER_XT_MATCH_NFACCT=y
-CONFIG_NETFILTER_XT_MATCH_OSF=y
-CONFIG_NETFILTER_XT_MATCH_OWNER=y
-CONFIG_NETFILTER_XT_MATCH_POLICY=y
-CONFIG_NETFILTER_XT_MATCH_PHYSDEV=y
-CONFIG_NETFILTER_XT_MATCH_PKTTYPE=y
-CONFIG_NETFILTER_XT_MATCH_QUOTA=y
-CONFIG_NETFILTER_XT_MATCH_RATEEST=y
-CONFIG_NETFILTER_XT_MATCH_REALM=y
-CONFIG_NETFILTER_XT_MATCH_RECENT=y
-CONFIG_NETFILTER_XT_MATCH_SCTP=y
-CONFIG_NETFILTER_XT_MATCH_SOCKET=y
-CONFIG_NETFILTER_XT_MATCH_STATE=y
-CONFIG_NETFILTER_XT_MATCH_STATISTIC=y
-CONFIG_NETFILTER_XT_MATCH_STRING=y
-CONFIG_NETFILTER_XT_MATCH_TCPMSS=y
-CONFIG_NETFILTER_XT_MATCH_TIME=y
-CONFIG_NETFILTER_XT_MATCH_U32=y
-# end of Core Netfilter Configuration
-
-CONFIG_IP_SET=y
-CONFIG_IP_SET_MAX=256
-CONFIG_IP_SET_BITMAP_IP=y
-CONFIG_IP_SET_BITMAP_IPMAC=y
-CONFIG_IP_SET_BITMAP_PORT=y
-CONFIG_IP_SET_HASH_IP=y
-CONFIG_IP_SET_HASH_IPMARK=y
-CONFIG_IP_SET_HASH_IPPORT=y
-CONFIG_IP_SET_HASH_IPPORTIP=y
-CONFIG_IP_SET_HASH_IPPORTNET=y
-CONFIG_IP_SET_HASH_IPMAC=y
-CONFIG_IP_SET_HASH_MAC=y
-CONFIG_IP_SET_HASH_NETPORTNET=y
-CONFIG_IP_SET_HASH_NET=y
-CONFIG_IP_SET_HASH_NETNET=y
-CONFIG_IP_SET_HASH_NETPORT=y
-CONFIG_IP_SET_HASH_NETIFACE=y
-CONFIG_IP_SET_LIST_SET=y
-CONFIG_IP_VS=y
-CONFIG_IP_VS_IPV6=y
-CONFIG_IP_VS_DEBUG=y
-CONFIG_IP_VS_TAB_BITS=12
-
-#
-# IPVS transport protocol load balancing support
-#
-CONFIG_IP_VS_PROTO_TCP=y
-CONFIG_IP_VS_PROTO_UDP=y
-CONFIG_IP_VS_PROTO_AH_ESP=y
-CONFIG_IP_VS_PROTO_ESP=y
-CONFIG_IP_VS_PROTO_AH=y
-CONFIG_IP_VS_PROTO_SCTP=y
-
-#
-# IPVS scheduler
-#
-CONFIG_IP_VS_RR=y
-CONFIG_IP_VS_WRR=y
-CONFIG_IP_VS_LC=y
-CONFIG_IP_VS_WLC=y
-CONFIG_IP_VS_FO=y
-CONFIG_IP_VS_OVF=y
-CONFIG_IP_VS_LBLC=y
-CONFIG_IP_VS_LBLCR=y
-CONFIG_IP_VS_DH=y
-CONFIG_IP_VS_SH=y
-CONFIG_IP_VS_MH=y
-CONFIG_IP_VS_SED=y
-CONFIG_IP_VS_NQ=y
-CONFIG_IP_VS_TWOS=y
-
-#
-# IPVS SH scheduler
-#
-CONFIG_IP_VS_SH_TAB_BITS=8
-
-#
-# IPVS MH scheduler
-#
-CONFIG_IP_VS_MH_TAB_INDEX=12
-
-#
-# IPVS application helper
-#
-CONFIG_IP_VS_FTP=y
-CONFIG_IP_VS_NFCT=y
-CONFIG_IP_VS_PE_SIP=y
-
-#
-# IP: Netfilter Configuration
-#
-CONFIG_NF_DEFRAG_IPV4=y
-CONFIG_NF_SOCKET_IPV4=y
-CONFIG_NF_TPROXY_IPV4=y
-CONFIG_NF_TABLES_IPV4=y
-CONFIG_NFT_REJECT_IPV4=y
-CONFIG_NFT_DUP_IPV4=y
-CONFIG_NFT_FIB_IPV4=y
-CONFIG_NF_TABLES_ARP=y
-CONFIG_NF_DUP_IPV4=y
-CONFIG_NF_LOG_ARP=y
-CONFIG_NF_LOG_IPV4=y
-CONFIG_NF_REJECT_IPV4=y
-CONFIG_NF_NAT_SNMP_BASIC=y
-CONFIG_NF_NAT_PPTP=y
-CONFIG_NF_NAT_H323=y
-CONFIG_IP_NF_IPTABLES=y
-CONFIG_IP_NF_MATCH_AH=y
-CONFIG_IP_NF_MATCH_ECN=y
-CONFIG_IP_NF_MATCH_RPFILTER=y
-CONFIG_IP_NF_MATCH_TTL=y
-CONFIG_IP_NF_FILTER=y
-CONFIG_IP_NF_TARGET_REJECT=y
-CONFIG_IP_NF_TARGET_SYNPROXY=y
-CONFIG_IP_NF_NAT=y
-CONFIG_IP_NF_TARGET_MASQUERADE=y
-CONFIG_IP_NF_TARGET_NETMAP=y
-CONFIG_IP_NF_TARGET_REDIRECT=y
-CONFIG_IP_NF_MANGLE=y
-CONFIG_IP_NF_TARGET_CLUSTERIP=y
-CONFIG_IP_NF_TARGET_ECN=y
-CONFIG_IP_NF_TARGET_TTL=y
-CONFIG_IP_NF_RAW=y
-CONFIG_IP_NF_SECURITY=y
-CONFIG_IP_NF_ARPTABLES=y
-CONFIG_IP_NF_ARPFILTER=y
-CONFIG_IP_NF_ARP_MANGLE=y
-# end of IP: Netfilter Configuration
-
-#
-# IPv6: Netfilter Configuration
-#
-CONFIG_NF_SOCKET_IPV6=y
-CONFIG_NF_TPROXY_IPV6=y
-CONFIG_NF_TABLES_IPV6=y
-CONFIG_NFT_REJECT_IPV6=y
-CONFIG_NFT_DUP_IPV6=y
-CONFIG_NFT_FIB_IPV6=y
-CONFIG_NF_DUP_IPV6=y
-CONFIG_NF_REJECT_IPV6=y
-CONFIG_NF_LOG_IPV6=y
-CONFIG_IP6_NF_IPTABLES=y
-CONFIG_IP6_NF_MATCH_AH=y
-CONFIG_IP6_NF_MATCH_EUI64=y
-CONFIG_IP6_NF_MATCH_FRAG=y
-CONFIG_IP6_NF_MATCH_OPTS=y
-CONFIG_IP6_NF_MATCH_HL=y
-CONFIG_IP6_NF_MATCH_IPV6HEADER=y
-CONFIG_IP6_NF_MATCH_MH=y
-CONFIG_IP6_NF_MATCH_RPFILTER=y
-CONFIG_IP6_NF_MATCH_RT=y
-CONFIG_IP6_NF_MATCH_SRH=y
-CONFIG_IP6_NF_TARGET_HL=y
-CONFIG_IP6_NF_FILTER=y
-CONFIG_IP6_NF_TARGET_REJECT=y
-CONFIG_IP6_NF_TARGET_SYNPROXY=y
-CONFIG_IP6_NF_MANGLE=y
-CONFIG_IP6_NF_RAW=y
-CONFIG_IP6_NF_SECURITY=y
-CONFIG_IP6_NF_NAT=y
-CONFIG_IP6_NF_TARGET_MASQUERADE=y
-CONFIG_IP6_NF_TARGET_NPT=y
-# end of IPv6: Netfilter Configuration
-
-CONFIG_NF_DEFRAG_IPV6=y
-CONFIG_NF_TABLES_BRIDGE=y
-CONFIG_NFT_BRIDGE_META=y
-CONFIG_NFT_BRIDGE_REJECT=y
-CONFIG_NF_CONNTRACK_BRIDGE=y
-CONFIG_BRIDGE_NF_EBTABLES=y
-CONFIG_BRIDGE_EBT_BROUTE=y
-CONFIG_BRIDGE_EBT_T_FILTER=y
-CONFIG_BRIDGE_EBT_T_NAT=y
-CONFIG_BRIDGE_EBT_802_3=y
-CONFIG_BRIDGE_EBT_AMONG=y
-CONFIG_BRIDGE_EBT_ARP=y
-CONFIG_BRIDGE_EBT_IP=y
-CONFIG_BRIDGE_EBT_IP6=y
-CONFIG_BRIDGE_EBT_LIMIT=y
-CONFIG_BRIDGE_EBT_MARK=y
-CONFIG_BRIDGE_EBT_PKTTYPE=y
-CONFIG_BRIDGE_EBT_STP=y
-CONFIG_BRIDGE_EBT_VLAN=y
-CONFIG_BRIDGE_EBT_ARPREPLY=y
-CONFIG_BRIDGE_EBT_DNAT=y
-CONFIG_BRIDGE_EBT_MARK_T=y
-CONFIG_BRIDGE_EBT_REDIRECT=y
-CONFIG_BRIDGE_EBT_SNAT=y
-CONFIG_BRIDGE_EBT_LOG=y
-CONFIG_BRIDGE_EBT_NFLOG=y
-CONFIG_BPFILTER=y
-CONFIG_IP_DCCP=y
-CONFIG_INET_DCCP_DIAG=y
-
-#
-# DCCP CCIDs Configuration
-#
-CONFIG_IP_DCCP_CCID2_DEBUG=y
-CONFIG_IP_DCCP_CCID3=y
-CONFIG_IP_DCCP_CCID3_DEBUG=y
-CONFIG_IP_DCCP_TFRC_LIB=y
-CONFIG_IP_DCCP_TFRC_DEBUG=y
-# end of DCCP CCIDs Configuration
-
-#
-# DCCP Kernel Hacking
-#
-CONFIG_IP_DCCP_DEBUG=y
-# end of DCCP Kernel Hacking
-
-CONFIG_IP_SCTP=y
-CONFIG_SCTP_DBG_OBJCNT=y
-CONFIG_SCTP_DEFAULT_COOKIE_HMAC_MD5=y
-# CONFIG_SCTP_DEFAULT_COOKIE_HMAC_SHA1 is not set
-# CONFIG_SCTP_DEFAULT_COOKIE_HMAC_NONE is not set
-CONFIG_SCTP_COOKIE_HMAC_MD5=y
-CONFIG_SCTP_COOKIE_HMAC_SHA1=y
-CONFIG_INET_SCTP_DIAG=y
-CONFIG_RDS=y
-CONFIG_RDS_RDMA=y
-CONFIG_RDS_TCP=y
-CONFIG_RDS_DEBUG=y
-CONFIG_TIPC=y
-CONFIG_TIPC_MEDIA_IB=y
-CONFIG_TIPC_MEDIA_UDP=y
-CONFIG_TIPC_CRYPTO=y
-CONFIG_TIPC_DIAG=y
-CONFIG_ATM=y
-CONFIG_ATM_CLIP=y
-CONFIG_ATM_CLIP_NO_ICMP=y
-CONFIG_ATM_LANE=y
-CONFIG_ATM_MPOA=y
-CONFIG_ATM_BR2684=y
-CONFIG_ATM_BR2684_IPFILTER=y
-CONFIG_L2TP=y
-CONFIG_L2TP_DEBUGFS=y
-CONFIG_L2TP_V3=y
-CONFIG_L2TP_IP=y
-CONFIG_L2TP_ETH=y
-CONFIG_STP=y
-CONFIG_GARP=y
-CONFIG_MRP=y
-CONFIG_BRIDGE=y
-CONFIG_BRIDGE_IGMP_SNOOPING=y
-CONFIG_BRIDGE_VLAN_FILTERING=y
-CONFIG_BRIDGE_MRP=y
-CONFIG_BRIDGE_CFM=y
-CONFIG_NET_DSA=y
-CONFIG_NET_DSA_TAG_AR9331=y
-CONFIG_NET_DSA_TAG_BRCM_COMMON=y
-CONFIG_NET_DSA_TAG_BRCM=y
-CONFIG_NET_DSA_TAG_BRCM_LEGACY=y
-CONFIG_NET_DSA_TAG_BRCM_PREPEND=y
-CONFIG_NET_DSA_TAG_HELLCREEK=y
-CONFIG_NET_DSA_TAG_GSWIP=y
-CONFIG_NET_DSA_TAG_DSA_COMMON=y
-CONFIG_NET_DSA_TAG_DSA=y
-CONFIG_NET_DSA_TAG_EDSA=y
-CONFIG_NET_DSA_TAG_MTK=y
-CONFIG_NET_DSA_TAG_KSZ=y
-CONFIG_NET_DSA_TAG_OCELOT=y
-CONFIG_NET_DSA_TAG_OCELOT_8021Q=y
-CONFIG_NET_DSA_TAG_QCA=y
-CONFIG_NET_DSA_TAG_RTL4_A=y
-CONFIG_NET_DSA_TAG_RTL8_4=y
-CONFIG_NET_DSA_TAG_RZN1_A5PSW=y
-CONFIG_NET_DSA_TAG_LAN9303=y
-CONFIG_NET_DSA_TAG_SJA1105=y
-CONFIG_NET_DSA_TAG_TRAILER=y
-CONFIG_NET_DSA_TAG_XRS700X=y
-CONFIG_VLAN_8021Q=y
-CONFIG_VLAN_8021Q_GVRP=y
-CONFIG_VLAN_8021Q_MVRP=y
-CONFIG_LLC=y
-CONFIG_LLC2=y
-CONFIG_ATALK=y
-CONFIG_DEV_APPLETALK=y
-CONFIG_IPDDP=y
-CONFIG_IPDDP_ENCAP=y
-CONFIG_X25=y
-CONFIG_LAPB=y
-CONFIG_PHONET=y
-CONFIG_6LOWPAN=y
-CONFIG_6LOWPAN_DEBUGFS=y
-CONFIG_6LOWPAN_NHC=y
-CONFIG_6LOWPAN_NHC_DEST=y
-CONFIG_6LOWPAN_NHC_FRAGMENT=y
-CONFIG_6LOWPAN_NHC_HOP=y
-CONFIG_6LOWPAN_NHC_IPV6=y
-CONFIG_6LOWPAN_NHC_MOBILITY=y
-CONFIG_6LOWPAN_NHC_ROUTING=y
-CONFIG_6LOWPAN_NHC_UDP=y
-CONFIG_6LOWPAN_GHC_EXT_HDR_HOP=y
-CONFIG_6LOWPAN_GHC_UDP=y
-CONFIG_6LOWPAN_GHC_ICMPV6=y
-CONFIG_6LOWPAN_GHC_EXT_HDR_DEST=y
-CONFIG_6LOWPAN_GHC_EXT_HDR_FRAG=y
-CONFIG_6LOWPAN_GHC_EXT_HDR_ROUTE=y
-CONFIG_IEEE802154=y
-CONFIG_IEEE802154_NL802154_EXPERIMENTAL=y
-CONFIG_IEEE802154_SOCKET=y
-CONFIG_IEEE802154_6LOWPAN=y
-CONFIG_MAC802154=y
-CONFIG_NET_SCHED=y
-
-#
-# Queueing/Scheduling
-#
-CONFIG_NET_SCH_CBQ=y
-CONFIG_NET_SCH_HTB=y
-CONFIG_NET_SCH_HFSC=y
-CONFIG_NET_SCH_ATM=y
-CONFIG_NET_SCH_PRIO=y
-CONFIG_NET_SCH_MULTIQ=y
-CONFIG_NET_SCH_RED=y
-CONFIG_NET_SCH_SFB=y
-CONFIG_NET_SCH_SFQ=y
-CONFIG_NET_SCH_TEQL=y
-CONFIG_NET_SCH_TBF=y
-CONFIG_NET_SCH_CBS=y
-CONFIG_NET_SCH_ETF=y
-CONFIG_NET_SCH_TAPRIO=y
-CONFIG_NET_SCH_GRED=y
-CONFIG_NET_SCH_DSMARK=y
-CONFIG_NET_SCH_NETEM=y
-CONFIG_NET_SCH_DRR=y
-CONFIG_NET_SCH_MQPRIO=y
-CONFIG_NET_SCH_SKBPRIO=y
-CONFIG_NET_SCH_CHOKE=y
-CONFIG_NET_SCH_QFQ=y
-CONFIG_NET_SCH_CODEL=y
-CONFIG_NET_SCH_FQ_CODEL=y
-CONFIG_NET_SCH_CAKE=y
-CONFIG_NET_SCH_FQ=y
-CONFIG_NET_SCH_HHF=y
-CONFIG_NET_SCH_PIE=y
-CONFIG_NET_SCH_FQ_PIE=y
-CONFIG_NET_SCH_INGRESS=y
-CONFIG_NET_SCH_PLUG=y
-CONFIG_NET_SCH_ETS=y
-CONFIG_NET_SCH_DEFAULT=y
-# CONFIG_DEFAULT_FQ is not set
-# CONFIG_DEFAULT_CODEL is not set
-# CONFIG_DEFAULT_FQ_CODEL is not set
-# CONFIG_DEFAULT_FQ_PIE is not set
-# CONFIG_DEFAULT_SFQ is not set
-CONFIG_DEFAULT_PFIFO_FAST=y
-CONFIG_DEFAULT_NET_SCH="pfifo_fast"
-
-#
-# Classification
-#
-CONFIG_NET_CLS=y
-CONFIG_NET_CLS_BASIC=y
-CONFIG_NET_CLS_TCINDEX=y
-CONFIG_NET_CLS_ROUTE4=y
-CONFIG_NET_CLS_FW=y
-CONFIG_NET_CLS_U32=y
-CONFIG_CLS_U32_PERF=y
-CONFIG_CLS_U32_MARK=y
-CONFIG_NET_CLS_RSVP=y
-CONFIG_NET_CLS_RSVP6=y
-CONFIG_NET_CLS_FLOW=y
-CONFIG_NET_CLS_CGROUP=y
-CONFIG_NET_CLS_BPF=y
-CONFIG_NET_CLS_FLOWER=y
-CONFIG_NET_CLS_MATCHALL=y
-CONFIG_NET_EMATCH=y
-CONFIG_NET_EMATCH_STACK=32
-CONFIG_NET_EMATCH_CMP=y
-CONFIG_NET_EMATCH_NBYTE=y
-CONFIG_NET_EMATCH_U32=y
-CONFIG_NET_EMATCH_META=y
-CONFIG_NET_EMATCH_TEXT=y
-CONFIG_NET_EMATCH_CANID=y
-CONFIG_NET_EMATCH_IPSET=y
-CONFIG_NET_EMATCH_IPT=y
-CONFIG_NET_CLS_ACT=y
-CONFIG_NET_ACT_POLICE=y
-CONFIG_NET_ACT_GACT=y
-CONFIG_GACT_PROB=y
-CONFIG_NET_ACT_MIRRED=y
-CONFIG_NET_ACT_SAMPLE=y
-CONFIG_NET_ACT_IPT=y
-CONFIG_NET_ACT_NAT=y
-CONFIG_NET_ACT_PEDIT=y
-CONFIG_NET_ACT_SIMP=y
-CONFIG_NET_ACT_SKBEDIT=y
-CONFIG_NET_ACT_CSUM=y
-CONFIG_NET_ACT_MPLS=y
-CONFIG_NET_ACT_VLAN=y
-CONFIG_NET_ACT_BPF=y
-CONFIG_NET_ACT_CONNMARK=y
-CONFIG_NET_ACT_CTINFO=y
-CONFIG_NET_ACT_SKBMOD=y
-CONFIG_NET_ACT_IFE=y
-CONFIG_NET_ACT_TUNNEL_KEY=y
-CONFIG_NET_ACT_CT=y
-CONFIG_NET_ACT_GATE=y
-CONFIG_NET_IFE_SKBMARK=y
-CONFIG_NET_IFE_SKBPRIO=y
-CONFIG_NET_IFE_SKBTCINDEX=y
-CONFIG_NET_TC_SKB_EXT=y
-CONFIG_NET_SCH_FIFO=y
-CONFIG_DCB=y
-CONFIG_DNS_RESOLVER=y
-CONFIG_BATMAN_ADV=y
-CONFIG_BATMAN_ADV_BATMAN_V=y
-CONFIG_BATMAN_ADV_BLA=y
-CONFIG_BATMAN_ADV_DAT=y
-CONFIG_BATMAN_ADV_NC=y
-CONFIG_BATMAN_ADV_MCAST=y
-CONFIG_BATMAN_ADV_DEBUG=y
-CONFIG_OPENVSWITCH=y
-CONFIG_OPENVSWITCH_GRE=y
-CONFIG_OPENVSWITCH_VXLAN=y
-CONFIG_OPENVSWITCH_GENEVE=y
-CONFIG_VSOCKETS=y
-CONFIG_VSOCKETS_DIAG=y
-CONFIG_VSOCKETS_LOOPBACK=y
-CONFIG_VIRTIO_VSOCKETS=y
-CONFIG_VIRTIO_VSOCKETS_COMMON=y
-CONFIG_NETLINK_DIAG=y
-CONFIG_MPLS=y
-CONFIG_NET_MPLS_GSO=y
-CONFIG_MPLS_ROUTING=y
-CONFIG_MPLS_IPTUNNEL=y
-CONFIG_NET_NSH=y
-CONFIG_HSR=y
-CONFIG_NET_SWITCHDEV=y
-CONFIG_NET_L3_MASTER_DEV=y
-CONFIG_QRTR=y
-CONFIG_QRTR_SMD=y
-CONFIG_QRTR_TUN=y
-CONFIG_QRTR_MHI=y
-CONFIG_NET_NCSI=y
-CONFIG_NCSI_OEM_CMD_GET_MAC=y
-CONFIG_NCSI_OEM_CMD_KEEP_PHY=y
-CONFIG_PCPU_DEV_REFCNT=y
-CONFIG_RPS=y
-CONFIG_RFS_ACCEL=y
-CONFIG_SOCK_RX_QUEUE_MAPPING=y
-CONFIG_XPS=y
-CONFIG_CGROUP_NET_PRIO=y
-CONFIG_CGROUP_NET_CLASSID=y
-CONFIG_NET_RX_BUSY_POLL=y
-CONFIG_BQL=y
-CONFIG_BPF_STREAM_PARSER=y
-CONFIG_NET_FLOW_LIMIT=y
-
-#
-# Network testing
-#
-CONFIG_NET_PKTGEN=y
-# end of Network testing
-# end of Networking options
-
-CONFIG_HAMRADIO=y
-
-#
-# Packet Radio protocols
-#
-CONFIG_AX25=y
-CONFIG_AX25_DAMA_SLAVE=y
-CONFIG_NETROM=y
-CONFIG_ROSE=y
-
-#
-# AX.25 network device drivers
-#
-CONFIG_MKISS=y
-CONFIG_6PACK=y
-CONFIG_BPQETHER=y
-CONFIG_BAYCOM_SER_FDX=y
-CONFIG_BAYCOM_SER_HDX=y
-CONFIG_BAYCOM_PAR=y
-CONFIG_YAM=y
-# end of AX.25 network device drivers
-
-CONFIG_CAN=y
-CONFIG_CAN_RAW=y
-CONFIG_CAN_BCM=y
-CONFIG_CAN_GW=y
-CONFIG_CAN_J1939=y
-CONFIG_CAN_ISOTP=y
-CONFIG_BT=y
-CONFIG_BT_BREDR=y
-CONFIG_BT_RFCOMM=y
-CONFIG_BT_RFCOMM_TTY=y
-CONFIG_BT_BNEP=y
-CONFIG_BT_BNEP_MC_FILTER=y
-CONFIG_BT_BNEP_PROTO_FILTER=y
-CONFIG_BT_CMTP=y
-CONFIG_BT_HIDP=y
-CONFIG_BT_HS=y
-CONFIG_BT_LE=y
-CONFIG_BT_6LOWPAN=y
-CONFIG_BT_LEDS=y
-CONFIG_BT_MSFTEXT=y
-CONFIG_BT_AOSPEXT=y
-CONFIG_BT_DEBUGFS=y
-CONFIG_BT_SELFTEST=y
-CONFIG_BT_SELFTEST_ECDH=y
-CONFIG_BT_SELFTEST_SMP=y
-
-#
-# Bluetooth device drivers
-#
-CONFIG_BT_INTEL=y
-CONFIG_BT_BCM=y
-CONFIG_BT_RTL=y
-CONFIG_BT_QCA=y
-CONFIG_BT_MTK=y
-CONFIG_BT_HCIBTUSB=y
-CONFIG_BT_HCIBTUSB_AUTOSUSPEND=y
-CONFIG_BT_HCIBTUSB_BCM=y
-CONFIG_BT_HCIBTUSB_MTK=y
-CONFIG_BT_HCIBTUSB_RTL=y
-CONFIG_BT_HCIBTSDIO=y
-CONFIG_BT_HCIUART=y
-CONFIG_BT_HCIUART_SERDEV=y
-CONFIG_BT_HCIUART_H4=y
-CONFIG_BT_HCIUART_NOKIA=y
-CONFIG_BT_HCIUART_BCSP=y
-CONFIG_BT_HCIUART_ATH3K=y
-CONFIG_BT_HCIUART_LL=y
-CONFIG_BT_HCIUART_3WIRE=y
-CONFIG_BT_HCIUART_INTEL=y
-CONFIG_BT_HCIUART_BCM=y
-CONFIG_BT_HCIUART_RTL=y
-CONFIG_BT_HCIUART_QCA=y
-CONFIG_BT_HCIUART_AG6XX=y
-CONFIG_BT_HCIUART_MRVL=y
-CONFIG_BT_HCIBCM203X=y
-CONFIG_BT_HCIBPA10X=y
-CONFIG_BT_HCIBFUSB=y
-CONFIG_BT_HCIDTL1=y
-CONFIG_BT_HCIBT3C=y
-CONFIG_BT_HCIBLUECARD=y
-CONFIG_BT_HCIVHCI=y
-CONFIG_BT_MRVL=y
-CONFIG_BT_MRVL_SDIO=y
-CONFIG_BT_ATH3K=y
-CONFIG_BT_MTKSDIO=y
-CONFIG_BT_MTKUART=y
-CONFIG_BT_QCOMSMD=y
-CONFIG_BT_HCIRSI=y
-CONFIG_BT_VIRTIO=y
-# end of Bluetooth device drivers
-
-CONFIG_AF_RXRPC=y
-CONFIG_AF_RXRPC_IPV6=y
-CONFIG_AF_RXRPC_INJECT_LOSS=y
-CONFIG_AF_RXRPC_DEBUG=y
-CONFIG_RXKAD=y
-CONFIG_AF_KCM=y
-CONFIG_STREAM_PARSER=y
-CONFIG_MCTP=y
-CONFIG_MCTP_TEST=y
-CONFIG_MCTP_FLOWS=y
-CONFIG_FIB_RULES=y
-CONFIG_WIRELESS=y
-CONFIG_WIRELESS_EXT=y
-CONFIG_WEXT_CORE=y
-CONFIG_WEXT_PROC=y
-CONFIG_WEXT_SPY=y
-CONFIG_WEXT_PRIV=y
-CONFIG_CFG80211=y
-CONFIG_NL80211_TESTMODE=y
-CONFIG_CFG80211_DEVELOPER_WARNINGS=y
-CONFIG_CFG80211_CERTIFICATION_ONUS=y
-CONFIG_CFG80211_REQUIRE_SIGNED_REGDB=y
-CONFIG_CFG80211_USE_KERNEL_REGDB_KEYS=y
-CONFIG_CFG80211_EXTRA_REGDB_KEYDIR=""
-CONFIG_CFG80211_REG_CELLULAR_HINTS=y
-CONFIG_CFG80211_REG_RELAX_NO_IR=y
-CONFIG_CFG80211_DEFAULT_PS=y
-CONFIG_CFG80211_DEBUGFS=y
-CONFIG_CFG80211_CRDA_SUPPORT=y
-CONFIG_CFG80211_WEXT=y
-CONFIG_CFG80211_WEXT_EXPORT=y
-CONFIG_LIB80211=y
-CONFIG_LIB80211_CRYPT_WEP=y
-CONFIG_LIB80211_CRYPT_CCMP=y
-CONFIG_LIB80211_CRYPT_TKIP=y
-CONFIG_LIB80211_DEBUG=y
-CONFIG_MAC80211=y
-CONFIG_MAC80211_HAS_RC=y
-CONFIG_MAC80211_RC_MINSTREL=y
-CONFIG_MAC80211_RC_DEFAULT_MINSTREL=y
-CONFIG_MAC80211_RC_DEFAULT="minstrel_ht"
-CONFIG_MAC80211_MESH=y
-CONFIG_MAC80211_LEDS=y
-CONFIG_MAC80211_DEBUGFS=y
-CONFIG_MAC80211_MESSAGE_TRACING=y
-CONFIG_MAC80211_DEBUG_MENU=y
-CONFIG_MAC80211_NOINLINE=y
-CONFIG_MAC80211_VERBOSE_DEBUG=y
-CONFIG_MAC80211_MLME_DEBUG=y
-CONFIG_MAC80211_STA_DEBUG=y
-CONFIG_MAC80211_HT_DEBUG=y
-CONFIG_MAC80211_OCB_DEBUG=y
-CONFIG_MAC80211_IBSS_DEBUG=y
-CONFIG_MAC80211_PS_DEBUG=y
-CONFIG_MAC80211_MPL_DEBUG=y
-CONFIG_MAC80211_MPATH_DEBUG=y
-CONFIG_MAC80211_MHWMP_DEBUG=y
-CONFIG_MAC80211_MESH_SYNC_DEBUG=y
-CONFIG_MAC80211_MESH_CSA_DEBUG=y
-CONFIG_MAC80211_MESH_PS_DEBUG=y
-CONFIG_MAC80211_TDLS_DEBUG=y
-CONFIG_MAC80211_DEBUG_COUNTERS=y
-CONFIG_MAC80211_STA_HASH_MAX_SIZE=0
-CONFIG_RFKILL=y
-CONFIG_RFKILL_LEDS=y
-CONFIG_RFKILL_INPUT=y
-CONFIG_RFKILL_GPIO=y
-CONFIG_NET_9P=y
-CONFIG_NET_9P_FD=y
-CONFIG_NET_9P_VIRTIO=y
-CONFIG_NET_9P_RDMA=y
-CONFIG_NET_9P_DEBUG=y
-CONFIG_CAIF=y
-CONFIG_CAIF_DEBUG=y
-CONFIG_CAIF_NETDEV=y
-CONFIG_CAIF_USB=y
-CONFIG_CEPH_LIB=y
-CONFIG_CEPH_LIB_PRETTYDEBUG=y
-CONFIG_CEPH_LIB_USE_DNS_RESOLVER=y
-CONFIG_NFC=y
-CONFIG_NFC_DIGITAL=y
-CONFIG_NFC_NCI=y
-CONFIG_NFC_NCI_SPI=y
-CONFIG_NFC_NCI_UART=y
-CONFIG_NFC_HCI=y
-CONFIG_NFC_SHDLC=y
-
-#
-# Near Field Communication (NFC) devices
-#
-CONFIG_NFC_TRF7970A=y
-CONFIG_NFC_SIM=y
-CONFIG_NFC_PORT100=y
-CONFIG_NFC_VIRTUAL_NCI=y
-CONFIG_NFC_FDP=y
-CONFIG_NFC_FDP_I2C=y
-CONFIG_NFC_PN544=y
-CONFIG_NFC_PN544_I2C=y
-CONFIG_NFC_PN533=y
-CONFIG_NFC_PN533_USB=y
-CONFIG_NFC_PN533_I2C=y
-CONFIG_NFC_PN532_UART=y
-CONFIG_NFC_MICROREAD=y
-CONFIG_NFC_MICROREAD_I2C=y
-CONFIG_NFC_MRVL=y
-CONFIG_NFC_MRVL_USB=y
-CONFIG_NFC_MRVL_UART=y
-CONFIG_NFC_MRVL_I2C=y
-CONFIG_NFC_MRVL_SPI=y
-CONFIG_NFC_ST21NFCA=y
-CONFIG_NFC_ST21NFCA_I2C=y
-CONFIG_NFC_ST_NCI=y
-CONFIG_NFC_ST_NCI_I2C=y
-CONFIG_NFC_ST_NCI_SPI=y
-CONFIG_NFC_NXP_NCI=y
-CONFIG_NFC_NXP_NCI_I2C=y
-CONFIG_NFC_S3FWRN5=y
-CONFIG_NFC_S3FWRN5_I2C=y
-CONFIG_NFC_S3FWRN82_UART=y
-CONFIG_NFC_ST95HF=y
-# end of Near Field Communication (NFC) devices
-
-CONFIG_PSAMPLE=y
-CONFIG_NET_IFE=y
-CONFIG_LWTUNNEL=y
-CONFIG_LWTUNNEL_BPF=y
-CONFIG_DST_CACHE=y
-CONFIG_GRO_CELLS=y
-CONFIG_SOCK_VALIDATE_XMIT=y
-CONFIG_NET_SELFTESTS=y
-CONFIG_NET_SOCK_MSG=y
-CONFIG_NET_DEVLINK=y
-CONFIG_PAGE_POOL=y
-CONFIG_PAGE_POOL_STATS=y
-CONFIG_FAILOVER=y
-CONFIG_ETHTOOL_NETLINK=y
-CONFIG_NETDEV_ADDR_LIST_TEST=y
-
-#
-# Device Drivers
-#
-CONFIG_HAVE_PCI=y
-CONFIG_FORCE_PCI=y
-CONFIG_PCI=y
-CONFIG_PCI_DOMAINS=y
-CONFIG_PCI_SYSCALL=y
-CONFIG_PCIEPORTBUS=y
-CONFIG_HOTPLUG_PCI_PCIE=y
-CONFIG_PCIEAER=y
-CONFIG_PCIEAER_INJECT=y
-CONFIG_PCIE_ECRC=y
-CONFIG_PCIEASPM=y
-CONFIG_PCIEASPM_DEFAULT=y
-# CONFIG_PCIEASPM_POWERSAVE is not set
-# CONFIG_PCIEASPM_POWER_SUPERSAVE is not set
-# CONFIG_PCIEASPM_PERFORMANCE is not set
-CONFIG_PCIE_PME=y
-CONFIG_PCIE_DPC=y
-CONFIG_PCIE_PTM=y
-CONFIG_PCIE_EDR=y
-CONFIG_PCI_MSI=y
-CONFIG_PCI_MSI_IRQ_DOMAIN=y
-CONFIG_PCI_MSI_ARCH_FALLBACKS=y
-CONFIG_PCI_QUIRKS=y
-CONFIG_PCI_DEBUG=y
-CONFIG_PCI_REALLOC_ENABLE_AUTO=y
-CONFIG_PCI_STUB=y
-CONFIG_PCI_PF_STUB=y
-CONFIG_PCI_ATS=y
-CONFIG_PCI_DOE=y
-CONFIG_PCI_ECAM=y
-CONFIG_PCI_BRIDGE_EMUL=y
-CONFIG_PCI_IOV=y
-CONFIG_PCI_PRI=y
-CONFIG_PCI_PASID=y
-CONFIG_PCI_LABEL=y
-# CONFIG_PCIE_BUS_TUNE_OFF is not set
-CONFIG_PCIE_BUS_DEFAULT=y
-# CONFIG_PCIE_BUS_SAFE is not set
-# CONFIG_PCIE_BUS_PERFORMANCE is not set
-# CONFIG_PCIE_BUS_PEER2PEER is not set
-CONFIG_VGA_ARB=y
-CONFIG_VGA_ARB_MAX_GPUS=16
-CONFIG_HOTPLUG_PCI=y
-CONFIG_HOTPLUG_PCI_ACPI=y
-CONFIG_HOTPLUG_PCI_ACPI_IBM=y
-CONFIG_HOTPLUG_PCI_CPCI=y
-CONFIG_HOTPLUG_PCI_SHPC=y
-
-#
-# PCI controller drivers
-#
-CONFIG_PCI_AARDVARK=y
-CONFIG_PCIE_XILINX_NWL=y
-CONFIG_PCI_FTPCI100=y
-CONFIG_PCI_TEGRA=y
-CONFIG_PCIE_RCAR_HOST=y
-CONFIG_PCIE_RCAR_EP=y
-CONFIG_PCI_HOST_COMMON=y
-CONFIG_PCI_HOST_GENERIC=y
-CONFIG_PCIE_XILINX=y
-CONFIG_PCIE_XILINX_CPM=y
-CONFIG_PCI_XGENE=y
-CONFIG_PCI_XGENE_MSI=y
-CONFIG_PCI_V3_SEMI=y
-CONFIG_PCI_VERSATILE=y
-CONFIG_PCIE_ALTERA=y
-CONFIG_PCIE_ALTERA_MSI=y
-CONFIG_PCI_HOST_THUNDER_PEM=y
-CONFIG_PCI_HOST_THUNDER_ECAM=y
-CONFIG_PCIE_ROCKCHIP=y
-CONFIG_PCIE_ROCKCHIP_HOST=y
-CONFIG_PCIE_ROCKCHIP_EP=y
-CONFIG_PCIE_MEDIATEK=y
-CONFIG_PCIE_MEDIATEK_GEN3=y
-CONFIG_PCIE_BRCMSTB=y
-CONFIG_PCI_LOONGSON=y
-CONFIG_PCIE_MICROCHIP_HOST=y
-CONFIG_PCIE_APPLE_MSI_DOORBELL_ADDR=0xfffff000
-CONFIG_PCIE_APPLE=y
-CONFIG_PCIE_MT7621=y
-
-#
-# DesignWare PCI Core Support
-#
-CONFIG_PCIE_DW=y
-CONFIG_PCIE_DW_HOST=y
-CONFIG_PCIE_DW_EP=y
-CONFIG_PCI_DRA7XX=y
-CONFIG_PCI_DRA7XX_HOST=y
-CONFIG_PCI_DRA7XX_EP=y
-CONFIG_PCIE_DW_PLAT=y
-CONFIG_PCIE_DW_PLAT_HOST=y
-CONFIG_PCIE_DW_PLAT_EP=y
-CONFIG_PCI_EXYNOS=y
-CONFIG_PCI_IMX6=y
-CONFIG_PCIE_SPEAR13XX=y
-CONFIG_PCI_KEYSTONE=y
-CONFIG_PCI_KEYSTONE_HOST=y
-CONFIG_PCI_KEYSTONE_EP=y
-CONFIG_PCI_LAYERSCAPE=y
-CONFIG_PCI_LAYERSCAPE_EP=y
-CONFIG_PCI_HISI=y
-CONFIG_PCIE_QCOM=y
-CONFIG_PCIE_QCOM_EP=y
-CONFIG_PCIE_ARMADA_8K=y
-CONFIG_PCIE_ARTPEC6=y
-CONFIG_PCIE_ARTPEC6_HOST=y
-CONFIG_PCIE_ARTPEC6_EP=y
-CONFIG_PCIE_ROCKCHIP_DW_HOST=y
-CONFIG_PCIE_INTEL_GW=y
-CONFIG_PCIE_KEEMBAY=y
-CONFIG_PCIE_KEEMBAY_HOST=y
-CONFIG_PCIE_KEEMBAY_EP=y
-CONFIG_PCIE_KIRIN=y
-CONFIG_PCIE_HISI_STB=y
-CONFIG_PCI_MESON=y
-CONFIG_PCIE_TEGRA194=y
-CONFIG_PCIE_TEGRA194_HOST=y
-CONFIG_PCIE_TEGRA194_EP=y
-CONFIG_PCIE_VISCONTI_HOST=y
-CONFIG_PCIE_UNIPHIER=y
-CONFIG_PCIE_UNIPHIER_EP=y
-CONFIG_PCIE_AL=y
-CONFIG_PCIE_FU740=y
-# end of DesignWare PCI Core Support
-
-#
-# Mobiveil PCIe Core Support
-#
-CONFIG_PCIE_MOBIVEIL=y
-CONFIG_PCIE_MOBIVEIL_HOST=y
-CONFIG_PCIE_MOBIVEIL_PLAT=y
-CONFIG_PCIE_LAYERSCAPE_GEN4=y
-# end of Mobiveil PCIe Core Support
-
-#
-# Cadence PCIe controllers support
-#
-CONFIG_PCIE_CADENCE=y
-CONFIG_PCIE_CADENCE_HOST=y
-CONFIG_PCIE_CADENCE_EP=y
-CONFIG_PCIE_CADENCE_PLAT=y
-CONFIG_PCIE_CADENCE_PLAT_HOST=y
-CONFIG_PCIE_CADENCE_PLAT_EP=y
-CONFIG_PCI_J721E=y
-CONFIG_PCI_J721E_HOST=y
-CONFIG_PCI_J721E_EP=y
-# end of Cadence PCIe controllers support
-# end of PCI controller drivers
-
-#
-# PCI Endpoint
-#
-CONFIG_PCI_ENDPOINT=y
-CONFIG_PCI_ENDPOINT_CONFIGFS=y
-CONFIG_PCI_EPF_TEST=y
-CONFIG_PCI_EPF_NTB=y
-CONFIG_PCI_EPF_VNTB=y
-# end of PCI Endpoint
-
-#
-# PCI switch controller drivers
-#
-CONFIG_PCI_SW_SWITCHTEC=y
-# end of PCI switch controller drivers
-
-CONFIG_CXL_BUS=y
-CONFIG_CXL_PCI=y
-CONFIG_CXL_MEM_RAW_COMMANDS=y
-CONFIG_CXL_ACPI=y
-CONFIG_CXL_PMEM=y
-CONFIG_CXL_MEM=y
-CONFIG_CXL_PORT=y
-CONFIG_CXL_REGION=y
-CONFIG_PCCARD=y
-CONFIG_PCMCIA=y
-CONFIG_PCMCIA_LOAD_CIS=y
-CONFIG_CARDBUS=y
-
-#
-# PC-card bridges
-#
-CONFIG_YENTA=y
-CONFIG_YENTA_O2=y
-CONFIG_YENTA_RICOH=y
-CONFIG_YENTA_TI=y
-CONFIG_YENTA_ENE_TUNE=y
-CONFIG_YENTA_TOSHIBA=y
-CONFIG_PD6729=y
-CONFIG_I82092=y
-CONFIG_PCCARD_NONSTATIC=y
-CONFIG_RAPIDIO=y
-CONFIG_RAPIDIO_TSI721=y
-CONFIG_RAPIDIO_DISC_TIMEOUT=30
-CONFIG_RAPIDIO_ENABLE_RX_TX_PORTS=y
-CONFIG_RAPIDIO_DMA_ENGINE=y
-CONFIG_RAPIDIO_DEBUG=y
-CONFIG_RAPIDIO_ENUM_BASIC=y
-CONFIG_RAPIDIO_CHMAN=y
-CONFIG_RAPIDIO_MPORT_CDEV=y
-
-#
-# RapidIO Switch drivers
-#
-CONFIG_RAPIDIO_CPS_XX=y
-CONFIG_RAPIDIO_CPS_GEN2=y
-CONFIG_RAPIDIO_RXS_GEN3=y
-# end of RapidIO Switch drivers
-
-#
-# Generic Driver Options
-#
-CONFIG_AUXILIARY_BUS=y
-CONFIG_UEVENT_HELPER=y
-CONFIG_UEVENT_HELPER_PATH=""
-CONFIG_DEVTMPFS=y
-CONFIG_DEVTMPFS_MOUNT=y
-CONFIG_DEVTMPFS_SAFE=y
-CONFIG_STANDALONE=y
-CONFIG_PREVENT_FIRMWARE_BUILD=y
-
-#
-# Firmware loader
-#
-CONFIG_FW_LOADER=y
-CONFIG_FW_LOADER_PAGED_BUF=y
-CONFIG_FW_LOADER_SYSFS=y
-CONFIG_EXTRA_FIRMWARE=""
-CONFIG_FW_LOADER_USER_HELPER=y
-CONFIG_FW_LOADER_USER_HELPER_FALLBACK=y
-CONFIG_FW_LOADER_COMPRESS=y
-CONFIG_FW_LOADER_COMPRESS_XZ=y
-CONFIG_FW_LOADER_COMPRESS_ZSTD=y
-CONFIG_FW_UPLOAD=y
-# end of Firmware loader
-
-CONFIG_WANT_DEV_COREDUMP=y
-CONFIG_ALLOW_DEV_COREDUMP=y
-CONFIG_DEV_COREDUMP=y
-CONFIG_DEBUG_DRIVER=y
-CONFIG_DEBUG_DEVRES=y
-CONFIG_DEBUG_TEST_DRIVER_REMOVE=y
-CONFIG_PM_QOS_KUNIT_TEST=y
-CONFIG_HMEM_REPORTING=y
-CONFIG_TEST_ASYNC_DRIVER_PROBE=m
-CONFIG_DRIVER_PE_KUNIT_TEST=y
-CONFIG_SOC_BUS=y
-CONFIG_REGMAP=y
-CONFIG_REGMAP_AC97=y
-CONFIG_REGMAP_I2C=y
-CONFIG_REGMAP_SLIMBUS=y
-CONFIG_REGMAP_SPI=y
-CONFIG_REGMAP_SPMI=y
-CONFIG_REGMAP_W1=y
-CONFIG_REGMAP_MMIO=y
-CONFIG_REGMAP_IRQ=y
-CONFIG_REGMAP_SOUNDWIRE=y
-CONFIG_REGMAP_SOUNDWIRE_MBQ=y
-CONFIG_REGMAP_SCCB=y
-CONFIG_REGMAP_I3C=y
-CONFIG_REGMAP_SPI_AVMM=y
-CONFIG_DMA_SHARED_BUFFER=y
-CONFIG_DMA_FENCE_TRACE=y
-# end of Generic Driver Options
-
-#
-# Bus devices
-#
-CONFIG_ARM_INTEGRATOR_LM=y
-CONFIG_BT1_APB=y
-CONFIG_BT1_AXI=y
-CONFIG_MOXTET=y
-CONFIG_HISILICON_LPC=y
-CONFIG_INTEL_IXP4XX_EB=y
-CONFIG_QCOM_EBI2=y
-CONFIG_MHI_BUS=y
-CONFIG_MHI_BUS_DEBUG=y
-CONFIG_MHI_BUS_PCI_GENERIC=y
-CONFIG_MHI_BUS_EP=y
-# end of Bus devices
-
-CONFIG_CONNECTOR=y
-CONFIG_PROC_EVENTS=y
-
-#
-# Firmware Drivers
-#
-
-#
-# ARM System Control and Management Interface Protocol
-#
-CONFIG_ARM_SCMI_PROTOCOL=y
-CONFIG_ARM_SCMI_HAVE_TRANSPORT=y
-CONFIG_ARM_SCMI_HAVE_SHMEM=y
-CONFIG_ARM_SCMI_HAVE_MSG=y
-CONFIG_ARM_SCMI_TRANSPORT_MAILBOX=y
-CONFIG_ARM_SCMI_TRANSPORT_VIRTIO=y
-CONFIG_ARM_SCMI_TRANSPORT_VIRTIO_VERSION1_COMPLIANCE=y
-CONFIG_ARM_SCMI_TRANSPORT_VIRTIO_ATOMIC_ENABLE=y
-CONFIG_ARM_SCMI_POWER_DOMAIN=y
-CONFIG_ARM_SCMI_POWER_CONTROL=y
-# end of ARM System Control and Management Interface Protocol
-
-CONFIG_ARM_SCPI_PROTOCOL=y
-CONFIG_ARM_SCPI_POWER_DOMAIN=y
-CONFIG_FIRMWARE_MEMMAP=y
-CONFIG_EFI_PCDP=y
-CONFIG_DMIID=y
-CONFIG_DMI_SYSFS=y
-CONFIG_DMI_SCAN_MACHINE_NON_EFI_FALLBACK=y
-CONFIG_ISCSI_IBFT=y
-CONFIG_MTK_ADSP_IPC=y
-CONFIG_QCOM_SCM=y
-CONFIG_QCOM_SCM_DOWNLOAD_MODE_DEFAULT=y
-CONFIG_SYSFB=y
-CONFIG_SYSFB_SIMPLEFB=y
-CONFIG_TURRIS_MOX_RWTM=y
-CONFIG_BCM47XX_NVRAM=y
-CONFIG_BCM47XX_SPROM=y
-CONFIG_TEE_BNXT_FW=y
-CONFIG_CS_DSP=y
-CONFIG_GOOGLE_FIRMWARE=y
-CONFIG_GOOGLE_COREBOOT_TABLE=y
-CONFIG_GOOGLE_MEMCONSOLE=y
-CONFIG_GOOGLE_MEMCONSOLE_COREBOOT=y
-CONFIG_GOOGLE_VPD=y
-
-#
-# EFI (Extensible Firmware Interface) Support
-#
-CONFIG_EFI_VARS_PSTORE=y
-CONFIG_EFI_VARS_PSTORE_DEFAULT_DISABLE=y
-CONFIG_EFI_BOOTLOADER_CONTROL=y
-CONFIG_EFI_TEST=y
-CONFIG_EFI_RCI2_TABLE=y
-CONFIG_EFI_DISABLE_PCI_DMA=y
-CONFIG_EFI_CUSTOM_SSDT_OVERLAYS=y
-CONFIG_EFI_DISABLE_RUNTIME=y
-CONFIG_EFI_COCO_SECRET=y
-# end of EFI (Extensible Firmware Interface) Support
-
-CONFIG_IMX_DSP=y
-CONFIG_IMX_SCU=y
-CONFIG_IMX_SCU_PD=y
-
-#
-# Tegra firmware driver
-#
-# end of Tegra firmware driver
-# end of Firmware Drivers
-
-CONFIG_GNSS=y
-CONFIG_GNSS_SERIAL=y
-CONFIG_GNSS_MTK_SERIAL=y
-CONFIG_GNSS_SIRF_SERIAL=y
-CONFIG_GNSS_UBX_SERIAL=y
-CONFIG_GNSS_USB=y
-CONFIG_MTD=y
-CONFIG_MTD_TESTS=m
-
-#
-# Partition parsers
-#
-CONFIG_MTD_AR7_PARTS=y
-CONFIG_MTD_BCM63XX_PARTS=y
-CONFIG_MTD_BRCM_U_BOOT=y
-CONFIG_MTD_CMDLINE_PARTS=y
-CONFIG_MTD_OF_PARTS=y
-CONFIG_MTD_OF_PARTS_BCM4908=y
-CONFIG_MTD_OF_PARTS_LINKSYS_NS=y
-CONFIG_MTD_PARSER_IMAGETAG=y
-CONFIG_MTD_PARSER_TRX=y
-CONFIG_MTD_SHARPSL_PARTS=y
-CONFIG_MTD_REDBOOT_PARTS=y
-CONFIG_MTD_REDBOOT_DIRECTORY_BLOCK=-1
-CONFIG_MTD_REDBOOT_PARTS_UNALLOCATED=y
-CONFIG_MTD_REDBOOT_PARTS_READONLY=y
-CONFIG_MTD_QCOMSMEM_PARTS=y
-# end of Partition parsers
-
-#
-# User Modules And Translation Layers
-#
-CONFIG_MTD_BLKDEVS=y
-CONFIG_MTD_BLOCK=y
-
-#
-# Note that in some cases UBI block is preferred. See MTD_UBI_BLOCK.
-#
-CONFIG_FTL=y
-CONFIG_NFTL=y
-CONFIG_NFTL_RW=y
-CONFIG_INFTL=y
-CONFIG_RFD_FTL=y
-CONFIG_SSFDC=y
-CONFIG_SM_FTL=y
-CONFIG_MTD_OOPS=y
-CONFIG_MTD_PSTORE=y
-CONFIG_MTD_SWAP=y
-CONFIG_MTD_PARTITIONED_MASTER=y
-
-#
-# RAM/ROM/Flash chip drivers
-#
-CONFIG_MTD_CFI=y
-CONFIG_MTD_JEDECPROBE=y
-CONFIG_MTD_GEN_PROBE=y
-CONFIG_MTD_CFI_ADV_OPTIONS=y
-CONFIG_MTD_CFI_NOSWAP=y
-# CONFIG_MTD_CFI_BE_BYTE_SWAP is not set
-# CONFIG_MTD_CFI_LE_BYTE_SWAP is not set
-CONFIG_MTD_CFI_GEOMETRY=y
-CONFIG_MTD_MAP_BANK_WIDTH_1=y
-CONFIG_MTD_MAP_BANK_WIDTH_2=y
-CONFIG_MTD_MAP_BANK_WIDTH_4=y
-CONFIG_MTD_MAP_BANK_WIDTH_8=y
-CONFIG_MTD_MAP_BANK_WIDTH_16=y
-CONFIG_MTD_MAP_BANK_WIDTH_32=y
-CONFIG_MTD_CFI_I1=y
-CONFIG_MTD_CFI_I2=y
-CONFIG_MTD_CFI_I4=y
-CONFIG_MTD_CFI_I8=y
-CONFIG_MTD_OTP=y
-CONFIG_MTD_CFI_INTELEXT=y
-CONFIG_MTD_CFI_AMDSTD=y
-CONFIG_MTD_CFI_STAA=y
-CONFIG_MTD_CFI_UTIL=y
-CONFIG_MTD_RAM=y
-CONFIG_MTD_ROM=y
-CONFIG_MTD_ABSENT=y
-# end of RAM/ROM/Flash chip drivers
-
-#
-# Mapping drivers for chip access
-#
-CONFIG_MTD_COMPLEX_MAPPINGS=y
-CONFIG_MTD_PHYSMAP=y
-CONFIG_MTD_PHYSMAP_COMPAT=y
-CONFIG_MTD_PHYSMAP_START=0x8000000
-CONFIG_MTD_PHYSMAP_LEN=0
-CONFIG_MTD_PHYSMAP_BANKWIDTH=2
-CONFIG_MTD_PHYSMAP_OF=y
-CONFIG_MTD_PHYSMAP_BT1_ROM=y
-CONFIG_MTD_PHYSMAP_VERSATILE=y
-CONFIG_MTD_PHYSMAP_GEMINI=y
-CONFIG_MTD_PHYSMAP_GPIO_ADDR=y
-CONFIG_MTD_SC520CDP=y
-CONFIG_MTD_NETSC520=y
-CONFIG_MTD_TS5500=y
-CONFIG_MTD_PCI=y
-CONFIG_MTD_PCMCIA=y
-CONFIG_MTD_PCMCIA_ANONYMOUS=y
-CONFIG_MTD_INTEL_VR_NOR=y
-CONFIG_MTD_PLATRAM=y
-# end of Mapping drivers for chip access
-
-#
-# Self-contained MTD device drivers
-#
-CONFIG_MTD_PMC551=y
-CONFIG_MTD_PMC551_BUGFIX=y
-CONFIG_MTD_PMC551_DEBUG=y
-CONFIG_MTD_DATAFLASH=y
-CONFIG_MTD_DATAFLASH_WRITE_VERIFY=y
-CONFIG_MTD_DATAFLASH_OTP=y
-CONFIG_MTD_MCHP23K256=y
-CONFIG_MTD_MCHP48L640=y
-CONFIG_MTD_SPEAR_SMI=y
-CONFIG_MTD_SST25L=y
-CONFIG_MTD_SLRAM=y
-CONFIG_MTD_PHRAM=y
-CONFIG_MTD_MTDRAM=y
-CONFIG_MTDRAM_TOTAL_SIZE=4096
-CONFIG_MTDRAM_ERASE_SIZE=128
-CONFIG_MTD_BLOCK2MTD=y
-
-#
-# Disk-On-Chip Device Drivers
-#
-CONFIG_MTD_DOCG3=y
-CONFIG_BCH_CONST_M=14
-CONFIG_BCH_CONST_T=4
-# end of Self-contained MTD device drivers
-
-#
-# NAND
-#
-CONFIG_MTD_NAND_CORE=y
-CONFIG_MTD_ONENAND=y
-CONFIG_MTD_ONENAND_VERIFY_WRITE=y
-CONFIG_MTD_ONENAND_GENERIC=y
-CONFIG_MTD_ONENAND_SAMSUNG=y
-CONFIG_MTD_ONENAND_OTP=y
-CONFIG_MTD_ONENAND_2X_PROGRAM=y
-CONFIG_MTD_RAW_NAND=y
-
-#
-# Raw/parallel NAND flash controllers
-#
-CONFIG_MTD_NAND_DENALI=y
-CONFIG_MTD_NAND_DENALI_PCI=y
-CONFIG_MTD_NAND_DENALI_DT=y
-CONFIG_MTD_NAND_AMS_DELTA=y
-CONFIG_MTD_NAND_OMAP2=y
-CONFIG_MTD_NAND_OMAP_BCH=y
-CONFIG_MTD_NAND_OMAP_BCH_BUILD=y
-CONFIG_MTD_NAND_SHARPSL=y
-CONFIG_MTD_NAND_CAFE=y
-CONFIG_MTD_NAND_ATMEL=y
-CONFIG_MTD_NAND_MARVELL=y
-CONFIG_MTD_NAND_SLC_LPC32XX=y
-CONFIG_MTD_NAND_MLC_LPC32XX=y
-CONFIG_MTD_NAND_BRCMNAND=y
-CONFIG_MTD_NAND_BRCMNAND_BCM63XX=y
-CONFIG_MTD_NAND_BRCMNAND_BCMA=y
-CONFIG_MTD_NAND_BRCMNAND_BCMBCA=y
-CONFIG_MTD_NAND_BRCMNAND_BRCMSTB=y
-CONFIG_MTD_NAND_BRCMNAND_IPROC=y
-CONFIG_MTD_NAND_BCM47XXNFLASH=y
-CONFIG_MTD_NAND_OXNAS=y
-CONFIG_MTD_NAND_GPMI_NAND=y
-CONFIG_MTD_NAND_FSL_IFC=y
-CONFIG_MTD_NAND_VF610_NFC=y
-CONFIG_MTD_NAND_MXC=y
-CONFIG_MTD_NAND_SH_FLCTL=y
-CONFIG_MTD_NAND_DAVINCI=y
-CONFIG_MTD_NAND_TXX9NDFMC=y
-CONFIG_MTD_NAND_JZ4780=y
-CONFIG_MTD_NAND_INGENIC_ECC=y
-CONFIG_MTD_NAND_JZ4740_ECC=y
-CONFIG_MTD_NAND_JZ4725B_BCH=y
-CONFIG_MTD_NAND_JZ4780_BCH=y
-CONFIG_MTD_NAND_FSMC=y
-CONFIG_MTD_NAND_SUNXI=y
-CONFIG_MTD_NAND_HISI504=y
-CONFIG_MTD_NAND_QCOM=y
-CONFIG_MTD_NAND_MTK=y
-CONFIG_MTD_NAND_MXIC=y
-CONFIG_MTD_NAND_TEGRA=y
-CONFIG_MTD_NAND_STM32_FMC2=y
-CONFIG_MTD_NAND_MESON=y
-CONFIG_MTD_NAND_GPIO=y
-CONFIG_MTD_NAND_PLATFORM=y
-CONFIG_MTD_NAND_CADENCE=y
-CONFIG_MTD_NAND_ARASAN=y
-CONFIG_MTD_NAND_INTEL_LGM=y
-CONFIG_MTD_NAND_RENESAS=y
-
-#
-# Misc
-#
-CONFIG_MTD_SM_COMMON=y
-CONFIG_MTD_NAND_NANDSIM=y
-CONFIG_MTD_NAND_RICOH=y
-CONFIG_MTD_NAND_DISKONCHIP=y
-CONFIG_MTD_NAND_DISKONCHIP_PROBE_ADVANCED=y
-CONFIG_MTD_NAND_DISKONCHIP_PROBE_ADDRESS=0
-CONFIG_MTD_NAND_DISKONCHIP_PROBE_HIGH=y
-CONFIG_MTD_NAND_DISKONCHIP_BBTWRITE=y
-CONFIG_MTD_SPI_NAND=y
-
-#
-# ECC engine support
-#
-CONFIG_MTD_NAND_ECC=y
-CONFIG_MTD_NAND_ECC_SW_HAMMING=y
-CONFIG_MTD_NAND_ECC_SW_HAMMING_SMC=y
-CONFIG_MTD_NAND_ECC_SW_BCH=y
-CONFIG_MTD_NAND_ECC_MXIC=y
-CONFIG_MTD_NAND_ECC_MEDIATEK=y
-# end of ECC engine support
-# end of NAND
-
-#
-# LPDDR & LPDDR2 PCM memory drivers
-#
-CONFIG_MTD_LPDDR=y
-CONFIG_MTD_QINFO_PROBE=y
-# end of LPDDR & LPDDR2 PCM memory drivers
-
-CONFIG_MTD_SPI_NOR=y
-CONFIG_MTD_SPI_NOR_USE_4K_SECTORS=y
-# CONFIG_MTD_SPI_NOR_SWP_DISABLE is not set
-CONFIG_MTD_SPI_NOR_SWP_DISABLE_ON_VOLATILE=y
-# CONFIG_MTD_SPI_NOR_SWP_KEEP is not set
-CONFIG_SPI_HISI_SFC=y
-CONFIG_SPI_NXP_SPIFI=y
-CONFIG_MTD_UBI=y
-CONFIG_MTD_UBI_WL_THRESHOLD=4096
-CONFIG_MTD_UBI_BEB_LIMIT=20
-CONFIG_MTD_UBI_FASTMAP=y
-CONFIG_MTD_UBI_GLUEBI=y
-CONFIG_MTD_UBI_BLOCK=y
-CONFIG_MTD_HYPERBUS=y
-CONFIG_HBMC_AM654=y
-CONFIG_DTC=y
-CONFIG_OF=y
-CONFIG_OF_UNITTEST=y
-CONFIG_OF_ALL_DTBS=y
-CONFIG_OF_FLATTREE=y
-CONFIG_OF_EARLY_FLATTREE=y
-CONFIG_OF_KOBJ=y
-CONFIG_OF_DYNAMIC=y
-CONFIG_OF_ADDRESS=y
-CONFIG_OF_IRQ=y
-CONFIG_OF_RESERVED_MEM=y
-CONFIG_OF_RESOLVE=y
-CONFIG_OF_OVERLAY=y
-CONFIG_ARCH_MIGHT_HAVE_PC_PARPORT=y
-CONFIG_PARPORT=y
-CONFIG_PARPORT_PC=y
-CONFIG_PARPORT_SERIAL=y
-CONFIG_PARPORT_PC_FIFO=y
-CONFIG_PARPORT_PC_SUPERIO=y
-CONFIG_PARPORT_PC_PCMCIA=y
-CONFIG_PARPORT_AX88796=y
-CONFIG_PARPORT_1284=y
-CONFIG_PARPORT_NOT_PC=y
-CONFIG_PNP=y
-CONFIG_PNP_DEBUG_MESSAGES=y
-
-#
-# Protocols
-#
-CONFIG_ISAPNP=y
-CONFIG_PNPACPI=y
-CONFIG_BLK_DEV=y
-CONFIG_BLK_DEV_NULL_BLK=y
-CONFIG_BLK_DEV_NULL_BLK_FAULT_INJECTION=y
-CONFIG_CDROM=y
-CONFIG_PARIDE=y
-
-#
-# Parallel IDE high-level drivers
-#
-CONFIG_PARIDE_PD=y
-CONFIG_PARIDE_PCD=y
-CONFIG_PARIDE_PF=y
-CONFIG_PARIDE_PT=y
-CONFIG_PARIDE_PG=y
-
-#
-# Parallel IDE protocol modules
-#
-CONFIG_PARIDE_ATEN=y
-CONFIG_PARIDE_BPCK=y
-CONFIG_PARIDE_COMM=y
-CONFIG_PARIDE_DSTR=y
-CONFIG_PARIDE_FIT2=y
-CONFIG_PARIDE_FIT3=y
-CONFIG_PARIDE_EPAT=y
-CONFIG_PARIDE_EPATC8=y
-CONFIG_PARIDE_EPIA=y
-CONFIG_PARIDE_FRIQ=y
-CONFIG_PARIDE_FRPW=y
-CONFIG_PARIDE_KBIC=y
-CONFIG_PARIDE_KTTI=y
-CONFIG_PARIDE_ON20=y
-CONFIG_PARIDE_ON26=y
-CONFIG_BLK_DEV_PCIESSD_MTIP32XX=y
-CONFIG_ZRAM=y
-CONFIG_ZRAM_DEF_COMP_LZORLE=y
-# CONFIG_ZRAM_DEF_COMP_ZSTD is not set
-# CONFIG_ZRAM_DEF_COMP_LZ4 is not set
-# CONFIG_ZRAM_DEF_COMP_LZO is not set
-# CONFIG_ZRAM_DEF_COMP_LZ4HC is not set
-# CONFIG_ZRAM_DEF_COMP_842 is not set
-CONFIG_ZRAM_DEF_COMP="lzo-rle"
-CONFIG_ZRAM_WRITEBACK=y
-CONFIG_ZRAM_MEMORY_TRACKING=y
-CONFIG_BLK_DEV_LOOP=y
-CONFIG_BLK_DEV_LOOP_MIN_COUNT=8
-CONFIG_BLK_DEV_DRBD=y
-CONFIG_DRBD_FAULT_INJECTION=y
-CONFIG_BLK_DEV_NBD=y
-CONFIG_BLK_DEV_RAM=y
-CONFIG_BLK_DEV_RAM_COUNT=16
-CONFIG_BLK_DEV_RAM_SIZE=4096
-CONFIG_CDROM_PKTCDVD=y
-CONFIG_CDROM_PKTCDVD_BUFFERS=8
-CONFIG_CDROM_PKTCDVD_WCACHE=y
-CONFIG_ATA_OVER_ETH=y
-CONFIG_VIRTIO_BLK=y
-CONFIG_BLK_DEV_RBD=y
-CONFIG_BLK_DEV_UBLK=y
-CONFIG_BLK_DEV_RNBD=y
-CONFIG_BLK_DEV_RNBD_CLIENT=y
-CONFIG_BLK_DEV_RNBD_SERVER=y
-
-#
-# NVME Support
-#
-CONFIG_NVME_COMMON=y
-CONFIG_NVME_CORE=y
-CONFIG_BLK_DEV_NVME=y
-CONFIG_NVME_MULTIPATH=y
-CONFIG_NVME_VERBOSE_ERRORS=y
-CONFIG_NVME_HWMON=y
-CONFIG_NVME_FABRICS=y
-CONFIG_NVME_RDMA=y
-CONFIG_NVME_FC=y
-CONFIG_NVME_TCP=y
-CONFIG_NVME_AUTH=y
-CONFIG_NVME_APPLE=y
-CONFIG_NVME_TARGET=y
-CONFIG_NVME_TARGET_PASSTHRU=y
-CONFIG_NVME_TARGET_LOOP=y
-CONFIG_NVME_TARGET_RDMA=y
-CONFIG_NVME_TARGET_FC=y
-CONFIG_NVME_TARGET_FCLOOP=y
-CONFIG_NVME_TARGET_TCP=y
-CONFIG_NVME_TARGET_AUTH=y
-# end of NVME Support
-
-#
-# Misc devices
-#
-CONFIG_SENSORS_LIS3LV02D=y
-CONFIG_AD525X_DPOT=y
-CONFIG_AD525X_DPOT_I2C=y
-CONFIG_AD525X_DPOT_SPI=y
-CONFIG_DUMMY_IRQ=y
-CONFIG_PHANTOM=y
-CONFIG_TIFM_CORE=y
-CONFIG_TIFM_7XX1=y
-CONFIG_ICS932S401=y
-CONFIG_ATMEL_SSC=y
-CONFIG_ENCLOSURE_SERVICES=y
-CONFIG_GEHC_ACHC=y
-CONFIG_HI6421V600_IRQ=y
-CONFIG_HP_ILO=y
-CONFIG_QCOM_COINCELL=y
-CONFIG_QCOM_FASTRPC=y
-CONFIG_APDS9802ALS=y
-CONFIG_ISL29003=y
-CONFIG_ISL29020=y
-CONFIG_SENSORS_TSL2550=y
-CONFIG_SENSORS_BH1770=y
-CONFIG_SENSORS_APDS990X=y
-CONFIG_HMC6352=y
-CONFIG_DS1682=y
-CONFIG_PCH_PHUB=y
-CONFIG_LATTICE_ECP3_CONFIG=y
-CONFIG_SRAM=y
-CONFIG_DW_XDATA_PCIE=y
-CONFIG_PCI_ENDPOINT_TEST=y
-CONFIG_XILINX_SDFEC=y
-CONFIG_MISC_RTSX=y
-CONFIG_HISI_HIKEY_USB=y
-CONFIG_OPEN_DICE=y
-CONFIG_VCPU_STALL_DETECTOR=y
-CONFIG_C2PORT=y
-
-#
-# EEPROM support
-#
-CONFIG_EEPROM_AT24=y
-CONFIG_EEPROM_AT25=y
-CONFIG_EEPROM_LEGACY=y
-CONFIG_EEPROM_MAX6875=y
-CONFIG_EEPROM_93CX6=y
-CONFIG_EEPROM_93XX46=y
-CONFIG_EEPROM_IDT_89HPESX=y
-CONFIG_EEPROM_EE1004=y
-# end of EEPROM support
-
-CONFIG_CB710_CORE=y
-CONFIG_CB710_DEBUG=y
-CONFIG_CB710_DEBUG_ASSUMPTIONS=y
-
-#
-# Texas Instruments shared transport line discipline
-#
-CONFIG_TI_ST=y
-# end of Texas Instruments shared transport line discipline
-
-CONFIG_SENSORS_LIS3_I2C=y
-CONFIG_ALTERA_STAPL=y
-CONFIG_GENWQE=y
-CONFIG_GENWQE_PLATFORM_ERROR_RECOVERY=0
-CONFIG_ECHO=y
-CONFIG_BCM_VK=y
-CONFIG_BCM_VK_TTY=y
-CONFIG_MISC_ALCOR_PCI=y
-CONFIG_MISC_RTSX_PCI=y
-CONFIG_MISC_RTSX_USB=y
-CONFIG_HABANA_AI=y
-CONFIG_UACCE=y
-CONFIG_PVPANIC=y
-CONFIG_PVPANIC_MMIO=y
-CONFIG_PVPANIC_PCI=y
-CONFIG_GP_PCI1XXXX=y
-# end of Misc devices
-
-#
-# SCSI device support
-#
-CONFIG_SCSI_MOD=y
-CONFIG_RAID_ATTRS=y
-CONFIG_SCSI_COMMON=y
-CONFIG_SCSI=y
-CONFIG_SCSI_DMA=y
-CONFIG_SCSI_NETLINK=y
-CONFIG_SCSI_PROC_FS=y
-
-#
-# SCSI support type (disk, tape, CD-ROM)
-#
-CONFIG_BLK_DEV_SD=y
-CONFIG_CHR_DEV_ST=y
-CONFIG_BLK_DEV_SR=y
-CONFIG_CHR_DEV_SG=y
-CONFIG_BLK_DEV_BSG=y
-CONFIG_CHR_DEV_SCH=y
-CONFIG_SCSI_ENCLOSURE=y
-CONFIG_SCSI_CONSTANTS=y
-CONFIG_SCSI_LOGGING=y
-CONFIG_SCSI_SCAN_ASYNC=y
-
-#
-# SCSI Transports
-#
-CONFIG_SCSI_SPI_ATTRS=y
-CONFIG_SCSI_FC_ATTRS=y
-CONFIG_SCSI_ISCSI_ATTRS=y
-CONFIG_SCSI_SAS_ATTRS=y
-CONFIG_SCSI_SAS_LIBSAS=y
-CONFIG_SCSI_SAS_ATA=y
-CONFIG_SCSI_SAS_HOST_SMP=y
-CONFIG_SCSI_SRP_ATTRS=y
-# end of SCSI Transports
-
-CONFIG_SCSI_LOWLEVEL=y
-CONFIG_ISCSI_TCP=y
-CONFIG_ISCSI_BOOT_SYSFS=y
-CONFIG_SCSI_CXGB3_ISCSI=y
-CONFIG_SCSI_CXGB4_ISCSI=y
-CONFIG_SCSI_BNX2_ISCSI=y
-CONFIG_SCSI_BNX2X_FCOE=y
-CONFIG_BE2ISCSI=y
-CONFIG_BLK_DEV_3W_XXXX_RAID=y
-CONFIG_SCSI_HPSA=y
-CONFIG_SCSI_3W_9XXX=y
-CONFIG_SCSI_3W_SAS=y
-CONFIG_SCSI_ACARD=y
-CONFIG_SCSI_AACRAID=y
-CONFIG_SCSI_AIC7XXX=y
-CONFIG_AIC7XXX_CMDS_PER_DEVICE=32
-CONFIG_AIC7XXX_RESET_DELAY_MS=5000
-CONFIG_AIC7XXX_DEBUG_ENABLE=y
-CONFIG_AIC7XXX_DEBUG_MASK=0
-CONFIG_AIC7XXX_REG_PRETTY_PRINT=y
-CONFIG_SCSI_AIC79XX=y
-CONFIG_AIC79XX_CMDS_PER_DEVICE=32
-CONFIG_AIC79XX_RESET_DELAY_MS=5000
-CONFIG_AIC79XX_DEBUG_ENABLE=y
-CONFIG_AIC79XX_DEBUG_MASK=0
-CONFIG_AIC79XX_REG_PRETTY_PRINT=y
-CONFIG_SCSI_AIC94XX=y
-CONFIG_AIC94XX_DEBUG=y
-CONFIG_SCSI_HISI_SAS=y
-CONFIG_SCSI_HISI_SAS_PCI=y
-CONFIG_SCSI_HISI_SAS_DEBUGFS_DEFAULT_ENABLE=y
-CONFIG_SCSI_MVSAS=y
-CONFIG_SCSI_MVSAS_DEBUG=y
-CONFIG_SCSI_MVSAS_TASKLET=y
-CONFIG_SCSI_MVUMI=y
-CONFIG_SCSI_ADVANSYS=y
-CONFIG_SCSI_ARCMSR=y
-CONFIG_SCSI_ESAS2R=y
-CONFIG_MEGARAID_NEWGEN=y
-CONFIG_MEGARAID_MM=y
-CONFIG_MEGARAID_MAILBOX=y
-CONFIG_MEGARAID_LEGACY=y
-CONFIG_MEGARAID_SAS=y
-CONFIG_SCSI_MPT3SAS=y
-CONFIG_SCSI_MPT2SAS_MAX_SGE=128
-CONFIG_SCSI_MPT3SAS_MAX_SGE=128
-CONFIG_SCSI_MPT2SAS=y
-CONFIG_SCSI_MPI3MR=y
-CONFIG_SCSI_SMARTPQI=y
-CONFIG_SCSI_HPTIOP=y
-CONFIG_SCSI_BUSLOGIC=y
-CONFIG_SCSI_FLASHPOINT=y
-CONFIG_SCSI_MYRB=y
-CONFIG_SCSI_MYRS=y
-CONFIG_LIBFC=y
-CONFIG_LIBFCOE=y
-CONFIG_FCOE=y
-CONFIG_SCSI_SNIC=y
-CONFIG_SCSI_SNIC_DEBUG_FS=y
-CONFIG_SCSI_DMX3191D=y
-CONFIG_SCSI_FDOMAIN=y
-CONFIG_SCSI_FDOMAIN_PCI=y
-CONFIG_SCSI_IPS=y
-CONFIG_SCSI_INITIO=y
-CONFIG_SCSI_INIA100=y
-CONFIG_SCSI_PPA=y
-CONFIG_SCSI_IMM=y
-CONFIG_SCSI_IZIP_EPP16=y
-CONFIG_SCSI_IZIP_SLOW_CTR=y
-CONFIG_SCSI_STEX=y
-CONFIG_SCSI_SYM53C8XX_2=y
-CONFIG_SCSI_SYM53C8XX_DMA_ADDRESSING_MODE=1
-CONFIG_SCSI_SYM53C8XX_DEFAULT_TAGS=16
-CONFIG_SCSI_SYM53C8XX_MAX_TAGS=64
-CONFIG_SCSI_SYM53C8XX_MMIO=y
-CONFIG_SCSI_IPR=y
-CONFIG_SCSI_IPR_TRACE=y
-CONFIG_SCSI_IPR_DUMP=y
-CONFIG_SCSI_QLOGIC_1280=y
-CONFIG_SCSI_QLA_FC=y
-CONFIG_TCM_QLA2XXX=y
-CONFIG_TCM_QLA2XXX_DEBUG=y
-CONFIG_SCSI_QLA_ISCSI=y
-CONFIG_QEDI=y
-CONFIG_QEDF=y
-CONFIG_SCSI_LPFC=y
-CONFIG_SCSI_LPFC_DEBUG_FS=y
-CONFIG_SCSI_EFCT=y
-CONFIG_SCSI_DC395x=y
-CONFIG_SCSI_AM53C974=y
-CONFIG_SCSI_WD719X=y
-CONFIG_SCSI_DEBUG=y
-CONFIG_SCSI_PMCRAID=y
-CONFIG_SCSI_PM8001=y
-CONFIG_SCSI_BFA_FC=y
-CONFIG_SCSI_VIRTIO=y
-CONFIG_SCSI_CHELSIO_FCOE=y
-CONFIG_SCSI_LOWLEVEL_PCMCIA=y
-CONFIG_PCMCIA_AHA152X=m
-CONFIG_PCMCIA_FDOMAIN=m
-CONFIG_PCMCIA_NINJA_SCSI=m
-CONFIG_PCMCIA_QLOGIC=m
-CONFIG_PCMCIA_SYM53C500=m
-CONFIG_SCSI_DH=y
-CONFIG_SCSI_DH_RDAC=y
-CONFIG_SCSI_DH_HP_SW=y
-CONFIG_SCSI_DH_EMC=y
-CONFIG_SCSI_DH_ALUA=y
-# end of SCSI device support
-
-CONFIG_ATA=y
-CONFIG_ATA_NONSTANDARD=y
-CONFIG_SATA_HOST=y
-CONFIG_PATA_TIMINGS=y
-CONFIG_ATA_VERBOSE_ERROR=y
-CONFIG_ATA_FORCE=y
-CONFIG_ATA_ACPI=y
-CONFIG_SATA_ZPODD=y
-CONFIG_SATA_PMP=y
-
-#
-# Controllers with non-SFF native interface
-#
-CONFIG_SATA_AHCI=y
-CONFIG_SATA_MOBILE_LPM_POLICY=0
-CONFIG_SATA_AHCI_PLATFORM=y
-CONFIG_AHCI_BRCM=y
-CONFIG_AHCI_DA850=y
-CONFIG_AHCI_DM816=y
-CONFIG_AHCI_DWC=y
-CONFIG_AHCI_ST=y
-CONFIG_AHCI_IMX=y
-CONFIG_AHCI_CEVA=y
-CONFIG_AHCI_MTK=y
-CONFIG_AHCI_MVEBU=y
-CONFIG_AHCI_SUNXI=y
-CONFIG_AHCI_TEGRA=y
-CONFIG_AHCI_XGENE=y
-CONFIG_AHCI_QORIQ=y
-CONFIG_SATA_FSL=y
-CONFIG_SATA_GEMINI=y
-CONFIG_SATA_AHCI_SEATTLE=y
-CONFIG_SATA_INIC162X=y
-CONFIG_SATA_ACARD_AHCI=y
-CONFIG_SATA_SIL24=y
-CONFIG_ATA_SFF=y
-
-#
-# SFF controllers with custom DMA interface
-#
-CONFIG_PDC_ADMA=y
-CONFIG_SATA_QSTOR=y
-CONFIG_SATA_SX4=y
-CONFIG_ATA_BMDMA=y
-
-#
-# SATA SFF controllers with BMDMA
-#
-CONFIG_ATA_PIIX=y
-CONFIG_SATA_DWC=y
-CONFIG_SATA_DWC_OLD_DMA=y
-CONFIG_SATA_HIGHBANK=y
-CONFIG_SATA_MV=y
-CONFIG_SATA_NV=y
-CONFIG_SATA_PROMISE=y
-CONFIG_SATA_RCAR=y
-CONFIG_SATA_SIL=y
-CONFIG_SATA_SIS=y
-CONFIG_SATA_SVW=y
-CONFIG_SATA_ULI=y
-CONFIG_SATA_VIA=y
-CONFIG_SATA_VITESSE=y
-
-#
-# PATA SFF controllers with BMDMA
-#
-CONFIG_PATA_ALI=y
-CONFIG_PATA_AMD=y
-CONFIG_PATA_ARASAN_CF=y
-CONFIG_PATA_ARTOP=y
-CONFIG_PATA_ATIIXP=y
-CONFIG_PATA_ATP867X=y
-CONFIG_PATA_BK3710=y
-CONFIG_PATA_CMD64X=y
-CONFIG_PATA_CS5520=y
-CONFIG_PATA_CS5530=y
-CONFIG_PATA_CS5536=y
-CONFIG_PATA_CYPRESS=y
-CONFIG_PATA_EFAR=y
-CONFIG_PATA_FTIDE010=y
-CONFIG_PATA_HPT366=y
-CONFIG_PATA_HPT37X=y
-CONFIG_PATA_HPT3X2N=y
-CONFIG_PATA_HPT3X3=y
-CONFIG_PATA_HPT3X3_DMA=y
-CONFIG_PATA_IMX=y
-CONFIG_PATA_IT8213=y
-CONFIG_PATA_IT821X=y
-CONFIG_PATA_JMICRON=y
-CONFIG_PATA_MARVELL=y
-CONFIG_PATA_NETCELL=y
-CONFIG_PATA_NINJA32=y
-CONFIG_PATA_NS87415=y
-CONFIG_PATA_OLDPIIX=y
-CONFIG_PATA_OPTIDMA=y
-CONFIG_PATA_PDC2027X=y
-CONFIG_PATA_PDC_OLD=y
-CONFIG_PATA_RADISYS=y
-CONFIG_PATA_RDC=y
-CONFIG_PATA_SC1200=y
-CONFIG_PATA_SCH=y
-CONFIG_PATA_SERVERWORKS=y
-CONFIG_PATA_SIL680=y
-CONFIG_PATA_SIS=y
-CONFIG_PATA_TOSHIBA=y
-CONFIG_PATA_TRIFLEX=y
-CONFIG_PATA_VIA=y
-CONFIG_PATA_PXA=y
-CONFIG_PATA_WINBOND=y
-
-#
-# PIO-only SFF controllers
-#
-CONFIG_PATA_CMD640_PCI=y
-CONFIG_PATA_ISAPNP=y
-CONFIG_PATA_IXP4XX_CF=y
-CONFIG_PATA_MPIIX=y
-CONFIG_PATA_NS87410=y
-CONFIG_PATA_OPTI=y
-CONFIG_PATA_PCMCIA=y
-CONFIG_PATA_PLATFORM=y
-CONFIG_PATA_OF_PLATFORM=y
-CONFIG_PATA_RZ1000=y
-CONFIG_PATA_SAMSUNG_CF=y
-
-#
-# Generic fallback / legacy drivers
-#
-CONFIG_PATA_ACPI=y
-CONFIG_ATA_GENERIC=y
-CONFIG_PATA_LEGACY=y
-CONFIG_MD=y
-CONFIG_BLK_DEV_MD=y
-CONFIG_MD_AUTODETECT=y
-CONFIG_MD_LINEAR=y
-CONFIG_MD_RAID0=y
-CONFIG_MD_RAID1=y
-CONFIG_MD_RAID10=y
-CONFIG_MD_RAID456=y
-CONFIG_MD_MULTIPATH=y
-CONFIG_MD_FAULTY=y
-CONFIG_MD_CLUSTER=y
-CONFIG_BCACHE=y
-CONFIG_BCACHE_DEBUG=y
-CONFIG_BCACHE_CLOSURES_DEBUG=y
-CONFIG_BCACHE_ASYNC_REGISTRATION=y
-CONFIG_BLK_DEV_DM_BUILTIN=y
-CONFIG_BLK_DEV_DM=y
-CONFIG_DM_DEBUG=y
-CONFIG_DM_BUFIO=y
-CONFIG_DM_DEBUG_BLOCK_MANAGER_LOCKING=y
-CONFIG_DM_DEBUG_BLOCK_STACK_TRACING=y
-CONFIG_DM_BIO_PRISON=y
-CONFIG_DM_PERSISTENT_DATA=y
-CONFIG_DM_UNSTRIPED=y
-CONFIG_DM_CRYPT=y
-CONFIG_DM_SNAPSHOT=y
-CONFIG_DM_THIN_PROVISIONING=y
-CONFIG_DM_CACHE=y
-CONFIG_DM_CACHE_SMQ=y
-CONFIG_DM_WRITECACHE=y
-CONFIG_DM_EBS=y
-CONFIG_DM_ERA=y
-CONFIG_DM_CLONE=y
-CONFIG_DM_MIRROR=y
-CONFIG_DM_LOG_USERSPACE=y
-CONFIG_DM_RAID=y
-CONFIG_DM_ZERO=y
-CONFIG_DM_MULTIPATH=y
-CONFIG_DM_MULTIPATH_QL=y
-CONFIG_DM_MULTIPATH_ST=y
-CONFIG_DM_MULTIPATH_HST=y
-CONFIG_DM_MULTIPATH_IOA=y
-CONFIG_DM_DELAY=y
-CONFIG_DM_DUST=y
-CONFIG_DM_INIT=y
-CONFIG_DM_UEVENT=y
-CONFIG_DM_FLAKEY=y
-CONFIG_DM_VERITY=y
-CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG=y
-CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG_SECONDARY_KEYRING=y
-CONFIG_DM_VERITY_FEC=y
-CONFIG_DM_SWITCH=y
-CONFIG_DM_LOG_WRITES=y
-CONFIG_DM_INTEGRITY=y
-CONFIG_DM_ZONED=y
-CONFIG_DM_AUDIT=y
-CONFIG_TARGET_CORE=y
-CONFIG_TCM_IBLOCK=y
-CONFIG_TCM_FILEIO=y
-CONFIG_TCM_PSCSI=y
-CONFIG_TCM_USER2=y
-CONFIG_LOOPBACK_TARGET=y
-CONFIG_TCM_FC=y
-CONFIG_ISCSI_TARGET=y
-CONFIG_ISCSI_TARGET_CXGB4=y
-CONFIG_SBP_TARGET=y
-CONFIG_FUSION=y
-CONFIG_FUSION_SPI=y
-CONFIG_FUSION_FC=y
-CONFIG_FUSION_SAS=y
-CONFIG_FUSION_MAX_SGE=128
-CONFIG_FUSION_CTL=y
-CONFIG_FUSION_LAN=y
-CONFIG_FUSION_LOGGING=y
-
-#
-# IEEE 1394 (FireWire) support
-#
-CONFIG_FIREWIRE=y
-CONFIG_FIREWIRE_OHCI=y
-CONFIG_FIREWIRE_SBP2=y
-CONFIG_FIREWIRE_NET=y
-CONFIG_FIREWIRE_NOSY=y
-# end of IEEE 1394 (FireWire) support
-
-CONFIG_NETDEVICES=y
-CONFIG_MII=y
-CONFIG_NET_CORE=y
-CONFIG_BONDING=y
-CONFIG_DUMMY=y
-CONFIG_WIREGUARD=y
-CONFIG_WIREGUARD_DEBUG=y
-CONFIG_EQUALIZER=y
-CONFIG_NET_FC=y
-CONFIG_IFB=y
-CONFIG_NET_TEAM=y
-CONFIG_NET_TEAM_MODE_BROADCAST=y
-CONFIG_NET_TEAM_MODE_ROUNDROBIN=y
-CONFIG_NET_TEAM_MODE_RANDOM=y
-CONFIG_NET_TEAM_MODE_ACTIVEBACKUP=y
-CONFIG_NET_TEAM_MODE_LOADBALANCE=y
-CONFIG_MACVLAN=y
-CONFIG_MACVTAP=y
-CONFIG_IPVLAN_L3S=y
-CONFIG_IPVLAN=y
-CONFIG_IPVTAP=y
-CONFIG_VXLAN=y
-CONFIG_GENEVE=y
-CONFIG_BAREUDP=y
-CONFIG_GTP=y
-CONFIG_AMT=y
-CONFIG_MACSEC=y
-CONFIG_NETCONSOLE=y
-CONFIG_NETCONSOLE_DYNAMIC=y
-CONFIG_NETPOLL=y
-CONFIG_NET_POLL_CONTROLLER=y
-CONFIG_NTB_NETDEV=y
-CONFIG_RIONET=y
-CONFIG_RIONET_TX_SIZE=128
-CONFIG_RIONET_RX_SIZE=128
-CONFIG_TUN=y
-CONFIG_TAP=y
-CONFIG_TUN_VNET_CROSS_LE=y
-CONFIG_VETH=y
-CONFIG_VIRTIO_NET=y
-CONFIG_NLMON=y
-CONFIG_NET_VRF=y
-CONFIG_VSOCKMON=y
-CONFIG_MHI_NET=y
-CONFIG_SUNGEM_PHY=y
-CONFIG_ARCNET=y
-CONFIG_ARCNET_1201=y
-CONFIG_ARCNET_1051=y
-CONFIG_ARCNET_RAW=y
-CONFIG_ARCNET_CAP=y
-CONFIG_ARCNET_COM90xx=y
-CONFIG_ARCNET_COM90xxIO=y
-CONFIG_ARCNET_RIM_I=y
-CONFIG_ARCNET_COM20020=y
-CONFIG_ARCNET_COM20020_PCI=y
-CONFIG_ARCNET_COM20020_CS=y
-CONFIG_ATM_DRIVERS=y
-CONFIG_ATM_DUMMY=y
-CONFIG_ATM_TCP=y
-CONFIG_ATM_LANAI=y
-CONFIG_ATM_ENI=y
-CONFIG_ATM_ENI_DEBUG=y
-CONFIG_ATM_ENI_TUNE_BURST=y
-CONFIG_ATM_ENI_BURST_TX_16W=y
-CONFIG_ATM_ENI_BURST_TX_8W=y
-CONFIG_ATM_ENI_BURST_TX_4W=y
-CONFIG_ATM_ENI_BURST_TX_2W=y
-CONFIG_ATM_ENI_BURST_RX_16W=y
-CONFIG_ATM_ENI_BURST_RX_8W=y
-CONFIG_ATM_ENI_BURST_RX_4W=y
-CONFIG_ATM_ENI_BURST_RX_2W=y
-CONFIG_ATM_NICSTAR=y
-CONFIG_ATM_NICSTAR_USE_SUNI=y
-CONFIG_ATM_NICSTAR_USE_IDT77105=y
-CONFIG_ATM_IDT77252=y
-CONFIG_ATM_IDT77252_DEBUG=y
-CONFIG_ATM_IDT77252_RCV_ALL=y
-CONFIG_ATM_IDT77252_USE_SUNI=y
-CONFIG_ATM_IA=y
-CONFIG_ATM_IA_DEBUG=y
-CONFIG_ATM_FORE200E=y
-CONFIG_ATM_FORE200E_USE_TASKLET=y
-CONFIG_ATM_FORE200E_TX_RETRY=16
-CONFIG_ATM_FORE200E_DEBUG=0
-CONFIG_ATM_HE=y
-CONFIG_ATM_HE_USE_SUNI=y
-CONFIG_ATM_SOLOS=y
-CONFIG_CAIF_DRIVERS=y
-CONFIG_CAIF_TTY=y
-CONFIG_CAIF_VIRTIO=y
-
-#
-# Distributed Switch Architecture drivers
-#
-CONFIG_B53=y
-CONFIG_B53_SPI_DRIVER=y
-CONFIG_B53_MDIO_DRIVER=y
-CONFIG_B53_MMAP_DRIVER=y
-CONFIG_B53_SRAB_DRIVER=y
-CONFIG_B53_SERDES=y
-CONFIG_NET_DSA_BCM_SF2=y
-CONFIG_NET_DSA_LOOP=y
-CONFIG_NET_DSA_HIRSCHMANN_HELLCREEK=y
-CONFIG_NET_DSA_LANTIQ_GSWIP=y
-CONFIG_NET_DSA_MT7530=y
-CONFIG_NET_DSA_MV88E6060=y
-CONFIG_NET_DSA_MICROCHIP_KSZ_COMMON=y
-CONFIG_NET_DSA_MICROCHIP_KSZ9477_I2C=y
-CONFIG_NET_DSA_MICROCHIP_KSZ_SPI=y
-CONFIG_NET_DSA_MICROCHIP_KSZ8863_SMI=y
-CONFIG_NET_DSA_MV88E6XXX=y
-CONFIG_NET_DSA_MV88E6XXX_PTP=y
-CONFIG_NET_DSA_MSCC_FELIX=y
-CONFIG_NET_DSA_MSCC_SEVILLE=y
-CONFIG_NET_DSA_AR9331=y
-CONFIG_NET_DSA_QCA8K=y
-CONFIG_NET_DSA_SJA1105=y
-CONFIG_NET_DSA_SJA1105_PTP=y
-CONFIG_NET_DSA_SJA1105_TAS=y
-CONFIG_NET_DSA_SJA1105_VL=y
-CONFIG_NET_DSA_XRS700X=y
-CONFIG_NET_DSA_XRS700X_I2C=y
-CONFIG_NET_DSA_XRS700X_MDIO=y
-CONFIG_NET_DSA_REALTEK=y
-CONFIG_NET_DSA_REALTEK_MDIO=y
-CONFIG_NET_DSA_REALTEK_SMI=y
-CONFIG_NET_DSA_REALTEK_RTL8365MB=y
-CONFIG_NET_DSA_REALTEK_RTL8366RB=y
-CONFIG_NET_DSA_SMSC_LAN9303=y
-CONFIG_NET_DSA_SMSC_LAN9303_I2C=y
-CONFIG_NET_DSA_SMSC_LAN9303_MDIO=y
-CONFIG_NET_DSA_VITESSE_VSC73XX=y
-CONFIG_NET_DSA_VITESSE_VSC73XX_SPI=y
-CONFIG_NET_DSA_VITESSE_VSC73XX_PLATFORM=y
-# end of Distributed Switch Architecture drivers
-
-CONFIG_ETHERNET=y
-CONFIG_MDIO=y
-CONFIG_NET_VENDOR_3COM=y
-CONFIG_PCMCIA_3C574=y
-CONFIG_PCMCIA_3C589=y
-CONFIG_VORTEX=y
-CONFIG_TYPHOON=y
-CONFIG_NET_VENDOR_ACTIONS=y
-CONFIG_OWL_EMAC=y
-CONFIG_NET_VENDOR_ADAPTEC=y
-CONFIG_ADAPTEC_STARFIRE=y
-CONFIG_NET_VENDOR_AGERE=y
-CONFIG_ET131X=y
-CONFIG_NET_VENDOR_ALACRITECH=y
-CONFIG_SLICOSS=y
-CONFIG_NET_VENDOR_ALTEON=y
-CONFIG_ACENIC=y
-CONFIG_ACENIC_OMIT_TIGON_I=y
-CONFIG_ALTERA_TSE=y
-CONFIG_NET_VENDOR_AMAZON=y
-CONFIG_ENA_ETHERNET=y
-CONFIG_NET_VENDOR_AMD=y
-CONFIG_AMD8111_ETH=y
-CONFIG_PCNET32=y
-CONFIG_PCMCIA_NMCLAN=y
-CONFIG_AMD_XGBE=y
-CONFIG_AMD_XGBE_DCB=y
-CONFIG_NET_XGENE=y
-CONFIG_NET_XGENE_V2=y
-CONFIG_NET_VENDOR_AQUANTIA=y
-CONFIG_AQTION=y
-CONFIG_NET_VENDOR_ARC=y
-CONFIG_ARC_EMAC_CORE=y
-CONFIG_ARC_EMAC=y
-CONFIG_EMAC_ROCKCHIP=y
-CONFIG_NET_VENDOR_ASIX=y
-CONFIG_SPI_AX88796C=y
-CONFIG_SPI_AX88796C_COMPRESSION=y
-CONFIG_NET_VENDOR_ATHEROS=y
-CONFIG_ATL2=y
-CONFIG_ATL1=y
-CONFIG_ATL1E=y
-CONFIG_ATL1C=y
-CONFIG_ALX=y
-CONFIG_CX_ECAT=y
-CONFIG_NET_VENDOR_BROADCOM=y
-CONFIG_B44=y
-CONFIG_B44_PCI_AUTOSELECT=y
-CONFIG_B44_PCICORE_AUTOSELECT=y
-CONFIG_B44_PCI=y
-CONFIG_BCM4908_ENET=y
-CONFIG_BCMGENET=y
-CONFIG_BNX2=y
-CONFIG_CNIC=y
-CONFIG_TIGON3=y
-CONFIG_TIGON3_HWMON=y
-CONFIG_BNX2X=y
-CONFIG_BNX2X_SRIOV=y
-CONFIG_BGMAC=y
-CONFIG_BGMAC_BCMA=y
-CONFIG_BGMAC_PLATFORM=y
-CONFIG_SYSTEMPORT=y
-CONFIG_BNXT=y
-CONFIG_BNXT_SRIOV=y
-CONFIG_BNXT_FLOWER_OFFLOAD=y
-CONFIG_BNXT_DCB=y
-CONFIG_BNXT_HWMON=y
-CONFIG_NET_VENDOR_CADENCE=y
-CONFIG_MACB=y
-CONFIG_MACB_USE_HWSTAMP=y
-CONFIG_MACB_PCI=y
-CONFIG_NET_CALXEDA_XGMAC=y
-CONFIG_NET_VENDOR_CAVIUM=y
-CONFIG_THUNDER_NIC_PF=y
-CONFIG_THUNDER_NIC_VF=y
-CONFIG_THUNDER_NIC_BGX=y
-CONFIG_THUNDER_NIC_RGX=y
-CONFIG_CAVIUM_PTP=y
-CONFIG_LIQUIDIO=y
-CONFIG_LIQUIDIO_VF=y
-CONFIG_NET_VENDOR_CHELSIO=y
-CONFIG_CHELSIO_T1=y
-CONFIG_CHELSIO_T1_1G=y
-CONFIG_CHELSIO_T3=y
-CONFIG_CHELSIO_T4=y
-CONFIG_CHELSIO_T4_DCB=y
-CONFIG_CHELSIO_T4_FCOE=y
-CONFIG_CHELSIO_T4VF=y
-CONFIG_CHELSIO_LIB=y
-CONFIG_CHELSIO_INLINE_CRYPTO=y
-CONFIG_CRYPTO_DEV_CHELSIO_TLS=y
-CONFIG_CHELSIO_IPSEC_INLINE=y
-CONFIG_CHELSIO_TLS_DEVICE=y
-CONFIG_NET_VENDOR_CIRRUS=y
-CONFIG_CS89x0=y
-CONFIG_CS89x0_PLATFORM=y
-CONFIG_EP93XX_ETH=y
-CONFIG_NET_VENDOR_CISCO=y
-CONFIG_ENIC=y
-CONFIG_NET_VENDOR_CORTINA=y
-CONFIG_GEMINI_ETHERNET=y
-CONFIG_NET_VENDOR_DAVICOM=y
-CONFIG_DM9000=y
-CONFIG_DM9000_FORCE_SIMPLE_PHY_POLL=y
-CONFIG_DM9051=y
-CONFIG_DNET=y
-CONFIG_NET_VENDOR_DEC=y
-CONFIG_NET_TULIP=y
-CONFIG_DE2104X=y
-CONFIG_DE2104X_DSL=0
-CONFIG_TULIP=y
-CONFIG_TULIP_MWI=y
-CONFIG_TULIP_MMIO=y
-CONFIG_TULIP_NAPI=y
-CONFIG_TULIP_NAPI_HW_MITIGATION=y
-CONFIG_WINBOND_840=y
-CONFIG_DM9102=y
-CONFIG_ULI526X=y
-CONFIG_PCMCIA_XIRCOM=y
-CONFIG_NET_VENDOR_DLINK=y
-CONFIG_DL2K=y
-CONFIG_SUNDANCE=y
-CONFIG_SUNDANCE_MMIO=y
-CONFIG_NET_VENDOR_EMULEX=y
-CONFIG_BE2NET=y
-CONFIG_BE2NET_HWMON=y
-CONFIG_BE2NET_BE2=y
-CONFIG_BE2NET_BE3=y
-CONFIG_BE2NET_LANCER=y
-CONFIG_BE2NET_SKYHAWK=y
-CONFIG_NET_VENDOR_ENGLEDER=y
-CONFIG_TSNEP=y
-CONFIG_TSNEP_SELFTESTS=y
-CONFIG_NET_VENDOR_EZCHIP=y
-CONFIG_EZCHIP_NPS_MANAGEMENT_ENET=y
-CONFIG_NET_VENDOR_FARADAY=y
-CONFIG_NET_VENDOR_FREESCALE=y
-CONFIG_FEC=y
-CONFIG_FSL_FMAN=y
-CONFIG_FSL_PQ_MDIO=y
-CONFIG_FSL_XGMAC_MDIO=y
-CONFIG_GIANFAR=y
-CONFIG_FSL_DPAA2_SWITCH=y
-CONFIG_FSL_ENETC=y
-CONFIG_FSL_ENETC_VF=y
-CONFIG_FSL_ENETC_IERB=y
-CONFIG_FSL_ENETC_MDIO=y
-CONFIG_FSL_ENETC_PTP_CLOCK=y
-CONFIG_FSL_ENETC_QOS=y
-CONFIG_NET_VENDOR_FUJITSU=y
-CONFIG_PCMCIA_FMVJ18X=y
-CONFIG_NET_VENDOR_FUNGIBLE=y
-CONFIG_FUN_CORE=y
-CONFIG_FUN_ETH=y
-CONFIG_NET_VENDOR_GOOGLE=y
-CONFIG_NET_VENDOR_HISILICON=y
-CONFIG_HIX5HD2_GMAC=y
-CONFIG_HISI_FEMAC=y
-CONFIG_HIP04_ETH=y
-CONFIG_HI13X1_GMAC=y
-CONFIG_HNS_MDIO=y
-CONFIG_HNS=y
-CONFIG_HNS_DSAF=y
-CONFIG_HNS_ENET=y
-CONFIG_HNS3=y
-CONFIG_HNS3_HCLGE=y
-CONFIG_HNS3_DCB=y
-CONFIG_HNS3_HCLGEVF=y
-CONFIG_HNS3_ENET=y
-CONFIG_NET_VENDOR_HUAWEI=y
-CONFIG_NET_VENDOR_I825XX=y
-CONFIG_NET_VENDOR_INTEL=y
-CONFIG_E100=y
-CONFIG_E1000=y
-CONFIG_E1000E=y
-CONFIG_IGB=y
-CONFIG_IGB_HWMON=y
-CONFIG_IGBVF=y
-CONFIG_IXGB=y
-CONFIG_IXGBE=y
-CONFIG_IXGBE_HWMON=y
-CONFIG_IXGBE_DCB=y
-CONFIG_IXGBE_IPSEC=y
-CONFIG_IXGBEVF=y
-CONFIG_IXGBEVF_IPSEC=y
-CONFIG_I40E=y
-CONFIG_I40E_DCB=y
-CONFIG_IAVF=y
-CONFIG_I40EVF=y
-CONFIG_ICE=y
-CONFIG_ICE_SWITCHDEV=y
-CONFIG_FM10K=y
-CONFIG_IGC=y
-CONFIG_NET_VENDOR_WANGXUN=y
-CONFIG_NGBE=y
-CONFIG_TXGBE=y
-CONFIG_JME=y
-CONFIG_KORINA=y
-CONFIG_NET_VENDOR_ADI=y
-CONFIG_ADIN1110=y
-CONFIG_NET_VENDOR_LITEX=y
-CONFIG_LITEX_LITEETH=y
-CONFIG_NET_VENDOR_MARVELL=y
-CONFIG_MV643XX_ETH=y
-CONFIG_MVMDIO=y
-CONFIG_MVNETA=y
-CONFIG_MVPP2=y
-CONFIG_MVPP2_PTP=y
-CONFIG_PXA168_ETH=y
-CONFIG_SKGE=y
-CONFIG_SKGE_DEBUG=y
-CONFIG_SKGE_GENESIS=y
-CONFIG_SKY2=y
-CONFIG_SKY2_DEBUG=y
-CONFIG_OCTEONTX2_MBOX=y
-CONFIG_OCTEONTX2_AF=y
-CONFIG_NDC_DIS_DYNAMIC_CACHING=y
-CONFIG_OCTEONTX2_PF=y
-CONFIG_OCTEONTX2_VF=y
-CONFIG_OCTEON_EP=y
-CONFIG_PRESTERA=y
-CONFIG_PRESTERA_PCI=y
-CONFIG_NET_VENDOR_MEDIATEK=y
-CONFIG_NET_MEDIATEK_SOC_WED=y
-CONFIG_NET_MEDIATEK_SOC=y
-CONFIG_NET_MEDIATEK_STAR_EMAC=y
-CONFIG_NET_VENDOR_MELLANOX=y
-CONFIG_MLX4_EN=y
-CONFIG_MLX4_EN_DCB=y
-CONFIG_MLX4_CORE=y
-CONFIG_MLX4_DEBUG=y
-CONFIG_MLX4_CORE_GEN2=y
-CONFIG_MLX5_CORE=y
-CONFIG_MLX5_FPGA=y
-CONFIG_MLX5_CORE_EN=y
-CONFIG_MLX5_EN_ARFS=y
-CONFIG_MLX5_EN_RXNFC=y
-CONFIG_MLX5_MPFS=y
-CONFIG_MLX5_ESWITCH=y
-CONFIG_MLX5_BRIDGE=y
-CONFIG_MLX5_CLS_ACT=y
-CONFIG_MLX5_TC_CT=y
-CONFIG_MLX5_TC_SAMPLE=y
-CONFIG_MLX5_CORE_EN_DCB=y
-CONFIG_MLX5_CORE_IPOIB=y
-CONFIG_MLX5_EN_MACSEC=y
-CONFIG_MLX5_EN_IPSEC=y
-CONFIG_MLX5_EN_TLS=y
-CONFIG_MLX5_SW_STEERING=y
-CONFIG_MLX5_SF=y
-CONFIG_MLX5_SF_MANAGER=y
-CONFIG_MLXSW_CORE=y
-CONFIG_MLXSW_CORE_HWMON=y
-CONFIG_MLXSW_CORE_THERMAL=y
-CONFIG_MLXSW_PCI=y
-CONFIG_MLXSW_I2C=y
-CONFIG_MLXSW_SPECTRUM=y
-CONFIG_MLXSW_SPECTRUM_DCB=y
-CONFIG_MLXSW_MINIMAL=y
-CONFIG_MLXFW=y
-CONFIG_MLXBF_GIGE=y
-CONFIG_NET_VENDOR_MICREL=y
-CONFIG_KS8842=y
-CONFIG_KS8851=y
-CONFIG_KS8851_MLL=y
-CONFIG_KSZ884X_PCI=y
-CONFIG_NET_VENDOR_MICROCHIP=y
-CONFIG_ENC28J60=y
-CONFIG_ENC28J60_WRITEVERIFY=y
-CONFIG_ENCX24J600=y
-CONFIG_LAN743X=y
-CONFIG_LAN966X_SWITCH=y
-CONFIG_SPARX5_SWITCH=y
-CONFIG_NET_VENDOR_MICROSEMI=y
-CONFIG_MSCC_OCELOT_SWITCH_LIB=y
-CONFIG_MSCC_OCELOT_SWITCH=y
-CONFIG_NET_VENDOR_MICROSOFT=y
-CONFIG_NET_VENDOR_MYRI=y
-CONFIG_MYRI10GE=y
-CONFIG_FEALNX=y
-CONFIG_NET_VENDOR_NI=y
-CONFIG_NI_XGE_MANAGEMENT_ENET=y
-CONFIG_NET_VENDOR_NATSEMI=y
-CONFIG_NATSEMI=y
-CONFIG_NS83820=y
-CONFIG_NET_VENDOR_NETERION=y
-CONFIG_S2IO=y
-CONFIG_NET_VENDOR_NETRONOME=y
-CONFIG_NFP=y
-CONFIG_NFP_APP_FLOWER=y
-CONFIG_NFP_APP_ABM_NIC=y
-CONFIG_NFP_DEBUG=y
-CONFIG_NET_VENDOR_8390=y
-CONFIG_PCMCIA_AXNET=y
-CONFIG_AX88796=y
-CONFIG_AX88796_93CX6=y
-CONFIG_NE2K_PCI=y
-CONFIG_PCMCIA_PCNET=y
-CONFIG_NET_VENDOR_NVIDIA=y
-CONFIG_FORCEDETH=y
-CONFIG_LPC_ENET=y
-CONFIG_NET_VENDOR_OKI=y
-CONFIG_PCH_GBE=y
-CONFIG_ETHOC=y
-CONFIG_NET_VENDOR_PACKET_ENGINES=y
-CONFIG_HAMACHI=y
-CONFIG_YELLOWFIN=y
-CONFIG_NET_VENDOR_PENSANDO=y
-CONFIG_IONIC=y
-CONFIG_NET_VENDOR_QLOGIC=y
-CONFIG_QLA3XXX=y
-CONFIG_QLCNIC=y
-CONFIG_QLCNIC_SRIOV=y
-CONFIG_QLCNIC_DCB=y
-CONFIG_QLCNIC_HWMON=y
-CONFIG_NETXEN_NIC=y
-CONFIG_QED=y
-CONFIG_QED_LL2=y
-CONFIG_QED_SRIOV=y
-CONFIG_QEDE=y
-CONFIG_QED_RDMA=y
-CONFIG_QED_ISCSI=y
-CONFIG_QED_FCOE=y
-CONFIG_QED_OOO=y
-CONFIG_NET_VENDOR_BROCADE=y
-CONFIG_BNA=y
-CONFIG_NET_VENDOR_QUALCOMM=y
-CONFIG_QCA7000=y
-CONFIG_QCA7000_SPI=y
-CONFIG_QCA7000_UART=y
-CONFIG_QCOM_EMAC=y
-CONFIG_RMNET=y
-CONFIG_NET_VENDOR_RDC=y
-CONFIG_R6040=y
-CONFIG_NET_VENDOR_REALTEK=y
-CONFIG_8139CP=y
-CONFIG_8139TOO=y
-CONFIG_8139TOO_PIO=y
-CONFIG_8139TOO_TUNE_TWISTER=y
-CONFIG_8139TOO_8129=y
-CONFIG_8139_OLD_RX_RESET=y
-CONFIG_R8169=y
-CONFIG_NET_VENDOR_RENESAS=y
-CONFIG_SH_ETH=y
-CONFIG_RAVB=y
-CONFIG_NET_VENDOR_ROCKER=y
-CONFIG_ROCKER=y
-CONFIG_NET_VENDOR_SAMSUNG=y
-CONFIG_SXGBE_ETH=y
-CONFIG_NET_VENDOR_SEEQ=y
-CONFIG_NET_VENDOR_SILAN=y
-CONFIG_SC92031=y
-CONFIG_NET_VENDOR_SIS=y
-CONFIG_SIS900=y
-CONFIG_SIS190=y
-CONFIG_NET_VENDOR_SOLARFLARE=y
-CONFIG_SFC=y
-CONFIG_SFC_MTD=y
-CONFIG_SFC_MCDI_MON=y
-CONFIG_SFC_SRIOV=y
-CONFIG_SFC_MCDI_LOGGING=y
-CONFIG_SFC_FALCON=y
-CONFIG_SFC_FALCON_MTD=y
-CONFIG_SFC_SIENA=y
-CONFIG_SFC_SIENA_MTD=y
-CONFIG_SFC_SIENA_MCDI_MON=y
-CONFIG_SFC_SIENA_SRIOV=y
-CONFIG_SFC_SIENA_MCDI_LOGGING=y
-CONFIG_NET_VENDOR_SMSC=y
-CONFIG_SMC91X=y
-CONFIG_PCMCIA_SMC91C92=y
-CONFIG_EPIC100=y
-CONFIG_SMC911X=y
-CONFIG_SMSC911X=y
-CONFIG_SMSC9420=y
-CONFIG_NET_VENDOR_SOCIONEXT=y
-CONFIG_SNI_AVE=y
-CONFIG_SNI_NETSEC=y
-CONFIG_NET_VENDOR_STMICRO=y
-CONFIG_STMMAC_ETH=y
-CONFIG_STMMAC_SELFTESTS=y
-CONFIG_STMMAC_PLATFORM=y
-CONFIG_DWMAC_DWC_QOS_ETH=y
-CONFIG_DWMAC_GENERIC=y
-CONFIG_DWMAC_ANARION=y
-CONFIG_DWMAC_INGENIC=y
-CONFIG_DWMAC_IPQ806X=y
-CONFIG_DWMAC_LPC18XX=y
-CONFIG_DWMAC_MEDIATEK=y
-CONFIG_DWMAC_MESON=y
-CONFIG_DWMAC_OXNAS=y
-CONFIG_DWMAC_QCOM_ETHQOS=y
-CONFIG_DWMAC_ROCKCHIP=y
-CONFIG_DWMAC_SOCFPGA=y
-CONFIG_DWMAC_STI=y
-CONFIG_DWMAC_STM32=y
-CONFIG_DWMAC_SUNXI=y
-CONFIG_DWMAC_SUN8I=y
-CONFIG_DWMAC_IMX8=y
-CONFIG_DWMAC_INTEL_PLAT=y
-CONFIG_DWMAC_VISCONTI=y
-CONFIG_DWMAC_LOONGSON=y
-CONFIG_STMMAC_PCI=y
-CONFIG_NET_VENDOR_SUN=y
-CONFIG_HAPPYMEAL=y
-CONFIG_SUNGEM=y
-CONFIG_CASSINI=y
-CONFIG_NIU=y
-CONFIG_NET_VENDOR_SUNPLUS=y
-CONFIG_SP7021_EMAC=y
-CONFIG_NET_VENDOR_SYNOPSYS=y
-CONFIG_DWC_XLGMAC=y
-CONFIG_DWC_XLGMAC_PCI=y
-CONFIG_NET_VENDOR_TEHUTI=y
-CONFIG_TEHUTI=y
-CONFIG_NET_VENDOR_TI=y
-CONFIG_TI_DAVINCI_EMAC=y
-CONFIG_TI_DAVINCI_MDIO=y
-CONFIG_TI_CPSW_PHY_SEL=y
-CONFIG_TI_CPSW=y
-CONFIG_TI_CPSW_SWITCHDEV=y
-CONFIG_TI_CPTS=y
-CONFIG_TLAN=y
-CONFIG_NET_VENDOR_VERTEXCOM=y
-CONFIG_MSE102X=y
-CONFIG_NET_VENDOR_VIA=y
-CONFIG_VIA_RHINE=y
-CONFIG_VIA_RHINE_MMIO=y
-CONFIG_VIA_VELOCITY=y
-CONFIG_NET_VENDOR_WIZNET=y
-CONFIG_WIZNET_W5100=y
-CONFIG_WIZNET_W5300=y
-# CONFIG_WIZNET_BUS_DIRECT is not set
-# CONFIG_WIZNET_BUS_INDIRECT is not set
-CONFIG_WIZNET_BUS_ANY=y
-CONFIG_WIZNET_W5100_SPI=y
-CONFIG_NET_VENDOR_XILINX=y
-CONFIG_XILINX_EMACLITE=y
-CONFIG_XILINX_AXI_EMAC=y
-CONFIG_XILINX_LL_TEMAC=y
-CONFIG_NET_VENDOR_XIRCOM=y
-CONFIG_PCMCIA_XIRC2PS=y
-CONFIG_FDDI=y
-CONFIG_DEFXX=y
-CONFIG_SKFP=y
-CONFIG_HIPPI=y
-CONFIG_ROADRUNNER=y
-CONFIG_ROADRUNNER_LARGE_RINGS=y
-CONFIG_QCOM_IPA=y
-CONFIG_NET_SB1000=y
-CONFIG_PHYLINK=y
-CONFIG_PHYLIB=y
-CONFIG_SWPHY=y
-CONFIG_LED_TRIGGER_PHY=y
-CONFIG_FIXED_PHY=y
-CONFIG_SFP=y
-
-#
-# MII PHY device drivers
-#
-CONFIG_AMD_PHY=y
-CONFIG_MESON_GXL_PHY=y
-CONFIG_ADIN_PHY=y
-CONFIG_ADIN1100_PHY=y
-CONFIG_AQUANTIA_PHY=y
-CONFIG_AX88796B_PHY=y
-CONFIG_BROADCOM_PHY=y
-CONFIG_BCM54140_PHY=y
-CONFIG_BCM63XX_PHY=y
-CONFIG_BCM7XXX_PHY=y
-CONFIG_BCM84881_PHY=y
-CONFIG_BCM87XX_PHY=y
-CONFIG_BCM_CYGNUS_PHY=y
-CONFIG_BCM_NET_PHYLIB=y
-CONFIG_BCM_NET_PHYPTP=y
-CONFIG_CICADA_PHY=y
-CONFIG_CORTINA_PHY=y
-CONFIG_DAVICOM_PHY=y
-CONFIG_ICPLUS_PHY=y
-CONFIG_LXT_PHY=y
-CONFIG_INTEL_XWAY_PHY=y
-CONFIG_LSI_ET1011C_PHY=y
-CONFIG_MARVELL_PHY=y
-CONFIG_MARVELL_10G_PHY=y
-CONFIG_MARVELL_88X2222_PHY=y
-CONFIG_MAXLINEAR_GPHY=y
-CONFIG_MEDIATEK_GE_PHY=y
-CONFIG_MICREL_PHY=y
-CONFIG_MICROCHIP_PHY=y
-CONFIG_MICROCHIP_T1_PHY=y
-CONFIG_MICROSEMI_PHY=y
-CONFIG_MOTORCOMM_PHY=y
-CONFIG_NATIONAL_PHY=y
-CONFIG_NXP_C45_TJA11XX_PHY=y
-CONFIG_NXP_TJA11XX_PHY=y
-CONFIG_AT803X_PHY=y
-CONFIG_QSEMI_PHY=y
-CONFIG_REALTEK_PHY=y
-CONFIG_RENESAS_PHY=y
-CONFIG_ROCKCHIP_PHY=y
-CONFIG_SMSC_PHY=y
-CONFIG_STE10XP=y
-CONFIG_TERANETICS_PHY=y
-CONFIG_DP83822_PHY=y
-CONFIG_DP83TC811_PHY=y
-CONFIG_DP83848_PHY=y
-CONFIG_DP83867_PHY=y
-CONFIG_DP83869_PHY=y
-CONFIG_DP83TD510_PHY=y
-CONFIG_VITESSE_PHY=y
-CONFIG_XILINX_GMII2RGMII=y
-CONFIG_MICREL_KS8995MA=y
-CONFIG_PSE_CONTROLLER=y
-CONFIG_PSE_REGULATOR=y
-CONFIG_CAN_DEV=y
-CONFIG_CAN_VCAN=y
-CONFIG_CAN_VXCAN=y
-CONFIG_CAN_NETLINK=y
-CONFIG_CAN_CALC_BITTIMING=y
-CONFIG_CAN_RX_OFFLOAD=y
-CONFIG_CAN_AT91=y
-CONFIG_CAN_CAN327=y
-CONFIG_CAN_FLEXCAN=y
-CONFIG_CAN_GRCAN=y
-CONFIG_CAN_JANZ_ICAN3=y
-CONFIG_CAN_KVASER_PCIEFD=y
-CONFIG_CAN_SLCAN=y
-CONFIG_CAN_SUN4I=y
-CONFIG_CAN_XILINXCAN=y
-CONFIG_PCH_CAN=y
-CONFIG_CAN_C_CAN=y
-CONFIG_CAN_C_CAN_PLATFORM=y
-CONFIG_CAN_C_CAN_PCI=y
-CONFIG_CAN_CC770=y
-CONFIG_CAN_CC770_ISA=y
-CONFIG_CAN_CC770_PLATFORM=y
-CONFIG_CAN_CTUCANFD=y
-CONFIG_CAN_CTUCANFD_PCI=y
-CONFIG_CAN_CTUCANFD_PLATFORM=y
-CONFIG_CAN_IFI_CANFD=y
-CONFIG_CAN_M_CAN=y
-CONFIG_CAN_M_CAN_PCI=y
-CONFIG_CAN_M_CAN_PLATFORM=y
-CONFIG_CAN_M_CAN_TCAN4X5X=y
-CONFIG_CAN_PEAK_PCIEFD=y
-CONFIG_CAN_RCAR=y
-CONFIG_CAN_RCAR_CANFD=y
-CONFIG_CAN_SJA1000=y
-CONFIG_CAN_EMS_PCI=y
-CONFIG_CAN_EMS_PCMCIA=y
-CONFIG_CAN_F81601=y
-CONFIG_CAN_KVASER_PCI=y
-CONFIG_CAN_PEAK_PCI=y
-CONFIG_CAN_PEAK_PCIEC=y
-CONFIG_CAN_PEAK_PCMCIA=y
-CONFIG_CAN_PLX_PCI=y
-CONFIG_CAN_SJA1000_ISA=y
-CONFIG_CAN_SJA1000_PLATFORM=y
-CONFIG_CAN_SOFTING=y
-CONFIG_CAN_SOFTING_CS=y
-
-#
-# CAN SPI interfaces
-#
-CONFIG_CAN_HI311X=y
-CONFIG_CAN_MCP251X=y
-CONFIG_CAN_MCP251XFD=y
-CONFIG_CAN_MCP251XFD_SANITY=y
-# end of CAN SPI interfaces
-
-#
-# CAN USB interfaces
-#
-CONFIG_CAN_8DEV_USB=y
-CONFIG_CAN_EMS_USB=y
-CONFIG_CAN_ESD_USB=y
-CONFIG_CAN_ETAS_ES58X=y
-CONFIG_CAN_GS_USB=y
-CONFIG_CAN_KVASER_USB=y
-CONFIG_CAN_MCBA_USB=y
-CONFIG_CAN_PEAK_USB=y
-CONFIG_CAN_UCAN=y
-# end of CAN USB interfaces
-
-CONFIG_CAN_DEBUG_DEVICES=y
-
-#
-# MCTP Device Drivers
-#
-CONFIG_MCTP_SERIAL=y
-CONFIG_MCTP_TRANSPORT_I2C=y
-# end of MCTP Device Drivers
-
-CONFIG_MDIO_DEVICE=y
-CONFIG_MDIO_BUS=y
-CONFIG_FWNODE_MDIO=y
-CONFIG_OF_MDIO=y
-CONFIG_ACPI_MDIO=y
-CONFIG_MDIO_DEVRES=y
-CONFIG_MDIO_SUN4I=y
-CONFIG_MDIO_XGENE=y
-CONFIG_MDIO_ASPEED=y
-CONFIG_MDIO_BITBANG=y
-CONFIG_MDIO_BCM_IPROC=y
-CONFIG_MDIO_BCM_UNIMAC=y
-CONFIG_MDIO_CAVIUM=y
-CONFIG_MDIO_GPIO=y
-CONFIG_MDIO_HISI_FEMAC=y
-CONFIG_MDIO_I2C=y
-CONFIG_MDIO_MVUSB=y
-CONFIG_MDIO_MSCC_MIIM=y
-CONFIG_MDIO_MOXART=y
-CONFIG_MDIO_OCTEON=y
-CONFIG_MDIO_IPQ4019=y
-CONFIG_MDIO_IPQ8064=y
-CONFIG_MDIO_THUNDER=y
-
-#
-# MDIO Multiplexers
-#
-CONFIG_MDIO_BUS_MUX=y
-CONFIG_MDIO_BUS_MUX_MESON_G12A=y
-CONFIG_MDIO_BUS_MUX_BCM6368=y
-CONFIG_MDIO_BUS_MUX_BCM_IPROC=y
-CONFIG_MDIO_BUS_MUX_GPIO=y
-CONFIG_MDIO_BUS_MUX_MULTIPLEXER=y
-CONFIG_MDIO_BUS_MUX_MMIOREG=y
-
-#
-# PCS device drivers
-#
-CONFIG_PCS_XPCS=y
-CONFIG_PCS_LYNX=y
-CONFIG_PCS_RZN1_MIIC=y
-CONFIG_PCS_ALTERA_TSE=y
-# end of PCS device drivers
-
-CONFIG_PLIP=y
-CONFIG_PPP=y
-CONFIG_PPP_BSDCOMP=y
-CONFIG_PPP_DEFLATE=y
-CONFIG_PPP_FILTER=y
-CONFIG_PPP_MPPE=y
-CONFIG_PPP_MULTILINK=y
-CONFIG_PPPOATM=y
-CONFIG_PPPOE=y
-CONFIG_PPTP=y
-CONFIG_PPPOL2TP=y
-CONFIG_PPP_ASYNC=y
-CONFIG_PPP_SYNC_TTY=y
-CONFIG_SLIP=y
-CONFIG_SLHC=y
-CONFIG_SLIP_COMPRESSED=y
-CONFIG_SLIP_SMART=y
-CONFIG_SLIP_MODE_SLIP6=y
-CONFIG_USB_NET_DRIVERS=y
-CONFIG_USB_CATC=y
-CONFIG_USB_KAWETH=y
-CONFIG_USB_PEGASUS=y
-CONFIG_USB_RTL8150=y
-CONFIG_USB_RTL8152=y
-CONFIG_USB_LAN78XX=y
-CONFIG_USB_USBNET=y
-CONFIG_USB_NET_AX8817X=y
-CONFIG_USB_NET_AX88179_178A=y
-CONFIG_USB_NET_CDCETHER=y
-CONFIG_USB_NET_CDC_EEM=y
-CONFIG_USB_NET_CDC_NCM=y
-CONFIG_USB_NET_HUAWEI_CDC_NCM=y
-CONFIG_USB_NET_CDC_MBIM=y
-CONFIG_USB_NET_DM9601=y
-CONFIG_USB_NET_SR9700=y
-CONFIG_USB_NET_SR9800=y
-CONFIG_USB_NET_SMSC75XX=y
-CONFIG_USB_NET_SMSC95XX=y
-CONFIG_USB_NET_GL620A=y
-CONFIG_USB_NET_NET1080=y
-CONFIG_USB_NET_PLUSB=y
-CONFIG_USB_NET_MCS7830=y
-CONFIG_USB_NET_RNDIS_HOST=y
-CONFIG_USB_NET_CDC_SUBSET_ENABLE=y
-CONFIG_USB_NET_CDC_SUBSET=y
-CONFIG_USB_ALI_M5632=y
-CONFIG_USB_AN2720=y
-CONFIG_USB_BELKIN=y
-CONFIG_USB_ARMLINUX=y
-CONFIG_USB_EPSON2888=y
-CONFIG_USB_KC2190=y
-CONFIG_USB_NET_ZAURUS=y
-CONFIG_USB_NET_CX82310_ETH=y
-CONFIG_USB_NET_KALMIA=y
-CONFIG_USB_NET_QMI_WWAN=y
-CONFIG_USB_HSO=y
-CONFIG_USB_NET_INT51X1=y
-CONFIG_USB_CDC_PHONET=y
-CONFIG_USB_IPHETH=y
-CONFIG_USB_SIERRA_NET=y
-CONFIG_USB_VL600=y
-CONFIG_USB_NET_CH9200=y
-CONFIG_USB_NET_AQC111=y
-CONFIG_USB_RTL8153_ECM=y
-CONFIG_WLAN=y
-CONFIG_WLAN_VENDOR_ADMTEK=y
-CONFIG_ADM8211=y
-CONFIG_ATH_COMMON=y
-CONFIG_WLAN_VENDOR_ATH=y
-CONFIG_ATH_DEBUG=y
-CONFIG_ATH_REG_DYNAMIC_USER_REG_HINTS=y
-CONFIG_ATH_REG_DYNAMIC_USER_CERT_TESTING=y
-CONFIG_ATH5K=y
-CONFIG_ATH5K_DEBUG=y
-CONFIG_ATH5K_PCI=y
-CONFIG_ATH5K_TEST_CHANNELS=y
-CONFIG_ATH9K_HW=y
-CONFIG_ATH9K_COMMON=y
-CONFIG_ATH9K_COMMON_DEBUG=y
-CONFIG_ATH9K_DFS_DEBUGFS=y
-CONFIG_ATH9K_BTCOEX_SUPPORT=y
-CONFIG_ATH9K=y
-CONFIG_ATH9K_PCI=y
-CONFIG_ATH9K_AHB=y
-CONFIG_ATH9K_DEBUGFS=y
-CONFIG_ATH9K_STATION_STATISTICS=y
-CONFIG_ATH9K_TX99=y
-CONFIG_ATH9K_DFS_CERTIFIED=y
-CONFIG_ATH9K_DYNACK=y
-CONFIG_ATH9K_WOW=y
-CONFIG_ATH9K_RFKILL=y
-CONFIG_ATH9K_CHANNEL_CONTEXT=y
-CONFIG_ATH9K_PCOEM=y
-CONFIG_ATH9K_PCI_NO_EEPROM=y
-CONFIG_ATH9K_HTC=y
-CONFIG_ATH9K_HTC_DEBUGFS=y
-CONFIG_ATH9K_HWRNG=y
-CONFIG_ATH9K_COMMON_SPECTRAL=y
-CONFIG_CARL9170=y
-CONFIG_CARL9170_LEDS=y
-CONFIG_CARL9170_DEBUGFS=y
-CONFIG_CARL9170_WPC=y
-CONFIG_CARL9170_HWRNG=y
-CONFIG_ATH6KL=y
-CONFIG_ATH6KL_SDIO=y
-CONFIG_ATH6KL_USB=y
-CONFIG_ATH6KL_DEBUG=y
-CONFIG_ATH6KL_REGDOMAIN=y
-CONFIG_AR5523=y
-CONFIG_WIL6210=y
-CONFIG_WIL6210_ISR_COR=y
-CONFIG_WIL6210_DEBUGFS=y
-CONFIG_ATH10K=y
-CONFIG_ATH10K_CE=y
-CONFIG_ATH10K_PCI=y
-CONFIG_ATH10K_AHB=y
-CONFIG_ATH10K_SDIO=y
-CONFIG_ATH10K_USB=y
-CONFIG_ATH10K_SNOC=y
-CONFIG_ATH10K_DEBUG=y
-CONFIG_ATH10K_DEBUGFS=y
-CONFIG_ATH10K_SPECTRAL=y
-CONFIG_ATH10K_DFS_CERTIFIED=y
-CONFIG_WCN36XX=y
-CONFIG_WCN36XX_DEBUGFS=y
-CONFIG_ATH11K=y
-CONFIG_ATH11K_AHB=y
-CONFIG_ATH11K_PCI=y
-CONFIG_ATH11K_DEBUG=y
-CONFIG_ATH11K_DEBUGFS=y
-CONFIG_ATH11K_SPECTRAL=y
-CONFIG_WLAN_VENDOR_ATMEL=y
-CONFIG_ATMEL=y
-CONFIG_PCI_ATMEL=y
-CONFIG_PCMCIA_ATMEL=y
-CONFIG_AT76C50X_USB=y
-CONFIG_WLAN_VENDOR_BROADCOM=y
-CONFIG_B43=y
-CONFIG_B43_BCMA=y
-CONFIG_B43_SSB=y
-CONFIG_B43_BUSES_BCMA_AND_SSB=y
-# CONFIG_B43_BUSES_BCMA is not set
-# CONFIG_B43_BUSES_SSB is not set
-CONFIG_B43_PCI_AUTOSELECT=y
-CONFIG_B43_PCICORE_AUTOSELECT=y
-CONFIG_B43_SDIO=y
-CONFIG_B43_BCMA_PIO=y
-CONFIG_B43_PIO=y
-CONFIG_B43_PHY_G=y
-CONFIG_B43_PHY_N=y
-CONFIG_B43_PHY_LP=y
-CONFIG_B43_PHY_HT=y
-CONFIG_B43_LEDS=y
-CONFIG_B43_HWRNG=y
-CONFIG_B43_DEBUG=y
-CONFIG_B43LEGACY=y
-CONFIG_B43LEGACY_PCI_AUTOSELECT=y
-CONFIG_B43LEGACY_PCICORE_AUTOSELECT=y
-CONFIG_B43LEGACY_LEDS=y
-CONFIG_B43LEGACY_HWRNG=y
-CONFIG_B43LEGACY_DEBUG=y
-CONFIG_B43LEGACY_DMA=y
-CONFIG_B43LEGACY_PIO=y
-CONFIG_B43LEGACY_DMA_AND_PIO_MODE=y
-# CONFIG_B43LEGACY_DMA_MODE is not set
-# CONFIG_B43LEGACY_PIO_MODE is not set
-CONFIG_BRCMUTIL=y
-CONFIG_BRCMSMAC=y
-CONFIG_BRCMSMAC_LEDS=y
-CONFIG_BRCMFMAC=y
-CONFIG_BRCMFMAC_PROTO_BCDC=y
-CONFIG_BRCMFMAC_PROTO_MSGBUF=y
-CONFIG_BRCMFMAC_SDIO=y
-CONFIG_BRCMFMAC_USB=y
-CONFIG_BRCMFMAC_PCIE=y
-CONFIG_BRCM_TRACING=y
-CONFIG_BRCMDBG=y
-CONFIG_WLAN_VENDOR_CISCO=y
-CONFIG_AIRO_CS=y
-CONFIG_WLAN_VENDOR_INTEL=y
-CONFIG_IPW2100=y
-CONFIG_IPW2100_MONITOR=y
-CONFIG_IPW2100_DEBUG=y
-CONFIG_IPW2200=y
-CONFIG_IPW2200_MONITOR=y
-CONFIG_IPW2200_RADIOTAP=y
-CONFIG_IPW2200_PROMISCUOUS=y
-CONFIG_IPW2200_QOS=y
-CONFIG_IPW2200_DEBUG=y
-CONFIG_LIBIPW=y
-CONFIG_LIBIPW_DEBUG=y
-CONFIG_IWLEGACY=y
-CONFIG_IWL4965=y
-CONFIG_IWL3945=y
-
-#
-# iwl3945 / iwl4965 Debugging Options
-#
-CONFIG_IWLEGACY_DEBUG=y
-CONFIG_IWLEGACY_DEBUGFS=y
-# end of iwl3945 / iwl4965 Debugging Options
-
-CONFIG_IWLWIFI=y
-CONFIG_IWLWIFI_LEDS=y
-CONFIG_IWLDVM=y
-CONFIG_IWLMVM=y
-
-#
-# Debugging Options
-#
-CONFIG_IWLWIFI_DEBUG=y
-CONFIG_IWLWIFI_DEBUGFS=y
-# end of Debugging Options
-
-CONFIG_WLAN_VENDOR_INTERSIL=y
-CONFIG_HOSTAP=y
-CONFIG_HOSTAP_FIRMWARE=y
-CONFIG_HOSTAP_FIRMWARE_NVRAM=y
-CONFIG_HOSTAP_PLX=y
-CONFIG_HOSTAP_PCI=y
-CONFIG_HOSTAP_CS=y
-CONFIG_HERMES=y
-CONFIG_HERMES_PRISM=y
-CONFIG_HERMES_CACHE_FW_ON_INIT=y
-CONFIG_PLX_HERMES=y
-CONFIG_TMD_HERMES=y
-CONFIG_NORTEL_HERMES=y
-CONFIG_PCI_HERMES=y
-CONFIG_PCMCIA_HERMES=y
-CONFIG_PCMCIA_SPECTRUM=y
-CONFIG_ORINOCO_USB=y
-CONFIG_P54_COMMON=y
-CONFIG_P54_USB=y
-CONFIG_P54_PCI=y
-CONFIG_P54_SPI=y
-CONFIG_P54_SPI_DEFAULT_EEPROM=y
-CONFIG_P54_LEDS=y
-CONFIG_WLAN_VENDOR_MARVELL=y
-CONFIG_LIBERTAS=y
-CONFIG_LIBERTAS_USB=y
-CONFIG_LIBERTAS_CS=y
-CONFIG_LIBERTAS_SDIO=y
-CONFIG_LIBERTAS_SPI=y
-CONFIG_LIBERTAS_DEBUG=y
-CONFIG_LIBERTAS_MESH=y
-CONFIG_LIBERTAS_THINFIRM=y
-CONFIG_LIBERTAS_THINFIRM_DEBUG=y
-CONFIG_LIBERTAS_THINFIRM_USB=y
-CONFIG_MWIFIEX=y
-CONFIG_MWIFIEX_SDIO=y
-CONFIG_MWIFIEX_PCIE=y
-CONFIG_MWIFIEX_USB=y
-CONFIG_MWL8K=y
-CONFIG_WLAN_VENDOR_MEDIATEK=y
-CONFIG_MT7601U=y
-CONFIG_MT76_CORE=y
-CONFIG_MT76_LEDS=y
-CONFIG_MT76_USB=y
-CONFIG_MT76_SDIO=y
-CONFIG_MT76x02_LIB=y
-CONFIG_MT76x02_USB=y
-CONFIG_MT76_CONNAC_LIB=y
-CONFIG_MT76x0_COMMON=y
-CONFIG_MT76x0U=y
-CONFIG_MT76x0E=y
-CONFIG_MT76x2_COMMON=y
-CONFIG_MT76x2E=y
-CONFIG_MT76x2U=y
-CONFIG_MT7603E=y
-CONFIG_MT7615_COMMON=y
-CONFIG_MT7615E=y
-CONFIG_MT7622_WMAC=y
-CONFIG_MT7663_USB_SDIO_COMMON=y
-CONFIG_MT7663U=y
-CONFIG_MT7663S=y
-CONFIG_MT7915E=y
-CONFIG_MT7986_WMAC=y
-CONFIG_MT7921_COMMON=y
-CONFIG_MT7921E=y
-CONFIG_MT7921S=y
-CONFIG_MT7921U=y
-CONFIG_WLAN_VENDOR_MICROCHIP=y
-CONFIG_WILC1000=y
-CONFIG_WILC1000_SDIO=y
-CONFIG_WILC1000_SPI=y
-CONFIG_WILC1000_HW_OOB_INTR=y
-CONFIG_WLAN_VENDOR_PURELIFI=y
-CONFIG_PLFXLC=y
-CONFIG_WLAN_VENDOR_RALINK=y
-CONFIG_RT2X00=y
-CONFIG_RT2400PCI=y
-CONFIG_RT2500PCI=y
-CONFIG_RT61PCI=y
-CONFIG_RT2800PCI=y
-CONFIG_RT2800PCI_RT33XX=y
-CONFIG_RT2800PCI_RT35XX=y
-CONFIG_RT2800PCI_RT53XX=y
-CONFIG_RT2800PCI_RT3290=y
-CONFIG_RT2500USB=y
-CONFIG_RT73USB=y
-CONFIG_RT2800USB=y
-CONFIG_RT2800USB_RT33XX=y
-CONFIG_RT2800USB_RT35XX=y
-CONFIG_RT2800USB_RT3573=y
-CONFIG_RT2800USB_RT53XX=y
-CONFIG_RT2800USB_RT55XX=y
-CONFIG_RT2800USB_UNKNOWN=y
-CONFIG_RT2800_LIB=y
-CONFIG_RT2800_LIB_MMIO=y
-CONFIG_RT2X00_LIB_MMIO=y
-CONFIG_RT2X00_LIB_PCI=y
-CONFIG_RT2X00_LIB_USB=y
-CONFIG_RT2X00_LIB=y
-CONFIG_RT2X00_LIB_FIRMWARE=y
-CONFIG_RT2X00_LIB_CRYPTO=y
-CONFIG_RT2X00_LIB_LEDS=y
-CONFIG_RT2X00_LIB_DEBUGFS=y
-CONFIG_RT2X00_DEBUG=y
-CONFIG_WLAN_VENDOR_REALTEK=y
-CONFIG_RTL8180=y
-CONFIG_RTL8187=y
-CONFIG_RTL8187_LEDS=y
-CONFIG_RTL_CARDS=y
-CONFIG_RTL8192CE=y
-CONFIG_RTL8192SE=y
-CONFIG_RTL8192DE=y
-CONFIG_RTL8723AE=y
-CONFIG_RTL8723BE=y
-CONFIG_RTL8188EE=y
-CONFIG_RTL8192EE=y
-CONFIG_RTL8821AE=y
-CONFIG_RTL8192CU=y
-CONFIG_RTLWIFI=y
-CONFIG_RTLWIFI_PCI=y
-CONFIG_RTLWIFI_USB=y
-CONFIG_RTLWIFI_DEBUG=y
-CONFIG_RTL8192C_COMMON=y
-CONFIG_RTL8723_COMMON=y
-CONFIG_RTLBTCOEXIST=y
-CONFIG_RTL8XXXU=y
-CONFIG_RTL8XXXU_UNTESTED=y
-CONFIG_RTW88=y
-CONFIG_RTW88_CORE=y
-CONFIG_RTW88_PCI=y
-CONFIG_RTW88_8822B=y
-CONFIG_RTW88_8822C=y
-CONFIG_RTW88_8723D=y
-CONFIG_RTW88_8821C=y
-CONFIG_RTW88_8822BE=y
-CONFIG_RTW88_8822CE=y
-CONFIG_RTW88_8723DE=y
-CONFIG_RTW88_8821CE=y
-CONFIG_RTW88_DEBUG=y
-CONFIG_RTW88_DEBUGFS=y
-CONFIG_RTW89=y
-CONFIG_RTW89_CORE=y
-CONFIG_RTW89_PCI=y
-CONFIG_RTW89_8852A=y
-CONFIG_RTW89_8852C=y
-CONFIG_RTW89_8852AE=y
-CONFIG_RTW89_8852CE=y
-CONFIG_RTW89_DEBUG=y
-CONFIG_RTW89_DEBUGMSG=y
-CONFIG_RTW89_DEBUGFS=y
-CONFIG_WLAN_VENDOR_RSI=y
-CONFIG_RSI_91X=y
-CONFIG_RSI_DEBUGFS=y
-CONFIG_RSI_SDIO=y
-CONFIG_RSI_USB=y
-CONFIG_RSI_COEX=y
-CONFIG_WLAN_VENDOR_SILABS=y
-CONFIG_WFX=y
-CONFIG_WLAN_VENDOR_ST=y
-CONFIG_CW1200=y
-CONFIG_CW1200_WLAN_SDIO=y
-CONFIG_CW1200_WLAN_SPI=y
-CONFIG_WLAN_VENDOR_TI=y
-CONFIG_WL1251=y
-CONFIG_WL1251_SPI=y
-CONFIG_WL1251_SDIO=y
-CONFIG_WL12XX=y
-CONFIG_WL18XX=y
-CONFIG_WLCORE=y
-CONFIG_WLCORE_SPI=y
-CONFIG_WLCORE_SDIO=y
-CONFIG_WILINK_PLATFORM_DATA=y
-CONFIG_WLAN_VENDOR_ZYDAS=y
-CONFIG_USB_ZD1201=y
-CONFIG_ZD1211RW=y
-CONFIG_ZD1211RW_DEBUG=y
-CONFIG_WLAN_VENDOR_QUANTENNA=y
-CONFIG_QTNFMAC=y
-CONFIG_QTNFMAC_PCIE=y
-CONFIG_PCMCIA_RAYCS=y
-CONFIG_PCMCIA_WL3501=y
-CONFIG_MAC80211_HWSIM=y
-CONFIG_USB_NET_RNDIS_WLAN=y
-CONFIG_VIRT_WIFI=y
-CONFIG_WAN=y
-CONFIG_HDLC=y
-CONFIG_HDLC_RAW=y
-CONFIG_HDLC_RAW_ETH=y
-CONFIG_HDLC_CISCO=y
-CONFIG_HDLC_FR=y
-CONFIG_HDLC_PPP=y
-CONFIG_HDLC_X25=y
-CONFIG_PCI200SYN=y
-CONFIG_WANXL=y
-CONFIG_PC300TOO=y
-CONFIG_FARSYNC=y
-CONFIG_FSL_UCC_HDLC=y
-CONFIG_SLIC_DS26522=y
-CONFIG_LAPBETHER=y
-CONFIG_IEEE802154_DRIVERS=y
-CONFIG_IEEE802154_FAKELB=y
-CONFIG_IEEE802154_AT86RF230=y
-CONFIG_IEEE802154_MRF24J40=y
-CONFIG_IEEE802154_CC2520=y
-CONFIG_IEEE802154_ATUSB=y
-CONFIG_IEEE802154_ADF7242=y
-CONFIG_IEEE802154_CA8210=y
-CONFIG_IEEE802154_CA8210_DEBUGFS=y
-CONFIG_IEEE802154_MCR20A=y
-CONFIG_IEEE802154_HWSIM=y
-
-#
-# Wireless WAN
-#
-CONFIG_WWAN=y
-CONFIG_WWAN_DEBUGFS=y
-CONFIG_WWAN_HWSIM=y
-CONFIG_MHI_WWAN_CTRL=y
-CONFIG_MHI_WWAN_MBIM=y
-CONFIG_QCOM_BAM_DMUX=y
-CONFIG_RPMSG_WWAN_CTRL=y
-CONFIG_IOSM=y
-CONFIG_MTK_T7XX=y
-# end of Wireless WAN
-
-CONFIG_VMXNET3=y
-CONFIG_FUJITSU_ES=y
-CONFIG_USB4_NET=y
-CONFIG_NETDEVSIM=y
-CONFIG_NET_FAILOVER=y
-CONFIG_ISDN=y
-CONFIG_ISDN_CAPI=y
-CONFIG_CAPI_TRACE=y
-CONFIG_ISDN_CAPI_MIDDLEWARE=y
-CONFIG_MISDN=y
-CONFIG_MISDN_DSP=y
-CONFIG_MISDN_L1OIP=y
-
-#
-# mISDN hardware drivers
-#
-CONFIG_MISDN_HFCPCI=y
-CONFIG_MISDN_HFCMULTI=y
-CONFIG_MISDN_HFCUSB=y
-CONFIG_MISDN_AVMFRITZ=y
-CONFIG_MISDN_SPEEDFAX=y
-CONFIG_MISDN_INFINEON=y
-CONFIG_MISDN_W6692=y
-CONFIG_MISDN_NETJET=y
-CONFIG_MISDN_HDLC=y
-CONFIG_MISDN_IPAC=y
-CONFIG_MISDN_ISAR=y
-
-#
-# Input device support
-#
-CONFIG_INPUT=y
-CONFIG_INPUT_LEDS=y
-CONFIG_INPUT_FF_MEMLESS=y
-CONFIG_INPUT_SPARSEKMAP=y
-CONFIG_INPUT_MATRIXKMAP=y
-CONFIG_INPUT_VIVALDIFMAP=y
-
-#
-# Userland interfaces
-#
-CONFIG_INPUT_MOUSEDEV=y
-CONFIG_INPUT_MOUSEDEV_PSAUX=y
-CONFIG_INPUT_MOUSEDEV_SCREEN_X=1024
-CONFIG_INPUT_MOUSEDEV_SCREEN_Y=768
-CONFIG_INPUT_JOYDEV=y
-CONFIG_INPUT_EVDEV=y
-CONFIG_INPUT_EVBUG=y
-
-#
-# Input Device Drivers
-#
-CONFIG_INPUT_KEYBOARD=y
-CONFIG_KEYBOARD_ADC=y
-CONFIG_KEYBOARD_ADP5520=y
-CONFIG_KEYBOARD_ADP5588=y
-CONFIG_KEYBOARD_ADP5589=y
-CONFIG_KEYBOARD_APPLESPI=y
-CONFIG_KEYBOARD_ATKBD=y
-CONFIG_KEYBOARD_QT1050=y
-CONFIG_KEYBOARD_QT1070=y
-CONFIG_KEYBOARD_QT2160=y
-CONFIG_KEYBOARD_CLPS711X=y
-CONFIG_KEYBOARD_DLINK_DIR685=y
-CONFIG_KEYBOARD_LKKBD=y
-CONFIG_KEYBOARD_EP93XX=y
-CONFIG_KEYBOARD_GPIO=y
-CONFIG_KEYBOARD_GPIO_POLLED=y
-CONFIG_KEYBOARD_TCA6416=y
-CONFIG_KEYBOARD_TCA8418=y
-CONFIG_KEYBOARD_MATRIX=y
-CONFIG_KEYBOARD_LM8323=y
-CONFIG_KEYBOARD_LM8333=y
-CONFIG_KEYBOARD_MAX7359=y
-CONFIG_KEYBOARD_MCS=y
-CONFIG_KEYBOARD_MPR121=y
-CONFIG_KEYBOARD_SNVS_PWRKEY=y
-CONFIG_KEYBOARD_IMX=y
-CONFIG_KEYBOARD_IMX_SC_KEY=y
-CONFIG_KEYBOARD_NEWTON=y
-CONFIG_KEYBOARD_OPENCORES=y
-CONFIG_KEYBOARD_PINEPHONE=y
-CONFIG_KEYBOARD_PMIC8XXX=y
-CONFIG_KEYBOARD_SAMSUNG=y
-CONFIG_KEYBOARD_GOLDFISH_EVENTS=y
-CONFIG_KEYBOARD_STOWAWAY=y
-CONFIG_KEYBOARD_ST_KEYSCAN=y
-CONFIG_KEYBOARD_SUNKBD=y
-CONFIG_KEYBOARD_SH_KEYSC=y
-CONFIG_KEYBOARD_STMPE=y
-CONFIG_KEYBOARD_IQS62X=y
-CONFIG_KEYBOARD_OMAP4=y
-CONFIG_KEYBOARD_TC3589X=y
-CONFIG_KEYBOARD_TM2_TOUCHKEY=y
-CONFIG_KEYBOARD_TWL4030=y
-CONFIG_KEYBOARD_XTKBD=y
-CONFIG_KEYBOARD_CROS_EC=y
-CONFIG_KEYBOARD_CAP11XX=y
-CONFIG_KEYBOARD_BCM=y
-CONFIG_KEYBOARD_MT6779=y
-CONFIG_KEYBOARD_MTK_PMIC=y
-CONFIG_KEYBOARD_CYPRESS_SF=y
-CONFIG_INPUT_MOUSE=y
-CONFIG_MOUSE_PS2=y
-CONFIG_MOUSE_PS2_ALPS=y
-CONFIG_MOUSE_PS2_BYD=y
-CONFIG_MOUSE_PS2_LOGIPS2PP=y
-CONFIG_MOUSE_PS2_SYNAPTICS=y
-CONFIG_MOUSE_PS2_SYNAPTICS_SMBUS=y
-CONFIG_MOUSE_PS2_CYPRESS=y
-CONFIG_MOUSE_PS2_TRACKPOINT=y
-CONFIG_MOUSE_PS2_ELANTECH=y
-CONFIG_MOUSE_PS2_ELANTECH_SMBUS=y
-CONFIG_MOUSE_PS2_SENTELIC=y
-CONFIG_MOUSE_PS2_TOUCHKIT=y
-CONFIG_MOUSE_PS2_FOCALTECH=y
-CONFIG_MOUSE_PS2_SMBUS=y
-CONFIG_MOUSE_SERIAL=y
-CONFIG_MOUSE_APPLETOUCH=y
-CONFIG_MOUSE_BCM5974=y
-CONFIG_MOUSE_CYAPA=y
-CONFIG_MOUSE_ELAN_I2C=y
-CONFIG_MOUSE_ELAN_I2C_I2C=y
-CONFIG_MOUSE_ELAN_I2C_SMBUS=y
-CONFIG_MOUSE_VSXXXAA=y
-CONFIG_MOUSE_GPIO=y
-CONFIG_MOUSE_SYNAPTICS_I2C=y
-CONFIG_MOUSE_SYNAPTICS_USB=y
-CONFIG_INPUT_JOYSTICK=y
-CONFIG_JOYSTICK_ANALOG=y
-CONFIG_JOYSTICK_A3D=y
-CONFIG_JOYSTICK_ADC=y
-CONFIG_JOYSTICK_ADI=y
-CONFIG_JOYSTICK_COBRA=y
-CONFIG_JOYSTICK_GF2K=y
-CONFIG_JOYSTICK_GRIP=y
-CONFIG_JOYSTICK_GRIP_MP=y
-CONFIG_JOYSTICK_GUILLEMOT=y
-CONFIG_JOYSTICK_INTERACT=y
-CONFIG_JOYSTICK_SIDEWINDER=y
-CONFIG_JOYSTICK_TMDC=y
-CONFIG_JOYSTICK_IFORCE=y
-CONFIG_JOYSTICK_IFORCE_USB=y
-CONFIG_JOYSTICK_IFORCE_232=y
-CONFIG_JOYSTICK_WARRIOR=y
-CONFIG_JOYSTICK_MAGELLAN=y
-CONFIG_JOYSTICK_SPACEORB=y
-CONFIG_JOYSTICK_SPACEBALL=y
-CONFIG_JOYSTICK_STINGER=y
-CONFIG_JOYSTICK_TWIDJOY=y
-CONFIG_JOYSTICK_ZHENHUA=y
-CONFIG_JOYSTICK_DB9=y
-CONFIG_JOYSTICK_GAMECON=y
-CONFIG_JOYSTICK_TURBOGRAFX=y
-CONFIG_JOYSTICK_AS5011=y
-CONFIG_JOYSTICK_JOYDUMP=y
-CONFIG_JOYSTICK_XPAD=y
-CONFIG_JOYSTICK_XPAD_FF=y
-CONFIG_JOYSTICK_XPAD_LEDS=y
-CONFIG_JOYSTICK_PSXPAD_SPI=y
-CONFIG_JOYSTICK_PSXPAD_SPI_FF=y
-CONFIG_JOYSTICK_PXRC=y
-CONFIG_JOYSTICK_QWIIC=y
-CONFIG_JOYSTICK_FSIA6B=y
-CONFIG_JOYSTICK_SENSEHAT=y
-CONFIG_INPUT_TABLET=y
-CONFIG_TABLET_USB_ACECAD=y
-CONFIG_TABLET_USB_AIPTEK=y
-CONFIG_TABLET_USB_HANWANG=y
-CONFIG_TABLET_USB_KBTAB=y
-CONFIG_TABLET_USB_PEGASUS=y
-CONFIG_TABLET_SERIAL_WACOM4=y
-CONFIG_INPUT_TOUCHSCREEN=y
-CONFIG_TOUCHSCREEN_88PM860X=y
-CONFIG_TOUCHSCREEN_ADS7846=y
-CONFIG_TOUCHSCREEN_AD7877=y
-CONFIG_TOUCHSCREEN_AD7879=y
-CONFIG_TOUCHSCREEN_AD7879_I2C=y
-CONFIG_TOUCHSCREEN_AD7879_SPI=y
-CONFIG_TOUCHSCREEN_ADC=y
-CONFIG_TOUCHSCREEN_AR1021_I2C=y
-CONFIG_TOUCHSCREEN_ATMEL_MXT=y
-CONFIG_TOUCHSCREEN_ATMEL_MXT_T37=y
-CONFIG_TOUCHSCREEN_AUO_PIXCIR=y
-CONFIG_TOUCHSCREEN_BU21013=y
-CONFIG_TOUCHSCREEN_BU21029=y
-CONFIG_TOUCHSCREEN_CHIPONE_ICN8318=y
-CONFIG_TOUCHSCREEN_CHIPONE_ICN8505=y
-CONFIG_TOUCHSCREEN_CY8CTMA140=y
-CONFIG_TOUCHSCREEN_CY8CTMG110=y
-CONFIG_TOUCHSCREEN_CYTTSP_CORE=y
-CONFIG_TOUCHSCREEN_CYTTSP_I2C=y
-CONFIG_TOUCHSCREEN_CYTTSP_SPI=y
-CONFIG_TOUCHSCREEN_CYTTSP4_CORE=y
-CONFIG_TOUCHSCREEN_CYTTSP4_I2C=y
-CONFIG_TOUCHSCREEN_CYTTSP4_SPI=y
-CONFIG_TOUCHSCREEN_DA9034=y
-CONFIG_TOUCHSCREEN_DA9052=y
-CONFIG_TOUCHSCREEN_DYNAPRO=y
-CONFIG_TOUCHSCREEN_HAMPSHIRE=y
-CONFIG_TOUCHSCREEN_EETI=y
-CONFIG_TOUCHSCREEN_EGALAX=y
-CONFIG_TOUCHSCREEN_EGALAX_SERIAL=y
-CONFIG_TOUCHSCREEN_EXC3000=y
-CONFIG_TOUCHSCREEN_FUJITSU=y
-CONFIG_TOUCHSCREEN_GOODIX=y
-CONFIG_TOUCHSCREEN_HIDEEP=y
-CONFIG_TOUCHSCREEN_HYCON_HY46XX=y
-CONFIG_TOUCHSCREEN_ILI210X=y
-CONFIG_TOUCHSCREEN_ILITEK=y
-CONFIG_TOUCHSCREEN_IPROC=y
-CONFIG_TOUCHSCREEN_S6SY761=y
-CONFIG_TOUCHSCREEN_GUNZE=y
-CONFIG_TOUCHSCREEN_EKTF2127=y
-CONFIG_TOUCHSCREEN_ELAN=y
-CONFIG_TOUCHSCREEN_ELO=y
-CONFIG_TOUCHSCREEN_WACOM_W8001=y
-CONFIG_TOUCHSCREEN_WACOM_I2C=y
-CONFIG_TOUCHSCREEN_MAX11801=y
-CONFIG_TOUCHSCREEN_MCS5000=y
-CONFIG_TOUCHSCREEN_MMS114=y
-CONFIG_TOUCHSCREEN_MELFAS_MIP4=y
-CONFIG_TOUCHSCREEN_MSG2638=y
-CONFIG_TOUCHSCREEN_MTOUCH=y
-CONFIG_TOUCHSCREEN_IMAGIS=y
-CONFIG_TOUCHSCREEN_IMX6UL_TSC=y
-CONFIG_TOUCHSCREEN_INEXIO=y
-CONFIG_TOUCHSCREEN_MK712=y
-CONFIG_TOUCHSCREEN_PENMOUNT=y
-CONFIG_TOUCHSCREEN_EDT_FT5X06=y
-CONFIG_TOUCHSCREEN_RASPBERRYPI_FW=y
-CONFIG_TOUCHSCREEN_MIGOR=y
-CONFIG_TOUCHSCREEN_TOUCHRIGHT=y
-CONFIG_TOUCHSCREEN_TOUCHWIN=y
-CONFIG_TOUCHSCREEN_TI_AM335X_TSC=y
-CONFIG_TOUCHSCREEN_UCB1400=y
-CONFIG_TOUCHSCREEN_PIXCIR=y
-CONFIG_TOUCHSCREEN_WDT87XX_I2C=y
-CONFIG_TOUCHSCREEN_WM831X=y
-CONFIG_TOUCHSCREEN_WM97XX=y
-CONFIG_TOUCHSCREEN_WM9705=y
-CONFIG_TOUCHSCREEN_WM9712=y
-CONFIG_TOUCHSCREEN_WM9713=y
-CONFIG_TOUCHSCREEN_USB_COMPOSITE=y
-CONFIG_TOUCHSCREEN_MXS_LRADC=y
-CONFIG_TOUCHSCREEN_MX25=y
-CONFIG_TOUCHSCREEN_MC13783=y
-CONFIG_TOUCHSCREEN_USB_EGALAX=y
-CONFIG_TOUCHSCREEN_USB_PANJIT=y
-CONFIG_TOUCHSCREEN_USB_3M=y
-CONFIG_TOUCHSCREEN_USB_ITM=y
-CONFIG_TOUCHSCREEN_USB_ETURBO=y
-CONFIG_TOUCHSCREEN_USB_GUNZE=y
-CONFIG_TOUCHSCREEN_USB_DMC_TSC10=y
-CONFIG_TOUCHSCREEN_USB_IRTOUCH=y
-CONFIG_TOUCHSCREEN_USB_IDEALTEK=y
-CONFIG_TOUCHSCREEN_USB_GENERAL_TOUCH=y
-CONFIG_TOUCHSCREEN_USB_GOTOP=y
-CONFIG_TOUCHSCREEN_USB_JASTEC=y
-CONFIG_TOUCHSCREEN_USB_ELO=y
-CONFIG_TOUCHSCREEN_USB_E2I=y
-CONFIG_TOUCHSCREEN_USB_ZYTRONIC=y
-CONFIG_TOUCHSCREEN_USB_ETT_TC45USB=y
-CONFIG_TOUCHSCREEN_USB_NEXIO=y
-CONFIG_TOUCHSCREEN_USB_EASYTOUCH=y
-CONFIG_TOUCHSCREEN_TOUCHIT213=y
-CONFIG_TOUCHSCREEN_TS4800=y
-CONFIG_TOUCHSCREEN_TSC_SERIO=y
-CONFIG_TOUCHSCREEN_TSC200X_CORE=y
-CONFIG_TOUCHSCREEN_TSC2004=y
-CONFIG_TOUCHSCREEN_TSC2005=y
-CONFIG_TOUCHSCREEN_TSC2007=y
-CONFIG_TOUCHSCREEN_TSC2007_IIO=y
-CONFIG_TOUCHSCREEN_PCAP=y
-CONFIG_TOUCHSCREEN_RM_TS=y
-CONFIG_TOUCHSCREEN_SILEAD=y
-CONFIG_TOUCHSCREEN_SIS_I2C=y
-CONFIG_TOUCHSCREEN_ST1232=y
-CONFIG_TOUCHSCREEN_STMFTS=y
-CONFIG_TOUCHSCREEN_STMPE=y
-CONFIG_TOUCHSCREEN_SUN4I=y
-CONFIG_TOUCHSCREEN_SUR40=y
-CONFIG_TOUCHSCREEN_SURFACE3_SPI=y
-CONFIG_TOUCHSCREEN_SX8654=y
-CONFIG_TOUCHSCREEN_TPS6507X=y
-CONFIG_TOUCHSCREEN_ZET6223=y
-CONFIG_TOUCHSCREEN_ZFORCE=y
-CONFIG_TOUCHSCREEN_COLIBRI_VF50=y
-CONFIG_TOUCHSCREEN_ROHM_BU21023=y
-CONFIG_TOUCHSCREEN_IQS5XX=y
-CONFIG_TOUCHSCREEN_ZINITIX=y
-CONFIG_INPUT_MISC=y
-CONFIG_INPUT_88PM860X_ONKEY=y
-CONFIG_INPUT_88PM80X_ONKEY=y
-CONFIG_INPUT_AD714X=y
-CONFIG_INPUT_AD714X_I2C=y
-CONFIG_INPUT_AD714X_SPI=y
-CONFIG_INPUT_ARIEL_PWRBUTTON=y
-CONFIG_INPUT_ARIZONA_HAPTICS=y
-CONFIG_INPUT_ATC260X_ONKEY=y
-CONFIG_INPUT_ATMEL_CAPTOUCH=y
-CONFIG_INPUT_BMA150=y
-CONFIG_INPUT_E3X0_BUTTON=y
-CONFIG_INPUT_PM8941_PWRKEY=y
-CONFIG_INPUT_PM8XXX_VIBRATOR=y
-CONFIG_INPUT_PMIC8XXX_PWRKEY=y
-CONFIG_INPUT_MAX77650_ONKEY=y
-CONFIG_INPUT_MAX77693_HAPTIC=y
-CONFIG_INPUT_MAX8925_ONKEY=y
-CONFIG_INPUT_MAX8997_HAPTIC=y
-CONFIG_INPUT_MC13783_PWRBUTTON=y
-CONFIG_INPUT_MMA8450=y
-CONFIG_INPUT_GPIO_BEEPER=y
-CONFIG_INPUT_GPIO_DECODER=y
-CONFIG_INPUT_GPIO_VIBRA=y
-CONFIG_INPUT_CPCAP_PWRBUTTON=y
-CONFIG_INPUT_ATI_REMOTE2=y
-CONFIG_INPUT_KEYSPAN_REMOTE=y
-CONFIG_INPUT_KXTJ9=y
-CONFIG_INPUT_POWERMATE=y
-CONFIG_INPUT_YEALINK=y
-CONFIG_INPUT_CM109=y
-CONFIG_INPUT_REGULATOR_HAPTIC=y
-CONFIG_INPUT_RETU_PWRBUTTON=y
-CONFIG_INPUT_TPS65218_PWRBUTTON=y
-CONFIG_INPUT_AXP20X_PEK=y
-CONFIG_INPUT_TWL4030_PWRBUTTON=y
-CONFIG_INPUT_TWL4030_VIBRA=y
-CONFIG_INPUT_TWL6040_VIBRA=y
-CONFIG_INPUT_UINPUT=y
-CONFIG_INPUT_PALMAS_PWRBUTTON=y
-CONFIG_INPUT_PCF50633_PMU=y
-CONFIG_INPUT_PCF8574=y
-CONFIG_INPUT_PWM_BEEPER=y
-CONFIG_INPUT_PWM_VIBRA=y
-CONFIG_INPUT_RK805_PWRKEY=y
-CONFIG_INPUT_GPIO_ROTARY_ENCODER=y
-CONFIG_INPUT_DA7280_HAPTICS=y
-CONFIG_INPUT_DA9052_ONKEY=y
-CONFIG_INPUT_DA9055_ONKEY=y
-CONFIG_INPUT_DA9063_ONKEY=y
-CONFIG_INPUT_WM831X_ON=y
-CONFIG_INPUT_PCAP=y
-CONFIG_INPUT_ADXL34X=y
-CONFIG_INPUT_ADXL34X_I2C=y
-CONFIG_INPUT_ADXL34X_SPI=y
-CONFIG_INPUT_IBM_PANEL=y
-CONFIG_INPUT_IMS_PCU=y
-CONFIG_INPUT_IQS269A=y
-CONFIG_INPUT_IQS626A=y
-CONFIG_INPUT_IQS7222=y
-CONFIG_INPUT_CMA3000=y
-CONFIG_INPUT_CMA3000_I2C=y
-CONFIG_INPUT_IDEAPAD_SLIDEBAR=y
-CONFIG_INPUT_SOC_BUTTON_ARRAY=y
-CONFIG_INPUT_DRV260X_HAPTICS=y
-CONFIG_INPUT_DRV2665_HAPTICS=y
-CONFIG_INPUT_DRV2667_HAPTICS=y
-CONFIG_INPUT_HISI_POWERKEY=y
-CONFIG_INPUT_RAVE_SP_PWRBUTTON=y
-CONFIG_INPUT_SC27XX_VIBRA=y
-CONFIG_INPUT_RT5120_PWRKEY=y
-CONFIG_INPUT_STPMIC1_ONKEY=y
-CONFIG_RMI4_CORE=y
-CONFIG_RMI4_I2C=y
-CONFIG_RMI4_SPI=y
-CONFIG_RMI4_SMB=y
-CONFIG_RMI4_F03=y
-CONFIG_RMI4_F03_SERIO=y
-CONFIG_RMI4_2D_SENSOR=y
-CONFIG_RMI4_F11=y
-CONFIG_RMI4_F12=y
-CONFIG_RMI4_F30=y
-CONFIG_RMI4_F34=y
-CONFIG_RMI4_F3A=y
-CONFIG_RMI4_F54=y
-CONFIG_RMI4_F55=y
-
-#
-# Hardware I/O ports
-#
-CONFIG_SERIO=y
-CONFIG_ARCH_MIGHT_HAVE_PC_SERIO=y
-CONFIG_SERIO_I8042=y
-CONFIG_SERIO_SERPORT=y
-CONFIG_SERIO_PARKBD=y
-CONFIG_SERIO_PCIPS2=y
-CONFIG_SERIO_LIBPS2=y
-CONFIG_SERIO_RAW=y
-CONFIG_SERIO_ALTERA_PS2=y
-CONFIG_SERIO_PS2MULT=y
-CONFIG_SERIO_ARC_PS2=y
-CONFIG_SERIO_APBPS2=y
-CONFIG_SERIO_OLPC_APSP=y
-CONFIG_SERIO_SUN4I_PS2=y
-CONFIG_SERIO_GPIO_PS2=y
-CONFIG_USERIO=y
-CONFIG_GAMEPORT=y
-CONFIG_GAMEPORT_NS558=y
-CONFIG_GAMEPORT_L4=y
-CONFIG_GAMEPORT_EMU10K1=y
-CONFIG_GAMEPORT_FM801=y
-# end of Hardware I/O ports
-# end of Input device support
-
-#
-# Character devices
-#
-CONFIG_TTY=y
-CONFIG_VT=y
-CONFIG_CONSOLE_TRANSLATIONS=y
-CONFIG_VT_CONSOLE=y
-CONFIG_HW_CONSOLE=y
-CONFIG_VT_HW_CONSOLE_BINDING=y
-CONFIG_UNIX98_PTYS=y
-CONFIG_LEGACY_PTYS=y
-CONFIG_LEGACY_PTY_COUNT=256
-CONFIG_LDISC_AUTOLOAD=y
-
-#
-# Serial drivers
-#
-CONFIG_SERIAL_EARLYCON=y
-CONFIG_SERIAL_8250=y
-CONFIG_SERIAL_8250_DEPRECATED_OPTIONS=y
-CONFIG_SERIAL_8250_PNP=y
-CONFIG_SERIAL_8250_16550A_VARIANTS=y
-CONFIG_SERIAL_8250_FINTEK=y
-CONFIG_SERIAL_8250_CONSOLE=y
-CONFIG_SERIAL_8250_DMA=y
-CONFIG_SERIAL_8250_PCI=y
-CONFIG_SERIAL_8250_EXAR=y
-CONFIG_SERIAL_8250_CS=y
-CONFIG_SERIAL_8250_MEN_MCB=y
-CONFIG_SERIAL_8250_NR_UARTS=4
-CONFIG_SERIAL_8250_RUNTIME_UARTS=4
-CONFIG_SERIAL_8250_EXTENDED=y
-CONFIG_SERIAL_8250_ASPEED_VUART=y
-CONFIG_SERIAL_8250_SHARE_IRQ=y
-CONFIG_SERIAL_8250_DETECT_IRQ=y
-CONFIG_SERIAL_8250_RSA=y
-CONFIG_SERIAL_8250_DWLIB=y
-CONFIG_SERIAL_8250_BCM2835AUX=y
-CONFIG_SERIAL_8250_FSL=y
-CONFIG_SERIAL_8250_DW=y
-CONFIG_SERIAL_8250_EM=y
-CONFIG_SERIAL_8250_IOC3=y
-CONFIG_SERIAL_8250_RT288X=y
-CONFIG_SERIAL_8250_OMAP=y
-CONFIG_SERIAL_8250_OMAP_TTYO_FIXUP=y
-CONFIG_SERIAL_8250_LPC18XX=y
-CONFIG_SERIAL_8250_MT6577=y
-CONFIG_SERIAL_8250_UNIPHIER=y
-CONFIG_SERIAL_8250_INGENIC=y
-CONFIG_SERIAL_8250_LPSS=y
-CONFIG_SERIAL_8250_MID=y
-CONFIG_SERIAL_8250_PERICOM=y
-CONFIG_SERIAL_8250_PXA=y
-CONFIG_SERIAL_8250_TEGRA=y
-CONFIG_SERIAL_8250_BCM7271=y
-CONFIG_SERIAL_OF_PLATFORM=y
-
-#
-# Non-8250 serial port support
-#
-CONFIG_SERIAL_AMBA_PL010=y
-CONFIG_SERIAL_AMBA_PL010_CONSOLE=y
-CONFIG_SERIAL_ATMEL=y
-CONFIG_SERIAL_ATMEL_CONSOLE=y
-CONFIG_SERIAL_ATMEL_PDC=y
-CONFIG_SERIAL_ATMEL_TTYAT=y
-CONFIG_SERIAL_MESON=y
-CONFIG_SERIAL_MESON_CONSOLE=y
-CONFIG_SERIAL_CLPS711X=y
-CONFIG_SERIAL_CLPS711X_CONSOLE=y
-CONFIG_SERIAL_SAMSUNG=y
-CONFIG_SERIAL_SAMSUNG_UARTS_4=y
-CONFIG_SERIAL_SAMSUNG_UARTS=4
-CONFIG_SERIAL_SAMSUNG_CONSOLE=y
-CONFIG_SERIAL_TEGRA=y
-CONFIG_SERIAL_TEGRA_TCU=y
-CONFIG_SERIAL_TEGRA_TCU_CONSOLE=y
-CONFIG_SERIAL_MAX3100=y
-CONFIG_SERIAL_MAX310X=y
-CONFIG_SERIAL_IMX=y
-CONFIG_SERIAL_IMX_CONSOLE=y
-CONFIG_SERIAL_IMX_EARLYCON=y
-CONFIG_SERIAL_UARTLITE=y
-CONFIG_SERIAL_UARTLITE_CONSOLE=y
-CONFIG_SERIAL_UARTLITE_NR_UARTS=1
-CONFIG_SERIAL_SH_SCI=y
-CONFIG_SERIAL_SH_SCI_NR_UARTS=2
-CONFIG_SERIAL_SH_SCI_CONSOLE=y
-CONFIG_SERIAL_SH_SCI_EARLYCON=y
-CONFIG_SERIAL_SH_SCI_DMA=y
-CONFIG_SERIAL_HS_LPC32XX=y
-CONFIG_SERIAL_HS_LPC32XX_CONSOLE=y
-CONFIG_SERIAL_CORE=y
-CONFIG_SERIAL_CORE_CONSOLE=y
-CONFIG_SERIAL_ICOM=y
-CONFIG_SERIAL_JSM=y
-CONFIG_SERIAL_MSM=y
-CONFIG_SERIAL_MSM_CONSOLE=y
-CONFIG_SERIAL_QCOM_GENI=y
-CONFIG_SERIAL_QCOM_GENI_CONSOLE=y
-CONFIG_SERIAL_VT8500=y
-CONFIG_SERIAL_VT8500_CONSOLE=y
-CONFIG_SERIAL_OMAP=y
-CONFIG_SERIAL_OMAP_CONSOLE=y
-CONFIG_SERIAL_SIFIVE=y
-CONFIG_SERIAL_SIFIVE_CONSOLE=y
-CONFIG_SERIAL_LANTIQ=y
-CONFIG_SERIAL_LANTIQ_CONSOLE=y
-CONFIG_SERIAL_QE=y
-CONFIG_SERIAL_SCCNXP=y
-CONFIG_SERIAL_SCCNXP_CONSOLE=y
-CONFIG_SERIAL_SC16IS7XX_CORE=y
-CONFIG_SERIAL_SC16IS7XX=y
-CONFIG_SERIAL_SC16IS7XX_I2C=y
-CONFIG_SERIAL_SC16IS7XX_SPI=y
-CONFIG_SERIAL_TIMBERDALE=y
-CONFIG_SERIAL_BCM63XX=y
-CONFIG_SERIAL_BCM63XX_CONSOLE=y
-CONFIG_SERIAL_ALTERA_JTAGUART=y
-CONFIG_SERIAL_ALTERA_JTAGUART_CONSOLE=y
-CONFIG_SERIAL_ALTERA_JTAGUART_CONSOLE_BYPASS=y
-CONFIG_SERIAL_ALTERA_UART=y
-CONFIG_SERIAL_ALTERA_UART_MAXPORTS=4
-CONFIG_SERIAL_ALTERA_UART_BAUDRATE=115200
-CONFIG_SERIAL_ALTERA_UART_CONSOLE=y
-CONFIG_SERIAL_PCH_UART=y
-CONFIG_SERIAL_PCH_UART_CONSOLE=y
-CONFIG_SERIAL_MXS_AUART=y
-CONFIG_SERIAL_MXS_AUART_CONSOLE=y
-CONFIG_SERIAL_XILINX_PS_UART=y
-CONFIG_SERIAL_XILINX_PS_UART_CONSOLE=y
-CONFIG_SERIAL_MPS2_UART_CONSOLE=y
-CONFIG_SERIAL_MPS2_UART=y
-CONFIG_SERIAL_ARC=y
-CONFIG_SERIAL_ARC_CONSOLE=y
-CONFIG_SERIAL_ARC_NR_PORTS=1
-CONFIG_SERIAL_RP2=y
-CONFIG_SERIAL_RP2_NR_UARTS=32
-CONFIG_SERIAL_FSL_LPUART=y
-CONFIG_SERIAL_FSL_LPUART_CONSOLE=y
-CONFIG_SERIAL_FSL_LINFLEXUART=y
-CONFIG_SERIAL_FSL_LINFLEXUART_CONSOLE=y
-CONFIG_SERIAL_CONEXANT_DIGICOLOR=y
-CONFIG_SERIAL_CONEXANT_DIGICOLOR_CONSOLE=y
-CONFIG_SERIAL_ST_ASC=y
-CONFIG_SERIAL_ST_ASC_CONSOLE=y
-CONFIG_SERIAL_MEN_Z135=y
-CONFIG_SERIAL_SPRD=y
-CONFIG_SERIAL_SPRD_CONSOLE=y
-CONFIG_SERIAL_STM32=y
-CONFIG_SERIAL_STM32_CONSOLE=y
-CONFIG_SERIAL_MVEBU_UART=y
-CONFIG_SERIAL_MVEBU_CONSOLE=y
-CONFIG_SERIAL_OWL=y
-CONFIG_SERIAL_OWL_CONSOLE=y
-CONFIG_SERIAL_RDA=y
-CONFIG_SERIAL_RDA_CONSOLE=y
-CONFIG_SERIAL_MILBEAUT_USIO=y
-CONFIG_SERIAL_MILBEAUT_USIO_PORTS=4
-CONFIG_SERIAL_MILBEAUT_USIO_CONSOLE=y
-CONFIG_SERIAL_LITEUART=y
-CONFIG_SERIAL_LITEUART_MAX_PORTS=1
-CONFIG_SERIAL_LITEUART_CONSOLE=y
-CONFIG_SERIAL_SUNPLUS=y
-CONFIG_SERIAL_SUNPLUS_CONSOLE=y
-# end of Serial drivers
-
-CONFIG_SERIAL_MCTRL_GPIO=y
-CONFIG_SERIAL_NONSTANDARD=y
-CONFIG_MOXA_INTELLIO=y
-CONFIG_MOXA_SMARTIO=y
-CONFIG_SYNCLINK_GT=y
-CONFIG_N_HDLC=y
-CONFIG_GOLDFISH_TTY=y
-CONFIG_GOLDFISH_TTY_EARLY_CONSOLE=y
-CONFIG_N_GSM=y
-CONFIG_NOZOMI=y
-CONFIG_NULL_TTY=y
-CONFIG_HVC_DRIVER=y
-CONFIG_RPMSG_TTY=y
-CONFIG_SERIAL_DEV_BUS=y
-CONFIG_SERIAL_DEV_CTRL_TTYPORT=y
-CONFIG_TTY_PRINTK=y
-CONFIG_TTY_PRINTK_LEVEL=6
-CONFIG_PRINTER=y
-CONFIG_LP_CONSOLE=y
-CONFIG_PPDEV=y
-CONFIG_VIRTIO_CONSOLE=y
-CONFIG_IPMI_HANDLER=y
-CONFIG_IPMI_DMI_DECODE=y
-CONFIG_IPMI_PLAT_DATA=y
-CONFIG_IPMI_PANIC_EVENT=y
-CONFIG_IPMI_PANIC_STRING=y
-CONFIG_IPMI_DEVICE_INTERFACE=y
-CONFIG_IPMI_SI=y
-CONFIG_IPMI_SSIF=y
-CONFIG_IPMI_IPMB=y
-CONFIG_IPMI_WATCHDOG=y
-CONFIG_IPMI_POWEROFF=y
-CONFIG_IPMI_KCS_BMC=y
-CONFIG_ASPEED_KCS_IPMI_BMC=y
-CONFIG_NPCM7XX_KCS_IPMI_BMC=y
-CONFIG_IPMI_KCS_BMC_CDEV_IPMI=y
-CONFIG_IPMI_KCS_BMC_SERIO=y
-CONFIG_ASPEED_BT_IPMI_BMC=y
-CONFIG_IPMB_DEVICE_INTERFACE=y
-CONFIG_HW_RANDOM=y
-CONFIG_HW_RANDOM_TIMERIOMEM=y
-CONFIG_HW_RANDOM_INTEL=y
-CONFIG_HW_RANDOM_ATMEL=y
-CONFIG_HW_RANDOM_BA431=y
-CONFIG_HW_RANDOM_BCM2835=y
-CONFIG_HW_RANDOM_IPROC_RNG200=y
-CONFIG_HW_RANDOM_IXP4XX=y
-CONFIG_HW_RANDOM_OMAP=y
-CONFIG_HW_RANDOM_OMAP3_ROM=y
-CONFIG_HW_RANDOM_VIRTIO=y
-CONFIG_HW_RANDOM_IMX_RNGC=y
-CONFIG_HW_RANDOM_NOMADIK=y
-CONFIG_HW_RANDOM_STM32=y
-CONFIG_HW_RANDOM_POLARFIRE_SOC=y
-CONFIG_HW_RANDOM_MESON=y
-CONFIG_HW_RANDOM_MTK=y
-CONFIG_HW_RANDOM_EXYNOS=y
-CONFIG_HW_RANDOM_NPCM=y
-CONFIG_HW_RANDOM_KEYSTONE=y
-CONFIG_HW_RANDOM_CCTRNG=y
-CONFIG_HW_RANDOM_XIPHERA=y
-CONFIG_HW_RANDOM_CN10K=y
-CONFIG_APPLICOM=y
-
-#
-# PCMCIA character devices
-#
-CONFIG_SYNCLINK_CS=y
-CONFIG_CARDMAN_4000=y
-CONFIG_CARDMAN_4040=y
-CONFIG_SCR24X=y
-CONFIG_IPWIRELESS=y
-# end of PCMCIA character devices
-
-CONFIG_DEVMEM=y
-CONFIG_DEVPORT=y
-CONFIG_HPET=y
-CONFIG_HPET_MMAP=y
-CONFIG_HPET_MMAP_DEFAULT=y
-CONFIG_HANGCHECK_TIMER=y
-CONFIG_TCG_TPM=y
-CONFIG_HW_RANDOM_TPM=y
-CONFIG_TCG_TIS_CORE=y
-CONFIG_TCG_TIS=y
-CONFIG_TCG_TIS_SPI=y
-CONFIG_TCG_TIS_SPI_CR50=y
-CONFIG_TCG_TIS_I2C=y
-CONFIG_TCG_TIS_SYNQUACER=y
-CONFIG_TCG_TIS_I2C_CR50=y
-CONFIG_TCG_TIS_I2C_ATMEL=y
-CONFIG_TCG_TIS_I2C_INFINEON=y
-CONFIG_TCG_TIS_I2C_NUVOTON=y
-CONFIG_TCG_ATMEL=y
-CONFIG_TCG_INFINEON=y
-CONFIG_TCG_CRB=y
-CONFIG_TCG_VTPM_PROXY=y
-CONFIG_TCG_TIS_ST33ZP24=y
-CONFIG_TCG_TIS_ST33ZP24_I2C=y
-CONFIG_TCG_TIS_ST33ZP24_SPI=y
-CONFIG_XILLYBUS_CLASS=y
-CONFIG_XILLYBUS=y
-CONFIG_XILLYBUS_PCIE=y
-CONFIG_XILLYBUS_OF=y
-CONFIG_XILLYUSB=y
-CONFIG_RANDOM_TRUST_CPU=y
-CONFIG_RANDOM_TRUST_BOOTLOADER=y
-# end of Character devices
-
-#
-# I2C support
-#
-CONFIG_I2C=y
-CONFIG_ACPI_I2C_OPREGION=y
-CONFIG_I2C_BOARDINFO=y
-CONFIG_I2C_COMPAT=y
-CONFIG_I2C_CHARDEV=y
-CONFIG_I2C_MUX=y
-
-#
-# Multiplexer I2C Chip support
-#
-CONFIG_I2C_ARB_GPIO_CHALLENGE=y
-CONFIG_I2C_MUX_GPIO=y
-CONFIG_I2C_MUX_GPMUX=y
-CONFIG_I2C_MUX_LTC4306=y
-CONFIG_I2C_MUX_PCA9541=y
-CONFIG_I2C_MUX_PCA954x=y
-CONFIG_I2C_MUX_PINCTRL=y
-CONFIG_I2C_MUX_REG=y
-CONFIG_I2C_DEMUX_PINCTRL=y
-CONFIG_I2C_MUX_MLXCPLD=y
-# end of Multiplexer I2C Chip support
-
-CONFIG_I2C_HELPER_AUTO=y
-CONFIG_I2C_SMBUS=y
-CONFIG_I2C_ALGOBIT=y
-CONFIG_I2C_ALGOPCA=y
-
-#
-# I2C Hardware Bus support
-#
-
-#
-# PC SMBus host controller drivers
-#
-CONFIG_I2C_CCGX_UCSI=y
-CONFIG_I2C_ALI1535=y
-CONFIG_I2C_ALI1563=y
-CONFIG_I2C_ALI15X3=y
-CONFIG_I2C_AMD756=y
-CONFIG_I2C_AMD8111=y
-CONFIG_I2C_AMD_MP2=y
-CONFIG_I2C_HIX5HD2=y
-CONFIG_I2C_I801=y
-CONFIG_I2C_ISCH=y
-CONFIG_I2C_PIIX4=y
-CONFIG_I2C_CHT_WC=y
-CONFIG_I2C_NFORCE2=y
-CONFIG_I2C_NVIDIA_GPU=y
-CONFIG_I2C_SIS5595=y
-CONFIG_I2C_SIS630=y
-CONFIG_I2C_SIS96X=y
-CONFIG_I2C_VIA=y
-CONFIG_I2C_VIAPRO=y
-
-#
-# ACPI drivers
-#
-CONFIG_I2C_SCMI=y
-
-#
-# I2C system bus drivers (mostly embedded / system-on-chip)
-#
-CONFIG_I2C_ALTERA=y
-CONFIG_I2C_ASPEED=y
-CONFIG_I2C_AT91=y
-CONFIG_I2C_AT91_SLAVE_EXPERIMENTAL=y
-CONFIG_I2C_AXXIA=y
-CONFIG_I2C_BCM2835=y
-CONFIG_I2C_BCM_IPROC=y
-CONFIG_I2C_BCM_KONA=y
-CONFIG_I2C_BRCMSTB=y
-CONFIG_I2C_CADENCE=y
-CONFIG_I2C_CBUS_GPIO=y
-CONFIG_I2C_DAVINCI=y
-CONFIG_I2C_DESIGNWARE_CORE=y
-CONFIG_I2C_DESIGNWARE_SLAVE=y
-CONFIG_I2C_DESIGNWARE_PLATFORM=y
-CONFIG_I2C_DESIGNWARE_PCI=y
-CONFIG_I2C_DIGICOLOR=y
-CONFIG_I2C_EG20T=y
-CONFIG_I2C_EMEV2=y
-CONFIG_I2C_EXYNOS5=y
-CONFIG_I2C_GPIO=y
-CONFIG_I2C_GPIO_FAULT_INJECTOR=y
-CONFIG_I2C_HIGHLANDER=y
-CONFIG_I2C_HISI=y
-CONFIG_I2C_IMG=y
-CONFIG_I2C_IMX=y
-CONFIG_I2C_IMX_LPI2C=y
-CONFIG_I2C_IOP3XX=y
-CONFIG_I2C_JZ4780=y
-CONFIG_I2C_KEMPLD=y
-CONFIG_I2C_LPC2K=y
-CONFIG_I2C_MESON=y
-CONFIG_I2C_MICROCHIP_CORE=y
-CONFIG_I2C_MT65XX=y
-CONFIG_I2C_MT7621=y
-CONFIG_I2C_MV64XXX=y
-CONFIG_I2C_MXS=y
-CONFIG_I2C_NPCM=y
-CONFIG_I2C_OCORES=y
-CONFIG_I2C_OMAP=y
-CONFIG_I2C_OWL=y
-CONFIG_I2C_APPLE=y
-CONFIG_I2C_PCA_PLATFORM=y
-CONFIG_I2C_PNX=y
-CONFIG_I2C_PXA=y
-CONFIG_I2C_PXA_SLAVE=y
-CONFIG_I2C_QCOM_CCI=y
-CONFIG_I2C_QCOM_GENI=y
-CONFIG_I2C_QUP=y
-CONFIG_I2C_RIIC=y
-CONFIG_I2C_RK3X=y
-CONFIG_I2C_RZV2M=y
-CONFIG_I2C_S3C2410=y
-CONFIG_I2C_SH_MOBILE=y
-CONFIG_I2C_SIMTEC=y
-CONFIG_I2C_SPRD=y
-CONFIG_I2C_ST=y
-CONFIG_I2C_STM32F4=y
-CONFIG_I2C_STM32F7=y
-CONFIG_I2C_SUN6I_P2WI=y
-CONFIG_I2C_SYNQUACER=y
-CONFIG_I2C_TEGRA_BPMP=y
-CONFIG_I2C_UNIPHIER=y
-CONFIG_I2C_UNIPHIER_F=y
-CONFIG_I2C_VERSATILE=y
-CONFIG_I2C_WMT=y
-CONFIG_I2C_THUNDERX=y
-CONFIG_I2C_XILINX=y
-CONFIG_I2C_XLP9XX=y
-CONFIG_I2C_RCAR=y
-
-#
-# External I2C/SMBus adapter drivers
-#
-CONFIG_I2C_DIOLAN_U2C=y
-CONFIG_I2C_DLN2=y
-CONFIG_I2C_CP2615=y
-CONFIG_I2C_PARPORT=y
-CONFIG_I2C_PCI1XXXX=y
-CONFIG_I2C_ROBOTFUZZ_OSIF=y
-CONFIG_I2C_TAOS_EVM=y
-CONFIG_I2C_TINY_USB=y
-CONFIG_I2C_VIPERBOARD=y
-
-#
-# Other I2C/SMBus bus drivers
-#
-CONFIG_I2C_MLXCPLD=y
-CONFIG_I2C_CROS_EC_TUNNEL=y
-CONFIG_I2C_FSI=y
-CONFIG_I2C_VIRTIO=y
-# end of I2C Hardware Bus support
-
-CONFIG_I2C_STUB=m
-CONFIG_I2C_SLAVE=y
-CONFIG_I2C_SLAVE_EEPROM=y
-CONFIG_I2C_SLAVE_TESTUNIT=y
-CONFIG_I2C_DEBUG_CORE=y
-CONFIG_I2C_DEBUG_ALGO=y
-CONFIG_I2C_DEBUG_BUS=y
-# end of I2C support
-
-CONFIG_I3C=y
-CONFIG_CDNS_I3C_MASTER=y
-CONFIG_DW_I3C_MASTER=y
-CONFIG_SVC_I3C_MASTER=y
-CONFIG_MIPI_I3C_HCI=y
-CONFIG_SPI=y
-CONFIG_SPI_DEBUG=y
-CONFIG_SPI_MASTER=y
-CONFIG_SPI_MEM=y
-
-#
-# SPI Master Controller Drivers
-#
-CONFIG_SPI_ALTERA=y
-CONFIG_SPI_ALTERA_CORE=y
-CONFIG_SPI_ALTERA_DFL=y
-CONFIG_SPI_AR934X=y
-CONFIG_SPI_ATH79=y
-CONFIG_SPI_ARMADA_3700=y
-CONFIG_SPI_ASPEED_SMC=y
-CONFIG_SPI_ATMEL=y
-CONFIG_SPI_AT91_USART=y
-CONFIG_SPI_ATMEL_QUADSPI=y
-CONFIG_SPI_AXI_SPI_ENGINE=y
-CONFIG_SPI_BCM2835=y
-CONFIG_SPI_BCM2835AUX=y
-CONFIG_SPI_BCM63XX=y
-CONFIG_SPI_BCM63XX_HSSPI=y
-CONFIG_SPI_BCM_QSPI=y
-CONFIG_SPI_BITBANG=y
-CONFIG_SPI_BUTTERFLY=y
-CONFIG_SPI_CADENCE=y
-CONFIG_SPI_CADENCE_QUADSPI=y
-CONFIG_SPI_CADENCE_XSPI=y
-CONFIG_SPI_CLPS711X=y
-CONFIG_SPI_DESIGNWARE=y
-CONFIG_SPI_DW_DMA=y
-CONFIG_SPI_DW_PCI=y
-CONFIG_SPI_DW_MMIO=y
-CONFIG_SPI_DW_BT1=y
-CONFIG_SPI_DW_BT1_DIRMAP=y
-CONFIG_SPI_DLN2=y
-CONFIG_SPI_EP93XX=y
-CONFIG_SPI_FSI=y
-CONFIG_SPI_FSL_LPSPI=y
-CONFIG_SPI_FSL_QUADSPI=y
-CONFIG_SPI_GXP=y
-CONFIG_SPI_HISI_KUNPENG=y
-CONFIG_SPI_HISI_SFC_V3XX=y
-CONFIG_SPI_NXP_FLEXSPI=y
-CONFIG_SPI_GPIO=y
-CONFIG_SPI_IMG_SPFI=y
-CONFIG_SPI_IMX=y
-CONFIG_SPI_INGENIC=y
-CONFIG_SPI_INTEL=y
-CONFIG_SPI_INTEL_PCI=y
-CONFIG_SPI_INTEL_PLATFORM=y
-CONFIG_SPI_JCORE=y
-CONFIG_SPI_LM70_LLP=y
-CONFIG_SPI_LP8841_RTC=y
-CONFIG_SPI_FSL_LIB=y
-CONFIG_SPI_FSL_SPI=y
-CONFIG_SPI_FSL_DSPI=y
-CONFIG_SPI_MESON_SPICC=y
-CONFIG_SPI_MESON_SPIFC=y
-CONFIG_SPI_MICROCHIP_CORE=y
-CONFIG_SPI_MICROCHIP_CORE_QSPI=y
-CONFIG_SPI_MT65XX=y
-CONFIG_SPI_MT7621=y
-CONFIG_SPI_MTK_NOR=y
-CONFIG_SPI_MTK_SNFI=y
-CONFIG_SPI_NPCM_FIU=y
-CONFIG_SPI_NPCM_PSPI=y
-CONFIG_SPI_LANTIQ_SSC=y
-CONFIG_SPI_OC_TINY=y
-CONFIG_SPI_OMAP24XX=y
-CONFIG_SPI_TI_QSPI=y
-CONFIG_SPI_OMAP_100K=y
-CONFIG_SPI_ORION=y
-CONFIG_SPI_PIC32=y
-CONFIG_SPI_PIC32_SQI=y
-CONFIG_SPI_PXA2XX=y
-CONFIG_SPI_PXA2XX_PCI=y
-CONFIG_SPI_ROCKCHIP=y
-CONFIG_SPI_ROCKCHIP_SFC=y
-CONFIG_SPI_RPCIF=y
-CONFIG_SPI_RSPI=y
-CONFIG_SPI_QUP=y
-CONFIG_SPI_QCOM_GENI=y
-CONFIG_SPI_S3C64XX=y
-CONFIG_SPI_SC18IS602=y
-CONFIG_SPI_SH_MSIOF=y
-CONFIG_SPI_SH=y
-CONFIG_SPI_SH_HSPI=y
-CONFIG_SPI_SIFIVE=y
-CONFIG_SPI_SLAVE_MT27XX=y
-CONFIG_SPI_SPRD=y
-CONFIG_SPI_SPRD_ADI=y
-CONFIG_SPI_STM32=y
-CONFIG_SPI_STM32_QSPI=y
-CONFIG_SPI_ST_SSC4=y
-CONFIG_SPI_SUN4I=y
-CONFIG_SPI_SUN6I=y
-CONFIG_SPI_SUNPLUS_SP7021=y
-CONFIG_SPI_SYNQUACER=y
-CONFIG_SPI_MXIC=y
-CONFIG_SPI_TEGRA210_QUAD=y
-CONFIG_SPI_TEGRA114=y
-CONFIG_SPI_TEGRA20_SFLASH=y
-CONFIG_SPI_TEGRA20_SLINK=y
-CONFIG_SPI_THUNDERX=y
-CONFIG_SPI_TOPCLIFF_PCH=y
-CONFIG_SPI_UNIPHIER=y
-CONFIG_SPI_XCOMM=y
-CONFIG_SPI_XILINX=y
-CONFIG_SPI_XLP=y
-CONFIG_SPI_XTENSA_XTFPGA=y
-CONFIG_SPI_ZYNQ_QSPI=y
-CONFIG_SPI_ZYNQMP_GQSPI=y
-CONFIG_SPI_AMD=y
-
-#
-# SPI Multiplexer support
-#
-CONFIG_SPI_MUX=y
-
-#
-# SPI Protocol Masters
-#
-CONFIG_SPI_SPIDEV=y
-CONFIG_SPI_LOOPBACK_TEST=m
-CONFIG_SPI_TLE62X0=y
-CONFIG_SPI_SLAVE=y
-CONFIG_SPI_SLAVE_TIME=y
-CONFIG_SPI_SLAVE_SYSTEM_CONTROL=y
-CONFIG_SPI_DYNAMIC=y
-CONFIG_SPMI=y
-CONFIG_SPMI_HISI3670=y
-CONFIG_SPMI_MSM_PMIC_ARB=y
-CONFIG_SPMI_MTK_PMIF=y
-CONFIG_HSI=y
-CONFIG_HSI_BOARDINFO=y
-
-#
-# HSI controllers
-#
-
-#
-# HSI clients
-#
-CONFIG_HSI_CHAR=y
-CONFIG_PPS=y
-CONFIG_PPS_DEBUG=y
-CONFIG_NTP_PPS=y
-
-#
-# PPS clients support
-#
-CONFIG_PPS_CLIENT_KTIMER=y
-CONFIG_PPS_CLIENT_LDISC=y
-CONFIG_PPS_CLIENT_PARPORT=y
-CONFIG_PPS_CLIENT_GPIO=y
-
-#
-# PPS generators support
-#
-
-#
-# PTP clock support
-#
-CONFIG_PTP_1588_CLOCK=y
-CONFIG_PTP_1588_CLOCK_OPTIONAL=y
-CONFIG_PTP_1588_CLOCK_DTE=y
-CONFIG_PTP_1588_CLOCK_QORIQ=y
-CONFIG_DP83640_PHY=y
-CONFIG_PTP_1588_CLOCK_INES=y
-CONFIG_PTP_1588_CLOCK_PCH=y
-CONFIG_PTP_1588_CLOCK_IDT82P33=y
-CONFIG_PTP_1588_CLOCK_IDTCM=y
-CONFIG_PTP_1588_CLOCK_OCP=y
-# end of PTP clock support
-
-CONFIG_PINCTRL=y
-CONFIG_GENERIC_PINCTRL_GROUPS=y
-CONFIG_PINMUX=y
-CONFIG_GENERIC_PINMUX_FUNCTIONS=y
-CONFIG_PINCONF=y
-CONFIG_GENERIC_PINCONF=y
-CONFIG_DEBUG_PINCTRL=y
-CONFIG_PINCTRL_AMD=y
-CONFIG_PINCTRL_AS3722=y
-CONFIG_PINCTRL_AT91PIO4=y
-CONFIG_PINCTRL_AXP209=y
-CONFIG_PINCTRL_BM1880=y
-CONFIG_PINCTRL_CY8C95X0=y
-CONFIG_PINCTRL_DA850_PUPD=y
-CONFIG_PINCTRL_DA9062=y
-CONFIG_PINCTRL_EQUILIBRIUM=y
-CONFIG_PINCTRL_INGENIC=y
-CONFIG_PINCTRL_LPC18XX=y
-CONFIG_PINCTRL_MAX77620=y
-CONFIG_PINCTRL_MCP23S08_I2C=y
-CONFIG_PINCTRL_MCP23S08_SPI=y
-CONFIG_PINCTRL_MCP23S08=y
-CONFIG_PINCTRL_MICROCHIP_SGPIO=y
-CONFIG_PINCTRL_OCELOT=y
-CONFIG_PINCTRL_PALMAS=y
-CONFIG_PINCTRL_PISTACHIO=y
-CONFIG_PINCTRL_RK805=y
-CONFIG_PINCTRL_ROCKCHIP=y
-CONFIG_PINCTRL_SINGLE=y
-CONFIG_PINCTRL_STMFX=y
-CONFIG_PINCTRL_SX150X=y
-CONFIG_PINCTRL_OWL=y
-CONFIG_PINCTRL_S500=y
-CONFIG_PINCTRL_S700=y
-CONFIG_PINCTRL_S900=y
-CONFIG_PINCTRL_ASPEED=y
-CONFIG_PINCTRL_ASPEED_G4=y
-CONFIG_PINCTRL_ASPEED_G5=y
-CONFIG_PINCTRL_ASPEED_G6=y
-CONFIG_PINCTRL_BCM281XX=y
-CONFIG_PINCTRL_BCM2835=y
-CONFIG_PINCTRL_BCM4908=y
-CONFIG_PINCTRL_BCM63XX=y
-CONFIG_PINCTRL_BCM6318=y
-CONFIG_PINCTRL_BCM6328=y
-CONFIG_PINCTRL_BCM6358=y
-CONFIG_PINCTRL_BCM6362=y
-CONFIG_PINCTRL_BCM6368=y
-CONFIG_PINCTRL_BCM63268=y
-CONFIG_PINCTRL_IPROC_GPIO=y
-CONFIG_PINCTRL_CYGNUS_MUX=y
-CONFIG_PINCTRL_NS=y
-CONFIG_PINCTRL_NSP_GPIO=y
-CONFIG_PINCTRL_NS2_MUX=y
-CONFIG_PINCTRL_NSP_MUX=y
-CONFIG_PINCTRL_BERLIN=y
-CONFIG_PINCTRL_AS370=y
-CONFIG_PINCTRL_BERLIN_BG4CT=y
-CONFIG_PINCTRL_LOCHNAGAR=y
-CONFIG_PINCTRL_MADERA=y
-CONFIG_PINCTRL_CS47L15=y
-CONFIG_PINCTRL_CS47L35=y
-CONFIG_PINCTRL_CS47L85=y
-CONFIG_PINCTRL_CS47L90=y
-CONFIG_PINCTRL_CS47L92=y
-CONFIG_PINCTRL_IMX=y
-CONFIG_PINCTRL_IMX8MM=y
-CONFIG_PINCTRL_IMX8MN=y
-CONFIG_PINCTRL_IMX8MP=y
-CONFIG_PINCTRL_IMX8MQ=y
-
-#
-# Intel pinctrl drivers
-#
-CONFIG_PINCTRL_BAYTRAIL=y
-CONFIG_PINCTRL_CHERRYVIEW=y
-CONFIG_PINCTRL_LYNXPOINT=y
-CONFIG_PINCTRL_INTEL=y
-CONFIG_PINCTRL_ALDERLAKE=y
-CONFIG_PINCTRL_BROXTON=y
-CONFIG_PINCTRL_CANNONLAKE=y
-CONFIG_PINCTRL_CEDARFORK=y
-CONFIG_PINCTRL_DENVERTON=y
-CONFIG_PINCTRL_ELKHARTLAKE=y
-CONFIG_PINCTRL_EMMITSBURG=y
-CONFIG_PINCTRL_GEMINILAKE=y
-CONFIG_PINCTRL_ICELAKE=y
-CONFIG_PINCTRL_JASPERLAKE=y
-CONFIG_PINCTRL_LAKEFIELD=y
-CONFIG_PINCTRL_LEWISBURG=y
-CONFIG_PINCTRL_METEORLAKE=y
-CONFIG_PINCTRL_SUNRISEPOINT=y
-CONFIG_PINCTRL_TIGERLAKE=y
-# end of Intel pinctrl drivers
-
-#
-# MediaTek pinctrl drivers
-#
-CONFIG_EINT_MTK=y
-CONFIG_PINCTRL_MTK=y
-CONFIG_PINCTRL_MTK_V2=y
-CONFIG_PINCTRL_MTK_MOORE=y
-CONFIG_PINCTRL_MTK_PARIS=y
-CONFIG_PINCTRL_MT2701=y
-CONFIG_PINCTRL_MT7623=y
-CONFIG_PINCTRL_MT7629=y
-CONFIG_PINCTRL_MT8135=y
-CONFIG_PINCTRL_MT8127=y
-CONFIG_PINCTRL_MT2712=y
-CONFIG_PINCTRL_MT6765=y
-CONFIG_PINCTRL_MT6779=y
-CONFIG_PINCTRL_MT6795=y
-CONFIG_PINCTRL_MT6797=y
-CONFIG_PINCTRL_MT7622=y
-CONFIG_PINCTRL_MT7986=y
-CONFIG_PINCTRL_MT8167=y
-CONFIG_PINCTRL_MT8173=y
-CONFIG_PINCTRL_MT8183=y
-CONFIG_PINCTRL_MT8186=y
-CONFIG_PINCTRL_MT8188=y
-CONFIG_PINCTRL_MT8192=y
-CONFIG_PINCTRL_MT8195=y
-CONFIG_PINCTRL_MT8365=y
-CONFIG_PINCTRL_MT8516=y
-CONFIG_PINCTRL_MT6397=y
-# end of MediaTek pinctrl drivers
-
-CONFIG_PINCTRL_MESON=y
-CONFIG_PINCTRL_WPCM450=y
-CONFIG_PINCTRL_NPCM7XX=y
-CONFIG_PINCTRL_PXA=y
-CONFIG_PINCTRL_PXA25X=y
-CONFIG_PINCTRL_PXA27X=y
-CONFIG_PINCTRL_MSM=y
-CONFIG_PINCTRL_APQ8064=y
-CONFIG_PINCTRL_APQ8084=y
-CONFIG_PINCTRL_IPQ4019=y
-CONFIG_PINCTRL_IPQ8064=y
-CONFIG_PINCTRL_IPQ8074=y
-CONFIG_PINCTRL_IPQ6018=y
-CONFIG_PINCTRL_MSM8226=y
-CONFIG_PINCTRL_MSM8660=y
-CONFIG_PINCTRL_MSM8960=y
-CONFIG_PINCTRL_MDM9607=y
-CONFIG_PINCTRL_MDM9615=y
-CONFIG_PINCTRL_MSM8X74=y
-CONFIG_PINCTRL_MSM8909=y
-CONFIG_PINCTRL_MSM8916=y
-CONFIG_PINCTRL_MSM8953=y
-CONFIG_PINCTRL_MSM8976=y
-CONFIG_PINCTRL_MSM8994=y
-CONFIG_PINCTRL_MSM8996=y
-CONFIG_PINCTRL_MSM8998=y
-CONFIG_PINCTRL_QCM2290=y
-CONFIG_PINCTRL_QCS404=y
-CONFIG_PINCTRL_QDF2XXX=y
-CONFIG_PINCTRL_QCOM_SPMI_PMIC=y
-CONFIG_PINCTRL_QCOM_SSBI_PMIC=y
-CONFIG_PINCTRL_SC7180=y
-CONFIG_PINCTRL_SC7280=y
-CONFIG_PINCTRL_SC7280_LPASS_LPI=y
-CONFIG_PINCTRL_SC8180X=y
-CONFIG_PINCTRL_SC8280XP=y
-CONFIG_PINCTRL_SDM660=y
-CONFIG_PINCTRL_SDM845=y
-CONFIG_PINCTRL_SDX55=y
-CONFIG_PINCTRL_SM6115=y
-CONFIG_PINCTRL_SM6125=y
-CONFIG_PINCTRL_SM6350=y
-CONFIG_PINCTRL_SM6375=y
-CONFIG_PINCTRL_SDX65=y
-CONFIG_PINCTRL_SM8150=y
-CONFIG_PINCTRL_SM8250=y
-CONFIG_PINCTRL_SM8250_LPASS_LPI=y
-CONFIG_PINCTRL_SM8350=y
-CONFIG_PINCTRL_SM8450=y
-CONFIG_PINCTRL_SM8450_LPASS_LPI=y
-CONFIG_PINCTRL_SC8280XP_LPASS_LPI=y
-CONFIG_PINCTRL_LPASS_LPI=y
-
-#
-# Renesas pinctrl drivers
-#
-CONFIG_PINCTRL_RENESAS=y
-CONFIG_PINCTRL_SH_PFC=y
-CONFIG_PINCTRL_SH_PFC_GPIO=y
-CONFIG_PINCTRL_SH_FUNC_GPIO=y
-CONFIG_PINCTRL_PFC_EMEV2=y
-CONFIG_PINCTRL_PFC_R8A77995=y
-CONFIG_PINCTRL_PFC_R8A7794=y
-CONFIG_PINCTRL_PFC_R8A77990=y
-CONFIG_PINCTRL_PFC_R8A7779=y
-CONFIG_PINCTRL_PFC_R8A7790=y
-CONFIG_PINCTRL_PFC_R8A77950=y
-CONFIG_PINCTRL_PFC_R8A77951=y
-CONFIG_PINCTRL_PFC_R8A7778=y
-CONFIG_PINCTRL_PFC_R8A7793=y
-CONFIG_PINCTRL_PFC_R8A7791=y
-CONFIG_PINCTRL_PFC_R8A77965=y
-CONFIG_PINCTRL_PFC_R8A77960=y
-CONFIG_PINCTRL_PFC_R8A77961=y
-CONFIG_PINCTRL_PFC_R8A779F0=y
-CONFIG_PINCTRL_PFC_R8A7792=y
-CONFIG_PINCTRL_PFC_R8A77980=y
-CONFIG_PINCTRL_PFC_R8A77970=y
-CONFIG_PINCTRL_PFC_R8A779A0=y
-CONFIG_PINCTRL_PFC_R8A779G0=y
-CONFIG_PINCTRL_PFC_R8A7740=y
-CONFIG_PINCTRL_PFC_R8A73A4=y
-CONFIG_PINCTRL_RZA1=y
-CONFIG_PINCTRL_RZA2=y
-CONFIG_PINCTRL_RZG2L=y
-CONFIG_PINCTRL_PFC_R8A77470=y
-CONFIG_PINCTRL_PFC_R8A7745=y
-CONFIG_PINCTRL_PFC_R8A7742=y
-CONFIG_PINCTRL_PFC_R8A7743=y
-CONFIG_PINCTRL_PFC_R8A7744=y
-CONFIG_PINCTRL_PFC_R8A774C0=y
-CONFIG_PINCTRL_PFC_R8A774E1=y
-CONFIG_PINCTRL_PFC_R8A774A1=y
-CONFIG_PINCTRL_PFC_R8A774B1=y
-CONFIG_PINCTRL_RZN1=y
-CONFIG_PINCTRL_RZV2M=y
-CONFIG_PINCTRL_PFC_SH7203=y
-CONFIG_PINCTRL_PFC_SH7264=y
-CONFIG_PINCTRL_PFC_SH7269=y
-CONFIG_PINCTRL_PFC_SH7720=y
-CONFIG_PINCTRL_PFC_SH7722=y
-CONFIG_PINCTRL_PFC_SH7734=y
-CONFIG_PINCTRL_PFC_SH7757=y
-CONFIG_PINCTRL_PFC_SH7785=y
-CONFIG_PINCTRL_PFC_SH7786=y
-CONFIG_PINCTRL_PFC_SH73A0=y
-CONFIG_PINCTRL_PFC_SH7723=y
-CONFIG_PINCTRL_PFC_SH7724=y
-CONFIG_PINCTRL_PFC_SHX3=y
-# end of Renesas pinctrl drivers
-
-CONFIG_PINCTRL_SAMSUNG=y
-CONFIG_PINCTRL_EXYNOS=y
-CONFIG_PINCTRL_EXYNOS_ARM=y
-CONFIG_PINCTRL_EXYNOS_ARM64=y
-CONFIG_PINCTRL_S3C24XX=y
-CONFIG_PINCTRL_S3C64XX=y
-CONFIG_PINCTRL_SPRD=y
-CONFIG_PINCTRL_SPRD_SC9860=y
-CONFIG_PINCTRL_STARFIVE_JH7100=y
-CONFIG_PINCTRL_STM32=y
-CONFIG_PINCTRL_STM32F429=y
-CONFIG_PINCTRL_STM32F469=y
-CONFIG_PINCTRL_STM32F746=y
-CONFIG_PINCTRL_STM32F769=y
-CONFIG_PINCTRL_STM32H743=y
-CONFIG_PINCTRL_STM32MP135=y
-CONFIG_PINCTRL_STM32MP157=y
-CONFIG_PINCTRL_TI_IODELAY=y
-CONFIG_PINCTRL_UNIPHIER=y
-CONFIG_PINCTRL_UNIPHIER_LD4=y
-CONFIG_PINCTRL_UNIPHIER_PRO4=y
-CONFIG_PINCTRL_UNIPHIER_SLD8=y
-CONFIG_PINCTRL_UNIPHIER_PRO5=y
-CONFIG_PINCTRL_UNIPHIER_PXS2=y
-CONFIG_PINCTRL_UNIPHIER_LD6B=y
-CONFIG_PINCTRL_UNIPHIER_LD11=y
-CONFIG_PINCTRL_UNIPHIER_LD20=y
-CONFIG_PINCTRL_UNIPHIER_PXS3=y
-CONFIG_PINCTRL_UNIPHIER_NX1=y
-CONFIG_PINCTRL_VISCONTI=y
-CONFIG_PINCTRL_TMPV7700=y
-CONFIG_GPIOLIB=y
-CONFIG_GPIOLIB_FASTPATH_LIMIT=512
-CONFIG_OF_GPIO=y
-CONFIG_GPIO_ACPI=y
-CONFIG_GPIOLIB_IRQCHIP=y
-CONFIG_DEBUG_GPIO=y
-CONFIG_GPIO_SYSFS=y
-CONFIG_GPIO_CDEV=y
-CONFIG_GPIO_CDEV_V1=y
-CONFIG_GPIO_GENERIC=y
-CONFIG_GPIO_REGMAP=y
-CONFIG_GPIO_MAX730X=y
-
-#
-# Memory mapped GPIO drivers
-#
-CONFIG_GPIO_74XX_MMIO=y
-CONFIG_GPIO_ALTERA=y
-CONFIG_GPIO_AMDPT=y
-CONFIG_GPIO_ASPEED=y
-CONFIG_GPIO_ASPEED_SGPIO=y
-CONFIG_GPIO_ATH79=y
-CONFIG_GPIO_RASPBERRYPI_EXP=y
-CONFIG_GPIO_BCM_KONA=y
-CONFIG_GPIO_BCM_XGS_IPROC=y
-CONFIG_GPIO_BRCMSTB=y
-CONFIG_GPIO_CADENCE=y
-CONFIG_GPIO_CLPS711X=y
-CONFIG_GPIO_DWAPB=y
-CONFIG_GPIO_EIC_SPRD=y
-CONFIG_GPIO_EM=y
-CONFIG_GPIO_EXAR=y
-CONFIG_GPIO_FTGPIO010=y
-CONFIG_GPIO_GENERIC_PLATFORM=y
-CONFIG_GPIO_GRGPIO=y
-CONFIG_GPIO_HISI=y
-CONFIG_GPIO_HLWD=y
-CONFIG_GPIO_IMX_SCU=y
-CONFIG_GPIO_IOP=y
-CONFIG_GPIO_LOGICVC=y
-CONFIG_GPIO_LPC18XX=y
-CONFIG_GPIO_LPC32XX=y
-CONFIG_GPIO_MB86S7X=y
-CONFIG_GPIO_MENZ127=y
-CONFIG_GPIO_MPC8XXX=y
-CONFIG_GPIO_MT7621=y
-CONFIG_GPIO_MXC=y
-CONFIG_GPIO_MXS=y
-CONFIG_GPIO_PMIC_EIC_SPRD=y
-CONFIG_GPIO_PXA=y
-CONFIG_GPIO_RCAR=y
-CONFIG_GPIO_RDA=y
-CONFIG_GPIO_ROCKCHIP=y
-CONFIG_GPIO_SAMA5D2_PIOBU=y
-CONFIG_GPIO_SIFIVE=y
-CONFIG_GPIO_SIOX=y
-CONFIG_GPIO_SNPS_CREG=y
-CONFIG_GPIO_SPRD=y
-CONFIG_GPIO_STP_XWAY=y
-CONFIG_GPIO_SYSCON=y
-CONFIG_GPIO_TEGRA=y
-CONFIG_GPIO_TEGRA186=y
-CONFIG_GPIO_TS4800=y
-CONFIG_GPIO_THUNDERX=y
-CONFIG_GPIO_UNIPHIER=y
-CONFIG_GPIO_VISCONTI=y
-CONFIG_GPIO_VX855=y
-CONFIG_GPIO_WCD934X=y
-CONFIG_GPIO_XGENE_SB=y
-CONFIG_GPIO_XILINX=y
-CONFIG_GPIO_XLP=y
-CONFIG_GPIO_AMD_FCH=y
-CONFIG_GPIO_IDT3243X=y
-# end of Memory mapped GPIO drivers
-
-#
-# I2C GPIO expanders
-#
-CONFIG_GPIO_ADNP=y
-CONFIG_GPIO_GW_PLD=y
-CONFIG_GPIO_MAX7300=y
-CONFIG_GPIO_MAX732X=y
-CONFIG_GPIO_MAX732X_IRQ=y
-CONFIG_GPIO_PCA953X=y
-CONFIG_GPIO_PCA953X_IRQ=y
-CONFIG_GPIO_PCA9570=y
-CONFIG_GPIO_PCF857X=y
-CONFIG_GPIO_TPIC2810=y
-CONFIG_GPIO_TS4900=y
-# end of I2C GPIO expanders
-
-#
-# MFD GPIO expanders
-#
-CONFIG_GPIO_ADP5520=y
-CONFIG_GPIO_ARIZONA=y
-CONFIG_GPIO_BD71815=y
-CONFIG_GPIO_BD71828=y
-CONFIG_GPIO_BD9571MWV=y
-CONFIG_GPIO_CRYSTAL_COVE=y
-CONFIG_GPIO_DA9052=y
-CONFIG_GPIO_DA9055=y
-CONFIG_GPIO_DLN2=y
-CONFIG_GPIO_JANZ_TTL=y
-CONFIG_GPIO_KEMPLD=y
-CONFIG_GPIO_LP3943=y
-CONFIG_GPIO_LP873X=y
-CONFIG_GPIO_LP87565=y
-CONFIG_GPIO_MADERA=y
-CONFIG_GPIO_MAX77620=y
-CONFIG_GPIO_MAX77650=y
-CONFIG_GPIO_PALMAS=y
-CONFIG_GPIO_RC5T583=y
-CONFIG_GPIO_SL28CPLD=y
-CONFIG_GPIO_STMPE=y
-CONFIG_GPIO_TC3589X=y
-CONFIG_GPIO_TIMBERDALE=y
-CONFIG_GPIO_TPS65086=y
-CONFIG_GPIO_TPS65218=y
-CONFIG_GPIO_TPS6586X=y
-CONFIG_GPIO_TPS65910=y
-CONFIG_GPIO_TPS65912=y
-CONFIG_GPIO_TQMX86=y
-CONFIG_GPIO_TWL4030=y
-CONFIG_GPIO_TWL6040=y
-CONFIG_GPIO_UCB1400=y
-CONFIG_GPIO_WM831X=y
-CONFIG_GPIO_WM8350=y
-CONFIG_GPIO_WM8994=y
-# end of MFD GPIO expanders
-
-#
-# PCI GPIO expanders
-#
-CONFIG_GPIO_AMD8111=y
-CONFIG_GPIO_MLXBF=y
-CONFIG_GPIO_MLXBF2=y
-CONFIG_GPIO_ML_IOH=y
-CONFIG_GPIO_PCH=y
-CONFIG_GPIO_PCI_IDIO_16=y
-CONFIG_GPIO_PCIE_IDIO_24=y
-CONFIG_GPIO_RDC321X=y
-# end of PCI GPIO expanders
-
-#
-# SPI GPIO expanders
-#
-CONFIG_GPIO_74X164=y
-CONFIG_GPIO_MAX3191X=y
-CONFIG_GPIO_MAX7301=y
-CONFIG_GPIO_MC33880=y
-CONFIG_GPIO_PISOSR=y
-CONFIG_GPIO_XRA1403=y
-CONFIG_GPIO_MOXTET=y
-# end of SPI GPIO expanders
-
-#
-# USB GPIO expanders
-#
-CONFIG_GPIO_VIPERBOARD=y
-# end of USB GPIO expanders
-
-#
-# Virtual GPIO drivers
-#
-CONFIG_GPIO_AGGREGATOR=y
-CONFIG_GPIO_MOCKUP=y
-CONFIG_GPIO_VIRTIO=y
-CONFIG_GPIO_SIM=y
-# end of Virtual GPIO drivers
-
-CONFIG_W1=y
-CONFIG_W1_CON=y
-
-#
-# 1-wire Bus Masters
-#
-CONFIG_W1_MASTER_MATROX=y
-CONFIG_W1_MASTER_DS2490=y
-CONFIG_W1_MASTER_DS2482=y
-CONFIG_W1_MASTER_MXC=y
-CONFIG_W1_MASTER_DS1WM=y
-CONFIG_W1_MASTER_GPIO=y
-CONFIG_W1_MASTER_SGI=y
-# end of 1-wire Bus Masters
-
-#
-# 1-wire Slaves
-#
-CONFIG_W1_SLAVE_THERM=y
-CONFIG_W1_SLAVE_SMEM=y
-CONFIG_W1_SLAVE_DS2405=y
-CONFIG_W1_SLAVE_DS2408=y
-CONFIG_W1_SLAVE_DS2408_READBACK=y
-CONFIG_W1_SLAVE_DS2413=y
-CONFIG_W1_SLAVE_DS2406=y
-CONFIG_W1_SLAVE_DS2423=y
-CONFIG_W1_SLAVE_DS2805=y
-CONFIG_W1_SLAVE_DS2430=y
-CONFIG_W1_SLAVE_DS2431=y
-CONFIG_W1_SLAVE_DS2433=y
-CONFIG_W1_SLAVE_DS2433_CRC=y
-CONFIG_W1_SLAVE_DS2438=y
-CONFIG_W1_SLAVE_DS250X=y
-CONFIG_W1_SLAVE_DS2780=y
-CONFIG_W1_SLAVE_DS2781=y
-CONFIG_W1_SLAVE_DS28E04=y
-CONFIG_W1_SLAVE_DS28E17=y
-# end of 1-wire Slaves
-
-CONFIG_POWER_RESET=y
-CONFIG_POWER_RESET_AS3722=y
-CONFIG_POWER_RESET_ATC260X=y
-CONFIG_POWER_RESET_BRCMKONA=y
-CONFIG_POWER_RESET_BRCMSTB=y
-CONFIG_POWER_RESET_GEMINI_POWEROFF=y
-CONFIG_POWER_RESET_GPIO=y
-CONFIG_POWER_RESET_GPIO_RESTART=y
-CONFIG_POWER_RESET_LINKSTATION=y
-CONFIG_POWER_RESET_OCELOT_RESET=y
-CONFIG_POWER_RESET_PIIX4_POWEROFF=y
-CONFIG_POWER_RESET_LTC2952=y
-CONFIG_POWER_RESET_MT6323=y
-CONFIG_POWER_RESET_REGULATOR=y
-CONFIG_POWER_RESET_RESTART=y
-CONFIG_POWER_RESET_TPS65086=y
-CONFIG_POWER_RESET_KEYSTONE=y
-CONFIG_POWER_RESET_SYSCON=y
-CONFIG_POWER_RESET_SYSCON_POWEROFF=y
-CONFIG_POWER_RESET_RMOBILE=y
-CONFIG_REBOOT_MODE=y
-CONFIG_SYSCON_REBOOT_MODE=y
-CONFIG_POWER_RESET_SC27XX=y
-CONFIG_NVMEM_REBOOT_MODE=y
-CONFIG_POWER_MLXBF=y
-CONFIG_POWER_SUPPLY=y
-CONFIG_POWER_SUPPLY_DEBUG=y
-CONFIG_POWER_SUPPLY_HWMON=y
-CONFIG_PDA_POWER=y
-CONFIG_GENERIC_ADC_BATTERY=y
-CONFIG_IP5XXX_POWER=y
-CONFIG_MAX8925_POWER=y
-CONFIG_WM831X_BACKUP=y
-CONFIG_WM831X_POWER=y
-CONFIG_WM8350_POWER=y
-CONFIG_TEST_POWER=y
-CONFIG_BATTERY_88PM860X=y
-CONFIG_CHARGER_ADP5061=y
-CONFIG_BATTERY_ACT8945A=y
-CONFIG_BATTERY_CPCAP=y
-CONFIG_BATTERY_CW2015=y
-CONFIG_BATTERY_DS2760=y
-CONFIG_BATTERY_DS2780=y
-CONFIG_BATTERY_DS2781=y
-CONFIG_BATTERY_DS2782=y
-CONFIG_BATTERY_LEGO_EV3=y
-CONFIG_BATTERY_OLPC=y
-CONFIG_BATTERY_SAMSUNG_SDI=y
-CONFIG_BATTERY_INGENIC=y
-CONFIG_BATTERY_WM97XX=y
-CONFIG_BATTERY_SBS=y
-CONFIG_CHARGER_SBS=y
-CONFIG_MANAGER_SBS=y
-CONFIG_BATTERY_BQ27XXX=y
-CONFIG_BATTERY_BQ27XXX_I2C=y
-CONFIG_BATTERY_BQ27XXX_HDQ=y
-CONFIG_BATTERY_BQ27XXX_DT_UPDATES_NVM=y
-CONFIG_BATTERY_DA9030=y
-CONFIG_BATTERY_DA9052=y
-CONFIG_CHARGER_DA9150=y
-CONFIG_BATTERY_DA9150=y
-CONFIG_CHARGER_AXP20X=y
-CONFIG_BATTERY_AXP20X=y
-CONFIG_AXP20X_POWER=y
-CONFIG_BATTERY_MAX17040=y
-CONFIG_BATTERY_MAX17042=y
-CONFIG_BATTERY_MAX1721X=y
-CONFIG_BATTERY_TWL4030_MADC=y
-CONFIG_CHARGER_88PM860X=y
-CONFIG_CHARGER_PCF50633=y
-CONFIG_BATTERY_RX51=y
-CONFIG_CHARGER_CPCAP=y
-CONFIG_CHARGER_ISP1704=y
-CONFIG_CHARGER_MAX8903=y
-CONFIG_CHARGER_TWL4030=y
-CONFIG_CHARGER_LP8727=y
-CONFIG_CHARGER_LP8788=y
-CONFIG_CHARGER_GPIO=y
-CONFIG_CHARGER_MANAGER=y
-CONFIG_CHARGER_LT3651=y
-CONFIG_CHARGER_LTC4162L=y
-CONFIG_CHARGER_MAX14577=y
-CONFIG_CHARGER_DETECTOR_MAX14656=y
-CONFIG_CHARGER_MAX77650=y
-CONFIG_CHARGER_MAX77693=y
-CONFIG_CHARGER_MAX77976=y
-CONFIG_CHARGER_MAX8997=y
-CONFIG_CHARGER_MAX8998=y
-CONFIG_CHARGER_MP2629=y
-CONFIG_CHARGER_MT6360=y
-CONFIG_CHARGER_MT6370=y
-CONFIG_CHARGER_QCOM_SMBB=y
-CONFIG_CHARGER_BQ2415X=y
-CONFIG_CHARGER_BQ24190=y
-CONFIG_CHARGER_BQ24257=y
-CONFIG_CHARGER_BQ24735=y
-CONFIG_CHARGER_BQ2515X=y
-CONFIG_CHARGER_BQ25890=y
-CONFIG_CHARGER_BQ25980=y
-CONFIG_CHARGER_BQ256XX=y
-CONFIG_CHARGER_RK817=y
-CONFIG_CHARGER_SMB347=y
-CONFIG_CHARGER_TPS65090=y
-CONFIG_CHARGER_TPS65217=y
-CONFIG_BATTERY_GAUGE_LTC2941=y
-CONFIG_BATTERY_GOLDFISH=y
-CONFIG_BATTERY_RT5033=y
-CONFIG_CHARGER_RT9455=y
-CONFIG_CHARGER_CROS_USBPD=y
-CONFIG_CHARGER_CROS_PCHG=y
-CONFIG_CHARGER_SC2731=y
-CONFIG_FUEL_GAUGE_SC27XX=y
-CONFIG_CHARGER_UCS1002=y
-CONFIG_CHARGER_BD99954=y
-CONFIG_CHARGER_WILCO=y
-CONFIG_RN5T618_POWER=y
-CONFIG_BATTERY_ACER_A500=y
-CONFIG_BATTERY_SURFACE=y
-CONFIG_CHARGER_SURFACE=y
-CONFIG_BATTERY_UG3105=y
-CONFIG_HWMON=y
-CONFIG_HWMON_VID=y
-CONFIG_HWMON_DEBUG_CHIP=y
-
-#
-# Native drivers
-#
-CONFIG_SENSORS_AD7314=y
-CONFIG_SENSORS_AD7414=y
-CONFIG_SENSORS_AD7418=y
-CONFIG_SENSORS_ADM1025=y
-CONFIG_SENSORS_ADM1026=y
-CONFIG_SENSORS_ADM1029=y
-CONFIG_SENSORS_ADM1031=y
-CONFIG_SENSORS_ADM1177=y
-CONFIG_SENSORS_ADM9240=y
-CONFIG_SENSORS_ADT7X10=y
-CONFIG_SENSORS_ADT7310=y
-CONFIG_SENSORS_ADT7410=y
-CONFIG_SENSORS_ADT7411=y
-CONFIG_SENSORS_ADT7462=y
-CONFIG_SENSORS_ADT7470=y
-CONFIG_SENSORS_ADT7475=y
-CONFIG_SENSORS_AHT10=y
-CONFIG_SENSORS_AQUACOMPUTER_D5NEXT=y
-CONFIG_SENSORS_AS370=y
-CONFIG_SENSORS_ASC7621=y
-CONFIG_SENSORS_AXI_FAN_CONTROL=y
-CONFIG_SENSORS_ARM_SCMI=y
-CONFIG_SENSORS_ARM_SCPI=y
-CONFIG_SENSORS_ASB100=y
-CONFIG_SENSORS_ASPEED=y
-CONFIG_SENSORS_ATXP1=y
-CONFIG_SENSORS_BT1_PVT=y
-CONFIG_SENSORS_BT1_PVT_ALARMS=y
-CONFIG_SENSORS_CORSAIR_CPRO=y
-CONFIG_SENSORS_CORSAIR_PSU=y
-CONFIG_SENSORS_DRIVETEMP=y
-CONFIG_SENSORS_DS620=y
-CONFIG_SENSORS_DS1621=y
-CONFIG_SENSORS_DA9052_ADC=y
-CONFIG_SENSORS_DA9055=y
-CONFIG_SENSORS_I5K_AMB=y
-CONFIG_SENSORS_SPARX5=y
-CONFIG_SENSORS_F71805F=y
-CONFIG_SENSORS_F71882FG=y
-CONFIG_SENSORS_F75375S=y
-CONFIG_SENSORS_GSC=y
-CONFIG_SENSORS_MC13783_ADC=y
-CONFIG_SENSORS_FSCHMD=y
-CONFIG_SENSORS_FTSTEUTATES=y
-CONFIG_SENSORS_GL518SM=y
-CONFIG_SENSORS_GL520SM=y
-CONFIG_SENSORS_G760A=y
-CONFIG_SENSORS_G762=y
-CONFIG_SENSORS_GPIO_FAN=y
-CONFIG_SENSORS_HIH6130=y
-CONFIG_SENSORS_IBMAEM=y
-CONFIG_SENSORS_IBMPEX=y
-CONFIG_SENSORS_IIO_HWMON=y
-CONFIG_SENSORS_IT87=y
-CONFIG_SENSORS_JC42=y
-CONFIG_SENSORS_POWR1220=y
-CONFIG_SENSORS_LAN966X=y
-CONFIG_SENSORS_LINEAGE=y
-CONFIG_SENSORS_LOCHNAGAR=y
-CONFIG_SENSORS_LTC2945=y
-CONFIG_SENSORS_LTC2947=y
-CONFIG_SENSORS_LTC2947_I2C=y
-CONFIG_SENSORS_LTC2947_SPI=y
-CONFIG_SENSORS_LTC2990=y
-CONFIG_SENSORS_LTC2992=y
-CONFIG_SENSORS_LTC4151=y
-CONFIG_SENSORS_LTC4215=y
-CONFIG_SENSORS_LTC4222=y
-CONFIG_SENSORS_LTC4245=y
-CONFIG_SENSORS_LTC4260=y
-CONFIG_SENSORS_LTC4261=y
-CONFIG_SENSORS_MAX1111=y
-CONFIG_SENSORS_MAX127=y
-CONFIG_SENSORS_MAX16065=y
-CONFIG_SENSORS_MAX1619=y
-CONFIG_SENSORS_MAX1668=y
-CONFIG_SENSORS_MAX197=y
-CONFIG_SENSORS_MAX31722=y
-CONFIG_SENSORS_MAX31730=y
-CONFIG_SENSORS_MAX31760=y
-CONFIG_SENSORS_MAX6620=y
-CONFIG_SENSORS_MAX6621=y
-CONFIG_SENSORS_MAX6639=y
-CONFIG_SENSORS_MAX6650=y
-CONFIG_SENSORS_MAX6697=y
-CONFIG_SENSORS_MAX31790=y
-CONFIG_SENSORS_MCP3021=y
-CONFIG_SENSORS_MLXREG_FAN=y
-CONFIG_SENSORS_TC654=y
-CONFIG_SENSORS_TPS23861=y
-CONFIG_SENSORS_MENF21BMC_HWMON=y
-CONFIG_SENSORS_MR75203=y
-CONFIG_SENSORS_ADCXX=y
-CONFIG_SENSORS_LM63=y
-CONFIG_SENSORS_LM70=y
-CONFIG_SENSORS_LM73=y
-CONFIG_SENSORS_LM75=y
-CONFIG_SENSORS_LM77=y
-CONFIG_SENSORS_LM78=y
-CONFIG_SENSORS_LM80=y
-CONFIG_SENSORS_LM83=y
-CONFIG_SENSORS_LM85=y
-CONFIG_SENSORS_LM87=y
-CONFIG_SENSORS_LM90=y
-CONFIG_SENSORS_LM92=y
-CONFIG_SENSORS_LM93=y
-CONFIG_SENSORS_LM95234=y
-CONFIG_SENSORS_LM95241=y
-CONFIG_SENSORS_LM95245=y
-CONFIG_SENSORS_PC87360=y
-CONFIG_SENSORS_PC87427=y
-CONFIG_SENSORS_NTC_THERMISTOR=y
-CONFIG_SENSORS_NCT6683=y
-CONFIG_SENSORS_NCT6775_CORE=y
-CONFIG_SENSORS_NCT6775=y
-CONFIG_SENSORS_NCT6775_I2C=y
-CONFIG_SENSORS_NCT7802=y
-CONFIG_SENSORS_NCT7904=y
-CONFIG_SENSORS_NPCM7XX=y
-CONFIG_SENSORS_NSA320=y
-CONFIG_SENSORS_NZXT_KRAKEN2=y
-CONFIG_SENSORS_NZXT_SMART2=y
-CONFIG_SENSORS_OCC_P8_I2C=y
-CONFIG_SENSORS_OCC_P9_SBE=y
-CONFIG_SENSORS_OCC=y
-CONFIG_SENSORS_PCF8591=y
-CONFIG_SENSORS_PECI_CPUTEMP=y
-CONFIG_SENSORS_PECI_DIMMTEMP=y
-CONFIG_SENSORS_PECI=y
-CONFIG_PMBUS=y
-CONFIG_SENSORS_PMBUS=y
-CONFIG_SENSORS_ADM1266=y
-CONFIG_SENSORS_ADM1275=y
-CONFIG_SENSORS_BEL_PFE=y
-CONFIG_SENSORS_BPA_RS600=y
-CONFIG_SENSORS_DELTA_AHE50DC_FAN=y
-CONFIG_SENSORS_FSP_3Y=y
-CONFIG_SENSORS_IBM_CFFPS=y
-CONFIG_SENSORS_DPS920AB=y
-CONFIG_SENSORS_INSPUR_IPSPS=y
-CONFIG_SENSORS_IR35221=y
-CONFIG_SENSORS_IR36021=y
-CONFIG_SENSORS_IR38064=y
-CONFIG_SENSORS_IR38064_REGULATOR=y
-CONFIG_SENSORS_IRPS5401=y
-CONFIG_SENSORS_ISL68137=y
-CONFIG_SENSORS_LM25066=y
-CONFIG_SENSORS_LM25066_REGULATOR=y
-CONFIG_SENSORS_LT7182S=y
-CONFIG_SENSORS_LTC2978=y
-CONFIG_SENSORS_LTC2978_REGULATOR=y
-CONFIG_SENSORS_LTC3815=y
-CONFIG_SENSORS_MAX15301=y
-CONFIG_SENSORS_MAX16064=y
-CONFIG_SENSORS_MAX16601=y
-CONFIG_SENSORS_MAX20730=y
-CONFIG_SENSORS_MAX20751=y
-CONFIG_SENSORS_MAX31785=y
-CONFIG_SENSORS_MAX34440=y
-CONFIG_SENSORS_MAX8688=y
-CONFIG_SENSORS_MP2888=y
-CONFIG_SENSORS_MP2975=y
-CONFIG_SENSORS_MP5023=y
-CONFIG_SENSORS_PIM4328=y
-CONFIG_SENSORS_PLI1209BC=y
-CONFIG_SENSORS_PLI1209BC_REGULATOR=y
-CONFIG_SENSORS_PM6764TR=y
-CONFIG_SENSORS_PXE1610=y
-CONFIG_SENSORS_Q54SJ108A2=y
-CONFIG_SENSORS_STPDDC60=y
-CONFIG_SENSORS_TPS40422=y
-CONFIG_SENSORS_TPS53679=y
-CONFIG_SENSORS_TPS546D24=y
-CONFIG_SENSORS_UCD9000=y
-CONFIG_SENSORS_UCD9200=y
-CONFIG_SENSORS_XDPE152=y
-CONFIG_SENSORS_XDPE122=y
-CONFIG_SENSORS_XDPE122_REGULATOR=y
-CONFIG_SENSORS_ZL6100=y
-CONFIG_SENSORS_PWM_FAN=y
-CONFIG_SENSORS_RASPBERRYPI_HWMON=y
-CONFIG_SENSORS_SL28CPLD=y
-CONFIG_SENSORS_SBTSI=y
-CONFIG_SENSORS_SBRMI=y
-CONFIG_SENSORS_SHT15=y
-CONFIG_SENSORS_SHT21=y
-CONFIG_SENSORS_SHT3x=y
-CONFIG_SENSORS_SHT4x=y
-CONFIG_SENSORS_SHTC1=y
-CONFIG_SENSORS_SIS5595=y
-CONFIG_SENSORS_SY7636A=y
-CONFIG_SENSORS_DME1737=y
-CONFIG_SENSORS_EMC1403=y
-CONFIG_SENSORS_EMC2103=y
-CONFIG_SENSORS_EMC2305=y
-CONFIG_SENSORS_EMC6W201=y
-CONFIG_SENSORS_SMSC47M1=y
-CONFIG_SENSORS_SMSC47M192=y
-CONFIG_SENSORS_SMSC47B397=y
-CONFIG_SENSORS_SCH56XX_COMMON=y
-CONFIG_SENSORS_SCH5627=y
-CONFIG_SENSORS_SCH5636=y
-CONFIG_SENSORS_STTS751=y
-CONFIG_SENSORS_SMM665=y
-CONFIG_SENSORS_ADC128D818=y
-CONFIG_SENSORS_ADS7828=y
-CONFIG_SENSORS_ADS7871=y
-CONFIG_SENSORS_AMC6821=y
-CONFIG_SENSORS_INA209=y
-CONFIG_SENSORS_INA2XX=y
-CONFIG_SENSORS_INA238=y
-CONFIG_SENSORS_INA3221=y
-CONFIG_SENSORS_TC74=y
-CONFIG_SENSORS_THMC50=y
-CONFIG_SENSORS_TMP102=y
-CONFIG_SENSORS_TMP103=y
-CONFIG_SENSORS_TMP108=y
-CONFIG_SENSORS_TMP401=y
-CONFIG_SENSORS_TMP421=y
-CONFIG_SENSORS_TMP464=y
-CONFIG_SENSORS_TMP513=y
-CONFIG_SENSORS_VIA686A=y
-CONFIG_SENSORS_VT1211=y
-CONFIG_SENSORS_VT8231=y
-CONFIG_SENSORS_W83773G=y
-CONFIG_SENSORS_W83781D=y
-CONFIG_SENSORS_W83791D=y
-CONFIG_SENSORS_W83792D=y
-CONFIG_SENSORS_W83793=y
-CONFIG_SENSORS_W83795=y
-CONFIG_SENSORS_W83795_FANCTRL=y
-CONFIG_SENSORS_W83L785TS=y
-CONFIG_SENSORS_W83L786NG=y
-CONFIG_SENSORS_W83627HF=y
-CONFIG_SENSORS_W83627EHF=y
-CONFIG_SENSORS_WM831X=y
-CONFIG_SENSORS_WM8350=y
-CONFIG_SENSORS_XGENE=y
-CONFIG_SENSORS_INTEL_M10_BMC_HWMON=y
-
-#
-# ACPI drivers
-#
-CONFIG_SENSORS_ACPI_POWER=y
-CONFIG_THERMAL=y
-CONFIG_THERMAL_NETLINK=y
-CONFIG_THERMAL_STATISTICS=y
-CONFIG_THERMAL_EMERGENCY_POWEROFF_DELAY_MS=0
-CONFIG_THERMAL_HWMON=y
-CONFIG_THERMAL_OF=y
-CONFIG_THERMAL_WRITABLE_TRIPS=y
-CONFIG_THERMAL_DEFAULT_GOV_STEP_WISE=y
-# CONFIG_THERMAL_DEFAULT_GOV_FAIR_SHARE is not set
-# CONFIG_THERMAL_DEFAULT_GOV_USER_SPACE is not set
-# CONFIG_THERMAL_DEFAULT_GOV_POWER_ALLOCATOR is not set
-CONFIG_THERMAL_GOV_FAIR_SHARE=y
-CONFIG_THERMAL_GOV_STEP_WISE=y
-CONFIG_THERMAL_GOV_BANG_BANG=y
-CONFIG_THERMAL_GOV_USER_SPACE=y
-CONFIG_THERMAL_GOV_POWER_ALLOCATOR=y
-CONFIG_CPU_THERMAL=y
-CONFIG_CPU_FREQ_THERMAL=y
-CONFIG_DEVFREQ_THERMAL=y
-CONFIG_THERMAL_EMULATION=y
-CONFIG_THERMAL_MMIO=y
-CONFIG_HISI_THERMAL=y
-CONFIG_IMX_THERMAL=y
-CONFIG_IMX_SC_THERMAL=y
-CONFIG_IMX8MM_THERMAL=y
-CONFIG_K3_THERMAL=y
-CONFIG_MAX77620_THERMAL=y
-CONFIG_QORIQ_THERMAL=y
-CONFIG_SPEAR_THERMAL=y
-CONFIG_SUN8I_THERMAL=y
-CONFIG_ROCKCHIP_THERMAL=y
-CONFIG_RCAR_THERMAL=y
-CONFIG_RCAR_GEN3_THERMAL=y
-CONFIG_RZG2L_THERMAL=y
-CONFIG_KIRKWOOD_THERMAL=y
-CONFIG_DOVE_THERMAL=y
-CONFIG_ARMADA_THERMAL=y
-CONFIG_DA9062_THERMAL=y
-CONFIG_MTK_THERMAL=y
-
-#
-# Intel thermal drivers
-#
-
-#
-# ACPI INT340X thermal drivers
-#
-# end of ACPI INT340X thermal drivers
-
-CONFIG_INTEL_MENLOW=y
-# end of Intel thermal drivers
-
-#
-# Broadcom thermal drivers
-#
-CONFIG_BCM2711_THERMAL=y
-CONFIG_BCM2835_THERMAL=y
-CONFIG_BRCMSTB_THERMAL=y
-CONFIG_BCM_NS_THERMAL=y
-CONFIG_BCM_SR_THERMAL=y
-# end of Broadcom thermal drivers
-
-#
-# Texas Instruments thermal drivers
-#
-CONFIG_TI_SOC_THERMAL=y
-CONFIG_TI_THERMAL=y
-CONFIG_OMAP3_THERMAL=y
-CONFIG_OMAP4_THERMAL=y
-CONFIG_OMAP5_THERMAL=y
-CONFIG_DRA752_THERMAL=y
-# end of Texas Instruments thermal drivers
-
-#
-# Samsung thermal drivers
-#
-CONFIG_EXYNOS_THERMAL=y
-# end of Samsung thermal drivers
-
-#
-# NVIDIA Tegra thermal drivers
-#
-CONFIG_TEGRA_SOCTHERM=y
-CONFIG_TEGRA_BPMP_THERMAL=y
-CONFIG_TEGRA30_TSENSOR=y
-# end of NVIDIA Tegra thermal drivers
-
-CONFIG_GENERIC_ADC_THERMAL=y
-
-#
-# Qualcomm thermal drivers
-#
-CONFIG_QCOM_TSENS=y
-CONFIG_QCOM_SPMI_ADC_TM5=y
-CONFIG_QCOM_SPMI_TEMP_ALARM=y
-# end of Qualcomm thermal drivers
-
-CONFIG_UNIPHIER_THERMAL=y
-CONFIG_SPRD_THERMAL=y
-CONFIG_KHADAS_MCU_FAN_THERMAL=y
-CONFIG_WATCHDOG=y
-CONFIG_WATCHDOG_CORE=y
-CONFIG_WATCHDOG_NOWAYOUT=y
-CONFIG_WATCHDOG_HANDLE_BOOT_ENABLED=y
-CONFIG_WATCHDOG_OPEN_TIMEOUT=0
-CONFIG_WATCHDOG_SYSFS=y
-CONFIG_WATCHDOG_HRTIMER_PRETIMEOUT=y
-
-#
-# Watchdog Pretimeout Governors
-#
-CONFIG_WATCHDOG_PRETIMEOUT_GOV=y
-CONFIG_WATCHDOG_PRETIMEOUT_GOV_SEL=m
-CONFIG_WATCHDOG_PRETIMEOUT_GOV_NOOP=y
-CONFIG_WATCHDOG_PRETIMEOUT_GOV_PANIC=y
-# CONFIG_WATCHDOG_PRETIMEOUT_DEFAULT_GOV_NOOP is not set
-CONFIG_WATCHDOG_PRETIMEOUT_DEFAULT_GOV_PANIC=y
-
-#
-# Watchdog Device Drivers
-#
-CONFIG_SOFT_WATCHDOG=y
-CONFIG_SOFT_WATCHDOG_PRETIMEOUT=y
-CONFIG_BD957XMUF_WATCHDOG=y
-CONFIG_DA9052_WATCHDOG=y
-CONFIG_DA9055_WATCHDOG=y
-CONFIG_DA9063_WATCHDOG=y
-CONFIG_DA9062_WATCHDOG=y
-CONFIG_GPIO_WATCHDOG=y
-CONFIG_GPIO_WATCHDOG_ARCH_INITCALL=y
-CONFIG_MENF21BMC_WATCHDOG=y
-CONFIG_MENZ069_WATCHDOG=y
-CONFIG_WDAT_WDT=y
-CONFIG_WM831X_WATCHDOG=y
-CONFIG_WM8350_WATCHDOG=y
-CONFIG_XILINX_WATCHDOG=y
-CONFIG_ZIIRAVE_WATCHDOG=y
-CONFIG_RAVE_SP_WATCHDOG=y
-CONFIG_MLX_WDT=y
-CONFIG_SL28CPLD_WATCHDOG=y
-CONFIG_ARMADA_37XX_WATCHDOG=y
-CONFIG_ASM9260_WATCHDOG=y
-CONFIG_AT91RM9200_WATCHDOG=y
-CONFIG_AT91SAM9X_WATCHDOG=y
-CONFIG_SAMA5D4_WATCHDOG=y
-CONFIG_CADENCE_WATCHDOG=y
-CONFIG_FTWDT010_WATCHDOG=y
-CONFIG_S3C2410_WATCHDOG=y
-CONFIG_DW_WATCHDOG=y
-CONFIG_EP93XX_WATCHDOG=y
-CONFIG_OMAP_WATCHDOG=y
-CONFIG_PNX4008_WATCHDOG=y
-CONFIG_DAVINCI_WATCHDOG=y
-CONFIG_K3_RTI_WATCHDOG=y
-CONFIG_RN5T618_WATCHDOG=y
-CONFIG_SUNXI_WATCHDOG=y
-CONFIG_NPCM7XX_WATCHDOG=y
-CONFIG_TWL4030_WATCHDOG=y
-CONFIG_STMP3XXX_RTC_WATCHDOG=y
-CONFIG_TS4800_WATCHDOG=y
-CONFIG_TS72XX_WATCHDOG=y
-CONFIG_MAX63XX_WATCHDOG=y
-CONFIG_MAX77620_WATCHDOG=y
-CONFIG_IMX2_WDT=y
-CONFIG_IMX7ULP_WDT=y
-CONFIG_RETU_WATCHDOG=y
-CONFIG_MOXART_WDT=y
-CONFIG_ST_LPC_WATCHDOG=y
-CONFIG_TEGRA_WATCHDOG=y
-CONFIG_QCOM_WDT=y
-CONFIG_MESON_GXBB_WATCHDOG=y
-CONFIG_MESON_WATCHDOG=y
-CONFIG_MEDIATEK_WATCHDOG=y
-CONFIG_DIGICOLOR_WATCHDOG=y
-CONFIG_LPC18XX_WATCHDOG=y
-CONFIG_RENESAS_WDT=y
-CONFIG_RENESAS_RZAWDT=y
-CONFIG_RENESAS_RZN1WDT=y
-CONFIG_RENESAS_RZG2LWDT=y
-CONFIG_ASPEED_WATCHDOG=y
-CONFIG_STPMIC1_WATCHDOG=y
-CONFIG_UNIPHIER_WATCHDOG=y
-CONFIG_RTD119X_WATCHDOG=y
-CONFIG_REALTEK_OTTO_WDT=y
-CONFIG_SPRD_WATCHDOG=y
-CONFIG_PM8916_WATCHDOG=y
-CONFIG_VISCONTI_WATCHDOG=y
-CONFIG_MSC313E_WATCHDOG=y
-CONFIG_APPLE_WATCHDOG=y
-CONFIG_SUNPLUS_WATCHDOG=y
-CONFIG_ALIM7101_WDT=y
-CONFIG_SC520_WDT=y
-CONFIG_I6300ESB_WDT=y
-CONFIG_ITCO_WDT=y
-CONFIG_ITCO_VENDOR_SUPPORT=y
-CONFIG_KEMPLD_WDT=y
-CONFIG_RDC321X_WDT=y
-CONFIG_BCM47XX_WDT=y
-CONFIG_BCM2835_WDT=y
-CONFIG_BCM_KONA_WDT=y
-CONFIG_BCM_KONA_WDT_DEBUG=y
-CONFIG_BCM7038_WDT=y
-CONFIG_IMGPDC_WDT=y
-CONFIG_MPC5200_WDT=y
-CONFIG_MEN_A21_WDT=y
-CONFIG_UML_WATCHDOG=y
-
-#
-# PCI-based Watchdog Cards
-#
-CONFIG_PCIPCWATCHDOG=y
-CONFIG_WDTPCI=y
-
-#
-# USB-based Watchdog Cards
-#
-CONFIG_USBPCWATCHDOG=y
-CONFIG_SSB_POSSIBLE=y
-CONFIG_SSB=y
-CONFIG_SSB_SPROM=y
-CONFIG_SSB_BLOCKIO=y
-CONFIG_SSB_PCIHOST_POSSIBLE=y
-CONFIG_SSB_PCIHOST=y
-CONFIG_SSB_B43_PCI_BRIDGE=y
-CONFIG_SSB_PCMCIAHOST_POSSIBLE=y
-CONFIG_SSB_PCMCIAHOST=y
-CONFIG_SSB_SDIOHOST_POSSIBLE=y
-CONFIG_SSB_SDIOHOST=y
-CONFIG_SSB_HOST_SOC=y
-CONFIG_SSB_DRIVER_PCICORE_POSSIBLE=y
-CONFIG_SSB_DRIVER_PCICORE=y
-CONFIG_SSB_DRIVER_GPIO=y
-CONFIG_BCMA_POSSIBLE=y
-CONFIG_BCMA=y
-CONFIG_BCMA_BLOCKIO=y
-CONFIG_BCMA_HOST_PCI_POSSIBLE=y
-CONFIG_BCMA_HOST_PCI=y
-CONFIG_BCMA_HOST_SOC=y
-CONFIG_BCMA_DRIVER_PCI=y
-CONFIG_BCMA_DRIVER_MIPS=y
-CONFIG_BCMA_PFLASH=y
-CONFIG_BCMA_SFLASH=y
-CONFIG_BCMA_NFLASH=y
-CONFIG_BCMA_DRIVER_GMAC_CMN=y
-CONFIG_BCMA_DRIVER_GPIO=y
-CONFIG_BCMA_DEBUG=y
-
-#
-# Multifunction device drivers
-#
-CONFIG_MFD_CORE=y
-CONFIG_MFD_ACT8945A=y
-CONFIG_MFD_AS3711=y
-CONFIG_MFD_AS3722=y
-CONFIG_PMIC_ADP5520=y
-CONFIG_MFD_AAT2870_CORE=y
-CONFIG_MFD_AT91_USART=y
-CONFIG_MFD_ATMEL_FLEXCOM=y
-CONFIG_MFD_ATMEL_HLCDC=y
-CONFIG_MFD_ATMEL_SMC=y
-CONFIG_MFD_BCM590XX=y
-CONFIG_MFD_BD9571MWV=y
-CONFIG_MFD_AXP20X=y
-CONFIG_MFD_AXP20X_I2C=y
-CONFIG_MFD_CROS_EC_DEV=y
-CONFIG_MFD_MADERA=y
-CONFIG_MFD_MADERA_I2C=y
-CONFIG_MFD_MADERA_SPI=y
-CONFIG_MFD_CS47L15=y
-CONFIG_MFD_CS47L35=y
-CONFIG_MFD_CS47L85=y
-CONFIG_MFD_CS47L90=y
-CONFIG_MFD_CS47L92=y
-CONFIG_MFD_ASIC3=y
-CONFIG_PMIC_DA903X=y
-CONFIG_PMIC_DA9052=y
-CONFIG_MFD_DA9052_SPI=y
-CONFIG_MFD_DA9052_I2C=y
-CONFIG_MFD_DA9055=y
-CONFIG_MFD_DA9062=y
-CONFIG_MFD_DA9063=y
-CONFIG_MFD_DA9150=y
-CONFIG_MFD_DLN2=y
-CONFIG_MFD_ENE_KB3930=y
-CONFIG_MFD_EXYNOS_LPASS=y
-CONFIG_MFD_GATEWORKS_GSC=y
-CONFIG_MFD_MC13XXX=y
-CONFIG_MFD_MC13XXX_SPI=y
-CONFIG_MFD_MC13XXX_I2C=y
-CONFIG_MFD_MP2629=y
-CONFIG_MFD_MXS_LRADC=y
-CONFIG_MFD_MX25_TSADC=y
-CONFIG_MFD_HI6421_PMIC=y
-CONFIG_MFD_HI6421_SPMI=y
-CONFIG_MFD_HI655X_PMIC=y
-CONFIG_HTC_PASIC3=y
-CONFIG_HTC_I2CPLD=y
-CONFIG_LPC_ICH=y
-CONFIG_LPC_SCH=y
-CONFIG_INTEL_SOC_PMIC=y
-CONFIG_INTEL_SOC_PMIC_CHTWC=y
-CONFIG_MFD_IQS62X=y
-CONFIG_MFD_JANZ_CMODIO=y
-CONFIG_MFD_KEMPLD=y
-CONFIG_MFD_88PM800=y
-CONFIG_MFD_88PM805=y
-CONFIG_MFD_88PM860X=y
-CONFIG_MFD_MAX14577=y
-CONFIG_MFD_MAX77620=y
-CONFIG_MFD_MAX77650=y
-CONFIG_MFD_MAX77686=y
-CONFIG_MFD_MAX77693=y
-CONFIG_MFD_MAX77714=y
-CONFIG_MFD_MAX77843=y
-CONFIG_MFD_MAX8907=y
-CONFIG_MFD_MAX8925=y
-CONFIG_MFD_MAX8997=y
-CONFIG_MFD_MAX8998=y
-CONFIG_MFD_MT6360=y
-CONFIG_MFD_MT6370=y
-CONFIG_MFD_MT6397=y
-CONFIG_MFD_MENF21BMC=y
-CONFIG_MFD_OCELOT=y
-CONFIG_EZX_PCAP=y
-CONFIG_MFD_CPCAP=y
-CONFIG_MFD_VIPERBOARD=y
-CONFIG_MFD_NTXEC=y
-CONFIG_MFD_RETU=y
-CONFIG_MFD_PCF50633=y
-CONFIG_PCF50633_ADC=y
-CONFIG_PCF50633_GPIO=y
-CONFIG_UCB1400_CORE=y
-CONFIG_MFD_PM8XXX=y
-CONFIG_MFD_SPMI_PMIC=y
-CONFIG_MFD_SY7636A=y
-CONFIG_MFD_RDC321X=y
-CONFIG_MFD_RT4831=y
-CONFIG_MFD_RT5033=y
-CONFIG_MFD_RT5120=y
-CONFIG_MFD_RC5T583=y
-CONFIG_MFD_RK808=y
-CONFIG_MFD_RN5T618=y
-CONFIG_MFD_SEC_CORE=y
-CONFIG_MFD_SI476X_CORE=y
-CONFIG_MFD_SIMPLE_MFD_I2C=y
-CONFIG_MFD_SL28CPLD=y
-CONFIG_MFD_SM501=y
-CONFIG_MFD_SM501_GPIO=y
-CONFIG_MFD_SKY81452=y
-CONFIG_MFD_SC27XX_PMIC=y
-CONFIG_ABX500_CORE=y
-CONFIG_MFD_STMPE=y
-
-#
-# STMicroelectronics STMPE Interface Drivers
-#
-CONFIG_STMPE_I2C=y
-CONFIG_STMPE_SPI=y
-# end of STMicroelectronics STMPE Interface Drivers
-
-CONFIG_MFD_SUN6I_PRCM=y
-CONFIG_MFD_SYSCON=y
-CONFIG_MFD_TI_AM335X_TSCADC=y
-CONFIG_MFD_LP3943=y
-CONFIG_MFD_LP8788=y
-CONFIG_MFD_TI_LMU=y
-CONFIG_MFD_OMAP_USB_HOST=y
-CONFIG_MFD_PALMAS=y
-CONFIG_TPS6105X=y
-CONFIG_TPS65010=y
-CONFIG_TPS6507X=y
-CONFIG_MFD_TPS65086=y
-CONFIG_MFD_TPS65090=y
-CONFIG_MFD_TPS65217=y
-CONFIG_MFD_TI_LP873X=y
-CONFIG_MFD_TI_LP87565=y
-CONFIG_MFD_TPS65218=y
-CONFIG_MFD_TPS6586X=y
-CONFIG_MFD_TPS65910=y
-CONFIG_MFD_TPS65912=y
-CONFIG_MFD_TPS65912_I2C=y
-CONFIG_MFD_TPS65912_SPI=y
-CONFIG_TWL4030_CORE=y
-CONFIG_MFD_TWL4030_AUDIO=y
-CONFIG_TWL6040_CORE=y
-CONFIG_MFD_WL1273_CORE=y
-CONFIG_MFD_LM3533=y
-CONFIG_MFD_TIMBERDALE=y
-CONFIG_MFD_TC3589X=y
-CONFIG_MFD_TQMX86=y
-CONFIG_MFD_VX855=y
-CONFIG_MFD_LOCHNAGAR=y
-CONFIG_MFD_ARIZONA=y
-CONFIG_MFD_ARIZONA_I2C=y
-CONFIG_MFD_ARIZONA_SPI=y
-CONFIG_MFD_CS47L24=y
-CONFIG_MFD_WM5102=y
-CONFIG_MFD_WM5110=y
-CONFIG_MFD_WM8997=y
-CONFIG_MFD_WM8998=y
-CONFIG_MFD_WM8400=y
-CONFIG_MFD_WM831X=y
-CONFIG_MFD_WM831X_I2C=y
-CONFIG_MFD_WM831X_SPI=y
-CONFIG_MFD_WM8350=y
-CONFIG_MFD_WM8350_I2C=y
-CONFIG_MFD_WM8994=y
-CONFIG_MFD_STW481X=y
-CONFIG_MFD_ROHM_BD718XX=y
-CONFIG_MFD_ROHM_BD71828=y
-CONFIG_MFD_ROHM_BD957XMUF=y
-CONFIG_MFD_STM32_LPTIMER=y
-CONFIG_MFD_STM32_TIMERS=y
-CONFIG_MFD_STPMIC1=y
-CONFIG_MFD_STMFX=y
-CONFIG_MFD_WCD934X=y
-CONFIG_MFD_ATC260X=y
-CONFIG_MFD_ATC260X_I2C=y
-CONFIG_MFD_KHADAS_MCU=y
-CONFIG_MFD_ACER_A500_EC=y
-CONFIG_MFD_QCOM_PM8008=y
-CONFIG_RAVE_SP_CORE=y
-CONFIG_MFD_INTEL_M10_BMC=y
-CONFIG_MFD_RSMU_I2C=y
-CONFIG_MFD_RSMU_SPI=y
-# end of Multifunction device drivers
-
-CONFIG_REGULATOR=y
-CONFIG_REGULATOR_DEBUG=y
-CONFIG_REGULATOR_FIXED_VOLTAGE=y
-CONFIG_REGULATOR_VIRTUAL_CONSUMER=y
-CONFIG_REGULATOR_USERSPACE_CONSUMER=y
-CONFIG_REGULATOR_88PG86X=y
-CONFIG_REGULATOR_88PM800=y
-CONFIG_REGULATOR_88PM8607=y
-CONFIG_REGULATOR_ACT8865=y
-CONFIG_REGULATOR_ACT8945A=y
-CONFIG_REGULATOR_AD5398=y
-CONFIG_REGULATOR_ANATOP=y
-CONFIG_REGULATOR_AAT2870=y
-CONFIG_REGULATOR_ARIZONA_LDO1=y
-CONFIG_REGULATOR_ARIZONA_MICSUPP=y
-CONFIG_REGULATOR_ARM_SCMI=y
-CONFIG_REGULATOR_AS3711=y
-CONFIG_REGULATOR_AS3722=y
-CONFIG_REGULATOR_ATC260X=y
-CONFIG_REGULATOR_AXP20X=y
-CONFIG_REGULATOR_BCM590XX=y
-CONFIG_REGULATOR_BD71815=y
-CONFIG_REGULATOR_BD71828=y
-CONFIG_REGULATOR_BD718XX=y
-CONFIG_REGULATOR_BD9571MWV=y
-CONFIG_REGULATOR_BD957XMUF=y
-CONFIG_REGULATOR_CPCAP=y
-CONFIG_REGULATOR_CROS_EC=y
-CONFIG_REGULATOR_DA903X=y
-CONFIG_REGULATOR_DA9052=y
-CONFIG_REGULATOR_DA9055=y
-CONFIG_REGULATOR_DA9062=y
-CONFIG_REGULATOR_DA9063=y
-CONFIG_REGULATOR_DA9121=y
-CONFIG_REGULATOR_DA9210=y
-CONFIG_REGULATOR_DA9211=y
-CONFIG_REGULATOR_FAN53555=y
-CONFIG_REGULATOR_FAN53880=y
-CONFIG_REGULATOR_GPIO=y
-CONFIG_REGULATOR_HI6421=y
-CONFIG_REGULATOR_HI6421V530=y
-CONFIG_REGULATOR_HI655X=y
-CONFIG_REGULATOR_HI6421V600=y
-CONFIG_REGULATOR_ISL9305=y
-CONFIG_REGULATOR_ISL6271A=y
-CONFIG_REGULATOR_LM363X=y
-CONFIG_REGULATOR_LOCHNAGAR=y
-CONFIG_REGULATOR_LP3971=y
-CONFIG_REGULATOR_LP3972=y
-CONFIG_REGULATOR_LP872X=y
-CONFIG_REGULATOR_LP873X=y
-CONFIG_REGULATOR_LP8755=y
-CONFIG_REGULATOR_LP87565=y
-CONFIG_REGULATOR_LP8788=y
-CONFIG_REGULATOR_LTC3589=y
-CONFIG_REGULATOR_LTC3676=y
-CONFIG_REGULATOR_MAX14577=y
-CONFIG_REGULATOR_MAX1586=y
-CONFIG_REGULATOR_MAX77620=y
-CONFIG_REGULATOR_MAX77650=y
-CONFIG_REGULATOR_MAX8649=y
-CONFIG_REGULATOR_MAX8660=y
-CONFIG_REGULATOR_MAX8893=y
-CONFIG_REGULATOR_MAX8907=y
-CONFIG_REGULATOR_MAX8925=y
-CONFIG_REGULATOR_MAX8952=y
-CONFIG_REGULATOR_MAX8973=y
-CONFIG_REGULATOR_MAX8997=y
-CONFIG_REGULATOR_MAX8998=y
-CONFIG_REGULATOR_MAX20086=y
-CONFIG_REGULATOR_MAX77686=y
-CONFIG_REGULATOR_MAX77693=y
-CONFIG_REGULATOR_MAX77802=y
-CONFIG_REGULATOR_MAX77826=y
-CONFIG_REGULATOR_MC13XXX_CORE=y
-CONFIG_REGULATOR_MC13783=y
-CONFIG_REGULATOR_MC13892=y
-CONFIG_REGULATOR_MCP16502=y
-CONFIG_REGULATOR_MP5416=y
-CONFIG_REGULATOR_MP8859=y
-CONFIG_REGULATOR_MP886X=y
-CONFIG_REGULATOR_MPQ7920=y
-CONFIG_REGULATOR_MT6311=y
-CONFIG_REGULATOR_MT6315=y
-CONFIG_REGULATOR_MT6323=y
-CONFIG_REGULATOR_MT6331=y
-CONFIG_REGULATOR_MT6332=y
-CONFIG_REGULATOR_MT6358=y
-CONFIG_REGULATOR_MT6359=y
-CONFIG_REGULATOR_MT6360=y
-CONFIG_REGULATOR_MT6370=y
-CONFIG_REGULATOR_MT6380=y
-CONFIG_REGULATOR_MT6397=y
-CONFIG_REGULATOR_PALMAS=y
-CONFIG_REGULATOR_PBIAS=y
-CONFIG_REGULATOR_PCA9450=y
-CONFIG_REGULATOR_PCAP=y
-CONFIG_REGULATOR_PCF50633=y
-CONFIG_REGULATOR_PF8X00=y
-CONFIG_REGULATOR_PFUZE100=y
-CONFIG_REGULATOR_PV88060=y
-CONFIG_REGULATOR_PV88080=y
-CONFIG_REGULATOR_PV88090=y
-CONFIG_REGULATOR_PWM=y
-CONFIG_REGULATOR_QCOM_RPMH=y
-CONFIG_REGULATOR_QCOM_SMD_RPM=y
-CONFIG_REGULATOR_QCOM_SPMI=y
-CONFIG_REGULATOR_QCOM_USB_VBUS=y
-CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY=y
-CONFIG_REGULATOR_RC5T583=y
-CONFIG_REGULATOR_RK808=y
-CONFIG_REGULATOR_RN5T618=y
-CONFIG_REGULATOR_ROHM=y
-CONFIG_REGULATOR_RT4801=y
-CONFIG_REGULATOR_RT4831=y
-CONFIG_REGULATOR_RT5033=y
-CONFIG_REGULATOR_RT5120=y
-CONFIG_REGULATOR_RT5190A=y
-CONFIG_REGULATOR_RT5759=y
-CONFIG_REGULATOR_RT6160=y
-CONFIG_REGULATOR_RT6245=y
-CONFIG_REGULATOR_RTQ2134=y
-CONFIG_REGULATOR_RTMV20=y
-CONFIG_REGULATOR_RTQ6752=y
-CONFIG_REGULATOR_S2MPA01=y
-CONFIG_REGULATOR_S2MPS11=y
-CONFIG_REGULATOR_S5M8767=y
-CONFIG_REGULATOR_SC2731=y
-CONFIG_REGULATOR_SKY81452=y
-CONFIG_REGULATOR_SLG51000=y
-CONFIG_REGULATOR_STM32_BOOSTER=y
-CONFIG_REGULATOR_STM32_VREFBUF=y
-CONFIG_REGULATOR_STM32_PWR=y
-CONFIG_REGULATOR_STPMIC1=y
-CONFIG_REGULATOR_TI_ABB=y
-CONFIG_REGULATOR_STW481X_VMMC=y
-CONFIG_REGULATOR_SY7636A=y
-CONFIG_REGULATOR_SY8106A=y
-CONFIG_REGULATOR_SY8824X=y
-CONFIG_REGULATOR_SY8827N=y
-CONFIG_REGULATOR_TPS51632=y
-CONFIG_REGULATOR_TPS6105X=y
-CONFIG_REGULATOR_TPS62360=y
-CONFIG_REGULATOR_TPS6286X=y
-CONFIG_REGULATOR_TPS65023=y
-CONFIG_REGULATOR_TPS6507X=y
-CONFIG_REGULATOR_TPS65086=y
-CONFIG_REGULATOR_TPS65090=y
-CONFIG_REGULATOR_TPS65132=y
-CONFIG_REGULATOR_TPS65217=y
-CONFIG_REGULATOR_TPS65218=y
-CONFIG_REGULATOR_TPS6524X=y
-CONFIG_REGULATOR_TPS6586X=y
-CONFIG_REGULATOR_TPS65910=y
-CONFIG_REGULATOR_TPS65912=y
-CONFIG_REGULATOR_TPS68470=y
-CONFIG_REGULATOR_TWL4030=y
-CONFIG_REGULATOR_UNIPHIER=y
-CONFIG_REGULATOR_VCTRL=y
-CONFIG_REGULATOR_WM831X=y
-CONFIG_REGULATOR_WM8350=y
-CONFIG_REGULATOR_WM8400=y
-CONFIG_REGULATOR_WM8994=y
-CONFIG_REGULATOR_QCOM_LABIBB=y
-CONFIG_RC_CORE=y
-CONFIG_BPF_LIRC_MODE2=y
-CONFIG_LIRC=y
-CONFIG_RC_MAP=y
-CONFIG_RC_DECODERS=y
-CONFIG_IR_IMON_DECODER=y
-CONFIG_IR_JVC_DECODER=y
-CONFIG_IR_MCE_KBD_DECODER=y
-CONFIG_IR_NEC_DECODER=y
-CONFIG_IR_RC5_DECODER=y
-CONFIG_IR_RC6_DECODER=y
-CONFIG_IR_RCMM_DECODER=y
-CONFIG_IR_SANYO_DECODER=y
-CONFIG_IR_SHARP_DECODER=y
-CONFIG_IR_SONY_DECODER=y
-CONFIG_IR_XMP_DECODER=y
-CONFIG_RC_DEVICES=y
-CONFIG_IR_ENE=y
-CONFIG_IR_FINTEK=y
-CONFIG_IR_GPIO_CIR=y
-CONFIG_IR_GPIO_TX=y
-CONFIG_IR_HIX5HD2=y
-CONFIG_IR_IGORPLUGUSB=y
-CONFIG_IR_IGUANA=y
-CONFIG_IR_IMON=y
-CONFIG_IR_IMON_RAW=y
-CONFIG_IR_ITE_CIR=y
-CONFIG_IR_MCEUSB=y
-CONFIG_IR_MESON=y
-CONFIG_IR_MESON_TX=y
-CONFIG_IR_MTK=y
-CONFIG_IR_NUVOTON=y
-CONFIG_IR_PWM_TX=y
-CONFIG_IR_REDRAT3=y
-CONFIG_IR_RX51=y
-CONFIG_IR_SERIAL=y
-CONFIG_IR_SERIAL_TRANSMITTER=y
-CONFIG_IR_SPI=y
-CONFIG_IR_STREAMZAP=y
-CONFIG_IR_SUNXI=y
-CONFIG_IR_TOY=y
-CONFIG_IR_TTUSBIR=y
-CONFIG_IR_WINBOND_CIR=y
-CONFIG_RC_ATI_REMOTE=y
-CONFIG_RC_LOOPBACK=y
-CONFIG_RC_ST=y
-CONFIG_RC_XBOX_DVD=y
-CONFIG_IR_IMG=y
-CONFIG_IR_IMG_RAW=y
-CONFIG_IR_IMG_HW=y
-CONFIG_IR_IMG_NEC=y
-CONFIG_IR_IMG_JVC=y
-CONFIG_IR_IMG_SONY=y
-CONFIG_IR_IMG_SHARP=y
-CONFIG_IR_IMG_SANYO=y
-CONFIG_IR_IMG_RC5=y
-CONFIG_IR_IMG_RC6=y
-CONFIG_CEC_CORE=y
-CONFIG_CEC_NOTIFIER=y
-CONFIG_CEC_PIN=y
-
-#
-# CEC support
-#
-CONFIG_MEDIA_CEC_RC=y
-CONFIG_CEC_PIN_ERROR_INJ=y
-CONFIG_MEDIA_CEC_SUPPORT=y
-CONFIG_CEC_CH7322=y
-CONFIG_CEC_CROS_EC=y
-CONFIG_CEC_MESON_AO=y
-CONFIG_CEC_MESON_G12A_AO=y
-CONFIG_CEC_GPIO=y
-CONFIG_CEC_SAMSUNG_S5P=y
-CONFIG_CEC_STI=y
-CONFIG_CEC_STM32=y
-CONFIG_CEC_TEGRA=y
-CONFIG_CEC_SECO=y
-CONFIG_CEC_SECO_RC=y
-CONFIG_USB_PULSE8_CEC=y
-CONFIG_USB_RAINSHADOW_CEC=y
-# end of CEC support
-
-CONFIG_MEDIA_SUPPORT=y
-CONFIG_MEDIA_SUPPORT_FILTER=y
-CONFIG_MEDIA_SUBDRV_AUTOSELECT=y
-
-#
-# Media device types
-#
-CONFIG_MEDIA_CAMERA_SUPPORT=y
-CONFIG_MEDIA_ANALOG_TV_SUPPORT=y
-CONFIG_MEDIA_DIGITAL_TV_SUPPORT=y
-CONFIG_MEDIA_RADIO_SUPPORT=y
-CONFIG_MEDIA_SDR_SUPPORT=y
-CONFIG_MEDIA_PLATFORM_SUPPORT=y
-CONFIG_MEDIA_TEST_SUPPORT=y
-# end of Media device types
-
-CONFIG_VIDEO_DEV=y
-CONFIG_MEDIA_CONTROLLER=y
-CONFIG_DVB_CORE=y
-
-#
-# Video4Linux options
-#
-CONFIG_VIDEO_V4L2_I2C=y
-CONFIG_VIDEO_V4L2_SUBDEV_API=y
-CONFIG_VIDEO_ADV_DEBUG=y
-CONFIG_VIDEO_FIXED_MINOR_RANGES=y
-CONFIG_VIDEO_TUNER=y
-CONFIG_V4L2_JPEG_HELPER=y
-CONFIG_V4L2_H264=y
-CONFIG_V4L2_VP9=y
-CONFIG_V4L2_MEM2MEM_DEV=y
-CONFIG_V4L2_FLASH_LED_CLASS=y
-CONFIG_V4L2_FWNODE=y
-CONFIG_V4L2_ASYNC=y
-CONFIG_VIDEOBUF_GEN=y
-CONFIG_VIDEOBUF_DMA_SG=y
-CONFIG_VIDEOBUF_VMALLOC=y
-CONFIG_VIDEOBUF_DMA_CONTIG=y
-# end of Video4Linux options
-
-#
-# Media controller options
-#
-CONFIG_MEDIA_CONTROLLER_DVB=y
-CONFIG_MEDIA_CONTROLLER_REQUEST_API=y
-# end of Media controller options
-
-#
-# Digital TV options
-#
-CONFIG_DVB_MMAP=y
-CONFIG_DVB_NET=y
-CONFIG_DVB_MAX_ADAPTERS=16
-CONFIG_DVB_DYNAMIC_MINORS=y
-CONFIG_DVB_DEMUX_SECTION_LOSS_LOG=y
-CONFIG_DVB_ULE_DEBUG=y
-# end of Digital TV options
-
-#
-# Media drivers
-#
-
-#
-# Drivers filtered as selected at 'Filter media drivers'
-#
-
-#
-# Media drivers
-#
-CONFIG_MEDIA_USB_SUPPORT=y
-
-#
-# Webcam devices
-#
-CONFIG_USB_GSPCA=y
-CONFIG_USB_GSPCA_BENQ=y
-CONFIG_USB_GSPCA_CONEX=y
-CONFIG_USB_GSPCA_CPIA1=y
-CONFIG_USB_GSPCA_DTCS033=y
-CONFIG_USB_GSPCA_ETOMS=y
-CONFIG_USB_GSPCA_FINEPIX=y
-CONFIG_USB_GSPCA_JEILINJ=y
-CONFIG_USB_GSPCA_JL2005BCD=y
-CONFIG_USB_GSPCA_KINECT=y
-CONFIG_USB_GSPCA_KONICA=y
-CONFIG_USB_GSPCA_MARS=y
-CONFIG_USB_GSPCA_MR97310A=y
-CONFIG_USB_GSPCA_NW80X=y
-CONFIG_USB_GSPCA_OV519=y
-CONFIG_USB_GSPCA_OV534=y
-CONFIG_USB_GSPCA_OV534_9=y
-CONFIG_USB_GSPCA_PAC207=y
-CONFIG_USB_GSPCA_PAC7302=y
-CONFIG_USB_GSPCA_PAC7311=y
-CONFIG_USB_GSPCA_SE401=y
-CONFIG_USB_GSPCA_SN9C2028=y
-CONFIG_USB_GSPCA_SN9C20X=y
-CONFIG_USB_GSPCA_SONIXB=y
-CONFIG_USB_GSPCA_SONIXJ=y
-CONFIG_USB_GSPCA_SPCA1528=y
-CONFIG_USB_GSPCA_SPCA500=y
-CONFIG_USB_GSPCA_SPCA501=y
-CONFIG_USB_GSPCA_SPCA505=y
-CONFIG_USB_GSPCA_SPCA506=y
-CONFIG_USB_GSPCA_SPCA508=y
-CONFIG_USB_GSPCA_SPCA561=y
-CONFIG_USB_GSPCA_SQ905=y
-CONFIG_USB_GSPCA_SQ905C=y
-CONFIG_USB_GSPCA_SQ930X=y
-CONFIG_USB_GSPCA_STK014=y
-CONFIG_USB_GSPCA_STK1135=y
-CONFIG_USB_GSPCA_STV0680=y
-CONFIG_USB_GSPCA_SUNPLUS=y
-CONFIG_USB_GSPCA_T613=y
-CONFIG_USB_GSPCA_TOPRO=y
-CONFIG_USB_GSPCA_TOUPTEK=y
-CONFIG_USB_GSPCA_TV8532=y
-CONFIG_USB_GSPCA_VC032X=y
-CONFIG_USB_GSPCA_VICAM=y
-CONFIG_USB_GSPCA_XIRLINK_CIT=y
-CONFIG_USB_GSPCA_ZC3XX=y
-CONFIG_USB_GL860=y
-CONFIG_USB_M5602=y
-CONFIG_USB_STV06XX=y
-CONFIG_USB_PWC=y
-CONFIG_USB_PWC_DEBUG=y
-CONFIG_USB_PWC_INPUT_EVDEV=y
-CONFIG_USB_S2255=y
-CONFIG_VIDEO_USBTV=y
-CONFIG_USB_VIDEO_CLASS=y
-CONFIG_USB_VIDEO_CLASS_INPUT_EVDEV=y
-
-#
-# Analog TV USB devices
-#
-CONFIG_VIDEO_GO7007=y
-CONFIG_VIDEO_GO7007_USB=y
-CONFIG_VIDEO_GO7007_LOADER=y
-CONFIG_VIDEO_GO7007_USB_S2250_BOARD=y
-CONFIG_VIDEO_HDPVR=y
-CONFIG_VIDEO_PVRUSB2=y
-CONFIG_VIDEO_PVRUSB2_SYSFS=y
-CONFIG_VIDEO_PVRUSB2_DVB=y
-CONFIG_VIDEO_PVRUSB2_DEBUGIFC=y
-CONFIG_VIDEO_STK1160_COMMON=y
-CONFIG_VIDEO_STK1160=y
-
-#
-# Analog/digital TV USB devices
-#
-CONFIG_VIDEO_AU0828=y
-CONFIG_VIDEO_AU0828_V4L2=y
-CONFIG_VIDEO_AU0828_RC=y
-CONFIG_VIDEO_CX231XX=y
-CONFIG_VIDEO_CX231XX_RC=y
-CONFIG_VIDEO_CX231XX_ALSA=y
-CONFIG_VIDEO_CX231XX_DVB=y
-
-#
-# Digital TV USB devices
-#
-CONFIG_DVB_AS102=y
-CONFIG_DVB_B2C2_FLEXCOP_USB=y
-CONFIG_DVB_B2C2_FLEXCOP_USB_DEBUG=y
-CONFIG_DVB_USB_V2=y
-CONFIG_DVB_USB_AF9015=y
-CONFIG_DVB_USB_AF9035=y
-CONFIG_DVB_USB_ANYSEE=y
-CONFIG_DVB_USB_AU6610=y
-CONFIG_DVB_USB_AZ6007=y
-CONFIG_DVB_USB_CE6230=y
-CONFIG_DVB_USB_DVBSKY=y
-CONFIG_DVB_USB_EC168=y
-CONFIG_DVB_USB_GL861=y
-CONFIG_DVB_USB_LME2510=y
-CONFIG_DVB_USB_MXL111SF=y
-CONFIG_DVB_USB_RTL28XXU=y
-CONFIG_DVB_USB_ZD1301=y
-CONFIG_DVB_USB=y
-CONFIG_DVB_USB_DEBUG=y
-CONFIG_DVB_USB_A800=y
-CONFIG_DVB_USB_AF9005=y
-CONFIG_DVB_USB_AF9005_REMOTE=y
-CONFIG_DVB_USB_AZ6027=y
-CONFIG_DVB_USB_CINERGY_T2=y
-CONFIG_DVB_USB_CXUSB=y
-CONFIG_DVB_USB_CXUSB_ANALOG=y
-CONFIG_DVB_USB_DIB0700=y
-CONFIG_DVB_USB_DIB3000MC=y
-CONFIG_DVB_USB_DIBUSB_MB=y
-CONFIG_DVB_USB_DIBUSB_MB_FAULTY=y
-CONFIG_DVB_USB_DIBUSB_MC=y
-CONFIG_DVB_USB_DIGITV=y
-CONFIG_DVB_USB_DTT200U=y
-CONFIG_DVB_USB_DTV5100=y
-CONFIG_DVB_USB_DW2102=y
-CONFIG_DVB_USB_GP8PSK=y
-CONFIG_DVB_USB_M920X=y
-CONFIG_DVB_USB_NOVA_T_USB2=y
-CONFIG_DVB_USB_OPERA1=y
-CONFIG_DVB_USB_PCTV452E=y
-CONFIG_DVB_USB_TECHNISAT_USB2=y
-CONFIG_DVB_USB_TTUSB2=y
-CONFIG_DVB_USB_UMT_010=y
-CONFIG_DVB_USB_VP702X=y
-CONFIG_DVB_USB_VP7045=y
-CONFIG_SMS_USB_DRV=y
-CONFIG_DVB_TTUSB_BUDGET=y
-CONFIG_DVB_TTUSB_DEC=y
-
-#
-# Webcam, TV (analog/digital) USB devices
-#
-CONFIG_VIDEO_EM28XX=y
-CONFIG_VIDEO_EM28XX_V4L2=y
-CONFIG_VIDEO_EM28XX_ALSA=y
-CONFIG_VIDEO_EM28XX_DVB=y
-CONFIG_VIDEO_EM28XX_RC=y
-
-#
-# Software defined radio USB devices
-#
-CONFIG_USB_AIRSPY=y
-CONFIG_USB_HACKRF=y
-CONFIG_USB_MSI2500=y
-CONFIG_MEDIA_PCI_SUPPORT=y
-
-#
-# Media capture support
-#
-CONFIG_VIDEO_SOLO6X10=y
-CONFIG_STA2X11_VIP=y
-CONFIG_VIDEO_TW5864=y
-CONFIG_VIDEO_TW68=y
-CONFIG_VIDEO_TW686X=y
-CONFIG_VIDEO_ZORAN=y
-CONFIG_VIDEO_ZORAN_DC30=y
-CONFIG_VIDEO_ZORAN_ZR36060=y
-CONFIG_VIDEO_ZORAN_BUZ=y
-CONFIG_VIDEO_ZORAN_DC10=y
-CONFIG_VIDEO_ZORAN_LML33=y
-CONFIG_VIDEO_ZORAN_LML33R10=y
-CONFIG_VIDEO_ZORAN_AVS6EYES=y
-
-#
-# Media capture/analog TV support
-#
-CONFIG_VIDEO_DT3155=y
-CONFIG_VIDEO_IVTV=y
-CONFIG_VIDEO_IVTV_ALSA=y
-CONFIG_VIDEO_FB_IVTV=y
-
-#
-# Media capture/analog/hybrid TV support
-#
-CONFIG_VIDEO_BT848=y
-CONFIG_DVB_BT8XX=y
-CONFIG_VIDEO_COBALT=y
-CONFIG_VIDEO_CX18=y
-CONFIG_VIDEO_CX18_ALSA=y
-CONFIG_VIDEO_CX23885=y
-CONFIG_MEDIA_ALTERA_CI=y
-CONFIG_VIDEO_CX25821=y
-CONFIG_VIDEO_CX25821_ALSA=y
-CONFIG_VIDEO_CX88=y
-CONFIG_VIDEO_CX88_ALSA=y
-CONFIG_VIDEO_CX88_BLACKBIRD=y
-CONFIG_VIDEO_CX88_DVB=y
-CONFIG_VIDEO_CX88_ENABLE_VP3054=y
-CONFIG_VIDEO_CX88_VP3054=y
-CONFIG_VIDEO_CX88_MPEG=y
-CONFIG_VIDEO_SAA7134=y
-CONFIG_VIDEO_SAA7134_ALSA=y
-CONFIG_VIDEO_SAA7134_RC=y
-CONFIG_VIDEO_SAA7134_DVB=y
-CONFIG_VIDEO_SAA7134_GO7007=y
-CONFIG_VIDEO_SAA7164=y
-
-#
-# Media digital TV PCI Adapters
-#
-CONFIG_DVB_B2C2_FLEXCOP_PCI=y
-CONFIG_DVB_B2C2_FLEXCOP_PCI_DEBUG=y
-CONFIG_DVB_DDBRIDGE=y
-CONFIG_DVB_DDBRIDGE_MSIENABLE=y
-CONFIG_DVB_DM1105=y
-CONFIG_MANTIS_CORE=y
-CONFIG_DVB_MANTIS=y
-CONFIG_DVB_HOPPER=y
-CONFIG_DVB_NETUP_UNIDVB=y
-CONFIG_DVB_NGENE=y
-CONFIG_DVB_PLUTO2=y
-CONFIG_DVB_PT1=y
-CONFIG_DVB_PT3=y
-CONFIG_DVB_SMIPCIE=y
-CONFIG_RADIO_ADAPTERS=y
-CONFIG_RADIO_MAXIRADIO=y
-CONFIG_RADIO_SAA7706H=y
-CONFIG_RADIO_SHARK=y
-CONFIG_RADIO_SHARK2=y
-CONFIG_RADIO_SI4713=y
-CONFIG_RADIO_SI476X=y
-CONFIG_RADIO_TEA575X=y
-CONFIG_RADIO_TEA5764=y
-CONFIG_RADIO_TEA5764_XTAL=y
-CONFIG_RADIO_TEF6862=y
-CONFIG_RADIO_TIMBERDALE=y
-CONFIG_RADIO_WL1273=y
-CONFIG_USB_DSBR=y
-CONFIG_USB_KEENE=y
-CONFIG_USB_MA901=y
-CONFIG_USB_MR800=y
-CONFIG_USB_RAREMONO=y
-CONFIG_RADIO_SI470X=y
-CONFIG_USB_SI470X=y
-CONFIG_I2C_SI470X=y
-CONFIG_USB_SI4713=y
-CONFIG_PLATFORM_SI4713=y
-CONFIG_I2C_SI4713=y
-CONFIG_RADIO_WL128X=y
-CONFIG_V4L_RADIO_ISA_DRIVERS=y
-CONFIG_RADIO_AZTECH=y
-CONFIG_RADIO_AZTECH_PORT=350
-CONFIG_RADIO_CADET=y
-CONFIG_RADIO_GEMTEK=y
-CONFIG_RADIO_GEMTEK_PORT=34c
-CONFIG_RADIO_GEMTEK_PROBE=y
-CONFIG_RADIO_ISA=y
-CONFIG_RADIO_RTRACK=y
-CONFIG_RADIO_RTRACK2=y
-CONFIG_RADIO_RTRACK2_PORT=30c
-CONFIG_RADIO_RTRACK_PORT=30f
-CONFIG_RADIO_SF16FMI=y
-CONFIG_RADIO_SF16FMR2=y
-CONFIG_RADIO_TERRATEC=y
-CONFIG_RADIO_TRUST=y
-CONFIG_RADIO_TRUST_PORT=350
-CONFIG_RADIO_TYPHOON=y
-CONFIG_RADIO_TYPHOON_MUTEFREQ=87500
-CONFIG_RADIO_TYPHOON_PORT=316
-CONFIG_RADIO_ZOLTRIX=y
-CONFIG_RADIO_ZOLTRIX_PORT=20c
-CONFIG_MEDIA_PLATFORM_DRIVERS=y
-CONFIG_V4L_PLATFORM_DRIVERS=y
-CONFIG_SDR_PLATFORM_DRIVERS=y
-CONFIG_DVB_PLATFORM_DRIVERS=y
-CONFIG_V4L_MEM2MEM_DRIVERS=y
-CONFIG_VIDEO_MEM2MEM_DEINTERLACE=y
-CONFIG_VIDEO_MUX=y
-
-#
-# Allegro DVT media platform drivers
-#
-CONFIG_VIDEO_ALLEGRO_DVT=y
-
-#
-# Amlogic media platform drivers
-#
-CONFIG_VIDEO_MESON_GE2D=y
-
-#
-# Amphion drivers
-#
-CONFIG_VIDEO_AMPHION_VPU=y
-
-#
-# Aspeed media platform drivers
-#
-CONFIG_VIDEO_ASPEED=y
-
-#
-# Atmel media platform drivers
-#
-CONFIG_VIDEO_ATMEL_ISC=y
-CONFIG_VIDEO_ATMEL_XISC=y
-CONFIG_VIDEO_ATMEL_ISC_BASE=y
-CONFIG_VIDEO_ATMEL_ISI=y
-CONFIG_VIDEO_MICROCHIP_CSI2DC=y
-
-#
-# Cadence media platform drivers
-#
-CONFIG_VIDEO_CADENCE_CSI2RX=y
-CONFIG_VIDEO_CADENCE_CSI2TX=y
-
-#
-# Chips&Media media platform drivers
-#
-CONFIG_VIDEO_CODA=y
-CONFIG_VIDEO_IMX_VDOA=y
-
-#
-# Intel media platform drivers
-#
-CONFIG_VIDEO_PXA27x=y
-
-#
-# Marvell media platform drivers
-#
-CONFIG_VIDEO_CAFE_CCIC=y
-CONFIG_VIDEO_MMP_CAMERA=y
-
-#
-# Mediatek media platform drivers
-#
-CONFIG_VIDEO_MEDIATEK_JPEG=y
-CONFIG_VIDEO_MEDIATEK_MDP=y
-CONFIG_VIDEO_MEDIATEK_VCODEC_SCP=y
-CONFIG_VIDEO_MEDIATEK_VCODEC_VPU=y
-CONFIG_VIDEO_MEDIATEK_VCODEC=y
-CONFIG_VIDEO_MEDIATEK_VPU=y
-CONFIG_VIDEO_MEDIATEK_MDP3=y
-
-#
-# NVidia media platform drivers
-#
-CONFIG_VIDEO_TEGRA_VDE=y
-
-#
-# NXP media platform drivers
-#
-CONFIG_VIDEO_IMX_MIPI_CSIS=y
-CONFIG_VIDEO_IMX_PXP=y
-CONFIG_VIDEO_MX2_EMMAPRP=y
-CONFIG_VIDEO_DW100=y
-CONFIG_VIDEO_IMX8_JPEG=y
-
-#
-# Qualcomm media platform drivers
-#
-CONFIG_VIDEO_QCOM_CAMSS=y
-CONFIG_VIDEO_QCOM_VENUS=y
-
-#
-# Renesas media platform drivers
-#
-CONFIG_VIDEO_RENESAS_CEU=y
-CONFIG_VIDEO_RCAR_ISP=y
-CONFIG_VIDEO_SH_VOU=y
-CONFIG_VIDEO_RCAR_CSI2=y
-CONFIG_VIDEO_RCAR_VIN=y
-CONFIG_VIDEO_RENESAS_FCP=y
-CONFIG_VIDEO_RENESAS_FDP1=y
-CONFIG_VIDEO_RENESAS_JPU=y
-CONFIG_VIDEO_RENESAS_VSP1=y
-CONFIG_VIDEO_RCAR_DRIF=y
-
-#
-# Rockchip media platform drivers
-#
-CONFIG_VIDEO_ROCKCHIP_RGA=y
-CONFIG_VIDEO_ROCKCHIP_ISP1=y
-
-#
-# Samsung media platform drivers
-#
-CONFIG_VIDEO_SAMSUNG_EXYNOS_GSC=y
-CONFIG_VIDEO_SAMSUNG_EXYNOS4_IS=y
-CONFIG_VIDEO_EXYNOS4_IS_COMMON=y
-CONFIG_VIDEO_S5P_FIMC=y
-CONFIG_VIDEO_S5P_MIPI_CSIS=y
-CONFIG_VIDEO_EXYNOS_FIMC_LITE=y
-CONFIG_VIDEO_EXYNOS4_FIMC_IS=y
-CONFIG_VIDEO_EXYNOS4_ISP_DMA_CAPTURE=y
-CONFIG_VIDEO_S3C_CAMIF=y
-CONFIG_VIDEO_SAMSUNG_S5P_G2D=y
-CONFIG_VIDEO_SAMSUNG_S5P_JPEG=y
-CONFIG_VIDEO_SAMSUNG_S5P_MFC=y
-
-#
-# STMicroelectronics media platform drivers
-#
-CONFIG_VIDEO_STI_BDISP=y
-CONFIG_DVB_C8SECTPFE=y
-CONFIG_VIDEO_STI_DELTA=y
-CONFIG_VIDEO_STI_DELTA_MJPEG=y
-CONFIG_VIDEO_STI_DELTA_DRIVER=y
-CONFIG_VIDEO_STI_HVA=y
-CONFIG_VIDEO_STI_HVA_DEBUGFS=y
-CONFIG_VIDEO_STM32_DCMI=y
-CONFIG_VIDEO_STM32_DMA2D=y
-
-#
-# Sunxi media platform drivers
-#
-CONFIG_VIDEO_SUN4I_CSI=y
-CONFIG_VIDEO_SUN6I_CSI=y
-CONFIG_VIDEO_SUN6I_MIPI_CSI2=y
-CONFIG_VIDEO_SUN8I_A83T_MIPI_CSI2=y
-CONFIG_VIDEO_SUN8I_DEINTERLACE=y
-CONFIG_VIDEO_SUN8I_ROTATE=y
-
-#
-# Texas Instruments drivers
-#
-CONFIG_VIDEO_TI_VPDMA=y
-CONFIG_VIDEO_TI_SC=y
-CONFIG_VIDEO_TI_CSC=y
-CONFIG_VIDEO_TI_CAL=y
-CONFIG_VIDEO_TI_CAL_MC=y
-CONFIG_VIDEO_TI_VPE=y
-CONFIG_VIDEO_TI_VPE_DEBUG=y
-CONFIG_VIDEO_AM437X_VPFE=y
-CONFIG_VIDEO_DAVINCI_VPIF_DISPLAY=y
-CONFIG_VIDEO_DAVINCI_VPIF_CAPTURE=y
-CONFIG_VIDEO_DAVINCI_VPBE_DISPLAY=y
-CONFIG_VIDEO_OMAP2_VOUT_VRFB=y
-CONFIG_VIDEO_OMAP2_VOUT=y
-CONFIG_VIDEO_OMAP3=y
-CONFIG_VIDEO_OMAP3_DEBUG=y
-
-#
-# Verisilicon media platform drivers
-#
-CONFIG_VIDEO_HANTRO=y
-CONFIG_VIDEO_HANTRO_IMX8M=y
-CONFIG_VIDEO_HANTRO_SAMA5D4=y
-CONFIG_VIDEO_HANTRO_ROCKCHIP=y
-CONFIG_VIDEO_HANTRO_SUNXI=y
-
-#
-# VIA media platform drivers
-#
-CONFIG_VIDEO_VIA_CAMERA=y
-
-#
-# Xilinx media platform drivers
-#
-CONFIG_VIDEO_XILINX=y
-CONFIG_VIDEO_XILINX_CSI2RXSS=y
-CONFIG_VIDEO_XILINX_TPG=y
-CONFIG_VIDEO_XILINX_VTC=y
-
-#
-# MMC/SDIO DVB adapters
-#
-CONFIG_SMS_SDIO_DRV=y
-CONFIG_V4L_TEST_DRIVERS=y
-CONFIG_VIDEO_VIM2M=y
-CONFIG_VIDEO_VICODEC=y
-CONFIG_VIDEO_VIMC=y
-CONFIG_VIDEO_VIVID=y
-CONFIG_VIDEO_VIVID_CEC=y
-CONFIG_VIDEO_VIVID_MAX_DEVS=64
-CONFIG_DVB_TEST_DRIVERS=y
-CONFIG_DVB_VIDTV=y
-
-#
-# FireWire (IEEE 1394) Adapters
-#
-CONFIG_DVB_FIREDTV=y
-CONFIG_DVB_FIREDTV_INPUT=y
-CONFIG_MEDIA_COMMON_OPTIONS=y
-
-#
-# common driver options
-#
-CONFIG_CYPRESS_FIRMWARE=y
-CONFIG_TTPCI_EEPROM=y
-CONFIG_VIDEO_CX2341X=y
-CONFIG_VIDEO_TVEEPROM=y
-CONFIG_DVB_B2C2_FLEXCOP=y
-CONFIG_DVB_B2C2_FLEXCOP_DEBUG=y
-CONFIG_SMS_SIANO_MDTV=y
-CONFIG_SMS_SIANO_RC=y
-CONFIG_SMS_SIANO_DEBUGFS=y
-CONFIG_VIDEO_V4L2_TPG=y
-CONFIG_VIDEOBUF2_CORE=y
-CONFIG_VIDEOBUF2_V4L2=y
-CONFIG_VIDEOBUF2_MEMOPS=y
-CONFIG_VIDEOBUF2_DMA_CONTIG=y
-CONFIG_VIDEOBUF2_VMALLOC=y
-CONFIG_VIDEOBUF2_DMA_SG=y
-CONFIG_VIDEOBUF2_DVB=y
-# end of Media drivers
-
-#
-# Media ancillary drivers
-#
-CONFIG_MEDIA_ATTACH=y
-
-#
-# IR I2C driver auto-selected by 'Autoselect ancillary drivers'
-#
-CONFIG_VIDEO_IR_I2C=y
-
-#
-# Camera sensor devices
-#
-CONFIG_VIDEO_APTINA_PLL=y
-CONFIG_VIDEO_CCS_PLL=y
-CONFIG_VIDEO_AR0521=y
-CONFIG_VIDEO_HI556=y
-CONFIG_VIDEO_HI846=y
-CONFIG_VIDEO_HI847=y
-CONFIG_VIDEO_IMX208=y
-CONFIG_VIDEO_IMX214=y
-CONFIG_VIDEO_IMX219=y
-CONFIG_VIDEO_IMX258=y
-CONFIG_VIDEO_IMX274=y
-CONFIG_VIDEO_IMX290=y
-CONFIG_VIDEO_IMX319=y
-CONFIG_VIDEO_IMX334=y
-CONFIG_VIDEO_IMX335=y
-CONFIG_VIDEO_IMX355=y
-CONFIG_VIDEO_IMX412=y
-CONFIG_VIDEO_MAX9271_LIB=y
-CONFIG_VIDEO_MT9M001=y
-CONFIG_VIDEO_MT9M032=y
-CONFIG_VIDEO_MT9M111=y
-CONFIG_VIDEO_MT9P031=y
-CONFIG_VIDEO_MT9T001=y
-CONFIG_VIDEO_MT9T112=y
-CONFIG_VIDEO_MT9V011=y
-CONFIG_VIDEO_MT9V032=y
-CONFIG_VIDEO_MT9V111=y
-CONFIG_VIDEO_NOON010PC30=y
-CONFIG_VIDEO_OG01A1B=y
-CONFIG_VIDEO_OV02A10=y
-CONFIG_VIDEO_OV08D10=y
-CONFIG_VIDEO_OV13858=y
-CONFIG_VIDEO_OV13B10=y
-CONFIG_VIDEO_OV2640=y
-CONFIG_VIDEO_OV2659=y
-CONFIG_VIDEO_OV2680=y
-CONFIG_VIDEO_OV2685=y
-CONFIG_VIDEO_OV2740=y
-CONFIG_VIDEO_OV5640=y
-CONFIG_VIDEO_OV5645=y
-CONFIG_VIDEO_OV5647=y
-CONFIG_VIDEO_OV5648=y
-CONFIG_VIDEO_OV5670=y
-CONFIG_VIDEO_OV5675=y
-CONFIG_VIDEO_OV5693=y
-CONFIG_VIDEO_OV5695=y
-CONFIG_VIDEO_OV6650=y
-CONFIG_VIDEO_OV7251=y
-CONFIG_VIDEO_OV7640=y
-CONFIG_VIDEO_OV7670=y
-CONFIG_VIDEO_OV772X=y
-CONFIG_VIDEO_OV7740=y
-CONFIG_VIDEO_OV8856=y
-CONFIG_VIDEO_OV8865=y
-CONFIG_VIDEO_OV9282=y
-CONFIG_VIDEO_OV9640=y
-CONFIG_VIDEO_OV9650=y
-CONFIG_VIDEO_OV9734=y
-CONFIG_VIDEO_RDACM20=y
-CONFIG_VIDEO_RDACM21=y
-CONFIG_VIDEO_RJ54N1=y
-CONFIG_VIDEO_S5C73M3=y
-CONFIG_VIDEO_S5K4ECGX=y
-CONFIG_VIDEO_S5K5BAF=y
-CONFIG_VIDEO_S5K6A3=y
-CONFIG_VIDEO_S5K6AA=y
-CONFIG_VIDEO_SR030PC30=y
-CONFIG_VIDEO_VS6624=y
-CONFIG_VIDEO_CCS=y
-CONFIG_VIDEO_ET8EK8=y
-CONFIG_VIDEO_M5MOLS=y
-# end of Camera sensor devices
-
-#
-# Lens drivers
-#
-CONFIG_VIDEO_AD5820=y
-CONFIG_VIDEO_AK7375=y
-CONFIG_VIDEO_DW9714=y
-CONFIG_VIDEO_DW9768=y
-CONFIG_VIDEO_DW9807_VCM=y
-# end of Lens drivers
-
-#
-# Flash devices
-#
-CONFIG_VIDEO_ADP1653=y
-CONFIG_VIDEO_LM3560=y
-CONFIG_VIDEO_LM3646=y
-# end of Flash devices
-
-#
-# Audio decoders, processors and mixers
-#
-CONFIG_VIDEO_CS3308=y
-CONFIG_VIDEO_CS5345=y
-CONFIG_VIDEO_CS53L32A=y
-CONFIG_VIDEO_MSP3400=y
-CONFIG_VIDEO_SONY_BTF_MPX=y
-CONFIG_VIDEO_TDA1997X=y
-CONFIG_VIDEO_TDA7432=y
-CONFIG_VIDEO_TDA9840=y
-CONFIG_VIDEO_TEA6415C=y
-CONFIG_VIDEO_TEA6420=y
-CONFIG_VIDEO_TLV320AIC23B=y
-CONFIG_VIDEO_TVAUDIO=y
-CONFIG_VIDEO_UDA1342=y
-CONFIG_VIDEO_VP27SMPX=y
-CONFIG_VIDEO_WM8739=y
-CONFIG_VIDEO_WM8775=y
-# end of Audio decoders, processors and mixers
-
-#
-# RDS decoders
-#
-CONFIG_VIDEO_SAA6588=y
-# end of RDS decoders
-
-#
-# Video decoders
-#
-CONFIG_VIDEO_ADV7180=y
-CONFIG_VIDEO_ADV7183=y
-CONFIG_VIDEO_ADV748X=y
-CONFIG_VIDEO_ADV7604=y
-CONFIG_VIDEO_ADV7604_CEC=y
-CONFIG_VIDEO_ADV7842=y
-CONFIG_VIDEO_ADV7842_CEC=y
-CONFIG_VIDEO_BT819=y
-CONFIG_VIDEO_BT856=y
-CONFIG_VIDEO_BT866=y
-CONFIG_VIDEO_ISL7998X=y
-CONFIG_VIDEO_KS0127=y
-CONFIG_VIDEO_MAX9286=y
-CONFIG_VIDEO_ML86V7667=y
-CONFIG_VIDEO_SAA7110=y
-CONFIG_VIDEO_SAA711X=y
-CONFIG_VIDEO_TC358743=y
-CONFIG_VIDEO_TC358743_CEC=y
-CONFIG_VIDEO_TVP514X=y
-CONFIG_VIDEO_TVP5150=y
-CONFIG_VIDEO_TVP7002=y
-CONFIG_VIDEO_TW2804=y
-CONFIG_VIDEO_TW9903=y
-CONFIG_VIDEO_TW9906=y
-CONFIG_VIDEO_TW9910=y
-CONFIG_VIDEO_VPX3220=y
-
-#
-# Video and audio decoders
-#
-CONFIG_VIDEO_SAA717X=y
-CONFIG_VIDEO_CX25840=y
-# end of Video decoders
-
-#
-# Video encoders
-#
-CONFIG_VIDEO_AD9389B=y
-CONFIG_VIDEO_ADV7170=y
-CONFIG_VIDEO_ADV7175=y
-CONFIG_VIDEO_ADV7343=y
-CONFIG_VIDEO_ADV7393=y
-CONFIG_VIDEO_ADV7511=y
-CONFIG_VIDEO_ADV7511_CEC=y
-CONFIG_VIDEO_AK881X=y
-CONFIG_VIDEO_SAA7127=y
-CONFIG_VIDEO_SAA7185=y
-CONFIG_VIDEO_THS8200=y
-# end of Video encoders
-
-#
-# Video improvement chips
-#
-CONFIG_VIDEO_UPD64031A=y
-CONFIG_VIDEO_UPD64083=y
-# end of Video improvement chips
-
-#
-# Audio/Video compression chips
-#
-CONFIG_VIDEO_SAA6752HS=y
-# end of Audio/Video compression chips
-
-#
-# SDR tuner chips
-#
-CONFIG_SDR_MAX2175=y
-# end of SDR tuner chips
-
-#
-# Miscellaneous helper chips
-#
-CONFIG_VIDEO_I2C=y
-CONFIG_VIDEO_M52790=y
-CONFIG_VIDEO_ST_MIPID02=y
-CONFIG_VIDEO_THS7303=y
-# end of Miscellaneous helper chips
-
-#
-# Media SPI Adapters
-#
-CONFIG_CXD2880_SPI_DRV=y
-CONFIG_VIDEO_GS1662=y
-# end of Media SPI Adapters
-
-CONFIG_MEDIA_TUNER=y
-
-#
-# Customize TV tuners
-#
-CONFIG_MEDIA_TUNER_E4000=y
-CONFIG_MEDIA_TUNER_FC0011=y
-CONFIG_MEDIA_TUNER_FC0012=y
-CONFIG_MEDIA_TUNER_FC0013=y
-CONFIG_MEDIA_TUNER_FC2580=y
-CONFIG_MEDIA_TUNER_IT913X=y
-CONFIG_MEDIA_TUNER_M88RS6000T=y
-CONFIG_MEDIA_TUNER_MAX2165=y
-CONFIG_MEDIA_TUNER_MC44S803=y
-CONFIG_MEDIA_TUNER_MSI001=y
-CONFIG_MEDIA_TUNER_MT2060=y
-CONFIG_MEDIA_TUNER_MT2063=y
-CONFIG_MEDIA_TUNER_MT20XX=y
-CONFIG_MEDIA_TUNER_MT2131=y
-CONFIG_MEDIA_TUNER_MT2266=y
-CONFIG_MEDIA_TUNER_MXL301RF=y
-CONFIG_MEDIA_TUNER_MXL5005S=y
-CONFIG_MEDIA_TUNER_MXL5007T=y
-CONFIG_MEDIA_TUNER_QM1D1B0004=y
-CONFIG_MEDIA_TUNER_QM1D1C0042=y
-CONFIG_MEDIA_TUNER_QT1010=y
-CONFIG_MEDIA_TUNER_R820T=y
-CONFIG_MEDIA_TUNER_SI2157=y
-CONFIG_MEDIA_TUNER_SIMPLE=y
-CONFIG_MEDIA_TUNER_TDA18212=y
-CONFIG_MEDIA_TUNER_TDA18218=y
-CONFIG_MEDIA_TUNER_TDA18250=y
-CONFIG_MEDIA_TUNER_TDA18271=y
-CONFIG_MEDIA_TUNER_TDA827X=y
-CONFIG_MEDIA_TUNER_TDA8290=y
-CONFIG_MEDIA_TUNER_TDA9887=y
-CONFIG_MEDIA_TUNER_TEA5761=y
-CONFIG_MEDIA_TUNER_TEA5767=y
-CONFIG_MEDIA_TUNER_TUA9001=y
-CONFIG_MEDIA_TUNER_XC2028=y
-CONFIG_MEDIA_TUNER_XC4000=y
-CONFIG_MEDIA_TUNER_XC5000=y
-# end of Customize TV tuners
-
-#
-# Customise DVB Frontends
-#
-
-#
-# Multistandard (satellite) frontends
-#
-CONFIG_DVB_M88DS3103=y
-CONFIG_DVB_MXL5XX=y
-CONFIG_DVB_STB0899=y
-CONFIG_DVB_STB6100=y
-CONFIG_DVB_STV090x=y
-CONFIG_DVB_STV0910=y
-CONFIG_DVB_STV6110x=y
-CONFIG_DVB_STV6111=y
-
-#
-# Multistandard (cable + terrestrial) frontends
-#
-CONFIG_DVB_DRXK=y
-CONFIG_DVB_MN88472=y
-CONFIG_DVB_MN88473=y
-CONFIG_DVB_SI2165=y
-CONFIG_DVB_TDA18271C2DD=y
-
-#
-# DVB-S (satellite) frontends
-#
-CONFIG_DVB_CX24110=y
-CONFIG_DVB_CX24116=y
-CONFIG_DVB_CX24117=y
-CONFIG_DVB_CX24120=y
-CONFIG_DVB_CX24123=y
-CONFIG_DVB_DS3000=y
-CONFIG_DVB_MB86A16=y
-CONFIG_DVB_MT312=y
-CONFIG_DVB_S5H1420=y
-CONFIG_DVB_SI21XX=y
-CONFIG_DVB_STB6000=y
-CONFIG_DVB_STV0288=y
-CONFIG_DVB_STV0299=y
-CONFIG_DVB_STV0900=y
-CONFIG_DVB_STV6110=y
-CONFIG_DVB_TDA10071=y
-CONFIG_DVB_TDA10086=y
-CONFIG_DVB_TDA8083=y
-CONFIG_DVB_TDA8261=y
-CONFIG_DVB_TDA826X=y
-CONFIG_DVB_TS2020=y
-CONFIG_DVB_TUA6100=y
-CONFIG_DVB_TUNER_CX24113=y
-CONFIG_DVB_TUNER_ITD1000=y
-CONFIG_DVB_VES1X93=y
-CONFIG_DVB_ZL10036=y
-CONFIG_DVB_ZL10039=y
-
-#
-# DVB-T (terrestrial) frontends
-#
-CONFIG_DVB_AF9013=y
-CONFIG_DVB_AS102_FE=y
-CONFIG_DVB_CX22700=y
-CONFIG_DVB_CX22702=y
-CONFIG_DVB_CXD2820R=y
-CONFIG_DVB_CXD2841ER=y
-CONFIG_DVB_DIB3000MB=y
-CONFIG_DVB_DIB3000MC=y
-CONFIG_DVB_DIB7000M=y
-CONFIG_DVB_DIB7000P=y
-CONFIG_DVB_DIB9000=y
-CONFIG_DVB_DRXD=y
-CONFIG_DVB_EC100=y
-CONFIG_DVB_GP8PSK_FE=y
-CONFIG_DVB_L64781=y
-CONFIG_DVB_MT352=y
-CONFIG_DVB_NXT6000=y
-CONFIG_DVB_RTL2830=y
-CONFIG_DVB_RTL2832=y
-CONFIG_DVB_RTL2832_SDR=y
-CONFIG_DVB_S5H1432=y
-CONFIG_DVB_SI2168=y
-CONFIG_DVB_SP887X=y
-CONFIG_DVB_STV0367=y
-CONFIG_DVB_TDA10048=y
-CONFIG_DVB_TDA1004X=y
-CONFIG_DVB_ZD1301_DEMOD=y
-CONFIG_DVB_ZL10353=y
-CONFIG_DVB_CXD2880=y
-
-#
-# DVB-C (cable) frontends
-#
-CONFIG_DVB_STV0297=y
-CONFIG_DVB_TDA10021=y
-CONFIG_DVB_TDA10023=y
-CONFIG_DVB_VES1820=y
-
-#
-# ATSC (North American/Korean Terrestrial/Cable DTV) frontends
-#
-CONFIG_DVB_AU8522=y
-CONFIG_DVB_AU8522_DTV=y
-CONFIG_DVB_AU8522_V4L=y
-CONFIG_DVB_BCM3510=y
-CONFIG_DVB_LG2160=y
-CONFIG_DVB_LGDT3305=y
-CONFIG_DVB_LGDT3306A=y
-CONFIG_DVB_LGDT330X=y
-CONFIG_DVB_MXL692=y
-CONFIG_DVB_NXT200X=y
-CONFIG_DVB_OR51132=y
-CONFIG_DVB_OR51211=y
-CONFIG_DVB_S5H1409=y
-CONFIG_DVB_S5H1411=y
-
-#
-# ISDB-T (terrestrial) frontends
-#
-CONFIG_DVB_DIB8000=y
-CONFIG_DVB_MB86A20S=y
-CONFIG_DVB_S921=y
-
-#
-# ISDB-S (satellite) & ISDB-T (terrestrial) frontends
-#
-CONFIG_DVB_MN88443X=y
-CONFIG_DVB_TC90522=y
-
-#
-# Digital terrestrial only tuners/PLL
-#
-CONFIG_DVB_PLL=y
-CONFIG_DVB_TUNER_DIB0070=y
-CONFIG_DVB_TUNER_DIB0090=y
-
-#
-# SEC control devices for DVB-S
-#
-CONFIG_DVB_A8293=y
-CONFIG_DVB_AF9033=y
-CONFIG_DVB_ASCOT2E=y
-CONFIG_DVB_ATBM8830=y
-CONFIG_DVB_HELENE=y
-CONFIG_DVB_HORUS3A=y
-CONFIG_DVB_ISL6405=y
-CONFIG_DVB_ISL6421=y
-CONFIG_DVB_ISL6423=y
-CONFIG_DVB_IX2505V=y
-CONFIG_DVB_LGS8GL5=y
-CONFIG_DVB_LGS8GXX=y
-CONFIG_DVB_LNBH25=y
-CONFIG_DVB_LNBH29=y
-CONFIG_DVB_LNBP21=y
-CONFIG_DVB_LNBP22=y
-CONFIG_DVB_M88RS2000=y
-CONFIG_DVB_TDA665x=y
-CONFIG_DVB_DRX39XYJ=y
-
-#
-# Common Interface (EN50221) controller drivers
-#
-CONFIG_DVB_CXD2099=y
-CONFIG_DVB_SP2=y
-# end of Customise DVB Frontends
-
-#
-# Tools to develop new frontends
-#
-CONFIG_DVB_DUMMY_FE=y
-# end of Media ancillary drivers
-
-#
-# Graphics support
-#
-CONFIG_APERTURE_HELPERS=y
-CONFIG_VIDEO_NOMODESET=y
-CONFIG_AGP=y
-CONFIG_AGP_I460=y
-CONFIG_AGP_HP_ZX1=y
-CONFIG_IMX_IPUV3_CORE=y
-CONFIG_DRM=y
-CONFIG_DRM_MIPI_DBI=y
-CONFIG_DRM_MIPI_DSI=y
-CONFIG_DRM_DEBUG_MM=y
-CONFIG_DRM_KUNIT_TEST_HELPERS=y
-CONFIG_DRM_KUNIT_TEST=y
-CONFIG_DRM_KMS_HELPER=y
-CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS=y
-CONFIG_DRM_DEBUG_MODESET_LOCK=y
-CONFIG_DRM_FBDEV_EMULATION=y
-CONFIG_DRM_FBDEV_OVERALLOC=100
-CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM=y
-CONFIG_DRM_LOAD_EDID_FIRMWARE=y
-CONFIG_DRM_DP_AUX_BUS=y
-CONFIG_DRM_DISPLAY_HELPER=y
-CONFIG_DRM_DISPLAY_DP_HELPER=y
-CONFIG_DRM_DISPLAY_HDCP_HELPER=y
-CONFIG_DRM_DISPLAY_HDMI_HELPER=y
-CONFIG_DRM_DP_AUX_CHARDEV=y
-CONFIG_DRM_DP_CEC=y
-CONFIG_DRM_TTM=y
-CONFIG_DRM_BUDDY=y
-CONFIG_DRM_VRAM_HELPER=y
-CONFIG_DRM_TTM_HELPER=y
-CONFIG_DRM_GEM_DMA_HELPER=y
-CONFIG_DRM_GEM_SHMEM_HELPER=y
-CONFIG_DRM_SCHED=y
-
-#
-# I2C encoder or helper chips
-#
-CONFIG_DRM_I2C_CH7006=y
-CONFIG_DRM_I2C_SIL164=y
-CONFIG_DRM_I2C_NXP_TDA998X=y
-CONFIG_DRM_I2C_NXP_TDA9950=y
-# end of I2C encoder or helper chips
-
-#
-# ARM devices
-#
-CONFIG_DRM_HDLCD=y
-CONFIG_DRM_HDLCD_SHOW_UNDERRUN=y
-CONFIG_DRM_MALI_DISPLAY=y
-CONFIG_DRM_KOMEDA=y
-# end of ARM devices
-
-CONFIG_DRM_RADEON=y
-CONFIG_DRM_RADEON_USERPTR=y
-CONFIG_DRM_AMDGPU=y
-CONFIG_DRM_AMDGPU_SI=y
-CONFIG_DRM_AMDGPU_CIK=y
-CONFIG_DRM_AMDGPU_USERPTR=y
-
-#
-# ACP (Audio CoProcessor) Configuration
-#
-CONFIG_DRM_AMD_ACP=y
-# end of ACP (Audio CoProcessor) Configuration
-
-#
-# Display Engine Configuration
-#
-CONFIG_DRM_AMD_DC=y
-CONFIG_DRM_AMD_DC_HDCP=y
-CONFIG_DRM_AMD_DC_SI=y
-# end of Display Engine Configuration
-
-CONFIG_DRM_NOUVEAU=y
-CONFIG_NOUVEAU_LEGACY_CTX_SUPPORT=y
-CONFIG_NOUVEAU_DEBUG=5
-CONFIG_NOUVEAU_DEBUG_DEFAULT=3
-CONFIG_NOUVEAU_DEBUG_MMU=y
-CONFIG_NOUVEAU_DEBUG_PUSH=y
-CONFIG_DRM_NOUVEAU_BACKLIGHT=y
-CONFIG_DRM_KMB_DISPLAY=y
-CONFIG_DRM_VGEM=y
-CONFIG_DRM_VKMS=y
-CONFIG_DRM_EXYNOS=y
-
-#
-# CRTCs
-#
-CONFIG_DRM_EXYNOS5433_DECON=y
-CONFIG_DRM_EXYNOS_MIXER=y
-CONFIG_DRM_EXYNOS_VIDI=y
-
-#
-# Encoders and Bridges
-#
-CONFIG_DRM_EXYNOS_DSI=y
-CONFIG_DRM_EXYNOS_HDMI=y
-CONFIG_DRM_EXYNOS_MIC=y
-
-#
-# Sub-drivers
-#
-CONFIG_DRM_EXYNOS_G2D=y
-CONFIG_DRM_EXYNOS_IPP=y
-CONFIG_DRM_EXYNOS_FIMC=y
-CONFIG_DRM_EXYNOS_ROTATOR=y
-CONFIG_DRM_EXYNOS_SCALER=y
-CONFIG_DRM_EXYNOS_GSC=y
-CONFIG_DRM_ROCKCHIP=y
-CONFIG_ROCKCHIP_VOP=y
-CONFIG_ROCKCHIP_VOP2=y
-CONFIG_ROCKCHIP_ANALOGIX_DP=y
-CONFIG_ROCKCHIP_CDN_DP=y
-CONFIG_ROCKCHIP_DW_HDMI=y
-CONFIG_ROCKCHIP_DW_MIPI_DSI=y
-CONFIG_ROCKCHIP_INNO_HDMI=y
-CONFIG_ROCKCHIP_LVDS=y
-CONFIG_ROCKCHIP_RGB=y
-CONFIG_ROCKCHIP_RK3066_HDMI=y
-CONFIG_DRM_UDL=y
-CONFIG_DRM_AST=y
-CONFIG_DRM_MGAG200=y
-CONFIG_DRM_RCAR_DW_HDMI=y
-CONFIG_DRM_RCAR_USE_LVDS=y
-CONFIG_DRM_RCAR_USE_MIPI_DSI=y
-CONFIG_DRM_RZG2L_MIPI_DSI=y
-CONFIG_DRM_SUN4I=y
-CONFIG_DRM_SUN4I_HDMI=y
-CONFIG_DRM_SUN4I_HDMI_CEC=y
-CONFIG_DRM_SUN4I_BACKEND=y
-CONFIG_DRM_SUN6I_DSI=y
-CONFIG_DRM_SUN8I_DW_HDMI=y
-CONFIG_DRM_SUN8I_MIXER=y
-CONFIG_DRM_SUN8I_TCON_TOP=y
-CONFIG_DRM_QXL=y
-CONFIG_DRM_VIRTIO_GPU=y
-CONFIG_DRM_MSM=y
-CONFIG_DRM_MSM_GPU_STATE=y
-CONFIG_DRM_MSM_GPU_SUDO=y
-CONFIG_DRM_MSM_MDSS=y
-CONFIG_DRM_MSM_MDP4=y
-CONFIG_DRM_MSM_MDP5=y
-CONFIG_DRM_MSM_DPU=y
-CONFIG_DRM_MSM_DP=y
-CONFIG_DRM_MSM_DSI=y
-CONFIG_DRM_MSM_DSI_28NM_PHY=y
-CONFIG_DRM_MSM_DSI_20NM_PHY=y
-CONFIG_DRM_MSM_DSI_28NM_8960_PHY=y
-CONFIG_DRM_MSM_DSI_14NM_PHY=y
-CONFIG_DRM_MSM_DSI_10NM_PHY=y
-CONFIG_DRM_MSM_DSI_7NM_PHY=y
-CONFIG_DRM_MSM_HDMI=y
-CONFIG_DRM_MSM_HDMI_HDCP=y
-CONFIG_DRM_PANEL=y
-
-#
-# Display Panels
-#
-CONFIG_DRM_PANEL_ABT_Y030XX067A=y
-CONFIG_DRM_PANEL_ARM_VERSATILE=y
-CONFIG_DRM_PANEL_ASUS_Z00T_TM5P5_NT35596=y
-CONFIG_DRM_PANEL_BOE_BF060Y8M_AJ0=y
-CONFIG_DRM_PANEL_BOE_HIMAX8279D=y
-CONFIG_DRM_PANEL_BOE_TV101WUM_NL6=y
-CONFIG_DRM_PANEL_DSI_CM=y
-CONFIG_DRM_PANEL_LVDS=y
-CONFIG_DRM_PANEL_SIMPLE=y
-CONFIG_DRM_PANEL_EDP=y
-CONFIG_DRM_PANEL_EBBG_FT8719=y
-CONFIG_DRM_PANEL_ELIDA_KD35T133=y
-CONFIG_DRM_PANEL_FEIXIN_K101_IM2BA02=y
-CONFIG_DRM_PANEL_FEIYANG_FY07024DI26A30D=y
-CONFIG_DRM_PANEL_ILITEK_IL9322=y
-CONFIG_DRM_PANEL_ILITEK_ILI9341=y
-CONFIG_DRM_PANEL_ILITEK_ILI9881C=y
-CONFIG_DRM_PANEL_INNOLUX_EJ030NA=y
-CONFIG_DRM_PANEL_INNOLUX_P079ZCA=y
-CONFIG_DRM_PANEL_JADARD_JD9365DA_H3=y
-CONFIG_DRM_PANEL_JDI_LT070ME05000=y
-CONFIG_DRM_PANEL_JDI_R63452=y
-CONFIG_DRM_PANEL_KHADAS_TS050=y
-CONFIG_DRM_PANEL_KINGDISPLAY_KD097D04=y
-CONFIG_DRM_PANEL_LEADTEK_LTK050H3146W=y
-CONFIG_DRM_PANEL_LEADTEK_LTK500HD1829=y
-CONFIG_DRM_PANEL_SAMSUNG_LD9040=y
-CONFIG_DRM_PANEL_LG_LB035Q02=y
-CONFIG_DRM_PANEL_LG_LG4573=y
-CONFIG_DRM_PANEL_NEC_NL8048HL11=y
-CONFIG_DRM_PANEL_NEWVISION_NV3051D=y
-CONFIG_DRM_PANEL_NEWVISION_NV3052C=y
-CONFIG_DRM_PANEL_NOVATEK_NT35510=y
-CONFIG_DRM_PANEL_NOVATEK_NT35560=y
-CONFIG_DRM_PANEL_NOVATEK_NT35950=y
-CONFIG_DRM_PANEL_NOVATEK_NT36672A=y
-CONFIG_DRM_PANEL_NOVATEK_NT39016=y
-CONFIG_DRM_PANEL_MANTIX_MLAF057WE51=y
-CONFIG_DRM_PANEL_OLIMEX_LCD_OLINUXINO=y
-CONFIG_DRM_PANEL_ORISETECH_OTA5601A=y
-CONFIG_DRM_PANEL_ORISETECH_OTM8009A=y
-CONFIG_DRM_PANEL_OSD_OSD101T2587_53TS=y
-CONFIG_DRM_PANEL_PANASONIC_VVX10F034N00=y
-CONFIG_DRM_PANEL_RASPBERRYPI_TOUCHSCREEN=y
-CONFIG_DRM_PANEL_RAYDIUM_RM67191=y
-CONFIG_DRM_PANEL_RAYDIUM_RM68200=y
-CONFIG_DRM_PANEL_RONBO_RB070D30=y
-CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20=y
-CONFIG_DRM_PANEL_SAMSUNG_DB7430=y
-CONFIG_DRM_PANEL_SAMSUNG_S6D16D0=y
-CONFIG_DRM_PANEL_SAMSUNG_S6D27A1=y
-CONFIG_DRM_PANEL_SAMSUNG_S6E3HA2=y
-CONFIG_DRM_PANEL_SAMSUNG_S6E63J0X03=y
-CONFIG_DRM_PANEL_SAMSUNG_S6E63M0=y
-CONFIG_DRM_PANEL_SAMSUNG_S6E63M0_SPI=y
-CONFIG_DRM_PANEL_SAMSUNG_S6E63M0_DSI=y
-CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01=y
-CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0=y
-CONFIG_DRM_PANEL_SAMSUNG_SOFEF00=y
-CONFIG_DRM_PANEL_SEIKO_43WVF1G=y
-CONFIG_DRM_PANEL_SHARP_LQ101R1SX01=y
-CONFIG_DRM_PANEL_SHARP_LS037V7DW01=y
-CONFIG_DRM_PANEL_SHARP_LS043T1LE01=y
-CONFIG_DRM_PANEL_SHARP_LS060T1SX01=y
-CONFIG_DRM_PANEL_SITRONIX_ST7701=y
-CONFIG_DRM_PANEL_SITRONIX_ST7703=y
-CONFIG_DRM_PANEL_SITRONIX_ST7789V=y
-CONFIG_DRM_PANEL_SONY_ACX565AKM=y
-CONFIG_DRM_PANEL_SONY_TULIP_TRULY_NT35521=y
-CONFIG_DRM_PANEL_TDO_TL070WSH30=y
-CONFIG_DRM_PANEL_TPO_TD028TTEC1=y
-CONFIG_DRM_PANEL_TPO_TD043MTEA1=y
-CONFIG_DRM_PANEL_TPO_TPG110=y
-CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA=y
-CONFIG_DRM_PANEL_VISIONOX_RM69299=y
-CONFIG_DRM_PANEL_WIDECHIPS_WS2401=y
-CONFIG_DRM_PANEL_XINPENG_XPP055C272=y
-# end of Display Panels
-
-CONFIG_DRM_BRIDGE=y
-CONFIG_DRM_PANEL_BRIDGE=y
-
-#
-# Display Interface Bridges
-#
-CONFIG_DRM_CDNS_DSI=y
-CONFIG_DRM_CHIPONE_ICN6211=y
-CONFIG_DRM_CHRONTEL_CH7033=y
-CONFIG_DRM_CROS_EC_ANX7688=y
-CONFIG_DRM_DISPLAY_CONNECTOR=y
-CONFIG_DRM_FSL_LDB=y
-CONFIG_DRM_ITE_IT6505=y
-CONFIG_DRM_LONTIUM_LT8912B=y
-CONFIG_DRM_LONTIUM_LT9211=y
-CONFIG_DRM_LONTIUM_LT9611=y
-CONFIG_DRM_LONTIUM_LT9611UXC=y
-CONFIG_DRM_ITE_IT66121=y
-CONFIG_DRM_LVDS_CODEC=y
-CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW=y
-CONFIG_DRM_NWL_MIPI_DSI=y
-CONFIG_DRM_NXP_PTN3460=y
-CONFIG_DRM_PARADE_PS8622=y
-CONFIG_DRM_PARADE_PS8640=y
-CONFIG_DRM_SIL_SII8620=y
-CONFIG_DRM_SII902X=y
-CONFIG_DRM_SII9234=y
-CONFIG_DRM_SIMPLE_BRIDGE=y
-CONFIG_DRM_THINE_THC63LVD1024=y
-CONFIG_DRM_TOSHIBA_TC358762=y
-CONFIG_DRM_TOSHIBA_TC358764=y
-CONFIG_DRM_TOSHIBA_TC358767=y
-CONFIG_DRM_TOSHIBA_TC358768=y
-CONFIG_DRM_TOSHIBA_TC358775=y
-CONFIG_DRM_TI_DLPC3433=y
-CONFIG_DRM_TI_TFP410=y
-CONFIG_DRM_TI_SN65DSI83=y
-CONFIG_DRM_TI_SN65DSI86=y
-CONFIG_DRM_TI_TPD12S015=y
-CONFIG_DRM_ANALOGIX_ANX6345=y
-CONFIG_DRM_ANALOGIX_ANX78XX=y
-CONFIG_DRM_ANALOGIX_DP=y
-CONFIG_DRM_ANALOGIX_ANX7625=y
-CONFIG_DRM_I2C_ADV7511=y
-CONFIG_DRM_I2C_ADV7511_AUDIO=y
-CONFIG_DRM_I2C_ADV7511_CEC=y
-CONFIG_DRM_CDNS_MHDP8546=y
-CONFIG_DRM_CDNS_MHDP8546_J721E=y
-CONFIG_DRM_IMX8QM_LDB=y
-CONFIG_DRM_IMX8QXP_LDB=y
-CONFIG_DRM_IMX8QXP_PIXEL_COMBINER=y
-CONFIG_DRM_IMX8QXP_PIXEL_LINK=y
-CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI=y
-CONFIG_DRM_DW_HDMI=y
-CONFIG_DRM_DW_HDMI_AHB_AUDIO=y
-CONFIG_DRM_DW_HDMI_I2S_AUDIO=y
-CONFIG_DRM_DW_HDMI_GP_AUDIO=y
-CONFIG_DRM_DW_HDMI_CEC=y
-CONFIG_DRM_DW_MIPI_DSI=y
-# end of Display Interface Bridges
-
-CONFIG_DRM_IMX=y
-CONFIG_DRM_IMX_PARALLEL_DISPLAY=y
-CONFIG_DRM_IMX_TVE=y
-CONFIG_DRM_IMX_LDB=y
-CONFIG_DRM_IMX_HDMI=y
-CONFIG_DRM_INGENIC=y
-CONFIG_DRM_INGENIC_IPU=y
-CONFIG_DRM_V3D=y
-CONFIG_DRM_VC4=y
-CONFIG_DRM_VC4_HDMI_CEC=y
-CONFIG_DRM_VC4_KUNIT_TEST=y
-CONFIG_DRM_ETNAVIV=y
-CONFIG_DRM_ETNAVIV_THERMAL=y
-CONFIG_DRM_HISI_HIBMC=y
-CONFIG_DRM_LOGICVC=y
-CONFIG_DRM_MXS=y
-CONFIG_DRM_MXSFB=y
-CONFIG_DRM_IMX_LCDIF=y
-CONFIG_DRM_ARCPGU=y
-CONFIG_DRM_BOCHS=y
-CONFIG_DRM_CIRRUS_QEMU=y
-CONFIG_DRM_GM12U320=y
-CONFIG_DRM_OFDRM=y
-CONFIG_DRM_PANEL_MIPI_DBI=y
-CONFIG_DRM_SIMPLEDRM=y
-CONFIG_TINYDRM_HX8357D=y
-CONFIG_TINYDRM_ILI9163=y
-CONFIG_TINYDRM_ILI9225=y
-CONFIG_TINYDRM_ILI9341=y
-CONFIG_TINYDRM_ILI9486=y
-CONFIG_TINYDRM_MI0283QT=y
-CONFIG_TINYDRM_REPAPER=y
-CONFIG_TINYDRM_ST7586=y
-CONFIG_TINYDRM_ST7735R=y
-CONFIG_DRM_PL111=y
-CONFIG_DRM_TVE200=y
-CONFIG_DRM_LIMA=y
-CONFIG_DRM_PANFROST=y
-CONFIG_DRM_ASPEED_GFX=y
-CONFIG_DRM_MCDE=y
-CONFIG_DRM_TIDSS=y
-CONFIG_DRM_ZYNQMP_DPSUB=y
-CONFIG_DRM_GUD=y
-CONFIG_DRM_SSD130X=y
-CONFIG_DRM_SSD130X_I2C=y
-CONFIG_DRM_SSD130X_SPI=y
-CONFIG_DRM_SPRD=y
-CONFIG_DRM_LEGACY=y
-CONFIG_DRM_TDFX=y
-CONFIG_DRM_R128=y
-CONFIG_DRM_MGA=y
-CONFIG_DRM_SIS=y
-CONFIG_DRM_VIA=y
-CONFIG_DRM_SAVAGE=y
-CONFIG_DRM_EXPORT_FOR_TESTS=y
-CONFIG_DRM_PANEL_ORIENTATION_QUIRKS=y
-CONFIG_DRM_LIB_RANDOM=y
-CONFIG_DRM_PRIVACY_SCREEN=y
-
-#
-# Frame buffer Devices
-#
-CONFIG_FB_CMDLINE=y
-CONFIG_FB_NOTIFY=y
-CONFIG_FB=y
-CONFIG_FIRMWARE_EDID=y
-CONFIG_FB_DDC=y
-CONFIG_FB_CFB_FILLRECT=y
-CONFIG_FB_CFB_COPYAREA=y
-CONFIG_FB_CFB_IMAGEBLIT=y
-CONFIG_FB_CFB_REV_PIXELS_IN_BYTE=y
-CONFIG_FB_SYS_FILLRECT=y
-CONFIG_FB_SYS_COPYAREA=y
-CONFIG_FB_SYS_IMAGEBLIT=y
-CONFIG_FB_FOREIGN_ENDIAN=y
-CONFIG_FB_BOTH_ENDIAN=y
-# CONFIG_FB_BIG_ENDIAN is not set
-# CONFIG_FB_LITTLE_ENDIAN is not set
-CONFIG_FB_SYS_FOPS=y
-CONFIG_FB_DEFERRED_IO=y
-CONFIG_FB_SVGALIB=y
-CONFIG_FB_MACMODES=y
-CONFIG_FB_BACKLIGHT=y
-CONFIG_FB_MODE_HELPERS=y
-CONFIG_FB_TILEBLITTING=y
-
-#
-# Frame buffer hardware drivers
-#
-CONFIG_FB_CIRRUS=y
-CONFIG_FB_PM2=y
-CONFIG_FB_PM2_FIFO_DISCONNECT=y
-CONFIG_FB_CLPS711X=y
-CONFIG_FB_IMX=y
-CONFIG_FB_CYBER2000=y
-CONFIG_FB_CYBER2000_DDC=y
-CONFIG_FB_ARC=y
-CONFIG_FB_CONTROL=y
-CONFIG_FB_ASILIANT=y
-CONFIG_FB_IMSTT=y
-CONFIG_FB_UVESA=y
-CONFIG_FB_GBE=y
-CONFIG_FB_GBE_MEM=4
-CONFIG_FB_PVR2=y
-CONFIG_FB_OPENCORES=y
-CONFIG_FB_S1D13XXX=y
-CONFIG_FB_ATMEL=y
-CONFIG_FB_NVIDIA=y
-CONFIG_FB_NVIDIA_I2C=y
-CONFIG_FB_NVIDIA_DEBUG=y
-CONFIG_FB_NVIDIA_BACKLIGHT=y
-CONFIG_FB_RIVA=y
-CONFIG_FB_RIVA_I2C=y
-CONFIG_FB_RIVA_DEBUG=y
-CONFIG_FB_RIVA_BACKLIGHT=y
-CONFIG_FB_I740=y
-CONFIG_FB_MATROX=y
-CONFIG_FB_MATROX_MILLENIUM=y
-CONFIG_FB_MATROX_MYSTIQUE=y
-CONFIG_FB_MATROX_G=y
-CONFIG_FB_MATROX_I2C=y
-CONFIG_FB_MATROX_MAVEN=y
-CONFIG_FB_RADEON=y
-CONFIG_FB_RADEON_I2C=y
-CONFIG_FB_RADEON_BACKLIGHT=y
-CONFIG_FB_RADEON_DEBUG=y
-CONFIG_FB_ATY128=y
-CONFIG_FB_ATY128_BACKLIGHT=y
-CONFIG_FB_ATY=y
-CONFIG_FB_ATY_CT=y
-CONFIG_FB_ATY_GENERIC_LCD=y
-CONFIG_FB_ATY_GX=y
-CONFIG_FB_ATY_BACKLIGHT=y
-CONFIG_FB_S3=y
-CONFIG_FB_S3_DDC=y
-CONFIG_FB_SAVAGE=y
-CONFIG_FB_SAVAGE_I2C=y
-CONFIG_FB_SAVAGE_ACCEL=y
-CONFIG_FB_SIS=y
-CONFIG_FB_SIS_300=y
-CONFIG_FB_SIS_315=y
-CONFIG_FB_VIA=y
-CONFIG_FB_VIA_DIRECT_PROCFS=y
-CONFIG_FB_VIA_X_COMPATIBILITY=y
-CONFIG_FB_NEOMAGIC=y
-CONFIG_FB_KYRO=y
-CONFIG_FB_3DFX=y
-CONFIG_FB_3DFX_ACCEL=y
-CONFIG_FB_3DFX_I2C=y
-CONFIG_FB_VOODOO1=y
-CONFIG_FB_VT8623=y
-CONFIG_FB_TRIDENT=y
-CONFIG_FB_ARK=y
-CONFIG_FB_PM3=y
-CONFIG_FB_CARMINE=y
-CONFIG_FB_CARMINE_DRAM_EVAL=y
-# CONFIG_CARMINE_DRAM_CUSTOM is not set
-CONFIG_FB_WM8505=y
-CONFIG_FB_WMT_GE_ROPS=y
-CONFIG_FB_PXA168=y
-CONFIG_FB_W100=y
-CONFIG_FB_SH_MOBILE_LCDC=y
-CONFIG_FB_TMIO=y
-CONFIG_FB_TMIO_ACCELL=y
-CONFIG_FB_S3C=y
-CONFIG_FB_S3C_DEBUG_REGWRITE=y
-CONFIG_FB_SM501=y
-CONFIG_FB_SMSCUFX=y
-CONFIG_FB_UDL=y
-CONFIG_FB_IBM_GXT4500=y
-CONFIG_FB_GOLDFISH=y
-CONFIG_FB_DA8XX=y
-CONFIG_FB_VIRTUAL=y
-CONFIG_FB_METRONOME=y
-CONFIG_FB_MB862XX=y
-CONFIG_FB_MB862XX_PCI_GDC=y
-CONFIG_FB_MB862XX_I2C=y
-CONFIG_FB_BROADSHEET=y
-CONFIG_FB_SSD1307=y
-CONFIG_FB_SM712=y
-CONFIG_FB_OMAP_LCD_H3=y
-CONFIG_FB_OMAP2=y
-CONFIG_FB_OMAP2_DEBUG_SUPPORT=y
-CONFIG_FB_OMAP2_NUM_FBS=3
-CONFIG_FB_OMAP2_DSS_INIT=y
-CONFIG_FB_OMAP2_DSS=y
-CONFIG_FB_OMAP2_DSS_DEBUG=y
-CONFIG_FB_OMAP2_DSS_DEBUGFS=y
-CONFIG_FB_OMAP2_DSS_COLLECT_IRQ_STATS=y
-CONFIG_FB_OMAP2_DSS_DPI=y
-CONFIG_FB_OMAP2_DSS_VENC=y
-CONFIG_FB_OMAP2_DSS_HDMI_COMMON=y
-CONFIG_FB_OMAP4_DSS_HDMI=y
-CONFIG_FB_OMAP5_DSS_HDMI=y
-CONFIG_FB_OMAP2_DSS_SDI=y
-CONFIG_FB_OMAP2_DSS_DSI=y
-CONFIG_FB_OMAP2_DSS_MIN_FCK_PER_PCK=0
-CONFIG_FB_OMAP2_DSS_SLEEP_AFTER_VENC_RESET=y
-
-#
-# OMAPFB Panel and Encoder Drivers
-#
-CONFIG_FB_OMAP2_ENCODER_OPA362=y
-CONFIG_FB_OMAP2_ENCODER_TFP410=y
-CONFIG_FB_OMAP2_ENCODER_TPD12S015=y
-CONFIG_FB_OMAP2_CONNECTOR_DVI=y
-CONFIG_FB_OMAP2_CONNECTOR_HDMI=y
-CONFIG_FB_OMAP2_CONNECTOR_ANALOG_TV=y
-CONFIG_FB_OMAP2_PANEL_DPI=y
-CONFIG_FB_OMAP2_PANEL_LGPHILIPS_LB035Q02=y
-# end of OMAPFB Panel and Encoder Drivers
-
-CONFIG_MMP_DISP=y
-CONFIG_MMP_DISP_CONTROLLER=y
-CONFIG_MMP_DISP_SPI=y
-CONFIG_MMP_PANEL_TPOHVGA=y
-CONFIG_MMP_FB=y
-# end of Frame buffer Devices
-
-#
-# Backlight & LCD device support
-#
-CONFIG_LCD_CLASS_DEVICE=y
-CONFIG_LCD_L4F00242T03=y
-CONFIG_LCD_LMS283GF05=y
-CONFIG_LCD_LTV350QV=y
-CONFIG_LCD_ILI922X=y
-CONFIG_LCD_ILI9320=y
-CONFIG_LCD_TDO24M=y
-CONFIG_LCD_VGG2432A4=y
-CONFIG_LCD_PLATFORM=y
-CONFIG_LCD_AMS369FG06=y
-CONFIG_LCD_LMS501KF03=y
-CONFIG_LCD_HX8357=y
-CONFIG_LCD_OTM3225A=y
-CONFIG_BACKLIGHT_CLASS_DEVICE=y
-CONFIG_BACKLIGHT_ATMEL_LCDC=y
-CONFIG_BACKLIGHT_KTD253=y
-CONFIG_BACKLIGHT_LM3533=y
-CONFIG_BACKLIGHT_OMAP1=y
-CONFIG_BACKLIGHT_PWM=y
-CONFIG_BACKLIGHT_DA903X=y
-CONFIG_BACKLIGHT_DA9052=y
-CONFIG_BACKLIGHT_MAX8925=y
-CONFIG_BACKLIGHT_MT6370=y
-CONFIG_BACKLIGHT_QCOM_WLED=y
-CONFIG_BACKLIGHT_RT4831=y
-CONFIG_BACKLIGHT_WM831X=y
-CONFIG_BACKLIGHT_ADP5520=y
-CONFIG_BACKLIGHT_ADP8860=y
-CONFIG_BACKLIGHT_ADP8870=y
-CONFIG_BACKLIGHT_88PM860X=y
-CONFIG_BACKLIGHT_PCF50633=y
-CONFIG_BACKLIGHT_AAT2870=y
-CONFIG_BACKLIGHT_LM3630A=y
-CONFIG_BACKLIGHT_LM3639=y
-CONFIG_BACKLIGHT_LP855X=y
-CONFIG_BACKLIGHT_LP8788=y
-CONFIG_BACKLIGHT_PANDORA=y
-CONFIG_BACKLIGHT_SKY81452=y
-CONFIG_BACKLIGHT_TPS65217=y
-CONFIG_BACKLIGHT_AS3711=y
-CONFIG_BACKLIGHT_GPIO=y
-CONFIG_BACKLIGHT_LV5207LP=y
-CONFIG_BACKLIGHT_BD6107=y
-CONFIG_BACKLIGHT_ARCXCNN=y
-CONFIG_BACKLIGHT_RAVE_SP=y
-CONFIG_BACKLIGHT_LED=y
-# end of Backlight & LCD device support
-
-CONFIG_VGASTATE=y
-CONFIG_VIDEOMODE_HELPERS=y
-CONFIG_HDMI=y
-
-#
-# Console display driver support
-#
-CONFIG_VGA_CONSOLE=y
-CONFIG_DUMMY_CONSOLE=y
-CONFIG_DUMMY_CONSOLE_COLUMNS=80
-CONFIG_DUMMY_CONSOLE_ROWS=25
-CONFIG_FRAMEBUFFER_CONSOLE=y
-CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION=y
-CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY=y
-CONFIG_FRAMEBUFFER_CONSOLE_ROTATION=y
-CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER=y
-# end of Console display driver support
-
-CONFIG_LOGO=y
-CONFIG_LOGO_LINUX_MONO=y
-CONFIG_LOGO_LINUX_VGA16=y
-CONFIG_LOGO_LINUX_CLUT224=y
-# end of Graphics support
-
-CONFIG_SOUND=y
-CONFIG_SOUND_OSS_CORE=y
-CONFIG_SOUND_OSS_CORE_PRECLAIM=y
-CONFIG_SND=y
-CONFIG_SND_TIMER=y
-CONFIG_SND_PCM=y
-CONFIG_SND_PCM_ELD=y
-CONFIG_SND_PCM_IEC958=y
-CONFIG_SND_DMAENGINE_PCM=y
-CONFIG_SND_HWDEP=y
-CONFIG_SND_SEQ_DEVICE=y
-CONFIG_SND_RAWMIDI=y
-CONFIG_SND_COMPRESS_OFFLOAD=y
-CONFIG_SND_JACK=y
-CONFIG_SND_JACK_INPUT_DEV=y
-CONFIG_SND_OSSEMUL=y
-CONFIG_SND_MIXER_OSS=y
-CONFIG_SND_PCM_OSS=y
-CONFIG_SND_PCM_OSS_PLUGINS=y
-CONFIG_SND_PCM_TIMER=y
-CONFIG_SND_DYNAMIC_MINORS=y
-CONFIG_SND_MAX_CARDS=32
-CONFIG_SND_SUPPORT_OLD_API=y
-CONFIG_SND_PROC_FS=y
-CONFIG_SND_VERBOSE_PROCFS=y
-CONFIG_SND_VERBOSE_PRINTK=y
-CONFIG_SND_CTL_FAST_LOOKUP=y
-CONFIG_SND_DEBUG=y
-CONFIG_SND_DEBUG_VERBOSE=y
-CONFIG_SND_PCM_XRUN_DEBUG=y
-CONFIG_SND_CTL_INPUT_VALIDATION=y
-CONFIG_SND_CTL_DEBUG=y
-CONFIG_SND_JACK_INJECTION_DEBUG=y
-CONFIG_SND_VMASTER=y
-CONFIG_SND_CTL_LED=y
-CONFIG_SND_SEQUENCER=y
-CONFIG_SND_SEQ_DUMMY=y
-CONFIG_SND_SEQUENCER_OSS=y
-CONFIG_SND_SEQ_MIDI_EVENT=y
-CONFIG_SND_SEQ_MIDI=y
-CONFIG_SND_SEQ_MIDI_EMUL=y
-CONFIG_SND_SEQ_VIRMIDI=y
-CONFIG_SND_MPU401_UART=y
-CONFIG_SND_OPL3_LIB=y
-CONFIG_SND_OPL3_LIB_SEQ=y
-CONFIG_SND_VX_LIB=y
-CONFIG_SND_AC97_CODEC=y
-CONFIG_SND_DRIVERS=y
-CONFIG_SND_DUMMY=y
-CONFIG_SND_ALOOP=y
-CONFIG_SND_VIRMIDI=y
-CONFIG_SND_MTPAV=y
-CONFIG_SND_MTS64=y
-CONFIG_SND_SERIAL_U16550=y
-CONFIG_SND_SERIAL_GENERIC=y
-CONFIG_SND_MPU401=y
-CONFIG_SND_PORTMAN2X4=y
-CONFIG_SND_AC97_POWER_SAVE=y
-CONFIG_SND_AC97_POWER_SAVE_DEFAULT=0
-CONFIG_SND_PCI=y
-CONFIG_SND_AD1889=y
-CONFIG_SND_ATIIXP=y
-CONFIG_SND_ATIIXP_MODEM=y
-CONFIG_SND_AU8810=y
-CONFIG_SND_AU8820=y
-CONFIG_SND_AU8830=y
-CONFIG_SND_AW2=y
-CONFIG_SND_BT87X=y
-CONFIG_SND_BT87X_OVERCLOCK=y
-CONFIG_SND_CA0106=y
-CONFIG_SND_CMIPCI=y
-CONFIG_SND_OXYGEN_LIB=y
-CONFIG_SND_OXYGEN=y
-CONFIG_SND_CS4281=y
-CONFIG_SND_CS46XX=y
-CONFIG_SND_CS46XX_NEW_DSP=y
-CONFIG_SND_CS5535AUDIO=y
-CONFIG_SND_CTXFI=y
-CONFIG_SND_DARLA20=y
-CONFIG_SND_GINA20=y
-CONFIG_SND_LAYLA20=y
-CONFIG_SND_DARLA24=y
-CONFIG_SND_GINA24=y
-CONFIG_SND_LAYLA24=y
-CONFIG_SND_MONA=y
-CONFIG_SND_MIA=y
-CONFIG_SND_ECHO3G=y
-CONFIG_SND_INDIGO=y
-CONFIG_SND_INDIGOIO=y
-CONFIG_SND_INDIGODJ=y
-CONFIG_SND_INDIGOIOX=y
-CONFIG_SND_INDIGODJX=y
-CONFIG_SND_ENS1370=y
-CONFIG_SND_ENS1371=y
-CONFIG_SND_FM801=y
-CONFIG_SND_FM801_TEA575X_BOOL=y
-CONFIG_SND_HDSP=y
-
-#
-# Don't forget to add built-in firmwares for HDSP driver
-#
-CONFIG_SND_HDSPM=y
-CONFIG_SND_ICE1724=y
-CONFIG_SND_INTEL8X0=y
-CONFIG_SND_INTEL8X0M=y
-CONFIG_SND_KORG1212=y
-CONFIG_SND_LOLA=y
-CONFIG_SND_LX6464ES=y
-CONFIG_SND_MIXART=y
-CONFIG_SND_NM256=y
-CONFIG_SND_PCXHR=y
-CONFIG_SND_RIPTIDE=y
-CONFIG_SND_RME32=y
-CONFIG_SND_RME96=y
-CONFIG_SND_RME9652=y
-CONFIG_SND_VIA82XX=y
-CONFIG_SND_VIA82XX_MODEM=y
-CONFIG_SND_VIRTUOSO=y
-CONFIG_SND_VX222=y
-CONFIG_SND_YMFPCI=y
-
-#
-# HD-Audio
-#
-CONFIG_SND_HDA=y
-CONFIG_SND_HDA_GENERIC_LEDS=y
-CONFIG_SND_HDA_INTEL=y
-CONFIG_SND_HDA_HWDEP=y
-CONFIG_SND_HDA_RECONFIG=y
-CONFIG_SND_HDA_INPUT_BEEP=y
-CONFIG_SND_HDA_INPUT_BEEP_MODE=1
-CONFIG_SND_HDA_PATCH_LOADER=y
-CONFIG_SND_HDA_SCODEC_CS35L41=y
-CONFIG_SND_HDA_CS_DSP_CONTROLS=y
-CONFIG_SND_HDA_SCODEC_CS35L41_I2C=y
-CONFIG_SND_HDA_SCODEC_CS35L41_SPI=y
-CONFIG_SND_HDA_CODEC_REALTEK=y
-CONFIG_SND_HDA_CODEC_ANALOG=y
-CONFIG_SND_HDA_CODEC_SIGMATEL=y
-CONFIG_SND_HDA_CODEC_VIA=y
-CONFIG_SND_HDA_CODEC_HDMI=y
-CONFIG_SND_HDA_CODEC_CIRRUS=y
-CONFIG_SND_HDA_CODEC_CS8409=y
-CONFIG_SND_HDA_CODEC_CONEXANT=y
-CONFIG_SND_HDA_CODEC_CA0110=y
-CONFIG_SND_HDA_CODEC_CA0132=y
-CONFIG_SND_HDA_CODEC_CA0132_DSP=y
-CONFIG_SND_HDA_CODEC_CMEDIA=y
-CONFIG_SND_HDA_CODEC_SI3054=y
-CONFIG_SND_HDA_GENERIC=y
-CONFIG_SND_HDA_POWER_SAVE_DEFAULT=0
-CONFIG_SND_HDA_INTEL_HDMI_SILENT_STREAM=y
-# end of HD-Audio
-
-CONFIG_SND_HDA_CORE=y
-CONFIG_SND_HDA_DSP_LOADER=y
-CONFIG_SND_HDA_COMPONENT=y
-CONFIG_SND_HDA_EXT_CORE=y
-CONFIG_SND_HDA_PREALLOC_SIZE=64
-CONFIG_SND_INTEL_NHLT=y
-CONFIG_SND_INTEL_DSP_CONFIG=y
-CONFIG_SND_INTEL_SOUNDWIRE_ACPI=y
-CONFIG_SND_PXA2XX_LIB=y
-CONFIG_SND_SPI=y
-CONFIG_SND_AT73C213=y
-CONFIG_SND_AT73C213_TARGET_BITRATE=48000
-CONFIG_SND_USB=y
-CONFIG_SND_USB_AUDIO=y
-CONFIG_SND_USB_AUDIO_USE_MEDIA_CONTROLLER=y
-CONFIG_SND_USB_UA101=y
-CONFIG_SND_USB_CAIAQ=y
-CONFIG_SND_USB_CAIAQ_INPUT=y
-CONFIG_SND_USB_US122L=y
-CONFIG_SND_USB_6FIRE=y
-CONFIG_SND_USB_HIFACE=y
-CONFIG_SND_BCD2000=y
-CONFIG_SND_USB_LINE6=y
-CONFIG_SND_USB_POD=y
-CONFIG_SND_USB_PODHD=y
-CONFIG_SND_USB_TONEPORT=y
-CONFIG_SND_USB_VARIAX=y
-CONFIG_SND_FIREWIRE=y
-CONFIG_SND_FIREWIRE_LIB=y
-CONFIG_SND_DICE=y
-CONFIG_SND_OXFW=y
-CONFIG_SND_ISIGHT=y
-CONFIG_SND_FIREWORKS=y
-CONFIG_SND_BEBOB=y
-CONFIG_SND_FIREWIRE_DIGI00X=y
-CONFIG_SND_FIREWIRE_TASCAM=y
-CONFIG_SND_FIREWIRE_MOTU=y
-CONFIG_SND_FIREFACE=y
-CONFIG_SND_PCMCIA=y
-CONFIG_SND_VXPOCKET=y
-CONFIG_SND_PDAUDIOCF=y
-CONFIG_SND_SOC=y
-CONFIG_SND_SOC_AC97_BUS=y
-CONFIG_SND_SOC_GENERIC_DMAENGINE_PCM=y
-CONFIG_SND_SOC_COMPRESS=y
-CONFIG_SND_SOC_TOPOLOGY=y
-CONFIG_SND_SOC_TOPOLOGY_KUNIT_TEST=y
-CONFIG_SND_SOC_UTILS_KUNIT_TEST=y
-CONFIG_SND_SOC_ACPI=y
-CONFIG_SND_SOC_ADI=y
-CONFIG_SND_SOC_ADI_AXI_I2S=y
-CONFIG_SND_SOC_ADI_AXI_SPDIF=y
-CONFIG_SND_SOC_AMD_ACP=y
-CONFIG_SND_SOC_AMD_CZ_DA7219MX98357_MACH=y
-CONFIG_SND_SOC_AMD_CZ_RT5645_MACH=y
-CONFIG_SND_SOC_AMD_ST_ES8336_MACH=y
-CONFIG_SND_AMD_ACP_CONFIG=y
-CONFIG_SND_SOC_APPLE_MCA=y
-CONFIG_SND_ATMEL_SOC=y
-CONFIG_SND_ATMEL_SOC_PDC=y
-CONFIG_SND_ATMEL_SOC_DMA=y
-CONFIG_SND_ATMEL_SOC_SSC=y
-CONFIG_SND_ATMEL_SOC_SSC_PDC=y
-CONFIG_SND_ATMEL_SOC_SSC_DMA=y
-CONFIG_SND_AT91_SOC_SAM9G20_WM8731=y
-CONFIG_SND_ATMEL_SOC_WM8904=y
-CONFIG_SND_AT91_SOC_SAM9X5_WM8731=y
-CONFIG_SND_ATMEL_SOC_CLASSD=y
-CONFIG_SND_ATMEL_SOC_PDMIC=y
-CONFIG_SND_ATMEL_SOC_I2S=y
-CONFIG_SND_SOC_MIKROE_PROTO=y
-CONFIG_SND_MCHP_SOC_I2S_MCC=y
-CONFIG_SND_MCHP_SOC_SPDIFTX=y
-CONFIG_SND_MCHP_SOC_SPDIFRX=y
-CONFIG_SND_MCHP_SOC_PDMC=y
-CONFIG_SND_BCM2835_SOC_I2S=y
-CONFIG_SND_SOC_CYGNUS=y
-CONFIG_SND_BCM63XX_I2S_WHISTLER=y
-CONFIG_SND_EP93XX_SOC=y
-CONFIG_SND_DESIGNWARE_I2S=y
-CONFIG_SND_DESIGNWARE_PCM=y
-
-#
-# SoC Audio for Freescale CPUs
-#
-
-#
-# Common SoC Audio options for Freescale CPUs:
-#
-CONFIG_SND_SOC_FSL_ASRC=y
-CONFIG_SND_SOC_FSL_SAI=y
-CONFIG_SND_SOC_FSL_MQS=y
-CONFIG_SND_SOC_FSL_AUDMIX=y
-CONFIG_SND_SOC_FSL_SSI=y
-CONFIG_SND_SOC_FSL_SPDIF=y
-CONFIG_SND_SOC_FSL_ESAI=y
-CONFIG_SND_SOC_FSL_MICFIL=y
-CONFIG_SND_SOC_FSL_EASRC=y
-CONFIG_SND_SOC_FSL_XCVR=y
-CONFIG_SND_SOC_FSL_AUD2HTX=y
-CONFIG_SND_SOC_FSL_UTILS=y
-CONFIG_SND_SOC_FSL_RPMSG=y
-CONFIG_SND_SOC_IMX_PCM_DMA=y
-CONFIG_SND_SOC_IMX_AUDIO_RPMSG=y
-CONFIG_SND_SOC_IMX_PCM_RPMSG=y
-CONFIG_SND_SOC_IMX_AUDMUX=y
-CONFIG_SND_IMX_SOC=y
-
-#
-# SoC Audio support for Freescale i.MX boards:
-#
-CONFIG_SND_SOC_IMX_ES8328=y
-CONFIG_SND_SOC_IMX_SGTL5000=y
-CONFIG_SND_SOC_IMX_SPDIF=y
-CONFIG_SND_SOC_FSL_ASOC_CARD=y
-CONFIG_SND_SOC_IMX_AUDMIX=y
-CONFIG_SND_SOC_IMX_HDMI=y
-CONFIG_SND_SOC_IMX_RPMSG=y
-CONFIG_SND_SOC_IMX_CARD=y
-# end of SoC Audio for Freescale CPUs
-
-CONFIG_SND_I2S_HI6210_I2S=y
-CONFIG_SND_JZ4740_SOC_I2S=y
-CONFIG_SND_KIRKWOOD_SOC=y
-CONFIG_SND_KIRKWOOD_SOC_ARMADA370_DB=y
-CONFIG_SND_SOC_IMG=y
-CONFIG_SND_SOC_IMG_I2S_IN=y
-CONFIG_SND_SOC_IMG_I2S_OUT=y
-CONFIG_SND_SOC_IMG_PARALLEL_OUT=y
-CONFIG_SND_SOC_IMG_SPDIF_IN=y
-CONFIG_SND_SOC_IMG_SPDIF_OUT=y
-CONFIG_SND_SOC_IMG_PISTACHIO_INTERNAL_DAC=y
-CONFIG_SND_SOC_INTEL_SST_TOPLEVEL=y
-CONFIG_SND_SOC_INTEL_SST=y
-CONFIG_SND_SOC_INTEL_SKYLAKE=y
-CONFIG_SND_SOC_INTEL_SKL=y
-CONFIG_SND_SOC_INTEL_APL=y
-CONFIG_SND_SOC_INTEL_KBL=y
-CONFIG_SND_SOC_INTEL_GLK=y
-CONFIG_SND_SOC_INTEL_CNL=y
-CONFIG_SND_SOC_INTEL_CFL=y
-CONFIG_SND_SOC_INTEL_CML_H=y
-CONFIG_SND_SOC_INTEL_CML_LP=y
-CONFIG_SND_SOC_INTEL_SKYLAKE_FAMILY=y
-CONFIG_SND_SOC_INTEL_SKYLAKE_SSP_CLK=y
-CONFIG_SND_SOC_INTEL_SKYLAKE_HDAUDIO_CODEC=y
-CONFIG_SND_SOC_INTEL_SKYLAKE_COMMON=y
-CONFIG_SND_SOC_ACPI_INTEL_MATCH=y
-CONFIG_SND_SOC_INTEL_KEEMBAY=y
-CONFIG_SND_SOC_INTEL_AVS=y
-
-#
-# Intel AVS Machine drivers
-#
-
-#
-# Available DSP configurations
-#
-CONFIG_SND_SOC_INTEL_AVS_MACH_DA7219=y
-CONFIG_SND_SOC_INTEL_AVS_MACH_DMIC=y
-CONFIG_SND_SOC_INTEL_AVS_MACH_HDAUDIO=y
-CONFIG_SND_SOC_INTEL_AVS_MACH_I2S_TEST=y
-CONFIG_SND_SOC_INTEL_AVS_MACH_MAX98357A=y
-CONFIG_SND_SOC_INTEL_AVS_MACH_MAX98373=y
-CONFIG_SND_SOC_INTEL_AVS_MACH_NAU8825=y
-CONFIG_SND_SOC_INTEL_AVS_MACH_RT274=y
-CONFIG_SND_SOC_INTEL_AVS_MACH_RT286=y
-CONFIG_SND_SOC_INTEL_AVS_MACH_RT298=y
-CONFIG_SND_SOC_INTEL_AVS_MACH_RT5682=y
-CONFIG_SND_SOC_INTEL_AVS_MACH_SSM4567=y
-# end of Intel AVS Machine drivers
-
-CONFIG_SND_SOC_INTEL_MACH=y
-CONFIG_SND_SOC_INTEL_USER_FRIENDLY_LONG_NAMES=y
-CONFIG_SND_SOC_INTEL_HDA_DSP_COMMON=y
-CONFIG_SND_SOC_INTEL_SOF_MAXIM_COMMON=y
-CONFIG_SND_SOC_INTEL_SOF_REALTEK_COMMON=y
-CONFIG_SND_SOC_INTEL_BDW_RT5650_MACH=y
-CONFIG_SND_SOC_INTEL_BDW_RT5677_MACH=y
-CONFIG_SND_SOC_INTEL_BROADWELL_MACH=y
-CONFIG_SND_SOC_INTEL_BYTCR_RT5640_MACH=y
-CONFIG_SND_SOC_INTEL_BYTCR_RT5651_MACH=y
-CONFIG_SND_SOC_INTEL_BYTCR_WM5102_MACH=y
-CONFIG_SND_SOC_INTEL_CHT_BSW_RT5672_MACH=y
-CONFIG_SND_SOC_INTEL_CHT_BSW_RT5645_MACH=y
-CONFIG_SND_SOC_INTEL_CHT_BSW_MAX98090_TI_MACH=y
-CONFIG_SND_SOC_INTEL_CHT_BSW_NAU8824_MACH=y
-CONFIG_SND_SOC_INTEL_BYT_CHT_CX2072X_MACH=y
-CONFIG_SND_SOC_INTEL_BYT_CHT_DA7213_MACH=y
-CONFIG_SND_SOC_INTEL_BYT_CHT_ES8316_MACH=y
-CONFIG_SND_SOC_INTEL_SKL_RT286_MACH=y
-CONFIG_SND_SOC_INTEL_SKL_NAU88L25_SSM4567_MACH=y
-CONFIG_SND_SOC_INTEL_SKL_NAU88L25_MAX98357A_MACH=y
-CONFIG_SND_SOC_INTEL_DA7219_MAX98357A_GENERIC=y
-CONFIG_SND_SOC_INTEL_BXT_DA7219_MAX98357A_COMMON=y
-CONFIG_SND_SOC_INTEL_BXT_DA7219_MAX98357A_MACH=y
-CONFIG_SND_SOC_INTEL_BXT_RT298_MACH=y
-CONFIG_SND_SOC_INTEL_SOF_WM8804_MACH=y
-CONFIG_SND_SOC_INTEL_KBL_RT5663_MAX98927_MACH=y
-CONFIG_SND_SOC_INTEL_KBL_RT5663_RT5514_MAX98927_MACH=y
-CONFIG_SND_SOC_INTEL_KBL_DA7219_MAX98357A_MACH=y
-CONFIG_SND_SOC_INTEL_KBL_DA7219_MAX98927_MACH=y
-CONFIG_SND_SOC_INTEL_KBL_RT5660_MACH=y
-CONFIG_SND_SOC_INTEL_SKL_HDA_DSP_GENERIC_MACH=y
-CONFIG_SND_SOC_INTEL_SOF_RT5682_MACH=y
-CONFIG_SND_SOC_INTEL_SOF_PCM512x_MACH=y
-CONFIG_SND_SOC_INTEL_SOUNDWIRE_SOF_MACH=y
-CONFIG_SND_SOC_MEDIATEK=y
-CONFIG_SND_SOC_MT8186=y
-CONFIG_SND_SOC_MT8186_MT6366_DA7219_MAX98357=y
-CONFIG_SND_SOC_MT8186_MT6366_RT1019_RT5682S=y
-CONFIG_SND_SOC_MTK_BTCVSD=y
-CONFIG_SND_SOC_MT8195=y
-CONFIG_SND_SOC_MT8195_MT6359=y
-
-#
-# ASoC support for Amlogic platforms
-#
-CONFIG_SND_MESON_AIU=y
-CONFIG_SND_MESON_AXG_FIFO=y
-CONFIG_SND_MESON_AXG_FRDDR=y
-CONFIG_SND_MESON_AXG_TODDR=y
-CONFIG_SND_MESON_AXG_TDM_FORMATTER=y
-CONFIG_SND_MESON_AXG_TDM_INTERFACE=y
-CONFIG_SND_MESON_AXG_TDMIN=y
-CONFIG_SND_MESON_AXG_TDMOUT=y
-CONFIG_SND_MESON_AXG_SOUND_CARD=y
-CONFIG_SND_MESON_AXG_SPDIFOUT=y
-CONFIG_SND_MESON_AXG_SPDIFIN=y
-CONFIG_SND_MESON_AXG_PDM=y
-CONFIG_SND_MESON_CARD_UTILS=y
-CONFIG_SND_MESON_CODEC_GLUE=y
-CONFIG_SND_MESON_GX_SOUND_CARD=y
-CONFIG_SND_MESON_G12A_TOACODEC=y
-CONFIG_SND_MESON_G12A_TOHDMITX=y
-CONFIG_SND_SOC_MESON_T9015=y
-# end of ASoC support for Amlogic platforms
-
-CONFIG_SND_MXS_SOC=y
-CONFIG_SND_SOC_MXS_SGTL5000=y
-CONFIG_SND_PXA2XX_SOC=y
-CONFIG_SND_SOC_QCOM=y
-CONFIG_SND_SOC_LPASS_CPU=y
-CONFIG_SND_SOC_LPASS_HDMI=y
-CONFIG_SND_SOC_LPASS_PLATFORM=y
-CONFIG_SND_SOC_LPASS_CDC_DMA=y
-CONFIG_SND_SOC_LPASS_IPQ806X=y
-CONFIG_SND_SOC_LPASS_APQ8016=y
-CONFIG_SND_SOC_LPASS_SC7180=y
-CONFIG_SND_SOC_LPASS_SC7280=y
-CONFIG_SND_SOC_STORM=y
-CONFIG_SND_SOC_APQ8016_SBC=y
-CONFIG_SND_SOC_QCOM_COMMON=y
-CONFIG_SND_SOC_QDSP6_COMMON=y
-CONFIG_SND_SOC_QDSP6_CORE=y
-CONFIG_SND_SOC_QDSP6_AFE=y
-CONFIG_SND_SOC_QDSP6_AFE_DAI=y
-CONFIG_SND_SOC_QDSP6_AFE_CLOCKS=y
-CONFIG_SND_SOC_QDSP6_ADM=y
-CONFIG_SND_SOC_QDSP6_ROUTING=y
-CONFIG_SND_SOC_QDSP6_ASM=y
-CONFIG_SND_SOC_QDSP6_ASM_DAI=y
-CONFIG_SND_SOC_QDSP6_APM_DAI=y
-CONFIG_SND_SOC_QDSP6_APM_LPASS_DAI=y
-CONFIG_SND_SOC_QDSP6_APM=y
-CONFIG_SND_SOC_QDSP6_PRM_LPASS_CLOCKS=y
-CONFIG_SND_SOC_QDSP6_PRM=y
-CONFIG_SND_SOC_QDSP6=y
-CONFIG_SND_SOC_MSM8996=y
-CONFIG_SND_SOC_SDM845=y
-CONFIG_SND_SOC_SM8250=y
-CONFIG_SND_SOC_SC8280XP=y
-CONFIG_SND_SOC_SC7180=y
-CONFIG_SND_SOC_SC7280=y
-CONFIG_SND_SOC_ROCKCHIP=y
-CONFIG_SND_SOC_ROCKCHIP_I2S=y
-CONFIG_SND_SOC_ROCKCHIP_I2S_TDM=y
-CONFIG_SND_SOC_ROCKCHIP_PDM=y
-CONFIG_SND_SOC_ROCKCHIP_SPDIF=y
-CONFIG_SND_SOC_ROCKCHIP_MAX98090=y
-CONFIG_SND_SOC_ROCKCHIP_RT5645=y
-CONFIG_SND_SOC_RK3288_HDMI_ANALOG=y
-CONFIG_SND_SOC_RK3399_GRU_SOUND=y
-CONFIG_SND_SOC_SAMSUNG=y
-CONFIG_SND_S3C24XX_I2S=y
-CONFIG_SND_SAMSUNG_PCM=y
-CONFIG_SND_SAMSUNG_SPDIF=y
-CONFIG_SND_SAMSUNG_I2S=y
-CONFIG_SND_SOC_SAMSUNG_NEO1973_WM8753=y
-CONFIG_SND_SOC_SAMSUNG_SMDK_WM8580=y
-CONFIG_SND_SOC_SAMSUNG_SMDK_WM8994=y
-CONFIG_SND_SOC_SAMSUNG_S3C24XX_UDA134X=y
-CONFIG_SND_SOC_SAMSUNG_SIMTEC=y
-CONFIG_SND_SOC_SAMSUNG_SIMTEC_TLV320AIC23=y
-CONFIG_SND_SOC_SAMSUNG_SIMTEC_HERMES=y
-CONFIG_SND_SOC_SAMSUNG_H1940_UDA1380=y
-CONFIG_SND_SOC_SAMSUNG_RX1950_UDA1380=y
-CONFIG_SND_SOC_SMARTQ=y
-CONFIG_SND_SOC_SAMSUNG_SMDK_SPDIF=y
-CONFIG_SND_SOC_SMDK_WM8994_PCM=y
-CONFIG_SND_SOC_SPEYSIDE=y
-CONFIG_SND_SOC_TOBERMORY=y
-CONFIG_SND_SOC_BELLS=y
-CONFIG_SND_SOC_LOWLAND=y
-CONFIG_SND_SOC_LITTLEMILL=y
-CONFIG_SND_SOC_SNOW=y
-CONFIG_SND_SOC_ODROID=y
-CONFIG_SND_SOC_ARNDALE=y
-CONFIG_SND_SOC_SAMSUNG_TM2_WM5110=y
-CONFIG_SND_SOC_SAMSUNG_ARIES_WM8994=y
-CONFIG_SND_SOC_SAMSUNG_MIDAS_WM1811=y
-
-#
-# SoC Audio support for Renesas SoCs
-#
-CONFIG_SND_SOC_SH4_FSI=y
-CONFIG_SND_SOC_RCAR=y
-CONFIG_SND_SOC_RZ=y
-# end of SoC Audio support for Renesas SoCs
-
-CONFIG_SND_SOC_SOF_TOPLEVEL=y
-CONFIG_SND_SOC_SOF_PCI_DEV=y
-CONFIG_SND_SOC_SOF_PCI=y
-CONFIG_SND_SOC_SOF_ACPI=y
-CONFIG_SND_SOC_SOF_ACPI_DEV=y
-CONFIG_SND_SOC_SOF_OF=y
-CONFIG_SND_SOC_SOF_OF_DEV=y
-CONFIG_SND_SOC_SOF_COMPRESS=y
-CONFIG_SND_SOC_SOF_DEBUG_PROBES=y
-CONFIG_SND_SOC_SOF_CLIENT=y
-CONFIG_SND_SOC_SOF_DEVELOPER_SUPPORT=y
-CONFIG_SND_SOC_SOF_FORCE_PROBE_WORKQUEUE=y
-CONFIG_SND_SOC_SOF_NOCODEC=y
-CONFIG_SND_SOC_SOF_NOCODEC_SUPPORT=y
-CONFIG_SND_SOC_SOF_STRICT_ABI_CHECKS=y
-CONFIG_SND_SOC_SOF_DEBUG=y
-CONFIG_SND_SOC_SOF_FORCE_NOCODEC_MODE=y
-CONFIG_SND_SOC_SOF_DEBUG_XRUN_STOP=y
-CONFIG_SND_SOC_SOF_DEBUG_VERBOSE_IPC=y
-CONFIG_SND_SOC_SOF_DEBUG_FORCE_IPC_POSITION=y
-CONFIG_SND_SOC_SOF_DEBUG_ENABLE_DEBUGFS_CACHE=y
-CONFIG_SND_SOC_SOF_DEBUG_ENABLE_FIRMWARE_TRACE=y
-CONFIG_SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST=y
-CONFIG_SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM=2
-CONFIG_SND_SOC_SOF_DEBUG_IPC_MSG_INJECTOR=y
-CONFIG_SND_SOC_SOF_DEBUG_RETAIN_DSP_CONTEXT=y
-CONFIG_SND_SOC_SOF=y
-CONFIG_SND_SOC_SOF_PROBE_WORK_QUEUE=y
-CONFIG_SND_SOC_SOF_IPC3=y
-CONFIG_SND_SOC_SOF_INTEL_IPC4=y
-CONFIG_SND_SOC_SOF_AMD_TOPLEVEL=y
-CONFIG_SND_SOC_SOF_AMD_COMMON=y
-CONFIG_SND_SOC_SOF_AMD_RENOIR=y
-CONFIG_SND_SOC_SOF_AMD_REMBRANDT=y
-CONFIG_SND_SOC_SOF_IMX_TOPLEVEL=y
-CONFIG_SND_SOC_SOF_IMX_COMMON=y
-CONFIG_SND_SOC_SOF_IMX8=y
-CONFIG_SND_SOC_SOF_IMX8M=y
-CONFIG_SND_SOC_SOF_IMX8ULP=y
-CONFIG_SND_SOC_SOF_INTEL_TOPLEVEL=y
-CONFIG_SND_SOC_SOF_INTEL_HIFI_EP_IPC=y
-CONFIG_SND_SOC_SOF_INTEL_ATOM_HIFI_EP=y
-CONFIG_SND_SOC_SOF_INTEL_COMMON=y
-CONFIG_SND_SOC_SOF_BAYTRAIL=y
-CONFIG_SND_SOC_SOF_BROADWELL=y
-CONFIG_SND_SOC_SOF_MERRIFIELD=y
-CONFIG_SND_SOC_SOF_INTEL_SKL=y
-CONFIG_SND_SOC_SOF_SKYLAKE=y
-CONFIG_SND_SOC_SOF_KABYLAKE=y
-CONFIG_SND_SOC_SOF_INTEL_APL=y
-CONFIG_SND_SOC_SOF_APOLLOLAKE=y
-CONFIG_SND_SOC_SOF_GEMINILAKE=y
-CONFIG_SND_SOC_SOF_INTEL_CNL=y
-CONFIG_SND_SOC_SOF_CANNONLAKE=y
-CONFIG_SND_SOC_SOF_COFFEELAKE=y
-CONFIG_SND_SOC_SOF_COMETLAKE=y
-CONFIG_SND_SOC_SOF_INTEL_ICL=y
-CONFIG_SND_SOC_SOF_ICELAKE=y
-CONFIG_SND_SOC_SOF_JASPERLAKE=y
-CONFIG_SND_SOC_SOF_INTEL_TGL=y
-CONFIG_SND_SOC_SOF_TIGERLAKE=y
-CONFIG_SND_SOC_SOF_ELKHARTLAKE=y
-CONFIG_SND_SOC_SOF_ALDERLAKE=y
-CONFIG_SND_SOC_SOF_INTEL_MTL=y
-CONFIG_SND_SOC_SOF_METEORLAKE=y
-CONFIG_SND_SOC_SOF_HDA_COMMON=y
-CONFIG_SND_SOC_SOF_HDA_LINK_BASELINE=y
-CONFIG_SND_SOC_SOF_HDA_PROBES=y
-CONFIG_SND_SOC_SOF_INTEL_SOUNDWIRE_LINK_BASELINE=y
-CONFIG_SND_SOC_SOF_INTEL_SOUNDWIRE=y
-CONFIG_SND_SOC_SOF_MTK_TOPLEVEL=y
-CONFIG_SND_SOC_SOF_MTK_COMMON=y
-CONFIG_SND_SOC_SOF_MT8186=y
-CONFIG_SND_SOC_SOF_MT8195=y
-CONFIG_SND_SOC_SOF_XTENSA=y
-CONFIG_SND_SOC_SPRD=y
-CONFIG_SND_SOC_SPRD_MCDT=y
-CONFIG_SND_SOC_STI=y
-
-#
-# STMicroelectronics STM32 SOC audio support
-#
-CONFIG_SND_SOC_STM32_SAI=y
-CONFIG_SND_SOC_STM32_I2S=y
-CONFIG_SND_SOC_STM32_SPDIFRX=y
-CONFIG_SND_SOC_STM32_DFSDM=y
-# end of STMicroelectronics STM32 SOC audio support
-
-#
-# Allwinner SoC Audio support
-#
-CONFIG_SND_SUN4I_CODEC=y
-CONFIG_SND_SUN8I_CODEC=y
-CONFIG_SND_SUN8I_CODEC_ANALOG=y
-CONFIG_SND_SUN50I_CODEC_ANALOG=y
-CONFIG_SND_SUN4I_I2S=y
-CONFIG_SND_SUN4I_SPDIF=y
-CONFIG_SND_SUN50I_DMIC=y
-CONFIG_SND_SUN8I_ADDA_PR_REGMAP=y
-# end of Allwinner SoC Audio support
-
-CONFIG_SND_SOC_TEGRA=y
-CONFIG_SND_SOC_TEGRA20_AC97=y
-CONFIG_SND_SOC_TEGRA20_DAS=y
-CONFIG_SND_SOC_TEGRA20_I2S=y
-CONFIG_SND_SOC_TEGRA20_SPDIF=y
-CONFIG_SND_SOC_TEGRA30_AHUB=y
-CONFIG_SND_SOC_TEGRA30_I2S=y
-CONFIG_SND_SOC_TEGRA210_AHUB=y
-CONFIG_SND_SOC_TEGRA210_DMIC=y
-CONFIG_SND_SOC_TEGRA210_I2S=y
-CONFIG_SND_SOC_TEGRA210_OPE=y
-CONFIG_SND_SOC_TEGRA186_ASRC=y
-CONFIG_SND_SOC_TEGRA186_DSPK=y
-CONFIG_SND_SOC_TEGRA210_ADMAIF=y
-CONFIG_SND_SOC_TEGRA210_MVC=y
-CONFIG_SND_SOC_TEGRA210_SFC=y
-CONFIG_SND_SOC_TEGRA210_AMX=y
-CONFIG_SND_SOC_TEGRA210_ADX=y
-CONFIG_SND_SOC_TEGRA210_MIXER=y
-CONFIG_SND_SOC_TEGRA_AUDIO_GRAPH_CARD=y
-CONFIG_SND_SOC_TEGRA_MACHINE_DRV=y
-CONFIG_SND_SOC_TEGRA_RT5640=y
-CONFIG_SND_SOC_TEGRA_WM8753=y
-CONFIG_SND_SOC_TEGRA_WM8903=y
-CONFIG_SND_SOC_TEGRA_WM9712=y
-CONFIG_SND_SOC_TEGRA_TRIMSLICE=y
-CONFIG_SND_SOC_TEGRA_ALC5632=y
-CONFIG_SND_SOC_TEGRA_MAX98090=y
-CONFIG_SND_SOC_TEGRA_RT5677=y
-CONFIG_SND_SOC_TEGRA_SGTL5000=y
-
-#
-# Audio support for Texas Instruments SoCs
-#
-CONFIG_SND_SOC_TI_EDMA_PCM=y
-CONFIG_SND_SOC_TI_SDMA_PCM=y
-CONFIG_SND_SOC_TI_UDMA_PCM=y
-
-#
-# Texas Instruments DAI support for:
-#
-CONFIG_SND_SOC_DAVINCI_ASP=y
-CONFIG_SND_SOC_DAVINCI_MCASP=y
-CONFIG_SND_SOC_DAVINCI_VCIF=y
-CONFIG_SND_SOC_OMAP_DMIC=y
-CONFIG_SND_SOC_OMAP_MCBSP=y
-CONFIG_SND_SOC_OMAP_MCPDM=y
-
-#
-# Audio support for boards with Texas Instruments SoCs
-#
-CONFIG_SND_SOC_OMAP3_TWL4030=y
-CONFIG_SND_SOC_OMAP_ABE_TWL6040=y
-CONFIG_SND_SOC_OMAP_HDMI=y
-CONFIG_SND_SOC_J721E_EVM=y
-# end of Audio support for Texas Instruments SoCs
-
-CONFIG_SND_SOC_UNIPHIER=y
-CONFIG_SND_SOC_UNIPHIER_AIO=y
-CONFIG_SND_SOC_UNIPHIER_LD11=y
-CONFIG_SND_SOC_UNIPHIER_PXS2=y
-CONFIG_SND_SOC_UNIPHIER_EVEA_CODEC=y
-CONFIG_SND_SOC_XILINX_I2S=y
-CONFIG_SND_SOC_XILINX_AUDIO_FORMATTER=y
-CONFIG_SND_SOC_XILINX_SPDIF=y
-CONFIG_SND_SOC_XTFPGA_I2S=y
-CONFIG_SND_SOC_I2C_AND_SPI=y
-
-#
-# CODEC drivers
-#
-CONFIG_SND_SOC_ALL_CODECS=y
-CONFIG_SND_SOC_88PM860X=y
-CONFIG_SND_SOC_ARIZONA=y
-CONFIG_SND_SOC_WM_HUBS=y
-CONFIG_SND_SOC_WM_ADSP=y
-CONFIG_SND_SOC_AB8500_CODEC=y
-CONFIG_SND_SOC_AC97_CODEC=y
-CONFIG_SND_SOC_AD1836=y
-CONFIG_SND_SOC_AD193X=y
-CONFIG_SND_SOC_AD193X_SPI=y
-CONFIG_SND_SOC_AD193X_I2C=y
-CONFIG_SND_SOC_AD1980=y
-CONFIG_SND_SOC_AD73311=y
-CONFIG_SND_SOC_ADAU_UTILS=y
-CONFIG_SND_SOC_ADAU1372=y
-CONFIG_SND_SOC_ADAU1372_I2C=y
-CONFIG_SND_SOC_ADAU1372_SPI=y
-CONFIG_SND_SOC_ADAU1373=y
-CONFIG_SND_SOC_ADAU1701=y
-CONFIG_SND_SOC_ADAU17X1=y
-CONFIG_SND_SOC_ADAU1761=y
-CONFIG_SND_SOC_ADAU1761_I2C=y
-CONFIG_SND_SOC_ADAU1761_SPI=y
-CONFIG_SND_SOC_ADAU1781=y
-CONFIG_SND_SOC_ADAU1781_I2C=y
-CONFIG_SND_SOC_ADAU1781_SPI=y
-CONFIG_SND_SOC_ADAU1977=y
-CONFIG_SND_SOC_ADAU1977_SPI=y
-CONFIG_SND_SOC_ADAU1977_I2C=y
-CONFIG_SND_SOC_ADAU7002=y
-CONFIG_SND_SOC_ADAU7118=y
-CONFIG_SND_SOC_ADAU7118_HW=y
-CONFIG_SND_SOC_ADAU7118_I2C=y
-CONFIG_SND_SOC_ADAV80X=y
-CONFIG_SND_SOC_ADAV801=y
-CONFIG_SND_SOC_ADAV803=y
-CONFIG_SND_SOC_ADS117X=y
-CONFIG_SND_SOC_AK4104=y
-CONFIG_SND_SOC_AK4118=y
-CONFIG_SND_SOC_AK4375=y
-CONFIG_SND_SOC_AK4458=y
-CONFIG_SND_SOC_AK4535=y
-CONFIG_SND_SOC_AK4554=y
-CONFIG_SND_SOC_AK4613=y
-CONFIG_SND_SOC_AK4641=y
-CONFIG_SND_SOC_AK4642=y
-CONFIG_SND_SOC_AK4671=y
-CONFIG_SND_SOC_AK5386=y
-CONFIG_SND_SOC_AK5558=y
-CONFIG_SND_SOC_ALC5623=y
-CONFIG_SND_SOC_ALC5632=y
-CONFIG_SND_SOC_AW8738=y
-CONFIG_SND_SOC_BD28623=y
-CONFIG_SND_SOC_BT_SCO=y
-CONFIG_SND_SOC_CPCAP=y
-CONFIG_SND_SOC_CQ0093VC=y
-CONFIG_SND_SOC_CROS_EC_CODEC=y
-CONFIG_SND_SOC_CS35L32=y
-CONFIG_SND_SOC_CS35L33=y
-CONFIG_SND_SOC_CS35L34=y
-CONFIG_SND_SOC_CS35L35=y
-CONFIG_SND_SOC_CS35L36=y
-CONFIG_SND_SOC_CS35L41_LIB=y
-CONFIG_SND_SOC_CS35L41=y
-CONFIG_SND_SOC_CS35L41_SPI=y
-CONFIG_SND_SOC_CS35L41_I2C=y
-CONFIG_SND_SOC_CS35L45_TABLES=y
-CONFIG_SND_SOC_CS35L45=y
-CONFIG_SND_SOC_CS35L45_SPI=y
-CONFIG_SND_SOC_CS35L45_I2C=y
-CONFIG_SND_SOC_CS42L42_CORE=y
-CONFIG_SND_SOC_CS42L42=y
-CONFIG_SND_SOC_CS42L51=y
-CONFIG_SND_SOC_CS42L51_I2C=y
-CONFIG_SND_SOC_CS42L52=y
-CONFIG_SND_SOC_CS42L56=y
-CONFIG_SND_SOC_CS42L73=y
-CONFIG_SND_SOC_CS42L83=y
-CONFIG_SND_SOC_CS4234=y
-CONFIG_SND_SOC_CS4265=y
-CONFIG_SND_SOC_CS4270=y
-CONFIG_SND_SOC_CS4271=y
-CONFIG_SND_SOC_CS4271_I2C=y
-CONFIG_SND_SOC_CS4271_SPI=y
-CONFIG_SND_SOC_CS42XX8=y
-CONFIG_SND_SOC_CS42XX8_I2C=y
-CONFIG_SND_SOC_CS43130=y
-CONFIG_SND_SOC_CS4341=y
-CONFIG_SND_SOC_CS4349=y
-CONFIG_SND_SOC_CS47L15=y
-CONFIG_SND_SOC_CS47L24=y
-CONFIG_SND_SOC_CS47L35=y
-CONFIG_SND_SOC_CS47L85=y
-CONFIG_SND_SOC_CS47L90=y
-CONFIG_SND_SOC_CS47L92=y
-CONFIG_SND_SOC_CS53L30=y
-CONFIG_SND_SOC_CX20442=y
-CONFIG_SND_SOC_CX2072X=y
-CONFIG_SND_SOC_JZ4740_CODEC=y
-CONFIG_SND_SOC_JZ4725B_CODEC=y
-CONFIG_SND_SOC_JZ4760_CODEC=y
-CONFIG_SND_SOC_JZ4770_CODEC=y
-CONFIG_SND_SOC_L3=y
-CONFIG_SND_SOC_DA7210=y
-CONFIG_SND_SOC_DA7213=y
-CONFIG_SND_SOC_DA7218=y
-CONFIG_SND_SOC_DA7219=y
-CONFIG_SND_SOC_DA732X=y
-CONFIG_SND_SOC_DA9055=y
-CONFIG_SND_SOC_DMIC=y
-CONFIG_SND_SOC_HDMI_CODEC=y
-CONFIG_SND_SOC_ES7134=y
-CONFIG_SND_SOC_ES7241=y
-CONFIG_SND_SOC_ES8316=y
-CONFIG_SND_SOC_ES8326=y
-CONFIG_SND_SOC_ES8328=y
-CONFIG_SND_SOC_ES8328_I2C=y
-CONFIG_SND_SOC_ES8328_SPI=y
-CONFIG_SND_SOC_GTM601=y
-CONFIG_SND_SOC_HDAC_HDMI=y
-CONFIG_SND_SOC_HDAC_HDA=y
-CONFIG_SND_SOC_HDA=y
-CONFIG_SND_SOC_ICS43432=y
-CONFIG_SND_SOC_INNO_RK3036=y
-CONFIG_SND_SOC_ISABELLE=y
-CONFIG_SND_SOC_LM49453=y
-CONFIG_SND_SOC_LOCHNAGAR_SC=y
-CONFIG_SND_SOC_MADERA=y
-CONFIG_SND_SOC_MAX98088=y
-CONFIG_SND_SOC_MAX98090=y
-CONFIG_SND_SOC_MAX98095=y
-CONFIG_SND_SOC_MAX98357A=y
-CONFIG_SND_SOC_MAX98371=y
-CONFIG_SND_SOC_MAX98504=y
-CONFIG_SND_SOC_MAX9867=y
-CONFIG_SND_SOC_MAX98925=y
-CONFIG_SND_SOC_MAX98926=y
-CONFIG_SND_SOC_MAX98927=y
-CONFIG_SND_SOC_MAX98520=y
-CONFIG_SND_SOC_MAX98373=y
-CONFIG_SND_SOC_MAX98373_I2C=y
-CONFIG_SND_SOC_MAX98373_SDW=y
-CONFIG_SND_SOC_MAX98390=y
-CONFIG_SND_SOC_MAX98396=y
-CONFIG_SND_SOC_MAX9850=y
-CONFIG_SND_SOC_MAX9860=y
-CONFIG_SND_SOC_MSM8916_WCD_ANALOG=y
-CONFIG_SND_SOC_MSM8916_WCD_DIGITAL=y
-CONFIG_SND_SOC_PCM1681=y
-CONFIG_SND_SOC_PCM1789=y
-CONFIG_SND_SOC_PCM1789_I2C=y
-CONFIG_SND_SOC_PCM179X=y
-CONFIG_SND_SOC_PCM179X_I2C=y
-CONFIG_SND_SOC_PCM179X_SPI=y
-CONFIG_SND_SOC_PCM186X=y
-CONFIG_SND_SOC_PCM186X_I2C=y
-CONFIG_SND_SOC_PCM186X_SPI=y
-CONFIG_SND_SOC_PCM3008=y
-CONFIG_SND_SOC_PCM3060=y
-CONFIG_SND_SOC_PCM3060_I2C=y
-CONFIG_SND_SOC_PCM3060_SPI=y
-CONFIG_SND_SOC_PCM3168A=y
-CONFIG_SND_SOC_PCM3168A_I2C=y
-CONFIG_SND_SOC_PCM3168A_SPI=y
-CONFIG_SND_SOC_PCM5102A=y
-CONFIG_SND_SOC_PCM512x=y
-CONFIG_SND_SOC_PCM512x_I2C=y
-CONFIG_SND_SOC_PCM512x_SPI=y
-CONFIG_SND_SOC_RK3328=y
-CONFIG_SND_SOC_RK817=y
-CONFIG_SND_SOC_RL6231=y
-CONFIG_SND_SOC_RL6347A=y
-CONFIG_SND_SOC_RT274=y
-CONFIG_SND_SOC_RT286=y
-CONFIG_SND_SOC_RT298=y
-CONFIG_SND_SOC_RT1011=y
-CONFIG_SND_SOC_RT1015=y
-CONFIG_SND_SOC_RT1015P=y
-CONFIG_SND_SOC_RT1016=y
-CONFIG_SND_SOC_RT1019=y
-CONFIG_SND_SOC_RT1305=y
-CONFIG_SND_SOC_RT1308=y
-CONFIG_SND_SOC_RT1308_SDW=y
-CONFIG_SND_SOC_RT1316_SDW=y
-CONFIG_SND_SOC_RT5514=y
-CONFIG_SND_SOC_RT5514_SPI=y
-CONFIG_SND_SOC_RT5616=y
-CONFIG_SND_SOC_RT5631=y
-CONFIG_SND_SOC_RT5640=y
-CONFIG_SND_SOC_RT5645=y
-CONFIG_SND_SOC_RT5651=y
-CONFIG_SND_SOC_RT5659=y
-CONFIG_SND_SOC_RT5660=y
-CONFIG_SND_SOC_RT5663=y
-CONFIG_SND_SOC_RT5665=y
-CONFIG_SND_SOC_RT5668=y
-CONFIG_SND_SOC_RT5670=y
-CONFIG_SND_SOC_RT5677=y
-CONFIG_SND_SOC_RT5677_SPI=y
-CONFIG_SND_SOC_RT5682=y
-CONFIG_SND_SOC_RT5682_I2C=y
-CONFIG_SND_SOC_RT5682_SDW=y
-CONFIG_SND_SOC_RT5682S=y
-CONFIG_SND_SOC_RT700=y
-CONFIG_SND_SOC_RT700_SDW=y
-CONFIG_SND_SOC_RT711=y
-CONFIG_SND_SOC_RT711_SDW=y
-CONFIG_SND_SOC_RT711_SDCA_SDW=y
-CONFIG_SND_SOC_RT715=y
-CONFIG_SND_SOC_RT715_SDW=y
-CONFIG_SND_SOC_RT715_SDCA_SDW=y
-CONFIG_SND_SOC_RT9120=y
-CONFIG_SND_SOC_SDW_MOCKUP=y
-CONFIG_SND_SOC_SGTL5000=y
-CONFIG_SND_SOC_SI476X=y
-CONFIG_SND_SOC_SIGMADSP=y
-CONFIG_SND_SOC_SIGMADSP_I2C=y
-CONFIG_SND_SOC_SIGMADSP_REGMAP=y
-CONFIG_SND_SOC_SIMPLE_AMPLIFIER=y
-CONFIG_SND_SOC_SIMPLE_MUX=y
-CONFIG_SND_SOC_SPDIF=y
-CONFIG_SND_SOC_SRC4XXX_I2C=y
-CONFIG_SND_SOC_SRC4XXX=y
-CONFIG_SND_SOC_SSM2305=y
-CONFIG_SND_SOC_SSM2518=y
-CONFIG_SND_SOC_SSM2602=y
-CONFIG_SND_SOC_SSM2602_SPI=y
-CONFIG_SND_SOC_SSM2602_I2C=y
-CONFIG_SND_SOC_SSM4567=y
-CONFIG_SND_SOC_STA32X=y
-CONFIG_SND_SOC_STA350=y
-CONFIG_SND_SOC_STA529=y
-CONFIG_SND_SOC_STAC9766=y
-CONFIG_SND_SOC_STI_SAS=y
-CONFIG_SND_SOC_TAS2552=y
-CONFIG_SND_SOC_TAS2562=y
-CONFIG_SND_SOC_TAS2764=y
-CONFIG_SND_SOC_TAS2770=y
-CONFIG_SND_SOC_TAS2780=y
-CONFIG_SND_SOC_TAS5086=y
-CONFIG_SND_SOC_TAS571X=y
-CONFIG_SND_SOC_TAS5720=y
-CONFIG_SND_SOC_TAS5805M=y
-CONFIG_SND_SOC_TAS6424=y
-CONFIG_SND_SOC_TDA7419=y
-CONFIG_SND_SOC_TFA9879=y
-CONFIG_SND_SOC_TFA989X=y
-CONFIG_SND_SOC_TLV320ADC3XXX=y
-CONFIG_SND_SOC_TLV320AIC23=y
-CONFIG_SND_SOC_TLV320AIC23_I2C=y
-CONFIG_SND_SOC_TLV320AIC23_SPI=y
-CONFIG_SND_SOC_TLV320AIC26=y
-CONFIG_SND_SOC_TLV320AIC31XX=y
-CONFIG_SND_SOC_TLV320AIC32X4=y
-CONFIG_SND_SOC_TLV320AIC32X4_I2C=y
-CONFIG_SND_SOC_TLV320AIC32X4_SPI=y
-CONFIG_SND_SOC_TLV320AIC3X=y
-CONFIG_SND_SOC_TLV320AIC3X_I2C=y
-CONFIG_SND_SOC_TLV320AIC3X_SPI=y
-CONFIG_SND_SOC_TLV320DAC33=y
-CONFIG_SND_SOC_TLV320ADCX140=y
-CONFIG_SND_SOC_TS3A227E=y
-CONFIG_SND_SOC_TSCS42XX=y
-CONFIG_SND_SOC_TSCS454=y
-CONFIG_SND_SOC_TWL4030=y
-CONFIG_SND_SOC_TWL6040=y
-CONFIG_SND_SOC_UDA1334=y
-CONFIG_SND_SOC_UDA134X=y
-CONFIG_SND_SOC_UDA1380=y
-CONFIG_SND_SOC_WCD9335=y
-CONFIG_SND_SOC_WCD_MBHC=y
-CONFIG_SND_SOC_WCD934X=y
-CONFIG_SND_SOC_WCD938X=y
-CONFIG_SND_SOC_WCD938X_SDW=y
-CONFIG_SND_SOC_WL1273=y
-CONFIG_SND_SOC_WM0010=y
-CONFIG_SND_SOC_WM1250_EV1=y
-CONFIG_SND_SOC_WM2000=y
-CONFIG_SND_SOC_WM2200=y
-CONFIG_SND_SOC_WM5100=y
-CONFIG_SND_SOC_WM5102=y
-CONFIG_SND_SOC_WM5110=y
-CONFIG_SND_SOC_WM8350=y
-CONFIG_SND_SOC_WM8400=y
-CONFIG_SND_SOC_WM8510=y
-CONFIG_SND_SOC_WM8523=y
-CONFIG_SND_SOC_WM8524=y
-CONFIG_SND_SOC_WM8580=y
-CONFIG_SND_SOC_WM8711=y
-CONFIG_SND_SOC_WM8727=y
-CONFIG_SND_SOC_WM8728=y
-CONFIG_SND_SOC_WM8731=y
-CONFIG_SND_SOC_WM8731_I2C=y
-CONFIG_SND_SOC_WM8731_SPI=y
-CONFIG_SND_SOC_WM8737=y
-CONFIG_SND_SOC_WM8741=y
-CONFIG_SND_SOC_WM8750=y
-CONFIG_SND_SOC_WM8753=y
-CONFIG_SND_SOC_WM8770=y
-CONFIG_SND_SOC_WM8776=y
-CONFIG_SND_SOC_WM8782=y
-CONFIG_SND_SOC_WM8804=y
-CONFIG_SND_SOC_WM8804_I2C=y
-CONFIG_SND_SOC_WM8804_SPI=y
-CONFIG_SND_SOC_WM8900=y
-CONFIG_SND_SOC_WM8903=y
-CONFIG_SND_SOC_WM8904=y
-CONFIG_SND_SOC_WM8940=y
-CONFIG_SND_SOC_WM8955=y
-CONFIG_SND_SOC_WM8960=y
-CONFIG_SND_SOC_WM8961=y
-CONFIG_SND_SOC_WM8962=y
-CONFIG_SND_SOC_WM8971=y
-CONFIG_SND_SOC_WM8974=y
-CONFIG_SND_SOC_WM8978=y
-CONFIG_SND_SOC_WM8983=y
-CONFIG_SND_SOC_WM8985=y
-CONFIG_SND_SOC_WM8988=y
-CONFIG_SND_SOC_WM8990=y
-CONFIG_SND_SOC_WM8991=y
-CONFIG_SND_SOC_WM8993=y
-CONFIG_SND_SOC_WM8994=y
-CONFIG_SND_SOC_WM8995=y
-CONFIG_SND_SOC_WM8996=y
-CONFIG_SND_SOC_WM8997=y
-CONFIG_SND_SOC_WM8998=y
-CONFIG_SND_SOC_WM9081=y
-CONFIG_SND_SOC_WM9090=y
-CONFIG_SND_SOC_WM9705=y
-CONFIG_SND_SOC_WM9712=y
-CONFIG_SND_SOC_WM9713=y
-CONFIG_SND_SOC_WSA881X=y
-CONFIG_SND_SOC_WSA883X=y
-CONFIG_SND_SOC_ZL38060=y
-CONFIG_SND_SOC_LM4857=y
-CONFIG_SND_SOC_MAX9759=y
-CONFIG_SND_SOC_MAX9768=y
-CONFIG_SND_SOC_MAX9877=y
-CONFIG_SND_SOC_MC13783=y
-CONFIG_SND_SOC_ML26124=y
-CONFIG_SND_SOC_MT6351=y
-CONFIG_SND_SOC_MT6358=y
-CONFIG_SND_SOC_MT6359=y
-CONFIG_SND_SOC_MT6359_ACCDET=y
-CONFIG_SND_SOC_MT6660=y
-CONFIG_SND_SOC_NAU8315=y
-CONFIG_SND_SOC_NAU8540=y
-CONFIG_SND_SOC_NAU8810=y
-CONFIG_SND_SOC_NAU8821=y
-CONFIG_SND_SOC_NAU8822=y
-CONFIG_SND_SOC_NAU8824=y
-CONFIG_SND_SOC_NAU8825=y
-CONFIG_SND_SOC_TPA6130A2=y
-CONFIG_SND_SOC_LPASS_MACRO_COMMON=y
-CONFIG_SND_SOC_LPASS_WSA_MACRO=y
-CONFIG_SND_SOC_LPASS_VA_MACRO=y
-CONFIG_SND_SOC_LPASS_RX_MACRO=y
-CONFIG_SND_SOC_LPASS_TX_MACRO=y
-# end of CODEC drivers
-
-CONFIG_SND_SIMPLE_CARD_UTILS=y
-CONFIG_SND_SIMPLE_CARD=y
-CONFIG_SND_AUDIO_GRAPH_CARD=y
-CONFIG_SND_AUDIO_GRAPH_CARD2=y
-CONFIG_SND_AUDIO_GRAPH_CARD2_CUSTOM_SAMPLE=y
-CONFIG_SND_TEST_COMPONENT=y
-CONFIG_SND_VIRTIO=y
-CONFIG_AC97_BUS=y
-
-#
-# HID support
-#
-CONFIG_HID=y
-CONFIG_HID_BATTERY_STRENGTH=y
-CONFIG_HIDRAW=y
-CONFIG_UHID=y
-CONFIG_HID_GENERIC=y
-
-#
-# Special HID drivers
-#
-CONFIG_HID_A4TECH=y
-CONFIG_HID_ACCUTOUCH=y
-CONFIG_HID_ACRUX=y
-CONFIG_HID_ACRUX_FF=y
-CONFIG_HID_APPLE=y
-CONFIG_HID_APPLEIR=y
-CONFIG_HID_ASUS=y
-CONFIG_HID_AUREAL=y
-CONFIG_HID_BELKIN=y
-CONFIG_HID_BETOP_FF=y
-CONFIG_HID_BIGBEN_FF=y
-CONFIG_HID_CHERRY=y
-CONFIG_HID_CHICONY=y
-CONFIG_HID_CORSAIR=y
-CONFIG_HID_COUGAR=y
-CONFIG_HID_MACALLY=y
-CONFIG_HID_PRODIKEYS=y
-CONFIG_HID_CMEDIA=y
-CONFIG_HID_CP2112=y
-CONFIG_HID_CREATIVE_SB0540=y
-CONFIG_HID_CYPRESS=y
-CONFIG_HID_DRAGONRISE=y
-CONFIG_DRAGONRISE_FF=y
-CONFIG_HID_EMS_FF=y
-CONFIG_HID_ELAN=y
-CONFIG_HID_ELECOM=y
-CONFIG_HID_ELO=y
-CONFIG_HID_EZKEY=y
-CONFIG_HID_FT260=y
-CONFIG_HID_GEMBIRD=y
-CONFIG_HID_GFRM=y
-CONFIG_HID_GLORIOUS=y
-CONFIG_HID_HOLTEK=y
-CONFIG_HOLTEK_FF=y
-CONFIG_HID_VIVALDI_COMMON=y
-CONFIG_HID_GOOGLE_HAMMER=y
-CONFIG_HID_VIVALDI=y
-CONFIG_HID_GT683R=y
-CONFIG_HID_KEYTOUCH=y
-CONFIG_HID_KYE=y
-CONFIG_HID_UCLOGIC=y
-CONFIG_HID_WALTOP=y
-CONFIG_HID_VIEWSONIC=y
-CONFIG_HID_VRC2=y
-CONFIG_HID_XIAOMI=y
-CONFIG_HID_GYRATION=y
-CONFIG_HID_ICADE=y
-CONFIG_HID_ITE=y
-CONFIG_HID_JABRA=y
-CONFIG_HID_TWINHAN=y
-CONFIG_HID_KENSINGTON=y
-CONFIG_HID_LCPOWER=y
-CONFIG_HID_LED=y
-CONFIG_HID_LENOVO=y
-CONFIG_HID_LETSKETCH=y
-CONFIG_HID_LOGITECH=y
-CONFIG_HID_LOGITECH_DJ=y
-CONFIG_HID_LOGITECH_HIDPP=y
-CONFIG_LOGITECH_FF=y
-CONFIG_LOGIRUMBLEPAD2_FF=y
-CONFIG_LOGIG940_FF=y
-CONFIG_LOGIWHEELS_FF=y
-CONFIG_HID_MAGICMOUSE=y
-CONFIG_HID_MALTRON=y
-CONFIG_HID_MAYFLASH=y
-CONFIG_HID_MEGAWORLD_FF=y
-CONFIG_HID_REDRAGON=y
-CONFIG_HID_MICROSOFT=y
-CONFIG_HID_MONTEREY=y
-CONFIG_HID_MULTITOUCH=y
-CONFIG_HID_NINTENDO=y
-CONFIG_NINTENDO_FF=y
-CONFIG_HID_NTI=y
-CONFIG_HID_NTRIG=y
-CONFIG_HID_ORTEK=y
-CONFIG_HID_PANTHERLORD=y
-CONFIG_PANTHERLORD_FF=y
-CONFIG_HID_PENMOUNT=y
-CONFIG_HID_PETALYNX=y
-CONFIG_HID_PICOLCD=y
-CONFIG_HID_PICOLCD_FB=y
-CONFIG_HID_PICOLCD_BACKLIGHT=y
-CONFIG_HID_PICOLCD_LCD=y
-CONFIG_HID_PICOLCD_LEDS=y
-CONFIG_HID_PICOLCD_CIR=y
-CONFIG_HID_PLANTRONICS=y
-CONFIG_HID_PLAYSTATION=y
-CONFIG_PLAYSTATION_FF=y
-CONFIG_HID_PXRC=y
-CONFIG_HID_RAZER=y
-CONFIG_HID_PRIMAX=y
-CONFIG_HID_RETRODE=y
-CONFIG_HID_ROCCAT=y
-CONFIG_HID_SAITEK=y
-CONFIG_HID_SAMSUNG=y
-CONFIG_HID_SEMITEK=y
-CONFIG_HID_SIGMAMICRO=y
-CONFIG_HID_SONY=y
-CONFIG_SONY_FF=y
-CONFIG_HID_SPEEDLINK=y
-CONFIG_HID_STEAM=y
-CONFIG_HID_STEELSERIES=y
-CONFIG_HID_SUNPLUS=y
-CONFIG_HID_RMI=y
-CONFIG_HID_GREENASIA=y
-CONFIG_GREENASIA_FF=y
-CONFIG_HID_SMARTJOYPLUS=y
-CONFIG_SMARTJOYPLUS_FF=y
-CONFIG_HID_TIVO=y
-CONFIG_HID_TOPSEED=y
-CONFIG_HID_TOPRE=y
-CONFIG_HID_THINGM=y
-CONFIG_HID_THRUSTMASTER=y
-CONFIG_THRUSTMASTER_FF=y
-CONFIG_HID_UDRAW_PS3=y
-CONFIG_HID_U2FZERO=y
-CONFIG_HID_WACOM=y
-CONFIG_HID_WIIMOTE=y
-CONFIG_HID_XINMO=y
-CONFIG_HID_ZEROPLUS=y
-CONFIG_ZEROPLUS_FF=y
-CONFIG_HID_ZYDACRON=y
-CONFIG_HID_SENSOR_HUB=y
-CONFIG_HID_SENSOR_CUSTOM_SENSOR=y
-CONFIG_HID_ALPS=y
-CONFIG_HID_MCP2221=y
-CONFIG_HID_KUNIT_TEST=y
-# end of Special HID drivers
-
-#
-# USB HID support
-#
-CONFIG_USB_HID=y
-CONFIG_HID_PID=y
-CONFIG_USB_HIDDEV=y
-# end of USB HID support
-
-#
-# I2C HID support
-#
-CONFIG_I2C_HID_ACPI=y
-CONFIG_I2C_HID_OF=y
-CONFIG_I2C_HID_OF_ELAN=y
-CONFIG_I2C_HID_OF_GOODIX=y
-# end of I2C HID support
-
-CONFIG_I2C_HID_CORE=y
-
-#
-# Intel ISH HID support
-#
-# end of Intel ISH HID support
-
-#
-# AMD SFH HID Support
-#
-CONFIG_AMD_SFH_HID=y
-# end of AMD SFH HID Support
-
-#
-# Surface System Aggregator Module HID support
-#
-CONFIG_SURFACE_HID=y
-CONFIG_SURFACE_KBD=y
-# end of Surface System Aggregator Module HID support
-
-CONFIG_SURFACE_HID_CORE=y
-# end of HID support
-
-CONFIG_USB_OHCI_LITTLE_ENDIAN=y
-CONFIG_USB_SUPPORT=y
-CONFIG_USB_COMMON=y
-CONFIG_USB_LED_TRIG=y
-CONFIG_USB_ULPI_BUS=y
-CONFIG_USB_CONN_GPIO=y
-CONFIG_USB_ARCH_HAS_HCD=y
-CONFIG_USB=y
-CONFIG_USB_PCI=y
-CONFIG_USB_ANNOUNCE_NEW_DEVICES=y
-
-#
-# Miscellaneous USB options
-#
-CONFIG_USB_DEFAULT_PERSIST=y
-CONFIG_USB_FEW_INIT_RETRIES=y
-CONFIG_USB_DYNAMIC_MINORS=y
-CONFIG_USB_OTG=y
-CONFIG_USB_OTG_PRODUCTLIST=y
-CONFIG_USB_OTG_DISABLE_EXTERNAL_HUB=y
-CONFIG_USB_OTG_FSM=y
-CONFIG_USB_LEDS_TRIGGER_USBPORT=y
-CONFIG_USB_AUTOSUSPEND_DELAY=2
-CONFIG_USB_MON=y
-
-#
-# USB Host Controller Drivers
-#
-CONFIG_USB_C67X00_HCD=y
-CONFIG_USB_XHCI_HCD=y
-CONFIG_USB_XHCI_DBGCAP=y
-CONFIG_USB_XHCI_PCI=y
-CONFIG_USB_XHCI_PCI_RENESAS=y
-CONFIG_USB_XHCI_PLATFORM=y
-CONFIG_USB_XHCI_HISTB=y
-CONFIG_USB_XHCI_MTK=y
-CONFIG_USB_XHCI_MVEBU=y
-CONFIG_USB_XHCI_RCAR=y
-CONFIG_USB_EHCI_BRCMSTB=y
-CONFIG_USB_BRCMSTB=y
-CONFIG_USB_EHCI_HCD=y
-CONFIG_USB_EHCI_ROOT_HUB_TT=y
-CONFIG_USB_EHCI_TT_NEWSCHED=y
-CONFIG_USB_EHCI_PCI=y
-CONFIG_USB_EHCI_FSL=y
-CONFIG_USB_EHCI_HCD_NPCM7XX=y
-CONFIG_USB_EHCI_HCD_OMAP=y
-CONFIG_USB_EHCI_HCD_ORION=y
-CONFIG_USB_EHCI_HCD_SPEAR=y
-CONFIG_USB_EHCI_HCD_STI=y
-CONFIG_USB_EHCI_HCD_AT91=y
-CONFIG_USB_EHCI_SH=y
-CONFIG_USB_EHCI_EXYNOS=y
-CONFIG_USB_EHCI_MV=y
-CONFIG_USB_CNS3XXX_EHCI=y
-CONFIG_USB_EHCI_HCD_PLATFORM=y
-CONFIG_USB_OXU210HP_HCD=y
-CONFIG_USB_ISP116X_HCD=y
-CONFIG_USB_ISP1362_HCD=y
-CONFIG_USB_FOTG210_HCD=y
-CONFIG_USB_MAX3421_HCD=y
-CONFIG_USB_OHCI_HCD=y
-CONFIG_USB_OHCI_HCD_SPEAR=y
-CONFIG_USB_OHCI_HCD_STI=y
-CONFIG_USB_OHCI_HCD_S3C2410=y
-CONFIG_USB_OHCI_HCD_LPC32XX=y
-CONFIG_USB_OHCI_HCD_AT91=y
-CONFIG_USB_OHCI_HCD_OMAP3=y
-CONFIG_USB_OHCI_HCD_DAVINCI=y
-CONFIG_USB_OHCI_HCD_PCI=y
-CONFIG_USB_OHCI_HCD_SSB=y
-CONFIG_USB_OHCI_SH=y
-CONFIG_USB_OHCI_EXYNOS=y
-CONFIG_USB_CNS3XXX_OHCI=y
-CONFIG_USB_OHCI_HCD_PLATFORM=y
-CONFIG_USB_UHCI_HCD=y
-CONFIG_USB_U132_HCD=y
-CONFIG_USB_SL811_HCD=y
-CONFIG_USB_SL811_HCD_ISO=y
-CONFIG_USB_SL811_CS=y
-CONFIG_USB_R8A66597_HCD=y
-CONFIG_USB_RENESAS_USBHS_HCD=y
-CONFIG_USB_HCD_BCMA=y
-CONFIG_USB_HCD_SSB=y
-CONFIG_USB_HCD_TEST_MODE=y
-CONFIG_USB_RENESAS_USBHS=y
-
-#
-# USB Device Class drivers
-#
-CONFIG_USB_ACM=y
-CONFIG_USB_PRINTER=y
-CONFIG_USB_WDM=y
-CONFIG_USB_TMC=y
-
-#
-# NOTE: USB_STORAGE depends on SCSI but BLK_DEV_SD may
-#
-
-#
-# also be needed; see USB_STORAGE Help for more info
-#
-CONFIG_USB_STORAGE=y
-CONFIG_USB_STORAGE_DEBUG=y
-CONFIG_USB_STORAGE_REALTEK=y
-CONFIG_REALTEK_AUTOPM=y
-CONFIG_USB_STORAGE_DATAFAB=y
-CONFIG_USB_STORAGE_FREECOM=y
-CONFIG_USB_STORAGE_ISD200=y
-CONFIG_USB_STORAGE_USBAT=y
-CONFIG_USB_STORAGE_SDDR09=y
-CONFIG_USB_STORAGE_SDDR55=y
-CONFIG_USB_STORAGE_JUMPSHOT=y
-CONFIG_USB_STORAGE_ALAUDA=y
-CONFIG_USB_STORAGE_ONETOUCH=y
-CONFIG_USB_STORAGE_KARMA=y
-CONFIG_USB_STORAGE_CYPRESS_ATACB=y
-CONFIG_USB_STORAGE_ENE_UB6250=y
-CONFIG_USB_UAS=y
-
-#
-# USB Imaging devices
-#
-CONFIG_USB_MDC800=y
-CONFIG_USB_MICROTEK=y
-CONFIG_USBIP_CORE=y
-CONFIG_USBIP_VHCI_HCD=y
-CONFIG_USBIP_VHCI_HC_PORTS=8
-CONFIG_USBIP_VHCI_NR_HCS=1
-CONFIG_USBIP_HOST=y
-CONFIG_USBIP_VUDC=y
-CONFIG_USBIP_DEBUG=y
-CONFIG_USB_CDNS_SUPPORT=y
-CONFIG_USB_CDNS_HOST=y
-CONFIG_USB_CDNS3=y
-CONFIG_USB_CDNS3_GADGET=y
-CONFIG_USB_CDNS3_HOST=y
-CONFIG_USB_CDNS3_PCI_WRAP=y
-CONFIG_USB_CDNS3_TI=y
-CONFIG_USB_CDNS3_IMX=y
-CONFIG_USB_CDNSP_PCI=y
-CONFIG_USB_CDNSP_GADGET=y
-CONFIG_USB_CDNSP_HOST=y
-CONFIG_USB_MTU3=y
-# CONFIG_USB_MTU3_HOST is not set
-# CONFIG_USB_MTU3_GADGET is not set
-CONFIG_USB_MTU3_DUAL_ROLE=y
-CONFIG_USB_MTU3_DEBUG=y
-CONFIG_USB_MUSB_HDRC=y
-# CONFIG_USB_MUSB_HOST is not set
-# CONFIG_USB_MUSB_GADGET is not set
-CONFIG_USB_MUSB_DUAL_ROLE=y
-
-#
-# Platform Glue Layer
-#
-CONFIG_USB_MUSB_TUSB6010=y
-CONFIG_USB_MUSB_DSPS=y
-CONFIG_USB_MUSB_UX500=y
-CONFIG_USB_MUSB_MEDIATEK=y
-CONFIG_USB_MUSB_POLARFIRE_SOC=y
-
-#
-# MUSB DMA mode
-#
-CONFIG_MUSB_PIO_ONLY=y
-CONFIG_USB_DWC3=y
-CONFIG_USB_DWC3_ULPI=y
-# CONFIG_USB_DWC3_HOST is not set
-# CONFIG_USB_DWC3_GADGET is not set
-CONFIG_USB_DWC3_DUAL_ROLE=y
-
-#
-# Platform Glue Driver Support
-#
-CONFIG_USB_DWC3_OMAP=y
-CONFIG_USB_DWC3_EXYNOS=y
-CONFIG_USB_DWC3_PCI=y
-CONFIG_USB_DWC3_HAPS=y
-CONFIG_USB_DWC3_KEYSTONE=y
-CONFIG_USB_DWC3_MESON_G12A=y
-CONFIG_USB_DWC3_OF_SIMPLE=y
-CONFIG_USB_DWC3_ST=y
-CONFIG_USB_DWC3_QCOM=y
-CONFIG_USB_DWC3_IMX8MP=y
-CONFIG_USB_DWC3_AM62=y
-CONFIG_USB_DWC2=y
-# CONFIG_USB_DWC2_HOST is not set
-
-#
-# Gadget/Dual-role mode requires USB Gadget support to be enabled
-#
-# CONFIG_USB_DWC2_PERIPHERAL is not set
-CONFIG_USB_DWC2_DUAL_ROLE=y
-CONFIG_USB_DWC2_PCI=y
-CONFIG_USB_DWC2_DEBUG=y
-CONFIG_USB_DWC2_VERBOSE=y
-CONFIG_USB_DWC2_TRACK_MISSED_SOFS=y
-CONFIG_USB_DWC2_DEBUG_PERIODIC=y
-CONFIG_USB_CHIPIDEA=y
-CONFIG_USB_CHIPIDEA_UDC=y
-CONFIG_USB_CHIPIDEA_HOST=y
-CONFIG_USB_CHIPIDEA_PCI=y
-CONFIG_USB_CHIPIDEA_MSM=y
-CONFIG_USB_CHIPIDEA_IMX=y
-CONFIG_USB_CHIPIDEA_GENERIC=y
-CONFIG_USB_CHIPIDEA_TEGRA=y
-CONFIG_USB_ISP1760=y
-CONFIG_USB_ISP1760_HCD=y
-CONFIG_USB_ISP1761_UDC=y
-# CONFIG_USB_ISP1760_HOST_ROLE is not set
-# CONFIG_USB_ISP1760_GADGET_ROLE is not set
-CONFIG_USB_ISP1760_DUAL_ROLE=y
-
-#
-# USB port drivers
-#
-CONFIG_USB_USS720=y
-CONFIG_USB_SERIAL=y
-CONFIG_USB_SERIAL_CONSOLE=y
-CONFIG_USB_SERIAL_GENERIC=y
-CONFIG_USB_SERIAL_SIMPLE=y
-CONFIG_USB_SERIAL_AIRCABLE=y
-CONFIG_USB_SERIAL_ARK3116=y
-CONFIG_USB_SERIAL_BELKIN=y
-CONFIG_USB_SERIAL_CH341=y
-CONFIG_USB_SERIAL_WHITEHEAT=y
-CONFIG_USB_SERIAL_DIGI_ACCELEPORT=y
-CONFIG_USB_SERIAL_CP210X=y
-CONFIG_USB_SERIAL_CYPRESS_M8=y
-CONFIG_USB_SERIAL_EMPEG=y
-CONFIG_USB_SERIAL_FTDI_SIO=y
-CONFIG_USB_SERIAL_VISOR=y
-CONFIG_USB_SERIAL_IPAQ=y
-CONFIG_USB_SERIAL_IR=y
-CONFIG_USB_SERIAL_EDGEPORT=y
-CONFIG_USB_SERIAL_EDGEPORT_TI=y
-CONFIG_USB_SERIAL_F81232=y
-CONFIG_USB_SERIAL_F8153X=y
-CONFIG_USB_SERIAL_GARMIN=y
-CONFIG_USB_SERIAL_IPW=y
-CONFIG_USB_SERIAL_IUU=y
-CONFIG_USB_SERIAL_KEYSPAN_PDA=y
-CONFIG_USB_SERIAL_KEYSPAN=y
-CONFIG_USB_SERIAL_KLSI=y
-CONFIG_USB_SERIAL_KOBIL_SCT=y
-CONFIG_USB_SERIAL_MCT_U232=y
-CONFIG_USB_SERIAL_METRO=y
-CONFIG_USB_SERIAL_MOS7720=y
-CONFIG_USB_SERIAL_MOS7715_PARPORT=y
-CONFIG_USB_SERIAL_MOS7840=y
-CONFIG_USB_SERIAL_MXUPORT=y
-CONFIG_USB_SERIAL_NAVMAN=y
-CONFIG_USB_SERIAL_PL2303=y
-CONFIG_USB_SERIAL_OTI6858=y
-CONFIG_USB_SERIAL_QCAUX=y
-CONFIG_USB_SERIAL_QUALCOMM=y
-CONFIG_USB_SERIAL_SPCP8X5=y
-CONFIG_USB_SERIAL_SAFE=y
-CONFIG_USB_SERIAL_SAFE_PADDED=y
-CONFIG_USB_SERIAL_SIERRAWIRELESS=y
-CONFIG_USB_SERIAL_SYMBOL=y
-CONFIG_USB_SERIAL_TI=y
-CONFIG_USB_SERIAL_CYBERJACK=y
-CONFIG_USB_SERIAL_WWAN=y
-CONFIG_USB_SERIAL_OPTION=y
-CONFIG_USB_SERIAL_OMNINET=y
-CONFIG_USB_SERIAL_OPTICON=y
-CONFIG_USB_SERIAL_XSENS_MT=y
-CONFIG_USB_SERIAL_WISHBONE=y
-CONFIG_USB_SERIAL_SSU100=y
-CONFIG_USB_SERIAL_QT2=y
-CONFIG_USB_SERIAL_UPD78F0730=y
-CONFIG_USB_SERIAL_XR=y
-CONFIG_USB_SERIAL_DEBUG=y
-
-#
-# USB Miscellaneous drivers
-#
-CONFIG_USB_EMI62=y
-CONFIG_USB_EMI26=y
-CONFIG_USB_ADUTUX=y
-CONFIG_USB_SEVSEG=y
-CONFIG_USB_LEGOTOWER=y
-CONFIG_USB_LCD=y
-CONFIG_USB_CYPRESS_CY7C63=y
-CONFIG_USB_CYTHERM=y
-CONFIG_USB_IDMOUSE=y
-CONFIG_USB_FTDI_ELAN=y
-CONFIG_USB_APPLEDISPLAY=y
-CONFIG_USB_QCOM_EUD=y
-CONFIG_APPLE_MFI_FASTCHARGE=y
-CONFIG_USB_SISUSBVGA=y
-CONFIG_USB_LD=y
-CONFIG_USB_TRANCEVIBRATOR=y
-CONFIG_USB_IOWARRIOR=y
-CONFIG_USB_TEST=y
-CONFIG_USB_EHSET_TEST_FIXTURE=y
-CONFIG_USB_ISIGHTFW=y
-CONFIG_USB_YUREX=y
-CONFIG_USB_EZUSB_FX2=y
-CONFIG_USB_HUB_USB251XB=y
-CONFIG_USB_HSIC_USB3503=y
-CONFIG_USB_HSIC_USB4604=y
-CONFIG_USB_LINK_LAYER_TEST=y
-CONFIG_USB_CHAOSKEY=y
-CONFIG_BRCM_USB_PINMAP=y
-CONFIG_USB_ONBOARD_HUB=y
-CONFIG_USB_ATM=y
-CONFIG_USB_SPEEDTOUCH=y
-CONFIG_USB_CXACRU=y
-CONFIG_USB_UEAGLEATM=y
-CONFIG_USB_XUSBATM=y
-
-#
-# USB Physical Layer drivers
-#
-CONFIG_USB_PHY=y
-CONFIG_KEYSTONE_USB_PHY=y
-CONFIG_NOP_USB_XCEIV=y
-CONFIG_AM335X_CONTROL_USB=y
-CONFIG_AM335X_PHY_USB=y
-CONFIG_USB_GPIO_VBUS=y
-CONFIG_TAHVO_USB=y
-CONFIG_TAHVO_USB_HOST_BY_DEFAULT=y
-CONFIG_USB_ISP1301=y
-CONFIG_USB_MV_OTG=y
-CONFIG_USB_TEGRA_PHY=y
-CONFIG_USB_ULPI=y
-CONFIG_USB_ULPI_VIEWPORT=y
-CONFIG_JZ4770_PHY=y
-# end of USB Physical Layer drivers
-
-CONFIG_USB_GADGET=y
-CONFIG_USB_GADGET_DEBUG=y
-CONFIG_USB_GADGET_VERBOSE=y
-CONFIG_USB_GADGET_DEBUG_FILES=y
-CONFIG_USB_GADGET_DEBUG_FS=y
-CONFIG_USB_GADGET_VBUS_DRAW=2
-CONFIG_USB_GADGET_STORAGE_NUM_BUFFERS=2
-CONFIG_U_SERIAL_CONSOLE=y
-
-#
-# USB Peripheral Controller
-#
-CONFIG_USB_LPC32XX=y
-CONFIG_USB_FOTG210_UDC=y
-CONFIG_USB_GR_UDC=y
-CONFIG_USB_R8A66597=y
-CONFIG_USB_RENESAS_USBHS_UDC=y
-CONFIG_USB_RENESAS_USB3=y
-CONFIG_USB_PXA27X=y
-CONFIG_USB_MV_UDC=y
-CONFIG_USB_MV_U3D=y
-CONFIG_USB_SNP_CORE=y
-CONFIG_USB_SNP_UDC_PLAT=y
-CONFIG_USB_M66592=y
-CONFIG_USB_BDC_UDC=y
-CONFIG_USB_AMD5536UDC=y
-CONFIG_USB_NET2272=y
-CONFIG_USB_NET2272_DMA=y
-CONFIG_USB_NET2280=y
-CONFIG_USB_GOKU=y
-CONFIG_USB_EG20T=y
-CONFIG_USB_GADGET_XILINX=y
-CONFIG_USB_MAX3420_UDC=y
-CONFIG_USB_ASPEED_UDC=y
-CONFIG_USB_ASPEED_VHUB=y
-CONFIG_USB_DUMMY_HCD=y
-# end of USB Peripheral Controller
-
-CONFIG_USB_LIBCOMPOSITE=y
-CONFIG_USB_F_ACM=y
-CONFIG_USB_F_SS_LB=y
-CONFIG_USB_U_SERIAL=y
-CONFIG_USB_U_ETHER=y
-CONFIG_USB_U_AUDIO=y
-CONFIG_USB_F_SERIAL=y
-CONFIG_USB_F_OBEX=y
-CONFIG_USB_F_NCM=y
-CONFIG_USB_F_ECM=y
-CONFIG_USB_F_PHONET=y
-CONFIG_USB_F_EEM=y
-CONFIG_USB_F_SUBSET=y
-CONFIG_USB_F_RNDIS=y
-CONFIG_USB_F_MASS_STORAGE=y
-CONFIG_USB_F_FS=y
-CONFIG_USB_F_UAC1=y
-CONFIG_USB_F_UAC1_LEGACY=y
-CONFIG_USB_F_UAC2=y
-CONFIG_USB_F_UVC=y
-CONFIG_USB_F_MIDI=y
-CONFIG_USB_F_HID=y
-CONFIG_USB_F_PRINTER=y
-CONFIG_USB_F_TCM=y
-CONFIG_USB_CONFIGFS=y
-CONFIG_USB_CONFIGFS_SERIAL=y
-CONFIG_USB_CONFIGFS_ACM=y
-CONFIG_USB_CONFIGFS_OBEX=y
-CONFIG_USB_CONFIGFS_NCM=y
-CONFIG_USB_CONFIGFS_ECM=y
-CONFIG_USB_CONFIGFS_ECM_SUBSET=y
-CONFIG_USB_CONFIGFS_RNDIS=y
-CONFIG_USB_CONFIGFS_EEM=y
-CONFIG_USB_CONFIGFS_PHONET=y
-CONFIG_USB_CONFIGFS_MASS_STORAGE=y
-CONFIG_USB_CONFIGFS_F_LB_SS=y
-CONFIG_USB_CONFIGFS_F_FS=y
-CONFIG_USB_CONFIGFS_F_UAC1=y
-CONFIG_USB_CONFIGFS_F_UAC1_LEGACY=y
-CONFIG_USB_CONFIGFS_F_UAC2=y
-CONFIG_USB_CONFIGFS_F_MIDI=y
-CONFIG_USB_CONFIGFS_F_HID=y
-CONFIG_USB_CONFIGFS_F_UVC=y
-CONFIG_USB_CONFIGFS_F_PRINTER=y
-CONFIG_USB_CONFIGFS_F_TCM=y
-
-#
-# USB Gadget precomposed configurations
-#
-CONFIG_USB_ZERO=y
-CONFIG_USB_ZERO_HNPTEST=y
-CONFIG_USB_AUDIO=y
-CONFIG_GADGET_UAC1=y
-CONFIG_GADGET_UAC1_LEGACY=y
-CONFIG_USB_ETH=y
-CONFIG_USB_ETH_RNDIS=y
-CONFIG_USB_ETH_EEM=y
-CONFIG_USB_G_NCM=y
-CONFIG_USB_GADGETFS=y
-CONFIG_USB_FUNCTIONFS=y
-CONFIG_USB_FUNCTIONFS_ETH=y
-CONFIG_USB_FUNCTIONFS_RNDIS=y
-CONFIG_USB_FUNCTIONFS_GENERIC=y
-CONFIG_USB_MASS_STORAGE=y
-CONFIG_USB_GADGET_TARGET=y
-CONFIG_USB_G_SERIAL=y
-CONFIG_USB_MIDI_GADGET=y
-CONFIG_USB_G_PRINTER=y
-CONFIG_USB_CDC_COMPOSITE=y
-CONFIG_USB_G_NOKIA=y
-CONFIG_USB_G_ACM_MS=y
-CONFIG_USB_G_MULTI=y
-CONFIG_USB_G_MULTI_RNDIS=y
-CONFIG_USB_G_MULTI_CDC=y
-CONFIG_USB_G_HID=y
-CONFIG_USB_G_DBGP=y
-# CONFIG_USB_G_DBGP_PRINTK is not set
-CONFIG_USB_G_DBGP_SERIAL=y
-CONFIG_USB_G_WEBCAM=y
-CONFIG_USB_RAW_GADGET=y
-# end of USB Gadget precomposed configurations
-
-CONFIG_TYPEC=y
-CONFIG_TYPEC_TCPM=y
-CONFIG_TYPEC_TCPCI=y
-CONFIG_TYPEC_RT1711H=y
-CONFIG_TYPEC_MT6360=y
-CONFIG_TYPEC_TCPCI_MT6370=y
-CONFIG_TYPEC_TCPCI_MAXIM=y
-CONFIG_TYPEC_FUSB302=y
-CONFIG_TYPEC_UCSI=y
-CONFIG_UCSI_CCG=y
-CONFIG_UCSI_ACPI=y
-CONFIG_UCSI_STM32G0=y
-CONFIG_TYPEC_TPS6598X=y
-CONFIG_TYPEC_ANX7411=y
-CONFIG_TYPEC_RT1719=y
-CONFIG_TYPEC_HD3SS3220=y
-CONFIG_TYPEC_STUSB160X=y
-CONFIG_TYPEC_QCOM_PMIC=y
-CONFIG_TYPEC_WUSB3801=y
-
-#
-# USB Type-C Multiplexer/DeMultiplexer Switch support
-#
-CONFIG_TYPEC_MUX_FSA4480=y
-CONFIG_TYPEC_MUX_PI3USB30532=y
-# end of USB Type-C Multiplexer/DeMultiplexer Switch support
-
-#
-# USB Type-C Alternate Mode drivers
-#
-CONFIG_TYPEC_DP_ALTMODE=y
-CONFIG_TYPEC_NVIDIA_ALTMODE=y
-# end of USB Type-C Alternate Mode drivers
-
-CONFIG_USB_ROLE_SWITCH=y
-CONFIG_MMC=y
-CONFIG_PWRSEQ_EMMC=y
-CONFIG_PWRSEQ_SD8787=y
-CONFIG_PWRSEQ_SIMPLE=y
-CONFIG_MMC_BLOCK=y
-CONFIG_MMC_BLOCK_MINORS=8
-CONFIG_SDIO_UART=y
-CONFIG_MMC_TEST=y
-CONFIG_MMC_CRYPTO=y
-
-#
-# MMC/SD/SDIO Host Controller Drivers
-#
-CONFIG_MMC_DEBUG=y
-CONFIG_MMC_SDHCI=y
-CONFIG_MMC_SDHCI_IO_ACCESSORS=y
-CONFIG_MMC_SDHCI_PCI=y
-CONFIG_MMC_RICOH_MMC=y
-CONFIG_MMC_SDHCI_ACPI=y
-CONFIG_MMC_SDHCI_PLTFM=y
-CONFIG_MMC_SDHCI_OF_ARASAN=y
-CONFIG_MMC_SDHCI_OF_ASPEED=y
-CONFIG_MMC_SDHCI_OF_ASPEED_TEST=y
-CONFIG_MMC_SDHCI_OF_AT91=y
-CONFIG_MMC_SDHCI_OF_ESDHC=y
-CONFIG_MMC_SDHCI_OF_DWCMSHC=y
-CONFIG_MMC_SDHCI_OF_SPARX5=y
-CONFIG_MMC_SDHCI_CADENCE=y
-CONFIG_MMC_SDHCI_CNS3XXX=y
-CONFIG_MMC_SDHCI_ESDHC_IMX=y
-CONFIG_MMC_SDHCI_DOVE=y
-CONFIG_MMC_SDHCI_TEGRA=y
-CONFIG_MMC_SDHCI_S3C=y
-CONFIG_MMC_SDHCI_PXAV3=y
-CONFIG_MMC_SDHCI_PXAV2=y
-CONFIG_MMC_SDHCI_SPEAR=y
-CONFIG_MMC_SDHCI_S3C_DMA=y
-CONFIG_MMC_SDHCI_BCM_KONA=y
-CONFIG_MMC_SDHCI_F_SDH30=y
-CONFIG_MMC_SDHCI_MILBEAUT=y
-CONFIG_MMC_SDHCI_IPROC=y
-CONFIG_MMC_MESON_GX=y
-CONFIG_MMC_MESON_MX_SDHC=y
-CONFIG_MMC_MESON_MX_SDIO=y
-CONFIG_MMC_MOXART=y
-CONFIG_MMC_SDHCI_ST=y
-CONFIG_MMC_OMAP_HS=y
-CONFIG_MMC_ALCOR=y
-CONFIG_MMC_SDHCI_MSM=y
-CONFIG_MMC_TIFM_SD=y
-CONFIG_MMC_DAVINCI=y
-CONFIG_MMC_SPI=y
-CONFIG_MMC_S3C=y
-CONFIG_MMC_S3C_HW_SDIO_IRQ=y
-CONFIG_MMC_S3C_PIO=y
-# CONFIG_MMC_S3C_DMA is not set
-CONFIG_MMC_SDRICOH_CS=y
-CONFIG_MMC_SDHCI_SPRD=y
-CONFIG_MMC_TMIO_CORE=y
-CONFIG_MMC_TMIO=y
-CONFIG_MMC_SDHI=y
-CONFIG_MMC_SDHI_SYS_DMAC=y
-CONFIG_MMC_SDHI_INTERNAL_DMAC=y
-CONFIG_MMC_UNIPHIER=y
-CONFIG_MMC_CB710=y
-CONFIG_MMC_VIA_SDMMC=y
-CONFIG_MMC_CAVIUM_THUNDERX=y
-CONFIG_MMC_DW=y
-CONFIG_MMC_DW_PLTFM=y
-CONFIG_MMC_DW_BLUEFIELD=y
-CONFIG_MMC_DW_EXYNOS=y
-CONFIG_MMC_DW_HI3798CV200=y
-CONFIG_MMC_DW_K3=y
-CONFIG_MMC_DW_PCI=y
-CONFIG_MMC_SH_MMCIF=y
-CONFIG_MMC_VUB300=y
-CONFIG_MMC_USHC=y
-CONFIG_MMC_USDHI6ROL0=y
-CONFIG_MMC_REALTEK_PCI=y
-CONFIG_MMC_REALTEK_USB=y
-CONFIG_MMC_SUNXI=y
-CONFIG_MMC_CQHCI=y
-CONFIG_MMC_HSQ=y
-CONFIG_MMC_TOSHIBA_PCI=y
-CONFIG_MMC_BCM2835=y
-CONFIG_MMC_MTK=y
-CONFIG_MMC_SDHCI_XENON=y
-CONFIG_MMC_SDHCI_OMAP=y
-CONFIG_MMC_SDHCI_AM654=y
-CONFIG_MMC_OWL=y
-CONFIG_MMC_SDHCI_EXTERNAL_DMA=y
-CONFIG_MMC_LITEX=y
-CONFIG_SCSI_UFSHCD=y
-CONFIG_SCSI_UFS_BSG=y
-CONFIG_SCSI_UFS_CRYPTO=y
-CONFIG_SCSI_UFS_HPB=y
-CONFIG_SCSI_UFS_FAULT_INJECTION=y
-CONFIG_SCSI_UFS_HWMON=y
-CONFIG_SCSI_UFSHCD_PCI=y
-CONFIG_SCSI_UFS_DWC_TC_PCI=y
-CONFIG_SCSI_UFSHCD_PLATFORM=y
-CONFIG_SCSI_UFS_CDNS_PLATFORM=y
-CONFIG_SCSI_UFS_DWC_TC_PLATFORM=y
-CONFIG_SCSI_UFS_HISI=y
-CONFIG_SCSI_UFS_RENESAS=y
-CONFIG_SCSI_UFS_TI_J721E=y
-CONFIG_SCSI_UFS_EXYNOS=y
-CONFIG_MEMSTICK=y
-CONFIG_MEMSTICK_DEBUG=y
-
-#
-# MemoryStick drivers
-#
-CONFIG_MEMSTICK_UNSAFE_RESUME=y
-CONFIG_MSPRO_BLOCK=y
-CONFIG_MS_BLOCK=y
-
-#
-# MemoryStick Host Controller Drivers
-#
-CONFIG_MEMSTICK_TIFM_MS=y
-CONFIG_MEMSTICK_JMICRON_38X=y
-CONFIG_MEMSTICK_R592=y
-CONFIG_MEMSTICK_REALTEK_PCI=y
-CONFIG_MEMSTICK_REALTEK_USB=y
-CONFIG_NEW_LEDS=y
-CONFIG_LEDS_CLASS=y
-CONFIG_LEDS_CLASS_FLASH=y
-CONFIG_LEDS_CLASS_MULTICOLOR=y
-CONFIG_LEDS_BRIGHTNESS_HW_CHANGED=y
-
-#
-# LED drivers
-#
-CONFIG_LEDS_88PM860X=y
-CONFIG_LEDS_AN30259A=y
-CONFIG_LEDS_ARIEL=y
-CONFIG_LEDS_AW2013=y
-CONFIG_LEDS_BCM6328=y
-CONFIG_LEDS_BCM6358=y
-CONFIG_LEDS_CPCAP=y
-CONFIG_LEDS_CR0014114=y
-CONFIG_LEDS_EL15203000=y
-CONFIG_LEDS_TURRIS_OMNIA=y
-CONFIG_LEDS_LM3530=y
-CONFIG_LEDS_LM3532=y
-CONFIG_LEDS_LM3533=y
-CONFIG_LEDS_LM3642=y
-CONFIG_LEDS_LM3692X=y
-CONFIG_LEDS_MT6323=y
-CONFIG_LEDS_S3C24XX=y
-CONFIG_LEDS_COBALT_QUBE=y
-CONFIG_LEDS_COBALT_RAQ=y
-CONFIG_LEDS_PCA9532=y
-CONFIG_LEDS_PCA9532_GPIO=y
-CONFIG_LEDS_GPIO=y
-CONFIG_LEDS_LP3944=y
-CONFIG_LEDS_LP3952=y
-CONFIG_LEDS_LP50XX=y
-CONFIG_LEDS_LP55XX_COMMON=y
-CONFIG_LEDS_LP5521=y
-CONFIG_LEDS_LP5523=y
-CONFIG_LEDS_LP5562=y
-CONFIG_LEDS_LP8501=y
-CONFIG_LEDS_LP8788=y
-CONFIG_LEDS_LP8860=y
-CONFIG_LEDS_PCA955X=y
-CONFIG_LEDS_PCA955X_GPIO=y
-CONFIG_LEDS_PCA963X=y
-CONFIG_LEDS_WM831X_STATUS=y
-CONFIG_LEDS_WM8350=y
-CONFIG_LEDS_DA903X=y
-CONFIG_LEDS_DA9052=y
-CONFIG_LEDS_DAC124S085=y
-CONFIG_LEDS_PWM=y
-CONFIG_LEDS_REGULATOR=y
-CONFIG_LEDS_BD2802=y
-CONFIG_LEDS_LT3593=y
-CONFIG_LEDS_ADP5520=y
-CONFIG_LEDS_MC13783=y
-CONFIG_LEDS_NS2=y
-CONFIG_LEDS_NETXBIG=y
-CONFIG_LEDS_ASIC3=y
-CONFIG_LEDS_TCA6507=y
-CONFIG_LEDS_TLC591XX=y
-CONFIG_LEDS_MAX77650=y
-CONFIG_LEDS_MAX8997=y
-CONFIG_LEDS_LM355x=y
-CONFIG_LEDS_OT200=y
-CONFIG_LEDS_MENF21BMC=y
-CONFIG_LEDS_IS31FL319X=y
-CONFIG_LEDS_IS31FL32XX=y
-CONFIG_LEDS_SC27XX_BLTC=y
-
-#
-# LED driver for blink(1) USB RGB LED is under Special HID drivers (HID_THINGM)
-#
-CONFIG_LEDS_BLINKM=y
-CONFIG_LEDS_SYSCON=y
-CONFIG_LEDS_PM8058=y
-CONFIG_LEDS_MLXREG=y
-CONFIG_LEDS_USER=y
-CONFIG_LEDS_SPI_BYTE=y
-CONFIG_LEDS_TI_LMU_COMMON=y
-CONFIG_LEDS_LM3697=y
-CONFIG_LEDS_LM36274=y
-CONFIG_LEDS_TPS6105X=y
-CONFIG_LEDS_IP30=y
-CONFIG_LEDS_ACER_A500=y
-CONFIG_LEDS_BCM63138=y
-CONFIG_LEDS_LGM=y
-
-#
-# Flash and Torch LED drivers
-#
-CONFIG_LEDS_AAT1290=y
-CONFIG_LEDS_AS3645A=y
-CONFIG_LEDS_KTD2692=y
-CONFIG_LEDS_LM3601X=y
-CONFIG_LEDS_MAX77693=y
-CONFIG_LEDS_MT6360=y
-CONFIG_LEDS_RT4505=y
-CONFIG_LEDS_RT8515=y
-CONFIG_LEDS_SGM3140=y
-
-#
-# RGB LED drivers
-#
-CONFIG_LEDS_PWM_MULTICOLOR=y
-CONFIG_LEDS_QCOM_LPG=y
-
-#
-# LED Triggers
-#
-CONFIG_LEDS_TRIGGERS=y
-CONFIG_LEDS_TRIGGER_TIMER=y
-CONFIG_LEDS_TRIGGER_ONESHOT=y
-CONFIG_LEDS_TRIGGER_DISK=y
-CONFIG_LEDS_TRIGGER_MTD=y
-CONFIG_LEDS_TRIGGER_HEARTBEAT=y
-CONFIG_LEDS_TRIGGER_BACKLIGHT=y
-CONFIG_LEDS_TRIGGER_CPU=y
-CONFIG_LEDS_TRIGGER_ACTIVITY=y
-CONFIG_LEDS_TRIGGER_GPIO=y
-CONFIG_LEDS_TRIGGER_DEFAULT_ON=y
-
-#
-# iptables trigger is under Netfilter config (LED target)
-#
-CONFIG_LEDS_TRIGGER_TRANSIENT=y
-CONFIG_LEDS_TRIGGER_CAMERA=y
-CONFIG_LEDS_TRIGGER_PANIC=y
-CONFIG_LEDS_TRIGGER_NETDEV=y
-CONFIG_LEDS_TRIGGER_PATTERN=y
-CONFIG_LEDS_TRIGGER_AUDIO=y
-CONFIG_LEDS_TRIGGER_TTY=y
-
-#
-# Simple LED drivers
-#
-CONFIG_ACCESSIBILITY=y
-CONFIG_A11Y_BRAILLE_CONSOLE=y
-
-#
-# Speakup console speech
-#
-CONFIG_SPEAKUP=y
-CONFIG_SPEAKUP_SERIALIO=y
-CONFIG_SPEAKUP_SYNTH_ACNTSA=y
-CONFIG_SPEAKUP_SYNTH_ACNTPC=y
-CONFIG_SPEAKUP_SYNTH_APOLLO=y
-CONFIG_SPEAKUP_SYNTH_AUDPTR=y
-CONFIG_SPEAKUP_SYNTH_BNS=y
-CONFIG_SPEAKUP_SYNTH_DECTLK=y
-CONFIG_SPEAKUP_SYNTH_DECEXT=y
-CONFIG_SPEAKUP_SYNTH_DECPC=m
-CONFIG_SPEAKUP_SYNTH_DTLK=y
-CONFIG_SPEAKUP_SYNTH_KEYPC=y
-CONFIG_SPEAKUP_SYNTH_LTLK=y
-CONFIG_SPEAKUP_SYNTH_SOFT=y
-CONFIG_SPEAKUP_SYNTH_SPKOUT=y
-CONFIG_SPEAKUP_SYNTH_TXPRT=y
-CONFIG_SPEAKUP_SYNTH_DUMMY=y
-# end of Speakup console speech
-
-CONFIG_INFINIBAND=y
-CONFIG_INFINIBAND_USER_MAD=y
-CONFIG_INFINIBAND_USER_ACCESS=y
-CONFIG_INFINIBAND_USER_MEM=y
-CONFIG_INFINIBAND_ON_DEMAND_PAGING=y
-CONFIG_INFINIBAND_ADDR_TRANS=y
-CONFIG_INFINIBAND_ADDR_TRANS_CONFIGFS=y
-CONFIG_INFINIBAND_VIRT_DMA=y
-CONFIG_INFINIBAND_BNXT_RE=y
-CONFIG_INFINIBAND_CXGB4=y
-CONFIG_INFINIBAND_EFA=y
-CONFIG_INFINIBAND_ERDMA=y
-CONFIG_INFINIBAND_HNS=y
-CONFIG_INFINIBAND_HNS_HIP08=y
-CONFIG_INFINIBAND_IRDMA=y
-CONFIG_MLX4_INFINIBAND=y
-CONFIG_MLX5_INFINIBAND=y
-CONFIG_INFINIBAND_MTHCA=y
-CONFIG_INFINIBAND_MTHCA_DEBUG=y
-CONFIG_INFINIBAND_OCRDMA=y
-CONFIG_INFINIBAND_QEDR=y
-CONFIG_INFINIBAND_USNIC=y
-CONFIG_INFINIBAND_VMWARE_PVRDMA=y
-CONFIG_RDMA_RXE=y
-CONFIG_RDMA_SIW=y
-CONFIG_INFINIBAND_IPOIB=y
-CONFIG_INFINIBAND_IPOIB_CM=y
-CONFIG_INFINIBAND_IPOIB_DEBUG=y
-CONFIG_INFINIBAND_IPOIB_DEBUG_DATA=y
-CONFIG_INFINIBAND_SRP=y
-CONFIG_INFINIBAND_SRPT=y
-CONFIG_INFINIBAND_ISER=y
-CONFIG_INFINIBAND_ISERT=y
-CONFIG_INFINIBAND_RTRS=y
-CONFIG_INFINIBAND_RTRS_CLIENT=y
-CONFIG_INFINIBAND_RTRS_SERVER=y
-CONFIG_RTC_LIB=y
-CONFIG_RTC_CLASS=y
-CONFIG_RTC_HCTOSYS=y
-CONFIG_RTC_HCTOSYS_DEVICE="rtc0"
-CONFIG_RTC_SYSTOHC=y
-CONFIG_RTC_SYSTOHC_DEVICE="rtc0"
-CONFIG_RTC_DEBUG=y
-CONFIG_RTC_LIB_KUNIT_TEST=y
-CONFIG_RTC_NVMEM=y
-
-#
-# RTC interfaces
-#
-CONFIG_RTC_INTF_SYSFS=y
-CONFIG_RTC_INTF_PROC=y
-CONFIG_RTC_INTF_DEV=y
-CONFIG_RTC_INTF_DEV_UIE_EMUL=y
-CONFIG_RTC_DRV_TEST=y
-
-#
-# I2C RTC drivers
-#
-CONFIG_RTC_DRV_88PM860X=y
-CONFIG_RTC_DRV_88PM80X=y
-CONFIG_RTC_DRV_ABB5ZES3=y
-CONFIG_RTC_DRV_ABEOZ9=y
-CONFIG_RTC_DRV_ABX80X=y
-CONFIG_RTC_DRV_BRCMSTB=y
-CONFIG_RTC_DRV_AS3722=y
-CONFIG_RTC_DRV_DS1307=y
-CONFIG_RTC_DRV_DS1307_CENTURY=y
-CONFIG_RTC_DRV_DS1374=y
-CONFIG_RTC_DRV_DS1374_WDT=y
-CONFIG_RTC_DRV_DS1672=y
-CONFIG_RTC_DRV_HYM8563=y
-CONFIG_RTC_DRV_LP8788=y
-CONFIG_RTC_DRV_MAX6900=y
-CONFIG_RTC_DRV_MAX8907=y
-CONFIG_RTC_DRV_MAX8925=y
-CONFIG_RTC_DRV_MAX8998=y
-CONFIG_RTC_DRV_MAX8997=y
-CONFIG_RTC_DRV_MAX77686=y
-CONFIG_RTC_DRV_NCT3018Y=y
-CONFIG_RTC_DRV_RK808=y
-CONFIG_RTC_DRV_RS5C372=y
-CONFIG_RTC_DRV_ISL1208=y
-CONFIG_RTC_DRV_ISL12022=y
-CONFIG_RTC_DRV_ISL12026=y
-CONFIG_RTC_DRV_X1205=y
-CONFIG_RTC_DRV_PCF8523=y
-CONFIG_RTC_DRV_PCF85063=y
-CONFIG_RTC_DRV_PCF85363=y
-CONFIG_RTC_DRV_PCF8563=y
-CONFIG_RTC_DRV_PCF8583=y
-CONFIG_RTC_DRV_M41T80=y
-CONFIG_RTC_DRV_M41T80_WDT=y
-CONFIG_RTC_DRV_BD70528=y
-CONFIG_RTC_DRV_BQ32K=y
-CONFIG_RTC_DRV_TWL4030=y
-CONFIG_RTC_DRV_PALMAS=y
-CONFIG_RTC_DRV_TPS6586X=y
-CONFIG_RTC_DRV_TPS65910=y
-CONFIG_RTC_DRV_RC5T583=y
-CONFIG_RTC_DRV_RC5T619=y
-CONFIG_RTC_DRV_S35390A=y
-CONFIG_RTC_DRV_FM3130=y
-CONFIG_RTC_DRV_RX8010=y
-CONFIG_RTC_DRV_RX8581=y
-CONFIG_RTC_DRV_RX8025=y
-CONFIG_RTC_DRV_EM3027=y
-CONFIG_RTC_DRV_RV3028=y
-CONFIG_RTC_DRV_RV3032=y
-CONFIG_RTC_DRV_RV8803=y
-CONFIG_RTC_DRV_S5M=y
-CONFIG_RTC_DRV_SD3078=y
-
-#
-# SPI RTC drivers
-#
-CONFIG_RTC_DRV_M41T93=y
-CONFIG_RTC_DRV_M41T94=y
-CONFIG_RTC_DRV_DS1302=y
-CONFIG_RTC_DRV_DS1305=y
-CONFIG_RTC_DRV_DS1343=y
-CONFIG_RTC_DRV_DS1347=y
-CONFIG_RTC_DRV_DS1390=y
-CONFIG_RTC_DRV_MAX6916=y
-CONFIG_RTC_DRV_R9701=y
-CONFIG_RTC_DRV_RX4581=y
-CONFIG_RTC_DRV_RS5C348=y
-CONFIG_RTC_DRV_MAX6902=y
-CONFIG_RTC_DRV_PCF2123=y
-CONFIG_RTC_DRV_MCP795=y
-CONFIG_RTC_I2C_AND_SPI=y
-
-#
-# SPI and I2C RTC drivers
-#
-CONFIG_RTC_DRV_DS3232=y
-CONFIG_RTC_DRV_DS3232_HWMON=y
-CONFIG_RTC_DRV_PCF2127=y
-CONFIG_RTC_DRV_RV3029C2=y
-CONFIG_RTC_DRV_RV3029_HWMON=y
-CONFIG_RTC_DRV_RX6110=y
-
-#
-# Platform RTC drivers
-#
-CONFIG_RTC_DRV_DS1286=y
-CONFIG_RTC_DRV_DS1511=y
-CONFIG_RTC_DRV_DS1553=y
-CONFIG_RTC_DRV_DS1685_FAMILY=y
-CONFIG_RTC_DRV_DS1685=y
-# CONFIG_RTC_DRV_DS1689 is not set
-# CONFIG_RTC_DRV_DS17285 is not set
-# CONFIG_RTC_DRV_DS17485 is not set
-# CONFIG_RTC_DRV_DS17885 is not set
-CONFIG_RTC_DRV_DS1742=y
-CONFIG_RTC_DRV_DS2404=y
-CONFIG_RTC_DRV_DA9052=y
-CONFIG_RTC_DRV_DA9055=y
-CONFIG_RTC_DRV_DA9063=y
-CONFIG_RTC_DRV_EFI=y
-CONFIG_RTC_DRV_STK17TA8=y
-CONFIG_RTC_DRV_M48T86=y
-CONFIG_RTC_DRV_M48T35=y
-CONFIG_RTC_DRV_M48T59=y
-CONFIG_RTC_DRV_MSM6242=y
-CONFIG_RTC_DRV_BQ4802=y
-CONFIG_RTC_DRV_RP5C01=y
-CONFIG_RTC_DRV_V3020=y
-CONFIG_RTC_DRV_GAMECUBE=y
-CONFIG_RTC_DRV_WM831X=y
-CONFIG_RTC_DRV_WM8350=y
-CONFIG_RTC_DRV_SC27XX=y
-CONFIG_RTC_DRV_SPEAR=y
-CONFIG_RTC_DRV_PCF50633=y
-CONFIG_RTC_DRV_ZYNQMP=y
-CONFIG_RTC_DRV_CROS_EC=y
-CONFIG_RTC_DRV_NTXEC=y
-
-#
-# on-CPU RTC drivers
-#
-CONFIG_RTC_DRV_ASM9260=y
-CONFIG_RTC_DRV_DAVINCI=y
-CONFIG_RTC_DRV_DIGICOLOR=y
-CONFIG_RTC_DRV_FSL_FTM_ALARM=y
-CONFIG_RTC_DRV_MESON=y
-CONFIG_RTC_DRV_MESON_VRTC=y
-CONFIG_RTC_DRV_OMAP=y
-CONFIG_RTC_DRV_S3C=y
-CONFIG_RTC_DRV_EP93XX=y
-CONFIG_RTC_DRV_AT91RM9200=y
-CONFIG_RTC_DRV_AT91SAM9=y
-CONFIG_RTC_DRV_RZN1=y
-CONFIG_RTC_DRV_GENERIC=y
-CONFIG_RTC_DRV_VT8500=y
-CONFIG_RTC_DRV_SUN6I=y
-CONFIG_RTC_DRV_SUNXI=y
-CONFIG_RTC_DRV_MV=y
-CONFIG_RTC_DRV_ARMADA38X=y
-CONFIG_RTC_DRV_CADENCE=y
-CONFIG_RTC_DRV_FTRTC010=y
-CONFIG_RTC_DRV_STMP=y
-CONFIG_RTC_DRV_PCAP=y
-CONFIG_RTC_DRV_MC13XXX=y
-CONFIG_RTC_DRV_JZ4740=y
-CONFIG_RTC_DRV_LPC24XX=y
-CONFIG_RTC_DRV_LPC32XX=y
-CONFIG_RTC_DRV_PM8XXX=y
-CONFIG_RTC_DRV_TEGRA=y
-CONFIG_RTC_DRV_MXC=y
-CONFIG_RTC_DRV_MXC_V2=y
-CONFIG_RTC_DRV_SNVS=y
-CONFIG_RTC_DRV_MOXART=y
-CONFIG_RTC_DRV_MT2712=y
-CONFIG_RTC_DRV_MT6397=y
-CONFIG_RTC_DRV_MT7622=y
-CONFIG_RTC_DRV_XGENE=y
-CONFIG_RTC_DRV_R7301=y
-CONFIG_RTC_DRV_STM32=y
-CONFIG_RTC_DRV_CPCAP=y
-CONFIG_RTC_DRV_RTD119X=y
-CONFIG_RTC_DRV_ASPEED=y
-CONFIG_RTC_DRV_TI_K3=y
-
-#
-# HID Sensor RTC drivers
-#
-CONFIG_RTC_DRV_HID_SENSOR_TIME=y
-CONFIG_RTC_DRV_GOLDFISH=y
-CONFIG_RTC_DRV_WILCO_EC=y
-CONFIG_RTC_DRV_MSC313=y
-CONFIG_DMADEVICES=y
-CONFIG_DMADEVICES_DEBUG=y
-CONFIG_DMADEVICES_VDEBUG=y
-
-#
-# DMA Devices
-#
-CONFIG_ASYNC_TX_ENABLE_CHANNEL_SWITCH=y
-CONFIG_DMA_ENGINE=y
-CONFIG_DMA_VIRTUAL_CHANNELS=y
-CONFIG_DMA_ACPI=y
-CONFIG_DMA_OF=y
-CONFIG_ALTERA_MSGDMA=y
-CONFIG_APPLE_ADMAC=y
-CONFIG_AXI_DMAC=y
-CONFIG_BCM_SBA_RAID=y
-CONFIG_DMA_JZ4780=y
-CONFIG_DMA_SA11X0=y
-CONFIG_DMA_SUN6I=y
-CONFIG_DW_AXI_DMAC=y
-CONFIG_EP93XX_DMA=y
-CONFIG_FSL_EDMA=y
-CONFIG_HISI_DMA=y
-CONFIG_IMG_MDC_DMA=y
-CONFIG_INTEL_IDMA64=y
-CONFIG_INTEL_IOP_ADMA=y
-CONFIG_K3_DMA=y
-CONFIG_MCF_EDMA=y
-CONFIG_MILBEAUT_HDMAC=y
-CONFIG_MILBEAUT_XDMAC=y
-CONFIG_MMP_PDMA=y
-CONFIG_MMP_TDMA=y
-CONFIG_MV_XOR=y
-CONFIG_MXS_DMA=y
-CONFIG_NBPFAXI_DMA=y
-CONFIG_PCH_DMA=y
-CONFIG_PLX_DMA=y
-CONFIG_STM32_DMA=y
-CONFIG_STM32_DMAMUX=y
-CONFIG_STM32_MDMA=y
-CONFIG_SPRD_DMA=y
-CONFIG_S3C24XX_DMAC=y
-CONFIG_TEGRA186_GPC_DMA=y
-CONFIG_TEGRA20_APB_DMA=y
-CONFIG_TEGRA210_ADMA=y
-CONFIG_TIMB_DMA=y
-CONFIG_UNIPHIER_MDMAC=y
-CONFIG_UNIPHIER_XDMAC=y
-CONFIG_XGENE_DMA=y
-CONFIG_XILINX_ZYNQMP_DMA=y
-CONFIG_XILINX_ZYNQMP_DPDMA=y
-CONFIG_MTK_HSDMA=y
-CONFIG_MTK_CQDMA=y
-CONFIG_MTK_UART_APDMA=y
-CONFIG_QCOM_HIDMA_MGMT=y
-CONFIG_QCOM_HIDMA=y
-CONFIG_DW_DMAC_CORE=y
-CONFIG_DW_DMAC=y
-CONFIG_RZN1_DMAMUX=y
-CONFIG_DW_DMAC_PCI=y
-CONFIG_DW_EDMA=y
-CONFIG_DW_EDMA_PCIE=y
-CONFIG_HSU_DMA=y
-CONFIG_SF_PDMA=y
-CONFIG_RENESAS_DMA=y
-CONFIG_SH_DMAE_BASE=y
-CONFIG_SH_DMAE=y
-CONFIG_RCAR_DMAC=y
-CONFIG_RENESAS_USB_DMAC=y
-CONFIG_RZ_DMAC=y
-CONFIG_TI_EDMA=y
-CONFIG_DMA_OMAP=y
-CONFIG_TI_DMA_CROSSBAR=y
-CONFIG_INTEL_LDMA=y
-
-#
-# DMA Clients
-#
-CONFIG_ASYNC_TX_DMA=y
-CONFIG_DMATEST=y
-CONFIG_DMA_ENGINE_RAID=y
-
-#
-# DMABUF options
-#
-CONFIG_SYNC_FILE=y
-CONFIG_SW_SYNC=y
-CONFIG_UDMABUF=y
-CONFIG_DMABUF_MOVE_NOTIFY=y
-CONFIG_DMABUF_DEBUG=y
-CONFIG_DMABUF_SELFTESTS=y
-CONFIG_DMABUF_HEAPS=y
-CONFIG_DMABUF_SYSFS_STATS=y
-CONFIG_DMABUF_HEAPS_SYSTEM=y
-# end of DMABUF options
-
-CONFIG_AUXDISPLAY=y
-CONFIG_CHARLCD=y
-CONFIG_LINEDISP=y
-CONFIG_HD44780_COMMON=y
-CONFIG_HD44780=y
-CONFIG_KS0108=y
-CONFIG_KS0108_PORT=0x378
-CONFIG_KS0108_DELAY=2
-CONFIG_IMG_ASCII_LCD=y
-CONFIG_HT16K33=y
-CONFIG_LCD2S=y
-CONFIG_PARPORT_PANEL=y
-CONFIG_PANEL_PARPORT=0
-CONFIG_PANEL_PROFILE=5
-CONFIG_PANEL_CHANGE_MESSAGE=y
-CONFIG_PANEL_BOOT_MESSAGE=""
-# CONFIG_CHARLCD_BL_OFF is not set
-# CONFIG_CHARLCD_BL_ON is not set
-CONFIG_CHARLCD_BL_FLASH=y
-CONFIG_PANEL=y
-CONFIG_UIO=y
-CONFIG_UIO_CIF=y
-CONFIG_UIO_PDRV_GENIRQ=y
-CONFIG_UIO_DMEM_GENIRQ=y
-CONFIG_UIO_AEC=y
-CONFIG_UIO_SERCOS3=y
-CONFIG_UIO_PCI_GENERIC=y
-CONFIG_UIO_NETX=y
-CONFIG_UIO_PRUSS=y
-CONFIG_UIO_MF624=y
-CONFIG_UIO_DFL=y
-CONFIG_VFIO=y
-CONFIG_VFIO_VIRQFD=y
-CONFIG_VFIO_NOIOMMU=y
-CONFIG_VFIO_PCI_CORE=y
-CONFIG_VFIO_PCI_MMAP=y
-CONFIG_VFIO_PCI_INTX=y
-CONFIG_VFIO_PCI=y
-CONFIG_MLX5_VFIO_PCI=y
-CONFIG_HISI_ACC_VFIO_PCI=y
-CONFIG_VFIO_PLATFORM=y
-CONFIG_VFIO_AMBA=y
-CONFIG_VFIO_PLATFORM_CALXEDAXGMAC_RESET=y
-CONFIG_VFIO_PLATFORM_AMDXGBE_RESET=y
-CONFIG_VFIO_PLATFORM_BCMFLEXRM_RESET=y
-CONFIG_VFIO_MDEV=y
-CONFIG_IRQ_BYPASS_MANAGER=y
-CONFIG_VIRT_DRIVERS=y
-CONFIG_VMGENID=y
-CONFIG_VIRTIO_ANCHOR=y
-CONFIG_VIRTIO=y
-CONFIG_VIRTIO_PCI_LIB=y
-CONFIG_VIRTIO_PCI_LIB_LEGACY=y
-CONFIG_VIRTIO_MENU=y
-CONFIG_VIRTIO_PCI=y
-CONFIG_VIRTIO_PCI_LEGACY=y
-CONFIG_VIRTIO_VDPA=y
-CONFIG_VIRTIO_PMEM=y
-CONFIG_VIRTIO_BALLOON=y
-CONFIG_VIRTIO_INPUT=y
-CONFIG_VIRTIO_MMIO=y
-CONFIG_VIRTIO_MMIO_CMDLINE_DEVICES=y
-CONFIG_VIRTIO_DMA_SHARED_BUFFER=y
-CONFIG_VDPA=y
-CONFIG_VDPA_SIM=y
-CONFIG_VDPA_SIM_NET=y
-CONFIG_VDPA_SIM_BLOCK=y
-CONFIG_VDPA_USER=y
-CONFIG_IFCVF=y
-CONFIG_MLX5_VDPA=y
-CONFIG_MLX5_VDPA_NET=y
-CONFIG_VP_VDPA=y
-CONFIG_VHOST_IOTLB=y
-CONFIG_VHOST_RING=y
-CONFIG_VHOST=y
-CONFIG_VHOST_MENU=y
-CONFIG_VHOST_NET=y
-CONFIG_VHOST_SCSI=y
-CONFIG_VHOST_VSOCK=y
-CONFIG_VHOST_VDPA=y
-CONFIG_VHOST_CROSS_ENDIAN_LEGACY=y
-
-#
-# Microsoft Hyper-V guest support
-#
-# end of Microsoft Hyper-V guest support
-
-CONFIG_GREYBUS=y
-CONFIG_GREYBUS_ES2=y
-CONFIG_COMEDI=y
-CONFIG_COMEDI_DEBUG=y
-CONFIG_COMEDI_DEFAULT_BUF_SIZE_KB=2048
-CONFIG_COMEDI_DEFAULT_BUF_MAXSIZE_KB=20480
-CONFIG_COMEDI_MISC_DRIVERS=y
-CONFIG_COMEDI_BOND=y
-CONFIG_COMEDI_TEST=y
-CONFIG_COMEDI_PARPORT=y
-CONFIG_COMEDI_SSV_DNP=y
-CONFIG_COMEDI_ISA_DRIVERS=y
-CONFIG_COMEDI_PCL711=y
-CONFIG_COMEDI_PCL724=y
-CONFIG_COMEDI_PCL726=y
-CONFIG_COMEDI_PCL730=y
-CONFIG_COMEDI_PCL812=y
-CONFIG_COMEDI_PCL816=y
-CONFIG_COMEDI_PCL818=y
-CONFIG_COMEDI_PCM3724=y
-CONFIG_COMEDI_AMPLC_DIO200_ISA=y
-CONFIG_COMEDI_AMPLC_PC236_ISA=y
-CONFIG_COMEDI_AMPLC_PC263_ISA=y
-CONFIG_COMEDI_RTI800=y
-CONFIG_COMEDI_RTI802=y
-CONFIG_COMEDI_DAC02=y
-CONFIG_COMEDI_DAS16M1=y
-CONFIG_COMEDI_DAS08_ISA=y
-CONFIG_COMEDI_DAS16=y
-CONFIG_COMEDI_DAS800=y
-CONFIG_COMEDI_DAS1800=y
-CONFIG_COMEDI_DAS6402=y
-CONFIG_COMEDI_DT2801=y
-CONFIG_COMEDI_DT2811=y
-CONFIG_COMEDI_DT2814=y
-CONFIG_COMEDI_DT2815=y
-CONFIG_COMEDI_DT2817=y
-CONFIG_COMEDI_DT282X=y
-CONFIG_COMEDI_DMM32AT=y
-CONFIG_COMEDI_FL512=y
-CONFIG_COMEDI_AIO_AIO12_8=y
-CONFIG_COMEDI_AIO_IIRO_16=y
-CONFIG_COMEDI_II_PCI20KC=y
-CONFIG_COMEDI_C6XDIGIO=y
-CONFIG_COMEDI_MPC624=y
-CONFIG_COMEDI_ADQ12B=y
-CONFIG_COMEDI_NI_AT_A2150=y
-CONFIG_COMEDI_NI_AT_AO=y
-CONFIG_COMEDI_NI_ATMIO=y
-CONFIG_COMEDI_NI_ATMIO16D=y
-CONFIG_COMEDI_NI_LABPC_ISA=y
-CONFIG_COMEDI_PCMAD=y
-CONFIG_COMEDI_PCMDA12=y
-CONFIG_COMEDI_PCMMIO=y
-CONFIG_COMEDI_PCMUIO=y
-CONFIG_COMEDI_MULTIQ3=y
-CONFIG_COMEDI_S526=y
-CONFIG_COMEDI_PCI_DRIVERS=y
-CONFIG_COMEDI_8255_PCI=y
-CONFIG_COMEDI_ADDI_WATCHDOG=y
-CONFIG_COMEDI_ADDI_APCI_1032=y
-CONFIG_COMEDI_ADDI_APCI_1500=y
-CONFIG_COMEDI_ADDI_APCI_1516=y
-CONFIG_COMEDI_ADDI_APCI_1564=y
-CONFIG_COMEDI_ADDI_APCI_16XX=y
-CONFIG_COMEDI_ADDI_APCI_2032=y
-CONFIG_COMEDI_ADDI_APCI_2200=y
-CONFIG_COMEDI_ADDI_APCI_3120=y
-CONFIG_COMEDI_ADDI_APCI_3501=y
-CONFIG_COMEDI_ADDI_APCI_3XXX=y
-CONFIG_COMEDI_ADL_PCI6208=y
-CONFIG_COMEDI_ADL_PCI7X3X=y
-CONFIG_COMEDI_ADL_PCI8164=y
-CONFIG_COMEDI_ADL_PCI9111=y
-CONFIG_COMEDI_ADL_PCI9118=y
-CONFIG_COMEDI_ADV_PCI1710=y
-CONFIG_COMEDI_ADV_PCI1720=y
-CONFIG_COMEDI_ADV_PCI1723=y
-CONFIG_COMEDI_ADV_PCI1724=y
-CONFIG_COMEDI_ADV_PCI1760=y
-CONFIG_COMEDI_ADV_PCI_DIO=y
-CONFIG_COMEDI_AMPLC_DIO200_PCI=y
-CONFIG_COMEDI_AMPLC_PC236_PCI=y
-CONFIG_COMEDI_AMPLC_PC263_PCI=y
-CONFIG_COMEDI_AMPLC_PCI224=y
-CONFIG_COMEDI_AMPLC_PCI230=y
-CONFIG_COMEDI_CONTEC_PCI_DIO=y
-CONFIG_COMEDI_DAS08_PCI=y
-CONFIG_COMEDI_DT3000=y
-CONFIG_COMEDI_DYNA_PCI10XX=y
-CONFIG_COMEDI_GSC_HPDI=y
-CONFIG_COMEDI_MF6X4=y
-CONFIG_COMEDI_ICP_MULTI=y
-CONFIG_COMEDI_DAQBOARD2000=y
-CONFIG_COMEDI_JR3_PCI=y
-CONFIG_COMEDI_KE_COUNTER=y
-CONFIG_COMEDI_CB_PCIDAS64=y
-CONFIG_COMEDI_CB_PCIDAS=y
-CONFIG_COMEDI_CB_PCIDDA=y
-CONFIG_COMEDI_CB_PCIMDAS=y
-CONFIG_COMEDI_CB_PCIMDDA=y
-CONFIG_COMEDI_ME4000=y
-CONFIG_COMEDI_ME_DAQ=y
-CONFIG_COMEDI_NI_6527=y
-CONFIG_COMEDI_NI_65XX=y
-CONFIG_COMEDI_NI_660X=y
-CONFIG_COMEDI_NI_670X=y
-CONFIG_COMEDI_NI_LABPC_PCI=y
-CONFIG_COMEDI_NI_PCIDIO=y
-CONFIG_COMEDI_NI_PCIMIO=y
-CONFIG_COMEDI_RTD520=y
-CONFIG_COMEDI_S626=y
-CONFIG_COMEDI_MITE=y
-CONFIG_COMEDI_NI_TIOCMD=y
-CONFIG_COMEDI_PCMCIA_DRIVERS=y
-CONFIG_COMEDI_CB_DAS16_CS=y
-CONFIG_COMEDI_DAS08_CS=y
-CONFIG_COMEDI_NI_DAQ_700_CS=y
-CONFIG_COMEDI_NI_DAQ_DIO24_CS=y
-CONFIG_COMEDI_NI_LABPC_CS=y
-CONFIG_COMEDI_NI_MIO_CS=y
-CONFIG_COMEDI_QUATECH_DAQP_CS=y
-CONFIG_COMEDI_USB_DRIVERS=y
-CONFIG_COMEDI_DT9812=y
-CONFIG_COMEDI_NI_USB6501=y
-CONFIG_COMEDI_USBDUX=y
-CONFIG_COMEDI_USBDUXFAST=y
-CONFIG_COMEDI_USBDUXSIGMA=y
-CONFIG_COMEDI_VMK80XX=y
-CONFIG_COMEDI_8254=y
-CONFIG_COMEDI_8255=y
-CONFIG_COMEDI_8255_SA=y
-CONFIG_COMEDI_KCOMEDILIB=y
-CONFIG_COMEDI_AMPLC_DIO200=y
-CONFIG_COMEDI_AMPLC_PC236=y
-CONFIG_COMEDI_DAS08=y
-CONFIG_COMEDI_NI_LABPC=y
-CONFIG_COMEDI_NI_TIO=y
-CONFIG_COMEDI_NI_ROUTING=y
-CONFIG_COMEDI_TESTS=y
-CONFIG_COMEDI_TESTS_EXAMPLE=y
-CONFIG_COMEDI_TESTS_NI_ROUTES=y
-CONFIG_STAGING=y
-CONFIG_PRISM2_USB=y
-CONFIG_RTL8192U=m
-CONFIG_RTLLIB=m
-CONFIG_RTLLIB_CRYPTO_CCMP=m
-CONFIG_RTLLIB_CRYPTO_TKIP=m
-CONFIG_RTLLIB_CRYPTO_WEP=m
-CONFIG_RTL8192E=m
-CONFIG_RTL8723BS=m
-CONFIG_R8712U=y
-CONFIG_R8188EU=m
-CONFIG_RTS5208=y
-CONFIG_OCTEON_ETHERNET=y
-CONFIG_VT6655=m
-CONFIG_VT6656=m
-
-#
-# IIO staging drivers
-#
-
-#
-# Accelerometers
-#
-CONFIG_ADIS16203=y
-CONFIG_ADIS16240=y
-# end of Accelerometers
-
-#
-# Analog to digital converters
-#
-CONFIG_AD7816=y
-# end of Analog to digital converters
-
-#
-# Analog digital bi-direction converters
-#
-CONFIG_ADT7316=y
-CONFIG_ADT7316_SPI=y
-CONFIG_ADT7316_I2C=y
-# end of Analog digital bi-direction converters
-
-#
-# Direct Digital Synthesis
-#
-CONFIG_AD9832=y
-CONFIG_AD9834=y
-# end of Direct Digital Synthesis
-
-#
-# Network Analyzer, Impedance Converters
-#
-CONFIG_AD5933=y
-# end of Network Analyzer, Impedance Converters
-
-#
-# Active energy metering IC
-#
-CONFIG_ADE7854=y
-CONFIG_ADE7854_I2C=y
-CONFIG_ADE7854_SPI=y
-# end of Active energy metering IC
-
-#
-# Resolver to digital converters
-#
-CONFIG_AD2S1210=y
-# end of Resolver to digital converters
-# end of IIO staging drivers
-
-CONFIG_FB_SM750=y
-CONFIG_USB_EMXX=y
-CONFIG_STAGING_MEDIA=y
-CONFIG_VIDEO_IMX_MEDIA=y
-
-#
-# i.MX5/6/7/8 Media Sub devices
-#
-CONFIG_VIDEO_IMX_CSI=y
-CONFIG_VIDEO_IMX7_CSI=y
-# end of i.MX5/6/7/8 Media Sub devices
-
-CONFIG_VIDEO_MAX96712=y
-CONFIG_VIDEO_MESON_VDEC=y
-CONFIG_VIDEO_OMAP4=y
-CONFIG_VIDEO_ROCKCHIP_VDEC=y
-CONFIG_VIDEO_SUNXI=y
-CONFIG_VIDEO_SUNXI_CEDRUS=y
-CONFIG_STAGING_MEDIA_DEPRECATED=y
-CONFIG_VIDEO_CPIA2=y
-CONFIG_VIDEO_VIU=y
-CONFIG_VIDEO_SAA7146=y
-CONFIG_VIDEO_SAA7146_VV=y
-CONFIG_DVB_AV7110_IR=y
-CONFIG_DVB_AV7110=y
-CONFIG_DVB_AV7110_OSD=y
-CONFIG_DVB_BUDGET_PATCH=y
-CONFIG_DVB_SP8870=y
-CONFIG_VIDEO_HEXIUM_GEMINI=y
-CONFIG_VIDEO_HEXIUM_ORION=y
-CONFIG_VIDEO_MXB=y
-CONFIG_DVB_BUDGET_CORE=y
-CONFIG_DVB_BUDGET=y
-CONFIG_DVB_BUDGET_CI=y
-CONFIG_DVB_BUDGET_AV=y
-CONFIG_VIDEO_STKWEBCAM=y
-CONFIG_VIDEO_TM6000=y
-CONFIG_VIDEO_TM6000_ALSA=y
-CONFIG_VIDEO_TM6000_DVB=y
-CONFIG_VIDEO_DM6446_CCDC=y
-CONFIG_VIDEO_DM355_CCDC=y
-CONFIG_VIDEO_DM365_ISIF=y
-CONFIG_USB_ZR364XX=y
-CONFIG_STAGING_BOARD=y
-CONFIG_LTE_GDM724X=m
-CONFIG_FB_TFT=y
-CONFIG_FB_TFT_AGM1264K_FL=y
-CONFIG_FB_TFT_BD663474=y
-CONFIG_FB_TFT_HX8340BN=y
-CONFIG_FB_TFT_HX8347D=y
-CONFIG_FB_TFT_HX8353D=y
-CONFIG_FB_TFT_HX8357D=y
-CONFIG_FB_TFT_ILI9163=y
-CONFIG_FB_TFT_ILI9320=y
-CONFIG_FB_TFT_ILI9325=y
-CONFIG_FB_TFT_ILI9340=y
-CONFIG_FB_TFT_ILI9341=y
-CONFIG_FB_TFT_ILI9481=y
-CONFIG_FB_TFT_ILI9486=y
-CONFIG_FB_TFT_PCD8544=y
-CONFIG_FB_TFT_RA8875=y
-CONFIG_FB_TFT_S6D02A1=y
-CONFIG_FB_TFT_S6D1121=y
-CONFIG_FB_TFT_SEPS525=y
-CONFIG_FB_TFT_SH1106=y
-CONFIG_FB_TFT_SSD1289=y
-CONFIG_FB_TFT_SSD1305=y
-CONFIG_FB_TFT_SSD1306=y
-CONFIG_FB_TFT_SSD1331=y
-CONFIG_FB_TFT_SSD1351=y
-CONFIG_FB_TFT_ST7735R=y
-CONFIG_FB_TFT_ST7789V=y
-CONFIG_FB_TFT_TINYLCD=y
-CONFIG_FB_TFT_TLS8204=y
-CONFIG_FB_TFT_UC1611=y
-CONFIG_FB_TFT_UC1701=y
-CONFIG_FB_TFT_UPD161704=y
-CONFIG_MOST_COMPONENTS=y
-CONFIG_MOST_NET=y
-CONFIG_MOST_VIDEO=y
-CONFIG_MOST_DIM2=y
-CONFIG_MOST_I2C=y
-CONFIG_KS7010=y
-CONFIG_GREYBUS_AUDIO=y
-CONFIG_GREYBUS_AUDIO_APB_CODEC=y
-CONFIG_GREYBUS_BOOTROM=y
-CONFIG_GREYBUS_FIRMWARE=y
-CONFIG_GREYBUS_HID=y
-CONFIG_GREYBUS_LIGHT=y
-CONFIG_GREYBUS_LOG=y
-CONFIG_GREYBUS_LOOPBACK=y
-CONFIG_GREYBUS_POWER=y
-CONFIG_GREYBUS_RAW=y
-CONFIG_GREYBUS_VIBRATOR=y
-CONFIG_GREYBUS_BRIDGED_PHY=y
-CONFIG_GREYBUS_GPIO=y
-CONFIG_GREYBUS_I2C=y
-CONFIG_GREYBUS_PWM=y
-CONFIG_GREYBUS_SDIO=y
-CONFIG_GREYBUS_SPI=y
-CONFIG_GREYBUS_UART=y
-CONFIG_GREYBUS_USB=y
-CONFIG_GREYBUS_ARCHE=y
-CONFIG_BCM_VIDEOCORE=y
-CONFIG_BCM2835_VCHIQ=y
-CONFIG_VCHIQ_CDEV=y
-CONFIG_SND_BCM2835=y
-CONFIG_VIDEO_BCM2835=y
-CONFIG_BCM2835_VCHIQ_MMAL=y
-CONFIG_PI433=y
-CONFIG_XIL_AXIS_FIFO=y
-CONFIG_FIELDBUS_DEV=y
-CONFIG_HMS_ANYBUSS_BUS=y
-CONFIG_ARCX_ANYBUS_CONTROLLER=y
-CONFIG_HMS_PROFINET=y
-CONFIG_QLGE=y
-CONFIG_VME_BUS=y
-
-#
-# VME Bridge Drivers
-#
-CONFIG_VME_TSI148=y
-CONFIG_VME_FAKE=y
-
-#
-# VME Device Drivers
-#
-CONFIG_VME_USER=y
-CONFIG_GOLDFISH=y
-CONFIG_GOLDFISH_PIPE=y
-CONFIG_CHROME_PLATFORMS=y
-CONFIG_CHROMEOS_ACPI=y
-CONFIG_CHROMEOS_TBMC=y
-CONFIG_CROS_EC=y
-CONFIG_CROS_EC_I2C=y
-CONFIG_CROS_EC_RPMSG=y
-CONFIG_CROS_EC_SPI=y
-CONFIG_CROS_EC_LPC=y
-CONFIG_CROS_EC_PROTO=y
-CONFIG_CROS_KBD_LED_BACKLIGHT=y
-CONFIG_CROS_EC_CHARDEV=y
-CONFIG_CROS_EC_LIGHTBAR=y
-CONFIG_CROS_EC_VBC=y
-CONFIG_CROS_EC_DEBUGFS=y
-CONFIG_CROS_EC_SENSORHUB=y
-CONFIG_CROS_EC_SYSFS=y
-CONFIG_CROS_EC_TYPEC=y
-CONFIG_CROS_USBPD_LOGGER=y
-CONFIG_CROS_USBPD_NOTIFY=y
-CONFIG_CHROMEOS_PRIVACY_SCREEN=y
-CONFIG_CROS_TYPEC_SWITCH=y
-CONFIG_WILCO_EC=y
-CONFIG_WILCO_EC_DEBUGFS=y
-CONFIG_WILCO_EC_EVENTS=y
-CONFIG_WILCO_EC_TELEMETRY=y
-CONFIG_CROS_KUNIT=y
-CONFIG_MELLANOX_PLATFORM=y
-CONFIG_MLXREG_HOTPLUG=y
-CONFIG_MLXREG_IO=y
-CONFIG_MLXREG_LC=y
-CONFIG_NVSW_SN2201=y
-CONFIG_OLPC_EC=y
-CONFIG_OLPC_XO175=y
-CONFIG_OLPC_XO175_EC=y
-CONFIG_SURFACE_PLATFORMS=y
-CONFIG_SURFACE_3_POWER_OPREGION=y
-CONFIG_SURFACE_ACPI_NOTIFY=y
-CONFIG_SURFACE_AGGREGATOR_CDEV=y
-CONFIG_SURFACE_AGGREGATOR_HUB=y
-CONFIG_SURFACE_AGGREGATOR_REGISTRY=y
-CONFIG_SURFACE_AGGREGATOR_TABLET_SWITCH=y
-CONFIG_SURFACE_DTX=y
-CONFIG_SURFACE_GPE=y
-CONFIG_SURFACE_HOTPLUG=y
-CONFIG_SURFACE_PLATFORM_PROFILE=y
-CONFIG_SURFACE_PRO3_BUTTON=y
-CONFIG_SURFACE_AGGREGATOR=y
-CONFIG_SURFACE_AGGREGATOR_BUS=y
-CONFIG_HAVE_CLK=y
-CONFIG_HAVE_CLK_PREPARE=y
-CONFIG_COMMON_CLK=y
-CONFIG_COMMON_CLK_WM831X=y
-
-#
-# Clock driver for ARM Reference designs
-#
-CONFIG_CLK_ICST=y
-CONFIG_CLK_SP810=y
-# end of Clock driver for ARM Reference designs
-
-CONFIG_CLK_HSDK=y
-CONFIG_LMK04832=y
-CONFIG_COMMON_CLK_APPLE_NCO=y
-CONFIG_COMMON_CLK_MAX77686=y
-CONFIG_COMMON_CLK_MAX9485=y
-CONFIG_COMMON_CLK_RK808=y
-CONFIG_COMMON_CLK_HI655X=y
-CONFIG_COMMON_CLK_SCMI=y
-CONFIG_COMMON_CLK_SCPI=y
-CONFIG_COMMON_CLK_SI5341=y
-CONFIG_COMMON_CLK_SI5351=y
-CONFIG_COMMON_CLK_SI514=y
-CONFIG_COMMON_CLK_SI544=y
-CONFIG_COMMON_CLK_SI570=y
-CONFIG_COMMON_CLK_BM1880=y
-CONFIG_COMMON_CLK_CDCE706=y
-CONFIG_COMMON_CLK_TPS68470=y
-CONFIG_COMMON_CLK_CDCE925=y
-CONFIG_COMMON_CLK_CS2000_CP=y
-CONFIG_COMMON_CLK_EN7523=y
-CONFIG_COMMON_CLK_FSL_FLEXSPI=y
-CONFIG_COMMON_CLK_FSL_SAI=y
-CONFIG_COMMON_CLK_GEMINI=y
-CONFIG_COMMON_CLK_LAN966X=y
-CONFIG_COMMON_CLK_ASPEED=y
-CONFIG_COMMON_CLK_S2MPS11=y
-CONFIG_CLK_TWL6040=y
-CONFIG_COMMON_CLK_AXI_CLKGEN=y
-CONFIG_CLK_QORIQ=y
-CONFIG_CLK_LS1028A_PLLDIG=y
-CONFIG_COMMON_CLK_XGENE=y
-CONFIG_COMMON_CLK_LOCHNAGAR=y
-CONFIG_COMMON_CLK_PALMAS=y
-CONFIG_COMMON_CLK_PWM=y
-CONFIG_COMMON_CLK_OXNAS=y
-CONFIG_COMMON_CLK_RS9_PCIE=y
-CONFIG_COMMON_CLK_VC5=y
-CONFIG_COMMON_CLK_VC7=y
-CONFIG_COMMON_CLK_MMP2_AUDIO=y
-CONFIG_COMMON_CLK_BD718XX=y
-CONFIG_COMMON_CLK_FIXED_MMIO=y
-CONFIG_CLK_ACTIONS=y
-CONFIG_CLK_OWL_S500=y
-CONFIG_CLK_OWL_S700=y
-CONFIG_CLK_OWL_S900=y
-CONFIG_CLK_ANALOGBITS_WRPLL_CLN28HPC=y
-CONFIG_CLK_BAIKAL_T1=y
-CONFIG_CLK_BT1_CCU_PLL=y
-CONFIG_CLK_BT1_CCU_DIV=y
-CONFIG_CLK_BT1_CCU_RST=y
-CONFIG_CLK_BCM2711_DVP=y
-CONFIG_CLK_BCM2835=y
-CONFIG_CLK_BCM_63XX=y
-CONFIG_CLK_BCM_63XX_GATE=y
-CONFIG_CLK_BCM_KONA=y
-CONFIG_COMMON_CLK_IPROC=y
-CONFIG_CLK_BCM_CYGNUS=y
-CONFIG_CLK_BCM_HR2=y
-CONFIG_CLK_BCM_NSP=y
-CONFIG_CLK_BCM_NS2=y
-CONFIG_CLK_BCM_SR=y
-CONFIG_CLK_RASPBERRYPI=y
-CONFIG_COMMON_CLK_HI3516CV300=y
-CONFIG_COMMON_CLK_HI3519=y
-CONFIG_COMMON_CLK_HI3559A=y
-CONFIG_COMMON_CLK_HI3660=y
-CONFIG_COMMON_CLK_HI3670=y
-CONFIG_COMMON_CLK_HI3798CV200=y
-CONFIG_COMMON_CLK_HI6220=y
-CONFIG_RESET_HISI=y
-CONFIG_STUB_CLK_HI6220=y
-CONFIG_STUB_CLK_HI3660=y
-CONFIG_COMMON_CLK_BOSTON=y
-CONFIG_MXC_CLK=y
-CONFIG_CLK_IMX8MM=y
-CONFIG_CLK_IMX8MN=y
-CONFIG_CLK_IMX8MP=y
-CONFIG_CLK_IMX8MQ=y
-CONFIG_CLK_IMX8ULP=y
-CONFIG_CLK_IMX93=y
-
-#
-# Ingenic SoCs drivers
-#
-CONFIG_INGENIC_CGU_COMMON=y
-CONFIG_INGENIC_CGU_JZ4740=y
-CONFIG_INGENIC_CGU_JZ4725B=y
-CONFIG_INGENIC_CGU_JZ4760=y
-CONFIG_INGENIC_CGU_JZ4770=y
-CONFIG_INGENIC_CGU_JZ4780=y
-CONFIG_INGENIC_CGU_X1000=y
-CONFIG_INGENIC_CGU_X1830=y
-CONFIG_INGENIC_TCU_CLK=y
-# end of Ingenic SoCs drivers
-
-CONFIG_COMMON_CLK_KEYSTONE=y
-CONFIG_TI_SYSCON_CLK=y
-
-#
-# Clock driver for MediaTek SoC
-#
-CONFIG_COMMON_CLK_MEDIATEK=y
-CONFIG_COMMON_CLK_MT2701=y
-CONFIG_COMMON_CLK_MT2701_MMSYS=y
-CONFIG_COMMON_CLK_MT2701_IMGSYS=y
-CONFIG_COMMON_CLK_MT2701_VDECSYS=y
-CONFIG_COMMON_CLK_MT2701_HIFSYS=y
-CONFIG_COMMON_CLK_MT2701_ETHSYS=y
-CONFIG_COMMON_CLK_MT2701_BDPSYS=y
-CONFIG_COMMON_CLK_MT2701_AUDSYS=y
-CONFIG_COMMON_CLK_MT2701_G3DSYS=y
-CONFIG_COMMON_CLK_MT2712=y
-CONFIG_COMMON_CLK_MT2712_BDPSYS=y
-CONFIG_COMMON_CLK_MT2712_IMGSYS=y
-CONFIG_COMMON_CLK_MT2712_JPGDECSYS=y
-CONFIG_COMMON_CLK_MT2712_MFGCFG=y
-CONFIG_COMMON_CLK_MT2712_MMSYS=y
-CONFIG_COMMON_CLK_MT2712_VDECSYS=y
-CONFIG_COMMON_CLK_MT2712_VENCSYS=y
-CONFIG_COMMON_CLK_MT6765=y
-CONFIG_COMMON_CLK_MT6765_AUDIOSYS=y
-CONFIG_COMMON_CLK_MT6765_CAMSYS=y
-CONFIG_COMMON_CLK_MT6765_GCESYS=y
-CONFIG_COMMON_CLK_MT6765_MMSYS=y
-CONFIG_COMMON_CLK_MT6765_IMGSYS=y
-CONFIG_COMMON_CLK_MT6765_VCODECSYS=y
-CONFIG_COMMON_CLK_MT6765_MFGSYS=y
-CONFIG_COMMON_CLK_MT6765_MIPI0ASYS=y
-CONFIG_COMMON_CLK_MT6765_MIPI0BSYS=y
-CONFIG_COMMON_CLK_MT6765_MIPI1ASYS=y
-CONFIG_COMMON_CLK_MT6765_MIPI1BSYS=y
-CONFIG_COMMON_CLK_MT6765_MIPI2ASYS=y
-CONFIG_COMMON_CLK_MT6765_MIPI2BSYS=y
-CONFIG_COMMON_CLK_MT6779=y
-CONFIG_COMMON_CLK_MT6779_MMSYS=y
-CONFIG_COMMON_CLK_MT6779_IMGSYS=y
-CONFIG_COMMON_CLK_MT6779_IPESYS=y
-CONFIG_COMMON_CLK_MT6779_CAMSYS=y
-CONFIG_COMMON_CLK_MT6779_VDECSYS=y
-CONFIG_COMMON_CLK_MT6779_VENCSYS=y
-CONFIG_COMMON_CLK_MT6779_MFGCFG=y
-CONFIG_COMMON_CLK_MT6779_AUDSYS=y
-CONFIG_COMMON_CLK_MT6795=y
-CONFIG_COMMON_CLK_MT6795_MFGCFG=y
-CONFIG_COMMON_CLK_MT6795_MMSYS=y
-CONFIG_COMMON_CLK_MT6795_VDECSYS=y
-CONFIG_COMMON_CLK_MT6795_VENCSYS=y
-CONFIG_COMMON_CLK_MT6797=y
-CONFIG_COMMON_CLK_MT6797_MMSYS=y
-CONFIG_COMMON_CLK_MT6797_IMGSYS=y
-CONFIG_COMMON_CLK_MT6797_VDECSYS=y
-CONFIG_COMMON_CLK_MT6797_VENCSYS=y
-CONFIG_COMMON_CLK_MT7622=y
-CONFIG_COMMON_CLK_MT7622_ETHSYS=y
-CONFIG_COMMON_CLK_MT7622_HIFSYS=y
-CONFIG_COMMON_CLK_MT7622_AUDSYS=y
-CONFIG_COMMON_CLK_MT7629=y
-CONFIG_COMMON_CLK_MT7629_ETHSYS=y
-CONFIG_COMMON_CLK_MT7629_HIFSYS=y
-CONFIG_COMMON_CLK_MT7986=y
-CONFIG_COMMON_CLK_MT7986_ETHSYS=y
-CONFIG_COMMON_CLK_MT8135=y
-CONFIG_COMMON_CLK_MT8167=y
-CONFIG_COMMON_CLK_MT8167_AUDSYS=y
-CONFIG_COMMON_CLK_MT8167_IMGSYS=y
-CONFIG_COMMON_CLK_MT8167_MFGCFG=y
-CONFIG_COMMON_CLK_MT8167_MMSYS=y
-CONFIG_COMMON_CLK_MT8167_VDECSYS=y
-CONFIG_COMMON_CLK_MT8173=y
-CONFIG_COMMON_CLK_MT8173_MMSYS=y
-CONFIG_COMMON_CLK_MT8183=y
-CONFIG_COMMON_CLK_MT8183_AUDIOSYS=y
-CONFIG_COMMON_CLK_MT8183_CAMSYS=y
-CONFIG_COMMON_CLK_MT8183_IMGSYS=y
-CONFIG_COMMON_CLK_MT8183_IPU_CORE0=y
-CONFIG_COMMON_CLK_MT8183_IPU_CORE1=y
-CONFIG_COMMON_CLK_MT8183_IPU_ADL=y
-CONFIG_COMMON_CLK_MT8183_IPU_CONN=y
-CONFIG_COMMON_CLK_MT8183_MFGCFG=y
-CONFIG_COMMON_CLK_MT8183_MMSYS=y
-CONFIG_COMMON_CLK_MT8183_VDECSYS=y
-CONFIG_COMMON_CLK_MT8183_VENCSYS=y
-CONFIG_COMMON_CLK_MT8186=y
-CONFIG_COMMON_CLK_MT8192=y
-CONFIG_COMMON_CLK_MT8192_AUDSYS=y
-CONFIG_COMMON_CLK_MT8192_CAMSYS=y
-CONFIG_COMMON_CLK_MT8192_IMGSYS=y
-CONFIG_COMMON_CLK_MT8192_IMP_IIC_WRAP=y
-CONFIG_COMMON_CLK_MT8192_IPESYS=y
-CONFIG_COMMON_CLK_MT8192_MDPSYS=y
-CONFIG_COMMON_CLK_MT8192_MFGCFG=y
-CONFIG_COMMON_CLK_MT8192_MMSYS=y
-CONFIG_COMMON_CLK_MT8192_MSDC=y
-CONFIG_COMMON_CLK_MT8192_SCP_ADSP=y
-CONFIG_COMMON_CLK_MT8192_VDECSYS=y
-CONFIG_COMMON_CLK_MT8192_VENCSYS=y
-CONFIG_COMMON_CLK_MT8195=y
-CONFIG_COMMON_CLK_MT8365=y
-CONFIG_COMMON_CLK_MT8365_APU=y
-CONFIG_COMMON_CLK_MT8365_CAM=y
-CONFIG_COMMON_CLK_MT8365_MFG=y
-CONFIG_COMMON_CLK_MT8365_MMSYS=y
-CONFIG_COMMON_CLK_MT8365_VDEC=y
-CONFIG_COMMON_CLK_MT8365_VENC=y
-CONFIG_COMMON_CLK_MT8516=y
-CONFIG_COMMON_CLK_MT8516_AUDSYS=y
-# end of Clock driver for MediaTek SoC
-
-#
-# Clock support for Amlogic platforms
-#
-# CONFIG_COMMON_CLK_AXG_AUDIO is not set
-# end of Clock support for Amlogic platforms
-
-CONFIG_MSTAR_MSC313_MPLL=y
-CONFIG_MCHP_CLK_MPFS=y
-CONFIG_COMMON_CLK_PISTACHIO=y
-CONFIG_QCOM_GDSC=y
-CONFIG_QCOM_RPMCC=y
-CONFIG_COMMON_CLK_QCOM=y
-CONFIG_QCOM_A53PLL=y
-CONFIG_QCOM_A7PLL=y
-CONFIG_QCOM_CLK_APCS_MSM8916=y
-CONFIG_QCOM_CLK_APCS_SDX55=y
-CONFIG_QCOM_CLK_SMD_RPM=y
-CONFIG_QCOM_CLK_RPMH=y
-CONFIG_APQ_GCC_8084=y
-CONFIG_APQ_MMCC_8084=y
-CONFIG_IPQ_APSS_PLL=y
-CONFIG_IPQ_APSS_6018=y
-CONFIG_IPQ_GCC_4019=y
-CONFIG_IPQ_GCC_6018=y
-CONFIG_IPQ_GCC_806X=y
-CONFIG_IPQ_LCC_806X=y
-CONFIG_IPQ_GCC_8074=y
-CONFIG_MSM_GCC_8660=y
-CONFIG_MSM_GCC_8909=y
-CONFIG_MSM_GCC_8916=y
-CONFIG_MSM_GCC_8939=y
-CONFIG_MSM_GCC_8960=y
-CONFIG_MSM_LCC_8960=y
-CONFIG_MDM_GCC_9607=y
-CONFIG_MDM_GCC_9615=y
-CONFIG_MDM_LCC_9615=y
-CONFIG_MSM_MMCC_8960=y
-CONFIG_MSM_GCC_8953=y
-CONFIG_MSM_GCC_8974=y
-CONFIG_MSM_MMCC_8974=y
-CONFIG_MSM_GCC_8976=y
-CONFIG_MSM_MMCC_8994=y
-CONFIG_MSM_GCC_8994=y
-CONFIG_MSM_GCC_8996=y
-CONFIG_MSM_MMCC_8996=y
-CONFIG_MSM_GCC_8998=y
-CONFIG_MSM_GPUCC_8998=y
-CONFIG_MSM_MMCC_8998=y
-CONFIG_QCM_GCC_2290=y
-CONFIG_QCM_DISPCC_2290=y
-CONFIG_QCS_GCC_404=y
-CONFIG_SC_CAMCC_7180=y
-CONFIG_SC_CAMCC_7280=y
-CONFIG_SC_DISPCC_7180=y
-CONFIG_SC_DISPCC_7280=y
-CONFIG_SC_GCC_7180=y
-CONFIG_SC_GCC_7280=y
-CONFIG_SC_GCC_8180X=y
-CONFIG_SC_GCC_8280XP=y
-CONFIG_SC_GPUCC_7180=y
-CONFIG_SC_GPUCC_7280=y
-CONFIG_SC_GPUCC_8280XP=y
-CONFIG_SC_LPASSCC_7280=y
-CONFIG_SC_LPASS_CORECC_7180=y
-CONFIG_SC_LPASS_CORECC_7280=y
-CONFIG_SC_MSS_7180=y
-CONFIG_SC_VIDEOCC_7180=y
-CONFIG_SC_VIDEOCC_7280=y
-CONFIG_SDM_CAMCC_845=y
-CONFIG_SDM_GCC_660=y
-CONFIG_SDM_MMCC_660=y
-CONFIG_SDM_GPUCC_660=y
-CONFIG_QCS_TURING_404=y
-CONFIG_QCS_Q6SSTOP_404=y
-CONFIG_SDM_GCC_845=y
-CONFIG_SDM_GPUCC_845=y
-CONFIG_SDM_VIDEOCC_845=y
-CONFIG_SDM_DISPCC_845=y
-CONFIG_SDM_LPASSCC_845=y
-CONFIG_SDX_GCC_55=y
-CONFIG_SDX_GCC_65=y
-CONFIG_SM_CAMCC_8250=y
-CONFIG_SM_CAMCC_8450=y
-CONFIG_SM_DISPCC_6115=y
-CONFIG_SM_DISPCC_6125=y
-CONFIG_SM_DISPCC_8250=y
-CONFIG_SM_DISPCC_6350=y
-CONFIG_SM_DISPCC_8450=y
-CONFIG_SM_GCC_6115=y
-CONFIG_SM_GCC_6125=y
-CONFIG_SM_GCC_6350=y
-CONFIG_SM_GCC_6375=y
-CONFIG_SM_GCC_8150=y
-CONFIG_SM_GCC_8250=y
-CONFIG_SM_GCC_8350=y
-CONFIG_SM_GCC_8450=y
-CONFIG_SM_GPUCC_6350=y
-CONFIG_SM_GPUCC_8150=y
-CONFIG_SM_GPUCC_8250=y
-CONFIG_SM_GPUCC_8350=y
-CONFIG_SM_VIDEOCC_8150=y
-CONFIG_SM_VIDEOCC_8250=y
-CONFIG_SPMI_PMIC_CLKDIV=y
-CONFIG_QCOM_HFPLL=y
-CONFIG_KPSS_XCC=y
-CONFIG_CLK_GFM_LPASS_SM8250=y
-CONFIG_CLK_MT7621=y
-CONFIG_CLK_RENESAS=y
-CONFIG_CLK_EMEV2=y
-CONFIG_CLK_RZA1=y
-CONFIG_CLK_R7S9210=y
-CONFIG_CLK_R8A73A4=y
-CONFIG_CLK_R8A7740=y
-CONFIG_CLK_R8A7742=y
-CONFIG_CLK_R8A7743=y
-CONFIG_CLK_R8A7745=y
-CONFIG_CLK_R8A77470=y
-CONFIG_CLK_R8A774A1=y
-CONFIG_CLK_R8A774B1=y
-CONFIG_CLK_R8A774C0=y
-CONFIG_CLK_R8A774E1=y
-CONFIG_CLK_R8A7778=y
-CONFIG_CLK_R8A7779=y
-CONFIG_CLK_R8A7790=y
-CONFIG_CLK_R8A7791=y
-CONFIG_CLK_R8A7792=y
-CONFIG_CLK_R8A7794=y
-CONFIG_CLK_R8A7795=y
-CONFIG_CLK_R8A77960=y
-CONFIG_CLK_R8A77961=y
-CONFIG_CLK_R8A77965=y
-CONFIG_CLK_R8A77970=y
-CONFIG_CLK_R8A77980=y
-CONFIG_CLK_R8A77990=y
-CONFIG_CLK_R8A77995=y
-CONFIG_CLK_R8A779A0=y
-CONFIG_CLK_R8A779F0=y
-CONFIG_CLK_R8A779G0=y
-CONFIG_CLK_R9A06G032=y
-CONFIG_CLK_R9A07G043=y
-CONFIG_CLK_R9A07G044=y
-CONFIG_CLK_R9A07G054=y
-CONFIG_CLK_R9A09G011=y
-CONFIG_CLK_SH73A0=y
-CONFIG_CLK_RCAR_CPG_LIB=y
-CONFIG_CLK_RCAR_GEN2_CPG=y
-CONFIG_CLK_RCAR_GEN3_CPG=y
-CONFIG_CLK_RCAR_GEN4_CPG=y
-CONFIG_CLK_RCAR_USB2_CLOCK_SEL=y
-CONFIG_CLK_RZG2L=y
-CONFIG_CLK_RENESAS_CPG_MSSR=y
-CONFIG_CLK_RENESAS_CPG_MSTP=y
-CONFIG_CLK_RENESAS_DIV6=y
-CONFIG_COMMON_CLK_SAMSUNG=y
-CONFIG_S3C64XX_COMMON_CLK=y
-CONFIG_S5PV210_COMMON_CLK=y
-CONFIG_EXYNOS_3250_COMMON_CLK=y
-CONFIG_EXYNOS_4_COMMON_CLK=y
-CONFIG_EXYNOS_5250_COMMON_CLK=y
-CONFIG_EXYNOS_5260_COMMON_CLK=y
-CONFIG_EXYNOS_5410_COMMON_CLK=y
-CONFIG_EXYNOS_5420_COMMON_CLK=y
-CONFIG_EXYNOS_ARM64_COMMON_CLK=y
-CONFIG_EXYNOS_AUDSS_CLK_CON=y
-CONFIG_EXYNOS_CLKOUT=y
-CONFIG_S3C2410_COMMON_CLK=y
-CONFIG_S3C2412_COMMON_CLK=y
-CONFIG_S3C2443_COMMON_CLK=y
-CONFIG_TESLA_FSD_COMMON_CLK=y
-CONFIG_CLK_SIFIVE=y
-CONFIG_CLK_SIFIVE_PRCI=y
-CONFIG_CLK_INTEL_SOCFPGA=y
-CONFIG_CLK_INTEL_SOCFPGA32=y
-CONFIG_CLK_INTEL_SOCFPGA64=y
-CONFIG_SPRD_COMMON_CLK=y
-CONFIG_SPRD_SC9860_CLK=y
-CONFIG_SPRD_SC9863A_CLK=y
-CONFIG_SPRD_UMS512_CLK=y
-CONFIG_CLK_STARFIVE_JH7100=y
-CONFIG_CLK_STARFIVE_JH7100_AUDIO=y
-CONFIG_CLK_SUNXI=y
-CONFIG_CLK_SUNXI_CLOCKS=y
-CONFIG_CLK_SUNXI_PRCM_SUN6I=y
-CONFIG_CLK_SUNXI_PRCM_SUN8I=y
-CONFIG_CLK_SUNXI_PRCM_SUN9I=y
-CONFIG_SUNXI_CCU=y
-CONFIG_SUNIV_F1C100S_CCU=y
-CONFIG_SUN20I_D1_CCU=y
-CONFIG_SUN20I_D1_R_CCU=y
-CONFIG_SUN50I_A64_CCU=y
-CONFIG_SUN50I_A100_CCU=y
-CONFIG_SUN50I_A100_R_CCU=y
-CONFIG_SUN50I_H6_CCU=y
-CONFIG_SUN50I_H616_CCU=y
-CONFIG_SUN50I_H6_R_CCU=y
-CONFIG_SUN4I_A10_CCU=y
-CONFIG_SUN5I_CCU=y
-CONFIG_SUN6I_A31_CCU=y
-CONFIG_SUN6I_RTC_CCU=y
-CONFIG_SUN8I_A23_CCU=y
-CONFIG_SUN8I_A33_CCU=y
-CONFIG_SUN8I_A83T_CCU=y
-CONFIG_SUN8I_H3_CCU=y
-CONFIG_SUN8I_V3S_CCU=y
-CONFIG_SUN8I_DE2_CCU=y
-CONFIG_SUN8I_R40_CCU=y
-CONFIG_SUN9I_A80_CCU=y
-CONFIG_SUN8I_R_CCU=y
-CONFIG_COMMON_CLK_TI_ADPLL=y
-CONFIG_CLK_UNIPHIER=y
-CONFIG_COMMON_CLK_VISCONTI=y
-CONFIG_CLK_LGM_CGU=y
-CONFIG_XILINX_VCU=y
-CONFIG_COMMON_CLK_XLNX_CLKWZRD=y
-CONFIG_COMMON_CLK_ZYNQMP=y
-CONFIG_CLK_KUNIT_TEST=y
-CONFIG_CLK_GATE_KUNIT_TEST=y
-CONFIG_HWSPINLOCK=y
-CONFIG_HWSPINLOCK_OMAP=y
-CONFIG_HWSPINLOCK_QCOM=y
-CONFIG_HWSPINLOCK_SPRD=y
-CONFIG_HWSPINLOCK_STM32=y
-CONFIG_HWSPINLOCK_SUN6I=y
-CONFIG_HSEM_U8500=y
-CONFIG_MAILBOX=y
-CONFIG_IMX_MBOX=y
-CONFIG_PLATFORM_MHU=y
-CONFIG_ARMADA_37XX_RWTM_MBOX=y
-CONFIG_ROCKCHIP_MBOX=y
-CONFIG_PCC=y
-CONFIG_ALTERA_MBOX=y
-CONFIG_HI3660_MBOX=y
-CONFIG_HI6220_MBOX=y
-CONFIG_MAILBOX_TEST=y
-CONFIG_POLARFIRE_SOC_MAILBOX=y
-CONFIG_QCOM_APCS_IPC=y
-CONFIG_BCM_PDC_MBOX=y
-CONFIG_STM32_IPCC=y
-CONFIG_MTK_ADSP_MBOX=y
-CONFIG_MTK_CMDQ_MBOX=y
-CONFIG_SUN6I_MSGBOX=y
-CONFIG_SPRD_MBOX=y
-CONFIG_QCOM_IPCC=y
-CONFIG_IOMMU_IOVA=y
-CONFIG_IOASID=y
-CONFIG_IOMMU_API=y
-CONFIG_IOMMU_SUPPORT=y
-
-#
-# Generic IOMMU Pagetable Support
-#
-CONFIG_IOMMU_IO_PGTABLE=y
-CONFIG_IOMMU_IO_PGTABLE_LPAE=y
-CONFIG_IOMMU_IO_PGTABLE_LPAE_SELFTEST=y
-CONFIG_IOMMU_IO_PGTABLE_ARMV7S=y
-CONFIG_IOMMU_IO_PGTABLE_ARMV7S_SELFTEST=y
-CONFIG_IOMMU_IO_PGTABLE_DART=y
-# end of Generic IOMMU Pagetable Support
-
-CONFIG_IOMMU_DEBUGFS=y
-# CONFIG_IOMMU_DEFAULT_DMA_STRICT is not set
-CONFIG_IOMMU_DEFAULT_DMA_LAZY=y
-# CONFIG_IOMMU_DEFAULT_PASSTHROUGH is not set
-CONFIG_OF_IOMMU=y
-CONFIG_IOMMU_DMA=y
-CONFIG_DMAR_TABLE=y
-CONFIG_DMAR_PERF=y
-CONFIG_DMAR_DEBUG=y
-CONFIG_INTEL_IOMMU=y
-CONFIG_INTEL_IOMMU_DEBUGFS=y
-CONFIG_INTEL_IOMMU_DEFAULT_ON=y
-CONFIG_INTEL_IOMMU_SCALABLE_MODE_DEFAULT_ON=y
-CONFIG_OMAP_IOMMU=y
-CONFIG_OMAP_IOMMU_DEBUG=y
-CONFIG_ROCKCHIP_IOMMU=y
-CONFIG_SUN50I_IOMMU=y
-CONFIG_EXYNOS_IOMMU=y
-CONFIG_EXYNOS_IOMMU_DEBUG=y
-CONFIG_IPMMU_VMSA=y
-CONFIG_APPLE_DART=y
-CONFIG_ARM_SMMU=y
-CONFIG_ARM_SMMU_LEGACY_DT_BINDINGS=y
-CONFIG_ARM_SMMU_DISABLE_BYPASS_BY_DEFAULT=y
-CONFIG_S390_CCW_IOMMU=y
-CONFIG_S390_AP_IOMMU=y
-CONFIG_MTK_IOMMU=y
-CONFIG_QCOM_IOMMU=y
-CONFIG_SPRD_IOMMU=y
-
-#
-# Remoteproc drivers
-#
-CONFIG_REMOTEPROC=y
-CONFIG_REMOTEPROC_CDEV=y
-CONFIG_INGENIC_VPU_RPROC=y
-CONFIG_MTK_SCP=y
-CONFIG_MESON_MX_AO_ARC_REMOTEPROC=y
-CONFIG_RCAR_REMOTEPROC=y
-# end of Remoteproc drivers
-
-#
-# Rpmsg drivers
-#
-CONFIG_RPMSG=y
-CONFIG_RPMSG_CHAR=y
-CONFIG_RPMSG_CTRL=y
-CONFIG_RPMSG_NS=y
-CONFIG_RPMSG_MTK_SCP=y
-CONFIG_RPMSG_QCOM_GLINK=y
-CONFIG_RPMSG_QCOM_GLINK_RPM=y
-CONFIG_RPMSG_QCOM_GLINK_SMEM=y
-CONFIG_RPMSG_QCOM_SMD=y
-CONFIG_RPMSG_VIRTIO=y
-# end of Rpmsg drivers
-
-CONFIG_SOUNDWIRE=y
-
-#
-# SoundWire Devices
-#
-CONFIG_SOUNDWIRE_CADENCE=y
-CONFIG_SOUNDWIRE_INTEL=y
-CONFIG_SOUNDWIRE_QCOM=y
-CONFIG_SOUNDWIRE_GENERIC_ALLOCATION=y
-
-#
-# SOC (System On Chip) specific Drivers
-#
-CONFIG_OWL_PM_DOMAINS_HELPER=y
-CONFIG_OWL_PM_DOMAINS=y
-
-#
-# Amlogic SoC drivers
-#
-CONFIG_MESON_CANVAS=y
-CONFIG_MESON_CLK_MEASURE=y
-CONFIG_MESON_GX_SOCINFO=y
-CONFIG_MESON_GX_PM_DOMAINS=y
-CONFIG_MESON_EE_PM_DOMAINS=y
-CONFIG_MESON_MX_SOCINFO=y
-# end of Amlogic SoC drivers
-
-#
-# Apple SoC drivers
-#
-CONFIG_APPLE_PMGR_PWRSTATE=y
-CONFIG_APPLE_RTKIT=y
-CONFIG_APPLE_SART=y
-# end of Apple SoC drivers
-
-#
-# ASPEED SoC drivers
-#
-CONFIG_ASPEED_LPC_CTRL=y
-CONFIG_ASPEED_LPC_SNOOP=y
-CONFIG_ASPEED_UART_ROUTING=y
-CONFIG_ASPEED_P2A_CTRL=y
-CONFIG_ASPEED_SOCINFO=y
-# end of ASPEED SoC drivers
-
-CONFIG_AT91_SOC_ID=y
-CONFIG_AT91_SOC_SFR=y
-
-#
-# Broadcom SoC drivers
-#
-CONFIG_BCM2835_POWER=y
-CONFIG_SOC_BCM63XX=y
-CONFIG_SOC_BRCMSTB=y
-CONFIG_BCM63XX_POWER=y
-CONFIG_BCM_PMB=y
-# end of Broadcom SoC drivers
-
-#
-# NXP/Freescale QorIQ SoC drivers
-#
-CONFIG_QUICC_ENGINE=y
-CONFIG_UCC_SLOW=y
-CONFIG_UCC_FAST=y
-CONFIG_UCC=y
-CONFIG_QE_TDM=y
-CONFIG_FSL_GUTS=y
-CONFIG_DPAA2_CONSOLE=y
-# end of NXP/Freescale QorIQ SoC drivers
-
-#
-# fujitsu SoC drivers
-#
-# end of fujitsu SoC drivers
-
-#
-# i.MX SoC drivers
-#
-CONFIG_IMX_GPCV2_PM_DOMAINS=y
-CONFIG_SOC_IMX8M=y
-CONFIG_SOC_IMX9=y
-# end of i.MX SoC drivers
-
-#
-# IXP4xx SoC drivers
-#
-CONFIG_IXP4XX_QMGR=y
-CONFIG_IXP4XX_NPE=y
-# end of IXP4xx SoC drivers
-
-#
-# Enable LiteX SoC Builder specific drivers
-#
-CONFIG_LITEX=y
-CONFIG_LITEX_SOC_CONTROLLER=y
-# end of Enable LiteX SoC Builder specific drivers
-
-#
-# MediaTek SoC drivers
-#
-CONFIG_MTK_CMDQ=y
-CONFIG_MTK_DEVAPC=y
-CONFIG_MTK_INFRACFG=y
-CONFIG_MTK_PMIC_WRAP=y
-CONFIG_MTK_SCPSYS=y
-CONFIG_MTK_SCPSYS_PM_DOMAINS=y
-CONFIG_MTK_MMSYS=y
-CONFIG_MTK_SVS=y
-# end of MediaTek SoC drivers
-
-CONFIG_POLARFIRE_SOC_SYS_CTRL=y
-
-#
-# Qualcomm SoC drivers
-#
-CONFIG_QCOM_AOSS_QMP=y
-CONFIG_QCOM_COMMAND_DB=y
-CONFIG_QCOM_GENI_SE=y
-CONFIG_QCOM_GSBI=y
-CONFIG_QCOM_LLCC=y
-CONFIG_QCOM_PDR_HELPERS=y
-CONFIG_QCOM_QMI_HELPERS=y
-CONFIG_QCOM_RPMH=y
-CONFIG_QCOM_RPMHPD=y
-CONFIG_QCOM_RPMPD=y
-CONFIG_QCOM_SMEM=y
-CONFIG_QCOM_SMD_RPM=y
-CONFIG_QCOM_SMEM_STATE=y
-CONFIG_QCOM_SMP2P=y
-CONFIG_QCOM_SMSM=y
-CONFIG_QCOM_SOCINFO=y
-CONFIG_QCOM_SPM=y
-CONFIG_QCOM_STATS=y
-CONFIG_QCOM_WCNSS_CTRL=y
-CONFIG_QCOM_APR=y
-CONFIG_QCOM_ICC_BWMON=y
-# end of Qualcomm SoC drivers
-
-CONFIG_SOC_RENESAS=y
-CONFIG_RST_RCAR=y
-CONFIG_SYSC_RCAR=y
-CONFIG_SYSC_RCAR_GEN4=y
-CONFIG_SYSC_R8A77995=y
-CONFIG_SYSC_R8A7794=y
-CONFIG_SYSC_R8A77990=y
-CONFIG_SYSC_R8A7779=y
-CONFIG_SYSC_R8A7790=y
-CONFIG_SYSC_R8A7795=y
-CONFIG_SYSC_R8A7791=y
-CONFIG_SYSC_R8A77965=y
-CONFIG_SYSC_R8A77960=y
-CONFIG_SYSC_R8A77961=y
-CONFIG_SYSC_R8A779F0=y
-CONFIG_SYSC_R8A7792=y
-CONFIG_SYSC_R8A77980=y
-CONFIG_SYSC_R8A77970=y
-CONFIG_SYSC_R8A779A0=y
-CONFIG_SYSC_R8A779G0=y
-CONFIG_SYSC_RMOBILE=y
-CONFIG_SYSC_R8A77470=y
-CONFIG_SYSC_R8A7745=y
-CONFIG_SYSC_R8A7742=y
-CONFIG_SYSC_R8A7743=y
-CONFIG_SYSC_R8A774C0=y
-CONFIG_SYSC_R8A774E1=y
-CONFIG_SYSC_R8A774A1=y
-CONFIG_SYSC_R8A774B1=y
-CONFIG_ROCKCHIP_GRF=y
-CONFIG_ROCKCHIP_IODOMAIN=y
-CONFIG_ROCKCHIP_PM_DOMAINS=y
-CONFIG_ROCKCHIP_DTPM=m
-CONFIG_SOC_SAMSUNG=y
-CONFIG_EXYNOS_ASV_ARM=y
-CONFIG_EXYNOS_CHIPID=y
-CONFIG_EXYNOS_USI=y
-CONFIG_EXYNOS_PM_DOMAINS=y
-CONFIG_EXYNOS_REGULATOR_COUPLER=y
-CONFIG_SUNXI_SRAM=y
-CONFIG_SOC_TEGRA20_VOLTAGE_COUPLER=y
-CONFIG_SOC_TEGRA30_VOLTAGE_COUPLER=y
-CONFIG_SOC_TI=y
-CONFIG_UX500_SOC_ID=y
-
-#
-# Xilinx SoC drivers
-#
-# end of Xilinx SoC drivers
-# end of SOC (System On Chip) specific Drivers
-
-CONFIG_PM_DEVFREQ=y
-
-#
-# DEVFREQ Governors
-#
-CONFIG_DEVFREQ_GOV_SIMPLE_ONDEMAND=y
-CONFIG_DEVFREQ_GOV_PERFORMANCE=y
-CONFIG_DEVFREQ_GOV_POWERSAVE=y
-CONFIG_DEVFREQ_GOV_USERSPACE=y
-CONFIG_DEVFREQ_GOV_PASSIVE=y
-
-#
-# DEVFREQ Drivers
-#
-CONFIG_ARM_EXYNOS_BUS_DEVFREQ=y
-CONFIG_ARM_IMX_BUS_DEVFREQ=y
-CONFIG_ARM_TEGRA_DEVFREQ=y
-CONFIG_ARM_MEDIATEK_CCI_DEVFREQ=y
-CONFIG_ARM_SUN8I_A33_MBUS_DEVFREQ=y
-CONFIG_PM_DEVFREQ_EVENT=y
-CONFIG_DEVFREQ_EVENT_EXYNOS_NOCP=y
-CONFIG_DEVFREQ_EVENT_EXYNOS_PPMU=y
-CONFIG_DEVFREQ_EVENT_ROCKCHIP_DFI=y
-CONFIG_EXTCON=y
-
-#
-# Extcon Device Drivers
-#
-CONFIG_EXTCON_ADC_JACK=y
-CONFIG_EXTCON_FSA9480=y
-CONFIG_EXTCON_GPIO=y
-CONFIG_EXTCON_INTEL_INT3496=y
-CONFIG_EXTCON_INTEL_CHT_WC=y
-CONFIG_EXTCON_MAX14577=y
-CONFIG_EXTCON_MAX3355=y
-CONFIG_EXTCON_MAX77693=y
-CONFIG_EXTCON_MAX77843=y
-CONFIG_EXTCON_MAX8997=y
-CONFIG_EXTCON_PALMAS=y
-CONFIG_EXTCON_PTN5150=y
-CONFIG_EXTCON_QCOM_SPMI_MISC=y
-CONFIG_EXTCON_RT8973A=y
-CONFIG_EXTCON_SM5502=y
-CONFIG_EXTCON_USB_GPIO=y
-CONFIG_EXTCON_USBC_CROS_EC=y
-CONFIG_EXTCON_USBC_TUSB320=y
-CONFIG_MEMORY=y
-CONFIG_DDR=y
-CONFIG_ATMEL_SDRAMC=y
-CONFIG_ATMEL_EBI=y
-CONFIG_BRCMSTB_DPFE=y
-CONFIG_BRCMSTB_MEMC=y
-CONFIG_BT1_L2_CTL=y
-CONFIG_TI_AEMIF=y
-CONFIG_TI_EMIF=y
-CONFIG_OMAP_GPMC=y
-CONFIG_OMAP_GPMC_DEBUG=y
-CONFIG_FPGA_DFL_EMIF=y
-CONFIG_MVEBU_DEVBUS=y
-CONFIG_FSL_CORENET_CF=y
-CONFIG_FSL_IFC=y
-CONFIG_JZ4780_NEMC=y
-CONFIG_MTK_SMI=y
-CONFIG_DA8XX_DDRCTL=y
-CONFIG_RENESAS_RPCIF=y
-CONFIG_STM32_FMC2_EBI=y
-CONFIG_SAMSUNG_MC=y
-CONFIG_EXYNOS5422_DMC=y
-CONFIG_EXYNOS_SROM=y
-CONFIG_TEGRA_MC=y
-CONFIG_TEGRA20_EMC=y
-CONFIG_TEGRA30_EMC=y
-CONFIG_TEGRA124_EMC=y
-CONFIG_TEGRA210_EMC_TABLE=y
-CONFIG_TEGRA210_EMC=y
-CONFIG_IIO=y
-CONFIG_IIO_BUFFER=y
-CONFIG_IIO_BUFFER_CB=y
-CONFIG_IIO_BUFFER_DMA=y
-CONFIG_IIO_BUFFER_DMAENGINE=y
-CONFIG_IIO_BUFFER_HW_CONSUMER=y
-CONFIG_IIO_KFIFO_BUF=y
-CONFIG_IIO_TRIGGERED_BUFFER=y
-CONFIG_IIO_CONFIGFS=y
-CONFIG_IIO_TRIGGER=y
-CONFIG_IIO_CONSUMERS_PER_TRIGGER=2
-CONFIG_IIO_SW_DEVICE=y
-CONFIG_IIO_SW_TRIGGER=y
-CONFIG_IIO_TRIGGERED_EVENT=y
-
-#
-# Accelerometers
-#
-CONFIG_ADIS16201=y
-CONFIG_ADIS16209=y
-CONFIG_ADXL313=y
-CONFIG_ADXL313_I2C=y
-CONFIG_ADXL313_SPI=y
-CONFIG_ADXL355=y
-CONFIG_ADXL355_I2C=y
-CONFIG_ADXL355_SPI=y
-CONFIG_ADXL367=y
-CONFIG_ADXL367_SPI=y
-CONFIG_ADXL367_I2C=y
-CONFIG_ADXL372=y
-CONFIG_ADXL372_SPI=y
-CONFIG_ADXL372_I2C=y
-CONFIG_BMA220=y
-CONFIG_BMA400=y
-CONFIG_BMA400_I2C=y
-CONFIG_BMA400_SPI=y
-CONFIG_BMC150_ACCEL=y
-CONFIG_BMC150_ACCEL_I2C=y
-CONFIG_BMC150_ACCEL_SPI=y
-CONFIG_BMI088_ACCEL=y
-CONFIG_BMI088_ACCEL_SPI=y
-CONFIG_DA280=y
-CONFIG_DA311=y
-CONFIG_DMARD06=y
-CONFIG_DMARD09=y
-CONFIG_DMARD10=y
-CONFIG_FXLS8962AF=y
-CONFIG_FXLS8962AF_I2C=y
-CONFIG_FXLS8962AF_SPI=y
-CONFIG_HID_SENSOR_ACCEL_3D=y
-CONFIG_IIO_CROS_EC_ACCEL_LEGACY=y
-CONFIG_KXSD9=y
-CONFIG_KXSD9_SPI=y
-CONFIG_KXSD9_I2C=y
-CONFIG_KXCJK1013=y
-CONFIG_MC3230=y
-CONFIG_MMA7455=y
-CONFIG_MMA7455_I2C=y
-CONFIG_MMA7455_SPI=y
-CONFIG_MMA7660=y
-CONFIG_MMA8452=y
-CONFIG_MMA9551_CORE=y
-CONFIG_MMA9551=y
-CONFIG_MMA9553=y
-CONFIG_MSA311=y
-CONFIG_MXC4005=y
-CONFIG_MXC6255=y
-CONFIG_SCA3000=y
-CONFIG_SCA3300=y
-CONFIG_STK8312=y
-CONFIG_STK8BA50=y
-# end of Accelerometers
-
-#
-# Analog to digital converters
-#
-CONFIG_AD_SIGMA_DELTA=y
-CONFIG_AD7091R5=y
-CONFIG_AD7124=y
-CONFIG_AD7192=y
-CONFIG_AD7266=y
-CONFIG_AD7280=y
-CONFIG_AD7291=y
-CONFIG_AD7292=y
-CONFIG_AD7298=y
-CONFIG_AD7476=y
-CONFIG_AD7606=y
-CONFIG_AD7606_IFACE_PARALLEL=y
-CONFIG_AD7606_IFACE_SPI=y
-CONFIG_AD7766=y
-CONFIG_AD7768_1=y
-CONFIG_AD7780=y
-CONFIG_AD7791=y
-CONFIG_AD7793=y
-CONFIG_AD7887=y
-CONFIG_AD7923=y
-CONFIG_AD7949=y
-CONFIG_AD799X=y
-CONFIG_AD9467=y
-CONFIG_ADI_AXI_ADC=y
-CONFIG_ASPEED_ADC=y
-CONFIG_AT91_ADC=y
-CONFIG_AT91_SAMA5D2_ADC=y
-CONFIG_AXP20X_ADC=y
-CONFIG_AXP288_ADC=y
-CONFIG_BCM_IPROC_ADC=y
-CONFIG_BERLIN2_ADC=y
-CONFIG_CC10001_ADC=y
-CONFIG_CPCAP_ADC=y
-CONFIG_DA9150_GPADC=y
-CONFIG_DLN2_ADC=y
-CONFIG_ENVELOPE_DETECTOR=y
-CONFIG_EXYNOS_ADC=y
-CONFIG_MXS_LRADC_ADC=y
-CONFIG_FSL_MX25_ADC=y
-CONFIG_HI8435=y
-CONFIG_HX711=y
-CONFIG_INGENIC_ADC=y
-CONFIG_IMX7D_ADC=y
-CONFIG_IMX8QXP_ADC=y
-CONFIG_LP8788_ADC=y
-CONFIG_LPC18XX_ADC=y
-CONFIG_LPC32XX_ADC=y
-CONFIG_LTC2471=y
-CONFIG_LTC2485=y
-CONFIG_LTC2496=y
-CONFIG_LTC2497=y
-CONFIG_MAX1027=y
-CONFIG_MAX11100=y
-CONFIG_MAX1118=y
-CONFIG_MAX11205=y
-CONFIG_MAX1241=y
-CONFIG_MAX1363=y
-CONFIG_MAX9611=y
-CONFIG_MCP320X=y
-CONFIG_MCP3422=y
-CONFIG_MCP3911=y
-CONFIG_MEDIATEK_MT6360_ADC=y
-CONFIG_MEDIATEK_MT6577_AUXADC=y
-CONFIG_MEN_Z188_ADC=y
-CONFIG_MESON_SARADC=y
-CONFIG_MP2629_ADC=y
-CONFIG_NAU7802=y
-CONFIG_NPCM_ADC=y
-CONFIG_PALMAS_GPADC=y
-CONFIG_QCOM_VADC_COMMON=y
-CONFIG_QCOM_PM8XXX_XOADC=y
-CONFIG_QCOM_SPMI_RRADC=y
-CONFIG_QCOM_SPMI_IADC=y
-CONFIG_QCOM_SPMI_VADC=y
-CONFIG_QCOM_SPMI_ADC5=y
-CONFIG_RCAR_GYRO_ADC=y
-CONFIG_RN5T618_ADC=y
-CONFIG_ROCKCHIP_SARADC=y
-CONFIG_RICHTEK_RTQ6056=y
-CONFIG_RZG2L_ADC=y
-CONFIG_SC27XX_ADC=y
-CONFIG_SPEAR_ADC=y
-CONFIG_SD_ADC_MODULATOR=y
-CONFIG_STM32_ADC_CORE=y
-CONFIG_STM32_ADC=y
-CONFIG_STM32_DFSDM_CORE=y
-CONFIG_STM32_DFSDM_ADC=y
-CONFIG_STMPE_ADC=y
-CONFIG_TI_ADC081C=y
-CONFIG_TI_ADC0832=y
-CONFIG_TI_ADC084S021=y
-CONFIG_TI_ADC12138=y
-CONFIG_TI_ADC108S102=y
-CONFIG_TI_ADC128S052=y
-CONFIG_TI_ADC161S626=y
-CONFIG_TI_ADS1015=y
-CONFIG_TI_ADS7950=y
-CONFIG_TI_ADS8344=y
-CONFIG_TI_ADS8688=y
-CONFIG_TI_ADS124S08=y
-CONFIG_TI_ADS131E08=y
-CONFIG_TI_AM335X_ADC=y
-CONFIG_TI_TLC4541=y
-CONFIG_TI_TSC2046=y
-CONFIG_TWL4030_MADC=y
-CONFIG_TWL6030_GPADC=y
-CONFIG_VF610_ADC=y
-CONFIG_VIPERBOARD_ADC=y
-CONFIG_XILINX_XADC=y
-CONFIG_XILINX_AMS=y
-# end of Analog to digital converters
-
-#
-# Analog to digital and digital to analog converters
-#
-CONFIG_AD74413R=y
-# end of Analog to digital and digital to analog converters
-
-#
-# Analog Front Ends
-#
-CONFIG_IIO_RESCALE=y
-# end of Analog Front Ends
-
-#
-# Amplifiers
-#
-CONFIG_AD8366=y
-CONFIG_ADA4250=y
-CONFIG_HMC425=y
-# end of Amplifiers
-
-#
-# Capacitance to digital converters
-#
-CONFIG_AD7150=y
-CONFIG_AD7746=y
-# end of Capacitance to digital converters
-
-#
-# Chemical Sensors
-#
-CONFIG_ATLAS_PH_SENSOR=y
-CONFIG_ATLAS_EZO_SENSOR=y
-CONFIG_BME680=y
-CONFIG_BME680_I2C=y
-CONFIG_BME680_SPI=y
-CONFIG_CCS811=y
-CONFIG_IAQCORE=y
-CONFIG_PMS7003=y
-CONFIG_SCD30_CORE=y
-CONFIG_SCD30_I2C=y
-CONFIG_SCD30_SERIAL=y
-CONFIG_SCD4X=y
-CONFIG_SENSIRION_SGP30=y
-CONFIG_SENSIRION_SGP40=y
-CONFIG_SPS30=y
-CONFIG_SPS30_I2C=y
-CONFIG_SPS30_SERIAL=y
-CONFIG_SENSEAIR_SUNRISE_CO2=y
-CONFIG_VZ89X=y
-# end of Chemical Sensors
-
-CONFIG_IIO_CROS_EC_SENSORS_CORE=y
-CONFIG_IIO_CROS_EC_SENSORS=y
-CONFIG_IIO_CROS_EC_SENSORS_LID_ANGLE=y
-
-#
-# Hid Sensor IIO Common
-#
-CONFIG_HID_SENSOR_IIO_COMMON=y
-CONFIG_HID_SENSOR_IIO_TRIGGER=y
-# end of Hid Sensor IIO Common
-
-CONFIG_IIO_MS_SENSORS_I2C=y
-
-#
-# IIO SCMI Sensors
-#
-CONFIG_IIO_SCMI=y
-# end of IIO SCMI Sensors
-
-#
-# SSP Sensor Common
-#
-CONFIG_IIO_SSP_SENSORS_COMMONS=y
-CONFIG_IIO_SSP_SENSORHUB=y
-# end of SSP Sensor Common
-
-CONFIG_IIO_ST_SENSORS_I2C=y
-CONFIG_IIO_ST_SENSORS_SPI=y
-CONFIG_IIO_ST_SENSORS_CORE=y
-
-#
-# Digital to analog converters
-#
-CONFIG_AD3552R=y
-CONFIG_AD5064=y
-CONFIG_AD5360=y
-CONFIG_AD5380=y
-CONFIG_AD5421=y
-CONFIG_AD5446=y
-CONFIG_AD5449=y
-CONFIG_AD5592R_BASE=y
-CONFIG_AD5592R=y
-CONFIG_AD5593R=y
-CONFIG_AD5504=y
-CONFIG_AD5624R_SPI=y
-CONFIG_LTC2688=y
-CONFIG_AD5686=y
-CONFIG_AD5686_SPI=y
-CONFIG_AD5696_I2C=y
-CONFIG_AD5755=y
-CONFIG_AD5758=y
-CONFIG_AD5761=y
-CONFIG_AD5764=y
-CONFIG_AD5766=y
-CONFIG_AD5770R=y
-CONFIG_AD5791=y
-CONFIG_AD7293=y
-CONFIG_AD7303=y
-CONFIG_AD8801=y
-CONFIG_DPOT_DAC=y
-CONFIG_DS4424=y
-CONFIG_LPC18XX_DAC=y
-CONFIG_LTC1660=y
-CONFIG_LTC2632=y
-CONFIG_M62332=y
-CONFIG_MAX517=y
-CONFIG_MAX5821=y
-CONFIG_MCP4725=y
-CONFIG_MCP4922=y
-CONFIG_STM32_DAC=y
-CONFIG_STM32_DAC_CORE=y
-CONFIG_TI_DAC082S085=y
-CONFIG_TI_DAC5571=y
-CONFIG_TI_DAC7311=y
-CONFIG_TI_DAC7612=y
-CONFIG_VF610_DAC=y
-# end of Digital to analog converters
-
-#
-# IIO dummy driver
-#
-CONFIG_IIO_DUMMY_EVGEN=y
-CONFIG_IIO_SIMPLE_DUMMY=y
-CONFIG_IIO_SIMPLE_DUMMY_EVENTS=y
-CONFIG_IIO_SIMPLE_DUMMY_BUFFER=y
-# end of IIO dummy driver
-
-#
-# Filters
-#
-CONFIG_ADMV8818=y
-# end of Filters
-
-#
-# Frequency Synthesizers DDS/PLL
-#
-
-#
-# Clock Generator/Distribution
-#
-CONFIG_AD9523=y
-# end of Clock Generator/Distribution
-
-#
-# Phase-Locked Loop (PLL) frequency synthesizers
-#
-CONFIG_ADF4350=y
-CONFIG_ADF4371=y
-CONFIG_ADMV1013=y
-CONFIG_ADMV1014=y
-CONFIG_ADMV4420=y
-CONFIG_ADRF6780=y
-# end of Phase-Locked Loop (PLL) frequency synthesizers
-# end of Frequency Synthesizers DDS/PLL
-
-#
-# Digital gyroscope sensors
-#
-CONFIG_ADIS16080=y
-CONFIG_ADIS16130=y
-CONFIG_ADIS16136=y
-CONFIG_ADIS16260=y
-CONFIG_ADXRS290=y
-CONFIG_ADXRS450=y
-CONFIG_BMG160=y
-CONFIG_BMG160_I2C=y
-CONFIG_BMG160_SPI=y
-CONFIG_FXAS21002C=y
-CONFIG_FXAS21002C_I2C=y
-CONFIG_FXAS21002C_SPI=y
-CONFIG_HID_SENSOR_GYRO_3D=y
-CONFIG_MPU3050=y
-CONFIG_MPU3050_I2C=y
-CONFIG_IIO_ST_GYRO_3AXIS=y
-CONFIG_IIO_ST_GYRO_I2C_3AXIS=y
-CONFIG_IIO_ST_GYRO_SPI_3AXIS=y
-CONFIG_ITG3200=y
-# end of Digital gyroscope sensors
-
-#
-# Health Sensors
-#
-
-#
-# Heart Rate Monitors
-#
-CONFIG_AFE4403=y
-CONFIG_AFE4404=y
-CONFIG_MAX30100=y
-CONFIG_MAX30102=y
-# end of Heart Rate Monitors
-# end of Health Sensors
-
-#
-# Humidity sensors
-#
-CONFIG_AM2315=y
-CONFIG_DHT11=y
-CONFIG_HDC100X=y
-CONFIG_HDC2010=y
-CONFIG_HID_SENSOR_HUMIDITY=y
-CONFIG_HTS221=y
-CONFIG_HTS221_I2C=y
-CONFIG_HTS221_SPI=y
-CONFIG_HTU21=y
-CONFIG_SI7005=y
-CONFIG_SI7020=y
-# end of Humidity sensors
-
-#
-# Inertial measurement units
-#
-CONFIG_ADIS16400=y
-CONFIG_ADIS16460=y
-CONFIG_ADIS16475=y
-CONFIG_ADIS16480=y
-CONFIG_BMI160=y
-CONFIG_BMI160_I2C=y
-CONFIG_BMI160_SPI=y
-CONFIG_BOSCH_BNO055=y
-CONFIG_BOSCH_BNO055_SERIAL=y
-CONFIG_BOSCH_BNO055_I2C=y
-CONFIG_FXOS8700=y
-CONFIG_FXOS8700_I2C=y
-CONFIG_FXOS8700_SPI=y
-CONFIG_KMX61=y
-CONFIG_INV_ICM42600=y
-CONFIG_INV_ICM42600_I2C=y
-CONFIG_INV_ICM42600_SPI=y
-CONFIG_INV_MPU6050_IIO=y
-CONFIG_INV_MPU6050_I2C=y
-CONFIG_INV_MPU6050_SPI=y
-CONFIG_IIO_ST_LSM6DSX=y
-CONFIG_IIO_ST_LSM6DSX_I2C=y
-CONFIG_IIO_ST_LSM6DSX_SPI=y
-CONFIG_IIO_ST_LSM6DSX_I3C=y
-# end of Inertial measurement units
-
-CONFIG_IIO_ADIS_LIB=y
-CONFIG_IIO_ADIS_LIB_BUFFER=y
-
-#
-# Light sensors
-#
-CONFIG_ACPI_ALS=y
-CONFIG_ADJD_S311=y
-CONFIG_ADUX1020=y
-CONFIG_AL3010=y
-CONFIG_AL3320A=y
-CONFIG_APDS9300=y
-CONFIG_APDS9960=y
-CONFIG_AS73211=y
-CONFIG_BH1750=y
-CONFIG_BH1780=y
-CONFIG_CM32181=y
-CONFIG_CM3232=y
-CONFIG_CM3323=y
-CONFIG_CM3605=y
-CONFIG_CM36651=y
-CONFIG_IIO_CROS_EC_LIGHT_PROX=y
-CONFIG_GP2AP002=y
-CONFIG_GP2AP020A00F=y
-CONFIG_IQS621_ALS=y
-CONFIG_SENSORS_ISL29018=y
-CONFIG_SENSORS_ISL29028=y
-CONFIG_ISL29125=y
-CONFIG_HID_SENSOR_ALS=y
-CONFIG_HID_SENSOR_PROX=y
-CONFIG_JSA1212=y
-CONFIG_RPR0521=y
-CONFIG_SENSORS_LM3533=y
-CONFIG_LTR501=y
-CONFIG_LTRF216A=y
-CONFIG_LV0104CS=y
-CONFIG_MAX44000=y
-CONFIG_MAX44009=y
-CONFIG_NOA1305=y
-CONFIG_OPT3001=y
-CONFIG_PA12203001=y
-CONFIG_SI1133=y
-CONFIG_SI1145=y
-CONFIG_STK3310=y
-CONFIG_ST_UVIS25=y
-CONFIG_ST_UVIS25_I2C=y
-CONFIG_ST_UVIS25_SPI=y
-CONFIG_TCS3414=y
-CONFIG_TCS3472=y
-CONFIG_SENSORS_TSL2563=y
-CONFIG_TSL2583=y
-CONFIG_TSL2591=y
-CONFIG_TSL2772=y
-CONFIG_TSL4531=y
-CONFIG_US5182D=y
-CONFIG_VCNL4000=y
-CONFIG_VCNL4035=y
-CONFIG_VEML6030=y
-CONFIG_VEML6070=y
-CONFIG_VL6180=y
-CONFIG_ZOPT2201=y
-# end of Light sensors
-
-#
-# Magnetometer sensors
-#
-CONFIG_AK8974=y
-CONFIG_AK8975=y
-CONFIG_AK09911=y
-CONFIG_BMC150_MAGN=y
-CONFIG_BMC150_MAGN_I2C=y
-CONFIG_BMC150_MAGN_SPI=y
-CONFIG_MAG3110=y
-CONFIG_HID_SENSOR_MAGNETOMETER_3D=y
-CONFIG_MMC35240=y
-CONFIG_IIO_ST_MAGN_3AXIS=y
-CONFIG_IIO_ST_MAGN_I2C_3AXIS=y
-CONFIG_IIO_ST_MAGN_SPI_3AXIS=y
-CONFIG_SENSORS_HMC5843=y
-CONFIG_SENSORS_HMC5843_I2C=y
-CONFIG_SENSORS_HMC5843_SPI=y
-CONFIG_SENSORS_RM3100=y
-CONFIG_SENSORS_RM3100_I2C=y
-CONFIG_SENSORS_RM3100_SPI=y
-CONFIG_YAMAHA_YAS530=y
-# end of Magnetometer sensors
-
-#
-# Multiplexers
-#
-CONFIG_IIO_MUX=y
-# end of Multiplexers
-
-#
-# Inclinometer sensors
-#
-CONFIG_HID_SENSOR_INCLINOMETER_3D=y
-CONFIG_HID_SENSOR_DEVICE_ROTATION=y
-# end of Inclinometer sensors
-
-CONFIG_IIO_RESCALE_KUNIT_TEST=y
-CONFIG_IIO_FORMAT_KUNIT_TEST=y
-
-#
-# Triggers - standalone
-#
-CONFIG_IIO_HRTIMER_TRIGGER=y
-CONFIG_IIO_INTERRUPT_TRIGGER=y
-CONFIG_IIO_STM32_LPTIMER_TRIGGER=y
-CONFIG_IIO_STM32_TIMER_TRIGGER=y
-CONFIG_IIO_TIGHTLOOP_TRIGGER=y
-CONFIG_IIO_SYSFS_TRIGGER=y
-# end of Triggers - standalone
-
-#
-# Linear and angular position sensors
-#
-CONFIG_IQS624_POS=y
-CONFIG_HID_SENSOR_CUSTOM_INTEL_HINGE=y
-# end of Linear and angular position sensors
-
-#
-# Digital potentiometers
-#
-CONFIG_AD5110=y
-CONFIG_AD5272=y
-CONFIG_DS1803=y
-CONFIG_MAX5432=y
-CONFIG_MAX5481=y
-CONFIG_MAX5487=y
-CONFIG_MCP4018=y
-CONFIG_MCP4131=y
-CONFIG_MCP4531=y
-CONFIG_MCP41010=y
-CONFIG_TPL0102=y
-# end of Digital potentiometers
-
-#
-# Digital potentiostats
-#
-CONFIG_LMP91000=y
-# end of Digital potentiostats
-
-#
-# Pressure sensors
-#
-CONFIG_ABP060MG=y
-CONFIG_BMP280=y
-CONFIG_BMP280_I2C=y
-CONFIG_BMP280_SPI=y
-CONFIG_IIO_CROS_EC_BARO=y
-CONFIG_DLHL60D=y
-CONFIG_DPS310=y
-CONFIG_HID_SENSOR_PRESS=y
-CONFIG_HP03=y
-CONFIG_ICP10100=y
-CONFIG_MPL115=y
-CONFIG_MPL115_I2C=y
-CONFIG_MPL115_SPI=y
-CONFIG_MPL3115=y
-CONFIG_MS5611=y
-CONFIG_MS5611_I2C=y
-CONFIG_MS5611_SPI=y
-CONFIG_MS5637=y
-CONFIG_IIO_ST_PRESS=y
-CONFIG_IIO_ST_PRESS_I2C=y
-CONFIG_IIO_ST_PRESS_SPI=y
-CONFIG_T5403=y
-CONFIG_HP206C=y
-CONFIG_ZPA2326=y
-CONFIG_ZPA2326_I2C=y
-CONFIG_ZPA2326_SPI=y
-# end of Pressure sensors
-
-#
-# Lightning sensors
-#
-CONFIG_AS3935=y
-# end of Lightning sensors
-
-#
-# Proximity and distance sensors
-#
-CONFIG_CROS_EC_MKBP_PROXIMITY=y
-CONFIG_ISL29501=y
-CONFIG_LIDAR_LITE_V2=y
-CONFIG_MB1232=y
-CONFIG_PING=y
-CONFIG_RFD77402=y
-CONFIG_SRF04=y
-CONFIG_SX_COMMON=y
-CONFIG_SX9310=y
-CONFIG_SX9324=y
-CONFIG_SX9360=y
-CONFIG_SX9500=y
-CONFIG_SRF08=y
-CONFIG_VCNL3020=y
-CONFIG_VL53L0X_I2C=y
-# end of Proximity and distance sensors
-
-#
-# Resolver to digital converters
-#
-CONFIG_AD2S90=y
-CONFIG_AD2S1200=y
-# end of Resolver to digital converters
-
-#
-# Temperature sensors
-#
-CONFIG_IQS620AT_TEMP=y
-CONFIG_LTC2983=y
-CONFIG_MAXIM_THERMOCOUPLE=y
-CONFIG_HID_SENSOR_TEMP=y
-CONFIG_MLX90614=y
-CONFIG_MLX90632=y
-CONFIG_TMP006=y
-CONFIG_TMP007=y
-CONFIG_TMP117=y
-CONFIG_TSYS01=y
-CONFIG_TSYS02D=y
-CONFIG_MAX31856=y
-CONFIG_MAX31865=y
-# end of Temperature sensors
-
-CONFIG_NTB=y
-CONFIG_NTB_MSI=y
-CONFIG_NTB_IDT=y
-CONFIG_NTB_EPF=m
-CONFIG_NTB_SWITCHTEC=y
-CONFIG_NTB_PINGPONG=y
-CONFIG_NTB_TOOL=y
-CONFIG_NTB_PERF=y
-CONFIG_NTB_MSI_TEST=y
-CONFIG_NTB_TRANSPORT=y
-CONFIG_PWM=y
-CONFIG_PWM_SYSFS=y
-CONFIG_PWM_DEBUG=y
-CONFIG_PWM_ATMEL=y
-CONFIG_PWM_ATMEL_HLCDC_PWM=y
-CONFIG_PWM_ATMEL_TCB=y
-CONFIG_PWM_BCM_IPROC=y
-CONFIG_PWM_BCM_KONA=y
-CONFIG_PWM_BCM2835=y
-CONFIG_PWM_BERLIN=y
-CONFIG_PWM_BRCMSTB=y
-CONFIG_PWM_CLK=y
-CONFIG_PWM_CLPS711X=y
-CONFIG_PWM_CROS_EC=y
-CONFIG_PWM_DWC=y
-CONFIG_PWM_EP93XX=y
-CONFIG_PWM_FSL_FTM=y
-CONFIG_PWM_HIBVT=y
-CONFIG_PWM_IMG=y
-CONFIG_PWM_IMX1=y
-CONFIG_PWM_IMX27=y
-CONFIG_PWM_IMX_TPM=y
-CONFIG_PWM_INTEL_LGM=y
-CONFIG_PWM_IQS620A=y
-CONFIG_PWM_JZ4740=y
-CONFIG_PWM_KEEMBAY=y
-CONFIG_PWM_LP3943=y
-CONFIG_PWM_LPC18XX_SCT=y
-CONFIG_PWM_LPC32XX=y
-CONFIG_PWM_LPSS=y
-CONFIG_PWM_LPSS_PCI=y
-CONFIG_PWM_LPSS_PLATFORM=y
-CONFIG_PWM_MESON=y
-CONFIG_PWM_MTK_DISP=y
-CONFIG_PWM_MEDIATEK=y
-CONFIG_PWM_MXS=y
-CONFIG_PWM_NTXEC=y
-CONFIG_PWM_OMAP_DMTIMER=y
-CONFIG_PWM_PCA9685=y
-CONFIG_PWM_PXA=y
-CONFIG_PWM_RASPBERRYPI_POE=y
-CONFIG_PWM_RCAR=y
-CONFIG_PWM_RENESAS_TPU=y
-CONFIG_PWM_ROCKCHIP=y
-CONFIG_PWM_SAMSUNG=y
-CONFIG_PWM_SIFIVE=y
-CONFIG_PWM_SL28CPLD=y
-CONFIG_PWM_SPEAR=y
-CONFIG_PWM_SPRD=y
-CONFIG_PWM_STI=y
-CONFIG_PWM_STM32=y
-CONFIG_PWM_STM32_LP=y
-CONFIG_PWM_STMPE=y
-CONFIG_PWM_SUN4I=y
-CONFIG_PWM_SUNPLUS=y
-CONFIG_PWM_TEGRA=y
-CONFIG_PWM_TIECAP=y
-CONFIG_PWM_TIEHRPWM=y
-CONFIG_PWM_TWL=y
-CONFIG_PWM_TWL_LED=y
-CONFIG_PWM_VISCONTI=y
-CONFIG_PWM_VT8500=y
-CONFIG_PWM_XILINX=y
-
-#
-# IRQ chip support
-#
-CONFIG_IRQCHIP=y
-CONFIG_AL_FIC=y
-CONFIG_MADERA_IRQ=y
-CONFIG_JCORE_AIC=y
-CONFIG_RENESAS_INTC_IRQPIN=y
-CONFIG_RENESAS_IRQC=y
-CONFIG_RENESAS_RZA1_IRQC=y
-CONFIG_RENESAS_RZG2L_IRQC=y
-CONFIG_SL28CPLD_INTC=y
-CONFIG_TS4800_IRQ=y
-CONFIG_XILINX_INTC=y
-CONFIG_INGENIC_TCU_IRQ=y
-CONFIG_IRQ_UNIPHIER_AIDET=y
-CONFIG_MESON_IRQ_GPIO=y
-CONFIG_IMX_IRQSTEER=y
-CONFIG_IMX_INTMUX=y
-CONFIG_IMX_MU_MSI=y
-CONFIG_EXYNOS_IRQ_COMBINER=y
-CONFIG_MST_IRQ=y
-CONFIG_MCHP_EIC=y
-CONFIG_SUNPLUS_SP7021_INTC=y
-# end of IRQ chip support
-
-CONFIG_IPACK_BUS=y
-CONFIG_BOARD_TPCI200=y
-CONFIG_SERIAL_IPOCTAL=y
-CONFIG_RESET_CONTROLLER=y
-CONFIG_RESET_A10SR=y
-CONFIG_RESET_ATH79=y
-CONFIG_RESET_AXS10X=y
-CONFIG_RESET_BCM6345=y
-CONFIG_RESET_BERLIN=y
-CONFIG_RESET_BRCMSTB=y
-CONFIG_RESET_BRCMSTB_RESCAL=y
-CONFIG_RESET_HSDK=y
-CONFIG_RESET_IMX7=y
-CONFIG_RESET_INTEL_GW=y
-CONFIG_RESET_K210=y
-CONFIG_RESET_LANTIQ=y
-CONFIG_RESET_LPC18XX=y
-CONFIG_RESET_MCHP_SPARX5=y
-CONFIG_RESET_MESON=y
-CONFIG_RESET_MESON_AUDIO_ARB=y
-CONFIG_RESET_NPCM=y
-CONFIG_RESET_PISTACHIO=y
-CONFIG_RESET_POLARFIRE_SOC=y
-CONFIG_RESET_QCOM_AOSS=y
-CONFIG_RESET_QCOM_PDC=y
-CONFIG_RESET_RASPBERRYPI=y
-CONFIG_RESET_RZG2L_USBPHY_CTRL=y
-CONFIG_RESET_SCMI=y
-CONFIG_RESET_SIMPLE=y
-CONFIG_RESET_SOCFPGA=y
-CONFIG_RESET_STARFIVE_JH7100=y
-CONFIG_RESET_SUNPLUS=y
-CONFIG_RESET_SUNXI=y
-CONFIG_RESET_TI_SCI=y
-CONFIG_RESET_TI_SYSCON=y
-CONFIG_RESET_TI_TPS380X=y
-CONFIG_RESET_TN48M_CPLD=y
-CONFIG_RESET_UNIPHIER=y
-CONFIG_RESET_UNIPHIER_GLUE=y
-CONFIG_RESET_ZYNQ=y
-CONFIG_COMMON_RESET_HI3660=y
-CONFIG_COMMON_RESET_HI6220=y
-
-#
-# PHY Subsystem
-#
-CONFIG_GENERIC_PHY=y
-CONFIG_GENERIC_PHY_MIPI_DPHY=y
-CONFIG_PHY_LPC18XX_USB_OTG=y
-CONFIG_PHY_PISTACHIO_USB=y
-CONFIG_PHY_XGENE=y
-CONFIG_USB_LGM_PHY=y
-CONFIG_PHY_CAN_TRANSCEIVER=y
-CONFIG_PHY_SUN4I_USB=y
-CONFIG_PHY_SUN6I_MIPI_DPHY=y
-CONFIG_PHY_SUN9I_USB=y
-CONFIG_PHY_SUN50I_USB3=y
-CONFIG_PHY_MESON8_HDMI_TX=y
-CONFIG_PHY_MESON8B_USB2=y
-CONFIG_PHY_MESON_GXL_USB2=y
-CONFIG_PHY_MESON_G12A_MIPI_DPHY_ANALOG=y
-CONFIG_PHY_MESON_G12A_USB2=y
-CONFIG_PHY_MESON_G12A_USB3_PCIE=y
-CONFIG_PHY_MESON_AXG_PCIE=y
-CONFIG_PHY_MESON_AXG_MIPI_PCIE_ANALOG=y
-CONFIG_PHY_MESON_AXG_MIPI_DPHY=y
-
-#
-# PHY drivers for Broadcom platforms
-#
-CONFIG_PHY_BCM63XX_USBH=y
-CONFIG_PHY_CYGNUS_PCIE=y
-CONFIG_PHY_BCM_SR_USB=y
-CONFIG_BCM_KONA_USB2_PHY=y
-CONFIG_PHY_BCM_NS_USB2=y
-CONFIG_PHY_BCM_NS_USB3=y
-CONFIG_PHY_NS2_PCIE=y
-CONFIG_PHY_NS2_USB_DRD=y
-CONFIG_PHY_BRCM_SATA=y
-CONFIG_PHY_BRCM_USB=y
-CONFIG_PHY_BCM_SR_PCIE=y
-# end of PHY drivers for Broadcom platforms
-
-CONFIG_PHY_CADENCE_TORRENT=y
-CONFIG_PHY_CADENCE_DPHY=y
-CONFIG_PHY_CADENCE_DPHY_RX=y
-CONFIG_PHY_CADENCE_SIERRA=y
-CONFIG_PHY_CADENCE_SALVO=y
-CONFIG_PHY_FSL_IMX8MQ_USB=y
-CONFIG_PHY_MIXEL_LVDS_PHY=y
-CONFIG_PHY_MIXEL_MIPI_DPHY=y
-CONFIG_PHY_FSL_IMX8M_PCIE=y
-CONFIG_PHY_FSL_LYNX_28G=y
-CONFIG_PHY_HI6220_USB=y
-CONFIG_PHY_HI3660_USB=y
-CONFIG_PHY_HI3670_USB=y
-CONFIG_PHY_HI3670_PCIE=y
-CONFIG_PHY_HISTB_COMBPHY=y
-CONFIG_PHY_HISI_INNO_USB2=y
-CONFIG_PHY_INGENIC_USB=y
-CONFIG_PHY_LANTIQ_VRX200_PCIE=y
-CONFIG_PHY_LANTIQ_RCU_USB2=y
-CONFIG_ARMADA375_USBCLUSTER_PHY=y
-CONFIG_PHY_BERLIN_SATA=y
-CONFIG_PHY_BERLIN_USB=y
-CONFIG_PHY_MVEBU_A3700_UTMI=y
-CONFIG_PHY_MVEBU_A38X_COMPHY=y
-CONFIG_PHY_MVEBU_CP110_UTMI=y
-CONFIG_PHY_PXA_28NM_HSIC=y
-CONFIG_PHY_PXA_28NM_USB2=y
-CONFIG_PHY_PXA_USB=y
-CONFIG_PHY_MMP3_USB=y
-CONFIG_PHY_MMP3_HSIC=y
-CONFIG_PHY_MTK_PCIE=y
-CONFIG_PHY_MTK_TPHY=y
-CONFIG_PHY_MTK_UFS=y
-CONFIG_PHY_MTK_XSPHY=y
-CONFIG_PHY_MTK_HDMI=y
-CONFIG_PHY_MTK_MIPI_DSI=y
-CONFIG_PHY_MTK_DP=y
-CONFIG_PHY_SPARX5_SERDES=y
-CONFIG_PHY_LAN966X_SERDES=y
-CONFIG_PHY_CPCAP_USB=y
-CONFIG_PHY_MAPPHONE_MDM6600=y
-CONFIG_PHY_OCELOT_SERDES=y
-CONFIG_PHY_ATH79_USB=y
-CONFIG_PHY_QCOM_EDP=y
-CONFIG_PHY_QCOM_IPQ4019_USB=y
-CONFIG_PHY_QCOM_PCIE2=y
-CONFIG_PHY_QCOM_QMP=y
-CONFIG_PHY_QCOM_QUSB2=y
-CONFIG_PHY_QCOM_USB_HS=y
-CONFIG_PHY_QCOM_USB_SNPS_FEMTO_V2=y
-CONFIG_PHY_QCOM_USB_HSIC=y
-CONFIG_PHY_QCOM_USB_HS_28NM=y
-CONFIG_PHY_QCOM_USB_SS=y
-CONFIG_PHY_QCOM_IPQ806X_USB=y
-CONFIG_PHY_MT7621_PCI=y
-CONFIG_PHY_RALINK_USB=y
-CONFIG_PHY_RCAR_GEN3_USB3=y
-CONFIG_PHY_ROCKCHIP_DPHY_RX0=y
-CONFIG_PHY_ROCKCHIP_INNO_HDMI=y
-CONFIG_PHY_ROCKCHIP_INNO_USB2=y
-CONFIG_PHY_ROCKCHIP_INNO_CSIDPHY=y
-CONFIG_PHY_ROCKCHIP_INNO_DSIDPHY=y
-CONFIG_PHY_ROCKCHIP_PCIE=y
-CONFIG_PHY_ROCKCHIP_SNPS_PCIE3=y
-CONFIG_PHY_ROCKCHIP_TYPEC=y
-CONFIG_PHY_EXYNOS_DP_VIDEO=y
-CONFIG_PHY_EXYNOS_MIPI_VIDEO=y
-CONFIG_PHY_EXYNOS_PCIE=y
-CONFIG_PHY_SAMSUNG_UFS=y
-CONFIG_PHY_SAMSUNG_USB2=y
-CONFIG_PHY_S5PV210_USB2=y
-CONFIG_PHY_EXYNOS5_USBDRD=y
-CONFIG_PHY_UNIPHIER_USB2=y
-CONFIG_PHY_UNIPHIER_USB3=y
-CONFIG_PHY_UNIPHIER_PCIE=y
-CONFIG_PHY_UNIPHIER_AHCI=y
-CONFIG_PHY_ST_SPEAR1310_MIPHY=y
-CONFIG_PHY_ST_SPEAR1340_MIPHY=y
-CONFIG_PHY_STIH407_USB=y
-CONFIG_PHY_STM32_USBPHYC=y
-CONFIG_PHY_SUNPLUS_USB=y
-CONFIG_PHY_TEGRA194_P2U=y
-CONFIG_PHY_DA8XX_USB=y
-CONFIG_PHY_DM816X_USB=y
-CONFIG_PHY_AM654_SERDES=y
-CONFIG_PHY_J721E_WIZ=y
-CONFIG_OMAP_CONTROL_PHY=y
-CONFIG_TI_PIPE3=y
-CONFIG_PHY_TUSB1210=y
-CONFIG_PHY_TI_GMII_SEL=y
-CONFIG_PHY_INTEL_KEEMBAY_EMMC=y
-CONFIG_PHY_INTEL_KEEMBAY_USB=y
-CONFIG_PHY_INTEL_LGM_COMBO=y
-CONFIG_PHY_INTEL_LGM_EMMC=y
-CONFIG_PHY_INTEL_THUNDERBAY_EMMC=y
-CONFIG_PHY_XILINX_ZYNQMP=y
-# end of PHY Subsystem
-
-CONFIG_POWERCAP=y
-CONFIG_DTPM=y
-CONFIG_DTPM_CPU=y
-CONFIG_DTPM_DEVFREQ=y
-CONFIG_MCB=y
-CONFIG_MCB_PCI=y
-CONFIG_MCB_LPC=y
-CONFIG_RAS=y
-CONFIG_USB4=y
-CONFIG_USB4_DEBUGFS_WRITE=y
-CONFIG_USB4_DEBUGFS_MARGINING=y
-CONFIG_USB4_KUNIT_TEST=y
-CONFIG_USB4_DMA_TEST=y
-
-#
-# Android
-#
-CONFIG_ANDROID_BINDER_IPC=y
-CONFIG_ANDROID_BINDERFS=y
-CONFIG_ANDROID_BINDER_DEVICES="binder,hwbinder,vndbinder"
-CONFIG_ANDROID_BINDER_IPC_SELFTEST=y
-# end of Android
-
-CONFIG_LIBNVDIMM=y
-CONFIG_BLK_DEV_PMEM=y
-CONFIG_ND_CLAIM=y
-CONFIG_ND_BTT=y
-CONFIG_BTT=y
-CONFIG_OF_PMEM=y
-CONFIG_NVDIMM_KEYS=y
-CONFIG_DAX=y
-CONFIG_NVMEM=y
-CONFIG_NVMEM_SYSFS=y
-CONFIG_NVMEM_APPLE_EFUSES=y
-CONFIG_NVMEM_BCM_OCOTP=y
-CONFIG_NVMEM_BRCM_NVRAM=y
-CONFIG_NVMEM_IMX_IIM=y
-CONFIG_NVMEM_IMX_OCOTP=y
-CONFIG_NVMEM_JZ4780_EFUSE=y
-CONFIG_NVMEM_LAN9662_OTPC=y
-CONFIG_NVMEM_LAYERSCAPE_SFP=y
-CONFIG_NVMEM_LPC18XX_EEPROM=y
-CONFIG_NVMEM_LPC18XX_OTP=y
-CONFIG_NVMEM_MESON_MX_EFUSE=y
-CONFIG_NVMEM_MICROCHIP_OTPC=y
-CONFIG_NVMEM_MTK_EFUSE=y
-CONFIG_NVMEM_MXS_OCOTP=y
-CONFIG_NVMEM_NINTENDO_OTP=y
-CONFIG_NVMEM_QCOM_QFPROM=y
-CONFIG_NVMEM_RAVE_SP_EEPROM=y
-CONFIG_NVMEM_RMEM=y
-CONFIG_NVMEM_ROCKCHIP_EFUSE=y
-CONFIG_NVMEM_ROCKCHIP_OTP=y
-CONFIG_NVMEM_SC27XX_EFUSE=y
-CONFIG_NVMEM_SNVS_LPGPR=y
-CONFIG_NVMEM_SPMI_SDAM=y
-CONFIG_NVMEM_SPRD_EFUSE=y
-CONFIG_NVMEM_STM32_ROMEM=y
-CONFIG_NVMEM_SUNPLUS_OCOTP=y
-CONFIG_NVMEM_U_BOOT_ENV=y
-CONFIG_NVMEM_UNIPHIER_EFUSE=y
-CONFIG_NVMEM_VF610_OCOTP=y
-
-#
-# HW tracing support
-#
-CONFIG_STM=y
-CONFIG_STM_PROTO_BASIC=y
-CONFIG_STM_PROTO_SYS_T=y
-CONFIG_STM_DUMMY=y
-CONFIG_STM_SOURCE_CONSOLE=y
-CONFIG_STM_SOURCE_HEARTBEAT=y
-CONFIG_INTEL_TH=y
-CONFIG_INTEL_TH_PCI=y
-CONFIG_INTEL_TH_ACPI=y
-CONFIG_INTEL_TH_GTH=y
-CONFIG_INTEL_TH_STH=y
-CONFIG_INTEL_TH_MSU=y
-CONFIG_INTEL_TH_PTI=y
-CONFIG_INTEL_TH_DEBUG=y
-# end of HW tracing support
-
-CONFIG_FPGA=y
-CONFIG_FPGA_MGR_SOCFPGA=y
-CONFIG_FPGA_MGR_SOCFPGA_A10=y
-CONFIG_ALTERA_PR_IP_CORE=y
-CONFIG_ALTERA_PR_IP_CORE_PLAT=y
-CONFIG_FPGA_MGR_ALTERA_PS_SPI=y
-CONFIG_FPGA_MGR_ALTERA_CVP=y
-CONFIG_FPGA_MGR_ZYNQ_FPGA=y
-CONFIG_FPGA_MGR_XILINX_SPI=y
-CONFIG_FPGA_MGR_ICE40_SPI=y
-CONFIG_FPGA_MGR_MACHXO2_SPI=y
-CONFIG_FPGA_BRIDGE=y
-CONFIG_ALTERA_FREEZE_BRIDGE=y
-CONFIG_XILINX_PR_DECOUPLER=y
-CONFIG_FPGA_REGION=y
-CONFIG_OF_FPGA_REGION=y
-CONFIG_FPGA_DFL=y
-CONFIG_FPGA_DFL_AFU=y
-CONFIG_FPGA_DFL_NIOS_INTEL_PAC_N3000=y
-CONFIG_FPGA_DFL_PCI=y
-CONFIG_FPGA_MGR_ZYNQMP_FPGA=y
-CONFIG_FPGA_MGR_VERSAL_FPGA=y
-CONFIG_FPGA_M10_BMC_SEC_UPDATE=y
-CONFIG_FPGA_MGR_MICROCHIP_SPI=y
-CONFIG_FSI=y
-CONFIG_FSI_NEW_DEV_NODE=y
-CONFIG_FSI_MASTER_GPIO=y
-CONFIG_FSI_MASTER_HUB=y
-CONFIG_FSI_MASTER_AST_CF=y
-CONFIG_FSI_MASTER_ASPEED=y
-CONFIG_FSI_SCOM=y
-CONFIG_FSI_SBEFIFO=y
-CONFIG_FSI_OCC=y
-CONFIG_TEE=y
-CONFIG_MULTIPLEXER=y
-
-#
-# Multiplexer drivers
-#
-CONFIG_MUX_ADG792A=y
-CONFIG_MUX_ADGS1408=y
-CONFIG_MUX_GPIO=y
-CONFIG_MUX_MMIO=y
-# end of Multiplexer drivers
-
-CONFIG_PM_OPP=y
-CONFIG_SIOX=y
-CONFIG_SIOX_BUS_GPIO=y
-CONFIG_SLIMBUS=y
-CONFIG_SLIM_QCOM_CTRL=y
-CONFIG_SLIM_QCOM_NGD_CTRL=y
-CONFIG_INTERCONNECT=y
-CONFIG_INTERCONNECT_IMX=y
-CONFIG_INTERCONNECT_IMX8MM=y
-CONFIG_INTERCONNECT_IMX8MN=y
-CONFIG_INTERCONNECT_IMX8MQ=y
-CONFIG_INTERCONNECT_IMX8MP=y
-CONFIG_INTERCONNECT_QCOM_OSM_L3=y
-CONFIG_INTERCONNECT_SAMSUNG=y
-CONFIG_INTERCONNECT_EXYNOS=y
-CONFIG_COUNTER=y
-CONFIG_104_QUAD_8=y
-CONFIG_INTERRUPT_CNT=y
-CONFIG_STM32_TIMER_CNT=y
-CONFIG_STM32_LPTIMER_CNT=y
-CONFIG_TI_EQEP=y
-CONFIG_FTM_QUADDEC=y
-CONFIG_MICROCHIP_TCB_CAPTURE=y
-CONFIG_INTEL_QEP=y
-CONFIG_TI_ECAP_CAPTURE=y
-CONFIG_MOST=y
-CONFIG_MOST_USB_HDM=y
-CONFIG_MOST_CDEV=y
-CONFIG_MOST_SND=y
-CONFIG_PECI=y
-CONFIG_PECI_CPU=y
-CONFIG_PECI_ASPEED=y
-CONFIG_HTE=y
-# end of Device Drivers
-
-#
-# File systems
-#
-CONFIG_VALIDATE_FS_PARSER=y
-CONFIG_FS_IOMAP=y
-CONFIG_EXT2_FS=y
-CONFIG_EXT2_FS_XATTR=y
-CONFIG_EXT2_FS_POSIX_ACL=y
-CONFIG_EXT2_FS_SECURITY=y
-CONFIG_EXT3_FS=y
-CONFIG_EXT3_FS_POSIX_ACL=y
-CONFIG_EXT3_FS_SECURITY=y
-CONFIG_EXT4_FS=y
-CONFIG_EXT4_FS_POSIX_ACL=y
-CONFIG_EXT4_FS_SECURITY=y
-CONFIG_EXT4_DEBUG=y
-CONFIG_EXT4_KUNIT_TESTS=y
-CONFIG_JBD2=y
-CONFIG_JBD2_DEBUG=y
-CONFIG_FS_MBCACHE=y
-CONFIG_REISERFS_FS=y
-CONFIG_REISERFS_CHECK=y
-CONFIG_REISERFS_PROC_INFO=y
-CONFIG_REISERFS_FS_XATTR=y
-CONFIG_REISERFS_FS_POSIX_ACL=y
-CONFIG_REISERFS_FS_SECURITY=y
-CONFIG_JFS_FS=y
-CONFIG_JFS_POSIX_ACL=y
-CONFIG_JFS_SECURITY=y
-CONFIG_JFS_DEBUG=y
-CONFIG_JFS_STATISTICS=y
-CONFIG_XFS_FS=y
-CONFIG_XFS_SUPPORT_V4=y
-CONFIG_XFS_QUOTA=y
-CONFIG_XFS_POSIX_ACL=y
-CONFIG_XFS_RT=y
-CONFIG_XFS_ONLINE_SCRUB=y
-CONFIG_XFS_ONLINE_REPAIR=y
-CONFIG_XFS_DEBUG=y
-CONFIG_XFS_ASSERT_FATAL=y
-CONFIG_GFS2_FS=y
-CONFIG_GFS2_FS_LOCKING_DLM=y
-CONFIG_OCFS2_FS=y
-CONFIG_OCFS2_FS_O2CB=y
-CONFIG_OCFS2_FS_USERSPACE_CLUSTER=y
-CONFIG_OCFS2_FS_STATS=y
-CONFIG_OCFS2_DEBUG_MASKLOG=y
-CONFIG_OCFS2_DEBUG_FS=y
-CONFIG_BTRFS_FS=y
-CONFIG_BTRFS_FS_POSIX_ACL=y
-CONFIG_BTRFS_FS_CHECK_INTEGRITY=y
-CONFIG_BTRFS_FS_RUN_SANITY_TESTS=y
-CONFIG_BTRFS_DEBUG=y
-CONFIG_BTRFS_ASSERT=y
-CONFIG_BTRFS_FS_REF_VERIFY=y
-CONFIG_NILFS2_FS=y
-CONFIG_F2FS_FS=y
-CONFIG_F2FS_STAT_FS=y
-CONFIG_F2FS_FS_XATTR=y
-CONFIG_F2FS_FS_POSIX_ACL=y
-CONFIG_F2FS_FS_SECURITY=y
-CONFIG_F2FS_CHECK_FS=y
-CONFIG_F2FS_FAULT_INJECTION=y
-CONFIG_F2FS_FS_COMPRESSION=y
-CONFIG_F2FS_FS_LZO=y
-CONFIG_F2FS_FS_LZORLE=y
-CONFIG_F2FS_FS_LZ4=y
-CONFIG_F2FS_FS_LZ4HC=y
-CONFIG_F2FS_FS_ZSTD=y
-CONFIG_F2FS_IOSTAT=y
-CONFIG_F2FS_UNFAIR_RWSEM=y
-CONFIG_ZONEFS_FS=y
-CONFIG_FS_POSIX_ACL=y
-CONFIG_EXPORTFS=y
-CONFIG_EXPORTFS_BLOCK_OPS=y
-CONFIG_FILE_LOCKING=y
-CONFIG_FS_ENCRYPTION=y
-CONFIG_FS_ENCRYPTION_ALGS=y
-CONFIG_FS_ENCRYPTION_INLINE_CRYPT=y
-CONFIG_FS_VERITY=y
-CONFIG_FS_VERITY_DEBUG=y
-CONFIG_FS_VERITY_BUILTIN_SIGNATURES=y
-CONFIG_FSNOTIFY=y
-CONFIG_DNOTIFY=y
-CONFIG_INOTIFY_USER=y
-CONFIG_FANOTIFY=y
-CONFIG_FANOTIFY_ACCESS_PERMISSIONS=y
-CONFIG_QUOTA=y
-CONFIG_QUOTA_NETLINK_INTERFACE=y
-CONFIG_PRINT_QUOTA_WARNING=y
-CONFIG_QUOTA_DEBUG=y
-CONFIG_QUOTA_TREE=y
-CONFIG_QFMT_V1=y
-CONFIG_QFMT_V2=y
-CONFIG_QUOTACTL=y
-CONFIG_AUTOFS4_FS=y
-CONFIG_AUTOFS_FS=y
-CONFIG_FUSE_FS=y
-CONFIG_CUSE=y
-CONFIG_VIRTIO_FS=y
-CONFIG_OVERLAY_FS=y
-CONFIG_OVERLAY_FS_REDIRECT_DIR=y
-CONFIG_OVERLAY_FS_REDIRECT_ALWAYS_FOLLOW=y
-CONFIG_OVERLAY_FS_INDEX=y
-CONFIG_OVERLAY_FS_XINO_AUTO=y
-CONFIG_OVERLAY_FS_METACOPY=y
-
-#
-# Caches
-#
-CONFIG_NETFS_SUPPORT=y
-CONFIG_NETFS_STATS=y
-CONFIG_FSCACHE=y
-CONFIG_FSCACHE_STATS=y
-CONFIG_FSCACHE_DEBUG=y
-CONFIG_CACHEFILES=y
-CONFIG_CACHEFILES_DEBUG=y
-CONFIG_CACHEFILES_ERROR_INJECTION=y
-CONFIG_CACHEFILES_ONDEMAND=y
-# end of Caches
-
-#
-# CD-ROM/DVD Filesystems
-#
-CONFIG_ISO9660_FS=y
-CONFIG_JOLIET=y
-CONFIG_ZISOFS=y
-CONFIG_UDF_FS=y
-# end of CD-ROM/DVD Filesystems
-
-#
-# DOS/FAT/EXFAT/NT Filesystems
-#
-CONFIG_FAT_FS=y
-CONFIG_MSDOS_FS=y
-CONFIG_VFAT_FS=y
-CONFIG_FAT_DEFAULT_CODEPAGE=437
-CONFIG_FAT_DEFAULT_IOCHARSET="iso8859-1"
-CONFIG_FAT_DEFAULT_UTF8=y
-CONFIG_FAT_KUNIT_TEST=y
-CONFIG_EXFAT_FS=y
-CONFIG_EXFAT_DEFAULT_IOCHARSET="utf8"
-CONFIG_NTFS_FS=y
-CONFIG_NTFS_DEBUG=y
-CONFIG_NTFS_RW=y
-CONFIG_NTFS3_FS=y
-CONFIG_NTFS3_64BIT_CLUSTER=y
-CONFIG_NTFS3_LZX_XPRESS=y
-CONFIG_NTFS3_FS_POSIX_ACL=y
-# end of DOS/FAT/EXFAT/NT Filesystems
-
-#
-# Pseudo filesystems
-#
-CONFIG_PROC_FS=y
-CONFIG_PROC_KCORE=y
-CONFIG_PROC_VMCORE=y
-CONFIG_PROC_VMCORE_DEVICE_DUMP=y
-CONFIG_PROC_SYSCTL=y
-CONFIG_PROC_PAGE_MONITOR=y
-CONFIG_PROC_CHILDREN=y
-CONFIG_KERNFS=y
-CONFIG_SYSFS=y
-CONFIG_TMPFS=y
-CONFIG_TMPFS_POSIX_ACL=y
-CONFIG_TMPFS_XATTR=y
-CONFIG_TMPFS_INODE64=y
-CONFIG_HUGETLBFS=y
-CONFIG_HUGETLB_PAGE=y
-CONFIG_MEMFD_CREATE=y
-CONFIG_CONFIGFS_FS=y
-CONFIG_EFIVAR_FS=y
-# end of Pseudo filesystems
-
-CONFIG_MISC_FILESYSTEMS=y
-CONFIG_ORANGEFS_FS=y
-CONFIG_ADFS_FS=y
-CONFIG_ADFS_FS_RW=y
-CONFIG_AFFS_FS=y
-CONFIG_ECRYPT_FS=y
-CONFIG_ECRYPT_FS_MESSAGING=y
-CONFIG_HFS_FS=y
-CONFIG_HFSPLUS_FS=y
-CONFIG_BEFS_FS=y
-CONFIG_BEFS_DEBUG=y
-CONFIG_BFS_FS=y
-CONFIG_EFS_FS=y
-CONFIG_JFFS2_FS=y
-CONFIG_JFFS2_FS_DEBUG=0
-CONFIG_JFFS2_FS_WRITEBUFFER=y
-CONFIG_JFFS2_FS_WBUF_VERIFY=y
-CONFIG_JFFS2_SUMMARY=y
-CONFIG_JFFS2_FS_XATTR=y
-CONFIG_JFFS2_FS_POSIX_ACL=y
-CONFIG_JFFS2_FS_SECURITY=y
-CONFIG_JFFS2_COMPRESSION_OPTIONS=y
-CONFIG_JFFS2_ZLIB=y
-CONFIG_JFFS2_LZO=y
-CONFIG_JFFS2_RTIME=y
-CONFIG_JFFS2_RUBIN=y
-# CONFIG_JFFS2_CMODE_NONE is not set
-CONFIG_JFFS2_CMODE_PRIORITY=y
-# CONFIG_JFFS2_CMODE_SIZE is not set
-# CONFIG_JFFS2_CMODE_FAVOURLZO is not set
-CONFIG_UBIFS_FS=y
-CONFIG_UBIFS_FS_ADVANCED_COMPR=y
-CONFIG_UBIFS_FS_LZO=y
-CONFIG_UBIFS_FS_ZLIB=y
-CONFIG_UBIFS_FS_ZSTD=y
-CONFIG_UBIFS_ATIME_SUPPORT=y
-CONFIG_UBIFS_FS_XATTR=y
-CONFIG_UBIFS_FS_SECURITY=y
-CONFIG_UBIFS_FS_AUTHENTICATION=y
-CONFIG_CRAMFS=y
-CONFIG_CRAMFS_BLOCKDEV=y
-CONFIG_CRAMFS_MTD=y
-CONFIG_SQUASHFS=y
-CONFIG_SQUASHFS_FILE_CACHE=y
-# CONFIG_SQUASHFS_FILE_DIRECT is not set
-CONFIG_SQUASHFS_DECOMP_SINGLE=y
-# CONFIG_SQUASHFS_DECOMP_MULTI is not set
-# CONFIG_SQUASHFS_DECOMP_MULTI_PERCPU is not set
-CONFIG_SQUASHFS_XATTR=y
-CONFIG_SQUASHFS_ZLIB=y
-CONFIG_SQUASHFS_LZ4=y
-CONFIG_SQUASHFS_LZO=y
-CONFIG_SQUASHFS_XZ=y
-CONFIG_SQUASHFS_ZSTD=y
-CONFIG_SQUASHFS_4K_DEVBLK_SIZE=y
-CONFIG_SQUASHFS_EMBEDDED=y
-CONFIG_SQUASHFS_FRAGMENT_CACHE_SIZE=3
-CONFIG_VXFS_FS=y
-CONFIG_MINIX_FS=y
-CONFIG_OMFS_FS=y
-CONFIG_HPFS_FS=y
-CONFIG_QNX4FS_FS=y
-CONFIG_QNX6FS_FS=y
-CONFIG_QNX6FS_DEBUG=y
-CONFIG_ROMFS_FS=y
-CONFIG_ROMFS_BACKED_BY_BLOCK=y
-# CONFIG_ROMFS_BACKED_BY_MTD is not set
-# CONFIG_ROMFS_BACKED_BY_BOTH is not set
-CONFIG_ROMFS_ON_BLOCK=y
-CONFIG_PSTORE=y
-CONFIG_PSTORE_DEFAULT_KMSG_BYTES=10240
-CONFIG_PSTORE_DEFLATE_COMPRESS=y
-CONFIG_PSTORE_LZO_COMPRESS=y
-CONFIG_PSTORE_LZ4_COMPRESS=y
-CONFIG_PSTORE_LZ4HC_COMPRESS=y
-CONFIG_PSTORE_842_COMPRESS=y
-CONFIG_PSTORE_ZSTD_COMPRESS=y
-CONFIG_PSTORE_COMPRESS=y
-CONFIG_PSTORE_DEFLATE_COMPRESS_DEFAULT=y
-# CONFIG_PSTORE_LZO_COMPRESS_DEFAULT is not set
-# CONFIG_PSTORE_LZ4_COMPRESS_DEFAULT is not set
-# CONFIG_PSTORE_LZ4HC_COMPRESS_DEFAULT is not set
-# CONFIG_PSTORE_842_COMPRESS_DEFAULT is not set
-# CONFIG_PSTORE_ZSTD_COMPRESS_DEFAULT is not set
-CONFIG_PSTORE_COMPRESS_DEFAULT="deflate"
-CONFIG_PSTORE_CONSOLE=y
-CONFIG_PSTORE_PMSG=y
-CONFIG_PSTORE_RAM=y
-CONFIG_PSTORE_ZONE=y
-CONFIG_PSTORE_BLK=y
-CONFIG_PSTORE_BLK_BLKDEV=""
-CONFIG_PSTORE_BLK_KMSG_SIZE=64
-CONFIG_PSTORE_BLK_MAX_REASON=2
-CONFIG_PSTORE_BLK_PMSG_SIZE=64
-CONFIG_PSTORE_BLK_CONSOLE_SIZE=64
-CONFIG_SYSV_FS=y
-CONFIG_UFS_FS=y
-CONFIG_UFS_FS_WRITE=y
-CONFIG_UFS_DEBUG=y
-CONFIG_EROFS_FS=y
-CONFIG_EROFS_FS_DEBUG=y
-CONFIG_EROFS_FS_XATTR=y
-CONFIG_EROFS_FS_POSIX_ACL=y
-CONFIG_EROFS_FS_SECURITY=y
-CONFIG_EROFS_FS_ZIP=y
-CONFIG_EROFS_FS_ZIP_LZMA=y
-CONFIG_EROFS_FS_ONDEMAND=y
-CONFIG_NETWORK_FILESYSTEMS=y
-CONFIG_NFS_FS=y
-CONFIG_NFS_V2=y
-CONFIG_NFS_V3=y
-CONFIG_NFS_V3_ACL=y
-CONFIG_NFS_V4=y
-CONFIG_NFS_SWAP=y
-CONFIG_NFS_V4_1=y
-CONFIG_NFS_V4_2=y
-CONFIG_PNFS_FILE_LAYOUT=y
-CONFIG_PNFS_BLOCK=y
-CONFIG_PNFS_FLEXFILE_LAYOUT=y
-CONFIG_NFS_V4_1_IMPLEMENTATION_ID_DOMAIN="kernel.org"
-CONFIG_NFS_V4_1_MIGRATION=y
-CONFIG_NFS_V4_SECURITY_LABEL=y
-CONFIG_ROOT_NFS=y
-CONFIG_NFS_FSCACHE=y
-CONFIG_NFS_USE_LEGACY_DNS=y
-CONFIG_NFS_DEBUG=y
-CONFIG_NFS_DISABLE_UDP_SUPPORT=y
-CONFIG_NFS_V4_2_READ_PLUS=y
-CONFIG_NFSD=y
-CONFIG_NFSD_V2_ACL=y
-CONFIG_NFSD_V3_ACL=y
-CONFIG_NFSD_V4=y
-CONFIG_NFSD_PNFS=y
-CONFIG_NFSD_BLOCKLAYOUT=y
-CONFIG_NFSD_SCSILAYOUT=y
-CONFIG_NFSD_FLEXFILELAYOUT=y
-CONFIG_NFSD_V4_2_INTER_SSC=y
-CONFIG_NFSD_V4_SECURITY_LABEL=y
-CONFIG_GRACE_PERIOD=y
-CONFIG_LOCKD=y
-CONFIG_LOCKD_V4=y
-CONFIG_NFS_ACL_SUPPORT=y
-CONFIG_NFS_COMMON=y
-CONFIG_NFS_V4_2_SSC_HELPER=y
-CONFIG_SUNRPC=y
-CONFIG_SUNRPC_GSS=y
-CONFIG_SUNRPC_BACKCHANNEL=y
-CONFIG_SUNRPC_SWAP=y
-CONFIG_RPCSEC_GSS_KRB5=y
-CONFIG_SUNRPC_DISABLE_INSECURE_ENCTYPES=y
-CONFIG_SUNRPC_DEBUG=y
-CONFIG_SUNRPC_XPRT_RDMA=y
-CONFIG_CEPH_FS=y
-CONFIG_CEPH_FSCACHE=y
-CONFIG_CEPH_FS_POSIX_ACL=y
-CONFIG_CEPH_FS_SECURITY_LABEL=y
-CONFIG_CIFS=y
-CONFIG_CIFS_STATS2=y
-CONFIG_CIFS_ALLOW_INSECURE_LEGACY=y
-CONFIG_CIFS_UPCALL=y
-CONFIG_CIFS_XATTR=y
-CONFIG_CIFS_POSIX=y
-CONFIG_CIFS_DEBUG=y
-CONFIG_CIFS_DEBUG2=y
-CONFIG_CIFS_DEBUG_DUMP_KEYS=y
-CONFIG_CIFS_DFS_UPCALL=y
-CONFIG_CIFS_SWN_UPCALL=y
-CONFIG_CIFS_SMB_DIRECT=y
-CONFIG_CIFS_FSCACHE=y
-CONFIG_CIFS_ROOT=y
-CONFIG_SMB_SERVER=y
-CONFIG_SMB_SERVER_SMBDIRECT=y
-CONFIG_SMB_SERVER_CHECK_CAP_NET_ADMIN=y
-CONFIG_SMB_SERVER_KERBEROS5=y
-CONFIG_SMBFS_COMMON=y
-CONFIG_CODA_FS=y
-CONFIG_AFS_FS=y
-CONFIG_AFS_DEBUG=y
-CONFIG_AFS_FSCACHE=y
-CONFIG_AFS_DEBUG_CURSOR=y
-CONFIG_9P_FS=y
-CONFIG_9P_FSCACHE=y
-CONFIG_9P_FS_POSIX_ACL=y
-CONFIG_9P_FS_SECURITY=y
-CONFIG_NLS=y
-CONFIG_NLS_DEFAULT="iso8859-1"
-CONFIG_NLS_CODEPAGE_437=y
-CONFIG_NLS_CODEPAGE_737=y
-CONFIG_NLS_CODEPAGE_775=y
-CONFIG_NLS_CODEPAGE_850=y
-CONFIG_NLS_CODEPAGE_852=y
-CONFIG_NLS_CODEPAGE_855=y
-CONFIG_NLS_CODEPAGE_857=y
-CONFIG_NLS_CODEPAGE_860=y
-CONFIG_NLS_CODEPAGE_861=y
-CONFIG_NLS_CODEPAGE_862=y
-CONFIG_NLS_CODEPAGE_863=y
-CONFIG_NLS_CODEPAGE_864=y
-CONFIG_NLS_CODEPAGE_865=y
-CONFIG_NLS_CODEPAGE_866=y
-CONFIG_NLS_CODEPAGE_869=y
-CONFIG_NLS_CODEPAGE_936=y
-CONFIG_NLS_CODEPAGE_950=y
-CONFIG_NLS_CODEPAGE_932=y
-CONFIG_NLS_CODEPAGE_949=y
-CONFIG_NLS_CODEPAGE_874=y
-CONFIG_NLS_ISO8859_8=y
-CONFIG_NLS_CODEPAGE_1250=y
-CONFIG_NLS_CODEPAGE_1251=y
-CONFIG_NLS_ASCII=y
-CONFIG_NLS_ISO8859_1=y
-CONFIG_NLS_ISO8859_2=y
-CONFIG_NLS_ISO8859_3=y
-CONFIG_NLS_ISO8859_4=y
-CONFIG_NLS_ISO8859_5=y
-CONFIG_NLS_ISO8859_6=y
-CONFIG_NLS_ISO8859_7=y
-CONFIG_NLS_ISO8859_9=y
-CONFIG_NLS_ISO8859_13=y
-CONFIG_NLS_ISO8859_14=y
-CONFIG_NLS_ISO8859_15=y
-CONFIG_NLS_KOI8_R=y
-CONFIG_NLS_KOI8_U=y
-CONFIG_NLS_MAC_ROMAN=y
-CONFIG_NLS_MAC_CELTIC=y
-CONFIG_NLS_MAC_CENTEURO=y
-CONFIG_NLS_MAC_CROATIAN=y
-CONFIG_NLS_MAC_CYRILLIC=y
-CONFIG_NLS_MAC_GAELIC=y
-CONFIG_NLS_MAC_GREEK=y
-CONFIG_NLS_MAC_ICELAND=y
-CONFIG_NLS_MAC_INUIT=y
-CONFIG_NLS_MAC_ROMANIAN=y
-CONFIG_NLS_MAC_TURKISH=y
-CONFIG_NLS_UTF8=y
-CONFIG_DLM=y
-CONFIG_DLM_DEPRECATED_API=y
-CONFIG_DLM_DEBUG=y
-CONFIG_UNICODE=y
-CONFIG_UNICODE_NORMALIZATION_SELFTEST=y
-CONFIG_IO_WQ=y
-# end of File systems
-
-#
-# Security options
-#
-CONFIG_KEYS=y
-CONFIG_KEYS_REQUEST_CACHE=y
-CONFIG_PERSISTENT_KEYRINGS=y
-CONFIG_BIG_KEYS=y
-CONFIG_TRUSTED_KEYS=y
-CONFIG_TRUSTED_KEYS_TPM=y
-CONFIG_TRUSTED_KEYS_TEE=y
-CONFIG_ENCRYPTED_KEYS=y
-CONFIG_USER_DECRYPTED_DATA=y
-CONFIG_KEY_DH_OPERATIONS=y
-CONFIG_KEY_NOTIFICATIONS=y
-CONFIG_SECURITY_DMESG_RESTRICT=y
-CONFIG_SECURITY=y
-CONFIG_SECURITY_WRITABLE_HOOKS=y
-CONFIG_SECURITYFS=y
-CONFIG_SECURITY_NETWORK=y
-CONFIG_SECURITY_INFINIBAND=y
-CONFIG_SECURITY_NETWORK_XFRM=y
-CONFIG_SECURITY_PATH=y
-CONFIG_LSM_MMAP_MIN_ADDR=65536
-CONFIG_HAVE_HARDENED_USERCOPY_ALLOCATOR=y
-CONFIG_HARDENED_USERCOPY=y
-CONFIG_STATIC_USERMODEHELPER=y
-CONFIG_STATIC_USERMODEHELPER_PATH="/sbin/usermode-helper"
-CONFIG_SECURITY_SELINUX=y
-CONFIG_SECURITY_SELINUX_BOOTPARAM=y
-CONFIG_SECURITY_SELINUX_DISABLE=y
-CONFIG_SECURITY_SELINUX_DEVELOP=y
-CONFIG_SECURITY_SELINUX_AVC_STATS=y
-CONFIG_SECURITY_SELINUX_CHECKREQPROT_VALUE=0
-CONFIG_SECURITY_SELINUX_SIDTAB_HASH_BITS=9
-CONFIG_SECURITY_SELINUX_SID2STR_CACHE_SIZE=256
-CONFIG_SECURITY_SMACK=y
-CONFIG_SECURITY_SMACK_BRINGUP=y
-CONFIG_SECURITY_SMACK_NETFILTER=y
-CONFIG_SECURITY_SMACK_APPEND_SIGNALS=y
-CONFIG_SECURITY_TOMOYO=y
-CONFIG_SECURITY_TOMOYO_MAX_ACCEPT_ENTRY=2048
-CONFIG_SECURITY_TOMOYO_MAX_AUDIT_LOG=1024
-CONFIG_SECURITY_TOMOYO_OMIT_USERSPACE_LOADER=y
-CONFIG_SECURITY_TOMOYO_INSECURE_BUILTIN_SETTING=y
-CONFIG_SECURITY_APPARMOR=y
-CONFIG_SECURITY_APPARMOR_DEBUG=y
-CONFIG_SECURITY_APPARMOR_DEBUG_ASSERTS=y
-CONFIG_SECURITY_APPARMOR_DEBUG_MESSAGES=y
-CONFIG_SECURITY_APPARMOR_INTROSPECT_POLICY=y
-CONFIG_SECURITY_APPARMOR_HASH=y
-CONFIG_SECURITY_APPARMOR_HASH_DEFAULT=y
-CONFIG_SECURITY_APPARMOR_EXPORT_BINARY=y
-CONFIG_SECURITY_APPARMOR_PARANOID_LOAD=y
-CONFIG_SECURITY_APPARMOR_KUNIT_TEST=y
-CONFIG_SECURITY_LOADPIN=y
-CONFIG_SECURITY_LOADPIN_ENFORCE=y
-CONFIG_SECURITY_LOADPIN_VERITY=y
-CONFIG_SECURITY_YAMA=y
-CONFIG_SECURITY_SAFESETID=y
-CONFIG_SECURITY_LOCKDOWN_LSM=y
-CONFIG_SECURITY_LOCKDOWN_LSM_EARLY=y
-CONFIG_LOCK_DOWN_KERNEL_FORCE_NONE=y
-# CONFIG_LOCK_DOWN_KERNEL_FORCE_INTEGRITY is not set
-# CONFIG_LOCK_DOWN_KERNEL_FORCE_CONFIDENTIALITY is not set
-CONFIG_SECURITY_LANDLOCK=y
-CONFIG_INTEGRITY=y
-CONFIG_INTEGRITY_SIGNATURE=y
-CONFIG_INTEGRITY_ASYMMETRIC_KEYS=y
-CONFIG_INTEGRITY_TRUSTED_KEYRING=y
-CONFIG_INTEGRITY_PLATFORM_KEYRING=y
-CONFIG_LOAD_UEFI_KEYS=y
-CONFIG_INTEGRITY_AUDIT=y
-CONFIG_IMA=y
-CONFIG_IMA_MEASURE_PCR_IDX=10
-CONFIG_IMA_LSM_RULES=y
-CONFIG_IMA_NG_TEMPLATE=y
-# CONFIG_IMA_SIG_TEMPLATE is not set
-CONFIG_IMA_DEFAULT_TEMPLATE="ima-ng"
-CONFIG_IMA_DEFAULT_HASH_SHA1=y
-# CONFIG_IMA_DEFAULT_HASH_SHA256 is not set
-# CONFIG_IMA_DEFAULT_HASH_SHA512 is not set
-# CONFIG_IMA_DEFAULT_HASH_WP512 is not set
-# CONFIG_IMA_DEFAULT_HASH_SM3 is not set
-CONFIG_IMA_DEFAULT_HASH="sha1"
-CONFIG_IMA_WRITE_POLICY=y
-CONFIG_IMA_READ_POLICY=y
-CONFIG_IMA_APPRAISE=y
-CONFIG_IMA_ARCH_POLICY=y
-CONFIG_IMA_APPRAISE_BUILD_POLICY=y
-CONFIG_IMA_APPRAISE_REQUIRE_FIRMWARE_SIGS=y
-CONFIG_IMA_APPRAISE_REQUIRE_KEXEC_SIGS=y
-CONFIG_IMA_APPRAISE_REQUIRE_MODULE_SIGS=y
-CONFIG_IMA_APPRAISE_REQUIRE_POLICY_SIGS=y
-CONFIG_IMA_APPRAISE_BOOTPARAM=y
-CONFIG_IMA_APPRAISE_MODSIG=y
-CONFIG_IMA_TRUSTED_KEYRING=y
-CONFIG_IMA_KEYRINGS_PERMIT_SIGNED_BY_BUILTIN_OR_SECONDARY=y
-CONFIG_IMA_BLACKLIST_KEYRING=y
-CONFIG_IMA_LOAD_X509=y
-CONFIG_IMA_X509_PATH="/etc/keys/x509_ima.der"
-CONFIG_IMA_APPRAISE_SIGNED_INIT=y
-CONFIG_IMA_MEASURE_ASYMMETRIC_KEYS=y
-CONFIG_IMA_QUEUE_EARLY_BOOT_KEYS=y
-CONFIG_IMA_DISABLE_HTABLE=y
-CONFIG_EVM=y
-CONFIG_EVM_ATTR_FSUUID=y
-CONFIG_EVM_EXTRA_SMACK_XATTRS=y
-CONFIG_EVM_ADD_XATTRS=y
-CONFIG_EVM_LOAD_X509=y
-CONFIG_EVM_X509_PATH="/etc/keys/x509_evm.der"
-CONFIG_DEFAULT_SECURITY_SELINUX=y
-# CONFIG_DEFAULT_SECURITY_SMACK is not set
-# CONFIG_DEFAULT_SECURITY_TOMOYO is not set
-# CONFIG_DEFAULT_SECURITY_APPARMOR is not set
-# CONFIG_DEFAULT_SECURITY_DAC is not set
-CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,integrity,selinux,smack,tomoyo,apparmor,bpf"
-
-#
-# Kernel hardening options
-#
-
-#
-# Memory initialization
-#
-CONFIG_CC_HAS_AUTO_VAR_INIT_PATTERN=y
-CONFIG_CC_HAS_AUTO_VAR_INIT_ZERO_BARE=y
-CONFIG_CC_HAS_AUTO_VAR_INIT_ZERO=y
-# CONFIG_INIT_STACK_NONE is not set
-CONFIG_INIT_STACK_ALL_PATTERN=y
-# CONFIG_INIT_STACK_ALL_ZERO is not set
-CONFIG_INIT_ON_ALLOC_DEFAULT_ON=y
-CONFIG_INIT_ON_FREE_DEFAULT_ON=y
-CONFIG_CC_HAS_ZERO_CALL_USED_REGS=y
-# CONFIG_ZERO_CALL_USED_REGS is not set
-# end of Memory initialization
-
-CONFIG_RANDSTRUCT_NONE=y
-# end of Kernel hardening options
-# end of Security options
-
-CONFIG_XOR_BLOCKS=y
-CONFIG_ASYNC_CORE=y
-CONFIG_ASYNC_MEMCPY=y
-CONFIG_ASYNC_XOR=y
-CONFIG_ASYNC_PQ=y
-CONFIG_ASYNC_RAID6_RECOV=y
-CONFIG_ASYNC_TX_DISABLE_PQ_VAL_DMA=y
-CONFIG_ASYNC_TX_DISABLE_XOR_VAL_DMA=y
-CONFIG_CRYPTO=y
-
-#
-# Crypto core or helper
-#
-CONFIG_CRYPTO_ALGAPI=y
-CONFIG_CRYPTO_ALGAPI2=y
-CONFIG_CRYPTO_AEAD=y
-CONFIG_CRYPTO_AEAD2=y
-CONFIG_CRYPTO_SKCIPHER=y
-CONFIG_CRYPTO_SKCIPHER2=y
-CONFIG_CRYPTO_HASH=y
-CONFIG_CRYPTO_HASH2=y
-CONFIG_CRYPTO_RNG=y
-CONFIG_CRYPTO_RNG2=y
-CONFIG_CRYPTO_RNG_DEFAULT=y
-CONFIG_CRYPTO_AKCIPHER2=y
-CONFIG_CRYPTO_AKCIPHER=y
-CONFIG_CRYPTO_KPP2=y
-CONFIG_CRYPTO_KPP=y
-CONFIG_CRYPTO_ACOMP2=y
-CONFIG_CRYPTO_MANAGER=y
-CONFIG_CRYPTO_MANAGER2=y
-CONFIG_CRYPTO_USER=y
-CONFIG_CRYPTO_MANAGER_DISABLE_TESTS=y
-CONFIG_CRYPTO_GF128MUL=y
-CONFIG_CRYPTO_NULL=y
-CONFIG_CRYPTO_NULL2=y
-CONFIG_CRYPTO_PCRYPT=y
-CONFIG_CRYPTO_CRYPTD=y
-CONFIG_CRYPTO_AUTHENC=y
-CONFIG_CRYPTO_TEST=y
-CONFIG_CRYPTO_ENGINE=y
-# end of Crypto core or helper
-
-#
-# Public-key cryptography
-#
-CONFIG_CRYPTO_RSA=y
-CONFIG_CRYPTO_DH=y
-CONFIG_CRYPTO_DH_RFC7919_GROUPS=y
-CONFIG_CRYPTO_ECC=y
-CONFIG_CRYPTO_ECDH=y
-CONFIG_CRYPTO_ECDSA=y
-CONFIG_CRYPTO_ECRDSA=y
-CONFIG_CRYPTO_SM2=y
-CONFIG_CRYPTO_CURVE25519=y
-# end of Public-key cryptography
-
-#
-# Block ciphers
-#
-CONFIG_CRYPTO_AES=y
-CONFIG_CRYPTO_AES_TI=y
-CONFIG_CRYPTO_ANUBIS=y
-CONFIG_CRYPTO_ARIA=y
-CONFIG_CRYPTO_BLOWFISH=y
-CONFIG_CRYPTO_BLOWFISH_COMMON=y
-CONFIG_CRYPTO_CAMELLIA=y
-CONFIG_CRYPTO_CAST_COMMON=y
-CONFIG_CRYPTO_CAST5=y
-CONFIG_CRYPTO_CAST6=y
-CONFIG_CRYPTO_DES=y
-CONFIG_CRYPTO_FCRYPT=y
-CONFIG_CRYPTO_KHAZAD=y
-CONFIG_CRYPTO_SEED=y
-CONFIG_CRYPTO_SERPENT=y
-CONFIG_CRYPTO_SM4=y
-CONFIG_CRYPTO_SM4_GENERIC=y
-CONFIG_CRYPTO_TEA=y
-CONFIG_CRYPTO_TWOFISH=y
-CONFIG_CRYPTO_TWOFISH_COMMON=y
-# end of Block ciphers
-
-#
-# Length-preserving ciphers and modes
-#
-CONFIG_CRYPTO_ADIANTUM=y
-CONFIG_CRYPTO_ARC4=y
-CONFIG_CRYPTO_CHACHA20=y
-CONFIG_CRYPTO_CBC=y
-CONFIG_CRYPTO_CFB=y
-CONFIG_CRYPTO_CTR=y
-CONFIG_CRYPTO_CTS=y
-CONFIG_CRYPTO_ECB=y
-CONFIG_CRYPTO_HCTR2=y
-CONFIG_CRYPTO_KEYWRAP=y
-CONFIG_CRYPTO_LRW=y
-CONFIG_CRYPTO_OFB=y
-CONFIG_CRYPTO_PCBC=y
-CONFIG_CRYPTO_XCTR=y
-CONFIG_CRYPTO_XTS=y
-CONFIG_CRYPTO_NHPOLY1305=y
-# end of Length-preserving ciphers and modes
-
-#
-# AEAD (authenticated encryption with associated data) ciphers
-#
-CONFIG_CRYPTO_AEGIS128=y
-CONFIG_CRYPTO_CHACHA20POLY1305=y
-CONFIG_CRYPTO_CCM=y
-CONFIG_CRYPTO_GCM=y
-CONFIG_CRYPTO_SEQIV=y
-CONFIG_CRYPTO_ECHAINIV=y
-CONFIG_CRYPTO_ESSIV=y
-# end of AEAD (authenticated encryption with associated data) ciphers
-
-#
-# Hashes, digests, and MACs
-#
-CONFIG_CRYPTO_BLAKE2B=y
-CONFIG_CRYPTO_CMAC=y
-CONFIG_CRYPTO_GHASH=y
-CONFIG_CRYPTO_HMAC=y
-CONFIG_CRYPTO_MD4=y
-CONFIG_CRYPTO_MD5=y
-CONFIG_CRYPTO_MICHAEL_MIC=y
-CONFIG_CRYPTO_POLYVAL=y
-CONFIG_CRYPTO_POLY1305=y
-CONFIG_CRYPTO_RMD160=y
-CONFIG_CRYPTO_SHA1=y
-CONFIG_CRYPTO_SHA256=y
-CONFIG_CRYPTO_SHA512=y
-CONFIG_CRYPTO_SHA3=y
-CONFIG_CRYPTO_SM3=y
-CONFIG_CRYPTO_SM3_GENERIC=y
-CONFIG_CRYPTO_STREEBOG=y
-CONFIG_CRYPTO_VMAC=y
-CONFIG_CRYPTO_WP512=y
-CONFIG_CRYPTO_XCBC=y
-CONFIG_CRYPTO_XXHASH=y
-# end of Hashes, digests, and MACs
-
-#
-# CRCs (cyclic redundancy checks)
-#
-CONFIG_CRYPTO_CRC32C=y
-CONFIG_CRYPTO_CRC32=y
-CONFIG_CRYPTO_CRCT10DIF=y
-CONFIG_CRYPTO_CRC64_ROCKSOFT=y
-# end of CRCs (cyclic redundancy checks)
-
-#
-# Compression
-#
-CONFIG_CRYPTO_DEFLATE=y
-CONFIG_CRYPTO_LZO=y
-CONFIG_CRYPTO_842=y
-CONFIG_CRYPTO_LZ4=y
-CONFIG_CRYPTO_LZ4HC=y
-CONFIG_CRYPTO_ZSTD=y
-# end of Compression
-
-#
-# Random number generation
-#
-CONFIG_CRYPTO_ANSI_CPRNG=y
-CONFIG_CRYPTO_DRBG_MENU=y
-CONFIG_CRYPTO_DRBG_HMAC=y
-CONFIG_CRYPTO_DRBG_HASH=y
-CONFIG_CRYPTO_DRBG_CTR=y
-CONFIG_CRYPTO_DRBG=y
-CONFIG_CRYPTO_JITTERENTROPY=y
-CONFIG_CRYPTO_KDF800108_CTR=y
-# end of Random number generation
-
-#
-# Userspace interface
-#
-CONFIG_CRYPTO_USER_API=y
-CONFIG_CRYPTO_USER_API_HASH=y
-CONFIG_CRYPTO_USER_API_SKCIPHER=y
-CONFIG_CRYPTO_USER_API_RNG=y
-CONFIG_CRYPTO_USER_API_RNG_CAVP=y
-CONFIG_CRYPTO_USER_API_AEAD=y
-CONFIG_CRYPTO_USER_API_ENABLE_OBSOLETE=y
-CONFIG_CRYPTO_STATS=y
-# end of Userspace interface
-
-CONFIG_CRYPTO_HASH_INFO=y
-CONFIG_CRYPTO_HW=y
-CONFIG_CRYPTO_DEV_ALLWINNER=y
-CONFIG_CRYPTO_DEV_SUN8I_CE=y
-CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG=y
-CONFIG_CRYPTO_DEV_SUN8I_CE_HASH=y
-CONFIG_CRYPTO_DEV_SUN8I_CE_PRNG=y
-CONFIG_CRYPTO_DEV_SUN8I_CE_TRNG=y
-CONFIG_CRYPTO_DEV_SUN8I_SS=y
-CONFIG_CRYPTO_DEV_SUN8I_SS_DEBUG=y
-CONFIG_CRYPTO_DEV_SUN8I_SS_PRNG=y
-CONFIG_CRYPTO_DEV_SUN8I_SS_HASH=y
-CONFIG_CRYPTO_DEV_SL3516=y
-CONFIG_CRYPTO_DEV_SL3516_DEBUG=y
-CONFIG_CRYPTO_DEV_EXYNOS_RNG=y
-CONFIG_CRYPTO_DEV_S5P=y
-CONFIG_CRYPTO_DEV_ATMEL_AUTHENC=y
-CONFIG_CRYPTO_DEV_ATMEL_AES=y
-CONFIG_CRYPTO_DEV_ATMEL_TDES=y
-CONFIG_CRYPTO_DEV_ATMEL_SHA=y
-CONFIG_CRYPTO_DEV_ATMEL_I2C=y
-CONFIG_CRYPTO_DEV_ATMEL_ECC=y
-CONFIG_CRYPTO_DEV_ATMEL_SHA204A=y
-CONFIG_CRYPTO_DEV_QAT=y
-CONFIG_CRYPTO_DEV_QAT_DH895xCC=y
-CONFIG_CRYPTO_DEV_QAT_C3XXX=y
-CONFIG_CRYPTO_DEV_QAT_C62X=y
-CONFIG_CRYPTO_DEV_QAT_4XXX=y
-CONFIG_CRYPTO_DEV_QAT_DH895xCCVF=y
-CONFIG_CRYPTO_DEV_QAT_C3XXXVF=y
-CONFIG_CRYPTO_DEV_QAT_C62XVF=y
-CONFIG_CRYPTO_DEV_CPT=y
-CONFIG_CAVIUM_CPT=y
-CONFIG_CRYPTO_DEV_NITROX=y
-CONFIG_CRYPTO_DEV_NITROX_CNN55XX=y
-CONFIG_CRYPTO_DEV_MARVELL=y
-CONFIG_CRYPTO_DEV_OCTEONTX_CPT=y
-CONFIG_CRYPTO_DEV_OCTEONTX2_CPT=y
-CONFIG_CRYPTO_DEV_CAVIUM_ZIP=y
-CONFIG_CRYPTO_DEV_QCE=y
-CONFIG_CRYPTO_DEV_QCE_SKCIPHER=y
-CONFIG_CRYPTO_DEV_QCE_SHA=y
-CONFIG_CRYPTO_DEV_QCE_AEAD=y
-CONFIG_CRYPTO_DEV_QCE_ENABLE_ALL=y
-# CONFIG_CRYPTO_DEV_QCE_ENABLE_SKCIPHER is not set
-# CONFIG_CRYPTO_DEV_QCE_ENABLE_SHA is not set
-# CONFIG_CRYPTO_DEV_QCE_ENABLE_AEAD is not set
-CONFIG_CRYPTO_DEV_QCE_SW_MAX_LEN=512
-CONFIG_CRYPTO_DEV_QCOM_RNG=y
-CONFIG_CRYPTO_DEV_IMGTEC_HASH=y
-CONFIG_CRYPTO_DEV_ZYNQMP_AES=y
-CONFIG_CRYPTO_DEV_ZYNQMP_SHA3=y
-CONFIG_CRYPTO_DEV_CHELSIO=y
-CONFIG_CRYPTO_DEV_VIRTIO=y
-CONFIG_CRYPTO_DEV_SAFEXCEL=y
-CONFIG_CRYPTO_DEV_CCREE=y
-CONFIG_CRYPTO_DEV_HISI_SEC=y
-CONFIG_CRYPTO_DEV_HISI_SEC2=y
-CONFIG_CRYPTO_DEV_HISI_QM=y
-CONFIG_CRYPTO_DEV_HISI_ZIP=y
-CONFIG_CRYPTO_DEV_HISI_HPRE=y
-CONFIG_CRYPTO_DEV_AMLOGIC_GXL=y
-CONFIG_CRYPTO_DEV_AMLOGIC_GXL_DEBUG=y
-CONFIG_CRYPTO_DEV_SA2UL=y
-CONFIG_CRYPTO_DEV_KEEMBAY_OCS_AES_SM4=y
-CONFIG_CRYPTO_DEV_KEEMBAY_OCS_AES_SM4_ECB=y
-CONFIG_CRYPTO_DEV_KEEMBAY_OCS_AES_SM4_CTS=y
-CONFIG_CRYPTO_DEV_KEEMBAY_OCS_ECC=y
-CONFIG_CRYPTO_DEV_KEEMBAY_OCS_HCU=y
-CONFIG_CRYPTO_DEV_KEEMBAY_OCS_HCU_HMAC_SHA224=y
-CONFIG_CRYPTO_DEV_ASPEED=y
-CONFIG_CRYPTO_DEV_ASPEED_DEBUG=y
-CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH=y
-CONFIG_CRYPTO_DEV_ASPEED_HACE_CRYPTO=y
-CONFIG_ASYMMETRIC_KEY_TYPE=y
-CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE=y
-CONFIG_X509_CERTIFICATE_PARSER=y
-CONFIG_PKCS8_PRIVATE_KEY_PARSER=y
-CONFIG_PKCS7_MESSAGE_PARSER=y
-CONFIG_PKCS7_TEST_KEY=y
-CONFIG_SIGNED_PE_FILE_VERIFICATION=y
-CONFIG_FIPS_SIGNATURE_SELFTEST=y
-
-#
-# Certificates for signature checking
-#
-CONFIG_MODULE_SIG_KEY="certs/signing_key.pem"
-CONFIG_MODULE_SIG_KEY_TYPE_RSA=y
-# CONFIG_MODULE_SIG_KEY_TYPE_ECDSA is not set
-CONFIG_SYSTEM_TRUSTED_KEYRING=y
-CONFIG_SYSTEM_TRUSTED_KEYS=""
-CONFIG_SYSTEM_EXTRA_CERTIFICATE=y
-CONFIG_SYSTEM_EXTRA_CERTIFICATE_SIZE=4096
-CONFIG_SECONDARY_TRUSTED_KEYRING=y
-CONFIG_SYSTEM_BLACKLIST_KEYRING=y
-CONFIG_SYSTEM_BLACKLIST_HASH_LIST=""
-CONFIG_SYSTEM_REVOCATION_LIST=y
-CONFIG_SYSTEM_REVOCATION_KEYS=""
-CONFIG_SYSTEM_BLACKLIST_AUTH_UPDATE=y
-# end of Certificates for signature checking
-
-CONFIG_BINARY_PRINTF=y
-
-#
-# Library routines
-#
-CONFIG_RAID6_PQ=y
-CONFIG_RAID6_PQ_BENCHMARK=y
-CONFIG_LINEAR_RANGES=y
-CONFIG_PACKING=y
-CONFIG_BITREVERSE=y
-CONFIG_ARCH_HAS_STRNCPY_FROM_USER=y
-CONFIG_ARCH_HAS_STRNLEN_USER=y
-CONFIG_GENERIC_NET_UTILS=y
-CONFIG_CORDIC=y
-CONFIG_PRIME_NUMBERS=y
-CONFIG_RATIONAL=y
-CONFIG_GENERIC_PCI_IOMAP=y
-CONFIG_GENERIC_IOMAP=y
-CONFIG_STMP_DEVICE=y
-CONFIG_ARCH_USE_CMPXCHG_LOCKREF=y
-
-#
-# Crypto library routines
-#
-CONFIG_CRYPTO_LIB_UTILS=y
-CONFIG_CRYPTO_LIB_AES=y
-CONFIG_CRYPTO_LIB_ARC4=y
-CONFIG_CRYPTO_LIB_BLAKE2S_GENERIC=y
-CONFIG_CRYPTO_LIB_CHACHA_GENERIC=y
-CONFIG_CRYPTO_LIB_CHACHA=y
-CONFIG_CRYPTO_LIB_CURVE25519_GENERIC=y
-CONFIG_CRYPTO_LIB_CURVE25519=y
-CONFIG_CRYPTO_LIB_DES=y
-CONFIG_CRYPTO_LIB_POLY1305_RSIZE=1
-CONFIG_CRYPTO_LIB_POLY1305_GENERIC=y
-CONFIG_CRYPTO_LIB_POLY1305=y
-CONFIG_CRYPTO_LIB_CHACHA20POLY1305=y
-CONFIG_CRYPTO_LIB_SHA1=y
-CONFIG_CRYPTO_LIB_SHA256=y
-# end of Crypto library routines
-
-CONFIG_CRC_CCITT=y
-CONFIG_CRC16=y
-CONFIG_CRC_T10DIF=y
-CONFIG_CRC64_ROCKSOFT=y
-CONFIG_CRC_ITU_T=y
-CONFIG_CRC32=y
-CONFIG_CRC32_SELFTEST=y
-CONFIG_CRC32_SLICEBY8=y
-# CONFIG_CRC32_SLICEBY4 is not set
-# CONFIG_CRC32_SARWATE is not set
-# CONFIG_CRC32_BIT is not set
-CONFIG_CRC64=y
-CONFIG_CRC4=y
-CONFIG_CRC7=y
-CONFIG_LIBCRC32C=y
-CONFIG_CRC8=y
-CONFIG_XXHASH=y
-CONFIG_RANDOM32_SELFTEST=y
-CONFIG_842_COMPRESS=y
-CONFIG_842_DECOMPRESS=y
-CONFIG_ZLIB_INFLATE=y
-CONFIG_ZLIB_DEFLATE=y
-CONFIG_LZO_COMPRESS=y
-CONFIG_LZO_DECOMPRESS=y
-CONFIG_LZ4_COMPRESS=y
-CONFIG_LZ4HC_COMPRESS=y
-CONFIG_LZ4_DECOMPRESS=y
-CONFIG_ZSTD_COMMON=y
-CONFIG_ZSTD_COMPRESS=y
-CONFIG_ZSTD_DECOMPRESS=y
-CONFIG_XZ_DEC=y
-CONFIG_XZ_DEC_X86=y
-CONFIG_XZ_DEC_POWERPC=y
-CONFIG_XZ_DEC_IA64=y
-CONFIG_XZ_DEC_ARM=y
-CONFIG_XZ_DEC_ARMTHUMB=y
-CONFIG_XZ_DEC_SPARC=y
-CONFIG_XZ_DEC_MICROLZMA=y
-CONFIG_XZ_DEC_BCJ=y
-CONFIG_XZ_DEC_TEST=y
-CONFIG_DECOMPRESS_GZIP=y
-CONFIG_DECOMPRESS_BZIP2=y
-CONFIG_DECOMPRESS_LZMA=y
-CONFIG_DECOMPRESS_XZ=y
-CONFIG_DECOMPRESS_LZO=y
-CONFIG_DECOMPRESS_LZ4=y
-CONFIG_DECOMPRESS_ZSTD=y
-CONFIG_GENERIC_ALLOCATOR=y
-CONFIG_REED_SOLOMON=y
-CONFIG_REED_SOLOMON_ENC8=y
-CONFIG_REED_SOLOMON_DEC8=y
-CONFIG_REED_SOLOMON_ENC16=y
-CONFIG_REED_SOLOMON_DEC16=y
-CONFIG_BCH=y
-CONFIG_TEXTSEARCH=y
-CONFIG_TEXTSEARCH_KMP=y
-CONFIG_TEXTSEARCH_BM=y
-CONFIG_TEXTSEARCH_FSM=y
-CONFIG_BTREE=y
-CONFIG_INTERVAL_TREE=y
-CONFIG_XARRAY_MULTI=y
-CONFIG_ASSOCIATIVE_ARRAY=y
-CONFIG_HAS_IOMEM=y
-CONFIG_HAS_IOPORT_MAP=y
-CONFIG_HAS_DMA=y
-CONFIG_DMA_OPS=y
-CONFIG_NEED_SG_DMA_LENGTH=y
-CONFIG_NEED_DMA_MAP_STATE=y
-CONFIG_ARCH_DMA_ADDR_T_64BIT=y
-CONFIG_ARCH_HAS_DMA_MARK_CLEAN=y
-CONFIG_DMA_DECLARE_COHERENT=y
-CONFIG_SWIOTLB=y
-CONFIG_DMA_RESTRICTED_POOL=y
-CONFIG_DMA_API_DEBUG=y
-CONFIG_DMA_API_DEBUG_SG=y
-CONFIG_DMA_MAP_BENCHMARK=y
-CONFIG_SGL_ALLOC=y
-CONFIG_CHECK_SIGNATURE=y
-CONFIG_CPUMASK_OFFSTACK=y
-CONFIG_FORCE_NR_CPUS=y
-CONFIG_CPU_RMAP=y
-CONFIG_DQL=y
-CONFIG_GLOB=y
-CONFIG_GLOB_SELFTEST=y
-CONFIG_NLATTR=y
-CONFIG_LRU_CACHE=y
-CONFIG_CLZ_TAB=y
-CONFIG_IRQ_POLL=y
-CONFIG_MPILIB=y
-CONFIG_SIGNATURE=y
-CONFIG_DIMLIB=y
-CONFIG_LIBFDT=y
-CONFIG_OID_REGISTRY=y
-CONFIG_UCS2_STRING=y
-CONFIG_FONT_SUPPORT=y
-CONFIG_FONTS=y
-CONFIG_FONT_8x8=y
-CONFIG_FONT_8x16=y
-CONFIG_FONT_6x11=y
-CONFIG_FONT_7x14=y
-CONFIG_FONT_PEARL_8x8=y
-CONFIG_FONT_ACORN_8x8=y
-CONFIG_FONT_MINI_4x6=y
-CONFIG_FONT_6x10=y
-CONFIG_FONT_10x18=y
-CONFIG_FONT_SUN8x16=y
-CONFIG_FONT_SUN12x22=y
-CONFIG_FONT_TER16x32=y
-CONFIG_FONT_6x8=y
-CONFIG_SG_SPLIT=y
-CONFIG_SG_POOL=y
-CONFIG_MEMREGION=y
-CONFIG_STACKDEPOT=y
-CONFIG_STACKDEPOT_ALWAYS_INIT=y
-CONFIG_REF_TRACKER=y
-CONFIG_SBITMAP=y
-CONFIG_PARMAN=y
-CONFIG_OBJAGG=y
-# end of Library routines
-
-CONFIG_PLDMFW=y
-CONFIG_ASN1_ENCODER=y
-CONFIG_POLYNOMIAL=y
-
-#
-# Kernel hacking
-#
-
-#
-# printk and dmesg options
-#
-CONFIG_PRINTK_TIME=y
-CONFIG_PRINTK_CALLER=y
-CONFIG_STACKTRACE_BUILD_ID=y
-CONFIG_CONSOLE_LOGLEVEL_DEFAULT=7
-CONFIG_CONSOLE_LOGLEVEL_QUIET=4
-CONFIG_MESSAGE_LOGLEVEL_DEFAULT=4
-CONFIG_BOOT_PRINTK_DELAY=y
-CONFIG_DYNAMIC_DEBUG=y
-CONFIG_DYNAMIC_DEBUG_CORE=y
-CONFIG_SYMBOLIC_ERRNAME=y
-# end of printk and dmesg options
-
-CONFIG_DEBUG_KERNEL=y
-CONFIG_DEBUG_MISC=y
-
-#
-# Compile-time checks and compiler options
-#
-CONFIG_AS_HAS_NON_CONST_LEB128=y
-CONFIG_DEBUG_INFO_NONE=y
-# CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT is not set
-# CONFIG_DEBUG_INFO_DWARF4 is not set
-# CONFIG_DEBUG_INFO_DWARF5 is not set
-CONFIG_FRAME_WARN=2048
-CONFIG_STRIP_ASM_SYMS=y
-CONFIG_READABLE_ASM=y
-CONFIG_HEADERS_INSTALL=y
-CONFIG_DEBUG_SECTION_MISMATCH=y
-CONFIG_SECTION_MISMATCH_WARN_ONLY=y
-CONFIG_VMLINUX_MAP=y
-CONFIG_DEBUG_FORCE_WEAK_PER_CPU=y
-# end of Compile-time checks and compiler options
-
-#
-# Generic Kernel Debugging Instruments
-#
-CONFIG_MAGIC_SYSRQ=y
-CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE=0x1
-CONFIG_MAGIC_SYSRQ_SERIAL=y
-CONFIG_MAGIC_SYSRQ_SERIAL_SEQUENCE=""
-CONFIG_DEBUG_FS=y
-CONFIG_DEBUG_FS_ALLOW_ALL=y
-# CONFIG_DEBUG_FS_DISALLOW_MOUNT is not set
-# CONFIG_DEBUG_FS_ALLOW_NONE is not set
-CONFIG_UBSAN=y
-CONFIG_CC_HAS_UBSAN_BOUNDS=y
-CONFIG_UBSAN_BOUNDS=y
-CONFIG_UBSAN_ONLY_BOUNDS=y
-CONFIG_UBSAN_SHIFT=y
-CONFIG_UBSAN_DIV_ZERO=y
-CONFIG_UBSAN_UNREACHABLE=y
-CONFIG_UBSAN_BOOL=y
-CONFIG_UBSAN_ENUM=y
-CONFIG_TEST_UBSAN=m
-CONFIG_HAVE_KCSAN_COMPILER=y
-# end of Generic Kernel Debugging Instruments
-
-#
-# Networking Debugging
-#
-CONFIG_NET_DEV_REFCNT_TRACKER=y
-CONFIG_NET_NS_REFCNT_TRACKER=y
-CONFIG_DEBUG_NET=y
-# end of Networking Debugging
-
-#
-# Memory Debugging
-#
-CONFIG_PAGE_EXTENSION=y
-CONFIG_DEBUG_PAGEALLOC=y
-CONFIG_DEBUG_PAGEALLOC_ENABLE_DEFAULT=y
-CONFIG_SLUB_DEBUG=y
-CONFIG_SLUB_DEBUG_ON=y
-CONFIG_PAGE_OWNER=y
-CONFIG_PAGE_POISONING=y
-CONFIG_DEBUG_OBJECTS=y
-CONFIG_DEBUG_OBJECTS_SELFTEST=y
-CONFIG_DEBUG_OBJECTS_FREE=y
-CONFIG_DEBUG_OBJECTS_TIMERS=y
-CONFIG_DEBUG_OBJECTS_WORK=y
-CONFIG_DEBUG_OBJECTS_RCU_HEAD=y
-CONFIG_DEBUG_OBJECTS_PERCPU_COUNTER=y
-CONFIG_DEBUG_OBJECTS_ENABLE_DEFAULT=1
-CONFIG_SHRINKER_DEBUG=y
-CONFIG_SCHED_STACK_END_CHECK=y
-CONFIG_DEBUG_VM_IRQSOFF=y
-CONFIG_DEBUG_VM=y
-CONFIG_DEBUG_VM_MAPLE_TREE=y
-CONFIG_DEBUG_VM_RB=y
-CONFIG_DEBUG_VM_PGFLAGS=y
-CONFIG_DEBUG_MEMORY_INIT=y
-CONFIG_MEMORY_NOTIFIER_ERROR_INJECT=y
-CONFIG_DEBUG_PER_CPU_MAPS=y
-CONFIG_CC_HAS_WORKING_NOSANITIZE_ADDRESS=y
-# end of Memory Debugging
-
-CONFIG_DEBUG_SHIRQ=y
-
-#
-# Debug Oops, Lockups and Hangs
-#
-CONFIG_PANIC_ON_OOPS=y
-CONFIG_PANIC_ON_OOPS_VALUE=1
-CONFIG_PANIC_TIMEOUT=0
-CONFIG_LOCKUP_DETECTOR=y
-CONFIG_SOFTLOCKUP_DETECTOR=y
-CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
-CONFIG_DETECT_HUNG_TASK=y
-CONFIG_DEFAULT_HUNG_TASK_TIMEOUT=120
-CONFIG_BOOTPARAM_HUNG_TASK_PANIC=y
-CONFIG_WQ_WATCHDOG=y
-CONFIG_TEST_LOCKUP=m
-# end of Debug Oops, Lockups and Hangs
-
-#
-# Scheduler Debugging
-#
-CONFIG_SCHED_DEBUG=y
-CONFIG_SCHED_INFO=y
-CONFIG_SCHEDSTATS=y
-# end of Scheduler Debugging
-
-CONFIG_DEBUG_TIMEKEEPING=y
-
-#
-# Lock Debugging (spinlocks, mutexes, etc...)
-#
-CONFIG_DEBUG_RT_MUTEXES=y
-CONFIG_DEBUG_SPINLOCK=y
-CONFIG_DEBUG_MUTEXES=y
-CONFIG_DEBUG_RWSEMS=y
-CONFIG_DEBUG_ATOMIC_SLEEP=y
-CONFIG_DEBUG_LOCKING_API_SELFTESTS=y
-CONFIG_LOCK_TORTURE_TEST=y
-CONFIG_WW_MUTEX_SELFTEST=y
-CONFIG_SCF_TORTURE_TEST=y
-CONFIG_CSD_LOCK_WAIT_DEBUG=y
-# end of Lock Debugging (spinlocks, mutexes, etc...)
-
-CONFIG_DEBUG_IRQFLAGS=y
-CONFIG_STACKTRACE=y
-CONFIG_WARN_ALL_UNSEEDED_RANDOM=y
-CONFIG_DEBUG_KOBJECT=y
-CONFIG_DEBUG_KOBJECT_RELEASE=y
-
-#
-# Debug kernel data structures
-#
-CONFIG_DEBUG_LIST=y
-CONFIG_DEBUG_PLIST=y
-CONFIG_DEBUG_SG=y
-CONFIG_DEBUG_NOTIFIERS=y
-CONFIG_BUG_ON_DATA_CORRUPTION=y
-CONFIG_DEBUG_MAPLE_TREE=y
-# end of Debug kernel data structures
-
-CONFIG_DEBUG_CREDENTIALS=y
-
-#
-# RCU Debugging
-#
-CONFIG_TORTURE_TEST=y
-CONFIG_RCU_SCALE_TEST=y
-CONFIG_RCU_TORTURE_TEST=y
-CONFIG_RCU_REF_SCALE_TEST=y
-CONFIG_RCU_CPU_STALL_TIMEOUT=21
-CONFIG_RCU_EXP_CPU_STALL_TIMEOUT=0
-CONFIG_RCU_TRACE=y
-CONFIG_RCU_EQS_DEBUG=y
-# end of RCU Debugging
-
-CONFIG_DEBUG_WQ_FORCE_RR_CPU=y
-CONFIG_CPU_HOTPLUG_STATE_CONTROL=y
-CONFIG_HAVE_FUNCTION_TRACER=y
-CONFIG_HAVE_FTRACE_MCOUNT_RECORD=y
-CONFIG_TRACE_CLOCK=y
-# CONFIG_SAMPLES is not set
-# CONFIG_STRICT_DEVMEM is not set
-
-#
-# ia64 Debugging
-#
-CONFIG_IA64_GRANULE_16MB=y
-CONFIG_IA64_PRINT_HAZARDS=y
-CONFIG_DISABLE_VHPT=y
-CONFIG_IA64_DEBUG_CMPXCHG=y
-CONFIG_IA64_DEBUG_IRQ=y
-# end of ia64 Debugging
-
-#
-# Kernel Testing and Coverage
-#
-CONFIG_KUNIT=y
-CONFIG_KUNIT_DEBUGFS=y
-CONFIG_KUNIT_TEST=y
-CONFIG_KUNIT_EXAMPLE_TEST=y
-CONFIG_KUNIT_ALL_TESTS=y
-CONFIG_KUNIT_DEFAULT_ENABLED=y
-CONFIG_NOTIFIER_ERROR_INJECTION=y
-CONFIG_PM_NOTIFIER_ERROR_INJECT=y
-CONFIG_OF_RECONFIG_NOTIFIER_ERROR_INJECT=y
-CONFIG_NETDEV_NOTIFIER_ERROR_INJECT=y
-CONFIG_FAULT_INJECTION=y
-CONFIG_FAILSLAB=y
-CONFIG_FAIL_PAGE_ALLOC=y
-CONFIG_FAULT_INJECTION_USERCOPY=y
-CONFIG_FAIL_MAKE_REQUEST=y
-CONFIG_FAIL_IO_TIMEOUT=y
-CONFIG_FAIL_FUTEX=y
-CONFIG_FAULT_INJECTION_DEBUG_FS=y
-CONFIG_FAIL_MMC_REQUEST=y
-CONFIG_FAIL_SUNRPC=y
-CONFIG_CC_HAS_SANCOV_TRACE_PC=y
-CONFIG_RUNTIME_TESTING_MENU=y
-CONFIG_LKDTM=y
-CONFIG_CPUMASK_KUNIT_TEST=y
-CONFIG_TEST_LIST_SORT=y
-CONFIG_TEST_MIN_HEAP=y
-CONFIG_TEST_SORT=y
-CONFIG_TEST_DIV64=y
-CONFIG_KPROBES_SANITY_TEST=y
-CONFIG_BACKTRACE_SELF_TEST=y
-CONFIG_TEST_REF_TRACKER=y
-CONFIG_RBTREE_TEST=y
-CONFIG_REED_SOLOMON_TEST=y
-CONFIG_INTERVAL_TREE_TEST=y
-CONFIG_PERCPU_TEST=m
-CONFIG_ATOMIC64_SELFTEST=y
-CONFIG_ASYNC_RAID6_TEST=y
-CONFIG_TEST_HEXDUMP=y
-CONFIG_STRING_SELFTEST=y
-CONFIG_TEST_STRING_HELPERS=y
-CONFIG_TEST_STRSCPY=y
-CONFIG_TEST_KSTRTOX=y
-CONFIG_TEST_PRINTF=y
-CONFIG_TEST_SCANF=y
-CONFIG_TEST_BITMAP=y
-CONFIG_TEST_UUID=y
-CONFIG_TEST_XARRAY=y
-CONFIG_TEST_MAPLE_TREE=y
-CONFIG_TEST_RHASHTABLE=y
-CONFIG_TEST_SIPHASH=y
-CONFIG_TEST_IDA=y
-CONFIG_TEST_PARMAN=y
-CONFIG_TEST_LKM=m
-CONFIG_TEST_BITOPS=m
-CONFIG_TEST_VMALLOC=m
-CONFIG_TEST_USER_COPY=m
-CONFIG_TEST_BPF=m
-CONFIG_TEST_BLACKHOLE_DEV=m
-CONFIG_FIND_BIT_BENCHMARK=y
-CONFIG_TEST_FIRMWARE=y
-CONFIG_TEST_SYSCTL=y
-CONFIG_BITFIELD_KUNIT=y
-CONFIG_HASH_KUNIT_TEST=y
-CONFIG_RESOURCE_KUNIT_TEST=y
-CONFIG_SYSCTL_KUNIT_TEST=y
-CONFIG_LIST_KUNIT_TEST=y
-CONFIG_LINEAR_RANGES_TEST=y
-CONFIG_CMDLINE_KUNIT_TEST=y
-CONFIG_BITS_TEST=y
-CONFIG_SLUB_KUNIT_TEST=y
-CONFIG_RATIONAL_KUNIT_TEST=y
-CONFIG_MEMCPY_KUNIT_TEST=y
-CONFIG_IS_SIGNED_TYPE_KUNIT_TEST=y
-CONFIG_OVERFLOW_KUNIT_TEST=y
-CONFIG_STACKINIT_KUNIT_TEST=y
-CONFIG_TEST_UDELAY=y
-CONFIG_TEST_STATIC_KEYS=m
-CONFIG_TEST_DYNAMIC_DEBUG=y
-CONFIG_TEST_KMOD=m
-CONFIG_TEST_MEMCAT_P=y
-CONFIG_TEST_OBJAGG=y
-CONFIG_TEST_MEMINIT=y
-CONFIG_TEST_FREE_PAGES=y
-# end of Kernel Testing and Coverage
-
-#
-# Rust hacking
-#
-# end of Rust hacking
-
-CONFIG_WARN_MISSING_DOCUMENTS=y
-CONFIG_WARN_ABI_ERRORS=y
-# end of Kernel hacking
-
---OCS9MZcOQFoTHvxM--
