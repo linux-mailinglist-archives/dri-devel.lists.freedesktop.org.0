@@ -1,71 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE94F66061E
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 19:00:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D61B8660631
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 19:09:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D89610E8AA;
-	Fri,  6 Jan 2023 18:00:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD35D10E8B5;
+	Fri,  6 Jan 2023 18:08:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F263510E8AA
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 18:00:31 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id o15so1581900wmr.4
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 10:00:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=dReYlXlT3zcJjc/Hoc7g6q9Ny1A7N/JoGGms5gn1pM4=;
- b=YuKh0HCR2JDrqMySN1Vmf89TxhE7f3/pOk8Sx1rNO9Cx8jqBhoOKy2tf1jZN+sgLzK
- Y/rSFavPrbr6lm9k3Uqm6ElNH/Kkcxf/yyRV1qj0tlJmcLmCdQfi0OVAZEJoNDPer8Hh
- VfNf/vTRf7AsXbcBeq8YdWfuGSxMGnJUCCEgM=
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
+ [IPv6:2607:f8b0:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C613710E8AD
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 18:08:56 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id b2so2427284pld.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 10:08:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=aRfBMIOrWnkTgcTHC8fokRZyL82kMsM9senrx2vjrp4=;
+ b=KGEHXfRmPiYzMG2kUn40dLIk5Z1zjbUEthvuPHMpU6fXdKK6/8qi6QmjzIFqCAjxHo
+ jdVeSB8e9/bEAZb+jcbPfsS3Hvi9dlBXT03QtiyWDcGq+k9yn3JWMV2F6TuXSP3iN7bh
+ 1C2hcM1cmLER/jBXk3lKj5hiOdZ3tqDNm480o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dReYlXlT3zcJjc/Hoc7g6q9Ny1A7N/JoGGms5gn1pM4=;
- b=ng85u4E4d9otSzkKek5W4vjQ/DRB1rQHsH34iw0sU//Cn1wkDVOomgNPpp4KisU4G4
- 54okhBvISBfCpG/RacMoVIjQ0pauLDdVihytaxFeXr+5A3qnicxHTxjjyt8zYnaTzpDN
- 8ysK6EF+j9FiwShGWJqs1WnoAxrCH4PDo2TNNh2gCILeLKh20Tc49JB5dzCEV3BqhhId
- W6f+zjyTIYC5PzCP7FmhYAhY8UK+I8HYGppyUBFbmndswOBU4pNDBjggvQySjHPkX1IS
- yhp0c93Du5TAYcVf5aoDSzaAoOeAhdVLTJVsMzGA/GIYHST98EC+N7ESB/PvlqKnfQPF
- DsPw==
-X-Gm-Message-State: AFqh2kqBV8Y8BbwJ7fPyCFS3y5l4bI+5aL1RK3JNU8k/7kX/ar1V7LuA
- 7FYKOZ+DcZ8WgO287QNXHu6BEg==
-X-Google-Smtp-Source: AMrXdXs/k3qWU4FzKZ7/uZjsqhDMfDxARS8KjLFhonggtuzMEbl5B4z5ltQiObN40ewgbX3J/kMMsQ==
-X-Received: by 2002:a05:600c:5114:b0:3d2:5e4e:6fa with SMTP id
- o20-20020a05600c511400b003d25e4e06famr42611275wms.34.1673028030483; 
- Fri, 06 Jan 2023 10:00:30 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aRfBMIOrWnkTgcTHC8fokRZyL82kMsM9senrx2vjrp4=;
+ b=yvkJS3kHN7Qy42ywepjF5E3SRaD3daVcZK/aCz7VQkJVrNDxhiO+Kw+fz6Y76S5czB
+ ub+a2P4sroIkAtlSKQX2WiTzl6qf7b9EjZT+9c+9yq5cU45YpR2RouTplOYOcajfehbc
+ T2YcPGgHrLJAlC0PgUkQzc1BxXlj8B1ZL+l0ew0SYqvCV8VUd0UT/Agstbk7xfg4qfKo
+ REXPWjOwE2Jo6AJaIG4G6XRoObrhD1gL8i7PkNyov8HxBNmFYkQs0l76yv4A7bXqQmDl
+ SoFd88QxOdgGksCZv6IA8tEgwy+ti/+satwB66Cid9JM9Vzw7Ah4FSqnKHR7Ejo+cNLh
+ S5XA==
+X-Gm-Message-State: AFqh2koxG2g0W+IZ1JPBpQ2pWNmAfy6JLjX5eZGkfPZOntShog3orQ4C
+ 6IWzB5XpUiZj+yacY2uCZFHIJQ==
+X-Google-Smtp-Source: AMrXdXu3+CpeCXjMMRDSk0RxLILeTWZA5Pe+CQFqkM1hhlNB+wt9gU/hx35Rd9JRj7BX4MHLZ0xiiA==
+X-Received: by 2002:a17:902:eb8f:b0:192:8ec5:fd58 with SMTP id
+ q15-20020a170902eb8f00b001928ec5fd58mr43083908plg.6.1673028536246; 
+ Fri, 06 Jan 2023 10:08:56 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:5567:fb20:aa4f:352])
  by smtp.gmail.com with ESMTPSA id
- bi22-20020a05600c3d9600b003d208eb17ecsm2443537wmb.26.2023.01.06.10.00.29
+ u5-20020a170902e80500b00189529ed580sm1282081plg.60.2023.01.06.10.08.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jan 2023 10:00:29 -0800 (PST)
-Date: Fri, 6 Jan 2023 19:00:27 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [RFC 3/3] drm: Update file owner during use
-Message-ID: <Y7hhu9M1b1thMpVf@phenom.ffwll.local>
-References: <20221130133407.2689864-1-tvrtko.ursulin@linux.intel.com>
- <20221130133407.2689864-4-tvrtko.ursulin@linux.intel.com>
- <Y4dmKgn8X4yPUnqk@phenom.ffwll.local>
- <157dcd11-ea4d-b22a-b10f-0934451d3c1d@linux.intel.com>
- <3eccd500-9e69-111d-54bd-90e6292b2b98@amd.com>
- <Y7bDdU0nZg+6GBZL@phenom.ffwll.local>
- <5a875e31-138e-7e11-3a47-b0b85fc1413f@amd.com>
- <Y7f9weWJc1c0XiG1@phenom.ffwll.local>
- <414e4217-4ba2-3bf2-1c75-b01f679cde54@amd.com>
+ Fri, 06 Jan 2023 10:08:55 -0800 (PST)
+Date: Fri, 6 Jan 2023 10:08:53 -0800
+From: Brian Norris <briannorris@chromium.org>
+To: Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Sean Paul <seanpaul@chromium.org>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sandy Huang <hjc@rock-chips.com>,
+ linux-rockchip@lists.infradead.org, stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] drm/atomic: Allow vblank-enabled + self-refresh
+ "disable"
+Message-ID: <Y7hjte/w8yP2TPlB@google.com>
+References: <20230105174001.1.I3904f697863649eb1be540ecca147a66e42bfad7@changeid>
+ <Y7hgLUXOrD7QwKs1@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <414e4217-4ba2-3bf2-1c75-b01f679cde54@amd.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+In-Reply-To: <Y7hgLUXOrD7QwKs1@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,262 +74,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 06, 2023 at 03:53:13PM +0100, Christian König wrote:
-> Am 06.01.23 um 11:53 schrieb Daniel Vetter:
-> > On Fri, Jan 06, 2023 at 11:32:17AM +0100, Christian König wrote:
-> > > Am 05.01.23 um 13:32 schrieb Daniel Vetter:
-> > > > [SNIP]
-> > > > > For the case of an master fd I actually don't see the reason why we should
-> > > > > limit that? And fd can become master if it either was master before or has
-> > > > > CAP_SYS_ADMIN. Why would we want an extra check for the pid/tgid here?
-> > > > This is just info/debug printing, I don't see the connection to
-> > > > drm_auth/master stuff? Aside from the patch mixes up the master opener and
-> > > > the current user due to fd passing or something like that.
-> > > That's exactly why my comment meant as well.
-> > > 
-> > > The connect is that the drm_auth/master code currently the pid/tgid as
-> > > indicator if the "owner" of the fd has changed and so if an access should be
-> > > allowed or not. I find that approach a bit questionable.
-> > > 
-> > > > Note that we cannot do that (I think at least, after pondering this some
-> > > > more) because it would break the logind master fd passing scheme - there
-> > > > the receiving compositor is explicitly _not_ allowed to acquire master
-> > > > rights on its own. So the master priviledges must not move with the fd or
-> > > > things can go wrong.
-> > > That could be the rational behind that, but why doesn't logind then just
-> > > pass on a normal render node to the compositor?
-> > Because the compositor wants the kms node. We have 3 access levels in drm
+Hi Daniel,
+
+On Fri, Jan 06, 2023 at 06:53:49PM +0100, Daniel Vetter wrote:
+> On Thu, Jan 05, 2023 at 05:40:17PM -0800, Brian Norris wrote:
+> > The self-refresh helper framework overloads "disable" to sometimes mean
+> > "go into self-refresh mode," and this mode activates automatically
+> > (e.g., after some period of unchanging display output). In such cases,
+> > the display pipe is still considered "on", and user-space is not aware
+> > that we went into self-refresh mode. Thus, users may expect that
+> > vblank-related features (such as DRM_IOCTL_WAIT_VBLANK) still work
+> > properly.
 > > 
-> > - render stuff
-> > - modeset stuff (needs a card* node and master rights for changing things)
-> > - set/drop master (needs root)
+> > However, we trigger the WARN_ONCE() here if a CRTC driver tries to leave
+> > vblank enabled here.
 > > 
-> > logind wants to give the compositor modeset access, but not master
-> > drop/set access (because vt switching is controlled by logind).
+> > Add a new exception, such that we allow CRTCs to be "disabled" (with
+> > self-refresh active) with vblank interrupts still enabled.
 > > 
-> > The pid check in drm_auth is for the use-case where you start your
-> > compositor on a root vt (or setuid-root), and then want to make sure
-> > that after cred dropping, set/drop master keeps working. Because in that
-> > case the vt switch dance is done by the compositor.
+> > Cc: <stable@vger.kernel.org> # dependency for subsequent patch
+> > Signed-off-by: Brian Norris <briannorris@chromium.org>
+> > ---
 > > 
-> > Maybe we should document this stuff a bit better :-)
+> >  drivers/gpu/drm/drm_atomic_helper.c | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> > index d579fd8f7cb8..7b5eddadebd5 100644
+> > --- a/drivers/gpu/drm/drm_atomic_helper.c
+> > +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> > @@ -1207,6 +1207,12 @@ disable_outputs(struct drm_device *dev, struct drm_atomic_state *old_state)
+> >  
+> >  		if (!drm_dev_has_vblank(dev))
+> >  			continue;
+> > +		/*
+> > +		 * Self-refresh is not a true "disable"; let vblank remain
+> > +		 * enabled.
+> > +		 */
+> > +		if (new_crtc_state->self_refresh_active)
+> > +			continue;
 > 
-> Maybe add a friendly warning? E.g. like "Don't touch it, it works!" :)
+> This very fishy, because we check in crtc_needs_disable whether this
+> output should stay on due to self-refresh. Which means you should never
+> end up in here.
 
-I think Tvrtko just volunteered for that :-) Maybe addition in the
-drm-uapi.rst section would be good that fills out the gaps we have.
+That's not what crtc_needs_disable() does w.r.t. self-refresh. In fact,
+it's the opposite; see, for example, the
+|new_state->self_refresh_active| clause. That clause means that if we're
+entering self-refresh, we *intend* to disable (i.e., we return 'true').
+That's because like I mention above, the self-refresh helpers overload
+what "disable" means.
 
-> So basically this is a valid use case where logind set/get the master status
-> of a fd while the compositor uses the master functionality?
+I'll also add my caveat again that I'm a bit new to DRM, so feel free to
+continue to correct me if I'm wrong :) Or perhaps Sean Paul could
+provide second opinions, as I believe he wrote this stuff.
 
-Yup, and the compositor is _not_ allowed to call these. Despite that it's
-the exact sime struct file - it has to be the same struct file in both
-loging and compositor, otherwise logind cannot orchestratet the vt switch
-dance for the compositors. Which unlike non-logind vt switching has the
-nice property that if a compositor dies/goes rogue, logind can still force
-the switch. With vt-only switching you need the sysrq to reset the console
-to text and kill the foreground process for the same effect.
--Daniel
+> And yes vblank better work in self refresh :-) If it doesn't, then you
+> need to fake it with a timer, that's at least what i915 has done for
+> transparent self-refresh.
 
-> 
-> Christian.
-> 
-> > -Daniel
-> > 
-> > > Christian.
-> > > 
-> > > > -Daniel
-> > > > 
-> > > > 
-> > > > 
-> > > > > Regards,
-> > > > > Christian.
-> > > > > 
-> > > > > > Regards,
-> > > > > > 
-> > > > > > Tvrtko
-> > > > > > 
-> > > > > > > -Daniel
-> > > > > > > 
-> > > > > > > 
-> > > > > > > >             return 0;
-> > > > > > > >           if (!capable(CAP_SYS_ADMIN))
-> > > > > > > > diff --git a/drivers/gpu/drm/drm_debugfs.c
-> > > > > > > > b/drivers/gpu/drm/drm_debugfs.c
-> > > > > > > > index 42f657772025..9d4e3146a2b8 100644
-> > > > > > > > --- a/drivers/gpu/drm/drm_debugfs.c
-> > > > > > > > +++ b/drivers/gpu/drm/drm_debugfs.c
-> > > > > > > > @@ -90,15 +90,17 @@ static int drm_clients_info(struct seq_file
-> > > > > > > > *m, void *data)
-> > > > > > > >          */
-> > > > > > > >         mutex_lock(&dev->filelist_mutex);
-> > > > > > > >         list_for_each_entry_reverse(priv, &dev->filelist, lhead) {
-> > > > > > > > -        struct task_struct *task;
-> > > > > > > >             bool is_current_master = drm_is_current_master(priv);
-> > > > > > > > +        struct task_struct *task;
-> > > > > > > > +        struct pid *pid;
-> > > > > > > >     -        rcu_read_lock(); /* locks pid_task()->comm */
-> > > > > > > > -        task = pid_task(priv->pid, PIDTYPE_TGID);
-> > > > > > > > +        rcu_read_lock(); /* Locks priv->pid and pid_task()->comm! */
-> > > > > > > > +        pid = rcu_dereference(priv->pid);
-> > > > > > > > +        task = pid_task(pid, PIDTYPE_TGID);
-> > > > > > > >             uid = task ? __task_cred(task)->euid : GLOBAL_ROOT_UID;
-> > > > > > > >             seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u\n",
-> > > > > > > >                    task ? task->comm : "<unknown>",
-> > > > > > > > -               pid_vnr(priv->pid),
-> > > > > > > > +               pid_vnr(pid),
-> > > > > > > >                    priv->minor->index,
-> > > > > > > >                    is_current_master ? 'y' : 'n',
-> > > > > > > >                    priv->authenticated ? 'y' : 'n',
-> > > > > > > > diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> > > > > > > > index 20a9aef2b398..3433f9610dba 100644
-> > > > > > > > --- a/drivers/gpu/drm/drm_file.c
-> > > > > > > > +++ b/drivers/gpu/drm/drm_file.c
-> > > > > > > > @@ -156,7 +156,7 @@ struct drm_file *drm_file_alloc(struct
-> > > > > > > > drm_minor *minor)
-> > > > > > > >         if (!file)
-> > > > > > > >             return ERR_PTR(-ENOMEM);
-> > > > > > > >     -    file->pid = get_pid(task_tgid(current));
-> > > > > > > > +    rcu_assign_pointer(file->pid, get_pid(task_tgid(current)));
-> > > > > > > >         file->minor = minor;
-> > > > > > > >           /* for compatibility root is always authenticated */
-> > > > > > > > @@ -502,6 +502,36 @@ int drm_release(struct inode *inode, struct
-> > > > > > > > file *filp)
-> > > > > > > >     }
-> > > > > > > >     EXPORT_SYMBOL(drm_release);
-> > > > > > > >     +void drm_file_update_pid(struct drm_file *filp)
-> > > > > > > > +{
-> > > > > > > > +    struct drm_device *dev;
-> > > > > > > > +    struct pid *pid, *old;
-> > > > > > > > +
-> > > > > > > > +    /* Master nodes are not expected to be passed between
-> > > > > > > > processes. */
-> > > > > > > > +    if (filp->was_master)
-> > > > > > > > +        return;
-> > > > > > > > +
-> > > > > > > > +    pid = task_tgid(current);
-> > > > > > > > +
-> > > > > > > > +    /*
-> > > > > > > > +     * Quick unlocked check since the model is a single
-> > > > > > > > handover followed by
-> > > > > > > > +     * exclusive repeated use.
-> > > > > > > > +     */
-> > > > > > > > +    if (pid == rcu_access_pointer(filp->pid))
-> > > > > > > > +        return;
-> > > > > > > > +
-> > > > > > > > +    dev = filp->minor->dev;
-> > > > > > > > +    mutex_lock(&dev->filelist_mutex);
-> > > > > > > > +    old = rcu_replace_pointer(filp->pid, pid, 1);
-> > > > > > > > +    mutex_unlock(&dev->filelist_mutex);
-> > > > > > > > +
-> > > > > > > > +    if (pid != old) {
-> > > > > > > > +        get_pid(pid);
-> > > > > > > > +        synchronize_rcu();
-> > > > > > > > +        put_pid(old);
-> > > > > > > > +    }
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > >     /**
-> > > > > > > >      * drm_release_noglobal - release method for DRM file
-> > > > > > > >      * @inode: device inode
-> > > > > > > > diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> > > > > > > > index 7c9d66ee917d..305b18d9d7b6 100644
-> > > > > > > > --- a/drivers/gpu/drm/drm_ioctl.c
-> > > > > > > > +++ b/drivers/gpu/drm/drm_ioctl.c
-> > > > > > > > @@ -775,6 +775,9 @@ long drm_ioctl_kernel(struct file *file,
-> > > > > > > > drm_ioctl_t *func, void *kdata,
-> > > > > > > >         struct drm_device *dev = file_priv->minor->dev;
-> > > > > > > >         int retcode;
-> > > > > > > >     +    /* Update drm_file owner if fd was passed along. */
-> > > > > > > > +    drm_file_update_pid(file_priv);
-> > > > > > > > +
-> > > > > > > >         if (drm_dev_is_unplugged(dev))
-> > > > > > > >             return -ENODEV;
-> > > > > > > >     diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c
-> > > > > > > > b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> > > > > > > > index 80f154b6adab..a763d3ee61fb 100644
-> > > > > > > > --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-> > > > > > > > +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> > > > > > > > @@ -1097,7 +1097,10 @@ nouveau_drm_open(struct drm_device *dev,
-> > > > > > > > struct drm_file *fpriv)
-> > > > > > > >         }
-> > > > > > > >           get_task_comm(tmpname, current);
-> > > > > > > > -    snprintf(name, sizeof(name), "%s[%d]", tmpname,
-> > > > > > > > pid_nr(fpriv->pid));
-> > > > > > > > +    rcu_read_lock();
-> > > > > > > > +    snprintf(name, sizeof(name), "%s[%d]",
-> > > > > > > > +         tmpname, pid_nr(rcu_dereference(fpriv->pid)));
-> > > > > > > > +    rcu_read_unlock();
-> > > > > > > >           if (!(cli = kzalloc(sizeof(*cli), GFP_KERNEL))) {
-> > > > > > > >             ret = -ENOMEM;
-> > > > > > > > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> > > > > > > > b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> > > > > > > > index f2985337aa53..3853d9bb9ab8 100644
-> > > > > > > > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> > > > > > > > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> > > > > > > > @@ -251,6 +251,7 @@ static int vmw_debugfs_gem_info_show(struct
-> > > > > > > > seq_file *m, void *unused)
-> > > > > > > >         list_for_each_entry(file, &dev->filelist, lhead) {
-> > > > > > > >             struct task_struct *task;
-> > > > > > > >             struct drm_gem_object *gobj;
-> > > > > > > > +        struct pid *pid;
-> > > > > > > >             int id;
-> > > > > > > >               /*
-> > > > > > > > @@ -260,8 +261,9 @@ static int vmw_debugfs_gem_info_show(struct
-> > > > > > > > seq_file *m, void *unused)
-> > > > > > > >              * Therefore, we need to protect this ->comm access
-> > > > > > > > using RCU.
-> > > > > > > >              */
-> > > > > > > >             rcu_read_lock();
-> > > > > > > > -        task = pid_task(file->pid, PIDTYPE_TGID);
-> > > > > > > > -        seq_printf(m, "pid %8d command %s:\n", pid_nr(file->pid),
-> > > > > > > > +        pid = rcu_dereference(file->pid);
-> > > > > > > > +        task = pid_task(pid, PIDTYPE_TGID);
-> > > > > > > > +        seq_printf(m, "pid %8d command %s:\n", pid_nr(pid),
-> > > > > > > >                    task ? task->comm : "<unknown>");
-> > > > > > > >             rcu_read_unlock();
-> > > > > > > >     diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> > > > > > > > index 0d1f853092ab..27d545131d4a 100644
-> > > > > > > > --- a/include/drm/drm_file.h
-> > > > > > > > +++ b/include/drm/drm_file.h
-> > > > > > > > @@ -255,8 +255,15 @@ struct drm_file {
-> > > > > > > >         /** @master_lookup_lock: Serializes @master. */
-> > > > > > > >         spinlock_t master_lookup_lock;
-> > > > > > > >     -    /** @pid: Process that opened this file. */
-> > > > > > > > -    struct pid *pid;
-> > > > > > > > +    /**
-> > > > > > > > +     * @pid: Process that is using this file.
-> > > > > > > > +     *
-> > > > > > > > +     * Must only be dereferenced under a rcu_read_lock or equivalent.
-> > > > > > > > +     *
-> > > > > > > > +     * Updates are guarded with dev->filelist_mutex and
-> > > > > > > > reference must be
-> > > > > > > > +     * dropped after a RCU grace period to accommodate lockless
-> > > > > > > > readers.
-> > > > > > > > +     */
-> > > > > > > > +    struct pid __rcu *pid;
-> > > > > > > >           /** @magic: Authentication magic, see @authenticated. */
-> > > > > > > >         drm_magic_t magic;
-> > > > > > > > @@ -415,6 +422,8 @@ static inline bool drm_is_accel_client(const
-> > > > > > > > struct drm_file *file_priv)
-> > > > > > > >         return file_priv->minor->type == DRM_MINOR_ACCEL;
-> > > > > > > >     }
-> > > > > > > >     +void drm_file_update_pid(struct drm_file *);
-> > > > > > > > +
-> > > > > > > >     int drm_open(struct inode *inode, struct file *filp);
-> > > > > > > >     int drm_open_helper(struct file *filp, struct drm_minor *minor);
-> > > > > > > >     ssize_t drm_read(struct file *filp, char __user *buffer,
-> > > > > > > > -- 
-> > > > > > > > 2.34.1
-> > > > > > > > 
-> 
+OK! Then that sounds like it at least ACKs my general idea for this
+series. (Michel and I poked at a few ideas in the thread at [1] and
+landed on approx. this solution, or else a fake/timer like you suggest.)
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> We might need a few more helpers. Also, probably more igt, or is this
+> something igt testing has uncovered? If so, please cite the igt testcase
+> which hits this.
+
+The current patch only fixes a warning that comes when I try to do the
+second patch. The second patch is a direct product of an IGT test
+failure (a few of kms_vblank's subtests), and I linked [1] the KernelCI
+report there.
+
+Brian
+
+[1] Link: https://lore.kernel.org/dri-devel/Y5itf0+yNIQa6fU4@sirena.org.uk/
+    Reported-by: "kernelci.org bot" <bot@kernelci.org>
