@@ -2,49 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D788D660845
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 21:26:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B9066084F
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 21:31:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05C0C10E8DF;
-	Fri,  6 Jan 2023 20:26:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79A9B10E0AA;
+	Fri,  6 Jan 2023 20:31:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 10775 seconds by postgrey-1.36 at gabe;
- Fri, 06 Jan 2023 20:26:30 UTC
-Received: from 12.mo583.mail-out.ovh.net (12.mo583.mail-out.ovh.net
- [46.105.39.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 611E510E8DF
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 20:26:30 +0000 (UTC)
-Received: from director11.ghost.mail-out.ovh.net (unknown [10.108.4.253])
- by mo583.mail-out.ovh.net (Postfix) with ESMTP id 09ACB26428
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 20:26:29 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-frlns (unknown [10.110.115.217])
- by director11.ghost.mail-out.ovh.net (Postfix) with ESMTPS id EF9E41FD6F;
- Fri,  6 Jan 2023 20:26:27 +0000 (UTC)
-Received: from sk2.org ([37.59.142.101])
- by ghost-submission-6684bf9d7b-frlns with ESMTPSA
- id AKULM/ODuGOEMwcAlD46gA
- (envelope-from <steve@sk2.org>); Fri, 06 Jan 2023 20:26:27 +0000
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G0043dc466b6-9082-4d34-a267-22690df0fbde,
- 9FE29456621203A27B372E1E0503D45BE0167874) smtp.auth=steve@sk2.org
-X-OVh-ClientIp: 82.65.25.201
-Date: Fri, 6 Jan 2023 21:26:20 +0100
-From: Stephen Kitt <steve@sk2.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH RESEND 1/4] backlight: aat2870: Use backlight helper
-Message-ID: <20230106212620.25ddc1f7@heffalump.sk2.org>
-In-Reply-To: <Y7hdyPAKBYv+gAzf@phenom.ffwll.local>
-References: <20230106164856.1453819-2-steve@sk2.org>
- <Y7hdyPAKBYv+gAzf@phenom.ffwll.local>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC72110E0AA
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 20:31:00 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id s9so2330550wru.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 12:31:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=zmnTz8/2kfdFyB6x8PTFchjQzfo0fx86uAVQddggYnU=;
+ b=QDiE9naefEI1d5kfh4laxGY1RcATSlKvPxkPLXOkcJ9yILKQhTE4aESsj1oYoKNoD1
+ +JqJEO+cE/oaC3db0934YfBDzaJfkep6EF1RNkAzSCyF4yOW4irWP5lPS/S+Pa1HYOkj
+ 8DNo819Vw9PzXSpGcwo9fonNqrP4IfiIKYlVA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zmnTz8/2kfdFyB6x8PTFchjQzfo0fx86uAVQddggYnU=;
+ b=425Z8ojDSjplXpt+Zvu2Nz3EpQCI6gRqZ/hgc0tsXw9/S7B5h71uy+SgN4ClDoWfW/
+ JkCHWCyMov7ORZD9mHgRTFs+sPZWKLrGHChj3OB3JKVdVnAby7GW/3SXE0p0FsXulIbg
+ yp80fSPCo/s7dp7/WJ0Q4aHvZqYwKHRqpUgmwhJrmb3u/r90jY90Rx1vQY3O4GRE4Xl5
+ 1tq79IUcJtSwhWDVUTM7ZxERVkucb3m72j7tiD//AQkLHk3QWc3UQykV0C5Lv5fEhuc5
+ jcTGoccbOzOHrCpt6scO87Dkd6M2LzTIvMen5qSVsei8rYe1sD2CTyItfA+a+okdP3h1
+ xG2Q==
+X-Gm-Message-State: AFqh2kqWT326q4r1jYfbJtMmg1+zJjSzW4Hke6Xd0Ai/skc9hP6BAz8n
+ 21eowoKuQussG8VhqxBLv9p1xA==
+X-Google-Smtp-Source: AMrXdXsGhHQm6ue86ek8a/TahpSuukropvViZubkaaHdP6I4LctKBRL7+Y+FkYhKQhuX8FcLuzSEJg==
+X-Received: by 2002:adf:f54a:0:b0:242:2e1e:23a6 with SMTP id
+ j10-20020adff54a000000b002422e1e23a6mr36969526wrp.22.1673037059116; 
+ Fri, 06 Jan 2023 12:30:59 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ t14-20020adfeb8e000000b002baa780f0fasm1998405wrn.111.2023.01.06.12.30.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Jan 2023 12:30:58 -0800 (PST)
+Date: Fri, 6 Jan 2023 21:30:56 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Brian Norris <briannorris@chromium.org>
+Subject: Re: [PATCH 1/2] drm/atomic: Allow vblank-enabled + self-refresh
+ "disable"
+Message-ID: <Y7iFAJqGNXA7wHoK@phenom.ffwll.local>
+Mail-Followup-To: Brian Norris <briannorris@chromium.org>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Sean Paul <seanpaul@chromium.org>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sandy Huang <hjc@rock-chips.com>,
+ linux-rockchip@lists.infradead.org, stable@vger.kernel.org
+References: <20230105174001.1.I3904f697863649eb1be540ecca147a66e42bfad7@changeid>
+ <Y7hgLUXOrD7QwKs1@phenom.ffwll.local>
+ <Y7hl0Z9PZhFk8On9@phenom.ffwll.local> <Y7h3cuAVE2fdS9K3@google.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/6.Rk8dlQBWmUu4pqahHUcTU";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Ovh-Tracer-Id: 9508506188370708102
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkedtgddufeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgesghdtreerredtjeenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepieehvedvueegjefffeetffevhfeigeejvefhkeejjedvlefgfeekhefhudffhfejnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoshhtvghvvgesshhkvddrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdpoffvtefjohhsthepmhhoheekfedpmhhouggvpehsmhhtphhouhht
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y7h3cuAVE2fdS9K3@google.com>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,61 +79,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Sean Paul <seanpaul@chromium.org>, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/6.Rk8dlQBWmUu4pqahHUcTU
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Fri, Jan 06, 2023 at 11:33:06AM -0800, Brian Norris wrote:
+> On Fri, Jan 06, 2023 at 07:17:53PM +0100, Daniel Vetter wrote:
+> > Ok I think I was a bit slow here, and it makes sense. Except this now
+> > means we loose this check, and I'm also not sure whether we really want
+> > drivers to implement this all.
+> > 
+> > What I think we want here is a bit more:
+> > - for the self-refresh case check that the vblank all still works
+> 
+> You mean, keep the WARN_ONCE(), but invert it to ensure that 'ret == 0'?
+> I did consider that, but I don't know why I stopped.
 
-Hi Daniel,
+Yeah, so that we check that vblanks keep working in the self-refresh case.
 
-On Fri, 6 Jan 2023 18:43:36 +0100, Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Fri, Jan 06, 2023 at 05:48:52PM +0100, Stephen Kitt wrote:
-> > Instead of retrieving the backlight brightness in struct
-> > backlight_properties manually, and then checking whether the backlight
-> > should be on at all, use backlight_get_brightness() which does all
-> > this and insulates this from future changes.
-> >=20
-> > Signed-off-by: Stephen Kitt <steve@sk2.org> =20
->=20
-> Lee/Daniel, will you pick these up, or should I smash them all into
-> drm-misc-next for 6.3?
->=20
-> Stephen, I see to be missing 3/4 here, but maybe it'll show up.
+> > - check that drivers which use self_refresh are not using
+> >   drm_atomic_helper_wait_for_vblanks(), because that would defeat the
+> >   point
+> 
+> I'm a bit lost on this one. drm_atomic_helper_wait_for_vblanks() is part
+> of the common drm_atomic_helper_commit_tail*() helpers, and so it's
+> naturally used in many cases (including Rockchip/PSR). And how does it
+> defeat the point?
 
-It seems to have been delayed in transit, it showed up some time after all
-the others on the mailing lists. If you haven=E2=80=99t got it yet I can re=
-send it!
+Yeah, but that's for backwards compat reasons, the much better function is
+drm_atomic_helper_wait_for_flip_done(). And if you go into self refresh
+that's really the better one.
 
-Regards,
+> > - have a drm_crtc_vblank_off/on which take the crtc state, so they can
+> >   look at the self-refresh state
+> 
+> And I suppose you mean this helper variant would kick off the next step
+> (fake vblank timer)?
 
-Stephen
+Yeah, I figured that's the better way to implement this since it would be
+driver agnostic. But rockchip is still the only driver using the
+self-refresh helpers, so I guess it doesn't really matter.
 
---Sig_/6.Rk8dlQBWmUu4pqahHUcTU
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+> > - fake vblanks with hrtimer, because on most hw when you turn off the crtc
+> >   the vblanks are also turned off, and so your compositor would still
+> >   hang. The vblank machinery already has all the code to make this happen
+> >   (and if it's not all, then i915 psr code should have it).
+> 
+> Is a timer better than an interrupt? I'm pretty sure the vblank
+> interrupts still can fire on Rockchip CRTC (VOP) (see also the other
+> branch of this thread), so this isn't really necessary. (IGT vblank
+> tests pass without hanging.) Unless you simply prefer a fake timer for
+> some reason.
+> 
+> Also, I still haven't found that fake timer machinery, but maybe I just
+> don't know what I'm looking for.
 
------BEGIN PGP SIGNATURE-----
+I ... didn't find it either. I'm honestly not sure whether this works for
+intel, or whether we do something silly like disable self-refresh when a
+vblank interrupt is pending :-/
+ 
+> > - I think kunit tests for this all would be really good, it's a rather
+> >   complex state machinery between modesets and vblank functionality. You
+> >   can speed up the kunit tests with some really high refresh rate, which
+> >   isn't possible on real hw.
+> 
+> Last time I tried my hand at kunit in a subsystem with no prior kunit
+> tests, I had a miserable time and gave up. At least DRM has a few
+> already, so maybe this wouldn't be as terrible. Perhaps I can give this
+> a shot, but there's a chance this will kick things to the back burner
+> far enough that I simply don't get around to it at all. (So far, I'm
+> only addressing this because KernelCI complained.)
 
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAmO4g+wACgkQgNMC9Yht
-g5ySag/+IUKNKwdPzcz87ExU/EcxxVEkpIQaqG0HGfYkuBVLZeY/yjGmCVBFeWAj
-s7fXuWB1r3gESzIUMmRANHYydPRJJOxSlBtJTKPSsVWya4fTWS0790PEWVkUg1hx
-gqmBbmuLKJ8rnbWUQVI3vP3X1aMJGfitkxCsQOXHIhOBsBjEtR6Px+2AvLWbSgyv
-BcbiPhYbB/vviAH+1MNi+n9lSFeB2zYja9RAVZJZp9rAX4BxUfwNkUninM9XbZvt
-mu8jjy5XmuLybD9IgbYiGkk5AIuoWwBWGDiUNO24YVW+nJT9GMCItp6HC6paSiW4
-ZLWz2xxuXpd1d7t93Py9+I43Klk2Hry1m/QCttmmpZ0e1BQOgkftb5AiPqb7Lf+D
-QcekDHxA+WAVFft5cs76bcLGEXoSSrL6f2K4v7yrm86W83tRXoqNGmLBxa4cK0xW
-dTxJuOMCKWxwjkQXdFEM5CJ6LaQEaNZFDD/rlMlkLNHB8SPFZ9XKQAG4ADgxhoGG
-SN2M9Fkmhum7TThWPQ5xaIdLGUQmc0ezIq8vSFRDC5F74ng2OPA0L8Ix1kOI4doy
-Yhug2I9jPRjeE9FE5aCoxF2Imvc06T+HeGwDD0ch2a4rM4F8F+TbI/gwzGyQ3TUC
-v619bdh5vGdZm0K8ZPeQtLHvHJ/24g0jt53lyN0Xh4KiWS9CgOk=
-=mZFb
------END PGP SIGNATURE-----
+Nah if we dont solve this in a generic way then we don't need kunit to
+make sure it keeps working.
 
---Sig_/6.Rk8dlQBWmUu4pqahHUcTU--
+> > I'm also wondering why we've had this code for years and only hit issues
+> > now?
+> 
+> I'd guess a few reasons:
+> 1. drm_self_refresh_helper_init() is only used by one driver -- Rockchip
+> 2. Rockchip systems are most commonly either Chromebooks, or else
+>    otherwise cheap embedded things, and may not have displays at all,
+>    let alone displays with PSR
+> 3. Rockchip Chromebooks shipped with a kernel forked off of the earlier
+>    PSR support, before everything got refactored (and vblank handling
+>    regressed) for the self-refresh "helpers". They only upgraded to a
+>    newer upstream kernel within the last few months.
+> 4. AFAICT, ChromeOS user space doesn't even exercise the vblank-related
+>    ioctls, so we don't actually notice that this is "broken". I suppose
+>    it would only be IGT tests that notice.
+> 5. I fixed up various upstream PSR bugs are part of #3 [0],
+>    along the way I unborked PSR enough that KernelCI finally caught the
+>    bug. See my explanation in [1] for why the vblank bug was masked, and
+>    appeared to be a "regression" due to my more recent fixes.
+
+Yeah I thought we had more drivers using self-refresh helpers, bot that's
+not the case :-/
+
+I think new proposal from me is to just respin this patch here with our
+discussion all summarized (it's good to record this stuff for the next
+person that comes around), and the WARN_ON adjusted so it also checks that
+vblank interrupts keep working (per the ret value at least, it's not a
+real functional check). And call that good enough.
+
+Also maybe look into switching from wait_for_vblanks to
+wait_for_flip_done, it's the right thing to do (see kerneldoc, it should
+explain things a bit).
+-Daniel
+
+
+> 
+> Brian
+> 
+> [0] Combined with point #2: ChromeOS would be the first serious users of
+>     the refactored PSR support. All this was needed to make it actually
+>     usable:
+> 
+>     (2021) c4c6ef229593 drm/bridge: analogix_dp: Make PSR-exit block less
+>     (2022) ca871659ec16 drm/bridge: analogix_dp: Support PSR-exit to disable transition <--- KernelCI "blamed" this one, because PSR was less broken
+>     (2022) e54a4424925a drm/atomic: Force bridge self-refresh-exit on CRTC switch
+> 
+> [1] https://lore.kernel.org/dri-devel/Y6OCg9BPnJvimQLT@google.com/
+> Re: renesas/master bisection: igt-kms-rockchip.kms_vblank.pipe-A-wait-forked on rk3399-gru-kevin
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
