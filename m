@@ -2,67 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5073466072A
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 20:33:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 846E466074A
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 20:44:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5581B10E04D;
-	Fri,  6 Jan 2023 19:33:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EC5410E8C8;
+	Fri,  6 Jan 2023 19:44:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82E6110E04D
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 19:33:09 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id n4so2694684plp.1
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 11:33:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=MFslfd+pC3/chcOWKMwxg3XD+/XfpfE2RT5MHLxEcXU=;
- b=USdDzZhhWDJBoerKZ6sMe7xg6j0XN8M9ShxJ4WtrGWLrm7Qvne88YzVYrL5fIU0niK
- eE7dTaorSZcyd/zlf4KVTqdihiFDkB/gNmtEOAXRyKxnA9SYcWnEpAAWpaorPuJ//Qkd
- AV5giVIwDvgnNz3AVs4WTV6OiJHAtAzClM4No=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MFslfd+pC3/chcOWKMwxg3XD+/XfpfE2RT5MHLxEcXU=;
- b=1AcidjD0A8PAb8MmQ3ErFumnxenIh6TEEKZUHhuNTpfl/rs3XvtgUsnM8ZgB+ft1Vc
- ASP0yFc7yhUyu+uR+8q1hGBGsCq1sV3CMU6d3LzgI74iExj+A+LqKvF9wPehBb2M3q7l
- +rhk5GcHIGxgEa/vmHHYO47bDxrOkmDqmCO+B4wSwioznoaPwq8SMAsTZnAnHlPgtFVp
- XlHWnhha9jA4f7EpRXgwBldJ8vupMU6H9+QhvG1Ml83Vx6cAf+iNbIGtZZKDpSpDlMFA
- 00yGSf35yRVNMnYb9SK4bPcsWxVEpo7Xu2D17vKXOQcWhoWluF2OUYhvLo5zuidBaUIn
- ezgg==
-X-Gm-Message-State: AFqh2koqXqB49NJiagx01fxJU/xB8gJIsuSt5PDD3qt3jeA3tCzN/Ntq
- I8L3sepfSiIcbTz76DIhRgHDqg==
-X-Google-Smtp-Source: AMrXdXsH3vIaY64jg/dcbXKNEQaz/aJx6Q/1RM0SJeHVYhMTi8gZJKnEWYPW2YjzNx/EtPEwTX3XXQ==
-X-Received: by 2002:a17:902:b402:b0:191:2b76:612c with SMTP id
- x2-20020a170902b40200b001912b76612cmr53370723plr.62.1673033589074; 
- Fri, 06 Jan 2023 11:33:09 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:bc4e:2cc9:68b3:15dc])
- by smtp.gmail.com with ESMTPSA id
- i7-20020a17090332c700b001894881842dsm1298174plr.151.2023.01.06.11.33.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jan 2023 11:33:08 -0800 (PST)
-Date: Fri, 6 Jan 2023 11:33:06 -0800
-From: Brian Norris <briannorris@chromium.org>
-To: Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Sean Paul <seanpaul@chromium.org>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sandy Huang <hjc@rock-chips.com>,
- linux-rockchip@lists.infradead.org, stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] drm/atomic: Allow vblank-enabled + self-refresh
- "disable"
-Message-ID: <Y7h3cuAVE2fdS9K3@google.com>
-References: <20230105174001.1.I3904f697863649eb1be540ecca147a66e42bfad7@changeid>
- <Y7hgLUXOrD7QwKs1@phenom.ffwll.local>
- <Y7hl0Z9PZhFk8On9@phenom.ffwll.local>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C515110E8C0;
+ Fri,  6 Jan 2023 19:44:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1673034265; x=1704570265;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=CCrQGS+VdK6pdfSjZdxoBvR9kopNa4Ms3wMREu5mEVo=;
+ b=BqZg0CX1Tg3r2JUuZK2IneLL30DVvhythvERS+le8xg8AZ2P6gIYpM/O
+ Wise8uXkfV/Gr9GYdTarRvDuJr80Dktusf+K6mMkOXsA6TfqADRC2B3lA
+ 9XF+XGcMKBlgjMtbnjNu1JmFNZWLWvgJHFPFms+1lE8ESnpym6ZWjYEHU s=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 06 Jan 2023 11:44:25 -0800
+X-QCInternal: smtphost
+Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2023 11:44:24 -0800
+Received: from [10.110.20.194] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 6 Jan 2023
+ 11:44:23 -0800
+Message-ID: <5ddc0a33-114c-5fd5-78c0-2ead90accebc@quicinc.com>
+Date: Fri, 6 Jan 2023 11:44:21 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y7hl0Z9PZhFk8On9@phenom.ffwll.local>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [RFC PATCH v3 0/3] Support for Solid Fill Planes
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230104234036.636-1-quic_jesszhan@quicinc.com>
+ <Y7a1hCmsvJHKdW1Y@phenom.ffwll.local>
+ <58caf08c-3a02-82ce-4452-8ae7f22f373d@quicinc.com>
+ <CAA8EJppnAmN6+S-emEfXJEc1iVf+DjeLBmCQpGd-nRY2M2AAQQ@mail.gmail.com>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <CAA8EJppnAmN6+S-emEfXJEc1iVf+DjeLBmCQpGd-nRY2M2AAQQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,90 +63,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: sebastian.wick@redhat.com, ppaalanen@gmail.com,
+ linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, daniel.vetter@ffwll.ch,
+ seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
+ wayland-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 06, 2023 at 07:17:53PM +0100, Daniel Vetter wrote:
-> Ok I think I was a bit slow here, and it makes sense. Except this now
-> means we loose this check, and I'm also not sure whether we really want
-> drivers to implement this all.
+
+
+On 1/5/2023 7:43 PM, Dmitry Baryshkov wrote:
+> On Fri, 6 Jan 2023 at 02:38, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 1/5/2023 3:33 AM, Daniel Vetter wrote:
+>>> On Wed, Jan 04, 2023 at 03:40:33PM -0800, Jessica Zhang wrote:
+>>>> Introduce and add support for a solid_fill property. When the solid_fill
+>>>> property is set, and the framebuffer is set to NULL, memory fetch will be
+>>>> disabled.
+>>>>
+>>>> In addition, loosen the NULL FB checks within the atomic commit callstack
+>>>> to allow a NULL FB when the solid_fill property is set and add FB checks
+>>>> in methods where the FB was previously assumed to be non-NULL.
+>>>>
+>>>> Finally, have the DPU driver use drm_plane_state.solid_fill and instead of
+>>>> dpu_plane_state.color_fill, and add extra checks in the DPU atomic commit
+>>>> callstack to account for a NULL FB in cases where solid_fill is set.
+>>>>
+>>>> Some drivers support hardware that have optimizations for solid fill
+>>>> planes. This series aims to expose these capabilities to userspace as
+>>>> some compositors have a solid fill flag (ex. SOLID_COLOR in the Android
+>>>> hardware composer HAL) that can be set by apps like the Android Gears
+>>>> app.
+>>>>
+>>>> Userspace can set the solid_fill property to a blob containing the
+>>>> appropriate version number and solid fill color (in RGB323232 format) and
+>>>> setting the framebuffer to NULL.
+>>>>
+>>>> Note: Currently, there's only one version of the solid_fill blob property.
+>>>> However if other drivers want to support a similar feature, but require
+>>>> more than just the solid fill color, they can extend this feature by
+>>>> creating additional versions of the drm_solid_fill struct.
+>>>>
+>>>> Changes in V2:
+>>>> - Dropped SOLID_FILL_FORMAT property (Simon)
+>>>> - Switched to implementing solid_fill property as a blob (Simon, Dmitry)
+>>>> - Changed to checks for if solid_fill_blob is set (Dmitry)
+>>>> - Abstracted (plane_state && !solid_fill_blob) checks to helper method
+>>>>     (Dmitry)
+>>>> - Removed DPU_PLANE_COLOR_FILL_FLAG
+>>>> - Fixed whitespace and indentation issues (Dmitry)
+>>>
+>>> Now that this is a blob, I do wonder again whether it's not cleaner to set
+>>> the blob as the FB pointer. Or create some kind other kind of special data
+>>> source objects (because solid fill is by far not the only such thing).
+>>>
+>>> We'd still end up in special cases like when userspace that doesn't
+>>> understand solid fill tries to read out such a framebuffer, but these
+>>> cases already exist anyway for lack of priviledges.
+>>>
+>>> So I still think that feels like the more consistent way to integrate this
+>>> feature. Which doesn't mean it has to happen like that, but the
+>>> patches/cover letter should at least explain why we don't do it like this.
+>>
+>> Hi Daniel,
+>>
+>> IIRC we were facing some issues with this check [1] when trying to set
+>> FB to a PROP_BLOB instead. Which is why we went with making it a
+>> separate property instead. Will mention this in the cover letter.
 > 
-> What I think we want here is a bit more:
-> - for the self-refresh case check that the vblank all still works
+> What kind of issues? Could you please describe them?
 
-You mean, keep the WARN_ONCE(), but invert it to ensure that 'ret == 0'?
-I did consider that, but I don't know why I stopped.
+Hi Dmitry,
 
-> - check that drivers which use self_refresh are not using
->   drm_atomic_helper_wait_for_vblanks(), because that would defeat the
->   point
+PROP_BLOB is defined as a legacy type here [1], but FB_ID is a 
+PROP_OBJECT which is defined as an extended type [2]. So, setting a 
+property blob as the FB would fail drm_property_flags_valid() due to 
+this check [3].
 
-I'm a bit lost on this one. drm_atomic_helper_wait_for_vblanks() is part
-of the common drm_atomic_helper_commit_tail*() helpers, and so it's
-naturally used in many cases (including Rockchip/PSR). And how does it
-defeat the point?
+[1] 
+https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/include/uapi/drm/drm_mode.h#L523
 
-> - have a drm_crtc_vblank_off/on which take the crtc state, so they can
->   look at the self-refresh state
+[2] 
+https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/include/uapi/drm/drm_mode.h#L534
 
-And I suppose you mean this helper variant would kick off the next step
-(fake vblank timer)?
+[3] 
+https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/drm_property.c#L71
 
-> - fake vblanks with hrtimer, because on most hw when you turn off the crtc
->   the vblanks are also turned off, and so your compositor would still
->   hang. The vblank machinery already has all the code to make this happen
->   (and if it's not all, then i915 psr code should have it).
+Thanks,
 
-Is a timer better than an interrupt? I'm pretty sure the vblank
-interrupts still can fire on Rockchip CRTC (VOP) (see also the other
-branch of this thread), so this isn't really necessary. (IGT vblank
-tests pass without hanging.) Unless you simply prefer a fake timer for
-some reason.
+Jessica Zhang
 
-Also, I still haven't found that fake timer machinery, but maybe I just
-don't know what I'm looking for.
-
-> - I think kunit tests for this all would be really good, it's a rather
->   complex state machinery between modesets and vblank functionality. You
->   can speed up the kunit tests with some really high refresh rate, which
->   isn't possible on real hw.
-
-Last time I tried my hand at kunit in a subsystem with no prior kunit
-tests, I had a miserable time and gave up. At least DRM has a few
-already, so maybe this wouldn't be as terrible. Perhaps I can give this
-a shot, but there's a chance this will kick things to the back burner
-far enough that I simply don't get around to it at all. (So far, I'm
-only addressing this because KernelCI complained.)
-
-> I'm also wondering why we've had this code for years and only hit issues
-> now?
-
-I'd guess a few reasons:
-1. drm_self_refresh_helper_init() is only used by one driver -- Rockchip
-2. Rockchip systems are most commonly either Chromebooks, or else
-   otherwise cheap embedded things, and may not have displays at all,
-   let alone displays with PSR
-3. Rockchip Chromebooks shipped with a kernel forked off of the earlier
-   PSR support, before everything got refactored (and vblank handling
-   regressed) for the self-refresh "helpers". They only upgraded to a
-   newer upstream kernel within the last few months.
-4. AFAICT, ChromeOS user space doesn't even exercise the vblank-related
-   ioctls, so we don't actually notice that this is "broken". I suppose
-   it would only be IGT tests that notice.
-5. I fixed up various upstream PSR bugs are part of #3 [0],
-   along the way I unborked PSR enough that KernelCI finally caught the
-   bug. See my explanation in [1] for why the vblank bug was masked, and
-   appeared to be a "regression" due to my more recent fixes.
-
-Brian
-
-[0] Combined with point #2: ChromeOS would be the first serious users of
-    the refactored PSR support. All this was needed to make it actually
-    usable:
-
-    (2021) c4c6ef229593 drm/bridge: analogix_dp: Make PSR-exit block less
-    (2022) ca871659ec16 drm/bridge: analogix_dp: Support PSR-exit to disable transition <--- KernelCI "blamed" this one, because PSR was less broken
-    (2022) e54a4424925a drm/atomic: Force bridge self-refresh-exit on CRTC switch
-
-[1] https://lore.kernel.org/dri-devel/Y6OCg9BPnJvimQLT@google.com/
-Re: renesas/master bisection: igt-kms-rockchip.kms_vblank.pipe-A-wait-forked on rk3399-gru-kevin
+> 
+>>
+>> [1]
+>> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/drm_property.c#L71
+>>
+>> Thanks,
+>>
+>> Jessica Zhang
+>>
+>>> -Daniel
+>>>
+>>>>
+>>>> Changes in V3:
+>>>> - Fixed some logic errors in atomic checks (Dmitry)
+>>>> - Introduced drm_plane_has_visible_data() and drm_atomic_check_fb() helper
+>>>>     methods (Dmitry)
+>>>>
+>>>> Jessica Zhang (3):
+>>>>     drm: Introduce solid fill property for drm plane
+>>>>     drm: Adjust atomic checks for solid fill color
+>>>>     drm/msm/dpu: Use color_fill property for DPU planes
+>>>>
+>>>>    drivers/gpu/drm/drm_atomic.c              | 136 +++++++++++++---------
+>>>>    drivers/gpu/drm/drm_atomic_helper.c       |  34 +++---
+>>>>    drivers/gpu/drm/drm_atomic_state_helper.c |   9 ++
+>>>>    drivers/gpu/drm/drm_atomic_uapi.c         |  59 ++++++++++
+>>>>    drivers/gpu/drm/drm_blend.c               |  17 +++
+>>>>    drivers/gpu/drm/drm_plane.c               |   8 +-
+>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |   9 +-
+>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c |  65 +++++++----
+>>>>    include/drm/drm_atomic_helper.h           |   5 +-
+>>>>    include/drm/drm_blend.h                   |   1 +
+>>>>    include/drm/drm_plane.h                   |  62 ++++++++++
+>>>>    11 files changed, 302 insertions(+), 103 deletions(-)
+>>>>
+>>>> --
+>>>> 2.38.1
+>>>>
+>>>
+>>> --
+>>> Daniel Vetter
+>>> Software Engineer, Intel Corporation
+>>> http://blog.ffwll.ch
+> 
+> 
+> 
+> -- 
+> With best wishes
+> Dmitry
