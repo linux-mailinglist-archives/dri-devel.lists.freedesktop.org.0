@@ -1,72 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1531365FE65
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 10:54:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B461165FE6C
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 10:56:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B97010E84A;
-	Fri,  6 Jan 2023 09:54:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1272910E84C;
+	Fri,  6 Jan 2023 09:56:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EA1A10E84A
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 09:54:22 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- m8-20020a05600c3b0800b003d96f801c48so3186030wms.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 01:54:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=aVDgQ35yOoAoNAQF1jV64stKn5wzo+nKHpxxXrw4qIY=;
- b=etQdna80/1HuqYZAb6twFZ4dotU9CBojLegW7FtYR0SuIJXLKPcqZN9dwC5Ei8Fp7d
- sQKx/sDsxuFWg5etCZp8NYnuZ03esBcEmvHtvFCggBHm5xM4x3v9uhQp0/uUBGmmtORS
- lGwuXNOPX7XFPBLQZW7xJnXdBuJgT8BcFsUiY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aVDgQ35yOoAoNAQF1jV64stKn5wzo+nKHpxxXrw4qIY=;
- b=xjuA6GGubfkQU9RGL1UbmtMjk0kQs53H6PMcejQBOwrYCVxjdJvD+Q8E+bzba3hTKl
- nVzMpJiwn/7fB/iAP9zTRp2p9oB6GgVPHGIXpR6hW4SST2VvryWVFRYOYHkPPnY3Htc1
- WhejMaIlTEN0KodfOmhKIPTdkytbq+NGIssFlGzvqjXFvhtBnCtoqPTSY6MFWDyt/Wa8
- dwtkJm37gjvmCN+3XpnKL8dM6JVUc56Xt99ofry1Tbxs1qWY6+YZiMUJdCwt//GtnmXk
- oWuv6mmiuyaHi2wPhiH7HsVO/o2B+U+3gFluXf6gyz1h1FHB15n41GKKZe/sCOhR94Jl
- KSSQ==
-X-Gm-Message-State: AFqh2korHyVkDAPOX3eGSjy77gwpi+Omff/le8Hnu39BQWibToqGJRfx
- XcNqGCsKDaQEbzY6r8kZ/8i4fdtgikWn3+7/
-X-Google-Smtp-Source: AMrXdXuQVgsfec86ACIxU/pAkWorYUgShj+PAD39Qt1O+byHTwPxB4FSp2wlla+v8YuPTVBzfQN0iw==
-X-Received: by 2002:a05:600c:3b8f:b0:3d0:480b:ac53 with SMTP id
- n15-20020a05600c3b8f00b003d0480bac53mr41664495wms.12.1672998860526; 
- Fri, 06 Jan 2023 01:54:20 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- p1-20020a05600c204100b003d99a39b846sm1281795wmg.5.2023.01.06.01.54.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jan 2023 01:54:19 -0800 (PST)
-Date: Fri, 6 Jan 2023 10:54:17 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Tao =?utf-8?B?V3Uo5ZC05rabQEVuZyk=?= <lepton@google.com>
-Subject: Re: [PATCH] drm/vkms: Add a DRM render node to vkms
-Message-ID: <Y7fvyQ6Ve6duSjho@phenom.ffwll.local>
-References: <20230105052325.514970-1-yixie@google.com>
- <Y7a2Viw/1RUNCGkD@phenom.ffwll.local>
- <CAHf1YQ4AZoOd=Q7KVqb1gQm3=TtiS_8-uxFY93syov1AgUT=CQ@mail.gmail.com>
- <Y7bVNT0sf5cwEHuj@phenom.ffwll.local>
- <CAHf1YQ55f2mN14ytCz=AB=VSvO8ByKoV59dF50gWVcjcgMkTHg@mail.gmail.com>
- <Y7bbxVzhYCGhCvVN@phenom.ffwll.local>
- <CAHf1YQ4jHeCGqoERpYM6yX8-9pjqiemUN3fT3fpweDTZz6Mrbg@mail.gmail.com>
- <Y7buUnTE91GC+VZb@phenom.ffwll.local>
- <CAOvqHj68uPoPdBrbKaBMg4QOre-EjRJOH12XqBBR+1bAx-fQwA@mail.gmail.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A318E10E84C
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 09:56:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1672998998; x=1704534998;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=IcXgErQEEVpD8dnUPPzeckeTWkgbJvwmFe3Dz70ZSkg=;
+ b=ApxDdnkPckIC6VHf0qHoDJ8RNUMIbBL99jUBo6ujJY9y2hvreJB41oOt
+ brLdyN8N3wF/Vb96MbRUsbn0dAX/NO9UFimFOQo92FcX2cCwyU7V17LIf
+ QmbW2JmFsBTUnWYPmG1Ql95tuZwA1YjSPy23zA4n8MJOMrlvDHiO2rSQa
+ tRXVHBooF5M7HjBkfffHiZoYJrZD7H4ABxrvczWlTlmTRz1HR7o0ISZXt
+ sp8MjhS2Vca6tgRSGtaqTjiHlbU7MStihWS0zVC/pkzirksFODhrfdAfR
+ vkJjWoo8gTHMMgmbY1UIuhupjFbt5loGmMuHDyzTN0dSO8lQOnXrr+UCM A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="321151378"
+X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; d="scan'208";a="321151378"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2023 01:56:38 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="901239953"
+X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; d="scan'208";a="901239953"
+Received: from joe-255.igk.intel.com (HELO localhost) ([172.22.229.67])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2023 01:56:36 -0800
+Date: Fri, 6 Jan 2023 10:56:34 +0100
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v4 1/7] accel/ivpu: Introduce a new DRM driver for Intel
+ VPU
+Message-ID: <20230106095634.GB1586324@linux.intel.com>
+References: <20221208110733.5498-1-jacek.lawrynowicz@linux.intel.com>
+ <20221208110733.5498-2-jacek.lawrynowicz@linux.intel.com>
+ <Y7bJLkXF7xFYX4Qe@phenom.ffwll.local>
+ <ff231f90-9b67-7f47-b543-e8194f3cdec6@quicinc.com>
+ <CAFCwf13uupxNxc+Ru3zEa_Wn1asJ9UgpnyDgyFQKhEPC8qVtbQ@mail.gmail.com>
+ <Y7fpr69AXYYo2O25@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOvqHj68uPoPdBrbKaBMg4QOre-EjRJOH12XqBBR+1bAx-fQwA@mail.gmail.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+In-Reply-To: <Y7fpr69AXYYo2O25@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,202 +62,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
- Yi Xie <yixie@google.com>, dri-devel@lists.freedesktop.org,
- melissa.srw@gmail.com
+Cc: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, tzimmermann@suse.de,
+ andrzej.kacprowski@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 05, 2023 at 01:40:28PM -0800, Tao Wu(吴涛@Eng) wrote:
-> Hi Daniel,
-> 
-> May I know what's the requirement for adding render node support to a
-> "gpu"?  Why we just export render node for every drm devices?
-> I read document here
-> https://www.kernel.org/doc/html/v4.8/gpu/drm-uapi.html#render-nodes
-
-Thus far we've only done it when there's actual rendering capability,
-which generally means at least some private ioctls.
-
-Which vkms just doens't have. And it's by far not the only such case.
-
-Also note that display drivers side is _not_ shareable.
--Daniel
-
-> and it seems render node allow multiple unprivileged clients
-> to work with the same gpu, I am not sure why we just enable it for all
-> kms-only device.
-> What's wrong if we enable it for all kms-only devices and also let
-> mesa to use llvmpipe with those devices by default.
-> 
-> Thanks!
-> 
-> On Thu, Jan 5, 2023 at 7:35 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Fri, Jan 06, 2023 at 12:16:07AM +0900, Yi Xie wrote:
-> > > On Thu, Jan 5, 2023 at 11:16 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > >
-> > > > On Thu, Jan 05, 2023 at 11:10:23PM +0900, Yi Xie wrote:
-> > > > > On Thu, Jan 5, 2023 at 10:48 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > >
-> > > > > > On Thu, Jan 05, 2023 at 09:52:26PM +0900, Yi Xie wrote:
-> > > > > > > > This doesn't sound like a good idea to me. Devices without render
-> > > > > > > > capabilities should not fake it.
-> > > > > > > >
-> > > > > > > > User-space (e.g. wlroots) relies on "no render node" to enable
-> > > > > > > > software rendering (Pixman instead of GL).
-> > > > > > >
-> > > > > > > We have virtgpu driver that exports a render node even when virgl is
-> > > > > > > not supported.
-> > > > > > > Mesa has special code path to enable software rendering on it:
-> > > > > > > https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/egl/drivers/dri2/platform_device.c#L296
-> > > > > > > We can do the same for vkms to force software rendering.
-> > > > > >
-> > > > > > Yeah that is the old kmsro mesa issue, for every combination of kms and
-> > > > > > gem device you need one to make this work.
-> > > > > >
-> > > > > > > On Thu, Jan 5, 2023 at 8:36 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > > > >
-> > > > > > > > On Thu, Jan 05, 2023 at 02:23:25PM +0900, Yi Xie wrote:
-> > > > > > > > > Some libraries including Mesa and virglrenderer require a render node to
-> > > > > > > > > fully function. By adding a render node to vkms those libraries will
-> > > > > > > > > work properly, supporting use cases like running crosvm with virgl GPU
-> > > > > > > > > support via llvmpipe on a headless virtual machine.
-> > > > > > > >
-> > > > > > > > This is what vgem exists for. More or less at least ... I'm honestly not
-> > > > > > > > really understanding what you're trying to fix here, it sounds a bit like
-> > > > > > > > userspace being stupid.
-> > > > > > > > -Daniel
-> > > > > > > The problem with vgem is that it crashes llvmpipe while working with vkms.
-> > > > > > > Looks like it's due to the same reason as described in this thread in Mesa:
-> > > > > > > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/5830
-> > > > > >
-> > > > > > I'm not finding any bug description in there and how/why something
-> > > > > > crashes?
-> > > > >
-> > > > > The discussion is in the comment section under the first comment by
-> > > > > Emil Velikov.
-> > > > > It's folded by default (inside "6 replies" at the bottom).
-> > > > >
-> > > > > >
-> > > > > > > Importing buffers allocated by vgem to vkms seems to be unexpected and
-> > > > > > > causes the crash. If we create a render node on vkms then llvmpipe will use
-> > > > > > > vkms to allocate buffers and it no longer crashes.
-> > > > > >
-> > > > > > Uh importing vgem into virtio might not work because those sometimes need
-> > > > > > special buffers iirc. But importing vgem into vkms really should work,
-> > > > > > there's no technical reason it cannot. If it doesn't, then the right fix
-> > > > > > would be to fix that, not paper around it.
-> > > > >
-> > > > > The crash stack trace looks like this:
-> > > > > https://gist.github.com/imxieyi/03053ae79cee2e614850fd41829e1da2
-> > > > >
-> > > > > Even if we fix the crash issue with vgem, we still need to workaround
-> > > > > quite a few
-> > > > > places that has explicitly blocked vgem. A notable example is virglrenderer:
-> > > > > https://gitlab.freedesktop.org/virgl/virglrenderer/-/blob/master/src/vrend_winsys_gbm.c#L121
-> > > > >
-> > > > > Actually I have tried to force running virglrenderer on vgem and it
-> > > > > didn't work. I
-> > > > > didn't look into why it wasn't working but I guess that's the reason
-> > > > > for blocking
-> > > > > vgem in the first place. Virglrenderer works well on vkms with render node
-> > > > > enabled though.
-> > > >
-> > > > Ah ok. For next time around, copy a link to the comment you want, e.g.
-> > > >
-> > > > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/5830#note_582477
-> > > >
-> > > > The 3 dots menu on each comments has an option to copy that link tag. That
-> > > > also highlights the right comment.
+On Fri, Jan 06, 2023 at 10:28:15AM +0100, Daniel Vetter wrote:
+> On Thu, Jan 05, 2023 at 07:38:26PM +0200, Oded Gabbay wrote:
+> > On Thu, Jan 5, 2023 at 6:25 PM Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
 > > >
-> > > Thanks for the tips! Actually you need to sign in to reveal that 3 dots menu.
-> > >
+> > > On 1/5/2023 5:57 AM, Daniel Vetter wrote:
+> > > > On Thu, Dec 08, 2022 at 12:07:27PM +0100, Jacek Lawrynowicz wrote:
+> > > >> +static const struct drm_driver driver = {
+> > > >> +    .driver_features = DRIVER_GEM | DRIVER_COMPUTE_ACCEL,
 > > > >
-> > > > On this issue, I'm concurring with Emil:
+> > > > So I was wondering whether this is a bright idea, and whether we shouldn't
+> > > > just go ahead and infuse more meaning into accel vs render nodes.
 > > > >
-> > > > "- the import is broken
-> > > > "IMHO that should be fixed, regardless of the rest"
+> > > > The uapi relevant part of render nodes is that they're multi-user safe, at
+> > > > least as much as feasible. Every new open() gives you a new private
+> > > > accelerator. This also has implications on how userspace drivers iterate
+> > > > them, they just open them all in turn and check whether it's the right
+> > > > one - because userspace apis allow applications to enumerate them all.
+> > > > Which also means that any devicie initialization at open() time is a
+> > > > really bad idea.
 > > > >
-> > > > The same should be done here. Unless it's a very special device, we should
-> > > > be able to import vgem buffers.
-> > >
-> > > How about the fact that vgem is blocked explicitly in virglrenderer?
-> > > We will have
-> > > to remove it from block list and that may break something that
-> > > resulted in blocking
-> > > in this commit:
-> > > https://gitlab.freedesktop.org/virgl/virglrenderer/-/commit/2cb686dd46df27e9600f9df734303ec57bb38772
-> > > I can't find the reason why it's blocking vgem though. It shouldn't be
-> > > related to
-> > > incompatibility with vkms/virtgpu.
-> > >
-> > > Are there any concerns that enabling render node on vkms may cause problems?
-> > > What if we add a driver option to add render node on demand?
-> >
-> > The thing is, that none of the other kms-only driver enable render nodes.
-> > If we start adding them in one case just because userspace can't cope,
-> > then we'll have an endless stream of these patches.
-> >
-> > Instead of fixing userspace.
-> >
-> > Note that the issue is very old for at least mesa3d, and the only fix is
-> > kmsro, where you have to build a driver for each combo. Maybe this should
-> > be done better, dunno. But adding render node in just vkms for this use
-> > case really doesn't make much sense to me, and it smells very much like
-> > opening a can of worms :-/
-> > -Daniel
-> >
+> > > > A lot of the compute accelerators otoh (well habanalabs) are single user,
+> > > > init can be done at open() time because you only open this when you
+> > > > actually know you're going to use it.
+> > > >
+> > > > So given this, shouldn't multi-user inference engines be more like render
+> > > > drivers, and less like accel? So DRIVER_RENDER, but still under
+> > > > drivers/accel.
+> > > >
+> > > > This way that entire separate /dev node would actually become meaningful
+> > > > beyond just the basic bikeshed:
+> > > > - render nodes are multi user, safe to iterate and open() just for
+> > > >    iteration
+> > > > - accel nodes are single user, you really should not ever open them unless
+> > > >    you want to use them
+> > > >
+> > > > Of course would need a doc patch :-)
+> > > >
+> > > > Thoughts?
 > > > > -Daniel
-> > > >
-> > > > >
-> > > > > > -Daniel
-> > > > > >
-> > > > > > >
-> > > > > > > > >
-> > > > > > > > > Signed-off-by: Yi Xie <yixie@google.com>
-> > > > > > > > > ---
-> > > > > > > > >  drivers/gpu/drm/vkms/vkms_drv.c | 2 +-
-> > > > > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > > > > >
-> > > > > > > > > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> > > > > > > > > index 293dbca50c31..8eea5d4dece8 100644
-> > > > > > > > > --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> > > > > > > > > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> > > > > > > > > @@ -113,7 +113,7 @@ static void vkms_config_debugfs_init(struct drm_minor *minor)
-> > > > > > > > >  }
-> > > > > > > > >
-> > > > > > > > >  static const struct drm_driver vkms_driver = {
-> > > > > > > > > -     .driver_features        = DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_GEM,
-> > > > > > > > > +     .driver_features        = DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_GEM | DRIVER_RENDER,
-> > > > > > > > >       .release                = vkms_release,
-> > > > > > > > >       .fops                   = &vkms_driver_fops,
-> > > > > > > > >       DRM_GEM_SHMEM_DRIVER_OPS,
-> > > > > > > > > --
-> > > > > > > > > 2.39.0.314.g84b9a713c41-goog
-> > > > > > > > >
-> > > > > > > >
-> > > > > > > > --
-> > > > > > > > Daniel Vetter
-> > > > > > > > Software Engineer, Intel Corporation
-> > > > > > > > http://blog.ffwll.ch
-> > > > > >
-> > > > > > --
-> > > > > > Daniel Vetter
-> > > > > > Software Engineer, Intel Corporation
-> > > > > > http://blog.ffwll.ch
-> > > >
-> > > > --
-> > > > Daniel Vetter
-> > > > Software Engineer, Intel Corporation
-> > > > http://blog.ffwll.ch
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+> > >
+> > > Hmm.
+> > >
+> > > I admit, I thought DRIVER_ACCEL was the same as DRIVER_RENDER, except
+> > > that DRIVER_ACCEL dropped the "legacy" dual node setup and also avoided
+> > > "legacy" userspace.
+> > >
+> > > qaic is multi-user.  I thought habana was the same, at-least for
+> > > inference.  Oded, am I wrong?
+> > Habana's devices support a single user at a time acquiring the device
+> > and working on it.
+> > Both for training and inference.
+> > >
+> > > So, if DRIVER_ACCEL is for single-user (training?), and multi-user ends
+> > > up in DRIVER_RENDER, that would seem to mean qaic ends up using
+> > > DRIVER_RENDER and not DRIVER_ACCEL.  Then qaic ends up over under
+> > > /dev/dri with both a card node (never used) and a render node.  That
+> > > would seem to mean that the "legacy" userspace would open qaic nodes by
+> > > default - something I understood Oded was trying to avoid.
+> > >
+> > > If there really a usecase for DRIVER_ACCEL to support single-user?  I
+> > > wonder why we can't default to multi-user, and if a particular
+> > > user/driver has a single-user usecase, it enforces that in a driver
+> > > specific manner?
+> > >
+> > > -Jeff
+> > 
+> > Honestly, Daniel, I don't like this suggestion. I don't understand why
+> > you make a connection between render/accel to single/multi user.
+> > 
+> > As Jeff has said, one of the goals was to expose accelerator devices
+> > to userspace with new device char nodes so we won't be bothered by
+> > legacy userspace graphics software. This is something we all agreed on
+> > and I don't see why we should change it now, even if you think it's
+> > bike-shedding (which I disagree with).
+> > 
+> > But in any case, creating a new device char nodes had nothing to do
+> > with whether the device supports single or multi user. I can
+> > definitely see in the future training devices that support multiple
+> > users.
+> > 
+> > The common drm/accel ioctls should of course not be limited to a
+> > single user, and I agree with Jeff here, if a specific driver has such
+> > a limitation (e.g. Habana), then that driver should handle it on its
+> > own.
+> > Maybe if there will be multiple drivers with such a limitation, we can
+> > make that "handling" to be common code.
+> > 
+> > Bottom line, I prefer we keep things as we all agreed upon in LPC.
+> 
+> The problem is going to happen as soon as you have cross-vendor userspace.
+> Which I'm kinda hoping is at least still the aspiration. Because with
+> cross-vendor userspace you generally iterate & open all devices before you
+> select the one you're going to use. And so we do kinda need a distinction,
+> or we need that the single-user drivers also guarantee that open() is
+> cheap.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+FWIW we had good support in ivpu for probe open's in form of lazy context
+allocation. It was removed recently due to review feedback that this is
+unnecessary, but we can add it back.
+
+Regards
+Stanislaw
+
