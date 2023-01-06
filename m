@@ -2,71 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A60C1660E7D
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 13:06:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C73661026
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 16:59:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 604EB10E0FC;
-	Sat,  7 Jan 2023 12:06:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB61A10E1B0;
+	Sat,  7 Jan 2023 15:59:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98E7C10E0FC
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 12:06:02 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- fm16-20020a05600c0c1000b003d96fb976efso5305154wmb.3
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 04:06:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ZLjHqFbROXlE+sbQ3Mi0YQwdit1/ACHkltZB2eIp6ZY=;
- b=VZ5LC/sHAOIR5huRKj2y+0d40HWTG5UTtD8WCG8STyZQlXt4fYxcz2D61c7EiDK6+x
- 1iq1BqhEjdpRL68bguKTkMX/H/fNo0BFSKZA5L7Sh7kAEIsM4f9s77WkVIFxDZOxdX4p
- yh1QQk2Nn0mdoUl0yg72fRnItYVKI0RJ5/Pmc=
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7217D10E8D4
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 19:58:39 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id e205so1919399oif.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 11:58:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=43NGCXT/H0n1aRVH9SXEFAWkSQcjel85u1UCejcZUzE=;
+ b=Yp21phty91QCImy9nuXutKu7L91irr6aoHlIyDJ2wxxzCHnnf96taSlOAVqW+7IeU/
+ DyW0aQC0VGGXXHcNtbq8SQSnt/KX8tTnaLblk/euoek1dlqcT3sLGPAw3WxeYrC8OhG2
+ 56ngG5GNNJ101pK8F7uVt/dJyz5HxIuYsCcB5hqGf8qiahcbNBrpLG4Tvcw1woK+PQGh
+ 2Up0+NmB6LoBE8GUXpQmk2iUoO9iUic7QvEn7nCFjvj/ysSCkaWuJaba+mRRsR19eWPH
+ CZsS9FZK/B2yY3tHSvJmp+CfkkZSrmEzxQWAeYha9+dYBYUZ0JQX1hmCy2CpzrMByRvV
+ En6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZLjHqFbROXlE+sbQ3Mi0YQwdit1/ACHkltZB2eIp6ZY=;
- b=YCac+cTFPuQp8Ppd1RMLbxQbrCbUKdaUcAwFhClp0sFeNjcHuaIiOsSQXKWRKrt4qW
- 1ytbq9DLipYWgom+xhPNEqPGVdzEV6jS3z0r4Gs25YjU6C1uxlumDXAkz4+Pcu5v5x2O
- S6fHiP9Ze4dDwu0g2xes1s1RiJ5fsUzgfzUPJ4IWqhD19svTtEmsFjCf8pqbgmDuLDw7
- lJq+tmcNloSkglktFDj7/asAhPf4WW48vYuQHd0J4PSs16Smfsatkk6duBIRRyg0uJN4
- 9Onxb9WLNVMEq5enqJZKn5EzqG3Ewvp5WmoRmRjzwCKQHf6SEy0gES35ulcEWtfnthlE
- Q2wg==
-X-Gm-Message-State: AFqh2kr+9+6MAz3Y137s/sP9uSyqB2rO5sF4vmZQjbm6QERI8zfa3rnH
- 1XP30IoMDfzm+JiL2gNSWQ1hqg==
-X-Google-Smtp-Source: AMrXdXvG2OKBklPVU/w7yJTB6p28qUxxhsgOsf2xdlo6IBSDgcIEZZbPsf9QYXqEN76wJsjC57mQNQ==
-X-Received: by 2002:a7b:ca4f:0:b0:3c6:edc0:5170 with SMTP id
- m15-20020a7bca4f000000b003c6edc05170mr40747291wml.25.1673093160874; 
- Sat, 07 Jan 2023 04:06:00 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- o9-20020a05600c510900b003c6f8d30e40sm10842896wms.31.2023.01.07.04.05.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Jan 2023 04:05:59 -0800 (PST)
-Date: Sat, 7 Jan 2023 13:05:57 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Brian Norris <briannorris@chromium.org>
-Subject: Re: [PATCH v2 1/2] drm/atomic: Allow vblank-enabled + self-refresh
- "disable"
-Message-ID: <Y7lgJVP7hVtHpWTB@phenom.ffwll.local>
-Mail-Followup-To: Brian Norris <briannorris@chromium.org>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Sean Paul <seanpaul@chromium.org>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
- Sandy Huang <hjc@rock-chips.com>,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20230106172310.v2.1.I3904f697863649eb1be540ecca147a66e42bfad7@changeid>
- <CA+ASDXNBDkzz_xRDbE9gNZZN5kSfxksh0EN01_CxNgyog_BZOg@mail.gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=43NGCXT/H0n1aRVH9SXEFAWkSQcjel85u1UCejcZUzE=;
+ b=l4yVFxzzcicSijLEf9B7tuaFXQmAJy/C1sYK3CMPgQHw+SHNHEQCXOZLDMMQQrrl0Y
+ 6muXb8G3DIKhF+ZoY4yHndEP0MA/SgusvGIqObufnE+iYOJA5rRNPJl/vC+D3n1r6P5P
+ Gu3ue+ul7KEtVmodHD4iPDGf0Bq+Wz8/HQyvLnWiK3vWlyCsJCgUHPtooxJHriAzLzEz
+ 6munQF4x1AsjCMI33XhMl/v1aGvEUmH9IiroraQuTlmkDva/OjI9xsyQYt5oeQlCz2fP
+ PONq85zxWaOvKN4tdHhLF1swHvC8vQK6YCk4lenazDeVQewHYgAwtyhytg81vojpHd9J
+ XSXw==
+X-Gm-Message-State: AFqh2krUubvf+WkPp+VRaFvoUWyZH4595IDdq+20GugEPGjomlO7qOEC
+ hPz8JbwZdpmdmOTj7kaDDE1By4jLzi6k5yrboqQ=
+X-Google-Smtp-Source: AMrXdXuq0dIsh/j5UlY1v0Ms2aDphfCe1kgrNQtOygjNs4fU3R3Rbwke6Jw+4TdTdX7oRbKFRFlCvZJdr787XvGeH9I=
+X-Received: by 2002:a05:6808:c:b0:35d:ff69:49c0 with SMTP id
+ u12-20020a056808000c00b0035dff6949c0mr3728406oic.146.1673035118628; Fri, 06
+ Jan 2023 11:58:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+ASDXNBDkzz_xRDbE9gNZZN5kSfxksh0EN01_CxNgyog_BZOg@mail.gmail.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+References: <20221230063528.41037-1-zh.nvgt@gmail.com>
+ <2711de96-fcbe-5611-657a-ab29becd2ff6@gmx.de>
+ <CAKMK7uEOX5n64cjzMt9GRQaS13HFPFyOeqdrkmzc035U5_T8tg@mail.gmail.com>
+ <CAKMK7uE7CAXO50JPQ6ziQGGehqfDK2UanBQbfLdUH2RwrwXUvw@mail.gmail.com>
+ <CAO2zrtYDcOfvxpG6wPghPnWZVks+NL6N9VaynsBVoX7nHBcxuw@mail.gmail.com>
+ <Y7hvhtHeivfsnBtE@phenom.ffwll.local>
+In-Reply-To: <Y7hvhtHeivfsnBtE@phenom.ffwll.local>
+From: Hang Zhang <zh.nvgt@gmail.com>
+Date: Fri, 6 Jan 2023 14:58:27 -0500
+Message-ID: <CAO2zrtb9H=OWPbrgmqTxQnHqETt-P4K6AxiwdtN7guxUYL2NCw@mail.gmail.com>
+Subject: Re: [PATCH] fbmem: prevent potential use-after-free issues with
+ console_lock()
+To: Hang Zhang <zh.nvgt@gmail.com>, Helge Deller <deller@gmx.de>, 
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Sam Ravnborg <sam@ravnborg.org>, Alex Deucher <alexander.deucher@amd.com>, 
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Sat, 07 Jan 2023 15:59:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,30 +76,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- Sean Paul <seanpaul@chromium.org>, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 06, 2023 at 05:27:33PM -0800, Brian Norris wrote:
-> On Fri, Jan 6, 2023 at 5:23 PM Brian Norris <briannorris@chromium.org> wrote:
-> > v2:
-> >  * add 'ret != 0' warning case for self-refresh
-> >  * describe failing test case and relation to drm/rockchip patch better
-> 
-> Ugh, there's always something you remember right after you hit send: I
-> forgot to better summarize some of the other discussion from v1, and
-> alternatives we didn't entertain. I'll write that up now (not sure
-> whether in patch 1 or 2) and plan on sending a v3 for next week, in
-> case there are any other comments I should address at the same time.
+On Fri, Jan 6, 2023 at 1:59 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Thu, Jan 05, 2023 at 01:38:54PM -0500, Hang Zhang wrote:
+> > On Thu, Jan 5, 2023 at 5:25 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >
+> > > On Thu, 5 Jan 2023 at 11:21, Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > >
+> > > > Hi Helge
+> > > >
+> > > > On Mon, 2 Jan 2023 at 16:28, Helge Deller <deller@gmx.de> wrote:
+> > > > >
+> > > > > On 12/30/22 07:35, Hang Zhang wrote:
+> > > > > > In do_fb_ioctl(), user specified "fb_info" can be freed in the callee
+> > > > > > fbcon_get_con2fb_map_ioctl() -> set_con2fb_map() ->
+> > > > > > con2fb_release_oldinfo(), this free operation is protected by
+> > > > > > console_lock() in fbcon_set_con2fb_map_ioctl(), it also results in
+> > > > > > the change of certain states such as "minfo->dead" in matroxfb_remove(),
+> > > > > > so that it can be checked to avoid use-after-free before the use sites
+> > > > > > (e.g., the check at the beginning of matroxfb_ioctl()). However,
+> > > > > > the problem is that the use site is not protected by the same locks
+> > > > > > as for the free operation, e.g., "default" case in do_fb_ioctl()
+> > > > > > can lead to "matroxfb_ioctl()" but it's not protected by console_lock(),
+> > > > > > which can invalidate the aforementioned state set and check in a
+> > > > > > concurrent setting.
+> > > > > >
+> > > > > > Prevent the potential use-after-free issues by protecting the "default"
+> > > > > > case in do_fb_ioctl() with console_lock(), similarly as for many other
+> > > > > > cases like "case FBIOBLANK" and "case FBIOPAN_DISPLAY".
+> > > > > >
+> > > > > > Signed-off-by: Hang Zhang <zh.nvgt@gmail.com>
+> > > > >
+> > > > > applied to fbdev git tree.
+> > > >
+> > > > The patch above makes no sense at all to me:
+> > > >
+> > > > - fb_info is protected by lock_fb_info and
+> > > > - the lifetime of fb_info is protected by the get/put functions
+> > > > - yes there's the interaction with con2fb, which is protected by
+> > > > console_lock, but the lifetime guarantees are ensured by the device
+> > > > removal
+> > > > - which means any stuff happening in matroxfb_remove is also not a
+> > > > concern here (unless matroxfb completely gets all the device lifetime
+> > > > stuff wrong, but it doesn't look like it's any worse than any of the
+> > > > other fbdev drivers that we haven't recently fixed up due to the
+> > > > takeover issues with firmware drivers
+> > >
+> > > I have also a really hard timing finding the con2fb map use in the
+> > > matroxfb ioctl code, but that just might be that I didn't look
+> > > carefully enough. Maybe that would shed some light on this.
+> > > -Daniel
+> > >
+> > >
+> > > >
+> > > > On the very clear downside this now means we take console_lock for the
+> > > > vblank ioctl (which is a device driver extension for reasons, despite
+> > > > that it's a standard fbdev ioctl), which is no good at all given how
+> > > > console_lock() is a really expensive lock.
+> > > >
+> > > > Unless I'm massively missing something, can you pls push the revert
+> > > > before this lands in Linus' tree?
+> > > >
+> > > > Thanks, Daniel
+> >
+> > Hi, Daniel. Thank you for your feedback. We're not developers of the
+> > video subsystem and thus may be short in domain knowledge (e.g., the
+> > performance of console_lock() and the complex lifetime management).
+> > This patch initially intended to bring up the potential use-after-free
+> > issues here to the community - we have performed a best-effort code
+> > review and cannot exclude the possibility based on our understanding.
+> >
+> > What we have observed is that the call chain leading to the free site
+> > (do_fb_ioctl()->fbcon_set_con2fb_map_ioctl()->set_con2fb_map()->
+> > con2fb_release_oldinfo()-> ... ->matroxfb_remove()) is only protected
+> > by console_lock() but not lock_fb_info(), while the potential use
+> > site (call chain starts from the default case in do_fb_ioctl()) is
+> > only protected by lock_fb_info() but not console_lock().
+> > We thus propose to add this extra console_lock() to the default case,
+> > which is inspired by the lock protection of many other existing
+> > switch-case terms in the same function.
+> >
+> > Since we do not have deep domain knowledge of this subsystem, we will
+> > rely on the developers to make a decision regarding the patch. Thank
+> > you again for your review and help!
+>
+> Can you please elaborate where you've found this use-after-free and how?
+> I'm still not understanding how you even got here - this is orthogonal to
+> whether the patch is the right fix or not.
+> -Daniel
 
-For me it needs to be in the helper patch, since anyone not doing rockchip
-work will otherwise never find it. But you can also duplicate the
-discussion summary into the 2nd patch, doesn't really hurt.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Hi, Daniel. Sure. This issue was initially flagged by our experimental static
+code analyzer aiming to find use-after-free issues in the kernel - that's why
+we don't have PoC or execution traces here. We deeply understand that
+static analyzer can generate false alarms, so we have tried our best and
+spent a good amount of time carefully reviewing the related code. We
+eventually found that we could not exclude this potential issue based on our
+study, so we decided to report this to the community with this tentative fix. As
+mentioned, we may be short in domain knowledge, so your input is
+highly appreciated. We respect the developer's decision about whether
+this is really a problem and whether/how to fix it. However, if you think the
+use-after-free is actually not possible, it will be very helpful if you can
+elaborate on the reasoning since it will greatly help us improve our
+analyzer. Thank you very much for your help!
+
+BTW, if this is worthed a fix and the performance of console_lock() is a
+major concern, then I think there may be alternative solutions like adding
+a lock_fb_info() to the free call chain - if that's better in performance,
+or maybe selectively protect the matroxfb ioctl but not vblank ioctl as you
+mentioned.
+
+Thanks,
+Hang
+
+>
+> >
+> > Best,
+> > Hang
+> >
+> > > >
+> > > > > Thanks,
+> > > > > Helge
+> > > > >
+> > > > > > ---
+> > > > > >   drivers/video/fbdev/core/fbmem.c | 2 ++
+> > > > > >   1 file changed, 2 insertions(+)
+> > > > > >
+> > > > > > diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+> > > > > > index 1e70d8c67653..8b1a1527d18a 100644
+> > > > > > --- a/drivers/video/fbdev/core/fbmem.c
+> > > > > > +++ b/drivers/video/fbdev/core/fbmem.c
+> > > > > > @@ -1182,6 +1182,7 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
+> > > > > >               console_unlock();
+> > > > > >               break;
+> > > > > >       default:
+> > > > > > +             console_lock();
+> > > > > >               lock_fb_info(info);
+> > > > > >               fb = info->fbops;
+> > > > > >               if (fb->fb_ioctl)
+> > > > > > @@ -1189,6 +1190,7 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
+> > > > > >               else
+> > > > > >                       ret = -ENOTTY;
+> > > > > >               unlock_fb_info(info);
+> > > > > > +             console_unlock();
+> > > > > >       }
+> > > > > >       return ret;
+> > > > > >   }
+> > > > >
+> > > >
+> > > >
+> > > > --
+> > > > Daniel Vetter
+> > > > Software Engineer, Intel Corporation
+> > > > http://blog.ffwll.ch
+> > >
+> > >
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
