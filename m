@@ -2,49 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D7966075D
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 20:49:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FCA7660774
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 20:54:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE17510E8C4;
-	Fri,  6 Jan 2023 19:49:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D434910E8D2;
+	Fri,  6 Jan 2023 19:54:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4D2A10E8BF;
- Fri,  6 Jan 2023 19:49:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=xQYicUI5pilH9ibbuYVlz1AZN0BhraOQ2YsarXqDJU8=; b=FY6FdOtVxuzQomSUgvgXrBER38
- tVnwyB+w8spNhzmJkHbISwM0BSprhp0qbDqQmnvtlWezwGQ42mOHXyTlcfiPpHmN4ei1RnPL8DtcK
- RpCK+Hc21CfWY9EBYD7o6d6f+JG//dIF/gdLGCkrG2ta1TJyKCIuLU5+qFVhuH3wGVqsuxQYSg4zI
- zVcpk4R1TijWv1CbOkEp5E/hFF5pb3QOkPBDgUNufe8+6/HxmxA5//uS/bkA9IcJDD/1jqK3NcFb6
- VafpRrWAdJuK9mdYsgMyqOLMn1JaOA/77sHxwGt8SYwwUg+LbuF+BRQw58V5O7DU+0WtnVxLL/uwc
- qqyFa7+g==;
-Received: from [187.36.234.139] (helo=[192.168.1.195])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1pDsiQ-0018zB-T0; Fri, 06 Jan 2023 20:49:23 +0100
-Message-ID: <24309184-0260-ce92-5a28-4c0d99c611d2@igalia.com>
-Date: Fri, 6 Jan 2023 16:49:15 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 3/9] drm/arm/hdlcd: use new debugfs device-centered
- functions
-Content-Language: en-US
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ED3710E8D2
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 19:54:49 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id w1so2258135wrt.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 11:54:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=UdTJkOBXcCkLftLc+pQ5NTN4WFWIGu0wm8XHj4yqSYU=;
+ b=AHemXy1MF2QGcr+FcK28C2P3kyG10cenBEPd9yQJhqSb7J6QUGHxFdkXKd9CNEykTA
+ BMuLR5/yvb8l4QdJvmx0Epb5bMK5THtuRZIcsNOmUs4VAN2cmuEUWGPBCWqeoZWCvuQs
+ CAdio0xzyMNKnJWFsJ2cA2d/abp2t0kIII1b4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UdTJkOBXcCkLftLc+pQ5NTN4WFWIGu0wm8XHj4yqSYU=;
+ b=fdNaQMd6kLAW66YhjmxKEaKEPQtUDXW5BjHlm9Cw/5zPiFnZYJzCZfLhLjntvWhnDJ
+ a2FRyeRzPazOGHgMYeMLbulWs7K0hrgf5thaRTscjzs2sqS5a/m5IPKYL5tfQWbjAvtY
+ NDDVG9YIrQirIjIexhAYIyK7gdYp6eDGNu9EDNmeLf3TXmumUI4M5OoRFIuTSi2Yv1zj
+ b2VHkWMvQqgGeX6jP5fdoOhYzsUcMV12ve0eUk6asRxF4A38+rCH4fgJyVUxDR6yrTy8
+ MuMeXgojjzrMyD1w5RjblMrKKebpk58Z/gCSEOnHRKroYy50xQ9WXONPybFrCBSmREJk
+ ABuA==
+X-Gm-Message-State: AFqh2kpqvPre9cdBkTkflJxAiSjtbWGVkFGv61ANtT0EhoCpNKy5NKt5
+ R9NlH1mawvG1TxySkKoMIPkakQ==
+X-Google-Smtp-Source: AMrXdXvJMFXkKw/BFxl7hm/6TuBNTOklsHNzkYAIGkk6eFaSgZ1kgvPsJmPD31/1sKHiPBwSTU+Kmg==
+X-Received: by 2002:adf:f24c:0:b0:250:cbfb:688e with SMTP id
+ b12-20020adff24c000000b00250cbfb688emr40295994wrp.42.1673034887979; 
+ Fri, 06 Jan 2023 11:54:47 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ x2-20020adff642000000b002a01e64f7a1sm2052766wrp.88.2023.01.06.11.54.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Jan 2023 11:54:47 -0800 (PST)
+Date: Fri, 6 Jan 2023 20:54:44 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
+Subject: Re: [PATCH 5/9] drm/arc: use new debugfs device-centered functions
+Message-ID: <Y7h8hBfWZd2Ka4OP@phenom.ffwll.local>
+Mail-Followup-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Melissa Wen <mwen@igalia.com>,
+ =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ etnaviv@lists.freedesktop.org, noralf@tronnes.org,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Brian Starkey <brian.starkey@arm.com>,
+ Emma Anholt <emma@anholt.net>,
+ Alexey Brodkin <abrodkin@synopsys.com>,
+ David Airlie <airlied@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>, Tomi Valkeinen <tomba@kernel.org>
 References: <20221226155029.244355-1-mcanal@igalia.com>
- <20221226155029.244355-4-mcanal@igalia.com>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20221226155029.244355-4-mcanal@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <20221226155029.244355-6-mcanal@igalia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221226155029.244355-6-mcanal@igalia.com>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,98 +88,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
+Cc: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
  Tomi Valkeinen <tomba@kernel.org>, Emma Anholt <emma@anholt.net>,
- Liviu Dudau <liviu.dudau@arm.com>, Alexey Brodkin <abrodkin@synopsys.com>,
- etnaviv@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
- Melissa Wen <mwen@igalia.com>, noralf@tronnes.org,
- Gerd Hoffmann <kraxel@redhat.com>,
+ Alexey Brodkin <abrodkin@synopsys.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
+ noralf@tronnes.org, Gerd Hoffmann <kraxel@redhat.com>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
- David Airlie <airlied@redhat.com>
+ David Airlie <airlied@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/26/22 12:50, MaÃ­ra Canal wrote:
+On Mon, Dec 26, 2022 at 12:50:25PM -0300, Maíra Canal wrote:
 > Replace the use of drm_debugfs_create_files() with the new
-> drm_debugfs_add_files() function, which center the debugfs files
+> drm_debugfs_add_file() function, which center the debugfs files
 > management on the drm_device instead of drm_minor. Moreover, remove the
-> debugfs_init hook and add the debugfs files directly on hdlcd_drm_bind(),
+> debugfs_init hook and add the debugfs files directly on arcpgu_probe(),
 > before drm_dev_register().
 > 
-> Signed-off-by: MaÃ­ra Canal <mcanal@igalia.com>
-
-Applied to drm/drm-misc (drm-misc-next).
-
-Best Regards,
-- MaÃ­ra Canal
-
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
->   drivers/gpu/drm/arm/hdlcd_drv.c | 24 +++++++++---------------
->   1 file changed, 9 insertions(+), 15 deletions(-)
+>  drivers/gpu/drm/tiny/arcpgu.c | 22 ++++++----------------
+>  1 file changed, 6 insertions(+), 16 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
-> index 7043d1c9ed8f..e3507dd6f82a 100644
-> --- a/drivers/gpu/drm/arm/hdlcd_drv.c
-> +++ b/drivers/gpu/drm/arm/hdlcd_drv.c
-> @@ -195,8 +195,8 @@ static int hdlcd_setup_mode_config(struct drm_device *drm)
->   #ifdef CONFIG_DEBUG_FS
->   static int hdlcd_show_underrun_count(struct seq_file *m, void *arg)
->   {
+> diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
+> index 611bbee15071..b074a0b4c7b3 100644
+> --- a/drivers/gpu/drm/tiny/arcpgu.c
+> +++ b/drivers/gpu/drm/tiny/arcpgu.c
+> @@ -338,8 +338,8 @@ static int arcpgu_unload(struct drm_device *drm)
+>  #ifdef CONFIG_DEBUG_FS
+>  static int arcpgu_show_pxlclock(struct seq_file *m, void *arg)
+>  {
 > -	struct drm_info_node *node = (struct drm_info_node *)m->private;
 > -	struct drm_device *drm = node->minor->dev;
 > +	struct drm_debugfs_entry *entry = m->private;
 > +	struct drm_device *drm = entry->dev;
->   	struct hdlcd_drm_private *hdlcd = drm_to_hdlcd_priv(drm);
->   
->   	seq_printf(m, "underrun : %d\n", atomic_read(&hdlcd->buffer_underrun_count));
-> @@ -208,8 +208,8 @@ static int hdlcd_show_underrun_count(struct seq_file *m, void *arg)
->   
->   static int hdlcd_show_pxlclock(struct seq_file *m, void *arg)
->   {
-> -	struct drm_info_node *node = (struct drm_info_node *)m->private;
-> -	struct drm_device *drm = node->minor->dev;
-> +	struct drm_debugfs_entry *entry = m->private;
-> +	struct drm_device *drm = entry->dev;
->   	struct hdlcd_drm_private *hdlcd = drm_to_hdlcd_priv(drm);
->   	unsigned long clkrate = clk_get_rate(hdlcd->clk);
->   	unsigned long mode_clock = hdlcd->crtc.mode.crtc_clock * 1000;
-> @@ -219,17 +219,10 @@ static int hdlcd_show_pxlclock(struct seq_file *m, void *arg)
->   	return 0;
->   }
->   
-> -static struct drm_info_list hdlcd_debugfs_list[] = {
-> +static struct drm_debugfs_info hdlcd_debugfs_list[] = {
->   	{ "interrupt_count", hdlcd_show_underrun_count, 0 },
->   	{ "clocks", hdlcd_show_pxlclock, 0 },
->   };
+>  	struct arcpgu_drm_private *arcpgu = dev_to_arcpgu(drm);
+>  	unsigned long clkrate = clk_get_rate(arcpgu->clk);
+>  	unsigned long mode_clock = arcpgu->pipe.crtc.mode.crtc_clock * 1000;
+> @@ -348,17 +348,6 @@ static int arcpgu_show_pxlclock(struct seq_file *m, void *arg)
+>  	seq_printf(m, "mode: %lu\n", mode_clock);
+>  	return 0;
+>  }
 > -
-> -static void hdlcd_debugfs_init(struct drm_minor *minor)
+> -static struct drm_info_list arcpgu_debugfs_list[] = {
+> -	{ "clocks", arcpgu_show_pxlclock, 0 },
+> -};
+> -
+> -static void arcpgu_debugfs_init(struct drm_minor *minor)
 > -{
-> -	drm_debugfs_create_files(hdlcd_debugfs_list,
-> -				 ARRAY_SIZE(hdlcd_debugfs_list),
+> -	drm_debugfs_create_files(arcpgu_debugfs_list,
+> -				 ARRAY_SIZE(arcpgu_debugfs_list),
 > -				 minor->debugfs_root, minor);
 > -}
->   #endif
->   
->   DEFINE_DRM_GEM_DMA_FOPS(fops);
-> @@ -237,9 +230,6 @@ DEFINE_DRM_GEM_DMA_FOPS(fops);
->   static const struct drm_driver hdlcd_driver = {
->   	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->   	DRM_GEM_DMA_DRIVER_OPS,
+>  #endif
+>  
+>  static const struct drm_driver arcpgu_drm_driver = {
+> @@ -371,9 +360,6 @@ static const struct drm_driver arcpgu_drm_driver = {
+>  	.patchlevel = 0,
+>  	.fops = &arcpgu_drm_ops,
+>  	DRM_GEM_DMA_DRIVER_OPS,
 > -#ifdef CONFIG_DEBUG_FS
-> -	.debugfs_init = hdlcd_debugfs_init,
+> -	.debugfs_init = arcpgu_debugfs_init,
 > -#endif
->   	.fops = &fops,
->   	.name = "hdlcd",
->   	.desc = "ARM HDLCD Controller DRM",
-> @@ -303,6 +293,10 @@ static int hdlcd_drm_bind(struct device *dev)
->   	drm_mode_config_reset(drm);
->   	drm_kms_helper_poll_init(drm);
->   
+>  };
+>  
+>  static int arcpgu_probe(struct platform_device *pdev)
+> @@ -390,6 +376,10 @@ static int arcpgu_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		return ret;
+>  
 > +#ifdef CONFIG_DEBUG_FS
-> +	drm_debugfs_add_files(drm, hdlcd_debugfs_list, ARRAY_SIZE(hdlcd_debugfs_list));
+> +	drm_debugfs_add_file(&arcpgu->drm, "clocks", arcpgu_show_pxlclock, NULL);
 > +#endif
+
+A pure bikeshed, but I think it's cleaner to drop the #ifdef here and
+above and mark the potentially unused functions as __maybe_unused.
+
+With or without that: Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
 > +
->   	ret = drm_dev_register(drm, 0);
->   	if (ret)
->   		goto err_register;
+>  	ret = drm_dev_register(&arcpgu->drm, 0);
+>  	if (ret)
+>  		goto err_unload;
+> -- 
+> 2.38.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
