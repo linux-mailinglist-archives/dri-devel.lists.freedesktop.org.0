@@ -1,73 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378676600A6
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 13:54:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A456600ED
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 14:06:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4FE110E142;
-	Fri,  6 Jan 2023 12:54:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AB1D10E14C;
+	Fri,  6 Jan 2023 13:05:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DCC610E142
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 12:54:13 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id co23so1192020wrb.4
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 04:54:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=0VQTtg9FSwvM20hhEBQ4latfuLMcaI0mRbc2gb+Wsmo=;
- b=zGZsa8cLWEhtzBevZZussjAm4VHCN2pntlxPMLfsR3UVJPOee021IF6+6gUefIjOI8
- IFDwpsrLlHuGtmcITRyyTTqXLa9L+CI2xskRTX2kKfbFQlHgHAg0z1bWHRHk8gbeV7HR
- pV6KrpISoASdQsrrBvwFlS8J5bVPDnIoK6xtWc+0iO4L7X6CJombsXW+Dua/axoA4MJk
- fxSpo2VD2OTARoCzMKQQ6sISZPjXleM4MS+8+9pqBGBSB/iP1Y9ZUVDjkBdpCGyQebhY
- pll49HcO5hsd7sLhqj3fWKgx7OOn2bpwls0u8wpIE4rMvGIj1ubCnRZuNGu8PGmjt1dc
- 2J4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0VQTtg9FSwvM20hhEBQ4latfuLMcaI0mRbc2gb+Wsmo=;
- b=T2C6qL9YVx1RAL8Y8HtSa+fgEPcOHdX4ZYqpNIVaZZ1A7zGAdb7uir57Ge+G4MYOv0
- UUUx0WyH0iom9yeavQeRNJ3m7QyJxJ/nAkFOq25xpNXASkIk1MRva1wn8kgdIDKxfcnj
- VAN/0alk3flCxtQ3HByb03r8xDE45h54Ntq/G1bhtQEt94ZcaDmZYIa906s02TPcJPgM
- +w/O21EYj+N+nArFB/WKGfYlHOUuK1HpHz1qhUtxg2bCrzESUHrn9LPlhnul8igje9MJ
- IiadXCpVg7ne4WQp7+urLLt4uRvjyTD4Y8QABmIH/uCtYz+Wluk3wlMBPofZotnbpaB5
- C6aw==
-X-Gm-Message-State: AFqh2krBEc1imP/LrkGyJSmrBwOM5P5Utuuh9v1hYcmYoisGKeMZprjP
- yCgsEH8ljmnjVX4tYfVhG2DyIQ==
-X-Google-Smtp-Source: AMrXdXsdMCQTT70zgRFV/Vn26wT2YcgpPEAUPM7w5hQReZi/R7gT2YVbZF36R1ACF5NF6yt+Ntl4wg==
-X-Received: by 2002:a5d:525a:0:b0:287:6400:1f9c with SMTP id
- k26-20020a5d525a000000b0028764001f9cmr21089842wrc.42.1673009652170; 
- Fri, 06 Jan 2023 04:54:12 -0800 (PST)
-Received: from [192.168.1.102] ([178.197.216.144])
- by smtp.gmail.com with ESMTPSA id
- m8-20020a5d6a08000000b002a1ae285bfasm1078634wru.77.2023.01.06.04.54.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Jan 2023 04:54:11 -0800 (PST)
-Message-ID: <18bde666-db4b-95b9-7ce1-a012ed33bf04@linaro.org>
-Date: Fri, 6 Jan 2023 13:54:10 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
+Received: from mailrelay4-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay4-1.pub.mailoutpod2-cph3.one.com [46.30.211.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A564C10E14C
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 13:05:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=gDg2C8wzCWaYAwH+05zvmIArdZV2pjBbAAKytWPoFLQ=;
+ b=v1AUk9HWxQCQGwwUrqJr1Ns0WhZoUyTSko2yd+GsncJz68rxo+iuXP1S2ac1EVSME619PvUzwkc43
+ wxpYoFm7mA0+S5auap/cT7i+X+20u9g2mFNAtrktK/Og5lLMZZ+yVA4tx2kHhZW1D2nf8Bdp0WGYWA
+ 4EtjFMwLgoP3qegn+cMkEBtQJ5C4/TRX2ZCg0ge3DwXJ7wq76kboKmoMjZzIop6/e0sQu6+neiT+gC
+ tC/JKXF75ulNcNAVp57/yqTN4rNfkk+md7humRcxqpaxQX2tWTXl5111486m76TFUQefL7ye5C6TKw
+ 0IjtIHkMyVOxAX0ZIE6P9Zi30tY5n3w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=gDg2C8wzCWaYAwH+05zvmIArdZV2pjBbAAKytWPoFLQ=;
+ b=qlJdktE2ogNOGWFPtTpqNOqpY1orCMfAN31moczxtBwCYX+lx8uDvs646Yr7lUVAqCTicvdlJb2FM
+ RzuRq07Dg==
+X-HalOne-ID: b3eccd90-8dc2-11ed-a4d7-87783a957ad9
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay4 (Halon) with ESMTPSA
+ id b3eccd90-8dc2-11ed-a4d7-87783a957ad9;
+ Fri, 06 Jan 2023 13:04:52 +0000 (UTC)
+Date: Fri, 6 Jan 2023 14:04:51 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>
 Subject: Re: [PATCH 1/2] dt-bindings: display: panel: document the Visionox
  VTDR6130 AMOLED DSI Panel bindings
-Content-Language: en-US
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Message-ID: <Y7gcc1tjge3wHOf7@ravnborg.org>
 References: <20230103-topic-sm8550-upstream-vtdr6130-panel-v1-0-9b746b858378@linaro.org>
  <20230103-topic-sm8550-upstream-vtdr6130-panel-v1-1-9b746b858378@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230103-topic-sm8550-upstream-vtdr6130-panel-v1-1-9b746b858378@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <Y7RsnBkgnWbF3uMj@ravnborg.org>
+ <877fc236-5f86-3853-0877-33df32689d8c@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <877fc236-5f86-3853-0877-33df32689d8c@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,22 +60,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/01/2023 15:22, Neil Armstrong wrote:
-> Document the 1080x2400 Visionox VTDR6130 AMOLED DSI Panel bindings.
+Hi Neil,
+
+> > > +properties:
+> > > +  compatible:
+> > > +    const: visionox,vtdr6130
+> > > +
+> > > +  vddio-supply: true
+> > > +  vci-supply: true
+> > > +  vdd-supply: true
+> > These 3 looks wrong to me, as the above are not documented in panel-common.
+> > But maybe I miss something and this is OK?
 > 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  .../bindings/display/panel/visionox,vtdr6130.yaml  | 53 ++++++++++++++++++++++
->  1 file changed, 53 insertions(+)
-
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+> It should be OK, the XXXX-supply properties are standard properties
+Thanks for the explanation - patch is then:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
