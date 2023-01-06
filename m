@@ -2,49 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FF0765FD4F
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 10:10:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBDA965FDCC
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 10:23:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3668010E841;
-	Fri,  6 Jan 2023 09:10:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83E7D10E844;
+	Fri,  6 Jan 2023 09:23:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5262210E844
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 09:09:59 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.138.125])
- by APP-05 (Coremail) with SMTP id zQCowAAnR8xP5bdjCJ9pCw--.28698S2;
- Fri, 06 Jan 2023 17:09:36 +0800 (CST)
-From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@gmail.com,
- daniel@ffwll.ch, ville.syrjala@linux.intel.com, manasi.d.navare@intel.com,
- stanislav.lisovskiy@intel.com, lucas.demarchi@intel.com
-Subject: [PATCH] drm/i915: Add missing check and destroy for alloc_workqueue
-Date: Fri,  6 Jan 2023 17:09:34 +0800
-Message-Id: <20230106090934.6348-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3D0110E83F
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 09:23:33 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id d17so741461wrs.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 01:23:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=U+l18cm7JsXF7JdoRVRxHI90ltZepKvBdBgtxnvmYJo=;
+ b=R01N5tSiChNTWmptaLB86srJ2/fdU6o1p+bwJmBoaChOufuBNaeqC93T9BFc1x1PL+
+ Wu3P82SdmoZZQcpOIl+V411BrgabkySpulsdvQEc0AJ6AS9xrOkPG1GTSbp2mdlGsjlk
+ +z12zHrk5LCdM2O68WxH4NSIeT48DkulRsJxg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=U+l18cm7JsXF7JdoRVRxHI90ltZepKvBdBgtxnvmYJo=;
+ b=hPnipaauCcYfE5v6u8IifZC6c/gYbNoXV0tA403ewGg1pARiizBdw+yekVquROemGc
+ /ECtGCR5ThMcXfU3vfPo/DZUx/7mWMyjgdo1aepKMi3VvScuBksbHsCqU6FPH2XRje2b
+ SDANwmyTKT29SWO18LabEuOblf792p6I/84nNZ6o2fpWclBPynB3GapD3INLPv64pO60
+ T+klXEV4RbHBUNYmpw3WepEGSWDyvsisR/7WoJMoMRhrtBidUKo0Wx4Kk/HYrJv8hfdp
+ 5sk1Ehba0GGaGf1U+pLFt5hmzTAF7ihusIWUCUDvcs9SuVL/5c6biGHVc02LZ8Y2rXfK
+ qqxA==
+X-Gm-Message-State: AFqh2koyRyziXzDBd2DGGSh4lo0f1c5i0Ruwpxm9HSuYk6GJoCYiOMca
+ 6/A+5Q+HvkEzHeDSszKRjUsAwg==
+X-Google-Smtp-Source: AMrXdXvKO0K2rF70WbqtVd/lzrLxfZ6Yvu5KlTsjckbUhsX5Ie5HyKkPdAVmes/20jY1UtQipICp4w==
+X-Received: by 2002:a5d:66c3:0:b0:2b2:c9de:3e06 with SMTP id
+ k3-20020a5d66c3000000b002b2c9de3e06mr2914859wrw.68.1672997012305; 
+ Fri, 06 Jan 2023 01:23:32 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ j14-20020adff00e000000b0024cb961b6aesm575058wro.104.2023.01.06.01.23.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Jan 2023 01:23:31 -0800 (PST)
+Date: Fri, 6 Jan 2023 10:23:29 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/vkms: introduce prepare_fb and cleanup_fb functions
+Message-ID: <Y7fokah1eYGUFw25@phenom.ffwll.local>
+References: <20230105162148.234218-1-mcanal@igalia.com>
+ <20230105184313.uziimfnsk3cu3gzd@mail.igalia.com>
+ <e1ba3ad8-a6fe-4279-1d98-e060fc845fea@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAAnR8xP5bdjCJ9pCw--.28698S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zr1fAw45uFyxCr1xWw45ZFb_yoW5JF45pr
- 45WFyYvFWrJF4Ika97Ja1jvFy7WayFy3W5CF17C3WDu3W5Aw4qq3WFva45CFyDGF4fJF1r
- JFZ2krW29F1qkaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
- 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
- jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
- 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
- n2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
- AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
- c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
- AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
- Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUb0D73
- UUUUU==
-X-Originating-IP: [124.16.138.125]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
+In-Reply-To: <e1ba3ad8-a6fe-4279-1d98-e060fc845fea@suse.de>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,80 +72,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add checks for the return value of alloc_workqueue and
-alloc_ordered_workqueue as they may return NULL pointer and cause NULL
-pointer dereference.
-Moreover, destroy them when fails later in order to avoid memory leak.
-Because in `drivers/gpu/drm/i915/i915_driver.c`, if
-intel_modeset_init_noirq fails, its workqueues will not be destroyed.
+On Fri, Jan 06, 2023 at 09:10:17AM +0100, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 05.01.23 um 19:43 schrieb Melissa Wen:
+> > On 01/05, Maíra Canal wrote:
+> > > With commit 359c6649cd9a ("drm/gem: Implement shadow-plane {begin,
+> > > end}_fb_access with vmap"), the behavior of the shadow-plane helpers
+> > > changed and the vunmap is now performed at the end of
+> > > the current pageflip, instead of the end of the following pageflip.
+> > > 
+> > > By performing the vunmap at the end of the current pageflip, invalid
+> > > memory is accessed by the vkms during the plane composition, as the data
+> > > is being unmapped before being used.
+> > 
+> > Hi Maíra,
+> > 
+> > Thanks for investigating this issue. Can you add in the commit message
+> > the kernel Oops caused by this change?
+> > 
+> > Besides that, I wonder if the right thing would be to restore the
+> > previous behavior of vunmap in shadow-plane helpers, instead of
+> > reintroduce driver-specific hooks for vmap/vunmap correctly to vkms.
+> > 
+> > Maybe Thomas has some inputs on this shadow-plane changing to help us on
+> > figuring out the proper fix (?)
+> 
+> The fix looks good. I left some minor-important comments below.
+> 
+> I would suggest to rethink the overall driver design. Instead of keeping
+> these buffer pinned for long. It might be better to have a per-plane
+> intermediate buffer that you update on each call to atomic_update. That's
+> how real drivers interact with their hardware.
 
-Fixes: c26a058680dc ("drm/i915: Use a high priority wq for nonblocking plane updates")
-Fixes: 757fffcfdffb ("drm/i915: Put all non-blocking modesets onto an ordered wq")
-Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
----
- drivers/gpu/drm/i915/display/intel_display.c | 21 ++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+That would mean more copying, and vkms already copies a lot by recomputing
+the crc every frame. Fundamentally with vkms the cpu is the display
+engine, and it needs a mapping for as long as the buffer is in use.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 6c2686ecb62a..58f6840d6bd8 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -8655,26 +8655,35 @@ int intel_modeset_init_noirq(struct drm_i915_private *i915)
- 	intel_dmc_ucode_init(i915);
- 
- 	i915->display.wq.modeset = alloc_ordered_workqueue("i915_modeset", 0);
-+	if (!i915->display.wq.modeset) {
-+		ret = -ENOMEM;
-+		goto cleanup_vga_client_pw_domain_dmc;
-+	}
-+
- 	i915->display.wq.flip = alloc_workqueue("i915_flip", WQ_HIGHPRI |
- 						WQ_UNBOUND, WQ_UNBOUND_MAX_ACTIVE);
-+	if (!i915->display.wq.flip) {
-+		ret = -ENOMEM;
-+		goto cleanup_modeset;
-+	}
- 
- 	intel_mode_config_init(i915);
- 
- 	ret = intel_cdclk_init(i915);
- 	if (ret)
--		goto cleanup_vga_client_pw_domain_dmc;
-+		goto cleanup_flip;
- 
- 	ret = intel_color_init(i915);
- 	if (ret)
--		goto cleanup_vga_client_pw_domain_dmc;
-+		goto cleanup_flip;
- 
- 	ret = intel_dbuf_init(i915);
- 	if (ret)
--		goto cleanup_vga_client_pw_domain_dmc;
-+		goto cleanup_flip;
- 
- 	ret = intel_bw_init(i915);
- 	if (ret)
--		goto cleanup_vga_client_pw_domain_dmc;
-+		goto cleanup_flip;
- 
- 	init_llist_head(&i915->display.atomic_helper.free_list);
- 	INIT_WORK(&i915->display.atomic_helper.free_work,
-@@ -8686,6 +8695,10 @@ int intel_modeset_init_noirq(struct drm_i915_private *i915)
- 
- 	return 0;
- 
-+cleanup_flip:
-+	destroy_workqueue(i915->display.wq.flip);
-+cleanup_modeset:
-+	destroy_workqueue(i915->display.wq.modeset);
- cleanup_vga_client_pw_domain_dmc:
- 	intel_dmc_ucode_fini(i915);
- 	intel_power_domains_driver_remove(i915);
+Also I guess we really need gitlab ci going, it's a bit silly we're
+breaking pure sw drivers :-/
+-Daniel
+
+> 
+> > 
+> > Best Regards,
+> > 
+> > Melissa
+> > 
+> > > 
+> > > Therefore, introduce again prepare_fb and cleanup_fb functions to the
+> > > vkms, which were previously removed on commit b43e2ec03b0d ("drm/vkms:
+> > > Let shadow-plane helpers prepare the plane's FB").
+> > > 
+> > > Fixes: 359c6649cd9a ("drm/gem: Implement shadow-plane {begin, end}_fb_access with vmap")
+> > > Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> 
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+> > > ---
+> > >   drivers/gpu/drm/vkms/vkms_plane.c | 36 ++++++++++++++++++++++++++++++-
+> > >   1 file changed, 35 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> > > index c3a845220e10..b3f8a115cc23 100644
+> > > --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> > > +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> > > @@ -160,10 +160,44 @@ static int vkms_plane_atomic_check(struct drm_plane *plane,
+> > > 	return 0;
+> > >   }
+> > > 
+> > > +static int vkms_prepare_fb(struct drm_plane *plane,
+> > > +			   struct drm_plane_state *state)
+> > > +{
+> > > +	struct drm_shadow_plane_state *shadow_plane_state;
+> > > +	struct drm_framebuffer *fb = state->fb;
+> > > +	int ret;
+> > > +
+> > > +	if (!fb)
+> > > +		return 0;
+> 
+> IIRC this cannot be NULL. Only active planes will be 'prepared'.
+> 
+> > > +
+> > > +	shadow_plane_state = to_drm_shadow_plane_state(state);
+> > > +
+> > > +	ret = drm_gem_plane_helper_prepare_fb(plane, state);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	return drm_gem_fb_vmap(fb, shadow_plane_state->map, shadow_plane_state->data);
+> > > +}
+> > > +
+> > > +static void vkms_cleanup_fb(struct drm_plane *plane,
+> > > +			    struct drm_plane_state *state)
+> > > +{
+> > > +	struct drm_shadow_plane_state *shadow_plane_state;
+> > > +	struct drm_framebuffer *fb = state->fb;
+> > > +
+> > > +	if (!fb)
+> > > +		return;
+> 
+> Same here. This function won't be called if there has not been a
+> framebuffer.
+> 
+> > > +
+> > > +	shadow_plane_state = to_drm_shadow_plane_state(state);
+> > > +
+> > > +	drm_gem_fb_vunmap(fb, shadow_plane_state->map);
+> > > +}
+> > > +
+> > >   static const struct drm_plane_helper_funcs vkms_primary_helper_funcs = {
+> > > 	.atomic_update		= vkms_plane_atomic_update,
+> > > 	.atomic_check		= vkms_plane_atomic_check,
+> > > -	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+> 
+> You're still installing {being/end}_fb_access, which should not be necessary
+> now. Open-coding DRM_GEM_SHADOW_PLANE_HELPER_FUNCS without those helpers
+> would fix that.
+> 
+> Best regards
+> Thomas
+> 
+> > > +	.prepare_fb		= vkms_prepare_fb,
+> > > +	.cleanup_fb		= vkms_cleanup_fb,
+> > >   };
+> > > 
+> > >   struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+> > > --
+> > > 2.39.0
+> > > 
+> 
+> -- 
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 Nürnberg, Germany
+> (HRB 36809, AG Nürnberg)
+> Geschäftsführer: Ivo Totev
+
+
+
+
 -- 
-2.25.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
