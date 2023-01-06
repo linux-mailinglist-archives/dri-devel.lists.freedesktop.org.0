@@ -1,77 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 757EA65FF85
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 12:26:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23F8F65FF99
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 12:34:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D011410E864;
-	Fri,  6 Jan 2023 11:26:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AC2810E866;
+	Fri,  6 Jan 2023 11:34:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF6D810E865
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 11:26:10 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.west.internal (Postfix) with ESMTP id 92AB43200AA4;
- Fri,  6 Jan 2023 06:26:08 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
- by compute6.internal (MEProxy); Fri, 06 Jan 2023 06:26:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1673004368; x=1673090768; bh=I7mBrQSCFI
- tUQt1fxLzHS6xUeZXx0GJtfnCC/5PE5f4=; b=guDcxstlcbTlVjV7lIS+fDf37l
- NG12X/yxr6xxZu9TxVS8uyp2/7pKbhRv7u5exECyNvyyTXYdzkDmtkLR0G/sMZGx
- KOGDXqC//m9WJ820qOlRD2veEDe+Oax9iMJFngR8jhQXBthsnOcI9Vh0kMhBJuX+
- ChcB237Pr0nloxj244NiNdu18yvne/+uMpJw8b0Sl6TkkftWz1uJXMpZEJ0HmyPg
- J6WM6MMmrD+8H/QYVclbZj+UCkxjkiB22H6FGorBc73X1tX+MUpUUmj0Jez1uPEa
- K6Yc+0fLCEB9Misehq3/Zj1RRnIX4jO4eFBkQ0OhDio5u/hAcNZGEBP641Bg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1673004368; x=1673090768; bh=I7mBrQSCFItUQt1fxLzHS6xUeZXx
- 0GJtfnCC/5PE5f4=; b=Xzhd6JZKjtyjfgZVVIEWAZA+Htk60K10x2hBRdFvGNYC
- XN74CdJfEjEK/A4z2Z5ufMwo01arKR5E6XX1cAtQASJgfM86QoFAwPZu/7JjywN7
- YlweRciM0SzwUNjET+v0DBc4734rCynfmiq2ma1K66ARyOHVGV0qdmEptcwPUsz0
- Olbc+0LkU1ZFWKkbeWG3a3lbTG0oPTpBEXfzkYhRADsISXYSO6ijNBxIspDTvDyu
- 7AhTQe8wSWYOIu+2L5l16ojP4MTD4vlzr+wtCciJ0kIP2IzVTLVUT9yOMYvpqV3c
- z0AmLs5pXo4bW4ESqmPgvwCEZ11DIM/1CLqTrZsMaw==
-X-ME-Sender: <xms:TwW4Y0xH2YKVFGy5sl4ulYKE7x-P8FnXfbkvPGl0vlXam2oONNsfzQ>
- <xme:TwW4Y4S_l9YsliSk2AUmu4MXdVZKKYykwLRBvQQWnsRlYWtbF_gTLLfQb8hq2Rlak
- iDPLkVtS3RodSs6XQ0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrkedtgddvlecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
- ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
- gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
- ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
- hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:TwW4Y2V7vbGUv6Yq8a_-7w8eqTTFdft_68WY5Xfjqv4vqBU6d7hqow>
- <xmx:TwW4Yyi0iYZHbrVv91NPYTXVY5Rx77ixhJArlxVjJE9G8gB6EdpT5A>
- <xmx:TwW4Y2BpoQE5UeiaQZvw1iraAzWhlF171STggQniNPQa8QQywNKB1A>
- <xmx:UAW4Y40Xl2XtQ8B-FWoDd-h_i5CpuqeRT1NTGqYDZBXCu-3D-VGgHg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id B32FCB60089; Fri,  6 Jan 2023 06:26:07 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
-Mime-Version: 1.0
-Message-Id: <14e3a492-5d61-4bfe-8998-b29f66b37061@app.fastmail.com>
-In-Reply-To: <3bbd5135-a556-6097-9ca3-aef3399b2990@gmx.de>
-References: <20230105134622.254560-1-arnd@kernel.org>
- <20230105134622.254560-23-arnd@kernel.org>
- <3bbd5135-a556-6097-9ca3-aef3399b2990@gmx.de>
-Date: Fri, 06 Jan 2023 12:25:47 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Helge Deller" <deller@gmx.de>, "Arnd Bergmann" <arnd@kernel.org>,
- "Robert Jarzmik" <robert.jarzmik@free.fr>
-Subject: Re: [PATCH 22/27] fbdev: remove tmiofb driver
-Content-Type: text/plain
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39CA810E866
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 11:34:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=RAh/H92xEYVo5o58sqTvmbMC43uXwNikMW2I9xNmuxM=; b=douUQnQQJMXVJHuKWu0YKhqXnj
+ kvtwxU9m09LtpThJQzJEiwbfKmIED6cPxJ3jIIRnPMY49lbY0IzpT0bZKJrbbaT9cUfwfKrXkSCGj
+ xTz7LS8t8HnYLlg+kWiVPRVW6ojyow2JDeIWIPZY1a61O63ptnXLHFr1bmcl3364xn46/CWpR0fyS
+ O1NFJ6viU4PtsW6z1gziSp7oDKEdSpHh1qQ/AORenJ4Qg1aVr24QoXTYNTQSVNVoVYHJAGElzT1FO
+ Bo9MVfKwCYQYiZvr+2nxs1oxsvOMii9Cfr58LUXfj6aD5KwlSsAhvt5nO7TlaE2kLECjCAqQ/KskG
+ IZcyiJbw==;
+Received: from [187.36.234.139] (helo=[192.168.1.195])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1pDkzM-000niQ-RZ; Fri, 06 Jan 2023 12:34:21 +0100
+Message-ID: <19951367-2ef0-0f26-ddf0-893259d9a5ef@igalia.com>
+Date: Fri, 6 Jan 2023 08:34:13 -0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] drm/vkms: introduce prepare_fb and cleanup_fb functions
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>, Melissa Wen <mwen@igalia.com>
+References: <20230105162148.234218-1-mcanal@igalia.com>
+ <20230105184313.uziimfnsk3cu3gzd@mail.igalia.com>
+ <e1ba3ad8-a6fe-4279-1d98-e060fc845fea@suse.de>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <e1ba3ad8-a6fe-4279-1d98-e060fc845fea@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,29 +56,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Haojian Zhuang <haojian.zhuang@gmail.com>,
- Daniel Mack <daniel@zonque.org>, linux-arm-kernel@lists.infradead.org
+Cc: Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 6, 2023, at 10:47, Helge Deller wrote:
-> On 1/5/23 14:46, Arnd Bergmann wrote:
->> From: Arnd Bergmann <arnd@arndb.de>
->>
->> With the TMIO MFD support removed, the framebuffer driver can be
->> removed as well.
->>
->> Cc: Helge Deller <deller@gmx.de>
->> Cc: linux-fbdev@vger.kernel.org
->> Cc: dri-devel@lists.freedesktop.org
->> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->
-> Acked-by: Helge Deller <deller@gmx.de>
->
-> Arnd, I assume you will push the whole series through the ARM tree
-> (which I'd prefer) ?
+Hi,
 
-Yes, I think it's best to keep this together here.
+Thanks for the review!
 
-     Arnd
+On 1/6/23 05:10, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 05.01.23 um 19:43 schrieb Melissa Wen:
+>> On 01/05, Maíra Canal wrote:
+>>> With commit 359c6649cd9a ("drm/gem: Implement shadow-plane {begin,
+>>> end}_fb_access with vmap"), the behavior of the shadow-plane helpers
+>>> changed and the vunmap is now performed at the end of
+>>> the current pageflip, instead of the end of the following pageflip.
+>>>
+>>> By performing the vunmap at the end of the current pageflip, invalid
+>>> memory is accessed by the vkms during the plane composition, as the data
+>>> is being unmapped before being used.
+>>
+>> Hi Maíra,
+>>
+>> Thanks for investigating this issue. Can you add in the commit message
+>> the kernel Oops caused by this change?
+>>
+>> Besides that, I wonder if the right thing would be to restore the
+>> previous behavior of vunmap in shadow-plane helpers, instead of
+>> reintroduce driver-specific hooks for vmap/vunmap correctly to vkms.
+>>
+>> Maybe Thomas has some inputs on this shadow-plane changing to help us on
+>> figuring out the proper fix (?)
+> 
+> The fix looks good. I left some minor-important comments below.
+> 
+> I would suggest to rethink the overall driver design. Instead of keeping these buffer pinned for long. It might be better to have a per-plane intermediate buffer that you update on each call to atomic_update. That's how real drivers interact with their hardware.
+> 
+>>
+>> Best Regards,
+>>
+>> Melissa
+>>
+>>>
+>>> Therefore, introduce again prepare_fb and cleanup_fb functions to the
+>>> vkms, which were previously removed on commit b43e2ec03b0d ("drm/vkms:
+>>> Let shadow-plane helpers prepare the plane's FB").
+>>>
+>>> Fixes: 359c6649cd9a ("drm/gem: Implement shadow-plane {begin, end}_fb_access with vmap")
+>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> 
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+>>> ---
+>>>   drivers/gpu/drm/vkms/vkms_plane.c | 36 ++++++++++++++++++++++++++++++-
+>>>   1 file changed, 35 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+>>> index c3a845220e10..b3f8a115cc23 100644
+>>> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+>>> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+>>> @@ -160,10 +160,44 @@ static int vkms_plane_atomic_check(struct drm_plane *plane,
+>>>     return 0;
+>>>   }
+>>>
+>>> +static int vkms_prepare_fb(struct drm_plane *plane,
+>>> +               struct drm_plane_state *state)
+>>> +{
+>>> +    struct drm_shadow_plane_state *shadow_plane_state;
+>>> +    struct drm_framebuffer *fb = state->fb;
+>>> +    int ret;
+>>> +
+>>> +    if (!fb)
+>>> +        return 0;
+> 
+> IIRC this cannot be NULL. Only active planes will be 'prepared'.> 
+>>> +
+>>> +    shadow_plane_state = to_drm_shadow_plane_state(state);
+>>> +
+>>> +    ret = drm_gem_plane_helper_prepare_fb(plane, state);
+>>> +    if (ret)
+>>> +        return ret;
+>>> +
+>>> +    return drm_gem_fb_vmap(fb, shadow_plane_state->map, shadow_plane_state->data);
+>>> +}
+>>> +
+>>> +static void vkms_cleanup_fb(struct drm_plane *plane,
+>>> +                struct drm_plane_state *state)
+>>> +{
+>>> +    struct drm_shadow_plane_state *shadow_plane_state;
+>>> +    struct drm_framebuffer *fb = state->fb;
+>>> +
+>>> +    if (!fb)
+>>> +        return;
+> 
+> Same here. This function won't be called if there has not been a framebuffer.
+
+After removing those two checks, I started to get some NULL pointer dereference
+errors, so I believe they are somehow necessary.
+
+> 
+>>> +
+>>> +    shadow_plane_state = to_drm_shadow_plane_state(state);
+>>> +
+>>> +    drm_gem_fb_vunmap(fb, shadow_plane_state->map);
+>>> +}
+>>> +
+>>>   static const struct drm_plane_helper_funcs vkms_primary_helper_funcs = {
+>>>     .atomic_update        = vkms_plane_atomic_update,
+>>>     .atomic_check        = vkms_plane_atomic_check,
+>>> -    DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+> 
+> You're still installing {being/end}_fb_access, which should not be necessary now. Open-coding DRM_GEM_SHADOW_PLANE_HELPER_FUNCS without those helpers would fix that.
+
+I'm sorry but I didn't understand this comment. AFAIK I {being/end}_fb_access are
+NULL as I removed the DRM_GEM_SHADOW_PLANE_HELPER_FUNCS macro.
+
+Best Regards,
+- Maíra Canal
+
+> 
+> Best regards
+> Thomas
+> 
+>>> +    .prepare_fb        = vkms_prepare_fb,
+>>> +    .cleanup_fb        = vkms_cleanup_fb,
+>>>   };
+>>>
+>>>   struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+>>> -- 
+>>> 2.39.0
+>>>
+> 
