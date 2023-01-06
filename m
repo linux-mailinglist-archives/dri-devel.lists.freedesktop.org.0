@@ -1,72 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B9066084F
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 21:31:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEBB866087A
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 21:51:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79A9B10E0AA;
-	Fri,  6 Jan 2023 20:31:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F8F810E8F8;
+	Fri,  6 Jan 2023 20:51:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC72110E0AA
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 20:31:00 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id s9so2330550wru.13
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 12:31:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zmnTz8/2kfdFyB6x8PTFchjQzfo0fx86uAVQddggYnU=;
- b=QDiE9naefEI1d5kfh4laxGY1RcATSlKvPxkPLXOkcJ9yILKQhTE4aESsj1oYoKNoD1
- +JqJEO+cE/oaC3db0934YfBDzaJfkep6EF1RNkAzSCyF4yOW4irWP5lPS/S+Pa1HYOkj
- 8DNo819Vw9PzXSpGcwo9fonNqrP4IfiIKYlVA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zmnTz8/2kfdFyB6x8PTFchjQzfo0fx86uAVQddggYnU=;
- b=425Z8ojDSjplXpt+Zvu2Nz3EpQCI6gRqZ/hgc0tsXw9/S7B5h71uy+SgN4ClDoWfW/
- JkCHWCyMov7ORZD9mHgRTFs+sPZWKLrGHChj3OB3JKVdVnAby7GW/3SXE0p0FsXulIbg
- yp80fSPCo/s7dp7/WJ0Q4aHvZqYwKHRqpUgmwhJrmb3u/r90jY90Rx1vQY3O4GRE4Xl5
- 1tq79IUcJtSwhWDVUTM7ZxERVkucb3m72j7tiD//AQkLHk3QWc3UQykV0C5Lv5fEhuc5
- jcTGoccbOzOHrCpt6scO87Dkd6M2LzTIvMen5qSVsei8rYe1sD2CTyItfA+a+okdP3h1
- xG2Q==
-X-Gm-Message-State: AFqh2kqWT326q4r1jYfbJtMmg1+zJjSzW4Hke6Xd0Ai/skc9hP6BAz8n
- 21eowoKuQussG8VhqxBLv9p1xA==
-X-Google-Smtp-Source: AMrXdXsGhHQm6ue86ek8a/TahpSuukropvViZubkaaHdP6I4LctKBRL7+Y+FkYhKQhuX8FcLuzSEJg==
-X-Received: by 2002:adf:f54a:0:b0:242:2e1e:23a6 with SMTP id
- j10-20020adff54a000000b002422e1e23a6mr36969526wrp.22.1673037059116; 
- Fri, 06 Jan 2023 12:30:59 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- t14-20020adfeb8e000000b002baa780f0fasm1998405wrn.111.2023.01.06.12.30.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jan 2023 12:30:58 -0800 (PST)
-Date: Fri, 6 Jan 2023 21:30:56 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Brian Norris <briannorris@chromium.org>
-Subject: Re: [PATCH 1/2] drm/atomic: Allow vblank-enabled + self-refresh
- "disable"
-Message-ID: <Y7iFAJqGNXA7wHoK@phenom.ffwll.local>
-Mail-Followup-To: Brian Norris <briannorris@chromium.org>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Sean Paul <seanpaul@chromium.org>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sandy Huang <hjc@rock-chips.com>,
- linux-rockchip@lists.infradead.org, stable@vger.kernel.org
-References: <20230105174001.1.I3904f697863649eb1be540ecca147a66e42bfad7@changeid>
- <Y7hgLUXOrD7QwKs1@phenom.ffwll.local>
- <Y7hl0Z9PZhFk8On9@phenom.ffwll.local> <Y7h3cuAVE2fdS9K3@google.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 399DF10E8EF;
+ Fri,  6 Jan 2023 20:51:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1673038277; x=1704574277;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=1yhFB9HFdlPRIjVfkguDtpBFOBhh6zLrC2C5dDRIf7s=;
+ b=oBMU0+0MStHH9ENTxzI5RPkIDddn6ZMKamjevNrhaSr/Sm+lXQL6pNmu
+ QX6Sn/nj0dL+g38Rs67Zsy43TauvGdRv+V7Kky/QNBjm7H/T16JemS6Mh
+ DadE8LAD7xgz5PRtqs5Nh+OK/G+/4bWBsF934X0TkFipgBB3cpNZgvnpg Q=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 06 Jan 2023 12:51:16 -0800
+X-QCInternal: smtphost
+Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2023 12:51:16 -0800
+Received: from [10.110.20.194] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 6 Jan 2023
+ 12:51:14 -0800
+Message-ID: <7abb3510-fa3f-2be4-794e-657492a634fe@quicinc.com>
+Date: Fri, 6 Jan 2023 12:51:13 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y7h3cuAVE2fdS9K3@google.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [RFC PATCH v3 2/3] drm: Adjust atomic checks for solid fill color
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20230104234036.636-1-quic_jesszhan@quicinc.com>
+ <20230104234036.636-3-quic_jesszhan@quicinc.com>
+ <15db0937-4e1b-b30e-0625-d13ccd43dc84@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <15db0937-4e1b-b30e-0625-d13ccd43dc84@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,133 +63,381 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
- Sean Paul <seanpaul@chromium.org>, stable@vger.kernel.org
+Cc: sebastian.wick@redhat.com, ppaalanen@gmail.com,
+ linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, daniel.vetter@ffwll.ch,
+ seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
+ wayland-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 06, 2023 at 11:33:06AM -0800, Brian Norris wrote:
-> On Fri, Jan 06, 2023 at 07:17:53PM +0100, Daniel Vetter wrote:
-> > Ok I think I was a bit slow here, and it makes sense. Except this now
-> > means we loose this check, and I'm also not sure whether we really want
-> > drivers to implement this all.
-> > 
-> > What I think we want here is a bit more:
-> > - for the self-refresh case check that the vblank all still works
+
+
+On 1/4/2023 5:57 PM, Dmitry Baryshkov wrote:
+> On 05/01/2023 01:40, Jessica Zhang wrote:
+>> Loosen the requirements for atomic and legacy commit so that, in cases
+>> where solid fill planes is enabled (and FB_ID is NULL), the commit can
+>> still go through.
+>>
+>> In addition, add framebuffer NULL checks in other areas to account for
+>> FB being NULL when solid fill is enabled.
+>>
+>> Changes in V2:
+>> - Changed to checks for if solid_fill_blob is set (Dmitry)
+>> - Abstracted (plane_state && !solid_fill_blob) checks to helper method
+>>    (Dmitry)
+>> - Fixed indentation issue (Dmitry)
+>>
+>> Changes in V3:
+>> - Created drm_plane_has_visible_data() helper and corrected CRTC and FB
+>>    NULL-check logic (Dmitry)
+>> - Merged `if (fb)` blocks in drm_atomic_plane_check() and abstracted
+>>    them into helper method (Dmitry)
+>> - Inverted `if (solid_fill_enabled) else if (fb)` check order (Dmitry)
+>> - Fixed indentation (Dmitry)
+>>
+>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/drm_atomic.c        | 136 ++++++++++++++++------------
+>>   drivers/gpu/drm/drm_atomic_helper.c |  34 ++++---
+>>   drivers/gpu/drm/drm_plane.c         |   8 +-
+>>   include/drm/drm_atomic_helper.h     |   5 +-
+>>   include/drm/drm_plane.h             |  19 ++++
+>>   5 files changed, 124 insertions(+), 78 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+>> index f197f59f6d99..63f34b430479 100644
+>> --- a/drivers/gpu/drm/drm_atomic.c
+>> +++ b/drivers/gpu/drm/drm_atomic.c
+>> @@ -580,6 +580,76 @@ plane_switching_crtc(const struct drm_plane_state 
+>> *old_plane_state,
+>>       return true;
+>>   }
+>> +static int drm_atomic_check_fb(const struct drm_plane_state *state)
 > 
-> You mean, keep the WARN_ONCE(), but invert it to ensure that 'ret == 0'?
-> I did consider that, but I don't know why I stopped.
+> This change should go to a separate patch. Please don't mix refactoring 
+> (moving of the code) with the actual functionality changes.
 
-Yeah, so that we check that vblanks keep working in the self-refresh case.
+Hi Dmitry,
 
-> > - check that drivers which use self_refresh are not using
-> >   drm_atomic_helper_wait_for_vblanks(), because that would defeat the
-> >   point
-> 
-> I'm a bit lost on this one. drm_atomic_helper_wait_for_vblanks() is part
-> of the common drm_atomic_helper_commit_tail*() helpers, and so it's
-> naturally used in many cases (including Rockchip/PSR). And how does it
-> defeat the point?
-
-Yeah, but that's for backwards compat reasons, the much better function is
-drm_atomic_helper_wait_for_flip_done(). And if you go into self refresh
-that's really the better one.
-
-> > - have a drm_crtc_vblank_off/on which take the crtc state, so they can
-> >   look at the self-refresh state
-> 
-> And I suppose you mean this helper variant would kick off the next step
-> (fake vblank timer)?
-
-Yeah, I figured that's the better way to implement this since it would be
-driver agnostic. But rockchip is still the only driver using the
-self-refresh helpers, so I guess it doesn't really matter.
-
-> > - fake vblanks with hrtimer, because on most hw when you turn off the crtc
-> >   the vblanks are also turned off, and so your compositor would still
-> >   hang. The vblank machinery already has all the code to make this happen
-> >   (and if it's not all, then i915 psr code should have it).
-> 
-> Is a timer better than an interrupt? I'm pretty sure the vblank
-> interrupts still can fire on Rockchip CRTC (VOP) (see also the other
-> branch of this thread), so this isn't really necessary. (IGT vblank
-> tests pass without hanging.) Unless you simply prefer a fake timer for
-> some reason.
-> 
-> Also, I still haven't found that fake timer machinery, but maybe I just
-> don't know what I'm looking for.
-
-I ... didn't find it either. I'm honestly not sure whether this works for
-intel, or whether we do something silly like disable self-refresh when a
-vblank interrupt is pending :-/
- 
-> > - I think kunit tests for this all would be really good, it's a rather
-> >   complex state machinery between modesets and vblank functionality. You
-> >   can speed up the kunit tests with some really high refresh rate, which
-> >   isn't possible on real hw.
-> 
-> Last time I tried my hand at kunit in a subsystem with no prior kunit
-> tests, I had a miserable time and gave up. At least DRM has a few
-> already, so maybe this wouldn't be as terrible. Perhaps I can give this
-> a shot, but there's a chance this will kick things to the back burner
-> far enough that I simply don't get around to it at all. (So far, I'm
-> only addressing this because KernelCI complained.)
-
-Nah if we dont solve this in a generic way then we don't need kunit to
-make sure it keeps working.
-
-> > I'm also wondering why we've had this code for years and only hit issues
-> > now?
-> 
-> I'd guess a few reasons:
-> 1. drm_self_refresh_helper_init() is only used by one driver -- Rockchip
-> 2. Rockchip systems are most commonly either Chromebooks, or else
->    otherwise cheap embedded things, and may not have displays at all,
->    let alone displays with PSR
-> 3. Rockchip Chromebooks shipped with a kernel forked off of the earlier
->    PSR support, before everything got refactored (and vblank handling
->    regressed) for the self-refresh "helpers". They only upgraded to a
->    newer upstream kernel within the last few months.
-> 4. AFAICT, ChromeOS user space doesn't even exercise the vblank-related
->    ioctls, so we don't actually notice that this is "broken". I suppose
->    it would only be IGT tests that notice.
-> 5. I fixed up various upstream PSR bugs are part of #3 [0],
->    along the way I unborked PSR enough that KernelCI finally caught the
->    bug. See my explanation in [1] for why the vblank bug was masked, and
->    appeared to be a "regression" due to my more recent fixes.
-
-Yeah I thought we had more drivers using self-refresh helpers, bot that's
-not the case :-/
-
-I think new proposal from me is to just respin this patch here with our
-discussion all summarized (it's good to record this stuff for the next
-person that comes around), and the WARN_ON adjusted so it also checks that
-vblank interrupts keep working (per the ret value at least, it's not a
-real functional check). And call that good enough.
-
-Also maybe look into switching from wait_for_vblanks to
-wait_for_flip_done, it's the right thing to do (see kerneldoc, it should
-explain things a bit).
--Daniel
-
+Acked.
 
 > 
-> Brian
+>> +{
+>> +    struct drm_plane *plane = state->plane;
+>> +    const struct drm_framebuffer *fb = state->fb;
+>> +    struct drm_mode_rect *clips;
+>> +
+>> +    uint32_t num_clips;
+>> +    unsigned int fb_width, fb_height;
+>> +    int ret;
+>> +
+>> +    /* Check whether this plane supports the fb pixel format. */
+>> +    ret = drm_plane_check_pixel_format(plane, fb->format->format,
+>> +                       fb->modifier);
+>> +
+>> +    if (ret) {
+>> +        drm_dbg_atomic(plane->dev,
+>> +                   "[PLANE:%d:%s] invalid pixel format %p4cc, 
+>> modifier 0x%llx\n",
+>> +                   plane->base.id, plane->name,
+>> +                   &fb->format->format, fb->modifier);
+>> +        return ret;
+>> +    }
+>> +
+>> +    fb_width = fb->width << 16;
+>> +    fb_height = fb->height << 16;
+>> +
+>> +    /* Make sure source coordinates are inside the fb. */
+>> +    if (state->src_w > fb_width ||
+>> +        state->src_x > fb_width - state->src_w ||
+>> +        state->src_h > fb_height ||
+>> +        state->src_y > fb_height - state->src_h) {
+>> +        drm_dbg_atomic(plane->dev,
+>> +                   "[PLANE:%d:%s] invalid source coordinates "
+>> +                   "%u.%06ux%u.%06u+%u.%06u+%u.%06u (fb %ux%u)\n",
+>> +                   plane->base.id, plane->name,
+>> +                   state->src_w >> 16,
+>> +                   ((state->src_w & 0xffff) * 15625) >> 10,
+>> +                   state->src_h >> 16,
+>> +                   ((state->src_h & 0xffff) * 15625) >> 10,
+>> +                   state->src_x >> 16,
+>> +                   ((state->src_x & 0xffff) * 15625) >> 10,
+>> +                   state->src_y >> 16,
+>> +                   ((state->src_y & 0xffff) * 15625) >> 10,
+>> +                   fb->width, fb->height);
+>> +        return -ENOSPC;
+>> +    }
+>> +
+>> +    clips = __drm_plane_get_damage_clips(state);
+>> +    num_clips = drm_plane_get_damage_clips_count(state);
+>> +
+>> +    /* Make sure damage clips are valid and inside the fb. */
+>> +    while (num_clips > 0) {
+>> +        if (clips->x1 >= clips->x2 ||
+>> +            clips->y1 >= clips->y2 ||
+>> +            clips->x1 < 0 ||
+>> +            clips->y1 < 0 ||
+>> +            clips->x2 > fb_width ||
+>> +            clips->y2 > fb_height) {
+>> +            drm_dbg_atomic(plane->dev,
+>> +                       "[PLANE:%d:%s] invalid damage clip %d %d %d 
+>> %d\n",
+>> +                       plane->base.id, plane->name, clips->x1,
+>> +                       clips->y1, clips->x2, clips->y2);
+>> +            return -EINVAL;
+>> +        }
+>> +        clips++;
+>> +        num_clips--;
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   /**
+>>    * drm_atomic_plane_check - check plane state
+>>    * @old_plane_state: old plane state to check
+>> @@ -596,13 +666,12 @@ static int drm_atomic_plane_check(const struct 
+>> drm_plane_state *old_plane_state,
+>>       struct drm_plane *plane = new_plane_state->plane;
+>>       struct drm_crtc *crtc = new_plane_state->crtc;
+>>       const struct drm_framebuffer *fb = new_plane_state->fb;
+>> -    unsigned int fb_width, fb_height;
+>> -    struct drm_mode_rect *clips;
+>> -    uint32_t num_clips;
+>>       int ret;
+>> -    /* either *both* CRTC and FB must be set, or neither */
+>> -    if (crtc && !fb) {
+>> +    /* When solid_fill is disabled,
+>> +     * either *both* CRTC and FB must be set, or neither
+>> +     */
+>> +    if (crtc && !drm_atomic_has_visible_data(new_plane_state)) {
+>>           drm_dbg_atomic(plane->dev, "[PLANE:%d:%s] CRTC set but no 
+>> FB\n",
+>>                      plane->base.id, plane->name);
+>>           return -EINVAL;
+>> @@ -625,17 +694,6 @@ static int drm_atomic_plane_check(const struct 
+>> drm_plane_state *old_plane_state,
+>>           return -EINVAL;
+>>       }
+>> -    /* Check whether this plane supports the fb pixel format. */
+>> -    ret = drm_plane_check_pixel_format(plane, fb->format->format,
+>> -                       fb->modifier);
+>> -    if (ret) {
+>> -        drm_dbg_atomic(plane->dev,
+>> -                   "[PLANE:%d:%s] invalid pixel format %p4cc, 
+>> modifier 0x%llx\n",
+>> -                   plane->base.id, plane->name,
+>> -                   &fb->format->format, fb->modifier);
+>> -        return ret;
+>> -    }
+>> -
+>>       /* Give drivers some help against integer overflows */
+>>       if (new_plane_state->crtc_w > INT_MAX ||
+>>           new_plane_state->crtc_x > INT_MAX - (int32_t) 
+>> new_plane_state->crtc_w ||
+>> @@ -649,49 +707,11 @@ static int drm_atomic_plane_check(const struct 
+>> drm_plane_state *old_plane_state,
+>>           return -ERANGE;
+>>       }
+>> -    fb_width = fb->width << 16;
+>> -    fb_height = fb->height << 16;
+>> -    /* Make sure source coordinates are inside the fb. */
+>> -    if (new_plane_state->src_w > fb_width ||
+>> -        new_plane_state->src_x > fb_width - new_plane_state->src_w ||
+>> -        new_plane_state->src_h > fb_height ||
+>> -        new_plane_state->src_y > fb_height - new_plane_state->src_h) {
+>> -        drm_dbg_atomic(plane->dev,
+>> -                   "[PLANE:%d:%s] invalid source coordinates "
+>> -                   "%u.%06ux%u.%06u+%u.%06u+%u.%06u (fb %ux%u)\n",
+>> -                   plane->base.id, plane->name,
+>> -                   new_plane_state->src_w >> 16,
+>> -                   ((new_plane_state->src_w & 0xffff) * 15625) >> 10,
+>> -                   new_plane_state->src_h >> 16,
+>> -                   ((new_plane_state->src_h & 0xffff) * 15625) >> 10,
+>> -                   new_plane_state->src_x >> 16,
+>> -                   ((new_plane_state->src_x & 0xffff) * 15625) >> 10,
+>> -                   new_plane_state->src_y >> 16,
+>> -                   ((new_plane_state->src_y & 0xffff) * 15625) >> 10,
+>> -                   fb->width, fb->height);
+>> -        return -ENOSPC;
+>> -    }
+>> -
+>> -    clips = __drm_plane_get_damage_clips(new_plane_state);
+>> -    num_clips = drm_plane_get_damage_clips_count(new_plane_state);
+>> -
+>> -    /* Make sure damage clips are valid and inside the fb. */
+>> -    while (num_clips > 0) {
+>> -        if (clips->x1 >= clips->x2 ||
+>> -            clips->y1 >= clips->y2 ||
+>> -            clips->x1 < 0 ||
+>> -            clips->y1 < 0 ||
+>> -            clips->x2 > fb_width ||
+>> -            clips->y2 > fb_height) {
+>> -            drm_dbg_atomic(plane->dev,
+>> -                       "[PLANE:%d:%s] invalid damage clip %d %d %d 
+>> %d\n",
+>> -                       plane->base.id, plane->name, clips->x1,
+>> -                       clips->y1, clips->x2, clips->y2);
+>> -            return -EINVAL;
+>> -        }
+>> -        clips++;
+>> -        num_clips--;
+>> +    if (fb) {
+>> +        ret = drm_atomic_check_fb(new_plane_state);
+>> +        if (ret)
+>> +            return ret;
+>>       }
+>>       if (plane_switching_crtc(old_plane_state, new_plane_state)) {
+>> diff --git a/drivers/gpu/drm/drm_atomic_helper.c 
+>> b/drivers/gpu/drm/drm_atomic_helper.c
+>> index 1a586b3c454b..804ae107ae59 100644
+>> --- a/drivers/gpu/drm/drm_atomic_helper.c
+>> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+>> @@ -864,7 +864,7 @@ int drm_atomic_helper_check_plane_state(struct 
+>> drm_plane_state *plane_state,
+>>       *src = drm_plane_state_src(plane_state);
+>>       *dst = drm_plane_state_dest(plane_state);
+>> -    if (!fb) {
+>> +    if (!fb && !drm_plane_solid_fill_enabled(plane_state)) {
 > 
-> [0] Combined with point #2: ChromeOS would be the first serious users of
->     the refactored PSR support. All this was needed to make it actually
->     usable:
-> 
->     (2021) c4c6ef229593 drm/bridge: analogix_dp: Make PSR-exit block less
->     (2022) ca871659ec16 drm/bridge: analogix_dp: Support PSR-exit to disable transition <--- KernelCI "blamed" this one, because PSR was less broken
->     (2022) e54a4424925a drm/atomic: Force bridge self-refresh-exit on CRTC switch
-> 
-> [1] https://lore.kernel.org/dri-devel/Y6OCg9BPnJvimQLT@google.com/
-> Re: renesas/master bisection: igt-kms-rockchip.kms_vblank.pipe-A-wait-forked on rk3399-gru-kevin
+> You have the helper for this check.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Noted.
+
+Thanks,
+
+Jessica Zhang
+
+> 
+>>           plane_state->visible = false;
+>>           return 0;
+>>       }
+>> @@ -881,25 +881,31 @@ int drm_atomic_helper_check_plane_state(struct 
+>> drm_plane_state *plane_state,
+>>           return -EINVAL;
+>>       }
+>> -    drm_rect_rotate(src, fb->width << 16, fb->height << 16, rotation);
+>> +    if (fb) {
+>> +        drm_rect_rotate(src, fb->width << 16, fb->height << 16, 
+>> rotation);
+>> -    /* Check scaling */
+>> -    hscale = drm_rect_calc_hscale(src, dst, min_scale, max_scale);
+>> -    vscale = drm_rect_calc_vscale(src, dst, min_scale, max_scale);
+>> -    if (hscale < 0 || vscale < 0) {
+>> -        drm_dbg_kms(plane_state->plane->dev,
+>> -                "Invalid scaling of plane\n");
+>> -        drm_rect_debug_print("src: ", &plane_state->src, true);
+>> -        drm_rect_debug_print("dst: ", &plane_state->dst, false);
+>> -        return -ERANGE;
+>> +        /* Check scaling */
+>> +        hscale = drm_rect_calc_hscale(src, dst, min_scale, max_scale);
+>> +        vscale = drm_rect_calc_vscale(src, dst, min_scale, max_scale);
+>> +
+>> +        if (hscale < 0 || vscale < 0) {
+>> +            drm_dbg_kms(plane_state->plane->dev,
+>> +                    "Invalid scaling of plane\n");
+>> +            drm_rect_debug_print("src: ", &plane_state->src, true);
+>> +            drm_rect_debug_print("dst: ", &plane_state->dst, false);
+>> +            return -ERANGE;
+>> +        }
+>>       }
+>>       if (crtc_state->enable)
+>>           drm_mode_get_hv_timing(&crtc_state->mode, &clip.x2, &clip.y2);
+>> -    plane_state->visible = drm_rect_clip_scaled(src, dst, &clip);
+>> -
+>> -    drm_rect_rotate_inv(src, fb->width << 16, fb->height << 16, 
+>> rotation);
+>> +    if (fb) {
+>> +        plane_state->visible = drm_rect_clip_scaled(src, dst, &clip);
+>> +        drm_rect_rotate_inv(src, fb->width << 16, fb->height << 16, 
+>> rotation);
+>> +    } else if (drm_plane_solid_fill_enabled(plane_state)) {
+>> +        plane_state->visible = true;
+>> +    }
+>>       if (!plane_state->visible)
+>>           /*
+>> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+>> index 33357629a7f5..bdce2acbef6a 100644
+>> --- a/drivers/gpu/drm/drm_plane.c
+>> +++ b/drivers/gpu/drm/drm_plane.c
+>> @@ -856,8 +856,8 @@ static int __setplane_internal(struct drm_plane 
+>> *plane,
+>>       WARN_ON(drm_drv_uses_atomic_modeset(plane->dev));
+>> -    /* No fb means shut it down */
+>> -    if (!fb) {
+>> +    /* No fb and no color fill means shut it down */
+>> +    if (!fb && !drm_plane_solid_fill_enabled(plane->state)) {
+> 
+> And here. And below.
+> 
+>>           plane->old_fb = plane->fb;
+>>           ret = plane->funcs->disable_plane(plane, ctx);
+>>           if (!ret) {
+>> @@ -908,8 +908,8 @@ static int __setplane_atomic(struct drm_plane *plane,
+>>       WARN_ON(!drm_drv_uses_atomic_modeset(plane->dev));
+>> -    /* No fb means shut it down */
+>> -    if (!fb)
+>> +    /* No fb and no color fill means shut it down */
+>> +    if (!fb && !drm_plane_solid_fill_enabled(plane->state))
+>>           return plane->funcs->disable_plane(plane, ctx);
+>>       /*
+>> diff --git a/include/drm/drm_atomic_helper.h 
+>> b/include/drm/drm_atomic_helper.h
+>> index 33f982cd1a27..a87997b3e0b5 100644
+>> --- a/include/drm/drm_atomic_helper.h
+>> +++ b/include/drm/drm_atomic_helper.h
+>> @@ -230,8 +230,9 @@ drm_atomic_plane_disabling(struct drm_plane_state 
+>> *old_plane_state,
+>>        * Anything else should be considered a bug in the atomic core, 
+>> so we
+>>        * gently warn about it.
+>>        */
+>> -    WARN_ON((new_plane_state->crtc == NULL && new_plane_state->fb != 
+>> NULL) ||
+>> -        (new_plane_state->crtc != NULL && new_plane_state->fb == NULL));
+>> +    WARN_ON(((new_plane_state->crtc == NULL && new_plane_state->fb != 
+>> NULL) ||
+> 
+> This condition also needs to be adjusted.
+> 
+>> +        (new_plane_state->crtc != NULL &&
+>> +         !drm_atomic_has_visible_data(new_plane_state))));
+>>       return old_plane_state->crtc && !new_plane_state->crtc;
+>>   }
+>> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+>> index 3b9da06f358b..3bc6b8d73e8a 100644
+>> --- a/include/drm/drm_plane.h
+>> +++ b/include/drm/drm_plane.h
+>> @@ -977,6 +977,25 @@ static inline struct drm_plane 
+>> *drm_plane_find(struct drm_device *dev,
+>>   #define drm_for_each_plane(plane, dev) \
+>>       list_for_each_entry(plane, &(dev)->mode_config.plane_list, head)
+>> +/**
+>> + * drm_plane_solid_fill_enabled - Check if solid fill is enabled on 
+>> plane
+>> + * @state: plane state
+>> + *
+>> + * Returns:
+>> + * Whether the plane has been assigned a solid_fill_blob
+>> + */
+>> +static inline bool drm_plane_solid_fill_enabled(struct 
+>> drm_plane_state *state)
+>> +{
+>> +    return state && state->solid_fill_blob;
+>> +}
+>> +
+>> +static inline bool
+>> +drm_atomic_has_visible_data(const struct drm_plane_state *state)
+>> +{
+>> +    return state->fb || state->solid_fill_blob;
+>> +}
+>> +
+>> +
+>>   bool drm_any_plane_has_format(struct drm_device *dev,
+>>                     u32 format, u64 modifier);
+> 
+> -- 
+> With best wishes
+> Dmitry
+> 
