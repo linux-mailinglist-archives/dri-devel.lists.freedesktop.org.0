@@ -2,59 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2FAD65FCCC
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 09:33:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1919C65FD06
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 09:47:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8769B10E555;
-	Fri,  6 Jan 2023 08:33:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9872210E578;
+	Fri,  6 Jan 2023 08:47:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2B2C10E555
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 08:33:10 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- k26-20020a05600c1c9a00b003d972646a7dso3026756wms.5
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 00:33:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=jXfD5LYjkmB8Q/VcVaT2X+IYEgSjZ95FZeBe3MQlhuE=;
- b=mGV3OX8mKmvw38GBQf4i8UYr/BGTWduZrpbceHSDAv72HKRMJECmodxxq7/MggGlG1
- 6TVVlfO8Tg1c7f9C0Gj9JUbzDMB4BhcoWQ3fKC4DN5rop5JbotoCvtNu1XXewJ4WCJRi
- bfk4ZZQcWgdElUROFSer6lfWMCBrxRoaLlX7VdKYpXIVIPbtM4A5bmvT7pYtqSnC1bx6
- ihbHrsHheoJkjLH0rFsYaHcBO2j7p5GsA86/8+9WLdCwk7G1I6LS9JT55OWdf8nl/Hf9
- /WB2ikUIYeKLFeG/1y3PqBvS8EWb0e/Gk5S/YNZu4/IgcMFoIZ7X+5ttdMecD6t5DWYO
- Vy2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jXfD5LYjkmB8Q/VcVaT2X+IYEgSjZ95FZeBe3MQlhuE=;
- b=CTQwjExZRuRpcOjK5Zc9lMqbWIpLk1LcqyHEVZXyS3TYIYC1XDFBggeVPvId0db4y4
- Y+U93BD7wjD40lQp6cSSc6HA2iINnx8HCyE269IjKX0m8DmbMSTinA//DzL0zGbNiBv9
- kYDcDRett6UFp4Ve/pJ5SRBb/clDZ6F77WI7nGay8pUjmhQE+GDIMXUZxBBxIaCtL8u3
- wO7PY4WEf3srbCtP7vsSE3tOzyXosK8F5FRdTBXsPLVJgpoostuBmSyKq4XSekhF+6My
- J2VrQT1y5JkAKEEGiIHqL+JYXo+F+NUZDsjukyFXCR6t8geHYTGkzT1ZqmAS5CdIHf0d
- WbTA==
-X-Gm-Message-State: AFqh2kobq9k7W7ZHOzTorjZThIqveBJ5b4jR3vKwLkn5+7ryH1+YLKio
- eGZgTTuodASauHCtCetbnOTH1dpFLNT/TA==
-X-Google-Smtp-Source: AMrXdXvP85A0ZO3gnoVNQGbZj8lTDVas6vZWh+chzsOnf2A5ilLzf5tI67GNeVhYNreoz6v90ucesA==
-X-Received: by 2002:a05:600c:4e13:b0:3c6:e63d:fcfc with SMTP id
- b19-20020a05600c4e1300b003c6e63dfcfcmr38408717wmq.35.1672993989357; 
- Fri, 06 Jan 2023 00:33:09 -0800 (PST)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- l21-20020a1c7915000000b003d9a3a0d461sm881031wme.4.2023.01.06.00.33.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jan 2023 00:33:08 -0800 (PST)
-Date: Fri, 6 Jan 2023 11:32:53 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: fkassabri@habana.ai
-Subject: [bug report] habanalabs: Timestamps buffers registration
-Message-ID: <Y7fctbXR9oPd7K3J@kili>
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 40E8210E54B;
+ Fri,  6 Jan 2023 08:47:17 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.138.125])
+ by APP-05 (Coremail) with SMTP id zQCowACnrfER4LdjAuloCw--.27825S2;
+ Fri, 06 Jan 2023 16:47:13 +0800 (CST)
+From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, sean@poorly.run, airlied@gmail.com,
+ sumit.semwal@linaro.org, christian.koenig@amd.com
+Subject: [PATCH RESEND] drm/msm: Add missing check and destroy for
+ alloc_ordered_workqueue
+Date: Fri,  6 Jan 2023 16:47:12 +0800
+Message-Id: <20230106084712.29675-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowACnrfER4LdjAuloCw--.27825S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7urWkCF4DJFyxtFykJw43KFg_yoW8Xr4kpa
+ 13AayrtryFya1agwnFyr1kua45C3W8K3WfC3yI9wnIgwn0yr4DAa48tFyjkry3GFZ7XF12
+ yFZ2ya4DZF1jkrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+ n2kIc2xKxwCY02Avz4vE14v_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr
+ 0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
+ 17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
+ C0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY
+ 6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa
+ 73UjIFyTuYvjfU07KsUUUUU
+X-Originating-IP: [124.16.138.125]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,81 +57,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, freedreno@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello farah kassabri,
+Add check for the return value of alloc_ordered_workqueue as it may return
+NULL pointer.
+Moreover, use the destroy_workqueue in the later fails in order to avoid
+memory leak.
 
-The patch 9158bf69e74f: "habanalabs: Timestamps buffers registration"
-from Dec 23, 2021, leads to the following Smatch static checker
-warning:
+Fixes: c8afe684c95c ("drm/msm: basic KMS driver for snapdragon")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+---
+ drivers/gpu/drm/msm/msm_drv.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-	drivers/accel/habanalabs/common/memory.c:2178 hl_ts_alloc_buf()
-	warn: use 'gfp' here instead of GFP_XXX?
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 8b0b0ac74a6f..b82d938226ad 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -418,6 +418,8 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+ 	priv->dev = ddev;
+ 
+ 	priv->wq = alloc_ordered_workqueue("msm", 0);
++	if (!priv->wq)
++		return -ENOMEM;
+ 
+ 	INIT_LIST_HEAD(&priv->objects);
+ 	mutex_init(&priv->obj_lock);
+@@ -440,12 +442,12 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+ 
+ 	ret = msm_init_vram(ddev);
+ 	if (ret)
+-		return ret;
++		goto err_destroy_workqueue;
+ 
+ 	/* Bind all our sub-components: */
+ 	ret = component_bind_all(dev, ddev);
+ 	if (ret)
+-		return ret;
++		goto err_destroy_workqueue;
+ 
+ 	dma_set_max_seg_size(dev, UINT_MAX);
+ 
+@@ -540,6 +542,8 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+ 
+ err_msm_uninit:
+ 	msm_drm_uninit(dev);
++err_destroy_workqueue:
++	destroy_workqueue(priv->wq);
+ 	return ret;
+ }
+ 
+-- 
+2.25.1
 
-drivers/accel/habanalabs/common/memory.c
-    2170 static int hl_ts_alloc_buf(struct hl_mmap_mem_buf *buf, gfp_t gfp, void *args)
-                                                                       ^^^
-"gfp" is never used.
-
-    2171 {
-    2172         struct hl_ts_buff *ts_buff = NULL;
-    2173         u32 size, num_elements;
-    2174         void *p;
-    2175 
-    2176         num_elements = *(u32 *)args;
-
-This business of passing void pointers and pretending that
-hl_cb_mmap_mem_alloc() and hl_ts_alloc_buf() are the same function is
-a nightmare.
-
-Create two ->alloc functions.  Split hl_mmap_mem_buf_alloc() into one
-function that allocates idr stuff.  Create a function to free/remove the
-idr stuff.  Create two new helper function that call the idr function
-and then the appropriate alloc() function.
-
-It will be much cleaner than using a void pointer.
-
-    2177 
---> 2178         ts_buff = kzalloc(sizeof(*ts_buff), GFP_KERNEL);
-                                                     ^^^^^^^^^^
-Smatch is correct that it should be used here.
-
-    2179         if (!ts_buff)
-    2180                 return -ENOMEM;
-    2181 
-    2182         /* Allocate the user buffer */
-    2183         size = num_elements * sizeof(u64);
-
-Can this have an integer overflow on 32bit systems?
-
-    2184         p = vmalloc_user(size);
-    2185         if (!p)
-    2186                 goto free_mem;
-    2187 
-    2188         ts_buff->user_buff_address = p;
-    2189         buf->mappable_size = size;
-    2190 
-    2191         /* Allocate the internal kernel buffer */
-    2192         size = num_elements * sizeof(struct hl_user_pending_interrupt);
-    2193         p = vzalloc(size);
-    2194         if (!p)
-    2195                 goto free_user_buff;
-    2196 
-    2197         ts_buff->kernel_buff_address = p;
-    2198         ts_buff->kernel_buff_size = size;
-    2199 
-    2200         buf->private = ts_buff;
-    2201 
-    2202         return 0;
-    2203 
-    2204 free_user_buff:
-    2205         vfree(ts_buff->user_buff_address);
-    2206 free_mem:
-    2207         kfree(ts_buff);
-    2208         return -ENOMEM;
-    2209 }
-
-regards,
-dan carpenter
