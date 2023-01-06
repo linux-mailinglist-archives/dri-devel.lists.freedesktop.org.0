@@ -2,56 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC5A66088D
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 21:57:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3622660899
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 22:03:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B74B10E07C;
-	Fri,  6 Jan 2023 20:57:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA90010E0C0;
+	Fri,  6 Jan 2023 21:03:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 437B710E07C;
- Fri,  6 Jan 2023 20:57:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1673038655; x=1704574655;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=61+SEf+oPcvKAgojoT90tIn/526pppIhCSstbGUkZIo=;
- b=ffdZk2AF+J9HWT/LqipRKLwbmHQKmoa6clY9NvzkjiWwfdC09GGJMRa1
- x6OAdka3lOATXl0U9CTA4EVFPpLJ907UzP1hCyPXnmZq9NHJQYOK+bQIZ
- Wl/LpLMkoTGeBwGiJ0MXtj96Wg9NJM/5ZsIAooqXuZZnWhZ/GJm/mZPmo k=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 06 Jan 2023 12:57:34 -0800
-X-QCInternal: smtphost
-Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2023 12:57:34 -0800
-Received: from [10.110.20.194] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 6 Jan 2023
- 12:57:30 -0800
-Message-ID: <60af746f-e88a-c78f-de36-7409a13006de@quicinc.com>
-Date: Fri, 6 Jan 2023 12:57:29 -0800
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADEFB10E8EF
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 21:03:42 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id u9so6282884ejo.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 13:03:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kali.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ncNdpkHYDCuzDDV8W7mrRJJ4OL6xfKFon52nI6t6AR0=;
+ b=OOMaVPF8PE33Yz9D50YP7LpaQEpk0GhXEZmO6kxhOY0F2fwTeXe09oMNPVWMAa8Knt
+ hVpxBHhT1iY7YZbwM90JrWfMCLfBPM8Bj/4uw+mr04p911eXAEI1rtHcxS3aS07O7iAb
+ 6q0haKsfjWhbl8N/PVH6BjrZUkMBFtTUp+r04hYrPerl+ziIcndtlFCdIXp6uWHJVPLJ
+ j/B9DnKOfhMWZBFFgB0HRgil+AqpAFAgmMC2kmEBdEh8tPPHiJI3elD1+3XhXIcXRd3/
+ 9v4SbMavpWDI802A4gCrKOvaJfAIRs0LOp6IlDErBT8w4yUOhD1rFPblzx35CwajdhpV
+ EX2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ncNdpkHYDCuzDDV8W7mrRJJ4OL6xfKFon52nI6t6AR0=;
+ b=0JkGX/xKAd01koM+D8fu7lIaxyxv+hx5AL7uUqEduGeam6ZHaFBVRsM8CEHdUKlXy3
+ M8DbwLDE02XG0PrA2uZdq/as1XxXoQOQvH6FrYcPrknkYS6CrBZBRbOS2AQyJEdm6bpm
+ P8YCg1h8I9X/B6AZOg6GC/VR6cCcBbsNrENRTFQ+G2JAdBjBNW6Zso6Vz1HwxQzzlKDF
+ UGysXoDJQals7wVKN4T6xo6yACD8FlCsN/MrtzPBngQ4iXhN7ceVVMVBmmGIRCeWNwUP
+ Hx8gEV9nR7yUVAxdS8d70uHIjAQKiF8oQi2EfknJkMkf3tXLO6KJVVrRQoSPINpOofro
+ Zzdg==
+X-Gm-Message-State: AFqh2kqxoJDl6k9J3JkksZso00LBPP6JVrZif6iMtVghqrgTHA+/NxVt
+ ujxtrn4VzQlg4XoL0sJHKNV0ID68PkwGrWRVMrZr/g==
+X-Google-Smtp-Source: AMrXdXsOPompBRikxSt1YgMhfN96Cl5lZBz061/02/RdBo5YhLPTsjR2CJjx3w/9oOFZWtD8MkXn+KW0WapXWE7jXDY=
+X-Received: by 2002:a17:906:e2c4:b0:829:e4f0:bf2b with SMTP id
+ gr4-20020a170906e2c400b00829e4f0bf2bmr3719830ejb.389.1673039021141; Fri, 06
+ Jan 2023 13:03:41 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [Freedreno] [RFC PATCH v3 3/3] drm/msm/dpu: Use color_fill
- property for DPU planes
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <freedreno@lists.freedesktop.org>
-References: <20230104234036.636-1-quic_jesszhan@quicinc.com>
- <20230104234036.636-4-quic_jesszhan@quicinc.com>
- <d352312a-9916-934c-0a1c-e79b7eb3c7e6@linaro.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <d352312a-9916-934c-0a1c-e79b7eb3c7e6@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+References: <20230106112324.22055-1-tzimmermann@suse.de>
+ <5dcecae8-5c55-0e2e-bdf0-18fd559f8e00@suse.de>
+In-Reply-To: <5dcecae8-5c55-0e2e-bdf0-18fd559f8e00@suse.de>
+From: Steev Klimaszewski <steev@kali.org>
+Date: Fri, 6 Jan 2023 15:03:29 -0600
+Message-ID: <CAKXuJqiy=NY1f-3scOCmVtKnidvcHsZ0RtxHFJMAphqovrp=6w@mail.gmail.com>
+Subject: Re: [PATCH v4] drm/fb-helper: Replace bpp/depth parameter by color
+ mode
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,244 +68,252 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sebastian.wick@redhat.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, ppaalanen@gmail.com, seanpaul@chromium.org,
- laurent.pinchart@ideasonboard.com, daniel.vetter@ffwll.ch,
- wayland-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, mcanal@igalia.com, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, dmitry.baryshkov@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Jan 6, 2023 at 8:05 AM Thomas Zimmermann <tzimmermann@suse.de> wrot=
+e:
+>
+> Hi,
+>
+> I've pushed this fix into drm-misc-next. It will hopefully restore the
+> fbdev consoles. Sorry for the inconvenience. If things still don't work,
+> stating
+>
+>    video=3D1024x768-32
+>
+> on the kernel command line should be a safe override on most systems.
+>
+> Best regards
+> Thomas
+>
+> Am 06.01.23 um 12:23 schrieb Thomas Zimmermann:
+> > Replace the combination of bpp and depth with a single color-mode
+> > argument. Handle special cases in simpledrm and ofdrm. Hard-code
+> > XRGB8888 as fallback format for cases where no given format works.
+> >
+> > The color-mode argument accepts the same values as the kernel's video
+> > parameter. These are mostly bpp values between 1 and 32. The exceptions
+> > are 15, which has a color depth of 15 and a bpp value of 16; and 32,
+> > which has a color depth of 24 and a bpp value of 32.
+> >
+> > v4:
+> >       * add back lost test for bpp_specified (Maira)
+> >       * add Fixes tag (Daniel)
+> > v3:
+> >       * fix ofdrm build (Maxime)
+> > v2:
+> >       * minimize changes (Daniel)
+> >       * use drm_driver_legacy_fb_format() (Daniel)
+> >
+> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > Fixes: 37c90d589dc0 ("drm/fb-helper: Fix single-probe color-format sele=
+ction")
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Javier Martinez Canillas <javierm@redhat.com>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >   drivers/gpu/drm/drm_fb_helper.c  | 42 ++++++++++++++++++-------------=
+-
+> >   drivers/gpu/drm/tiny/ofdrm.c     |  7 +++++-
+> >   drivers/gpu/drm/tiny/simpledrm.c |  7 +++++-
+> >   3 files changed, 36 insertions(+), 20 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_h=
+elper.c
+> > index 1369ca4ae39b..427631706128 100644
+> > --- a/drivers/gpu/drm/drm_fb_helper.c
+> > +++ b/drivers/gpu/drm/drm_fb_helper.c
+> > @@ -1756,24 +1756,21 @@ static uint32_t drm_fb_helper_find_format(struc=
+t drm_fb_helper *fb_helper, const
+> >       return DRM_FORMAT_INVALID;
+> >   }
+> >
+> > -static uint32_t drm_fb_helper_find_cmdline_format(struct drm_fb_helper=
+ *fb_helper,
+> > -                                               const uint32_t *formats=
+, size_t format_count,
+> > -                                               const struct drm_cmdlin=
+e_mode *cmdline_mode)
+> > +static uint32_t drm_fb_helper_find_color_mode_format(struct drm_fb_hel=
+per *fb_helper,
+> > +                                                  const uint32_t *form=
+ats, size_t format_count,
+> > +                                                  unsigned int color_m=
+ode)
+> >   {
+> >       struct drm_device *dev =3D fb_helper->dev;
+> >       uint32_t bpp, depth;
+> >
+> > -     if (!cmdline_mode->bpp_specified)
+> > -             return DRM_FORMAT_INVALID;
+> > -
+> > -     switch (cmdline_mode->bpp) {
+> > +     switch (color_mode) {
+> >       case 1:
+> >       case 2:
+> >       case 4:
+> >       case 8:
+> >       case 16:
+> >       case 24:
+> > -             bpp =3D depth =3D cmdline_mode->bpp;
+> > +             bpp =3D depth =3D color_mode;
+> >               break;
+> >       case 15:
+> >               bpp =3D 16;
+> > @@ -1784,7 +1781,7 @@ static uint32_t drm_fb_helper_find_cmdline_format=
+(struct drm_fb_helper *fb_helpe
+> >               depth =3D 24;
+> >               break;
+> >       default:
+> > -             drm_info(dev, "unsupported bpp value of %d\n", cmdline_mo=
+de->bpp);
+> > +             drm_info(dev, "unsupported color mode of %d\n", color_mod=
+e);
+> >               return DRM_FORMAT_INVALID;
+> >       }
+> >
+> > @@ -1817,10 +1814,13 @@ static int __drm_fb_helper_find_sizes(struct dr=
+m_fb_helper *fb_helper, int prefe
+> >               drm_client_for_each_connector_iter(connector, &conn_iter)=
+ {
+> >                       struct drm_cmdline_mode *cmdline_mode =3D &connec=
+tor->cmdline_mode;
+> >
+> > -                     surface_format =3D drm_fb_helper_find_cmdline_for=
+mat(fb_helper,
+> > -                                                                      =
+  plane->format_types,
+> > -                                                                      =
+  plane->format_count,
+> > -                                                                      =
+  cmdline_mode);
+> > +                     if (!cmdline_mode->bpp_specified)
+> > +                             continue;
+> > +
+> > +                     surface_format =3D drm_fb_helper_find_color_mode_=
+format(fb_helper,
+> > +                                                                      =
+     plane->format_types,
+> > +                                                                      =
+     plane->format_count,
+> > +                                                                      =
+     cmdline_mode->bpp);
+> >                       if (surface_format !=3D DRM_FORMAT_INVALID)
+> >                               break; /* found supported format */
+> >               }
+> > @@ -1829,17 +1829,23 @@ static int __drm_fb_helper_find_sizes(struct dr=
+m_fb_helper *fb_helper, int prefe
+> >               if (surface_format !=3D DRM_FORMAT_INVALID)
+> >                       break; /* found supported format */
+> >
+> > -             /* try preferred bpp/depth */
+> > -             surface_format =3D drm_fb_helper_find_format(fb_helper, p=
+lane->format_types,
+> > -                                                        plane->format_=
+count, preferred_bpp,
+> > -                                                        dev->mode_conf=
+ig.preferred_depth);
+> > +             /* try preferred color mode */
+> > +             surface_format =3D drm_fb_helper_find_color_mode_format(f=
+b_helper,
+> > +                                                                   pla=
+ne->format_types,
+> > +                                                                   pla=
+ne->format_count,
+> > +                                                                   pre=
+ferred_bpp);
+> >               if (surface_format !=3D DRM_FORMAT_INVALID)
+> >                       break; /* found supported format */
+> >       }
+> >
+> >       if (surface_format =3D=3D DRM_FORMAT_INVALID) {
+> > +             /*
+> > +              * If none of the given color modes works, fall back
+> > +              * to XRGB8888. Drivers are expected to provide this
+> > +              * format for compatibility with legacy applications.
+> > +              */
+> >               drm_warn(dev, "No compatible format found\n");
+> > -             return -EAGAIN;
+> > +             surface_format =3D drm_driver_legacy_fb_format(dev, 32, 2=
+4);
+> >       }
+> >
+> >       info =3D drm_format_info(surface_format);
+> > diff --git a/drivers/gpu/drm/tiny/ofdrm.c b/drivers/gpu/drm/tiny/ofdrm.=
+c
+> > index 39c5fd463fec..6e349ca42485 100644
+> > --- a/drivers/gpu/drm/tiny/ofdrm.c
+> > +++ b/drivers/gpu/drm/tiny/ofdrm.c
+> > @@ -1352,6 +1352,7 @@ static int ofdrm_probe(struct platform_device *pd=
+ev)
+> >   {
+> >       struct ofdrm_device *odev;
+> >       struct drm_device *dev;
+> > +     unsigned int color_mode;
+> >       int ret;
+> >
+> >       odev =3D ofdrm_device_create(&ofdrm_driver, pdev);
+> > @@ -1363,7 +1364,11 @@ static int ofdrm_probe(struct platform_device *p=
+dev)
+> >       if (ret)
+> >               return ret;
+> >
+> > -     drm_fbdev_generic_setup(dev, drm_format_info_bpp(odev->format, 0)=
+);
+> > +     color_mode =3D drm_format_info_bpp(odev->format, 0);
+> > +     if (color_mode =3D=3D 16)
+> > +             color_mode =3D odev->format->depth; // can be 15 or 16
+> > +
+> > +     drm_fbdev_generic_setup(dev, color_mode);
+> >
+> >       return 0;
+> >   }
+> > diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/si=
+mpledrm.c
+> > index 7355617f38d3..f658b99c796a 100644
+> > --- a/drivers/gpu/drm/tiny/simpledrm.c
+> > +++ b/drivers/gpu/drm/tiny/simpledrm.c
+> > @@ -802,6 +802,7 @@ static int simpledrm_probe(struct platform_device *=
+pdev)
+> >   {
+> >       struct simpledrm_device *sdev;
+> >       struct drm_device *dev;
+> > +     unsigned int color_mode;
+> >       int ret;
+> >
+> >       sdev =3D simpledrm_device_create(&simpledrm_driver, pdev);
+> > @@ -813,7 +814,11 @@ static int simpledrm_probe(struct platform_device =
+*pdev)
+> >       if (ret)
+> >               return ret;
+> >
+> > -     drm_fbdev_generic_setup(dev, drm_format_info_bpp(sdev->format, 0)=
+);
+> > +     color_mode =3D drm_format_info_bpp(sdev->format, 0);
+> > +     if (color_mode =3D=3D 16)
+> > +             color_mode =3D sdev->format->depth; // can be 15 or 16
+> > +
+> > +     drm_fbdev_generic_setup(dev, color_mode);
+> >
+> >       return 0;
+> >   }
+>
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
 
+I know it's already in drm-misc-next, but wanted to chime in...
 
-On 1/4/2023 6:16 PM, Dmitry Baryshkov wrote:
-> On 05/01/2023 01:40, Jessica Zhang wrote:
->> Initialize and use the color_fill properties for planes in DPU driver. In
->> addition, relax framebuffer requirements within atomic commit path and
->> add checks for NULL framebuffers. Finally, drop DPU_PLANE_COLOR_FILL_FLAG
->> as it's unused.
->>
->> Changes since V2:
->> - Fixed dropped 'const' warning
->> - Dropped use of solid_fill_format
->> - Switched to using drm_plane_solid_fill_enabled helper method
->> - Added helper to convert color fill to BGR888 (Rob)
->> - Added support for solid fill on planes of varying sizes
->> - Removed DPU_PLANE_COLOR_FILL_FLAG
->>
->> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  9 +++-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 65 ++++++++++++++---------
->>   2 files changed, 49 insertions(+), 25 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> index 13ce321283ff..0695b70ea1b7 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> @@ -409,6 +409,7 @@ static void _dpu_crtc_blend_setup_mixer(struct 
->> drm_crtc *crtc,
->>       struct drm_plane_state *state;
->>       struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc->state);
->>       struct dpu_plane_state *pstate = NULL;
->> +    const struct msm_format *fmt;
->>       struct dpu_format *format;
->>       struct dpu_hw_ctl *ctl = mixer->lm_ctl;
->> @@ -441,7 +442,13 @@ static void _dpu_crtc_blend_setup_mixer(struct 
->> drm_crtc *crtc,
->>                   sspp_idx - SSPP_VIG0,
->>                   state->fb ? state->fb->base.id : -1);
->> -        format = to_dpu_format(msm_framebuffer_format(pstate->base.fb));
->> +        if (pstate->base.fb)
->> +            fmt = msm_framebuffer_format(pstate->base.fb);
->> +        else
->> +            fmt = dpu_get_msm_format(&_dpu_crtc_get_kms(crtc)->base,
->> +                    DRM_FORMAT_ABGR8888, 0);
->> +
->> +        format = to_dpu_format(fmt);
->>           if (pstate->stage == DPU_STAGE_BASE && format->alpha_enable)
->>               bg_alpha_enable = true;
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->> index 86719020afe2..51a7507373f7 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->> @@ -44,7 +44,6 @@
->>   #define DPU_NAME_SIZE  12
->> -#define DPU_PLANE_COLOR_FILL_FLAG    BIT(31)
->>   #define DPU_ZPOS_MAX 255
->>   /* multirect rect index */
->> @@ -105,7 +104,6 @@ struct dpu_plane {
->>       enum dpu_sspp pipe;
->>       struct dpu_hw_pipe *pipe_hw;
->> -    uint32_t color_fill;
->>       bool is_error;
->>       bool is_rt_pipe;
->>       const struct dpu_mdss_cfg *catalog;
->> @@ -678,6 +676,17 @@ static void _dpu_plane_setup_scaler(struct 
->> dpu_plane *pdpu,
->>                   &scaler3_cfg);
->>   }
->> +static uint32_t _dpu_plane_get_fill_color(struct drm_solid_fill 
->> solid_fill)
->> +{
->> +    uint32_t ret = 0;
->> +
->> +    ret |= ((uint8_t) solid_fill.b) << 16;
->> +    ret |= ((uint8_t) solid_fill.g) << 8;
->> +    ret |= ((uint8_t) solid_fill.r);
->> +
->> +    return ret;
->> +}
->> +
->>   /**
->>    * _dpu_plane_color_fill - enables color fill on plane
->>    * @pdpu:   Pointer to DPU plane object
->> @@ -1001,12 +1010,17 @@ static int dpu_plane_atomic_check(struct 
->> drm_plane *plane,
->>       dst = drm_plane_state_dest(new_plane_state);
->> -    fb_rect.x2 = new_plane_state->fb->width;
->> -    fb_rect.y2 = new_plane_state->fb->height;
->> +    if (new_plane_state->fb) {
->> +        fb_rect.x2 = new_plane_state->fb->width;
->> +        fb_rect.y2 = new_plane_state->fb->height;
->> +    }
->>       max_linewidth = pdpu->catalog->caps->max_linewidth;
->> -    fmt = to_dpu_format(msm_framebuffer_format(new_plane_state->fb));
->> +    if (new_plane_state->fb)
->> +        fmt = 
->> to_dpu_format(msm_framebuffer_format(new_plane_state->fb));
->> +    else
->> +        fmt = dpu_get_dpu_format(DRM_FORMAT_ABGR8888);
-> 
-> I think this should be more explicit:
-> 
-> if (solid_fill)
->     fmt = dpu_get_dpu_format(...)
-> else
->     fmt = to_dpu_format(msm_framebuffer_format(...).
-> 
-> And in the _dpu_crtc_blend_setup_mixer() too.
+I've tested v4 on the Thinkpad X13s as well as the Yoga C630 WoS, both
+msm based systems and this does fix the issue I was seeing as well as
+make my patch not needed and can be considered abandoned.
 
-Hi Dmitry,
-
-Noted.
-
-> 
-> Maybe the code can be extracted to a helper.
-> 
->>       min_src_size = DPU_FORMAT_IS_YUV(fmt) ? 2 : 1;
->> @@ -1018,7 +1032,7 @@ static int dpu_plane_atomic_check(struct 
->> drm_plane *plane,
->>           return -EINVAL;
->>       /* check src bounds */
->> -    } else if (!dpu_plane_validate_src(&src, &fb_rect, min_src_size)) {
->> +    } else if (new_plane_state->fb && !dpu_plane_validate_src(&src, 
->> &fb_rect, min_src_size)) {
->>           DPU_DEBUG_PLANE(pdpu, "invalid source " DRM_RECT_FMT "\n",
->>                   DRM_RECT_ARG(&src));
->>           return -E2BIG;
->> @@ -1086,9 +1100,10 @@ void dpu_plane_flush(struct drm_plane *plane)
->>       if (pdpu->is_error)
->>           /* force white frame with 100% alpha pipe output on error */
->>           _dpu_plane_color_fill(pdpu, 0xFFFFFF, 0xFF);
->> -    else if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG)
->> +    else if (!(plane->state->fb) && 
->> drm_plane_solid_fill_enabled(plane->state))
->>           /* force 100% alpha */
->> -        _dpu_plane_color_fill(pdpu, pdpu->color_fill, 0xFF);
->> +        _dpu_plane_color_fill(pdpu, 
->> _dpu_plane_get_fill_color(plane->state->solid_fill),
->> +                0xFF);
-> 
-> I'd push alpha into _dpu_plane_get_fill_color(). Then adding alpha 
-> support would be more transparent.
-
-Acked.
-
-> 
->>       else if (pdpu->pipe_hw && pdpu->pipe_hw->ops.setup_csc) {
->>           const struct dpu_format *fmt = 
->> to_dpu_format(msm_framebuffer_format(plane->state->fb));
->>           const struct dpu_csc_cfg *csc_ptr = _dpu_plane_get_csc(pdpu, 
->> fmt);
->> @@ -1127,23 +1142,30 @@ static void 
->> dpu_plane_sspp_atomic_update(struct drm_plane *plane)
->>       struct drm_crtc *crtc = state->crtc;
->>       struct drm_framebuffer *fb = state->fb;
->>       bool is_rt_pipe, update_qos_remap;
->> -    const struct dpu_format *fmt =
->> -        to_dpu_format(msm_framebuffer_format(fb));
->> +    const struct dpu_format *fmt;
->>       struct dpu_hw_pipe_cfg pipe_cfg;
->> -    memset(&pipe_cfg, 0, sizeof(struct dpu_hw_pipe_cfg));
->> -
->> -    _dpu_plane_set_scanout(plane, pstate, &pipe_cfg, fb);
->> -
->>       pstate->pending = true;
->>       is_rt_pipe = (dpu_crtc_get_client_type(crtc) != NRT_CLIENT);
->>       _dpu_plane_set_qos_ctrl(plane, false, DPU_PLANE_QOS_PANIC_CTRL);
->> -    DPU_DEBUG_PLANE(pdpu, "FB[%u] " DRM_RECT_FP_FMT "->crtc%u " 
->> DRM_RECT_FMT
->> -            ", %4.4s ubwc %d\n", fb->base.id, 
->> DRM_RECT_FP_ARG(&state->src),
->> -            crtc->base.id, DRM_RECT_ARG(&state->dst),
->> -            (char *)&fmt->base.pixel_format, DPU_FORMAT_IS_UBWC(fmt));
->> +    /* override for color fill */
->> +    if (!fb && drm_plane_solid_fill_enabled(plane->state)) {
->> +        /* skip remaining processing on color fill */
->> +        return;
->> +    }
->> +
->> +    memset(&pipe_cfg, 0, sizeof(struct dpu_hw_pipe_cfg));
->> +
->> +    fmt = to_dpu_format(msm_framebuffer_format(fb));
->> +    _dpu_plane_set_scanout(plane, pstate, &pipe_cfg, fb);
-> 
-> This change deserves a comment somewhere (in the commit message?). 
-> Beforehand the driver tried to set the scanout/layout for the COLOR_FILL 
-> case. You have changed this.
-
-Sounds good.
-
-Thanks,
-
-Jessica Zhang
-
-> 
->> +
->> +    if (fb)
->> +        DPU_DEBUG_PLANE(pdpu, "FB[%u] " DRM_RECT_FP_FMT "->crtc%u " 
->> DRM_RECT_FMT
->> +                ", %4.4s ubwc %d\n", fb->base.id, 
->> DRM_RECT_FP_ARG(&state->src),
->> +                crtc->base.id, DRM_RECT_ARG(&state->dst),
->> +                (char *)&fmt->base.pixel_format, 
->> DPU_FORMAT_IS_UBWC(fmt));
->>       pipe_cfg.src_rect = state->src;
->> @@ -1155,12 +1177,6 @@ static void dpu_plane_sspp_atomic_update(struct 
->> drm_plane *plane)
->>       pipe_cfg.dst_rect = state->dst;
->> -    /* override for color fill */
->> -    if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG) {
->> -        /* skip remaining processing on color fill */
->> -        return;
->> -    }
->> -
->>       if (pdpu->pipe_hw->ops.setup_rects) {
->>           pdpu->pipe_hw->ops.setup_rects(pdpu->pipe_hw,
->>                   &pipe_cfg,
->> @@ -1511,6 +1527,7 @@ struct drm_plane *dpu_plane_init(struct 
->> drm_device *dev,
->>           DPU_ERROR("failed to install zpos property, rc = %d\n", ret);
->>       drm_plane_create_alpha_property(plane);
->> +    drm_plane_create_solid_fill_property(plane);
->>       drm_plane_create_blend_mode_property(plane,
->>               BIT(DRM_MODE_BLEND_PIXEL_NONE) |
->>               BIT(DRM_MODE_BLEND_PREMULTI) |
-> 
-> -- 
-> With best wishes
-> Dmitry
-> 
+Tested-by: Steev Klimaszewski <steev@kali.org>
