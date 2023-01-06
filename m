@@ -1,65 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 550356601C7
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 15:05:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7ED6601E0
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 15:15:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26B5F10E1A7;
-	Fri,  6 Jan 2023 14:05:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0223710E2AF;
+	Fri,  6 Jan 2023 14:15:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2F4010E2AF
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 14:05:24 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 550BA26CFD;
- Fri,  6 Jan 2023 14:05:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673013923; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/txCGLqzudObSmAt66+DeDCDFC0yFjz3bt7S4MEc6g0=;
- b=sF0wVfjruAZHRzg1+HbyEqT6/5apxiaDtFSPF2ik8wa2HNczpNJHrO3VdW0A0C1IJ305AO
- sKI//zy8+fHPj9zuUHUiGCWQwVvqkcIEaeRA2QxEMj6byVEieJevrunsQukldIYG9oxGMm
- 8YNT4n8PhYudCVxr8m5ZxIIKKfwUN0I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673013923;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/txCGLqzudObSmAt66+DeDCDFC0yFjz3bt7S4MEc6g0=;
- b=MvQ0cN/OD/bzUr60/RTvGtKqnKHD5Kly8MJHqcfp+l79hr1sI8kOM5M2KOu63sA5Oqmr0e
- 9AhgDd7BxGs8m9CQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1F36313596;
- Fri,  6 Jan 2023 14:05:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id /uykBqMquGMPbwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 06 Jan 2023 14:05:23 +0000
-Message-ID: <5dcecae8-5c55-0e2e-bdf0-18fd559f8e00@suse.de>
-Date: Fri, 6 Jan 2023 15:05:22 +0100
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2547E10E2AB;
+ Fri,  6 Jan 2023 14:15:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673014526; x=1704550526;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=7N+cLGRFW0pfMz53YEsqlP/k/O9/e/Y534exQO1aNYo=;
+ b=UKtgeQkq7MiHYpXghEb7WzzDr5vsRICkFBRe0vVzrMDxgOrgafRvpE5i
+ 8/WCMysAO7DXNxdB5Ebb2gBp+jz2MGZ1MaspInjDT2zYylhH+bTq/C8PH
+ ZBVIyZrXs2GKZoTgent0UOfwaTkZaVYnzojtvf4o1rXnWiSxMtkT26WQP
+ 6zLA6B14Gl+sVYhPFzBPhGnG86hCO/VlGnAR9Q9YxANYPkZYiaJaBUI+D
+ smJI7MVveCl+V0UvFm2mJEA4MF6oIfSz8y99k2qmz7d8l/cg9Y18sPMmu
+ xf+C/1NLVMsgqfHYTeJkFk4SJdV/0Ks0UpJIo7m0IJDdvsJa4Jno99QGM w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10582"; a="408734487"
+X-IronPort-AV: E=Sophos;i="5.96,305,1665471600"; d="scan'208";a="408734487"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2023 06:15:25 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10582"; a="798287214"
+X-IronPort-AV: E=Sophos;i="5.96,305,1665471600"; d="scan'208";a="798287214"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.48.92])
+ ([10.252.48.92])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2023 06:15:22 -0800
+Message-ID: <84a4a4c8-0a9f-9b3a-d413-e0bd2ace3f42@linux.intel.com>
+Date: Fri, 6 Jan 2023 15:15:20 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH v4] drm/fb-helper: Replace bpp/depth parameter by color
- mode
+Subject: Re: [Intel-gfx] [PATCH v3 11/11] drm/i915: replace Intel internal
+ tracker with kernel core ref_tracker
 Content-Language: en-US
-To: daniel@ffwll.ch, mcanal@igalia.com, steev@kali.org,
- dmitry.baryshkov@linaro.org, javierm@redhat.com, airlied@gmail.com,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com
-References: <20230106112324.22055-1-tzimmermann@suse.de>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230106112324.22055-1-tzimmermann@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------BG1I8KiDdVFqawcpsQKs2oI9"
+To: Andrzej Hajda <andrzej.hajda@intel.com>, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ netdev <netdev@vger.kernel.org>
+References: <20220221232542.1481315-1-andrzej.hajda@intel.com>
+ <20220221232542.1481315-12-andrzej.hajda@intel.com>
+From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
+In-Reply-To: <20220221232542.1481315-12-andrzej.hajda@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,183 +64,714 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Chris Wilson <chris.p.wilson@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------BG1I8KiDdVFqawcpsQKs2oI9
-Content-Type: multipart/mixed; boundary="------------RwEThR0EypWDaB0aeyKOA6vm";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, mcanal@igalia.com, steev@kali.org,
- dmitry.baryshkov@linaro.org, javierm@redhat.com, airlied@gmail.com,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <5dcecae8-5c55-0e2e-bdf0-18fd559f8e00@suse.de>
-Subject: Re: [PATCH v4] drm/fb-helper: Replace bpp/depth parameter by color
- mode
-References: <20230106112324.22055-1-tzimmermann@suse.de>
-In-Reply-To: <20230106112324.22055-1-tzimmermann@suse.de>
+Hi Andrzej,
 
---------------RwEThR0EypWDaB0aeyKOA6vm
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 2/22/2022 12:25 AM, Andrzej Hajda wrote:
+> Beside reusing existing code, the main advantage of ref_tracker is
+> tracking per instance of wakeref. It allows also to catch double
+> put.
+> On the other side we lose information about the first acquire and
+> the last release, but the advantages outweigh it.
+>
+> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Reviewed-by: Chris Wilson <chris.p.wilson@intel.com>
+> ---
+>   drivers/gpu/drm/i915/Kconfig.debug            |  11 +-
+>   drivers/gpu/drm/i915/Makefile                 |   3 -
+>   .../drm/i915/display/intel_display_power.c    |   2 +-
+>   drivers/gpu/drm/i915/gt/intel_engine_pm.c     |   2 +-
+>   drivers/gpu/drm/i915/gt/intel_gt_pm.c         |   2 +-
+>   drivers/gpu/drm/i915/intel_runtime_pm.c       |  25 +-
+>   drivers/gpu/drm/i915/intel_runtime_pm.h       |   2 +-
+>   drivers/gpu/drm/i915/intel_wakeref.c          |   8 +-
+>   drivers/gpu/drm/i915/intel_wakeref.h          |  72 +++++-
+>   drivers/gpu/drm/i915/intel_wakeref_tracker.c  | 234 ------------------
+>   drivers/gpu/drm/i915/intel_wakeref_tracker.h  |  76 ------
+>   11 files changed, 87 insertions(+), 350 deletions(-)
+>   delete mode 100644 drivers/gpu/drm/i915/intel_wakeref_tracker.c
+>   delete mode 100644 drivers/gpu/drm/i915/intel_wakeref_tracker.h
+>
+> diff --git a/drivers/gpu/drm/i915/Kconfig.debug b/drivers/gpu/drm/i915/Kconfig.debug
+> index 3bdc73f30a9e1..6c57f3e265f20 100644
+> --- a/drivers/gpu/drm/i915/Kconfig.debug
+> +++ b/drivers/gpu/drm/i915/Kconfig.debug
+> @@ -32,6 +32,7 @@ config DRM_I915_DEBUG
+>   	select DEBUG_FS
+>   	select PREEMPT_COUNT
+>   	select I2C_CHARDEV
+> +	select REF_TRACKER
+>   	select STACKDEPOT
+>   	select STACKTRACE
+>   	select DRM_DP_AUX_CHARDEV
+> @@ -46,7 +47,6 @@ config DRM_I915_DEBUG
+>   	select DRM_I915_DEBUG_GEM
+>   	select DRM_I915_DEBUG_GEM_ONCE
+>   	select DRM_I915_DEBUG_MMIO
+> -	select DRM_I915_TRACK_WAKEREF
+>   	select DRM_I915_DEBUG_RUNTIME_PM
+>   	select DRM_I915_DEBUG_WAKEREF
+>   	select DRM_I915_SW_FENCE_DEBUG_OBJECTS
+> @@ -238,18 +238,13 @@ config DRM_I915_DEBUG_VBLANK_EVADE
+>   
+>   	  If in doubt, say "N".
+>   
+> -config DRM_I915_TRACK_WAKEREF
+> -	depends on STACKDEPOT
+> -	depends on STACKTRACE
+> -	bool
+> -
+>   config DRM_I915_DEBUG_RUNTIME_PM
+>   	bool "Enable extra state checking for runtime PM"
+>   	depends on DRM_I915
+>   	default n
+> +	select REF_TRACKER
+>   	select STACKDEPOT
+>   	select STACKTRACE
+> -	select DRM_I915_TRACK_WAKEREF
+>   	help
+>   	  Choose this option to turn on extra state checking for the
+>   	  runtime PM functionality. This may introduce overhead during
+> @@ -263,9 +258,9 @@ config DRM_I915_DEBUG_WAKEREF
+>   	bool "Enable extra tracking for wakerefs"
+>   	depends on DRM_I915
+>   	default n
+> +	select REF_TRACKER
+>   	select STACKDEPOT
+>   	select STACKTRACE
+> -	select DRM_I915_TRACK_WAKEREF
+>   	help
+>   	  Choose this option to turn on extra state checking and usage
+>   	  tracking for the wakerefPM functionality. This may introduce
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index 88a403d3294cb..1f8d71430e2e6 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -76,9 +76,6 @@ i915-$(CONFIG_DEBUG_FS) += \
+>   	display/intel_display_debugfs.o \
+>   	display/intel_pipe_crc.o
+>   
+> -i915-$(CONFIG_DRM_I915_TRACK_WAKEREF) += \
+> -	intel_wakeref_tracker.o
+> -
+>   i915-$(CONFIG_PERF_EVENTS) += i915_pmu.o
+>   
+>   # "Graphics Technology" (aka we talk to the gpu)
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_power.c b/drivers/gpu/drm/i915/display/intel_display_power.c
+> index 9ebae7ac32356..0e1bf724f89b5 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_power.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display_power.c
+> @@ -2107,7 +2107,7 @@ print_async_put_domains_state(struct i915_power_domains *power_domains)
+>   						     struct drm_i915_private,
+>   						     power_domains);
+>   
+> -	drm_dbg(&i915->drm, "async_put_wakeref %u\n",
+> +	drm_dbg(&i915->drm, "async_put_wakeref %lu\n",
+>   		power_domains->async_put_wakeref);
+>   
+>   	print_power_domains(power_domains, "async_put_domains[0]",
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> index 52e46e7830ff5..cf8cc348942cb 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> @@ -273,7 +273,7 @@ void intel_engine_init__pm(struct intel_engine_cs *engine)
+>   {
+>   	struct intel_runtime_pm *rpm = engine->uncore->rpm;
+>   
+> -	intel_wakeref_init(&engine->wakeref, rpm, &wf_ops);
+> +	intel_wakeref_init(&engine->wakeref, rpm, &wf_ops, engine->name);
+>   	intel_engine_init_heartbeat(engine);
+>   }
+>   
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> index 7ee65a93f926f..01a055d0d0989 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> @@ -129,7 +129,7 @@ static const struct intel_wakeref_ops wf_ops = {
+>   
+>   void intel_gt_pm_init_early(struct intel_gt *gt)
+>   {
+> -	intel_wakeref_init(&gt->wakeref, gt->uncore->rpm, &wf_ops);
+> +	intel_wakeref_init(&gt->wakeref, gt->uncore->rpm, &wf_ops, "GT");
+>   	seqcount_mutex_init(&gt->stats.lock, &gt->wakeref.mutex);
+>   }
+>   
+> diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> index 7bd10efa56bf3..18e4b2f169e75 100644
+> --- a/drivers/gpu/drm/i915/intel_runtime_pm.c
+> +++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> @@ -54,35 +54,35 @@
+>   
+>   static void init_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm)
+>   {
+> -	intel_wakeref_tracker_init(&rpm->debug);
+> +	ref_tracker_dir_init(&rpm->debug, INTEL_REFTRACK_DEAD_COUNT, dev_name(rpm->kdev));
+>   }
+>   
+>   static intel_wakeref_t
+>   track_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm)
+>   {
+> -	if (!rpm->available)
+> +	if (!rpm->available || rpm->no_wakeref_tracking)
+>   		return -1;
+>   
+> -	return intel_wakeref_tracker_add(&rpm->debug);
+> +	return intel_ref_tracker_alloc(&rpm->debug);
+>   }
+>   
+>   static void untrack_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm,
+>   					     intel_wakeref_t wakeref)
+>   {
+> -	intel_wakeref_tracker_remove(&rpm->debug, wakeref);
+> +	if (!rpm->available || rpm->no_wakeref_tracking)
+> +		return;
+> +
+> +	intel_ref_tracker_free(&rpm->debug, wakeref);
+>   }
+>   
+>   static void untrack_all_intel_runtime_pm_wakerefs(struct intel_runtime_pm *rpm)
+>   {
+> -	struct drm_printer p = drm_debug_printer("i915");
+> -
+> -	intel_wakeref_tracker_reset(&rpm->debug, &p);
+> +	ref_tracker_dir_exit(&rpm->debug);
+>   }
+>   
+>   static noinline void
+>   __intel_wakeref_dec_and_check_tracking(struct intel_runtime_pm *rpm)
+>   {
+> -	struct intel_wakeref_tracker saved;
+>   	unsigned long flags;
+>   
+>   	if (!atomic_dec_and_lock_irqsave(&rpm->wakeref_count,
+> @@ -90,15 +90,8 @@ __intel_wakeref_dec_and_check_tracking(struct intel_runtime_pm *rpm)
+>   					 flags))
+>   		return;
+>   
+> -	saved = __intel_wakeref_tracker_reset(&rpm->debug);
+> +	__ref_tracker_dir_print(&rpm->debug, INTEL_REFTRACK_PRINT_LIMIT);
+>   	spin_unlock_irqrestore(&rpm->debug.lock, flags);
+> -
+> -	if (saved.count) {
+> -		struct drm_printer p = drm_debug_printer("i915");
+> -
+> -		__intel_wakeref_tracker_show(&saved, &p);
+> -		intel_wakeref_tracker_fini(&saved);
+> -	}
+>   }
+>   
+>   void print_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm,
+> diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.h b/drivers/gpu/drm/i915/intel_runtime_pm.h
+> index 0871fa2176474..db5692f1eb67e 100644
+> --- a/drivers/gpu/drm/i915/intel_runtime_pm.h
+> +++ b/drivers/gpu/drm/i915/intel_runtime_pm.h
+> @@ -61,7 +61,7 @@ struct intel_runtime_pm {
+>   	 * paired rpm_put) we can remove corresponding pairs of and keep
+>   	 * the array trimmed to active wakerefs.
+>   	 */
+> -	struct intel_wakeref_tracker debug;
+> +	struct ref_tracker_dir debug;
+>   #endif
+>   };
+>   
+> diff --git a/drivers/gpu/drm/i915/intel_wakeref.c b/drivers/gpu/drm/i915/intel_wakeref.c
+> index db4887e33ea60..97fe9a0f0adbd 100644
+> --- a/drivers/gpu/drm/i915/intel_wakeref.c
+> +++ b/drivers/gpu/drm/i915/intel_wakeref.c
+> @@ -62,6 +62,9 @@ static void ____intel_wakeref_put_last(struct intel_wakeref *wf)
+>   	if (likely(!wf->ops->put(wf))) {
+>   		rpm_put(wf);
+>   		wake_up_var(&wf->wakeref);
+> +#if IS_ENABLED(CONFIG_DRM_I915_DEBUG_WAKEREF)
+> +		ref_tracker_dir_exit(&wf->debug);
+> +#endif
 
-SGksDQoNCkkndmUgcHVzaGVkIHRoaXMgZml4IGludG8gZHJtLW1pc2MtbmV4dC4gSXQgd2ls
-bCBob3BlZnVsbHkgcmVzdG9yZSB0aGUgDQpmYmRldiBjb25zb2xlcy4gU29ycnkgZm9yIHRo
-ZSBpbmNvbnZlbmllbmNlLiBJZiB0aGluZ3Mgc3RpbGwgZG9uJ3Qgd29yaywgDQpzdGF0aW5n
-DQoNCiAgIHZpZGVvPTEwMjR4NzY4LTMyDQoNCm9uIHRoZSBrZXJuZWwgY29tbWFuZCBsaW5l
-IHNob3VsZCBiZSBhIHNhZmUgb3ZlcnJpZGUgb24gbW9zdCBzeXN0ZW1zLg0KDQpCZXN0IHJl
-Z2FyZHMNClRob21hcw0KDQpBbSAwNi4wMS4yMyB1bSAxMjoyMyBzY2hyaWViIFRob21hcyBa
-aW1tZXJtYW5uOg0KPiBSZXBsYWNlIHRoZSBjb21iaW5hdGlvbiBvZiBicHAgYW5kIGRlcHRo
-IHdpdGggYSBzaW5nbGUgY29sb3ItbW9kZQ0KPiBhcmd1bWVudC4gSGFuZGxlIHNwZWNpYWwg
-Y2FzZXMgaW4gc2ltcGxlZHJtIGFuZCBvZmRybS4gSGFyZC1jb2RlDQo+IFhSR0I4ODg4IGFz
-IGZhbGxiYWNrIGZvcm1hdCBmb3IgY2FzZXMgd2hlcmUgbm8gZ2l2ZW4gZm9ybWF0IHdvcmtz
-Lg0KPiANCj4gVGhlIGNvbG9yLW1vZGUgYXJndW1lbnQgYWNjZXB0cyB0aGUgc2FtZSB2YWx1
-ZXMgYXMgdGhlIGtlcm5lbCdzIHZpZGVvDQo+IHBhcmFtZXRlci4gVGhlc2UgYXJlIG1vc3Rs
-eSBicHAgdmFsdWVzIGJldHdlZW4gMSBhbmQgMzIuIFRoZSBleGNlcHRpb25zDQo+IGFyZSAx
-NSwgd2hpY2ggaGFzIGEgY29sb3IgZGVwdGggb2YgMTUgYW5kIGEgYnBwIHZhbHVlIG9mIDE2
-OyBhbmQgMzIsDQo+IHdoaWNoIGhhcyBhIGNvbG9yIGRlcHRoIG9mIDI0IGFuZCBhIGJwcCB2
-YWx1ZSBvZiAzMi4NCj4gDQo+IHY0Og0KPiAJKiBhZGQgYmFjayBsb3N0IHRlc3QgZm9yIGJw
-cF9zcGVjaWZpZWQgKE1haXJhKQ0KPiAJKiBhZGQgRml4ZXMgdGFnIChEYW5pZWwpDQo+IHYz
-Og0KPiAJKiBmaXggb2Zkcm0gYnVpbGQgKE1heGltZSkNCj4gdjI6DQo+IAkqIG1pbmltaXpl
-IGNoYW5nZXMgKERhbmllbCkNCj4gCSogdXNlIGRybV9kcml2ZXJfbGVnYWN5X2ZiX2Zvcm1h
-dCgpIChEYW5pZWwpDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8
-dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4gRml4ZXM6IDM3YzkwZDU4OWRjMCAoImRybS9mYi1o
-ZWxwZXI6IEZpeCBzaW5nbGUtcHJvYmUgY29sb3ItZm9ybWF0IHNlbGVjdGlvbiIpDQo+IENj
-OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4gQ2M6IEphdmll
-ciBNYXJ0aW5leiBDYW5pbGxhcyA8amF2aWVybUByZWRoYXQuY29tPg0KPiBDYzogTWFhcnRl
-biBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4NCj4gQ2M6
-IE1heGltZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4NCj4gLS0tDQo+ICAgZHJpdmVy
-cy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYyAgfCA0MiArKysrKysrKysrKysrKysrKystLS0t
-LS0tLS0tLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS90aW55L29mZHJtLmMgICAgIHwgIDcg
-KysrKystDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgfCAgNyArKysr
-Ky0NCj4gICAzIGZpbGVzIGNoYW5nZWQsIDM2IGluc2VydGlvbnMoKyksIDIwIGRlbGV0aW9u
-cygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVy
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jDQo+IGluZGV4IDEzNjljYTRh
-ZTM5Yi4uNDI3NjMxNzA2MTI4IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJt
-X2ZiX2hlbHBlci5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMN
-Cj4gQEAgLTE3NTYsMjQgKzE3NTYsMjEgQEAgc3RhdGljIHVpbnQzMl90IGRybV9mYl9oZWxw
-ZXJfZmluZF9mb3JtYXQoc3RydWN0IGRybV9mYl9oZWxwZXIgKmZiX2hlbHBlciwgY29uc3QN
-Cj4gICAJcmV0dXJuIERSTV9GT1JNQVRfSU5WQUxJRDsNCj4gICB9DQo+ICAgDQo+IC1zdGF0
-aWMgdWludDMyX3QgZHJtX2ZiX2hlbHBlcl9maW5kX2NtZGxpbmVfZm9ybWF0KHN0cnVjdCBk
-cm1fZmJfaGVscGVyICpmYl9oZWxwZXIsDQo+IC0JCQkJCQkgIGNvbnN0IHVpbnQzMl90ICpm
-b3JtYXRzLCBzaXplX3QgZm9ybWF0X2NvdW50LA0KPiAtCQkJCQkJICBjb25zdCBzdHJ1Y3Qg
-ZHJtX2NtZGxpbmVfbW9kZSAqY21kbGluZV9tb2RlKQ0KPiArc3RhdGljIHVpbnQzMl90IGRy
-bV9mYl9oZWxwZXJfZmluZF9jb2xvcl9tb2RlX2Zvcm1hdChzdHJ1Y3QgZHJtX2ZiX2hlbHBl
-ciAqZmJfaGVscGVyLA0KPiArCQkJCQkJICAgICBjb25zdCB1aW50MzJfdCAqZm9ybWF0cywg
-c2l6ZV90IGZvcm1hdF9jb3VudCwNCj4gKwkJCQkJCSAgICAgdW5zaWduZWQgaW50IGNvbG9y
-X21vZGUpDQo+ICAgew0KPiAgIAlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0gZmJfaGVscGVy
-LT5kZXY7DQo+ICAgCXVpbnQzMl90IGJwcCwgZGVwdGg7DQo+ICAgDQo+IC0JaWYgKCFjbWRs
-aW5lX21vZGUtPmJwcF9zcGVjaWZpZWQpDQo+IC0JCXJldHVybiBEUk1fRk9STUFUX0lOVkFM
-SUQ7DQo+IC0NCj4gLQlzd2l0Y2ggKGNtZGxpbmVfbW9kZS0+YnBwKSB7DQo+ICsJc3dpdGNo
-IChjb2xvcl9tb2RlKSB7DQo+ICAgCWNhc2UgMToNCj4gICAJY2FzZSAyOg0KPiAgIAljYXNl
-IDQ6DQo+ICAgCWNhc2UgODoNCj4gICAJY2FzZSAxNjoNCj4gICAJY2FzZSAyNDoNCj4gLQkJ
-YnBwID0gZGVwdGggPSBjbWRsaW5lX21vZGUtPmJwcDsNCj4gKwkJYnBwID0gZGVwdGggPSBj
-b2xvcl9tb2RlOw0KPiAgIAkJYnJlYWs7DQo+ICAgCWNhc2UgMTU6DQo+ICAgCQlicHAgPSAx
-NjsNCj4gQEAgLTE3ODQsNyArMTc4MSw3IEBAIHN0YXRpYyB1aW50MzJfdCBkcm1fZmJfaGVs
-cGVyX2ZpbmRfY21kbGluZV9mb3JtYXQoc3RydWN0IGRybV9mYl9oZWxwZXIgKmZiX2hlbHBl
-DQo+ICAgCQlkZXB0aCA9IDI0Ow0KPiAgIAkJYnJlYWs7DQo+ICAgCWRlZmF1bHQ6DQo+IC0J
-CWRybV9pbmZvKGRldiwgInVuc3VwcG9ydGVkIGJwcCB2YWx1ZSBvZiAlZFxuIiwgY21kbGlu
-ZV9tb2RlLT5icHApOw0KPiArCQlkcm1faW5mbyhkZXYsICJ1bnN1cHBvcnRlZCBjb2xvciBt
-b2RlIG9mICVkXG4iLCBjb2xvcl9tb2RlKTsNCj4gICAJCXJldHVybiBEUk1fRk9STUFUX0lO
-VkFMSUQ7DQo+ICAgCX0NCj4gICANCj4gQEAgLTE4MTcsMTAgKzE4MTQsMTMgQEAgc3RhdGlj
-IGludCBfX2RybV9mYl9oZWxwZXJfZmluZF9zaXplcyhzdHJ1Y3QgZHJtX2ZiX2hlbHBlciAq
-ZmJfaGVscGVyLCBpbnQgcHJlZmUNCj4gICAJCWRybV9jbGllbnRfZm9yX2VhY2hfY29ubmVj
-dG9yX2l0ZXIoY29ubmVjdG9yLCAmY29ubl9pdGVyKSB7DQo+ICAgCQkJc3RydWN0IGRybV9j
-bWRsaW5lX21vZGUgKmNtZGxpbmVfbW9kZSA9ICZjb25uZWN0b3ItPmNtZGxpbmVfbW9kZTsN
-Cj4gICANCj4gLQkJCXN1cmZhY2VfZm9ybWF0ID0gZHJtX2ZiX2hlbHBlcl9maW5kX2NtZGxp
-bmVfZm9ybWF0KGZiX2hlbHBlciwNCj4gLQkJCQkJCQkJCSAgIHBsYW5lLT5mb3JtYXRfdHlw
-ZXMsDQo+IC0JCQkJCQkJCQkgICBwbGFuZS0+Zm9ybWF0X2NvdW50LA0KPiAtCQkJCQkJCQkJ
-ICAgY21kbGluZV9tb2RlKTsNCj4gKwkJCWlmICghY21kbGluZV9tb2RlLT5icHBfc3BlY2lm
-aWVkKQ0KPiArCQkJCWNvbnRpbnVlOw0KPiArDQo+ICsJCQlzdXJmYWNlX2Zvcm1hdCA9IGRy
-bV9mYl9oZWxwZXJfZmluZF9jb2xvcl9tb2RlX2Zvcm1hdChmYl9oZWxwZXIsDQo+ICsJCQkJ
-CQkJCQkgICAgICBwbGFuZS0+Zm9ybWF0X3R5cGVzLA0KPiArCQkJCQkJCQkJICAgICAgcGxh
-bmUtPmZvcm1hdF9jb3VudCwNCj4gKwkJCQkJCQkJCSAgICAgIGNtZGxpbmVfbW9kZS0+YnBw
-KTsNCj4gICAJCQlpZiAoc3VyZmFjZV9mb3JtYXQgIT0gRFJNX0ZPUk1BVF9JTlZBTElEKQ0K
-PiAgIAkJCQlicmVhazsgLyogZm91bmQgc3VwcG9ydGVkIGZvcm1hdCAqLw0KPiAgIAkJfQ0K
-PiBAQCAtMTgyOSwxNyArMTgyOSwyMyBAQCBzdGF0aWMgaW50IF9fZHJtX2ZiX2hlbHBlcl9m
-aW5kX3NpemVzKHN0cnVjdCBkcm1fZmJfaGVscGVyICpmYl9oZWxwZXIsIGludCBwcmVmZQ0K
-PiAgIAkJaWYgKHN1cmZhY2VfZm9ybWF0ICE9IERSTV9GT1JNQVRfSU5WQUxJRCkNCj4gICAJ
-CQlicmVhazsgLyogZm91bmQgc3VwcG9ydGVkIGZvcm1hdCAqLw0KPiAgIA0KPiAtCQkvKiB0
-cnkgcHJlZmVycmVkIGJwcC9kZXB0aCAqLw0KPiAtCQlzdXJmYWNlX2Zvcm1hdCA9IGRybV9m
-Yl9oZWxwZXJfZmluZF9mb3JtYXQoZmJfaGVscGVyLCBwbGFuZS0+Zm9ybWF0X3R5cGVzLA0K
-PiAtCQkJCQkJCSAgIHBsYW5lLT5mb3JtYXRfY291bnQsIHByZWZlcnJlZF9icHAsDQo+IC0J
-CQkJCQkJICAgZGV2LT5tb2RlX2NvbmZpZy5wcmVmZXJyZWRfZGVwdGgpOw0KPiArCQkvKiB0
-cnkgcHJlZmVycmVkIGNvbG9yIG1vZGUgKi8NCj4gKwkJc3VyZmFjZV9mb3JtYXQgPSBkcm1f
-ZmJfaGVscGVyX2ZpbmRfY29sb3JfbW9kZV9mb3JtYXQoZmJfaGVscGVyLA0KPiArCQkJCQkJ
-CQkgICAgICBwbGFuZS0+Zm9ybWF0X3R5cGVzLA0KPiArCQkJCQkJCQkgICAgICBwbGFuZS0+
-Zm9ybWF0X2NvdW50LA0KPiArCQkJCQkJCQkgICAgICBwcmVmZXJyZWRfYnBwKTsNCj4gICAJ
-CWlmIChzdXJmYWNlX2Zvcm1hdCAhPSBEUk1fRk9STUFUX0lOVkFMSUQpDQo+ICAgCQkJYnJl
-YWs7IC8qIGZvdW5kIHN1cHBvcnRlZCBmb3JtYXQgKi8NCj4gICAJfQ0KPiAgIA0KPiAgIAlp
-ZiAoc3VyZmFjZV9mb3JtYXQgPT0gRFJNX0ZPUk1BVF9JTlZBTElEKSB7DQo+ICsJCS8qDQo+
-ICsJCSAqIElmIG5vbmUgb2YgdGhlIGdpdmVuIGNvbG9yIG1vZGVzIHdvcmtzLCBmYWxsIGJh
-Y2sNCj4gKwkJICogdG8gWFJHQjg4ODguIERyaXZlcnMgYXJlIGV4cGVjdGVkIHRvIHByb3Zp
-ZGUgdGhpcw0KPiArCQkgKiBmb3JtYXQgZm9yIGNvbXBhdGliaWxpdHkgd2l0aCBsZWdhY3kg
-YXBwbGljYXRpb25zLg0KPiArCQkgKi8NCj4gICAJCWRybV93YXJuKGRldiwgIk5vIGNvbXBh
-dGlibGUgZm9ybWF0IGZvdW5kXG4iKTsNCj4gLQkJcmV0dXJuIC1FQUdBSU47DQo+ICsJCXN1
-cmZhY2VfZm9ybWF0ID0gZHJtX2RyaXZlcl9sZWdhY3lfZmJfZm9ybWF0KGRldiwgMzIsIDI0
-KTsNCj4gICAJfQ0KPiAgIA0KPiAgIAlpbmZvID0gZHJtX2Zvcm1hdF9pbmZvKHN1cmZhY2Vf
-Zm9ybWF0KTsNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90aW55L29mZHJtLmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vdGlueS9vZmRybS5jDQo+IGluZGV4IDM5YzVmZDQ2M2ZlYy4u
-NmUzNDljYTQyNDg1IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGlueS9vZmRy
-bS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90aW55L29mZHJtLmMNCj4gQEAgLTEzNTIs
-NiArMTM1Miw3IEBAIHN0YXRpYyBpbnQgb2Zkcm1fcHJvYmUoc3RydWN0IHBsYXRmb3JtX2Rl
-dmljZSAqcGRldikNCj4gICB7DQo+ICAgCXN0cnVjdCBvZmRybV9kZXZpY2UgKm9kZXY7DQo+
-ICAgCXN0cnVjdCBkcm1fZGV2aWNlICpkZXY7DQo+ICsJdW5zaWduZWQgaW50IGNvbG9yX21v
-ZGU7DQo+ICAgCWludCByZXQ7DQo+ICAgDQo+ICAgCW9kZXYgPSBvZmRybV9kZXZpY2VfY3Jl
-YXRlKCZvZmRybV9kcml2ZXIsIHBkZXYpOw0KPiBAQCAtMTM2Myw3ICsxMzY0LDExIEBAIHN0
-YXRpYyBpbnQgb2Zkcm1fcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4g
-ICAJaWYgKHJldCkNCj4gICAJCXJldHVybiByZXQ7DQo+ICAgDQo+IC0JZHJtX2ZiZGV2X2dl
-bmVyaWNfc2V0dXAoZGV2LCBkcm1fZm9ybWF0X2luZm9fYnBwKG9kZXYtPmZvcm1hdCwgMCkp
-Ow0KPiArCWNvbG9yX21vZGUgPSBkcm1fZm9ybWF0X2luZm9fYnBwKG9kZXYtPmZvcm1hdCwg
-MCk7DQo+ICsJaWYgKGNvbG9yX21vZGUgPT0gMTYpDQo+ICsJCWNvbG9yX21vZGUgPSBvZGV2
-LT5mb3JtYXQtPmRlcHRoOyAvLyBjYW4gYmUgMTUgb3IgMTYNCj4gKw0KPiArCWRybV9mYmRl
-dl9nZW5lcmljX3NldHVwKGRldiwgY29sb3JfbW9kZSk7DQo+ICAgDQo+ICAgCXJldHVybiAw
-Ow0KPiAgIH0NCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90aW55L3NpbXBsZWRy
-bS5jIGIvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMNCj4gaW5kZXggNzM1NTYx
-N2YzOGQzLi5mNjU4Yjk5Yzc5NmEgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90
-aW55L3NpbXBsZWRybS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90aW55L3NpbXBsZWRy
-bS5jDQo+IEBAIC04MDIsNiArODAyLDcgQEAgc3RhdGljIGludCBzaW1wbGVkcm1fcHJvYmUo
-c3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4gICB7DQo+ICAgCXN0cnVjdCBzaW1w
-bGVkcm1fZGV2aWNlICpzZGV2Ow0KPiAgIAlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2Ow0KPiAr
-CXVuc2lnbmVkIGludCBjb2xvcl9tb2RlOw0KPiAgIAlpbnQgcmV0Ow0KPiAgIA0KPiAgIAlz
-ZGV2ID0gc2ltcGxlZHJtX2RldmljZV9jcmVhdGUoJnNpbXBsZWRybV9kcml2ZXIsIHBkZXYp
-Ow0KPiBAQCAtODEzLDcgKzgxNCwxMSBAQCBzdGF0aWMgaW50IHNpbXBsZWRybV9wcm9iZShz
-dHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiAgIAlpZiAocmV0KQ0KPiAgIAkJcmV0
-dXJuIHJldDsNCj4gICANCj4gLQlkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cChkZXYsIGRybV9m
-b3JtYXRfaW5mb19icHAoc2Rldi0+Zm9ybWF0LCAwKSk7DQo+ICsJY29sb3JfbW9kZSA9IGRy
-bV9mb3JtYXRfaW5mb19icHAoc2Rldi0+Zm9ybWF0LCAwKTsNCj4gKwlpZiAoY29sb3JfbW9k
-ZSA9PSAxNikNCj4gKwkJY29sb3JfbW9kZSA9IHNkZXYtPmZvcm1hdC0+ZGVwdGg7IC8vIGNh
-biBiZSAxNSBvciAxNg0KPiArDQo+ICsJZHJtX2ZiZGV2X2dlbmVyaWNfc2V0dXAoZGV2LCBj
-b2xvcl9tb2RlKTsNCj4gICANCj4gICAJcmV0dXJuIDA7DQo+ICAgfQ0KDQotLSANClRob21h
-cyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJl
-IFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVy
-ZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhy
-ZXI6IEl2byBUb3Rldg0K
 
---------------RwEThR0EypWDaB0aeyKOA6vm--
+This seems is bit too early, we only need this at the end  as you have 
+done with untrack_all_intel_runtime_pm_wakerefs()
 
---------------BG1I8KiDdVFqawcpsQKs2oI9
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+otherwise the WARN_ON_ONE(dir->debug) from " ref_tracker: implement 
+use-after-free detection" will
 
------BEGIN PGP SIGNATURE-----
+get triggered.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmO4KqIFAwAAAAAACgkQlh/E3EQov+AW
-PA//SSZNf9Ib/iwnaTWQu8m0/KA+tdyAAEy/Q1Ve85Pyw4n576nxTU4LbGjzwG/ZTPHHT3a4/0Um
-dSsOgfNPAXYWUKQ4CGxiIo28E7qxFHGKMoYJnSZsRoHqhStI2c1CIFe+ArnaU9pBpQKkdMt0z2+H
-ek+zV+i9AQKSHbmPSn88m82KNXC+kXIBwGBpmxEkOrJYGyZK2oIOMcGNOEg1vVhzZwtTGhzada5c
-RkZHBSDQrqypvRw78BmZeTfv8cU6B7uG6Alby09pUNqHnS3uP2pBogD53ttXoibQYRlgIADS+7yf
-D8LGDBvNunhtKOh+oO8NcJRnQ73A664qfc1kTB7Ptm0AP0JRKl9rC+R1tPDQuigRF0wDoBkWq6Ct
-wr49rjyv2z/6np7oawsVeBzfBwGO+0MPGzF8zb2PP69CmhRJM3Qb3y16lr7EpPkpxA/ooiFY2FyY
-VURtjbOC2gjURo+cqduta0dZT6p1Nzgz4wWUHjromIJKr6RpLsiOsVQj+7GC23IEaZDp76fM1lrw
-R2C3EBS0dL999gW76cCh09XYjE99txrMVk3iuPDErc6POqwgrSrThJUo0HA50EdADFRjIqmzMuHB
-zugxNBr0p/vcnYyaWoxk0Rbmg+i5G2izH8xfrQYSj9z2wPO4IubdIYUlSRWPwM6l/3gLjWB6EqRB
-pkc=
-=iXDH
------END PGP SIGNATURE-----
 
---------------BG1I8KiDdVFqawcpsQKs2oI9--
+Regards,
+
+Nirmoy
+
+>   
+>   	}
+>   
+>   unlock:
+> @@ -96,7 +99,8 @@ static void __intel_wakeref_put_work(struct work_struct *wrk)
+>   void __intel_wakeref_init(struct intel_wakeref *wf,
+>   			  struct intel_runtime_pm *rpm,
+>   			  const struct intel_wakeref_ops *ops,
+> -			  struct intel_wakeref_lockclass *key)
+> +			  struct intel_wakeref_lockclass *key,
+> +			  const char *name)
+>   {
+>   	wf->rpm = rpm;
+>   	wf->ops = ops;
+> @@ -110,7 +114,7 @@ void __intel_wakeref_init(struct intel_wakeref *wf,
+>   			 "wakeref.work", &key->work, 0);
+>   
+>   #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_WAKEREF)
+> -	intel_wakeref_tracker_init(&wf->debug);
+> +	ref_tracker_dir_init(&wf->debug, INTEL_REFTRACK_DEAD_COUNT, name);
+>   #endif
+>   }
+>   
+> diff --git a/drivers/gpu/drm/i915/intel_wakeref.h b/drivers/gpu/drm/i915/intel_wakeref.h
+> index 38439deefc5cc..e0cd78fb60761 100644
+> --- a/drivers/gpu/drm/i915/intel_wakeref.h
+> +++ b/drivers/gpu/drm/i915/intel_wakeref.h
+> @@ -7,17 +7,24 @@
+>   #ifndef INTEL_WAKEREF_H
+>   #define INTEL_WAKEREF_H
+>   
+> +#include <drm/drm_print.h>
+> +
+>   #include <linux/atomic.h>
+>   #include <linux/bitfield.h>
+>   #include <linux/bits.h>
+>   #include <linux/lockdep.h>
+>   #include <linux/mutex.h>
+>   #include <linux/refcount.h>
+> +#include <linux/ref_tracker.h>
+> +#include <linux/slab.h>
+>   #include <linux/stackdepot.h>
+>   #include <linux/timer.h>
+>   #include <linux/workqueue.h>
+>   
+> -#include "intel_wakeref_tracker.h"
+> +typedef unsigned long intel_wakeref_t;
+> +
+> +#define INTEL_REFTRACK_DEAD_COUNT 16
+> +#define INTEL_REFTRACK_PRINT_LIMIT 16
+>   
+>   #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_WAKEREF)
+>   #define INTEL_WAKEREF_BUG_ON(expr) BUG_ON(expr)
+> @@ -45,7 +52,7 @@ struct intel_wakeref {
+>   	struct delayed_work work;
+>   
+>   #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_WAKEREF)
+> -	struct intel_wakeref_tracker debug;
+> +	struct ref_tracker_dir debug;
+>   #endif
+>   };
+>   
+> @@ -57,11 +64,12 @@ struct intel_wakeref_lockclass {
+>   void __intel_wakeref_init(struct intel_wakeref *wf,
+>   			  struct intel_runtime_pm *rpm,
+>   			  const struct intel_wakeref_ops *ops,
+> -			  struct intel_wakeref_lockclass *key);
+> -#define intel_wakeref_init(wf, rpm, ops) do {				\
+> +			  struct intel_wakeref_lockclass *key,
+> +			  const char *name);
+> +#define intel_wakeref_init(wf, rpm, ops, name) do {				\
+>   	static struct intel_wakeref_lockclass __key;			\
+>   									\
+> -	__intel_wakeref_init((wf), (rpm), (ops), &__key);		\
+> +	__intel_wakeref_init((wf), (rpm), (ops), &__key, name);		\
+>   } while (0)
+>   
+>   int __intel_wakeref_get_first(struct intel_wakeref *wf);
+> @@ -266,17 +274,67 @@ __intel_wakeref_defer_park(struct intel_wakeref *wf)
+>    */
+>   int intel_wakeref_wait_for_idle(struct intel_wakeref *wf);
+>   
+> +#define INTEL_WAKEREF_DEF ((intel_wakeref_t)(-1))
+> +
+> +static inline intel_wakeref_t intel_ref_tracker_alloc(struct ref_tracker_dir *dir)
+> +{
+> +	struct ref_tracker *user = NULL;
+> +
+> +	ref_tracker_alloc(dir, &user, GFP_NOWAIT);
+> +
+> +	return (intel_wakeref_t)user ?: INTEL_WAKEREF_DEF;
+> +}
+> +
+> +static inline void intel_ref_tracker_free(struct ref_tracker_dir *dir,
+> +					  intel_wakeref_t handle)
+> +{
+> +	struct ref_tracker *user;
+> +
+> +	user = (handle == INTEL_WAKEREF_DEF) ? NULL : (void *)handle;
+> +
+> +	ref_tracker_free(dir, &user);
+> +}
+> +
+> +static inline void
+> +intel_wakeref_tracker_show(struct ref_tracker_dir *dir,
+> +			   struct drm_printer *p)
+> +{
+> +	const size_t buf_size = PAGE_SIZE;
+> +	char *buf, *sb, *se;
+> +	size_t count;
+> +
+> +	buf = kmalloc(buf_size, GFP_NOWAIT);
+> +	if (!buf)
+> +		return;
+> +
+> +	count = ref_tracker_dir_snprint(dir, buf, buf_size);
+> +	if (!count)
+> +		goto free;
+> +	/* printk does not like big buffers, so we split it */
+> +	for (sb = buf; *sb; sb = se + 1) {
+> +		se = strchrnul(sb, '\n');
+> +		drm_printf(p, "%.*s", (int)(se - sb + 1), sb);
+> +		if (!*se)
+> +			break;
+> +	}
+> +	if (count >= buf_size)
+> +		drm_printf(p, "\n...dropped %zd extra bytes of leak report.\n",
+> +			   count + 1 - buf_size);
+> +free:
+> +	kfree(buf);
+> +}
+> +
+>   #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_WAKEREF)
+>   
+>   static inline intel_wakeref_t intel_wakeref_track(struct intel_wakeref *wf)
+>   {
+> -	return intel_wakeref_tracker_add(&wf->debug);
+> +	return intel_ref_tracker_alloc(&wf->debug);
+>   }
+>   
+>   static inline void intel_wakeref_untrack(struct intel_wakeref *wf,
+>   					 intel_wakeref_t handle)
+>   {
+> -	intel_wakeref_tracker_remove(&wf->debug, handle);
+> +	intel_ref_tracker_free(&wf->debug, handle);
+>   }
+>   
+>   static inline void intel_wakeref_show(struct intel_wakeref *wf,
+> diff --git a/drivers/gpu/drm/i915/intel_wakeref_tracker.c b/drivers/gpu/drm/i915/intel_wakeref_tracker.c
+> deleted file mode 100644
+> index a0bcef13a1085..0000000000000
+> --- a/drivers/gpu/drm/i915/intel_wakeref_tracker.c
+> +++ /dev/null
+> @@ -1,234 +0,0 @@
+> -// SPDX-License-Identifier: MIT
+> -/*
+> - * Copyright © 2021 Intel Corporation
+> - */
+> -
+> -#include <linux/slab.h>
+> -#include <linux/stackdepot.h>
+> -#include <linux/stacktrace.h>
+> -#include <linux/sort.h>
+> -
+> -#include <drm/drm_print.h>
+> -
+> -#include "intel_wakeref.h"
+> -
+> -#define STACKDEPTH 8
+> -
+> -static noinline depot_stack_handle_t __save_depot_stack(void)
+> -{
+> -	unsigned long entries[STACKDEPTH];
+> -	unsigned int n;
+> -
+> -	n = stack_trace_save(entries, ARRAY_SIZE(entries), 1);
+> -	return stack_depot_save(entries, n, GFP_NOWAIT | __GFP_NOWARN);
+> -}
+> -
+> -static void __print_depot_stack(depot_stack_handle_t stack,
+> -				char *buf, int sz, int indent)
+> -{
+> -	unsigned long *entries;
+> -	unsigned int nr_entries;
+> -
+> -	nr_entries = stack_depot_fetch(stack, &entries);
+> -	stack_trace_snprint(buf, sz, entries, nr_entries, indent);
+> -}
+> -
+> -static int cmphandle(const void *_a, const void *_b)
+> -{
+> -	const depot_stack_handle_t * const a = _a, * const b = _b;
+> -
+> -	if (*a < *b)
+> -		return -1;
+> -	else if (*a > *b)
+> -		return 1;
+> -	else
+> -		return 0;
+> -}
+> -
+> -void
+> -__intel_wakeref_tracker_show(const struct intel_wakeref_tracker *w,
+> -			     struct drm_printer *p)
+> -{
+> -	unsigned long i;
+> -	char *buf;
+> -
+> -	buf = kmalloc(PAGE_SIZE, GFP_NOWAIT | __GFP_NOWARN);
+> -	if (!buf)
+> -		return;
+> -
+> -	if (w->last_acquire) {
+> -		__print_depot_stack(w->last_acquire, buf, PAGE_SIZE, 2);
+> -		drm_printf(p, "Wakeref last acquired:\n%s", buf);
+> -	}
+> -
+> -	if (w->last_release) {
+> -		__print_depot_stack(w->last_release, buf, PAGE_SIZE, 2);
+> -		drm_printf(p, "Wakeref last released:\n%s", buf);
+> -	}
+> -
+> -	drm_printf(p, "Wakeref count: %lu\n", w->count);
+> -
+> -	sort(w->owners, w->count, sizeof(*w->owners), cmphandle, NULL);
+> -
+> -	for (i = 0; i < w->count; i++) {
+> -		depot_stack_handle_t stack = w->owners[i];
+> -		unsigned long rep;
+> -
+> -		rep = 1;
+> -		while (i + 1 < w->count && w->owners[i + 1] == stack)
+> -			rep++, i++;
+> -		__print_depot_stack(stack, buf, PAGE_SIZE, 2);
+> -		drm_printf(p, "Wakeref x%lu taken at:\n%s", rep, buf);
+> -	}
+> -
+> -	kfree(buf);
+> -}
+> -
+> -void intel_wakeref_tracker_show(struct intel_wakeref_tracker *w,
+> -				struct drm_printer *p)
+> -{
+> -	struct intel_wakeref_tracker tmp = {};
+> -
+> -	do {
+> -		unsigned long alloc = tmp.count;
+> -		depot_stack_handle_t *s;
+> -
+> -		spin_lock_irq(&w->lock);
+> -		tmp.count = w->count;
+> -		if (tmp.count <= alloc)
+> -			memcpy(tmp.owners, w->owners, tmp.count * sizeof(*s));
+> -		tmp.last_acquire = w->last_acquire;
+> -		tmp.last_release = w->last_release;
+> -		spin_unlock_irq(&w->lock);
+> -		if (tmp.count <= alloc)
+> -			break;
+> -
+> -		s = krealloc(tmp.owners,
+> -			     tmp.count * sizeof(*s),
+> -			     GFP_NOWAIT | __GFP_NOWARN);
+> -		if (!s)
+> -			goto out;
+> -
+> -		tmp.owners = s;
+> -	} while (1);
+> -
+> -	__intel_wakeref_tracker_show(&tmp, p);
+> -
+> -out:
+> -	intel_wakeref_tracker_fini(&tmp);
+> -}
+> -
+> -intel_wakeref_t intel_wakeref_tracker_add(struct intel_wakeref_tracker *w)
+> -{
+> -	depot_stack_handle_t stack, *stacks;
+> -	unsigned long flags;
+> -
+> -	stack = __save_depot_stack();
+> -	if (!stack)
+> -		return -1;
+> -
+> -	spin_lock_irqsave(&w->lock, flags);
+> -
+> -	if (!w->count)
+> -		w->last_acquire = stack;
+> -
+> -	stacks = krealloc(w->owners,
+> -			  (w->count + 1) * sizeof(*stacks),
+> -			  GFP_NOWAIT | __GFP_NOWARN);
+> -	if (stacks) {
+> -		stacks[w->count++] = stack;
+> -		w->owners = stacks;
+> -	} else {
+> -		stack = -1;
+> -	}
+> -
+> -	spin_unlock_irqrestore(&w->lock, flags);
+> -
+> -	return stack;
+> -}
+> -
+> -void intel_wakeref_tracker_remove(struct intel_wakeref_tracker *w,
+> -				  intel_wakeref_t stack)
+> -{
+> -	unsigned long flags, n;
+> -	bool found = false;
+> -
+> -	if (unlikely(stack == -1))
+> -		return;
+> -
+> -	spin_lock_irqsave(&w->lock, flags);
+> -	for (n = w->count; n--; ) {
+> -		if (w->owners[n] == stack) {
+> -			memmove(w->owners + n,
+> -				w->owners + n + 1,
+> -				(--w->count - n) * sizeof(stack));
+> -			found = true;
+> -			break;
+> -		}
+> -	}
+> -	spin_unlock_irqrestore(&w->lock, flags);
+> -
+> -	if (WARN(!found,
+> -		 "Unmatched wakeref %x, tracking %lu\n",
+> -		 stack, w->count)) {
+> -		char *buf;
+> -
+> -		buf = kmalloc(PAGE_SIZE, GFP_NOWAIT | __GFP_NOWARN);
+> -		if (!buf)
+> -			return;
+> -
+> -		__print_depot_stack(stack, buf, PAGE_SIZE, 2);
+> -		pr_err("wakeref %x from\n%s", stack, buf);
+> -
+> -		stack = READ_ONCE(w->last_release);
+> -		if (stack && !w->count) {
+> -			__print_depot_stack(stack, buf, PAGE_SIZE, 2);
+> -			pr_err("wakeref last released at\n%s", buf);
+> -		}
+> -
+> -		kfree(buf);
+> -	}
+> -}
+> -
+> -struct intel_wakeref_tracker
+> -__intel_wakeref_tracker_reset(struct intel_wakeref_tracker *w)
+> -{
+> -	struct intel_wakeref_tracker saved;
+> -
+> -	lockdep_assert_held(&w->lock);
+> -
+> -	saved = *w;
+> -
+> -	w->owners = NULL;
+> -	w->count = 0;
+> -	w->last_release = __save_depot_stack();
+> -
+> -	return saved;
+> -}
+> -
+> -void intel_wakeref_tracker_reset(struct intel_wakeref_tracker *w,
+> -				 struct drm_printer *p)
+> -{
+> -	struct intel_wakeref_tracker tmp;
+> -
+> -	spin_lock_irq(&w->lock);
+> -	tmp = __intel_wakeref_tracker_reset(w);
+> -	spin_unlock_irq(&w->lock);
+> -
+> -	if (tmp.count)
+> -		__intel_wakeref_tracker_show(&tmp, p);
+> -
+> -	intel_wakeref_tracker_fini(&tmp);
+> -}
+> -
+> -void intel_wakeref_tracker_init(struct intel_wakeref_tracker *w)
+> -{
+> -	memset(w, 0, sizeof(*w));
+> -	spin_lock_init(&w->lock);
+> -	stack_depot_init();
+> -}
+> -
+> -void intel_wakeref_tracker_fini(struct intel_wakeref_tracker *w)
+> -{
+> -	kfree(w->owners);
+> -}
+> diff --git a/drivers/gpu/drm/i915/intel_wakeref_tracker.h b/drivers/gpu/drm/i915/intel_wakeref_tracker.h
+> deleted file mode 100644
+> index 61df68e28c0fb..0000000000000
+> --- a/drivers/gpu/drm/i915/intel_wakeref_tracker.h
+> +++ /dev/null
+> @@ -1,76 +0,0 @@
+> -/* SPDX-License-Identifier: MIT */
+> -/*
+> - * Copyright © 2019 Intel Corporation
+> - */
+> -
+> -#ifndef INTEL_WAKEREF_TRACKER_H
+> -#define INTEL_WAKEREF_TRACKER_H
+> -
+> -#include <linux/kconfig.h>
+> -#include <linux/spinlock.h>
+> -#include <linux/stackdepot.h>
+> -
+> -typedef depot_stack_handle_t intel_wakeref_t;
+> -
+> -struct drm_printer;
+> -
+> -struct intel_wakeref_tracker {
+> -	spinlock_t lock;
+> -
+> -	depot_stack_handle_t last_acquire;
+> -	depot_stack_handle_t last_release;
+> -
+> -	depot_stack_handle_t *owners;
+> -	unsigned long count;
+> -};
+> -
+> -#if IS_ENABLED(CONFIG_DRM_I915_TRACK_WAKEREF)
+> -
+> -void intel_wakeref_tracker_init(struct intel_wakeref_tracker *w);
+> -void intel_wakeref_tracker_fini(struct intel_wakeref_tracker *w);
+> -
+> -intel_wakeref_t intel_wakeref_tracker_add(struct intel_wakeref_tracker *w);
+> -void intel_wakeref_tracker_remove(struct intel_wakeref_tracker *w,
+> -			   intel_wakeref_t handle);
+> -
+> -struct intel_wakeref_tracker
+> -__intel_wakeref_tracker_reset(struct intel_wakeref_tracker *w);
+> -void intel_wakeref_tracker_reset(struct intel_wakeref_tracker *w,
+> -				 struct drm_printer *p);
+> -
+> -void __intel_wakeref_tracker_show(const struct intel_wakeref_tracker *w,
+> -				  struct drm_printer *p);
+> -void intel_wakeref_tracker_show(struct intel_wakeref_tracker *w,
+> -				struct drm_printer *p);
+> -
+> -#else
+> -
+> -static inline void intel_wakeref_tracker_init(struct intel_wakeref_tracker *w) {}
+> -static inline void intel_wakeref_tracker_fini(struct intel_wakeref_tracker *w) {}
+> -
+> -static inline intel_wakeref_t
+> -intel_wakeref_tracker_add(struct intel_wakeref_tracker *w)
+> -{
+> -	return -1;
+> -}
+> -
+> -static inline void
+> -intel_wakeref_untrack_remove(struct intel_wakeref_tracker *w, intel_wakeref_t handle) {}
+> -
+> -static inline struct intel_wakeref_tracker
+> -__intel_wakeref_tracker_reset(struct intel_wakeref_tracker *w)
+> -{
+> -	return (struct intel_wakeref_tracker){};
+> -}
+> -
+> -static inline void intel_wakeref_tracker_reset(struct intel_wakeref_tracker *w,
+> -					       struct drm_printer *p)
+> -{
+> -}
+> -
+> -static inline void __intel_wakeref_tracker_show(const struct intel_wakeref_tracker *w, struct drm_printer *p) {}
+> -static inline void intel_wakeref_tracker_show(struct intel_wakeref_tracker *w, struct drm_printer *p) {}
+> -
+> -#endif
+> -
+> -#endif /* INTEL_WAKEREF_TRACKER_H */
