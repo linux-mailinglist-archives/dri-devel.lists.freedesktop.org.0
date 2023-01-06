@@ -2,70 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9356665FD41
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 10:03:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 080C765FD45
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 10:04:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3900F10E840;
-	Fri,  6 Jan 2023 09:03:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77C0E10E02D;
+	Fri,  6 Jan 2023 09:04:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE4DE10E840
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 09:03:21 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id g10so626546wmo.1
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 01:03:21 -0800 (PST)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83B1310E841
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 09:04:38 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id d4so690239wrw.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 01:04:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=8BzESQrUDM05zlTEwrX4Mj8dG0qJRTLEWdAlMpGzRIU=;
- b=ipTeb+kU+Y9knB9QUZ7sUKNDljfl2Jel9SUsuWtjkKXaoI5rUdeCqry2nktxA255PR
- JzrInWHtqpSM9HJNbN+vnvPDLJwc4esfi5OVDYxIzvq95Aq1JEjpVlrBCiz/jMR0gSVJ
- PtBiZxSi3+HB3HMv1+1yL/f3cbo6wzZ0w8Qw4=
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7oh+tO4VAYKsBsuVwmWetnQdvzWD6pRcTuec9yQCMBE=;
+ b=VcaBOgij5Nk7bOXAUDlWpO3pECWUZyZWpSZ9DBn9QmP8brgHn/moTN+rNHmuO6cOtC
+ asHTEQw18D4FXFnaijCwcAt7eYm/Kh2f4vnvOhoSe5bCickgXh6TdjnkDr+bByGv+i1w
+ H24kaMd/bbmMxayX/wnQyntJY1KG+9uUD+jnY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8BzESQrUDM05zlTEwrX4Mj8dG0qJRTLEWdAlMpGzRIU=;
- b=TWLeYBFobsalzdB+hN3OhnhiS/5U31aKHDPIX4LOG3vbWKCAlQQG4+6CCHAzdmQ7El
- a7Y+bvhwmUyzDK+XFhvkqZuvYGWKfTKzt0FU/hRp4Zg3ORMthDuckzd5DfbO9z92IrBm
- 9PEasqGioWMuOAzFnfhoo5AMX7x16i0+zVj/9uxqQ0Wa5i0/oVvwnw2pzh8WjSc5BjvS
- XEFzONKTcJWz+dbZNlrvlIG3xWOJW/TFnyE4DeMBKQZGGeWbhPNIAwwf877bQizs4C22
- ogSma9ZZg49TMbaiVX1vD4pMlOZPFJLYrI2pcDyRya6yc8OjcLK0zV9vgA+kPvvtS9DC
- pdBw==
-X-Gm-Message-State: AFqh2koRkUSnjLZTFEW9F82ZSP8f9K6cEed4bhJ54/w1HTDTm6VC7NLp
- eb8jyf//b4n7T2SNjfInz5qIlw==
-X-Google-Smtp-Source: AMrXdXt0arOZc3l0kts8OHBZ/+UO0oRr7Cuyh3i4z4GyM+Yn5GuirvZkRTu52vYbVVMlytkF25SSdg==
-X-Received: by 2002:a05:600c:3d86:b0:3cf:9ac8:c537 with SMTP id
- bi6-20020a05600c3d8600b003cf9ac8c537mr39944191wmb.14.1672995799979; 
- Fri, 06 Jan 2023 01:03:19 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7oh+tO4VAYKsBsuVwmWetnQdvzWD6pRcTuec9yQCMBE=;
+ b=yaPcH/P69skz8o455++/xKcxwjdRQ/fq7aXg1ZoHde3GawSEXh8Uqjmh3oFiLK3PWk
+ fI/SXgRmeyAfYTWO0KvtBs6UBlVAhRP+Iqq9/o/ruCDKMLhbCvnrsMfRpL2CulxtNjO6
+ HpW4I3hBNQdg5XYAuNfmfYI+Nmwj2kt6xM0hI2GxuJv8GK5Xg4sjtrIy3TjgPHV6hpcr
+ u1Xi2ozBlNVgr+fQwLF29r+aQOL92y8IMysxDop9Iz7xQTokNVxGjbLT3BTDeqSBOPGj
+ OVczdL34hkzNQHuvuKfKAN5X6btGFYEnk5ovGU3WXZbCddDr4+cx/z0gjNGQ8kNLwelE
+ u1Kg==
+X-Gm-Message-State: AFqh2kp99Tui0WlI1QFAeVAeIqxBUFqSpvRKgiczEbXY0i8qmVPywzzX
+ fUjNA71JGlmXznB/NZz5/1FS+w==
+X-Google-Smtp-Source: AMrXdXsF6r0whrWtJmT10SJbfExjNBDHpWpevEeXU/qX5vrGPfkbuLARTKy9wemqwWZrlmIvuLuqHw==
+X-Received: by 2002:a5d:48c6:0:b0:242:844a:835d with SMTP id
+ p6-20020a5d48c6000000b00242844a835dmr30521789wrs.65.1672995876891; 
+ Fri, 06 Jan 2023 01:04:36 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- g12-20020a05600c310c00b003c70191f267sm5847712wmo.39.2023.01.06.01.03.18
+ a14-20020adff7ce000000b002549b649b62sm569112wrq.50.2023.01.06.01.04.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jan 2023 01:03:18 -0800 (PST)
-Date: Fri, 6 Jan 2023 10:03:16 +0100
+ Fri, 06 Jan 2023 01:04:36 -0800 (PST)
+Date: Fri, 6 Jan 2023 10:04:34 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Subject: Re: [PATCH] drm/msm: Set preferred depth.
-Message-ID: <Y7fj1N4blo2MYZDt@phenom.ffwll.local>
-Mail-Followup-To: Thomas Zimmermann <tzimmermann@suse.de>,
+Message-ID: <Y7fkIvBRHcsgHR0l@phenom.ffwll.local>
+Mail-Followup-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Steev Klimaszewski <steev@kali.org>,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20230106071609.3948-1-steev@kali.org>
- <98a30f00-c98f-cecb-d681-30b55caf2f8a@suse.de>
+ <f52cca60-ab6a-460a-65f9-367c083b51fa@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <98a30f00-c98f-cecb-d681-30b55caf2f8a@suse.de>
+In-Reply-To: <f52cca60-ab6a-460a-65f9-367c083b51fa@linaro.org>
 X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,16 +77,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Steev Klimaszewski <steev@kali.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Steev Klimaszewski <steev@kali.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 06, 2023 at 09:31:31AM +0100, Thomas Zimmermann wrote:
-> Am 06.01.23 um 08:16 schrieb Steev Klimaszewski:
+On Fri, Jan 06, 2023 at 09:18:21AM +0200, Dmitry Baryshkov wrote:
+> On 06/01/2023 09:16, Steev Klimaszewski wrote:
 > > As of commit 37c90d589dc0 ("drm/fb-helper: Fix single-probe color-format
 > > selection"), if no supported color formats are found, it tries to use the
 > > driver provided default, which msm didn't have set and leads to the
@@ -151,39 +148,14 @@ On Fri, Jan 06, 2023 at 09:31:31AM +0100, Thomas Zimmermann wrote:
 > > ---
 > >   drivers/gpu/drm/msm/msm_drv.c | 1 +
 > >   1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> > index 8b0b0ac74a6f..65c4c93c311e 100644
-> > --- a/drivers/gpu/drm/msm/msm_drv.c
-> > +++ b/drivers/gpu/drm/msm/msm_drv.c
-> > @@ -479,6 +479,7 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
-> >   	drm_helper_move_panel_connectors_to_head(ddev);
-> > +	ddev->mode_config.preferred_depth = 24;
 > 
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-preferred_depth is not a mandatory thing, we need to fix the fbdev patch,
-not work around that in all the drivers. xrgb8888 is the assumed default.
+I think a documentation patch that preferred_depth = 0 actually means
+xrgb8888 would be good, since we seem to have a serious confusion going on
+here?
 -Daniel
-
-> 
-> Best regards
-> Thomas
-> 
-> >   	ddev->mode_config.funcs = &mode_config_funcs;
-> >   	ddev->mode_config.helper_private = &mode_config_helper_funcs;
-> 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 Nürnberg, Germany
-> (HRB 36809, AG Nürnberg)
-> Geschäftsführer: Ivo Totev
-
-
-
-
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
