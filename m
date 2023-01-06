@@ -1,47 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA71C65FFDB
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 12:58:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF4266006F
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 13:43:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCD6A10E865;
-	Fri,  6 Jan 2023 11:58:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A882F10E14B;
+	Fri,  6 Jan 2023 12:43:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 513FB10E865
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 11:58:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=TC2tcsPk9sMmis/tKueqApbpIw2ZvbmNWcD0JfzY8uw=; b=IHUDmxl4dXcYJBQQXqvYstibb1
- F6LoV2S2/qb5PEhWLU0hvvEEpwZmq8NQrS+Eb/sJ0g2yGCoTU/7qSPH+DrdzoNIbgqoB37gD1ETuN
- 3mgTLV/dpOUYVyaQ3/ciW2zKJD2NJzJ3K7QzXT+zCPZBkXNEZ4DDGkfU54UWUzZsjQlnHEk7FDSZ0
- 5+d7uVONkfr8WnniOmDAY4iflHwWK2T9fRs9Ypm7T1WFistdxqHKmaE1jSgUVz28V5z7kMQHTKLXW
- aIl+frl5yVwb9xf9gnUrZ9fDmI8q6lJZgdEyA1zzuD8aCosFCZ+Iq7PPshcYogJBxzw8QtH7GgIj/
- /8nWmksQ==;
-Received: from [187.36.234.139] (helo=bowie..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pDlMR-000oQY-Q6; Fri, 06 Jan 2023 12:58:12 +0100
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2] drm/vkms: reintroduce prepare_fb and cleanup_fb functions
-Date: Fri,  6 Jan 2023 08:57:59 -0300
-Message-Id: <20230106115759.213710-1-mcanal@igalia.com>
-X-Mailer: git-send-email 2.39.0
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CFCD10E14B
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 12:43:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673009010; x=1704545010;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=xOS8ybbB3+KzsmrdJ3+9gcTHp2qLgugWj7IXSCxM/lU=;
+ b=JZf0bODkTQH07/Lh1LhSnKzgvBTGvZYr9dRR3YhwI3q9BEQPx8IRUcpe
+ VoQgleUStNxx/afiplr7BXgFde9c3I790bi5d/Ed932jQ+dhEUTWsu7dD
+ 7XBuHV1UUQeTCB5+FoRYalGci2JU6ORDq9DKrAvYqchuAoP5kkVIXg98p
+ mZfwN83riioJbw97+i8fAVj61kGgj5Lhdfw++Y/54cOFPCPh56xO6AtEP
+ rxN86x8KIr9lcdxhhNPCJ54YMZyAI7VwGIMXMIAaXhNmovZ0W0Ayc4PQB
+ 9gk8Ohc+zf6WVlyhasuwu7fhqHJ2iNGWsCwJeHR2skpBAI3wR/Qruanw9 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="320173792"
+X-IronPort-AV: E=Sophos;i="5.96,305,1665471600"; d="scan'208";a="320173792"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2023 04:43:29 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="763511635"
+X-IronPort-AV: E=Sophos;i="5.96,305,1665471600"; d="scan'208";a="763511635"
+Received: from joe-255.igk.intel.com (HELO localhost) ([172.22.229.67])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2023 04:43:27 -0800
+Date: Fri, 6 Jan 2023 13:43:25 +0100
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v4 1/7] accel/ivpu: Introduce a new DRM driver for Intel
+ VPU
+Message-ID: <20230106124325.GC1586324@linux.intel.com>
+References: <20221208110733.5498-1-jacek.lawrynowicz@linux.intel.com>
+ <20221208110733.5498-2-jacek.lawrynowicz@linux.intel.com>
+ <Y7bJLkXF7xFYX4Qe@phenom.ffwll.local>
+ <ff231f90-9b67-7f47-b543-e8194f3cdec6@quicinc.com>
+ <CAFCwf13uupxNxc+Ru3zEa_Wn1asJ9UgpnyDgyFQKhEPC8qVtbQ@mail.gmail.com>
+ <Y7fpr69AXYYo2O25@phenom.ffwll.local>
+ <20230106095634.GB1586324@linux.intel.com>
+ <CAKMK7uEu=aKCVgNfzqVE-NKX9O6HyNmYKORuHcK4Y=j=kmRDMw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uEu=aKCVgNfzqVE-NKX9O6HyNmYKORuHcK4Y=j=kmRDMw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,128 +64,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Melissa Wen <mwen@igalia.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- dri-devel@lists.freedesktop.org
+Cc: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, tzimmermann@suse.de,
+ andrzej.kacprowski@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With commit 359c6649cd9a ("drm/gem: Implement shadow-plane {begin,
-end}_fb_access with vmap"), the behavior of the shadow-plane helpers
-changed and the vunmap is now performed at the end of
-the current pageflip, instead of the end of the following pageflip.
+On Fri, Jan 06, 2023 at 11:44:58AM +0100, Daniel Vetter wrote:
+> > > The problem is going to happen as soon as you have cross-vendor userspace.
+> > > Which I'm kinda hoping is at least still the aspiration. Because with
+> > > cross-vendor userspace you generally iterate & open all devices before you
+> > > select the one you're going to use. And so we do kinda need a distinction,
+> > > or we need that the single-user drivers also guarantee that open() is
+> > > cheap.
+> >
+> > FWIW we had good support in ivpu for probe open's in form of lazy context
+> > allocation. It was removed recently due to review feedback that this is
+> > unnecessary, but we can add it back.
+> 
+> Yeah once you have more than 1 multi-user accel chip in the system you
+> need to do that. Which is really the reason why I think smashing
+> multi-user client accel things into render is good, it forces drivers
+> to suck less.
+> 
+> On that topic, does your userspace still do the drmIoctl() wrapper?
 
-By performing the vunmap at the end of the current pageflip, invalid
-memory is accessed by the vkms during the plane composition, as the data
-is being unmapped before being used, as reported by the following
-warning:
+Yes, it still does. We released the code BTW, the wrapper can be seen here:
+https://github.com/intel/linux-vpu-driver/blob/b6ed73cabf87f461cbbe4427e1b9351a548d790b/umd/vpu_driver/source/os_interface/vpu_driver_api.cpp#L41
 
- [  275.866047] BUG: unable to handle page fault for address: ffffb382814e8002
- [  275.866055] #PF: supervisor read access in kernel mode
- [  275.866058] #PF: error_code(0x0000) - not-present page
- [  275.866061] PGD 1000067 P4D 1000067 PUD 110a067 PMD 46e3067 PTE 0
- [  275.866066] Oops: 0000 [#1] PREEMPT SMP PTI
- [  275.866070] CPU: 2 PID: 49 Comm: kworker/u8:2 Not tainted 6.1.0-rc6-00018-gb357e7ac1b73-dirty #54
- [  275.866074] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.1-2.fc37 04/01/2014
- [  275.866076] Workqueue: vkms_composer vkms_composer_worker [vkms]
- [  275.866084] RIP: 0010:XRGB8888_to_argb_u16+0x5c/0xa0 [vkms]
- [  275.866092] Code: bf 56 0a 0f af 56 70 48 8b 76 28 01 ca 49 83 f8 02
- 41 b9 01 00 00 00 4d 0f 43 c8 48 01 f2 48 83 c2 02 31 f6 66 c7 04 f0 ff
- ff <0f> b6 0c b2 89 cf c1 e7 08 09 cf 66 89 7c f0 02 0f b6 4c b2 ff 89
- [  275.866095] RSP: 0018:ffffb382801b7db0 EFLAGS: 00010246
- [  275.866098] RAX: ffff896336ace000 RBX: ffff896310e293c0 RCX: 0000000000000000
- [  275.866101] RDX: ffffb382814e8002 RSI: 0000000000000000 RDI: ffffb382801b7de8
- [  275.866103] RBP: 0000000000001400 R08: 0000000000000280 R09: 0000000000000280
- [  275.866105] R10: 0000000000000010 R11: ffffffffc011d990 R12: ffff896302a1ece0
- [  275.866107] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000080008001
- [  275.866109] FS:  0000000000000000(0000) GS:ffff89637dd00000(0000) knlGS:0000000000000000
- [  275.866112] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
- [  275.866114] CR2: ffffb382814e8002 CR3: 0000000003bb4000 CR4: 00000000000006e0
- [  275.866120] Call Trace:
- [  275.866123]  <TASK>
- [  275.866124]  compose_active_planes+0x1c4/0x380 [vkms]
- [  275.866132]  vkms_composer_worker+0x9f/0x130 [vkms]
- [  275.866139]  process_one_work+0x1c0/0x370
- [  275.866160]  worker_thread+0x221/0x410
- [  275.866164]  ? worker_clr_flags+0x50/0x50
- [  275.866167]  kthread+0xe1/0x100
- [  275.866172]  ? kthread_blkcg+0x30/0x30
- [  275.866176]  ret_from_fork+0x22/0x30
- [  275.866181]  </TASK>
- [  275.866182] Modules linked in: vkms
- [  275.866186] CR2: ffffb382814e8002
- [  275.866191] ---[ end trace 0000000000000000 ]---
-
-Therefore, introduce again prepare_fb and cleanup_fb functions to the
-vkms, which were previously removed on commit b43e2ec03b0d ("drm/vkms:
-Let shadow-plane helpers prepare the plane's FB").
-
-Fixes: 359c6649cd9a ("drm/gem: Implement shadow-plane {begin, end}_fb_access with vmap")
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
-
-v1 -> v2: https://lore.kernel.org/dri-devel/19951367-2ef0-0f26-ddf0-893259d9a5ef@igalia.com/T/
-
-- Add kernel oops to the commit description (Melissa Wen).
-- s/introduce/reintroduce/ in the title (Melissa Wen).
-- Add Thomas's Acked-by.
-
----
- drivers/gpu/drm/vkms/vkms_plane.c | 36 ++++++++++++++++++++++++++++++-
- 1 file changed, 35 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index c3a845220e10..b3f8a115cc23 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -160,10 +160,44 @@ static int vkms_plane_atomic_check(struct drm_plane *plane,
-	return 0;
- }
-
-+static int vkms_prepare_fb(struct drm_plane *plane,
-+			   struct drm_plane_state *state)
-+{
-+	struct drm_shadow_plane_state *shadow_plane_state;
-+	struct drm_framebuffer *fb = state->fb;
-+	int ret;
-+
-+	if (!fb)
-+		return 0;
-+
-+	shadow_plane_state = to_drm_shadow_plane_state(state);
-+
-+	ret = drm_gem_plane_helper_prepare_fb(plane, state);
-+	if (ret)
-+		return ret;
-+
-+	return drm_gem_fb_vmap(fb, shadow_plane_state->map, shadow_plane_state->data);
-+}
-+
-+static void vkms_cleanup_fb(struct drm_plane *plane,
-+			    struct drm_plane_state *state)
-+{
-+	struct drm_shadow_plane_state *shadow_plane_state;
-+	struct drm_framebuffer *fb = state->fb;
-+
-+	if (!fb)
-+		return;
-+
-+	shadow_plane_state = to_drm_shadow_plane_state(state);
-+
-+	drm_gem_fb_vunmap(fb, shadow_plane_state->map);
-+}
-+
- static const struct drm_plane_helper_funcs vkms_primary_helper_funcs = {
-	.atomic_update		= vkms_plane_atomic_update,
-	.atomic_check		= vkms_plane_atomic_check,
--	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
-+	.prepare_fb		= vkms_prepare_fb,
-+	.cleanup_fb		= vkms_cleanup_fb,
- };
-
- struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
---
-2.39.0
-
+Regards
+Stanislaw
