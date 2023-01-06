@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A0565FE80
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 11:06:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5353365FE98
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 11:15:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E55710E852;
-	Fri,  6 Jan 2023 10:06:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40AD410E855;
+	Fri,  6 Jan 2023 10:15:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D3C110E852
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 10:06:00 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 71C6F248C6;
- Fri,  6 Jan 2023 10:05:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1672999558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=ZCkv9aaddj+HIt/yLqgfwgRbapKJelrLoDGSDZeRtRI=;
- b=MBFGg+CZV7y12HHmN3Tho/lPF35H3XV4ZxwOMbuuejfc6ijjpFSs9dWZRr7pxZswqdxZLV
- kWbGcO38W5pXcVfiF0v5L09sOXrinXxviHUttfJWLfb43YsMgEdDM8zWJ4PRB+9sxzWy3y
- QSqtydCjUwfSOqLm6zJCghR0W9UWEx0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1672999558;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=ZCkv9aaddj+HIt/yLqgfwgRbapKJelrLoDGSDZeRtRI=;
- b=cniILLol+JUJ/3NuY4gKirA8Qlbm0cPtHonhLTF9COKMr/QB5oJghQgfyt8OUEc4v3WLfq
- QCks7BgzluwlDNBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3957B139D5;
- Fri,  6 Jan 2023 10:05:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id VMgoDIbyt2M6egAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 06 Jan 2023 10:05:58 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, mcanal@igalia.com, steev@kali.org,
- dmitry.baryshkov@linaro.org, javierm@redhat.com, airlied@gmail.com,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Subject: [PATCH v2] drm/fb-helper: Replace bpp/depth parameter by color mode
-Date: Fri,  6 Jan 2023 11:05:56 +0100
-Message-Id: <20230106100556.5562-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.39.0
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7414710E854;
+ Fri,  6 Jan 2023 10:15:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673000117; x=1704536117;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=/eoMdymTEkpMW13UmQ6manSwCHMYpdQ0iAtJu9006UE=;
+ b=e5ITLM8Yyulq0PH3CFUbntx9RRzj4xv/UdmFamVnAo17Fnrj/GSWE2DH
+ fYYthmXDVDTKuuPZpdP50+f04CS30oeuEpLynydGJH5sTZ6zWaylL8A9f
+ V+jE5zFtROx4V2gSamxO0m+hoaY4Gpy0U1K9Q3YMu7DFiVNaaNgML5Xce
+ OY6j7njVO0ZOiXLnmB1bj87kT4v8OojwvPt43hfT4eKifw4wq5DGSMlJS
+ c3h0IDN0FiIF2kWDC439IRb2HFeK8887U3xa4UXYdX2ajUsMOTYa088zH
+ ET0IeLuBjk4WMTo4xrG/YV39DfMWYoTdfcBksMNVBVz5k8xoMa8kWXq7y g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="305966429"
+X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; d="scan'208";a="305966429"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2023 02:15:16 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="829860777"
+X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; d="scan'208";a="829860777"
+Received: from mjervis-mobl1.ger.corp.intel.com (HELO [10.213.209.50])
+ ([10.213.209.50])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2023 02:15:12 -0800
+Message-ID: <69c2f2bd-e9de-b8ec-8790-055f4cc1d834@linux.intel.com>
+Date: Fri, 6 Jan 2023 10:15:10 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] drm/i915: Fix potential context UAFs
+Content-Language: en-US
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>, Rob Clark <robdclark@gmail.com>
+References: <20230103234948.1218393-1-robdclark@gmail.com>
+ <Y7byJa9VZyKO2gnT@ashyti-mobl2.lan>
+ <b1aea77b-ba55-61a2-2c33-f7754e0ca586@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <b1aea77b-ba55-61a2-2c33-f7754e0ca586@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,167 +63,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, Matthew Brost <matthew.brost@intel.com>,
+ katrinzhou <katrinzhou@tencent.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ "open list:INTEL DRM DRIVERS" <intel-gfx@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ John Harrison <John.C.Harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the combination of bpp and depth with a single color-mode
-argument. Handle special cases in simpledrm and ofdrm. Hard-code
-XRGB8888 as fallback format for cases where no given format works.
 
-The color-mode argument accepts the same values as the kernel's video
-parameter. These are mostly bpp values between 1 and 32. The exceptions
-are 15, which has a color depth of 15 and a bpp value of 16; and 32,
-which has a color depth of 24 and a bpp value of 32.
+On 05/01/2023 16:00, Tvrtko Ursulin wrote:
+> 
+> On 05/01/2023 15:52, Andi Shyti wrote:
+>> Hi Rob,
+>>
+>> On Tue, Jan 03, 2023 at 03:49:46PM -0800, Rob Clark wrote:
+>>> From: Rob Clark <robdclark@chromium.org>
+>>>
+>>> gem_context_register() makes the context visible to userspace, and which
+>>> point a separate thread can trigger the I915_GEM_CONTEXT_DESTROY ioctl.
+>>> So we need to ensure that nothing uses the ctx ptr after this.  And we
+>>> need to ensure that adding the ctx to the xarray is the *last* thing
+>>> that gem_context_register() does with the ctx pointer.
+>>>
+>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>
+>> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+>>
+>> I also agree with Tvrtko that we should add Stable: and Fixes:.
+> 
+> Yeah I'll add them all when merging. Just waiting for full CI results. 
+> It will be like this:
+> 
+> Fixes: eb4dedae920a ("drm/i915/gem: Delay tracking the GEM context until 
+> it is registered")
+> Fixes: a4c1cdd34e2c ("drm/i915/gem: Delay context creation (v3)")
+> Fixes: 49bd54b390c2 ("drm/i915: Track all user contexts per client")
+> Cc: <stable@vger.kernel.org> # v5.10+
 
-v2:
-	* minimize changes (Daniel)
-	* use drm_driver_legacy_fb_format() (Daniel)
+Pushed to drm-intel-gt-next - thanks for the fix and reviews.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_fb_helper.c  | 39 +++++++++++++++++---------------
- drivers/gpu/drm/tiny/ofdrm.c     |  7 +++++-
- drivers/gpu/drm/tiny/simpledrm.c |  7 +++++-
- 3 files changed, 33 insertions(+), 20 deletions(-)
+Regards,
 
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 1369ca4ae39b..2feb4b0a1477 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -1756,24 +1756,21 @@ static uint32_t drm_fb_helper_find_format(struct drm_fb_helper *fb_helper, const
- 	return DRM_FORMAT_INVALID;
- }
- 
--static uint32_t drm_fb_helper_find_cmdline_format(struct drm_fb_helper *fb_helper,
--						  const uint32_t *formats, size_t format_count,
--						  const struct drm_cmdline_mode *cmdline_mode)
-+static uint32_t drm_fb_helper_find_color_mode_format(struct drm_fb_helper *fb_helper,
-+						     const uint32_t *formats, size_t format_count,
-+						     unsigned int color_mode)
- {
- 	struct drm_device *dev = fb_helper->dev;
- 	uint32_t bpp, depth;
- 
--	if (!cmdline_mode->bpp_specified)
--		return DRM_FORMAT_INVALID;
--
--	switch (cmdline_mode->bpp) {
-+	switch (color_mode) {
- 	case 1:
- 	case 2:
- 	case 4:
- 	case 8:
- 	case 16:
- 	case 24:
--		bpp = depth = cmdline_mode->bpp;
-+		bpp = depth = color_mode;
- 		break;
- 	case 15:
- 		bpp = 16;
-@@ -1784,7 +1781,7 @@ static uint32_t drm_fb_helper_find_cmdline_format(struct drm_fb_helper *fb_helpe
- 		depth = 24;
- 		break;
- 	default:
--		drm_info(dev, "unsupported bpp value of %d\n", cmdline_mode->bpp);
-+		drm_info(dev, "unsupported color mode of %d\n", color_mode);
- 		return DRM_FORMAT_INVALID;
- 	}
- 
-@@ -1817,10 +1814,10 @@ static int __drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper, int prefe
- 		drm_client_for_each_connector_iter(connector, &conn_iter) {
- 			struct drm_cmdline_mode *cmdline_mode = &connector->cmdline_mode;
- 
--			surface_format = drm_fb_helper_find_cmdline_format(fb_helper,
--									   plane->format_types,
--									   plane->format_count,
--									   cmdline_mode);
-+			surface_format = drm_fb_helper_find_color_mode_format(fb_helper,
-+									      plane->format_types,
-+									      plane->format_count,
-+									      cmdline_mode->bpp);
- 			if (surface_format != DRM_FORMAT_INVALID)
- 				break; /* found supported format */
- 		}
-@@ -1829,17 +1826,23 @@ static int __drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper, int prefe
- 		if (surface_format != DRM_FORMAT_INVALID)
- 			break; /* found supported format */
- 
--		/* try preferred bpp/depth */
--		surface_format = drm_fb_helper_find_format(fb_helper, plane->format_types,
--							   plane->format_count, preferred_bpp,
--							   dev->mode_config.preferred_depth);
-+		/* try preferred color mode */
-+		surface_format = drm_fb_helper_find_color_mode_format(fb_helper,
-+								      plane->format_types,
-+								      plane->format_count,
-+								      preferred_bpp);
- 		if (surface_format != DRM_FORMAT_INVALID)
- 			break; /* found supported format */
- 	}
- 
- 	if (surface_format == DRM_FORMAT_INVALID) {
-+		/*
-+		 * If none of the given color modes works, fall back
-+		 * to XRGB8888. Drivers are expected to provide this
-+		 * format for compatibility with legacy applications.
-+		 */
- 		drm_warn(dev, "No compatible format found\n");
--		return -EAGAIN;
-+		surface_format = drm_driver_legacy_fb_format(dev, 32, 24);
- 	}
- 
- 	info = drm_format_info(surface_format);
-diff --git a/drivers/gpu/drm/tiny/ofdrm.c b/drivers/gpu/drm/tiny/ofdrm.c
-index 39c5fd463fec..745a8b44517f 100644
---- a/drivers/gpu/drm/tiny/ofdrm.c
-+++ b/drivers/gpu/drm/tiny/ofdrm.c
-@@ -1352,6 +1352,7 @@ static int ofdrm_probe(struct platform_device *pdev)
- {
- 	struct ofdrm_device *odev;
- 	struct drm_device *dev;
-+	unsigned int color_mode;
- 	int ret;
- 
- 	odev = ofdrm_device_create(&ofdrm_driver, pdev);
-@@ -1363,7 +1364,11 @@ static int ofdrm_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	drm_fbdev_generic_setup(dev, drm_format_info_bpp(odev->format, 0));
-+	color_mode = drm_format_info_bpp(sdev->format, 0);
-+	if (color_mode == 16)
-+		color_mode = sdev->format->depth; // can be 15 or 16
-+
-+	drm_fbdev_generic_setup(dev, color_mode);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index 7355617f38d3..f658b99c796a 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -802,6 +802,7 @@ static int simpledrm_probe(struct platform_device *pdev)
- {
- 	struct simpledrm_device *sdev;
- 	struct drm_device *dev;
-+	unsigned int color_mode;
- 	int ret;
- 
- 	sdev = simpledrm_device_create(&simpledrm_driver, pdev);
-@@ -813,7 +814,11 @@ static int simpledrm_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	drm_fbdev_generic_setup(dev, drm_format_info_bpp(sdev->format, 0));
-+	color_mode = drm_format_info_bpp(sdev->format, 0);
-+	if (color_mode == 16)
-+		color_mode = sdev->format->depth; // can be 15 or 16
-+
-+	drm_fbdev_generic_setup(dev, color_mode);
- 
- 	return 0;
- }
--- 
-2.39.0
+Tvrtko
 
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>> One little thing, "user after free" is clearer that UAF :)
+>>
+>> Thanks,
+>> Andi
+>>
+>>> ---
+>>>   drivers/gpu/drm/i915/gem/i915_gem_context.c | 24 +++++++++++++++------
+>>>   1 file changed, 18 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c 
+>>> b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>> index 7f2831efc798..6250de9b9196 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>> @@ -1688,6 +1688,10 @@ void i915_gem_init__contexts(struct 
+>>> drm_i915_private *i915)
+>>>       init_contexts(&i915->gem.contexts);
+>>>   }
+>>> +/*
+>>> + * Note that this implicitly consumes the ctx reference, by placing
+>>> + * the ctx in the context_xa.
+>>> + */
+>>>   static void gem_context_register(struct i915_gem_context *ctx,
+>>>                    struct drm_i915_file_private *fpriv,
+>>>                    u32 id)
+>>> @@ -1703,10 +1707,6 @@ static void gem_context_register(struct 
+>>> i915_gem_context *ctx,
+>>>       snprintf(ctx->name, sizeof(ctx->name), "%s[%d]",
+>>>            current->comm, pid_nr(ctx->pid));
+>>> -    /* And finally expose ourselves to userspace via the idr */
+>>> -    old = xa_store(&fpriv->context_xa, id, ctx, GFP_KERNEL);
+>>> -    WARN_ON(old);
+>>> -
+>>>       spin_lock(&ctx->client->ctx_lock);
+>>>       list_add_tail_rcu(&ctx->client_link, &ctx->client->ctx_list);
+>>>       spin_unlock(&ctx->client->ctx_lock);
+>>> @@ -1714,6 +1714,10 @@ static void gem_context_register(struct 
+>>> i915_gem_context *ctx,
+>>>       spin_lock(&i915->gem.contexts.lock);
+>>>       list_add_tail(&ctx->link, &i915->gem.contexts.list);
+>>>       spin_unlock(&i915->gem.contexts.lock);
+>>> +
+>>> +    /* And finally expose ourselves to userspace via the idr */
+>>> +    old = xa_store(&fpriv->context_xa, id, ctx, GFP_KERNEL);
+>>> +    WARN_ON(old);
+>>>   }
+>>>   int i915_gem_context_open(struct drm_i915_private *i915,
+>>> @@ -2199,14 +2203,22 @@ finalize_create_context_locked(struct 
+>>> drm_i915_file_private *file_priv,
+>>>       if (IS_ERR(ctx))
+>>>           return ctx;
+>>> +    /*
+>>> +     * One for the xarray and one for the caller.  We need to grab
+>>> +     * the reference *prior* to making the ctx visble to userspace
+>>> +     * in gem_context_register(), as at any point after that
+>>> +     * userspace can try to race us with another thread destroying
+>>> +     * the context under our feet.
+>>> +     */
+>>> +    i915_gem_context_get(ctx);
+>>> +
+>>>       gem_context_register(ctx, file_priv, id);
+>>>       old = xa_erase(&file_priv->proto_context_xa, id);
+>>>       GEM_BUG_ON(old != pc);
+>>>       proto_context_close(file_priv->dev_priv, pc);
+>>> -    /* One for the xarray and one for the caller */
+>>> -    return i915_gem_context_get(ctx);
+>>> +    return ctx;
+>>>   }
+>>>   struct i915_gem_context *
+>>> -- 
+>>> 2.38.1
