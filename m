@@ -2,48 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 846EB6605E1
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 18:47:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C3526605EF
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 18:50:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F344B10E0C2;
-	Fri,  6 Jan 2023 17:47:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF03F10E8A5;
+	Fri,  6 Jan 2023 17:50:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay6-1.pub.mailoutpod2-cph3.one.com
- (mailrelay6-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:405::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D89010E0C2
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 17:47:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=3ZkqwT//XG7BkpEaYP0t4/kQtbvC2cyH6nezkShj9GI=;
- b=CruGeZf3paWALutax0NxS9pNV1Lqs5S/DiNm+fMDSUuipD67l5jEADRaEHFPmzczMfTBfeE92VSTt
- X8eWLfcALcVDyhkyf68AhUj/hEG2mv5eGI0GKDWeZqkOsZmiGonwHr6u+8qrhDzmAXsQSB07FD1gx2
- YXvaIPdfFdcGJiKhEKONe0J3MNBaqaoOayBLvM3aOzL5BC9GXjxNseNvsNQPTc5dKWVcfDV29ZCdhH
- JIh/FRP4CGczAIaTHHTLcHXsIntRzgZDT5bUMM0Rjn436EpxjUEI+SCDxV8lco24XpkKHwXh47vyBD
- GB3vE0Z2ePsxuNK4djOwjvpRjD68uvA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=3ZkqwT//XG7BkpEaYP0t4/kQtbvC2cyH6nezkShj9GI=;
- b=nT+VcIthoxhA8MnyKlBmjy04KeOPZMlHZv6M0+Vn/Scdjhuz3MDsqEzh6fZvTAmwNqGWCA8VWyn5o
- +FqYDFPBw==
-X-HalOne-ID: 2298574e-8dea-11ed-af8f-cde5ad41a1dd
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay6 (Halon) with ESMTPSA
- id 2298574e-8dea-11ed-af8f-cde5ad41a1dd;
- Fri, 06 Jan 2023 17:47:09 +0000 (UTC)
-Date: Fri, 6 Jan 2023 18:47:07 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Stephen Kitt <steve@sk2.org>
-Subject: Re: [PATCH RESEND 4/4] backlight: tosa: Use backlight helper
-Message-ID: <Y7hem+T16FixeT0q@ravnborg.org>
-References: <20230106164856.1453819-5-steve@sk2.org>
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF3C110E8A6
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 17:50:00 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id z5so900454wrt.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 09:50:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MEWcai/0BTUSDXzlv/9ZnddHBUgd9q90oSNrTCd/iAE=;
+ b=hkasdKR/OrqmQwA/oOWmPJTk7z6ETkOAnL/+a1hwca7i4k8ududHCU7HQbUMGoP+qW
+ Uw1kYQ2NTYX+GOukmMyi/bR5ErlLtQqAnJdJ2bagG5WkAe3w1XbjORO4Qr+yOgg+9g3Q
+ Mf1s4J2Xy6cIj76SMWXp0VGHGG3zAIgDoQ+Mo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MEWcai/0BTUSDXzlv/9ZnddHBUgd9q90oSNrTCd/iAE=;
+ b=wQE6A9BpWvWLwlFslVtU9s8/Op/0auqQRsBCshstdnjpM2X/EfSbb/VaPLR+GepETZ
+ O6J0nrEQbGk+osYc/Ltn9bUc41zV9HGE9ZNA8Pb8cTSTG+kyvbVnwNrbY+cg5o0azogm
+ gDzwBLoZwEd7tH46sl/IYOIxRNiwBSbBycJ24/861Lrw9W1oVm8gE5E7V60LZNZdcvCY
+ f2JUNcpvjqpt6nov8rckUwv6u6Bjg7f+MFrkH7TyYQrfTi8gNjC/OOm6EfSknuHa9frZ
+ nQ7Vs1jvji3TXzi442MwX5txHRK61soG0RbDZGZbFmIzmlLZYmw8tv0HOcEChms6ReHG
+ +o7g==
+X-Gm-Message-State: AFqh2koY9oalGSPNKPWrH/q/+mIno9bR1vE+X0Edcod8Q2+T+VJ5dG1d
+ LXHV5fecvQokNpwnx0WlZCcw2g==
+X-Google-Smtp-Source: AMrXdXsSQA1sZlk78KWMQ3ZlByTzU+qPddwuRA0IvEpJPokqzlPt1nfac/dSnY9a55WhImAedfMMaw==
+X-Received: by 2002:adf:f4c1:0:b0:27e:7f5:6634 with SMTP id
+ h1-20020adff4c1000000b0027e07f56634mr26567517wrp.60.1673027399535; 
+ Fri, 06 Jan 2023 09:49:59 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ o12-20020adfe80c000000b0024258722a7fsm1710958wrm.37.2023.01.06.09.49.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Jan 2023 09:49:58 -0800 (PST)
+Date: Fri, 6 Jan 2023 18:49:56 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 1/2] drm/atomic: Allow vblank-enabled + self-refresh
+ "disable"
+Message-ID: <Y7hfRNHMjk5H+muj@phenom.ffwll.local>
+Mail-Followup-To: Greg KH <gregkh@linuxfoundation.org>,
+ Brian Norris <briannorris@chromium.org>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sandy Huang <hjc@rock-chips.com>,
+ linux-rockchip@lists.infradead.org,
+ Sean Paul <seanpaul@chromium.org>, stable@vger.kernel.org
+References: <20230105174001.1.I3904f697863649eb1be540ecca147a66e42bfad7@changeid>
+ <Y7fH88gNfja364JD@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230106164856.1453819-5-steve@sk2.org>
+In-Reply-To: <Y7fH88gNfja364JD@kroah.com>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,43 +78,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
+ Brian Norris <briannorris@chromium.org>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, Sean Paul <seanpaul@chromium.org>,
+ stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 06, 2023 at 05:48:55PM +0100, Stephen Kitt wrote:
-> Instead of retrieving the backlight brightness in struct
-> backlight_properties manually, and then checking whether the backlight
-> should be on at all, use backlight_get_brightness() which does all
-> this and insulates this from future changes.
+On Fri, Jan 06, 2023 at 08:04:19AM +0100, Greg KH wrote:
+> On Thu, Jan 05, 2023 at 05:40:17PM -0800, Brian Norris wrote:
+> > The self-refresh helper framework overloads "disable" to sometimes mean
+> > "go into self-refresh mode," and this mode activates automatically
+> > (e.g., after some period of unchanging display output). In such cases,
+> > the display pipe is still considered "on", and user-space is not aware
+> > that we went into self-refresh mode. Thus, users may expect that
+> > vblank-related features (such as DRM_IOCTL_WAIT_VBLANK) still work
+> > properly.
+> > 
+> > However, we trigger the WARN_ONCE() here if a CRTC driver tries to leave
+> > vblank enabled here.
+> > 
+> > Add a new exception, such that we allow CRTCs to be "disabled" (with
+> > self-refresh active) with vblank interrupts still enabled.
+> > 
+> > Cc: <stable@vger.kernel.org> # dependency for subsequent patch
 > 
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  drivers/video/backlight/tosa_bl.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
-> 
-> diff --git a/drivers/video/backlight/tosa_bl.c b/drivers/video/backlight/tosa_bl.c
-> index 77b71f6c19b5..e338b1f00f6a 100644
-> --- a/drivers/video/backlight/tosa_bl.c
-> +++ b/drivers/video/backlight/tosa_bl.c
-> @@ -50,13 +50,8 @@ static void tosa_bl_set_backlight(struct tosa_bl_data *data, int brightness)
->  
->  static int tosa_bl_update_status(struct backlight_device *dev)
->  {
-> -	struct backlight_properties *props = &dev->props;
->  	struct tosa_bl_data *data = bl_get_data(dev);
-> -	int power = max(props->power, props->fb_blank);
-> -	int brightness = props->brightness;
-> -
-> -	if (power)
-> -		brightness = 0;
-> +	int brightness = backlight_get_brightness(dev);
->  
->  	tosa_bl_set_backlight(data, brightness);
->  
-> -- 
-> 2.30.2
+> "subsequent" doesn't mean much when it is committed, give it a name
+> perhaps?
+
+It also looks a bit funny tbh, and a bit much like duct-tape. I need to
+think through how this is supposed to work really.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
