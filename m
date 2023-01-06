@@ -1,69 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A512765F941
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 02:44:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E5FD65F994
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 03:30:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99FBC10E822;
-	Fri,  6 Jan 2023 01:43:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AEDC10E824;
+	Fri,  6 Jan 2023 02:30:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 329C310E822
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 01:43:56 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id jn22so185187plb.13
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Jan 2023 17:43:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=zq2tTlqoca8fgMZv+DSfwKOM4QZRj+aLU599+3ypWLs=;
- b=aT3ec5YU5kW9kVY37MkKgkTc8VMR6+NxP+HPcJ8t9J9c94T+ItW36xG5UN+qJeg8jn
- orhx9mlGVaPLg2q5tlgxc2OVnTMSUOUpEWbai6U5leqDU7aPt7GPDsUY7Ebe423J2NHM
- Vh6ro3SfUaCL3pirzzjv6uiOdX3ijLWXQDUog=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zq2tTlqoca8fgMZv+DSfwKOM4QZRj+aLU599+3ypWLs=;
- b=U20RvXDdojO2SkLRmtePuLZLdeFDkhvTiSzkLCo4Z6ySgVQeBTfgjV0yj0HU4vDdBL
- jbz9hblzmClDdUoSREALfd0U8XHgwioF+aVUqkz2sj/HxweG45LODV7g7IdSCw+z/SYA
- 4PWo8U4sF+oE/STGeHyHI+o1qEuUOXjaFlP8xu8nL1p9+mUPq0AwIJ+teBDSwr1+20x5
- kx5VjL1BaNYhHM4aaHQcRxkjW5vBq5eADppl0l26LVbZGS5NBDHV7vBTQxw2ZdEVa4M9
- MNdW4w879YVQlqMZ1+b1BspeLFA1Hb9A15xd0hb2TVBRNHFUxd6v+o+yfM4ImZq5I+wQ
- oB4Q==
-X-Gm-Message-State: AFqh2kqxNzpWq+olmh/kEdAPMNc3tAhhnwPHchyMdNfthSIVo//HalMS
- 38EcZlp3T8U1TtUwaQ0dM/W3vQ==
-X-Google-Smtp-Source: AMrXdXvpKiXLt2gXj8DJbU08aSnbZ+9SGellA9tGLkhsf4ENbOej9zoRDEaxgIKHPPmL8ehI2RyDYg==
-X-Received: by 2002:a17:90b:482:b0:226:ae11:b55b with SMTP id
- bh2-20020a17090b048200b00226ae11b55bmr7987265pjb.11.1672969435732; 
- Thu, 05 Jan 2023 17:43:55 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:5567:fb20:aa4f:352])
- by smtp.gmail.com with ESMTPSA id
- d10-20020a17090a3b0a00b0021806f631ccsm1889218pjc.30.2023.01.05.17.43.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 17:43:55 -0800 (PST)
-Date: Thu, 5 Jan 2023 17:43:52 -0800
-From: Brian Norris <briannorris@chromium.org>
-To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>
-Subject: Re: renesas/master bisection:
- igt-kms-rockchip.kms_vblank.pipe-A-wait-forked on rk3399-gru-kevin
-Message-ID: <Y7d82A9FrHDraRYB@google.com>
-References: <6398848e.170a0220.f8e8e.d44f@mx.google.com>
- <Y5itf0+yNIQa6fU4@sirena.org.uk> <Y5qOwmqIIp+2qWOy@google.com>
- <Y6OCg9BPnJvimQLT@google.com>
- <a62cd71c-f025-739a-4822-58ff8fa78cbd@mailbox.org>
- <Y7TgXA+bnkPm4y/6@google.com>
- <9ff68af1-63f6-1a95-6380-d0d8503fe511@mailbox.org>
- <Y7dyh1AkJRZnf+Dq@google.com>
+Received: from cstnet.cn (smtp23.cstnet.cn [159.226.251.23])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3D82210E00F;
+ Fri,  6 Jan 2023 02:30:19 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.138.125])
+ by APP-03 (Coremail) with SMTP id rQCowACXnJS1h7djpmO9Cg--.9869S2;
+ Fri, 06 Jan 2023 10:30:13 +0800 (CST)
+From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, sean@poorly.run, airlied@gmail.com,
+ daniel@ffwll.ch, swboyd@chromium.org, quic_khsieh@quicinc.com,
+ johan+linaro@kernel.org
+Subject: [PATCH] drm/msm/hdmi: Add missing check for alloc_ordered_workqueue
+Date: Fri,  6 Jan 2023 10:30:11 +0800
+Message-Id: <20230106023011.3985-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y7dyh1AkJRZnf+Dq@google.com>
+X-CM-TRANSID: rQCowACXnJS1h7djpmO9Cg--.9869S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Jr18urW3GF47Xr17KFyrtFb_yoWfGrg_Wa
+ 4fCrnxurW7KFnxtw1xAr1Syryvyr109rW8WFn8ta4aya9rW3s2qr4qkFW3Zry7uFy5ZF1D
+ Za10vry5ZrnrCjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbsAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
+ 1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
+ cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
+ ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+ 0xkIwI1lc2xSY4AK67AK6r4UMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
+ 4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
+ 67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
+ x0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2
+ z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
+ UI43ZEXa7VUb5l1PUUUUU==
+X-Originating-IP: [124.16.138.125]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,41 +57,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, kernelci-results@groups.io,
- bot@kernelci.org, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Robert Foss <robert.foss@linaro.org>, Mark Brown <broonie@kernel.org>,
- Sean Paul <seanpaul@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, gtucker@collabora.com,
- linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: linux-arm-msm@vger.kernel.org, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 05, 2023 at 04:59:55PM -0800, Brian Norris wrote:
-> On Wed, Jan 04, 2023 at 10:11:46AM +0100, Michel Dänzer wrote:
-> > On 1/4/23 03:11, Brian Norris wrote:
-> > > On Tue, Jan 03, 2023 at 07:04:00PM +0100, Michel Dänzer wrote:
-> > >> On 12/21/22 23:02, Brian Norris wrote:
-> > >>> 3. leave vblank enabled even in the presence of PSR
-> > > 
-> > > I'm leaning toward this.
-> > 
-> > If this means vblank interrupts will arrive as expected even while in PSR, that may be the ideal solution indeed.
-> 
-> Yes. And I think I have a working patchset for this now. It passes all
-> the igt-gpu-tools/kms_vblank tests for me now, and I don't think it
-> causes any other issues. I'll send it out shortly, after a bit more
-> testing.
+Add check for the return value of alloc_ordered_workqueue as it may return
+NULL pointer and cause NULL pointer dereference in `hdmi_hdcp.c` and
+`hdmi_hpd.c`.
 
-For the record, that's here:
-https://lore.kernel.org/lkml/20230105174001.2.Ic07cba4ab9a7bd3618a9e4258b8f92ea7d10ae5a@changeid/
+Fixes: c6a57a50ad56 ("drm/msm/hdmi: add hdmi hdcp support (V3)")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+---
+ drivers/gpu/drm/msm/hdmi/hdmi.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-I didn't CC everyone who got this report. In included a:
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+index 4d3fdc806bef..8e801ec0b33f 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+@@ -120,6 +120,10 @@ static int msm_hdmi_init(struct hdmi *hdmi)
+ 	int ret;
+ 
+ 	hdmi->workq = alloc_ordered_workqueue("msm_hdmi", 0);
++	if (!hdmi->workq) {
++		ret = -ENOMEM;
++		goto fail;
++	}
+ 
+ 	hdmi->i2c = msm_hdmi_i2c_init(hdmi);
+ 	if (IS_ERR(hdmi->i2c)) {
+-- 
+2.25.1
 
-  Reported-by: "kernelci.org bot" <bot@kernelci.org>
-
-even though it didn't really bisect the right thing. Let me know if
-there's a different/better way to give credit.
-
-Brian
