@@ -2,51 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC9865FFAA
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 12:43:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE3165FFB1
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 12:44:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6D3410E868;
-	Fri,  6 Jan 2023 11:43:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34E2810E869;
+	Fri,  6 Jan 2023 11:44:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5228610E868
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 11:43:02 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4NpM0K0sZFz9sTD;
- Fri,  6 Jan 2023 12:42:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1673005377;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+MKewvQAOmy/Zn8oNArbj5sMzsVqtojw6uyLjAN8pxw=;
- b=RR68Uij7oOSXHjTTB6IOaiZ/WbfzNHq250+jiBWvglyo7RsQaixfIba1oTOVzP+MdTCWcf
- Jyzp435Zmhb4JdZueZrcdt7ZjPijmFyzYkIdLkAOyk/2VRX8pMXF+7pDR3Zgh7S901EvLS
- M9YeS46cK2eNA11KeWC1zaBgnwu5vISzjr8xftwfjXd7T8V9EwXqJ6jnEbkSVAx5s3y8V0
- Ucish6QEzF4eXtaehQG4YxrtXfk0Y7NMwXCqtJ4zfn8XBPoaI6SDM0n/zAvHSBA/1eMjBr
- /UbXykZOCpYV6Cg1HUXtLxoZmh/2XaE9ToBZ5CfSs0rtN2nUiCv6+py6c8s5jg==
-Message-ID: <9455bc5b-2074-4f48-71a7-5c816ee19a78@mailbox.org>
-Date: Fri, 6 Jan 2023 12:42:54 +0100
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
+ [IPv6:2607:f8b0:4864:20::b36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D83610E869
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 11:44:13 +0000 (UTC)
+Received: by mail-yb1-xb36.google.com with SMTP id l139so1529705ybl.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 03:44:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=yB29pfil3ZJ/tnu/y5zP5zuvTun+wewSgKoDLpCPfyQ=;
+ b=XBdcFpm2+O+uOJZ9OCd2RviooHef3gmC5E4HEWjOG7D/fKnyJRV0fLi06BnSmY9HqP
+ JzFwdvF4qXQICwxwcgY4L9dmWFyrKlqb96glGav5lQ86SpS/4rrXlERPZNTYfMRJIXiJ
+ omBeAWRBstCnF+FiJROXc+Ja8OuAdCq5DxqXMkWv42BDLhgkdw1a1q9IUXGEswyFsy5L
+ nXwt4iCMxgmfTeuIhotBmPNhYKtDO/yZf35TnkGtRGan+kpifWGjZXhpcBs1Se9K4FUc
+ elNpWSn4YgCRQTAzY2QpcDRt2JsxK3V8vQSePnRYkdDLFHVIqmDRY68cXQA+8zgoo6BZ
+ PHLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yB29pfil3ZJ/tnu/y5zP5zuvTun+wewSgKoDLpCPfyQ=;
+ b=R+awRmY327QLCtwGJwKxFm267gUGmJH4s4DTBO5ZhXWXtLiBD0WJFpsWOgenslAYU9
+ pT5MqW8zzPj+6JiDsnLjlcATkD3e7uwpJYfHkF2L4gH2JgXm54iebqb7JgttYPspy+IT
+ ryZfQd1oT73jESyfFDObBtR9733DioN1SQzCF6ziYlyf/z5FjsA4skBtGMy5gnVZPJCi
+ 1Qxhl8Yl/SSdF7153aT1N3r5U9kuZKHdTTxJeX99op4fgzgWDTWIEoNyw43OvJLKZF9c
+ NWxaWEviQujZJspD40WeMQG+asl+KQ/DQEbAcudsYKnhyg108XYJUW+3fUOk9nXThlAV
+ ZohA==
+X-Gm-Message-State: AFqh2kpygcKKLVE00ewsOfUyZYHvPf3YAhZoF8+AhYhSZVbVupv96R1j
+ h4oxa9Jts037QrSXd/7IawTOQXusStvQsEd1Q+Y=
+X-Google-Smtp-Source: AMrXdXvFrc8jsAPVKGJSKIExQc0sRUSSV5swYROYEtwlB2DAaeX3xLEz5jjC/6Xtw2YhLeDvalcJs1f96vhO+przv5I=
+X-Received: by 2002:a25:c843:0:b0:754:e501:8b51 with SMTP id
+ y64-20020a25c843000000b00754e5018b51mr6231075ybf.197.1673005452122; Fri, 06
+ Jan 2023 03:44:12 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] drm/rockchip: vop: Leave vblank enabled in
- self-refresh
-To: Brian Norris <briannorris@chromium.org>, =?UTF-8?Q?Heiko_St=c3=bcbner?=
- <heiko@sntech.de>, Sean Paul <seanpaul@chromium.org>
-References: <20230105174001.1.I3904f697863649eb1be540ecca147a66e42bfad7@changeid>
- <20230105174001.2.Ic07cba4ab9a7bd3618a9e4258b8f92ea7d10ae5a@changeid>
-Content-Language: en-CA
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <20230105174001.2.Ic07cba4ab9a7bd3618a9e4258b8f92ea7d10ae5a@changeid>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: tq4hqps3dpqxcfuhdffygmxousg6bo4x
-X-MBO-RS-ID: a6ab78268fa770b490a
+References: <20221208110733.5498-1-jacek.lawrynowicz@linux.intel.com>
+ <20221208110733.5498-2-jacek.lawrynowicz@linux.intel.com>
+ <Y7bJLkXF7xFYX4Qe@phenom.ffwll.local>
+ <ff231f90-9b67-7f47-b543-e8194f3cdec6@quicinc.com>
+ <CAFCwf13uupxNxc+Ru3zEa_Wn1asJ9UgpnyDgyFQKhEPC8qVtbQ@mail.gmail.com>
+ <Y7fpr69AXYYo2O25@phenom.ffwll.local>
+ <20230106095634.GB1586324@linux.intel.com>
+ <CAKMK7uEu=aKCVgNfzqVE-NKX9O6HyNmYKORuHcK4Y=j=kmRDMw@mail.gmail.com>
+In-Reply-To: <CAKMK7uEu=aKCVgNfzqVE-NKX9O6HyNmYKORuHcK4Y=j=kmRDMw@mail.gmail.com>
+From: Oded Gabbay <oded.gabbay@gmail.com>
+Date: Fri, 6 Jan 2023 13:43:45 +0200
+Message-ID: <CAFCwf11csP1YqG6e-EGzpttAPbvhXsZ9PTiUFK6pbFYHPqqZng@mail.gmail.com>
+Subject: Re: [PATCH v4 1/7] accel/ivpu: Introduce a new DRM driver for Intel
+ VPU
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,76 +72,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kernelci.org bot" <bot@kernelci.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sandy Huang <hjc@rock-chips.com>,
- linux-rockchip@lists.infradead.org, stable@vger.kernel.org
+Cc: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, tzimmermann@suse.de,
+ andrzej.kacprowski@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/6/23 02:40, Brian Norris wrote:
-> If we disable vblank when entering self-refresh, vblank APIs (like
-> DRM_IOCTL_WAIT_VBLANK) no longer work. But user space is not aware when
-> we enter self-refresh, so this appears to be an API violation -- that
-> DRM_IOCTL_WAIT_VBLANK fails with EINVAL whenever the display is idle and
-> enters self-refresh.
-> 
-> The downstream driver used by many of these systems never used to
-> disable vblank for PSR, and in fact, even upstream, we didn't do that
-> until radically redesigning the state machine in commit 6c836d965bad
-> ("drm/rockchip: Use the helpers for PSR").
-> 
-> Thus, it seems like a reasonable API fix to simply restore that
-> behavior, and leave vblank enabled.
-> 
-> Note that this appears to potentially unbalance the
-> drm_crtc_vblank_{off,on}() calls in some cases, but:
-> (a) drm_crtc_vblank_on() documents this as OK and
-> (b) if I do the naive balancing, I find state machine issues such that
->     we're not in sync properly; so it's easier to take advantage of (a).
-> 
-> Backporting notes:
-> Marking as 'Fixes' commit 6c836d965bad ("drm/rockchip: Use the helpers
-> for PSR"), but it probably depends on commit bed030a49f3e
-> ("drm/rockchip: Don't fully disable vop on self refresh") as well.
-> 
-> We also need the previous patch ("drm/atomic: Allow vblank-enabled +
-> self-refresh "disable""), of course.
-> 
-> Fixes: 6c836d965bad ("drm/rockchip: Use the helpers for PSR")
-> Cc: <stable@vger.kernel.org>
-> Link: https://lore.kernel.org/dri-devel/Y5itf0+yNIQa6fU4@sirena.org.uk/
-> Reported-by: "kernelci.org bot" <bot@kernelci.org>
-> Signed-off-by: Brian Norris <briannorris@chromium.org>
-> ---
-> 
->  drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-> index fa1f4ee6d195..c541967114b4 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-> @@ -719,11 +719,11 @@ static void vop_crtc_atomic_disable(struct drm_crtc *crtc,
->  
->  	mutex_lock(&vop->vop_lock);
->  
-> -	drm_crtc_vblank_off(crtc);
-> -
->  	if (crtc->state->self_refresh_active)
->  		goto out;
->  
-> +	drm_crtc_vblank_off(crtc);
-> +
->  	/*
->  	 * Vop standby will take effect at end of current frame,
->  	 * if dsp hold valid irq happen, it means standby complete.
+On Fri, Jan 6, 2023 at 12:45 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Fri, 6 Jan 2023 at 10:56, Stanislaw Gruszka
+> <stanislaw.gruszka@linux.intel.com> wrote:
+> >
+> > On Fri, Jan 06, 2023 at 10:28:15AM +0100, Daniel Vetter wrote:
+> > > On Thu, Jan 05, 2023 at 07:38:26PM +0200, Oded Gabbay wrote:
+> > > > On Thu, Jan 5, 2023 at 6:25 PM Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
+> > > > >
+> > > > > On 1/5/2023 5:57 AM, Daniel Vetter wrote:
+> > > > > > On Thu, Dec 08, 2022 at 12:07:27PM +0100, Jacek Lawrynowicz wrote:
+> > > > > >> +static const struct drm_driver driver = {
+> > > > > >> +    .driver_features = DRIVER_GEM | DRIVER_COMPUTE_ACCEL,
+> > > > > >
+> > > > > > So I was wondering whether this is a bright idea, and whether we shouldn't
+> > > > > > just go ahead and infuse more meaning into accel vs render nodes.
+> > > > > >
+> > > > > > The uapi relevant part of render nodes is that they're multi-user safe, at
+> > > > > > least as much as feasible. Every new open() gives you a new private
+> > > > > > accelerator. This also has implications on how userspace drivers iterate
+> > > > > > them, they just open them all in turn and check whether it's the right
+> > > > > > one - because userspace apis allow applications to enumerate them all.
+> > > > > > Which also means that any devicie initialization at open() time is a
+> > > > > > really bad idea.
+> > > > > >
+> > > > > > A lot of the compute accelerators otoh (well habanalabs) are single user,
+> > > > > > init can be done at open() time because you only open this when you
+> > > > > > actually know you're going to use it.
+> > > > > >
+> > > > > > So given this, shouldn't multi-user inference engines be more like render
+> > > > > > drivers, and less like accel? So DRIVER_RENDER, but still under
+> > > > > > drivers/accel.
+> > > > > >
+> > > > > > This way that entire separate /dev node would actually become meaningful
+> > > > > > beyond just the basic bikeshed:
+> > > > > > - render nodes are multi user, safe to iterate and open() just for
+> > > > > >    iteration
+> > > > > > - accel nodes are single user, you really should not ever open them unless
+> > > > > >    you want to use them
+> > > > > >
+> > > > > > Of course would need a doc patch :-)
+> > > > > >
+> > > > > > Thoughts?
+> > > > > > -Daniel
+> > > > >
+> > > > > Hmm.
+> > > > >
+> > > > > I admit, I thought DRIVER_ACCEL was the same as DRIVER_RENDER, except
+> > > > > that DRIVER_ACCEL dropped the "legacy" dual node setup and also avoided
+> > > > > "legacy" userspace.
+> > > > >
+> > > > > qaic is multi-user.  I thought habana was the same, at-least for
+> > > > > inference.  Oded, am I wrong?
+> > > > Habana's devices support a single user at a time acquiring the device
+> > > > and working on it.
+> > > > Both for training and inference.
+> > > > >
+> > > > > So, if DRIVER_ACCEL is for single-user (training?), and multi-user ends
+> > > > > up in DRIVER_RENDER, that would seem to mean qaic ends up using
+> > > > > DRIVER_RENDER and not DRIVER_ACCEL.  Then qaic ends up over under
+> > > > > /dev/dri with both a card node (never used) and a render node.  That
+> > > > > would seem to mean that the "legacy" userspace would open qaic nodes by
+> > > > > default - something I understood Oded was trying to avoid.
+> > > > >
+> > > > > If there really a usecase for DRIVER_ACCEL to support single-user?  I
+> > > > > wonder why we can't default to multi-user, and if a particular
+> > > > > user/driver has a single-user usecase, it enforces that in a driver
+> > > > > specific manner?
+> > > > >
+> > > > > -Jeff
+> > > >
+> > > > Honestly, Daniel, I don't like this suggestion. I don't understand why
+> > > > you make a connection between render/accel to single/multi user.
+> > > >
+> > > > As Jeff has said, one of the goals was to expose accelerator devices
+> > > > to userspace with new device char nodes so we won't be bothered by
+> > > > legacy userspace graphics software. This is something we all agreed on
+> > > > and I don't see why we should change it now, even if you think it's
+> > > > bike-shedding (which I disagree with).
+> > > >
+> > > > But in any case, creating a new device char nodes had nothing to do
+> > > > with whether the device supports single or multi user. I can
+> > > > definitely see in the future training devices that support multiple
+> > > > users.
+> > > >
+> > > > The common drm/accel ioctls should of course not be limited to a
+> > > > single user, and I agree with Jeff here, if a specific driver has such
+> > > > a limitation (e.g. Habana), then that driver should handle it on its
+> > > > own.
+> > > > Maybe if there will be multiple drivers with such a limitation, we can
+> > > > make that "handling" to be common code.
+> > > >
+> > > > Bottom line, I prefer we keep things as we all agreed upon in LPC.
+> > >
+> > > The problem is going to happen as soon as you have cross-vendor userspace.
+> > > Which I'm kinda hoping is at least still the aspiration. Because with
+> > > cross-vendor userspace you generally iterate & open all devices before you
+> > > select the one you're going to use. And so we do kinda need a distinction,
+> > > or we need that the single-user drivers also guarantee that open() is
+> > > cheap.
+> >
+> > FWIW we had good support in ivpu for probe open's in form of lazy context
+> > allocation. It was removed recently due to review feedback that this is
+> > unnecessary, but we can add it back.
+>
+> Yeah once you have more than 1 multi-user accel chip in the system you
+> need to do that. Which is really the reason why I think smashing
+> multi-user client accel things into render is good, it forces drivers
+> to suck less.
+I still don't think it is a good idea, nor that it was the original
+intention of this endeavour.
+I don't want to repeat my previous email, so I'll just say again I
+don't agree with the connection you make between accel devices and
+single users.
+Today Habana supports single-user, tomorrow it might change. But that
+doesn't mean I will want to present my device as a GPU because I don't
+want some app to try and render stuff on my device.
 
-The out label immediately unlocks vop->vop_lock again, seems a bit pointless. :)
+Moreover, accel devices can actually be specific IPs inside a more
+general ASIC (e.g. GPU) which supports multi-user. In that case, one
+might want to have an accel driver that supports multi-user on those
+IPs but exposes /dev/accel and not render nodes.
 
-AFAICT the self_refresh_active case should just return immediately, the out label would also send any pending atomic commit completion event, which seems wrong now that the vblank interrupt is left enabled. (I also wonder if drm_crtc_vblank_off doesn't take care of that already, at least amdgpu doesn't do this explicitly AFAICT)
+Oded
 
-
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
-
+>
+> On that topic, does your userspace still do the drmIoctl() wrapper?
+> -Daniel
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
