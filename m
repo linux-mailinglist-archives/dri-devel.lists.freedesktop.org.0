@@ -2,60 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE1365FF27
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 11:50:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D75A065FF30
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 11:54:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2D2510E85F;
-	Fri,  6 Jan 2023 10:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB35F10E862;
+	Fri,  6 Jan 2023 10:53:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27F3E10E85F
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 10:50:11 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id d17so932376wrs.2
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 02:50:11 -0800 (PST)
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0945F10E862
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 10:53:58 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ m8-20020a05600c3b0800b003d96f801c48so3282623wms.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 02:53:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=tuaGRtcgGcF8fmeqnF9mFZX2JhzDI5f5142DJdER1QE=;
- b=HE5+SgtPZyK8xRTD8jnTnyPiSG3CUDMZ1NdH6FHHGOziaUjroEDbGOMrGfvrqTcs6I
- E8GbA6cIMd0b7dWJwK1OjruSwpLSPf5VYdWKMYLSqbOz6CovfKAgKwgWHFCYfU88Cv6v
- 5fI9tDWPiZwyYVpN9Ki+Md3ItWK85EDk/UUyc=
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=PxLpu1TyXcZGWWpZCfxWW9dyM22ND3lKXA4tje/1iaE=;
+ b=I4VsN7CRqKxhu3FduhDh9/oVvwrBHvxD+GPP+ehb8HnLU77kEudPlm6HypMwIkd47q
+ hs/wScoRfpSl/31gzPVH51r80GWp8ZBRy8K0SFmmjnA4dAsdCdaMy96aU+xGulKob5/F
+ Dl+kird3QZEWSIYPr5jMbvc2ERWngWVtN6Ivg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tuaGRtcgGcF8fmeqnF9mFZX2JhzDI5f5142DJdER1QE=;
- b=0ndNXz1YZUJaci6Qb7gCgcoNE79ng1xf+4nwT4EnDHjlgQkrrTXIIweE1BXTY1re+g
- f/wWIM6lIC8Cpa1HMFxw37HLzH6r0782t31ImejmVthy5Z+QI3bxuT50meaI8UsYP2U0
- BYepxCHUIhTmkv+qVZY/MlPwOPReTNXVrgImnNnAJn7K8LVIVjZUVQCBiffRGaioL/AM
- yPsGielDMAL1xs+u6KS6kBCm+BwUG608F61pmN8SzTkfC1bHHLfqPcs4RzfJAb5X6Gnc
- qkuNMb1FSYwWbjwlBHtbXfY/GZHdy0ZyfSpjYfLwsKjxHhUG0rPGOlt8SbnGK3JgyJj4
- eDjw==
-X-Gm-Message-State: AFqh2koB7mp/pErtAASxIRk6wCfSpM5uR/DskGAY8VsVD0GeMmKf0Bps
- qzEPcgl+ho3PurtzAlBcbarooQ==
-X-Google-Smtp-Source: AMrXdXvL+QfivPZQJtAw8fPu++WXPn8k3HMiKCsKj2w36wN1T87oQMjYD7AIvqmyP79KL4ZZfEaNJA==
-X-Received: by 2002:adf:ecc1:0:b0:26e:666:3a08 with SMTP id
- s1-20020adfecc1000000b0026e06663a08mr34894998wro.69.1673002209421; 
- Fri, 06 Jan 2023 02:50:09 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=PxLpu1TyXcZGWWpZCfxWW9dyM22ND3lKXA4tje/1iaE=;
+ b=nCnFJi9CiYjrKKd8sAP+3vHFZ6gAcRNYBOYlCQRRC3EYJQb2nUg+N2HTDXC9X7PNRj
+ U3icY+kNCVGZu8RJkaMDuIluOiEYYzx6KrDjR9c9CclXBeCogi48A7Oo3ebcuVw0Zq8P
+ CvkFMtrJc5jVjX5ZfyzbNZt3qAw7VZVpywqhqdz/+Azcu2eX47ohkNnsrEm0M1N+uQRV
+ mRoxjiK1LbXN9V+R4Qn6nSeLfLtoJ1QFwb/qSIcJa1Bd3jzLcY64fUvkUXnqk0CiXR4U
+ vsTn59VYhBuPwcWNnizm/XNoEK5lxF42x+3WpMZ3xhboyC0DasWTaNY/F4WQHN167R9o
+ E32Q==
+X-Gm-Message-State: AFqh2kpwFynA60hiaM/lTxN9BiuwtnjFn9+4eo2KUkkweSuVYbnp8uwm
+ AJH3NDaAFbTf2JEkRoeY7rc3rQ==
+X-Google-Smtp-Source: AMrXdXsUgwlQd09psXit580rj9eFNDkApqQre77K1AhGSkjUFzL3fdVlnlciKOdq/ryFO2t2rAMscQ==
+X-Received: by 2002:a05:600c:2207:b0:3d2:24d2:d02b with SMTP id
+ z7-20020a05600c220700b003d224d2d02bmr39692585wml.29.1673002436456; 
+ Fri, 06 Jan 2023 02:53:56 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- l8-20020a5d6688000000b0029e1aa67fd2sm777279wru.115.2023.01.06.02.50.08
+ w5-20020a05600018c500b002420dba6447sm825499wrq.59.2023.01.06.02.53.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jan 2023 02:50:08 -0800 (PST)
-Date: Fri, 6 Jan 2023 11:50:05 +0100
+ Fri, 06 Jan 2023 02:53:55 -0800 (PST)
+Date: Fri, 6 Jan 2023 11:53:53 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: Re: [PATCH v4 3/7] accel/ivpu: Add GEM buffer object management
-Message-ID: <Y7f83SKldf9uaTi3@phenom.ffwll.local>
-References: <20221208110733.5498-1-jacek.lawrynowicz@linux.intel.com>
- <20221208110733.5498-4-jacek.lawrynowicz@linux.intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [RFC 3/3] drm: Update file owner during use
+Message-ID: <Y7f9weWJc1c0XiG1@phenom.ffwll.local>
+References: <20221130133407.2689864-1-tvrtko.ursulin@linux.intel.com>
+ <20221130133407.2689864-4-tvrtko.ursulin@linux.intel.com>
+ <Y4dmKgn8X4yPUnqk@phenom.ffwll.local>
+ <157dcd11-ea4d-b22a-b10f-0934451d3c1d@linux.intel.com>
+ <3eccd500-9e69-111d-54bd-90e6292b2b98@amd.com>
+ <Y7bDdU0nZg+6GBZL@phenom.ffwll.local>
+ <5a875e31-138e-7e11-3a47-b0b85fc1413f@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20221208110733.5498-4-jacek.lawrynowicz@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5a875e31-138e-7e11-3a47-b0b85fc1413f@amd.com>
 X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,1271 +77,240 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_jhugo@quicinc.com, dri-devel@lists.freedesktop.org,
- stanislaw.gruszka@linux.intel.com, tzimmermann@suse.de,
- andrzej.kacprowski@linux.intel.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 08, 2022 at 12:07:29PM +0100, Jacek Lawrynowicz wrote:
-> Adds four types of GEM-based BOs for the VPU:
->   - shmem
->   - userptr
->   - internal
+On Fri, Jan 06, 2023 at 11:32:17AM +0100, Christian König wrote:
+> Am 05.01.23 um 13:32 schrieb Daniel Vetter:
+> > [SNIP]
+> > > For the case of an master fd I actually don't see the reason why we should
+> > > limit that? And fd can become master if it either was master before or has
+> > > CAP_SYS_ADMIN. Why would we want an extra check for the pid/tgid here?
+> > This is just info/debug printing, I don't see the connection to
+> > drm_auth/master stuff? Aside from the patch mixes up the master opener and
+> > the current user due to fd passing or something like that.
+> 
+> That's exactly why my comment meant as well.
+> 
+> The connect is that the drm_auth/master code currently the pid/tgid as
+> indicator if the "owner" of the fd has changed and so if an access should be
+> allowed or not. I find that approach a bit questionable.
+> 
+> > Note that we cannot do that (I think at least, after pondering this some
+> > more) because it would break the logind master fd passing scheme - there
+> > the receiving compositor is explicitly _not_ allowed to acquire master
+> > rights on its own. So the master priviledges must not move with the fd or
+> > things can go wrong.
+> 
+> That could be the rational behind that, but why doesn't logind then just
+> pass on a normal render node to the compositor?
 
-Uh what do you need this for? Usually the way we do these is just alloce a
-normal bo, and then pin them.
+Because the compositor wants the kms node. We have 3 access levels in drm
 
-Also, gem shmem helpers should be able to mostly cover you here, why not
-use those? Might need some work to push basic userptr to them, but we have
-enough drivers reinventing that wheel to justify that work.
+- render stuff
+- modeset stuff (needs a card* node and master rights for changing things)
+- set/drop master (needs root)
 
-Can I guess also be done after merging.
+logind wants to give the compositor modeset access, but not master
+drop/set access (because vt switching is controlled by logind).
+
+The pid check in drm_auth is for the use-case where you start your
+compositor on a root vt (or setuid-root), and then want to make sure
+that after cred dropping, set/drop master keeps working. Because in that
+case the vt switch dance is done by the compositor.
+
+Maybe we should document this stuff a bit better :-)
 -Daniel
 
->   - prime
 > 
-> All types are implemented as struct ivpu_bo, based on
-> struct drm_gem_object. VPU address is allocated when buffer is created
-> except for imported prime buffers that allocate it in BO_INFO IOCTL due
-> to missing file_priv arg in gem_prime_import callback.
-> Internal buffers are pinned on creation, the rest of buffers types
-> can be pinned on demand (in SUBMIT IOCTL).
-> Buffer VPU address, allocated pages and mappings are relased when the
-> buffer is destroyed.
-> Eviction mechism is planned for future versions.
+> Christian.
 > 
-> Add three new IOCTLs: BO_CREATE, BO_INFO, BO_USERPTR
-> 
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> ---
->  drivers/accel/ivpu/Makefile   |   1 +
->  drivers/accel/ivpu/ivpu_drv.c |  31 +-
->  drivers/accel/ivpu/ivpu_drv.h |   1 +
->  drivers/accel/ivpu/ivpu_gem.c | 820 ++++++++++++++++++++++++++++++++++
->  drivers/accel/ivpu/ivpu_gem.h | 128 ++++++
->  include/uapi/drm/ivpu_drm.h   | 127 ++++++
->  6 files changed, 1106 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/accel/ivpu/ivpu_gem.c
->  create mode 100644 drivers/accel/ivpu/ivpu_gem.h
-> 
-> diff --git a/drivers/accel/ivpu/Makefile b/drivers/accel/ivpu/Makefile
-> index 37b8bf1d3247..1b4b24ebf5ea 100644
-> --- a/drivers/accel/ivpu/Makefile
-> +++ b/drivers/accel/ivpu/Makefile
-> @@ -3,6 +3,7 @@
->  
->  intel_vpu-y := \
->  	ivpu_drv.o \
-> +	ivpu_gem.o \
->  	ivpu_hw_mtl.o \
->  	ivpu_mmu.o \
->  	ivpu_mmu_context.o
-> diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-> index a22d41ca5a4b..29e78c5ec7c5 100644
-> --- a/drivers/accel/ivpu/ivpu_drv.c
-> +++ b/drivers/accel/ivpu/ivpu_drv.c
-> @@ -12,8 +12,10 @@
->  #include <drm/drm_file.h>
->  #include <drm/drm_gem.h>
->  #include <drm/drm_ioctl.h>
-> +#include <drm/drm_prime.h>
->  
->  #include "ivpu_drv.h"
-> +#include "ivpu_gem.h"
->  #include "ivpu_hw.h"
->  #include "ivpu_mmu.h"
->  #include "ivpu_mmu_context.h"
-> @@ -49,6 +51,24 @@ struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv)
->  	return file_priv;
->  }
->  
-> +struct ivpu_file_priv *ivpu_file_priv_get_by_ctx_id(struct ivpu_device *vdev, unsigned long id)
-> +{
-> +	struct ivpu_file_priv *file_priv;
-> +
-> +	xa_lock_irq(&vdev->context_xa);
-> +	file_priv = xa_load(&vdev->context_xa, id);
-> +	/* file_priv may still be in context_xa during file_priv_release() */
-> +	if (file_priv && !kref_get_unless_zero(&file_priv->ref))
-> +		file_priv = NULL;
-> +	xa_unlock_irq(&vdev->context_xa);
-> +
-> +	if (file_priv)
-> +		ivpu_dbg(vdev, KREF, "file_priv get by id: ctx %u refcount %u\n",
-> +			 file_priv->ctx.id, kref_read(&file_priv->ref));
-> +
-> +	return file_priv;
-> +}
-> +
->  static void file_priv_release(struct kref *ref)
->  {
->  	struct ivpu_file_priv *file_priv = container_of(ref, struct ivpu_file_priv, ref);
-> @@ -57,7 +77,7 @@ static void file_priv_release(struct kref *ref)
->  	ivpu_dbg(vdev, FILE, "file_priv release: ctx %u\n", file_priv->ctx.id);
->  
->  	ivpu_mmu_user_context_fini(vdev, &file_priv->ctx);
-> -	WARN_ON(xa_erase_irq(&vdev->context_xa, file_priv->ctx.id) != file_priv);
-> +	drm_WARN_ON(&vdev->drm, xa_erase_irq(&vdev->context_xa, file_priv->ctx.id) != file_priv);
->  	kfree(file_priv);
->  }
->  
-> @@ -66,7 +86,7 @@ void ivpu_file_priv_put(struct ivpu_file_priv **link)
->  	struct ivpu_file_priv *file_priv = *link;
->  	struct ivpu_device *vdev = file_priv->vdev;
->  
-> -	WARN_ON(!file_priv);
-> +	drm_WARN_ON(&vdev->drm, !file_priv);
->  
->  	ivpu_dbg(vdev, KREF, "file_priv put: ctx %u refcount %u\n",
->  		 file_priv->ctx.id, kref_read(&file_priv->ref));
-> @@ -200,6 +220,9 @@ static void ivpu_postclose(struct drm_device *dev, struct drm_file *file)
->  static const struct drm_ioctl_desc ivpu_drm_ioctls[] = {
->  	DRM_IOCTL_DEF_DRV(IVPU_GET_PARAM, ivpu_get_param_ioctl, 0),
->  	DRM_IOCTL_DEF_DRV(IVPU_SET_PARAM, ivpu_set_param_ioctl, 0),
-> +	DRM_IOCTL_DEF_DRV(IVPU_BO_CREATE, ivpu_bo_create_ioctl, 0),
-> +	DRM_IOCTL_DEF_DRV(IVPU_BO_INFO, ivpu_bo_info_ioctl, 0),
-> +	DRM_IOCTL_DEF_DRV(IVPU_BO_USERPTR, ivpu_bo_userptr_ioctl, 0),
->  };
->  
->  int ivpu_shutdown(struct ivpu_device *vdev)
-> @@ -233,6 +256,10 @@ static const struct drm_driver driver = {
->  
->  	.open = ivpu_open,
->  	.postclose = ivpu_postclose,
-> +	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
-> +	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-> +	.gem_prime_import = ivpu_gem_prime_import,
-> +	.gem_prime_mmap = drm_gem_prime_mmap,
->  
->  	.ioctls = ivpu_drm_ioctls,
->  	.num_ioctls = ARRAY_SIZE(ivpu_drm_ioctls),
-> diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-> index 6e8b88068fc9..69088a03928a 100644
-> --- a/drivers/accel/ivpu/ivpu_drv.h
-> +++ b/drivers/accel/ivpu/ivpu_drv.h
-> @@ -114,6 +114,7 @@ extern u8 ivpu_pll_min_ratio;
->  extern u8 ivpu_pll_max_ratio;
->  
->  struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv);
-> +struct ivpu_file_priv *ivpu_file_priv_get_by_ctx_id(struct ivpu_device *vdev, unsigned long id);
->  void ivpu_file_priv_put(struct ivpu_file_priv **link);
->  int ivpu_shutdown(struct ivpu_device *vdev);
->  
-> diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
-> new file mode 100644
-> index 000000000000..97638d8d7906
-> --- /dev/null
-> +++ b/drivers/accel/ivpu/ivpu_gem.c
-> @@ -0,0 +1,820 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2020-2022 Intel Corporation
-> + */
-> +
-> +#include <linux/dma-buf.h>
-> +#include <linux/highmem.h>
-> +#include <linux/module.h>
-> +#include <linux/set_memory.h>
-> +#include <linux/xarray.h>
-> +
-> +#include <drm/drm_cache.h>
-> +#include <drm/drm_debugfs.h>
-> +#include <drm/drm_file.h>
-> +#include <drm/drm_utils.h>
-> +
-> +#include "ivpu_drv.h"
-> +#include "ivpu_gem.h"
-> +#include "ivpu_hw.h"
-> +#include "ivpu_mmu.h"
-> +#include "ivpu_mmu_context.h"
-> +
-> +MODULE_IMPORT_NS(DMA_BUF);
-> +
-> +static const struct drm_gem_object_funcs ivpu_gem_funcs;
-> +
-> +static struct lock_class_key prime_bo_lock_class_key;
-> +static struct lock_class_key userptr_bo_lock_class_key;
-> +
-> +static int __must_check prime_alloc_pages_locked(struct ivpu_bo *bo)
-> +{
-> +	/* Pages are managed by the underlying dma-buf */
-> +	return 0;
-> +}
-> +
-> +static void prime_free_pages_locked(struct ivpu_bo *bo)
-> +{
-> +	/* Pages are managed by the underlying dma-buf */
-> +}
-> +
-> +static int prime_map_pages_locked(struct ivpu_bo *bo)
-> +{
-> +	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
-> +	struct sg_table *sgt;
-> +
-> +	WARN_ON(!bo->base.import_attach);
-> +
-> +	sgt = dma_buf_map_attachment(bo->base.import_attach, DMA_BIDIRECTIONAL);
-> +	if (IS_ERR(sgt)) {
-> +		ivpu_err(vdev, "Failed to map attachment: %ld\n", PTR_ERR(sgt));
-> +		return PTR_ERR(sgt);
-> +	}
-> +
-> +	bo->sgt = sgt;
-> +	return 0;
-> +}
-> +
-> +static void prime_unmap_pages_locked(struct ivpu_bo *bo)
-> +{
-> +	WARN_ON(!bo->base.import_attach);
-> +
-> +	dma_buf_unmap_attachment(bo->base.import_attach, bo->sgt, DMA_BIDIRECTIONAL);
-> +	bo->sgt = NULL;
-> +}
-> +
-> +static const struct ivpu_bo_ops prime_ops = {
-> +	.type = IVPU_BO_TYPE_PRIME,
-> +	.name = "prime",
-> +	.alloc_pages = prime_alloc_pages_locked,
-> +	.free_pages = prime_free_pages_locked,
-> +	.map_pages = prime_map_pages_locked,
-> +	.unmap_pages = prime_unmap_pages_locked,
-> +};
-> +
-> +static int __must_check shmem_alloc_pages_locked(struct ivpu_bo *bo)
-> +{
-> +	int npages = bo->base.size >> PAGE_SHIFT;
-> +	struct page **pages;
-> +
-> +	pages = drm_gem_get_pages(&bo->base);
-> +	if (IS_ERR(pages))
-> +		return PTR_ERR(pages);
-> +
-> +	if (bo->flags & DRM_IVPU_BO_WC)
-> +		set_pages_array_wc(pages, npages);
-> +	else if (bo->flags & DRM_IVPU_BO_UNCACHED)
-> +		set_pages_array_uc(pages, npages);
-> +
-> +	bo->pages = pages;
-> +	return 0;
-> +}
-> +
-> +static void shmem_free_pages_locked(struct ivpu_bo *bo)
-> +{
-> +	if (ivpu_bo_cache_mode(bo) != DRM_IVPU_BO_CACHED)
-> +		set_pages_array_wb(bo->pages, bo->base.size >> PAGE_SHIFT);
-> +
-> +	drm_gem_put_pages(&bo->base, bo->pages, true, false);
-> +	bo->pages = NULL;
-> +}
-> +
-> +static int ivpu_bo_map_pages_locked(struct ivpu_bo *bo)
-> +{
-> +	int npages = bo->base.size >> PAGE_SHIFT;
-> +	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
-> +	struct sg_table *sgt;
-> +	int ret;
-> +
-> +	sgt = drm_prime_pages_to_sg(&vdev->drm, bo->pages, npages);
-> +	if (IS_ERR(sgt)) {
-> +		ivpu_err(vdev, "Failed to allocate sgtable\n");
-> +		return PTR_ERR(sgt);
-> +	}
-> +
-> +	ret = dma_map_sgtable(vdev->drm.dev, sgt, DMA_BIDIRECTIONAL, 0);
-> +	if (ret) {
-> +		ivpu_err(vdev, "Failed to map BO in IOMMU: %d\n", ret);
-> +		goto err_free_sgt;
-> +	}
-> +
-> +	bo->sgt = sgt;
-> +	return 0;
-> +
-> +err_free_sgt:
-> +	kfree(sgt);
-> +	return ret;
-> +}
-> +
-> +static void ivpu_bo_unmap_pages_locked(struct ivpu_bo *bo)
-> +{
-> +	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
-> +
-> +	dma_unmap_sgtable(vdev->drm.dev, bo->sgt, DMA_BIDIRECTIONAL, 0);
-> +	sg_free_table(bo->sgt);
-> +	kfree(bo->sgt);
-> +	bo->sgt = NULL;
-> +}
-> +
-> +static const struct ivpu_bo_ops shmem_ops = {
-> +	.type = IVPU_BO_TYPE_SHMEM,
-> +	.name = "shmem",
-> +	.alloc_pages = shmem_alloc_pages_locked,
-> +	.free_pages = shmem_free_pages_locked,
-> +	.map_pages = ivpu_bo_map_pages_locked,
-> +	.unmap_pages = ivpu_bo_unmap_pages_locked,
-> +};
-> +
-> +static int __must_check userptr_alloc_pages_locked(struct ivpu_bo *bo)
-> +{
-> +	unsigned int npages = bo->base.size >> PAGE_SHIFT;
-> +	struct page **pages;
-> +	int ret;
-> +
-> +	pages = kvmalloc_array(npages, sizeof(*bo->pages), GFP_KERNEL);
-> +	if (!pages)
-> +		return -ENOMEM;
-> +
-> +	ret = pin_user_pages_fast(bo->user_ptr & PAGE_MASK, npages,
-> +				  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM, pages);
-> +	if (ret != npages) {
-> +		if (ret > 0)
-> +			goto err_unpin_pages;
-> +		goto err_free_pages;
-> +	}
-> +
-> +	bo->pages = pages;
-> +	return 0;
-> +
-> +err_unpin_pages:
-> +	unpin_user_pages(pages, ret);
-> +err_free_pages:
-> +	kvfree(pages);
-> +	return ret;
-> +}
-> +
-> +static void userptr_free_pages_locked(struct ivpu_bo *bo)
-> +{
-> +	unpin_user_pages(bo->pages, bo->base.size >> PAGE_SHIFT);
-> +	kvfree(bo->pages);
-> +	bo->pages = NULL;
-> +}
-> +
-> +static const struct ivpu_bo_ops userptr_ops = {
-> +	.type = IVPU_BO_TYPE_USERPTR,
-> +	.name = "userptr",
-> +	.alloc_pages = userptr_alloc_pages_locked,
-> +	.free_pages = userptr_free_pages_locked,
-> +	.map_pages = ivpu_bo_map_pages_locked,
-> +	.unmap_pages = ivpu_bo_unmap_pages_locked,
-> +};
-> +
-> +static int __must_check internal_alloc_pages_locked(struct ivpu_bo *bo)
-> +{
-> +	unsigned int i, npages = bo->base.size >> PAGE_SHIFT;
-> +	struct page **pages;
-> +	int ret;
-> +
-> +	pages = kvmalloc_array(npages, sizeof(*bo->pages), GFP_KERNEL);
-> +	if (!pages)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < npages; i++) {
-> +		pages[i] = alloc_page(GFP_KERNEL | __GFP_HIGHMEM | __GFP_ZERO);
-> +		if (!pages[i]) {
-> +			ret = -ENOMEM;
-> +			goto err_free_pages;
-> +		}
-> +		cond_resched();
-> +	}
-> +
-> +	bo->pages = pages;
-> +	return 0;
-> +
-> +err_free_pages:
-> +	while (i--)
-> +		put_page(pages[i]);
-> +	kvfree(pages);
-> +	return ret;
-> +}
-> +
-> +static void internal_free_pages_locked(struct ivpu_bo *bo)
-> +{
-> +	unsigned int i, npages = bo->base.size >> PAGE_SHIFT;
-> +
-> +	for (i = 0; i < npages; i++)
-> +		put_page(bo->pages[i]);
-> +
-> +	kvfree(bo->pages);
-> +	bo->pages = NULL;
-> +}
-> +
-> +static const struct ivpu_bo_ops internal_ops = {
-> +	.type = IVPU_BO_TYPE_INTERNAL,
-> +	.name = "internal",
-> +	.alloc_pages = internal_alloc_pages_locked,
-> +	.free_pages = internal_free_pages_locked,
-> +	.map_pages = ivpu_bo_map_pages_locked,
-> +	.unmap_pages = ivpu_bo_unmap_pages_locked,
-> +};
-> +
-> +static int __must_check ivpu_bo_alloc_and_map_pages_locked(struct ivpu_bo *bo)
-> +{
-> +	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
-> +	int ret;
-> +
-> +	lockdep_assert_held(&bo->lock);
-> +	drm_WARN_ON(&vdev->drm, bo->sgt);
-> +
-> +	ret = bo->ops->alloc_pages(bo);
-> +	if (ret) {
-> +		ivpu_err(vdev, "Failed to allocate pages for BO: %d", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = bo->ops->map_pages(bo);
-> +	if (ret) {
-> +		ivpu_err(vdev, "Failed to map pages for BO: %d", ret);
-> +		goto err_free_pages;
-> +	}
-> +	return ret;
-> +
-> +err_free_pages:
-> +	bo->ops->free_pages(bo);
-> +	return ret;
-> +}
-> +
-> +static void ivpu_bo_unmap_and_free_pages(struct ivpu_bo *bo)
-> +{
-> +	mutex_lock(&bo->lock);
-> +
-> +	WARN_ON(!bo->sgt);
-> +	bo->ops->unmap_pages(bo);
-> +	WARN_ON(bo->sgt);
-> +	bo->ops->free_pages(bo);
-> +	WARN_ON(bo->pages);
-> +
-> +	mutex_unlock(&bo->lock);
-> +}
-> +
-> +/*
-> + * ivpu_bo_pin() - pin the backing physical pages and map them to VPU.
-> + *
-> + * This function pins physical memory pages, then maps the physical pages
-> + * to IOMMU address space and finally updates the VPU MMU page tables
-> + * to allow the VPU to translate VPU address to IOMMU address.
-> + */
-> +int __must_check ivpu_bo_pin(struct ivpu_bo *bo)
-> +{
-> +	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
-> +	int ret = 0;
-> +
-> +	mutex_lock(&bo->lock);
-> +
-> +	if (!bo->vpu_addr) {
-> +		ivpu_err(vdev, "vpu_addr not set for BO ctx_id: %d handle: %d\n",
-> +			 bo->ctx->id, bo->handle);
-> +		ret = -EINVAL;
-> +		goto unlock;
-> +	}
-> +
-> +	if (!bo->sgt) {
-> +		ret = ivpu_bo_alloc_and_map_pages_locked(bo);
-> +		if (ret)
-> +			goto unlock;
-> +	}
-> +
-> +	if (!bo->mmu_mapped) {
-> +		ret = ivpu_mmu_context_map_sgt(vdev, bo->ctx, bo->vpu_addr, bo->sgt,
-> +					       ivpu_bo_is_snooped(bo));
-> +		if (ret) {
-> +			ivpu_err(vdev, "Failed to map BO in MMU: %d\n", ret);
-> +			goto unlock;
-> +		}
-> +		bo->mmu_mapped = true;
-> +	}
-> +
-> +unlock:
-> +	mutex_unlock(&bo->lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static int
-> +ivpu_bo_alloc_vpu_addr(struct ivpu_bo *bo, struct ivpu_mmu_context *ctx,
-> +		       const struct ivpu_addr_range *range)
-> +{
-> +	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
-> +	int ret;
-> +
-> +	if (!range) {
-> +		if (bo->flags & DRM_IVPU_BO_HIGH_MEM)
-> +			range = &vdev->hw->ranges.user_high;
-> +		else
-> +			range = &vdev->hw->ranges.user_low;
-> +	}
-> +
-> +	mutex_lock(&ctx->lock);
-> +	ret = ivpu_mmu_context_insert_node_locked(ctx, range, bo->base.size, &bo->mm_node);
-> +	if (!ret) {
-> +		bo->ctx = ctx;
-> +		bo->vpu_addr = bo->mm_node.start;
-> +		list_add_tail(&bo->ctx_node, &ctx->bo_list);
-> +	}
-> +	mutex_unlock(&ctx->lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static void ivpu_bo_free_vpu_addr(struct ivpu_bo *bo)
-> +{
-> +	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
-> +	struct ivpu_mmu_context *ctx = bo->ctx;
-> +
-> +	ivpu_dbg(vdev, BO, "remove from ctx: ctx %d vpu_addr 0x%llx allocated %d mmu_mapped %d\n",
-> +		 ctx->id, bo->vpu_addr, (bool)bo->sgt, bo->mmu_mapped);
-> +
-> +	mutex_lock(&bo->lock);
-> +
-> +	if (bo->mmu_mapped) {
-> +		drm_WARN_ON(&vdev->drm, !bo->sgt);
-> +		ivpu_mmu_context_unmap_sgt(vdev, ctx, bo->vpu_addr, bo->sgt);
-> +		bo->mmu_mapped = false;
-> +	}
-> +
-> +	mutex_lock(&ctx->lock);
-> +	list_del(&bo->ctx_node);
-> +	bo->vpu_addr = 0;
-> +	bo->ctx = NULL;
-> +	ivpu_mmu_context_remove_node_locked(ctx, &bo->mm_node);
-> +	mutex_unlock(&ctx->lock);
-> +
-> +	mutex_unlock(&bo->lock);
-> +}
-> +
-> +void ivpu_bo_remove_all_bos_from_context(struct ivpu_mmu_context *ctx)
-> +{
-> +	struct ivpu_bo *bo, *tmp;
-> +
-> +	list_for_each_entry_safe(bo, tmp, &ctx->bo_list, ctx_node)
-> +		ivpu_bo_free_vpu_addr(bo);
-> +}
-> +
-> +static struct ivpu_bo *
-> +ivpu_bo_alloc(struct ivpu_device *vdev, struct ivpu_mmu_context *mmu_context,
-> +	      u64 size, u32 flags, const struct ivpu_bo_ops *ops,
-> +	      const struct ivpu_addr_range *range, u64 user_ptr)
-> +{
-> +	struct ivpu_bo *bo;
-> +	int ret = 0;
-> +
-> +	if (drm_WARN_ON(&vdev->drm, size == 0 || !PAGE_ALIGNED(size)))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	switch (flags & DRM_IVPU_BO_CACHE_MASK) {
-> +	case DRM_IVPU_BO_CACHED:
-> +	case DRM_IVPU_BO_UNCACHED:
-> +	case DRM_IVPU_BO_WC:
-> +		break;
-> +	default:
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
-> +	if (!bo)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	mutex_init(&bo->lock);
-> +	bo->base.funcs = &ivpu_gem_funcs;
-> +	bo->flags = flags;
-> +	bo->ops = ops;
-> +	bo->user_ptr = user_ptr;
-> +
-> +	if (ops->type == IVPU_BO_TYPE_SHMEM)
-> +		ret = drm_gem_object_init(&vdev->drm, &bo->base, size);
-> +	else
-> +		drm_gem_private_object_init(&vdev->drm, &bo->base, size);
-> +
-> +	if (ret) {
-> +		ivpu_err(vdev, "Failed to initialize drm object\n");
-> +		goto err_free;
-> +	}
-> +
-> +	if (flags & DRM_IVPU_BO_MAPPABLE) {
-> +		ret = drm_gem_create_mmap_offset(&bo->base);
-> +		if (ret) {
-> +			ivpu_err(vdev, "Failed to allocate mmap offset\n");
-> +			goto err_release;
-> +		}
-> +	}
-> +
-> +	if (mmu_context) {
-> +		ret = ivpu_bo_alloc_vpu_addr(bo, mmu_context, range);
-> +		if (ret) {
-> +			ivpu_err(vdev, "Failed to add BO to context: %d\n", ret);
-> +			goto err_release;
-> +		}
-> +	}
-> +
-> +	return bo;
-> +
-> +err_release:
-> +	drm_gem_object_release(&bo->base);
-> +err_free:
-> +	kfree(bo);
-> +	return ERR_PTR(ret);
-> +}
-> +
-> +static void ivpu_bo_free(struct drm_gem_object *obj)
-> +{
-> +	struct ivpu_bo *bo = to_ivpu_bo(obj);
-> +	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
-> +
-> +	if (bo->ctx)
-> +		ivpu_dbg(vdev, BO, "free: ctx %d vpu_addr 0x%llx allocated %d mmu_mapped %d\n",
-> +			 bo->ctx->id, bo->vpu_addr, (bool)bo->sgt, bo->mmu_mapped);
-> +	else
-> +		ivpu_dbg(vdev, BO, "free: ctx (released) allocated %d mmu_mapped %d\n",
-> +			 (bool)bo->sgt, bo->mmu_mapped);
-> +
-> +	drm_WARN_ON(&vdev->drm, !dma_resv_test_signaled(obj->resv, DMA_RESV_USAGE_READ));
-> +
-> +	vunmap(bo->kvaddr);
-> +
-> +	if (bo->ctx)
-> +		ivpu_bo_free_vpu_addr(bo);
-> +
-> +	if (bo->sgt)
-> +		ivpu_bo_unmap_and_free_pages(bo);
-> +
-> +	if (bo->base.import_attach)
-> +		drm_prime_gem_destroy(&bo->base, bo->sgt);
-> +
-> +	drm_gem_object_release(&bo->base);
-> +
-> +	mutex_destroy(&bo->lock);
-> +	kfree(bo);
-> +}
-> +
-> +static int ivpu_bo_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-> +{
-> +	struct ivpu_bo *bo = to_ivpu_bo(obj);
-> +	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
-> +
-> +	ivpu_dbg(vdev, BO, "mmap: ctx %u handle %u vpu_addr 0x%llx size %zu type %s",
-> +		 bo->ctx->id, bo->handle, bo->vpu_addr, bo->base.size, bo->ops->name);
-> +
-> +	if (obj->import_attach) {
-> +		/* Drop the reference drm_gem_mmap_obj() acquired.*/
-> +		drm_gem_object_put(obj);
-> +		vma->vm_private_data = NULL;
-> +		return dma_buf_mmap(obj->dma_buf, vma, 0);
-> +	}
-> +
-> +	vma->vm_flags |= VM_PFNMAP | VM_DONTEXPAND;
-> +	vma->vm_page_prot = ivpu_bo_pgprot(bo, vm_get_page_prot(vma->vm_flags));
-> +
-> +	return 0;
-> +}
-> +
-> +static struct sg_table *ivpu_bo_get_sg_table(struct drm_gem_object *obj)
-> +{
-> +	struct ivpu_bo *bo = to_ivpu_bo(obj);
-> +	loff_t npages = obj->size >> PAGE_SHIFT;
-> +	int ret = 0;
-> +
-> +	mutex_lock(&bo->lock);
-> +
-> +	if (!bo->sgt)
-> +		ret = ivpu_bo_alloc_and_map_pages_locked(bo);
-> +
-> +	mutex_unlock(&bo->lock);
-> +
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	return drm_prime_pages_to_sg(obj->dev, bo->pages, npages);
-> +}
-> +
-> +static vm_fault_t ivpu_vm_fault(struct vm_fault *vmf)
-> +{
-> +	struct vm_area_struct *vma = vmf->vma;
-> +	struct drm_gem_object *obj = vma->vm_private_data;
-> +	struct ivpu_bo *bo = to_ivpu_bo(obj);
-> +	loff_t npages = obj->size >> PAGE_SHIFT;
-> +	pgoff_t page_offset;
-> +	struct page *page;
-> +	vm_fault_t ret;
-> +	int err;
-> +
-> +	mutex_lock(&bo->lock);
-> +
-> +	if (!bo->sgt) {
-> +		err = ivpu_bo_alloc_and_map_pages_locked(bo);
-> +		if (err) {
-> +			ret = vmf_error(err);
-> +			goto unlock;
-> +		}
-> +	}
-> +
-> +	/* We don't use vmf->pgoff since that has the fake offset */
-> +	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
-> +	if (page_offset >= npages) {
-> +		ret = VM_FAULT_SIGBUS;
-> +	} else {
-> +		page = bo->pages[page_offset];
-> +		ret = vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
-> +	}
-> +
-> +unlock:
-> +	mutex_unlock(&bo->lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct vm_operations_struct ivpu_vm_ops = {
-> +	.fault = ivpu_vm_fault,
-> +	.open = drm_gem_vm_open,
-> +	.close = drm_gem_vm_close,
-> +};
-> +
-> +static const struct drm_gem_object_funcs ivpu_gem_funcs = {
-> +	.free = ivpu_bo_free,
-> +	.mmap = ivpu_bo_mmap,
-> +	.vm_ops = &ivpu_vm_ops,
-> +	.get_sg_table = ivpu_bo_get_sg_table,
-> +};
-> +
-> +int
-> +ivpu_bo_create_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-> +{
-> +	struct ivpu_file_priv *file_priv = file->driver_priv;
-> +	struct ivpu_device *vdev = file_priv->vdev;
-> +	struct drm_ivpu_bo_create *args = data;
-> +	u64 size = PAGE_ALIGN(args->size);
-> +	struct ivpu_bo *bo;
-> +	int ret;
-> +
-> +	if (args->flags & ~DRM_IVPU_BO_FLAGS)
-> +		return -EINVAL;
-> +
-> +	if (size == 0)
-> +		return -EINVAL;
-> +
-> +	bo = ivpu_bo_alloc(vdev, &file_priv->ctx, size, args->flags, &shmem_ops, NULL, 0);
-> +	if (IS_ERR(bo)) {
-> +		ivpu_err(vdev, "Failed to create BO: %pe (ctx %u size %llu flags 0x%x)",
-> +			 bo, file_priv->ctx.id, args->size, args->flags);
-> +		return PTR_ERR(bo);
-> +	}
-> +
-> +	ret = drm_gem_handle_create(file, &bo->base, &bo->handle);
-> +	if (!ret) {
-> +		args->vpu_addr = bo->vpu_addr;
-> +		args->handle = bo->handle;
-> +	}
-> +
-> +	drm_gem_object_put(&bo->base);
-> +
-> +	ivpu_dbg(vdev, BO, "alloc shmem: ctx %u vpu_addr 0x%llx size %zu flags 0x%x\n",
-> +		 file_priv->ctx.id, bo->vpu_addr, bo->base.size, bo->flags);
-> +
-> +	return ret;
-> +}
-> +
-> +int
-> +ivpu_bo_userptr_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-> +{
-> +	struct ivpu_file_priv *file_priv = file->driver_priv;
-> +	struct ivpu_device *vdev = file_priv->vdev;
-> +	struct drm_ivpu_bo_userptr *args = data;
-> +	struct ivpu_bo *bo;
-> +	int ret;
-> +
-> +	if (args->user_ptr == 0 || !PAGE_ALIGNED(args->user_ptr))
-> +		return -EINVAL;
-> +
-> +	if (args->user_size == 0 || !PAGE_ALIGNED(args->user_size))
-> +		return -EINVAL;
-> +
-> +	if (args->flags & ~DRM_IVPU_BO_HIGH_MEM)
-> +		return -EINVAL;
-> +
-> +	if (!access_ok((const void __user *)args->user_ptr, args->user_size))
-> +		return -EFAULT;
-> +
-> +	bo = ivpu_bo_alloc(vdev, &file_priv->ctx, args->user_size, args->flags,
-> +			   &userptr_ops, NULL, args->user_ptr);
-> +	if (IS_ERR(bo)) {
-> +		ivpu_err(vdev, "Failed to create BO: %pe (ctx %u size %llu flags 0x%x)",
-> +			 bo, file_priv->ctx.id, args->user_size, args->flags);
-> +		return PTR_ERR(bo);
-> +	}
-> +
-> +	if (!bo)
-> +		return -ENOMEM;
-> +
-> +	lockdep_set_class(&bo->lock, &userptr_bo_lock_class_key);
-> +
-> +	ret = drm_gem_handle_create(file, &bo->base, &bo->handle);
-> +	if (!ret) {
-> +		args->vpu_addr = bo->vpu_addr;
-> +		args->handle = bo->handle;
-> +	}
-> +
-> +	drm_gem_object_put(&bo->base);
-> +
-> +	ivpu_dbg(vdev, BO, "alloc userptr: ctx %u vpu_addr 0x%llx size %zu flags 0x%x\n",
-> +		 file_priv->ctx.id, bo->vpu_addr, bo->base.size, args->flags);
-> +
-> +	return ret;
-> +}
-> +
-> +struct ivpu_bo *
-> +ivpu_bo_alloc_internal(struct ivpu_device *vdev, u64 vpu_addr, u64 size, u32 flags)
-> +{
-> +	const struct ivpu_addr_range *range;
-> +	struct ivpu_addr_range fixed_range;
-> +	struct ivpu_bo *bo;
-> +	pgprot_t prot;
-> +	int ret;
-> +
-> +	drm_WARN_ON(&vdev->drm, !PAGE_ALIGNED(vpu_addr));
-> +	drm_WARN_ON(&vdev->drm, !PAGE_ALIGNED(size));
-> +
-> +	if (vpu_addr) {
-> +		fixed_range.start = vpu_addr;
-> +		fixed_range.end = vpu_addr + size;
-> +		range = &fixed_range;
-> +	} else {
-> +		range = &vdev->hw->ranges.global_low;
-> +	}
-> +
-> +	bo = ivpu_bo_alloc(vdev, &vdev->gctx, size, flags, &internal_ops, range, 0);
-> +	if (IS_ERR(bo)) {
-> +		ivpu_err(vdev, "Failed to create BO: %pe (vpu_addr 0x%llx size %llu flags 0x%x)",
-> +			 bo, vpu_addr, size, flags);
-> +		return NULL;
-> +	}
-> +
-> +	ret = ivpu_bo_pin(bo);
-> +	if (ret)
-> +		goto err_put;
-> +
-> +	if (ivpu_bo_cache_mode(bo) != DRM_IVPU_BO_CACHED)
-> +		drm_clflush_pages(bo->pages, bo->base.size >> PAGE_SHIFT);
-> +
-> +	prot = ivpu_bo_pgprot(bo, PAGE_KERNEL);
-> +	bo->kvaddr = vmap(bo->pages, bo->base.size >> PAGE_SHIFT, VM_MAP, prot);
-> +	if (!bo->kvaddr) {
-> +		ivpu_err(vdev, "Failed to map BO into kernel virtual memory\n");
-> +		goto err_put;
-> +	}
-> +
-> +	ivpu_dbg(vdev, BO, "alloc internal: ctx 0 vpu_addr 0x%llx size %zu flags 0x%x\n",
-> +		 bo->vpu_addr, bo->base.size, flags);
-> +
-> +	return bo;
-> +
-> +err_put:
-> +	drm_gem_object_put(&bo->base);
-> +	return NULL;
-> +}
-> +
-> +void ivpu_bo_free_internal(struct ivpu_bo *bo)
-> +{
-> +	drm_gem_object_put(&bo->base);
-> +}
-> +
-> +struct drm_gem_object *ivpu_gem_prime_import(struct drm_device *dev, struct dma_buf *buf)
-> +{
-> +	struct ivpu_device *vdev = to_ivpu_device(dev);
-> +	struct dma_buf_attachment *attach;
-> +	struct ivpu_bo *bo;
-> +
-> +	attach = dma_buf_attach(buf, dev->dev);
-> +	if (IS_ERR(attach))
-> +		return ERR_CAST(attach);
-> +
-> +	get_dma_buf(buf);
-> +
-> +	bo = ivpu_bo_alloc(vdev, NULL, buf->size, DRM_IVPU_BO_MAPPABLE, &prime_ops, NULL, 0);
-> +	if (IS_ERR(bo)) {
-> +		ivpu_err(vdev, "Failed to import BO: %pe (size %lu)", bo, buf->size);
-> +		goto err_detach;
-> +	}
-> +
-> +	lockdep_set_class(&bo->lock, &prime_bo_lock_class_key);
-> +
-> +	bo->base.import_attach = attach;
-> +
-> +	return &bo->base;
-> +
-> +err_detach:
-> +	dma_buf_detach(buf, attach);
-> +	dma_buf_put(buf);
-> +	return ERR_CAST(bo);
-> +}
-> +
-> +int ivpu_bo_info_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-> +{
-> +	struct ivpu_file_priv *file_priv = file->driver_priv;
-> +	struct ivpu_device *vdev = to_ivpu_device(dev);
-> +	struct drm_ivpu_bo_info *args = data;
-> +	struct drm_gem_object *obj;
-> +	struct ivpu_bo *bo;
-> +	int ret = 0;
-> +
-> +	obj = drm_gem_object_lookup(file, args->handle);
-> +	if (!obj)
-> +		return -ENOENT;
-> +
-> +	bo = to_ivpu_bo(obj);
-> +
-> +	mutex_lock(&bo->lock);
-> +
-> +	if (!bo->ctx) {
-> +		ret = ivpu_bo_alloc_vpu_addr(bo, &file_priv->ctx, NULL);
-> +		if (ret) {
-> +			ivpu_err(vdev, "Failed to allocate vpu_addr: %d\n", ret);
-> +			goto unlock;
-> +		}
-> +	}
-> +
-> +	args->flags = bo->flags;
-> +	args->mmap_offset = drm_vma_node_offset_addr(&obj->vma_node);
-> +	args->vpu_addr = bo->vpu_addr;
-> +	args->size = obj->size;
-> +unlock:
-> +	mutex_unlock(&bo->lock);
-> +	drm_gem_object_put(obj);
-> +	return ret;
-> +}
-> +
-> +static void ivpu_bo_print_info(struct ivpu_bo *bo, struct drm_printer *p)
-> +{
-> +	unsigned long dma_refcount = 0;
-> +
-> +	if (bo->base.dma_buf && bo->base.dma_buf->file)
-> +		dma_refcount = atomic_long_read(&bo->base.dma_buf->file->f_count);
-> +
-> +	drm_printf(p, "%5u %6d %16llx %10lu %10u %12lu %14s\n",
-> +		   bo->ctx->id, bo->handle, bo->vpu_addr, bo->base.size,
-> +		   kref_read(&bo->base.refcount), dma_refcount, bo->ops->name);
-> +}
-> +
-> +void ivpu_bo_list(struct drm_device *dev, struct drm_printer *p)
-> +{
-> +	struct ivpu_device *vdev = to_ivpu_device(dev);
-> +	struct ivpu_file_priv *file_priv;
-> +	unsigned long ctx_id;
-> +	struct ivpu_bo *bo;
-> +
-> +	drm_printf(p, "%5s %6s %16s %10s %10s %12s %14s\n",
-> +		   "ctx", "handle", "vpu_addr", "size", "refcount", "dma_refcount", "type");
-> +
-> +	mutex_lock(&vdev->gctx.lock);
-> +	list_for_each_entry(bo, &vdev->gctx.bo_list, ctx_node)
-> +		ivpu_bo_print_info(bo, p);
-> +	mutex_unlock(&vdev->gctx.lock);
-> +
-> +	xa_for_each(&vdev->context_xa, ctx_id, file_priv) {
-> +		file_priv = ivpu_file_priv_get_by_ctx_id(vdev, ctx_id);
-> +		if (!file_priv)
-> +			continue;
-> +
-> +		mutex_lock(&file_priv->ctx.lock);
-> +		list_for_each_entry(bo, &file_priv->ctx.bo_list, ctx_node)
-> +			ivpu_bo_print_info(bo, p);
-> +		mutex_unlock(&file_priv->ctx.lock);
-> +
-> +		ivpu_file_priv_put(&file_priv);
-> +	}
-> +}
-> +
-> +void ivpu_bo_list_print(struct drm_device *dev)
-> +{
-> +	struct drm_printer p = drm_info_printer(dev->dev);
-> +
-> +	ivpu_bo_list(dev, &p);
-> +}
-> diff --git a/drivers/accel/ivpu/ivpu_gem.h b/drivers/accel/ivpu/ivpu_gem.h
-> new file mode 100644
-> index 000000000000..c32af06afb2b
-> --- /dev/null
-> +++ b/drivers/accel/ivpu/ivpu_gem.h
-> @@ -0,0 +1,128 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2020-2022 Intel Corporation
-> + */
-> +#ifndef __IVPU_GEM_H__
-> +#define __IVPU_GEM_H__
-> +
-> +#include <drm/drm_gem.h>
-> +#include <drm/drm_mm.h>
-> +
-> +struct dma_buf;
-> +struct ivpu_bo_ops;
-> +struct ivpu_file_priv;
-> +
-> +struct ivpu_bo {
-> +	struct drm_gem_object base;
-> +	const struct ivpu_bo_ops *ops;
-> +
-> +	struct ivpu_mmu_context *ctx;
-> +	struct list_head ctx_node;
-> +	struct drm_mm_node mm_node;
-> +
-> +	struct mutex lock; /* Protects: pages, sgt, mmu_mapped */
-> +	struct sg_table *sgt;
-> +	struct page **pages;
-> +	bool mmu_mapped;
-> +
-> +	void *kvaddr;
-> +	u64 vpu_addr;
-> +	u32 handle;
-> +	u32 flags;
-> +	uintptr_t user_ptr;
-> +};
-> +
-> +enum ivpu_bo_type {
-> +	IVPU_BO_TYPE_SHMEM = 1,
-> +	IVPU_BO_TYPE_USERPTR,
-> +	IVPU_BO_TYPE_INTERNAL,
-> +	IVPU_BO_TYPE_PRIME,
-> +};
-> +
-> +struct ivpu_bo_ops {
-> +	enum ivpu_bo_type type;
-> +	const char *name;
-> +	int (*alloc_pages)(struct ivpu_bo *bo);
-> +	void (*free_pages)(struct ivpu_bo *bo);
-> +	int (*map_pages)(struct ivpu_bo *bo);
-> +	void (*unmap_pages)(struct ivpu_bo *bo);
-> +};
-> +
-> +int ivpu_bo_pin(struct ivpu_bo *bo);
-> +void ivpu_bo_remove_all_bos_from_context(struct ivpu_mmu_context *ctx);
-> +void ivpu_bo_list(struct drm_device *dev, struct drm_printer *p);
-> +void ivpu_bo_list_print(struct drm_device *dev);
-> +
-> +struct ivpu_bo *
-> +ivpu_bo_alloc_internal(struct ivpu_device *vdev, u64 vpu_addr, u64 size, u32 flags);
-> +void ivpu_bo_free_internal(struct ivpu_bo *bo);
-> +struct drm_gem_object *ivpu_gem_prime_import(struct drm_device *dev, struct dma_buf *dma_buf);
-> +void ivpu_bo_unmap_sgt_and_remove_from_context(struct ivpu_bo *bo);
-> +
-> +int ivpu_bo_create_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
-> +int ivpu_bo_info_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
-> +int ivpu_bo_userptr_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
-> +int ivpu_bo_wait_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
-> +
-> +static inline struct ivpu_bo *to_ivpu_bo(struct drm_gem_object *obj)
-> +{
-> +	return container_of(obj, struct ivpu_bo, base);
-> +}
-> +
-> +static inline struct page *ivpu_bo_get_page(struct ivpu_bo *bo, u64 offset)
-> +{
-> +	if (offset > bo->base.size || !bo->pages)
-> +		return NULL;
-> +
-> +	return bo->pages[offset / PAGE_SIZE];
-> +}
-> +
-> +static inline u32 ivpu_bo_cache_mode(struct ivpu_bo *bo)
-> +{
-> +	return bo->flags & DRM_IVPU_BO_CACHE_MASK;
-> +}
-> +
-> +static inline bool ivpu_bo_is_snooped(struct ivpu_bo *bo)
-> +{
-> +	return ivpu_bo_cache_mode(bo) == DRM_IVPU_BO_CACHED;
-> +}
-> +
-> +static inline pgprot_t ivpu_bo_pgprot(struct ivpu_bo *bo, pgprot_t prot)
-> +{
-> +	if (bo->flags & DRM_IVPU_BO_WC)
-> +		return pgprot_writecombine(prot);
-> +
-> +	if (bo->flags & DRM_IVPU_BO_UNCACHED)
-> +		return pgprot_noncached(prot);
-> +
-> +	return prot;
-> +}
-> +
-> +static inline struct ivpu_device *ivpu_bo_to_vdev(struct ivpu_bo *bo)
-> +{
-> +	return to_ivpu_device(bo->base.dev);
-> +}
-> +
-> +static inline void *ivpu_to_cpu_addr(struct ivpu_bo *bo, u32 vpu_addr)
-> +{
-> +	if (vpu_addr < bo->vpu_addr)
-> +		return NULL;
-> +
-> +	if (vpu_addr >= (bo->vpu_addr + bo->base.size))
-> +		return NULL;
-> +
-> +	return bo->kvaddr + (vpu_addr - bo->vpu_addr);
-> +}
-> +
-> +static inline u32 cpu_to_vpu_addr(struct ivpu_bo *bo, void *cpu_addr)
-> +{
-> +	if (cpu_addr < bo->kvaddr)
-> +		return 0;
-> +
-> +	if (cpu_addr >= (bo->kvaddr + bo->base.size))
-> +		return 0;
-> +
-> +	return bo->vpu_addr + (cpu_addr - bo->kvaddr);
-> +}
-> +
-> +#endif /* __IVPU_GEM_H__ */
-> diff --git a/include/uapi/drm/ivpu_drm.h b/include/uapi/drm/ivpu_drm.h
-> index fc97ce215e79..1a3b1833fc1e 100644
-> --- a/include/uapi/drm/ivpu_drm.h
-> +++ b/include/uapi/drm/ivpu_drm.h
-> @@ -17,6 +17,9 @@ extern "C" {
->  
->  #define DRM_IVPU_GET_PARAM		  0x00
->  #define DRM_IVPU_SET_PARAM		  0x01
-> +#define DRM_IVPU_BO_CREATE		  0x02
-> +#define DRM_IVPU_BO_INFO		  0x03
-> +#define DRM_IVPU_BO_USERPTR		  0x04
->  
->  #define DRM_IOCTL_IVPU_GET_PARAM                                               \
->  	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_GET_PARAM, struct drm_ivpu_param)
-> @@ -24,6 +27,15 @@ extern "C" {
->  #define DRM_IOCTL_IVPU_SET_PARAM                                               \
->  	DRM_IOW(DRM_COMMAND_BASE + DRM_IVPU_SET_PARAM, struct drm_ivpu_param)
->  
-> +#define DRM_IOCTL_IVPU_BO_CREATE                                               \
-> +	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_BO_CREATE, struct drm_ivpu_bo_create)
-> +
-> +#define DRM_IOCTL_IVPU_BO_INFO                                                 \
-> +	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_BO_INFO, struct drm_ivpu_bo_info)
-> +
-> +#define DRM_IOCTL_IVPU_BO_USERPTR                                              \
-> +	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_BO_USERPTR, struct drm_ivpu_bo_userptr)
-> +
->  /**
->   * DOC: contexts
->   *
-> @@ -92,6 +104,121 @@ struct drm_ivpu_param {
->  	__u64 value;
->  };
->  
-> +#define DRM_IVPU_BO_HIGH_MEM   0x00000001
-> +#define DRM_IVPU_BO_MAPPABLE   0x00000002
-> +
-> +#define DRM_IVPU_BO_CACHED     0x00000000
-> +#define DRM_IVPU_BO_UNCACHED   0x00010000
-> +#define DRM_IVPU_BO_WC	       0x00020000
-> +#define DRM_IVPU_BO_CACHE_MASK 0x00030000
-> +
-> +#define DRM_IVPU_BO_FLAGS \
-> +	(DRM_IVPU_BO_HIGH_MEM | \
-> +	 DRM_IVPU_BO_MAPPABLE | \
-> +	 DRM_IVPU_BO_CACHE_MASK)
-> +
-> +/**
-> + * struct drm_ivpu_bo_create - Create BO backed by SHMEM
-> + *
-> + * Create GEM buffer object allocated in SHMEM memory.
-> + */
-> +struct drm_ivpu_bo_create {
-> +	/** @size: The size in bytes of the allocated memory */
-> +	__u64 size;
-> +
-> +	/**
-> +	 * @flags:
-> +	 *
-> +	 * Supported flags:
-> +	 *
-> +	 * %DRM_IVPU_BO_HIGH_MEM:
-> +	 *
-> +	 * Allocate VPU address from >4GB range.
-> +	 * Buffer object with vpu address >4GB can be always accessed by the
-> +	 * VPU DMA engine, but some HW generation may not be able to access
-> +	 * this memory from then firmware running on the VPU management processor.
-> +	 * Suitable for input, output and some scratch buffers.
-> +	 *
-> +	 * %DRM_IVPU_BO_MAPPABLE:
-> +	 *
-> +	 * Buffer object can be mapped using mmap().
-> +	 *
-> +	 * %DRM_IVPU_BO_CACHED:
-> +	 *
-> +	 * Allocated BO will be cached on host side (WB) and snooped on the VPU side.
-> +	 * This is the default caching mode.
-> +	 *
-> +	 * %DRM_IVPU_BO_UNCACHED:
-> +	 *
-> +	 * Allocated BO will not be cached on host side nor snooped on the VPU side.
-> +	 *
-> +	 * %DRM_IVPU_BO_WC:
-> +	 *
-> +	 * Allocated BO will use write combining buffer for writes but reads will be
-> +	 * uncached.
-> +	 */
-> +	__u32 flags;
-> +
-> +	/** @handle: Returned GEM object handle */
-> +	__u32 handle;
-> +
-> +	/** @vpu_addr: Returned VPU virtual address */
-> +	__u64 vpu_addr;
-> +};
-> +
-> +/**
-> + * struct drm_ivpu_bo_info - Query buffer object info
-> + */
-> +struct drm_ivpu_bo_info {
-> +	/** @handle: Handle of the queried BO */
-> +	__u32 handle;
-> +
-> +	/** @flags: Returned flags used to create the BO */
-> +	__u32 flags;
-> +
-> +	/** @vpu_addr: Returned VPU virtual address */
-> +	__u64 vpu_addr;
-> +
-> +	/**
-> +	 * @mmap_offset:
-> +	 *
-> +	 * Returned offset to be used in mmap(). 0 in case the BO is not mappable.
-> +	 */
-> +	__u64 mmap_offset;
-> +
-> +	/** @size: Returned GEM object size, aligned to PAGE_SIZE */
-> +	__u64 size;
-> +};
-> +
-> +/**
-> + * struct drm_ivpu_bo_userptr - Create BO from user memory
-> + *
-> + * Create GEM buffer object from user allocated memory. The provided @user_ptr
-> + * has to be page aligned. BOs created using this ioctl are always cacheable.
-> + */
-> +struct drm_ivpu_bo_userptr {
-> +	/** @user_ptr: User allocated pointer aligned to PAGE_SIZE */
-> +	__u64 user_ptr;
-> +
-> +	/** @user_size: The size in bytes of the allocated memory */
-> +	__u64 user_size;
-> +
-> +	/**
-> +	 * @flags:
-> +	 *
-> +	 * Supported flags:
-> +	 *
-> +	 * %DRM_IVPU_BO_HIGH_MEM: see &drm_ivpu_bo_create->flags
-> +	 */
-> +	__u32 flags;
-> +
-> +	/** @handle: Returned GEM object handle */
-> +	__u32 handle;
-> +
-> +	/** @vpu_addr: Returned VPU virtual address */
-> +	__u64 vpu_addr;
-> +};
-> +
->  #if defined(__cplusplus)
->  }
->  #endif
-> -- 
-> 2.34.1
+> > -Daniel
+> > 
+> > 
+> > 
+> > > Regards,
+> > > Christian.
+> > > 
+> > > > Regards,
+> > > > 
+> > > > Tvrtko
+> > > > 
+> > > > > -Daniel
+> > > > > 
+> > > > > 
+> > > > > >            return 0;
+> > > > > >          if (!capable(CAP_SYS_ADMIN))
+> > > > > > diff --git a/drivers/gpu/drm/drm_debugfs.c
+> > > > > > b/drivers/gpu/drm/drm_debugfs.c
+> > > > > > index 42f657772025..9d4e3146a2b8 100644
+> > > > > > --- a/drivers/gpu/drm/drm_debugfs.c
+> > > > > > +++ b/drivers/gpu/drm/drm_debugfs.c
+> > > > > > @@ -90,15 +90,17 @@ static int drm_clients_info(struct seq_file
+> > > > > > *m, void *data)
+> > > > > >         */
+> > > > > >        mutex_lock(&dev->filelist_mutex);
+> > > > > >        list_for_each_entry_reverse(priv, &dev->filelist, lhead) {
+> > > > > > -        struct task_struct *task;
+> > > > > >            bool is_current_master = drm_is_current_master(priv);
+> > > > > > +        struct task_struct *task;
+> > > > > > +        struct pid *pid;
+> > > > > >    -        rcu_read_lock(); /* locks pid_task()->comm */
+> > > > > > -        task = pid_task(priv->pid, PIDTYPE_TGID);
+> > > > > > +        rcu_read_lock(); /* Locks priv->pid and pid_task()->comm! */
+> > > > > > +        pid = rcu_dereference(priv->pid);
+> > > > > > +        task = pid_task(pid, PIDTYPE_TGID);
+> > > > > >            uid = task ? __task_cred(task)->euid : GLOBAL_ROOT_UID;
+> > > > > >            seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u\n",
+> > > > > >                   task ? task->comm : "<unknown>",
+> > > > > > -               pid_vnr(priv->pid),
+> > > > > > +               pid_vnr(pid),
+> > > > > >                   priv->minor->index,
+> > > > > >                   is_current_master ? 'y' : 'n',
+> > > > > >                   priv->authenticated ? 'y' : 'n',
+> > > > > > diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> > > > > > index 20a9aef2b398..3433f9610dba 100644
+> > > > > > --- a/drivers/gpu/drm/drm_file.c
+> > > > > > +++ b/drivers/gpu/drm/drm_file.c
+> > > > > > @@ -156,7 +156,7 @@ struct drm_file *drm_file_alloc(struct
+> > > > > > drm_minor *minor)
+> > > > > >        if (!file)
+> > > > > >            return ERR_PTR(-ENOMEM);
+> > > > > >    -    file->pid = get_pid(task_tgid(current));
+> > > > > > +    rcu_assign_pointer(file->pid, get_pid(task_tgid(current)));
+> > > > > >        file->minor = minor;
+> > > > > >          /* for compatibility root is always authenticated */
+> > > > > > @@ -502,6 +502,36 @@ int drm_release(struct inode *inode, struct
+> > > > > > file *filp)
+> > > > > >    }
+> > > > > >    EXPORT_SYMBOL(drm_release);
+> > > > > >    +void drm_file_update_pid(struct drm_file *filp)
+> > > > > > +{
+> > > > > > +    struct drm_device *dev;
+> > > > > > +    struct pid *pid, *old;
+> > > > > > +
+> > > > > > +    /* Master nodes are not expected to be passed between
+> > > > > > processes. */
+> > > > > > +    if (filp->was_master)
+> > > > > > +        return;
+> > > > > > +
+> > > > > > +    pid = task_tgid(current);
+> > > > > > +
+> > > > > > +    /*
+> > > > > > +     * Quick unlocked check since the model is a single
+> > > > > > handover followed by
+> > > > > > +     * exclusive repeated use.
+> > > > > > +     */
+> > > > > > +    if (pid == rcu_access_pointer(filp->pid))
+> > > > > > +        return;
+> > > > > > +
+> > > > > > +    dev = filp->minor->dev;
+> > > > > > +    mutex_lock(&dev->filelist_mutex);
+> > > > > > +    old = rcu_replace_pointer(filp->pid, pid, 1);
+> > > > > > +    mutex_unlock(&dev->filelist_mutex);
+> > > > > > +
+> > > > > > +    if (pid != old) {
+> > > > > > +        get_pid(pid);
+> > > > > > +        synchronize_rcu();
+> > > > > > +        put_pid(old);
+> > > > > > +    }
+> > > > > > +}
+> > > > > > +
+> > > > > >    /**
+> > > > > >     * drm_release_noglobal - release method for DRM file
+> > > > > >     * @inode: device inode
+> > > > > > diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+> > > > > > index 7c9d66ee917d..305b18d9d7b6 100644
+> > > > > > --- a/drivers/gpu/drm/drm_ioctl.c
+> > > > > > +++ b/drivers/gpu/drm/drm_ioctl.c
+> > > > > > @@ -775,6 +775,9 @@ long drm_ioctl_kernel(struct file *file,
+> > > > > > drm_ioctl_t *func, void *kdata,
+> > > > > >        struct drm_device *dev = file_priv->minor->dev;
+> > > > > >        int retcode;
+> > > > > >    +    /* Update drm_file owner if fd was passed along. */
+> > > > > > +    drm_file_update_pid(file_priv);
+> > > > > > +
+> > > > > >        if (drm_dev_is_unplugged(dev))
+> > > > > >            return -ENODEV;
+> > > > > >    diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c
+> > > > > > b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> > > > > > index 80f154b6adab..a763d3ee61fb 100644
+> > > > > > --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
+> > > > > > +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> > > > > > @@ -1097,7 +1097,10 @@ nouveau_drm_open(struct drm_device *dev,
+> > > > > > struct drm_file *fpriv)
+> > > > > >        }
+> > > > > >          get_task_comm(tmpname, current);
+> > > > > > -    snprintf(name, sizeof(name), "%s[%d]", tmpname,
+> > > > > > pid_nr(fpriv->pid));
+> > > > > > +    rcu_read_lock();
+> > > > > > +    snprintf(name, sizeof(name), "%s[%d]",
+> > > > > > +         tmpname, pid_nr(rcu_dereference(fpriv->pid)));
+> > > > > > +    rcu_read_unlock();
+> > > > > >          if (!(cli = kzalloc(sizeof(*cli), GFP_KERNEL))) {
+> > > > > >            ret = -ENOMEM;
+> > > > > > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+> > > > > > b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+> > > > > > index f2985337aa53..3853d9bb9ab8 100644
+> > > > > > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+> > > > > > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+> > > > > > @@ -251,6 +251,7 @@ static int vmw_debugfs_gem_info_show(struct
+> > > > > > seq_file *m, void *unused)
+> > > > > >        list_for_each_entry(file, &dev->filelist, lhead) {
+> > > > > >            struct task_struct *task;
+> > > > > >            struct drm_gem_object *gobj;
+> > > > > > +        struct pid *pid;
+> > > > > >            int id;
+> > > > > >              /*
+> > > > > > @@ -260,8 +261,9 @@ static int vmw_debugfs_gem_info_show(struct
+> > > > > > seq_file *m, void *unused)
+> > > > > >             * Therefore, we need to protect this ->comm access
+> > > > > > using RCU.
+> > > > > >             */
+> > > > > >            rcu_read_lock();
+> > > > > > -        task = pid_task(file->pid, PIDTYPE_TGID);
+> > > > > > -        seq_printf(m, "pid %8d command %s:\n", pid_nr(file->pid),
+> > > > > > +        pid = rcu_dereference(file->pid);
+> > > > > > +        task = pid_task(pid, PIDTYPE_TGID);
+> > > > > > +        seq_printf(m, "pid %8d command %s:\n", pid_nr(pid),
+> > > > > >                   task ? task->comm : "<unknown>");
+> > > > > >            rcu_read_unlock();
+> > > > > >    diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> > > > > > index 0d1f853092ab..27d545131d4a 100644
+> > > > > > --- a/include/drm/drm_file.h
+> > > > > > +++ b/include/drm/drm_file.h
+> > > > > > @@ -255,8 +255,15 @@ struct drm_file {
+> > > > > >        /** @master_lookup_lock: Serializes @master. */
+> > > > > >        spinlock_t master_lookup_lock;
+> > > > > >    -    /** @pid: Process that opened this file. */
+> > > > > > -    struct pid *pid;
+> > > > > > +    /**
+> > > > > > +     * @pid: Process that is using this file.
+> > > > > > +     *
+> > > > > > +     * Must only be dereferenced under a rcu_read_lock or equivalent.
+> > > > > > +     *
+> > > > > > +     * Updates are guarded with dev->filelist_mutex and
+> > > > > > reference must be
+> > > > > > +     * dropped after a RCU grace period to accommodate lockless
+> > > > > > readers.
+> > > > > > +     */
+> > > > > > +    struct pid __rcu *pid;
+> > > > > >          /** @magic: Authentication magic, see @authenticated. */
+> > > > > >        drm_magic_t magic;
+> > > > > > @@ -415,6 +422,8 @@ static inline bool drm_is_accel_client(const
+> > > > > > struct drm_file *file_priv)
+> > > > > >        return file_priv->minor->type == DRM_MINOR_ACCEL;
+> > > > > >    }
+> > > > > >    +void drm_file_update_pid(struct drm_file *);
+> > > > > > +
+> > > > > >    int drm_open(struct inode *inode, struct file *filp);
+> > > > > >    int drm_open_helper(struct file *filp, struct drm_minor *minor);
+> > > > > >    ssize_t drm_read(struct file *filp, char __user *buffer,
+> > > > > > -- 
+> > > > > > 2.34.1
+> > > > > > 
 > 
 
 -- 
