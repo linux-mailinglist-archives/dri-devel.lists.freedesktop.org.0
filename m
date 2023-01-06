@@ -1,75 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F65966078D
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 21:05:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9657C6607A5
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 21:11:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A06BB10E8D9;
-	Fri,  6 Jan 2023 20:05:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3114B10E8DC;
+	Fri,  6 Jan 2023 20:10:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E46A910E8D9
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 20:05:19 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id z16so2302199wrw.1
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 12:05:19 -0800 (PST)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5352B10E8DC
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 20:10:53 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id m7so2293372wrn.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 12:10:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UpGU+cdVK3SM6jir+mxXdoP9uvBXRWWoe82Gg0a/TfQ=;
- b=IBLtyAaOl/9raVwH+lZtFBqYmzZLUwb1aTvMvHWtsrxUvXHKeNvPf2Z4sLb/8lhUnG
- teLv7dU1nWBtLW6oOpXSyzLijuYoaopWks5gay0v4IatiPbDlI38MBG3bXbzlW7qBSx7
- 8HGbPC1w/AgS3fdCtr2ldQ84u/eiwSpKLgAkk=
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=76pqrJjW5E64yNaO2AhDgPKkfU7mc0mBHOSQ65nBgTc=;
+ b=Rr7BMwzGn0LxYizMHc0sMzkcOpZlbOOvYjKRnkuAIYiy8FLPpxw25lmNdYtDj640Yo
+ OEUPnkeNO/yK977wxAs8Jeu+evbv7TkGoB9Z8vst/D3OhgHbrv5yQ6uzEYo1YuN9nJfp
+ YRSIrDAm5d+BUehHlu3Hebfq1crfAiXufq6ZQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UpGU+cdVK3SM6jir+mxXdoP9uvBXRWWoe82Gg0a/TfQ=;
- b=TlnlmRq2BuWFP9WwGwaKSLxFTaj7pWqXzb91App0AtKAIQ30i8P4q8DBbJPO6uqidf
- DsTEz4XeDKq4J+SdA91PT8IBvqYB65B1Y7zSqZwoNGVNLkE2XBAPH8rfL5YIIe/XoZnF
- 8MK/92Yg6hPlQ+gVTugCfgOoAJDjQ+QO4Nu9TAnYofEjFXhX0ZNdtWq0MUNd0F4I8EoC
- 1ZLkJ6DfcCeNEPWnFQ9m5GyFpyEP2AY8UIHnlQTL4x3Hf+o72Qv2HG5nM+2ROTu7CrNW
- Ztps1s1PuQ9YPsLPipODmPTsI6JCG1boIq7cjOH2iX2UOvzOx9MzuN3MnfhDNdAtCEzr
- zr9g==
-X-Gm-Message-State: AFqh2kpDBwh2KUVkBjaEuOHRrVAhm1fj/Nk2lKExRp3CX2LjhoGBXUPt
- HMpEDCHa1j6vpL7zLixMpbt6+g==
-X-Google-Smtp-Source: AMrXdXuXq7d7eNb8lJL+TQA5OVZQLRgie1AhDXr6CE1qdxWO8mfj4eIhK2Jd7Cc+vw2oC4U09t3ckA==
-X-Received: by 2002:adf:f007:0:b0:28e:66ae:75af with SMTP id
- j7-20020adff007000000b0028e66ae75afmr18337774wro.58.1673035518458; 
- Fri, 06 Jan 2023 12:05:18 -0800 (PST)
+ bh=76pqrJjW5E64yNaO2AhDgPKkfU7mc0mBHOSQ65nBgTc=;
+ b=1pbtGsydoh2JCAEsWQ3FRx4eT/Fom6GKsiKnwexY2bczYSs3kC802xgbyqkjqsT0tu
+ eaLASkHmOEy8jwPpmFrpEk2iemwTLcgUUYgqRIAHbi/NHSMqKg1WqkcBSVLtLZIFG5ML
+ lHxcR19D9YL17SdCamwhkJIm8vm7MYXxPLme6lMKFy74hWcg9Ef7uB1aILU+vIkkq5Ym
+ d56kXEYBy2VGlAxF0gUcKcmoZrWiNMOb5x+E62ECOFDlHxO73Ck5su2mMyM4lsMKdxTH
+ nZQNFto4x3zls3eeCKnBZqDccNd/NRspeKYLCD/r0x1AwPXXNg0yg/hr+5HY7beEyxyU
+ nTTQ==
+X-Gm-Message-State: AFqh2ko+QPOT6rlREDHx4XSRwAPGbTM+opHV8kPrvBDvxiny/oBAvENq
+ akEkK9+VTP5GzXzbH4O0m/MIcYt0nW3NHUeH
+X-Google-Smtp-Source: AMrXdXvq9S0cyFI2ZzevH8mztQ+awO9FpkG7LdxeACgf3MRCFS+0MpgzI1vNWnmus42A9r1lGqEzvA==
+X-Received: by 2002:a05:6000:16c3:b0:28f:9b3d:c294 with SMTP id
+ h3-20020a05600016c300b0028f9b3dc294mr19876518wrf.46.1673035851749; 
+ Fri, 06 Jan 2023 12:10:51 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- w10-20020a5d404a000000b00275970a85f4sm1928236wrp.74.2023.01.06.12.05.16
+ c10-20020a056000104a00b002238ea5750csm2292226wrx.72.2023.01.06.12.10.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jan 2023 12:05:17 -0800 (PST)
-Date: Fri, 6 Jan 2023 21:05:15 +0100
+ Fri, 06 Jan 2023 12:10:50 -0800 (PST)
+Date: Fri, 6 Jan 2023 21:10:48 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Hang Zhang <zh.nvgt@gmail.com>
-Subject: Re: [PATCH] fbmem: prevent potential use-after-free issues with
- console_lock()
-Message-ID: <Y7h++5sU/hGJ/yTS@phenom.ffwll.local>
-Mail-Followup-To: Hang Zhang <zh.nvgt@gmail.com>, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20221230063528.41037-1-zh.nvgt@gmail.com>
- <2711de96-fcbe-5611-657a-ab29becd2ff6@gmx.de>
- <CAKMK7uEOX5n64cjzMt9GRQaS13HFPFyOeqdrkmzc035U5_T8tg@mail.gmail.com>
- <CAKMK7uE7CAXO50JPQ6ziQGGehqfDK2UanBQbfLdUH2RwrwXUvw@mail.gmail.com>
- <CAO2zrtYDcOfvxpG6wPghPnWZVks+NL6N9VaynsBVoX7nHBcxuw@mail.gmail.com>
- <Y7hvhtHeivfsnBtE@phenom.ffwll.local>
- <CAO2zrtb9H=OWPbrgmqTxQnHqETt-P4K6AxiwdtN7guxUYL2NCw@mail.gmail.com>
+To: Yi Xie <yixie@google.com>
+Subject: Re: [PATCH] drm/vkms: Add a DRM render node to vkms
+Message-ID: <Y7iASAy0j9KWg/PG@phenom.ffwll.local>
+References: <Y7a2Viw/1RUNCGkD@phenom.ffwll.local>
+ <CAHf1YQ4AZoOd=Q7KVqb1gQm3=TtiS_8-uxFY93syov1AgUT=CQ@mail.gmail.com>
+ <Y7bVNT0sf5cwEHuj@phenom.ffwll.local>
+ <CAHf1YQ55f2mN14ytCz=AB=VSvO8ByKoV59dF50gWVcjcgMkTHg@mail.gmail.com>
+ <Y7bbxVzhYCGhCvVN@phenom.ffwll.local>
+ <CAHf1YQ4jHeCGqoERpYM6yX8-9pjqiemUN3fT3fpweDTZz6Mrbg@mail.gmail.com>
+ <Y7buUnTE91GC+VZb@phenom.ffwll.local>
+ <CAOvqHj68uPoPdBrbKaBMg4QOre-EjRJOH12XqBBR+1bAx-fQwA@mail.gmail.com>
+ <Y7fvyQ6Ve6duSjho@phenom.ffwll.local>
+ <CAHf1YQ7xnhMwVzLaqsETuDAcBH+U_m=_BA4avfKbjM0Z_KOZRA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAO2zrtb9H=OWPbrgmqTxQnHqETt-P4K6AxiwdtN7guxUYL2NCw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHf1YQ7xnhMwVzLaqsETuDAcBH+U_m=_BA4avfKbjM0Z_KOZRA@mail.gmail.com>
 X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,146 +79,258 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
+ dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
+ Tao =?utf-8?B?V3Uo5ZC05rabQEVuZyk=?= <lepton@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 06, 2023 at 02:58:27PM -0500, Hang Zhang wrote:
-> On Fri, Jan 6, 2023 at 1:59 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+On Fri, Jan 06, 2023 at 07:02:22PM +0900, Yi Xie wrote:
+> I have figured out the problem with importing buffers across vgem/vkms.
+> 
+> It's intentionally blocked by kernel here:
+> https://github.com/torvalds/linux/blob/a140a6a2d5ec0329ad05cd3532a91ad0ce58dceb/drivers/gpu/drm/drm_gem.c#L307
+
+Uh yes. That is not your problem, because your userspace is using the
+wrong interface. For a dma-buf either use mmap on the dma-buf fd, or on
+the buffer handle from the original exporters. Importers should not
+forward dma-buf mmap.
+
+> From the original patch https://patchwork.freedesktop.org/patch/172242/:
+> Reject mapping an imported dma-buf since it's an invalid use-case.
+> 
+> Looks like importing dumb buffers across different devices is
+> disallowed. Removing this check and then everything is working well on
+> vkms with vgem.
+
+No. The entire point of dma-buf sharing is sharing them across devices and
+process.
+
+> According to the patch thread we should use native map instead of dumb
+> map on imported buffers.
+> 
+> Since there is no native map ioctl in both vgem and vkms, I'm thinking
+> about adding a dumb_map_offset implementation in both of them with
+> that check removed.
+
+No please not. You might need a dumb mmap offset on vgem, so that your sw
+render code can upload the buffer. But I think that already exists on
+vgem.
+
+> From my testing vkms and vgem are now working happily together without
+> any (obvious) issues.
+> 
+> There are other drivers doing the same thing, for example virtgpu:
+> https://github.com/torvalds/linux/blob/a140a6a2d5ec0329ad05cd3532a91ad0ce58dceb/drivers/gpu/drm/virtio/virtgpu_gem.c#L102
+
+Uh why is virtio allowing this, this is bad :-(
+
+That kinda highlights that virtgpu should probably use a lot more of the
+helpers we've gained over the last 9 years since Dave merged this code.
+Would be great if you or someone can look into this?
+
+Allowing dumb mmap on imported buffers is no good at all.
+-Daniel
+
+> 
+> Does this sound like a better idea than adding a render node?
+> 
+> On Fri, Jan 6, 2023 at 6:54 PM Daniel Vetter <daniel@ffwll.ch> wrote:
 > >
-> > On Thu, Jan 05, 2023 at 01:38:54PM -0500, Hang Zhang wrote:
-> > > On Thu, Jan 5, 2023 at 5:25 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > On Thu, Jan 05, 2023 at 01:40:28PM -0800, Tao Wu(吴涛@Eng) wrote:
+> > > Hi Daniel,
+> > >
+> > > May I know what's the requirement for adding render node support to a
+> > > "gpu"?  Why we just export render node for every drm devices?
+> > > I read document here
+> > > https://www.kernel.org/doc/html/v4.8/gpu/drm-uapi.html#render-nodes
+> >
+> > Thus far we've only done it when there's actual rendering capability,
+> > which generally means at least some private ioctls.
+> >
+> > Which vkms just doens't have. And it's by far not the only such case.
+> >
+> > Also note that display drivers side is _not_ shareable.
+> > -Daniel
+> >
+> > > and it seems render node allow multiple unprivileged clients
+> > > to work with the same gpu, I am not sure why we just enable it for all
+> > > kms-only device.
+> > > What's wrong if we enable it for all kms-only devices and also let
+> > > mesa to use llvmpipe with those devices by default.
+> > >
+> > > Thanks!
+> > >
+> > > On Thu, Jan 5, 2023 at 7:35 AM Daniel Vetter <daniel@ffwll.ch> wrote:
 > > > >
-> > > > On Thu, 5 Jan 2023 at 11:21, Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > >
-> > > > > Hi Helge
-> > > > >
-> > > > > On Mon, 2 Jan 2023 at 16:28, Helge Deller <deller@gmx.de> wrote:
+> > > > On Fri, Jan 06, 2023 at 12:16:07AM +0900, Yi Xie wrote:
+> > > > > On Thu, Jan 5, 2023 at 11:16 PM Daniel Vetter <daniel@ffwll.ch> wrote:
 > > > > > >
-> > > > > > On 12/30/22 07:35, Hang Zhang wrote:
-> > > > > > > In do_fb_ioctl(), user specified "fb_info" can be freed in the callee
-> > > > > > > fbcon_get_con2fb_map_ioctl() -> set_con2fb_map() ->
-> > > > > > > con2fb_release_oldinfo(), this free operation is protected by
-> > > > > > > console_lock() in fbcon_set_con2fb_map_ioctl(), it also results in
-> > > > > > > the change of certain states such as "minfo->dead" in matroxfb_remove(),
-> > > > > > > so that it can be checked to avoid use-after-free before the use sites
-> > > > > > > (e.g., the check at the beginning of matroxfb_ioctl()). However,
-> > > > > > > the problem is that the use site is not protected by the same locks
-> > > > > > > as for the free operation, e.g., "default" case in do_fb_ioctl()
-> > > > > > > can lead to "matroxfb_ioctl()" but it's not protected by console_lock(),
-> > > > > > > which can invalidate the aforementioned state set and check in a
-> > > > > > > concurrent setting.
+> > > > > > On Thu, Jan 05, 2023 at 11:10:23PM +0900, Yi Xie wrote:
+> > > > > > > On Thu, Jan 5, 2023 at 10:48 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > > > > >
+> > > > > > > > On Thu, Jan 05, 2023 at 09:52:26PM +0900, Yi Xie wrote:
+> > > > > > > > > > This doesn't sound like a good idea to me. Devices without render
+> > > > > > > > > > capabilities should not fake it.
+> > > > > > > > > >
+> > > > > > > > > > User-space (e.g. wlroots) relies on "no render node" to enable
+> > > > > > > > > > software rendering (Pixman instead of GL).
+> > > > > > > > >
+> > > > > > > > > We have virtgpu driver that exports a render node even when virgl is
+> > > > > > > > > not supported.
+> > > > > > > > > Mesa has special code path to enable software rendering on it:
+> > > > > > > > > https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/egl/drivers/dri2/platform_device.c#L296
+> > > > > > > > > We can do the same for vkms to force software rendering.
+> > > > > > > >
+> > > > > > > > Yeah that is the old kmsro mesa issue, for every combination of kms and
+> > > > > > > > gem device you need one to make this work.
+> > > > > > > >
+> > > > > > > > > On Thu, Jan 5, 2023 at 8:36 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > > > > > > >
+> > > > > > > > > > On Thu, Jan 05, 2023 at 02:23:25PM +0900, Yi Xie wrote:
+> > > > > > > > > > > Some libraries including Mesa and virglrenderer require a render node to
+> > > > > > > > > > > fully function. By adding a render node to vkms those libraries will
+> > > > > > > > > > > work properly, supporting use cases like running crosvm with virgl GPU
+> > > > > > > > > > > support via llvmpipe on a headless virtual machine.
+> > > > > > > > > >
+> > > > > > > > > > This is what vgem exists for. More or less at least ... I'm honestly not
+> > > > > > > > > > really understanding what you're trying to fix here, it sounds a bit like
+> > > > > > > > > > userspace being stupid.
+> > > > > > > > > > -Daniel
+> > > > > > > > > The problem with vgem is that it crashes llvmpipe while working with vkms.
+> > > > > > > > > Looks like it's due to the same reason as described in this thread in Mesa:
+> > > > > > > > > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/5830
+> > > > > > > >
+> > > > > > > > I'm not finding any bug description in there and how/why something
+> > > > > > > > crashes?
 > > > > > > >
-> > > > > > > Prevent the potential use-after-free issues by protecting the "default"
-> > > > > > > case in do_fb_ioctl() with console_lock(), similarly as for many other
-> > > > > > > cases like "case FBIOBLANK" and "case FBIOPAN_DISPLAY".
+> > > > > > > The discussion is in the comment section under the first comment by
+> > > > > > > Emil Velikov.
+> > > > > > > It's folded by default (inside "6 replies" at the bottom).
 > > > > > > >
-> > > > > > > Signed-off-by: Hang Zhang <zh.nvgt@gmail.com>
+> > > > > > > >
+> > > > > > > > > Importing buffers allocated by vgem to vkms seems to be unexpected and
+> > > > > > > > > causes the crash. If we create a render node on vkms then llvmpipe will use
+> > > > > > > > > vkms to allocate buffers and it no longer crashes.
+> > > > > > > >
+> > > > > > > > Uh importing vgem into virtio might not work because those sometimes need
+> > > > > > > > special buffers iirc. But importing vgem into vkms really should work,
+> > > > > > > > there's no technical reason it cannot. If it doesn't, then the right fix
+> > > > > > > > would be to fix that, not paper around it.
+> > > > > > >
+> > > > > > > The crash stack trace looks like this:
+> > > > > > > https://gist.github.com/imxieyi/03053ae79cee2e614850fd41829e1da2
+> > > > > > >
+> > > > > > > Even if we fix the crash issue with vgem, we still need to workaround
+> > > > > > > quite a few
+> > > > > > > places that has explicitly blocked vgem. A notable example is virglrenderer:
+> > > > > > > https://gitlab.freedesktop.org/virgl/virglrenderer/-/blob/master/src/vrend_winsys_gbm.c#L121
+> > > > > > >
+> > > > > > > Actually I have tried to force running virglrenderer on vgem and it
+> > > > > > > didn't work. I
+> > > > > > > didn't look into why it wasn't working but I guess that's the reason
+> > > > > > > for blocking
+> > > > > > > vgem in the first place. Virglrenderer works well on vkms with render node
+> > > > > > > enabled though.
 > > > > > >
-> > > > > > applied to fbdev git tree.
+> > > > > > Ah ok. For next time around, copy a link to the comment you want, e.g.
+> > > > > >
+> > > > > > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/5830#note_582477
+> > > > > >
+> > > > > > The 3 dots menu on each comments has an option to copy that link tag. That
+> > > > > > also highlights the right comment.
 > > > > >
-> > > > > The patch above makes no sense at all to me:
+> > > > > Thanks for the tips! Actually you need to sign in to reveal that 3 dots menu.
 > > > > >
-> > > > > - fb_info is protected by lock_fb_info and
-> > > > > - the lifetime of fb_info is protected by the get/put functions
-> > > > > - yes there's the interaction with con2fb, which is protected by
-> > > > > console_lock, but the lifetime guarantees are ensured by the device
-> > > > > removal
-> > > > > - which means any stuff happening in matroxfb_remove is also not a
-> > > > > concern here (unless matroxfb completely gets all the device lifetime
-> > > > > stuff wrong, but it doesn't look like it's any worse than any of the
-> > > > > other fbdev drivers that we haven't recently fixed up due to the
-> > > > > takeover issues with firmware drivers
+> > > > > >
+> > > > > > On this issue, I'm concurring with Emil:
+> > > > > >
+> > > > > > "- the import is broken
+> > > > > > "IMHO that should be fixed, regardless of the rest"
+> > > > > >
+> > > > > > The same should be done here. Unless it's a very special device, we should
+> > > > > > be able to import vgem buffers.
+> > > > >
+> > > > > How about the fact that vgem is blocked explicitly in virglrenderer?
+> > > > > We will have
+> > > > > to remove it from block list and that may break something that
+> > > > > resulted in blocking
+> > > > > in this commit:
+> > > > > https://gitlab.freedesktop.org/virgl/virglrenderer/-/commit/2cb686dd46df27e9600f9df734303ec57bb38772
+> > > > > I can't find the reason why it's blocking vgem though. It shouldn't be
+> > > > > related to
+> > > > > incompatibility with vkms/virtgpu.
+> > > > >
+> > > > > Are there any concerns that enabling render node on vkms may cause problems?
+> > > > > What if we add a driver option to add render node on demand?
 > > > >
-> > > > I have also a really hard timing finding the con2fb map use in the
-> > > > matroxfb ioctl code, but that just might be that I didn't look
-> > > > carefully enough. Maybe that would shed some light on this.
+> > > > The thing is, that none of the other kms-only driver enable render nodes.
+> > > > If we start adding them in one case just because userspace can't cope,
+> > > > then we'll have an endless stream of these patches.
+> > > >
+> > > > Instead of fixing userspace.
+> > > >
+> > > > Note that the issue is very old for at least mesa3d, and the only fix is
+> > > > kmsro, where you have to build a driver for each combo. Maybe this should
+> > > > be done better, dunno. But adding render node in just vkms for this use
+> > > > case really doesn't make much sense to me, and it smells very much like
+> > > > opening a can of worms :-/
 > > > > -Daniel
 > > > >
+> > > > > > -Daniel
+> > > > > >
+> > > > > > >
+> > > > > > > > -Daniel
+> > > > > > > >
+> > > > > > > > >
+> > > > > > > > > > >
+> > > > > > > > > > > Signed-off-by: Yi Xie <yixie@google.com>
+> > > > > > > > > > > ---
+> > > > > > > > > > >  drivers/gpu/drm/vkms/vkms_drv.c | 2 +-
+> > > > > > > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > > > > > > >
+> > > > > > > > > > > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> > > > > > > > > > > index 293dbca50c31..8eea5d4dece8 100644
+> > > > > > > > > > > --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> > > > > > > > > > > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> > > > > > > > > > > @@ -113,7 +113,7 @@ static void vkms_config_debugfs_init(struct drm_minor *minor)
+> > > > > > > > > > >  }
+> > > > > > > > > > >
+> > > > > > > > > > >  static const struct drm_driver vkms_driver = {
+> > > > > > > > > > > -     .driver_features        = DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_GEM,
+> > > > > > > > > > > +     .driver_features        = DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_GEM | DRIVER_RENDER,
+> > > > > > > > > > >       .release                = vkms_release,
+> > > > > > > > > > >       .fops                   = &vkms_driver_fops,
+> > > > > > > > > > >       DRM_GEM_SHMEM_DRIVER_OPS,
+> > > > > > > > > > > --
+> > > > > > > > > > > 2.39.0.314.g84b9a713c41-goog
+> > > > > > > > > > >
+> > > > > > > > > >
+> > > > > > > > > > --
+> > > > > > > > > > Daniel Vetter
+> > > > > > > > > > Software Engineer, Intel Corporation
+> > > > > > > > > > http://blog.ffwll.ch
+> > > > > > > >
+> > > > > > > > --
+> > > > > > > > Daniel Vetter
+> > > > > > > > Software Engineer, Intel Corporation
+> > > > > > > > http://blog.ffwll.ch
+> > > > > >
+> > > > > > --
+> > > > > > Daniel Vetter
+> > > > > > Software Engineer, Intel Corporation
+> > > > > > http://blog.ffwll.ch
 > > > >
-> > > > >
-> > > > > On the very clear downside this now means we take console_lock for the
-> > > > > vblank ioctl (which is a device driver extension for reasons, despite
-> > > > > that it's a standard fbdev ioctl), which is no good at all given how
-> > > > > console_lock() is a really expensive lock.
-> > > > >
-> > > > > Unless I'm massively missing something, can you pls push the revert
-> > > > > before this lands in Linus' tree?
-> > > > >
-> > > > > Thanks, Daniel
-> > >
-> > > Hi, Daniel. Thank you for your feedback. We're not developers of the
-> > > video subsystem and thus may be short in domain knowledge (e.g., the
-> > > performance of console_lock() and the complex lifetime management).
-> > > This patch initially intended to bring up the potential use-after-free
-> > > issues here to the community - we have performed a best-effort code
-> > > review and cannot exclude the possibility based on our understanding.
-> > >
-> > > What we have observed is that the call chain leading to the free site
-> > > (do_fb_ioctl()->fbcon_set_con2fb_map_ioctl()->set_con2fb_map()->
-> > > con2fb_release_oldinfo()-> ... ->matroxfb_remove()) is only protected
-> > > by console_lock() but not lock_fb_info(), while the potential use
-> > > site (call chain starts from the default case in do_fb_ioctl()) is
-> > > only protected by lock_fb_info() but not console_lock().
-> > > We thus propose to add this extra console_lock() to the default case,
-> > > which is inspired by the lock protection of many other existing
-> > > switch-case terms in the same function.
-> > >
-> > > Since we do not have deep domain knowledge of this subsystem, we will
-> > > rely on the developers to make a decision regarding the patch. Thank
-> > > you again for your review and help!
+> > > > --
+> > > > Daniel Vetter
+> > > > Software Engineer, Intel Corporation
+> > > > http://blog.ffwll.ch
 > >
-> > Can you please elaborate where you've found this use-after-free and how?
-> > I'm still not understanding how you even got here - this is orthogonal to
-> > whether the patch is the right fix or not.
-> > -Daniel
-> 
-> Hi, Daniel. Sure. This issue was initially flagged by our experimental static
-> code analyzer aiming to find use-after-free issues in the kernel - that's why
-> we don't have PoC or execution traces here. We deeply understand that
-> static analyzer can generate false alarms, so we have tried our best and
-> spent a good amount of time carefully reviewing the related code. We
-> eventually found that we could not exclude this potential issue based on our
-> study, so we decided to report this to the community with this tentative fix. As
-> mentioned, we may be short in domain knowledge, so your input is
-> highly appreciated. We respect the developer's decision about whether
-> this is really a problem and whether/how to fix it. However, if you think the
-> use-after-free is actually not possible, it will be very helpful if you can
-> elaborate on the reasoning since it will greatly help us improve our
-> analyzer. Thank you very much for your help!
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 
-Please start out these patches with the fact that this is from an
-experimental checker.
-
-Also do include _why_ your checker things something is going wrong. If you
-cannot follow why the checker complains about something, then don't report
-it as an issue until you do. Also, if you do not understand the code,
-please make it absolutely clear that you just guessed a possible fix, but
-not that it's been tested in any way or form.
-
-If you don't do this, then we end up wasting a ton of time of people who
-don't have surplus time, because in this case the patch got review,
-applied, pull request made, I realized it looks funny, patch dropped, pull
-request remade, and then a fairly big thread here.
-
-All for a bug that's likely in your checker and not in the kernel. This is
-not great.
- 
-> BTW, if this is worthed a fix and the performance of console_lock() is a
-> major concern, then I think there may be alternative solutions like adding
-> a lock_fb_info() to the free call chain - if that's better in performance,
-> or maybe selectively protect the matroxfb ioctl but not vblank ioctl as you
-> mentioned.
-
-Please start out with explaining what kind of bug your checker is seeing,
-and why. Not how you're trying to fix it. Because I'm pretty sure there
-isn't a bug, but since I've already spent a pile of time looking at this,
-I want to make sure.
-
-Cheers, Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
