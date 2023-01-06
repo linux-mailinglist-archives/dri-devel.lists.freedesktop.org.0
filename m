@@ -1,65 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B873F65FEC0
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 11:26:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC19665FEFD
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 11:32:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1082A10E857;
-	Fri,  6 Jan 2023 10:26:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1EA210E85D;
+	Fri,  6 Jan 2023 10:32:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74FC410E857
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 10:26:35 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D725A24E13;
- Fri,  6 Jan 2023 10:26:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673000793; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=h2SLcqpX6n1LKSYpgu5uFwrAixMVZlTubi+vsN3JlUk=;
- b=LaW/8KXzq9u1hsiaYG0BHBBN+Nwc8CVzk8pNXVox9sNQmDk3T4P1R7Fgdk3UZc3CTwIS8M
- 8+dvoAUpTw/iJe/lmcm/3NNyu/CwgWPYSxXmmy117kseNGe2WbSxnJ/gJVyOOfQ5LTCQi7
- ogkw8eyJr9aBo5OTl3xhoJslsoKPfhk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673000793;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=h2SLcqpX6n1LKSYpgu5uFwrAixMVZlTubi+vsN3JlUk=;
- b=+IgARq0NXaj9Yu0Whor2b6Qy2pj8Hg9w8v4k/JoHdZ2aaozvAz78h+1o+iTvQLf6aFaB65
- H43vJb4H5vpKkPDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A102D139D5;
- Fri,  6 Jan 2023 10:26:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id XNEUJln3t2NLBQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 06 Jan 2023 10:26:33 +0000
-Message-ID: <aba7322e-afb0-459b-d8d2-b596328b406d@suse.de>
-Date: Fri, 6 Jan 2023 11:26:33 +0100
-MIME-Version: 1.0
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2076.outbound.protection.outlook.com [40.107.94.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5441210E85D
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 10:32:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MwGuAaxfl+8FPyEo5lgHRbKD1uKMXz6oaofAJ7zRnIg4+YUsdiwdL7YWJifN+BijyNkPJ9LM8kbMwNcyX4Bvz+U6pDsRMl+sFacM/dOyskx6PC6TqjHMaAHUpMjEdaGP2mOV2LoFclJjKzt3K8GcekIMpFNg4+broGkyc9PimV0KyiDMyx40VKpDEa/DDtrcPeLUsRQ7K2FfjZBnJC8m9XJ50zGxni3VFrMdpZZ+kl6k0YtcHTlX6P8p7BFaVY0oL40PI2TP9QJyrEgKMJqaL6QC1Z6POrkUogqCcf0EaNbfPHWHxXwu7gZteWdm40pdC1jcYwFSSY3I3e0XAzKEqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/TNg1pG6iohg4IFzIrSVDYk5Hpcd2BjLqL9TA71AoQY=;
+ b=V7plXQxHxOAN43GD5KhxxJ/WcJKmadDhCnhmCPDRTPZCCJQlgGW8+76/RsWhdqGrCweGvuxFpJg3K8PzgAS8Ylfung16kAznYRW2UtwjDE0BKXuutXJVEvaBB4MXdAkZShMLCv2io6TxI6ATxKjclYSBFX71yibVKEYct4EuaKREL3em2FEyN9PFbxamoJzgGnEGrXzVM8lcrcDRVk6AWEsvTYciveZ78yNXT0jWV5EDmN4tFywxUrZwaNGBaP/NchBY9NaV47E5FksayvItyAE9/6ys9kfkB4m++US0AZFADjL44KD+jmQ4OATslsN2/JgIInbFE5hooBBmlbfgjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/TNg1pG6iohg4IFzIrSVDYk5Hpcd2BjLqL9TA71AoQY=;
+ b=2/Mv5/gI0id5BjY/1Teir4V5G5VCwJ/+xikh4Oiwsw6xSDZ1WEADaqiPzmwHKOq3wFQEZzttULqiKzr8ShJNCSD1Owi+F00Lgr1zDreofinengScvRlfvZGBfzcWYHBy9WmEmxl9gwpvHRbYG4y1eBeMn5Gz2gwU9n4qhHo7FPw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by MN0PR12MB6246.namprd12.prod.outlook.com (2603:10b6:208:3c2::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Fri, 6 Jan
+ 2023 10:32:23 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::80d8:934f:caa7:67b0]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::80d8:934f:caa7:67b0%3]) with mapi id 15.20.5944.019; Fri, 6 Jan 2023
+ 10:32:22 +0000
+Message-ID: <5a875e31-138e-7e11-3a47-b0b85fc1413f@amd.com>
+Date: Fri, 6 Jan 2023 11:32:17 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v3] drm/fb-helper: Replace bpp/depth parameter by color
- mode
+ Thunderbird/102.4.2
+Subject: Re: [RFC 3/3] drm: Update file owner during use
 Content-Language: en-US
-To: daniel@ffwll.ch, mcanal@igalia.com, steev@kali.org,
- dmitry.baryshkov@linaro.org, javierm@redhat.com, airlied@gmail.com,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com
-References: <20230106101643.31497-1-tzimmermann@suse.de>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230106101643.31497-1-tzimmermann@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------jnDcrDZSkS0By3Qp7ECAtaDf"
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20221130133407.2689864-1-tvrtko.ursulin@linux.intel.com>
+ <20221130133407.2689864-4-tvrtko.ursulin@linux.intel.com>
+ <Y4dmKgn8X4yPUnqk@phenom.ffwll.local>
+ <157dcd11-ea4d-b22a-b10f-0934451d3c1d@linux.intel.com>
+ <3eccd500-9e69-111d-54bd-90e6292b2b98@amd.com>
+ <Y7bDdU0nZg+6GBZL@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <Y7bDdU0nZg+6GBZL@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0125.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9d::19) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MN0PR12MB6246:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1cb429d5-9411-4060-4c8e-08daefd14bdb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: U1XgrDbhT2FOKK6bfRTXDP/sAY0eC80uhuSgeGxAt9PxCl2eA+1qeNZy4STDeWjQJlF019EHWrq5CGLDDQS11ItuRzL8jcTwV3LDFXDTK7xd27fJwyStnC1tqm6i90y1wIzeGmineI1haNKzzX/JoQMlAmq7g85VZzOmijIRTTDGkz3OkymuspLDRpnROV5QNngXbH9ETR0CbheXPNHQ7NjQCoyRro5F8gal0jqbcjZWmUAcdUroXuQMtWMmyw9ocbmrEB3bsvhOfR6OswTYOb+lKKMQVaccuqBjZTwTT/1CVbFAGtnnBk9qiZqFonhB5cZ5cRUAHbr0zivA333T3PVSmqUtiiymVs4bjTWu+D96EzPpXQh6+aqBbXQM3+AsLyTx5zHFXP2/bsU8ILl0ivEa/kAmT7ftPEcP0/cBRChn+1/8Ra3RecZXR2Xhj9Ds5apQnIijgV1Rgiys5fngah2QuqW17xpNLwuCHUxocF4H78gYxY97FS9o+1XYcqqiLrY6kWOUn4/8v5ke8ywVqbZUkFZyUW2bUHl4ElQCZuWWFeJ74t1QnQMC+BERJ4fVkLUN3ecrqd9qpfsP2YCv9mQ7C39cis+kRBwV3lceQYmAHsHXe4wOEJO4SqbZzZ8HW+ciDAcaoZi6FEKESN0jdVcVx9GE1NKgLcK28geBUr+UrQBz8qR7iBKdTpMRfYnDwaNFuV9l7AC4GanCaP5lAI/13D0BJSZnz7cDKEA6hTk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(39860400002)(376002)(396003)(366004)(346002)(451199015)(31686004)(36756003)(31696002)(6916009)(54906003)(4326008)(66556008)(66946007)(41300700001)(66476007)(38100700002)(8676002)(186003)(6486002)(478600001)(6666004)(6512007)(86362001)(15650500001)(2616005)(8936002)(2906002)(316002)(6506007)(83380400001)(5660300002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M0JwcDg2L0lIbmRCMk5TVVFUQjZ6UUsrc1RiZmNhSlNPYkpBWGdPL3Rad1gx?=
+ =?utf-8?B?Y0RNMWtjOU5CMDNRTVgySHFXb1NIbFdWWktITERFemFaYW9jZ2tyRUI1czFx?=
+ =?utf-8?B?Y3VzTGMwclRWRWhkMjNwWDRpRU1Udy9ZNklzeHM0WGVyeFNYNHBaUkIveTdG?=
+ =?utf-8?B?dFJUNndBZWtHZnh6d1BWMHFwMkhIYkhwNWpUMzAyWU9nTlFxTFBzL3paVTVO?=
+ =?utf-8?B?RldnNEp2NnZUWTZpRGJWeS9GSWZiZDUzdU9yZWNZMHZXRzM1Um5VZnpaKyth?=
+ =?utf-8?B?QlRUcHVIdWdzd3paWHQxOHhDbjJTeUN4OVpaTDRYNHZJbU1scFhwS3g0WGhr?=
+ =?utf-8?B?anVBZEo5dGxnRjZKL0ZsVUZNemtveXJ4UE1hSS9JYkNWZk1aYW83dkh6anRP?=
+ =?utf-8?B?U3hSeGUyckVjUEhHMXFCeHFxVEhoTkZuVk40R0F6anp1N05CSkxYZXVYb1Iy?=
+ =?utf-8?B?UkJVbUpvdDVQc1B5cmZLeldzQ3JCQng3SGI4eUxsMnFjZGVBdVFnbjNDSDZO?=
+ =?utf-8?B?d1N6bUF6S3J3NVp3UEcramJqSk41SnVVVlE5Tkdpem1PN1B6ZGlMbGl1WmRD?=
+ =?utf-8?B?bkJyNTNQYjdld2RSaWJvVi9oMjdHdEJNYmxPbU9IeEpqaDloVGRjYmlUeEhO?=
+ =?utf-8?B?bGpYZTdKYjNxaW56dnRTL1lGRDVqRDA3K2FzakdwaCtsVHdtNURyZHR5UC83?=
+ =?utf-8?B?WFFQaGR2cVVzclhNSU1EZ0M3YWV5K3ZvN292TFdKSm5mdHdPc1Y3L21YZHAx?=
+ =?utf-8?B?eEx3aDdlVFQzVXZKSzltNFZqbW5OdkhkeCt6d3RUZlNpTlhJdHRZL1kwZWdG?=
+ =?utf-8?B?ZlRGY0sxUngxblZ4MmpvRlpCa0x4L0tiakNLdmR5WmNBcjJrTm9PcFVndmpC?=
+ =?utf-8?B?RmM5UXk1SE5KS2ZOUktuUUQ2TFZtWkhLT2Y3TXpwbFRzMlBSVzBCYnkydmhC?=
+ =?utf-8?B?WnNGR2pCWmZvZXhheXpYSTc1ZWllS1M3dFFtb29ibnZiQ1owNlhCSHNyaFhM?=
+ =?utf-8?B?akdRZXJPQTc5WlkyTC9Wc0pyUFNLTkg3bEM4SDNiL0Y1QkN1VFZMRmNLVlZy?=
+ =?utf-8?B?YVBEa3dCclA3MFpFWmw0MzNPZGU2MlFIdVdlMnVGSitnSHlzbk5kRGR3Vytk?=
+ =?utf-8?B?VEZxTmdKZDBHMXhnYnYydXdnby9ITlE3aTBvVXJqU09oeGNDUmdERkxOem1R?=
+ =?utf-8?B?bVc3eFB0YTRpVE9tMlF3aDZvdVN5NXNPaSt1YXpwQ1RRT1dVQlhiZjNlaTdl?=
+ =?utf-8?B?OXFYcjlsSFR2elJmTVZ3MHlLWFpLUExsTmJsZThIUzhSWnpISDR2T0JwcG1w?=
+ =?utf-8?B?ZWNZcTBMQ3JSaXdBVVJLeGpWSXVSbHZ1VzluS2JkMzNEK001Nm5idlJlY3dS?=
+ =?utf-8?B?RjFoTGREVHA2T1IrYlJUNDRwMjJ5TUZ6eDl2dlhVWEhYQitWd3BUK1IxdmIv?=
+ =?utf-8?B?bDJ4SHQvZVhuaG1keDBubU8rMEFacGJsbEIyWlhwWVJkL1VRb0o1QXU5MW50?=
+ =?utf-8?B?SURMS0VWblhDRFZDZENzRlBBenpXRnpXNm9UTU15eEQ4TysrR1JqNHlZcXJN?=
+ =?utf-8?B?eDF6Rm9kdUpJTGlQNDA5ZmJWM1hRRWZwMlQrcVgvQ29RaWRscHhDM3ZDWXBu?=
+ =?utf-8?B?NXowWDRONDNuNUxWN1lFK3NVTTZqa3ROYlkyYVFQRks0VkVzb1QrYkJtMXRR?=
+ =?utf-8?B?SE10VzdVbGlyaFNuOG0rdzcxcEJSeGtiMHZxK21vUC9JT0ZrcE40RE1UaUdn?=
+ =?utf-8?B?bkNYQzFZcUdoZnJRTE5FNmFHTVlMZTgrUXpUbEo5VmgrSjdXanZTRHFUTFhh?=
+ =?utf-8?B?VGM3V1ZhdWxaYU5hQVpqUEwrdkc2RXFHayt0OWxKUCtPaTgybTNWNER6M2U4?=
+ =?utf-8?B?U2tpcDVOM3Uva3NDQm5ZNjZmYVNoUFY1SVQwdWlCZWJnZDdLcGN4cGduc0py?=
+ =?utf-8?B?NGV0ZUdVUmg3ZGlVSWJUaW0rNWwwWDd5bnlKNGxubWE0aFVHWVpoc0dreW5j?=
+ =?utf-8?B?cUEwdVhHSWNrZWh0b0J0Ukw0clFnZlhjL2gyU3FGTi9LVFlYVFhaWTFDd0to?=
+ =?utf-8?B?eFluZHJUcE1OSW9aNng4R2dTc0IxVDFpaVZCdzB5SUxQaWwvRFJYZ2pobWdR?=
+ =?utf-8?B?dE9VRGRnaXVDL29wT3hDeVByTFdTYkZ0ZWFuL1RoYzlqYjdHTnovRE1RMzFp?=
+ =?utf-8?Q?1reWNudFnhmmWMm/KWFaHU+jplewEiL+iRzVl66rVUuk?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1cb429d5-9411-4060-4c8e-08daefd14bdb
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2023 10:32:22.8712 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xl3iQVvZyI4j1k0FdEQCSPuDrj5NQ2VX3v+/iGPKK1uL/Zo7VgFg3BatcC5a/ZcM
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6246
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,176 +130,219 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------jnDcrDZSkS0By3Qp7ECAtaDf
-Content-Type: multipart/mixed; boundary="------------4rYSDTNcwCgJqvOwHnz0q5ua";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, mcanal@igalia.com, steev@kali.org,
- dmitry.baryshkov@linaro.org, javierm@redhat.com, airlied@gmail.com,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Cc: dri-devel@lists.freedesktop.org,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>
-Message-ID: <aba7322e-afb0-459b-d8d2-b596328b406d@suse.de>
-Subject: Re: [PATCH v3] drm/fb-helper: Replace bpp/depth parameter by color
- mode
-References: <20230106101643.31497-1-tzimmermann@suse.de>
-In-Reply-To: <20230106101643.31497-1-tzimmermann@suse.de>
+Am 05.01.23 um 13:32 schrieb Daniel Vetter:
+> [SNIP]
+>> For the case of an master fd I actually don't see the reason why we should
+>> limit that? And fd can become master if it either was master before or has
+>> CAP_SYS_ADMIN. Why would we want an extra check for the pid/tgid here?
+> This is just info/debug printing, I don't see the connection to
+> drm_auth/master stuff? Aside from the patch mixes up the master opener and
+> the current user due to fd passing or something like that.
 
---------------4rYSDTNcwCgJqvOwHnz0q5ua
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+That's exactly why my comment meant as well.
 
-Y2MnaW5nIGxpbnV4LWFybS1tc21Admdlci5rZXJuZWwub3JnDQoNClN1cHBvc2VkIHRvIGZp
-eCB0aGUgcmVjZW50IGNvbnNvbGUgaXNzdWVzLiBbMV0gUGxlYXNlIHRlc3QsIGlmIHBvc3Np
-YmxlLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQpbMV0gDQpodHRwczovL2xvcmUua2Vy
-bmVsLm9yZy9kcmktZGV2ZWwvWTdmajFONGJsbzJNWVpEdEBwaGVub20uZmZ3bGwubG9jYWwv
-VC8jdA0KDQpBbSAwNi4wMS4yMyB1bSAxMToxNiBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5u
-Og0KPiBSZXBsYWNlIHRoZSBjb21iaW5hdGlvbiBvZiBicHAgYW5kIGRlcHRoIHdpdGggYSBz
-aW5nbGUgY29sb3ItbW9kZQ0KPiBhcmd1bWVudC4gSGFuZGxlIHNwZWNpYWwgY2FzZXMgaW4g
-c2ltcGxlZHJtIGFuZCBvZmRybS4gSGFyZC1jb2RlDQo+IFhSR0I4ODg4IGFzIGZhbGxiYWNr
-IGZvcm1hdCBmb3IgY2FzZXMgd2hlcmUgbm8gZ2l2ZW4gZm9ybWF0IHdvcmtzLg0KPiANCj4g
-VGhlIGNvbG9yLW1vZGUgYXJndW1lbnQgYWNjZXB0cyB0aGUgc2FtZSB2YWx1ZXMgYXMgdGhl
-IGtlcm5lbCdzIHZpZGVvDQo+IHBhcmFtZXRlci4gVGhlc2UgYXJlIG1vc3RseSBicHAgdmFs
-dWVzIGJldHdlZW4gMSBhbmQgMzIuIFRoZSBleGNlcHRpb25zDQo+IGFyZSAxNSwgd2hpY2gg
-aGFzIGEgY29sb3IgZGVwdGggb2YgMTUgYW5kIGEgYnBwIHZhbHVlIG9mIDE2OyBhbmQgMzIs
-DQo+IHdoaWNoIGhhcyBhIGNvbG9yIGRlcHRoIG9mIDI0IGFuZCBhIGJwcCB2YWx1ZSBvZiAz
-Mi4NCj4gDQo+IHYzOg0KPiAJKiBmaXggb2Zkcm0gYnVpbGQgKE1heGltZSkNCj4gdjI6DQo+
-IAkqIG1pbmltaXplIGNoYW5nZXMgKERhbmllbCkNCj4gCSogdXNlIGRybV9kcml2ZXJfbGVn
-YWN5X2ZiX2Zvcm1hdCgpIChEYW5pZWwpDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMg
-WmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4gLS0tDQo+ICAgZHJpdmVycy9n
-cHUvZHJtL2RybV9mYl9oZWxwZXIuYyAgfCAzOSArKysrKysrKysrKysrKysrKy0tLS0tLS0t
-LS0tLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS90aW55L29mZHJtLmMgICAgIHwgIDcgKysr
-KystDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgfCAgNyArKysrKy0N
-Cj4gICAzIGZpbGVzIGNoYW5nZWQsIDMzIGluc2VydGlvbnMoKyksIDIwIGRlbGV0aW9ucygt
-KQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jDQo+IGluZGV4IDEzNjljYTRhZTM5
-Yi4uMmZlYjRiMGExNDc3IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Zi
-X2hlbHBlci5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMNCj4g
-QEAgLTE3NTYsMjQgKzE3NTYsMjEgQEAgc3RhdGljIHVpbnQzMl90IGRybV9mYl9oZWxwZXJf
-ZmluZF9mb3JtYXQoc3RydWN0IGRybV9mYl9oZWxwZXIgKmZiX2hlbHBlciwgY29uc3QNCj4g
-ICAJcmV0dXJuIERSTV9GT1JNQVRfSU5WQUxJRDsNCj4gICB9DQo+ICAgDQo+IC1zdGF0aWMg
-dWludDMyX3QgZHJtX2ZiX2hlbHBlcl9maW5kX2NtZGxpbmVfZm9ybWF0KHN0cnVjdCBkcm1f
-ZmJfaGVscGVyICpmYl9oZWxwZXIsDQo+IC0JCQkJCQkgIGNvbnN0IHVpbnQzMl90ICpmb3Jt
-YXRzLCBzaXplX3QgZm9ybWF0X2NvdW50LA0KPiAtCQkJCQkJICBjb25zdCBzdHJ1Y3QgZHJt
-X2NtZGxpbmVfbW9kZSAqY21kbGluZV9tb2RlKQ0KPiArc3RhdGljIHVpbnQzMl90IGRybV9m
-Yl9oZWxwZXJfZmluZF9jb2xvcl9tb2RlX2Zvcm1hdChzdHJ1Y3QgZHJtX2ZiX2hlbHBlciAq
-ZmJfaGVscGVyLA0KPiArCQkJCQkJICAgICBjb25zdCB1aW50MzJfdCAqZm9ybWF0cywgc2l6
-ZV90IGZvcm1hdF9jb3VudCwNCj4gKwkJCQkJCSAgICAgdW5zaWduZWQgaW50IGNvbG9yX21v
-ZGUpDQo+ICAgew0KPiAgIAlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0gZmJfaGVscGVyLT5k
-ZXY7DQo+ICAgCXVpbnQzMl90IGJwcCwgZGVwdGg7DQo+ICAgDQo+IC0JaWYgKCFjbWRsaW5l
-X21vZGUtPmJwcF9zcGVjaWZpZWQpDQo+IC0JCXJldHVybiBEUk1fRk9STUFUX0lOVkFMSUQ7
-DQo+IC0NCj4gLQlzd2l0Y2ggKGNtZGxpbmVfbW9kZS0+YnBwKSB7DQo+ICsJc3dpdGNoIChj
-b2xvcl9tb2RlKSB7DQo+ICAgCWNhc2UgMToNCj4gICAJY2FzZSAyOg0KPiAgIAljYXNlIDQ6
-DQo+ICAgCWNhc2UgODoNCj4gICAJY2FzZSAxNjoNCj4gICAJY2FzZSAyNDoNCj4gLQkJYnBw
-ID0gZGVwdGggPSBjbWRsaW5lX21vZGUtPmJwcDsNCj4gKwkJYnBwID0gZGVwdGggPSBjb2xv
-cl9tb2RlOw0KPiAgIAkJYnJlYWs7DQo+ICAgCWNhc2UgMTU6DQo+ICAgCQlicHAgPSAxNjsN
-Cj4gQEAgLTE3ODQsNyArMTc4MSw3IEBAIHN0YXRpYyB1aW50MzJfdCBkcm1fZmJfaGVscGVy
-X2ZpbmRfY21kbGluZV9mb3JtYXQoc3RydWN0IGRybV9mYl9oZWxwZXIgKmZiX2hlbHBlDQo+
-ICAgCQlkZXB0aCA9IDI0Ow0KPiAgIAkJYnJlYWs7DQo+ICAgCWRlZmF1bHQ6DQo+IC0JCWRy
-bV9pbmZvKGRldiwgInVuc3VwcG9ydGVkIGJwcCB2YWx1ZSBvZiAlZFxuIiwgY21kbGluZV9t
-b2RlLT5icHApOw0KPiArCQlkcm1faW5mbyhkZXYsICJ1bnN1cHBvcnRlZCBjb2xvciBtb2Rl
-IG9mICVkXG4iLCBjb2xvcl9tb2RlKTsNCj4gICAJCXJldHVybiBEUk1fRk9STUFUX0lOVkFM
-SUQ7DQo+ICAgCX0NCj4gICANCj4gQEAgLTE4MTcsMTAgKzE4MTQsMTAgQEAgc3RhdGljIGlu
-dCBfX2RybV9mYl9oZWxwZXJfZmluZF9zaXplcyhzdHJ1Y3QgZHJtX2ZiX2hlbHBlciAqZmJf
-aGVscGVyLCBpbnQgcHJlZmUNCj4gICAJCWRybV9jbGllbnRfZm9yX2VhY2hfY29ubmVjdG9y
-X2l0ZXIoY29ubmVjdG9yLCAmY29ubl9pdGVyKSB7DQo+ICAgCQkJc3RydWN0IGRybV9jbWRs
-aW5lX21vZGUgKmNtZGxpbmVfbW9kZSA9ICZjb25uZWN0b3ItPmNtZGxpbmVfbW9kZTsNCj4g
-ICANCj4gLQkJCXN1cmZhY2VfZm9ybWF0ID0gZHJtX2ZiX2hlbHBlcl9maW5kX2NtZGxpbmVf
-Zm9ybWF0KGZiX2hlbHBlciwNCj4gLQkJCQkJCQkJCSAgIHBsYW5lLT5mb3JtYXRfdHlwZXMs
-DQo+IC0JCQkJCQkJCQkgICBwbGFuZS0+Zm9ybWF0X2NvdW50LA0KPiAtCQkJCQkJCQkJICAg
-Y21kbGluZV9tb2RlKTsNCj4gKwkJCXN1cmZhY2VfZm9ybWF0ID0gZHJtX2ZiX2hlbHBlcl9m
-aW5kX2NvbG9yX21vZGVfZm9ybWF0KGZiX2hlbHBlciwNCj4gKwkJCQkJCQkJCSAgICAgIHBs
-YW5lLT5mb3JtYXRfdHlwZXMsDQo+ICsJCQkJCQkJCQkgICAgICBwbGFuZS0+Zm9ybWF0X2Nv
-dW50LA0KPiArCQkJCQkJCQkJICAgICAgY21kbGluZV9tb2RlLT5icHApOw0KPiAgIAkJCWlm
-IChzdXJmYWNlX2Zvcm1hdCAhPSBEUk1fRk9STUFUX0lOVkFMSUQpDQo+ICAgCQkJCWJyZWFr
-OyAvKiBmb3VuZCBzdXBwb3J0ZWQgZm9ybWF0ICovDQo+ICAgCQl9DQo+IEBAIC0xODI5LDE3
-ICsxODI2LDIzIEBAIHN0YXRpYyBpbnQgX19kcm1fZmJfaGVscGVyX2ZpbmRfc2l6ZXMoc3Ry
-dWN0IGRybV9mYl9oZWxwZXIgKmZiX2hlbHBlciwgaW50IHByZWZlDQo+ICAgCQlpZiAoc3Vy
-ZmFjZV9mb3JtYXQgIT0gRFJNX0ZPUk1BVF9JTlZBTElEKQ0KPiAgIAkJCWJyZWFrOyAvKiBm
-b3VuZCBzdXBwb3J0ZWQgZm9ybWF0ICovDQo+ICAgDQo+IC0JCS8qIHRyeSBwcmVmZXJyZWQg
-YnBwL2RlcHRoICovDQo+IC0JCXN1cmZhY2VfZm9ybWF0ID0gZHJtX2ZiX2hlbHBlcl9maW5k
-X2Zvcm1hdChmYl9oZWxwZXIsIHBsYW5lLT5mb3JtYXRfdHlwZXMsDQo+IC0JCQkJCQkJICAg
-cGxhbmUtPmZvcm1hdF9jb3VudCwgcHJlZmVycmVkX2JwcCwNCj4gLQkJCQkJCQkgICBkZXYt
-Pm1vZGVfY29uZmlnLnByZWZlcnJlZF9kZXB0aCk7DQo+ICsJCS8qIHRyeSBwcmVmZXJyZWQg
-Y29sb3IgbW9kZSAqLw0KPiArCQlzdXJmYWNlX2Zvcm1hdCA9IGRybV9mYl9oZWxwZXJfZmlu
-ZF9jb2xvcl9tb2RlX2Zvcm1hdChmYl9oZWxwZXIsDQo+ICsJCQkJCQkJCSAgICAgIHBsYW5l
-LT5mb3JtYXRfdHlwZXMsDQo+ICsJCQkJCQkJCSAgICAgIHBsYW5lLT5mb3JtYXRfY291bnQs
-DQo+ICsJCQkJCQkJCSAgICAgIHByZWZlcnJlZF9icHApOw0KPiAgIAkJaWYgKHN1cmZhY2Vf
-Zm9ybWF0ICE9IERSTV9GT1JNQVRfSU5WQUxJRCkNCj4gICAJCQlicmVhazsgLyogZm91bmQg
-c3VwcG9ydGVkIGZvcm1hdCAqLw0KPiAgIAl9DQo+ICAgDQo+ICAgCWlmIChzdXJmYWNlX2Zv
-cm1hdCA9PSBEUk1fRk9STUFUX0lOVkFMSUQpIHsNCj4gKwkJLyoNCj4gKwkJICogSWYgbm9u
-ZSBvZiB0aGUgZ2l2ZW4gY29sb3IgbW9kZXMgd29ya3MsIGZhbGwgYmFjaw0KPiArCQkgKiB0
-byBYUkdCODg4OC4gRHJpdmVycyBhcmUgZXhwZWN0ZWQgdG8gcHJvdmlkZSB0aGlzDQo+ICsJ
-CSAqIGZvcm1hdCBmb3IgY29tcGF0aWJpbGl0eSB3aXRoIGxlZ2FjeSBhcHBsaWNhdGlvbnMu
-DQo+ICsJCSAqLw0KPiAgIAkJZHJtX3dhcm4oZGV2LCAiTm8gY29tcGF0aWJsZSBmb3JtYXQg
-Zm91bmRcbiIpOw0KPiAtCQlyZXR1cm4gLUVBR0FJTjsNCj4gKwkJc3VyZmFjZV9mb3JtYXQg
-PSBkcm1fZHJpdmVyX2xlZ2FjeV9mYl9mb3JtYXQoZGV2LCAzMiwgMjQpOw0KPiAgIAl9DQo+
-ICAgDQo+ICAgCWluZm8gPSBkcm1fZm9ybWF0X2luZm8oc3VyZmFjZV9mb3JtYXQpOw0KPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvb2Zkcm0uYyBiL2RyaXZlcnMvZ3B1
-L2RybS90aW55L29mZHJtLmMNCj4gaW5kZXggMzljNWZkNDYzZmVjLi42ZTM0OWNhNDI0ODUg
-MTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90aW55L29mZHJtLmMNCj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL3Rpbnkvb2Zkcm0uYw0KPiBAQCAtMTM1Miw2ICsxMzUyLDcgQEAg
-c3RhdGljIGludCBvZmRybV9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0K
-PiAgIHsNCj4gICAJc3RydWN0IG9mZHJtX2RldmljZSAqb2RldjsNCj4gICAJc3RydWN0IGRy
-bV9kZXZpY2UgKmRldjsNCj4gKwl1bnNpZ25lZCBpbnQgY29sb3JfbW9kZTsNCj4gICAJaW50
-IHJldDsNCj4gICANCj4gICAJb2RldiA9IG9mZHJtX2RldmljZV9jcmVhdGUoJm9mZHJtX2Ry
-aXZlciwgcGRldik7DQo+IEBAIC0xMzYzLDcgKzEzNjQsMTEgQEAgc3RhdGljIGludCBvZmRy
-bV9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiAgIAlpZiAocmV0KQ0K
-PiAgIAkJcmV0dXJuIHJldDsNCj4gICANCj4gLQlkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cChk
-ZXYsIGRybV9mb3JtYXRfaW5mb19icHAob2Rldi0+Zm9ybWF0LCAwKSk7DQo+ICsJY29sb3Jf
-bW9kZSA9IGRybV9mb3JtYXRfaW5mb19icHAob2Rldi0+Zm9ybWF0LCAwKTsNCj4gKwlpZiAo
-Y29sb3JfbW9kZSA9PSAxNikNCj4gKwkJY29sb3JfbW9kZSA9IG9kZXYtPmZvcm1hdC0+ZGVw
-dGg7IC8vIGNhbiBiZSAxNSBvciAxNg0KPiArDQo+ICsJZHJtX2ZiZGV2X2dlbmVyaWNfc2V0
-dXAoZGV2LCBjb2xvcl9tb2RlKTsNCj4gICANCj4gICAJcmV0dXJuIDA7DQo+ICAgfQ0KPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgYi9kcml2ZXJz
-L2dwdS9kcm0vdGlueS9zaW1wbGVkcm0uYw0KPiBpbmRleCA3MzU1NjE3ZjM4ZDMuLmY2NThi
-OTljNzk2YSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJt
-LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMNCj4gQEAgLTgw
-Miw2ICs4MDIsNyBAQCBzdGF0aWMgaW50IHNpbXBsZWRybV9wcm9iZShzdHJ1Y3QgcGxhdGZv
-cm1fZGV2aWNlICpwZGV2KQ0KPiAgIHsNCj4gICAJc3RydWN0IHNpbXBsZWRybV9kZXZpY2Ug
-KnNkZXY7DQo+ICAgCXN0cnVjdCBkcm1fZGV2aWNlICpkZXY7DQo+ICsJdW5zaWduZWQgaW50
-IGNvbG9yX21vZGU7DQo+ICAgCWludCByZXQ7DQo+ICAgDQo+ICAgCXNkZXYgPSBzaW1wbGVk
-cm1fZGV2aWNlX2NyZWF0ZSgmc2ltcGxlZHJtX2RyaXZlciwgcGRldik7DQo+IEBAIC04MTMs
-NyArODE0LDExIEBAIHN0YXRpYyBpbnQgc2ltcGxlZHJtX3Byb2JlKHN0cnVjdCBwbGF0Zm9y
-bV9kZXZpY2UgKnBkZXYpDQo+ICAgCWlmIChyZXQpDQo+ICAgCQlyZXR1cm4gcmV0Ow0KPiAg
-IA0KPiAtCWRybV9mYmRldl9nZW5lcmljX3NldHVwKGRldiwgZHJtX2Zvcm1hdF9pbmZvX2Jw
-cChzZGV2LT5mb3JtYXQsIDApKTsNCj4gKwljb2xvcl9tb2RlID0gZHJtX2Zvcm1hdF9pbmZv
-X2JwcChzZGV2LT5mb3JtYXQsIDApOw0KPiArCWlmIChjb2xvcl9tb2RlID09IDE2KQ0KPiAr
-CQljb2xvcl9tb2RlID0gc2Rldi0+Zm9ybWF0LT5kZXB0aDsgLy8gY2FuIGJlIDE1IG9yIDE2
-DQo+ICsNCj4gKwlkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cChkZXYsIGNvbG9yX21vZGUpOw0K
-PiAgIA0KPiAgIAlyZXR1cm4gMDsNCj4gICB9DQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4N
-CkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdl
-cm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQoo
-SFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2
-DQo=
+The connect is that the drm_auth/master code currently the pid/tgid as 
+indicator if the "owner" of the fd has changed and so if an access 
+should be allowed or not. I find that approach a bit questionable.
 
---------------4rYSDTNcwCgJqvOwHnz0q5ua--
+> Note that we cannot do that (I think at least, after pondering this some
+> more) because it would break the logind master fd passing scheme - there
+> the receiving compositor is explicitly _not_ allowed to acquire master
+> rights on its own. So the master priviledges must not move with the fd or
+> things can go wrong.
 
---------------jnDcrDZSkS0By3Qp7ECAtaDf
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+That could be the rational behind that, but why doesn't logind then just 
+pass on a normal render node to the compositor?
 
------BEGIN PGP SIGNATURE-----
+Christian.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmO391kFAwAAAAAACgkQlh/E3EQov+Ad
-Pw/8DjugvAaIdGga0txwxhLa0/hAsnHaRZB3mH2NyT8uD7r6op10zAkAq0CHOvbq/SNtFF+1brO5
-VMGUd9vQbEOy47mCySyv3PRVlY1cxc7GXRa9gRcFgDb793kbT4CSBmASRknB/opOQ291iuJ95AZ5
-X/4TMFE54l4ggOlZgAc98MDHC+WozDMz3vwQAw1onVifteBLbVZ4HVS7TWCxPkArwbWnUKN+Jb4U
-MWW6MIycocZX+nDIIj6Jb3Ukw+SAY6s6rP4CiHUI4hoYvP5aKYG7GD5zg35uRs51UJm3vjbuTfKT
-NofLB8h1DOVUKvKHkkz00ub49dQfTZtkiFljne8NmzHn5hGUuwr/hTQbNsS/4hCFj7agdZTdcBQP
-8BMdyA4xWCgibWWLY8I/EP32VJ1/aGqjx2LdPMgyxZjOnlgHvxUiqPWDxjEbMBuzixXeMvzNPgIz
-c0WDUpBlFsC24enHFE5MXOK+nqwLS03OQLe7C3MInV9hccMjGhpWvbodRd6pZU7+xxvcw3m7r0D0
-bjvNmlSHsK8CzEMWkZfIOY5KA6dj9FlrMDBwZqLXIazOiq+MUMBrsZF2QjR3FNfLSl23IeCUXwmx
-0PRCSvxpoqNsCVpMFKMDUKQy0kA6g3Jgh6NXh0SZRqwsJBslIsFBFaNh0DKBNKj1r4+tDdrOvShY
-nms=
-=/Sqv
------END PGP SIGNATURE-----
+> -Daniel
+>
+>
+>
+>> Regards,
+>> Christian.
+>>
+>>> Regards,
+>>>
+>>> Tvrtko
+>>>
+>>>> -Daniel
+>>>>
+>>>>
+>>>>>            return 0;
+>>>>>          if (!capable(CAP_SYS_ADMIN))
+>>>>> diff --git a/drivers/gpu/drm/drm_debugfs.c
+>>>>> b/drivers/gpu/drm/drm_debugfs.c
+>>>>> index 42f657772025..9d4e3146a2b8 100644
+>>>>> --- a/drivers/gpu/drm/drm_debugfs.c
+>>>>> +++ b/drivers/gpu/drm/drm_debugfs.c
+>>>>> @@ -90,15 +90,17 @@ static int drm_clients_info(struct seq_file
+>>>>> *m, void *data)
+>>>>>         */
+>>>>>        mutex_lock(&dev->filelist_mutex);
+>>>>>        list_for_each_entry_reverse(priv, &dev->filelist, lhead) {
+>>>>> -        struct task_struct *task;
+>>>>>            bool is_current_master = drm_is_current_master(priv);
+>>>>> +        struct task_struct *task;
+>>>>> +        struct pid *pid;
+>>>>>    -        rcu_read_lock(); /* locks pid_task()->comm */
+>>>>> -        task = pid_task(priv->pid, PIDTYPE_TGID);
+>>>>> +        rcu_read_lock(); /* Locks priv->pid and pid_task()->comm! */
+>>>>> +        pid = rcu_dereference(priv->pid);
+>>>>> +        task = pid_task(pid, PIDTYPE_TGID);
+>>>>>            uid = task ? __task_cred(task)->euid : GLOBAL_ROOT_UID;
+>>>>>            seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u\n",
+>>>>>                   task ? task->comm : "<unknown>",
+>>>>> -               pid_vnr(priv->pid),
+>>>>> +               pid_vnr(pid),
+>>>>>                   priv->minor->index,
+>>>>>                   is_current_master ? 'y' : 'n',
+>>>>>                   priv->authenticated ? 'y' : 'n',
+>>>>> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+>>>>> index 20a9aef2b398..3433f9610dba 100644
+>>>>> --- a/drivers/gpu/drm/drm_file.c
+>>>>> +++ b/drivers/gpu/drm/drm_file.c
+>>>>> @@ -156,7 +156,7 @@ struct drm_file *drm_file_alloc(struct
+>>>>> drm_minor *minor)
+>>>>>        if (!file)
+>>>>>            return ERR_PTR(-ENOMEM);
+>>>>>    -    file->pid = get_pid(task_tgid(current));
+>>>>> +    rcu_assign_pointer(file->pid, get_pid(task_tgid(current)));
+>>>>>        file->minor = minor;
+>>>>>          /* for compatibility root is always authenticated */
+>>>>> @@ -502,6 +502,36 @@ int drm_release(struct inode *inode, struct
+>>>>> file *filp)
+>>>>>    }
+>>>>>    EXPORT_SYMBOL(drm_release);
+>>>>>    +void drm_file_update_pid(struct drm_file *filp)
+>>>>> +{
+>>>>> +    struct drm_device *dev;
+>>>>> +    struct pid *pid, *old;
+>>>>> +
+>>>>> +    /* Master nodes are not expected to be passed between
+>>>>> processes. */
+>>>>> +    if (filp->was_master)
+>>>>> +        return;
+>>>>> +
+>>>>> +    pid = task_tgid(current);
+>>>>> +
+>>>>> +    /*
+>>>>> +     * Quick unlocked check since the model is a single
+>>>>> handover followed by
+>>>>> +     * exclusive repeated use.
+>>>>> +     */
+>>>>> +    if (pid == rcu_access_pointer(filp->pid))
+>>>>> +        return;
+>>>>> +
+>>>>> +    dev = filp->minor->dev;
+>>>>> +    mutex_lock(&dev->filelist_mutex);
+>>>>> +    old = rcu_replace_pointer(filp->pid, pid, 1);
+>>>>> +    mutex_unlock(&dev->filelist_mutex);
+>>>>> +
+>>>>> +    if (pid != old) {
+>>>>> +        get_pid(pid);
+>>>>> +        synchronize_rcu();
+>>>>> +        put_pid(old);
+>>>>> +    }
+>>>>> +}
+>>>>> +
+>>>>>    /**
+>>>>>     * drm_release_noglobal - release method for DRM file
+>>>>>     * @inode: device inode
+>>>>> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+>>>>> index 7c9d66ee917d..305b18d9d7b6 100644
+>>>>> --- a/drivers/gpu/drm/drm_ioctl.c
+>>>>> +++ b/drivers/gpu/drm/drm_ioctl.c
+>>>>> @@ -775,6 +775,9 @@ long drm_ioctl_kernel(struct file *file,
+>>>>> drm_ioctl_t *func, void *kdata,
+>>>>>        struct drm_device *dev = file_priv->minor->dev;
+>>>>>        int retcode;
+>>>>>    +    /* Update drm_file owner if fd was passed along. */
+>>>>> +    drm_file_update_pid(file_priv);
+>>>>> +
+>>>>>        if (drm_dev_is_unplugged(dev))
+>>>>>            return -ENODEV;
+>>>>>    diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c
+>>>>> b/drivers/gpu/drm/nouveau/nouveau_drm.c
+>>>>> index 80f154b6adab..a763d3ee61fb 100644
+>>>>> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
+>>>>> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+>>>>> @@ -1097,7 +1097,10 @@ nouveau_drm_open(struct drm_device *dev,
+>>>>> struct drm_file *fpriv)
+>>>>>        }
+>>>>>          get_task_comm(tmpname, current);
+>>>>> -    snprintf(name, sizeof(name), "%s[%d]", tmpname,
+>>>>> pid_nr(fpriv->pid));
+>>>>> +    rcu_read_lock();
+>>>>> +    snprintf(name, sizeof(name), "%s[%d]",
+>>>>> +         tmpname, pid_nr(rcu_dereference(fpriv->pid)));
+>>>>> +    rcu_read_unlock();
+>>>>>          if (!(cli = kzalloc(sizeof(*cli), GFP_KERNEL))) {
+>>>>>            ret = -ENOMEM;
+>>>>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+>>>>> b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+>>>>> index f2985337aa53..3853d9bb9ab8 100644
+>>>>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+>>>>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+>>>>> @@ -251,6 +251,7 @@ static int vmw_debugfs_gem_info_show(struct
+>>>>> seq_file *m, void *unused)
+>>>>>        list_for_each_entry(file, &dev->filelist, lhead) {
+>>>>>            struct task_struct *task;
+>>>>>            struct drm_gem_object *gobj;
+>>>>> +        struct pid *pid;
+>>>>>            int id;
+>>>>>              /*
+>>>>> @@ -260,8 +261,9 @@ static int vmw_debugfs_gem_info_show(struct
+>>>>> seq_file *m, void *unused)
+>>>>>             * Therefore, we need to protect this ->comm access
+>>>>> using RCU.
+>>>>>             */
+>>>>>            rcu_read_lock();
+>>>>> -        task = pid_task(file->pid, PIDTYPE_TGID);
+>>>>> -        seq_printf(m, "pid %8d command %s:\n", pid_nr(file->pid),
+>>>>> +        pid = rcu_dereference(file->pid);
+>>>>> +        task = pid_task(pid, PIDTYPE_TGID);
+>>>>> +        seq_printf(m, "pid %8d command %s:\n", pid_nr(pid),
+>>>>>                   task ? task->comm : "<unknown>");
+>>>>>            rcu_read_unlock();
+>>>>>    diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+>>>>> index 0d1f853092ab..27d545131d4a 100644
+>>>>> --- a/include/drm/drm_file.h
+>>>>> +++ b/include/drm/drm_file.h
+>>>>> @@ -255,8 +255,15 @@ struct drm_file {
+>>>>>        /** @master_lookup_lock: Serializes @master. */
+>>>>>        spinlock_t master_lookup_lock;
+>>>>>    -    /** @pid: Process that opened this file. */
+>>>>> -    struct pid *pid;
+>>>>> +    /**
+>>>>> +     * @pid: Process that is using this file.
+>>>>> +     *
+>>>>> +     * Must only be dereferenced under a rcu_read_lock or equivalent.
+>>>>> +     *
+>>>>> +     * Updates are guarded with dev->filelist_mutex and
+>>>>> reference must be
+>>>>> +     * dropped after a RCU grace period to accommodate lockless
+>>>>> readers.
+>>>>> +     */
+>>>>> +    struct pid __rcu *pid;
+>>>>>          /** @magic: Authentication magic, see @authenticated. */
+>>>>>        drm_magic_t magic;
+>>>>> @@ -415,6 +422,8 @@ static inline bool drm_is_accel_client(const
+>>>>> struct drm_file *file_priv)
+>>>>>        return file_priv->minor->type == DRM_MINOR_ACCEL;
+>>>>>    }
+>>>>>    +void drm_file_update_pid(struct drm_file *);
+>>>>> +
+>>>>>    int drm_open(struct inode *inode, struct file *filp);
+>>>>>    int drm_open_helper(struct file *filp, struct drm_minor *minor);
+>>>>>    ssize_t drm_read(struct file *filp, char __user *buffer,
+>>>>> -- 
+>>>>> 2.34.1
+>>>>>
 
---------------jnDcrDZSkS0By3Qp7ECAtaDf--
