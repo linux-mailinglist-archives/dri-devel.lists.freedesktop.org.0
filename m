@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62AA0660333
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 16:29:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2345A660350
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 16:31:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D25210E86E;
-	Fri,  6 Jan 2023 15:29:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 102A810E872;
+	Fri,  6 Jan 2023 15:31:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
- [IPv6:2607:f8b0:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9180A10E86E;
- Fri,  6 Jan 2023 15:29:44 +0000 (UTC)
-Received: by mail-oi1-x232.google.com with SMTP id v70so1311942oie.3;
- Fri, 06 Jan 2023 07:29:44 -0800 (PST)
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
+ [IPv6:2001:4860:4864:20::35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2EA110E871;
+ Fri,  6 Jan 2023 15:30:58 +0000 (UTC)
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-12c8312131fso1867530fac.4; 
+ Fri, 06 Jan 2023 07:30:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=65qSmGmypBwql4yygZi8U8Y0QUeOs13b5WCSPH/ZqUQ=;
- b=JLQykHDcS1zKJIrE0dQuyBmiNCv+IYRcVdtUJIsVEvjENQHoVGI1Ri8Ksd53ABlcrl
- SgDRUh5k0oyrXWzT8zfzWN61rdDPDITnmCEhACbCnFaRV6iT/meialGfRDV2iF0bIMJN
- 25fnyBAfYt7aFExEHiZF6JkJ0xkRd1GAadfzjWHwzhj0/L9igcOn1Iq87cYNjA48z+NB
- VBxou58mvCaanlU3cZWo5fU/DBSHqQBadAcbID+bnAWxu7vrDLr59vJNx1aBTgpxTbri
- ABAjSaRx8lb2bzfdHbbbYVBPZw70pK+DIRsZvTAxoFvLo37mGt/PteosyvsWx/7F6ry1
- 69KA==
+ bh=oiJt6s7+hbogz7Pnp3dT+g0/bOfE/wSE2iJelIqj6/U=;
+ b=ZDLN8+H8kR4lAfnL9dFpNhPkExxpPDiNyX+c9Z8+BS9D0gRtkyROettmrozcJcr83S
+ JSxz9LjVvHiTvqCTPMtYEJkLVxHbyvp46uEh9NjgS+IG2z/l1hRSxveKyIGrVkUq01wT
+ GfxP/atYg9WZwQDaKnSnzG47Bt8Gb236gDLny5KIobdVQWzlQe+8VV8/t8g5t2lwQVFP
+ jfzIEnxIcxB6CScqePq/tz3JevZLHNlgCvO5h9QwEHCMwTGG71ZKFyMDLvWy9J9wgPYt
+ tCtnGSFaXoEX/cdzcKJcM4RQyDb4X0Cj/B15oiSupk262JZqZ8llZHICpArKJAtZRUo+
+ uV9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=65qSmGmypBwql4yygZi8U8Y0QUeOs13b5WCSPH/ZqUQ=;
- b=FZWNVCSCWvwc4wskV253WrKV9j7HAyUvSgqG1NehH6nKqGgG0PzgidSRQ+qJ8YHijz
- hLJh9Eb/YttUOOc5a7PFz/nUXdpZTaAtyXNrT83z/ekAblAi+D7kMG43oPw5q2gw91yY
- Smpm0MaloRfG2fROJT5uFTNY+2lAmyP4cyl5w7w3xpi7LhRkQtkC3dDQBl2fKgBFlMd/
- 73x77mE/zM9w621S+69NSgDgGFpUcVwWukGkDcBTkt8I1VW6DtdztKgjW3LMiQ/5rqbh
- EFDz97xQJZpIT/q0qrAmMstOY4AfBywKM6pdidcEhSUsgZRuZsACXBizhnRRenB3jnOc
- asTg==
-X-Gm-Message-State: AFqh2koxmMKQo+EQMZFjYdS5Enr0+3mOF1TjVJCU5nQEzWU/XLux0Dnv
- 2p2DiDfuIucYIbC9bIdOmAa3zjtM4/+vBIdDYS8=
-X-Google-Smtp-Source: AMrXdXulMJ+JdC0imQzl49t89u5AcQDZaBrY9QdB91cd67Chvp/1y/weZ/pj9wtho0z2KnmqLYOGN63vb7U/0qsU4UU=
-X-Received: by 2002:a05:6808:2001:b0:35b:d93f:cbc4 with SMTP id
- q1-20020a056808200100b0035bd93fcbc4mr3588739oiw.96.1673018983790; Fri, 06 Jan
- 2023 07:29:43 -0800 (PST)
+ bh=oiJt6s7+hbogz7Pnp3dT+g0/bOfE/wSE2iJelIqj6/U=;
+ b=GloGbs32cGjS4+OpgdEUSmG4bJMqNqXT9h+KCdsLXRMrgyQlYvceUJYNheQvHSqStV
+ cvttOjvOkjiXgbYUj+b1OhTugfHrzpiLoN82GJ1fiCfEhSGSZFVhafIPH4xRPskqo1Yp
+ gtxoteVEciyl8aUdCr5LDd/d3Taa/fzSi2DdNnLWbETzaEjZz8e9FRRydUqbDi1L4Qrr
+ ZFio+vAfRPQhdrDqTLpZ8Wp+iCkwoCHxTWBL4W8rmsHPeVRc2YQiByDdcAfiSyz2Xa+C
+ feIeR+9j8nNC3uhq415XR58Ms0f12//EAG0sMmw+9JYVC9uJkQQB4VGUOpHEKXiWPYjy
+ Hfqw==
+X-Gm-Message-State: AFqh2koIj45zbri/Eqe0WWYQCqsmTwkNXGUUhyU3k099MimccZ/M6ZIS
+ rVODSItw7bi/SoyFTuo8hB9wFm0vQKA4k2n2thE=
+X-Google-Smtp-Source: AMrXdXsVu9tZH9aEpFTPrGxj623SET9TazA0U7VuGephptWzQv20D90ml/cZSokwL8XmyIJ3Wj/wgSNT3aUNvKZMMg8=
+X-Received: by 2002:a05:6870:970e:b0:148:3c8f:15ab with SMTP id
+ n14-20020a056870970e00b001483c8f15abmr4679795oaq.46.1673019058265; Fri, 06
+ Jan 2023 07:30:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20230106002453.18770-1-yang.lee@linux.alibaba.com>
-In-Reply-To: <20230106002453.18770-1-yang.lee@linux.alibaba.com>
+References: <20230106013232.25947-1-yang.lee@linux.alibaba.com>
+In-Reply-To: <20230106013232.25947-1-yang.lee@linux.alibaba.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 6 Jan 2023 10:29:32 -0500
-Message-ID: <CADnq5_POir-_+xrSL7eRQtPtMo1v2QkmuKdNFxg0oPYBGzi8eA@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amd/display: Remove unneeded semicolon
+Date: Fri, 6 Jan 2023 10:30:46 -0500
+Message-ID: <CADnq5_MTfRLcH2EvxYL61pjTEs_VsQnh1Ya_ahSCDZksyFqv5Q@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/amdgpu: clean up some inconsistent indentings
 To: Yang Li <yang.lee@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,10 +65,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunpeng.li@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
- Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- alexander.deucher@amd.com
+Cc: Xinhui.Pan@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -75,46 +76,35 @@ Applied.  Thanks!
 
 Alex
 
-On Thu, Jan 5, 2023 at 7:30 PM Yang Li <yang.lee@linux.alibaba.com> wrote:
+On Thu, Jan 5, 2023 at 8:37 PM Yang Li <yang.lee@linux.alibaba.com> wrote:
 >
-> ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:7431:3-4: Unneeded semicolon
-> ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:7485:4-5: Unneeded semicolon
-> ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:7489:3-4: Unneeded semicolon
+> drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c:65 amdgpu_gem_fault() warn: inconsistent indenting
 >
-> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3635
+> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3639
 > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
 > Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 > ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 6 +++---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c | 6 +++---
 >  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index cabe02cb307c..90dc72e98eb2 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -7428,7 +7428,7 @@ static bool is_content_protection_different(struct drm_crtc_state *new_crtc_stat
->                         new_conn_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
->                         pr_debug("[HDCP_DM] ENABLED->DESIRED & mode_changed %s :true\n", __func__);
->                         return true;
-> -               };
-> +               }
->                 new_conn_state->content_protection = DRM_MODE_CONTENT_PROTECTION_ENABLED;
->                 pr_debug("[HDCP_DM] ENABLED -> DESIRED %s :false\n", __func__);
->                 return false;
-> @@ -7482,11 +7482,11 @@ static bool is_content_protection_different(struct drm_crtc_state *new_crtc_stat
->                                 pr_debug("[HDCP_DM] DESIRED->DESIRED or ENABLE->ENABLE mode_change %s :true\n",
->                                         __func__);
->                                 return true;
-> -                       };
-> +                       }
->                         pr_debug("[HDCP_DM] DESIRED->DESIRED & ENABLE->ENABLE %s :false\n",
->                                 __func__);
->                         return false;
-> -               };
-> +               }
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> index 00edc7002ee8..ed1164a87fce 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> @@ -62,10 +62,10 @@ static vm_fault_t amdgpu_gem_fault(struct vm_fault *vmf)
+>                         goto unlock;
+>                 }
 >
->                 pr_debug("[HDCP_DM] UNDESIRED->UNDESIRED %s :false\n", __func__);
->                 return false;
+> -                ret = ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
+> -                                               TTM_BO_VM_NUM_PREFAULT);
+> +               ret = ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
+> +                                              TTM_BO_VM_NUM_PREFAULT);
+>
+> -                drm_dev_exit(idx);
+> +               drm_dev_exit(idx);
+>         } else {
+>                 ret = ttm_bo_vm_dummy_page(vmf, vmf->vma->vm_page_prot);
+>         }
 > --
 > 2.20.1.7.g153144c
 >
