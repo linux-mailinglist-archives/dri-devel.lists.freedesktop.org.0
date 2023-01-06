@@ -1,68 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E05E465FE7E
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 11:02:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A0565FE80
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Jan 2023 11:06:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8E8710E84E;
-	Fri,  6 Jan 2023 10:02:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E55710E852;
+	Fri,  6 Jan 2023 10:06:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com
- [IPv6:2607:f8b0:4864:20::e31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5135510E84E
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 10:02:34 +0000 (UTC)
-Received: by mail-vs1-xe31.google.com with SMTP id h27so1017167vsq.3
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 02:02:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0jekSJNDJM0PJLMy4f5KDsvfnzQKi1NY+87HbB0AE0U=;
- b=J/UVP+6+33ygBtVRE7gxxYi8EPBYvNgKgg1P/ueQ9Q6VIxUVmlmuYJuo4pmPca9EXZ
- zBM2J1+zbzdyk+8ZaC9xDqk0dMGqib9m/C/rrnxNbLlZiwz0wrHgGwBikJ5huJmTmsCk
- feXz0uA0+PdLUA86V7UCWmsnADKH7DRyEIfZDRcYdAJnZCpSPukS7U1vPq3bOD7OAS5y
- kesH27Hb9H3mjrUpY+KQdUvvfsXp6SKI8moeBuVpgqSQbzTXpJ4GNd2EG8KRwcI/Fk0A
- qT7qfmxpGrsT4HWHA15uSc/n1kRtDLJQ6nPSoD9X+yUrdsphBgzi1vbautq52ajUXmtc
- KwIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0jekSJNDJM0PJLMy4f5KDsvfnzQKi1NY+87HbB0AE0U=;
- b=x58P+M6l2Y1MXezcUeGx0N7i2RzeDNq88Re+XZZdmimlQf63I3q0UBmAaXPnntJvLi
- Wurio/+0v93cOuxpXfrTnEHwltb9mT2PkT0Md0Jwd/Tk2Fn95QDK7mhyZEcWrOb3/cP4
- 7cfkjx/W/L1tFvzsiw+J7mab7pMzBhVev89YZyMBl7tdYKna2AH7l4nkYYJapOA7ZdNp
- cJ33z+p6iYLRpDYyXTHBBYOi86gjMSIgR522FVyGs3gvZNCgvFexIgHZnS1Z99sWtbcj
- nnatjeAgGYOefHzVhT9nG75CHW4pXUxvbnj+jGV3qpy95fCpoFj+GiQwo1QYtryQ3Xw3
- UFGQ==
-X-Gm-Message-State: AFqh2kpCXzIAjPEY2qPzW7EbO1XqYLUvRSDjIFVEi17MRgwGldIPkYVq
- n+Q+hOSuNMOlmfZp95DNQnKHvejEhDjDnzrDXE0mgw==
-X-Google-Smtp-Source: AMrXdXtfpZRao6zStkGRHIaemBc1xBGK/o5uKUEd/CUsvHFCWMC0YjNSG3uz3obKG+Ngi4YFi7yzmwoYKKRO6X/ArWY=
-X-Received: by 2002:a05:6102:45b:b0:3cb:ebf:ba6e with SMTP id
- e27-20020a056102045b00b003cb0ebfba6emr3709385vsq.54.1672999353157; Fri, 06
- Jan 2023 02:02:33 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D3C110E852
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Jan 2023 10:06:00 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 71C6F248C6;
+ Fri,  6 Jan 2023 10:05:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1672999558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=ZCkv9aaddj+HIt/yLqgfwgRbapKJelrLoDGSDZeRtRI=;
+ b=MBFGg+CZV7y12HHmN3Tho/lPF35H3XV4ZxwOMbuuejfc6ijjpFSs9dWZRr7pxZswqdxZLV
+ kWbGcO38W5pXcVfiF0v5L09sOXrinXxviHUttfJWLfb43YsMgEdDM8zWJ4PRB+9sxzWy3y
+ QSqtydCjUwfSOqLm6zJCghR0W9UWEx0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1672999558;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=ZCkv9aaddj+HIt/yLqgfwgRbapKJelrLoDGSDZeRtRI=;
+ b=cniILLol+JUJ/3NuY4gKirA8Qlbm0cPtHonhLTF9COKMr/QB5oJghQgfyt8OUEc4v3WLfq
+ QCks7BgzluwlDNBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3957B139D5;
+ Fri,  6 Jan 2023 10:05:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id VMgoDIbyt2M6egAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 06 Jan 2023 10:05:58 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, mcanal@igalia.com, steev@kali.org,
+ dmitry.baryshkov@linaro.org, javierm@redhat.com, airlied@gmail.com,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com
+Subject: [PATCH v2] drm/fb-helper: Replace bpp/depth parameter by color mode
+Date: Fri,  6 Jan 2023 11:05:56 +0100
+Message-Id: <20230106100556.5562-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <20230105052325.514970-1-yixie@google.com>
- <Y7a2Viw/1RUNCGkD@phenom.ffwll.local>
- <CAHf1YQ4AZoOd=Q7KVqb1gQm3=TtiS_8-uxFY93syov1AgUT=CQ@mail.gmail.com>
- <Y7bVNT0sf5cwEHuj@phenom.ffwll.local>
- <CAHf1YQ55f2mN14ytCz=AB=VSvO8ByKoV59dF50gWVcjcgMkTHg@mail.gmail.com>
- <Y7bbxVzhYCGhCvVN@phenom.ffwll.local>
- <CAHf1YQ4jHeCGqoERpYM6yX8-9pjqiemUN3fT3fpweDTZz6Mrbg@mail.gmail.com>
- <Y7buUnTE91GC+VZb@phenom.ffwll.local>
- <CAOvqHj68uPoPdBrbKaBMg4QOre-EjRJOH12XqBBR+1bAx-fQwA@mail.gmail.com>
- <Y7fvyQ6Ve6duSjho@phenom.ffwll.local>
-In-Reply-To: <Y7fvyQ6Ve6duSjho@phenom.ffwll.local>
-From: Yi Xie <yixie@google.com>
-Date: Fri, 6 Jan 2023 19:02:22 +0900
-Message-ID: <CAHf1YQ7xnhMwVzLaqsETuDAcBH+U_m=_BA4avfKbjM0Z_KOZRA@mail.gmail.com>
-Subject: Re: [PATCH] drm/vkms: Add a DRM render node to vkms
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,283 +63,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: melissa.srw@gmail.com, hamohammed.sa@gmail.com,
- dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
- =?UTF-8?B?VGFvIFd1KOWQtOa2m0BFbmcp?= <lepton@google.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I have figured out the problem with importing buffers across vgem/vkms.
+Replace the combination of bpp and depth with a single color-mode
+argument. Handle special cases in simpledrm and ofdrm. Hard-code
+XRGB8888 as fallback format for cases where no given format works.
 
-It's intentionally blocked by kernel here:
-https://github.com/torvalds/linux/blob/a140a6a2d5ec0329ad05cd3532a91ad0ce58=
-dceb/drivers/gpu/drm/drm_gem.c#L307
+The color-mode argument accepts the same values as the kernel's video
+parameter. These are mostly bpp values between 1 and 32. The exceptions
+are 15, which has a color depth of 15 and a bpp value of 16; and 32,
+which has a color depth of 24 and a bpp value of 32.
 
-From the original patch https://patchwork.freedesktop.org/patch/172242/:
-Reject mapping an imported dma-buf since it's an invalid use-case.
+v2:
+	* minimize changes (Daniel)
+	* use drm_driver_legacy_fb_format() (Daniel)
 
-Looks like importing dumb buffers across different devices is
-disallowed. Removing this check and then everything is working well on
-vkms with vgem.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/drm_fb_helper.c  | 39 +++++++++++++++++---------------
+ drivers/gpu/drm/tiny/ofdrm.c     |  7 +++++-
+ drivers/gpu/drm/tiny/simpledrm.c |  7 +++++-
+ 3 files changed, 33 insertions(+), 20 deletions(-)
 
-According to the patch thread we should use native map instead of dumb
-map on imported buffers.
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 1369ca4ae39b..2feb4b0a1477 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -1756,24 +1756,21 @@ static uint32_t drm_fb_helper_find_format(struct drm_fb_helper *fb_helper, const
+ 	return DRM_FORMAT_INVALID;
+ }
+ 
+-static uint32_t drm_fb_helper_find_cmdline_format(struct drm_fb_helper *fb_helper,
+-						  const uint32_t *formats, size_t format_count,
+-						  const struct drm_cmdline_mode *cmdline_mode)
++static uint32_t drm_fb_helper_find_color_mode_format(struct drm_fb_helper *fb_helper,
++						     const uint32_t *formats, size_t format_count,
++						     unsigned int color_mode)
+ {
+ 	struct drm_device *dev = fb_helper->dev;
+ 	uint32_t bpp, depth;
+ 
+-	if (!cmdline_mode->bpp_specified)
+-		return DRM_FORMAT_INVALID;
+-
+-	switch (cmdline_mode->bpp) {
++	switch (color_mode) {
+ 	case 1:
+ 	case 2:
+ 	case 4:
+ 	case 8:
+ 	case 16:
+ 	case 24:
+-		bpp = depth = cmdline_mode->bpp;
++		bpp = depth = color_mode;
+ 		break;
+ 	case 15:
+ 		bpp = 16;
+@@ -1784,7 +1781,7 @@ static uint32_t drm_fb_helper_find_cmdline_format(struct drm_fb_helper *fb_helpe
+ 		depth = 24;
+ 		break;
+ 	default:
+-		drm_info(dev, "unsupported bpp value of %d\n", cmdline_mode->bpp);
++		drm_info(dev, "unsupported color mode of %d\n", color_mode);
+ 		return DRM_FORMAT_INVALID;
+ 	}
+ 
+@@ -1817,10 +1814,10 @@ static int __drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper, int prefe
+ 		drm_client_for_each_connector_iter(connector, &conn_iter) {
+ 			struct drm_cmdline_mode *cmdline_mode = &connector->cmdline_mode;
+ 
+-			surface_format = drm_fb_helper_find_cmdline_format(fb_helper,
+-									   plane->format_types,
+-									   plane->format_count,
+-									   cmdline_mode);
++			surface_format = drm_fb_helper_find_color_mode_format(fb_helper,
++									      plane->format_types,
++									      plane->format_count,
++									      cmdline_mode->bpp);
+ 			if (surface_format != DRM_FORMAT_INVALID)
+ 				break; /* found supported format */
+ 		}
+@@ -1829,17 +1826,23 @@ static int __drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper, int prefe
+ 		if (surface_format != DRM_FORMAT_INVALID)
+ 			break; /* found supported format */
+ 
+-		/* try preferred bpp/depth */
+-		surface_format = drm_fb_helper_find_format(fb_helper, plane->format_types,
+-							   plane->format_count, preferred_bpp,
+-							   dev->mode_config.preferred_depth);
++		/* try preferred color mode */
++		surface_format = drm_fb_helper_find_color_mode_format(fb_helper,
++								      plane->format_types,
++								      plane->format_count,
++								      preferred_bpp);
+ 		if (surface_format != DRM_FORMAT_INVALID)
+ 			break; /* found supported format */
+ 	}
+ 
+ 	if (surface_format == DRM_FORMAT_INVALID) {
++		/*
++		 * If none of the given color modes works, fall back
++		 * to XRGB8888. Drivers are expected to provide this
++		 * format for compatibility with legacy applications.
++		 */
+ 		drm_warn(dev, "No compatible format found\n");
+-		return -EAGAIN;
++		surface_format = drm_driver_legacy_fb_format(dev, 32, 24);
+ 	}
+ 
+ 	info = drm_format_info(surface_format);
+diff --git a/drivers/gpu/drm/tiny/ofdrm.c b/drivers/gpu/drm/tiny/ofdrm.c
+index 39c5fd463fec..745a8b44517f 100644
+--- a/drivers/gpu/drm/tiny/ofdrm.c
++++ b/drivers/gpu/drm/tiny/ofdrm.c
+@@ -1352,6 +1352,7 @@ static int ofdrm_probe(struct platform_device *pdev)
+ {
+ 	struct ofdrm_device *odev;
+ 	struct drm_device *dev;
++	unsigned int color_mode;
+ 	int ret;
+ 
+ 	odev = ofdrm_device_create(&ofdrm_driver, pdev);
+@@ -1363,7 +1364,11 @@ static int ofdrm_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	drm_fbdev_generic_setup(dev, drm_format_info_bpp(odev->format, 0));
++	color_mode = drm_format_info_bpp(sdev->format, 0);
++	if (color_mode == 16)
++		color_mode = sdev->format->depth; // can be 15 or 16
++
++	drm_fbdev_generic_setup(dev, color_mode);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+index 7355617f38d3..f658b99c796a 100644
+--- a/drivers/gpu/drm/tiny/simpledrm.c
++++ b/drivers/gpu/drm/tiny/simpledrm.c
+@@ -802,6 +802,7 @@ static int simpledrm_probe(struct platform_device *pdev)
+ {
+ 	struct simpledrm_device *sdev;
+ 	struct drm_device *dev;
++	unsigned int color_mode;
+ 	int ret;
+ 
+ 	sdev = simpledrm_device_create(&simpledrm_driver, pdev);
+@@ -813,7 +814,11 @@ static int simpledrm_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	drm_fbdev_generic_setup(dev, drm_format_info_bpp(sdev->format, 0));
++	color_mode = drm_format_info_bpp(sdev->format, 0);
++	if (color_mode == 16)
++		color_mode = sdev->format->depth; // can be 15 or 16
++
++	drm_fbdev_generic_setup(dev, color_mode);
+ 
+ 	return 0;
+ }
+-- 
+2.39.0
 
-Since there is no native map ioctl in both vgem and vkms, I'm thinking
-about adding a dumb_map_offset implementation in both of them with
-that check removed.
-From my testing vkms and vgem are now working happily together without
-any (obvious) issues.
-
-There are other drivers doing the same thing, for example virtgpu:
-https://github.com/torvalds/linux/blob/a140a6a2d5ec0329ad05cd3532a91ad0ce58=
-dceb/drivers/gpu/drm/virtio/virtgpu_gem.c#L102
-
-Does this sound like a better idea than adding a render node?
-
-On Fri, Jan 6, 2023 at 6:54 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Thu, Jan 05, 2023 at 01:40:28PM -0800, Tao Wu(=E5=90=B4=E6=B6=9B@Eng) =
-wrote:
-> > Hi Daniel,
-> >
-> > May I know what's the requirement for adding render node support to a
-> > "gpu"?  Why we just export render node for every drm devices?
-> > I read document here
-> > https://www.kernel.org/doc/html/v4.8/gpu/drm-uapi.html#render-nodes
->
-> Thus far we've only done it when there's actual rendering capability,
-> which generally means at least some private ioctls.
->
-> Which vkms just doens't have. And it's by far not the only such case.
->
-> Also note that display drivers side is _not_ shareable.
-> -Daniel
->
-> > and it seems render node allow multiple unprivileged clients
-> > to work with the same gpu, I am not sure why we just enable it for all
-> > kms-only device.
-> > What's wrong if we enable it for all kms-only devices and also let
-> > mesa to use llvmpipe with those devices by default.
-> >
-> > Thanks!
-> >
-> > On Thu, Jan 5, 2023 at 7:35 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Fri, Jan 06, 2023 at 12:16:07AM +0900, Yi Xie wrote:
-> > > > On Thu, Jan 5, 2023 at 11:16 PM Daniel Vetter <daniel@ffwll.ch> wro=
-te:
-> > > > >
-> > > > > On Thu, Jan 05, 2023 at 11:10:23PM +0900, Yi Xie wrote:
-> > > > > > On Thu, Jan 5, 2023 at 10:48 PM Daniel Vetter <daniel@ffwll.ch>=
- wrote:
-> > > > > > >
-> > > > > > > On Thu, Jan 05, 2023 at 09:52:26PM +0900, Yi Xie wrote:
-> > > > > > > > > This doesn't sound like a good idea to me. Devices withou=
-t render
-> > > > > > > > > capabilities should not fake it.
-> > > > > > > > >
-> > > > > > > > > User-space (e.g. wlroots) relies on "no render node" to e=
-nable
-> > > > > > > > > software rendering (Pixman instead of GL).
-> > > > > > > >
-> > > > > > > > We have virtgpu driver that exports a render node even when=
- virgl is
-> > > > > > > > not supported.
-> > > > > > > > Mesa has special code path to enable software rendering on =
-it:
-> > > > > > > > https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/eg=
-l/drivers/dri2/platform_device.c#L296
-> > > > > > > > We can do the same for vkms to force software rendering.
-> > > > > > >
-> > > > > > > Yeah that is the old kmsro mesa issue, for every combination =
-of kms and
-> > > > > > > gem device you need one to make this work.
-> > > > > > >
-> > > > > > > > On Thu, Jan 5, 2023 at 8:36 PM Daniel Vetter <daniel@ffwll.=
-ch> wrote:
-> > > > > > > > >
-> > > > > > > > > On Thu, Jan 05, 2023 at 02:23:25PM +0900, Yi Xie wrote:
-> > > > > > > > > > Some libraries including Mesa and virglrenderer require=
- a render node to
-> > > > > > > > > > fully function. By adding a render node to vkms those l=
-ibraries will
-> > > > > > > > > > work properly, supporting use cases like running crosvm=
- with virgl GPU
-> > > > > > > > > > support via llvmpipe on a headless virtual machine.
-> > > > > > > > >
-> > > > > > > > > This is what vgem exists for. More or less at least ... I=
-'m honestly not
-> > > > > > > > > really understanding what you're trying to fix here, it s=
-ounds a bit like
-> > > > > > > > > userspace being stupid.
-> > > > > > > > > -Daniel
-> > > > > > > > The problem with vgem is that it crashes llvmpipe while wor=
-king with vkms.
-> > > > > > > > Looks like it's due to the same reason as described in this=
- thread in Mesa:
-> > > > > > > > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/5=
-830
-> > > > > > >
-> > > > > > > I'm not finding any bug description in there and how/why some=
-thing
-> > > > > > > crashes?
-> > > > > >
-> > > > > > The discussion is in the comment section under the first commen=
-t by
-> > > > > > Emil Velikov.
-> > > > > > It's folded by default (inside "6 replies" at the bottom).
-> > > > > >
-> > > > > > >
-> > > > > > > > Importing buffers allocated by vgem to vkms seems to be une=
-xpected and
-> > > > > > > > causes the crash. If we create a render node on vkms then l=
-lvmpipe will use
-> > > > > > > > vkms to allocate buffers and it no longer crashes.
-> > > > > > >
-> > > > > > > Uh importing vgem into virtio might not work because those so=
-metimes need
-> > > > > > > special buffers iirc. But importing vgem into vkms really sho=
-uld work,
-> > > > > > > there's no technical reason it cannot. If it doesn't, then th=
-e right fix
-> > > > > > > would be to fix that, not paper around it.
-> > > > > >
-> > > > > > The crash stack trace looks like this:
-> > > > > > https://gist.github.com/imxieyi/03053ae79cee2e614850fd41829e1da=
-2
-> > > > > >
-> > > > > > Even if we fix the crash issue with vgem, we still need to work=
-around
-> > > > > > quite a few
-> > > > > > places that has explicitly blocked vgem. A notable example is v=
-irglrenderer:
-> > > > > > https://gitlab.freedesktop.org/virgl/virglrenderer/-/blob/maste=
-r/src/vrend_winsys_gbm.c#L121
-> > > > > >
-> > > > > > Actually I have tried to force running virglrenderer on vgem an=
-d it
-> > > > > > didn't work. I
-> > > > > > didn't look into why it wasn't working but I guess that's the r=
-eason
-> > > > > > for blocking
-> > > > > > vgem in the first place. Virglrenderer works well on vkms with =
-render node
-> > > > > > enabled though.
-> > > > >
-> > > > > Ah ok. For next time around, copy a link to the comment you want,=
- e.g.
-> > > > >
-> > > > > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/5830#no=
-te_582477
-> > > > >
-> > > > > The 3 dots menu on each comments has an option to copy that link =
-tag. That
-> > > > > also highlights the right comment.
-> > > >
-> > > > Thanks for the tips! Actually you need to sign in to reveal that 3 =
-dots menu.
-> > > >
-> > > > >
-> > > > > On this issue, I'm concurring with Emil:
-> > > > >
-> > > > > "- the import is broken
-> > > > > "IMHO that should be fixed, regardless of the rest"
-> > > > >
-> > > > > The same should be done here. Unless it's a very special device, =
-we should
-> > > > > be able to import vgem buffers.
-> > > >
-> > > > How about the fact that vgem is blocked explicitly in virglrenderer=
-?
-> > > > We will have
-> > > > to remove it from block list and that may break something that
-> > > > resulted in blocking
-> > > > in this commit:
-> > > > https://gitlab.freedesktop.org/virgl/virglrenderer/-/commit/2cb686d=
-d46df27e9600f9df734303ec57bb38772
-> > > > I can't find the reason why it's blocking vgem though. It shouldn't=
- be
-> > > > related to
-> > > > incompatibility with vkms/virtgpu.
-> > > >
-> > > > Are there any concerns that enabling render node on vkms may cause =
-problems?
-> > > > What if we add a driver option to add render node on demand?
-> > >
-> > > The thing is, that none of the other kms-only driver enable render no=
-des.
-> > > If we start adding them in one case just because userspace can't cope=
-,
-> > > then we'll have an endless stream of these patches.
-> > >
-> > > Instead of fixing userspace.
-> > >
-> > > Note that the issue is very old for at least mesa3d, and the only fix=
- is
-> > > kmsro, where you have to build a driver for each combo. Maybe this sh=
-ould
-> > > be done better, dunno. But adding render node in just vkms for this u=
-se
-> > > case really doesn't make much sense to me, and it smells very much li=
-ke
-> > > opening a can of worms :-/
-> > > -Daniel
-> > >
-> > > > > -Daniel
-> > > > >
-> > > > > >
-> > > > > > > -Daniel
-> > > > > > >
-> > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > > Signed-off-by: Yi Xie <yixie@google.com>
-> > > > > > > > > > ---
-> > > > > > > > > >  drivers/gpu/drm/vkms/vkms_drv.c | 2 +-
-> > > > > > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > > > > > >
-> > > > > > > > > > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/=
-gpu/drm/vkms/vkms_drv.c
-> > > > > > > > > > index 293dbca50c31..8eea5d4dece8 100644
-> > > > > > > > > > --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> > > > > > > > > > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> > > > > > > > > > @@ -113,7 +113,7 @@ static void vkms_config_debugfs_ini=
-t(struct drm_minor *minor)
-> > > > > > > > > >  }
-> > > > > > > > > >
-> > > > > > > > > >  static const struct drm_driver vkms_driver =3D {
-> > > > > > > > > > -     .driver_features        =3D DRIVER_MODESET | DRIV=
-ER_ATOMIC | DRIVER_GEM,
-> > > > > > > > > > +     .driver_features        =3D DRIVER_MODESET | DRIV=
-ER_ATOMIC | DRIVER_GEM | DRIVER_RENDER,
-> > > > > > > > > >       .release                =3D vkms_release,
-> > > > > > > > > >       .fops                   =3D &vkms_driver_fops,
-> > > > > > > > > >       DRM_GEM_SHMEM_DRIVER_OPS,
-> > > > > > > > > > --
-> > > > > > > > > > 2.39.0.314.g84b9a713c41-goog
-> > > > > > > > > >
-> > > > > > > > >
-> > > > > > > > > --
-> > > > > > > > > Daniel Vetter
-> > > > > > > > > Software Engineer, Intel Corporation
-> > > > > > > > > http://blog.ffwll.ch
-> > > > > > >
-> > > > > > > --
-> > > > > > > Daniel Vetter
-> > > > > > > Software Engineer, Intel Corporation
-> > > > > > > http://blog.ffwll.ch
-> > > > >
-> > > > > --
-> > > > > Daniel Vetter
-> > > > > Software Engineer, Intel Corporation
-> > > > > http://blog.ffwll.ch
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
