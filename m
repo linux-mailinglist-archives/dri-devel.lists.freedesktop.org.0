@@ -1,69 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B39B661146
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 20:19:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58210661147
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 20:19:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8391910E90E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBFC610E918;
 	Sat,  7 Jan 2023 19:18:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCFDA10E35A
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 19:18:43 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A6A310E35C
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 19:18:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673119123;
+ s=mimecast20190719; t=1673119124;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ttV0XcYX1fJWmH88XgdEow2vXwmHcFArdkGg5SIJWK0=;
- b=WVeuH6eeyHlMZEAaU5jLkrElosbTBGfwZSDtFXkbjDzC5Ye2uJRH5XOy88uA71XLOXqceF
- hLO2vIzdrClekjkxshRVPYAzdywkbrRDQYE8dRhHgS2Oo4vss2kGR5qKJ++T5FvvDKof9h
- 2z9m2CXnz5W9XQjVgXyZ7CbM4unvwZ4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3UbmEV+kUDRxsVEHZ8LXGuydtVY+f4VLUneyt4KaPUA=;
+ b=e312pDWvQnkD/OicTKYe3tRtUSGHJV4ZNnK2/KYAQi6v5EFOVolGcjUmnPQYBgPkLVR+gN
+ Kh2gdr6A90I+e921eWGmPp2ECHpxVRH5GQmCS2LHK7hKxjSsdL0EYA0UprxOXGJLwbICcv
+ 48xian6piwdbZkMjnXX4giYHhvamweQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-159-2_H5AgoUNLm3nst_luSJ0Q-1; Sat, 07 Jan 2023 14:18:41 -0500
-X-MC-Unique: 2_H5AgoUNLm3nst_luSJ0Q-1
-Received: by mail-wm1-f71.google.com with SMTP id
- fl12-20020a05600c0b8c00b003d96f0a7f36so2722739wmb.1
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 11:18:41 -0800 (PST)
+ us-mta-194-bB6Y3_Q4PU6RMGGEHKJbbQ-1; Sat, 07 Jan 2023 14:18:42 -0500
+X-MC-Unique: bB6Y3_Q4PU6RMGGEHKJbbQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ c21-20020adfa315000000b0029ae4de27efso583995wrb.6
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 11:18:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ttV0XcYX1fJWmH88XgdEow2vXwmHcFArdkGg5SIJWK0=;
- b=gmgFD78cJjJ3QbWOYz2s1Xtttu87ChCFHxkNxCe8kxFntmBT6isLgxupn3dSx2cNVn
- /CH5zJllPA65fRdkbAX5EXTUGxisPA9exGCxwBvUrz1mKzbKfWllvJXOs2MHfNGwhLjO
- 9xtS7XGvv1HzpwmvEcVcCVSYpzSJavDSpCWAe9eGMI8OXi2s9V5Jkp9CD9naeGKGzWVG
- wWBlv9gteL+zEfCN7W1ueJdt7AV7MMoT/e6jWACn6oRjVvU2P4yoIWG0tshcHBdDCa6F
- 4xD1QsY0fhx9rmzHh9keQZj+rs5hHKCj7jeIEcxu434FIsxBEO9ZcwtIaT5QccajtgOf
- CAJA==
-X-Gm-Message-State: AFqh2kp+jcz1Pb6MvL5E5ftsCaSc9MUm9i9huVmoG5khZPry9XPuEGly
- EZv9gunWamv7xLoVOBF+x2CxHwkYUFVmFx+rncsZP+JNSexGEoEs2Gx4fmNIteSiKsIGWjYpLTf
- WAtNO0YqRoNz1IiJHqVQqokqq7y9y
-X-Received: by 2002:a05:600c:3506:b0:3cf:803b:d7cc with SMTP id
- h6-20020a05600c350600b003cf803bd7ccmr45485997wmq.33.1673119120698; 
- Sat, 07 Jan 2023 11:18:40 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsqRumGFiFSh2jflHPYUHsPzJdMy9PeAGY0Mpa8khexDGjR9FKqpABGnvJs8fvLrfT0jXlJ6w==
-X-Received: by 2002:a05:600c:3506:b0:3cf:803b:d7cc with SMTP id
- h6-20020a05600c350600b003cf803bd7ccmr45485988wmq.33.1673119120509; 
- Sat, 07 Jan 2023 11:18:40 -0800 (PST)
+ bh=3UbmEV+kUDRxsVEHZ8LXGuydtVY+f4VLUneyt4KaPUA=;
+ b=dIlqyi9/G+TuYj7T3li8KLdUFDomBIli8SEkBo3m9XbcpaPBLyhAHBp/tBye2J1lK0
+ qpRIH0EnERd5aGNoMgGrO9+m4DPvnUl85CBOVkc9lGq1R7Fx3tICkOlA95QncEWbWLFR
+ KAGtrrmMYSxJIOHboq08tATEIt/Ry5CSslMt4Oijz3z9dF4NHSPMJ/gIJ9ejDgb+I3lS
+ gFaOZSnICMWzKKwEdEPwEtoda3aqL06u95F58oL6F2YzjA9sWKU7GZGBDgq/DRKeJL7U
+ +3fuOVY5U83F35sYBnD4sbkGjIyWbjlO+Y2AIkXjERpF0qWQYusP9rl0NpoatvjOpcOC
+ jxAg==
+X-Gm-Message-State: AFqh2kqZMuHzMl+MSy4eIAtY6B2usBfxqfJAxBzDW66wi+PIn/qXbp7D
+ kAkyeJKoiFN4u/ZsczaQFrp6DnynOZqotosUsP3n5sbZvU4xPOOuveTJBye7p6c2hn0tRHdLSs6
+ LVbhm5O5scfQLo6rJ1Xj1MUE2vKGd
+X-Received: by 2002:a5d:5965:0:b0:27f:1c70:58c3 with SMTP id
+ e37-20020a5d5965000000b0027f1c7058c3mr28918824wri.24.1673119121754; 
+ Sat, 07 Jan 2023 11:18:41 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvn3/NsWtFEC4rkLPj22mr95+5FOn9c8MbeYB/J6hRruQBMnje0oECXATpAR/FApVyushGPog==
+X-Received: by 2002:a5d:5965:0:b0:27f:1c70:58c3 with SMTP id
+ e37-20020a5d5965000000b0027f1c7058c3mr28918817wri.24.1673119121594; 
+ Sat, 07 Jan 2023 11:18:41 -0800 (PST)
 Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- bp28-20020a5d5a9c000000b00273cd321a1bsm4553900wrb.107.2023.01.07.11.18.39
+ bp28-20020a5d5a9c000000b00273cd321a1bsm4553900wrb.107.2023.01.07.11.18.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Jan 2023 11:18:40 -0800 (PST)
+ Sat, 07 Jan 2023 11:18:41 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 07/13] drm/panel-jdi-fhd-r63452: Drop custom DSI write
- macros
-Date: Sat,  7 Jan 2023 20:18:16 +0100
-Message-Id: <20230107191822.3787147-8-javierm@redhat.com>
+Subject: [PATCH v2 08/13] drm/panel-samsung-s6e88a0-ams452ef01: Drop custom
+ DSI write macro
+Date: Sat,  7 Jan 2023 20:18:17 +0100
+Message-Id: <20230107191822.3787147-9-javierm@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230107191822.3787147-1-javierm@redhat.com>
 References: <20230107191822.3787147-1-javierm@redhat.com>
@@ -90,8 +90,8 @@ Cc: Sam Ravnborg <sam@ravnborg.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are macros for these already in the <drm/drm_mipi_dsi.h> header, use
-that instead and delete the custom DSI write macros defined in the driver.
+There is a macro for this already in the <drm/drm_mipi_dsi.h> header, use
+that instead and delete the custom DSI write macro defined in the driver.
 
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
@@ -101,25 +101,17 @@ Changes in v2:
 - Add Sam Ravnborg's Reviewed-by tag.
 - Fix identation on macro usage (Sam Ravnborg).
 
- drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c | 58 +++++++-------------
- 1 file changed, 21 insertions(+), 37 deletions(-)
+ .../panel/panel-samsung-s6e88a0-ams452ef01.c  | 44 ++++++++-----------
+ 1 file changed, 18 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-index d8765b2294fb..8912757a6f42 100644
---- a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-+++ b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-@@ -29,22 +29,6 @@ static inline struct jdi_fhd_r63452 *to_jdi_fhd_r63452(struct drm_panel *panel)
- 	return container_of(panel, struct jdi_fhd_r63452, panel);
+diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
+index 97ff7a18545c..7431cae7427e 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
++++ b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
+@@ -28,14 +28,6 @@ s6e88a0_ams452ef01 *to_s6e88a0_ams452ef01(struct drm_panel *panel)
+ 	return container_of(panel, struct s6e88a0_ams452ef01, panel);
  }
  
--#define dsi_generic_write_seq(dsi, seq...) do {				\
--		static const u8 d[] = { seq };				\
--		int ret;						\
--		ret = mipi_dsi_generic_write(dsi, d, ARRAY_SIZE(d));	\
--		if (ret < 0)						\
--			return ret;					\
--	} while (0)
--
 -#define dsi_dcs_write_seq(dsi, seq...) do {				\
 -		static const u8 d[] = { seq };				\
 -		int ret;						\
@@ -128,85 +120,59 @@ index d8765b2294fb..8912757a6f42 100644
 -			return ret;					\
 -	} while (0)
 -
- static void jdi_fhd_r63452_reset(struct jdi_fhd_r63452 *ctx)
+ static void s6e88a0_ams452ef01_reset(struct s6e88a0_ams452ef01 *ctx)
  {
- 	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-@@ -63,12 +47,12 @@ static int jdi_fhd_r63452_on(struct jdi_fhd_r63452 *ctx)
+ 	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+@@ -54,8 +46,8 @@ static int s6e88a0_ams452ef01_on(struct s6e88a0_ams452ef01 *ctx)
  
  	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
  
--	dsi_generic_write_seq(dsi, 0xb0, 0x00);
--	dsi_generic_write_seq(dsi, 0xd6, 0x01);
--	dsi_generic_write_seq(dsi, 0xec,
--			      0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x0b, 0x0b,
--			      0x13, 0x15, 0x68, 0x0b, 0xb5);
--	dsi_generic_write_seq(dsi, 0xb0, 0x03);
-+	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x00);
-+	mipi_dsi_generic_write_seq(dsi, 0xd6, 0x01);
-+	mipi_dsi_generic_write_seq(dsi, 0xec,
-+				   0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x0b, 0x0b,
-+				   0x13, 0x15, 0x68, 0x0b, 0xb5);
-+	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x03);
+-	dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a); // enable LEVEL2 commands
+-	dsi_dcs_write_seq(dsi, 0xcc, 0x4c); // set Pixel Clock Divider polarity
++	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a); // enable LEVEL2 commands
++	mipi_dsi_dcs_write_seq(dsi, 0xcc, 0x4c); // set Pixel Clock Divider polarity
  
- 	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+ 	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
  	if (ret < 0) {
-@@ -76,7 +60,7 @@ static int jdi_fhd_r63452_on(struct jdi_fhd_r63452 *ctx)
- 		return ret;
- 	}
+@@ -65,23 +57,23 @@ static int s6e88a0_ams452ef01_on(struct s6e88a0_ams452ef01 *ctx)
+ 	msleep(120);
  
--	dsi_dcs_write_seq(dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
- 
- 	ret = mipi_dsi_dcs_set_pixel_format(dsi, 0x77);
- 	if (ret < 0) {
-@@ -108,10 +92,10 @@ static int jdi_fhd_r63452_on(struct jdi_fhd_r63452 *ctx)
- 		return ret;
- 	}
- 
--	dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x24);
+ 	// set default brightness/gama
+-	dsi_dcs_write_seq(dsi, 0xca,
+-			  0x01, 0x00, 0x01, 0x00, 0x01, 0x00,	// V255 RR,GG,BB
+-			  0x80, 0x80, 0x80,			// V203 R,G,B
+-			  0x80, 0x80, 0x80,			// V151 R,G,B
+-			  0x80, 0x80, 0x80,			// V87  R,G,B
+-			  0x80, 0x80, 0x80,			// V51  R,G,B
+-			  0x80, 0x80, 0x80,			// V35  R,G,B
+-			  0x80, 0x80, 0x80,			// V23  R,G,B
+-			  0x80, 0x80, 0x80,			// V11  R,G,B
+-			  0x6b, 0x68, 0x71,			// V3   R,G,B
+-			  0x00, 0x00, 0x00);			// V1   R,G,B
++	mipi_dsi_dcs_write_seq(dsi, 0xca,
++			       0x01, 0x00, 0x01, 0x00, 0x01, 0x00,	// V255 RR,GG,BB
++			       0x80, 0x80, 0x80,			// V203 R,G,B
++			       0x80, 0x80, 0x80,			// V151 R,G,B
++			       0x80, 0x80, 0x80,			// V87  R,G,B
++			       0x80, 0x80, 0x80,			// V51  R,G,B
++			       0x80, 0x80, 0x80,			// V35  R,G,B
++			       0x80, 0x80, 0x80,			// V23  R,G,B
++			       0x80, 0x80, 0x80,			// V11  R,G,B
++			       0x6b, 0x68, 0x71,			// V3   R,G,B
++			       0x00, 0x00, 0x00);			// V1   R,G,B
+ 	// set default Amoled Off Ratio
+-	dsi_dcs_write_seq(dsi, 0xb2, 0x40, 0x0a, 0x17, 0x00, 0x0a);
+-	dsi_dcs_write_seq(dsi, 0xb6, 0x2c, 0x0b); // set default elvss voltage
 -	dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
--	dsi_dcs_write_seq(dsi, MIPI_DCS_SET_CABC_MIN_BRIGHTNESS, 0x00);
--	dsi_dcs_write_seq(dsi, 0x84, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x24);
+-	dsi_dcs_write_seq(dsi, 0xf7, 0x03); // gamma/aor update
+-	dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5); // disable LEVEL2 commands
++	mipi_dsi_dcs_write_seq(dsi, 0xb2, 0x40, 0x0a, 0x17, 0x00, 0x0a);
++	mipi_dsi_dcs_write_seq(dsi, 0xb6, 0x2c, 0x0b); // set default elvss voltage
 +	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_CABC_MIN_BRIGHTNESS, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, 0x84, 0x00);
++	mipi_dsi_dcs_write_seq(dsi, 0xf7, 0x03); // gamma/aor update
++	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5); // disable LEVEL2 commands
  
  	ret = mipi_dsi_dcs_set_display_on(dsi);
- 	if (ret < 0) {
-@@ -127,10 +111,10 @@ static int jdi_fhd_r63452_on(struct jdi_fhd_r63452 *ctx)
- 	}
- 	msleep(80);
- 
--	dsi_generic_write_seq(dsi, 0xb0, 0x04);
--	dsi_dcs_write_seq(dsi, 0x84, 0x00);
--	dsi_generic_write_seq(dsi, 0xc8, 0x11);
--	dsi_generic_write_seq(dsi, 0xb0, 0x03);
-+	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x04);
-+	mipi_dsi_dcs_write_seq(dsi, 0x84, 0x00);
-+	mipi_dsi_generic_write_seq(dsi, 0xc8, 0x11);
-+	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x03);
- 
- 	return 0;
- }
-@@ -143,12 +127,12 @@ static int jdi_fhd_r63452_off(struct jdi_fhd_r63452 *ctx)
- 
- 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
- 
--	dsi_generic_write_seq(dsi, 0xb0, 0x00);
--	dsi_generic_write_seq(dsi, 0xd6, 0x01);
--	dsi_generic_write_seq(dsi, 0xec,
--			      0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x0b, 0x0b,
--			      0x13, 0x15, 0x68, 0x0b, 0x95);
--	dsi_generic_write_seq(dsi, 0xb0, 0x03);
-+	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x00);
-+	mipi_dsi_generic_write_seq(dsi, 0xd6, 0x01);
-+	mipi_dsi_generic_write_seq(dsi, 0xec,
-+				   0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x0b, 0x0b,
-+				   0x13, 0x15, 0x68, 0x0b, 0x95);
-+	mipi_dsi_generic_write_seq(dsi, 0xb0, 0x03);
- 
- 	ret = mipi_dsi_dcs_set_display_off(dsi);
  	if (ret < 0) {
 -- 
 2.38.1
