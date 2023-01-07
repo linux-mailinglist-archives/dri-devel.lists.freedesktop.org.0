@@ -1,71 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B2096610DF
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 19:26:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B687661127
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 19:48:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB0E110E347;
-	Sat,  7 Jan 2023 18:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4670D10E1BA;
+	Sat,  7 Jan 2023 18:48:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9AC510E346
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 18:26:23 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8FE4B60BBB;
- Sat,  7 Jan 2023 18:26:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 21BAEC43329;
- Sat,  7 Jan 2023 18:26:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1673115982;
- bh=Mj/ShVgaaD92/Ge3l6JJSNYGpwa5ONVGtJTi9DaheiM=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=W6qTiEub76a/pK7uR8XodmptNf4n268IEjWRX5tHRsNecbig79nemOGW1S5jR199O
- Q3WQsmeSNIaJJfu7vOG98wRK0Kga66L9A3OXc6bXqPicoNPdzvy9HpiAWYxV8NlFpJ
- u1PniEBpdTf47ZPtMK3G9cQoeX9ZwptPnR/NKLwOZNW13+iPurd73lc6cWwhNXLYIk
- 29QzBUFZwiJQZ/3h7gkj4BbMKXV6KiNS34GTw5iOtrkK1aF39CD3Thb1co6OY3d7eC
- vEfh6XyWJT9ChjxCYx8Ykl4dL7dhcFJgon4aTum6ZpcxJHI0dj7Pn6CeToWPbbm607
- y4SN6r7mL7qjA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 10B31C63797;
- Sat,  7 Jan 2023 18:26:22 +0000 (UTC)
-From: Sam Ravnborg via B4 Submission Endpoint
- <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 07 Jan 2023 19:26:29 +0100
-Subject: [PATCH 15/15] backlight: backlight: Drop the deprecated fb_blank
- property
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFDB410E1BA
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 18:48:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673117318;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NEY3gLZEXX4WZYkSBG8Y3BNi/aeS/CuZ7LY05TbsVxs=;
+ b=aNsOb/p/xY0z5W1zPZ+wm3RJ3cgp3MM6nceunEStI5LaLbNOzEGowJEtoXk3ARILoFaID3
+ e298z0SvlBWqzz7vUEgC9/dEsz2kvdsZlfia2FujHnGuee66Fs3SOOF+RGGdGnvMXZtrRH
+ 7JeeQ10UyWbEpStQqlsSv+AzdfN6oMo=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-630-smo27rEtNi2KcjgYmZjMJA-1; Sat, 07 Jan 2023 13:48:37 -0500
+X-MC-Unique: smo27rEtNi2KcjgYmZjMJA-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ r6-20020a05620a298600b007025c3760d4so3396628qkp.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 10:48:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NEY3gLZEXX4WZYkSBG8Y3BNi/aeS/CuZ7LY05TbsVxs=;
+ b=COvgwtr+JRNWzK37fK2T2/iAHfijeqTmtpgp5phNkHgw7NP2rJ5Z9FV30Qe4DoBnSg
+ tqsb2cgXDFoT+ge6NIc20vYRywgT6aM6tb6yH/WHVkOVZIbcUOSPFMRuH0Wb61rXkxRt
+ SH/Xit1BYsWiamITh33OcyvxHxsnJf9eQMoJaSjW5+LWeGGGa1t8yxSCB6fbNSFMpW2O
+ /Zigti+GOZLpgPL4vd1C2L3uGaGyVLUd9WeLEboVxLF0NocYWzbxzjdO2+leZ5PGqAC0
+ 0xgXak5sC/U21Rif7Ku6SxZYLx+IUpFUOrtzLlynJARz8uYtTTP4v9d4KlmlZyQ3rlYT
+ o0oQ==
+X-Gm-Message-State: AFqh2kqXKOf9pR7epfnl2VzO9fyeUJLqO92XoevomDvkE86gZn4at232
+ aBEuC//vSHPLImfWOMZsiQgzP/q374FLnIAoOGdS6179peLBGRD94VQgWLD2NG5eesp6xIiMDjU
+ OmFICt6f2COmfEuWrnpyc1Le+18Bk
+X-Received: by 2002:ac8:65da:0:b0:3a9:7789:7d1a with SMTP id
+ t26-20020ac865da000000b003a977897d1amr78611125qto.25.1673117316950; 
+ Sat, 07 Jan 2023 10:48:36 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtved5EwV17svAb1rAH+JvbXZPZmitIXIKm2hTk2L21vpZxb/fRiD3RJLuAtBw+P8ujndGoZQ==
+X-Received: by 2002:ac8:65da:0:b0:3a9:7789:7d1a with SMTP id
+ t26-20020ac865da000000b003a977897d1amr78611111qto.25.1673117316729; 
+ Sat, 07 Jan 2023 10:48:36 -0800 (PST)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id
+ az31-20020a05620a171f00b006fbbdc6c68fsm2535696qkb.68.2023.01.07.10.48.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 07 Jan 2023 10:48:36 -0800 (PST)
+From: Tom Rix <trix@redhat.com>
+To: ogabbay@kernel.org, gregkh@linuxfoundation.org, dliberman@habana.ai,
+ osharabi@habana.ai, obitton@habana.ai, talcohen@habana.ai
+Subject: [PATCH] habanalabs: remove redundant memset
+Date: Sat,  7 Jan 2023 13:48:27 -0500
+Message-Id: <20230107184827.2837347-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230107-sam-video-backlight-drop-fb_blank-v1-15-1bd9bafb351f@ravnborg.org>
-References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
-In-Reply-To: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
-To: Nicolas Ferre <nicolas.ferre@microchip.com>, Helge Deller <deller@gmx.de>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Antonino Daplas <adaplas@gmail.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Robin van der Gracht <robin@protonic.nl>, Miguel Ojeda <ojeda@kernel.org>,
- Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>
-X-Mailer: b4 0.11.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1673115978; l=3041;
- i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=1rlDGBQ8dUJZwm2QXjSfjVEGh6r7tPSOztASIhko1ZA=; =?utf-8?q?b=3DOWmPqlL1i8PO?=
- =?utf-8?q?CFlGwpKfdK0lpD04cBqvUemyqQ5rJT5jQQmDliYaJeqEzjRTaDdplBAFwN0P5fJy?=
- jwHOPNUKCeY0gAj2nPyPtvnKkGoHtq262p4+KBibi0oW4Iuegikn
-X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
- pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
-X-Endpoint-Received: by B4 Submission Endpoint for sam@ravnborg.org/20230107
- with auth_id=22
-X-Original-From: Sam Ravnborg <sam@ravnborg.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,102 +82,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: sam@ravnborg.org
-Cc: linux-fbdev@vger.kernel.org, Stephen Kitt <steve@sk2.org>,
- Sam Ravnborg <sam@ravnborg.org>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sam Ravnborg <sam@ravnborg.org>
+From reviewing the code, the line
+  memset(kdata, 0, usize);
+is not needed because kdata is either zeroed by
+  kdata = kzalloc(asize, GFP_KERNEL);
+when allocated at runtime or by
+  char stack_kdata[128] = {0};
+at compile time.
 
-With all users gone remove the deprecated fb_blank member in
-backlight_properties.
-
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Lee Jones <lee@kernel.org>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>
+Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- drivers/video/backlight/backlight.c |  2 --
- include/linux/backlight.h           | 22 ----------------------
- 2 files changed, 24 deletions(-)
+ drivers/accel/habanalabs/common/habanalabs_ioctl.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
-index b788ff3d0f45..9b0557d094c5 100644
---- a/drivers/video/backlight/backlight.c
-+++ b/drivers/video/backlight/backlight.c
-@@ -118,14 +118,12 @@ static int fb_notifier_callback(struct notifier_block *self,
- 		bd->fb_bl_on[node] = true;
- 		if (!bd->use_count++) {
- 			bd->props.state &= ~BL_CORE_FBBLANK;
--			bd->props.fb_blank = FB_BLANK_UNBLANK;
- 			backlight_update_status(bd);
+diff --git a/drivers/accel/habanalabs/common/habanalabs_ioctl.c b/drivers/accel/habanalabs/common/habanalabs_ioctl.c
+index 619d56c40b30..949d38527160 100644
+--- a/drivers/accel/habanalabs/common/habanalabs_ioctl.c
++++ b/drivers/accel/habanalabs/common/habanalabs_ioctl.c
+@@ -1123,8 +1123,6 @@ static long _hl_ioctl(struct file *filep, unsigned int cmd, unsigned long arg,
+ 			retcode = -EFAULT;
+ 			goto out_err;
  		}
- 	} else if (fb_blank != FB_BLANK_UNBLANK && bd->fb_bl_on[node]) {
- 		bd->fb_bl_on[node] = false;
- 		if (!(--bd->use_count)) {
- 			bd->props.state |= BL_CORE_FBBLANK;
--			bd->props.fb_blank = fb_blank;
- 			backlight_update_status(bd);
- 		}
+-	} else if (cmd & IOC_OUT) {
+-		memset(kdata, 0, usize);
  	}
-diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-index 614653e07e3a..c8622d6cc8c5 100644
---- a/include/linux/backlight.h
-+++ b/include/linux/backlight.h
-@@ -218,25 +218,6 @@ struct backlight_properties {
- 	 */
- 	int power;
  
--	/**
--	 * @fb_blank: The power state from the FBIOBLANK ioctl.
--	 *
--	 * When the FBIOBLANK ioctl is called @fb_blank is set to the
--	 * blank parameter and the update_status() operation is called.
--	 *
--	 * When the backlight device is enabled @fb_blank is set
--	 * to FB_BLANK_UNBLANK. When the backlight device is disabled
--	 * @fb_blank is set to FB_BLANK_POWERDOWN.
--	 *
--	 * Backlight drivers should avoid using this property. It has been
--	 * replaced by state & BL_CORE_FBLANK (although most drivers should
--	 * use backlight_is_blank() as the preferred means to get the blank
--	 * state).
--	 *
--	 * fb_blank is deprecated and will be removed.
--	 */
--	int fb_blank;
--
- 	/**
- 	 * @type: The type of backlight supported.
- 	 *
-@@ -366,7 +347,6 @@ static inline int backlight_enable(struct backlight_device *bd)
- 		return 0;
- 
- 	bd->props.power = FB_BLANK_UNBLANK;
--	bd->props.fb_blank = FB_BLANK_UNBLANK;
- 	bd->props.state &= ~BL_CORE_FBBLANK;
- 
- 	return backlight_update_status(bd);
-@@ -382,7 +362,6 @@ static inline int backlight_disable(struct backlight_device *bd)
- 		return 0;
- 
- 	bd->props.power = FB_BLANK_POWERDOWN;
--	bd->props.fb_blank = FB_BLANK_POWERDOWN;
- 	bd->props.state |= BL_CORE_FBBLANK;
- 
- 	return backlight_update_status(bd);
-@@ -403,7 +382,6 @@ static inline int backlight_disable(struct backlight_device *bd)
- static inline bool backlight_is_blank(const struct backlight_device *bd)
- {
- 	return bd->props.power != FB_BLANK_UNBLANK ||
--	       bd->props.fb_blank != FB_BLANK_UNBLANK ||
- 	       bd->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK);
- }
- 
-
+ 	retcode = func(hpriv, kdata);
 -- 
-2.34.1
+2.27.0
+
