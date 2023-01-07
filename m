@@ -2,67 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1092B660B7D
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 02:27:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53338660D1D
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 09:57:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C85A10E904;
-	Sat,  7 Jan 2023 01:27:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14B3B10E0CC;
+	Sat,  7 Jan 2023 08:57:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com
- [IPv6:2607:f8b0:4864:20::82f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF93810E904
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 01:27:46 +0000 (UTC)
-Received: by mail-qt1-x82f.google.com with SMTP id j16so3657216qtv.4
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 17:27:46 -0800 (PST)
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com
+ [IPv6:2607:f8b0:4864:20::d32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 757C810E0CC
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 08:57:48 +0000 (UTC)
+Received: by mail-io1-xd32.google.com with SMTP id 3so1859503iou.12
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 00:57:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=YZmW57ZvRkRR4S/DXyoGDrnsp4/+X8umxttq9HRE8mw=;
- b=ZT39AOGH4oWdTOUwUMNz1C/sCmOKV8oI3/I+ZIQIT65hOVRjnbTbx/NqCGL+AD/Mmy
- sQkvFtaeUPVtoEvyIZClUSmQaI+xyqEBUWRiMC+ooXyWWVt6mZDnEw2yBYnZYKjn0OY3
- FxETHbWF0lc/oVngvKSRSXim4a5bVSRjedJ+A=
+ bh=UaNgvexmJZouLumz2Hx1He28hMYgrYY+xTAVH7s69FM=;
+ b=USC/6TTWY3c9bq0vKbvX+VWUwpXRkXdBVEauttbI7B/ZQ1oIkIZNu1Yo09lwc7bODo
+ QCeJkFoz0u3wjOvokRLMOJCuh0pQLovmrLZaJqZUkoGcDAXJjZuRBlsC/ypwOPYM3Np1
+ JVnfVqUGM7cQv7XazXT4n7qSdn+bJ6ijtwrAM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=YZmW57ZvRkRR4S/DXyoGDrnsp4/+X8umxttq9HRE8mw=;
- b=e7NYXjz3tiQzczmtJAFflV/uHlxbnzjMOLt1AZK4+ew0CvvkBYFeVm3wACd4n6RLny
- HsBv4rpmMc8Dz1aAbhI9Twz9X8WJg4HaWUW5ZHocpJOMVHjkhyTGDgjmiNnP6vybbFCv
- gROlYlPRPT3HTr+gKtPUsWLaLqsfKwiME5zZvO/0N43c9blBPFRY7otIdUIOpjpy7XJe
- zyIDjuMGd4ciGAWhZ++V4xxky/KTmrUcgerRvH7jA9jom7LNBiVsaITxkvMynhidYsxR
- 9qi15m5NUkJTWNHtCGp1tcWysGc85kvDkShvpwoWlKe7lTgyBldYanMYObXUz9Nu9RyG
- Ir9g==
-X-Gm-Message-State: AFqh2kqUay4so4XKqoTl0SGcR2+IVzqv8RiVqOPAPv7TAtKzuTn8RcZO
- NRL8BsSMt2SN7CQ1hP0l+/k/RNOvRjavZ0Hm
-X-Google-Smtp-Source: AMrXdXsZ6j4FQq/wr1AIQ+H86jhBtzHhmypWzDJhJsNAEgnes+9QpA5onki/ATEcHGKD+wXFKIKb7w==
-X-Received: by 2002:ac8:4b44:0:b0:3a7:ff64:8c00 with SMTP id
- e4-20020ac84b44000000b003a7ff648c00mr72129383qts.22.1673054865779; 
- Fri, 06 Jan 2023 17:27:45 -0800 (PST)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com.
- [209.85.128.169]) by smtp.gmail.com with ESMTPSA id
- fg13-20020a05622a580d00b003a6a92a202esm1267948qtb.83.2023.01.06.17.27.45
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Jan 2023 17:27:45 -0800 (PST)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-4c3b4d4be98so25956607b3.10
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Jan 2023 17:27:45 -0800 (PST)
-X-Received: by 2002:a0d:d912:0:b0:36a:d4df:c6b6 with SMTP id
- b18-20020a0dd912000000b0036ad4dfc6b6mr752702ywe.18.1673054864827; Fri, 06 Jan
- 2023 17:27:44 -0800 (PST)
+ bh=UaNgvexmJZouLumz2Hx1He28hMYgrYY+xTAVH7s69FM=;
+ b=o0hlGnoRu7Rl+QS1mH+jhqgN0pQJkKczM1YV0p3XyhdhvA0h/y5kRY7uKPlqiH1f+A
+ mAG7JGXdFlxAz1i7DNL8eNaeHylWZTJ0OZUxDPUd9KHmXKIyST9jaX1wjly8NEfucYau
+ nWuv/Ha1EplLxtgswViFoDSV9MAkrvxWuj4lYmWb3cRwlrPf6MU0J6gbo5FizlruvXiR
+ OQnZ1hC/lsQHcsm3GB32SLYtOznhVtPYlS0EI1Jcf2lqR1Bf1ZgXNI+I+Qu4mtrKej7j
+ n0s/vwbA0yR5qEZsSiaCFZGi4Pb2NM11uzRp6sIXiR8K9QpV0yoWEbPkF1v3dAlDh/g9
+ WZ8Q==
+X-Gm-Message-State: AFqh2koZhOes35am+2RwTR1icYTfARbW0VhuYEmFEqF9vYY8fLaOOGz1
+ 5MQdRW9Ad8+ofrc/8XtiOe0V1ON3tie03ttN2e+F+g==
+X-Google-Smtp-Source: AMrXdXvTC4JQ09AhshynrLdlXh3M+Z6nMNmW5qrLRJOovdkW8noIBriyLLrx6Nomzovk/IWfzQDu/aOoojNHuYEKlrY=
+X-Received: by 2002:a05:6638:58:b0:38a:9192:2ba6 with SMTP id
+ a24-20020a056638005800b0038a91922ba6mr5151511jap.76.1673081867592; Sat, 07
+ Jan 2023 00:57:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20230106172310.v2.1.I3904f697863649eb1be540ecca147a66e42bfad7@changeid>
-In-Reply-To: <20230106172310.v2.1.I3904f697863649eb1be540ecca147a66e42bfad7@changeid>
-From: Brian Norris <briannorris@chromium.org>
-Date: Fri, 6 Jan 2023 17:27:33 -0800
-X-Gmail-Original-Message-ID: <CA+ASDXNBDkzz_xRDbE9gNZZN5kSfxksh0EN01_CxNgyog_BZOg@mail.gmail.com>
-Message-ID: <CA+ASDXNBDkzz_xRDbE9gNZZN5kSfxksh0EN01_CxNgyog_BZOg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/atomic: Allow vblank-enabled + self-refresh
- "disable"
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Daniel Vetter <daniel@ffwll.ch>, Sean Paul <seanpaul@chromium.org>
+References: <20230105132457.4125372-1-treapking@chromium.org>
+ <20230105132457.4125372-3-treapking@chromium.org>
+ <Y7btq4kLxrE4v3TL@smile.fi.intel.com>
+In-Reply-To: <Y7btq4kLxrE4v3TL@smile.fi.intel.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Sat, 7 Jan 2023 16:57:36 +0800
+Message-ID: <CAEXTbpcwKnMQ1=D940bf2GUNdK3K+-bhnOs2r5fwuTW+ozQajA@mail.gmail.com>
+Subject: Re: [PATCH v7 2/9] platform/chrome: cros_ec_typec: Purge blocking
+ switch devlinks
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,23 +64,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
+ chrome-platform@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
+ Prashant Malani <pmalani@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 6, 2023 at 5:23 PM Brian Norris <briannorris@chromium.org> wrote:
-> v2:
->  * add 'ret != 0' warning case for self-refresh
->  * describe failing test case and relation to drm/rockchip patch better
+Hi Andy,
 
-Ugh, there's always something you remember right after you hit send: I
-forgot to better summarize some of the other discussion from v1, and
-alternatives we didn't entertain. I'll write that up now (not sure
-whether in patch 1 or 2) and plan on sending a v3 for next week, in
-case there are any other comments I should address at the same time.
+Thanks for the review.
 
-Sorry for the noise,
-Brian
+On Thu, Jan 5, 2023 at 11:34 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Thu, Jan 05, 2023 at 09:24:50PM +0800, Pin-yen Lin wrote:
+> > From: Prashant Malani <pmalani@chromium.org>
+> >
+> > When using OF graph, the fw_devlink code will create links between the
+> > individual port driver (cros-ec-typec here) and the parent device for
+> > a Type-C switch (like mode-switch). Since the mode-switch will in turn
+> > have the usb-c-connector (i.e the child of the port driver) as a
+> > supplier, fw_devlink will not be able to resolve the cyclic dependency
+> > correctly.
+> >
+> > As a result, the mode-switch driver probe() never runs, so mode-switches
+> > are never registered. Because of that, the port driver probe constantly
+> > fails with -EPROBE_DEFER, because the Type-C connector class requires all
+> > switch devices to be registered prior to port registration.
+> >
+> > To break this deadlock and allow the mode-switch registration to occur,
+> > purge all the usb-c-connector nodes' absent suppliers. This eliminates
+> > the connector as a supplier for a switch and allows it to be probed.
+>
+> > Signed-off-by: Prashant Malani <pmalani@chromium.org>
+> >
+> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+>
+> Tag block mustn't have the blank line(s).
+>
+> ...
+>
+> > +     /*
+> > +      * OF graph may have set up some device links with switches, since
+> > +      * connectors have their own compatible. Purge these to avoid a deadlock
+> > +      * in switch probe (the switch mistakenly assumes the connector is a
+> > +      * supplier).
+> > +      */
+>
+> Perhaps even
+>
+>         /*
+>          * OF graph may have set up some device links with switches,
+>          * since connectors have their own compatible. Purge these
+>          * to avoid a deadlock in switch probe (the switch mistakenly
+>          * assumes the connector is a supplier).
+>          */
+>
+> ?
+I can update this in v8, though I wonder why shorter comments are
+preferred as they haven't exceeded the 80-character length
+requirement.
+>
+> > +     if (dev->of_node)
+>
+> I would use if (dev_of_node(dev)), but it's up to you and maintainers.
+
+dev_of_node looks a bit better as it checks the enabled config for us.
+I'll update this in v8.
+
+>
+> > +             device_for_each_child_node(dev, fwnode)
+> > +                     fw_devlink_purge_absent_suppliers(fwnode);
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
+
+Best regards,
+Pin-yen
