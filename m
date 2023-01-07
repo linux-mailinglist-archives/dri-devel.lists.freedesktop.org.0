@@ -2,53 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D99BE66106E
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 18:23:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D5D66108D
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 18:37:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E209110E337;
-	Sat,  7 Jan 2023 17:23:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEFDB10E1AD;
+	Sat,  7 Jan 2023 17:37:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender-of-o50.zoho.in (sender-of-o50.zoho.in [103.117.158.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71DF110E1A9
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 17:23:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1673112192; cv=none; d=zohomail.in; s=zohoarc; 
- b=OvJ/K1tYG9hrdhNSFaZhuNFES0p5ZVbnbuofdK0Vf7V6TpS7x4DxktgL1/cynCo5h5Ia4g+pcUl7Dg8fQvkCl1OPEwkv47fv91vyCsW7bSU0mEwY5rwMfk4NDKLbNQCbFfKA0kcnqN8NbfVTHNqCi39WMU43sR9HfMZDf+xgcDw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1673112192;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=4B/yhGIoBjfbicria+SnqvD0RZrkccqeOcCw0+ipmeg=; 
- b=Ih5VfdGZWWJ/lqFZQEDBvDPnAoXJRWSHd7IKPUT96/o5HrbKIAZkgT5BZtXDLrGt4P9KG/lE9H4ZT73pC6dUz58rN9I8vug0FzSNiW+ktHiB+g+s8MNWAiswXYyeO15nab5fB3MXRG8Y14aYwJVjUZ6uExt0grLwG6aqSf0gW+k=
-ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
- spf=pass  smtp.mailfrom=code@siddh.me;
- dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1673112192; 
- s=zmail; d=siddh.me; i=code@siddh.me;
- h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=4B/yhGIoBjfbicria+SnqvD0RZrkccqeOcCw0+ipmeg=;
- b=i6+6PGK+w7l/HhrUNhQ1WoycvuRU2Wm24uLeyRFkHu9AzwimY63c/LDverKKoNNf
- NnnM+lqkmd7e7Abl6o8WpSAbeAD4ZTmWcmdLrhpVk1bVkbr9yxL1rSAtoMuZX0IKnOr
- N+EoQ0siZFIBJgR/ePW7/bfog6lkxMVI/XKYL/gU=
-Received: from kampyooter.. (110.226.31.37 [110.226.31.37]) by mx.zoho.in
- with SMTPS id 1673112190429279.6322489615774;
- Sat, 7 Jan 2023 22:53:10 +0530 (IST)
-From: Siddh Raman Pant <code@siddh.me>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Simon Ser <contact@emersion.fr>,
- Jim Cromie <jim.cromie@gmail.com>
-Message-ID: <e6a6580b44cd2a1b2ed4946fce010172777033b5.1673110890.git.code@siddh.me>
-Subject: [PATCH v5 10/10] drm/drm_lease: Remove usage of deprecated
- DRM_DEBUG_LEASE
-Date: Sat,  7 Jan 2023 22:52:30 +0530
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <cover.1673110890.git.code@siddh.me>
-References: <cover.1673110890.git.code@siddh.me>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9330310E1AD
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 17:36:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673113017;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9gCpV0dGtCCGp1jPgBtNFnuKxWWQi0wqnd//45zEPmE=;
+ b=ZHUfroq7g+bPPFzWwKWlCqaHzRv/WvNbvAKp6/IcPVtOhIkwTmrpLVPjBIQ98kd1SdhcGC
+ l85EijLgmMoK+M9M4XU16eiq7128HeegIZZ5oBnyqOuMzTbJReYtntFVL27KOh+PLl0VG5
+ gpkdtS+mNR5RSHxyWnba4qM7IBCpbOw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-656-P02C19GkPci5GpToL_omEA-1; Sat, 07 Jan 2023 12:36:55 -0500
+X-MC-Unique: P02C19GkPci5GpToL_omEA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ i7-20020a05600c354700b003d62131fe46so4536130wmq.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 09:36:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9gCpV0dGtCCGp1jPgBtNFnuKxWWQi0wqnd//45zEPmE=;
+ b=ATjZn1Gfr1drhEmxRN3I8+yvoa/V8wCLSfGFkjbEYTFfPrJ17INQNth098GTqt15nf
+ mflAXIrmw5FnYQ8m/88vDDLx+gS0Db/JJHJVQLWVPaDjK0v5aNBxF13NBFLg/YEChQ5k
+ ewRhZf6+IVYH9tofwtp5ljNclY0C/6JY4Zt0JJiDcSN6qevZ9b+gVwEpEyC6JASMBoh2
+ VAxwmXEWuCUfhdQRl61JNtn82nD/tON4qlindF3RKvEwbfXbYn4inyjlCV/+0yZ/nZUw
+ W23gZmhuIiVAGVCiMYkgr6NywbeatuQcE0RrbNXnqikb8/MGstcfWnx91KDa0B3oHZTk
+ grLg==
+X-Gm-Message-State: AFqh2koZgNOJJUWX5aR5IaJc6u2OPtAZP+wwP5gcJ8bYbA4bE+TKiDdY
+ qECYVnLrHCDWgPNn7OJx1iM5hytwBSVwlKweKP1XDDNZLTYJhv5IV5wIyQT7frajg7TcNRO2QQY
+ MEzhaYa3YkyEzmaFVHZSjh/JOz15R
+X-Received: by 2002:a7b:cd99:0:b0:3d3:5506:1bac with SMTP id
+ y25-20020a7bcd99000000b003d355061bacmr42940020wmj.30.1673113014604; 
+ Sat, 07 Jan 2023 09:36:54 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtq5O2gMQwBFZYJBuaPTxiyhl5nYlsXlZhAewhas7TQGY9Hr/5ja8BEgFOpLT7ZHXkopoF13A==
+X-Received: by 2002:a7b:cd99:0:b0:3d3:5506:1bac with SMTP id
+ y25-20020a7bcd99000000b003d355061bacmr42940017wmj.30.1673113014449; 
+ Sat, 07 Jan 2023 09:36:54 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ m8-20020a5d6a08000000b002a1ae285bfasm4291978wru.77.2023.01.07.09.36.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 07 Jan 2023 09:36:53 -0800 (PST)
+Message-ID: <8110a6b7-dacb-57d3-a9fd-b2caf9899ab9@redhat.com>
+Date: Sat, 7 Jan 2023 18:36:52 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
-Content-Type: text/plain; charset=utf8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2 1/2] drm/mipi-dsi: Fix mipi_dsi_dcs_write_seq() macro
+ definition format
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20230102202542.3494677-1-javierm@redhat.com>
+ <Y7M+6gdQM/4DhQsP@ravnborg.org>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <Y7M+6gdQM/4DhQsP@ravnborg.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,289 +87,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Nick Desaulniers <ndesaulniers@google.com>, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+ dri-devel@lists.freedesktop.org, Tom Rix <trix@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_print.h says DRM_DEBUG_LEASE is deprecated in favor of
-drm_dbg_lease().
+On 1/2/23 21:30, Sam Ravnborg wrote:
+> On Mon, Jan 02, 2023 at 09:25:41PM +0100, Javier Martinez Canillas wrote:
+>> Change made using a `clang-format -i include/drm/drm_mipi_dsi.h` command.
+>>
+>> Suggested-by: Sam Ravnborg <sam@ravnborg.org>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> 
+> Thanks,
+> 
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+>> ---
 
-Signed-off-by: Siddh Raman Pant <code@siddh.me>
-Reviewed-by: Simon Ser <contact@emersion.fr>
----
- drivers/gpu/drm/drm_lease.c | 64 ++++++++++++++++++++-----------------
- 1 file changed, 34 insertions(+), 30 deletions(-)
+Pushed to drm-misc (drm-misc-next). Thanks!
 
-diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-index c442d5e766d1..08b4f29f8b61 100644
---- a/drivers/gpu/drm/drm_lease.c
-+++ b/drivers/gpu/drm/drm_lease.c
-@@ -213,11 +213,11 @@ static struct drm_master *drm_lease_create(struct drm=
-_master *lessor, struct idr
- =09int id;
- =09void *entry;
-=20
--=09DRM_DEBUG_LEASE("lessor %d\n", lessor->lessee_id);
-+=09drm_dbg_lease(dev, "lessor %d\n", lessor->lessee_id);
-=20
- =09lessee =3D drm_master_create(lessor->dev);
- =09if (!lessee) {
--=09=09DRM_DEBUG_LEASE("drm_master_create failed\n");
-+=09=09drm_dbg_lease(dev, "drm_master_create failed\n");
- =09=09return ERR_PTR(-ENOMEM);
- =09}
-=20
-@@ -231,7 +231,7 @@ static struct drm_master *drm_lease_create(struct drm_m=
-aster *lessor, struct idr
- =09=09=09error =3D -EBUSY;
-=20
- =09=09if (error !=3D 0) {
--=09=09=09DRM_DEBUG_LEASE("object %d failed %d\n", object, error);
-+=09=09=09drm_dbg_lease(dev, "object %d failed %d\n", object, error);
- =09=09=09goto out_lessee;
- =09=09}
- =09}
-@@ -249,7 +249,8 @@ static struct drm_master *drm_lease_create(struct drm_m=
-aster *lessor, struct idr
-=20
- =09/* Move the leases over */
- =09lessee->leases =3D *leases;
--=09DRM_DEBUG_LEASE("new lessee %d %p, lessor %d %p\n", lessee->lessee_id, =
-lessee, lessor->lessee_id, lessor);
-+=09drm_dbg_lease(dev, "new lessee %d %p, lessor %d %p\n",
-+=09=09      lessee->lessee_id, lessee, lessor->lessee_id, lessor);
-=20
- =09mutex_unlock(&dev->mode_config.idr_mutex);
- =09return lessee;
-@@ -268,7 +269,7 @@ void drm_lease_destroy(struct drm_master *master)
-=20
- =09mutex_lock(&dev->mode_config.idr_mutex);
-=20
--=09DRM_DEBUG_LEASE("drm_lease_destroy %d\n", master->lessee_id);
-+=09drm_dbg_lease(dev, "drm_lease_destroy %d\n", master->lessee_id);
-=20
- =09/* This master is referenced by all lessees, hence it cannot be destroy=
-ed
- =09 * until all of them have been
-@@ -277,7 +278,8 @@ void drm_lease_destroy(struct drm_master *master)
-=20
- =09/* Remove this master from the lessee idr in the owner */
- =09if (master->lessee_id !=3D 0) {
--=09=09DRM_DEBUG_LEASE("remove master %d from device list of lessees\n", ma=
-ster->lessee_id);
-+=09=09drm_dbg_lease(dev, "remove master %d from device list of lessees\n",
-+=09=09=09      master->lessee_id);
- =09=09idr_remove(&(drm_lease_owner(master)->lessee_idr), master->lessee_id=
-);
- =09}
-=20
-@@ -292,7 +294,7 @@ void drm_lease_destroy(struct drm_master *master)
- =09=09drm_master_put(&master->lessor);
- =09}
-=20
--=09DRM_DEBUG_LEASE("drm_lease_destroy done %d\n", master->lessee_id);
-+=09drm_dbg_lease(dev, "drm_lease_destroy done %d\n", master->lessee_id);
- }
-=20
- static void _drm_lease_revoke(struct drm_master *top)
-@@ -308,7 +310,8 @@ static void _drm_lease_revoke(struct drm_master *top)
- =09 * the tree is fully connected, we can do this without recursing
- =09 */
- =09for (;;) {
--=09=09DRM_DEBUG_LEASE("revoke leases for %p %d\n", master, master->lessee_=
-id);
-+=09=09drm_dbg_lease(master->dev, "revoke leases for %p %d\n",
-+=09=09=09      master, master->lessee_id);
-=20
- =09=09/* Evacuate the lease */
- =09=09idr_for_each_entry(&master->leases, entry, object)
-@@ -408,7 +411,7 @@ static int fill_object_idr(struct drm_device *dev,
-=20
- =09ret =3D validate_lease(dev, object_count, objects, universal_planes);
- =09if (ret) {
--=09=09DRM_DEBUG_LEASE("lease validation failed\n");
-+=09=09drm_dbg_lease(dev, "lease validation failed\n");
- =09=09goto out_free_objects;
- =09}
-=20
-@@ -418,7 +421,7 @@ static int fill_object_idr(struct drm_device *dev,
- =09=09struct drm_mode_object *obj =3D objects[o];
- =09=09u32 object_id =3D objects[o]->id;
-=20
--=09=09DRM_DEBUG_LEASE("Adding object %d to lease\n", object_id);
-+=09=09drm_dbg_lease(dev, "Adding object %d to lease\n", object_id);
-=20
- =09=09/*
- =09=09 * We're using an IDR to hold the set of leased
-@@ -430,8 +433,8 @@ static int fill_object_idr(struct drm_device *dev,
- =09=09 */
- =09=09ret =3D idr_alloc(leases, &drm_lease_idr_object , object_id, object_=
-id + 1, GFP_KERNEL);
- =09=09if (ret < 0) {
--=09=09=09DRM_DEBUG_LEASE("Object %d cannot be inserted into leases (%d)\n"=
-,
--=09=09=09=09=09object_id, ret);
-+=09=09=09drm_dbg_lease(dev, "Object %d cannot be inserted into leases (%d)=
-\n",
-+=09=09=09=09      object_id, ret);
- =09=09=09goto out_free_objects;
- =09=09}
- =09=09if (obj->type =3D=3D DRM_MODE_OBJECT_CRTC && !universal_planes) {
-@@ -439,15 +442,15 @@ static int fill_object_idr(struct drm_device *dev,
-=20
- =09=09=09ret =3D idr_alloc(leases, &drm_lease_idr_object, crtc->primary->b=
-ase.id, crtc->primary->base.id + 1, GFP_KERNEL);
- =09=09=09if (ret < 0) {
--=09=09=09=09DRM_DEBUG_LEASE("Object primary plane %d cannot be inserted in=
-to leases (%d)\n",
--=09=09=09=09=09=09object_id, ret);
-+=09=09=09=09drm_dbg_lease(dev, "Object primary plane %d cannot be inserted=
- into leases (%d)\n",
-+=09=09=09=09=09      object_id, ret);
- =09=09=09=09goto out_free_objects;
- =09=09=09}
- =09=09=09if (crtc->cursor) {
- =09=09=09=09ret =3D idr_alloc(leases, &drm_lease_idr_object, crtc->cursor-=
->base.id, crtc->cursor->base.id + 1, GFP_KERNEL);
- =09=09=09=09if (ret < 0) {
--=09=09=09=09=09DRM_DEBUG_LEASE("Object cursor plane %d cannot be inserted =
-into leases (%d)\n",
--=09=09=09=09=09=09=09object_id, ret);
-+=09=09=09=09=09drm_dbg_lease(dev, "Object cursor plane %d cannot be insert=
-ed into leases (%d)\n",
-+=09=09=09=09=09=09      object_id, ret);
- =09=09=09=09=09goto out_free_objects;
- =09=09=09=09}
- =09=09=09}
-@@ -490,14 +493,14 @@ int drm_mode_create_lease_ioctl(struct drm_device *de=
-v,
- =09=09return -EOPNOTSUPP;
-=20
- =09if (cl->flags && (cl->flags & ~(O_CLOEXEC | O_NONBLOCK))) {
--=09=09DRM_DEBUG_LEASE("invalid flags\n");
-+=09=09drm_dbg_lease(dev, "invalid flags\n");
- =09=09return -EINVAL;
- =09}
-=20
- =09lessor =3D drm_file_get_master(lessor_priv);
- =09/* Do not allow sub-leases */
- =09if (lessor->lessor) {
--=09=09DRM_DEBUG_LEASE("recursive leasing not allowed\n");
-+=09=09drm_dbg_lease(dev, "recursive leasing not allowed\n");
- =09=09ret =3D -EINVAL;
- =09=09goto out_lessor;
- =09}
-@@ -520,7 +523,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- =09=09=09=09      object_count, object_ids);
- =09=09kfree(object_ids);
- =09=09if (ret) {
--=09=09=09DRM_DEBUG_LEASE("lease object lookup failed: %i\n", ret);
-+=09=09=09drm_dbg_lease(dev, "lease object lookup failed: %i\n", ret);
- =09=09=09idr_destroy(&leases);
- =09=09=09goto out_lessor;
- =09=09}
-@@ -534,7 +537,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- =09=09goto out_lessor;
- =09}
-=20
--=09DRM_DEBUG_LEASE("Creating lease\n");
-+=09drm_dbg_lease(dev, "Creating lease\n");
- =09/* lessee will take the ownership of leases */
- =09lessee =3D drm_lease_create(lessor, &leases);
-=20
-@@ -545,7 +548,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- =09}
-=20
- =09/* Clone the lessor file to create a new file for us */
--=09DRM_DEBUG_LEASE("Allocating lease file\n");
-+=09drm_dbg_lease(dev, "Allocating lease file\n");
- =09lessee_file =3D file_clone_open(lessor_file);
- =09if (IS_ERR(lessee_file)) {
- =09=09ret =3D PTR_ERR(lessee_file);
-@@ -560,7 +563,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- =09lessee_priv->authenticated =3D 1;
-=20
- =09/* Pass fd back to userspace */
--=09DRM_DEBUG_LEASE("Returning fd %d id %d\n", fd, lessee->lessee_id);
-+=09drm_dbg_lease(dev, "Returning fd %d id %d\n", fd, lessee->lessee_id);
- =09cl->fd =3D fd;
- =09cl->lessee_id =3D lessee->lessee_id;
-=20
-@@ -568,7 +571,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- =09fd_install(fd, lessee_file);
-=20
- =09drm_master_put(&lessor);
--=09DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
-+=09drm_dbg_lease(dev, "drm_mode_create_lease_ioctl succeeded\n");
- =09return 0;
-=20
- out_lessee:
-@@ -579,7 +582,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
-=20
- out_lessor:
- =09drm_master_put(&lessor);
--=09DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl failed: %d\n", ret);
-+=09drm_dbg_lease(dev, "drm_mode_create_lease_ioctl failed: %d\n", ret);
- =09return ret;
- }
-=20
-@@ -601,7 +604,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
- =09=09return -EOPNOTSUPP;
-=20
- =09lessor =3D drm_file_get_master(lessor_priv);
--=09DRM_DEBUG_LEASE("List lessees for %d\n", lessor->lessee_id);
-+=09drm_dbg_lease(dev, "List lessees for %d\n", lessor->lessee_id);
-=20
- =09mutex_lock(&dev->mode_config.idr_mutex);
-=20
-@@ -610,7 +613,8 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
- =09=09/* Only list un-revoked leases */
- =09=09if (!idr_is_empty(&lessee->leases)) {
- =09=09=09if (count_lessees > count) {
--=09=09=09=09DRM_DEBUG_LEASE("Add lessee %d\n", lessee->lessee_id);
-+=09=09=09=09drm_dbg_lease(dev, "Add lessee %d\n",
-+=09=09=09=09=09      lessee->lessee_id);
- =09=09=09=09ret =3D put_user(lessee->lessee_id, lessee_ids + count);
- =09=09=09=09if (ret)
- =09=09=09=09=09break;
-@@ -619,7 +623,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
- =09=09}
- =09}
-=20
--=09DRM_DEBUG_LEASE("Lessor leases to %d\n", count);
-+=09drm_dbg_lease(dev, "Lessor leases to %d\n", count);
- =09if (ret =3D=3D 0)
- =09=09arg->count_lessees =3D count;
-=20
-@@ -651,7 +655,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
- =09=09return -EOPNOTSUPP;
-=20
- =09lessee =3D drm_file_get_master(lessee_priv);
--=09DRM_DEBUG_LEASE("get lease for %d\n", lessee->lessee_id);
-+=09drm_dbg_lease(dev, "get lease for %d\n", lessee->lessee_id);
-=20
- =09mutex_lock(&dev->mode_config.idr_mutex);
-=20
-@@ -665,7 +669,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
- =09count =3D 0;
- =09idr_for_each_entry(object_idr, entry, object) {
- =09=09if (count_objects > count) {
--=09=09=09DRM_DEBUG_LEASE("adding object %d\n", object);
-+=09=09=09drm_dbg_lease(dev, "adding object %d\n", object);
- =09=09=09ret =3D put_user(object, object_ids + count);
- =09=09=09if (ret)
- =09=09=09=09break;
-@@ -696,7 +700,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
- =09struct drm_master *lessee;
- =09int ret =3D 0;
-=20
--=09DRM_DEBUG_LEASE("revoke lease for %d\n", arg->lessee_id);
-+=09drm_dbg_lease(dev, "revoke lease for %d\n", arg->lessee_id);
-=20
- =09/* Can't lease without MODESET */
- =09if (!drm_core_check_feature(dev, DRIVER_MODESET))
---=20
-2.39.0
+-- 
+Best regards,
 
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
