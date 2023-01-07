@@ -1,69 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB6C661145
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 20:19:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5401A661148
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 20:19:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B31210E906;
-	Sat,  7 Jan 2023 19:18:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2779710E35A;
+	Sat,  7 Jan 2023 19:18:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9974310E1C1
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 19:18:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D47910E50C
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 19:18:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673119120;
+ s=mimecast20190719; t=1673119127;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/yoKSXDDHkpi6+VOPGkCgVQ6U98e6W0DrE5kW1/2nkA=;
- b=Msm4fhmR7gWF0IevU5EpjTQbjrlP2tmxdxyB5Y5KctYcgNHhO0ziStMcf3jo/LnNDzoTvC
- ncSbMQxq8eN5L4Q9+m8jbe2U8J6yytm8ZLBXayPiSBi7WtarAd2gFZSciu0881nCFQCRx7
- eu7D4LS5akb4UpO3TKTmUFt9uFPzzmU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WWoU2jTRjKSY+Qo+tb2CBqwxtQSMhlldhpuQhSNUC9M=;
+ b=PVg1Cc9n9HnkMjZreWHUklhCrSW0JsvNeYQt5vPKU+Jhj5E0/9MbwM6AM3agQAa04NmrX5
+ CDj2GEPxhH8Q1ZGmTl5I9AAXW0rjXahPSre0g9jWQyz6sJHUHiUMYaT8Phu1jURlPmw8M8
+ y3oCWDvtsbKIPua0WhVs+iL1US49uHE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-66-Bk8IpG9bP6-O6KMxUjGIaw-1; Sat, 07 Jan 2023 14:18:39 -0500
-X-MC-Unique: Bk8IpG9bP6-O6KMxUjGIaw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m38-20020a05600c3b2600b003d1fc5f1f80so4645095wms.1
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 11:18:39 -0800 (PST)
+ us-mta-260-tgs0KoPaNVSxp_q8p80RRQ-1; Sat, 07 Jan 2023 14:18:40 -0500
+X-MC-Unique: tgs0KoPaNVSxp_q8p80RRQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ r15-20020a05600c35cf00b003d9a14517b2so4646971wmq.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 11:18:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/yoKSXDDHkpi6+VOPGkCgVQ6U98e6W0DrE5kW1/2nkA=;
- b=kNRjfO210SimaT/QdvyCnP+lVSlpUFckF2cRvzZIaQmlAULFOdcZmhn5Yk0laKTaFK
- lKlCDuoNmta7nwEYJ6aKqs/m6WJ5xPqxa2eIaPgPtbxANn/OclbxNJZ3faEAv/rJoztC
- ToGi3bEelek0nYJ8dp/c1825yzleE4Rm3qcxpMPIN90ou9pd1T33bwXE41riT+D5CMYl
- f2lCj+rkcuiSbmAjDMNnF7+VDRokDkokYrm5b4k5DfG9xkHm2Obw0a7M+1CRcZ3MvAvK
- e7HF26PlYpn9XYA2vWRjCG4QdYbHmSRQzNYVcZ0okruIPRs8cNRRoG4ZbGNBefoiU7nC
- FXnQ==
-X-Gm-Message-State: AFqh2kpgdU+E2L26f1zm3FLhnlsVzE7eTa4/eYDHgrgC7Eh7lWxzP8D6
- 9I/xAlPPSwaM/Z0QucnzxoEf597Q1t+Fv6fVxi+sqX+JiSb4mCzyKamvuwE1ze+YLYWmwBcntXM
- zAZ9wNq00zyJcZZO0dr0R+YQJNhGT
-X-Received: by 2002:a05:6000:148:b0:2bb:dc79:17dc with SMTP id
- r8-20020a056000014800b002bbdc7917dcmr930665wrx.19.1673119118193; 
- Sat, 07 Jan 2023 11:18:38 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsN7RFr9GVqAykpRx1qFnkQH7qdpKJfYHGcL1pyJ908saGljyN3gg3+TocfMBpzxjktCTQJJw==
-X-Received: by 2002:a05:6000:148:b0:2bb:dc79:17dc with SMTP id
- r8-20020a056000014800b002bbdc7917dcmr930658wrx.19.1673119118030; 
- Sat, 07 Jan 2023 11:18:38 -0800 (PST)
+ bh=WWoU2jTRjKSY+Qo+tb2CBqwxtQSMhlldhpuQhSNUC9M=;
+ b=oi659j5RZ/OzwQE3HU8SMLFhTMUg645hAUUbDaqJcyJ5A5c336qKW1tZviZuGoNws5
+ 11SAu0x2fqBr6gT4L0h6TKjSW/3BUaxMKf0tKK3D9yXHunpdsfoI7u4Sok3m0sxiUAdJ
+ OFUgPuSMLiemCANJQ80ZOfrnDD7usRUH/ndg/m+wGXubWqTqLKtcuFc5uxlWIC0S9a8w
+ p1413paf+TiaxSIVfnU0MFSYGSZbHIPuJ0kkgh8gEuI1LtW60xej1BAMJQoWDu58gBrD
+ Uk+mAt8N4BCCUOXeRjha+T1Kon6FDgCCkeoPK0z9bPuacGAPyDmktxQNk1tpgL0JK8lc
+ qguw==
+X-Gm-Message-State: AFqh2krhda6B8lgFmweu7nHfwRZMr5EjIZfIkEVxVQMbhz0LPqs4T8hJ
+ WlzAqMtAP5P4XslmAeHpiOcKNrsNdTQOMii4CO5LGkXChDUsPJyforF24RDjZN1lW7xNfu4ubep
+ alKCoXFbnQQtLzFbceHjOKPDbaj2j
+X-Received: by 2002:a5d:624d:0:b0:242:4d70:7882 with SMTP id
+ m13-20020a5d624d000000b002424d707882mr36919655wrv.15.1673119119646; 
+ Sat, 07 Jan 2023 11:18:39 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXslQosbrbw6pw/4AHiDYKneqeQtd0nCtwjU8AvmIMFQQ96Mo+Yg9sRxu263Nao8IzQ210H4jA==
+X-Received: by 2002:a5d:624d:0:b0:242:4d70:7882 with SMTP id
+ m13-20020a5d624d000000b002424d707882mr36919642wrv.15.1673119119489; 
+ Sat, 07 Jan 2023 11:18:39 -0800 (PST)
 Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- bp28-20020a5d5a9c000000b00273cd321a1bsm4553900wrb.107.2023.01.07.11.18.36
+ bp28-20020a5d5a9c000000b00273cd321a1bsm4553900wrb.107.2023.01.07.11.18.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Jan 2023 11:18:37 -0800 (PST)
+ Sat, 07 Jan 2023 11:18:39 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 05/13] drm/panel-boe-bf060y8m-aj0: Drop custom DSI write
+Subject: [PATCH v2 06/13] drm/panel-novatek-nt35950: Drop custom DSI write
  macro
-Date: Sat,  7 Jan 2023 20:18:14 +0100
-Message-Id: <20230107191822.3787147-6-javierm@redhat.com>
+Date: Sat,  7 Jan 2023 20:18:15 +0100
+Message-Id: <20230107191822.3787147-7-javierm@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230107191822.3787147-1-javierm@redhat.com>
 References: <20230107191822.3787147-1-javierm@redhat.com>
@@ -99,17 +99,16 @@ Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
 Changes in v2:
 - Add Sam Ravnborg's Reviewed-by tag.
-- Fix identation on macro usage (Sam Ravnborg).
 
- .../gpu/drm/panel/panel-boe-bf060y8m-aj0.c    | 42 ++++++++-----------
- 1 file changed, 17 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/panel/panel-novatek-nt35950.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-index ad58840eda41..90098b753e3b 100644
---- a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-+++ b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-@@ -43,14 +43,6 @@ struct boe_bf060y8m_aj0 *to_boe_bf060y8m_aj0(struct drm_panel *panel)
- 	return container_of(panel, struct boe_bf060y8m_aj0, panel);
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35950.c b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
+index 3a844917da07..abf752b36a52 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt35950.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
+@@ -89,14 +89,6 @@ static inline struct nt35950 *to_nt35950(struct drm_panel *panel)
+ 	return container_of(panel, struct nt35950, panel);
  }
  
 -#define dsi_dcs_write_seq(dsi, seq...) do {				\
@@ -120,57 +119,31 @@ index ad58840eda41..90098b753e3b 100644
 -			return ret;					\
 -	} while (0)
 -
- static void boe_bf060y8m_aj0_reset(struct boe_bf060y8m_aj0 *boe)
+ static void nt35950_reset(struct nt35950 *nt)
  {
- 	gpiod_set_value_cansleep(boe->reset_gpio, 0);
-@@ -67,12 +59,12 @@ static int boe_bf060y8m_aj0_on(struct boe_bf060y8m_aj0 *boe)
- 	struct device *dev = &dsi->dev;
- 	int ret;
+ 	gpiod_set_value_cansleep(nt->reset_gpio, 1);
+@@ -338,7 +330,7 @@ static int nt35950_on(struct nt35950 *nt)
+ 		return ret;
  
--	dsi_dcs_write_seq(dsi, 0xb0, 0xa5, 0x00);
--	dsi_dcs_write_seq(dsi, 0xb2, 0x00, 0x4c);
--	dsi_dcs_write_seq(dsi, MIPI_DCS_SET_3D_CONTROL, 0x10);
--	dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, DCS_ALLOW_HBM_RANGE);
--	dsi_dcs_write_seq(dsi, 0xf8,
--			  0x00, 0x08, 0x10, 0x00, 0x22, 0x00, 0x00, 0x2d);
-+	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0xa5, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, 0xb2, 0x00, 0x4c);
-+	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_3D_CONTROL, 0x10);
-+	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, DCS_ALLOW_HBM_RANGE);
-+	mipi_dsi_dcs_write_seq(dsi, 0xf8,
-+			       0x00, 0x08, 0x10, 0x00, 0x22, 0x00, 0x00, 0x2d);
+ 	/* Unknown command */
+-	dsi_dcs_write_seq(dsi, 0xd4, 0x88, 0x88);
++	mipi_dsi_dcs_write_seq(dsi, 0xd4, 0x88, 0x88);
  
- 	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
- 	if (ret < 0) {
-@@ -81,17 +73,17 @@ static int boe_bf060y8m_aj0_on(struct boe_bf060y8m_aj0 *boe)
- 	}
- 	msleep(30);
+ 	/* CMD2 Page 7 */
+ 	ret = nt35950_set_cmd2_page(nt, 7);
+@@ -346,10 +338,10 @@ static int nt35950_on(struct nt35950 *nt)
+ 		return ret;
  
--	dsi_dcs_write_seq(dsi, 0xb0, 0xa5, 0x00);
--	dsi_dcs_write_seq(dsi, 0xc0,
--			  0x08, 0x48, 0x65, 0x33, 0x33, 0x33,
--			  0x2a, 0x31, 0x39, 0x20, 0x09);
--	dsi_dcs_write_seq(dsi, 0xc1, 0x00, 0x00, 0x00, 0x1f, 0x1f,
--			  0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
--			  0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
--	dsi_dcs_write_seq(dsi, 0xe2, 0x20, 0x04, 0x10, 0x12, 0x92,
--			  0x4f, 0x8f, 0x44, 0x84, 0x83, 0x83, 0x83,
--			  0x5c, 0x5c, 0x5c);
--	dsi_dcs_write_seq(dsi, 0xde, 0x01, 0x2c, 0x00, 0x77, 0x3e);
-+	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0xa5, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, 0xc0,
-+			       0x08, 0x48, 0x65, 0x33, 0x33, 0x33,
-+			       0x2a, 0x31, 0x39, 0x20, 0x09);
-+	mipi_dsi_dcs_write_seq(dsi, 0xc1, 0x00, 0x00, 0x00, 0x1f, 0x1f,
-+			       0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
-+			       0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
-+	mipi_dsi_dcs_write_seq(dsi, 0xe2, 0x20, 0x04, 0x10, 0x12, 0x92,
-+			       0x4f, 0x8f, 0x44, 0x84, 0x83, 0x83, 0x83,
-+			       0x5c, 0x5c, 0x5c);
-+	mipi_dsi_dcs_write_seq(dsi, 0xde, 0x01, 0x2c, 0x00, 0x77, 0x3e);
+ 	/* Enable SubPixel Rendering */
+-	dsi_dcs_write_seq(dsi, MCS_PARAM_SPR_EN, 0x01);
++	mipi_dsi_dcs_write_seq(dsi, MCS_PARAM_SPR_EN, 0x01);
  
- 	msleep(30);
+ 	/* SPR Mode: YYG Rainbow-RGB */
+-	dsi_dcs_write_seq(dsi, MCS_PARAM_SPR_MODE, MCS_SPR_MODE_YYG_RAINBOW_RGB);
++	mipi_dsi_dcs_write_seq(dsi, MCS_PARAM_SPR_MODE, MCS_SPR_MODE_YYG_RAINBOW_RGB);
  
+ 	/* CMD3 */
+ 	ret = nt35950_inject_black_image(nt);
 -- 
 2.38.1
 
