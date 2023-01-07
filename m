@@ -2,52 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1C0F661195
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 21:29:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C03A66119B
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 21:31:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BECB010E1C3;
-	Sat,  7 Jan 2023 20:29:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D245910E1D0;
+	Sat,  7 Jan 2023 20:31:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 113078 seconds by postgrey-1.36 at gabe;
- Sat, 07 Jan 2023 20:29:33 UTC
-Received: from mailrelay4-1.pub.mailoutpod2-cph3.one.com
- (mailrelay4-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:403::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CBAA10E1C3
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 20:29:33 +0000 (UTC)
+Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay5-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:404::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10A1810E1D0
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 20:31:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=rLc3YOYbPb9xwmyzxI6Lpp2PYUZ9uu8/nbksT8vM0m4=;
- b=wV1bp9q9M9mWhrbjGKzzHREqP2xOnbX74ksjXsaLvEXewl2gCQHp2fpPRKdtvosNVstynBeW05VDI
- vL8aj2fKWtXR3etkNT6gVUeujgnN9DPXKS+ou1sukMlzERzI/8uszKIpimZOsBi//koZCR1AGZAi6T
- BVyQpARfE77gLhbcmuzbshuHmHlw1FHGzVuIdwFdEgmxysHwdCDipepnYLXQ319OL6j1OQaZYPYoKn
- wB9JcWZtiCooC278G3CuFJMHFIj9mb3Y615H4Af4QUR+Jfcj0foCcKpR/jUpDNiXc+7CIcz5vVePwn
- NPA4yrsm2tHjbcVQ/UaZJT0jBJeYOoA==
+ bh=zNjKwUpl4MAZri6WkLaSE7g3L6zmbqPHmA9ZJ9Bzi1w=;
+ b=P4J8i7CuwvpmkbZ5a1nsowUUAbTvKNu9VrELvmrf8z8IsVdysY8xVbHJcPji5OUGYY0mKyPRUJK0L
+ q2eAqJpoU0YYTBa+th94PE+xy0++ga2HdaVh1ETK7UcQU+lelpnPe9vI5PsUX0L1//kAhIyQHinC1y
+ CIpouzk/o+Uu5lUG4zv0OgJ9In2MISZimMN4WtAyzVdlh6I29vgHEk/FEU7v3IXCnCDW0OwDKy07JV
+ bdbQfulVL4QbiZLfT+5Ypo7a2fe2AESQ5FwLqCvfmudujtG5DLxVUmkPjNrfNke8tGVTvbMqgCHaGJ
+ kxnWoTN7fVeIHS+iOkJR9R/v1IL3LEw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed2;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=rLc3YOYbPb9xwmyzxI6Lpp2PYUZ9uu8/nbksT8vM0m4=;
- b=xr2GmnEO+b/JkiuLoADgRCNiswL18k4T0RfjpdzgokXtktLQVOjcPBMNfhD/w4BhyzamBF3viUlpL
- eh/wIqlBg==
-X-HalOne-ID: fc4bdb3e-8ec9-11ed-91a0-87783a957ad9
+ bh=zNjKwUpl4MAZri6WkLaSE7g3L6zmbqPHmA9ZJ9Bzi1w=;
+ b=/5wL/FcJR0pGFXvug0CaJFWWqZOoKGhwrv3hW6ZqandXERIJZ+x5mtwNcs7aE5hZJwKV/R70kMOUB
+ nLj6Px/CA==
+X-HalOne-ID: 328201d2-8eca-11ed-857d-7703b0afff57
 Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay4 (Halon) with ESMTPSA
- id fc4bdb3e-8ec9-11ed-91a0-87783a957ad9;
- Sat, 07 Jan 2023 20:29:31 +0000 (UTC)
-Date: Sat, 7 Jan 2023 21:29:29 +0100
+ by mailrelay5 (Halon) with ESMTPSA
+ id 328201d2-8eca-11ed-857d-7703b0afff57;
+ Sat, 07 Jan 2023 20:31:02 +0000 (UTC)
+Date: Sat, 7 Jan 2023 21:31:01 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
 To: xinlei.lee@mediatek.com
-Subject: Re: [PATCH 1/2] drm/mediatek: dsi: Reduce the time of dsi from LP11
- to sending cmd
-Message-ID: <Y7nWKRHQr9vumv0V@ravnborg.org>
+Subject: Re: [PATCH 2/2] drm/panel: boe-tv101wum-nl6: Reduce lcm_reset to
+ send initial code time
+Message-ID: <Y7nWhciY7cru78lQ@ravnborg.org>
 References: <1672974321-18947-1-git-send-email-xinlei.lee@mediatek.com>
- <1672974321-18947-2-git-send-email-xinlei.lee@mediatek.com>
+ <1672974321-18947-3-git-send-email-xinlei.lee@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1672974321-18947-2-git-send-email-xinlei.lee@mediatek.com>
+In-Reply-To: <1672974321-18947-3-git-send-email-xinlei.lee@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,46 +66,37 @@ Cc: chunkuang.hu@kernel.org, jitao.shi@mediatek.com, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 06, 2023 at 11:05:20AM +0800, xinlei.lee@mediatek.com wrote:
+On Fri, Jan 06, 2023 at 11:05:21AM +0800, xinlei.lee@mediatek.com wrote:
 > From: Xinlei Lee <xinlei.lee@mediatek.com>
 > 
-> According to Figure 16 Turnaround Procedure on page 36 in [1], you
-> can see the status of LP-00 -> LP10 -> LP11. This state can correspond
-> to the state of DSI from LP00 -> LP11 in mtk_dsi_lane_ready function
-> in mtk_dsi.c.
+> Since the panel spec stipulates that the time from lcm_reset to DSI to
+> send the initial code should be greater than 6ms and less than 40ms,
+> so reduce the delay before sending the initial code and avoid panel
+> exceptions.
+
+The changelog says "reduce the delay", but the patch removes the delay.
+Are there other delays that make sure the "greater than 6 ms" is OK?
+
+	Sam
+
 > 
-> LP-00 -> LP10 -> LP11 takes about 2*TLPX time (refer to [1] page 51
-> to see that TLPX is 50ns).
-> 
-> The delay at the end of the mtk_dsi_lane_ready function should be
-> greater than the 2*TLPX specified by the DSI spec, and less than
-> the time specified by the DSI_RX (generally 6ms to 40ms), to avoid
-> problems caused by the RX specification.
-> 
-> [1]:mipi_D-PHY_specification_v1-1
-> 
-> Fixes: 39e8d062b03c ("drm/mediatek: Keep dsi as LP00 before dcs cmds transfer")
+> Fixes: a869b9db7adf ("drm/panel: support for boe tv101wum-nl6 wuxga dsi video mode panel")
 > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-
-Seems OK.
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
 > ---
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index 3b7d13028fb6..9e1363c9fcdb 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -721,7 +721,7 @@ static void mtk_dsi_lane_ready(struct mtk_dsi *dsi)
->  		mtk_dsi_clk_ulp_mode_leave(dsi);
->  		mtk_dsi_lane0_ulp_mode_leave(dsi);
->  		mtk_dsi_clk_hs_mode(dsi, 0);
-> -		msleep(20);
-> +		usleep_range(1000, 3000);
->  		/* The reaction time after pulling up the mipi signal for dsi_rx */
->  	}
->  }
+> diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+> index 857a2f0420d7..f0093035f1ff 100644
+> --- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+> +++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+> @@ -780,7 +780,6 @@ static const struct panel_init_cmd inx_hj110iz_init_cmd[] = {
+>  };
+>  
+>  static const struct panel_init_cmd boe_init_cmd[] = {
+> -	_INIT_DELAY_CMD(24),
+>  	_INIT_DCS_CMD(0xB0, 0x05),
+>  	_INIT_DCS_CMD(0xB1, 0xE5),
+>  	_INIT_DCS_CMD(0xB3, 0x52),
 > -- 
 > 2.18.0
