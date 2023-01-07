@@ -1,77 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C1F866114D
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 20:19:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36819661175
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 21:04:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A930010E361;
-	Sat,  7 Jan 2023 19:19:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 033E510E1BE;
+	Sat,  7 Jan 2023 20:04:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1D9110E362
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 19:18:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673119131;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=deWthXcTON7t66x4tziVex8yFWTz8gUPIMDdjgbvK2o=;
- b=C9kYJBsjROjXfF+v9UVRKiwhalWQ7SFiWsBenygls3rk2+oPYKS0W/fRdseota5oX24Rmk
- Tv+hwqlbJEfY+5T5WNToJ4CHqXXrE4VM65uzjj29ltJDxVfFrwBvBnAJ0wvijuBoYiuKCd
- ANp/WZohx5xqfqjuRBcR/rvFxsi4lf8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-280-ucrVAEr4NVWQQS0BrHcHZw-1; Sat, 07 Jan 2023 14:18:49 -0500
-X-MC-Unique: ucrVAEr4NVWQQS0BrHcHZw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- n18-20020a05600c4f9200b003d993e08485so2725423wmq.2
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 11:18:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=deWthXcTON7t66x4tziVex8yFWTz8gUPIMDdjgbvK2o=;
- b=rw7vlzbHkd4s0tGzkfsp5OZe4+Dn7QF0fMAfhUykooR3O7t5FbYAkRAYvb8l/JalcB
- CGkSbNX6PqINaNp6s503La9Yvd2wLNew0OZR/jbF57QiGi8FLbtexsE03La7Va9X1p4/
- 1JuSPb443n+CB/TUKSa/jFP7Aux2vm58VBwTkGwT2o8aBXl6WBp+jAVCZ0vfzBSLStBF
- 4Z4PB7cy3FgaL6H/Ms4kOgOV8258yOiArbj6jEJ1BPGZeeY3DHHCackvKeAwqWKvV40h
- vfvgp9xB6U8oIfAvx6iAADeRXl+2Bvf+xTfvMfPldpM4nd1O23DUi2YkLD5pMPtE4uZh
- 8oXw==
-X-Gm-Message-State: AFqh2koYDtINlygQhyjdUOtmJdNXBl2jdeSutBxB1JE2ZPs5DV/AW474
- L5r1H1ye+xERs2lTBP2QlCOHTyHrvn3mdjlC9+jUrRGV9hf+clUzUnlh0GfLZI06BO72QncP+Eu
- vwUyCooi0975IzpoR2qpjfBlthC2F
-X-Received: by 2002:a5d:5910:0:b0:27c:7c2a:f700 with SMTP id
- v16-20020a5d5910000000b0027c7c2af700mr25242856wrd.8.1673119128604; 
- Sat, 07 Jan 2023 11:18:48 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsGBkBD1CsnybBCNLEDbnkha+PRHO1FTA17G+lmd3rkuDh20smPXVuDqRUNb1X9pNidHM51Ig==
-X-Received: by 2002:a5d:5910:0:b0:27c:7c2a:f700 with SMTP id
- v16-20020a5d5910000000b0027c7c2af700mr25242852wrd.8.1673119128415; 
- Sat, 07 Jan 2023 11:18:48 -0800 (PST)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- bp28-20020a5d5a9c000000b00273cd321a1bsm4553900wrb.107.2023.01.07.11.18.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Jan 2023 11:18:47 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 13/13] drm/panel-xinpeng-xpp055c272: Drop custom DSI write
- macro
-Date: Sat,  7 Jan 2023 20:18:22 +0100
-Message-Id: <20230107191822.3787147-14-javierm@redhat.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230107191822.3787147-1-javierm@redhat.com>
-References: <20230107191822.3787147-1-javierm@redhat.com>
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16FF710E1BE;
+ Sat,  7 Jan 2023 20:04:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+ t=1673121832; bh=qvSMD/w2DQNAF9ACqwomgKEylFg7d9LZDFbLkAkAiEM=;
+ h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+ MIME-Version:Content-Type:In-Reply-To;
+ b=fjricY/vc4two4jGlMogMR9BT4DY3F5oI1AWTTzRuMJ9cFzogpuA7rFOni4I1BpSz
+ /koZH4GQATaywou+Ntd9FgyuljEpg6oWqyrl1PiduLjyt02W9SFPzEDUs6JF2tNE4G
+ ogXF3sPPAsU8JetEjXCMbAdptRpVXk9nEmd/Zy84=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
+ via ip-206.mailobj.net [213.182.55.206]
+ Sat,  7 Jan 2023 21:03:52 +0100 (CET)
+X-EA-Auth: 3CfAlWsYnllX1G5Xz+iwFZSWEvjzz9Hk0nK4oLPYYp4TtmOmNTCnjCKf7MKgCPgnp1UUMLMVXlXiZCm2kh4NwfbxZSA2uh/P
+Date: Sun, 8 Jan 2023 01:33:41 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Julia Lawall <julia.lawall@inria.fr>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH] drm/i915/fbc: Avoid full proxy f_ops for FBC debug
+ attributes
+Message-ID: <Y7nQHfbKNmZ1sRbO@ubun2204.myguest.virtualbox.org>
+References: <Y6qmNW6cOHjGwn03@qemulion> <Y6sn1BmhFJFssW0h@intel.com>
+ <Y6s0FSK9+F+/oKSf@qemulion> <Y6wl9NhYZG5RjJL7@intel.com>
+ <Y7PG5Hx5dDE7aHSx@qemulion>
+ <alpine.DEB.2.22.394.2301041850570.7216@hadrien>
+ <Y7XABJ9MWCWO5IUA@intel.com>
+ <991ac2b4-f458-f6f2-f494-648ed61efcff@inria.fr>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <991ac2b4-f458-f6f2-f494-648ed61efcff@inria.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,159 +51,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>,
+ Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Julia Lawall <Julia.Lawall@lip6.fr>, Nicolai Stange <nicstange@gmail.com>,
+ Deepak R Varma <drv@mailo.com>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a macro for this already in the <drm/drm_mipi_dsi.h> header, use
-that instead and delete the custom DSI write macro defined in the driver.
+On Thu, Jan 05, 2023 at 09:13:35AM +0100, Julia Lawall wrote:
+> > Hi Julia, thanks for helping here.
+> >
+> > So, my question is why this
+> >
+> > make coccicheck M=drivers/gpu/drm/i915/ MODE=context COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
+> >
+> > didn't catch this chunck:
+> >
+> > -		debugfs_create_file("i915_fbc_false_color", 0644, parent,
+> > -				    fbc, &intel_fbc_debugfs_false_color_fops);
+> > +		debugfs_create_file_unsafe("i915_fbc_false_color", 0644, parent,
+> > +					   fbc, &intel_fbc_debugfs_false_color_fops);
+> >
+> > When I run it it only catches and replaces this:
+> >
+> > - DEFINE_SIMPLE_ATTRIBUTE(dsa_fops, dsa_get, dsa_set, dsa_fmt);
+> > + DEFINE_DEBUGFS_ATTRIBUTE(dsa_fops, dsa_get, dsa_set, dsa_fmt);
+>
+> There is something strange in your question.  You have MODE=context but
+> you show the output for MODE=patch.  The rule dcf matches a call to
+> debugfs_create_file, and the context rule matching DEFINE_SIMPLE_ATTRIBUTE
+> is only activated if dcf succeeds.  So when the context rule gives a
+> report, there is always a corresponding call to debugfs_create_file in the
+> same file, it is just not highlighted.  So the request is that it should
+> be highlighted as well?
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
----
+Hello Rodrigo,
+Not trying to speak for you, but I think Julia's comment appears to be the
+correct interpretation of your observation. Would you mind confirming/clarifying
+and suggest next steps for this proposal?
 
-Changes in v2:
-- Add Sam Ravnborg's Reviewed-by tag.
-- Fix identation on macro usage (Sam Ravnborg).
-- Fix generic DSI and DCS commands write discrepancy (Sam Ravnborg).
+Thank you,
+./drv
 
- .../gpu/drm/panel/panel-xinpeng-xpp055c272.c  | 112 ++++++++----------
- 1 file changed, 52 insertions(+), 60 deletions(-)
+>
+> julia
+>
 
-diff --git a/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c b/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-index 2c54733ee241..8670386498a4 100644
---- a/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-+++ b/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-@@ -60,14 +60,6 @@ static inline struct xpp055c272 *panel_to_xpp055c272(struct drm_panel *panel)
- 	return container_of(panel, struct xpp055c272, panel);
- }
- 
--#define dsi_generic_write_seq(dsi, cmd, seq...) do {			\
--		static const u8 b[] = { cmd, seq };			\
--		int ret;						\
--		ret = mipi_dsi_dcs_write_buffer(dsi, b, ARRAY_SIZE(b));	\
--		if (ret < 0)						\
--			return ret;					\
--	} while (0)
--
- static int xpp055c272_init_sequence(struct xpp055c272 *ctx)
- {
- 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-@@ -77,60 +69,60 @@ static int xpp055c272_init_sequence(struct xpp055c272 *ctx)
- 	 * Init sequence was supplied by the panel vendor without much
- 	 * documentation.
- 	 */
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETEXTC, 0xf1, 0x12, 0x83);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETMIPI,
--			      0x33, 0x81, 0x05, 0xf9, 0x0e, 0x0e, 0x00, 0x00,
--			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x44, 0x25,
--			      0x00, 0x91, 0x0a, 0x00, 0x00, 0x02, 0x4f, 0x01,
--			      0x00, 0x00, 0x37);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPOWER_EXT, 0x25);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPCR, 0x02, 0x11, 0x00);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETRGBIF,
--			      0x0c, 0x10, 0x0a, 0x50, 0x03, 0xff, 0x00, 0x00,
--			      0x00, 0x00);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETSCR,
--			      0x73, 0x73, 0x50, 0x50, 0x00, 0x00, 0x08, 0x70,
--			      0x00);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETVDC, 0x46);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPANEL, 0x0b);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETCYC, 0x80);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETDISP, 0xc8, 0x12, 0x30);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETEQ,
--			      0x07, 0x07, 0x0B, 0x0B, 0x03, 0x0B, 0x00, 0x00,
--			      0x00, 0x00, 0xFF, 0x00, 0xC0, 0x10);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPOWER,
--			      0x53, 0x00, 0x1e, 0x1e, 0x77, 0xe1, 0xcc, 0xdd,
--			      0x67, 0x77, 0x33, 0x33);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETECO, 0x00, 0x00, 0xff,
--			      0xff, 0x01, 0xff);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETBGP, 0x09, 0x09);
-+	mipi_dsi_dcs_write_seq(dsi, XPP055C272_CMD_SETEXTC, 0xf1, 0x12, 0x83);
-+	mipi_dsi_dcs_write_seq(dsi, XPP055C272_CMD_SETMIPI,
-+			       0x33, 0x81, 0x05, 0xf9, 0x0e, 0x0e, 0x00, 0x00,
-+			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x44, 0x25,
-+			       0x00, 0x91, 0x0a, 0x00, 0x00, 0x02, 0x4f, 0x01,
-+			       0x00, 0x00, 0x37);
-+	mipi_dsi_dcs_write_seq(dsi, XPP055C272_CMD_SETPOWER_EXT, 0x25);
-+	mipi_dsi_dcs_write_seq(dsi, XPP055C272_CMD_SETPCR, 0x02, 0x11, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, XPP055C272_CMD_SETRGBIF,
-+			       0x0c, 0x10, 0x0a, 0x50, 0x03, 0xff, 0x00, 0x00,
-+			       0x00, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, XPP055C272_CMD_SETSCR,
-+			       0x73, 0x73, 0x50, 0x50, 0x00, 0x00, 0x08, 0x70,
-+			       0x00);
-+	mipi_dsi_dcs_write_seq(dsi, XPP055C272_CMD_SETVDC, 0x46);
-+	mipi_dsi_dcs_write_seq(dsi, XPP055C272_CMD_SETPANEL, 0x0b);
-+	mipi_dsi_dcs_write_seq(dsi, XPP055C272_CMD_SETCYC, 0x80);
-+	mipi_dsi_dcs_write_seq(dsi, XPP055C272_CMD_SETDISP, 0xc8, 0x12, 0x30);
-+	mipi_dsi_dcs_write_seq(dsi, XPP055C272_CMD_SETEQ,
-+			       0x07, 0x07, 0x0B, 0x0B, 0x03, 0x0B, 0x00, 0x00,
-+			       0x00, 0x00, 0xFF, 0x00, 0xC0, 0x10);
-+	mipi_dsi_dcs_write_seq(dsi, XPP055C272_CMD_SETPOWER,
-+			       0x53, 0x00, 0x1e, 0x1e, 0x77, 0xe1, 0xcc, 0xdd,
-+			       0x67, 0x77, 0x33, 0x33);
-+	mipi_dsi_dcs_write_seq(dsi, XPP055C272_CMD_SETECO, 0x00, 0x00, 0xff,
-+			       0xff, 0x01, 0xff);
-+	mipi_dsi_dcs_write_seq(dsi, XPP055C272_CMD_SETBGP, 0x09, 0x09);
- 	msleep(20);
- 
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETVCOM, 0x87, 0x95);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETGIP1,
--			      0xc2, 0x10, 0x05, 0x05, 0x10, 0x05, 0xa0, 0x12,
--			      0x31, 0x23, 0x3f, 0x81, 0x0a, 0xa0, 0x37, 0x18,
--			      0x00, 0x80, 0x01, 0x00, 0x00, 0x00, 0x00, 0x80,
--			      0x01, 0x00, 0x00, 0x00, 0x48, 0xf8, 0x86, 0x42,
--			      0x08, 0x88, 0x88, 0x80, 0x88, 0x88, 0x88, 0x58,
--			      0xf8, 0x87, 0x53, 0x18, 0x88, 0x88, 0x81, 0x88,
--			      0x88, 0x88, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00,
--			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETGIP2,
--			      0x00, 0x1a, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00,
--			      0x00, 0x00, 0x00, 0x00, 0x1f, 0x88, 0x81, 0x35,
--			      0x78, 0x88, 0x88, 0x85, 0x88, 0x88, 0x88, 0x0f,
--			      0x88, 0x80, 0x24, 0x68, 0x88, 0x88, 0x84, 0x88,
--			      0x88, 0x88, 0x23, 0x10, 0x00, 0x00, 0x1c, 0x00,
--			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30, 0x05,
--			      0xa0, 0x00, 0x00, 0x00, 0x00);
--	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETGAMMA,
--			      0x00, 0x06, 0x08, 0x2a, 0x31, 0x3f, 0x38, 0x36,
--			      0x07, 0x0c, 0x0d, 0x11, 0x13, 0x12, 0x13, 0x11,
--			      0x18, 0x00, 0x06, 0x08, 0x2a, 0x31, 0x3f, 0x38,
--			      0x36, 0x07, 0x0c, 0x0d, 0x11, 0x13, 0x12, 0x13,
--			      0x11, 0x18);
-+	mipi_dsi_dcs_write_seq(dsi, XPP055C272_CMD_SETVCOM, 0x87, 0x95);
-+	mipi_dsi_dcs_write_seq(dsi, XPP055C272_CMD_SETGIP1,
-+			       0xc2, 0x10, 0x05, 0x05, 0x10, 0x05, 0xa0, 0x12,
-+			       0x31, 0x23, 0x3f, 0x81, 0x0a, 0xa0, 0x37, 0x18,
-+			       0x00, 0x80, 0x01, 0x00, 0x00, 0x00, 0x00, 0x80,
-+			       0x01, 0x00, 0x00, 0x00, 0x48, 0xf8, 0x86, 0x42,
-+			       0x08, 0x88, 0x88, 0x80, 0x88, 0x88, 0x88, 0x58,
-+			       0xf8, 0x87, 0x53, 0x18, 0x88, 0x88, 0x81, 0x88,
-+			       0x88, 0x88, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00,
-+			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, XPP055C272_CMD_SETGIP2,
-+			       0x00, 0x1a, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00,
-+			       0x00, 0x00, 0x00, 0x00, 0x1f, 0x88, 0x81, 0x35,
-+			       0x78, 0x88, 0x88, 0x85, 0x88, 0x88, 0x88, 0x0f,
-+			       0x88, 0x80, 0x24, 0x68, 0x88, 0x88, 0x84, 0x88,
-+			       0x88, 0x88, 0x23, 0x10, 0x00, 0x00, 0x1c, 0x00,
-+			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30, 0x05,
-+			       0xa0, 0x00, 0x00, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, XPP055C272_CMD_SETGAMMA,
-+			       0x00, 0x06, 0x08, 0x2a, 0x31, 0x3f, 0x38, 0x36,
-+			       0x07, 0x0c, 0x0d, 0x11, 0x13, 0x12, 0x13, 0x11,
-+			       0x18, 0x00, 0x06, 0x08, 0x2a, 0x31, 0x3f, 0x38,
-+			       0x36, 0x07, 0x0c, 0x0d, 0x11, 0x13, 0x12, 0x13,
-+			       0x11, 0x18);
- 
- 	msleep(60);
- 
--- 
-2.38.1
 
