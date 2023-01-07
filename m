@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B1E6610D0
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 19:26:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FDFF6610E3
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 19:27:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 488BA10E1BF;
-	Sat,  7 Jan 2023 18:26:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A77DB10E350;
+	Sat,  7 Jan 2023 18:26:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6EB910E1BF
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 18:26:23 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF2F210E347
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 18:26:25 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 10D6460BB1;
- Sat,  7 Jan 2023 18:26:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8A382C433AE;
+ by ams.source.kernel.org (Postfix) with ESMTPS id 3851EB80502;
+ Sat,  7 Jan 2023 18:26:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9C8F8C433B0;
  Sat,  7 Jan 2023 18:26:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1673115981;
- bh=5ij+2zt071FaFgXPs/8g9HMxpQ5Rvn4NOrg8o4aDjAA=;
+ bh=iwnNyRt1Uh/vn2VAl963Pb04rJrM5CLPdltH1F0ndxY=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=R0Vqm0kwLCUMC/FFA+SwZYvkyVvRCwUaU1sKttT/VJJBVNEHRFOf7VvRZzlHTJkZG
- jjwOFSnMDXFvNYr2SN2VsLrgU4CSuQ9MOmH7eo0WWSnwItqdjAYu/ZYW9aU81kUGBX
- R39CPgkrOZwFdoE7pNj4N9tPVvQEikdGY5kaJNMaW7A+TZIGW21KtIjU6OqRUwklQl
- S5JBCOzlHxApv1YqY1liRhR+fB9VwhN/rYiWd6Z2LUKDvnkbI+KBxZBmnEsLtO0Jfa
- l3RLZMdBIrygDW6z0hb8uQ5n1gN1WEahYBr1Nnd6gvEn+QRWEUAge3ELmYT1mbJaLT
- X6i2PWrdQxt1g==
+ b=u0EYwiLFKeoi8LdlxSUgU5clp48P68nrijqXpU4h7+Z5CLlDdoNeKp4Mx+akH8xWT
+ AKhCN20VnV4AN9UVPTyftgJhOQNDK8pvOY1XBNk5SLA6lE737TImt53rj9Ons3EczW
+ 3oexI3lb5LkoAqb1aj6i42N4OvFj560LZlbBlzdBG7oF8jkuNXIfwRDnZpOuTqD451
+ jXbqxJg7XPOhxiZQVfQJ8KiOM9mA8ZkcR0RibQi56Tqan+KqBKvIO2j849SCEGcZPi
+ lB94kSOFN+MT0G13wsnTJ7ewxD9JyBbcOjHrE7uqytPX+UJYhYVDIQ5T1AJL4g3g2+
+ PO7L9YSEUF9HQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 74EC0C54EBC;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 88F6CC54EBD;
  Sat,  7 Jan 2023 18:26:21 +0000 (UTC)
 From: Sam Ravnborg via B4 Submission Endpoint
  <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 07 Jan 2023 19:26:21 +0100
-Subject: [PATCH 07/15] video: fbdev: mx3fb: Introduce
+Date: Sat, 07 Jan 2023 19:26:22 +0100
+Subject: [PATCH 08/15] video: fbdev: omap2: Introduce
  backlight_get_brightness()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230107-sam-video-backlight-drop-fb_blank-v1-7-1bd9bafb351f@ravnborg.org>
+Message-Id: <20230107-sam-video-backlight-drop-fb_blank-v1-8-1bd9bafb351f@ravnborg.org>
 References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
 In-Reply-To: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
 To: Nicolas Ferre <nicolas.ferre@microchip.com>, Helge Deller <deller@gmx.de>, 
@@ -56,11 +56,11 @@ To: Nicolas Ferre <nicolas.ferre@microchip.com>, Helge Deller <deller@gmx.de>,
  Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
  Jingoo Han <jingoohan1@gmail.com>
 X-Mailer: b4 0.11.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1673115978; l=1512;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1673115978; l=3952;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=drvkdW0PBheGrMYY3qAlAUiLqN5UfH4VOwcA/aXugg0=; =?utf-8?q?b=3D8iTbagfWb1Lj?=
- =?utf-8?q?07cocG5qMfP8Ayj4BAQY4d64KWfzkOktfkyCN7IXzBwcj/9U/iJWYWB0GCaKShTH?=
- 0OiuscjyAkCEJdcJGgJQX9THB3GVRSWeiPGBowlxgEHvu9p/2eio
+ bh=rBdlXn3SJoyXVGp9uzOjpAfLNvN20Ns2vzMuJ6kxYVQ=; =?utf-8?q?b=3DSe0re9Bl1ixb?=
+ =?utf-8?q?eQqgTVCOFbfiMaV8wK5dyWiyyTDaZXRNHbQpUsMhAzYvPdOF7Fw51VxQ1DRCZitU?=
+ +Z1PfROxCt3Qh2feioD4dKYYqFcvi1MHfgqxhL6GFEL5iOWFqHYg
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Submission Endpoint for sam@ravnborg.org/20230107
@@ -79,14 +79,14 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: sam@ravnborg.org
-Cc: Kate Stewart <kstewart@linuxfoundation.org>, linux-fbdev@vger.kernel.org,
- Stephen Kitt <steve@sk2.org>, Arnd Bergmann <arnd@arndb.de>,
- Jani Nikula <jani.nikula@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+Cc: Kate Stewart <kstewart@linuxfoundation.org>,
+ Enrico Weigelt <info@metux.net>, linux-fbdev@vger.kernel.org,
+ Stephen Kitt <steve@sk2.org>, Sam Ravnborg <sam@ravnborg.org>,
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Gleixner <tglx@linutronix.de>, linux-omap@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+ dri-devel@lists.freedesktop.org, Alexios Zavras <alexios.zavras@intel.com>,
+ Allison Randal <allison@lohutok.net>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -96,42 +96,115 @@ Introduce backlight_get_brightness() to simplify logic
 and avoid direct access to backlight properties.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Allison Randal <allison@lohutok.net>
 Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Kate Stewart <kstewart@linuxfoundation.org>
 Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Enrico Weigelt <info@metux.net>
+Cc: Alexios Zavras <alexios.zavras@intel.com>
 ---
- drivers/video/fbdev/mx3fb.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ .../fbdev/omap2/omapfb/displays/panel-dsi-cm.c     | 19 +-----------------
+ .../omap2/omapfb/displays/panel-sony-acx565akm.c   | 23 +++++++---------------
+ 2 files changed, 8 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/video/fbdev/mx3fb.c b/drivers/video/fbdev/mx3fb.c
-index b945b68984b9..bc35f664cbff 100644
---- a/drivers/video/fbdev/mx3fb.c
-+++ b/drivers/video/fbdev/mx3fb.c
-@@ -283,12 +283,7 @@ static int mx3fb_bl_get_brightness(struct backlight_device *bl)
- static int mx3fb_bl_update_status(struct backlight_device *bl)
+diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c
+index a2c7c5cb1523..bd73aa5328c9 100644
+--- a/drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c
++++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c
+@@ -330,14 +330,8 @@ static int dsicm_bl_update_status(struct backlight_device *dev)
  {
- 	struct mx3fb_data *fbd = bl_get_data(bl);
--	int brightness = bl->props.brightness;
+ 	struct panel_drv_data *ddata = dev_get_drvdata(&dev->dev);
+ 	struct omap_dss_device *in = ddata->in;
++	int level = backlight_get_brightness(dev);
+ 	int r;
+-	int level;
 -
--	if (bl->props.power != FB_BLANK_UNBLANK)
--		brightness = 0;
--	if (bl->props.fb_blank != FB_BLANK_UNBLANK)
--		brightness = 0;
-+	int brightness = backlight_get_brightness(bl);
+-	if (dev->props.fb_blank == FB_BLANK_UNBLANK &&
+-			dev->props.power == FB_BLANK_UNBLANK)
+-		level = dev->props.brightness;
+-	else
+-		level = 0;
  
- 	fbd->backlight_level = (fbd->backlight_level & ~0xFF) | brightness;
+ 	dev_dbg(&ddata->pdev->dev, "update brightness to %d\n", level);
  
-@@ -325,7 +320,6 @@ static void mx3fb_init_backlight(struct mx3fb_data *fbd)
- 
- 	fbd->bl = bl;
- 	bl->props.power = FB_BLANK_UNBLANK;
--	bl->props.fb_blank = FB_BLANK_UNBLANK;
- 	bl->props.brightness = mx3fb_bl_get_brightness(bl);
+@@ -360,17 +354,7 @@ static int dsicm_bl_update_status(struct backlight_device *dev)
+ 	return r;
  }
+ 
+-static int dsicm_bl_get_intensity(struct backlight_device *dev)
+-{
+-	if (dev->props.fb_blank == FB_BLANK_UNBLANK &&
+-			dev->props.power == FB_BLANK_UNBLANK)
+-		return dev->props.brightness;
+-
+-	return 0;
+-}
+-
+ static const struct backlight_ops dsicm_bl_ops = {
+-	.get_brightness = dsicm_bl_get_intensity,
+ 	.update_status  = dsicm_bl_update_status,
+ };
+ 
+@@ -1251,7 +1235,6 @@ static int dsicm_probe(struct platform_device *pdev)
+ 
+ 		ddata->bldev = bldev;
+ 
+-		bldev->props.fb_blank = FB_BLANK_UNBLANK;
+ 		bldev->props.power = FB_BLANK_UNBLANK;
+ 		bldev->props.brightness = 255;
+ 
+diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c
+index c0965bee12c5..c9c8f10e2e2f 100644
+--- a/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c
++++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c
+@@ -337,16 +337,10 @@ static int acx565akm_get_actual_brightness(struct panel_drv_data *ddata)
+ static int acx565akm_bl_update_status(struct backlight_device *dev)
+ {
+ 	struct panel_drv_data *ddata = dev_get_drvdata(&dev->dev);
+-	int level;
++	int level = backlight_get_brightness(dev);
+ 
+ 	dev_dbg(&ddata->spi->dev, "%s\n", __func__);
+ 
+-	if (dev->props.fb_blank == FB_BLANK_UNBLANK &&
+-			dev->props.power == FB_BLANK_UNBLANK)
+-		level = dev->props.brightness;
+-	else
+-		level = 0;
+-
+ 	if (ddata->has_bc)
+ 		acx565akm_set_brightness(ddata, level);
+ 	else
+@@ -364,15 +358,13 @@ static int acx565akm_bl_get_intensity(struct backlight_device *dev)
+ 	if (!ddata->has_bc)
+ 		return -ENODEV;
+ 
+-	if (dev->props.fb_blank == FB_BLANK_UNBLANK &&
+-			dev->props.power == FB_BLANK_UNBLANK) {
+-		if (ddata->has_bc)
+-			return acx565akm_get_actual_brightness(ddata);
+-		else
+-			return dev->props.brightness;
+-	}
++	if (backlight_is_blank(dev))
++		return 0;
+ 
+-	return 0;
++	if (ddata->has_bc)
++		return acx565akm_get_actual_brightness(ddata);
++	else
++		return backlight_get_brightness(dev);
+ }
+ 
+ static int acx565akm_bl_update_status_locked(struct backlight_device *dev)
+@@ -795,7 +787,6 @@ static int acx565akm_probe(struct spi_device *spi)
+ 	}
+ 
+ 	memset(&props, 0, sizeof(props));
+-	props.fb_blank = FB_BLANK_UNBLANK;
+ 	props.power = FB_BLANK_UNBLANK;
+ 	props.type = BACKLIGHT_RAW;
  
 
 -- 
