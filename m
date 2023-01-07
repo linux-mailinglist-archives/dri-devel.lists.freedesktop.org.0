@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36819661175
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 21:04:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A90766117C
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 21:09:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 033E510E1BE;
-	Sat,  7 Jan 2023 20:04:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A792A10E0D2;
+	Sat,  7 Jan 2023 20:09:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16FF710E1BE;
- Sat,  7 Jan 2023 20:04:05 +0000 (UTC)
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A89EF10E0D2
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 20:09:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1673121832; bh=qvSMD/w2DQNAF9ACqwomgKEylFg7d9LZDFbLkAkAiEM=;
+ t=1673122179; bh=YLQN1N9pihHAMf/zPpPhdNCRrp7JZhMqhZrFNGqFCOA=;
  h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
  MIME-Version:Content-Type:In-Reply-To;
- b=fjricY/vc4two4jGlMogMR9BT4DY3F5oI1AWTTzRuMJ9cFzogpuA7rFOni4I1BpSz
- /koZH4GQATaywou+Ntd9FgyuljEpg6oWqyrl1PiduLjyt02W9SFPzEDUs6JF2tNE4G
- ogXF3sPPAsU8JetEjXCMbAdptRpVXk9nEmd/Zy84=
-Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
+ b=WPlK/TzmPkFIKvCTSw0gvRo8HkMakaZ02kRqbma1ZjobJwvMLIGby59M6lE7iE55b
+ 4a5O7gsRybdrrEDP8l2C5z+scr+WoPZc0Kzge1PGGFQgUrqoA/uxMlKN5kA4+m4mQv
+ G2tst9k8cOe8deQBx1uA9lJjv4xLf1WuhZ/bkJ9A=
+Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
  via ip-206.mailobj.net [213.182.55.206]
- Sat,  7 Jan 2023 21:03:52 +0100 (CET)
-X-EA-Auth: 3CfAlWsYnllX1G5Xz+iwFZSWEvjzz9Hk0nK4oLPYYp4TtmOmNTCnjCKf7MKgCPgnp1UUMLMVXlXiZCm2kh4NwfbxZSA2uh/P
-Date: Sun, 8 Jan 2023 01:33:41 +0530
+ Sat,  7 Jan 2023 21:09:38 +0100 (CET)
+X-EA-Auth: OKIrZ39R0cxkfSoB8rZ3cbEymhSiYYRsf2Ge4ZAJPNVBogv6yPdBfIWwKDQ+fcdWWcucLzl1+F3zAqBv1n32/7nTHA8/h5BJ
+Date: Sun, 8 Jan 2023 01:39:25 +0530
 From: Deepak R Varma <drv@mailo.com>
-To: Julia Lawall <julia.lawall@inria.fr>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH] drm/i915/fbc: Avoid full proxy f_ops for FBC debug
- attributes
-Message-ID: <Y7nQHfbKNmZ1sRbO@ubun2204.myguest.virtualbox.org>
-References: <Y6qmNW6cOHjGwn03@qemulion> <Y6sn1BmhFJFssW0h@intel.com>
- <Y6s0FSK9+F+/oKSf@qemulion> <Y6wl9NhYZG5RjJL7@intel.com>
- <Y7PG5Hx5dDE7aHSx@qemulion>
- <alpine.DEB.2.22.394.2301041850570.7216@hadrien>
- <Y7XABJ9MWCWO5IUA@intel.com>
- <991ac2b4-f458-f6f2-f494-648ed61efcff@inria.fr>
+To: Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/amdkfd: Use resource_size() helper function
+Message-ID: <Y7nRdaDtptxE8Rwd@ubun2204.myguest.virtualbox.org>
+References: <Y6TI1O9adSP/OrnT@qemulion>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <991ac2b4-f458-f6f2-f494-648ed61efcff@inria.fr>
+In-Reply-To: <Y6TI1O9adSP/OrnT@qemulion>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,53 +51,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Saurabh Singh Sengar <ssengar@microsoft.com>,
- Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Julia Lawall <Julia.Lawall@lip6.fr>, Nicolai Stange <nicstange@gmail.com>,
- Deepak R Varma <drv@mailo.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ Deepak R Varma <drv@mailo.com>, Saurabh Singh Sengar <ssengar@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 05, 2023 at 09:13:35AM +0100, Julia Lawall wrote:
-> > Hi Julia, thanks for helping here.
-> >
-> > So, my question is why this
-> >
-> > make coccicheck M=drivers/gpu/drm/i915/ MODE=context COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
-> >
-> > didn't catch this chunck:
-> >
-> > -		debugfs_create_file("i915_fbc_false_color", 0644, parent,
-> > -				    fbc, &intel_fbc_debugfs_false_color_fops);
-> > +		debugfs_create_file_unsafe("i915_fbc_false_color", 0644, parent,
-> > +					   fbc, &intel_fbc_debugfs_false_color_fops);
-> >
-> > When I run it it only catches and replaces this:
-> >
-> > - DEFINE_SIMPLE_ATTRIBUTE(dsa_fops, dsa_get, dsa_set, dsa_fmt);
-> > + DEFINE_DEBUGFS_ATTRIBUTE(dsa_fops, dsa_get, dsa_set, dsa_fmt);
+On Fri, Dec 23, 2022 at 02:45:00AM +0530, Deepak R Varma wrote:
+> Use the resource_size() function instead of a open coded computation
+> resource size. It makes the code more readable.
 >
-> There is something strange in your question.  You have MODE=context but
-> you show the output for MODE=patch.  The rule dcf matches a call to
-> debugfs_create_file, and the context rule matching DEFINE_SIMPLE_ATTRIBUTE
-> is only activated if dcf succeeds.  So when the context rule gives a
-> report, there is always a corresponding call to debugfs_create_file in the
-> same file, it is just not highlighted.  So the request is that it should
-> be highlighted as well?
+> Issue identified using resource_size.cocci coccinelle semantic patch.
+>
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
+> ---
 
-Hello Rodrigo,
-Not trying to speak for you, but I think Julia's comment appears to be the
-correct interpretation of your observation. Would you mind confirming/clarifying
-and suggest next steps for this proposal?
+Hello,
+Requesting a review and feedback on this patch proposal?
 
 Thank you,
 ./drv
 
->
-> julia
->
 
 
