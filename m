@@ -2,47 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5176C660E09
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 11:45:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A60C1660E7D
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 13:06:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E82710E2E4;
-	Sat,  7 Jan 2023 10:45:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 604EB10E0FC;
+	Sat,  7 Jan 2023 12:06:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A758F10E2DC
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 10:45:18 +0000 (UTC)
-Date: Sat, 07 Jan 2023 10:45:03 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1673088316; x=1673347516;
- bh=+oyGL873Hk6mqs2Hbhtf79hRnxloFAB5QNFGYKrmXgQ=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=FVowmh9gd/0j5XCZBrOy84JzrzD6+EphvLLIQbUVwMOQooSvBt2gy/i9Yj7FYlXt7
- J8/nbxIKhdjaY+Z0wJSs85Z4mA/I/58eaQB8sPvwubmIMnLLWVy2DKqa9so7nWnBTU
- eFnQLlMl6UX+F4JYqwZAk0bS96AMEEICQEXugJrfbNyKyEkSz0J2r5QLWqJOdDzy2L
- VN727yVDPA+Dp7VZ+6B87+fHgi/Y1zy2t+XrHALriN16q2JVwcj/IbymYfB0bpHjlL
- MVIT3u1xDMBs0jm0n6r2TJ4F6wjWEEKekZJ9b/hGO8RkXIfPvvuVF/OTr4CnwlfkBE
- NYi6er8UhW0MA==
-To: Tao Wu <lepton@google.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm/vkms: Add a DRM render node to vkms
-Message-ID: <leMSjV3Lro5cqAe0WzDVQVYXRhIpds5U9oz8eI1Of9Ee9uvW2d66cmymBQg5I6uJFcSOWLYSnXS5SwrHMxSK7j96LNOZlwtee1U9QYxR3Bs=@emersion.fr>
-In-Reply-To: <CAOvqHj4r8OY53bQ6aKLVtSUKnpc4EnTyBjtpPcnWGtGqp8QyXA@mail.gmail.com>
-References: <20230105052325.514970-1-yixie@google.com>
- <Y7bVNT0sf5cwEHuj@phenom.ffwll.local>
- <CAHf1YQ55f2mN14ytCz=AB=VSvO8ByKoV59dF50gWVcjcgMkTHg@mail.gmail.com>
- <Y7bbxVzhYCGhCvVN@phenom.ffwll.local>
- <CAHf1YQ4jHeCGqoERpYM6yX8-9pjqiemUN3fT3fpweDTZz6Mrbg@mail.gmail.com>
- <Y7buUnTE91GC+VZb@phenom.ffwll.local>
- <CAOvqHj68uPoPdBrbKaBMg4QOre-EjRJOH12XqBBR+1bAx-fQwA@mail.gmail.com>
- <Y7fvyQ6Ve6duSjho@phenom.ffwll.local>
- <CAOvqHj4r8OY53bQ6aKLVtSUKnpc4EnTyBjtpPcnWGtGqp8QyXA@mail.gmail.com>
-Feedback-ID: 1358184:user:proton
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98E7C10E0FC
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 12:06:02 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ fm16-20020a05600c0c1000b003d96fb976efso5305154wmb.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 04:06:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZLjHqFbROXlE+sbQ3Mi0YQwdit1/ACHkltZB2eIp6ZY=;
+ b=VZ5LC/sHAOIR5huRKj2y+0d40HWTG5UTtD8WCG8STyZQlXt4fYxcz2D61c7EiDK6+x
+ 1iq1BqhEjdpRL68bguKTkMX/H/fNo0BFSKZA5L7Sh7kAEIsM4f9s77WkVIFxDZOxdX4p
+ yh1QQk2Nn0mdoUl0yg72fRnItYVKI0RJ5/Pmc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZLjHqFbROXlE+sbQ3Mi0YQwdit1/ACHkltZB2eIp6ZY=;
+ b=YCac+cTFPuQp8Ppd1RMLbxQbrCbUKdaUcAwFhClp0sFeNjcHuaIiOsSQXKWRKrt4qW
+ 1ytbq9DLipYWgom+xhPNEqPGVdzEV6jS3z0r4Gs25YjU6C1uxlumDXAkz4+Pcu5v5x2O
+ S6fHiP9Ze4dDwu0g2xes1s1RiJ5fsUzgfzUPJ4IWqhD19svTtEmsFjCf8pqbgmDuLDw7
+ lJq+tmcNloSkglktFDj7/asAhPf4WW48vYuQHd0J4PSs16Smfsatkk6duBIRRyg0uJN4
+ 9Onxb9WLNVMEq5enqJZKn5EzqG3Ewvp5WmoRmRjzwCKQHf6SEy0gES35ulcEWtfnthlE
+ Q2wg==
+X-Gm-Message-State: AFqh2kr+9+6MAz3Y137s/sP9uSyqB2rO5sF4vmZQjbm6QERI8zfa3rnH
+ 1XP30IoMDfzm+JiL2gNSWQ1hqg==
+X-Google-Smtp-Source: AMrXdXvG2OKBklPVU/w7yJTB6p28qUxxhsgOsf2xdlo6IBSDgcIEZZbPsf9QYXqEN76wJsjC57mQNQ==
+X-Received: by 2002:a7b:ca4f:0:b0:3c6:edc0:5170 with SMTP id
+ m15-20020a7bca4f000000b003c6edc05170mr40747291wml.25.1673093160874; 
+ Sat, 07 Jan 2023 04:06:00 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ o9-20020a05600c510900b003c6f8d30e40sm10842896wms.31.2023.01.07.04.05.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 07 Jan 2023 04:05:59 -0800 (PST)
+Date: Sat, 7 Jan 2023 13:05:57 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Brian Norris <briannorris@chromium.org>
+Subject: Re: [PATCH v2 1/2] drm/atomic: Allow vblank-enabled + self-refresh
+ "disable"
+Message-ID: <Y7lgJVP7hVtHpWTB@phenom.ffwll.local>
+Mail-Followup-To: Brian Norris <briannorris@chromium.org>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Sean Paul <seanpaul@chromium.org>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
+ Sandy Huang <hjc@rock-chips.com>,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20230106172310.v2.1.I3904f697863649eb1be540ecca147a66e42bfad7@changeid>
+ <CA+ASDXNBDkzz_xRDbE9gNZZN5kSfxksh0EN01_CxNgyog_BZOg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+ASDXNBDkzz_xRDbE9gNZZN5kSfxksh0EN01_CxNgyog_BZOg@mail.gmail.com>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,48 +79,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
- Yi Xie <yixie@google.com>, dri-devel@lists.freedesktop.org,
- melissa.srw@gmail.com
+Cc: Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Sean Paul <seanpaul@chromium.org>, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, January 6th, 2023 at 23:28, Tao Wu <lepton@google.com> wrote:
+On Fri, Jan 06, 2023 at 05:27:33PM -0800, Brian Norris wrote:
+> On Fri, Jan 6, 2023 at 5:23 PM Brian Norris <briannorris@chromium.org> wrote:
+> > v2:
+> >  * add 'ret != 0' warning case for self-refresh
+> >  * describe failing test case and relation to drm/rockchip patch better
+> 
+> Ugh, there's always something you remember right after you hit send: I
+> forgot to better summarize some of the other discussion from v1, and
+> alternatives we didn't entertain. I'll write that up now (not sure
+> whether in patch 1 or 2) and plan on sending a v3 for next week, in
+> case there are any other comments I should address at the same time.
 
-> On Fri, Jan 6, 2023 at 1:54 AM Daniel Vetter daniel@ffwll.ch wrote:
->=20
-> > On Thu, Jan 05, 2023 at 01:40:28PM -0800, Tao Wu(=E5=90=B4=E6=B6=9B@Eng=
-) wrote:
-> >=20
-> > > Hi Daniel,
-> > >=20
-> > > May I know what's the requirement for adding render node support to a
-> > > "gpu"? Why we just export render node for every drm devices?
-> > > I read document here
-> > > https://www.kernel.org/doc/html/v4.8/gpu/drm-uapi.html#render-nodes
-> >=20
-> > Thus far we've only done it when there's actual rendering capability,
-> > which generally means at least some private ioctls.
->=20
-> Hi Daniel, it looks like vgem is exporting render node by default.
-> Per my understanding, vgem provides some DRM API so users can play
-> with graphic buffers. I am feeling it's natural have a v*** device
-> which provide
-> the surperset which vgem and vkms provides, so it sounds like it's
-> natural add rendernode to vkms, or do the opposite, add kms related
-> stuff to vgem. I still don't get the point: what kind of issue it
-> could bring if we just
-> add render node to vkms? If your point is, we don't do that for other
-> kms only devices, then my question is, how about we just enable render
-> node for every DRM driver? what could go wrong with this approach?
-
-This is wrong for at least two reasons:
-
-- A render node has a semantic value: it indicates whether a device has
-  rendering capabilities. If we attach a render node to vkms, we lie
-  because vkms has no such capability.
-- This would regress user-space. wlroots would no longer accept to
-  start with Pixman on vkms, because it detects a render node on the
-  device.
-
-I'd advise moving away from abusing DRM dumb buffers in Mesa.
+For me it needs to be in the helper patch, since anyone not doing rockchip
+work will otherwise never find it. But you can also duplicate the
+discussion summary into the 2nd patch, doesn't really hurt.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
