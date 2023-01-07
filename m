@@ -2,74 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15D5D66108D
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 18:37:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52FC066108E
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 18:37:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEFDB10E1AD;
-	Sat,  7 Jan 2023 17:37:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7D9710E340;
+	Sat,  7 Jan 2023 17:37:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9330310E1AD
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 17:36:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2EE810E1B4
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 17:37:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673113017;
+ s=mimecast20190719; t=1673113064;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9gCpV0dGtCCGp1jPgBtNFnuKxWWQi0wqnd//45zEPmE=;
- b=ZHUfroq7g+bPPFzWwKWlCqaHzRv/WvNbvAKp6/IcPVtOhIkwTmrpLVPjBIQ98kd1SdhcGC
- l85EijLgmMoK+M9M4XU16eiq7128HeegIZZ5oBnyqOuMzTbJReYtntFVL27KOh+PLl0VG5
- gpkdtS+mNR5RSHxyWnba4qM7IBCpbOw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7UoklNV81MeruvhksD2tLEyE1RirxLyKZBOM7SqghhQ=;
+ b=PP4ck2B4xeP44YfZuB1LIRXJhN3wxLez9icHyqUz1hOHYppbXcBeLhowdxNqqiDnTHV205
+ K6EHCZKUMJ5GExL1PfHXxyJi9iuyNphp1LUHYutCMZSNhRGbptnlDgE7ef0W2KZLDMIuvs
+ Z2QbZmm9M7ME9H/NtiCZIerCHxCJAIQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-656-P02C19GkPci5GpToL_omEA-1; Sat, 07 Jan 2023 12:36:55 -0500
-X-MC-Unique: P02C19GkPci5GpToL_omEA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- i7-20020a05600c354700b003d62131fe46so4536130wmq.5
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 09:36:55 -0800 (PST)
+ us-mta-22-upjMKCAANdyOWeigosyk-Q-1; Sat, 07 Jan 2023 12:37:42 -0500
+X-MC-Unique: upjMKCAANdyOWeigosyk-Q-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m7-20020a05600c4f4700b003d971a5e770so2626683wmq.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 09:37:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9gCpV0dGtCCGp1jPgBtNFnuKxWWQi0wqnd//45zEPmE=;
- b=ATjZn1Gfr1drhEmxRN3I8+yvoa/V8wCLSfGFkjbEYTFfPrJ17INQNth098GTqt15nf
- mflAXIrmw5FnYQ8m/88vDDLx+gS0Db/JJHJVQLWVPaDjK0v5aNBxF13NBFLg/YEChQ5k
- ewRhZf6+IVYH9tofwtp5ljNclY0C/6JY4Zt0JJiDcSN6qevZ9b+gVwEpEyC6JASMBoh2
- VAxwmXEWuCUfhdQRl61JNtn82nD/tON4qlindF3RKvEwbfXbYn4inyjlCV/+0yZ/nZUw
- W23gZmhuIiVAGVCiMYkgr6NywbeatuQcE0RrbNXnqikb8/MGstcfWnx91KDa0B3oHZTk
- grLg==
-X-Gm-Message-State: AFqh2koZgNOJJUWX5aR5IaJc6u2OPtAZP+wwP5gcJ8bYbA4bE+TKiDdY
- qECYVnLrHCDWgPNn7OJx1iM5hytwBSVwlKweKP1XDDNZLTYJhv5IV5wIyQT7frajg7TcNRO2QQY
- MEzhaYa3YkyEzmaFVHZSjh/JOz15R
-X-Received: by 2002:a7b:cd99:0:b0:3d3:5506:1bac with SMTP id
- y25-20020a7bcd99000000b003d355061bacmr42940020wmj.30.1673113014604; 
- Sat, 07 Jan 2023 09:36:54 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtq5O2gMQwBFZYJBuaPTxiyhl5nYlsXlZhAewhas7TQGY9Hr/5ja8BEgFOpLT7ZHXkopoF13A==
-X-Received: by 2002:a7b:cd99:0:b0:3d3:5506:1bac with SMTP id
- y25-20020a7bcd99000000b003d355061bacmr42940017wmj.30.1673113014449; 
- Sat, 07 Jan 2023 09:36:54 -0800 (PST)
+ bh=7UoklNV81MeruvhksD2tLEyE1RirxLyKZBOM7SqghhQ=;
+ b=uqN46BcQPqb2dDpUijoOF5BEp3uoCSwQds5rDSrGU6AiBExw/SISIAxKdMgk6/tC+x
+ bVinTe1KK4FxU5V+DCPB0llj3hSdOLLwSeWCCiimYFYs11VG3eQSsXt0tP/QX9CunPvT
+ NxBvV2/uMCTHd90vBkbV6fCiMQikNg49ebGOTs06n91iAHNzfZhZ1mi9199j8yrHjKNF
+ aw+Sju/rhJKCtO1Fv3fK6SmWRwbZYViMfvITeOVqyfQN2RT+JnaRfpx75Kyx/jMAFZeU
+ GnxmHWOqii0mbZL3O408oDyB7CubKyvl2iYHvlzvpUZN5jtS/CEaLKiQw/hj0nfuvk9k
+ nHQA==
+X-Gm-Message-State: AFqh2krSZDNOfLveaMBUKrriGuXwai0PqY0ocAl5EIvZOpQWelsS4IbH
+ BdLFIJpJrZ21afTRMgqUvYosD39eTetOgJR9K6q7/0R98ittWUdg2iariuJJ9Qu6S6GJ6CHT/jj
+ XNsLttMB15FLx40rgLwA+tFaYqj+F
+X-Received: by 2002:a5d:5085:0:b0:2bb:de29:5c16 with SMTP id
+ a5-20020a5d5085000000b002bbde295c16mr239680wrt.71.1673113061452; 
+ Sat, 07 Jan 2023 09:37:41 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuXSl8k0AQ+AaxiYKIpWccEMhElgIT4iXKymRjmLW3+uJy2TLemfEx8jQfkke3BL6dpkW4FoQ==
+X-Received: by 2002:a5d:5085:0:b0:2bb:de29:5c16 with SMTP id
+ a5-20020a5d5085000000b002bbde295c16mr239674wrt.71.1673113061253; 
+ Sat, 07 Jan 2023 09:37:41 -0800 (PST)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- m8-20020a5d6a08000000b002a1ae285bfasm4291978wru.77.2023.01.07.09.36.53
+ o14-20020a5d58ce000000b002879c013b8asm4292158wrf.42.2023.01.07.09.37.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 Jan 2023 09:36:53 -0800 (PST)
-Message-ID: <8110a6b7-dacb-57d3-a9fd-b2caf9899ab9@redhat.com>
-Date: Sat, 7 Jan 2023 18:36:52 +0100
+ Sat, 07 Jan 2023 09:37:40 -0800 (PST)
+Message-ID: <033857f1-f52d-1fec-b998-a801b04a7033@redhat.com>
+Date: Sat, 7 Jan 2023 18:37:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH v2 1/2] drm/mipi-dsi: Fix mipi_dsi_dcs_write_seq() macro
- definition format
-To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 2/2] drm/mipi-dsi: Add a mipi_dsi_dcs_write_seq() macro
+To: linux-kernel@vger.kernel.org
 References: <20230102202542.3494677-1-javierm@redhat.com>
- <Y7M+6gdQM/4DhQsP@ravnborg.org>
+ <20230102202542.3494677-2-javierm@redhat.com>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <Y7M+6gdQM/4DhQsP@ravnborg.org>
+In-Reply-To: <20230102202542.3494677-2-javierm@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -87,24 +86,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Nick Desaulniers <ndesaulniers@google.com>, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
- dri-devel@lists.freedesktop.org, Tom Rix <trix@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/2/23 21:30, Sam Ravnborg wrote:
-> On Mon, Jan 02, 2023 at 09:25:41PM +0100, Javier Martinez Canillas wrote:
->> Change made using a `clang-format -i include/drm/drm_mipi_dsi.h` command.
->>
->> Suggested-by: Sam Ravnborg <sam@ravnborg.org>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+On 1/2/23 21:25, Javier Martinez Canillas wrote:
+> Many panel drivers define dsi_dcs_write_seq() and dsi_generic_write_seq()
+> macros to send DCS commands and generic write packets respectively, with
+> the payload specified as a list of parameters instead of using arrays.
 > 
-> Thanks,
+> There's already a macro for the former, introduced by commit 2a9e9daf75231
+> ("drm/mipi-dsi: Introduce mipi_dsi_dcs_write_seq macro") so drivers can be
+> changed to use that. But there isn't one yet for the latter, let's add it.
 > 
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
->> ---
+> ---
 
 Pushed to drm-misc (drm-misc-next). Thanks!
 
