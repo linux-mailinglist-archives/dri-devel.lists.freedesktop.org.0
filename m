@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53338660D1D
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 09:57:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E30660D29
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 10:16:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14B3B10E0CC;
-	Sat,  7 Jan 2023 08:57:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0A0810E189;
+	Sat,  7 Jan 2023 09:16:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com
- [IPv6:2607:f8b0:4864:20::d32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 757C810E0CC
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 08:57:48 +0000 (UTC)
-Received: by mail-io1-xd32.google.com with SMTP id 3so1859503iou.12
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 00:57:48 -0800 (PST)
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com
+ [IPv6:2607:f8b0:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3BAC10E189
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 09:16:47 +0000 (UTC)
+Received: by mail-il1-x12b.google.com with SMTP id c20so2187556ilj.10
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 01:16:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=UaNgvexmJZouLumz2Hx1He28hMYgrYY+xTAVH7s69FM=;
- b=USC/6TTWY3c9bq0vKbvX+VWUwpXRkXdBVEauttbI7B/ZQ1oIkIZNu1Yo09lwc7bODo
- QCeJkFoz0u3wjOvokRLMOJCuh0pQLovmrLZaJqZUkoGcDAXJjZuRBlsC/ypwOPYM3Np1
- JVnfVqUGM7cQv7XazXT4n7qSdn+bJ6ijtwrAM=
+ bh=RW3tgbxJ4a2R6Lr3hH31QiBztWxbB+zFWSFDhcB5PzA=;
+ b=KKfAvH6c6JEgsJOT6JY3oShOZFTY6igTfAUjUAfOvO3ZTBJILFDvW/q3p4JG0BSbDr
+ K+YbSwq/zOnsJrBIbou5SGfbimt6dioyluqbq/pPcOoA+YAVcadHQdaZXpG9VwkfjrXq
+ p0GnhAoCy+/LFON2ea16s1HP+P1sjTyceRnXM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=UaNgvexmJZouLumz2Hx1He28hMYgrYY+xTAVH7s69FM=;
- b=o0hlGnoRu7Rl+QS1mH+jhqgN0pQJkKczM1YV0p3XyhdhvA0h/y5kRY7uKPlqiH1f+A
- mAG7JGXdFlxAz1i7DNL8eNaeHylWZTJ0OZUxDPUd9KHmXKIyST9jaX1wjly8NEfucYau
- nWuv/Ha1EplLxtgswViFoDSV9MAkrvxWuj4lYmWb3cRwlrPf6MU0J6gbo5FizlruvXiR
- OQnZ1hC/lsQHcsm3GB32SLYtOznhVtPYlS0EI1Jcf2lqR1Bf1ZgXNI+I+Qu4mtrKej7j
- n0s/vwbA0yR5qEZsSiaCFZGi4Pb2NM11uzRp6sIXiR8K9QpV0yoWEbPkF1v3dAlDh/g9
- WZ8Q==
-X-Gm-Message-State: AFqh2koZhOes35am+2RwTR1icYTfARbW0VhuYEmFEqF9vYY8fLaOOGz1
- 5MQdRW9Ad8+ofrc/8XtiOe0V1ON3tie03ttN2e+F+g==
-X-Google-Smtp-Source: AMrXdXvTC4JQ09AhshynrLdlXh3M+Z6nMNmW5qrLRJOovdkW8noIBriyLLrx6Nomzovk/IWfzQDu/aOoojNHuYEKlrY=
-X-Received: by 2002:a05:6638:58:b0:38a:9192:2ba6 with SMTP id
- a24-20020a056638005800b0038a91922ba6mr5151511jap.76.1673081867592; Sat, 07
- Jan 2023 00:57:47 -0800 (PST)
+ bh=RW3tgbxJ4a2R6Lr3hH31QiBztWxbB+zFWSFDhcB5PzA=;
+ b=caD3RBUP04jJYzAkVeu0+1do/eT9Llz3JL2Qb/DjfNNAP5wuq+rSiXMZDIN6NYKCSv
+ Wjaw3tC0k5nHj0pLulfo/CnxiGYq51pBTJUlOnHJ02FXsJmhE1F9ZkztKxpiXf3WZt3v
+ YIgcOgeUQqI1e68r3c+kDsecvDVonpU6eHjPp1x/puwXmb+6DNwpUKGTZGvmWwoxPNPi
+ hM2q3ZlxT524rXqukdMICpOEFxr/WEYMEdA0SDX9tALaKp9YefClEq8upvuSX+/fsste
+ ak01pbfRjsIPkcUulKwXRetdqJiKKAIgO/9kLGtZNEQl3wtxynlGUpTiRIRKYO4DOrPl
+ qwxQ==
+X-Gm-Message-State: AFqh2krvHhSwNcJMw0/7nx+x7QvrgMiLhaQhKj37KTUhXbD8uVeZulGH
+ 2mql5owcSqawElpM4Hj70Dqs3YpCm5b6IBqjlmXYvA==
+X-Google-Smtp-Source: AMrXdXtBMzB4lO1Yn6qSZ1CSDd89k7nZTSy0I48BAfgZ30l48dPrz+xuh/08ZScwMOp5MGwUZ1rNJl0wH1TYIiXt25E=
+X-Received: by 2002:a05:6e02:2141:b0:30d:8aeb:9b11 with SMTP id
+ d1-20020a056e02214100b0030d8aeb9b11mr588524ilv.293.1673083006788; Sat, 07 Jan
+ 2023 01:16:46 -0800 (PST)
 MIME-Version: 1.0
 References: <20230105132457.4125372-1-treapking@chromium.org>
- <20230105132457.4125372-3-treapking@chromium.org>
- <Y7btq4kLxrE4v3TL@smile.fi.intel.com>
-In-Reply-To: <Y7btq4kLxrE4v3TL@smile.fi.intel.com>
+ <20230105132457.4125372-4-treapking@chromium.org>
+ <Y7bvnOLcuJvvp/v1@smile.fi.intel.com>
+In-Reply-To: <Y7bvnOLcuJvvp/v1@smile.fi.intel.com>
 From: Pin-yen Lin <treapking@chromium.org>
-Date: Sat, 7 Jan 2023 16:57:36 +0800
-Message-ID: <CAEXTbpcwKnMQ1=D940bf2GUNdK3K+-bhnOs2r5fwuTW+ozQajA@mail.gmail.com>
-Subject: Re: [PATCH v7 2/9] platform/chrome: cros_ec_typec: Purge blocking
- switch devlinks
+Date: Sat, 7 Jan 2023 17:16:35 +0800
+Message-ID: <CAEXTbpdg9C5pFVXo7fKSc_vWAczv_OthjbRA7DZVnENuNfwQfA@mail.gmail.com>
+Subject: Re: [PATCH v7 3/9] drm/display: Add Type-C switch helpers
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,22 +66,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
- chrome-platform@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>,
+ Guenter Roeck <groeck@chromium.org>, Kees Cook <keescook@chromium.org>,
+ Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
+ Javier Martinez Canillas <javierm@redhat.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
  devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
  =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jani Nikula <jani.nikula@intel.com>,
+ Allen Chen <allen.chen@ite.com.tw>, Stephen Boyd <swboyd@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+ shaomin Deng <dengshaomin@cdjrlc.com>, Thomas Zimmermann <tzimmermann@suse.de>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
  Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
- Prashant Malani <pmalani@chromium.org>
+ Prashant Malani <pmalani@chromium.org>,
+ Khaled Almahallawy <khaled.almahallawy@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -90,73 +93,100 @@ Hi Andy,
 
 Thanks for the review.
 
-On Thu, Jan 5, 2023 at 11:34 PM Andy Shevchenko
+On Thu, Jan 5, 2023 at 11:41 PM Andy Shevchenko
 <andriy.shevchenko@linux.intel.com> wrote:
 >
-> On Thu, Jan 05, 2023 at 09:24:50PM +0800, Pin-yen Lin wrote:
-> > From: Prashant Malani <pmalani@chromium.org>
+> On Thu, Jan 05, 2023 at 09:24:51PM +0800, Pin-yen Lin wrote:
+> > Add helpers to register and unregister Type-C "switches" for bridges
+> > capable of switching their output between two downstream devices.
 > >
-> > When using OF graph, the fw_devlink code will create links between the
-> > individual port driver (cros-ec-typec here) and the parent device for
-> > a Type-C switch (like mode-switch). Since the mode-switch will in turn
-> > have the usb-c-connector (i.e the child of the port driver) as a
-> > supplier, fw_devlink will not be able to resolve the cyclic dependency
-> > correctly.
-> >
-> > As a result, the mode-switch driver probe() never runs, so mode-switches
-> > are never registered. Because of that, the port driver probe constantly
-> > fails with -EPROBE_DEFER, because the Type-C connector class requires all
-> > switch devices to be registered prior to port registration.
-> >
-> > To break this deadlock and allow the mode-switch registration to occur,
-> > purge all the usb-c-connector nodes' absent suppliers. This eliminates
-> > the connector as a supplier for a switch and allows it to be probed.
->
-> > Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> >
-> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
->
-> Tag block mustn't have the blank line(s).
+> > The helper registers USB Type-C mode switches when the "mode-switch"
+> > and the "data-lanes" properties are available in Device Tree.
 >
 > ...
 >
-> > +     /*
-> > +      * OF graph may have set up some device links with switches, since
-> > +      * connectors have their own compatible. Purge these to avoid a deadlock
-> > +      * in switch probe (the switch mistakenly assumes the connector is a
-> > +      * supplier).
-> > +      */
+> > +     port_data->typec_mux = typec_mux_register(dev, &mux_desc);
+> > +     if (IS_ERR(port_data->typec_mux)) {
+> > +             ret = PTR_ERR(port_data->typec_mux);
+> > +             dev_err(dev, "Mode switch register for port %d failed: %d\n",
+> > +                     port_num, ret);
+> > +     }
+> > +
+> > +     return ret;
 >
-> Perhaps even
+> ...
 >
->         /*
->          * OF graph may have set up some device links with switches,
->          * since connectors have their own compatible. Purge these
->          * to avoid a deadlock in switch probe (the switch mistakenly
->          * assumes the connector is a supplier).
->          */
+> > +     struct device_node *sw;
 >
-> ?
-I can update this in v8, though I wonder why shorter comments are
-preferred as they haven't exceeded the 80-character length
-requirement.
+> > +     int ret = 0;
 >
-> > +     if (dev->of_node)
+> It's easy to break things if you squeeze more code in the future in this
+> function, so I recommend to split assignment to be closer to its first user
+> (see below).
 >
-> I would use if (dev_of_node(dev)), but it's up to you and maintainers.
+> > +     for_each_child_of_node(port, sw) {
+> > +             if (of_property_read_bool(sw, "mode-switch"))
+> > +                     switch_desc->num_typec_switches++;
+> > +     }
+> > +
+> > +     if (!switch_desc->num_typec_switches) {
+> > +             dev_warn(dev, "No Type-C switches node found\n");
+>
+> > +             return ret;
+>
+> return 0;
 
-dev_of_node looks a bit better as it checks the enabled config for us.
-I'll update this in v8.
-
+Thanks for the suggestion. I'll update this in v8.
 >
-> > +             device_for_each_child_node(dev, fwnode)
-> > +                     fw_devlink_purge_absent_suppliers(fwnode);
+> > +     }
+> > +
+> > +     switch_desc->typec_ports = devm_kcalloc(
+> > +             dev, switch_desc->num_typec_switches,
+> > +             sizeof(struct drm_dp_typec_port_data), GFP_KERNEL);
+> > +
+> > +     if (!switch_desc->typec_ports)
+> > +             return -ENOMEM;
+>
+> > +     /* Register switches for each connector. */
+> > +     for_each_child_of_node(port, sw) {
+> > +             if (!of_property_read_bool(sw, "mode-switch"))
+> > +                     continue;
+> > +             ret = drm_dp_register_mode_switch(dev, sw, switch_desc, data, mux_set);
+> > +             if (ret) {
+> > +                     dev_err(dev, "Failed to register mode switch: %d\n", ret);
+> > +                     of_node_put(sw);
+> > +                     break;
+> > +             }
+> > +     }
+>
+> > +     if (ret)
+> > +             drm_dp_unregister_typec_switches(switch_desc);
+> > +
+> > +     return ret;
+>
+> Why not adding a goto label?
+
+I didn't know that goto label is preferred even when there are no
+duplicated code blocks in the function.
+
+I'll update this accordingly in v8.
+>
+>                 ret = drm_dp_register_mode_switch(dev, sw, switch_desc, data, mux_set);
+>                 if (ret)
+>                         goto err_unregister_typec_switches;
+>
+>         return 0;
+>
+> err_unregister_typec_switches:
+>         of_node_put(sw);
+>         drm_dp_unregister_typec_switches(switch_desc);
+>         dev_err(dev, "Failed to register mode switch: %d\n", ret);
+>         return ret;
 >
 > --
 > With Best Regards,
 > Andy Shevchenko
 >
 >
-
 Best regards,
 Pin-yen
