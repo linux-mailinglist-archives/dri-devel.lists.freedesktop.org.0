@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1602B660DC6
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 11:23:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD5A2660DCA
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 11:23:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D03C10E195;
-	Sat,  7 Jan 2023 10:23:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 073FE10E199;
+	Sat,  7 Jan 2023 10:23:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A7CF10E195
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 10:23:06 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id v23so3930437pju.3
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 02:23:06 -0800 (PST)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B46210E199
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 10:23:12 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id c4so4301973plc.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 02:23:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3S5t/68Sc4/I3QhgTzdc3biXkZb8n4w5hwbgjthP5iA=;
- b=iRDvM88FA/v/BgsXln4muPJMcNVgdMt2+8Kg9RtozhyMdRWwKSSWBqPqgQFxojRAWu
- 9edeyIyZKf94BdFBPe07/d1y5jxZJLv8IA0RZE/ozZ4zq+I35DuN3tkQvvPOdYZCmcY4
- hTuIlwnvgpUSCcIttro3VORJ0AIjBXWA8YQhg=
+ bh=C65HbTqm4aoCrwDl2BLz1roa80SXzNKa5x0ufot4CrI=;
+ b=NhvSun8IDngMENCKoe60MmVhh6WR87sqakP2KpY6QRkgQDyzSV4zsnKPfvJG8gHiq0
+ FIhzMtiK6DfyKs5QTX8SRtKnke1sBBuJmKa/xMcBxiLATItah+clJGd2/PMhl0YiMmX2
+ zBoBeykpq0FMW3KusqpsNweM00yVzZSwO3lN0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3S5t/68Sc4/I3QhgTzdc3biXkZb8n4w5hwbgjthP5iA=;
- b=q89NWgHhCsZGlBbfpzrM/gAGk6dlTWhWAST+vka9fGLdagavKGFVSUPz0IWjYraFBm
- pDWMPtx18lPelA4AZFAIhy8Oy/S3EyIHB3YeUiRMfaRsMTd0t3b+oKiqHMUhI80f0Y9T
- wYsn1FyuVtj+F0axT4gIXDgIqHcKO08APosg9P5mi/t6bxL/25j/4Ber4oubErnYGxEC
- 1JsRcnH9TC6fnA1vmcrd6LsVySym75ITlnuaE24nnmkWHLkJRhzanhs4/Cu2tGp9795f
- a8Bw7bC8OrUiI0wzv5UNnHI5F3nT9goQwMBalF4w5ehLCPa8JzlezBX9Q/1buTxyqLD0
- 3dxQ==
-X-Gm-Message-State: AFqh2koXDe9c7q7MQiSe+jDGEzPxSC4SilnbRd5fd+q6IUK6aUmkKfdy
- gAsZNXLpyvOyAG0g0dJRMm7wPA==
-X-Google-Smtp-Source: AMrXdXvAkDEaLIlYWujupZOqV82RJZ1RupyZAwcJ+M/u56ufJGv/dKJrl7hd4Fz5TmGm20rZuFDgXA==
-X-Received: by 2002:a05:6a20:13a0:b0:9d:efbe:a0f5 with SMTP id
- w32-20020a056a2013a000b0009defbea0f5mr92391220pzh.5.1673086985804; 
- Sat, 07 Jan 2023 02:23:05 -0800 (PST)
+ bh=C65HbTqm4aoCrwDl2BLz1roa80SXzNKa5x0ufot4CrI=;
+ b=rHUNRRv3JHHMzsBjpk8SIQ/4WJRUtcYu6vAJZ1POYIMpxGPY0uOI1mYLRs/30+SZSG
+ MgSrtA8E74Lj2GTkl7Yb1X94NrDlUErZ1Jrqw8wNXWp2hnmGN3S3L4kdyNUT76wVHf5E
+ cTRxkbnp0VWQsQxFqPPYbSt5NTABgj/3+Hw184/shZdZPPddN3V212bDT2UzZlXtyPQN
+ kL9kpJD9zceSDJlviDf8TiI0Z4TCssgqpRQHSUOicoJ7cqIk7w2r3i64RgElR72xgRRf
+ /ZgQDhpNcHMnCC9U1TlCJ7KczCQUJet86IzKfjdNqr0rLrxoZddjybJ5jl+lbqNK57pQ
+ dtLw==
+X-Gm-Message-State: AFqh2krwVSZVlxnniYsiOHMGPkXrLNngYUkN7dqp9a8+6UnvUWrPh7Qq
+ B8dVVveQkTWvV9RnhZVXytdmyg==
+X-Google-Smtp-Source: AMrXdXtKqkodLXKQ6L9lwT8I5s1zHF1tdk4y+K3o9uMXCwdynIyecE2h1Ccix3uFPElYDEpup+JenQ==
+X-Received: by 2002:a17:903:3311:b0:186:a7ff:e8ad with SMTP id
+ jk17-20020a170903331100b00186a7ffe8admr58281256plb.24.1673086991889; 
+ Sat, 07 Jan 2023 02:23:11 -0800 (PST)
 Received: from treapking.tpe.corp.google.com
  ([2401:fa00:1:10:180d:95e8:f4:84fb])
  by smtp.gmail.com with ESMTPSA id
- b1-20020a170903228100b001892af9472esm2366362plh.261.2023.01.07.02.23.00
+ b1-20020a170903228100b001892af9472esm2366362plh.261.2023.01.07.02.23.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Jan 2023 02:23:05 -0800 (PST)
+ Sat, 07 Jan 2023 02:23:11 -0800 (PST)
 From: Pin-yen Lin <treapking@chromium.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
@@ -64,10 +64,10 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  "Rafael J . Wysocki" <rafael@kernel.org>,
  Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>,
  Guenter Roeck <groeck@chromium.org>
-Subject: [PATCH v8 4/9] dt-bindings: display: bridge: anx7625: Add mode-switch
- support
-Date: Sat,  7 Jan 2023 18:22:26 +0800
-Message-Id: <20230107102231.23682-5-treapking@chromium.org>
+Subject: [PATCH v8 5/9] drm/bridge: anx7625: Check for Type-C during panel
+ registration
+Date: Sat,  7 Jan 2023 18:22:27 +0800
+Message-Id: <20230107102231.23682-6-treapking@chromium.org>
 X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
 In-Reply-To: <20230107102231.23682-1-treapking@chromium.org>
 References: <20230107102231.23682-1-treapking@chromium.org>
@@ -98,167 +98,57 @@ Cc: Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Analogix 7625 can be used in systems to switch the DP traffic between
-two downstreams, which can be USB Type-C DisplayPort alternate mode
-lane or regular DisplayPort output ports.
+The output port endpoints can be connected to USB-C connectors.
+Running drm_of_find_panel_or_bridge() with such endpoints leads to
+a continuous return value of -EPROBE_DEFER, even though there is
+no panel present.
 
-Update the binding to accommodate this usage by introducing a
-data-lanes and a mode-switch property on endpoints.
-
-Also include the link to the product brief in the bindings.
+To avoid this, check for the existence of a "mode-switch" property in
+the port endpoint, and skip panel registration completely if so.
 
 Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 
 ---
 
-Changes in v8:
-- Updated anx7625 bindings for data-lane property
-- Fixed the subject prefix
-
-Changes in v7:
-- Fixed issues reported by dt_binding_check
-- Updated the schema and the example dts for data-lanes.
-- Changed to generic naming for the example dts node.
+(no changes since v6)
 
 Changes in v6:
-- Remove switches node and use endpoints and data-lanes property to
-  describe the connections.
+- New in v6
 
- .../display/bridge/analogix,anx7625.yaml      | 99 ++++++++++++++++++-
- 1 file changed, 96 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-index 4590186c4a0b..b49a350c40e3 100644
---- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-@@ -12,7 +12,8 @@ maintainers:
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index b375887e655d..1cf242130b91 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -1649,7 +1649,7 @@ static int anx7625_get_swing_setting(struct device *dev,
+ static int anx7625_parse_dt(struct device *dev,
+ 			    struct anx7625_platform_data *pdata)
+ {
+-	struct device_node *np = dev->of_node, *ep0;
++	struct device_node *np = dev->of_node, *ep0, *sw;
+ 	int bus_type, mipi_lanes;
  
- description: |
-   The ANX7625 is an ultra-low power 4K Mobile HD Transmitter
--  designed for portable devices.
-+  designed for portable devices. Product brief is available at
-+  https://www.analogix.com/en/system/files/AA-002291-PB-6-ANX7625_ProductBrief.pdf
+ 	anx7625_get_swing_setting(dev, pdata);
+@@ -1688,6 +1688,17 @@ static int anx7625_parse_dt(struct device *dev,
+ 	if (of_property_read_bool(np, "analogix,audio-enable"))
+ 		pdata->audio_en = 1;
  
- properties:
-   compatible:
-@@ -112,10 +113,48 @@ properties:
-               data-lanes: true
- 
-       port@1:
--        $ref: /schemas/graph.yaml#/properties/port
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-         description:
-           Video port for panel or connector.
- 
-+        patternProperties:
-+          "^endpoint@[01]$":
-+            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-+            unevaluatedProperties: false
++	/*
++	 * Don't bother finding a panel if a Type-C `mode-switch` property is
++	 * present in one of the endpoints.
++	 */
++	for_each_endpoint_of_node(np, sw) {
++		if (of_property_read_bool(sw, "mode-switch")) {
++			of_node_put(sw);
++			return 0;
++		}
++	}
 +
-+            properties:
-+              reg:
-+                maxItems: 1
-+
-+              remote-endpoint: true
-+
-+              data-lanes:
-+                oneOf:
-+                  - items:
-+                      - enum: [0, 1, 2, 3]
-+
-+                  - items:
-+                      - const: 0
-+                      - const: 1
-+
-+                  - items:
-+                      - const: 2
-+                      - const: 3
-+
-+                  - items:
-+                      - const: 0
-+                      - const: 1
-+                      - const: 2
-+                      - const: 3
-+
-+              mode-switch:
-+                type: boolean
-+                description: Register this node as a Type-C mode switch or not.
-+
-+            required:
-+              - reg
-+              - remote-endpoint
-+
-     required:
-       - port@0
-       - port@1
-@@ -164,8 +203,12 @@ examples:
-                 };
- 
-                 mipi2dp_bridge_out: port@1 {
-+                    #address-cells = <1>;
-+                    #size-cells = <0>;
-+
-                     reg = <1>;
--                    anx7625_out: endpoint {
-+                    anx7625_out: endpoint@0 {
-+                        reg = <0>;
-                         remote-endpoint = <&panel_in>;
-                     };
-                 };
-@@ -186,3 +229,53 @@ examples:
-             };
-         };
-     };
-+  - |
-+    i2c3 {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        encoder@58 {
-+            compatible = "analogix,anx7625";
-+            reg = <0x58>;
-+            pinctrl-names = "default";
-+            pinctrl-0 = <&anx7625_dp_pins>;
-+            enable-gpios = <&pio 176 GPIO_ACTIVE_HIGH>;
-+            reset-gpios = <&pio 177 GPIO_ACTIVE_HIGH>;
-+            vdd10-supply = <&pp1100_dpbrdg>;
-+            vdd18-supply = <&pp1800_dpbrdg_dx>;
-+            vdd33-supply = <&pp3300_dpbrdg_dx>;
-+            analogix,audio-enable;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    anx7625_dp_in: endpoint {
-+                        bus-type = <7>;
-+                        remote-endpoint = <&dpi_out>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    #address-cells = <1>;
-+                    #size-cells = <0>;
-+
-+                    reg = <1>;
-+                    anx_typec0: endpoint@0 {
-+                        reg = <0>;
-+                        mode-switch;
-+                        data-lanes = <0 1>;
-+                        remote-endpoint = <&typec_port0>;
-+                    };
-+                    anx_typec1: endpoint@1 {
-+                        reg = <1>;
-+                        mode-switch;
-+                        data-lanes = <2 3>;
-+                        remote-endpoint = <&typec_port1>;
-+                    };
-+                };
-+            };
-+        };
-+    };
+ 	pdata->panel_bridge = devm_drm_of_get_bridge(dev, np, 1, 0);
+ 	if (IS_ERR(pdata->panel_bridge)) {
+ 		if (PTR_ERR(pdata->panel_bridge) == -ENODEV) {
 -- 
 2.39.0.314.g84b9a713c41-goog
 
