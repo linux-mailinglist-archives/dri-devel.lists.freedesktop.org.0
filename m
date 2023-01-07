@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F31A666114B
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 20:19:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D054166114C
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 20:19:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 605A610E35E;
-	Sat,  7 Jan 2023 19:19:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04F5010E35F;
+	Sat,  7 Jan 2023 19:19:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2486510E363
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 19:18:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0609D10E362
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 19:18:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673119129;
+ s=mimecast20190719; t=1673119128;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ohrbxQv6h3PG5DHv8u6fpyUTGyDJJgNcSIIf21QBvAc=;
- b=cfesXPwbV9PZttI9/OH9EJh6knioGcyIZyEtTqd99DA21+JKauPQ4U/iuMcL/rOiARDZ2q
- CGD/Od0azgbuhCicXxmK1ORy8FhP4Vow/nXAexyDIGqOspge3xKQZ7ka4H6JQHiG08QXDj
- M+aIiwmh3bx6NHiXzf6lZfSuK+4VQu0=
+ bh=vpnPFBzRW6eHCPCk8Ls0t1EZjEyRqRYmlX28Isym++A=;
+ b=he0hPdRcG/HVoYCV3S4vM9D7MS/6oYkZLAAR6F43Uv3wUGnt6DhchRMaYSSenttn8eb+SX
+ 0x97tf/ImSYqvNCpw852KEl8KIQ5uNoxND3ZaUi5sw4kKwJ6QMr9bGwZLBn2dLlkFPZKo0
+ CVTb9guVFLu4wDfUHBfbWfGUEaEaAAE=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-491-b3cXEWzJOHuIdac3GqBGuw-1; Sat, 07 Jan 2023 14:18:45 -0500
-X-MC-Unique: b3cXEWzJOHuIdac3GqBGuw-1
+ us-mta-5-5O1cn2SCPQOV9gh0fETlsg-1; Sat, 07 Jan 2023 14:18:46 -0500
+X-MC-Unique: 5O1cn2SCPQOV9gh0fETlsg-1
 Received: by mail-wm1-f72.google.com with SMTP id
- l9-20020a7bc349000000b003d35aa4ed8eso999944wmj.0
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 11:18:45 -0800 (PST)
+ c7-20020a1c3507000000b003d355c13ba8so2710011wma.6
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 11:18:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ohrbxQv6h3PG5DHv8u6fpyUTGyDJJgNcSIIf21QBvAc=;
- b=PIGXiiwR4uNdM1sXyVxMZKHF/RhQniCysfng4TTZ5PHA74LLtuMa6J9vGtpIAyrNIJ
- L5rC9lQdqcrrcpquMR2iQe8yGLs2y6Ttr3NaOy/7OzKiCC/m8ZFcYnV0MwwXJFl4NT3Q
- eJQASV1RSBE7LJz8mwjXcm+8NVXn00RT1N9BG0+6KM2TPNCIp7knkVvXOr1uYJI0KTpq
- t/JG7hf+HrY6zfuVibNB05yWMO1gmuFTWHQr0QDUIoHSVw+BDNuJBTEH8AbUsGjBq9Wo
- J497a1j5bTdJkzQdWVGAglgvvkbAeFuPBKdMekizi0vM9E5Ii4gfNd//m1d6o2tVQExp
- q6ww==
-X-Gm-Message-State: AFqh2kp8CKd7JglD48OAlChPUdGkMkoUMp8BpcOfzLiu8nCXUmAZ0ca9
- QzWPyD4uYpT+XAI+QeSwq4n9lI2B8ouJPeo13N0KR1Btk8QPO4QG20ZAMG99huW2pgmVGfnC8K0
- iurcx32KpiMIQNTgOrPd7W9zAXw5z
-X-Received: by 2002:adf:f701:0:b0:2bb:1b2f:a1c0 with SMTP id
- r1-20020adff701000000b002bb1b2fa1c0mr3257687wrp.3.1673119124542; 
- Sat, 07 Jan 2023 11:18:44 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsevxsa04SlPZ2Vk1dvrP8Hj/YN2EMVPmlBsTKISQMZmGZE2TJABC9oo+kDkGHsmPPutOYx8Q==
-X-Received: by 2002:adf:f701:0:b0:2bb:1b2f:a1c0 with SMTP id
- r1-20020adff701000000b002bb1b2fa1c0mr3257680wrp.3.1673119124343; 
- Sat, 07 Jan 2023 11:18:44 -0800 (PST)
+ bh=vpnPFBzRW6eHCPCk8Ls0t1EZjEyRqRYmlX28Isym++A=;
+ b=HZ95bssVOTzEI+yxjMUo/tBmoyrzwzgkJyGOITCHoFnpCDmw6OElNu/PbXUtGS8VqU
+ v/iM8QP6lR+Ag1hsy44NWDe2e3InAOtUbeVy2FxulBcDSGAT8oGF4mKUua6ERhYzjenp
+ NOVp1u7fwxyxvrkQAFAeYItK2Y3+Ylhk4xWN1uq5Joz4SwL/EZeznOd63Lcbcx3HbhED
+ Dt7h9H2HuS0CQJ9lTMCYWbXsfdqsjyS9aDiSiMMigAJWJ6aqQdNAHtyafnc5HPcW8qMr
+ dTKm+8KNNVfrcxZtT+tOjb4+SZQp8azuP38mdpx107pRhoMUaWDPqbGsCjC7fNCpj7g8
+ EcsQ==
+X-Gm-Message-State: AFqh2kpBurliShjYjCs7dSXrO/qwozN6s8GgxYkYUOkalbDoplIpBxcC
+ dmXg0dfVCiiG3KLfn0pdvjjD/XCZpFPcgs7vZxUqEZE8Lr0kiuWuZ75rio02J/MZxofOphCQmJ1
+ 7dQBdkwz0SGx6v1gzGMVZyO1sAE9X
+X-Received: by 2002:a5d:620f:0:b0:242:9e3:72b8 with SMTP id
+ y15-20020a5d620f000000b0024209e372b8mr43020251wru.31.1673119125784; 
+ Sat, 07 Jan 2023 11:18:45 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvGRowZHlkk4D63NFUoqF99EB2JPISpBuBanleVv/OAGREuj85b6r46NB2BstsyZH7AAsnhZQ==
+X-Received: by 2002:a5d:620f:0:b0:242:9e3:72b8 with SMTP id
+ y15-20020a5d620f000000b0024209e372b8mr43020244wru.31.1673119125605; 
+ Sat, 07 Jan 2023 11:18:45 -0800 (PST)
 Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- bp28-20020a5d5a9c000000b00273cd321a1bsm4553900wrb.107.2023.01.07.11.18.43
+ bp28-20020a5d5a9c000000b00273cd321a1bsm4553900wrb.107.2023.01.07.11.18.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Jan 2023 11:18:44 -0800 (PST)
+ Sat, 07 Jan 2023 11:18:45 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 10/13] drm/panel-sharp-ls060t1sx01: Drop custom DSI write
+Subject: [PATCH v2 11/13] drm/panel-mantix-mlaf057we51: Drop custom DSI write
  macro
-Date: Sat,  7 Jan 2023 20:18:19 +0100
-Message-Id: <20230107191822.3787147-11-javierm@redhat.com>
+Date: Sat,  7 Jan 2023 20:18:20 +0100
+Message-Id: <20230107191822.3787147-12-javierm@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230107191822.3787147-1-javierm@redhat.com>
 References: <20230107191822.3787147-1-javierm@redhat.com>
@@ -84,7 +84,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>,
+Cc: Purism Kernel Team <kernel@puri.sm>, Sam Ravnborg <sam@ravnborg.org>,
+ =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
  Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
  Thierry Reding <thierry.reding@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -100,46 +101,55 @@ Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Changes in v2:
 - Add Sam Ravnborg's Reviewed-by tag.
 
- .../gpu/drm/panel/panel-sharp-ls060t1sx01.c   | 19 ++-----------------
- 1 file changed, 2 insertions(+), 17 deletions(-)
+ .../gpu/drm/panel/panel-mantix-mlaf057we51.c  | 24 +++++++------------
+ 1 file changed, 8 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c b/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
-index 8a4e0c1fe73f..68f52eaaf4fa 100644
---- a/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
-+++ b/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
-@@ -32,12 +32,6 @@ static inline struct sharp_ls060 *to_sharp_ls060(struct drm_panel *panel)
- 	return container_of(panel, struct sharp_ls060, panel);
+diff --git a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
+index 772e3b6acece..9243b2ad828d 100644
+--- a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
++++ b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
+@@ -45,14 +45,6 @@ static inline struct mantix *panel_to_mantix(struct drm_panel *panel)
+ 	return container_of(panel, struct mantix, panel);
  }
  
--#define dsi_dcs_write_seq(dsi, seq...) ({				\
+-#define dsi_generic_write_seq(dsi, seq...) do {				\
 -		static const u8 d[] = { seq };				\
--									\
--		mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));	\
--	})
+-		int ret;						\
+-		ret = mipi_dsi_generic_write(dsi, d, ARRAY_SIZE(d));	\
+-		if (ret < 0)						\
+-			return ret;					\
+-	} while (0)
 -
- static void sharp_ls060_reset(struct sharp_ls060 *ctx)
+ static int mantix_init_sequence(struct mantix *ctx)
  {
- 	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-@@ -56,17 +50,8 @@ static int sharp_ls060_on(struct sharp_ls060 *ctx)
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+@@ -61,18 +53,18 @@ static int mantix_init_sequence(struct mantix *ctx)
+ 	/*
+ 	 * Init sequence was supplied by the panel vendor.
+ 	 */
+-	dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A);
++	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A);
  
- 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+-	dsi_generic_write_seq(dsi, MANTIX_CMD_INT_CANCEL, 0x03);
+-	dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x03);
+-	dsi_generic_write_seq(dsi, 0x80, 0xA9, 0x00);
++	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_INT_CANCEL, 0x03);
++	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x03);
++	mipi_dsi_generic_write_seq(dsi, 0x80, 0xA9, 0x00);
  
--	ret = dsi_dcs_write_seq(dsi, 0xbb, 0x13);
--	if (ret < 0) {
--		dev_err(dev, "Failed to send command: %d\n", ret);
--		return ret;
--	}
--
--	ret = dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_MEMORY_START);
--	if (ret < 0) {
--		dev_err(dev, "Failed to send command: %d\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_write_seq(dsi, 0xbb, 0x13);
-+	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_MEMORY_START);
+-	dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x09);
+-	dsi_generic_write_seq(dsi, 0x80, 0x64, 0x00, 0x64, 0x00, 0x00);
++	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x09);
++	mipi_dsi_generic_write_seq(dsi, 0x80, 0x64, 0x00, 0x64, 0x00, 0x00);
+ 	msleep(20);
  
- 	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
- 	if (ret < 0) {
+-	dsi_generic_write_seq(dsi, MANTIX_CMD_SPI_FINISH, 0xA5);
+-	dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x00, 0x2F);
++	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_SPI_FINISH, 0xA5);
++	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x00, 0x2F);
+ 	msleep(20);
+ 
+ 	dev_dbg(dev, "Panel init sequence done\n");
 -- 
 2.38.1
 
