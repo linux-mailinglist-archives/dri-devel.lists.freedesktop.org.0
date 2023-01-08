@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F07D6615F7
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Jan 2023 15:56:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 481236615FF
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Jan 2023 15:59:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60D8B10E1F1;
-	Sun,  8 Jan 2023 14:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A223910E1F2;
+	Sun,  8 Jan 2023 14:59:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 225F410E1F3
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Jan 2023 14:56:17 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id bn26so5795614wrb.0
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Jan 2023 06:56:17 -0800 (PST)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6250F10E1F2
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Jan 2023 14:59:25 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id
+ ay12-20020a05600c1e0c00b003d9ea12bafcso1759582wmb.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Jan 2023 06:59:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=faUR7WXI3JJAlq5Fj/7y4nlra1VV+37QFyTpQC1/6Os=;
- b=UhMMC5LDsUxyd0s+U1tiT9D2xjSpDzkdVdvSkLIr4Nyf04n0IWW5JprfKC0gxkLFvF
- NnyOUGVPxWGC2OAqsoXhifV+cGpbPvdnpuaIyRIpPw0mb1c5hDIfsK7A8Pvd/A4ErLfA
- EmVn3SZhrBNAAtmzlMdYbz9eurNx/Lg8XPuXjbigIAigh9cd19NvIfQPCDj25KaMOnfu
- F1Ujoco3nSOEgTVmI5ZTfF/8tordADV1/A7i13oog3WRXMQPyHXX+LxeDCxniqCMNLoB
- 0+7+mMamyDfmzgII9sLYWIxzJ1uaeaEBHJMp67wNb5TpseFlaPp+/KhKTyWwKMuGuHXL
- r25g==
+ bh=l4M/UpUULlMB/QRDK84kNKvNm3p0JIVteECSWzec3Ns=;
+ b=Mdh4xNLK5EGYOgX2nVxEUx5L1UiPB+khVNYaQfPSmQStL1BSuw5IOXtROunniO6+xe
+ KMrYehrz4oX+cRis9/L8u/Nq1Yt8UssFdNEOXzUJS7904FSWWjW2b9eZ59h3X1eFICK0
+ CivGtb6v6jrgzEm9IUafFiSY/TAVNVQXFFuQMQhQEpRlWyuaTF728gyxDJX0dt/ybM73
+ Bd9ZgMwS01+5RgMiGa8EnB6X3S4eovB0EOxkXdn5FtAYKtF211SDstDZFQuWY6zhh4w6
+ DsC4qFJZv0MvRdXUqjfW8/PLGRBYba6rjx7x35eck57r9G24WJtGBTokaHGZ3ajBtCSP
+ Lw7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=faUR7WXI3JJAlq5Fj/7y4nlra1VV+37QFyTpQC1/6Os=;
- b=NQDuIs1JWALX3DNyWkreO3igh6fSf48Rv48V6s648PD4POZOpNhx5XYoOQNh8aQSDD
- e//D3x8LojP+EqIFd2296dcWeeYdR6o153vmQfcLseO5N1zWymJC3YfaccTdtTnyN3P5
- MtxlmB47RFXUbWyshGfwYIpdHCgJ3pTP4PUV6e9yxiHB3QKgbOIRPDPegIazFPO9yAFX
- IJB+3enkL3euDglIXc7UeYB9+OH7lQ2aArVbvCZbKY+kuGf48JvKAGoDzvXNaUPbcDzG
- KMB5c4shhArvBTZQEBnQ6hcgfZF8MDUkMMUNdp0jqkIwv9/fu1Y9kieNskvsfnPSYgY+
- +PZw==
-X-Gm-Message-State: AFqh2koZz1OIBnydJwXNFgt+qCFPEfRoiz3L/KoHxUYEcFg1Z4iP3l3r
- YczWzZVzp/fO7GSGH8jJdiPWWA==
-X-Google-Smtp-Source: AMrXdXvypNaFaV4VApj/5n5B4KrLo6cyzJa/11iv0JfanR3VXSlrcyN4o5PjaNplkSLduvwAAY0GyA==
-X-Received: by 2002:a05:6000:10f:b0:286:ad19:731f with SMTP id
- o15-20020a056000010f00b00286ad19731fmr24871172wrx.19.1673189775638; 
- Sun, 08 Jan 2023 06:56:15 -0800 (PST)
+ bh=l4M/UpUULlMB/QRDK84kNKvNm3p0JIVteECSWzec3Ns=;
+ b=AJIF3sVjVH9Q97Q1UrGhY0OvMmqamm6yBxFvsePci2DGRvftO7DLIZVEJoTzEJn4sY
+ KAXtJXu/Iz/xsnq/+Uhs129+hPfW3OAu9O2EGaqg3bb8mNnOsCEhrjEzEtnZiRsELDYR
+ 9uzw3KxpcKMDU9gDxlJIYXSsF2fxvnOWD4DBQOuNuDTk5S4V4HY5eJyCf/DG6aAgO+eO
+ PNFDo1rxx4K4rQcibKTCyIPLtwFmSj5tIyBl5lfp2B8e8gItJEvff7XMyjrCr/+xuIfU
+ gzEudx0znPQ4C2L6ASPuaWkSqyZ4J2lMpLfqjtC3xyM+9YSEyMkhk8GJfhcZ07bHsS9D
+ 9Wmg==
+X-Gm-Message-State: AFqh2kqlekaQc4a1GPgXLZOXyEryzgSvpYm4jNoeezFufVzgZqzFFC/7
+ 0pumpaf48bHaLhrGq11V3+OYqA==
+X-Google-Smtp-Source: AMrXdXu36HW1suA8i90fum2DC1iUwZ6q029yvEEFPy79hWo1C+3IfHGRRRTwWy5zSQkwe5jiynSHMQ==
+X-Received: by 2002:a05:600c:3502:b0:3d9:e75c:756c with SMTP id
+ h2-20020a05600c350200b003d9e75c756cmr3336586wmq.12.1673189963864; 
+ Sun, 08 Jan 2023 06:59:23 -0800 (PST)
 Received: from [192.168.1.109] ([178.197.216.144])
  by smtp.gmail.com with ESMTPSA id
- v13-20020a5d678d000000b002bbe8686d6fsm2046811wru.117.2023.01.08.06.56.12
+ u8-20020a05600c19c800b003d9780466b0sm9203210wmq.31.2023.01.08.06.59.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 08 Jan 2023 06:56:15 -0800 (PST)
-Message-ID: <3f7e1afa-d445-453d-12fb-7c87b04c8756@linaro.org>
-Date: Sun, 8 Jan 2023 15:56:11 +0100
+ Sun, 08 Jan 2023 06:59:23 -0800 (PST)
+Message-ID: <7f672ee7-7b78-dad9-ca58-2eb4c2c2dd39@linaro.org>
+Date: Sun, 8 Jan 2023 15:59:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH v8 4/9] dt-bindings: display: bridge: anx7625: Add
+Subject: Re: [PATCH v8 7/9] dt/bindings: display: bridge: it6505: Add
  mode-switch support
 Content-Language: en-US
 To: Pin-yen Lin <treapking@chromium.org>,
@@ -75,9 +76,9 @@ To: Pin-yen Lin <treapking@chromium.org>,
  Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>,
  Guenter Roeck <groeck@chromium.org>
 References: <20230107102231.23682-1-treapking@chromium.org>
- <20230107102231.23682-5-treapking@chromium.org>
+ <20230107102231.23682-8-treapking@chromium.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230107102231.23682-5-treapking@chromium.org>
+In-Reply-To: <20230107102231.23682-8-treapking@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,21 +105,48 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 07/01/2023 11:22, Pin-yen Lin wrote:
-> Analogix 7625 can be used in systems to switch the DP traffic between
+> ITE IT6505 can be used in systems to switch the DP traffic between
 > two downstreams, which can be USB Type-C DisplayPort alternate mode
 > lane or regular DisplayPort output ports.
 > 
 > Update the binding to accommodate this usage by introducing a
 > data-lanes and a mode-switch property on endpoints.
 > 
-> Also include the link to the product brief in the bindings.
-> 
 > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 > 
 > ---
+> 
+> Changes in v8:
+> - Updated bindings for data-lanes property
+> - Fixed subject prefix
 
+How? It is still wrong. You have slash there.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+
+(...)
+
+>                  port@1 {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+>                      reg = <1>;
+> -                    it6505_out: endpoint {
+> +                    it6505_out: endpoint@0 {
+> +                        reg = <0>;
+>                          remote-endpoint = <&dp_in>;
+>                          data-lanes = <0 1>;
+>                      };
+> @@ -148,3 +173,49 @@ examples:
+>              };
+>          };
+>      };
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    i2c3 {
+
+Just i2c
+
 
 Best regards,
 Krzysztof
