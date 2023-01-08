@@ -1,60 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E5606611BD
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Jan 2023 22:03:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A1736612F3
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Jan 2023 02:59:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C893910E1CB;
-	Sat,  7 Jan 2023 21:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06BC910E1A5;
+	Sun,  8 Jan 2023 01:59:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com
- [IPv6:2607:f8b0:4864:20::1136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46E3F10E1CB
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Jan 2023 21:02:50 +0000 (UTC)
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-4bf16baa865so65355377b3.13
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 13:02:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=JmL5h/5f9ZKkHhV7ji7KKVGJQTUq0yPHfnhiMRhXed0=;
- b=IK5dGKTx88W2mfNkdSbqWACqkjubhVS9N14mCOb6xiNrTRTmnuplQafYC0im+wGspK
- eOYeaF0MULlk8xs1MhOKyABR+2n5mu7ywO33aNQ9VX4GMkdSdCVqflFNfkdkPvE907aV
- AbMRlhdfsnbXDXTGbNIAQfaGPRPsPMo8biAT31OQE9sPB82/31f0is5EfnCupoTz/Ke+
- 5qPrTwyq0HpYK24udJ89pRlkE2Z5QaSlpexv9uCe2Y49IpPc0IVSTp5co8YZkKYLFYOl
- z+xqA+ASKB1ZQdTTr7sECFdnwcqnzJz4QBV2ycEBNoSYjk2aEYooKDaJopPZvE6w6Z6k
- Ar3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JmL5h/5f9ZKkHhV7ji7KKVGJQTUq0yPHfnhiMRhXed0=;
- b=gf6GLC/owU/Ll0nPbamUQLoSjYtWWOUv9+5ONEvZ8OC82GvmkF5441GVAP0+zOhP2G
- aWE5osM+PNOtHNv00pGfdFyjte+vY56eYz9boCNgnV81nh0nSdRzaitfpE+Q11Fny7Gh
- 7RraUJS4un4dRg77rh4juR8jExMP+6UTZRRx8F7rZbLvgukZwE2ko99yewTxGZRWnGJv
- dexDf7VtFBUhfb7xbx/f6qlusZP5ystjPfDURfyKsVPWCtu91SYHK/X/Z7TyJpLkNMGW
- htiQXmR0LAvmusXRpICkncyIjaZfNcLqwd+o1jtKZlEramesqwewKwF3lg6L6lyNzACu
- KDWw==
-X-Gm-Message-State: AFqh2kp4+tUkhuhJFGcceFhGGNawFznzd9+9lSMqJJdEa8ScihVPUz4a
- XT44aAHCW0n7t0GyDlwJtwEqXCsgnq8grkOhTEE=
-X-Google-Smtp-Source: AMrXdXvY/st+xuDrW4znKkHpZttsCvsZGZkx5Bw3ldG/KbixkSHtRzf/+VMAvkN/c9NxoWqjkDvGG4OpHXXkd75XJ3w=
-X-Received: by 2002:a81:484f:0:b0:3ed:90d2:2ab8 with SMTP id
- v76-20020a81484f000000b003ed90d22ab8mr582273ywa.67.1673125369382; Sat, 07 Jan
- 2023 13:02:49 -0800 (PST)
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52FA810E1A5
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Jan 2023 01:58:57 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4NqKxS5Xzhz4xZj;
+ Sun,  8 Jan 2023 12:58:52 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1673143133;
+ bh=+xs4IsnJmGwDDAxs/tkK8SjyFH4qf8Q5NAmetU2Cthc=;
+ h=Date:From:To:Cc:Subject:From;
+ b=NwY3ehlt3rZjdtIrTv8IOz3ZphUd9t0nmFMtT2XfTESiInuIFgK6ooQ6cwN98QxWL
+ hzv2afqc00NJJkB/s8FC0Y/+Atdh/MUgFn3kajlfRStCrxlkl6qoWG/K4Z8IySVYa8
+ bVBfrPwFlLMHAfDGLn2xYJuN/PkCOCPR9wlnODrT6MBy2m4cXO7sPuv/ZSYpl/rutr
+ 4ir/OqDNIoBz+pRlb98mtW6cbT4fgEpDXx0Db9uv46LWGIGumPCyV/f3HL0kIvHmgf
+ AYuK9r3QjxGGP1CpSSX7OhOgkaYrEl1+u1JEqXQlMoiLNGy5W9xErQs37PdR54I/PG
+ X/z8DGLKekDow==
+Date: Sun, 8 Jan 2023 12:58:51 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@redhat.com>
+Subject: linux-next: duplicate patches in the drm tree
+Message-ID: <20230108125851.26687a6f@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
- <20230107-sam-video-backlight-drop-fb_blank-v1-12-1bd9bafb351f@ravnborg.org>
-In-Reply-To: <20230107-sam-video-backlight-drop-fb_blank-v1-12-1bd9bafb351f@ravnborg.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sat, 7 Jan 2023 22:02:38 +0100
-Message-ID: <CANiq72mFMJuec+r=T6xYtLpuU+a1rOrAhrHiecy_1Jpj2m4J=g@mail.gmail.com>
-Subject: Re: [PATCH 12/15] auxdisplay: ht16k33: Introduce
- backlight_get_brightness()
-To: sam@ravnborg.org, Stephen Kitt <steve@sk2.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/myB1/v_beOwHkAy8F8hLWDW";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,42 +48,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-omap@vger.kernel.org, Antonino Daplas <adaplas@gmail.com>,
- Robin van der Gracht <robin@protonic.nl>, Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>, linux-staging@lists.linux.dev,
- Nicolas Ferre <nicolas.ferre@microchip.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Paul Mackerras <paulus@samba.org>, linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Miguel Ojeda <ojeda@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, linuxppc-dev@lists.ozlabs.org,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 7, 2023 at 7:26 PM Sam Ravnborg via B4 Submission Endpoint
-<devnull+sam.ravnborg.org@kernel.org> wrote:
->
-> Introduce backlight_get_brightness() to simplify logic
-> and avoid direct access to backlight properties.
+--Sig_/myB1/v_beOwHkAy8F8hLWDW
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Note: Stephen sent this one too a while ago (with some more details in
-the commit message, which is always nice); and then he sent yesterday
-v2 [1] (to mention the functional change with `BL_CORE_SUSPENDED`
-[2]).
+Hi all,
 
-Anyway, if it goes via drm-misc, feel free to have my:
+The following commits are also in Linus Torvalds' tree as different
+commits (but the same patches):
 
-    Acked-by: Miguel Ojeda <ojeda@kernel.org>
+  9f1ecfc5dcb4 ("drm/scheduler: Fix lockup in drm_sched_entity_kill()")
+  4333472f8d7b ("drm/imx: ipuv3-plane: Fix overlay plane width")
 
-Though it would be nice to have Robin test the change.
+(in fact the first of these is in Linus' tree twice)
 
-Thanks!
-
-[1] https://lore.kernel.org/lkml/20230106143002.1434266-1-steve@sk2.org/
-[2] https://lore.kernel.org/lkml/CANiq72kRhmT37H1FAGYGny83ONYXeqJuO8ZPbym0ajQOWKY4Kw@mail.gmail.com/
-
+--=20
 Cheers,
-Miguel
+Stephen Rothwell
+
+--Sig_/myB1/v_beOwHkAy8F8hLWDW
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmO6I1sACgkQAVBC80lX
+0GwhvQf/U5OqbPBGPRftiLF9g0PXHBMBTTi/3osLJP1M2y2+SxyDAuiG+3qZbOqX
+/LECDhpy73PBXUVQQIh966AZHjWhX7CJEThCn01dOVp6JdulHVtEXxKsGjLPDyPt
+Ay+Te9aw1dOjJRVKvT6PpCo9f9sfhS+csWmpFrjFdMM2nHaJWzJOdScSEkMtf2pS
+uZplrX841dXp+3O9T+dpNjijqRXE90tkZgC9zXwRls+csXWPGYsQPzJnNW80TsRU
+8GNI14inrVwkSzaA5z0GGW4e+lv93F0c1NliEkHFNADMEnRniJQbx8N0aON62pdI
+WYIX98cRd9k6YDusO/O6THUU3WyFAw==
+=hR3b
+-----END PGP SIGNATURE-----
+
+--Sig_/myB1/v_beOwHkAy8F8hLWDW--
