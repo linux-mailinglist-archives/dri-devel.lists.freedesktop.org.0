@@ -2,67 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8E1661401
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Jan 2023 08:26:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F4F66140E
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Jan 2023 08:46:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E023410E23B;
-	Sun,  8 Jan 2023 07:26:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A36F510E00A;
+	Sun,  8 Jan 2023 07:45:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4594B10E20B
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Jan 2023 07:26:05 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id b3so8339531lfv.2
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 23:26:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UqXevD+zn0cGW9m9k0kXGrlQ8TzoQsHyNoh291zM7dc=;
- b=sUnuEPXHH6fUG1s9exm7c9Pc0/RHn7HCRH9+vByolQJongJmtjaY0OKDvVdIOJ3AaE
- f80Y2XaALUaZ8zU8gmeXKfpPlRHMAHTDuRaYqDAtOICUbXm/0eltJDMuzxCmH4+12sLx
- Ml55dKG8sI5tpUYMphFKnCQMsEFpSe3G1Q8fS97iOgjSFKrcbNszx9V5W8V7VxoyXDAO
- abdIU29c5igez7JAcHKHvvOR/I8Y+T1dMvdBC1zzPV0dXN/pmUa+A/88y72JwnwaTlyS
- mKmlaJVtGBZVjdJ146spWlzO68xq880u/BX42kt22f2IDOXpc/UO5lGYckE7fM6jtc8F
- CcQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UqXevD+zn0cGW9m9k0kXGrlQ8TzoQsHyNoh291zM7dc=;
- b=PNTavJU9Mx7d8BMWlvRjiUBHIPTFEWc/7Nr8bBNE3QRewUqxR6uc8AHAwCqjUwF2H0
- SkJugptiVbTAGo8EURIwlSLx3xGCSrWehM31xhD7/x/TDMaY96Vfu4CKuJ166ngORQl+
- 7edp9WhNPmkhQW5sC3Gc/vyTRN2JNeUuaFcbF1pQZKmPoybAZeeQ6yXjPA0KyEjrcN2W
- eRktvcjBp+o9wmWV+7xnIYv4vHz6PhoHkHNM1wB9/HSpgYqbWzipn3W7tdrznPR3/53r
- r0xP2YcIBcqyHa6DYJqGT5d5BclUUnorJuQCfVmZ0ia+dUq4nII7eFpDFbs+920cL0K2
- DyGw==
-X-Gm-Message-State: AFqh2kqkrk8MvaLv1YhsKY7ISxrsRtR5130V1z/uNjejFl0uKamLY3oN
- mrVn4S1P6ZM4j+twifwduLRkkA==
-X-Google-Smtp-Source: AMrXdXvU9lFIeEcTQXT7xd+gdplEDWKgKjlA32HvtX6wcC3eFNBqxngXu52ZKNxAwgDKo4DEFXwH3w==
-X-Received: by 2002:a05:6512:3901:b0:4a4:68b7:e71c with SMTP id
- a1-20020a056512390100b004a468b7e71cmr16493081lfu.6.1673162764842; 
- Sat, 07 Jan 2023 23:26:04 -0800 (PST)
-Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
- [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- x2-20020a056512130200b004a8f824466bsm927414lfu.188.2023.01.07.23.26.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Jan 2023 23:26:04 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Vinod Koul <vkoul@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 12/12] drm/bridge: lt9611: stop filtering modes via the table
-Date: Sun,  8 Jan 2023 09:25:55 +0200
-Message-Id: <20230108072555.2905260-13-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230108072555.2905260-1-dmitry.baryshkov@linaro.org>
-References: <20230108072555.2905260-1-dmitry.baryshkov@linaro.org>
+X-Greylist: delayed 39729 seconds by postgrey-1.36 at gabe;
+ Sun, 08 Jan 2023 07:45:56 UTC
+Received: from 2.mo584.mail-out.ovh.net (2.mo584.mail-out.ovh.net
+ [46.105.72.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6246410E038
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Jan 2023 07:45:56 +0000 (UTC)
+Received: from director3.ghost.mail-out.ovh.net (unknown [10.109.156.73])
+ by mo584.mail-out.ovh.net (Postfix) with ESMTP id 6FE8923641
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Jan 2023 07:45:54 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-dlrtv (unknown [10.109.156.99])
+ by director3.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 9B5F31FEF4;
+ Sun,  8 Jan 2023 07:45:49 +0000 (UTC)
+Received: from sk2.org ([37.59.142.106])
+ by ghost-submission-6684bf9d7b-dlrtv with ESMTPSA
+ id XCz1Hq10umNDGgAAuoryaQ
+ (envelope-from <steve@sk2.org>); Sun, 08 Jan 2023 07:45:49 +0000
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R0063ead8ad9-a798-4b11-941a-dcd5f5867b68,
+ 5128B599F7D401446F64D4771BE19AB2B9CD7A8B) smtp.auth=steve@sk2.org
+X-OVh-ClientIp: 37.167.47.239
+Date: Sun, 08 Jan 2023 08:45:46 +0100
+From: Stephen Kitt <steve@sk2.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_01/15=5D_video=3A_fbdev=3A_atm?=
+ =?US-ASCII?Q?el=5Flcdfb=3A_Rework_backlight_handling?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <Y7nb2q6SDota/rTU@ravnborg.org>
+References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-1-1bd9bafb351f@ravnborg.org>
+ <553AE999-CAF1-4E59-9F3F-68591ED192DE@sk2.org>
+ <Y7nb2q6SDota/rTU@ravnborg.org>
+Message-ID: <366FC0B8-21E2-4642-A5A5-CF4B6AB046B0@sk2.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 8408783456216778374
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkeefgdduuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevufgfjghfkfggtgfgsehtqhhmtddtreejnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeevieelieekfeelhfduffdvgfduvdegkeeljeejhfdtkeeujeeileekgeeugefhhfenucffohhmrghinheplhhkmhhlrdhorhhgpdhkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehsthgvvhgvsehskhdvrdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehkeegpdhmohguvgepshhmthhpohhuth
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,88 +61,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ linux-staging@lists.linux.dev, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Paul Mackerras <paulus@samba.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
+ Lee Jones <lee@kernel.org>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Miguel Ojeda <ojeda@kernel.org>,
+ Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>,
+ Antonino Daplas <adaplas@gmail.com>, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Robin van der Gracht <robin@protonic.nl>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Jingoo Han <jingoohan1@gmail.com>,
+ linuxppc-dev@lists.ozlabs.org, Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The lt9611 bridge can support different modes, it makes no sense to list
-them in the table. Drop the table and check the number of interfaces
-using the fixed value.
+On 7 January 2023 21:53:46 CET, Sam Ravnborg <sam@ravnborg=2Eorg> wrote:
+>Hi Stephen=2E
+>
+>On Sat, Jan 07, 2023 at 09:36:47PM +0100, Stephen Kitt wrote:
+>> On 7 January 2023 19:26:15 CET, Sam Ravnborg via B4 Submission Endpoint=
+ <devnull+sam=2Eravnborg=2Eorg@kernel=2Eorg> wrote:
+>> >From: Sam Ravnborg <sam@ravnborg=2Eorg>
+>> >
+>> >The atmel_lcdfb had code to save/restore power state=2E
+>> >This is not needed so drop it=2E
+>> >
+>> >Introduce backlight_is_brightness() to make logic simpler=2E
+>> >
+>> >Signed-off-by: Sam Ravnborg <sam@ravnborg=2Eorg>
+>> >Cc: Nicolas Ferre <nicolas=2Eferre@microchip=2Ecom>
+>> >Cc: Alexandre Belloni <alexandre=2Ebelloni@bootlin=2Ecom>
+>> >Cc: Ludovic Desroches <ludovic=2Edesroches@microchip=2Ecom>
+>> >Cc: linux-fbdev@vger=2Ekernel=2Eorg
+>> >Cc: linux-arm-kernel@lists=2Einfradead=2Eorg
+>> >---
+>> > drivers/video/fbdev/atmel_lcdfb=2Ec | 24 +++---------------------
+>> > 1 file changed, 3 insertions(+), 21 deletions(-)
+>=2E=2E=2E
+>>=20
+>> Hi Sam,
+>>=20
+>> I=E2=80=99d submitted quite a few more of these previously (and you=E2=
+=80=99d reviewed them), see e=2Eg=2E the thread starting at https://lkml=2E=
+org/lkml/2022/6/7/4365, and yesterday, https://lkml=2Eorg/lkml/2023/1/6/520=
+, https://lkml=2Eorg/lkml/2023/1/6/656, https://lkml=2Eorg/lkml/2023/1/6/97=
+0, https://lkml=2Eorg/lkml/2023/1/6/643, and https://lkml=2Eorg/lkml/2023/1=
+/6/680=2E There are a few more, I can find them if it=E2=80=99s any use=2E
+>
+>The patches from yesterday was what triggered me to resurrect an old
+>branch of mine where I had done something similar=2E I had lost all
+>memory of reviewing similar patches from you=2E
+>
+>
+>Helge - could you pick the reviewed patches from:
+>https://lore=2Ekernel=2Eorg/all/20220607192335=2E1137249-1-steve@sk2=2Eor=
+g/
+>[This is the same mail as Stephen refer to above - looked up via lore]=2E
+>
+>Stephen - I expect Daniel/Lee to take care of the patches from yesterday=
+=2E
+>If you can look up other pending patches from you please do so, so we
+>can have them applied=2E
+>Preferably with links to lore - as this makes it easier to apply them=2E
+>
+>Review of what is unique in this set would be appreciated=2E
+>
+>	Sam
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/bridge/lontium-lt9611.c | 41 +++----------------------
- 1 file changed, 4 insertions(+), 37 deletions(-)
+Hi Sam,
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-index 82af1f954cc6..5acee43f1547 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-@@ -84,24 +84,6 @@ static const struct regmap_config lt9611_regmap_config = {
- 	.num_ranges = ARRAY_SIZE(lt9611_ranges),
- };
- 
--struct lt9611_mode {
--	u16 hdisplay;
--	u16 vdisplay;
--	u8 vrefresh;
--	u8 lanes;
--	u8 intfs;
--};
--
--static struct lt9611_mode lt9611_modes[] = {
--	{ 3840, 2160, 30, 4, 2 }, /* 3840x2160 24bit 30Hz 4Lane 2ports */
--	{ 1920, 1080, 60, 4, 1 }, /* 1080P 24bit 60Hz 4lane 1port */
--	{ 1920, 1080, 30, 3, 1 }, /* 1080P 24bit 30Hz 3lane 1port */
--	{ 1920, 1080, 24, 3, 1 },
--	{ 720, 480, 60, 4, 1 },
--	{ 720, 576, 50, 2, 1 },
--	{ 640, 480, 60, 2, 1 },
--};
--
- static struct lt9611 *bridge_to_lt9611(struct drm_bridge *bridge)
- {
- 	return container_of(bridge, struct lt9611, bridge);
-@@ -603,21 +585,6 @@ static int lt9611_regulator_enable(struct lt9611 *lt9611)
- 	return 0;
- }
- 
--static struct lt9611_mode *lt9611_find_mode(const struct drm_display_mode *mode)
--{
--	int i;
--
--	for (i = 0; i < ARRAY_SIZE(lt9611_modes); i++) {
--		if (lt9611_modes[i].hdisplay == mode->hdisplay &&
--		    lt9611_modes[i].vdisplay == mode->vdisplay &&
--		    lt9611_modes[i].vrefresh == drm_mode_vrefresh(mode)) {
--			return &lt9611_modes[i];
--		}
--	}
--
--	return NULL;
--}
--
- static enum drm_connector_status lt9611_bridge_detect(struct drm_bridge *bridge)
- {
- 	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
-@@ -832,12 +799,12 @@ static enum drm_mode_status lt9611_bridge_mode_valid(struct drm_bridge *bridge,
- 						     const struct drm_display_info *info,
- 						     const struct drm_display_mode *mode)
- {
--	struct lt9611_mode *lt9611_mode = lt9611_find_mode(mode);
- 	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
- 
--	if (!lt9611_mode)
--		return MODE_BAD;
--	else if (lt9611_mode->intfs > 1 && !lt9611->dsi1)
-+	if (mode->hdisplay >= 3840 && drm_mode_vrefresh(mode) >= 31)
-+		return MODE_CLOCK_HIGH;
-+
-+	if (mode->hdisplay > 2000 && !lt9611->dsi1)
- 		return MODE_PANEL;
- 	else
- 		return MODE_OK;
--- 
-2.39.0
+Here are my pending patches from last June on lore:
 
+* https://lore=2Ekernel=2Eorg/lkml/20220607190925=2E1134737-1-steve@sk2=2E=
+org/
+* https://lore=2Ekernel=2Eorg/lkml/20220608205623=2E2106113-1-steve@sk2=2E=
+org/
+* https://lore=2Ekernel=2Eorg/lkml/20220607192335=2E1137249-1-steve@sk2=2E=
+org/
+* https://lore=2Ekernel=2Eorg/lkml/20220616170425=2E1346081-1-steve@sk2=2E=
+org/
+
+I=E2=80=99ll send reviews of your other patches later today or tomorrow=2E
+
+Regards,
+
+Stephen
