@@ -2,52 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D45F6615EA
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Jan 2023 15:52:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F07D6615F7
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Jan 2023 15:56:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B00E10E1ED;
-	Sun,  8 Jan 2023 14:51:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60D8B10E1F1;
+	Sun,  8 Jan 2023 14:56:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CDC710E1ED
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Jan 2023 14:51:55 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A3FCE60C91
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Jan 2023 14:51:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5144C433F1
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Jan 2023 14:51:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1673189513;
- bh=KjA5BnH8CE2ygFiZf0BIJuiFfY+3yoOv6vwmcQ3/x6c=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=MgXxwlwGjziPFX9NjwMHPU/CjvQoYLIMU7mBMw++Tg+D2zbt1LAFDwP04eckcZCIv
- oSecZ/CYh1Ml4RGaN9ASgKEQbtEiqBXK+ZrjcnjrJC8IJwCUJI+pUjeTq2uxW2oeug
- qMoUGWut0EGrSPBBPnViu6hPPREBT134/1OOL78ikxnLE7+XnlIRYM0Kt4OW/2Qb/w
- HHuiOzkHLlZkz6lkwaf6XL+WYUvQml1bi8izeE2ckl7HVPeM7gLqS8XXtTYI4HN8fN
- RuFk/eo1Dg+qgcQx8aUMo12erxVhePwAV5N7VZUj5QcPthUlusYSDH8d8aNNoPAiZY
- tHohof8meqWzg==
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-4a2f8ad29d5so82710027b3.8
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Jan 2023 06:51:53 -0800 (PST)
-X-Gm-Message-State: AFqh2kpWKhoqtHEB9gXhPlBMcdeRaLB8T+fA56gekk6f9IAuPmyhaHuq
- 1B2cprGWXgvMB1uE1PomB/T8qacqpQf/JRWTkiw=
-X-Google-Smtp-Source: AMrXdXsm/I+2zXpzZ30pXsubs+V9qnmWOjrp3oDKmo5Sd/U+Sm76tzcvWicAFaOHDSMObStcbbmWMOuIQ/HnPqp2qXU=
-X-Received: by 2002:a05:690c:c91:b0:4bd:471e:ed00 with SMTP id
- cm17-20020a05690c0c9100b004bd471eed00mr1822331ywb.487.1673189512831; Sun, 08
- Jan 2023 06:51:52 -0800 (PST)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 225F410E1F3
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Jan 2023 14:56:17 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id bn26so5795614wrb.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Jan 2023 06:56:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=faUR7WXI3JJAlq5Fj/7y4nlra1VV+37QFyTpQC1/6Os=;
+ b=UhMMC5LDsUxyd0s+U1tiT9D2xjSpDzkdVdvSkLIr4Nyf04n0IWW5JprfKC0gxkLFvF
+ NnyOUGVPxWGC2OAqsoXhifV+cGpbPvdnpuaIyRIpPw0mb1c5hDIfsK7A8Pvd/A4ErLfA
+ EmVn3SZhrBNAAtmzlMdYbz9eurNx/Lg8XPuXjbigIAigh9cd19NvIfQPCDj25KaMOnfu
+ F1Ujoco3nSOEgTVmI5ZTfF/8tordADV1/A7i13oog3WRXMQPyHXX+LxeDCxniqCMNLoB
+ 0+7+mMamyDfmzgII9sLYWIxzJ1uaeaEBHJMp67wNb5TpseFlaPp+/KhKTyWwKMuGuHXL
+ r25g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=faUR7WXI3JJAlq5Fj/7y4nlra1VV+37QFyTpQC1/6Os=;
+ b=NQDuIs1JWALX3DNyWkreO3igh6fSf48Rv48V6s648PD4POZOpNhx5XYoOQNh8aQSDD
+ e//D3x8LojP+EqIFd2296dcWeeYdR6o153vmQfcLseO5N1zWymJC3YfaccTdtTnyN3P5
+ MtxlmB47RFXUbWyshGfwYIpdHCgJ3pTP4PUV6e9yxiHB3QKgbOIRPDPegIazFPO9yAFX
+ IJB+3enkL3euDglIXc7UeYB9+OH7lQ2aArVbvCZbKY+kuGf48JvKAGoDzvXNaUPbcDzG
+ KMB5c4shhArvBTZQEBnQ6hcgfZF8MDUkMMUNdp0jqkIwv9/fu1Y9kieNskvsfnPSYgY+
+ +PZw==
+X-Gm-Message-State: AFqh2koZz1OIBnydJwXNFgt+qCFPEfRoiz3L/KoHxUYEcFg1Z4iP3l3r
+ YczWzZVzp/fO7GSGH8jJdiPWWA==
+X-Google-Smtp-Source: AMrXdXvypNaFaV4VApj/5n5B4KrLo6cyzJa/11iv0JfanR3VXSlrcyN4o5PjaNplkSLduvwAAY0GyA==
+X-Received: by 2002:a05:6000:10f:b0:286:ad19:731f with SMTP id
+ o15-20020a056000010f00b00286ad19731fmr24871172wrx.19.1673189775638; 
+ Sun, 08 Jan 2023 06:56:15 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+ by smtp.gmail.com with ESMTPSA id
+ v13-20020a5d678d000000b002bbe8686d6fsm2046811wru.117.2023.01.08.06.56.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 08 Jan 2023 06:56:15 -0800 (PST)
+Message-ID: <3f7e1afa-d445-453d-12fb-7c87b04c8756@linaro.org>
+Date: Sun, 8 Jan 2023 15:56:11 +0100
 MIME-Version: 1.0
-References: <20230107184827.2837347-1-trix@redhat.com>
-In-Reply-To: <20230107184827.2837347-1-trix@redhat.com>
-From: Oded Gabbay <ogabbay@kernel.org>
-Date: Sun, 8 Jan 2023 16:51:26 +0200
-X-Gmail-Original-Message-ID: <CAFCwf10tOe4H1wyOeJiDk_0NWUAbsNRXemzg1H_6RBsf7Yz8dw@mail.gmail.com>
-Message-ID: <CAFCwf10tOe4H1wyOeJiDk_0NWUAbsNRXemzg1H_6RBsf7Yz8dw@mail.gmail.com>
-Subject: Re: [PATCH] habanalabs: remove redundant memset
-To: Tom Rix <trix@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v8 4/9] dt-bindings: display: bridge: anx7625: Add
+ mode-switch support
+Content-Language: en-US
+To: Pin-yen Lin <treapking@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>
+References: <20230107102231.23682-1-treapking@chromium.org>
+ <20230107102231.23682-5-treapking@chromium.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230107102231.23682-5-treapking@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,46 +92,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: osharabi@habana.ai, gregkh@linuxfoundation.org, dliberman@habana.ai,
+Cc: Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
+ =?UTF-8?Q?N=c3=adcolas_F_=2e_R_=2e_A_=2e_Prado?= <nfraprado@collabora.com>,
+ devicetree@vger.kernel.org, Allen Chen <allen.chen@ite.com.tw>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- talcohen@habana.ai, obitton@habana.ai
+ Javier Martinez Canillas <javierm@redhat.com>, linux-acpi@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Stephen Boyd <swboyd@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 7, 2023 at 8:48 PM Tom Rix <trix@redhat.com> wrote:
->
-> From reviewing the code, the line
->   memset(kdata, 0, usize);
-> is not needed because kdata is either zeroed by
->   kdata = kzalloc(asize, GFP_KERNEL);
-> when allocated at runtime or by
->   char stack_kdata[128] = {0};
-> at compile time.
->
-> Signed-off-by: Tom Rix <trix@redhat.com>
+On 07/01/2023 11:22, Pin-yen Lin wrote:
+> Analogix 7625 can be used in systems to switch the DP traffic between
+> two downstreams, which can be USB Type-C DisplayPort alternate mode
+> lane or regular DisplayPort output ports.
+> 
+> Update the binding to accommodate this usage by introducing a
+> data-lanes and a mode-switch property on endpoints.
+> 
+> Also include the link to the product brief in the bindings.
+> 
+> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> 
 > ---
->  drivers/accel/habanalabs/common/habanalabs_ioctl.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/accel/habanalabs/common/habanalabs_ioctl.c b/drivers/accel/habanalabs/common/habanalabs_ioctl.c
-> index 619d56c40b30..949d38527160 100644
-> --- a/drivers/accel/habanalabs/common/habanalabs_ioctl.c
-> +++ b/drivers/accel/habanalabs/common/habanalabs_ioctl.c
-> @@ -1123,8 +1123,6 @@ static long _hl_ioctl(struct file *filep, unsigned int cmd, unsigned long arg,
->                         retcode = -EFAULT;
->                         goto out_err;
->                 }
-> -       } else if (cmd & IOC_OUT) {
-> -               memset(kdata, 0, usize);
->         }
->
->         retcode = func(hpriv, kdata);
-> --
-> 2.27.0
->
 
-Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
-Applied to -next.
 
-Thanks,
-Oded
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
+
