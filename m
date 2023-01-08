@@ -2,65 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 735F36613BE
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Jan 2023 07:04:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C06C76613CB
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Jan 2023 07:57:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 054D810E10D;
-	Sun,  8 Jan 2023 06:04:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1F8C10E0CB;
+	Sun,  8 Jan 2023 06:57:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DD3410E10D
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Jan 2023 06:04:11 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id o13so2119452pjg.2
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Jan 2023 22:04:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=vgZ2O2c7uY02sp110jrpcb4sFVag4L5bnVZx1zPM2pI=;
- b=IW2zWqIfbJ6qsS5cqgDH+ted49FOkNroNVcFrpkVcoPl8GKd+1RwKWqzEyepMhcXwx
- u+gr6KXwzGkboxfT4riF2CX1urgg8C34a9iSgadD5M7L1hb4pGKdWuO1JTlkh2FnVXOt
- 15v+rOAVummx8A349NdKMYRkS5XdeWUHIQ4EefeM0DFTsGTrWq9eiy8UiI9vUNy0T8F9
- iXCYLlmNw7VcOncr9R/ivAlFC43hjc4ZJfD25eEspNBvvHaKOgYSGHGk2wewL0zcJ+oq
- 2i/QGasknTh9UC9ZhK4iLMwdsxSrChabp+i7CkVvSVQAA7NqMWM0kfTOC7oFj0H37yM0
- BSDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vgZ2O2c7uY02sp110jrpcb4sFVag4L5bnVZx1zPM2pI=;
- b=Ry78/2mlXuIm8hbtGJn5UOKbIIB5F9lFhYml/c4PV6UQAoF6ctm70ocj1D/a4QaBuk
- I5tff/gPAj2apg9SWopK5XESJQiWy+/Nxmd/0S77WQLvr7A5XrS6Nypqa+mwzLtVj3Od
- 9XJGJbRj0UUZ3Lwm49Y+UqoDHoDUAOAhFN91tiMWGgimEj/xzE//52mcPE37dqIZvVqJ
- P9dC3rYx6vZ7cFQXr+I3S+Qx9a09f9FY/kLjQzDha9xHNqLOtcmSjtZOM1ktj7NVlykZ
- 33vmUgpD61OTx8iT9Z2zBbmaEqkZbJLiNHfhh3d8HiQL2k4Dom8L6qYWc3JSLBqPr5SQ
- QQ4Q==
-X-Gm-Message-State: AFqh2kohRmg3N/8zJfJ5m9oA0+5xOkrzmxbiSt2WI/bOUk1wrthmthud
- chSjJNc0aVMUdn60WB05hkM=
-X-Google-Smtp-Source: AMrXdXuIhWr4qCAcRzAZ1ind21LDvWzbvvMG909C5Jh3ogz5WeCZFjP7tXUmssARcmq8hOPwya/3XQ==
-X-Received: by 2002:a05:6a20:4f1c:b0:b2:8c0b:529c with SMTP id
- gi28-20020a056a204f1c00b000b28c0b529cmr58171027pzb.54.1673157851160; 
- Sat, 07 Jan 2023 22:04:11 -0800 (PST)
-Received: from morpheus.home.roving-it.com
- (91.196.27.211.sta.commander.net.au. [211.27.196.91])
- by smtp.googlemail.com with ESMTPSA id
- u18-20020a170903125200b001869ba04c83sm3557012plh.245.2023.01.07.22.04.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Jan 2023 22:04:10 -0800 (PST)
-From: Peter Robinson <pbrobinson@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] drm: rcar-du: depend on DRM_RCAR_DU for components on that
- SoC
-Date: Sun,  8 Jan 2023 06:04:01 +0000
-Message-Id: <20230108060401.391061-1-pbrobinson@gmail.com>
-X-Mailer: git-send-email 2.39.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10AED10E0CB
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Jan 2023 06:57:04 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EAF8E6CF;
+ Sun,  8 Jan 2023 07:57:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1673161023;
+ bh=bt40o19/YEKXIIGOmDN9pFrfQRCF+UbVIZKIlIuqMq4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=S93UmhWNIOX8OvzH6D94A0tVnB1K66wFo2R398CVhoDr470LXNaeACkoeIYSCNhlP
+ +U2U9p48BPV42uNRcWmQgK+7ycmaApKesNBSt0BTr4GyucR+QRJ9NRrq2kVD6oMFiN
+ irtCSEpkD+5j5V7xUWZv1fKUYBXNk8KTKzTOaYpY=
+Date: Sun, 8 Jan 2023 08:56:59 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Aradhya Bhatia <a-bhatia1@ti.com>
+Subject: Re: [RFC PATCH 3/4] dt-bindings: panel: Introduce dual-link LVDS panel
+Message-ID: <Y7ppO8nZFw7ZKdOi@pendragon.ideasonboard.com>
+References: <20230103064615.5311-1-a-bhatia1@ti.com>
+ <20230103064615.5311-4-a-bhatia1@ti.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230103064615.5311-4-a-bhatia1@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,53 +47,232 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Robinson <pbrobinson@gmail.com>
+Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Devarsh Thakkar <devarsht@ti.com>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Guo Ren <guoren@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Linux RISC-V List <linux-riscv@lists.infradead.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Linux C-SKY Arch List <linux-csky@vger.kernel.org>,
+ Devicetree List <devicetree@vger.kernel.org>,
+ Albert Ou <aou@eecs.berkeley.edu>, Jai Luthra <j-luthra@ti.com>,
+ Rahul T R <r-ravikumar@ti.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Mark Brown <broonie@kernel.org>,
+ Linux Mediatek List <linux-mediatek@lists.infradead.org>,
+ Maxime Ripard <maxime@cerno.tech>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM Kernel List <linux-arm-kernel@lists.infradead.org>,
+ Jayesh Choudhary <j-choudhary@ti.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Jyri Sarha <jyri.sarha@iki.fi>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's a few components in the rcar-du drm directory that
-don't make sense to be selectable if DRM_RCAR_DU isn't because
-they are part of the IP block so add a dependency and add
-compile check to ensure they're still tested.
+Hi Aradhya,
 
-Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
----
+Thank you for the patch.
 
-v2:
-- typo fix in commit message
-- s/ARCH_RENESAS/DRM_RCAR_DU
+On Tue, Jan 03, 2023 at 12:16:14PM +0530, Aradhya Bhatia wrote:
+> Dual-link LVDS interfaces have 2 links, with even pixels traveling on
+> one link, and odd pixels on the other. These panels are also generic in
+> nature, with no documented constraints, much like their single-link
+> counterparts, "panel-lvds".
+> 
+> Add a new compatible, "panel-dual-lvds", and a dt-binding document for
+> these panels.
+> 
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> ---
+>  .../display/panel/panel-dual-lvds.yaml        | 157 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 158 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml b/Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
+> new file mode 100644
+> index 000000000000..88a7aa2410be
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
+> @@ -0,0 +1,157 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/panel-dual-lvds.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Generic Dual-Link LVDS Display Panel
+> +
+> +maintainers:
+> +  - Aradhya Bhatia <a-bhatia1@ti.com>
+> +  - Thierry Reding <thierry.reding@gmail.com>
+> +
+> +description: |
+> +  A dual-LVDS interface is a dual-link connection with the even pixels
+> +  traveling on one link, and the odd pixels traveling on the other.
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +  - $ref: /schemas/display/lvds.yaml/#
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - lincolntech,lcd185-101ct
+> +              - microtips,13-101hieb0hf0-s
+> +          - const: panel-dual-lvds
+> +      - const: panel-dual-lvds
 
- drivers/gpu/drm/rcar-du/Kconfig | 3 +++
- 1 file changed, 3 insertions(+)
+A device-specific compatible string should be required,
+"panel-dual-lvds" alone shouldn't be allowed. Otherwise it won't be
+possible to tell different models apart later should this be required.
 
-diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-index b2bddbeca878..362fb6099e9f 100644
---- a/drivers/gpu/drm/rcar-du/Kconfig
-+++ b/drivers/gpu/drm/rcar-du/Kconfig
-@@ -25,6 +25,7 @@ config DRM_RCAR_CMM
- config DRM_RCAR_DW_HDMI
- 	tristate "R-Car Gen3 and RZ/G2 DU HDMI Encoder Support"
- 	depends on DRM && OF
-+	depends on DRM_RCAR_DU || COMPILE_TEST
- 	select DRM_DW_HDMI
- 	help
- 	  Enable support for R-Car Gen3 or RZ/G2 internal HDMI encoder.
-@@ -32,6 +33,7 @@ config DRM_RCAR_DW_HDMI
- config DRM_RCAR_USE_LVDS
- 	bool "R-Car DU LVDS Encoder Support"
- 	depends on DRM_BRIDGE && OF
-+	depends on DRM_RCAR_DU || COMPILE_TEST
- 	default DRM_RCAR_DU
- 	help
- 	  Enable support for the R-Car Display Unit embedded LVDS encoders.
-@@ -45,6 +47,7 @@ config DRM_RCAR_LVDS
- config DRM_RCAR_USE_MIPI_DSI
- 	bool "R-Car DU MIPI DSI Encoder Support"
- 	depends on DRM_BRIDGE && OF
-+	depends on DRM_RCAR_DU || COMPILE_TEST
- 	default DRM_RCAR_DU
- 	help
- 	  Enable support for the R-Car Display Unit embedded MIPI DSI encoders.
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: The sink for first set of LVDS pixels.
+> +
+> +        properties:
+> +          dual-lvds-odd-pixels:
+> +            type: boolean
+> +
+> +          dual-lvds-even-pixels:
+> +            type: boolean
+> +
+> +        oneOf:
+> +          - required: [dual-lvds-odd-pixels]
+> +          - required: [dual-lvds-even-pixels]
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: The sink for second set of LVDS pixels.
+> +
+> +        properties:
+> +          dual-lvds-even-pixels:
+> +            type: boolean
+> +
+> +          dual-lvds-odd-pixels:
+> +            type: boolean
+> +
+> +        oneOf:
+> +          - required: [dual-lvds-even-pixels]
+> +          - required: [dual-lvds-odd-pixels]
+> +
+> +    allOf:
+> +      - if:
+> +          properties:
+> +            port@0:
+> +              properties:
+> +                dual-lvds-odd-pixels: true
+> +              required:
+> +                - dual-lvds-odd-pixels
+> +        then:
+> +          properties:
+> +            port@1:
+> +              properties:
+> +                dual-lvds-even-pixels: true
+> +                dual-lvds-odd-pixels: false
+> +
+> +      - if:
+> +          properties:
+> +            port@0:
+> +              properties:
+> +                dual-lvds-even-pixels: true
+> +              required:
+> +                - dual-lvds-even-pixels
+> +        then:
+> +          properties:
+> +            port@1:
+> +              properties:
+> +                dual-lvds-odd-pixels: true
+> +                dual-lvds-even-pixels: false
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +  port: false
+> +
+> +unevaluatedProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - width-mm
+> +  - height-mm
+> +  - data-mapping
+> +  - panel-timing
+> +  - ports
+> +
+> +examples:
+> +  - |+
+> +    panel-dual-lvds {
+> +      compatible = "microtips,13-101hieb0hf0-s", "panel-dual-lvds";
+> +
+> +      width-mm = <217>;
+> +      height-mm = <136>;
+> +
+> +      data-mapping = "vesa-24";
+> +
+> +      panel-timing {
+> +        clock-frequency = <150275000>;
+> +        hactive = <1920>;
+> +        vactive = <1200>;
+> +        hfront-porch = <32>;
+> +        hsync-len = <52>;
+> +        hback-porch = <24>;
+> +        vfront-porch = <24>;
+> +        vsync-len = <8>;
+> +        vback-porch = <3>;
+> +        de-active = <1>;
+> +      };
+> +
+> +      ports {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        port@0 {
+> +          reg = <0>;
+> +          dual-lvds-odd-pixels;
+> +          lcd_in0: endpoint {
+> +            remote-endpoint = <&oldi_out0>;
+> +          };
+> +        };
+> +
+> +        port@1 {
+> +          reg = <1>;
+> +          dual-lvds-even-pixels;
+> +          lcd_in1: endpoint {
+> +            remote-endpoint = <&oldi_out1>;
+> +          };
+> +        };
+> +      };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7f86d02cb427..c13f24293ab1 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6595,6 +6595,7 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+>  S:	Maintained
+>  F:	drivers/gpu/drm/panel/panel-lvds.c
+>  F:	Documentation/devicetree/bindings/display/lvds.yaml
+> +F:	Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
+>  F:	Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
+>  
+>  DRM DRIVER FOR MANTIX MLAF057WE51 PANELS
+
 -- 
-2.39.0
+Regards,
 
+Laurent Pinchart
