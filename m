@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71856613D2
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Jan 2023 08:02:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83AFA6613D4
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Jan 2023 08:03:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D726010E192;
-	Sun,  8 Jan 2023 07:02:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3D710E1E3;
+	Sun,  8 Jan 2023 07:03:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11B3010E192
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Jan 2023 07:02:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE6B010E1E3
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Jan 2023 07:03:41 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
  [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58BF0A25;
- Sun,  8 Jan 2023 08:02:28 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 320A6AD0;
+ Sun,  8 Jan 2023 08:03:40 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1673161348;
- bh=QGE4Hw9aWxGM442kPdYqiBgORm6SRQZOxcp0UzdWwFo=;
+ s=mail; t=1673161420;
+ bh=SgTISQ/SukTle7e0xStwxxuBquT6G6FT4fVXqIU5d10=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=l1y2uzF4PqApHifao96ZpodLQiF41IlEJ3ykhi79Pz4/FDUK7VLkHOcflV38gXCeD
- OUDSmUG2C6yf8ujV8+Af/dh9h3/eVVxOi+uJD9cYGv6dO/BqFtnN7T7Q6uTzLnO3Ak
- 9+puNMVgvreJ4DsJkLw3ckb2KLzWQ/1NEoliZmek=
-Date: Sun, 8 Jan 2023 09:02:24 +0200
+ b=tlXxdsB3tJL9Nji6j8zDKL9EWhQUzr8iu5jWbl6Tse/m5CDXieZqiK4On7683PoFM
+ ae4Eb7vAGRwjdUVc9X+lCUrmY7lIhXwKf4geA/s+nXmKRhKwDnk31Wa7pSknV121on
+ Y3Rhykpy8wACbezlvreFxkLb9EA+VBC/AXtjFaMU=
+Date: Sun, 8 Jan 2023 09:03:36 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Aradhya Bhatia <a-bhatia1@ti.com>
-Subject: Re: [RFC PATCH 1/4] dt-bindings: vendor-prefixes: Add microtips
-Message-ID: <Y7pqgBgivE2TUbka@pendragon.ideasonboard.com>
+Subject: Re: [RFC PATCH 2/4] dt-bindings: vendor-prefixes: Add lincolntech
+Message-ID: <Y7pqyKKvjINno7W/@pendragon.ideasonboard.com>
 References: <20230103064615.5311-1-a-bhatia1@ti.com>
- <20230103064615.5311-2-a-bhatia1@ti.com>
+ <20230103064615.5311-3-a-bhatia1@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230103064615.5311-2-a-bhatia1@ti.com>
+In-Reply-To: <20230103064615.5311-3-a-bhatia1@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,8 +75,9 @@ Hi Aradhya,
 
 Thank you for the patch.
 
-On Tue, Jan 03, 2023 at 12:16:12PM +0530, Aradhya Bhatia wrote:
-> Add document vendor prefix for Microtips Technology USA (microtips).
+On Tue, Jan 03, 2023 at 12:16:13PM +0530, Aradhya Bhatia wrote:
+> Add document vendor prefix for Lincoln Technology Solutions
+> (lincolntech).
 > 
 > Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 
@@ -87,18 +88,18 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 >  1 file changed, 2 insertions(+)
 > 
 > diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index 70ffb3780621..516134cbcb3c 100644
+> index 516134cbcb3c..82427a6ddf97 100644
 > --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
 > +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -821,6 +821,8 @@ patternProperties:
->      description: Microsoft Corporation
->    "^microsys,.*":
->      description: MicroSys Electronics GmbH
-> +  "^microtips,.*":
-> +    description: Microtips Technology USA
->    "^mikroe,.*":
->      description: MikroElektronika d.o.o.
->    "^mikrotik,.*":
+> @@ -729,6 +729,8 @@ patternProperties:
+>      description: Lichee Pi
+>    "^linaro,.*":
+>      description: Linaro Limited
+> +  "^lincolntech,.*":
+> +    description: Lincoln Technology Solutions
+>    "^linksprite,.*":
+>      description: LinkSprite Technologies, Inc.
+>    "^linksys,.*":
 
 -- 
 Regards,
