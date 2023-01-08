@@ -2,68 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34159661A8C
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Jan 2023 23:45:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF0A661AF2
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 00:09:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8E9110E048;
-	Sun,  8 Jan 2023 22:45:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44FE410E217;
+	Sun,  8 Jan 2023 23:09:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90A2A10E048
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Jan 2023 22:45:07 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id bf43so10386095lfb.6
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Jan 2023 14:45:07 -0800 (PST)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C80310E041
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Jan 2023 23:09:15 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id m6so10413187lfj.11
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Jan 2023 15:09:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=xNjDFq7jF6Xutyrz7TZXPQsfgSYhgyOTeZIcCQictVc=;
- b=e8zj826Zagy7Wr+2jC7vyR1XimbGVyk4hS7mMWuWs5jS5BMhe4INZZPZZ3dqZGd4zW
- vVuWxQoKEM2XVg1AJ1pcgxxZxdOmVRvTv6n/91dmCmyvQWOCv4w0hTImVuK4BUK86s0O
- KIsslORjq5lajLYSh379zvq7zEUKgf0Wx2NeMGPciJ/W/W3IS6b0ICpuHi1WlLXLMQRH
- P2ZwoeLK3bIf0AE1GtJdSaO4K/qofXQUK/AihEXhvsbAow2S5HtG3N558XOuEXrTX2h+
- bFCWrkB2ARluw63iPTDc17QjyIKCcm7vZy1eGqwWusrs7OooTfKMoVqVarn+L5fLGiwo
- bR0g==
+ bh=aHTsVemuZVdFBAOVhXekZDJCYjSFOYswDw57t68u+B0=;
+ b=E2SiNKam01JLHyR4YRcH3H1AOyoxfAJhrsUEL3HMNuBD+T7O86muHUbPIhyNqZQBoO
+ 1x/8Cw6EqmvH06RHDUxYKdOzGPVvE/xCzYBt06+jNisp5GFGBCG6lqt5mSO2Rpw+DXlC
+ r3eI8fWwaZaUuXyG8DfTWFX4LNaVIgFcmz89idXaf+yDGRPAR04KNrGX/+qx2kdJ2XXT
+ cD51OX9AHyyVCX+66fWArOO5tf4UlR9o5d3NQwyN9X9VwgzmEGcvugECShDPCzEE9WWH
+ flF6GB0BesE07Jh1AXla68inOUmM4U/QE1/LsBR+Wh+5wC57CisuUJqrxQk0pcXMPZeH
+ v5/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xNjDFq7jF6Xutyrz7TZXPQsfgSYhgyOTeZIcCQictVc=;
- b=fwXZPuA88FEhIZZMu9BMudqobhl+18SebLNgTemqRUwv4z1zPy1MloHQ1CwFBmF3L9
- j2WvDbeZSDk9oYQIiHAfILS+ThfpgosD7lxJyzegO/inKlHpoFpQ0Fh3F7YugQ3GYcyl
- nJbjX51I+Wr5oRweXiggzUnFfc5x88xnzWDy9z8hdCKX4L859OztaQvvz7SExK7aJOKx
- AQL6KxL3fuYkbKJ0HTslrfwX+evFO9iB/8AUb8XuL+c5E1DrNDs9P9MqzDaO8q6DVAY6
- Ge2w+nOn1riQ+HlzXqSf+NjfFgIkPnuCckBLsiGTxdKAYy/RE2ftD761zu+O0GK06qdH
- sF6g==
-X-Gm-Message-State: AFqh2kpNg+OtrkbyCQ8RkOccvW8szQ3o0rQoP9H70GuRZnhZ0X1OgtUp
- g/1d30KsqYulCJDSo4+oLnYT0Q==
-X-Google-Smtp-Source: AMrXdXvwzFkEAxmdB2Z6hlU44qt3jw6D5B4obR6CvQwIXBWaGQgM0nax26AbcjwKQIqDWuaHbP3Z5g==
-X-Received: by 2002:a05:6512:304a:b0:4b5:5098:e6f7 with SMTP id
- b10-20020a056512304a00b004b55098e6f7mr19827844lfb.68.1673217905625; 
- Sun, 08 Jan 2023 14:45:05 -0800 (PST)
+ bh=aHTsVemuZVdFBAOVhXekZDJCYjSFOYswDw57t68u+B0=;
+ b=hAYv/J0Rb+CzHGMsoGwuGZsErtek3DbmJe5cix+4Yk+FcjkmOTCAXvyjyjLtXVi4hR
+ AJUZ0sJ4A3EM+lcYehxaL+d4nE2S4P+OfSy4qkPuo1KXqLJeCYJcxjSSjokdLwKVRo/A
+ Ugon+9hNO6e84qtz38GE08UdKuC3MJJd0jQej6Z6ayxSg/LLoCeI609M6UBdjuC+3IXD
+ WF5WjdmQ6mIl+xJ9BiuCRxXK/Usj9VjXTI7jMvmsHPEbMzsQ94jW4uPI1mwcsMkhcdM+
+ c/yNZuaJ9oOJwjlSgDVknFxktajqIsAxj0PDJqH6+gGEiKvhetoQTxD4fp4flZxipgkv
+ W9FQ==
+X-Gm-Message-State: AFqh2koEF9Ff5I1ixSdgjJoltNuybUpXQGkE4CWbNzWdt+z5ve2rMXB7
+ eGA0Bvd6GqUin1jvHA9LwiCMVQ==
+X-Google-Smtp-Source: AMrXdXt81nlX2Mx4LeY8PwzwnMFJQKhvqwBI2Cbzu5dcQTpAyBJCqJ+hXQu2QCpa6S1il70ht/ItqQ==
+X-Received: by 2002:a05:6512:2344:b0:4cb:90d:41b1 with SMTP id
+ p4-20020a056512234400b004cb090d41b1mr15158956lfu.56.1673219353295; 
+ Sun, 08 Jan 2023 15:09:13 -0800 (PST)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- n26-20020a05651203fa00b0049464d89e40sm1257366lfq.72.2023.01.08.14.45.05
+ s9-20020ac24649000000b004cb02ed464esm1256597lfo.196.2023.01.08.15.09.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 08 Jan 2023 14:45:05 -0800 (PST)
-Message-ID: <9b53d5f0-e1b1-1ecd-b9b9-efa20b11c916@linaro.org>
-Date: Mon, 9 Jan 2023 00:45:04 +0200
+ Sun, 08 Jan 2023 15:09:12 -0800 (PST)
+Message-ID: <5f1a846b-d536-f013-f311-2773945317bb@linaro.org>
+Date: Mon, 9 Jan 2023 01:09:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH RESEND] drm/msm: Add missing check and destroy for
- alloc_ordered_workqueue
+Subject: Re: [PATCH 1/6] dt-bindings: display/msm: document the SM8550 DSI PHY
 Content-Language: en-GB
-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, sean@poorly.run, airlied@gmail.com,
- sumit.semwal@linaro.org, christian.koenig@amd.com
-References: <20230106084712.29675-1-jiasheng@iscas.ac.cn>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonathan Marek <jonathan@marek.ca>
+References: <20230103-topic-sm8550-upstream-mdss-dsi-v1-0-9ccd7e652fcd@linaro.org>
+ <20230103-topic-sm8550-upstream-mdss-dsi-v1-1-9ccd7e652fcd@linaro.org>
+ <f8c8076e-2ac3-f67b-7641-d0c324784cb5@linaro.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230106084712.29675-1-jiasheng@iscas.ac.cn>
+In-Reply-To: <f8c8076e-2ac3-f67b-7641-d0c324784cb5@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,67 +83,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- freedreno@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/01/2023 10:47, Jiasheng Jiang wrote:
-> Add check for the return value of alloc_ordered_workqueue as it may return
-> NULL pointer.
-> Moreover, use the destroy_workqueue in the later fails in order to avoid
-> memory leak.
+On 06/01/2023 17:41, Krzysztof Kozlowski wrote:
+> On 04/01/2023 10:08, Neil Armstrong wrote:
+>> Document the SM8550 DSI PHY which is very close from the 7nm
+>> and 5nm DSI PHYs found in earlier platforms.
+>>
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> ---
+>>   Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+>> index bffd161fedfd..f72727f81076 100644
+>> --- a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+>> +++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+>> @@ -15,6 +15,7 @@ allOf:
+>>   properties:
+>>     compatible:
+>>       enum:
+>> +      - qcom,dsi-phy-4nm-8550
+>>         - qcom,dsi-phy-5nm-8350
+>>         - qcom,dsi-phy-5nm-8450
 > 
-> Fixes: c8afe684c95c ("drm/msm: basic KMS driver for snapdragon")
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> ---
->   drivers/gpu/drm/msm/msm_drv.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
+> Poor patterns once allowed like to keep growing... I commented here:
+> https://lore.kernel.org/all/ccbb47e4-d780-0b1d-814e-27e86b6c369c@linaro.org/
 > 
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index 8b0b0ac74a6f..b82d938226ad 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -418,6 +418,8 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
->   	priv->dev = ddev;
->   
->   	priv->wq = alloc_ordered_workqueue("msm", 0);
-> +	if (!priv->wq)
-> +		return -ENOMEM;
->   
->   	INIT_LIST_HEAD(&priv->objects);
->   	mutex_init(&priv->obj_lock);
-> @@ -440,12 +442,12 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
->   
->   	ret = msm_init_vram(ddev);
->   	if (ret)
-> -		return ret;
-> +		goto err_destroy_workqueue;
->   
->   	/* Bind all our sub-components: */
->   	ret = component_bind_all(dev, ddev);
->   	if (ret)
-> -		return ret;
-> +		goto err_destroy_workqueue;
->   
->   	dma_set_max_seg_size(dev, UINT_MAX);
->   
-> @@ -540,6 +542,8 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
->   
->   err_msm_uninit:
->   	msm_drm_uninit(dev);
+> so let's wait for response about other compatibles.
 
-return ret is missing here. Your code will result in double free.
+I have fixed 8350 & 8450 while applying. Please rebase on top of 
+msm-next-lumag-next with fixed compatibles.
 
-However the intent was to unroll each and every action of msm_drm_init() 
-in msm_drm_uninit(). So in all your cases please goto err_msm_unit.
+Note: the DPU changes are not yet part of the msm-lumag-next.
 
-> +err_destroy_workqueue:
-> +	destroy_workqueue(priv->wq);
->   	return ret;
->   }
->   
+> 
+>>         - qcom,dsi-phy-7nm
+>>
+> 
+> Best regards,
+> Krzysztof
+> 
 
 -- 
 With best wishes
