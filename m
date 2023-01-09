@@ -1,19 +1,19 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9670E661D38
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 05:04:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB85661D2B
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 05:04:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60AA110E268;
-	Mon,  9 Jan 2023 04:04:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0033510E256;
+	Mon,  9 Jan 2023 04:04:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
- by gabe.freedesktop.org (Postfix) with ESMTP id B2C9E10E257
+Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B1ECE10E253
  for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 04:03:54 +0000 (UTC)
 Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
- by 156.147.23.51 with ESMTP; 9 Jan 2023 12:33:54 +0900
+ by 156.147.23.52 with ESMTP; 9 Jan 2023 12:33:54 +0900
 X-Original-SENDERIP: 156.147.1.121
 X-Original-MAILFROM: byungchul.park@lge.com
 Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
@@ -22,10 +22,9 @@ X-Original-SENDERIP: 10.177.244.38
 X-Original-MAILFROM: byungchul.park@lge.com
 From: Byungchul Park <byungchul.park@lge.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH RFC v7 18/23] dept: Apply timeout consideration to
- wait_for_completion()/complete()
-Date: Mon,  9 Jan 2023 12:33:46 +0900
-Message-Id: <1673235231-30302-19-git-send-email-byungchul.park@lge.com>
+Subject: [PATCH RFC v7 19/23] dept: Apply timeout consideration to swait
+Date: Mon,  9 Jan 2023 12:33:47 +0900
+Message-Id: <1673235231-30302-20-git-send-email-byungchul.park@lge.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1673235231-30302-1-git-send-email-byungchul.park@lge.com>
 References: <1673235231-30302-1-git-send-email-byungchul.park@lge.com>
@@ -62,73 +61,30 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Now that CONFIG_DEPT_AGGRESSIVE_TIMEOUT_WAIT was introduced, apply the
-consideration to wait_for_completion()/complete().
+consideration to swait, assuming an input 'ret' in ___swait_event()
+macro is used as a timeout value.
 
 Signed-off-by: Byungchul Park <byungchul.park@lge.com>
 ---
- include/linux/completion.h | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+ include/linux/swait.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/completion.h b/include/linux/completion.h
-index 0408f6d..57a715f 100644
---- a/include/linux/completion.h
-+++ b/include/linux/completion.h
-@@ -11,6 +11,7 @@
- 
- #include <linux/swait.h>
- #include <linux/dept_sdt.h>
-+#include <linux/sched.h>
- 
- /*
-  * struct completion - structure used to maintain state for a "completion"
-@@ -153,7 +154,10 @@ extern long raw_wait_for_completion_killable_timeout(
- #define wait_for_completion_timeout(x, t)			\
- ({								\
- 	unsigned long __ret;					\
--	sdt_might_sleep_strong(NULL);				\
-+	if ((t) == MAX_SCHEDULE_TIMEOUT)			\
-+		sdt_might_sleep_strong(NULL);			\
-+	else							\
-+		sdt_might_sleep_strong_timeout(NULL);		\
- 	__ret = raw_wait_for_completion_timeout(x, t);		\
- 	sdt_might_sleep_finish();				\
- 	__ret;							\
-@@ -161,7 +165,10 @@ extern long raw_wait_for_completion_killable_timeout(
- #define wait_for_completion_io_timeout(x, t)			\
- ({								\
- 	unsigned long __ret;					\
--	sdt_might_sleep_strong(NULL);				\
-+	if ((t) == MAX_SCHEDULE_TIMEOUT)			\
-+		sdt_might_sleep_strong(NULL);			\
-+	else							\
-+		sdt_might_sleep_strong_timeout(NULL);		\
- 	__ret = raw_wait_for_completion_io_timeout(x, t);	\
- 	sdt_might_sleep_finish();				\
- 	__ret;							\
-@@ -169,7 +176,10 @@ extern long raw_wait_for_completion_killable_timeout(
- #define wait_for_completion_interruptible_timeout(x, t)		\
- ({								\
- 	long __ret;						\
--	sdt_might_sleep_strong(NULL);				\
-+	if ((t) == MAX_SCHEDULE_TIMEOUT)			\
-+		sdt_might_sleep_strong(NULL);			\
-+	else							\
-+		sdt_might_sleep_strong_timeout(NULL);		\
- 	__ret = raw_wait_for_completion_interruptible_timeout(x, t);\
- 	sdt_might_sleep_finish();				\
- 	__ret;							\
-@@ -177,7 +187,10 @@ extern long raw_wait_for_completion_killable_timeout(
- #define wait_for_completion_killable_timeout(x, t)		\
- ({								\
- 	long __ret;						\
--	sdt_might_sleep_strong(NULL);				\
-+	if ((t) == MAX_SCHEDULE_TIMEOUT)			\
-+		sdt_might_sleep_strong(NULL);			\
-+	else							\
-+		sdt_might_sleep_strong_timeout(NULL);		\
- 	__ret = raw_wait_for_completion_killable_timeout(x, t);	\
- 	sdt_might_sleep_finish();				\
- 	__ret;							\
+diff --git a/include/linux/swait.h b/include/linux/swait.h
+index 1304209..339e5f2 100644
+--- a/include/linux/swait.h
++++ b/include/linux/swait.h
+@@ -162,7 +162,10 @@ static inline bool swq_has_sleeper(struct swait_queue_head *wq)
+ 	struct swait_queue __wait;					\
+ 	long __ret = ret;						\
+ 									\
+-	sdt_might_sleep_weak(NULL);					\
++	if (!__ret || __ret == MAX_SCHEDULE_TIMEOUT)			\
++		sdt_might_sleep_weak(NULL);				\
++	else								\
++		sdt_might_sleep_weak_timeout(NULL);			\
+ 	INIT_LIST_HEAD(&__wait.task_list);				\
+ 	for (;;) {							\
+ 		long __int = prepare_to_swait_event(&wq, &__wait, state);\
 -- 
 1.9.1
 
