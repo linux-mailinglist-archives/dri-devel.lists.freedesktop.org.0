@@ -2,70 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A29E6663B07
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 09:29:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C9B663AFF
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 09:29:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF48610E560;
-	Tue, 10 Jan 2023 08:29:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF31C10E556;
+	Tue, 10 Jan 2023 08:28:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0E6510E096;
- Mon,  9 Jan 2023 23:16:31 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id y25so15529176lfa.9;
- Mon, 09 Jan 2023 15:16:31 -0800 (PST)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 458D510E0CF;
+ Mon,  9 Jan 2023 23:16:33 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id v25so15492497lfe.12;
+ Mon, 09 Jan 2023 15:16:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Fcv1oFN64qJbUFhacrhJqgn8l/kgjLzAdWsUtFoBwMI=;
- b=nBdqaJGPr/nRqiCZKqfaB1HQdy85AAh1ZQqHWisT9yDwtkhoPZXkKF7qRcING1Gzup
- Uwwla3Pj8/L696BkpNLVsLz7x6fei2MZy2fzk1P0wvqBSVqvT5sYt4feMLxjjjmLVEpJ
- e13sfdL4Yg7pkuIDOQsGNRn4d0RLWivD8Y2vHOSAb02bJyq12Naag37tHw56u7SlphtW
- vG8BhN0CmrFdC7wiB6Jijei+yfRFNGaMVHH/Hy5Bso8hQjsoT1Ezxgc4VA1wJh/avvIO
- R8Qp6sw54FQBsCc9HJmLB8BNumhP/pcVSKefZUQ+AEWAMFhwKcGIV2kUxyNZ6WyT5k/r
- 1eug==
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XHjEtNVaTqOtCpnB9ZP021rbETT/k+vzPdGSi2OKKbk=;
+ b=Dd9JqNQM4cUJM4TBXa5f4xvEAS9VPArJhWLDzOlCPE7UEAKXRhtW7VQ2cmdUTVVk0G
+ VYT6hox6yoL2bEvWBJuLKd86+3whBQaa1drVc97qUHLKzbzstPXGjAuZc4d/yr8bot84
+ 8AUV1Y1SyZQUIbNPmu4uphSh85FxvRSVCB4n9nMbn+kPl2tQRlcVJYezP6JnIzfj59WG
+ 8+j5WaBqQNdd4LQaJHBA8IYwnngzv4oqLlgOU7s8lB447GnMZEyskOkjNmT64wcSy8WH
+ 4dHz1sURUjoigqOMejLb7fCuxJLGfbHoeB5SPaB+P+3FljuafV20y+8FvPWBE2bPGwfo
+ HKZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:to:from:x-gm-message-state:from:to:cc
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Fcv1oFN64qJbUFhacrhJqgn8l/kgjLzAdWsUtFoBwMI=;
- b=Kq+8cbtrdW9ZBv0j/4Gi45S6V4qwGTm/clr5pZCZgnwRHmcRweJW/bX1KJrrTu4QUO
- jXzRJm7qQNhJsB1a/mH3lKYaRWnbNjKWDQgJa3Gi2WKfXKlrkpqj1EM+7rpyZU1mjwIr
- ZizvdqtS4FnUeVVuscfV89IYMqHf57Zt9h+bSq6IdK7FlfurFZBZF2aOgjdaXRpquxBO
- xMDLdtvFE3FPzwXl2abkpJL1ERn9Lxa9VwF/etbUaLH3Q/VBiS9wbDh47Y1R0VTSeXmP
- ssm3mynGas+4Ez3rjq/i4w5dQXHMgxUOCUi198MD0VKdfepc7Ye2RGwNOe0WmNPipvCZ
- AHoQ==
-X-Gm-Message-State: AFqh2kp67qA/879cYWBHaTulRsZ3lCXCyOAU/XAcH0AyEnD8F4JPiIQd
- xJYSRI62hNGpQDRIkmmgFq8=
-X-Google-Smtp-Source: AMrXdXtXMWbO88qPnq745Od9/2z5JfHQSbibEexSfpksdpgkjdwJBwliMQal1f7GVguXLEPln76qHQ==
-X-Received: by 2002:ac2:52ba:0:b0:4cb:445c:dc7d with SMTP id
- r26-20020ac252ba000000b004cb445cdc7dmr5998193lfm.26.1673306191279; 
- Mon, 09 Jan 2023 15:16:31 -0800 (PST)
+ bh=XHjEtNVaTqOtCpnB9ZP021rbETT/k+vzPdGSi2OKKbk=;
+ b=RDB0x5w9BM3SEzJ2WWhVkcziguXz+WJmOZ/a7R59Ph/jpZjKtjCDKtWw9uNm/o92N2
+ QNWe2dgTRALHRSRktLeG7xUvM3K5odfcx7rsAZUzHPXCpyLDRUH7NBCGQOmZaekorSDG
+ FHQokS/NX+hyo/YdlNAMMzg22JV69xdJRCTyEX3ehrxwV4/iBOG83f4gp+vyi+jPQXNx
+ tkKCAYsbawbK6OO4323k09ooWQvjyAicRmF62otSAKfd9YhHUVV2Sov7Ianefl4V81DW
+ rXD7sX3obMHi+EUWq7LsAQUzsu6Kl1Ay/xYNrZ3meqDlkWnvENQvIYFHwSQsQMYsgjmh
+ 9qvQ==
+X-Gm-Message-State: AFqh2kpgFgq0Q6xSnuRWNxETNQSSlt7XeqcBTwudD5Y17kOsUGunWqKa
+ KYNn4JGYQjkk0E+XnGJB3hI=
+X-Google-Smtp-Source: AMrXdXuq/b00HS8PUFGm6yKSVMLWmldR90yzJzqsS17SBf9hSgAklRD7ER40uVXxqYUX1Tv4Bcj7/A==
+X-Received: by 2002:a05:6512:25a0:b0:4b5:5dea:85ad with SMTP id
+ bf32-20020a05651225a000b004b55dea85admr18729585lfb.12.1673306192837; 
+ Mon, 09 Jan 2023 15:16:32 -0800 (PST)
 Received: from localhost (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- br11-20020a056512400b00b0048a934168c0sm1831364lfb.35.2023.01.09.15.16.29
+ n2-20020a05651203e200b004bb8a796a6bsm1852983lfq.66.2023.01.09.15.16.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 15:16:30 -0800 (PST)
+ Mon, 09 Jan 2023 15:16:32 -0800 (PST)
 From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 X-Google-Original-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: robdclark@gmail.com, quic_abhinavk@quicinc.com, sean@poorly.run,
- airlied@gmail.com, daniel@ffwll.ch, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, agross@kernel.org, andersson@kernel.org,
- konrad.dybcio@somainline.org, quic_jesszhan@quicinc.com,
- angelogioacchino.delregno@somainline.org, loic.poulain@linaro.org,
- vkoul@kernel.org, a39.skl@gmail.com, quic_khsieh@quicinc.com,
- quic_vpolimer@quicinc.com, swboyd@chromium.org, dianders@chromium.org,
- liushixin2@huawei.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jonathan Marek <jonathan@marek.ca>, vinod.koul@linaro.org,
- Robert Foss <robert.foss@linaro.org>
-In-Reply-To: <20221230153554.105856-1-robert.foss@linaro.org>
-References: <20221230153554.105856-1-robert.foss@linaro.org>
-Subject: Re: [PATCH v4 00/11] Enable Display for SM8350
-Message-Id: <167330408775.609993.7646803775858639381.b4-ty@linaro.org>
+To: robdclark@gmail.com, quic_abhinavk@quicinc.com, airlied@gmail.com,
+ daniel@ffwll.ch, Hui Tang <tanghui20@huawei.com>
+In-Reply-To: <20221119055518.179937-1-tanghui20@huawei.com>
+References: <20221119055518.179937-1-tanghui20@huawei.com>
+Subject: Re: [PATCH] drm/msm/dpu: check for null return of devm_kzalloc() in
+ dpu_writeback_init()
+Message-Id: <167330408783.609993.13860899129914018447.b4-ty@linaro.org>
 Date: Tue, 10 Jan 2023 00:41:27 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -83,33 +75,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ yusongping@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Fri, 30 Dec 2022 16:35:43 +0100, Robert Foss wrote:
-> Dependencies:
-> https://lore.kernel.org/all/20221102231309.583587-1-dmitry.baryshkov@linaro.org/
-> https://lore.kernel.org/all/20221024164225.3236654-1-dmitry.baryshkov@linaro.org/
-> https://lore.kernel.org/all/20221104130324.1024242-5-dmitry.baryshkov@linaro.org/
+On Sat, 19 Nov 2022 13:55:18 +0800, Hui Tang wrote:
+> Because of the possilble failure of devm_kzalloc(), dpu_wb_conn might
+> be NULL and will cause null pointer derefrence later.
 > 
-> Branch:
-> https://git.linaro.org/people/robert.foss/linux.git/log/?h=sm8350_dsi_v4
+> Therefore, it might be better to check it and directly return -ENOMEM.
 > 
-> [...]
+> 
 
 Applied, thanks!
 
-[01/11] dt-bindings: display: msm: Add qcom,sm8350-dpu binding
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/7a0c3d0025de
-[02/11] dt-bindings: display: msm: Add qcom,sm8350-mdss binding
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/ddcf30003b92
-[03/11] drm/msm/dpu: Add SM8350 to hw catalog
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/0a72f23f6ef8
-[04/11] drm/msm/dpu: Add support for SM8350
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/a596a6078586
-[05/11] drm/msm: Add support for SM8350
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/3d6287e64cbd
+[1/1] drm/msm/dpu: check for null return of devm_kzalloc() in dpu_writeback_init()
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/21e9a838f505
 
 Best regards,
 -- 
