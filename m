@@ -1,65 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6922A662C4E
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 18:11:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37E09662C5D
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 18:12:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3E8B10E0E9;
-	Mon,  9 Jan 2023 17:10:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ECDF10E4BF;
+	Mon,  9 Jan 2023 17:12:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D3A010E0E9
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 17:10:56 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B067E611F0
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 17:10:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E986CC43398
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 17:10:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1673284254;
- bh=dqBhK5IJhACjEDMmmJVam6UCqbHe85Mway1mQpi4Boo=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=EfDe01xSY+weVxAE8QOWRj+Ccp/vmpPI66AU8BGnFA0PK57xgoVeREIJCm6vob3BP
- dxGv1+dvmeVFOwnOJYC0Uw/DfcdT3/0nX739fsicziK7L+7RZtsWXgF+Z8fgHGXxMw
- 3bIH7CuSTtnAdm1x24SQHq4upgGhq0Ev9MErc8L0zk4RqEZLIO7q7YqrLarZ6GYU17
- 8HyAzzEJ3TIp2RIUoeNdcNAHyZK8c7Ft8Gbg9yYLmxVskz8i7u6nL4x+j3wMPRJRgL
- k/XhAQh9FWgmCZnLAM/0TW9h12Xyj2NT2y7OKNak2nwoGGEdnNlls6AycfI+s/FZSv
- 3+ilI9vlmUmpQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id CEAF7C004D5; Mon,  9 Jan 2023 17:10:54 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211189] vgaarb overrides boot device unexpectedly with Intel
- and discrete AMDGPU
-Date: Mon, 09 Jan 2023 17:10:54 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211189-2300-raZNrcMYNl@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211189-2300@https.bugzilla.kernel.org/>
-References: <bug-211189-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3776C10E4BF;
+ Mon,  9 Jan 2023 17:12:29 +0000 (UTC)
+Received: from SoMainline.org (unknown [89.205.226.190])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 422543EBA8;
+ Mon,  9 Jan 2023 18:12:25 +0100 (CET)
+Date: Mon, 9 Jan 2023 18:12:23 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v2 4/8] drm/msm/dpu: Disallow unallocated resources to be
+ returned
+Message-ID: <20230109171223.vjkigcj7xwfwow2a@SoMainline.org>
+References: <20221221231943.1961117-1-marijn.suijten@somainline.org>
+ <20221221231943.1961117-5-marijn.suijten@somainline.org>
+ <b415a91d-f804-1fec-52dd-4124d3f1e583@linaro.org>
+ <1b872a47-6ffc-1fe9-f283-897dbc37d709@linaro.org>
+ <20230109082357.meebk7udokdfvwle@SoMainline.org>
+ <CAA8EJppqocjgTbZLhcJtmRGjE4X2u_jDEGDWS9Bsp7MEgD+Ldg@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAA8EJppqocjgTbZLhcJtmRGjE4X2u_jDEGDWS9Bsp7MEgD+Ldg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,16 +47,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ phone-devel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ Haowen Bai <baihaowen@meizu.com>, Vinod Koul <vkoul@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Jani Nikula <jani.nikula@intel.com>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Stephen Boyd <swboyd@chromium.org>, Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
+ Loic Poulain <loic.poulain@linaro.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, sunliming <sunliming@kylinos.cn>,
+ Drew Davenport <ddavenport@chromium.org>, freedreno@lists.freedesktop.org,
+ Vinod Polimera <quic_vpolimer@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211189
+On 2023-01-09 11:06:45, Dmitry Baryshkov wrote:
+> On Mon, 9 Jan 2023 at 10:24, Marijn Suijten
+> <marijn.suijten@somainline.org> wrote:
+> >
+> > On 2023-01-09 01:30:29, Dmitry Baryshkov wrote:
+> > > On 09/01/2023 01:28, Dmitry Baryshkov wrote:
+> > > > On 22/12/2022 01:19, Marijn Suijten wrote:
+> > > >> In the event that the topology requests resources that have not been
+> > > >> created by the system (because they are typically not represented in
+> > > >> dpu_mdss_cfg ^1), the resource(s) in global_state (in this case DSC
+> > > >> blocks) remain NULL but will still be returned out of
+> > > >> dpu_rm_get_assigned_resources, where the caller expects to get an array
+> > > >> containing num_blks valid pointers (but instead gets these NULLs).
+> > > >>
+> > > >> To prevent this from happening, where null-pointer dereferences
+> > > >> typically result in a hard-to-debug platform lockup, num_blks shouldn't
+> > > >> increase past NULL blocks and will print an error and break instead.
+> > > >> After all, max_blks represents the static size of the maximum number of
+> > > >> blocks whereas the actual amount varies per platform.
+> > > >>
+> > > >> ^1: which can happen after a git rebase ended up moving additions to
+> > > >> _dpu_cfg to a different struct which has the same patch context.
+> > > >>
+> > > >> Fixes: bb00a452d6f7 ("drm/msm/dpu: Refactor resource manager")
+> > > >> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> > > >> ---
+> > > >>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 5 +++++
+> > > >>   1 file changed, 5 insertions(+)
+> > > >
+> > > > I think the patch is not fully correct. Please check resource
+> > > > availability during allocation. I wouldn't expect an error from
+> > > > get_assigned_resources because of resource exhaustion.
+> >
+> > Theoretically patch 5/8 should take care of this, and we should never
+> > reach this failure condition.  Emphasis on /should/, this may happen
+> > again if/when another block type is added with sub-par resource
+> > allocation and assignment implementation.
+> 
+> Yeah. Maybe swapping 4/8 and 5/8 makes sense.
 
---- Comment #5 from Alex Deucher (alexdeucher@gmail.com) ---
-What GPU does the sbios use for boot messages before you boot the OS?
+Ack.
 
---=20
-You may reply to this email to add a comment.
+> > > Another option, since allocation functions (except DSC) already have
+> > > these safety checks: check error message to mention internal
+> > > inconstency: allocated resource doesn't exist.
+> >
+> > Is this a suggestion for the wording of the error message?
+> 
+> Yes. Because the current message makes one think that it is output
+> during allocation / assignment to encoder, while this is a safety net.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Good.  So the patch is correct, just the wording is off, which I fully
+agree on.  This isn't allocating anything, just handing out what was
+previously allocated (and is a safety net).
+
+- Marijn
