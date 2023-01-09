@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E4E266256F
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 13:24:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA2B662570
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 13:24:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ADCA10E405;
-	Mon,  9 Jan 2023 12:24:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBE3310E408;
+	Mon,  9 Jan 2023 12:24:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31A0E10E402
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 12:24:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3394E10E402
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 12:24:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673267046; x=1704803046;
+ t=1673267049; x=1704803049;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=zM93MyQSvVtJL/wbiZj33eEMR2lli4FlKV4ZjxZz88g=;
- b=WcbtkOMw74/tSfUFuXqMrn2otc0KRsniL28Z+6Z3WBPrUJ+WCx1dGAY7
- z5oYH6h8ZlkCknj4belOZ45iD5KqFanQJNT1tzjJJI6eh5a4ijMmDc3lC
- 7an8uEmUpnnbsjqCY+HCtPw4OELR9U4/sQ/3ZqTPQns7e9C3+gv1R+NmN
- 40GuSpW1LUHKXcfbYS8Zk1PQnOxP2WudTWMVNbZZq2HRxL5g0aW1On/4l
- WK9yZ2K2r8T5fo9dsQZe7itsJjRKKpBajxRYP1aBP6FtSnOqosVM9mat9
- DpgC5GNGIKDVtjfpkAwWupiYr0XonpvIUwVzdsE9hB9lfaRDU66wtXZcI g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="321563038"
-X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="321563038"
+ bh=3bYIUkdnTiKBvDlqqhTdumO1Bba4xWcfflygQ2TfCBM=;
+ b=JPp/MEhBK9vZQweWWSQ7rRhKVLkC8jkGKnCn0mqRND8s2YM2Q9Y2l/vO
+ ZovVE1A6WIEyZKm2BDMvuACGogetMAW5jvWB7lzc5jIugkNvY06uWXmDn
+ WhYUBhH3S/KJicP9UZPx3yc3DnAuDgwwssMp2A6g7Mn3BhK4vZGdNuiby
+ OQc6dnZF9woBQNSzG+ERIVHfwjls6WOcIM52MgyNszmb4uTvKY0qlrUhU
+ Sbn6k5DEe0iAmokAxMo1/RbPUkbeJZrnwVi3VVoKid9ypTR6c6X9shBjU
+ L6ox4ndC3P6U2Za3V+Nof0QR399cI2/ZsXjFxeDWpDwef6+JqNBbgxnDm Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="321563051"
+X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="321563051"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2023 04:24:05 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="606593889"
-X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="606593889"
+ 09 Jan 2023 04:24:08 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="606593911"
+X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="606593911"
 Received: from jlawryno.igk.intel.com ([172.22.229.13])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2023 04:24:03 -0800
+ 09 Jan 2023 04:24:05 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org, oded.gabbay@gmail.com, airlied@gmail.com,
  daniel@ffwll.ch, tzimmermann@suse.de, quic_jhugo@quicinc.com
-Subject: [PATCH v5 3/7] accel/ivpu: Add GEM buffer object management
-Date: Mon,  9 Jan 2023 13:23:40 +0100
-Message-Id: <20230109122344.253994-4-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH v5 4/7] accel/ivpu: Add IPC driver and JSM messages
+Date: Mon,  9 Jan 2023 13:23:41 +0100
+Message-Id: <20230109122344.253994-5-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230109122344.253994-1-jacek.lawrynowicz@linux.intel.com>
 References: <20230109122344.253994-1-jacek.lawrynowicz@linux.intel.com>
@@ -58,1256 +58,1967 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: andrzej.kacprowski@linux.intel.com,
+ Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
  stanislaw.gruszka@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adds four types of GEM-based BOs for the VPU:
-  - shmem
-  - userptr
-  - internal
-  - prime
+The IPC driver is used to send and receive messages to/from firmware
+running on the VPU.
 
-All types are implemented as struct ivpu_bo, based on
-struct drm_gem_object. VPU address is allocated when buffer is created
-except for imported prime buffers that allocate it in BO_INFO IOCTL due
-to missing file_priv arg in gem_prime_import callback.
-Internal buffers are pinned on creation, the rest of buffers types
-can be pinned on demand (in SUBMIT IOCTL).
-Buffer VPU address, allocated pages and mappings are released when the
-buffer is destroyed.
-Eviction mechism is planned for future versions.
+The only supported IPC message format is Job Submission Model (JSM)
+defined in vpu_jsm_api.h header.
 
-Add three new IOCTLs: BO_CREATE, BO_INFO, BO_USERPTR
-
+Co-developed-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+Co-developed-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/Makefile   |   1 +
- drivers/accel/ivpu/ivpu_drv.c |  31 +-
- drivers/accel/ivpu/ivpu_drv.h |   1 +
- drivers/accel/ivpu/ivpu_gem.c | 820 ++++++++++++++++++++++++++++++++++
- drivers/accel/ivpu/ivpu_gem.h | 128 ++++++
- include/uapi/drm/ivpu_accel.h | 127 ++++++
- 6 files changed, 1106 insertions(+), 2 deletions(-)
- create mode 100644 drivers/accel/ivpu/ivpu_gem.c
- create mode 100644 drivers/accel/ivpu/ivpu_gem.h
+ drivers/accel/ivpu/Makefile       |   2 +
+ drivers/accel/ivpu/ivpu_drv.c     |  13 +
+ drivers/accel/ivpu/ivpu_drv.h     |   2 +
+ drivers/accel/ivpu/ivpu_hw_mtl.c  |   4 +
+ drivers/accel/ivpu/ivpu_ipc.c     | 505 +++++++++++++++
+ drivers/accel/ivpu/ivpu_ipc.h     |  93 +++
+ drivers/accel/ivpu/ivpu_jsm_msg.c | 170 +++++
+ drivers/accel/ivpu/ivpu_jsm_msg.h |  23 +
+ drivers/accel/ivpu/vpu_jsm_api.h  | 999 ++++++++++++++++++++++++++++++
+ 9 files changed, 1811 insertions(+)
+ create mode 100644 drivers/accel/ivpu/ivpu_ipc.c
+ create mode 100644 drivers/accel/ivpu/ivpu_ipc.h
+ create mode 100644 drivers/accel/ivpu/ivpu_jsm_msg.c
+ create mode 100644 drivers/accel/ivpu/ivpu_jsm_msg.h
+ create mode 100644 drivers/accel/ivpu/vpu_jsm_api.h
 
 diff --git a/drivers/accel/ivpu/Makefile b/drivers/accel/ivpu/Makefile
-index 59cd7843b218..5d7c5862399c 100644
+index 5d7c5862399c..46595f0112e3 100644
 --- a/drivers/accel/ivpu/Makefile
 +++ b/drivers/accel/ivpu/Makefile
-@@ -3,6 +3,7 @@
- 
- intel_vpu-y := \
+@@ -5,6 +5,8 @@ intel_vpu-y := \
  	ivpu_drv.o \
-+	ivpu_gem.o \
+ 	ivpu_gem.o \
  	ivpu_hw_mtl.o \
++	ivpu_ipc.o \
++	ivpu_jsm_msg.o \
  	ivpu_mmu.o \
  	ivpu_mmu_context.o
+ 
 diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index d7982f451781..0b9034499c4c 100644
+index 0b9034499c4c..6643ae6b5a52 100644
 --- a/drivers/accel/ivpu/ivpu_drv.c
 +++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -12,8 +12,10 @@
- #include <drm/drm_file.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_ioctl.h>
-+#include <drm/drm_prime.h>
- 
+@@ -17,6 +17,7 @@
  #include "ivpu_drv.h"
-+#include "ivpu_gem.h"
+ #include "ivpu_gem.h"
  #include "ivpu_hw.h"
++#include "ivpu_ipc.h"
  #include "ivpu_mmu.h"
  #include "ivpu_mmu_context.h"
-@@ -49,6 +51,24 @@ struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv)
- 	return file_priv;
- }
  
-+struct ivpu_file_priv *ivpu_file_priv_get_by_ctx_id(struct ivpu_device *vdev, unsigned long id)
-+{
-+	struct ivpu_file_priv *file_priv;
+@@ -230,6 +231,7 @@ int ivpu_shutdown(struct ivpu_device *vdev)
+ 	int ret;
+ 
+ 	ivpu_hw_irq_disable(vdev);
++	ivpu_ipc_disable(vdev);
+ 	ivpu_mmu_disable(vdev);
+ 
+ 	ret = ivpu_hw_power_down(vdev);
+@@ -346,6 +348,10 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ 	if (!vdev->mmu)
+ 		return -ENOMEM;
+ 
++	vdev->ipc = drmm_kzalloc(&vdev->drm, sizeof(*vdev->ipc), GFP_KERNEL);
++	if (!vdev->ipc)
++		return -ENOMEM;
 +
-+	xa_lock_irq(&vdev->context_xa);
-+	file_priv = xa_load(&vdev->context_xa, id);
-+	/* file_priv may still be in context_xa during file_priv_release() */
-+	if (file_priv && !kref_get_unless_zero(&file_priv->ref))
-+		file_priv = NULL;
-+	xa_unlock_irq(&vdev->context_xa);
+ 	vdev->hw->ops = &ivpu_hw_mtl_ops;
+ 	vdev->platform = IVPU_PLATFORM_INVALID;
+ 	vdev->context_xa_limit.min = IVPU_GLOBAL_CONTEXT_MMU_SSID + 1;
+@@ -390,6 +396,12 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ 		goto err_mmu_gctx_fini;
+ 	}
+ 
++	ret = ivpu_ipc_init(vdev);
++	if (ret) {
++		ivpu_err(vdev, "Failed to initialize IPC: %d\n", ret);
++		goto err_mmu_gctx_fini;
++	}
 +
-+	if (file_priv)
-+		ivpu_dbg(vdev, KREF, "file_priv get by id: ctx %u refcount %u\n",
-+			 file_priv->ctx.id, kref_read(&file_priv->ref));
-+
-+	return file_priv;
-+}
-+
- static void file_priv_release(struct kref *ref)
+ 	return 0;
+ 
+ err_mmu_gctx_fini:
+@@ -404,6 +416,7 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ static void ivpu_dev_fini(struct ivpu_device *vdev)
  {
- 	struct ivpu_file_priv *file_priv = container_of(ref, struct ivpu_file_priv, ref);
-@@ -57,7 +77,7 @@ static void file_priv_release(struct kref *ref)
- 	ivpu_dbg(vdev, FILE, "file_priv release: ctx %u\n", file_priv->ctx.id);
+ 	ivpu_shutdown(vdev);
++	ivpu_ipc_fini(vdev);
+ 	ivpu_mmu_global_context_fini(vdev);
  
- 	ivpu_mmu_user_context_fini(vdev, &file_priv->ctx);
--	WARN_ON(xa_erase_irq(&vdev->context_xa, file_priv->ctx.id) != file_priv);
-+	drm_WARN_ON(&vdev->drm, xa_erase_irq(&vdev->context_xa, file_priv->ctx.id) != file_priv);
- 	kfree(file_priv);
- }
- 
-@@ -66,7 +86,7 @@ void ivpu_file_priv_put(struct ivpu_file_priv **link)
- 	struct ivpu_file_priv *file_priv = *link;
- 	struct ivpu_device *vdev = file_priv->vdev;
- 
--	WARN_ON(!file_priv);
-+	drm_WARN_ON(&vdev->drm, !file_priv);
- 
- 	ivpu_dbg(vdev, KREF, "file_priv put: ctx %u refcount %u\n",
- 		 file_priv->ctx.id, kref_read(&file_priv->ref));
-@@ -200,6 +220,9 @@ static void ivpu_postclose(struct drm_device *dev, struct drm_file *file)
- static const struct drm_ioctl_desc ivpu_drm_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(IVPU_GET_PARAM, ivpu_get_param_ioctl, 0),
- 	DRM_IOCTL_DEF_DRV(IVPU_SET_PARAM, ivpu_set_param_ioctl, 0),
-+	DRM_IOCTL_DEF_DRV(IVPU_BO_CREATE, ivpu_bo_create_ioctl, 0),
-+	DRM_IOCTL_DEF_DRV(IVPU_BO_INFO, ivpu_bo_info_ioctl, 0),
-+	DRM_IOCTL_DEF_DRV(IVPU_BO_USERPTR, ivpu_bo_userptr_ioctl, 0),
- };
- 
- int ivpu_shutdown(struct ivpu_device *vdev)
-@@ -233,6 +256,10 @@ static const struct drm_driver driver = {
- 
- 	.open = ivpu_open,
- 	.postclose = ivpu_postclose,
-+	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
-+	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-+	.gem_prime_import = ivpu_gem_prime_import,
-+	.gem_prime_mmap = drm_gem_prime_mmap,
- 
- 	.ioctls = ivpu_drm_ioctls,
- 	.num_ioctls = ARRAY_SIZE(ivpu_drm_ioctls),
+ 	drm_WARN_ON(&vdev->drm, !xa_empty(&vdev->context_xa));
 diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-index a749a0b97703..e8a43dbe5a3a 100644
+index e8a43dbe5a3a..c1e76d1fb8ba 100644
 --- a/drivers/accel/ivpu/ivpu_drv.h
 +++ b/drivers/accel/ivpu/ivpu_drv.h
-@@ -115,6 +115,7 @@ extern u8 ivpu_pll_min_ratio;
- extern u8 ivpu_pll_max_ratio;
+@@ -74,6 +74,7 @@ struct ivpu_wa_table {
  
- struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv);
-+struct ivpu_file_priv *ivpu_file_priv_get_by_ctx_id(struct ivpu_device *vdev, unsigned long id);
- void ivpu_file_priv_put(struct ivpu_file_priv **link);
- int ivpu_shutdown(struct ivpu_device *vdev);
+ struct ivpu_hw_info;
+ struct ivpu_mmu_info;
++struct ivpu_ipc_info;
  
-diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
+ struct ivpu_device {
+ 	struct drm_device drm;
+@@ -85,6 +86,7 @@ struct ivpu_device {
+ 	struct ivpu_wa_table wa;
+ 	struct ivpu_hw_info *hw;
+ 	struct ivpu_mmu_info *mmu;
++	struct ivpu_ipc_info *ipc;
+ 
+ 	struct ivpu_mmu_context gctx;
+ 	struct xarray context_xa;
+diff --git a/drivers/accel/ivpu/ivpu_hw_mtl.c b/drivers/accel/ivpu/ivpu_hw_mtl.c
+index eaba2b8248b8..0e9ef4c40901 100644
+--- a/drivers/accel/ivpu/ivpu_hw_mtl.c
++++ b/drivers/accel/ivpu/ivpu_hw_mtl.c
+@@ -7,6 +7,7 @@
+ #include "ivpu_hw_mtl_reg.h"
+ #include "ivpu_hw_reg_io.h"
+ #include "ivpu_hw.h"
++#include "ivpu_ipc.h"
+ #include "ivpu_mmu.h"
+ 
+ #define TILE_FUSE_ENABLE_BOTH	     0x0
+@@ -934,6 +935,9 @@ static u32 ivpu_hw_mtl_irqv_handler(struct ivpu_device *vdev, int irq)
+ 	if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, MMU_IRQ_0_INT, status))
+ 		ivpu_mmu_irq_evtq_handler(vdev);
+ 
++	if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, HOST_IPC_FIFO_INT, status))
++		ivpu_ipc_irq_handler(vdev);
++
+ 	if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, MMU_IRQ_1_INT, status))
+ 		ivpu_dbg(vdev, IRQ, "MMU sync complete\n");
+ 
+diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
 new file mode 100644
-index 000000000000..f6d1937c798f
+index 000000000000..4c477743189a
 --- /dev/null
-+++ b/drivers/accel/ivpu/ivpu_gem.c
-@@ -0,0 +1,820 @@
++++ b/drivers/accel/ivpu/ivpu_ipc.c
+@@ -0,0 +1,505 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (C) 2020-2023 Intel Corporation
 + */
 +
-+#include <linux/dma-buf.h>
++#include <linux/genalloc.h>
 +#include <linux/highmem.h>
-+#include <linux/module.h>
-+#include <linux/set_memory.h>
-+#include <linux/xarray.h>
-+
-+#include <drm/drm_cache.h>
-+#include <drm/drm_debugfs.h>
-+#include <drm/drm_file.h>
-+#include <drm/drm_utils.h>
++#include <linux/kthread.h>
++#include <linux/wait.h>
 +
 +#include "ivpu_drv.h"
 +#include "ivpu_gem.h"
 +#include "ivpu_hw.h"
-+#include "ivpu_mmu.h"
-+#include "ivpu_mmu_context.h"
++#include "ivpu_hw_reg_io.h"
++#include "ivpu_ipc.h"
++#include "ivpu_jsm_msg.h"
 +
-+MODULE_IMPORT_NS(DMA_BUF);
++#define IPC_MAX_RX_MSG	128
++#define IS_KTHREAD()	(get_current()->flags & PF_KTHREAD)
 +
-+static const struct drm_gem_object_funcs ivpu_gem_funcs;
-+
-+static struct lock_class_key prime_bo_lock_class_key;
-+static struct lock_class_key userptr_bo_lock_class_key;
-+
-+static int __must_check prime_alloc_pages_locked(struct ivpu_bo *bo)
-+{
-+	/* Pages are managed by the underlying dma-buf */
-+	return 0;
-+}
-+
-+static void prime_free_pages_locked(struct ivpu_bo *bo)
-+{
-+	/* Pages are managed by the underlying dma-buf */
-+}
-+
-+static int prime_map_pages_locked(struct ivpu_bo *bo)
-+{
-+	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
-+	struct sg_table *sgt;
-+
-+	WARN_ON(!bo->base.import_attach);
-+
-+	sgt = dma_buf_map_attachment(bo->base.import_attach, DMA_BIDIRECTIONAL);
-+	if (IS_ERR(sgt)) {
-+		ivpu_err(vdev, "Failed to map attachment: %ld\n", PTR_ERR(sgt));
-+		return PTR_ERR(sgt);
-+	}
-+
-+	bo->sgt = sgt;
-+	return 0;
-+}
-+
-+static void prime_unmap_pages_locked(struct ivpu_bo *bo)
-+{
-+	WARN_ON(!bo->base.import_attach);
-+
-+	dma_buf_unmap_attachment(bo->base.import_attach, bo->sgt, DMA_BIDIRECTIONAL);
-+	bo->sgt = NULL;
-+}
-+
-+static const struct ivpu_bo_ops prime_ops = {
-+	.type = IVPU_BO_TYPE_PRIME,
-+	.name = "prime",
-+	.alloc_pages = prime_alloc_pages_locked,
-+	.free_pages = prime_free_pages_locked,
-+	.map_pages = prime_map_pages_locked,
-+	.unmap_pages = prime_unmap_pages_locked,
++struct ivpu_ipc_tx_buf {
++	struct ivpu_ipc_hdr ipc;
++	struct vpu_jsm_msg jsm;
 +};
 +
-+static int __must_check shmem_alloc_pages_locked(struct ivpu_bo *bo)
-+{
-+	int npages = bo->base.size >> PAGE_SHIFT;
-+	struct page **pages;
-+
-+	pages = drm_gem_get_pages(&bo->base);
-+	if (IS_ERR(pages))
-+		return PTR_ERR(pages);
-+
-+	if (bo->flags & DRM_IVPU_BO_WC)
-+		set_pages_array_wc(pages, npages);
-+	else if (bo->flags & DRM_IVPU_BO_UNCACHED)
-+		set_pages_array_uc(pages, npages);
-+
-+	bo->pages = pages;
-+	return 0;
-+}
-+
-+static void shmem_free_pages_locked(struct ivpu_bo *bo)
-+{
-+	if (ivpu_bo_cache_mode(bo) != DRM_IVPU_BO_CACHED)
-+		set_pages_array_wb(bo->pages, bo->base.size >> PAGE_SHIFT);
-+
-+	drm_gem_put_pages(&bo->base, bo->pages, true, false);
-+	bo->pages = NULL;
-+}
-+
-+static int ivpu_bo_map_pages_locked(struct ivpu_bo *bo)
-+{
-+	int npages = bo->base.size >> PAGE_SHIFT;
-+	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
-+	struct sg_table *sgt;
-+	int ret;
-+
-+	sgt = drm_prime_pages_to_sg(&vdev->drm, bo->pages, npages);
-+	if (IS_ERR(sgt)) {
-+		ivpu_err(vdev, "Failed to allocate sgtable\n");
-+		return PTR_ERR(sgt);
-+	}
-+
-+	ret = dma_map_sgtable(vdev->drm.dev, sgt, DMA_BIDIRECTIONAL, 0);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to map BO in IOMMU: %d\n", ret);
-+		goto err_free_sgt;
-+	}
-+
-+	bo->sgt = sgt;
-+	return 0;
-+
-+err_free_sgt:
-+	kfree(sgt);
-+	return ret;
-+}
-+
-+static void ivpu_bo_unmap_pages_locked(struct ivpu_bo *bo)
-+{
-+	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
-+
-+	dma_unmap_sgtable(vdev->drm.dev, bo->sgt, DMA_BIDIRECTIONAL, 0);
-+	sg_free_table(bo->sgt);
-+	kfree(bo->sgt);
-+	bo->sgt = NULL;
-+}
-+
-+static const struct ivpu_bo_ops shmem_ops = {
-+	.type = IVPU_BO_TYPE_SHMEM,
-+	.name = "shmem",
-+	.alloc_pages = shmem_alloc_pages_locked,
-+	.free_pages = shmem_free_pages_locked,
-+	.map_pages = ivpu_bo_map_pages_locked,
-+	.unmap_pages = ivpu_bo_unmap_pages_locked,
++struct ivpu_ipc_rx_msg {
++	struct list_head link;
++	struct ivpu_ipc_hdr *ipc_hdr;
++	struct vpu_jsm_msg *jsm_msg;
 +};
 +
-+static int __must_check userptr_alloc_pages_locked(struct ivpu_bo *bo)
++static void ivpu_ipc_msg_dump(struct ivpu_device *vdev, char *c,
++			      struct ivpu_ipc_hdr *ipc_hdr, u32 vpu_addr)
 +{
-+	unsigned int npages = bo->base.size >> PAGE_SHIFT;
-+	struct page **pages;
-+	int ret;
++	ivpu_dbg(vdev, IPC,
++		 "%s: vpu:0x%x (data_addr:0x%08x, data_size:0x%x, channel:0x%x, src_node:0x%x, dst_node:0x%x, status:0x%x)",
++		 c, vpu_addr, ipc_hdr->data_addr, ipc_hdr->data_size, ipc_hdr->channel,
++		 ipc_hdr->src_node, ipc_hdr->dst_node, ipc_hdr->status);
++}
 +
-+	pages = kvmalloc_array(npages, sizeof(*bo->pages), GFP_KERNEL);
-+	if (!pages)
++static void ivpu_jsm_msg_dump(struct ivpu_device *vdev, char *c,
++			      struct vpu_jsm_msg *jsm_msg, u32 vpu_addr)
++{
++	u32 *payload = (u32 *)&jsm_msg->payload;
++
++	ivpu_dbg(vdev, JSM,
++		 "%s: vpu:0x%08x (type:0x%x, status:0x%x, id: 0x%x, result: 0x%x, payload:0x%x 0x%x 0x%x 0x%x 0x%x)\n",
++		 c, vpu_addr, jsm_msg->type, jsm_msg->status, jsm_msg->request_id, jsm_msg->result,
++		 payload[0], payload[1], payload[2], payload[3], payload[4]);
++}
++
++static void
++ivpu_ipc_rx_mark_free(struct ivpu_device *vdev, struct ivpu_ipc_hdr *ipc_hdr,
++		      struct vpu_jsm_msg *jsm_msg)
++{
++	ipc_hdr->status = IVPU_IPC_HDR_FREE;
++	if (jsm_msg)
++		jsm_msg->status = VPU_JSM_MSG_FREE;
++	wmb(); /* Flush WC buffers for message statuses */
++}
++
++static void ivpu_ipc_mem_fini(struct ivpu_device *vdev)
++{
++	struct ivpu_ipc_info *ipc = vdev->ipc;
++
++	ivpu_bo_free_internal(ipc->mem_rx);
++	ivpu_bo_free_internal(ipc->mem_tx);
++}
++
++static int
++ivpu_ipc_tx_prepare(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
++		    struct vpu_jsm_msg *req)
++{
++	struct ivpu_ipc_info *ipc = vdev->ipc;
++	struct ivpu_ipc_tx_buf *tx_buf;
++	u32 tx_buf_vpu_addr;
++	u32 jsm_vpu_addr;
++
++	tx_buf_vpu_addr = gen_pool_alloc(ipc->mm_tx, sizeof(*tx_buf));
++	if (!tx_buf_vpu_addr) {
++		ivpu_err(vdev, "Failed to reserve IPC buffer, size %ld\n",
++			 sizeof(*tx_buf));
 +		return -ENOMEM;
-+
-+	ret = pin_user_pages_fast(bo->user_ptr & PAGE_MASK, npages,
-+				  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM, pages);
-+	if (ret != npages) {
-+		if (ret > 0)
-+			goto err_unpin_pages;
-+		goto err_free_pages;
 +	}
 +
-+	bo->pages = pages;
-+	return 0;
-+
-+err_unpin_pages:
-+	unpin_user_pages(pages, ret);
-+err_free_pages:
-+	kvfree(pages);
-+	return ret;
-+}
-+
-+static void userptr_free_pages_locked(struct ivpu_bo *bo)
-+{
-+	unpin_user_pages(bo->pages, bo->base.size >> PAGE_SHIFT);
-+	kvfree(bo->pages);
-+	bo->pages = NULL;
-+}
-+
-+static const struct ivpu_bo_ops userptr_ops = {
-+	.type = IVPU_BO_TYPE_USERPTR,
-+	.name = "userptr",
-+	.alloc_pages = userptr_alloc_pages_locked,
-+	.free_pages = userptr_free_pages_locked,
-+	.map_pages = ivpu_bo_map_pages_locked,
-+	.unmap_pages = ivpu_bo_unmap_pages_locked,
-+};
-+
-+static int __must_check internal_alloc_pages_locked(struct ivpu_bo *bo)
-+{
-+	unsigned int i, npages = bo->base.size >> PAGE_SHIFT;
-+	struct page **pages;
-+	int ret;
-+
-+	pages = kvmalloc_array(npages, sizeof(*bo->pages), GFP_KERNEL);
-+	if (!pages)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < npages; i++) {
-+		pages[i] = alloc_page(GFP_KERNEL | __GFP_HIGHMEM | __GFP_ZERO);
-+		if (!pages[i]) {
-+			ret = -ENOMEM;
-+			goto err_free_pages;
-+		}
-+		cond_resched();
++	tx_buf = ivpu_to_cpu_addr(ipc->mem_tx, tx_buf_vpu_addr);
++	if (drm_WARN_ON(&vdev->drm, !tx_buf)) {
++		gen_pool_free(ipc->mm_tx, tx_buf_vpu_addr, sizeof(*tx_buf));
++		return -EIO;
 +	}
 +
-+	bo->pages = pages;
++	jsm_vpu_addr = tx_buf_vpu_addr + offsetof(struct ivpu_ipc_tx_buf, jsm);
++
++	if (tx_buf->ipc.status != IVPU_IPC_HDR_FREE)
++		ivpu_warn(vdev, "IPC message vpu:0x%x not released by firmware\n",
++			  tx_buf_vpu_addr);
++
++	if (tx_buf->jsm.status != VPU_JSM_MSG_FREE)
++		ivpu_warn(vdev, "JSM message vpu:0x%x not released by firmware\n",
++			  jsm_vpu_addr);
++
++	memset(tx_buf, 0, sizeof(*tx_buf));
++	tx_buf->ipc.data_addr = jsm_vpu_addr;
++	/* TODO: Set data_size to actual JSM message size, not union of all messages */
++	tx_buf->ipc.data_size = sizeof(*req);
++	tx_buf->ipc.channel = cons->channel;
++	tx_buf->ipc.src_node = 0;
++	tx_buf->ipc.dst_node = 1;
++	tx_buf->ipc.status = IVPU_IPC_HDR_ALLOCATED;
++	tx_buf->jsm.type = req->type;
++	tx_buf->jsm.status = VPU_JSM_MSG_ALLOCATED;
++	tx_buf->jsm.payload = req->payload;
++
++	req->request_id = atomic_inc_return(&ipc->request_id);
++	tx_buf->jsm.request_id = req->request_id;
++	cons->request_id = req->request_id;
++	wmb(); /* Flush WC buffers for IPC, JSM msgs */
++
++	cons->tx_vpu_addr = tx_buf_vpu_addr;
++
++	ivpu_jsm_msg_dump(vdev, "TX", &tx_buf->jsm, jsm_vpu_addr);
++	ivpu_ipc_msg_dump(vdev, "TX", &tx_buf->ipc, tx_buf_vpu_addr);
++
 +	return 0;
-+
-+err_free_pages:
-+	while (i--)
-+		put_page(pages[i]);
-+	kvfree(pages);
-+	return ret;
 +}
 +
-+static void internal_free_pages_locked(struct ivpu_bo *bo)
++static void ivpu_ipc_tx_release(struct ivpu_device *vdev, u32 vpu_addr)
 +{
-+	unsigned int i, npages = bo->base.size >> PAGE_SHIFT;
++	struct ivpu_ipc_info *ipc = vdev->ipc;
 +
-+	for (i = 0; i < npages; i++)
-+		put_page(bo->pages[i]);
-+
-+	kvfree(bo->pages);
-+	bo->pages = NULL;
++	if (vpu_addr)
++		gen_pool_free(ipc->mm_tx, vpu_addr, sizeof(struct ivpu_ipc_tx_buf));
 +}
 +
-+static const struct ivpu_bo_ops internal_ops = {
-+	.type = IVPU_BO_TYPE_INTERNAL,
-+	.name = "internal",
-+	.alloc_pages = internal_alloc_pages_locked,
-+	.free_pages = internal_free_pages_locked,
-+	.map_pages = ivpu_bo_map_pages_locked,
-+	.unmap_pages = ivpu_bo_unmap_pages_locked,
-+};
-+
-+static int __must_check ivpu_bo_alloc_and_map_pages_locked(struct ivpu_bo *bo)
++static void ivpu_ipc_tx(struct ivpu_device *vdev, u32 vpu_addr)
 +{
-+	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
++	ivpu_hw_reg_ipc_tx_set(vdev, vpu_addr);
++}
++
++void
++ivpu_ipc_consumer_add(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons, u32 channel)
++{
++	struct ivpu_ipc_info *ipc = vdev->ipc;
++
++	INIT_LIST_HEAD(&cons->link);
++	cons->channel = channel;
++	cons->tx_vpu_addr = 0;
++	cons->request_id = 0;
++	spin_lock_init(&cons->rx_msg_lock);
++	INIT_LIST_HEAD(&cons->rx_msg_list);
++	init_waitqueue_head(&cons->rx_msg_wq);
++
++	spin_lock_irq(&ipc->cons_list_lock);
++	list_add_tail(&cons->link, &ipc->cons_list);
++	spin_unlock_irq(&ipc->cons_list_lock);
++}
++
++void ivpu_ipc_consumer_del(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons)
++{
++	struct ivpu_ipc_info *ipc = vdev->ipc;
++	struct ivpu_ipc_rx_msg *rx_msg, *r;
++
++	spin_lock_irq(&ipc->cons_list_lock);
++	list_del(&cons->link);
++	spin_unlock_irq(&ipc->cons_list_lock);
++
++	spin_lock_irq(&cons->rx_msg_lock);
++	list_for_each_entry_safe(rx_msg, r, &cons->rx_msg_list, link) {
++		list_del(&rx_msg->link);
++		ivpu_ipc_rx_mark_free(vdev, rx_msg->ipc_hdr, rx_msg->jsm_msg);
++		atomic_dec(&ipc->rx_msg_count);
++		kfree(rx_msg);
++	}
++	spin_unlock_irq(&cons->rx_msg_lock);
++
++	ivpu_ipc_tx_release(vdev, cons->tx_vpu_addr);
++}
++
++static int
++ivpu_ipc_send(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons, struct vpu_jsm_msg *req)
++{
++	struct ivpu_ipc_info *ipc = vdev->ipc;
 +	int ret;
 +
-+	lockdep_assert_held(&bo->lock);
-+	drm_WARN_ON(&vdev->drm, bo->sgt);
-+
-+	ret = bo->ops->alloc_pages(bo);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to allocate pages for BO: %d", ret);
++	ret = mutex_lock_interruptible(&ipc->lock);
++	if (ret)
 +		return ret;
-+	}
 +
-+	ret = bo->ops->map_pages(bo);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to map pages for BO: %d", ret);
-+		goto err_free_pages;
-+	}
-+	return ret;
-+
-+err_free_pages:
-+	bo->ops->free_pages(bo);
-+	return ret;
-+}
-+
-+static void ivpu_bo_unmap_and_free_pages(struct ivpu_bo *bo)
-+{
-+	mutex_lock(&bo->lock);
-+
-+	WARN_ON(!bo->sgt);
-+	bo->ops->unmap_pages(bo);
-+	WARN_ON(bo->sgt);
-+	bo->ops->free_pages(bo);
-+	WARN_ON(bo->pages);
-+
-+	mutex_unlock(&bo->lock);
-+}
-+
-+/*
-+ * ivpu_bo_pin() - pin the backing physical pages and map them to VPU.
-+ *
-+ * This function pins physical memory pages, then maps the physical pages
-+ * to IOMMU address space and finally updates the VPU MMU page tables
-+ * to allow the VPU to translate VPU address to IOMMU address.
-+ */
-+int __must_check ivpu_bo_pin(struct ivpu_bo *bo)
-+{
-+	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
-+	int ret = 0;
-+
-+	mutex_lock(&bo->lock);
-+
-+	if (!bo->vpu_addr) {
-+		ivpu_err(vdev, "vpu_addr not set for BO ctx_id: %d handle: %d\n",
-+			 bo->ctx->id, bo->handle);
-+		ret = -EINVAL;
++	if (!ipc->on) {
++		ret = -EAGAIN;
 +		goto unlock;
 +	}
 +
-+	if (!bo->sgt) {
-+		ret = ivpu_bo_alloc_and_map_pages_locked(bo);
-+		if (ret)
-+			goto unlock;
-+	}
++	ret = ivpu_ipc_tx_prepare(vdev, cons, req);
++	if (ret)
++		goto unlock;
 +
-+	if (!bo->mmu_mapped) {
-+		ret = ivpu_mmu_context_map_sgt(vdev, bo->ctx, bo->vpu_addr, bo->sgt,
-+					       ivpu_bo_is_snooped(bo));
-+		if (ret) {
-+			ivpu_err(vdev, "Failed to map BO in MMU: %d\n", ret);
-+			goto unlock;
-+		}
-+		bo->mmu_mapped = true;
-+	}
++	ivpu_ipc_tx(vdev, cons->tx_vpu_addr);
 +
 +unlock:
-+	mutex_unlock(&bo->lock);
++	mutex_unlock(&ipc->lock);
++	return ret;
++}
++
++int ivpu_ipc_receive(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
++		     struct ivpu_ipc_hdr *ipc_buf,
++		     struct vpu_jsm_msg *ipc_payload, unsigned long timeout_ms)
++{
++	struct ivpu_ipc_info *ipc = vdev->ipc;
++	struct ivpu_ipc_rx_msg *rx_msg;
++	int wait_ret, ret = 0;
++
++	wait_ret = wait_event_interruptible_timeout(cons->rx_msg_wq,
++						    (IS_KTHREAD() && kthread_should_stop()) ||
++						    !list_empty(&cons->rx_msg_list),
++						    msecs_to_jiffies(timeout_ms));
++
++	if (IS_KTHREAD() && kthread_should_stop())
++		return -EINTR;
++
++	if (wait_ret == 0)
++		return -ETIMEDOUT;
++
++	if (wait_ret < 0)
++		return -ERESTARTSYS;
++
++	spin_lock_irq(&cons->rx_msg_lock);
++	rx_msg = list_first_entry_or_null(&cons->rx_msg_list, struct ivpu_ipc_rx_msg, link);
++	if (!rx_msg) {
++		spin_unlock_irq(&cons->rx_msg_lock);
++		return -EAGAIN;
++	}
++	list_del(&rx_msg->link);
++	spin_unlock_irq(&cons->rx_msg_lock);
++
++	if (ipc_buf)
++		memcpy(ipc_buf, rx_msg->ipc_hdr, sizeof(*ipc_buf));
++	if (rx_msg->jsm_msg) {
++		u32 size = min_t(int, rx_msg->ipc_hdr->data_size, sizeof(*ipc_payload));
++
++		if (rx_msg->jsm_msg->result != VPU_JSM_STATUS_SUCCESS) {
++			ivpu_dbg(vdev, IPC, "IPC resp result error: %d\n", rx_msg->jsm_msg->result);
++			ret = -EBADMSG;
++		}
++
++		if (ipc_payload)
++			memcpy(ipc_payload, rx_msg->jsm_msg, size);
++	}
++
++	ivpu_ipc_rx_mark_free(vdev, rx_msg->ipc_hdr, rx_msg->jsm_msg);
++	atomic_dec(&ipc->rx_msg_count);
++	kfree(rx_msg);
 +
 +	return ret;
 +}
 +
 +static int
-+ivpu_bo_alloc_vpu_addr(struct ivpu_bo *bo, struct ivpu_mmu_context *ctx,
-+		       const struct ivpu_addr_range *range)
++ivpu_ipc_send_receive_internal(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
++			       enum vpu_ipc_msg_type expected_resp_type,
++			       struct vpu_jsm_msg *resp, u32 channel,
++			       unsigned long timeout_ms)
 +{
-+	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
++	struct ivpu_ipc_consumer cons;
 +	int ret;
 +
-+	if (!range) {
-+		if (bo->flags & DRM_IVPU_BO_HIGH_MEM)
-+			range = &vdev->hw->ranges.user_high;
-+		else
-+			range = &vdev->hw->ranges.user_low;
++	ivpu_ipc_consumer_add(vdev, &cons, channel);
++
++	ret = ivpu_ipc_send(vdev, &cons, req);
++	if (ret) {
++		ivpu_warn(vdev, "IPC send failed: %d\n", ret);
++		goto consumer_del;
 +	}
 +
-+	mutex_lock(&ctx->lock);
-+	ret = ivpu_mmu_context_insert_node_locked(ctx, range, bo->base.size, &bo->mm_node);
-+	if (!ret) {
-+		bo->ctx = ctx;
-+		bo->vpu_addr = bo->mm_node.start;
-+		list_add_tail(&bo->ctx_node, &ctx->bo_list);
++	ret = ivpu_ipc_receive(vdev, &cons, NULL, resp, timeout_ms);
++	if (ret) {
++		ivpu_warn(vdev, "IPC receive failed: type 0x%x, ret %d\n", req->type, ret);
++		goto consumer_del;
 +	}
-+	mutex_unlock(&ctx->lock);
 +
++	if (resp->type != expected_resp_type) {
++		ivpu_warn(vdev, "Invalid JSM response type: 0x%x\n", resp->type);
++		ret = -EBADE;
++	}
++
++consumer_del:
++	ivpu_ipc_consumer_del(vdev, &cons);
 +	return ret;
 +}
 +
-+static void ivpu_bo_free_vpu_addr(struct ivpu_bo *bo)
++int ivpu_ipc_send_receive(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
++			  enum vpu_ipc_msg_type expected_resp_type,
++			  struct vpu_jsm_msg *resp, u32 channel,
++			  unsigned long timeout_ms)
 +{
-+	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
-+	struct ivpu_mmu_context *ctx = bo->ctx;
++	struct vpu_jsm_msg hb_req = { .type = VPU_JSM_MSG_QUERY_ENGINE_HB };
++	struct vpu_jsm_msg hb_resp;
++	int ret;
 +
-+	ivpu_dbg(vdev, BO, "remove from ctx: ctx %d vpu_addr 0x%llx allocated %d mmu_mapped %d\n",
-+		 ctx->id, bo->vpu_addr, (bool)bo->sgt, bo->mmu_mapped);
++	ret = ivpu_rpm_get(vdev);
++	if (ret < 0)
++		return ret;
 +
-+	mutex_lock(&bo->lock);
++	ret = ivpu_ipc_send_receive_internal(vdev, req, expected_resp_type, resp,
++					     channel, timeout_ms);
++	if (ret != -ETIMEDOUT)
++		goto rpm_put;
 +
-+	if (bo->mmu_mapped) {
-+		drm_WARN_ON(&vdev->drm, !bo->sgt);
-+		ivpu_mmu_context_unmap_sgt(vdev, ctx, bo->vpu_addr, bo->sgt);
-+		bo->mmu_mapped = false;
-+	}
++	ret = ivpu_ipc_send_receive_internal(vdev, &hb_req, VPU_JSM_MSG_QUERY_ENGINE_HB_DONE,
++					     &hb_resp, VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
++	if (ret == -ETIMEDOUT)
++		ivpu_hw_diagnose_failure(vdev);
 +
-+	mutex_lock(&ctx->lock);
-+	list_del(&bo->ctx_node);
-+	bo->vpu_addr = 0;
-+	bo->ctx = NULL;
-+	ivpu_mmu_context_remove_node_locked(ctx, &bo->mm_node);
-+	mutex_unlock(&ctx->lock);
-+
-+	mutex_unlock(&bo->lock);
++rpm_put:
++	ivpu_rpm_put(vdev);
++	return ret;
 +}
 +
-+void ivpu_bo_remove_all_bos_from_context(struct ivpu_mmu_context *ctx)
++static bool
++ivpu_ipc_match_consumer(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
++			struct ivpu_ipc_hdr *ipc_hdr, struct vpu_jsm_msg *jsm_msg)
 +{
-+	struct ivpu_bo *bo, *tmp;
++	if (cons->channel != ipc_hdr->channel)
++		return false;
 +
-+	list_for_each_entry_safe(bo, tmp, &ctx->bo_list, ctx_node)
-+		ivpu_bo_free_vpu_addr(bo);
++	if (!jsm_msg || jsm_msg->request_id == cons->request_id)
++		return true;
++
++	return false;
 +}
 +
-+static struct ivpu_bo *
-+ivpu_bo_alloc(struct ivpu_device *vdev, struct ivpu_mmu_context *mmu_context,
-+	      u64 size, u32 flags, const struct ivpu_bo_ops *ops,
-+	      const struct ivpu_addr_range *range, u64 user_ptr)
++static void
++ivpu_ipc_dispatch(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
++		  struct ivpu_ipc_hdr *ipc_hdr, struct vpu_jsm_msg *jsm_msg)
 +{
-+	struct ivpu_bo *bo;
-+	int ret = 0;
++	struct ivpu_ipc_info *ipc = vdev->ipc;
++	struct ivpu_ipc_rx_msg *rx_msg;
++	unsigned long flags;
 +
-+	if (drm_WARN_ON(&vdev->drm, size == 0 || !PAGE_ALIGNED(size)))
-+		return ERR_PTR(-EINVAL);
++	lockdep_assert_held(&ipc->cons_list_lock);
 +
-+	switch (flags & DRM_IVPU_BO_CACHE_MASK) {
-+	case DRM_IVPU_BO_CACHED:
-+	case DRM_IVPU_BO_UNCACHED:
-+	case DRM_IVPU_BO_WC:
-+		break;
-+	default:
-+		return ERR_PTR(-EINVAL);
++	rx_msg = kzalloc(sizeof(*rx_msg), GFP_ATOMIC);
++	if (!rx_msg) {
++		ivpu_ipc_rx_mark_free(vdev, ipc_hdr, jsm_msg);
++		return;
 +	}
 +
-+	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
-+	if (!bo)
-+		return ERR_PTR(-ENOMEM);
++	atomic_inc(&ipc->rx_msg_count);
 +
-+	mutex_init(&bo->lock);
-+	bo->base.funcs = &ivpu_gem_funcs;
-+	bo->flags = flags;
-+	bo->ops = ops;
-+	bo->user_ptr = user_ptr;
++	rx_msg->ipc_hdr = ipc_hdr;
++	rx_msg->jsm_msg = jsm_msg;
 +
-+	if (ops->type == IVPU_BO_TYPE_SHMEM)
-+		ret = drm_gem_object_init(&vdev->drm, &bo->base, size);
-+	else
-+		drm_gem_private_object_init(&vdev->drm, &bo->base, size);
++	spin_lock_irqsave(&cons->rx_msg_lock, flags);
++	list_add_tail(&rx_msg->link, &cons->rx_msg_list);
++	spin_unlock_irqrestore(&cons->rx_msg_lock, flags);
 +
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to initialize drm object\n");
-+		goto err_free;
-+	}
++	wake_up(&cons->rx_msg_wq);
++}
 +
-+	if (flags & DRM_IVPU_BO_MAPPABLE) {
-+		ret = drm_gem_create_mmap_offset(&bo->base);
-+		if (ret) {
-+			ivpu_err(vdev, "Failed to allocate mmap offset\n");
-+			goto err_release;
++int ivpu_ipc_irq_handler(struct ivpu_device *vdev)
++{
++	struct ivpu_ipc_info *ipc = vdev->ipc;
++	struct ivpu_ipc_consumer *cons;
++	struct ivpu_ipc_hdr *ipc_hdr;
++	struct vpu_jsm_msg *jsm_msg;
++	unsigned long flags;
++	bool dispatched;
++	u32 vpu_addr;
++
++	/* Driver needs to purge all messages from IPC FIFO to clear IPC interrupt.
++	 * Without purge IPC FIFO to 0 next IPC interrupts won't be generated.
++	 */
++	while (ivpu_hw_reg_ipc_rx_count_get(vdev)) {
++		vpu_addr = ivpu_hw_reg_ipc_rx_addr_get(vdev);
++		if (vpu_addr == REG_IO_ERROR) {
++			ivpu_err(vdev, "Failed to read IPC rx addr register\n");
++			return -EIO;
++		}
++
++		ipc_hdr = ivpu_to_cpu_addr(ipc->mem_rx, vpu_addr);
++		if (!ipc_hdr) {
++			ivpu_warn(vdev, "IPC msg 0x%x out of range\n", vpu_addr);
++			continue;
++		}
++		ivpu_ipc_msg_dump(vdev, "RX", ipc_hdr, vpu_addr);
++
++		jsm_msg = NULL;
++		if (ipc_hdr->channel != IVPU_IPC_CHAN_BOOT_MSG) {
++			jsm_msg = ivpu_to_cpu_addr(ipc->mem_rx, ipc_hdr->data_addr);
++			if (!jsm_msg) {
++				ivpu_warn(vdev, "JSM msg 0x%x out of range\n", ipc_hdr->data_addr);
++				ivpu_ipc_rx_mark_free(vdev, ipc_hdr, NULL);
++				continue;
++			}
++			ivpu_jsm_msg_dump(vdev, "RX", jsm_msg, ipc_hdr->data_addr);
++		}
++
++		if (atomic_read(&ipc->rx_msg_count) > IPC_MAX_RX_MSG) {
++			ivpu_warn(vdev, "IPC RX msg dropped, msg count %d\n", IPC_MAX_RX_MSG);
++			ivpu_ipc_rx_mark_free(vdev, ipc_hdr, jsm_msg);
++			continue;
++		}
++
++		dispatched = false;
++		spin_lock_irqsave(&ipc->cons_list_lock, flags);
++		list_for_each_entry(cons, &ipc->cons_list, link) {
++			if (ivpu_ipc_match_consumer(vdev, cons, ipc_hdr, jsm_msg)) {
++				ivpu_ipc_dispatch(vdev, cons, ipc_hdr, jsm_msg);
++				dispatched = true;
++				break;
++			}
++		}
++		spin_unlock_irqrestore(&ipc->cons_list_lock, flags);
++
++		if (!dispatched) {
++			ivpu_dbg(vdev, IPC, "IPC RX msg 0x%x dropped (no consumer)\n", vpu_addr);
++			ivpu_ipc_rx_mark_free(vdev, ipc_hdr, jsm_msg);
 +		}
 +	}
-+
-+	if (mmu_context) {
-+		ret = ivpu_bo_alloc_vpu_addr(bo, mmu_context, range);
-+		if (ret) {
-+			ivpu_err(vdev, "Failed to add BO to context: %d\n", ret);
-+			goto err_release;
-+		}
-+	}
-+
-+	return bo;
-+
-+err_release:
-+	drm_gem_object_release(&bo->base);
-+err_free:
-+	kfree(bo);
-+	return ERR_PTR(ret);
-+}
-+
-+static void ivpu_bo_free(struct drm_gem_object *obj)
-+{
-+	struct ivpu_bo *bo = to_ivpu_bo(obj);
-+	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
-+
-+	if (bo->ctx)
-+		ivpu_dbg(vdev, BO, "free: ctx %d vpu_addr 0x%llx allocated %d mmu_mapped %d\n",
-+			 bo->ctx->id, bo->vpu_addr, (bool)bo->sgt, bo->mmu_mapped);
-+	else
-+		ivpu_dbg(vdev, BO, "free: ctx (released) allocated %d mmu_mapped %d\n",
-+			 (bool)bo->sgt, bo->mmu_mapped);
-+
-+	drm_WARN_ON(&vdev->drm, !dma_resv_test_signaled(obj->resv, DMA_RESV_USAGE_READ));
-+
-+	vunmap(bo->kvaddr);
-+
-+	if (bo->ctx)
-+		ivpu_bo_free_vpu_addr(bo);
-+
-+	if (bo->sgt)
-+		ivpu_bo_unmap_and_free_pages(bo);
-+
-+	if (bo->base.import_attach)
-+		drm_prime_gem_destroy(&bo->base, bo->sgt);
-+
-+	drm_gem_object_release(&bo->base);
-+
-+	mutex_destroy(&bo->lock);
-+	kfree(bo);
-+}
-+
-+static int ivpu_bo_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-+{
-+	struct ivpu_bo *bo = to_ivpu_bo(obj);
-+	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
-+
-+	ivpu_dbg(vdev, BO, "mmap: ctx %u handle %u vpu_addr 0x%llx size %zu type %s",
-+		 bo->ctx->id, bo->handle, bo->vpu_addr, bo->base.size, bo->ops->name);
-+
-+	if (obj->import_attach) {
-+		/* Drop the reference drm_gem_mmap_obj() acquired.*/
-+		drm_gem_object_put(obj);
-+		vma->vm_private_data = NULL;
-+		return dma_buf_mmap(obj->dma_buf, vma, 0);
-+	}
-+
-+	vma->vm_flags |= VM_PFNMAP | VM_DONTEXPAND;
-+	vma->vm_page_prot = ivpu_bo_pgprot(bo, vm_get_page_prot(vma->vm_flags));
 +
 +	return 0;
 +}
 +
-+static struct sg_table *ivpu_bo_get_sg_table(struct drm_gem_object *obj)
++int ivpu_ipc_init(struct ivpu_device *vdev)
 +{
-+	struct ivpu_bo *bo = to_ivpu_bo(obj);
-+	loff_t npages = obj->size >> PAGE_SHIFT;
-+	int ret = 0;
++	struct ivpu_ipc_info *ipc = vdev->ipc;
++	int ret = -ENOMEM;
 +
-+	mutex_lock(&bo->lock);
++	ipc->mem_tx = ivpu_bo_alloc_internal(vdev, 0, SZ_16K, DRM_IVPU_BO_WC);
++	if (!ipc->mem_tx)
++		return ret;
 +
-+	if (!bo->sgt)
-+		ret = ivpu_bo_alloc_and_map_pages_locked(bo);
++	ipc->mem_rx = ivpu_bo_alloc_internal(vdev, 0, SZ_16K, DRM_IVPU_BO_WC);
++	if (!ipc->mem_rx)
++		goto err_free_tx;
 +
-+	mutex_unlock(&bo->lock);
-+
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	return drm_prime_pages_to_sg(obj->dev, bo->pages, npages);
-+}
-+
-+static vm_fault_t ivpu_vm_fault(struct vm_fault *vmf)
-+{
-+	struct vm_area_struct *vma = vmf->vma;
-+	struct drm_gem_object *obj = vma->vm_private_data;
-+	struct ivpu_bo *bo = to_ivpu_bo(obj);
-+	loff_t npages = obj->size >> PAGE_SHIFT;
-+	pgoff_t page_offset;
-+	struct page *page;
-+	vm_fault_t ret;
-+	int err;
-+
-+	mutex_lock(&bo->lock);
-+
-+	if (!bo->sgt) {
-+		err = ivpu_bo_alloc_and_map_pages_locked(bo);
-+		if (err) {
-+			ret = vmf_error(err);
-+			goto unlock;
-+		}
++	ipc->mm_tx = devm_gen_pool_create(vdev->drm.dev, __ffs(IVPU_IPC_ALIGNMENT),
++					  -1, "TX_IPC_JSM");
++	if (IS_ERR(ipc->mm_tx)) {
++		ret = PTR_ERR(ipc->mm_tx);
++		ivpu_err(vdev, "Failed to create gen pool, %pe\n", ipc->mm_tx);
++		goto err_free_rx;
 +	}
 +
-+	/* We don't use vmf->pgoff since that has the fake offset */
-+	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
-+	if (page_offset >= npages) {
-+		ret = VM_FAULT_SIGBUS;
-+	} else {
-+		page = bo->pages[page_offset];
-+		ret = vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
++	ret = gen_pool_add(ipc->mm_tx, ipc->mem_tx->vpu_addr, ipc->mem_tx->base.size, -1);
++	if (ret) {
++		ivpu_err(vdev, "gen_pool_add failed, ret %d\n", ret);
++		goto err_free_rx;
 +	}
 +
-+unlock:
-+	mutex_unlock(&bo->lock);
++	INIT_LIST_HEAD(&ipc->cons_list);
++	spin_lock_init(&ipc->cons_list_lock);
++	drmm_mutex_init(&vdev->drm, &ipc->lock);
 +
++	ivpu_ipc_reset(vdev);
++	return 0;
++
++err_free_rx:
++	ivpu_bo_free_internal(ipc->mem_rx);
++err_free_tx:
++	ivpu_bo_free_internal(ipc->mem_tx);
 +	return ret;
 +}
 +
-+static const struct vm_operations_struct ivpu_vm_ops = {
-+	.fault = ivpu_vm_fault,
-+	.open = drm_gem_vm_open,
-+	.close = drm_gem_vm_close,
-+};
-+
-+static const struct drm_gem_object_funcs ivpu_gem_funcs = {
-+	.free = ivpu_bo_free,
-+	.mmap = ivpu_bo_mmap,
-+	.vm_ops = &ivpu_vm_ops,
-+	.get_sg_table = ivpu_bo_get_sg_table,
-+};
-+
-+int
-+ivpu_bo_create_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
++void ivpu_ipc_fini(struct ivpu_device *vdev)
 +{
-+	struct ivpu_file_priv *file_priv = file->driver_priv;
-+	struct ivpu_device *vdev = file_priv->vdev;
-+	struct drm_ivpu_bo_create *args = data;
-+	u64 size = PAGE_ALIGN(args->size);
-+	struct ivpu_bo *bo;
-+	int ret;
-+
-+	if (args->flags & ~DRM_IVPU_BO_FLAGS)
-+		return -EINVAL;
-+
-+	if (size == 0)
-+		return -EINVAL;
-+
-+	bo = ivpu_bo_alloc(vdev, &file_priv->ctx, size, args->flags, &shmem_ops, NULL, 0);
-+	if (IS_ERR(bo)) {
-+		ivpu_err(vdev, "Failed to create BO: %pe (ctx %u size %llu flags 0x%x)",
-+			 bo, file_priv->ctx.id, args->size, args->flags);
-+		return PTR_ERR(bo);
-+	}
-+
-+	ret = drm_gem_handle_create(file, &bo->base, &bo->handle);
-+	if (!ret) {
-+		args->vpu_addr = bo->vpu_addr;
-+		args->handle = bo->handle;
-+	}
-+
-+	drm_gem_object_put(&bo->base);
-+
-+	ivpu_dbg(vdev, BO, "alloc shmem: ctx %u vpu_addr 0x%llx size %zu flags 0x%x\n",
-+		 file_priv->ctx.id, bo->vpu_addr, bo->base.size, bo->flags);
-+
-+	return ret;
++	ivpu_ipc_mem_fini(vdev);
 +}
 +
-+int
-+ivpu_bo_userptr_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
++void ivpu_ipc_enable(struct ivpu_device *vdev)
 +{
-+	struct ivpu_file_priv *file_priv = file->driver_priv;
-+	struct ivpu_device *vdev = file_priv->vdev;
-+	struct drm_ivpu_bo_userptr *args = data;
-+	struct ivpu_bo *bo;
-+	int ret;
++	struct ivpu_ipc_info *ipc = vdev->ipc;
 +
-+	if (args->user_ptr == 0 || !PAGE_ALIGNED(args->user_ptr))
-+		return -EINVAL;
-+
-+	if (args->user_size == 0 || !PAGE_ALIGNED(args->user_size))
-+		return -EINVAL;
-+
-+	if (args->flags & ~DRM_IVPU_BO_HIGH_MEM)
-+		return -EINVAL;
-+
-+	if (!access_ok((const void __user *)args->user_ptr, args->user_size))
-+		return -EFAULT;
-+
-+	bo = ivpu_bo_alloc(vdev, &file_priv->ctx, args->user_size, args->flags,
-+			   &userptr_ops, NULL, args->user_ptr);
-+	if (IS_ERR(bo)) {
-+		ivpu_err(vdev, "Failed to create BO: %pe (ctx %u size %llu flags 0x%x)",
-+			 bo, file_priv->ctx.id, args->user_size, args->flags);
-+		return PTR_ERR(bo);
-+	}
-+
-+	if (!bo)
-+		return -ENOMEM;
-+
-+	lockdep_set_class(&bo->lock, &userptr_bo_lock_class_key);
-+
-+	ret = drm_gem_handle_create(file, &bo->base, &bo->handle);
-+	if (!ret) {
-+		args->vpu_addr = bo->vpu_addr;
-+		args->handle = bo->handle;
-+	}
-+
-+	drm_gem_object_put(&bo->base);
-+
-+	ivpu_dbg(vdev, BO, "alloc userptr: ctx %u vpu_addr 0x%llx size %zu flags 0x%x\n",
-+		 file_priv->ctx.id, bo->vpu_addr, bo->base.size, args->flags);
-+
-+	return ret;
++	mutex_lock(&ipc->lock);
++	ipc->on = true;
++	mutex_unlock(&ipc->lock);
 +}
 +
-+struct ivpu_bo *
-+ivpu_bo_alloc_internal(struct ivpu_device *vdev, u64 vpu_addr, u64 size, u32 flags)
++void ivpu_ipc_disable(struct ivpu_device *vdev)
 +{
-+	const struct ivpu_addr_range *range;
-+	struct ivpu_addr_range fixed_range;
-+	struct ivpu_bo *bo;
-+	pgprot_t prot;
-+	int ret;
++	struct ivpu_ipc_info *ipc = vdev->ipc;
++	struct ivpu_ipc_consumer *cons, *c;
++	unsigned long flags;
 +
-+	drm_WARN_ON(&vdev->drm, !PAGE_ALIGNED(vpu_addr));
-+	drm_WARN_ON(&vdev->drm, !PAGE_ALIGNED(size));
++	mutex_lock(&ipc->lock);
++	ipc->on = false;
++	mutex_unlock(&ipc->lock);
 +
-+	if (vpu_addr) {
-+		fixed_range.start = vpu_addr;
-+		fixed_range.end = vpu_addr + size;
-+		range = &fixed_range;
-+	} else {
-+		range = &vdev->hw->ranges.global_low;
-+	}
-+
-+	bo = ivpu_bo_alloc(vdev, &vdev->gctx, size, flags, &internal_ops, range, 0);
-+	if (IS_ERR(bo)) {
-+		ivpu_err(vdev, "Failed to create BO: %pe (vpu_addr 0x%llx size %llu flags 0x%x)",
-+			 bo, vpu_addr, size, flags);
-+		return NULL;
-+	}
-+
-+	ret = ivpu_bo_pin(bo);
-+	if (ret)
-+		goto err_put;
-+
-+	if (ivpu_bo_cache_mode(bo) != DRM_IVPU_BO_CACHED)
-+		drm_clflush_pages(bo->pages, bo->base.size >> PAGE_SHIFT);
-+
-+	prot = ivpu_bo_pgprot(bo, PAGE_KERNEL);
-+	bo->kvaddr = vmap(bo->pages, bo->base.size >> PAGE_SHIFT, VM_MAP, prot);
-+	if (!bo->kvaddr) {
-+		ivpu_err(vdev, "Failed to map BO into kernel virtual memory\n");
-+		goto err_put;
-+	}
-+
-+	ivpu_dbg(vdev, BO, "alloc internal: ctx 0 vpu_addr 0x%llx size %zu flags 0x%x\n",
-+		 bo->vpu_addr, bo->base.size, flags);
-+
-+	return bo;
-+
-+err_put:
-+	drm_gem_object_put(&bo->base);
-+	return NULL;
++	spin_lock_irqsave(&ipc->cons_list_lock, flags);
++	list_for_each_entry_safe(cons, c, &ipc->cons_list, link)
++		wake_up(&cons->rx_msg_wq);
++	spin_unlock_irqrestore(&ipc->cons_list_lock, flags);
 +}
 +
-+void ivpu_bo_free_internal(struct ivpu_bo *bo)
++void ivpu_ipc_reset(struct ivpu_device *vdev)
 +{
-+	drm_gem_object_put(&bo->base);
++	struct ivpu_ipc_info *ipc = vdev->ipc;
++
++	mutex_lock(&ipc->lock);
++
++	memset(ipc->mem_tx->kvaddr, 0, ipc->mem_tx->base.size);
++	memset(ipc->mem_rx->kvaddr, 0, ipc->mem_rx->base.size);
++	wmb(); /* Flush WC buffers for TX and RX rings */
++
++	mutex_unlock(&ipc->lock);
 +}
-+
-+struct drm_gem_object *ivpu_gem_prime_import(struct drm_device *dev, struct dma_buf *buf)
-+{
-+	struct ivpu_device *vdev = to_ivpu_device(dev);
-+	struct dma_buf_attachment *attach;
-+	struct ivpu_bo *bo;
-+
-+	attach = dma_buf_attach(buf, dev->dev);
-+	if (IS_ERR(attach))
-+		return ERR_CAST(attach);
-+
-+	get_dma_buf(buf);
-+
-+	bo = ivpu_bo_alloc(vdev, NULL, buf->size, DRM_IVPU_BO_MAPPABLE, &prime_ops, NULL, 0);
-+	if (IS_ERR(bo)) {
-+		ivpu_err(vdev, "Failed to import BO: %pe (size %lu)", bo, buf->size);
-+		goto err_detach;
-+	}
-+
-+	lockdep_set_class(&bo->lock, &prime_bo_lock_class_key);
-+
-+	bo->base.import_attach = attach;
-+
-+	return &bo->base;
-+
-+err_detach:
-+	dma_buf_detach(buf, attach);
-+	dma_buf_put(buf);
-+	return ERR_CAST(bo);
-+}
-+
-+int ivpu_bo_info_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-+{
-+	struct ivpu_file_priv *file_priv = file->driver_priv;
-+	struct ivpu_device *vdev = to_ivpu_device(dev);
-+	struct drm_ivpu_bo_info *args = data;
-+	struct drm_gem_object *obj;
-+	struct ivpu_bo *bo;
-+	int ret = 0;
-+
-+	obj = drm_gem_object_lookup(file, args->handle);
-+	if (!obj)
-+		return -ENOENT;
-+
-+	bo = to_ivpu_bo(obj);
-+
-+	mutex_lock(&bo->lock);
-+
-+	if (!bo->ctx) {
-+		ret = ivpu_bo_alloc_vpu_addr(bo, &file_priv->ctx, NULL);
-+		if (ret) {
-+			ivpu_err(vdev, "Failed to allocate vpu_addr: %d\n", ret);
-+			goto unlock;
-+		}
-+	}
-+
-+	args->flags = bo->flags;
-+	args->mmap_offset = drm_vma_node_offset_addr(&obj->vma_node);
-+	args->vpu_addr = bo->vpu_addr;
-+	args->size = obj->size;
-+unlock:
-+	mutex_unlock(&bo->lock);
-+	drm_gem_object_put(obj);
-+	return ret;
-+}
-+
-+static void ivpu_bo_print_info(struct ivpu_bo *bo, struct drm_printer *p)
-+{
-+	unsigned long dma_refcount = 0;
-+
-+	if (bo->base.dma_buf && bo->base.dma_buf->file)
-+		dma_refcount = atomic_long_read(&bo->base.dma_buf->file->f_count);
-+
-+	drm_printf(p, "%5u %6d %16llx %10lu %10u %12lu %14s\n",
-+		   bo->ctx->id, bo->handle, bo->vpu_addr, bo->base.size,
-+		   kref_read(&bo->base.refcount), dma_refcount, bo->ops->name);
-+}
-+
-+void ivpu_bo_list(struct drm_device *dev, struct drm_printer *p)
-+{
-+	struct ivpu_device *vdev = to_ivpu_device(dev);
-+	struct ivpu_file_priv *file_priv;
-+	unsigned long ctx_id;
-+	struct ivpu_bo *bo;
-+
-+	drm_printf(p, "%5s %6s %16s %10s %10s %12s %14s\n",
-+		   "ctx", "handle", "vpu_addr", "size", "refcount", "dma_refcount", "type");
-+
-+	mutex_lock(&vdev->gctx.lock);
-+	list_for_each_entry(bo, &vdev->gctx.bo_list, ctx_node)
-+		ivpu_bo_print_info(bo, p);
-+	mutex_unlock(&vdev->gctx.lock);
-+
-+	xa_for_each(&vdev->context_xa, ctx_id, file_priv) {
-+		file_priv = ivpu_file_priv_get_by_ctx_id(vdev, ctx_id);
-+		if (!file_priv)
-+			continue;
-+
-+		mutex_lock(&file_priv->ctx.lock);
-+		list_for_each_entry(bo, &file_priv->ctx.bo_list, ctx_node)
-+			ivpu_bo_print_info(bo, p);
-+		mutex_unlock(&file_priv->ctx.lock);
-+
-+		ivpu_file_priv_put(&file_priv);
-+	}
-+}
-+
-+void ivpu_bo_list_print(struct drm_device *dev)
-+{
-+	struct drm_printer p = drm_info_printer(dev->dev);
-+
-+	ivpu_bo_list(dev, &p);
-+}
-diff --git a/drivers/accel/ivpu/ivpu_gem.h b/drivers/accel/ivpu/ivpu_gem.h
+diff --git a/drivers/accel/ivpu/ivpu_ipc.h b/drivers/accel/ivpu/ivpu_ipc.h
 new file mode 100644
-index 000000000000..d71e6fe207d4
+index 000000000000..9838202ecfad
 --- /dev/null
-+++ b/drivers/accel/ivpu/ivpu_gem.h
-@@ -0,0 +1,128 @@
++++ b/drivers/accel/ivpu/ivpu_ipc.h
+@@ -0,0 +1,93 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright (C) 2020-2023 Intel Corporation
 + */
-+#ifndef __IVPU_GEM_H__
-+#define __IVPU_GEM_H__
 +
-+#include <drm/drm_gem.h>
-+#include <drm/drm_mm.h>
++#ifndef __IVPU_IPC_H__
++#define __IVPU_IPC_H__
 +
-+struct dma_buf;
-+struct ivpu_bo_ops;
-+struct ivpu_file_priv;
++#include <linux/interrupt.h>
++#include <linux/spinlock.h>
 +
-+struct ivpu_bo {
-+	struct drm_gem_object base;
-+	const struct ivpu_bo_ops *ops;
++#include "vpu_jsm_api.h"
 +
-+	struct ivpu_mmu_context *ctx;
-+	struct list_head ctx_node;
-+	struct drm_mm_node mm_node;
++struct ivpu_bo;
 +
-+	struct mutex lock; /* Protects: pages, sgt, mmu_mapped */
-+	struct sg_table *sgt;
-+	struct page **pages;
-+	bool mmu_mapped;
++/* VPU FW boot notification */
++#define IVPU_IPC_CHAN_BOOT_MSG		0x3ff
++#define IVPU_IPC_BOOT_MSG_DATA_ADDR	0x424f4f54
 +
-+	void *kvaddr;
-+	u64 vpu_addr;
-+	u32 handle;
-+	u32 flags;
-+	uintptr_t user_ptr;
-+};
++/* The alignment to be used for IPC Buffers and IPC Data. */
++#define IVPU_IPC_ALIGNMENT	   64
 +
-+enum ivpu_bo_type {
-+	IVPU_BO_TYPE_SHMEM = 1,
-+	IVPU_BO_TYPE_USERPTR,
-+	IVPU_BO_TYPE_INTERNAL,
-+	IVPU_BO_TYPE_PRIME,
-+};
-+
-+struct ivpu_bo_ops {
-+	enum ivpu_bo_type type;
-+	const char *name;
-+	int (*alloc_pages)(struct ivpu_bo *bo);
-+	void (*free_pages)(struct ivpu_bo *bo);
-+	int (*map_pages)(struct ivpu_bo *bo);
-+	void (*unmap_pages)(struct ivpu_bo *bo);
-+};
-+
-+int ivpu_bo_pin(struct ivpu_bo *bo);
-+void ivpu_bo_remove_all_bos_from_context(struct ivpu_mmu_context *ctx);
-+void ivpu_bo_list(struct drm_device *dev, struct drm_printer *p);
-+void ivpu_bo_list_print(struct drm_device *dev);
-+
-+struct ivpu_bo *
-+ivpu_bo_alloc_internal(struct ivpu_device *vdev, u64 vpu_addr, u64 size, u32 flags);
-+void ivpu_bo_free_internal(struct ivpu_bo *bo);
-+struct drm_gem_object *ivpu_gem_prime_import(struct drm_device *dev, struct dma_buf *dma_buf);
-+void ivpu_bo_unmap_sgt_and_remove_from_context(struct ivpu_bo *bo);
-+
-+int ivpu_bo_create_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
-+int ivpu_bo_info_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
-+int ivpu_bo_userptr_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
-+int ivpu_bo_wait_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
-+
-+static inline struct ivpu_bo *to_ivpu_bo(struct drm_gem_object *obj)
-+{
-+	return container_of(obj, struct ivpu_bo, base);
-+}
-+
-+static inline struct page *ivpu_bo_get_page(struct ivpu_bo *bo, u64 offset)
-+{
-+	if (offset > bo->base.size || !bo->pages)
-+		return NULL;
-+
-+	return bo->pages[offset / PAGE_SIZE];
-+}
-+
-+static inline u32 ivpu_bo_cache_mode(struct ivpu_bo *bo)
-+{
-+	return bo->flags & DRM_IVPU_BO_CACHE_MASK;
-+}
-+
-+static inline bool ivpu_bo_is_snooped(struct ivpu_bo *bo)
-+{
-+	return ivpu_bo_cache_mode(bo) == DRM_IVPU_BO_CACHED;
-+}
-+
-+static inline pgprot_t ivpu_bo_pgprot(struct ivpu_bo *bo, pgprot_t prot)
-+{
-+	if (bo->flags & DRM_IVPU_BO_WC)
-+		return pgprot_writecombine(prot);
-+
-+	if (bo->flags & DRM_IVPU_BO_UNCACHED)
-+		return pgprot_noncached(prot);
-+
-+	return prot;
-+}
-+
-+static inline struct ivpu_device *ivpu_bo_to_vdev(struct ivpu_bo *bo)
-+{
-+	return to_ivpu_device(bo->base.dev);
-+}
-+
-+static inline void *ivpu_to_cpu_addr(struct ivpu_bo *bo, u32 vpu_addr)
-+{
-+	if (vpu_addr < bo->vpu_addr)
-+		return NULL;
-+
-+	if (vpu_addr >= (bo->vpu_addr + bo->base.size))
-+		return NULL;
-+
-+	return bo->kvaddr + (vpu_addr - bo->vpu_addr);
-+}
-+
-+static inline u32 cpu_to_vpu_addr(struct ivpu_bo *bo, void *cpu_addr)
-+{
-+	if (cpu_addr < bo->kvaddr)
-+		return 0;
-+
-+	if (cpu_addr >= (bo->kvaddr + bo->base.size))
-+		return 0;
-+
-+	return bo->vpu_addr + (cpu_addr - bo->kvaddr);
-+}
-+
-+#endif /* __IVPU_GEM_H__ */
-diff --git a/include/uapi/drm/ivpu_accel.h b/include/uapi/drm/ivpu_accel.h
-index 543347df51a1..5f953ebafc9b 100644
---- a/include/uapi/drm/ivpu_accel.h
-+++ b/include/uapi/drm/ivpu_accel.h
-@@ -17,6 +17,9 @@ extern "C" {
- 
- #define DRM_IVPU_GET_PARAM		  0x00
- #define DRM_IVPU_SET_PARAM		  0x01
-+#define DRM_IVPU_BO_CREATE		  0x02
-+#define DRM_IVPU_BO_INFO		  0x03
-+#define DRM_IVPU_BO_USERPTR		  0x04
- 
- #define DRM_IOCTL_IVPU_GET_PARAM                                               \
- 	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_GET_PARAM, struct drm_ivpu_param)
-@@ -24,6 +27,15 @@ extern "C" {
- #define DRM_IOCTL_IVPU_SET_PARAM                                               \
- 	DRM_IOW(DRM_COMMAND_BASE + DRM_IVPU_SET_PARAM, struct drm_ivpu_param)
- 
-+#define DRM_IOCTL_IVPU_BO_CREATE                                               \
-+	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_BO_CREATE, struct drm_ivpu_bo_create)
-+
-+#define DRM_IOCTL_IVPU_BO_INFO                                                 \
-+	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_BO_INFO, struct drm_ivpu_bo_info)
-+
-+#define DRM_IOCTL_IVPU_BO_USERPTR                                              \
-+	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_BO_USERPTR, struct drm_ivpu_bo_userptr)
-+
- /**
-  * DOC: contexts
-  *
-@@ -92,6 +104,121 @@ struct drm_ivpu_param {
- 	__u64 value;
- };
- 
-+#define DRM_IVPU_BO_HIGH_MEM   0x00000001
-+#define DRM_IVPU_BO_MAPPABLE   0x00000002
-+
-+#define DRM_IVPU_BO_CACHED     0x00000000
-+#define DRM_IVPU_BO_UNCACHED   0x00010000
-+#define DRM_IVPU_BO_WC	       0x00020000
-+#define DRM_IVPU_BO_CACHE_MASK 0x00030000
-+
-+#define DRM_IVPU_BO_FLAGS \
-+	(DRM_IVPU_BO_HIGH_MEM | \
-+	 DRM_IVPU_BO_MAPPABLE | \
-+	 DRM_IVPU_BO_CACHE_MASK)
++#define IVPU_IPC_HDR_FREE	   0
++#define IVPU_IPC_HDR_ALLOCATED	   0
 +
 +/**
-+ * struct drm_ivpu_bo_create - Create BO backed by SHMEM
++ * struct ivpu_ipc_hdr - The IPC message header structure, exchanged
++ * with the VPU device firmware.
++ * @data_addr: The VPU address of the payload (JSM message)
++ * @data_size: The size of the payload.
++ * @channel: The channel used.
++ * @src_node: The Node ID of the sender.
++ * @dst_node: The Node ID of the intended receiver.
++ * @status: IPC buffer usage status
++ */
++struct ivpu_ipc_hdr {
++	u32 data_addr;
++	u32 data_size;
++	u16 channel;
++	u8 src_node;
++	u8 dst_node;
++	u8 status;
++} __packed __aligned(IVPU_IPC_ALIGNMENT);
++
++struct ivpu_ipc_consumer {
++	struct list_head link;
++	u32 channel;
++	u32 tx_vpu_addr;
++	u32 request_id;
++
++	spinlock_t rx_msg_lock; /* Protects rx_msg_list */
++	struct list_head rx_msg_list;
++	wait_queue_head_t rx_msg_wq;
++};
++
++struct ivpu_ipc_info {
++	struct gen_pool *mm_tx;
++	struct ivpu_bo *mem_tx;
++	struct ivpu_bo *mem_rx;
++
++	atomic_t rx_msg_count;
++
++	spinlock_t cons_list_lock; /* Protects cons_list */
++	struct list_head cons_list;
++
++	atomic_t request_id;
++	struct mutex lock; /* Lock on status */
++	bool on;
++};
++
++int ivpu_ipc_init(struct ivpu_device *vdev);
++void ivpu_ipc_fini(struct ivpu_device *vdev);
++
++void ivpu_ipc_enable(struct ivpu_device *vdev);
++void ivpu_ipc_disable(struct ivpu_device *vdev);
++void ivpu_ipc_reset(struct ivpu_device *vdev);
++
++int ivpu_ipc_irq_handler(struct ivpu_device *vdev);
++
++void ivpu_ipc_consumer_add(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
++			   u32 channel);
++void ivpu_ipc_consumer_del(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons);
++
++int ivpu_ipc_receive(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
++		     struct ivpu_ipc_hdr *ipc_buf, struct vpu_jsm_msg *ipc_payload,
++		     unsigned long timeout_ms);
++
++int ivpu_ipc_send_receive(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
++			  enum vpu_ipc_msg_type expected_resp_type,
++			  struct vpu_jsm_msg *resp, u32 channel,
++			  unsigned long timeout_ms);
++
++#endif /* __IVPU_IPC_H__ */
+diff --git a/drivers/accel/ivpu/ivpu_jsm_msg.c b/drivers/accel/ivpu/ivpu_jsm_msg.c
+new file mode 100644
+index 000000000000..69d1e9da7d54
+--- /dev/null
++++ b/drivers/accel/ivpu/ivpu_jsm_msg.c
+@@ -0,0 +1,170 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2020-2023 Intel Corporation
++ */
++
++#include "ivpu_drv.h"
++#include "ivpu_ipc.h"
++#include "ivpu_jsm_msg.h"
++
++int ivpu_jsm_register_db(struct ivpu_device *vdev, u32 ctx_id, u32 db_id,
++			 u64 jobq_base, u32 jobq_size)
++{
++	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_REGISTER_DB };
++	struct vpu_jsm_msg resp;
++	int ret = 0;
++
++	req.payload.register_db.db_idx = db_id;
++	req.payload.register_db.jobq_base = jobq_base;
++	req.payload.register_db.jobq_size = jobq_size;
++	req.payload.register_db.host_ssid = ctx_id;
++
++	ret = ivpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_REGISTER_DB_DONE, &resp,
++				    VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
++	if (ret) {
++		ivpu_err(vdev, "Failed to register doorbell %d: %d\n", db_id, ret);
++		return ret;
++	}
++
++	ivpu_dbg(vdev, JSM, "Doorbell %d registered to context %d\n", db_id, ctx_id);
++
++	return 0;
++}
++
++int ivpu_jsm_unregister_db(struct ivpu_device *vdev, u32 db_id)
++{
++	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_UNREGISTER_DB };
++	struct vpu_jsm_msg resp;
++	int ret = 0;
++
++	req.payload.unregister_db.db_idx = db_id;
++
++	ret = ivpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_UNREGISTER_DB_DONE, &resp,
++				    VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
++	if (ret) {
++		ivpu_warn(vdev, "Failed to unregister doorbell %d: %d\n", db_id, ret);
++		return ret;
++	}
++
++	ivpu_dbg(vdev, JSM, "Doorbell %d unregistered\n", db_id);
++
++	return 0;
++}
++
++int ivpu_jsm_get_heartbeat(struct ivpu_device *vdev, u32 engine, u64 *heartbeat)
++{
++	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_QUERY_ENGINE_HB };
++	struct vpu_jsm_msg resp;
++	int ret;
++
++	if (engine > VPU_ENGINE_COPY)
++		return -EINVAL;
++
++	req.payload.query_engine_hb.engine_idx = engine;
++
++	ret = ivpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_QUERY_ENGINE_HB_DONE, &resp,
++				    VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
++	if (ret) {
++		ivpu_err(vdev, "Failed to get heartbeat from engine %d: %d\n", engine, ret);
++		goto rpm_put;
++	}
++
++	*heartbeat = resp.payload.query_engine_hb_done.heartbeat;
++rpm_put:
++	return ret;
++}
++
++int ivpu_jsm_reset_engine(struct ivpu_device *vdev, u32 engine)
++{
++	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_ENGINE_RESET };
++	struct vpu_jsm_msg resp;
++	int ret;
++
++	if (engine > VPU_ENGINE_COPY)
++		return -EINVAL;
++
++	req.payload.engine_reset.engine_idx = engine;
++
++	ret = ivpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_ENGINE_RESET_DONE, &resp,
++				    VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
++	if (ret)
++		ivpu_err(vdev, "Failed to reset engine %d: %d\n", engine, ret);
++
++	return ret;
++}
++
++int ivpu_jsm_preempt_engine(struct ivpu_device *vdev, u32 engine, u32 preempt_id)
++{
++	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_ENGINE_PREEMPT };
++	struct vpu_jsm_msg resp;
++	int ret;
++
++	if (engine > VPU_ENGINE_COPY)
++		return -EINVAL;
++
++	req.payload.engine_preempt.engine_idx = engine;
++	req.payload.engine_preempt.preempt_id = preempt_id;
++
++	ret = ivpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_ENGINE_PREEMPT_DONE, &resp,
++				    VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
++	if (ret)
++		ivpu_err(vdev, "Failed to preempt engine %d: %d\n", engine, ret);
++
++	return ret;
++}
++
++int ivpu_jsm_dyndbg_control(struct ivpu_device *vdev, char *command, size_t size)
++{
++	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_DYNDBG_CONTROL };
++	struct vpu_jsm_msg resp;
++	int ret;
++
++	if (!strncpy(req.payload.dyndbg_control.dyndbg_cmd, command, VPU_DYNDBG_CMD_MAX_LEN - 1))
++		return -ENOMEM;
++
++	ret = ivpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_DYNDBG_CONTROL_RSP, &resp,
++				    VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
++	if (ret)
++		ivpu_warn(vdev, "Failed to send command \"%s\": ret %d\n", command, ret);
++
++	return ret;
++}
++
++int ivpu_jsm_trace_get_capability(struct ivpu_device *vdev, u32 *trace_destination_mask,
++				  u64 *trace_hw_component_mask)
++{
++	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_TRACE_GET_CAPABILITY };
++	struct vpu_jsm_msg resp;
++	int ret;
++
++	ret = ivpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_TRACE_GET_CAPABILITY_RSP, &resp,
++				    VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
++	if (ret) {
++		ivpu_warn(vdev, "Failed to get trace capability: %d\n", ret);
++		return ret;
++	}
++
++	*trace_destination_mask = resp.payload.trace_capability.trace_destination_mask;
++	*trace_hw_component_mask = resp.payload.trace_capability.trace_hw_component_mask;
++
++	return ret;
++}
++
++int ivpu_jsm_trace_set_config(struct ivpu_device *vdev, u32 trace_level, u32 trace_destination_mask,
++			      u64 trace_hw_component_mask)
++{
++	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_TRACE_SET_CONFIG };
++	struct vpu_jsm_msg resp;
++	int ret;
++
++	req.payload.trace_config.trace_level = trace_level;
++	req.payload.trace_config.trace_destination_mask = trace_destination_mask;
++	req.payload.trace_config.trace_hw_component_mask = trace_hw_component_mask;
++
++	ret = ivpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_TRACE_SET_CONFIG_RSP, &resp,
++				    VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
++	if (ret)
++		ivpu_warn(vdev, "Failed to set config: %d\n", ret);
++
++	return ret;
++}
+diff --git a/drivers/accel/ivpu/ivpu_jsm_msg.h b/drivers/accel/ivpu/ivpu_jsm_msg.h
+new file mode 100644
+index 000000000000..1a3e2e2740bd
+--- /dev/null
++++ b/drivers/accel/ivpu/ivpu_jsm_msg.h
+@@ -0,0 +1,23 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2020-2023 Intel Corporation
++ */
++
++#ifndef __IVPU_JSM_MSG_H__
++#define __IVPU_JSM_MSG_H__
++
++#include "vpu_jsm_api.h"
++
++int ivpu_jsm_register_db(struct ivpu_device *vdev, u32 ctx_id, u32 db_id,
++			 u64 jobq_base, u32 jobq_size);
++int ivpu_jsm_unregister_db(struct ivpu_device *vdev, u32 db_id);
++int ivpu_jsm_get_heartbeat(struct ivpu_device *vdev, u32 engine, u64 *heartbeat);
++int ivpu_jsm_reset_engine(struct ivpu_device *vdev, u32 engine);
++int ivpu_jsm_preempt_engine(struct ivpu_device *vdev, u32 engine, u32 preempt_id);
++int ivpu_jsm_dyndbg_control(struct ivpu_device *vdev, char *command, size_t size);
++int ivpu_jsm_trace_get_capability(struct ivpu_device *vdev, u32 *trace_destination_mask,
++				  u64 *trace_hw_component_mask);
++int ivpu_jsm_trace_set_config(struct ivpu_device *vdev, u32 trace_level, u32 trace_destination_mask,
++			      u64 trace_hw_component_mask);
++
++#endif
+diff --git a/drivers/accel/ivpu/vpu_jsm_api.h b/drivers/accel/ivpu/vpu_jsm_api.h
+new file mode 100644
+index 000000000000..1096cab0334e
+--- /dev/null
++++ b/drivers/accel/ivpu/vpu_jsm_api.h
+@@ -0,0 +1,999 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright (C) 2020-2023 Intel Corporation
++ */
++
++/**
++ * @file
++ * @brief JSM shared definitions
 + *
-+ * Create GEM buffer object allocated in SHMEM memory.
++ * @ingroup Jsm
++ * @brief JSM shared definitions
++ * @{
 + */
-+struct drm_ivpu_bo_create {
-+	/** @size: The size in bytes of the allocated memory */
-+	__u64 size;
++#ifndef VPU_JSM_API_H
++#define VPU_JSM_API_H
 +
-+	/**
-+	 * @flags:
-+	 *
-+	 * Supported flags:
-+	 *
-+	 * %DRM_IVPU_BO_HIGH_MEM:
-+	 *
-+	 * Allocate VPU address from >4GB range.
-+	 * Buffer object with vpu address >4GB can be always accessed by the
-+	 * VPU DMA engine, but some HW generation may not be able to access
-+	 * this memory from then firmware running on the VPU management processor.
-+	 * Suitable for input, output and some scratch buffers.
-+	 *
-+	 * %DRM_IVPU_BO_MAPPABLE:
-+	 *
-+	 * Buffer object can be mapped using mmap().
-+	 *
-+	 * %DRM_IVPU_BO_CACHED:
-+	 *
-+	 * Allocated BO will be cached on host side (WB) and snooped on the VPU side.
-+	 * This is the default caching mode.
-+	 *
-+	 * %DRM_IVPU_BO_UNCACHED:
-+	 *
-+	 * Allocated BO will not be cached on host side nor snooped on the VPU side.
-+	 *
-+	 * %DRM_IVPU_BO_WC:
-+	 *
-+	 * Allocated BO will use write combining buffer for writes but reads will be
-+	 * uncached.
-+	 */
-+	__u32 flags;
-+
-+	/** @handle: Returned GEM object handle */
-+	__u32 handle;
-+
-+	/** @vpu_addr: Returned VPU virtual address */
-+	__u64 vpu_addr;
-+};
-+
-+/**
-+ * struct drm_ivpu_bo_info - Query buffer object info
++/*
++ * Major version changes that break backward compatibility
 + */
-+struct drm_ivpu_bo_info {
-+	/** @handle: Handle of the queried BO */
-+	__u32 handle;
++#define VPU_JSM_API_VER_MAJOR 2
 +
-+	/** @flags: Returned flags used to create the BO */
-+	__u32 flags;
++/*
++ * Minor version changes when API backward compatibility is preserved.
++ */
++#define VPU_JSM_API_VER_MINOR 10
 +
-+	/** @vpu_addr: Returned VPU virtual address */
-+	__u64 vpu_addr;
++/*
++ * API header changed (field names, documentation, formatting) but API itself has not been changed
++ */
++#define VPU_JSM_API_VER_PATCH 1
 +
-+	/**
-+	 * @mmap_offset:
-+	 *
-+	 * Returned offset to be used in mmap(). 0 in case the BO is not mappable.
-+	 */
-+	__u64 mmap_offset;
++/*
++ * Index in the API version table
++ */
++#define VPU_JSM_API_VER_INDEX 4
 +
-+	/** @size: Returned GEM object size, aligned to PAGE_SIZE */
-+	__u64 size;
-+};
++/*
++ * Number of Priority Bands for Hardware Scheduling
++ * Bands: RealTime, Focus, Normal, Idle
++ */
++#define VPU_HWS_NUM_PRIORITY_BANDS 4
 +
-+/**
-+ * struct drm_ivpu_bo_userptr - Create BO from user memory
++/* Max number of impacted contexts that can be dealt with the engine reset command */
++#define VPU_MAX_ENGINE_RESET_IMPACTED_CONTEXTS 3
++
++/** Pack the API structures for now, once alignment issues are fixed this can be removed */
++#pragma pack(push, 1)
++
++/*
++ * Engine indexes.
++ */
++#define VPU_ENGINE_COMPUTE 0
++#define VPU_ENGINE_COPY	   1
++#define VPU_ENGINE_NB	   2
++
++/*
++ * VPU status values.
++ */
++#define VPU_JSM_STATUS_SUCCESS				 0x0U
++#define VPU_JSM_STATUS_PARSING_ERR			 0x1U
++#define VPU_JSM_STATUS_PROCESSING_ERR			 0x2U
++#define VPU_JSM_STATUS_PREEMPTED			 0x3U
++#define VPU_JSM_STATUS_ABORTED				 0x4U
++#define VPU_JSM_STATUS_USER_CTX_VIOL_ERR		 0x5U
++#define VPU_JSM_STATUS_GLOBAL_CTX_VIOL_ERR		 0x6U
++#define VPU_JSM_STATUS_MVNCI_WRONG_INPUT_FORMAT		 0x7U
++#define VPU_JSM_STATUS_MVNCI_UNSUPPORTED_NETWORK_ELEMENT 0x8U
++#define VPU_JSM_STATUS_MVNCI_INVALID_HANDLE		 0x9U
++#define VPU_JSM_STATUS_MVNCI_OUT_OF_RESOURCES		 0xAU
++#define VPU_JSM_STATUS_MVNCI_NOT_IMPLEMENTED		 0xBU
++#define VPU_JSM_STATUS_MVNCI_INTERNAL_ERROR		 0xCU
++/* Job status returned when the job was preempted mid-inference */
++#define VPU_JSM_STATUS_PREEMPTED_MID_INFERENCE		 0xDU
++
++/*
++ * Host <-> VPU IPC channels.
++ * ASYNC commands use a high priority channel, other messages use low-priority ones.
++ */
++#define VPU_IPC_CHAN_ASYNC_CMD 0
++#define VPU_IPC_CHAN_GEN_CMD   10
++#define VPU_IPC_CHAN_JOB_RET   11
++
++/*
++ * Job flags bit masks.
++ */
++#define VPU_JOB_FLAGS_NULL_SUBMISSION_MASK 0x00000001
++
++/*
++ * Sizes of the reserved areas in jobs, in bytes.
++ */
++#define VPU_JOB_RESERVED_BYTES	     16
++/*
++ * Sizes of the reserved areas in job queues, in bytes.
++ */
++#define VPU_JOB_QUEUE_RESERVED_BYTES 52
++
++/*
++ * Max length (including trailing NULL char) of trace entity name (e.g., the
++ * name of a logging destination or a loggable HW component).
++ */
++#define VPU_TRACE_ENTITY_NAME_MAX_LEN 32
++
++/*
++ * Max length (including trailing NULL char) of a dyndbg command.
 + *
-+ * Create GEM buffer object from user allocated memory. The provided @user_ptr
-+ * has to be page aligned. BOs created using this ioctl are always cacheable.
++ * NOTE: 112 is used so that the size of 'struct vpu_ipc_msg' in the JSM API is
++ * 128 bytes (multiple of 64 bytes, the cache line size).
 + */
-+struct drm_ivpu_bo_userptr {
-+	/** @user_ptr: User allocated pointer aligned to PAGE_SIZE */
-+	__u64 user_ptr;
++#define VPU_DYNDBG_CMD_MAX_LEN 112
 +
-+	/** @user_size: The size in bytes of the allocated memory */
-+	__u64 user_size;
-+
-+	/**
-+	 * @flags:
-+	 *
-+	 * Supported flags:
-+	 *
-+	 * %DRM_IVPU_BO_HIGH_MEM: see &drm_ivpu_bo_create->flags
-+	 */
-+	__u32 flags;
-+
-+	/** @handle: Returned GEM object handle */
-+	__u32 handle;
-+
-+	/** @vpu_addr: Returned VPU virtual address */
-+	__u64 vpu_addr;
++/*
++ * Job format.
++ */
++struct vpu_job_queue_entry {
++	u64 batch_buf_addr; /**< Address of VPU commands batch buffer */
++	u32 job_id;	  /**< Job ID */
++	u32 flags; /**< Flags bit field, see VPU_JOB_FLAGS_* above */
++	u64 root_page_table_addr; /**< Address of root page table to use for this job */
++	u64 root_page_table_update_counter; /**< Page tables update events counter */
++	u64 preemption_buffer_address; /**< Address of the preemption buffer to use for this job */
++	u64 preemption_buffer_size; /**< Size of the preemption buffer to use for this job */
++	u8 reserved[VPU_JOB_RESERVED_BYTES];
 +};
 +
- #if defined(__cplusplus)
- }
- #endif
++/*
++ * Job queue control registers.
++ */
++struct vpu_job_queue_header {
++	u32 engine_idx;
++	u32 head;
++	u32 tail;
++	u8 reserved[VPU_JOB_QUEUE_RESERVED_BYTES];
++};
++
++/*
++ * Job queue format.
++ */
++struct vpu_job_queue {
++	struct vpu_job_queue_header header;
++	struct vpu_job_queue_entry job[];
++};
++
++/**
++ * Logging entity types.
++ *
++ * This enum defines the different types of entities involved in logging.
++ */
++enum vpu_trace_entity_type {
++	/** Logging destination (entity where logs can be stored / printed). */
++	VPU_TRACE_ENTITY_TYPE_DESTINATION = 1,
++	/** Loggable HW component (HW entity that can be logged). */
++	VPU_TRACE_ENTITY_TYPE_HW_COMPONENT = 2,
++};
++
++/*
++ * Host <-> VPU IPC messages types.
++ */
++enum vpu_ipc_msg_type {
++	VPU_JSM_MSG_UNKNOWN = 0xFFFFFFFF,
++	/* IPC Host -> Device, Async commands */
++	VPU_JSM_MSG_ASYNC_CMD = 0x1100,
++	VPU_JSM_MSG_ENGINE_RESET = VPU_JSM_MSG_ASYNC_CMD,
++	VPU_JSM_MSG_ENGINE_PREEMPT = 0x1101,
++	VPU_JSM_MSG_REGISTER_DB = 0x1102,
++	VPU_JSM_MSG_UNREGISTER_DB = 0x1103,
++	VPU_JSM_MSG_QUERY_ENGINE_HB = 0x1104,
++	VPU_JSM_MSG_GET_POWER_LEVEL_COUNT = 0x1105,
++	VPU_JSM_MSG_GET_POWER_LEVEL = 0x1106,
++	VPU_JSM_MSG_SET_POWER_LEVEL = 0x1107,
++	/* @deprecated */
++	VPU_JSM_MSG_METRIC_STREAMER_OPEN = 0x1108,
++	/* @deprecated */
++	VPU_JSM_MSG_METRIC_STREAMER_CLOSE = 0x1109,
++	/** Configure logging (used to modify configuration passed in boot params). */
++	VPU_JSM_MSG_TRACE_SET_CONFIG = 0x110a,
++	/** Return current logging configuration. */
++	VPU_JSM_MSG_TRACE_GET_CONFIG = 0x110b,
++	/**
++	 * Get masks of destinations and HW components supported by the firmware
++	 * (may vary between HW generations and FW compile
++	 * time configurations)
++	 */
++	VPU_JSM_MSG_TRACE_GET_CAPABILITY = 0x110c,
++	/** Get the name of a destination or HW component. */
++	VPU_JSM_MSG_TRACE_GET_NAME = 0x110d,
++	/**
++	 * Release resource associated with host ssid . All jobs that belong to the host_ssid
++	 * aborted and removed from internal scheduling queues. All doorbells assigned
++	 * to the host_ssid are unregistered and any internal FW resources belonging to
++	 * the host_ssid are released.
++	 */
++	VPU_JSM_MSG_SSID_RELEASE = 0x110e,
++	/**
++	 * Start collecting metric data.
++	 * @see vpu_jsm_metric_streamer_start
++	 */
++	VPU_JSM_MSG_METRIC_STREAMER_START = 0x110f,
++	/**
++	 * Stop collecting metric data. This command will return success if it is called
++	 * for a metric stream that has already been stopped or was never started.
++	 * @see vpu_jsm_metric_streamer_stop
++	 */
++	VPU_JSM_MSG_METRIC_STREAMER_STOP = 0x1110,
++	/**
++	 * Update current and next buffer for metric data collection. This command can
++	 * also be used to request information about the number of collected samples
++	 * and the amount of data written to the buffer.
++	 * @see vpu_jsm_metric_streamer_update
++	 */
++	VPU_JSM_MSG_METRIC_STREAMER_UPDATE = 0x1111,
++	/**
++	 * Request description of selected metric groups and metric counters within
++	 * each group. The VPU will write the description of groups and counters to
++	 * the buffer specified in the command structure.
++	 * @see vpu_jsm_metric_streamer_start
++	 */
++	VPU_JSM_MSG_METRIC_STREAMER_INFO = 0x1112,
++	/** Control command: Priority band setup */
++	VPU_JSM_MSG_SET_PRIORITY_BAND_SETUP = 0x1113,
++	/** Control command: Create command queue */
++	VPU_JSM_MSG_CREATE_CMD_QUEUE = 0x1114,
++	/** Control command: Destroy command queue */
++	VPU_JSM_MSG_DESTROY_CMD_QUEUE = 0x1115,
++	/** Control command: Set context scheduling properties */
++	VPU_JSM_MSG_SET_CONTEXT_SCHED_PROPERTIES = 0x1116,
++	/*
++	 * Register a doorbell to notify VPU of new work. The doorbell may later be
++	 * deallocated or reassigned to another context.
++	 */
++	VPU_JSM_MSG_HWS_REGISTER_DB = 0x1117,
++	/* IPC Host -> Device, General commands */
++	VPU_JSM_MSG_GENERAL_CMD = 0x1200,
++	VPU_JSM_MSG_BLOB_DEINIT = VPU_JSM_MSG_GENERAL_CMD,
++	/**
++	 * Control dyndbg behavior by executing a dyndbg command; equivalent to
++	 * Linux command: `echo '<dyndbg_cmd>' > <debugfs>/dynamic_debug/control`.
++	 */
++	VPU_JSM_MSG_DYNDBG_CONTROL = 0x1201,
++	/* IPC Device -> Host, Job completion */
++	VPU_JSM_MSG_JOB_DONE = 0x2100,
++	/* IPC Device -> Host, Async command completion */
++	VPU_JSM_MSG_ASYNC_CMD_DONE = 0x2200,
++	VPU_JSM_MSG_ENGINE_RESET_DONE = VPU_JSM_MSG_ASYNC_CMD_DONE,
++	VPU_JSM_MSG_ENGINE_PREEMPT_DONE = 0x2201,
++	VPU_JSM_MSG_REGISTER_DB_DONE = 0x2202,
++	VPU_JSM_MSG_UNREGISTER_DB_DONE = 0x2203,
++	VPU_JSM_MSG_QUERY_ENGINE_HB_DONE = 0x2204,
++	VPU_JSM_MSG_GET_POWER_LEVEL_COUNT_DONE = 0x2205,
++	VPU_JSM_MSG_GET_POWER_LEVEL_DONE = 0x2206,
++	VPU_JSM_MSG_SET_POWER_LEVEL_DONE = 0x2207,
++	/* @deprecated */
++	VPU_JSM_MSG_METRIC_STREAMER_OPEN_DONE = 0x2208,
++	/* @deprecated */
++	VPU_JSM_MSG_METRIC_STREAMER_CLOSE_DONE = 0x2209,
++	/** Response to VPU_JSM_MSG_TRACE_SET_CONFIG. */
++	VPU_JSM_MSG_TRACE_SET_CONFIG_RSP = 0x220a,
++	/** Response to VPU_JSM_MSG_TRACE_GET_CONFIG. */
++	VPU_JSM_MSG_TRACE_GET_CONFIG_RSP = 0x220b,
++	/** Response to VPU_JSM_MSG_TRACE_GET_CAPABILITY. */
++	VPU_JSM_MSG_TRACE_GET_CAPABILITY_RSP = 0x220c,
++	/** Response to VPU_JSM_MSG_TRACE_GET_NAME. */
++	VPU_JSM_MSG_TRACE_GET_NAME_RSP = 0x220d,
++	/** Response to VPU_JSM_MSG_SSID_RELEASE. */
++	VPU_JSM_MSG_SSID_RELEASE_DONE = 0x220e,
++	/**
++	 * Response to VPU_JSM_MSG_METRIC_STREAMER_START.
++	 * VPU will return an error result if metric collection cannot be started,
++	 * e.g. when the specified metric mask is invalid.
++	 * @see vpu_jsm_metric_streamer_done
++	 */
++	VPU_JSM_MSG_METRIC_STREAMER_START_DONE = 0x220f,
++	/**
++	 * Response to VPU_JSM_MSG_METRIC_STREAMER_STOP.
++	 * Returns information about collected metric data.
++	 * @see vpu_jsm_metric_streamer_done
++	 */
++	VPU_JSM_MSG_METRIC_STREAMER_STOP_DONE = 0x2210,
++	/**
++	 * Response to VPU_JSM_MSG_METRIC_STREAMER_UPDATE.
++	 * Returns information about collected metric data.
++	 * @see vpu_jsm_metric_streamer_done
++	 */
++	VPU_JSM_MSG_METRIC_STREAMER_UPDATE_DONE = 0x2211,
++	/**
++	 * Response to VPU_JSM_MSG_METRIC_STREAMER_INFO.
++	 * Returns a description of the metric groups and metric counters.
++	 * @see vpu_jsm_metric_streamer_done
++	 */
++	VPU_JSM_MSG_METRIC_STREAMER_INFO_DONE = 0x2212,
++	/**
++	 * Asynchronous event sent from the VPU to the host either when the current
++	 * metric buffer is full or when the VPU has collected a multiple of
++	 * @notify_sample_count samples as indicated through the start command
++	 * (VPU_JSM_MSG_METRIC_STREAMER_START). Returns information about collected
++	 * metric data.
++	 * @see vpu_jsm_metric_streamer_done
++	 */
++	VPU_JSM_MSG_METRIC_STREAMER_NOTIFICATION = 0x2213,
++	/** Response to control command: Priority band setup */
++	VPU_JSM_MSG_SET_PRIORITY_BAND_SETUP_RSP = 0x2214,
++	/** Response to control command: Create command queue */
++	VPU_JSM_MSG_CREATE_CMD_QUEUE_RSP = 0x2215,
++	/** Response to control command: Destroy command queue */
++	VPU_JSM_MSG_DESTROY_CMD_QUEUE_RSP = 0x2216,
++	/** Response to control command: Set context scheduling properties */
++	VPU_JSM_MSG_SET_CONTEXT_SCHED_PROPERTIES_RSP = 0x2217,
++	/* IPC Device -> Host, General command completion */
++	VPU_JSM_MSG_GENERAL_CMD_DONE = 0x2300,
++	VPU_JSM_MSG_BLOB_DEINIT_DONE = VPU_JSM_MSG_GENERAL_CMD_DONE,
++	/** Response to VPU_JSM_MSG_DYNDBG_CONTROL. */
++	VPU_JSM_MSG_DYNDBG_CONTROL_RSP = 0x2301,
++};
++
++enum vpu_ipc_msg_status { VPU_JSM_MSG_FREE, VPU_JSM_MSG_ALLOCATED };
++
++/*
++ * Host <-> LRT IPC message payload definitions
++ */
++struct vpu_ipc_msg_payload_engine_reset {
++	/* Engine to be reset. */
++	u32 engine_idx;
++};
++
++struct vpu_ipc_msg_payload_engine_preempt {
++	/* Engine to be preempted. */
++	u32 engine_idx;
++	/* ID of the preemption request. */
++	u32 preempt_id;
++};
++
++/*
++ * @brief Register doorbell command structure.
++ * This structure supports doorbell registration for only OS scheduling.
++ * @see VPU_JSM_MSG_REGISTER_DB
++ */
++struct vpu_ipc_msg_payload_register_db {
++	/* Index of the doorbell to register. */
++	u32 db_idx;
++	/* Virtual address in Global GTT pointing to the start of job queue. */
++	u64 jobq_base;
++	/* Size of the job queue in bytes. */
++	u32 jobq_size;
++	/* Host sub-stream ID for the context assigned to the doorbell. */
++	u32 host_ssid;
++};
++
++/**
++ * @brief Unregister doorbell command structure.
++ * Request structure to unregister a doorbell for both HW and OS scheduling.
++ * @see VPU_JSM_MSG_UNREGISTER_DB
++ */
++struct vpu_ipc_msg_payload_unregister_db {
++	/* Index of the doorbell to unregister. */
++	u32 db_idx;
++};
++
++struct vpu_ipc_msg_payload_query_engine_hb {
++	/* Engine to return heartbeat value. */
++	u32 engine_idx;
++};
++
++struct vpu_ipc_msg_payload_power_level {
++	/**
++	 * Requested power level. The power level value is in the
++	 * range [0, power_level_count-1] where power_level_count
++	 * is the number of available power levels as returned by
++	 * the get power level count command. A power level of 0
++	 * corresponds to the maximum possible power level, while
++	 * power_level_count-1 corresponds to the minimum possible
++	 * power level. Values outside of this range are not
++	 * considered to be valid.
++	 */
++	u32 power_level;
++};
++
++struct vpu_ipc_msg_payload_ssid_release {
++	/* Host sub-stream ID for the context to be released. */
++	u32 host_ssid;
++};
++
++/**
++ * @brief Metric streamer start command structure.
++ * This structure is also used with VPU_JSM_MSG_METRIC_STREAMER_INFO to request metric
++ * groups and metric counters description from the firmware.
++ * @see VPU_JSM_MSG_METRIC_STREAMER_START
++ * @see VPU_JSM_MSG_METRIC_STREAMER_INFO
++ */
++struct vpu_jsm_metric_streamer_start {
++	/**
++	 * Bitmask to select the desired metric groups.
++	 * A metric group can belong only to one metric streamer instance at a time.
++	 * Since each metric streamer instance has a unique set of metric groups, it
++	 * can also identify a metric streamer instance if more than one instance was
++	 * started. If the VPU device does not support multiple metric streamer instances,
++	 * then VPU_JSM_MSG_METRIC_STREAMER_START will return an error even if the second
++	 * instance has different groups to the first.
++	 */
++	u64 metric_group_mask;
++	/** Sampling rate in nanoseconds. */
++	u64 sampling_rate;
++	/**
++	 * If > 0 the VPU will send a VPU_JSM_MSG_METRIC_STREAMER_NOTIFICATION message
++	 * after every @notify_sample_count samples is collected or dropped by the VPU.
++	 * If set to UINT_MAX the VPU will only generate a notification when the metric
++	 * buffer is full. If set to 0 the VPU will never generate a notification.
++	 */
++	u32 notify_sample_count;
++	u32 reserved_0;
++	/**
++	 * Address and size of the buffer where the VPU will write metric data. The
++	 * VPU writes all counters from enabled metric groups one after another. If
++	 * there is no space left to write data at the next sample period the VPU
++	 * will switch to the next buffer (@see next_buffer_addr) and will optionally
++	 * send a notification to the host driver if @notify_sample_count is non-zero.
++	 * If @next_buffer_addr is NULL the VPU will stop collecting metric data.
++	 */
++	u64 buffer_addr;
++	u64 buffer_size;
++	/**
++	 * Address and size of the next buffer to write metric data to after the initial
++	 * buffer is full. If the address is NULL the VPU will stop collecting metric
++	 * data.
++	 */
++	u64 next_buffer_addr;
++	u64 next_buffer_size;
++};
++
++static_assert(sizeof(struct vpu_jsm_metric_streamer_start) % 8 == 0,
++	      "vpu_jsm_metric_streamer_start is misaligned");
++
++/**
++ * @brief Metric streamer stop command structure.
++ * @see VPU_JSM_MSG_METRIC_STREAMER_STOP
++ */
++struct vpu_jsm_metric_streamer_stop {
++	/** Bitmask to select the desired metric groups. */
++	u64 metric_group_mask;
++};
++
++static_assert(sizeof(struct vpu_jsm_metric_streamer_stop) % 8 == 0,
++	      "vpu_jsm_metric_streamer_stop is misaligned");
++
++/**
++ * Provide VPU FW with buffers to write metric data.
++ * @see VPU_JSM_MSG_METRIC_STREAMER_UPDATE
++ */
++struct vpu_jsm_metric_streamer_update {
++	/** Metric group mask that identifies metric streamer instance. */
++	u64 metric_group_mask;
++	/**
++	 * Address and size of the buffer where the VPU will write metric data. If
++	 * the buffer address is 0 or same as the currently used buffer the VPU will
++	 * continue writing metric data to the current buffer. In this case the
++	 * buffer size is ignored and the size of the current buffer is unchanged.
++	 * If the address is non-zero and differs from the current buffer address the
++	 * VPU will immediately switch data collection to the new buffer.
++	 */
++	u64 buffer_addr;
++	u64 buffer_size;
++	/**
++	 * Address and size of the next buffer to write metric data after the initial
++	 * buffer is full. If the address is NULL the VPU will stop collecting metric
++	 * data but will continue to record dropped samples.
++	 *
++	 * Note that there is a hazard possible if both buffer_addr and the next_buffer_addr
++	 * are non-zero in same update request. It is the host's responsibility to ensure
++	 * that both addresses make sense even if the VPU just switched to writing samples
++	 * from the current to the next buffer.
++	 */
++	u64 next_buffer_addr;
++	u64 next_buffer_size;
++};
++
++static_assert(sizeof(struct vpu_jsm_metric_streamer_update) % 8 == 0,
++	      "vpu_jsm_metric_streamer_update is misaligned");
++
++struct vpu_ipc_msg_payload_blob_deinit {
++	/* 64-bit unique ID for the blob to be de-initialized. */
++	u64 blob_id;
++};
++
++struct vpu_ipc_msg_payload_job_done {
++	/* Engine to which the job was submitted. */
++	u32 engine_idx;
++	/* Index of the doorbell to which the job was submitted */
++	u32 db_idx;
++	/* ID of the completed job */
++	u32 job_id;
++	/* Status of the completed job */
++	u32 job_status;
++	/* Host SSID */
++	u32 host_ssid;
++	/* Zero Padding */
++	u32 reserved;
++	/* Command queue id */
++	u64 cmdq_id;
++};
++
++struct vpu_jsm_engine_reset_context {
++	/* Host SSID */
++	u32 host_ssid;
++	/* Zero Padding */
++	u32 reserved;
++	/* Command queue id */
++	u64 cmdq_id;
++	/* Flags: 0: cause of hang; 1: collateral damage of reset */
++	u64 flags;
++};
++
++struct vpu_ipc_msg_payload_engine_reset_done {
++	/* Engine ordinal */
++	u32 engine_idx;
++	/* Number of impacted contexts */
++	u32 num_impacted_contexts;
++	/* Array of impacted command queue ids and their flags */
++	struct vpu_jsm_engine_reset_context
++		impacted_contexts[VPU_MAX_ENGINE_RESET_IMPACTED_CONTEXTS];
++};
++
++struct vpu_ipc_msg_payload_engine_preempt_done {
++	/* Engine preempted. */
++	u32 engine_idx;
++	/* ID of the preemption request. */
++	u32 preempt_id;
++};
++
++/**
++ * Response structure for register doorbell command for both OS
++ * and HW scheduling.
++ * @see VPU_JSM_MSG_REGISTER_DB
++ * @see VPU_JSM_MSG_HWS_REGISTER_DB
++ */
++struct vpu_ipc_msg_payload_register_db_done {
++	/* Index of the registered doorbell. */
++	u32 db_idx;
++};
++
++/**
++ * Response structure for unregister doorbell command for both OS
++ * and HW scheduling.
++ * @see VPU_JSM_MSG_UNREGISTER_DB
++ */
++struct vpu_ipc_msg_payload_unregister_db_done {
++	/* Index of the unregistered doorbell. */
++	u32 db_idx;
++};
++
++struct vpu_ipc_msg_payload_query_engine_hb_done {
++	/* Engine returning heartbeat value. */
++	u32 engine_idx;
++	/* Heartbeat value. */
++	u64 heartbeat;
++};
++
++struct vpu_ipc_msg_payload_get_power_level_count_done {
++	/**
++	 * Number of supported power levels. The maximum possible
++	 * value of power_level_count is 16 but this may vary across
++	 * implementations.
++	 */
++	u32 power_level_count;
++	/**
++	 * Power consumption limit for each supported power level in
++	 * [0-100%] range relative to power level 0.
++	 */
++	u8 power_limit[16];
++};
++
++struct vpu_ipc_msg_payload_blob_deinit_done {
++	/* 64-bit unique ID for the blob de-initialized. */
++	u64 blob_id;
++};
++
++/* HWS priority band setup request / response */
++struct vpu_ipc_msg_payload_hws_priority_band_setup {
++	/*
++	 * Grace period in 100ns units when preempting another priority band for
++	 * this priority band
++	 */
++	u64 grace_period[VPU_HWS_NUM_PRIORITY_BANDS];
++	/*
++	 * Default quantum in 100ns units for scheduling across processes
++	 * within a priority band
++	 */
++	u64 process_quantum[VPU_HWS_NUM_PRIORITY_BANDS];
++	/*
++	 * Default grace period in 100ns units for processes that preempt each
++	 * other within a priority band
++	 */
++	u64 process_grace_period[VPU_HWS_NUM_PRIORITY_BANDS];
++	/*
++	 * For normal priority band, specifies the target VPU percentage
++	 * in situations when it's starved by the focus band.
++	 */
++	u32 normal_band_percentage;
++};
++
++/* HWS create command queue request */
++struct vpu_ipc_msg_payload_hws_create_cmdq {
++	/* Process id */
++	u64 process_id;
++	/* Host SSID */
++	u32 host_ssid;
++	/* Zero Padding */
++	u32 reserved;
++	/* Command queue id */
++	u64 cmdq_id;
++	/* Command queue base */
++	u64 cmdq_base;
++	/* Command queue size */
++	u32 cmdq_size;
++};
++
++/* HWS create command queue response */
++struct vpu_ipc_msg_payload_hws_create_cmdq_rsp {
++	/* Process id */
++	u64 process_id;
++	/* Host SSID */
++	u32 host_ssid;
++	/* Zero Padding */
++	u32 reserved;
++	/* Command queue id */
++	u64 cmdq_id;
++};
++
++/* HWS destroy command queue request / response */
++struct vpu_ipc_msg_payload_hws_destroy_cmdq {
++	/* Host SSID */
++	u32 host_ssid;
++	/* Zero Padding */
++	u32 reserved;
++	/* Command queue id */
++	u64 cmdq_id;
++};
++
++/* HWS set context scheduling properties request / response */
++struct vpu_ipc_msg_payload_hws_set_context_sched_properties {
++	/* Host SSID */
++	u32 host_ssid;
++	/* Zero Padding */
++	u32 reserved_0;
++	/* Command queue id */
++	u64 cmdq_id;
++	/* Priority band to assign to work of this context */
++	u32 priority_band;
++	/* Inside realtime band assigns a further priority */
++	u32 realtime_priority_level;
++	/* Priority relative to other contexts in the same process */
++	u32 in_process_priority;
++	/* Zero padding / Reserved */
++	u32 reserved_1;
++	/* Context quantum relative to other contexts of same priority in the same process */
++	u64 context_quantum;
++	/* Grace period when preempting context of the same priority within the same process */
++	u64 grace_period_same_priority;
++	/* Grace period when preempting context of a lower priority within the same process */
++	u64 grace_period_lower_priority;
++};
++
++/*
++ * @brief Register doorbell command structure.
++ * This structure supports doorbell registration for both HW and OS scheduling.
++ * Note: Queue base and size are added here so that the same structure can be used for
++ * OS scheduling and HW scheduling. For OS scheduling, cmdq_id will be ignored
++ * and cmdq_base and cmdq_size will be used. For HW scheduling, cmdq_base and cmdq_size will be
++ * ignored and cmdq_id is used.
++ * @see VPU_JSM_MSG_HWS_REGISTER_DB
++ */
++struct vpu_jsm_hws_register_db {
++	/* Index of the doorbell to register. */
++	u32 db_id;
++	/* Host sub-stream ID for the context assigned to the doorbell. */
++	u32 host_ssid;
++	/* ID of the command queue associated with the doorbell. */
++	u64 cmdq_id;
++	/* Virtual address pointing to the start of command queue. */
++	u64 cmdq_base;
++	/* Size of the command queue in bytes. */
++	u64 cmdq_size;
++};
++
++/**
++ * Payload for VPU_JSM_MSG_TRACE_SET_CONFIG[_RSP] and
++ * VPU_JSM_MSG_TRACE_GET_CONFIG_RSP messages.
++ *
++ * The payload is interpreted differently depending on the type of message:
++ *
++ * - For VPU_JSM_MSG_TRACE_SET_CONFIG, the payload specifies the desired
++ *   logging configuration to be set.
++ *
++ * - For VPU_JSM_MSG_TRACE_SET_CONFIG_RSP, the payload reports the logging
++ *   configuration that was set after a VPU_JSM_MSG_TRACE_SET_CONFIG request.
++ *   The host can compare this payload with the one it sent in the
++ *   VPU_JSM_MSG_TRACE_SET_CONFIG request to check whether or not the
++ *   configuration was set as desired.
++ *
++ * - VPU_JSM_MSG_TRACE_GET_CONFIG_RSP, the payload reports the current logging
++ *   configuration.
++ */
++struct vpu_ipc_msg_payload_trace_config {
++	/**
++	 * Logging level (currently set or to be set); see 'mvLog_t' enum for
++	 * acceptable values. The specified logging level applies to all
++	 * destinations and HW components
++	 */
++	u32 trace_level;
++	/**
++	 * Bitmask of logging destinations (currently enabled or to be enabled);
++	 * bitwise OR of values defined in logging_destination enum.
++	 */
++	u32 trace_destination_mask;
++	/**
++	 * Bitmask of loggable HW components (currently enabled or to be enabled);
++	 * bitwise OR of values defined in loggable_hw_component enum.
++	 */
++	u64 trace_hw_component_mask;
++	u64 reserved_0; /**< Reserved for future extensions. */
++};
++
++/**
++ * Payload for VPU_JSM_MSG_TRACE_GET_CAPABILITY_RSP messages.
++ */
++struct vpu_ipc_msg_payload_trace_capability_rsp {
++	u32 trace_destination_mask; /**< Bitmask of supported logging destinations. */
++	u32 reserved_0;
++	u64 trace_hw_component_mask; /**< Bitmask of supported loggable HW components. */
++	u64 reserved_1; /**< Reserved for future extensions. */
++};
++
++/**
++ * Payload for VPU_JSM_MSG_TRACE_GET_NAME requests.
++ */
++struct vpu_ipc_msg_payload_trace_get_name {
++	/**
++	 * The type of the entity to query name for; see logging_entity_type for
++	 * possible values.
++	 */
++	u32 entity_type;
++	u32 reserved_0;
++	/**
++	 * The ID of the entity to query name for; possible values depends on the
++	 * entity type.
++	 */
++	u64 entity_id;
++};
++
++/**
++ * Payload for VPU_JSM_MSG_TRACE_GET_NAME_RSP responses.
++ */
++struct vpu_ipc_msg_payload_trace_get_name_rsp {
++	/**
++	 * The type of the entity whose name was queried; see logging_entity_type
++	 * for possible values.
++	 */
++	u32 entity_type;
++	u32 reserved_0;
++	/**
++	 * The ID of the entity whose name was queried; possible values depends on
++	 * the entity type.
++	 */
++	u64 entity_id;
++	/** Reserved for future extensions. */
++	u64 reserved_1;
++	/** The name of the entity. */
++	char entity_name[VPU_TRACE_ENTITY_NAME_MAX_LEN];
++};
++
++/**
++ * Data sent from the VPU to the host in all metric streamer response messages
++ * and in asynchronous notification.
++ * @see VPU_JSM_MSG_METRIC_STREAMER_START_DONE
++ * @see VPU_JSM_MSG_METRIC_STREAMER_STOP_DONE
++ * @see VPU_JSM_MSG_METRIC_STREAMER_UPDATE_DONE
++ * @see VPU_JSM_MSG_METRIC_STREAMER_INFO_DONE
++ * @see VPU_JSM_MSG_METRIC_STREAMER_NOTIFICATION
++ */
++struct vpu_jsm_metric_streamer_done {
++	/** Metric group mask that identifies metric streamer instance. */
++	u64 metric_group_mask;
++	/**
++	 * Size in bytes of single sample - total size of all enabled counters.
++	 * Some VPU implementations may align sample_size to more than 8 bytes.
++	 */
++	u32 sample_size;
++	u32 reserved_0;
++	/**
++	 * Number of samples collected since the metric streamer was started.
++	 * This will be 0 if the metric streamer was not started.
++	 */
++	u32 samples_collected;
++	/**
++	 * Number of samples dropped since the metric streamer was started. This
++	 * is incremented every time the metric streamer is not able to write
++	 * collected samples because the current buffer is full and there is no
++	 * next buffer to switch to.
++	 */
++	u32 samples_dropped;
++	/** Address of the buffer that contains the latest metric data. */
++	u64 buffer_addr;
++	/**
++	 * Number of bytes written into the metric data buffer. In response to the
++	 * VPU_JSM_MSG_METRIC_STREAMER_INFO request this field contains the size of
++	 * all group and counter descriptors. The size is updated even if the buffer
++	 * in the request was NULL or too small to hold descriptors of all counters
++	 */
++	u64 bytes_written;
++};
++
++static_assert(sizeof(struct vpu_jsm_metric_streamer_done) % 8 == 0,
++	      "vpu_jsm_metric_streamer_done is misaligned");
++
++/**
++ * Metric group description placed in the metric buffer after successful completion
++ * of the VPU_JSM_MSG_METRIC_STREAMER_INFO command. This is followed by one or more
++ * @vpu_jsm_metric_counter_descriptor records.
++ * @see VPU_JSM_MSG_METRIC_STREAMER_INFO
++ */
++struct vpu_jsm_metric_group_descriptor {
++	/**
++	 * Offset to the next metric group (8-byte aligned). If this offset is 0 this
++	 * is the last descriptor. The value of metric_info_size must be greater than
++	 * or equal to sizeof(struct vpu_jsm_metric_group_descriptor) + name_string_size
++	 * + description_string_size and must be 8-byte aligned.
++	 */
++	u32 next_metric_group_info_offset;
++	/**
++	 * Offset to the first metric counter description record (8-byte aligned).
++	 * @see vpu_jsm_metric_counter_descriptor
++	 */
++	u32 next_metric_counter_info_offset;
++	/** Index of the group. This corresponds to bit index in metric_group_mask. */
++	u32 group_id;
++	/** Number of counters in the metric group. */
++	u32 num_counters;
++	/** Data size for all counters, must be a multiple of 8 bytes.*/
++	u32 metric_group_data_size;
++	/**
++	 * Metric group domain number. Cannot use multiple, simultaneous metric groups
++	 * from the same domain.
++	 */
++	u32 domain;
++	/**
++	 * Counter name string size. The string must include a null termination character.
++	 * The FW may use a fixed size name or send a different name for each counter.
++	 * If the VPU uses fixed size strings, all characters from the end of the name
++	 * to the of the fixed size character array must be zeroed.
++	 */
++	u32 name_string_size;
++	/** Counter description string size, @see name_string_size */
++	u32 description_string_size;
++	u32 reserved_0[2];
++	/**
++	 * Right after this structure, the VPU writes name and description of
++	 * the metric group.
++	 */
++};
++
++static_assert(sizeof(struct vpu_jsm_metric_group_descriptor) % 8 == 0,
++	      "vpu_jsm_metric_group_descriptor is misaligned");
++
++/**
++ * Metric counter description, placed in the buffer after vpu_jsm_metric_group_descriptor.
++ * @see VPU_JSM_MSG_METRIC_STREAMER_INFO
++ */
++struct vpu_jsm_metric_counter_descriptor {
++	/**
++	 * Offset to the next counter in a group (8-byte aligned). If this offset is
++	 * 0 this is the last counter in the group.
++	 */
++	u32 next_metric_counter_info_offset;
++	/**
++	 * Offset to the counter data from the start of samples in this metric group.
++	 * Note that metric_data_offset % metric_data_size must be 0.
++	 */
++	u32 metric_data_offset;
++	/** Size of the metric counter data in bytes. */
++	u32 metric_data_size;
++	/** Metric type, see Level Zero API for definitions. */
++	u32 tier;
++	/** Metric type, see set_metric_type_t for definitions. */
++	u32 metric_type;
++	/** Metric type, see set_value_type_t for definitions. */
++	u32 metric_value_type;
++	/**
++	 * Counter name string size. The string must include a null termination character.
++	 * The FW may use a fixed size name or send a different name for each counter.
++	 * If the VPU uses fixed size strings, all characters from the end of the name
++	 * to the of the fixed size character array must be zeroed.
++	 */
++	u32 name_string_size;
++	/** Counter description string size, @see name_string_size */
++	u32 description_string_size;
++	/** Counter component name string size, @see name_string_size */
++	u32 component_string_size;
++	/** Counter string size, @see name_string_size */
++	u32 units_string_size;
++	u32 reserved_0[2];
++	/**
++	 * Right after this structure, the VPU writes name, description
++	 * component and unit strings.
++	 */
++};
++
++static_assert(sizeof(struct vpu_jsm_metric_counter_descriptor) % 8 == 0,
++	      "vpu_jsm_metric_counter_descriptor is misaligned");
++
++/**
++ * Payload for VPU_JSM_MSG_DYNDBG_CONTROL requests.
++ *
++ * VPU_JSM_MSG_DYNDBG_CONTROL are used to control the VPU FW Dynamic Debug
++ * feature, which allows developers to selectively enable / disable MVLOG_DEBUG
++ * messages. This is equivalent to the Dynamic Debug functionality provided by
++ * Linux
++ * (https://www.kernel.org/doc/html/latest/admin-guide/dynamic-debug-howto.html)
++ * The host can control Dynamic Debug behavior by sending dyndbg commands, which
++ * have the same syntax as Linux
++ * dyndbg commands.
++ *
++ * NOTE: in order for MVLOG_DEBUG messages to be actually printed, the host
++ * still has to set the logging level to MVLOG_DEBUG, using the
++ * VPU_JSM_MSG_TRACE_SET_CONFIG command.
++ *
++ * The host can see the current dynamic debug configuration by executing a
++ * special 'show' command. The dyndbg configuration will be printed to the
++ * configured logging destination using MVLOG_INFO logging level.
++ */
++struct vpu_ipc_msg_payload_dyndbg_control {
++	/**
++	 * Dyndbg command (same format as Linux dyndbg); must be a NULL-terminated
++	 * string.
++	 */
++	char dyndbg_cmd[VPU_DYNDBG_CMD_MAX_LEN];
++};
++
++/*
++ * Payloads union, used to define complete message format.
++ */
++union vpu_ipc_msg_payload {
++	struct vpu_ipc_msg_payload_engine_reset engine_reset;
++	struct vpu_ipc_msg_payload_engine_preempt engine_preempt;
++	struct vpu_ipc_msg_payload_register_db register_db;
++	struct vpu_ipc_msg_payload_unregister_db unregister_db;
++	struct vpu_ipc_msg_payload_query_engine_hb query_engine_hb;
++	struct vpu_ipc_msg_payload_power_level power_level;
++	struct vpu_jsm_metric_streamer_start metric_streamer_start;
++	struct vpu_jsm_metric_streamer_stop metric_streamer_stop;
++	struct vpu_jsm_metric_streamer_update metric_streamer_update;
++	struct vpu_ipc_msg_payload_blob_deinit blob_deinit;
++	struct vpu_ipc_msg_payload_ssid_release ssid_release;
++	struct vpu_jsm_hws_register_db hws_register_db;
++	struct vpu_ipc_msg_payload_job_done job_done;
++	struct vpu_ipc_msg_payload_engine_reset_done engine_reset_done;
++	struct vpu_ipc_msg_payload_engine_preempt_done engine_preempt_done;
++	struct vpu_ipc_msg_payload_register_db_done register_db_done;
++	struct vpu_ipc_msg_payload_unregister_db_done unregister_db_done;
++	struct vpu_ipc_msg_payload_query_engine_hb_done query_engine_hb_done;
++	struct vpu_ipc_msg_payload_get_power_level_count_done get_power_level_count_done;
++	struct vpu_jsm_metric_streamer_done metric_streamer_done;
++	struct vpu_ipc_msg_payload_blob_deinit_done blob_deinit_done;
++	struct vpu_ipc_msg_payload_trace_config trace_config;
++	struct vpu_ipc_msg_payload_trace_capability_rsp trace_capability;
++	struct vpu_ipc_msg_payload_trace_get_name trace_get_name;
++	struct vpu_ipc_msg_payload_trace_get_name_rsp trace_get_name_rsp;
++	struct vpu_ipc_msg_payload_dyndbg_control dyndbg_control;
++	struct vpu_ipc_msg_payload_hws_priority_band_setup hws_priority_band_setup;
++	struct vpu_ipc_msg_payload_hws_create_cmdq hws_create_cmdq;
++	struct vpu_ipc_msg_payload_hws_create_cmdq_rsp hws_create_cmdq_rsp;
++	struct vpu_ipc_msg_payload_hws_destroy_cmdq hws_destroy_cmdq;
++	struct vpu_ipc_msg_payload_hws_set_context_sched_properties
++		hws_set_context_sched_properties;
++};
++
++/*
++ * Host <-> LRT IPC message base structure.
++ *
++ * NOTE: All instances of this object must be aligned on a 64B boundary
++ * to allow proper handling of VPU cache operations.
++ */
++struct vpu_jsm_msg {
++	/* Message type, see vpu_ipc_msg_type enum. */
++	u32 type;
++	/* Buffer status, see vpu_ipc_msg_status enum. */
++	u32 status;
++	/*
++	 * Request ID, provided by the host in a request message and passed
++	 * back by VPU in the response message.
++	 */
++	u32 request_id;
++	/* Request return code set by the VPU, see VPU_JSM_STATUS_* defines. */
++	u32 result;
++	/* Message payload depending on message type, see vpu_ipc_msg_payload union. */
++	union vpu_ipc_msg_payload payload;
++};
++
++#pragma pack(pop)
++
++#endif
++
++///@}
 -- 
 2.34.1
 
