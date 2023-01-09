@@ -1,72 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40C5E662338
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 11:30:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE60466233D
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 11:32:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47D7E10E3CC;
-	Mon,  9 Jan 2023 10:30:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A029D10E3CD;
+	Mon,  9 Jan 2023 10:32:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C117210E3CC;
- Mon,  9 Jan 2023 10:30:15 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id jo4so18877334ejb.7;
- Mon, 09 Jan 2023 02:30:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=phEhvKafKrajoyp0Jf/fdEMMEawQCVqd+pQs/PZPFAE=;
- b=ez3/+Rmvpu4s53moABtNJgpziWMcrf28CEllQYJkkZvEgjz99mk5PD6PgARxHql0so
- dFdpghx/nvAXXb40L6LdzY6Xeo/vdpZqcUQEWiiHL3AEx57f+3bxfPYo/Rh/0SyyWDx3
- 9An/Bxarvztnt+1mXNUtJMyEbqbQz8t0B2xHh+6zuQwoAceb+sEb9XiM/YsyP5epW+g6
- SkDomGWNAgy6NfpnCvXCYgJhUkZlDBPR3n0Dtp9tNOSxZT+sbl5BKGbXBWUwrWDfjMPL
- fqQLi50D0TjuRtjNQO8JvtWAOKUBR0Ezai+yB8aQJ3HQ+lUFcWeIOqo/iDp1EIWfnf54
- xr/w==
+Received: from mail-vs1-xe2c.google.com (mail-vs1-xe2c.google.com
+ [IPv6:2607:f8b0:4864:20::e2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E28F310E3CD
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 10:32:53 +0000 (UTC)
+Received: by mail-vs1-xe2c.google.com with SMTP id 3so8090081vsq.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 02:32:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=HG1EBP5y9ccRxvLO1fx1xbReFeFjuMxeUoDDtyCUWMA=;
+ b=efGLwc3OAfzNE2E1Nz97beiexHdD/S486shc0iAWBhaaQ84dyyLYAJQxX8x94mhJ5m
+ EUE7fLQ8Pce0SYXuGrfMDkei9O7PV+O3q0BwQDy7xxo7yYvMUakcrhd/Hui9VolcfJbA
+ UNjqw6Q86j+Nl6A6ZPxln3MA6ejGdBR6TSg6wPZ+q44u+Q5WaSMej+bsDcCyrn/tslId
+ MKFEgQLi0mBfCh0CPAyU1Gt3iUr0bDdfP0jyh3t/VG1RdkPigGoRPCwr5yKC7QmQZB+P
+ d20lJ66lS0potRePakGv+HP55XFZaSyarSD7XI1sKPoUUDKkG8PiUZAv7GZ+HUPBPoDG
+ qB7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=phEhvKafKrajoyp0Jf/fdEMMEawQCVqd+pQs/PZPFAE=;
- b=IDBwmobzW/4ZNrZpTpJ+lunwjxfY7HnQlJniXB1B0HjF5fPtlz7J7ev2hHoQU+gNNl
- Hj3BAMFu6kB5mefsK5Kur7ymtctB40/GUBehljuHGrmEkzp4sYZ05wIxLuk+UXd3AUWA
- nfD0/iTlnTVSMUSpHTqdEv6/pkGELvgxbtITasaN0FBi+QhM6lB6SGiqMsofEXsqfdYG
- qH7A2qUI2LRGqf/ILxpE3MSLq2kxnlaO71KD31d6dYo3uAiRNiVzHy09EUUGFukSkHJ+
- p0ZkKUja6p5gqe2iNfA4bBRoX6bWajernM9vk812CtAqMLHB+Z5OBNndbo+X7hO9m3cr
- IOYg==
-X-Gm-Message-State: AFqh2krWV3lylJuTVdaaYqVRErrh5vxkEVeF5UOXC7Avi8l02avyxekm
- +bpOL/omYoEbeKTqoBr/b2Y=
-X-Google-Smtp-Source: AMrXdXuLz6NCFQR52Qhdgsnzf/luJgsmLgt97nsac26wYuu+FL+RCoPaGzmpyF+1jXH9sualZflWOQ==
-X-Received: by 2002:a17:907:8c06:b0:7c1:3fbd:d569 with SMTP id
- ta6-20020a1709078c0600b007c13fbdd569mr57477938ejc.8.1673260214391; 
- Mon, 09 Jan 2023 02:30:14 -0800 (PST)
-Received: from [192.168.178.21] (p5b0ea2e7.dip0.t-ipconnect.de.
- [91.14.162.231]) by smtp.gmail.com with ESMTPSA id
- qu25-20020a170907111900b0084c7574630csm3600928ejb.97.2023.01.09.02.30.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 02:30:13 -0800 (PST)
-Message-ID: <b8f4af07-6ce7-dbbd-744e-8cd8706b5b07@gmail.com>
-Date: Mon, 9 Jan 2023 11:30:10 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=HG1EBP5y9ccRxvLO1fx1xbReFeFjuMxeUoDDtyCUWMA=;
+ b=dRkKHm1b9q01qcXpxEUFB+IJ2TnSgynzAHtilWNZ+zWqeVx49o9M8qjcOrlEcXuXvw
+ lKTcQ6v1/P+adQNbOJB+0ElZ1DcypE1Ispum01QKVAht+KFAseTsoGKqItFHxjuhHddL
+ pvK9s0BUnocXG5Id+1Fuew5xogCT6WfbnnEB6vcYvWi0XphGgy3z+CWAlMCgArAt08rx
+ GrYXiB/gbDzhUFfMfY3FkABmDeQtqwbMGSWRORkLT50q1AsdYxl/+AA2MndyfKc/aJG+
+ k2fnGUevx2s3y8DaxbVQtO2PG0y+ET7adszGhwvhVvZU+q2sf/wH6oyKz7puuiWU/tPV
+ FbDA==
+X-Gm-Message-State: AFqh2krcf0STI4QmE4q8B6OtyKCOXqF/YPHbFaADUkgnKLmIcEPsXz1v
+ diw3/t3sg+k8trSIkoi3gkmg04xDMvewAKhL7i95SDpD2qndFQ==
+X-Google-Smtp-Source: AMrXdXsJOVB10ql2VCnWdFa4hlkIU+1tI0ArpGkJtnno2x2SvStjRUyMtY8zRp/9COAk1Bnnxnb6YDHvZPoTSdbYJyg=
+X-Received: by 2002:a05:6102:3108:b0:3c8:e71a:61ff with SMTP id
+ e8-20020a056102310800b003c8e71a61ffmr7691861vsh.23.1673260373013; Mon, 09 Jan
+ 2023 02:32:53 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 3/5] drm/amdgpu: Do not include <linux/fb.h>
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- patrik.r.jakobsson@gmail.com, thierry.reding@gmail.com, sam@ravnborg.org,
- f.fainelli@gmail.com
-References: <20230109101243.26995-1-tzimmermann@suse.de>
- <20230109101243.26995-4-tzimmermann@suse.de>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20230109101243.26995-4-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20221207-rpi-hvs-crtc-misc-v1-0-1f8e0770798b@cerno.tech>
+ <20221207-rpi-hvs-crtc-misc-v1-8-1f8e0770798b@cerno.tech>
+In-Reply-To: <20221207-rpi-hvs-crtc-misc-v1-8-1f8e0770798b@cerno.tech>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Mon, 9 Jan 2023 10:32:37 +0000
+Message-ID: <CAPY8ntDmSKB-u2FNALeGgh2bZwxDfPXGnP1kV4LnGT_NrZ-4Wg@mail.gmail.com>
+Subject: Re: [PATCH 08/15] drm/vc4: hvs: Ignore atomic_flush if we're disabled
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,138 +66,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-rpi-kernel@lists.infradead.org
+Cc: Emma Anholt <emma@anholt.net>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Eric Anholt <eric@anholt.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 09.01.23 um 11:12 schrieb Thomas Zimmermann:
-> Remove unnecessary include statements for <linux/fb.h>. No functional
-> changes.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Hi Maxime
 
-Acked-by: Christian König <christian.koenig@amd.com>
+On Wed, 7 Dec 2022 at 11:55, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> atomic_flush will be called for each CRTC even if they aren't enabled.
+>
+> The whole code we have there will thus run without a properly affected
+> channel, which can then result in all sorts of weird behaviour.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c                         | 1 -
->   drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c             | 1 -
->   drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c           | 1 -
->   drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_processpptables.c | 1 -
->   drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c           | 1 -
->   drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c | 1 -
->   drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c           | 1 -
->   drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_processpptables.c | 1 -
->   drivers/gpu/drm/amd/pm/powerplay/smumgr/ci_smumgr.c             | 1 -
->   9 files changed, 9 deletions(-)
+>  drivers/gpu/drm/vc4/vc4_hvs.c | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index 1353ffd08988..ebc6e6cbe2ab 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -39,7 +39,6 @@
->   #include <linux/mmu_notifier.h>
->   #include <linux/suspend.h>
->   #include <linux/cc_platform.h>
-> -#include <linux/fb.h>
->   #include <linux/dynamic_debug.h>
->   
->   #include "amdgpu.h"
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
-> index 7ef7e81525a3..d6edd83f67c6 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
-> @@ -22,7 +22,6 @@
->    */
->   #include "pp_debug.h"
->   #include <linux/delay.h>
-> -#include <linux/fb.h>
->   #include <linux/module.h>
->   #include <linux/pci.h>
->   #include <linux/slab.h>
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-> index c8c9fb827bda..733cac4600ff 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-> @@ -22,7 +22,6 @@
->    */
->   
->   #include <linux/delay.h>
-> -#include <linux/fb.h>
->   #include <linux/module.h>
->   #include <linux/pci.h>
->   #include <linux/slab.h>
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_processpptables.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_processpptables.c
-> index 95b988823f50..bb90d8abf79b 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_processpptables.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_processpptables.c
-> @@ -23,7 +23,6 @@
->   #include <linux/module.h>
->   #include <linux/pci.h>
->   #include <linux/slab.h>
-> -#include <linux/fb.h>
->   
->   #include "vega10_processpptables.h"
->   #include "ppatomfwctrl.h"
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c
-> index a2f4d6773d45..c73693dc4c09 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c
-> @@ -22,7 +22,6 @@
->    */
->   
->   #include <linux/delay.h>
-> -#include <linux/fb.h>
->   #include <linux/module.h>
->   #include <linux/slab.h>
->   
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c
-> index bd54fbd393b9..89148f73b514 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c
-> @@ -22,7 +22,6 @@
->    */
->   #include <linux/module.h>
->   #include <linux/slab.h>
-> -#include <linux/fb.h>
->   
->   #include "vega12/smu9_driver_if.h"
->   #include "vega12_processpptables.h"
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c
-> index b30684c84e20..33f3d9792181 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c
-> @@ -22,7 +22,6 @@
->    */
->   
->   #include <linux/delay.h>
-> -#include <linux/fb.h>
->   #include <linux/module.h>
->   #include <linux/slab.h>
->   
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_processpptables.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_processpptables.c
-> index 1f9082539457..79c817752a33 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_processpptables.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_processpptables.c
-> @@ -22,7 +22,6 @@
->    */
->   #include <linux/module.h>
->   #include <linux/slab.h>
-> -#include <linux/fb.h>
->   
->   #include "smu11_driver_if.h"
->   #include "vega20_processpptables.h"
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/ci_smumgr.c b/drivers/gpu/drm/amd/pm/powerplay/smumgr/ci_smumgr.c
-> index 5ca3c422f7d4..5c3f42d97f69 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/ci_smumgr.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/ci_smumgr.c
-> @@ -22,7 +22,6 @@
->    */
->   #include <linux/module.h>
->   #include <linux/slab.h>
-> -#include <linux/fb.h>
->   #include "linux/delay.h"
->   #include <linux/types.h>
->   #include <linux/pci.h>
-
+> diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
+> index 3582ede1a0aa..5fadbf219542 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hvs.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+> @@ -579,6 +579,9 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
+>                 return;
+>         }
+>
+> +       if (vc4_state->assigned_channel == VC4_HVS_CHANNEL_DISABLED)
+> +               return;
+> +
+>         if (debug_dump_regs) {
+>                 DRM_INFO("CRTC %d HVS before:\n", drm_crtc_index(crtc));
+>                 vc4_hvs_dump_state(hvs);
+>
+> --
+> 2.38.1
