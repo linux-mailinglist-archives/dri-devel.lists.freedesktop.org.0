@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB293661F98
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 09:03:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B75661FB3
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 09:09:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DC8310E077;
-	Mon,  9 Jan 2023 08:03:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96FF110E286;
+	Mon,  9 Jan 2023 08:09:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1B1710E077
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 08:03:05 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98B6C10E0B6
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 08:09:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1673251383; bh=qozjcx4hTpr3jaYdT2eKjDnLhPkqHFw+E4wFsV+KjBo=;
+ t=1673251771; bh=GxDODv7BjGsfs4UAFxGX3mj/eF5LAXF1ugZSN5fTNBU=;
  h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=smzHY8PNV3Owc520Tr9p8IXQNBB9KKe4GYCYgmoeCwe6bz71EZc4DA6nOyUvP8bVf
- 1nT6FchfvuH/idf4w/pYs8IYRPsRNvPTCdbsk9RdPZr164FKH5gvVOJPredv5RruCz
- 1uYcoj1ypJRVK3w3dvdktbAe6C+XMQmY87PTaG2jIvQZGpDB8R7v/3mqwsdPJLEtZU
- B9YI4MPAm0O1F8NJYMp+FwU9rrftW/l1QQIMiUnnfykkiniFWe8dLCN2xFlKAOkdYT
- IcPvik70XX9eKiXjk1dF0+VAJ30kRtHcZbaPXO2K1rRgRBBxXsjD13WvxRV9Evn2BE
- 4fwlcf4j0NiDQ==
+ b=BgkPkVdg9HQSMxcOIvS6oP/h0Qf/vBH22A+GKwFu6/SAly2Ly2a++D3tlEXV1nhZ8
+ PyqfcpBiHCI+c3GEkmXCdDuzV2FuYKYqRVYg33l7xripETOq8vr0gpr018dOu4VipF
+ pd7SAYeoSVW8bSbxmunYFoHC0eabFCKzDQ40Sg4Kgb/i2Cb9NtyWRpHCzVLRs7P7BV
+ nB17OfBZiYdJwAWqPdMIXb5l0Si+wqBKx7NFP30BskMxJ0sb+NtDpiJLkkICYnpYJE
+ J/BxqXR0K0kIjI6Kps9NxZkCc5D28adK18M8SX3pXXvBZl02nJ1O5EHnz0nViIC+lO
+ IwrI4vLmyKQvQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.20.60] ([92.116.168.5]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MwfWU-1opqNY4Aig-00y8zI; Mon, 09
- Jan 2023 09:03:03 +0100
-Message-ID: <b1ba214d-f3e1-4f6e-5226-2ab7761c4366@gmx.de>
-Date: Mon, 9 Jan 2023 09:03:01 +0100
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MUowb-1pNHY20uxt-00QgAb; Mon, 09
+ Jan 2023 09:09:31 +0100
+Message-ID: <7c36c161-ca51-244c-5705-e01337a85e40@gmx.de>
+Date: Mon, 9 Jan 2023 09:09:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH] fbdev: Replace 0-length array with flexible array
+Subject: Re: [PATCH] fbdev/g364fb: Fix a compilation issue
 Content-Language: en-US
-To: Kees Cook <keescook@chromium.org>
-References: <20230105192034.never.249-kees@kernel.org>
+To: xurui <xurui@kylinos.cn>
+References: <20230105094039.1474255-1-xurui@kylinos.cn>
 From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20230105192034.never.249-kees@kernel.org>
+In-Reply-To: <20230105094039.1474255-1-xurui@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:9YTJmsZjsjckd6I9le8J645mr0N28l3SdIAvOuyOXzXTuxHoKTG
- qoIQNW6zyu1FP5X6N850VSLQj1Yw9UebNucTTQJta3AtHaS+teEAiFne08YoJwisaVxSDKz
- N0oYml7bDnzZQ1yhL5GdZ+k+Rw41aEnT0J2GsXeJAIU8XqYi2nstRW8BFge+4dsNu52nJl+
- EE9Lx6dmVlu166rTDsPCA==
+X-Provags-ID: V03:K1:5IcJLkdvLQuK5DfKSf6gmAjsCKhgghZj27t+ydMPAr5WqPyW8E7
+ z+l2owR5Kkue1tXpGCO0yxpZNPMBmGJS2n0ejMTnr+vWcP9Z1XcILbLHSdyaP6F686TorRQ
+ 8PYx2r16oEeqeeoeTRSgOpMZee+XgdSJjBv/Rqgfz4Y3hH/4/JmGJyRzhpWLInjrFXqvk76
+ NRdo6RMpAGBA3t49Tn61w==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:UMFGxlVWvYY=;5AI8Fz86dVux/6X6Zo26d4ofLkC
- Mn+YuXFtnpca4uzGQr10jGyFUg4BvKVTFjgjCPtpHp+9t+TvPxS1H2Odj2prQlE/FQ3V9eEwH
- xxb+uWK5yADaZddzuMIVkgqJWW7A2oWr7pF28RTRhGpqJoRmsh6ygXWO+RcoI29/M6QLaptlv
- 8pcFmo6+6CqJZ0zD+1hf+KY/w0KMqnEMSPNq1X1ASYHssCDwwjtRtDHzfkeLkj3DFPt5LQCq3
- 0eO+7duchHK0eZVEYULvCHQIv80zsVW518lnz0nsKBKSTg8nCTINjNjV3SPsJM9qariCEB0gJ
- yDLg0G9L88CTjZqj018fr5yj5xb0UfRa/9qJ/IoeALU04WRyKVcLeggi2jPGzfkMSq38MauOs
- trLH8xBQP1+fNv8n2BBGHzpqaHPwDcmUYQmmnZyvw2mWz3RtiyzNXv41Ni7/obCPxnjrvNuSF
- OpjiBhrKaV5tWj1FmXWLhGAb7SOn+K1bioeZA7uZpDwNnL97VNxz1CujfD6OlnYbHmEYtLOIe
- j/Mm223Cvc4wFGQsQca3aV3X0ZGP5WnC/YU+euHqNvO0XVFM0YNIt+noJKjFRgET/MOB7oJdY
- D9rrUCL31P4PRPMax3YRU9pNEg8tqVj6Zijn1frN2hZ59Gwx+9FIvmoZ/XPXc+c0gQyJ2rB+F
- C90+bAPSObZ8ctryBCfK+CBe8R2lStLhnvwpPQrOjsLaus/5vRp/vHj8Y3s3A6ynDvzFgQbgQ
- Tu56CTwE4PHumDWLoIuhhJV0irXMDCtmXGuoDbb0ZWRD10A+5hldW9orqblk/fN7eeoXNm+rM
- HijCdlGagKbAYRZeAgSga65k0N470YFnFz3shIyUXLsXI185uPoTKSwu05UkMoURZCGc9xm2n
- fTuwX9wN5JthviOzrR6vHxUnFHofAx/v5LHDLzaKCOlX7SLbaJLH1KJI5FzdZfI1biLpG8jS8
- 5zHJ/A==
+UI-OutboundReport: notjunk:1;M01:P0:uAZtrF6HuhM=;Oqrnpf6YAHbNofOuuJB7jNa9Zxb
+ PFaQT7wWviPw7M8iWjIuDH7JJX7zvXhebOZ/kjlNCyPpTaeuOgoqL8bhlh4IOGBk/gwwwkvMU
+ V+NSoPEbivMwmgX0tfp0/OIairOaRiPYf2PPa46i/2BYLPR4VqXzYFPhXnIj6As2qKqzy+B+z
+ 2QkUvG/UxEHIMkL6hlm7mb3H4SSHmT3q6boNDqI6GwdJ0O7YXRTqeI1EJwklPDTDGW1dZakNL
+ zgkemwEyD399hobzQK7BSliJP4a8+BbCMz3jzfFENVg3Tk/fDNHDtzk6zd16zaUxDLsznPwfD
+ vuZlH3gFX3FfF+WzdmiqhIADBFCkKngkwhqs5Q/aHQd/QswR0dS1BfJiKBiJ6dAizCINwU0wc
+ giP0m6xtE/h8xdV4PJ+7hU1+o6b1rkJ2dgzRjGM9t4DSC+8/KPGjbdgDi1gLYT64yr8VdqloY
+ hPkP9/q4He5jFR5Duy/DIYxCynPn5hoYzq9/Z+BQxONLjkFK+jNH66dVTbRzHa4C5tMjSIND3
+ T6y/y2vDU6XMuf1M2yUww7Zokb8ylg/bpVw5y2f9Zo2jfEOkOAwvCg8DM4L320ECFj6cUOGWn
+ 73IYdcn0gOKuZtOcvXJObNqoYyqZGTVuyDMHQmQv8o1P+wFuzdy36gHexq7QHnyVNKppeBOSm
+ 6GgBGkg/TojkhXLMn0XG//poBW6Fwqig2g0DAct4n0CX2b3+0vS6R69ZDOxgFotcLagA/3SaL
+ P84vEvhr8nnfW8oSi/tf7gDxvw34rjelYlEQh2rj7YGBb3fJLZl8i2EQLSyV1rrIjEBHppiXG
+ NJBNOTkpQ9cxTfMPxFU1GIJKCCxVhjPT7vwsoPkqXCa+On7gQBs02XCu51zZfHi5XAISiOt0F
+ gSovIpcot48nqhCpildZW3IscCauVk5amU0AgMQ69ozuwKF/HdKyWjV5rwGtRe3rTDI+Rlj08
+ sTsHhhpvE3emi6HozA/C4O9MLHc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,57 +70,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-hardening@vger.kernel.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, trivial@kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/5/23 20:20, Kees Cook wrote:
-> Zero-length arrays are deprecated[1]. Replace struct aperture's "ranges"
-> 0-length array with a flexible array. (How is the size of this array
-> verified?) Detected with GCC 13, using -fstrict-flex-arrays=3D3:
+On 1/5/23 10:40, xurui wrote:
+> drivers/video/fbdev/g364fb.c:202:4: error: cast to pointer from integer =
+of different size [-Werror=3Dint-to-pointer-cast]
 >
-> samples/vfio-mdev/mdpy-fb.c: In function 'mdpy_fb_probe':
-> samples/vfio-mdev/mdpy-fb.c:169:32: warning: array subscript 0 is outsid=
-e array bounds of 'struct aperture[0]' [-Warray-bounds=3D]
->    169 |         info->apertures->ranges[0].base =3D info->fix.smem_star=
-t;
->        |         ~~~~~~~~~~~~~~~~~~~~~~~^~~
-> In file included from samples/vfio-mdev/mdpy-fb.c:21:
-> include/linux/fb.h:510:19: note: while referencing 'ranges'
->    510 |                 } ranges[0];
->        |                   ^~~~~~
->
-> [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-=
-length-and-one-element-arrays
->
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: xurui <xurui@kylinos.cn>
 
-applied to the fbdev git tree.
+applied.
 
 Thanks!
 Helge
 
 > ---
->   include/linux/fb.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/video/fbdev/g364fb.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/include/linux/fb.h b/include/linux/fb.h
-> index 96b96323e9cb..bf59d6a3590f 100644
-> --- a/include/linux/fb.h
-> +++ b/include/linux/fb.h
-> @@ -507,7 +507,7 @@ struct fb_info {
->   		struct aperture {
->   			resource_size_t base;
->   			resource_size_t size;
-> -		} ranges[0];
-> +		} ranges[];
->   	} *apertures;
+> diff --git a/drivers/video/fbdev/g364fb.c b/drivers/video/fbdev/g364fb.c
+> index 05837a3b985c..beef4bcec3c5 100644
+> --- a/drivers/video/fbdev/g364fb.c
+> +++ b/drivers/video/fbdev/g364fb.c
+> @@ -175,7 +175,8 @@ int __init g364fb_init(void)
+>   {
+>   	volatile unsigned int *curs_pal_ptr =3D
+>   	    (volatile unsigned int *) CURS_PAL_REG;
+> -	int mem, i;
+> +	int mem;
+> +	uintptr_t i;
 >
->   	bool skip_vt_switch; /* no VT switch on suspend/resume required */
+>   	if (fb_get_options("g364fb", NULL))
+>   		return -ENODEV;
 
