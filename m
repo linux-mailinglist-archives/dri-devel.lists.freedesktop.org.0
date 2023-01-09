@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D9E661D25
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 05:04:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9206D661D32
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 05:04:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0A8210E250;
-	Mon,  9 Jan 2023 04:03:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7B2F10E262;
+	Mon,  9 Jan 2023 04:04:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
- by gabe.freedesktop.org (Postfix) with ESMTP id F00BF10E254
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 04:03:52 +0000 (UTC)
+Received: from lgeamrelo11.lge.com (lgeamrelo13.lge.com [156.147.23.53])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2BABF10E259
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 04:03:54 +0000 (UTC)
 Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
- by 156.147.23.52 with ESMTP; 9 Jan 2023 12:33:52 +0900
+ by 156.147.23.53 with ESMTP; 9 Jan 2023 12:33:53 +0900
 X-Original-SENDERIP: 156.147.1.121
 X-Original-MAILFROM: byungchul.park@lge.com
 Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
- by 156.147.1.121 with ESMTP; 9 Jan 2023 12:33:52 +0900
+ by 156.147.1.121 with ESMTP; 9 Jan 2023 12:33:53 +0900
 X-Original-SENDERIP: 10.177.244.38
 X-Original-MAILFROM: byungchul.park@lge.com
 From: Byungchul Park <byungchul.park@lge.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH RFC v7 10/23] dept: Apply sdt_might_sleep_weak() to waitqueue
- wait
-Date: Mon,  9 Jan 2023 12:33:38 +0900
-Message-Id: <1673235231-30302-11-git-send-email-byungchul.park@lge.com>
+Subject: [PATCH RFC v7 11/23] dept: Apply sdt_might_sleep_weak() to
+ hashed-waitqueue wait
+Date: Mon,  9 Jan 2023 12:33:39 +0900
+Message-Id: <1673235231-30302-12-git-send-email-byungchul.park@lge.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1673235231-30302-1-git-send-email-byungchul.park@lge.com>
 References: <1673235231-30302-1-git-send-email-byungchul.park@lge.com>
@@ -61,39 +61,40 @@ Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Makes Dept able to track dependencies by waitqueue waits, but weakly.
+Makes Dept able to track dependencies by hashed-waitqueue waits, but
+weakly.
 
 Signed-off-by: Byungchul Park <byungchul.park@lge.com>
 ---
- include/linux/wait.h | 3 +++
+ include/linux/wait_bit.h | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/include/linux/wait.h b/include/linux/wait.h
-index a0307b5..ede466c 100644
---- a/include/linux/wait.h
-+++ b/include/linux/wait.h
-@@ -7,6 +7,7 @@
- #include <linux/list.h>
- #include <linux/stddef.h>
- #include <linux/spinlock.h>
+diff --git a/include/linux/wait_bit.h b/include/linux/wait_bit.h
+index 7725b75..bad30ba 100644
+--- a/include/linux/wait_bit.h
++++ b/include/linux/wait_bit.h
+@@ -6,6 +6,7 @@
+  * Linux wait-bit related types and methods:
+  */
+ #include <linux/wait.h>
 +#include <linux/dept_sdt.h>
  
- #include <asm/current.h>
- #include <uapi/linux/wait.h>
-@@ -303,6 +304,7 @@ static inline void wake_up_pollfree(struct wait_queue_head *wq_head)
- 	struct wait_queue_entry __wq_entry;					\
- 	long __ret = ret;	/* explicit shadow */				\
- 										\
-+	sdt_might_sleep_weak(NULL);						\
- 	init_wait_entry(&__wq_entry, exclusive ? WQ_FLAG_EXCLUSIVE : 0);	\
- 	for (;;) {								\
- 		long __int = prepare_to_wait_event(&wq_head, &__wq_entry, state);\
-@@ -318,6 +320,7 @@ static inline void wake_up_pollfree(struct wait_queue_head *wq_head)
- 		cmd;								\
- 	}									\
- 	finish_wait(&wq_head, &__wq_entry);					\
-+	sdt_might_sleep_finish();						\
- __out:	__ret;									\
+ struct wait_bit_key {
+ 	void			*flags;
+@@ -246,6 +247,7 @@ struct wait_bit_queue_entry {
+ 	struct wait_bit_queue_entry __wbq_entry;			\
+ 	long __ret = ret; /* explicit shadow */				\
+ 									\
++	sdt_might_sleep_weak(NULL);					\
+ 	init_wait_var_entry(&__wbq_entry, var,				\
+ 			    exclusive ? WQ_FLAG_EXCLUSIVE : 0);		\
+ 	for (;;) {							\
+@@ -263,6 +265,7 @@ struct wait_bit_queue_entry {
+ 		cmd;							\
+ 	}								\
+ 	finish_wait(__wq_head, &__wbq_entry.wq_entry);			\
++	sdt_might_sleep_finish();					\
+ __out:	__ret;								\
  })
  
 -- 
