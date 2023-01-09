@@ -1,69 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2129662F05
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 19:28:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6847B662F10
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 19:30:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE5F10E4E7;
-	Mon,  9 Jan 2023 18:27:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B72F710E4F5;
+	Mon,  9 Jan 2023 18:30:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CA5F10E4E8
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 18:27:56 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id bt23so14308800lfb.5
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 10:27:56 -0800 (PST)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53CF110E4F5
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 18:30:04 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id bp15so14329937lfb.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 10:30:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=kxYPnnoghobJBBaTSe4UpQEXrK0A3XTblMlNo+lNKnw=;
- b=N5iszDV3mgeHPrAvF/9tRC+vKFBKYrz7Apqh06BeapGPdvoJYONuE/tfsSTiwDbIOc
- SISlclRbKC8zbmblfRkNPFVO7mQbTZJxv4iYHdxM9cS720U3Os1Kfp6UFvvwdjNFRLaN
- +rhe1D3q6p03AqvPSK0Oh1k6SaN+VL+BI9BpHsSDAPv4lnmbRce4kWhDuwIrV+I3RxkM
- YS6RTxU8phGc3GJ8uqKRMcslmstBDpPK5zI0d+CLOHi7cCD/Az9LL5zrLxV7v7+IAWJ9
- oTYo5Af2TyqnUJEbUFrc6yTkMLyCEEryiBPcMNNH3Ii+KF3ACyPsGzsM8wYzUe/EVTLM
- Ooeg==
+ bh=lyg8ntH5k9A6+UghVFByrHhXnR9EgBOacK6dV87p4l4=;
+ b=flQ78srWhyh+BhBnJgCj+3d8BpJNoiaLJ9fFjE1BrVwEC7qY3sNQIapjt4gvLMem27
+ v3K6klXeYCxvF4ONJzmQBlmxSkl/rzTTrivpWf/MLcM/igrwemjjoIjFsWPoA9eMjk6a
+ pa0BucdxFT2C12XC1PXj9yIlFxIFjrGQ8jpe7PgH1AC73NhL+Yud1YS0rtmy7zp+6syd
+ +jUtfjpwlsgRYpRaaMTtUutXI83chMHEc7Q3Xo8rPGendjd+6ZgWrrV3PV0zBFKYIHOv
+ 82diee/wBoLXK2vijWbtPG85lap5VvbHyYRoAoJcRkSJVY0Hd70ellN7A86Jozu8l8eb
+ Kzsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kxYPnnoghobJBBaTSe4UpQEXrK0A3XTblMlNo+lNKnw=;
- b=IjM00RYIpxf7cHxss53D3IJ33mldlbSQmQ4FfhQmQnNIAccpmpuAtMKLT7w73GVrMx
- JFeVS5U3sJlBS0JNTgXeH3Zj0qtOkgYpxphXT9QteS7dGXQdgW+qhY5XehBHudxj/pD2
- anEzfozKQhWz7zBQFx6S5vPst4mRoVWH7Wxv1zPbIFq3eDw1D9JdfEqQmI3kU1++kwBx
- +ZUWlDpTaTwCH7o7thtt7Up+KMSMYPsWi5A0pxilFOCB61a+moHseejHLV/g+G/h9dfS
- QzVUaxF6gAT3JaGFIHrd7NZQ3IqHQ4sPj3CeqaW2shdukIwq8Vry3F8RScZn5XYSMUGt
- +0Jw==
-X-Gm-Message-State: AFqh2kplzaCtUI9ate3H89lShyvoQbSYmruiNRqb3lkL5q4KHBw+GFQI
- SoJn8n+Kw6/4mC7S4ehX6HJxmw==
-X-Google-Smtp-Source: AMrXdXsvQo0NvFzBEknwIyyBRBQGy1hIEDfz6ILvqd2xvN8nHcpkCUkW5+saH9fDGyxWFbjIzrkLqw==
-X-Received: by 2002:a05:6512:1281:b0:4cc:8682:ec65 with SMTP id
- u1-20020a056512128100b004cc8682ec65mr749371lfs.39.1673288874809; 
- Mon, 09 Jan 2023 10:27:54 -0800 (PST)
+ bh=lyg8ntH5k9A6+UghVFByrHhXnR9EgBOacK6dV87p4l4=;
+ b=0qyWVXvCOLkcZjLyBY2K/LF/0ofdwh1JhKnKrI6qPE9hZOXPUfPuTVwdhdmeV6kKNv
+ fQy2VmvBVqrv9U+q6tNQ1NRo42icY+SsOG00w7+mRCe8BIDKj6v0L1RrvCfVgBs8/oKN
+ oDK1/F0GMEx8YlOpt1NWEQnZYbSdlaof+2/fHEexSZcE9pImsF3P6y5DVLY+KBT9rfZP
+ UUo+ueR3AmRluOLB26Xj0tBVGgxq2yVXNeq/UqNayNf5CfPxrTFfDUzka8xqwsva0aKB
+ nsUPm6jHzui3XG8Okp/nGaWDjL+kGseDCvPcM2sYvJ137EpqN19sIoClKeB+ulOwiDFF
+ 9ixg==
+X-Gm-Message-State: AFqh2krrl6AIcOyKS0bLoXXCOCxK1H/N+zS0hm1OFVEenSaF9cdY73Sc
+ yf5QVahZGZr6hn9SHA4ZepniEA==
+X-Google-Smtp-Source: AMrXdXsWQngNQDB0O08A0S/nz925H3pGCUjqmmMIrRI9hbiX3aeuuBYCxPIxhHH/YVxQEasVEUw6HQ==
+X-Received: by 2002:a05:6512:10d6:b0:4b5:834b:9f75 with SMTP id
+ k22-20020a05651210d600b004b5834b9f75mr20213778lfg.33.1673289002662; 
+ Mon, 09 Jan 2023 10:30:02 -0800 (PST)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- br11-20020a056512400b00b0048a934168c0sm1732866lfb.35.2023.01.09.10.27.54
+ f14-20020a0565123b0e00b004b7033da2d7sm1735856lfv.128.2023.01.09.10.30.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 10:27:54 -0800 (PST)
-Message-ID: <a2f427f2-ee79-600a-ce01-088f786f5a35@linaro.org>
-Date: Mon, 9 Jan 2023 20:27:53 +0200
+ Mon, 09 Jan 2023 10:30:02 -0800 (PST)
+Message-ID: <91254914-39a1-d11c-5e53-b35448253e22@linaro.org>
+Date: Mon, 9 Jan 2023 20:30:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH 1/6] dt-bindings: display/msm: rename mdss nodes to
- display-sybsystem
+Subject: Re: [PATCH] drm/msm/dpu: sort entries in the HW catalog
 Content-Language: en-GB
-To: Rob Herring <robh@kernel.org>
-References: <20230109051402.317577-1-dmitry.baryshkov@linaro.org>
- <20230109051402.317577-2-dmitry.baryshkov@linaro.org>
- <20230109160005.GA721066-robh@kernel.org>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230108211113.200846-1-dmitry.baryshkov@linaro.org>
+ <20230109083417.5drdfllpm4ythy42@SoMainline.org>
+ <CAA8EJpoVC2OW4iKcq=C-D3hejVPZ1Bd+6Nb9vPk6DVVWP2_4rQ@mail.gmail.com>
+ <20230109171052.wa43fccjh3f6wype@SoMainline.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230109160005.GA721066-robh@kernel.org>
+In-Reply-To: <20230109171052.wa43fccjh3f6wype@SoMainline.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,84 +78,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Andy Gross <agross@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/01/2023 18:00, Rob Herring wrote:
-> On Mon, Jan 09, 2023 at 07:13:57AM +0200, Dmitry Baryshkov wrote:
->> Follow the 'generic names' rule and rename mdss nodes to
->> display-subsystem.
+On 09/01/2023 19:10, Marijn Suijten wrote:
+> On 2023-01-09 11:22:42, Dmitry Baryshkov wrote:
+>> On Mon, 9 Jan 2023 at 10:34, Marijn Suijten
+>> <marijn.suijten@somainline.org> wrote:
+>>>
+>>> On 2023-01-08 23:11:13, Dmitry Baryshkov wrote:
+>>>> Different entries into the catalog were added quite randomly. Enforce
+>>>> the sorting order of some kind. It is not alphabetic to prevent the
+>>>> patch from growing uncontrollably.
+>>>
+>>> Why not sort these chronologically based on DPU hardware revision in the
+>>> match table at the end of this file?
 >>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   .../devicetree/bindings/display/msm/mdss-common.yaml      | 8 ++++++++
->>   .../devicetree/bindings/display/msm/qcom,mdss.yaml        | 5 ++++-
->>   2 files changed, 12 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/devicetree/bindings/display/msm/mdss-common.yaml b/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
->> index 59f17ac898aa..ccd7d6417523 100644
->> --- a/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
->> +++ b/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
->> @@ -15,7 +15,15 @@ description:
->>     Device tree bindings for MSM Mobile Display Subsystem(MDSS) that encapsulates
->>     sub-blocks like DPU display controller, DSI and DP interfaces etc.
->>   
->> +# Do not select this by default, otherwise it is also selected for qcom,mdss
->> +# devices.
+>> If we keep the SoC name as part of the symbolic name, we will end up
+>> in another semi-random order that is a pain to verify. Would you
+>> remember that sm6350 comes between sm6115 and qcm2290? I would not :-(
+>> And changing all names to dpu_6_5_0_lms would make it easy to add but
+>> nearly impossible to follow.
 > 
-> for NON qcom,mdss devices?
+> Agreed, though I think having the version in there would make things
+> easier to follow.  Then everything uses the "lowest" version it is
+> compatible with, and we duplicate the structs when adding a feature that
+> is only available on newer (or older) revisions.
 
-Actually no. This schema is used by qcom,SoC-mdss devices and it should 
-not be selected for legacy qcom,mdss devices.
+Up to some point...
 
 > 
->> +select:
->> +  false
-> 
-> select: false
-> 
->> +
->>   properties:
->> +  $nodename:
->> +    pattern: "^display-subsystem@[0-9a-f]+$"
->> +
->>     reg:
->>       maxItems: 1
->>   
->> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
->> index c218c9172608..47fde9b6779f 100644
->> --- a/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
->> +++ b/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
->> @@ -15,6 +15,9 @@ description:
->>     encapsulates sub-blocks like MDP5, DSI, HDMI, eDP, etc.
->>   
->>   properties:
->> +  $nodename:
->> +    pattern: "^display-subsystem@[0-9a-f]+$"
->> +
->>     compatible:
->>       enum:
->>         - qcom,mdss
->> @@ -153,7 +156,7 @@ examples:
->>     - |
->>       #include <dt-bindings/clock/qcom,gcc-msm8916.h>
->>       #include <dt-bindings/interrupt-controller/arm-gic.h>
->> -    mdss@1a00000 {
->> +    display-subsystem@1a00000 {
->>           compatible = "qcom,mdss";
->>           reg = <0x1a00000 0x1000>,
->>                 <0x1ac8000 0x3000>;
->> -- 
->> 2.39.0
+>>> Regardless, this patch is going to
+>>> make it hard to properly rebase DPU additions; see for example patch 4/8
+>>> and 5/8 in my second round of DSC fixes.
 >>
+>> Yes, quite unfortunate. As I wrote, it's already late to apply this patch :-(
+> 
+> At least we're working towards making things better, or at the very
+> least discussing the right way forward.
+> 
+>>> At the same time we should find a solution to the wishy-washy reuse of
+>>> structs and defines, which may appear the same initially but become
+>>> mismatched as more features are added (see how I had to split out
+>>> multiple of these in the INTF TE enablement series).
 >>
+>> It's a slightly different problem, but yes, I share the pain.
+> 
+> It is quite relevant though, as sorting is very closely tied to what
+> structs we reuse where, considering what SoC name is used.  It is
+> typically "what was already there" but a "least common denominator"
+> would be more descriptive (e.g. based on hardware version).
+
+The usual problem is that there are two dimensions: with each 
+generations there are new (and removed) features, but on the other hand 
+within each generation there are units that are feature-rich and the 
+ones that are feature-deprived. qcm2290, sm6115, etc.
+
+> 
+>>>> Thus SDM comes before SC and SM
+>>>> platforms and QCM is kept as the last one. There are no functional
+>>>> changes in this patch.
+>>>>
+>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>> ---
+>>>>
+>>>> Yes, I hate such mass-moves too. However the entries in this file are
+>>>> slowly becoming uncontrollable. Let's enforce some order now (while it's
+>>>> late already, but not _that_ late).
+>>>
+>>> I agree that something should happen, contributing to this file is
+>>> unnecessarily tough.
+>>
+>> In the IRC conversation Rob suggested playing with includes, but I
+>> don't see a good way to implement that.
+> 
+> That would be nice; especially if we accept struct duplication (instead
+> of recursively including "earlier" versions where needed, as mentioned
+> in IRC that'll spiral out of control).  With that one can easily diff
+> two include files and understand the differences between SoCs and/or DPU
+> hardware revisions (or notice whether a certain configuration might be
+> missing/extraneous).
+
+Let's see what kind of binary growth does it bring. In the end it well 
+might be that the compiler is smart enough.
+
+> 
+> - Marijn
 
 -- 
 With best wishes
