@@ -1,58 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B547662B7A
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 17:44:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 262A9662B91
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 17:46:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DE4010E4AD;
-	Mon,  9 Jan 2023 16:44:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8657B10E441;
+	Mon,  9 Jan 2023 16:46:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23E1810E44D
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 16:44:46 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 309GiKXF077797;
- Mon, 9 Jan 2023 10:44:20 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1673282660;
- bh=Hdi1Bu8qJAQTYphKYh0CUAY3M2lu9UUVs26+inJWz9A=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=MiiNTw0dLTzcuchtizZJzOh55E9ef+WnQGnSEKJ4R7yFFGTusUHvtX8w5LFPuG51W
- KVWWAUykspc+A10XBgUzMXDUbZ19f0UC3EcLluPxxkALJrdp6ncv1EUJfDph+7fvmJ
- EUUAbmJaeU0km0p1G656RRH6Vq72I86KslvgJDuA=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 309GiKER006181
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 9 Jan 2023 10:44:20 -0600
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Mon, 9
- Jan 2023 10:44:20 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Mon, 9 Jan 2023 10:44:20 -0600
-Received: from [10.250.234.21] (ileaxei01-snat.itg.ti.com [10.180.69.5])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 309GiA1s094256;
- Mon, 9 Jan 2023 10:44:11 -0600
-Message-ID: <5206c520-1263-a5a4-8960-edd41aaf3175@ti.com>
-Date: Mon, 9 Jan 2023 22:14:09 +0530
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0934810E441
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 16:46:08 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ g19-20020a05600c4ed300b003d9eb1dbc0aso4469863wmq.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 08:46:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=l1g5c7G4M7Xy6TWfrTWWamOKap/k5YDhQy+aHR2h+88=;
+ b=MEXK6Bij6ONshchOemaJ/mNKdOKQ40W5DYH9pCAO8W4AO0KBpIuH6yHCqFnpjMKl92
+ xpy0vzM1LJbfW6OOUl2MmH1yZo9O2w79Ib3QN+cpzwqcL8iLSKu6XMYY+JO/LOP04hd0
+ Ju3NEgw75ipAerX4ivxyKY5yIM2fsWhLX9CK0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=l1g5c7G4M7Xy6TWfrTWWamOKap/k5YDhQy+aHR2h+88=;
+ b=MCZyHPy8xSQcd7I0rn1quzq7PNAlF/HBHIGzimRsFca/r8Llln2bwW4LV32fghEHTu
+ LKjWvVOYytmSOyOEvHFwoY9fcLHCfLoRp0gPbYMzx9aUcK3yohGjN6Q1/JOQWwwRZd1n
+ 0PSJnkeaWbDgNvjaIjXhVYSWnaB4b/eduK4h/hmPPuywO2l7S2/MvfjqWPGUp2kQnWjx
+ 6YeXKwbSJ31VsyXX1O3gHkz6vjjMN6A06L5JTibWHX7gbHm7OCuz8/f48lkt7ekefyLE
+ 14yRCqhnIZSUXUVMXb+VJR/MqXD8eUX6aGGC3AZxqsJvtQpfZhkWUKcYb+eQa3k8lU4O
+ RYYg==
+X-Gm-Message-State: AFqh2kouUU9b9KgzKhGcksj5mQmWZehjC1dcJPISbHIEVUtG5UXLRu4w
+ q1DCTdykzGi78vgJQgNJrJVXdMHT73ESDx90
+X-Google-Smtp-Source: AMrXdXuRDjBlO0OIOpqY8Pdnyv8XlqBXIAqOghKdqJPTXMdinJYo0RVF5bjkgYtS4SbOF+mJu4Djig==
+X-Received: by 2002:a05:600c:601e:b0:3c6:e61e:ae71 with SMTP id
+ az30-20020a05600c601e00b003c6e61eae71mr56611275wmb.1.1673282767252; 
+ Mon, 09 Jan 2023 08:46:07 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ g14-20020a05600c310e00b003cf5ec79bf9sm13099478wmo.40.2023.01.09.08.46.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Jan 2023 08:46:06 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm: document better that drivers shouldn't use drm_minor
+ directly
+Date: Mon,  9 Jan 2023 17:46:04 +0100
+Message-Id: <20230109164604.3860862-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [RFC PATCH 3/4] dt-bindings: panel: Introduce dual-link LVDS panel
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20230103064615.5311-1-a-bhatia1@ti.com>
- <20230103064615.5311-4-a-bhatia1@ti.com>
- <Y7ppO8nZFw7ZKdOi@pendragon.ideasonboard.com>
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <Y7ppO8nZFw7ZKdOi@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,239 +68,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Guo Ren <guoren@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Linux RISC-V List <linux-riscv@lists.infradead.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Linux C-SKY Arch List <linux-csky@vger.kernel.org>,
- Devicetree List <devicetree@vger.kernel.org>,
- Albert Ou <aou@eecs.berkeley.edu>, Jai Luthra <j-luthra@ti.com>,
- Rahul T R <r-ravikumar@ti.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Mark Brown <broonie@kernel.org>,
- Linux Mediatek List <linux-mediatek@lists.infradead.org>,
- Maxime Ripard <maxime@cerno.tech>, Paul Walmsley <paul.walmsley@sifive.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM Kernel List <linux-arm-kernel@lists.infradead.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Tomi Valkeinen <tomba@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Jyri Sarha <jyri.sarha@iki.fi>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Melissa Wen <mwen@igalia.com>, Maxime Ripard <maxime@cerno.tech>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Wambui Karuga <wambui.karugax@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+The documentation for struct drm_minor already states this, but that's
+not always that easy to find.
 
-Thank you for reviewing the patches!
+Also due to historical reasons we still have the minor-centric (like
+drm_debugfs_create_files), but since this is now getting fixed we can
+put a few more pointers in place as to how this should be done
+ideally. Note that debugfs isn't there yet for all cases (debugfs
+files on kms objects like crtc/connector aren't supported, neither
+debugfs files with full fops), so the debugfs side of this is still
+rather aspirational and more for new users than converting everything
+existing. todo.rst covers the additional work needed already.
 
-On 08-Jan-23 12:26, Laurent Pinchart wrote:
-> Hi Aradhya,
-> 
-> Thank you for the patch.
-> 
-> On Tue, Jan 03, 2023 at 12:16:14PM +0530, Aradhya Bhatia wrote:
->> Dual-link LVDS interfaces have 2 links, with even pixels traveling on
->> one link, and odd pixels on the other. These panels are also generic in
->> nature, with no documented constraints, much like their single-link
->> counterparts, "panel-lvds".
->>
->> Add a new compatible, "panel-dual-lvds", and a dt-binding document for
->> these panels.
->>
->> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
->> ---
->>   .../display/panel/panel-dual-lvds.yaml        | 157 ++++++++++++++++++
->>   MAINTAINERS                                   |   1 +
->>   2 files changed, 158 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml b/Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
->> new file mode 100644
->> index 000000000000..88a7aa2410be
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
->> @@ -0,0 +1,157 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/panel/panel-dual-lvds.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Generic Dual-Link LVDS Display Panel
->> +
->> +maintainers:
->> +  - Aradhya Bhatia <a-bhatia1@ti.com>
->> +  - Thierry Reding <thierry.reding@gmail.com>
->> +
->> +description: |
->> +  A dual-LVDS interface is a dual-link connection with the even pixels
->> +  traveling on one link, and the odd pixels traveling on the other.
->> +
->> +allOf:
->> +  - $ref: panel-common.yaml#
->> +  - $ref: /schemas/display/lvds.yaml/#
->> +
->> +properties:
->> +  compatible:
->> +    oneOf:
->> +      - items:
->> +          - enum:
->> +              - lincolntech,lcd185-101ct
->> +              - microtips,13-101hieb0hf0-s
->> +          - const: panel-dual-lvds
->> +      - const: panel-dual-lvds
-> 
-> A device-specific compatible string should be required,
-> "panel-dual-lvds" alone shouldn't be allowed. Otherwise it won't be
-> possible to tell different models apart later should this be required.
-> 
+Motivated by some discussion with Rodrigo on irc about how drm/xe
+should lay out its sysfs interfaces.
 
-Understood! Will make the fix in the next revision.
+v2: Make the debugfs situation clearer in the commit message, but
+don't elaborate more in the actual kerneldoc to avoid distracting from
+the main message around sysfs (Jani)
 
->> +
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description: The sink for first set of LVDS pixels.
->> +
->> +        properties:
->> +          dual-lvds-odd-pixels:
->> +            type: boolean
->> +
->> +          dual-lvds-even-pixels:
->> +            type: boolean
->> +
->> +        oneOf:
->> +          - required: [dual-lvds-odd-pixels]
->> +          - required: [dual-lvds-even-pixels]
->> +
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description: The sink for second set of LVDS pixels.
->> +
->> +        properties:
->> +          dual-lvds-even-pixels:
->> +            type: boolean
->> +
->> +          dual-lvds-odd-pixels:
->> +            type: boolean
->> +
->> +        oneOf:
->> +          - required: [dual-lvds-even-pixels]
->> +          - required: [dual-lvds-odd-pixels]
->> +
->> +    allOf:
->> +      - if:
->> +          properties:
->> +            port@0:
->> +              properties:
->> +                dual-lvds-odd-pixels: true
->> +              required:
->> +                - dual-lvds-odd-pixels
->> +        then:
->> +          properties:
->> +            port@1:
->> +              properties:
->> +                dual-lvds-even-pixels: true
->> +                dual-lvds-odd-pixels: false
->> +
->> +      - if:
->> +          properties:
->> +            port@0:
->> +              properties:
->> +                dual-lvds-even-pixels: true
->> +              required:
->> +                - dual-lvds-even-pixels
->> +        then:
->> +          properties:
->> +            port@1:
->> +              properties:
->> +                dual-lvds-odd-pixels: true
->> +                dual-lvds-even-pixels: false
->> +
->> +    required:
->> +      - port@0
->> +      - port@1
->> +
->> +  port: false
->> +
->> +unevaluatedProperties: false
->> +
->> +required:
->> +  - compatible
->> +  - width-mm
->> +  - height-mm
->> +  - data-mapping
->> +  - panel-timing
->> +  - ports
->> +
->> +examples:
->> +  - |+
->> +    panel-dual-lvds {
->> +      compatible = "microtips,13-101hieb0hf0-s", "panel-dual-lvds";
->> +
->> +      width-mm = <217>;
->> +      height-mm = <136>;
->> +
->> +      data-mapping = "vesa-24";
->> +
->> +      panel-timing {
->> +        clock-frequency = <150275000>;
->> +        hactive = <1920>;
->> +        vactive = <1200>;
->> +        hfront-porch = <32>;
->> +        hsync-len = <52>;
->> +        hback-porch = <24>;
->> +        vfront-porch = <24>;
->> +        vsync-len = <8>;
->> +        vback-porch = <3>;
->> +        de-active = <1>;
->> +      };
->> +
->> +      ports {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
->> +
->> +        port@0 {
->> +          reg = <0>;
->> +          dual-lvds-odd-pixels;
->> +          lcd_in0: endpoint {
->> +            remote-endpoint = <&oldi_out0>;
->> +          };
->> +        };
->> +
->> +        port@1 {
->> +          reg = <1>;
->> +          dual-lvds-even-pixels;
->> +          lcd_in1: endpoint {
->> +            remote-endpoint = <&oldi_out1>;
->> +          };
->> +        };
->> +      };
->> +    };
->> +
->> +...
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 7f86d02cb427..c13f24293ab1 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -6595,6 +6595,7 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
->>   S:	Maintained
->>   F:	drivers/gpu/drm/panel/panel-lvds.c
->>   F:	Documentation/devicetree/bindings/display/lvds.yaml
->> +F:	Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
->>   F:	Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
->>   
->>   DRM DRIVER FOR MANTIX MLAF057WE51 PANELS
-> 
+Also fix some typos.
 
-Regards
-Aradhya
+Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Reviewed-by: Melissa Wen <mwen@igalia.com>
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
+Acked-by: Maxime Ripard <maxime@cerno.tech>
+Acked-by: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Wambui Karuga <wambui.karugax@gmail.com>
+Cc: Maíra Canal <mcanal@igalia.com>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Melissa Wen <mwen@igalia.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+---
+ include/drm/drm_device.h | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
+
+diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+index a68c6a312b46..7cf4afae2e79 100644
+--- a/include/drm/drm_device.h
++++ b/include/drm/drm_device.h
+@@ -87,10 +87,23 @@ struct drm_device {
+ 	 */
+ 	void *dev_private;
+ 
+-	/** @primary: Primary node */
++	/**
++	 * @primary:
++	 *
++	 * Primary node. Drivers should not interact with this
++	 * directly. debugfs interfaces can be registered with
++	 * drm_debugfs_add_file(), and sysfs should be directly added on the
++	 * hardware (and not character device node) struct device @dev.
++	 */
+ 	struct drm_minor *primary;
+ 
+-	/** @render: Render node */
++	/**
++	 * @render:
++	 *
++	 * Render node. Drivers should not interact with this directly ever.
++	 * Drivers should not expose any additional interfaces in debugfs or
++	 * sysfs on this node.
++	 */
+ 	struct drm_minor *render;
+ 
+ 	/** @accel: Compute Acceleration node */
+-- 
+2.39.0
+
