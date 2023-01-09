@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A6B662337
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 11:29:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C5E662338
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 11:30:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A963D10E3CA;
-	Mon,  9 Jan 2023 10:29:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47D7E10E3CC;
+	Mon,  9 Jan 2023 10:30:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04DA910E3C8;
- Mon,  9 Jan 2023 10:29:50 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id fy8so18793337ejc.13;
- Mon, 09 Jan 2023 02:29:50 -0800 (PST)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C117210E3CC;
+ Mon,  9 Jan 2023 10:30:15 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id jo4so18877334ejb.7;
+ Mon, 09 Jan 2023 02:30:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=53yCfXCnGBqKSDgva2IDsy44ww2slUgVQWJ4k6Gom1E=;
- b=l4yl+LSq/wtEZwE/vtpD5m+M2J2pOQPMaWpd1hz+4x9HkSwCNaepXZyD6wbe/4ERVd
- EyUJtYiiJjNhoBuqd89b+8NmAQGYFevcn6hOsCBNalHDub4bFD74QdXcleXhryH1bCcA
- qcGGu2Ih2mAGPdloSOm8sYlAhrxb2Tv/MFJuGxbQkjXAMGvCgrgQJVjzCnX8lPZS+Ulj
- plrXyqpwL8vg8BSNNOYrJMdgr8lskr26FZrmVi/WhfFB6jEAYOfVq85lBRd45BzGWDLR
- ZwcJT5nrFTnrNTOsUwwk1wP+wrYO3djoGMemsbWXfmWTnIQ1koSxjx9OBqoC1gEHyxpr
- XBrA==
+ bh=phEhvKafKrajoyp0Jf/fdEMMEawQCVqd+pQs/PZPFAE=;
+ b=ez3/+Rmvpu4s53moABtNJgpziWMcrf28CEllQYJkkZvEgjz99mk5PD6PgARxHql0so
+ dFdpghx/nvAXXb40L6LdzY6Xeo/vdpZqcUQEWiiHL3AEx57f+3bxfPYo/Rh/0SyyWDx3
+ 9An/Bxarvztnt+1mXNUtJMyEbqbQz8t0B2xHh+6zuQwoAceb+sEb9XiM/YsyP5epW+g6
+ SkDomGWNAgy6NfpnCvXCYgJhUkZlDBPR3n0Dtp9tNOSxZT+sbl5BKGbXBWUwrWDfjMPL
+ fqQLi50D0TjuRtjNQO8JvtWAOKUBR0Ezai+yB8aQJ3HQ+lUFcWeIOqo/iDp1EIWfnf54
+ xr/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=53yCfXCnGBqKSDgva2IDsy44ww2slUgVQWJ4k6Gom1E=;
- b=1YIabCrC1BO/Ew19iiCHCVaAYagxchzYmFgF08iZqH0DT/WzyKn8B3aq8x0l9QX/1E
- DWOdBe0T334Xc5mfXAZzLVwvGb6a3Pla0fJMYcRqfO2kilUDURrw7vxDveLeItwT8C6K
- r3oNsolllCokx9LS+iWKeqH/7jzpLPI2SbWGPTsVIVCKz8m4D1vNHehtWB7qDHjM0smV
- 7zq6eKNC9D/Bi36EYK8pNgXLlh6C+n3jCBghGDTiB4Mnp6uWYMcPy7ZzaVlSL3x5OMp4
- FBNYYhhrxS6PlsjdSCP03fIZmt8su2r74vVKm4qYLxbqkhy04vSui30zilleZGPciC9p
- /CYg==
-X-Gm-Message-State: AFqh2koK3MRbUe1gYZTXmhHGGP2NCWvRBcWFENbbapeu1N3ZE4rmfzjM
- qwviHMLyp5iI/Xehw6soz8E=
-X-Google-Smtp-Source: AMrXdXsY2iJSM/uBTyGIF/IRda+e/pLJC9vqHSLloQntq+Izb0PZ2v4QxNOWoU5TDvE3N4rHk+toGw==
-X-Received: by 2002:a17:906:191a:b0:84d:3822:a14e with SMTP id
- a26-20020a170906191a00b0084d3822a14emr5069702eje.64.1673260189522; 
- Mon, 09 Jan 2023 02:29:49 -0800 (PST)
+ bh=phEhvKafKrajoyp0Jf/fdEMMEawQCVqd+pQs/PZPFAE=;
+ b=IDBwmobzW/4ZNrZpTpJ+lunwjxfY7HnQlJniXB1B0HjF5fPtlz7J7ev2hHoQU+gNNl
+ Hj3BAMFu6kB5mefsK5Kur7ymtctB40/GUBehljuHGrmEkzp4sYZ05wIxLuk+UXd3AUWA
+ nfD0/iTlnTVSMUSpHTqdEv6/pkGELvgxbtITasaN0FBi+QhM6lB6SGiqMsofEXsqfdYG
+ qH7A2qUI2LRGqf/ILxpE3MSLq2kxnlaO71KD31d6dYo3uAiRNiVzHy09EUUGFukSkHJ+
+ p0ZkKUja6p5gqe2iNfA4bBRoX6bWajernM9vk812CtAqMLHB+Z5OBNndbo+X7hO9m3cr
+ IOYg==
+X-Gm-Message-State: AFqh2krWV3lylJuTVdaaYqVRErrh5vxkEVeF5UOXC7Avi8l02avyxekm
+ +bpOL/omYoEbeKTqoBr/b2Y=
+X-Google-Smtp-Source: AMrXdXuLz6NCFQR52Qhdgsnzf/luJgsmLgt97nsac26wYuu+FL+RCoPaGzmpyF+1jXH9sualZflWOQ==
+X-Received: by 2002:a17:907:8c06:b0:7c1:3fbd:d569 with SMTP id
+ ta6-20020a1709078c0600b007c13fbdd569mr57477938ejc.8.1673260214391; 
+ Mon, 09 Jan 2023 02:30:14 -0800 (PST)
 Received: from [192.168.178.21] (p5b0ea2e7.dip0.t-ipconnect.de.
  [91.14.162.231]) by smtp.gmail.com with ESMTPSA id
- u10-20020a1709061daa00b0084cc87c03ebsm3569544ejh.110.2023.01.09.02.29.46
+ qu25-20020a170907111900b0084c7574630csm3600928ejb.97.2023.01.09.02.30.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 02:29:49 -0800 (PST)
-Message-ID: <2d3b3fcb-e8d5-c123-df6b-0e09c90b22a5@gmail.com>
-Date: Mon, 9 Jan 2023 11:29:45 +0100
+ Mon, 09 Jan 2023 02:30:13 -0800 (PST)
+Message-ID: <b8f4af07-6ce7-dbbd-744e-8cd8706b5b07@gmail.com>
+Date: Mon, 9 Jan 2023 11:30:10 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 1/5] drm: Include <linux/backlight.h> where needed
+Subject: Re: [PATCH 3/5] drm/amdgpu: Do not include <linux/fb.h>
 Content-Language: en-US
 To: Thomas Zimmermann <tzimmermann@suse.de>, alexander.deucher@amd.com,
  christian.koenig@amd.com, airlied@gmail.com, daniel@ffwll.ch,
@@ -62,9 +62,9 @@ To: Thomas Zimmermann <tzimmermann@suse.de>, alexander.deucher@amd.com,
  patrik.r.jakobsson@gmail.com, thierry.reding@gmail.com, sam@ravnborg.org,
  f.fainelli@gmail.com
 References: <20230109101243.26995-1-tzimmermann@suse.de>
- <20230109101243.26995-2-tzimmermann@suse.de>
+ <20230109101243.26995-4-tzimmermann@suse.de>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20230109101243.26995-2-tzimmermann@suse.de>
+In-Reply-To: <20230109101243.26995-4-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,85 +86,131 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Am 09.01.23 um 11:12 schrieb Thomas Zimmermann:
-> Include <linux/backlight.h> in source files that need it. Some of
-> DRM's source code gets the backlight header via drm_crtc_helper.h
-> and <linux/fb.h>, which can leed to unnecessary recompilation. If
-> possible, do not include drm_crtc_helper.h any longer.
+> Remove unnecessary include statements for <linux/fb.h>. No functional
+> changes.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Acked-by: Christian König <christian.koenig@amd.com> for the amdgpu parts.
+Acked-by: Christian König <christian.koenig@amd.com>
 
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c          | 2 +-
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 1 +
->   drivers/gpu/drm/gma500/backlight.c                | 2 ++
->   drivers/gpu/drm/radeon/radeon_acpi.c              | 2 +-
->   4 files changed, 5 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c                         | 1 -
+>   drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c             | 1 -
+>   drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c           | 1 -
+>   drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_processpptables.c | 1 -
+>   drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c           | 1 -
+>   drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c | 1 -
+>   drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c           | 1 -
+>   drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_processpptables.c | 1 -
+>   drivers/gpu/drm/amd/pm/powerplay/smumgr/ci_smumgr.c             | 1 -
+>   9 files changed, 9 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> index 57b5e11446c6..f29c1d0ad4c1 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> @@ -24,6 +24,7 @@
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> index 1353ffd08988..ebc6e6cbe2ab 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -39,7 +39,6 @@
+>   #include <linux/mmu_notifier.h>
+>   #include <linux/suspend.h>
+>   #include <linux/cc_platform.h>
+> -#include <linux/fb.h>
+>   #include <linux/dynamic_debug.h>
 >   
->   #include <linux/pci.h>
->   #include <linux/acpi.h>
-> +#include <linux/backlight.h>
->   #include <linux/slab.h>
->   #include <linux/power_supply.h>
->   #include <linux/pm_runtime.h>
-> @@ -31,7 +32,6 @@
->   #include <acpi/video.h>
->   #include <acpi/actbl.h>
->   
-> -#include <drm/drm_crtc_helper.h>
 >   #include "amdgpu.h"
->   #include "amdgpu_pm.h"
->   #include "amdgpu_display.h"
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 1b7f20a9d4ae..55a845eb0c6d 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -67,6 +67,7 @@
->   #include "ivsrcid/ivsrcid_vislands30.h"
->   
->   #include "i2caux_interface.h"
-> +#include <linux/backlight.h>
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
+> index 7ef7e81525a3..d6edd83f67c6 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
+> @@ -22,7 +22,6 @@
+>    */
+>   #include "pp_debug.h"
+>   #include <linux/delay.h>
+> -#include <linux/fb.h>
 >   #include <linux/module.h>
->   #include <linux/moduleparam.h>
->   #include <linux/types.h>
-> diff --git a/drivers/gpu/drm/gma500/backlight.c b/drivers/gpu/drm/gma500/backlight.c
-> index 577a4987b193..8711a7a5b8da 100644
-> --- a/drivers/gpu/drm/gma500/backlight.c
-> +++ b/drivers/gpu/drm/gma500/backlight.c
-> @@ -7,6 +7,8 @@
->    * Authors: Eric Knopp
->    */
->   
-> +#include <linux/backlight.h>
-> +
->   #include <acpi/video.h>
->   
->   #include "psb_drv.h"
-> diff --git a/drivers/gpu/drm/radeon/radeon_acpi.c b/drivers/gpu/drm/radeon/radeon_acpi.c
-> index b603c0b77075..5771d1fcb073 100644
-> --- a/drivers/gpu/drm/radeon/radeon_acpi.c
-> +++ b/drivers/gpu/drm/radeon/radeon_acpi.c
-> @@ -22,6 +22,7 @@
->    */
->   
->   #include <linux/acpi.h>
-> +#include <linux/backlight.h>
 >   #include <linux/pci.h>
->   #include <linux/pm_runtime.h>
->   #include <linux/power_supply.h>
-> @@ -30,7 +31,6 @@
->   #include <acpi/acpi_bus.h>
->   #include <acpi/video.h>
+>   #include <linux/slab.h>
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+> index c8c9fb827bda..733cac4600ff 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+> @@ -22,7 +22,6 @@
+>    */
 >   
-> -#include <drm/drm_crtc_helper.h>
->   #include <drm/drm_probe_helper.h>
+>   #include <linux/delay.h>
+> -#include <linux/fb.h>
+>   #include <linux/module.h>
+>   #include <linux/pci.h>
+>   #include <linux/slab.h>
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_processpptables.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_processpptables.c
+> index 95b988823f50..bb90d8abf79b 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_processpptables.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_processpptables.c
+> @@ -23,7 +23,6 @@
+>   #include <linux/module.h>
+>   #include <linux/pci.h>
+>   #include <linux/slab.h>
+> -#include <linux/fb.h>
 >   
->   #include "atom.h"
+>   #include "vega10_processpptables.h"
+>   #include "ppatomfwctrl.h"
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c
+> index a2f4d6773d45..c73693dc4c09 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c
+> @@ -22,7 +22,6 @@
+>    */
+>   
+>   #include <linux/delay.h>
+> -#include <linux/fb.h>
+>   #include <linux/module.h>
+>   #include <linux/slab.h>
+>   
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c
+> index bd54fbd393b9..89148f73b514 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c
+> @@ -22,7 +22,6 @@
+>    */
+>   #include <linux/module.h>
+>   #include <linux/slab.h>
+> -#include <linux/fb.h>
+>   
+>   #include "vega12/smu9_driver_if.h"
+>   #include "vega12_processpptables.h"
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c
+> index b30684c84e20..33f3d9792181 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c
+> @@ -22,7 +22,6 @@
+>    */
+>   
+>   #include <linux/delay.h>
+> -#include <linux/fb.h>
+>   #include <linux/module.h>
+>   #include <linux/slab.h>
+>   
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_processpptables.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_processpptables.c
+> index 1f9082539457..79c817752a33 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_processpptables.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_processpptables.c
+> @@ -22,7 +22,6 @@
+>    */
+>   #include <linux/module.h>
+>   #include <linux/slab.h>
+> -#include <linux/fb.h>
+>   
+>   #include "smu11_driver_if.h"
+>   #include "vega20_processpptables.h"
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/ci_smumgr.c b/drivers/gpu/drm/amd/pm/powerplay/smumgr/ci_smumgr.c
+> index 5ca3c422f7d4..5c3f42d97f69 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/ci_smumgr.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/ci_smumgr.c
+> @@ -22,7 +22,6 @@
+>    */
+>   #include <linux/module.h>
+>   #include <linux/slab.h>
+> -#include <linux/fb.h>
+>   #include "linux/delay.h"
+>   #include <linux/types.h>
+>   #include <linux/pci.h>
 
