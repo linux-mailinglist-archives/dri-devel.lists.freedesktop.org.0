@@ -2,59 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873FF66226E
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 11:04:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C85662292
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 11:10:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E8A310E3A5;
-	Mon,  9 Jan 2023 10:04:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F8B510E39F;
+	Mon,  9 Jan 2023 10:10:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
- [209.85.160.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E937210E3A3
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 10:04:29 +0000 (UTC)
-Received: by mail-qt1-f169.google.com with SMTP id h21so7296284qta.12
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 02:04:29 -0800 (PST)
+Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com
+ [IPv6:2607:f8b0:4864:20::e32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2000C10E39F
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 10:10:13 +0000 (UTC)
+Received: by mail-vs1-xe32.google.com with SMTP id a64so8050131vsc.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 02:10:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=BFmXd/4UPgu9PVqNm6AoWBgVTa6i3g45dnuCERHZ2NU=;
+ b=WE0liED5Ie5eQRiaAGOQPuSdlhQLG5j7HuHrVbP1gPaqIdGF6HPe9F+Fl7aIFsgP1w
+ +zX09nmDVwU4BStTcFX224IgsQsAyjzkXXkgrvHA8/C6yUrlmTre922pIfb0EU3E/KFH
+ xDTSsgR8Tta0VXepTvmkaqjG0iwVjWnuTGlLI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=+ILt2nHhZG6OAJb7Z4BVZBIlEGFuGgmOKUcbFf2IQt4=;
- b=R594lVMk9/s00dM8KnJKBPrwtnivlqbqSpKsb9TrSWeqLEJHjWWrXW7L7Wkp7YFY+M
- QMUvVaQztTMJ9NmS8h/YVwGcoX2idly4DGvy4qYiyo7uoTvpnt4z6ftFlpTlr1R5bLbR
- fU1BpVBuHZOzu0JLBNQpTNSch7C7WUJjropWl/5NStmkFMbMGSGy8JlolnBeBB6Cp6SB
- yh3r5lM4xQdPwJOQQs/yyCJEI2f0aoWWD9VT0HrTewUmk2LSraC9omTPS+ic2wfyae5S
- DzvrX1qdDTVMWNFEqz4yYJymv21wP88n9NgVe0NVBeg+uly33DxajpFFGvwIK4bSnQmW
- uuww==
-X-Gm-Message-State: AFqh2ko2s+BzQEcL67RXpzxCaXKRCC6LONXbk4BYrmKZGj0LBJvoE6DN
- XWDrLP/mntR1kcgURhAPBMNtlW4Bvs74Rg==
-X-Google-Smtp-Source: AMrXdXt0qJ/tr3gdA9zDVZKxnqqNUFkDzJYWuqf2efDt4MKiiWSj0Q4UlOPHQIvTaFkoiJEEEjVEHw==
-X-Received: by 2002:ac8:6649:0:b0:3a9:87d6:5b86 with SMTP id
- j9-20020ac86649000000b003a987d65b86mr90596888qtp.6.1673258668722; 
- Mon, 09 Jan 2023 02:04:28 -0800 (PST)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com.
- [209.85.128.172]) by smtp.gmail.com with ESMTPSA id
- t20-20020a05622a149400b0035d432f5ba3sm4393529qtx.17.2023.01.09.02.04.28
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 02:04:28 -0800 (PST)
-Received: by mail-yw1-f172.google.com with SMTP id
- 00721157ae682-4b6255ce5baso105873627b3.11
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 02:04:28 -0800 (PST)
-X-Received: by 2002:a05:690c:313:b0:37e:6806:a5f9 with SMTP id
- bg19-20020a05690c031300b0037e6806a5f9mr1566668ywb.47.1673258667893; Mon, 09
- Jan 2023 02:04:27 -0800 (PST)
+ bh=BFmXd/4UPgu9PVqNm6AoWBgVTa6i3g45dnuCERHZ2NU=;
+ b=v9IEoOe2iMJIle6xEz27M3qZ4OklEQ5Dih6IycfNeTtcbR46h9e14tdAuQt2nucGFd
+ PObOKi020aLpGr/2ccww9nSjda1csnm3WIHgCtDQ6P0QMiaFC3e1BQ43/AohtCDIKf6g
+ +A2FoNT2LAgk/J6EnVGMkcXxpNYBi5vfrf90Jh8wiq7+O8q6H1jau9V7GGgNULjxbN7W
+ lnTOuFcqSCfPgFsox0HTiYH7Ws4s4sBNEdk5jVncQcKiVEV6to16NszQNZ2OZrxYWNg1
+ 9gdu2JPm1pJuSVZqthHjPdMmk3vhEVQFhY0M+nNmhclg+BpXwfB3qzgR01wyqmhX5Ozv
+ 3CyA==
+X-Gm-Message-State: AFqh2krzUuk8rWjtBfPsiP0U/Mh9X+YGeA1G+ZIQXK9JslzBszXIYI2F
+ x9NztxSDP1mLIdBA5pm5x5at8cDT4bfiaADpUKsI9Q==
+X-Google-Smtp-Source: AMrXdXswh5fHslW6qG2CKCrGJyPGVtfkg3sYDGWs2LeCd5aO4LLL2z1s6q88e5jJJhhVmRcH4ARrlwrJQirdLbbhANg=
+X-Received: by 2002:a05:6102:3d9f:b0:3c4:4918:80c with SMTP id
+ h31-20020a0561023d9f00b003c44918080cmr7195348vsv.9.1673259012171; Mon, 09 Jan
+ 2023 02:10:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20230105094039.1474255-1-xurui@kylinos.cn>
- <CAMuHMdX174erGgrCUBv2WdX67H=mig-hi=SOdeMJ=0__thC_fw@mail.gmail.com>
-In-Reply-To: <CAMuHMdX174erGgrCUBv2WdX67H=mig-hi=SOdeMJ=0__thC_fw@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 9 Jan 2023 11:04:16 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVdCBxZ39BbtLDPeiMK9BK4M0W5hynrYLFx6+ibunyxGw@mail.gmail.com>
-Message-ID: <CAMuHMdVdCBxZ39BbtLDPeiMK9BK4M0W5hynrYLFx6+ibunyxGw@mail.gmail.com>
-Subject: Re: [PATCH] fbdev/g364fb: Fix a compilation issue
-To: xurui <xurui@kylinos.cn>
+References: <20230109084101.265664-1-treapking@chromium.org>
+ <20230109084101.265664-4-treapking@chromium.org>
+In-Reply-To: <20230109084101.265664-4-treapking@chromium.org>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Mon, 9 Jan 2023 18:10:01 +0800
+Message-ID: <CAGXv+5G2bUNrA5zfmzZeXJjOgvKc0tFq_qd3UR11qeyNb=xNHQ@mail.gmail.com>
+Subject: Re: [PATCH v9 3/9] drm/display: Add Type-C switch helpers
+To: Pin-yen Lin <treapking@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,58 +62,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, trivial@kernel.org, deller@gmx.de,
- linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Guenter Roeck <groeck@chromium.org>, Kees Cook <keescook@chromium.org>,
+ Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jani Nikula <jani.nikula@intel.com>,
+ Allen Chen <allen.chen@ite.com.tw>, Stephen Boyd <swboyd@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
+ Prashant Malani <pmalani@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This time with the new linux-mips mailing list address...
+On Mon, Jan 9, 2023 at 4:41 PM Pin-yen Lin <treapking@chromium.org> wrote:
+>
+> Add helpers to register and unregister Type-C "switches" for bridges
+> capable of switching their output between two downstream devices.
+>
+> The helper registers USB Type-C mode switches when the "mode-switch"
+> and the "data-lanes" properties are available in Device Tree.
+>
+> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 
-On Mon, Jan 9, 2023 at 11:01 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+
+on MT8192 based Hayato (ASUS Chromebook Flip CM3200).
+
+> ---
 >
-> Hi Xurui,
+> (no changes since v8)
 >
-> On Thu, Jan 5, 2023 at 10:45 AM xurui <xurui@kylinos.cn> wrote:
-> > drivers/video/fbdev/g364fb.c:202:4: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]
-> >
-> > Signed-off-by: xurui <xurui@kylinos.cn>
+> Changes in v8:
+> - Fixed the build issue when CONFIG_TYPEC=m
+> - Fixed some style issues
 >
-> Thanks for your patch!
+> Changes in v7:
+> - Extracted the common codes to a helper function
+> - New in v7
 >
-> > --- a/drivers/video/fbdev/g364fb.c
-> > +++ b/drivers/video/fbdev/g364fb.c
-> > @@ -175,7 +175,8 @@ int __init g364fb_init(void)
-> >  {
-> >         volatile unsigned int *curs_pal_ptr =
-> >             (volatile unsigned int *) CURS_PAL_REG;
-> > -       int mem, i;
-> > +       int mem;
-> > +       uintptr_t i;
+>  drivers/gpu/drm/display/drm_dp_helper.c | 132 ++++++++++++++++++++++++
+>  include/drm/display/drm_dp_helper.h     |  16 +++
+>  2 files changed, 148 insertions(+)
 >
-> This doesn't look like the right fix to me.
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> index 16565a0a5da6..fb9e23744c08 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -30,11 +30,13 @@
+>  #include <linux/sched.h>
+>  #include <linux/seq_file.h>
+>  #include <linux/string_helpers.h>
+> +#include <linux/usb/typec_mux.h>
+>  #include <linux/dynamic_debug.h>
 >
-> The line the compiler[1] complains about is:
+>  #include <drm/display/drm_dp_helper.h>
+>  #include <drm/display/drm_dp_mst_helper.h>
+>  #include <drm/drm_edid.h>
+> +#include <drm/drm_of.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_vblank.h>
+>  #include <drm/drm_panel.h>
+> @@ -3891,3 +3893,133 @@ int drm_panel_dp_aux_backlight(struct drm_panel *panel, struct drm_dp_aux *aux)
+>  EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
 >
->                 *(unsigned short *) (CURS_PAT_REG + i * 8) = 0;
->
-> Interestingly, it doesn't complain about:
->
->         *(unsigned short *) (CURS_PAT_REG + 14 * 64) = 0xffff;
->
-> This driver uses raw memory writes to write to hardware registers.
-> Probably it should use writel() instead.
->
-> [1] mips64-linux-gnuabi64-gcc version 10.3.0 (Ubuntu 10.3.0-1ubuntu1)
->     jazz_defconfig + CONFIG_64BIT=y
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+>  #endif
+> +
+> +#if IS_REACHABLE(CONFIG_TYPEC)
+> +static int drm_dp_register_mode_switch(struct device *dev, struct device_node *node,
+> +                                      struct drm_dp_typec_switch_desc *switch_desc,
+> +                                      void *data, void *mux_set)
+> +{
+> +       struct drm_dp_typec_port_data *port_data;
+> +       struct typec_mux_desc mux_desc = {};
+> +       char name[32];
+> +       u32 dp_lanes[2];
+> +       int ret, num_lanes, port_num = -1;
+> +
+> +       num_lanes = drm_of_get_data_lanes_count(node, 0, 2);
+> +       if (num_lanes <= 0) {
+> +               dev_err(dev, "Error on getting data lanes count: %d\n",
+> +                       num_lanes);
+
+Also printing out the full node name (endpoint@N) would be more helpful.
+
+> +               return num_lanes;
+> +       }
+> +
+> +       ret = of_property_read_u32_array(node, "data-lanes", dp_lanes, num_lanes);
+> +       if (ret) {
+> +               dev_err(dev, "Failed to read the data-lanes variable: %d\n",
+> +                       ret);
+
+Same here.
+
+> +               return ret;
+> +       }
+> +
+> +       port_num = dp_lanes[0] / 2;
+> +
+> +       port_data = &switch_desc->typec_ports[port_num];
+> +       port_data->data = data;
+> +       mux_desc.fwnode = &node->fwnode;
+> +       mux_desc.drvdata = port_data;
+> +       snprintf(name, sizeof(name), "%s-%u", node->name, port_num);
+> +       mux_desc.name = name;
+> +       mux_desc.set = mux_set;
+> +
+> +       port_data->typec_mux = typec_mux_register(dev, &mux_desc);
+> +       if (IS_ERR(port_data->typec_mux)) {
+> +               ret = PTR_ERR(port_data->typec_mux);
+> +               dev_err(dev, "Mode switch register for port %d failed: %d\n",
+> +                       port_num, ret);
+> +       }
+> +
+> +       return ret;
+> +}
+> +
+> +/**
+> + * drm_dp_register_typec_switches() - register Type-C switches
+> + * @dev: Device that registers Type-C switches
+> + * @port: Device node for the switch
+> + * @switch_desc: A Type-C switch descriptor
+> + * @data: Private data for the switches
+> + * @mux_set: Callback function for typec_mux_set
+> + *
+> + * This function registers USB Type-C switches for DP bridges that can switch
+> + * the output signal between their output pins.
+> + *
+> + * Currently only mode switches are implemented, and the function assumes the
+> + * given @port device node has endpoints with "mode-switch" property.
+> + * Register the endpoint as port 0 if the "data-lanes" property falls in 0/1,
+> + * and register it as port 1 if "data-lanes" falls in 2/3.
+> + */
+> +int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
+> +                                  struct drm_dp_typec_switch_desc *switch_desc,
+> +                                  void *data, void *mux_set)
+> +{
+> +       struct device_node *sw;
+> +       int ret;
+> +
+> +       for_each_child_of_node(port, sw) {
+> +               if (of_property_read_bool(sw, "mode-switch"))
+> +                       switch_desc->num_typec_switches++;
+> +       }
+> +
+> +       if (!switch_desc->num_typec_switches) {
+> +               dev_warn(dev, "No Type-C switches node found\n");
+
+Maybe change this to dev_info or even dev_debug? A warning would be too
+noisy if the bridge drivers are calling this helper unconditionally.
+
+Otherwise,
+
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
