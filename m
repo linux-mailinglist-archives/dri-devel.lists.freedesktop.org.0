@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC9CA6622CA
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 11:15:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C94E36622CC
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 11:15:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71B7510E3C6;
-	Mon,  9 Jan 2023 10:15:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ED1010E3BB;
+	Mon,  9 Jan 2023 10:15:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEC5810E3BB
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 10:15:24 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id l26so5874786wme.5
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 02:15:24 -0800 (PST)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8B7310E3BB
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 10:15:25 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id g10so5884386wmo.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 02:15:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=zp9Z8KpaehZ0HkbPGtugXpBHyOV+mKPMqM81qrNXSlM=;
- b=kDpYvPBwP97MQlh60Xw6PgReqbDl51S2Gu1I6HixgJ2fKuvBSY++m6vMM5DwWhHxgv
- 4XR0H9uoHqp7LmgNwHvl5XfhjD+jBRxvqhtiZwXfWjTVr6vbmpAh5I1Gl14aAEMmMRdm
- +Bx2IsQFxc4nrmlab0FXb52N1HA6Ct2fs8YZPBqHJ1bntnk8r/Q92UCSmBX2J84fvatQ
- 0CEr+73cmiEsFJAnl+j1VODepwFdY2FQ4bqi0nqJGYNVfO8q5Us5+w6/K4+tZEUp5CZ+
- DmaFN297COolPdP8tOyQ3pa7Mekz69oOHyqHwf8ZUSFAyVTWyzapqPDaz1fLb7dq28N4
- nE6w==
+ :reply-to; bh=pHmMcPdYYmcMWPQP/azdnNFzH9uNP2DFnN3T7RnQ/Iw=;
+ b=QIoMWdvkw7nko3VdIhZ+pZb8mcHVWlW5WvwQib9blnn06EzObTW29d3Y9WfmA+aTre
+ BechCM3PfGwzUGvqyuhU2dtgMIgZqfmujUSmK857nC+obrFqcl9bnpppXQ8A7PfCX0c4
+ C8lws4XbD9Z5waj1i0EUNj4lDcOqTylleUNPBLBBgMV1eHxGF6j6rF06Gz8AeA3mcjkb
+ /t34w3L8o433rGu1JGn4dsDVSRViGFQi1gQcBisCI9ejN+Y+D2ECHX3SOS0G1NZABNbr
+ hqzU9ljei7hywFfHZEcm8BfhTQoWi7u3E4W6dLQqvlDhOlZ6uTFVxQSZamqfLYJhA86/
+ MsFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zp9Z8KpaehZ0HkbPGtugXpBHyOV+mKPMqM81qrNXSlM=;
- b=LRkgIcgLO+2czpbSI5ok71SIpXZbfUcK2O+jDsHKa0b2Ck23e0YiK8E3E/eqwVKKPq
- C5yRg3/kkHUuiwpH8jg1R3j8zkIR20eGcgMalxl+YRNqfNmiqUVIl+Kl1mPm4DoUUjxT
- 6B0YIifVegQ5ep0rhJVeHv389bRMK4h66b1zPpFlj+K77JU4B8qOOiGzm25xLB+dwrEK
- 7TtTCPiiWd1L8Lrz7/LfRhO5rstKDrpxyy4Mu/iA6KFpamkB0yJ8OQSk5OUpZFNDtIpx
- u/7yrMgPs2E9NdPVy0uNpZ6bFq+4nWEyGOXgxOXAxF0ffN3FoJY2D5D7xqjkcYpKy7wW
- hvDg==
-X-Gm-Message-State: AFqh2kr9+APkhUt8kAxuT/nK2ElWKQ5ZUkzM70fmkYYmJeK1ZdU6hugu
- fosGvyxVCMA+B0xPH/kTumFtbQ==
-X-Google-Smtp-Source: AMrXdXvqWZx1W/xkisSX9axgXkQMMpm/1cgBpGoLpc6PaZ6INnswgJGWRTMR1WWeS6Q4Gq5Vjasu0g==
-X-Received: by 2002:a05:600c:b4d:b0:3d3:49db:d84 with SMTP id
- k13-20020a05600c0b4d00b003d349db0d84mr45160843wmr.20.1673259323276; 
- Mon, 09 Jan 2023 02:15:23 -0800 (PST)
+ bh=pHmMcPdYYmcMWPQP/azdnNFzH9uNP2DFnN3T7RnQ/Iw=;
+ b=Edc4j/F/B/fPanu4qC6CjQwIx+6kjfoIfd0pnbZ5hy09tzvxQd3WRgg6A+t9Q9Fy2+
+ lxGv4FdzKijDJSNRKvJArfDh55nRnK0qMzfbhJaVRv5DdjEopHixoVOO9k3wvkkmmdnD
+ dBeGZ0qaXYLMbmaH6DztnhELuDIQpHtbIb3HcAwiaMS3xAo7gTU4zD5MuUg57FzxMNZw
+ nj+0fc7mc+rTUWHTAIZ25gPocAyhuOGIIu7HupoeooSyK7VhsUVQfayuBh1pyzqKTZMP
+ Hlu910BDV57wkrA3IT0attgxMglRfAFvJ7mxhtFxCZBVLnFUnKoqP1+tt2Yw8H+9/xbL
+ 3LbA==
+X-Gm-Message-State: AFqh2koM2P6RiwgZv8MUyJA7id9niaOjQcldBdGwEZZ4PxEm4ZfCKU4z
+ sPWwsygvtXgjEo/0evFApJnLGEC3TBumSm/a
+X-Google-Smtp-Source: AMrXdXvkAhiGXw6r+KnUTvtZV0oj9y//7d1+b4l5vgp6hyME9YqAB8Wwuatstq7PIanOd80XGut7NA==
+X-Received: by 2002:a05:600c:a0f:b0:3cf:7704:50ce with SMTP id
+ z15-20020a05600c0a0f00b003cf770450cemr46814836wmp.38.1673259324427; 
+ Mon, 09 Jan 2023 02:15:24 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- h10-20020a05600c2caa00b003cfd58409desm15815376wmc.13.2023.01.09.02.15.22
+ h10-20020a05600c2caa00b003cfd58409desm15815376wmc.13.2023.01.09.02.15.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 02:15:22 -0800 (PST)
+ Mon, 09 Jan 2023 02:15:24 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Mon, 09 Jan 2023 11:15:19 +0100
-Subject: [PATCH v3 3/7] dt-bindings: display/msm: document MDSS on SM8550
+Date: Mon, 09 Jan 2023 11:15:20 +0100
+Subject: [PATCH v3 4/7] drm/msm/dpu: add support for SM8550
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230103-topic-sm8550-upstream-mdss-dsi-v3-3-660c3bcb127f@linaro.org>
+Message-Id: <20230103-topic-sm8550-upstream-mdss-dsi-v3-4-660c3bcb127f@linaro.org>
 References: <20230103-topic-sm8550-upstream-mdss-dsi-v3-0-660c3bcb127f@linaro.org>
 In-Reply-To: <20230103-topic-sm8550-upstream-mdss-dsi-v3-0-660c3bcb127f@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -84,351 +84,326 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document the MDSS hardware found on the Qualcomm SM8550 platform.
+Add definitions for the display hardware used on Qualcomm SM8550
+platform.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- .../bindings/display/msm/qcom,sm8550-mdss.yaml     | 331 +++++++++++++++++++++
- 1 file changed, 331 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 197 +++++++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h    |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c        |   1 +
+ 4 files changed, 201 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml
-new file mode 100644
-index 000000000000..6286e08bb941
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml
-@@ -0,0 +1,331 @@
-+# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Qualcomm SM8550 Display MDSS
-+
-+maintainers:
-+  - Neil Armstrong <neil.armstrong@linaro.org>
-+
-+description:
-+  SM8550 MSM Mobile Display Subsystem(MDSS), which encapsulates sub-blocks like
-+  DPU display controller, DSI and DP interfaces etc.
-+
-+$ref: /schemas/display/msm/mdss-common.yaml#
-+
-+properties:
-+  compatible:
-+    const: qcom,sm8550-mdss
-+
-+  clocks:
-+    items:
-+      - description: Display MDSS AHB
-+      - description: Display AHB
-+      - description: Display hf AXI
-+      - description: Display core
-+
-+  iommus:
-+    maxItems: 1
-+
-+  interconnects:
-+    maxItems: 2
-+
-+  interconnect-names:
-+    maxItems: 2
-+
-+patternProperties:
-+  "^display-controller@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        const: qcom,sm8550-dpu
-+
-+  "^dsi@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        const: qcom,mdss-dsi-ctrl
-+
-+  "^phy@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        const: qcom,sm8550-dsi-phy-4nm
-+
-+required:
-+  - compatible
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/qcom,sm8550-dispcc.h>
-+    #include <dt-bindings/clock/qcom,sm8550-gcc.h>
-+    #include <dt-bindings/clock/qcom,rpmh.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interconnect/qcom,sm8550.h>
-+    #include <dt-bindings/power/qcom-rpmpd.h>
-+
-+    display-subsystem@ae00000 {
-+        compatible = "qcom,sm8550-mdss";
-+        reg = <0x0ae00000 0x1000>;
-+        reg-names = "mdss";
-+
-+        interconnects = <&mmss_noc MASTER_MDP 0 &gem_noc SLAVE_LLCC 0>,
-+                        <&mc_virt MASTER_LLCC 0 &mc_virt SLAVE_EBI1 0>
-+        interconnect-names = "mdp0-mem", "mdp1-mem";
-+
-+        resets = <&dispcc DISP_CC_MDSS_CORE_BCR>;
-+
-+        power-domains = <&dispcc MDSS_GDSC>;
-+
-+        clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                 <&gcc GCC_DISP_AHB_CLK>,
-+                 <&gcc GCC_DISP_HF_AXI_CLK>,
-+                 <&dispcc DISP_CC_MDSS_MDP_CLK>;
-+        clock-names = "iface", "bus", "nrt_bus", "core";
-+
-+        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-controller;
-+        #interrupt-cells = <1>;
-+
-+        iommus = <&apps_smmu 0x1c00 0x2>;
-+
-+        #address-cells = <1>;
-+        #size-cells = <1>;
-+        ranges;
-+
-+        display-controller@ae01000 {
-+            compatible = "qcom,sm8550-dpu";
-+            reg = <0x0ae01000 0x8f000>,
-+                  <0x0aeb0000 0x2008>;
-+            reg-names = "mdp", "vbif";
-+
-+            clocks = <&gcc GCC_DISP_AHB_CLK>,
-+                    <&gcc GCC_DISP_HF_AXI_CLK>,
-+                    <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                    <&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
-+                    <&dispcc DISP_CC_MDSS_MDP_CLK>,
-+                    <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
-+            clock-names = "bus",
-+                          "nrt_bus",
-+                          "iface",
-+                          "lut",
-+                          "core",
-+                          "vsync";
-+
-+            assigned-clocks = <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
-+            assigned-clock-rates = <19200000>;
-+
-+            operating-points-v2 = <&mdp_opp_table>;
-+            power-domains = <&rpmhpd SM8550_MMCX>;
-+
-+            interrupt-parent = <&mdss>;
-+            interrupts = <0>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    dpu_intf1_out: endpoint {
-+                        remote-endpoint = <&dsi0_in>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    dpu_intf2_out: endpoint {
-+                        remote-endpoint = <&dsi1_in>;
-+                    };
-+                };
-+            };
-+
-+            mdp_opp_table: opp-table {
-+                compatible = "operating-points-v2";
-+
-+                opp-200000000 {
-+                    opp-hz = /bits/ 64 <200000000>;
-+                    required-opps = <&rpmhpd_opp_low_svs>;
-+                };
-+
-+                opp-325000000 {
-+                    opp-hz = /bits/ 64 <325000000>;
-+                    required-opps = <&rpmhpd_opp_svs>;
-+                };
-+
-+                opp-375000000 {
-+                    opp-hz = /bits/ 64 <375000000>;
-+                    required-opps = <&rpmhpd_opp_svs_l1>;
-+                };
-+
-+                opp-514000000 {
-+                    opp-hz = /bits/ 64 <514000000>;
-+                    required-opps = <&rpmhpd_opp_nom>;
-+                };
-+            };
-+        };
-+
-+        dsi@ae94000 {
-+            compatible = "qcom,mdss-dsi-ctrl";
-+            reg = <0x0ae94000 0x400>;
-+            reg-names = "dsi_ctrl";
-+
-+            interrupt-parent = <&mdss>;
-+            interrupts = <4>;
-+
-+            clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
-+                     <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
-+                     <&dispcc DISP_CC_MDSS_PCLK0_CLK>,
-+                     <&dispcc DISP_CC_MDSS_ESC0_CLK>,
-+                     <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                     <&gcc GCC_DISP_HF_AXI_CLK>;
-+            clock-names = "byte",
-+                          "byte_intf",
-+                          "pixel",
-+                          "core",
-+                          "iface",
-+                          "bus";
-+
-+            assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK_SRC>,
-+                              <&dispcc DISP_CC_MDSS_PCLK0_CLK_SRC>;
-+            assigned-clock-parents = <&dsi0_phy 0>, <&dsi0_phy 1>;
-+
-+            operating-points-v2 = <&dsi_opp_table>;
-+            power-domains = <&rpmhpd SM8550_MMCX>;
-+
-+            phys = <&dsi0_phy>;
-+            phy-names = "dsi";
-+
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    dsi0_in: endpoint {
-+                        remote-endpoint = <&dpu_intf1_out>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    dsi0_out: endpoint {
-+                    };
-+                };
-+            };
-+
-+            dsi_opp_table: opp-table {
-+                compatible = "operating-points-v2";
-+
-+                opp-187500000 {
-+                    opp-hz = /bits/ 64 <187500000>;
-+                    required-opps = <&rpmhpd_opp_low_svs>;
-+                };
-+
-+                opp-300000000 {
-+                    opp-hz = /bits/ 64 <300000000>;
-+                    required-opps = <&rpmhpd_opp_svs>;
-+                };
-+
-+                opp-358000000 {
-+                    opp-hz = /bits/ 64 <358000000>;
-+                    required-opps = <&rpmhpd_opp_svs_l1>;
-+                };
-+            };
-+        };
-+
-+        dsi0_phy: phy@ae94400 {
-+            compatible = "qcom,dsi-phy-4nm-8550";
-+            reg = <0x0ae95000 0x200>,
-+                  <0x0ae95200 0x280>,
-+                  <0x0ae95500 0x400>;
-+            reg-names = "dsi_phy",
-+                        "dsi_phy_lane",
-+                        "dsi_pll";
-+
-+            #clock-cells = <1>;
-+            #phy-cells = <0>;
-+
-+            clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                     <&rpmhcc RPMH_CXO_CLK>;
-+            clock-names = "iface", "ref";
-+        };
-+
-+        dsi@ae96000 {
-+            compatible = "qcom,mdss-dsi-ctrl";
-+            reg = <0x0ae96000 0x400>;
-+            reg-names = "dsi_ctrl";
-+
-+            interrupt-parent = <&mdss>;
-+            interrupts = <5>;
-+
-+            clocks = <&dispcc DISP_CC_MDSS_BYTE1_CLK>,
-+                     <&dispcc DISP_CC_MDSS_BYTE1_INTF_CLK>,
-+                     <&dispcc DISP_CC_MDSS_PCLK1_CLK>,
-+                     <&dispcc DISP_CC_MDSS_ESC1_CLK>,
-+                     <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                     <&gcc GCC_DISP_HF_AXI_CLK>;
-+            clock-names = "byte",
-+                          "byte_intf",
-+                          "pixel",
-+                          "core",
-+                          "iface",
-+                          "bus";
-+
-+            assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE1_CLK_SRC>,
-+                              <&dispcc DISP_CC_MDSS_PCLK1_CLK_SRC>;
-+            assigned-clock-parents = <&dsi1_phy 0>, <&dsi1_phy 1>;
-+
-+            operating-points-v2 = <&dsi_opp_table>;
-+            power-domains = <&rpmhpd SM8550_MMCX>;
-+
-+            phys = <&dsi1_phy>;
-+            phy-names = "dsi";
-+
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    dsi1_in: endpoint {
-+                        remote-endpoint = <&dpu_intf2_out>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    dsi1_out: endpoint {
-+                    };
-+                };
-+            };
-+        };
-+
-+        dsi1_phy: phy@ae96400 {
-+            compatible = "qcom,dsi-phy-4nm-8550";
-+            reg = <0x0ae97000 0x200>,
-+                  <0x0ae97200 0x280>,
-+                  <0x0ae97500 0x400>;
-+            reg-names = "dsi_phy",
-+                        "dsi_phy_lane",
-+                        "dsi_pll";
-+
-+            #clock-cells = <1>;
-+            #phy-cells = <0>;
-+
-+            clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                     <&rpmhcc RPMH_CXO_CLK>;
-+            clock-names = "iface", "ref";
-+        };
-+    };
-+...
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 42e72ee7aa5e..4449e2f5739c 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -472,6 +472,20 @@ static const struct dpu_caps sm8450_dpu_caps = {
+ 	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+ };
+ 
++static const struct dpu_caps sm8550_dpu_caps = {
++	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
++	.max_mixer_blendstages = 0xb,
++	.qseed_type = DPU_SSPP_SCALER_QSEED3LITE,
++	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
++	.ubwc_version = DPU_HW_UBWC_VER_40,
++	.has_src_split = true,
++	.has_dim_layer = true,
++	.has_idle_pc = true,
++	.has_3d_merge = true,
++	.max_linewidth = 5120,
++	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
++};
++
+ static const struct dpu_mdp_cfg msm8998_mdp[] = {
+ 	{
+ 	.name = "top_0", .id = MDP_TOP,
+@@ -699,6 +713,37 @@ static const struct dpu_mdp_cfg sm8450_mdp[] = {
+ 	},
+ };
+ 
++static const struct dpu_mdp_cfg sm8550_mdp[] = {
++	{
++	.name = "top_0", .id = MDP_TOP,
++	.base = 0, .len = 0x494,
++	.features = BIT(DPU_MDP_PERIPH_0_REMOVED),
++	.highest_bank_bit = 0x3, /* TODO: 2 for LP_DDR4 */
++	.clk_ctrls[DPU_CLK_CTRL_VIG0] = {
++			.reg_off = 0x4330, .bit_off = 0},
++	.clk_ctrls[DPU_CLK_CTRL_VIG1] = {
++			.reg_off = 0x6330, .bit_off = 0},
++	.clk_ctrls[DPU_CLK_CTRL_VIG2] = {
++			.reg_off = 0x8330, .bit_off = 0},
++	.clk_ctrls[DPU_CLK_CTRL_VIG3] = {
++			.reg_off = 0xa330, .bit_off = 0},
++	.clk_ctrls[DPU_CLK_CTRL_DMA0] = {
++			.reg_off = 0x24330, .bit_off = 0},
++	.clk_ctrls[DPU_CLK_CTRL_DMA1] = {
++			.reg_off = 0x26330, .bit_off = 0},
++	.clk_ctrls[DPU_CLK_CTRL_DMA2] = {
++			.reg_off = 0x28330, .bit_off = 0},
++	.clk_ctrls[DPU_CLK_CTRL_DMA3] = {
++			.reg_off = 0x2a330, .bit_off = 0},
++	.clk_ctrls[DPU_CLK_CTRL_CURSOR0] = {
++			.reg_off = 0x2c330, .bit_off = 0},
++	.clk_ctrls[DPU_CLK_CTRL_CURSOR1] = {
++			.reg_off = 0x2e330, .bit_off = 0},
++	.clk_ctrls[DPU_CLK_CTRL_REG_DMA] = {
++			.reg_off = 0x2bc, .bit_off = 20},
++	},
++};
++
+ static const struct dpu_mdp_cfg qcm2290_mdp[] = {
+ 	{
+ 	.name = "top_0", .id = MDP_TOP,
+@@ -985,6 +1030,45 @@ static const struct dpu_ctl_cfg sm8450_ctl[] = {
+ 	},
+ };
+ 
++static const struct dpu_ctl_cfg sm8550_ctl[] = {
++	{
++	.name = "ctl_0", .id = CTL_0,
++	.base = 0x15000, .len = 0x290,
++	.features = CTL_SC7280_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
++	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
++	},
++	{
++	.name = "ctl_1", .id = CTL_1,
++	.base = 0x16000, .len = 0x290,
++	.features = CTL_SC7280_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
++	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
++	},
++	{
++	.name = "ctl_2", .id = CTL_2,
++	.base = 0x17000, .len = 0x290,
++	.features = CTL_SC7280_MASK,
++	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 11),
++	},
++	{
++	.name = "ctl_3", .id = CTL_3,
++	.base = 0x18000, .len = 0x290,
++	.features = CTL_SC7280_MASK,
++	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 12),
++	},
++	{
++	.name = "ctl_4", .id = CTL_4,
++	.base = 0x19000, .len = 0x290,
++	.features = CTL_SC7280_MASK,
++	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 13),
++	},
++	{
++	.name = "ctl_5", .id = CTL_5,
++	.base = 0x1a000, .len = 0x290,
++	.features = CTL_SC7280_MASK,
++	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 23),
++	},
++};
++
+ static const struct dpu_ctl_cfg qcm2290_ctl[] = {
+ 	{
+ 	.name = "ctl_0", .id = CTL_0,
+@@ -1269,6 +1353,40 @@ static const struct dpu_sspp_cfg sm8450_sspp[] = {
+ 		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
+ };
+ 
++static const struct dpu_sspp_sub_blks sm8550_vig_sblk_0 =
++				_VIG_SBLK("0", 7, DPU_SSPP_SCALER_QSEED3LITE);
++static const struct dpu_sspp_sub_blks sm8550_vig_sblk_1 =
++				_VIG_SBLK("1", 8, DPU_SSPP_SCALER_QSEED3LITE);
++static const struct dpu_sspp_sub_blks sm8550_vig_sblk_2 =
++				_VIG_SBLK("2", 9, DPU_SSPP_SCALER_QSEED3LITE);
++static const struct dpu_sspp_sub_blks sm8550_vig_sblk_3 =
++				_VIG_SBLK("3", 10, DPU_SSPP_SCALER_QSEED3LITE);
++static const struct dpu_sspp_sub_blks sm8550_dma_sblk_4 = _DMA_SBLK("12", 5);
++static const struct dpu_sspp_sub_blks sd8550_dma_sblk_5 = _DMA_SBLK("13", 6);
++
++static const struct dpu_sspp_cfg sm8550_sspp[] = {
++	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK,
++		sm8550_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
++	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SC7180_MASK,
++		sm8550_vig_sblk_1, 4,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
++	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SC7180_MASK,
++		sm8550_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
++	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SC7180_MASK,
++		sm8550_vig_sblk_3, 12,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
++	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
++		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
++	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_SDM845_MASK,
++		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
++	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_SDM845_MASK,
++		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
++	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_SDM845_MASK,
++		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
++	SSPP_BLK("sspp_12", SSPP_DMA4, 0x2c000,  DMA_CURSOR_SDM845_MASK,
++		sm8550_dma_sblk_4, 14, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
++	SSPP_BLK("sspp_13", SSPP_DMA5, 0x2e000,  DMA_CURSOR_SDM845_MASK,
++		sd8550_dma_sblk_5, 15, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
++};
++
+ static const struct dpu_sspp_cfg qcm2290_sspp[] = {
+ 	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_QCM2290_MASK,
+ 		 qcm2290_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+@@ -1480,6 +1598,16 @@ static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
+ 	.len = 0x20, .version = 0x20000},
+ };
+ 
++#define PP_BLK_DIPHER(_name, _id, _base, _merge_3d, _sblk, _done, _rdptr) \
++	{\
++	.name = _name, .id = _id, \
++	.base = _base, .len = 0, \
++	.features = BIT(DPU_PINGPONG_DITHER), \
++	.merge_3d = _merge_3d, \
++	.sblk = &_sblk, \
++	.intr_done = _done, \
++	.intr_rdptr = _rdptr, \
++	}
+ #define PP_BLK_TE(_name, _id, _base, _merge_3d, _sblk, _done, _rdptr) \
+ 	{\
+ 	.name = _name, .id = _id, \
+@@ -1613,6 +1741,33 @@ static const struct dpu_pingpong_cfg sm8450_pp[] = {
+ 			-1),
+ };
+ 
++static const struct dpu_pingpong_cfg sm8550_pp[] = {
++	PP_BLK_DIPHER("pingpong_0", PINGPONG_0, 0x69000, MERGE_3D_0, sc7280_pp_sblk,
++			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
++			-1),
++	PP_BLK_DIPHER("pingpong_1", PINGPONG_1, 0x6a000, MERGE_3D_0, sc7280_pp_sblk,
++			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
++			-1),
++	PP_BLK_DIPHER("pingpong_2", PINGPONG_2, 0x6b000, MERGE_3D_1, sc7280_pp_sblk,
++			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
++			-1),
++	PP_BLK_DIPHER("pingpong_3", PINGPONG_3, 0x6c000, MERGE_3D_1, sc7280_pp_sblk,
++			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
++			-1),
++	PP_BLK_DIPHER("pingpong_4", PINGPONG_4, 0x6d000, MERGE_3D_2, sc7280_pp_sblk,
++			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
++			-1),
++	PP_BLK_DIPHER("pingpong_5", PINGPONG_5, 0x6e000, MERGE_3D_2, sc7280_pp_sblk,
++			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 31),
++			-1),
++	PP_BLK_DIPHER("pingpong_6", PINGPONG_6, 0x66000, MERGE_3D_3, sc7280_pp_sblk,
++			-1,
++			-1),
++	PP_BLK_DIPHER("pingpong_7", PINGPONG_7, 0x66400, MERGE_3D_3, sc7280_pp_sblk,
++			-1,
++			-1),
++};
++
+ static struct dpu_pingpong_cfg qcm2290_pp[] = {
+ 	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, 0, sdm845_pp_sblk,
+ 		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
+@@ -1649,6 +1804,13 @@ static const struct dpu_merge_3d_cfg sm8450_merge_3d[] = {
+ 	MERGE_3D_BLK("merge_3d_3", MERGE_3D_3, 0x65f00),
+ };
+ 
++static const struct dpu_merge_3d_cfg sm8550_merge_3d[] = {
++	MERGE_3D_BLK("merge_3d_0", MERGE_3D_0, 0x4e000),
++	MERGE_3D_BLK("merge_3d_1", MERGE_3D_1, 0x4f000),
++	MERGE_3D_BLK("merge_3d_2", MERGE_3D_2, 0x50000),
++	MERGE_3D_BLK("merge_3d_3", MERGE_3D_3, 0x66700),
++};
++
+ /*************************************************************
+  * DSC sub blocks config
+  *************************************************************/
+@@ -1755,6 +1917,14 @@ static const struct dpu_intf_cfg sm8450_intf[] = {
+ 	INTF_BLK("intf_3", INTF_3, 0x37000, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+ };
+ 
++static const struct dpu_intf_cfg sm8550_intf[] = {
++	INTF_BLK("intf_0", INTF_0, 0x34000, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
++	/* TODO TE sub-blocks for intf1 & intf2 */
++	INTF_BLK("intf_1", INTF_1, 0x35000, INTF_DSI, 0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
++	INTF_BLK("intf_2", INTF_2, 0x36000, INTF_DSI, 1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
++	INTF_BLK("intf_3", INTF_3, 0x37000, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
++};
++
+ static const struct dpu_intf_cfg qcm2290_intf[] = {
+ 	INTF_BLK("intf_0", INTF_0, 0x00000, INTF_NONE, 0, 0, 0, 0, 0, 0),
+ 	INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+@@ -2614,6 +2784,32 @@ static const struct dpu_mdss_cfg sm8450_dpu_cfg = {
+ 	.mdss_irqs = IRQ_SM8450_MASK,
+ };
+ 
++static const struct dpu_mdss_cfg sm8550_dpu_cfg = {
++	.caps = &sm8550_dpu_caps,
++	.mdp_count = ARRAY_SIZE(sm8550_mdp),
++	.mdp = sm8550_mdp,
++	.ctl_count = ARRAY_SIZE(sm8550_ctl),
++	.ctl = sm8550_ctl,
++	.sspp_count = ARRAY_SIZE(sm8550_sspp),
++	.sspp = sm8550_sspp,
++	.mixer_count = ARRAY_SIZE(sm8150_lm),
++	.mixer = sm8150_lm,
++	.dspp_count = ARRAY_SIZE(sm8150_dspp),
++	.dspp = sm8150_dspp,
++	.pingpong_count = ARRAY_SIZE(sm8550_pp),
++	.pingpong = sm8550_pp,
++	.merge_3d_count = ARRAY_SIZE(sm8550_merge_3d),
++	.merge_3d = sm8550_merge_3d,
++	.intf_count = ARRAY_SIZE(sm8550_intf),
++	.intf = sm8550_intf,
++	.vbif_count = ARRAY_SIZE(sdm845_vbif),
++	.vbif = sdm845_vbif,
++	.reg_dma_count = 1,
++	.dma_cfg = &sm8450_regdma,
++	.perf = &sm8450_perf_data,
++	.mdss_irqs = IRQ_SM8450_MASK,
++};
++
+ static const struct dpu_mdss_cfg qcm2290_dpu_cfg = {
+ 	.caps = &qcm2290_dpu_caps,
+ 	.mdp_count = ARRAY_SIZE(qcm2290_mdp),
+@@ -2654,6 +2850,7 @@ static const struct dpu_mdss_hw_cfg_handler cfg_handler[] = {
+ 	{ .hw_rev = DPU_HW_VER_720, .dpu_cfg = &sc7280_dpu_cfg},
+ 	{ .hw_rev = DPU_HW_VER_800, .dpu_cfg = &sc8280xp_dpu_cfg},
+ 	{ .hw_rev = DPU_HW_VER_810, .dpu_cfg = &sm8450_dpu_cfg},
++	{ .hw_rev = DPU_HW_VER_900, .dpu_cfg = &sm8550_dpu_cfg},
+ };
+ 
+ const struct dpu_mdss_cfg *dpu_hw_catalog_init(u32 hw_rev)
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index ebcdd8405cab..e9a90c8763ff 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -50,6 +50,7 @@
+ #define DPU_HW_VER_720	DPU_HW_VER(7, 2, 0) /* sc7280 */
+ #define DPU_HW_VER_800	DPU_HW_VER(8, 0, 0) /* sc8280xp */
+ #define DPU_HW_VER_810	DPU_HW_VER(8, 1, 0) /* sm8450 */
++#define DPU_HW_VER_900	DPU_HW_VER(9, 0, 0) /* sm8550 */
+ 
+ #define IS_MSM8996_TARGET(rev) IS_DPU_MAJOR_MINOR_SAME((rev), DPU_HW_VER_170)
+ #define IS_MSM8998_TARGET(rev) IS_DPU_MAJOR_MINOR_SAME((rev), DPU_HW_VER_300)
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+index 2b9e15f99c65..2d9192a6ce00 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+@@ -120,6 +120,8 @@ enum dpu_sspp {
+ 	SSPP_DMA1,
+ 	SSPP_DMA2,
+ 	SSPP_DMA3,
++	SSPP_DMA4,
++	SSPP_DMA5,
+ 	SSPP_CURSOR0,
+ 	SSPP_CURSOR1,
+ 	SSPP_MAX
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 84a46319421a..6759c6d88083 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1313,6 +1313,7 @@ static const struct of_device_id dpu_dt_match[] = {
+ 	{ .compatible = "qcom,sm8250-dpu", },
+ 	{ .compatible = "qcom,sm8350-dpu", },
+ 	{ .compatible = "qcom,sm8450-dpu", },
++	{ .compatible = "qcom,sm8550-dpu", },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(of, dpu_dt_match);
 
 -- 
 2.34.1
