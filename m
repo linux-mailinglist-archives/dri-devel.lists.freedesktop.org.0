@@ -1,34 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E683D661D29
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 05:04:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A3F661E09
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 05:55:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F33F10E259;
-	Mon,  9 Jan 2023 04:04:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 392E710E26E;
+	Mon,  9 Jan 2023 04:54:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
- by gabe.freedesktop.org (Postfix) with ESMTP id B24ED10E254
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 04:03:54 +0000 (UTC)
-Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
- by 156.147.23.51 with ESMTP; 9 Jan 2023 12:33:54 +0900
-X-Original-SENDERIP: 156.147.1.121
-X-Original-MAILFROM: byungchul.park@lge.com
-Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
- by 156.147.1.121 with ESMTP; 9 Jan 2023 12:33:54 +0900
-X-Original-SENDERIP: 10.177.244.38
-X-Original-MAILFROM: byungchul.park@lge.com
-From: Byungchul Park <byungchul.park@lge.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH RFC v7 23/23] dept: Record the latest one out of consecutive
- waits of the same class
-Date: Mon,  9 Jan 2023 12:33:51 +0900
-Message-Id: <1673235231-30302-24-git-send-email-byungchul.park@lge.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1673235231-30302-1-git-send-email-byungchul.park@lge.com>
-References: <1673235231-30302-1-git-send-email-byungchul.park@lge.com>
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C25C510E26E
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 04:54:56 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id b3so11251624lfv.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Jan 2023 20:54:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=TOb1Aceo/UQvqSGAz4vmSvKygF6ghKxNjCdlHBbs6Qk=;
+ b=BZ0lu8cck+L9o8kMSf6bqXTlkqR1NMtBTyERO3za3EJ5AIYvP3dgz+tvW9Ahm4Wygr
+ 9FEyd5QXE/QQE9Jzpn+c3M0OFM66uqywbkN79smKoPFbk2Yeuxc2T2lGmLcBJ7EzOFgZ
+ 1bHyNDfSdW7PgvAFlTLJIaVfsrTqG6vAtJ+DkqnmhPaiHoWx5/e2lkEQu9Gj14W2kIjk
+ kOBarEfb+JleUS+nhCTAVstPySPS0MjjXGIJtLHCltJMgpSWAvxeVlwuDZcqrUjuaYnl
+ u/sj5bN8ApXwOWmp9URG+0IJ+ia7HHT0XSOGKaU9wWBEIc+9+90e+wnpZ+zGSRKiCoTN
+ 5GiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TOb1Aceo/UQvqSGAz4vmSvKygF6ghKxNjCdlHBbs6Qk=;
+ b=y9XNMR011huQs6bNLZxibIlAbndfqWrEmJwyxrAur8cmcY4+CIoU18qTIigjAALf7j
+ iSwezPXEZ3Lk5wepgUAC2segzmFjlH0HeF+xm8Owzv00A7KdvPSJA7PNlfVoidxvymo+
+ tAXCzo70AQ/p17mUrpPm8ZMNinwFXZFZ6+ZnWzizCcInhY6mHThk3Pf/s9rarOeQ3uE9
+ 3Rj8lmCYeVVw24fsqXjRZHHPbH7hDYPz14nFyQJbYuWBxeOhwRDPqO5DBZPh5+ujVRvo
+ NTptqTUFkcKPwvGXtKRhzdybwy1+hYynAwAOw0ObQHOv7VgYLs84ddK4AWd/Z3yvSfEY
+ kkrw==
+X-Gm-Message-State: AFqh2kqVMnA3dYWU0CdqDf60V+Bh5cAvJB26OkdB41Zn3JO+nBd3A15t
+ YlR5UPVmI2pAy3ERDNpmP7ag/A==
+X-Google-Smtp-Source: AMrXdXvY1I9+V6lYnXjJHZ298O+1S7YjqX9rn/Bkf4N0/3GBJ+YzRcriOJEnzgP+J9jmaO0i2U6aRQ==
+X-Received: by 2002:a05:6512:2356:b0:4cb:4416:1e7d with SMTP id
+ p22-20020a056512235600b004cb44161e7dmr8500518lfu.48.1673240094995; 
+ Sun, 08 Jan 2023 20:54:54 -0800 (PST)
+Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
+ q24-20020a056512211800b004cb131751dcsm1408980lfr.158.2023.01.08.20.54.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 08 Jan 2023 20:54:54 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: [PATCH] dt-bindings: display/msm: qcom,mdss: fix HDMI PHY node names
+Date: Mon,  9 Jan 2023 06:54:53 +0200
+Message-Id: <20230109045453.316089-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,74 +72,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, mhocko@kernel.org, linux-mm@kvack.org,
- linux-ide@vger.kernel.org, adilger.kernel@dilger.ca, chris.p.wilson@intel.com,
- joel@joelfernandes.org, 42.hyeyoo@gmail.com, cl@linux.com, will@kernel.org,
- duyuyang@gmail.com, sashal@kernel.org, paolo.valente@linaro.org,
- damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
- mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
- rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
- ngupta@vflare.org, johannes.berg@intel.com, dan.j.williams@intel.com,
- josef@toxicpanda.com, rostedt@goodmis.org, gwan-gyeong.mun@intel.com,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
- viro@zeniv.linux.org.uk, tglx@linutronix.de, vbabka@suse.cz,
- melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
- rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
- jlayton@kernel.org, penberg@kernel.org, minchan@kernel.org, hannes@cmpxchg.org,
- tj@kernel.org, akpm@linux-foundation.org, torvalds@linux-foundation.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current code records all the waits for later use to track relation
-between waits and events in each context. However, since the same class
-is handled the same way, it'd be okay to record only one on behalf of
-the others if they all have the same class.
+On Qualcomm devices HDMI PHY node names were changed from hdmi-phy to
+phy. Follow this change.
 
-Even though it's the ideal to search the whole history buffer for that,
-since it'd cost too high, alternatively, let's keep the latest one at
-least when the same class'ed waits consecutively appear.
-
-Signed-off-by: Byungchul Park <byungchul.park@lge.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- kernel/dependency/dept.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/display/msm/qcom,mdss.yaml          | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/kernel/dependency/dept.c b/kernel/dependency/dept.c
-index cd25995..9cd37b4 100644
---- a/kernel/dependency/dept.c
-+++ b/kernel/dependency/dept.c
-@@ -1521,9 +1521,28 @@ static inline struct dept_wait_hist *new_hist(void)
- 	return wh;
- }
- 
-+static inline struct dept_wait_hist *last_hist(void)
-+{
-+	int pos_n = hist_pos_next();
-+	struct dept_wait_hist *wh_n = hist(pos_n);
-+
-+	/*
-+	 * This is the first try.
-+	 */
-+	if (!pos_n && !wh_n->wait)
-+		return NULL;
-+
-+	return hist(pos_n + DEPT_MAX_WAIT_HIST - 1);
-+}
-+
- static void add_hist(struct dept_wait *w, unsigned int wg, unsigned int ctxt_id)
- {
--	struct dept_wait_hist *wh = new_hist();
-+	struct dept_wait_hist *wh;
-+
-+	wh = last_hist();
-+
-+	if (!wh || wh->wait->class != w->class || wh->ctxt_id != ctxt_id)
-+		wh = new_hist();
- 
- 	if (likely(wh->wait))
- 		put_wait(wh->wait);
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
+index ba0460268731..7479cd96fdec 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
+@@ -107,12 +107,6 @@ patternProperties:
+           - qcom,dsi-phy-20nm
+           - qcom,dsi-phy-28nm-hpm
+           - qcom,dsi-phy-28nm-lp
+-
+-  "^hdmi-phy@[1-9a-f][0-9a-f]*$":
+-    type: object
+-    properties:
+-      compatible:
+-        enum:
+           - qcom,hdmi-phy-8084
+           - qcom,hdmi-phy-8660
+           - qcom,hdmi-phy-8960
 -- 
-1.9.1
+2.39.0
 
