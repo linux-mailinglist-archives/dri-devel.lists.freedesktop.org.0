@@ -1,72 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85D03662A83
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 16:49:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 856A0662AB3
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 17:00:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C997E10E440;
-	Mon,  9 Jan 2023 15:49:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA26F10E4A9;
+	Mon,  9 Jan 2023 16:00:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C32E310E440
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 15:49:52 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 309FnKbk021502;
- Mon, 9 Jan 2023 09:49:20 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1673279360;
- bh=tHZZefyYne34nwtHlmcO9279ZiTFZKklHDR4wSaraLs=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=MPUiZGBLs/Ku6SlSm3Fh+yFJcoGIXbBdA2icjuIIZ3bG28Lf4hxlbusjtBtW3r+j1
- d+ESwERr6zuKSVhU4PuUTfDVFIQp3yL6qzK+Rp5rdyZvl3hNXAGClH9q8f6DuClU8d
- KyAqikzfsRBeqcXaHluWkpbzVG7Qm/XmCoIq+OSg=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 309FnKl1105964
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 9 Jan 2023 09:49:20 -0600
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Mon, 9
- Jan 2023 09:49:19 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Mon, 9 Jan 2023 09:49:19 -0600
-Received: from [10.250.234.21] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 309Fn9qV038794;
- Mon, 9 Jan 2023 09:49:10 -0600
-Message-ID: <784cc3a5-8b10-aed3-b151-77cedb531f25@ti.com>
-Date: Mon, 9 Jan 2023 21:19:08 +0530
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com
+ [209.85.160.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB31F10E4AC;
+ Mon,  9 Jan 2023 16:00:07 +0000 (UTC)
+Received: by mail-oa1-f46.google.com with SMTP id
+ 586e51a60fabf-142b72a728fso9037899fac.9; 
+ Mon, 09 Jan 2023 08:00:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NmIlgEFtXavdJf8Lq/cH9FoF1zSgoXLLeAA66q8BH/Q=;
+ b=oDJNjXzdIqcVtaQmChMkHT3yHgKYVU6ZGHeQkyUEN43O04ce3VI/GxT8izgTrFrxtC
+ 0GLrVGIse4b5CxzeEYLKup/+/BVq9VabzeD8FhGdsg9eb2KEq7jRO2n9y1w1SiWiGGWG
+ 8vGjAx7wQEFrKTBRh3MhYgP0h1Sqckkpn07/mpGa50bemE9U1wA731/8U+rYeL5HCgPC
+ WIYb2ynzteNwt6XxFYZVxuPfbRCpr5vEWGzC8jzcJhQ8bMhZO0axlG71ayCbH18zJrEJ
+ f+JyJdIvvyAuasSNLHhWsaSpa4eDSpTUstTzG4zeZFkvB7gVfKzmRNElRCkvxo5GNTdf
+ NvuA==
+X-Gm-Message-State: AFqh2koFRKzw9OkIgdqmCwo4MvhFvkRCmeoQgC7QIyfdumciK6334Kg0
+ ba/RJ0XMJu3U/X26O+ZBAQ==
+X-Google-Smtp-Source: AMrXdXuXJvBT3dt96q3KMmD15McdlaQh3O3qs1191wR2cMHTCinqo+Y5JobLAeehoewg+Ou02LotoQ==
+X-Received: by 2002:a05:6871:891:b0:148:6804:e60c with SMTP id
+ r17-20020a056871089100b001486804e60cmr37077630oaq.35.1673280006846; 
+ Mon, 09 Jan 2023 08:00:06 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ h24-20020a056870171800b0014f9cc82421sm4366524oae.33.2023.01.09.08.00.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Jan 2023 08:00:06 -0800 (PST)
+Received: (nullmailer pid 722135 invoked by uid 1000);
+ Mon, 09 Jan 2023 16:00:05 -0000
+Date: Mon, 9 Jan 2023 10:00:05 -0600
+From: Rob Herring <robh@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 1/6] dt-bindings: display/msm: rename mdss nodes to
+ display-sybsystem
+Message-ID: <20230109160005.GA721066-robh@kernel.org>
+References: <20230109051402.317577-1-dmitry.baryshkov@linaro.org>
+ <20230109051402.317577-2-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [RFC PATCH 3/4] dt-bindings: panel: Introduce dual-link LVDS panel
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,
- Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Matthias Brugger <matthias.bgg@gmail.com>, Guo Ren
- <guoren@kernel.org>
-References: <20230103064615.5311-1-a-bhatia1@ti.com>
- <20230103064615.5311-4-a-bhatia1@ti.com>
- <85837957-f6d2-4722-7693-98c6cf932096@linaro.org>
- <32d66fb7-6c63-0985-222f-0bd3c36c165d@ti.com>
- <30423568-df03-1d72-81fe-3a4b33214e5c@linaro.org>
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <30423568-df03-1d72-81fe-3a4b33214e5c@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230109051402.317577-2-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,93 +65,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Mediatek List <linux-mediatek@lists.infradead.org>,
- Linux C-SKY Arch List <linux-csky@vger.kernel.org>,
- Linux RISC-V List <linux-riscv@lists.infradead.org>,
- Linux ARM Kernel List <linux-arm-kernel@lists.infradead.org>,
- Rahul T R <r-ravikumar@ti.com>
+Cc: devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof,
+On Mon, Jan 09, 2023 at 07:13:57AM +0200, Dmitry Baryshkov wrote:
+> Follow the 'generic names' rule and rename mdss nodes to
+> display-subsystem.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  .../devicetree/bindings/display/msm/mdss-common.yaml      | 8 ++++++++
+>  .../devicetree/bindings/display/msm/qcom,mdss.yaml        | 5 ++++-
+>  2 files changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/mdss-common.yaml b/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
+> index 59f17ac898aa..ccd7d6417523 100644
+> --- a/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
+> @@ -15,7 +15,15 @@ description:
+>    Device tree bindings for MSM Mobile Display Subsystem(MDSS) that encapsulates
+>    sub-blocks like DPU display controller, DSI and DP interfaces etc.
+>  
+> +# Do not select this by default, otherwise it is also selected for qcom,mdss
+> +# devices.
 
-On 03-Jan-23 16:58, Krzysztof Kozlowski wrote:
-> On 03/01/2023 12:02, Aradhya Bhatia wrote:
->> But this is throwing an error. I am confused what else could be done.
->> Can you please suggest what might be a more accurate check here?
->>
->>>
->>>> +              required:
->>>> +                - dual-lvds-odd-pixels
->>>> +        then:
->>>> +          properties:
->>>> +            port@1:
->>>> +              properties:
->>>> +                dual-lvds-even-pixels: true
->>>> +                dual-lvds-odd-pixels: false
->>>
->>> Why do you need this? Your oneOf before already solves it.
->>
->> I agree with your comment here. It makes sense to only have
->>
->> 	dual-lvds-even-pixels: true
->>
->> and have the oneOf condition take care of the other. But, I just tested
->> this and it was unable to pick-up this intentionally-added error.
->>
->> I added 'dual-lvds-odd-pixels' property to both the nodes, and
->> dt_binding_check passes successfully (which it should have not.)
->>
->> Instead, if I only keep this,
->>
->> 	dual-lvds-odd-pixels: false
->>
->> then the dt_binding_check detects the error as it should.
->>
->> Regardless, I am curious why the first method doesn't work. Will try to
->> explore more on that.
-> 
-> The check for presence of properties is only against required:, but you
-> added there properties. Like this:
-> 
-> https://elixir.bootlin.com/linux/v5.17-rc2/source/Documentation/devicetree/bindings/mfd/samsung,s5m8767.yaml#L155
-> 
-> 
-> Other way is to drop your both oneOf and entire allOf from ports and use:
-> 
-> oneOf:
->    - properties:
->        ports:
->          $ref: /schemas/graph.yaml#/properties/ports
->          properties:
->            port@0:
->              required:
->                - dual-lvds-odd-pixels
->            port@1:
->              required:
->                - dual-lvds-even-pixels
->    - properties:
->        ports:
->          $ref: /schemas/graph.yaml#/properties/ports
->          properties:
->            port@1:
->              required:
->                - dual-lvds-odd-pixels
->            port@0:
->              required:
->                - dual-lvds-even-pixels
-> 
+for NON qcom,mdss devices?
 
-Thank you for the suggestions.
-I tested the both of them, and they seem to be working as expected.
+> +select:
+> +  false
 
-V2 will reflect all the required fixes.
+select: false
 
-
-Regards
-Aradhya
+> +
+>  properties:
+> +  $nodename:
+> +    pattern: "^display-subsystem@[0-9a-f]+$"
+> +
+>    reg:
+>      maxItems: 1
+>  
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
+> index c218c9172608..47fde9b6779f 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
+> @@ -15,6 +15,9 @@ description:
+>    encapsulates sub-blocks like MDP5, DSI, HDMI, eDP, etc.
+>  
+>  properties:
+> +  $nodename:
+> +    pattern: "^display-subsystem@[0-9a-f]+$"
+> +
+>    compatible:
+>      enum:
+>        - qcom,mdss
+> @@ -153,7 +156,7 @@ examples:
+>    - |
+>      #include <dt-bindings/clock/qcom,gcc-msm8916.h>
+>      #include <dt-bindings/interrupt-controller/arm-gic.h>
+> -    mdss@1a00000 {
+> +    display-subsystem@1a00000 {
+>          compatible = "qcom,mdss";
+>          reg = <0x1a00000 0x1000>,
+>                <0x1ac8000 0x3000>;
+> -- 
+> 2.39.0
+> 
+> 
