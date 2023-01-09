@@ -1,19 +1,19 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F212661D2A
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 05:04:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E683D661D29
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 05:04:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 115DC10E258;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F33F10E259;
 	Mon,  9 Jan 2023 04:04:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo13.lge.com [156.147.23.53])
- by gabe.freedesktop.org (Postfix) with ESMTP id BA80710E25A
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B24ED10E254
  for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 04:03:54 +0000 (UTC)
 Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
- by 156.147.23.53 with ESMTP; 9 Jan 2023 12:33:54 +0900
+ by 156.147.23.51 with ESMTP; 9 Jan 2023 12:33:54 +0900
 X-Original-SENDERIP: 156.147.1.121
 X-Original-MAILFROM: byungchul.park@lge.com
 Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
@@ -22,10 +22,10 @@ X-Original-SENDERIP: 10.177.244.38
 X-Original-MAILFROM: byungchul.park@lge.com
 From: Byungchul Park <byungchul.park@lge.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH RFC v7 22/23] dept: Apply timeout consideration to dma fence
- wait
-Date: Mon,  9 Jan 2023 12:33:50 +0900
-Message-Id: <1673235231-30302-23-git-send-email-byungchul.park@lge.com>
+Subject: [PATCH RFC v7 23/23] dept: Record the latest one out of consecutive
+ waits of the same class
+Date: Mon,  9 Jan 2023 12:33:51 +0900
+Message-Id: <1673235231-30302-24-git-send-email-byungchul.park@lge.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1673235231-30302-1-git-send-email-byungchul.park@lge.com>
 References: <1673235231-30302-1-git-send-email-byungchul.park@lge.com>
@@ -61,42 +61,54 @@ Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that CONFIG_DEPT_AGGRESSIVE_TIMEOUT_WAIT was introduced, apply the
-consideration to dma fence wait.
+The current code records all the waits for later use to track relation
+between waits and events in each context. However, since the same class
+is handled the same way, it'd be okay to record only one on behalf of
+the others if they all have the same class.
+
+Even though it's the ideal to search the whole history buffer for that,
+since it'd cost too high, alternatively, let's keep the latest one at
+least when the same class'ed waits consecutively appear.
 
 Signed-off-by: Byungchul Park <byungchul.park@lge.com>
 ---
- drivers/dma-buf/dma-fence.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ kernel/dependency/dept.c | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index dd190cf..ee9b350 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -783,7 +783,10 @@ struct default_wait_cb {
- 	cb.task = current;
- 	list_add(&cb.base.node, &fence->cb_list);
+diff --git a/kernel/dependency/dept.c b/kernel/dependency/dept.c
+index cd25995..9cd37b4 100644
+--- a/kernel/dependency/dept.c
++++ b/kernel/dependency/dept.c
+@@ -1521,9 +1521,28 @@ static inline struct dept_wait_hist *new_hist(void)
+ 	return wh;
+ }
  
--	sdt_might_sleep_strong(NULL);
-+	if (timeout == MAX_SCHEDULE_TIMEOUT)
-+		sdt_might_sleep_strong(NULL);
-+	else
-+		sdt_might_sleep_strong_timeout(NULL);
- 	while (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags) && ret > 0) {
- 		if (intr)
- 			__set_current_state(TASK_INTERRUPTIBLE);
-@@ -887,7 +890,10 @@ struct default_wait_cb {
- 		}
- 	}
++static inline struct dept_wait_hist *last_hist(void)
++{
++	int pos_n = hist_pos_next();
++	struct dept_wait_hist *wh_n = hist(pos_n);
++
++	/*
++	 * This is the first try.
++	 */
++	if (!pos_n && !wh_n->wait)
++		return NULL;
++
++	return hist(pos_n + DEPT_MAX_WAIT_HIST - 1);
++}
++
+ static void add_hist(struct dept_wait *w, unsigned int wg, unsigned int ctxt_id)
+ {
+-	struct dept_wait_hist *wh = new_hist();
++	struct dept_wait_hist *wh;
++
++	wh = last_hist();
++
++	if (!wh || wh->wait->class != w->class || wh->ctxt_id != ctxt_id)
++		wh = new_hist();
  
--	sdt_might_sleep_strong(NULL);
-+	if (timeout == MAX_SCHEDULE_TIMEOUT)
-+		sdt_might_sleep_strong(NULL);
-+	else
-+		sdt_might_sleep_strong_timeout(NULL);
- 	while (ret > 0) {
- 		if (intr)
- 			set_current_state(TASK_INTERRUPTIBLE);
+ 	if (likely(wh->wait))
+ 		put_wait(wh->wait);
 -- 
 1.9.1
 
