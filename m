@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BBE3661D2F
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 05:04:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B998661D31
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 05:04:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C9A010E25E;
-	Mon,  9 Jan 2023 04:04:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 227DE10E261;
+	Mon,  9 Jan 2023 04:04:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from lgeamrelo11.lge.com (lgeamrelo13.lge.com [156.147.23.53])
- by gabe.freedesktop.org (Postfix) with ESMTP id C810B10E253
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 04:03:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 68F5010E259
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 04:03:53 +0000 (UTC)
 Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
- by 156.147.23.53 with ESMTP; 9 Jan 2023 12:33:51 +0900
+ by 156.147.23.53 with ESMTP; 9 Jan 2023 12:33:52 +0900
 X-Original-SENDERIP: 156.147.1.121
 X-Original-MAILFROM: byungchul.park@lge.com
 Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
- by 156.147.1.121 with ESMTP; 9 Jan 2023 12:33:51 +0900
+ by 156.147.1.121 with ESMTP; 9 Jan 2023 12:33:52 +0900
 X-Original-SENDERIP: 10.177.244.38
 X-Original-MAILFROM: byungchul.park@lge.com
 From: Byungchul Park <byungchul.park@lge.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH RFC v7 03/23] dept: Add single event dependency tracker APIs
-Date: Mon,  9 Jan 2023 12:33:31 +0900
-Message-Id: <1673235231-30302-4-git-send-email-byungchul.park@lge.com>
+Subject: [PATCH RFC v7 04/23] dept: Add lock dependency tracker APIs
+Date: Mon,  9 Jan 2023 12:33:32 +0900
+Message-Id: <1673235231-30302-5-git-send-email-byungchul.park@lge.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1673235231-30302-1-git-send-email-byungchul.park@lge.com>
 References: <1673235231-30302-1-git-send-email-byungchul.park@lge.com>
@@ -60,118 +60,97 @@ Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Wrapped the base APIs for easier annotation on wait and event. Start
-with supporting waiters on each single event. More general support for
-multiple events is a future work. Do more when the need arises.
-
-How to annotate (the simplest way):
-
-1. Initaialize a map for the interesting wait.
-
-   /*
-    * Recommand to place along with the wait instance.
-    */
-   struct dept_map my_wait;
-
-   /*
-    * Recommand to place in the initialization code.
-    */
-   sdt_map_init(&my_wait);
-
-2. Place the following at the wait code.
-
-   sdt_wait(&my_wait);
-
-3. Place the following at the event code.
-
-   sdt_event(&my_wait);
-
-That's it!
+Wrapped the base APIs for easier annotation on typical lock.
 
 Signed-off-by: Byungchul Park <byungchul.park@lge.com>
 ---
- include/linux/dept_sdt.h | 72 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 72 insertions(+)
- create mode 100644 include/linux/dept_sdt.h
+ include/linux/dept_ldt.h | 77 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 77 insertions(+)
+ create mode 100644 include/linux/dept_ldt.h
 
-diff --git a/include/linux/dept_sdt.h b/include/linux/dept_sdt.h
+diff --git a/include/linux/dept_ldt.h b/include/linux/dept_ldt.h
 new file mode 100644
-index 00000000..2644e77
+index 00000000..b8c00bc
 --- /dev/null
-+++ b/include/linux/dept_sdt.h
-@@ -0,0 +1,72 @@
++++ b/include/linux/dept_ldt.h
+@@ -0,0 +1,77 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * Single-event Dependency Tracker
++ * Lock Dependency Tracker
 + *
 + * Started by Byungchul Park <max.byungchul.park@gmail.com>:
 + *
 + *  Copyright (c) 2020 LG Electronics, Inc., Byungchul Park
 + */
 +
-+#ifndef __LINUX_DEPT_SDT_H
-+#define __LINUX_DEPT_SDT_H
++#ifndef __LINUX_DEPT_LDT_H
++#define __LINUX_DEPT_LDT_H
 +
 +#include <linux/dept.h>
 +
 +#ifdef CONFIG_DEPT
-+#define sdt_map_init(m)							\
++#define LDT_EVT_L			1UL
++#define LDT_EVT_R			2UL
++#define LDT_EVT_W			4UL
++#define LDT_EVT_RW			(LDT_EVT_R | LDT_EVT_W)
++#define LDT_EVT_ALL			(LDT_EVT_L | LDT_EVT_RW)
++
++#define ldt_init(m, k, su, n)		dept_map_init(m, k, su, n)
++#define ldt_lock(m, sl, t, n, i)					\
 +	do {								\
-+		static struct dept_key __key;				\
-+		dept_map_init(m, &__key, 0, #m);			\
++		if (n)							\
++			dept_ecxt_enter_nokeep(m);			\
++		else if (t)						\
++			dept_ecxt_enter(m, LDT_EVT_L, i, "trylock", "unlock", sl);\
++		else {							\
++			dept_wait(m, LDT_EVT_L, i, "lock", sl);		\
++			dept_ecxt_enter(m, LDT_EVT_L, i, "lock", "unlock", sl);\
++		}							\
 +	} while (0)
 +
-+#define sdt_map_init_key(m, k)		dept_map_init(m, k, 0, #m)
-+
-+#define sdt_wait(m)							\
++#define ldt_rlock(m, sl, t, n, i)					\
 +	do {								\
-+		dept_request_event(m);					\
-+		dept_wait(m, 1UL, _THIS_IP_, __func__, 0);		\
++		if (n)							\
++			dept_ecxt_enter_nokeep(m);			\
++		else if (t)						\
++			dept_ecxt_enter(m, LDT_EVT_R, i, "read_trylock", "read_unlock", sl);\
++		else {							\
++			dept_wait(m, LDT_EVT_W, i, "read_lock", sl);	\
++			dept_ecxt_enter(m, LDT_EVT_R, i, "read_lock", "read_unlock", sl);\
++		}							\
 +	} while (0)
 +
-+/*
-+ * sdt_might_sleep() and its family will be committed in __schedule()
-+ * when it actually gets to __schedule(). Both dept_request_event() and
-+ * dept_wait() will be performed on the commit.
-+ */
-+
-+/*
-+ * Use the code location as the class key if an explicit map is not used.
-+ */
-+#define sdt_might_sleep_strong(m)					\
++#define ldt_wlock(m, sl, t, n, i)					\
 +	do {								\
-+		struct dept_map *__m = m;				\
-+		static struct dept_key __key;				\
-+		dept_stage_wait(__m, __m ? NULL : &__key, _THIS_IP_, __func__, true);\
++		if (n)							\
++			dept_ecxt_enter_nokeep(m);			\
++		else if (t)						\
++			dept_ecxt_enter(m, LDT_EVT_W, i, "write_trylock", "write_unlock", sl);\
++		else {							\
++			dept_wait(m, LDT_EVT_RW, i, "write_lock", sl);	\
++			dept_ecxt_enter(m, LDT_EVT_W, i, "write_lock", "write_unlock", sl);\
++		}							\
 +	} while (0)
 +
-+/*
-+ * Use the code location as the class key if an explicit map is not used.
-+ */
-+#define sdt_might_sleep_weak(m)						\
++#define ldt_unlock(m, i)		dept_ecxt_exit(m, LDT_EVT_ALL, i)
++
++#define ldt_downgrade(m, i)						\
 +	do {								\
-+		struct dept_map *__m = m;				\
-+		static struct dept_key __key;				\
-+		dept_stage_wait(__m, __m ? NULL : &__key, _THIS_IP_, __func__, false);\
++		if (dept_ecxt_holding(m, LDT_EVT_W))			\
++			dept_map_ecxt_modify(m, LDT_EVT_W, NULL, LDT_EVT_R, i, "downgrade", "read_unlock", -1);\
 +	} while (0)
 +
-+#define sdt_might_sleep_finish()	dept_clean_stage()
-+
-+#define sdt_ecxt_enter(m)		dept_ecxt_enter(m, 1UL, _THIS_IP_, "start", "event", 0)
-+#define sdt_event(m)			dept_event(m, 1UL, _THIS_IP_, __func__)
-+#define sdt_ecxt_exit(m)		dept_ecxt_exit(m, 1UL, _THIS_IP_)
++#define ldt_set_class(m, n, k, sl, i)	dept_map_ecxt_modify(m, LDT_EVT_ALL, k, 0UL, i, "lock_set_class", "(any)unlock", sl)
 +#else /* !CONFIG_DEPT */
-+#define sdt_map_init(m)			do { } while (0)
-+#define sdt_map_init_key(m, k)		do { (void)(k); } while (0)
-+#define sdt_wait(m)			do { } while (0)
-+#define sdt_might_sleep_strong(m)	do { } while (0)
-+#define sdt_might_sleep_weak(m)		do { } while (0)
-+#define sdt_might_sleep_finish()	do { } while (0)
-+#define sdt_ecxt_enter(m)		do { } while (0)
-+#define sdt_event(m)			do { } while (0)
-+#define sdt_ecxt_exit(m)		do { } while (0)
++#define ldt_init(m, k, su, n)		do { (void)(k); } while (0)
++#define ldt_lock(m, sl, t, n, i)	do { } while (0)
++#define ldt_rlock(m, sl, t, n, i)	do { } while (0)
++#define ldt_wlock(m, sl, t, n, i)	do { } while (0)
++#define ldt_unlock(m, i)		do { } while (0)
++#define ldt_downgrade(m, i)		do { } while (0)
++#define ldt_set_class(m, n, k, sl, i)	do { } while (0)
 +#endif
-+#endif /* __LINUX_DEPT_SDT_H */
++#endif /* __LINUX_DEPT_LDT_H */
 -- 
 1.9.1
 
