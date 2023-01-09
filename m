@@ -1,68 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88C26621C2
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 10:39:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A18056621F2
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 10:45:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 094F410E392;
-	Mon,  9 Jan 2023 09:39:31 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FDB310E391;
- Mon,  9 Jan 2023 09:39:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673257169; x=1704793169;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=5rVVzSBD1AyB8rNYOEao6ic+WdBoUjtp+v9LVZSHgXo=;
- b=eNQ+XTOwL2wdlL6K3HU/eJxgzH+UlC1EgZam+uDZjasJtp9dR8FvYXDY
- RE1Eezw0++nH8t6L0bDGqcqTXI0KIqLPAluIoco6TvHmsLAGV9XjuXFG9
- VyVDyjWBd0SZz+7A6C08QR+xJN0+44UVP2qqoo0Y6+gJdjZT/dNYvnOYk
- l+RmUqpB7g//5l9rWlmEGXUhwHDnjEetLEL9xNX5r7Hu7ioaCCJUm5vbp
- 3fzUgX3SxluvuhUsdDYnJFoOG1ug4Z2S4arFKH5Kfbq7be1SaT2hIlZp8
- o1ynC6N9YAz/dQzzV2Hn6/hJljcBfdJwHVswZ9fNu3h5ygOIJ5zSweNxc g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="322909656"
-X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="322909656"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2023 01:39:28 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="985342024"
-X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="985342024"
-Received: from lherman-mobl.ger.corp.intel.com (HELO [10.213.209.244])
- ([10.213.209.244])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2023 01:39:27 -0800
-Message-ID: <58691e33-4b69-aa16-42bf-4c2d5ae5b699@linux.intel.com>
-Date: Mon, 9 Jan 2023 09:39:25 +0000
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B65D10E391;
+	Mon,  9 Jan 2023 09:45:16 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 565FE10E391
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 09:45:14 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id o15so5809511wmr.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 01:45:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=lLhH0B+uL7u8FwbJcnA84uIuHyq/9Ih7+fgHG/d+w/g=;
+ b=U/h+91bn+r91+v1YTW1nvU4AvAAw8s6Tk2cgo4doYUseV/Bpu0rMpft+Vd9LPM0gxz
+ 5ohKV0lwD8VU3mmrlDRbttFGt47lR55lUefIlsgAxmIy/NigXmj1CIvn9C1LKYlMlW/C
+ TYv3fERgIl3xTwlbQ7vsBaUo0CJGtENI9dO5SDFVQL1+zWVxSpz7ffyOEiC0kmfEgjKL
+ pSr4f23TMg0SyxkZ+ZxkISWFKNv/HC4Hf7dPQi0gi2DM6an9hE9XLyCHsrAnx+EhoAmv
+ 25MNiWxPhnLAKDCH+7hgOqOnoToUXta71Ewav8+oV+s8pzy10kQ7KO9Xq9tzlz08xuak
+ 0KQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=lLhH0B+uL7u8FwbJcnA84uIuHyq/9Ih7+fgHG/d+w/g=;
+ b=UyPxppOpiKEJrA7nueYkoZ8xv+ULt0Gsk/Tmid4/+Yqfq8h9ajnuiBFy3+0dyIoRuz
+ pKHeR6ygEKDWMnmRXjfy3Dfnsbx82i4XirQ4cL4+Yx9tLJ0ax/h5nc2n6W5fk9a0g1mL
+ KYz+8xJuhX/ZilL4FWrAsEtS36ObCxKrXXHWPQE04NuM8wdLykYQE7RPtEeE708V4Awn
+ 5+UJsQN+uPpCZpDIN8Z6KWOLVaaFRMCV7QTt7UdtVSvVg3iDdiqziT3YBUcZZyYG6OhI
+ FdW1He8hi1/Tq8FA1PUBDhtiAc1a2VkTXtKENN37JW7cgkYjzdDI1SqN1Pj6xWfRO3I1
+ 0lAA==
+X-Gm-Message-State: AFqh2krNxIxGaIwp3nnfRTS7rCUQSV7ki0ZRJmCv8ZI8BVikuHNq9H69
+ M1Q93KJ3XEKX4oJg97OFJKwuOw==
+X-Google-Smtp-Source: AMrXdXsNwwIJlURsNnzcw8mgN/L8ukGjkVQPEV1pXW7YTj9pGd9SrJeJnJMo3fMmM8r37up3DG8GMg==
+X-Received: by 2002:a05:600c:687:b0:3cf:e7c8:494 with SMTP id
+ a7-20020a05600c068700b003cfe7c80494mr45806546wmn.29.1673257512932; 
+ Mon, 09 Jan 2023 01:45:12 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+ by smtp.gmail.com with ESMTPSA id
+ v8-20020a05600c444800b003c21ba7d7d6sm11313513wmn.44.2023.01.09.01.45.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jan 2023 01:45:12 -0800 (PST)
+Message-ID: <e706b0b9-6b2f-7b0d-fdd1-e66bd3d6c736@linaro.org>
+Date: Mon, 9 Jan 2023 10:45:10 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [Intel-gfx] [PATCH v2 4/5] drm/i915/guc: Add GuC CT specific
- debug print wrappers
+Subject: Re: [PATCH v2 1/7] dt-bindings: display/msm: document the SM8550 DSI
+ PHY
 Content-Language: en-US
-To: John Harrison <john.c.harrison@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Intel-GFX@Lists.FreeDesktop.Org
-References: <20221118015858.2548106-1-John.C.Harrison@Intel.com>
- <20221118015858.2548106-5-John.C.Harrison@Intel.com>
- <48f594de-9682-4b60-f934-9420d02b405e@intel.com>
- <dd9559e8-7d65-d7bb-ea1a-d169a1c7eec3@intel.com>
- <4579b7e8-eae7-b760-66aa-b01273d18aab@intel.com>
- <d658f8fa-a063-aa0c-48ff-14f32cb6b339@intel.com>
- <9a5a84be-a5ae-7be2-f522-5e976511e4e1@intel.com>
- <143a660d-de2d-a77a-b490-8ad2add80420@linux.intel.com>
- <dd787d9d-8559-1da4-7e99-2635ef1341a8@intel.com>
- <c5622088-e381-1df4-417d-9b033b0a6afe@linux.intel.com>
- <467f47f4-c30f-16ba-3330-a3d4752366a8@intel.com>
- <f0ebffa1-45b7-d6f9-4341-3fa8aabae3f5@linux.intel.com>
- <127d50a6-b0c4-b87b-ddf5-6bd121d53f3c@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <127d50a6-b0c4-b87b-ddf5-6bd121d53f3c@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonathan Marek <jonathan@marek.ca>
+References: <20230103-topic-sm8550-upstream-mdss-dsi-v2-0-87f1c16d7635@linaro.org>
+ <20230103-topic-sm8550-upstream-mdss-dsi-v2-1-87f1c16d7635@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230103-topic-sm8550-upstream-mdss-dsi-v2-1-87f1c16d7635@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,51 +82,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Ewins, Jon" <jon.ewins@intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 09/01/2023 10:26, Neil Armstrong wrote:
+> Document the SM8550 DSI PHY which is very close from the 7nm
+> and 5nm DSI PHYs found in earlier platforms.
+> 
 
-On 06/01/2023 18:57, John Harrison wrote:
-> On 12/6/2022 03:06, Tvrtko Ursulin wrote:
->> On 05/12/2022 18:44, Michal Wajdeczko wrote:
->>> On 05.12.2022 14:16, Tvrtko Ursulin wrote:
->>>> On 02/12/2022 20:14, John Harrison wrote:
->>>> [snip]
->>>>
->>>>> Random meaningless (to me) message that is apparently a display thing:
->>>>> drm_dbg_kms(&dev_priv->drm, "disabling %s\n", pll->info->name);
->>>>> i915 0000:00:02.0: [drm:intel_disable_shared_dpll [i915]] disabling
->>>>> PORT PLL B
->>>>
->>>> Plan is to not touch outside gt/.
-> For some unexplicable reason that means it is almost impossible to see 
-> the actual problems in most CI dmesg logs because they are swamped with 
-> irrelevant display messages that cannot be filtered out. For example, I 
-> recently manually grep'd out all the display spam from a bug report log. 
-> The dmesg file went from 12MB to 700KB. That is a significant problem 
-> that makes bug triage way harder than it needs to be.
 
-I didn't get this part, how it would reduce the amount of spam by adding 
-new macros? Anyway, that's something to split out and discuss with 
-display folks.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
->> Maybe as a way forward work could be split? If John wants to deal with 
->> gt_xxx macros, avoid touching GuC (putting his original motivation 
->> aside) and you want to convert the gt/uc folder? Assuming John you are 
->> okay with "GuC:" and "CT:" prefixes.
-> Meaning just repost patch #1 only and expand to more intel_gt_* files? 
-> Sure, if someone will actually reply to that patch with some kind of r-b 
-> first so I know I'm not still wasting my time on a huge re-write that 
-> will to be redone multiple times when someone objects to the use of a 
-> colon or the lack of spaces, braces or whatever.
+Best regards,
+Krzysztof
 
-First patch looks good to me (ack in principle) apart that Michal found 
-one potential null pointer dereference if I understood it right. That 
-other comment about the ratelimited call is maybe okay to leave for 
-later, *if* it will be a single instance, otherwise needs a gt logger as 
-well. I can r-b once you re-send with the first issue fixed.
-
-Regards,
-
-Tvrtko
