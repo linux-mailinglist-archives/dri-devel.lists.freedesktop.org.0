@@ -2,34 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFDDF662C50
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 18:11:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6922A662C4E
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 18:11:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C4C810E4C0;
-	Mon,  9 Jan 2023 17:11:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3E8B10E0E9;
+	Mon,  9 Jan 2023 17:10:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [5.144.164.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6D5F10E4BF;
- Mon,  9 Jan 2023 17:11:01 +0000 (UTC)
-Received: from SoMainline.org (unknown [89.205.226.190])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id B36893EF10;
- Mon,  9 Jan 2023 18:10:56 +0100 (CET)
-Date: Mon, 9 Jan 2023 18:10:52 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH] drm/msm/dpu: sort entries in the HW catalog
-Message-ID: <20230109171052.wa43fccjh3f6wype@SoMainline.org>
-References: <20230108211113.200846-1-dmitry.baryshkov@linaro.org>
- <20230109083417.5drdfllpm4ythy42@SoMainline.org>
- <CAA8EJpoVC2OW4iKcq=C-D3hejVPZ1Bd+6Nb9vPk6DVVWP2_4rQ@mail.gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D3A010E0E9
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 17:10:56 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B067E611F0
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 17:10:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E986CC43398
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 17:10:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1673284254;
+ bh=dqBhK5IJhACjEDMmmJVam6UCqbHe85Mway1mQpi4Boo=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=EfDe01xSY+weVxAE8QOWRj+Ccp/vmpPI66AU8BGnFA0PK57xgoVeREIJCm6vob3BP
+ dxGv1+dvmeVFOwnOJYC0Uw/DfcdT3/0nX739fsicziK7L+7RZtsWXgF+Z8fgHGXxMw
+ 3bIH7CuSTtnAdm1x24SQHq4upgGhq0Ev9MErc8L0zk4RqEZLIO7q7YqrLarZ6GYU17
+ 8HyAzzEJ3TIp2RIUoeNdcNAHyZK8c7Ft8Gbg9yYLmxVskz8i7u6nL4x+j3wMPRJRgL
+ k/XhAQh9FWgmCZnLAM/0TW9h12Xyj2NT2y7OKNak2nwoGGEdnNlls6AycfI+s/FZSv
+ 3+ilI9vlmUmpQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id CEAF7C004D5; Mon,  9 Jan 2023 17:10:54 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211189] vgaarb overrides boot device unexpectedly with Intel
+ and discrete AMDGPU
+Date: Mon, 09 Jan 2023 17:10:54 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-211189-2300-raZNrcMYNl@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211189-2300@https.bugzilla.kernel.org/>
+References: <bug-211189-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAA8EJpoVC2OW4iKcq=C-D3hejVPZ1Bd+6Nb9vPk6DVVWP2_4rQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,79 +72,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-01-09 11:22:42, Dmitry Baryshkov wrote:
-> On Mon, 9 Jan 2023 at 10:34, Marijn Suijten
-> <marijn.suijten@somainline.org> wrote:
-> >
-> > On 2023-01-08 23:11:13, Dmitry Baryshkov wrote:
-> > > Different entries into the catalog were added quite randomly. Enforce
-> > > the sorting order of some kind. It is not alphabetic to prevent the
-> > > patch from growing uncontrollably.
-> >
-> > Why not sort these chronologically based on DPU hardware revision in the
-> > match table at the end of this file?
-> 
-> If we keep the SoC name as part of the symbolic name, we will end up
-> in another semi-random order that is a pain to verify. Would you
-> remember that sm6350 comes between sm6115 and qcm2290? I would not :-(
-> And changing all names to dpu_6_5_0_lms would make it easy to add but
-> nearly impossible to follow.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211189
 
-Agreed, though I think having the version in there would make things
-easier to follow.  Then everything uses the "lowest" version it is
-compatible with, and we duplicate the structs when adding a feature that
-is only available on newer (or older) revisions.
+--- Comment #5 from Alex Deucher (alexdeucher@gmail.com) ---
+What GPU does the sbios use for boot messages before you boot the OS?
 
-> > Regardless, this patch is going to
-> > make it hard to properly rebase DPU additions; see for example patch 4/8
-> > and 5/8 in my second round of DSC fixes.
-> 
-> Yes, quite unfortunate. As I wrote, it's already late to apply this patch :-(
+--=20
+You may reply to this email to add a comment.
 
-At least we're working towards making things better, or at the very
-least discussing the right way forward.
-
-> > At the same time we should find a solution to the wishy-washy reuse of
-> > structs and defines, which may appear the same initially but become
-> > mismatched as more features are added (see how I had to split out
-> > multiple of these in the INTF TE enablement series).
-> 
-> It's a slightly different problem, but yes, I share the pain.
-
-It is quite relevant though, as sorting is very closely tied to what
-structs we reuse where, considering what SoC name is used.  It is
-typically "what was already there" but a "least common denominator"
-would be more descriptive (e.g. based on hardware version).
-
-> > > Thus SDM comes before SC and SM
-> > > platforms and QCM is kept as the last one. There are no functional
-> > > changes in this patch.
-> > >
-> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > ---
-> > >
-> > > Yes, I hate such mass-moves too. However the entries in this file are
-> > > slowly becoming uncontrollable. Let's enforce some order now (while it's
-> > > late already, but not _that_ late).
-> >
-> > I agree that something should happen, contributing to this file is
-> > unnecessarily tough.
-> 
-> In the IRC conversation Rob suggested playing with includes, but I
-> don't see a good way to implement that.
-
-That would be nice; especially if we accept struct duplication (instead
-of recursively including "earlier" versions where needed, as mentioned
-in IRC that'll spiral out of control).  With that one can easily diff
-two include files and understand the differences between SoCs and/or DPU
-hardware revisions (or notice whether a certain configuration might be
-missing/extraneous).
-
-- Marijn
+You are receiving this mail because:
+You are watching the assignee of the bug.=
