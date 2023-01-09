@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79E67662571
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 13:24:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2C6662572
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 13:24:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6F4E10E409;
-	Mon,  9 Jan 2023 12:24:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7086910E40C;
+	Mon,  9 Jan 2023 12:24:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0039910E402
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 12:24:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9936C10E409
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 12:24:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673267052; x=1704803052;
+ t=1673267054; x=1704803054;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=qOQWXGh5K/IDLuUzmZntJfPAlYlrYFeuLiJFZpW4brk=;
- b=XWBVjL6ClPmX8RO8ZjTAnMpOMtN8BcvWt1Lygce+dhArsAKj9HWWoXml
- RUUaE7sT0whcXQDt+vagaLSBmome8EtycvFNof3HB/U+a+jbj3LcIqyqe
- g2khB/P4Qa2QsuQ/EMpgVuuh6hjroFvH8Ckw6uJEhzP7QkSBB35PkF65P
- h7LVtE8VfB8gm5c6gRNqck8ZthsEthgi2fn2nPeejU1wnRgMthtVNmUb3
- le4Qakss0X4RpoCMUQsxokeCB5B6WPld21RL1GG0sBHkwpB1S13gPhY1w
- TIrQLq+otPAGC+0MGPxbDf8sFRLWfpMkKZhhs9gKm+dS/FfyiRfkXYDcc Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="321563060"
-X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="321563060"
+ bh=7OBhVj5YJfYRXTD9WyZxHvP4XAXl5UAaGAsU7DxHLks=;
+ b=jAFKo0pO80ete8Eba319EGRuQ8x1S6LpBnAeuDYMKfKyrQRJDdRKz18a
+ sJZP62FzTq5Ior9bbuncmpIMPdOhBQHG9KKHMS/5o6wQaTEZGJdBvdaTk
+ iDY8Fkzo/We+KRjtW5fd7x4ig8mdFq+TQjmuWjOgRL2Wqokc8zB1Av1F8
+ hq2gKDeUzj9D+D0V+n2DVaHbzD35FcdA9qVDUa3sLwXOQDkoPVka33URv
+ 73uG5CTl7P+jrih5tJxzuFLWfaBDHY83kNmGO0t+wZpIw4hq4A9QSY2DU
+ SSun6X21sVvzMZMXI4wqYme4lUFa1bLmWbm8LdeO/IAwnA5h5zqzpyIOY g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="321563069"
+X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="321563069"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2023 04:24:11 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="606593926"
-X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="606593926"
+ 09 Jan 2023 04:24:14 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="606593940"
+X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="606593940"
 Received: from jlawryno.igk.intel.com ([172.22.229.13])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2023 04:24:08 -0800
+ 09 Jan 2023 04:24:11 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org, oded.gabbay@gmail.com, airlied@gmail.com,
  daniel@ffwll.ch, tzimmermann@suse.de, quic_jhugo@quicinc.com
-Subject: [PATCH v5 5/7] accel/ivpu: Implement firmware parsing and booting
-Date: Mon,  9 Jan 2023 13:23:42 +0100
-Message-Id: <20230109122344.253994-6-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH v5 6/7] accel/ivpu: Add command buffer submission logic
+Date: Mon,  9 Jan 2023 13:23:43 +0100
+Message-Id: <20230109122344.253994-7-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230109122344.253994-1-jacek.lawrynowicz@linux.intel.com>
 References: <20230109122344.253994-1-jacek.lawrynowicz@linux.intel.com>
@@ -58,1188 +58,1055 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: andrzej.kacprowski@linux.intel.com,
- Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
  stanislaw.gruszka@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Read, parse and boot VPU firmware image.
+Each of the user contexts has two command queues, one for compute engine
+and one for the copy engine. Command queues are allocated and registered
+in the device when the first job (command buffer) is submitted from
+the user space to the VPU device. The userspace provides a list of
+GEM buffer object handles to submit to the VPU, the driver resolves
+buffer handles, pins physical memory if needed, increments ref count
+for each buffer and stores pointers to buffer objects in
+the ivpu_job objects that track jobs submitted to the device.
+The VPU signals job completion with an asynchronous message that
+contains the job id passed to firmware when the job was submitted.
+
+Currently, the driver supports simple scheduling logic
+where jobs submitted from user space are immediately pushed
+to the VPU device command queues. In the future, it will be
+extended to use hardware base scheduling and/or drm_sched.
 
 Co-developed-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
 Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
-Co-developed-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
-Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/Makefile       |   1 +
- drivers/accel/ivpu/ivpu_drv.c     | 131 +++++++++-
- drivers/accel/ivpu/ivpu_drv.h     |  11 +
- drivers/accel/ivpu/ivpu_fw.c      | 419 ++++++++++++++++++++++++++++++
- drivers/accel/ivpu/ivpu_fw.h      |  38 +++
- drivers/accel/ivpu/ivpu_hw_mtl.c  |  10 +
- drivers/accel/ivpu/vpu_boot_api.h | 349 +++++++++++++++++++++++++
- include/uapi/drm/ivpu_accel.h     |  21 ++
- 8 files changed, 979 insertions(+), 1 deletion(-)
- create mode 100644 drivers/accel/ivpu/ivpu_fw.c
- create mode 100644 drivers/accel/ivpu/ivpu_fw.h
- create mode 100644 drivers/accel/ivpu/vpu_boot_api.h
+ drivers/accel/ivpu/Makefile   |   1 +
+ drivers/accel/ivpu/ivpu_drv.c |  34 +-
+ drivers/accel/ivpu/ivpu_drv.h |   5 +
+ drivers/accel/ivpu/ivpu_gem.c |  26 ++
+ drivers/accel/ivpu/ivpu_gem.h |   1 +
+ drivers/accel/ivpu/ivpu_job.c | 603 ++++++++++++++++++++++++++++++++++
+ drivers/accel/ivpu/ivpu_job.h |  67 ++++
+ include/uapi/drm/ivpu_accel.h |  92 ++++++
+ 8 files changed, 825 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/accel/ivpu/ivpu_job.c
+ create mode 100644 drivers/accel/ivpu/ivpu_job.h
 
 diff --git a/drivers/accel/ivpu/Makefile b/drivers/accel/ivpu/Makefile
-index 46595f0112e3..9fa6a76e9d79 100644
+index 9fa6a76e9d79..e61ece53a9ae 100644
 --- a/drivers/accel/ivpu/Makefile
 +++ b/drivers/accel/ivpu/Makefile
-@@ -3,6 +3,7 @@
- 
- intel_vpu-y := \
- 	ivpu_drv.o \
-+	ivpu_fw.o \
+@@ -7,6 +7,7 @@ intel_vpu-y := \
  	ivpu_gem.o \
  	ivpu_hw_mtl.o \
  	ivpu_ipc.o \
++	ivpu_job.o \
+ 	ivpu_jsm_msg.o \
+ 	ivpu_mmu.o \
+ 	ivpu_mmu_context.o
 diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index 6643ae6b5a52..53e103f64832 100644
+index 53e103f64832..279ca15bff15 100644
 --- a/drivers/accel/ivpu/ivpu_drv.c
 +++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -14,10 +14,13 @@
- #include <drm/drm_ioctl.h>
- #include <drm/drm_prime.h>
- 
-+#include "vpu_boot_api.h"
- #include "ivpu_drv.h"
-+#include "ivpu_fw.h"
+@@ -20,6 +20,7 @@
  #include "ivpu_gem.h"
  #include "ivpu_hw.h"
  #include "ivpu_ipc.h"
-+#include "ivpu_jsm_msg.h"
++#include "ivpu_job.h"
+ #include "ivpu_jsm_msg.h"
  #include "ivpu_mmu.h"
  #include "ivpu_mmu_context.h"
+@@ -31,6 +32,8 @@
  
-@@ -32,6 +35,10 @@ int ivpu_dbg_mask;
+ static const struct drm_driver driver;
+ 
++static struct lock_class_key submitted_jobs_xa_lock_class_key;
++
+ int ivpu_dbg_mask;
  module_param_named(dbg_mask, ivpu_dbg_mask, int, 0644);
  MODULE_PARM_DESC(dbg_mask, "Driver debug mask. See IVPU_DBG_* macros.");
+@@ -84,8 +87,11 @@ static void file_priv_release(struct kref *ref)
  
-+int ivpu_test_mode;
-+module_param_named_unsafe(test_mode, ivpu_test_mode, int, 0644);
-+MODULE_PARM_DESC(test_mode, "Test mode: 0 - normal operation, 1 - fw unit test, 2 - null hw");
-+
- u8 ivpu_pll_min_ratio;
- module_param_named(pll_min_ratio, ivpu_pll_min_ratio, byte, 0644);
- MODULE_PARM_DESC(pll_min_ratio, "Minimum PLL ratio used to set VPU frequency");
-@@ -129,6 +136,28 @@ static int ivpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_f
- 	case DRM_IVPU_PARAM_CONTEXT_ID:
- 		args->value = file_priv->ctx.id;
- 		break;
-+	case DRM_IVPU_PARAM_FW_API_VERSION:
-+		if (args->index < VPU_FW_API_VER_NUM) {
-+			struct vpu_firmware_header *fw_hdr;
-+
-+			fw_hdr = (struct vpu_firmware_header *)vdev->fw->file->data;
-+			args->value = fw_hdr->api_version[args->index];
-+		} else {
-+			ret = -EINVAL;
-+		}
-+		break;
-+	case DRM_IVPU_PARAM_ENGINE_HEARTBEAT:
-+		ret = ivpu_jsm_get_heartbeat(vdev, args->index, &args->value);
-+		break;
-+	case DRM_IVPU_PARAM_UNIQUE_INFERENCE_ID:
-+		args->value = (u64)atomic64_inc_return(&vdev->unique_id_counter);
-+		break;
-+	case DRM_IVPU_PARAM_TILE_CONFIG:
-+		args->value = vdev->hw->tile_fuse;
-+		break;
-+	case DRM_IVPU_PARAM_SKU:
-+		args->value = vdev->hw->sku;
-+		break;
- 	default:
- 		ret = -EINVAL;
- 		break;
-@@ -226,11 +255,85 @@ static const struct drm_ioctl_desc ivpu_drm_ioctls[] = {
+ 	ivpu_dbg(vdev, FILE, "file_priv release: ctx %u\n", file_priv->ctx.id);
+ 
++	ivpu_cmdq_release_all(file_priv);
++	ivpu_bo_remove_all_bos_from_context(&file_priv->ctx);
+ 	ivpu_mmu_user_context_fini(vdev, &file_priv->ctx);
+ 	drm_WARN_ON(&vdev->drm, xa_erase_irq(&vdev->context_xa, file_priv->ctx.id) != file_priv);
++	mutex_destroy(&file_priv->lock);
+ 	kfree(file_priv);
+ }
+ 
+@@ -209,10 +215,11 @@ static int ivpu_open(struct drm_device *dev, struct drm_file *file)
+ 	file_priv->vdev = vdev;
+ 	file_priv->priority = DRM_IVPU_CONTEXT_PRIORITY_NORMAL;
+ 	kref_init(&file_priv->ref);
++	mutex_init(&file_priv->lock);
+ 
+ 	ret = ivpu_mmu_user_context_init(vdev, &file_priv->ctx, ctx_id);
+ 	if (ret)
+-		goto err_free_file_priv;
++		goto err_mutex_destroy;
+ 
+ 	old = xa_store_irq(&vdev->context_xa, ctx_id, file_priv, GFP_KERNEL);
+ 	if (xa_is_err(old)) {
+@@ -229,7 +236,8 @@ static int ivpu_open(struct drm_device *dev, struct drm_file *file)
+ 
+ err_ctx_fini:
+ 	ivpu_mmu_user_context_fini(vdev, &file_priv->ctx);
+-err_free_file_priv:
++err_mutex_destroy:
++	mutex_destroy(&file_priv->lock);
+ 	kfree(file_priv);
+ err_xa_erase:
+ 	xa_erase_irq(&vdev->context_xa, ctx_id);
+@@ -253,6 +261,8 @@ static const struct drm_ioctl_desc ivpu_drm_ioctls[] = {
+ 	DRM_IOCTL_DEF_DRV(IVPU_BO_CREATE, ivpu_bo_create_ioctl, 0),
+ 	DRM_IOCTL_DEF_DRV(IVPU_BO_INFO, ivpu_bo_info_ioctl, 0),
  	DRM_IOCTL_DEF_DRV(IVPU_BO_USERPTR, ivpu_bo_userptr_ioctl, 0),
++	DRM_IOCTL_DEF_DRV(IVPU_SUBMIT, ivpu_submit_ioctl, 0),
++	DRM_IOCTL_DEF_DRV(IVPU_BO_WAIT, ivpu_bo_wait_ioctl, 0),
  };
  
-+static int ivpu_wait_for_ready(struct ivpu_device *vdev)
-+{
-+	struct ivpu_ipc_consumer cons;
-+	struct ivpu_ipc_hdr ipc_hdr;
-+	unsigned long timeout;
-+	int ret;
-+
-+	if (ivpu_test_mode == IVPU_TEST_MODE_FW_TEST)
-+		return 0;
-+
-+	ivpu_ipc_consumer_add(vdev, &cons, IVPU_IPC_CHAN_BOOT_MSG);
-+
-+	timeout = jiffies + msecs_to_jiffies(vdev->timeout.boot);
-+	while (1) {
-+		ret = ivpu_ipc_irq_handler(vdev);
-+		if (ret)
-+			break;
-+		ret = ivpu_ipc_receive(vdev, &cons, &ipc_hdr, NULL, 0);
-+		if (ret != -ETIMEDOUT || time_after_eq(jiffies, timeout))
-+			break;
-+
-+		cond_resched();
-+	}
-+
-+	ivpu_ipc_consumer_del(vdev, &cons);
-+
-+	if (!ret && ipc_hdr.data_addr != IVPU_IPC_BOOT_MSG_DATA_ADDR) {
-+		ivpu_err(vdev, "Invalid VPU ready message: 0x%x\n",
-+			 ipc_hdr.data_addr);
-+		return -EIO;
-+	}
-+
-+	if (!ret)
-+		ivpu_info(vdev, "VPU ready message received successfully\n");
-+	else
-+		ivpu_hw_diagnose_failure(vdev);
-+
-+	return ret;
-+}
-+
-+/**
-+ * ivpu_boot() - Start VPU firmware
-+ * @vdev: VPU device
-+ *
-+ * This function is paired with ivpu_shutdown() but it doesn't power up the
-+ * VPU because power up has to be called very early in ivpu_probe().
-+ */
-+int ivpu_boot(struct ivpu_device *vdev)
-+{
-+	int ret;
-+
-+	/* Update boot params located at first 4KB of FW memory */
-+	ivpu_fw_boot_params_setup(vdev, vdev->fw->mem->kvaddr);
-+
-+	ret = ivpu_hw_boot_fw(vdev);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to start the firmware: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = ivpu_wait_for_ready(vdev);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to boot the firmware: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ivpu_hw_irq_clear(vdev);
-+	enable_irq(vdev->irq);
-+	ivpu_hw_irq_enable(vdev);
-+	ivpu_ipc_enable(vdev);
-+	return 0;
-+}
-+
- int ivpu_shutdown(struct ivpu_device *vdev)
- {
- 	int ret;
- 
- 	ivpu_hw_irq_disable(vdev);
-+	disable_irq(vdev->irq);
- 	ivpu_ipc_disable(vdev);
- 	ivpu_mmu_disable(vdev);
- 
-@@ -348,6 +451,10 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
- 	if (!vdev->mmu)
- 		return -ENOMEM;
- 
-+	vdev->fw = drmm_kzalloc(&vdev->drm, sizeof(*vdev->fw), GFP_KERNEL);
-+	if (!vdev->fw)
-+		return -ENOMEM;
-+
- 	vdev->ipc = drmm_kzalloc(&vdev->drm, sizeof(*vdev->ipc), GFP_KERNEL);
- 	if (!vdev->ipc)
- 		return -ENOMEM;
-@@ -356,6 +463,7 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
- 	vdev->platform = IVPU_PLATFORM_INVALID;
- 	vdev->context_xa_limit.min = IVPU_GLOBAL_CONTEXT_MMU_SSID + 1;
+ static int ivpu_wait_for_ready(struct ivpu_device *vdev)
+@@ -465,6 +475,8 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
  	vdev->context_xa_limit.max = IVPU_CONTEXT_LIMIT;
-+	atomic64_set(&vdev->unique_id_counter, 0);
+ 	atomic64_set(&vdev->unique_id_counter, 0);
  	xa_init_flags(&vdev->context_xa, XA_FLAGS_ALLOC);
++	xa_init_flags(&vdev->submitted_jobs_xa, XA_FLAGS_ALLOC1);
++	lockdep_set_class(&vdev->submitted_jobs_xa.xa_lock, &submitted_jobs_xa_lock_class_key);
  
  	ret = ivpu_pci_init(vdev);
-@@ -396,14 +504,34 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
- 		goto err_mmu_gctx_fini;
+ 	if (ret) {
+@@ -516,20 +528,30 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ 		goto err_fw_fini;
  	}
  
-+	ret = ivpu_fw_init(vdev);
++	ret = ivpu_job_done_thread_init(vdev);
 +	if (ret) {
-+		ivpu_err(vdev, "Failed to initialize firmware: %d\n", ret);
-+		goto err_mmu_gctx_fini;
++		ivpu_err(vdev, "Failed to initialize job done thread: %d\n", ret);
++		goto err_ipc_fini;
 +	}
 +
- 	ret = ivpu_ipc_init(vdev);
+ 	ret = ivpu_fw_load(vdev);
  	if (ret) {
- 		ivpu_err(vdev, "Failed to initialize IPC: %d\n", ret);
--		goto err_mmu_gctx_fini;
-+		goto err_fw_fini;
-+	}
-+
-+	ret = ivpu_fw_load(vdev);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to load firmware: %d\n", ret);
-+		goto err_fw_fini;
-+	}
-+
-+	ret = ivpu_boot(vdev);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to boot: %d\n", ret);
-+		goto err_fw_fini;
+ 		ivpu_err(vdev, "Failed to load firmware: %d\n", ret);
+-		goto err_fw_fini;
++		goto err_job_done_thread_fini;
+ 	}
+ 
+ 	ret = ivpu_boot(vdev);
+ 	if (ret) {
+ 		ivpu_err(vdev, "Failed to boot: %d\n", ret);
+-		goto err_fw_fini;
++		goto err_job_done_thread_fini;
  	}
  
  	return 0;
  
-+err_fw_fini:
-+	ivpu_fw_fini(vdev);
++err_job_done_thread_fini:
++	ivpu_job_done_thread_fini(vdev);
++err_ipc_fini:
++	ivpu_ipc_fini(vdev);
+ err_fw_fini:
+ 	ivpu_fw_fini(vdev);
  err_mmu_gctx_fini:
- 	ivpu_mmu_global_context_fini(vdev);
+@@ -537,6 +559,7 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
  err_power_down:
-@@ -417,6 +545,7 @@ static void ivpu_dev_fini(struct ivpu_device *vdev)
+ 	ivpu_hw_power_down(vdev);
+ err_xa_destroy:
++	xa_destroy(&vdev->submitted_jobs_xa);
+ 	xa_destroy(&vdev->context_xa);
+ 	return ret;
+ }
+@@ -544,10 +567,13 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ static void ivpu_dev_fini(struct ivpu_device *vdev)
  {
  	ivpu_shutdown(vdev);
++	ivpu_job_done_thread_fini(vdev);
  	ivpu_ipc_fini(vdev);
-+	ivpu_fw_fini(vdev);
+ 	ivpu_fw_fini(vdev);
  	ivpu_mmu_global_context_fini(vdev);
  
++	drm_WARN_ON(&vdev->drm, !xa_empty(&vdev->submitted_jobs_xa));
++	xa_destroy(&vdev->submitted_jobs_xa);
  	drm_WARN_ON(&vdev->drm, !xa_empty(&vdev->context_xa));
+ 	xa_destroy(&vdev->context_xa);
+ }
 diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-index c1e76d1fb8ba..317ae61f43bd 100644
+index 317ae61f43bd..2545a32fe910 100644
 --- a/drivers/accel/ivpu/ivpu_drv.h
 +++ b/drivers/accel/ivpu/ivpu_drv.h
-@@ -74,6 +74,7 @@ struct ivpu_wa_table {
- 
- struct ivpu_hw_info;
- struct ivpu_mmu_info;
-+struct ivpu_fw_info;
- struct ivpu_ipc_info;
- 
- struct ivpu_device {
-@@ -86,12 +87,15 @@ struct ivpu_device {
- 	struct ivpu_wa_table wa;
- 	struct ivpu_hw_info *hw;
- 	struct ivpu_mmu_info *mmu;
-+	struct ivpu_fw_info *fw;
- 	struct ivpu_ipc_info *ipc;
- 
- 	struct ivpu_mmu_context gctx;
+@@ -94,6 +94,9 @@ struct ivpu_device {
  	struct xarray context_xa;
  	struct xa_limit context_xa_limit;
  
-+	atomic64_t unique_id_counter;
++	struct xarray submitted_jobs_xa;
++	struct task_struct *job_done_thread;
 +
+ 	atomic64_t unique_id_counter;
+ 
  	struct {
- 		int boot;
- 		int jsm;
-@@ -116,9 +120,16 @@ extern int ivpu_dbg_mask;
- extern u8 ivpu_pll_min_ratio;
- extern u8 ivpu_pll_max_ratio;
+@@ -111,6 +114,8 @@ struct ivpu_device {
+ struct ivpu_file_priv {
+ 	struct kref ref;
+ 	struct ivpu_device *vdev;
++	struct mutex lock; /* Protects cmdq */
++	struct ivpu_cmdq *cmdq[IVPU_NUM_ENGINES];
+ 	struct ivpu_mmu_context ctx;
+ 	u32 priority;
+ 	bool has_mmu_faults;
+diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
+index f6d1937c798f..ec4248e21443 100644
+--- a/drivers/accel/ivpu/ivpu_gem.c
++++ b/drivers/accel/ivpu/ivpu_gem.c
+@@ -771,6 +771,32 @@ int ivpu_bo_info_ioctl(struct drm_device *dev, void *data, struct drm_file *file
+ 	return ret;
+ }
  
-+#define IVPU_TEST_MODE_DISABLED  0
-+#define IVPU_TEST_MODE_FW_TEST   1
-+#define IVPU_TEST_MODE_NULL_HW   2
-+extern int ivpu_test_mode;
++int ivpu_bo_wait_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
++{
++	struct drm_ivpu_bo_wait *args = data;
++	struct drm_gem_object *obj;
++	unsigned long timeout;
++	long ret;
 +
- struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv);
- struct ivpu_file_priv *ivpu_file_priv_get_by_ctx_id(struct ivpu_device *vdev, unsigned long id);
- void ivpu_file_priv_put(struct ivpu_file_priv **link);
++	timeout = drm_timeout_abs_to_jiffies(args->timeout_ns);
 +
-+int ivpu_boot(struct ivpu_device *vdev);
- int ivpu_shutdown(struct ivpu_device *vdev);
++	obj = drm_gem_object_lookup(file, args->handle);
++	if (!obj)
++		return -EINVAL;
++
++	ret = dma_resv_wait_timeout(obj->resv, DMA_RESV_USAGE_READ, true, timeout);
++	if (ret == 0) {
++		ret = -ETIMEDOUT;
++	} else if (ret > 0) {
++		ret = 0;
++		args->job_status = to_ivpu_bo(obj)->job_status;
++	}
++
++	drm_gem_object_put(obj);
++
++	return ret;
++}
++
+ static void ivpu_bo_print_info(struct ivpu_bo *bo, struct drm_printer *p)
+ {
+ 	unsigned long dma_refcount = 0;
+diff --git a/drivers/accel/ivpu/ivpu_gem.h b/drivers/accel/ivpu/ivpu_gem.h
+index d71e6fe207d4..e9af4aefdbcf 100644
+--- a/drivers/accel/ivpu/ivpu_gem.h
++++ b/drivers/accel/ivpu/ivpu_gem.h
+@@ -30,6 +30,7 @@ struct ivpu_bo {
+ 	u32 handle;
+ 	u32 flags;
+ 	uintptr_t user_ptr;
++	u32 job_status;
+ };
  
- static inline bool ivpu_is_mtl(struct ivpu_device *vdev)
-diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
+ enum ivpu_bo_type {
+diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
 new file mode 100644
-index 000000000000..4baa0767a10d
+index 000000000000..41181e3e4e3f
 --- /dev/null
-+++ b/drivers/accel/ivpu/ivpu_fw.c
-@@ -0,0 +1,419 @@
++++ b/drivers/accel/ivpu/ivpu_job.c
+@@ -0,0 +1,603 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (C) 2020-2023 Intel Corporation
 + */
 +
-+#include <linux/firmware.h>
-+#include <linux/highmem.h>
-+#include <linux/moduleparam.h>
-+#include <linux/pci.h>
++#include <drm/drm_file.h>
 +
-+#include "vpu_boot_api.h"
++#include <linux/bitfield.h>
++#include <linux/highmem.h>
++#include <linux/kthread.h>
++#include <linux/pci.h>
++#include <linux/module.h>
++#include <uapi/drm/ivpu_accel.h>
++
 +#include "ivpu_drv.h"
-+#include "ivpu_fw.h"
-+#include "ivpu_gem.h"
 +#include "ivpu_hw.h"
 +#include "ivpu_ipc.h"
++#include "ivpu_job.h"
++#include "ivpu_jsm_msg.h"
 +
-+#define FW_GLOBAL_MEM_START	(2ull * SZ_1G)
-+#define FW_GLOBAL_MEM_END	(3ull * SZ_1G)
-+#define FW_SHARED_MEM_SIZE	SZ_256M /* Must be aligned to FW_SHARED_MEM_ALIGNMENT */
-+#define FW_SHARED_MEM_ALIGNMENT	SZ_128K /* VPU MTRR limitation */
-+#define FW_RUNTIME_MAX_SIZE	SZ_512M
-+#define FW_SHAVE_NN_MAX_SIZE	SZ_2M
-+#define FW_RUNTIME_MIN_ADDR	(FW_GLOBAL_MEM_START)
-+#define FW_RUNTIME_MAX_ADDR	(FW_GLOBAL_MEM_END - FW_SHARED_MEM_SIZE)
-+#define FW_VERSION_HEADER_SIZE	SZ_4K
-+#define FW_FILE_IMAGE_OFFSET	(VPU_FW_HEADER_SIZE + FW_VERSION_HEADER_SIZE)
++#define CMD_BUF_IDX	     0
++#define JOB_ID_JOB_MASK	     GENMASK(7, 0)
++#define JOB_ID_CONTEXT_MASK  GENMASK(31, 8)
++#define JOB_MAX_BUFFER_COUNT 65535
 +
-+#define WATCHDOG_MSS_REDIRECT	32
-+#define WATCHDOG_NCE_REDIRECT	33
++static unsigned int ivpu_tdr_timeout_ms;
++module_param_named(tdr_timeout_ms, ivpu_tdr_timeout_ms, uint, 0644);
++MODULE_PARM_DESC(tdr_timeout_ms, "Timeout for device hang detection, in milliseconds, 0 - default");
 +
-+#define ADDR_TO_L2_CACHE_CFG(addr) ((addr) >> 31)
-+
-+#define IVPU_FW_CHECK_API(vdev, fw_hdr, name) ivpu_fw_check_api(vdev, fw_hdr, #name, \
-+								  VPU_##name##_API_VER_INDEX, \
-+								  VPU_##name##_API_VER_MAJOR, \
-+								  VPU_##name##_API_VER_MINOR)
-+
-+static char *ivpu_firmware;
-+module_param_named_unsafe(firmware, ivpu_firmware, charp, 0644);
-+MODULE_PARM_DESC(firmware, "VPU firmware binary in /lib/firmware/..");
-+
-+static int ivpu_fw_request(struct ivpu_device *vdev)
++static void ivpu_cmdq_ring_db(struct ivpu_device *vdev, struct ivpu_cmdq *cmdq)
 +{
-+	static const char * const fw_names[] = {
-+		"mtl_vpu.bin",
-+		"intel/vpu/mtl_vpu_v0.0.bin"
-+	};
-+	int ret = -ENOENT;
-+	int i;
++	ivpu_hw_reg_db_set(vdev, cmdq->db_id);
++}
 +
-+	if (ivpu_firmware)
-+		return request_firmware(&vdev->fw->file, ivpu_firmware, vdev->drm.dev);
++static struct ivpu_cmdq *ivpu_cmdq_alloc(struct ivpu_file_priv *file_priv, u16 engine)
++{
++	struct ivpu_device *vdev = file_priv->vdev;
++	struct vpu_job_queue_header *jobq_header;
++	struct ivpu_cmdq *cmdq;
 +
-+	for (i = 0; i < ARRAY_SIZE(fw_names); i++) {
-+		ret = firmware_request_nowarn(&vdev->fw->file, fw_names[i], vdev->drm.dev);
-+		if (!ret)
-+			return 0;
++	cmdq = kzalloc(sizeof(*cmdq), GFP_KERNEL);
++	if (!cmdq)
++		return NULL;
++
++	cmdq->mem = ivpu_bo_alloc_internal(vdev, 0, SZ_4K, DRM_IVPU_BO_WC);
++	if (!cmdq->mem)
++		goto cmdq_free;
++
++	cmdq->db_id = file_priv->ctx.id + engine * ivpu_get_context_count(vdev);
++	cmdq->entry_count = (u32)((cmdq->mem->base.size - sizeof(struct vpu_job_queue_header)) /
++				  sizeof(struct vpu_job_queue_entry));
++
++	cmdq->jobq = (struct vpu_job_queue *)cmdq->mem->kvaddr;
++	jobq_header = &cmdq->jobq->header;
++	jobq_header->engine_idx = engine;
++	jobq_header->head = 0;
++	jobq_header->tail = 0;
++	wmb(); /* Flush WC buffer for jobq->header */
++
++	return cmdq;
++
++cmdq_free:
++	kfree(cmdq);
++	return NULL;
++}
++
++static void ivpu_cmdq_free(struct ivpu_file_priv *file_priv, struct ivpu_cmdq *cmdq)
++{
++	if (!cmdq)
++		return;
++
++	ivpu_bo_free_internal(cmdq->mem);
++	kfree(cmdq);
++}
++
++static struct ivpu_cmdq *ivpu_cmdq_acquire(struct ivpu_file_priv *file_priv, u16 engine)
++{
++	struct ivpu_device *vdev = file_priv->vdev;
++	struct ivpu_cmdq *cmdq = file_priv->cmdq[engine];
++	int ret;
++
++	lockdep_assert_held(&file_priv->lock);
++
++	if (!cmdq) {
++		cmdq = ivpu_cmdq_alloc(file_priv, engine);
++		if (!cmdq)
++			return NULL;
++		file_priv->cmdq[engine] = cmdq;
 +	}
 +
-+	ivpu_err(vdev, "Failed to request firmware: %d\n", ret);
++	if (cmdq->db_registered)
++		return cmdq;
++
++	ret = ivpu_jsm_register_db(vdev, file_priv->ctx.id, cmdq->db_id,
++				   cmdq->mem->vpu_addr, cmdq->mem->base.size);
++	if (ret)
++		return NULL;
++
++	cmdq->db_registered = true;
++
++	return cmdq;
++}
++
++static void ivpu_cmdq_release_locked(struct ivpu_file_priv *file_priv, u16 engine)
++{
++	struct ivpu_cmdq *cmdq = file_priv->cmdq[engine];
++
++	lockdep_assert_held(&file_priv->lock);
++
++	if (cmdq) {
++		file_priv->cmdq[engine] = NULL;
++		if (cmdq->db_registered)
++			ivpu_jsm_unregister_db(file_priv->vdev, cmdq->db_id);
++
++		ivpu_cmdq_free(file_priv, cmdq);
++	}
++}
++
++void ivpu_cmdq_release_all(struct ivpu_file_priv *file_priv)
++{
++	int i;
++
++	mutex_lock(&file_priv->lock);
++
++	for (i = 0; i < IVPU_NUM_ENGINES; i++)
++		ivpu_cmdq_release_locked(file_priv, i);
++
++	mutex_unlock(&file_priv->lock);
++}
++
++/*
++ * Mark the doorbell as unregistered and reset job queue pointers.
++ * This function needs to be called when the VPU hardware is restarted
++ * and FW looses job queue state. The next time job queue is used it
++ * will be registered again.
++ */
++static void ivpu_cmdq_reset_locked(struct ivpu_file_priv *file_priv, u16 engine)
++{
++	struct ivpu_cmdq *cmdq = file_priv->cmdq[engine];
++
++	lockdep_assert_held(&file_priv->lock);
++
++	if (cmdq) {
++		cmdq->db_registered = false;
++		cmdq->jobq->header.head = 0;
++		cmdq->jobq->header.tail = 0;
++		wmb(); /* Flush WC buffer for jobq header */
++	}
++}
++
++static void ivpu_cmdq_reset_all(struct ivpu_file_priv *file_priv)
++{
++	int i;
++
++	mutex_lock(&file_priv->lock);
++
++	for (i = 0; i < IVPU_NUM_ENGINES; i++)
++		ivpu_cmdq_reset_locked(file_priv, i);
++
++	mutex_unlock(&file_priv->lock);
++}
++
++void ivpu_cmdq_reset_all_contexts(struct ivpu_device *vdev)
++{
++	struct ivpu_file_priv *file_priv;
++	unsigned long ctx_id;
++
++	xa_for_each(&vdev->context_xa, ctx_id, file_priv) {
++		file_priv = ivpu_file_priv_get_by_ctx_id(vdev, ctx_id);
++		if (!file_priv)
++			continue;
++
++		ivpu_cmdq_reset_all(file_priv);
++
++		ivpu_file_priv_put(&file_priv);
++	}
++}
++
++static int ivpu_cmdq_push_job(struct ivpu_cmdq *cmdq, struct ivpu_job *job)
++{
++	struct ivpu_device *vdev = job->vdev;
++	struct vpu_job_queue_header *header = &cmdq->jobq->header;
++	struct vpu_job_queue_entry *entry;
++	u32 tail = READ_ONCE(header->tail);
++	u32 next_entry = (tail + 1) % cmdq->entry_count;
++
++	/* Check if there is space left in job queue */
++	if (next_entry == header->head) {
++		ivpu_dbg(vdev, JOB, "Job queue full: ctx %d engine %d db %d head %d tail %d\n",
++			 job->file_priv->ctx.id, job->engine_idx, cmdq->db_id, header->head, tail);
++		return -EBUSY;
++	}
++
++	entry = &cmdq->jobq->job[tail];
++	entry->batch_buf_addr = job->cmd_buf_vpu_addr;
++	entry->job_id = job->job_id;
++	entry->flags = 0;
++	wmb(); /* Ensure that tail is updated after filling entry */
++	header->tail = next_entry;
++	wmb(); /* Flush WC buffer for jobq header */
++
++	return 0;
++}
++
++struct ivpu_fence {
++	struct dma_fence base;
++	spinlock_t lock; /* protects base */
++	struct ivpu_device *vdev;
++};
++
++static inline struct ivpu_fence *to_vpu_fence(struct dma_fence *fence)
++{
++	return container_of(fence, struct ivpu_fence, base);
++}
++
++static const char *ivpu_fence_get_driver_name(struct dma_fence *fence)
++{
++	return DRIVER_NAME;
++}
++
++static const char *ivpu_fence_get_timeline_name(struct dma_fence *fence)
++{
++	struct ivpu_fence *ivpu_fence = to_vpu_fence(fence);
++
++	return dev_name(ivpu_fence->vdev->drm.dev);
++}
++
++static const struct dma_fence_ops ivpu_fence_ops = {
++	.get_driver_name = ivpu_fence_get_driver_name,
++	.get_timeline_name = ivpu_fence_get_timeline_name,
++};
++
++static struct dma_fence *ivpu_fence_create(struct ivpu_device *vdev)
++{
++	struct ivpu_fence *fence;
++
++	fence = kzalloc(sizeof(*fence), GFP_KERNEL);
++	if (!fence)
++		return NULL;
++
++	fence->vdev = vdev;
++	spin_lock_init(&fence->lock);
++	dma_fence_init(&fence->base, &ivpu_fence_ops, &fence->lock, dma_fence_context_alloc(1), 1);
++
++	return &fence->base;
++}
++
++static void job_get(struct ivpu_job *job, struct ivpu_job **link)
++{
++	struct ivpu_device *vdev = job->vdev;
++
++	kref_get(&job->ref);
++	*link = job;
++
++	ivpu_dbg(vdev, KREF, "Job get: id %u refcount %u\n", job->job_id, kref_read(&job->ref));
++}
++
++static void job_release(struct kref *ref)
++{
++	struct ivpu_job *job = container_of(ref, struct ivpu_job, ref);
++	struct ivpu_device *vdev = job->vdev;
++	u32 i;
++
++	for (i = 0; i < job->bo_count; i++)
++		if (job->bos[i])
++			drm_gem_object_put(&job->bos[i]->base);
++
++	dma_fence_put(job->done_fence);
++	ivpu_file_priv_put(&job->file_priv);
++
++	ivpu_dbg(vdev, KREF, "Job released: id %u\n", job->job_id);
++	kfree(job);
++}
++
++static void job_put(struct ivpu_job *job)
++{
++	struct ivpu_device *vdev = job->vdev;
++
++	ivpu_dbg(vdev, KREF, "Job put: id %u refcount %u\n", job->job_id, kref_read(&job->ref));
++	kref_put(&job->ref, job_release);
++}
++
++static struct ivpu_job *
++ivpu_create_job(struct ivpu_file_priv *file_priv, u32 engine_idx, u32 bo_count)
++{
++	struct ivpu_device *vdev = file_priv->vdev;
++	struct ivpu_job *job;
++	size_t buf_size;
++
++	buf_size = sizeof(*job) + bo_count * sizeof(struct ivpu_bo *);
++	job = kzalloc(buf_size, GFP_KERNEL);
++	if (!job)
++		return NULL;
++
++	kref_init(&job->ref);
++
++	job->vdev = vdev;
++	job->engine_idx = engine_idx;
++	job->bo_count = bo_count;
++	job->done_fence = ivpu_fence_create(vdev);
++	if (!job->done_fence) {
++		ivpu_warn_ratelimited(vdev, "Failed to create a fence\n");
++		goto err_free_job;
++	}
++
++	job->file_priv = ivpu_file_priv_get(file_priv);
++
++	ivpu_dbg(vdev, JOB, "Job created: ctx %2d engine %d", file_priv->ctx.id, job->engine_idx);
++
++	return job;
++
++err_free_job:
++	kfree(job);
++	return NULL;
++}
++
++static int ivpu_job_done(struct ivpu_device *vdev, u32 job_id, u32 job_status)
++{
++	struct ivpu_job *job;
++
++	job = xa_erase(&vdev->submitted_jobs_xa, job_id);
++	if (!job)
++		return -ENOENT;
++
++	if (job->file_priv->has_mmu_faults)
++		job_status = VPU_JSM_STATUS_ABORTED;
++
++	job->bos[CMD_BUF_IDX]->job_status = job_status;
++	dma_fence_signal(job->done_fence);
++
++	ivpu_dbg(vdev, JOB, "Job complete:  id %3u ctx %2d engine %d status 0x%x\n",
++		 job->job_id, job->file_priv->ctx.id, job->engine_idx, job_status);
++
++	job_put(job);
++	return 0;
++}
++
++static void ivpu_job_done_message(struct ivpu_device *vdev, void *msg)
++{
++	struct vpu_ipc_msg_payload_job_done *payload;
++	struct vpu_jsm_msg *job_ret_msg = msg;
++	int ret;
++
++	payload = (struct vpu_ipc_msg_payload_job_done *)&job_ret_msg->payload;
++
++	ret = ivpu_job_done(vdev, payload->job_id, payload->job_status);
++	if (ret)
++		ivpu_err(vdev, "Failed to finish job %d: %d\n", payload->job_id, ret);
++}
++
++void ivpu_jobs_abort_all(struct ivpu_device *vdev)
++{
++	struct ivpu_job *job;
++	unsigned long id;
++
++	xa_for_each(&vdev->submitted_jobs_xa, id, job)
++		ivpu_job_done(vdev, id, VPU_JSM_STATUS_ABORTED);
++}
++
++static int ivpu_direct_job_submission(struct ivpu_job *job)
++{
++	struct ivpu_file_priv *file_priv = job->file_priv;
++	struct ivpu_device *vdev = job->vdev;
++	struct xa_limit job_id_range;
++	struct ivpu_cmdq *cmdq;
++	int ret;
++
++	mutex_lock(&file_priv->lock);
++
++	cmdq = ivpu_cmdq_acquire(job->file_priv, job->engine_idx);
++	if (!cmdq) {
++		ivpu_warn(vdev, "Failed get job queue, ctx %d engine %d\n",
++			  file_priv->ctx.id, job->engine_idx);
++		ret = -EINVAL;
++		goto err_unlock;
++	}
++
++	job_id_range.min = FIELD_PREP(JOB_ID_CONTEXT_MASK, (file_priv->ctx.id - 1));
++	job_id_range.max = job_id_range.min | JOB_ID_JOB_MASK;
++
++	job_get(job, &job);
++	ret = xa_alloc(&vdev->submitted_jobs_xa, &job->job_id, job, job_id_range, GFP_KERNEL);
++	if (ret) {
++		ivpu_warn_ratelimited(vdev, "Failed to allocate job id: %d\n", ret);
++		goto err_job_put;
++	}
++
++	ret = ivpu_cmdq_push_job(cmdq, job);
++	if (ret)
++		goto err_xa_erase;
++
++	ivpu_dbg(vdev, JOB, "Job submitted: id %3u ctx %2d engine %d next %d\n",
++		 job->job_id, file_priv->ctx.id, job->engine_idx, cmdq->jobq->header.tail);
++
++	if (ivpu_test_mode == IVPU_TEST_MODE_NULL_HW) {
++		ivpu_job_done(vdev, job->job_id, VPU_JSM_STATUS_SUCCESS);
++		cmdq->jobq->header.head = cmdq->jobq->header.tail;
++		wmb(); /* Flush WC buffer for jobq header */
++	} else {
++		ivpu_cmdq_ring_db(vdev, cmdq);
++	}
++
++	mutex_unlock(&file_priv->lock);
++	return 0;
++
++err_xa_erase:
++	xa_erase(&vdev->submitted_jobs_xa, job->job_id);
++err_job_put:
++	job_put(job);
++err_unlock:
++	mutex_unlock(&file_priv->lock);
 +	return ret;
 +}
 +
-+static void
-+ivpu_fw_check_api(struct ivpu_device *vdev, const struct vpu_firmware_header *fw_hdr,
-+		  const char *str, int index, u16 expected_major, u16 expected_minor)
++static int
++ivpu_job_prepare_bos_for_submit(struct drm_file *file, struct ivpu_job *job, u32 *buf_handles,
++				u32 buf_count, u32 commands_offset)
 +{
-+	u16 major = (u16)(fw_hdr->api_version[index] >> 16);
-+	u16 minor = (u16)(fw_hdr->api_version[index]);
-+
-+	if (major != expected_major) {
-+		ivpu_warn(vdev, "Incompatible FW %s API version: %d.%d (expected %d.%d)\n",
-+			  str, major, minor, expected_major, expected_minor);
-+	}
-+	ivpu_dbg(vdev, FW_BOOT, "FW %s API version: %d.%d (expected %d.%d)\n",
-+		 str, major, minor, expected_major, expected_minor);
-+}
-+
-+static int ivpu_fw_parse(struct ivpu_device *vdev)
-+{
-+	struct ivpu_fw_info *fw = vdev->fw;
-+	const struct vpu_firmware_header *fw_hdr = (const void *)fw->file->data;
-+	u64 runtime_addr, image_load_addr, runtime_size, image_size;
-+
-+	if (fw->file->size <= FW_FILE_IMAGE_OFFSET) {
-+		ivpu_err(vdev, "Firmware file is too small: %zu\n", fw->file->size);
-+		return -EINVAL;
-+	}
-+
-+	if (fw_hdr->header_version != VPU_FW_HEADER_VERSION) {
-+		ivpu_err(vdev, "Invalid firmware header version: %u\n", fw_hdr->header_version);
-+		return -EINVAL;
-+	}
-+
-+	runtime_addr = fw_hdr->boot_params_load_address;
-+	runtime_size = fw_hdr->runtime_size;
-+	image_load_addr = fw_hdr->image_load_address;
-+	image_size = fw_hdr->image_size;
-+
-+	if (runtime_addr < FW_RUNTIME_MIN_ADDR || runtime_addr > FW_RUNTIME_MAX_ADDR) {
-+		ivpu_err(vdev, "Invalid firmware runtime address: 0x%llx\n", runtime_addr);
-+		return -EINVAL;
-+	}
-+
-+	if (runtime_size < fw->file->size || runtime_size > FW_RUNTIME_MAX_SIZE) {
-+		ivpu_err(vdev, "Invalid firmware runtime size: %llu\n", runtime_size);
-+		return -EINVAL;
-+	}
-+
-+	if (FW_FILE_IMAGE_OFFSET + image_size > fw->file->size) {
-+		ivpu_err(vdev, "Invalid image size: %llu\n", image_size);
-+		return -EINVAL;
-+	}
-+
-+	if (image_load_addr < runtime_addr ||
-+	    image_load_addr + image_size > runtime_addr + runtime_size) {
-+		ivpu_err(vdev, "Invalid firmware load address size: 0x%llx and size %llu\n",
-+			 image_load_addr, image_size);
-+		return -EINVAL;
-+	}
-+
-+	if (fw_hdr->shave_nn_fw_size > FW_SHAVE_NN_MAX_SIZE) {
-+		ivpu_err(vdev, "SHAVE NN firmware is too big: %u\n", fw_hdr->shave_nn_fw_size);
-+		return -EINVAL;
-+	}
-+
-+	if (fw_hdr->entry_point < image_load_addr ||
-+	    fw_hdr->entry_point >= image_load_addr + image_size) {
-+		ivpu_err(vdev, "Invalid entry point: 0x%llx\n", fw_hdr->entry_point);
-+		return -EINVAL;
-+	}
-+
-+	fw->runtime_addr = runtime_addr;
-+	fw->runtime_size = runtime_size;
-+	fw->image_load_offset = image_load_addr - runtime_addr;
-+	fw->image_size = image_size;
-+	fw->shave_nn_size = PAGE_ALIGN(fw_hdr->shave_nn_fw_size);
-+
-+	fw->cold_boot_entry_point = fw_hdr->entry_point;
-+	fw->entry_point = fw->cold_boot_entry_point;
-+
-+	ivpu_dbg(vdev, FW_BOOT, "Header version: 0x%x, format 0x%x\n",
-+		 fw_hdr->header_version, fw_hdr->image_format);
-+	ivpu_dbg(vdev, FW_BOOT, "Size: file %lu image %u runtime %u shavenn %u\n",
-+		 fw->file->size, fw->image_size, fw->runtime_size, fw->shave_nn_size);
-+	ivpu_dbg(vdev, FW_BOOT, "Address: runtime 0x%llx, load 0x%llx, entry point 0x%llx\n",
-+		 fw->runtime_addr, image_load_addr, fw->entry_point);
-+	ivpu_dbg(vdev, FW_BOOT, "FW version: %s\n", (char *)fw_hdr + VPU_FW_HEADER_SIZE);
-+
-+	IVPU_FW_CHECK_API(vdev, fw_hdr, BOOT);
-+	IVPU_FW_CHECK_API(vdev, fw_hdr, JSM);
-+
-+	return 0;
-+}
-+
-+static void ivpu_fw_release(struct ivpu_device *vdev)
-+{
-+	release_firmware(vdev->fw->file);
-+}
-+
-+static int ivpu_fw_update_global_range(struct ivpu_device *vdev)
-+{
-+	struct ivpu_fw_info *fw = vdev->fw;
-+	u64 start = ALIGN(fw->runtime_addr + fw->runtime_size, FW_SHARED_MEM_ALIGNMENT);
-+	u64 size = FW_SHARED_MEM_SIZE;
-+
-+	if (start + size > FW_GLOBAL_MEM_END) {
-+		ivpu_err(vdev, "No space for shared region, start %lld, size %lld\n", start, size);
-+		return -EINVAL;
-+	}
-+
-+	ivpu_hw_init_range(&vdev->hw->ranges.global_low, start, size);
-+	return 0;
-+}
-+
-+static int ivpu_fw_mem_init(struct ivpu_device *vdev)
-+{
-+	struct ivpu_fw_info *fw = vdev->fw;
++	struct ivpu_file_priv *file_priv = file->driver_priv;
++	struct ivpu_device *vdev = file_priv->vdev;
++	struct ww_acquire_ctx acquire_ctx;
++	struct ivpu_bo *bo;
 +	int ret;
++	u32 i;
 +
-+	ret = ivpu_fw_update_global_range(vdev);
-+	if (ret)
-+		return ret;
++	for (i = 0; i < buf_count; i++) {
++		struct drm_gem_object *obj = drm_gem_object_lookup(file, buf_handles[i]);
 +
-+	fw->mem = ivpu_bo_alloc_internal(vdev, fw->runtime_addr, fw->runtime_size, DRM_IVPU_BO_WC);
-+	if (!fw->mem) {
-+		ivpu_err(vdev, "Failed to allocate firmware runtime memory\n");
-+		return -ENOMEM;
++		if (!obj)
++			return -ENOENT;
++
++		job->bos[i] = to_ivpu_bo(obj);
++
++		ret = ivpu_bo_pin(job->bos[i]);
++		if (ret)
++			return ret;
 +	}
 +
-+	if (fw->shave_nn_size) {
-+		fw->mem_shave_nn = ivpu_bo_alloc_internal(vdev, vdev->hw->ranges.global_high.start,
-+							  fw->shave_nn_size, DRM_IVPU_BO_UNCACHED);
-+		if (!fw->mem_shave_nn) {
-+			ivpu_err(vdev, "Failed to allocate shavenn buffer\n");
-+			ivpu_bo_free_internal(fw->mem);
-+			return -ENOMEM;
++	bo = job->bos[CMD_BUF_IDX];
++	if (!dma_resv_test_signaled(bo->base.resv, DMA_RESV_USAGE_READ)) {
++		ivpu_warn(vdev, "Buffer is already in use\n");
++		return -EBUSY;
++	}
++
++	if (commands_offset >= bo->base.size) {
++		ivpu_warn(vdev, "Invalid command buffer offset %u\n", commands_offset);
++		return -EINVAL;
++	}
++
++	job->cmd_buf_vpu_addr = bo->vpu_addr + commands_offset;
++
++	ret = drm_gem_lock_reservations((struct drm_gem_object **)job->bos, buf_count,
++					&acquire_ctx);
++	if (ret) {
++		ivpu_warn(vdev, "Failed to lock reservations: %d\n", ret);
++		return ret;
++	}
++
++	for (i = 0; i < buf_count; i++) {
++		ret = dma_resv_reserve_fences(job->bos[i]->base.resv, 1);
++		if (ret) {
++			ivpu_warn(vdev, "Failed to reserve fences: %d\n", ret);
++			goto unlock_reservations;
 +		}
 +	}
 +
-+	return 0;
-+}
++	for (i = 0; i < buf_count; i++)
++		dma_resv_add_fence(job->bos[i]->base.resv, job->done_fence, DMA_RESV_USAGE_WRITE);
 +
-+static void ivpu_fw_mem_fini(struct ivpu_device *vdev)
-+{
-+	struct ivpu_fw_info *fw = vdev->fw;
++unlock_reservations:
++	drm_gem_unlock_reservations((struct drm_gem_object **)job->bos, buf_count, &acquire_ctx);
 +
-+	if (fw->mem_shave_nn) {
-+		ivpu_bo_free_internal(fw->mem_shave_nn);
-+		fw->mem_shave_nn = NULL;
-+	}
++	wmb(); /* Flush write combining buffers */
 +
-+	ivpu_bo_free_internal(fw->mem);
-+	fw->mem = NULL;
-+}
-+
-+int ivpu_fw_init(struct ivpu_device *vdev)
-+{
-+	int ret;
-+
-+	ret = ivpu_fw_request(vdev);
-+	if (ret)
-+		return ret;
-+
-+	ret = ivpu_fw_parse(vdev);
-+	if (ret)
-+		goto err_fw_release;
-+
-+	ret = ivpu_fw_mem_init(vdev);
-+	if (ret)
-+		goto err_fw_release;
-+
-+	return 0;
-+
-+err_fw_release:
-+	ivpu_fw_release(vdev);
 +	return ret;
 +}
 +
-+void ivpu_fw_fini(struct ivpu_device *vdev)
++int ivpu_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
 +{
-+	ivpu_fw_mem_fini(vdev);
-+	ivpu_fw_release(vdev);
-+}
++	int ret = 0;
++	struct ivpu_file_priv *file_priv = file->driver_priv;
++	struct ivpu_device *vdev = file_priv->vdev;
++	struct drm_ivpu_submit *params = data;
++	struct ivpu_job *job;
++	u32 *buf_handles;
 +
-+int ivpu_fw_load(struct ivpu_device *vdev)
-+{
-+	struct ivpu_fw_info *fw = vdev->fw;
-+	u64 image_end_offset = fw->image_load_offset + fw->image_size;
++	if (params->engine > DRM_IVPU_ENGINE_COPY)
++		return -EINVAL;
 +
-+	memset(fw->mem->kvaddr, 0, fw->image_load_offset);
-+	memcpy(fw->mem->kvaddr + fw->image_load_offset,
-+	       fw->file->data + FW_FILE_IMAGE_OFFSET, fw->image_size);
++	if (params->buffer_count == 0 || params->buffer_count > JOB_MAX_BUFFER_COUNT)
++		return -EINVAL;
 +
-+	if (IVPU_WA(clear_runtime_mem)) {
-+		u8 *start = fw->mem->kvaddr + image_end_offset;
-+		u64 size = fw->mem->base.size - image_end_offset;
++	if (!IS_ALIGNED(params->commands_offset, 8))
++		return -EINVAL;
 +
-+		memset(start, 0, size);
++	if (!file_priv->ctx.id)
++		return -EINVAL;
++
++	if (file_priv->has_mmu_faults)
++		return -EBADFD;
++
++	buf_handles = kcalloc(params->buffer_count, sizeof(u32), GFP_KERNEL);
++	if (!buf_handles)
++		return -ENOMEM;
++
++	ret = copy_from_user(buf_handles,
++			     (void __user *)params->buffers_ptr,
++			     params->buffer_count * sizeof(u32));
++	if (ret) {
++		ret = -EFAULT;
++		goto free_handles;
 +	}
 +
-+	wmb(); /* Flush WC buffers after writing fw->mem */
++	ivpu_dbg(vdev, JOB, "Submit ioctl: ctx %u buf_count %u\n",
++		 file_priv->ctx.id, params->buffer_count);
++
++	job = ivpu_create_job(file_priv, params->engine, params->buffer_count);
++	if (!job) {
++		ivpu_err(vdev, "Failed to create job\n");
++		ret = -ENOMEM;
++		goto free_handles;
++	}
++
++	ret = ivpu_job_prepare_bos_for_submit(file, job, buf_handles, params->buffer_count,
++					      params->commands_offset);
++	if (ret) {
++		ivpu_err(vdev, "Failed to prepare job, ret %d\n", ret);
++		goto job_put;
++	}
++
++	ret = ivpu_direct_job_submission(job);
++	if (ret) {
++		dma_fence_signal(job->done_fence);
++		ivpu_err(vdev, "Failed to submit job to the HW, ret %d\n", ret);
++	}
++
++job_put:
++	job_put(job);
++free_handles:
++	kfree(buf_handles);
++
++	return ret;
++}
++
++static int ivpu_job_done_thread(void *arg)
++{
++	struct ivpu_device *vdev = (struct ivpu_device *)arg;
++	struct ivpu_ipc_consumer cons;
++	struct vpu_jsm_msg jsm_msg;
++	bool jobs_submitted;
++	unsigned int timeout;
++	int ret;
++
++	ivpu_dbg(vdev, JOB, "Started %s\n", __func__);
++
++	ivpu_ipc_consumer_add(vdev, &cons, VPU_IPC_CHAN_JOB_RET);
++
++	while (!kthread_should_stop()) {
++		timeout = ivpu_tdr_timeout_ms ? ivpu_tdr_timeout_ms : vdev->timeout.tdr;
++		jobs_submitted = !xa_empty(&vdev->submitted_jobs_xa);
++		ret = ivpu_ipc_receive(vdev, &cons, NULL, &jsm_msg, timeout);
++		if (!ret) {
++			ivpu_job_done_message(vdev, &jsm_msg);
++		} else if (ret == -ETIMEDOUT) {
++			if (jobs_submitted && !xa_empty(&vdev->submitted_jobs_xa)) {
++				ivpu_err(vdev, "TDR detected, timeout %d ms", timeout);
++				ivpu_hw_diagnose_failure(vdev);
++				ivpu_pm_schedule_recovery(vdev);
++			}
++		}
++	}
++
++	ivpu_ipc_consumer_del(vdev, &cons);
++
++	ivpu_jobs_abort_all(vdev);
++
++	ivpu_dbg(vdev, JOB, "Stopped %s\n", __func__);
++	return 0;
++}
++
++int ivpu_job_done_thread_init(struct ivpu_device *vdev)
++{
++	struct task_struct *thread;
++
++	thread = kthread_run(&ivpu_job_done_thread, (void *)vdev, "ivpu_job_done_thread");
++	if (IS_ERR(thread)) {
++		ivpu_err(vdev, "Failed to start job completion thread\n");
++		return -EIO;
++	}
++
++	get_task_struct(thread);
++	wake_up_process(thread);
++
++	vdev->job_done_thread = thread;
 +
 +	return 0;
 +}
 +
-+static void ivpu_fw_boot_params_print(struct ivpu_device *vdev, struct vpu_boot_params *boot_params)
++void ivpu_job_done_thread_fini(struct ivpu_device *vdev)
 +{
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.magic = 0x%x\n",
-+		 boot_params->magic);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.vpu_id = 0x%x\n",
-+		 boot_params->vpu_id);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.vpu_count = 0x%x\n",
-+		 boot_params->vpu_count);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.frequency = %u\n",
-+		 boot_params->frequency);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.perf_clk_frequency = %u\n",
-+		 boot_params->perf_clk_frequency);
-+
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.ipc_header_area_start = 0x%llx\n",
-+		 boot_params->ipc_header_area_start);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.ipc_header_area_size = 0x%x\n",
-+		 boot_params->ipc_header_area_size);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.shared_region_base = 0x%llx\n",
-+		 boot_params->shared_region_base);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.shared_region_size = 0x%x\n",
-+		 boot_params->shared_region_size);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.ipc_payload_area_start = 0x%llx\n",
-+		 boot_params->ipc_payload_area_start);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.ipc_payload_area_size = 0x%x\n",
-+		 boot_params->ipc_payload_area_size);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.global_aliased_pio_base = 0x%llx\n",
-+		 boot_params->global_aliased_pio_base);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.global_aliased_pio_size = 0x%x\n",
-+		 boot_params->global_aliased_pio_size);
-+
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.autoconfig = 0x%x\n",
-+		 boot_params->autoconfig);
-+
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].use = 0x%x\n",
-+		 boot_params->cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].use);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].cfg = 0x%x\n",
-+		 boot_params->cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].cfg);
-+
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.global_memory_allocator_base = 0x%llx\n",
-+		 boot_params->global_memory_allocator_base);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.global_memory_allocator_size = 0x%x\n",
-+		 boot_params->global_memory_allocator_size);
-+
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.shave_nn_fw_base = 0x%llx\n",
-+		 boot_params->shave_nn_fw_base);
-+
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.watchdog_irq_mss = 0x%x\n",
-+		 boot_params->watchdog_irq_mss);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.watchdog_irq_nce = 0x%x\n",
-+		 boot_params->watchdog_irq_nce);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.host_to_vpu_irq = 0x%x\n",
-+		 boot_params->host_to_vpu_irq);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.job_done_irq = 0x%x\n",
-+		 boot_params->job_done_irq);
-+
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.host_version_id = 0x%x\n",
-+		 boot_params->host_version_id);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.si_stepping = 0x%x\n",
-+		 boot_params->si_stepping);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.device_id = 0x%llx\n",
-+		 boot_params->device_id);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.feature_exclusion = 0x%llx\n",
-+		 boot_params->feature_exclusion);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.sku = 0x%llx\n",
-+		 boot_params->sku);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.min_freq_pll_ratio = 0x%x\n",
-+		 boot_params->min_freq_pll_ratio);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.pn_freq_pll_ratio = 0x%x\n",
-+		 boot_params->pn_freq_pll_ratio);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.max_freq_pll_ratio = 0x%x\n",
-+		 boot_params->max_freq_pll_ratio);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.default_trace_level = 0x%x\n",
-+		 boot_params->default_trace_level);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.tracing_buff_message_format_mask = 0x%llx\n",
-+		 boot_params->tracing_buff_message_format_mask);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.trace_destination_mask = 0x%x\n",
-+		 boot_params->trace_destination_mask);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.trace_hw_component_mask = 0x%llx\n",
-+		 boot_params->trace_hw_component_mask);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.boot_type = 0x%x\n",
-+		 boot_params->boot_type);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.punit_telemetry_sram_base = 0x%llx\n",
-+		 boot_params->punit_telemetry_sram_base);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.punit_telemetry_sram_size = 0x%llx\n",
-+		 boot_params->punit_telemetry_sram_size);
-+	ivpu_dbg(vdev, FW_BOOT, "boot_params.vpu_telemetry_enable = 0x%x\n",
-+		 boot_params->vpu_telemetry_enable);
++	kthread_stop(vdev->job_done_thread);
++	put_task_struct(vdev->job_done_thread);
 +}
-+
-+void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params *boot_params)
-+{
-+	struct ivpu_bo *ipc_mem_rx = vdev->ipc->mem_rx;
-+
-+	/* In case of warm boot we only have to reset the entrypoint addr */
-+	if (!ivpu_fw_is_cold_boot(vdev)) {
-+		boot_params->save_restore_ret_address = 0;
-+		return;
-+	}
-+
-+	boot_params->magic = VPU_BOOT_PARAMS_MAGIC;
-+	boot_params->vpu_id = to_pci_dev(vdev->drm.dev)->bus->number;
-+	boot_params->frequency = ivpu_hw_reg_pll_freq_get(vdev);
-+
-+	/*
-+	 * Uncached region of VPU address space, covers IPC buffers, job queues
-+	 * and log buffers, programmable to L2$ Uncached by VPU MTRR
-+	 */
-+	boot_params->shared_region_base = vdev->hw->ranges.global_low.start;
-+	boot_params->shared_region_size = vdev->hw->ranges.global_low.end -
-+					  vdev->hw->ranges.global_low.start;
-+
-+	boot_params->ipc_header_area_start = ipc_mem_rx->vpu_addr;
-+	boot_params->ipc_header_area_size = ipc_mem_rx->base.size / 2;
-+
-+	boot_params->ipc_payload_area_start = ipc_mem_rx->vpu_addr + ipc_mem_rx->base.size / 2;
-+	boot_params->ipc_payload_area_size = ipc_mem_rx->base.size / 2;
-+
-+	boot_params->global_aliased_pio_base =
-+		vdev->hw->ranges.global_aliased_pio.start;
-+	boot_params->global_aliased_pio_size =
-+		ivpu_hw_range_size(&vdev->hw->ranges.global_aliased_pio);
-+
-+	/* Allow configuration for L2C_PAGE_TABLE with boot param value */
-+	boot_params->autoconfig = 1;
-+
-+	/* Enable L2 cache for first 2GB of high memory */
-+	boot_params->cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].use = 1;
-+	boot_params->cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].cfg =
-+		ADDR_TO_L2_CACHE_CFG(vdev->hw->ranges.global_high.start);
-+
-+	if (vdev->fw->mem_shave_nn)
-+		boot_params->shave_nn_fw_base = vdev->fw->mem_shave_nn->vpu_addr;
-+
-+	boot_params->watchdog_irq_mss = WATCHDOG_MSS_REDIRECT;
-+	boot_params->watchdog_irq_nce = WATCHDOG_NCE_REDIRECT;
-+	boot_params->si_stepping = ivpu_revision(vdev);
-+	boot_params->device_id = ivpu_device_id(vdev);
-+	boot_params->feature_exclusion = vdev->hw->tile_fuse;
-+	boot_params->sku = vdev->hw->sku;
-+
-+	boot_params->min_freq_pll_ratio = vdev->hw->pll.min_ratio;
-+	boot_params->pn_freq_pll_ratio = vdev->hw->pll.pn_ratio;
-+	boot_params->max_freq_pll_ratio = vdev->hw->pll.max_ratio;
-+
-+	boot_params->punit_telemetry_sram_base = ivpu_hw_reg_telemetry_offset_get(vdev);
-+	boot_params->punit_telemetry_sram_size = ivpu_hw_reg_telemetry_size_get(vdev);
-+	boot_params->vpu_telemetry_enable = ivpu_hw_reg_telemetry_enable_get(vdev);
-+
-+	wmb(); /* Flush WC buffers after writing bootparams */
-+
-+	ivpu_fw_boot_params_print(vdev, boot_params);
-+}
-diff --git a/drivers/accel/ivpu/ivpu_fw.h b/drivers/accel/ivpu/ivpu_fw.h
+diff --git a/drivers/accel/ivpu/ivpu_job.h b/drivers/accel/ivpu/ivpu_job.h
 new file mode 100644
-index 000000000000..8d275c802d1c
+index 000000000000..aa1f0b9479b0
 --- /dev/null
-+++ b/drivers/accel/ivpu/ivpu_fw.h
-@@ -0,0 +1,38 @@
++++ b/drivers/accel/ivpu/ivpu_job.h
+@@ -0,0 +1,67 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright (C) 2020-2023 Intel Corporation
 + */
 +
-+#ifndef __IVPU_FW_H__
-+#define __IVPU_FW_H__
++#ifndef __IVPU_JOB_H__
++#define __IVPU_JOB_H__
++
++#include <linux/kref.h>
++#include <linux/idr.h>
++
++#include "ivpu_gem.h"
 +
 +struct ivpu_device;
-+struct ivpu_bo;
-+struct vpu_boot_params;
++struct ivpu_file_priv;
 +
-+struct ivpu_fw_info {
-+	const struct firmware *file;
++/**
++ * struct ivpu_cmdq - Object representing device queue used to send jobs.
++ * @jobq:	   Pointer to job queue memory shared with the device
++ * @mem:           Memory allocated for the job queue, shared with device
++ * @entry_count    Number of job entries in the queue
++ * @db_id:	   Doorbell assigned to this job queue
++ * @db_registered: True if doorbell is registered in device
++ */
++struct ivpu_cmdq {
++	struct vpu_job_queue *jobq;
 +	struct ivpu_bo *mem;
-+	struct ivpu_bo *mem_shave_nn;
-+	struct ivpu_bo *mem_log_crit;
-+	struct ivpu_bo *mem_log_verb;
-+	u64 runtime_addr;
-+	u32 runtime_size;
-+	u64 image_load_offset;
-+	u32 image_size;
-+	u32 shave_nn_size;
-+	u64 entry_point; /* Cold or warm boot entry point for next boot */
-+	u64 cold_boot_entry_point;
-+};
-+
-+int ivpu_fw_init(struct ivpu_device *vdev);
-+void ivpu_fw_fini(struct ivpu_device *vdev);
-+int ivpu_fw_load(struct ivpu_device *vdev);
-+void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params *bp);
-+
-+static inline bool ivpu_fw_is_cold_boot(struct ivpu_device *vdev)
-+{
-+	return vdev->fw->entry_point == vdev->fw->cold_boot_entry_point;
-+}
-+
-+#endif /* __IVPU_FW_H__ */
-diff --git a/drivers/accel/ivpu/ivpu_hw_mtl.c b/drivers/accel/ivpu/ivpu_hw_mtl.c
-index 0e9ef4c40901..55caf5479f5f 100644
---- a/drivers/accel/ivpu/ivpu_hw_mtl.c
-+++ b/drivers/accel/ivpu/ivpu_hw_mtl.c
-@@ -4,6 +4,7 @@
-  */
- 
- #include "ivpu_drv.h"
-+#include "ivpu_fw.h"
- #include "ivpu_hw_mtl_reg.h"
- #include "ivpu_hw_reg_io.h"
- #include "ivpu_hw.h"
-@@ -588,6 +589,15 @@ static void ivpu_boot_soc_cpu_boot(struct ivpu_device *vdev)
- 
- 	val = REG_CLR_FLD(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, IRQI_RESUME0, val);
- 	REGV_WR32(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, val);
-+
-+	val = vdev->fw->entry_point >> 9;
-+	REGV_WR32(MTL_VPU_HOST_SS_LOADING_ADDRESS_LO, val);
-+
-+	val = REG_SET_FLD(MTL_VPU_HOST_SS_LOADING_ADDRESS_LO, DONE, val);
-+	REGV_WR32(MTL_VPU_HOST_SS_LOADING_ADDRESS_LO, val);
-+
-+	ivpu_dbg(vdev, PM, "Booting firmware, mode: %s\n",
-+		 vdev->fw->entry_point == vdev->fw->cold_boot_entry_point ? "cold boot" : "resume");
- }
- 
- static int ivpu_boot_d0i3_drive(struct ivpu_device *vdev, bool enable)
-diff --git a/drivers/accel/ivpu/vpu_boot_api.h b/drivers/accel/ivpu/vpu_boot_api.h
-new file mode 100644
-index 000000000000..6b71be92ba65
---- /dev/null
-+++ b/drivers/accel/ivpu/vpu_boot_api.h
-@@ -0,0 +1,349 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright (C) 2020-2023 Intel Corporation
-+ */
-+
-+#ifndef VPU_BOOT_API_H
-+#define VPU_BOOT_API_H
-+
-+/*
-+ * =========== FW API version information beginning ================
-+ *  The bellow values will be used to construct the version info this way:
-+ *  fw_bin_header->api_version[VPU_BOOT_API_VER_ID] = (VPU_BOOT_API_VER_MAJOR << 16) |
-+ *  VPU_BOOT_API_VER_MINOR;
-+ *  VPU_BOOT_API_VER_PATCH will be ignored. KMD and compatibility is not affected if this changes.
-+ */
-+
-+/*
-+ * Major version changes that break backward compatibility.
-+ * Major version must start from 1 and can only be incremented.
-+ */
-+#define VPU_BOOT_API_VER_MAJOR 3
-+
-+/*
-+ * Minor version changes when API backward compatibility is preserved.
-+ * Resets to 0 if Major version is incremented.
-+ */
-+#define VPU_BOOT_API_VER_MINOR 12
-+
-+/*
-+ * API header changed (field names, documentation, formatting) but API itself has not been changed
-+ */
-+#define VPU_BOOT_API_VER_PATCH 2
-+
-+/*
-+ * Index in the API version table
-+ * Must be unique for each API
-+ */
-+#define VPU_BOOT_API_VER_INDEX 0
-+/* ------------ FW API version information end ---------------------*/
-+
-+#pragma pack(push, 1)
-+
-+/*
-+ * Firmware image header format
-+ */
-+#define VPU_FW_HEADER_SIZE    4096
-+#define VPU_FW_HEADER_VERSION 0x1
-+#define VPU_FW_VERSION_SIZE   32
-+#define VPU_FW_API_VER_NUM    16
-+
-+struct vpu_firmware_header {
-+	u32 header_version;
-+	u32 image_format;
-+	u64 image_load_address;
-+	u32 image_size;
-+	u64 entry_point;
-+	u8 vpu_version[VPU_FW_VERSION_SIZE];
-+	u32 compression_type;
-+	u64 firmware_version_load_address;
-+	u32 firmware_version_size;
-+	u64 boot_params_load_address;
-+	u32 api_version[VPU_FW_API_VER_NUM];
-+	/* Size of memory require for firmware execution */
-+	u32 runtime_size;
-+	u32 shave_nn_fw_size;
-+};
-+
-+/*
-+ * Firmware boot parameters format
-+ */
-+
-+#define VPU_BOOT_PLL_COUNT     3
-+#define VPU_BOOT_PLL_OUT_COUNT 4
-+
-+/** Values for boot_type field */
-+#define VPU_BOOT_TYPE_COLDBOOT 0
-+#define VPU_BOOT_TYPE_WARMBOOT 1
-+
-+/** Value for magic filed */
-+#define VPU_BOOT_PARAMS_MAGIC 0x10000
-+
-+/** VPU scheduling mode. By default, OS scheduling is used. */
-+#define VPU_SCHEDULING_MODE_OS 0
-+#define VPU_SCHEDULING_MODE_HW 1
-+
-+enum VPU_BOOT_L2_CACHE_CFG_TYPE {
-+	VPU_BOOT_L2_CACHE_CFG_UPA = 0,
-+	VPU_BOOT_L2_CACHE_CFG_NN = 1,
-+	VPU_BOOT_L2_CACHE_CFG_NUM = 2
++	u32 entry_count;
++	u32 db_id;
++	bool db_registered;
 +};
 +
 +/**
-+ * Logging destinations.
-+ *
-+ * Logging output can be directed to different logging destinations. This enum
-+ * defines the list of logging destinations supported by the VPU firmware (NOTE:
-+ * a specific VPU FW binary may support only a subset of such output
-+ * destinations, depending on the target platform and compile options).
++ * struct ivpu_job - KMD object that represents batchbuffer / DMA buffer.
++ * Each batch / DMA buffer is a job to be submitted and executed by the VPU FW.
++ * This is a unit of execution, and be tracked by the job_id for
++ * any status reporting from VPU FW through IPC JOB RET/DONE message.
++ * @file_priv:		  The client that submitted this job
++ * @job_id:		  Job ID for KMD tracking and job status reporting from VPU FW
++ * @status:		  Status of the Job from IPC JOB RET/DONE message
++ * @batch_buffer:	  CPU vaddr points to the batch buffer memory allocated for the job
++ * @submit_status_offset: Offset within batch buffer where job completion handler
++			  will update the job status
 + */
-+enum vpu_trace_destination {
-+	VPU_TRACE_DESTINATION_PIPEPRINT = 0x1,
-+	VPU_TRACE_DESTINATION_VERBOSE_TRACING = 0x2,
-+	VPU_TRACE_DESTINATION_NORTH_PEAK = 0x4,
++struct ivpu_job {
++	struct kref ref;
++	struct ivpu_device *vdev;
++	struct ivpu_file_priv *file_priv;
++	struct dma_fence *done_fence;
++	u64 cmd_buf_vpu_addr;
++	u32 job_id;
++	u32 engine_idx;
++	size_t bo_count;
++	struct ivpu_bo *bos[];
 +};
 +
-+/*
-+ * Processor bit shifts (for loggable HW components).
-+ */
-+#define VPU_TRACE_PROC_BIT_ARM	     0
-+#define VPU_TRACE_PROC_BIT_LRT	     1
-+#define VPU_TRACE_PROC_BIT_LNN	     2
-+#define VPU_TRACE_PROC_BIT_SHV_0     3
-+#define VPU_TRACE_PROC_BIT_SHV_1     4
-+#define VPU_TRACE_PROC_BIT_SHV_2     5
-+#define VPU_TRACE_PROC_BIT_SHV_3     6
-+#define VPU_TRACE_PROC_BIT_SHV_4     7
-+#define VPU_TRACE_PROC_BIT_SHV_5     8
-+#define VPU_TRACE_PROC_BIT_SHV_6     9
-+#define VPU_TRACE_PROC_BIT_SHV_7     10
-+#define VPU_TRACE_PROC_BIT_SHV_8     11
-+#define VPU_TRACE_PROC_BIT_SHV_9     12
-+#define VPU_TRACE_PROC_BIT_SHV_10    13
-+#define VPU_TRACE_PROC_BIT_SHV_11    14
-+#define VPU_TRACE_PROC_BIT_SHV_12    15
-+#define VPU_TRACE_PROC_BIT_SHV_13    16
-+#define VPU_TRACE_PROC_BIT_SHV_14    17
-+#define VPU_TRACE_PROC_BIT_SHV_15    18
-+#define VPU_TRACE_PROC_BIT_ACT_SHV_0 19
-+#define VPU_TRACE_PROC_BIT_ACT_SHV_1 20
-+#define VPU_TRACE_PROC_BIT_ACT_SHV_2 21
-+#define VPU_TRACE_PROC_BIT_ACT_SHV_3 22
-+#define VPU_TRACE_PROC_NO_OF_HW_DEVS 23
++int ivpu_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
 +
-+/* KMB HW component IDs are sequential, so define first and last IDs. */
-+#define VPU_TRACE_PROC_BIT_KMB_FIRST VPU_TRACE_PROC_BIT_LRT
-+#define VPU_TRACE_PROC_BIT_KMB_LAST  VPU_TRACE_PROC_BIT_SHV_15
++void ivpu_cmdq_release_all(struct ivpu_file_priv *file_priv);
++void ivpu_cmdq_reset_all_contexts(struct ivpu_device *vdev);
 +
-+struct vpu_boot_l2_cache_config {
-+	u8 use;
-+	u8 cfg;
-+};
++int ivpu_job_done_thread_init(struct ivpu_device *vdev);
++void ivpu_job_done_thread_fini(struct ivpu_device *vdev);
 +
-+struct vpu_warm_boot_section {
-+	u32 src;
-+	u32 dst;
-+	u32 size;
-+	u32 core_id;
-+	u32 is_clear_op;
-+};
++void ivpu_jobs_abort_all(struct ivpu_device *vdev);
 +
-+struct vpu_boot_params {
-+	u32 magic;
-+	u32 vpu_id;
-+	u32 vpu_count;
-+	u32 pad0[5];
-+	/* Clock frequencies: 0x20 - 0xFF */
-+	u32 frequency;
-+	u32 pll[VPU_BOOT_PLL_COUNT][VPU_BOOT_PLL_OUT_COUNT];
-+	u32 perf_clk_frequency;
-+	u32 pad1[42];
-+	/* Memory regions: 0x100 - 0x1FF */
-+	u64 ipc_header_area_start;
-+	u32 ipc_header_area_size;
-+	u64 shared_region_base;
-+	u32 shared_region_size;
-+	u64 ipc_payload_area_start;
-+	u32 ipc_payload_area_size;
-+	u64 global_aliased_pio_base;
-+	u32 global_aliased_pio_size;
-+	u32 autoconfig;
-+	struct vpu_boot_l2_cache_config cache_defaults[VPU_BOOT_L2_CACHE_CFG_NUM];
-+	u64 global_memory_allocator_base;
-+	u32 global_memory_allocator_size;
-+	/**
-+	 * ShaveNN FW section VPU base address
-+	 * On VPU2.7 HW this address must be within 2GB range starting from L2C_PAGE_TABLE base
-+	 */
-+	u64 shave_nn_fw_base;
-+	u64 save_restore_ret_address; /* stores the address of FW's restore entry point */
-+	u32 pad2[43];
-+	/* IRQ re-direct numbers: 0x200 - 0x2FF */
-+	s32 watchdog_irq_mss;
-+	s32 watchdog_irq_nce;
-+	/* ARM -> VPU doorbell interrupt. ARM is notifying VPU of async command or compute job. */
-+	u32 host_to_vpu_irq;
-+	/* VPU -> ARM job done interrupt. VPU is notifying ARM of compute job completion. */
-+	u32 job_done_irq;
-+	/* VPU -> ARM IRQ line to use to request MMU update. */
-+	u32 mmu_update_request_irq;
-+	/* ARM -> VPU IRQ line to use to notify of MMU update completion. */
-+	u32 mmu_update_done_irq;
-+	/* ARM -> VPU IRQ line to use to request power level change. */
-+	u32 set_power_level_irq;
-+	/* VPU -> ARM IRQ line to use to notify of power level change completion. */
-+	u32 set_power_level_done_irq;
-+	/* VPU -> ARM IRQ line to use to notify of VPU idle state change */
-+	u32 set_vpu_idle_update_irq;
-+	/* VPU -> ARM IRQ line to use to request counter reset. */
-+	u32 metric_query_event_irq;
-+	/* ARM -> VPU IRQ line to use to notify of counter reset completion. */
-+	u32 metric_query_event_done_irq;
-+	/* VPU -> ARM IRQ line to use to notify of preemption completion. */
-+	u32 preemption_done_irq;
-+	/* Padding. */
-+	u32 pad3[52];
-+	/* Silicon information: 0x300 - 0x3FF */
-+	u32 host_version_id;
-+	u32 si_stepping;
-+	u64 device_id;
-+	u64 feature_exclusion;
-+	u64 sku;
-+	/** PLL ratio for minimum clock frequency */
-+	u32 min_freq_pll_ratio;
-+	/** PLL ratio for maximum clock frequency */
-+	u32 max_freq_pll_ratio;
-+	/**
-+	 * Initial log level threshold (messages with log level severity less than
-+	 * the threshold will not be logged); applies to every enabled logging
-+	 * destination and loggable HW component. See 'mvLog_t' enum for acceptable
-+	 * values.
-+	 */
-+	u32 default_trace_level;
-+	u32 boot_type;
-+	u64 punit_telemetry_sram_base;
-+	u64 punit_telemetry_sram_size;
-+	u32 vpu_telemetry_enable;
-+	u64 crit_tracing_buff_addr;
-+	u32 crit_tracing_buff_size;
-+	u64 verbose_tracing_buff_addr;
-+	u32 verbose_tracing_buff_size;
-+	u64 verbose_tracing_sw_component_mask; /* TO BE REMOVED */
-+	/**
-+	 * Mask of destinations to which logging messages are delivered; bitwise OR
-+	 * of values defined in vpu_trace_destination enum.
-+	 */
-+	u32 trace_destination_mask;
-+	/**
-+	 * Mask of hardware components for which logging is enabled; bitwise OR of
-+	 * bits defined by the VPU_TRACE_PROC_BIT_* macros.
-+	 */
-+	u64 trace_hw_component_mask;
-+	/** Mask of trace message formats supported by the driver */
-+	u64 tracing_buff_message_format_mask;
-+	u64 trace_reserved_1[2];
-+	/**
-+	 * Period at which the VPU reads the temp sensor values into MMIO, on
-+	 * platforms where that is necessary (in ms). 0 to disable reads.
-+	 */
-+	u32 temp_sensor_period_ms;
-+	/** PLL ratio for efficient clock frequency */
-+	u32 pn_freq_pll_ratio;
-+	u32 pad4[28];
-+	/* Warm boot information: 0x400 - 0x43F */
-+	u32 warm_boot_sections_count;
-+	u32 warm_boot_start_address_reference;
-+	u32 warm_boot_section_info_address_offset;
-+	u32 pad5[13];
-+	/* Power States transitions timestamps: 0x440 - 0x46F*/
-+	struct {
-+		/* VPU_IDLE -> VPU_ACTIVE transition initiated timestamp */
-+		u64 vpu_active_state_requested;
-+		/* VPU_IDLE -> VPU_ACTIVE transition completed timestamp */
-+		u64 vpu_active_state_achieved;
-+		/* VPU_ACTIVE -> VPU_IDLE transition initiated timestamp */
-+		u64 vpu_idle_state_requested;
-+		/* VPU_ACTIVE -> VPU_IDLE transition completed timestamp */
-+		u64 vpu_idle_state_achieved;
-+		/* VPU_IDLE -> VPU_STANDBY transition initiated timestamp */
-+		u64 vpu_standby_state_requested;
-+		/* VPU_IDLE -> VPU_STANDBY transition completed timestamp */
-+		u64 vpu_standby_state_achieved;
-+	} power_states_timestamps;
-+	/* VPU scheduling mode. Values defined by VPU_SCHEDULING_MODE_* macros. */
-+	u32 vpu_scheduling_mode;
-+	/* Present call period in milliseconds. */
-+	u32 vpu_focus_present_timer_ms;
-+	/* Unused/reserved: 0x478 - 0xFFF */
-+	u32 pad6[738];
-+};
-+
-+/*
-+ * Magic numbers set between host and vpu to detect corruptio of tracing init
-+ */
-+
-+#define VPU_TRACING_BUFFER_CANARY (0xCAFECAFE)
-+
-+/* Tracing buffer message format definitions */
-+#define VPU_TRACING_FORMAT_STRING 0
-+#define VPU_TRACING_FORMAT_MIPI	  2
-+/*
-+ * Header of the tracing buffer.
-+ * The below defined header will be stored at the beginning of
-+ * each allocated tracing buffer, followed by a series of 256b
-+ * of ASCII trace message entries.
-+ */
-+struct vpu_tracing_buffer_header {
-+	/**
-+	 * Magic number set by host to detect corruption
-+	 * @see VPU_TRACING_BUFFER_CANARY
-+	 */
-+	u32 host_canary_start;
-+	/* offset from start of buffer for trace entries */
-+	u32 read_index;
-+	u32 pad_to_cache_line_size_0[14];
-+	/* End of first cache line */
-+
-+	/**
-+	 * Magic number set by host to detect corruption
-+	 * @see VPU_TRACING_BUFFER_CANARY
-+	 */
-+	u32 vpu_canary_start;
-+	/* offset from start of buffer from write start */
-+	u32 write_index;
-+	/* counter for buffer wrapping */
-+	u32 wrap_count;
-+	/* legacy field - do not use */
-+	u32 reserved_0;
-+	/**
-+	 * Size of the log buffer include this header (@header_size) and space
-+	 * reserved for all messages. If @alignment` is greater that 0 the @Size
-+	 * must be multiple of @Alignment.
-+	 */
-+	u32 size;
-+	/* Header version */
-+	u16 header_version;
-+	/* Header size */
-+	u16 header_size;
-+	/*
-+	 * Format of the messages in the trace buffer
-+	 * 0 - null terminated string
-+	 * 1 - size + null terminated string
-+	 * 2 - MIPI-SysT encoding
-+	 */
-+	u32 format;
-+	/*
-+	 * Message alignment
-+	 * 0 - messages are place 1 after another
-+	 * n - every message starts and multiple on offset
-+	 */
-+	u32 alignment; /* 64, 128, 256 */
-+	/* Name of the logging entity, i.e "LRT", "LNN", "SHV0", etc */
-+	char name[16];
-+	u32 pad_to_cache_line_size_1[4];
-+	/* End of second cache line */
-+};
-+
-+#pragma pack(pop)
-+
-+#endif
++#endif /* __IVPU_JOB_H__ */
 diff --git a/include/uapi/drm/ivpu_accel.h b/include/uapi/drm/ivpu_accel.h
-index 5f953ebafc9b..005b40b7326c 100644
+index 005b40b7326c..6c95f72e66ee 100644
 --- a/include/uapi/drm/ivpu_accel.h
 +++ b/include/uapi/drm/ivpu_accel.h
-@@ -51,6 +51,11 @@ extern "C" {
- #define DRM_IVPU_PARAM_CONTEXT_BASE_ADDRESS 5
- #define DRM_IVPU_PARAM_CONTEXT_PRIORITY	    6
- #define DRM_IVPU_PARAM_CONTEXT_ID	    7
-+#define DRM_IVPU_PARAM_FW_API_VERSION	    8
-+#define DRM_IVPU_PARAM_ENGINE_HEARTBEAT	    9
-+#define DRM_IVPU_PARAM_UNIQUE_INFERENCE_ID  10
-+#define DRM_IVPU_PARAM_TILE_CONFIG	    11
-+#define DRM_IVPU_PARAM_SKU		    12
+@@ -20,6 +20,8 @@ extern "C" {
+ #define DRM_IVPU_BO_CREATE		  0x02
+ #define DRM_IVPU_BO_INFO		  0x03
+ #define DRM_IVPU_BO_USERPTR		  0x04
++#define DRM_IVPU_SUBMIT			  0x05
++#define DRM_IVPU_BO_WAIT		  0x06
  
- #define DRM_IVPU_PLATFORM_TYPE_SILICON	    0
+ #define DRM_IOCTL_IVPU_GET_PARAM                                               \
+ 	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_GET_PARAM, struct drm_ivpu_param)
+@@ -36,6 +38,12 @@ extern "C" {
+ #define DRM_IOCTL_IVPU_BO_USERPTR                                              \
+ 	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_BO_USERPTR, struct drm_ivpu_bo_userptr)
  
-@@ -94,6 +99,22 @@ struct drm_ivpu_param {
- 	 * %DRM_IVPU_PARAM_CONTEXT_ID:
- 	 * Current context ID, always greater than 0 (read-only)
- 	 *
-+	 * %DRM_IVPU_PARAM_FW_API_VERSION:
-+	 * Firmware API version array (read-only)
-+	 *
-+	 * %DRM_IVPU_PARAM_ENGINE_HEARTBEAT:
-+	 * Heartbeat value from an engine (read-only).
-+	 * Engine ID (i.e. DRM_IVPU_ENGINE_COMPUTE) is given via index.
-+	 *
-+	 * %DRM_IVPU_PARAM_UNIQUE_INFERENCE_ID:
-+	 * Device-unique inference ID (read-only)
-+	 *
-+	 * %DRM_IVPU_PARAM_TILE_CONFIG:
-+	 * VPU tile configuration  (read-only)
-+	 *
-+	 * %DRM_IVPU_PARAM_SKU:
-+	 * VPU SKU ID (read-only)
-+	 *
- 	 */
- 	__u32 param;
++#define DRM_IOCTL_IVPU_SUBMIT                                                  \
++	DRM_IOW(DRM_COMMAND_BASE + DRM_IVPU_SUBMIT, struct drm_ivpu_submit)
++
++#define DRM_IOCTL_IVPU_BO_WAIT                                                 \
++	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_BO_WAIT, struct drm_ivpu_bo_wait)
++
+ /**
+  * DOC: contexts
+  *
+@@ -240,6 +248,90 @@ struct drm_ivpu_bo_userptr {
+ 	__u64 vpu_addr;
+ };
  
++/* drm_ivpu_submit engines */
++#define DRM_IVPU_ENGINE_COMPUTE 0
++#define DRM_IVPU_ENGINE_COPY    1
++
++/**
++ * struct drm_ivpu_submit - Submit commands to the VPU
++ *
++ * Execute a single command buffer on a given VPU engine.
++ * Handles to all referenced buffer objects have to be provided in @buffers_ptr.
++ *
++ * User space may wait on job completion using %DRM_IVPU_BO_WAIT ioctl.
++ */
++struct drm_ivpu_submit {
++	/**
++	 * @buffers_ptr:
++	 *
++	 * A pointer to an u32 array of GEM handles of the BOs required for this job.
++	 * The number of elements in the array must be equal to the value given by @buffer_count.
++	 *
++	 * The first BO is the command buffer. The rest of array has to contain all
++	 * BOs referenced from the command buffer.
++	 */
++	__u64 buffers_ptr;
++
++	/** @buffer_count: Number of elements in the @buffers_ptr */
++	__u32 buffer_count;
++
++	/**
++	 * @engine: Select the engine this job should be executed on
++	 *
++	 * %DRM_IVPU_ENGINE_COMPUTE:
++	 *
++	 * Performs Deep Learning Neural Compute Inference Operations
++	 *
++	 * %DRM_IVPU_ENGINE_COPY:
++	 *
++	 * Performs memory copy operations to/from system memory allocated for VPU
++	 */
++	__u32 engine;
++
++	/** @flags: Reserved for future use - must be zero */
++	__u32 flags;
++
++	/**
++	 * @commands_offset:
++	 *
++	 * Offset inside the first buffer in @buffers_ptr containing commands
++	 * to be executed. The offset has to be 8-byte aligned.
++	 */
++	__u32 commands_offset;
++};
++
++/* drm_ivpu_bo_wait job status codes */
++#define DRM_IVPU_JOB_STATUS_SUCCESS 0
++
++/**
++ * struct drm_ivpu_bo_wait - Wait for BO to become inactive
++ *
++ * Blocks until a given buffer object becomes inactive.
++ * With @timeout_ms set to 0 returns immediately.
++ */
++struct drm_ivpu_bo_wait {
++	/** @handle: Handle to the buffer object to be waited on */
++	__u32 handle;
++
++	/** @flags: Reserved for future use - must be zero */
++	__u32 flags;
++
++	/** @timeout_ns: Absolute timeout in nanoseconds (may be zero) */
++	__s64 timeout_ns;
++
++	/**
++	 * @job_status:
++	 *
++	 * Job status code which is updated after the job is completed.
++	 * &DRM_IVPU_JOB_STATUS_SUCCESS or device specific error otherwise.
++	 * Valid only if @handle points to a command buffer.
++	 */
++	__u32 job_status;
++
++	/** @pad: Padding - must be zero */
++	__u32 pad;
++};
++
+ #if defined(__cplusplus)
+ }
+ #endif
 -- 
 2.34.1
 
