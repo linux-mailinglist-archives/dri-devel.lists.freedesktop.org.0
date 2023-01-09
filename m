@@ -1,63 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE038663B0B
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 09:29:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 931EC663B09
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 09:29:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB7B010E564;
-	Tue, 10 Jan 2023 08:29:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAAFC10E562;
+	Tue, 10 Jan 2023 08:29:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A28F710E0D6;
- Mon,  9 Jan 2023 23:16:22 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id bu8so15527388lfb.4;
- Mon, 09 Jan 2023 15:16:22 -0800 (PST)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F54810E0CF;
+ Mon,  9 Jan 2023 23:16:21 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id y25so15528547lfa.9;
+ Mon, 09 Jan 2023 15:16:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=oUSIRNZZE79nkyMU9G9AqBIuhvo2pozCegvf/Srh544=;
- b=e5vEgs1AJgdX8KOL3CKz7nrWRVPue1VdOQbOGTsXxqs0J1Ygz1ssgdEMVmvs/YirWX
- LiwCOS72zz28SQ80nm3FhaRsPrW9Yd5eb53o+UvnMnlmxNknc7I3IV523jLxA7OWbGxa
- 5M/T3fQP1Ms0UatoLVeCNBZW7a2C7C6BorIB+3xcb9lF/AMG4Lb5ZFWBRVm0CXtWeijb
- b/nEic1A/Smb3ZMm5DUyYMpdMhAaY1wVGn0ZDqkyt0ibU12xoz7ESSapK8jCqfo+uaBL
- kz+O7R4SHFgOmPjZJvU+XbEwNuSeyHQfR9kx8kx1JVYSfWFQbxYy6D90J1PIKz7lPoJJ
- fwKQ==
+ bh=kpASIlrn94h2kw47h1c03X9cqh5FWCX9FeHma7sBwdI=;
+ b=OddwY0fZ5A3JB6m4rY6uFid0LFESPpUOayVuoldTW73tVR7xTvqwzsKsMlBAhppa2K
+ 3JIAQSrlK7QcSTSSpLzEXa6XGmlpAE0sbMKqsRkEnEmQpZv4NYNdrq97WlLhg1zYr0KC
+ nXQkvyhSFtFD+HabUcSL3soa36aQ32GdOgAwZtFn/ZxQR4TOdvdSxTGGIyBXYWXQbYO2
+ vOAKxQmlxVRjoWwbBMnGfTQhS1rkdWoZDGYAo6uclgM+IoSSQZlw4m0HPXciDTgtsh/X
+ hDJhhe5MLSujIH3UFLGqmd3JrPU0F9cAqDCZd/ojQPnn4rEu4eWr9DFv900duiOUwfnx
+ oWqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=oUSIRNZZE79nkyMU9G9AqBIuhvo2pozCegvf/Srh544=;
- b=0iJ3LQteb7i06y7xTQVtHdrl4MydnxQSlPKA5qVooDOLdjdXwPvucxpUWgrxq8iBpx
- apc3kmxO0ut2fp7acDR4ScKvn1xJbeLPq0UgJakVhJ9Syvq/mu89DrqfokaMrfHumnFw
- o+AhdcNoKqFo0jD9iMtofmK7gvoHLADHG16ZePy6u7kBQxsuOTjmPV/TmJsQdH5cwR4/
- vBuxOQNP7/XNiExylnj4wEaXFnALNAUy/em3dDn8jniD9dmsucWwckNBsnAC8XDCzhmZ
- h4ioc1+pMWtN51M+tELI0OL+D/u0zaM/iMgIgtNWmulFjIdRpWFz949jnP2go9pBdzjP
- CNow==
-X-Gm-Message-State: AFqh2kqlfwempPwo+EAEzl7YFYnsY4PJ/ZdIECzeyW5JE1Tc8RR7PAvu
- GJC/duSvbL7y9sAsoaerrgU=
-X-Google-Smtp-Source: AMrXdXtYdkRxLWFDDMg2agf6WmqCxIDsX34LBmbp8EzWMeALY//PoXn597+tUcIDHgQlLj4GX221iQ==
-X-Received: by 2002:a05:6512:694:b0:4cb:436b:a70f with SMTP id
- t20-20020a056512069400b004cb436ba70fmr7100128lfe.64.1673306182070; 
- Mon, 09 Jan 2023 15:16:22 -0800 (PST)
+ bh=kpASIlrn94h2kw47h1c03X9cqh5FWCX9FeHma7sBwdI=;
+ b=tmyXl2hYfbYy995L7AsBtzHK/Tamvyh9x9Sr8XCSPLVARHOdX9FRbCqApqlYngf1L9
+ OkYTxNILgFzGCHHf0KZ2b/yL4M7KJbOjY6qoMwxfBS1ZyOushtnFPgulpPY/HeNdSjvf
+ kCWKdkns/lo4Fp5k9dLYz6sTe9yjK6pgDtb6lIzgf69bx3xd171GqJOR/cb3MZHYYkT3
+ 7Ttsm3s6uYMES24sK/Bacs/GlgWi8v193OXsGwSMQt6Eg6+lajvbijS4GmcQ+4LyJdQh
+ 8JH3gAglj0adKibcjPQNj5zjGjsNyi9PavX4VGfZyKkbhfCXcNk3ULM8b6KeqfYUBzw1
+ u6VA==
+X-Gm-Message-State: AFqh2kq5kEwYFfyyi0bSWGY+o/EhniLIjcqebrxcqDd2wiIRWOYVXruo
+ zUrWo4BNxwKxU8g4MZNMIL8=
+X-Google-Smtp-Source: AMrXdXu5ikj2pAGUB/brE8c1ApXc5qFSMTIK3z7H9KCdu4bmAuUGQkMHt4a6xrXKgb5sLMG4R/alPA==
+X-Received: by 2002:a05:6512:e82:b0:4be:a3c8:dc5 with SMTP id
+ bi2-20020a0565120e8200b004bea3c80dc5mr18607851lfb.22.1673306179533; 
+ Mon, 09 Jan 2023 15:16:19 -0800 (PST)
 Received: from localhost (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- g12-20020a0565123b8c00b004aa543f3748sm1822460lfv.130.2023.01.09.15.16.19
+ s6-20020a056512214600b004aa255e2e66sm1823097lfr.241.2023.01.09.15.16.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 15:16:21 -0800 (PST)
+ Mon, 09 Jan 2023 15:16:18 -0800 (PST)
 From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 X-Google-Original-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
- Marijn Suijten <marijn.suijten@somainline.org>
-In-Reply-To: <20221221231943.1961117-1-marijn.suijten@somainline.org>
-References: <20221221231943.1961117-1-marijn.suijten@somainline.org>
-Subject: Re: [PATCH v2 0/8] drm/msm: DSC Electric Boogaloo for sm8[12]50
-Message-Id: <167330408773.609993.1753222329751720759.b4-ty@linaro.org>
+To: phone-devel@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>
+In-Reply-To: <20221121222456.437815-1-marijn.suijten@somainline.org>
+References: <20221121222456.437815-1-marijn.suijten@somainline.org>
+Subject: Re: [PATCH] drm/msm/dpu: Print interrupt index in addition to the mask
+Message-Id: <167330408782.609993.3753799611578677856.b4-ty@linaro.org>
 Date: Tue, 10 Jan 2023 00:41:27 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -75,53 +73,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Haowen Bai <baihaowen@meizu.com>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Jani Nikula <jani.nikula@intel.com>,
- linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
- Loic Poulain <loic.poulain@linaro.org>,
+Cc: Vinod Koul <vkoul@kernel.org>, linux-kernel@vger.kernel.org,
  Jami Kettunen <jami.kettunen@somainline.org>,
  Bjorn Andersson <andersson@kernel.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- Douglas Anderson <dianders@chromium.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, sunliming <sunliming@kylinos.cn>,
- freedreno@lists.freedesktop.org
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>, Sean Paul <sean@poorly.run>,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Thu, 22 Dec 2022 00:19:35 +0100, Marijn Suijten wrote:
-> This preliminary Display Stream Compression support package for
-> (initially tested on) sm8[12]50 is based on comparing DSC behaviour
-> between downstream and mainline.  Some new callbacks are added (for
-> binding blocks on active CTLs), logic bugs are corrected, zeroed struct
-> members are now assigned proper values, and RM allocation and hw block
-> retrieval now hand out (or not) DSC blocks without causing null-pointer
-> dereferences.
+On Mon, 21 Nov 2022 23:24:55 +0100, Marijn Suijten wrote:
+> The mask only describes the `irq_idx % 32` part, making it generally
+> impossible to deduce what interrupt is being enabled/disabled.  Since
+> `debug/core_irq` in debugfs (and other prints) also include the full
+> `DPU_IRQ_IDX()` value, print the same full value here for easier
+> correlation instead of only adding the `irq_idx / 32` part.
+> 
+> Furthermore, make the dbgstr messages more consistent.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/8] drm/msm/dpu: Wire up DSC mask for active CTL configuration
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/c2d2c62da1fc
-[2/8] drm/msm/dsi: Use DSC slice(s) packet size to compute word count
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/bbd1bccdcf4e
-[3/8] drm/msm/dsi: Flip greater-than check for slice_count and slice_per_intf
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/85b5a40991dd
-[5/8] drm/msm/dpu: Reject topologies for which no DSC blocks are available
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/f52b965c9434
-[6/8] drm/msm/dpu: Remove num_enc from topology struct in favour of num_dsc
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/9ce765395f41
-[7/8] drm/msm/dpu: Implement DSC binding to PP block for CTL V1
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/086116ae1410
-[8/8] drm/msm/dpu: Add DSC configuration for SM8150 and SM8250
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/8cc4c9de15f4
+[1/1] drm/msm/dpu: Print interrupt index in addition to the mask
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/d45e5744ab39
 
 Best regards,
 -- 
