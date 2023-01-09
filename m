@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 758566624DE
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 12:57:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E44BD6624DF
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 12:57:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FF7B10E3F7;
-	Mon,  9 Jan 2023 11:57:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D76F910E3F8;
+	Mon,  9 Jan 2023 11:57:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 930C510E3F5;
- Mon,  9 Jan 2023 11:57:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DA7510E3F8;
+ Mon,  9 Jan 2023 11:57:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,16 +19,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=V2Sga8W8H54grHYU1BZudixfV9fBRbe1j67/AT8fq7g=; b=Pt14+87EfHwxIH7IcP38Lua8rp
- 1JQnsZIvA5TMNFchtpINI0xBmoDgmD13yrpJmP3CIN4JwyNTsjMAvZ8mjrvPirrccIpKrfaW7Qs9a
- so88dwuw/NoUW1lGc9d/hTL7M1k1JwK1E4rM8Wi86AXtlQpv0wvIP4fPOSfsVfuSLyYwOOB4kL0LN
- ZHoRr0R80L7khbVqUdzqQOGvzumxQWIsa0JmtZsaIIsqvUrYSX6GqGWz0vo/gs61r4wZy/3pb3fpO
- n9uN3nmVzw3J2M4FiMeLyJY+WcAdB1uvSgqXhcrOmomcYfrkYE453P2TBEMDHMBsRkm3eU3H8rLYM
- PUELLu5g==;
+ bh=+g9FzGLxnzT1FKDArCdNffS+SgvDZ0w4DX89TYpKeAM=; b=pEFOz+rEU0BOR3jdla+myI1BIa
+ Wd/QuANkdR2hZ8aWG9epHuu5HrjbM98GFHTfpPIugZ8GF+WrtH09q2CKfaH9LJxZlzu7Rmr0puK5p
+ 4SOerCnY7QZCyOxZM1lxNVsShPggRa02QZpiS7tTGJhtv8tXDdo6YimBWVGji6T259nIxEU3DyJt7
+ p3P5lb7mz6z7k6tkQ31JHDPFUqr4DWqnTmrcbozKKOZm0ZTK8OXy6+ekNyF76Fr2hPne7Hh70nuod
+ vkSqeYfdtjvvHDVDlUwN4Yocr8g0ZuVNIsDqXBLFaij+FMmcaEPBDKkV9PwpYlYb2HIziKEyn1xt6
+ 8TL059eQ==;
 Received: from [187.36.234.139] (helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pEqm2-003LkJ-Gj; Mon, 09 Jan 2023 12:57:07 +0100
+ id 1pEqm9-003LkJ-5N; Mon, 09 Jan 2023 12:57:13 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Lucas Stach <l.stach@pengutronix.de>,
@@ -38,9 +38,9 @@ To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
  Chia-I Wu <olvaffe@gmail.com>, Tomi Valkeinen <tomba@kernel.org>
-Subject: [PATCH v2 6/7] drm/qxl: remove unused debugfs structure
-Date: Mon,  9 Jan 2023 08:55:20 -0300
-Message-Id: <20230109115520.40088-7-mcanal@igalia.com>
+Subject: [PATCH v2 7/7] drm/qxl: use new debugfs device-centered functions
+Date: Mon,  9 Jan 2023 08:55:21 -0300
+Message-Id: <20230109115520.40088-8-mcanal@igalia.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230109115520.40088-1-mcanal@igalia.com>
 References: <20230109115520.40088-1-mcanal@igalia.com>
@@ -67,114 +67,118 @@ Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current debugfs structure was introduced at commit f64122c1f6ad
-("drm: add new QXL driver. (v1.4)") and it was never used by the driver.
-Considering the addition of more device-centered functions to the DRM core,
-remove the current debugfs structure.
+Replace the use of drm_debugfs_create_files() with the new
+drm_debugfs_add_files() function, which centers the debugfs files
+management on the drm_device instead of drm_minor. Moreover, remove the
+debugfs_init hook and add the debugfs files directly on qxl_pci_probe(),
+before drm_dev_register().
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/qxl/qxl_debugfs.c | 29 -----------------------------
- drivers/gpu/drm/qxl/qxl_drv.h     | 20 --------------------
- 2 files changed, 49 deletions(-)
+ drivers/gpu/drm/qxl/qxl_debugfs.c | 26 ++++++++++----------------
+ drivers/gpu/drm/qxl/qxl_drv.c     |  5 ++---
+ drivers/gpu/drm/qxl/qxl_drv.h     |  2 +-
+ 3 files changed, 13 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/gpu/drm/qxl/qxl_debugfs.c b/drivers/gpu/drm/qxl/qxl_debugfs.c
-index 2d9ed3b94574..bdfce1a8f006 100644
+index bdfce1a8f006..c33f1f37dca0 100644
 --- a/drivers/gpu/drm/qxl/qxl_debugfs.c
 +++ b/drivers/gpu/drm/qxl/qxl_debugfs.c
-@@ -95,32 +95,3 @@ qxl_debugfs_init(struct drm_minor *minor)
- 	qxl_ttm_debugfs_init(dev);
- #endif
- }
--
--void qxl_debugfs_add_files(struct qxl_device *qdev,
--			   struct drm_info_list *files,
--			   unsigned int nfiles)
--{
--	unsigned int i;
--
--	for (i = 0; i < qdev->debugfs_count; i++) {
--		if (qdev->debugfs[i].files == files) {
--			/* Already registered */
--			return;
--		}
--	}
--
--	i = qdev->debugfs_count + 1;
--	if (i > QXL_DEBUGFS_MAX_COMPONENTS) {
--		DRM_ERROR("Reached maximum number of debugfs components.\n");
--		DRM_ERROR("Report so we increase QXL_DEBUGFS_MAX_COMPONENTS.\n");
--		return;
--	}
--	qdev->debugfs[qdev->debugfs_count].files = files;
--	qdev->debugfs[qdev->debugfs_count].num_files = nfiles;
--	qdev->debugfs_count = i;
+@@ -34,12 +34,11 @@
+ #include "qxl_drv.h"
+ #include "qxl_object.h"
+ 
 -#if defined(CONFIG_DEBUG_FS)
--	drm_debugfs_create_files(files, nfiles,
--				 qdev->ddev.primary->debugfs_root,
--				 qdev->ddev.primary);
+-static int
++static int __maybe_unused
+ qxl_debugfs_irq_received(struct seq_file *m, void *data)
+ {
+-	struct drm_info_node *node = (struct drm_info_node *) m->private;
+-	struct qxl_device *qdev = to_qxl(node->minor->dev);
++	struct drm_debugfs_entry *entry = m->private;
++	struct qxl_device *qdev = to_qxl(entry->dev);
+ 
+ 	seq_printf(m, "%d\n", atomic_read(&qdev->irq_received));
+ 	seq_printf(m, "%d\n", atomic_read(&qdev->irq_received_display));
+@@ -49,11 +48,11 @@ qxl_debugfs_irq_received(struct seq_file *m, void *data)
+ 	return 0;
+ }
+ 
+-static int
++static int __maybe_unused
+ qxl_debugfs_buffers_info(struct seq_file *m, void *data)
+ {
+-	struct drm_info_node *node = (struct drm_info_node *) m->private;
+-	struct qxl_device *qdev = to_qxl(node->minor->dev);
++	struct drm_debugfs_entry *entry = m->private;
++	struct qxl_device *qdev = to_qxl(entry->dev);
+ 	struct qxl_bo *bo;
+ 
+ 	list_for_each_entry(bo, &qdev->gem.objects, list) {
+@@ -76,22 +75,17 @@ qxl_debugfs_buffers_info(struct seq_file *m, void *data)
+ 	return 0;
+ }
+ 
+-static struct drm_info_list qxl_debugfs_list[] = {
++static struct drm_debugfs_info qxl_debugfs_list[] = {
+ 	{ "irq_received", qxl_debugfs_irq_received, 0, NULL },
+ 	{ "qxl_buffers", qxl_debugfs_buffers_info, 0, NULL },
+ };
+ #define QXL_DEBUGFS_ENTRIES ARRAY_SIZE(qxl_debugfs_list)
 -#endif
--}
+ 
+-void
+-qxl_debugfs_init(struct drm_minor *minor)
++void qxl_debugfs_init(struct drm_device *drm)
+ {
+-#if defined(CONFIG_DEBUG_FS)
+-	struct qxl_device *dev = to_qxl(minor->dev);
++	struct qxl_device *dev = to_qxl(drm);
+ 
+-	drm_debugfs_create_files(qxl_debugfs_list, QXL_DEBUGFS_ENTRIES,
+-				 minor->debugfs_root, minor);
++	drm_debugfs_add_files(drm, qxl_debugfs_list, QXL_DEBUGFS_ENTRIES);
+ 
+ 	qxl_ttm_debugfs_init(dev);
+-#endif
+ }
+diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
+index a3b83f89e061..3ae2db78f671 100644
+--- a/drivers/gpu/drm/qxl/qxl_drv.c
++++ b/drivers/gpu/drm/qxl/qxl_drv.c
+@@ -116,6 +116,8 @@ qxl_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	if (ret)
+ 		goto unload;
+ 
++	qxl_debugfs_init(&qdev->ddev);
++
+ 	drm_kms_helper_poll_init(&qdev->ddev);
+ 
+ 	/* Complete initialization. */
+@@ -287,9 +289,6 @@ static struct drm_driver qxl_driver = {
+ 
+ 	.dumb_create = qxl_mode_dumb_create,
+ 	.dumb_map_offset = drm_gem_ttm_dumb_map_offset,
+-#if defined(CONFIG_DEBUG_FS)
+-	.debugfs_init = qxl_debugfs_init,
+-#endif
+ 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+ 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+ 	.gem_prime_import_sg_table = qxl_gem_prime_import_sg_table,
 diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
-index ea993d7162e8..0868d5d2a839 100644
+index 0868d5d2a839..cb84a3bebcec 100644
 --- a/drivers/gpu/drm/qxl/qxl_drv.h
 +++ b/drivers/gpu/drm/qxl/qxl_drv.h
-@@ -60,8 +60,6 @@ struct iosys_map;
- #define DRIVER_MINOR 1
- #define DRIVER_PATCHLEVEL 0
+@@ -397,7 +397,7 @@ int qxl_garbage_collect(struct qxl_device *qdev);
  
--#define QXL_DEBUGFS_MAX_COMPONENTS		32
--
- extern int qxl_num_crtc;
+ /* debugfs */
  
- #define QXL_INTERRUPT_MASK (\
-@@ -165,14 +163,6 @@ struct qxl_drm_image {
- 	struct list_head chunk_list;
- };
+-void qxl_debugfs_init(struct drm_minor *minor);
++void qxl_debugfs_init(struct drm_device *drm);
+ void qxl_ttm_debugfs_init(struct qxl_device *qdev);
  
--/*
-- * Debugfs
-- */
--struct qxl_debugfs {
--	struct drm_info_list	*files;
--	unsigned int num_files;
--};
--
- struct qxl_device {
- 	struct drm_device ddev;
- 
-@@ -228,10 +218,6 @@ struct qxl_device {
- 	wait_queue_head_t io_cmd_event;
- 	struct work_struct client_monitors_config_work;
- 
--	/* debugfs */
--	struct qxl_debugfs	debugfs[QXL_DEBUGFS_MAX_COMPONENTS];
--	unsigned int debugfs_count;
--
- 	struct mutex		update_area_mutex;
- 
- 	struct idr	surf_id_idr;
-@@ -256,8 +242,6 @@ struct qxl_device {
- 
- #define to_qxl(dev) container_of(dev, struct qxl_device, ddev)
- 
--int qxl_debugfs_fence_init(struct qxl_device *rdev);
--
- int qxl_device_init(struct qxl_device *qdev, struct pci_dev *pdev);
- void qxl_device_fini(struct qxl_device *qdev);
- 
-@@ -430,10 +414,6 @@ void qxl_gem_prime_vunmap(struct drm_gem_object *obj,
- /* qxl_irq.c */
- int qxl_irq_init(struct qxl_device *qdev);
- 
--void qxl_debugfs_add_files(struct qxl_device *qdev,
--			   struct drm_info_list *files,
--			   unsigned int nfiles);
--
- int qxl_surface_id_alloc(struct qxl_device *qdev,
- 			 struct qxl_bo *surf);
- void qxl_surface_id_dealloc(struct qxl_device *qdev,
+ /* qxl_prime.c */
 -- 
 2.39.0
 
