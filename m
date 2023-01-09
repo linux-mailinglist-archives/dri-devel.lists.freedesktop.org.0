@@ -1,70 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A567C6622B0
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 11:13:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C646622BC
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 11:15:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E20CC10E3B7;
-	Mon,  9 Jan 2023 10:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB86F10E3B6;
+	Mon,  9 Jan 2023 10:15:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1B4C10E3AF;
- Mon,  9 Jan 2023 10:13:31 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id qk9so18800789ejc.3;
- Mon, 09 Jan 2023 02:13:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=OWDI1MgxL/tmvA0NEV7h+e9N1yw/Y8AfDqibTRwZNtg=;
- b=ZcS/Ya23uW74wDrALUJvNKPSDwCX6GINryeKm3hGJcGGFmo8gmExeHNEqtl42FZPE6
- 1QNennyQ1cz0gSvZznvKySBLdgswiArkH9yTi8ixiCtN313K68bvzM+iB0nG+mUKq1Bj
- ArZ+w6ERAaCljQjwYsJ4c9EM6gcHFy8m6BtUbdHYFyoPTPmqzvAEOPj53CVvojrUwx1N
- ifijV6QPuRZYZ6BUZi4cOwW9iV3jE5y3B6rASMzU/ZDlzddxsyj5tQZhoFr6t+uWwaN3
- mRxHuuzewvyGl46EeZry//dpI7NuPcY7PvLUYlySgxw/xdTA0NnNj8/ziyUDm9jz+rG7
- Xi7g==
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8F1810E3B6
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 10:15:21 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id m3so5895683wmq.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 02:15:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4X9ptXPPVtfy0d+4kH7PXP7h+o/YSJv0SiTZkEY95UI=;
+ b=Hun6DtcORuqU1dp/qUo6ouuwn1Nw6PwTlzr3ZHxcoKSxF6JCsHPnxArXayJbsEG5jj
+ gm90120sSHzXTvvX3wq3Y22/70cZWoTVP73BzfgGqqZgsbruh19jS6SvFob1SZippyEk
+ XXXZaXvI99CfMeGZDBRtFeA/nZhE5q+is+GHp4oVMkEF7gezJ+7j9DGkbGJA4asLOzI0
+ PAmOrNP0N6g+rlpfJFJWuuGbtxbC12jghdAU3LqfWAXfRGLJ6gZrKbYVFduQTHOE+oIZ
+ iYhLYwTDy8SOBrjtZqAmJ/EoXcHIOYp/hJatF5Tl5hR+RbozW/vqWVsth6qbQW5lL5Ad
+ pUmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OWDI1MgxL/tmvA0NEV7h+e9N1yw/Y8AfDqibTRwZNtg=;
- b=STsBFufSx6uaYNeNJdfVcIT9woKk1YU4CfXZb8EQgNlAzoegIMs/gmXD1FG7olMsqf
- 97mRt/Vruaqd0HRPgrgBrNQzc9hP7k3o2oNWr+gEoWqLDd/j+JHo+D0biXoUSYVIJD2P
- gZcPCRaw7CIUTBub1LMTxmL9uD97ktO/f9mTubiXOQiJfLN8VVUe7Gt+Ry66g38BHMuZ
- HcrRg0+TEJmjuUzBt32Xr4E1y/z5TF3vf+Vt5BqJnuSlHn8vsjs5Q9CGKSPb0AbrZ3nS
- wOFqV7hE3Mdo5tSt2lJs+PdAK2tUdf3M5axxXGjiI9RVkL5QUBF1rsQPQHyhj6U27sOg
- T+WQ==
-X-Gm-Message-State: AFqh2krRCvW9/tjEuWMwcvfTA3l7Oy/p6ODyT0l5ZtMRYnachYhYXT3j
- QyYiOUo9Z3v3TtP+x84Sc9k=
-X-Google-Smtp-Source: AMrXdXuBdecK0uZ3Vpq4DRwbUHm3eVqMbgwMHCVqashcx9KLmAW3Drm8d6H1VNkmu61nW2HHTkH9Hg==
-X-Received: by 2002:a17:906:c0c2:b0:836:3d22:5d73 with SMTP id
- bn2-20020a170906c0c200b008363d225d73mr54555509ejb.39.1673259210337; 
- Mon, 09 Jan 2023 02:13:30 -0800 (PST)
-Received: from [192.168.178.21] (p5b0ea2e7.dip0.t-ipconnect.de.
- [91.14.162.231]) by smtp.gmail.com with ESMTPSA id
- r2-20020a17090609c200b007bd28b50305sm3544634eje.200.2023.01.09.02.13.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 02:13:29 -0800 (PST)
-Message-ID: <8354c408-623a-1fc0-d5e0-201a0bce0309@gmail.com>
-Date: Mon, 9 Jan 2023 11:13:28 +0100
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4X9ptXPPVtfy0d+4kH7PXP7h+o/YSJv0SiTZkEY95UI=;
+ b=tFh0ZdiP9R0jHtRUjeuOlzblsRzlBATLbmMDl7CMQUZnczczIgH8r9s1hP1lmsGD9J
+ 7lksirg5MMGM9jJ64rCOqMTx0AAm196tuuIZPQT5Cq0Xg5N1wbqy0nrBVEOrC98bG+Pl
+ QOt+aMDB+U02m7zrXEC/N4LzVMP8rqFSgUP/3tnztoK3oKqlSC8szCj5bTY6bkCBuz6u
+ 1MUme3IiFtsKNBytR81MR2n8B50w0aUuam9yMtqdsIdqqrMHJ8FeB1/yK69HRyD/Ge9e
+ aJi5ItLFQ4jZZ/ncg7BdUVm04zdRYlGJ+mN/ml3DkJVd3O1PD6uY2BTjeelvI1WY/L/4
+ Iviw==
+X-Gm-Message-State: AFqh2kqOr7cOocchkN303tF/ZJX3fmosv3a3ghVelolGDKJC/dLsKo05
+ /NVim465RYRJ2ocisnDlS9pKqA==
+X-Google-Smtp-Source: AMrXdXs8pPhran1wNxc2adpsMssgjydn8bHgYgu+Y0FTUcmGPXP+PLaaPuhxXLTI8zzHVVAYXDLyyA==
+X-Received: by 2002:a05:600c:1e24:b0:3d0:8643:caf1 with SMTP id
+ ay36-20020a05600c1e2400b003d08643caf1mr46607392wmb.16.1673259320109; 
+ Mon, 09 Jan 2023 02:15:20 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ by smtp.gmail.com with ESMTPSA id
+ h10-20020a05600c2caa00b003cfd58409desm15815376wmc.13.2023.01.09.02.15.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Jan 2023 02:15:19 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v3 0/7] drm/msm: add support for SM8550
+Date: Mon, 09 Jan 2023 11:15:17 +0100
+Message-Id: <20230103-topic-sm8550-upstream-mdss-dsi-v3-0-660c3bcb127f@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] drm: Alloc high address for drm buddy topdown flag
-Content-Language: en-US
-To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, matthew.auld@intel.com,
- christian.koenig@amd.com, alexander.deucher@amd.com
-References: <20230107151523.29864-1-Arunpravin.PaneerSelvam@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20230107151523.29864-1-Arunpravin.PaneerSelvam@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADXpu2MC/5XOzW6DMBAE4FeJfO5W/pGB9NT3qHow6yWsBDbyE
+ tQo4t1jcsstPc4cvpm7EipMor5Od1VoY+GcanAfJ4VjSBcCjjUrq63TRjtY88IIMnfea7gushYK
+ M8xRBKIwOI+hC0jB27OqSB+EoC8h4ViZdJ2mWi6FBv57rv781jyyrLncnic2c7Rv720GNJwRY0u
+ NtwPG74lTKPkzl4s67M3+z7PV69rBoGli2zj/4u37/gCS34FpMgEAAA==
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonathan Marek <jonathan@marek.ca>
+X-Mailer: b4 0.11.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,162 +78,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 07.01.23 um 16:15 schrieb Arunpravin Paneer Selvam:
-> As we are observing low numbers in viewperf graphics benchmark, we
-> are strictly not allowing the top down flag enabled allocations
-> to steal the memory space from cpu visible region.
->
-> The approach is, we are sorting each order list entries in
-> ascending order and compare the last entry of each order
-> list in the freelist and return the max block.
->
-> This patch improves the viewperf 3D benchmark scores.
->
-> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+This adds support for the MDSS/DPU/DSI on the Qualcomm SM8550 platform.
 
-Acked-by: Christian König <christian.koenig@amd.com>, but somebody with more insight of the drm buddy allocator should take a closer look at this.
+This patchset is based on the SM8450 display support serie at [1].
 
+In order to work, the following patchsets are required:
+- PM8550 LDO fix at [2]
+- DISPCC driver at [3]
 
-> ---
->   drivers/gpu/drm/drm_buddy.c | 81 ++++++++++++++++++++++++-------------
->   1 file changed, 54 insertions(+), 27 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-> index 11bb59399471..50916b2f2fc5 100644
-> --- a/drivers/gpu/drm/drm_buddy.c
-> +++ b/drivers/gpu/drm/drm_buddy.c
-> @@ -38,6 +38,25 @@ static void drm_block_free(struct drm_buddy *mm,
->   	kmem_cache_free(slab_blocks, block);
->   }
->   
-> +static void list_insert_sorted(struct drm_buddy *mm,
-> +			       struct drm_buddy_block *block)
-> +{
-> +	struct drm_buddy_block *node;
-> +	struct list_head *head;
-> +
-> +	head = &mm->free_list[drm_buddy_block_order(block)];
-> +	if (list_empty(head)) {
-> +		list_add(&block->link, head);
-> +		return;
-> +	}
-> +
-> +	list_for_each_entry(node, head, link)
-> +		if (drm_buddy_block_offset(block) < drm_buddy_block_offset(node))
-> +			break;
-> +
-> +	__list_add(&block->link, node->link.prev, &node->link);
-> +}
-> +
->   static void mark_allocated(struct drm_buddy_block *block)
->   {
->   	block->header &= ~DRM_BUDDY_HEADER_STATE;
-> @@ -52,8 +71,7 @@ static void mark_free(struct drm_buddy *mm,
->   	block->header &= ~DRM_BUDDY_HEADER_STATE;
->   	block->header |= DRM_BUDDY_FREE;
->   
-> -	list_add(&block->link,
-> -		 &mm->free_list[drm_buddy_block_order(block)]);
-> +	list_insert_sorted(mm, block);
->   }
->   
->   static void mark_split(struct drm_buddy_block *block)
-> @@ -387,20 +405,26 @@ alloc_range_bias(struct drm_buddy *mm,
->   }
->   
->   static struct drm_buddy_block *
-> -get_maxblock(struct list_head *head)
-> +get_maxblock(struct drm_buddy *mm, unsigned int order)
->   {
->   	struct drm_buddy_block *max_block = NULL, *node;
-> +	unsigned int i;
->   
-> -	max_block = list_first_entry_or_null(head,
-> -					     struct drm_buddy_block,
-> -					     link);
-> -	if (!max_block)
-> -		return NULL;
-> +	for (i = order; i <= mm->max_order; ++i) {
-> +		if (!list_empty(&mm->free_list[i])) {
-> +			node = list_last_entry(&mm->free_list[i],
-> +					       struct drm_buddy_block,
-> +					       link);
-> +			if (!max_block) {
-> +				max_block = node;
-> +				continue;
-> +			}
->   
-> -	list_for_each_entry(node, head, link) {
-> -		if (drm_buddy_block_offset(node) >
-> -		    drm_buddy_block_offset(max_block))
-> -			max_block = node;
-> +			if (drm_buddy_block_offset(node) >
-> +				drm_buddy_block_offset(max_block)) {
-> +				max_block = node;
-> +			}
-> +		}
->   	}
->   
->   	return max_block;
-> @@ -412,20 +436,23 @@ alloc_from_freelist(struct drm_buddy *mm,
->   		    unsigned long flags)
->   {
->   	struct drm_buddy_block *block = NULL;
-> -	unsigned int i;
-> +	unsigned int tmp;
->   	int err;
->   
-> -	for (i = order; i <= mm->max_order; ++i) {
-> -		if (flags & DRM_BUDDY_TOPDOWN_ALLOCATION) {
-> -			block = get_maxblock(&mm->free_list[i]);
-> -			if (block)
-> -				break;
-> -		} else {
-> -			block = list_first_entry_or_null(&mm->free_list[i],
-> -							 struct drm_buddy_block,
-> -							 link);
-> -			if (block)
-> -				break;
-> +	if (flags & DRM_BUDDY_TOPDOWN_ALLOCATION) {
-> +		block = get_maxblock(mm, order);
-> +		if (block)
-> +			/* Store the obtained block order */
-> +			tmp = drm_buddy_block_order(block);
-> +	} else {
-> +		for (tmp = order; tmp <= mm->max_order; ++tmp) {
-> +			if (!list_empty(&mm->free_list[tmp])) {
-> +				block = list_last_entry(&mm->free_list[tmp],
-> +							struct drm_buddy_block,
-> +							link);
-> +				if (block)
-> +					break;
-> +			}
->   		}
->   	}
->   
-> @@ -434,18 +461,18 @@ alloc_from_freelist(struct drm_buddy *mm,
->   
->   	BUG_ON(!drm_buddy_block_is_free(block));
->   
-> -	while (i != order) {
-> +	while (tmp != order) {
->   		err = split_block(mm, block);
->   		if (unlikely(err))
->   			goto err_undo;
->   
->   		block = block->right;
-> -		i--;
-> +		tmp--;
->   	}
->   	return block;
->   
->   err_undo:
-> -	if (i != order)
-> +	if (tmp != order)
->   		__drm_buddy_free(mm, block);
->   	return ERR_PTR(err);
->   }
++ the DT changes.
 
+[1] https://lore.kernel.org/all/20221207012231.112059-1-dmitry.baryshkov@linaro.org/
+[2] https://lore.kernel.org/all/20230102-topic-sm8550-upstream-fixes-reg-l11b-nldo-v1-1-d97def246338@linaro.org/
+[3] https://lore.kernel.org/all/20230103-topic-sm8550-upstream-dispcc-v2-0-786ddd8785a2@linaro.org
+
+To: Rob Clark <robdclark@gmail.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Sean Paul <sean@poorly.run>
+To: David Airlie <airlied@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Rob Herring <robh+dt@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+To: Jonathan Marek <jonathan@marek.ca>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+
+---
+Changes in v3:
+- Patch 1,2,3: Added Acked-by/Reviewed-by
+- Patch 6: Fixed compatible to qcom,sm8550-dsi-phy-4nm
+- Link to v2: https://lore.kernel.org/r/20230103-topic-sm8550-upstream-mdss-dsi-v2-0-87f1c16d7635@linaro.org
+
+Changes in v2:
+- Rebased on msm-next-lumag & msm-next-lumag-dpu
+- Fixed cover letter title to SM8550
+- Patch 1: renamed compatible to qcom,sm8550-dsi-phy-4nm 
+- Patch 2: split in 2 patches, switch to renamed qcom,sm8550-dsi-phy-4nm
+- Patch 3: switch CTL to use CTL_SC7280_MASK, Added Reviewed-by
+- Patch 4: Added Reviewed-by
+- Patch 5: fixed V5.2 quirk order
+- Patch 6: Added Reviewed-by
+- Link to v1: https://lore.kernel.org/r/20230103-topic-sm8550-upstream-mdss-dsi-v1-0-9ccd7e652fcd@linaro.org
+
+---
+Neil Armstrong (7):
+      dt-bindings: display/msm: document the SM8550 DSI PHY
+      dt-bindings: display/msm: document DPU on SM8550
+      dt-bindings: display/msm: document MDSS on SM8550
+      drm/msm/dpu: add support for SM8550
+      drm/msm: mdss: add support for SM8550
+      drm/msm/dsi: add support for DSI-PHY on SM8550
+      drm/msm/dsi: add support for DSI 2.7.0
+
+ .../bindings/display/msm/dsi-phy-7nm.yaml          |   1 +
+ .../bindings/display/msm/qcom,sm8550-dpu.yaml      | 134 +++++++++
+ .../bindings/display/msm/qcom,sm8550-mdss.yaml     | 331 +++++++++++++++++++++
+ drivers/gpu/drm/msm/Kconfig                        |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     | 197 ++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c                  |  16 +
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h                  |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   2 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          |  88 +++++-
+ drivers/gpu/drm/msm/msm_mdss.c                     |   2 +
+ 14 files changed, 765 insertions(+), 16 deletions(-)
+---
+base-commit: 58372c69004c06773cbe74a05f2c1a4a8b23db9c
+change-id: 20230103-topic-sm8550-upstream-mdss-dsi-35ca8acea529
+
+Best regards,
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
