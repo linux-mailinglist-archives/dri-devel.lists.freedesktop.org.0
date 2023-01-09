@@ -2,48 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC64066353F
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 00:28:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F14FA663569
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 00:36:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DBBD10E096;
-	Mon,  9 Jan 2023 23:28:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEFE910E0BE;
+	Mon,  9 Jan 2023 23:36:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0762A10E096
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 23:28:49 +0000 (UTC)
-Received: from [192.168.2.154] (unknown [109.252.117.89])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id BEE746602D68;
- Mon,  9 Jan 2023 23:28:47 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1673306928;
- bh=bw1hYe8Xc6/o43q1d4oFrzR72ui9P2UWVKyDLL+iuMM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=NzWsjApffRkLRnZprpeIs5QfddIl4P1biqIapM5DhZgQJkuE2qGgflKHWsp0yBcn1
- 1kywVhNkjT9t4PXlW9fw9pTLNGzYT1QUhlBB+Tl7PXCdgL4uXjmLCus8IhZgcRQnrA
- te34I4JVLVinz9NQyc0gGpduCXQn9C7m5jpdVBqBjT3PbyniWl7UvPfce+F9SSeEIA
- ueyjjIguXgOmtWiq/FQdiU1RTKS8bzPiYEiLWldCpjF6ClbI8L2XqwiTl9QasmzZeH
- 1vll2NrOznZg/KRupuB7y7r+ElLaPLnlVUJkQzF80vlGNcFwCVknbedF/qj7SnhI70
- s5NP5ZOPSpHlQ==
-Message-ID: <3ae74f28-580b-3b53-3d7b-e8bde97dabe3@collabora.com>
-Date: Tue, 10 Jan 2023 02:28:45 +0300
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3919910E0CF
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 23:36:15 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id d30so10676397lfv.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 15:36:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fbCC4/NAEi7QL8GVYq6w9KKB1sHLRdN0BAnnJp4jmt8=;
+ b=QUKkUjDYxkCANV7FXFWAUCbtNdYq7o1JAGSF4bdCRRd+7kq/ye4HIqfKqFkbneK00c
+ BymCCO9DjFleTxh1kCUZWRJ5Hr+MJPLl0o1QA9RWghyCoG+3jV9foyHNvqaV4Z7kzPIL
+ M6hWDW2Qta7LfB4uv0UMyrjdCRSdR6Fm+Pa+mbRkvCDxR6Tx63ihqBvWRcOJzQ+PXRoI
+ WJHjYhSO7bqZYzEFL0aKbfO5aFs3K7AEdMNxyYJ7zOIsf2uXabjIyuDj2HIQB/xuGikh
+ qQw+/j8VXo8/cwOponk2G9YKEssaKTA3BVqo8efaRfd5bRYnXjgRFMRq9PYq1jTjCmRQ
+ 9yDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fbCC4/NAEi7QL8GVYq6w9KKB1sHLRdN0BAnnJp4jmt8=;
+ b=edloBRpvKhkt/yrsRb2yJCsKVQmjV5dP9uMtv4YVoiGQve83MhyejbkKTRrTrl3hFE
+ ZMiap/pL2+/cDKOdQ5fsMVFJmIGrAT+PedWKt+oLw5o/dBn0W+luK1xQartCLlDiQGmq
+ LuiDzs01OWxbWXyLMea3rTm6VjQWs2+CpJ3yHP3GcXsYl7mNzHVXZ980zU3YPQqtYEy4
+ lbe6xWHplmYRLyIQ2nwjSC+kj5NRuUG/jWmHW7pDoCQsoAxp7v3JGdFrfY0cR1NojPb6
+ Dz2PP/+rpk7PEOyIh8FIuia+nkTdH9JooVUTl3DsV5mPXDSdcmI6DMkZNUa8/ui0URsx
+ JC3g==
+X-Gm-Message-State: AFqh2krPIwR0FhLg69JNZYsWRN0YEdKV3Jz/3Izp851FcDWosyfcE8VI
+ qwQIVGmWGErIev/I1LI7HS76Lg==
+X-Google-Smtp-Source: AMrXdXvXjSjyrWinT0Qx1C/ylFYva16KNvkPkx496D30fxTHNGVyv8d6IUO8gZU9xBTAzAKNI4S9pg==
+X-Received: by 2002:a05:6512:32d2:b0:4cc:8375:701d with SMTP id
+ f18-20020a05651232d200b004cc8375701dmr1559796lfg.44.1673307373497; 
+ Mon, 09 Jan 2023 15:36:13 -0800 (PST)
+Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
+ 4-20020ac25f44000000b00492e3a8366esm1841307lfz.9.2023.01.09.15.36.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Jan 2023 15:36:12 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH] drm/msm/dpu: disable DSC blocks for SM8350
+Date: Tue, 10 Jan 2023 01:36:12 +0200
+Message-Id: <167330637780.615458.8361646864456567493.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230109214309.586130-1-dmitry.baryshkov@linaro.org>
+References: <20230109214309.586130-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] drm/virtio: Fix GEM handle creation UAF
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20221216233355.542197-1-robdclark@gmail.com>
- <20221216233355.542197-2-robdclark@gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20221216233355.542197-2-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,32 +74,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
- Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/17/22 02:33, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+On Mon, 09 Jan 2023 23:43:09 +0200, Dmitry Baryshkov wrote:
+> SM8350 has newer version of DSC blocks, which are not supported by the
+> driver yet. Remove them for now until these blocks are supported by the
+> driver.
 > 
-> Userspace can guess the handle value and try to race GEM object creation
-> with handle close, resulting in a use-after-free if we dereference the
-> object after dropping the handle's reference.  For that reason, dropping
-> the handle's reference must be done *after* we are done dereferencing
-> the object.
 > 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 19 +++++++++++++++++--
->  1 file changed, 17 insertions(+), 2 deletions(-)
 
-Added fixes/stable tags and applied this virtio-gpu patch to misc-fixes.
-The Panfrost patch is untouched.
+Applied, thanks!
 
--- 
+[1/1] drm/msm/dpu: disable DSC blocks for SM8350
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/3b2551eaeac3
+
 Best regards,
-Dmitry
-
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
