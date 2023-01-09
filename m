@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7861663B0D
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 09:29:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09428663B00
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 09:29:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DFF310E566;
-	Tue, 10 Jan 2023 08:29:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2C1E10E557;
+	Tue, 10 Jan 2023 08:28:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A534B10E0CF;
- Mon,  9 Jan 2023 23:16:16 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id bt23so15494042lfb.5;
- Mon, 09 Jan 2023 15:16:16 -0800 (PST)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B2AF10E511;
+ Mon,  9 Jan 2023 23:16:26 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id m6so15505315lfj.11;
+ Mon, 09 Jan 2023 15:16:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CRAyi2n2FSarDTatQAHom6gbymd5CATd4MjDLdYU+WQ=;
- b=b4Uv+CXMXlZtwqrSfCLoi378tjvHb4etfrlxpdyXiDHBq7dB/wgK/wFs2oFjtEpZel
- 2uMQIPeZHEicJmOV5pgaZMFP+j+G8HG1c4VW34jTAe5Woj80MxYYnZjTY46Sfn5dnoLU
- TfAts+Yt8I5Xje7dHjt7FbXC49EfH6ifC3otMRvAV5BJyeyEYZnp4H20bJtWyVTkM8+u
- Zbg+o3NNTTyU7OLYnwncMsNfHiKrTnJeOlhGuiz9PctdldrTlfacprZgTKAkhjyHkbM9
- aCir3j8BceK1rPwaamM2iE8F1/vCx+xKyQGtRYcCAeq0cXbG6rx2qR3u/fdxp3jDg/tk
- oTOA==
+ bh=TfEuuSwlBNCNhQ0V5aSlOKkpq1jL3HZF0gUtECm9ca4=;
+ b=H89n6zgg9/ccQW83NIXtgWreRJ1gThUzpqTRM46UyotjgGl289ZtSeYWxfwcJDA1io
+ 2d2eBFAobUY0hgOv/1qLa2p0T0eDMoTT0p0odlKwnpozFdXS3DsZIyq1aAK9F66VnDn1
+ lYnGuIiYLNprPIGCYmAKwEkL3GUtFMIRtzeOxEOewO9fxEn2I+ZDYxhhiXtqYJx7Kw+E
+ I8iMnUaogrCKo1EmgN6md2a5m4oGq0MKl0RLMPajTXSbs2L+0mIVUglLO1YYaepiAztb
+ rif1zqFMFG9YtTgMFr03o+OC6R8mkG7ZQUinGmpfnBx6eg8cgH5wD/wb98AzEOplZSHE
+ KCJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CRAyi2n2FSarDTatQAHom6gbymd5CATd4MjDLdYU+WQ=;
- b=Qn3jOv0vnu6Cl3TYDc+0Zs32xFQlqMztrr8GQSZvY5MM95zMoDcayh8yro5OTmQrmD
- wO5yfckIg2kyyJvkubrRTiNDov0MQ/kuW+p6DMFuwJ/tJBr7H9gxPOJAiq+sc5mK4nSs
- xdw+ISS35/8HHNbSi5bb5nGUJ4bBcHodCyr4yBvM/fUv52K00CAFu9+oB4qa1Dq1RcT7
- IwwVKy21m1e3FlA6xlyY1gpRwc0J2nh08xQpMEC+2/DTdKlPyQQQ2Bc0/e+OIAzXKtZn
- TThm1wBmj+45IwbWMxMOlP+dpC/YbC8JtCF/4h7E3Nb1cMbPLHZtbmle8HMjnfzDiuuq
- rUqg==
-X-Gm-Message-State: AFqh2ko2N9ILoDoj0ViIA6JA75NkjyxenXfd5tmtz0vMlfp+3+30vFt3
- M2yLmhIEQsUeEvNWeKZRt20=
-X-Google-Smtp-Source: AMrXdXtIwEE5Za8GXe9lgmkNcC7x8cBRABMaPprXpAMFBHNbva3FqyXnd7ZAu+nw15tNw/d530/K9w==
-X-Received: by 2002:ac2:43a4:0:b0:4cb:3a60:65cb with SMTP id
- t4-20020ac243a4000000b004cb3a6065cbmr6861205lfl.6.1673306174920; 
- Mon, 09 Jan 2023 15:16:14 -0800 (PST)
+ bh=TfEuuSwlBNCNhQ0V5aSlOKkpq1jL3HZF0gUtECm9ca4=;
+ b=GePpbLi+DJNpqoTe+gOSjS5Mfr1879OhWiHYWId1YxMKjzYGG+X1nPh7MiaNxPQueb
+ vb7gTmbn1VO9eNvsDdQ7hY+xo83v2ddguWo7DEtWgpIjaT041w0q52Thxt0ERZq1PowL
+ v1CBsbgV6VZEZYaLw1vbydfhts4DmmHu2shFKwPWR7sMztP+DZ7Y2zd7FfH8IoRLE3XN
+ mxPPsxF5sSNzfoRrqc2F/xEysiZ64c6OKmUdQz53ucosYdJGdl6YopjurYMNF4WKJHnS
+ v4xDXuLmbUpZ8v7eTdJPUN1e2GCCstMe18IRTtucDKa/o90g7JyMW0VgEBB6dwqa507Z
+ 2tUQ==
+X-Gm-Message-State: AFqh2kpQglrIPnLpkgYD/PuoffgZisN+nkKnyuE6SooNyeVUvGa8ceXm
+ dRbKoL3H9upSklwCC4Oaf3k=
+X-Google-Smtp-Source: AMrXdXvprIeLayo9AFJx7FpojNZLkyqDF96Vsu4eBGirYDKXTe9iE/pZTVa/I66i+H3OiKDocm+NhA==
+X-Received: by 2002:a05:6512:10d6:b0:4b5:834b:9f75 with SMTP id
+ k22-20020a05651210d600b004b5834b9f75mr20414337lfg.33.1673306185460; 
+ Mon, 09 Jan 2023 15:16:25 -0800 (PST)
 Received: from localhost (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- a18-20020a056512201200b004cc59b46f74sm1819042lfb.106.2023.01.09.15.16.13
+ b9-20020a056512218900b004b57162edfasm1833530lft.117.2023.01.09.15.16.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 15:16:14 -0800 (PST)
+ Mon, 09 Jan 2023 15:16:24 -0800 (PST)
 From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 X-Google-Original-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20221107103739.8993-1-konrad.dybcio@linaro.org>
-References: <20221107103739.8993-1-konrad.dybcio@linaro.org>
-Subject: Re: [PATCH] drm/msm/dpu1: Remove INTF4 IRQ from SDM845 IRQ mask
-Message-Id: <167330408784.609993.15717302243167908042.b4-ty@linaro.org>
+To: Bjorn Andersson <quic_bjorande@quicinc.com>
+In-Reply-To: <20221207220012.16529-1-quic_bjorande@quicinc.com>
+References: <20221207220012.16529-1-quic_bjorande@quicinc.com>
+Subject: Re: [PATCH v5 00/12] drm/msm: Add SC8280XP support
+Message-Id: <167330408782.609993.5872563380257036199.b4-ty@linaro.org>
 Date: Tue, 10 Jan 2023 00:41:27 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -75,25 +74,52 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Kalyan Thota <quic_kalyant@quicinc.com>, freedreno@lists.freedesktop.org,
- Loic Poulain <loic.poulain@linaro.org>, patches@linaro.org,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>, linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Sean Paul <sean@poorly.run>
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Mon, 07 Nov 2022 11:37:36 +0100, Konrad Dybcio wrote:
-> SDM845 only has INTF0-3 and has no business caring about the INTF4 irq.
+On Wed, 07 Dec 2022 14:00:00 -0800, Bjorn Andersson wrote:
+> This introduces support for the SC8280XP platform in the MDSS, DPU and
+> DP driver. It reworks the HDP handling in the DP driver to support
+> external HPD sources - such as the dp-connector, or USB Type-C altmode.
 > 
+> It then introduces the display clock controllers, mdss, dpu and
+> displayport controllers and link everything together, for both the MDSS
+> instances on the platform, and lastly enables EDP on the compute
+> reference device and 6 of the MiniDP outputs on the automotive
+> development platform.
 > 
+> [...]
 
 Applied, thanks!
 
-[1/1] drm/msm/dpu1: Remove INTF4 IRQ from SDM845 IRQ mask
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/a685d27f2201
+[01/12] dt-bindings: display/msm: Add binding for SC8280XP MDSS
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/9ae2a57bdf9a
+[02/12] drm/msm/dpu: Introduce SC8280XP
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/f0a1bdf64dd7
+[03/12] drm/msm: Introduce SC8280XP MDSS
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/39bcdb416fb6
+[04/12] dt-bindings: msm/dp: Add SDM845 and SC8280XP compatibles
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/b6f8c4debc00
+[05/12] drm/msm/dp: Stop using DP id as index in desc
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/5d417b401146
+[06/12] drm/msm/dp: Add DP and EDP compatibles for SC8280XP
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/5bd69fd16198
+[07/12] drm/msm/dp: Add SDM845 DisplayPort instance
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/fa33f2aa9674
+[08/12] drm/msm/dp: Rely on hpd_enable/disable callbacks
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/cd198caddea7
+[09/12] drm/msm/dp: Implement hpd_notify()
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/542b37efc20e
 
 Best regards,
 -- 
