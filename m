@@ -2,65 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3F8A663588
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 00:44:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 918B06635B5
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 00:44:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CC9710E47E;
-	Mon,  9 Jan 2023 23:44:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F1D910E52D;
+	Mon,  9 Jan 2023 23:44:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5DC810E513
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 23:44:04 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id bt23so15577894lfb.5
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 15:44:04 -0800 (PST)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE88F10E511
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 23:44:05 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id v25so15575972lfe.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 15:44:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IJYCXzCwWlmnquQ5yNkG+nGz0jiVnLUqp4W9MaxrD4s=;
- b=RIPP0LX1WVF/EwnvQtIj9jJQabFc2G1iyrCosOv6yvEXLxKIHVdJDa5nwzFlLU/isO
- 0xnLLL5EcOekI5uHkhLcnOZkUzGqP13Fl069NnVwv590tcKGPg3rMP2n6zpfmK3YDaJE
- eGnaxtnchWCtqGKaR7uPRGw4kb7tdACQwLpKtFyBC1DWYDTAqRDvA+S7+tDj+oXg4mY3
- v1iTvaAsh+tf7nI/gZsUcWZzWx/htWgqmh1ovXPig19o4FEoJuvEvoo2Q9SpbcWXGL9H
- kYb169Z+TIdUuBIzLlqfhpKvwMDvzog7fpoE/POg+/+ckFqidCkW+15WFd1r42qEAkIk
- Z2SA==
+ bh=CRAyi2n2FSarDTatQAHom6gbymd5CATd4MjDLdYU+WQ=;
+ b=MQzN3h12iMrKRadC8OJ8xKFWWFDqhZ/VJPnhx0N+qFKFMuJTFkY+2buIGksW5nhlVc
+ BaLPtbSVm5vjNuvnq9VSum+ZU1LmJqsgdRfXyACEsmc+qpCSq0x6DJh6NeA40u4oiasn
+ K+oFiSO2TjyRJ5pv1ulJeT12NBUAFu+0fUF6XQ3hHZrFXRT6T9/BLS11UxJVy77Xwc33
+ euIymblv8olgl74LAY/zxpyQag3XrkJ4jNkh/1u17PIhraMzvImFGsTMMyODenYyn8NY
+ 0DLe99eSp9PSGya/qKknZoVRIhT1gOd2s7IwxWjwrPfUJId7k2aO6nMRr3OaDqCfuFnC
+ 1NZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IJYCXzCwWlmnquQ5yNkG+nGz0jiVnLUqp4W9MaxrD4s=;
- b=czM7MSndkoeITxGxV1hB1Rhqh2GJ1JRvxsqdrlIQYAeufBfdIGUlqcjSTAZkf5qRZX
- oDOdyBf/WGXKVdAhx/8H9b0k1+egxmGj/UJx11aB1jRqx7WZVklldKdhP+EEoF1MOnzZ
- yIUtxqBh+d4SSY2hVcP4+wtmst5dvQ6xrKo0hpG4XvaFLraFt2hDEpl9zNT8XohMwQ2q
- 3FWSQ+oAS0iybvlmntDIQPs4buk4Xpl0x87rMjgyHRZoKnLxxPBqY/sQXdhF9rTW8YHd
- zClr0OlTzVzI3Q9hvI/UOwLR+XPbL0TlKp7OmdnP8tI4mqPO34gzNfkJir5Mv/Pkcs10
- ocZA==
-X-Gm-Message-State: AFqh2kqTpoOSCCzDWqO0BC334kC/RY5kI0O/lVtHMVB67U21TJR2iAkB
- HXV+6AoJhqc+ROQy7WrIvQcFsQ==
-X-Google-Smtp-Source: AMrXdXvhuCtr9p3TaitJ7JU10h9BQxbrBE5HONX1QxhdjdTu1u8Jk5LG3EXWzIioN5/bOobU+UeVjg==
-X-Received: by 2002:a05:6512:3f0c:b0:4b5:2ef3:fd2b with SMTP id
- y12-20020a0565123f0c00b004b52ef3fd2bmr21828551lfa.18.1673307844326; 
- Mon, 09 Jan 2023 15:44:04 -0800 (PST)
+ bh=CRAyi2n2FSarDTatQAHom6gbymd5CATd4MjDLdYU+WQ=;
+ b=cTaWIDXj4r9pcIQ0rYyTsA8OznoKLQWo6D3dfVfrd0rWGSMhJEaKsH47B6nfee4T4e
+ cEwD1gyGXvwKHQLSwL5nGeiK3ZkLsSILHKQk8bWv4q2cKwhPFWxJUCTtHXaAmh5S/Z3N
+ C0MbkL+Q6rRsozjkn2qhK0YooNzW18kFoWnLSuakJCMDBSQ8Cl/uqGKv2s2dsJnikckM
+ dcvhJLnJ0KCxmHNDVkmm0YYynon1Yxz3Hm4Hf5hU93sQgSuz/+4Pu38fxLgqG92D5hFD
+ ddWjU59JP7656ksM8HXZdfdiUCw95fL2BkgHFFEl7fAyzTTqUgME6XHCIuK398pdjhcj
+ PKWQ==
+X-Gm-Message-State: AFqh2krvFIptvruqMT4VD/oxPMQHUT3Zrpw3q+xIVsgla8WiSLc8XRkD
+ xnnVrBmBlXPK5N+Z1m6518yvMQ==
+X-Google-Smtp-Source: AMrXdXsoKpIWafS1JOF+h5zLFP43e0o0/Y8wmmadCp+bqzM9xbLffF2r6pd2BmKCKjH/6gjBJd2Zag==
+X-Received: by 2002:a05:6512:3a91:b0:4b5:799b:6c8b with SMTP id
+ q17-20020a0565123a9100b004b5799b6c8bmr19998411lfu.56.1673307845475; 
+ Mon, 09 Jan 2023 15:44:05 -0800 (PST)
 Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- s9-20020a056512214900b004b5a4cf69dfsm1835255lfr.261.2023.01.09.15.44.03
+ s9-20020a056512214900b004b5a4cf69dfsm1835255lfr.261.2023.01.09.15.44.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 15:44:03 -0800 (PST)
+ Mon, 09 Jan 2023 15:44:04 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: robdclark@gmail.com, quic_abhinavk@quicinc.com, sean@poorly.run,
- airlied@gmail.com, daniel@ffwll.ch, swboyd@chromium.org,
- quic_khsieh@quicinc.com, johan+linaro@kernel.org,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: Re: [PATCH] drm/msm/hdmi: Add missing check for
- alloc_ordered_workqueue
-Date: Tue, 10 Jan 2023 01:43:48 +0200
-Message-Id: <167330408781.609993.12402793226257634056.b4-ty@linaro.org>
+To: linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH] drm/msm/dpu1: Remove INTF4 IRQ from SDM845 IRQ mask
+Date: Tue, 10 Jan 2023 01:43:49 +0200
+Message-Id: <167330408784.609993.15717302243167908042.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230106023011.3985-1-jiasheng@iscas.ac.cn>
-References: <20230106023011.3985-1-jiasheng@iscas.ac.cn>
+In-Reply-To: <20221107103739.8993-1-konrad.dybcio@linaro.org>
+References: <20221107103739.8993-1-konrad.dybcio@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -76,23 +73,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>, freedreno@lists.freedesktop.org,
+ Loic Poulain <loic.poulain@linaro.org>, patches@linaro.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Fri, 06 Jan 2023 10:30:11 +0800, Jiasheng Jiang wrote:
-> Add check for the return value of alloc_ordered_workqueue as it may return
-> NULL pointer and cause NULL pointer dereference in `hdmi_hdcp.c` and
-> `hdmi_hpd.c`.
+On Mon, 07 Nov 2022 11:37:36 +0100, Konrad Dybcio wrote:
+> SDM845 only has INTF0-3 and has no business caring about the INTF4 irq.
 > 
 > 
 
 Applied, thanks!
 
-[1/1] drm/msm/hdmi: Add missing check for alloc_ordered_workqueue
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/afe4cb96153a
+[1/1] drm/msm/dpu1: Remove INTF4 IRQ from SDM845 IRQ mask
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/a685d27f2201
 
 Best regards,
 -- 
