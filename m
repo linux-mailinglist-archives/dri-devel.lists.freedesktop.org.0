@@ -1,58 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6C9C6633EB
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 23:26:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFC3B6633F8
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 23:31:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15FFF10E0AE;
-	Mon,  9 Jan 2023 22:25:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F95D10E0A4;
+	Mon,  9 Jan 2023 22:31:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com
- [IPv6:2607:f8b0:4864:20::f30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3ED710E0AE
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 22:25:55 +0000 (UTC)
-Received: by mail-qv1-xf30.google.com with SMTP id m12so5263197qvt.9
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 14:25:55 -0800 (PST)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C972410E0A4
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 22:31:35 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id fy8so23862997ejc.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 14:31:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=joelfernandes.org; s=google;
+ d=googlemail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=YkeaBylOW4jhgYHb/D3fun9Z5f+LSYx+wsvJq/ZnfRM=;
- b=tsF++OQqIotu0iXwaD5qqq9cRqzAPro8aeajLf0eNZVSMxhvR5A0/fLalEPA9WRwSA
- gYg1NfZBtQX8Bt9uQt0xzQzzANMMGxkFphnfIdvzuMoWxrvH92BvKVUiRXJgoz6bx6Os
- OIjE72HQgYaANJPM5Fm4H/rrAah3StrbdyFes=
+ bh=OZe8VJu/fGCCz+Eb3NiW7mLJBs19t4YWlgg0ulzutFw=;
+ b=GSLrukwN25auhR2Y9tG2IvbfkBqYNzBDfNQWqdjB7K51f6ZiksEJtgxejWerw/vsf2
+ HNWduMWWXpqKrNtgR6PFRro4ZZuKOB98gyrC/XFdBUmrPVrcv2jCc5s8rehfL+LPZnU8
+ MhNevobZTxfeKXIkbrB9LqAJhC1d31Q9hYmQa0UajkdpAndEzKp9/kk+VJPF37zNwxK9
+ 7CIpcKX9PdMjk/cq6i4TfyNgl+KglhAwRLcAZ5vKtBOfHjgaes3vVDty0R4aPtkYxq41
+ 5ccz1Ju28ipPWVxiOHMN+CyD54l+blvQ2kfCJ0seUSKRkZAfOP58voelxFXZBm6Oy9XM
+ jb3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=YkeaBylOW4jhgYHb/D3fun9Z5f+LSYx+wsvJq/ZnfRM=;
- b=1SDt96IzVff6P4bQc/s++i3IPevk0LXc38wKEnbqP3nrmBV5z1gW+Umfrtu3CdK6LV
- kCFzkzYr2Liey/SYfo4KY2MxlptVc6rkczGwr4tNUdxhHD29JOYOv3Yb5ti2RufYGywZ
- YRtRW0COPcRjv1PIr3gnSn8BJ4zXdG0+ZvHJNHV4sI9bGxKfUAooP0XVnbuvwPAdD3rk
- ju7L8onuOWOH9IBdaDPyBJs+ssIJDpIVjRF3zS0cLm/oB3/1NoDF9869je7uxrwyhGUv
- 5tGIpLE8+hBKVjMaeht8Lw9zYAw+tfOwM8dLvi6A7qCikOiSgzTQvtTA/2bzbR6JRGUU
- J91A==
-X-Gm-Message-State: AFqh2kpmHBxoiWn+a9YbNiEgkDQa7qa9voPvwj8kO63wrHcIVQJ96gc8
- prZzp4PBKwVyOoR9E9gpJl/DmQ==
-X-Google-Smtp-Source: AMrXdXt5WcdGViw3hX3Ad5LFg/Chk9zTGtRgfE3ElNQE7MvJ1vaJebzVyAG3hxHZ6x4rwSWjeVvPUQ==
-X-Received: by 2002:a05:6214:322:b0:532:2409:2eec with SMTP id
- j2-20020a056214032200b0053224092eecmr15693944qvu.18.1673303154591; 
- Mon, 09 Jan 2023 14:25:54 -0800 (PST)
-Received: from joelboxx.c.googlers.com.com
- (48.230.85.34.bc.googleusercontent.com. [34.85.230.48])
- by smtp.gmail.com with ESMTPSA id
- b5-20020a05620a04e500b006ee8874f5fasm6000671qkh.53.2023.01.09.14.25.53
+ bh=OZe8VJu/fGCCz+Eb3NiW7mLJBs19t4YWlgg0ulzutFw=;
+ b=0gQQs5UO4YOLyP0NlkMnIqLsY+95gmfAYd47EtAd3UR0dPkVNXGr0ccfgIZHpjrkk8
+ MK8hWJfzJHvUcISS12G/PgDmWpe3qejPP6P2H/WIyxQxF1DgB8Ou1JN3DSENT3aKjaU2
+ XwAR9OLfovU9UUnjIOre/ODF9kzDElbCe/bPJ3MsBrcyLHpek47swh3x//i/OLTAWgUV
+ CC7DUE13xES1Gs8mmsCNK6hkLZimxqRJz4kAA+ru8xOrUiFddOElKWz0rSD1AGQRrYRO
+ DY5i4GTF5sYeULWqq2hebzqnPDdHJx5w+NgYQxU8ON+4wnydowo9mDYpFVux0bijX2iV
+ nS7A==
+X-Gm-Message-State: AFqh2kqqS7HJt7VFDoYd5rrf8kd/ZvcITzjAtj9fchvR9NFzI/6uZ0hG
+ 8vr6JvIt5QeJZXhdEPhtEe62jyd0XDo=
+X-Google-Smtp-Source: AMrXdXvpiCc8i3vWtwCmmEDeA46pFWN6Dz27By5UAtP+wRO7CW2CRYa8a71xhMAms7AZC6iBTAbe0Q==
+X-Received: by 2002:a17:906:b043:b0:7c0:d23c:ead3 with SMTP id
+ bj3-20020a170906b04300b007c0d23cead3mr58284154ejb.27.1673303493935; 
+ Mon, 09 Jan 2023 14:31:33 -0800 (PST)
+Received: from localhost.localdomain
+ (dynamic-2a01-0c23-bcd2-ed00-0000-0000-0000-0e63.c23.pool.telefonica.de.
+ [2a01:c23:bcd2:ed00::e63]) by smtp.googlemail.com with ESMTPSA id
+ k8-20020a17090632c800b00780982d77d1sm4228235ejk.154.2023.01.09.14.31.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 14:25:53 -0800 (PST)
-From: "Joel Fernandes (Google)" <joel@joelfernandes.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 RESEND] adreno: Shutdown the GPU properly
-Date: Mon,  9 Jan 2023 22:25:47 +0000
-Message-Id: <20230109222547.1368644-1-joel@joelfernandes.org>
-X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
+ Mon, 09 Jan 2023 14:31:33 -0800 (PST)
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v1 RFC] video/hdmi: Fix HDMI_VENDOR_INFOFRAME_SIZE
+Date: Mon,  9 Jan 2023 23:31:10 +0100
+Message-Id: <20230109223110.1165433-1-martin.blumenstingl@googlemail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,105 +70,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, Ross Zwisler <zwisler@kernel.org>,
- "Joel Fernandes \(Google\)" <joel@joelfernandes.org>,
- Sean Paul <sean@poorly.run>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Bernard Zhao <bernard@vivo.com>, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During kexec on ARM device, we notice that device_shutdown() only calls
-pm_runtime_force_suspend() while shutting down the GPU. This means the GPU
-kthread is still running and further, there maybe active submits.
+When support for the HDMI vendor infoframe was introduced back with
+commit 7d27becb3532 ("video/hdmi: Introduce helpers for the HDMI vendor
+specific infoframe") it's payload size was either 5 or 6 bytes,
+depending on:
+  if (frame->s3d_struct >= HDMI_3D_STRUCTURE_SIDE_BY_SIDE_HALF)
+When true the size was 6 bytes, otherwise 5 bytes.
 
-This causes all kinds of issues during a kexec reboot:
+Drivers that are using hdmi_infoframe_pack() are reserving 10 bytes (4
+bytes for the header and up to 6 bytes for the infoframe payload data)
+or more (exynos_hdmi reserves 25 bytes).
 
-Warning from shutdown path:
+Over time the frame payload length was reduced to 4 bytes. This however
+does not match the code from hdmi_hdmi_infoframe_pack() where ptr[8] and
+ptr[9] are written, which means the infoframe has to allow up to 6 bytes
+of payload data (considering that the header takes 4 bytes).
 
-[  292.509662] WARNING: CPU: 0 PID: 6304 at [...] adreno_runtime_suspend+0x3c/0x44
-[  292.509863] Hardware name: Google Lazor (rev3 - 8) with LTE (DT)
-[  292.509872] pstate: 80400009 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  292.509881] pc : adreno_runtime_suspend+0x3c/0x44
-[  292.509891] lr : pm_generic_runtime_suspend+0x30/0x44
-[  292.509905] sp : ffffffc014473bf0
-[...]
-[  292.510043] Call trace:
-[  292.510051]  adreno_runtime_suspend+0x3c/0x44
-[  292.510061]  pm_generic_runtime_suspend+0x30/0x44
-[  292.510071]  pm_runtime_force_suspend+0x54/0xc8
-[  292.510081]  adreno_shutdown+0x1c/0x28
-[  292.510090]  platform_shutdown+0x2c/0x38
-[  292.510104]  device_shutdown+0x158/0x210
-[  292.510119]  kernel_restart_prepare+0x40/0x4c
+Change HDMI_VENDOR_INFOFRAME_SIZE to 6 bytes so
+hdmi_vendor_infoframe_pack_only() can properly check the passed buffer
+size and avoid an out of bounds write to ptr[8] or ptr[9].
 
-And here from GPU kthread, an SError OOPs:
-
-[  192.648789]  el1h_64_error+0x7c/0x80
-[  192.648812]  el1_interrupt+0x20/0x58
-[  192.648833]  el1h_64_irq_handler+0x18/0x24
-[  192.648854]  el1h_64_irq+0x7c/0x80
-[  192.648873]  local_daif_inherit+0x10/0x18
-[  192.648900]  el1h_64_sync_handler+0x48/0xb4
-[  192.648921]  el1h_64_sync+0x7c/0x80
-[  192.648941]  a6xx_gmu_set_oob+0xbc/0x1fc
-[  192.648968]  a6xx_hw_init+0x44/0xe38
-[  192.648991]  msm_gpu_hw_init+0x48/0x80
-[  192.649013]  msm_gpu_submit+0x5c/0x1a8
-[  192.649034]  msm_job_run+0xb0/0x11c
-[  192.649058]  drm_sched_main+0x170/0x434
-[  192.649086]  kthread+0x134/0x300
-[  192.649114]  ret_from_fork+0x10/0x20
-
-Fix by calling adreno_system_suspend() in the device_shutdown() path.
-
-[ Applied Rob Clark feedback on fixing adreno_unbind() similarly, also
-  tested as above. ]
-
-Cc: Rob Clark <robdclark@chromium.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Ross Zwisler <zwisler@kernel.org>
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+Fixes: c5e69ab35c0d ("video/hdmi: Constify infoframe passed to the pack functions")
+Fixes: d43be2554b58 ("drivers: video: hdmi: cleanup coding style in video a bit")
+Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 ---
- drivers/gpu/drm/msm/adreno/adreno_device.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+I'm not an expert on this topic and I'm not sure if the size still
+depends on that if condition from long time ago. So please share your
+thoughts.
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index 628806423f7d..36f062c7582f 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -551,13 +551,14 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
- 	return 0;
- }
+
+ include/linux/hdmi.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/hdmi.h b/include/linux/hdmi.h
+index 2f4dcc8d060e..026c5ef5a1a5 100644
+--- a/include/linux/hdmi.h
++++ b/include/linux/hdmi.h
+@@ -57,7 +57,7 @@ enum hdmi_infoframe_type {
+ #define HDMI_SPD_INFOFRAME_SIZE    25
+ #define HDMI_AUDIO_INFOFRAME_SIZE  10
+ #define HDMI_DRM_INFOFRAME_SIZE    26
+-#define HDMI_VENDOR_INFOFRAME_SIZE  4
++#define HDMI_VENDOR_INFOFRAME_SIZE  6
  
-+static int adreno_system_suspend(struct device *dev);
- static void adreno_unbind(struct device *dev, struct device *master,
- 		void *data)
- {
- 	struct msm_drm_private *priv = dev_get_drvdata(master);
- 	struct msm_gpu *gpu = dev_to_gpu(dev);
- 
--	pm_runtime_force_suspend(dev);
-+	WARN_ON_ONCE(adreno_system_suspend(dev));
- 	gpu->funcs->destroy(gpu);
- 
- 	priv->gpu_pdev = NULL;
-@@ -609,7 +610,7 @@ static int adreno_remove(struct platform_device *pdev)
- 
- static void adreno_shutdown(struct platform_device *pdev)
- {
--	pm_runtime_force_suspend(&pdev->dev);
-+	WARN_ON_ONCE(adreno_system_suspend(&pdev->dev));
- }
- 
- static const struct of_device_id dt_match[] = {
+ #define HDMI_INFOFRAME_SIZE(type)	\
+ 	(HDMI_INFOFRAME_HEADER_SIZE + HDMI_ ## type ## _INFOFRAME_SIZE)
 -- 
-2.39.0.314.g84b9a713c41-goog
+2.39.0
 
