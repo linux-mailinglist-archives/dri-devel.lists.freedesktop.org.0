@@ -1,162 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F16663190
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 21:33:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC59D663196
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 21:35:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D26410E505;
-	Mon,  9 Jan 2023 20:33:32 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6BC010E502;
- Mon,  9 Jan 2023 20:33:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673296409; x=1704832409;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=SUd/UerKrBeDkJI6YzXm423o3HmGi5iHg4YvMfc7fYQ=;
- b=YyT3XAmKjijuJUq9B0wY40kje+eYM74wNwfdgDNE695hPv54e+GCL2C7
- w4DMKe+zD61RJL+fwzFf7MY7XeFY8FyjxYVCRKCAyYxZ1G2F9JncZ32tJ
- X6TZBMEzsZ8YkkfOw5yESb/I/0eg+aAoCu8oYcfXnUgTuuhOo6uVajWyn
- 7ev3u34Bwntq4z/OPhUeoGOMB5TtNShNWH3PFmPnymIUdhY9KCgA3NhBH
- 8MDdrOLRWaXOQzo0FgT44s3d7/DkCrxTTdE+R1wzrWPFSro42Zg0Cp2p4
- lWJbDrIkaLhjoiFy3VDjPLBEaga+zeLdVwbzkRyVxkYC9LVVMMNiQLdHl g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="323048202"
-X-IronPort-AV: E=Sophos;i="5.96,313,1665471600"; d="scan'208";a="323048202"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2023 12:33:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="780806345"
-X-IronPort-AV: E=Sophos;i="5.96,313,1665471600"; d="scan'208";a="780806345"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orsmga004.jf.intel.com with ESMTP; 09 Jan 2023 12:33:28 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Mon, 9 Jan 2023 12:33:27 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Mon, 9 Jan 2023 12:33:27 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.171)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Mon, 9 Jan 2023 12:33:27 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bfZgcW0TTGsXTA3kpK37QGoZespaFTC1jKO3jAUXiOb7hT2lf24b4Nu4wv5EgBEIxRklGU6QmqqiIPN1Y1oNoSjaJ3Wy6a+XdGPpH4VASJw/7zGBeEdheeT3u1lsKfoWviZCo63aVX74nsn3tbJnnqJib6G2SqQtVQ6qChNTd1uqEbJXIf+7/MpgPUbzqxnxKhdPG+GN7DmkhYJsw2X8DBdkhtapR+Lb+TKQAWX3oSI8QbyaaDukmACzADTmsGMSOong1YgN9lJW1BXreWR1K+1cpw5F1V1emaKokT0oPXwkEoCPiiw+pr0lwMDwkJclrdpLb8ZHC6v/UupgM3d1EA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RydP1uhLavvQnfyWwL+PDLve7vuFjhpweEEWJ4FnPXM=;
- b=DTJszGeYm5ljZRWJ793kaZU0XHNiNRlS3y3ker+sfyj2m/Tfba2CmcM02j7j2TILGp8S3AXM1Uv8NEIQCS2zv+6pB+MA6HGf/BAxdsa8gkSXKvlmEp9FRimsyKM5z+6Oe0c+ytwQXHCPSQDATRvMDkaC2elJpitoWSdvafDjIt6nPoLEZw53b1Z30XdLO+fSZmndhSNx9VYGWm8S0Nj604NhO5onj/A1snpgduIHCYjgGCJLpBiT/LgxPhL1WXU32TbXXkTqtZR5DNbgs5QAQ/5PvMWVshDnv8NbRzKd1i2U1WxNMeM8XJeQwdM+CWYWTSNthwRsQXz7W4ncGMj1zw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
- by BN9PR11MB5356.namprd11.prod.outlook.com (2603:10b6:408:11d::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Mon, 9 Jan
- 2023 20:33:25 +0000
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::ec2f:4a87:326b:2610]) by BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::ec2f:4a87:326b:2610%7]) with mapi id 15.20.5986.018; Mon, 9 Jan 2023
- 20:33:25 +0000
-Message-ID: <36d58ee5-1004-6a20-a6e4-cf8e910c2c47@intel.com>
-Date: Mon, 9 Jan 2023 12:33:23 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.6.1
-Subject: Re: [Intel-gfx] [PATCH v2 4/5] drm/i915/guc: Add GuC CT specific
- debug print wrappers
-Content-Language: en-GB
-To: Jani Nikula <jani.nikula@linux.intel.com>, Tvrtko Ursulin
- <tvrtko.ursulin@linux.intel.com>, Michal Wajdeczko
- <michal.wajdeczko@intel.com>, <Intel-GFX@Lists.FreeDesktop.Org>
-References: <20221118015858.2548106-1-John.C.Harrison@Intel.com>
- <20221118015858.2548106-5-John.C.Harrison@Intel.com>
- <48f594de-9682-4b60-f934-9420d02b405e@intel.com>
- <dd9559e8-7d65-d7bb-ea1a-d169a1c7eec3@intel.com>
- <4579b7e8-eae7-b760-66aa-b01273d18aab@intel.com>
- <d658f8fa-a063-aa0c-48ff-14f32cb6b339@intel.com>
- <9a5a84be-a5ae-7be2-f522-5e976511e4e1@intel.com>
- <143a660d-de2d-a77a-b490-8ad2add80420@linux.intel.com>
- <dd787d9d-8559-1da4-7e99-2635ef1341a8@intel.com>
- <c5622088-e381-1df4-417d-9b033b0a6afe@linux.intel.com>
- <467f47f4-c30f-16ba-3330-a3d4752366a8@intel.com>
- <f0ebffa1-45b7-d6f9-4341-3fa8aabae3f5@linux.intel.com>
- <127d50a6-b0c4-b87b-ddf5-6bd121d53f3c@intel.com> <874jt02gk8.fsf@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <874jt02gk8.fsf@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR05CA0037.namprd05.prod.outlook.com
- (2603:10b6:a03:33f::12) To BY5PR11MB3911.namprd11.prod.outlook.com
- (2603:10b6:a03:18d::29)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC04E10E506;
+	Mon,  9 Jan 2023 20:35:05 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA4F710E506
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 20:35:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1673296481; bh=tDDMxQUH9PrDLgE/dT+MuHlPyJiO7mFGW8/sbQmK4fA=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=gxMrS/Twsss7fCu2lS0Wb7K3e/li2f3rr8EK0drV5Gymn8ukNv3Bwd3LMbH/SmLJz
+ o2pWkySPI2F6couqVMUSRCavEGZqW+jT+LxjfSX8MZJes+uauHTLdbV5/NxJk291CX
+ ttUvgacY+St5fs4ANcNfRSuJ0LQubjNe4T7ejyE7EPNyMI/EAgYH8sAY0VeTaiwytz
+ 8FAsrR1AbNmEEbpSuFs3/+7VsGugLmhoT+YZmgEAg8A5M+IslycNul2RkgORKhtpdV
+ /weQ+nsr0P6qYV6MOEXto40tT5he1eKLUNC73UieAtSZYLBAigqW9XXZ9z4aW1VLn9
+ II8e94VHAgC2g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([92.116.168.5]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MWAOW-1pHbCN0Lk2-00XalY; Mon, 09
+ Jan 2023 21:34:41 +0100
+Message-ID: <f5b87764-57b8-8d13-79bd-592363ca7c32@gmx.de>
+Date: Mon, 9 Jan 2023 21:34:36 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_|BN9PR11MB5356:EE_
-X-MS-Office365-Filtering-Correlation-Id: 26955f4e-230e-4b84-0c88-08daf280c24d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /nbkrLZLwMy6qcguBGmxqE/gFjVicNjjC1c/QfiuI8ukpG56phqLqmtyB6YNzYffuGlr9zbZFcoAqdMcdtc4zBIdhbXkYejEdYnbv/r7CQhRzhFVfTF4mLmBlQA4pmVe3cTsYjk3SAodInw27hkFsLKlPkw0Lhoj5Bu4qmdqgnO98fsicEfvvDWUtN0qIPDMqcB6aG5+P1IMfdqhA5QGHCaksE/BHOtmFf4YLzBbRaX1IwyjOc+vBSL7eU5Byh1FH1lIxC4y+G4JWaj6AEA/C0VsbzWBppMzaZ6v9d3q+J0Vlyw3kZXrIEoHZGeCNG5jxhepF1kn53P+0uzwbQgEifq/OVsB2YeEIdw1Nmsa1yXCSxBENXZP9C1Rn/87A5IfoDlDq66Db2HrSoCWfea99lH7ZUlNcUf7FAQ5Z3dXuzf5W3D5XDZAem3wj7OIM/qxUafA3uYSJA7DDCC+IT3YbvqwTZMVkHCGXTsB1dj3HziqwpZzp7ntlptDBVlRiCGJteCw3KW2QPOpAjFrE1TK2JpfIbP8nBUz2LujZ1mldVIB56YlJBOTEG82LQs66zlC+kQCciXFff5MvAKE/Lu9WFff9gARfdiugQJhZarM2EEx+4Vq1RmIBTaWcgkFpWpguaoBs6y/5A9PnCyp6aJ+fLeQpOnQH8q2ZObLxr4YdbzVTFFS8HhAFTCJUypGI3ja2iXZ1P+ud6DxXwaitOaq+g2+7/Tt4LhNDEbM4EKwIh0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(366004)(396003)(136003)(346002)(376002)(39860400002)(451199015)(8936002)(2906002)(5660300002)(41300700001)(4326008)(8676002)(66476007)(66556008)(316002)(66946007)(110136005)(186003)(26005)(6512007)(2616005)(38100700002)(31686004)(86362001)(83380400001)(31696002)(36756003)(82960400001)(478600001)(53546011)(6506007)(6486002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Qk5YREdBMlFiMXNIZVBubWRqVlNqSFVFUFJ3bVRHL2JmZnE4WFQvb3JxM0U0?=
- =?utf-8?B?a2JCNzNiQ2pSV203K2Q0dUExNUlqSUVVdlI5aWpIbkJmZW9EdklkbHQyNGdN?=
- =?utf-8?B?SjQ4UGxJU2xkNWxHbk1qaTlxdEhuaHNNNnA3VmtYVzhuODRuTGNVSWFHcGRk?=
- =?utf-8?B?UE9sWEphZGptOFNYZFlQL3B5WWdTTFVySUxEV0pEV1czNStzcGF0WGxjempi?=
- =?utf-8?B?clhvWksrckJXRTZpZ254L2JKdCtTS3pmTWNxNVNqNjVjcDNFTUtNZVY0VU5n?=
- =?utf-8?B?NjBUVDdyNzdZOEYyNG5xOUNkQmwyRHJKSnVtT3VGNUhtcDZrMGlmVFBhTUM1?=
- =?utf-8?B?WGpTcGFkL0xJOWFTWEIwVTQzSko1N3gvVlhaSC9sSkgyRzVQV0xZMmlJcDls?=
- =?utf-8?B?Vm55M3hkeXp0MzIyK21vUnRzZlplaElQcnBFVlF0YnJuUUVWYmRBYnBKRDlB?=
- =?utf-8?B?dmtydDFnZ0R3bjlUYUxxc1pVQ01oWUY4MkdpVTBZWlVGRjhYTFplL3o4aDJm?=
- =?utf-8?B?TW05M1UzcG9HLzVwbC9qWGQyMi9QMVVESkJQRlc4Y3RPak1tcVZvZnRlYlhX?=
- =?utf-8?B?R2hNRzRNL3E3ODJQcTRFWU5kdFNMSllkLzFjanIrdGhGVmMwOVk1bTlEQysw?=
- =?utf-8?B?Y3hvdTBUN3VYbDdFZVdTdWdvNTRpMGVRTmNsUnA4U0daSDh6UFFKcHUyc0F5?=
- =?utf-8?B?Qk5jdWxxWmgxSGwzSVkxL00xZkMyNFUvSzk4UHV5ZlM5NGQwTUdoZTN6TWd3?=
- =?utf-8?B?bUlzYzA2RzJ2Q3VORUo1KzhwUUIwZ3dCWkNucW1ZK2c5c1VNQWNJd24vbVBC?=
- =?utf-8?B?UUFhR0FtVTREZmJXNVZIRGhXUld3OFNHaE9tMzFHYzh3NEFqMTFqVm5iYzY0?=
- =?utf-8?B?SFdPODlXbEoraW9LU3g3NUJ4Mjg3eUdMc1pCbVQ1WDl4TjBIRGthbkIxbS9p?=
- =?utf-8?B?aFpiK3V3L3ZCRUg2RzhXSllkZWpLRDlyVmM1UkNxSHExeW5YSlpuQkdoSEdw?=
- =?utf-8?B?SEk0MVJnTGhZQ1NKc0NZUzc1TUVnOTVzVU5LUGZEdVNTM2Z6QUE5aXRsK2My?=
- =?utf-8?B?cXhJWTNzcjhRYnVHdFRlbFUxemV1VUdDblgxY1JsMUR1bGRSMno1Y01wNTJn?=
- =?utf-8?B?eEpzbXkvb2tPRlVyenUrLzJTSCtXSmVVSXkwbUw1dVBWcEsrVWdTK1dNdjBo?=
- =?utf-8?B?bjhONGxodUZobFhFL1pVTTBNMUwva3dzR3Z6UlFuN0RTcUE4V1ZCamhvNUcw?=
- =?utf-8?B?ZC83NGF3RUJLNEkyYTBQb0ZST2RaT25wZGp3YTJGc0QxSzFtOE1JZVY0V0Nk?=
- =?utf-8?B?bEYvMUQrWURpRzZvbjc0Q2pENExKMkV4VXU2TGd6TXlVVzhLNE9Id25EaXhh?=
- =?utf-8?B?L1ZYNDlTc1pTT3FWajNGT0VFSnhScGh4Y29QTTh5ODB4U2ZlbzNEZ1hZL095?=
- =?utf-8?B?dzU4SWxCQUVZY1VGNDRkRGtVclpqYnZybExhRG5kQVpJRmp2eTM4YlZNeEZB?=
- =?utf-8?B?MlQyZk1OblNIOVFHaitrUUF1SVNaWVFjRlFZSVpTbmRiQmpjc0lZVm04QXJC?=
- =?utf-8?B?QisybjA3eVhaUFNocXJTdGR3UmpnRjBjMXp1SUVhOEUrSUlHUE13d2YxdDln?=
- =?utf-8?B?dGlKM0dTYVZRdFFYYmdEV2dkaXlONVZOYk9tSkYxdUtsMVp0ZHpBM2ZJek9M?=
- =?utf-8?B?MFpiT2xnVEFRdThyMVhBcUMzN0JlZklWSzVKTEVPejJuOGw3eHBvL0tONkFi?=
- =?utf-8?B?dVRJbmxPODQyRzlzRmJmb1lmRDFWcGFCdkZQUmZ5UFVuSG5tbVo5Sjd2bVdU?=
- =?utf-8?B?dGFQZjkvbUQ3TXdFcWZHWjlWbkhkV0M3L3l1QUxlK3dvUHphcml2d1ZjeUFW?=
- =?utf-8?B?YzBnR01GcWY5UmxjVEJGTTVQT3U0SzBhMW9Qdzl5VFBBenFwSStpOTFTbEw2?=
- =?utf-8?B?dE5tMG9sNHo3ZkhDK2dORlR1S0F5Wi9HN3c0bkpuRXZUVFFJbkdLRFk0dzUv?=
- =?utf-8?B?aUl0MW1pWjhUd3Z6TnlKUzFwcFhoVnZOaDFJQ2N2TnlNYU5iTDJrdldacnZD?=
- =?utf-8?B?UHRGemdmVHZtejErVkxsR3RrVUJzUmRZdEJ4dk40NzJuY2JDL0ZWRkJEMW1L?=
- =?utf-8?B?SUdkeXB5bWhyVG1WNTFHMmdJZVlkSzl2VEpQMGJUMnFGVGdwTWVoam14TTIw?=
- =?utf-8?B?QkE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 26955f4e-230e-4b84-0c88-08daf280c24d
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2023 20:33:25.7161 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TKI22e6oj4wenNEbxgSp/hPHD5PtTOLHEKKxC8uDeeXaxrgwdBp8xlADz7ZPMKQPL8EFhsTpfHJpRXHfJi4H4evfaJ19ALFLRXl5LdgfUG4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5356
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 01/15] video: fbdev: atmel_lcdfb: Rework backlight handling
+Content-Language: en-US
+To: Stephen Kitt <steve@sk2.org>
+References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-1-1bd9bafb351f@ravnborg.org>
+ <553AE999-CAF1-4E59-9F3F-68591ED192DE@sk2.org>
+ <Y7nb2q6SDota/rTU@ravnborg.org> <811a392a-d634-5557-dd58-57f1580e28f2@gmx.de>
+ <20230109211857.79856bcf@heffalump.sk2.org>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20230109211857.79856bcf@heffalump.sk2.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Sxat2VV9tsmpDqx48BXRIJsjtp4Uk+LtMp6TeothrAxEKeOVUMN
+ Dm0J5cCxulRKy7oAmoyPnyYtBINa8biDQuhLNx3id5aME9DtEU5Bjf/sV3mvs40zfguZnbh
+ KtsbJUiQXuF3dSrIqUeLm0CfC2SEBu2glCy9/ejtL6222AIa6jJQxToCY/b0mN6irXRDkxr
+ YErYktx+mjchd/jxSTLBA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Ru6D61qjM+I=;/Tif9Q07xNGL/8IpH47T4Zb2J/p
+ 87op62XiN1+XP1UVPc++jmLZc3PbX8X9DyVhRrkA+1F+2SvKWtOdBxx0+7KIDfVWx9w0/9mym
+ cGrz4Hz99ahqT75tlCPuD9C340MVcJwPEkubfK4IAoZn5iz7mvijEeHZl0HE3t4OI5BJ6Yyyg
+ e+muYXDfYFB4b2wOzOyP5lmp8SIkqdnUQiNK6B7QgUJAgubpgxBe62neT1cxRXfo5kPDiTg97
+ iUMWRThu99tk9hZ/rOPyyRVGNp46tU5eW0uFDJSXSN1KDo00pyAJHeToaAc424ld8T+Gh6+JM
+ 7Alx9KJZs1jVQveQrERjLkcczY3TGv4ktXLXIXIdZ3Mvgee2ed71+lUUBpN5S3cBAaMLXawPx
+ HCGmxyBNZ2DOaW2tf08AfG/zAleN9QNs7nEHhy1ETyTdwgjW8qT9fd4hyTf73icRT0MQt7amF
+ 2nzXeM/b6tH3qHifK1iaxWAlFLlj38yKg/rUv31pYRG0V0m1PG5vdDFs1fBtFNGIhMhzw6ezi
+ zfi3h0KmiGw5NQUkUkvIkCaHSKsrD2zXEkh0qAtXf299o/ZweoN6YFZnc9NPNl3Ge/RzVazUJ
+ qB6UWJ790F+sf2/MqvlneZqxmgceqEEsHOtqsOdAHPb7viXlebkLnhq5Hqnrfv8ESCO5mwTcQ
+ 5D9swqk/sxRHfuDLKXDf5I+KZWSxtoboJH4V+TuOPIoPg1G3Bdhl2FJEDqi4a2rLaYttNv60f
+ T6OfkZJ12Bxtc4tmYiZRJgGbiGgwdfp5b1AFR9JnK2zGr4qX8xa/5oC7e7rQMdXU50SU9ZBkk
+ mNCd+bQk1QovwKxnpregRNLjnVjbhpsEIcY4FznWPiFR0/n1YiVEK+4wpjUsxMT8+lORVepC0
+ tTn339nCiIBz0Lfmm4vvvFKeTbUg6LD/gOmkmJFJq2UWfWinI8CNbixz6uQqNIxbEOqAF+xmz
+ aRkqQA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,44 +74,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Ewins, Jon" <jon.ewins@intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ linux-staging@lists.linux.dev, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Paul Mackerras <paulus@samba.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Lee Jones <lee@kernel.org>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Miguel Ojeda <ojeda@kernel.org>,
+ Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>,
+ Antonino Daplas <adaplas@gmail.com>, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Robin van der Gracht <robin@protonic.nl>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Jingoo Han <jingoohan1@gmail.com>,
+ linuxppc-dev@lists.ozlabs.org, Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/9/2023 01:38, Jani Nikula wrote:
-> On Fri, 06 Jan 2023, John Harrison <john.c.harrison@intel.com> wrote:
->> On 12/6/2022 03:06, Tvrtko Ursulin wrote:
->>> On 05/12/2022 18:44, Michal Wajdeczko wrote:
->>>> On 05.12.2022 14:16, Tvrtko Ursulin wrote:
->>>>> On 02/12/2022 20:14, John Harrison wrote:
->>>>> [snip]
+On 1/9/23 21:18, Stephen Kitt wrote:
+> On Sun, 8 Jan 2023 18:26:12 +0100, Helge Deller <deller@gmx.de> wrote:
+>
+>> On 1/7/23 21:53, Sam Ravnborg wrote:
+>>> Hi Stephen.
+>>>
+>>> On Sat, Jan 07, 2023 at 09:36:47PM +0100, Stephen Kitt wrote:
+>>>> On 7 January 2023 19:26:15 CET, Sam Ravnborg via B4 Submission Endpoi=
+nt
+>>>> <devnull+sam.ravnborg.org@kernel.org> wrote:
+>>>>> From: Sam Ravnborg <sam@ravnborg.org>
 >>>>>
->>>>>> Random meaningless (to me) message that is apparently a display thing:
->>>>>> drm_dbg_kms(&dev_priv->drm, "disabling %s\n", pll->info->name);
->>>>>> i915 0000:00:02.0: [drm:intel_disable_shared_dpll [i915]] disabling
->>>>>> PORT PLL B
->>>>> Plan is to not touch outside gt/.
->> For some unexplicable reason that means it is almost impossible to see
->> the actual problems in most CI dmesg logs because they are swamped with
->> irrelevant display messages that cannot be filtered out. For example, I
->> recently manually grep'd out all the display spam from a bug report log.
->> The dmesg file went from 12MB to 700KB. That is a significant problem
->> that makes bug triage way harder than it needs to be.
-> You can adjust drm.debug module parameter to get rid of almost all
-> display debugs. They're logged using the appropriate debug categories.
-No, you can't. See above comment about 'most CI dmesg logs'. This is 
-when trying to triage bugs created by the CI systems. In that case, the 
-log already exists and it was generated at full debug and it is tens if 
-not hundreds of MBs in size. And there is no single tag attached to the 
-display messages to run 'grep -v' on. They are just a random collection 
-of disparate function names.
+>>>>> The atmel_lcdfb had code to save/restore power state.
+>>>>> This is not needed so drop it.
+>>>>>
+>>>>> Introduce backlight_is_brightness() to make logic simpler.
+>>>>>
+>>>>> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+>>>>> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+>>>>> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+>>>>> Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+>>>>> Cc: linux-fbdev@vger.kernel.org
+>>>>> Cc: linux-arm-kernel@lists.infradead.org
+>>>>> ---
+>>>>> drivers/video/fbdev/atmel_lcdfb.c | 24 +++---------------------
+>>>>> 1 file changed, 3 insertions(+), 21 deletions(-)
+>>> ...
+>>>>
+>>>> Hi Sam,
+>>>>
+>>>> I=E2=80=99d submitted quite a few more of these previously (and you=
+=E2=80=99d reviewed
+>>>> them), see e.g. the thread starting at
+>>>> https://lkml.org/lkml/2022/6/7/4365, and yesterday,
+>>>> https://lkml.org/lkml/2023/1/6/520, https://lkml.org/lkml/2023/1/6/65=
+6,
+>>>> https://lkml.org/lkml/2023/1/6/970, https://lkml.org/lkml/2023/1/6/64=
+3,
+>>>> and https://lkml.org/lkml/2023/1/6/680. There are a few more, I can f=
+ind
+>>>> them if it=E2=80=99s any use.
+>>>
+>>> The patches from yesterday was what triggered me to resurrect an old
+>>> branch of mine where I had done something similar. I had lost all
+>>> memory of reviewing similar patches from you.
+>>>
+>>>
+>>> Helge - could you pick the reviewed patches from:
+>>> https://lore.kernel.org/all/20220607192335.1137249-1-steve@sk2.org/
+>>> [This is the same mail as Stephen refer to above - looked up via lore]=
+.
+>>
+>> I just pulled those 7 patches into fbdev/for-next.
+>> If you need more, please let me know,
+>
+> Please pull
+> https://lore.kernel.org/lkml/20230109200239.1850611-1-steve@sk2.org/ too=
+, it
+> completes the fbdev set. (It=E2=80=99s a re-send of
+> https://lore.kernel.org/lkml/20220609180440.3138625-1-steve@sk2.org/).
 
-John.
+Done.
 
->
->
-> BR,
-> Jani.
->
->
+Thanks!
+Helge
 
