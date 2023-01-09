@@ -2,54 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4AB6662131
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 10:14:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D943C662132
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 10:15:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8675410E37F;
-	Mon,  9 Jan 2023 09:14:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BC6510E386;
+	Mon,  9 Jan 2023 09:15:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 874E510E37F
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 09:14:51 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 646F710E386
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 09:15:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673255691; x=1704791691;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=0SdUkp6PbPzh8lG3hXle+NjFt1BzOvw6xxeeC1guoXg=;
- b=R/YGt/a1r0G9t2OOiAKiX96jRe3qEA/wMg0rPfJqCXNJykz/1rGlO9Sy
- Cl8oqjfSfh1qscfGxSNKmBo1tWJ9RfwW47ZIBRNldaAEOPTY3tJNxPtak
- 0z9OzkEU218zdT20ADl32Zq2apMBllDvIj/xwCmq6nK2MIV69dvgSaQy4
- WizUYkTFGuKY5ch3NRAa7Q/WH24hXEyLxAm9W9wJnzOQGQxvOnDzhMgnu
- v6W1pxk3PJWC8ejITReBHVCQKyVe6l6cQlJOoP3IbUqdxmTKFpIDwpdYT
- thpBYxt+nTahve37p8Wv0/ZlsZ/qiAA5DS8fvBBZ9Q8vOkmvIIcn5K2Dg Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="387278693"
-X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="387278693"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2023 01:14:43 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="719877195"
-X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="719877195"
-Received: from olindum-mobl1.ger.corp.intel.com (HELO [10.249.254.32])
- ([10.249.254.32])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2023 01:14:42 -0800
-Message-ID: <7e71d251-8179-12d9-4216-af5233d61f0d@linux.intel.com>
-Date: Mon, 9 Jan 2023 10:14:46 +0100
+ t=1673255702; x=1704791702;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=8H3hPCFI47nxZtoBbne24d82bPkrwkUNa3C9m/vtPLs=;
+ b=anXYq0ABsHPv/O6yvljWBVthLlBaH8dmTJtBkPGywTYP8zcqwN1Sbnri
+ ZyktcExmENsz3E14KTTJ2CnWX36HUFrvhyiegbjN/8YESC8RmO45oce8k
+ lb16pD/xCq7U/BCkHnvvKnGWI4OF3K7K3IcpT+F1q2TqktdF2kjuiSWXq
+ kZNZFUcVHlmxIH0Dg2L+dHRkymZQh0wz+VwcdtM5DNFc86J0c866L6zHG
+ CvLbhLyv1azIZpTC0DdBKSiWTfF9wTMm7nJ5MfNmexTmIoiiT+ZtupJm+
+ T57yq3H+SmfAAL01N9902ZdU6fLjkaf/2Z6VayC9KMHnrjszWTnAhxnqu A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="322904958"
+X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="322904958"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2023 01:15:01 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="985334290"
+X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="985334290"
+Received: from gtmcgeac-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.11.217])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2023 01:14:55 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Sam Ravnborg via B4 Submission Endpoint
+ <devnull+sam.ravnborg.org@kernel.org>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Helge Deller <deller@gmx.de>, Alexandre
+ Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
+ <claudiu.beznea@microchip.com>, Antonino Daplas <adaplas@gmail.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras
+ <paulus@samba.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Robin
+ van der Gracht <robin@protonic.nl>, Miguel Ojeda <ojeda@kernel.org>, Lee
+ Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>
+Subject: Re: [PATCH 01/15] video: fbdev: atmel_lcdfb: Rework backlight handling
+In-Reply-To: <20230107-sam-video-backlight-drop-fb_blank-v1-1-1bd9bafb351f@ravnborg.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-1-1bd9bafb351f@ravnborg.org>
+Date: Mon, 09 Jan 2023 11:14:53 +0200
+Message-ID: <87a62s2ho2.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [RFC] TTM shrinking revisited
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-References: <20221230111159.75410-1-thomas.hellstrom@linux.intel.com>
- <ac777256-2400-1b19-81ce-af9ec7adfe9c@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <ac777256-2400-1b19-81ce-af9ec7adfe9c@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,107 +67,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-fbdev@vger.kernel.org, Stephen Kitt <steve@sk2.org>,
+ linuxppc-dev@lists.ozlabs.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ linux-omap@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Christian,
-
-Thanks for the feedback. Some additional inline comments and questions:
-
-On 1/4/23 11:31, Christian König wrote:
-> Am 30.12.22 um 12:11 schrieb Thomas Hellström:
->> Hi, Christian, others.
->>
->> I'm starting to take a look at the TTM shrinker again. We'll probably be
->> needing it at least for supporting integrated hardware with the xe 
->> driver.
->>
->> So assuming that the last attempt failed because of the need to allocate
->> shmem pages and lack of writeback at shrink time, I was thinking of the
->> following approach: (A rough design sketch of the core support for the
->> last bullet is in patch 1/1. It of course needs polishing if the 
->> interface
->> is at all accepted by the mm people).
->>
->> Before embarking on this, any feedback or comments would be greatly
->> appreciated:
->>
->> *) Avoid TTM swapping when no swap space is available. Better to 
->> adjust the
->>     TTM swapout watermark, as no pages can be freed to the system 
->> anyway.
->> *) Complement the TTM swapout watermark with a shrinker.
->>     For cached pages, that may hopefully remove the need for the 
->> watermark.
->>     Possibly a watermark needs to remain for wc pages and / or dma 
->> pages,
->>     depending on how well shrinking them works.
+On Sat, 07 Jan 2023, Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org> wrote:
+> From: Sam Ravnborg <sam@ravnborg.org>
 >
-> Yeah, that's what I've already tried and failed miserable exactly 
-> because of what you described above.
-
-Do you have a test-case for this or a typical failing scenario I can 
-turn into a kunit test, to motivate the need for direct 
-insert-to-swap-cache before running it with the -mm people? It will 
-otherwise have a high risk of being NAKed, I fear.
-
+> The atmel_lcdfb had code to save/restore power state.
+> This is not needed so drop it.
 >
->> *) Trigger immediate writeback of pages handed to the swapcache / shmem,
->>     at least when the shrinker is called from kswapd.
->
-> Not sure if that's really valuable.
-Not completely sure either. However, in OOM situations where we need to 
-allocate memory to be able to shrink, that would give the system a 
-chance to reclaim the pages we shrink before we deplete the kernel 
-reserves completely. Shmem does this, and also the i915 shrinker in some 
-situations, but I agree it needs to be verified to be valuable and if 
-so, in what situations.
+> Introduce backlight_is_brightness() to make logic simpler.
 
->
->> *) Hide ttm_tt_swap[out|in] details in the ttm_pool code. In the pool 
->> code
->>     we have more details about the backing pages and can split pages,
->>     transition caching state and copy as necessary. Also investigate the
->>     possibility of reusing pool pages in a smart way if copying is 
->> needed.
->
-> Well I think we don't need to split pages at all. The higher order 
-> pages are just allocated for better TLB utilization and could (in 
-> theory) be freed as individual pages as well. It's just that MM 
-> doesn't support that atm.
+backlight_is_brightness?
 
-If we can insert pages directly into the swap-cache, splitting might be 
-needed, at least if compound pages were allocated to begin with. Looks 
-like shmem does this as well before inserting into the swap-cache. Could 
-be a corner case where the system theoretically supports swapping PMD 
-size pages, but when no PMD size slots are available. (My system behaves 
-like that, need to investigate why).
-
-
-Thanks,
-
-Thomas
+BR,
+Jani.
 
 
 >
-> But I really like the idea of moving more of this logic into the 
-> ttm_pool.
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> ---
+>  drivers/video/fbdev/atmel_lcdfb.c | 24 +++---------------------
+>  1 file changed, 3 insertions(+), 21 deletions(-)
 >
->> *) See if we can directly insert pages into the swap-cache instead of
->>     taking the shmem detour, something along with the attached patch 
->> 1 RFC.
->
-> Yeah, that strongly looks like we way to go. Maybe in combination with 
-> being able to swap WC/UC pages directly out.
->
-> While swapping them in again an extra copy doesn't hurt us, but for 
-> the other way that really sucks.
->
-> Thanks,
-> Christian.
->
->>
->> Thanks,
->> Thomas
->>
->
+> diff --git a/drivers/video/fbdev/atmel_lcdfb.c b/drivers/video/fbdev/atmel_lcdfb.c
+> index 1fc8de4ecbeb..d297b3892637 100644
+> --- a/drivers/video/fbdev/atmel_lcdfb.c
+> +++ b/drivers/video/fbdev/atmel_lcdfb.c
+> @@ -49,7 +49,6 @@ struct atmel_lcdfb_info {
+>  	struct clk		*lcdc_clk;
+>  
+>  	struct backlight_device	*backlight;
+> -	u8			bl_power;
+>  	u8			saved_lcdcon;
+>  
+>  	u32			pseudo_palette[16];
+> @@ -109,32 +108,18 @@ static u32 contrast_ctr = ATMEL_LCDC_PS_DIV8
+>  static int atmel_bl_update_status(struct backlight_device *bl)
+>  {
+>  	struct atmel_lcdfb_info *sinfo = bl_get_data(bl);
+> -	int			power = sinfo->bl_power;
+> -	int			brightness = bl->props.brightness;
+> +	int brightness;
+>  
+> -	/* REVISIT there may be a meaningful difference between
+> -	 * fb_blank and power ... there seem to be some cases
+> -	 * this doesn't handle correctly.
+> -	 */
+> -	if (bl->props.fb_blank != sinfo->bl_power)
+> -		power = bl->props.fb_blank;
+> -	else if (bl->props.power != sinfo->bl_power)
+> -		power = bl->props.power;
+> -
+> -	if (brightness < 0 && power == FB_BLANK_UNBLANK)
+> -		brightness = lcdc_readl(sinfo, ATMEL_LCDC_CONTRAST_VAL);
+> -	else if (power != FB_BLANK_UNBLANK)
+> -		brightness = 0;
+> +	brightness = backlight_get_brightness(bl);
+>  
+>  	lcdc_writel(sinfo, ATMEL_LCDC_CONTRAST_VAL, brightness);
+> +
+>  	if (contrast_ctr & ATMEL_LCDC_POL_POSITIVE)
+>  		lcdc_writel(sinfo, ATMEL_LCDC_CONTRAST_CTR,
+>  			brightness ? contrast_ctr : 0);
+>  	else
+>  		lcdc_writel(sinfo, ATMEL_LCDC_CONTRAST_CTR, contrast_ctr);
+>  
+> -	bl->props.fb_blank = bl->props.power = sinfo->bl_power = power;
+> -
+>  	return 0;
+>  }
+>  
+> @@ -155,8 +140,6 @@ static void init_backlight(struct atmel_lcdfb_info *sinfo)
+>  	struct backlight_properties props;
+>  	struct backlight_device	*bl;
+>  
+> -	sinfo->bl_power = FB_BLANK_UNBLANK;
+> -
+>  	if (sinfo->backlight)
+>  		return;
+>  
+> @@ -173,7 +156,6 @@ static void init_backlight(struct atmel_lcdfb_info *sinfo)
+>  	sinfo->backlight = bl;
+>  
+>  	bl->props.power = FB_BLANK_UNBLANK;
+> -	bl->props.fb_blank = FB_BLANK_UNBLANK;
+>  	bl->props.brightness = atmel_bl_get_brightness(bl);
+>  }
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
