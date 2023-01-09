@@ -1,57 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1543662884
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 15:30:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB37C6628AB
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 15:38:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A879610E1E7;
-	Mon,  9 Jan 2023 14:30:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC00D10E05C;
+	Mon,  9 Jan 2023 14:38:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com
- [209.85.160.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A567E10E05C;
- Mon,  9 Jan 2023 14:30:39 +0000 (UTC)
-Received: by mail-oa1-f53.google.com with SMTP id
- 586e51a60fabf-150debe2b7cso8847115fac.0; 
- Mon, 09 Jan 2023 06:30:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=date:subject:message-id:references:in-reply-to:cc:to:from
- :mime-version:content-transfer-encoding:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=Dw1mx8WSg2YN8QfEa/EeEF+6wNa6Dwq8nHk5GLyrbCA=;
- b=hy28LOJesp0bINI3cMZn/qVpwkIaS5D2Hg/dNL3uOyt7jHP/NF08cfQmHS06G68s6l
- e0s4+2I/cf0RbpZCh7uRVImCR8Tf+KY0AN1lj9s4JEJFLMaB1z8ZZKJ+nosGPyg5tIqt
- 5OYUVLTcTXkA0W6VZ+aZ4LeRS54eQuDS4hp3yozSsXg71KrwADIfgQRnhY0LIBxPvsAG
- 9QEYruZtrPKqvTGQyyrx1aPtI8SIJPKRSmtMpqITfAm3spup9yvKbP2apZjYUyeDcS8p
- 0+HgZub9GkG79im3T2CkUW7Q9kLPd0/5AZsMZptIr4JI6NN0SP8uSt0mquOrX38HbWoQ
- SWjg==
-X-Gm-Message-State: AFqh2kpJ+GshwGfjKyzLWpAzAyTMGD0GP2y5j9f/yg9JlwvjZG7ETfqy
- D2aRVHgT1YjS0LdpD6HVLg==
-X-Google-Smtp-Source: AMrXdXuhXryTUekpsWEZueO52n4IgWGu3chWGQzHGt/JQgLTSQ+mhMBV+oqTEtDmzBPk3PRplCEiHw==
-X-Received: by 2002:a05:6871:4497:b0:151:89b:a657 with SMTP id
- ne23-20020a056871449700b00151089ba657mr9629377oab.19.1673274638814; 
- Mon, 09 Jan 2023 06:30:38 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- eq2-20020a056870a90200b0014fb4bdc746sm4235849oab.8.2023.01.09.06.30.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 06:30:38 -0800 (PST)
-Received: (nullmailer pid 237515 invoked by uid 1000);
- Mon, 09 Jan 2023 14:30:36 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD4B310E05C
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 14:38:31 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 39ED061175
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 14:38:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A97EC433EF
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 14:38:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1673275110;
+ bh=dOeSwMKGvRNuz4WJuRYWtXnG3/9WM48jAqD2wl4VfkQ=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Aj0vHOGgvle1zCfahAhr7spS9NcDdXwTm9CYuz/BwCs10p4bGGy5+i9/n734juKs+
+ 1P3ZyUSvpZx4yRKaa+zZX0HJuTcdOKL/G/6MPDkj+J8EoJnCSCAgnZKiy2WY/bXcbb
+ GZGV4LQMzU5b53Nhr+p/KsW8x8OvEF8tN0QANWAR8tor7aiIZAe7n3f0pLlowZx/Ur
+ 10DktQIHm41mtvwMavyrKF+uCH4vrZqHYrrvg26gE7DQN7xhEKWb1CW82LeZ/3XYKm
+ q4XxXfOhlPZFn8Txy6xAf2JVlzmTBi6qEpvQzCz4iZaVHhjbR3N5u+qtPTfE6MdF3S
+ JuWl5DFRVuvEw==
+Received: by mail-lf1-f44.google.com with SMTP id f34so13245343lfv.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 06:38:30 -0800 (PST)
+X-Gm-Message-State: AFqh2ko9sOzmvyFCwyN1e52A1I94mCxtuQxrKOcBJlnvI8v2o92JknEo
+ avv93RzsjLBHSqu1BAIJZCgE/nEKqi0uRn5QmWM=
+X-Google-Smtp-Source: AMrXdXubWmp42AOnDDbvW893PnJh//psRIvKXySJgdZx2yOjMVMItn35U11hxuSFGhah+kWcS/UtCIYYozqISObsYwk=
+X-Received: by 2002:ac2:5e65:0:b0:4a2:740b:5b02 with SMTP id
+ a5-20020ac25e65000000b004a2740b5b02mr2602735lfr.122.1673275108696; Mon, 09
+ Jan 2023 06:38:28 -0800 (PST)
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-In-Reply-To: <20230103-topic-sm8550-upstream-mdss-dsi-v3-2-660c3bcb127f@linaro.org>
-References: <20230103-topic-sm8550-upstream-mdss-dsi-v3-0-660c3bcb127f@linaro.org>
- <20230103-topic-sm8550-upstream-mdss-dsi-v3-2-660c3bcb127f@linaro.org>
-Message-Id: <167327376724.61122.3156617498910384494.robh@kernel.org>
-Subject: Re: [PATCH v3 2/7] dt-bindings: display/msm: document DPU on SM8550
-Date: Mon, 09 Jan 2023 08:30:36 -0600
+References: <63bc16ce.IBWX7dhtPEB7dLIq%lkp@intel.com>
+In-Reply-To: <63bc16ce.IBWX7dhtPEB7dLIq%lkp@intel.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Mon, 9 Jan 2023 15:38:17 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXGAf7ikEU5jLoik0xrOde0xBg0yJkOo5=PtEtNXoUxMXA@mail.gmail.com>
+Message-ID: <CAMj1kXGAf7ikEU5jLoik0xrOde0xBg0yJkOo5=PtEtNXoUxMXA@mail.gmail.com>
+Subject: Re: [linux-next:master] BUILD REGRESSION
+ 543b9b2fe10b2e12b8d773af65314d322f91e479
+To: kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,56 +60,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>,
- freedreno@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+ speakup@linux-speakup.org, dri-devel@lists.freedesktop.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 9 Jan 2023 at 14:31, kernel test robot <lkp@intel.com> wrote:
+>
+> tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> branch HEAD: 543b9b2fe10b2e12b8d773af65314d322f91e479  Add linux-next specific files for 20230109
+>
+> Error/Warning: (recently discovered and may have been fixed)
+>
+> aarch64-linux-ld: ID map text too big or misaligned
 
-On Mon, 09 Jan 2023 11:15:18 +0100, Neil Armstrong wrote:
-> Document the DPU hardware found on the Qualcomm SM8550 platform.
-> 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  .../bindings/display/msm/qcom,sm8550-dpu.yaml      | 134 +++++++++++++++++++++
->  1 file changed, 134 insertions(+)
-> 
+This is caused by linker veneers ('stubs') that are emitted into the
+ID map text section:
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+ *(.idmap.text)
+ .idmap.text    0xffffffc018c04000       0x38 arch/arm64/kernel/hyp-stub.o
+ .idmap.text    0xffffffc018c04038       0x28 arch/arm64/kernel/sleep.o
+                0xffffffc018c04038                cpu_resume
+ .idmap.text    0xffffffc018c04060       0x38 arch/arm64/kernel/cpu-reset.o
+                0xffffffc018c04060                cpu_soft_restart
+ .idmap.text    0xffffffc018c04098      0x468 arch/arm64/kernel/head.o
+                0xffffffc018c04098                init_kernel_el
+                0xffffffc018c04290                secondary_holding_pen
+                0xffffffc018c042c8                secondary_entry
+                0xffffffc018c043c4                __enable_mmu
+                0xffffffc018c0440c                __cpu_secondary_check52bitva
+ .idmap.text    0xffffffc018c04500      0x3c4 arch/arm64/mm/proc.o
+                0xffffffc018c04500                cpu_do_resume
+                0xffffffc018c045a8                idmap_cpu_replace_ttbr1
+                0xffffffc018c045d4                idmap_kpti_install_ng_mappings
+                0xffffffc018c047bc                __cpu_setup
+ *fill*         0xffffffc018c048c4        0x4
+ .idmap.text.stub
+                0xffffffc018c048c8     0xf7c8 linker stubs
+                0xffffffc018c1c8c8                __idmap_text_end = .
 
-yamllint warnings/errors:
+It seems unlikely that the entire .idmap.text.stub section is
+dedicated to veneers for code in .idmap.text, and the linker probably
+dumps them here because the next output section is non-executable.
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/display/msm/qcom,sm8550-dpu.example.dts:21:18: fatal error: dt-bindings/clock/qcom,sm8550-dispcc.h: No such file or directory
-   21 |         #include <dt-bindings/clock/qcom,sm8550-dispcc.h>
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[1]: *** [scripts/Makefile.lib:434: Documentation/devicetree/bindings/display/msm/qcom,sm8550-dpu.example.dtb] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1508: dt_binding_check] Error 2
+I have patches on the list that move the ID map out of the .text
+section altogether (among other things) and this seems like a suitable
+workaround for this issue as well.
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230103-topic-sm8550-upstream-mdss-dsi-v3-2-660c3bcb127f@linaro.org
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+https://lore.kernel.org/all/20221129161418.1968319-3-ardb@kernel.org/
