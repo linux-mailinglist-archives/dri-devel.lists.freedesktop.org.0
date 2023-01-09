@@ -2,70 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6847B662F10
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 19:30:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54842662F1A
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 19:31:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B72F710E4F5;
-	Mon,  9 Jan 2023 18:30:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2855B10E46D;
+	Mon,  9 Jan 2023 18:31:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53CF110E4F5
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 18:30:04 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id bp15so14329937lfb.13
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 10:30:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=lyg8ntH5k9A6+UghVFByrHhXnR9EgBOacK6dV87p4l4=;
- b=flQ78srWhyh+BhBnJgCj+3d8BpJNoiaLJ9fFjE1BrVwEC7qY3sNQIapjt4gvLMem27
- v3K6klXeYCxvF4ONJzmQBlmxSkl/rzTTrivpWf/MLcM/igrwemjjoIjFsWPoA9eMjk6a
- pa0BucdxFT2C12XC1PXj9yIlFxIFjrGQ8jpe7PgH1AC73NhL+Yud1YS0rtmy7zp+6syd
- +jUtfjpwlsgRYpRaaMTtUutXI83chMHEc7Q3Xo8rPGendjd+6ZgWrrV3PV0zBFKYIHOv
- 82diee/wBoLXK2vijWbtPG85lap5VvbHyYRoAoJcRkSJVY0Hd70ellN7A86Jozu8l8eb
- Kzsg==
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E880C10E4ED
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 18:31:06 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id m7so9125918wrn.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 10:31:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=SXXAJ3DUbtkoovXuYo+KyTb41EHZPfFvK143Ru7TRh0=;
+ b=Y3YgV25OfF4n3rHemKxGZcfAeio40Dp6qtvOjQWf913+9nWH4KqVyHdHIkMkUsAwXG
+ 93CXGcSSc6sfg5XBZJ59/TRBU/9vyU3+m6ECVJFZliFy4OOw37gA/swtHHzS46FmyYtO
+ 2kaPopgHHI8DZIFkD2sqHY1FZhHGfgeF5u92IDOtcoCrKiefVUZAgBDI7o2pQOXPJ+Xb
+ cqUX0qfSTCRgoGVFyPlYlbRY7FDuwtfqCKa4UCJgkJurzhyAOsCefsf/nt8FXdd5/qqS
+ r4jRzTw9IGfuVnNp06Bqd6jb//rWFYDqTkSPfYnfcZDZh8Hbtc1hN3JevPbwvxiTs25I
+ 2c4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lyg8ntH5k9A6+UghVFByrHhXnR9EgBOacK6dV87p4l4=;
- b=0qyWVXvCOLkcZjLyBY2K/LF/0ofdwh1JhKnKrI6qPE9hZOXPUfPuTVwdhdmeV6kKNv
- fQy2VmvBVqrv9U+q6tNQ1NRo42icY+SsOG00w7+mRCe8BIDKj6v0L1RrvCfVgBs8/oKN
- oDK1/F0GMEx8YlOpt1NWEQnZYbSdlaof+2/fHEexSZcE9pImsF3P6y5DVLY+KBT9rfZP
- UUo+ueR3AmRluOLB26Xj0tBVGgxq2yVXNeq/UqNayNf5CfPxrTFfDUzka8xqwsva0aKB
- nsUPm6jHzui3XG8Okp/nGaWDjL+kGseDCvPcM2sYvJ137EpqN19sIoClKeB+ulOwiDFF
- 9ixg==
-X-Gm-Message-State: AFqh2krrl6AIcOyKS0bLoXXCOCxK1H/N+zS0hm1OFVEenSaF9cdY73Sc
- yf5QVahZGZr6hn9SHA4ZepniEA==
-X-Google-Smtp-Source: AMrXdXsWQngNQDB0O08A0S/nz925H3pGCUjqmmMIrRI9hbiX3aeuuBYCxPIxhHH/YVxQEasVEUw6HQ==
-X-Received: by 2002:a05:6512:10d6:b0:4b5:834b:9f75 with SMTP id
- k22-20020a05651210d600b004b5834b9f75mr20213778lfg.33.1673289002662; 
- Mon, 09 Jan 2023 10:30:02 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- f14-20020a0565123b0e00b004b7033da2d7sm1735856lfv.128.2023.01.09.10.30.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 10:30:02 -0800 (PST)
-Message-ID: <91254914-39a1-d11c-5e53-b35448253e22@linaro.org>
-Date: Mon, 9 Jan 2023 20:30:01 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=SXXAJ3DUbtkoovXuYo+KyTb41EHZPfFvK143Ru7TRh0=;
+ b=0fecpKNUkipVh3+UZtmcJI56BQ3lH5wtJF/wwGLEF2BLpYQ90eT9Ar+oYC3o6EAgPu
+ 1m7EOiP+faxj+VkRv9r29/ZjeA7HtTMmliibyygh9uQNHRGytxZtvgJ5YnuHQBvXnVq7
+ qbx0gNVm/tk5Xc93r7xIMIn4lHcJBr0+tdx2ww1b0CxxdsfMbGeWWMgcQdARFsfcAT/d
+ aKps3OrpOKjA6KZt3NmWREHS3wh7IyXZ+naqT7nc4Q7ZFvb4lKToP4HCIVgHr00aBLkL
+ wmA5cNa89zvACPpsnk/1ScoA9UA9W7tNcqE7jVzZtugi0wFxqL0VsMAZW1iNgsP6Fbte
+ mBRQ==
+X-Gm-Message-State: AFqh2ko7ilrZYO6IMl7JKHXII6GaX1vC1XVWSQ+KNpduAJ/Y93dDSKMd
+ ZlF/8dIuh3XGlqghSj6OqeEvYrgFGL2Hi4mRzA8=
+X-Google-Smtp-Source: AMrXdXscfKc2XlHhJGkSUt354hzYjXoSXX7udzIPMG3m4dLRRzySFvVOTt7lnZdOtk3U1hQBc413+xKD/FpirX0yc24=
+X-Received: by 2002:a5d:6451:0:b0:28b:905d:a0b5 with SMTP id
+ d17-20020a5d6451000000b0028b905da0b5mr1043980wrw.451.1673289065282; Mon, 09
+ Jan 2023 10:31:05 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] drm/msm/dpu: sort entries in the HW catalog
-Content-Language: en-GB
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230108211113.200846-1-dmitry.baryshkov@linaro.org>
- <20230109083417.5drdfllpm4ythy42@SoMainline.org>
- <CAA8EJpoVC2OW4iKcq=C-D3hejVPZ1Bd+6Nb9vPk6DVVWP2_4rQ@mail.gmail.com>
- <20230109171052.wa43fccjh3f6wype@SoMainline.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230109171052.wa43fccjh3f6wype@SoMainline.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <df0096b5aea2a18d1540cde379c5abf589ccd7c4.1669799805.git.mazziesaccount@gmail.com>
+ <CGME20230109134646eucas1p17c7fbd379b0301b8429278ff289f2e83@eucas1p1.samsung.com>
+ <6c865dd8-b6c3-4491-48ca-df3e3fa45a2d@samsung.com>
+ <0ef85cba-fa9b-6d72-ca44-48c4d6cf2752@linaro.org>
+In-Reply-To: <0ef85cba-fa9b-6d72-ca44-48c4d6cf2752@linaro.org>
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+Date: Mon, 9 Jan 2023 20:30:54 +0200
+Message-ID: <CANhJrGPbFo=v=G-HbbpHgCkT2fSmFTE43o4OzoVSOK66e5ZLrg@mail.gmail.com>
+Subject: Re: [RESEND2, v4,
+ 2/2] drm/meson: dw-hdmi: Use devm_regulator_*get_enable*()
+To: neil.armstrong@linaro.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,98 +68,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
+Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ linux-amlogic@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/01/2023 19:10, Marijn Suijten wrote:
-> On 2023-01-09 11:22:42, Dmitry Baryshkov wrote:
->> On Mon, 9 Jan 2023 at 10:34, Marijn Suijten
->> <marijn.suijten@somainline.org> wrote:
->>>
->>> On 2023-01-08 23:11:13, Dmitry Baryshkov wrote:
->>>> Different entries into the catalog were added quite randomly. Enforce
->>>> the sorting order of some kind. It is not alphabetic to prevent the
->>>> patch from growing uncontrollably.
->>>
->>> Why not sort these chronologically based on DPU hardware revision in the
->>> match table at the end of this file?
->>
->> If we keep the SoC name as part of the symbolic name, we will end up
->> in another semi-random order that is a pain to verify. Would you
->> remember that sm6350 comes between sm6115 and qcm2290? I would not :-(
->> And changing all names to dpu_6_5_0_lms would make it easy to add but
->> nearly impossible to follow.
-> 
-> Agreed, though I think having the version in there would make things
-> easier to follow.  Then everything uses the "lowest" version it is
-> compatible with, and we duplicate the structs when adding a feature that
-> is only available on newer (or older) revisions.
+Hi Marek & All,
 
-Up to some point...
+ma 9. tammik. 2023 klo 17.23 Neil Armstrong
+(neil.armstrong@linaro.org) kirjoitti:
+>
+> On 09/01/2023 14:46, Marek Szyprowski wrote:
+> > Hi Matti,
+> >
+> > On 30.11.2022 10:23, Matti Vaittinen wrote:
+> >> Simplify using the devm_regulator_get_enable_optional(). Also drop the
+> >> now unused struct member 'hdmi_supply'.
+> >>
+> >> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> >> Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> >> ---
+> >> v4 resend 2:
+> >> Respinning unchanged code with the commit title changed as wa suggested
+> >> by Robert Foss and commit message changed as was suggested by Martin.
+> >>
+> >> I am doing a clean-up for my local git and encountered this one.
+> >> Respinning as it seems this one fell through the cracks.
+> >> ---
+> >>    drivers/gpu/drm/meson/meson_dw_hdmi.c | 23 +++--------------------
+> >>    1 file changed, 3 insertions(+), 20 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> >> index 5cd2b2ebbbd3..7642f740272b 100644
+> >> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> >> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> >> @@ -140,7 +140,6 @@ struct meson_dw_hdmi {
+> >>      struct reset_control *hdmitx_apb;
+> >>      struct reset_control *hdmitx_ctrl;
+> >>      struct reset_control *hdmitx_phy;
+> >> -    struct regulator *hdmi_supply;
+> >>      u32 irq_stat;
+> >>      struct dw_hdmi *hdmi;
+> >>      struct drm_bridge *bridge;
+> >> @@ -665,11 +664,6 @@ static void meson_dw_hdmi_init(struct meson_dw_hdmi *meson_dw_hdmi)
+> >>
+> >>    }
+> >>
+> >> -static void meson_disable_regulator(void *data)
+> >> -{
+> >> -    regulator_disable(data);
+> >> -}
+> >> -
+> >>    static void meson_disable_clk(void *data)
+> >>    {
+> >>      clk_disable_unprepare(data);
+> >> @@ -723,20 +717,9 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
+> >>      meson_dw_hdmi->data = match;
+> >>      dw_plat_data = &meson_dw_hdmi->dw_plat_data;
+> >>
+> >> -    meson_dw_hdmi->hdmi_supply = devm_regulator_get_optional(dev, "hdmi");
+> >> -    if (IS_ERR(meson_dw_hdmi->hdmi_supply)) {
+> >> -            if (PTR_ERR(meson_dw_hdmi->hdmi_supply) == -EPROBE_DEFER)
+> >> -                    return -EPROBE_DEFER;
+> >> -            meson_dw_hdmi->hdmi_supply = NULL;
+> >> -    } else {
+> >> -            ret = regulator_enable(meson_dw_hdmi->hdmi_supply);
+> >> -            if (ret)
+> >> -                    return ret;
+> >> -            ret = devm_add_action_or_reset(dev, meson_disable_regulator,
+> >> -                                           meson_dw_hdmi->hdmi_supply);
+> >> -            if (ret)
+> >> -                    return ret;
+> >> -    }
+> >> +    ret = devm_regulator_get_enable_optional(dev, "hdmi");
+> >> +    if (ret != -ENODEV)
+> >
+> > The above line should be "if (ret < 0)", otherwise it breaks hdmi support.
+> >
 
-> 
->>> Regardless, this patch is going to
->>> make it hard to properly rebase DPU additions; see for example patch 4/8
->>> and 5/8 in my second round of DSC fixes.
->>
->> Yes, quite unfortunate. As I wrote, it's already late to apply this patch :-(
-> 
-> At least we're working towards making things better, or at the very
-> least discussing the right way forward.
-> 
->>> At the same time we should find a solution to the wishy-washy reuse of
->>> structs and defines, which may appear the same initially but become
->>> mismatched as more features are added (see how I had to split out
->>> multiple of these in the INTF TE enablement series).
->>
->> It's a slightly different problem, but yes, I share the pain.
-> 
-> It is quite relevant though, as sorting is very closely tied to what
-> structs we reuse where, considering what SoC name is used.  It is
-> typically "what was already there" but a "least common denominator"
-> would be more descriptive (e.g. based on hardware version).
+Sorry for the trouble and thanks for pointing this out! I believe the
+condition I was looking for was
+if (ret && ret != -ENODEV).
 
-The usual problem is that there are two dimensions: with each 
-generations there are new (and removed) features, but on the other hand 
-within each generation there are units that are feature-rich and the 
-ones that are feature-deprived. qcm2290, sm6115, etc.
+At least in my eyes the use of regulator_get_optional() sounds like
+the -ENODEV should not be treated as an error. The obvious mistake is
+regarding return value 0 as such. Thanks for spotting this!
 
-> 
->>>> Thus SDM comes before SC and SM
->>>> platforms and QCM is kept as the last one. There are no functional
->>>> changes in this patch.
->>>>
->>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>> ---
->>>>
->>>> Yes, I hate such mass-moves too. However the entries in this file are
->>>> slowly becoming uncontrollable. Let's enforce some order now (while it's
->>>> late already, but not _that_ late).
->>>
->>> I agree that something should happen, contributing to this file is
->>> unnecessarily tough.
->>
->> In the IRC conversation Rob suggested playing with includes, but I
->> don't see a good way to implement that.
-> 
-> That would be nice; especially if we accept struct duplication (instead
-> of recursively including "earlier" versions where needed, as mentioned
-> in IRC that'll spiral out of control).  With that one can easily diff
-> two include files and understand the differences between SoCs and/or DPU
-> hardware revisions (or notice whether a certain configuration might be
-> missing/extraneous).
+> > I've noticed this once this change has been merged to linux-next and all
+> > my Amlogic Meson based boards failed to initialize HDMI. Is it possible
+> > to fix this in drm tree or do I need to send the incremental fixup?
+>
+> Nop, please send an incremental fix and I'll apply it asap.
 
-Let's see what kind of binary growth does it bring. In the end it well 
-might be that the compiler is smart enough.
+Thanks for cleaning-up the mess I caused Marek! Please, let me know if
+you want me to cook the fix.
 
-> 
-> - Marijn
+Yours,
+- -Matti
 
 -- 
-With best wishes
-Dmitry
 
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
+
+~~ When things go utterly wrong vim users can always type :help! ~~
+
+Discuss - Estimate - Plan - Report and finally accomplish this:
+void do_work(int time) __attribute__ ((const));
