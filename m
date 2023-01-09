@@ -2,71 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C096A6625D4
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 13:50:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B028662655
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 14:01:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A02E10E413;
-	Mon,  9 Jan 2023 12:50:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A721310E414;
+	Mon,  9 Jan 2023 13:01:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D94110E414
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 12:50:35 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- p3-20020a05600c1d8300b003d9ee5f125bso2416292wms.4
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 04:50:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=froggi.es; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=OwZ7m6tA/I7tqsHoGdb3tVqan4AavH0yuZk5xNJc1Kk=;
- b=jjrQj/zmDS8Pug/7xzrgv5TkvIrPhzts0GGGPTpzJ3484QV/tE8j1c9BTT8Yn+h1VT
- HdlLTKipVS9TFrAVmAStgv3Jyj5so5vRNP2h58vceUssUF1AhH8WqX97GQUD6NLSgVQA
- t1QZ82NZkpz8jqsejBLZwMHytTj6kv7Uo7DZqDDU+hA3WN6ZaM2o6Mn2n3JZY9O2oUtB
- eROI2vDQklpghZw8LALRRF0Dic30G0HIoTr1QbqnHFQgU/2voe6srdI+NCluvzgD73UK
- f6KI7OxsnZ+pDCsED3hSsdWtqUbp52cPNfuAT+HTmQAoPGdxbT1Xt+xLF9HphvEJdpgk
- fw8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OwZ7m6tA/I7tqsHoGdb3tVqan4AavH0yuZk5xNJc1Kk=;
- b=3DZ7XvZcCAz67X1kvRVXPOjZw9Dqp94vHFAGUsfikwERgiAxga3BYb2dR7J3p8Fl96
- FsmGECwSVN3QVNqk/JBmOcz1hkf10/Gx/C7lIHPYsSC0bm+DVUzhFIZmx48p6ZZwHif1
- iwjJnGjAuywXRv5ceHGFmqu78LxODX0iG9C3rnV8WI58mfRWbWDuebKtbcPlSeqCvxcX
- UBriLyQ2/2r8aW7y5z8j5qhe4ej6J2Mxhl5cdR9D8Ku2SjNuJEEvdNNuwcP81xTGkBp6
- Ua2aBPngCkbpNJGQ4QtIExlJuMBB6ENH/lPcDcId988lbg8rR8Hn774wCJcPYe87sjyC
- n3xA==
-X-Gm-Message-State: AFqh2kohNE/3b18jCcaPSr9hrZsaPFS4vqMs41NxfvTzwx3g0VRl41Sy
- nFNYnzaLPTn/6VkrI51SYbguow==
-X-Google-Smtp-Source: AMrXdXtl89GZOaLtnX+eQkRYvFBrKoBDlMfwzE2UW1Fi7vYJ5Tpb3cOSeBYrQNYa1PFBg+nF9gx4jA==
-X-Received: by 2002:a05:600c:5128:b0:3c6:e62e:2e67 with SMTP id
- o40-20020a05600c512800b003c6e62e2e67mr47468345wms.2.1673268633947; 
- Mon, 09 Jan 2023 04:50:33 -0800 (PST)
-Received: from [192.168.0.89]
- (darl-09-b2-v4wan-165404-cust288.vm5.cable.virginm.net. [86.17.61.33])
- by smtp.gmail.com with ESMTPSA id
- j30-20020a05600c1c1e00b003d9f14e9085sm2889322wms.17.2023.01.09.04.50.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 04:50:33 -0800 (PST)
-Message-ID: <d00cf1c5-b95b-f8f8-4782-2cfc64bec969@froggi.es>
-Date: Mon, 9 Jan 2023 12:50:31 +0000
+Received: from sender-of-o50.zoho.in (sender-of-o50.zoho.in [103.117.158.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCB3510E412
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 13:00:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1673269250; cv=none; d=zohomail.in; s=zohoarc; 
+ b=WrMqFd4CwDYS0yLAf/tCBS7gqk/J3gieVzLllTXvNaBfJqroX1pNJz+RN3eWkFH6m6XjbGMOTaclEOCPyLt4kmpK8h9//4XYyHLhPZ0MoT99ycpp9fV6h/ABNb2dhCC1jYXPJYBL33OtZBHb3d5dLdTIvPXU/dvtopD0mpXkQ6M=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
+ s=zohoarc; t=1673269250;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To;
+ bh=MWekVh7g0aNC8fU4Gyt4wLdjrGx1HtGYSC6SCLpolcA=; 
+ b=KoO61Yi1UxZc9SAOUYsuAyk83xnJZcK9JS7RZ7GyHA8JEE383wTYT5jeqVUs/FjQabyha1yCKtewZBN8ELUVwD8IeO5HCFxm7O4mZbA8tUB97Gl6m2FySVjzo3siwShaOV8oytzl7rzLbxNtbV90HNyqWpk7djm42BY89AidHPg=
+ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
+ spf=pass  smtp.mailfrom=code@siddh.me;
+ dmarc=pass header.from=<code@siddh.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1673269250; 
+ s=zmail; d=siddh.me; i=code@siddh.me;
+ h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=MWekVh7g0aNC8fU4Gyt4wLdjrGx1HtGYSC6SCLpolcA=;
+ b=cB2ONmhbwa4IPtOlS9w8Ka90G85pjKThkDAdhVBD8hjLvBCC5dl5M4qsWE4fY8sa
+ ZCtVHgie3xhmRFwG45SYhvbS5PSBR2Ug06DyuYqsFvZ0x8TH46jOexQzI6BxxIjbyHj
+ I3Sidat0XL74Rd2+31aW6Sf1973wGiViCFwlBYns=
+Received: from kampyooter.. (110.226.31.37 [110.226.31.37]) by mx.zoho.in
+ with SMTPS id 1673269247710493.7155399455969;
+ Mon, 9 Jan 2023 18:30:47 +0530 (IST)
+From: Siddh Raman Pant <code@siddh.me>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Simon Ser <contact@emersion.fr>,
+ Jim Cromie <jim.cromie@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Message-ID: <cover.1673269059.git.code@siddh.me>
+Subject: [PATCH v6 00/10] drm: Remove usage of deprecated DRM_* macros
+Date: Mon,  9 Jan 2023 18:30:25 +0530
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [RFC PATCH 4/5] drm/drm_color_mgmt: add 3D LUT to color mgmt
- properties
-Content-Language: en-US
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Melissa Wen <mwen@igalia.com>
-References: <20220619223104.667413-1-mwen@igalia.com>
- <20220619223104.667413-5-mwen@igalia.com> <Yrmf+mWk13qkcsfs@intel.com>
-From: Joshua Ashton <joshua@froggi.es>
-In-Reply-To: <Yrmf+mWk13qkcsfs@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf8
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,70 +58,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, christian.koenig@amd.com, airlied@linux.ie,
- Rodrigo.Siqueira@amd.com, Xinhui.Pan@amd.com, dri-devel@lists.freedesktop.org,
- nikola.cornij@amd.com, sunpeng.li@amd.com, alex.hung@amd.com,
- tzimmermann@suse.de, alexander.deucher@amd.com, seanpaul@chromium.org,
- bhawanpreet.lakha@amd.com, nicholas.kazlauskas@amd.com, sungjoon.kim@amd.com
+Cc: linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patchset aims to remove usages of deprecated DRM_* macros from the
+files residing in drivers/gpu/drm root.
 
+In process, I found out that NULL as first argument of drm_dbg_* wasn't
+working, but it was listed as the alternative in deprecation comment,
+so I fixed that before removing usages of DRM_DEBUG_* macros. Courtesy
+discussion on v1, I added support for NULL in drm_()* macros too.
 
-On 6/27/22 13:18, Ville Syrjälä wrote:
-> On Sun, Jun 19, 2022 at 09:31:03PM -0100, Melissa Wen wrote:
->> Add 3D LUT for gammar correction using a 3D lookup table.  The position
->> in the color correction pipeline where 3D LUT is applied depends on hw
->> design, being after CTM or gamma. If just after CTM, a shaper lut must
->> be set to shape the content for a non-linear space. That details should
->> be handled by the driver according to its color capabilities.
-> 
-> I also cooked up a WIP 3D LUT support some time ago for Intel hw:
-> https://github.com/vsyrjala/linux/commits/3dlut
-> But that dried up due to having no userspace for it.
-> 
-> I also cooked up some basic igts for it:
-> https://patchwork.freedesktop.org/series/90165/
-> 
-> <snip>
->> + * “LUT3D”:
->> + *	Blob property to set the 3D LUT mapping pixel data after the color
->> + *	transformation matrix and before gamma 1D lut correction.
-> 
-> On Intel hw the 3DLUT is after the gamma LUT in the pipeline, which is
-> where I placed it in my branch.
-> 
+This patchset should be applied in order as changes might be dependent.
 
-If the problem here in getting stuff moving for 3D LUT support in DRM is 
-lack of a userspace that wants to use it, I would like to just make 
-people aware that we are planning on shipping support for this in 
-Gamescope/SteamOS.
-(It is hooked up right now in the current Gamescope main branch).
+Please review and let me know if any errors are there, and hopefully
+this gets accepted.
 
-We have pulled the patches for AMDGPU by Melissa into our tree and 
-hooked it up (with a prefix VALVE1_ before the properties for now as 
-stuff is not upstream in the kernel yet) and it seems to be working well 
-right now.
+---
+v5 -> v6:
+- Move drm_device to default case in _Generic as it is the default behaviou=
+r.
+- Fix incorrect const drm_device handling in _Generic.
+- Minor positioning / comment changes.
 
-I know that the work here not final, and we will definitely change it 
-and update our kernel and userspace impl to accomodate that and are more 
-than happy to provide testing for this work and other color work.
+v4 -> v5:
+- Make separate function instead of using boolean in _Generic (sravn on IRC=
+).
+- Also, simplified the Generic macro, and renamed the function and macro.
 
-I understand there is a lot moving right now, with the new color API 
-being proposed, etc; but I don't think this should necessarily require 
-us blocking any 3D LUT, shaper LUT or other color work on the 
-"legacy"(?) path while stuff there is being planned out.
+v3 -> v4:
+- Fix commit message for DRM_NOTE erroneously mentioning DRM_INFO.
+- Rebased to drm-misc-next, as 723dad977acd added drm_dbg_core() to some
+  files.
+- Move Generic out to a separate macro __drm_get_dev_ptr, so that interface
+  of drm_dbg_*() is also same as other drm_*() macros.
+- Fix comment in __drm_get_dev_ptr (now ___drm_get_dev_ptr) to use correct
+  name.
 
-I think it's really important that we keep moving with color support on 
-the legacy path while the new one is being planned out to ensure we 
-don't accidentally miss something later or end up with something 
-suboptimal for a specific vendor.
+v2 -> v3:
+- Added support for NULL in __drm_printk and thus by extension to drm_()*.
+- Thus, converted dropped pr_()* changes to drm_*(NULL, ...).
+- Rebased to drm-misc-next and resulting appropriate changes.
 
-- Joshie 🐸✨
+v1 -> v2:
+- Removed conversions to pr_*() in DRM_INFO, DRM_NOTE, and DRM_ERROR change=
+s.
+- Due to above, DRM_NOTE usage cannot be removed and the patch is dropped.
+- DRY: NULL support is now achieved by way of a separate function.
 
+Siddh Raman Pant (10):
+  drm/print: Fix and add support for NULL as first argument in drm_*
+    macros
+  drm: Remove usage of deprecated DRM_INFO
+  drm: Remove usage of deprecated DRM_NOTE
+  drm: Remove usage of deprecated DRM_ERROR
+  drm: Remove usage of deprecated DRM_DEBUG
+  drm: Remove usage of deprecated DRM_DEBUG_DRIVER
+  drm: Remove usage of deprecated DRM_DEBUG_KMS
+  drm: Remove usage of deprecated DRM_DEBUG_PRIME
+  drm/drm_blend: Remove usage of deprecated DRM_DEBUG_ATOMIC
+  drm/drm_lease: Remove usage of deprecated DRM_DEBUG_LEASE
 
-> There is now some discussion happening about exposing some
-> kind of color pipeline description/configuration properties:
-> https://gitlab.freedesktop.org/pq/color-and-hdr/-/issues/11
-> 
+ drivers/gpu/drm/drm_agpsupport.c        |   4 +-
+ drivers/gpu/drm/drm_blend.c             |  13 ++-
+ drivers/gpu/drm/drm_bridge.c            |   8 +-
+ drivers/gpu/drm/drm_bufs.c              | 122 ++++++++++++------------
+ drivers/gpu/drm/drm_client_modeset.c    | 118 +++++++++++++----------
+ drivers/gpu/drm/drm_color_mgmt.c        |   4 +-
+ drivers/gpu/drm/drm_connector.c         |  28 +++---
+ drivers/gpu/drm/drm_context.c           |  18 ++--
+ drivers/gpu/drm/drm_crtc.c              |  36 ++++---
+ drivers/gpu/drm/drm_crtc_helper.c       |  62 ++++++------
+ drivers/gpu/drm/drm_debugfs_crc.c       |   8 +-
+ drivers/gpu/drm/drm_displayid.c         |   6 +-
+ drivers/gpu/drm/drm_dma.c               |  10 +-
+ drivers/gpu/drm/drm_drv.c               |  26 ++---
+ drivers/gpu/drm/drm_edid.c              |  17 ++--
+ drivers/gpu/drm/drm_flip_work.c         |   2 +-
+ drivers/gpu/drm/drm_framebuffer.c       |   3 +-
+ drivers/gpu/drm/drm_gem.c               |   7 +-
+ drivers/gpu/drm/drm_gem_dma_helper.c    |   6 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c  |   6 +-
+ drivers/gpu/drm/drm_hashtab.c           |  10 +-
+ drivers/gpu/drm/drm_irq.c               |   4 +-
+ drivers/gpu/drm/drm_kms_helper_common.c |   2 +-
+ drivers/gpu/drm/drm_lease.c             |  68 ++++++-------
+ drivers/gpu/drm/drm_legacy_misc.c       |   4 +-
+ drivers/gpu/drm/drm_lock.c              |  36 +++----
+ drivers/gpu/drm/drm_mipi_dbi.c          |  19 ++--
+ drivers/gpu/drm/drm_mipi_dsi.c          |  12 +--
+ drivers/gpu/drm/drm_mm.c                |   8 +-
+ drivers/gpu/drm/drm_mode_config.c       |   2 +-
+ drivers/gpu/drm/drm_mode_object.c       |   6 +-
+ drivers/gpu/drm/drm_modes.c             |  36 +++----
+ drivers/gpu/drm/drm_modeset_helper.c    |   2 +-
+ drivers/gpu/drm/drm_pci.c               |  14 +--
+ drivers/gpu/drm/drm_plane.c             |  46 ++++-----
+ drivers/gpu/drm/drm_probe_helper.c      |  39 ++++----
+ drivers/gpu/drm/drm_rect.c              |   4 +-
+ drivers/gpu/drm/drm_scatter.c           |  19 ++--
+ drivers/gpu/drm/drm_syncobj.c           |   2 +-
+ drivers/gpu/drm/drm_sysfs.c             |  22 ++---
+ drivers/gpu/drm/drm_vm.c                |  45 +++++----
+ include/drm/drm_print.h                 | 116 ++++++++++++++++------
+ 42 files changed, 557 insertions(+), 463 deletions(-)
+
+--=20
+2.39.0
+
 
