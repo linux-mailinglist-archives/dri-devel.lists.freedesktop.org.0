@@ -2,60 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806C8662E2C
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 19:09:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4697C662EA0
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 19:21:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A3F110E4DB;
-	Mon,  9 Jan 2023 18:09:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DA0F10E4E1;
+	Mon,  9 Jan 2023 18:21:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA9C510E4E3
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 18:09:14 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 309I9CSW129309;
- Mon, 9 Jan 2023 12:09:12 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1673287752;
- bh=z6Jz6iasahTBkQMB+SG8lr9uKH9K7ZN2CVXIZPIv3PI=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=qSudw0hN6z8q+jxk4OHo+Joqos/B7MenADNmMRv7DmX21J9N50b/4EAfph9ewJC7P
- Kal3uY+S99RjmAEy5zG9oWrTQzu3XQzGDm/UhPjPEBHIy6DFtHkCYFcpdSA19ie+XD
- 6WUUb6a+KyQ8YTaGLfv15g42t4WXeK/o7gnTznmA=
-Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 309I9CiK009575
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 9 Jan 2023 12:09:12 -0600
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Mon, 9
- Jan 2023 12:09:11 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Mon, 9 Jan 2023 12:09:11 -0600
-Received: from [10.250.34.87] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 309I9AtP036888;
- Mon, 9 Jan 2023 12:09:11 -0600
-Message-ID: <fce001ec-9c2e-a10f-807c-8ed975e0511f@ti.com>
-Date: Mon, 9 Jan 2023 12:09:10 -0600
+Received: from mailrelay4-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay4-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:403::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F23B10E4E1
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 18:21:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=wZxH/nDf40/5XX4K0N7bveQXBer/ZTbSo4stXhMD1MQ=;
+ b=xr+iUWmfOB1CLBr6Qsy2YZMDRotm12WBZ/zh+3qIGnqD+WW38gq16Rl6LS9taWAIgXP2llv2ueyF0
+ fA3iIIxYnmuPGkwiK+SGk3l7yHRvIxggcTtT7x2q0+wwF6fVIQkEzPtcW04Q4A6X4SKS9m56vo7D0o
+ hLzfG7GraTS31Ch8FAtoGue7T76SmYvTnNeZNZkj0/5oK6YNNivj7Wo0ExtjbmvCmHRBteAPdkj/Eg
+ NkDkGI6lGIPAVh39LbMkR8Ej5M2GsnANIVRaeRashpzz54gdLod6v1ri7V6JrPjvdhVHIVaCwftjs+
+ 2rttIhFTMoveJDSDeM23dX3GpjUJUVw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed2;
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=wZxH/nDf40/5XX4K0N7bveQXBer/ZTbSo4stXhMD1MQ=;
+ b=nxcQ2DNweooGl9o3PknXxmGKMXudrM7A8yocezPtlLEgBpQEu7WtSwjxUTWj2HhN7+D5H3vtKKz4P
+ oB6b4GmAA==
+X-HalOne-ID: 5e23647e-904a-11ed-85ce-87783a957ad9
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay4 (Halon) with ESMTPSA
+ id 5e23647e-904a-11ed-85ce-87783a957ad9;
+ Mon, 09 Jan 2023 18:21:02 +0000 (UTC)
+Date: Mon, 9 Jan 2023 19:21:00 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: Re: [PATCH 02/15] video: fbdev: atyfb: Introduce
+ backlight_get_brightness()
+Message-ID: <Y7xbDAwLEeCJ4L54@ravnborg.org>
+References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-2-1bd9bafb351f@ravnborg.org>
+ <04f0f8c7-43cd-f774-c952-eb1cf3494bd8@csgroup.eu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v4 3/7] accel/ivpu: Add GEM buffer object management
-Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, Stanislaw Gruszka
- <stanislaw.gruszka@linux.intel.com>
-References: <20221208110733.5498-1-jacek.lawrynowicz@linux.intel.com>
- <20221208110733.5498-4-jacek.lawrynowicz@linux.intel.com>
- <5b068dd9-1363-f611-9f86-acc224c10621@ti.com>
- <20230106132951.GE1586324@linux.intel.com>
- <87fe183b-c487-161d-b57b-08c38fd751ab@linux.intel.com>
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <87fe183b-c487-161d-b57b-08c38fd751ab@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <04f0f8c7-43cd-f774-c952-eb1cf3494bd8@csgroup.eu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,48 +60,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.kacprowski@linux.intel.com, quic_jhugo@quicinc.com,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Lee Jones <lee@kernel.org>, Stephen Kitt <steve@sk2.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Paul Mackerras <paulus@samba.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Antonino Daplas <adaplas@gmail.com>, Helge Deller <deller@gmx.de>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Jason Yan <yanaijie@huawei.com>, Robin van der Gracht <robin@protonic.nl>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Souptick Joarder <jrdr.linux@gmail.com>, Jingoo Han <jingoohan1@gmail.com>,
+ "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/9/23 5:47 AM, Jacek Lawrynowicz wrote:
-> Hi,
+Hi Christophe,
+On Mon, Jan 09, 2023 at 05:44:46PM +0000, Christophe Leroy wrote:
 > 
-> On 06.01.2023 14:29, Stanislaw Gruszka wrote:
->> Hi
->>
->> On Thu, Jan 05, 2023 at 12:46:51PM -0600, Andrew Davis wrote:
->>> On 12/8/22 5:07 AM, Jacek Lawrynowicz wrote:
->>>> Adds four types of GEM-based BOs for the VPU:
->>>>     - shmem
->>>>     - userptr
->>>
->>> Do you have some specific need for userptr that would not
->>> be covered by prime import + heaps? I'm just trying to get
->>> a feel for the typical use-cases for these.
->>
->> Honestly, I'm not sure. I think we have use-cases that justify
->> adding userptr, but have to check with our team members that
->> better understand the requirements.
 > 
-> It would be great if userptr could be replaced by dma-buf heaps.
-> I will add this to TODO and we will look into this after the driver is merged.
+> Le 07/01/2023 à 19:26, Sam Ravnborg via B4 Submission Endpoint a écrit :
+> > From: Sam Ravnborg <sam@ravnborg.org>
+> > 
+> > Introduce backlight_get_brightness() to simplify logic
+> > and avoid direct access to backlight properties.
 > 
+> When I read 'introduce' I understand that you are adding a new function.
+> 
+> In fact backlight_get_brightness() already exists, so maybe replace 
+> 'introduce' by 'use'
 
-We should also be clear on the export capabilities up front
-for these kinds of drivers. DRM allows re-exporting as DMA-BUF
-no matter the allocation style/location which has caused issues.
-Lets start accel framework with the rule that if you want a shareable
-buffer you should allocate it from Heaps not the driver, then pass
-it into the driver.
+Thanks for your feedback. A similar patch is already applied to the
+fbdev tree, so this patch can be ignored.
 
-Merging as-is to save churn now would be fine, but it must be clear
-that this is not a stable ABI just because it was allowed to be
-merged. userptr/export will be removed later and should not be used
-by the userspace driver.
-
-Andrew
-
-> Regards,
-> Jacek
+	Sam
