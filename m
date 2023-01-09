@@ -2,69 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430F7662B0A
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 17:21:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D670F662B0C
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 17:21:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E46510E44C;
-	Mon,  9 Jan 2023 16:21:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5654D10E19C;
+	Mon,  9 Jan 2023 16:21:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D786B10E19C
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 16:21:37 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 309GLBjO115220;
- Mon, 9 Jan 2023 10:21:11 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1673281271;
- bh=Pn0x0PUzOG1Nvv4uHwUprL4noTeFPolAuH0p0G35kzw=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=ujuLBGa8GIXkzhgLCqx5SZOW1tq6Nmo/FJklVTGE/9EpwZTkBdXF4OQuFvmuz2sxj
- rjrZ5CraNnwmBJIMjPBZW4Z6DULfypCY2Po/yhenjCjHJkZrFSZ6RL7Gg6LzLxOXWy
- gAilse7dcHQ9KpHfIFSx+Y/WIAFBcuw/uTWkeZvw=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 309GLBQ0004753
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 9 Jan 2023 10:21:11 -0600
-Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Mon, 9
- Jan 2023 10:21:11 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Mon, 9 Jan 2023 10:21:11 -0600
-Received: from [10.250.234.21] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 309GL0ut002438;
- Mon, 9 Jan 2023 10:21:01 -0600
-Message-ID: <431ddd82-055b-2526-3d5e-f6563e48d264@ti.com>
-Date: Mon, 9 Jan 2023 21:51:00 +0530
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2081.outbound.protection.outlook.com [40.107.21.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C363810E19C;
+ Mon,  9 Jan 2023 16:21:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eog4izySKgbxweSgxq1BBqh9T88N29z2DZpZxLJrlZ/vg1oaKDPYT6hVcr6S1ox/XcWjwzAtybvXnVG7bmu4bbgVVq2BzaPjOyLt7DzxaI9HBQwjziMwOG7iBZkTUwaog657bOr+oyV6MpVcWklqeIdxpTRqbPm1i7BNkwXVT4NawVT/PAjNmorFH8A39dJvdTru0GnJIxWJjS95qvm0yTZTJ2tRmaSo6aQ7k3x0l7B4eIa+rGpCeqi74fse/2LL27gJt4hNKdCEIKAXRN8H5w4QQW03guD8mVzRT5gG1tapIb607EFJEr51tYA7dWoF8iuWDGVsiW2//+zLmv7IGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VeLhaays3PUukQgNCgSoX/pYGu4CEYNNLZtRaq14+70=;
+ b=Zjlpn+l6HMQWkj77rmtBgXOGLVggKLWD+fNqIkadg4GYzk5x+HrFGfBv4j9vOSW7eSL+IGYWVfxlzjxhRnlfz2FQHIQ4ONac2vsLTl51KSQguXK+9dn1nAbJy+9PFAEsgUkYX7EkXmjAXEG2vV+pUR818Aj8/8A/7hmYcPb5C6j2iIHUygcJe/R0JBq+NVG9NwceybT3b+6BHy/SaBHN0p2AOhZdcwF5/YH0wResNk92A+GowLaVI1UMEjQS4PTigZ/0ugYZ86FcPyvhDSN5ktFSOhXwwT+l3R2k6Z1gK4unq8VeJy5uqnsOhn4Ef+RwPFaqSTMB9jRnZue2hCIDTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VeLhaays3PUukQgNCgSoX/pYGu4CEYNNLZtRaq14+70=;
+ b=ZSTQnFCE53053rRt9hEOzWgdOAIFWMvrV93OLRK3BkImEfcO2kJJUMOAKhfG5I2HM8IP7vfAG9FOXIer6sMs7KWAsZnuTIlHLpt67tqiwWEpAHTE+JKUvZacd0QHYe2U90nWqWjNwcml26fdzRiR8Oo3+P1KqdwscIME1T7fp1o=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
+ (2603:10a6:803:22::27) by PA4PR04MB7840.eurprd04.prod.outlook.com
+ (2603:10a6:102:ce::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Mon, 9 Jan
+ 2023 16:21:45 +0000
+Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
+ ([fe80::738c:a9cb:7b8b:4033]) by VI1PR0402MB3902.eurprd04.prod.outlook.com
+ ([fe80::738c:a9cb:7b8b:4033%5]) with mapi id 15.20.5986.018; Mon, 9 Jan 2023
+ 16:21:45 +0000
+Date: Mon, 9 Jan 2023 18:21:40 +0200
+From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v3 0/7] drm/bridge_connector: perform HPD enablement
+ automatically
+Message-ID: <20230109162140.yelgy2da7aqa6sqv@fsr-ub1664-121.ea.freescale.net>
+References: <20221102180705.459294-1-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221102180705.459294-1-dmitry.baryshkov@linaro.org>
+X-ClientProxiedBy: AS4P250CA0015.EURP250.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5df::14) To VI1PR0402MB3902.eurprd04.prod.outlook.com
+ (2603:10a6:803:22::27)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [RFC PATCH 3/4] dt-bindings: panel: Introduce dual-link LVDS panel
-Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob
- Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,
- Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Matthias Brugger <matthias.bgg@gmail.com>, Guo Ren
- <guoren@kernel.org>
-References: <20230103064615.5311-1-a-bhatia1@ti.com>
- <20230103064615.5311-4-a-bhatia1@ti.com>
- <09f1ca83-c7d5-a186-6fa6-09cdd7a0b9cc@collabora.com>
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <09f1ca83-c7d5-a186-6fa6-09cdd7a0b9cc@collabora.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1PR0402MB3902:EE_|PA4PR04MB7840:EE_
+X-MS-Office365-Filtering-Correlation-Id: 35f3f63d-f181-4d55-4d32-08daf25d998c
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7o7WMzGcIVcXiVdBn+PVZH7jyeKsP9Stkl46tLxN99ObZCJZhE4s1VRmDuc4A13m7/SvDMpXk78irIw1uE/V4GoZ/X2TNl+iXaBVzvvt6RdpC+VYCclDDP3cLITnGvtsuUxGdqRH5pInB3H78Ug40jnKkMQ4Jy3YanrBlBv/ZWGP5PSxdr9hr1ccDMfNt4KsGoCtNiw0HpqIB8bndUTHKBBs6+ASfs0SW+d5a4DVukUKlDnZOlHRWeNZYHJ5g0sZk51bJTxUBVOODFoTvQajLFpB8VBoWg0TVljRlBJBl+D3Je+yO3yrNecelMrFH7f9Uc0ZnhG0D02VQHF+KFgffh/S8xrBybqIMqoaHceuwKCr27Q212f3MZk0AvCNlh9/pdrUwoKy2IUAUZOf3vkVAgtyyW65eb05H9JyvZv8mBDm8nm9hAEo7dEiF19p7C89L4SQpa8fdk83Qbvn8uHjIqgvvivV9Uyjin9MEu98zqfGRjsEy4XIInQAiGKsELvl71KEi7AhKYXCNzyMWjVMIP2F9m5EayEpyVHczu8Nl5JtsGS7UBUPGXRvVFCpdFPk6BQtfAQpnTyFv0ndS4j9E38r9lBtxbmyd+YC0+Ck7hJV3W8Zk0slS3k7xseHQ30DRlS/CF1FzMdySNghW1Sopg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR0402MB3902.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(376002)(396003)(366004)(346002)(136003)(39860400002)(451199015)(478600001)(6506007)(6486002)(6666004)(1076003)(4326008)(9686003)(186003)(26005)(66476007)(66556008)(6512007)(8676002)(6916009)(54906003)(316002)(83380400001)(86362001)(38100700002)(41300700001)(66946007)(7416002)(5660300002)(2906002)(44832011)(8936002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/PjlJDxu8EWb7nfC9m0aRk5EngF10H2W8SU6KeN4SYtIW7gQ4fDYF56MchB5?=
+ =?us-ascii?Q?beD0EEXQX065DB7mlpGGVd7DxwKgqv5p+X2VfjvXfipRoss1gd38rbAaWvkK?=
+ =?us-ascii?Q?pOuHNPoBQ3pdkmHvp7S9qUGRl95/PZtqeeluxriVd+FThYx9I2w9NKCyIItL?=
+ =?us-ascii?Q?HrIgkQqKSfJpkQ9eKcJFlcd/hEgDJLW076whROrl50jgfKa62oFR45Ybgb5q?=
+ =?us-ascii?Q?nIC9kEhg2Z3FcP08hUlbdYTqc1wAGTAGPmJ1DYysS1t7K8cZ7D2V7hh+eKNi?=
+ =?us-ascii?Q?9OdWzTPR7xd5IyHll1CBAeTOR1oabwlyQtLce5ulGCgVrd+t6zaODTwU8E+k?=
+ =?us-ascii?Q?szaDxw4vtliL7O7CQQehJsimV773zaXYvnVbfWiBO40Y8ayJn9ELNr0gfjVO?=
+ =?us-ascii?Q?N39KlyWzIHoRZWd6g5ckIMv23mvKQcqpSn+3YH+Gbfir2Qf0LjSEbyx6UtYJ?=
+ =?us-ascii?Q?Qdry+hwpgaZQoBU35UcDVr4vjerqRIQ5yeUud5JL2NXJSTZFBB5tvhZu+FdA?=
+ =?us-ascii?Q?7tlAjyZ0q8xcrRBFjtVFqWGK+6qSaWXug6wbuMk0uXiyjfiNXfoxnxwoua5D?=
+ =?us-ascii?Q?EjODJvkDZ9UNedR9ACNL3QWE1WjpMXXcgAQqjFuaMVvCNZzAbd/d3N3WrqLV?=
+ =?us-ascii?Q?aXhdN8lQaYwOtedMFeRHRXN0S17mfVeZxLqLvYGZA6feM4yNuFhjO5OH33yO?=
+ =?us-ascii?Q?L9dmF81hFq/KvX4yUd1dA7zqK432WrTrFwmGGkegalmxPcD9sZ/+kTogwJD/?=
+ =?us-ascii?Q?LDw5nJ1uP7rWpRCSm0BNarvlQazAKEnB3dVcD+32HQSEarMKrlM8TysNX7L7?=
+ =?us-ascii?Q?RGo6S8HVF9qIkHrbDQADQxuEUnsjO0QVUDVHn4rfzH0rhSHUTUmEVHfc917M?=
+ =?us-ascii?Q?DA6SSiD2BxKps3ja8S9x6cCLav/leYPEjFZqXY7P0DfwcmdA1D+7StC25Rdd?=
+ =?us-ascii?Q?mwD/NHA+f/lOJ27cNfW5SVdLj8Wr8ikdw/fuT1eYCb5PFzrc0Yp0CTmsjV35?=
+ =?us-ascii?Q?5oQIpdbGiX+JY4YnaIwXbtpziUN0PggCO6vgpGR6YSP9Ltenu4GdtcirEXqK?=
+ =?us-ascii?Q?2CDm5uIJYJJZ/gBLxKFM3GkKkJfh7b8bAbdH3q+WVRh8x/FDGhno7UPQyUuJ?=
+ =?us-ascii?Q?S3wpf0U5EeeS1ocjalVXj6NRk/9pa2OAZ+FtpgeY8mWTJklK5i2Sfua390sn?=
+ =?us-ascii?Q?T99eaC4hQ2uPj6F/d2l8UC+D7UUaZaHVU07vvIMOUyhB36i94y8BkRJXtxl9?=
+ =?us-ascii?Q?L/f1PWymNDeHywHv/KWWBfysz5r/u8FF+o82hVWQOHTDDu2XnBxF2puIljiD?=
+ =?us-ascii?Q?PNWDSd08mUpuH2XDFX4nczJ4BTpZxWv+PFR+BrUBYmYh7EafrxTiPke+F/hs?=
+ =?us-ascii?Q?X0AUZxyJvP2GLRZI6WReK6vIqVehe9OqZEGGxgbpfC1GRdjUEriqfmtqMu4R?=
+ =?us-ascii?Q?/gKGtXjYDg5tX0iHw83D4ePhglhqAh1kE4Vv84RlS7H0cEq+c0f/iYo1e3QH?=
+ =?us-ascii?Q?w6YIm15EXj60nryPpXJ+RkHIh+NUIzSda5/BHVeaQcv9LSJz308u5s1P42WT?=
+ =?us-ascii?Q?WjFxf0oBStgW8LKXBXxhoyiqGnBsY347zLOvJr+1VdC0ZQxT5zeLWlQOAgox?=
+ =?us-ascii?Q?uQ=3D=3D?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35f3f63d-f181-4d55-4d32-08daf25d998c
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3902.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2023 16:21:45.3335 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jVqCVzmORgEZ59MhCxotsZdIQW+rk6iIJpF5SaQeEo9I2ak42+8tz+atjVyITWIGI9BvuT949iCLpbLbOQORgg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7840
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,142 +117,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Mediatek List <linux-mediatek@lists.infradead.org>,
- Linux C-SKY Arch List <linux-csky@vger.kernel.org>,
- Linux RISC-V List <linux-riscv@lists.infradead.org>,
- Linux ARM Kernel List <linux-arm-kernel@lists.infradead.org>,
- Rahul T R <r-ravikumar@ti.com>
+Cc: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen <tomba@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, NXP Linux Team <linux-imx@nxp.com>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Angelo,
+Hi Dmitry,
 
-Thanks for taking a look at the patches!
+It looks like there are some issues with this patchset... :/ I just
+fetched the drm-tip and, with these patches included, the "Hot plug
+detection already enabled" warning is back for i.MX DCSS.
 
-On 03-Jan-23 17:21, AngeloGioacchino Del Regno wrote:
-> Il 03/01/23 07:46, Aradhya Bhatia ha scritto:
->> Dual-link LVDS interfaces have 2 links, with even pixels traveling on
->> one link, and odd pixels on the other. These panels are also generic in
->> nature, with no documented constraints, much like their single-link
->> counterparts, "panel-lvds".
->>
->> Add a new compatible, "panel-dual-lvds", and a dt-binding document for
->> these panels.
->>
->> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
->> ---
->>   .../display/panel/panel-dual-lvds.yaml        | 157 ++++++++++++++++++
->>   MAINTAINERS                                   |   1 +
->>   2 files changed, 158 insertions(+)
->>   create mode 100644 
->> Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
->>
->> diff --git 
->> a/Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml 
->> b/Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
->> new file mode 100644
->> index 000000000000..88a7aa2410be
->> --- /dev/null
->> +++ 
->> b/Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
->> @@ -0,0 +1,157 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/panel/panel-dual-lvds.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Generic Dual-Link LVDS Display Panel
->> +
->> +maintainers:
->> +  - Aradhya Bhatia <a-bhatia1@ti.com>
->> +  - Thierry Reding <thierry.reding@gmail.com>
->> +
->> +description: |
->> +  A dual-LVDS interface is a dual-link connection with the even pixels
->> +  traveling on one link, and the odd pixels traveling on the other.
->> +
->> +allOf:
->> +  - $ref: panel-common.yaml#
->> +  - $ref: /schemas/display/lvds.yaml/#
->> +
->> +properties:
->> +  compatible:
->> +    oneOf:
->> +      - items:
->> +          - enum:
->> +              - lincolntech,lcd185-101ct
->> +              - microtips,13-101hieb0hf0-s
->> +          - const: panel-dual-lvds
->> +      - const: panel-dual-lvds
->> +
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description: The sink for first set of LVDS pixels.
->> +
->> +        properties:
->> +          dual-lvds-odd-pixels:
->> +            type: boolean
->> +
->> +          dual-lvds-even-pixels:
->> +            type: boolean
->> +
->> +        oneOf:
->> +          - required: [dual-lvds-odd-pixels]
-> 
-> One question: why do we need a "panel-dual-lvds" compatible?
-> A Dual-LVDS panel is a LVDS panel using two ports, hence still a panel-lvds.
-> 
-> If you're doing this to clearly distinguish, for human readability purposes,
-> single-link vs dual-link panels, I think that this would still be clear even
-> if we use panel-lvds alone because dual-link panels, as you wrote in this
-> binding, does *require* two ports, with "dual-lvds-{odd,even}-pixels" properties.
+After a short investigation, it seems that we end up calling
+drm_bridge_hpd_enable() from both drm_kms_helper_poll_init() and
+drm_fbdev_generic_setup(), hence the warning.
 
-Yes, while they are both LVDS based panels the extra LVDS sink in these
-panels, and the capability to decode and display the 2 sets of signals
-are enough hardware differences that warrant for an addition of a new
-compatible.
+There are drivers using the drm_bridge_connector API that also call
+drm_kms_helper_poll_init() followed by drm_fbdev_generic_setup(). So,
+they might experience the same behavior, unless I'm missing something...
+:/
 
-> 
-> So... the devicetree node would look like this:
-> 
-> panel {
->      compatible = "vendor,panel", "panel-lvds";
->      ....
->      ports {
->          port@0 {
->              .....
->              -> dual-lvds-odd-pixels <-
->          }
-> 
->          port@1 {
->              .....
->              -> dual-lvds-even-pixels <-
->          };
->      };
-> };
-> 
->> +          - required: [dual-lvds-even-pixels]
-> 
-> ...Though, if you expect dual-lvds panels to get other quirks in the future,
-> that's a whole different story and you may actually need the panel-dual-lvds
-> compatible.
+Also, even if drm_fbdev_generic_setup() is not called in the driver
+initialization, the warning will still appear the first time the
+GETCONNECTOR ioctl is called, because that'll call
+drm_helper_probe_single_connector_modes() helper which will eventually
+call drm_bridge_hpd_enable().
 
-Yes, exactly. Even while being non-smart, there are going to be more
-quirks in future. And it would be better if they have their own
-compatible/binding, and are not getting appended in an ever-growing
-if-else ladder. :)
+Any idea?
 
+Cheers,
+Laurentiu
 
-Regards
-Aradhya
+On Wed, Nov 02, 2022 at 09:06:58PM +0300, Dmitry Baryshkov wrote:
+> From all the drivers using drm_bridge_connector only iMX/dcss and OMAP
+> DRM driver do a proper work of calling
+> drm_bridge_connector_en/disable_hpd() in right places. Rather than
+> teaching each and every driver how to properly handle
+> drm_bridge_connector's HPD, make that automatic.
+> 
+> Add two additional drm_connector helper funcs: enable_hpd() and
+> disable_hpd(). Make drm_kms_helper_poll_* functions call them (as this
+> is the time where the drm_bridge_connector's functions are called by the
+> drivers too).
+> 
+> Changes since v2:
+>  - Fixed a typo in the commit message of the second patch.
+> 
+> Changes since v1:
+>  - Rebased on top of v6.1-rc1
+>  - Removed the drm_bridge_connector_enable_hpd() from
+>    drm_bridge_connector_init()
+>  - Removed extra underscore prefix from
+>    drm_bridge_connector_en/disable_hpd() helpers
+> 
+> Dmitry Baryshkov (7):
+>   drm/poll-helper: merge drm_kms_helper_poll_disable() and _fini()
+>   drm/probe-helper: enable and disable HPD on connectors
+>   drm/bridge_connector: rely on drm_kms_helper_poll_* for HPD enablement
+>   drm/imx/dcss: stop using drm_bridge_connector_en/disable_hpd()
+>   drm/msm/hdmi: stop using drm_bridge_connector_en/disable_hpd()
+>   drm/omap: stop using drm_bridge_connector_en/disable_hpd()
+>   drm/bridge_connector: drop drm_bridge_connector_en/disable_hpd()
+> 
+>  drivers/gpu/drm/drm_bridge_connector.c   | 27 +++-------------
+>  drivers/gpu/drm/drm_probe_helper.c       | 40 ++++++++++++++++++-----
+>  drivers/gpu/drm/imx/dcss/dcss-dev.c      |  4 ---
+>  drivers/gpu/drm/imx/dcss/dcss-kms.c      |  2 --
+>  drivers/gpu/drm/msm/hdmi/hdmi.c          |  2 --
+>  drivers/gpu/drm/omapdrm/omap_drv.c       | 41 ------------------------
+>  include/drm/drm_bridge_connector.h       |  2 --
+>  include/drm/drm_modeset_helper_vtables.h | 22 +++++++++++++
+>  8 files changed, 59 insertions(+), 81 deletions(-)
+> 
+> -- 
+> 2.35.1
+> 
