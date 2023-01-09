@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E77A662432
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 12:28:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B0566243C
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 12:33:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC72410E3DD;
-	Mon,  9 Jan 2023 11:28:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E403B10E3DF;
+	Mon,  9 Jan 2023 11:33:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43E1710E3DD
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 11:28:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=EnnvChdqk1Z+ZGVOIW6755zSSpkoc71+R3gbA72lBx8=; b=iiYwvY1IGbb7K2olLqk1zhnTf2
- ql2WKrHxOXsEOukPeh1p1AjR0fxiY4nLTXguUvvL9Hck9ZHZoU/st1RINj4lp3PboU7uai5Fqna8d
- SylDSZvjiwT+DUnqjkZIUeCfD/lVNXfbpJpy5/AqG033lcqfSSVuiAh3fLibBjr3vecIh7vVcRtDj
- xg/JUZHHcxbWvMFeuvAockmtuo5KluoGEpRCUSPNdYeLRuandRULlX5MK7qGdEtibjUukIOPPiTyX
- 80BX3enLTOBUibTd+SOjsX39pFYr6kYmLv2twp1ShNFTvd74aiP87wMl086oFvP7+IkdNJdUFqsI/
- Va0n9xGQ==;
-Received: from [187.36.234.139] (helo=[192.168.1.195])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1pEqKH-003KdB-QA; Mon, 09 Jan 2023 12:28:26 +0100
-Message-ID: <c7cbcb01-d0ce-47bd-1d9d-e687ef9e5315@igalia.com>
-Date: Mon, 9 Jan 2023 08:28:20 -0300
+Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com
+ [IPv6:2607:f8b0:4864:20::e32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C2F110E132
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 11:33:35 +0000 (UTC)
+Received: by mail-vs1-xe32.google.com with SMTP id k4so8230298vsc.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 03:33:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZSDXftrDLJQK7xmJBG2ELgbyinIOI/n7lmtYUtA57Fs=;
+ b=bJJlCRQwZSRuqt1LoaMGKivf6A9fZ9rncAVmVob2q/Y2tEtiIA0bNy6vg8QZlbay+P
+ FaJc1wxuWpfDSwrzS8kdrpnt9CQr66M9legLAKRVqhxAUd0IrAS/Zzc7snKW2DWOEMlN
+ ybx/0SzQhIM6t1ARC1R98cssk90pNC/RqJO98=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ZSDXftrDLJQK7xmJBG2ELgbyinIOI/n7lmtYUtA57Fs=;
+ b=Hz4HR/U3zWIgKLK9jDwxkfC06wdP7GIA6eCOHQhtwQp+DJCuJ0dVJeYtoeRKWzKnsY
+ alHnXMroSt40YoWAk1/wZho3ivWg4Zwd81oyNQdWJWH6l538AmPayaMzuNNDGzUxVYcL
+ 2tVu/0rMSk9nqwuEicMEnn+l1TJy7w5YGMev2Xid5fO2AWEm0aXk5CWIS8e0SvHwo+U4
+ 5jnK67zF0DMmj/2UK9acd8TLwDNKzlimcRkUqqIluKcUREMlFxmI7PYQW9Z3ZHsvBdGa
+ ohSCm1AJKUe9mVSSyHBHw5Agi0ryeZWavUMxy+xBKwDotKtpuuZGYC1c9bqcHoeW+O+D
+ Cwwg==
+X-Gm-Message-State: AFqh2kq/4w9oEMT15QRJ+lLU7bZ266fVL8vGT0e3gd8D/tlnk/fjtno/
+ zQqZeXVT/0b/XTVSKklDfcI1101ODr6VYCa6cdrE0A==
+X-Google-Smtp-Source: AMrXdXuKLBlCyhGQkkUkLWKlzTLcYAo/jHsHe7IlF4q1WX5pDRdIAXdOYMK/bZk42xpiZYdtx3FQv038aJ+bvpjmxTA=
+X-Received: by 2002:a67:447:0:b0:3ce:d0ae:f6f6 with SMTP id
+ 68-20020a670447000000b003ced0aef6f6mr3016990vse.26.1673264014106; Mon, 09 Jan
+ 2023 03:33:34 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 2/2] drm/debugfs: add descriptions to struct parameters
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- Jani Nikula <jani.nikula@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Melissa Wen <mwen@igalia.com>, =?UTF-8?Q?Andr=c3=a9_Almeida?=
- <andrealmeid@igalia.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20230105193039.287677-1-mcanal@igalia.com>
- <20230105193039.287677-2-mcanal@igalia.com>
- <Y7iCOD1mylBX/VuB@phenom.ffwll.local>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <Y7iCOD1mylBX/VuB@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230109084101.265664-1-treapking@chromium.org>
+ <20230109084101.265664-4-treapking@chromium.org>
+ <CAGXv+5G2bUNrA5zfmzZeXJjOgvKc0tFq_qd3UR11qeyNb=xNHQ@mail.gmail.com>
+In-Reply-To: <CAGXv+5G2bUNrA5zfmzZeXJjOgvKc0tFq_qd3UR11qeyNb=xNHQ@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Mon, 9 Jan 2023 19:33:22 +0800
+Message-ID: <CAGXv+5GS5Bj1hzbUEP340FU4yYmEVf4wyNd2B_HEUAMz3OKw6A@mail.gmail.com>
+Subject: Re: [PATCH v9 3/9] drm/display: Add Type-C switch helpers
+To: Pin-yen Lin <treapking@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,98 +63,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Guenter Roeck <groeck@chromium.org>, Kees Cook <keescook@chromium.org>,
+ Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jani Nikula <jani.nikula@intel.com>,
+ Allen Chen <allen.chen@ite.com.tw>, Stephen Boyd <swboyd@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
+ Prashant Malani <pmalani@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/6/23 17:19, Daniel Vetter wrote:
-> On Thu, Jan 05, 2023 at 04:30:39PM -0300, Maíra Canal wrote:
->> The structs drm_debugfs_info and drm_debugfs_entry don't have
->> descriptions for their parameters, which is causing the following warnings:
->>
->> include/drm/drm_debugfs.h:93: warning: Function parameter or member
->> 'name' not described in 'drm_debugfs_info'
->> include/drm/drm_debugfs.h:93: warning: Function parameter or member
->> 'show' not described in 'drm_debugfs_info'
->> include/drm/drm_debugfs.h:93: warning: Function parameter or member
->> 'driver_features' not described in 'drm_debugfs_info'
->> include/drm/drm_debugfs.h:93: warning: Function parameter or member
->> 'data' not described in 'drm_debugfs_info'
->> include/drm/drm_debugfs.h:105: warning: Function parameter or member
->> 'dev' not described in 'drm_debugfs_entry'
->> include/drm/drm_debugfs.h:105: warning: Function parameter or member
->> 'file' not described in 'drm_debugfs_entry'
->> include/drm/drm_debugfs.h:105: warning: Function parameter or member
->> 'list' not described in 'drm_debugfs_entry'
->>
->> Therefore, fix the warnings by adding descriptions to all struct
->> parameters.
->>
->> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->> ---
->>   include/drm/drm_debugfs.h | 18 ++++++++++++++++++
->>   1 file changed, 18 insertions(+)
->>
->> diff --git a/include/drm/drm_debugfs.h b/include/drm/drm_debugfs.h
->> index 53b7297260a5..7616f457ce70 100644
->> --- a/include/drm/drm_debugfs.h
->> +++ b/include/drm/drm_debugfs.h
->> @@ -86,9 +86,22 @@ struct drm_info_node {
->>    * core.
->>    */
->>   struct drm_debugfs_info {
->> +	/** @name: File name */
->>   	const char *name;
->> +
->> +	/**
->> +	 * @show:
->> +	 *
->> +	 * Show callback. &seq_file->private will be set to the &struct
->> +	 * drm_debugfs_entry corresponding to the instance of this info
->> +	 * on a given &struct drm_device.
-> 
-> So this is a bit late, but why don't we pass that drm_debugfs_entry as an
-> explicit parameter? Or maybe just the struct drm_device, because that and
-> the void *data is really all there is to pass along. Would give us more
-> type-safety, which really is the main reason for having drm-specific
-> debugfs functions.
+On Mon, Jan 9, 2023 at 6:10 PM Chen-Yu Tsai <wenst@chromium.org> wrote:
+>
+> On Mon, Jan 9, 2023 at 4:41 PM Pin-yen Lin <treapking@chromium.org> wrote:
+> >
+> > Add helpers to register and unregister Type-C "switches" for bridges
+> > capable of switching their output between two downstream devices.
+> >
+> > The helper registers USB Type-C mode switches when the "mode-switch"
+> > and the "data-lanes" properties are available in Device Tree.
+> >
+> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+>
+> Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+>
+> on MT8192 based Hayato (ASUS Chromebook Flip CM3200).
+>
+> > ---
+> >
+> > (no changes since v8)
+> >
+> > Changes in v8:
+> > - Fixed the build issue when CONFIG_TYPEC=m
+> > - Fixed some style issues
+> >
+> > Changes in v7:
+> > - Extracted the common codes to a helper function
+> > - New in v7
+> >
+> >  drivers/gpu/drm/display/drm_dp_helper.c | 132 ++++++++++++++++++++++++
+> >  include/drm/display/drm_dp_helper.h     |  16 +++
+> >  2 files changed, 148 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> > index 16565a0a5da6..fb9e23744c08 100644
+> > --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> > +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> > @@ -30,11 +30,13 @@
+> >  #include <linux/sched.h>
+> >  #include <linux/seq_file.h>
+> >  #include <linux/string_helpers.h>
+> > +#include <linux/usb/typec_mux.h>
+> >  #include <linux/dynamic_debug.h>
+> >
+> >  #include <drm/display/drm_dp_helper.h>
+> >  #include <drm/display/drm_dp_mst_helper.h>
+> >  #include <drm/drm_edid.h>
+> > +#include <drm/drm_of.h>
+> >  #include <drm/drm_print.h>
+> >  #include <drm/drm_vblank.h>
+> >  #include <drm/drm_panel.h>
+> > @@ -3891,3 +3893,133 @@ int drm_panel_dp_aux_backlight(struct drm_panel *panel, struct drm_dp_aux *aux)
+> >  EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
+> >
+> >  #endif
+> > +
+> > +#if IS_REACHABLE(CONFIG_TYPEC)
+> > +static int drm_dp_register_mode_switch(struct device *dev, struct device_node *node,
+> > +                                      struct drm_dp_typec_switch_desc *switch_desc,
+> > +                                      void *data, void *mux_set)
 
-It seems like a better idea to pass the drm_debugfs_entry as an explicit
-parameter. I can work on it, but I guess it is a better idea to finish
-the conversion of all drm_debugfs_create_files() to drm_debugfs_add_files()
-and then perform the change in the show() signature.
+Using "typec_mux_set_fn_t" instead of "void *" for mux_set would be
+more explicit. Same for all the other instances where this parameter
+gets declared.
 
-Best Regards,
-- Maíra Canal
+ChenYu
 
-> 
-> Either way, on the series: Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> 
->> +	 */
->>   	int (*show)(struct seq_file*, void*);
->> +
->> +	/** @driver_features: Required driver features for this entry. */
->>   	u32 driver_features;
->> +
->> +	/** @data: Driver-private data, should not be device-specific. */
->>   	void *data;
->>   };
->>   
->> @@ -99,8 +112,13 @@ struct drm_debugfs_info {
->>    * drm_debugfs_info on a &struct drm_device.
->>    */
->>   struct drm_debugfs_entry {
->> +	/** @dev: &struct drm_device for this node. */
->>   	struct drm_device *dev;
->> +
->> +	/** @file: Template for this node. */
->>   	struct drm_debugfs_info file;
->> +
->> +	/** @list: Linked list of all device nodes. */
->>   	struct list_head list;
->>   };
->>   
->> -- 
->> 2.39.0
->>
-> 
+
+> > +{
+> > +       struct drm_dp_typec_port_data *port_data;
+> > +       struct typec_mux_desc mux_desc = {};
+> > +       char name[32];
+> > +       u32 dp_lanes[2];
+> > +       int ret, num_lanes, port_num = -1;
+> > +
+> > +       num_lanes = drm_of_get_data_lanes_count(node, 0, 2);
+> > +       if (num_lanes <= 0) {
+> > +               dev_err(dev, "Error on getting data lanes count: %d\n",
+> > +                       num_lanes);
+>
+> Also printing out the full node name (endpoint@N) would be more helpful.
+>
+> > +               return num_lanes;
+> > +       }
+> > +
+> > +       ret = of_property_read_u32_array(node, "data-lanes", dp_lanes, num_lanes);
+> > +       if (ret) {
+> > +               dev_err(dev, "Failed to read the data-lanes variable: %d\n",
+> > +                       ret);
+>
+> Same here.
+>
+> > +               return ret;
+> > +       }
+> > +
+> > +       port_num = dp_lanes[0] / 2;
+> > +
+> > +       port_data = &switch_desc->typec_ports[port_num];
+> > +       port_data->data = data;
+> > +       mux_desc.fwnode = &node->fwnode;
+> > +       mux_desc.drvdata = port_data;
+> > +       snprintf(name, sizeof(name), "%s-%u", node->name, port_num);
+> > +       mux_desc.name = name;
+> > +       mux_desc.set = mux_set;
+> > +
+> > +       port_data->typec_mux = typec_mux_register(dev, &mux_desc);
+> > +       if (IS_ERR(port_data->typec_mux)) {
+> > +               ret = PTR_ERR(port_data->typec_mux);
+> > +               dev_err(dev, "Mode switch register for port %d failed: %d\n",
+> > +                       port_num, ret);
+> > +       }
+> > +
+> > +       return ret;
+> > +}
+> > +
+> > +/**
+> > + * drm_dp_register_typec_switches() - register Type-C switches
+> > + * @dev: Device that registers Type-C switches
+> > + * @port: Device node for the switch
+> > + * @switch_desc: A Type-C switch descriptor
+> > + * @data: Private data for the switches
+> > + * @mux_set: Callback function for typec_mux_set
+> > + *
+> > + * This function registers USB Type-C switches for DP bridges that can switch
+> > + * the output signal between their output pins.
+> > + *
+> > + * Currently only mode switches are implemented, and the function assumes the
+> > + * given @port device node has endpoints with "mode-switch" property.
+> > + * Register the endpoint as port 0 if the "data-lanes" property falls in 0/1,
+> > + * and register it as port 1 if "data-lanes" falls in 2/3.
+> > + */
+> > +int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
+> > +                                  struct drm_dp_typec_switch_desc *switch_desc,
+> > +                                  void *data, void *mux_set)
+> > +{
+> > +       struct device_node *sw;
+> > +       int ret;
+> > +
+> > +       for_each_child_of_node(port, sw) {
+> > +               if (of_property_read_bool(sw, "mode-switch"))
+> > +                       switch_desc->num_typec_switches++;
+> > +       }
+> > +
+> > +       if (!switch_desc->num_typec_switches) {
+> > +               dev_warn(dev, "No Type-C switches node found\n");
+>
+> Maybe change this to dev_info or even dev_debug? A warning would be too
+> noisy if the bridge drivers are calling this helper unconditionally.
+>
+> Otherwise,
+>
+> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
