@@ -1,64 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 608196622F6
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 11:18:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 520BF662315
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 11:22:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD4B510E3C4;
-	Mon,  9 Jan 2023 10:18:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A63D910E3C7;
+	Mon,  9 Jan 2023 10:22:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0B6210E3C4
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 10:18:19 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- g19-20020a05600c4ed300b003d9eb1dbc0aso3268313wmq.3
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 02:18:19 -0800 (PST)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EA2810E3C7
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 10:22:33 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ i17-20020a05600c355100b003d99434b1cfso6250141wmq.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 02:22:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=le6UecpYkd6s1IgJwYmbxfNn3ne8GJa+7Qrb/t3pfow=;
- b=rEIZ4b7rHvMLjUxSavtHGZU0O5u3LYUtMqgSKHcfjCdrnTrIWUMsr+u1hqBzU7vfHC
- l7dy5RmZg8dA7J9Rw8tBJnrim29yh9CREnZ0g1ybTnj4CpbeZeCwg/f2zte6fEjrmvCV
- WYc6qJw94uR/XCq1j46mVITpd5fd2bDsZngLbvcUqVxGXkzPzPNLnM+hLgrLSYjJZH2U
- nPpx4q+rihKDzMjPLp31vLu0ACkJyN1qNvHvKsBcehBLBGHcCeLv1XM7pqtLRo4NWv5a
- CshF9EYYs9kOBq1MJkyB5YqkNHotlpXDgZKTMumKfDIQuip9Wl78em20c+l59hY03NEx
- VapQ==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NGY2WfIMH5NbDK2UFtX7kYF6wj0td7t4Uuxyfu/a2lY=;
+ b=jRWsn90HOq4cs97PbbcUF8R/IEBTYbEMDPmQDemX+kuQE4QKg2cOYPCViC/8uQL5yK
+ kgPr0nbVFqlalhNEiGmjR9po/azhbEJVETY8bvqo8fnzJqd96tuc7Wojt0yx9nX3qLIE
+ xF1nFwVXDb8TJ2/vCESAAdmxO/bg28kX74JMWViD7HLOzP+2F2qhkzTq0y8lrbyHNNbh
+ jWHOL1WrvDDdRYYezXyI7YDVilZ6aEYslC8vrrM2pe27UiS8sUuq5Twv3Ha7CeO7p3vf
+ 0uVEBVXnT5tyxI6IBv7OCTrqiAcp6xAqwm92kQtDYuVen6/XioPmpxqftV6Al5cD6K5B
+ 2mMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=le6UecpYkd6s1IgJwYmbxfNn3ne8GJa+7Qrb/t3pfow=;
- b=zsl0Ygfe2KRHQQlZ4DyY09TL6EueIDz+wEu156qWuDDp8BSsEnlfwGqCzkQQJMd0Jh
- YROvVYIWDHCzuosSFESqgVksp76NcaJFxdX282+lSjyuCVxmXyVphN0tv7g6V/axv/B5
- IeRGhE8E45elCN7uCPRAOhqpcvro2uTfEpYFdChwlo7QcAYvEoKPaZOfHKkYvFKvUdMj
- Cemaf/E55SknLOkOPoGit+FIRE8YAIQ2tUT+EbiRmjSKj1s8JWj6abv+1dtuQpEVEZc6
- 8mdmD4Avj3iGiXAdx2aW+0jtm+cLvQhnkJMGyFZhCkSd2hYygx4EbOQGJiA4obWfAPNY
- 9h3g==
-X-Gm-Message-State: AFqh2kry1OX+V85VYdAd7Umw22CCjbehGVb+CHkif9mcn4IlUtm41wCp
- PyjF/Yb9aadtTK32Hn7xfsl92Q==
-X-Google-Smtp-Source: AMrXdXt08Gf1g3sCj195fhecOdNnHaC4SmsdCQ+KvR4WGo5EayS3wHMCJ77TSvczIqZSzIRcvtVLsw==
-X-Received: by 2002:a7b:cd99:0:b0:3d3:5506:1bac with SMTP id
- y25-20020a7bcd99000000b003d355061bacmr46541929wmj.30.1673259498469; 
- Mon, 09 Jan 2023 02:18:18 -0800 (PST)
-Received: from aspen.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- f11-20020a05600c4e8b00b003d04e4ed873sm17288894wmq.22.2023.01.09.02.18.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 02:18:17 -0800 (PST)
-Date: Mon, 9 Jan 2023 10:18:16 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Stephen Kitt <steve@sk2.org>
-Subject: Re: [PATCH RESEND 4/4] backlight: tosa: Use backlight helper
-Message-ID: <Y7vp6AvXg3HtJtPZ@aspen.lan>
-References: <20230106164856.1453819-5-steve@sk2.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NGY2WfIMH5NbDK2UFtX7kYF6wj0td7t4Uuxyfu/a2lY=;
+ b=ZDR9Pd2NCDhzb1rn5L9xdp8mdqX6pyn6a4/TzR4maV1+hnptRKQwHLDWEUyl8j1oaN
+ PLiNmCD/MD+A1/l4fXxCJzAuUK6DO3YVSmaht44Z3aW91VkeS7mtykKNMxyltuQ1QMW6
+ IHmR9bEa33Msk+qXCszSrK2soKjHp/EeBxjev8G0bmaPBxtV0YATBt5x2j4WFQzVIAgc
+ WmsoeaP9Prd1Da/uwfzEhP9t0BmriGyNesVsrlHsd2NXTQUdOEdu/xVbTG21OAXQ8Brs
+ SqJDL9NN6m4nW7H4manIsRanPUSWLX6IdNDEaRQ+RT+wwwQAj0PgtMiHVixFTZpuKJlD
+ kyKw==
+X-Gm-Message-State: AFqh2krQ4XMBZMGRKb96xhIKndZ3+1GVREd5APio574qXKsp3lTUYKya
+ gyw/0IuTTj7KRmfS55hl3uFMyA==
+X-Google-Smtp-Source: AMrXdXtwhS/Hw81Hf42gN976U+RfMh+Em2M2OULImNjiCySdiWW8ppb0AHe2ByEiCDwPUU8MBLXThg==
+X-Received: by 2002:a05:600c:3b21:b0:3d9:bad8:4e9e with SMTP id
+ m33-20020a05600c3b2100b003d9bad84e9emr18493818wms.40.1673259752038; 
+ Mon, 09 Jan 2023 02:22:32 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+ by smtp.gmail.com with ESMTPSA id
+ n9-20020a05600c4f8900b003d96b8e9bcasm16860567wmq.32.2023.01.09.02.22.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jan 2023 02:22:31 -0800 (PST)
+Message-ID: <a6330ecc-021a-9943-1bbd-61603f40f152@linaro.org>
+Date: Mon, 9 Jan 2023 11:22:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230106164856.1453819-5-steve@sk2.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] dt-bindings: display/msm: qcom, sdm845-mdss: document the
+ DP device
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20230109045458.316114-1-dmitry.baryshkov@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230109045458.316114-1-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,23 +81,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 06, 2023 at 05:48:55PM +0100, Stephen Kitt wrote:
-> Instead of retrieving the backlight brightness in struct
-> backlight_properties manually, and then checking whether the backlight
-> should be on at all, use backlight_get_brightness() which does all
-> this and insulates this from future changes.
->
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
+On 09/01/2023 05:54, Dmitry Baryshkov wrote:
+> Document the DP controller added to the sdm845 display subsystem.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  .../devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml   | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
 
-For the tools:
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 
-D.
+Best regards,
+Krzysztof
+
