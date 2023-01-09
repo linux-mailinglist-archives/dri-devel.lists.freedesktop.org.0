@@ -1,63 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F7C662E93
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 19:19:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48E82662E92
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 19:19:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3769F10E4E3;
-	Mon,  9 Jan 2023 18:19:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B243910E063;
+	Mon,  9 Jan 2023 18:19:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 843 seconds by postgrey-1.36 at gabe;
- Mon, 09 Jan 2023 08:34:51 UTC
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 632A510E294;
- Mon,  9 Jan 2023 08:34:51 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3098KEbE005525;
- Mon, 9 Jan 2023 02:20:14 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1673252414;
- bh=98nckAPo1vAa2VGOJss+hU8H+5NzLRli7Jdtq00XhZY=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=q0acF1k/8t89ewEtD4TmAH1DhJ+uNyOhwCC3+3eOs+XyUeNukbiDcI8P+4TB3IKG9
- kN+m4dRTxa+/HdnA0A8x4rThnpkpg+UzXS17O8eJhMS4IB9ho2Yy+SBsGOXBjdqpqG
- WeMWjxNXqxjpBNgiV5d0bmOxQwlDIHaWbklT05L4=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3098KE8X123160
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 9 Jan 2023 02:20:14 -0600
-Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Mon, 9
- Jan 2023 02:20:13 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Mon, 9 Jan 2023 02:20:13 -0600
-Received: from [10.24.69.26] (ileaxei01-snat.itg.ti.com [10.180.69.5])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3098K8s1022473;
- Mon, 9 Jan 2023 02:20:09 -0600
-Message-ID: <f7bf366a-dc32-47a2-79fc-c6f7f1f93ab7@ti.com>
-Date: Mon, 9 Jan 2023 13:50:08 +0530
+X-Greylist: delayed 964 seconds by postgrey-1.36 at gabe;
+ Mon, 09 Jan 2023 10:28:11 UTC
+Received: from smtp16.bhosted.nl (smtp16.bhosted.nl [IPv6:2a02:9e0:8000::27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A600310E3CE
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 10:28:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonic.nl; s=202111;
+ h=message-id:references:in-reply-to:reply-to:subject:cc:to:from:date:
+ content-transfer-encoding:content-type:mime-version:from;
+ bh=DpADeRqnpOK1INfFn7yqaglpmahJbhY8EX582Bmd3SY=;
+ b=I1ZQK8QX3QZlT2tEUahNaplPFpvXCyeS9V/mlZDOYwtUI7pmVX0sulujmgh+iZCm0yNHQ1CTJAwCO
+ 2UD84ZVaPxKibdiTFen6jJJA2ngMcKk/YHCQvNir+vGDtmvCc+hbDtExXjzCYs9bVKLFKyFV1eEJ5e
+ H2GU3TJKh5rN41xWmbjpij5cdo5TqQRuuL92xrGuPFof4+3q3YAS+D54SAV1xmAjAY/OoBcZQ1gtVH
+ KGf56rbaDfz4I/xH6cWK5TwxYW5NoBO4LWgqyeST3CQWbwwlCFWMjUa04Elb/KRVqS6BfSBrc4Vy70
+ Ca3+4vIXUqVfvBYHz0i1DjTMhZyLfmQ==
+X-MSG-ID: 0f6a649e-9006-11ed-8e79-0050569d2c73
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2] drm/msm/dsi: Add missing check for
- alloc_ordered_workqueue
-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>, <dmitry.baryshkov@linaro.org>,
- <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>, <sean@poorly.run>,
- <airlied@gmail.com>, <daniel@ffwll.ch>,
- <marijn.suijten@somainline.org>, <vkoul@kernel.org>,
- <dianders@chromium.org>, <marex@denx.de>, <vladimir.lypak@gmail.com>
-References: <20230109025044.27766-1-jiasheng@iscas.ac.cn>
-Content-Language: en-US
-From: Dhruva Gole <d-gole@ti.com>
-In-Reply-To: <20230109025044.27766-1-jiasheng@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Date: Mon, 09 Jan 2023 11:12:02 +0100
+From: Robin van der Gracht <robin@protonic.nl>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 12/15] auxdisplay: ht16k33: Introduce
+ backlight_get_brightness()
+Organization: Protonic Holland
+Mail-Reply-To: robin@protonic.nl
+In-Reply-To: <Y7qM+ZlG5gQiOW4K@ravnborg.org>
+References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-12-1bd9bafb351f@ravnborg.org>
+ <CANiq72mFMJuec+r=T6xYtLpuU+a1rOrAhrHiecy_1Jpj2m4J=g@mail.gmail.com>
+ <Y7qM+ZlG5gQiOW4K@ravnborg.org>
+Message-ID: <2857575f6ec206f79cc21d423fde7d17@protonic.nl>
+X-Sender: robin@protonic.nl
+User-Agent: Roundcube Webmail/1.3.1 
 X-Mailman-Approved-At: Mon, 09 Jan 2023 18:19:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,130 +56,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Reply-To: robin@protonic.nl
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ linux-staging@lists.linux.dev, Stephen Kitt <steve@sk2.org>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Paul Mackerras <paulus@samba.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
+ Lee Jones <lee@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Antonino Daplas <adaplas@gmail.com>,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Jingoo Han <jingoohan1@gmail.com>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxppc-dev@lists.ozlabs.org,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Sam,
 
-
-On 09/01/23 08:20, Jiasheng Jiang wrote:
-> Add check for the return value of alloc_ordered_workqueue as it may return
-> NULL pointer and cause NULL pointer dereference.
-> Moreover, change the "goto fail" into "return ret" and drop the "fail"
-> label since they are the same.
+On 2023-01-08 10:29, Sam Ravnborg wrote:
+> Hi Robin.
 > 
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> ---
-
-Reviewed-by: Dhruva Gole <d-gole@ti.com>
-
-> Changelog:
+> On Sat, Jan 07, 2023 at 10:02:38PM +0100, Miguel Ojeda wrote:
+>> On Sat, Jan 7, 2023 at 7:26 PM Sam Ravnborg via B4 Submission Endpoint
+>> <devnull+sam.ravnborg.org@kernel.org> wrote:
+>> >
+>> > Introduce backlight_get_brightness() to simplify logic
+>> > and avoid direct access to backlight properties.
+>> 
+>> Note: Stephen sent this one too a while ago (with some more details in
+>> the commit message, which is always nice); and then he sent yesterday
+>> v2 [1] (to mention the functional change with `BL_CORE_SUSPENDED`
+>> [2]).
+> Thanks for the pointers. I will try to move forward with Stephen's
+> patches.
+>> 
+>> Anyway, if it goes via drm-misc, feel free to have my:
+>> 
+>>     Acked-by: Miguel Ojeda <ojeda@kernel.org>
+>> 
+>> Though it would be nice to have Robin test the change.
 > 
-> v1 -> v2:
-> 
-> 1. Change the "goto fail" into "return ret" and drop the "fail" label.
-> ---
->   drivers/gpu/drm/msm/dsi/dsi_host.c | 24 +++++++++++++-----------
->   1 file changed, 13 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 89aadd3b3202..819f5be5fd77 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -1884,7 +1884,7 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
->   	msm_host = devm_kzalloc(&pdev->dev, sizeof(*msm_host), GFP_KERNEL);
->   	if (!msm_host) {
->   		ret = -ENOMEM;
-> -		goto fail;
-> +		return ret;
->   	}
->   
->   	msm_host->pdev = pdev;
-> @@ -1893,14 +1893,14 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
->   	ret = dsi_host_parse_dt(msm_host);
->   	if (ret) {
->   		pr_err("%s: failed to parse dt\n", __func__);
-> -		goto fail;
-> +		return ret;
->   	}
->   
->   	msm_host->ctrl_base = msm_ioremap_size(pdev, "dsi_ctrl", &msm_host->ctrl_size);
->   	if (IS_ERR(msm_host->ctrl_base)) {
->   		pr_err("%s: unable to map Dsi ctrl base\n", __func__);
->   		ret = PTR_ERR(msm_host->ctrl_base);
-> -		goto fail;
-> +		return ret;
->   	}
->   
->   	pm_runtime_enable(&pdev->dev);
-> @@ -1909,7 +1909,7 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
->   	if (!msm_host->cfg_hnd) {
->   		ret = -EINVAL;
->   		pr_err("%s: get config failed\n", __func__);
-> -		goto fail;
-> +		return ret;
->   	}
->   	cfg = msm_host->cfg_hnd->cfg;
->   
-> @@ -1917,7 +1917,7 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
->   	if (msm_host->id < 0) {
->   		ret = msm_host->id;
->   		pr_err("%s: unable to identify DSI host index\n", __func__);
-> -		goto fail;
-> +		return ret;
->   	}
->   
->   	/* fixup base address by io offset */
-> @@ -1927,19 +1927,19 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
->   					    cfg->regulator_data,
->   					    &msm_host->supplies);
->   	if (ret)
-> -		goto fail;
-> +		return ret;
->   
->   	ret = dsi_clk_init(msm_host);
->   	if (ret) {
->   		pr_err("%s: unable to initialize dsi clks\n", __func__);
-> -		goto fail;
-> +		return ret;
->   	}
->   
->   	msm_host->rx_buf = devm_kzalloc(&pdev->dev, SZ_4K, GFP_KERNEL);
->   	if (!msm_host->rx_buf) {
->   		ret = -ENOMEM;
->   		pr_err("%s: alloc rx temp buf failed\n", __func__);
-> -		goto fail;
-> +		return ret;
->   	}
->   
->   	ret = devm_pm_opp_set_clkname(&pdev->dev, "byte");
-> @@ -1977,15 +1977,17 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
->   
->   	/* setup workqueue */
->   	msm_host->workqueue = alloc_ordered_workqueue("dsi_drm_work", 0);
-> +	if (!msm_host->workqueue) {
-> +		ret = -ENOMEM;
-> +		return ret;
+> Robin - can I get your ack to apply Stephen's original v2 patch to
+> drm-misc?
 
-Why not simply return -ENOMEM;
-instead?
+done! see: 
+https://lore.kernel.org/lkml/0b16391f997e6ed005a326e4e48f2033@protonic.nl/
 
-> +	}
-> +
->   	INIT_WORK(&msm_host->err_work, dsi_err_worker);
->   
->   	msm_dsi->id = msm_host->id;
->   
->   	DBG("Dsi Host %d initialized", msm_host->id);
->   	return 0;
-> -
-> -fail:
-> -	return ret;
->   }
->   
->   void msm_dsi_host_destroy(struct mipi_dsi_host *host)
-
--- 
-Thanks and Regards,
-Dhruva Gole
+- Robin
