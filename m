@@ -2,64 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47E4A661E7E
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 06:44:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D1F661EF3
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 08:04:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4E3A10E274;
-	Mon,  9 Jan 2023 05:44:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7B5310E04B;
+	Mon,  9 Jan 2023 07:04:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E45E10E279
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 05:44:10 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id bq39so11388955lfb.0
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Jan 2023 21:44:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=vwVoASNnAU0yQzXSIlPjrbYKvIqxO9QDa2dRwLN6fIU=;
- b=JLoDUGJzmWpdrZg7ltG5rMZwhCslsDHUYaWKlGO/v3RT0Aue7fAVLddnC2nMP0B/gf
- Sz61LE0abcai8EuYfaiS1uExIi1D9Tci3KQqAUt6ZF3Dc78mGimWi+kh/GAKmqB0TmhQ
- 4pIoo+Z5UrDZbh9YiQHyAMTrfeVKAOZcpPaEpBaFYNNpst6rWYCiMxZiVGNqxgJbLBLu
- YdcHZLdEJbEOFee8hXD0IPloM6DIktpVaMBqg9N3lGSuBU7Z+bTwR9h1I+hhZcZ4dYo4
- L6caHL5bXKQVb6BeVLncbxjbQJlgSES7uNkIn5z5aPQ2bnFKpMlEmVRQVbCeRxIU0zn9
- r/ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vwVoASNnAU0yQzXSIlPjrbYKvIqxO9QDa2dRwLN6fIU=;
- b=mO/2IWoYClpcn4YTS27nL0PQ+p/FgjhZLYEbDckIS+RLHKPCCJSI/1RxXYTGXbrTIS
- ejDPm3Q3H/afJ/ZbnU5EVcwiqWmjN4At5Lp3eTYGq5gkG+OgZ7VLu0KOuxxy87f9af7h
- 9R4COCF8tLm0iYQSsohuiHy0Edc7/CoQnO/iZBJy1LysH+DAhYjh23eCpRVc9ZA00EpY
- uauacHDKZ85WLtBGoQgfAqSem3drLTrnsj7Xx+41wmtOrIjeUB3oBOM7tLX9T4/d4IfH
- uS7/4X9QfBZQraFN5efFULb2bDkE58nY8CLViCfXmShB2b1Q+X4ZHHdMfweUlaw6Njck
- iX4g==
-X-Gm-Message-State: AFqh2krxMumnZ9t0uMHpQdH0Ct1NaMCxxL+ZteuOBMQEwxq3hO7FjVzM
- cabLDv5NtuadAceJbapRsD16FQ==
-X-Google-Smtp-Source: AMrXdXsj8AerO4srrK26Qjkd12NTfm5B1jeUHvkCnBvxmjfKRHExkI/AEbhV2uqVFOVIiOUfhfCXnQ==
-X-Received: by 2002:a05:6512:3a91:b0:4b5:9b8f:cc89 with SMTP id
- q17-20020a0565123a9100b004b59b8fcc89mr20482250lfu.55.1673243048633; 
- Sun, 08 Jan 2023 21:44:08 -0800 (PST)
-Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
- [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- u14-20020a196a0e000000b004b575d239besm1431944lfu.237.2023.01.08.21.44.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Jan 2023 21:44:08 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH] dt-bindings: display/msm: gpu: add rbcpr clock
-Date: Mon,  9 Jan 2023 07:44:07 +0200
-Message-Id: <20230109054407.330839-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.0
+Received: from 8.mo560.mail-out.ovh.net (8.mo560.mail-out.ovh.net
+ [188.165.52.147])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA05010E04B
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 07:04:19 +0000 (UTC)
+Received: from director10.ghost.mail-out.ovh.net (unknown [10.108.16.32])
+ by mo560.mail-out.ovh.net (Postfix) with ESMTP id 05760248D7
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 07:04:17 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-vcj6j (unknown [10.110.208.152])
+ by director10.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 114F81FE0E;
+ Mon,  9 Jan 2023 07:04:15 +0000 (UTC)
+Received: from sk2.org ([37.59.142.97])
+ by ghost-submission-6684bf9d7b-vcj6j with ESMTPSA
+ id VL7nAW+8u2NFIg8AanWh3Q
+ (envelope-from <steve@sk2.org>); Mon, 09 Jan 2023 07:04:15 +0000
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G002b1d9a515-bcd6-46a5-9747-d99bfac79232,
+ 796317D5D98EA53ED2B7ABF3FE0FDD27B7A2AA3D) smtp.auth=steve@sk2.org
+X-OVh-ClientIp: 82.65.25.201
+Date: Mon, 9 Jan 2023 08:04:08 +0100
+From: Stephen Kitt <steve@sk2.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 09/15] staging: fbtft: fb_ssd1351.c: Introduce
+ backlight_is_blank()
+Message-ID: <20230109080408.318b9188@heffalump.sk2.org>
+In-Reply-To: <Y7sntztwrNqw41+i@ravnborg.org>
+References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-9-1bd9bafb351f@ravnborg.org>
+ <20230108202817.7890f85c@heffalump.sk2.org>
+ <Y7sntztwrNqw41+i@ravnborg.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/k5LKo+Vu6bf_gN1b.VvwaPq";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Ovh-Tracer-Id: 13578634353109337734
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkeehgddutdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgesghdtreerredtvdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepfeffgefhgfeuueeffeejieefieefgfefffethfdtudegvdejueelhffhfeegjeeinecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehsthgvvhgvsehskhdvrdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehiedtpdhmohguvgepshhmthhpohhuth
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,33 +58,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Antonino Daplas <adaplas@gmail.com>, Jingoo Han <jingoohan1@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-omap@vger.kernel.org, Paul Mackerras <paulus@samba.org>,
+ Lee Jones <lee@kernel.org>, Robin van der Gracht <robin@protonic.nl>,
+ Miguel Ojeda <ojeda@kernel.org>,
+ Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, linuxppc-dev@lists.ozlabs.org,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Nicolas Ferre <nicolas.ferre@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Describe the RBCPR clock used on msm8996 (A530), MSM8998 (A540) and
-SDM630/660 (A508/A512).
+--Sig_/k5LKo+Vu6bf_gN1b.VvwaPq
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- Documentation/devicetree/bindings/display/msm/gpu.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+Hi Sam,
 
-diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
-index c5f49842dc7b..db8afc636576 100644
---- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
-@@ -149,6 +149,8 @@ allOf:
-                 description: GPU 3D engine clock
-               - const: rbbmtimer
-                 description: GPU RBBM Timer for Adreno 5xx series
-+              - const: rbcpr
-+                description: GPU RB Core Power Reduction clock
-           minItems: 2
-           maxItems: 7
- 
--- 
-2.39.0
+On Sun, 8 Jan 2023 21:29:43 +0100, Sam Ravnborg <sam@ravnborg.org> wrote:
+> On Sun, Jan 08, 2023 at 08:28:17PM +0100, Stephen Kitt wrote:
+> > On Sat, 07 Jan 2023 19:26:23 +0100, Sam Ravnborg via B4 Submission
+> > Endpoint <devnull+sam.ravnborg.org@kernel.org> wrote:
+> >  =20
+> > > From: Sam Ravnborg <sam@ravnborg.org>
+> > >=20
+> > > Avoiding direct access to backlight_properties.props.
+> > >=20
+> > > Access to the deprecated props.fb_blank replaced by
+> > > backlight_is_blank(). Access to props.power is dropped - it was only
+> > > used for debug.
+> > >=20
+> > > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > > Cc: Stephen Kitt <steve@sk2.org>
+> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> > > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > Cc: linux-fbdev@vger.kernel.org
+> > > ---
+> > >  drivers/staging/fbtft/fb_ssd1351.c | 9 +++------
+> > >  1 file changed, 3 insertions(+), 6 deletions(-)
+> > >=20
+> > > diff --git a/drivers/staging/fbtft/fb_ssd1351.c
+> > > b/drivers/staging/fbtft/fb_ssd1351.c index b8d55aa8c5c7..995fbd2f3dc6
+> > > 100644 --- a/drivers/staging/fbtft/fb_ssd1351.c
+> > > +++ b/drivers/staging/fbtft/fb_ssd1351.c
+> > > @@ -190,15 +190,12 @@ static struct fbtft_display display =3D {
+> > >  static int update_onboard_backlight(struct backlight_device *bd)
+> > >  {
+> > >  	struct fbtft_par *par =3D bl_get_data(bd);
+> > > -	bool on;
+> > > +	bool blank =3D backlight_is_blank(bd);
+> > > =20
+> > > -	fbtft_par_dbg(DEBUG_BACKLIGHT, par,
+> > > -		      "%s: power=3D%d, fb_blank=3D%d\n",
+> > > -		      __func__, bd->props.power, bd->props.fb_blank);
+> > > +	fbtft_par_dbg(DEBUG_BACKLIGHT, par, "%s: blank=3D%d\n", __func__,
+> > > blank);=20
+> > > -	on =3D !backlight_is_blank(bd);
+> > >  	/* Onboard backlight connected to GPIO0 on SSD1351, GPIO1
+> > > unused */
+> > > -	write_reg(par, 0xB5, on ? 0x03 : 0x02);
+> > > +	write_reg(par, 0xB5, !blank ? 0x03 : 0x02);
+> > > =20
+> > >  	return 0;
+> > >  }
+> > >=20
+> > > --=20
+> > > 2.34.1 =20
+> >=20
+> > For debugging purposes here, would there be any point in logging
+> > props.state? As in
+> >=20
+> >         fbtft_par_dbg(DEBUG_BACKLIGHT, par,
+> > -                     "%s: power=3D%d, fb_blank=3D%d\n",
+> > -                     __func__, bd->props.power, bd->props.fb_blank);
+> > +                     "%s: power=3D%d, state=3D%u\n",
+> > +                     __func__, bd->props.power, bd->props.state); =20
+>=20
+> Thanks for the suggestion - and the reviews!
+>=20
+> I was tempted to just remove the debugging.
+> If we require debugging, then this could be added in the backlight core,
+> thus everyone would benefit from it.
+>=20
+> The solution above avoid any direct use of backlight_properties
+> which I consider a layer violation outside the backlight core.
+> (We cannot avoid it today with the current interface - but we can
+> minimize it).
 
+Ah yes, ideally backlight_properties should be viewed as an opaque structur=
+e,
+that makes sense.
+
+Regards,
+
+Stephen
+
+--Sig_/k5LKo+Vu6bf_gN1b.VvwaPq
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAmO7vGgACgkQgNMC9Yht
+g5xpKw/+N/+V4N4YMTYfpGMKaFq+uDIg1giIEl9CWezI5BHkqwm7JGWbaeS23efZ
+UHblHcZJZHTVQEXdJB8WMyhR9dHbEuati13IWacBs5OpBnvdL9kp2cTyBaChErEO
+hMbeCaJVRmBEedoCVyGWPYp13KeX6CuYTqR/7/gTroZIK68bnTuwuIaeQlpgVXqL
+Lue5OQUM2VezQCOLTiHUTspj82Bd1bTPfZfm/W8HKNzC6L2wSIzLuVRMphomjnek
+Yb+lLKK45q++yxbI/5M1k8cXB626ooPXfFB8BSZlQVSjcye2Nxd4heB7EKD9bMTe
+9qS7EjKDjbjm1l/7M542TEIL8zelZ9kaFqTom6JpeIS6iQIlb9XQP0jq/QWXv+9T
+w7aCVB/ImS08kMVlW+uhCLmJudvc5Ro1XBnHMi+KvETzmr8j2kWBvw8WDtgxq76c
+/PgbkkZWE2Htehso+egiPYRTT+0QRX1EPk9SpyFgaQV9YwZupBlCwxh2uhlbCweV
+Ff/w5ZGTTZe/n1ZlgPPkAZWhPQotPFgkOzZpEACy2EOI5VIF7luIbXnPUyKvIEsE
+W85vEaPzGZNqcZw3WW0a1CqgEVUFxJg29oTuC4KKM6BfNe+4hFCJ0EzShLmo+DHk
+fXp1T3rFtAWKgcTEjK4vwxpSEZJPfQDx+JR5GESW204w2Accxiw=
+=aVeb
+-----END PGP SIGNATURE-----
+
+--Sig_/k5LKo+Vu6bf_gN1b.VvwaPq--
