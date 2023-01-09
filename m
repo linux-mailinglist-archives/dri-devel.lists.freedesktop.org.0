@@ -1,72 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3BC5663331
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 22:38:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5129A663332
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 22:38:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EE3210E484;
-	Mon,  9 Jan 2023 21:38:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B86EF10E099;
+	Mon,  9 Jan 2023 21:38:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com
- [IPv6:2607:f8b0:4864:20::104a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6039310E484
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 21:38:20 +0000 (UTC)
-Received: by mail-pj1-x104a.google.com with SMTP id
- o36-20020a17090a0a2700b00226b4e9895aso3673241pjo.8
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 13:38:20 -0800 (PST)
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com
+ [IPv6:2607:f8b0:4864:20::b4a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68A3C10E490
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 21:38:25 +0000 (UTC)
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ z17-20020a25e311000000b00719e04e59e1so10461496ybd.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 13:38:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=g7XZ6zbY4DVhx/1OXdLF/gOX5xZT7N2TM5K+hmXQB+Q=;
- b=lp6mFgIFtl15wfLpEIICylaN7ba0rLKWyBcSmwWXHBIHGw2PfI8uc5JoYpz78iGrzt
- q7BwcvepUR121HS9evBvJZvukxIVfLEQnv4pKm0uyiAQHZ2lPiVMGwyZcSxUFbhaL90/
- ucKWwiEICRsvndQmUOtOCqlM9msyGSEUsXD5lwlIQfLeTtimxNUVh0grkxXS2J8ZCHmG
- Om+IZIdCATJX9OXIuWLzOFPLT1CV83yldN+eGwxCxvUZBerXOoxKxtFA5g5ttfCJSVS7
- 8JY1ciKixBdA0fOe8xhy0huWzEPzI2dQz1uyE93OBKFPfOC0Iwt7BiU0pYO43R8uQXJv
- jjig==
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZzZnon9AuhDOmqXXwy+4pPV98gk0DXyzNf2lwwH3FVc=;
+ b=MIKhBBBnQ+bqQnJww8/fPsZhi0whxCGIUG6kEGUGMp4FOf1NaJ2uHO5gbQnelxNiQA
+ /zZow36TcojzDwPLoUOvG98yay8W+H/pD2HMrI1l93vbQq7yL0EPGLWZQ0R6+VY7DRtV
+ JNWPRrorFPERhG5pCoV73P8K4BeUX6WEsXjfyFLgqrSJKvyOp3o0siNMo696W/r6yKXU
+ y8RJ2vfZCTDjh6Oi2w1rHjBj4wQlmL0t+ZRPOFSxOTrZS7vGovErpCiunYz6Rey8BJDi
+ cncB+zuYtfJ9rQv3FhWwefPz3sWwVINattaPynPAVTeC+nbR6FJw+i6h1qaddB0J7iUL
+ VYgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=g7XZ6zbY4DVhx/1OXdLF/gOX5xZT7N2TM5K+hmXQB+Q=;
- b=wbjuKASmF6kF0UEaIjHOYhYyPQwm/O9Y/L6V3u7NbdRPrwkofcfyu8JgDvE+QXyJaQ
- bVZ+YhRkYx+EiHHschrdLE6VOuNuX/N0oWN5p9Cm1wiDqtLufn/YeXf8nkMqPvpVMYN+
- EtsQypXhDNSemCdWawgyusjqWxKoj0RzrfL55TA068Iikn7iXLdqTyynwuF03JU0U/Cy
- 0WUlbgirqlJZVbB4gxXsNgF7WqPxoIJy3zxRzocKODoYVh8Zd3ACHZ8Zzpd+50g4+vXv
- rS1GtwproueCSLKPQtYBBhPgmbHG2c6lpllK1tu+BJGg2y0SSpIkTjWlvTw/SZ9D2dO8
- fr7Q==
-X-Gm-Message-State: AFqh2kootP8BfOJP7eT35Fpk4A28u+FgDw1cFbRicVUQkj/aM3VQMyFS
- s5YmiW1o5kIzdIRx3jwUF0VKmx0TNZe9fek=
-X-Google-Smtp-Source: AMrXdXtQbTYSpTLTOjbwoiA82zlu8FrSWZKcx71vLDnaBfZa7QUA/oE7cdXqxYT9vkecD3g3+ea7/6F21U6cq64=
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZzZnon9AuhDOmqXXwy+4pPV98gk0DXyzNf2lwwH3FVc=;
+ b=lfWxgxUEf8PKH5R9LedSyeZOVR/0kRv4gFrM9ReIUI58iuEZLxuftk/bEFmtHwYGsd
+ zfSF/UUDrNWJUsL/qeVVShqgkxbOSuj+Dv9OMYOwRsFl6sSXtIQmFP3zbpEBBOtO4yvZ
+ aUKuUy7wFJUWdGMlzxDlzD9TrCNclkLU3kgDbo29M17dxNBQBc3T+Y//16LAFNYGdj4V
+ UPVcMDcUagVgsaRRNMOc1t3xPxjd5DRQyyAfxKAMCGxibWGdxNTGOXsKCAFigoe2IGRf
+ G6nBePs4F+sr5OEZVGXEazy2RhRGF26RtAN9ZICdMnDRjJ+is/R7rXnLwzvWcAMXHc6m
+ fWJA==
+X-Gm-Message-State: AFqh2kr1HCwjhIOh+2zMC+CwBWcXw44ZqU5wZjjghzBwL9WVCBodxl9G
+ zULTGWAUpnKj5So0frLXYSF7AOTDqAyAvDA=
+X-Google-Smtp-Source: AMrXdXtOrlHW8ygC4EeYcDKs1WQIoeE3W+TEcqNZ/tFdoHO00Cnd/PEn3XI5TMhGx2JhnY0yguaIzWNDLrFIktg=
 X-Received: from tj.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:53a])
- (user=tjmercier job=sendgmr) by 2002:a05:6a00:1384:b0:56b:9ce2:891f with SMTP
- id t4-20020a056a00138400b0056b9ce2891fmr3675608pfg.43.1673300299885; Mon, 09
- Jan 2023 13:38:19 -0800 (PST)
-Date: Mon,  9 Jan 2023 21:38:03 +0000
+ (user=tjmercier job=sendgmr) by 2002:a81:6784:0:b0:460:c029:6c76 with SMTP id
+ b126-20020a816784000000b00460c0296c76mr2274300ywc.515.1673300304313; Mon, 09
+ Jan 2023 13:38:24 -0800 (PST)
+Date: Mon,  9 Jan 2023 21:38:04 +0000
+In-Reply-To: <20230109213809.418135-1-tjmercier@google.com>
 Mime-Version: 1.0
+References: <20230109213809.418135-1-tjmercier@google.com>
 X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
-Message-ID: <20230109213809.418135-1-tjmercier@google.com>
-Subject: [PATCH 0/4] Track exported dma-buffers with memcg
+Message-ID: <20230109213809.418135-2-tjmercier@google.com>
+Subject: [PATCH 1/4] memcg: Track exported dma-buffers
 From: "T.J. Mercier" <tjmercier@google.com>
 To: tjmercier@google.com, Tejun Heo <tj@kernel.org>,
  Zefan Li <lizefan.x@bytedance.com>, 
  Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?=" <arve@android.com>,
- Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, 
- Joel Fernandes <joel@joelfernandes.org>, Christian Brauner <brauner@kernel.org>,
- Carlos Llamas <cmllamas@google.com>, Suren Baghdasaryan <surenb@google.com>, 
  Sumit Semwal <sumit.semwal@linaro.org>, 
  "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
  Michal Hocko <mhocko@kernel.org>, 
  Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeelb@google.com>, 
- Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
- "Serge E. Hallyn" <serge@hallyn.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Eric Paris <eparis@parisplace.org>
+ Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,63 +73,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: android-mm@google.com, linux-doc@vger.kernel.org, selinux@vger.kernel.org,
- daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-mm@kvack.org, linux-security-module@vger.kernel.org, jstultz@google.com,
+Cc: android-mm@google.com, linux-doc@vger.kernel.org, daniel.vetter@ffwll.ch,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, jstultz@google.com,
  cgroups@vger.kernel.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Based on discussions at LPC, this series adds a memory.stat counter for
-exported dmabufs. This counter allows us to continue tracking
-system-wide total exported buffer sizes which there is no longer any
-way to get without DMABUF_SYSFS_STATS, and adds a new capability to
-track per-cgroup exported buffer sizes. The total (root counter) is
-helpful for accounting in-kernel dmabuf use (by comparing with the sum
-of child nodes or with the sum of sizes of mapped buffers or FD
-references in procfs) in addition to helping identify driver memory
-leaks when in-kernel use continually increases over time. With
-per-application cgroups, the per-cgroup counter allows us to quickly
-see how much dma-buf memory an application has caused to be allocated.
-This avoids the need to read through all of procfs which can be a
-lengthy process, and causes the charge to "stick" to the allocating
-process/cgroup as long as the buffer is alive, regardless of how the
-buffer is shared (unless the charge is transferred).
+When a buffer is exported to userspace, use memcg to attribute the
+buffer to the allocating cgroup until all buffer references are
+released.
 
-The first patch adds the counter to memcg. The next two patches allow
-the charge for a buffer to be transferred across cgroups which is
-necessary because of the way most dmabufs are allocated from a central
-process on Android. The fourth patch adds a SELinux hook to binder in
-order to control who is allowed to transfer buffer charges.
+Unlike the dmabuf sysfs stats implementation, this memcg accounting
+avoids contention over the kernfs_rwsem incurred when creating or
+removing nodes.
 
-[1] https://lore.kernel.org/all/20220617085702.4298-1-christian.koenig@amd.com/
+Signed-off-by: T.J. Mercier <tjmercier@google.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 4 ++++
+ drivers/dma-buf/dma-buf.c               | 5 +++++
+ include/linux/dma-buf.h                 | 3 +++
+ include/linux/memcontrol.h              | 1 +
+ mm/memcontrol.c                         | 4 ++++
+ 5 files changed, 17 insertions(+)
 
-Hridya Valsaraju (1):
-  binder: Add flags to relinquish ownership of fds
-
-T.J. Mercier (3):
-  memcg: Track exported dma-buffers
-  dmabuf: Add cgroup charge transfer function
-  security: binder: Add transfer_charge SElinux hook
-
- Documentation/admin-guide/cgroup-v2.rst |  5 +++
- drivers/android/binder.c                | 36 +++++++++++++++--
- drivers/dma-buf/dma-buf.c               | 54 +++++++++++++++++++++++--
- include/linux/dma-buf.h                 |  5 +++
- include/linux/lsm_hook_defs.h           |  2 +
- include/linux/lsm_hooks.h               |  6 +++
- include/linux/memcontrol.h              |  7 ++++
- include/linux/security.h                |  2 +
- include/uapi/linux/android/binder.h     | 23 +++++++++--
- mm/memcontrol.c                         |  4 ++
- security/security.c                     |  6 +++
- security/selinux/hooks.c                |  9 +++++
- security/selinux/include/classmap.h     |  2 +-
- 13 files changed, 149 insertions(+), 12 deletions(-)
-
-
-base-commit: b7bfaa761d760e72a969d116517eaa12e404c262
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index c8ae7c897f14..538ae22bc514 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1455,6 +1455,10 @@ PAGE_SIZE multiple when read back.
+ 		Amount of memory used for storing in-kernel data
+ 		structures.
+ 
++	  dmabuf (npn)
++		Amount of memory used for exported DMA buffers allocated by the cgroup.
++		Stays with the allocating cgroup regardless of how the buffer is shared.
++
+ 	  workingset_refault_anon
+ 		Number of refaults of previously evicted anonymous pages.
+ 
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index e6528767efc7..ac45dd101c4d 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -75,6 +75,8 @@ static void dma_buf_release(struct dentry *dentry)
+ 	 */
+ 	BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
+ 
++	mod_memcg_state(dmabuf->memcg, MEMCG_DMABUF, -dmabuf->size);
++	mem_cgroup_put(dmabuf->memcg);
+ 	dma_buf_stats_teardown(dmabuf);
+ 	dmabuf->ops->release(dmabuf);
+ 
+@@ -673,6 +675,9 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ 	if (ret)
+ 		goto err_dmabuf;
+ 
++	dmabuf->memcg = get_mem_cgroup_from_mm(current->mm);
++	mod_memcg_state(dmabuf->memcg, MEMCG_DMABUF, dmabuf->size);
++
+ 	file->private_data = dmabuf;
+ 	file->f_path.dentry->d_fsdata = dmabuf;
+ 	dmabuf->file = file;
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index 6fa8d4e29719..1f0ffb8e4bf5 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -22,6 +22,7 @@
+ #include <linux/fs.h>
+ #include <linux/dma-fence.h>
+ #include <linux/wait.h>
++#include <linux/memcontrol.h>
+ 
+ struct device;
+ struct dma_buf;
+@@ -446,6 +447,8 @@ struct dma_buf {
+ 		struct dma_buf *dmabuf;
+ 	} *sysfs_entry;
+ #endif
++	/* The cgroup to which this buffer is currently attributed */
++	struct mem_cgroup *memcg;
+ };
+ 
+ /**
+diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+index d3c8203cab6c..1c1da2da20a6 100644
+--- a/include/linux/memcontrol.h
++++ b/include/linux/memcontrol.h
+@@ -37,6 +37,7 @@ enum memcg_stat_item {
+ 	MEMCG_KMEM,
+ 	MEMCG_ZSWAP_B,
+ 	MEMCG_ZSWAPPED,
++	MEMCG_DMABUF,
+ 	MEMCG_NR_STAT,
+ };
+ 
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index ab457f0394ab..680189bec7e0 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -1502,6 +1502,7 @@ static const struct memory_stat memory_stats[] = {
+ 	{ "unevictable",		NR_UNEVICTABLE			},
+ 	{ "slab_reclaimable",		NR_SLAB_RECLAIMABLE_B		},
+ 	{ "slab_unreclaimable",		NR_SLAB_UNRECLAIMABLE_B		},
++	{ "dmabuf",			MEMCG_DMABUF			},
+ 
+ 	/* The memory events */
+ 	{ "workingset_refault_anon",	WORKINGSET_REFAULT_ANON		},
+@@ -1519,6 +1520,7 @@ static int memcg_page_state_unit(int item)
+ 	switch (item) {
+ 	case MEMCG_PERCPU_B:
+ 	case MEMCG_ZSWAP_B:
++	case MEMCG_DMABUF:
+ 	case NR_SLAB_RECLAIMABLE_B:
+ 	case NR_SLAB_UNRECLAIMABLE_B:
+ 	case WORKINGSET_REFAULT_ANON:
+@@ -4042,6 +4044,7 @@ static const unsigned int memcg1_stats[] = {
+ 	WORKINGSET_REFAULT_ANON,
+ 	WORKINGSET_REFAULT_FILE,
+ 	MEMCG_SWAP,
++	MEMCG_DMABUF,
+ };
+ 
+ static const char *const memcg1_stat_names[] = {
+@@ -4057,6 +4060,7 @@ static const char *const memcg1_stat_names[] = {
+ 	"workingset_refault_anon",
+ 	"workingset_refault_file",
+ 	"swap",
++	"dmabuf",
+ };
+ 
+ /* Universal VM events cgroup1 shows, original sort order */
 -- 
 2.39.0.314.g84b9a713c41-goog
 
