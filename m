@@ -1,71 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6081A6635BA
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 00:44:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6296635AB
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 00:44:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99A8610E513;
-	Mon,  9 Jan 2023 23:44:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A5BC10E52B;
+	Mon,  9 Jan 2023 23:44:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD28D10E518
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 23:44:08 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id f34so15577500lfv.10
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 15:44:08 -0800 (PST)
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9842510E51E
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 23:44:09 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id bx6so10696931ljb.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 15:44:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=pymBsysiRj4PWzpdrYvrGh6WCe9aRMDyVw4Cchu5q1Q=;
- b=THWK7AP+s7+Zb1Lq2jA9fh9HZw2EhVfxFT9lw68Jun80sZouyMv0hzuBM4gUSFOQ8b
- O8J2qNrkf/y2btAeA92LsJoQYXEofkK873PwSsO86R4oAkO260Pb+7OE6SJ3Z6fSSXwF
- bEWBIrH2Ci3XCDoNGojzGKodmmhv/1eG2gpWMC0lu+V/9raJSrPjt7qWkRzmotTEmjDx
- SeDMrcmbJx1FUi5TH273GJenI6PFeTM7Klvx4gmys/rqfMXSVu6p6Xhne82PpODMcy5n
- cSpJgCVFsEHWOM5hHFCT6VoJ4sAcjHH+2YE3tAuaqgoIogt6uAmNzW8nxnwKhrhUoM+n
- B70A==
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kpASIlrn94h2kw47h1c03X9cqh5FWCX9FeHma7sBwdI=;
+ b=v1wrZ2vN/XnH/5e/agAJ16tPNvEY3v5UQpgH5Myp1qx1T/tvSz7m8P7mZNZ7lXLfD0
+ EpkGbcICZQkZsQ6g2RTtvYTPrKYaaMjD0x5LUliXvpSwXhtSdyg7YRUoet1/smn7hSa6
+ yIkwgYhdC7QLiBvK3GMYHo6ArZe+pS697mGl7ohBaNWtoV8YakjJ93ISDemTmu29Q6rM
+ tvMdADfb4ZOj3ollbJaPYObgJJxTeRuBWzqkCzZoAM8w+ZYM63Q4Dqa0nMNclVJ3OErA
+ lpNOCuMww4d2efN+xd+3Dx3ZyAcMF41gNNIUkM4m0/dF/L3yjRiNwgQhCtFmvbfSCTqK
+ DS5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pymBsysiRj4PWzpdrYvrGh6WCe9aRMDyVw4Cchu5q1Q=;
- b=da6QDeqp2mnfA1ocmGsXR8DT+JvDlwLu373ICuDiJuvF9gVNNkofvlwZqGnFUcUI6A
- 2yASVQFnavUOpaSRbNXJqs0N1MedNX5ycCDCQdBIs86AbmQmTQ4JB47uKRp/0Pr2hscf
- Zl6gY74P3lvp3INzL4z4jKfxJl3hHkC7iA0e+4HJ8KBD4BLCBLtaV3lNUl+n/yBPq5I9
- zutbAumhvAL8IEpX0x5sFsVVUMlvA7n0k5IJ5S/CU1nsEvYmvZNuOPDMA1hq8oUWlw0L
- AQSLuy39AS8USOaVzIlmPsCh7IPN9juRSumrRW5UD1MgYjBhFOrf1sOue0fxwLzXJ0PZ
- QUuA==
-X-Gm-Message-State: AFqh2kqUdVvoz+0SB0byHS+WbUzrPTblfPRJf8stniIGZk34pCuKlZtl
- 7o6DR/mRt4FImki7TpsUvSZD0w==
-X-Google-Smtp-Source: AMrXdXtIVvzkj4fVEFNF2MrIz3KR+4VgtYza83XbuyEDgYfxykegrPPYtCARasfAXCCWjObpRzqQhg==
-X-Received: by 2002:ac2:5454:0:b0:4cc:8985:b565 with SMTP id
- d20-20020ac25454000000b004cc8985b565mr216605lfn.30.1673307847139; 
+ bh=kpASIlrn94h2kw47h1c03X9cqh5FWCX9FeHma7sBwdI=;
+ b=XRjGPCdnmSWnR13DP4ImbyjqL1xy3pFCNsk3P8Z+I8RMKknBIhosyVBMaBg235FF3J
+ fB+Y7y1JJq4lBj6D1nDs6o5B4DbD442P/8T1mXErV8dUq/4X/CvHbhqqhYX5UIPJByYp
+ SpQNY5SradXRcMZSpu5GoVe/Gi0/NCwLCSC9uUuT2u1iUpjvzUKGH9eUXXejR4Uuynrx
+ Qu7hJLHH6XpFefdHXQ52+BsU494qJ1Aq92oFvtdxRppayxa9NIkBvV5MnN5hhgqfVp68
+ gz7ZybRvWd+bMI/D7w94K21TLhEg6blJ3MMB58F7DX9tSf0nPXX7MG0QlzrrAa2mSZDH
+ yNRA==
+X-Gm-Message-State: AFqh2kpaLrGQAzjz1rZG4PvyRoTinRer6Hy6hIJh4bHsD5t9JsJqm3o3
+ TYh5qe4fF7R5iAXY1c+brubScQ==
+X-Google-Smtp-Source: AMrXdXuTSirBkKKX9cOHfeyvPTZYP1igXatg4QzFNBd3JOOm6VJi6sJ8f6PwONdphEmyG1wXADgO1g==
+X-Received: by 2002:a2e:2c0d:0:b0:281:bb75:1863 with SMTP id
+ s13-20020a2e2c0d000000b00281bb751863mr3348094ljs.0.1673307847937; 
  Mon, 09 Jan 2023 15:44:07 -0800 (PST)
 Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- s9-20020a056512214900b004b5a4cf69dfsm1835255lfr.261.2023.01.09.15.44.06
+ s9-20020a056512214900b004b5a4cf69dfsm1835255lfr.261.2023.01.09.15.44.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 15:44:06 -0800 (PST)
+ Mon, 09 Jan 2023 15:44:07 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Del Regno <angelogioacchino.delregno@somainline.org>,
- Loic Poulain <loic.poulain@linaro.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 1/2] dt-bindings: display: msm: drop redundant part of
- title
-Date: Tue, 10 Jan 2023 01:43:51 +0200
-Message-Id: <167330408778.609993.10640569681810813503.b4-ty@linaro.org>
+To: phone-devel@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>
+Subject: Re: [PATCH] drm/msm/dpu: Print interrupt index in addition to the mask
+Date: Tue, 10 Jan 2023 01:43:52 +0200
+Message-Id: <167330408782.609993.3753799611578677856.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20221225115925.55337-1-krzysztof.kozlowski@linaro.org>
-References: <20221225115925.55337-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221121222456.437815-1-marijn.suijten@somainline.org>
+References: <20221121222456.437815-1-marijn.suijten@somainline.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -81,22 +72,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Vinod Koul <vkoul@kernel.org>, linux-kernel@vger.kernel.org,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>, Sean Paul <sean@poorly.run>,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Sun, 25 Dec 2022 12:59:24 +0100, Krzysztof Kozlowski wrote:
-> The Devicetree bindings document does not have to say in the title that
-> contains "DT properties", but instead just describe the hardware.
+On Mon, 21 Nov 2022 23:24:55 +0100, Marijn Suijten wrote:
+> The mask only describes the `irq_idx % 32` part, making it generally
+> impossible to deduce what interrupt is being enabled/disabled.  Since
+> `debug/core_irq` in debugfs (and other prints) also include the full
+> `DPU_IRQ_IDX()` value, print the same full value here for easier
+> correlation instead of only adding the `irq_idx / 32` part.
 > 
+> Furthermore, make the dbgstr messages more consistent.
 > 
+> [...]
 
 Applied, thanks!
 
-[1/2] dt-bindings: display: msm: drop redundant part of title
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/e90c380ea283
-[2/2] dt-bindings: display: msm: drop unneeded list for single compatible
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/7ad6586652fa
+[1/1] drm/msm/dpu: Print interrupt index in addition to the mask
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/d45e5744ab39
 
 Best regards,
 -- 
