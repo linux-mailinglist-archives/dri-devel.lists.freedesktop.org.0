@@ -1,19 +1,19 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16CA7661D39
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 05:04:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F5E9661D30
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 05:04:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2776310E269;
-	Mon,  9 Jan 2023 04:04:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 126CD10E25C;
+	Mon,  9 Jan 2023 04:04:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
- by gabe.freedesktop.org (Postfix) with ESMTP id B191410E250
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B140910E24E
  for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 04:03:54 +0000 (UTC)
 Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
- by 156.147.23.52 with ESMTP; 9 Jan 2023 12:33:54 +0900
+ by 156.147.23.51 with ESMTP; 9 Jan 2023 12:33:54 +0900
 X-Original-SENDERIP: 156.147.1.121
 X-Original-MAILFROM: byungchul.park@lge.com
 Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
@@ -22,10 +22,10 @@ X-Original-SENDERIP: 10.177.244.38
 X-Original-MAILFROM: byungchul.park@lge.com
 From: Byungchul Park <byungchul.park@lge.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH RFC v7 20/23] dept: Apply timeout consideration to waitqueue
- wait
-Date: Mon,  9 Jan 2023 12:33:48 +0900
-Message-Id: <1673235231-30302-21-git-send-email-byungchul.park@lge.com>
+Subject: [PATCH RFC v7 21/23] dept: Apply timeout consideration to
+ hashed-waitqueue wait
+Date: Mon,  9 Jan 2023 12:33:49 +0900
+Message-Id: <1673235231-30302-22-git-send-email-byungchul.park@lge.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1673235231-30302-1-git-send-email-byungchul.park@lge.com>
 References: <1673235231-30302-1-git-send-email-byungchul.park@lge.com>
@@ -62,30 +62,30 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Now that CONFIG_DEPT_AGGRESSIVE_TIMEOUT_WAIT was introduced, apply the
-consideration to waitqueue wait, assuming an input 'ret' in
-___wait_event() macro is used as a timeout value.
+consideration to hashed-waitqueue wait, assuming an input 'ret' in
+___wait_var_event() macro is used as a timeout value.
 
 Signed-off-by: Byungchul Park <byungchul.park@lge.com>
 ---
- include/linux/wait.h | 5 ++++-
+ include/linux/wait_bit.h | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/wait.h b/include/linux/wait.h
-index ede466c..87888ee 100644
---- a/include/linux/wait.h
-+++ b/include/linux/wait.h
-@@ -304,7 +304,10 @@ static inline void wake_up_pollfree(struct wait_queue_head *wq_head)
- 	struct wait_queue_entry __wq_entry;					\
- 	long __ret = ret;	/* explicit shadow */				\
- 										\
--	sdt_might_sleep_weak(NULL);						\
-+	if (!__ret || __ret == MAX_SCHEDULE_TIMEOUT)				\
-+		sdt_might_sleep_weak(NULL);					\
-+	else									\
-+		sdt_might_sleep_weak_timeout(NULL);				\
- 	init_wait_entry(&__wq_entry, exclusive ? WQ_FLAG_EXCLUSIVE : 0);	\
- 	for (;;) {								\
- 		long __int = prepare_to_wait_event(&wq_head, &__wq_entry, state);\
+diff --git a/include/linux/wait_bit.h b/include/linux/wait_bit.h
+index bad30ba..b504815 100644
+--- a/include/linux/wait_bit.h
++++ b/include/linux/wait_bit.h
+@@ -247,7 +247,10 @@ struct wait_bit_queue_entry {
+ 	struct wait_bit_queue_entry __wbq_entry;			\
+ 	long __ret = ret; /* explicit shadow */				\
+ 									\
+-	sdt_might_sleep_weak(NULL);					\
++	if (!__ret || __ret == MAX_SCHEDULE_TIMEOUT)			\
++		sdt_might_sleep_weak(NULL);				\
++	else								\
++		sdt_might_sleep_weak_timeout(NULL);			\
+ 	init_wait_var_entry(&__wbq_entry, var,				\
+ 			    exclusive ? WQ_FLAG_EXCLUSIVE : 0);		\
+ 	for (;;) {							\
 -- 
 1.9.1
 
