@@ -1,79 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CEB466203F
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 09:42:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41467662087
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 09:49:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3445210E37E;
-	Mon,  9 Jan 2023 08:42:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B41710E382;
+	Mon,  9 Jan 2023 08:49:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C15EC10E37E
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 08:42:03 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id
- o8-20020a17090a9f8800b00223de0364beso12026358pjp.4
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 00:42:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9iAqigrmRtbOwkIjEJ3yqHcs8IpEn5bVcl0Fnp8oBxA=;
- b=UsXasHbilcmH352bWImADdEHGkeKLDKY8/6LTgkfSwTDOlG3fZbpIS6jGqe5W2B/9D
- HwQNfa5wSvNFIbxNsyPR7nKuty0ce3XFiUo/sEkI5eyHTPdIPaH0Wq8a3Uuiw44EB3Zs
- +7SVGSXED0FlrhRmhE2qJO5Z6uIp0t8QNaGF8=
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A61B10E380
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 08:49:36 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ i17-20020a05600c355100b003d99434b1cfso6020283wmq.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 00:49:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=siKssN7+BF3Ar6NiC2raZr/JKgYRNMaZsKu5TqC452k=;
+ b=EC/NPgVtbD08ltPavscFWrbUcdb3WKJRO9+7MBtwuDiJpWSTCaW2tCiKJS3WJ+qTEe
+ 6CxnoZxnTuKGnr2htzGg1N9XS6AMjDGeLocixjAh85WdaMv65j7CxwZxFHflW5iVwPJ8
+ iBx+XDyR22q3otFb0mgocpE7DPBt268TdbsPqBc5PcBeFeKFDiX6bp6EBo7v7tFAE2Po
+ ry3L+UEPAtQJcsL2lfKliUZGeZVBD6YV8JOOXm9b9A6k6kQuT4Y3ILnFvP1Fnd79FJ7H
+ zZ4utoAJ7/lKKKqZZzOiK2gQQ2c8yDsC35b4/f8Ri/0pXfYoMrO8p42a/eR8ePa6r/Z8
+ B0Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9iAqigrmRtbOwkIjEJ3yqHcs8IpEn5bVcl0Fnp8oBxA=;
- b=yeoyMRwV6Roxjh7mmoy/u/fiDv/b0C5pINzzXtvpyfp83mtZOIRhhkcp+4wVn+dk8S
- fMiZ6rYvHCBxb0jTEk/YRJUBK5b21z/YHock9QX5py5jh0bwzuzNOXaLhIchCFXbryfp
- byHGA4C/CvlQSQ1KAj2ycNQG8gKUOXhg5R5B5TdMuD8yN0F8SDB8y6CB7EPw2BqrFvU3
- 0cTbgSXNIU6kbP9UlC58siJVWrVxhXZRGSrkC4pLmhsTD4h7CIhUbRIsxWhvi68Jx/QL
- 5j65OTzR9gjaqJzE89YSQW2hIsEOc82+u6xw++KWepomDXFdUeVMg25vJniaoR/9FfV3
- Odyw==
-X-Gm-Message-State: AFqh2kpNYeT05w5vUgkOx1ivBvzQO0hGpIhrW0DAPma7v8l3uwXM/wgT
- UPREB99gV8pNdfTHxpPlu8z9hQ==
-X-Google-Smtp-Source: AMrXdXtbGhDZ0qIOz9gU/szDo57zt2q6abDLPDEdxc3raJT8EzkxPtZxtGeBR8yQCh4KG8AqYVqtqQ==
-X-Received: by 2002:a17:902:6ac6:b0:192:cd8a:f358 with SMTP id
- i6-20020a1709026ac600b00192cd8af358mr24722274plt.69.1673253723421; 
- Mon, 09 Jan 2023 00:42:03 -0800 (PST)
-Received: from treapking.tpe.corp.google.com
- ([2401:fa00:1:10:801:a736:715:9a15])
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=siKssN7+BF3Ar6NiC2raZr/JKgYRNMaZsKu5TqC452k=;
+ b=EpHQSUKfqjVcVKZh7+8D/5iH5mVJPUlCXTvzijsLUckvCp3rnMaMzkas2VmSPDQjNR
+ /iDRL8XXW5vzpdWzfYdpMaSJFKSVrK0PKeCK7tYRsEooMucxsw93jiS89vROXnrv63Qt
+ pLf5S9UV9acxHxEFkqt/QF+ynb2G3mZ781uEhk0RRLDaaGb9IgZFNhVmkg1cgThtae4b
+ l7E5iQ7w8fGKFV1Lk86G7AYDeKdZ6X/aPmbBdNDhMoXW9gAqWH84DtEnVTHTLlEELtJ7
+ HvZyBAn5Nk91k3Zr7Jyq6rKYpf6XXJaMMQQw8NqTPAG300HWqredxSVlIdj/kc76/iIh
+ KAMQ==
+X-Gm-Message-State: AFqh2kqGwQXOA8Sba6xjzdcjGz1+WOcU0/fFMO6tVGHvaM+6zuNy/RMm
+ BLC+qT/ZnZO958NRGeACJeBRfA==
+X-Google-Smtp-Source: AMrXdXtggGQz2GeaqMHJwAE7OigHbI53wsmzvKbRmQJ7N5AfmYUMNKMjZ9SpOtKFIfznz01xmqva4g==
+X-Received: by 2002:a05:600c:15c3:b0:3d1:c8e4:48d7 with SMTP id
+ v3-20020a05600c15c300b003d1c8e448d7mr55302643wmf.40.1673254174810; 
+ Mon, 09 Jan 2023 00:49:34 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- c14-20020a170902d48e00b00186acb14c4asm5568119plg.67.2023.01.09.00.41.58
+ az28-20020a05600c601c00b003cf57329221sm15039619wmb.14.2023.01.09.00.49.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 00:42:03 -0800 (PST)
-From: Pin-yen Lin <treapking@chromium.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Mon, 09 Jan 2023 00:49:34 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v2 0/2] drm/panel: add support for the Visionox VTDR6130
+ AMOLED DSI panel
+Date: Mon, 09 Jan 2023 09:49:29 +0100
+Message-Id: <20230103-topic-sm8550-upstream-vtdr6130-panel-v2-0-dd6200f47a76@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABnVu2MC/5WOQQ6DIBQFr9Kw7m9AqmJXvUfjAgSVRIF8kLQx3
+ r3UG3Q5s3jzdhINWhPJ47ITNNlG612B6nohwyzdZMDqwqSiFaeMckg+2AHiKuqawhZiQiNXyElj
+ wziFIJ1ZYBRMS921jVSalCklowGF0g1zGXPbshQZ0Iz2fbZffeHZxuTxc17J7Gf/rGYGFDrV3hs
+ lasFb8Vysk+hvHifSH8fxBQniiRfuAAAA
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>
-Subject: [PATCH v9 9/9] drm/bridge: it6505: Register Type C mode switches
-Date: Mon,  9 Jan 2023 16:41:01 +0800
-Message-Id: <20230109084101.265664-10-treapking@chromium.org>
-X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
-In-Reply-To: <20230109084101.265664-1-treapking@chromium.org>
-References: <20230109084101.265664-1-treapking@chromium.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+X-Mailer: b4 0.11.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,232 +78,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
- <nfraprado@collabora.com>, linux-acpi@vger.kernel.org,
- Allen Chen <allen.chen@ite.com.tw>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Hsin-Yi Wang <hsinyi@chromium.org>,
- chrome-platform@lists.linux.dev, Xin Ji <xji@analogixsemi.com>,
- linux-kernel@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: devicetree@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Register USB Type-C mode switches when the "mode-switch" property and
-relevant port are available in Device Tree. Configure the "lane_swap"
-state based on the entered alternate mode for a specific Type-C
-connector, which ends up updating the lane swap registers of the it6505
-chip.
+Add support for the 1080x2400 Visionox VTDR6130 AMOLED DSI panel
+found on the Qualcomm SM8550 MTP board.
 
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+By default the the panel is configured to work with DSI compressed
+streams, but can work in uncompressed video mode since 1080x2400 in
+RGB888 fits in the 4 DSI lanes bandwidth.
+
+While display compression is preferred for performance and power
+reasons, let's start with the uncompressed video mode support and
+add the DSC support later on.
+
+To: Thierry Reding <thierry.reding@gmail.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+To: David Airlie <airlied@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Rob Herring <robh+dt@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 
 ---
+Changes in v2:
+- Patch 1: Added review tags
+- Patch 2:
+  - Fixed includes block grouping
+  - used mipi_dsi_dcs_write_seq() instead of custom macro
+  - Used MIPI_DCS macros instead of hex valuex when possible
+  - Dropped first DCS write which was enabling DSC, and so removed DSC disable
+  - Fixed width/height
+  - Dropped calling mipi_dsi_dcs_set_display_brightness() and direct DCS write to avoid double swap
+  - Fixes MODULE_AUTHOR & MODULE_DESCRIPTION
+- Link to v1: https://lore.kernel.org/r/20230103-topic-sm8550-upstream-vtdr6130-panel-v1-0-9b746b858378@linaro.org
 
-(no changes since v7)
+---
+Neil Armstrong (2):
+      dt-bindings: display: panel: document the Visionox VTDR6130 AMOLED DSI Panel bindings
+      drm/panel: add visionox vtdr6130 DSI panel driver
 
-Changes in v7:
-- Fixed style issues in it6505 driver
-- Removed the redundant sleep in it6505 driver
-- Removed DT property validation in it6505 driver
-- Rebased to drm-misc-next
-- Extracted common codes to another commit
+ .../bindings/display/panel/visionox,vtdr6130.yaml  |  53 +++
+ drivers/gpu/drm/panel/Kconfig                      |   8 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-visionox-vtdr6130.c    | 358 +++++++++++++++++++++
+ 4 files changed, 420 insertions(+)
+---
+base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
+change-id: 20230103-topic-sm8550-upstream-vtdr6130-panel-f81dad976abd
 
-Changes in v6:
-- Changed it6505_typec_mux_set callback function to accommodate with
-  the latest drm-misc patches
-- Changed the driver implementation to accommodate with the new binding
-- Squashed to a single patch
-
- drivers/gpu/drm/bridge/Kconfig      |   1 +
- drivers/gpu/drm/bridge/ite-it6505.c | 119 +++++++++++++++++++++++++++-
- 2 files changed, 116 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 737578dd57ed..33803f581562 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -87,6 +87,7 @@ config DRM_FSL_LDB
- config DRM_ITE_IT6505
- 	tristate "ITE IT6505 DisplayPort bridge"
- 	depends on OF
-+	depends on TYPEC || TYPEC=n
- 	select DRM_DISPLAY_DP_HELPER
- 	select DRM_DISPLAY_HDCP_HELPER
- 	select DRM_DISPLAY_HELPER
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 9cda2df21b88..d9be09e889e2 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -17,6 +17,8 @@
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <linux/types.h>
-+#include <linux/usb/typec_dp.h>
-+#include <linux/usb/typec_mux.h>
- #include <linux/wait.h>
- 
- #include <crypto/hash.h>
-@@ -28,6 +30,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_edid.h>
-+#include <drm/drm_of.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- 
-@@ -455,6 +458,7 @@ struct it6505 {
- 	struct delayed_work delayed_audio;
- 	struct it6505_audio_data audio;
- 	struct dentry *debugfs;
-+	struct drm_dp_typec_switch_desc switch_desc;
- 
- 	/* it6505 driver hold option */
- 	bool enable_drv_hold;
-@@ -3346,12 +3350,105 @@ static void it6505_shutdown(struct i2c_client *client)
- 		it6505_lane_off(it6505);
- }
- 
-+static void it6505_typec_ports_update(struct it6505 *it6505)
-+{
-+	struct drm_dp_typec_switch_desc switch_desc = it6505->switch_desc;
-+
-+	/* Check if both ports available and do nothing to retain the current one */
-+	if (switch_desc.typec_ports[0].dp_connected && switch_desc.typec_ports[1].dp_connected)
-+		return;
-+
-+	if (switch_desc.typec_ports[0].dp_connected)
-+		it6505->lane_swap = false;
-+	else if (switch_desc.typec_ports[1].dp_connected)
-+		it6505->lane_swap = true;
-+}
-+
-+static int it6505_typec_mux_set(struct typec_mux_dev *mux,
-+				struct typec_mux_state *state)
-+{
-+	struct drm_dp_typec_port_data *port_data = typec_mux_get_drvdata(mux);
-+	struct it6505 *it6505 = (struct it6505 *) port_data->data;
-+	struct device *dev = &it6505->client->dev;
-+	struct drm_dp_typec_switch_desc switch_desc = it6505->switch_desc;
-+	bool old_dp_connected, new_dp_connected;
-+
-+	if (switch_desc.num_typec_switches == 1)
-+		return 0;
-+
-+	mutex_lock(&it6505->extcon_lock);
-+
-+	old_dp_connected = switch_desc.typec_ports[0].dp_connected ||
-+			   switch_desc.typec_ports[1].dp_connected;
-+
-+	port_data->dp_connected = state->alt &&
-+				  state->alt->svid == USB_TYPEC_DP_SID &&
-+				  state->alt->mode == USB_TYPEC_DP_MODE;
-+
-+	dev_dbg(dev, "mux_set dp_connected: c0=%d, c1=%d\n",
-+		switch_desc.typec_ports[0].dp_connected, switch_desc.typec_ports[1].dp_connected);
-+
-+	new_dp_connected = switch_desc.typec_ports[0].dp_connected ||
-+			   switch_desc.typec_ports[1].dp_connected;
-+
-+	if (it6505->enable_drv_hold) {
-+		dev_dbg(dev, "enable driver hold\n");
-+		goto unlock;
-+	}
-+
-+	it6505_typec_ports_update(it6505);
-+
-+	if (!old_dp_connected && new_dp_connected) {
-+		int ret = pm_runtime_get_sync(dev);
-+
-+		/*
-+		 * pm_runtime_force_suspend() disables runtime PM when the
-+		 * system enters suspend state. But on system resume, mux_set
-+		 * can be triggered before pm_runtime_force_resume() re-enables
-+		 * runtime PM. This makes the bridge stay powered off if the
-+		 * downstream display is connected when the system is suspended.
-+		 * Handling the error here to make sure the bridge is powered
-+		 * on, and leave the PM runtime usage count incremented so
-+		 * the future runtime PM calls is balanced.
-+		 */
-+		if (ret < 0)
-+			it6505_poweron(it6505);
-+
-+		complete_all(&it6505->extcon_completion);
-+	}
-+
-+	if (old_dp_connected && !new_dp_connected) {
-+		reinit_completion(&it6505->extcon_completion);
-+		pm_runtime_put_sync(dev);
-+		if (it6505->bridge.dev)
-+			drm_helper_hpd_irq_event(it6505->bridge.dev);
-+		memset(it6505->dpcd, 0, sizeof(it6505->dpcd));
-+	}
-+
-+unlock:
-+	mutex_unlock(&it6505->extcon_lock);
-+	return 0;
-+}
-+
-+static void it6505_unregister_typec_switches(struct it6505 *it6505)
-+{
-+	drm_dp_unregister_typec_switches(&it6505->switch_desc);
-+}
-+
-+static int it6505_register_typec_switches(struct device *dev, struct it6505 *it6505)
-+{
-+	struct device_node *port = of_graph_get_port_by_id(dev->of_node, 1);
-+
-+	return drm_dp_register_typec_switches(dev, port, &it6505->switch_desc,
-+					      it6505, it6505_typec_mux_set);
-+}
-+
- static int it6505_i2c_probe(struct i2c_client *client)
- {
- 	struct it6505 *it6505;
- 	struct device *dev = &client->dev;
- 	struct extcon_dev *extcon;
--	int err, intp_irq;
-+	int err, intp_irq, ret;
- 
- 	it6505 = devm_kzalloc(&client->dev, sizeof(*it6505), GFP_KERNEL);
- 	if (!it6505)
-@@ -3371,11 +3468,24 @@ static int it6505_i2c_probe(struct i2c_client *client)
- 	if (PTR_ERR(extcon) == -EPROBE_DEFER)
- 		return -EPROBE_DEFER;
- 	if (IS_ERR(extcon)) {
--		dev_err(dev, "can not get extcon device!");
--		return PTR_ERR(extcon);
-+		if (PTR_ERR(extcon) != -ENODEV)
-+			dev_warn(dev, "Cannot get extcon device: %ld\n",
-+				 PTR_ERR(extcon));
-+		it6505->extcon = NULL;
-+	} else {
-+		it6505->extcon = extcon;
- 	}
- 
--	it6505->extcon = extcon;
-+	ret = it6505_register_typec_switches(dev, it6505);
-+	if (ret) {
-+		if (ret != -ENODEV)
-+			dev_warn(dev, "Didn't register Type-C switches, err: %d\n",
-+				 ret);
-+		if (!it6505->extcon) {
-+			dev_err(dev, "Both extcon and typec-switch are not registered.\n");
-+			return -EINVAL;
-+		}
-+	}
- 
- 	it6505->regmap = devm_regmap_init_i2c(client, &it6505_regmap_config);
- 	if (IS_ERR(it6505->regmap)) {
-@@ -3447,6 +3557,7 @@ static void it6505_i2c_remove(struct i2c_client *client)
- 	it6505_debugfs_remove(it6505);
- 	it6505_poweroff(it6505);
- 	it6505_remove_edid(it6505);
-+	it6505_unregister_typec_switches(it6505);
- }
- 
- static const struct i2c_device_id it6505_id[] = {
+Best regards,
 -- 
-2.39.0.314.g84b9a713c41-goog
-
+Neil Armstrong <neil.armstrong@linaro.org>
