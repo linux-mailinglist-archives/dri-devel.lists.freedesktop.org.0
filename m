@@ -2,62 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F897663B04
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 09:29:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 797B5663B01
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 09:29:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E4D010E55B;
-	Tue, 10 Jan 2023 08:29:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F89010E553;
+	Tue, 10 Jan 2023 08:28:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
  [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E022A10E0CF;
- Mon,  9 Jan 2023 23:16:13 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id bu8so15526854lfb.4;
- Mon, 09 Jan 2023 15:16:13 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2321A10E096;
+ Mon,  9 Jan 2023 23:16:30 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id v25so15492336lfe.12;
+ Mon, 09 Jan 2023 15:16:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=U/freu+ZgmiBA4hrBK8o79X6HX9HTTyxAvA2ufrSoK0=;
- b=pZNIgPrqwP6vOIoXVyulw/nqaeul0R0XTQB95YxSJ9Stjz/bLmk6jl30L3/bWIsL+L
- IA5SImpUOSxXSedgDlgjGsMtJVNAXVDl+SnyE33YWKe9in55w7A6NojBMlhlswnYxM1c
- 3z7N71B4UTcrbgInI1hfDz4IXxiJa+1NJxf+buyjVGqwSI4hnUkDNF9LMRakUrXgg9zF
- F01H0sFlD5gT5lNRe4SFDJCAHOL7E15t1NkVy8uSUmE2cLkTiWVsLcUInypZQsGENu/y
- PmZ5cyxKAnkZlJdS07DkNjP9akjznesMKbcHqtGVo2I35lu/C1cVaqh8RsO9SY/RMEO0
- iBzw==
+ bh=9ORCokxU5jx6cKMaaTper0S84yDtXOhtofp7KVmnXiA=;
+ b=QdlzW40tyv/wOyAd0t/0Pkv5enmi1SZeXXuLb3sKU0MVWmGJHk9UuQG1SLoL7xhkdB
+ AqABtKiqP1rzK18A6dnd0Pr1S8ChdG55n6ixEjrataQ3NhjrihGrh2S+hW4sPeWF5fPC
+ lj0huOAVW51wYVP+tsGCov9pOr9HPNSfy5Tp5AMqejjkLs7w1M8/thZ0WdpFGHUfJtN1
+ MvdhWu2jfRV/n0iEyLy/4spC1FRkhODF3U0FQD179eZVquhwRqDGbkefeStLYyEF3XNW
+ d6DrohC+tHzhtOL0WV/JcPj1/H+7FMVUIoJRu7L0UU1T169OFV+uFO2wt0cNTjnrIBsF
+ 20KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=U/freu+ZgmiBA4hrBK8o79X6HX9HTTyxAvA2ufrSoK0=;
- b=CpKoPEAfhpqZYd5rXlaes9Y5dXeMJpN6D+gLwXWDWOgrOzpzrgkeFWlyWaycGrF1wN
- WRF9jKIAsgAIuLR+cIq+cPyqQ/rN1Jw/R86gJqSNhxb5vhE+lcgTKox6gxhoJYm6RADr
- NOlVMaFUWHC1cp4zrEWmsNUpmE453mC1Ow7gH2LhKrSECHHWl+LL8zV3OzvnZRHwdsTV
- CtQBn4QzH9ZWaLzcLBOqUdPRCPFGXT6EkeGsXiFgdhGHWFLztBEI56q97BRNWD4me4ks
- rT6tMTawoG4BTNQO+IJ48NYMesQ4xB6ijqDqXTvCgSxCuUChMgFfWoNiYLZd0w3CDz/W
- cYOw==
-X-Gm-Message-State: AFqh2kpLge6o9eUr6pAjWGkuj+qyEv+aCpymklnt6vFyta8REyXNAPWh
- N8GnFovwUoY81WAnUn0j1kdPf18XFBDK6g==
-X-Google-Smtp-Source: AMrXdXvcdxwsx1YSr7JXrjTTbxqbhA3fSc4tWI1dtLQpJSnCoN2laPR0M5rTWz3oTsB51H66XEQK6g==
-X-Received: by 2002:a05:6512:c1c:b0:4c3:3a78:eab6 with SMTP id
- z28-20020a0565120c1c00b004c33a78eab6mr23365024lfu.65.1673306172157; 
- Mon, 09 Jan 2023 15:16:12 -0800 (PST)
+ bh=9ORCokxU5jx6cKMaaTper0S84yDtXOhtofp7KVmnXiA=;
+ b=aCHrNe0PlU5MGYFLeo9/teh0wsxxKa13QdnwM4fj6bTdJXuG8/P9DsGHLNTv/XMu8X
+ iQ782m6rQK0qJoceg/Eu/euasbPNtezmsdDy7BQuy1lc0JQS4nnLSZZhnNBPqET9Rivc
+ eysa0Lrkosxj46rvLcovoUmjSBtx51akqsxIeKazxnrmLR52l/aZi2FJ7RshwuC970WU
+ i8nkhFoP0bfXQJRuMB0NKOj2jwxRPELx/U+oXpPAd+H9/1afLyRKgA1oWh9//X8ncnA9
+ 2pLH3jCVFO4sp6esEtwbtwM3zMCpxoBJXYopP+q5FY0Zo3g0GMprw5PRGYzWjbnuoOnu
+ KbzQ==
+X-Gm-Message-State: AFqh2kp6+ORnHPst861rTT0DoyYV5lFtwaO+/NSTvnx/4RUWXNZ2D0+k
+ knxrxXTx/ZhNh/SQPRzaqWpX4o5EN53rTg==
+X-Google-Smtp-Source: AMrXdXsCbcTdDaTRpnUjGR5hQtLiFtCrpoRSWtrpxkgLsUUlzEWRhBdXsDzyLfrRwhHb4avnFJjojQ==
+X-Received: by 2002:a05:6512:260a:b0:4cb:427:745c with SMTP id
+ bt10-20020a056512260a00b004cb0427745cmr21625530lfb.33.1673306188877; 
+ Mon, 09 Jan 2023 15:16:28 -0800 (PST)
 Received: from localhost (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- a27-20020a056512201b00b004b373f61a60sm1829571lfb.96.2023.01.09.15.16.10
+ s6-20020ac25fe6000000b004b6efcb7bb5sm1840277lfg.169.2023.01.09.15.16.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 15:16:11 -0800 (PST)
+ Mon, 09 Jan 2023 15:16:28 -0800 (PST)
 From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 X-Google-Original-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220617233328.1143665-1-dmitry.baryshkov@linaro.org>
-References: <20220617233328.1143665-1-dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v6 0/4] drm/msm: convet to drm_crtc_handle_vblank()
-Message-Id: <167330408779.609993.9427004517463466813.b4-ty@linaro.org>
+To: dri-devel@lists.freedesktop.org, robdclark@gmail.com, sean@poorly.run,
+ swboyd@chromium.org, dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch,
+ agross@kernel.org, andersson@kernel.org, konrad.dybcio@somainline.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ devicetree@vger.kernel.org, airlied@gmail.com,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <1672163103-31254-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1672163103-31254-1-git-send-email-quic_khsieh@quicinc.com>
+Subject: Re: [PATCH v16 0/5] Add data-lanes and link-frequencies to dp_out
+ endpoint
+Message-Id: <167330408780.609993.2871958303249366717.b4-ty@linaro.org>
 Date: Tue, 10 Jan 2023 00:41:27 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -75,33 +79,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
+ freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Sat, 18 Jun 2022 02:33:24 +0300, Dmitry Baryshkov wrote:
-> This patchseries replaces drm_handle_vblank() with
-> drm_crtc_handle_vblank(). As a bonus result of this conversion it is
-> possible to drop the stored array of allocated CRTCs and use the core
-> CRTC iterators.
+On Tue, 27 Dec 2022 09:44:58 -0800, Kuogee Hsieh wrote:
+> Add DP both data-lanes and link-frequencies property to dp_out endpoint and support
+> functions to DP driver.
 > 
-> Changes since v5:
->  - Clean up the event_thread->worker in case of an error to fix possible
->    oops in msm_drm_uninit().
+> Kuogee Hsieh (5):
+>   arm64: dts: qcom: add data-lanes and link-freuencies into dp_out
+>     endpoint
+>   dt-bindings: msm/dp: add data-lanes and link-frequencies property
+>   drm/msm/dp: parse data-lanes as property of dp_out endpoint
+>   Add capability to parser and retrieve max DP link supported rate from
+>        link-frequencies property of dp_out endpoint.
+>   drm/msm/dp: add support of max dp link rate
 > 
 > [...]
 
 Applied, thanks!
 
-[1/4] drm/msm: clean event_thread->worker in case of an error
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/c79bb6b92def
-[2/4] drm/msm/mdp4: convert to drm_crtc_handle_vblank()
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/6606a96ab1ce
-[3/4] drm/msm/mdp5: convert to drm_crtc_handle_vblank()
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/e96c08e91726
+[2/5] dt-bindings: msm/dp: add data-lanes and link-frequencies property
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/123f12555074
+[3/5] drm/msm/dp: parse data-lanes as property of dp_out endpoint
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/d25cfeeec064
+[4/5] Add capability to parser and retrieve max DP link supported rate from link-frequencies property of dp_out endpoint.
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/381518a1677c
+[5/5] drm/msm/dp: add support of max dp link rate
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/0e7f270591a4
 
 Best regards,
 -- 
