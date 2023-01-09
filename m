@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A253A6623C0
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 12:04:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFBCC6623CC
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 12:06:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16FD210E3E3;
-	Mon,  9 Jan 2023 11:04:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0201410E08A;
+	Mon,  9 Jan 2023 11:06:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A947910E3E3
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 11:04:38 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id w1so7749823wrt.8
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 03:04:38 -0800 (PST)
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AA9F10E08A
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 11:06:39 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id g10so5984150wmo.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 03:06:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=F1o1h0/8Z9CTd9JzV9HYcBGjMEGQHN88SqgrqMI3CKE=;
- b=JfOf7Ybc+GU1nn8y1UcCvxhLZxdJnTmM6yTssoaGD6iHkSp9kw+vB/gkiSd9BYh1Ev
- 0QFxzWP/4tG540eJGRXWjtCmZaqkjyjagRDq8bBhASM3grdf91bjsYv4KgV91OB6++4s
- YsO8YvQsF+0XVZ29S/f//4CfrmOe9Sy50FKX3juIAKrtyF082yVw33n51qKs/qdi7yYI
- 5jeqjXKki1UkPiZnTc5D0T6QLRHn9xrUgbQ09ydGm4qnjFUmkdixeoByKFU5eYtKy7FR
- 6A31HILTPPT2+/z7YlxLdMYcewFPN71b3Dgv09t0GfYu7LRrYZNWfX48SDylX3W4GzdP
- ASMw==
+ bh=SjRwbpuBx9A4o4cRoFcJqEE5mXsy0UsyNYHbW5KtG4M=;
+ b=YnQ3fGmpuRUapOzbtVRlN3HBT8Iorta3LecpdB0log7XED7u1IJxEqQs0QccmZxOai
+ MfS/ZZSQ5WKDa9o6C1cGRqmSlALsDF7dYw8bC0mLYpQtTD17RkfW4+nHFkmXWXMpmBze
+ LZwVtCyv46vyu0ZifdpdHibLyN3SfkifcK+AXWfJG2T0iyPzAA9pLINli7HH1gS+p9g3
+ O+B5gLSVUqo8PEgDoBB9hhiNpI9OFz7Cq+mzvc+xnE3YYo3cKvbMrMpNiAgcOYu4257/
+ //cyEe3wFJV/FzRNJeYb81OLG4xcEJtdkHClXQjHgPbLWfvpN3QzLV2BDagvGkziL0gK
+ obhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=F1o1h0/8Z9CTd9JzV9HYcBGjMEGQHN88SqgrqMI3CKE=;
- b=dyd8zdyqSudCC3mzFfqImnPTUyCo05GXp5ROX0XT0yvZDM7vO5IV2wCzJGbbPjc9TK
- gFg4yKXx8bF0NamGZya+3PNdHUgG4Y0crXa9DMim0twX3hbqqU5tswqjtJ9dDBslQwSd
- ED9Q6UMsxb+EncBDa9eeSaBxM2r71ZWJ1OucVDerhYUxdvKvqmKyhineMY3lTMwezEG5
- JG0WEtcAND4R6iyV61lS/qSC8wj+PKqZEwJ4EStVO8LWZvW0ca8cwcQPvnsAVs9kbNTW
- REq8923hejpdXd8jmH8mDnEG7Aj+suY7jiQMQrFloVV9+LrpH3Qc20+G0e/DMdC0zJhK
- F0dw==
-X-Gm-Message-State: AFqh2ko1C4fVF5a0NtEyeabQytu2tBxUAp0KKBxzrfK2aGUQnXvosLDI
- KvZp0jMwCE9pOkLa5esD6Cwq2w==
-X-Google-Smtp-Source: AMrXdXt0sWws9FC7FmSd3zSlUGnJeOxvVL6lisTvf8bQ3vSNu8uoGcg+vPo7j6+ZFs9pmgtUvQuw9w==
-X-Received: by 2002:adf:d846:0:b0:29f:4e42:33c5 with SMTP id
- k6-20020adfd846000000b0029f4e4233c5mr14183491wrl.55.1673262277116; 
- Mon, 09 Jan 2023 03:04:37 -0800 (PST)
+ bh=SjRwbpuBx9A4o4cRoFcJqEE5mXsy0UsyNYHbW5KtG4M=;
+ b=MQTpq1+1Y0CS4p2yFpckDb7ej5CC3oxAw1uVghodhWoUIJK0ab7k3aWrZdo4Op17Uh
+ pdR3jV1SZraMn7y2pLMBNSvG19W2MoKTwK9SZdHOPKa5pE7KHKCC+Kv3N9s/iIaLzb9f
+ EXVLEi76Vvi5+rT+bbc/Ky8I0muJyVkO1gzR1O5JsTW2JEmRByeUY3YLy3S8/J8itRrP
+ 1BmzJL0eZEPimdfAAXsG0scWI6wzDvI2PZxCyKeHWqZmimtLLwtBmnY9hc2L+o10VLK2
+ 0GGLDtPo+CzS5okSnMnatQ1PgEHGKfnCvBcJw5qgWkfoZXQgd1A2yAOJQO0YIqzvUw65
+ zA9w==
+X-Gm-Message-State: AFqh2kos4vJhhH/E4NVOcVzKEXiWp3J2WWADWe4hKUsDPakOVJT1fpCk
+ BI5N+fZdcM6DTHrgt08MzGEawA==
+X-Google-Smtp-Source: AMrXdXshcTe7Yre9OY4C4E6jNr30wzlSQe0BxicvczyjAULATvXvRnPw2diLMpZVvSEBR8IGX/Vbtw==
+X-Received: by 2002:a05:600c:3550:b0:3d9:ed30:6a73 with SMTP id
+ i16-20020a05600c355000b003d9ed306a73mr3129624wmq.9.1673262397923; 
+ Mon, 09 Jan 2023 03:06:37 -0800 (PST)
 Received: from aspen.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
  [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- z6-20020a5d6546000000b002bc371a08adsm2060413wrv.101.2023.01.09.03.04.35
+ y7-20020a7bcd87000000b003d997e5e679sm12453314wmj.14.2023.01.09.03.06.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 03:04:36 -0800 (PST)
-Date: Mon, 9 Jan 2023 11:04:34 +0000
+ Mon, 09 Jan 2023 03:06:37 -0800 (PST)
+Date: Mon, 9 Jan 2023 11:06:35 +0000
 From: Daniel Thompson <daniel.thompson@linaro.org>
 To: sam@ravnborg.org
-Subject: Re: [PATCH 14/15] backlight: tosa: Use backlight helper
-Message-ID: <Y7v0wiBHXy7lH6tz@aspen.lan>
+Subject: Re: [PATCH 15/15] backlight: backlight: Drop the deprecated fb_blank
+ property
+Message-ID: <Y7v1OxdowGdxgvUj@aspen.lan>
 References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
- <20230107-sam-video-backlight-drop-fb_blank-v1-14-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-15-1bd9bafb351f@ravnborg.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230107-sam-video-backlight-drop-fb_blank-v1-14-1bd9bafb351f@ravnborg.org>
+In-Reply-To: <20230107-sam-video-backlight-drop-fb_blank-v1-15-1bd9bafb351f@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,19 +86,21 @@ Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 07, 2023 at 07:26:28PM +0100, Sam Ravnborg via B4 Submission Endpoint wrote:
-> From: Stephen Kitt <steve@sk2.org>
+On Sat, Jan 07, 2023 at 07:26:29PM +0100, Sam Ravnborg via B4 Submission Endpoint wrote:
+> From: Sam Ravnborg <sam@ravnborg.org>
 >
-> Instead of retrieving the backlight brightness in struct
-> backlight_properties manually, and then checking whether the backlight
-> should be on at all, use backlight_get_brightness() which does all
-> this and insulates this from future changes.
+> With all users gone remove the deprecated fb_blank member in
+> backlight_properties.
 >
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
 
-Just for completeness...
+
 Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
 
-Daniel.
+PS Please don't treat this like a maintainer Acked-by: and merge it
+   (Lee's not on holiday so work with Lee to figure out the merge
+   strategy ;-) ).
