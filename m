@@ -2,64 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFBCC6623CC
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 12:06:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF2C6623E3
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 12:13:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0201410E08A;
-	Mon,  9 Jan 2023 11:06:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DFEA10E3D4;
+	Mon,  9 Jan 2023 11:13:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AA9F10E08A
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 11:06:39 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id g10so5984150wmo.1
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 03:06:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=SjRwbpuBx9A4o4cRoFcJqEE5mXsy0UsyNYHbW5KtG4M=;
- b=YnQ3fGmpuRUapOzbtVRlN3HBT8Iorta3LecpdB0log7XED7u1IJxEqQs0QccmZxOai
- MfS/ZZSQ5WKDa9o6C1cGRqmSlALsDF7dYw8bC0mLYpQtTD17RkfW4+nHFkmXWXMpmBze
- LZwVtCyv46vyu0ZifdpdHibLyN3SfkifcK+AXWfJG2T0iyPzAA9pLINli7HH1gS+p9g3
- O+B5gLSVUqo8PEgDoBB9hhiNpI9OFz7Cq+mzvc+xnE3YYo3cKvbMrMpNiAgcOYu4257/
- //cyEe3wFJV/FzRNJeYb81OLG4xcEJtdkHClXQjHgPbLWfvpN3QzLV2BDagvGkziL0gK
- obhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SjRwbpuBx9A4o4cRoFcJqEE5mXsy0UsyNYHbW5KtG4M=;
- b=MQTpq1+1Y0CS4p2yFpckDb7ej5CC3oxAw1uVghodhWoUIJK0ab7k3aWrZdo4Op17Uh
- pdR3jV1SZraMn7y2pLMBNSvG19W2MoKTwK9SZdHOPKa5pE7KHKCC+Kv3N9s/iIaLzb9f
- EXVLEi76Vvi5+rT+bbc/Ky8I0muJyVkO1gzR1O5JsTW2JEmRByeUY3YLy3S8/J8itRrP
- 1BmzJL0eZEPimdfAAXsG0scWI6wzDvI2PZxCyKeHWqZmimtLLwtBmnY9hc2L+o10VLK2
- 0GGLDtPo+CzS5okSnMnatQ1PgEHGKfnCvBcJw5qgWkfoZXQgd1A2yAOJQO0YIqzvUw65
- zA9w==
-X-Gm-Message-State: AFqh2kos4vJhhH/E4NVOcVzKEXiWp3J2WWADWe4hKUsDPakOVJT1fpCk
- BI5N+fZdcM6DTHrgt08MzGEawA==
-X-Google-Smtp-Source: AMrXdXshcTe7Yre9OY4C4E6jNr30wzlSQe0BxicvczyjAULATvXvRnPw2diLMpZVvSEBR8IGX/Vbtw==
-X-Received: by 2002:a05:600c:3550:b0:3d9:ed30:6a73 with SMTP id
- i16-20020a05600c355000b003d9ed306a73mr3129624wmq.9.1673262397923; 
- Mon, 09 Jan 2023 03:06:37 -0800 (PST)
-Received: from aspen.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- y7-20020a7bcd87000000b003d997e5e679sm12453314wmj.14.2023.01.09.03.06.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 03:06:37 -0800 (PST)
-Date: Mon, 9 Jan 2023 11:06:35 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B986410E3D4
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 11:13:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673262792; x=1704798792;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=hdEsJAUiSPZYf7Xm2lSioHZsJcGS6XDIqya7eqaZHNQ=;
+ b=MxyQVS+fmsh6fE4C1iMnsuBYrTDVWRGT+6Ihbwq5YMNzgFn7r+I3kj/C
+ WJCDh2fDkr+uUtQcQmsXzgKD7gv3/S6+qgHYo9wDyelHAw6gLO3AlsWOX
+ 5Irl7qhuR0k6DBNP2e9N3M4Gb1fLaPP3KCluKWdyEyu2FEUBnxNn7bgq5
+ aSRYcL40OWbC2nW7nKQbcjqjmvsb2veFnHJ2dHJ7soPjiDlzfYmcQ0wca
+ FmEJXAMB2mBaszxEP5whf12NxgDfhC8VKEsDcCnLuvY/uEuWHMlZP1+Vp
+ Fe2vWmt1ZeApkKBSD6o+i6ZVOCudwRf5Ke8NyN/tsrJG14bN/KsdroTJM Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="321551715"
+X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="321551715"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2023 03:13:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="649982329"
+X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="649982329"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by orsmga007.jf.intel.com with ESMTP; 09 Jan 2023 03:13:04 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1pEq5N-006MLx-13; Mon, 09 Jan 2023 13:13:01 +0200
+Date: Mon, 9 Jan 2023 13:13:00 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: sam@ravnborg.org
-Subject: Re: [PATCH 15/15] backlight: backlight: Drop the deprecated fb_blank
- property
-Message-ID: <Y7v1OxdowGdxgvUj@aspen.lan>
+Subject: Re: [PATCH 09/15] staging: fbtft: fb_ssd1351.c: Introduce
+ backlight_is_blank()
+Message-ID: <Y7v2vJtsWuhhiB2b@smile.fi.intel.com>
 References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
- <20230107-sam-video-backlight-drop-fb_blank-v1-15-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-9-1bd9bafb351f@ravnborg.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230107-sam-video-backlight-drop-fb_blank-v1-15-1bd9bafb351f@ravnborg.org>
+In-Reply-To: <20230107-sam-video-backlight-drop-fb_blank-v1-9-1bd9bafb351f@ravnborg.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,34 +63,49 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-staging@lists.linux.dev, Stephen Kitt <steve@sk2.org>,
+ linux-omap@vger.kernel.org, Stephen Kitt <steve@sk2.org>,
  Antonino Daplas <adaplas@gmail.com>, Robin van der Gracht <robin@protonic.nl>,
  Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Paul Mackerras <paulus@samba.org>, linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Miguel Ojeda <ojeda@kernel.org>, linux-omap@vger.kernel.org,
+ linux-staging@lists.linux.dev, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jingoo Han <jingoohan1@gmail.com>, Paul Mackerras <paulus@samba.org>,
+ linux-fbdev@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
  linuxppc-dev@lists.ozlabs.org, Claudiu Beznea <claudiu.beznea@microchip.com>,
  linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 07, 2023 at 07:26:29PM +0100, Sam Ravnborg via B4 Submission Endpoint wrote:
+On Sat, Jan 07, 2023 at 07:26:23PM +0100, Sam Ravnborg via B4 Submission Endpoint wrote:
 > From: Sam Ravnborg <sam@ravnborg.org>
->
-> With all users gone remove the deprecated fb_blank member in
-> backlight_properties.
->
+> 
+> Avoiding direct access to backlight_properties.props.
+> 
+> Access to the deprecated props.fb_blank replaced by backlight_is_blank().
+> Access to props.power is dropped - it was only used for debug.
+
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Lee Jones <lee@kernel.org>
+> Cc: Stephen Kitt <steve@sk2.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> Cc: Jingoo Han <jingoohan1@gmail.com>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+> Cc: linux-fbdev@vger.kernel.org
+
+Not sure why you have this (at least) explicitly mentioned as get_maintainer.pl
+can generate it and git send-email can utilize the script output...
+
+...
+
+> -	write_reg(par, 0xB5, on ? 0x03 : 0x02);
+> +	write_reg(par, 0xB5, !blank ? 0x03 : 0x02);
+
+Why not positive conditional?
+
+	write_reg(par, 0xB5, blank ? 0x02 : 0x03);
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-
-
-PS Please don't treat this like a maintainer Acked-by: and merge it
-   (Lee's not on holiday so work with Lee to figure out the merge
-   strategy ;-) ).
