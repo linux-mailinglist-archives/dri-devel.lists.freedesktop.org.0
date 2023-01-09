@@ -1,51 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 731C1662578
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 13:24:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C096A6625D4
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 13:50:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4192810E40F;
-	Mon,  9 Jan 2023 12:24:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A02E10E413;
+	Mon,  9 Jan 2023 12:50:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAAAA10E410;
- Mon,  9 Jan 2023 12:24:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673267094; x=1704803094;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=/aEF7fXBsVDAYeWVnttiUoa/f30ZOZempg9ET9wmVDU=;
- b=c/C4d8OsA5fhzXub7k6G1SPl/Zlh0ol6cP1znrqov0qvaC4eB1aR4k7n
- +vKBoHU7+0kppGsrADvhgL3dEuq1x4LT8P2zLL3Q0Wl7VBpccGObbD4CO
- 5yoHjDVMXBCeGqko2BR1gMAwJKeLbAXe2MvJv5UULOEkcB0lsJbE6kGg4
- rf/zAKZyxNgAKJVs8xJaGxSAkSskFNxEHzXfcNlHD1deypeGTtShaBq1q
- 0wcSKCy/h5ZkmFen8UDczY5kIanqVuXE9JhwS32wC6/k0QjS7co/mORsb
- ErfoqGvVG3fdORvZui/Ryj0DJpahDjfLu/VjBFvH/ebvjgs2tXntTPpb+ Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="322936238"
-X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="322936238"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2023 04:24:54 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="687186033"
-X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="687186033"
-Received: from lherman-mobl.ger.corp.intel.com (HELO localhost.localdomain)
- ([10.213.209.244])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2023 04:24:52 -0800
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm/i915: Do not cover all future platforms in TLB
- invalidation
-Date: Mon,  9 Jan 2023 12:24:42 +0000
-Message-Id: <20230109122442.713861-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230106103835.640924-1-tvrtko.ursulin@linux.intel.com>
-References: <20230106103835.640924-1-tvrtko.ursulin@linux.intel.com>
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D94110E414
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 12:50:35 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ p3-20020a05600c1d8300b003d9ee5f125bso2416292wms.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 04:50:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=froggi.es; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=OwZ7m6tA/I7tqsHoGdb3tVqan4AavH0yuZk5xNJc1Kk=;
+ b=jjrQj/zmDS8Pug/7xzrgv5TkvIrPhzts0GGGPTpzJ3484QV/tE8j1c9BTT8Yn+h1VT
+ HdlLTKipVS9TFrAVmAStgv3Jyj5so5vRNP2h58vceUssUF1AhH8WqX97GQUD6NLSgVQA
+ t1QZ82NZkpz8jqsejBLZwMHytTj6kv7Uo7DZqDDU+hA3WN6ZaM2o6Mn2n3JZY9O2oUtB
+ eROI2vDQklpghZw8LALRRF0Dic30G0HIoTr1QbqnHFQgU/2voe6srdI+NCluvzgD73UK
+ f6KI7OxsnZ+pDCsED3hSsdWtqUbp52cPNfuAT+HTmQAoPGdxbT1Xt+xLF9HphvEJdpgk
+ fw8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OwZ7m6tA/I7tqsHoGdb3tVqan4AavH0yuZk5xNJc1Kk=;
+ b=3DZ7XvZcCAz67X1kvRVXPOjZw9Dqp94vHFAGUsfikwERgiAxga3BYb2dR7J3p8Fl96
+ FsmGECwSVN3QVNqk/JBmOcz1hkf10/Gx/C7lIHPYsSC0bm+DVUzhFIZmx48p6ZZwHif1
+ iwjJnGjAuywXRv5ceHGFmqu78LxODX0iG9C3rnV8WI58mfRWbWDuebKtbcPlSeqCvxcX
+ UBriLyQ2/2r8aW7y5z8j5qhe4ej6J2Mxhl5cdR9D8Ku2SjNuJEEvdNNuwcP81xTGkBp6
+ Ua2aBPngCkbpNJGQ4QtIExlJuMBB6ENH/lPcDcId988lbg8rR8Hn774wCJcPYe87sjyC
+ n3xA==
+X-Gm-Message-State: AFqh2kohNE/3b18jCcaPSr9hrZsaPFS4vqMs41NxfvTzwx3g0VRl41Sy
+ nFNYnzaLPTn/6VkrI51SYbguow==
+X-Google-Smtp-Source: AMrXdXtl89GZOaLtnX+eQkRYvFBrKoBDlMfwzE2UW1Fi7vYJ5Tpb3cOSeBYrQNYa1PFBg+nF9gx4jA==
+X-Received: by 2002:a05:600c:5128:b0:3c6:e62e:2e67 with SMTP id
+ o40-20020a05600c512800b003c6e62e2e67mr47468345wms.2.1673268633947; 
+ Mon, 09 Jan 2023 04:50:33 -0800 (PST)
+Received: from [192.168.0.89]
+ (darl-09-b2-v4wan-165404-cust288.vm5.cable.virginm.net. [86.17.61.33])
+ by smtp.gmail.com with ESMTPSA id
+ j30-20020a05600c1c1e00b003d9f14e9085sm2889322wms.17.2023.01.09.04.50.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jan 2023 04:50:33 -0800 (PST)
+Message-ID: <d00cf1c5-b95b-f8f8-4782-2cfc64bec969@froggi.es>
+Date: Mon, 9 Jan 2023 12:50:31 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [RFC PATCH 4/5] drm/drm_color_mgmt: add 3D LUT to color mgmt
+ properties
+Content-Language: en-US
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Melissa Wen <mwen@igalia.com>
+References: <20220619223104.667413-1-mwen@igalia.com>
+ <20220619223104.667413-5-mwen@igalia.com> <Yrmf+mWk13qkcsfs@intel.com>
+From: Joshua Ashton <joshua@froggi.es>
+In-Reply-To: <Yrmf+mWk13qkcsfs@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,63 +79,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: amd-gfx@lists.freedesktop.org, christian.koenig@amd.com, airlied@linux.ie,
+ Rodrigo.Siqueira@amd.com, Xinhui.Pan@amd.com, dri-devel@lists.freedesktop.org,
+ nikola.cornij@amd.com, sunpeng.li@amd.com, alex.hung@amd.com,
+ tzimmermann@suse.de, alexander.deucher@amd.com, seanpaul@chromium.org,
+ bhawanpreet.lakha@amd.com, nicholas.kazlauskas@amd.com, sungjoon.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Revert to the original explicit approach and document the reasoning
-behind it.
 
-v2:
- * DG2 needs to be covered too. (Matt)
+On 6/27/22 13:18, Ville Syrjälä wrote:
+> On Sun, Jun 19, 2022 at 09:31:03PM -0100, Melissa Wen wrote:
+>> Add 3D LUT for gammar correction using a 3D lookup table.  The position
+>> in the color correction pipeline where 3D LUT is applied depends on hw
+>> design, being after CTM or gamma. If just after CTM, a shaper lut must
+>> be set to shape the content for a non-linear space. That details should
+>> be handled by the driver according to its color capabilities.
+> 
+> I also cooked up a WIP 3D LUT support some time ago for Intel hw:
+> https://github.com/vsyrjala/linux/commits/3dlut
+> But that dried up due to having no userspace for it.
+> 
+> I also cooked up some basic igts for it:
+> https://patchwork.freedesktop.org/series/90165/
+> 
+> <snip>
+>> + * “LUT3D”:
+>> + *	Blob property to set the 3D LUT mapping pixel data after the color
+>> + *	transformation matrix and before gamma 1D lut correction.
+> 
+> On Intel hw the 3DLUT is after the gamma LUT in the pipeline, which is
+> where I placed it in my branch.
+> 
 
-v3:
- * Full version check for Gen12 to avoid catching all future platforms.
-   (Matt)
+If the problem here in getting stuff moving for 3D LUT support in DRM is 
+lack of a userspace that wants to use it, I would like to just make 
+people aware that we are planning on shipping support for this in 
+Gamescope/SteamOS.
+(It is hooked up right now in the current Gamescope main branch).
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com> # v1
----
- drivers/gpu/drm/i915/gt/intel_gt.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+We have pulled the patches for AMDGPU by Melissa into our tree and 
+hooked it up (with a prefix VALVE1_ before the properties for now as 
+stuff is not upstream in the kernel yet) and it seems to be working well 
+right now.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index 7eeee5a7cb33..5521fa057aab 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -1070,10 +1070,23 @@ static void mmio_invalidate_full(struct intel_gt *gt)
- 	unsigned int num = 0;
- 	unsigned long flags;
- 
--	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50)) {
-+	/*
-+	 * New platforms should not be added with catch-all-newer (>=)
-+	 * condition so that any later platform added triggers the below warning
-+	 * and in turn mandates a human cross-check of whether the invalidation
-+	 * flows have compatible semantics.
-+	 *
-+	 * For instance with the 11.00 -> 12.00 transition three out of five
-+	 * respective engine registers were moved to masked type. Then after the
-+	 * 12.00 -> 12.50 transition multi cast handling is required too.
-+	 */
-+
-+	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50) &&
-+	    GRAPHICS_VER_FULL(i915) <= IP_VER(12, 55)) {
- 		regs = NULL;
- 		num = ARRAY_SIZE(xehp_regs);
--	} else if (GRAPHICS_VER(i915) == 12) {
-+	} else if (GRAPHICS_VER_FULL(i915) == IP_VER(12, 0) ||
-+		   GRAPHICS_VER_FULL(i915) == IP_VER(12, 10)) {
- 		regs = gen12_regs;
- 		num = ARRAY_SIZE(gen12_regs);
- 	} else if (GRAPHICS_VER(i915) >= 8 && GRAPHICS_VER(i915) <= 11) {
--- 
-2.34.1
+I know that the work here not final, and we will definitely change it 
+and update our kernel and userspace impl to accomodate that and are more 
+than happy to provide testing for this work and other color work.
+
+I understand there is a lot moving right now, with the new color API 
+being proposed, etc; but I don't think this should necessarily require 
+us blocking any 3D LUT, shaper LUT or other color work on the 
+"legacy"(?) path while stuff there is being planned out.
+
+I think it's really important that we keep moving with color support on 
+the legacy path while the new one is being planned out to ensure we 
+don't accidentally miss something later or end up with something 
+suboptimal for a specific vendor.
+
+- Joshie 🐸✨
+
+
+> There is now some discussion happening about exposing some
+> kind of color pipeline description/configuration properties:
+> https://gitlab.freedesktop.org/pq/color-and-hdr/-/issues/11
+> 
 
