@@ -1,50 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BD3D662365
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 11:44:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB6B662398
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Jan 2023 12:00:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD08A10E3D0;
-	Mon,  9 Jan 2023 10:44:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1168F10E069;
+	Mon,  9 Jan 2023 11:00:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5469A10E3D0
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Jan 2023 10:44:26 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 7021A6602D06;
- Mon,  9 Jan 2023 10:44:24 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1673261064;
- bh=pkT6Gm1qJJU/n2M5IScY6CGaDuB1muUQyadDRG3PQw8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=GfRHg/el+nsd78uFRH4kVCR3yM1WLtFnplU7F0xRm+yHhLT6Q2DHn4SWQtHzT65bD
- oTx2KygXkDSMVVW7Y4WCJ+OAG5LN855euBgEqb2NcfQE4ykNgRW/rqFGimO256Q6D+
- u1kgy+pFe82za8wFk7lHkuSX5h0d+Pc9Q04L0lAJdGcUOsq1QoFRaOmBjr9wn+hv70
- Mvjc8f7QR0zomP8JSy0yGbs1goZMoFxqV25Tw6nwCzVSocQAyI2ReZAh8/cpagrGAy
- qqiuw7FLLpExjOheOyu0a/c2z7H6LhJHhY5IYeelsh1uhFtzdbmZ3eqO0wALOljz+I
- V4VapMFuPakUQ==
-Date: Mon, 9 Jan 2023 11:44:21 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH RFC 1/4] drm/panfrost: Provide a dummy show_fdinfo()
- implementation
-Message-ID: <20230109114421.0f2f495e@collabora.com>
-In-Reply-To: <CAKMK7uH5rrpuyTQqs5FY+UQz8GV1VdhvM55E+mf7-JGz2XsrTw@mail.gmail.com>
-References: <20230104130308.3467806-1-boris.brezillon@collabora.com>
- <20230104130308.3467806-2-boris.brezillon@collabora.com>
- <Y7btZUve7rDA/ctq@phenom.ffwll.local>
- <20230109093437.35ccf475@collabora.com>
- <CAKMK7uH5rrpuyTQqs5FY+UQz8GV1VdhvM55E+mf7-JGz2XsrTw@mail.gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BC2010E069;
+ Mon,  9 Jan 2023 11:00:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=4XpK5g9Y+kZXQ0GvSITDbVziaqIjnjb+5VEzKLqddBI=; b=X0dVreguSudpyy8HK0/ET0cFb2
+ pvxN6Thg/GE7/t7kiK0cIsCAJXzANga+WicZR1EOcXVqSuZJRb1ovLUot/rOm0l2m/tw/WvjDET8n
+ zEtFIgJsFF0EF+kOWCbfjIVQYQK0P1z8cNLuq/+4Bpa1D0wzGfmn2xcWOarmx/Zsycwan/8d/b1dl
+ 94KAPKAmjFTdZQQXjxa3GSgla9JfcVcfRdd1xilv3vxa6Gn+3MFKkm0rlSFYD8XKN17ohFBE1B9vh
+ laqFahqDlbss9MNKd4Nk23s0TSLCULI5jxUVgewyNaBzo9+IfjXxqEgxE3KmwIJ6lcPoPbRD/J3kJ
+ xdsGfbqA==;
+Received: from [187.36.234.139] (helo=bowie..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pEpt5-003J8T-6s; Mon, 09 Jan 2023 12:00:19 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
+ Simon Ser <contact@emersion.fr>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Zack Rusin <zackr@vmware.com>
+Subject: [PATCH 0/5] Check for valid framebuffer's format
+Date: Mon,  9 Jan 2023 07:58:03 -0300
+Message-Id: <20230109105807.18172-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,71 +60,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ intel-gfx@lists.freedesktop.org,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
+ VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 9 Jan 2023 11:17:49 +0100
-Daniel Vetter <daniel@ffwll.ch> wrote:
+This series is a follow-up of [1] in which I introduced a check for valid
+formats on drm_gem_fb_create(). During the discussion, I realized that would be
+a better idea to put the check inside framebuffer_check() so that it wouldn't
+be needed to hit any driver-specific code path when the check fails. Thanks
+to Daniel, Simon, Rob and Thomas for the insightful discussion!
 
-> On Mon, 9 Jan 2023 at 09:34, Boris Brezillon
-> <boris.brezillon@collabora.com> wrote:
-> >
-> > Hi Daniel,
-> >
-> > On Thu, 5 Jan 2023 16:31:49 +0100
-> > Daniel Vetter <daniel@ffwll.ch> wrote:
-> >  
-> > > On Wed, Jan 04, 2023 at 02:03:05PM +0100, Boris Brezillon wrote:  
-> > > > Provide a dummy show_fdinfo() implementation exposing drm-driver and
-> > > > drm-client-id. More stats will be added soon.
-> > > >
-> > > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > > ---
-> > > >  drivers/gpu/drm/panfrost/panfrost_drv.c | 17 ++++++++++++++++-
-> > > >  1 file changed, 16 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> > > > index 2fa5afe21288..6ee43559fc14 100644
-> > > > --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> > > > +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> > > > @@ -515,7 +515,22 @@ static const struct drm_ioctl_desc panfrost_drm_driver_ioctls[] = {
-> > > >     PANFROST_IOCTL(MADVISE,         madvise,        DRM_RENDER_ALLOW),
-> > > >  };
-> > > >
-> > > > -DEFINE_DRM_GEM_FOPS(panfrost_drm_driver_fops);
-> > > > +static void panfrost_show_fdinfo(struct seq_file *m, struct file *f)
-> > > > +{
-> > > > +   struct drm_file *file = f->private_data;
-> > > > +   struct panfrost_file_priv *panfrost_priv = file->driver_priv;
-> > > > +
-> > > > +   seq_printf(m, "drm-driver:\t%s\n", file->minor->dev->driver->name);
-> > > > +   seq_printf(m, "drm-client-id:\t%llu\n", panfrost_priv->sched_entity[0].fence_context);  
-> > >
-> > > I think at this point we really need to not just have a document that says
-> > > what this should look like, but drm infrastructure with shared code.
-> > > Drivers all inventing their fdinfo really doesn't seem like a great idea
-> > > to me.  
-> >
-> > Okay. I'm just curious how far you want to go with this common
-> > infrastructure? Are we talking about having a generic helper printing
-> > the pretty generic drm-{driver,client-id} props and letting the driver
-> > prints its driver specific properties, or do you also want to
-> > standardize/automate printing of some drm-memory/drm-engine props too?  
-> 
-> I think we should standardized what's used by multiple drivers at
-> least. It might be a bit tough for the memory/engine props, because
-> there's really not much standard stuff there yet (e.g. for memory I'm
-> still hoping for cgroups work, for engines we should probably base
-> this on drm_sched_entity and maybe untie that somewhat from sched
-> itself for i915-sched and fw sched and whatever there is).
+Therefore, add the valid format check inside framebuffer_check() and remove
+the same check from the drivers. Adding the check to framebuffer_check() will
+guarantee that the igt@kms_addfb_basic@addfb25-bad-modifier IGT test passes,
+showing the correct behavior of the check.
 
-Good, didn't want to be drawn in endless discussions about what should
-be standardized and what shouldn't anyway. So I'll start with
-drm-{driver,client-id}. For the client-id, we'll probably need
-some sort of unique-id stored at the drm_file level (ida-based?),
-unless you want to leave that to drivers too.
+This patchset was tested on i915, amdgpu, and vc4 with the IGT tests.
+
+[1] https://lore.kernel.org/dri-devel/20230103125322.855089-1-mcanal@igalia.com/T/
+
+Best Regards,
+- Maíra Canal
+
+Maíra Canal (5):
+  drm/framebuffer: Check for valid formats
+  drm/amdgpu: Remove redundant framebuffer format check
+  drm/i915: Remove redundant framebuffer format check
+  drm/vmwgfx: Remove redundant framebuffer format check
+  drm/plane: Unexport drm_any_plane_has_format()
+
+ Documentation/gpu/todo.rst                  |  9 ++++-----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 10 ----------
+ drivers/gpu/drm/drm_framebuffer.c           |  8 ++++++++
+ drivers/gpu/drm/drm_plane.c                 |  1 -
+ drivers/gpu/drm/i915/display/intel_fb.c     |  9 ---------
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c         | 18 ------------------
+ 6 files changed, 12 insertions(+), 43 deletions(-)
+
+-- 
+2.39.0
+
