@@ -1,63 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14F95663AFC
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 09:28:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A0E6663B08
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 09:29:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E0B510E54F;
-	Tue, 10 Jan 2023 08:28:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D5F410E561;
+	Tue, 10 Jan 2023 08:29:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4013510E0BB;
- Mon,  9 Jan 2023 23:14:45 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id b3so15542000lfv.2;
- Mon, 09 Jan 2023 15:14:45 -0800 (PST)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCF0A10E0BB;
+ Mon,  9 Jan 2023 23:16:10 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id d30so10615659lfv.8;
+ Mon, 09 Jan 2023 15:16:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7aMQc5BYXDV/7oNhbW1Pl88FNWIMOAPhqPBJwu9jrno=;
- b=TtZQLFQMSHggBMPL6z/kFK4ohDXrhJQyzkvWNZYoh0iUV9y1EKcOcPxa50mEctFydL
- RX2ewsmFAgVI5kzMGMQYoEnZSCzdMJXj36awfiagUTdsgoLvBKa8xh6F9sExaveOiSpy
- 3LwsY+5MmMNVwk5bkqAw2l5UD1xUQ1fXsgzX1dEzy/wdorS8M1V+zHlptNJqqmL1F5Xs
- /XzWq5blLa1nhYGCJHZ8uU/g+nogEQ/HZCLN0tQmYojBwtkTw6SxlmuS0YeVEXtYq7hy
- yVdHFzqmG15K9dEkvBufOdCvZipNwFX5nVK7qxk0gnp/vOdPlMJZMUxz7KDvXBQ6SrkT
- Tdqw==
+ bh=ctFTCfSoJjTZfY+rdJcn3BKR4sJeVp5aACYPINpXosE=;
+ b=kXzNDKMPeb5e6lJRcwwef0qDEXt9Kf/UfU1M+YcIBbkS3pXfnA+B4wWSrPGHCyskF9
+ Rsg1DqAQsfjQBh1td3BfPWXG8Hizai5plx0RmpEy0nVCZ2kgFyThGE4EkBsR4b+Mgodw
+ AKDHhkSjq0Q2xJQB8OWksF7b1U/YcKLm9RskjZAUMR+y3QDnukDHRukWoWpWoHnX2C8B
+ Zl/JvgDeyn/5cv2myxEmJNi+SFhuas+YcKJb8UxJthU0A863lh4yjhPfUn3CTQ06DvWn
+ 8o84QlT+cscfbEAyLt7ARgnRXZS89/VWWpAk8gv48bgL2A7qpgzFRON46sbvWWgXHL6m
+ toEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7aMQc5BYXDV/7oNhbW1Pl88FNWIMOAPhqPBJwu9jrno=;
- b=4Utzimh6893/YI2HRJokhwRrEd3QXY/I8Lb8nTceRiqPqXKZRgZ2izbf38dCGpNhL5
- z41mGtfxEYkW4Ln9oJpjJgqiQ3uDnSj9UAaA7JFATF2SZID4zBLMnthSMTaCK754yiHV
- 858kCtLwOwBT7xMQanhOBgtLJjEeby3XhZ117Dqq0+jizrElPsuy/EDU/nM1VBopALgp
- fUHxk/DholiDJRRYZ0tvUB44C0EqOQtblrEmXgmvLR11ukpy+4Xnk+aSxnAp0Nq8iXJp
- Fk/HPYBbzlJbIe829SzIw/T30QNR6wbszDa7DGvyv1cLLVntprnH0YJApwrYDPJbZXIS
- zv3w==
-X-Gm-Message-State: AFqh2kr5GGzqLYo6wxnSLD5oM5bW6VVRu4TJEOdWitsywL5l9ZTdzkrX
- pKokW5pcpujhY64d15rTY4A=
-X-Google-Smtp-Source: AMrXdXu3fTohzLJHs+Ys6z4kHHnaEEPDUV/31K4z6QI6J3cFIrnFWOYYusRQjmYBJFMM/13MRecttw==
-X-Received: by 2002:ac2:5d4e:0:b0:4c3:7634:234c with SMTP id
- w14-20020ac25d4e000000b004c37634234cmr19517431lfd.57.1673306083423; 
- Mon, 09 Jan 2023 15:14:43 -0800 (PST)
+ bh=ctFTCfSoJjTZfY+rdJcn3BKR4sJeVp5aACYPINpXosE=;
+ b=i63G/mEXwPOJ860Q0vFGGfAsTsVOzQGDviBFu/JCIDe+bMTPWY2EL7m+B5Od44Yljv
+ Lud0JoGkUx4NYh+oPSQMQBBjV/139pcwq/p4rECRZlWXeLAUo9Ql2DDFrxqddAOrNGS+
+ V9Un8k3FSV7zhVMFX7FCw5AHltFXdKWJlWS0aunvghDoVTmdRgClVkEZs7L3USWQyTs7
+ EqOHSbEZwukA7r1oT9HPbxdtOo06qIaoqRnkES2HkoPlVinoFe9lay9EpKfUeGQcQ8kS
+ lzU1mSqbYSU0v9YNDWWe8JYVstEM413FwNKFR+rGReeyrAedWmkuBa1iOTOdAU+6gn2I
+ PRuA==
+X-Gm-Message-State: AFqh2ko+djzWe9FlT4qHkaTWpAWlsMZhZ4CstCldqo42WHeMYHIwGMGF
+ o/3hnymxtyFdp2nf4f1YtLU=
+X-Google-Smtp-Source: AMrXdXvsvMbJMxbVIOP7MhGcARYLYTaMj2qJsVj4hOLnwTk6gCkRAHlDRVLXezAOi1HZGO5X8RuPjw==
+X-Received: by 2002:a05:6512:2314:b0:4cb:4571:9efe with SMTP id
+ o20-20020a056512231400b004cb45719efemr9847698lfu.35.1673306169077; 
+ Mon, 09 Jan 2023 15:16:09 -0800 (PST)
 Received: from localhost (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- c21-20020ac244b5000000b004cb015794a8sm1834632lfm.109.2023.01.09.15.14.42
+ m9-20020ac24ac9000000b004cafe65883dsm1847495lfp.122.2023.01.09.15.16.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 15:14:42 -0800 (PST)
+ Mon, 09 Jan 2023 15:16:08 -0800 (PST)
 From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 X-Google-Original-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
+To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230109214309.586130-1-dmitry.baryshkov@linaro.org>
-References: <20230109214309.586130-1-dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH] drm/msm/dpu: disable DSC blocks for SM8350
-Message-Id: <167330408773.609993.12108316021819384010.b4-ty@linaro.org>
+In-Reply-To: <20230109045458.316114-1-dmitry.baryshkov@linaro.org>
+References: <20230109045458.316114-1-dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH] dt-bindings: display/msm: qcom,
+ sdm845-mdss: document the DP device
+Message-Id: <167330408776.609993.17059327526924867379.b4-ty@linaro.org>
 Date: Tue, 10 Jan 2023 00:41:27 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -75,24 +79,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Mon, 09 Jan 2023 23:43:09 +0200, Dmitry Baryshkov wrote:
-> SM8350 has newer version of DSC blocks, which are not supported by the
-> driver yet. Remove them for now until these blocks are supported by the
-> driver.
+On Mon, 09 Jan 2023 06:54:58 +0200, Dmitry Baryshkov wrote:
+> Document the DP controller added to the sdm845 display subsystem.
 > 
 > 
 
 Applied, thanks!
 
-[1/1] drm/msm/dpu: disable DSC blocks for SM8350
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/3b2551eaeac3
+[1/1] dt-bindings: display/msm: qcom,sdm845-mdss: document the DP device
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/d26407788cc0
 
 Best regards,
 -- 
