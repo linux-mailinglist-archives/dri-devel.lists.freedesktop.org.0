@@ -2,39 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E4D664976
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 19:21:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB811664A15
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 19:29:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D28310E134;
-	Tue, 10 Jan 2023 18:21:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96DF810E635;
+	Tue, 10 Jan 2023 18:29:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A63610E134
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 18:21:52 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1pFJFu-0004H9-Ju; Tue, 10 Jan 2023 19:21:50 +0100
-Message-ID: <b26742b98dfaf06e49426f36cd62f7f6dfa611db.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/imx: ipuv3-plane: reuse local variable height in
- atomic_update
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Philipp Zabel <p.zabel@pengutronix.de>, dri-devel@lists.freedesktop.org
-Date: Tue, 10 Jan 2023 19:21:49 +0100
-In-Reply-To: <20221220094430.3469811-1-p.zabel@pengutronix.de>
-References: <20221220094430.3469811-1-p.zabel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5967A10E13B;
+ Tue, 10 Jan 2023 18:29:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+ t=1673375358; bh=ysQKgi/JrIlMmf5X/MsjVffw4bVjIB+SlJMK93Fc6kg=;
+ h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
+ Content-Type;
+ b=OexEuoD9w2rlMChDuyt0Lgha7b7LxqL3HJv8QJLNqyDAcSy+l2nixqXecxJQhxkqS
+ 5QvyViSKyMEvFCWmZ0A5h4m2Cmv2yE15Vo4a1D1+q+CD5JNsXKoC6xcif0M6+BLN9t
+ Zf3EpUPIuX94dRxlKAXQI/s5DZHkkRBpBUhuCuG0=
+Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
+ via ip-206.mailobj.net [213.182.55.206]
+ Tue, 10 Jan 2023 19:29:18 +0100 (CET)
+X-EA-Auth: oQ+AcTSeF9jeNjLefVNdNkG4EnXmo8P+THlMmFEOkOeY8Q9R+8z2jAIjLfGWEzOAlKzkPWXxiVB7FkaoUs3fWy/2E/lJeh2t
+Date: Tue, 10 Jan 2023 23:59:12 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] drm/i915/gvt: Avoid full proxy f_ops debug attributes
+Message-ID: <cover.1673375066.git.drv@mailo.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,72 +51,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de
+Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Dienstag, dem 20.12.2022 um 10:44 +0100 schrieb Philipp Zabel:
-> Use the already existing local variable height =3D drm_rect_height() >> 1=
-6
-> to replace other occurrences of the same value.
->=20
-> Suggested-by: Lucas Stach <l.stach@pengutronix.de>
-> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+This patch series proposes to replace a combination of DEFINE_SIMPLE_ATTRIBUTE() +
+debugfs_create_file() by a combination of DEFINE_DEBUGFS_ATTRIBUTE() +
+debugfs_create_file_unsafe(). The change reduced overhead in terms of managing
+the full proxy f_ops at runtime. The patches 1 & 2 covers for the scan_nonprivbb
+ and vgpu_status f_ops debugfs attributes respectively.
 
-Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+Following coccicheck make command helped identify this change:
+    
+make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
 
-> ---
->  drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c b/drivers/gpu/drm/im=
-x/ipuv3/ipuv3-plane.c
-> index 80142d9a4a55..dade8b59feae 100644
-> --- a/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c
-> +++ b/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c
-> @@ -618,6 +618,7 @@ static void ipu_plane_atomic_update(struct drm_plane =
-*plane,
->  		width =3D ipu_src_rect_width(new_state);
->  	else
->  		width =3D drm_rect_width(&new_state->src) >> 16;
-> +	height =3D drm_rect_height(&new_state->src) >> 16;
-> =20
->  	eba =3D drm_plane_state_to_eba(new_state, 0);
-> =20
-> @@ -628,9 +629,9 @@ static void ipu_plane_atomic_update(struct drm_plane =
-*plane,
->  	if (ipu_state->use_pre) {
->  		axi_id =3D ipu_chan_assign_axi_id(ipu_plane->dma);
->  		ipu_prg_channel_configure(ipu_plane->ipu_ch, axi_id, width,
-> -					  drm_rect_height(&new_state->src) >> 16,
-> -					  fb->pitches[0], fb->format->format,
-> -					  fb->modifier, &eba);
-> +					  height, fb->pitches[0],
-> +					  fb->format->format, fb->modifier,
-> +					  &eba);
->  	}
-> =20
->  	if (!old_state->fb ||
-> @@ -684,7 +685,6 @@ static void ipu_plane_atomic_update(struct drm_plane =
-*plane,
-> =20
->  	ipu_dmfc_config_wait4eot(ipu_plane->dmfc, width);
-> =20
-> -	height =3D drm_rect_height(&new_state->src) >> 16;
->  	info =3D drm_format_info(fb->format->format);
->  	ipu_calculate_bursts(width, info->cpp[0], fb->pitches[0],
->  			     &burstsize, &num_bursts);
-> @@ -747,8 +747,7 @@ static void ipu_plane_atomic_update(struct drm_plane =
-*plane,
->  		ipu_cpmem_set_burstsize(ipu_plane->ipu_ch, 16);
-> =20
->  		ipu_cpmem_zero(ipu_plane->alpha_ch);
-> -		ipu_cpmem_set_resolution(ipu_plane->alpha_ch, width,
-> -					 drm_rect_height(&new_state->src) >> 16);
-> +		ipu_cpmem_set_resolution(ipu_plane->alpha_ch, width, height);
->  		ipu_cpmem_set_format_passthrough(ipu_plane->alpha_ch, 8);
->  		ipu_cpmem_set_high_priority(ipu_plane->alpha_ch);
->  		ipu_idmac_set_double_buffer(ipu_plane->alpha_ch, 1);
->=20
-> base-commit: 4b6cb2b67da883bc5095ee6d77f951f1cd7a1c24
+
+
+Deepak R Varma (2):
+  drm/i915/gvt: Avoid full proxy f_ops for scan_nonprivbb debug
+    attributes
+  drm/i915/gvt: Avoid full proxy f_ops for vgpu_status debug attributes
+
+ drivers/gpu/drm/i915/gvt/debugfs.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+-- 
+2.34.1
+
+
 
