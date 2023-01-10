@@ -1,54 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD8A6641FA
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 14:34:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0F0C664271
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 14:52:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEBBB10E5C0;
-	Tue, 10 Jan 2023 13:34:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47D6410E127;
+	Tue, 10 Jan 2023 13:52:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3608210E5C0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 13:34:47 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 702176171B
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 13:34:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF80CC433F1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 13:34:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1673357685;
- bh=428Utdh+e6F2/hWYnKzDhqLh/AHuuQMV5oFWLJ3BKqg=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=PifxqQiVsu2yVxl+rvItZRxvJQ4ShpBz+CyugsIA5h6Xy6eogwCrR6tFdn76H51+9
- qwBoKfhNOJNlRtFcQ/bMGGgJu4QKQ1zCSwlKDl9DFdRWeQ/7OuSK4Hzt0+nyn6MwOP
- LqUQ7e9EXMAJOHgoyZ7zYMsA2pTYuw+LnTwCQLOXx3ZeEZ5mMZ1ziIMRcfu+vRCPDy
- 4+1UlQ99l+q3b/OU3Uvclc+Se2K9gawsEzPhhFNB0o+HDCaGQ1eS6X9FFeFWslUut1
- vEK5uBOSLo4urIQZBEhY5KYGic/0vEo1sVWuCPPhuuKCyWc32c58/++vHWcWbO8jWn
- 5/8lVcEXr2T9w==
-Received: by mail-yb1-f171.google.com with SMTP id e21so11790011ybb.3
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 05:34:45 -0800 (PST)
-X-Gm-Message-State: AFqh2krW/VDFBoRfrFB3PBf2MH1SYuYm29+60GJy6KD1BSKVRQ0sZC9j
- J1Ose4YxS+ZY27U+B5TMtRC7c9vbiu/VW1gaV3Q=
-X-Google-Smtp-Source: AMrXdXsS1IMMV97uhXnmSnvUUs5QH5SQPpbwkG6NWvv7XZpwjDjgZlqLaV0/nOrzgqw5QouMJjwR1058Lhg2O2R76U8=
-X-Received: by 2002:a25:bbd1:0:b0:70b:87c6:4fe with SMTP id
- c17-20020a25bbd1000000b0070b87c604femr7421709ybk.550.1673357684837; Tue, 10
- Jan 2023 05:34:44 -0800 (PST)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2899510E127;
+ Tue, 10 Jan 2023 13:52:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673358752; x=1704894752;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Tp8Z9Ay/HrlqQE0qDFK7p4Fost9+vU0ggkXvi/hfbkY=;
+ b=kO8ox8CR+uhilfo5/X2nxkaV4R1ebPsPUWkdF4QsFnqdZi0+9yMqWhfv
+ PKlzD1J/dYnz4SJUbaTjjtC0QteypDLuv9UL2ilJKOJseLb3blbbDRgKR
+ /alyOqQ4wC48vEI6zM+ZbMmNStQiJjb/yC4L96pos2WPad5aLaWdyVG4l
+ uSLI+r8CIVKKNrMjXpOdrBxFuVBLBGOGy9vjBUTE3wgpx9dSS06FYtC+A
+ FnrdBVP/dZdOHbJka0bOPO00rFLSmTMw/1SY2fd3RmEgzglcdIq9JPESj
+ +zfCtPa5XOVBH9lR3c6QkN7FDo4tDCyPTRSCV6yON/XMy6W476qcBtwWn A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="387599281"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="387599281"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2023 05:52:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="830995823"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="830995823"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by orsmga005.jf.intel.com with ESMTP; 10 Jan 2023 05:52:23 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1pFF36-0073E7-37; Tue, 10 Jan 2023 15:52:20 +0200
+Date: Tue, 10 Jan 2023 15:52:20 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: Re: [Intel-gfx] [RFC DO NOT MERGE] treewide: use __xchg in most
+ obvious places
+Message-ID: <Y71tlG23t0gH9K1t@smile.fi.intel.com>
+References: <Y7b6/7coJEVlTVxK@phenom.ffwll.local>
+ <20230110105306.3973122-1-andrzej.hajda@intel.com>
+ <Y71G1tkmUzM4BLxn@smile.fi.intel.com>
+ <1bfae3d0-8c0b-ea83-7184-db847a4a969f@intel.com>
 MIME-Version: 1.0
-References: <Y7zB4z5cxpFkPXKV@work> <20230110104609.GA1602079@linux.intel.com>
-In-Reply-To: <20230110104609.GA1602079@linux.intel.com>
-From: Oded Gabbay <ogabbay@kernel.org>
-Date: Tue, 10 Jan 2023 15:34:18 +0200
-X-Gmail-Original-Message-ID: <CAFCwf13yp0Sj9i9Nmq_WOU0gcwfjjWz1vgzMeD5_1YWj0aWO_g@mail.gmail.com>
-Message-ID: <CAFCwf13yp0Sj9i9Nmq_WOU0gcwfjjWz1vgzMeD5_1YWj0aWO_g@mail.gmail.com>
-Subject: Re: [PATCH][next] habanalabs: Replace zero-length arrays with
- flexible-array members
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1bfae3d0-8c0b-ea83-7184-db847a4a969f@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,29 +64,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-hardening@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
+ linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+ linux-xtensa@linux-xtensa.org, Arnd Bergmann <arnd@arndb.de>,
+ Boqun Feng <boqun.feng@gmail.com>, linux-m68k@lists.linux-m68k.org,
+ openrisc@lists.librecores.org, loongarch@lists.linux.dev,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-arm-kernel@lists.infradead.org,
+ linux-parisc@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-alpha@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 10, 2023 at 12:46 PM Stanislaw Gruszka
-<stanislaw.gruszka@linux.intel.com> wrote:
->
-> On Mon, Jan 09, 2023 at 07:39:47PM -0600, Gustavo A. R. Silva wrote:
-> > Zero-length arrays are deprecated[1] and we are moving towards
-> > adopting C99 flexible-array members instead. So, replace zero-length
-> > arrays in a couple of structures with flex-array members.
-> >
-> > This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
-> > routines on memcpy() and help us make progress towards globally
-> > enabling -fstrict-flex-arrays=3 [2].
-> >
-> > Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays [1]
-> > Link: https://gcc.gnu.org/pipermail/gcc-patches/2022-October/602902.html [2]
-> > Link: https://github.com/KSPP/linux/issues/78
-> > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
->
-> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Thanks,
-applied to -next.
-Oded
+On Tue, Jan 10, 2023 at 01:46:37PM +0100, Andrzej Hajda wrote:
+> On 10.01.2023 12:07, Andy Shevchenko wrote:
+> > On Tue, Jan 10, 2023 at 11:53:06AM +0100, Andrzej Hajda wrote:
+
+...
+
+> > > +	return __xchg(&p_chain->p_prod_elem,
+> > > +		      (void *)(((u8 *)p_chain->p_prod_elem) + p_chain->elem_size));
+> > 
+> > Wondering if you still need a (void *) casting after the change. Ditto for the
+> > rest of similar cases.
+> 
+> IMHO it is not needed also before the change and IIRC gcc has an extension
+> which allows to drop (u8 *) cast as well [1].
+
+I guess you can drop at least the former one.
+
+> [1]: https://gcc.gnu.org/onlinedocs/gcc/Pointer-Arith.html
+
+...
+
+> > Btw, is it done by coccinelle? If no, why not providing the script?
+> 
+> Yes I have used cocci. My cocci skills are far from perfect, so I did not
+> want to share my dirty code, but this is nothing secret:
+
+Thank you! It's not about secrecy, it's about automation / error proofness.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
