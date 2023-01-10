@@ -2,70 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC6066362C
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 01:22:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BC9A66369E
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 02:19:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A13ED10E0E8;
-	Tue, 10 Jan 2023 00:22:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7AC610E044;
+	Tue, 10 Jan 2023 01:19:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C32810E0DB
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 00:22:29 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id bp15so15702914lfb.13
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 16:22:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=3J9XKLlpP5X6CvDBX/lWRDKKuy8Kaqsk+6ZWrT2IkL8=;
- b=n4hvHMSGn2WfGgJh4rRLEBOydN/+sVZM3Pydyit8JakkdzKCfnzvOtZ3IBmxnJKqgi
- /rkYLJWADxt6NxW5sexSZ1jsXaAc0e38GsfIvxUXy0sUQbOVvJxal0rxxrfOT9RC1kLo
- /ZWGtQT4HR5vjMZepAEQhlkCCjgZBe9hFwsgCE7CpQU08lwN35FXul4KJmIqbW8WP6Js
- GqpBncUdW4spd/Depy8HbN/MCoeSNmI3RCssxgxa2HPfHWlEU/PKv6VnssmyYhsiUqd7
- zX3E9W/6yghIu72crNK5RIjt1if6mLkkDAKLkftANHN7bt6UasgziE0v5A9BWnXtzDgE
- b1FA==
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6146710E044
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 01:19:13 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id
+ w4-20020a17090ac98400b002186f5d7a4cso14787552pjt.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 17:19:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=JRJYNk03xPF7I0f3RiiUNSrwj7K0SCkYwCDphRZWj3c=;
+ b=LYUy8d956TFa4i0X/jINb9cLqY6o2DO8RoacHNTbbqpl8LHI2/Qg246QCSQgHVA+nH
+ HJSdqiBTvghIgiNFKN+RnWDfVLcTTn1WiBk2hYjjliNu1Hb2C6+1JXHTA8Yqa0uUud+P
+ UdwMdphpyLdOm8qn7t1kn+/887P41sckwQAH0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3J9XKLlpP5X6CvDBX/lWRDKKuy8Kaqsk+6ZWrT2IkL8=;
- b=Ey3D6Ln179jUMzfXF6s/Xr97m+RzHpdMZmqLSPd7SI+4NJ9wttQNQ5gS59+oxcciIg
- SRDvIhk29IztOS+a/aJVX+dUxFVoUH57gJxrU07KP08AhnxBSLDq15QaXtppV3l6uzpS
- BO/NkEYMm2ezSesWkkguCWKQEIObOb88nP+WRaM9++S9AhrDYdL1w2hD3mDym+r+sd6H
- QcQfx/nuISYwyKMEKXvJXnSjt5wEEtbpyR/+hoex2PGliCp43QbeINwOAWBJlnFDVdFn
- aMMHe/Zt7y7LeF5dnkQh2paMCyAAGtpWLHdbIMgtr9ZkL+cT8VYQCnXh4+VrH1zbw7F6
- 3gRA==
-X-Gm-Message-State: AFqh2kpYMBlePd/2jYqVxnO2G+57gTsva7UoOlMDraDHEebvHLo/mzrp
- E0YgWo8BecWGRRvesBEpbZdq+A==
-X-Google-Smtp-Source: AMrXdXtXj53XSAEDy43S/dF+TH9B4KyRf+Qy1PibWEaXMJ+81JeOqRnE5ih/iFdtK8mqkDEeOuwx4g==
-X-Received: by 2002:a05:6512:e89:b0:4b5:b7be:136b with SMTP id
- bi9-20020a0565120e8900b004b5b7be136bmr19919799lfb.69.1673310147359; 
- Mon, 09 Jan 2023 16:22:27 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- x3-20020a0565123f8300b004949a8df775sm1854041lfa.33.2023.01.09.16.22.26
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JRJYNk03xPF7I0f3RiiUNSrwj7K0SCkYwCDphRZWj3c=;
+ b=FjFEskKnM28nPeQ/fZOf4u5Bi46Hy6vKGgMZf0UUzzVMyX/zJCnxXtIDrFKoT4IUtk
+ InvAaFvizznvOT9xyQbq9jpdcMXZA69HtwqjRfUT7Y/5IJudMlaDWMB4GQTVH1nukbDh
+ yiwEHrU2lyv2XlKBT1gbN+2FeBNXPXBpwvB1zW7//qbO7sh6LKvpFN/c+mBomIEnArAM
+ akf29yPRPatVsKFVIxjUz2Sci+jzllryoU5q6JxsEgGcCvdms2EHWChu5x04pV8hU1OT
+ A+q0iWUxvjoOvdI5geA9Cmy7wLQU5Bn6DgaqZIPGdSu1Kblvtpf7Y4sZovSmLe4hjtmV
+ WdzA==
+X-Gm-Message-State: AFqh2kp2a1FHEndNA+Yo+dHN3cAgu4trdHXstfgEG4WrAMnIPuwywsAm
+ A4aOgpN1NeryimXXHvbCNoe+dg==
+X-Google-Smtp-Source: AMrXdXt7E/WtGBXtZLOsFB0eXRM7CAxST+jXno99j/6BC6C7198kPAZn7z/EVahK9YCxBH+9/0JnBQ==
+X-Received: by 2002:a17:902:e951:b0:193:2ed4:561a with SMTP id
+ b17-20020a170902e95100b001932ed4561amr5989384pll.38.1673313552926; 
+ Mon, 09 Jan 2023 17:19:12 -0800 (PST)
+Received: from localhost ([2620:15c:9d:2:99d8:feca:9efd:a216])
+ by smtp.gmail.com with UTF8SMTPSA id
+ u1-20020a170902714100b001933355456esm17519plm.215.2023.01.09.17.19.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 16:22:26 -0800 (PST)
-Message-ID: <eeafb291-9da7-da21-8425-c651066f7379@linaro.org>
-Date: Tue, 10 Jan 2023 02:22:26 +0200
+ Mon, 09 Jan 2023 17:19:12 -0800 (PST)
+From: Brian Norris <briannorris@chromium.org>
+To: =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Daniel Vetter <daniel@ffwll.ch>, Sean Paul <seanpaul@chromium.org>
+Subject: [PATCH v3 1/2] drm/atomic: Allow vblank-enabled + self-refresh
+ "disable"
+Date: Mon,  9 Jan 2023 17:18:16 -0800
+Message-Id: <20230109171809.v3.1.I3904f697863649eb1be540ecca147a66e42bfad7@changeid>
+X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v4 1/3] drm/msm/disp/dpu1: pin 1 crtc to 1 encoder
-Content-Language: en-GB
-To: Kalyan Thota <quic_kalyant@quicinc.com>, dri-devel@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org
-References: <1669021695-4397-1-git-send-email-quic_kalyant@quicinc.com>
- <1669021695-4397-2-git-send-email-quic_kalyant@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1669021695-4397-2-git-send-email-quic_kalyant@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,83 +68,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, dianders@chromium.org, quic_abhinavk@quicinc.com,
- linux-kernel@vger.kernel.org, quic_vpolimer@quicinc.com, swboyd@chromium.org
+Cc: =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Brian Norris <briannorris@chromium.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sandy Huang <hjc@rock-chips.com>,
+ linux-rockchip@lists.infradead.org, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/11/2022 11:08, Kalyan Thota wrote:
-> Pin each crtc with one encoder. This arrangement will
-> disallow crtc switching between encoders and also will
-> facilitate to advertise certain features on crtc based
-> on encoder type.
-> 
-> Changes in v1:
-> - use drm_for_each_encoder macro while iterating through
->    encoder list (Dmitry)
-> 
-> Changes in v2:
-> - make sure no encoder miss to have a crtc (Dmitry)
-> - revisit various factors in deciding the crtc count
->    such as num_mixers, num_sspp (Dmitry)
-> 
-> Changes in v3:
-> - none
-> 
-> Changes in v4:
-> - use max_crtc_count instead of num_encoders in WARN (Dmitry)
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 18 +++++++++++-------
->   1 file changed, 11 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 7a5fabc..d967eef 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -795,22 +796,25 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
->   			primary_planes[primary_planes_idx++] = plane;
->   	}
->   
-> -	max_crtc_count = min(max_crtc_count, primary_planes_idx);
-> +	/*
-> +	 * All the platforms should have at least 1 primary plane for a
-> +	 * crtc. The below warn should help in setting up the catalog
-> +	 */
-> +	WARN_ON(max_crtc_count > primary_planes_idx);
+The self-refresh helper framework overloads "disable" to sometimes mean
+"go into self-refresh mode," and this mode activates automatically
+(e.g., after some period of unchanging display output). In such cases,
+the display pipe is still considered "on", and user-space is not aware
+that we went into self-refresh mode. Thus, users may expect that
+vblank-related features (such as DRM_IOCTL_WAIT_VBLANK) still work
+properly.
 
-This change broke sc7180 support, see 
-https://gitlab.freedesktop.org/drm/msm/-/jobs/34395875
+However, we trigger the WARN_ONCE() here if a CRTC driver tries to leave
+vblank enabled.
 
-I suggest a quick fix of either disabling WB2 or switching one of cursor 
-SSPPs to a generic one.
+Add a different expectation: that CRTCs *should* leave vblank enabled
+when going into self-refresh.
 
->   
->   	/* Create one CRTC per encoder */
-> -	for (i = 0; i < max_crtc_count; i++) {
-> +	i = 0;
-> +	drm_for_each_encoder(encoder, dev) {
->   		crtc = dpu_crtc_init(dev, primary_planes[i], cursor_planes[i]);
->   		if (IS_ERR(crtc)) {
->   			ret = PTR_ERR(crtc);
->   			return ret;
->   		}
->   		priv->crtcs[priv->num_crtcs++] = crtc;
-> +		encoder->possible_crtcs = 1 << drm_crtc_index(crtc);
-> +		i++;
->   	}
->   
-> -	/* All CRTCs are compatible with all encoders */
-> -	drm_for_each_encoder(encoder, dev)
-> -		encoder->possible_crtcs = (1 << priv->num_crtcs) - 1;
-> -
->   	return 0;
->   }
->   
+This patch is preparation for another patch -- "drm/rockchip: vop: Leave
+vblank enabled in self-refresh" -- which resolves conflicts between the
+above self-refresh behavior and the API tests in IGT's kms_vblank test
+module.
 
+== Some alternatives discussed: ==
+
+It's likely that on many display controllers, vblank interrupts will
+turn off when the CRTC is disabled, and so in some cases, self-refresh
+may not support vblank. To support such cases, we might consider
+additions to the generic helpers such that we fire vblank events based
+on a timer.
+
+However, there is currently only one driver using the common
+self-refresh helpers (i.e., rockchip), and at least as of commit
+bed030a49f3e ("drm/rockchip: Don't fully disable vop on self refresh"),
+the CRTC hardware is powered enough to continue to generate vblank
+interrupts.
+
+So we chose the simpler option of leaving vblank interrupts enabled. We
+can reevaluate this decision and perhaps augment the helpers if/when we
+gain a second driver that has different requirements.
+
+v3:
+ * include discussion summary
+
+v2:
+ * add 'ret != 0' warning case for self-refresh
+ * describe failing test case and relation to drm/rockchip patch better
+
+Cc: <stable@vger.kernel.org> # dependency for "drm/rockchip: vop: Leave
+                             # vblank enabled in self-refresh"
+Signed-off-by: Brian Norris <briannorris@chromium.org>
+---
+ drivers/gpu/drm/drm_atomic_helper.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index d579fd8f7cb8..a22485e3e924 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -1209,7 +1209,16 @@ disable_outputs(struct drm_device *dev, struct drm_atomic_state *old_state)
+ 			continue;
+ 
+ 		ret = drm_crtc_vblank_get(crtc);
+-		WARN_ONCE(ret != -EINVAL, "driver forgot to call drm_crtc_vblank_off()\n");
++		/*
++		 * Self-refresh is not a true "disable"; ensure vblank remains
++		 * enabled.
++		 */
++		if (new_crtc_state->self_refresh_active)
++			WARN_ONCE(ret != 0,
++				  "driver disabled vblank in self-refresh\n");
++		else
++			WARN_ONCE(ret != -EINVAL,
++				  "driver forgot to call drm_crtc_vblank_off()\n");
+ 		if (ret == 0)
+ 			drm_crtc_vblank_put(crtc);
+ 	}
 -- 
-With best wishes
-Dmitry
+2.39.0.314.g84b9a713c41-goog
 
