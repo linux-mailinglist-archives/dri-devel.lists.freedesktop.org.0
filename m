@@ -1,77 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19FA663D94
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 11:10:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF56B663D95
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 11:11:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B25010E586;
-	Tue, 10 Jan 2023 10:10:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B18DA10E587;
+	Tue, 10 Jan 2023 10:11:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CE3210E582
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 10:10:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A40D610E58A
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 10:11:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673345449;
+ s=mimecast20190719; t=1673345484;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uuquTFMqRJVfYTO7+J+3i6OURVu6jEbVGPSXjBZGYVA=;
- b=IovgLdytgIredn/kizpL8IBt724jp6kJo8Lrh9uUJp4s/4qAn7lfViUq7QsHx0WpgeEfE5
- gfh1JqtBD59qcDbd0tlYevv+Tm6Q+aGt2g0sZbdFZsYBsEtQGsp8NAMV2idxVPLVsIYN/S
- ZcX/FDwKuQxlUHd+j/o7KMatHtHdQCU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ksSvI6tffvqfkT2KgiYhPjAggw+4IOeouLwXWNniZWo=;
+ b=eQYtw3yBpfBBxhI8zkWTp5BgVovu3wa2UXt4c5b59pk9yVDfB8qTSWqZdYOKdHFlG5WvsC
+ aRrniuS3VSCjeKg9b58+nfI0h/O4qfd0c/Tx4ocHAIrIkRJhIjSKl7qJIhl/hdIY1JrkXv
+ hFfEmdUnGk+mUn0TQgSXlZVPLqgbukk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-53-mZfvQjHqODKMkN8CUn1VWw-1; Tue, 10 Jan 2023 05:10:47 -0500
-X-MC-Unique: mZfvQjHqODKMkN8CUn1VWw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- l18-20020adfa392000000b002bbd5c680a3so1361387wrb.14
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 02:10:47 -0800 (PST)
+ us-mta-363-9EIQbPm6M4GLXfUXfiyDNw-1; Tue, 10 Jan 2023 05:11:23 -0500
+X-MC-Unique: 9EIQbPm6M4GLXfUXfiyDNw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c66-20020a1c3545000000b003d355c13229so8799832wma.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 02:11:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uuquTFMqRJVfYTO7+J+3i6OURVu6jEbVGPSXjBZGYVA=;
- b=MnSwX9f4bN9k5II7zIcg1UjGfh2vNNe217UzNdbVNJwPS7HJI51xv3jpHQDkukNoEv
- nrqaPLVScb0xjhtKi7ADOzi0cyon1Q82aDvMxEMkmwSxRU5119rbN/0/06uy+tN/TuoW
- G2Hesk449k2znfCIm9TqGkETX26sZhLJ5xLcKDQ8fTHyqG9zjA+gAmUhMomfekwqYKkK
- Eyt6F4Af7PDmAvPkM4DjZVEPjz6dUhUrYwG+7OinDzE7Ou+bTK5EZBNWucnHed4nO1LR
- kcnR+O7FWqVSTcqWOj8Z+Z/WWc700JrKX+z7NeDpW+5NEFt4ZDLChRH1tNbvhqvNFOqB
- w5lA==
-X-Gm-Message-State: AFqh2koC2dOYKO2sRkgrhlCxAk9rhiTmkPPgwUr5PYsDAkukrWqhvFoe
- Q7xTP5K6IsDvFaCyDQGZ558CU1f1/YLdnobYJMiqbIORP8NYVwyP5i7RWbhYHeQysCz1Wj6AGBN
- PlKhbiJkHh6Pqn+kAtKNicnls9Dnq
-X-Received: by 2002:a05:600c:44d4:b0:3cf:7925:7a3 with SMTP id
- f20-20020a05600c44d400b003cf792507a3mr48001538wmo.24.1673345446640; 
- Tue, 10 Jan 2023 02:10:46 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtCaGy649oJyyMLaGDn2H4O3O+B/V9Ndk46ypRQlhZdduR+FByER9txa5+XPtVk9k1GBxK2xw==
-X-Received: by 2002:a05:600c:44d4:b0:3cf:7925:7a3 with SMTP id
- f20-20020a05600c44d400b003cf792507a3mr48001519wmo.24.1673345446478; 
- Tue, 10 Jan 2023 02:10:46 -0800 (PST)
+ bh=ksSvI6tffvqfkT2KgiYhPjAggw+4IOeouLwXWNniZWo=;
+ b=eouUshden+L0cIXJQGcF7O/S3STvTL9yGgMVMJEyMOG1CBxWMeDOd6tBOW/fipqaK3
+ G+j5MgHJdE5oLVwlTz2rbaMXQ3JqAmlRHqte6uamjwe/bgwDNosHPVdbAZWFUf3yPfz9
+ QnjYp9YEoww+QkqcQ8dmu0Is2Pt8iHBfg2Cog2hWlJFk982CU+aOXalsy31ACDE+KZ8t
+ 2Dqs9bMpH2qGCSkTdO3rOuloLvZ1Hy6mcH16j9LztCT62GXyjXd/gK2Wq3bge7/6XHoT
+ ub7U0Y/o5sd/V/wzdUpvmFyEsI7No9IPRWcxXn6W1FbBL2zugbLI3lw4Ty1bwmI2pZ4B
+ NZQw==
+X-Gm-Message-State: AFqh2kpJ0q1OJN/NjkCvWdD4e/TvcQAmBCmUgmZPGQ7b/Qm8AsRQQ4XH
+ iHrvDLshMq7Q9ev7JwFqQD3tQg8W3qwNR4FkN+Q2JDztLPoTATA9EXdDsd3Rp5TsgOOAUrw6O0x
+ mcYi5WOPS7uKz/ZbzfHKmb7+sF9O9
+X-Received: by 2002:a05:600c:1e18:b0:3d2:5e4e:701 with SMTP id
+ ay24-20020a05600c1e1800b003d25e4e0701mr48749919wmb.31.1673345482604; 
+ Tue, 10 Jan 2023 02:11:22 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtwdRe0FzupWB3fiAxpuXEJ0H5IbmAGHCSf95dKcrh3YBxCSYr7tLCXwN6KMl3SEALYVsCSjw==
+X-Received: by 2002:a05:600c:1e18:b0:3d2:5e4e:701 with SMTP id
+ ay24-20020a05600c1e1800b003d25e4e0701mr48749904wmb.31.1673345482430; 
+ Tue, 10 Jan 2023 02:11:22 -0800 (PST)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- f11-20020a05600c4e8b00b003d04e4ed873sm21349198wmq.22.2023.01.10.02.10.45
+ z25-20020a1c4c19000000b003d1e1f421bfsm18584114wmf.10.2023.01.10.02.11.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Jan 2023 02:10:46 -0800 (PST)
-Message-ID: <b5ad4a5a-50ed-4bdb-024c-e2ac76c79edd@redhat.com>
-Date: Tue, 10 Jan 2023 11:10:45 +0100
+ Tue, 10 Jan 2023 02:11:22 -0800 (PST)
+Message-ID: <d2315ac5-2129-feed-d7c5-8dec5c5da4e2@redhat.com>
+Date: Tue, 10 Jan 2023 11:11:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH 039/606] drm/i2c/sil164: Convert to i2c's .probe_new()
+Subject: Re: [PATCH 040/606] drm/i2c/tda9950: Convert to i2c's .probe_new()
 To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>,
  Angel Iglesias <ang.iglesiasg@gmail.com>, Lee Jones <lee.jones@linaro.org>,
  Grant Likely <grant.likely@linaro.org>, Wolfram Sang <wsa@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Peter Senna Tschudin <peter.senna@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Peter Rosin <peda@axentia.se>
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
- <20221118224540.619276-40-uwe@kleine-koenig.org>
+ <20221118224540.619276-41-uwe@kleine-koenig.org>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221118224540.619276-40-uwe@kleine-koenig.org>
+In-Reply-To: <20221118224540.619276-41-uwe@kleine-koenig.org>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -103,8 +107,7 @@ On 11/18/22 23:36, Uwe Kleine-König wrote:
 > can be trivially converted.
 > 
 > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
-
+> --
 I've pushed this to drm-misc (dri-misc-next) now. Thanks!
 
 -- 
