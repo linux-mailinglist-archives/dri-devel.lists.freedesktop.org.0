@@ -2,57 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D9A66361E
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 01:18:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFC6066362C
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 01:22:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D81810E0DA;
-	Tue, 10 Jan 2023 00:18:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A13ED10E0E8;
+	Tue, 10 Jan 2023 00:22:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
- [IPv6:2607:f8b0:4864:20::1132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E714210E0DA
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 00:18:24 +0000 (UTC)
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-4c7d35b37e2so78557817b3.2
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 16:18:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=sgQCt0va7Fj5/9fGcldqaAxXWYK8cBxGZmP9xyPfdn4=;
- b=CjxZ1mdpIhqu8VGPVCMoqsbsDlIhqCjEmsPqq5qkb1qszkge1Jm7eoOuPAcP/ZV3bk
- wPP+sf8id+ynxeTBPKOWQaibXFQF9VkirxIevCIzpGAQ21ueiyMyljdoDpqBwv6iADhp
- JWDpspg8gxuUz/g8o8f3Q/TpOZXD4wUkStfMnP3bNMTdaoT8E8PrN4XpF0W1y5T9lIyj
- m9H9otSUCpmNvNlNujrmOWTRlgks+Pwp+EXc1GX8tr1KUVIqmZXacuPH98ZfnNVZNFn8
- /a3FCftCVuu8stwkCKaAOtd2Rf8qgv7JUkOT3SOOPfRdmX4H3QpcqFd3fI60DVZdrWVr
- exyg==
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C32810E0DB
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 00:22:29 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id bp15so15702914lfb.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 16:22:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=3J9XKLlpP5X6CvDBX/lWRDKKuy8Kaqsk+6ZWrT2IkL8=;
+ b=n4hvHMSGn2WfGgJh4rRLEBOydN/+sVZM3Pydyit8JakkdzKCfnzvOtZ3IBmxnJKqgi
+ /rkYLJWADxt6NxW5sexSZ1jsXaAc0e38GsfIvxUXy0sUQbOVvJxal0rxxrfOT9RC1kLo
+ /ZWGtQT4HR5vjMZepAEQhlkCCjgZBe9hFwsgCE7CpQU08lwN35FXul4KJmIqbW8WP6Js
+ GqpBncUdW4spd/Depy8HbN/MCoeSNmI3RCssxgxa2HPfHWlEU/PKv6VnssmyYhsiUqd7
+ zX3E9W/6yghIu72crNK5RIjt1if6mLkkDAKLkftANHN7bt6UasgziE0v5A9BWnXtzDgE
+ b1FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sgQCt0va7Fj5/9fGcldqaAxXWYK8cBxGZmP9xyPfdn4=;
- b=FOpsQ6S/HqYUI7fJFmzuwu4se40aDayxQvi0lSoiwjuLFM2xbIe20TuQKntprU5e8F
- nRk1B9zqgZ5HfGddx4KZljQ41DgzQcsI13fRXCMIN7irzev+tcSZNw3hQpxB4P0s0nfs
- rfYib5gO14wj3JzeZDuhYKmUOSG+BEg827PWxXjPa/5xbpdA0wSN0vc0PsdLmms7mOWt
- jP+dALuK8HX+ExYzc+SILHQ5iz7s5BSCKugYGoZ8a49MgmJ2yOO1rKpN0gZ2P3amcltn
- HV1IDhHZcXH6M9os1X+U5ZhnMeGZeByBaCfvsYWzi7D7jmMHLDUTideHcbK5vEGo+U20
- k5Qw==
-X-Gm-Message-State: AFqh2koAgasvx1syWvE/124Yru2vX03sQDI/nj4UKHVoRldvCEsRMylf
- RWjRsZ3WZSyCgaTwdPUdxieQgA8VN7HsaDAjDgWgbg==
-X-Google-Smtp-Source: AMrXdXvykUOk6Aq29zKPFweeZ5QLOqVr0VtGabuLWKsdUabDXPvAWtUyFW1w97fkSV+2AQTk/rtQ4CJ6GNWf2U6U44A=
-X-Received: by 2002:a81:7386:0:b0:391:c415:f872 with SMTP id
- o128-20020a817386000000b00391c415f872mr1094430ywc.318.1673309903890; Mon, 09
- Jan 2023 16:18:23 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3J9XKLlpP5X6CvDBX/lWRDKKuy8Kaqsk+6ZWrT2IkL8=;
+ b=Ey3D6Ln179jUMzfXF6s/Xr97m+RzHpdMZmqLSPd7SI+4NJ9wttQNQ5gS59+oxcciIg
+ SRDvIhk29IztOS+a/aJVX+dUxFVoUH57gJxrU07KP08AhnxBSLDq15QaXtppV3l6uzpS
+ BO/NkEYMm2ezSesWkkguCWKQEIObOb88nP+WRaM9++S9AhrDYdL1w2hD3mDym+r+sd6H
+ QcQfx/nuISYwyKMEKXvJXnSjt5wEEtbpyR/+hoex2PGliCp43QbeINwOAWBJlnFDVdFn
+ aMMHe/Zt7y7LeF5dnkQh2paMCyAAGtpWLHdbIMgtr9ZkL+cT8VYQCnXh4+VrH1zbw7F6
+ 3gRA==
+X-Gm-Message-State: AFqh2kpYMBlePd/2jYqVxnO2G+57gTsva7UoOlMDraDHEebvHLo/mzrp
+ E0YgWo8BecWGRRvesBEpbZdq+A==
+X-Google-Smtp-Source: AMrXdXtXj53XSAEDy43S/dF+TH9B4KyRf+Qy1PibWEaXMJ+81JeOqRnE5ih/iFdtK8mqkDEeOuwx4g==
+X-Received: by 2002:a05:6512:e89:b0:4b5:b7be:136b with SMTP id
+ bi9-20020a0565120e8900b004b5b7be136bmr19919799lfb.69.1673310147359; 
+ Mon, 09 Jan 2023 16:22:27 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ x3-20020a0565123f8300b004949a8df775sm1854041lfa.33.2023.01.09.16.22.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jan 2023 16:22:26 -0800 (PST)
+Message-ID: <eeafb291-9da7-da21-8425-c651066f7379@linaro.org>
+Date: Tue, 10 Jan 2023 02:22:26 +0200
 MIME-Version: 1.0
-References: <20230109213809.418135-1-tjmercier@google.com>
-In-Reply-To: <20230109213809.418135-1-tjmercier@google.com>
-From: Shakeel Butt <shakeelb@google.com>
-Date: Mon, 9 Jan 2023 16:18:12 -0800
-Message-ID: <CALvZod4ru7F38tAO-gM9ZFKaEhS0w3KqFbPwhwcTvgJs4xMUow@mail.gmail.com>
-Subject: Re: [PATCH 0/4] Track exported dma-buffers with memcg
-To: "T.J. Mercier" <tjmercier@google.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v4 1/3] drm/msm/disp/dpu1: pin 1 crtc to 1 encoder
+Content-Language: en-GB
+To: Kalyan Thota <quic_kalyant@quicinc.com>, dri-devel@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+References: <1669021695-4397-1-git-send-email-quic_kalyant@quicinc.com>
+ <1669021695-4397-2-git-send-email-quic_kalyant@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1669021695-4397-2-git-send-email-quic_kalyant@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,83 +78,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, daniel.vetter@ffwll.ch,
- Roman Gushchin <roman.gushchin@linux.dev>, Carlos Llamas <cmllamas@google.com>,
- dri-devel@lists.freedesktop.org, Michal Hocko <mhocko@kernel.org>,
- linux-mm@kvack.org, jstultz@google.com, Zefan Li <lizefan.x@bytedance.com>,
- cgroups@vger.kernel.org, Joel Fernandes <joel@joelfernandes.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, android-mm@google.com,
- Paul Moore <paul@paul-moore.com>, Jonathan Corbet <corbet@lwn.net>,
- Martijn Coenen <maco@android.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>, Todd Kjos <tkjos@android.com>,
- selinux@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Eric Paris <eparis@parisplace.org>, Suren Baghdasaryan <surenb@google.com>,
- Christian Brauner <brauner@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Muchun Song <muchun.song@linux.dev>, linux-security-module@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-media@vger.kernel.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: robdclark@chromium.org, dianders@chromium.org, quic_abhinavk@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_vpolimer@quicinc.com, swboyd@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi T.J.,
+On 21/11/2022 11:08, Kalyan Thota wrote:
+> Pin each crtc with one encoder. This arrangement will
+> disallow crtc switching between encoders and also will
+> facilitate to advertise certain features on crtc based
+> on encoder type.
+> 
+> Changes in v1:
+> - use drm_for_each_encoder macro while iterating through
+>    encoder list (Dmitry)
+> 
+> Changes in v2:
+> - make sure no encoder miss to have a crtc (Dmitry)
+> - revisit various factors in deciding the crtc count
+>    such as num_mixers, num_sspp (Dmitry)
+> 
+> Changes in v3:
+> - none
+> 
+> Changes in v4:
+> - use max_crtc_count instead of num_encoders in WARN (Dmitry)
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 18 +++++++++++-------
+>   1 file changed, 11 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 7a5fabc..d967eef 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -795,22 +796,25 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
+>   			primary_planes[primary_planes_idx++] = plane;
+>   	}
+>   
+> -	max_crtc_count = min(max_crtc_count, primary_planes_idx);
+> +	/*
+> +	 * All the platforms should have at least 1 primary plane for a
+> +	 * crtc. The below warn should help in setting up the catalog
+> +	 */
+> +	WARN_ON(max_crtc_count > primary_planes_idx);
 
-On Mon, Jan 9, 2023 at 1:38 PM T.J. Mercier <tjmercier@google.com> wrote:
->
-> Based on discussions at LPC, this series adds a memory.stat counter for
-> exported dmabufs. This counter allows us to continue tracking
-> system-wide total exported buffer sizes which there is no longer any
-> way to get without DMABUF_SYSFS_STATS, and adds a new capability to
-> track per-cgroup exported buffer sizes. The total (root counter) is
-> helpful for accounting in-kernel dmabuf use (by comparing with the sum
-> of child nodes or with the sum of sizes of mapped buffers or FD
-> references in procfs) in addition to helping identify driver memory
-> leaks when in-kernel use continually increases over time. With
-> per-application cgroups, the per-cgroup counter allows us to quickly
-> see how much dma-buf memory an application has caused to be allocated.
-> This avoids the need to read through all of procfs which can be a
-> lengthy process, and causes the charge to "stick" to the allocating
-> process/cgroup as long as the buffer is alive, regardless of how the
-> buffer is shared (unless the charge is transferred).
->
-> The first patch adds the counter to memcg. The next two patches allow
-> the charge for a buffer to be transferred across cgroups which is
-> necessary because of the way most dmabufs are allocated from a central
-> process on Android. The fourth patch adds a SELinux hook to binder in
-> order to control who is allowed to transfer buffer charges.
->
-> [1] https://lore.kernel.org/all/20220617085702.4298-1-christian.koenig@amd.com/
->
+This change broke sc7180 support, see 
+https://gitlab.freedesktop.org/drm/msm/-/jobs/34395875
 
-I am a bit confused by the term "charge" used in this patch series.
-From the patches, it seems like only a memcg stat is added and nothing
-is charged to the memcg.
+I suggest a quick fix of either disabling WB2 or switching one of cursor 
+SSPPs to a generic one.
 
-This leads me to the question: Why add this stat in memcg if the
-underlying memory is not charged to the memcg and if we don't really
-want to limit the usage?
+>   
+>   	/* Create one CRTC per encoder */
+> -	for (i = 0; i < max_crtc_count; i++) {
+> +	i = 0;
+> +	drm_for_each_encoder(encoder, dev) {
+>   		crtc = dpu_crtc_init(dev, primary_planes[i], cursor_planes[i]);
+>   		if (IS_ERR(crtc)) {
+>   			ret = PTR_ERR(crtc);
+>   			return ret;
+>   		}
+>   		priv->crtcs[priv->num_crtcs++] = crtc;
+> +		encoder->possible_crtcs = 1 << drm_crtc_index(crtc);
+> +		i++;
+>   	}
+>   
+> -	/* All CRTCs are compatible with all encoders */
+> -	drm_for_each_encoder(encoder, dev)
+> -		encoder->possible_crtcs = (1 << priv->num_crtcs) - 1;
+> -
+>   	return 0;
+>   }
+>   
 
-I see two ways forward:
+-- 
+With best wishes
+Dmitry
 
-1. Instead of memcg, use bpf-rstat [1] infra to implement the
-per-cgroup stat for dmabuf. (You may need an additional hook for the
-stat transfer).
-
-2. Charge the actual memory to the memcg. Since the size of dmabuf is
-immutable across its lifetime, you will not need to do accounting at
-page level and instead use something similar to the network memory
-accounting interface/mechanism (or even more simple). However you
-would need to handle the reclaim, OOM and charge context and failure
-cases. However if you are not looking to limit the usage of dmabuf
-then this option is an overkill.
-
-Please let me know if I misunderstood something.
-
-[1] https://lore.kernel.org/all/20220824233117.1312810-1-haoluo@google.com/
-
-thanks,
-Shakeel
