@@ -1,85 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69005663D86
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 11:09:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F261D663D8B
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 11:09:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5582610E583;
-	Tue, 10 Jan 2023 10:08:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26CF710E584;
+	Tue, 10 Jan 2023 10:09:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3B7910E583
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 10:08:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673345335;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dUQwFTHyl5sEmJS56v9Sd6SQsFJb1ixfUiHemWZdP4c=;
- b=D9Q+zRn3YrG4kau28vNsEaRyKid8LzP1fWzU1sDkNEXR1G7c+cCkwX2u20vW7tYW/JuqLp
- mYqOZj/mf1ZJHq6yERfnWVI3LJzm1e8kiJD3B2ba6HTBLgzTqVM0ygaKjWc4t/g4YDV2eF
- epbCVeKYvUeWyWLa55RXvuEQx548Zc8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-224-tv53-D3QOY-qBkCCAWuW-A-1; Tue, 10 Jan 2023 05:08:54 -0500
-X-MC-Unique: tv53-D3QOY-qBkCCAWuW-A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k20-20020a05600c1c9400b003d9717c8b11so6096297wms.7
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 02:08:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dUQwFTHyl5sEmJS56v9Sd6SQsFJb1ixfUiHemWZdP4c=;
- b=59PfpwaYvLBvxjvCC88XfWmhdG8yPj81jza0NK0Vw3bl2awxecVcJRU8LAoSLn15qz
- rMuZHuZVvYX7PB1cZGvoPyLw63TdNqF7gcD7Cc0wc7N4kdTUks2hmKjUrJem7eCKtgSx
- 455TBI9EA2nkQuToqzTnyhF9HaKCi+Z+MYIB5rWwTdQ6fb3o6fk3KnYYptUjr0KVfhrI
- 00PYzUQG7HwfkmV1Z/WNXJveFxD47kSvG7XeyAaSNlUSWIVxsiMcUyBDpQHo5wiweR+i
- 5jGIsxcqMT5tfYcWfikqpM05qwI1TNskgZggX0TbA5xwiKD1g7ehKlzFiLGpK66LwPoG
- +IBA==
-X-Gm-Message-State: AFqh2kqkjLT67If7/TwhmFdZmVhC+dVpQfmwD6SlkUaddGWm7VZfetyz
- Tc/KNnRIeSj+mqeJ9I2AGofVOe2haHynosKs45CQjMJ6Mio5SPljUOYqi5q+sZEgOWlKRLx9cXm
- S3wR07rFYqmbkM6PD4NQ3QgtvpfOu
-X-Received: by 2002:a05:600c:3acd:b0:3d1:c354:77b6 with SMTP id
- d13-20020a05600c3acd00b003d1c35477b6mr52724141wms.29.1673345332658; 
- Tue, 10 Jan 2023 02:08:52 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXs/py9Kv0oVi6P3Ptag/7hVBbgW3PiV69fUX3cuCwR1paAwVPlvDxIkVZm9fEGVET3j5dsi4w==
-X-Received: by 2002:a05:600c:3acd:b0:3d1:c354:77b6 with SMTP id
- d13-20020a05600c3acd00b003d1c35477b6mr52724121wms.29.1673345332487; 
- Tue, 10 Jan 2023 02:08:52 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- h8-20020a05600c350800b003d990372dd5sm20873329wmq.20.2023.01.10.02.08.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Jan 2023 02:08:52 -0800 (PST)
-Message-ID: <87ab7f23-d60d-108f-664f-82e5d6bdad50@redhat.com>
-Date: Tue, 10 Jan 2023 11:08:51 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AA2110E584
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 10:09:27 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C07F561588;
+ Tue, 10 Jan 2023 10:09:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB743C433D2;
+ Tue, 10 Jan 2023 10:09:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1673345366;
+ bh=wbyd3dtAWj+DS0fcJULsfdTl+t+d2B5Uw2ZuQAp6tpM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XKJ7hEZZUPaCSNrB26CzNsDjquQbBentUhlmtWHZJjjl5ajSRsc2cY1J6TlsbuK52
+ UoeGdRXnxLZ8mTjHgbPSqEmh732Odonfjc467CustS3+5wXOJ8G7sxPOOj5OmOUNRy
+ w0kKUTLk2m70RapGM9Y4KlCXmcVOjK/OPWsBagysaySfqoZm82qlsKdYmxswDYrer+
+ TbB8sWFTiUPd3iYuGD/0RfH2xQw1GdiwwQtq6XoVkDXuGvwSpzZu+xjIKPR/5OQlxm
+ 16rTc6Mfdvm4x7QdvW8p5nVL1YDBiVFkf6NsLekUIa2pYUR8HMFXdeiKexpKNRNiyO
+ ttG8j2EPjTphQ==
+Date: Tue, 10 Jan 2023 10:09:18 +0000
+From: Lee Jones <lee@kernel.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 15/15] backlight: backlight: Drop the deprecated fb_blank
+ property
+Message-ID: <Y705TvBPWkHzeMrp@google.com>
+References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-15-1bd9bafb351f@ravnborg.org>
+ <Y7v1OxdowGdxgvUj@aspen.lan> <Y7xAgHgg0sfh32Ga@ravnborg.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 038/606] drm/i2c/ch7006: Convert to i2c's .probe_new()
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>,
- Angel Iglesias <ang.iglesiasg@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- Grant Likely <grant.likely@linaro.org>, Wolfram Sang <wsa@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Ajay Gupta <ajayg@nvidia.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
- <20221118224540.619276-39-uwe@kleine-koenig.org>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221118224540.619276-39-uwe@kleine-koenig.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y7xAgHgg0sfh32Ga@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,25 +55,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-i2c@vger.kernel.org, kernel@pengutronix.de, linux-kernel@vger.kernel.org
+Cc: Daniel Thompson <daniel.thompson@linaro.org>, Stephen Kitt <steve@sk2.org>,
+ Antonino Daplas <adaplas@gmail.com>, Robin van der Gracht <robin@protonic.nl>,
+ Helge Deller <deller@gmx.de>, linux-staging@lists.linux.dev,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+ Paul Mackerras <paulus@samba.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-fbdev@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Miguel Ojeda <ojeda@kernel.org>, linux-omap@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, Claudiu Beznea <claudiu.beznea@microchip.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/18/22 23:36, Uwe Kleine-König wrote:
-> The probe function doesn't make use of the i2c_device_id * parameter so it
-> can be trivially converted.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
+On Mon, 09 Jan 2023, Sam Ravnborg wrote:
 
-I've pushed this to drm-misc (dri-misc-next) now. Thanks!
+> Hi Daniel.
+> 
+> On Mon, Jan 09, 2023 at 11:06:35AM +0000, Daniel Thompson wrote:
+> > On Sat, Jan 07, 2023 at 07:26:29PM +0100, Sam Ravnborg via B4 Submission Endpoint wrote:
+> > > From: Sam Ravnborg <sam@ravnborg.org>
+> > >
+> > > With all users gone remove the deprecated fb_blank member in
+> > > backlight_properties.
+> > >
+> > > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > > Cc: Lee Jones <lee@kernel.org>
+> > > Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> > > Cc: Jingoo Han <jingoohan1@gmail.com>
+> > 
+> > 
+> > Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> 
+> Thanks for the follow-up on all the backlight related patches.
+> 
+> > 
+> > 
+> > PS Please don't treat this like a maintainer Acked-by: and merge it
+> >    (Lee's not on holiday so work with Lee to figure out the merge
+> >    strategy ;-) ).
+> Nope, I am aware that the usual pattern here and wait for Lee to show
+> up.
+
+It's on the list.  Only 50 more reviews in the backlog now!
+
+> For this patch there is a bug as I need to update a comment.
+> I will fix this when I resend after all the patches in flight has
+> landed. So likely after the next merge window,
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Lee Jones [李琼斯]
