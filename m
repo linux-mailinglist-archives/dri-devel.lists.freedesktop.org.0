@@ -2,34 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14952664D25
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 21:20:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C90B664D34
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 21:23:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E20010E0F3;
-	Tue, 10 Jan 2023 20:20:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4E9E10E499;
+	Tue, 10 Jan 2023 20:23:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 911BB10E0F3
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 20:20:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87D1E10E499
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 20:23:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1673382014; bh=3IN9oMdJEqlNBIK1U/bjP9YXRSbJh4/m3TFLBgmJQjI=;
+ t=1673382219; bh=KZfzfJaCNSjj2cTY/A9poRlxwbx4f/9t6x9qIyEDr8E=;
  h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
  Content-Type;
- b=PkLGkBDZMDIMzc1ZUqgcyv2wtAU5J4WrlCj5Gt/uw9+WrxuWBhUiPXinVBOirqn4S
- 5vXM3auhPPhwgflkNf0oWVy97405s1+2SSOUEZhb6w93CiFlhCRX2mmnUomEyuzb4V
- 9ZtpT23PtPkFuM6QKRTLi1dPHuE+XeROjZ7lSecI=
-Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
+ b=CZoF55ErL81RjxfbxOv/AGJIcDveO43CgMfLfYnt8wwGG2dpb8hrAqnhdZldpeusl
+ Z/21vZg3MBNIugKKDxs2twaRgtbDn2ldWvu/AySGUWgYak3YzYdw1chsIb3BkDE57x
+ PmcM+ivZJdxPDDz38imrY69pYS8R3CLSgubKPJRI=
+Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
  via ip-206.mailobj.net [213.182.55.206]
- Tue, 10 Jan 2023 21:20:14 +0100 (CET)
-X-EA-Auth: KbkOyS25WULzAeG0UfhXEQVuLt1NKF3jwhnHNmxVSoeI5v0VIWxMywgam6RktIG0CCef3vfPkXKBPQpRHPbc2td67xmxw839
-Date: Wed, 11 Jan 2023 01:50:06 +0530
+ Tue, 10 Jan 2023 21:23:39 +0100 (CET)
+X-EA-Auth: jYWb5T3M9TX6HZLgkCJh+aXe7wz+hgdymKalfl4XRaUsGWATnEes0XA+xMOkmZgIygg47pBLvZRa8Gb/Wq/ModSHcKL8W0Bd
+Date: Wed, 11 Jan 2023 01:53:34 +0530
 From: Deepak R Varma <drv@mailo.com>
-To: Alain Volmat <alain.volmat@foss.st.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/sti: Avoid full proxy f_ops for sti debug attributes
-Message-ID: <Y73IdsbXhB5aUrkP@ubun2204.myguest.virtualbox.org>
+To: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megous@megous.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/panel: st7703: Avoid full proxy f_ops for st7703 debug
+ attributes
+Message-ID: <Y73JRnLQ3RHSwLiO@ubun2204.myguest.virtualbox.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -68,37 +72,34 @@ make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/ap
 
 Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
-Note: Change cross compile tested using stm32_defconfig for arm
+Note: Patch compile tested only.
 
- drivers/gpu/drm/sti/sti_drv.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
-index ef6a4e63198f..c9be82043638 100644
---- a/drivers/gpu/drm/sti/sti_drv.c
-+++ b/drivers/gpu/drm/sti/sti_drv.c
-@@ -67,8 +67,8 @@ static int sti_drm_fps_set(void *data, u64 val)
+diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+index 86a472b01360..22ed7e2b0e00 100644
+--- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
++++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+@@ -510,15 +510,14 @@ static int allpixelson_set(void *data, u64 val)
  	return 0;
  }
  
--DEFINE_SIMPLE_ATTRIBUTE(sti_drm_fps_fops,
--			sti_drm_fps_get, sti_drm_fps_set, "%llu\n");
-+DEFINE_DEBUGFS_ATTRIBUTE(sti_drm_fps_fops,
-+			 sti_drm_fps_get, sti_drm_fps_set, "%llu\n");
+-DEFINE_SIMPLE_ATTRIBUTE(allpixelson_fops, NULL,
+-			allpixelson_set, "%llu\n");
++DEFINE_DEBUGFS_ATTRIBUTE(allpixelson_fops, NULL, allpixelson_set, "%llu\n");
  
- static int sti_drm_fps_dbg_show(struct seq_file *s, void *data)
+ static void st7703_debugfs_init(struct st7703 *ctx)
  {
-@@ -97,8 +97,8 @@ static void sti_drm_dbg_init(struct drm_minor *minor)
- 				 ARRAY_SIZE(sti_drm_dbg_list),
- 				 minor->debugfs_root, minor);
+ 	ctx->debugfs = debugfs_create_dir(DRV_NAME, NULL);
  
--	debugfs_create_file("fps_show", S_IRUGO | S_IWUSR, minor->debugfs_root,
--			    minor->dev, &sti_drm_fps_fops);
-+	debugfs_create_file_unsafe("fps_show", S_IRUGO | S_IWUSR, minor->debugfs_root,
-+				   minor->dev, &sti_drm_fps_fops);
- 
- 	DRM_INFO("%s: debugfs installed\n", DRIVER_NAME);
+-	debugfs_create_file("allpixelson", 0600, ctx->debugfs, ctx,
+-			    &allpixelson_fops);
++	debugfs_create_file_unsafe("allpixelson", 0600, ctx->debugfs, ctx,
++				   &allpixelson_fops);
  }
+ 
+ static void st7703_debugfs_remove(struct st7703 *ctx)
 -- 
 2.34.1
 
