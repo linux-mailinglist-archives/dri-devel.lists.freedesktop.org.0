@@ -1,63 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5AD6636A0
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 02:19:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FC86636A5
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 02:19:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 285DA10E0E7;
-	Tue, 10 Jan 2023 01:19:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C897E10E0EE;
+	Tue, 10 Jan 2023 01:19:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1EF010E0EC
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 01:19:15 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id
- o7-20020a17090a0a0700b00226c9b82c3aso11697207pjo.3
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 17:19:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XYUtIGSdiXv+1u4fwXxMmXFQoGZCC8A3hPLYtYLpNZQ=;
- b=Bmk2SAk4VLW306BHVtiboysQjz5H/DFJf0Tjh0hvrntMIxLtck9ATcuiUFhmj7LHNL
- B2lYETyD1f5zrcSLwCFTSAlf7/2XYNt9xuJqUxURQT7gjmsPAV0cEbg1BsWx9KUl86lc
- IzdBVOADWqnelw8o3fWnEGPECU4Vf3WBPVXls=
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5906E10E0EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 01:19:55 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id f20so10863573lja.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 17:19:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=MJzV8Z4vt70hFG8OHxTEJgHMqWgCnenLnVvCegK+zJ8=;
+ b=a3r6Fe3b0NZcQm9F6dnZseYdZD+pzixsapGPlYgORtCy7HgXh+4oEzlPqs8obf1nna
+ fAXC16IQiQxLc4/1zRzYSsHLrAi1Pq/pYjj7plsBKraGHgVE5bWYvkeIRiQ9Mo2sxtTD
+ MJCoWRyoq5xheQs2NzWr/pZ9DC/6D6B3POiLX2W4qjfLymcjpEsyqBb3cuinU4cUSS7N
+ ekYc3e874VrhI1U23AVLVhgkny6+CiFnS2IvUiXpTVox6Rr+M0Q0mXGcINs/tZHV9uj0
+ rzqYTU4RgGELsgThkzzcviFnFP7e8j53f/1Qm9CAhw1HqE4NEZVAUBkBpi4MtZYaRCc8
+ pO5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XYUtIGSdiXv+1u4fwXxMmXFQoGZCC8A3hPLYtYLpNZQ=;
- b=O2mRldKVKEztjEQKITlXD/k504mNOiYTkrktgSzG6xIjQ3rR/dKrmfpAH3kc/KMXei
- x/YsnxIxeqFw6nP0vx7W4GNNEjPoP8NLGWb5NVZ33Wag+C4qoJYPVJvJQJYpohuRrzTV
- rVZ5I1YoRSldKS0mjwVgCEFu3TYv9uhHEu2mePhtWq46oONlI105BrX2CRP/OP1PC6p9
- 8yBnOJTVf5MYV/k+Bb4QB02Fcv8hsIQdN8lcIn69Yzwt5VJzHy2uVegAZWKgBqZf8WDd
- KZWnHWParyub3IvHMEeLal+c35eAaFgl8uSsdIvTTSnJ5JgYSjr3nHLP69bBGeG9hMe6
- SFGQ==
-X-Gm-Message-State: AFqh2kpGp0pNNWK9qdf3+BH+AQJuAWR4xO/YowIOLCCaltxiL3PUegxc
- +Rr7vVsirIk+ysslapOKtxhCBA==
-X-Google-Smtp-Source: AMrXdXtC5EUTKJLeK/jZ2SnSPdj4TAQrYDbyicW7TAjCMQdn4sHpMINHMClNMz/+JBeoOEMkxs7HIw==
-X-Received: by 2002:a05:6a21:999d:b0:9e:9685:f15e with SMTP id
- ve29-20020a056a21999d00b0009e9685f15emr100766242pzb.0.1673313555362; 
- Mon, 09 Jan 2023 17:19:15 -0800 (PST)
-Received: from localhost ([2620:15c:9d:2:99d8:feca:9efd:a216])
- by smtp.gmail.com with UTF8SMTPSA id
- j1-20020a170902c3c100b0018853416bbcsm6827097plj.7.2023.01.09.17.19.13
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MJzV8Z4vt70hFG8OHxTEJgHMqWgCnenLnVvCegK+zJ8=;
+ b=y/9lRTiBvQOP5WQPZfD2TAUbEPfqbVJ7luJehvZYceGjR6adT3s4F0PiHL457dr34b
+ wnm6Fw7N4zpAxSaTaqstHGLsGQsuemZY7pnhz78ARLu/8UaJpzej2PzjvyDB569eb4MA
+ vy/cl2BunUPRAEtyZKMyGwV/PJFt86K0keSLHqtSMilCZWmkgiRBJgZGs52X+hkIoEuA
+ yOdMkcZHUoi+FLe3BvSZ3YJNOEer1rqx+Kh6AZ3ZAw8A7g7R91quwWEk5RMt0zWOGtIe
+ 4bgmnn0FZKx03MihRkBnc3IIr2gzSH96kzG2PCDWcY7MbgoyzQdhz9ntCqWT9+sEeO4d
+ IFnw==
+X-Gm-Message-State: AFqh2kr8kuXuQNxp8Ga6fFPav41RGMPXM5UVO39jrsptKHjn+d8l0TeW
+ l5eaPuHgk4Dqx/+SZOX+ZH8AIQ==
+X-Google-Smtp-Source: AMrXdXs8RraZSWOgAjQ39Rqa073own2JsomXotoh3YcZWXpCODj+aX2JEdLtpytdgMmgYo9K0AVidg==
+X-Received: by 2002:a2e:b601:0:b0:284:53cd:74d7 with SMTP id
+ r1-20020a2eb601000000b0028453cd74d7mr1832314ljn.0.1673313593568; 
+ Mon, 09 Jan 2023 17:19:53 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ i20-20020a2ea374000000b002866e491914sm253264ljn.95.2023.01.09.17.19.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 17:19:14 -0800 (PST)
-From: Brian Norris <briannorris@chromium.org>
-To: =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- Daniel Vetter <daniel@ffwll.ch>, Sean Paul <seanpaul@chromium.org>
-Subject: [PATCH v3 2/2] drm/rockchip: vop: Leave vblank enabled in self-refresh
-Date: Mon,  9 Jan 2023 17:18:17 -0800
-Message-Id: <20230109171809.v3.2.Ic07cba4ab9a7bd3618a9e4258b8f92ea7d10ae5a@changeid>
-X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
-In-Reply-To: <20230109171809.v3.1.I3904f697863649eb1be540ecca147a66e42bfad7@changeid>
-References: <20230109171809.v3.1.I3904f697863649eb1be540ecca147a66e42bfad7@changeid>
+ Mon, 09 Jan 2023 17:19:53 -0800 (PST)
+Message-ID: <b638db8c-20c8-827d-fd08-5e3bdb8dd924@linaro.org>
+Date: Tue, 10 Jan 2023 03:19:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 2/2] drm/msm/dsi: implement opp table based check for
+ dsi_mgr_bridge_mode_valid()
+Content-Language: en-GB
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
+References: <1663807768-23969-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1663807768-23969-2-git-send-email-quic_abhinavk@quicinc.com>
+ <29e5110a-1759-8d8c-6646-f7b487990c0b@linaro.org>
+In-Reply-To: <29e5110a-1759-8d8c-6646-f7b487990c0b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,98 +78,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kernelci.org bot" <bot@kernelci.org>,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Brian Norris <briannorris@chromium.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sandy Huang <hjc@rock-chips.com>,
- linux-rockchip@lists.infradead.org, stable@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ quic_jesszhan@quicinc.com, quic_khsieh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If we disable vblank when entering self-refresh, vblank APIs (like
-DRM_IOCTL_WAIT_VBLANK) no longer work. But user space is not aware when
-we enter self-refresh, so this appears to be an API violation -- that
-DRM_IOCTL_WAIT_VBLANK fails with EINVAL whenever the display is idle and
-enters self-refresh.
+On 27/10/2022 20:36, Dmitry Baryshkov wrote:
+> On 22/09/2022 03:49, Abhinav Kumar wrote:
+>> Currently there is no protection against a user trying to set
+>> an unsupported mode on DSI. Implement a check based on the opp
+>> table whether the byte clock for the mode can be supported by
+>> validating whether an opp table entry exists.
+>>
+>> For devices which have not added opp table support yet, skip
+>> this check otherwise it will break bootup on those devices.
+>>
+>> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/15
+>> Reported-by: Rob Clark <robdclark@gmail.com>
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dsi/dsi_manager.c | 23 +++++++++++++++++++++++
+>>   1 file changed, 23 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c 
+>> b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+>> index 3a1417397283..87b518c42965 100644
+>> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+>> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+>> @@ -450,6 +450,29 @@ static enum drm_mode_status 
+>> dsi_mgr_bridge_mode_valid(struct drm_bridge *bridge,
+>>       int id = dsi_mgr_bridge_get_id(bridge);
+>>       struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
+>>       struct mipi_dsi_host *host = msm_dsi->host;
+>> +    struct platform_device *pdev = msm_dsi->pdev;
+>> +    struct dev_pm_opp *opp;
+>> +    struct opp_table *opp_tbl;
+>> +    unsigned long byte_clk_rate;
+>> +
+>> +    byte_clk_rate = dsi_byte_clk_get_rate(host, IS_BONDED_DSI(), mode);
+>> +
+>> +    /*
+>> +     * first check if there is an opp table available for the calculated
+>> +     * byte clock and then check DSC related info. Some devices have not
+>> +     * added support for OPP table. Skip the check for those.
+>> +     */
+>> +    opp_tbl = dev_pm_opp_get_opp_table(&pdev->dev);
+> 
+> Can we store the table inside the msm_dsi during the init? Then we won't 
+> have to get it again and again during each mode_valid call.
 
-The downstream driver used by many of these systems never used to
-disable vblank for PSR, and in fact, even upstream, we didn't do that
-until radically redesigning the state machine in commit 6c836d965bad
-("drm/rockchip: Use the helpers for PSR").
+I checked other drivers. I think we can skip the get_opp_table 
+completely, can we not? Just handle ENODEV returned from 
+dev_pm_opp_find_freq_ceil().
 
-Thus, it seems like a reasonable API fix to simply restore that
-behavior, and leave vblank enabled.
+> 
+>> +    if (opp_tbl) {
+>> +        opp = dev_pm_opp_find_freq_ceil(&pdev->dev, &byte_clk_rate);
+>> +        if (IS_ERR(opp)) {
+>> +            pr_err("opp table not found for freq %lu err: %ld\n",
+>> +                    byte_clk_rate, PTR_ERR(opp));
+>> +            return PTR_ERR(opp);
+>> +        }
+>> +        dev_pm_opp_put(opp);
+>> +        dev_pm_opp_put_opp_table(opp_tbl);
+>> +    }
+>>       return msm_dsi_host_check_dsc(host, mode);
+>>   }
+> 
 
-Note that this appears to potentially unbalance the
-drm_crtc_vblank_{off,on}() calls in some cases, but:
-(a) drm_crtc_vblank_on() documents this as OK and
-(b) if I do the naive balancing, I find state machine issues such that
-    we're not in sync properly; so it's easier to take advantage of (a).
-
-This issue was exposed by IGT's kms_vblank tests, and reported by
-KernelCI. The bug has been around a while (longer than KernelCI
-noticed), but was only exposed once self-refresh was bugfixed more
-recently, and so KernelCI could properly test it. Some other notes in:
-
-  https://lore.kernel.org/dri-devel/Y6OCg9BPnJvimQLT@google.com/
-  Re: renesas/master bisection: igt-kms-rockchip.kms_vblank.pipe-A-wait-forked on rk3399-gru-kevin
-
-== Backporting notes: ==
-
-Marking as 'Fixes' commit 6c836d965bad ("drm/rockchip: Use the helpers
-for PSR"), but it probably depends on commit bed030a49f3e
-("drm/rockchip: Don't fully disable vop on self refresh") as well.
-
-We also need the previous patch ("drm/atomic: Allow vblank-enabled +
-self-refresh "disable""), of course.
-
-v3:
- * no update
-
-v2:
- * skip unnecessary lock/unlock
-
-Fixes: 6c836d965bad ("drm/rockchip: Use the helpers for PSR")
-Cc: <stable@vger.kernel.org>
-Link: https://lore.kernel.org/dri-devel/Y5itf0+yNIQa6fU4@sirena.org.uk/
-Reported-by: "kernelci.org bot" <bot@kernelci.org>
-Signed-off-by: Brian Norris <briannorris@chromium.org>
----
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-index fa1f4ee6d195..9fea03121247 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-@@ -717,13 +717,13 @@ static void vop_crtc_atomic_disable(struct drm_crtc *crtc,
- 	if (crtc->state->self_refresh_active)
- 		rockchip_drm_set_win_enabled(crtc, false);
- 
-+	if (crtc->state->self_refresh_active)
-+		goto out;
-+
- 	mutex_lock(&vop->vop_lock);
- 
- 	drm_crtc_vblank_off(crtc);
- 
--	if (crtc->state->self_refresh_active)
--		goto out;
--
- 	/*
- 	 * Vop standby will take effect at end of current frame,
- 	 * if dsp hold valid irq happen, it means standby complete.
-@@ -757,9 +757,9 @@ static void vop_crtc_atomic_disable(struct drm_crtc *crtc,
- 	vop_core_clks_disable(vop);
- 	pm_runtime_put(vop->dev);
- 
--out:
- 	mutex_unlock(&vop->vop_lock);
- 
-+out:
- 	if (crtc->state->event && !crtc->state->active) {
- 		spin_lock_irq(&crtc->dev->event_lock);
- 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
 -- 
-2.39.0.314.g84b9a713c41-goog
+With best wishes
+Dmitry
 
