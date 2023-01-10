@@ -1,65 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5601664687
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 17:51:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36095664722
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 18:17:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC12D10E11F;
-	Tue, 10 Jan 2023 16:50:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9BD510E62C;
+	Tue, 10 Jan 2023 17:17:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EBB210E11F;
- Tue, 10 Jan 2023 16:50:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673369458; x=1704905458;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=qi8Pe7jNLFOeLNURzX/Li6I7sKRLIxRncn3BhQoE1Dg=;
- b=kvKlzAL5ggm5H/HCK3/r4vXrCzXTjsJEvf+6OEVuIpE4CfLAFLz/bCMl
- 0kckxjBKLzCzQAC4xZYNJsdEifnmNbnt8gRmQjOry7X7ktn1Kp1qIJ2IB
- NCdmrn5QTdLsTKGH15mBdjoU4HJE4+GhvL5F6DlmcenSk9aM6wi7brDWv
- sNdn1vwQF/LTcvDTBTnng+blL26qDOctXP9CN/iyePxPGhnZ/RCyjVz7S
- pMpqkbX3Nh+0h9RBL9hDmdann0EvcX5uHof+pnEk6Shg+romKy2bk5KyH
- pRHXHb+3rSS1LTEZ4wI8yPgyKFnPu3KzfGpx14jDsTk+Lj+q9TEedWXJ7 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="306707800"
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="306707800"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2023 08:50:57 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="657114982"
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="657114982"
-Received: from gregoire-mobl3.amr.corp.intel.com (HELO [10.212.88.71])
- ([10.212.88.71])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2023 08:50:56 -0800
-Message-ID: <b3225349-85fa-b30a-319c-604334e2f7e2@linux.intel.com>
-Date: Tue, 10 Jan 2023 16:50:55 +0000
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C11FB10E62D;
+ Tue, 10 Jan 2023 17:16:59 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 0CE80B818E0;
+ Tue, 10 Jan 2023 17:16:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 996A5C433D2;
+ Tue, 10 Jan 2023 17:16:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1673371016;
+ bh=iwpyzqVQok4g2qkFvOCpfycpEy0u8yaiB88caR2d+yw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZFlSHcAy0NVD0oYNOUp4HIjmISXck5EjgZpyTmX54tPypcLovVkFVVpnudqYpDO9K
+ UplsOHprYvZuBJWXROow17T1QSPJ9QZQ54qHZ7K+4lIImwm21BkKOyDX/y6aNRNvIE
+ YOpOjPeo1MC8X78tpaaZcAaMnqfo/1PzI3LMkc9s/RTBpOn7HtDmwPMLtFlftePR1Z
+ dAvWgG/yUp0DYlqlctwKty89d/SAmKWqT6wyI1dHKOOf4q5AptgEh75dVt0mY/JWx+
+ HcyXcmbv91fqoUnJSNq1nvDjzZ57STNdv1N6O+WPWU7RKaEQSN9AqknmRWvvddHlxI
+ yLxzhbWz+WeNg==
+Date: Tue, 10 Jan 2023 11:16:52 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>, Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v5 0/5] Improve GPU reset sequence for Adreno GPU
+Message-ID: <20230110171652.ur5zgdwvjj3kaimj@builder.lan>
+References: <1672656511-1931-1-git-send-email-quic_akhilpo@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [Intel-gfx] [RFC PATCH 04/20] drm/sched: Convert drm scheduler to
- use a work queue rather than kthread
-Content-Language: en-US
-To: Matthew Brost <matthew.brost@intel.com>
-References: <20221230112042.2ddd1946@collabora.com>
- <20221230125508.57af8a14@collabora.com>
- <20230102083019.24b99647@collabora.com>
- <7d6df13c-6c2e-d713-edc8-128d6e19f187@linux.intel.com>
- <Y7dEjcuc1arHBTGu@DUT025-TGLU.fm.intel.com>
- <Y7i0J3uQ+izOJcEb@DUT025-TGLU.fm.intel.com>
- <e8c301cb-c7d4-ed54-f3ab-61a5fcc7f940@linux.intel.com>
- <CAOFGe96yeF4SWxvHC5pxyggf=655q7+ZrFS+Zab42F-RE7UK1w@mail.gmail.com>
- <e6512993-5247-a577-abf4-97cdb21358a0@linux.intel.com>
- <3b1af19f-3500-3be8-9d28-ac7da5b7d728@linux.intel.com>
- <Y72KdvHchbAzbYW2@DUT025-TGLU.fm.intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <Y72KdvHchbAzbYW2@DUT025-TGLU.fm.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1672656511-1931-1-git-send-email-quic_akhilpo@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,160 +52,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Jason Ekstrand <jason@jlekstrand.net>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+ linux-clk@vger.kernel.org, Kevin Hilman <khilman@kernel.org>,
+ Andy Gross <agross@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Guenter Roeck <linux@roeck-us.net>, Len Brown <len.brown@intel.com>,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 10/01/2023 15:55, Matthew Brost wrote:
-> On Tue, Jan 10, 2023 at 12:19:35PM +0000, Tvrtko Ursulin wrote:
->>
->> On 10/01/2023 11:28, Tvrtko Ursulin wrote:
->>>
->>>
->>> On 09/01/2023 17:27, Jason Ekstrand wrote:
->>>
->>> [snip]
->>>
->>>>       >>> AFAICT it proposes to have 1:1 between *userspace* created
->>>>      contexts (per
->>>>       >>> context _and_ engine) and drm_sched. I am not sure avoiding
->>>>      invasive changes
->>>>       >>> to the shared code is in the spirit of the overall idea and
->>>> instead
->>>>       >>> opportunity should be used to look at way to refactor/improve
->>>>      drm_sched.
->>>>
->>>>
->>>> Maybe?  I'm not convinced that what Xe is doing is an abuse at all
->>>> or really needs to drive a re-factor.  (More on that later.)
->>>> There's only one real issue which is that it fires off potentially a
->>>> lot of kthreads. Even that's not that bad given that kthreads are
->>>> pretty light and you're not likely to have more kthreads than
->>>> userspace threads which are much heavier.  Not ideal, but not the
->>>> end of the world either.  Definitely something we can/should
->>>> optimize but if we went through with Xe without this patch, it would
->>>> probably be mostly ok.
->>>>
->>>>       >> Yes, it is 1:1 *userspace* engines and drm_sched.
->>>>       >>
->>>>       >> I'm not really prepared to make large changes to DRM scheduler
->>>>      at the
->>>>       >> moment for Xe as they are not really required nor does Boris
->>>>      seem they
->>>>       >> will be required for his work either. I am interested to see
->>>>      what Boris
->>>>       >> comes up with.
->>>>       >>
->>>>       >>> Even on the low level, the idea to replace drm_sched threads
->>>>      with workers
->>>>       >>> has a few problems.
->>>>       >>>
->>>>       >>> To start with, the pattern of:
->>>>       >>>
->>>>       >>>    while (not_stopped) {
->>>>       >>>     keep picking jobs
->>>>       >>>    }
->>>>       >>>
->>>>       >>> Feels fundamentally in disagreement with workers (while
->>>>      obviously fits
->>>>       >>> perfectly with the current kthread design).
->>>>       >>
->>>>       >> The while loop breaks and worker exists if no jobs are ready.
->>>>
->>>>
->>>> I'm not very familiar with workqueues. What are you saying would fit
->>>> better? One scheduling job per work item rather than one big work
->>>> item which handles all available jobs?
->>>
->>> Yes and no, it indeed IMO does not fit to have a work item which is
->>> potentially unbound in runtime. But it is a bit moot conceptual mismatch
->>> because it is a worst case / theoretical, and I think due more
->>> fundamental concerns.
->>>
->>> If we have to go back to the low level side of things, I've picked this
->>> random spot to consolidate what I have already mentioned and perhaps
->>> expand.
->>>
->>> To start with, let me pull out some thoughts from workqueue.rst:
->>>
->>> """
->>> Generally, work items are not expected to hog a CPU and consume many
->>> cycles. That means maintaining just enough concurrency to prevent work
->>> processing from stalling should be optimal.
->>> """
->>>
->>> For unbound queues:
->>> """
->>> The responsibility of regulating concurrency level is on the users.
->>> """
->>>
->>> Given the unbound queues will be spawned on demand to service all queued
->>> work items (more interesting when mixing up with the system_unbound_wq),
->>> in the proposed design the number of instantiated worker threads does
->>> not correspond to the number of user threads (as you have elsewhere
->>> stated), but pessimistically to the number of active user contexts. That
->>> is the number which drives the maximum number of not-runnable jobs that
->>> can become runnable at once, and hence spawn that many work items, and
->>> in turn unbound worker threads.
->>>
->>> Several problems there.
->>>
->>> It is fundamentally pointless to have potentially that many more threads
->>> than the number of CPU cores - it simply creates a scheduling storm.
->>
->> To make matters worse, if I follow the code correctly, all these per user
->> context worker thread / work items end up contending on the same lock or
->> circular buffer, both are one instance per GPU:
->>
->> guc_engine_run_job
->>   -> submit_engine
->>      a) wq_item_append
->>          -> wq_wait_for_space
->>            -> msleep
+On Mon, Jan 02, 2023 at 04:18:26PM +0530, Akhil P Oommen wrote:
 > 
-> a) is dedicated per xe_engine
-
-Hah true, what its for then? I thought throttling the LRCA ring is done via:
-
-   drm_sched_init(&ge->sched, &drm_sched_ops,
-		 e->lrc[0].ring.size / MAX_JOB_SIZE_BYTES,
-
-Is there something more to throttle other than the ring? It is 
-throttling something using msleeps..
-
-> Also you missed the step of programming the ring which is dedicated per xe_engine
-
-I was trying to quickly find places which serialize on something in the 
-backend, ringbuffer emission did not seem to do that but maybe I missed 
-something.
-
+> This is a rework of [1] using genpd instead of 'reset' framework.
 > 
->>      b) xe_guc_ct_send
->>          -> guc_ct_send
->>            -> mutex_lock(&ct->lock);
->>            -> later a potential msleep in h2g_has_room
+> As per the recommended reset sequence of Adreno gpu, we should ensure that
+> gpucc-cx-gdsc has collapsed at hardware to reset gpu's internal hardware states.
+> Because this gdsc is implemented as 'votable', gdsc driver doesn't poll and
+> wait until its hw status says OFF.
 > 
-> Techincally there is 1 instance per GT not GPU, yes this is shared but
-> in practice there will always be space in the CT channel so contention
-> on the lock should be rare.
+> So use the newly introduced genpd api (dev_pm_genpd_synced_poweroff()) to
+> provide a hint to the gdsc driver to poll for the hw status and use genpd
+> notifier to wait from adreno gpu driver until gdsc is turned OFF.
+> 
+> This series is rebased on top of linux-next (20221215) since the changes span
+> multiple drivers.
+> 
+> [1] https://patchwork.freedesktop.org/series/107507/
+> 
 
-Yeah I used the term GPU to be more understandable to outside audience.
+@Rob, please find the PM and gdsc implementation changes picked up here:
 
-I am somewhat disappointed that the Xe opportunity hasn't been used to 
-improve upon the CT communication bottlenecks. I mean those backoff 
-sleeps and lock contention. I wish there would be a single thread in 
-charge of the CT channel and internal users (other parts of the driver) 
-would be able to send their requests to it in a more efficient manner, 
-with less lock contention and centralized backoff.
-
-> I haven't read your rather long reply yet, but also FWIW using a
-> workqueue has suggested by AMD (original authors of the DRM scheduler)
-> when we ran this design by them.
-
-Commit message says nothing about that. ;)
+  https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux.git tags/1672656511-1931-1-git-send-email-quic_akhilpo@quicinc.com
 
 Regards,
+Bjorn
 
-Tvrtko
+> Changes in v5:
+> - Capture all Reviewed-by tags
+> 
+> Changes in v4:
+> - Update genpd function documentation (Ulf)
+> 
+> Changes in v3:
+> - Rename the var 'force_sync' to 'wait (Stephen)
+> 
+> Changes in v2:
+> - Minor formatting fix
+> - Select PM_GENERIC_DOMAINS from Kconfig
+> 
+> Akhil P Oommen (4):
+>   clk: qcom: gdsc: Support 'synced_poweroff' genpd flag
+>   drm/msm/a6xx: Vote for cx gdsc from gpu driver
+>   drm/msm/a6xx: Remove cx gdsc polling using 'reset'
+>   drm/msm/a6xx: Use genpd notifier to ensure cx-gdsc collapse
+> 
+> Ulf Hansson (1):
+>   PM: domains: Allow a genpd consumer to require a synced power off
+> 
+>  drivers/base/power/domain.c           | 26 ++++++++++++++++++++
+>  drivers/clk/qcom/gdsc.c               | 11 +++++----
+>  drivers/gpu/drm/msm/Kconfig           |  1 +
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 46 ++++++++++++++++++++++++++++++++---
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  7 ++++++
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 13 +++++++---
+>  drivers/gpu/drm/msm/msm_gpu.c         |  4 ---
+>  drivers/gpu/drm/msm/msm_gpu.h         |  4 ---
+>  include/linux/pm_domain.h             |  5 ++++
+>  9 files changed, 97 insertions(+), 20 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
