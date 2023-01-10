@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D187664724
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 18:17:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ABEE664726
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 18:17:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ADE810E62E;
-	Tue, 10 Jan 2023 17:17:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FB1B10E62F;
+	Tue, 10 Jan 2023 17:17:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A1E910E62E
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 17:17:26 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1pFIFU-0004lj-Os; Tue, 10 Jan 2023 18:17:20 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pFIFT-0057pq-Gg; Tue, 10 Jan 2023 18:17:19 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pFIFS-00BlHu-O4; Tue, 10 Jan 2023 18:17:18 +0100
-Date: Tue, 10 Jan 2023 18:17:18 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH 1/2] backlight: pwm_bl: configure pwm only once per
- backlight toggle
-Message-ID: <20230110171718.w7ay7gd3nivprzrb@pengutronix.de>
-References: <20230109204758.610400-1-u.kleine-koenig@pengutronix.de>
- <Y72PjEh8QuLdw1hw@aspen.lan>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10B4410E62D;
+ Tue, 10 Jan 2023 17:17:31 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6990261820;
+ Tue, 10 Jan 2023 17:17:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F0E7C433A0;
+ Tue, 10 Jan 2023 17:17:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1673371050;
+ bh=fI0Jd97+0nJRqxn7ywqClnDN9QYikPAUW+G+b73cGsw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=TAyaNn8R90QBXTYYVWpNj7QZfz7KxlQDXO/m7VE8osVfxQEuj5Zu9fj/dHPiCoeN+
+ FVJKyJ3FF6D/q2SjADCbThiid2Ju0T8pPC4gM46ovMk691fZfQ6vnuSooLcriMqNKR
+ 07q8AS6zdlpKa+ckfSDsTBLYJ62iznLVQxNOpe2YYgqt/shiKz5AwU6+dMP+5pbaLT
+ DC892KlUYnalfDVVhVhqzZR6IkWedINctg51nqN8WvfrCO+BxLbu3S27/WVLqiFe9o
+ fTC74jyXiLgtwC5ELoyW7+XW/d82VNX7LvmereeShq3GOdTFlXVBrqjgNepTg5dQ3+
+ MY1Cu0e3teuGw==
+From: Bjorn Andersson <andersson@kernel.org>
+To: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ p.zabel@pengutronix.de, dri-devel@lists.freedesktop.org,
+ ulf.hansson@linaro.org, sboyd@kernel.org, quic_akhilpo@quicinc.com,
+ robdclark@gmail.com
+Subject: Re: (subset) [PATCH v5 0/5] Improve GPU reset sequence for Adreno GPU
+Date: Tue, 10 Jan 2023 11:17:24 -0600
+Message-Id: <167337103777.2139708.8328240666621116621.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <1672656511-1931-1-git-send-email-quic_akhilpo@quicinc.com>
+References: <1672656511-1931-1-git-send-email-quic_akhilpo@quicinc.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="xxgulczgcvq2jgvs"
-Content-Disposition: inline
-In-Reply-To: <Y72PjEh8QuLdw1hw@aspen.lan>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,61 +55,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee@kernel.org>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- kernel@pengutronix.de
+Cc: len.brown@intel.com, dianders@chromium.org, khilman@kernel.org,
+ gregkh@linuxfoundation.org, mturquette@baylibre.com, rafael@kernel.org,
+ konrad.dybcio@somainline.org, linux-kernel@vger.kernel.org,
+ quic_abhinavk@quicinc.com, konrad.dybcio@linaro.org, agross@kernel.org,
+ geert@linux-m68k.org, pavel@ucw.cz, linux-pm@vger.kernel.org,
+ dmitry.baryshkov@linaro.org, sean@poorly.run, linux-clk@vger.kernel.org,
+ linux@roeck-us.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 2 Jan 2023 16:18:26 +0530, Akhil P Oommen wrote:
+> This is a rework of [1] using genpd instead of 'reset' framework.
+> 
+> As per the recommended reset sequence of Adreno gpu, we should ensure that
+> gpucc-cx-gdsc has collapsed at hardware to reset gpu's internal hardware states.
+> Because this gdsc is implemented as 'votable', gdsc driver doesn't poll and
+> wait until its hw status says OFF.
+> 
+> [...]
 
---xxgulczgcvq2jgvs
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied, thanks!
 
-Hello Daniel,
+[1/5] PM: domains: Allow a genpd consumer to require a synced power off
+      commit: a9236a0aa7d7f52a974cc7eaa971fae92aa477c5
+[2/5] clk: qcom: gdsc: Support 'synced_poweroff' genpd flag
+      commit: 8b6af3b58cafc2cbdf6269f655b2d3731eb93c2f
 
-On Tue, Jan 10, 2023 at 04:17:16PM +0000, Daniel Thompson wrote:
-> On Mon, Jan 09, 2023 at 09:47:57PM +0100, Uwe Kleine-K=F6nig wrote:
-> > When the function pwm_backlight_update_status() was called with
-> > brightness > 0, pwm_get_state() was called twice (once directly and once
-> > in compute_duty_cycle). Also pwm_apply_state() was called twice (once in
-> > pwm_backlight_power_on() and once directly).
-> >
-> > Optimize this to do both calls only once.
-> >
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
->=20
-> This will reverse the order in which the regulator is toggled versus the
-> PWM starting/stopping. It would be nice to that in the description.
-
-Oh, that wasn't a concious choice. I agree this should be noted. The
-current state is also a bit confused because the duty cycle is setup
-before the regulator but the PWM only gets enabled afterwards.
-
-Expect a v2 with an updated commit log.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---xxgulczgcvq2jgvs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmO9nZkACgkQwfwUeK3K
-7AkQ4wgAl7ijOwjOlTvwIq/BaEuRvNSEKmzbya0rwCm24A2WzblV0fAoAccbT3u1
-A8wGB3yxdu4VjAOJT/Wh5d8fbQYfnqYEuLrN9afMOGZaSh5IZUW3p30Sk/jHmA23
-lJFMGNgycHQnTvJJ038I0zND3lnIsouoQhubHyIYfvaL3ODCalP4HTb6l+SAozc+
-UkIiO10cnUVs7wixb2vRls8MICKASpVMAiqDupcFggZiK/5PQ3EEq3u704DnrLbk
-EvzYggXV9ePrGAkgNfpdYZLiVevrkaSAu1mdNsMEk9Pv65A+nzEglhETNGkpOlpS
-2IxCChH+r1cF7FT4mzp1Qzo/0xX7Jg==
-=ZaRD
------END PGP SIGNATURE-----
-
---xxgulczgcvq2jgvs--
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
