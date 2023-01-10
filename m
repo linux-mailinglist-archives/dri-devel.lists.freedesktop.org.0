@@ -2,47 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F606664506
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 16:38:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CBB9664548
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 16:50:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B269E10E5F0;
-	Tue, 10 Jan 2023 15:38:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9361F10E02F;
+	Tue, 10 Jan 2023 15:50:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
- by gabe.freedesktop.org (Postfix) with ESMTP id B7D3710E5EE;
- Tue, 10 Jan 2023 15:38:09 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.138.125])
- by APP-05 (Coremail) with SMTP id zQCowADH6M1chr1juvoNDA--.26915S2;
- Tue, 10 Jan 2023 23:38:04 +0800 (CST)
-From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: daniel@ffwll.ch
-Subject: Re: [PATCH] drm/i915: Add missing check and destroy for
- alloc_workqueue
-Date: Tue, 10 Jan 2023 23:38:03 +0800
-Message-Id: <20230110153803.5755-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20D3110E02F;
+ Tue, 10 Jan 2023 15:50:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673365806; x=1704901806;
+ h=message-id:date:mime-version:subject:from:to:references:
+ in-reply-to:content-transfer-encoding;
+ bh=BYIAkkwVnMj+fWHg28sr2xK2lxUDd8uaj2CqeJP+M+Y=;
+ b=FsbfU2Ps5AuTaKpmVdgA/TrGSdAAtFNXBKFTJhs5+jEXdbPP1S5+wDmH
+ cNPTWckjl7mBxEaCS+VuydPw4WUx6sggXNhnISpayr9feuAC8Xnhl0vI6
+ nTsYhK04ogrsRuV3vrLC69ti95Pm98aCv1uiInZocYZudg/DqG60amvb4
+ +4NUVvV2w/ae60w97eTV00n3XIjedVlXR3qzQmeqTe5FVwa1gLe1+Ytyz
+ JnYCEnuiJZPLbyD/RHPSnM/RNjgWl5Aehxb09flw6BlDq+zo/7Prx4Qon
+ TJ+UatPYHXKHnkDyk0mFwnw4c2+WquVE/jqrVzjwl7jyJpC47ym60reqw g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="303541972"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="303541972"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2023 07:50:05 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="650403772"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="650403772"
+Received: from ffagan-mobl1.ger.corp.intel.com (HELO [10.252.26.60])
+ ([10.252.26.60])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2023 07:50:03 -0800
+Message-ID: <0bb76c9c-b05c-bfc2-5d39-41b0f0c640bb@intel.com>
+Date: Tue, 10 Jan 2023 15:50:00 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.6.0
+Subject: Re: [PATCH] drm: Alloc high address for drm buddy topdown flag
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
+ alexander.deucher@amd.com
+References: <20230107151523.29864-1-Arunpravin.PaneerSelvam@amd.com>
+ <8f376efe-e19b-d1d5-031d-35df399bb6cf@intel.com>
+In-Reply-To: <8f376efe-e19b-d1d5-031d-35df399bb6cf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowADH6M1chr1juvoNDA--.26915S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7tw1xWF43WF1fArWfKr1xKrg_yoW8Ww1fpF
- 43XFyjkrZ5GayUGa9Fyw48tFyfA3yUGa4rGrykWryqv3W5Arn3C3sYkFy5uFyxAFZxXF1j
- yFZ0939ruF1qy3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
- n2kIc2xKxwCY02Avz4vE14v_XrWl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr
- 0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
- 17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
- C0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY
- 6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa
- 73UjIFyTuYvjfU8eOJUUUUU
-X-Originating-IP: [124.16.138.125]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,46 +64,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, stanislav.lisovskiy@intel.com,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>, intel-gfx@lists.freedesktop.org,
- lucas.demarchi@intel.com, linux-kernel@vger.kernel.org,
- manasi.d.navare@intel.com, dri-devel@lists.freedesktop.org,
- rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 07, 2023 at 02:29:22AM +0800, Daniel Vetter wrote:
->On Fri, Jan 06, 2023 at 05:09:34PM +0800, Jiasheng Jiang wrote:
->> Add checks for the return value of alloc_workqueue and
->> alloc_ordered_workqueue as they may return NULL pointer and cause NULL
->> pointer dereference.
->> Moreover, destroy them when fails later in order to avoid memory leak.
->> Because in `drivers/gpu/drm/i915/i915_driver.c`, if
->> intel_modeset_init_noirq fails, its workqueues will not be destroyed.
->> 
->> Fixes: c26a058680dc ("drm/i915: Use a high priority wq for nonblocking plane updates")
->> Fixes: 757fffcfdffb ("drm/i915: Put all non-blocking modesets onto an ordered wq")
->> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+On 10/01/2023 12:02, Matthew Auld wrote:
+> On 07/01/2023 15:15, Arunpravin Paneer Selvam wrote:
+>> As we are observing low numbers in viewperf graphics benchmark, we
+>> are strictly not allowing the top down flag enabled allocations
+>> to steal the memory space from cpu visible region.
+>>
+>> The approach is, we are sorting each order list entries in
+>> ascending order and compare the last entry of each order
+>> list in the freelist and return the max block.
 > 
-> So you have an entire pile of these, and I think that's a really good
-> excuse to
-> - create a drmm_alloc_workqueue helper for these (and
->   drmm_alloc_ordered_workqueue) using the drmm_add_action_or_reset()
->   function for automatic drm_device cleanup
-> - use that instead in all drivers, which means you do not have to make any
->   error handling mor complex
+> Did you also run the selftests? Does everything still pass and complete 
+> in a reasonable amount of time?
 > 
-> Up for that? In that case please also convert any existing alloc*workqueue
-> callsites in drm, and make this all a patch series (since then there would
-> be dependencies).
+>>
+>> This patch improves the viewperf 3D benchmark scores.
+>>
+>> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+>> ---
+>>   drivers/gpu/drm/drm_buddy.c | 81 ++++++++++++++++++++++++-------------
+>>   1 file changed, 54 insertions(+), 27 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+>> index 11bb59399471..50916b2f2fc5 100644
+>> --- a/drivers/gpu/drm/drm_buddy.c
+>> +++ b/drivers/gpu/drm/drm_buddy.c
+>> @@ -38,6 +38,25 @@ static void drm_block_free(struct drm_buddy *mm,
+>>       kmem_cache_free(slab_blocks, block);
+>>   }
+>> +static void list_insert_sorted(struct drm_buddy *mm,
+>> +                   struct drm_buddy_block *block)
+>> +{
+>> +    struct drm_buddy_block *node;
+>> +    struct list_head *head;
+>> +
+>> +    head = &mm->free_list[drm_buddy_block_order(block)];
+>> +    if (list_empty(head)) {
+>> +        list_add(&block->link, head);
+>> +        return;
+>> +    }
+>> +
+>> +    list_for_each_entry(node, head, link)
+>> +        if (drm_buddy_block_offset(block) < 
+>> drm_buddy_block_offset(node))
+>> +            break;
+>> +
+>> +    __list_add(&block->link, node->link.prev, &node->link);
+>> +}
+>> +
+>>   static void mark_allocated(struct drm_buddy_block *block)
+>>   {
+>>       block->header &= ~DRM_BUDDY_HEADER_STATE;
+>> @@ -52,8 +71,7 @@ static void mark_free(struct drm_buddy *mm,
+>>       block->header &= ~DRM_BUDDY_HEADER_STATE;
+>>       block->header |= DRM_BUDDY_FREE;
+>> -    list_add(&block->link,
+>> -         &mm->free_list[drm_buddy_block_order(block)]);
+>> +    list_insert_sorted(mm, block);
+> 
+> One advantage of not sorting is when splitting down a large block. 
+> Previously the most-recently-split would be at the start of the list for 
+> the next order down, where potentially the next allocation could use it. 
+> So perhaps less fragmentation if it's all part of one BO. Otherwise I 
+> don't see any other downsides, other than the extra overhead of sorting.
+> 
+>>   }
+>>   static void mark_split(struct drm_buddy_block *block)
+>> @@ -387,20 +405,26 @@ alloc_range_bias(struct drm_buddy *mm,
+>>   }
+>>   static struct drm_buddy_block *
+>> -get_maxblock(struct list_head *head)
+>> +get_maxblock(struct drm_buddy *mm, unsigned int order)
+>>   {
+>>       struct drm_buddy_block *max_block = NULL, *node;
+>> +    unsigned int i;
+>> -    max_block = list_first_entry_or_null(head,
+>> -                         struct drm_buddy_block,
+>> -                         link);
+>> -    if (!max_block)
+>> -        return NULL;
+>> +    for (i = order; i <= mm->max_order; ++i) {
+>> +        if (!list_empty(&mm->free_list[i])) {
+>> +            node = list_last_entry(&mm->free_list[i],
+>> +                           struct drm_buddy_block,
+>> +                           link);
+>> +            if (!max_block) {
+>> +                max_block = node;
+>> +                continue;
+>> +            }
+>> -    list_for_each_entry(node, head, link) {
+>> -        if (drm_buddy_block_offset(node) >
+>> -            drm_buddy_block_offset(max_block))
+>> -            max_block = node;
+>> +            if (drm_buddy_block_offset(node) >
+>> +                drm_buddy_block_offset(max_block)) {
+> 
+> Formatting doesn't look right here.
+> 
+> Going to test this today with some workloads with small-bar and i915 
+> just to see if this improves/impacts anything for us.
 
-Fine, I have submitted two patches. The first one create the
-drmm_alloc_workqueue and drmm_alloc_ordered_workqueue helpers. And the
-second one replace the alloc*workqueue with DRM helpers in
-`drivers/gpu/drm/i915/display/intel_display.c`.
-If there is no problem in these two, I will submitted the other patches
-that replace the alloc*workqueue in other DRM files.
+No surprises, and as advertised seems to lead to reduced utilisation of 
+the mappable part for buffers that don't explicitly need it (TOPDOWN). 
+Assuming the selftests are still happy,
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
-Thanks,
-Jiang
-
+> 
+>> +                max_block = node;
+>> +            }
+>> +        }
+>>       }
+>>       return max_block;
+>> @@ -412,20 +436,23 @@ alloc_from_freelist(struct drm_buddy *mm,
+>>               unsigned long flags)
+>>   {
+>>       struct drm_buddy_block *block = NULL;
+>> -    unsigned int i;
+>> +    unsigned int tmp;
+>>       int err;
+>> -    for (i = order; i <= mm->max_order; ++i) {
+>> -        if (flags & DRM_BUDDY_TOPDOWN_ALLOCATION) {
+>> -            block = get_maxblock(&mm->free_list[i]);
+>> -            if (block)
+>> -                break;
+>> -        } else {
+>> -            block = list_first_entry_or_null(&mm->free_list[i],
+>> -                             struct drm_buddy_block,
+>> -                             link);
+>> -            if (block)
+>> -                break;
+>> +    if (flags & DRM_BUDDY_TOPDOWN_ALLOCATION) {
+>> +        block = get_maxblock(mm, order);
+>> +        if (block)
+>> +            /* Store the obtained block order */
+>> +            tmp = drm_buddy_block_order(block);
+>> +    } else {
+>> +        for (tmp = order; tmp <= mm->max_order; ++tmp) {
+>> +            if (!list_empty(&mm->free_list[tmp])) {
+>> +                block = list_last_entry(&mm->free_list[tmp],
+>> +                            struct drm_buddy_block,
+>> +                            link);
+>> +                if (block)
+>> +                    break;
+>> +            }
+>>           }
+>>       }
+>> @@ -434,18 +461,18 @@ alloc_from_freelist(struct drm_buddy *mm,
+>>       BUG_ON(!drm_buddy_block_is_free(block));
+>> -    while (i != order) {
+>> +    while (tmp != order) {
+>>           err = split_block(mm, block);
+>>           if (unlikely(err))
+>>               goto err_undo;
+>>           block = block->right;
+>> -        i--;
+>> +        tmp--;
+>>       }
+>>       return block;
+>>   err_undo:
+>> -    if (i != order)
+>> +    if (tmp != order)
+>>           __drm_buddy_free(mm, block);
+>>       return ERR_PTR(err);
+>>   }
