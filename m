@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1860664DF3
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 22:20:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9084E664E02
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 22:29:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A05010E297;
-	Tue, 10 Jan 2023 21:20:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8633F10E679;
+	Tue, 10 Jan 2023 21:29:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
- [IPv6:2607:f8b0:4864:20::b32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 003E310E297
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 21:20:53 +0000 (UTC)
-Received: by mail-yb1-xb32.google.com with SMTP id 203so13097936yby.10
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 13:20:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=84KT4Y38nuS6AqrFyQ10BjxIC1+dkLajEGpo0qupIB0=;
- b=i/6/56Gy833/2gGx1GeT3ZzLw4GAb2tQtNavrOKj4NlxFTVOWLp78X2Ov2cTpKcVsd
- AhtwTb8zNzs1JHuEhffOCDu9/95KApcUGu3AekwtGQU5lfj9CG3KbESeSgmjAxHkGK2C
- wsWa8sg2APavwS+OnGEbWnUI035DrjGNUjMbGquCiDbMaehKCoCiSvJorbDeX8NHhAu3
- FAa4PrPwhQnXLRp9VARVROA2N5OwVsGi865QW3YX/rEGLyaesZe3078I9PnGdlbFLZxR
- oXcS5AtXHOe8J8ptKKiRRWtMzlKUBsoo/PN4j1C+Emlp+1z/gMmS3LICR+7pfoG4970d
- e1NQ==
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D97D10E66F;
+ Tue, 10 Jan 2023 21:29:10 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id q64so13772674pjq.4;
+ Tue, 10 Jan 2023 13:29:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ww/wSmvr3k1evMYET/bp6trdFG64eYICnW875bycRj8=;
+ b=CCgZWPuWSBttrXnRXZbS8iC4aN+Aau60QJBgZPiWSORv8+dEzapGDIMmiMg0TlBknL
+ Al+dyjFFmkvbQ8rgPSsDtx/Vm02bYxdsPlM9Sa9gKrP1EjLefqBa4ulX/2RObwrZW7ay
+ a+pYBnM5nAhKXuXGsELpeNXhU/mPabU2iEVAU5HzuT8TSVKmCGBW6q1sXxyCHEIP43GG
+ fAYmkmpOvzY0aL+nzYypi5k2AfVLd6vrwSADOaqncv/imIZ/Q5SCPeGkN2xCQahFE7P4
+ cq6QJfLTcvs5b/l3nglsLlXwWPDTV+r4VW5nnUqlRr7yVPoPUOQd2hexbhR2FGCAOREz
+ IZRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=84KT4Y38nuS6AqrFyQ10BjxIC1+dkLajEGpo0qupIB0=;
- b=bjAAt7Pfq6BOHzycPPv6/5jFmZ6bcX5qT/BOMQy3L5g+I98POdz7WZlGmtPthgQ7x4
- pfXZfI4cjocGLlsIceCwzavLMOFWyVMjC/RIw7XiRm0i/TCz7l7v+ZPU8acvjQNdzGqc
- Zo+F78L7xLuBI+SA52aO9pio2a/RMBIOlVquBbEnnZuNn5piWCR3qEpr/bShU2v4skZH
- cGcl2Jc0+KZb3fsnLpEh7O3tkAlgWe0j4iHEgNRhc6q81gco60uk0MhlKRtvZiv3ls/f
- ss86eymLUeberTOB5F0vwQtGTesIg0qjB9WHTV7VphBuR4CUcQMNDn5vGBeyJITDLTjd
- BC+w==
-X-Gm-Message-State: AFqh2krcUg3rh5i2h4g2UJTYT65WH/C5GyYfwUGgqxZug0ZYg1SO4uSI
- aMfnCCK0EjuJmEl6q1GyGPmBQgO8pPD1nwEeRl1cQw==
-X-Google-Smtp-Source: AMrXdXtxQf7auE0xRMOWiMXojs73pb+1H3ND26svrQT5CSOEUgrdcb+PU3bWS05ph908nwkFJn3XixWD2o+uI4W6Tzs=
-X-Received: by 2002:a25:ac8e:0:b0:7c0:d1d:3193 with SMTP id
- x14-20020a25ac8e000000b007c00d1d3193mr468341ybi.61.1673385653016; Tue, 10 Jan
- 2023 13:20:53 -0800 (PST)
+ bh=Ww/wSmvr3k1evMYET/bp6trdFG64eYICnW875bycRj8=;
+ b=1bEoVFlxregZJ4QW3hFgyiMbvGrcTLPv3jua3lqtH4DuzfN0pqZ2ektsmg92+V93J7
+ CIQ6q6/TdwQpHir2dkOIfn0vbkAE/Vu2xYNt6xrahgCScCMXqm0vvhfdi/woPif0phZ6
+ hc4Jw5DMnt5x1AK5NAINYTqpBCAAD4uWKYl/khhnkCdrqAmQTkv7E4HGSt1g+nf7lMa/
+ OK6gSZVSj217PuKjlOfGvGgtH3aBf2yrw76VZ1iVraTfX5L4S6gTkK5HJr7QGcq57lIX
+ rM94we+82BGitbujW77uvnBc3aBk+TcnRxW+ydcv+hEXK38mzOvpjOzW5q5G9nrWXtbZ
+ qYOQ==
+X-Gm-Message-State: AFqh2kotEhHQ7UdzvNKsaOFVW31t3SmcDNw7fuWh5geRModCF4LXcFms
+ 8XOMLc/Vx2z0/uplUHqXQ9kDKkLYfwE=
+X-Google-Smtp-Source: AMrXdXvkRSXydWegDtiIcTPIVygJ7XqwuvTRfFb3Q/Yts4DuDVkJxsJ0AWg0r/ZcAz2R8ccvVQ0eyQ==
+X-Received: by 2002:a17:902:8c89:b0:193:62a:80c8 with SMTP id
+ t9-20020a1709028c8900b00193062a80c8mr17111420plo.45.1673386149390; 
+ Tue, 10 Jan 2023 13:29:09 -0800 (PST)
+Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
+ by smtp.gmail.com with ESMTPSA id
+ jd6-20020a170903260600b001897de9bae3sm8568294plb.204.2023.01.10.13.29.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Jan 2023 13:29:09 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm/gpu: Fix potential double-free
+Date: Tue, 10 Jan 2023 13:28:59 -0800
+Message-Id: <20230110212903.1925878-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20230109213809.418135-1-tjmercier@google.com>
- <20230109213809.418135-4-tjmercier@google.com>
- <20230110014720.281-1-hdanton@sina.com>
-In-Reply-To: <20230110014720.281-1-hdanton@sina.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Tue, 10 Jan 2023 13:20:42 -0800
-Message-ID: <CABdmKX11WP-ijLbU34Y7GG21NtqsCyMVyhnkxMMnL_hG7+TV6g@mail.gmail.com>
-Subject: Re: [PATCH 3/4] binder: Add flags to relinquish ownership of fds
-To: Hillf Danton <hdanton@sina.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,46 +68,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- daniel.vetter@ffwll.ch, Tejun Heo <tj@kernel.org>, linux-media@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, Dan Carpenter <error27@gmail.com>,
+ Emma Anholt <emma@anholt.net>, Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 9, 2023 at 6:07 PM Hillf Danton <hdanton@sina.com> wrote:
->
-> On 9 Jan 2023 21:38:06 +0000 T.J. Mercier <tjmercier@google.com>
-> >
-> > @@ -2275,6 +2276,26 @@ static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
-> >               goto err_security;
-> >       }
-> >
-> > +     if (IS_ENABLED(CONFIG_MEMCG) && (flags & BINDER_FD_FLAG_XFER_CHARGE)) {
-> > +             struct dma_buf *dmabuf;
-> > +
-> > +             if (unlikely(!is_dma_buf_file(file))) {
-> > +                     binder_user_error(
-> > +                             "%d:%d got transaction with XFER_CHARGE for non-dmabuf fd, %d\n",
-> > +                             proc->pid, thread->pid, fd);
-> > +                     ret = -EINVAL;
-> > +                     goto err_dmabuf;
-> > +             }
->
-> It barely makes sense to expose is_dma_buf_file() only for this.
-> > +
-> > +             dmabuf = file->private_data;
-> > +             ret = dma_buf_transfer_charge(dmabuf, target_proc->tsk);
-> > +             if (ret) {
-> > +                     pr_warn("%d:%d Unable to transfer DMA-BUF fd charge to %d\n",
-> > +                             proc->pid, thread->pid, target_proc->pid);
-> > +                     goto err_xfer;
-> > +             }
-> > +     }
-> > +
->
-> This whole hunk should go to dma-buf instead by adding change to
-> dma_buf_transfer_charge() for instance.
+From: Rob Clark <robdclark@chromium.org>
 
-Fair enough, will change this for v2. I think we'd still want to
-distinguish between the two failure modes for logging purposes, so
-I'll use the return value of dma_buf_transfer_charge to do that.
+If userspace was calling the MSM_SET_PARAM ioctl on multiple threads to
+set the COMM or CMDLINE param, it could trigger a race causing the
+previous value to be kfree'd multiple times.  Fix this by serializing on
+the gpu lock.
+
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 ++++
+ drivers/gpu/drm/msm/msm_gpu.c           |  2 ++
+ drivers/gpu/drm/msm/msm_gpu.h           | 12 ++++++++++--
+ 3 files changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index 57586c794b84..3605f095b2de 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -352,6 +352,8 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
+ 		/* Ensure string is null terminated: */
+ 		str[len] = '\0';
+ 
++		mutex_lock(&gpu->lock);
++
+ 		if (param == MSM_PARAM_COMM) {
+ 			paramp = &ctx->comm;
+ 		} else {
+@@ -361,6 +363,8 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
+ 		kfree(*paramp);
+ 		*paramp = str;
+ 
++		mutex_unlock(&gpu->lock);
++
+ 		return 0;
+ 	}
+ 	case MSM_PARAM_SYSPROF:
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index bfef659d3a5c..7537e7b3a452 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -336,6 +336,8 @@ static void get_comm_cmdline(struct msm_gem_submit *submit, char **comm, char **
+ 	struct msm_file_private *ctx = submit->queue->ctx;
+ 	struct task_struct *task;
+ 
++	WARN_ON(!mutex_is_locked(&submit->gpu->lock));
++
+ 	/* Note that kstrdup will return NULL if argument is NULL: */
+ 	*comm = kstrdup(ctx->comm, GFP_KERNEL);
+ 	*cmd  = kstrdup(ctx->cmdline, GFP_KERNEL);
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index a771f56ed70f..fc1c0d8611a8 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -375,10 +375,18 @@ struct msm_file_private {
+ 	 */
+ 	int sysprof;
+ 
+-	/** comm: Overridden task comm, see MSM_PARAM_COMM */
++	/**
++	 * comm: Overridden task comm, see MSM_PARAM_COMM
++	 *
++	 * Accessed under msm_gpu::lock
++	 */
+ 	char *comm;
+ 
+-	/** cmdline: Overridden task cmdline, see MSM_PARAM_CMDLINE */
++	/**
++	 * cmdline: Overridden task cmdline, see MSM_PARAM_CMDLINE
++	 *
++	 * Accessed under msm_gpu::lock
++	 */
+ 	char *cmdline;
+ 
+ 	/**
+-- 
+2.38.1
+
