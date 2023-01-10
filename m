@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB811664A15
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 19:29:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D0A664A1B
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 19:30:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96DF810E635;
-	Tue, 10 Jan 2023 18:29:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BBF010E13B;
+	Tue, 10 Jan 2023 18:30:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5967A10E13B;
- Tue, 10 Jan 2023 18:29:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1023410E13B;
+ Tue, 10 Jan 2023 18:29:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1673375358; bh=ysQKgi/JrIlMmf5X/MsjVffw4bVjIB+SlJMK93Fc6kg=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
- Content-Type;
- b=OexEuoD9w2rlMChDuyt0Lgha7b7LxqL3HJv8QJLNqyDAcSy+l2nixqXecxJQhxkqS
- 5QvyViSKyMEvFCWmZ0A5h4m2Cmv2yE15Vo4a1D1+q+CD5JNsXKoC6xcif0M6+BLN9t
- Zf3EpUPIuX94dRxlKAXQI/s5DZHkkRBpBUhuCuG0=
-Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
+ t=1673375390; bh=miL+U54u+zbwiY1zJpyFrSycjgOcARyuIyOdsIcqAwg=;
+ h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+ MIME-Version:Content-Type:In-Reply-To;
+ b=BYQiFU30yqi3X9Qb4kRZ8o9LFNNvhMCAUgZ/MCb1uHXjZGWjvqwhsovnaKEOyrOdk
+ 4Ed8rhTJtcn6oZXKpfH81pQmyeSqcnfapPAFm/fxpI2d/D0fJN55wyPq+gTwe6pjoP
+ 7nIiumflzQDbVCQGmxksKZWRJR3j1Yc+FD9iw0IQ=
+Received: by b-4.in.mailobj.net [192.168.90.14] with ESMTP
  via ip-206.mailobj.net [213.182.55.206]
- Tue, 10 Jan 2023 19:29:18 +0100 (CET)
-X-EA-Auth: oQ+AcTSeF9jeNjLefVNdNkG4EnXmo8P+THlMmFEOkOeY8Q9R+8z2jAIjLfGWEzOAlKzkPWXxiVB7FkaoUs3fWy/2E/lJeh2t
-Date: Tue, 10 Jan 2023 23:59:12 +0530
+ Tue, 10 Jan 2023 19:29:49 +0100 (CET)
+X-EA-Auth: 2yCuNAG5h3cTxbwR5VlwuO7IDCj5y64ot8HtV0N6YfFg/GXhAXaQHiEkliEtmYzUP0x8v2nBHL0uNeYy54P+K5wul7dZ2llz
+Date: Tue, 10 Jan 2023 23:59:44 +0530
 From: Deepak R Varma <drv@mailo.com>
 To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
@@ -34,11 +34,14 @@ To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
  intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] drm/i915/gvt: Avoid full proxy f_ops debug attributes
-Message-ID: <cover.1673375066.git.drv@mailo.com>
+Subject: [PATCH 1/2] drm/i915/gvt: Avoid full proxy f_ops for scan_nonprivbb
+ debug attributes
+Message-ID: <f0741e940ec911fba0c1375dd2750b9db94928b2.1673375066.git.drv@mailo.com>
+References: <cover.1673375066.git.drv@mailo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1673375066.git.drv@mailo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,26 +59,55 @@ Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series proposes to replace a combination of DEFINE_SIMPLE_ATTRIBUTE() +
-debugfs_create_file() by a combination of DEFINE_DEBUGFS_ATTRIBUTE() +
-debugfs_create_file_unsafe(). The change reduced overhead in terms of managing
-the full proxy f_ops at runtime. The patches 1 & 2 covers for the scan_nonprivbb
- and vgpu_status f_ops debugfs attributes respectively.
-
+Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
+function adds the overhead of introducing a proxy file operation
+functions to wrap the original read/write inside file removal protection
+functions. This adds significant overhead in terms of introducing and
+managing the proxy factory file operations structure and function
+wrapping at runtime.
+As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
+with debugfs_create_file_unsafe() is suggested to be used instead.  The
+DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
+debugfs_file_put() wrappers to protect the original read and write
+function calls for the debug attributes. There is no need for any
+runtime proxy file operations to be managed by the debugfs core.
 Following coccicheck make command helped identify this change:
-    
+
 make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
 
+Signed-off-by: Deepak R Varma <drv@mailo.com>
+---
+ drivers/gpu/drm/i915/gvt/debugfs.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-
-Deepak R Varma (2):
-  drm/i915/gvt: Avoid full proxy f_ops for scan_nonprivbb debug
-    attributes
-  drm/i915/gvt: Avoid full proxy f_ops for vgpu_status debug attributes
-
- drivers/gpu/drm/i915/gvt/debugfs.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gvt/debugfs.c b/drivers/gpu/drm/i915/gvt/debugfs.c
+index 0616b73175f3..03f081c3d9a4 100644
+--- a/drivers/gpu/drm/i915/gvt/debugfs.c
++++ b/drivers/gpu/drm/i915/gvt/debugfs.c
+@@ -147,9 +147,9 @@ vgpu_scan_nonprivbb_set(void *data, u64 val)
+ 	return 0;
+ }
+ 
+-DEFINE_SIMPLE_ATTRIBUTE(vgpu_scan_nonprivbb_fops,
+-			vgpu_scan_nonprivbb_get, vgpu_scan_nonprivbb_set,
+-			"0x%llx\n");
++DEFINE_DEBUGFS_ATTRIBUTE(vgpu_scan_nonprivbb_fops,
++			 vgpu_scan_nonprivbb_get, vgpu_scan_nonprivbb_set,
++			 "0x%llx\n");
+ 
+ static int vgpu_status_get(void *data, u64 *val)
+ {
+@@ -180,8 +180,8 @@ void intel_gvt_debugfs_add_vgpu(struct intel_vgpu *vgpu)
+ 
+ 	debugfs_create_file("mmio_diff", 0444, vgpu->debugfs, vgpu,
+ 			    &vgpu_mmio_diff_fops);
+-	debugfs_create_file("scan_nonprivbb", 0644, vgpu->debugfs, vgpu,
+-			    &vgpu_scan_nonprivbb_fops);
++	debugfs_create_file_unsafe("scan_nonprivbb", 0644, vgpu->debugfs, vgpu,
++				   &vgpu_scan_nonprivbb_fops);
+ 	debugfs_create_file("status", 0644, vgpu->debugfs, vgpu,
+ 			    &vgpu_status_fops);
+ }
 -- 
 2.34.1
 
