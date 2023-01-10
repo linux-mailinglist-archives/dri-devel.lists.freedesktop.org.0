@@ -2,67 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52DAA6638DF
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 06:54:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CFAE6638E1
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 06:55:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99F0F10E53C;
-	Tue, 10 Jan 2023 05:54:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0853C10E0DD;
+	Tue, 10 Jan 2023 05:55:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A341E10E0DD
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 05:54:38 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id bf43so16668972lfb.6
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 21:54:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=J9V7IctxQhFjqqHOvM2m2n5NBsQdf9FVh6jp3d8ejZw=;
- b=FKBjCgTMxGWGC2SnMZtgtilG9ExKqtnmPah5aZiRq038jV2T+JM8/bOsQG+15l3l/6
- gIuk3NrAgotZYn0yHDXAHl7MxHnWk04Ca3ITsvkHfr8nH7slvwlDlcuDSzcFfmwQlDRd
- R7ZZXdapDthIKaCyaas8O4j3X5D5NzdlNnpNmmkMs34IPSV0HFQr9csyl/yT6O2GlVzl
- 4M18QY10TKUH9uEjJGl61WPmOc6SPV2UyDX85JEif+jtWYVq06lWcXzyZhbSlrWOFO08
- /vqqwWcR4dzBDZzWSYWoPQotQgnI6SlsJblOKpJMjRTYmarIux+ex0rbCCvQWnRbOPjX
- 7avA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=J9V7IctxQhFjqqHOvM2m2n5NBsQdf9FVh6jp3d8ejZw=;
- b=ZBR2rzH4j/n4tv1lousof/9wK7RQDLphOHBQ0UI1Ed2gjt4OAwnVDHUpj+AB7H5d50
- LiCqKoAK0CwC2tisx6H0FCIFjjE0CDXHdqeSkNLX1Pf84KReJRE6XOxAXXdadOAThT4z
- lFgHWZ0UfrtP3PYfrqysSCAhqvDc7KwuLKUOhPUOBpdzI4m23Poa6QjrFx2CBRBvxLph
- HKLXnPJ/Yx/myg7b8pWjwx/2OQX5PzQ+OfZqoIaU2vt61Ogr5+dWzOCs1bbAq33+O1AW
- E7OZrOxLSo2S/hqropuxhO5IuPknLzOaor7ihreUxwrD8W4QIx4OMeo4Awgi9q8uFwkx
- 3o5Q==
-X-Gm-Message-State: AFqh2kocm+5qecAml4pkVa1AEJoGiYS4c6+SXuc2HHzVoc7BFQPd0gUE
- Uix4BjkGukUi+eGSSOw9/c1VRQ==
-X-Google-Smtp-Source: AMrXdXuBRJ6AoE5cMdln4pKXDM+GdLkXNO5wAWcrdtKsooiDYDw7hTF53AbF9itFsxzRM9IlZw/iLQ==
-X-Received: by 2002:ac2:5088:0:b0:4a4:7be4:9baf with SMTP id
- f8-20020ac25088000000b004a47be49bafmr18724211lfm.59.1673330076556; 
- Mon, 09 Jan 2023 21:54:36 -0800 (PST)
-Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
- [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- h37-20020a0565123ca500b004b52aea5ff8sm1987227lfv.30.2023.01.09.21.54.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 21:54:36 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH 3/3] arm64: dts: qcom: sm8450: Add compat qcom, sm8450-dsi-ctrl
-Date: Tue, 10 Jan 2023 07:54:33 +0200
-Message-Id: <20230110055433.734188-3-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230110055433.734188-1-dmitry.baryshkov@linaro.org>
-References: <20230110055433.734188-1-dmitry.baryshkov@linaro.org>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A53B10E0DD
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 05:55:02 +0000 (UTC)
+X-UUID: af7087f2cce4445aa73e60a22b2f0922-20230110
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=RSk7SNfalHVSEupWJvDsfOvqV9D94msX9RLPBIHSp2s=; 
+ b=VH4dflNyG/d3GN69VjvSO02bMH+VopTTlwcY/+2meMmZSJMqC919+DoTuYmqq+OU7/6FJh9YkfRJ100dTW+jwNZ3Vsmbs5M5dknfAiKrtFxvBY6CKy80Gp3xoNY20qUDCoBrDOE4qePzyerFyWx2EEweCjXJGfx8+U0auf4o3Nc=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.17, REQID:eb8cf06a-7227-4673-a51e-476b37fe0e8b, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:95
+X-CID-INFO: VERSION:1.1.17, REQID:eb8cf06a-7227-4673-a51e-476b37fe0e8b, IP:0,
+ URL
+ :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
+ :quarantine,TS:95
+X-CID-META: VersionHash:543e81c, CLOUDID:8f33cc8b-8530-4eff-9f77-222cf6e2895b,
+ B
+ ulkID:230110135459DRAZD5U7,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48,TC:n
+ il,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
+ I:0,OSA:0
+X-CID-BVR: 0
+X-UUID: af7087f2cce4445aa73e60a22b2f0922-20230110
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 151214828; Tue, 10 Jan 2023 13:54:57 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Tue, 10 Jan 2023 13:54:55 +0800
+Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Tue, 10 Jan 2023 13:54:55 +0800
+From: <xinlei.lee@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <matthias.bgg@gmail.com>,
+ <angelogioacchino.delregno@collabora.com>, <jitao.shi@mediatek.com>,
+ <thierry.reding@gmail.com>, <sam@ravnborg.org>
+Subject: [PATCH v2 0/3] Reduce lcm_reset to DSI LP11 send cmd time
+Date: Tue, 10 Jan 2023 13:54:50 +0800
+Message-ID: <1673330093-6771-1-git-send-email-xinlei.lee@mediatek.com>
+X-Mailer: git-send-email 2.6.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,43 +69,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, freedreno@lists.freedesktop.org
+Cc: Xinlei Lee <xinlei.lee@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add silicon specific compatible qcom,sm8450-dsi-ctrl to the
-mdss-dsi-ctrl block. This allows us to differentiate the specific bindings
-for sm8450 against the yaml documentation.
+From: Xinlei Lee <xinlei.lee@mediatek.com>
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- arch/arm64/boot/dts/qcom/sm8450.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The panel spec stipulates that after lcm_reset is pulled high, cmd
+should be sent to initialize the panel. Within the allowable range of
+the DSI spec, this time needs to be reduced to avoid panel exceptions.
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8450.dtsi b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-index 0c13e9b428ce..52aa6f1f08f5 100644
---- a/arch/arm64/boot/dts/qcom/sm8450.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-@@ -2770,7 +2770,7 @@ opp-500000000 {
- 			};
- 
- 			mdss_dsi0: dsi@ae94000 {
--				compatible = "qcom,mdss-dsi-ctrl";
-+				compatible = "qcom,sm8450-dsi-ctrl", "qcom,mdss-dsi-ctrl";
- 				reg = <0 0x0ae94000 0 0x400>;
- 				reg-names = "dsi_ctrl";
- 
-@@ -2862,7 +2862,7 @@ mdss_dsi0_phy: phy@ae94400 {
- 			};
- 
- 			mdss_dsi1: dsi@ae96000 {
--				compatible = "qcom,mdss-dsi-ctrl";
-+				compatible = "qcom,sm8450-dsi-ctrl", "qcom,mdss-dsi-ctrl";
- 				reg = <0 0x0ae96000 0 0x400>;
- 				reg-names = "dsi_ctrl";
- 
+Base on the branch of linus/master v6.2.
+
+Change since v1:
+1. Added fine-tuning panel power sequence modification.
+
+Xinlei Lee (3):
+  drm/mediatek: dsi: Reduce the time of dsi from LP11 to sending cmd
+  drm/panel: boe-tv101wum-nl6: Reduce lcm_reset to send initial code
+    time
+  drm/panel: boe-tv101wum-nl6: Fine tune the panel power sequence
+
+ drivers/gpu/drm/mediatek/mtk_dsi.c             | 2 +-
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 7 ++++++-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+
 -- 
-2.39.0
+2.18.0
 
