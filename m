@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A886644F8
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 16:34:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5166644FA
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 16:35:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9895710E5EB;
-	Tue, 10 Jan 2023 15:34:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C0F410E5E9;
+	Tue, 10 Jan 2023 15:35:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
- [IPv6:2001:4860:4864:20::32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25A2310E5EB;
- Tue, 10 Jan 2023 15:34:47 +0000 (UTC)
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-15bb8ec196aso734579fac.3; 
- Tue, 10 Jan 2023 07:34:47 -0800 (PST)
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
+ [IPv6:2607:f8b0:4864:20::1134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA76A10E5E9
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 15:35:23 +0000 (UTC)
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-4c15c4fc8ccso158893477b3.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 07:35:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=aALJ1+6b5A4lyvQQ5kPDXbutVahUhVTXhBlHzFelYpk=;
- b=i6n470Ce+W8oxpPwNBChX5RaFXJ3U23JN6QGshiLXPAPCLB3Vl7bRDfWfXEGqT8Vhn
- oG4B5kAhBbdnfMjH8a5QJB9H/4UUQ2f9dZuV8msyDrodGKrifhB64Df0ZuFKKrPIiEq1
- OCE+K0XbyQyPzg2bAsjB6v4j567tKH6yOWOogo8W975GwHjBuBSXSam22iLhScIjOqlC
- Dv8iP4kFVnJ6x3wdBPZesdbf7Atc2MGJuSMNBM9y+gUTwAYvxF/q3SfzKO2qSWBmmR+D
- Q9weB6DalU7I8RZ5BbMAvFekdRBevNNzIa0BQDlAW3SOsnv+pA1Ylb4jTWAISmqwg/W2
- /Q9A==
+ bh=sxyeU/vmXQE7JjpLv+RzP0jCelU6qDe28p2nOz7YkC8=;
+ b=RPEf7ADK4KC4bETYXcKdB1dWFPNea/M5Ei3qQQlN0fL5uR/AVhQIFYrgZwB0MKWEP5
+ JhNltGI3p2N9tQbtaq+IKsdrbgfDqvQAtNHQBH7bsDvZMzAmbdxO/+CgsdZxPVfcr6Pn
+ /za1FSGFUw2Z3sTi7CQG5gfiBjB14HyVvj6QNLN/iPAqreBn8WLC4vEHjCE4tVGEMT79
+ 9wIOwvft/F5nMVXsWt4JBFNuOyBQeSrnapQ2HzC17WN1eDgpRyyqeOVrVXw6ef7tr0Oi
+ GPqmoJqa07eWhv2vuKQpAqeJxjDeHmEznSjEg/+QrQ08AUFJp8Z1ANx0g3+laGfF3Zxr
+ zFBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=aALJ1+6b5A4lyvQQ5kPDXbutVahUhVTXhBlHzFelYpk=;
- b=OlbAxW4IcYuT2CFPzJ/BqajtNo0BJKeA0MpBiResxummwifY9dxdVYFclXUWj0lshf
- iLqhpmyL/7u4Z5G7YzWGEk4G8uEHWviGpRGZQ6FwCOtbvQO6tGCnnan4dAIsX8ONxR23
- uy/kpd8tS7SKs5tF9tki8DQE4hrN8w33sPAe4Ptm03XvAS28P90Z6J2HGPQiBuEqCvEx
- npi0MhU0z0gkcSzrWafhvdBsvCirewNy6uUFsqj6tX6GyTS2ga7sWpZS0e7BKuR/Es9W
- dfaIDdFtEGD6FAXLlV9XT9gPjFMDgvQhhxUp/Evtq6YUFiTGpxz/QqnQFbzRoPKi1fie
- q6Ig==
-X-Gm-Message-State: AFqh2ko4GvVn752tPghQOS9T2xR3jN5V/ChPe4xWMqpx/LXA8RftmSYy
- rnhAc21IGZgVBKcfcyxL4uTMicfydKJEU/p0cRY=
-X-Google-Smtp-Source: AMrXdXvn1xRON1Kd8a0qV7Mrhm6vYwZcsKzzIkhhNKV5lkac3FN/6IpCOpNBj8E7gJ1EQBg4vrMMdWCHfSH7GIiy1oo=
-X-Received: by 2002:a05:6870:cb98:b0:15b:96b8:e2be with SMTP id
- ov24-20020a056870cb9800b0015b96b8e2bemr326656oab.38.1673364886323; Tue, 10
- Jan 2023 07:34:46 -0800 (PST)
+ bh=sxyeU/vmXQE7JjpLv+RzP0jCelU6qDe28p2nOz7YkC8=;
+ b=CGZaguNFt49QXkTsY9WjB1vW/Ay6uwbTFOGl/h/ZghMXd6Nfn7bi+6QBLbWTVTzAkv
+ E9x3jPPXEwZuFiVwlQxp//+Qw8sXH1eWoWjlP7EsNyPz+H1eE2L1whDd2OSSDea0uONk
+ BCFrNW0OsQrTfDIT98BlbdHNWifnuq7hPX1uZVLJrNWXW+xyLrTBOr757u4pXEuroT2j
+ +sdiwqMnKkBjtCLmyUIBYclmtHhQI4PlMQ3z9Hf56J53abqcQkB1kqUArcGrcQrrtBYD
+ EwJIW36QMhQLToSb9breUEFELBiTloowExnwe3sFcmZOVH8gP3o3YKn/sFp2CSVYiouO
+ CZGg==
+X-Gm-Message-State: AFqh2krTGPveWhZ06vXa3vK47zs9ZZCr7gpRUzx8YGrffhDI0L2brCsd
+ 58HvCEugzGWXsuqh6MtvzU+wG3yZvSZDkcliv0E=
+X-Google-Smtp-Source: AMrXdXvR2fOtU4+zEEeO9xWcrj7YeOdqKE3ZB94ifNiKpFyzV9wFbgM0u/meX3HgqaEQQzRMs+Q/3jrdSLS4gNJtlQU=
+X-Received: by 2002:a81:1950:0:b0:4d2:755a:fda3 with SMTP id
+ 77-20020a811950000000b004d2755afda3mr214894ywz.182.1673364922490; Tue, 10 Jan
+ 2023 07:35:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20230109222547.1368644-1-joel@joelfernandes.org>
-In-Reply-To: <20230109222547.1368644-1-joel@joelfernandes.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 10 Jan 2023 07:34:41 -0800
-Message-ID: <CAF6AEGsH21bb6ihE41UR-jODL0C8fVVg9=ODj-Ksd7CnZaYzDw@mail.gmail.com>
-Subject: Re: [PATCH v2 RESEND] adreno: Shutdown the GPU properly
-To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+References: <20230109122344.253994-1-jacek.lawrynowicz@linux.intel.com>
+ <20230109122344.253994-6-jacek.lawrynowicz@linux.intel.com>
+In-Reply-To: <20230109122344.253994-6-jacek.lawrynowicz@linux.intel.com>
+From: Oded Gabbay <oded.gabbay@gmail.com>
+Date: Tue, 10 Jan 2023 17:34:55 +0200
+Message-ID: <CAFCwf13Ok6vZaThnBuJeagzDHkBxdtWWW3+kqfz3RgYRQE_5_g@mail.gmail.com>
+Subject: Re: [PATCH v5 5/7] accel/ivpu: Implement firmware parsing and booting
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,110 +66,1197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
- Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
- Ross Zwisler <zwisler@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
+ quic_jhugo@quicinc.com, dri-devel@lists.freedesktop.org,
+ stanislaw.gruszka@linux.intel.com, tzimmermann@suse.de,
+ andrzej.kacprowski@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 9, 2023 at 2:25 PM Joel Fernandes (Google)
-<joel@joelfernandes.org> wrote:
+On Mon, Jan 9, 2023 at 2:24 PM Jacek Lawrynowicz
+<jacek.lawrynowicz@linux.intel.com> wrote:
 >
-> During kexec on ARM device, we notice that device_shutdown() only calls
-> pm_runtime_force_suspend() while shutting down the GPU. This means the GPU
-> kthread is still running and further, there maybe active submits.
+> Read, parse and boot VPU firmware image.
 >
-> This causes all kinds of issues during a kexec reboot:
->
-> Warning from shutdown path:
->
-> [  292.509662] WARNING: CPU: 0 PID: 6304 at [...] adreno_runtime_suspend+0x3c/0x44
-> [  292.509863] Hardware name: Google Lazor (rev3 - 8) with LTE (DT)
-> [  292.509872] pstate: 80400009 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [  292.509881] pc : adreno_runtime_suspend+0x3c/0x44
-> [  292.509891] lr : pm_generic_runtime_suspend+0x30/0x44
-> [  292.509905] sp : ffffffc014473bf0
-> [...]
-> [  292.510043] Call trace:
-> [  292.510051]  adreno_runtime_suspend+0x3c/0x44
-> [  292.510061]  pm_generic_runtime_suspend+0x30/0x44
-> [  292.510071]  pm_runtime_force_suspend+0x54/0xc8
-> [  292.510081]  adreno_shutdown+0x1c/0x28
-> [  292.510090]  platform_shutdown+0x2c/0x38
-> [  292.510104]  device_shutdown+0x158/0x210
-> [  292.510119]  kernel_restart_prepare+0x40/0x4c
->
-> And here from GPU kthread, an SError OOPs:
->
-> [  192.648789]  el1h_64_error+0x7c/0x80
-> [  192.648812]  el1_interrupt+0x20/0x58
-> [  192.648833]  el1h_64_irq_handler+0x18/0x24
-> [  192.648854]  el1h_64_irq+0x7c/0x80
-> [  192.648873]  local_daif_inherit+0x10/0x18
-> [  192.648900]  el1h_64_sync_handler+0x48/0xb4
-> [  192.648921]  el1h_64_sync+0x7c/0x80
-> [  192.648941]  a6xx_gmu_set_oob+0xbc/0x1fc
-> [  192.648968]  a6xx_hw_init+0x44/0xe38
-> [  192.648991]  msm_gpu_hw_init+0x48/0x80
-> [  192.649013]  msm_gpu_submit+0x5c/0x1a8
-> [  192.649034]  msm_job_run+0xb0/0x11c
-> [  192.649058]  drm_sched_main+0x170/0x434
-> [  192.649086]  kthread+0x134/0x300
-> [  192.649114]  ret_from_fork+0x10/0x20
->
-> Fix by calling adreno_system_suspend() in the device_shutdown() path.
->
-> [ Applied Rob Clark feedback on fixing adreno_unbind() similarly, also
->   tested as above. ]
->
-> Cc: Rob Clark <robdclark@chromium.org>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: Ricardo Ribalda <ribalda@chromium.org>
-> Cc: Ross Zwisler <zwisler@kernel.org>
-> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-
-Reviewed-by: Rob Clark <robdclark@gmail.com>
-
+> Co-developed-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+> Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+> Co-developed-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+> Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 > ---
->  drivers/gpu/drm/msm/adreno/adreno_device.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  drivers/accel/ivpu/Makefile       |   1 +
+>  drivers/accel/ivpu/ivpu_drv.c     | 131 +++++++++-
+>  drivers/accel/ivpu/ivpu_drv.h     |  11 +
+>  drivers/accel/ivpu/ivpu_fw.c      | 419 ++++++++++++++++++++++++++++++
+>  drivers/accel/ivpu/ivpu_fw.h      |  38 +++
+>  drivers/accel/ivpu/ivpu_hw_mtl.c  |  10 +
+>  drivers/accel/ivpu/vpu_boot_api.h | 349 +++++++++++++++++++++++++
+>  include/uapi/drm/ivpu_accel.h     |  21 ++
+>  8 files changed, 979 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/accel/ivpu/ivpu_fw.c
+>  create mode 100644 drivers/accel/ivpu/ivpu_fw.h
+>  create mode 100644 drivers/accel/ivpu/vpu_boot_api.h
 >
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> index 628806423f7d..36f062c7582f 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> @@ -551,13 +551,14 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
+> diff --git a/drivers/accel/ivpu/Makefile b/drivers/accel/ivpu/Makefile
+> index 46595f0112e3..9fa6a76e9d79 100644
+> --- a/drivers/accel/ivpu/Makefile
+> +++ b/drivers/accel/ivpu/Makefile
+> @@ -3,6 +3,7 @@
+>
+>  intel_vpu-y := \
+>         ivpu_drv.o \
+> +       ivpu_fw.o \
+>         ivpu_gem.o \
+>         ivpu_hw_mtl.o \
+>         ivpu_ipc.o \
+> diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+> index 6643ae6b5a52..53e103f64832 100644
+> --- a/drivers/accel/ivpu/ivpu_drv.c
+> +++ b/drivers/accel/ivpu/ivpu_drv.c
+> @@ -14,10 +14,13 @@
+>  #include <drm/drm_ioctl.h>
+>  #include <drm/drm_prime.h>
+>
+> +#include "vpu_boot_api.h"
+>  #include "ivpu_drv.h"
+> +#include "ivpu_fw.h"
+>  #include "ivpu_gem.h"
+>  #include "ivpu_hw.h"
+>  #include "ivpu_ipc.h"
+> +#include "ivpu_jsm_msg.h"
+>  #include "ivpu_mmu.h"
+>  #include "ivpu_mmu_context.h"
+>
+> @@ -32,6 +35,10 @@ int ivpu_dbg_mask;
+>  module_param_named(dbg_mask, ivpu_dbg_mask, int, 0644);
+>  MODULE_PARM_DESC(dbg_mask, "Driver debug mask. See IVPU_DBG_* macros.");
+>
+> +int ivpu_test_mode;
+> +module_param_named_unsafe(test_mode, ivpu_test_mode, int, 0644);
+> +MODULE_PARM_DESC(test_mode, "Test mode: 0 - normal operation, 1 - fw unit test, 2 - null hw");
+> +
+>  u8 ivpu_pll_min_ratio;
+>  module_param_named(pll_min_ratio, ivpu_pll_min_ratio, byte, 0644);
+>  MODULE_PARM_DESC(pll_min_ratio, "Minimum PLL ratio used to set VPU frequency");
+> @@ -129,6 +136,28 @@ static int ivpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_f
+>         case DRM_IVPU_PARAM_CONTEXT_ID:
+>                 args->value = file_priv->ctx.id;
+>                 break;
+> +       case DRM_IVPU_PARAM_FW_API_VERSION:
+> +               if (args->index < VPU_FW_API_VER_NUM) {
+> +                       struct vpu_firmware_header *fw_hdr;
+> +
+> +                       fw_hdr = (struct vpu_firmware_header *)vdev->fw->file->data;
+> +                       args->value = fw_hdr->api_version[args->index];
+> +               } else {
+> +                       ret = -EINVAL;
+> +               }
+> +               break;
+> +       case DRM_IVPU_PARAM_ENGINE_HEARTBEAT:
+> +               ret = ivpu_jsm_get_heartbeat(vdev, args->index, &args->value);
+> +               break;
+> +       case DRM_IVPU_PARAM_UNIQUE_INFERENCE_ID:
+> +               args->value = (u64)atomic64_inc_return(&vdev->unique_id_counter);
+> +               break;
+> +       case DRM_IVPU_PARAM_TILE_CONFIG:
+> +               args->value = vdev->hw->tile_fuse;
+> +               break;
+> +       case DRM_IVPU_PARAM_SKU:
+> +               args->value = vdev->hw->sku;
+> +               break;
+>         default:
+>                 ret = -EINVAL;
+>                 break;
+> @@ -226,11 +255,85 @@ static const struct drm_ioctl_desc ivpu_drm_ioctls[] = {
+>         DRM_IOCTL_DEF_DRV(IVPU_BO_USERPTR, ivpu_bo_userptr_ioctl, 0),
+>  };
+>
+> +static int ivpu_wait_for_ready(struct ivpu_device *vdev)
+> +{
+> +       struct ivpu_ipc_consumer cons;
+> +       struct ivpu_ipc_hdr ipc_hdr;
+> +       unsigned long timeout;
+> +       int ret;
+> +
+> +       if (ivpu_test_mode == IVPU_TEST_MODE_FW_TEST)
+> +               return 0;
+> +
+> +       ivpu_ipc_consumer_add(vdev, &cons, IVPU_IPC_CHAN_BOOT_MSG);
+> +
+> +       timeout = jiffies + msecs_to_jiffies(vdev->timeout.boot);
+> +       while (1) {
+> +               ret = ivpu_ipc_irq_handler(vdev);
+> +               if (ret)
+> +                       break;
+> +               ret = ivpu_ipc_receive(vdev, &cons, &ipc_hdr, NULL, 0);
+> +               if (ret != -ETIMEDOUT || time_after_eq(jiffies, timeout))
+> +                       break;
+> +
+> +               cond_resched();
+> +       }
+> +
+> +       ivpu_ipc_consumer_del(vdev, &cons);
+> +
+> +       if (!ret && ipc_hdr.data_addr != IVPU_IPC_BOOT_MSG_DATA_ADDR) {
+> +               ivpu_err(vdev, "Invalid VPU ready message: 0x%x\n",
+> +                        ipc_hdr.data_addr);
+> +               return -EIO;
+> +       }
+> +
+> +       if (!ret)
+> +               ivpu_info(vdev, "VPU ready message received successfully\n");
+> +       else
+> +               ivpu_hw_diagnose_failure(vdev);
+> +
+> +       return ret;
+> +}
+> +
+> +/**
+> + * ivpu_boot() - Start VPU firmware
+> + * @vdev: VPU device
+> + *
+> + * This function is paired with ivpu_shutdown() but it doesn't power up the
+> + * VPU because power up has to be called very early in ivpu_probe().
+> + */
+> +int ivpu_boot(struct ivpu_device *vdev)
+> +{
+> +       int ret;
+> +
+> +       /* Update boot params located at first 4KB of FW memory */
+> +       ivpu_fw_boot_params_setup(vdev, vdev->fw->mem->kvaddr);
+> +
+> +       ret = ivpu_hw_boot_fw(vdev);
+> +       if (ret) {
+> +               ivpu_err(vdev, "Failed to start the firmware: %d\n", ret);
+> +               return ret;
+> +       }
+> +
+> +       ret = ivpu_wait_for_ready(vdev);
+> +       if (ret) {
+> +               ivpu_err(vdev, "Failed to boot the firmware: %d\n", ret);
+> +               return ret;
+> +       }
+> +
+> +       ivpu_hw_irq_clear(vdev);
+> +       enable_irq(vdev->irq);
+> +       ivpu_hw_irq_enable(vdev);
+> +       ivpu_ipc_enable(vdev);
+> +       return 0;
+> +}
+> +
+>  int ivpu_shutdown(struct ivpu_device *vdev)
+>  {
+>         int ret;
+>
+>         ivpu_hw_irq_disable(vdev);
+> +       disable_irq(vdev->irq);
+>         ivpu_ipc_disable(vdev);
+>         ivpu_mmu_disable(vdev);
+>
+> @@ -348,6 +451,10 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+>         if (!vdev->mmu)
+>                 return -ENOMEM;
+>
+> +       vdev->fw = drmm_kzalloc(&vdev->drm, sizeof(*vdev->fw), GFP_KERNEL);
+> +       if (!vdev->fw)
+> +               return -ENOMEM;
+> +
+>         vdev->ipc = drmm_kzalloc(&vdev->drm, sizeof(*vdev->ipc), GFP_KERNEL);
+>         if (!vdev->ipc)
+>                 return -ENOMEM;
+> @@ -356,6 +463,7 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+>         vdev->platform = IVPU_PLATFORM_INVALID;
+>         vdev->context_xa_limit.min = IVPU_GLOBAL_CONTEXT_MMU_SSID + 1;
+>         vdev->context_xa_limit.max = IVPU_CONTEXT_LIMIT;
+> +       atomic64_set(&vdev->unique_id_counter, 0);
+>         xa_init_flags(&vdev->context_xa, XA_FLAGS_ALLOC);
+>
+>         ret = ivpu_pci_init(vdev);
+> @@ -396,14 +504,34 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+>                 goto err_mmu_gctx_fini;
+>         }
+>
+> +       ret = ivpu_fw_init(vdev);
+> +       if (ret) {
+> +               ivpu_err(vdev, "Failed to initialize firmware: %d\n", ret);
+> +               goto err_mmu_gctx_fini;
+> +       }
+> +
+>         ret = ivpu_ipc_init(vdev);
+>         if (ret) {
+>                 ivpu_err(vdev, "Failed to initialize IPC: %d\n", ret);
+> -               goto err_mmu_gctx_fini;
+> +               goto err_fw_fini;
+> +       }
+> +
+> +       ret = ivpu_fw_load(vdev);
+> +       if (ret) {
+> +               ivpu_err(vdev, "Failed to load firmware: %d\n", ret);
+> +               goto err_fw_fini;
+> +       }
+> +
+> +       ret = ivpu_boot(vdev);
+> +       if (ret) {
+> +               ivpu_err(vdev, "Failed to boot: %d\n", ret);
+> +               goto err_fw_fini;
+>         }
+>
 >         return 0;
+>
+> +err_fw_fini:
+> +       ivpu_fw_fini(vdev);
+>  err_mmu_gctx_fini:
+>         ivpu_mmu_global_context_fini(vdev);
+>  err_power_down:
+> @@ -417,6 +545,7 @@ static void ivpu_dev_fini(struct ivpu_device *vdev)
+>  {
+>         ivpu_shutdown(vdev);
+>         ivpu_ipc_fini(vdev);
+> +       ivpu_fw_fini(vdev);
+>         ivpu_mmu_global_context_fini(vdev);
+>
+>         drm_WARN_ON(&vdev->drm, !xa_empty(&vdev->context_xa));
+> diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
+> index c1e76d1fb8ba..317ae61f43bd 100644
+> --- a/drivers/accel/ivpu/ivpu_drv.h
+> +++ b/drivers/accel/ivpu/ivpu_drv.h
+> @@ -74,6 +74,7 @@ struct ivpu_wa_table {
+>
+>  struct ivpu_hw_info;
+>  struct ivpu_mmu_info;
+> +struct ivpu_fw_info;
+>  struct ivpu_ipc_info;
+>
+>  struct ivpu_device {
+> @@ -86,12 +87,15 @@ struct ivpu_device {
+>         struct ivpu_wa_table wa;
+>         struct ivpu_hw_info *hw;
+>         struct ivpu_mmu_info *mmu;
+> +       struct ivpu_fw_info *fw;
+>         struct ivpu_ipc_info *ipc;
+>
+>         struct ivpu_mmu_context gctx;
+>         struct xarray context_xa;
+>         struct xa_limit context_xa_limit;
+>
+> +       atomic64_t unique_id_counter;
+> +
+>         struct {
+>                 int boot;
+>                 int jsm;
+> @@ -116,9 +120,16 @@ extern int ivpu_dbg_mask;
+>  extern u8 ivpu_pll_min_ratio;
+>  extern u8 ivpu_pll_max_ratio;
+>
+> +#define IVPU_TEST_MODE_DISABLED  0
+> +#define IVPU_TEST_MODE_FW_TEST   1
+> +#define IVPU_TEST_MODE_NULL_HW   2
+> +extern int ivpu_test_mode;
+> +
+>  struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv);
+>  struct ivpu_file_priv *ivpu_file_priv_get_by_ctx_id(struct ivpu_device *vdev, unsigned long id);
+>  void ivpu_file_priv_put(struct ivpu_file_priv **link);
+> +
+> +int ivpu_boot(struct ivpu_device *vdev);
+>  int ivpu_shutdown(struct ivpu_device *vdev);
+>
+>  static inline bool ivpu_is_mtl(struct ivpu_device *vdev)
+> diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
+> new file mode 100644
+> index 000000000000..4baa0767a10d
+> --- /dev/null
+> +++ b/drivers/accel/ivpu/ivpu_fw.c
+> @@ -0,0 +1,419 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2020-2023 Intel Corporation
+> + */
+> +
+> +#include <linux/firmware.h>
+> +#include <linux/highmem.h>
+> +#include <linux/moduleparam.h>
+> +#include <linux/pci.h>
+> +
+> +#include "vpu_boot_api.h"
+> +#include "ivpu_drv.h"
+> +#include "ivpu_fw.h"
+> +#include "ivpu_gem.h"
+> +#include "ivpu_hw.h"
+> +#include "ivpu_ipc.h"
+> +
+> +#define FW_GLOBAL_MEM_START    (2ull * SZ_1G)
+> +#define FW_GLOBAL_MEM_END      (3ull * SZ_1G)
+> +#define FW_SHARED_MEM_SIZE     SZ_256M /* Must be aligned to FW_SHARED_MEM_ALIGNMENT */
+> +#define FW_SHARED_MEM_ALIGNMENT        SZ_128K /* VPU MTRR limitation */
+> +#define FW_RUNTIME_MAX_SIZE    SZ_512M
+> +#define FW_SHAVE_NN_MAX_SIZE   SZ_2M
+> +#define FW_RUNTIME_MIN_ADDR    (FW_GLOBAL_MEM_START)
+> +#define FW_RUNTIME_MAX_ADDR    (FW_GLOBAL_MEM_END - FW_SHARED_MEM_SIZE)
+> +#define FW_VERSION_HEADER_SIZE SZ_4K
+> +#define FW_FILE_IMAGE_OFFSET   (VPU_FW_HEADER_SIZE + FW_VERSION_HEADER_SIZE)
+> +
+> +#define WATCHDOG_MSS_REDIRECT  32
+> +#define WATCHDOG_NCE_REDIRECT  33
+> +
+> +#define ADDR_TO_L2_CACHE_CFG(addr) ((addr) >> 31)
+> +
+> +#define IVPU_FW_CHECK_API(vdev, fw_hdr, name) ivpu_fw_check_api(vdev, fw_hdr, #name, \
+> +                                                                 VPU_##name##_API_VER_INDEX, \
+> +                                                                 VPU_##name##_API_VER_MAJOR, \
+> +                                                                 VPU_##name##_API_VER_MINOR)
+> +
+> +static char *ivpu_firmware;
+> +module_param_named_unsafe(firmware, ivpu_firmware, charp, 0644);
+> +MODULE_PARM_DESC(firmware, "VPU firmware binary in /lib/firmware/..");
+> +
+> +static int ivpu_fw_request(struct ivpu_device *vdev)
+> +{
+> +       static const char * const fw_names[] = {
+> +               "mtl_vpu.bin",
+> +               "intel/vpu/mtl_vpu_v0.0.bin"
+> +       };
+> +       int ret = -ENOENT;
+> +       int i;
+> +
+> +       if (ivpu_firmware)
+> +               return request_firmware(&vdev->fw->file, ivpu_firmware, vdev->drm.dev);
+> +
+> +       for (i = 0; i < ARRAY_SIZE(fw_names); i++) {
+> +               ret = firmware_request_nowarn(&vdev->fw->file, fw_names[i], vdev->drm.dev);
+> +               if (!ret)
+> +                       return 0;
+> +       }
+> +
+> +       ivpu_err(vdev, "Failed to request firmware: %d\n", ret);
+> +       return ret;
+> +}
+> +
+> +static void
+> +ivpu_fw_check_api(struct ivpu_device *vdev, const struct vpu_firmware_header *fw_hdr,
+> +                 const char *str, int index, u16 expected_major, u16 expected_minor)
+> +{
+> +       u16 major = (u16)(fw_hdr->api_version[index] >> 16);
+> +       u16 minor = (u16)(fw_hdr->api_version[index]);
+> +
+> +       if (major != expected_major) {
+> +               ivpu_warn(vdev, "Incompatible FW %s API version: %d.%d (expected %d.%d)\n",
+> +                         str, major, minor, expected_major, expected_minor);
+> +       }
+> +       ivpu_dbg(vdev, FW_BOOT, "FW %s API version: %d.%d (expected %d.%d)\n",
+> +                str, major, minor, expected_major, expected_minor);
+> +}
+> +
+> +static int ivpu_fw_parse(struct ivpu_device *vdev)
+> +{
+> +       struct ivpu_fw_info *fw = vdev->fw;
+> +       const struct vpu_firmware_header *fw_hdr = (const void *)fw->file->data;
+> +       u64 runtime_addr, image_load_addr, runtime_size, image_size;
+> +
+> +       if (fw->file->size <= FW_FILE_IMAGE_OFFSET) {
+> +               ivpu_err(vdev, "Firmware file is too small: %zu\n", fw->file->size);
+> +               return -EINVAL;
+> +       }
+> +
+> +       if (fw_hdr->header_version != VPU_FW_HEADER_VERSION) {
+> +               ivpu_err(vdev, "Invalid firmware header version: %u\n", fw_hdr->header_version);
+> +               return -EINVAL;
+> +       }
+> +
+> +       runtime_addr = fw_hdr->boot_params_load_address;
+> +       runtime_size = fw_hdr->runtime_size;
+> +       image_load_addr = fw_hdr->image_load_address;
+> +       image_size = fw_hdr->image_size;
+> +
+> +       if (runtime_addr < FW_RUNTIME_MIN_ADDR || runtime_addr > FW_RUNTIME_MAX_ADDR) {
+> +               ivpu_err(vdev, "Invalid firmware runtime address: 0x%llx\n", runtime_addr);
+> +               return -EINVAL;
+> +       }
+> +
+> +       if (runtime_size < fw->file->size || runtime_size > FW_RUNTIME_MAX_SIZE) {
+> +               ivpu_err(vdev, "Invalid firmware runtime size: %llu\n", runtime_size);
+> +               return -EINVAL;
+> +       }
+> +
+> +       if (FW_FILE_IMAGE_OFFSET + image_size > fw->file->size) {
+> +               ivpu_err(vdev, "Invalid image size: %llu\n", image_size);
+> +               return -EINVAL;
+> +       }
+> +
+> +       if (image_load_addr < runtime_addr ||
+> +           image_load_addr + image_size > runtime_addr + runtime_size) {
+> +               ivpu_err(vdev, "Invalid firmware load address size: 0x%llx and size %llu\n",
+> +                        image_load_addr, image_size);
+> +               return -EINVAL;
+> +       }
+> +
+> +       if (fw_hdr->shave_nn_fw_size > FW_SHAVE_NN_MAX_SIZE) {
+> +               ivpu_err(vdev, "SHAVE NN firmware is too big: %u\n", fw_hdr->shave_nn_fw_size);
+> +               return -EINVAL;
+> +       }
+> +
+> +       if (fw_hdr->entry_point < image_load_addr ||
+> +           fw_hdr->entry_point >= image_load_addr + image_size) {
+> +               ivpu_err(vdev, "Invalid entry point: 0x%llx\n", fw_hdr->entry_point);
+> +               return -EINVAL;
+> +       }
+> +
+> +       fw->runtime_addr = runtime_addr;
+> +       fw->runtime_size = runtime_size;
+> +       fw->image_load_offset = image_load_addr - runtime_addr;
+> +       fw->image_size = image_size;
+> +       fw->shave_nn_size = PAGE_ALIGN(fw_hdr->shave_nn_fw_size);
+> +
+> +       fw->cold_boot_entry_point = fw_hdr->entry_point;
+> +       fw->entry_point = fw->cold_boot_entry_point;
+> +
+> +       ivpu_dbg(vdev, FW_BOOT, "Header version: 0x%x, format 0x%x\n",
+> +                fw_hdr->header_version, fw_hdr->image_format);
+> +       ivpu_dbg(vdev, FW_BOOT, "Size: file %lu image %u runtime %u shavenn %u\n",
+> +                fw->file->size, fw->image_size, fw->runtime_size, fw->shave_nn_size);
+> +       ivpu_dbg(vdev, FW_BOOT, "Address: runtime 0x%llx, load 0x%llx, entry point 0x%llx\n",
+> +                fw->runtime_addr, image_load_addr, fw->entry_point);
+> +       ivpu_dbg(vdev, FW_BOOT, "FW version: %s\n", (char *)fw_hdr + VPU_FW_HEADER_SIZE);
+> +
+> +       IVPU_FW_CHECK_API(vdev, fw_hdr, BOOT);
+> +       IVPU_FW_CHECK_API(vdev, fw_hdr, JSM);
+> +
+> +       return 0;
+> +}
+> +
+> +static void ivpu_fw_release(struct ivpu_device *vdev)
+> +{
+> +       release_firmware(vdev->fw->file);
+> +}
+> +
+> +static int ivpu_fw_update_global_range(struct ivpu_device *vdev)
+> +{
+> +       struct ivpu_fw_info *fw = vdev->fw;
+> +       u64 start = ALIGN(fw->runtime_addr + fw->runtime_size, FW_SHARED_MEM_ALIGNMENT);
+> +       u64 size = FW_SHARED_MEM_SIZE;
+> +
+> +       if (start + size > FW_GLOBAL_MEM_END) {
+> +               ivpu_err(vdev, "No space for shared region, start %lld, size %lld\n", start, size);
+> +               return -EINVAL;
+> +       }
+> +
+> +       ivpu_hw_init_range(&vdev->hw->ranges.global_low, start, size);
+> +       return 0;
+> +}
+> +
+> +static int ivpu_fw_mem_init(struct ivpu_device *vdev)
+> +{
+> +       struct ivpu_fw_info *fw = vdev->fw;
+> +       int ret;
+> +
+> +       ret = ivpu_fw_update_global_range(vdev);
+> +       if (ret)
+> +               return ret;
+> +
+> +       fw->mem = ivpu_bo_alloc_internal(vdev, fw->runtime_addr, fw->runtime_size, DRM_IVPU_BO_WC);
+> +       if (!fw->mem) {
+> +               ivpu_err(vdev, "Failed to allocate firmware runtime memory\n");
+> +               return -ENOMEM;
+> +       }
+> +
+> +       if (fw->shave_nn_size) {
+> +               fw->mem_shave_nn = ivpu_bo_alloc_internal(vdev, vdev->hw->ranges.global_high.start,
+> +                                                         fw->shave_nn_size, DRM_IVPU_BO_UNCACHED);
+> +               if (!fw->mem_shave_nn) {
+> +                       ivpu_err(vdev, "Failed to allocate shavenn buffer\n");
+> +                       ivpu_bo_free_internal(fw->mem);
+> +                       return -ENOMEM;
+> +               }
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static void ivpu_fw_mem_fini(struct ivpu_device *vdev)
+> +{
+> +       struct ivpu_fw_info *fw = vdev->fw;
+> +
+> +       if (fw->mem_shave_nn) {
+> +               ivpu_bo_free_internal(fw->mem_shave_nn);
+> +               fw->mem_shave_nn = NULL;
+> +       }
+> +
+> +       ivpu_bo_free_internal(fw->mem);
+> +       fw->mem = NULL;
+> +}
+> +
+> +int ivpu_fw_init(struct ivpu_device *vdev)
+> +{
+> +       int ret;
+> +
+> +       ret = ivpu_fw_request(vdev);
+> +       if (ret)
+> +               return ret;
+> +
+> +       ret = ivpu_fw_parse(vdev);
+> +       if (ret)
+> +               goto err_fw_release;
+> +
+> +       ret = ivpu_fw_mem_init(vdev);
+> +       if (ret)
+> +               goto err_fw_release;
+> +
+> +       return 0;
+> +
+> +err_fw_release:
+> +       ivpu_fw_release(vdev);
+Why do you release the firmware only on error ?
+Why maintain the hold on the firmware file for as long as the device lives ?
+Can't you release the file once you loaded the firmware to the device's memory ?
+
+Oded
+> +       return ret;
+> +}
+> +
+> +void ivpu_fw_fini(struct ivpu_device *vdev)
+> +{
+> +       ivpu_fw_mem_fini(vdev);
+> +       ivpu_fw_release(vdev);
+> +}
+> +
+> +int ivpu_fw_load(struct ivpu_device *vdev)
+> +{
+> +       struct ivpu_fw_info *fw = vdev->fw;
+> +       u64 image_end_offset = fw->image_load_offset + fw->image_size;
+> +
+> +       memset(fw->mem->kvaddr, 0, fw->image_load_offset);
+> +       memcpy(fw->mem->kvaddr + fw->image_load_offset,
+> +              fw->file->data + FW_FILE_IMAGE_OFFSET, fw->image_size);
+> +
+> +       if (IVPU_WA(clear_runtime_mem)) {
+> +               u8 *start = fw->mem->kvaddr + image_end_offset;
+> +               u64 size = fw->mem->base.size - image_end_offset;
+> +
+> +               memset(start, 0, size);
+> +       }
+> +
+> +       wmb(); /* Flush WC buffers after writing fw->mem */
+> +
+> +       return 0;
+> +}
+> +
+> +static void ivpu_fw_boot_params_print(struct ivpu_device *vdev, struct vpu_boot_params *boot_params)
+> +{
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.magic = 0x%x\n",
+> +                boot_params->magic);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.vpu_id = 0x%x\n",
+> +                boot_params->vpu_id);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.vpu_count = 0x%x\n",
+> +                boot_params->vpu_count);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.frequency = %u\n",
+> +                boot_params->frequency);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.perf_clk_frequency = %u\n",
+> +                boot_params->perf_clk_frequency);
+> +
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.ipc_header_area_start = 0x%llx\n",
+> +                boot_params->ipc_header_area_start);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.ipc_header_area_size = 0x%x\n",
+> +                boot_params->ipc_header_area_size);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.shared_region_base = 0x%llx\n",
+> +                boot_params->shared_region_base);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.shared_region_size = 0x%x\n",
+> +                boot_params->shared_region_size);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.ipc_payload_area_start = 0x%llx\n",
+> +                boot_params->ipc_payload_area_start);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.ipc_payload_area_size = 0x%x\n",
+> +                boot_params->ipc_payload_area_size);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.global_aliased_pio_base = 0x%llx\n",
+> +                boot_params->global_aliased_pio_base);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.global_aliased_pio_size = 0x%x\n",
+> +                boot_params->global_aliased_pio_size);
+> +
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.autoconfig = 0x%x\n",
+> +                boot_params->autoconfig);
+> +
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].use = 0x%x\n",
+> +                boot_params->cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].use);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].cfg = 0x%x\n",
+> +                boot_params->cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].cfg);
+> +
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.global_memory_allocator_base = 0x%llx\n",
+> +                boot_params->global_memory_allocator_base);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.global_memory_allocator_size = 0x%x\n",
+> +                boot_params->global_memory_allocator_size);
+> +
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.shave_nn_fw_base = 0x%llx\n",
+> +                boot_params->shave_nn_fw_base);
+> +
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.watchdog_irq_mss = 0x%x\n",
+> +                boot_params->watchdog_irq_mss);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.watchdog_irq_nce = 0x%x\n",
+> +                boot_params->watchdog_irq_nce);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.host_to_vpu_irq = 0x%x\n",
+> +                boot_params->host_to_vpu_irq);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.job_done_irq = 0x%x\n",
+> +                boot_params->job_done_irq);
+> +
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.host_version_id = 0x%x\n",
+> +                boot_params->host_version_id);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.si_stepping = 0x%x\n",
+> +                boot_params->si_stepping);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.device_id = 0x%llx\n",
+> +                boot_params->device_id);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.feature_exclusion = 0x%llx\n",
+> +                boot_params->feature_exclusion);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.sku = 0x%llx\n",
+> +                boot_params->sku);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.min_freq_pll_ratio = 0x%x\n",
+> +                boot_params->min_freq_pll_ratio);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.pn_freq_pll_ratio = 0x%x\n",
+> +                boot_params->pn_freq_pll_ratio);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.max_freq_pll_ratio = 0x%x\n",
+> +                boot_params->max_freq_pll_ratio);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.default_trace_level = 0x%x\n",
+> +                boot_params->default_trace_level);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.tracing_buff_message_format_mask = 0x%llx\n",
+> +                boot_params->tracing_buff_message_format_mask);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.trace_destination_mask = 0x%x\n",
+> +                boot_params->trace_destination_mask);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.trace_hw_component_mask = 0x%llx\n",
+> +                boot_params->trace_hw_component_mask);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.boot_type = 0x%x\n",
+> +                boot_params->boot_type);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.punit_telemetry_sram_base = 0x%llx\n",
+> +                boot_params->punit_telemetry_sram_base);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.punit_telemetry_sram_size = 0x%llx\n",
+> +                boot_params->punit_telemetry_sram_size);
+> +       ivpu_dbg(vdev, FW_BOOT, "boot_params.vpu_telemetry_enable = 0x%x\n",
+> +                boot_params->vpu_telemetry_enable);
+> +}
+> +
+> +void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params *boot_params)
+> +{
+> +       struct ivpu_bo *ipc_mem_rx = vdev->ipc->mem_rx;
+> +
+> +       /* In case of warm boot we only have to reset the entrypoint addr */
+> +       if (!ivpu_fw_is_cold_boot(vdev)) {
+> +               boot_params->save_restore_ret_address = 0;
+> +               return;
+> +       }
+> +
+> +       boot_params->magic = VPU_BOOT_PARAMS_MAGIC;
+> +       boot_params->vpu_id = to_pci_dev(vdev->drm.dev)->bus->number;
+> +       boot_params->frequency = ivpu_hw_reg_pll_freq_get(vdev);
+> +
+> +       /*
+> +        * Uncached region of VPU address space, covers IPC buffers, job queues
+> +        * and log buffers, programmable to L2$ Uncached by VPU MTRR
+> +        */
+> +       boot_params->shared_region_base = vdev->hw->ranges.global_low.start;
+> +       boot_params->shared_region_size = vdev->hw->ranges.global_low.end -
+> +                                         vdev->hw->ranges.global_low.start;
+> +
+> +       boot_params->ipc_header_area_start = ipc_mem_rx->vpu_addr;
+> +       boot_params->ipc_header_area_size = ipc_mem_rx->base.size / 2;
+> +
+> +       boot_params->ipc_payload_area_start = ipc_mem_rx->vpu_addr + ipc_mem_rx->base.size / 2;
+> +       boot_params->ipc_payload_area_size = ipc_mem_rx->base.size / 2;
+> +
+> +       boot_params->global_aliased_pio_base =
+> +               vdev->hw->ranges.global_aliased_pio.start;
+> +       boot_params->global_aliased_pio_size =
+> +               ivpu_hw_range_size(&vdev->hw->ranges.global_aliased_pio);
+> +
+> +       /* Allow configuration for L2C_PAGE_TABLE with boot param value */
+> +       boot_params->autoconfig = 1;
+> +
+> +       /* Enable L2 cache for first 2GB of high memory */
+> +       boot_params->cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].use = 1;
+> +       boot_params->cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].cfg =
+> +               ADDR_TO_L2_CACHE_CFG(vdev->hw->ranges.global_high.start);
+> +
+> +       if (vdev->fw->mem_shave_nn)
+> +               boot_params->shave_nn_fw_base = vdev->fw->mem_shave_nn->vpu_addr;
+> +
+> +       boot_params->watchdog_irq_mss = WATCHDOG_MSS_REDIRECT;
+> +       boot_params->watchdog_irq_nce = WATCHDOG_NCE_REDIRECT;
+> +       boot_params->si_stepping = ivpu_revision(vdev);
+> +       boot_params->device_id = ivpu_device_id(vdev);
+> +       boot_params->feature_exclusion = vdev->hw->tile_fuse;
+> +       boot_params->sku = vdev->hw->sku;
+> +
+> +       boot_params->min_freq_pll_ratio = vdev->hw->pll.min_ratio;
+> +       boot_params->pn_freq_pll_ratio = vdev->hw->pll.pn_ratio;
+> +       boot_params->max_freq_pll_ratio = vdev->hw->pll.max_ratio;
+> +
+> +       boot_params->punit_telemetry_sram_base = ivpu_hw_reg_telemetry_offset_get(vdev);
+> +       boot_params->punit_telemetry_sram_size = ivpu_hw_reg_telemetry_size_get(vdev);
+> +       boot_params->vpu_telemetry_enable = ivpu_hw_reg_telemetry_enable_get(vdev);
+> +
+> +       wmb(); /* Flush WC buffers after writing bootparams */
+> +
+> +       ivpu_fw_boot_params_print(vdev, boot_params);
+> +}
+> diff --git a/drivers/accel/ivpu/ivpu_fw.h b/drivers/accel/ivpu/ivpu_fw.h
+> new file mode 100644
+> index 000000000000..8d275c802d1c
+> --- /dev/null
+> +++ b/drivers/accel/ivpu/ivpu_fw.h
+> @@ -0,0 +1,38 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (C) 2020-2023 Intel Corporation
+> + */
+> +
+> +#ifndef __IVPU_FW_H__
+> +#define __IVPU_FW_H__
+> +
+> +struct ivpu_device;
+> +struct ivpu_bo;
+> +struct vpu_boot_params;
+> +
+> +struct ivpu_fw_info {
+> +       const struct firmware *file;
+> +       struct ivpu_bo *mem;
+> +       struct ivpu_bo *mem_shave_nn;
+> +       struct ivpu_bo *mem_log_crit;
+> +       struct ivpu_bo *mem_log_verb;
+> +       u64 runtime_addr;
+> +       u32 runtime_size;
+> +       u64 image_load_offset;
+> +       u32 image_size;
+> +       u32 shave_nn_size;
+> +       u64 entry_point; /* Cold or warm boot entry point for next boot */
+> +       u64 cold_boot_entry_point;
+> +};
+> +
+> +int ivpu_fw_init(struct ivpu_device *vdev);
+> +void ivpu_fw_fini(struct ivpu_device *vdev);
+> +int ivpu_fw_load(struct ivpu_device *vdev);
+> +void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params *bp);
+> +
+> +static inline bool ivpu_fw_is_cold_boot(struct ivpu_device *vdev)
+> +{
+> +       return vdev->fw->entry_point == vdev->fw->cold_boot_entry_point;
+> +}
+> +
+> +#endif /* __IVPU_FW_H__ */
+> diff --git a/drivers/accel/ivpu/ivpu_hw_mtl.c b/drivers/accel/ivpu/ivpu_hw_mtl.c
+> index 0e9ef4c40901..55caf5479f5f 100644
+> --- a/drivers/accel/ivpu/ivpu_hw_mtl.c
+> +++ b/drivers/accel/ivpu/ivpu_hw_mtl.c
+> @@ -4,6 +4,7 @@
+>   */
+>
+>  #include "ivpu_drv.h"
+> +#include "ivpu_fw.h"
+>  #include "ivpu_hw_mtl_reg.h"
+>  #include "ivpu_hw_reg_io.h"
+>  #include "ivpu_hw.h"
+> @@ -588,6 +589,15 @@ static void ivpu_boot_soc_cpu_boot(struct ivpu_device *vdev)
+>
+>         val = REG_CLR_FLD(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, IRQI_RESUME0, val);
+>         REGV_WR32(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, val);
+> +
+> +       val = vdev->fw->entry_point >> 9;
+> +       REGV_WR32(MTL_VPU_HOST_SS_LOADING_ADDRESS_LO, val);
+> +
+> +       val = REG_SET_FLD(MTL_VPU_HOST_SS_LOADING_ADDRESS_LO, DONE, val);
+> +       REGV_WR32(MTL_VPU_HOST_SS_LOADING_ADDRESS_LO, val);
+> +
+> +       ivpu_dbg(vdev, PM, "Booting firmware, mode: %s\n",
+> +                vdev->fw->entry_point == vdev->fw->cold_boot_entry_point ? "cold boot" : "resume");
 >  }
 >
-> +static int adreno_system_suspend(struct device *dev);
->  static void adreno_unbind(struct device *dev, struct device *master,
->                 void *data)
->  {
->         struct msm_drm_private *priv = dev_get_drvdata(master);
->         struct msm_gpu *gpu = dev_to_gpu(dev);
+>  static int ivpu_boot_d0i3_drive(struct ivpu_device *vdev, bool enable)
+> diff --git a/drivers/accel/ivpu/vpu_boot_api.h b/drivers/accel/ivpu/vpu_boot_api.h
+> new file mode 100644
+> index 000000000000..6b71be92ba65
+> --- /dev/null
+> +++ b/drivers/accel/ivpu/vpu_boot_api.h
+> @@ -0,0 +1,349 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright (C) 2020-2023 Intel Corporation
+> + */
+> +
+> +#ifndef VPU_BOOT_API_H
+> +#define VPU_BOOT_API_H
+> +
+> +/*
+> + * =========== FW API version information beginning ================
+> + *  The bellow values will be used to construct the version info this way:
+> + *  fw_bin_header->api_version[VPU_BOOT_API_VER_ID] = (VPU_BOOT_API_VER_MAJOR << 16) |
+> + *  VPU_BOOT_API_VER_MINOR;
+> + *  VPU_BOOT_API_VER_PATCH will be ignored. KMD and compatibility is not affected if this changes.
+> + */
+> +
+> +/*
+> + * Major version changes that break backward compatibility.
+> + * Major version must start from 1 and can only be incremented.
+> + */
+> +#define VPU_BOOT_API_VER_MAJOR 3
+> +
+> +/*
+> + * Minor version changes when API backward compatibility is preserved.
+> + * Resets to 0 if Major version is incremented.
+> + */
+> +#define VPU_BOOT_API_VER_MINOR 12
+> +
+> +/*
+> + * API header changed (field names, documentation, formatting) but API itself has not been changed
+> + */
+> +#define VPU_BOOT_API_VER_PATCH 2
+> +
+> +/*
+> + * Index in the API version table
+> + * Must be unique for each API
+> + */
+> +#define VPU_BOOT_API_VER_INDEX 0
+> +/* ------------ FW API version information end ---------------------*/
+> +
+> +#pragma pack(push, 1)
+> +
+> +/*
+> + * Firmware image header format
+> + */
+> +#define VPU_FW_HEADER_SIZE    4096
+> +#define VPU_FW_HEADER_VERSION 0x1
+> +#define VPU_FW_VERSION_SIZE   32
+> +#define VPU_FW_API_VER_NUM    16
+> +
+> +struct vpu_firmware_header {
+> +       u32 header_version;
+> +       u32 image_format;
+> +       u64 image_load_address;
+> +       u32 image_size;
+> +       u64 entry_point;
+> +       u8 vpu_version[VPU_FW_VERSION_SIZE];
+> +       u32 compression_type;
+> +       u64 firmware_version_load_address;
+> +       u32 firmware_version_size;
+> +       u64 boot_params_load_address;
+> +       u32 api_version[VPU_FW_API_VER_NUM];
+> +       /* Size of memory require for firmware execution */
+> +       u32 runtime_size;
+> +       u32 shave_nn_fw_size;
+> +};
+> +
+> +/*
+> + * Firmware boot parameters format
+> + */
+> +
+> +#define VPU_BOOT_PLL_COUNT     3
+> +#define VPU_BOOT_PLL_OUT_COUNT 4
+> +
+> +/** Values for boot_type field */
+> +#define VPU_BOOT_TYPE_COLDBOOT 0
+> +#define VPU_BOOT_TYPE_WARMBOOT 1
+> +
+> +/** Value for magic filed */
+> +#define VPU_BOOT_PARAMS_MAGIC 0x10000
+> +
+> +/** VPU scheduling mode. By default, OS scheduling is used. */
+> +#define VPU_SCHEDULING_MODE_OS 0
+> +#define VPU_SCHEDULING_MODE_HW 1
+> +
+> +enum VPU_BOOT_L2_CACHE_CFG_TYPE {
+> +       VPU_BOOT_L2_CACHE_CFG_UPA = 0,
+> +       VPU_BOOT_L2_CACHE_CFG_NN = 1,
+> +       VPU_BOOT_L2_CACHE_CFG_NUM = 2
+> +};
+> +
+> +/**
+> + * Logging destinations.
+> + *
+> + * Logging output can be directed to different logging destinations. This enum
+> + * defines the list of logging destinations supported by the VPU firmware (NOTE:
+> + * a specific VPU FW binary may support only a subset of such output
+> + * destinations, depending on the target platform and compile options).
+> + */
+> +enum vpu_trace_destination {
+> +       VPU_TRACE_DESTINATION_PIPEPRINT = 0x1,
+> +       VPU_TRACE_DESTINATION_VERBOSE_TRACING = 0x2,
+> +       VPU_TRACE_DESTINATION_NORTH_PEAK = 0x4,
+> +};
+> +
+> +/*
+> + * Processor bit shifts (for loggable HW components).
+> + */
+> +#define VPU_TRACE_PROC_BIT_ARM      0
+> +#define VPU_TRACE_PROC_BIT_LRT      1
+> +#define VPU_TRACE_PROC_BIT_LNN      2
+> +#define VPU_TRACE_PROC_BIT_SHV_0     3
+> +#define VPU_TRACE_PROC_BIT_SHV_1     4
+> +#define VPU_TRACE_PROC_BIT_SHV_2     5
+> +#define VPU_TRACE_PROC_BIT_SHV_3     6
+> +#define VPU_TRACE_PROC_BIT_SHV_4     7
+> +#define VPU_TRACE_PROC_BIT_SHV_5     8
+> +#define VPU_TRACE_PROC_BIT_SHV_6     9
+> +#define VPU_TRACE_PROC_BIT_SHV_7     10
+> +#define VPU_TRACE_PROC_BIT_SHV_8     11
+> +#define VPU_TRACE_PROC_BIT_SHV_9     12
+> +#define VPU_TRACE_PROC_BIT_SHV_10    13
+> +#define VPU_TRACE_PROC_BIT_SHV_11    14
+> +#define VPU_TRACE_PROC_BIT_SHV_12    15
+> +#define VPU_TRACE_PROC_BIT_SHV_13    16
+> +#define VPU_TRACE_PROC_BIT_SHV_14    17
+> +#define VPU_TRACE_PROC_BIT_SHV_15    18
+> +#define VPU_TRACE_PROC_BIT_ACT_SHV_0 19
+> +#define VPU_TRACE_PROC_BIT_ACT_SHV_1 20
+> +#define VPU_TRACE_PROC_BIT_ACT_SHV_2 21
+> +#define VPU_TRACE_PROC_BIT_ACT_SHV_3 22
+> +#define VPU_TRACE_PROC_NO_OF_HW_DEVS 23
+> +
+> +/* KMB HW component IDs are sequential, so define first and last IDs. */
+> +#define VPU_TRACE_PROC_BIT_KMB_FIRST VPU_TRACE_PROC_BIT_LRT
+> +#define VPU_TRACE_PROC_BIT_KMB_LAST  VPU_TRACE_PROC_BIT_SHV_15
+> +
+> +struct vpu_boot_l2_cache_config {
+> +       u8 use;
+> +       u8 cfg;
+> +};
+> +
+> +struct vpu_warm_boot_section {
+> +       u32 src;
+> +       u32 dst;
+> +       u32 size;
+> +       u32 core_id;
+> +       u32 is_clear_op;
+> +};
+> +
+> +struct vpu_boot_params {
+> +       u32 magic;
+> +       u32 vpu_id;
+> +       u32 vpu_count;
+> +       u32 pad0[5];
+> +       /* Clock frequencies: 0x20 - 0xFF */
+> +       u32 frequency;
+> +       u32 pll[VPU_BOOT_PLL_COUNT][VPU_BOOT_PLL_OUT_COUNT];
+> +       u32 perf_clk_frequency;
+> +       u32 pad1[42];
+> +       /* Memory regions: 0x100 - 0x1FF */
+> +       u64 ipc_header_area_start;
+> +       u32 ipc_header_area_size;
+> +       u64 shared_region_base;
+> +       u32 shared_region_size;
+> +       u64 ipc_payload_area_start;
+> +       u32 ipc_payload_area_size;
+> +       u64 global_aliased_pio_base;
+> +       u32 global_aliased_pio_size;
+> +       u32 autoconfig;
+> +       struct vpu_boot_l2_cache_config cache_defaults[VPU_BOOT_L2_CACHE_CFG_NUM];
+> +       u64 global_memory_allocator_base;
+> +       u32 global_memory_allocator_size;
+> +       /**
+> +        * ShaveNN FW section VPU base address
+> +        * On VPU2.7 HW this address must be within 2GB range starting from L2C_PAGE_TABLE base
+> +        */
+> +       u64 shave_nn_fw_base;
+> +       u64 save_restore_ret_address; /* stores the address of FW's restore entry point */
+> +       u32 pad2[43];
+> +       /* IRQ re-direct numbers: 0x200 - 0x2FF */
+> +       s32 watchdog_irq_mss;
+> +       s32 watchdog_irq_nce;
+> +       /* ARM -> VPU doorbell interrupt. ARM is notifying VPU of async command or compute job. */
+> +       u32 host_to_vpu_irq;
+> +       /* VPU -> ARM job done interrupt. VPU is notifying ARM of compute job completion. */
+> +       u32 job_done_irq;
+> +       /* VPU -> ARM IRQ line to use to request MMU update. */
+> +       u32 mmu_update_request_irq;
+> +       /* ARM -> VPU IRQ line to use to notify of MMU update completion. */
+> +       u32 mmu_update_done_irq;
+> +       /* ARM -> VPU IRQ line to use to request power level change. */
+> +       u32 set_power_level_irq;
+> +       /* VPU -> ARM IRQ line to use to notify of power level change completion. */
+> +       u32 set_power_level_done_irq;
+> +       /* VPU -> ARM IRQ line to use to notify of VPU idle state change */
+> +       u32 set_vpu_idle_update_irq;
+> +       /* VPU -> ARM IRQ line to use to request counter reset. */
+> +       u32 metric_query_event_irq;
+> +       /* ARM -> VPU IRQ line to use to notify of counter reset completion. */
+> +       u32 metric_query_event_done_irq;
+> +       /* VPU -> ARM IRQ line to use to notify of preemption completion. */
+> +       u32 preemption_done_irq;
+> +       /* Padding. */
+> +       u32 pad3[52];
+> +       /* Silicon information: 0x300 - 0x3FF */
+> +       u32 host_version_id;
+> +       u32 si_stepping;
+> +       u64 device_id;
+> +       u64 feature_exclusion;
+> +       u64 sku;
+> +       /** PLL ratio for minimum clock frequency */
+> +       u32 min_freq_pll_ratio;
+> +       /** PLL ratio for maximum clock frequency */
+> +       u32 max_freq_pll_ratio;
+> +       /**
+> +        * Initial log level threshold (messages with log level severity less than
+> +        * the threshold will not be logged); applies to every enabled logging
+> +        * destination and loggable HW component. See 'mvLog_t' enum for acceptable
+> +        * values.
+> +        */
+> +       u32 default_trace_level;
+> +       u32 boot_type;
+> +       u64 punit_telemetry_sram_base;
+> +       u64 punit_telemetry_sram_size;
+> +       u32 vpu_telemetry_enable;
+> +       u64 crit_tracing_buff_addr;
+> +       u32 crit_tracing_buff_size;
+> +       u64 verbose_tracing_buff_addr;
+> +       u32 verbose_tracing_buff_size;
+> +       u64 verbose_tracing_sw_component_mask; /* TO BE REMOVED */
+> +       /**
+> +        * Mask of destinations to which logging messages are delivered; bitwise OR
+> +        * of values defined in vpu_trace_destination enum.
+> +        */
+> +       u32 trace_destination_mask;
+> +       /**
+> +        * Mask of hardware components for which logging is enabled; bitwise OR of
+> +        * bits defined by the VPU_TRACE_PROC_BIT_* macros.
+> +        */
+> +       u64 trace_hw_component_mask;
+> +       /** Mask of trace message formats supported by the driver */
+> +       u64 tracing_buff_message_format_mask;
+> +       u64 trace_reserved_1[2];
+> +       /**
+> +        * Period at which the VPU reads the temp sensor values into MMIO, on
+> +        * platforms where that is necessary (in ms). 0 to disable reads.
+> +        */
+> +       u32 temp_sensor_period_ms;
+> +       /** PLL ratio for efficient clock frequency */
+> +       u32 pn_freq_pll_ratio;
+> +       u32 pad4[28];
+> +       /* Warm boot information: 0x400 - 0x43F */
+> +       u32 warm_boot_sections_count;
+> +       u32 warm_boot_start_address_reference;
+> +       u32 warm_boot_section_info_address_offset;
+> +       u32 pad5[13];
+> +       /* Power States transitions timestamps: 0x440 - 0x46F*/
+> +       struct {
+> +               /* VPU_IDLE -> VPU_ACTIVE transition initiated timestamp */
+> +               u64 vpu_active_state_requested;
+> +               /* VPU_IDLE -> VPU_ACTIVE transition completed timestamp */
+> +               u64 vpu_active_state_achieved;
+> +               /* VPU_ACTIVE -> VPU_IDLE transition initiated timestamp */
+> +               u64 vpu_idle_state_requested;
+> +               /* VPU_ACTIVE -> VPU_IDLE transition completed timestamp */
+> +               u64 vpu_idle_state_achieved;
+> +               /* VPU_IDLE -> VPU_STANDBY transition initiated timestamp */
+> +               u64 vpu_standby_state_requested;
+> +               /* VPU_IDLE -> VPU_STANDBY transition completed timestamp */
+> +               u64 vpu_standby_state_achieved;
+> +       } power_states_timestamps;
+> +       /* VPU scheduling mode. Values defined by VPU_SCHEDULING_MODE_* macros. */
+> +       u32 vpu_scheduling_mode;
+> +       /* Present call period in milliseconds. */
+> +       u32 vpu_focus_present_timer_ms;
+> +       /* Unused/reserved: 0x478 - 0xFFF */
+> +       u32 pad6[738];
+> +};
+> +
+> +/*
+> + * Magic numbers set between host and vpu to detect corruptio of tracing init
+> + */
+> +
+> +#define VPU_TRACING_BUFFER_CANARY (0xCAFECAFE)
+> +
+> +/* Tracing buffer message format definitions */
+> +#define VPU_TRACING_FORMAT_STRING 0
+> +#define VPU_TRACING_FORMAT_MIPI          2
+> +/*
+> + * Header of the tracing buffer.
+> + * The below defined header will be stored at the beginning of
+> + * each allocated tracing buffer, followed by a series of 256b
+> + * of ASCII trace message entries.
+> + */
+> +struct vpu_tracing_buffer_header {
+> +       /**
+> +        * Magic number set by host to detect corruption
+> +        * @see VPU_TRACING_BUFFER_CANARY
+> +        */
+> +       u32 host_canary_start;
+> +       /* offset from start of buffer for trace entries */
+> +       u32 read_index;
+> +       u32 pad_to_cache_line_size_0[14];
+> +       /* End of first cache line */
+> +
+> +       /**
+> +        * Magic number set by host to detect corruption
+> +        * @see VPU_TRACING_BUFFER_CANARY
+> +        */
+> +       u32 vpu_canary_start;
+> +       /* offset from start of buffer from write start */
+> +       u32 write_index;
+> +       /* counter for buffer wrapping */
+> +       u32 wrap_count;
+> +       /* legacy field - do not use */
+> +       u32 reserved_0;
+> +       /**
+> +        * Size of the log buffer include this header (@header_size) and space
+> +        * reserved for all messages. If @alignment` is greater that 0 the @Size
+> +        * must be multiple of @Alignment.
+> +        */
+> +       u32 size;
+> +       /* Header version */
+> +       u16 header_version;
+> +       /* Header size */
+> +       u16 header_size;
+> +       /*
+> +        * Format of the messages in the trace buffer
+> +        * 0 - null terminated string
+> +        * 1 - size + null terminated string
+> +        * 2 - MIPI-SysT encoding
+> +        */
+> +       u32 format;
+> +       /*
+> +        * Message alignment
+> +        * 0 - messages are place 1 after another
+> +        * n - every message starts and multiple on offset
+> +        */
+> +       u32 alignment; /* 64, 128, 256 */
+> +       /* Name of the logging entity, i.e "LRT", "LNN", "SHV0", etc */
+> +       char name[16];
+> +       u32 pad_to_cache_line_size_1[4];
+> +       /* End of second cache line */
+> +};
+> +
+> +#pragma pack(pop)
+> +
+> +#endif
+> diff --git a/include/uapi/drm/ivpu_accel.h b/include/uapi/drm/ivpu_accel.h
+> index 5f953ebafc9b..005b40b7326c 100644
+> --- a/include/uapi/drm/ivpu_accel.h
+> +++ b/include/uapi/drm/ivpu_accel.h
+> @@ -51,6 +51,11 @@ extern "C" {
+>  #define DRM_IVPU_PARAM_CONTEXT_BASE_ADDRESS 5
+>  #define DRM_IVPU_PARAM_CONTEXT_PRIORITY            6
+>  #define DRM_IVPU_PARAM_CONTEXT_ID          7
+> +#define DRM_IVPU_PARAM_FW_API_VERSION      8
+> +#define DRM_IVPU_PARAM_ENGINE_HEARTBEAT            9
+> +#define DRM_IVPU_PARAM_UNIQUE_INFERENCE_ID  10
+> +#define DRM_IVPU_PARAM_TILE_CONFIG         11
+> +#define DRM_IVPU_PARAM_SKU                 12
 >
-> -       pm_runtime_force_suspend(dev);
-> +       WARN_ON_ONCE(adreno_system_suspend(dev));
->         gpu->funcs->destroy(gpu);
+>  #define DRM_IVPU_PLATFORM_TYPE_SILICON     0
 >
->         priv->gpu_pdev = NULL;
-> @@ -609,7 +610,7 @@ static int adreno_remove(struct platform_device *pdev)
+> @@ -94,6 +99,22 @@ struct drm_ivpu_param {
+>          * %DRM_IVPU_PARAM_CONTEXT_ID:
+>          * Current context ID, always greater than 0 (read-only)
+>          *
+> +        * %DRM_IVPU_PARAM_FW_API_VERSION:
+> +        * Firmware API version array (read-only)
+> +        *
+> +        * %DRM_IVPU_PARAM_ENGINE_HEARTBEAT:
+> +        * Heartbeat value from an engine (read-only).
+> +        * Engine ID (i.e. DRM_IVPU_ENGINE_COMPUTE) is given via index.
+> +        *
+> +        * %DRM_IVPU_PARAM_UNIQUE_INFERENCE_ID:
+> +        * Device-unique inference ID (read-only)
+> +        *
+> +        * %DRM_IVPU_PARAM_TILE_CONFIG:
+> +        * VPU tile configuration  (read-only)
+> +        *
+> +        * %DRM_IVPU_PARAM_SKU:
+> +        * VPU SKU ID (read-only)
+> +        *
+>          */
+>         __u32 param;
 >
->  static void adreno_shutdown(struct platform_device *pdev)
->  {
-> -       pm_runtime_force_suspend(&pdev->dev);
-> +       WARN_ON_ONCE(adreno_system_suspend(&pdev->dev));
->  }
->
->  static const struct of_device_id dt_match[] = {
 > --
-> 2.39.0.314.g84b9a713c41-goog
+> 2.34.1
 >
