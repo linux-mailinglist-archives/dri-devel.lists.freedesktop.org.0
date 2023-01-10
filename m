@@ -1,37 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F18663F7E
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 12:49:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2432663F81
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 12:50:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BB2710E5A6;
-	Tue, 10 Jan 2023 11:49:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF84D10E5A8;
+	Tue, 10 Jan 2023 11:50:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A47910E5AA
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 11:49:34 +0000 (UTC)
-Date: Tue, 10 Jan 2023 11:49:23 +0000
+Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A28F810E5A8
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 11:50:12 +0000 (UTC)
+Date: Tue, 10 Jan 2023 11:50:05 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1673351372; x=1673610572;
- bh=G+xykdRb1Ba6p/DeQ0KJEfvcYfrSs1EcsorORQzBThY=;
+ s=protonmail3; t=1673351410; x=1673610610;
+ bh=BhsA1aKlglGjpRdMu2peVecDmERAuTyLLhI53Hw2hvM=;
  h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
  Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
  Message-ID:BIMI-Selector;
- b=DS70BpXj98H7qtAXJMa2KeCHIdvvTgponGsuAwaw6mi8JrAw5x3PxwblY8CA+Rog6
- kpCEKtNOS7xL7k58aN2ERWW0uy3oGdsBoxkVyIS6822Ors+JfDpUpeNxfh3JER3m+B
- nt+Wo1laEUPnKVFgtoJQj/3FY5JhasSI8CoWXjcA7sx+vbREpsy1mgyt7GWNaAzFvu
- GSQ/Dv71KksPhEFoWrSuXkdqv8VX9W4x/IPEiygO9yknC2PQnEvTTi9ncRRilE2qJV
- 9EuiIulHoz0DYabPrAHeDqgEOeBv8ZzasEWk/u33y35N9USRZJUfxTB1IGE1hYCs/7
- J6Wq63VxUjRyg==
-To: =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+ b=la/Z66cN/E6qpNhrTyx8zrQQkk9hgnV8fo5/eY1lDgWGjCmLZ/hcSyPQoSLNfCoPR
+ K9PqLZRG5B161zRb9+Tir16v3sqAuG9LFuBpyJ4WfmqQ9EJhjp09zB8jZnr7zbF+Ie
+ mIlFSFQijn2kt1K79lMCZpxiyWqJb1c2PNIV3iI4MuY8JT6aVsPolbHYDc0Y1AF/Jy
+ 8HGeo4nNrvn3lK+8rVyX1LE6uOT0XgsIjkUc12quuDdOC3wIoVslxltG2RwPqhMQ5/
+ zrihg82pziQ+OmFctWdgP/VH7eRr3NmBuEO4S+y+v+5P7kARNIPwwuanj2/FT78/gT
+ vQqzi7w3eNLrw==
+To: dri-devel@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] doc: add dma-buf IOCTL code to table
-Message-ID: <CBxfX5V758BMJrTNNtWSrSxTq0Ep48B4PbOS-ryM5B-WDgErHc5zeJBDYNE9UwFVXDMSwd7Bj-Zu6PZZ2jnzGwcL1tHWYySujL9CgTTedoE=@emersion.fr>
-In-Reply-To: <dea4806e-f96a-262a-e0d5-ae60c199458c@amd.com>
-References: <20221128133853.355645-1-contact@emersion.fr>
- <dea4806e-f96a-262a-e0d5-ae60c199458c@amd.com>
+Subject: Re: [PATCH 1/7] drm/atomic: log
+ drm_atomic_replace_property_blob_from_id() errors
+Message-ID: <3ApQ7DaIcSiZF_O2IUcv0mWD0U0NHrPbx8o_w1433tS0mnUqsUeP_dNm7bls-lS6JVkvzTHcQTWhdBUUAaV4v7GTVy4mGlGRe3j46f2fGlw=@emersion.fr>
+In-Reply-To: <ubY43ItyySA6aagyF6bYmc5i4iSfgGzT2sDHKhWyDDcM6H6lgc6h3Hj76nmgGkb3H1MM_df761QqKx0r62I_M3FDF_mX702PY79xNE8C7ak=@emersion.fr>
+References: <20221019143736.267324-1-contact@emersion.fr>
+ <ubY43ItyySA6aagyF6bYmc5i4iSfgGzT2sDHKhWyDDcM6H6lgc6h3Hj76nmgGkb3H1MM_df761QqKx0r62I_M3FDF_mX702PY79xNE8C7ak=@emersion.fr>
 Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -48,15 +49,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, November 29th, 2022 at 10:56, Christian K=C3=B6nig <christian.k=
-oenig@amd.com> wrote:
-
-> Should I also push this?
-
-I can push to drm-misc-next, but is that the suitable repo?
+Ping
