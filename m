@@ -2,57 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03136663CF2
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 10:33:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C036D663CF9
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 10:34:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5815F10E572;
-	Tue, 10 Jan 2023 09:33:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25E4A10E574;
+	Tue, 10 Jan 2023 09:34:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6658110E572
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 09:33:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673343199;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lcW6IvR/BGpFNkizqkXnU0KCWFFCgWFeQW7q1G/vfb4=;
- b=QAGs0SqCJkkYC7q67YMd5xoGg/UKPy0CNEy+8CriqRrdxeG6rn+CZZmRoqf1JwxxqINQ1Z
- 9ef0yRUbxEIPyn+1i5fJXvk9gxYdWz3B2gvqLa9D5d7vvOiLYyXe3XI16SuSjMny447ZTp
- 8hR0QwQ/+/jWSYgqPnFNEQGzoSWjqzs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-204-AcA05VpHOoSbmNjkYKla-A-1; Tue, 10 Jan 2023 04:33:16 -0500
-X-MC-Unique: AcA05VpHOoSbmNjkYKla-A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE2E33C0DDAB;
- Tue, 10 Jan 2023 09:33:15 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.238])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 925742166B29;
- Tue, 10 Jan 2023 09:33:15 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4A49C18000B3; Tue, 10 Jan 2023 10:33:14 +0100 (CET)
-Date: Tue, 10 Jan 2023 10:33:14 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v1 1/2] drm/virtio: Attach and set suggested_x/y
- properties for the connector
-Message-ID: <20230110093314.d3zbz4k2oxypz5sm@sirius.home.kraxel.org>
-References: <20221118013054.182304-1-vivek.kasireddy@intel.com>
- <20221118013054.182304-2-vivek.kasireddy@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A9E910E574
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 09:34:26 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 4AA566602D6F;
+ Tue, 10 Jan 2023 09:34:24 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1673343264;
+ bh=2X++/CX/YTAfIcjlM+DL6gfRl75tPuYYPGsfmxgOiGE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=OefKhWDdnqvlYAqc/ThdX441MkImgzCrRjY1+pFgFjiOCZjJ/XehLQdzQ/ZF//jzD
+ iXBkxh8mqvB/O3bJr0gpVcEnZ4CCrw/1pa59q1NrWTYhtk2PZBnise3AQrLYCpLz65
+ 4GPR/9wf+MXUjIP9QZ1/QdB5VooBClY/wMD7z+enttc9fo0+oM+L14mblHmMzaTtf+
+ 1Xl/TrHJxxgefbGblH3l0yjTpDvlfl92VKQba3ajbhshYj9+62IeHLXFNJ3LcGA47z
+ w4MpK7ARbvRw6/td8yfjypsT0TDzZRIuvC17+0/WIHkzX4GmdA26QRf64u4Odr4S2A
+ p0VNLfnOwsWKA==
+Message-ID: <9102d7a1-e40d-1201-f1e8-eeb12923502a@collabora.com>
+Date: Tue, 10 Jan 2023 10:34:21 +0100
 MIME-Version: 1.0
-In-Reply-To: <20221118013054.182304-2-vivek.kasireddy@intel.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] drm/mediatek: include missing headers
+Content-Language: en-US
+To: Miles Chen <miles.chen@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>
+References: <20230110091647.13265-1-miles.chen@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230110091647.13265-1-miles.chen@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,33 +58,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dongwon Kim <dongwon.kim@intel.com>, dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  Hi,
+Il 10/01/23 10:16, Miles Chen ha scritto:
+> Fix the follow sparse warnings by adding missing headers:
+> 
+> drivers/gpu/drm/mediatek/mtk_cec.c:251:24: sparse: warning: symbol 'mtk_cec_driver' was not declared. Should it be static?
+> drivers/gpu/drm/mediatek/mtk_disp_ccorr.c:221:24: sparse: warning: symbol 'mtk_disp_ccorr_driver' was not declared. Should it be static?
+> drivers/gpu/drm/mediatek/mtk_disp_rdma.c:390:24: sparse: warning: symbol 'mtk_disp_rdma_driver' was not declared. Should it be static?
+> drivers/gpu/drm/mediatek/mtk_disp_gamma.c:209:24: sparse: warning: symbol 'mtk_disp_gamma_driver' was not declared. Should it be static?
+> drivers/gpu/drm/mediatek/mtk_disp_ovl.c:565:24: sparse: warning: symbol 'mtk_disp_ovl_driver' was not declared. Should it be static?
+> drivers/gpu/drm/mediatek/mtk_disp_color.c:164:24: sparse: warning: symbol 'mtk_disp_color_driver' was not declared. Should it be static?
+> drivers/gpu/drm/mediatek/mtk_disp_aal.c:161:24: sparse: warning: symbol 'mtk_disp_aal_driver' was not declared. Should it be static?
+> drivers/gpu/drm/mediatek/mtk_dpi.c:1109:24: sparse: warning: symbol 'mtk_dpi_driver' was not declared. Should it be static?
+> drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c:340:24: sparse: warning: symbol 'mtk_hdmi_ddc_driver' was not declared. Should it be static?
+> drivers/gpu/drm/mediatek/mtk_dsi.c:1223:24: sparse: warning: symbol 'mtk_dsi_driver' was not declared. Should it be static?
+> 
+> Signed-off-by: Miles Chen <miles.chen@mediatek.com>
 
-> +static void virtio_gpu_update_output_position(struct virtio_gpu_output *output)
-> +{
-> +	struct drm_connector *connector = &output->conn;
-> +	struct drm_device *dev = connector->dev;
-> +
-> +	drm_object_property_set_value(&connector->base,
-> +		dev->mode_config.suggested_x_property, output->info.r.x);
-> +	drm_object_property_set_value(&connector->base,
-> +		dev->mode_config.suggested_y_property, output->info.r.y);
-> +}
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-This fails sparse checking
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/virtio/virtgpu_vq.c:654:70: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long [usertype] val @@     got restricted __le32 [usertype] x @@
-   drivers/gpu/drm/virtio/virtgpu_vq.c:654:70: sparse:     expected unsigned long long [usertype] val
-   drivers/gpu/drm/virtio/virtgpu_vq.c:654:70: sparse:     got restricted __le32 [usertype] x
->> drivers/gpu/drm/virtio/virtgpu_vq.c:656:70: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long [usertype] val @@     got restricted __le32 [usertype] y @@
-   drivers/gpu/drm/virtio/virtgpu_vq.c:656:70: sparse:     expected unsigned long long [usertype] val
-   drivers/gpu/drm/virtio/virtgpu_vq.c:656:70: sparse:     got restricted __le32 [usertype] y
-
-take care,
-  Gerd
 
