@@ -2,46 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95E3F664629
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 17:33:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 448F1664647
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 17:39:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56D5610E136;
-	Tue, 10 Jan 2023 16:33:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1A7F10E602;
+	Tue, 10 Jan 2023 16:39:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8178710E136
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 16:33:14 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A6BD9B810F8;
- Tue, 10 Jan 2023 16:33:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6146BC433EF;
- Tue, 10 Jan 2023 16:33:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1673368386;
- bh=jr2pZ/UMSVbzFz+1Yzl7inZVl9e465D9yUp1u1Q4HWY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=u7wt/qBGpMLMnFKAje0arJvY70Oha1GtNVBT+xWhFCRXff+9DF1wRT4Qi/08nQVml
- ihEBcGs8VyZpZ/9JKk9kHo526BcTr8k15x7tpYABUT5CWIYapwnuAKWaCxrcGsGJga
- rL93WMGmKJSYCtTWaInqH4F34bYdAZaONc9FOo9jHjITGdoCfXPpqrvSdvrLket1Ld
- r2M+QMwzm/lhOeExENNU/Cx/754P1AEgmEBFzjNeMktDgKEKTkmRifKgsviIBKnwuu
- TMoftNzLEwl+JLQCgQ89tSznHlsVNM/rQ/w9E83eK6T1zXIZyNMuW6+GdRIZLz6Ame
- M9M5vnSyBqxPw==
-Date: Tue, 10 Jan 2023 16:32:59 +0000
-From: Will Deacon <will@kernel.org>
-To: Naresh Kamboju <naresh.kamboju@linaro.org>
-Subject: Re: next-20230110: arm64: defconfig+kselftest config boot failed -
- Unable to handle kernel paging request at virtual address fffffffffffffff8
-Message-ID: <20230110163258.GC9436@willie-the-truck>
-References: <CA+G9fYsns3krivbPSjQ1c1EQpVyd-bkW84MaUvqMTQr9c=iEaw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81B7410E600;
+ Tue, 10 Jan 2023 16:39:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673368776; x=1704904776;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=HsrinR9hHVWMhpKs8ddnFzg9GxNHw57/7uc7zgMhWAQ=;
+ b=OFyUlid2jGmnef9eGAyOLSJzgk0E9smXeTPF0wFnVd1sq27a6u6T8BaQ
+ HQl4oXO7iIGnfV4KZ6HaPbUtUIqAPGX7xTLWx3fs0URUMjGD1r7feRyg9
+ aMZpkZMVMDk8ZJFZ6wha7IFQfjBISoo/Pqd4KJVOtHUqeOAqxKzbAYA6L
+ M9/9fs32D9lUGt8wJ6u88m5WkMGX0M/D5x3DSbYFgo4WjhDHup2TZpMkV
+ f+kSUOIRE0g/ugdVjgZElokeytL0bQyv/w7TIya/grG+3Weq3Z7ELyl4r
+ BYpWe/bWtUhpLrLVc8+OZOA96m8GB7dxYP/KlkNzgyC1iJtA54Mnxxv9t Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="385498908"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="385498908"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2023 08:39:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="902432520"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="902432520"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmsmga006.fm.intel.com with ESMTP; 10 Jan 2023 08:39:34 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Tue, 10 Jan 2023 08:39:34 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Tue, 10 Jan 2023 08:39:33 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Tue, 10 Jan 2023 08:39:33 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Tue, 10 Jan 2023 08:39:31 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WS8gU0Z5zA2GieLMRyXMGGl2o7YmqpbBtq9INzEidNBPekUchYBuv9Sw/0iZdhntqyxyL9T9AHOBjb9B2B3RZ0tQkCAe8t6k3QxhAIk+cAWsW68k9CSmXqWAwdP8yuyZ9TsmiIGmZhxB665dQRwvPBEFEyWjiA5E4efGoGIGl2d85TsY/vExVTFqvGnDxxg49fjS7gTa9I8L0VGM91aI/g3Ffehckm5bVTi1MW7rEDS3Y/0CHGnpLntQ7zn2mMoEHn9LpnE6b9jNljO31rAplwRD7Y/oKDB5Fq0r3kl2tsw+UESbMWY5EEq+zns9gqy8VkXkVwqV1rqADSMv9uD6ug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UpGzSsKWXFUtPcAvuyNI1KwaQKPStqAEI7zgS+n+88Q=;
+ b=RuVvOucZJi6BhzQ3lKKQQY52d5sx2wzi0QcrBdWDLq3n5E51nNG9gTFLyzHWfpE7uR0jCjDz872VntLGFW6/t+ZyyNmR7l5znwnKU+WN6TIWR2BY8QzRGh7NcfFhs9bFTS2/aTDw9s+yvMyI++nK8ZhxcDGZ02wf1XSW+jkCt1RRCs6iMsgu5tN1h4/z9lsX3cOMrPHABjfpQUjp8jQhfPiu0V3tahnBKjl/e1D6fXhAVJjclk8uSBSL8r0UCB/kstWziOho9kAikNIK4F2wqIBfPRFU3E8FBnM1li712k60jpcGK6HgYJ3j7IIF1Ms3CRCQp/TBaHt2jzB4d/IBHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by DM4PR11MB6238.namprd11.prod.outlook.com (2603:10b6:8:a8::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Tue, 10 Jan
+ 2023 16:39:29 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::2ceb:afd:8ee7:4cc]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::2ceb:afd:8ee7:4cc%6]) with mapi id 15.20.5986.018; Tue, 10 Jan 2023
+ 16:39:29 +0000
+Date: Tue, 10 Jan 2023 16:39:00 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [RFC PATCH 04/20] drm/sched: Convert drm scheduler
+ to use a work queue rather than kthread
+Message-ID: <Y72UpKPX6lr/ea7R@DUT025-TGLU.fm.intel.com>
+References: <20221222222127.34560-5-matthew.brost@intel.com>
+ <20221230112042.2ddd1946@collabora.com>
+ <20221230125508.57af8a14@collabora.com>
+ <20230102083019.24b99647@collabora.com>
+ <7d6df13c-6c2e-d713-edc8-128d6e19f187@linux.intel.com>
+ <Y7dEjcuc1arHBTGu@DUT025-TGLU.fm.intel.com>
+ <Y7i0J3uQ+izOJcEb@DUT025-TGLU.fm.intel.com>
+ <e8c301cb-c7d4-ed54-f3ab-61a5fcc7f940@linux.intel.com>
+ <CAOFGe96yeF4SWxvHC5pxyggf=655q7+ZrFS+Zab42F-RE7UK1w@mail.gmail.com>
+ <e6512993-5247-a577-abf4-97cdb21358a0@linux.intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
-In-Reply-To: <CA+G9fYsns3krivbPSjQ1c1EQpVyd-bkW84MaUvqMTQr9c=iEaw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e6512993-5247-a577-abf4-97cdb21358a0@linux.intel.com>
+X-ClientProxiedBy: SJ0PR03CA0223.namprd03.prod.outlook.com
+ (2603:10b6:a03:39f::18) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DM4PR11MB6238:EE_
+X-MS-Office365-Filtering-Correlation-Id: 397106b9-b99b-405a-e5cf-08daf3293e8e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +LrkO/AzLv/e/iDWQkH3/qjjbkkueocjfXXi3oTJkopNhmrrVg1vovNHAiyhpTCS7Dye2jmeE4HdOqvSTK0w46gB5wMhxgnTY/gcPJ5I6Fv37kEjXzuKyhRVav/Ivi/Wlc2hyc8lk6Q2C0n0UE/hVkDRqb/xHU2GwTEEIFfDId+PXSPBXwP/NGeEeWUTsrUizlPc4LNl0xNscsbKXyfPTOHTu5qfMOcDbYUfeyQQcknHsKlw+tLQtQhab0GEZGNdqzsHgAAmcfB5fDjcfxmKt0mTKj0Ak5auwkZd2rOaZieToTCW/hfkPedj/9KWqVWpDvh54/AhWoIckjFpNg5d3ap31SPTxscgRWZXJY+QC3p6LvqCLjTpzS/Ab1G19ioOGvu/kKg69OQx3HNJmS4xbuMih9lFEpBnw6xK+TWdN08N7poUPoKNvljqvv0V8cxjvq+cE5UCjToW1KNEnmm8wY4HmHXMlVRaLCsreE0RiXwm/LLPVhvUVS10dhfZVvOTRrRQZXvHBQmpx67DI+M6wslhNC3ref3LWxMfYWuBFDH5IRRJkb8fXsUXLtbIHNGt4f4ErIXjZdF7KtpjruJC4w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(366004)(396003)(136003)(346002)(376002)(39860400002)(451199015)(30864003)(316002)(5660300002)(26005)(6512007)(186003)(44832011)(6486002)(478600001)(966005)(41300700001)(6916009)(66946007)(4326008)(66556008)(66476007)(8676002)(8936002)(83380400001)(86362001)(6666004)(53546011)(6506007)(38100700002)(82960400001)(2906002)(66899015);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?lFW6z4pJbChRF4L/fjE3VMtpczjN6ua4wLXRhbbDY8RKmPP1fLwc0upDnS?=
+ =?iso-8859-1?Q?op+Zsmlv44Bbsz/5Z44mJwfsgZK+n55MFsgYz6Tf7QrMvtCHz4V47PQUL+?=
+ =?iso-8859-1?Q?1u3MR/PPJre8EJzzZfSWKOunqSnMM0Vg5t3ZqgHzgp7L63X4S/b/1hONY3?=
+ =?iso-8859-1?Q?KJ67A7Phndu65RkjlAV0Kv1748D0OaxDUvrUa7mx/ckZD+wy3S7t8FkpL4?=
+ =?iso-8859-1?Q?wKWG/B60xMUOJ/Bwebj8Tz+ej2IZ2bghUDZyngT5Gz/nAH8njLT1iRKy0Q?=
+ =?iso-8859-1?Q?dN9Qz3r97o6MZu4rAqaLPwWzVTYDhvfqVb3CHqOTJZckTSJtnR8SXDROKJ?=
+ =?iso-8859-1?Q?I6hIS9xcuGBhZHmigjAxiY9tb4VJfDKnBQuhj4cm5GYe7cQiBcTykwBzM4?=
+ =?iso-8859-1?Q?kogJVejIYBp7gMbr9sZt0SSGoz5o+00e4oD6qedu2ggekyz66si4+Jk6G0?=
+ =?iso-8859-1?Q?6/dkXN18ONAKK9Q+Zi/Obl8rEAyPM2ukLJizIClhHesTVWxXJIBsTT9MKg?=
+ =?iso-8859-1?Q?+Rlhzt103yKXt24Wy6VHrthhjDQRW2ly9vChOosp+920S1QHqb55LRaSKq?=
+ =?iso-8859-1?Q?ClOsp2dpSXhx+0MGKtQOjOx7uasLFu8QVAGBGRkL/x5iJseuhsJE2LIPSH?=
+ =?iso-8859-1?Q?xbrRzhkfbqEe0+XaAVpJqytbWztMVVlWcszpstfB0zEoKb7Bt8awxHHnxv?=
+ =?iso-8859-1?Q?BUVcHoY/EgaRDA5xFGSpMX6JD6hPgIA5NnargOGbpXFGx8QDCTVnCG55TX?=
+ =?iso-8859-1?Q?NOVDmrc6UI5Q87eWUTDKNYohTA2Wjd53naxLQMnyJKgcj5zkTsYTu0yOWw?=
+ =?iso-8859-1?Q?eMHpNAAA063FUAgk3n4q1PkKrl4EqK6n4HGh7+xI8/I3pH6p8JeuGq7Jfg?=
+ =?iso-8859-1?Q?Pl3A2zWXVqjWWFFgYELGkuUeFfDxYj97Ipp8C4/l9irfVclqqghua0uMzS?=
+ =?iso-8859-1?Q?VoVtVl/6MO3rI7qC3hiwdZs2bnm6gIAaKV5m77VX4DY5dG7GhwhLUwadcy?=
+ =?iso-8859-1?Q?j8kbtO/qf64NAZRjCcdWtOegsG/LUoh7bILNbcqq9Nz40/F6vFkiybdZfk?=
+ =?iso-8859-1?Q?4iJU4InCNJ3F3aPmJ+ruksaupF3ysRokzBVDOwlw+YSpgOuyI+X2DeOzFN?=
+ =?iso-8859-1?Q?+Tg0Ji/PcGkpw2kGKDEHm5kB/lPThyRKjcN5GmloHftnIl/pN9Yp5jRcT0?=
+ =?iso-8859-1?Q?+ny19zB3nSoe4f+G3JrB0f79Trt4YoJ676Vq7D9Z5Ti6AnHhvi/3Z2zbDL?=
+ =?iso-8859-1?Q?rlVzK2czqFXIyGJCAYFxQiq2mYJWlz6z1BiZYLqWuqn9mm7j0aa1r9zA0K?=
+ =?iso-8859-1?Q?ym8mye+tUOVRnbNBYq+vlxkU8uRZP//f+CGbT8P1R9mObWsTc8rCGJdVQ4?=
+ =?iso-8859-1?Q?Rj8QXURECAq7UUmTkTTnC7z/YP6PyM6UkDxuKrC5se7XJtGxJ8lwA368h8?=
+ =?iso-8859-1?Q?6StWFcaVenHjkSmrFlZkKp6gnGpkUlgZriRTEScTZcidNccvWvvmYjikJo?=
+ =?iso-8859-1?Q?kptmwV2d6UJfPJt/7cF7eFSxfmgzVj7sTmVC5purkHATR14WfxyJkhf6/c?=
+ =?iso-8859-1?Q?JvJlPeSrcl6vr4RX+AXAI3dzxC9YkBJKkLkg6N1pmySbEOuYc83yuspPpJ?=
+ =?iso-8859-1?Q?RlsUz81kz7Y1x7po+jg8Me5WkQUt/JkhMkHE+DdEq7Ufb6j5MvrXq/ow?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 397106b9-b99b-405a-e5cf-08daf3293e8e
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2023 16:39:29.6669 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wYjPpOiLY+16yE7R8jArQjgL2BsnNFPFm9gUabCWSiBvhex6svZ8omutSE30ltfXZn6QaWj5wQFsS8jFOFVqug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6238
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,474 +158,477 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Aishwarya TCV <aishwarya.tcv@arm.com>,
- Anders Roxell <anders.roxell@linaro.org>, regressions@lists.linux.dev,
- Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>,
- Mark Brown <broonie@kernel.org>, open list <linux-kernel@vger.kernel.org>,
- lkft-triage@lists.linaro.org, nathan@kernel.org,
- Linux-Next Mailing List <linux-next@vger.kernel.org>,
- dri-devel@lists.freedesktop.org,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, james.clark@arm.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[+ James and Nathan]
+On Tue, Jan 10, 2023 at 11:28:08AM +0000, Tvrtko Ursulin wrote:
+> 
+> 
+> On 09/01/2023 17:27, Jason Ekstrand wrote:
+> 
+> [snip]
+> 
+> >      >>> AFAICT it proposes to have 1:1 between *userspace* created
+> >     contexts (per
+> >      >>> context _and_ engine) and drm_sched. I am not sure avoiding
+> >     invasive changes
+> >      >>> to the shared code is in the spirit of the overall idea and instead
+> >      >>> opportunity should be used to look at way to refactor/improve
+> >     drm_sched.
+> > 
+> > 
+> > Maybe?  I'm not convinced that what Xe is doing is an abuse at all or
+> > really needs to drive a re-factor.  (More on that later.)  There's only
+> > one real issue which is that it fires off potentially a lot of kthreads.
+> > Even that's not that bad given that kthreads are pretty light and you're
+> > not likely to have more kthreads than userspace threads which are much
+> > heavier.  Not ideal, but not the end of the world either.  Definitely
+> > something we can/should optimize but if we went through with Xe without
+> > this patch, it would probably be mostly ok.
+> > 
+> >      >> Yes, it is 1:1 *userspace* engines and drm_sched.
+> >      >>
+> >      >> I'm not really prepared to make large changes to DRM scheduler
+> >     at the
+> >      >> moment for Xe as they are not really required nor does Boris
+> >     seem they
+> >      >> will be required for his work either. I am interested to see
+> >     what Boris
+> >      >> comes up with.
+> >      >>
+> >      >>> Even on the low level, the idea to replace drm_sched threads
+> >     with workers
+> >      >>> has a few problems.
+> >      >>>
+> >      >>> To start with, the pattern of:
+> >      >>>
+> >      >>>    while (not_stopped) {
+> >      >>>     keep picking jobs
+> >      >>>    }
+> >      >>>
+> >      >>> Feels fundamentally in disagreement with workers (while
+> >     obviously fits
+> >      >>> perfectly with the current kthread design).
+> >      >>
+> >      >> The while loop breaks and worker exists if no jobs are ready.
+> > 
+> > 
+> > I'm not very familiar with workqueues. What are you saying would fit
+> > better? One scheduling job per work item rather than one big work item
+> > which handles all available jobs?
+> 
+> Yes and no, it indeed IMO does not fit to have a work item which is
+> potentially unbound in runtime. But it is a bit moot conceptual mismatch
+> because it is a worst case / theoretical, and I think due more fundamental
+> concerns.
+> 
+> If we have to go back to the low level side of things, I've picked this
+> random spot to consolidate what I have already mentioned and perhaps expand.
+> 
+> To start with, let me pull out some thoughts from workqueue.rst:
+> 
+> """
+> Generally, work items are not expected to hog a CPU and consume many cycles.
+> That means maintaining just enough concurrency to prevent work processing
+> from stalling should be optimal.
+> """
+> 
+> For unbound queues:
+> """
+> The responsibility of regulating concurrency level is on the users.
+> """
+> 
+> Given the unbound queues will be spawned on demand to service all queued
+> work items (more interesting when mixing up with the system_unbound_wq), in
+> the proposed design the number of instantiated worker threads does not
+> correspond to the number of user threads (as you have elsewhere stated), but
+> pessimistically to the number of active user contexts. That is the number
+> which drives the maximum number of not-runnable jobs that can become
+> runnable at once, and hence spawn that many work items, and in turn unbound
+> worker threads.
+> 
+> Several problems there.
+> 
+> It is fundamentally pointless to have potentially that many more threads
+> than the number of CPU cores - it simply creates a scheduling storm.
+> 
 
-On Tue, Jan 10, 2023 at 09:44:40PM +0530, Naresh Kamboju wrote:
-> [ please ignore this email if this regression already reported ]
-> 
-> Today's Linux next tag next-20230110 boot passes with defconfig but
-> boot fails with
-> defconfig + kselftest merge config on arm64 devices and qemu-arm64.
-> 
-> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-> 
-> We are bisecting this problem and get back to you shortly.
-> 
-> GOOD: next-20230109  (defconfig + kselftests configs)
-> BAD: next-20230110 (defconfig + kselftests configs)
+We can use a different work queue if this is an issue, have a FIXME
+which indicates we should allow the user to pass in the work queue.
 
-I couldn't find a kselftests .config in the tree (assumedly I'm just ont
-looking hard enough), but does that happen to enable CONFIG_STACK_TRACER=y?
+> Unbound workers have no CPU / cache locality either and no connection with
+> the CPU scheduler to optimize scheduling patterns. This may matter either on
+> large systems or on small ones. Whereas the current design allows for
+> scheduler to notice userspace CPU thread keeps waking up the same drm
+> scheduler kernel thread, and so it can keep them on the same CPU, the
+> unbound workers lose that ability and so 2nd CPU might be getting woken up
+> from low sleep for every submission.
+>
 
-If so, since you're using clang, I wonder if this is an issue with
-68a63a412d18 ("arm64: Fix build with CC=clang, CONFIG_FTRACE=y and
-CONFIG_STACK_TRACER=y")?
+I guess I don't understand kthread vs. workqueue scheduling internals.
+ 
+> Hence, apart from being a bit of a impedance mismatch, the proposal has the
+> potential to change performance and power patterns and both large and small
+> machines.
+>
 
-Please let us know how the bisection goes...
+We are going to have to test this out I suppose and play around to see
+if this design has any real world impacts. As Jason said, yea probably
+will need a bit of help here from others. Will CC relavent parties on
+next rev. 
+ 
+> >      >>> Secondly, it probably demands separate workers (not optional),
+> >     otherwise
+> >      >>> behaviour of shared workqueues has either the potential to
+> >     explode number
+> >      >>> kernel threads anyway, or add latency.
+> >      >>>
+> >      >>
+> >      >> Right now the system_unbound_wq is used which does have a limit
+> >     on the
+> >      >> number of threads, right? I do have a FIXME to allow a worker to be
+> >      >> passed in similar to TDR.
+> >      >>
+> >      >> WRT to latency, the 1:1 ratio could actually have lower latency
+> >     as 2 GPU
+> >      >> schedulers can be pushing jobs into the backend / cleaning up
+> >     jobs in
+> >      >> parallel.
+> >      >>
+> >      >
+> >      > Thought of one more point here where why in Xe we absolutely want
+> >     a 1 to
+> >      > 1 ratio between entity and scheduler - the way we implement
+> >     timeslicing
+> >      > for preempt fences.
+> >      >
+> >      > Let me try to explain.
+> >      >
+> >      > Preempt fences are implemented via the generic messaging
+> >     interface [1]
+> >      > with suspend / resume messages. If a suspend messages is received to
+> >      > soon after calling resume (this is per entity) we simply sleep in the
+> >      > suspend call thus giving the entity a timeslice. This completely
+> >     falls
+> >      > apart with a many to 1 relationship as now a entity waiting for a
+> >      > timeslice blocks the other entities. Could we work aroudn this,
+> >     sure but
+> >      > just another bunch of code we'd have to add in Xe. Being to
+> >     freely sleep
+> >      > in backend without affecting other entities is really, really
+> >     nice IMO
+> >      > and I bet Xe isn't the only driver that is going to feel this way.
+> >      >
+> >      > Last thing I'll say regardless of how anyone feels about Xe using
+> >     a 1 to
+> >      > 1 relationship this patch IMO makes sense as I hope we can all
+> >     agree a
+> >      > workqueue scales better than kthreads.
+> > 
+> >     I don't know for sure what will scale better and for what use case,
+> >     combination of CPU cores vs number of GPU engines to keep busy vs other
+> >     system activity. But I wager someone is bound to ask for some
+> >     numbers to
+> >     make sure proposal is not negatively affecting any other drivers.
+> > 
+> > 
+> > Then let them ask.  Waving your hands vaguely in the direction of the
+> > rest of DRM and saying "Uh, someone (not me) might object" is profoundly
+> > unhelpful.  Sure, someone might.  That's why it's on dri-devel.  If you
+> > think there's someone in particular who might have a useful opinion on
+> > this, throw them in the CC so they don't miss the e-mail thread.
+> > 
+> > Or are you asking for numbers?  If so, what numbers are you asking for?
+> 
+> It was a heads up to the Xe team in case people weren't appreciating how the
+> proposed change has the potential influence power and performance across the
+> board. And nothing in the follow up discussion made me think it was
+> considered so I don't think it was redundant to raise it.
+> 
+> In my experience it is typical that such core changes come with some
+> numbers. Which is in case of drm scheduler is tricky and probably requires
+> explicitly asking everyone to test (rather than count on "don't miss the
+> email thread"). Real products can fail to ship due ten mW here or there.
+> Like suddenly an extra core prevented from getting into deep sleep.
+> 
+> If that was "profoundly unhelpful" so be it.
+> 
+> > Also, If we're talking about a design that might paint us into an
+> > Intel-HW-specific hole, that would be one thing.  But we're not.  We're
+> > talking about switching which kernel threading/task mechanism to use for
+> > what's really a very generic problem.  The core Xe design works without
+> > this patch (just with more kthreads).  If we land this patch or
+> > something like it and get it wrong and it causes a performance problem
+> > for someone down the line, we can revisit it.
+> 
+> For some definition of "it works" - I really wouldn't suggest shipping a
+> kthread per user context at any point.
+>
 
-Will
+Yea, this is why using a workqueue rathre than a kthread was suggested
+to me by AMD. I should've put a suggested by on the commit message, need
+to dig through my emails and figure out who exactly suggested this.
+ 
+> >     In any case that's a low level question caused by the high level design
+> >     decision. So I'd think first focus on the high level - which is the 1:1
+> >     mapping of entity to scheduler instance proposal.
+> > 
+> >     Fundamentally it will be up to the DRM maintainers and the community to
+> >     bless your approach. And it is important to stress 1:1 is about
+> >     userspace contexts, so I believe unlike any other current scheduler
+> >     user. And also important to stress this effectively does not make Xe
+> >     _really_ use the scheduler that much.
+> > 
+> > 
+> > I don't think this makes Xe nearly as much of a one-off as you think it
+> > does.  I've already told the Asahi team working on Apple M1/2 hardware
+> > to do it this way and it seems to be a pretty good mapping for them. I
+> > believe this is roughly the plan for nouveau as well.  It's not the way
+> > it currently works for anyone because most other groups aren't doing FW
+> > scheduling yet.  In the world of FW scheduling and hardware designed to
+> > support userspace direct-to-FW submit, I think the design makes perfect
+> > sense (see below) and I expect we'll see more drivers move in this
+> > direction as those drivers evolve.  (AMD is doing some customish thing
+> > for how with gpu_scheduler on the front-end somehow. I've not dug into
+> > those details.)
+> > 
+> >     I can only offer my opinion, which is that the two options mentioned in
+> >     this thread (either improve drm scheduler to cope with what is
+> >     required,
+> >     or split up the code so you can use just the parts of drm_sched which
+> >     you want - which is frontend dependency tracking) shouldn't be so
+> >     readily dismissed, given how I think the idea was for the new driver to
+> >     work less in a silo and more in the community (not do kludges to
+> >     workaround stuff because it is thought to be too hard to improve common
+> >     code), but fundamentally, "goto previous paragraph" for what I am
+> >     concerned.
+> > 
+> > 
+> > Meta comment:  It appears as if you're falling into the standard i915
+> > team trap of having an internal discussion about what the community
+> > discussion might look like instead of actually having the community
+> > discussion.  If you are seriously concerned about interactions with
+> > other drivers or whether or setting common direction, the right way to
+> > do that is to break a patch or two out into a separate RFC series and
+> > tag a handful of driver maintainers.  Trying to predict the questions
+> > other people might ask is pointless. Cc them and asking for their input
+> > instead.
+> 
+> I don't follow you here. It's not an internal discussion - I am raising my
+> concerns on the design publicly. I am supposed to write a patch to show
+> something, but am allowed to comment on a RFC series?
+> 
+> It is "drm/sched: Convert drm scheduler to use a work queue rather than
+> kthread" which should have Cc-ed _everyone_ who use drm scheduler.
+>
 
-> kernel crash log [1]:
+Yea, will do on next rev.
+ 
+> > 
+> >     Regards,
+> > 
+> >     Tvrtko
+> > 
+> >     P.S. And as a related side note, there are more areas where drm_sched
+> >     could be improved, like for instance priority handling.
+> >     Take a look at msm_submitqueue_create / msm_gpu_convert_priority /
+> >     get_sched_entity to see how msm works around the drm_sched hardcoded
+> >     limit of available priority levels, in order to avoid having to leave a
+> >     hw capability unused. I suspect msm would be happier if they could have
+> >     all priority levels equal in terms of whether they apply only at the
+> >     frontend level or completely throughout the pipeline.
+> > 
+> >      > [1]
+> >     https://patchwork.freedesktop.org/patch/515857/?series=112189&rev=1
+> >     <https://patchwork.freedesktop.org/patch/515857/?series=112189&rev=1>
+> >      >
+> >      >>> What would be interesting to learn is whether the option of
+> >     refactoring
+> >      >>> drm_sched to deal with out of order completion was considered
+> >     and what were
+> >      >>> the conclusions.
+> >      >>>
+> >      >>
+> >      >> I coded this up a while back when trying to convert the i915 to
+> >     the DRM
+> >      >> scheduler it isn't all that hard either. The free flow control
+> >     on the
+> >      >> ring (e.g. set job limit == SIZE OF RING / MAX JOB SIZE) is
+> >     really what
+> >      >> sold me on the this design.
+> > 
+> > 
+> > You're not the only one to suggest supporting out-of-order completion.
+> > However, it's tricky and breaks a lot of internal assumptions of the
+> > scheduler. It also reduces functionality a bit because it can no longer
+> > automatically rate-limit HW/FW queues which are often fixed-size.  (Ok,
+> > yes, it probably could but it becomes a substantially harder problem.)
+> > 
+> > It also seems like a worse mapping to me.  The goal here is to turn
+> > submissions on a userspace-facing engine/queue into submissions to a FW
+> > queue submissions, sorting out any dma_fence dependencies.  Matt's
+> > description of saying this is a 1:1 mapping between sched/entity doesn't
+> > tell the whole story. It's a 1:1:1 mapping between xe_engine,
+> > gpu_scheduler, and GuC FW engine.  Why make it a 1:something:1 mapping?
+> > Why is that better?
 > 
-> [   15.302140] Unable to handle kernel paging request at virtual
-> address fffffffffffffff8
-> [   15.309906] Mem abort info:
-> [   15.312659]   ESR = 0x0000000096000004
-> [   15.316365]   EC = 0x25: DABT (current EL), IL = 32 bits
-> [   15.321626]   SET = 0, FnV = 0
-> [   15.324644]   EA = 0, S1PTW = 0
-> [   15.327744]   FSC = 0x04: level 0 translation fault
-> [   15.332619] Data abort info:
-> [   15.335422]   ISV = 0, ISS = 0x00000004
-> [   15.339226]   CM = 0, WnR = 0
-> [   15.342154] swapper pgtable: 4k pages, 48-bit VAs, pgdp=000000001496c000
-> [   15.348795] [fffffffffffffff8] pgd=0000000000000000, p4d=0000000000000000
-> [   15.355524] Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
-> [   15.361729] Modules linked in: meson_gxl dwmac_generic
-> snd_soc_meson_gx_sound_card snd_soc_meson_card_utils lima gpu_sched
-> drm_shmem_helper meson_drm drm_dma_helper crct10dif_ce meson_ir
-> rc_core meson_dw_hdmi dw_hdmi meson_canvas dwmac_meson8b
-> stmmac_platform meson_rng stmmac rng_core cec meson_gxbb_wdt
-> drm_display_helper snd_soc_meson_aiu snd_soc_meson_codec_glue pcs_xpcs
-> snd_soc_meson_t9015 amlogic_gxl_crypto crypto_engine display_connector
-> snd_soc_simple_amplifier drm_kms_helper drm nvmem_meson_efuse
-> [   15.405976] CPU: 1 PID: 9 Comm: kworker/u8:0 Not tainted
-> 6.2.0-rc3-next-20230110 #1
-> [   15.413563] Hardware name: Libre Computer AML-S905X-CC (DT)
-> [   15.419086] Workqueue: events_unbound deferred_probe_work_func
-> [   15.424863] pstate: 00000005 (nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [   15.431762] pc : of_drm_find_bridge+0x38/0x70 [drm]
-> [   15.436594] lr : of_drm_find_bridge+0x20/0x70 [drm]
-> [   15.441423] sp : ffff80000a04b9b0
-> [   15.444700] x29: ffff80000a04b9b0 x28: ffff000008de5810 x27: ffff000008de5808
-> [   15.451772] x26: ffff000008de5800 x25: ffff0000084cb8b0 x24: ffff000001223c00
-> [   15.458844] x23: 0000000000000000 x22: 0000000000000001 x21: ffff00007fa61a28
-> [   15.465917] x20: ffff0000084ca080 x19: ffff00007fa61a28 x18: ffff0000019bd700
-> [   15.472989] x17: 6d64685f77645f6e x16: ffffffffffffffff x15: 0000000000000004
-> [   15.480062] x14: ffff800009bab410 x13: 0000000000000000 x12: 0000000000000003
-> [   15.487135] x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
-> [   15.494207] x8 : ffff8000010a70a0 x7 : 64410079616b6f01 x6 : 8041640000000003
-> [   15.501279] x5 : 0300000000644100 x4 : 0000000000000080 x3 : 0041640000000000
-> [   15.508352] x2 : ffff000001128000 x1 : 0000000000000000 x0 : 0000000000000000
-> [   15.515426] Call trace:
-> [   15.517863] Insufficient stack space to handle exception!
-> [   15.517867] ESR: 0x0000000096000047 -- DABT (current EL)
-> [   15.517871] FAR: 0xffff80000a047ff0
-> [   15.517873] Task stack:     [0xffff80000a048000..0xffff80000a04c000]
-> [   15.517877] IRQ stack:      [0xffff800008008000..0xffff80000800c000]
-> [   15.517880] Overflow stack: [0xffff00007d9c1320..0xffff00007d9c2320]
-> [   15.517884] CPU: 1 PID: 9 Comm: kworker/u8:0 Not tainted
-> 6.2.0-rc3-next-20230110 #1
-> [   15.517890] Hardware name: Libre Computer AML-S905X-CC (DT)
-> [   15.517895] Workqueue: events_unbound deferred_probe_work_func
-> [   15.517915] pstate: 800003c5 (Nzcv DAIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [   15.517923] pc : el1_abort+0x4/0x5c
-> [   15.517932] lr : el1h_64_sync_handler+0x60/0xac
-> [   15.517939] sp : ffff80000a048020
-> [   15.517941] x29: ffff80000a048020 x28: ffff000001128000 x27: ffff000008de5808
-> [   15.517950] x26: ffff000008de5800 x25: ffff80000a04b608 x24: ffff000001128000
-> [   15.517957] x23: 00000000a00000c5 x22: ffff8000080321dc x21: ffff80000a048180
-> [   15.517965] x20: ffff8000098e1000 x19: ffff80000a048290 x18: ffff0000019bd700
-> [   15.517972] x17: 0000000000000011 x16: ffffffffffffffff x15: 0000000000000004
-> [   15.517979] x14: ffff800009bab410 x13: 0000000000000000 x12: 0000000000000000
-> [   15.517986] x11: 0000000000000030 x10: ffff800009013a1c x9 : ffff8000090401a0
-> [   15.517994] x8 : 0000000000000025 x7 : 205d363234353135 x6 : 352e35312020205b
-> [   15.518001] x5 : ffff800009f766b7 x4 : ffff800008fe695c x3 : 000000000000000c
-> [   15.518008] x2 : 0000000096000004 x1 : 0000000096000004 x0 : ffff80000a048030
-> [   15.518017] Kernel panic - not syncing: kernel stack overflow
-> [   15.518020] SMP: stopping secondary CPUs
-> [   15.518027] Kernel Offset: disabled
-> [   15.518029] CPU features: 0x00000,01000100,0000421b
-> [   15.518034] Memory Limit: none
-> [   15.679388] ---[ end Kernel panic - not syncing: kernel stack overflow ]---
-> 
-> 
-> [1]
-> https://storage.kernelci.org/next/master/next-20230110/arm64/defconfig/clang-16/lab-broonie/kselftest-arm64-meson-gxl-s905x-libretech-cc.html
-> https://storage.kernelci.org/next/master/next-20230110/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/kselftest-arm64-sc7180-trogdor-lazor-limozeen.html
-> https://storage.kernelci.org/next/master/next-20230110/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/kselftest-arm64-mt8173-elm-hana.html
-> 
-> Test case details:
-> https://linux.kernelci.org/test/plan/id/63bd1bbadefcf2bc871d3ae5/
-> https://linux.kernelci.org/test/case/id/63bd1bbadefcf2bc871d3ae6/
-> 
-> 
-> --
-> Linaro LKFT
-> https://lkft.linaro.org
+> As I have stated before, what I think what would fit well for Xe is one
+> drm_scheduler per engine class. In specific terms on our current hardware,
+> one drm scheduler instance for render, compute, blitter, video and video
+> enhance. Userspace contexts remain scheduler entities.
+>
 
-> [    0.000000] Booting Linux on physical CPU 0x0000000000 [0x410fd034]
-> [    0.000000] Linux version 6.2.0-rc3-next-20230110 (KernelCI@build-j815994-arm64-clang-16-defconfig-2qclb) (Debian clang version 16.0.0 (++20230109071901+ba7af0bf6932-1~exp1~20230109071950.525), Debian LLD 16.0.0) #1 SMP PREEMPT Tue Jan 10 05:18:28 UTC 2023
-> [    0.000000] Machine model: Libre Computer AML-S905X-CC
-> [    0.000000] efi: UEFI not found.
-> [    0.000000] OF: fdt: Reserved memory: failed to reserve memory for node 'hwrom@0': base 0x0000000000000000, size 16 MiB
-> [    0.000000] OF: fdt: Reserved memory: failed to reserve memory for node 'secmon@10000000': base 0x0000000010000000, size 2 MiB
-> [    0.000000] Reserved memory: created CMA memory pool at 0x000000006ac00000, size 256 MiB
-> [    0.000000] OF: reserved mem: initialized node linux,cma, compatible id shared-dma-pool
-> [    0.000000] NUMA: No NUMA configuration found
-> [    0.000000] NUMA: Faking a node at [mem 0x0000000000000000-0x000000007fe5afff]
-> [    0.000000] NUMA: NODE_DATA [mem 0x7fa3ba00-0x7fa3dfff]
-> [    0.000000] Zone ranges:
-> [    0.000000]   DMA      [mem 0x0000000000000000-0x000000007fe5afff]
-> [    0.000000]   DMA32    empty
-> [    0.000000]   Normal   empty
-> [    0.000000] Movable zone start for each node
-> [    0.000000] Early memory node ranges
-> [    0.000000]   node   0: [mem 0x0000000000000000-0x0000000004ffffff]
-> [    0.000000]   node   0: [mem 0x0000000005000000-0x00000000072fffff]
-> [    0.000000]   node   0: [mem 0x0000000007300000-0x000000007fe5afff]
-> [    0.000000] Initmem setup node 0 [mem 0x0000000000000000-0x000000007fe5afff]
-> [    0.000000] On node 0, zone DMA: 421 pages in unavailable ranges
-> [    0.000000] psci: probing for conduit method from DT.
-> [    0.000000] psci: PSCIv1.1 detected in firmware.
-> [    0.000000] psci: Using standard PSCI v0.2 function IDs
-> [    0.000000] psci: MIGRATE_INFO_TYPE not supported.
-> [    0.000000] psci: SMC Calling Convention v1.2
-> [    0.000000] percpu: Embedded 21 pages/cpu s48808 r8192 d29016 u86016
-> [    0.000000] Detected VIPT I-cache on CPU0
-> [    0.000000] CPU features: detected: ARM erratum 845719
-> [    0.000000] alternatives: applying boot alternatives
-> [    0.000000] Fallback order for Node 0: 0 
-> [    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 515681
-> [    0.000000] Policy zone: DMA
-> [    0.000000] Kernel command line: console=ttyAML0,115200n8 root=/dev/nfs rw nfsroot=192.168.56.75:/var/lib/lava/dispatcher/tmp/81075/extract-nfsrootfs-bawzp4kx,tcp,hard  ip=dhcp
-> [    0.000000] Dentry cache hash table entries: 262144 (order: 9, 2097152 bytes, linear)
-> [    0.000000] Inode-cache hash table entries: 131072 (order: 8, 1048576 bytes, linear)
-> [    0.000000] mem auto-init: stack:all(zero), heap alloc:off, heap free:off
-> [    0.000000] Memory: 1686928K/2095468K available (16576K kernel code, 3912K rwdata, 9348K rodata, 2048K init, 609K bss, 146396K reserved, 262144K cma-reserved)
-> [    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
-> [    0.000000] rcu: Preemptible hierarchical RCU implementation.
-> [    0.000000] rcu: 	RCU event tracing is enabled.
-> [    0.000000] rcu: 	RCU restricting CPUs from NR_CPUS=256 to nr_cpu_ids=4.
-> [    0.000000] 	Trampoline variant of Tasks RCU enabled.
-> [    0.000000] 	Tracing variant of Tasks RCU enabled.
-> [    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 25 jiffies.
-> [    0.000000] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=4
-> [    0.000000] NR_IRQS: 64, nr_irqs: 64, preallocated irqs: 0
-> [    0.000000] Root IRQ handler: gic_handle_irq
-> [    0.000000] GIC: Using split EOI/Deactivate mode
-> [    0.000000] rcu: srcu_init: Setting srcu_struct sizes based on contention.
-> [    0.000000] arch_timer: cp15 timer(s) running at 24.00MHz (phys).
-> [    0.000000] clocksource: arch_sys_counter: mask: 0xffffffffffffff max_cycles: 0x588fe9dc0, max_idle_ns: 440795202592 ns
-> [    0.000000] sched_clock: 56 bits at 24MHz, resolution 41ns, wraps every 4398046511097ns
-> [    0.001262] Console: colour dummy device 80x25
-> [    0.001343] Calibrating delay loop (skipped), value calculated using timer frequency.. 48.00 BogoMIPS (lpj=96000)
-> [    0.001355] pid_max: default: 32768 minimum: 301
-> [    0.001416] LSM: initializing lsm=capability,integrity
-> [    0.001519] Mount-cache hash table entries: 4096 (order: 3, 32768 bytes, linear)
-> [    0.001536] Mountpoint-cache hash table entries: 4096 (order: 3, 32768 bytes, linear)
-> [    0.002983] cblist_init_generic: Setting adjustable number of callback queues.
-> [    0.002999] cblist_init_generic: Setting shift to 2 and lim to 1.
-> [    0.003067] cblist_init_generic: Setting shift to 2 and lim to 1.
-> [    0.003215] rcu: Hierarchical SRCU implementation.
-> [    0.003219] rcu: 	Max phase no-delay instances is 1000.
-> [    0.005690] EFI services will not be available.
-> [    0.006042] smp: Bringing up secondary CPUs ...
-> [    0.006566] Detected VIPT I-cache on CPU1
-> [    0.006686] CPU1: Booted secondary processor 0x0000000001 [0x410fd034]
-> [    0.007302] Detected VIPT I-cache on CPU2
-> [    0.007411] CPU2: Booted secondary processor 0x0000000002 [0x410fd034]
-> [    0.008012] Detected VIPT I-cache on CPU3
-> [    0.008124] CPU3: Booted secondary processor 0x0000000003 [0x410fd034]
-> [    0.008207] smp: Brought up 1 node, 4 CPUs
-> [    0.008214] SMP: Total of 4 processors activated.
-> [    0.008218] CPU features: detected: 32-bit EL0 Support
-> [    0.008221] CPU features: detected: 32-bit EL1 Support
-> [    0.008227] CPU features: detected: CRC32 instructions
-> [    0.008289] CPU: All CPU(s) started at EL2
-> [    0.008369] alternatives: applying system-wide alternatives
-> [    0.010507] devtmpfs: initialized
-> [    0.016604] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
-> [    0.016635] futex hash table entries: 1024 (order: 4, 65536 bytes, linear)
-> [    0.022569] pinctrl core: initialized pinctrl subsystem
-> [    0.024617] DMI not present or invalid.
-> [    0.025263] NET: Registered PF_NETLINK/PF_ROUTE protocol family
-> [    0.026298] DMA: preallocated 256 KiB GFP_KERNEL pool for atomic allocations
-> [    0.026578] DMA: preallocated 256 KiB GFP_KERNEL|GFP_DMA pool for atomic allocations
-> [    0.026739] DMA: preallocated 256 KiB GFP_KERNEL|GFP_DMA32 pool for atomic allocations
-> [    0.026812] audit: initializing netlink subsys (disabled)
-> [    0.027009] audit: type=2000 audit(0.024:1): state=initialized audit_enabled=0 res=1
-> [    0.028249] thermal_sys: Registered thermal governor 'step_wise'
-> [    0.028261] thermal_sys: Registered thermal governor 'power_allocator'
-> [    0.028350] cpuidle: using governor menu
-> [    0.028609] hw-breakpoint: found 6 breakpoint and 4 watchpoint registers.
-> [    0.028710] ASID allocator initialised with 65536 entries
-> [    0.030589] Serial: AMBA PL011 UART driver
-> [    0.050210] platform c883a000.hdmi-tx: Fixing up cyclic dependency with d0100000.vpu
-> [    0.052573] platform cvbs-connector: Fixing up cyclic dependency with d0100000.vpu
-> [    0.053502] platform hdmi-connector: Fixing up cyclic dependency with c883a000.hdmi-tx
-> [    0.057055] KASLR disabled due to lack of seed
-> [    0.057777] HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
-> [    0.057789] HugeTLB: 16380 KiB vmemmap can be freed for a 1.00 GiB page
-> [    0.057796] HugeTLB: registered 32.0 MiB page size, pre-allocated 0 pages
-> [    0.057799] HugeTLB: 508 KiB vmemmap can be freed for a 32.0 MiB page
-> [    0.057804] HugeTLB: registered 2.00 MiB page size, pre-allocated 0 pages
-> [    0.057807] HugeTLB: 28 KiB vmemmap can be freed for a 2.00 MiB page
-> [    0.057812] HugeTLB: registered 64.0 KiB page size, pre-allocated 0 pages
-> [    0.057816] HugeTLB: 0 KiB vmemmap can be freed for a 64.0 KiB page
-> [    0.059511] ACPI: Interpreter disabled.
-> [    0.062687] iommu: Default domain type: Translated 
-> [    0.062700] iommu: DMA domain TLB invalidation policy: strict mode 
-> [    0.063020] SCSI subsystem initialized
-> [    0.063390] usbcore: registered new interface driver usbfs
-> [    0.063414] usbcore: registered new interface driver hub
-> [    0.063439] usbcore: registered new device driver usb
-> [    0.064563] pps_core: LinuxPPS API ver. 1 registered
-> [    0.064569] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
-> [    0.064583] PTP clock support registered
-> [    0.064756] EDAC MC: Ver: 3.0.0
-> [    0.066616] FPGA manager framework
-> [    0.066716] Advanced Linux Sound Architecture Driver Initialized.
-> [    0.067663] vgaarb: loaded
-> [    0.068065] clocksource: Switched to clocksource arch_sys_counter
-> [    0.068286] VFS: Disk quotas dquot_6.6.0
-> [    0.068322] VFS: Dquot-cache hash table entries: 512 (order 0, 4096 bytes)
-> [    0.068521] pnp: PnP ACPI: disabled
-> [    0.074398] NET: Registered PF_INET protocol family
-> [    0.074701] IP idents hash table entries: 32768 (order: 6, 262144 bytes, linear)
-> [    0.076378] tcp_listen_portaddr_hash hash table entries: 1024 (order: 2, 16384 bytes, linear)
-> [    0.076413] Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
-> [    0.076426] TCP established hash table entries: 16384 (order: 5, 131072 bytes, linear)
-> [    0.076550] TCP bind hash table entries: 16384 (order: 7, 524288 bytes, linear)
-> [    0.076935] TCP: Hash tables configured (established 16384 bind 16384)
-> [    0.077063] UDP hash table entries: 1024 (order: 3, 32768 bytes, linear)
-> [    0.077117] UDP-Lite hash table entries: 1024 (order: 3, 32768 bytes, linear)
-> [    0.077290] NET: Registered PF_UNIX/PF_LOCAL protocol family
-> [    0.077723] RPC: Registered named UNIX socket transport module.
-> [    0.077733] RPC: Registered udp transport module.
-> [    0.077735] RPC: Registered tcp transport module.
-> [    0.077738] RPC: Registered tcp NFSv4.1 backchannel transport module.
-> [    0.077748] PCI: CLS 0 bytes, default 64
-> [    0.077971] Unpacking initramfs...
-> [    0.078619] hw perfevents: enabled with armv8_cortex_a53 PMU driver, 7 counters available
-> [    0.079173] kvm [1]: IPA Size Limit: 40 bits
-> [    0.081299] kvm [1]: vgic interrupt IRQ9
-> [    0.081396] kvm [1]: Hyp mode initialized successfully
-> [    0.082801] Initialise system trusted keyrings
-> [    0.083076] workingset: timestamp_bits=42 max_order=19 bucket_order=0
-> [    0.083475] squashfs: version 4.0 (2009/01/31) Phillip Lougher
-> [    0.083847] NFS: Registering the id_resolver key type
-> [    0.083886] Key type id_resolver registered
-> [    0.083891] Key type id_legacy registered
-> [    0.083924] nfs4filelayout_init: NFSv4 File Layout Driver Registering...
-> [    0.083929] nfs4flexfilelayout_init: NFSv4 Flexfile Layout Driver Registering...
-> [    0.084203] 9p: Installing v9fs 9p2000 file system support
-> [    0.116765] Key type asymmetric registered
-> [    0.116781] Asymmetric key parser 'x509' registered
-> [    0.116866] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 245)
-> [    0.116873] io scheduler mq-deadline registered
-> [    0.116878] io scheduler kyber registered
-> [    0.118617] irq_meson_gpio: 110 to 8 gpio interrupt mux initialized
-> [    0.135078] EINJ: ACPI disabled.
-> [    0.159731] soc soc0: Amlogic Meson GXL (S905X) Revision 21:d (84:2) Detected
-> [    0.170927] Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
-> [    0.174933] SuperH (H)SCI(F) driver initialized
-> [    0.175827] c81004c0.serial: ttyAML0 at MMIO 0xc81004c0 (irq = 18, base_baud = 1500000) is a meson_uart
-> [    0.175899] printk: console [ttyAML0] enabled
-> [    1.019195] Freeing initrd memory: 18984K
-> [    1.021972] msm_serial: driver initialized
-> [    1.180405] loop: module loaded
-> [    1.181719] megasas: 07.719.03.00-rc1
-> [    1.190027] tun: Universal TUN/TAP device driver, 1.6
-> [    1.191319] thunder_xcv, ver 1.0
-> [    1.192716] thunder_bgx, ver 1.0
-> [    1.195853] nicpf, ver 1.0
-> [    1.200523] hns3: Hisilicon Ethernet Network Driver for Hip08 Family - version
-> [    1.205678] hns3: Copyright (c) 2017 Huawei Corporation.
-> [    1.210989] hclge is initializing
-> [    1.214237] e1000: Intel(R) PRO/1000 Network Driver
-> [    1.219037] e1000: Copyright (c) 1999-2006 Intel Corporation.
-> [    1.224758] e1000e: Intel(R) PRO/1000 Network Driver
-> [    1.229646] e1000e: Copyright(c) 1999 - 2015 Intel Corporation.
-> [    1.235529] igb: Intel(R) Gigabit Ethernet Network Driver
-> [    1.240858] igb: Copyright (c) 2007-2014 Intel Corporation.
-> [    1.246400] igbvf: Intel(R) Gigabit Virtual Function Network Driver
-> [    1.252588] igbvf: Copyright (c) 2009 - 2012 Intel Corporation.
-> [    1.259016] sky2: driver version 1.30
-> [    1.264029] VFIO - User Level meta-driver version: 0.3
-> [    1.271574] usbcore: registered new interface driver usb-storage
-> [    1.277325] i2c_dev: i2c /dev entries driver
-> [    1.285686] ghes_edac: GHES probing device list is empty
-> [    1.288566] sdhci: Secure Digital Host Controller Interface driver
-> [    1.294400] sdhci: Copyright(c) Pierre Ossman
-> [    1.299968] Synopsys Designware Multimedia Card Interface Driver
-> [    1.306409] sdhci-pltfm: SDHCI platform and OF driver helper
-> [    1.306491] meson-gx-mmc d0074000.mmc: allocated mmc-pwrseq
-> [    1.315815] ledtrig-cpu: registered to indicate activity on CPUs
-> [    1.323914] meson-sm: secure-monitor enabled
-> [    1.326541] SMCCC: SOC_ID: ARCH_SOC_ID not implemented, skipping ....
-> [    1.333638] usbcore: registered new interface driver usbhid
-> [    1.337865] usbhid: USB HID core driver
-> [    1.343235] platform-mhu c883c404.mailbox: Platform MHU Mailbox registered
-> [    1.353900] meson-gx-mmc d0074000.mmc: no support for card's volts
-> [    1.354576] mmc1: error -22 whilst initialising SDIO card
-> [    1.363208] NET: Registered PF_PACKET protocol family
-> [    1.365029] 9pnet: Installing 9P2000 support
-> [    1.369232] Key type dns_resolver registered
-> [    1.381879] registered taskstats version 1
-> [    1.382017] Loading compiled-in X.509 certificates
-> [    1.412271] dwc3-meson-g12a d0078080.usb: USB2 ports: 2
-> [    1.412313] dwc3-meson-g12a d0078080.usb: USB3 ports: 0
-> [    1.954364] dwc2 c9100000.usb: supply vusb_d not found, using dummy regulator
-> [    1.956005] dwc2 c9100000.usb: supply vusb_a not found, using dummy regulator
-> [    1.963329] dwc2 c9100000.usb: EPs: 7, dedicated fifos, 712 entries in SPRAM
-> [    1.973363] xhci-hcd xhci-hcd.0.auto: xHCI Host Controller
-> [    1.975374] xhci-hcd xhci-hcd.0.auto: new USB bus registered, assigned bus number 1
-> [    1.983114] xhci-hcd xhci-hcd.0.auto: USB3 root hub has no ports
-> [    1.988914] xhci-hcd xhci-hcd.0.auto: hcc params 0x0228f664 hci version 0x100 quirks 0x0000000002010010
-> [    1.998271] xhci-hcd xhci-hcd.0.auto: irq 25, io mem 0xc9000000
-> [    2.004858] hub 1-0:1.0: USB hub found
-> [    2.007818] hub 1-0:1.0: 2 ports detected
-> [    2.017395] scpi_protocol scpi: SCP Protocol legacy pre-1.0 firmware
-> [    2.017951] mdson-gx-mmc d0072000.mmc: Got CD GPIO
-> omain-0 init dvfs: 4
-> [    2.052159] Trying to probe devices needed for running init ...
-> [    2.089199] mmc0: new high speed SDXC card at address 59b4
-> [    2.089955] mmcblk0: mmc0:59b4 SD128 119 GiB 
-> [    2.096589]  mmcblk0: p1 p2 p3
-> [    2.096916] mmcblk0: p3 size 1224704 extends beyond EOD, truncated
-> [    2.264087] usb 1-1: new high-speed USB device number 2 using xhci-hcd
-> [    2.453974] hub 1-1:1.0: USB hub found
-> [    2.454695] hub 1-1:1.0: 4 ports detected
-> [    2.466394] mmc1: Card stuck being busy! __mmc_poll_for_busy
-> [   12.266087] platform c883455c.eth-phy-mux: deferred probe pending
-> [   14.337755] ALSA device list:
-> [   14.337936]   No soundcards found.
-> [   14.351381] Freeing unused kernel memory: 2048K
-> [   14.352541] Run /init as init process
-> Loading, please wait...
-> Starting version 247.3-7+deb11u1
-> [   15.002694] gxl-crypto c883e000.crypto: will run requests pump with realtime priority
-> [   15.010106] random: crng init done
-> [   15.016152] gxl-crypto c883e000.crypto: will run requests pump with realtime priority
-> [   15.040684] meson8b-dwmac c9410000.ethernet: IRQ eth_wake_irq not found
-> [   15.041672] meson8b-dwmac c9410000.ethernet: IRQ eth_lpi not found
-> [   15.056432] Registered IR keymap rc-empty
-> [   15.056572] rc rc0: meson-ir as /devices/platform/soc/c8100000.bus/c8100580.ir/rc/rc0
-> [   15.063474] input: meson-ir as /devices/platform/soc/c8100000.bus/c8100580.ir/rc/rc0/input0
-> [   15.071611] meson8b-dwmac c9410000.ethernet: PTP uses main clock
-> [   15.076297] meson-ir c8100580.ir: receiver initialized
-> [   15.085541] meson-drm d0100000.vpu: Queued 2 outputs on vpu
-> [   15.091067] meson8b-dwmac c9410000.ethernet: User ID: 0x11, Synopsys ID: 0x37
-> [   15.093562] meson-drm d0100000.vpu: bound c883a000.hdmi-tx (ops meson_dw_hdmi_ops [meson_dw_hdmi])
-> [   15.094603] meson8b-dwmac c9410000.ethernet: 	DWMAC1000
-> [   15.105478] meson-drm d0100000.vpu: Failed to find HDMI transceiver bridge
-> [   15.108754] meson8b-dwmac c9410000.ethernet: DMA HW capability register supported
-> [   15.119838] lima d00c0000.gpu: gp - mali450 version major 0 minor 0
-> [   15.122817] meson8b-dwmac c9410000.ethernet: RX Checksum Offload Engine supported
-> [   15.122827] meson8b-dwmac c9410000.ethernet: COE Type 2
-> [   15.122833] meson8b-dwmac c9410000.ethernet: TX Checksum insertion supported
-> [   15.122837] meson8b-dwmac c9410000.ethernet: Wake-Up On Lan supported
-> [   15.122986] meson8b-dwmac c9410000.ethernet: Normal descriptors
-> [   15.141218] meson-drm d0100000.vpu: Queued 2 outputs on vpu
-> [   15.141615] meson8b-dwmac c9410000.ethernet: Ring mode enabled
-> [   15.150744] meson-drm d0100000.vpu: bound c883a000.hdmi-tx (ops meson_dw_hdmi_ops [meson_dw_hdmi])
-> [   15.154970] meson8b-dwmac c9410000.ethernet: Enable RX Mitigation via HW Watchdog Timer
-> [   15.159175] lima d00c0000.gpu: pp0 - mali450 version major 0 minor 0
-> [   15.161436] meson-drm d0100000.vpu: Failed to find HDMI transceiver bridge
-> [   15.168933] lima d00c0000.gpu: pp1 - mali450 version major 0 minor 0
-> [   15.206102] meson-drm d0100000.vpu: Queued 2 outputs on vpu
-> [   15.209608] lima d00c0000.gpu: pp2 - mali450 version major 0 minor 0
-> [   15.217027] meson-drm d0100000.vpu: bound c883a000.hdmi-tx (ops meson_dw_hdmi_ops [meson_dw_hdmi])
-> [   15.221169] lima d00c0000.gpu: l2 cache 8K, 4-way, 64byte cache line, 128bit external bus
-> [   15.231561] meson-drm d0100000.vpu: Failed to find HDMI transceiver bridge
-> [   15.238133] lima d00c0000.gpu: l2 cache 64K, 4-way, 64byte cache line, 128bit external bus
-> [   15.253879] lima d00c0000.gpu: bus rate = 166666667
-> [   15.257128] lima d00c0000.gpu: mod rate = 24000000
-> [   15.261862] lima d00c0000.gpu: error -ENODEV: _opp_set_regulators: no regulator (mali) found
-> [   15.286143] [drm] Initialized lima 1.1.0 20191231 for d00c0000.gpu on minor 1
-> [   15.292259] meson-drm d0100000.vpu: Queued 2 outputs on vpu
-> [   15.293715] meson-drm d0100000.vpu: bound c883a000.hdmi-tx (ops meson_dw_hdmi_ops [meson_dw_hdmi])
-> [   15.302140] Unable to handle kernel paging request at virtual address fffffffffffffff8
-> [   15.309906] Mem abort info:
-> [   15.312659]   ESR = 0x0000000096000004
-> [   15.316365]   EC = 0x25: DABT (current EL), IL = 32 bits
-> [   15.321626]   SET = 0, FnV = 0
-> [   15.324644]   EA = 0, S1PTW = 0
-> [   15.327744]   FSC = 0x04: level 0 translation fault
-> [   15.332619] Data abort info:
-> [   15.335422]   ISV = 0, ISS = 0x00000004
-> [   15.339226]   CM = 0, WnR = 0
-> [   15.342154] swapper pgtable: 4k pages, 48-bit VAs, pgdp=000000001496c000
-> [   15.348795] [fffffffffffffff8] pgd=0000000000000000, p4d=0000000000000000
-> [   15.355524] Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
-> [   15.361729] Modules linked in: meson_gxl dwmac_generic snd_soc_meson_gx_sound_card snd_soc_meson_card_utils lima gpu_sched drm_shmem_helper meson_drm drm_dma_helper crct10dif_ce meson_ir rc_core meson_dw_hdmi dw_hdmi meson_canvas dwmac_meson8b stmmac_platform meson_rng stmmac rng_core cec meson_gxbb_wdt drm_display_helper snd_soc_meson_aiu snd_soc_meson_codec_glue pcs_xpcs snd_soc_meson_t9015 amlogic_gxl_crypto crypto_engine display_connector snd_soc_simple_amplifier drm_kms_helper drm nvmem_meson_efuse
-> [   15.405976] CPU: 1 PID: 9 Comm: kworker/u8:0 Not tainted 6.2.0-rc3-next-20230110 #1
-> [   15.413563] Hardware name: Libre Computer AML-S905X-CC (DT)
-> [   15.419086] Workqueue: events_unbound deferred_probe_work_func
-> [   15.424863] pstate: 00000005 (nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [   15.431762] pc : of_drm_find_bridge+0x38/0x70 [drm]
-> [   15.436594] lr : of_drm_find_bridge+0x20/0x70 [drm]
-> [   15.441423] sp : ffff80000a04b9b0
-> [   15.444700] x29: ffff80000a04b9b0 x28: ffff000008de5810 x27: ffff000008de5808
-> [   15.451772] x26: ffff000008de5800 x25: ffff0000084cb8b0 x24: ffff000001223c00
-> [   15.458844] x23: 0000000000000000 x22: 0000000000000001 x21: ffff00007fa61a28
-> [   15.465917] x20: ffff0000084ca080 x19: ffff00007fa61a28 x18: ffff0000019bd700
-> [   15.472989] x17: 6d64685f77645f6e x16: ffffffffffffffff x15: 0000000000000004
-> [   15.480062] x14: ffff800009bab410 x13: 0000000000000000 x12: 0000000000000003
-> [   15.487135] x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
-> [   15.494207] x8 : ffff8000010a70a0 x7 : 64410079616b6f01 x6 : 8041640000000003
-> [   15.501279] x5 : 0300000000644100 x4 : 0000000000000080 x3 : 0041640000000000
-> [   15.508352] x2 : ffff000001128000 x1 : 0000000000000000 x0 : 0000000000000000
-> [   15.515426] Call trace:
-> [   15.517863] Insufficient stack space to handle exception!
-> [   15.517867] ESR: 0x0000000096000047 -- DABT (current EL)
-> [   15.517871] FAR: 0xffff80000a047ff0
-> [   15.517873] Task stack:     [0xffff80000a048000..0xffff80000a04c000]
-> [   15.517877] IRQ stack:      [0xffff800008008000..0xffff80000800c000]
-> [   15.517880] Overflow stack: [0xffff00007d9c1320..0xffff00007d9c2320]
-> [   15.517884] CPU: 1 PID: 9 Comm: kworker/u8:0 Not tainted 6.2.0-rc3-next-20230110 #1
-> [   15.517890] Hardware name: Libre Computer AML-S905X-CC (DT)
-> [   15.517895] Workqueue: events_unbound deferred_probe_work_func
-> [   15.517915] pstate: 800003c5 (Nzcv DAIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [   15.517923] pc : el1_abort+0x4/0x5c
-> [   15.517932] lr : el1h_64_sync_handler+0x60/0xac
-> [   15.517939] sp : ffff80000a048020
-> [   15.517941] x29: ffff80000a048020 x28: ffff000001128000 x27: ffff000008de5808
-> [   15.517950] x26: ffff000008de5800 x25: ffff80000a04b608 x24: ffff000001128000
-> [   15.517957] x23: 00000000a00000c5 x22: ffff8000080321dc x21: ffff80000a048180
-> [   15.517965] x20: ffff8000098e1000 x19: ffff80000a048290 x18: ffff0000019bd700
-> [   15.517972] x17: 0000000000000011 x16: ffffffffffffffff x15: 0000000000000004
-> [   15.517979] x14: ffff800009bab410 x13: 0000000000000000 x12: 0000000000000000
-> [   15.517986] x11: 0000000000000030 x10: ffff800009013a1c x9 : ffff8000090401a0
-> [   15.517994] x8 : 0000000000000025 x7 : 205d363234353135 x6 : 352e35312020205b
-> [   15.518001] x5 : ffff800009f766b7 x4 : ffff800008fe695c x3 : 000000000000000c
-> [   15.518008] x2 : 0000000096000004 x1 : 0000000096000004 x0 : ffff80000a048030
-> [   15.518017] Kernel panic - not syncing: kernel stack overflow
-> [   15.518020] SMP: stopping secondary CPUs
-> [   15.518027] Kernel Offset: disabled
-> [   15.518029] CPU features: 0x00000,01000100,0000421b
-> [   15.518034] Memory Limit: none
-> [   15.679388] ---[ end Kernel panic - not syncing: kernel stack overflow ]---
+I disagree.
+ 
+> That way you avoid the whole kthread/kworker story and you have it actually
+> use the entity picking code in the scheduler, which may be useful when the
+> backend is congested.
+>
 
+In practice the backend shouldn't be congested but if it is a mutex
+provides fairness probably better than using a shared scheduler. Also
+what you are suggesting doesn't make sense at all as the congestion is
+per-GT, so if anything we should use 1 scheduler per-GT not per engine
+class.
+ 
+> Yes you have to solve the out of order problem so in my mind that is
+> something to discuss. What the problem actually is (just TDR?), how tricky
+> and why etc.
+>
+
+Cleanup of jobs, TDR, replaying jobs, etc... It has decent amount of
+impact.
+ 
+> And yes you lose the handy LRCA ring buffer size management so you'd have to
+> make those entities not runnable in some other way.
+>
+
+Also we lose our preempt fence implemenation too. Again I don't see how
+the design you are suggesting is a win.
+ 
+> Regarding the argument you raise below - would any of that make the frontend
+> / backend separation worse and why? Do you think it is less natural? If
+> neither is true then all remains is that it appears extra work to support
+> out of order completion of entities has been discounted in favour of an easy
+> but IMO inelegant option.
+> 
+> > There are two places where this 1:1:1 mapping is causing problems:
+> > 
+> >   1. It creates lots of kthreads. This is what this patch is trying to
+> > solve. IDK if it's solving it the best way but that's the goal.
+> > 
+> >   2. There are a far more limited number of communication queues between
+> > the kernel and GuC for more meta things like pausing and resuming
+> > queues, getting events back from GuC, etc. Unless we're in a weird
+> > pressure scenario, the amount of traffic on this queue should be low so
+> > we can probably just have one per physical device.  The vast majority of
+> > kernel -> GuC communication should be on the individual FW queue rings
+> > and maybe smashing in-memory doorbells.
+> 
+> I don't follow your terminology here. I suppose you are talking about global
+> GuC CT and context ringbuffers. If so then isn't "far more limited" actually
+> one?
+> 
+
+We have 1 GuC GT per-GT.
+
+Matt
+
+> Regards,
+> 
+> Tvrtko
+> 
+> > Doing out-of-order completion sort-of solves the 1 but does nothing for
+> > 2 and actually makes managing FW queues harder because we no longer have
+> > built-in rate limiting.  Seems like a net loss to me.
+> > 
+> >      >>> Second option perhaps to split out the drm_sched code into
+> >     parts which would
+> >      >>> lend themselves more to "pick and choose" of its functionalities.
+> >      >>> Specifically, Xe wants frontend dependency tracking, but not
+> >     any scheduling
+> >      >>> really (neither least busy drm_sched, neither FIFO/RQ entity
+> >     picking), so
+> >      >>> even having all these data structures in memory is a waste.
+> >      >>>
+> >      >>
+> >      >> I don't think that we are wasting memory is a very good argument for
+> >      >> making intrusive changes to the DRM scheduler.
+> > 
+> > 
+> > Worse than that, I think the "we could split it up" kind-of misses the
+> > point of the way Xe is using drm/scheduler.  It's not just about
+> > re-using a tiny bit of dependency tracking code.  Using the scheduler in
+> > this way provides a clean separation between front-end and back-end.
+> > The job of the userspace-facing ioctl code is to shove things on the
+> > scheduler.  The job of the run_job callback is to encode the job into
+> > the FW queue format, stick it in the FW queue ring, and maybe smash a
+> > doorbell.  Everything else happens in terms of managing those queues
+> > side-band.  The gpu_scheduler code manages the front-end queues and Xe
+> > manages the FW queues via the Kernel <-> GuC communication rings.  From
+> > a high level, this is a really clean design.  There are potentially some
+> > sticky bits around the dual-use of dma_fence for scheduling and memory
+> > management but none of those are solved by breaking the DRM scheduler
+> > into chunks or getting rid of the 1:1:1 mapping.
+> > 
+> > If we split it out, we're basically asking the driver to implement a
+> > bunch of kthread or workqueue stuff, all the ring rate-limiting, etc.
+> > It may not be all that much code but also, why?  To save a few bytes of
+> > memory per engine?  Each engine already has 32K(ish) worth of context
+> > state and a similar size ring to communicate with the FW.  No one is
+> > going to notice an extra CPU data structure.
+> > 
+> > I'm not seeing a solid argument against the 1:1:1 design here other than
+> > that it doesn't seem like the way DRM scheduler was intended to be
+> > used.  I won't argue that.  It's not.  But it is a fairly natural way to
+> > take advantage of the benefits the DRM scheduler does provide while also
+> > mapping it to hardware that was designed for userspace direct-to-FW
+> > submit.
+> > 
+> > --Jason
+> > 
+> >      >>> With the first option then the end result could be drm_sched
+> >     per engine
+> >      >>> class (hardware view), which I think fits with the GuC model.
+> >     Give all
+> >      >>> schedulable contexts (entities) to the GuC and then mostly
+> >     forget about
+> >      >>> them. Timeslicing and re-ordering and all happens transparently
+> >     to the
+> >      >>> kernel from that point until completion.
+> >      >>>
+> >      >>
+> >      >> Out-of-order problem still exists here.
+> >      >>
+> >      >>> Or with the second option you would build on some smaller
+> >     refactored
+> >      >>> sub-components of drm_sched, by maybe splitting the dependency
+> >     tracking from
+> >      >>> scheduling (RR/FIFO entity picking code).
+> >      >>>
+> >      >>> Second option is especially a bit vague and I haven't thought
+> >     about the
+> >      >>> required mechanics, but it just appeared too obvious the
+> >     proposed design has
+> >      >>> a bit too much impedance mismatch.
+> >      >>>
+> >      >>
+> >      >> IMO ROI on this is low and again lets see what Boris comes up with.
+> >      >>
+> >      >> Matt
+> >      >>
+> >      >>> Oh and as a side note, when I went into the drm_sched code base
+> >     to remind
+> >      >>> myself how things worked, it is quite easy to find some FIXME
+> >     comments which
+> >      >>> suggest people working on it are unsure of locking desing there
+> >     and such. So
+> >      >>> perhaps that all needs cleanup too, I mean would benefit from
+> >      >>> refactoring/improving work as brainstormed above anyway.
+> >      >>>
+> >      >>> Regards,
+> >      >>>
+> >      >>> Tvrtko
+> > 
