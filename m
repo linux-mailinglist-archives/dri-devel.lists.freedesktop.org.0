@@ -2,65 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD21664CEA
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 21:03:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14952664D25
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 21:20:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4610610E244;
-	Tue, 10 Jan 2023 20:03:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E20010E0F3;
+	Tue, 10 Jan 2023 20:20:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
- [IPv6:2607:f8b0:4864:20::c2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D59810E65C
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 20:03:08 +0000 (UTC)
-Received: by mail-oo1-xc2c.google.com with SMTP id
- c190-20020a4a4fc7000000b004a3addd10b5so3511524oob.1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 12:03:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xn0RWIp29/DDAGotFO+F2cDyIEYDf7WQu136TlHaqBY=;
- b=J5wl9aZ1IGVKg3lxEsQz4tnGLe3hwvrXmSc6JvIcjnH9Qk+O/wKX6InDxVsiLFF7HI
- nElQ3Tdyo29n+VERdoB4PBD3HnjdmlHL48hCL/FqvLqTb1jatMoEBMqrz4zCNR3Ltx4J
- SGnktX0yevWOFId052bDTYFckwojX1RXTdYuBmZV9/1hoKyiQu0FekR8zRoiqxtmmFrp
- DZqEicdPijXJvtEgoiaUnJwDEwer4qP0+y05oZ0AiBgsBvwCPqmpLhJRIAudwRjGuQ8z
- DditkC69Hsf57phbBQFTQKhwr840n2PXLpWs5b5reDRS2lClfMSxuRAnfhaw10/ANiXy
- Q6Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xn0RWIp29/DDAGotFO+F2cDyIEYDf7WQu136TlHaqBY=;
- b=qPckgRHfd6hIwNINMEgukeuM7NH+/CNNacXhfqDa/8n7Y0RWKvs+Ix3H4qR17TeTKx
- 1QLJ/GqzLxlZxF4QX6zLwy0WckcMC8VUe4wy11Zp/u5rDRdj1VlvMBuTlD1jtuCi3CFK
- oSzcrG203OU2IF00dyiDVgzj2LB8LklCitIoztpKBiriQXZma4B0fU2onbmrERjYBTLD
- qjKwyRmwdICsFvPNemlVxWItn0M2/qvKz9WmLzfpz2lKJRPX5guwur0/d48wCtPqgnYM
- xkik3sNrThVuBAylz45hqdIK1Brh4/05svPYDdzYKSuoGKI7SjoE0yryUddPK9KIwOtG
- sK5w==
-X-Gm-Message-State: AFqh2krpJi6/o2g36hUUgMiBB20VsVRpAu9DIQxfZi6eU0X527B9t1nn
- vNif6UtiqpV/YXrhY4bDq0JuO8l5Ccc=
-X-Google-Smtp-Source: AMrXdXsUnCZFrgXKeAiUQMlpciK+Y2fvmBkeu+sGeN5vr+2gS/lMTnHiixfEKYg1f/tLIXAiTGxg2A==
-X-Received: by 2002:a4a:ce8b:0:b0:4b0:ddb0:e0a6 with SMTP id
- f11-20020a4ace8b000000b004b0ddb0e0a6mr30972164oos.3.1673380986977; 
- Tue, 10 Jan 2023 12:03:06 -0800 (PST)
-Received: from localhost.localdomain
- (76-244-6-13.lightspeed.rcsntx.sbcglobal.net. [76.244.6.13])
- by smtp.gmail.com with ESMTPSA id
- r4-20020a4aad04000000b004a394578e14sm6089779oon.32.2023.01.10.12.03.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 12:03:06 -0800 (PST)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 4/4] arm64: dts: rockchip: add display to RG503
-Date: Tue, 10 Jan 2023 14:02:55 -0600
-Message-Id: <20230110200255.1218738-5-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230110200255.1218738-1-macroalpha82@gmail.com>
-References: <20230110200255.1218738-1-macroalpha82@gmail.com>
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 911BB10E0F3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 20:20:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+ t=1673382014; bh=3IN9oMdJEqlNBIK1U/bjP9YXRSbJh4/m3TFLBgmJQjI=;
+ h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
+ Content-Type;
+ b=PkLGkBDZMDIMzc1ZUqgcyv2wtAU5J4WrlCj5Gt/uw9+WrxuWBhUiPXinVBOirqn4S
+ 5vXM3auhPPhwgflkNf0oWVy97405s1+2SSOUEZhb6w93CiFlhCRX2mmnUomEyuzb4V
+ 9ZtpT23PtPkFuM6QKRTLi1dPHuE+XeROjZ7lSecI=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
+ via ip-206.mailobj.net [213.182.55.206]
+ Tue, 10 Jan 2023 21:20:14 +0100 (CET)
+X-EA-Auth: KbkOyS25WULzAeG0UfhXEQVuLt1NKF3jwhnHNmxVSoeI5v0VIWxMywgam6RktIG0CCef3vfPkXKBPQpRHPbc2td67xmxw839
+Date: Wed, 11 Jan 2023 01:50:06 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Alain Volmat <alain.volmat@foss.st.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/sti: Avoid full proxy f_ops for sti debug attributes
+Message-ID: <Y73IdsbXhB5aUrkP@ubun2204.myguest.virtualbox.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,107 +45,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
- krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
- linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
- thierry.reding@gmail.com, tzimmermann@suse.de, maccraft123mc@gmail.com
+Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Morgan <macromorgan@hotmail.com>
+Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
+function adds the overhead of introducing a proxy file operation
+functions to wrap the original read/write inside file removal protection
+functions. This adds significant overhead in terms of introducing and
+managing the proxy factory file operations structure and function
+wrapping at runtime.
+As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
+with debugfs_create_file_unsafe() is suggested to be used instead.  The
+DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
+debugfs_file_put() wrappers to protect the original read and write
+function calls for the debug attributes. There is no need for any
+runtime proxy file operations to be managed by the debugfs core.
+Following coccicheck make command helped identify this change:
 
-Add Samsung AMS495QA01 panel to RG503.
+make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
- .../dts/rockchip/rk3566-anbernic-rg503.dts    | 55 +++++++++++++++++++
- 1 file changed, 55 insertions(+)
+Note: Change cross compile tested using stm32_defconfig for arm
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dts b/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dts
-index 5dafcc86296b..b4b2df821cba 100644
---- a/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dts
-@@ -47,6 +47,21 @@ gpio_spi: spi {
- 		mosi-gpios = <&gpio4 RK_PB0 GPIO_ACTIVE_HIGH>;
- 		cs-gpios = <&gpio4 RK_PA7 GPIO_ACTIVE_HIGH>;
- 		num-chipselects = <0>;
-+
-+		panel@0 {
-+			compatible = "samsung,ams495qa01";
-+			reg = <0>;
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&lcd_reset>;
-+			reset-gpios = <&gpio4 RK_PA0 GPIO_ACTIVE_LOW>;
-+			vdd-supply = <&vcc_3v3>;
-+
-+			port {
-+				mipi_in_panel: endpoint {
-+					remote-endpoint = <&mipi_out_panel>;
-+				};
-+			};
-+		};
- 	};
+ drivers/gpu/drm/sti/sti_drv.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
+index ef6a4e63198f..c9be82043638 100644
+--- a/drivers/gpu/drm/sti/sti_drv.c
++++ b/drivers/gpu/drm/sti/sti_drv.c
+@@ -67,8 +67,8 @@ static int sti_drm_fps_set(void *data, u64 val)
+ 	return 0;
+ }
  
- 	/* Channels reversed for both headphones and speakers. */
-@@ -94,6 +109,32 @@ &cru {
- 	assigned-clock-rates = <1200000000>, <200000000>, <500000000>;
- };
+-DEFINE_SIMPLE_ATTRIBUTE(sti_drm_fps_fops,
+-			sti_drm_fps_get, sti_drm_fps_set, "%llu\n");
++DEFINE_DEBUGFS_ATTRIBUTE(sti_drm_fps_fops,
++			 sti_drm_fps_get, sti_drm_fps_set, "%llu\n");
  
-+&dsi_dphy0 {
-+	status = "okay";
-+};
-+
-+&dsi0 {
-+	status = "okay";
-+
-+	ports {
-+		dsi0_in: port@0 {
-+			reg = <0>;
-+
-+			dsi0_in_vp1: endpoint {
-+				remote-endpoint = <&vp1_out_dsi0>;
-+			};
-+		};
-+
-+		dsi0_out: port@1 {
-+			reg = <1>;
-+
-+			mipi_out_panel: endpoint {
-+				remote-endpoint = <&mipi_in_panel>;
-+			};
-+		};
-+	};
-+};
-+
- &gpio_keys_control {
- 	button-a {
- 		gpios = <&gpio3 RK_PC1 GPIO_ACTIVE_LOW>;
-@@ -146,6 +187,13 @@ spk_amp_enable_h: spk-amp-enable-h {
- 		};
- 	};
+ static int sti_drm_fps_dbg_show(struct seq_file *s, void *data)
+ {
+@@ -97,8 +97,8 @@ static void sti_drm_dbg_init(struct drm_minor *minor)
+ 				 ARRAY_SIZE(sti_drm_dbg_list),
+ 				 minor->debugfs_root, minor);
  
-+	gpio-lcd {
-+		lcd_reset: lcd-reset {
-+			rockchip,pins =
-+				<4 RK_PA0 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+
- 	gpio-spi {
- 		spi_pins: spi-pins {
- 			rockchip,pins =
-@@ -164,3 +212,10 @@ rk817_charger: charger {
- 		rockchip,sleep-filter-current-microamp = <100000>;
- 	};
- };
-+
-+&vp1 {
-+	vp1_out_dsi0: endpoint@ROCKCHIP_VOP2_EP_MIPI0 {
-+		reg = <ROCKCHIP_VOP2_EP_MIPI0>;
-+		remote-endpoint = <&dsi0_in_vp1>;
-+	};
-+};
+-	debugfs_create_file("fps_show", S_IRUGO | S_IWUSR, minor->debugfs_root,
+-			    minor->dev, &sti_drm_fps_fops);
++	debugfs_create_file_unsafe("fps_show", S_IRUGO | S_IWUSR, minor->debugfs_root,
++				   minor->dev, &sti_drm_fps_fops);
+ 
+ 	DRM_INFO("%s: debugfs installed\n", DRIVER_NAME);
+ }
 -- 
 2.34.1
+
+
 
