@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 119EB6648D1
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 19:15:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3F5C6648DB
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 19:15:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C8B610E139;
-	Tue, 10 Jan 2023 18:15:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD0DF10E13F;
+	Tue, 10 Jan 2023 18:15:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E701B10E134;
- Tue, 10 Jan 2023 18:15:16 +0000 (UTC)
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D0BA10E13B;
+ Tue, 10 Jan 2023 18:15:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1673374506; bh=46jOppxp/mRe0pQqJxxPtA8TacbOHy69iOOY75PAV2I=;
+ t=1673374545; bh=NHddBNPO1QQ18FfEaBnCUlI5s+jWgOFNwyia4D6sg7w=;
  h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
  MIME-Version:Content-Type:In-Reply-To;
- b=Un/LCm+JeI9n6St9MsCyhiCrFmzHYsPDJknNa7kR//l5tlYOkHZnyZOdbOaQcT6oo
- EnX2AFn/vmyQgd+hiV2mx49D8MQtdLKsWEvVB3kPqRm7AePCfSv4JNDf51/oMg8bXs
- VWRghoJhbkfGkI/9aazql0dWAOeMibjhAvWP0FBo=
+ b=fhuaQCNU4aqkNy8IvltfXYHiKjXNKab7xJ4GdhjO5+iK14gR0KqP8Lb15yJLmdn+4
+ ZJPUg6ubjpIcioPbFwtvTeeVEKQI/+l+vSc6NPF9fWrQI9NG1KG6oFMyGJn3UQ0wPY
+ Xwf9rHBTzF7IVXITo1NYk6FebqOz7Y1cy/ekDxpI=
 Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
  via ip-206.mailobj.net [213.182.55.206]
- Tue, 10 Jan 2023 19:15:06 +0100 (CET)
-X-EA-Auth: oa3uAoiVMRg8AVocdZ39yqZX4PN6plfP/DcwLlWgrYiXZmOfEdADt0JfkGi+PE73r+I+Zow0WtJW/txY4KbL2GOt8RJypu/x
-Date: Tue, 10 Jan 2023 23:45:02 +0530
+ Tue, 10 Jan 2023 19:15:45 +0100 (CET)
+X-EA-Auth: olbET+3pqyTe5pOhLU+kvrYYyDCkdw4Wa79wEbKz/tcHFusbfa3ow6jp8G+CJQgiZHyJbUyq314xdB46+SS0S6uUb8XWeoFS
+Date: Tue, 10 Jan 2023 23:45:40 +0530
 From: Deepak R Varma <drv@mailo.com>
 To: Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
@@ -32,9 +32,9 @@ To: Jani Nikula <jani.nikula@linux.intel.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] drm/i915/display: Avoid full proxy f_ops for DRRS
- debug attributes
-Message-ID: <4f6ae3e9a1f674abd36295772e7ffd0aa3e4a30b.1673343994.git.drv@mailo.com>
+Subject: [PATCH v2 2/2] drm/i915/fbc: Avoid full proxy f_ops for FBC debug
+ attributes
+Message-ID: <a4200ae1de7324fcddac201009a43571d0a72104.1673343994.git.drv@mailo.com>
 References: <cover.1673343994.git.drv@mailo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -79,34 +79,40 @@ Changes in v2:
    - Include coccicheck make command in the patch log message for clarity.
      Suggested by Rodrigo Vivi <rodrigo.vivi@intel.com>
 
- drivers/gpu/drm/i915/display/intel_drrs.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_drrs.c b/drivers/gpu/drm/i915/display/intel_drrs.c
-index 5b9e44443814..84ba7379d6f8 100644
---- a/drivers/gpu/drm/i915/display/intel_drrs.c
-+++ b/drivers/gpu/drm/i915/display/intel_drrs.c
-@@ -374,16 +374,16 @@ static int intel_drrs_debugfs_ctl_set(void *data, u64 val)
- 	return ret;
+ drivers/gpu/drm/i915/display/intel_fbc.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
+index 5e69d3c11d21..c508dcf415b4 100644
+--- a/drivers/gpu/drm/i915/display/intel_fbc.c
++++ b/drivers/gpu/drm/i915/display/intel_fbc.c
+@@ -1807,10 +1807,10 @@ static int intel_fbc_debugfs_false_color_set(void *data, u64 val)
+ 	return 0;
  }
  
--DEFINE_SIMPLE_ATTRIBUTE(intel_drrs_debugfs_ctl_fops,
--			NULL, intel_drrs_debugfs_ctl_set, "%llu\n");
-+DEFINE_DEBUGFS_ATTRIBUTE(intel_drrs_debugfs_ctl_fops,
-+			 NULL, intel_drrs_debugfs_ctl_set, "%llu\n");
+-DEFINE_SIMPLE_ATTRIBUTE(intel_fbc_debugfs_false_color_fops,
+-			intel_fbc_debugfs_false_color_get,
+-			intel_fbc_debugfs_false_color_set,
+-			"%llu\n");
++DEFINE_DEBUGFS_ATTRIBUTE(intel_fbc_debugfs_false_color_fops,
++			 intel_fbc_debugfs_false_color_get,
++			 intel_fbc_debugfs_false_color_set,
++			 "%llu\n");
  
- void intel_drrs_crtc_debugfs_add(struct intel_crtc *crtc)
- {
- 	debugfs_create_file("i915_drrs_status", 0444, crtc->base.debugfs_entry,
- 			    crtc, &intel_drrs_debugfs_status_fops);
+ static void intel_fbc_debugfs_add(struct intel_fbc *fbc,
+ 				  struct dentry *parent)
+@@ -1819,8 +1819,8 @@ static void intel_fbc_debugfs_add(struct intel_fbc *fbc,
+ 			    fbc, &intel_fbc_debugfs_status_fops);
  
--	debugfs_create_file("i915_drrs_ctl", 0644, crtc->base.debugfs_entry,
--			    crtc, &intel_drrs_debugfs_ctl_fops);
-+	debugfs_create_file_unsafe("i915_drrs_ctl", 0644, crtc->base.debugfs_entry,
-+				    crtc, &intel_drrs_debugfs_ctl_fops);
+ 	if (fbc->funcs->set_false_color)
+-		debugfs_create_file("i915_fbc_false_color", 0644, parent,
+-				    fbc, &intel_fbc_debugfs_false_color_fops);
++		debugfs_create_file_unsafe("i915_fbc_false_color", 0644, parent,
++					   fbc, &intel_fbc_debugfs_false_color_fops);
  }
  
- static int intel_drrs_debugfs_type_show(struct seq_file *m, void *unused)
+ void intel_fbc_crtc_debugfs_add(struct intel_crtc *crtc)
 -- 
 2.34.1
 
