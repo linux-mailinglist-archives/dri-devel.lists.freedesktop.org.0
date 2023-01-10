@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FE586645C9
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 17:17:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FBAE6645FB
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 17:26:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F1E410E126;
-	Tue, 10 Jan 2023 16:17:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 699D610E094;
+	Tue, 10 Jan 2023 16:26:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB86F10E126
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 16:17:20 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- m26-20020a05600c3b1a00b003d9811fcaafso10470537wms.5
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 08:17:20 -0800 (PST)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F93910E094
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 16:26:18 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id d17so12377429wrs.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 08:26:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:from:to
  :cc:subject:date:message-id:reply-to;
- bh=9aNO7QvYwDQS+jP6UmKWe479dR/ZyNUMn3qprKjVB9I=;
- b=wIFmlQ/NS1cd3Ft15IPF5Qt6fSCo5kzlfVvC6NwxMqnEPLSx7IXbm6E5MlcxsTvI/I
- Q3DoELKpnsXbU4QL74nZ9Ynj8at68VE0sCNfWdGPBA8x+SdIK69ws7qT4RUbGm3Hq6nO
- ClaxsemmRkEjTAeBk8iha6ZGxiRQaNUxknlWjtDxzXrQRHbgppNP8MbHtgvtT/2LuFjB
- X0EOfWRmvFL8tW1L4YnYLcRqPoFrNBn3rNIoCKyqhmP/S+hPSzm2uue7ZlXYUmUi6CVm
- 8cbu7Pb00PfpS7NPmVxM4VZA6GtZrVUQLcIiEYcb+a34ixYrcngaFnQXcSfUwEbfsTFI
- 6rsA==
+ bh=Th71AAKmDZ5QLm9LWP/MGYPBbhSZ+FFSLF2yOB7TE2s=;
+ b=kpE4Zcq1gu13wpwafvb2i6Z0u9wBYGLLWrrhNQIKxDPIa5C1OHDMXC+fFg9Vu2BrEr
+ 1PGdJR28gVhSlvWiEupF5gfHOtFmFyF3/bxbr8A4SsNB4iJx+Uc5zgTbvfWhZnZyPJgV
+ RHWeGs3TluEjF9qgDAf/+Ep2OxX3pkfMwvpwxyET8qdO/srKqwBN5JkwS1/btNLI/zHU
+ i2yK9CbkM6JOHGJk6tz/+HNRHD+x4G9z3uy+r+tlxqOQ0QreXtqutMDmEx+1mpgbkbfo
+ B4svbjnliFLjKrCGEzdh5UjV8mY8nhKK7EAO7dbLjtokxu4kAjAzybqMu4XnJ2nYg9wd
+ papA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9aNO7QvYwDQS+jP6UmKWe479dR/ZyNUMn3qprKjVB9I=;
- b=NeKQfsqDKkT/6yS/VQJVtk2aBe+QT8GgfF1oWuv23nKxyvAAuGkaApX60VrTwbF3qU
- A1Ie5Bi5sZA8P5hN2CstU4x4P0olvQAFibRkQhSzYaiYQ3PC/1emIw7WhQuL5aWxW8ij
- bDfDOMt3neiHFUDoz0a1DqIyThFpFj10uFRZF+35gNtlFzoelduq1AbaZHDUkIFmgbJ7
- +2k/khbmBPcNNRfWgcClfAAuVMHNbH8j830wINfNah++qhUCv5FuSdGD2Ug391JQEXsn
- 4qZfXI2pmiLGynnivZHgD2lkKGTfZ29VPKBIA2EkqJ/KLlFbDHZuKEGYUVCnpyVdLGjI
- YPKQ==
-X-Gm-Message-State: AFqh2ko1UYbfZJdy15oUlIL4505BHsdfa5bB6oCFFn5oYACr1rbdLF+t
- fLX66nPkrPD04UmkJAqAmEz7Tw==
-X-Google-Smtp-Source: AMrXdXtdHYGAOOA7IWrfaGhGuGxVKglU2btUiZ2nxiwOMk16l4FnFGqCikuGoCHjUCJQ1uEszp15Qg==
-X-Received: by 2002:a05:600c:1d03:b0:3d3:4aa6:4fe6 with SMTP id
- l3-20020a05600c1d0300b003d34aa64fe6mr48900851wms.3.1673367439208; 
- Tue, 10 Jan 2023 08:17:19 -0800 (PST)
+ bh=Th71AAKmDZ5QLm9LWP/MGYPBbhSZ+FFSLF2yOB7TE2s=;
+ b=psmav3gDX825H0rPLY93i9PNbIWwMjHKFg7K2SNbhRRBi7qm+2RkWtanDiS5GAPDfy
+ 1MD/5dViKsqur+FAFvDKj6gJjIGSzTZeB1N0EujwdJYzI6ZlnIpZ6LygWI0br8oWF3Ng
+ 0JNArP5j3y1n4v8cJJNxZR+AzerrhKYDdzpfE3qXbV4EsrRZxR2VXe7pWcRVKzaZWpg1
+ +c7alZ1Ze3JgkthVLV1Ycn8z5IxHC2CJi/t1I4oqkkKaiGne8VqvP1l1Ab+O2lCONc1P
+ F1a1Qqxm09bC2qevXRB/phfKv8mpMmZ67jEjOE6dU0XwUx3wlSNKpEXkuPte4vrjPMnC
+ TLUg==
+X-Gm-Message-State: AFqh2kp+r2eWT0i4JHBRN6R7UNCFg4f4Ei6zvtBSHe8yYAjVgksDfXOO
+ eSGCSsakpi8OBtlhwDgWyb/Qxg==
+X-Google-Smtp-Source: AMrXdXv5EJHECoPiR0GtM9s69kjB61W0jLB4YsP0QuX7myrYiYxMtrdgJv+azKjI26FYQwGZ3348mw==
+X-Received: by 2002:a05:6000:a19:b0:2b1:c393:cbe with SMTP id
+ co25-20020a0560000a1900b002b1c3930cbemr14799719wrb.11.1673367977022; 
+ Tue, 10 Jan 2023 08:26:17 -0800 (PST)
 Received: from aspen.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
  [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- x14-20020a1c7c0e000000b003d9f15efcd5sm6597893wmc.6.2023.01.10.08.17.17
+ n16-20020a5d4010000000b002bbed1388a5sm6276513wrp.15.2023.01.10.08.26.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 08:17:18 -0800 (PST)
-Date: Tue, 10 Jan 2023 16:17:16 +0000
+ Tue, 10 Jan 2023 08:26:16 -0800 (PST)
+Date: Tue, 10 Jan 2023 16:26:14 +0000
 From: Daniel Thompson <daniel.thompson@linaro.org>
 To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 1/2] backlight: pwm_bl: configure pwm only once per
- backlight toggle
-Message-ID: <Y72PjEh8QuLdw1hw@aspen.lan>
+Subject: Re: [PATCH 2/2] backlight: pwm_bl: Don't disable the PWM to disable
+ the backlight
+Message-ID: <Y72RpjK4T2VEoIVI@aspen.lan>
 References: <20230109204758.610400-1-u.kleine-koenig@pengutronix.de>
+ <20230109204758.610400-2-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230109204758.610400-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230109204758.610400-2-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,22 +81,45 @@ Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 09, 2023 at 09:47:57PM +0100, Uwe Kleine-König wrote:
-> When the function pwm_backlight_update_status() was called with
-> brightness > 0, pwm_get_state() was called twice (once directly and once
-> in compute_duty_cycle). Also pwm_apply_state() was called twice (once in
-> pwm_backlight_power_on() and once directly).
->
-> Optimize this to do both calls only once.
->
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+On Mon, Jan 09, 2023 at 09:47:58PM +0100, Uwe Kleine-König wrote:
+> Most but not all PWMs drive the PWM pin to its inactive state when
+> disabled. Rely on the lowlevel PWM implementation to implement
+> duty_cycle = 0 in an energy efficient way and don't disable the PWM.
 
-This will reverse the order in which the regulator is toggled versus the
-PWM starting/stopping. It would be nice to that in the description.
+I'm a little worried about this one.
 
-However I can't see why it would be a problem (since both remain in the
-same place relative to the sleeps) so:
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+I thought the PWM APIs allow the duty cycle to be rounded up or down
+slightly during the apply.
+
+So when you say "rely on the lowlevel to implement duty_cycle = 0 to..."
+is it confirmed that this is true (and that all PWMs *can* implement
+a duty_cycle of 0 without rounding up)?
 
 
 Daniel.
+
+
+> This fixes backlight disabling e.g. on i.MX6 when an inverted PWM is
+> used.
+>
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
+>  drivers/video/backlight/pwm_bl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
+> index 0509fecd5715..7bdc5d570a12 100644
+> --- a/drivers/video/backlight/pwm_bl.c
+> +++ b/drivers/video/backlight/pwm_bl.c
+> @@ -109,7 +109,7 @@ static int pwm_backlight_update_status(struct backlight_device *bl)
+>  		pwm_backlight_power_off(pb);
+>
+>  		pwm_get_state(pb->pwm, &state);
+> -		state.enabled = false;
+> +		state.enabled = true;
+>  		state.duty_cycle = 0;
+>  		pwm_apply_state(pb->pwm, &state);
+>  	}
+> --
+> 2.39.0
+>
