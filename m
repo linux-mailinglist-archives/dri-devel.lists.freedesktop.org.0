@@ -2,64 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1430B6638E4
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 06:55:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05718663981
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 07:50:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84B4810E539;
-	Tue, 10 Jan 2023 05:55:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2841C10E542;
+	Tue, 10 Jan 2023 06:50:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D12E310E53A
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 05:55:08 +0000 (UTC)
-X-UUID: 9f6fb424af964269aa55797f61c1e68d-20230110
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=s5/tOMASlrJlrpdGZBEiIUGnY/yMA8EeWTUgOk0cPbU=; 
- b=JCSBlMIYEOkUjVnVIBGoSKm0ZAfp/jJOo7IkIy3urCgzMujPXuXXpCrCfN6tIXlNLSO3EwYa+QdZyaH3DZjudaytDiE6E++PEZGAv3XwLkeosoDMfQEiNSCaOV7wslSFvMea+W3LkNbaj+zRCw/fEB8NPWvFUuEhUYAmwxRXP1Q=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.17, REQID:ad08ba1a-51d1-4514-8e82-1eea4eca1f10, IP:0,
- U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:90
-X-CID-INFO: VERSION:1.1.17, REQID:ad08ba1a-51d1-4514-8e82-1eea4eca1f10, IP:0,
- URL
- :0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTIO
- N:quarantine,TS:90
-X-CID-META: VersionHash:543e81c, CLOUDID:b94c3154-dd49-462e-a4be-2143a3ddc739,
- B
- ulkID:230110135505UYOEYBJE,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48,TC:n
- il,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
- I:0,OSA:0
-X-CID-BVR: 0
-X-UUID: 9f6fb424af964269aa55797f61c1e68d-20230110
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
- mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1215836764; Tue, 10 Jan 2023 13:55:02 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Tue, 10 Jan 2023 13:55:02 +0800
-Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Tue, 10 Jan 2023 13:55:01 +0800
-From: <xinlei.lee@mediatek.com>
-To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <matthias.bgg@gmail.com>,
- <angelogioacchino.delregno@collabora.com>, <jitao.shi@mediatek.com>,
- <thierry.reding@gmail.com>, <sam@ravnborg.org>
-Subject: [PATCH v2 3/3] drm/panel: boe-tv101wum-nl6: Fine tune the panel power
- sequence
-Date: Tue, 10 Jan 2023 13:54:53 +0800
-Message-ID: <1673330093-6771-4-git-send-email-xinlei.lee@mediatek.com>
-X-Mailer: git-send-email 2.6.4
-In-Reply-To: <1673330093-6771-1-git-send-email-xinlei.lee@mediatek.com>
-References: <1673330093-6771-1-git-send-email-xinlei.lee@mediatek.com>
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 706D110E541;
+ Tue, 10 Jan 2023 06:50:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+ t=1673333418; bh=3KaCdpCLhRbvvNI0DI23jFXuIUWpZ5VYOO2VZGDg4LA=;
+ h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+ MIME-Version:Content-Type:In-Reply-To;
+ b=UthIZuQsGBWU3ZoNHYDt3YRD3Je6JMr352tXPWTRrfrMHElR5kpF830/41B8x8M8l
+ MJ0twekvggE+Ooe0MlIB7SXgYJnwxDA1/2IdHXantDyxIjrgQMZ8PNFYm3EaAf2Hau
+ GfrEZjnHyhHGG1u4u1/urU99hDKUvkSD53U+E61I=
+Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
+ via ip-206.mailobj.net [213.182.55.206]
+ Tue, 10 Jan 2023 07:50:18 +0100 (CET)
+X-EA-Auth: sY7JOkE2geYQPQNYTsUXSW5mVARRXg5Tda5wKW6gPAGmTE9v5gbkig2Bl1SRnXRzlUiEnqh7MwmdKhO8vsxKornoLTl8b/ng
+Date: Tue, 10 Jan 2023 12:20:13 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH] drm/i915/fbc: Avoid full proxy f_ops for FBC debug
+ attributes
+Message-ID: <Y70Kpcpueh2Zzm1x@ubun2204.myguest.virtualbox.org>
+References: <Y6qmNW6cOHjGwn03@qemulion> <Y6sn1BmhFJFssW0h@intel.com>
+ <Y6s0FSK9+F+/oKSf@qemulion> <Y6wl9NhYZG5RjJL7@intel.com>
+ <Y7PG5Hx5dDE7aHSx@qemulion>
+ <alpine.DEB.2.22.394.2301041850570.7216@hadrien>
+ <Y7XABJ9MWCWO5IUA@intel.com>
+ <991ac2b4-f458-f6f2-f494-648ed61efcff@inria.fr>
+ <Y7nQHfbKNmZ1sRbO@ubun2204.myguest.virtualbox.org>
+ <Y7xlpbEDspHaT5Gq@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y7xlpbEDspHaT5Gq@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,55 +53,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinlei Lee <xinlei.lee@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>,
+ Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Julia Lawall <julia.lawall@inria.fr>, Julia Lawall <Julia.Lawall@lip6.fr>,
+ Nicolai Stange <nicstange@gmail.com>, Deepak R Varma <drv@mailo.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xinlei Lee <xinlei.lee@mediatek.com>
+On Mon, Jan 09, 2023 at 02:06:13PM -0500, Rodrigo Vivi wrote:
+> On Sun, Jan 08, 2023 at 01:33:41AM +0530, Deepak R Varma wrote:
+> > On Thu, Jan 05, 2023 at 09:13:35AM +0100, Julia Lawall wrote:
+> > > > Hi Julia, thanks for helping here.
+> > > >
+> > > > So, my question is why this
+> > > >
+> > > > make coccicheck M=drivers/gpu/drm/i915/ MODE=context COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
+> > > >
+> > > > didn't catch this chunck:
+> > > >
+> > > > -		debugfs_create_file("i915_fbc_false_color", 0644, parent,
+> > > > -				    fbc, &intel_fbc_debugfs_false_color_fops);
+> > > > +		debugfs_create_file_unsafe("i915_fbc_false_color", 0644, parent,
+> > > > +					   fbc, &intel_fbc_debugfs_false_color_fops);
+> > > >
+> > > > When I run it it only catches and replaces this:
+> > > >
+> > > > - DEFINE_SIMPLE_ATTRIBUTE(dsa_fops, dsa_get, dsa_set, dsa_fmt);
+> > > > + DEFINE_DEBUGFS_ATTRIBUTE(dsa_fops, dsa_get, dsa_set, dsa_fmt);
+> > >
+> > > There is something strange in your question.  You have MODE=context but
+> > > you show the output for MODE=patch.  The rule dcf matches a call to
+> > > debugfs_create_file, and the context rule matching DEFINE_SIMPLE_ATTRIBUTE
+> > > is only activated if dcf succeeds.  So when the context rule gives a
+> > > report, there is always a corresponding call to debugfs_create_file in the
+> > > same file, it is just not highlighted.  So the request is that it should
+> > > be highlighted as well?
+> > 
+> > Hello Rodrigo,
+> > Not trying to speak for you, but I think Julia's comment appears to be the
+> > correct interpretation of your observation. Would you mind confirming/clarifying
+> > and suggest next steps for this proposal?
+> 
+> doh! newby coccinelle user detected! My bad, sorry!
+> 
+> make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
+> 
+> do shows everything.
+> 
+> So, could you please mention this line in the commit message so we don't forget that?
+Sure, I will do that.
 
-For "boe,tv105wum-nw0" this special panel, it is stipulated in the 
-panel spec that MIPI needs to keep the LP11 state before the 
-lcm_reset pin is pulled high.
+> 
+> Also could you please provide patches for the other cases?
+> 1 patch for each file is desirable in this case since it touches different areas.
+Sounds good. I will separate patches one per file and send in a series as
+appropriate.
 
-Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
----
- drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Thank you,
+./drv
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index f0093035f1ff..67df61de64ae 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -36,6 +36,7 @@ struct panel_desc {
- 	const struct panel_init_cmd *init_cmds;
- 	unsigned int lanes;
- 	bool discharge_on_disable;
-+	bool lp11_before_reset;
- };
- 
- struct boe_panel {
-@@ -1261,6 +1262,10 @@ static int boe_panel_prepare(struct drm_panel *panel)
- 
- 	usleep_range(10000, 11000);
- 
-+	if (boe->desc->lp11_before_reset) {
-+		mipi_dsi_dcs_nop(boe->dsi);
-+		usleep_range(1000, 2000);
-+	}
- 	gpiod_set_value(boe->enable_gpio, 1);
- 	usleep_range(1000, 2000);
- 	gpiod_set_value(boe->enable_gpio, 0);
-@@ -1487,6 +1492,7 @@ static const struct panel_desc boe_tv105wum_nw0_desc = {
- 	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
- 		      MIPI_DSI_MODE_LPM,
- 	.init_cmds = boe_init_cmd,
-+	.lp11_before_reset = true,
- };
- 
- static int boe_panel_get_modes(struct drm_panel *panel,
--- 
-2.18.0
+> 
+> > 
+> > Thank you,
+> > ./drv
+> > 
+> > >
+> > > julia
+> > >
+> > 
+> > 
+
 
