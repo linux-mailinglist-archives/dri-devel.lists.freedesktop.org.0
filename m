@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D0A664A1B
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 19:30:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95BE5664A20
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 19:30:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BBF010E13B;
-	Tue, 10 Jan 2023 18:30:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A10A10E18C;
+	Tue, 10 Jan 2023 18:30:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1023410E13B;
- Tue, 10 Jan 2023 18:29:57 +0000 (UTC)
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FB2F10E18C;
+ Tue, 10 Jan 2023 18:30:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1673375390; bh=miL+U54u+zbwiY1zJpyFrSycjgOcARyuIyOdsIcqAwg=;
+ t=1673375417; bh=zeINM58lZULSKsWBO+E3FvyueML1bzYkk7wY1wX8GAs=;
  h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
  MIME-Version:Content-Type:In-Reply-To;
- b=BYQiFU30yqi3X9Qb4kRZ8o9LFNNvhMCAUgZ/MCb1uHXjZGWjvqwhsovnaKEOyrOdk
- 4Ed8rhTJtcn6oZXKpfH81pQmyeSqcnfapPAFm/fxpI2d/D0fJN55wyPq+gTwe6pjoP
- 7nIiumflzQDbVCQGmxksKZWRJR3j1Yc+FD9iw0IQ=
-Received: by b-4.in.mailobj.net [192.168.90.14] with ESMTP
+ b=Fx46Ace37+NIuiH9XXbcE+8Pe9W9M/j+gw7TmHbb46v89m5LdhY817PGgxo/PV+8j
+ pRbcb51clrhUbSWfpUfkG9Jt/2NI9y5XiGl4r6cW1HdgYGlOwv3xjLYTwnolD/sMmX
+ EMEo2O1M4TFMlqxFzGNoFPeB9Y51aURWvH/+0iug=
+Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
  via ip-206.mailobj.net [213.182.55.206]
- Tue, 10 Jan 2023 19:29:49 +0100 (CET)
-X-EA-Auth: 2yCuNAG5h3cTxbwR5VlwuO7IDCj5y64ot8HtV0N6YfFg/GXhAXaQHiEkliEtmYzUP0x8v2nBHL0uNeYy54P+K5wul7dZ2llz
-Date: Tue, 10 Jan 2023 23:59:44 +0530
+ Tue, 10 Jan 2023 19:30:17 +0100 (CET)
+X-EA-Auth: Qm+Hre3tClJjXlDtBX1ONwmV81CboJoRE8Q7ml/AUlOahbgiUu7RKwBmdktw20/G9a+RDzgtq31NURLllH1/bKleLoR2wE8a
+Date: Wed, 11 Jan 2023 00:00:12 +0530
 From: Deepak R Varma <drv@mailo.com>
 To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
@@ -34,9 +34,9 @@ To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
  intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] drm/i915/gvt: Avoid full proxy f_ops for scan_nonprivbb
+Subject: [PATCH 2/2] drm/i915/gvt: Avoid full proxy f_ops for vgpu_status
  debug attributes
-Message-ID: <f0741e940ec911fba0c1375dd2750b9db94928b2.1673375066.git.drv@mailo.com>
+Message-ID: <188df08e0feba0cda2c92145f513dd4e57c6e6cf.1673375066.git.drv@mailo.com>
 References: <cover.1673375066.git.drv@mailo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -77,37 +77,33 @@ make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/ap
 
 Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
- drivers/gpu/drm/i915/gvt/debugfs.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/gvt/debugfs.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gvt/debugfs.c b/drivers/gpu/drm/i915/gvt/debugfs.c
-index 0616b73175f3..03f081c3d9a4 100644
+index 03f081c3d9a4..baccbf1761b7 100644
 --- a/drivers/gpu/drm/i915/gvt/debugfs.c
 +++ b/drivers/gpu/drm/i915/gvt/debugfs.c
-@@ -147,9 +147,9 @@ vgpu_scan_nonprivbb_set(void *data, u64 val)
+@@ -165,7 +165,7 @@ static int vgpu_status_get(void *data, u64 *val)
  	return 0;
  }
  
--DEFINE_SIMPLE_ATTRIBUTE(vgpu_scan_nonprivbb_fops,
--			vgpu_scan_nonprivbb_get, vgpu_scan_nonprivbb_set,
--			"0x%llx\n");
-+DEFINE_DEBUGFS_ATTRIBUTE(vgpu_scan_nonprivbb_fops,
-+			 vgpu_scan_nonprivbb_get, vgpu_scan_nonprivbb_set,
-+			 "0x%llx\n");
+-DEFINE_SIMPLE_ATTRIBUTE(vgpu_status_fops, vgpu_status_get, NULL, "0x%llx\n");
++DEFINE_DEBUGFS_ATTRIBUTE(vgpu_status_fops, vgpu_status_get, NULL, "0x%llx\n");
  
- static int vgpu_status_get(void *data, u64 *val)
- {
-@@ -180,8 +180,8 @@ void intel_gvt_debugfs_add_vgpu(struct intel_vgpu *vgpu)
- 
- 	debugfs_create_file("mmio_diff", 0444, vgpu->debugfs, vgpu,
+ /**
+  * intel_gvt_debugfs_add_vgpu - register debugfs entries for a vGPU
+@@ -182,8 +182,8 @@ void intel_gvt_debugfs_add_vgpu(struct intel_vgpu *vgpu)
  			    &vgpu_mmio_diff_fops);
--	debugfs_create_file("scan_nonprivbb", 0644, vgpu->debugfs, vgpu,
--			    &vgpu_scan_nonprivbb_fops);
-+	debugfs_create_file_unsafe("scan_nonprivbb", 0644, vgpu->debugfs, vgpu,
-+				   &vgpu_scan_nonprivbb_fops);
- 	debugfs_create_file("status", 0644, vgpu->debugfs, vgpu,
- 			    &vgpu_status_fops);
+ 	debugfs_create_file_unsafe("scan_nonprivbb", 0644, vgpu->debugfs, vgpu,
+ 				   &vgpu_scan_nonprivbb_fops);
+-	debugfs_create_file("status", 0644, vgpu->debugfs, vgpu,
+-			    &vgpu_status_fops);
++	debugfs_create_file_unsafe("status", 0644, vgpu->debugfs, vgpu,
++				   &vgpu_status_fops);
  }
+ 
+ /**
 -- 
 2.34.1
 
