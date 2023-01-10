@@ -1,52 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFAA3663856
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 05:53:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6FEC6638B7
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 06:47:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C140910E529;
-	Tue, 10 Jan 2023 04:53:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 240CD10E532;
+	Tue, 10 Jan 2023 05:47:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB1CC10E529
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 04:53:37 +0000 (UTC)
-Received: by mail-il1-f197.google.com with SMTP id
- e9-20020a056e020b2900b003036757d5caso7667764ilu.10
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 20:53:37 -0800 (PST)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B0CA10E0DF
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 05:47:32 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id cf42so16657274lfb.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 21:47:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=sjlcbVEgS5pgrAjtiDRiz81od9MScN0SBmwZV8y/lIs=;
+ b=SrXc9fMrzGJBPKtaDr9H/2PtiGIoWp7vzGiZa3QXIVOzdnPNHj+Gg3cJhcKmPhWPGk
+ zFF5piQbTPqBRWYVrybTXvmOygaq6XMEUqck6aapxH45bbqyIEoN15UpW4iyFXs1fJe9
+ juKrr+tPimFaqDGwJmbMHXl/vMM6U8WwtkI/iO+tsqtoYPuFKE7dvrfIZyGL6Ds9cr1T
+ WLCdsk1LfMuAZQNXx7QO315gx6CHEvWsILN9xy7iy3f4eH78fjmIjx2jVvZSQar7BF9l
+ deIcihzYmhuV+Q8My/N/kxKeCBKV84kSTuLWUIykCl8DR42FimSk8U/R/z28AhyJt5MP
+ MZQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=HYT5ZbF2o1QUR84Jk6KZ8n+w9iIKKy5jZcxTavcpj1w=;
- b=hV59Xl1WJ6moIdNsMUI22Scul56dYu4wzg91y84aC286R5mwfzClJ8NUX1nYRPWS5U
- yQ9Gc2PPJGFuAqIl3eQkGCfbgzgBnLof2bCqYIPKIHnVEdjucgKjIZFAvfNbfRetE0HR
- XdMXKZueNG7Y+3hNsqH8XWiK2ccvbFMtAHIg5jUXc0gIaso5qHoJXf2FUQbsMDpcbNOm
- Nna5Dwx20QPc/ZqLtkWcBSV+Ymf8/i3L/bPZd2Zm6n06Pjt255jURrBXOfUK3hI02Jgb
- rW8aS9ItffI03NNxOQJKh8Z02idMo9fmXXaOjkARSmC0PW1BzqZScD/NcFnisEjrr2Gm
- pzbw==
-X-Gm-Message-State: AFqh2krnGr+UZixKhp991jrzTO8fnegmhIYli5ccd4x0L37GK2FBgwAx
- HoM9wZ/gRZliHatVI491KW4Z0F4QbKU0e/SSIHv5dKj5XGug
-X-Google-Smtp-Source: AMrXdXsBp5JaM3gTALsiqCGdGFTWPnsowpVxtCgj9OHdzrZIPCOJlMi2Kbvqda4s+2ACZX6OQE9BTmGG1K6wcwAkrHgN1wpqmPkl
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sjlcbVEgS5pgrAjtiDRiz81od9MScN0SBmwZV8y/lIs=;
+ b=jNhOlF5AeWDm36w5Np9o/hfi6ZRAvG2qiwpUYkwujkBljELKiNU23NTofzL/dbTwoE
+ micDYgo/yoQ/7YYuaA0leWclYAhKiVz2n3uBSivv8CdTm9Eus115gPhN/pfUZYtrMFeS
+ nsNE6GCv+x4aEcqOA3sBjdn8vDX2feY3NdaBdovxI5pfJWUOsKwZH5nRr5cCCQJ2Lwat
+ t6Sv+UTf4nqRmgj3jt8agTlXYg2LWwxL2L8heUdnOWtuUuAb1hT4Glhme+kOo86F0cnl
+ xDcJurGDlK8j+d7KZR7rfmpkRaLFEVwRHdvfTudbbKzqjEiVMtEU6j/Po/0/i/ul8WXF
+ csHw==
+X-Gm-Message-State: AFqh2koPhrOG9VcZZ04hDeaBzdKZKk3ADbiuCu54casQb+Fgti/CS+Pw
+ jG4LSMR7IwKnXuLAAFmtURhsiw==
+X-Google-Smtp-Source: AMrXdXuwuTdxaEcEUK1aqTKbAxOoMfEtFDgOViKB9zqN6QGZvAv1BcY7LatZ/ouCEGtzFXpln7UQBw==
+X-Received: by 2002:a05:6512:6d6:b0:4a4:68b9:609b with SMTP id
+ u22-20020a05651206d600b004a468b9609bmr22353836lff.38.1673329650416; 
+ Mon, 09 Jan 2023 21:47:30 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ cf33-20020a056512282100b004a05767bc07sm2006201lfb.28.2023.01.09.21.47.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jan 2023 21:47:29 -0800 (PST)
+Message-ID: <fc525e85-c271-3912-f19b-25a9e90dc2a9@linaro.org>
+Date: Tue, 10 Jan 2023 07:47:29 +0200
 MIME-Version: 1.0
-X-Received: by 2002:a5d:870b:0:b0:6bf:e736:22a with SMTP id
- u11-20020a5d870b000000b006bfe736022amr5615604iom.94.1673326416927; Mon, 09
- Jan 2023 20:53:36 -0800 (PST)
-Date: Mon, 09 Jan 2023 20:53:36 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000aca1bb05f1e1aac1@google.com>
-Subject: [syzbot] linux-next boot error: WARNING in
- __drm_atomic_helper_set_config
-From: syzbot <syzbot+0bf79afd497528c0df0d@syzkaller.appspotmail.com>
-To: airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
- hamohammed.sa@gmail.com, linux-kernel@vger.kernel.org, 
- linux-next@vger.kernel.org, melissa.srw@gmail.com, 
- rodrigosiqueiramelo@gmail.com, sfr@canb.auug.org.au, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v6 05/18] dt-bindings: msm: dsi-controller-main: Document
+ clocks on a per compatible basis
+Content-Language: en-GB
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+References: <20221223021025.1646636-1-bryan.odonoghue@linaro.org>
+ <20221223021025.1646636-6-bryan.odonoghue@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20221223021025.1646636-6-bryan.odonoghue@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,122 +79,287 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
+ sean@poorly.run, andersson@kernel.org, konrad.dybcio@somainline.org,
+ quic_abhinavk@quicinc.com, david@ixit.cz, dianders@chromium.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, robh+dt@kernel.org,
+ agross@kernel.org, swboyd@chromium.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On 23/12/2022 04:10, Bryan O'Donoghue wrote:
+> Each compatible has a different set of clocks which are associated with it.
+> Add in the list of clocks for each compatible.
+> 
+> Acked-by: Rob Herring <robh@kernel.org>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>   .../display/msm/dsi-controller-main.yaml      | 209 ++++++++++++++++--
+>   1 file changed, 192 insertions(+), 17 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> index 98d54a7ee28d4..4b79b31123515 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> @@ -9,9 +9,6 @@ title: Qualcomm Display DSI controller
+>   maintainers:
+>     - Krishna Manikandan <quic_mkrishn@quicinc.com>
+>   
+> -allOf:
+> -  - $ref: "../dsi-controller.yaml#"
+> -
+>   properties:
+>     compatible:
+>       oneOf:
+> @@ -46,22 +43,23 @@ properties:
+>       maxItems: 1
+>   
+>     clocks:
+> -    items:
+> -      - description: Display byte clock
+> -      - description: Display byte interface clock
+> -      - description: Display pixel clock
+> -      - description: Display core clock
+> -      - description: Display AHB clock
+> -      - description: Display AXI clock
+> +    description: |
+> +      Several clocks are used, depending on the variant. Typical ones are::
+> +       - bus:: Display AHB clock.
+> +       - byte:: Display byte clock.
+> +       - byte_intf:: Display byte interface clock.
+> +       - core:: Display core clock.
+> +       - core_mss:: Core MultiMedia SubSystem clock.
+> +       - iface:: Display AXI clock.
+> +       - mdp_core:: MDP Core clock.
+> +       - mnoc:: MNOC clock
+> +       - pixel:: Display pixel clock.
+> +    minItems: 3
+> +    maxItems: 9
+>   
+>     clock-names:
+> -    items:
+> -      - const: byte
+> -      - const: byte_intf
+> -      - const: pixel
+> -      - const: core
+> -      - const: iface
+> -      - const: bus
+> +    minItems: 3
+> +    maxItems: 9
+>   
+>     phys:
+>       maxItems: 1
+> @@ -157,6 +155,183 @@ required:
+>     - assigned-clock-parents
+>     - ports
+>   
+> +allOf:
+> +  - $ref: ../dsi-controller.yaml#
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,apq8064-dsi-ctrl
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 7
+> +        clock-names:
+> +          items:
+> +            - const: iface
+> +            - const: bus
+> +            - const: core_mmss
+> +            - const: src
+> +            - const: byte
+> +            - const: pixel
+> +            - const: core
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,msm8916-dsi-ctrl
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 6
+> +        clock-names:
+> +          items:
+> +            - const: mdp_core
+> +            - const: iface
+> +            - const: bus
+> +            - const: byte
+> +            - const: pixel
+> +            - const: core
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,msm8953-dsi-ctrl
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 6
+> +        clock-names:
+> +          items:
+> +            - const: mdp_core
+> +            - const: iface
+> +            - const: bus
+> +            - const: byte
+> +            - const: pixel
+> +            - const: core
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,msm8974-dsi-ctrl
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 3
+> +        clock-names:
+> +          items:
+> +            - const: iface
+> +            - const: bus
+> +            - const: vsync
 
-syzbot found the following issue on:
+8974 has broader clocks list:
 
-HEAD commit:    469a89fd3bb7 Add linux-next specific files for 20230106
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=121d2432480000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=a94f9b6b8eb07a36
-dashboard link: https://syzkaller.appspot.com/bug?extid=0bf79afd497528c0df0d
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/2df1b88ce6c4/disk-469a89fd.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/ea2517e6b476/vmlinux-469a89fd.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/7539708cb8ba/bzImage-469a89fd.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+0bf79afd497528c0df0d@syzkaller.appspotmail.com
-
-qnx6: QNX6 filesystem 1.0.0 registered.
-fuse: init (API version 7.38)
-orangefs_debugfs_init: called with debug mask: :none: :0:
-orangefs_init: module version upstream loaded
-JFS: nTxBlock = 8192, nTxLock = 65536
-SGI XFS with ACLs, security attributes, realtime, quota, no debug enabled
-9p: Installing v9fs 9p2000 file system support
-NILFS version 2 loaded
-befs: version: 0.9.3
-ocfs2: Registered cluster interface o2cb
-ocfs2: Registered cluster interface user
-OCFS2 User DLM kernel interface loaded
-gfs2: GFS2 installed
-ceph: loaded (mds proto 32)
-NET: Registered PF_ALG protocol family
-xor: automatically using best checksumming function   avx       
-async_tx: api initialized (async)
-Key type asymmetric registered
-Asymmetric key parser 'x509' registered
-Asymmetric key parser 'pkcs8' registered
-Key type pkcs7_test registered
-Block layer SCSI generic (bsg) driver version 0.4 loaded (major 240)
-io scheduler mq-deadline registered
-io scheduler kyber registered
-io scheduler bfq registered
-input: Power Button as /devices/LNXSYSTM:00/LNXPWRBN:00/input/input0
-ACPI: button: Power Button [PWRF]
-input: Sleep Button as /devices/LNXSYSTM:00/LNXSLPBN:00/input/input1
-ACPI: button: Sleep Button [SLPF]
-ACPI: \_SB_.LNKC: Enabled at IRQ 11
-virtio-pci 0000:00:03.0: virtio_pci: leaving for legacy driver
-ACPI: \_SB_.LNKD: Enabled at IRQ 10
-virtio-pci 0000:00:04.0: virtio_pci: leaving for legacy driver
-ACPI: \_SB_.LNKB: Enabled at IRQ 10
-virtio-pci 0000:00:06.0: virtio_pci: leaving for legacy driver
-virtio-pci 0000:00:07.0: virtio_pci: leaving for legacy driver
-N_HDLC line discipline registered with maxframe=4096
-Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
-00:03: ttyS0 at I/O 0x3f8 (irq = 4, base_baud = 115200) is a 16550A
-00:04: ttyS1 at I/O 0x2f8 (irq = 3, base_baud = 115200) is a 16550A
-00:05: ttyS2 at I/O 0x3e8 (irq = 6, base_baud = 115200) is a 16550A
-00:06: ttyS3 at I/O 0x2e8 (irq = 7, base_baud = 115200) is a 16550A
-Non-volatile memory driver v1.3
-Linux agpgart interface v0.103
-ACPI: bus type drm_connector registered
-[drm] Initialized vgem 1.0.0 20120112 for vgem on minor 0
-[drm] Initialized vkms 1.0.0 20180514 for vkms on minor 1
-platform vkms: [drm] bpp/depth value of 32/0 not supported
-platform vkms: [drm] No compatible format found
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 1 at drivers/gpu/drm/drm_atomic.c:1604 __drm_atomic_helper_set_config+0xa2d/0xe80 drivers/gpu/drm/drm_atomic.c:1604
-Modules linked in:
-CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.2.0-rc2-next-20230106-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
-RIP: 0010:__drm_atomic_helper_set_config+0xa2d/0xe80 drivers/gpu/drm/drm_atomic.c:1604
-Code: b6 04 02 84 c0 74 09 3c 03 7f 05 e8 dd cb 48 fd 45 89 75 38 e9 0f fb ff ff e8 6f e4 fa fc 0f 0b e9 a5 f7 ff ff e8 63 e4 fa fc <0f> 0b e9 4f f7 ff ff e8 57 e4 fa fc 48 8d 7d 08 48 b8 00 00 00 00
-RSP: 0000:ffffc90000067808 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffff888146916380 RCX: 0000000000000000
-RDX: ffff888140190000 RSI: ffffffff8486c8fd RDI: 0000000000000007
-RBP: ffff888146917500 R08: 0000000000000007 R09: fffffffffffff000
-R10: ffff888146985000 R11: 0000000000000005 R12: ffff88814691b700
-R13: ffff888146985000 R14: ffff888146985800 R15: ffff88801deccdc0
-FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffff88823ffff000 CR3: 000000000c48e000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- drm_client_modeset_commit_atomic+0x535/0x7e0 drivers/gpu/drm/drm_client_modeset.c:1026
- drm_client_modeset_commit_locked+0x149/0x580 drivers/gpu/drm/drm_client_modeset.c:1148
- drm_client_modeset_commit+0x51/0x80 drivers/gpu/drm/drm_client_modeset.c:1174
- drm_fb_helper_single_fb_probe drivers/gpu/drm/drm_fb_helper.c:1944 [inline]
- __drm_fb_helper_initial_config_and_unlock.cold+0x2ef/0x386 drivers/gpu/drm/drm_fb_helper.c:2130
- drm_fb_helper_initial_config drivers/gpu/drm/drm_fb_helper.c:2225 [inline]
- drm_fb_helper_initial_config+0x4a/0x60 drivers/gpu/drm/drm_fb_helper.c:2217
- drm_fbdev_client_hotplug+0x2b4/0x3d0 drivers/gpu/drm/drm_fbdev_generic.c:406
- drm_fbdev_generic_setup+0x166/0x400 drivers/gpu/drm/drm_fbdev_generic.c:491
- vkms_create drivers/gpu/drm/vkms/vkms_drv.c:204 [inline]
- vkms_init+0x587/0x62f drivers/gpu/drm/vkms/vkms_drv.c:230
- do_one_initcall+0x141/0x7d0 init/main.c:1306
- do_initcall_level init/main.c:1379 [inline]
- do_initcalls init/main.c:1395 [inline]
- do_basic_setup init/main.c:1414 [inline]
- kernel_init_freeable+0x6f9/0x782 init/main.c:1634
- kernel_init+0x1e/0x1d0 init/main.c:1522
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
- </TASK>
+@@ -244,12 +248,16 @@ allOf:
+      then:
+        properties:
+          clocks:
+-          maxItems: 3
++          maxItems: 7
+          clock-names:
+            items:
++            - const: mdp_core
+              - const: iface
+              - const: bus
+-            - const: vsync
++            - const: byte
++            - const: pixel
++            - const: core
++            - const: core_mmss
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,msm8996-dsi-ctrl
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 7
+> +        clock-names:
+> +          items:
+> +            - const: mdp_core
+> +            - const: byte
+> +            - const: iface
+> +            - const: bus
+> +            - const: core_mmss
+> +            - const: pixel
+> +            - const: core
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,msm8998-dsi-ctrl
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 6
+> +        clock-names:
+> +          items:
+> +            - const: byte
+> +            - const: byte_intf
+> +            - const: pixel
+> +            - const: core
+> +            - const: iface
+> +            - const: bus
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,sc7180-dsi-ctrl
+> +              - qcom,sc7280-dsi-ctrl
+> +              - qcom,sm8250-dsi-ctrl
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Could you please also add sm8150 and sm8[345]50?
+
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 6
+> +        clock-names:
+> +          items:
+> +            - const: byte
+> +            - const: byte_intf
+> +            - const: pixel
+> +            - const: core
+> +            - const: iface
+> +            - const: bus
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,sdm660-dsi-ctrl
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 9
+> +        clock-names:
+> +          items:
+> +            - const: mdp_core
+> +            - const: byte
+> +            - const: byte_intf
+> +            - const: mnoc
+> +            - const: iface
+> +            - const: bus
+> +            - const: core_mmss
+> +            - const: pixel
+> +            - const: core
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,sdm845-dsi-ctrl
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 6
+> +        clock-names:
+> +          items:
+> +            - const: byte
+> +            - const: byte_intf
+> +            - const: pixel
+> +            - const: core
+> +            - const: iface
+> +            - const: bus
+> +
+>   additionalProperties: false
+>   
+>   examples:
+
+-- 
+With best wishes
+Dmitry
+
