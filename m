@@ -2,59 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC666663D30
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 10:46:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C65D663D44
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 10:50:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9526410E57B;
-	Tue, 10 Jan 2023 09:45:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ADD410E580;
+	Tue, 10 Jan 2023 09:50:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBB2210E584;
- Tue, 10 Jan 2023 09:45:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673343957; x=1704879957;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=vL6NmI6DPN+u687y8bwjoCQfUhP2lvS/jSezIJUycus=;
- b=WuXHcWKU6M4OliACX3M3uO0/+e96nOZCwQP4yXaBaK1qwxvbw/yadYmI
- FptrEK/5q7XrKNWGcduqmNrkvVG6tdkMRs2bEQywWr+OWpXKJ0RVENszj
- Q17zCiMC2HxLosRgtFUqXg8qMJIkfKFU5EcqLugR140TnFeoCdjZ2wqIs
- 2YZpK7HiQlaCT2rwz4p5nVa6saYlhKkcb3qDf/aR63MN+iyY3Uxa3Ah4s
- z2BdF6DRWrlpi0bUxTG04f9lVuqyYI5HYP6eqnirKA+kR7B4sfg8Rc2Be
- ihqBR8U7jKvNMLjCKLpMI3sK81PVhNcjFdchxrNbxt0pDy3dUlAhxmj3x g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="302804969"
-X-IronPort-AV: E=Sophos;i="5.96,314,1665471600"; d="scan'208";a="302804969"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2023 01:45:56 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="689362617"
-X-IronPort-AV: E=Sophos;i="5.96,314,1665471600"; d="scan'208";a="689362617"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.8.19])
- ([10.213.8.19])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2023 01:45:54 -0800
-Message-ID: <aa55da9e-299b-0e4a-1ced-ff0330593ac5@intel.com>
-Date: Tue, 10 Jan 2023 10:45:52 +0100
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2256A10E580
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 09:50:48 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id jn22so12589365plb.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 01:50:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=LFUKQhnlWh+vQvC+BcQrfAAE16ClcsD92Eyht+PMCKI=;
+ b=KXfAacA0vhhS3Q50pk9pO89njWnuTfVxUvLVzwZB6HGeMu64LHO+N4lhISy7kif8se
+ OwopF8BfSl0ApmJp3wU8pDcULITz0yzez4EbyOiw7ggyIkdUDbYzv61/LQ11ZQWCBnt0
+ ZrWrmUr9UENSkhXNwAzbNazZB02ERvf34phUM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LFUKQhnlWh+vQvC+BcQrfAAE16ClcsD92Eyht+PMCKI=;
+ b=V5K1xBG6JfH/4jlqirzH37pWV09A3nh7BVv3Tf9PQkdniI7033MBVp2tE3KMb65Fk0
+ E+jaSDrKTsyzokdmnT5bJ+YSB7vYTddoalI6YPX5GZXMmbM4JhNdUYin16b+r8kwFP5o
+ 6xxWLf8t/dIJWWB5IjMKs4KESVK+qbebRp6EattKPTS/CKMBFHJWd++MgiRSVlrHEa1s
+ QDpl1sQUqAGgDNij+CmoPIrsONmbmbhUIcV7MawuNguYInUYmAgF24M65uFFdFxSDszM
+ Gkkeg7EnvIkqc1uDoj4uWQGFRhaEpPaTuc1py5tVRRs9BrqJRBjpfqatClaV+flonf2F
+ kYjg==
+X-Gm-Message-State: AFqh2krapO9BGd5Oqj0baAFcl5MWuYKnydEQQVXRiDZNTqA+TWT38w6+
+ zVu3yStPnTO3zmBXeRjqqdzU9Kvkad6827pKIIs=
+X-Google-Smtp-Source: AMrXdXvn9V2BnC6+JrCwoqOJSTf4QVs93x1AQazN7HuO0g6QQlYTyWNk3hA/tztjOtiuw3o5NxlyDA==
+X-Received: by 2002:a05:6a20:2a26:b0:af:9c65:5ba5 with SMTP id
+ e38-20020a056a202a2600b000af9c655ba5mr67810351pzh.60.1673344247538; 
+ Tue, 10 Jan 2023 01:50:47 -0800 (PST)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com.
+ [209.85.214.181]) by smtp.gmail.com with ESMTPSA id
+ y7-20020a17090a474700b00219463262desm6660441pjg.39.2023.01.10.01.50.46
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Jan 2023 01:50:46 -0800 (PST)
+Received: by mail-pl1-f181.google.com with SMTP id p24so12596498plw.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 01:50:46 -0800 (PST)
+X-Received: by 2002:a17:902:a984:b0:189:d081:1ebb with SMTP id
+ bh4-20020a170902a98400b00189d0811ebbmr3482923plb.130.1673344245710; Tue, 10
+ Jan 2023 01:50:45 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.6.1
-Subject: Re: [PATCH v3] drm/i915: Do not cover all future platforms in TLB
- invalidation
-Content-Language: en-US
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20230106103835.640924-1-tvrtko.ursulin@linux.intel.com>
- <20230109122442.713861-1-tvrtko.ursulin@linux.intel.com>
- <ba227180-066a-8e07-9df6-a9d4e6ec2a05@intel.com>
- <6a861c63-39b7-e5e2-b7c5-43cf9b7130f8@linux.intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <6a861c63-39b7-e5e2-b7c5-43cf9b7130f8@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230109222547.1368644-1-joel@joelfernandes.org>
+In-Reply-To: <20230109222547.1368644-1-joel@joelfernandes.org>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 10 Jan 2023 10:50:34 +0100
+X-Gmail-Original-Message-ID: <CANiDSCtnu=1+dKgKVBOZoQiDNPidDC=Ocrmy=k7HFPdKQgfaBA@mail.gmail.com>
+Message-ID: <CANiDSCtnu=1+dKgKVBOZoQiDNPidDC=Ocrmy=k7HFPdKQgfaBA@mail.gmail.com>
+Subject: Re: [PATCH v2 RESEND] adreno: Shutdown the GPU properly
+To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,111 +73,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+ Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
+ Ross Zwisler <zwisler@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 10.01.2023 10:16, Tvrtko Ursulin wrote:
+On Mon, 9 Jan 2023 at 23:25, Joel Fernandes (Google)
+<joel@joelfernandes.org> wrote:
 >
-> On 10/01/2023 08:23, Andrzej Hajda wrote:
->>
->>
->> On 09.01.2023 13:24, Tvrtko Ursulin wrote:
->>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>
->>> Revert to the original explicit approach and document the reasoning
->>> behind it.
->>>
->>> v2:
->>>   * DG2 needs to be covered too. (Matt)
->>>
->>> v3:
->>>   * Full version check for Gen12 to avoid catching all future 
->>> platforms.
->>>     (Matt)
->>>
->>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>> Cc: Matt Roper <matthew.d.roper@intel.com>
->>> Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
->>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
->>> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com> # v1
->>> ---
->>>   drivers/gpu/drm/i915/gt/intel_gt.c | 17 +++++++++++++++--
->>>   1 file changed, 15 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c 
->>> b/drivers/gpu/drm/i915/gt/intel_gt.c
->>> index 7eeee5a7cb33..5521fa057aab 100644
->>> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
->>> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
->>> @@ -1070,10 +1070,23 @@ static void mmio_invalidate_full(struct 
->>> intel_gt *gt)
->>>       unsigned int num = 0;
->>>       unsigned long flags;
->>> -    if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50)) {
->>> +    /*
->>> +     * New platforms should not be added with catch-all-newer (>=)
->>> +     * condition so that any later platform added triggers the 
->>> below warning
->>> +     * and in turn mandates a human cross-check of whether the 
->>> invalidation
->>> +     * flows have compatible semantics.
->>> +     *
->>> +     * For instance with the 11.00 -> 12.00 transition three out of 
->>> five
->>> +     * respective engine registers were moved to masked type. Then 
->>> after the
->>> +     * 12.00 -> 12.50 transition multi cast handling is required too.
->>> +     */
->>> +
->>> +    if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50) &&
->>> +        GRAPHICS_VER_FULL(i915) <= IP_VER(12, 55)) {
->>>           regs = NULL;
->>>           num = ARRAY_SIZE(xehp_regs);
->>> -    } else if (GRAPHICS_VER(i915) == 12) {
->>> +    } else if (GRAPHICS_VER_FULL(i915) == IP_VER(12, 0) ||
->>> +           GRAPHICS_VER_FULL(i915) == IP_VER(12, 10)) {
->>
->> MTL support is lost? IP_VER(12, 70)
+> During kexec on ARM device, we notice that device_shutdown() only calls
+> pm_runtime_force_suspend() while shutting down the GPU. This means the GPU
+> kthread is still running and further, there maybe active submits.
 >
-> AFAIU Matt says MTL is still incomplete anyway, so that would be added 
-> in an explicit patch here.
-
-I've missed this part, sorry for the noise then :)
-And as I see PVC is similar story.
-
+> This causes all kinds of issues during a kexec reboot:
 >
->> And again it looks for me inconsistent, some unknown platforms are 
->> covered, for example 12.54, some not, for example 12.11.
+> Warning from shutdown path:
 >
-> .11 and .54 as hypotheticals? You suggest this instead:
+> [  292.509662] WARNING: CPU: 0 PID: 6304 at [...] adreno_runtime_suspend+0x3c/0x44
+> [  292.509863] Hardware name: Google Lazor (rev3 - 8) with LTE (DT)
+> [  292.509872] pstate: 80400009 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [  292.509881] pc : adreno_runtime_suspend+0x3c/0x44
+> [  292.509891] lr : pm_generic_runtime_suspend+0x30/0x44
+> [  292.509905] sp : ffffffc014473bf0
+> [...]
+> [  292.510043] Call trace:
+> [  292.510051]  adreno_runtime_suspend+0x3c/0x44
+> [  292.510061]  pm_generic_runtime_suspend+0x30/0x44
+> [  292.510071]  pm_runtime_force_suspend+0x54/0xc8
+> [  292.510081]  adreno_shutdown+0x1c/0x28
+> [  292.510090]  platform_shutdown+0x2c/0x38
+> [  292.510104]  device_shutdown+0x158/0x210
+> [  292.510119]  kernel_restart_prepare+0x40/0x4c
 >
->     if (GRAPHICS_VER_FULL(i915) == IP_VER(12, 50) ||
->         GRAPHICS_VER_FULL(i915) == IP_VER(12, 55)) {
->         regs = NULL;
->         num = ARRAY_SIZE(xehp_regs);
->     } else if (GRAPHICS_VER_FULL(i915) == IP_VER(12, 0) ||
->            GRAPHICS_VER_FULL(i915) == IP_VER(12, 10)) {
->         regs = gen12_regs;
->         num = ARRAY_SIZE(gen12_regs);
+> And here from GPU kthread, an SError OOPs:
 >
-> ?
-
-For me this perfectly follows the 'strict' approach :)
-
+> [  192.648789]  el1h_64_error+0x7c/0x80
+> [  192.648812]  el1_interrupt+0x20/0x58
+> [  192.648833]  el1h_64_irq_handler+0x18/0x24
+> [  192.648854]  el1h_64_irq+0x7c/0x80
+> [  192.648873]  local_daif_inherit+0x10/0x18
+> [  192.648900]  el1h_64_sync_handler+0x48/0xb4
+> [  192.648921]  el1h_64_sync+0x7c/0x80
+> [  192.648941]  a6xx_gmu_set_oob+0xbc/0x1fc
+> [  192.648968]  a6xx_hw_init+0x44/0xe38
+> [  192.648991]  msm_gpu_hw_init+0x48/0x80
+> [  192.649013]  msm_gpu_submit+0x5c/0x1a8
+> [  192.649034]  msm_job_run+0xb0/0x11c
+> [  192.649058]  drm_sched_main+0x170/0x434
+> [  192.649086]  kthread+0x134/0x300
+> [  192.649114]  ret_from_fork+0x10/0x20
 >
-> It's fine by me if that covers all currently known platforms.
-
-My grep in i915_pci.c agrees.
-
-Regards
-Andrzej
-
+> Fix by calling adreno_system_suspend() in the device_shutdown() path.
 >
-> Regards,
+> [ Applied Rob Clark feedback on fixing adreno_unbind() similarly, also
+>   tested as above. ]
 >
-> Tvrtko
+> Cc: Rob Clark <robdclark@chromium.org>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Ricardo Ribalda <ribalda@chromium.org>
+> Cc: Ross Zwisler <zwisler@kernel.org>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> ---
+>  drivers/gpu/drm/msm/adreno/adreno_device.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> index 628806423f7d..36f062c7582f 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> @@ -551,13 +551,14 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
+>         return 0;
+>  }
+>
+> +static int adreno_system_suspend(struct device *dev);
+>  static void adreno_unbind(struct device *dev, struct device *master,
+>                 void *data)
+>  {
+>         struct msm_drm_private *priv = dev_get_drvdata(master);
+>         struct msm_gpu *gpu = dev_to_gpu(dev);
+>
+> -       pm_runtime_force_suspend(dev);
+> +       WARN_ON_ONCE(adreno_system_suspend(dev));
+>         gpu->funcs->destroy(gpu);
+>
+>         priv->gpu_pdev = NULL;
+> @@ -609,7 +610,7 @@ static int adreno_remove(struct platform_device *pdev)
+>
+>  static void adreno_shutdown(struct platform_device *pdev)
+>  {
+> -       pm_runtime_force_suspend(&pdev->dev);
+> +       WARN_ON_ONCE(adreno_system_suspend(&pdev->dev));
+>  }
+>
+>  static const struct of_device_id dt_match[] = {
+> --
+> 2.39.0.314.g84b9a713c41-goog
+>
 
+
+-- 
+Ricardo Ribalda
