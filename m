@@ -1,45 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F5C6648DB
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 19:15:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F15DF664957
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 19:20:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD0DF10E13F;
-	Tue, 10 Jan 2023 18:15:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDB8B10E12A;
+	Tue, 10 Jan 2023 18:20:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D0BA10E13B;
- Tue, 10 Jan 2023 18:15:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1673374545; bh=NHddBNPO1QQ18FfEaBnCUlI5s+jWgOFNwyia4D6sg7w=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
- MIME-Version:Content-Type:In-Reply-To;
- b=fhuaQCNU4aqkNy8IvltfXYHiKjXNKab7xJ4GdhjO5+iK14gR0KqP8Lb15yJLmdn+4
- ZJPUg6ubjpIcioPbFwtvTeeVEKQI/+l+vSc6NPF9fWrQI9NG1KG6oFMyGJn3UQ0wPY
- Xwf9rHBTzF7IVXITo1NYk6FebqOz7Y1cy/ekDxpI=
-Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Tue, 10 Jan 2023 19:15:45 +0100 (CET)
-X-EA-Auth: olbET+3pqyTe5pOhLU+kvrYYyDCkdw4Wa79wEbKz/tcHFusbfa3ow6jp8G+CJQgiZHyJbUyq314xdB46+SS0S6uUb8XWeoFS
-Date: Tue, 10 Jan 2023 23:45:40 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] drm/i915/fbc: Avoid full proxy f_ops for FBC debug
- attributes
-Message-ID: <a4200ae1de7324fcddac201009a43571d0a72104.1673343994.git.drv@mailo.com>
-References: <cover.1673343994.git.drv@mailo.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B826F10E12A
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 18:20:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673374841; x=1704910841;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=gEDEe6v6P56XKTKVod6hHvBcJizZdWIOCj+46/uxJjc=;
+ b=Agjq5E3iXs4cTLas1xFngzftUT+M/SYy0IGoYl+pp1WDIZ9E4u9oyklg
+ SMIiL7BEsn3whY//FnKNsMU4hceeWszUGRjHz6aD6ceoUcb7x9WBtW/nL
+ /+0UZZkg/nDSMB09k+zUhfYGmTSQXafr5ReOdnfXPe36RYq0LlsTiokuD
+ HqpNR7/NhqK1tkmQMW5ZHjFTbeQ72d+P2Sb6Tkoke7tb1viWfXAA4kbvB
+ GEMi01SAV7u0HCoJy3rZty5IVIMExIAEpUOiuL6bpsnarT0CYonWPQYPi
+ 6nGbA0xRipm4kLBvjiP/hv+SRtYklwXcOp0ynUpGtIKiX65Pk1oJh4pcZ Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="311025542"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="311025542"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2023 10:20:40 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="657139780"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="657139780"
+Received: from drooney-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.11.80])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2023 10:20:37 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v1 RFC] video/hdmi: Fix HDMI_VENDOR_INFOFRAME_SIZE
+In-Reply-To: <20230109223110.1165433-1-martin.blumenstingl@googlemail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230109223110.1165433-1-martin.blumenstingl@googlemail.com>
+Date: Tue, 10 Jan 2023 20:20:34 +0200
+Message-ID: <87lemai74d.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1673343994.git.drv@mailo.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,69 +58,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- Saurabh Singh Sengar <ssengar@microsoft.com>
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Bernard Zhao <bernard@vivo.com>, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
-function adds the overhead of introducing a proxy file operation
-functions to wrap the original read/write inside file removal protection
-functions. This adds significant overhead in terms of introducing and
-managing the proxy factory file operations structure and function
-wrapping at runtime.
-As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
-with debugfs_create_file_unsafe() is suggested to be used instead.  The
-DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
-debugfs_file_put() wrappers to protect the original read and write
-function calls for the debug attributes. There is no need for any
-runtime proxy file operations to be managed by the debugfs core.
-Following coccicheck make command helped identify this change:
+On Mon, 09 Jan 2023, Martin Blumenstingl <martin.blumenstingl@googlemail.com> wrote:
+> When support for the HDMI vendor infoframe was introduced back with
+> commit 7d27becb3532 ("video/hdmi: Introduce helpers for the HDMI vendor
+> specific infoframe") it's payload size was either 5 or 6 bytes,
+> depending on:
+>   if (frame->s3d_struct >= HDMI_3D_STRUCTURE_SIDE_BY_SIDE_HALF)
+> When true the size was 6 bytes, otherwise 5 bytes.
+>
+> Drivers that are using hdmi_infoframe_pack() are reserving 10 bytes (4
+> bytes for the header and up to 6 bytes for the infoframe payload data)
+> or more (exynos_hdmi reserves 25 bytes).
+>
+> Over time the frame payload length was reduced to 4 bytes. This however
+> does not match the code from hdmi_hdmi_infoframe_pack() where ptr[8] and
+> ptr[9] are written, which means the infoframe has to allow up to 6 bytes
+> of payload data (considering that the header takes 4 bytes).
+>
+> Change HDMI_VENDOR_INFOFRAME_SIZE to 6 bytes so
+> hdmi_vendor_infoframe_pack_only() can properly check the passed buffer
+> size and avoid an out of bounds write to ptr[8] or ptr[9].
+>
+> Fixes: c5e69ab35c0d ("video/hdmi: Constify infoframe passed to the pack functions")
+> Fixes: d43be2554b58 ("drivers: video: hdmi: cleanup coding style in video a bit")
+> Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> ---
+> I'm not an expert on this topic and I'm not sure if the size still
+> depends on that if condition from long time ago. So please share your
+> thoughts.
 
-make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
+I tried to look at this quickly, but it makes my brain hurt. I don't
+think simply changing the size here is right either.
 
-Signed-off-by: Deepak R Varma <drv@mailo.com>
----
-Changes in v2:
-   - Include coccicheck make command in the patch log message for clarity.
-     Suggested by Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Ville.
+
+BR,
+Jani.
 
 
- drivers/gpu/drm/i915/display/intel_fbc.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
-index 5e69d3c11d21..c508dcf415b4 100644
---- a/drivers/gpu/drm/i915/display/intel_fbc.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbc.c
-@@ -1807,10 +1807,10 @@ static int intel_fbc_debugfs_false_color_set(void *data, u64 val)
- 	return 0;
- }
- 
--DEFINE_SIMPLE_ATTRIBUTE(intel_fbc_debugfs_false_color_fops,
--			intel_fbc_debugfs_false_color_get,
--			intel_fbc_debugfs_false_color_set,
--			"%llu\n");
-+DEFINE_DEBUGFS_ATTRIBUTE(intel_fbc_debugfs_false_color_fops,
-+			 intel_fbc_debugfs_false_color_get,
-+			 intel_fbc_debugfs_false_color_set,
-+			 "%llu\n");
- 
- static void intel_fbc_debugfs_add(struct intel_fbc *fbc,
- 				  struct dentry *parent)
-@@ -1819,8 +1819,8 @@ static void intel_fbc_debugfs_add(struct intel_fbc *fbc,
- 			    fbc, &intel_fbc_debugfs_status_fops);
- 
- 	if (fbc->funcs->set_false_color)
--		debugfs_create_file("i915_fbc_false_color", 0644, parent,
--				    fbc, &intel_fbc_debugfs_false_color_fops);
-+		debugfs_create_file_unsafe("i915_fbc_false_color", 0644, parent,
-+					   fbc, &intel_fbc_debugfs_false_color_fops);
- }
- 
- void intel_fbc_crtc_debugfs_add(struct intel_crtc *crtc)
+>
+>
+>  include/linux/hdmi.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/include/linux/hdmi.h b/include/linux/hdmi.h
+> index 2f4dcc8d060e..026c5ef5a1a5 100644
+> --- a/include/linux/hdmi.h
+> +++ b/include/linux/hdmi.h
+> @@ -57,7 +57,7 @@ enum hdmi_infoframe_type {
+>  #define HDMI_SPD_INFOFRAME_SIZE    25
+>  #define HDMI_AUDIO_INFOFRAME_SIZE  10
+>  #define HDMI_DRM_INFOFRAME_SIZE    26
+> -#define HDMI_VENDOR_INFOFRAME_SIZE  4
+> +#define HDMI_VENDOR_INFOFRAME_SIZE  6
+>  
+>  #define HDMI_INFOFRAME_SIZE(type)	\
+>  	(HDMI_INFOFRAME_HEADER_SIZE + HDMI_ ## type ## _INFOFRAME_SIZE)
+
 -- 
-2.34.1
-
-
-
+Jani Nikula, Intel Open Source Graphics Center
