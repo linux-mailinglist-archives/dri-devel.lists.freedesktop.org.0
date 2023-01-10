@@ -1,61 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97051664D74
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 21:30:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 239BA664D9C
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 21:48:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E550B10E65F;
-	Tue, 10 Jan 2023 20:30:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96D5010E493;
+	Tue, 10 Jan 2023 20:47:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com
- [IPv6:2607:f8b0:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACAFF10E65F
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 20:30:12 +0000 (UTC)
-Received: by mail-il1-x131.google.com with SMTP id x6so2372654ill.10
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 12:30:12 -0800 (PST)
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
+ [IPv6:2607:f8b0:4864:20::833])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04FC110E493
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 20:47:51 +0000 (UTC)
+Received: by mail-qt1-x833.google.com with SMTP id h16so647657qtu.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 12:47:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=w0Ug/ql1k2yCindQKTRR7rZIRzQnKNrHLeSqG8fryRU=;
- b=lLxUx/bMoyOfuYe2X/8VFsQ+pLZ38ds+Rz4HDvDSmzx62mxYFzBIdYtTKovwsZi9i+
- la0f9V3xZrTk6WFUBU8WLFd90V5NdTf63r04MkaXO3bOPatguw9Avrkcmgr7dFcHJh0L
- s3mA0o5rahMqaSVak4BdlT0j7sTgadkvT1Xu8=
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=LNkmbPLxmBzQtQA4WlZ5lNA3PV6OlrWh8T5N9f26/rk=;
+ b=Ar1kALT2vCLC0jsxBT02ALvFqTERzGmIASoyMWnRwl1PpFNHODjhfiKDKvTYFFlG6I
+ 4668NLR78C7XrvdGkuU/fIMOqC0EsQ1KkPADHZr9yJZqQyQWXYXmWoQqJ1LDED1XITDk
+ gjtT+DOMCvtdELqCKGWO70pjLtuhNbcdCXOZk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=w0Ug/ql1k2yCindQKTRR7rZIRzQnKNrHLeSqG8fryRU=;
- b=izZxP8F/RERH+Vs2DZAmEqLh2Dn8XhWlDVGZkE/OQm7lKfTp5XmSpefM/jZqfhVk8O
- 8dW2zBYDpRZ4jeV8Etstaa5/mbwPSdHUPSyRXkixMM5mbi1srr9JFPvT1gNxAtvO6Nut
- 7YNNqDlLtLxQ9p6ATBdry6xjFKwi7vjaMiQ3t1KjtOnb2lS0lp6Qfa/rAqcjDu78Lzh4
- 5Pxd7itWSPBbyZKCOZPwIX5wzqM5fCOt0X9uPJtcoxRVMhXZV8uJh2zOsZhPzAbnnJfL
- /ZvHGUA2OKRnDjuIv3lWexZh2bn2IsSvt2+0vXQLwhU3W6jEDQNcfXBuaMmR7Q5IlmTR
- arow==
-X-Gm-Message-State: AFqh2kqAzyPey/AxsCmREdk6IhViNpX12OFGo+tsLeUIot7eANsLKPUv
- 17UCmwkMAxMe3tumv2WMHjttXw==
-X-Google-Smtp-Source: AMrXdXuYEbx64HsIkwIR1X0fW6/MkoxznuZHCX2SRdTFXE879B3OEgvIbygmt0TOAFMmFnqN+0lsCg==
-X-Received: by 2002:a92:1e08:0:b0:30d:7ce3:448b with SMTP id
- e8-20020a921e08000000b0030d7ce3448bmr15581670ile.14.1673382611793; 
- Tue, 10 Jan 2023 12:30:11 -0800 (PST)
-Received: from chromium.org ([2620:15c:183:200:d1f8:2b5e:3e1d:2620])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LNkmbPLxmBzQtQA4WlZ5lNA3PV6OlrWh8T5N9f26/rk=;
+ b=d/NEvcZlBcyZhqk44GjEKOx9RuJKHg8fqgA1XBV0bOOXuGGkpH48aXgRPH+pS6aKEJ
+ eoYjICTz9en455ZxhLvm1+w/8bzI76c5tfWPS0MCE+tLiHgd0HP462FKV9iUlhA6warA
+ SpRRaw+vfygT71pNfsnHGcawbKgXMQQwOXUSYNGLtN1onmKAe2zhnEkPnjUR9AC0dtyw
+ R/jKWU6n1cfmSaEtKvefLXcdPv0tKmvwoQBOe6GlDKHTpSDhUAfHBzw2gpESpmBGqBtj
+ TwPCDZAb8Kal1F/7tHXxFPg9hWcH77CWh5oMrf7sCuPK/S+AVFWtbu8nZqFesKvO/8gu
+ SjoQ==
+X-Gm-Message-State: AFqh2kqOVnMX90233nixSSy4gbjs4OoysUXgxDuhMaXkEogBsaGYw2n3
+ 3q6zTdfS1LGJYrExgfW2cJnRFg==
+X-Google-Smtp-Source: AMrXdXvf+uqiaz+qFqTZQOauEc0cu2GgM8DN67lHXsZe0vyeWWNmfX9cLwaSV4btYGfwS7PtIPtvLA==
+X-Received: by 2002:a05:622a:5d96:b0:3ad:8bb2:31f5 with SMTP id
+ fu22-20020a05622a5d9600b003ad8bb231f5mr11095797qtb.64.1673383669903; 
+ Tue, 10 Jan 2023 12:47:49 -0800 (PST)
+Received: from greenjustin3.nyc.corp.google.com
+ ([2620:0:1003:314:9e2b:736d:6c00:da04])
  by smtp.gmail.com with ESMTPSA id
- t13-20020a92d14d000000b003039a19a927sm3913441ilg.7.2023.01.10.12.30.10
+ jr49-20020a05622a803100b003ad373d04b6sm3545204qtb.59.2023.01.10.12.47.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 12:30:11 -0800 (PST)
-Date: Tue, 10 Jan 2023 13:30:09 -0700
-From: Drew Davenport <ddavenport@chromium.org>
-To: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
-Subject: Re: [PATCH] drm/i915/display: Check source height is > 0
-Message-ID: <Y73K0T+tQD1wj8Xp@chromium.org>
-References: <20221226225246.1.I15dff7bb5a0e485c862eae61a69096caf12ef29f@changeid>
- <8b4448d0-d9ea-95a6-83ee-513fe73c793f@gmail.com>
+ Tue, 10 Jan 2023 12:47:49 -0800 (PST)
+From: Justin Green <greenjustin@chromium.org>
+To: linux-mediatek@lists.infradead.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/mediatek: Add support for AR30 and BA30
+Date: Tue, 10 Jan 2023 15:47:42 -0500
+Message-Id: <20230110204742.1354797-1-greenjustin@chromium.org>
+X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8b4448d0-d9ea-95a6-83ee-513fe73c793f@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,119 +67,227 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Juha-Pekka =?iso-8859-1?Q?Heikkil=E4?= <juha-pekka.heikkila@intel.com>
+Cc: chunkuang.hu@kernel.org, greenjustin@chromium.org, airlied@linux.ie,
+ jason-jh.lin@mediatek.com, justin.yeh@mediatek.com, wenst@chromium.org,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 03, 2023 at 12:42:43PM +0200, Juha-Pekka Heikkila wrote:
-> Hi Drew,
+Add support for AR30 and BA30 pixel formats to the Mediatek DRM driver.
 
-Hi Juha-Pekka, sorry for the late response since I was on vacation.
+Tested using "modetest -P" on an MT8195.
 
-> 
-> this is good find. I went looking where the problem is in and saw what you
-> probably also saw earlier.
-> 
-> I was wondering if diff below would be better fix? I assume this would end
-> up with einval or erange in your case but code flow otherwise would stay as
-> is while fixing all future callers for same issue:
+Signed-off-by: Justin Green <greenjustin@chromium.org>
+---
+v2:
+ * Rebase and resolve merge conflicts with the AFBC patch.
 
-Yes, the function you identify below is where I encountered
-divide-by-zero errors. If width/height less than 1 is a legitimate use
-case, then your proposed solution looks like it would be better. It
-should have no risk of regression in userspace either, which is nice.
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c  | 28 +++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c  | 19 +++++++++++-
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c | 39 +++++++++++++++++++++---
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h |  2 +-
+ 4 files changed, 81 insertions(+), 7 deletions(-)
 
-I tested your patch, and as expected I did not hit the divide-by-zero
-error, though the test commit was rejected due to a check further along
-inside skl_update_scaler. Perhaps there is some other configuration
-which would pass the test commit with a width/height less than 1, but I
-didn't dig much further.
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+index 84daeaffab6a..667ae57c8754 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+@@ -41,6 +41,7 @@
+ #define DISP_REG_OVL_RDMA_CTRL(n)		(0x00c0 + 0x20 * (n))
+ #define DISP_REG_OVL_RDMA_GMC(n)		(0x00c8 + 0x20 * (n))
+ #define DISP_REG_OVL_ADDR_MT2701		0x0040
++#define DISP_REG_OVL_CLRFMT_EXT			0x02D0
+ #define DISP_REG_OVL_ADDR_MT8173		0x0f40
+ #define DISP_REG_OVL_ADDR(ovl, n)		((ovl)->data->addr + 0x20 * (n))
+ #define DISP_REG_OVL_HDR_ADDR(ovl, n)		((ovl)->data->addr + 0x20 * (n) + 0x04)
+@@ -61,6 +62,10 @@
+ 					0 : OVL_CON_CLRFMT_RGB)
+ #define OVL_CON_CLRFMT_RGB888(ovl)	((ovl)->data->fmt_rgb565_is_0 ? \
+ 					OVL_CON_CLRFMT_RGB : 0)
++#define OVL_CON_CLRFMT_BIT_DEPTH_MASK(ovl)	(0xFF << 4 * (ovl))
++#define OVL_CON_CLRFMT_BIT_DEPTH(depth, ovl)	(depth << 4 * (ovl))
++#define OVL_CON_CLRFMT_8_BIT			0x00
++#define OVL_CON_CLRFMT_10_BIT			0x01
+ #define	OVL_CON_AEN		BIT(8)
+ #define	OVL_CON_ALPHA		0xff
+ #define	OVL_CON_VIRT_FLIP	BIT(9)
+@@ -188,6 +193,26 @@ static void mtk_ovl_set_afbc(struct mtk_disp_ovl *ovl, struct cmdq_pkt *cmdq_pkt
+ 			   DISP_REG_OVL_DATAPATH_CON, OVL_LAYER_AFBC_EN(idx));
+ }
+ 
++static void mtk_ovl_set_bit_depth(struct device *dev, int idx, u32 format,
++				  struct cmdq_pkt *cmdq_pkt)
++{
++	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
++	unsigned int reg;
++	unsigned int bit_depth = OVL_CON_CLRFMT_8_BIT;
++
++	reg = readl(ovl->regs + DISP_REG_OVL_CLRFMT_EXT);
++	reg &= ~OVL_CON_CLRFMT_BIT_DEPTH_MASK(idx);
++
++	if (format == DRM_FORMAT_RGBA1010102 ||
++	    format == DRM_FORMAT_BGRA1010102 ||
++	    format == DRM_FORMAT_ARGB2101010)
++		bit_depth = OVL_CON_CLRFMT_10_BIT;
++
++	reg |= OVL_CON_CLRFMT_BIT_DEPTH(bit_depth, idx);
++
++	mtk_ddp_write(cmdq_pkt, reg, &ovl->cmdq_reg, ovl->regs, DISP_REG_OVL_CLRFMT_EXT);
++}
++
+ void mtk_ovl_config(struct device *dev, unsigned int w,
+ 		    unsigned int h, unsigned int vrefresh,
+ 		    unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
+@@ -302,9 +327,11 @@ static unsigned int ovl_fmt_convert(struct mtk_disp_ovl *ovl, unsigned int fmt)
+ 		return OVL_CON_CLRFMT_ARGB8888;
+ 	case DRM_FORMAT_BGRX8888:
+ 	case DRM_FORMAT_BGRA8888:
++	case DRM_FORMAT_BGRA1010102:
+ 		return OVL_CON_CLRFMT_ARGB8888 | OVL_CON_BYTE_SWAP;
+ 	case DRM_FORMAT_XRGB8888:
+ 	case DRM_FORMAT_ARGB8888:
++	case DRM_FORMAT_ARGB2101010:
+ 		return OVL_CON_CLRFMT_RGBA8888;
+ 	case DRM_FORMAT_XBGR8888:
+ 	case DRM_FORMAT_ABGR8888:
+@@ -388,6 +415,7 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
+ 				      &ovl->cmdq_reg, ovl->regs, DISP_REG_OVL_PITCH_MSB(idx));
+ 	}
+ 
++	mtk_ovl_set_bit_depth(dev, idx, fmt, cmdq_pkt);
+ 	mtk_ovl_layer_on(dev, idx, cmdq_pkt);
+ }
+ 
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index 112615817dcb..d50379c97c4b 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -842,6 +842,21 @@ enum drm_plane_type mtk_drm_crtc_plane_type(unsigned int plane_idx,
+ 
+ }
+ 
++static const char *ovls_with_10bit_cap[] = {
++	"mediatek,mt8195-disp-ovl",
++};
++
++static bool is_10bit_cap_device(void)
++{
++	for (int i = 0; i < ARRAY_SIZE(ovls_with_10bit_cap); i++) {
++		if (of_find_compatible_node(NULL, NULL,
++					    ovls_with_10bit_cap[i]))
++			return true;
++	}
++
++	return false;
++}
++
+ static int mtk_drm_crtc_init_comp_planes(struct drm_device *drm_dev,
+ 					 struct mtk_drm_crtc *mtk_crtc,
+ 					 int comp_idx, int pipe)
+@@ -849,6 +864,7 @@ static int mtk_drm_crtc_init_comp_planes(struct drm_device *drm_dev,
+ 	int num_planes = mtk_drm_crtc_num_comp_planes(mtk_crtc, comp_idx);
+ 	struct mtk_ddp_comp *comp = mtk_crtc->ddp_comp[comp_idx];
+ 	int i, ret;
++	bool supports_10bit = is_10bit_cap_device();
+ 
+ 	for (i = 0; i < num_planes; i++) {
+ 		ret = mtk_plane_init(drm_dev,
+@@ -856,7 +872,8 @@ static int mtk_drm_crtc_init_comp_planes(struct drm_device *drm_dev,
+ 				BIT(pipe),
+ 				mtk_drm_crtc_plane_type(mtk_crtc->layer_nr,
+ 							num_planes),
+-				mtk_ddp_comp_supported_rotations(comp));
++				mtk_ddp_comp_supported_rotations(comp),
++				supports_10bit);
+ 		if (ret)
+ 			return ret;
+ 
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+index d54fbf34b000..7fe5c47b4d50 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+@@ -12,6 +12,8 @@
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem_atomic_helper.h>
+ #include <linux/align.h>
++#include <drm/drm_plane_helper.h>
++#include <linux/of.h>
+ 
+ #include "mtk_drm_crtc.h"
+ #include "mtk_drm_ddp_comp.h"
+@@ -19,7 +21,7 @@
+ #include "mtk_drm_gem.h"
+ #include "mtk_drm_plane.h"
+ 
+-static const u32 formats[] = {
++static const u32 default_formats[] = {
+ 	DRM_FORMAT_XRGB8888,
+ 	DRM_FORMAT_ARGB8888,
+ 	DRM_FORMAT_BGRX8888,
+@@ -41,6 +43,22 @@ static const u64 modifiers[] = {
+ 	DRM_FORMAT_MOD_INVALID,
+ };
+ 
++static const u32 formats_with_10bit_cap[] = {
++	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_ARGB8888,
++	DRM_FORMAT_ARGB2101010,
++	DRM_FORMAT_BGRX8888,
++	DRM_FORMAT_BGRA8888,
++	DRM_FORMAT_BGRA1010102,
++	DRM_FORMAT_ABGR8888,
++	DRM_FORMAT_XBGR8888,
++	DRM_FORMAT_RGB888,
++	DRM_FORMAT_BGR888,
++	DRM_FORMAT_RGB565,
++	DRM_FORMAT_UYVY,
++	DRM_FORMAT_YUYV,
++};
++
+ static void mtk_plane_reset(struct drm_plane *plane)
+ {
+ 	struct mtk_plane_state *state;
+@@ -315,13 +333,24 @@ static const struct drm_plane_helper_funcs mtk_plane_helper_funcs = {
+ 
+ int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
+ 		   unsigned long possible_crtcs, enum drm_plane_type type,
+-		   unsigned int supported_rotations)
++		   unsigned int supported_rotations, bool supports_10bit)
+ {
+ 	int err;
+ 
+-	err = drm_universal_plane_init(dev, plane, possible_crtcs,
+-				       &mtk_plane_funcs, formats,
+-				       ARRAY_SIZE(formats), modifiers, type, NULL);
++	if (supports_10bit) {
++		err = drm_universal_plane_init(dev, plane, possible_crtcs,
++					       &mtk_plane_funcs,
++					       formats_with_10bit_cap,
++					       ARRAY_SIZE(formats_with_10bit_cap),
++					       modifiers, type, NULL);
++	} else {
++		err = drm_universal_plane_init(dev, plane, possible_crtcs,
++					       &mtk_plane_funcs,
++					       default_formats,
++					       ARRAY_SIZE(default_formats),
++					       modifiers, type, NULL);
++	}
++
+ 	if (err) {
+ 		DRM_ERROR("failed to initialize plane\n");
+ 		return err;
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.h b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
+index 8f39011cdbfc..d3e6f29a1e25 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_plane.h
++++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
+@@ -48,6 +48,6 @@ to_mtk_plane_state(struct drm_plane_state *state)
+ 
+ int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
+ 		   unsigned long possible_crtcs, enum drm_plane_type type,
+-		   unsigned int supported_rotations);
++		   unsigned int supported_rotations, bool supports_10bit);
+ 
+ #endif
+-- 
+2.39.0.314.g84b9a713c41-goog
 
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> index 10e1fc9d0698..a9948e8d3543 100644
-> --- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> +++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> @@ -144,7 +144,7 @@ unsigned int intel_adjusted_rate(const struct drm_rect
-> *src,
->                                  const struct drm_rect *dst,
->                                  unsigned int rate)
->  {
-> -       unsigned int src_w, src_h, dst_w, dst_h;
-> +       unsigned int src_w, src_h, dst_w, dst_h, dst_wh;
-> 
->         src_w = drm_rect_width(src) >> 16;
->         src_h = drm_rect_height(src) >> 16;
-> @@ -155,8 +155,10 @@ unsigned int intel_adjusted_rate(const struct drm_rect
-> *src,
->         dst_w = min(src_w, dst_w);
->         dst_h = min(src_h, dst_h);
-> 
-> -       return DIV_ROUND_UP_ULL(mul_u32_u32(rate, src_w * src_h),
-> -                               dst_w * dst_h);
-> +       /* in case src contained only fractional part */
-> +       dst_wh = max(dst_w * dst_h, (unsigned) 1);
-> +
-> +       return DIV_ROUND_UP_ULL(mul_u32_u32(rate, src_w * src_h), dst_wh);
->  }
-> 
->  unsigned int intel_plane_pixel_rate(const struct intel_crtc_state
-> *crtc_state,
-> 
-> 
-> What do you think? I'll in any case come up with some test for this in igt.
-
-I see that you've posted your fix to the list already. Adding a
-test to cover this in IGT also sounds great. Thanks!
-
-Breadcrumbs to Juha-Pekka's patch for anyone following this
-thread: https://patchwork.freedesktop.org/series/112396/
-
-> 
-> /Juha-Pekka
-> 
-> On 27.12.2022 7.53, Drew Davenport wrote:
-> > The error message suggests that the height of the src rect must be at
-> > least 1. Reject source with height of 0.
-> > 
-> > Signed-off-by: Drew Davenport <ddavenport@chromium.org>
-> > 
-> > ---
-> > I was investigating some divide-by-zero crash reports on ChromeOS which
-> > pointed to the intel_adjusted_rate function. Further prodding showed
-> > that I could reproduce this in a simple test program if I made src_h
-> > some value less than 1 but greater than 0.
-> > 
-> > This seemed to be a sensible place to check that the source height is at
-> > least 1. I tried to repro this issue on an amd device I had on hand, and
-> > the configuration was rejected.
-> > 
-> > Would it make sense to add a check that source dimensions are at least 1
-> > somewhere in core, like in drm_atomic_plane_check? Or is that a valid
-> > use case on some devices, and thus any such check should be done on a
-> > per-driver basis?
-> > 
-> > Thanks.
-> > 
-> >   drivers/gpu/drm/i915/display/skl_universal_plane.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> > index 4b79c2d2d6177..9b172a1e90deb 100644
-> > --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> > +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> > @@ -1627,7 +1627,7 @@ static int skl_check_main_surface(struct intel_plane_state *plane_state)
-> >   	u32 offset;
-> >   	int ret;
-> > -	if (w > max_width || w < min_width || h > max_height) {
-> > +	if (w > max_width || w < min_width || h > max_height || h < 1) {
-> >   		drm_dbg_kms(&dev_priv->drm,
-> >   			    "requested Y/RGB source size %dx%d outside limits (min: %dx1 max: %dx%d)\n",
-> >   			    w, h, min_width, max_width, max_height);
-> 
