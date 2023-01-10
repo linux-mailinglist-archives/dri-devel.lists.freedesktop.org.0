@@ -1,71 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D83A7663747
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 03:25:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAB7B663770
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 03:40:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84F6910E47C;
-	Tue, 10 Jan 2023 02:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FB7410E481;
+	Tue, 10 Jan 2023 02:40:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C46510E47C
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 02:25:26 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id v25so16040380lfe.12
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Jan 2023 18:25:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=18zGearISDa3hQx7xQxFDwmet/v6/2gxFfNoCUwN4tI=;
- b=dINVSKfNi1At/gXiizJv94VU0i8YG5nRBGxwfuZu+hF35wycoi4PuVOAZ9tY03raWM
- rTcncPQyKmcBnIS9hxfg8bYdrns15SrX/9b3KhziSxq22EpaehUw7lpbXDZ/GmwgA6Vl
- Pkt3BMtqgi0Wc2ccWWIHpZ0qwAHonvwzzGM7eH0jhWoS5d5mCbwMU85vlGj9d31faEi3
- od5pVj0lebmbMgOhkTitUYZ4piO/JVJiMm6kIZW7bBopmwoQsBqykOR7FJCt6D2ZmWbm
- jEo+x0UCRS8Vo/Cwk+VtL1VUJozK6ALNS/7aKjXQdb+G5pl6WwACUofseN346qn5Dm8N
- mBcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=18zGearISDa3hQx7xQxFDwmet/v6/2gxFfNoCUwN4tI=;
- b=uU/mP4z73XvZYspJ6UAbBpXuwZmqrAD/TcHy8GQRI1nm+g+yRlFI8BFXKd9mIObv+n
- wgYsBt2+RTGZxnDJsh2pCbVUxjMXzNZtLNeYRkSKHZtgWDFjn0lKGojELhtTWSIukiZj
- mmqmLZNDxXo/wsybh08zP3kFDMTwmzae16RHnKveOD6LUUEfvjBJWOux2uerAPD68xtQ
- s7ORgdyJiNa9pSy3XqOzXj2agugv0IbF3vx3DPrar0RnPLn38tAjUsiW0idNxDZHdzLY
- JU80c7v5h6MdX37AjI52zngb3M55yLjwbiqTlU/UuxRRO/IbhsLuH2l0PCEXcj4vcIQ5
- 7SYA==
-X-Gm-Message-State: AFqh2kqdbDo7uBUz9ppOK4VU8dZTmLTD4SD6EJqSvh394cThCYWKaIk/
- zpeFqimOOpMWw6+3qRqfoVRhvA==
-X-Google-Smtp-Source: AMrXdXvF+KGxMhVRpSKhRbnaR01/1Cz2p6+TqKUGF/Kia92b406YsJf+tFOsgsKNo1pMk00B/KtDYA==
-X-Received: by 2002:a05:6512:61:b0:4cb:22ab:cdfe with SMTP id
- i1-20020a056512006100b004cb22abcdfemr13186409lfo.36.1673317524707; 
- Mon, 09 Jan 2023 18:25:24 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- c15-20020a056512238f00b004cb3fbc7925sm1893079lfv.77.2023.01.09.18.25.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 18:25:24 -0800 (PST)
-Message-ID: <7b10f169-c1f3-09f8-a43e-409888fa4c40@linaro.org>
-Date: Tue, 10 Jan 2023 04:25:23 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A225610E481;
+ Tue, 10 Jan 2023 02:40:39 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30A1olut007119; Tue, 10 Jan 2023 02:40:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=RsA3aMybQ2Hn6W5UHpx8aFBXjYyTiy9ue5NFmEMHBtw=;
+ b=PdJuHyqGUqj9LDuF8LgTKcak1FCM5amxfYY2xT3DNCOwxQEjboojuxKzVmC5IKkB5bgb
+ FW7Biviuwc5zcQ0x7ojaUrRLub6Lt1IZSvoIsOXTklRbwyT/IiQKH2s58rzhPjyHX/WE
+ +uVE+Kl+VftqR1TCjcc4fBREYyL6HDQDNY/Stfq5U2guhR7OxnMuAwSuwPf6MGG/FYWz
+ NhS34zF8UFLYtUXaQk6OJeU9aSqin3G0OvouJJnt8gr2IpVYao1k6crZSNydqDBccA0B
+ olYMf7HWy2YPlA/dfik/xFEuOJ2oRXkNH9B5SJIHKPgRPk0/crfJdUXQSLI7lggIOYmO EQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3my1wu4fnk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 10 Jan 2023 02:40:36 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30A2eaur020167
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 10 Jan 2023 02:40:36 GMT
+Received: from [10.110.115.72] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 9 Jan 2023
+ 18:40:35 -0800
+Message-ID: <2d30f45a-ccd0-052e-6f6c-1e119c44f81a@quicinc.com>
+Date: Mon, 9 Jan 2023 18:40:34 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 1/2] drm/msm/dsi: add a helper method to compute the dsi
- byte clk
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH 2/2] drm/msm/dsi: implement opp table based check for
+ dsi_mgr_bridge_mode_valid()
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <freedreno@lists.freedesktop.org>
 References: <1663807768-23969-1-git-send-email-quic_abhinavk@quicinc.com>
- <36862c49-39d2-952d-829b-e660375d49f4@linaro.org>
- <cbe88a7e-c6a9-ab12-7dbf-f4efbfd7fd71@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <cbe88a7e-c6a9-ab12-7dbf-f4efbfd7fd71@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <1663807768-23969-2-git-send-email-quic_abhinavk@quicinc.com>
+ <29e5110a-1759-8d8c-6646-f7b487990c0b@linaro.org>
+ <b638db8c-20c8-827d-fd08-5e3bdb8dd924@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <b638db8c-20c8-827d-fd08-5e3bdb8dd924@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: hewIJpU7RKTqtJm1Q28wI-uHMNEDwklR
+X-Proofpoint-GUID: hewIJpU7RKTqtJm1Q28wI-uHMNEDwklR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-09_16,2023-01-09_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ malwarescore=0 clxscore=1015 mlxscore=0 priorityscore=1501 impostorscore=0
+ spamscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301100015
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,151 +87,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- quic_jesszhan@quicinc.com, quic_khsieh@quicinc.com
+Cc: quic_jesszhan@quicinc.com, quic_khsieh@quicinc.com, seanpaul@chromium.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/01/2023 04:21, Abhinav Kumar wrote:
-> 
-> 
-> On 1/9/2023 5:34 PM, Dmitry Baryshkov wrote:
+
+
+On 1/9/2023 5:19 PM, Dmitry Baryshkov wrote:
+> On 27/10/2022 20:36, Dmitry Baryshkov wrote:
 >> On 22/09/2022 03:49, Abhinav Kumar wrote:
->>> Re-arrange the dsi_calc_pclk method to two helpers, one to
->>> compute the DSI byte clk and the other to compute the pclk.
+>>> Currently there is no protection against a user trying to set
+>>> an unsupported mode on DSI. Implement a check based on the opp
+>>> table whether the byte clock for the mode can be supported by
+>>> validating whether an opp table entry exists.
 >>>
->>> This makes the separation of the two clean and also allows
->>> clients to compute and use the dsi byte clk separately.
+>>> For devices which have not added opp table support yet, skip
+>>> this check otherwise it will break bootup on those devices.
 >>>
+>>> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/15
+>>> Reported-by: Rob Clark <robdclark@gmail.com>
 >>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 >>> ---
->>>   drivers/gpu/drm/msm/dsi/dsi.h      |  2 ++
->>>   drivers/gpu/drm/msm/dsi/dsi_host.c | 27 +++++++++++++++++++--------
->>>   2 files changed, 21 insertions(+), 8 deletions(-)
+>>>   drivers/gpu/drm/msm/dsi/dsi_manager.c | 23 +++++++++++++++++++++++
+>>>   1 file changed, 23 insertions(+)
 >>>
->>> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h 
->>> b/drivers/gpu/drm/msm/dsi/dsi.h
->>> index 2a96b4fe7839..60ba8e67f550 100644
->>> --- a/drivers/gpu/drm/msm/dsi/dsi.h
->>> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
->>> @@ -118,6 +118,8 @@ int dsi_link_clk_enable_6g(struct msm_dsi_host 
->>> *msm_host);
->>>   int dsi_link_clk_enable_v2(struct msm_dsi_host *msm_host);
->>>   void dsi_link_clk_disable_6g(struct msm_dsi_host *msm_host);
->>>   void dsi_link_clk_disable_v2(struct msm_dsi_host *msm_host);
->>> +unsigned long dsi_byte_clk_get_rate(struct mipi_dsi_host *host, bool 
->>> is_bonded_dsi,
->>> +        const struct drm_display_mode *mode);
->>>   int dsi_tx_buf_alloc_6g(struct msm_dsi_host *msm_host, int size);
->>>   int dsi_tx_buf_alloc_v2(struct msm_dsi_host *msm_host, int size);
->>>   void *dsi_tx_buf_get_6g(struct msm_dsi_host *msm_host);
->>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c 
->>> b/drivers/gpu/drm/msm/dsi/dsi_host.c
->>> index 57a4c0fa614b..32b35d4ac1d3 100644
->>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
->>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
->>> @@ -569,9 +569,8 @@ void dsi_link_clk_disable_v2(struct msm_dsi_host 
->>> *msm_host)
->>>       clk_disable_unprepare(msm_host->byte_clk);
+>>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c 
+>>> b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+>>> index 3a1417397283..87b518c42965 100644
+>>> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+>>> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+>>> @@ -450,6 +450,29 @@ static enum drm_mode_status 
+>>> dsi_mgr_bridge_mode_valid(struct drm_bridge *bridge,
+>>>       int id = dsi_mgr_bridge_get_id(bridge);
+>>>       struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
+>>>       struct mipi_dsi_host *host = msm_dsi->host;
+>>> +    struct platform_device *pdev = msm_dsi->pdev;
+>>> +    struct dev_pm_opp *opp;
+>>> +    struct opp_table *opp_tbl;
+>>> +    unsigned long byte_clk_rate;
+>>> +
+>>> +    byte_clk_rate = dsi_byte_clk_get_rate(host, IS_BONDED_DSI(), mode);
+>>> +
+>>> +    /*
+>>> +     * first check if there is an opp table available for the 
+>>> calculated
+>>> +     * byte clock and then check DSC related info. Some devices have 
+>>> not
+>>> +     * added support for OPP table. Skip the check for those.
+>>> +     */
+>>> +    opp_tbl = dev_pm_opp_get_opp_table(&pdev->dev);
+>>
+>> Can we store the table inside the msm_dsi during the init? Then we 
+>> won't have to get it again and again during each mode_valid call.
+> 
+> I checked other drivers. I think we can skip the get_opp_table 
+> completely, can we not? Just handle ENODEV returned from 
+> dev_pm_opp_find_freq_ceil().
+> 
+
+Your point is valid but I had a doubt on that API.
+
+As per the documentation of that API, it says
+
+639  * Return: matching *opp and refreshes *freq accordingly, else returns
+640  * ERR_PTR in case of error and should be handled using IS_ERR. 
+Error return
+641  * values can be:
+642  * EINVAL:	for bad pointer
+643  * ERANGE:	no match found for search
+644  * ENODEV:	if device not found in list of registered devices
+645  *
+646  * The callers are required to call dev_pm_opp_put() for the 
+returned OPP after
+647  * use.
+648  */
+649 struct dev_pm_opp *dev_pm_opp_find_freq_ceil(struct device *dev,
+650 					     unsigned long *freq)
+651 {
+
+So ideally yes, ENODEV means that table was not found but .... that API 
+uses _find_opp_table under the hood.
+
+which says
+
+79  * Return: pointer to 'struct opp_table' if found, otherwise -ENODEV or
+80  * -EINVAL based on type of error.
+81  *
+82  * The callers must call dev_pm_opp_put_opp_table() after the table 
+is used.
+
+Now, how would we know if the failure was due to table not found OR 
+entry not found.
+
+Table now found means that SOC has probably not started using OPP table 
+which is alright and not an error.
+
+But EINVAL could mean an entry not found which means it exceeds the opp 
+table limits.
+
+So there was some ambiguity on this. So I broke it down into two calls.
+
+If my concern is invalid, let me know.
+
+But I do agree with you that we can cache the opp table once rather than 
+doing it in every mode_valid().
+
+>>
+>>> +    if (opp_tbl) {
+>>> +        opp = dev_pm_opp_find_freq_ceil(&pdev->dev, &byte_clk_rate);
+>>> +        if (IS_ERR(opp)) {
+>>> +            pr_err("opp table not found for freq %lu err: %ld\n",
+>>> +                    byte_clk_rate, PTR_ERR(opp));
+>>> +            return PTR_ERR(opp);
+>>> +        }
+>>> +        dev_pm_opp_put(opp);
+>>> +        dev_pm_opp_put_opp_table(opp_tbl);
+>>> +    }
+>>>       return msm_dsi_host_check_dsc(host, mode);
 >>>   }
->>> -static unsigned long dsi_get_pclk_rate(struct msm_dsi_host 
->>> *msm_host, bool is_bonded_dsi)
->>> +static unsigned long dsi_get_pclk_rate(const struct drm_display_mode 
->>> *mode, bool is_bonded_dsi)
->>>   {
->>> -    struct drm_display_mode *mode = msm_host->mode;
->>>       unsigned long pclk_rate;
->>>       pclk_rate = mode->clock * 1000;
->>> @@ -588,12 +587,18 @@ static unsigned long dsi_get_pclk_rate(struct 
->>> msm_dsi_host *msm_host, bool is_bo
->>>       return pclk_rate;
->>>   }
->>> -static void dsi_calc_pclk(struct msm_dsi_host *msm_host, bool 
->>> is_bonded_dsi)
->>> +unsigned long dsi_byte_clk_get_rate(struct mipi_dsi_host *host, bool 
->>> is_bonded_dsi,
->>> +        const struct drm_display_mode *mode)
->>>   {
->>> +    struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
->>>       u8 lanes = msm_host->lanes;
->>>       u32 bpp = dsi_get_bpp(msm_host->format);
->>> -    unsigned long pclk_rate = dsi_get_pclk_rate(msm_host, 
->>> is_bonded_dsi);
->>> -    u64 pclk_bpp = (u64)pclk_rate * bpp;
->>> +    unsigned long pclk_rate;
->>> +    u64 pclk_bpp;
->>> +
->>> +    pclk_rate = dsi_get_pclk_rate(mode, is_bonded_dsi);
->>> +
->>> +    pclk_bpp = (u64)pclk_rate * bpp;
->>
->> Any particular reason for this? The following patch would be more 
->> obvious:
->>
->>  > -    unsigned long pclk_rate = dsi_get_pclk_rate(msm_host, 
->> is_bonded_dsi);
->>  > +    unsigned long pclk_rate = dsi_get_pclk_rate(mode, is_bonded_dsi);
->>  >      u64 pclk_bpp = (u64)pclk_rate * bpp;
->>
->>
->>>       if (lanes == 0) {
->>>           pr_err("%s: forcing mdss_dsi lanes to 1\n", __func__);
->>> @@ -606,8 +611,14 @@ static void dsi_calc_pclk(struct msm_dsi_host 
->>> *msm_host, bool is_bonded_dsi)
->>>       else
->>>           do_div(pclk_bpp, (8 * lanes));
->>> -    msm_host->pixel_clk_rate = pclk_rate;
->>> -    msm_host->byte_clk_rate = pclk_bpp;
->>> +    return pclk_bpp;
->>> +}
->>> +
->>> +static void dsi_calc_pclk(struct msm_dsi_host *msm_host, bool 
->>> is_bonded_dsi)
->>> +{
->>> +    msm_host->pixel_clk_rate = dsi_get_pclk_rate(msm_host->mode, 
->>> is_bonded_dsi);
->>> +    msm_host->byte_clk_rate = dsi_byte_clk_get_rate(&msm_host->base, 
->>> is_bonded_dsi,
->>> +            msm_host->mode);
->>>       DBG("pclk=%lu, bclk=%lu", msm_host->pixel_clk_rate,
->>>                   msm_host->byte_clk_rate);
->>> @@ -635,7 +646,7 @@ int dsi_calc_clk_rate_v2(struct msm_dsi_host 
->>> *msm_host, bool is_bonded_dsi)
->>>       dsi_calc_pclk(msm_host, is_bonded_dsi);
->>> -    pclk_bpp = (u64)dsi_get_pclk_rate(msm_host, is_bonded_dsi) * bpp;
->>> +    pclk_bpp = (u64)dsi_get_pclk_rate(msm_host->mode, is_bonded_dsi) 
->>> * bpp;
->>>       do_div(pclk_bpp, 8);
->>>       msm_host->src_clk_rate = pclk_bpp;
->>
->>
->> Following my previous feedback:
->>
->> I think at this moment msm_host->src_clk_rate = 
->> msm_host->byte_clk_rate * msm_host->lanes. If so, we can drop 
->> dsi_get_pclk_rate() call and the multiply/do_div calculation and use 
->> the above formula instead.
 >>
 > 
->  From what I see msm_host->src_clk_rate = pixel_clk * bpp / 8;
-
-and msm_host->byte_clk_rate = pixel_clk * bpp / (8 * nlanes);
-
-> 
->  From where did you get the above formula?
-> 
-> I just felt that by having two APIs the next patch becomes easier 
-> because I need to just invoke the API which calculates byte clk.
-
-Yes, I see that, it looks like a correct approach. You know, let's 
-ignore the dsi_calc_clk_rate_v2() for now, it is definitely a separate 
-change.
-
-Could you please drop the opp_table handling from patch 2/2, move 
-assignments in dsi_byte_clk_get_rate() back to the definition lines and 
-then send it as v2?
-
--- 
-With best wishes
-Dmitry
-
