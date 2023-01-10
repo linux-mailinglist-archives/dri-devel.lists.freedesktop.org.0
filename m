@@ -2,55 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66C52663FA8
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 13:03:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D3266404B
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 13:19:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0658A10E5AC;
-	Tue, 10 Jan 2023 12:03:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A0BA10E5AE;
+	Tue, 10 Jan 2023 12:19:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C114A10E5AB;
- Tue, 10 Jan 2023 12:03:01 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D44ED10E5AB;
+ Tue, 10 Jan 2023 12:19:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673352181; x=1704888181;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=05jqlNtiS5owacvMk5DptB9H6iSW7Vh8h1rmk9nzURw=;
- b=b0je0w/QSUzZNeGq/02MARMn8VOxMxNBd8Vv9jq8ukquTbLA1yFLCbV9
- OKDbyQy0P7p60yUrinXOlBIzgiHr5QuxjHXLRw7s0JvaJHim+3+xrBvxm
- pVvo66Iu4cAO7P+F2rXJTriIKX8ijNJOHEcKgqAV5y2U5gKTzCd8MIVDc
- 5SXmo7t7G8z6xG26Kw/l8KGEtK0RLH9ry5wQHuec7RphyWAzlbSVKCB9P
- pYcvcui9k+ebOZrqYVsZRWreGBCrYiT7/fet+T6aoX2OkW4D+88ZpsaHa
- gJW95l5/MepE/h4J86USOhx5967VHudZ1XMAY9gnxgKw6mATIb6rghhp7 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="324365576"
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="324365576"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2023 04:03:01 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="606939542"
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="606939542"
-Received: from ffagan-mobl1.ger.corp.intel.com (HELO [10.252.26.60])
- ([10.252.26.60])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2023 04:02:59 -0800
-Message-ID: <8f376efe-e19b-d1d5-031d-35df399bb6cf@intel.com>
-Date: Tue, 10 Jan 2023 12:02:55 +0000
+ t=1673353180; x=1704889180;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=hMAKru4BErMxJmscpS8U4yfvHGR7TInX+pjKzB6Geb8=;
+ b=iWzgDYhdLNxSGG4L9oVQCVwZ1bEhDjQBBHEE+xXS42x2VonI5yhlebXv
+ e9tMz4p7Z1qi+Rcr1VP83OqRjMGXbY8FLoyInDchxbdasDaHmiI6fMVZ8
+ vR/4LdBHUw06XmBQIs0Tq4me9HF7+LJaFs3bKYwjEZh/Lu3acBWX/GTPS
+ 4eu3IVwIAZvf4oZNOAdUpwnLQLsyz5FUu8bvLG+ASNeJSueva/9iIzExP
+ pxN/gsbUDiEBM0jHfGR4zVEcwEvdCkNPTKxCB98MXQguXmeIztf/gmVCe
+ 2132+Ev4AJ9LNOC1Xc/ZSFg0qaYK+wF77lUr29jPEeHCwEDXFZI492xxP A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="323197377"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="323197377"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2023 04:19:39 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="657036601"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="657036601"
+Received: from gregoire-mobl3.amr.corp.intel.com (HELO [10.212.88.71])
+ ([10.212.88.71])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2023 04:19:37 -0800
+Message-ID: <3b1af19f-3500-3be8-9d28-ac7da5b7d728@linux.intel.com>
+Date: Tue, 10 Jan 2023 12:19:35 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.6.0
-Subject: Re: [PATCH] drm: Alloc high address for drm buddy topdown flag
-Content-Language: en-GB
-To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- alexander.deucher@amd.com
-References: <20230107151523.29864-1-Arunpravin.PaneerSelvam@amd.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20230107151523.29864-1-Arunpravin.PaneerSelvam@amd.com>
+ Thunderbird/102.6.1
+Subject: Re: [Intel-gfx] [RFC PATCH 04/20] drm/sched: Convert drm scheduler to
+ use a work queue rather than kthread
+Content-Language: en-US
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Jason Ekstrand <jason@jlekstrand.net>
+References: <20221222222127.34560-1-matthew.brost@intel.com>
+ <20221222222127.34560-5-matthew.brost@intel.com>
+ <20221230112042.2ddd1946@collabora.com>
+ <20221230125508.57af8a14@collabora.com>
+ <20230102083019.24b99647@collabora.com>
+ <7d6df13c-6c2e-d713-edc8-128d6e19f187@linux.intel.com>
+ <Y7dEjcuc1arHBTGu@DUT025-TGLU.fm.intel.com>
+ <Y7i0J3uQ+izOJcEb@DUT025-TGLU.fm.intel.com>
+ <e8c301cb-c7d4-ed54-f3ab-61a5fcc7f940@linux.intel.com>
+ <CAOFGe96yeF4SWxvHC5pxyggf=655q7+ZrFS+Zab42F-RE7UK1w@mail.gmail.com>
+ <e6512993-5247-a577-abf4-97cdb21358a0@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <e6512993-5247-a577-abf4-97cdb21358a0@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,174 +72,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/01/2023 15:15, Arunpravin Paneer Selvam wrote:
-> As we are observing low numbers in viewperf graphics benchmark, we
-> are strictly not allowing the top down flag enabled allocations
-> to steal the memory space from cpu visible region.
+
+On 10/01/2023 11:28, Tvrtko Ursulin wrote:
 > 
-> The approach is, we are sorting each order list entries in
-> ascending order and compare the last entry of each order
-> list in the freelist and return the max block.
-
-Did you also run the selftests? Does everything still pass and complete 
-in a reasonable amount of time?
-
 > 
-> This patch improves the viewperf 3D benchmark scores.
+> On 09/01/2023 17:27, Jason Ekstrand wrote:
 > 
-> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-> ---
->   drivers/gpu/drm/drm_buddy.c | 81 ++++++++++++++++++++++++-------------
->   1 file changed, 54 insertions(+), 27 deletions(-)
+> [snip]
 > 
-> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-> index 11bb59399471..50916b2f2fc5 100644
-> --- a/drivers/gpu/drm/drm_buddy.c
-> +++ b/drivers/gpu/drm/drm_buddy.c
-> @@ -38,6 +38,25 @@ static void drm_block_free(struct drm_buddy *mm,
->   	kmem_cache_free(slab_blocks, block);
->   }
->   
-> +static void list_insert_sorted(struct drm_buddy *mm,
-> +			       struct drm_buddy_block *block)
-> +{
-> +	struct drm_buddy_block *node;
-> +	struct list_head *head;
-> +
-> +	head = &mm->free_list[drm_buddy_block_order(block)];
-> +	if (list_empty(head)) {
-> +		list_add(&block->link, head);
-> +		return;
-> +	}
-> +
-> +	list_for_each_entry(node, head, link)
-> +		if (drm_buddy_block_offset(block) < drm_buddy_block_offset(node))
-> +			break;
-> +
-> +	__list_add(&block->link, node->link.prev, &node->link);
-> +}
-> +
->   static void mark_allocated(struct drm_buddy_block *block)
->   {
->   	block->header &= ~DRM_BUDDY_HEADER_STATE;
-> @@ -52,8 +71,7 @@ static void mark_free(struct drm_buddy *mm,
->   	block->header &= ~DRM_BUDDY_HEADER_STATE;
->   	block->header |= DRM_BUDDY_FREE;
->   
-> -	list_add(&block->link,
-> -		 &mm->free_list[drm_buddy_block_order(block)]);
-> +	list_insert_sorted(mm, block);
+>>      >>> AFAICT it proposes to have 1:1 between *userspace* created
+>>     contexts (per
+>>      >>> context _and_ engine) and drm_sched. I am not sure avoiding
+>>     invasive changes
+>>      >>> to the shared code is in the spirit of the overall idea and 
+>> instead
+>>      >>> opportunity should be used to look at way to refactor/improve
+>>     drm_sched.
+>>
+>>
+>> Maybe?  I'm not convinced that what Xe is doing is an abuse at all or 
+>> really needs to drive a re-factor.  (More on that later.)  There's 
+>> only one real issue which is that it fires off potentially a lot of 
+>> kthreads. Even that's not that bad given that kthreads are pretty 
+>> light and you're not likely to have more kthreads than userspace 
+>> threads which are much heavier.  Not ideal, but not the end of the 
+>> world either.  Definitely something we can/should optimize but if we 
+>> went through with Xe without this patch, it would probably be mostly ok.
+>>
+>>      >> Yes, it is 1:1 *userspace* engines and drm_sched.
+>>      >>
+>>      >> I'm not really prepared to make large changes to DRM scheduler
+>>     at the
+>>      >> moment for Xe as they are not really required nor does Boris
+>>     seem they
+>>      >> will be required for his work either. I am interested to see
+>>     what Boris
+>>      >> comes up with.
+>>      >>
+>>      >>> Even on the low level, the idea to replace drm_sched threads
+>>     with workers
+>>      >>> has a few problems.
+>>      >>>
+>>      >>> To start with, the pattern of:
+>>      >>>
+>>      >>>    while (not_stopped) {
+>>      >>>     keep picking jobs
+>>      >>>    }
+>>      >>>
+>>      >>> Feels fundamentally in disagreement with workers (while
+>>     obviously fits
+>>      >>> perfectly with the current kthread design).
+>>      >>
+>>      >> The while loop breaks and worker exists if no jobs are ready.
+>>
+>>
+>> I'm not very familiar with workqueues. What are you saying would fit 
+>> better? One scheduling job per work item rather than one big work item 
+>> which handles all available jobs?
+> 
+> Yes and no, it indeed IMO does not fit to have a work item which is 
+> potentially unbound in runtime. But it is a bit moot conceptual mismatch 
+> because it is a worst case / theoretical, and I think due more 
+> fundamental concerns.
+> 
+> If we have to go back to the low level side of things, I've picked this 
+> random spot to consolidate what I have already mentioned and perhaps 
+> expand.
+> 
+> To start with, let me pull out some thoughts from workqueue.rst:
+> 
+> """
+> Generally, work items are not expected to hog a CPU and consume many 
+> cycles. That means maintaining just enough concurrency to prevent work 
+> processing from stalling should be optimal.
+> """
+> 
+> For unbound queues:
+> """
+> The responsibility of regulating concurrency level is on the users.
+> """
+> 
+> Given the unbound queues will be spawned on demand to service all queued 
+> work items (more interesting when mixing up with the system_unbound_wq), 
+> in the proposed design the number of instantiated worker threads does 
+> not correspond to the number of user threads (as you have elsewhere 
+> stated), but pessimistically to the number of active user contexts. That 
+> is the number which drives the maximum number of not-runnable jobs that 
+> can become runnable at once, and hence spawn that many work items, and 
+> in turn unbound worker threads.
+> 
+> Several problems there.
+> 
+> It is fundamentally pointless to have potentially that many more threads 
+> than the number of CPU cores - it simply creates a scheduling storm.
 
-One advantage of not sorting is when splitting down a large block. 
-Previously the most-recently-split would be at the start of the list for 
-the next order down, where potentially the next allocation could use it. 
-So perhaps less fragmentation if it's all part of one BO. Otherwise I 
-don't see any other downsides, other than the extra overhead of sorting.
+To make matters worse, if I follow the code correctly, all these per 
+user context worker thread / work items end up contending on the same 
+lock or circular buffer, both are one instance per GPU:
 
->   }
->   
->   static void mark_split(struct drm_buddy_block *block)
-> @@ -387,20 +405,26 @@ alloc_range_bias(struct drm_buddy *mm,
->   }
->   
->   static struct drm_buddy_block *
-> -get_maxblock(struct list_head *head)
-> +get_maxblock(struct drm_buddy *mm, unsigned int order)
->   {
->   	struct drm_buddy_block *max_block = NULL, *node;
-> +	unsigned int i;
->   
-> -	max_block = list_first_entry_or_null(head,
-> -					     struct drm_buddy_block,
-> -					     link);
-> -	if (!max_block)
-> -		return NULL;
-> +	for (i = order; i <= mm->max_order; ++i) {
-> +		if (!list_empty(&mm->free_list[i])) {
-> +			node = list_last_entry(&mm->free_list[i],
-> +					       struct drm_buddy_block,
-> +					       link);
-> +			if (!max_block) {
-> +				max_block = node;
-> +				continue;
-> +			}
->   
-> -	list_for_each_entry(node, head, link) {
-> -		if (drm_buddy_block_offset(node) >
-> -		    drm_buddy_block_offset(max_block))
-> -			max_block = node;
-> +			if (drm_buddy_block_offset(node) >
-> +				drm_buddy_block_offset(max_block)) {
+guc_engine_run_job
+  -> submit_engine
+     a) wq_item_append
+         -> wq_wait_for_space
+           -> msleep
+     b) xe_guc_ct_send
+         -> guc_ct_send
+           -> mutex_lock(&ct->lock);
+           -> later a potential msleep in h2g_has_room
 
-Formatting doesn't look right here.
+Regards,
 
-Going to test this today with some workloads with small-bar and i915 
-just to see if this improves/impacts anything for us.
-
-> +				max_block = node;
-> +			}
-> +		}
->   	}
->   
->   	return max_block;
-> @@ -412,20 +436,23 @@ alloc_from_freelist(struct drm_buddy *mm,
->   		    unsigned long flags)
->   {
->   	struct drm_buddy_block *block = NULL;
-> -	unsigned int i;
-> +	unsigned int tmp;
->   	int err;
->   
-> -	for (i = order; i <= mm->max_order; ++i) {
-> -		if (flags & DRM_BUDDY_TOPDOWN_ALLOCATION) {
-> -			block = get_maxblock(&mm->free_list[i]);
-> -			if (block)
-> -				break;
-> -		} else {
-> -			block = list_first_entry_or_null(&mm->free_list[i],
-> -							 struct drm_buddy_block,
-> -							 link);
-> -			if (block)
-> -				break;
-> +	if (flags & DRM_BUDDY_TOPDOWN_ALLOCATION) {
-> +		block = get_maxblock(mm, order);
-> +		if (block)
-> +			/* Store the obtained block order */
-> +			tmp = drm_buddy_block_order(block);
-> +	} else {
-> +		for (tmp = order; tmp <= mm->max_order; ++tmp) {
-> +			if (!list_empty(&mm->free_list[tmp])) {
-> +				block = list_last_entry(&mm->free_list[tmp],
-> +							struct drm_buddy_block,
-> +							link);
-> +				if (block)
-> +					break;
-> +			}
->   		}
->   	}
->   
-> @@ -434,18 +461,18 @@ alloc_from_freelist(struct drm_buddy *mm,
->   
->   	BUG_ON(!drm_buddy_block_is_free(block));
->   
-> -	while (i != order) {
-> +	while (tmp != order) {
->   		err = split_block(mm, block);
->   		if (unlikely(err))
->   			goto err_undo;
->   
->   		block = block->right;
-> -		i--;
-> +		tmp--;
->   	}
->   	return block;
->   
->   err_undo:
-> -	if (i != order)
-> +	if (tmp != order)
->   		__drm_buddy_free(mm, block);
->   	return ERR_PTR(err);
->   }
+Tvrtko
