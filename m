@@ -2,49 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF51C663E7D
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 11:46:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 478C8663E88
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Jan 2023 11:48:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DDC210E58E;
-	Tue, 10 Jan 2023 10:46:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 112BA10E592;
+	Tue, 10 Jan 2023 10:48:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B36010E58E
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 10:46:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673347573; x=1704883573;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=9YZ2PeAZKlHibjJN9Eo/0ObT6UUPozn9XZoXqU5DOpI=;
- b=HxtG2mh/7cKp64Au7dU5reO+QIIZycNMGpE5gti429ZcuXDSrelEZVzc
- JUF72CiY4ZHhdYXTjYeciOYCJ+1423/a1jEfTvoMY20ssYZUWQ3O34RjK
- UIi/D2+s4ZzwPmuKkRD6OJEJj97uxJbkr7l3Z9ZvbUXRor3iq7Qylnwgs
- MB3aYKS7C8B0OWUebTA2HV8PtGkgdxTdW7WOI3YsAUtAW0gkymBkN5M/R
- hXsSlEsW2jrMSY4P/DQ+t644QUxDhQ7GHnW6/EzFk0W6ysvL44rLOYTbu
- DeIEw++huQQdyi521zu/LGf4tpd5oQH3janrYkRH+PWKBE/eLCieu9QgE g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="350336529"
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="350336529"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2023 02:46:12 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="799386901"
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="799386901"
-Received: from joe-255.igk.intel.com (HELO localhost) ([172.22.229.67])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2023 02:46:11 -0800
-Date: Tue, 10 Jan 2023 11:46:09 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH][next] habanalabs: Replace zero-length arrays with
- flexible-array members
-Message-ID: <20230110104609.GA1602079@linux.intel.com>
-References: <Y7zB4z5cxpFkPXKV@work>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC6EA10E591
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 10:48:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673347694;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/yYcTtQPoskS9gZPccIHbO8lXQE75TydsMzb/way5LQ=;
+ b=eb9pZxqm1Tjp6an0yWISzPmMQnFPcgN/jwyCH2ckewCBHzgK+GWBNS86PRDZKgVEISwHC0
+ hh5/j346zcRsMGqXG2pFG6VvwURQMQ8BLEYgNY9+AXISuQzr7GpqINbEJnHwquMzKS8KBr
+ vKVajPWnvYpaliYcZeWwEt1Ihh2PX6w=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-12-_pV1fj9xMBeQu-Jtkv3QYw-1; Tue, 10 Jan 2023 05:48:13 -0500
+X-MC-Unique: _pV1fj9xMBeQu-Jtkv3QYw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ t24-20020a1c7718000000b003d1fd0b866fso2407863wmi.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 02:48:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/yYcTtQPoskS9gZPccIHbO8lXQE75TydsMzb/way5LQ=;
+ b=uZSn+S3DmiD5i3uyYGL41AmtfiNF6LhNFNBQKw3mS858a/CcRLFfg4cn9Addzcj/uf
+ wDspd02mbTFQIzAugSm4lImaEopk6c47dNDfKBKr+BfrKcSLc8uqGHE+gX2RTOBOmHsd
+ l6tVG4VSqyTOtdyninIXALPVs333ty9z/Pq4sZc9kboX5L5XJSHaBXlfZ25NJqHqjBc1
+ 1ZO+e16P+ot+Kmz9ulXDTv0KU/MgJeILUqUK1vny3ibS0NjQY1aNOjW/THzMY9OU/NXm
+ xTMYEepQHeELJ7vN4SgP3ZX0zt7l93HgdNVgdFpPX9SccXwECUH3Kn+3XJnrVIiYujwv
+ jwHQ==
+X-Gm-Message-State: AFqh2kqABfgOgtsHrokJYXJZpF7zRLJzXEoHhfs5rBSodakuvC3swrh3
+ uRXOnjD3ti1Vca5k8MPboTA9yQP2iwR2UZOdY50nkK0YK17e0hnn3GERKLekhCyrQ70wJz4E2oq
+ 0uqTM42oQaK3D52O2hy8SzYVMQULH
+X-Received: by 2002:a05:600c:3d90:b0:3d9:f798:dcba with SMTP id
+ bi16-20020a05600c3d9000b003d9f798dcbamr1969655wmb.38.1673347691871; 
+ Tue, 10 Jan 2023 02:48:11 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuX/ud7ajQR16rgBukjH6thYHmemQ8EN6E6QgIiDHPbwyrfNMT43bQzV8gjJ8nIvM4ld62nsw==
+X-Received: by 2002:a05:600c:3d90:b0:3d9:f798:dcba with SMTP id
+ bi16-20020a05600c3d9000b003d9f798dcbamr1969630wmb.38.1673347691640; 
+ Tue, 10 Jan 2023 02:48:11 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ iv14-20020a05600c548e00b003b47b80cec3sm21792602wmb.42.2023.01.10.02.48.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Jan 2023 02:48:11 -0800 (PST)
+Message-ID: <51e8233c-1b9f-239b-ff4a-6410b622b53c@redhat.com>
+Date: Tue, 10 Jan 2023 11:48:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y7zB4z5cxpFkPXKV@work>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v3] drm: Only select I2C_ALGOBIT for drivers that actually
+ need it
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, Dave Airlie <airlied@redhat.com>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>,
+ John Stultz <jstultz@google.com>, Xinwei Kong
+ <kong.kongxinwei@hisilicon.com>, Chen Feng <puck.chen@hisilicon.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>
+References: <20221219083627.1401627-1-u.kleine-koenig@pengutronix.de>
+ <c1f358fc-5784-b3b2-2d9e-bc896b8036ff@redhat.com>
+In-Reply-To: <c1f358fc-5784-b3b2-2d9e-bc896b8036ff@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,23 +102,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>, linux-hardening@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: kernel@pengutronix.de, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 09, 2023 at 07:39:47PM -0600, Gustavo A. R. Silva wrote:
-> Zero-length arrays are deprecated[1] and we are moving towards
-> adopting C99 flexible-array members instead. So, replace zero-length
-> arrays in a couple of structures with flex-array members.
+On 12/19/22 09:49, Javier Martinez Canillas wrote:
+> Hello Uwe,
 > 
-> This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
-> routines on memcpy() and help us make progress towards globally
-> enabling -fstrict-flex-arrays=3 [2].
+> On 12/19/22 09:36, Uwe Kleine-König wrote:
+>> While working on a drm driver that doesn't need the i2c algobit stuff I
+>> noticed that DRM selects this code even though only 8 drivers actually use
+>> it. While also only some drivers use i2c, keep the select for I2C for the
+>> next cleanup patch. Still prepare this already by also selecting I2C for
+>> the individual drivers.
+>>
+>> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+>> ---
 > 
-> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays [1]
-> Link: https://gcc.gnu.org/pipermail/gcc-patches/2022-October/602902.html [2]
-> Link: https://github.com/KSPP/linux/issues/78
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Thanks for sending a v3 of this.
+> 
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> 
 
-Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+I've pushed this to drm-misc (dri-misc-next) now. Thanks!
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
