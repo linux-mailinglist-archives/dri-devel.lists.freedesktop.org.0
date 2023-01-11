@@ -2,64 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E1E26656FA
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 10:09:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41029665704
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 10:11:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D48E210E0FF;
-	Wed, 11 Jan 2023 09:09:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB91D10E4EF;
+	Wed, 11 Jan 2023 09:11:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E5CB10E0FF;
- Wed, 11 Jan 2023 09:09:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673428188; x=1704964188;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=+8ge6UcBU1Sx1We8+zdcVK2kPkABz43VHUzank8jTNk=;
- b=DwxCGNx9n903RgltA6gR6qqwq6LtkMlUHtS0KoRHFVTtx5ubZ0WhkAWJ
- oMJBfq0GXL9GGFcy0S4NOeE9MTQ9RAvFoSs5VV6MziOcw1RN2oNo2wmU3
- qQDSkFwvBk8iJv7zcU1TKQaUQadrsnVhH86xivItYVDC1JpvdIlJ4P5G4
- YZmUx6z5qdsVf+Lntf1Ah3R/ZJa02FSbufKJqOAGi6SkTW+If4e9tkFOn
- r/+JR3O68ypDpG15MmpvNgiMQxBWz2ARDpoplqzF1gxrdD9qB/dbLLQ6m
- Pu2NFTr8qqGogqxYEDGKGSUwtRyTdh8seeeBZV4547ByX08GjBG/Ay5Vf A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="409606607"
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="409606607"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2023 01:09:47 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="725846677"
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="725846677"
-Received: from dhuchimu-mobl3.amr.corp.intel.com (HELO [10.212.68.70])
- ([10.212.68.70])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2023 01:09:46 -0800
-Message-ID: <a443495f-5d1b-52e1-9b2f-80167deb6d57@linux.intel.com>
-Date: Wed, 11 Jan 2023 09:09:45 +0000
-MIME-Version: 1.0
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2042.outbound.protection.outlook.com [40.107.100.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 795BB10E2B1;
+ Wed, 11 Jan 2023 09:11:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dF9HWjW+katRGtSk8fyuqzV5hUGjJlLFrgMYnChJaV8LXIHrfPpx/ZPAAX7EEOS0zR3zlLdP3TlzbpVY65deK7CnK6A6Hfo5fhBu/BYYV+is3aCwkgcpSnnqZLuzmm7XKNbN+Adl+BNcWJlhAL/MZUVwlYtoIfOGCOihBFzCH7XoppfM8GpAIvq8cNrfpAADa1UH2eb++4E1PYdYh2CP2QEWcjmE5IoAABafuy4LHPyuPcgcgs/fAne8+coYqz8dschkd9E2QUp9I2rtZ0WSR0IpY9vgm/8clNwv6RH/5CpIjYFrtIrqFk0Fk+o8MkqIfosfzGwyy4S1rKdcTZ4sdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=etMkvZ76u8jE/lDZ3/XJcL0z2FHNbQsBiI0pDTURS0g=;
+ b=dZksZqZbpWObHap+WdD7BJSrgvyf2puvGqGpDTAGedQTJxkNsOgekPaIrCXSJy1fE2TZeMvTIGD62G6tP+Ru5exaRrhlTFWoMT4q1DBxcyHA3opFJrFFNzFI5krXvppgdCddxUSENDyHTfkuH8SJputo2gvtLlFn2WNvAX+ETRBpS4bAeYxesZ2JQGc77W6qK71BgLJW3pKHNuz7LAd7nn2mzdXXMUN1SvfhTZdgrM05RLWKSTz2PBRMu/9BXeldkBGuN2W/Dr3qLD6ZmHF8I4hkvXSkdTzy45ZOZL2DfAWQQhkRg5wRKyP+RqKrH0DZAIFh1en17RHzyI2+Io5ICg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=etMkvZ76u8jE/lDZ3/XJcL0z2FHNbQsBiI0pDTURS0g=;
+ b=pR4FuOtFqv190afndO+Crjpkti23RvTvFlBi5+Oi8JpMZA+a5nVWbXvsEXaR3URuxpwklSYodlBZfkrX3IAQRZp8fkJRyBYIroxiurp5fjgZCmCuy0ZQaVgsUsVXZe21hVG9tUqLARKLm1pFDpuqqfb/7Jc+wdEU8j+U1h2h2dE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by SN7PR12MB8131.namprd12.prod.outlook.com (2603:10b6:806:32d::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Wed, 11 Jan
+ 2023 09:11:35 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::80d8:934f:caa7:67b0]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::80d8:934f:caa7:67b0%3]) with mapi id 15.20.5986.018; Wed, 11 Jan 2023
+ 09:11:35 +0000
+Message-ID: <c15c5f15-4356-1181-cf2f-6b4d8405a34a@amd.com>
+Date: Wed, 11 Jan 2023 10:11:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [Intel-gfx] [RFC PATCH 04/20] drm/sched: Convert drm scheduler to
- use a work queue rather than kthread
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 3/4] drm/amdgpu: Clean up page shift operation and GWS
+ and OA
 Content-Language: en-US
-To: Matthew Brost <matthew.brost@intel.com>
-References: <20221230112042.2ddd1946@collabora.com>
- <20221230125508.57af8a14@collabora.com>
- <20230102083019.24b99647@collabora.com>
- <7d6df13c-6c2e-d713-edc8-128d6e19f187@linux.intel.com>
- <Y7dEjcuc1arHBTGu@DUT025-TGLU.fm.intel.com>
- <Y7i0J3uQ+izOJcEb@DUT025-TGLU.fm.intel.com>
- <e8c301cb-c7d4-ed54-f3ab-61a5fcc7f940@linux.intel.com>
- <CAOFGe96yeF4SWxvHC5pxyggf=655q7+ZrFS+Zab42F-RE7UK1w@mail.gmail.com>
- <e6512993-5247-a577-abf4-97cdb21358a0@linux.intel.com>
- <Y72UpKPX6lr/ea7R@DUT025-TGLU.fm.intel.com>
- <Y74NSVeWdiKxdYci@DUT025-TGLU.fm.intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <Y74NSVeWdiKxdYci@DUT025-TGLU.fm.intel.com>
+To: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+References: <20230111063524.2374038-1-Amaranath.Somalapuram@amd.com>
+ <20230111063524.2374038-3-Amaranath.Somalapuram@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230111063524.2374038-3-Amaranath.Somalapuram@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0174.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9f::11) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SN7PR12MB8131:EE_
+X-MS-Office365-Filtering-Correlation-Id: a0304a02-62dd-42e0-b260-08daf3b3d6c0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: KGutY+OBi5KF3Pt5dSbBUaUvtqTIM1Dohxa3EaC2oRHR1V9BFwOfVm+2QK59xoLnFS3uXpNtJ9iYlCeP1rRT8DnhWh3RPlPyIX0zEiOA3w/WQmslqh4al+fVGh9Z3K10ue1hiZkGCjJsiDbEcI4Otyi0731KaiVBkfE2W/YaQwekMbLR3MEKp4T1eKnf4yktd8o/7lUvxM98XUJgmpIK9uIlvV2A6hgwh7z/WENYkx2vD7613nvqGTHTdDUIciF8NNDj8xivVXB769NB0j2MvMgntFjSqtLceF4CIkzMi42+kAv6HWfDnyg7az+0FlNa87i5Qirq2iCkZK4WtxGUcH6Qy6IJLbTRDhb6Nz/ihjgpgoDakv4nl4+PRGB1I0V0FDyBNfK/iGwwaeRsYXOPHY4jknKe8w6ojsg39sq9egTphq9NEMFIRLPz4Uz39WjMNpFgN4dKZv7/4o9NgxX6XEeYicchQCr6kjMbBFK1CiFT+gv94dqJ17DEAVIwyZqfPxqZzKPeYF8dgs9qdH2z+xrejmeUNJT0qCXyKrOFAhHMiAA6NoXUOJR8yuhhpH9ewYw1XaONXwLlEu3FrIaofkJ/O8hu/vzMAbotL4yf1GloTCa2vSZ8wkS5PpTGnoRVyS7p/HWb5WR6zt+D0aeOPLGm8jtR/EEb09bCJe7/GmHQAOrCUe+E6EutVj/7QlI8kN0JOoB5T6YxJdL7JwpRyekiqIrCy9XtcLBu7RdVNGM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(136003)(376002)(346002)(366004)(396003)(451199015)(2906002)(31686004)(4326008)(5660300002)(31696002)(86362001)(36756003)(8936002)(41300700001)(8676002)(66476007)(66946007)(66556008)(38100700002)(316002)(450100002)(6486002)(83380400001)(6506007)(2616005)(6666004)(6512007)(478600001)(186003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eU82N3g5ajE1V3NRd1FBUlppY29MQUZ5a2xaeDU2MmZaTnlzbFZVL3RWNERR?=
+ =?utf-8?B?TTFFenVnaDdmeFppb3lrdmYyRnM5aWxoRUIyd1Y4UG04UnpoclBIU3BzSzNs?=
+ =?utf-8?B?a0VCNGV4YmNYZTl4ZWVCdldjM2pURTNWZWtrcUplV01nRWowUkZyeWhIRUsy?=
+ =?utf-8?B?Umg4bzh2TUhjaEl3Z2I0QTV0aU5BMjdMMWJSUUVqWmR6N3dMMkREd202aFN3?=
+ =?utf-8?B?b2ovVmlzQlNRSFl3WVJTanhxQWVQVWd3UXMvekdzei9TS3gwdWg2a00ySWdv?=
+ =?utf-8?B?OEY4cjQ3N25NV3VYU0tCb2JvaEE4OUhLMUorYlFRRWV0YVlEWXRaMFlNb0Fs?=
+ =?utf-8?B?NEVOM3dvbDlWSm83eWY2b3BURXdnZ0JIaE5SMUpSWDhzd2toOUZOZ3lyZ2x4?=
+ =?utf-8?B?R0VUSFNVcjZSMWREb0dNU3lPVVRvM2toODZMMFVrVnU3bDdoNDAyOUNDRHFn?=
+ =?utf-8?B?R1JQRzZ2WkY1Z2pZYTNsOWRRdUpXVml4TmUwTHltcnkxcHd0d1I2M29LMWp4?=
+ =?utf-8?B?MThITzM4OEFYcGI3aU1qSzI0UTJDU0ZUVzluZEF0Z2wvVS9ocWlVVWxsZENj?=
+ =?utf-8?B?TUQ4d04vcGErVkRVWDd6ckF4UE4xbkdYdnQ5RVpoRWlFaXhHZ1BGUWI4MXd2?=
+ =?utf-8?B?ejArWWZtQlBrQXdmb3Y4UjhRcnpTNjhCQ0hDcEZPSFNOWjBnSnFOdE5md2Yz?=
+ =?utf-8?B?c0hSS0dHUzNuSHJDcVJQMUl0Wm5MSWlLUXRSeUt4N1JPa3NMOG42Wm04Nkd1?=
+ =?utf-8?B?ZjIrSVdvYitTbG5YQlNwZ2NyR1NsQ0dvdTZsc2xWWnRTbUVjTzBIdHZNY0sy?=
+ =?utf-8?B?VjgxZk8wYjFJNmJpY1Vkbk8rMWVjckpnRmZBQTZacTRmaDFmUytudmVsZ2FC?=
+ =?utf-8?B?RXJMQzIvaml0UXI4aEFQTE5qQnJjQ0x1TkVPTmtwTXhab0R6bWtpUURvQnZI?=
+ =?utf-8?B?OXJIa1piTkYrTEw1MlVjL3ZEU3NDMWtNbFBNaWNqR0R3UVNEOHNNaG9LQmxM?=
+ =?utf-8?B?TmhjdlRYWFlZcTN2NlNGYktjdHhqOGxSNlFRVVd2RXRlc0t0U2FidU9mNWRD?=
+ =?utf-8?B?dmtZNUwyOTVMR2NHdk1qKzNVeGxnS3R1WkVaSEFrWHJieWVVK3laU1FJcW9S?=
+ =?utf-8?B?Snl2MEwxMm1jajRtcG5VbnZHS051NXB4UWVyd09OSEptSVhuQWVMRE1rbkRU?=
+ =?utf-8?B?SVVLYVRUdzdaNHlweHBRK01IWTNZRDdIK0h1ZFlvajQrRDZ3UGd1WDNtck5a?=
+ =?utf-8?B?RytWbzJoSVhRUU5oczUvdzRFSmdIWjk5aFh6SlJibXVRaFhOemk3L215QnNr?=
+ =?utf-8?B?eTJteU52aWVIU0hweFJaTFFUaE9PdW1LcWFXenMzRXJ3K2thSTFJMG4xMENv?=
+ =?utf-8?B?dXhyUlZkZUZuSnZoSFJrb1JyU1Z6MnRsRk5DSXoxWlRWSHQvSXdrR2tScGJa?=
+ =?utf-8?B?bFcwcVdCZXp5UEh6UGRkeldwWHNES0Y0cVpkTHU4RHY0a2tYZFcvTm5GejRx?=
+ =?utf-8?B?a2JZd1c0c0dyeWRjWFc5WFJtTWlLbStZTHovK0sxQXF1dHFnb1JrbnU1VWpG?=
+ =?utf-8?B?N0l6c0p4VFFmeWgrbUNQK0pudWZienowaEw3QzdMWWllRnNKdW1qRGlpejNO?=
+ =?utf-8?B?RDNpa1MvOUtNQ25pdjlSaFVqanF2SUVtd2tlSTc1RnpxUEdoTGdOOXdaTW1m?=
+ =?utf-8?B?ZkN5eVYwY1hMS0JUd0dldG5sRHpiYzgvUnZzajQzZWloa1UrTUNZQjNHMml6?=
+ =?utf-8?B?OFJCNnAzQVFpMVZyM0JEVEU3TVRxYTNuMzdqcGlhVkc2ek1aUFVmRDEzZUh0?=
+ =?utf-8?B?c0svNTVoZ09WSExHakd1cjBKejR6d2x6d29PdE93NGd4N1JacU1SdlV1MjJI?=
+ =?utf-8?B?Z3k0elBvS1pEVWN4VVFJVTkrSzdqYkU5c3hxMlRGc25Oc0NlUkNQNGRxbm1H?=
+ =?utf-8?B?bGdhNzh6MjlUcDdJZkE5SWZ3SUR0TSttUjFKVHFvbFMxdHdMdmVuVFRtOHMy?=
+ =?utf-8?B?Q2dMMUhoMVQ5OFZncU5JZVFhc3FTRUMrQ3BvR3JlY2EvbkNtQzVPd044OXZO?=
+ =?utf-8?B?eVNnV1NGWG9YdWNGZzNsSFNDSkdoVE9oenlsM1REZ3RZNjhjYmxQcUtPaUls?=
+ =?utf-8?B?OVBhSktmYXpsczNCVjNWcmNRWEN4K203R0hYMklPa0ptdzhiM2FPOU9oYWo1?=
+ =?utf-8?Q?v5srVLyyqxeqR1ms5Dj9/Xv15DCJ3ApVHyL8CWeQ7Bes?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0304a02-62dd-42e0-b260-08daf3b3d6c0
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2023 09:11:35.6025 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZMxKm3sfwblhOtfqs4geDGrSwQiqj/ATZziaIoV2RPzUHnsKKffL/EuwzSUXfkOM
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8131
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,175 +129,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Jason Ekstrand <jason@jlekstrand.net>,
- dri-devel@lists.freedesktop.org
+Cc: alexander.deucher@amd.com, arunpravin.paneerselvam@amd.com,
+ shashank.sharma@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am 11.01.23 um 07:35 schrieb Somalapuram Amaranath:
+> Remove page shift operations as ttm_resource moved
+> from num_pages to size_t size in bytes.
 
-On 11/01/2023 01:13, Matthew Brost wrote:
-> On Tue, Jan 10, 2023 at 04:39:00PM +0000, Matthew Brost wrote:
->> On Tue, Jan 10, 2023 at 11:28:08AM +0000, Tvrtko Ursulin wrote:
->>>
->>>
->>> On 09/01/2023 17:27, Jason Ekstrand wrote:
->>>
->>> [snip]
->>>
->>>>       >>> AFAICT it proposes to have 1:1 between *userspace* created
->>>>      contexts (per
->>>>       >>> context _and_ engine) and drm_sched. I am not sure avoiding
->>>>      invasive changes
->>>>       >>> to the shared code is in the spirit of the overall idea and instead
->>>>       >>> opportunity should be used to look at way to refactor/improve
->>>>      drm_sched.
->>>>
->>>>
->>>> Maybe?  I'm not convinced that what Xe is doing is an abuse at all or
->>>> really needs to drive a re-factor.  (More on that later.)  There's only
->>>> one real issue which is that it fires off potentially a lot of kthreads.
->>>> Even that's not that bad given that kthreads are pretty light and you're
->>>> not likely to have more kthreads than userspace threads which are much
->>>> heavier.  Not ideal, but not the end of the world either.  Definitely
->>>> something we can/should optimize but if we went through with Xe without
->>>> this patch, it would probably be mostly ok.
->>>>
->>>>       >> Yes, it is 1:1 *userspace* engines and drm_sched.
->>>>       >>
->>>>       >> I'm not really prepared to make large changes to DRM scheduler
->>>>      at the
->>>>       >> moment for Xe as they are not really required nor does Boris
->>>>      seem they
->>>>       >> will be required for his work either. I am interested to see
->>>>      what Boris
->>>>       >> comes up with.
->>>>       >>
->>>>       >>> Even on the low level, the idea to replace drm_sched threads
->>>>      with workers
->>>>       >>> has a few problems.
->>>>       >>>
->>>>       >>> To start with, the pattern of:
->>>>       >>>
->>>>       >>>    while (not_stopped) {
->>>>       >>>     keep picking jobs
->>>>       >>>    }
->>>>       >>>
->>>>       >>> Feels fundamentally in disagreement with workers (while
->>>>      obviously fits
->>>>       >>> perfectly with the current kthread design).
->>>>       >>
->>>>       >> The while loop breaks and worker exists if no jobs are ready.
->>>>
->>>>
->>>> I'm not very familiar with workqueues. What are you saying would fit
->>>> better? One scheduling job per work item rather than one big work item
->>>> which handles all available jobs?
->>>
->>> Yes and no, it indeed IMO does not fit to have a work item which is
->>> potentially unbound in runtime. But it is a bit moot conceptual mismatch
->>> because it is a worst case / theoretical, and I think due more fundamental
->>> concerns.
->>>
->>> If we have to go back to the low level side of things, I've picked this
->>> random spot to consolidate what I have already mentioned and perhaps expand.
->>>
->>> To start with, let me pull out some thoughts from workqueue.rst:
->>>
->>> """
->>> Generally, work items are not expected to hog a CPU and consume many cycles.
->>> That means maintaining just enough concurrency to prevent work processing
->>> from stalling should be optimal.
->>> """
->>>
->>> For unbound queues:
->>> """
->>> The responsibility of regulating concurrency level is on the users.
->>> """
->>>
->>> Given the unbound queues will be spawned on demand to service all queued
->>> work items (more interesting when mixing up with the system_unbound_wq), in
->>> the proposed design the number of instantiated worker threads does not
->>> correspond to the number of user threads (as you have elsewhere stated), but
->>> pessimistically to the number of active user contexts. That is the number
->>> which drives the maximum number of not-runnable jobs that can become
->>> runnable at once, and hence spawn that many work items, and in turn unbound
->>> worker threads.
->>>
->>> Several problems there.
->>>
->>> It is fundamentally pointless to have potentially that many more threads
->>> than the number of CPU cores - it simply creates a scheduling storm.
->>>
->>
->> We can use a different work queue if this is an issue, have a FIXME
->> which indicates we should allow the user to pass in the work queue.
->>
->>> Unbound workers have no CPU / cache locality either and no connection with
->>> the CPU scheduler to optimize scheduling patterns. This may matter either on
->>> large systems or on small ones. Whereas the current design allows for
->>> scheduler to notice userspace CPU thread keeps waking up the same drm
->>> scheduler kernel thread, and so it can keep them on the same CPU, the
->>> unbound workers lose that ability and so 2nd CPU might be getting woken up
->>> from low sleep for every submission.
->>>
->>
->> I guess I don't understand kthread vs. workqueue scheduling internals.
->>   
-> 
-> Looked into this and we are not using unbound workers rather we are just
-> using the system_wq which is indeed bound. Again we can change this so a
-> user can just pass in worker too. After doing a of research bound
-> workers allows the scheduler to use locality too avoid that exact
-> problem your reading.
-> 
-> TL;DR I'm not buying any of these arguments although it is possible I am
-> missing something.
+This patch here is at least missing to remove the shifts in 
+amdgpu_job_set_resources():
 
-Well you told me it's using unbound.. message id 
-Y7dEjcuc1arHBTGu@DUT025-TGLU.fm.intel.com:
 
-"""
-Right now the system_unbound_wq is used which does have a limit on the
-number of threads, right? I do have a FIXME to allow a worker to be
-passed in similar to TDR.
-"""
+         if (gds) {
+                 job->gds_base = amdgpu_bo_gpu_offset(gds) >> PAGE_SHIFT;
+                 job->gds_size = amdgpu_bo_size(gds) >> PAGE_SHIFT;
+         }
+         if (gws) {
+                 job->gws_base = amdgpu_bo_gpu_offset(gws) >> PAGE_SHIFT;
+                 job->gws_size = amdgpu_bo_size(gws) >> PAGE_SHIFT;
+         }
+         if (oa) {
+                 job->oa_base = amdgpu_bo_gpu_offset(oa) >> PAGE_SHIFT;
+                 job->oa_size = amdgpu_bo_size(oa) >> PAGE_SHIFT;
+         }
 
-With bound workers you will indeed get CPU locality. I am not sure what 
-it will do in terms of concurrency. If it will serialize work items to 
-fewer spawned workers that will be good for the CT contention issue, but 
-may negatively affect latency. And possibly preemption / time slicing 
-decisions since the order of submitting to the backend will not be in 
-the order of context priority, hence high prio may be submitted right 
-after low and immediately trigger preemption.
+As well as adjusting the call to amdgpu_ttm_init_on_chip() to be in 
+bytes and not pages.
 
-Anyway, since you are not buying any arguments on paper perhaps you are 
-more open towards testing. If you would adapt gem_wsim for Xe you would 
-be able to spawn N simulated transcode sessions on any Gen11+ machine 
-and try it out.
-
-For example:
-
-gem_wsim -w benchmarks/wsim/media_load_balance_fhd26u7.wsim -c 36 -r 600
-
-That will run you 36 parallel transcoding sessions streams for 600 
-frames each. No client setup needed whatsoever apart from compiling IGT.
-
-In the past that was quite a handy tool to identify scheduling issues, 
-or validate changes against. All workloads with the media prefix have 
-actually been hand crafted by looking at what real media pipelines do 
-with real data. Few years back at least.
-
-It could show you real world behaviour of the kworkers approach and it 
-could also enable you to cross reference any power and performance 
-changes relative to i915. Background story there is that media servers 
-like to fit N streams to a server and if a change comes along which 
-suddenly makes only N-1 stream fit before dropping out of realtime, 
-that's a big problem.
-
-If you will believe me there is value in that kind of testing I am happy 
-to help you add Xe support to the tool, time permitting so possibly 
-guidance only at the moment.
+There are probably more places which I missed to mention as well.
 
 Regards,
+Christian.
 
-Tvrtko
+>
+> Signed-off-by: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c     |  4 +---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h | 12 ++++++------
+>   2 files changed, 7 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> index 974e85d8b6cc..19ad365dc159 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> @@ -541,12 +541,10 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
+>   	if (bp->domain & (AMDGPU_GEM_DOMAIN_GWS | AMDGPU_GEM_DOMAIN_OA)) {
+>   		/* GWS and OA don't need any alignment. */
+>   		page_align = bp->byte_align;
+> -		size <<= PAGE_SHIFT;
+> -
+>   	} else if (bp->domain & AMDGPU_GEM_DOMAIN_GDS) {
+>   		/* Both size and alignment must be a multiple of 4. */
+>   		page_align = ALIGN(bp->byte_align, 4);
+> -		size = ALIGN(size, 4) << PAGE_SHIFT;
+> +		size = ALIGN(size, 4);
+>   	} else {
+>   		/* Memory should be aligned at least to a page size. */
+>   		page_align = ALIGN(bp->byte_align, PAGE_SIZE) >> PAGE_SHIFT;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
+> index 5c4f93ee0c57..f92b61350efe 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
+> @@ -91,11 +91,11 @@ static inline void amdgpu_res_first(struct ttm_resource *res,
+>   		break;
+>   	case TTM_PL_TT:
+>   		node = to_ttm_range_mgr_node(res)->mm_nodes;
+> -		while (start >= node->size << PAGE_SHIFT)
+> -			start -= node++->size << PAGE_SHIFT;
+> +		while (start >= node->size)
+> +			start -= node++->size;
+>   
+> -		cur->start = (node->start << PAGE_SHIFT) + start;
+> -		cur->size = min((node->size << PAGE_SHIFT) - start, size);
+> +		cur->start = (node->start) + start;
+> +		cur->size = min(node->size - start, size);
+>   		cur->remaining = size;
+>   		cur->node = node;
+>   		break;
+> @@ -155,8 +155,8 @@ static inline void amdgpu_res_next(struct amdgpu_res_cursor *cur, uint64_t size)
+>   		node = cur->node;
+>   
+>   		cur->node = ++node;
+> -		cur->start = node->start << PAGE_SHIFT;
+> -		cur->size = min(node->size << PAGE_SHIFT, cur->remaining);
+> +		cur->start = node->start;
+> +		cur->size = min(node->size, cur->remaining);
+>   		break;
+>   	default:
+>   		return;
+
