@@ -1,51 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB30C665B90
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 13:37:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA5EA665B92
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 13:37:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C94FE10E724;
-	Wed, 11 Jan 2023 12:37:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F012D10E71A;
+	Wed, 11 Jan 2023 12:37:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDE2310E712
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 12:37:21 +0000 (UTC)
-X-UUID: af57427091ac11ed945fc101203acc17-20230111
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E6CF10E00D
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 12:37:23 +0000 (UTC)
+X-UUID: afc36af491ac11ed945fc101203acc17-20230111
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=f0tyeVCGLQHUTaZhj2eyO8Q7/skPBVsVWCjbAseVp40=; 
- b=mySfKi4Gr4f+Et4yhUnX//d/n5V9jJhediN5dUtKQXQCbzx2JgKStMXxA/WhOrY7qYCA+4AruTzpbC9kZ49TiyhzIqzXyTySLBCXr1GwuSsIM+Qb9ixg0CEtNixttutQWgY7NqlmSEeHPTQJ5Fh5gRAeSNXmsuiBortcCcpLD+c=;
+ bh=BWKe6zW3OozMra5zW8Umlb+TgA2g/HpZDzkEf1yramo=; 
+ b=MKmI6r7GIUgu5GjKU6o8Q942EOQXGQzKKiwjsuqJBU1ceI6fIywtJt4kYtjIRlVxz6TNuion7vveh99x6lVRkhFjOTB9jzWbFbXp+3VH3AukSbKuftTHWWmYB05TS02r+k35Ws6UbOvAPD6l4eLfWYIOHD4bTKEVlW+SYTDfry8=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.17, REQID:1f2d57df-8000-448b-bef5-b88a7623684e, IP:0,
+X-CID-O-INFO: VERSION:1.1.17, REQID:64d38d8c-80af-495d-8fed-081687349602, IP:0,
  U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:95
-X-CID-INFO: VERSION:1.1.17, REQID:1f2d57df-8000-448b-bef5-b88a7623684e, IP:0,
- URL
- :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
- :quarantine,TS:95
-X-CID-META: VersionHash:543e81c, CLOUDID:f02285f5-ff42-4fb0-b929-626456a83c14,
+ RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:-5
+X-CID-META: VersionHash:543e81c, CLOUDID:6a5b5b54-dd49-462e-a4be-2143a3ddc739,
  B
- ulkID:230111203719JF1Y4TIF,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48,TC:n
- il,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
- I:0,OSA:0
-X-CID-APTURL: Status:success,Category:nil,Trust:0,Unknown:0,Malicious:0
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
 X-CID-BVR: 0,NGT
-X-UUID: af57427091ac11ed945fc101203acc17-20230111
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
+X-UUID: afc36af491ac11ed945fc101203acc17-20230111
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
  mailgw02.mediatek.com (envelope-from <allen-kh.cheng@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1174826781; Wed, 11 Jan 2023 20:37:18 +0800
+ with ESMTP id 1222058794; Wed, 11 Jan 2023 20:37:18 +0800
 Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Wed, 11 Jan 2023 20:37:16 +0800
+ 15.2.792.15; Wed, 11 Jan 2023 20:37:17 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Wed, 11 Jan 2023 20:37:16 +0800
+ 15.2.792.15 via Frontend Transport; Wed, 11 Jan 2023 20:37:17 +0800
 From: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
 To: Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring
  <robh+dt@kernel.org>, Krzysztof Kozlowski
@@ -54,9 +48,9 @@ To: Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring
  Daniel Vetter <daniel@ffwll.ch>, Stephen Boyd <sboyd@kernel.org>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 4/9] arm64: dts: mediatek: mt8186: Add ADSP mailbox nodes
-Date: Wed, 11 Jan 2023 20:37:06 +0800
-Message-ID: <20230111123711.32020-5-allen-kh.cheng@mediatek.com>
+Subject: [PATCH 5/9] arm64: dts: mediatek: mt8186: Add ADSP node
+Date: Wed, 11 Jan 2023 20:37:07 +0800
+Message-ID: <20230111123711.32020-6-allen-kh.cheng@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20230111123711.32020-1-allen-kh.cheng@mediatek.com>
 References: <20230111123711.32020-1-allen-kh.cheng@mediatek.com>
@@ -83,38 +77,44 @@ Cc: devicetree@vger.kernel.org, Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add ADSP mailbox node for MT8186 SoC.
+Add ADSP node for MT8186 SoC.
 
 Signed-off-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
 ---
- arch/arm64/boot/dts/mediatek/mt8186.dtsi | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ arch/arm64/boot/dts/mediatek/mt8186.dtsi | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/mediatek/mt8186.dtsi b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
-index a8ff984f1192..a0b7dacc10cd 100644
+index a0b7dacc10cd..2700c830316f 100644
 --- a/arch/arm64/boot/dts/mediatek/mt8186.dtsi
 +++ b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
-@@ -640,6 +640,20 @@
+@@ -640,6 +640,26 @@
  			interrupts = <GIC_SPI 205 IRQ_TYPE_LEVEL_HIGH 0>;
  		};
  
-+		adsp_mailbox0: mailbox@10686000 {
-+			compatible = "mediatek,mt8186-adsp-mbox";
-+			#mbox-cells = <0>;
-+			reg = <0 0x10686100 0 0x1000>;
-+			interrupts = <GIC_SPI 361 IRQ_TYPE_LEVEL_HIGH 0>;
++		adsp: adsp@10680000 {
++			compatible = "mediatek,mt8186-dsp";
++			reg = <0 0x10680000 0 0x2000>,
++			      <0 0x10800000 0 0x100000>,
++			      <0 0x1068b000 0 0x100>,
++			      <0 0x1068f000 0 0x1000>;
++			reg-names = "cfg", "sram", "sec", "bus";
++			clocks = <&topckgen CLK_TOP_AUDIODSP>,
++				 <&topckgen CLK_TOP_ADSP_BUS>;
++			clock-names = "audiodsp",
++				      "adsp_bus";
++			assigned-clocks = <&topckgen CLK_TOP_AUDIODSP>,
++					  <&topckgen CLK_TOP_ADSP_BUS>;
++			assigned-clock-parents = <&clk26m>, <&topckgen CLK_TOP_MAINPLL_D2_D2>;
++			mbox-names = "rx", "tx";
++			mboxes = <&adsp_mailbox0>, <&adsp_mailbox1>;
++			power-domains = <&spm MT8186_POWER_DOMAIN_ADSP_TOP>;
++			status = "disabled";
 +		};
 +
-+		adsp_mailbox1: mailbox@10687000 {
-+			compatible = "mediatek,mt8186-adsp-mbox";
-+			#mbox-cells = <0>;
-+			reg = <0 0x10687100 0 0x1000>;
-+			interrupts = <GIC_SPI 362 IRQ_TYPE_LEVEL_HIGH 0>;
-+		};
-+
- 		nor_flash: spi@11000000 {
- 			compatible = "mediatek,mt8186-nor";
- 			reg = <0 0x11000000 0 0x1000>;
+ 		adsp_mailbox0: mailbox@10686000 {
+ 			compatible = "mediatek,mt8186-adsp-mbox";
+ 			#mbox-cells = <0>;
 -- 
 2.18.0
 
