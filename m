@@ -1,65 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3163665FEF
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 17:03:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62663665FFE
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 17:05:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B860D10E775;
-	Wed, 11 Jan 2023 16:03:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 526C610E795;
+	Wed, 11 Jan 2023 16:05:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8635510E775;
- Wed, 11 Jan 2023 16:03:04 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CF38F4D78;
- Wed, 11 Jan 2023 16:03:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673452982; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=M1HohU17itsW32jZyOwsp/5R3a8Pr/D0flNnrsIRegQ=;
- b=FCoU8GtxOLPRPWk2IhiiP6oGusUvJgeulyjyspLZw4oB4cko+n+yA9l8cMfF9pUpWVCVb6
- gc0UzWRwdwAyIileBKaAGzVU2aOrIH5tW8QjrYM91ai4KmSBAKH7BQjM74oOlIP1HmbKkU
- ZZPgwk5DaLEqM9jVOLi5ISdPeXFNT10=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673452982;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=M1HohU17itsW32jZyOwsp/5R3a8Pr/D0flNnrsIRegQ=;
- b=Ge5ZNYH0cwVmxI7HKg6Fy0K5VNFoKgJnvWA0ZWI34oUWHx920gibELZXBYNJWxox8T7udQ
- CmJKeFUSB4UfjFCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9FE521358A;
- Wed, 11 Jan 2023 16:03:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id J/sIJrbdvmOVRgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 11 Jan 2023 16:03:02 +0000
-Message-ID: <87119376-2813-f155-a2e1-006ffa382f12@suse.de>
-Date: Wed, 11 Jan 2023 17:03:02 +0100
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2A2B10E787;
+ Wed, 11 Jan 2023 16:05:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673453153; x=1704989153;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=yS1Tx9MBv2MTrnHDrpfFP/1IYvWDkXEmBZQT9Uxwuqg=;
+ b=jCyjK+8TJID2nkW+w4hMSPExvK0TNwRgKmUds9P7DMFD7Vv2O48iBW1g
+ nk877iid91UkneusAJFBamJ/TSQoG7mwbgC6Jugd32OwquVnr3luWdEob
+ uBN/bmnx0RIzspof2l1e3sHIgSDG/IocSdPnm2j7WVtri8PB2hKDJqsTT
+ S6WGjX7oL5RQry26u5nUdQk++ijzbLFR9Wbmhblsg0EVgrvCyKS8utHaQ
+ cVjjRp2YEBp7l80y/9qJCeFLYVvNHNPOXDBvi3jmnPO7mManGPd4rKfZ6
+ l1PbdNBymqWWJuXJ+xYXRcG7vBDlD8+j27rf/UIRWUiYfNcxZxgJbG3Vo g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="387919018"
+X-IronPort-AV: E=Sophos;i="5.96,317,1665471600"; d="scan'208";a="387919018"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2023 08:03:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="720769406"
+X-IronPort-AV: E=Sophos;i="5.96,317,1665471600"; d="scan'208";a="720769406"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
+ by fmsmga008.fm.intel.com with SMTP; 11 Jan 2023 08:03:31 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 11 Jan 2023 18:03:31 +0200
+Date: Wed, 11 Jan 2023 18:03:31 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 03/10] drm: Don't include <linux/fb.h> in
+ drm_crtc_helper.h
+Message-ID: <Y77d0x9ZV5ZZyT/0@intel.com>
+References: <20230111130206.29974-1-tzimmermann@suse.de>
+ <20230111130206.29974-4-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 05/11] video/aperture: Only kick vgacon when the pdev is
- decoding vga
-Content-Language: en-US
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20230111154112.90575-1-daniel.vetter@ffwll.ch>
- <20230111154112.90575-5-daniel.vetter@ffwll.ch>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230111154112.90575-5-daniel.vetter@ffwll.ch>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------kRdkj4H0mvYrpls000WLvN9H"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230111130206.29974-4-tzimmermann@suse.de>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,89 +62,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Helge Deller <deller@gmx.de>
+Cc: f.fainelli@gmail.com, amd-gfx@lists.freedesktop.org, sam@ravnborg.org,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
+ james.qian.wang@arm.com, alexander.deucher@amd.com,
+ bcm-kernel-feedback-list@broadcom.com, liviu.dudau@arm.com,
+ christian.koenig@amd.com, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------kRdkj4H0mvYrpls000WLvN9H
-Content-Type: multipart/mixed; boundary="------------65y0U4fNolxGQqzVTBVgvase";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: linux-fbdev@vger.kernel.org,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- LKML <linux-kernel@vger.kernel.org>, Daniel Vetter
- <daniel.vetter@intel.com>, Helge Deller <deller@gmx.de>
-Message-ID: <87119376-2813-f155-a2e1-006ffa382f12@suse.de>
-Subject: Re: [PATCH 05/11] video/aperture: Only kick vgacon when the pdev is
- decoding vga
-References: <20230111154112.90575-1-daniel.vetter@ffwll.ch>
- <20230111154112.90575-5-daniel.vetter@ffwll.ch>
-In-Reply-To: <20230111154112.90575-5-daniel.vetter@ffwll.ch>
+On Wed, Jan 11, 2023 at 02:01:59PM +0100, Thomas Zimmermann wrote:
+> Including <linux/fb.h> in drm_crtc_helper.h is not required. Remove
+> the include statement and avoid rebuilding DRM whenever the fbdev
+> header changes.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  include/drm/drm_crtc_helper.h | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/include/drm/drm_crtc_helper.h b/include/drm/drm_crtc_helper.h
+> index 1840db247f69..072bc4f90349 100644
+> --- a/include/drm/drm_crtc_helper.h
+> +++ b/include/drm/drm_crtc_helper.h
+> @@ -37,8 +37,6 @@
+>  #include <linux/types.h>
+>  #include <linux/idr.h>
 
---------------65y0U4fNolxGQqzVTBVgvase
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+^ bunch of other unnecessary headers there as well.
 
-SGkNCg0KQW0gMTEuMDEuMjMgdW0gMTY6NDEgc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPiBP
-dGhlcndpc2UgaXQncyBiaXQgc2lsbHksIGFuZCB3ZSBtaWdodCB0aHJvdyBvdXQgdGhlIGRy
-aXZlciBmb3IgdGhlDQo+IHNjcmVlbiB0aGUgdXNlciBpcyBhY3R1YWxseSBsb29raW5nIGF0
-LiBJIGhhdmVuJ3QgZm91bmQgYSBidWcgcmVwb3J0DQo+IGZvciB0aGlzIGNhc2UgeWV0LCBi
-dXQgd2UgZGlkIGdldCBidWcgcmVwb3J0cyBmb3IgdGhlIGFuYWxvZyBjYXNlDQo+IHdoZXJl
-IHdlJ3JlIHRocm93aW5nIG91dCB0aGUgZWZpZmIgZHJpdmVyLg0KPiANCj4gUmVmZXJlbmNl
-czogaHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMTYzMDMN
-Cj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5j
-b20+DQo+IENjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4g
-Q2M6IEphdmllciBNYXJ0aW5leiBDYW5pbGxhcyA8amF2aWVybUByZWRoYXQuY29tPg0KPiBD
-YzogSGVsZ2UgRGVsbGVyIDxkZWxsZXJAZ214LmRlPg0KPiBDYzogbGludXgtZmJkZXZAdmdl
-ci5rZXJuZWwub3JnDQo+IC0tLQ0KPiAgIGRyaXZlcnMvdmlkZW8vYXBlcnR1cmUuYyB8IDMg
-KysrDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvdmlkZW8vYXBlcnR1cmUuYyBiL2RyaXZlcnMvdmlkZW8vYXBlcnR1
-cmUuYw0KPiBpbmRleCAzZDhjOTI1YzczNjUuLjZmMzUxYTU4ZjZjNiAxMDA2NDQNCj4gLS0t
-IGEvZHJpdmVycy92aWRlby9hcGVydHVyZS5jDQo+ICsrKyBiL2RyaXZlcnMvdmlkZW8vYXBl
-cnR1cmUuYw0KPiBAQCAtMzQxLDYgKzM0MSw5IEBAIGludCBhcGVydHVyZV9yZW1vdmVfY29u
-ZmxpY3RpbmdfcGNpX2RldmljZXMoc3RydWN0IHBjaV9kZXYgKnBkZXYsIGNvbnN0IGNoYXIg
-Km5hDQo+ICAgCQkJcmV0dXJuIHJldDsNCj4gICAJfQ0KPiAgIA0KPiArCWlmICghcHJpbWFy
-eSkNCj4gKwkJcmV0dXJuIDA7DQo+ICsNCg0KVGhlIG9yaWdpbmFsIGNvZGUgZnJvbSBmYmRl
-diBkaWRuJ3QgZG8gdGhpcywgc28gdGhpcyBjb2RlIGRpZG4ndCBlaXRoZXIuDQoNCkl0IGFw
-cGVhcnMgbW9yZSB0byBiZSBhIHNwZWNpYWwgY2FzZSB0aGFuIGFuIGVhcmx5LW91dCBicmFu
-Y2guIFNvIGNhbiB3ZSANCndyaXRlIGl0IGFzDQoNCmlmIChwcmltYXJ5KSB7DQogICAvLyBr
-aWNrX3ZnYWNvbg0KfQ0KDQo/DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gICAJLyoN
-Cj4gICAJICogV0FSTklORzogQXBwYXJlbnRseSB3ZSBtdXN0IGtpY2sgZmJkZXYgZHJpdmVy
-cyBiZWZvcmUgdmdhY29uLA0KPiAgIAkgKiBvdGhlcndpc2UgdGhlIHZnYSBmYmRldiBkcml2
-ZXIgZmFsbHMgb3Zlci4NCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJp
-dmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpN
-YXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFH
-IE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
---------------65y0U4fNolxGQqzVTBVgvase--
+>  
+> -#include <linux/fb.h>
+> -
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_modeset_helper_vtables.h>
+>  #include <drm/drm_modeset_helper.h>
+> -- 
+> 2.39.0
 
---------------kRdkj4H0mvYrpls000WLvN9H
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmO+3bYFAwAAAAAACgkQlh/E3EQov+Cm
-Zw//aDbdDgRpQSC/QB7YLm2jfX4bE/DllWGrwGYzmamtFAX8g3PVnLLza0cTM/fob1/oVHk8TyIK
-JCoMnmysaSK0OmnbqZrlYldoh/EA3Sh4WnHnneCKXr43axvmNGT6S4YfIMKc88k3X/kpJxioKAw7
-m+XiJC9lwLX/y0LiLwQBz0bd4sG6gkHJMOulqAg7KIKNGedoH23HJd+rd1p62smGqkLIAFGocE2d
-sEET7QF9eBvlNeGfjrqTLVP1o7CTlRwW6K7StD/IfLt35TV4VuW9TlW3t0Zg6kk03EWDs0INGUXW
-mVz186PYSDkI7SuvmwVYum+nsoeSvZGbC7or3JPPGBT+/DIAwY2nWeoEoYvV1BVolJrpwbnIan9A
-A2LwzS35N2KRZLsO2xw1yswO0t0KDumy7eeeW0XAYXn7llqwK/gCL0k9CWOwYMvuwXRUkrXJrL5W
-8q9f4oM/QNRoF0Viw6R/uMx/+IoYF1qFFVaprl5dAVHvty4HLGilE8cP4yP4cdVgblPHN1nIrfAc
-3Df5LecYTk9+OruotQ79LbwSu0pVVGR+Yv38C/AXfGTmRueFAjhx3fpW2KvuSMDdUfmiLC9hIOP8
-FqLC/jgaZ/pIl0o0n9fhnuyvOh03po0b1wbKEU//m19VUwKzCPatsY92MdTGhmtdpAVdZ2QEq+vo
-DE4=
-=Z0tU
------END PGP SIGNATURE-----
-
---------------kRdkj4H0mvYrpls000WLvN9H--
+-- 
+Ville Syrjälä
+Intel
