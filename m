@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A146650B7
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 01:57:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E82256650B9
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 01:57:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EB4F10E6B9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14FB710E6B2;
 	Wed, 11 Jan 2023 00:57:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD57A10E1B4;
- Wed, 11 Jan 2023 00:56:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FFC110E0F2;
+ Wed, 11 Jan 2023 00:56:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673398612; x=1704934612;
+ t=1673398613; x=1704934613;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=wyeWs5UZdOeLkbh6hoXIQk+mDSutMB1dgY2E8jbb4go=;
- b=QpM797eC8XmORwuxvCB708oEBXkcFHlMQCBO5HOLm4wiM+bUSpXo+JSL
- H5SIDL4ektM1s5Myatmo00B262EzZn1Gt57aoc7ospuhT/UNlR+8LMLvn
- OPG0t8PFuNXKRcUHRb5qkXcmxQSDhasLdyQYaZixy1NLn2cD92ztYENXh
- xlumgZ5mlKsZUQmIlkt87K0YdRTz7VHmG8B1wevpKjWFef/Z2VwJemqh5
- IQ1504FVUiLC38iamU0Lu9xcYUPFdlC5VphBnc7hqdM4/Vi6jveUjS22I
- aJygMiRovg/bVfFnYMYh6ojC7ggagoOFmFz5G4edvMC5kZfJSs3qSaaRz g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="325307086"
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="325307086"
+ bh=nFFp3QQi6yvUiKERoiK5E+V1X3pdaqyuuJZz2HPAaRM=;
+ b=av4zPgpyo1vCen4Wkj66y7XwdH6PCwBfHhxUb3vs61QetWPQi7SWRy41
+ /5174/J/A72bL/7Vd79i0boBGD223JVbOmBoZoDDbLlWpwBnSFzNXh5Rx
+ lq23t8wCGEtbhVVMrVck8x5C8jK9+z58T+PECf77uTaMoybRrrYyV6nhJ
+ xyCD4O6FPtwrWOElcCiPDRPr6f4G3CrI5G8YdUd+okaaJxqgAA3a4r2Xi
+ zdyOejqltFz3glUxdPO9HY5xw3z4vP0K4X7h5lD+uWunk8W+Dva6QDAA3
+ 4+Y0nHb5jrMqOLvDUnGjYYOq+bR9+l8LKWBUR81wYr4LhU+c7BO60R5Rz g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="325307091"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="325307091"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Jan 2023 16:56:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="831175654"
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="831175654"
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="831175657"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="831175657"
 Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by orsmga005.jf.intel.com with ESMTP; 10 Jan 2023 16:56:51 -0800
+ by orsmga005.jf.intel.com with ESMTP; 10 Jan 2023 16:56:52 -0800
 From: Alan Previn <alan.previn.teres.alexis@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 5/9] drm/i915/pxp: Add GSC-CS backend-teelink for send-message
- function
-Date: Tue, 10 Jan 2023 16:56:35 -0800
-Message-Id: <20230111005642.300761-6-alan.previn.teres.alexis@intel.com>
+Subject: [PATCH 5/9] drm/i915/pxp: Add GSC-CS backend to send GSC fw messages
+Date: Tue, 10 Jan 2023 16:56:36 -0800
+Message-Id: <20230111005642.300761-7-alan.previn.teres.alexis@intel.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230111005642.300761-1-alan.previn.teres.alexis@intel.com>
 References: <20230111005642.300761-1-alan.previn.teres.alexis@intel.com>
@@ -64,8 +63,11 @@ Cc: Juston Li <justonli@chromium.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Populate the backend-teelink abstraction layer using GSC-CS engine
-for MTL (and future) products. The PXP backend for sending messages
+Add GSC engine based method for sending PXP firmware packets
+to the GSC firmware for MTL (and future) products. Use the newly
+added helpers to populate the GSC-CS memory header and send the
+message packet to the FW by dispatching the GSC_HECI_CMD_PKT
+instruction on the GSC engine.
 
 Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 ---
