@@ -2,80 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2DE4666113
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 17:58:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A547C666141
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 18:01:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BF4210E793;
-	Wed, 11 Jan 2023 16:58:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3150F10E7A2;
+	Wed, 11 Jan 2023 17:01:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6CE310E793
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 16:58:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673456291;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7etFesSwsvyBFG9PixPP0WNXA/+GdaIXm+B9o1JCqbU=;
- b=a9q4ZF4mK8CUsQEAb7VMB2ACDupUd/wrQK7d2qYKN6Im4ZPfCH/+xPam5tZSyPlklp9ayi
- E2qtHJf0lG/Nwo9zPr+I38HsyYkZZgag6VPnpUzZjlSKrOFbDVtukHDKNV3j3U/FO6VmaM
- CzbXWCdRo3i3+D9/Z3Wqot8J6DOdraQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-57--ASg_bWhMYSkmQQ8SjxrWA-1; Wed, 11 Jan 2023 11:58:07 -0500
-X-MC-Unique: -ASg_bWhMYSkmQQ8SjxrWA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- q21-20020a7bce95000000b003d236c91639so3641562wmj.8
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 08:58:07 -0800 (PST)
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com
+ [IPv6:2607:f8b0:4864:20::92c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06D3910E7A2
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 17:00:58 +0000 (UTC)
+Received: by mail-ua1-x92c.google.com with SMTP id j14so3830366ual.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 09:00:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=AAJpJh3pnYfbotxwLc8hJ3ZJQeLdy37F9DfaFWo/sLU=;
+ b=KFsOiHc/eK/+jvzytsM1pbHH9AVsGSGlo9s8rTMx0LWLi3Zut7QLF1D2LjO7mf5U91
+ juW+sGemm/myxJe+clLMrK/wdR2R1ginZw/Jbw2a0f0toHd4vSxmTrW38OLDptoIXi1A
+ xhY2KEoyh1uO1BzU7fOudSiAmvw0lUhrTTuXdNKoeB58daZZJElUBL5x1IbrE5uK4Yml
+ GCqpIC1++JIZiHMkmInPzwLh21b8cDotofFpW7EDZhcpkO7uLohUXQI6rDVDWZH+HgOj
+ QZ/N1nzwBfc3+dJu95SE9zorhjfZQgoig/jFM9UVq8TzGWghARzIXXGEll3Ulr+hv7o0
+ ltIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7etFesSwsvyBFG9PixPP0WNXA/+GdaIXm+B9o1JCqbU=;
- b=o/rhexpnmS/IjYxl+JN+2P+KpI3KLsoiJJF+rv86mWaxstjYKllMpEaUOchrwBQH6E
- AqaG6uErimGBr9Gityc1nHm6RpA4502jD31t+W8/B/Frejp4mq6iWbnED7HOpq5Mr0+P
- PDYrbWKiMcy51ohuNm/woP6SSUY4y3ZD23j/omU+1r44me50yjeV/XXDgXlnPILKrLLH
- 6oV/5UzZauO08ET4fQngnadZlapOu7nq0CxhE7HN1+EjPHOI5WXhza7s989+cBs2+fQ7
- oKDRuVvbHUEtqeRtwDNr1z9lm+eyKlNew9viW3pSQWN5f0mDBfnFknwDD1ZBuLibGJZ8
- JUQQ==
-X-Gm-Message-State: AFqh2kpf5/0MU94JISWtMubD6D45FNN239LHcoABIUqkwFc2wYk6i/BC
- tjbEjGiGAMY2BKekTnij+qx+yBXcsTSTlIZx+/C8usYJ8IZ8hVOGlaa04bDp7W2jOvrknnNLjQG
- R5oDDwNScDP6H+YdsftJM+n2xl2L6
-X-Received: by 2002:a05:600c:21d9:b0:3d1:d396:1adc with SMTP id
- x25-20020a05600c21d900b003d1d3961adcmr63929868wmj.14.1673456286295; 
- Wed, 11 Jan 2023 08:58:06 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsxjRh5UhyjQkcfJm4bdKJ4BVXP/8uye1XsNO01BkxbdNj4oAF8iB8sLA2+2zHmR/3TIvJT0w==
-X-Received: by 2002:a05:600c:21d9:b0:3d1:d396:1adc with SMTP id
- x25-20020a05600c21d900b003d1d3961adcmr63929856wmj.14.1673456286106; 
- Wed, 11 Jan 2023 08:58:06 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- t9-20020a05600c198900b003d9e74dd9b2sm16181863wmq.9.2023.01.11.08.58.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 08:58:05 -0800 (PST)
-Message-ID: <fb72e067-3f5f-1bac-dc9b-3abd9d7739a2@redhat.com>
-Date: Wed, 11 Jan 2023 17:58:04 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=AAJpJh3pnYfbotxwLc8hJ3ZJQeLdy37F9DfaFWo/sLU=;
+ b=7yVI68ZpT2NFs+/DvJrogEEVwbWgnxYNsy6k3mFl8MjCrprKIPpFvhf95BNQ+KE7xH
+ KKy46VYE6rSxt7j3WVNCRjFIt+ncMvYo4NLtJTGmffurdv5w7iynkL3eHWOPwCNI/rq2
+ Oyd9QXROK7sVj053aIh33XJm9h3kXL77olM3qkQRdN6if3wtf8U//aFFUjPBTERbkUB2
+ 3ncaZoa+/jNyiHByK5YUGEJXzvQfQNh3XTmEgslqhovNOZiIoJ/AmQ2OnFugrgMBhx5E
+ funnzr0UaU+7EvtmCOQnNqV7WudpOYDah47u76RffotdoOID3T6ADVzMydswFax4hLPK
+ c2Vw==
+X-Gm-Message-State: AFqh2krX+UA3wSWdLl76IMvcK2cdyitMrSP+lV1Bm648sOGTrjhOwQqc
+ SloknLTqDUgO2ZNu05EmXRqNG6OqcC2qw8uPmFEiKQ==
+X-Google-Smtp-Source: AMrXdXu7KLCAx6U5MqODafuTn9yHQvvRVhJJKsPdUp/GGWCjRC+o01vEMkWZswX/SPv3zXsPGFbOKDcrbsJMFbFEeYs=
+X-Received: by 2002:ab0:59aa:0:b0:419:25c5:30dc with SMTP id
+ g39-20020ab059aa000000b0041925c530dcmr8816091uad.26.1673456456994; Wed, 11
+ Jan 2023 09:00:56 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 11/11] video/aperture: Only remove sysfb on the default
- vga pci device
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20230111154112.90575-1-daniel.vetter@ffwll.ch>
- <20230111154112.90575-11-daniel.vetter@ffwll.ch>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20230111154112.90575-11-daniel.vetter@ffwll.ch>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221207-rpi-hdmi-improvements-v1-0-6b15f774c13a@cerno.tech>
+ <20221207-rpi-hdmi-improvements-v1-5-6b15f774c13a@cerno.tech>
+ <5394a702-20ef-bada-4731-b720b810998d@suse.de>
+In-Reply-To: <5394a702-20ef-bada-4731-b720b810998d@suse.de>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 11 Jan 2023 17:00:41 +0000
+Message-ID: <CAPY8ntCsp_qbjeyYvUQ0jmKh8gecvR-NmYaEPkrsxBhyZrHPxg@mail.gmail.com>
+Subject: Re: [PATCH 5/9] drm/vc4: hdmi: Rework the CSC matrices organization
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,98 +69,272 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Aaron Plattner <aplattner@nvidia.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Helge Deller <deller@gmx.de>
+Cc: Emma Anholt <emma@anholt.net>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Daniel,
+Hi Thomas
 
-On 1/11/23 16:41, Daniel Vetter wrote:
-> This fixes a regression introduced by ee7a69aa38d8 ("fbdev: Disable
-> sysfb device registration when removing conflicting FBs"), where we
-> remove the sysfb when loading a driver for an unrelated pci device,
-> resulting in the user loosing their efifb console or similar.
-> 
-> Note that in practice this only is a problem with the nvidia blob,
-> because that's the only gpu driver people might install which does not
-> come with an fbdev driver of it's own. For everyone else the real gpu
-> driver will restor a working console.
+Thanks for the review
 
-restore
+On Wed, 11 Jan 2023 at 15:03, Thomas Zimmermann <tzimmermann@suse.de> wrote=
+:
+>
+> Hi
+>
+> Am 07.12.22 um 17:07 schrieb Maxime Ripard:
+> > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> >
+> > The CSC matrices were stored as separate matrix for each colorspace, an=
+d
+> > if we wanted a limited or full RGB output.
+> >
+> > This created some gaps in our support and we would not always pick the
+> > relevant matrix.
+> >
+> > Let's rework our data structure to store one per colorspace, and then a
+> > matrix for limited range and one for full range. This makes us add a ne=
+w
+> > matrix to support full range BT709 YUV output, and drops the redundant
+> > (but somehow different) BT709 YUV444 vs YUV422 matrix.
+>
+> The final sentence is confusing and I didn't understand how two
+> different matrices can now be just one.
 
-> 
-> Also note that in the referenced bug there's confusion that this same
-> bug also happens on amdgpu. But that was just another amdgpu specific
-> regression, which just happened to happen at roughly the same time and
-> with the same user-observable symptons. That bug is fixed now, see
+Two changes to accommodate the hardware requirements:
 
-symptoms
+Firstly the driver was only defining
+vc5_hdmi_csc_full_rgb_to_limited_yuv444_bt709 and
+vc5_hdmi_csc_full_rgb_to_limited_yuv422_bt709. There was no matrix for
+full_rgb_to_full_yuv_bt709, so that had to be added.
 
-> https://bugzilla.kernel.org/show_bug.cgi?id=216331#c15
-> 
-> For the above reasons the cc: stable is just notionally, this patch
-> will need a backport and that's up to nvidia if they care enough.
-> 
+Secondly, for some reason when in 444 mode the hardware wants the
+matrix rows in a different order. That is why
+vc5_hdmi_csc_full_rgb_to_limited_yuv444_bt709 differed from
+vc5_hdmi_csc_full_rgb_to_limited_yuv422_bt709 - it was a simple
+reordering of the rows.
 
-Maybe adding a Fixes: ee7a69aa38d8 tag here too ?
+This patch dropped the special handling for 444, and in the process
+programmed the wrong coefficients into the hardware :-(
+Patch 6/9 then reintroduces this reordering, so really should be
+squashed into the one patch.
 
-> References: https://bugzilla.kernel.org/show_bug.cgi?id=216303#c28
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Aaron Plattner <aplattner@nvidia.com>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: <stable@vger.kernel.org> # v5.19+ (if someone else does the backport)
-> ---
->  drivers/video/aperture.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
-> index ba565515480d..a1821d369bb1 100644
-> --- a/drivers/video/aperture.c
-> +++ b/drivers/video/aperture.c
-> @@ -321,15 +321,16 @@ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *na
->  
->  	primary = pdev == vga_default_device();
->  
-> +	if (primary)
-> +		sysfb_disable();
-> +
->  	for (bar = 0; bar < PCI_STD_NUM_BARS; ++bar) {
->  		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
->  			continue;
->  
->  		base = pci_resource_start(pdev, bar);
->  		size = pci_resource_len(pdev, bar);
-> -		ret = aperture_remove_conflicting_devices(base, size, name);
-> -		if (ret)
-> -			return ret;
-> +		aperture_detach_devices(base, size);
+Looking at my more recent work, it looks like I messed up on 6/9 too.
+One of the patches on [1] corrects that row swapping for yuv444 - I
+was obviously having a bad day.
 
-Maybe mention in the commit message that you are doing this change, something like:
+Maxime: Are you OK to fix that up?
 
-"Instead of calling aperture_remove_conflicting_devices() to remove the conflicting
-devices, just call to aperture_detach_devices() to detach the device that matches
-the same PCI BAR / aperture range. Since the former is just a wrapper of the latter
-plus a sysfb_disable() call, and now that's done in this function but only for the
-primary devices"
+Thanks
 
-Patch looks good to me:
+  Dave
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+[1] https://github.com/raspberrypi/linux/pull/5249/commits
 
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+> Best regards
+> Thomas
+>
+> >
+> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+> >   drivers/gpu/drm/vc4/vc4_hdmi.c | 124 +++++++++++++++++++++-----------=
+---------
+> >   1 file changed, 63 insertions(+), 61 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_h=
+dmi.c
+> > index 51469939a8b4..299a8fe7a2ae 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > @@ -1178,68 +1178,72 @@ static void vc4_hdmi_csc_setup(struct vc4_hdmi =
+*vc4_hdmi,
+> >   }
+> >
+> >   /*
+> > - * If we need to output Full Range RGB, then use the unity matrix
+> > + * Matrices for (internal) RGB to RGB output.
+> >    *
+> > - * [ 1      0      0      0]
+> > - * [ 0      1      0      0]
+> > - * [ 0      0      1      0]
+> > - *
+> > - * Matrix is signed 2p13 fixed point, with signed 9p6 offsets
+> > - */
+> > -static const u16 vc5_hdmi_csc_full_rgb_unity[3][4] =3D {
+> > -     { 0x2000, 0x0000, 0x0000, 0x0000 },
+> > -     { 0x0000, 0x2000, 0x0000, 0x0000 },
+> > -     { 0x0000, 0x0000, 0x2000, 0x0000 },
+> > -};
+> > -
+> > -/*
+> > - * CEA VICs other than #1 require limited range RGB output unless
+> > - * overridden by an AVI infoframe. Apply a colorspace conversion to
+> > - * squash 0-255 down to 16-235. The matrix here is:
+> > - *
+> > - * [ 0.8594 0      0      16]
+> > - * [ 0      0.8594 0      16]
+> > - * [ 0      0      0.8594 16]
+> > - *
+> > - * Matrix is signed 2p13 fixed point, with signed 9p6 offsets
+> > + * Matrices are signed 2p13 fixed point, with signed 9p6 offsets
+> >    */
+> > -static const u16 vc5_hdmi_csc_full_rgb_to_limited_rgb[3][4] =3D {
+> > -     { 0x1b80, 0x0000, 0x0000, 0x0400 },
+> > -     { 0x0000, 0x1b80, 0x0000, 0x0400 },
+> > -     { 0x0000, 0x0000, 0x1b80, 0x0400 },
+> > +static const u16 vc5_hdmi_csc_full_rgb_to_rgb[2][3][4] =3D {
+> > +     {
+> > +             /*
+> > +              * Full range - unity
+> > +              *
+> > +              * [ 1      0      0      0]
+> > +              * [ 0      1      0      0]
+> > +              * [ 0      0      1      0]
+> > +              */
+> > +             { 0x2000, 0x0000, 0x0000, 0x0000 },
+> > +             { 0x0000, 0x2000, 0x0000, 0x0000 },
+> > +             { 0x0000, 0x0000, 0x2000, 0x0000 },
+> > +     },
+> > +     {
+> > +             /*
+> > +              * Limited range
+> > +              *
+> > +              * CEA VICs other than #1 require limited range RGB
+> > +              * output unless overridden by an AVI infoframe. Apply a
+> > +              * colorspace conversion to squash 0-255 down to 16-235.
+> > +              * The matrix here is:
+> > +              *
+> > +              * [ 0.8594 0      0      16]
+> > +              * [ 0      0.8594 0      16]
+> > +              * [ 0      0      0.8594 16]
+> > +              */
+> > +             { 0x1b80, 0x0000, 0x0000, 0x0400 },
+> > +             { 0x0000, 0x1b80, 0x0000, 0x0400 },
+> > +             { 0x0000, 0x0000, 0x1b80, 0x0400 },
+> > +     },
+> >   };
+> >
+> >   /*
+> > - * Conversion between Full Range RGB and Full Range YUV422 using the
+> > - * BT.709 Colorspace
+> > - *
+> > - *
+> > - * [  0.181906  0.611804  0.061758  16  ]
+> > - * [ -0.100268 -0.337232  0.437500  128 ]
+> > - * [  0.437500 -0.397386 -0.040114  128 ]
+> > - *
+> > - * Matrix is signed 2p13 fixed point, with signed 9p6 offsets
+> > - */
+> > -static const u16 vc5_hdmi_csc_full_rgb_to_limited_yuv422_bt709[3][4] =
+=3D {
+> > -     { 0x05d2, 0x1394, 0x01fa, 0x0400 },
+> > -     { 0xfccc, 0xf536, 0x0e00, 0x2000 },
+> > -     { 0x0e00, 0xf34a, 0xfeb8, 0x2000 },
+> > -};
+> > -
+> > -/*
+> > - * Conversion between Full Range RGB and Full Range YUV444 using the
+> > - * BT.709 Colorspace
+> > - *
+> > - * [ -0.100268 -0.337232  0.437500  128 ]
+> > - * [  0.437500 -0.397386 -0.040114  128 ]
+> > - * [  0.181906  0.611804  0.061758  16  ]
+> > + * Conversion between Full Range RGB and YUV using the BT.709 Colorspa=
+ce
+> >    *
+> > - * Matrix is signed 2p13 fixed point, with signed 9p6 offsets
+> > + * Matrices are signed 2p13 fixed point, with signed 9p6 offsets
+> >    */
+> > -static const u16 vc5_hdmi_csc_full_rgb_to_limited_yuv444_bt709[3][4] =
+=3D {
+> > -     { 0xfccc, 0xf536, 0x0e00, 0x2000 },
+> > -     { 0x0e00, 0xf34a, 0xfeb8, 0x2000 },
+> > -     { 0x05d2, 0x1394, 0x01fa, 0x0400 },
+> > +static const u16 vc5_hdmi_csc_full_rgb_to_yuv_bt709[2][3][4] =3D {
+> > +     {
+> > +             /*
+> > +              * Full Range
+> > +              *
+> > +              * [  0.212600  0.715200  0.072200  0   ]
+> > +              * [ -0.114572 -0.385428  0.500000  128 ]
+> > +              * [  0.500000 -0.454153 -0.045847  128 ]
+> > +              */
+> > +             { 0x06ce, 0x16e3, 0x024f, 0x0000 },
+> > +             { 0xfc56, 0xf3ac, 0x1000, 0x2000 },
+> > +             { 0x1000, 0xf179, 0xfe89, 0x2000 },
+> > +     },
+> > +     {
+> > +             /*
+> > +              * Limited Range
+> > +              *
+> > +              * [  0.181906  0.611804  0.061758  16  ]
+> > +              * [ -0.100268 -0.337232  0.437500  128 ]
+> > +              * [  0.437500 -0.397386 -0.040114  128 ]
+> > +              */
+> > +             { 0x05d2, 0x1394, 0x01fa, 0x0400 },
+> > +             { 0xfccc, 0xf536, 0x0e00, 0x2000 },
+> > +             { 0x0e00, 0xf34a, 0xfeb8, 0x2000 },
+> > +     },
+> >   };
+> >
+> >   static void vc5_hdmi_set_csc_coeffs(struct vc4_hdmi *vc4_hdmi,
+> > @@ -1262,6 +1266,7 @@ static void vc5_hdmi_csc_setup(struct vc4_hdmi *v=
+c4_hdmi,
+> >       struct drm_device *drm =3D vc4_hdmi->connector.dev;
+> >       struct vc4_hdmi_connector_state *vc4_state =3D
+> >               conn_state_to_vc4_hdmi_conn_state(state);
+> > +     unsigned int lim_range =3D vc4_hdmi_is_full_range(vc4_hdmi, mode)=
+ ? 0 : 1;
+> >       unsigned long flags;
+> >       u32 if_cfg =3D 0;
+> >       u32 if_xbar =3D 0x543210;
+> > @@ -1277,7 +1282,7 @@ static void vc5_hdmi_csc_setup(struct vc4_hdmi *v=
+c4_hdmi,
+> >
+> >       switch (vc4_state->output_format) {
+> >       case VC4_HDMI_OUTPUT_YUV444:
+> > -             vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_t=
+o_limited_yuv444_bt709);
+> > +             vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_t=
+o_yuv_bt709[lim_range]);
+> >               break;
+> >
+> >       case VC4_HDMI_OUTPUT_YUV422:
+> > @@ -1292,16 +1297,13 @@ static void vc5_hdmi_csc_setup(struct vc4_hdmi =
+*vc4_hdmi,
+> >               if_cfg |=3D VC4_SET_FIELD(VC5_DVP_HT_VEC_INTERFACE_CFG_SE=
+L_422_FORMAT_422_LEGACY,
+> >                                       VC5_DVP_HT_VEC_INTERFACE_CFG_SEL_=
+422);
+> >
+> > -             vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_t=
+o_limited_yuv422_bt709);
+> > +             vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_t=
+o_yuv_bt709[lim_range]);
+> >               break;
+> >
+> >       case VC4_HDMI_OUTPUT_RGB:
+> >               if_xbar =3D 0x354021;
+> >
+> > -             if (!vc4_hdmi_is_full_range(vc4_hdmi, mode))
+> > -                     vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_fu=
+ll_rgb_to_limited_rgb);
+> > -             else
+> > -                     vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_fu=
+ll_rgb_unity);
+> > +             vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_t=
+o_rgb[lim_range]);
+> >               break;
+> >
+> >       default:
+> >
+>
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
