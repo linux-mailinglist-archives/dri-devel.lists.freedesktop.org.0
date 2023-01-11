@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD334665C0B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 14:02:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA30665C0A
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 14:02:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62B6E10E73E;
-	Wed, 11 Jan 2023 13:02:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1C4310E73C;
+	Wed, 11 Jan 2023 13:02:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36AF310E728;
- Wed, 11 Jan 2023 13:02:17 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC84310E092;
+ Wed, 11 Jan 2023 13:02:14 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id F140A1792E;
- Wed, 11 Jan 2023 13:02:11 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 6F7E07725B;
+ Wed, 11 Jan 2023 13:02:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1673442132; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mnnBUMaN/19OrBCW4AZ01O2anzcv+W4ql08Gz6HVTFs=;
- b=2X135h/RjrMDRXXAomeh/1jDpc+SJLH+1Mx1qDs+n/NXH9coS4JKPww+vP/F+zNIHyj4Mc
- WFwzVES1N2ZfANIQDmhYcfnryjbfZ7MAF6nkSPkxoRVCuYa0swDW+NtGFcWgQbSqAy6vOD
- akWrePckbqQmmD7lyYxrw7oljvjaQtY=
+ bh=UWBPEe6YpFe509uZsCP6V7S/y2k21Y9i4CjZJQwrAUo=;
+ b=yUZqAebhnwPYIAVzUmaFOX9qDQsie0o/ruNbdAZCK+YLQAA+rNNlRYg+oWD1OiJCFKVuwy
+ 0CBHgnLvr+pPsKUp2AW7h6U5V8bKwAXpKCFZ3VL2x2hN0iiJYpLwm5zxqOE4DgJiu2TWe0
+ SIDstMPxFoLhxtdtp5+yoP0fgcqkNvU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1673442132;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mnnBUMaN/19OrBCW4AZ01O2anzcv+W4ql08Gz6HVTFs=;
- b=a4YOxsq6x7c0wDACZd6Ih0TD39uo8b3t1Xj+XMv6e3MLTAIl1ih0H2aqimIJNYMI2JZjvs
- tyhtQSZTFG0Zd6Dw==
+ bh=UWBPEe6YpFe509uZsCP6V7S/y2k21Y9i4CjZJQwrAUo=;
+ b=KPOgluwCiZ7Wd5HZJKgCR4pM8VdPV5T81HgTenxhjL+JunApd/QyQ7f/fbZ0pp00OlHmg/
+ 8SAxjLU2O/fuAbCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A7F2813591;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 00C5813594;
  Wed, 11 Jan 2023 13:02:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 4M0uKFOzvmMaXAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id UKAGO1OzvmMaXAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 11 Jan 2023 13:02:11 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
  daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  patrik.r.jakobsson@gmail.com, thierry.reding@gmail.com, sam@ravnborg.org,
  f.fainelli@gmail.com, james.qian.wang@arm.com, liviu.dudau@arm.com
-Subject: [PATCH v2 06/10] drm: Define enum mode_set_atomic in
- drm_modeset_helper_tables.h
-Date: Wed, 11 Jan 2023 14:02:02 +0100
-Message-Id: <20230111130206.29974-7-tzimmermann@suse.de>
+Subject: [PATCH v2 07/10] drm/amdgpu: Do not include <drm/drm_fb_helper.h>
+Date: Wed, 11 Jan 2023 14:02:03 +0100
+Message-Id: <20230111130206.29974-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230111130206.29974-1-tzimmermann@suse.de>
 References: <20230111130206.29974-1-tzimmermann@suse.de>
@@ -77,52 +76,65 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Define enum mode_set_atomic next to the only interface that uses
-the type. This will allow for removing several include statements
-for drm_fb_helper.h. No functional changes.
+Including <drm/drm_fb_helper.h> is not required, so remove the include
+statements. No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- include/drm/drm_fb_helper.h              | 5 -----
- include/drm/drm_modeset_helper_vtables.h | 6 +++++-
- 2 files changed, 5 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c | 1 -
+ drivers/gpu/drm/amd/amdgpu/dce_v11_0.c | 1 -
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c  | 1 -
+ drivers/gpu/drm/amd/amdgpu/dce_v8_0.c  | 1 -
+ 4 files changed, 4 deletions(-)
 
-diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-index b111dc7ada78..f443e1f11654 100644
---- a/include/drm/drm_fb_helper.h
-+++ b/include/drm/drm_fb_helper.h
-@@ -37,11 +37,6 @@ struct drm_fb_helper;
- 
- #include <drm/drm_client.h>
- 
--enum mode_set_atomic {
--	LEAVE_ATOMIC_MODE_SET,
--	ENTER_ATOMIC_MODE_SET,
--};
--
- /**
-  * struct drm_fb_helper_surface_size - describes fbdev size and scanout surface size
-  * @fb_width: fbdev width
-diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-index 77a540ad7dcd..206f495bbf06 100644
---- a/include/drm/drm_modeset_helper_vtables.h
-+++ b/include/drm/drm_modeset_helper_vtables.h
-@@ -48,10 +48,14 @@
-  * To make this clear all the helper vtables are pulled together in this location here.
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+index 248f1a4e915f..a2452fc304c5 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+@@ -21,7 +21,6 @@
+  *
   */
  
--enum mode_set_atomic;
- struct drm_writeback_connector;
- struct drm_writeback_job;
+-#include <drm/drm_fb_helper.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_vblank.h>
  
-+enum mode_set_atomic {
-+	LEAVE_ATOMIC_MODE_SET,
-+	ENTER_ATOMIC_MODE_SET,
-+};
-+
- /**
-  * struct drm_crtc_helper_funcs - helper operations for CRTCs
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+index cd9c19060d89..6ac680c4c6e2 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+@@ -21,7 +21,6 @@
   *
+  */
+ 
+-#include <drm/drm_fb_helper.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_vblank.h>
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+index 76323deecc58..354ae09cc9a2 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+@@ -23,7 +23,6 @@
+ 
+ #include <linux/pci.h>
+ 
+-#include <drm/drm_fb_helper.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_vblank.h>
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+index 01cf3ab111cb..33977b0ba19d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+@@ -21,7 +21,6 @@
+  *
+  */
+ 
+-#include <drm/drm_fb_helper.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_vblank.h>
+ 
 -- 
 2.39.0
 
