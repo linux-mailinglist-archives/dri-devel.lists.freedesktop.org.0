@@ -1,60 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D73665C12
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 14:03:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15478665C3C
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 14:14:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E860710E73F;
-	Wed, 11 Jan 2023 13:03:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74A7110E03D;
+	Wed, 11 Jan 2023 13:14:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 351B910E73B;
- Wed, 11 Jan 2023 13:03:50 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id m6so23382924lfj.11;
- Wed, 11 Jan 2023 05:03:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=E+6XZlppnJXdnt3sdk6yHFJAO7Qv6lX/rvrlIIQou+M=;
- b=l7nRoEqjPd75VI3kUnw12VBxjvC/Dl1SU7EVblfVKRMf6N58E1OdKWZJMvT8URD7Yp
- JoCkfmyNR7L8n7gUdOHOhRZpTo67IGNC9/dlmccYtAUv1unvkt/nK8/jHLWRg7F68CFQ
- /i967vs7jWuTliNH6vsWw/mqEWiYSJWSCXaRAKrRTTVEzcHuZNOLAS84+9B7H3ppIs1i
- qqVzvRLrM0s0/76YZ7lXAosyEsxGF+aq/f0VraolKx5dj2KRZNgeam0BU/kme6d0vmGk
- WJepJNlsefbgHVUvjavIlv45MtEaLAYYBsG5cmZF7daWCxnL0aneDufHojP2RDrGatpJ
- 2rSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=E+6XZlppnJXdnt3sdk6yHFJAO7Qv6lX/rvrlIIQou+M=;
- b=rvHs3mXzek8r1pJvmsDdS5jVhCVCIYrmG2z5DuJKd8uaRQBbSS4auD01S1isL9+ivc
- IowrP9apui58Hl2x9b1g6n7wj/gGdl/yctBQYIZWcDiYK4rt5Qo46HeOcmWHxFKJNXy0
- AROcfgwKIYEdaZs3WYpg4JmZ3iayOCx7Htj7m9ojCytcC9vBtxRIgxEVWmYENzrHDEYd
- TEu4cv60ixwCm3QxqddVJBi9q03zD03LcM3UBvrajdfaKtTvdwQ5I7SpcBueYJQe6M9V
- 392Z6UOonboEwnspp4jUq1sC96EpLia0AZRP0BbK+MBS+xyeBM31oZi5wL/oKbX5dGw+
- hGVg==
-X-Gm-Message-State: AFqh2kqg+tthUMmhgBVqpy82Gkd0a06/x7E8HuyC3Nfe8M1/dzZJTgSv
- OVT4m3KwMaF89zz+czKeeIK053pzlQnGYUV3Ag0=
-X-Google-Smtp-Source: AMrXdXsYCkQHZBWiFlLEgt+FNB2/eaSAgtt5QzE72Xfcw0XOuhl2YC//YglNYKV/hbexNgZZV3M/geQNYtvsubAEaCU=
-X-Received: by 2002:a05:6512:370e:b0:4b5:8719:6095 with SMTP id
- z14-20020a056512370e00b004b587196095mr7688792lfr.636.1673442228338; Wed, 11
- Jan 2023 05:03:48 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B89D510E03D
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 13:14:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=A9iiTENxDlw0e16Q73BGVMcJmKGeqt95wCmQBGcLoKI=; b=O8AfmhqIPcL7ZXlALIB5q212GP
+ hDdoewjwqSYMQVlX/5eHPM6omLOB8ryuVyJIMEGTQvo/QIMiR+AVnRTp93jn47Q1VKLIx+UoV9K/J
+ 8CBR7e8F9yYhq2NECYdDEsA7TmCS8OPE7T9smGGaEnlRnGx2UVhjyLolHa0DHAccNZIpCINwBQo5x
+ g7sm46Re+IA4bSOxc0Qd/S93Uh+H9zpmvHupHbZKUgZ/RXzQczwHqrBjU0NQd/KWeo2yc2JWEKHSc
+ cQPpqwiTIWPFBPb69QDlR3RYSCsC90fwcCoVLo9l43ToIx5AdarENxun5cTpYCYXoNIkpe6+7IocW
+ /Y9bkMHw==;
+Received: from [187.36.234.139] (helo=bowie..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pFavu-005JJ5-1M; Wed, 11 Jan 2023 14:14:22 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3] drm/vkms: reintroduce prepare_fb and cleanup_fb functions
+Date: Wed, 11 Jan 2023 10:13:05 -0300
+Message-Id: <20230111131304.106039-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <20230111114256.72669-1-christian.koenig@amd.com>
- <20230111114256.72669-2-christian.koenig@amd.com>
-In-Reply-To: <20230111114256.72669-2-christian.koenig@amd.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Wed, 11 Jan 2023 13:03:20 +0000
-Message-ID: <CAM0jSHP=LT5mXEFvXWJGPOotgRBBLFe-Pw=4TTHYWo=Maov_uA@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/ttm: replace busy placement with flags
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,203 +52,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Melissa Wen <mwen@igalia.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 11 Jan 2023 at 11:43, Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Instead of a list of separate busy placement add flags which indicate
-> that a placement should only be used when there is room or if we need to
-> evict.
->
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |   6 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  11 +-
->  drivers/gpu/drm/drm_gem_vram_helper.c      |   2 -
->  drivers/gpu/drm/i915/gem/i915_gem_ttm.c    |  36 +++---
->  drivers/gpu/drm/nouveau/nouveau_bo.c       |  59 ++++------
->  drivers/gpu/drm/nouveau/nouveau_bo.h       |   1 -
->  drivers/gpu/drm/qxl/qxl_object.c           |   2 -
->  drivers/gpu/drm/qxl/qxl_ttm.c              |   2 -
->  drivers/gpu/drm/radeon/radeon_object.c     |   2 -
->  drivers/gpu/drm/radeon/radeon_ttm.c        |   8 +-
->  drivers/gpu/drm/radeon/radeon_uvd.c        |   1 -
->  drivers/gpu/drm/ttm/ttm_bo.c               |  21 ++--
->  drivers/gpu/drm/ttm/ttm_resource.c         |  73 +++----------
->  drivers/gpu/drm/vmwgfx/vmwgfx_bo.c         |   2 -
->  drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 121 ++++++++++-----------
->  include/drm/ttm/ttm_placement.h            |  10 +-
->  include/drm/ttm/ttm_resource.h             |   8 +-
->  17 files changed, 134 insertions(+), 231 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm=
-/amd/amdgpu/amdgpu_object.c
-> index 974e85d8b6cc..0995a2f41305 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> @@ -201,9 +201,6 @@ void amdgpu_bo_placement_from_domain(struct amdgpu_bo=
- *abo, u32 domain)
->
->         placement->num_placement =3D c;
->         placement->placement =3D places;
-> -
-> -       placement->num_busy_placement =3D c;
-> -       placement->busy_placement =3D places;
->  }
->
->  /**
-> @@ -1369,8 +1366,7 @@ vm_fault_t amdgpu_bo_fault_reserve_notify(struct tt=
-m_buffer_object *bo)
->                                         AMDGPU_GEM_DOMAIN_GTT);
->
->         /* Avoid costly evictions; only set GTT as a busy placement */
-> -       abo->placement.num_busy_placement =3D 1;
-> -       abo->placement.busy_placement =3D &abo->placements[1];
-> +       abo->placements[0].flags |=3D TTM_PL_FLAG_IDLE;
->
->         r =3D ttm_bo_validate(bo, &abo->placement, &ctx);
->         if (unlikely(r =3D=3D -EBUSY || r =3D=3D -ERESTARTSYS))
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_ttm.c
-> index 677cd7d91687..33cf6e835a68 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -104,23 +104,19 @@ static void amdgpu_evict_flags(struct ttm_buffer_ob=
-ject *bo,
->         /* Don't handle scatter gather BOs */
->         if (bo->type =3D=3D ttm_bo_type_sg) {
->                 placement->num_placement =3D 0;
-> -               placement->num_busy_placement =3D 0;
->                 return;
->         }
->
->         /* Object isn't an AMDGPU object so ignore */
->         if (!amdgpu_bo_is_amdgpu_bo(bo)) {
->                 placement->placement =3D &placements;
-> -               placement->busy_placement =3D &placements;
->                 placement->num_placement =3D 1;
-> -               placement->num_busy_placement =3D 1;
->                 return;
->         }
->
->         abo =3D ttm_to_amdgpu_bo(bo);
->         if (abo->flags & AMDGPU_GEM_CREATE_DISCARDABLE) {
->                 placement->num_placement =3D 0;
-> -               placement->num_busy_placement =3D 0;
->                 return;
->         }
->
-> @@ -129,13 +125,13 @@ static void amdgpu_evict_flags(struct ttm_buffer_ob=
-ject *bo,
->         case AMDGPU_PL_GWS:
->         case AMDGPU_PL_OA:
->                 placement->num_placement =3D 0;
-> -               placement->num_busy_placement =3D 0;
->                 return;
->
->         case TTM_PL_VRAM:
->                 if (!adev->mman.buffer_funcs_enabled) {
->                         /* Move to system memory */
->                         amdgpu_bo_placement_from_domain(abo, AMDGPU_GEM_D=
-OMAIN_CPU);
-> +
->                 } else if (!amdgpu_gmc_vram_full_visible(&adev->gmc) &&
->                            !(abo->flags & AMDGPU_GEM_CREATE_CPU_ACCESS_RE=
-QUIRED) &&
->                            amdgpu_bo_in_cpu_visible_vram(abo)) {
-> @@ -150,8 +146,7 @@ static void amdgpu_evict_flags(struct ttm_buffer_obje=
-ct *bo,
->                                                         AMDGPU_GEM_DOMAIN=
-_CPU);
->                         abo->placements[0].fpfn =3D adev->gmc.visible_vra=
-m_size >> PAGE_SHIFT;
->                         abo->placements[0].lpfn =3D 0;
-> -                       abo->placement.busy_placement =3D &abo->placement=
-s[1];
-> -                       abo->placement.num_busy_placement =3D 1;
-> +                       abo->placements[0].flags |=3D TTM_PL_FLAG_IDLE;
->                 } else {
->                         /* Move to GTT memory */
->                         amdgpu_bo_placement_from_domain(abo, AMDGPU_GEM_D=
-OMAIN_GTT |
-> @@ -923,8 +918,6 @@ int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *b=
-o)
->         /* allocate GART space */
->         placement.num_placement =3D 1;
->         placement.placement =3D &placements;
-> -       placement.num_busy_placement =3D 1;
-> -       placement.busy_placement =3D &placements;
->         placements.fpfn =3D 0;
->         placements.lpfn =3D adev->gmc.gart_size >> PAGE_SHIFT;
->         placements.mem_type =3D TTM_PL_TT;
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_=
-gem_vram_helper.c
-> index d40b3edb52d0..f46792b757f9 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -147,7 +147,6 @@ static void drm_gem_vram_placement(struct drm_gem_vra=
-m_object *gbo,
->                 invariant_flags =3D TTM_PL_FLAG_TOPDOWN;
->
->         gbo->placement.placement =3D gbo->placements;
-> -       gbo->placement.busy_placement =3D gbo->placements;
->
->         if (pl_flag & DRM_GEM_VRAM_PL_FLAG_VRAM) {
->                 gbo->placements[c].mem_type =3D TTM_PL_VRAM;
-> @@ -160,7 +159,6 @@ static void drm_gem_vram_placement(struct drm_gem_vra=
-m_object *gbo,
->         }
->
->         gbo->placement.num_placement =3D c;
-> -       gbo->placement.num_busy_placement =3D c;
->
->         for (i =3D 0; i < c; ++i) {
->                 gbo->placements[i].fpfn =3D 0;
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i9=
-15/gem/i915_gem_ttm.c
-> index d409a77449a3..dc483d601cf9 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -65,8 +65,6 @@ static const struct ttm_place sys_placement_flags =3D {
->  static struct ttm_placement i915_sys_placement =3D {
->         .num_placement =3D 1,
->         .placement =3D &sys_placement_flags,
-> -       .num_busy_placement =3D 1,
-> -       .busy_placement =3D &sys_placement_flags,
->  };
->
->  /**
-> @@ -154,32 +152,27 @@ i915_ttm_place_from_region(const struct intel_memor=
-y_region *mr,
->
->  static void
->  i915_ttm_placement_from_obj(const struct drm_i915_gem_object *obj,
-> -                           struct ttm_place *requested,
-> -                           struct ttm_place *busy,
-> +                           struct ttm_place *places,
->                             struct ttm_placement *placement)
->  {
->         unsigned int num_allowed =3D obj->mm.n_placements;
->         unsigned int flags =3D obj->flags;
->         unsigned int i;
->
-> -       placement->num_placement =3D 1;
->         i915_ttm_place_from_region(num_allowed ? obj->mm.placements[0] :
-> -                                  obj->mm.region, requested, obj->bo_off=
-set,
-> +                                  obj->mm.region, &places[0], obj->bo_of=
-fset,
->                                    obj->base.size, flags);
+With commit 359c6649cd9a ("drm/gem: Implement shadow-plane {begin,
+end}_fb_access with vmap"), the behavior of the shadow-plane helpers
+changed and the vunmap is now performed at the end of
+the current pageflip, instead of the end of the following pageflip.
 
-Do we also need places[0].flags |=3D TTM_PL_FLAG_IDLE somewhere here?
+By performing the vunmap at the end of the current pageflip, invalid
+memory is accessed by the vkms during the plane composition, as the data
+is being unmapped before being used, as reported by the following
+warning:
 
-Series doesn't seem to apply to drm-tip, so no intel-gfx CI. Would it
-be possible to have a version that applies to drm-tip, just so we can
-verify the i915 bits? We could send it to trybot[1] just to get some
-CI results?
+ [  275.866047] BUG: unable to handle page fault for address: ffffb382814e8002
+ [  275.866055] #PF: supervisor read access in kernel mode
+ [  275.866058] #PF: error_code(0x0000) - not-present page
+ [  275.866061] PGD 1000067 P4D 1000067 PUD 110a067 PMD 46e3067 PTE 0
+ [  275.866066] Oops: 0000 [#1] PREEMPT SMP PTI
+ [  275.866070] CPU: 2 PID: 49 Comm: kworker/u8:2 Not tainted 6.1.0-rc6-00018-gb357e7ac1b73-dirty #54
+ [  275.866074] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.1-2.fc37 04/01/2014
+ [  275.866076] Workqueue: vkms_composer vkms_composer_worker [vkms]
+ [  275.866084] RIP: 0010:XRGB8888_to_argb_u16+0x5c/0xa0 [vkms]
+ [  275.866092] Code: bf 56 0a 0f af 56 70 48 8b 76 28 01 ca 49 83 f8 02
+ 41 b9 01 00 00 00 4d 0f 43 c8 48 01 f2 48 83 c2 02 31 f6 66 c7 04 f0 ff
+ ff <0f> b6 0c b2 89 cf c1 e7 08 09 cf 66 89 7c f0 02 0f b6 4c b2 ff 89
+ [  275.866095] RSP: 0018:ffffb382801b7db0 EFLAGS: 00010246
+ [  275.866098] RAX: ffff896336ace000 RBX: ffff896310e293c0 RCX: 0000000000000000
+ [  275.866101] RDX: ffffb382814e8002 RSI: 0000000000000000 RDI: ffffb382801b7de8
+ [  275.866103] RBP: 0000000000001400 R08: 0000000000000280 R09: 0000000000000280
+ [  275.866105] R10: 0000000000000010 R11: ffffffffc011d990 R12: ffff896302a1ece0
+ [  275.866107] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000080008001
+ [  275.866109] FS:  0000000000000000(0000) GS:ffff89637dd00000(0000) knlGS:0000000000000000
+ [  275.866112] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+ [  275.866114] CR2: ffffb382814e8002 CR3: 0000000003bb4000 CR4: 00000000000006e0
+ [  275.866120] Call Trace:
+ [  275.866123]  <TASK>
+ [  275.866124]  compose_active_planes+0x1c4/0x380 [vkms]
+ [  275.866132]  vkms_composer_worker+0x9f/0x130 [vkms]
+ [  275.866139]  process_one_work+0x1c0/0x370
+ [  275.866160]  worker_thread+0x221/0x410
+ [  275.866164]  ? worker_clr_flags+0x50/0x50
+ [  275.866167]  kthread+0xe1/0x100
+ [  275.866172]  ? kthread_blkcg+0x30/0x30
+ [  275.866176]  ret_from_fork+0x22/0x30
+ [  275.866181]  </TASK>
+ [  275.866182] Modules linked in: vkms
+ [  275.866186] CR2: ffffb382814e8002
+ [  275.866191] ---[ end trace 0000000000000000 ]---
 
-[1] https://patchwork.freedesktop.org/project/intel-gfx-trybot/series/?orde=
-ring=3D-last_updated
+Therefore, introduce again prepare_fb and cleanup_fb functions to the
+vkms, which were previously removed on commit b43e2ec03b0d ("drm/vkms:
+Let shadow-plane helpers prepare the plane's FB").
+
+Fixes: 359c6649cd9a ("drm/gem: Implement shadow-plane {begin, end}_fb_access with vmap")
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+---
+v1 -> v2: https://lore.kernel.org/dri-devel/19951367-2ef0-0f26-ddf0-893259d9a5ef@igalia.com/T/
+
+- Add kernel oops to the commit description (Melissa Wen).
+- s/introduce/reintroduce/ in the title (Melissa Wen).
+- Add Thomas's Acked-by.
+
+v2 -> v3: https://lore.kernel.org/dri-devel/20230106115759.213710-1-mcanal@igalia.com/T/
+
+- Add Daniel's Reviewed-by.
+- Resend patch due to corrupted mailbox.
+---
+ drivers/gpu/drm/vkms/vkms_plane.c | 36 ++++++++++++++++++++++++++++++-
+ 1 file changed, 35 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index c3a845220e10..b3f8a115cc23 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -160,10 +160,44 @@ static int vkms_plane_atomic_check(struct drm_plane *plane,
+ 	return 0;
+ }
+ 
++static int vkms_prepare_fb(struct drm_plane *plane,
++			   struct drm_plane_state *state)
++{
++	struct drm_shadow_plane_state *shadow_plane_state;
++	struct drm_framebuffer *fb = state->fb;
++	int ret;
++
++	if (!fb)
++		return 0;
++
++	shadow_plane_state = to_drm_shadow_plane_state(state);
++
++	ret = drm_gem_plane_helper_prepare_fb(plane, state);
++	if (ret)
++		return ret;
++
++	return drm_gem_fb_vmap(fb, shadow_plane_state->map, shadow_plane_state->data);
++}
++
++static void vkms_cleanup_fb(struct drm_plane *plane,
++			    struct drm_plane_state *state)
++{
++	struct drm_shadow_plane_state *shadow_plane_state;
++	struct drm_framebuffer *fb = state->fb;
++
++	if (!fb)
++		return;
++
++	shadow_plane_state = to_drm_shadow_plane_state(state);
++
++	drm_gem_fb_vunmap(fb, shadow_plane_state->map);
++}
++
+ static const struct drm_plane_helper_funcs vkms_primary_helper_funcs = {
+ 	.atomic_update		= vkms_plane_atomic_update,
+ 	.atomic_check		= vkms_plane_atomic_check,
+-	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
++	.prepare_fb		= vkms_prepare_fb,
++	.cleanup_fb		= vkms_cleanup_fb,
+ };
+ 
+ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+-- 
+2.39.0
+
