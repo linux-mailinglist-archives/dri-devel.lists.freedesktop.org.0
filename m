@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38ED766614F
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 18:02:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D01666156
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 18:05:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8324D10E7A6;
-	Wed, 11 Jan 2023 17:02:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54EAA10E7A7;
+	Wed, 11 Jan 2023 17:05:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C4B710E7A7
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 17:02:30 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id h16so15711232wrz.12
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 09:02:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D240E10E7A7
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 17:05:10 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id c6so17439726pls.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 09:05:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=b1AAzENehsPYWw2Oaedh0crDw1m6Zs6gd5zh20RGn1E=;
- b=FwUOD+wCpn9aORxQQ9IZFC80gkiq974021pW37TQW8dMSa0nBryG+Y9/ufYw40yYdd
- cfc8QrFcpiw45eaM4QhmQ4Qnd6Y6CSQc3mItEfUbZAZTZ2xylQ3/t1zOMXREjJ2V3BOd
- 05hSUiPmq2+ZbXFl2jn/CbytxTD/EGeYakr6M=
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=oDP9iHBz114gTPVon7+29iOp7H+9gVmvkP1sBBtZVDA=;
+ b=fJF1iA21Eh2Ps4YUG5BTSRAlKr8ewtW0a/S0d61RuFJnx5BLNsRr7So6UdDtgMe5iG
+ 9WBXJelltOenGOc6m7LAPpTpasCUh002+Mfoi87hGTXHAlo79u5Y2689VNmCUoB+ZNEq
+ nXnke2ST7CeYJdq2c1cv0FMX5oao34vkAePIjWt/a8zU5K2gUR1hauI8esZEUaq2mB0H
+ U3VrTTIgxzQp3MLFL+Z2FLi0rgquIKmfcqQ/FT8djk+IryiB6xlR2CAQLi4A6IAMGPnF
+ mSczaPgLDxyVlW0K0mBBzgVzeTlYMuLmooheNK8bJaqkobZ1NkpWcuu43dnrCB9TiyeE
+ es6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=b1AAzENehsPYWw2Oaedh0crDw1m6Zs6gd5zh20RGn1E=;
- b=75HhCHuGpRnaGWFwZWmnmgNleAbsab+cTSGlc3wtPa6B0+Lm4NpBCq1JSJhCGZql8v
- t1Zbg9wBCHSU7VNTBDiTHPNJDlF+ZiAx4VklPfa62XYG+ee4b5kXrkjl7akIz4zzGvHo
- +mofXpEKSa9fSkWNC2agA55K/QU/gyIq+dks8TAGdgOEDfosdyotpLJ6s55EY8k6zQzB
- Tk9Dc9eLof9s15rcKP74/MdWbymmLRS4VBmpzMSnX6Kzqc2lAEaWHi820c0931GzZQlm
- YEpfOiDCvFUCsNcO79mh/r4U4Iuy6ATbjKGZw3+kzvBHKzJ4FDI04SmHfg5v5RVYhOpR
- Nw3g==
-X-Gm-Message-State: AFqh2krBX4bRi5PiAWU33tAW0zRTgD8KOCHwdCaAwyxi/okRnkccZu3E
- c8g0lGDCZmbXWDIhCj9iRT4/gg==
-X-Google-Smtp-Source: AMrXdXtPPt+JpFASCNzf+qFF6+k8bl3HIp6rRi4y8P9mKZ6UBLFtd1bgk1B/AByfIzGUc7gGYAO2BA==
-X-Received: by 2002:a5d:48c6:0:b0:242:844a:835d with SMTP id
- p6-20020a5d48c6000000b00242844a835dmr41453252wrs.65.1673456549060; 
- Wed, 11 Jan 2023 09:02:29 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- n16-20020a5d4010000000b002bbed1388a5sm8972510wrp.15.2023.01.11.09.02.27
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oDP9iHBz114gTPVon7+29iOp7H+9gVmvkP1sBBtZVDA=;
+ b=38LCxzzmlaVrp5WXeVWM3+dXU6UIXHQdObYOCt3AT8dEe0quEGy99DXOk0nLSUQQOK
+ Ut7vzJGm4AyJP3kjitn/KTpxMBQv41+6V8L8AAnnBoxP1Z3E4wmRSyDbSL8N8EKs5dxz
+ 8kHZkqIMa5BXNM/9K2UfwrU95rJ/4qV+muKWa2+IP1neCPSmq6vQZjIcHyxo4x/Aqs0w
+ /7iYIRsynSGkyxV5gD065APQ2PIbDk8d6Pn84oist/pjOvQ+69DQS8mgdPGtdMF/7YEE
+ jyNO8pmlP1ySSxpbNx+C9yoDDVx+Iy7NKIIpsODKaqNbYsI+bIEVygFnm7VANQyiWXo6
+ 4tQA==
+X-Gm-Message-State: AFqh2kovFrMjcjWp3YJxjaF4t18D8CDDVSXYje6vBauwN+NtLEJ1GoXK
+ Lw2MJn1i/wivioyjGHH6fbNjEQ==
+X-Google-Smtp-Source: AMrXdXvW3zNVUD8bGcENqOAYjNvZPQigzdhvIDDoRaz3qi0HGFDLAJOGIn22pNrZ1lJH0/9OE/PhFQ==
+X-Received: by 2002:a17:90b:274b:b0:219:f970:5119 with SMTP id
+ qi11-20020a17090b274b00b00219f9705119mr425092pjb.1.1673456710117; 
+ Wed, 11 Jan 2023 09:05:10 -0800 (PST)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com.
+ [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
+ l17-20020a170903245100b001890cbd1ff1sm10482685pls.149.2023.01.11.09.05.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Jan 2023 09:02:28 -0800 (PST)
-Date: Wed, 11 Jan 2023 18:02:26 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 01/11] drm/ast: Use
- drm_aperture_remove_conflicting_pci_framebuffers
-Message-ID: <Y77rol9OibGAzgJk@phenom.ffwll.local>
-Mail-Followup-To: Thomas Zimmermann <tzimmermann@suse.de>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dave Airlie <airlied@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org
-References: <20230111154112.90575-1-daniel.vetter@ffwll.ch>
- <1118bbfc-16f2-a65c-0dd0-ccc0e42e13c1@suse.de>
+ Wed, 11 Jan 2023 09:05:09 -0800 (PST)
+Date: Wed, 11 Jan 2023 17:05:05 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH v1] drm/ttm: Refcount allocated tail pages
+Message-ID: <Y77sQZI0IfFVx7Jo@google.com>
+References: <8f749cd0-9a04-7c72-6a4f-a42d501e1489@amd.com>
+ <5340d876-62b8-8a64-aa6d-7736c2c8710f@collabora.com>
+ <594f1013-b925-3c75-be61-2d649f5ca54e@amd.com>
+ <6893d5e9-4b60-0efb-2a87-698b1bcda63e@collabora.com>
+ <73e5ed8d-0d25-7d44-8fa2-e1d61b1f5a04@amd.com>
+ <c9d89644-409e-0363-69f0-a3b8f2ef0ae4@collabora.com>
+ <6effcd33-8cc3-a4e0-3608-b9cef7a76da7@collabora.com>
+ <ff28e1b4-cda2-14b8-b9bf-10706ae52cac@collabora.com>
+ <48b5dd12-b0df-3cc6-a72d-f35156679844@collabora.com>
+ <b1963713-4df6-956f-c16f-81a0cf1a978b@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1118bbfc-16f2-a65c-0dd0-ccc0e42e13c1@suse.de>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+In-Reply-To: <b1963713-4df6-956f-c16f-81a0cf1a978b@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,87 +81,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Dave Airlie <airlied@redhat.com>,
- Helge Deller <deller@gmx.de>
+Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>, kvm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>,
+ Antonio Caggiano <antonio.caggiano@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Gert Wollny <gert.wollny@collabora.com>, Huang Rui <ray.huang@amd.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Dmitry Osipenko <digetx@gmail.com>,
+ kernel@collabora.com, virtualization@lists.linux-foundation.org,
+ Trigger Huang <Trigger.Huang@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 11, 2023 at 04:48:39PM +0100, Thomas Zimmermann wrote:
-> Hi
+On Thu, Aug 18, 2022, Christian König wrote:
+> Am 18.08.22 um 01:13 schrieb Dmitry Osipenko:
+> > On 8/18/22 01:57, Dmitry Osipenko wrote:
+> > > On 8/15/22 18:54, Dmitry Osipenko wrote:
+> > > > On 8/15/22 17:57, Dmitry Osipenko wrote:
+> > > > > On 8/15/22 16:53, Christian König wrote:
+> > > > > > Am 15.08.22 um 15:45 schrieb Dmitry Osipenko:
+> > > > > > > [SNIP]
+> > > > > > > > Well that comment sounds like KVM is doing the right thing, so I'm
+> > > > > > > > wondering what exactly is going on here.
+> > > > > > > KVM actually doesn't hold the page reference, it takes the temporal
+> > > > > > > reference during page fault and then drops the reference once page is
+> > > > > > > mapped, IIUC. Is it still illegal for TTM? Or there is a possibility for
+> > > > > > > a race condition here?
+> > > > > > > 
+> > > > > > Well the question is why does KVM grab the page reference in the first
+> > > > > > place?
+> > > > > > 
+> > > > > > If that is to prevent the mapping from changing then yes that's illegal
+> > > > > > and won't work. It can always happen that you grab the address, solve
+> > > > > > the fault and then immediately fault again because the address you just
+> > > > > > grabbed is invalidated.
+> > > > > > 
+> > > > > > If it's for some other reason than we should probably investigate if we
+> > > > > > shouldn't stop doing this.
+
+...
+
+> > > > If we need to bump the refcount only for VM_MIXEDMAP and not for
+> > > > VM_PFNMAP, then perhaps we could add a flag for that to the kvm_main
+> > > > code that will denote to kvm_release_page_clean whether it needs to put
+> > > > the page?
+> > > The other variant that kind of works is to mark TTM pages reserved using
+> > > SetPageReserved/ClearPageReserved, telling KVM not to mess with the page
+> > > struct. But the potential consequences of doing this are unclear to me.
+> > > 
+> > > Christian, do you think we can do it?
+> > Although, no. It also doesn't work with KVM without additional changes
+> > to KVM.
 > 
-> Am 11.01.23 um 16:41 schrieb Daniel Vetter:
-> > It's just open coded and matches.
-> > 
-> > Note that Thomas said that his version apparently failed for some
-> > reason, but hey maybe we should try again.
+> Well my fundamental problem is that I can't fit together why KVM is grabing
+> a page reference in the first place.
+
+It's to workaround a deficiency in KVM.
+
+> See the idea of the page reference is that you have one reference is that
+> you count the reference so that the memory is not reused while you access
+> it, e.g. for I/O or mapping it into different address spaces etc...
 > 
-> I'll give this patch a test tomorrow.
+> But none of those use cases seem to apply to KVM. If I'm not totally
+> mistaken in KVM you want to make sure that the address space mapping, e.g.
+> the translation between virtual and physical address, don't change while you
+> handle it, but grabbing a page reference is the completely wrong approach
+> for that.
 
-Thanks a lot!
--Daniel
+TL;DR: 100% agree, and we're working on fixing this in KVM, but were still months
+away from a full solution.
 
-> 
-> Best regards
-> Thomas
-> 
-> > 
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Dave Airlie <airlied@redhat.com>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Javier Martinez Canillas <javierm@redhat.com>
-> > Cc: Helge Deller <deller@gmx.de>
-> > Cc: linux-fbdev@vger.kernel.org
-> > ---
-> >   drivers/gpu/drm/ast/ast_drv.c | 16 +---------------
-> >   1 file changed, 1 insertion(+), 15 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-> > index 420fc75c240e..3ac24a780f50 100644
-> > --- a/drivers/gpu/drm/ast/ast_drv.c
-> > +++ b/drivers/gpu/drm/ast/ast_drv.c
-> > @@ -90,27 +90,13 @@ static const struct pci_device_id ast_pciidlist[] = {
-> >   MODULE_DEVICE_TABLE(pci, ast_pciidlist);
-> > -static int ast_remove_conflicting_framebuffers(struct pci_dev *pdev)
-> > -{
-> > -	bool primary = false;
-> > -	resource_size_t base, size;
-> > -
-> > -	base = pci_resource_start(pdev, 0);
-> > -	size = pci_resource_len(pdev, 0);
-> > -#ifdef CONFIG_X86
-> > -	primary = pdev->resource[PCI_ROM_RESOURCE].flags & IORESOURCE_ROM_SHADOW;
-> > -#endif
-> > -
-> > -	return drm_aperture_remove_conflicting_framebuffers(base, size, primary, &ast_driver);
-> > -}
-> > -
-> >   static int ast_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-> >   {
-> >   	struct ast_private *ast;
-> >   	struct drm_device *dev;
-> >   	int ret;
-> > -	ret = ast_remove_conflicting_framebuffers(pdev);
-> > +	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, &ast_driver);
-> >   	if (ret)
-> >   		return ret;
-> 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 Nürnberg, Germany
-> (HRB 36809, AG Nürnberg)
-> Geschäftsführer: Ivo Totev
+Yep.  KVM uses mmu_notifiers to react to mapping changes, with a few caveats that
+we are (slowly) fixing, though those caveats are only tangentially related.
 
+The deficiency in KVM is that KVM's internal APIs to translate a virtual address
+to a physical address spit out only the resulting host PFN.  The details of _how_
+that PFN was acquired are not captured.  Specifically, KVM loses track of whether
+or not a PFN was acquired via gup() or follow_pte() (KVM is very permissive when
+it comes to backing guest memory).
 
+Because gup() gifts the caller a reference, that means KVM also loses track of
+whether or not KVM holds a page refcount.  To avoid pinning guest memory, KVM does
+quickly put the reference gifted by gup(), but because KVM doesn't _know_ if it
+holds a reference, KVM uses a heuristic, which is essentially "is the PFN associated
+with a 'normal' struct page?".
 
+   /*
+    * Returns a 'struct page' if the pfn is "valid" and backed by a refcounted
+    * page, NULL otherwise.  Note, the list of refcounted PG_reserved page types
+    * is likely incomplete, it has been compiled purely through people wanting to
+    * back guest with a certain type of memory and encountering issues.
+    */
+   struct page *kvm_pfn_to_refcounted_page(kvm_pfn_t pfn)
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+That heuristic also triggers if follow_pte() resolves to a PFN that is associated
+with a "struct page", and so to avoid putting a reference it doesn't own, KVM does
+the silly thing of manually getting a reference immediately after follow_pte().
+
+And that in turn gets tripped up non-refcounted tail pages because KVM sees a
+normal, valid "struct page" and assumes it's refcounted.  To fudge around that
+issue, KVM requires "struct page" memory to be refcounted.
+
+The long-term solution is to refactor KVM to precisely track whether or not KVM
+holds a reference.  Patches have been prosposed to do exactly that[1], but they
+were put on hold due to the aforementioned caveats with mmu_notifiers.  The
+caveats are that most flows where KVM plumbs a physical address into hardware
+structures aren't wired up to KVM's mmu_notifier.
+
+KVM could support non-refcounted struct page memory without first fixing the
+mmu_notifier issues, but I was (and still am) concerned that that would create an
+even larger hole in KVM until the mmu_notifier issues are sorted out[2].
+ 
+[1] https://lore.kernel.org/all/20211129034317.2964790-1-stevensd@google.com
+[2] https://lore.kernel.org/all/Ydhq5aHW+JFo15UF@google.com
