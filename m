@@ -2,64 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A67CB665EAB
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 16:04:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E04F9665EAE
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 16:04:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BD0D10E084;
-	Wed, 11 Jan 2023 15:03:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30BF810E2AE;
+	Wed, 11 Jan 2023 15:04:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DEF110E03A
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 15:03:55 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 12C3D17CEA;
- Wed, 11 Jan 2023 15:03:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673449434; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7TzLZNQFTvwc7jBuhHXpIa7rHO8v1WhiLG2ksbWj6nE=;
- b=cLlKPy1diq3BSeyt8CK+1+Or5dM3e63BA18ELI+A9aX7ZldMzc0rnLV8rMYaK9k3idFstP
- eAJVonrwx2IYM6WI7pEXp4biW4PfklxnoqL5TdOT7Dc3IGvMmlRDEe77EmBeRPayNtu1ZX
- /m1OUiLeWQo8oM6vWYItJ4i/v/nZySI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673449434;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7TzLZNQFTvwc7jBuhHXpIa7rHO8v1WhiLG2ksbWj6nE=;
- b=3sj+Yd+Cu1PjiWqNsbzp05nZ/jB9efAPeCNQzXToAlG+d0LbB7b3K3SNFh9ClFCUC8tPNk
- k/JnfXTnhca0ZiCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DE77513591;
- Wed, 11 Jan 2023 15:03:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id HsJ+NdnPvmMRJgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 11 Jan 2023 15:03:53 +0000
-Message-ID: <5394a702-20ef-bada-4731-b720b810998d@suse.de>
-Date: Wed, 11 Jan 2023 16:03:53 +0100
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A64A10E1A7;
+ Wed, 11 Jan 2023 15:04:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+ t=1673449442; bh=hHfeLLlxtRVc9j6XU7XMcGMbGaTP5MTrvlJVfflhAEg=;
+ h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+ MIME-Version:Content-Type:In-Reply-To;
+ b=NaZx9DtpQVdCqYEsczMRdJisFlGeZrkdzSp0EOUWk4MfbjhUHoA2dqqSwwfBdxYST
+ 9+zVkykUgmMOIGG8V56XkiXeOr1G/SdUdHi1NCSlD8d5zRWXrpOmEu8UZxE9Todt8t
+ e2VCgxIzTTQym8LUdccJGX8kBsLR09yHsnDaxkYg=
+Received: by b-4.in.mailobj.net [192.168.90.14] with ESMTP
+ via ip-206.mailobj.net [213.182.55.206]
+ Wed, 11 Jan 2023 16:04:02 +0100 (CET)
+X-EA-Auth: NVX+7xJ9Eon+OnT0XqpyiBk4Z23i8U+cXRoqDHDZd43XT5I6Z5b4CuP7iDq4sK+2OoL+o8JAW0IKCNe2bItM/NAV/xBXGGc9
+Date: Wed, 11 Jan 2023 20:33:57 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH v2 2/2] drm/i915/fbc: Avoid full proxy f_ops for FBC
+ debug attributes
+Message-ID: <Y77P3Qt7P9BRMlco@ubun2204.myguest.virtualbox.org>
+References: <cover.1673343994.git.drv@mailo.com>
+ <a4200ae1de7324fcddac201009a43571d0a72104.1673343994.git.drv@mailo.com>
+ <Y72z1T1bifo3YpSR@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 5/9] drm/vc4: hdmi: Rework the CSC matrices organization
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>, Emma Anholt <emma@anholt.net>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20221207-rpi-hdmi-improvements-v1-0-6b15f774c13a@cerno.tech>
- <20221207-rpi-hdmi-improvements-v1-5-6b15f774c13a@cerno.tech>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20221207-rpi-hdmi-improvements-v1-5-6b15f774c13a@cerno.tech>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------vx8VTtAbVQXrbWYqz8er00VG"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y72z1T1bifo3YpSR@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,188 +48,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>,
+ Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------vx8VTtAbVQXrbWYqz8er00VG
-Content-Type: multipart/mixed; boundary="------------MRqtCOC0Ih2z4a23xyzGMdqC";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>, Emma Anholt <emma@anholt.net>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-Message-ID: <5394a702-20ef-bada-4731-b720b810998d@suse.de>
-Subject: Re: [PATCH 5/9] drm/vc4: hdmi: Rework the CSC matrices organization
-References: <20221207-rpi-hdmi-improvements-v1-0-6b15f774c13a@cerno.tech>
- <20221207-rpi-hdmi-improvements-v1-5-6b15f774c13a@cerno.tech>
-In-Reply-To: <20221207-rpi-hdmi-improvements-v1-5-6b15f774c13a@cerno.tech>
+On Tue, Jan 10, 2023 at 01:52:05PM -0500, Rodrigo Vivi wrote:
+> On Tue, Jan 10, 2023 at 11:45:40PM +0530, Deepak R Varma wrote:
+> > Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
+> > function adds the overhead of introducing a proxy file operation
+> > functions to wrap the original read/write inside file removal protection
+> > functions. This adds significant overhead in terms of introducing and
+> > managing the proxy factory file operations structure and function
+> > wrapping at runtime.
+> > As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
+> > with debugfs_create_file_unsafe() is suggested to be used instead.  The
+> > DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
+> > debugfs_file_put() wrappers to protect the original read and write
+> > function calls for the debug attributes. There is no need for any
+> > runtime proxy file operations to be managed by the debugfs core.
+> > Following coccicheck make command helped identify this change:
+> > 
+> > make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
+> > 
+> > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> 
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> 
+> (Are you planning to send the one for pxp file?)
 
---------------MRqtCOC0Ih2z4a23xyzGMdqC
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Hello Rodrigo,
+The pxp file is implemented differently using a common function for another SHOW
+attribute file. I am exploring how to best handle that and would send in a patch
+if feasible. See the simplified code snip below:
 
-SGkNCg0KQW0gMDcuMTIuMjIgdW0gMTc6MDcgc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBG
-cm9tOiBEYXZlIFN0ZXZlbnNvbiA8ZGF2ZS5zdGV2ZW5zb25AcmFzcGJlcnJ5cGkuY29tPg0K
-PiANCj4gVGhlIENTQyBtYXRyaWNlcyB3ZXJlIHN0b3JlZCBhcyBzZXBhcmF0ZSBtYXRyaXgg
-Zm9yIGVhY2ggY29sb3JzcGFjZSwgYW5kDQo+IGlmIHdlIHdhbnRlZCBhIGxpbWl0ZWQgb3Ig
-ZnVsbCBSR0Igb3V0cHV0Lg0KPiANCj4gVGhpcyBjcmVhdGVkIHNvbWUgZ2FwcyBpbiBvdXIg
-c3VwcG9ydCBhbmQgd2Ugd291bGQgbm90IGFsd2F5cyBwaWNrIHRoZQ0KPiByZWxldmFudCBt
-YXRyaXguDQo+IA0KPiBMZXQncyByZXdvcmsgb3VyIGRhdGEgc3RydWN0dXJlIHRvIHN0b3Jl
-IG9uZSBwZXIgY29sb3JzcGFjZSwgYW5kIHRoZW4gYQ0KPiBtYXRyaXggZm9yIGxpbWl0ZWQg
-cmFuZ2UgYW5kIG9uZSBmb3IgZnVsbCByYW5nZS4gVGhpcyBtYWtlcyB1cyBhZGQgYSBuZXcN
-Cj4gbWF0cml4IHRvIHN1cHBvcnQgZnVsbCByYW5nZSBCVDcwOSBZVVYgb3V0cHV0LCBhbmQg
-ZHJvcHMgdGhlIHJlZHVuZGFudA0KPiAoYnV0IHNvbWVob3cgZGlmZmVyZW50KSBCVDcwOSBZ
-VVY0NDQgdnMgWVVWNDIyIG1hdHJpeC4NCg0KVGhlIGZpbmFsIHNlbnRlbmNlIGlzIGNvbmZ1
-c2luZyBhbmQgSSBkaWRuJ3QgdW5kZXJzdGFuZCBob3cgdHdvIA0KZGlmZmVyZW50IG1hdHJp
-Y2VzIGNhbiBub3cgYmUganVzdCBvbmUuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4g
-DQo+IFNpZ25lZC1vZmYtYnk6IERhdmUgU3RldmVuc29uIDxkYXZlLnN0ZXZlbnNvbkByYXNw
-YmVycnlwaS5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IE1heGltZSBSaXBhcmQgPG1heGltZUBj
-ZXJuby50ZWNoPg0KPiAtLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9oZG1pLmMg
-fCAxMjQgKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gICAx
-IGZpbGUgY2hhbmdlZCwgNjMgaW5zZXJ0aW9ucygrKSwgNjEgZGVsZXRpb25zKC0pDQo+IA0K
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jIGIvZHJpdmVy
-cy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jDQo+IGluZGV4IDUxNDY5OTM5YThiNC4uMjk5YThm
-ZTdhMmFlIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9oZG1pLmMN
-Cj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jDQo+IEBAIC0xMTc4LDY4
-ICsxMTc4LDcyIEBAIHN0YXRpYyB2b2lkIHZjNF9oZG1pX2NzY19zZXR1cChzdHJ1Y3QgdmM0
-X2hkbWkgKnZjNF9oZG1pLA0KPiAgIH0NCj4gICANCj4gICAvKg0KPiAtICogSWYgd2UgbmVl
-ZCB0byBvdXRwdXQgRnVsbCBSYW5nZSBSR0IsIHRoZW4gdXNlIHRoZSB1bml0eSBtYXRyaXgN
-Cj4gKyAqIE1hdHJpY2VzIGZvciAoaW50ZXJuYWwpIFJHQiB0byBSR0Igb3V0cHV0Lg0KPiAg
-ICAqDQo+IC0gKiBbIDEgICAgICAwICAgICAgMCAgICAgIDBdDQo+IC0gKiBbIDAgICAgICAx
-ICAgICAgMCAgICAgIDBdDQo+IC0gKiBbIDAgICAgICAwICAgICAgMSAgICAgIDBdDQo+IC0g
-Kg0KPiAtICogTWF0cml4IGlzIHNpZ25lZCAycDEzIGZpeGVkIHBvaW50LCB3aXRoIHNpZ25l
-ZCA5cDYgb2Zmc2V0cw0KPiAtICovDQo+IC1zdGF0aWMgY29uc3QgdTE2IHZjNV9oZG1pX2Nz
-Y19mdWxsX3JnYl91bml0eVszXVs0XSA9IHsNCj4gLQl7IDB4MjAwMCwgMHgwMDAwLCAweDAw
-MDAsIDB4MDAwMCB9LA0KPiAtCXsgMHgwMDAwLCAweDIwMDAsIDB4MDAwMCwgMHgwMDAwIH0s
-DQo+IC0JeyAweDAwMDAsIDB4MDAwMCwgMHgyMDAwLCAweDAwMDAgfSwNCj4gLX07DQo+IC0N
-Cj4gLS8qDQo+IC0gKiBDRUEgVklDcyBvdGhlciB0aGFuICMxIHJlcXVpcmUgbGltaXRlZCBy
-YW5nZSBSR0Igb3V0cHV0IHVubGVzcw0KPiAtICogb3ZlcnJpZGRlbiBieSBhbiBBVkkgaW5m
-b2ZyYW1lLiBBcHBseSBhIGNvbG9yc3BhY2UgY29udmVyc2lvbiB0bw0KPiAtICogc3F1YXNo
-IDAtMjU1IGRvd24gdG8gMTYtMjM1LiBUaGUgbWF0cml4IGhlcmUgaXM6DQo+IC0gKg0KPiAt
-ICogWyAwLjg1OTQgMCAgICAgIDAgICAgICAxNl0NCj4gLSAqIFsgMCAgICAgIDAuODU5NCAw
-ICAgICAgMTZdDQo+IC0gKiBbIDAgICAgICAwICAgICAgMC44NTk0IDE2XQ0KPiAtICoNCj4g
-LSAqIE1hdHJpeCBpcyBzaWduZWQgMnAxMyBmaXhlZCBwb2ludCwgd2l0aCBzaWduZWQgOXA2
-IG9mZnNldHMNCj4gKyAqIE1hdHJpY2VzIGFyZSBzaWduZWQgMnAxMyBmaXhlZCBwb2ludCwg
-d2l0aCBzaWduZWQgOXA2IG9mZnNldHMNCj4gICAgKi8NCj4gLXN0YXRpYyBjb25zdCB1MTYg
-dmM1X2hkbWlfY3NjX2Z1bGxfcmdiX3RvX2xpbWl0ZWRfcmdiWzNdWzRdID0gew0KPiAtCXsg
-MHgxYjgwLCAweDAwMDAsIDB4MDAwMCwgMHgwNDAwIH0sDQo+IC0JeyAweDAwMDAsIDB4MWI4
-MCwgMHgwMDAwLCAweDA0MDAgfSwNCj4gLQl7IDB4MDAwMCwgMHgwMDAwLCAweDFiODAsIDB4
-MDQwMCB9LA0KPiArc3RhdGljIGNvbnN0IHUxNiB2YzVfaGRtaV9jc2NfZnVsbF9yZ2JfdG9f
-cmdiWzJdWzNdWzRdID0gew0KPiArCXsNCj4gKwkJLyoNCj4gKwkJICogRnVsbCByYW5nZSAt
-IHVuaXR5DQo+ICsJCSAqDQo+ICsJCSAqIFsgMSAgICAgIDAgICAgICAwICAgICAgMF0NCj4g
-KwkJICogWyAwICAgICAgMSAgICAgIDAgICAgICAwXQ0KPiArCQkgKiBbIDAgICAgICAwICAg
-ICAgMSAgICAgIDBdDQo+ICsJCSAqLw0KPiArCQl7IDB4MjAwMCwgMHgwMDAwLCAweDAwMDAs
-IDB4MDAwMCB9LA0KPiArCQl7IDB4MDAwMCwgMHgyMDAwLCAweDAwMDAsIDB4MDAwMCB9LA0K
-PiArCQl7IDB4MDAwMCwgMHgwMDAwLCAweDIwMDAsIDB4MDAwMCB9LA0KPiArCX0sDQo+ICsJ
-ew0KPiArCQkvKg0KPiArCQkgKiBMaW1pdGVkIHJhbmdlDQo+ICsJCSAqDQo+ICsJCSAqIENF
-QSBWSUNzIG90aGVyIHRoYW4gIzEgcmVxdWlyZSBsaW1pdGVkIHJhbmdlIFJHQg0KPiArCQkg
-KiBvdXRwdXQgdW5sZXNzIG92ZXJyaWRkZW4gYnkgYW4gQVZJIGluZm9mcmFtZS4gQXBwbHkg
-YQ0KPiArCQkgKiBjb2xvcnNwYWNlIGNvbnZlcnNpb24gdG8gc3F1YXNoIDAtMjU1IGRvd24g
-dG8gMTYtMjM1Lg0KPiArCQkgKiBUaGUgbWF0cml4IGhlcmUgaXM6DQo+ICsJCSAqDQo+ICsJ
-CSAqIFsgMC44NTk0IDAgICAgICAwICAgICAgMTZdDQo+ICsJCSAqIFsgMCAgICAgIDAuODU5
-NCAwICAgICAgMTZdDQo+ICsJCSAqIFsgMCAgICAgIDAgICAgICAwLjg1OTQgMTZdDQo+ICsJ
-CSAqLw0KPiArCQl7IDB4MWI4MCwgMHgwMDAwLCAweDAwMDAsIDB4MDQwMCB9LA0KPiArCQl7
-IDB4MDAwMCwgMHgxYjgwLCAweDAwMDAsIDB4MDQwMCB9LA0KPiArCQl7IDB4MDAwMCwgMHgw
-MDAwLCAweDFiODAsIDB4MDQwMCB9LA0KPiArCX0sDQo+ICAgfTsNCj4gICANCj4gICAvKg0K
-PiAtICogQ29udmVyc2lvbiBiZXR3ZWVuIEZ1bGwgUmFuZ2UgUkdCIGFuZCBGdWxsIFJhbmdl
-IFlVVjQyMiB1c2luZyB0aGUNCj4gLSAqIEJULjcwOSBDb2xvcnNwYWNlDQo+IC0gKg0KPiAt
-ICoNCj4gLSAqIFsgIDAuMTgxOTA2ICAwLjYxMTgwNCAgMC4wNjE3NTggIDE2ICBdDQo+IC0g
-KiBbIC0wLjEwMDI2OCAtMC4zMzcyMzIgIDAuNDM3NTAwICAxMjggXQ0KPiAtICogWyAgMC40
-Mzc1MDAgLTAuMzk3Mzg2IC0wLjA0MDExNCAgMTI4IF0NCj4gLSAqDQo+IC0gKiBNYXRyaXgg
-aXMgc2lnbmVkIDJwMTMgZml4ZWQgcG9pbnQsIHdpdGggc2lnbmVkIDlwNiBvZmZzZXRzDQo+
-IC0gKi8NCj4gLXN0YXRpYyBjb25zdCB1MTYgdmM1X2hkbWlfY3NjX2Z1bGxfcmdiX3RvX2xp
-bWl0ZWRfeXV2NDIyX2J0NzA5WzNdWzRdID0gew0KPiAtCXsgMHgwNWQyLCAweDEzOTQsIDB4
-MDFmYSwgMHgwNDAwIH0sDQo+IC0JeyAweGZjY2MsIDB4ZjUzNiwgMHgwZTAwLCAweDIwMDAg
-fSwNCj4gLQl7IDB4MGUwMCwgMHhmMzRhLCAweGZlYjgsIDB4MjAwMCB9LA0KPiAtfTsNCj4g
-LQ0KPiAtLyoNCj4gLSAqIENvbnZlcnNpb24gYmV0d2VlbiBGdWxsIFJhbmdlIFJHQiBhbmQg
-RnVsbCBSYW5nZSBZVVY0NDQgdXNpbmcgdGhlDQo+IC0gKiBCVC43MDkgQ29sb3JzcGFjZQ0K
-PiAtICoNCj4gLSAqIFsgLTAuMTAwMjY4IC0wLjMzNzIzMiAgMC40Mzc1MDAgIDEyOCBdDQo+
-IC0gKiBbICAwLjQzNzUwMCAtMC4zOTczODYgLTAuMDQwMTE0ICAxMjggXQ0KPiAtICogWyAg
-MC4xODE5MDYgIDAuNjExODA0ICAwLjA2MTc1OCAgMTYgIF0NCj4gKyAqIENvbnZlcnNpb24g
-YmV0d2VlbiBGdWxsIFJhbmdlIFJHQiBhbmQgWVVWIHVzaW5nIHRoZSBCVC43MDkgQ29sb3Jz
-cGFjZQ0KPiAgICAqDQo+IC0gKiBNYXRyaXggaXMgc2lnbmVkIDJwMTMgZml4ZWQgcG9pbnQs
-IHdpdGggc2lnbmVkIDlwNiBvZmZzZXRzDQo+ICsgKiBNYXRyaWNlcyBhcmUgc2lnbmVkIDJw
-MTMgZml4ZWQgcG9pbnQsIHdpdGggc2lnbmVkIDlwNiBvZmZzZXRzDQo+ICAgICovDQo+IC1z
-dGF0aWMgY29uc3QgdTE2IHZjNV9oZG1pX2NzY19mdWxsX3JnYl90b19saW1pdGVkX3l1djQ0
-NF9idDcwOVszXVs0XSA9IHsNCj4gLQl7IDB4ZmNjYywgMHhmNTM2LCAweDBlMDAsIDB4MjAw
-MCB9LA0KPiAtCXsgMHgwZTAwLCAweGYzNGEsIDB4ZmViOCwgMHgyMDAwIH0sDQo+IC0JeyAw
-eDA1ZDIsIDB4MTM5NCwgMHgwMWZhLCAweDA0MDAgfSwNCj4gK3N0YXRpYyBjb25zdCB1MTYg
-dmM1X2hkbWlfY3NjX2Z1bGxfcmdiX3RvX3l1dl9idDcwOVsyXVszXVs0XSA9IHsNCj4gKwl7
-DQo+ICsJCS8qDQo+ICsJCSAqIEZ1bGwgUmFuZ2UNCj4gKwkJICoNCj4gKwkJICogWyAgMC4y
-MTI2MDAgIDAuNzE1MjAwICAwLjA3MjIwMCAgMCAgIF0NCj4gKwkJICogWyAtMC4xMTQ1NzIg
-LTAuMzg1NDI4ICAwLjUwMDAwMCAgMTI4IF0NCj4gKwkJICogWyAgMC41MDAwMDAgLTAuNDU0
-MTUzIC0wLjA0NTg0NyAgMTI4IF0NCj4gKwkJICovDQo+ICsJCXsgMHgwNmNlLCAweDE2ZTMs
-IDB4MDI0ZiwgMHgwMDAwIH0sDQo+ICsJCXsgMHhmYzU2LCAweGYzYWMsIDB4MTAwMCwgMHgy
-MDAwIH0sDQo+ICsJCXsgMHgxMDAwLCAweGYxNzksIDB4ZmU4OSwgMHgyMDAwIH0sDQo+ICsJ
-fSwNCj4gKwl7DQo+ICsJCS8qDQo+ICsJCSAqIExpbWl0ZWQgUmFuZ2UNCj4gKwkJICoNCj4g
-KwkJICogWyAgMC4xODE5MDYgIDAuNjExODA0ICAwLjA2MTc1OCAgMTYgIF0NCj4gKwkJICog
-WyAtMC4xMDAyNjggLTAuMzM3MjMyICAwLjQzNzUwMCAgMTI4IF0NCj4gKwkJICogWyAgMC40
-Mzc1MDAgLTAuMzk3Mzg2IC0wLjA0MDExNCAgMTI4IF0NCj4gKwkJICovDQo+ICsJCXsgMHgw
-NWQyLCAweDEzOTQsIDB4MDFmYSwgMHgwNDAwIH0sDQo+ICsJCXsgMHhmY2NjLCAweGY1MzYs
-IDB4MGUwMCwgMHgyMDAwIH0sDQo+ICsJCXsgMHgwZTAwLCAweGYzNGEsIDB4ZmViOCwgMHgy
-MDAwIH0sDQo+ICsJfSwNCj4gICB9Ow0KPiAgIA0KPiAgIHN0YXRpYyB2b2lkIHZjNV9oZG1p
-X3NldF9jc2NfY29lZmZzKHN0cnVjdCB2YzRfaGRtaSAqdmM0X2hkbWksDQo+IEBAIC0xMjYy
-LDYgKzEyNjYsNyBAQCBzdGF0aWMgdm9pZCB2YzVfaGRtaV9jc2Nfc2V0dXAoc3RydWN0IHZj
-NF9oZG1pICp2YzRfaGRtaSwNCj4gICAJc3RydWN0IGRybV9kZXZpY2UgKmRybSA9IHZjNF9o
-ZG1pLT5jb25uZWN0b3IuZGV2Ow0KPiAgIAlzdHJ1Y3QgdmM0X2hkbWlfY29ubmVjdG9yX3N0
-YXRlICp2YzRfc3RhdGUgPQ0KPiAgIAkJY29ubl9zdGF0ZV90b192YzRfaGRtaV9jb25uX3N0
-YXRlKHN0YXRlKTsNCj4gKwl1bnNpZ25lZCBpbnQgbGltX3JhbmdlID0gdmM0X2hkbWlfaXNf
-ZnVsbF9yYW5nZSh2YzRfaGRtaSwgbW9kZSkgPyAwIDogMTsNCj4gICAJdW5zaWduZWQgbG9u
-ZyBmbGFnczsNCj4gICAJdTMyIGlmX2NmZyA9IDA7DQo+ICAgCXUzMiBpZl94YmFyID0gMHg1
-NDMyMTA7DQo+IEBAIC0xMjc3LDcgKzEyODIsNyBAQCBzdGF0aWMgdm9pZCB2YzVfaGRtaV9j
-c2Nfc2V0dXAoc3RydWN0IHZjNF9oZG1pICp2YzRfaGRtaSwNCj4gICANCj4gICAJc3dpdGNo
-ICh2YzRfc3RhdGUtPm91dHB1dF9mb3JtYXQpIHsNCj4gICAJY2FzZSBWQzRfSERNSV9PVVRQ
-VVRfWVVWNDQ0Og0KPiAtCQl2YzVfaGRtaV9zZXRfY3NjX2NvZWZmcyh2YzRfaGRtaSwgdmM1
-X2hkbWlfY3NjX2Z1bGxfcmdiX3RvX2xpbWl0ZWRfeXV2NDQ0X2J0NzA5KTsNCj4gKwkJdmM1
-X2hkbWlfc2V0X2NzY19jb2VmZnModmM0X2hkbWksIHZjNV9oZG1pX2NzY19mdWxsX3JnYl90
-b195dXZfYnQ3MDlbbGltX3JhbmdlXSk7DQo+ICAgCQlicmVhazsNCj4gICANCj4gICAJY2Fz
-ZSBWQzRfSERNSV9PVVRQVVRfWVVWNDIyOg0KPiBAQCAtMTI5MiwxNiArMTI5NywxMyBAQCBz
-dGF0aWMgdm9pZCB2YzVfaGRtaV9jc2Nfc2V0dXAoc3RydWN0IHZjNF9oZG1pICp2YzRfaGRt
-aSwNCj4gICAJCWlmX2NmZyB8PSBWQzRfU0VUX0ZJRUxEKFZDNV9EVlBfSFRfVkVDX0lOVEVS
-RkFDRV9DRkdfU0VMXzQyMl9GT1JNQVRfNDIyX0xFR0FDWSwNCj4gICAJCQkJCVZDNV9EVlBf
-SFRfVkVDX0lOVEVSRkFDRV9DRkdfU0VMXzQyMik7DQo+ICAgDQo+IC0JCXZjNV9oZG1pX3Nl
-dF9jc2NfY29lZmZzKHZjNF9oZG1pLCB2YzVfaGRtaV9jc2NfZnVsbF9yZ2JfdG9fbGltaXRl
-ZF95dXY0MjJfYnQ3MDkpOw0KPiArCQl2YzVfaGRtaV9zZXRfY3NjX2NvZWZmcyh2YzRfaGRt
-aSwgdmM1X2hkbWlfY3NjX2Z1bGxfcmdiX3RvX3l1dl9idDcwOVtsaW1fcmFuZ2VdKTsNCj4g
-ICAJCWJyZWFrOw0KPiAgIA0KPiAgIAljYXNlIFZDNF9IRE1JX09VVFBVVF9SR0I6DQo+ICAg
-CQlpZl94YmFyID0gMHgzNTQwMjE7DQo+ICAgDQo+IC0JCWlmICghdmM0X2hkbWlfaXNfZnVs
-bF9yYW5nZSh2YzRfaGRtaSwgbW9kZSkpDQo+IC0JCQl2YzVfaGRtaV9zZXRfY3NjX2NvZWZm
-cyh2YzRfaGRtaSwgdmM1X2hkbWlfY3NjX2Z1bGxfcmdiX3RvX2xpbWl0ZWRfcmdiKTsNCj4g
-LQkJZWxzZQ0KPiAtCQkJdmM1X2hkbWlfc2V0X2NzY19jb2VmZnModmM0X2hkbWksIHZjNV9o
-ZG1pX2NzY19mdWxsX3JnYl91bml0eSk7DQo+ICsJCXZjNV9oZG1pX3NldF9jc2NfY29lZmZz
-KHZjNF9oZG1pLCB2YzVfaGRtaV9jc2NfZnVsbF9yZ2JfdG9fcmdiW2xpbV9yYW5nZV0pOw0K
-PiAgIAkJYnJlYWs7DQo+ICAgDQo+ICAgCWRlZmF1bHQ6DQo+IA0KDQotLSANClRob21hcyBa
-aW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNv
-bHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywg
-R2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6
-IEl2byBUb3Rldg0K
+	static const struct intel_gt_debugfs_file files[] = {
+		{ "info", &pxp_info_fops, NULL },
+		{ "terminate_state", &pxp_terminate_fops, NULL },
+	};
+	...
+	intel_gt_debugfs_register_files(root, files, ARRAY_SIZE(files), pxp);
 
---------------MRqtCOC0Ih2z4a23xyzGMdqC--
+Thank you.
+./drv
 
---------------vx8VTtAbVQXrbWYqz8er00VG
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> 
+> > ---
+> > Changes in v2:
+> >    - Include coccicheck make command in the patch log message for clarity.
+> >      Suggested by Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > 
+> > 
+> >  drivers/gpu/drm/i915/display/intel_fbc.c | 12 ++++++------
+> >  1 file changed, 6 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
+> > index 5e69d3c11d21..c508dcf415b4 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_fbc.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_fbc.c
+> > @@ -1807,10 +1807,10 @@ static int intel_fbc_debugfs_false_color_set(void *data, u64 val)
+> >  	return 0;
+> >  }
+> >  
+> > -DEFINE_SIMPLE_ATTRIBUTE(intel_fbc_debugfs_false_color_fops,
+> > -			intel_fbc_debugfs_false_color_get,
+> > -			intel_fbc_debugfs_false_color_set,
+> > -			"%llu\n");
+> > +DEFINE_DEBUGFS_ATTRIBUTE(intel_fbc_debugfs_false_color_fops,
+> > +			 intel_fbc_debugfs_false_color_get,
+> > +			 intel_fbc_debugfs_false_color_set,
+> > +			 "%llu\n");
+> >  
+> >  static void intel_fbc_debugfs_add(struct intel_fbc *fbc,
+> >  				  struct dentry *parent)
+> > @@ -1819,8 +1819,8 @@ static void intel_fbc_debugfs_add(struct intel_fbc *fbc,
+> >  			    fbc, &intel_fbc_debugfs_status_fops);
+> >  
+> >  	if (fbc->funcs->set_false_color)
+> > -		debugfs_create_file("i915_fbc_false_color", 0644, parent,
+> > -				    fbc, &intel_fbc_debugfs_false_color_fops);
+> > +		debugfs_create_file_unsafe("i915_fbc_false_color", 0644, parent,
+> > +					   fbc, &intel_fbc_debugfs_false_color_fops);
+> >  }
+> >  
+> >  void intel_fbc_crtc_debugfs_add(struct intel_crtc *crtc)
+> > -- 
+> > 2.34.1
+> > 
+> > 
+> > 
 
------BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmO+z9kFAwAAAAAACgkQlh/E3EQov+AI
-vw//S1MKhXU3P8rY9YCyhljlTh5MkI3AhcyRrug+TpigD08qXf/19uqbrVzh5hjMoft57xeS5lAr
-B2AiCMNOLzqwm+AXCpKMXGHDG83ev/nGowZwhGaYrE/SIlMzRZGgGEI48phxMAhknTws1qyESJqS
-qgXriapZlhTy1bR069AHh5f7YQEJhb9shZTE87uyvVM4ILFqQRmEBOGGJO7pqdT3U9KK7cU1eUnq
-u8syAAC9RcLEvJ9Zlvx91cYuywo+Uyw4dvfczPYLh4nagKq86a6O2h598PYd2VCArO4sydU52UTy
-JVoCjR28lZD7SuVJAXQ4IexGrwe0qkkU3BbgByLJP4rkqcGziq1WKXHf8OFa6ZgrJ41zqhi5suUm
-DWMFrNl2EC2tydxtutqj5s3YIBNh84tfqdlTeE9KxWAH30MbLFQkMeVxojcVe+Q1T8NiNsTHfGCy
-KAqPRv0JrpeSoSCOZStvE5nGLzgcQ5WxcNLFBhefZXpchZODnpsl6mRFkr4UtedZv3/562Ai9iYY
-z1nP0Bjpwd003k2BiMqQbci+lJoWtzzFJONSyriH7UFZsmWioWKcJ7SNWnWGnPK2daEzJU1IYoll
-8JLGKM6ubPV+0NZ3fwkhAQuEjUnseX0GHeVtWb848bGDY6ldbyMGdgmXwD0cHBj1DPcP8OUZ7tgx
-Auk=
-=hzaN
------END PGP SIGNATURE-----
-
---------------vx8VTtAbVQXrbWYqz8er00VG--
