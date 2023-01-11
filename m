@@ -2,73 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ACA46664EB
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 21:41:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B00D66653F
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 22:04:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D60AC10E807;
-	Wed, 11 Jan 2023 20:41:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 608B510E0C6;
+	Wed, 11 Jan 2023 21:04:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1882510E81A;
- Wed, 11 Jan 2023 20:41:15 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30BKahCv013006; Wed, 11 Jan 2023 20:41:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=vnVQRlbz65kpZ9CPLBMw5g3EBHn3MMxumfT9/SjDkkQ=;
- b=DHPZVBpCiwnUluh68TIdNxH6JV9Imol2mHj59VWdIBUSE1QBZpLsCsreyVPn3Sg7NQ11
- fPDNKmQOa/9kpNnZW8us+yBLvy1stfT/97cu1akOIRVLmhu+CWQKWxxMlTWZXxtzVcBm
- rNOnUB/jKCWoHfYgVJu9eflXLNvJp67vZb8uzUGyBMF8g9SYL4ynmM8C+1mrDW3xj5cD
- k5iJNmU1hzyXrS3bmIfHLXmIvPBzTcbJFL7zCLw5CW+DeOy5xagbFs7LGHVMOxVi6Zms
- 5mqrnndHDnReHpnaYOyvyb3nOUlQSUHFZjgeLN8aBSLjAEIt3l+eWmff/oNHTzUrzGTX IQ== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n1k6a26ma-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Jan 2023 20:41:12 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30BKfB51030642
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Jan 2023 20:41:11 GMT
-Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Wed, 11 Jan 2023 12:41:10 -0800
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: <freedreno@lists.freedesktop.org>
-Subject: [PATCH 2/2] drm/msm/dsi: implement opp table based check for
- dsi_mgr_bridge_mode_valid()
-Date: Wed, 11 Jan 2023 12:40:36 -0800
-Message-ID: <20230111204037.9105-2-quic_abhinavk@quicinc.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230111204037.9105-1-quic_abhinavk@quicinc.com>
-References: <20230111204037.9105-1-quic_abhinavk@quicinc.com>
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B229A10E0C6
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 21:04:19 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id w1so16290246wrt.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 13:04:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=N3x4aERt10BVU5APt1qIBv0E4l0cqbueL5nouLobqj4=;
+ b=am42hH/806WgnalRpwcbTQfmD4ABOOzWFrVq0MPlR5EhNYXcUygX+ltGlWn9EWL/E4
+ diBK2SWuHCC3oVlmk3nr08gDtjxOfZbtHPTqO163Nknp2RonX/rp49ESRjwjXYEwZm4i
+ xd3j3J83Uk0j1s491ud6re64pgQtEr+QklxqMb0Ee8szJ3Jl/ZAuTrHTCR9mcMYR65S3
+ UEtsg+L5/AyOSloa+SUGzyKyTWcAxcgYMJcSWl+f5MaQnDqr8s1w31Y8jw6XUhA1m23R
+ 2CNqX3hift4UhUeDvOnlnjbGZV6eXxrFd0xXDaqi5WPcEqrDh/iaG165GIpDBuiIjKpd
+ BzVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=N3x4aERt10BVU5APt1qIBv0E4l0cqbueL5nouLobqj4=;
+ b=HO4ZmPC1t4me5N/8jiGHUKmGRQl7BsxG1c6UZFoV7lhy9JPPlcAg7kDGGWXi/EJ1rR
+ 1h1hmCIlHEBoO6Uw881I59M/4XAiPt3UCBKZH6BjByMrlznzY5NJeYkBGAhW2nfmebEg
+ jDYAy1p42zX3zBKbW5T+s697O2TRUQkY+iLnyv8QJ9X3rfufeaEADBAsssxKZM7OEr+v
+ 9rGSHdAaFMMoE63oUWGINDRsmoBJ3Hs6SYOf+/Doz5hv/VNRsKuen9XXMSUz3pPk3m3D
+ JPZEnwHQOetHya45XHWD0dBcydv/nKe3JNODdhwqYe98BRmLq6Ai8Dm8iNaKzr5Fj1g+
+ rk0A==
+X-Gm-Message-State: AFqh2koLTXyJdbjkkS9csXrhLMdvcsG7qjpy7mwye7YxtbrnAxTJBNlR
+ qy9s+eY/jHOo0G7xMczwDx0=
+X-Google-Smtp-Source: AMrXdXuL22Sj2wBNkukkn5CEfxWj6Ec+RUgYQy/B+E8Q+jmk0xivHfV3j7ghoVC+TfcCPBhkwA9OeA==
+X-Received: by 2002:adf:e810:0:b0:276:4089:81c2 with SMTP id
+ o16-20020adfe810000000b00276408981c2mr37373215wrm.41.1673471058119; 
+ Wed, 11 Jan 2023 13:04:18 -0800 (PST)
+Received: from [192.168.2.181] (46-10-148-2.ip.btc-net.bg. [46.10.148.2])
+ by smtp.gmail.com with ESMTPSA id
+ u5-20020adfdb85000000b002ba2646fd30sm17275293wri.36.2023.01.11.13.04.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Jan 2023 13:04:17 -0800 (PST)
+Message-ID: <4126cf64-1e6c-5859-0893-47b06147c347@gmail.com>
+Date: Wed, 11 Jan 2023 23:04:15 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] drm/ttm: Fix a regression causing kernel oops'es
+To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
+References: <20230111175015.1134923-1-zack@kde.org>
+Content-Language: en-US
+From: "Martin Krastev (VMware)" <martinkrastev768@gmail.com>
+In-Reply-To: <20230111175015.1134923-1-zack@kde.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: PO79gvSqMg8pihf_fjPKOomQbx3f9h6D
-X-Proofpoint-GUID: PO79gvSqMg8pihf_fjPKOomQbx3f9h6D
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-11_10,2023-01-11_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0
- lowpriorityscore=0 impostorscore=0 phishscore=0 clxscore=1015
- malwarescore=0 mlxscore=0 priorityscore=1501 spamscore=0 bulkscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301110152
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,66 +74,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
- quic_jesszhan@quicinc.com
+Cc: krastevm@vmware.com, mombasawalam@vmware.com,
+ Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ banackm@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently there is no protection against a user trying to set
-an unsupported mode on DSI. Implement a check based on the opp
-table whether the byte clock for the mode can be supported by
-validating whether an opp table entry exists.
+From: Martin Krastev <krastevm@vmware.com>
 
-For devices which have not added opp table support yet, skip
-this check otherwise it will break bootup on those devices.
 
-changes in v2:
-	- drop dev_pm_opp_get_opp_table() usage
+LGTM!
+Reviewed-by: Martin Krastev <krastevm@vmware.com>
 
-Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/15
-Reported-by: Rob Clark <robdclark@gmail.com>
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
----
- drivers/gpu/drm/msm/dsi/dsi_manager.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index 3a1417397283..c4c24dabfd6f 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -450,6 +450,31 @@ static enum drm_mode_status dsi_mgr_bridge_mode_valid(struct drm_bridge *bridge,
- 	int id = dsi_mgr_bridge_get_id(bridge);
- 	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
- 	struct mipi_dsi_host *host = msm_dsi->host;
-+	struct platform_device *pdev = msm_dsi->pdev;
-+	struct dev_pm_opp *opp;
-+	unsigned long byte_clk_rate;
-+
-+	byte_clk_rate = dsi_byte_clk_get_rate(host, IS_BONDED_DSI(), mode);
-+
-+	/*
-+	 * If dev_pm_opp_find_freq_ceil() returns -EINVAL, its a bad
-+	 * pointer being passed, so treat as an error and return MODE_ERROR
-+	 *
-+	 * If dev_pm_opp_find_freq_ceil() returns -ERANGE, no clock
-+	 * was found matching the byte_clk, so return MODE_CLOCK_RANGE
-+	 *
-+	 * If dev_pm_opp_find_freq_ceil() returns -ENODEV, don't treat
-+	 * it as an error as it could mean opp table is not implemented
-+	 */
-+	opp = dev_pm_opp_find_freq_ceil(&pdev->dev, &byte_clk_rate);
-+	if (IS_ERR(opp)) {
-+		if (PTR_ERR(opp) == -EINVAL)
-+			return MODE_ERROR;
-+		else if (PTR_ERR(opp) == -ERANGE)
-+			return MODE_CLOCK_RANGE;
-+	} else {
-+		dev_pm_opp_put(opp);
-+	}
- 
- 	return msm_dsi_host_check_dsc(host, mode);
- }
--- 
-2.39.0
+Regards,
+Martin
 
+
+On 11.01.23 г. 19:50 ч., Zack Rusin wrote:
+> From: Zack Rusin <zackr@vmware.com>
+>
+> The branch is explicitly taken if ttm == NULL which means that to avoid
+> a null pointer reference the ttm object can not be used inside. Switch
+> back to dst_mem to avoid kernel oops'es.
+>
+> This fixes kernel oops'es with any buffer objects which don't have ttm_tt,
+> e.g. with vram based screen objects on vmwgfx.
+>
+> Signed-off-by: Zack Rusin <zackr@vmware.com>
+> Fixes: e3c92eb4a84f ("drm/ttm: rework on ttm_resource to use size_t type")
+> Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo_util.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index fee7c20775c0..12017ec24d9f 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -183,7 +183,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
+>   
+>   	clear = src_iter->ops->maps_tt && (!ttm || !ttm_tt_is_populated(ttm));
+>   	if (!(clear && ttm && !(ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC)))
+> -		ttm_move_memcpy(clear, ttm->num_pages, dst_iter, src_iter);
+> +		ttm_move_memcpy(clear, PFN_UP(dst_mem->size), dst_iter, src_iter);
+>   
+>   	if (!src_iter->ops->maps_tt)
+>   		ttm_kmap_iter_linear_io_fini(&_src_iter.io, bdev, src_mem);
