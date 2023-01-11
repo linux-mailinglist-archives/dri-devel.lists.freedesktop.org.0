@@ -2,44 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15478665C3C
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 14:14:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29105665C41
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 14:15:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74A7110E03D;
-	Wed, 11 Jan 2023 13:14:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D64310E138;
+	Wed, 11 Jan 2023 13:15:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B89D510E03D
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 13:14:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=A9iiTENxDlw0e16Q73BGVMcJmKGeqt95wCmQBGcLoKI=; b=O8AfmhqIPcL7ZXlALIB5q212GP
- hDdoewjwqSYMQVlX/5eHPM6omLOB8ryuVyJIMEGTQvo/QIMiR+AVnRTp93jn47Q1VKLIx+UoV9K/J
- 8CBR7e8F9yYhq2NECYdDEsA7TmCS8OPE7T9smGGaEnlRnGx2UVhjyLolHa0DHAccNZIpCINwBQo5x
- g7sm46Re+IA4bSOxc0Qd/S93Uh+H9zpmvHupHbZKUgZ/RXzQczwHqrBjU0NQd/KWeo2yc2JWEKHSc
- cQPpqwiTIWPFBPb69QDlR3RYSCsC90fwcCoVLo9l43ToIx5AdarENxun5cTpYCYXoNIkpe6+7IocW
- /Y9bkMHw==;
-Received: from [187.36.234.139] (helo=bowie..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pFavu-005JJ5-1M; Wed, 11 Jan 2023 14:14:22 +0100
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3] drm/vkms: reintroduce prepare_fb and cleanup_fb functions
-Date: Wed, 11 Jan 2023 10:13:05 -0300
-Message-Id: <20230111131304.106039-1-mcanal@igalia.com>
-X-Mailer: git-send-email 2.39.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F047B10E138
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 13:15:29 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4E6F313D5
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 05:16:11 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 082E83F71A
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 05:15:28 -0800 (PST)
+Date: Wed, 11 Jan 2023 13:15:16 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 02/10] drm: Include <linux/of.h> where needed
+Message-ID: <Y762ZNgVnDi4UJ1G@e110455-lin.cambridge.arm.com>
+References: <20230111130206.29974-1-tzimmermann@suse.de>
+ <20230111130206.29974-3-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230111130206.29974-3-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,132 +43,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Melissa Wen <mwen@igalia.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- dri-devel@lists.freedesktop.org
+Cc: f.fainelli@gmail.com, amd-gfx@lists.freedesktop.org, sam@ravnborg.org,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
+ james.qian.wang@arm.com, alexander.deucher@amd.com,
+ bcm-kernel-feedback-list@broadcom.com, christian.koenig@amd.com,
+ linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With commit 359c6649cd9a ("drm/gem: Implement shadow-plane {begin,
-end}_fb_access with vmap"), the behavior of the shadow-plane helpers
-changed and the vunmap is now performed at the end of
-the current pageflip, instead of the end of the following pageflip.
+On Wed, Jan 11, 2023 at 02:01:58PM +0100, Thomas Zimmermann wrote:
+> Include <linux/of.h> in source files that need it. Some of DRM's
+> source code gets OF header via drm_crtc_helper.h and <linux/fb.h>,
+> which can leed to unnecessary recompilation.
+> 
+> In drm_modes.c, add a comment on the reason for still including
+> <linux/fb.h>. The header file is required to get KHZ2PICOS(). The
+> macro is part of the UAPI headers, so it cannot be moved to a less
+> prominent location.
+> 
+> v2:
+> 	* include <linux/of.h> in komeda_drv.c (kernel test robot)
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/arm/display/komeda/komeda_drv.c | 1 +
+>  drivers/gpu/drm/drm_modes.c                     | 5 +++--
+>  drivers/gpu/drm/panel/panel-ronbo-rb070d30.c    | 1 +
+>  3 files changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+> index 3f4e719eebd8..28f76e07dd95 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+> @@ -6,6 +6,7 @@
+>   */
+>  #include <linux/module.h>
+>  #include <linux/kernel.h>
+> +#include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/component.h>
+>  #include <linux/pm_runtime.h>
 
-By performing the vunmap at the end of the current pageflip, invalid
-memory is accessed by the vkms during the plane composition, as the data
-is being unmapped before being used, as reported by the following
-warning:
+For komeda: Acked-by: Liviu Dudau <liviu.dudau@arm.com>
 
- [  275.866047] BUG: unable to handle page fault for address: ffffb382814e8002
- [  275.866055] #PF: supervisor read access in kernel mode
- [  275.866058] #PF: error_code(0x0000) - not-present page
- [  275.866061] PGD 1000067 P4D 1000067 PUD 110a067 PMD 46e3067 PTE 0
- [  275.866066] Oops: 0000 [#1] PREEMPT SMP PTI
- [  275.866070] CPU: 2 PID: 49 Comm: kworker/u8:2 Not tainted 6.1.0-rc6-00018-gb357e7ac1b73-dirty #54
- [  275.866074] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.1-2.fc37 04/01/2014
- [  275.866076] Workqueue: vkms_composer vkms_composer_worker [vkms]
- [  275.866084] RIP: 0010:XRGB8888_to_argb_u16+0x5c/0xa0 [vkms]
- [  275.866092] Code: bf 56 0a 0f af 56 70 48 8b 76 28 01 ca 49 83 f8 02
- 41 b9 01 00 00 00 4d 0f 43 c8 48 01 f2 48 83 c2 02 31 f6 66 c7 04 f0 ff
- ff <0f> b6 0c b2 89 cf c1 e7 08 09 cf 66 89 7c f0 02 0f b6 4c b2 ff 89
- [  275.866095] RSP: 0018:ffffb382801b7db0 EFLAGS: 00010246
- [  275.866098] RAX: ffff896336ace000 RBX: ffff896310e293c0 RCX: 0000000000000000
- [  275.866101] RDX: ffffb382814e8002 RSI: 0000000000000000 RDI: ffffb382801b7de8
- [  275.866103] RBP: 0000000000001400 R08: 0000000000000280 R09: 0000000000000280
- [  275.866105] R10: 0000000000000010 R11: ffffffffc011d990 R12: ffff896302a1ece0
- [  275.866107] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000080008001
- [  275.866109] FS:  0000000000000000(0000) GS:ffff89637dd00000(0000) knlGS:0000000000000000
- [  275.866112] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
- [  275.866114] CR2: ffffb382814e8002 CR3: 0000000003bb4000 CR4: 00000000000006e0
- [  275.866120] Call Trace:
- [  275.866123]  <TASK>
- [  275.866124]  compose_active_planes+0x1c4/0x380 [vkms]
- [  275.866132]  vkms_composer_worker+0x9f/0x130 [vkms]
- [  275.866139]  process_one_work+0x1c0/0x370
- [  275.866160]  worker_thread+0x221/0x410
- [  275.866164]  ? worker_clr_flags+0x50/0x50
- [  275.866167]  kthread+0xe1/0x100
- [  275.866172]  ? kthread_blkcg+0x30/0x30
- [  275.866176]  ret_from_fork+0x22/0x30
- [  275.866181]  </TASK>
- [  275.866182] Modules linked in: vkms
- [  275.866186] CR2: ffffb382814e8002
- [  275.866191] ---[ end trace 0000000000000000 ]---
+Best regards,
+Liviu
 
-Therefore, introduce again prepare_fb and cleanup_fb functions to the
-vkms, which were previously removed on commit b43e2ec03b0d ("drm/vkms:
-Let shadow-plane helpers prepare the plane's FB").
+> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> index be030f4a5311..40d482a01178 100644
+> --- a/drivers/gpu/drm/drm_modes.c
+> +++ b/drivers/gpu/drm/drm_modes.c
+> @@ -31,10 +31,11 @@
+>   */
+>  
+>  #include <linux/ctype.h>
+> +#include <linux/export.h>
+> +#include <linux/fb.h> /* for KHZ2PICOS() */
+>  #include <linux/list.h>
+>  #include <linux/list_sort.h>
+> -#include <linux/export.h>
+> -#include <linux/fb.h>
+> +#include <linux/of.h>
+>  
+>  #include <video/of_display_timing.h>
+>  #include <video/of_videomode.h>
+> diff --git a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
+> index a8a98c91b13c..866d1bf5530e 100644
+> --- a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
+> +++ b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/media-bus-format.h>
+>  #include <linux/module.h>
+> +#include <linux/of.h>
+>  
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/regulator/consumer.h>
+> -- 
+> 2.39.0
+> 
 
-Fixes: 359c6649cd9a ("drm/gem: Implement shadow-plane {begin, end}_fb_access with vmap")
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
-v1 -> v2: https://lore.kernel.org/dri-devel/19951367-2ef0-0f26-ddf0-893259d9a5ef@igalia.com/T/
-
-- Add kernel oops to the commit description (Melissa Wen).
-- s/introduce/reintroduce/ in the title (Melissa Wen).
-- Add Thomas's Acked-by.
-
-v2 -> v3: https://lore.kernel.org/dri-devel/20230106115759.213710-1-mcanal@igalia.com/T/
-
-- Add Daniel's Reviewed-by.
-- Resend patch due to corrupted mailbox.
----
- drivers/gpu/drm/vkms/vkms_plane.c | 36 ++++++++++++++++++++++++++++++-
- 1 file changed, 35 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index c3a845220e10..b3f8a115cc23 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -160,10 +160,44 @@ static int vkms_plane_atomic_check(struct drm_plane *plane,
- 	return 0;
- }
- 
-+static int vkms_prepare_fb(struct drm_plane *plane,
-+			   struct drm_plane_state *state)
-+{
-+	struct drm_shadow_plane_state *shadow_plane_state;
-+	struct drm_framebuffer *fb = state->fb;
-+	int ret;
-+
-+	if (!fb)
-+		return 0;
-+
-+	shadow_plane_state = to_drm_shadow_plane_state(state);
-+
-+	ret = drm_gem_plane_helper_prepare_fb(plane, state);
-+	if (ret)
-+		return ret;
-+
-+	return drm_gem_fb_vmap(fb, shadow_plane_state->map, shadow_plane_state->data);
-+}
-+
-+static void vkms_cleanup_fb(struct drm_plane *plane,
-+			    struct drm_plane_state *state)
-+{
-+	struct drm_shadow_plane_state *shadow_plane_state;
-+	struct drm_framebuffer *fb = state->fb;
-+
-+	if (!fb)
-+		return;
-+
-+	shadow_plane_state = to_drm_shadow_plane_state(state);
-+
-+	drm_gem_fb_vunmap(fb, shadow_plane_state->map);
-+}
-+
- static const struct drm_plane_helper_funcs vkms_primary_helper_funcs = {
- 	.atomic_update		= vkms_plane_atomic_update,
- 	.atomic_check		= vkms_plane_atomic_check,
--	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
-+	.prepare_fb		= vkms_prepare_fb,
-+	.cleanup_fb		= vkms_cleanup_fb,
- };
- 
- struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
 -- 
-2.39.0
-
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
