@@ -2,48 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E64926665C5
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 22:43:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDEAE6665CA
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 22:46:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B87310E82D;
-	Wed, 11 Jan 2023 21:42:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60B7310E0E2;
+	Wed, 11 Jan 2023 21:46:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EF4D10E15C;
- Wed, 11 Jan 2023 21:42:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673473351; x=1705009351;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ynOfPpxf3NG2KNI2l03MKyf13JpykPsGMmGRVNuWd78=;
- b=TPKjEEv1d6Rn0d2JHWcv3PDcrQ3//CKbQ0/HAQ5LY1J2y7dmdum6LUpI
- 5wPj6nE3pm2mAK/WrupLicsI+k/ddK1hkH5HDqo21HPhAn8k94Cfj7gbe
- tOP1P1n3vMUjaWDYW66x3igbUSpr18CaWKtbNnIU9aC9/Wjq3+yct6qa7
- 5utmFkP3Es8ofJMUwRQQX2NL+wGwb2w1r5P+SocSj/Q/T36yVdEuhMibX
- XnfzzaZR/kL5N+Hsf7ntvyf+VEAneZqYPSlEdiew1TvihHgY3Te6UPzl1
- Gw2HGWnZpF+Z/MeXKXsPFy89fE5q4CQw2h6KK9R4aluP4hnBUoR1X2bUR w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="322244758"
-X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="322244758"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2023 13:42:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="607530444"
-X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="607530444"
-Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by orsmga003.jf.intel.com with ESMTP; 11 Jan 2023 13:42:30 -0800
-From: Alan Previn <alan.previn.teres.alexis@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 9/9] drm/i915/pxp: Enable PXP with MTL-GSC-CS
-Date: Wed, 11 Jan 2023 13:42:26 -0800
-Message-Id: <20230111214226.907536-10-alan.previn.teres.alexis@intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230111214226.907536-1-alan.previn.teres.alexis@intel.com>
-References: <20230111214226.907536-1-alan.previn.teres.alexis@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AB63897C8
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 21:45:57 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D8F1761E78
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 21:45:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 474B4C433EF
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 21:45:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1673473556;
+ bh=R4rAekWHtw888n+Ax4lWdYc+UPZhe/r7thenMaG2ALc=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=i1hQx7EgGi7+/lZKzsd2Y9jWteuLt0aWsTNiyXBQ82zvYXf/2Nf4EQOOV2+UZXus0
+ U6tjWLmEgMQBS8EuiD+RE1plVnaGTdNMfZS+v5YGq50UObQvUQPSDEJQk03uPoX+uf
+ uu6LfHjcSDPi2rtJgpH/GjJUcrPmBl0U68tXECYkthR8oyonkZsgBK6q0D6E7Uzpd4
+ yJn53hePXtlCEKS8PNKsETbnqQoBM65SpR0OdCjCmDO6XaEBKzcGm9eM0O9xAC0yoA
+ MFou7l2KH7OWsRXO/TJ7uYzAU6I37DQv0IDlAZZcerwV9dyy69hBiov7HSyelA0aHH
+ wHcFy2bNe1Txg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 2CA53C43143; Wed, 11 Jan 2023 21:45:56 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216917] hibernation regression since 6.0.18 (Ryzen-5650U incl.
+ Radeon GPU)
+Date: Wed, 11 Jan 2023 21:45:55 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mario.limonciello@amd.com
+X-Bugzilla-Status: ASSIGNED
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216917-2300-hHk8SycPTD@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216917-2300@https.bugzilla.kernel.org/>
+References: <bug-216917-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,47 +71,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juston Li <justonli@chromium.org>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org,
- Alan Previn <alan.previn.teres.alexis@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable PXP with MTL-GSC-CS: add the has_pxp into device info
-and increase the timeouts for new GSC-CS + firmware specs.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216917
 
-Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
----
- drivers/gpu/drm/i915/i915_pci.c              | 1 +
- drivers/gpu/drm/i915/pxp/intel_pxp_session.c | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+--- Comment #4 from Mario Limonciello (AMD) (mario.limonciello@amd.com) ---
+> Perfect guess!
 
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index bc1af7e8f398..0cac8cce1f7b 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -1148,6 +1148,7 @@ static const struct intel_device_info mtl_info = {
- 	.has_guc_deprivilege = 1,
- 	.has_mslice_steering = 0,
- 	.has_snoop = 1,
-+	.has_pxp = 1,
- 	.__runtime.memory_regions = REGION_SMEM | REGION_STOLEN_LMEM,
- 	.__runtime.platform_engine_mask = BIT(RCS0) | BIT(BCS0) | BIT(CCS0),
- 	.require_force_probe = 1,
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-index 7bb06e67b155..e4e60e3b9216 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-@@ -56,7 +56,7 @@ static int pxp_wait_for_session_state(struct intel_pxp *pxp, u32 id, bool in_pla
- 				      reg,
- 				      mask,
- 				      in_play ? mask : 0,
--				      100);
-+				      250);
- 
- 	intel_runtime_pm_put(uncore->rpm, wakeref);
- 
--- 
-2.39.0
+OK.. so we need to find out why this works in 6.1.y and not in 6.0.y.  There
+are some fairly severe bugs it fixed.
 
+Is it 100% failure rate on 6.0.y?
+
+Since you mentioned that you couldn't effectively use 6.1.y because of the =
+MST
+issue, are you only finding it on 6.0.y when connected to a dock or anything
+else unique?
+
+> Sadly I don't know how to provide helpful logs. After reboot there's noth=
+ing
+> helpful in /var/log/messages
+
+Can you check /var/lib/systemd/pstore?  Perhaps there was a kernel crash th=
+at
+got saved into NVRAM and restored by systemd on the next boot.
+
+> Just wanted to say THANK YOU for all your help in the last couple of mont=
+h!!!
+
+:)
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
