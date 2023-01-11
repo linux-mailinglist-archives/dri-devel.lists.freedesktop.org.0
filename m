@@ -1,140 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E9A665723
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 10:16:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB14A665728
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 10:17:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A36F510E515;
-	Wed, 11 Jan 2023 09:16:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A30C310E555;
+	Wed, 11 Jan 2023 09:17:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2D5710E515;
- Wed, 11 Jan 2023 09:16:33 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36F0210E4F3;
+ Wed, 11 Jan 2023 09:17:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673428593; x=1704964593;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=zw8EkiRvWwwwSRzchdwosq1mkWn2sRJgoQAbCX8Vav4=;
- b=lilW60+T16Cyn98EWkc2lDP6aZjVFJCJhoy6pjY/PR+BLldCHCZ4+0UI
- 3GeJlDoUjV4fGNrupRzkOYvip1t0jSzKmzGKuSVkdO6IoN2abo92n6WYr
- RG99qHhCRyPEbz3W1/XSoSdZxYXc23DnFSEImGOgo8hOTEc7OFVcYW863
- u0PSE39eY/roufV4o8SOj4ar1PbK93LJKhRLHkdXspQcZJHkttpsfEweG
- NxN/pzTTCAYpYwo9flCTMDoDpoq+8jjW1Gu4Sl3AX9t7d2uCado2GSlJI
- MH4DvyU1MxTZvDjHsNXmpb/x4Unmdq7Nb8cIugQd6XtS0z2KJSAep3obA A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="409608325"
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="409608325"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2023 01:16:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="986089597"
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="986089597"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga005.fm.intel.com with ESMTP; 11 Jan 2023 01:16:33 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 11 Jan 2023 01:16:32 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 11 Jan 2023 01:16:32 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Wed, 11 Jan 2023 01:16:32 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Wed, 11 Jan 2023 01:16:30 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PCiEMcdV5+Mxwm2GTxdtNFcTvdIH2W+fM6yCzQjoZXw60H7C4ca0lpxwi8bbJobflVlsVcNIcbSAanxFQm4QgibZf5D2cd6x9mEEuZOe1AOTfWPa6SOvJ9TpjEFirht/TMxR4MvCKmoSbEomB5z6OmV7dvelmzVFtp31/FE6VenMryWm/d7D8Xa3xPbWMDvYa8SHkQ0wL9GEwu4LrEbNPQNcsxEK+mcLMKftJaPy0ZZvSrKNrRp8quDTbVg6k21vsUbSS2nA227914Biqp801rqKW56RKN+F/RTcaUaRKIUgpNdLzWzSDEujA/G5sQpvjZco5REaEVI0bPP70ChtvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S+30t3D3crbD7rWV4QG1r0COhow3rCUiLEsvAfY2STY=;
- b=MQvakxLCRWnMCxg0IFaWlpL/xSS4sQGcdDkuk/cbye52wbdvXPijNTp8hg+zO7MuPbOTLSBObsslzRkAWkNAMfC5hmT1qM6EdrwktltYUkcxM/ZSkuS4m447xAihM4fCx/+HpKfnAcvhenYpH+/tWceB5Uc/4JfW8qmb2m3Ab+Ang4Gl/1ZQ3OH+26XHtCmLzZmYO41bk0Y86ZK/5G9tovSKqPK0RV/cfb+35b+lOkZlYIcYwjVw+mQyrnA+F5VbmPy7MOZS/w1Jc2sM2oAPNjR+zdFXdGZuunksWcl+SnRZ1QkJzWfZVKA+RNVSNK4gicACHtxmnzQcIcRlxOA8Cw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by DS7PR11MB7887.namprd11.prod.outlook.com (2603:10b6:8:e2::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Wed, 11 Jan
- 2023 09:16:29 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::1818:e39d:454d:a930]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::1818:e39d:454d:a930%4]) with mapi id 15.20.5986.018; Wed, 11 Jan 2023
- 09:16:29 +0000
-Date: Wed, 11 Jan 2023 04:16:24 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [Intel-gfx] [PATCH][next] drm/i915/guc: Replace zero-length
- arrays with flexible-array members
-Message-ID: <Y75+aCeiRYe0SXMo@intel.com>
-References: <Y72WBTUmh9r1lvKN@work> <Y728SwYZeThQzohb@intel.com>
- <Y72/wTm7eIIylTqf@work>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <Y72/wTm7eIIylTqf@work>
-X-ClientProxiedBy: SJ0P220CA0022.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:41b::33) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+ t=1673428630; x=1704964630;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=mlCe+j3sO4q/9+XMVqj8tpjjZT/EmCvheQVd2MvwBCU=;
+ b=Ibf8LOoDxqn6m0XodqniSHtZYXaXyKA8597lYcmGNmpATeoM7cg+0M2r
+ 76zih6qK6fKsrQGBqvm+TORkiT2u8dLHWxcr9ivB81+Rnor/a4QYYzioz
+ QxhPrZ5gIuSLdKnnKVaoEuBaIldRjqHoi+eSBoPy9MpgP5UiQDyfH5d9z
+ E0CsO+nildKLA8ZQMoygxyTz5VeerP1VtmWBJAnSguA36b7FYuQXBiGpR
+ Kx59PF3plSuQ2+JCSdNlhkti7fN+48ArbI0HL3+rn94ILoENPJTvgB2rB
+ TrdJDx7hQ6EK7G5tNK8TWwvI4oi7JGAgyp5zDeoK9HB0ke20g4OLZj9Z8 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="322068338"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="322068338"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2023 01:17:06 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="689713278"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="689713278"
+Received: from dhuchimu-mobl3.amr.corp.intel.com (HELO [10.212.68.70])
+ ([10.212.68.70])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2023 01:17:03 -0800
+Message-ID: <703310df-21c8-57ac-8b27-4ae342265df1@linux.intel.com>
+Date: Wed, 11 Jan 2023 09:17:01 +0000
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|DS7PR11MB7887:EE_
-X-MS-Office365-Filtering-Correlation-Id: a080bea4-fdee-4214-2ff1-08daf3b485a4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dI/QJfIzqhkTNbyqgNr8e5G6A8ujs+ZLp3fNBlvxMpmZHhM6XnG79Xm0x+rhEtU2+8L8Rw6R/Pat9rnlfu+zz1ul9bRuO2SGwEhq08cE72TWPZhYB0+BEaSiuwEtS2OhLtnMNrgUAt9J+mEm/i4R4OAGCIUZEpPIGqIaHncTq2e4/0wkqdp1VBTMRuPhNd73Y7Ap5kc1ZHHLPhVbQ2ubVlwcuk4vfGquEngAgfRFLN9WDL/5sVK8fzL3qYNjS3p1lKyl0iT1/pOdRTq1ayitozL6iTycLwKTzrV9WRUDGL44vpvE6mh7Ci+ByQM14Ld8svqV3auPUQEYtla8Kxn3+5HUT/q9Gsqek6oP7VDu9fi/sgJtAqsFNtj7LlCCrQ9PKa6WfvBrJqnac6GrcJxX/gj9266tiDMtSejkiLBiQnKGxraPjia4ciAv45LeTd1TNpXfUhcKa5hXl1EQ+WLwiSqmxEHW+HvJJxySWcBT2fRqDXeYvtdHom03Acxaca45KBDytxaH+B+2rF6VR9eiY4SZK7a98Zw5r09MFVYHhfYSni1TMTQinNN4pX49nXuk33GeSr4DzrTI3JdEMy8nATczb6WQIdljP9mbOYnOzQud7As0r41H7TaFj0u2XAQI+tDdV4Rf+n+agmXcCt3AyXOXHTBWWDX+b4vpZi8Ywd27jFvIHpmiJgP8uuzB5JM4XQrFQrwrk69b6j/YoQqx3cmD240KnD4N7yykwk02uVLvJgP1bzUUTX424//7a5Vf
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(396003)(376002)(366004)(39860400002)(136003)(346002)(451199015)(6506007)(2906002)(26005)(6486002)(186003)(966005)(6512007)(6666004)(478600001)(54906003)(8676002)(4326008)(36756003)(6916009)(66946007)(66556008)(2616005)(41300700001)(66476007)(86362001)(44832011)(38100700002)(8936002)(82960400001)(5660300002)(316002)(83380400001)(67856001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?SevTsHVLC9k6/pZTWhrz9zax9V1rWIX5IgiHFS0bTxDXQq1u+iJzI2SSmnOR?=
- =?us-ascii?Q?y3B9ZOCmr0Ox0eTD4OAIiRaKybyjo0l1PS4pJHFRNBZY9BMLArL/Ov/FSUhT?=
- =?us-ascii?Q?vQqNwNa48mrjEUSVlX7lDUoW2pYScdWZf4gd03ZUHcdgn4lBSnHC3JZbOTdS?=
- =?us-ascii?Q?2/YNTQL9Y3Be6Vr8QyTWUGe0+5mBN7/dn1q9c+qa7sH9cknRwE4qscDEYyMt?=
- =?us-ascii?Q?kY3gMUJR2RMC4QCmdaQPJznf2ZX3nJExP8Y9sEyTFA9qGotlbklsQaziyRpZ?=
- =?us-ascii?Q?o/64vgOqAuXkkx3yR0F5NRnSyPbzB1O+SR8nO86Jw4DPZAjSMu+Z1pOFhLaC?=
- =?us-ascii?Q?ahKLVmP5xN0SONGtJfXsT0NRqTY0PAE9j/UIRGlV/wLEF9979KB4u2bpaHFd?=
- =?us-ascii?Q?TPKp4UL8NEdQKBRslxQfQn1cEoxmAq2I11M1mCbASZxzbcTv4CFgWozcKNTF?=
- =?us-ascii?Q?cU+BOfops8xYZZ/L0pvuR3ruqbvM92mQ+8ziNZPaY99w0swqlXtzUp6gK77K?=
- =?us-ascii?Q?HYR5QDiVrynvH8uNdA5fr05Z0EY8xXseGu7y0+xaf8tzotOecDnK4+71+nCB?=
- =?us-ascii?Q?7r3Y1aFa60cqo4KT7bgr5oZR+4Pu3BeCN3QyUM0KLbJ20yBrIZsEhUqSqPJ5?=
- =?us-ascii?Q?+Y5etSs7bm6ik8g5BVnjjrf+ijv2eLpF+K2sBzl1r+o54Iyg2DqxBsRohT+V?=
- =?us-ascii?Q?5lGOYV63y+AL5NfwKycgKsWntyXViajlw1XDxANerPf2wKO/nypgpL568DU3?=
- =?us-ascii?Q?p1vAUgCzF8kJMIlXkocp3InDB7ArV+2qFaL+7LtN9ShLVoBmKzOsnk/pHVwf?=
- =?us-ascii?Q?AKr8IqZvQzFg0TmInWzpombcLf/OnWz5ibF6NO/tGWgDIFxsrQc+rvC6UNrA?=
- =?us-ascii?Q?SGvjNTSBY3N/l6dU99XU9CWBLgQ/a4nTCS+6q+o+rO85Z3U8R6wVs/5oLbCH?=
- =?us-ascii?Q?K0h7zVFxuc6/yL/r8OdHXiVYgVCw/qYtFnfPIg2eHGpjos8n/CIvfEfkq6FG?=
- =?us-ascii?Q?3hWgtDWlljj3PckJv8v7OLcSwp3mhvuDUbXDH8Xzhw9s2UfhKB1/fJmXsuXs?=
- =?us-ascii?Q?1shU94YrmSEHnsJFXtlj7ksstO6z+KhiklcCJ59JfUGJaWl7QvMtMJBoFCjA?=
- =?us-ascii?Q?LhrGlwHlfQCAL/1b1K2T7ck4nwis1uNi05z5iObzz5sH4ZBsHjhYN+nHB39m?=
- =?us-ascii?Q?RUhKIeH4iiGnC6yIxMnrlRLKEy/Z0yoZwdra3iIu/OgwO6wEbuNVLK5UL3GC?=
- =?us-ascii?Q?3hOL41egvjunI/TPbp8aY2WQSVe/R8TDKxvdoehFz7q0meluKdwALn5AICFl?=
- =?us-ascii?Q?4B2fEIWZz9GsC2x9Dj1mBTPUPkaaWlMeqT7mSNkbQ+AJulK9I72YW6EuIR3u?=
- =?us-ascii?Q?jpSD8vW12p8qNy4djRqq4WNQrR6vHjiWr3Ohqex/70Fya2xXuXselL4ynDFV?=
- =?us-ascii?Q?my0x5ohzdUJAI7hkzC4ymWtbXPJWzOIhHw2D1a/mfBQQ7ow+TpkdEnV4pBUi?=
- =?us-ascii?Q?qFkBLWUQmpYBzkT9WIT6Rmk3c8TOvEYq6ry0Oyq7MicONubT1bTXjOSLGV0H?=
- =?us-ascii?Q?6iPmvWAeqGjcgBRWnNJr9orRjWz5uh/PRoC5m3TL?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a080bea4-fdee-4214-2ff1-08daf3b485a4
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2023 09:16:29.0482 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LTWqDwYC+PMsVSVFAMEvRewrJ/Ct7vAhxG1iDXnZUzDPq0/3YBr8P33gNRhe6yg7JH/dJIOSciSuFUOga2xwyA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB7887
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [Intel-gfx] [RFC PATCH 04/20] drm/sched: Convert drm scheduler to
+ use a work queue rather than kthread
+Content-Language: en-US
+To: Matthew Brost <matthew.brost@intel.com>
+References: <20230102083019.24b99647@collabora.com>
+ <7d6df13c-6c2e-d713-edc8-128d6e19f187@linux.intel.com>
+ <Y7dEjcuc1arHBTGu@DUT025-TGLU.fm.intel.com>
+ <Y7i0J3uQ+izOJcEb@DUT025-TGLU.fm.intel.com>
+ <e8c301cb-c7d4-ed54-f3ab-61a5fcc7f940@linux.intel.com>
+ <CAOFGe96yeF4SWxvHC5pxyggf=655q7+ZrFS+Zab42F-RE7UK1w@mail.gmail.com>
+ <e6512993-5247-a577-abf4-97cdb21358a0@linux.intel.com>
+ <3b1af19f-3500-3be8-9d28-ac7da5b7d728@linux.intel.com>
+ <Y72KdvHchbAzbYW2@DUT025-TGLU.fm.intel.com>
+ <b3225349-85fa-b30a-319c-604334e2f7e2@linux.intel.com>
+ <Y722HdwGKB8swy0B@DUT025-TGLU.fm.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <Y722HdwGKB8swy0B@DUT025-TGLU.fm.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,80 +72,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-hardening@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 10, 2023 at 01:42:57PM -0600, Gustavo A. R. Silva wrote:
-> On Tue, Jan 10, 2023 at 02:28:11PM -0500, Rodrigo Vivi wrote:
-> > 
-> > On Tue, Jan 10, 2023 at 10:44:53AM -0600, Gustavo A. R. Silva wrote:
-> > > Zero-length arrays are deprecated[1] and we are moving towards
-> > > adopting C99 flexible-array members, instead. So, replace zero-length
-> > > arrays in a couple of structures (three, actually) with flex-array
-> > > members.
-> > > 
-> > > This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
-> > > routines on memcpy() and help us make progress towards globally
-> > > enabling -fstrict-flex-arrays=3 [2].
-> > > 
-> > > Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays [1]
-> > > Link: https://gcc.gnu.org/pipermail/gcc-patches/2022-October/602902.html [2]
-> > > Link: https://github.com/KSPP/linux/issues/78
-> > > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> > 
-> > > ---
-> > >  drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h | 6 +++---
-> > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h b/drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
-> > > index 3624abfd22d1..9d589c28f40f 100644
-> > > --- a/drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
-> > > +++ b/drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
-> > > @@ -73,7 +73,7 @@ struct guc_debug_capture_list_header {
-> > >  
-> > >  struct guc_debug_capture_list {
-> > >  	struct guc_debug_capture_list_header header;
-> > > -	struct guc_mmio_reg regs[0];
-> > > +	struct guc_mmio_reg regs[];
-> > >  } __packed;
-> > >  
-> > >  /**
-> > > @@ -125,7 +125,7 @@ struct guc_state_capture_header_t {
-> > >  
-> > >  struct guc_state_capture_t {
-> > >  	struct guc_state_capture_header_t header;
-> > > -	struct guc_mmio_reg mmio_entries[0];
-> > > +	struct guc_mmio_reg mmio_entries[];
-> > >  } __packed;
-> > >  
-> > >  enum guc_capture_group_types {
-> > > @@ -145,7 +145,7 @@ struct guc_state_capture_group_header_t {
-> > >  /* this is the top level structure where an error-capture dump starts */
-> > >  struct guc_state_capture_group_t {
-> > >  	struct guc_state_capture_group_header_t grp_header;
-> > > -	struct guc_state_capture_t capture_entries[0];
-> > > +	struct guc_state_capture_t capture_entries[];
-> > 
-> > Please notice we are currently using sizeof(struct ...).
-> 
-> Yep; I noticed that. :)
-> 
-> > Along with your proposed changes, shouldn't we also start using
-> > the struct_size() which already take the flexible array into account?
-> 
-> Not necessarily. In recent times, we don't include the struct_size
-> changes in the same patch as the flex-array transformation. That's
-> usually a follow-up patch.
 
-okay, if that's not a problem, let's go with this for now and wait
-for the follow ups.
-
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-
-(and pushing it right now. Thanks for the patch)
-
+On 10/01/2023 19:01, Matthew Brost wrote:
+> On Tue, Jan 10, 2023 at 04:50:55PM +0000, Tvrtko Ursulin wrote:
+>>
+>> On 10/01/2023 15:55, Matthew Brost wrote:
+>>> On Tue, Jan 10, 2023 at 12:19:35PM +0000, Tvrtko Ursulin wrote:
+>>>>
+>>>> On 10/01/2023 11:28, Tvrtko Ursulin wrote:
+>>>>>
+>>>>>
+>>>>> On 09/01/2023 17:27, Jason Ekstrand wrote:
+>>>>>
+>>>>> [snip]
+>>>>>
+>>>>>>        >>> AFAICT it proposes to have 1:1 between *userspace* created
+>>>>>>       contexts (per
+>>>>>>        >>> context _and_ engine) and drm_sched. I am not sure avoiding
+>>>>>>       invasive changes
+>>>>>>        >>> to the shared code is in the spirit of the overall idea and
+>>>>>> instead
+>>>>>>        >>> opportunity should be used to look at way to refactor/improve
+>>>>>>       drm_sched.
+>>>>>>
+>>>>>>
+>>>>>> Maybe?  I'm not convinced that what Xe is doing is an abuse at all
+>>>>>> or really needs to drive a re-factor.  (More on that later.)
+>>>>>> There's only one real issue which is that it fires off potentially a
+>>>>>> lot of kthreads. Even that's not that bad given that kthreads are
+>>>>>> pretty light and you're not likely to have more kthreads than
+>>>>>> userspace threads which are much heavier.  Not ideal, but not the
+>>>>>> end of the world either.  Definitely something we can/should
+>>>>>> optimize but if we went through with Xe without this patch, it would
+>>>>>> probably be mostly ok.
+>>>>>>
+>>>>>>        >> Yes, it is 1:1 *userspace* engines and drm_sched.
+>>>>>>        >>
+>>>>>>        >> I'm not really prepared to make large changes to DRM scheduler
+>>>>>>       at the
+>>>>>>        >> moment for Xe as they are not really required nor does Boris
+>>>>>>       seem they
+>>>>>>        >> will be required for his work either. I am interested to see
+>>>>>>       what Boris
+>>>>>>        >> comes up with.
+>>>>>>        >>
+>>>>>>        >>> Even on the low level, the idea to replace drm_sched threads
+>>>>>>       with workers
+>>>>>>        >>> has a few problems.
+>>>>>>        >>>
+>>>>>>        >>> To start with, the pattern of:
+>>>>>>        >>>
+>>>>>>        >>>    while (not_stopped) {
+>>>>>>        >>>     keep picking jobs
+>>>>>>        >>>    }
+>>>>>>        >>>
+>>>>>>        >>> Feels fundamentally in disagreement with workers (while
+>>>>>>       obviously fits
+>>>>>>        >>> perfectly with the current kthread design).
+>>>>>>        >>
+>>>>>>        >> The while loop breaks and worker exists if no jobs are ready.
+>>>>>>
+>>>>>>
+>>>>>> I'm not very familiar with workqueues. What are you saying would fit
+>>>>>> better? One scheduling job per work item rather than one big work
+>>>>>> item which handles all available jobs?
+>>>>>
+>>>>> Yes and no, it indeed IMO does not fit to have a work item which is
+>>>>> potentially unbound in runtime. But it is a bit moot conceptual mismatch
+>>>>> because it is a worst case / theoretical, and I think due more
+>>>>> fundamental concerns.
+>>>>>
+>>>>> If we have to go back to the low level side of things, I've picked this
+>>>>> random spot to consolidate what I have already mentioned and perhaps
+>>>>> expand.
+>>>>>
+>>>>> To start with, let me pull out some thoughts from workqueue.rst:
+>>>>>
+>>>>> """
+>>>>> Generally, work items are not expected to hog a CPU and consume many
+>>>>> cycles. That means maintaining just enough concurrency to prevent work
+>>>>> processing from stalling should be optimal.
+>>>>> """
+>>>>>
+>>>>> For unbound queues:
+>>>>> """
+>>>>> The responsibility of regulating concurrency level is on the users.
+>>>>> """
+>>>>>
+>>>>> Given the unbound queues will be spawned on demand to service all queued
+>>>>> work items (more interesting when mixing up with the system_unbound_wq),
+>>>>> in the proposed design the number of instantiated worker threads does
+>>>>> not correspond to the number of user threads (as you have elsewhere
+>>>>> stated), but pessimistically to the number of active user contexts. That
+>>>>> is the number which drives the maximum number of not-runnable jobs that
+>>>>> can become runnable at once, and hence spawn that many work items, and
+>>>>> in turn unbound worker threads.
+>>>>>
+>>>>> Several problems there.
+>>>>>
+>>>>> It is fundamentally pointless to have potentially that many more threads
+>>>>> than the number of CPU cores - it simply creates a scheduling storm.
+>>>>
+>>>> To make matters worse, if I follow the code correctly, all these per user
+>>>> context worker thread / work items end up contending on the same lock or
+>>>> circular buffer, both are one instance per GPU:
+>>>>
+>>>> guc_engine_run_job
+>>>>    -> submit_engine
+>>>>       a) wq_item_append
+>>>>           -> wq_wait_for_space
+>>>>             -> msleep
+>>>
+>>> a) is dedicated per xe_engine
+>>
+>> Hah true, what its for then? I thought throttling the LRCA ring is done via:
+>>
 > 
-> --
-> Gustavo
+> This is a per guc_id 'work queue' which is used for parallel submission
+> (e.g. multiple LRC tail values need to written atomically by the GuC).
+> Again in practice there should always be space.
+
+Speaking of guc id, where does blocking when none are available happen 
+in the non parallel case?
+
+>>    drm_sched_init(&ge->sched, &drm_sched_ops,
+>> 		 e->lrc[0].ring.size / MAX_JOB_SIZE_BYTES,
+>>
+>> Is there something more to throttle other than the ring? It is throttling
+>> something using msleeps..
+>>
+>>> Also you missed the step of programming the ring which is dedicated per xe_engine
+>>
+>> I was trying to quickly find places which serialize on something in the
+>> backend, ringbuffer emission did not seem to do that but maybe I missed
+>> something.
+>>
+> 
+> xe_ring_ops vfunc emit_job is called to write the ring.
+
+Right but does it serialize between different contexts, I didn't spot 
+that it does in which case it wasn't relevant to the sub story.
+
+>>>
+>>>>       b) xe_guc_ct_send
+>>>>           -> guc_ct_send
+>>>>             -> mutex_lock(&ct->lock);
+>>>>             -> later a potential msleep in h2g_has_room
+>>>
+>>> Techincally there is 1 instance per GT not GPU, yes this is shared but
+>>> in practice there will always be space in the CT channel so contention
+>>> on the lock should be rare.
+>>
+>> Yeah I used the term GPU to be more understandable to outside audience.
+>>
+>> I am somewhat disappointed that the Xe opportunity hasn't been used to
+>> improve upon the CT communication bottlenecks. I mean those backoff sleeps
+>> and lock contention. I wish there would be a single thread in charge of the
+>> CT channel and internal users (other parts of the driver) would be able to
+>> send their requests to it in a more efficient manner, with less lock
+>> contention and centralized backoff.
+>>
+> 
+> Well the CT backend was more or less a complete rewrite. Mutexes
+> actually work rather well to ensure fairness compared to the spin locks
+> used in the i915. This code was pretty heavily reviewed by Daniel and
+> both of us landed a big mutex for all of the CT code compared to the 3
+> or 4 spin locks used in the i915.
+
+Are the "nb" sends gone? But that aside, I wasn't meaning just the 
+locking but the high level approach. Never  mind.
+
+>>> I haven't read your rather long reply yet, but also FWIW using a
+>>> workqueue has suggested by AMD (original authors of the DRM scheduler)
+>>> when we ran this design by them.
+>>
+>> Commit message says nothing about that. ;)
+>>
+> 
+> Yea I missed that, will fix in the next rev. Just dug through my emails
+> and Christian suggested a work queue and Andrey also gave some input on
+> the DRM scheduler design.
+> 
+> Also in the next will likely update the run_wq to be passed in by the
+> user.
+
+Yes, and IMO that may need to be non-optional.
+
+Regards,
+
+Tvrtko
