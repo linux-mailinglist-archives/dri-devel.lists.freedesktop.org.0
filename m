@@ -2,78 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C32B36666EF
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 00:04:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A527E6666FA
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 00:09:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6FDD10E825;
-	Wed, 11 Jan 2023 23:04:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ADB710E83D;
+	Wed, 11 Jan 2023 23:09:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B96FA10E825;
- Wed, 11 Jan 2023 23:04:01 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30BMP1Qw022472; Wed, 11 Jan 2023 23:03:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=jkuwI+skdrZdGL2ZVoUMisaPlFY2+xhJF0gdQLyrI0E=;
- b=HtP1EtsfsJMfF4FZiTBzpt0C2Id5t+lHrNItwcVLeJvSrLCWVAnqrb+Z0J/R0dZ3aZKa
- pyGsT55AuHrXKa65Uafv2MlF2PDqjW5K4b3Hxbgm/iV0ELrbsD4jRbbIJa9dz9tXXUmZ
- sb6xpsWx6uWKTz+dwOavrTfrgB2Upsa2U+dLqO9tdxSFHYloAEKK/leSYzaQhqmvGXCL
- Ncw8H8l0m10xY3p3igeLY+CsTZK2ZlaDMj8f3B3XLwUvWWkV3YXJ5tTdJIJcZgWuS+kH
- Rft7JZxUIk+qQPDKF5Z1Wd4pM80ee/5VemFRNpd6dHRALT0z6fWsbi5szSKXEcTOeLMz jw== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n1k6a2dk2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Jan 2023 23:03:59 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30BN3wWe022313
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Jan 2023 23:03:58 GMT
-Received: from [10.110.115.72] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 11 Jan
- 2023 15:03:57 -0800
-Message-ID: <8264b319-d852-b3fa-5af5-2fd0e5fe83b4@quicinc.com>
-Date: Wed, 11 Jan 2023 15:03:56 -0800
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9944710E83A
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 23:09:46 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ i17-20020a05600c355100b003d99434b1cfso13820508wmq.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 15:09:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9UQScSJfyMGe4w+apoimOZM3ngB2dIeu4UVoAiWJO0g=;
+ b=NivEwwX8J4L0H7sgLkPd37KpZrWb6uHyWcJAyn5yiWiPYvEvzOKcylhrA5kQOboSrD
+ zKbsr6WJQsSAsM+7eK6SlNXlmPwo4nTUg6gue5TQ34pkOtynhnbTo1bj6r/ADYwEb5bf
+ zJbRjF/r196NHPQQs24Z/3lOewFmqKT3CK8hg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9UQScSJfyMGe4w+apoimOZM3ngB2dIeu4UVoAiWJO0g=;
+ b=RIrWpaEYG0aOdAIjqQLhTz2/8XiylJy85JhMZrtLDdp9w7Idc6cUggtpRxmcFcTIYv
+ L/vgziviXv1ijSfg01XbJ8OoLgBAGdTiU9iRDkdvdCiDf1qgf0rJpbdAOUEDguKqGPl2
+ jzjlonfuk30WArkp6lKeJjc/vrGNcPUXpDMHOQcpXexXIl70eh18+v3K7MAiHCEKKVCj
+ wDfZSGhxOyE5vxQN8sU1YGTbg7HllLm8fMeo3DUdoy/kjUQT+7pJPU8wyIfC4yoTRFkg
+ Fu+8AXJr6aL6RdXnHRFeq2/VNTnbNVA9coFdXynOkupKq6vafAbHaQjg9RKnMkV8f0OH
+ kDhA==
+X-Gm-Message-State: AFqh2krsr/ys3nE+BNY2WnQ5+8EDrgEclfSbiwsXlvDUFDv8yiZpq1gO
+ UB0WP1ZPHKFNzyY4BOJVq62bcQ==
+X-Google-Smtp-Source: AMrXdXsnDe3Ivq+JdQToTPbj4x7KGohtSYDeDDwMtFiMTv7llocWLZI46CtlGQeBOvjqpkl3kJYP/A==
+X-Received: by 2002:a05:600c:1c21:b0:3d2:2faf:e54b with SMTP id
+ j33-20020a05600c1c2100b003d22fafe54bmr53489153wms.6.1673478584778; 
+ Wed, 11 Jan 2023 15:09:44 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ t9-20020a05600c198900b003d9e74dd9b2sm17037786wmq.9.2023.01.11.15.09.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Jan 2023 15:09:43 -0800 (PST)
+Date: Thu, 12 Jan 2023 00:09:41 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jim Cromie <jim.cromie@gmail.com>
+Subject: Re: [RFC PATCH 00/17] DRM_USE_DYNAMIC_DEBUG regression
+Message-ID: <Y79Btep8JnPKvuAp@phenom.ffwll.local>
+Mail-Followup-To: Jim Cromie <jim.cromie@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, jani.nikula@intel.com,
+ ville.syrjala@linux.intel.com, seanpaul@chromium.org,
+ robdclark@gmail.com, jbaron@akamai.com, gregkh@linuxfoundation.org
+References: <20221206003424.592078-1-jim.cromie@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [Freedreno] [PATCH v2 2/2] drm/msm/dsi: implement opp table based
- check for dsi_mgr_bridge_mode_valid()
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <freedreno@lists.freedesktop.org>
-References: <20230111225257.7510-1-quic_abhinavk@quicinc.com>
- <20230111225257.7510-2-quic_abhinavk@quicinc.com>
- <2304c252-354a-f214-3f89-7797110fc416@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <2304c252-354a-f214-3f89-7797110fc416@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 6Azl-M_k_kmBhr1NPanft-xLsOYv-YaD
-X-Proofpoint-GUID: 6Azl-M_k_kmBhr1NPanft-xLsOYv-YaD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-11_10,2023-01-11_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0
- lowpriorityscore=0 impostorscore=0 phishscore=0 clxscore=1015
- malwarescore=0 mlxscore=0 priorityscore=1501 spamscore=0 bulkscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301110169
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221206003424.592078-1-jim.cromie@gmail.com>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,94 +76,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- quic_jesszhan@quicinc.com
+Cc: jani.nikula@intel.com, daniel.vetter@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, seanpaul@chromium.org,
+ dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org, jbaron@akamai.com,
+ intel-gvt-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 1/11/2023 2:56 PM, Dmitry Baryshkov wrote:
-> On 12/01/2023 00:52, Abhinav Kumar wrote:
->> Currently there is no protection against a user trying to set
->> an unsupported mode on DSI. Implement a check based on the opp
->> table whether the byte clock for the mode can be supported by
->> validating whether an opp table entry exists.
->>
->> For devices which have not added opp table support yet, skip
->> this check otherwise it will break bootup on those devices.
->>
->> changes in v2:
->>     - drop dev_pm_opp_get_opp_table() usage
->>
->> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/15
->> Reported-by: Rob Clark <robdclark@gmail.com>
->> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/dsi/dsi_manager.c | 25 +++++++++++++++++++++++++
->>   1 file changed, 25 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c 
->> b/drivers/gpu/drm/msm/dsi/dsi_manager.c
->> index 3a1417397283..c4c24dabfd6f 100644
->> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
->> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
->> @@ -450,6 +450,31 @@ static enum drm_mode_status 
->> dsi_mgr_bridge_mode_valid(struct drm_bridge *bridge,
->>       int id = dsi_mgr_bridge_get_id(bridge);
->>       struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
->>       struct mipi_dsi_host *host = msm_dsi->host;
->> +    struct platform_device *pdev = msm_dsi->pdev;
->> +    struct dev_pm_opp *opp;
->> +    unsigned long byte_clk_rate;
->> +
->> +    byte_clk_rate = dsi_byte_clk_get_rate(host, IS_BONDED_DSI(), mode);
->> +
->> +    /*
->> +     * If dev_pm_opp_find_freq_ceil() returns -EINVAL, its a bad
->> +     * pointer being passed, so treat as an error and return MODE_ERROR
->> +     *
->> +     * If dev_pm_opp_find_freq_ceil() returns -ERANGE, no clock
->> +     * was found matching the byte_clk, so return MODE_CLOCK_RANGE
->> +     *
->> +     * If dev_pm_opp_find_freq_ceil() returns -ENODEV, don't treat
->> +     * it as an error as it could mean opp table is not implemented
->> +     */
+On Mon, Dec 05, 2022 at 05:34:07PM -0700, Jim Cromie wrote:
+> Hi everyone,
 > 
-> I'd say, too lengthy and verbose.
+> DRM_USE_DYNAMIC_DEBUG=y has a regression on rc-*
 > 
-hmmm .... just wanted to document the basis of the policy, I can make it 
-shorter.
-
->> +    opp = dev_pm_opp_find_freq_ceil(&pdev->dev, &byte_clk_rate);
->> +    if (IS_ERR(opp)) {
->> +        if (PTR_ERR(opp) == -EINVAL)
->> +            return MODE_ERROR;
->> +        else if (PTR_ERR(opp) == -ERANGE)
->> +            return MODE_CLOCK_RANGE;
+> Regression is due to a chicken-egg problem loading modules; on
+> `modprobe i915`, drm is loaded 1st, and drm.debug is set.  When
+> drm_debug_enabled() tested __drm_debug at runtime, that just worked.
 > 
-> I think the logic should be quite opposite. Ignore -ENODEV, handle 
-> -ERANGE and return MODE_ERROR for all other errors. In your code you are 
-> ignoring not only -ENODEV, but all other possible errors which can be 
-> added in future.
+> But with DRM_USE_DYNAMIC_DEBUG=y, the runtime test is replaced with a
+> post-load enablement of drm_dbg/dyndbg callsites (static-keys), via
+> dyndbg's callback on __drm_debug.  Since all drm-drivers need drm.ko,
+> it is loaded 1st, then drm.debug=X is applied, then drivers load, but
+> too late for drm_dbgs to be enabled.
+> 
+> STATUS
+> 
+> For all-loadable drm,i915,amdgpu configs, it almost works, but
+> propagating drm.debug to dependent modules doesnt actually apply,
+> though the motions are there.  This is not the problem I want to chase
+> here.
+> 
+> The more basic trouble is:
+> 
+> For builtin drm + helpers, things are broken pretty early; at the
+> beginning of dynamic_debug_init().  As the ddebug_sanity() commit-msg
+> describes in some detail, the records added by _USE fail to reference
+> the struct ddebug_class_map created and exported by _DEFINE, but get
+> separate addresses to "other" data that segv's when used as the
+> expected pointer. FWIW, the pointer val starts with "revi".
+
+So I honestly have no idea here, linker stuff is way beyond where I have
+clue. So what's the way forward here?
+
+The DEFINE/USE split does like the right thing to do at least from the
+"how it's used in drivers" pov. But if we're just running circles not
+quite getting there I dunno :-/
+-Daniel
+
+> 
+> OVERVIEW
+> 
+> DECLARE_DYNDBG_CLASSMAP is broken: it is one-size-fits-all-poorly.
+> It muddles the distinction between a (single) definition, and multiple
+> references.  Something exported should suffice.
+> 
+> The core of this patchset splits it into:
+> 
+> DYNDBG_CLASSMAP_DEFINE	used once per subsystem to define each classmap
+> DYNDBG_CLASSMAP_USE	declare dependence on a DEFINEd classmap
+> 
+> This makes the weird coordinated-changes-by-identical-classmaps
+> "feature" unnecessary; the DEFINE can export the var, and USE refers
+> to the exported var.
+> 
+> So this patchset adds another section: __dyndbg_class_refs.
+> 
+> It is like __dyndbg_classes; it is scanned under ddebug_add_module(),
+> and attached to each module's ddebug_table.  Once attached, it can be
+> used like classes to validate and apply class FOO >control queries.
+> 
+> It also maps the class user -> definer explicitly, so that when the
+> module is loaded, the section scan can find the kernel-param that is
+> wired to dyndbg's kparam-callback, and apply its state-var, forex:
+> __drm_debug to the just loaded helper/driver module.
+> 
+> Theres plenty to address Im sure.
+> 
+> Jim Cromie (17):
+>   test-dyndbg: fixup CLASSMAP usage error
+>   test-dyndbg: show that DEBUG enables prdbgs at compiletime
+>   dyndbg: fix readback value on LEVEL_NAMES interfaces
+>   dyndbg: replace classmap list with a vector
+>   dyndbg: make ddebug_apply_class_bitmap more selective
+>   dyndbg: dynamic_debug_init - use pointer inequality, not strcmp
+>   dyndbg: drop NUM_TYPE_ARRAY
+>   dyndbg: reduce verbose/debug clutter
+>   dyndbg-API: replace DECLARE_DYNDBG_CLASSMAP with
+>     DYNDBG_CLASSMAP(_DEFINE|_USE)
+>   dyndbg-API: specialize DYNDBG_CLASSMAP_(DEFINE|USE)
+>   dyndbg-API: DYNDBG_CLASSMAP_USE drop extra args
+>   dyndbg-API: DYNDBG_CLASSMAP_DEFINE() improvements
+>   drm_print: fix stale macro-name in comment
+>   dyndbg: unwrap __ddebug_add_module inner function NOTYET
+>   dyndbg: ddebug_sanity()
+>   dyndbg: mess-w-dep-class
+>   dyndbg: miss-on HACK
+> 
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c |  14 +-
+>  drivers/gpu/drm/display/drm_dp_helper.c |  14 +-
+>  drivers/gpu/drm/drm_crtc_helper.c       |  14 +-
+>  drivers/gpu/drm/drm_print.c             |  22 +--
+>  drivers/gpu/drm/i915/i915_params.c      |  14 +-
+>  drivers/gpu/drm/nouveau/nouveau_drm.c   |  14 +-
+>  include/asm-generic/vmlinux.lds.h       |   3 +
+>  include/drm/drm_print.h                 |   6 +-
+>  include/linux/dynamic_debug.h           |  57 ++++--
+>  include/linux/map.h                     |  54 ++++++
+>  kernel/module/main.c                    |   2 +
+>  lib/dynamic_debug.c                     | 240 +++++++++++++++++++-----
+>  lib/test_dynamic_debug.c                |  47 ++---
+>  13 files changed, 344 insertions(+), 157 deletions(-)
+>  create mode 100644 include/linux/map.h
+> 
+> -- 
+> 2.38.1
 > 
 
-Atm, those were the only ones handled but you are right.
-
-this is better.
-
-if (IS_ERR(opp)) {
-	if (PTR_ERR(opp) == -ERANGE)
-		return MODE_CLOCK_RANGE;
-	else
-		return MODE_ERROR;
-} else {
-	dev_pm_opp_put(opp);
-}
-
->> +    } else {
->> +        dev_pm_opp_put(opp);
->> +    }
->>       return msm_dsi_host_check_dsc(host, mode);
->>   }
-> 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
