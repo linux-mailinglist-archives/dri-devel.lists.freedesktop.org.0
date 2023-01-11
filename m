@@ -2,95 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1501666204
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 18:34:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3FDF666210
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 18:39:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8D0910E021;
-	Wed, 11 Jan 2023 17:34:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B82610E7B5;
+	Wed, 11 Jan 2023 17:38:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10olkn2039.outbound.protection.outlook.com [40.92.42.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3A3B10E021
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 17:34:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hgTmJRzHeJ7OxCVfQzHCwdjkAcgqQlCI29TAZTQw8pjd1JicrkSubXoaK5el6k9FDAI27yagYaKss3Y5QHsNiomX7L8X6QLD5LQISHLyjZWZ4EEr9BvEFZdZQ69nNwid8hyTIPZocfcpEMdtzG4qTaOdaVxhHf9wh0xmNCRb/ZrYr2vBuexMWec4oQDSZ45naTxFQHwduDnYb4AWD9B9DfkDCZagKXXkF4I6mkARHf7+3aE9UMJFwjDCOCfE5NRICQoF9CFJm0yRu0IdMSzLTdnDAnIKT+Ux/UvuglTa8ReURcLyduSXZ6BiJCFQpcMtLQtA8gSdmtTQXCgmfgF7vA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XReERc6bF+gXR/4HrtzeEgYVd5CVf/PR5+YpUZDCH1M=;
- b=hGMaG4TKx+dhJTnbKhvX1lVhM8SJRwCMkla9atALhMYvUwqKt3HBLh9cfWqKmRBAkLgggGRE3v/54IZQ9craAP3MaGskVSTrBfAXclW277zoKtaaFlxC6ZsGEF75WKxo4yg/3P1xtBxAV1xXdKdRXj/FNmbEWMj7x+vKAYXpqEVctuT4KeMl7dXaeZXP+FrZzm6VVTWQQRlFtysvLjk/MNi4ErKbo1XrVXdQfeSKRosmM1m/NUx6zLXr+ZkOnf6TEpPjDV5apverMX0HsGTGl3kZ5aKiBbixZby3kWtjtjyfEIXDvvdQ0uavl8XuwhZ8Kb8uheHrMZMNVNPUDNvRZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XReERc6bF+gXR/4HrtzeEgYVd5CVf/PR5+YpUZDCH1M=;
- b=iTBx+eIdqwTil7AZL/GSOJde5iK1eiZl8j1Ndacv67c0DFCtXFoPgm7qkWlWhmL4y7bHYnJUfz4q3V1CSojnZ2bRanOXO2Ksgu4R6VDXw4DO34AD0krRzuz3LKKCkVJ5M8BpC4paiHwYR9n4MD5hllHruvSzOChU2aZrb572ta31etDiZtGOuAsAjUlsKZCwmaFU1soOPnmHPrH6/LsOUXAF/c5z/B9yPHxo7m66bzd4CpkVVXfKP00mkGvMl8CMn5y2lLSLN1prXCs2sQBwaxCg85l1JmTE+hugbNrfMIc4zzflRFwu5uyjc/bDkzinrY1GUOX2kajjhnfFFmi6AQ==
-Received: from SN6PR06MB5342.namprd06.prod.outlook.com (2603:10b6:805:f9::31)
- by SN6PR06MB5245.namprd06.prod.outlook.com (2603:10b6:805:fa::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Wed, 11 Jan
- 2023 17:34:40 +0000
-Received: from SN6PR06MB5342.namprd06.prod.outlook.com
- ([fe80::ff4f:2e64:cf70:cc68]) by SN6PR06MB5342.namprd06.prod.outlook.com
- ([fe80::ff4f:2e64:cf70:cc68%5]) with mapi id 15.20.5986.018; Wed, 11 Jan 2023
- 17:34:40 +0000
-Date: Wed, 11 Jan 2023 11:34:36 -0600
-From: Chris Morgan <macromorgan@hotmail.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v9 1/4] drm: of: Add drm_of_get_dsi_bus helper function
-Message-ID: <SN6PR06MB5342934ECB5D0271D5BC0C1BA5FC9@SN6PR06MB5342.namprd06.prod.outlook.com>
-References: <20230111163012.310945-1-macroalpha82@gmail.com>
- <20230111163012.310945-2-macroalpha82@gmail.com>
- <20230111163926.k3v32pdvq7o7wxwl@houat>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230111163926.k3v32pdvq7o7wxwl@houat>
-X-TMN: [jD48r6WPBuLAd2sdsJiyo7LZOmWRtv21]
-X-ClientProxiedBy: SA9PR13CA0169.namprd13.prod.outlook.com
- (2603:10b6:806:28::24) To SN6PR06MB5342.namprd06.prod.outlook.com
- (2603:10b6:805:f9::31)
-X-Microsoft-Original-Message-ID: <Y77zLJcrhr2OlcmZ@wintermute.localhost.fail>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A32B10E7B8
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 17:38:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=xYU4RuMxy/JRRAMpNzK6ZStei0ZYM210L9gN90jx4GE=; b=DXG7+tXyJCL5uuTX2Zt7r6LSks
+ KZHfak+Uzi/rNvyR/+1nY6UC3H+70S84ni6fpboxKr6fW5y+EYVXv6f+wFJ4n8noQrNlVeU/fTYtK
+ 7ToAgvTTsLQjEYx8TH8OxS85Up5KuhMEtUb8GY+QEZ8DxUIlNItZw298Z08C5U6VGEKBM+/JpfIBo
+ 2jTWAsWHQcka5w8vezjWxkDLfypDsdX3aEOdxPPSpVwRxNOawnQJj+Ra9VuH74XeWQgxjMTbb4d2g
+ 9SrmHiLwjHECrN77dhhCgFmJGySR44Z4Xrl5iJZAeRGogYmdv7qeYJx0OeqfIC3aNY3ptKmPMgYHk
+ OxRX8WFw==;
+Received: from [187.36.234.139] (helo=bowie..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pFf3P-005Sku-E1; Wed, 11 Jan 2023 18:38:24 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Alain Volmat <alain.volmat@foss.st.com>
+Subject: [PATCH 00/13] drm/debugfs: Create a debugfs infrastructure for kms
+ objects
+Date: Wed, 11 Jan 2023 14:37:35 -0300
+Message-Id: <20230111173748.752659-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR06MB5342:EE_|SN6PR06MB5245:EE_
-X-MS-Office365-Filtering-Correlation-Id: e7482fc0-f156-43e1-ef9d-08daf3fa1e39
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DGN3KdmKSjhlo01mRQcwGcr1Sau66EsgYICpn1jeU2+x90KaV2ztB3FE7TWZB0ahVqBkM8b34iejELknIZp06FA7fKAMOvaY+El/h5eyn2+1celaf+CHX6KsMdYdqt7GR1vGgSui0Nj4d31WEqCMBCOXMpHDGpDioU4rAweW4WONHk23KDHkw0tRJIFf8r92n1QtvJrjTOYJIzseV2HW4Adg06cnn9f/CsWU89Zz022Vau4RkL8fFn23xxQpjrV7u1owb5W8W/VDnDZ9kx6n+2J3ynf+oOy+1mtbHXWIuq6M+lVmKfPYT4bFOIBm5mbUs5AQPOhHXMrlnbIYmf8IXGmcVwLKHFGn77xjjSahzwIdbEHT4yfnkNegWZmS3S51cwjkPlXNRyqGM6f0mtdrAnEctNaa8ITYQgD35TkBe8BANKhsKWVgPNeo1xaMnO2Rt5NAp0/drgvHW5Zlf6xcNayIJJU9+nFDXQ4izttrmveTJtcGvkWg/aDpSZ0B5+XfJU9xCg1LpiiuO3KY6mo3kRT25WOQXiE28gRyYtgugo8yBINxrKRp1jPsvXLbQouBRUZuWTznVAvWyp6wMHpj/nKvRFDTknl5IeWUOiZTJ56S1VFBTvC3ui4ME4hrhCRP2yQOIcQJcJYInLxSHW+3Pg==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?CpaFZydukLzncVSc6u0yffeKbvTKk5LGILl4d4KsI4iWMGfJYLqD5Qwx1/Yk?=
- =?us-ascii?Q?23XBuQI+e2EmHWagm9EaA15Z9hiTCGYjmxPCStXfM6eF55CsrzAhsiH+pa9h?=
- =?us-ascii?Q?Nd7IpHUTts+JQwznWkGOUZerCUxiehFloU6xIwT+5Ab1G0P28ouxv1KXqVMO?=
- =?us-ascii?Q?ZldsIme+mcJDJBl9iitB8/L3Oq3QAJpzHY06Hbuj6qQfwvDduLgI/0uhsEVh?=
- =?us-ascii?Q?ihQXB6QFO5yFMLO6mpFsYs9sRr7pbkTsi5bjRvmKhJyngS287m0vh6qIzpta?=
- =?us-ascii?Q?bRjGd0KQkfwG6ezMVvxkGBZ2TafKOMdpZE6EZqMmfJ3TVK8bUQ7VH9LIHeBp?=
- =?us-ascii?Q?kK3tMMXKlL2+NClsQsNdkvUrRpYaeLcUrbNbKQzSkt9QXLTUoOc4ZBW2YYEJ?=
- =?us-ascii?Q?GvVugNQuORg8IUU+yf0AgmdysXt9V+HaqvCfDEVZGPXZjtAQQ9muoBPFHHI0?=
- =?us-ascii?Q?jy4SJEnd8RBIlCdZw+/hvyj30kJzYPonQNp37ibetararzseR+TwCDoWfqX3?=
- =?us-ascii?Q?zN28oSbFx9pu9kT0K7oQKTTbdGLLugxFywVNMgvryE9XyMZYVxkz5CURMYhk?=
- =?us-ascii?Q?28nFDgSWE9POnOO/Hyofx6nYydX9AWMBDFKpwk07oI7nOBfFacQG8CwwQrXc?=
- =?us-ascii?Q?6o6JNcFB6ujpnuDzFR6R4macPJCHeBAG7/zT/YtGGCTR/58JCw9eS3S97+SU?=
- =?us-ascii?Q?47WMsBCfdXGHNvD0mKqJJ/wcO1T9IYM+2HHmik1uEl21evNBWKZrtlQznT6a?=
- =?us-ascii?Q?s79I3ZYCgCgv/ApG2Ke8dQGJNGMd5zRfXiAtcsns24NDPs8nQbc73CXMK64C?=
- =?us-ascii?Q?fewo6bM3j9+uMvExji9QBC6gjLIPpfhP8G2wBNzZ3gL6M3j3gmr/UFTCQg/e?=
- =?us-ascii?Q?jvckAUySvouq5rTGnu7oSWolVFNkRFS2fz/WEPsCeEWjKpt9qgyjfvj2C9ci?=
- =?us-ascii?Q?+WXiw8452NdlhmlwadbPdzONgEJsgP+Inmjx8UtvRsgGcGJ5w9JEJOxa/sAI?=
- =?us-ascii?Q?T24pUs+ZomkSOqTuQOnwg4UOwSrwfMjvKS23eg94PpqgkVRkRgGhc8vmDcTt?=
- =?us-ascii?Q?XtkkqJgo0RuB6aciQffI5J1rXSWFI1uBQSbrYkMKtFXWumzj0wPKlQNm68sD?=
- =?us-ascii?Q?WVpDNr1EZ8nf8EabGhemqj2gLUurtb+jn+fEgFoGbzBJyVv0N6uy5j4rtbu/?=
- =?us-ascii?Q?LzJayBjcNJN2Q1OBFWsc3kgbvCb/lzipV2Ry1kNz/LcLdg3dQiCOsfGL5r3y?=
- =?us-ascii?Q?MFCG9bT+UM+mHXdejwjBHkZO2fUvLARBnmdpalZXsA=3D=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-89723.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7482fc0-f156-43e1-ef9d-08daf3fa1e39
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR06MB5342.namprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2023 17:34:40.7082 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR06MB5245
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,135 +55,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- sam@ravnborg.org, dri-devel@lists.freedesktop.org,
- Chris Morgan <macroalpha82@gmail.com>, linux-rockchip@lists.infradead.org,
- robh+dt@kernel.org, thierry.reding@gmail.com, tzimmermann@suse.de,
- maccraft123mc@gmail.com
+Cc: Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 11, 2023 at 05:39:26PM +0100, Maxime Ripard wrote:
-> Hi,
-> 
-> On Wed, Jan 11, 2023 at 10:30:09AM -0600, Chris Morgan wrote:
-> > From: Chris Morgan <macromorgan@hotmail.com>
-> > 
-> > Add helper function to find DSI host for devices where DSI panel is not
-> > a minor of a DSI bus (such as the Samsung AMS495QA01 panel or the
-> > official Raspberry Pi touchscreen display).
-> > 
-> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> > Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
-> > ---
-> >  drivers/gpu/drm/drm_of.c | 70 ++++++++++++++++++++++++++++++++++++++++
-> >  include/drm/drm_of.h     | 10 ++++++
-> >  2 files changed, 80 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-> > index 7bbcb999bb75..4ebb5bc4b595 100644
-> > --- a/drivers/gpu/drm/drm_of.c
-> > +++ b/drivers/gpu/drm/drm_of.c
-> > @@ -10,6 +10,7 @@
-> >  #include <drm/drm_crtc.h>
-> >  #include <drm/drm_device.h>
-> >  #include <drm/drm_encoder.h>
-> > +#include <drm/drm_mipi_dsi.h>
-> >  #include <drm/drm_of.h>
-> >  #include <drm/drm_panel.h>
-> >  
-> > @@ -493,3 +494,72 @@ int drm_of_get_data_lanes_count_ep(const struct device_node *port,
-> >  	return ret;
-> >  }
-> >  EXPORT_SYMBOL_GPL(drm_of_get_data_lanes_count_ep);
-> > +
-> > +/**
-> > + * drm_of_get_dsi_bus - find the DSI bus for a given device
-> > + * @dev: parent device of display (SPI, I2C)
-> > + * @info: DSI device info to be updated with correct DSI node
-> > + *
-> > + * Gets parent DSI bus for a DSI device controlled through a bus other
-> > + * than MIPI-DCS (SPI, I2C, etc.) using the Device Tree.
-> > + *
-> > + * Returns pointer to mipi_dsi_host if successful, -EINVAL if the
-> > + * request is unsupported, -EPROBE_DEFER if the DSI host is found but
-> > + * not available, or -ENODEV otherwise.
-> > + */
-> > +struct mipi_dsi_host *drm_of_get_dsi_bus(struct device *dev,
-> > +					 struct mipi_dsi_device_info *info)
-> > +{
-> > +	struct mipi_dsi_host *dsi_host;
-> > +	struct device_node *endpoint, *dsi_host_node;
-> > +
-> > +	/*
-> > +	 * Exit immediately if we attempt to call this function when
-> > +	 * DRM_MIPI_DSI is not enabled, in the event CONFIG_OF is
-> > +	 * enabled.
-> > +	 */
-> > +	if (!IS_ENABLED(CONFIG_DRM_MIPI_DSI))
-> > +		return ERR_PTR(-EINVAL);
-> 
-> The commit log isn't super clear on why this is needed, but it would be
-> more consistent to add an ifdef and only compile the entire function if
-> DRM_MIPI_DSI is there, just like you did for OF already.
+This series introduces the initial structure to improve the support of kms
+objects by the DRM debugfs [1].
 
-Thank you. I can do that, I just wasn't sure if "#ifdefs" were frowned
-upon or not. That would probably be the easiest way to do this though.
+Currently, we can create debugfs files at late-register hooks with the function
+drm_debugfs_add_file() through the functionality implemented by the function
+drm_debugfs_late_register(), which creates the debugfs files after the
+registration of the kms objects. But, this was a stop-gap 
+while we didn't have proper debugfs infrastructure for the kms objects.
 
-> 
-> > +	/*
-> > +	 * Get first endpoint child from device.
-> > +	 */
-> > +	endpoint = of_graph_get_next_endpoint(dev->of_node, NULL);
-> > +	if (!endpoint)
-> > +		return ERR_PTR(-ENODEV);
-> > +
-> > +	/*
-> > +	 * Follow the first endpoint to get the DSI host node.
-> > +	 */
-> > +	dsi_host_node = of_graph_get_remote_port_parent(endpoint);
-> 
-> There's no need to hold the reference to endpoint after that call. call
-> of_node_put(endpoint) here, and it will simplify the error path.
-> 
-> > +	if (!dsi_host_node)
-> > +		goto error;
-> > +
-> > +	/*
-> > +	 * Get the DSI host from the DSI host node. If we get an error
-> > +	 * or the return is null assume we're not ready to probe just
-> > +	 * yet. Release the DSI host node since we're done with it.
-> > +	 */
-> > +	dsi_host = of_find_mipi_dsi_host_by_node(dsi_host_node);
-> > +	of_node_put(dsi_host_node);
-> > +	if (IS_ERR_OR_NULL(dsi_host)) {
-> > +		of_node_put(endpoint);
-> > +		return ERR_PTR(-EPROBE_DEFER);
-> > +	}
-> > +
-> > +	/*
-> > +	 * Set the node of the mipi_dsi_device_info to the correct node
-> > +	 * and then release the endpoint node since we're done with it.
-> > +	 */
-> > +	info->node = of_graph_get_remote_port(endpoint);
-> 
-> Ah, you're using it there.
-> 
-> I think I'd rework the function to:
-> 
-> - retrieve the endpoint
-> - retrieve the remote port, give up the endpoint
-> - retrieve the remote port parent
-> 
-> Also, I'm not entirely sure what you had in mind, but info might not be
-> there at all and it would be fine imho.
-> 
+Therefore, this series will add a debugfs infrastructure to the connector,
+crtc, and encoder objects similar to the device-centered debugfs helpers [2].
 
-What if I make it optional and if a NULL is passed skip this step, but
-otherwise populate the info node?
+Patches 1 and 2 will create macros to avoid copypasting the core management of
+the linked list. Patches 3 through 5 will introduce the structure for the
+connector, encoder, and crtc respectively. Patches 6 through 11 will convert
+the old structure to the new structure for 2 drivers: vc4 and sti. Finally,
+patch 12 will delete the unnecessary drm_debugfs_late_register() function.
 
-> Maxime
+[1] https://cgit.freedesktop.org/drm/drm/tree/Documentation/gpu/todo.rst#n506/
+[2] https://cgit.freedesktop.org/drm/drm-misc/commit/?id=1c9cacbea880513a896aee65a5c58007bcb55653
 
-Thank you for your input. I'll wait for the bots to see if the previous
-errors are really finally fixed, then I'll make these changes and
-resubmit.
+Best Regards,
+- Maíra Canal
+
+Maíra Canal (13):
+  drm/debugfs: Create helper to add debugfs files to device's list
+  drm/debugfs: Create helper to create debugfs files from list
+  drm/debugfs: Create a debugfs infrastructure for connectors
+  drm/debugfs: Create a debugfs infrastructure for encoders
+  drm/debugfs: Create a debugfs infrastructure for CRTC
+  drm/vc4: Split variable instantiation of vc4_debugfs_regset32()
+  drm/vc4: Use the encoders' debugfs infrastructure
+  drm/vc4: Use the crtc's debugfs infrastructure
+  drm/sti: Use the crtc's debugfs infrastructure
+  drm/sti: Use the connectors' debugfs infrastructure
+  drm/sti: Use the encoders' debugfs infrastructure
+  drm/debugfs: Remove the debugfs late register function
+  drm/todo: Update the debugfs clean up task
+
+ Documentation/gpu/todo.rst           |  14 ++-
+ drivers/gpu/drm/drm_connector.c      |   5 +
+ drivers/gpu/drm/drm_crtc.c           |   5 +
+ drivers/gpu/drm/drm_debugfs.c        | 141 +++++++++++++++++++++++----
+ drivers/gpu/drm/drm_encoder.c        |   6 ++
+ drivers/gpu/drm/drm_internal.h       |  16 ++-
+ drivers/gpu/drm/drm_mode_config.c    |   2 -
+ drivers/gpu/drm/sti/sti_compositor.c |   6 +-
+ drivers/gpu/drm/sti/sti_compositor.h |   2 +-
+ drivers/gpu/drm/sti/sti_crtc.c       |   2 +-
+ drivers/gpu/drm/sti/sti_dvo.c        |  21 +---
+ drivers/gpu/drm/sti/sti_hda.c        |  21 +---
+ drivers/gpu/drm/sti/sti_hdmi.c       |  21 +---
+ drivers/gpu/drm/sti/sti_mixer.c      |  31 +-----
+ drivers/gpu/drm/sti/sti_mixer.h      |   2 +-
+ drivers/gpu/drm/sti/sti_tvout.c      |  21 +---
+ drivers/gpu/drm/sti/sti_vid.c        |  19 +---
+ drivers/gpu/drm/sti/sti_vid.h        |   2 +-
+ drivers/gpu/drm/vc4/vc4_crtc.c       |   5 +-
+ drivers/gpu/drm/vc4/vc4_debugfs.c    |  55 +++++++++--
+ drivers/gpu/drm/vc4/vc4_dpi.c        |   3 +-
+ drivers/gpu/drm/vc4/vc4_drv.h        |  16 +++
+ drivers/gpu/drm/vc4/vc4_dsi.c        |   3 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c       |   5 +-
+ drivers/gpu/drm/vc4/vc4_vec.c        |   3 +-
+ include/drm/drm_connector.h          |  15 +++
+ include/drm/drm_crtc.h               |  15 +++
+ include/drm/drm_debugfs.h            |  77 +++++++++++++++
+ include/drm/drm_encoder.h            |  15 +++
+ 29 files changed, 384 insertions(+), 165 deletions(-)
+
+-- 
+2.39.0
+
