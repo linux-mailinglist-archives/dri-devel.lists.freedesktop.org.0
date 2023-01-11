@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0696C6665B9
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 22:43:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B586665C4
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 22:43:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA7F10E106;
-	Wed, 11 Jan 2023 21:42:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0664010E827;
+	Wed, 11 Jan 2023 21:42:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4F6810E0D4;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0761E10E159;
  Wed, 11 Jan 2023 21:42:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673473350; x=1705009350;
+ t=1673473351; x=1705009351;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Nn835qsD+Mor+PEM8WargAPdtTnryi6hPx7ZyrMd1xY=;
- b=Tr5TspKVoo4TpjiW8vPsbz67z/MqFCn1HIDpRHaEh26lHPRJfoZ6Nr69
- D5jsquJVz6E1mjF3e6yD2aEC9YQj4JCC3kOgCgwiTg89McDiHSxgdyQmg
- A1lOLJmEPv9UnROUwZAq8E05SiYIF7cCCE29+6eUV+PjF16piD1hne7yk
- WUQ0zLCCOYkWj8NqvGAUM0SokF6Balc/b9C4BypVc82VT4UZr96sF1Or/
- cvM0uFI7q+I3DZXRucBfFTcU2tn3GisjyaPkc2hOPxhYc/wi55V3GkVRt
- uDt9bwUZJAkh4gXndZZgy+Cg5POyTT9rkF+kBvADbSAzGzyNe8jJbatJz A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="322244754"
-X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="322244754"
+ bh=bjajzxiV1GP749/YYSgXBCIV3/yTkJZB5p0e27BI564=;
+ b=T3Me3H8pCqvHH7zNHK7oFklPoEKO/ugrxHmgSLj0UPUD7Y9uWCkhqnvF
+ NoZenFvmYs1RiF9RT/ttpiChmHZB/ArLYWs7RcvCxOBtgkiJlbwUb8MwD
+ MNBMpw2F+oXuo4T1gKDRM+/B1b7BbCooSePvFF30Rx9KmPR3MQ6803eGb
+ 4zm+YdLLTTA+dECiCVm+ulR4tZjyF19SK/8w64msdqeRtj2FvjkdeFz6Q
+ T7uzaqPXMh5qZk2tDfucL/n/R8YbvyeyWukMyo8+DjJqZUe9tS9mLFS4Y
+ 20KarCDNdyv9D2xNfJJkQb6sInbarDk0/dj7HQWOXOa/+Hh4M7xNTTWqX g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="322244756"
+X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="322244756"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  11 Jan 2023 13:42:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="607530438"
-X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="607530438"
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="607530441"
+X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="607530441"
 Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
  by orsmga003.jf.intel.com with ESMTP; 11 Jan 2023 13:42:29 -0800
 From: Alan Previn <alan.previn.teres.alexis@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 7/9] drm/i915/pxp: MTL-KCR interrupt ctrl's are in GT-0
-Date: Wed, 11 Jan 2023 13:42:24 -0800
-Message-Id: <20230111214226.907536-8-alan.previn.teres.alexis@intel.com>
+Subject: [PATCH v2 8/9] drm/i915/pxp: On MTL,
+ KCR enabling doesn't wait on tee component
+Date: Wed, 11 Jan 2023 13:42:25 -0800
+Message-Id: <20230111214226.907536-9-alan.previn.teres.alexis@intel.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230111214226.907536-1-alan.previn.teres.alexis@intel.com>
 References: <20230111214226.907536-1-alan.previn.teres.alexis@intel.com>
@@ -63,131 +64,203 @@ Cc: Juston Li <justonli@chromium.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Despite KCR subsystem being in the media-tile (close to the
-GSC-CS), the IRQ controls for it are on GT-0 with other global
-IRQ controls. Thus, add a helper for KCR hw interrupt
-enable/disable functions to get the correct gt structure (for
-uncore) for MTL.
+On legacy platforms, KCR HW enabling is done at the time the mei
+component interface is bound. It's also disabled during unbind.
+However, for MTL onwards, we don't depend on the tee-component
+operation before we can start sending GSC-CS firmware messages.
 
-In the helper, we get GT-0's handle for uncore when touching
-IRQ registers despite the pxp->ctrl_gt being the media-tile.
-No difference for legacy of course.
+Thus, immediately enable KCR HW on PXP's init, fini and resume.
 
 Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 ---
- drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c |  2 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_irq.c     | 23 +++++++++++++++++---
- drivers/gpu/drm/i915/pxp/intel_pxp_irq.h     |  8 +++++++
- 3 files changed, 29 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/pxp/intel_pxp.c     | 52 ++++++++++++++++++------
+ drivers/gpu/drm/i915/pxp/intel_pxp.h     |  4 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_pm.c  | 10 ++---
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.c | 13 +-----
+ 4 files changed, 49 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c b/drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c
-index 4b8e70caa3ad..9f6e300486b4 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c
-@@ -44,7 +44,7 @@ static int pxp_terminate_get(void *data, u64 *val)
- static int pxp_terminate_set(void *data, u64 val)
- {
- 	struct intel_pxp *pxp = data;
--	struct intel_gt *gt = pxp->ctrl_gt;
-+	struct intel_gt *gt = intel_pxp_get_irq_gt(pxp);
- 
- 	if (!intel_pxp_is_active(pxp))
- 		return -ENODEV;
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-index 91e9622c07d0..2eef0c19e91a 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-@@ -8,6 +8,7 @@
- #include "gt/intel_gt_regs.h"
- #include "gt/intel_gt_types.h"
- 
-+#include "i915_drv.h"
- #include "i915_irq.h"
- #include "i915_reg.h"
- 
-@@ -17,6 +18,22 @@
- #include "intel_pxp_types.h"
- #include "intel_runtime_pm.h"
- 
-+/**
-+ * intel_pxp_get_irq_gt - Find the correct GT that owns KCR interrupts
-+ * @pxp: pointer to pxp struct
-+ *
-+ * For platforms with a single GT, we return the pxp->ctrl_gt (as expected)
-+ * but for MTL+ that has a media-tile, although the KCR engine is in the
-+ * media-tile (i.e. pxp->ctrl_gt), the IRQ controls are on the root tile.
-+ */
-+struct intel_gt *intel_pxp_get_irq_gt(struct intel_pxp *pxp)
-+{
-+	if (pxp->uses_gsccs)
-+		return to_gt(pxp->ctrl_gt->i915);
-+
-+	return pxp->ctrl_gt;
-+}
-+
- /**
-  * intel_pxp_irq_handler - Handles PXP interrupts.
-  * @pxp: pointer to pxp struct
-@@ -29,7 +46,7 @@ void intel_pxp_irq_handler(struct intel_pxp *pxp, u16 iir)
- 	if (GEM_WARN_ON(!intel_pxp_is_enabled(pxp)))
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+index 809b49f59594..90e739345924 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+@@ -143,10 +143,12 @@ static void pxp_init_full(struct intel_pxp *pxp)
+ 	if (ret)
  		return;
  
--	gt = pxp->ctrl_gt;
-+	gt = intel_pxp_get_irq_gt(pxp);
+-	if (pxp->uses_gsccs)
++	if (pxp->uses_gsccs) {
+ 		ret = intel_pxp_gsccs_init(pxp);
+-	else
++		intel_pxp_init_hw(pxp, true);
++	} else {
+ 		ret = intel_pxp_tee_component_init(pxp);
++	}
+ 	if (ret)
+ 		goto out_context;
  
- 	lockdep_assert_held(gt->irq_lock);
+@@ -249,10 +251,12 @@ void intel_pxp_fini(struct drm_i915_private *i915)
  
-@@ -68,7 +85,7 @@ static inline void pxp_irq_reset(struct intel_gt *gt)
+ 	i915->pxp->arb_is_valid = false;
  
- void intel_pxp_irq_enable(struct intel_pxp *pxp)
+-	if (i915->pxp->uses_gsccs)
++	if (i915->pxp->uses_gsccs) {
++		intel_pxp_fini_hw(i915->pxp, true);
+ 		intel_pxp_gsccs_fini(i915->pxp);
+-	else
++	} else {
+ 		intel_pxp_tee_component_fini(i915->pxp);
++	}
+ 
+ 	destroy_vcs_context(i915->pxp);
+ 
+@@ -304,8 +308,9 @@ int intel_pxp_start(struct intel_pxp *pxp)
+ 	if (!intel_pxp_is_enabled(pxp))
+ 		return -ENODEV;
+ 
+-	if (wait_for(pxp_component_bound(pxp), 250))
+-		return -ENXIO;
++	if (!pxp->uses_gsccs)
++		if (wait_for(pxp_component_bound(pxp), 250))
++			return -ENXIO;
+ 
+ 	mutex_lock(&pxp->arb_mutex);
+ 
+@@ -331,16 +336,39 @@ int intel_pxp_start(struct intel_pxp *pxp)
+ 	return ret;
+ }
+ 
+-void intel_pxp_init_hw(struct intel_pxp *pxp)
++static void
++intel_pxp_hw_state_change(struct intel_pxp *pxp, bool enable,
++			  bool skip_if_runtime_pm_off)
++{
++	intel_wakeref_t wakeref;
++
++	if (skip_if_runtime_pm_off) {
++		/* if we are suspended, the HW will be re-initialized on resume */
++		wakeref = intel_runtime_pm_get_if_in_use(&pxp->ctrl_gt->i915->runtime_pm);
++		if (!wakeref)
++			return;
++	}
++
++	if (enable) {
++		kcr_pxp_enable(pxp);
++		intel_pxp_irq_enable(pxp);
++	} else {
++		kcr_pxp_disable(pxp);
++		intel_pxp_irq_disable(pxp);
++	}
++
++	if (skip_if_runtime_pm_off)
++		intel_runtime_pm_put(&pxp->ctrl_gt->i915->runtime_pm, wakeref);
++}
++
++void intel_pxp_init_hw(struct intel_pxp *pxp, bool skip_if_runtime_pm_off)
  {
--	struct intel_gt *gt = pxp->ctrl_gt;
-+	struct intel_gt *gt = intel_pxp_get_irq_gt(pxp);
+-	kcr_pxp_enable(pxp);
+-	intel_pxp_irq_enable(pxp);
++	intel_pxp_hw_state_change(pxp, true, skip_if_runtime_pm_off);
+ }
  
- 	spin_lock_irq(gt->irq_lock);
- 
-@@ -83,7 +100,7 @@ void intel_pxp_irq_enable(struct intel_pxp *pxp)
- 
- void intel_pxp_irq_disable(struct intel_pxp *pxp)
+-void intel_pxp_fini_hw(struct intel_pxp *pxp)
++void intel_pxp_fini_hw(struct intel_pxp *pxp, bool skip_if_runtime_pm_off)
  {
--	struct intel_gt *gt = pxp->ctrl_gt;
-+	struct intel_gt *gt = intel_pxp_get_irq_gt(pxp);
+-	kcr_pxp_disable(pxp);
+-	intel_pxp_irq_disable(pxp);
++	intel_pxp_hw_state_change(pxp, false, skip_if_runtime_pm_off);
+ }
+ 
+ int intel_pxp_key_check(struct intel_pxp *pxp,
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.h b/drivers/gpu/drm/i915/pxp/intel_pxp.h
+index 04440fada711..6c1fe3f0a20c 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp.h
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp.h
+@@ -20,8 +20,8 @@ bool intel_pxp_is_active(const struct intel_pxp *pxp);
+ int intel_pxp_init(struct drm_i915_private *i915);
+ void intel_pxp_fini(struct drm_i915_private *i915);
+ 
+-void intel_pxp_init_hw(struct intel_pxp *pxp);
+-void intel_pxp_fini_hw(struct intel_pxp *pxp);
++void intel_pxp_init_hw(struct intel_pxp *pxp, bool skip_if_runtime_pm_off);
++void intel_pxp_fini_hw(struct intel_pxp *pxp, bool skip_if_runtime_pm_off);
+ 
+ void intel_pxp_mark_termination_in_progress(struct intel_pxp *pxp);
+ 
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
+index 892d39cc61c1..94c1b2fe1eb2 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
+@@ -29,7 +29,7 @@ void intel_pxp_suspend(struct intel_pxp *pxp)
+ 		return;
+ 
+ 	with_intel_runtime_pm(&pxp->ctrl_gt->i915->runtime_pm, wakeref) {
+-		intel_pxp_fini_hw(pxp);
++		intel_pxp_fini_hw(pxp, false);
+ 		pxp->hw_state_invalidated = false;
+ 	}
+ }
+@@ -40,14 +40,14 @@ void intel_pxp_resume(struct intel_pxp *pxp)
+ 		return;
  
  	/*
- 	 * We always need to submit a global termination when we re-enable the
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.h b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.h
-index 8c292dc86f68..eea87c9eb62b 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.h
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.h
-@@ -9,6 +9,7 @@
- #include <linux/types.h>
+-	 * The PXP component gets automatically unbound when we go into S3 and
++	 * On Pre-MTL, PXP component gets automatically unbound when we go into S3 and
+ 	 * re-bound after we come out, so in that scenario we can defer the
+ 	 * hw init to the bind call.
+ 	 */
+-	if (!pxp->pxp_component)
++	if (!pxp->uses_gsccs & !pxp->pxp_component)
+ 		return;
  
- struct intel_pxp;
-+struct intel_gt;
- 
- #define GEN12_DISPLAY_PXP_STATE_TERMINATED_INTERRUPT BIT(1)
- #define GEN12_DISPLAY_APP_TERMINATED_PER_FW_REQ_INTERRUPT BIT(2)
-@@ -23,6 +24,8 @@ struct intel_pxp;
- void intel_pxp_irq_enable(struct intel_pxp *pxp);
- void intel_pxp_irq_disable(struct intel_pxp *pxp);
- void intel_pxp_irq_handler(struct intel_pxp *pxp, u16 iir);
-+struct intel_gt *intel_pxp_get_irq_gt(struct intel_pxp *pxp);
-+
- #else
- static inline void intel_pxp_irq_handler(struct intel_pxp *pxp, u16 iir)
- {
-@@ -35,6 +38,11 @@ static inline void intel_pxp_irq_enable(struct intel_pxp *pxp)
- static inline void intel_pxp_irq_disable(struct intel_pxp *pxp)
- {
+-	intel_pxp_init_hw(pxp);
++	intel_pxp_init_hw(pxp, false);
  }
-+
-+static inline struct intel_gt *intel_pxp_get_irq_gt(struct intel_pxp *pxp)
-+{
-+	return NULL;
-+}
- #endif
  
- #endif /* __INTEL_PXP_IRQ_H__ */
+ void intel_pxp_runtime_suspend(struct intel_pxp *pxp)
+@@ -57,7 +57,7 @@ void intel_pxp_runtime_suspend(struct intel_pxp *pxp)
+ 
+ 	pxp->arb_is_valid = false;
+ 
+-	intel_pxp_fini_hw(pxp);
++	intel_pxp_fini_hw(pxp, false);
+ 
+ 	pxp->hw_state_invalidated = false;
+ }
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+index d50354bfb993..9b34f2056b19 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+@@ -141,16 +141,9 @@ static int i915_pxp_tee_component_bind(struct device *i915_kdev,
+ 		}
+ 	}
+ 
+-	/* if we are suspended, the HW will be re-initialized on resume */
+-	wakeref = intel_runtime_pm_get_if_in_use(&i915->runtime_pm);
+-	if (!wakeref)
+-		return 0;
+-
+ 	/* the component is required to fully start the PXP HW */
+ 	if (intel_pxp_is_enabled(pxp))
+-		intel_pxp_init_hw(pxp);
+-
+-	intel_runtime_pm_put(&i915->runtime_pm, wakeref);
++		intel_pxp_init_hw(pxp, true);
+ 
+ 	return ret;
+ }
+@@ -160,11 +153,9 @@ static void i915_pxp_tee_component_unbind(struct device *i915_kdev,
+ {
+ 	struct drm_i915_private *i915 = kdev_to_i915(i915_kdev);
+ 	struct intel_pxp *pxp = i915->pxp;
+-	intel_wakeref_t wakeref;
+ 
+ 	if (intel_pxp_is_enabled(pxp))
+-		with_intel_runtime_pm_if_in_use(&i915->runtime_pm, wakeref)
+-			intel_pxp_fini_hw(pxp);
++		intel_pxp_fini_hw(pxp, true);
+ 
+ 	mutex_lock(&pxp->tee_mutex);
+ 	pxp->pxp_component = NULL;
 -- 
 2.39.0
 
