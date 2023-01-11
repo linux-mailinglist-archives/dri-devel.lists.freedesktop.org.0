@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 416F766620F
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 18:39:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D7D1666213
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 18:39:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8D7810E7B3;
-	Wed, 11 Jan 2023 17:38:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A197910E7B0;
+	Wed, 11 Jan 2023 17:39:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3057D10E7B2
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 17:38:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9990C10E7B4
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 17:38:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,26 +19,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=6VNc8UTTTDXWWB2J8ixgEiVj8sADziKCjNdhy0RtikY=; b=Yj/lS27fXLS3yLaZj4mefM/z2v
- uIAkzseozek5eMdW4ZNWIQC5X+84lgVXfZUiqqJ2/Dka/obRTFtee87Slq15eq8WLOFtNKU3Xb7r6
- APnH8g6PtI0amUi45qOhdDZoPgCUR9WA6xtAesm51bVIaHaPkuSMefxosDVbP8eJNSXB1wjpnfOfA
- dtnZ3Ka8kpzTNfEWm4vZRTIyZL/0HDp5K+oq/nX3Jq+DFrTO3ipm+YOYA/+IxNDfWhpPzorEthrIY
- s0ZqGUg3/eqKlOOQJejbO9AxO0soIdisJLg+W8w4nXk6XxmiDsyxyhtE1hAB1t/OTSbRxVXylJseU
- OGXc0QEQ==;
+ bh=CZyeTL029zzJuVyDEXThSkwV4MZhrZheSD+yYbbMM5I=; b=cBNe5bj0Y7YpCtqw9Gn8VPmNSh
+ ZmJcx3eCslVX35mw8g8l/PrfRzgsd8cy3IgT1nXrAZAVNxHZCiHvTYBFnQhmn5IEWd1NUK/UphuYS
+ pcO0BAaYm/9d4p500o/9IMhvkdOxM5Oli8spFHsrVl2I8WSUaDLY4dgoHEDrMxv/ObfE5dsg5fB4l
+ cJmUcU3cXwRYyIM75QqrNt88GWmTxjRg9V/C2LQqwhjkrBjdA9rZ7QNKXZ5cQcSasfk3VpgKI8V65
+ HCRAOHwNMaS4SZbR4mwVQ0EbuE71EicXbS1T6GMlyvhZMFryOLoU8KiJNiq17fi1QdVGVWi7zu+/D
+ xcSozKkQ==;
 Received: from [187.36.234.139] (helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pFf3h-005Sku-BQ; Wed, 11 Jan 2023 18:38:41 +0100
+ id 1pFf3l-005Sku-Rk; Wed, 11 Jan 2023 18:38:46 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
  Alain Volmat <alain.volmat@foss.st.com>
-Subject: [PATCH 04/13] drm/debugfs: Create a debugfs infrastructure for
- encoders
-Date: Wed, 11 Jan 2023 14:37:39 -0300
-Message-Id: <20230111173748.752659-5-mcanal@igalia.com>
+Subject: [PATCH 05/13] drm/debugfs: Create a debugfs infrastructure for CRTC
+Date: Wed, 11 Jan 2023 14:37:40 -0300
+Message-Id: <20230111173748.752659-6-mcanal@igalia.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230111173748.752659-1-mcanal@igalia.com>
 References: <20230111173748.752659-1-mcanal@igalia.com>
@@ -65,206 +64,135 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Introduce the ability to add DRM debugfs files to a list managed by the
-encoder and, during drm_encoder_register_all(), all added files will be
+crtc and, during drm_crtc_register_all(), all added files will be
 created at once.
 
-Moreover, introduce some typesafety as struct drm_debugfs_encoder_entry
-holds a drm_encoder instead of a drm_device. So, the drivers can get
-a encoder object directly from the struct drm_debugfs_encoder_entry
+Moreover, introduce some typesafety as struct drm_debugfs_crtc_entry
+holds a drm_crtc instead of a drm_device. So, the drivers can get
+a crtc object directly from the struct drm_debugfs_crtc_entry
 in the show() callback.
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/drm_debugfs.c  | 36 ++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/drm_encoder.c  |  6 ++++++
+ drivers/gpu/drm/drm_crtc.c     |  5 +++++
+ drivers/gpu/drm/drm_debugfs.c  | 33 +++++++++++++++++++++++++++++++++
  drivers/gpu/drm/drm_internal.h |  5 +++++
- include/drm/drm_debugfs.h      | 26 ++++++++++++++++++++++++
- include/drm/drm_encoder.h      | 15 ++++++++++++++
- 5 files changed, 88 insertions(+)
+ include/drm/drm_crtc.h         | 15 +++++++++++++++
+ include/drm/drm_debugfs.h      | 25 +++++++++++++++++++++++++
+ 5 files changed, 83 insertions(+)
 
+diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+index df9bf3c9206e..2953eef3e88e 100644
+--- a/drivers/gpu/drm/drm_crtc.c
++++ b/drivers/gpu/drm/drm_crtc.c
+@@ -131,6 +131,8 @@ int drm_crtc_register_all(struct drm_device *dev)
+ 			ret = crtc->funcs->late_register(crtc);
+ 		if (ret)
+ 			return ret;
++
++		drm_debugfs_crtc_init(crtc);
+ 	}
+ 
+ 	return 0;
+@@ -268,7 +270,9 @@ static int __drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *
+ 	crtc->funcs = funcs;
+ 
+ 	INIT_LIST_HEAD(&crtc->commit_list);
++	INIT_LIST_HEAD(&crtc->debugfs_list);
+ 	spin_lock_init(&crtc->commit_lock);
++	mutex_init(&crtc->debugfs_mutex);
+ 
+ 	drm_modeset_lock_init(&crtc->mutex);
+ 	ret = drm_mode_object_add(dev, &crtc->base, DRM_MODE_OBJECT_CRTC);
+@@ -508,6 +512,7 @@ void drm_crtc_cleanup(struct drm_crtc *crtc)
+ 	crtc->gamma_store = NULL;
+ 
+ 	drm_modeset_lock_fini(&crtc->mutex);
++	mutex_destroy(&crtc->debugfs_mutex);
+ 
+ 	drm_mode_object_unregister(dev, &crtc->base);
+ 	list_del(&crtc->head);
 diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index d9ec1ed5a7ec..6a763fe1b031 100644
+index 6a763fe1b031..e1f71a03a581 100644
 --- a/drivers/gpu/drm/drm_debugfs.c
 +++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -36,6 +36,7 @@
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_edid.h>
-+#include <drm/drm_encoder.h>
- #include <drm/drm_file.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_managed.h>
-@@ -271,6 +272,17 @@ void drm_debugfs_connector_init(struct drm_connector *connector)
- 	drm_create_file_from_list(connector);
+@@ -261,6 +261,17 @@ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+ 	return 0;
  }
  
-+void drm_debugfs_encoder_init(struct drm_encoder *encoder)
++void drm_debugfs_crtc_init(struct drm_crtc *crtc)
 +{
-+	struct drm_minor *minor = encoder->dev->primary;
-+	struct drm_debugfs_encoder_entry *entry, *tmp;
++	struct drm_minor *minor = crtc->dev->primary;
++	struct drm_debugfs_crtc_entry *entry, *tmp;
 +
 +	if (!minor)
 +		return;
 +
-+	drm_create_file_from_list(encoder);
++	drm_create_file_from_list(crtc);
 +}
 +
- void drm_debugfs_late_register(struct drm_device *dev)
+ void drm_debugfs_connector_init(struct drm_connector *connector)
  {
- 	struct drm_minor *minor = dev->primary;
-@@ -404,6 +416,30 @@ void drm_debugfs_connector_add_file(struct drm_connector *connector, const char
+ 	struct drm_minor *minor = connector->dev->primary;
+@@ -392,6 +403,28 @@ void drm_debugfs_add_files(struct drm_device *dev, const struct drm_debugfs_info
  }
- EXPORT_SYMBOL(drm_debugfs_connector_add_file);
+ EXPORT_SYMBOL(drm_debugfs_add_files);
  
 +/**
-+ * drm_debugfs_encoder_add_file - Add a given file to the DRM encoder debugfs file list
-+ * @encoder: DRM encoder object
++ * drm_debugfs_crtc_add_file - Add a given file to the DRM crtc debugfs file list
++ * @crtc: DRM crtc object
 + * @name: debugfs file name
 + * @show: show callback
 + * @data: driver-private data, should not be device-specific
-+ *
-+ * Add a given file entry to the DRM encoder debugfs file list to be created on
-+ * drm_encoder_register_all().
++ * Add a given file entry to the DRM crtc debugfs file list to be created on
++ * drm_debugfs_crtc_init().
 + */
-+void drm_debugfs_encoder_add_file(struct drm_encoder *encoder, const char *name,
-+				  int (*show)(struct seq_file*, void*), void *data)
++void drm_debugfs_crtc_add_file(struct drm_crtc *crtc, const char *name,
++			       int (*show)(struct seq_file*, void*), void *data)
 +{
-+	struct drm_debugfs_encoder_entry *entry = drmm_kzalloc(encoder->dev,
-+							       sizeof(*entry),
-+							       GFP_KERNEL);
++	struct drm_debugfs_crtc_entry *entry = drmm_kzalloc(crtc->dev, sizeof(*entry),
++							    GFP_KERNEL);
 +
 +	if (!entry)
 +		return;
 +
-+	drm_debugfs_add_file_to_list(encoder);
++	drm_debugfs_add_file_to_list(crtc);
 +}
-+EXPORT_SYMBOL(drm_debugfs_encoder_add_file);
++EXPORT_SYMBOL(drm_debugfs_crtc_add_file);
 +
- static int connector_show(struct seq_file *m, void *data)
- {
- 	struct drm_connector *connector = m->private;
-diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encoder.c
-index 1143bc7f3252..d6de6237cb4f 100644
---- a/drivers/gpu/drm/drm_encoder.c
-+++ b/drivers/gpu/drm/drm_encoder.c
-@@ -30,6 +30,7 @@
- #include <drm/drm_print.h>
- 
- #include "drm_crtc_internal.h"
-+#include "drm_internal.h"
- 
  /**
-  * DOC: overview
-@@ -78,6 +79,7 @@ int drm_encoder_register_all(struct drm_device *dev)
- 			ret = encoder->funcs->late_register(encoder);
- 		if (ret)
- 			return ret;
-+		drm_debugfs_encoder_init(encoder);
- 	}
- 
- 	return 0;
-@@ -125,9 +127,12 @@ static int __drm_encoder_init(struct drm_device *dev,
- 	}
- 
- 	INIT_LIST_HEAD(&encoder->bridge_chain);
-+	INIT_LIST_HEAD(&encoder->debugfs_list);
- 	list_add_tail(&encoder->head, &dev->mode_config.encoder_list);
- 	encoder->index = dev->mode_config.num_encoder++;
- 
-+	mutex_init(&encoder->debugfs_mutex);
-+
- out_put:
- 	if (ret)
- 		drm_mode_object_unregister(dev, &encoder->base);
-@@ -197,6 +202,7 @@ void drm_encoder_cleanup(struct drm_encoder *encoder)
- 	drm_mode_object_unregister(dev, &encoder->base);
- 	kfree(encoder->name);
- 	list_del(&encoder->head);
-+	mutex_destroy(&encoder->debugfs_mutex);
- 	dev->mode_config.num_encoder--;
- 
- 	memset(encoder, 0, sizeof(*encoder));
+  * drm_debugfs_connector_add_file - Add a given file to the DRM connector debugfs file list
+  * @connector: DRM connector object
 diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index dd9d7b8b45bd..363936ee8628 100644
+index 363936ee8628..9be697f7f8f9 100644
 --- a/drivers/gpu/drm/drm_internal.h
 +++ b/drivers/gpu/drm/drm_internal.h
-@@ -186,6 +186,7 @@ int drm_gem_dumb_destroy(struct drm_file *file, struct drm_device *dev,
+@@ -185,6 +185,7 @@ int drm_gem_dumb_destroy(struct drm_file *file, struct drm_device *dev,
+ #if defined(CONFIG_DEBUG_FS)
  int drm_debugfs_init(struct drm_minor *minor, int minor_id,
  		     struct dentry *root);
++void drm_debugfs_crtc_init(struct drm_crtc *crtc);
  void drm_debugfs_connector_init(struct drm_connector *connector);
-+void drm_debugfs_encoder_init(struct drm_encoder *encoder);
+ void drm_debugfs_encoder_init(struct drm_encoder *encoder);
  void drm_debugfs_cleanup(struct drm_minor *minor);
- void drm_debugfs_late_register(struct drm_device *dev);
- void drm_debugfs_connector_add(struct drm_connector *connector);
-@@ -204,6 +205,10 @@ static inline void drm_debugfs_connector_init(struct drm_connector *connector)
- {
+@@ -201,6 +202,10 @@ static inline int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+ 	return 0;
  }
  
-+static inline void drm_debugfs_encoder_init(struct drm_encoder *encoder)
++static inline void drm_debugfs_crtc_init(struct drm_crtc *crtc)
 +{
 +}
 +
- static inline void drm_debugfs_cleanup(struct drm_minor *minor)
+ static inline void drm_debugfs_connector_init(struct drm_connector *connector)
  {
  }
-diff --git a/include/drm/drm_debugfs.h b/include/drm/drm_debugfs.h
-index c09c82274622..677ed3fee5e1 100644
---- a/include/drm/drm_debugfs.h
-+++ b/include/drm/drm_debugfs.h
-@@ -139,6 +139,23 @@ struct drm_debugfs_connector_entry {
- 	struct list_head list;
- };
- 
-+/**
-+ * struct drm_debugfs_encoder_entry - Per-encoder debugfs node structure
-+ *
-+ * This structure represents a debugfs file, as an instantiation of a &struct
-+ * drm_debugfs_info on a &struct drm_encoder.
-+ */
-+struct drm_debugfs_encoder_entry {
-+	/** @encoder: &struct drm_encoder for this node. */
-+	struct drm_encoder *encoder;
-+
-+	/** @file: Template for this node. */
-+	struct drm_debugfs_info file;
-+
-+	/** @list: Linked list of all encoder nodes. */
-+	struct list_head list;
-+};
-+
- #if defined(CONFIG_DEBUG_FS)
- void drm_debugfs_create_files(const struct drm_info_list *files,
- 			      int count, struct dentry *root,
-@@ -154,6 +171,9 @@ void drm_debugfs_add_files(struct drm_device *dev,
- 
- void drm_debugfs_connector_add_file(struct drm_connector *connector, const char *name,
- 				    int (*show)(struct seq_file*, void*), void *data);
-+
-+void drm_debugfs_encoder_add_file(struct drm_encoder *encoder, const char *name,
-+				  int (*show)(struct seq_file*, void*), void *data);
- #else
- static inline void drm_debugfs_create_files(const struct drm_info_list *files,
- 					    int count, struct dentry *root,
-@@ -181,6 +201,12 @@ static inline void drm_debugfs_connector_add_file(struct drm_connector *connecto
- 						  int (*show)(struct seq_file*, void*),
- 						  void *data)
- {}
-+
-+static inline void drm_debugfs_encoder_add_file(struct drm_encoder *encoder,
-+						const char *name,
-+						int (*show)(struct seq_file*, void*),
-+						void *data)
-+{}
- #endif
- 
- #endif /* _DRM_DEBUGFS_H_ */
-diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
-index 3a09682af685..38b73f2a4e38 100644
---- a/include/drm/drm_encoder.h
-+++ b/include/drm/drm_encoder.h
-@@ -182,6 +182,21 @@ struct drm_encoder {
+diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+index 8e1cbc75143e..612928929646 100644
+--- a/include/drm/drm_crtc.h
++++ b/include/drm/drm_crtc.h
+@@ -1139,6 +1139,21 @@ struct drm_crtc {
  	 */
- 	struct list_head bridge_chain;
+ 	struct dentry *debugfs_entry;
  
 +	/**
 +	 * @debugfs_mutex:
@@ -276,14 +204,64 @@ index 3a09682af685..38b73f2a4e38 100644
 +	/**
 +	 * @debugfs_list:
 +	 *
-+	 * List of debugfs files to be created by the DRM encoder. The files
-+	 * must be added during drm_encoder_register_all().
++	 * List of debugfs files to be created by the DRM crtc. The files
++	 * must be added during drm_crtc_register_all().
 +	 */
 +	struct list_head debugfs_list;
 +
- 	const struct drm_encoder_funcs *funcs;
- 	const struct drm_encoder_helper_funcs *helper_private;
+ 	/**
+ 	 * @crc:
+ 	 *
+diff --git a/include/drm/drm_debugfs.h b/include/drm/drm_debugfs.h
+index 677ed3fee5e1..47f23615139f 100644
+--- a/include/drm/drm_debugfs.h
++++ b/include/drm/drm_debugfs.h
+@@ -122,6 +122,23 @@ struct drm_debugfs_entry {
+ 	struct list_head list;
  };
+ 
++/**
++ * struct drm_debugfs_crtc_entry - Per-crtc debugfs node structure
++ *
++ * This structure represents a debugfs file, as an instantiation of a &struct
++ * drm_debugfs_info on a &struct drm_crtc.
++ */
++struct drm_debugfs_crtc_entry {
++	/** @crtc: &struct drm_crtc for this node. */
++	struct drm_crtc *crtc;
++
++	/** @file: Template for this node. */
++	struct drm_debugfs_info file;
++
++	/** @list: Linked list of all crtc nodes. */
++	struct list_head list;
++};
++
+ /**
+  * struct drm_debugfs_connector_entry - Per-connector debugfs node structure
+  *
+@@ -169,6 +186,9 @@ void drm_debugfs_add_file(struct drm_device *dev, const char *name,
+ void drm_debugfs_add_files(struct drm_device *dev,
+ 			   const struct drm_debugfs_info *files, int count);
+ 
++void drm_debugfs_crtc_add_file(struct drm_crtc *crtc, const char *name,
++			       int (*show)(struct seq_file*, void*), void *data);
++
+ void drm_debugfs_connector_add_file(struct drm_connector *connector, const char *name,
+ 				    int (*show)(struct seq_file*, void*), void *data);
+ 
+@@ -196,6 +216,11 @@ static inline void drm_debugfs_add_files(struct drm_device *dev,
+ 					 int count)
+ {}
+ 
++static inline void drm_debugfs_crtc_add_file(struct drm_crtc *crtc, const char *name,
++					     int (*show)(struct seq_file*, void*),
++					     void *data)
++{}
++
+ static inline void drm_debugfs_connector_add_file(struct drm_connector *connector,
+ 						  const char *name,
+ 						  int (*show)(struct seq_file*, void*),
 -- 
 2.39.0
 
