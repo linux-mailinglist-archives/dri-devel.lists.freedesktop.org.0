@@ -2,53 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2656665E78
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 15:54:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A26B665E87
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 15:57:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2A1D10E752;
-	Wed, 11 Jan 2023 14:54:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D97110E755;
+	Wed, 11 Jan 2023 14:57:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A26EC10E752
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 14:54:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48D5810E754;
+ Wed, 11 Jan 2023 14:57:12 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C365061D11
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 14:54:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 310B4C433D2
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 14:54:27 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B998F61D4C;
+ Wed, 11 Jan 2023 14:57:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2940DC433F2;
+ Wed, 11 Jan 2023 14:57:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1673448867;
- bh=5991q1wXtvebgUykJ5NYVRTE1uZrMxXzr1nAKepdlS8=;
+ s=k20201202; t=1673449031;
+ bh=mYNw1iEQYVCp6RrmRe30DB6Teu7zpACGkO9NWFvDUyo=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=LQWeU5VG/JImzmbaXmRaFlNv+qK912ckHmEpaO53u+xu0W9sgAX04JiV6A8YfPmJP
- N3OWRrEDRXNSEvKTRqGIuOiM766jzVF6uiuTGqO6AWsIw/aVdYc/MPVuPhTGl7d65E
- eeHNm3iVs2MF17RBqdS06relccnSyWOo+ii2uUuNPiBHYVpf6CCFOAwaDvzypJTgvc
- 9vsxfdvnB0hLoABSrAf0XXq1FkfVQA/0cWZnoxCAfwHRgIkFOWHkxsbCjn5lKaMI2V
- ng4vsvD7+2Az4HuhqyWRHhJB0YPmKpXWx4DTsZMsI93oDh9+KsQMBxARRbUZxSVWDk
- 5I1M9waX80yTw==
-Received: by mail-pj1-f45.google.com with SMTP id
- w4-20020a17090ac98400b002186f5d7a4cso20334609pjt.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 06:54:27 -0800 (PST)
-X-Gm-Message-State: AFqh2krhwdvRvsUDJU+iviv/w5FhG16RHNWApNU+7kA9NypBliDjxzlI
- gvzdfuM8Fz3bA8SMw9iZyBrfRswGKpKnQNOomg==
-X-Google-Smtp-Source: AMrXdXuLjGWkrJgzvCsRL34zMGz/o9XODdn1icG/0kwllXKQUYcQoLyaKOC+UHWHVBhznJfC3GM3r3lDlYFHXzS35BM=
-X-Received: by 2002:a1f:1e50:0:b0:3c1:1c3b:c4d9 with SMTP id
- e77-20020a1f1e50000000b003c11c3bc4d9mr9659628vke.19.1673448856184; Wed, 11
- Jan 2023 06:54:16 -0800 (PST)
+ b=QaloOrONmjzv1NxnkIb/LFrLyvGzezX8IP6p+BTQwpjrgl1QKH4PNtYIph6Jnv0xy
+ UqOi2i1ffFiBdoNLDsJU/yJRjn4S75GCJFPM+APpHSv8iwblX7qs0DwIJmVqMOQ9nd
+ paa4QZw7H6L/ukm8SfqrMVRzDyuyvYwIGV5Agq7ONdhtiai7GwcH4fQa5PeL70rkYs
+ BbPdVEUoOUGJvCXQ9g+u/QUYjT+E2l+aYeGrKLT3sU1Ya/8URcBmlRWw5u4YXSUjrF
+ T4EfIVGYmI/YRxH3Asw5p1CtqiaEHckGigxorO6ARYWSTJlxmsu8+7ojwyblGxbtPD
+ b0X+2109HR02Q==
+Received: by mail-vs1-f52.google.com with SMTP id 3so15941846vsq.7;
+ Wed, 11 Jan 2023 06:57:11 -0800 (PST)
+X-Gm-Message-State: AFqh2krCQzCFeByovANEU66paHJTG/6dYZ+H1Spv/laMSeHkAqHUJ22t
+ nBGwAFkzUVIOj/I+wcDs+7eOx/Wo3ndhZnwMRg==
+X-Google-Smtp-Source: AMrXdXsFn/ZNP2w63VaXh+QFHScOBYUxYSxX/aRHG1VxYtf9ib6mpqOY1EwCEur2HVupJ0D2QHWb7s3fHG7o5hrVc/k=
+X-Received: by 2002:a05:6102:3546:b0:3c8:a6ed:faa8 with SMTP id
+ e6-20020a056102354600b003c8a6edfaa8mr9164668vss.85.1673449030052; Wed, 11 Jan
+ 2023 06:57:10 -0800 (PST)
 MIME-Version: 1.0
-References: <20230111113018.459199-1-gregkh@linuxfoundation.org>
- <20230111113018.459199-2-gregkh@linuxfoundation.org>
-In-Reply-To: <20230111113018.459199-2-gregkh@linuxfoundation.org>
+References: <20221130135807.45028-1-konrad.dybcio@linaro.org>
+In-Reply-To: <20221130135807.45028-1-konrad.dybcio@linaro.org>
 From: Rob Herring <robh+dt@kernel.org>
-Date: Wed, 11 Jan 2023 08:54:04 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJ4QsLym-bQGGjUpzT14MYuTE1n8BQkGn6Ey9NiFF7u7w@mail.gmail.com>
-Message-ID: <CAL_JsqJ4QsLym-bQGGjUpzT14MYuTE1n8BQkGn6Ey9NiFF7u7w@mail.gmail.com>
-Subject: Re: [PATCH v2 01/16] of: device: make of_device_uevent_modalias()
- take a const device *
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Date: Wed, 11 Jan 2023 08:56:58 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqL4Wymiov3bgXBo+1RJeMMjJ_+iCCo7oboSmU8P+0ew4A@mail.gmail.com>
+Message-ID: <CAL_JsqL4Wymiov3bgXBo+1RJeMMjJ_+iCCo7oboSmU8P+0ew4A@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: msm/dsi: Don't require vcca-supply on 14nm
+ PHY
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,34 +60,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Liang He <windhl@126.com>,
- Zou Wei <zou_wei@huawei.com>, Samuel Holland <samuel@sholland.org>,
- Frank Rowand <frowand.list@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>, Chen-Yu Tsai <wens@csie.org>,
- Corentin Labbe <clabbe@baylibre.com>, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, linuxppc-dev@lists.ozlabs.org
+Cc: freedreno@lists.freedesktop.org, patches@linaro.org,
+ linux-arm-msm@vger.kernel.org, andersson@kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ krzysztof.kozlowski+dt@linaro.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 11, 2023 at 5:30 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
+On Wed, Nov 30, 2022 at 7:58 AM Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
 >
-> of_device_uevent_modalias() does not modify the device pointer passed to
-> it, so mark it constant.  In order to properly do this, a number of
-> busses need to have a modalias function added as they were attempting to
-> just point to of_device_uevent_modalias instead of their bus-specific
-> modalias function.  This is fine except if the prototype for a bus and
-> device type modalias function diverges and then problems could happen.  To
-> prevent all of that, just wrap the call to of_device_uevent_modalias()
-> directly for each bus and device type individually.
+> On some SoCs (hello SM6115) vcca-supply is not wired to any smd-rpm
+> or rpmh regulator, but instead powered by the VDD_MX line, which is
+> voted for in the DSI ctrl node.
+>
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>  Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml | 1 -
+>  1 file changed, 1 deletion(-)
 
-Why not just put the wrapper function in the DT code instead of making
-4 copies of it?
+What's the status of this patch? It is in linux-next already for some
+time, but it needs to go into v6.2.
 
 Rob
