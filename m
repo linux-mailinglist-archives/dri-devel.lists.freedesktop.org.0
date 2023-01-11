@@ -1,65 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F3026665AB
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 22:37:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 475846665B6
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 22:42:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9008010E0C0;
-	Wed, 11 Jan 2023 21:37:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A59B10E0E3;
+	Wed, 11 Jan 2023 21:42:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D347810E0C0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 21:37:20 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id EBB7A61EDF
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 21:37:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5603AC433D2
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 21:37:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1673473039;
- bh=dTocmdqdcKzNLkSalvd/asZtyeKTXoDAg47SGSmRqnU=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Jj+Uo5I/zzDu6I5EAn9pHYercsqlO3ArqeEXWNDqSCX4Bc60SKVQdrm+yXRiEOnwh
- AtM/bb8L0nXX8eCr9kIvsLULWHk4+bhxaZO0oWm8mciKfy7Bho3At9AWNQc1oWQnXj
- FVsCbSmSGutTDay4bjVQH3khDy2zivEKMAnWvnKf9Id3elbDIC0DeIk7tlpl2DdtHZ
- 8AYBaTWXYib/uY5Sl1Ti4rqhzmTkVzxlab4qvc5oL9K2wOdkgPvBCOp36jAZYCTnKH
- Wks/Nx2PkX3P61RGogm3at3aUnrapH9S6rmFY5cohcF17GCd4/B45rHRQh0HO5nGyv
- VkprKRhrxp1pQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 44567C43141; Wed, 11 Jan 2023 21:37:19 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216917] hibernation regression since 6.0.18 (Ryzen-5650U incl.
- Radeon GPU)
-Date: Wed, 11 Jan 2023 21:37:18 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mario.limonciello@amd.com
-X-Bugzilla-Status: ASSIGNED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status component assigned_to
-Message-ID: <bug-216917-2300-RvVghUFFBx@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216917-2300@https.bugzilla.kernel.org/>
-References: <bug-216917-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C161910E0CA;
+ Wed, 11 Jan 2023 21:42:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673473349; x=1705009349;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=4QOO3Luc5cRyQy/a+58qgUTk3ob1UD7DPZYcsqtkTwU=;
+ b=B/wAw6ypTj2JeBv++seFJ9hVoz5AYClnG7vLpasLc7JlbzP0pQawTi0v
+ Icxt+OmFTCo/ZW1k5k5u3ZNF89NMoTAtdM6RbaJMplo6nlfcVRolpiCWR
+ K6RCIkGffzKITKS3xoP4WBZKf8Vt6JxDEZ8FtaltTh1eIW+0u+0ZDNog+
+ S6Q9LshHjRTvLbVLpzORVUWScCK53ypeTteoQ+ogf2Vb41Q0kRu7qRi5V
+ CFt2i2GHRV4YCd426LKF4wqzECem9KeHL9ZzNHaGk7q+uEKwxGJ4Dw1ta
+ bKX7Gz7D0aobYdw9noBYKmjN/N5WYFasa6FtIEBrPmMqhkUuTzlvp7Zzn Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="322244738"
+X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="322244738"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2023 13:42:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="607530409"
+X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="607530409"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by orsmga003.jf.intel.com with ESMTP; 11 Jan 2023 13:42:28 -0800
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 0/9] drm/i915/pxp: Add MTL PXP Support
+Date: Wed, 11 Jan 2023 13:42:17 -0800
+Message-Id: <20230111214226.907536-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,22 +54,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Juston Li <justonli@chromium.org>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Alan Previn <alan.previn.teres.alexis@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216917
+This series enables PXP on MTL. On ADL/TGL platforms, we rely on
+the mei driver via the i915-mei PXP component interface to establish
+a connection to the security firmware via the HECI device interface.
+That interface is used to create and teardown the PXP ARB session.
+PXP ARB session is created when protected contexts are created.
 
-Mario Limonciello (AMD) (mario.limonciello@amd.com) changed:
+In this series, the front end behaviors and interfaces (uapi) remain
+the same. We add backend support for MTL but with MTL we directly use
+the GSC-CS engine on the MTL GPU device to send messages to the PXP
+(a.k.a. GSC a.k.a graphics-security) firmware. With MTL, the format
+of the message is slightly different with a 2-layer packetization
+that is explained in detail in Patch #4. Also, the second layer
+which is the actual PXP firmware packet is now rev'd to version 4.3
+for MTL that is defined in Patch #6.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |ASSIGNED
-          Component|Platform_x86                |Video(DRI - non Intel)
-           Assignee|drivers_platform_x86@kernel |drivers_video-dri@kernel-bu
-                   |-bugs.osdl.org              |gs.osdl.org
+Changes from prior revs:
+   v1 : - fixed when building with CONFIG_PXP disabled.
+        - more alignment with gsc_mtl_header structure from the HDCP
 
---=20
-You may reply to this email to add a comment.
+Alan Previn (9):
+  drm/i915/pxp: Add MTL PXP GSC-CS back-end skeleton
+  drm/i915/pxp: Add GSC-CS back-end resource init and cleanup
+  drm/i915/pxp: Add MTL hw-plumbing enabling for KCR operation
+  drm/i915/pxp: Add MTL helpers to submit Heci-Cmd-Packet to GSC
+  drm/i915/pxp: Add GSC-CS backend to send GSC fw messages
+  drm/i915/pxp: Add ARB session creation with new PXP API Ver4.3
+  drm/i915/pxp: MTL-KCR interrupt ctrl's are in GT-0
+  drm/i915/pxp: On MTL, KCR enabling doesn't wait on tee component
+  drm/i915/pxp: Enable PXP with MTL-GSC-CS
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+ drivers/gpu/drm/i915/Makefile                 |   2 +
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h  |   2 +
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c        |   3 +-
+ .../i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c | 107 +++++
+ .../i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h |  69 ++++
+ drivers/gpu/drm/i915/i915_pci.c               |   1 +
+ drivers/gpu/drm/i915/pxp/intel_pxp.c          |  92 ++++-
+ drivers/gpu/drm/i915/pxp/intel_pxp.h          |   4 +-
+ .../drm/i915/pxp/intel_pxp_cmd_interface_43.h |  27 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c  |   2 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c    | 380 ++++++++++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h    |  30 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.c      |  23 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.h      |   8 +
+ drivers/gpu/drm/i915/pxp/intel_pxp_pm.c       |  10 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_regs.h     |  26 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.c  |  37 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.c      |  13 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_types.h    |  11 +
+ 19 files changed, 791 insertions(+), 56 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_regs.h
+
+
+base-commit: bf7f7c53ac622a3f6d6738d062e59dd21ce28bd7
+-- 
+2.39.0
+
