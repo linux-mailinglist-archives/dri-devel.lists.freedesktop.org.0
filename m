@@ -1,76 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C701166617C
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 18:13:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD589666199
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 18:19:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AFAA10E7AD;
-	Wed, 11 Jan 2023 17:13:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2667910E7AC;
+	Wed, 11 Jan 2023 17:19:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E163E10E7AD
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 17:13:27 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id jn22so17424517plb.13
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 09:13:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7xoqM2b4yU5Wgrth55wL+NVhuuSQRsysOAOffMfb2Zs=;
- b=UTHw9GP46gMj4w7BoWTjll73gGs6xDrYov0a9OBFb+A+fCEnj/lNlk/PdejnbXURqO
- Bjaa3RzcOfRgNZwW4y4wEquG1PiGvWa+mDFtnWW0uykLypatPgx5G7+4SERoq1k+dvQG
- xFFX2kzEYRvqMO5becq4T5XslALlZk0R4OFnPNGloW7hFS7+kr3EIBznbqo0ZIAm8A1H
- +p3Zp0frWYwjCW7td3rratlrAVtlk1S+6jOhrJ+M/+CWMO1tC4v7PVqrV9Thc4XztjhF
- 1CE9QPZeiFYhJRLTxvImYXddOrBCNoD718EF13VjvKDTA1rmkfHp64GNv01N55tZjVL5
- n6Bw==
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
+ [IPv6:2001:4860:4864:20::31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AFC410E7BB;
+ Wed, 11 Jan 2023 17:19:32 +0000 (UTC)
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-150b06cb1aeso16205040fac.11; 
+ Wed, 11 Jan 2023 09:19:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=nFU0BXnZfKrxnD8rhqEiuLHvEK2Kft/6no/g40oIuX8=;
+ b=LmIoTPM6KymniFaLl4yB2kNLq4BRFFGL8YN4oUXrXG3kUsOli0oH/n6dC18AcVLkEe
+ gfaqer9mpvKqN4jjg8dkHHZAbDnFTXfZVY/v1MT+y7GFAPOaA0ZZIV7KMH4VYX6YfKHD
+ B2U1byBqU5T9u+T0tJumzKs3/Tcg19g0Jpg+1LL1s8clUKASElD+l4uBG1Eyv6stOpf7
+ k8aLwdiIwnJ9pSzhhw8S14z49UTBnIQ7nSsmdYChqDxYSlbstOS2WJo610JKjHtz+Ym/
+ OW40Bp+l2u6RK2IoKpRgaDvWVyAHHLoAb73ZkKi4SCieeg+IuPZ8Vu2EqvWqCFdjUqeO
+ 9+Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7xoqM2b4yU5Wgrth55wL+NVhuuSQRsysOAOffMfb2Zs=;
- b=OC02OoNWvfQE6dtBPyCJgHYugIFpKv2u8ZjVS4RBylxUIdBr7pNy6u6+hTkeL5a5Ls
- SKv46Ut6W0vsI9slJMu+hqK3zrE5FFhCDdK79RgqxUQYCryazzGYo5w/Vamrlpp2WWnP
- hgE/XTOFoTBU6hjNYH7AmQZSMe57SADc7am4gIjU1YE8geezp3n9/bQBrbSvY7qy4jdO
- NdiRr/gNTgbTeVEMhdoaBHwo3oZ0YIdCPBW+ly9r4C4k66W4neotl5Tf8aoFqTFpJHIl
- rAwrRCDRpV+m5NczYPJNjmcVxVACeA80pDPEByPZGA/DRdGkBSL5Co4PyMdheqb3r2Jr
- qtAA==
-X-Gm-Message-State: AFqh2kot4ruGPmFZMrRSsm177Mb6oFSMD4qrf946DIylnqqrO/E3PmZz
- vaHGKjzXFe7rtRIZ1RTDzOiYsg==
-X-Google-Smtp-Source: AMrXdXvZV+eSwBO+qB3Cyv97/dRNyiGborDMC+PfJG2AQCDQ93hQgMsB7NAdTQYHGQJUGIn+huvG/w==
-X-Received: by 2002:a17:90a:9503:b0:227:679:17df with SMTP id
- t3-20020a17090a950300b00227067917dfmr499019pjo.0.1673457207330; 
- Wed, 11 Jan 2023 09:13:27 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- e13-20020a63e00d000000b00485cbedd34bsm8852733pgh.89.2023.01.11.09.13.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Jan 2023 09:13:26 -0800 (PST)
-Date: Wed, 11 Jan 2023 17:13:23 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- David Airlie <airlied@linux.ie>, Huang Rui <ray.huang@amd.com>,
- Trigger Huang <Trigger.Huang@gmail.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Antonio Caggiano <antonio.caggiano@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Dmitry Osipenko <digetx@gmail.com>, kvm@vger.kernel.org,
- kernel@collabora.com, virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v1] drm/ttm: Refcount allocated tail pages
-Message-ID: <Y77uM/X94DtKXtK0@google.com>
-References: <20220815095423.11131-1-dmitry.osipenko@collabora.com>
- <8230a356-be38-f228-4a8e-95124e8e8db6@amd.com>
- <YxenK8xZHC6Q4Eu4@phenom.ffwll.local>
- <YxeoEr6xAtlZ+IrU@phenom.ffwll.local>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nFU0BXnZfKrxnD8rhqEiuLHvEK2Kft/6no/g40oIuX8=;
+ b=ho5JJUNy3hguSwHCzizxO98/R61I/eVIKsb9DdIZ9O1mn1K9D29OOq/RWmPkh4wLYM
+ rZXAsDBHSlyQgdHz5Q39W6Mvz56/1UeIsQ+t6d6S8CfDUtzjMDMAfE/P3SrO/s4lYzkY
+ Ed7blEh2MDaKKuICFFCSjDy77izkHFQBHk2LC8TfjGkLZk0oNvT2EhcspKlLjw4rjXNQ
+ PpukJaVdfzPyeqFF4IXTZlrbR+i5tABKZNezsERgj3IacwI9jWbqA8+qxs3j+QrW67wC
+ LZnllo6o0z/ubIkkHmKQAq6KmamDTA12XKUJp4yfdpUKynBf7pFxJ77CZIDqqUsjNFYV
+ bQMA==
+X-Gm-Message-State: AFqh2kqXs4IbP/5NYocZuye66/nhShS5jio40jhAGkt+soFUddyC754i
+ /AgyzDOWwYCLij/We/nG1VyhOGG+kofHDgRGCt3Jf7CV
+X-Google-Smtp-Source: AMrXdXtvWsIpuTHVsKnOuIEiifXTzeqbxtg2d5hP0bhoNnwH7og/nMmNoDdfovFO9rBBco/XcJURLTN622pIY+6Jo6I=
+X-Received: by 2002:a05:6870:970e:b0:148:3c8f:15ab with SMTP id
+ n14-20020a056870970e00b001483c8f15abmr6225360oaq.46.1673457571714; Wed, 11
+ Jan 2023 09:19:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YxeoEr6xAtlZ+IrU@phenom.ffwll.local>
+References: <20230111153813.16051-1-tzimmermann@suse.de>
+In-Reply-To: <20230111153813.16051-1-tzimmermann@suse.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 11 Jan 2023 12:19:20 -0500
+Message-ID: <CADnq5_Pkdwx7nBRdv0LrRmdeey0gziG22T2HDN-xHXOKOaTK_w@mail.gmail.com>
+Subject: Re: [PATCH] drm/fb-helper: Set framebuffer for vga-switcheroo clients
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,51 +65,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Xinhui.Pan@amd.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com, evan.quan@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 06, 2022, Daniel Vetter wrote:
-> On Tue, Sep 06, 2022 at 10:01:47PM +0200, Daniel Vetter wrote:
-> > On Mon, Aug 15, 2022 at 12:05:19PM +0200, Christian König wrote:
-> > > Am 15.08.22 um 11:54 schrieb Dmitry Osipenko:
-> > > > Higher order pages allocated using alloc_pages() aren't refcounted and they
-> > > > need to be refcounted, otherwise it's impossible to map them by KVM. This
-> > > > patch sets the refcount of the tail pages and fixes the KVM memory mapping
-> > > > faults.
-> > > > 
-> > > > Without this change guest virgl driver can't map host buffers into guest
-> > > > and can't provide OpenGL 4.5 profile support to the guest. The host
-> > > > mappings are also needed for enabling the Venus driver using host GPU
-> > > > drivers that are utilizing TTM.
-> > > > 
-> > > > Based on a patch proposed by Trigger Huang.
-> > > 
-> > > Well I can't count how often I have repeated this: This is an absolutely
-> > > clear NAK!
-> > > 
-> > > TTM pages are not reference counted in the first place and because of this
-> > > giving them to virgl is illegal.
-> > > 
-> > > Please immediately stop this completely broken approach. We have discussed
-> > > this multiple times now.
-> > 
-> > Yeah we need to get this stuff closed for real by tagging them all with
-> > VM_IO or VM_PFNMAP asap.
-> 
-> For a bit more context: Anything mapping a bo should be VM_SPECIAL. And I
-> think we should add the checks to the gem and dma-buf mmap functions to
-> validate for that, and fix all the fallout.
-> 
-> Otherwise this dragon keeps resurrecting ...
-> 
-> VM_SPECIAL _will_ block get_user_pages, which will block everyone from
-> even trying to refcount this stuff.
+On Wed, Jan 11, 2023 at 10:38 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>
+> Set the framebuffer info for drivers that support VGA switcheroo. Only
+> affects the amdgpu driver, which uses VGA switcheroo and generic fbdev
+> emulation. For other drivers, this does nothing.
+>
+> Amdgpu's lastclose helper called vga_switcheroo_process_delayed_switch().
+> But as amdgpu uses generic fbdev emulation, it's better to call the helper
+> from drm_lastclose(), after the kernel client's screen has been restored.
+> So all drivers and clients can benefit. Radeon and nouveau with modernized
+> fbdev code are possible candidates.
+>
+> There was an earlier patchset to do something similar. [1]
+>
+> Suggested-by: Alexander Deucher <Alexander.Deucher@amd.com>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Link: https://lore.kernel.org/amd-gfx/20221020143603.563929-1-alexander.deucher@amd.com/ # 1
 
-FWIW, IIUC that won't change the KVM story.  KVM acquires the PFN for these pages
-via follow_pte(), not by gup().  Details are in a different strand of this thread[*].
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
-If TTM pages aren't tied into mmu_notifiers, then I believe the only solution is
-to not allow them to be mapped into user page tables.  If they are tied into
-mmu_notifiers, then this is fully a KVM limitation that we are (slowly) resolving.
-
-[*] https://lore.kernel.org/all/Y77sQZI0IfFVx7Jo@google.com
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h     |  1 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c |  1 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 12 ------------
+>  drivers/gpu/drm/drm_fb_helper.c         |  8 ++++++++
+>  drivers/gpu/drm/drm_file.c              |  3 +++
+>  5 files changed, 11 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> index 63c921c55fb9..7120b9b6e580 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -1330,7 +1330,6 @@ extern const int amdgpu_max_kms_ioctl;
+>
+>  int amdgpu_driver_load_kms(struct amdgpu_device *adev, unsigned long flags);
+>  void amdgpu_driver_unload_kms(struct drm_device *dev);
+> -void amdgpu_driver_lastclose_kms(struct drm_device *dev);
+>  int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv);
+>  void amdgpu_driver_postclose_kms(struct drm_device *dev,
+>                                  struct drm_file *file_priv);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> index ebc6e6cbe2ab..02d636f781a2 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -2784,7 +2784,6 @@ static const struct drm_driver amdgpu_kms_driver = {
+>             DRIVER_SYNCOBJ_TIMELINE,
+>         .open = amdgpu_driver_open_kms,
+>         .postclose = amdgpu_driver_postclose_kms,
+> -       .lastclose = amdgpu_driver_lastclose_kms,
+>         .ioctls = amdgpu_ioctls_kms,
+>         .num_ioctls = ARRAY_SIZE(amdgpu_ioctls_kms),
+>         .dumb_create = amdgpu_mode_dumb_create,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> index 7aa7e52ca784..886739576d3d 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> @@ -1104,18 +1104,6 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
+>  /*
+>   * Outdated mess for old drm with Xorg being in charge (void function now).
+>   */
+> -/**
+> - * amdgpu_driver_lastclose_kms - drm callback for last close
+> - *
+> - * @dev: drm dev pointer
+> - *
+> - * Switch vga_switcheroo state after last close (all asics).
+> - */
+> -void amdgpu_driver_lastclose_kms(struct drm_device *dev)
+> -{
+> -       drm_fb_helper_lastclose(dev);
+> -       vga_switcheroo_process_delayed_switch();
+> -}
+>
+>  /**
+>   * amdgpu_driver_open_kms - drm callback for open
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index 427631706128..5e445c61252d 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -30,7 +30,9 @@
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>
+>  #include <linux/console.h>
+> +#include <linux/pci.h>
+>  #include <linux/sysrq.h>
+> +#include <linux/vga_switcheroo.h>
+>
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_drv.h>
+> @@ -1940,6 +1942,7 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
+>                                          int preferred_bpp)
+>  {
+>         struct drm_client_dev *client = &fb_helper->client;
+> +       struct drm_device *dev = fb_helper->dev;
+>         struct drm_fb_helper_surface_size sizes;
+>         int ret;
+>
+> @@ -1961,6 +1964,11 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
+>                 return ret;
+>
+>         strcpy(fb_helper->fb->comm, "[fbcon]");
+> +
+> +       /* Set the fb info for vgaswitcheroo clients. Does nothing otherwise. */
+> +       if (dev_is_pci(dev->dev))
+> +               vga_switcheroo_client_fb_set(to_pci_dev(dev->dev), fb_helper->info);
+> +
+>         return 0;
+>  }
+>
+> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> index a51ff8cee049..314c309db9a3 100644
+> --- a/drivers/gpu/drm/drm_file.c
+> +++ b/drivers/gpu/drm/drm_file.c
+> @@ -38,6 +38,7 @@
+>  #include <linux/pci.h>
+>  #include <linux/poll.h>
+>  #include <linux/slab.h>
+> +#include <linux/vga_switcheroo.h>
+>
+>  #include <drm/drm_client.h>
+>  #include <drm/drm_drv.h>
+> @@ -460,6 +461,8 @@ void drm_lastclose(struct drm_device * dev)
+>                 drm_legacy_dev_reinit(dev);
+>
+>         drm_client_dev_restore(dev);
+> +
+> +       vga_switcheroo_process_delayed_switch();
+>  }
+>
+>  /**
+> --
+> 2.39.0
+>
