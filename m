@@ -1,65 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF346665EE9
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 16:19:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 560B8665EED
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 16:19:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5868710E2B7;
-	Wed, 11 Jan 2023 15:18:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 296DC10E2BE;
+	Wed, 11 Jan 2023 15:19:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C25810E2BE
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 15:18:52 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 07CF717D59;
- Wed, 11 Jan 2023 15:18:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673450331; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vW7EqoZN5JH9QZVEB8cp56/uppg3VKm8mRYkthii3vo=;
- b=i+niIcAK/I4rZvR6OXmNvvtnfYWXZkNXihW3rZIlh00BhwJe0kYd2/sKVc1jqefEWeX6Ek
- pVkxjlbu8DyZkct9pMt9/UjIUGyrXHottQlho4wcMt9mrZZJmUwPMIDtm96HIelTPWhQ2b
- 8jlkock1XDYKFQ3FBdksvK8CTEQP6Ko=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673450331;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vW7EqoZN5JH9QZVEB8cp56/uppg3VKm8mRYkthii3vo=;
- b=D2Gz6r+QzOMFhgLtpDbeUude3MH67cHueGG1Jw4XB6y/0hW0h4vMOI0Rppqpj01/6j9TMp
- NRzuRUa8mu+TH0Dw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CD26D13591;
- Wed, 11 Jan 2023 15:18:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 69z9MFrTvmMKLgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 11 Jan 2023 15:18:50 +0000
-Message-ID: <31795464-8986-c2c3-74a2-3d2bc3455820@suse.de>
-Date: Wed, 11 Jan 2023 16:18:50 +0100
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42B3610E75C;
+ Wed, 11 Jan 2023 15:19:22 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id bf43so24042476lfb.6;
+ Wed, 11 Jan 2023 07:19:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=62Jo7JKmSp1aIyPRq2hHTN6xUfaS0wnFHCKFd5OQBvU=;
+ b=Odg7aV67CgpZsg1dmxVJv1V1/1LvgpldKTNXBbOy0+GcuFiEUTB2ZqOGRp2v/mrJzX
+ n+npspTXXQZXgrzJ7RSAWuYXIMdtqieGVi4k05Mre0Fsa/ktlQ2L1K5gp49H9DgKV/Af
+ EbFbTsxeMjwWj2uGa9ckjLChW4+x0d1WQ6hRGfC09T8pn0DAd7+iuyZoHJDU5yGDUvG2
+ xHYZGu0ZD5g8+aVt7xsaPUROSaMIUkRd4t4Kvlzk3zrcvLZlYHti0kAfLEGSbLLZSoRN
+ 0HQnfI8mtZ/RNRqSu/GFLFUSVzOVjSBsnPiDju/QTkh02B4IFm76DD09l1doJzaejFcu
+ ATCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=62Jo7JKmSp1aIyPRq2hHTN6xUfaS0wnFHCKFd5OQBvU=;
+ b=KA+UJyUT+mJk4JQKgwW8frVWcIDwU3XgeEWay2xfGGHE6Y8Ja7kx8WdxDDI0IUEY6/
+ u6j0AYZymDgaQwCLwFoOHJA03RM+mDbVB9HbxivFHCL8BzZx8YAn9dIaAyWROGTC5nT9
+ rtWmS1UkuI39XOn9NnKKqT1v+SEWDngZiTyBaEYsG2gQLpfTqi3wPxlTnbM6COeSZNfN
+ 2hN+k4kiEQmeKpFK/dMGyK8V0vgUanzopMnaeljgvDaOw5AtSlYGmxKuLk95jBP5BIJX
+ d1FJVyseta9AhFIA/5rTzEWzLKCdPyDl+KXzvC/izi6vG21QBe9l/kSqDdaK8+4+GrC3
+ 8q4A==
+X-Gm-Message-State: AFqh2kp4+FDKbjVpDCRfV9XwWCm+uHzdooAf35L/afCzj+tPDhY1H+Lu
+ n+o/rwvOXy01gPn2EdPd3ylwzDD8OSRXX8g+GFWwohkts7k/bg==
+X-Google-Smtp-Source: AMrXdXsrO2mCMi7KpsYfLa5d8Go7Ggl5PfnG8n1Mi5wC6mgLjWi15GrwksX2c5GFuVL0URJ7X68HX0qIEfjVT9e6WTs=
+X-Received: by 2002:ac2:4c14:0:b0:4b9:f5e5:8fbe with SMTP id
+ t20-20020ac24c14000000b004b9f5e58fbemr3756943lfq.604.1673450360271; Wed, 11
+ Jan 2023 07:19:20 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 9/9] drm/vc4: hdmi: Add BT.2020 Support
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>, Emma Anholt <emma@anholt.net>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20221207-rpi-hdmi-improvements-v1-0-6b15f774c13a@cerno.tech>
- <20221207-rpi-hdmi-improvements-v1-9-6b15f774c13a@cerno.tech>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20221207-rpi-hdmi-improvements-v1-9-6b15f774c13a@cerno.tech>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------vsTcFjBTfdwjj2Vbi0sSwubl"
+References: <20230111114256.72669-1-christian.koenig@amd.com>
+ <20230111114256.72669-2-christian.koenig@amd.com>
+ <CAM0jSHP=LT5mXEFvXWJGPOotgRBBLFe-Pw=4TTHYWo=Maov_uA@mail.gmail.com>
+ <2b68945e-4001-db29-4421-f1a7266f0d69@gmail.com>
+In-Reply-To: <2b68945e-4001-db29-4421-f1a7266f0d69@gmail.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Wed, 11 Jan 2023 15:18:52 +0000
+Message-ID: <CAM0jSHOEXiQj-9160deCA-AxDjbUUrwYDUit9=yzPCcdLp_Wwg@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 2/2] drm/ttm: replace busy placement with flags
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,102 +69,244 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------vsTcFjBTfdwjj2Vbi0sSwubl
-Content-Type: multipart/mixed; boundary="------------8KHrfVrzvcIYthfrV2x1AJHW";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>, Emma Anholt <emma@anholt.net>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-Message-ID: <31795464-8986-c2c3-74a2-3d2bc3455820@suse.de>
-Subject: Re: [PATCH 9/9] drm/vc4: hdmi: Add BT.2020 Support
-References: <20221207-rpi-hdmi-improvements-v1-0-6b15f774c13a@cerno.tech>
- <20221207-rpi-hdmi-improvements-v1-9-6b15f774c13a@cerno.tech>
-In-Reply-To: <20221207-rpi-hdmi-improvements-v1-9-6b15f774c13a@cerno.tech>
+On Wed, 11 Jan 2023 at 14:43, Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Am 11.01.23 um 14:03 schrieb Matthew Auld:
+> > On Wed, 11 Jan 2023 at 11:43, Christian K=C3=B6nig
+> > <ckoenig.leichtzumerken@gmail.com> wrote:
+> >> Instead of a list of separate busy placement add flags which indicate
+> >> that a placement should only be used when there is room or if we need =
+to
+> >> evict.
+> >>
+> >> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> >> ---
+> >>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |   6 +-
+> >>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  11 +-
+> >>   drivers/gpu/drm/drm_gem_vram_helper.c      |   2 -
+> >>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c    |  36 +++---
+> >>   drivers/gpu/drm/nouveau/nouveau_bo.c       |  59 ++++------
+> >>   drivers/gpu/drm/nouveau/nouveau_bo.h       |   1 -
+> >>   drivers/gpu/drm/qxl/qxl_object.c           |   2 -
+> >>   drivers/gpu/drm/qxl/qxl_ttm.c              |   2 -
+> >>   drivers/gpu/drm/radeon/radeon_object.c     |   2 -
+> >>   drivers/gpu/drm/radeon/radeon_ttm.c        |   8 +-
+> >>   drivers/gpu/drm/radeon/radeon_uvd.c        |   1 -
+> >>   drivers/gpu/drm/ttm/ttm_bo.c               |  21 ++--
+> >>   drivers/gpu/drm/ttm/ttm_resource.c         |  73 +++----------
+> >>   drivers/gpu/drm/vmwgfx/vmwgfx_bo.c         |   2 -
+> >>   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 121 ++++++++++---------=
+--
+> >>   include/drm/ttm/ttm_placement.h            |  10 +-
+> >>   include/drm/ttm/ttm_resource.h             |   8 +-
+> >>   17 files changed, 134 insertions(+), 231 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/=
+drm/amd/amdgpu/amdgpu_object.c
+> >> index 974e85d8b6cc..0995a2f41305 100644
+> >> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> >> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> >> @@ -201,9 +201,6 @@ void amdgpu_bo_placement_from_domain(struct amdgpu=
+_bo *abo, u32 domain)
+> >>
+> >>          placement->num_placement =3D c;
+> >>          placement->placement =3D places;
+> >> -
+> >> -       placement->num_busy_placement =3D c;
+> >> -       placement->busy_placement =3D places;
+> >>   }
+> >>
+> >>   /**
+> >> @@ -1369,8 +1366,7 @@ vm_fault_t amdgpu_bo_fault_reserve_notify(struct=
+ ttm_buffer_object *bo)
+> >>                                          AMDGPU_GEM_DOMAIN_GTT);
+> >>
+> >>          /* Avoid costly evictions; only set GTT as a busy placement *=
+/
+> >> -       abo->placement.num_busy_placement =3D 1;
+> >> -       abo->placement.busy_placement =3D &abo->placements[1];
+> >> +       abo->placements[0].flags |=3D TTM_PL_FLAG_IDLE;
+> >>
+> >>          r =3D ttm_bo_validate(bo, &abo->placement, &ctx);
+> >>          if (unlikely(r =3D=3D -EBUSY || r =3D=3D -ERESTARTSYS))
+> >> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm=
+/amd/amdgpu/amdgpu_ttm.c
+> >> index 677cd7d91687..33cf6e835a68 100644
+> >> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> >> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> >> @@ -104,23 +104,19 @@ static void amdgpu_evict_flags(struct ttm_buffer=
+_object *bo,
+> >>          /* Don't handle scatter gather BOs */
+> >>          if (bo->type =3D=3D ttm_bo_type_sg) {
+> >>                  placement->num_placement =3D 0;
+> >> -               placement->num_busy_placement =3D 0;
+> >>                  return;
+> >>          }
+> >>
+> >>          /* Object isn't an AMDGPU object so ignore */
+> >>          if (!amdgpu_bo_is_amdgpu_bo(bo)) {
+> >>                  placement->placement =3D &placements;
+> >> -               placement->busy_placement =3D &placements;
+> >>                  placement->num_placement =3D 1;
+> >> -               placement->num_busy_placement =3D 1;
+> >>                  return;
+> >>          }
+> >>
+> >>          abo =3D ttm_to_amdgpu_bo(bo);
+> >>          if (abo->flags & AMDGPU_GEM_CREATE_DISCARDABLE) {
+> >>                  placement->num_placement =3D 0;
+> >> -               placement->num_busy_placement =3D 0;
+> >>                  return;
+> >>          }
+> >>
+> >> @@ -129,13 +125,13 @@ static void amdgpu_evict_flags(struct ttm_buffer=
+_object *bo,
+> >>          case AMDGPU_PL_GWS:
+> >>          case AMDGPU_PL_OA:
+> >>                  placement->num_placement =3D 0;
+> >> -               placement->num_busy_placement =3D 0;
+> >>                  return;
+> >>
+> >>          case TTM_PL_VRAM:
+> >>                  if (!adev->mman.buffer_funcs_enabled) {
+> >>                          /* Move to system memory */
+> >>                          amdgpu_bo_placement_from_domain(abo, AMDGPU_G=
+EM_DOMAIN_CPU);
+> >> +
+> >>                  } else if (!amdgpu_gmc_vram_full_visible(&adev->gmc) =
+&&
+> >>                             !(abo->flags & AMDGPU_GEM_CREATE_CPU_ACCES=
+S_REQUIRED) &&
+> >>                             amdgpu_bo_in_cpu_visible_vram(abo)) {
+> >> @@ -150,8 +146,7 @@ static void amdgpu_evict_flags(struct ttm_buffer_o=
+bject *bo,
+> >>                                                          AMDGPU_GEM_DO=
+MAIN_CPU);
+> >>                          abo->placements[0].fpfn =3D adev->gmc.visible=
+_vram_size >> PAGE_SHIFT;
+> >>                          abo->placements[0].lpfn =3D 0;
+> >> -                       abo->placement.busy_placement =3D &abo->placem=
+ents[1];
+> >> -                       abo->placement.num_busy_placement =3D 1;
+> >> +                       abo->placements[0].flags |=3D TTM_PL_FLAG_IDLE=
+;
+> >>                  } else {
+> >>                          /* Move to GTT memory */
+> >>                          amdgpu_bo_placement_from_domain(abo, AMDGPU_G=
+EM_DOMAIN_GTT |
+> >> @@ -923,8 +918,6 @@ int amdgpu_ttm_alloc_gart(struct ttm_buffer_object=
+ *bo)
+> >>          /* allocate GART space */
+> >>          placement.num_placement =3D 1;
+> >>          placement.placement =3D &placements;
+> >> -       placement.num_busy_placement =3D 1;
+> >> -       placement.busy_placement =3D &placements;
+> >>          placements.fpfn =3D 0;
+> >>          placements.lpfn =3D adev->gmc.gart_size >> PAGE_SHIFT;
+> >>          placements.mem_type =3D TTM_PL_TT;
+> >> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/d=
+rm_gem_vram_helper.c
+> >> index d40b3edb52d0..f46792b757f9 100644
+> >> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+> >> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+> >> @@ -147,7 +147,6 @@ static void drm_gem_vram_placement(struct drm_gem_=
+vram_object *gbo,
+> >>                  invariant_flags =3D TTM_PL_FLAG_TOPDOWN;
+> >>
+> >>          gbo->placement.placement =3D gbo->placements;
+> >> -       gbo->placement.busy_placement =3D gbo->placements;
+> >>
+> >>          if (pl_flag & DRM_GEM_VRAM_PL_FLAG_VRAM) {
+> >>                  gbo->placements[c].mem_type =3D TTM_PL_VRAM;
+> >> @@ -160,7 +159,6 @@ static void drm_gem_vram_placement(struct drm_gem_=
+vram_object *gbo,
+> >>          }
+> >>
+> >>          gbo->placement.num_placement =3D c;
+> >> -       gbo->placement.num_busy_placement =3D c;
+> >>
+> >>          for (i =3D 0; i < c; ++i) {
+> >>                  gbo->placements[i].fpfn =3D 0;
+> >> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm=
+/i915/gem/i915_gem_ttm.c
+> >> index d409a77449a3..dc483d601cf9 100644
+> >> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> >> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> >> @@ -65,8 +65,6 @@ static const struct ttm_place sys_placement_flags =
+=3D {
+> >>   static struct ttm_placement i915_sys_placement =3D {
+> >>          .num_placement =3D 1,
+> >>          .placement =3D &sys_placement_flags,
+> >> -       .num_busy_placement =3D 1,
+> >> -       .busy_placement =3D &sys_placement_flags,
+> >>   };
+> >>
+> >>   /**
+> >> @@ -154,32 +152,27 @@ i915_ttm_place_from_region(const struct intel_me=
+mory_region *mr,
+> >>
+> >>   static void
+> >>   i915_ttm_placement_from_obj(const struct drm_i915_gem_object *obj,
+> >> -                           struct ttm_place *requested,
+> >> -                           struct ttm_place *busy,
+> >> +                           struct ttm_place *places,
+> >>                              struct ttm_placement *placement)
+> >>   {
+> >>          unsigned int num_allowed =3D obj->mm.n_placements;
+> >>          unsigned int flags =3D obj->flags;
+> >>          unsigned int i;
+> >>
+> >> -       placement->num_placement =3D 1;
+> >>          i915_ttm_place_from_region(num_allowed ? obj->mm.placements[0=
+] :
+> >> -                                  obj->mm.region, requested, obj->bo_=
+offset,
+> >> +                                  obj->mm.region, &places[0], obj->bo=
+_offset,
+> >>                                     obj->base.size, flags);
+> > Do we also need places[0].flags |=3D TTM_PL_FLAG_IDLE somewhere here?
+> >
+> > Series doesn't seem to apply to drm-tip, so no intel-gfx CI. Would it
+> > be possible to have a version that applies to drm-tip, just so we can
+> > verify the i915 bits? We could send it to trybot[1] just to get some
+> > CI results?
+>
+> Mpf, I was intentionally waiting with this for another cycle to be able
+> to test it. Can you see why it doesn't apply?
 
---------------8KHrfVrzvcIYthfrV2x1AJHW
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Error: patch https://patchwork.freedesktop.org/api/1.0/series/112668/revisi=
+ons/1/mbox/
+not applied
+Applying: drm/ttm: prevent moving of pinned BOs
+Applying: drm/ttm: replace busy placement with flags
+error: sha1 information is lacking or useless
+(drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c).
+error: could not build fake ancestor
+hint: Use 'git am --show-current-patch=3Ddiff' to see the failed patch
+Patch failed at 0002 drm/ttm: replace busy placement with flags
+When you have resolved this problem, run "git am --continue".
+If you prefer to skip this patch, run "git am --skip" instead.
+To restore the original branch and stop patching, run "git am --abort".
 
-DQoNCkFtIDA3LjEyLjIyIHVtIDE3OjA3IHNjaHJpZWIgTWF4aW1lIFJpcGFyZDoNCj4gRnJv
-bTogRGF2ZSBTdGV2ZW5zb24gPGRhdmUuc3RldmVuc29uQHJhc3BiZXJyeXBpLmNvbT4NCj4g
-DQo+IEV2ZW4gdGhvdWdoIHdlIHJlcG9ydCB0aGF0IHdlIHN1cHBvcnQgdGhlIEJULjIwMjAg
-Q29sb3JzcGFjZSwgd2Ugd2VyZQ0KPiBhbHdheXMgdXNpbmcgdGhlIEJULjcwOSBjb252ZXJz
-aW9uIG1hdHJpY2VzLiBMZXQncyBhZGQgdGhlIEJULjIwMjAgb25lcy4NCj4gDQo+IFNpZ25l
-ZC1vZmYtYnk6IERhdmUgU3RldmVuc29uIDxkYXZlLnN0ZXZlbnNvbkByYXNwYmVycnlwaS5j
-b20+DQo+IFNpZ25lZC1vZmYtYnk6IE1heGltZSBSaXBhcmQgPG1heGltZUBjZXJuby50ZWNo
-Pg0KDQpSZXZpZXdlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2Uu
-ZGU+DQoNCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jIHwgMzgg
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gICAxIGZpbGUgY2hh
-bmdlZCwgMzggaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS92YzQvdmM0X2hkbWkuYyBiL2RyaXZlcnMvZ3B1L2RybS92YzQvdmM0X2hkbWkuYw0K
-PiBpbmRleCBlMzQyOGZiMmMyMmQuLjI3MzRjYWIzNDY2MCAxMDA2NDQNCj4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92
-YzQvdmM0X2hkbWkuYw0KPiBAQCAtMTI3Nyw2ICsxMjc3LDM3IEBAIHN0YXRpYyBjb25zdCB1
-MTYgdmM1X2hkbWlfY3NjX2Z1bGxfcmdiX3RvX3l1dl9idDcwOVsyXVszXVs0XSA9IHsNCj4g
-ICAJfSwNCj4gICB9Ow0KPiAgIA0KPiArLyoNCj4gKyAqIENvbnZlcnNpb24gYmV0d2VlbiBG
-dWxsIFJhbmdlIFJHQiBhbmQgWVVWIHVzaW5nIHRoZSBCVC4yMDIwIENvbG9yc3BhY2UNCj4g
-KyAqDQo+ICsgKiBNYXRyaWNlcyBhcmUgc2lnbmVkIDJwMTMgZml4ZWQgcG9pbnQsIHdpdGgg
-c2lnbmVkIDlwNiBvZmZzZXRzDQo+ICsgKi8NCj4gK3N0YXRpYyBjb25zdCB1MTYgdmM1X2hk
-bWlfY3NjX2Z1bGxfcmdiX3RvX3l1dl9idDIwMjBbMl1bM11bNF0gPSB7DQo+ICsJew0KPiAr
-CQkvKg0KPiArCQkgKiBGdWxsIFJhbmdlDQo+ICsJCSAqDQo+ICsJCSAqIFsgIDAuMjYyNzAw
-ICAwLjY3ODAwMCAgMC4wNTkzMDAgIDAgICBdDQo+ICsJCSAqIFsgLTAuMTM5NjMwIC0wLjM2
-MDM3MCAgMC41MDAwMDAgIDEyOCBdDQo+ICsJCSAqIFsgIDAuNTAwMDAwIC0wLjQ1OTc4NiAt
-MC4wNDAyMTQgIDEyOCBdDQo+ICsJCSAqLw0KPiArCQl7IDB4MDg2OCwgMHgxNWIyLCAweDAx
-ZTYsIDB4MDAwMCB9LA0KPiArCQl7IDB4ZmI4OSwgMHhmNDc5LCAweDEwMDAsIDB4MjAwMCB9
-LA0KPiArCQl7IDB4MTAwMCwgMHhmMTRhLCAweGZlYjgsIDB4MjAwMCB9LA0KPiArCX0sDQo+
-ICsJew0KPiArCQkvKiBMaW1pdGVkIFJhbmdlDQo+ICsJCSAqDQo+ICsJCSAqIFsgIDAuMjI0
-NzMyICAwLjU4MDAwOCAgMC4wNTA3MjkgIDE2ICBdDQo+ICsJCSAqIFsgLTAuMTIyMTc2IC0w
-LjMxNTMyNCAgMC40Mzc1MDAgIDEyOCBdDQo+ICsJCSAqIFsgIDAuNDM3NTAwIC0wLjQwMjMx
-MiAtMC4wMzUxODggIDEyOCBdDQo+ICsJCSAqLw0KPiArCQl7IDB4MDgyZiwgMHgxMDEyLCAw
-eDAzMWYsIDB4MDQwMCB9LA0KPiArCQl7IDB4ZmI0OCwgMHhmNmJhLCAweDBlMDAsIDB4MjAw
-MCB9LA0KPiArCQl7IDB4MGUwMCwgMHhmNDQ4LCAweGZkYmEsIDB4MjAwMCB9LA0KPiArCX0s
-DQo+ICt9Ow0KPiArDQo+ICAgc3RhdGljIHZvaWQgdmM1X2hkbWlfc2V0X2NzY19jb2VmZnMo
-c3RydWN0IHZjNF9oZG1pICp2YzRfaGRtaSwNCj4gICAJCQkJICAgIGNvbnN0IHUxNiBjb2Vm
-ZnNbM11bNF0pDQo+ICAgew0KPiBAQCAtMTMyMiw2ICsxMzUzLDEzIEBAIHN0YXRpYyBjb25z
-dCB1MTYNCj4gICAJY2FzZSBEUk1fTU9ERV9DT0xPUklNRVRSWV9SR0JfV0lERV9GSVhFRDoN
-Cj4gICAJY2FzZSBEUk1fTU9ERV9DT0xPUklNRVRSWV9SR0JfV0lERV9GTE9BVDoNCj4gICAJ
-CXJldHVybiB2YzVfaGRtaV9jc2NfZnVsbF9yZ2JfdG9feXV2X2J0NzA5W2xpbWl0ZWRdOw0K
-PiArDQo+ICsJY2FzZSBEUk1fTU9ERV9DT0xPUklNRVRSWV9CVDIwMjBfQ1lDQzoNCj4gKwlj
-YXNlIERSTV9NT0RFX0NPTE9SSU1FVFJZX0JUMjAyMF9ZQ0M6DQo+ICsJY2FzZSBEUk1fTU9E
-RV9DT0xPUklNRVRSWV9CVDIwMjBfUkdCOg0KPiArCWNhc2UgRFJNX01PREVfQ09MT1JJTUVU
-UllfRENJX1AzX1JHQl9ENjU6DQo+ICsJY2FzZSBEUk1fTU9ERV9DT0xPUklNRVRSWV9EQ0lf
-UDNfUkdCX1RIRUFURVI6DQo+ICsJCXJldHVybiB2YzVfaGRtaV9jc2NfZnVsbF9yZ2JfdG9f
-eXV2X2J0MjAyMFtsaW1pdGVkXTsNCj4gICAJfQ0KPiAgIH0NCj4gICANCj4gDQoNCi0tIA0K
-VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
-dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8
-cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRz
-ZsO8aHJlcjogSXZvIFRvdGV2DQo=
+>
+> Currently "dim rebuild-tip" doesn't work for me because of a conflict in
+> i915_gem_execbuffer.c
 
---------------8KHrfVrzvcIYthfrV2x1AJHW--
+Seems to be working now.
 
---------------vsTcFjBTfdwjj2Vbi0sSwubl
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmO+01oFAwAAAAAACgkQlh/E3EQov+A9
-fA/+NY0NW6KpOPxP7zN5APO3KzXptPHUJDXSYkmjaMkqOSod0YbQGmplKxHLIK/4L+2HKAoCu0WN
-HbWpWkDcJQuaFNiaB35QVcVDku+xn/sWXHfvftr8Bex/t05IzVjLyq9LAtfolJnMy61Bh/OaxdY4
-Tom6Nbp/61Lq/jtZFW6FHhhtKDognLmDYo7L3tl4v84C/JrXkufRB0Nv/co5r+IjCdS9qGbBAm16
-GXOGXFjwgRVof4xo2szy9qE5S2+SYbhfIOaG+i/eDP7x7k4YJRkZ0ebg49kDk8NbOe5C9IbfW+FC
-DlVRXKPgQImlDTunZrfnKBeMCPv9nC+hlWvpVMnKxOYe06uhEGvLS9TC9SgCKICMGI+wscU21aXV
-J4byGf8twidH6+91omrFcBb07Tc95WqtV4TGonZlroRPfgYdmi+r669oqz9FG3wD4mAemBbCnW26
-ImeMetJY4gEcrFvjL5VcBus9QrR94D8JNEcftqLawjpcB9sLDL25kPx69NwNR7a8gQGwRERt7g1A
-NQEEPawPPk9cYZPGhcJKhDG6y5rotcsUSYw6OKps3d9cSu/wiUSeKgDQue/BvmQ6oSdEm15fisgK
-5/75OCO7YEAk/mLXtkWJ6nZiuBwxzN/KZaNssMSAAO23Aux+Zh7ZYe/7fbzL3yRlzlLLXbxOCSSi
-ca8=
-=xEUi
------END PGP SIGNATURE-----
-
---------------vsTcFjBTfdwjj2Vbi0sSwubl--
+>
+> Any idea how to fix this?
+>
+> Thanks,
+> Christian.
+>
+>
+> >
+> > [1] https://patchwork.freedesktop.org/project/intel-gfx-trybot/series/?=
+ordering=3D-last_updated
+>
