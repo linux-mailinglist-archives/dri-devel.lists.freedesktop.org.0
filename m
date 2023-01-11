@@ -2,42 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96002665E76
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 15:54:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2656665E78
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 15:54:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E109010E753;
-	Wed, 11 Jan 2023 14:54:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2A1D10E752;
+	Wed, 11 Jan 2023 14:54:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 73476 seconds by postgrey-1.36 at gabe;
- Wed, 11 Jan 2023 14:54:07 UTC
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBAF710E74D;
- Wed, 11 Jan 2023 14:54:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1673448834; bh=a11Jae44KwYy9o132mfW4/D3Q6MsuBCwY//ZPSTrHIE=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
- MIME-Version:Content-Type:In-Reply-To;
- b=DbODQAoQHEZM/a/K4lMO2lGSRed0mwdw/Q3CVDpxU+BhbaswYuKWxAFnSbGbU4Tc5
- y/2fIb+0O+0MX0uFej35x1bRvj7oRDMYmfNuGSD7V4zUeoKm6cDIrpUj4EGaZs4Ob7
- TYECBqUpJP5DYqOj9CngNXl088/DL3pt7JOOqzDY=
-Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Wed, 11 Jan 2023 15:53:54 +0100 (CET)
-X-EA-Auth: ZaAip+CTSc67ezFnDCoiEjLGiYvViKUlZn4iLe6bFNCGMtOK77A5JE91WLoajOWI0y3PFRk9lHMnGddwMmGr2P7TgjIZ9KEO
-Date: Wed, 11 Jan 2023 20:23:49 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH 2/2] drm/i915/gvt: Avoid full proxy f_ops for vgpu_status
- debug attributes
-Message-ID: <Y77NfeKbLL4s/Ibg@ubun2204.myguest.virtualbox.org>
-References: <cover.1673375066.git.drv@mailo.com>
- <188df08e0feba0cda2c92145f513dd4e57c6e6cf.1673375066.git.drv@mailo.com>
- <Y72zVXYLVHXuyK05@intel.com> <Y76JGj0cJpYr6/rv@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A26EC10E752
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 14:54:28 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C365061D11
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 14:54:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 310B4C433D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 14:54:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1673448867;
+ bh=5991q1wXtvebgUykJ5NYVRTE1uZrMxXzr1nAKepdlS8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=LQWeU5VG/JImzmbaXmRaFlNv+qK912ckHmEpaO53u+xu0W9sgAX04JiV6A8YfPmJP
+ N3OWRrEDRXNSEvKTRqGIuOiM766jzVF6uiuTGqO6AWsIw/aVdYc/MPVuPhTGl7d65E
+ eeHNm3iVs2MF17RBqdS06relccnSyWOo+ii2uUuNPiBHYVpf6CCFOAwaDvzypJTgvc
+ 9vsxfdvnB0hLoABSrAf0XXq1FkfVQA/0cWZnoxCAfwHRgIkFOWHkxsbCjn5lKaMI2V
+ ng4vsvD7+2Az4HuhqyWRHhJB0YPmKpXWx4DTsZMsI93oDh9+KsQMBxARRbUZxSVWDk
+ 5I1M9waX80yTw==
+Received: by mail-pj1-f45.google.com with SMTP id
+ w4-20020a17090ac98400b002186f5d7a4cso20334609pjt.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 06:54:27 -0800 (PST)
+X-Gm-Message-State: AFqh2krhwdvRvsUDJU+iviv/w5FhG16RHNWApNU+7kA9NypBliDjxzlI
+ gvzdfuM8Fz3bA8SMw9iZyBrfRswGKpKnQNOomg==
+X-Google-Smtp-Source: AMrXdXuLjGWkrJgzvCsRL34zMGz/o9XODdn1icG/0kwllXKQUYcQoLyaKOC+UHWHVBhznJfC3GM3r3lDlYFHXzS35BM=
+X-Received: by 2002:a1f:1e50:0:b0:3c1:1c3b:c4d9 with SMTP id
+ e77-20020a1f1e50000000b003c11c3bc4d9mr9659628vke.19.1673448856184; Wed, 11
+ Jan 2023 06:54:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y76JGj0cJpYr6/rv@intel.com>
+References: <20230111113018.459199-1-gregkh@linuxfoundation.org>
+ <20230111113018.459199-2-gregkh@linuxfoundation.org>
+In-Reply-To: <20230111113018.459199-2-gregkh@linuxfoundation.org>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Wed, 11 Jan 2023 08:54:04 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJ4QsLym-bQGGjUpzT14MYuTE1n8BQkGn6Ey9NiFF7u7w@mail.gmail.com>
+Message-ID: <CAL_JsqJ4QsLym-bQGGjUpzT14MYuTE1n8BQkGn6Ey9NiFF7u7w@mail.gmail.com>
+Subject: Re: [PATCH v2 01/16] of: device: make of_device_uevent_modalias()
+ take a const device *
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,92 +62,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- intel-gfx@lists.freedesktop.org, Saurabh Singh Sengar <ssengar@microsoft.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>
+Cc: dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Liang He <windhl@126.com>,
+ Zou Wei <zou_wei@huawei.com>, Samuel Holland <samuel@sholland.org>,
+ Frank Rowand <frowand.list@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, Chen-Yu Tsai <wens@csie.org>,
+ Corentin Labbe <clabbe@baylibre.com>, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 11, 2023 at 05:02:02AM -0500, Rodrigo Vivi wrote:
-> On Tue, Jan 10, 2023 at 01:49:57PM -0500, Rodrigo Vivi wrote:
-> > On Wed, Jan 11, 2023 at 12:00:12AM +0530, Deepak R Varma wrote:
-> > > Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
-> > > function adds the overhead of introducing a proxy file operation
-> > > functions to wrap the original read/write inside file removal protection
-> > > functions. This adds significant overhead in terms of introducing and
-> > > managing the proxy factory file operations structure and function
-> > > wrapping at runtime.
-> > > As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
-> > > with debugfs_create_file_unsafe() is suggested to be used instead.  The
-> > > DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
-> > > debugfs_file_put() wrappers to protect the original read and write
-> > > function calls for the debug attributes. There is no need for any
-> > > runtime proxy file operations to be managed by the debugfs core.
-> > > Following coccicheck make command helped identify this change:
-> > > 
-> > > make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
-> > > 
-> > > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > 
-> > I believe these 2 gvt cases could be done in one patch.
-> > But anyways,
-> > 
-> > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > 
-> > for both patches... and will leave these 2 patches for gvt folks
-> > to apply. Unless they ack and I apply in the drm-intel along with the other ones.
-> 
-> Actually, could you please address the checkpatch issues before we can push?
-> Sorry about that, but just noticed now when I was going to push the other ones.
+On Wed, Jan 11, 2023 at 5:30 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> of_device_uevent_modalias() does not modify the device pointer passed to
+> it, so mark it constant.  In order to properly do this, a number of
+> busses need to have a modalias function added as they were attempting to
+> just point to of_device_uevent_modalias instead of their bus-specific
+> modalias function.  This is fine except if the prototype for a bus and
+> device type modalias function diverges and then problems could happen.  To
+> prevent all of that, just wrap the call to of_device_uevent_modalias()
+> directly for each bus and device type individually.
 
-Hello Rodrigo,
-The checkpatch warning is associated with the long "make coccicheck ..." command
-in the commit message. It is not part of the code, so is should not be carried
-forward into the code base.
-If you still want me to correct it, I will need to split it into two lines which
-I think still violates the commit description guidelines.
+Why not just put the wrapper function in the DT code instead of making
+4 copies of it?
 
-Let me know what you think.
-
-Thank you,
-./drv
-
-> 
-> > 
-> > > ---
-> > >  drivers/gpu/drm/i915/gvt/debugfs.c | 6 +++---
-> > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/gvt/debugfs.c b/drivers/gpu/drm/i915/gvt/debugfs.c
-> > > index 03f081c3d9a4..baccbf1761b7 100644
-> > > --- a/drivers/gpu/drm/i915/gvt/debugfs.c
-> > > +++ b/drivers/gpu/drm/i915/gvt/debugfs.c
-> > > @@ -165,7 +165,7 @@ static int vgpu_status_get(void *data, u64 *val)
-> > >  	return 0;
-> > >  }
-> > >  
-> > > -DEFINE_SIMPLE_ATTRIBUTE(vgpu_status_fops, vgpu_status_get, NULL, "0x%llx\n");
-> > > +DEFINE_DEBUGFS_ATTRIBUTE(vgpu_status_fops, vgpu_status_get, NULL, "0x%llx\n");
-> > >  
-> > >  /**
-> > >   * intel_gvt_debugfs_add_vgpu - register debugfs entries for a vGPU
-> > > @@ -182,8 +182,8 @@ void intel_gvt_debugfs_add_vgpu(struct intel_vgpu *vgpu)
-> > >  			    &vgpu_mmio_diff_fops);
-> > >  	debugfs_create_file_unsafe("scan_nonprivbb", 0644, vgpu->debugfs, vgpu,
-> > >  				   &vgpu_scan_nonprivbb_fops);
-> > > -	debugfs_create_file("status", 0644, vgpu->debugfs, vgpu,
-> > > -			    &vgpu_status_fops);
-> > > +	debugfs_create_file_unsafe("status", 0644, vgpu->debugfs, vgpu,
-> > > +				   &vgpu_status_fops);
-> > >  }
-> > >  
-> > >  /**
-> > > -- 
-> > > 2.34.1
-> > > 
-> > > 
-> > > 
-
-
+Rob
