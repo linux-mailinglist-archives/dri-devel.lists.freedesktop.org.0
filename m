@@ -1,45 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B479B665FBD
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 16:52:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E237665FDD
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 16:59:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BBFB10E771;
-	Wed, 11 Jan 2023 15:52:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 238AF10E2B9;
+	Wed, 11 Jan 2023 15:59:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 016BA10E76E;
- Wed, 11 Jan 2023 15:52:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1673452324; bh=QHeZldMKVWp9Cp9mxOeha2QFBOXYtsTVP8kjQEfSrZw=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
- MIME-Version:Content-Type:In-Reply-To;
- b=dhQ76Q5qWbdwieoX7S8a3HflKBaJR5R0TTGJXGnzA32tstm4XcijZEOvFS62J5qM5
- VaQJIcf8JLwEM0aMQYeS8QIdcD7CJm5uN1jgkn/WSHLOy0PbnPvxXEKQzPhgzUzccW
- a0baxbbbXs7geGagVcVdV/18+jQTMvgzKA4nmfMc=
-Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Wed, 11 Jan 2023 16:52:03 +0100 (CET)
-X-EA-Auth: u5jvOLR5x9//Zkc8IMR5oNVJAAF0lJRlVIyLovRtl5gS15Vj30kxR2eXf+WDRR0PXE7lTP9chqyCJpfbE+S9CoqnkWNXnn/t
-Date: Wed, 11 Jan 2023 21:21:59 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] drm/i915/fbc: Avoid full proxy f_ops for FBC debug
- attributes
-Message-ID: <5d26e924ec8dea21925c77fa79a2bf2a34cef705.1673451705.git.drv@mailo.com>
-References: <cover.1673451705.git.drv@mailo.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F94010E2B9;
+ Wed, 11 Jan 2023 15:59:32 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E543B229C3;
+ Wed, 11 Jan 2023 15:59:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1673452770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/HTBltF58i7LUrPAUCrtSR4KiHvUGIaCssrQvyPf0Y8=;
+ b=1qWC+RAJZ+EP2Sq6vyhuO75N9X7w+srQDHNr+a78cCAzZGJ7lDbf7s3snvLe4bNBNpNZqE
+ zszpa3NB1BeZgvbqzZo1BWzet1RTuzHMgibWgwHgKeV3RdrTWjrEZJ9n05mExszMkGIXnu
+ F3md/NzOA0vX53EOiHY0DOEdbnPvsyc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1673452770;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/HTBltF58i7LUrPAUCrtSR4KiHvUGIaCssrQvyPf0Y8=;
+ b=42+I24GLIBM8vA7hF6VRYCoqNyMCbqoVQkXYiS3JieqPPkCLj3WQM6rRA4LS5MayN3Y14U
+ V6K2RIUcfvMs0kDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9DE831358A;
+ Wed, 11 Jan 2023 15:59:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id UFiBJOLcvmN8RAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 11 Jan 2023 15:59:30 +0000
+Message-ID: <e0c0e249-30bc-c310-0175-92ea379ef0d6@suse.de>
+Date: Wed, 11 Jan 2023 16:59:30 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1673451705.git.drv@mailo.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 04/11] video/aperture: use generic code to figure out the
+ vga default device
+Content-Language: en-US
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20230111154112.90575-1-daniel.vetter@ffwll.ch>
+ <20230111154112.90575-4-daniel.vetter@ffwll.ch>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230111154112.90575-4-daniel.vetter@ffwll.ch>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------aLlWn0UCCGF9KGvwr0HJNdgi"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,72 +72,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- Saurabh Singh Sengar <ssengar@microsoft.com>
+Cc: linux-fbdev@vger.kernel.org, linux-pci@vger.kernel.org,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
-function adds the overhead of introducing a proxy file operation
-functions to wrap the original read/write inside file removal protection
-functions. This adds significant overhead in terms of introducing and
-managing the proxy factory file operations structure and function
-wrapping at runtime.
-As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
-with debugfs_create_file_unsafe() is suggested to be used instead.  The
-DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
-debugfs_file_put() wrappers to protect the original read and write
-function calls for the debug attributes. There is no need for any
-runtime proxy file operations to be managed by the debugfs core.
-Following coccicheck make command helped identify this change:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------aLlWn0UCCGF9KGvwr0HJNdgi
+Content-Type: multipart/mixed; boundary="------------e0BQCwu0JWreKuzdprfSHEQY";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Daniel Vetter
+ <daniel.vetter@intel.com>, Javier Martinez Canillas <javierm@redhat.com>,
+ Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org
+Message-ID: <e0c0e249-30bc-c310-0175-92ea379ef0d6@suse.de>
+Subject: Re: [PATCH 04/11] video/aperture: use generic code to figure out the
+ vga default device
+References: <20230111154112.90575-1-daniel.vetter@ffwll.ch>
+ <20230111154112.90575-4-daniel.vetter@ffwll.ch>
+In-Reply-To: <20230111154112.90575-4-daniel.vetter@ffwll.ch>
 
-make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
+--------------e0BQCwu0JWreKuzdprfSHEQY
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Deepak R Varma <drv@mailo.com>
----
-Changes in v3:
-   - None
+SGkNCg0KQW0gMTEuMDEuMjMgdW0gMTY6NDEgc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPiBT
+aW5jZSB2Z2FhcmIgaGFzIGJlZW4gcHJvbW90ZWQgdG8gYmUgYSBjb3JlIHBpZWNlIG9mIHRo
+ZSBwY2kgc3Vic3lzdGVtDQo+IHdlIGRvbid0IGhhdmUgdG8gb3BlbiBjb2RlIHJhbmRvbSBn
+dWVzc2VzIGFueW1vcmUsIHdlIGFjdHVhbGx5IGtub3cNCj4gdGhpcyBpbiBhIHBsYXRmb3Jt
+IGFnbm9zdGljIHdheSwgYW5kIHRoZXJlJ3Mgbm8gbmVlZCBmb3IgYW4geDg2DQo+IHNwZWNp
+ZmljIGhhY2suIFNlZSBhbHNvIDFkMzhmZTZlZTZhOCAoIlBDSS9WR0E6IE1vdmUgdmdhYXJi
+IHRvDQo+IGRyaXZlcnMvcGNpIikNCj4gDQo+IFRoaXMgc2hvdWxkIG5vdCByZXN1bHQgaW4g
+YW55IGZ1bmN0aW9uYWwgY2hhbmdlLCBhbmQgdGhlIG5vbi14ODYNCj4gbXVsdGktZ3B1IHBj
+aSBzeXN0ZW1zIGFyZSBwcm9iYWJseSByYXJlIGVub3VnaCB0byBub3QgbWF0dGVyIChJIGRv
+bid0DQo+IGtub3cgb2YgYW55IHRiaCkuIEJ1dCBpdCdzIGEgbmljZSBjbGVhbnVwLCBzbyBs
+ZXQncyBkbyBpdC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmll
+bC52ZXR0ZXJAaW50ZWwuY29tPg0KPiBDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJt
+YW5uQHN1c2UuZGU+DQo+IENjOiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgPGphdmllcm1A
+cmVkaGF0LmNvbT4NCj4gQ2M6IEhlbGdlIERlbGxlciA8ZGVsbGVyQGdteC5kZT4NCj4gQ2M6
+IGxpbnV4LWZiZGV2QHZnZXIua2VybmVsLm9yZw0KPiBDYzogQmpvcm4gSGVsZ2FhcyA8Ymhl
+bGdhYXNAZ29vZ2xlLmNvbT4NCj4gQ2M6IGxpbnV4LXBjaUB2Z2VyLmtlcm5lbC5vcmcNCj4g
+LS0tDQo+ICAgZHJpdmVycy92aWRlby9hcGVydHVyZS5jIHwgNiArKy0tLS0NCj4gICAxIGZp
+bGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vYXBlcnR1cmUuYyBiL2RyaXZlcnMvdmlkZW8vYXBl
+cnR1cmUuYw0KPiBpbmRleCA0MWU3N2RlMWVhODIuLjNkOGM5MjVjNzM2NSAxMDA2NDQNCj4g
+LS0tIGEvZHJpdmVycy92aWRlby9hcGVydHVyZS5jDQo+ICsrKyBiL2RyaXZlcnMvdmlkZW8v
+YXBlcnR1cmUuYw0KPiBAQCAtMzI0LDEzICszMjQsMTEgQEAgRVhQT1JUX1NZTUJPTChhcGVy
+dHVyZV9yZW1vdmVfY29uZmxpY3RpbmdfZGV2aWNlcyk7DQo+ICAgICovDQo+ICAgaW50IGFw
+ZXJ0dXJlX3JlbW92ZV9jb25mbGljdGluZ19wY2lfZGV2aWNlcyhzdHJ1Y3QgcGNpX2RldiAq
+cGRldiwgY29uc3QgY2hhciAqbmFtZSkNCj4gICB7DQo+IC0JYm9vbCBwcmltYXJ5ID0gZmFs
+c2U7DQo+ICsJYm9vbCBwcmltYXJ5Ow0KPiAgIAlyZXNvdXJjZV9zaXplX3QgYmFzZSwgc2l6
+ZTsNCj4gICAJaW50IGJhciwgcmV0Ow0KPiAgIA0KPiAtI2lmZGVmIENPTkZJR19YODYNCj4g
+LQlwcmltYXJ5ID0gcGRldi0+cmVzb3VyY2VbUENJX1JPTV9SRVNPVVJDRV0uZmxhZ3MgJiBJ
+T1JFU09VUkNFX1JPTV9TSEFET1c7DQo+IC0jZW5kaWYNCj4gKwlwcmltYXJ5ID0gcGRldiA9
+PSB2Z2FfZGVmYXVsdF9kZXZpY2UoKTsNCg0KdmdhX2RlZmF1bHRfZGV2aWNlKCkgaXMgcGFy
+dCBvZiB2Z2FhcmIgYW5kIGNhbiByZXR1cm4gTlVMTC4gWzFdIFRoYXQgbmV3IA0KdGVzdCBp
+cyBsaWtlbHkgdG8gYmUgaW5jb3JyZWN0IG9uIG1hbnkgc3lzdGVtcy4NCg0KSSBzdWdnZXN0
+IHRvIGltcGxlbWVudCBhIGhlbHBlciBsaWtlIGZiX2lzX3ByaW1hcnlfZGV2aWNlKCkgb24g
+eDg2OiBpdCANCnVzZXMgdGhlIGRlZmF1bHQgVkdBIGlmIHNldCwgb3IgZmFsbHMgYmFjayB0
+byB0aGUgb3JpZ2luYWwgdGVzdC4gWzJdDQoNCkl0J3Mgbm90ZXdvcnRoeSB0aGF0IG9uIG1v
+c3QgYXJjaGl0ZWN0dXJlcywgZmJfaXNfcHJpbWFyeV9kZXZpY2UoKSANCnJldHVybnMgMC4g
+QnV0IGF0IGxlYXN0IG9uIFNwYXJjIFszXSBhbmQgc29tZSBQYXJpc2MgWzRdIG1hY2hpbmVz
+LCBpdCANCmRvZXMgbm90Lg0KDQpJJ3ZlIGxvbmcgd2FudGVkIHRvIHJld29yayB0aGlzIGhl
+bHBlciBhbnl3YXkuIFNvIHRoaXMgaXMgYSBnb29kIA0Kb3Bwb3J0dW5pdHkuDQoNCkJlc3Qg
+cmVnYXJkcw0KVGhvbWFzDQoNClsxXSANCmh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xp
+bnV4L2xhdGVzdC9zb3VyY2UvaW5jbHVkZS9saW51eC92Z2FhcmIuaCNMNjkNClsyXSANCmh0
+dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4L2xhdGVzdC9zb3VyY2UvYXJjaC94ODYv
+dmlkZW8vZmJkZXYuYyNMMTQNClszXSANCmh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xp
+bnV4L2xhdGVzdC9zb3VyY2UvYXJjaC9zcGFyYy9pbmNsdWRlL2FzbS9mYi5oI0wxOA0KWzRd
+IA0KaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvbGF0ZXN0L3NvdXJjZS9kcml2
+ZXJzL3ZpZGVvL2NvbnNvbGUvc3RpY29yZS5jI0wxMTUzDQoNCg0KPiAgIA0KPiAgIAlmb3Ig
+KGJhciA9IDA7IGJhciA8IFBDSV9TVERfTlVNX0JBUlM7ICsrYmFyKSB7DQo+ICAgCQlpZiAo
+IShwY2lfcmVzb3VyY2VfZmxhZ3MocGRldiwgYmFyKSAmIElPUkVTT1VSQ0VfTUVNKSkNCg0K
+LS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VT
+RSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQw
+OSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2No
+w6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-Changes in v2:
-   - Include coccicheck make command in the patch log message for clarity.
-     Suggested by Rodrigo Vivi <rodrigo.vivi@intel.com>
+--------------e0BQCwu0JWreKuzdprfSHEQY--
 
+--------------aLlWn0UCCGF9KGvwr0HJNdgi
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
- drivers/gpu/drm/i915/display/intel_fbc.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
-index 5e69d3c11d21..c508dcf415b4 100644
---- a/drivers/gpu/drm/i915/display/intel_fbc.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbc.c
-@@ -1807,10 +1807,10 @@ static int intel_fbc_debugfs_false_color_set(void *data, u64 val)
- 	return 0;
- }
- 
--DEFINE_SIMPLE_ATTRIBUTE(intel_fbc_debugfs_false_color_fops,
--			intel_fbc_debugfs_false_color_get,
--			intel_fbc_debugfs_false_color_set,
--			"%llu\n");
-+DEFINE_DEBUGFS_ATTRIBUTE(intel_fbc_debugfs_false_color_fops,
-+			 intel_fbc_debugfs_false_color_get,
-+			 intel_fbc_debugfs_false_color_set,
-+			 "%llu\n");
- 
- static void intel_fbc_debugfs_add(struct intel_fbc *fbc,
- 				  struct dentry *parent)
-@@ -1819,8 +1819,8 @@ static void intel_fbc_debugfs_add(struct intel_fbc *fbc,
- 			    fbc, &intel_fbc_debugfs_status_fops);
- 
- 	if (fbc->funcs->set_false_color)
--		debugfs_create_file("i915_fbc_false_color", 0644, parent,
--				    fbc, &intel_fbc_debugfs_false_color_fops);
-+		debugfs_create_file_unsafe("i915_fbc_false_color", 0644, parent,
-+					   fbc, &intel_fbc_debugfs_false_color_fops);
- }
- 
- void intel_fbc_crtc_debugfs_add(struct intel_crtc *crtc)
--- 
-2.34.1
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmO+3OIFAwAAAAAACgkQlh/E3EQov+BP
+0A//UE6PoqEAcTqpNAgiktgdxW78OLw49B8NivQxxGx0K/I3Gpc8JgvTRo49z+BolE4gYljskS2Q
+kpLjVJRT7dNVU2v1/hNB0VcAKZaKjF90TFvbp4e1TmnMQoei/1gUrJJPIDlHWCh0mJ2UZ5/d9ZHG
+6GGtSsfrX1qyaiG55U2DgBUlQQ72UZp61UFUhIw6LKTgvJyJMlIpkDvicP2PAQNGxwNA/IAR02Tg
+BMDHjZozc/wKfyNkmT4YhJhzioitBcHUEmXS+xcdmAEn/eeAiFnRZLq/euI9kffcOEmBEabDJ5kW
+YSQmshlAxsj9yAJs0cDlOtaq2KG0ze4MCHaFoc9Izl+wZiv2rEcNxHBvCnS399YkuFL9GM6cPb/f
+nKEHwWDkmUYjqk5fqavGEGeOxx+Mj3EsdNb+M4djSJTDurtyJFAA8cbs977NZuzrA3/HndIdDgE4
+ObwLQwGhmieD9jxsU6fyLjS0frDxQE9cEuIo3MVb/8h3CPJJy68iTKhhomofDRoYZQOIxdgzv63s
+IL5BBkFt9Tjh5v8l+rnuaVCbzy5FhdAMOjM+0NAnQatDNhx+x6d23dG2BPir5ZcTYUsmQbHTNAZw
+csYYe+JEEth/cPafQNmn3XkAYCuJoQCpmdcvESHEsMKuqDbNKkZALaQERWQ0f8/Lgq6FwyiGMwX1
+m2o=
+=KYQw
+-----END PGP SIGNATURE-----
 
-
-
+--------------aLlWn0UCCGF9KGvwr0HJNdgi--
