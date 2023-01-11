@@ -2,149 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF5A665104
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 02:14:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE80666513C
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 02:49:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1C7D10E6B8;
-	Wed, 11 Jan 2023 01:14:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD2F210E08E;
+	Wed, 11 Jan 2023 01:48:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9B9610E6B6;
- Wed, 11 Jan 2023 01:14:03 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2857910E08E;
+ Wed, 11 Jan 2023 01:48:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673399643; x=1704935643;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=eqrDh3Aqqt5oJPurmQKfaRFVEW6X/onYMivuoBxxpdA=;
- b=dLusiqbb2JZt+DYC5FAkp5NuBl/ZWcSNavmANVwhh8eNOmkchbogXCvW
- pTGGfT5Mz3NaM0S37W+qSk+Tktz8USkNIAwBh6+IlOk/zhw2Wn20At3y9
- 6XmpYMFqxVZkNWZd/JqETEcujl2+VeqHXw5zXyKgcjPuEeBth51Dxe/ti
- qYsGm7e/S4muFG7a6PSa7eMIwONqjb7o64P5lti/h4n24madsJS03IXBI
- Vakmbs5YVAsaEyma8kn3/PBB4t2cXviiwK9OYhatH2X2qIyiHuopf6nY1
- 3dVOAarknUEy/xRigzbep9xNXJj4Hn6nBqGK+xzz0SNqSYuPrlTyjv7RK g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="325309497"
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="325309497"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2023 17:14:03 -0800
+ t=1673401732; x=1704937732;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=BcXPD50B/Dqoprkcex10W6vWPMlUEQmQYHj/KfGLLnk=;
+ b=PoMm53L661fUuAkVJuqIFLks17Wus+wLdpGe8+O5AKbkb4EgmkJmrHw6
+ NoBY3OwlbQywJCS3IuKYHLiLYQ+SD6mOMGuhJab/ePogAMZyZOyvo3sK1
+ jzVhfTB4Egzm0Stbt6ek1qYyYT6B0gCJ2+EhPKLsbYXKPLfZONHTHPkZS
+ l186E/+nCNy3ZBBs4vs4el8x3SgOPdtJRmhRXSXDDKdKrbTSmcFoI0niM
+ IrWjGU/GW+Jt6NoSE2NwS0SZ0/GVb7RUB98G44/emEksgrOzvsTs0eFH2
+ KxssEMZGpvpCQEz3aJknt18uj+ONbsG7T5p/TXFQqYqrZjfz4BOksNgqr Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="387767921"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="387767921"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2023 17:48:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="720534466"
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="720534466"
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="799654482"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="799654482"
 Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by fmsmga008.fm.intel.com with ESMTP; 10 Jan 2023 17:14:02 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ by fmsmga001.fm.intel.com with ESMTP; 10 Jan 2023 17:48:50 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
  fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 10 Jan 2023 17:14:02 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 10 Jan 2023 17:14:01 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ 15.1.2507.16; Tue, 10 Jan 2023 17:48:50 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
  fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Tue, 10 Jan 2023 17:14:01 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ 15.1.2507.16; Tue, 10 Jan 2023 17:48:49 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Tue, 10 Jan 2023 17:48:49 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.47) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Tue, 10 Jan 2023 17:14:01 -0800
+ 15.1.2507.16; Tue, 10 Jan 2023 17:48:49 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jjsBweMsJunSoGo0Qt3MaHba5qsv7jiCOiLthCj+RTYjAMkkS6OS90uQER2huVsies4AE+Ejmn6fbM948RlnJaHuObFjllMWk68UHnw1yDoi5z/dlgu/9hRukI9PRkvXAKLfGcXrWI17UxkEuN26jz/FU7OgwbMozabrC/FhH+E1b39qDN5WpBybXBiJZjg6Op4X9azbK68jFf5RqlUuIPZrowCAnG3RRMGnSnGFmiEeqFnRjrYPFdBHS3F2HWG4NyJ+X/vlI92SU1SJBkwouUMT5iN78UoP3QEXSHtxskMqzqW3tgQ2E1lnEzkyD6QHGNyvAMG4hfFT5P5MgzjR1Q==
+ b=gwt0AuBxzbSqcSh3CKzM/WWgNsJ0ab99lFotSJ9p5NDEaIwQZj71iQOW1bdSEUIZRiR/QI1BTHI6kENqsyIeICgCDWuE/LThflB1N96u/S1/RsOfpla0LEjPy8E1WH30rWiglvAesZpm8nVlfEFZJYauyFWgPB8WZPnfobHEKJpDBdQ+lyRktzUBEgOjdVgF5P0/3LQmtzsKP4YYV5WGFwJUnbOfis/ceo/knMgLLPG8EGlgqJwyDJIPFQr7Tp/0QFGoTh+XNc2A24DG1ZPw4mWBc9X9YhuFK1av5VYHirmoW1K9XKg4mLVnmWNIhY7PvSsI6g7cwVnsS0t6TtbyPA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t4lyBcLrBD9lzX7Z9CJPPgNte7FFgmUoct83hlMeryM=;
- b=JdBRtHO6P6NKWPxgahQUQpa+SeXwI/8Ho15EA0ihZjm3omSTz1bf1P5V92IxrlID+sh4XJ0dj/v3jIRvwh7POgZI6BuElj/CRCy8N4dCkVjiZr0oLO2b5nRWeazqVMWPXcb3LcI5TwrchpKnQ/XOMCSGI09MUAI7NhZd/wU+U4xS3mPU2ByVcgQgk0xgdSvmyiOga003pb6vKEMnBWDVz2QFmcQsg92oXdIwyh5m18iIISrwcHuDWdt7IRqIPMu4F+ieSSxSZcbg20nH7eXF5BK4qtqxOdDZ0/U1bjyP07lxcV0v3eK1xSxWpAzupy8aywur9JsVBKwNadhpXkdnLw==
+ bh=BcXPD50B/Dqoprkcex10W6vWPMlUEQmQYHj/KfGLLnk=;
+ b=kGR9psEZw8KYZ4sTXPFnAWVH70ng2UdObSEwlFxVu7x/EJWBDVkrW1Ig3F0Hr1hYY+taRAI51y/BM5ZqLy4eD7Cs322Zoz+oBS+s0vOKzTMUSvpc7cZ6xDYyhxdQ8uc9AwxDwVFgXPXXw6PlXQ801ngwqB6tXFOWn6k6IwfPR3s06cuSUf1fhN3XWuLveI+09rBMLL8sqRSxtoeBaqD9BKOqGUnpxzwQyFRHN5rjGIqWInuAKQyK6F55g8I0uYn67/bWhR7eoWJTFdXktQD7lyFOUdJ9wRyXO/4VbZgdxACEgHC24gh7GtlKA/oKCdsahYMSK/pa+BV/dTCjY1JAAQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by SJ0PR11MB4798.namprd11.prod.outlook.com (2603:10b6:a03:2d5::12)
+Received: from CO6PR11MB5620.namprd11.prod.outlook.com (2603:10b6:303:13e::17)
+ by LV2PR11MB5974.namprd11.prod.outlook.com (2603:10b6:408:17e::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Wed, 11 Jan
- 2023 01:13:57 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::2ceb:afd:8ee7:4cc]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::2ceb:afd:8ee7:4cc%6]) with mapi id 15.20.5986.018; Wed, 11 Jan 2023
- 01:13:57 +0000
-Date: Wed, 11 Jan 2023 01:13:45 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [RFC PATCH 04/20] drm/sched: Convert drm scheduler
- to use a work queue rather than kthread
-Message-ID: <Y74NSVeWdiKxdYci@DUT025-TGLU.fm.intel.com>
-References: <20221230112042.2ddd1946@collabora.com>
- <20221230125508.57af8a14@collabora.com>
- <20230102083019.24b99647@collabora.com>
- <7d6df13c-6c2e-d713-edc8-128d6e19f187@linux.intel.com>
- <Y7dEjcuc1arHBTGu@DUT025-TGLU.fm.intel.com>
- <Y7i0J3uQ+izOJcEb@DUT025-TGLU.fm.intel.com>
- <e8c301cb-c7d4-ed54-f3ab-61a5fcc7f940@linux.intel.com>
- <CAOFGe96yeF4SWxvHC5pxyggf=655q7+ZrFS+Zab42F-RE7UK1w@mail.gmail.com>
- <e6512993-5247-a577-abf4-97cdb21358a0@linux.intel.com>
- <Y72UpKPX6lr/ea7R@DUT025-TGLU.fm.intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y72UpKPX6lr/ea7R@DUT025-TGLU.fm.intel.com>
-X-ClientProxiedBy: SJ0PR03CA0037.namprd03.prod.outlook.com
- (2603:10b6:a03:33e::12) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SJ0PR11MB4798:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3edab703-cbb0-46f1-1ca0-08daf3711cd7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Row1FW40kRPzU4xJwo1nHMdP1mND9/XOO38YQMWfCYfE+AoUxcfWN+RUbGs8OdKrApg01nqrwxZ7yRzMcNNhHFwIS/E6VrOBM4+TKLxS4TaOqdgLhYIwVygB09LoNr3IoX+vEIW4adqsctva3ZdAuNAcoNjo+MGAbNhur8uNNEM94lIf6Ee31Gyi8IpvjlQHZlwrJenVFXxnGgNH0ijGMUweBFcnWJqFMqV5Y73uF657voYDMS+27x64bvbEDyOsEUTWS21Y/mAU43V5W4iiJqg7pdK2xEULLYRF89887cR3a+4ba5K8v6Fs52aS2XWkFLj/5U3F09TBCzfRFSSH/0AHekcNzdCfJoSTipM124fZ4xhs9ZZheexttuJJWDhymYneRpfu7B0CNFiSnX497bMGBC7SS9k8dBHc1b3/yHa5EXW1MzFA5FCkncC/Bk/COpv5Grrf6Cw6iNhwuu6OxtnAxNK8OZmezH69QO6P3nZWRICAWqg8YxR/AEvHQsNi7523NYpBM4UZm+rSxI6QDZlMuqjkgSE3zOAFVEH5EJKSvkjlf1vaZTaKuBIm24V5Evu6R/YIP73M8HDsOFYsxg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(136003)(396003)(366004)(39860400002)(346002)(376002)(451199015)(478600001)(30864003)(5660300002)(26005)(316002)(44832011)(186003)(6512007)(6486002)(966005)(41300700001)(66476007)(66556008)(66946007)(6916009)(4326008)(8676002)(8936002)(86362001)(83380400001)(53546011)(2906002)(6666004)(6506007)(38100700002)(82960400001)(66899015);
+ 2023 01:48:46 +0000
+Received: from CO6PR11MB5620.namprd11.prod.outlook.com
+ ([fe80::f5ce:c030:4862:f6b9]) by CO6PR11MB5620.namprd11.prod.outlook.com
+ ([fe80::f5ce:c030:4862:f6b9%5]) with mapi id 15.20.5986.018; Wed, 11 Jan 2023
+ 01:48:46 +0000
+From: "Zanoni, Paulo R" <paulo.r.zanoni@intel.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Vishwanathapura, Niranjana" <niranjana.vishwanathapura@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH v9 10/23] drm/i915/vm_bind: Add out fence support
+Thread-Topic: [PATCH v9 10/23] drm/i915/vm_bind: Add out fence support
+Thread-Index: AQHZDn+nc9VsH8RI+UaLqs74GilOYq6YoK6A
+Date: Wed, 11 Jan 2023 01:48:45 +0000
+Message-ID: <60d72e6ff745392c6681617b2299df04738c2565.camel@intel.com>
+References: <20221212231527.2384-1-niranjana.vishwanathapura@intel.com>
+ <20221212231527.2384-11-niranjana.vishwanathapura@intel.com>
+In-Reply-To: <20221212231527.2384-11-niranjana.vishwanathapura@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.38.3-1+deb11u1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CO6PR11MB5620:EE_|LV2PR11MB5974:EE_
+x-ms-office365-filtering-correlation-id: c595deee-e47f-4511-d810-08daf375fa15
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 3Sps88yd5C+rX12SaSE8xS4J031JBis/xnPEw4eMvMCzRXLrSeGyLdTM9Y9yRPjXOVLNP3nRJV/hnBIsA5qxV+YzjwmiKlHXvVFD3jOOtthTK5XC+g+ZrrK51gSQw1nzyQ65fb0KHxjhkvOmQdRav3gMy53mQEaao7lMuqN3rQJRgMT5lsGqIujeMDtlRKwQwtJ4SI+JFr9WSfGfo4N1JLgXvHalj1ZoKCP+GeFphb78dLdnOXletsrdAfwdiKXl2bXpANK/PUHFeQmoONEdo/ia6TUf5a1H7+p2QwIq6bBiGvB2R4d7RH0VslUsNYFbTg0Lpd5ITGpMZv+10T5KKnhhh6VogFMCbE9DG5Fh6Ac35rDPKz1V+rBYtREduyCQMHf+ZFpOMC/qXW3DPXsvaQAtpd/jT+P2NG5wEaTaWNFc2a9DrGip5CxoDN5xkYz8YQPvQ32tMsEELCWLIUth8Z+AAugnkJef2N6VSgqGM4q/eJ1rMotxxFjbXGs8B94Bub8AYMrSbDO0xWZd01A4lXST/10OitJo+VpZC2G3KywsFOA774h7c2sDKISibd97CgHlQj26UoNzPYVCPTOxWLXN8vs3qyXGVhJitdwWgEIxdDTkRyRExvbEzE1sEgXFCFeEKfURF7r1n2kylTbA8aiQQUsY4wfSfQqziV1lh9W3r1cFH0aoOBXY9qGIe9lzYs9RdxbRbj/hlOwQIlOx/Q==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR11MB5620.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(346002)(366004)(376002)(136003)(396003)(39860400002)(451199015)(36756003)(86362001)(38070700005)(83380400001)(110136005)(76116006)(91956017)(66446008)(66946007)(4326008)(41300700001)(54906003)(8676002)(66556008)(64756008)(66476007)(38100700002)(82960400001)(122000001)(478600001)(6486002)(6506007)(186003)(71200400001)(2906002)(8936002)(4001150100001)(5660300002)(316002)(2616005)(30864003)(6512007);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?SsB29AsQJfcBEP1+frJFEeGtz1OeIcCl5EXBcRdg/eazlj7DI8d69NM9zg?=
- =?iso-8859-1?Q?HWxtjO4jv9J/icqkbnkarKFz9tNyVGA6pAYQZ/EgaGAOgM1iJlaNGpsM+6?=
- =?iso-8859-1?Q?kOKq2RSWbMg2E0FcZ8cuROQItziKLhU7FHrY5Q4HCwu7Rbht+3lSRhV8tq?=
- =?iso-8859-1?Q?fNRb78V0bhatwL1YisJwlR6yf3vNVFiRg7z8jisAUWnbzbMG/2UZ9w0d7e?=
- =?iso-8859-1?Q?vIU1Ck2OcsXXmNS4pN+/IBMY99CeNLmNJ9LLA/yTSPHtvV/J8gUj9/qnfe?=
- =?iso-8859-1?Q?vgcWecnQOHYGB2RLaiAtbu1Gfu79sETVrXgusHFm4XOTdWiYm22LVv2C2e?=
- =?iso-8859-1?Q?ek/ICfgO7RyTrtOWSPBU2X5su0GYbOaekw6y9sjygDr8QivLYR1xU3Hd3+?=
- =?iso-8859-1?Q?/RDKMtQ3lieGKUsFE2RUsTsF5l40rAZAE3H8sXHIcD5OOPs5m7bBmJJWVk?=
- =?iso-8859-1?Q?/qwaK+WPYrzMdhw+WdYz5VzDHWepj068QVJD4nFB5Er//xQl1FQFGRb8jT?=
- =?iso-8859-1?Q?fDiEewYJQiQ9QuoAYYZGC95uMzXQf1DyNlK7+CkT8gPP+Npl2eaDUa0Z6c?=
- =?iso-8859-1?Q?PweENNBgMrVOmYgS52A6VDYJj4uvUcYk6Bz9NMK2N+wnyz1a1GbPAputcb?=
- =?iso-8859-1?Q?OS3ZksOiXHAhg3XeVMbxHCn6hpLpIUrPa1QBsKLGbUdtUC0UydM6DY9OGp?=
- =?iso-8859-1?Q?EErPBjsa4yHsSoxSw7x9ch+fzbB0vzk+AObBkrA29LOdiBm5ARqIxAzQvG?=
- =?iso-8859-1?Q?eNJOFHTf0/Gm2+LSO4G20WiQZ/6VnqoAsIKayJHbnpWnk1LKSHitiI27yz?=
- =?iso-8859-1?Q?MxU/0xvaboN9v7lHEE7XrICEdAxCa0AoamR6C9kj+fl0yx20tHskpxqSnV?=
- =?iso-8859-1?Q?W5g/Vx1CNVhVRH24EC/MfPDvlafiD7oBhItJNQBn/bH9LKBaD2WbGnZLiT?=
- =?iso-8859-1?Q?q/Bw+EI5nd5dUrk8tWa8elqjsu6qJB6M4k+zbS452DDbC5QBDlJJB3h1Mz?=
- =?iso-8859-1?Q?+X/qPR1bElMDST4fg29UdAY1j+u+/p/2sm0EBWravXvFz7PBzqCD1owxG7?=
- =?iso-8859-1?Q?9Psz2FtRcxXE75c5KO+QhTd7n46g9ZO6fsLGO5ZFATkdzSPzXXBzJOLgzU?=
- =?iso-8859-1?Q?swx7Da23miNfffVOjVyfOTTRmSv3sTmVODMcdcfzupVs6/4Az/OWELv+Al?=
- =?iso-8859-1?Q?xoXLyS4E/Uo6eZvQihyCY6DXiSUGcMJKA2QNVZaGzl95r5usn4Y8XFoiVI?=
- =?iso-8859-1?Q?UtShanyTbW3VMYWDQ3jXtaROH0yvmnzRKke6O+S0aSuDouI7ksUpxCdiZa?=
- =?iso-8859-1?Q?HDvuGGIyokF5rZc1thly79qD3PFfwjSea04Qz5Y+8MmQuUZ9r0tGzxK3rP?=
- =?iso-8859-1?Q?U3UDXMB01KIbvQoNTAtDy4ijVbH7VidslIdWqphxnXaN1CO6fQM/WXFh/H?=
- =?iso-8859-1?Q?0nJfG3K/YligudBHmmtVPCCJzkll+P1A9PEj7JK6Xe7cCs4RxajmnbWrYM?=
- =?iso-8859-1?Q?U5Xjt+a/3dCaHLakJRM15Oh1OkhiPFttySgvk3ckXiYDcHbZoULqzey6LI?=
- =?iso-8859-1?Q?kSqmkZKu9zetB+FcQ1tqwxE/mi/oqcsKlOZ6SNoxK7XYsz88/+NL6o1U39?=
- =?iso-8859-1?Q?RvCcB+L9p1gjq0KOekkpYO6Cs5CVT5Ta0ray3eMgu1bVqgYN18dgwWVA?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3edab703-cbb0-46f1-1ca0-08daf3711cd7
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NFJoUXNiYzhHNUd4UWNieGEyTVBFb0puQ1czbjhFdVN5NmN0Ym5Mb0NrTGE4?=
+ =?utf-8?B?bEMxRXJaeVFpbWs4N292V0RGN1VhY3FQbHg5aG4xWllQK1hTemFFSEVqU0hI?=
+ =?utf-8?B?bSt1YU1XcUc1cER1TGsxeGpMRTVLMGZXTkxDa3hwWnNDbEFwb0N6WkliMldK?=
+ =?utf-8?B?UFhrMlpYenF6TjNqQkRZOXNqOU9WSHZ3ajF4WE9DWHVWbG0rb0FmWHYxTWZQ?=
+ =?utf-8?B?NjNXNGRBZ1JjZTliNWdEVTkrc3cvb1E0ZFhodmt2aG4rOWY3ZFJFbjNQQlR6?=
+ =?utf-8?B?WFR2ejkvNDVwdWFpZVhEZXQzcjFQVmhrWlNiMThHL1J1cElaU0dYWmJHRGNo?=
+ =?utf-8?B?N1JORS9vY2dtNmRFWDdaUktNWHpzN2wyTmlBbmRzcVl4OUVSYXVUS2F0VHpD?=
+ =?utf-8?B?cFQvNlVab1RGeVFtWGg4NkFUakJZNjJpZDNMb3ZxbmQ5VnhiTmZwT0J6RHFK?=
+ =?utf-8?B?eXp6Z2V6RGZwVjlOOVNRTHVBZjFnOWxRRGxPZncxWnYybEpWWlU0WHo5NldC?=
+ =?utf-8?B?Z0NuSFVoaFkxSEYzdlhYR3RPaTF1eTluTG1KQnd5cXJJdmptSHA1RXN4Ni9D?=
+ =?utf-8?B?K1BxN3BzdXZxaVIwM1hWODJ2SDM2ckdGVVVBM0tqcWZUNVNKV2NlbzNGM0NN?=
+ =?utf-8?B?MG5saEs3TWpVcTNZWUN2ZW5yQTdORXZuTWk2MWwxMDFqeWFQd0EyOHdkTnFK?=
+ =?utf-8?B?cVZhUHFtTGVtelU2alhuOVgwc1dRNXk3czFwQ2N1SmRQTnJyS3E4SDJMeC84?=
+ =?utf-8?B?aGZRWWY4dUZVOGF6elByMnZNQmkrbVRpMVVpTVVuWUlZRkJOV01XaTRtcjlI?=
+ =?utf-8?B?YlFxYjdIcW5vZXdZSWN0WTRuSmlCWXZqY2hFYWRpVjArV2VLQmNFZzJqWkYz?=
+ =?utf-8?B?UmVIVkdlV2xLM01LWUkwa1VydWd6NEg4b1A3bng3aU16eEdpblpVeUJjSjIz?=
+ =?utf-8?B?U0Q0RThWRURFczNpMHQvRXVPSXJ3ZnVOYTBxQzIxaDdQOThVbWtaL0RieDhs?=
+ =?utf-8?B?WXJ2WFhUVHhjQy9aVWpBYWRUT2NxUUo2UVpwUVFBN3Q3VkFMM0VHQldPVDR2?=
+ =?utf-8?B?UHI3Y3RLMWFXQ0htN3pNQzAxN0VpTkg2VW53RFlCNEVNS2FuYVFWUGtGSHVU?=
+ =?utf-8?B?LytvaFBCeHJLWFEzZUUwT1pQNjc2bGw4dXlkQTl2Z21ubk5mNFRSUFh1TDhT?=
+ =?utf-8?B?S2t3TVl0UzRYWlJudENjeFRwcHlsQWQ1b2RiYXBuY3JXc3ozcnFKalFac25r?=
+ =?utf-8?B?YmxwWUxYdEQ2VUxZRWV3TXQ0b05Bck9PZUUzNU00THFIRm5qTzZlaW1KTnpV?=
+ =?utf-8?B?YVFZaEt4YTRmZitUVlpHVXBKb2Zoc0l2YnhMZXZEM2tBQ0pzR24xU3Y5T1FF?=
+ =?utf-8?B?OVdtb0tFajcyWC84UUdOSkgxS2lIcTl1aWFEa0ZUMFdPUzkvb1Nrb1dIdVpH?=
+ =?utf-8?B?RytpNElrdmExb2hHaXFlSDN6TTUzV09ONW1KZmlqWUozS3JuUEsvMGI5L21B?=
+ =?utf-8?B?aSt2KzZrMmRlQ3RiZnRJQVJxZTJuUGxxeHFFNzZDcmpQRmJrNVQxSFluMWFH?=
+ =?utf-8?B?QTZqT1lXQVZHMGFmeFdRZm5raWw2V1hTWFB1amhDM0VhYU5mdzg5UFFXdnJq?=
+ =?utf-8?B?TzZRR3U4TTJ4R3hMTHl5Z2NxRlJocXB3alpJS1JsVGFlVmR3d09ObXJ5dDJY?=
+ =?utf-8?B?Zk9XZTBodndQUXlOb3kyendCRnZhRFpzd0NNd0UzcGNYcWIzYTdkNUYyS2xm?=
+ =?utf-8?B?L0NDa2RLUDE4ajQzTU94TXI0Zzh0OUhzSWE0WjErc0pPbmh1a0FoekVmMjJu?=
+ =?utf-8?B?MmtpNkVPemtSWWd2RXFmR2h0Z1BwUkVhRVZWenFqeXJCNHI2OFVQUUhqSkhm?=
+ =?utf-8?B?VE5WcjJVVDhnMUIzWG1WcjhueldBM1NLdlZTREtiaXlISjk0ZmRUaTRJUEVP?=
+ =?utf-8?B?S0taaWxOQXJ1UWRjSFd5UXl5d1NpRmdlQTE5QzR2UTJGSW1URUxCOE9nTm5W?=
+ =?utf-8?B?RDdpN2dKSjNkclZncVRyc0RWN0JqUGRGV3U0SlFtVnc0Q2VvbDlKdDJvcTkv?=
+ =?utf-8?B?b21zWE5iRGV1MFRKWXdpSnJnczNKTDA5ZSszRS8vV3h2ZHNnMnpqemxlTXJY?=
+ =?utf-8?B?N3M0MmpHTTVtOWZQZUFQMXg4VzlIOEVGc1ViMXU2Z0lzYVB6TEp0cnZOTXAy?=
+ =?utf-8?B?SWxoTTFRYnNKNkFiWjFkRE5YZ09laWZxRjJQSWF0ZGQ4N3RWL0xzcHR5ZWd4?=
+ =?utf-8?B?anZZUUJUT0l1WkV0ajc5Qk5XamRnPT0=?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <CEFB34D6D60B564A826CEF657283BCB3@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2023 01:13:56.8445 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9VsLOty1DLni8TeaL7ogDGcTACIt7rlBdZrXp7Y9dCeBCo8Wmy2TM6FgdOXG8LELN/jzXjWoXVyoSa7jT56Cxg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4798
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5620.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c595deee-e47f-4511-d810-08daf375fa15
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jan 2023 01:48:45.8492 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Je8amMTTYHUylc38hz+sEs30PiK44Jdg+X+ooLH9JCJJO7EUdqxLzvGrGIOvWWrw/H+mkcABdpVIv2rFSbQcBAEhZPNsQ9ZX9fRO0hJTMLE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR11MB5974
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -158,490 +165,222 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Jason Ekstrand <jason@jlekstrand.net>,
- dri-devel@lists.freedesktop.org
+Cc: "Brost, Matthew" <matthew.brost@intel.com>,
+ "andi.shyti@linux.intel.com" <andi.shyti@linux.intel.com>, "Ursulin, 
+ Tvrtko" <tvrtko.ursulin@intel.com>, "Nikula, Jani" <jani.nikula@intel.com>,
+ "Landwerlin, Lionel G" <lionel.g.landwerlin@intel.com>, "Hellstrom,
+ Thomas" <thomas.hellstrom@intel.com>, "Auld, Matthew" <matthew.auld@intel.com>,
+ "jason@jlekstrand.net" <jason@jlekstrand.net>, "Vetter,
+ Daniel" <daniel.vetter@intel.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 10, 2023 at 04:39:00PM +0000, Matthew Brost wrote:
-> On Tue, Jan 10, 2023 at 11:28:08AM +0000, Tvrtko Ursulin wrote:
-> > 
-> > 
-> > On 09/01/2023 17:27, Jason Ekstrand wrote:
-> > 
-> > [snip]
-> > 
-> > >      >>> AFAICT it proposes to have 1:1 between *userspace* created
-> > >     contexts (per
-> > >      >>> context _and_ engine) and drm_sched. I am not sure avoiding
-> > >     invasive changes
-> > >      >>> to the shared code is in the spirit of the overall idea and instead
-> > >      >>> opportunity should be used to look at way to refactor/improve
-> > >     drm_sched.
-> > > 
-> > > 
-> > > Maybe?  I'm not convinced that what Xe is doing is an abuse at all or
-> > > really needs to drive a re-factor.  (More on that later.)  There's only
-> > > one real issue which is that it fires off potentially a lot of kthreads.
-> > > Even that's not that bad given that kthreads are pretty light and you're
-> > > not likely to have more kthreads than userspace threads which are much
-> > > heavier.  Not ideal, but not the end of the world either.  Definitely
-> > > something we can/should optimize but if we went through with Xe without
-> > > this patch, it would probably be mostly ok.
-> > > 
-> > >      >> Yes, it is 1:1 *userspace* engines and drm_sched.
-> > >      >>
-> > >      >> I'm not really prepared to make large changes to DRM scheduler
-> > >     at the
-> > >      >> moment for Xe as they are not really required nor does Boris
-> > >     seem they
-> > >      >> will be required for his work either. I am interested to see
-> > >     what Boris
-> > >      >> comes up with.
-> > >      >>
-> > >      >>> Even on the low level, the idea to replace drm_sched threads
-> > >     with workers
-> > >      >>> has a few problems.
-> > >      >>>
-> > >      >>> To start with, the pattern of:
-> > >      >>>
-> > >      >>>    while (not_stopped) {
-> > >      >>>     keep picking jobs
-> > >      >>>    }
-> > >      >>>
-> > >      >>> Feels fundamentally in disagreement with workers (while
-> > >     obviously fits
-> > >      >>> perfectly with the current kthread design).
-> > >      >>
-> > >      >> The while loop breaks and worker exists if no jobs are ready.
-> > > 
-> > > 
-> > > I'm not very familiar with workqueues. What are you saying would fit
-> > > better? One scheduling job per work item rather than one big work item
-> > > which handles all available jobs?
-> > 
-> > Yes and no, it indeed IMO does not fit to have a work item which is
-> > potentially unbound in runtime. But it is a bit moot conceptual mismatch
-> > because it is a worst case / theoretical, and I think due more fundamental
-> > concerns.
-> > 
-> > If we have to go back to the low level side of things, I've picked this
-> > random spot to consolidate what I have already mentioned and perhaps expand.
-> > 
-> > To start with, let me pull out some thoughts from workqueue.rst:
-> > 
-> > """
-> > Generally, work items are not expected to hog a CPU and consume many cycles.
-> > That means maintaining just enough concurrency to prevent work processing
-> > from stalling should be optimal.
-> > """
-> > 
-> > For unbound queues:
-> > """
-> > The responsibility of regulating concurrency level is on the users.
-> > """
-> > 
-> > Given the unbound queues will be spawned on demand to service all queued
-> > work items (more interesting when mixing up with the system_unbound_wq), in
-> > the proposed design the number of instantiated worker threads does not
-> > correspond to the number of user threads (as you have elsewhere stated), but
-> > pessimistically to the number of active user contexts. That is the number
-> > which drives the maximum number of not-runnable jobs that can become
-> > runnable at once, and hence spawn that many work items, and in turn unbound
-> > worker threads.
-> > 
-> > Several problems there.
-> > 
-> > It is fundamentally pointless to have potentially that many more threads
-> > than the number of CPU cores - it simply creates a scheduling storm.
-> > 
-> 
-> We can use a different work queue if this is an issue, have a FIXME
-> which indicates we should allow the user to pass in the work queue.
-> 
-> > Unbound workers have no CPU / cache locality either and no connection with
-> > the CPU scheduler to optimize scheduling patterns. This may matter either on
-> > large systems or on small ones. Whereas the current design allows for
-> > scheduler to notice userspace CPU thread keeps waking up the same drm
-> > scheduler kernel thread, and so it can keep them on the same CPU, the
-> > unbound workers lose that ability and so 2nd CPU might be getting woken up
-> > from low sleep for every submission.
-> >
-> 
-> I guess I don't understand kthread vs. workqueue scheduling internals.
->  
-
-Looked into this and we are not using unbound workers rather we are just
-using the system_wq which is indeed bound. Again we can change this so a
-user can just pass in worker too. After doing a of research bound
-workers allows the scheduler to use locality too avoid that exact
-problem your reading.
-
-TL;DR I'm not buying any of these arguments although it is possible I am
-missing something.
-
-Matt 
-
-> > Hence, apart from being a bit of a impedance mismatch, the proposal has the
-> > potential to change performance and power patterns and both large and small
-> > machines.
-> >
-> 
-> We are going to have to test this out I suppose and play around to see
-> if this design has any real world impacts. As Jason said, yea probably
-> will need a bit of help here from others. Will CC relavent parties on
-> next rev. 
->  
-> > >      >>> Secondly, it probably demands separate workers (not optional),
-> > >     otherwise
-> > >      >>> behaviour of shared workqueues has either the potential to
-> > >     explode number
-> > >      >>> kernel threads anyway, or add latency.
-> > >      >>>
-> > >      >>
-> > >      >> Right now the system_unbound_wq is used which does have a limit
-> > >     on the
-> > >      >> number of threads, right? I do have a FIXME to allow a worker to be
-> > >      >> passed in similar to TDR.
-> > >      >>
-> > >      >> WRT to latency, the 1:1 ratio could actually have lower latency
-> > >     as 2 GPU
-> > >      >> schedulers can be pushing jobs into the backend / cleaning up
-> > >     jobs in
-> > >      >> parallel.
-> > >      >>
-> > >      >
-> > >      > Thought of one more point here where why in Xe we absolutely want
-> > >     a 1 to
-> > >      > 1 ratio between entity and scheduler - the way we implement
-> > >     timeslicing
-> > >      > for preempt fences.
-> > >      >
-> > >      > Let me try to explain.
-> > >      >
-> > >      > Preempt fences are implemented via the generic messaging
-> > >     interface [1]
-> > >      > with suspend / resume messages. If a suspend messages is received to
-> > >      > soon after calling resume (this is per entity) we simply sleep in the
-> > >      > suspend call thus giving the entity a timeslice. This completely
-> > >     falls
-> > >      > apart with a many to 1 relationship as now a entity waiting for a
-> > >      > timeslice blocks the other entities. Could we work aroudn this,
-> > >     sure but
-> > >      > just another bunch of code we'd have to add in Xe. Being to
-> > >     freely sleep
-> > >      > in backend without affecting other entities is really, really
-> > >     nice IMO
-> > >      > and I bet Xe isn't the only driver that is going to feel this way.
-> > >      >
-> > >      > Last thing I'll say regardless of how anyone feels about Xe using
-> > >     a 1 to
-> > >      > 1 relationship this patch IMO makes sense as I hope we can all
-> > >     agree a
-> > >      > workqueue scales better than kthreads.
-> > > 
-> > >     I don't know for sure what will scale better and for what use case,
-> > >     combination of CPU cores vs number of GPU engines to keep busy vs other
-> > >     system activity. But I wager someone is bound to ask for some
-> > >     numbers to
-> > >     make sure proposal is not negatively affecting any other drivers.
-> > > 
-> > > 
-> > > Then let them ask.  Waving your hands vaguely in the direction of the
-> > > rest of DRM and saying "Uh, someone (not me) might object" is profoundly
-> > > unhelpful.  Sure, someone might.  That's why it's on dri-devel.  If you
-> > > think there's someone in particular who might have a useful opinion on
-> > > this, throw them in the CC so they don't miss the e-mail thread.
-> > > 
-> > > Or are you asking for numbers?  If so, what numbers are you asking for?
-> > 
-> > It was a heads up to the Xe team in case people weren't appreciating how the
-> > proposed change has the potential influence power and performance across the
-> > board. And nothing in the follow up discussion made me think it was
-> > considered so I don't think it was redundant to raise it.
-> > 
-> > In my experience it is typical that such core changes come with some
-> > numbers. Which is in case of drm scheduler is tricky and probably requires
-> > explicitly asking everyone to test (rather than count on "don't miss the
-> > email thread"). Real products can fail to ship due ten mW here or there.
-> > Like suddenly an extra core prevented from getting into deep sleep.
-> > 
-> > If that was "profoundly unhelpful" so be it.
-> > 
-> > > Also, If we're talking about a design that might paint us into an
-> > > Intel-HW-specific hole, that would be one thing.  But we're not.  We're
-> > > talking about switching which kernel threading/task mechanism to use for
-> > > what's really a very generic problem.  The core Xe design works without
-> > > this patch (just with more kthreads).  If we land this patch or
-> > > something like it and get it wrong and it causes a performance problem
-> > > for someone down the line, we can revisit it.
-> > 
-> > For some definition of "it works" - I really wouldn't suggest shipping a
-> > kthread per user context at any point.
-> >
-> 
-> Yea, this is why using a workqueue rathre than a kthread was suggested
-> to me by AMD. I should've put a suggested by on the commit message, need
-> to dig through my emails and figure out who exactly suggested this.
->  
-> > >     In any case that's a low level question caused by the high level design
-> > >     decision. So I'd think first focus on the high level - which is the 1:1
-> > >     mapping of entity to scheduler instance proposal.
-> > > 
-> > >     Fundamentally it will be up to the DRM maintainers and the community to
-> > >     bless your approach. And it is important to stress 1:1 is about
-> > >     userspace contexts, so I believe unlike any other current scheduler
-> > >     user. And also important to stress this effectively does not make Xe
-> > >     _really_ use the scheduler that much.
-> > > 
-> > > 
-> > > I don't think this makes Xe nearly as much of a one-off as you think it
-> > > does.  I've already told the Asahi team working on Apple M1/2 hardware
-> > > to do it this way and it seems to be a pretty good mapping for them. I
-> > > believe this is roughly the plan for nouveau as well.  It's not the way
-> > > it currently works for anyone because most other groups aren't doing FW
-> > > scheduling yet.  In the world of FW scheduling and hardware designed to
-> > > support userspace direct-to-FW submit, I think the design makes perfect
-> > > sense (see below) and I expect we'll see more drivers move in this
-> > > direction as those drivers evolve.  (AMD is doing some customish thing
-> > > for how with gpu_scheduler on the front-end somehow. I've not dug into
-> > > those details.)
-> > > 
-> > >     I can only offer my opinion, which is that the two options mentioned in
-> > >     this thread (either improve drm scheduler to cope with what is
-> > >     required,
-> > >     or split up the code so you can use just the parts of drm_sched which
-> > >     you want - which is frontend dependency tracking) shouldn't be so
-> > >     readily dismissed, given how I think the idea was for the new driver to
-> > >     work less in a silo and more in the community (not do kludges to
-> > >     workaround stuff because it is thought to be too hard to improve common
-> > >     code), but fundamentally, "goto previous paragraph" for what I am
-> > >     concerned.
-> > > 
-> > > 
-> > > Meta comment:  It appears as if you're falling into the standard i915
-> > > team trap of having an internal discussion about what the community
-> > > discussion might look like instead of actually having the community
-> > > discussion.  If you are seriously concerned about interactions with
-> > > other drivers or whether or setting common direction, the right way to
-> > > do that is to break a patch or two out into a separate RFC series and
-> > > tag a handful of driver maintainers.  Trying to predict the questions
-> > > other people might ask is pointless. Cc them and asking for their input
-> > > instead.
-> > 
-> > I don't follow you here. It's not an internal discussion - I am raising my
-> > concerns on the design publicly. I am supposed to write a patch to show
-> > something, but am allowed to comment on a RFC series?
-> > 
-> > It is "drm/sched: Convert drm scheduler to use a work queue rather than
-> > kthread" which should have Cc-ed _everyone_ who use drm scheduler.
-> >
-> 
-> Yea, will do on next rev.
->  
-> > > 
-> > >     Regards,
-> > > 
-> > >     Tvrtko
-> > > 
-> > >     P.S. And as a related side note, there are more areas where drm_sched
-> > >     could be improved, like for instance priority handling.
-> > >     Take a look at msm_submitqueue_create / msm_gpu_convert_priority /
-> > >     get_sched_entity to see how msm works around the drm_sched hardcoded
-> > >     limit of available priority levels, in order to avoid having to leave a
-> > >     hw capability unused. I suspect msm would be happier if they could have
-> > >     all priority levels equal in terms of whether they apply only at the
-> > >     frontend level or completely throughout the pipeline.
-> > > 
-> > >      > [1]
-> > >     https://patchwork.freedesktop.org/patch/515857/?series=112189&rev=1
-> > >     <https://patchwork.freedesktop.org/patch/515857/?series=112189&rev=1>
-> > >      >
-> > >      >>> What would be interesting to learn is whether the option of
-> > >     refactoring
-> > >      >>> drm_sched to deal with out of order completion was considered
-> > >     and what were
-> > >      >>> the conclusions.
-> > >      >>>
-> > >      >>
-> > >      >> I coded this up a while back when trying to convert the i915 to
-> > >     the DRM
-> > >      >> scheduler it isn't all that hard either. The free flow control
-> > >     on the
-> > >      >> ring (e.g. set job limit == SIZE OF RING / MAX JOB SIZE) is
-> > >     really what
-> > >      >> sold me on the this design.
-> > > 
-> > > 
-> > > You're not the only one to suggest supporting out-of-order completion.
-> > > However, it's tricky and breaks a lot of internal assumptions of the
-> > > scheduler. It also reduces functionality a bit because it can no longer
-> > > automatically rate-limit HW/FW queues which are often fixed-size.  (Ok,
-> > > yes, it probably could but it becomes a substantially harder problem.)
-> > > 
-> > > It also seems like a worse mapping to me.  The goal here is to turn
-> > > submissions on a userspace-facing engine/queue into submissions to a FW
-> > > queue submissions, sorting out any dma_fence dependencies.  Matt's
-> > > description of saying this is a 1:1 mapping between sched/entity doesn't
-> > > tell the whole story. It's a 1:1:1 mapping between xe_engine,
-> > > gpu_scheduler, and GuC FW engine.  Why make it a 1:something:1 mapping?
-> > > Why is that better?
-> > 
-> > As I have stated before, what I think what would fit well for Xe is one
-> > drm_scheduler per engine class. In specific terms on our current hardware,
-> > one drm scheduler instance for render, compute, blitter, video and video
-> > enhance. Userspace contexts remain scheduler entities.
-> >
-> 
-> I disagree.
->  
-> > That way you avoid the whole kthread/kworker story and you have it actually
-> > use the entity picking code in the scheduler, which may be useful when the
-> > backend is congested.
-> >
-> 
-> In practice the backend shouldn't be congested but if it is a mutex
-> provides fairness probably better than using a shared scheduler. Also
-> what you are suggesting doesn't make sense at all as the congestion is
-> per-GT, so if anything we should use 1 scheduler per-GT not per engine
-> class.
->  
-> > Yes you have to solve the out of order problem so in my mind that is
-> > something to discuss. What the problem actually is (just TDR?), how tricky
-> > and why etc.
-> >
-> 
-> Cleanup of jobs, TDR, replaying jobs, etc... It has decent amount of
-> impact.
->  
-> > And yes you lose the handy LRCA ring buffer size management so you'd have to
-> > make those entities not runnable in some other way.
-> >
-> 
-> Also we lose our preempt fence implemenation too. Again I don't see how
-> the design you are suggesting is a win.
->  
-> > Regarding the argument you raise below - would any of that make the frontend
-> > / backend separation worse and why? Do you think it is less natural? If
-> > neither is true then all remains is that it appears extra work to support
-> > out of order completion of entities has been discounted in favour of an easy
-> > but IMO inelegant option.
-> > 
-> > > There are two places where this 1:1:1 mapping is causing problems:
-> > > 
-> > >   1. It creates lots of kthreads. This is what this patch is trying to
-> > > solve. IDK if it's solving it the best way but that's the goal.
-> > > 
-> > >   2. There are a far more limited number of communication queues between
-> > > the kernel and GuC for more meta things like pausing and resuming
-> > > queues, getting events back from GuC, etc. Unless we're in a weird
-> > > pressure scenario, the amount of traffic on this queue should be low so
-> > > we can probably just have one per physical device.  The vast majority of
-> > > kernel -> GuC communication should be on the individual FW queue rings
-> > > and maybe smashing in-memory doorbells.
-> > 
-> > I don't follow your terminology here. I suppose you are talking about global
-> > GuC CT and context ringbuffers. If so then isn't "far more limited" actually
-> > one?
-> > 
-> 
-> We have 1 GuC GT per-GT.
-> 
-> Matt
-> 
-> > Regards,
-> > 
-> > Tvrtko
-> > 
-> > > Doing out-of-order completion sort-of solves the 1 but does nothing for
-> > > 2 and actually makes managing FW queues harder because we no longer have
-> > > built-in rate limiting.  Seems like a net loss to me.
-> > > 
-> > >      >>> Second option perhaps to split out the drm_sched code into
-> > >     parts which would
-> > >      >>> lend themselves more to "pick and choose" of its functionalities.
-> > >      >>> Specifically, Xe wants frontend dependency tracking, but not
-> > >     any scheduling
-> > >      >>> really (neither least busy drm_sched, neither FIFO/RQ entity
-> > >     picking), so
-> > >      >>> even having all these data structures in memory is a waste.
-> > >      >>>
-> > >      >>
-> > >      >> I don't think that we are wasting memory is a very good argument for
-> > >      >> making intrusive changes to the DRM scheduler.
-> > > 
-> > > 
-> > > Worse than that, I think the "we could split it up" kind-of misses the
-> > > point of the way Xe is using drm/scheduler.  It's not just about
-> > > re-using a tiny bit of dependency tracking code.  Using the scheduler in
-> > > this way provides a clean separation between front-end and back-end.
-> > > The job of the userspace-facing ioctl code is to shove things on the
-> > > scheduler.  The job of the run_job callback is to encode the job into
-> > > the FW queue format, stick it in the FW queue ring, and maybe smash a
-> > > doorbell.  Everything else happens in terms of managing those queues
-> > > side-band.  The gpu_scheduler code manages the front-end queues and Xe
-> > > manages the FW queues via the Kernel <-> GuC communication rings.  From
-> > > a high level, this is a really clean design.  There are potentially some
-> > > sticky bits around the dual-use of dma_fence for scheduling and memory
-> > > management but none of those are solved by breaking the DRM scheduler
-> > > into chunks or getting rid of the 1:1:1 mapping.
-> > > 
-> > > If we split it out, we're basically asking the driver to implement a
-> > > bunch of kthread or workqueue stuff, all the ring rate-limiting, etc.
-> > > It may not be all that much code but also, why?  To save a few bytes of
-> > > memory per engine?  Each engine already has 32K(ish) worth of context
-> > > state and a similar size ring to communicate with the FW.  No one is
-> > > going to notice an extra CPU data structure.
-> > > 
-> > > I'm not seeing a solid argument against the 1:1:1 design here other than
-> > > that it doesn't seem like the way DRM scheduler was intended to be
-> > > used.  I won't argue that.  It's not.  But it is a fairly natural way to
-> > > take advantage of the benefits the DRM scheduler does provide while also
-> > > mapping it to hardware that was designed for userspace direct-to-FW
-> > > submit.
-> > > 
-> > > --Jason
-> > > 
-> > >      >>> With the first option then the end result could be drm_sched
-> > >     per engine
-> > >      >>> class (hardware view), which I think fits with the GuC model.
-> > >     Give all
-> > >      >>> schedulable contexts (entities) to the GuC and then mostly
-> > >     forget about
-> > >      >>> them. Timeslicing and re-ordering and all happens transparently
-> > >     to the
-> > >      >>> kernel from that point until completion.
-> > >      >>>
-> > >      >>
-> > >      >> Out-of-order problem still exists here.
-> > >      >>
-> > >      >>> Or with the second option you would build on some smaller
-> > >     refactored
-> > >      >>> sub-components of drm_sched, by maybe splitting the dependency
-> > >     tracking from
-> > >      >>> scheduling (RR/FIFO entity picking code).
-> > >      >>>
-> > >      >>> Second option is especially a bit vague and I haven't thought
-> > >     about the
-> > >      >>> required mechanics, but it just appeared too obvious the
-> > >     proposed design has
-> > >      >>> a bit too much impedance mismatch.
-> > >      >>>
-> > >      >>
-> > >      >> IMO ROI on this is low and again lets see what Boris comes up with.
-> > >      >>
-> > >      >> Matt
-> > >      >>
-> > >      >>> Oh and as a side note, when I went into the drm_sched code base
-> > >     to remind
-> > >      >>> myself how things worked, it is quite easy to find some FIXME
-> > >     comments which
-> > >      >>> suggest people working on it are unsure of locking desing there
-> > >     and such. So
-> > >      >>> perhaps that all needs cleanup too, I mean would benefit from
-> > >      >>> refactoring/improving work as brainstormed above anyway.
-> > >      >>>
-> > >      >>> Regards,
-> > >      >>>
-> > >      >>> Tvrtko
-> > > 
+T24gTW9uLCAyMDIyLTEyLTEyIGF0IDE1OjE1IC0wODAwLCBOaXJhbmphbmEgVmlzaHdhbmF0aGFw
+dXJhIHdyb3RlOg0KPiBBZGQgc3VwcG9ydCBmb3IgaGFuZGxpbmcgb3V0IGZlbmNlIGZvciB2bV9i
+aW5kIGNhbGwuDQo+IA0KPiB2MjogUmVzZXQgdm1hLT52bV9iaW5kX2ZlbmNlLnN5bmNvYmogdG8g
+TlVMTCBhdCB0aGUgZW5kDQo+IMKgwqDCoMKgb2Ygdm1fYmluZCBjYWxsLg0KPiB2MzogUmVtb3Zl
+IHZtX3VuYmluZCBvdXQgZmVuY2UgdWFwaSB3aGljaCBpcyBub3Qgc3VwcG9ydGVkIHlldC4NCj4g
+djQ6IFJldHVybiBlcnJvciBpZiBJOTE1X1RJTUVMSU5FX0ZFTkNFX1dBSVQgZmVuY2UgZmxhZyBp
+cyBzZXQuDQo+IMKgwqDCoMKgV2FpdCBmb3IgYmluZCB0byBjb21wbGV0ZSBpZmYgSTkxNV9USU1F
+TElORV9GRU5DRV9TSUdOQUwgaXMNCj4gwqDCoMKgwqBub3Qgc3BlY2lmaWVkLg0KPiB2NTogRW5z
+dXJlIF9fSTkxNV9USU1FTElORV9GRU5DRV9VTktOT1dOX0ZMQUdTIGFyZSBub3Qgc2V0Lg0KPiAN
+Cj4gUmV2aWV3ZWQtYnk6IE1hdHRoZXcgQXVsZCA8bWF0dGhldy5hdWxkQGludGVsLmNvbT4NCj4g
+U2lnbmVkLW9mZi1ieTogTmlyYW5qYW5hIFZpc2h3YW5hdGhhcHVyYSA8bmlyYW5qYW5hLnZpc2h3
+YW5hdGhhcHVyYUBpbnRlbC5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IEFuZGkgU2h5dGkgPGFuZGku
+c2h5dGlAbGludXguaW50ZWwuY29tPg0KPiAtLS0NCj4gwqBkcml2ZXJzL2dwdS9kcm0vaTkxNS9n
+ZW0vaTkxNV9nZW1fdm1fYmluZC5oICAgfCAgNCArDQo+IMKgLi4uL2RybS9pOTE1L2dlbS9pOTE1
+X2dlbV92bV9iaW5kX29iamVjdC5jICAgIHwgOTggKysrKysrKysrKysrKysrKysrLQ0KPiDCoGRy
+aXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfdm1hLmMgICAgICAgICAgICAgICB8ICA3ICstDQo+IMKg
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV92bWFfdHlwZXMuaCAgICAgICAgIHwgIDcgKysNCj4g
+wqBpbmNsdWRlL3VhcGkvZHJtL2k5MTVfZHJtLmggICAgICAgICAgICAgICAgICAgfCA1OCArKysr
+KysrKysrLQ0KPiDCoDUgZmlsZXMgY2hhbmdlZCwgMTY1IGluc2VydGlvbnMoKyksIDkgZGVsZXRp
+b25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVf
+Z2VtX3ZtX2JpbmQuaCBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV92bV9iaW5k
+LmgNCj4gaW5kZXggMzYyNjJhNjM1N2I1Li5iNzBlOTAwZTM1YWIgMTAwNjQ0DQo+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV92bV9iaW5kLmgNCj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3ZtX2JpbmQuaA0KPiBAQCAtOCw2ICs4LDcgQEAN
+Cj4gwqANCj4gDQo+IA0KPiANCj4gwqAjaW5jbHVkZSA8bGludXgvdHlwZXMuaD4NCj4gwqANCj4g
+DQo+IA0KPiANCj4gK3N0cnVjdCBkbWFfZmVuY2U7DQo+IMKgc3RydWN0IGRybV9kZXZpY2U7DQo+
+IMKgc3RydWN0IGRybV9maWxlOw0KPiDCoHN0cnVjdCBpOTE1X2FkZHJlc3Nfc3BhY2U7DQo+IEBA
+IC0yMyw0ICsyNCw3IEBAIGludCBpOTE1X2dlbV92bV91bmJpbmRfaW9jdGwoc3RydWN0IGRybV9k
+ZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwNCj4gwqANCj4gDQo+IA0KPiANCj4gwqB2b2lkIGk5MTVf
+Z2VtX3ZtX3VuYmluZF9hbGwoc3RydWN0IGk5MTVfYWRkcmVzc19zcGFjZSAqdm0pOw0KPiDCoA0K
+PiANCj4gDQo+IA0KPiArdm9pZCBpOTE1X3ZtX2JpbmRfc2lnbmFsX2ZlbmNlKHN0cnVjdCBpOTE1
+X3ZtYSAqdm1hLA0KPiArCQkJICAgICAgIHN0cnVjdCBkbWFfZmVuY2UgKiBjb25zdCBmZW5jZSk7
+DQo+ICsNCj4gwqAjZW5kaWYgLyogX19JOTE1X0dFTV9WTV9CSU5EX0ggKi8NCj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV92bV9iaW5kX29iamVjdC5jIGIv
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3ZtX2JpbmRfb2JqZWN0LmMNCj4gaW5k
+ZXggZGM3Mzg2Nzc0NjZiLi5mZDFkODJjZTk5ZTYgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9pOTE1L2dlbS9pOTE1X2dlbV92bV9iaW5kX29iamVjdC5jDQo+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV92bV9iaW5kX29iamVjdC5jDQo+IEBAIC03LDYgKzcs
+OCBAQA0KPiDCoA0KPiANCj4gDQo+IA0KPiDCoCNpbmNsdWRlIDxsaW51eC9pbnRlcnZhbF90cmVl
+X2dlbmVyaWMuaD4NCj4gwqANCj4gDQo+IA0KPiANCj4gKyNpbmNsdWRlIDxkcm0vZHJtX3N5bmNv
+YmouaD4NCj4gKw0KPiDCoCNpbmNsdWRlICJnZW0vaTkxNV9nZW1fY29udGV4dC5oIg0KPiDCoCNp
+bmNsdWRlICJnZW0vaTkxNV9nZW1fdm1fYmluZC5oIg0KPiDCoA0KPiANCj4gDQo+IA0KPiBAQCAt
+MTAxLDYgKzEwMyw3NyBAQCBzdGF0aWMgdm9pZCBpOTE1X2dlbV92bV9iaW5kX3JlbW92ZShzdHJ1
+Y3QgaTkxNV92bWEgKnZtYSwgYm9vbCByZWxlYXNlX29iaikNCj4gwqAJCWk5MTVfZ2VtX29iamVj
+dF9wdXQodm1hLT5vYmopOw0KPiDCoH0NCj4gwqANCj4gDQo+IA0KPiANCj4gK3N0YXRpYyBpbnQg
+aTkxNV92bV9iaW5kX2FkZF9mZW5jZShzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGUsIHN0cnVjdCBpOTE1
+X3ZtYSAqdm1hLA0KPiArCQkJCSAgdTMyIGhhbmRsZSwgdTY0IHBvaW50KQ0KPiArew0KPiArCXN0
+cnVjdCBkcm1fc3luY29iaiAqc3luY29iajsNCj4gKw0KPiArCXN5bmNvYmogPSBkcm1fc3luY29i
+al9maW5kKGZpbGUsIGhhbmRsZSk7DQo+ICsJaWYgKCFzeW5jb2JqKSB7DQo+ICsJCWRybV9kYmco
+JnZtYS0+dm0tPmk5MTUtPmRybSwNCj4gKwkJCSJJbnZhbGlkIHN5bmNvYmogaGFuZGxlIHByb3Zp
+ZGVkXG4iKTsNCj4gKwkJcmV0dXJuIC1FTk9FTlQ7DQo+ICsJfQ0KPiArDQo+ICsJLyoNCj4gKwkg
+KiBGb3IgdGltZWxpbmUgc3luY29ianMgd2UgbmVlZCB0byBwcmVhbGxvY2F0ZSBjaGFpbnMgZm9y
+DQo+ICsJICogbGF0ZXIgc2lnbmFsaW5nLg0KPiArCSAqLw0KPiArCWlmIChwb2ludCkgew0KPiAr
+CQl2bWEtPnZtX2JpbmRfZmVuY2UuY2hhaW5fZmVuY2UgPSBkbWFfZmVuY2VfY2hhaW5fYWxsb2Mo
+KTsNCj4gKwkJaWYgKCF2bWEtPnZtX2JpbmRfZmVuY2UuY2hhaW5fZmVuY2UpIHsNCj4gKwkJCWRy
+bV9zeW5jb2JqX3B1dChzeW5jb2JqKTsNCj4gKwkJCXJldHVybiAtRU5PTUVNOw0KPiArCQl9DQo+
+ICsJfSBlbHNlIHsNCj4gKwkJdm1hLT52bV9iaW5kX2ZlbmNlLmNoYWluX2ZlbmNlID0gTlVMTDsN
+Cj4gKwl9DQo+ICsJdm1hLT52bV9iaW5kX2ZlbmNlLnN5bmNvYmogPSBzeW5jb2JqOw0KPiArCXZt
+YS0+dm1fYmluZF9mZW5jZS52YWx1ZSA9IHBvaW50Ow0KPiArDQo+ICsJcmV0dXJuIDA7DQo+ICt9
+DQo+ICsNCj4gK3N0YXRpYyB2b2lkIGk5MTVfdm1fYmluZF9wdXRfZmVuY2Uoc3RydWN0IGk5MTVf
+dm1hICp2bWEpDQo+ICt7DQo+ICsJaWYgKCF2bWEtPnZtX2JpbmRfZmVuY2Uuc3luY29iaikNCj4g
+KwkJcmV0dXJuOw0KPiArDQo+ICsJZHJtX3N5bmNvYmpfcHV0KHZtYS0+dm1fYmluZF9mZW5jZS5z
+eW5jb2JqKTsNCj4gKwlkbWFfZmVuY2VfY2hhaW5fZnJlZSh2bWEtPnZtX2JpbmRfZmVuY2UuY2hh
+aW5fZmVuY2UpOw0KPiArCXZtYS0+dm1fYmluZF9mZW5jZS5zeW5jb2JqID0gTlVMTDsNCj4gK30N
+Cj4gKw0KPiArLyoqDQo+ICsgKiBpOTE1X3ZtX2JpbmRfc2lnbmFsX2ZlbmNlKCkgLSBBZGQgZmVu
+Y2UgdG8gdm1fYmluZCBzeW5jb2JqDQo+ICsgKiBAdm1hOiB2bWEgbWFwcGluZyByZXF1aXJpbmcg
+c2lnbmFsaW5nDQo+ICsgKiBAZmVuY2U6IGZlbmNlIHRvIGJlIGFkZGVkDQo+ICsgKg0KPiArICog
+QXNzb2NpYXRlIHNwZWNpZmllZCBAZmVuY2Ugd2l0aCB0aGUgQHZtYSdzIHN5bmNvYmogdG8gYmUN
+Cj4gKyAqIHNpZ25hbGVkIGFmdGVyIHRoZSBAZmVuY2Ugd29yayBjb21wbGV0ZXMuDQo+ICsgKi8N
+Cj4gK3ZvaWQgaTkxNV92bV9iaW5kX3NpZ25hbF9mZW5jZShzdHJ1Y3QgaTkxNV92bWEgKnZtYSwN
+Cj4gKwkJCSAgICAgICBzdHJ1Y3QgZG1hX2ZlbmNlICogY29uc3QgZmVuY2UpDQo+ICt7DQo+ICsJ
+c3RydWN0IGRybV9zeW5jb2JqICpzeW5jb2JqID0gdm1hLT52bV9iaW5kX2ZlbmNlLnN5bmNvYmo7
+DQo+ICsNCj4gKwlpZiAoIXN5bmNvYmopDQo+ICsJCXJldHVybjsNCj4gKw0KPiArCWlmICh2bWEt
+PnZtX2JpbmRfZmVuY2UuY2hhaW5fZmVuY2UpIHsNCj4gKwkJZHJtX3N5bmNvYmpfYWRkX3BvaW50
+KHN5bmNvYmosDQo+ICsJCQkJICAgICAgdm1hLT52bV9iaW5kX2ZlbmNlLmNoYWluX2ZlbmNlLA0K
+PiArCQkJCSAgICAgIGZlbmNlLCB2bWEtPnZtX2JpbmRfZmVuY2UudmFsdWUpOw0KPiArCQkvKg0K
+PiArCQkgKiBUaGUgY2hhaW4ncyBvd25lcnNoaXAgaXMgdHJhbnNmZXJyZWQgdG8gdGhlDQo+ICsJ
+CSAqIHRpbWVsaW5lLg0KPiArCQkgKi8NCj4gKwkJdm1hLT52bV9iaW5kX2ZlbmNlLmNoYWluX2Zl
+bmNlID0gTlVMTDsNCj4gKwl9IGVsc2Ugew0KPiArCQlkcm1fc3luY29ial9yZXBsYWNlX2ZlbmNl
+KHN5bmNvYmosIGZlbmNlKTsNCj4gKwl9DQo+ICt9DQo+ICsNCj4gwqBzdGF0aWMgaW50IGk5MTVf
+Z2VtX3ZtX3VuYmluZF92bWEoc3RydWN0IGk5MTVfYWRkcmVzc19zcGFjZSAqdm0sDQo+IMKgCQkJ
+CSAgc3RydWN0IGRybV9pOTE1X2dlbV92bV91bmJpbmQgKnZhKQ0KPiDCoHsNCj4gQEAgLTIwNiw2
+ICsyNzksMTEgQEAgc3RhdGljIGludCBpOTE1X2dlbV92bV9iaW5kX29iaihzdHJ1Y3QgaTkxNV9h
+ZGRyZXNzX3NwYWNlICp2bSwNCj4gwqAJaWYgKCF2YS0+bGVuZ3RoIHx8ICFJU19BTElHTkVEKHZh
+LT5zdGFydCwgSTkxNV9HVFRfUEFHRV9TSVpFKSkNCj4gwqAJCXJldCA9IC1FSU5WQUw7DQo+IMKg
+DQo+IA0KPiANCj4gDQo+ICsJLyogSW4gZmVuY2VzIGFyZSBub3Qgc3VwcG9ydGVkICovDQo+ICsJ
+aWYgKCh2YS0+ZmVuY2UuZmxhZ3MgJiBJOTE1X1RJTUVMSU5FX0ZFTkNFX1dBSVQpIHx8DQo+ICsJ
+ICAgICh2YS0+ZmVuY2UuZmxhZ3MgJiBfX0k5MTVfVElNRUxJTkVfRkVOQ0VfVU5LTk9XTl9GTEFH
+UykpDQo+ICsJCXJldCA9IC1FSU5WQUw7DQo+ICsNCj4gwqAJb2JqID0gaTkxNV9nZW1fb2JqZWN0
+X2xvb2t1cChmaWxlLCB2YS0+aGFuZGxlKTsNCj4gwqAJaWYgKCFvYmopDQo+IMKgCQlyZXR1cm4g
+LUVOT0VOVDsNCj4gQEAgLTIzOCw2ICszMTYsMTMgQEAgc3RhdGljIGludCBpOTE1X2dlbV92bV9i
+aW5kX29iaihzdHJ1Y3QgaTkxNV9hZGRyZXNzX3NwYWNlICp2bSwNCj4gwqAJCWdvdG8gdW5sb2Nr
+X3ZtOw0KPiDCoAl9DQo+IMKgDQo+IA0KPiANCj4gDQo+ICsJaWYgKHZhLT5mZW5jZS5mbGFncyAm
+IEk5MTVfVElNRUxJTkVfRkVOQ0VfU0lHTkFMKSB7DQo+ICsJCXJldCA9IGk5MTVfdm1fYmluZF9h
+ZGRfZmVuY2UoZmlsZSwgdm1hLCB2YS0+ZmVuY2UuaGFuZGxlLA0KPiArCQkJCQkgICAgIHZhLT5m
+ZW5jZS52YWx1ZSk7DQo+ICsJCWlmIChyZXQpDQo+ICsJCQlnb3RvIHB1dF92bWE7DQo+ICsJfQ0K
+PiArDQo+IMKgCXBpbl9mbGFncyA9IHZhLT5zdGFydCB8IFBJTl9PRkZTRVRfRklYRUQgfCBQSU5f
+VVNFUiB8DQo+IMKgCQkgICAgUElOX1ZBTElEQVRFIHwgUElOX05PRVZJQ1Q7DQo+IMKgDQo+IA0K
+PiANCj4gDQo+IEBAIC0yNTAsMTAgKzMzNSwxMiBAQCBzdGF0aWMgaW50IGk5MTVfZ2VtX3ZtX2Jp
+bmRfb2JqKHN0cnVjdCBpOTE1X2FkZHJlc3Nfc3BhY2UgKnZtLA0KPiDCoAkJaWYgKHJldCkNCj4g
+wqAJCQljb250aW51ZTsNCj4gwqANCj4gDQo+IA0KPiANCj4gLQkJLyogV2FpdCBmb3IgYmluZCB0
+byBjb21wbGV0ZSAqLw0KPiAtCQlyZXQgPSBpOTE1X3ZtYV93YWl0X2Zvcl9iaW5kKHZtYSk7DQo+
+IC0JCWlmIChyZXQpDQo+IC0JCQljb250aW51ZTsNCj4gKwkJLyogSWYgb3V0IGZlbmNlIGlzIG5v
+dCByZXF1ZXN0ZWQsIHdhaXQgZm9yIGJpbmQgdG8gY29tcGxldGUgKi8NCj4gKwkJaWYgKCEodmEt
+PmZlbmNlLmZsYWdzICYgSTkxNV9USU1FTElORV9GRU5DRV9TSUdOQUwpKSB7DQo+ICsJCQlyZXQg
+PSBpOTE1X3ZtYV93YWl0X2Zvcl9iaW5kKHZtYSk7DQo+ICsJCQlpZiAocmV0KQ0KPiArCQkJCWNv
+bnRpbnVlOw0KPiArCQl9DQo+IMKgDQo+IA0KPiANCj4gDQo+IMKgCQlsaXN0X2FkZF90YWlsKCZ2
+bWEtPnZtX2JpbmRfbGluaywgJnZtLT52bV9ib3VuZF9saXN0KTsNCj4gwqAJCWk5MTVfdm1fYmlu
+ZF9pdF9pbnNlcnQodm1hLCAmdm0tPnZhKTsNCj4gQEAgLTI2NSw2ICszNTIsOSBAQCBzdGF0aWMg
+aW50IGk5MTVfZ2VtX3ZtX2JpbmRfb2JqKHN0cnVjdCBpOTE1X2FkZHJlc3Nfc3BhY2UgKnZtLA0K
+PiDCoAkJaTkxNV9nZW1fb2JqZWN0X2dldCh2bWEtPm9iaik7DQo+IMKgCX0NCj4gwqANCj4gDQo+
+IA0KPiANCj4gKwlpZiAodmEtPmZlbmNlLmZsYWdzICYgSTkxNV9USU1FTElORV9GRU5DRV9TSUdO
+QUwpDQo+ICsJCWk5MTVfdm1fYmluZF9wdXRfZmVuY2Uodm1hKTsNCj4gK3B1dF92bWE6DQo+IMKg
+CWlmIChyZXQpDQo+IMKgCQlpOTE1X3ZtYV9kZXN0cm95KHZtYSk7DQo+IMKgdW5sb2NrX3ZtOg0K
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV92bWEuYyBiL2RyaXZlcnMv
+Z3B1L2RybS9pOTE1L2k5MTVfdm1hLmMNCj4gaW5kZXggYzk1MjdmMWZkYWI5Li42OTcwZTEwMjJm
+ZWUgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfdm1hLmMNCj4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV92bWEuYw0KPiBAQCAtMjksNiArMjksNyBAQA0K
+PiDCoCNpbmNsdWRlICJkaXNwbGF5L2ludGVsX2Zyb250YnVmZmVyLmgiDQo+IMKgI2luY2x1ZGUg
+ImdlbS9pOTE1X2dlbV9sbWVtLmgiDQo+IMKgI2luY2x1ZGUgImdlbS9pOTE1X2dlbV90aWxpbmcu
+aCINCj4gKyNpbmNsdWRlICJnZW0vaTkxNV9nZW1fdm1fYmluZC5oIg0KPiDCoCNpbmNsdWRlICJn
+dC9pbnRlbF9lbmdpbmUuaCINCj4gwqAjaW5jbHVkZSAiZ3QvaW50ZWxfZW5naW5lX2hlYXJ0YmVh
+dC5oIg0KPiDCoCNpbmNsdWRlICJndC9pbnRlbF9ndC5oIg0KPiBAQCAtMTU5OSw4ICsxNjAwLDEy
+IEBAIGludCBpOTE1X3ZtYV9waW5fd3coc3RydWN0IGk5MTVfdm1hICp2bWEsIHN0cnVjdCBpOTE1
+X2dlbV93d19jdHggKnd3LA0KPiDCoGVycl92bWFfcmVzOg0KPiDCoAlpOTE1X3ZtYV9yZXNvdXJj
+ZV9mcmVlKHZtYV9yZXMpOw0KPiDCoGVycl9mZW5jZToNCj4gLQlpZiAod29yaykNCj4gKwlpZiAo
+d29yaykgew0KPiArCQlpZiAoaTkxNV92bWFfaXNfcGVyc2lzdGVudCh2bWEpKQ0KPiArCQkJaTkx
+NV92bV9iaW5kX3NpZ25hbF9mZW5jZSh2bWEsICZ3b3JrLT5iYXNlLmRtYSk7DQo+ICsNCj4gwqAJ
+CWRtYV9mZW5jZV93b3JrX2NvbW1pdF9pbW0oJndvcmstPmJhc2UpOw0KPiArCX0NCj4gwqBlcnJf
+cnBtOg0KPiDCoAlpZiAod2FrZXJlZikNCj4gwqAJCWludGVsX3J1bnRpbWVfcG1fcHV0KCZ2bWEt
+PnZtLT5pOTE1LT5ydW50aW1lX3BtLCB3YWtlcmVmKTsNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9pOTE1L2k5MTVfdm1hX3R5cGVzLmggYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1
+X3ZtYV90eXBlcy5oDQo+IGluZGV4IDZiMWNjZTUzNzg0Ni4uNGMzODY0NzM5MjNhIDEwMDY0NA0K
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3ZtYV90eXBlcy5oDQo+ICsrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfdm1hX3R5cGVzLmgNCj4gQEAgLTMwOSw2ICszMDksMTMg
+QEAgc3RydWN0IGk5MTVfdm1hIHsNCj4gwqAJLyoqIEB2bV9yZWJpbmRfbGluazogbGluayB0byB2
+bV9yZWJpbmRfbGlzdCBhbmQgcHJvdGVjdGVkIGJ5IHZtX3JlYmluZF9sb2NrICovDQo+IMKgCXN0
+cnVjdCBsaXN0X2hlYWQgdm1fcmViaW5kX2xpbms7IC8qIExpbmsgaW4gdm1fcmViaW5kX2xpc3Qg
+Ki8NCj4gwqANCj4gDQo+IA0KPiANCj4gKwkvKiogVGltZWxpbmUgZmVuY2UgZm9yIHZtX2JpbmQg
+Y29tcGxldGlvbiBub3RpZmljYXRpb24gKi8NCj4gKwlzdHJ1Y3Qgew0KPiArCQlzdHJ1Y3QgZG1h
+X2ZlbmNlX2NoYWluICpjaGFpbl9mZW5jZTsNCj4gKwkJc3RydWN0IGRybV9zeW5jb2JqICpzeW5j
+b2JqOw0KPiArCQl1NjQgdmFsdWU7DQo+ICsJfSB2bV9iaW5kX2ZlbmNlOw0KPiArDQo+IMKgCS8q
+KiBJbnRlcnZhbCB0cmVlIHN0cnVjdHVyZXMgZm9yIHBlcnNpc3RlbnQgdm1hICovDQo+IMKgDQo+
+IA0KPiANCj4gDQo+IMKgCS8qKiBAcmI6IG5vZGUgZm9yIHRoZSBpbnRlcnZhbCB0cmVlIG9mIHZt
+IGZvciBwZXJzaXN0ZW50IHZtYXMgKi8NCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvdWFwaS9kcm0v
+aTkxNV9kcm0uaCBiL2luY2x1ZGUvdWFwaS9kcm0vaTkxNV9kcm0uaA0KPiBpbmRleCA2ODNkYTcw
+OTkzMTEuLmYzNWE5YmIzNWFiMyAxMDA2NDQNCj4gLS0tIGEvaW5jbHVkZS91YXBpL2RybS9pOTE1
+X2RybS5oDQo+ICsrKyBiL2luY2x1ZGUvdWFwaS9kcm0vaTkxNV9kcm0uaA0KPiBAQCAtMTUzMyw2
+ICsxNTMzLDQxIEBAIHN0cnVjdCBkcm1faTkxNV9nZW1fZXhlY2J1ZmZlcjIgew0KPiDCoCNkZWZp
+bmUgaTkxNV9leGVjYnVmZmVyMl9nZXRfY29udGV4dF9pZChlYjIpIFwNCj4gwqAJKChlYjIpLnJz
+dmQxICYgSTkxNV9FWEVDX0NPTlRFWFRfSURfTUFTSykNCj4gwqANCj4gDQo+IA0KPiANCj4gKy8q
+Kg0KPiArICogc3RydWN0IGRybV9pOTE1X2dlbV90aW1lbGluZV9mZW5jZSAtIEFuIGlucHV0IG9y
+IG91dHB1dCB0aW1lbGluZSBmZW5jZS4NCj4gKyAqDQo+ICsgKiBUaGUgb3BlcmF0aW9uIHdpbGwg
+d2FpdCBmb3IgaW5wdXQgZmVuY2UgdG8gc2lnbmFsLg0KPiArICoNCj4gKyAqIFRoZSByZXR1cm5l
+ZCBvdXRwdXQgZmVuY2Ugd2lsbCBiZSBzaWduYWxlZCBhZnRlciB0aGUgY29tcGxldGlvbiBvZiB0
+aGUNCj4gKyAqIG9wZXJhdGlvbi4NCj4gKyAqLw0KPiArc3RydWN0IGRybV9pOTE1X2dlbV90aW1l
+bGluZV9mZW5jZSB7DQo+ICsJLyoqIEBoYW5kbGU6IFVzZXIncyBoYW5kbGUgZm9yIGEgZHJtX3N5
+bmNvYmogdG8gd2FpdCBvbiBvciBzaWduYWwuICovDQo+ICsJX191MzIgaGFuZGxlOw0KPiArDQo+
+ICsJLyoqDQo+ICsJICogQGZsYWdzOiBTdXBwb3J0ZWQgZmxhZ3MgYXJlOg0KPiArCSAqDQo+ICsJ
+ICogSTkxNV9USU1FTElORV9GRU5DRV9XQUlUOg0KPiArCSAqIFdhaXQgZm9yIHRoZSBpbnB1dCBm
+ZW5jZSBiZWZvcmUgdGhlIG9wZXJhdGlvbi4NCj4gKwkgKg0KPiArCSAqIEk5MTVfVElNRUxJTkVf
+RkVOQ0VfU0lHTkFMOg0KPiArCSAqIFJldHVybiBvcGVyYXRpb24gY29tcGxldGlvbiBmZW5jZSBh
+cyBvdXRwdXQuDQo+ICsJICovDQo+ICsJX191MzIgZmxhZ3M7DQo+ICsjZGVmaW5lIEk5MTVfVElN
+RUxJTkVfRkVOQ0VfV0FJVCAgICAgICAgICAgICgxIDw8IDApDQo+ICsjZGVmaW5lIEk5MTVfVElN
+RUxJTkVfRkVOQ0VfU0lHTkFMICAgICAgICAgICgxIDw8IDEpDQo+ICsjZGVmaW5lIF9fSTkxNV9U
+SU1FTElORV9GRU5DRV9VTktOT1dOX0ZMQUdTICgtKEk5MTVfVElNRUxJTkVfRkVOQ0VfU0lHTkFM
+IDw8IDEpKQ0KPiArDQo+ICsJLyoqDQo+ICsJICogQHZhbHVlOiBBIHBvaW50IGluIHRoZSB0aW1l
+bGluZS4NCj4gKwkgKiBWYWx1ZSBtdXN0IGJlIDAgZm9yIGEgYmluYXJ5IGRybV9zeW5jb2JqLiBB
+IFZhbHVlIG9mIDAgZm9yIGENCj4gKwkgKiB0aW1lbGluZSBkcm1fc3luY29iaiBpcyBpbnZhbGlk
+IGFzIGl0IHR1cm5zIGEgZHJtX3N5bmNvYmogaW50byBhDQo+ICsJICogYmluYXJ5IG9uZS4NCj4g
+KwkgKi8NCj4gKwlfX3U2NCB2YWx1ZTsNCj4gK307DQoNCklzIHRoZXJlIGFueSBzcGVjaWZpYyBy
+ZWFzb24gd2h5IHdlIGRpZG4ndCBnbyB3aXRoIHRoZSBzYW1lIGFwcHJvYWNoIG9mDQpkcm1faTkx
+NV9nZW1fZXhlY2J1ZmZlcl9leHRfdGltZWxpbmVfZmVuY2VzIHdoZXJlIHdlIGtlZXAgdXNpbmcN
+CmRybV9pOTE1X2dlbV9leGVjX2ZlbmNlIGJ1dCB0aGVuIGFkZCBhbiBleHRyYSBhcnJheSBvZiB2
+YWx1ZXM/DQoNCkknbSBkb2luZyB0aGUgQW52IGltcGxlbWVudGF0aW9uIGFuZCBpdCBmZWVscyB1
+bm5lY2Vzc2FyeSB0byBoYXZlIHRvDQptYWludGFpbiBzZXBhcmF0ZSBjb2RlIHBhdGhzIHRvIGtl
+ZXAgdGhlIHNhbWUgaW5mb3JtYXRpb24gaW4gZGlmZmVyZW50DQpmb3JtYXRzIGJldHdlZW4gZXhl
+Y2J1ZjIgYW5kIGFuZCBleGVjYnVmMy4NCg0KPiArDQo+IMKgc3RydWN0IGRybV9pOTE1X2dlbV9w
+aW4gew0KPiDCoAkvKiogSGFuZGxlIG9mIHRoZSBidWZmZXIgdG8gYmUgcGlubmVkLiAqLw0KPiDC
+oAlfX3UzMiBoYW5kbGU7DQo+IEBAIC0zNzg1LDcgKzM4MjAsOCBAQCBzdHJ1Y3QgZHJtX2k5MTVf
+Z2VtX2NyZWF0ZV9leHRfdm1fcHJpdmF0ZSB7DQo+IMKgwqAqIC1FTk9TUEMgd2lsbCBiZSByZXR1
+cm5lZCBpZiB0aGUgVkEgcmFuZ2Ugc3BlY2lmaWVkIGNhbid0IGJlIHJlc2VydmVkLg0KPiDCoMKg
+Kg0KPiDCoMKgKiBWTV9CSU5EL1VOQklORCBpb2N0bCBjYWxscyBleGVjdXRlZCBvbiBkaWZmZXJl
+bnQgQ1BVIHRocmVhZHMgY29uY3VycmVudGx5DQo+IC0gKiBhcmUgbm90IG9yZGVyZWQuDQo+ICsg
+KiBhcmUgbm90IG9yZGVyZWQuIEZ1cnRoZXJtb3JlLCBwYXJ0cyBvZiB0aGUgVk1fQklORCBvcGVy
+YXRpb24gY2FuIGJlIGRvbmUNCj4gKyAqIGFzeW5jaHJvbm91c2x5LCBpZiB2YWxpZCBAZmVuY2Ug
+aXMgc3BlY2lmaWVkLg0KPiDCoMKgKi8NCj4gwqBzdHJ1Y3QgZHJtX2k5MTVfZ2VtX3ZtX2JpbmQg
+ew0KPiDCoAkvKiogQHZtX2lkOiBWTSAoYWRkcmVzcyBzcGFjZSkgaWQgdG8gYmluZCAqLw0KPiBA
+QCAtMzgwMywxNSArMzgzOSwyOSBAQCBzdHJ1Y3QgZHJtX2k5MTVfZ2VtX3ZtX2JpbmQgew0KPiDC
+oAkvKiogQGxlbmd0aDogTGVuZ3RoIG9mIG1hcHBpbmcgdG8gYmluZCAqLw0KPiDCoAlfX3U2NCBs
+ZW5ndGg7DQo+IMKgDQo+IA0KPiANCj4gDQo+IC0JLyoqIEBmbGFnczogQ3VycmVudGx5IHJlc2Vy
+dmVkLCBNQlouICovDQo+ICsJLyoqDQo+ICsJICogQGZsYWdzOiBDdXJyZW50bHkgcmVzZXJ2ZWQs
+IE1CWi4NCj4gKwkgKg0KPiArCSAqIE5vdGUgdGhhdCBAZmVuY2UgY2FycmllcyBpdHMgb3duIGZs
+YWdzLg0KPiArCSAqLw0KPiDCoAlfX3U2NCBmbGFnczsNCj4gwqAjZGVmaW5lIF9fSTkxNV9HRU1f
+Vk1fQklORF9VTktOT1dOX0ZMQUdTICh+MHVsbCkNCj4gwqANCj4gDQo+IA0KPiANCj4gwqAJLyoq
+IEByc3ZkOiBSZXNlcnZlZCwgTUJaICovDQo+IMKgCV9fdTY0IHJzdmRbMl07DQo+IMKgDQo+IA0K
+PiANCj4gDQo+IC0JLyoqIEByc3ZkMjogUmVzZXJ2ZWQgZm9yIHRpbWVsaW5lIGZlbmNlICovDQo+
+IC0JX191NjQgcnN2ZDJbMl07DQo+ICsJLyoqDQo+ICsJICogQGZlbmNlOiBUaW1lbGluZSBmZW5j
+ZSBmb3IgYmluZCBjb21wbGV0aW9uIHNpZ25hbGluZy4NCj4gKwkgKg0KPiArCSAqIFRpbWVsaW5l
+IGZlbmNlIGlzIG9mIGZvcm1hdCBzdHJ1Y3QgZHJtX2k5MTVfZ2VtX3RpbWVsaW5lX2ZlbmNlLg0K
+PiArCSAqDQo+ICsJICogSXQgaXMgYW4gb3V0IGZlbmNlLCBoZW5jZSB1c2luZyBJOTE1X1RJTUVM
+SU5FX0ZFTkNFX1dBSVQgZmxhZw0KPiArCSAqIGlzIGludmFsaWQsIGFuZCBhbiBlcnJvciB3aWxs
+IGJlIHJldHVybmVkLg0KPiArCSAqDQo+ICsJICogSWYgSTkxNV9USU1FTElORV9GRU5DRV9TSUdO
+QUwgZmxhZyBpcyBub3Qgc2V0LCB0aGVuIG91dCBmZW5jZQ0KPiArCSAqIGlzIG5vdCByZXF1ZXN0
+ZWQgYW5kIGJpbmRpbmcgaXMgY29tcGxldGVkIHN5bmNocm9ub3VzbHkuDQo+ICsJICovDQo+ICsJ
+c3RydWN0IGRybV9pOTE1X2dlbV90aW1lbGluZV9mZW5jZSBmZW5jZTsNCj4gwqANCj4gDQo+IA0K
+PiANCj4gwqAJLyoqDQo+IMKgCSAqIEBleHRlbnNpb25zOiBaZXJvLXRlcm1pbmF0ZWQgY2hhaW4g
+b2YgZXh0ZW5zaW9ucy4NCg0K
