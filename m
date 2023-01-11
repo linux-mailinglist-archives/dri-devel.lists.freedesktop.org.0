@@ -2,73 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1F18665F43
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 16:37:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C67E5665F46
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 16:38:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8460A10E766;
-	Wed, 11 Jan 2023 15:37:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA03210E76A;
+	Wed, 11 Jan 2023 15:38:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C57F710E765
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 15:37:47 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id bq39so24162194lfb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 07:37:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=DiZWVXTm47HTNMEhLXJp72R5vsBenAHhGAw4+f526sM=;
- b=pcKiK+f2lKHpjYPsVehN4nLr098fiEnqCowZYXCaK+Ioz8cm7WIXb2G+twhfjyx8NQ
- pCZbGDGsPp46Y2cH3vUq4mAB9VCGcXhhYRF73p6zIat+xUtfEAIaXmb6DczHd9woQt2u
- jDp7o4a9O0XtGoENzmAiYL3bL96izRPsvBEVWmVmV3OKrpkK8b/Cyo+a/d4BCDZkZuRZ
- nIJxMj7gq/JI00x4Qrw88XiwdjuVGmQF3TKy/hwsyzmUhd8wM+wk2EBuiVX3LwU4Onyf
- 3DC+Lh/WAL0cDSz5JqsfjH3R9Tj/UKSuCd7B6K03XAHzahOdmXpOISPns6OJXgMjLd/D
- Cz8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DiZWVXTm47HTNMEhLXJp72R5vsBenAHhGAw4+f526sM=;
- b=UwhRgoNyN2g2dougqeUxs0HHMmfwY/Jy9pkopznuCKXlfhokX7pt5bqsd4ZHNmypoG
- vv09Hqp5u4t5r+z8p/ZFx74kzTGUzopBu9/cJU33bTMAjE8FGU216dkGEm7pGIRM3avC
- e+/U1akxqgPNFV9BKyi/EJwYKdSwXrm9MoVZMtgJrsjYdUFSu8MyJ9cCJWI50HRGVG+1
- XYmoXP5ZwQ42hJ2Z64+FTCaT+4h1kacd0dkZGB5pYZAhu7Jl0I/BNt7LVW4jmpRzkHb3
- dtvXo2ZpKnjqZzF0XNEvV8j2LrEfGSplc/lY3D7y6GnuR7ucnAJ77aWv/k2U6MV2dPcP
- eCwg==
-X-Gm-Message-State: AFqh2koTfbMc90SoEvmiO+/wwL5NFRy8LNfFebutcoz84JA3E7AYjd1q
- TSbmTVEyy7mETg7DMJnIbd103Q==
-X-Google-Smtp-Source: AMrXdXtS3EoDQWb7T/eo7e/pqwmSTvEMZ1Bvy/Bo03WuHhBJGgXevGa+e32bUStRw4lGq5zeK5b1iQ==
-X-Received: by 2002:a05:6512:304a:b0:4aa:54a:3a6e with SMTP id
- b10-20020a056512304a00b004aa054a3a6emr24005109lfb.41.1673451466103; 
- Wed, 11 Jan 2023 07:37:46 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- bi35-20020a0565120ea300b0048a982ad0a8sm2780901lfb.23.2023.01.11.07.37.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 07:37:45 -0800 (PST)
-Message-ID: <1b29bbef-1ee3-654c-bb58-c8fcf3b876a0@linaro.org>
-Date: Wed, 11 Jan 2023 17:37:45 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C97610E76A;
+ Wed, 11 Jan 2023 15:38:17 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A35C24CAF;
+ Wed, 11 Jan 2023 15:38:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1673451495; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=MJGfGfVefGEL7N6HPphyFura7q7rrK2NkqnFwM9VBeo=;
+ b=LhpN/9qn9POSyc89imFbxAtUalpsKfozhNxe0p1JpdvZCe5FEoqgMbA7+O9ZO+B/Xxhqp0
+ f/hARGRjBltev99VHkv5I7jGxhhc5Bz0RjnkMNFtkC5BcSJ1fpNxmPEyDk0Qp7ybTghVPD
+ Y6W5jEI/RLlsPZzjwVmvqLfYXw8heAE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1673451495;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=MJGfGfVefGEL7N6HPphyFura7q7rrK2NkqnFwM9VBeo=;
+ b=mKGqH5Y+ekjOQSQn0+DiQQP5LUBYNqrDQHUDGFmfNq9g5kRvCRu0/KGMTwdY7ByOM5/ENr
+ 7nVi78j9IHhQLMCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6C53B1358A;
+ Wed, 11 Jan 2023 15:38:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 1YtsGefXvmOOOAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 11 Jan 2023 15:38:15 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, evan.quan@amd.com
+Subject: [PATCH] drm/fb-helper: Set framebuffer for vga-switcheroo clients
+Date: Wed, 11 Jan 2023 16:38:13 +0100
+Message-Id: <20230111153813.16051-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 12/13] drm/bridge: lt9611: stop filtering modes via the
- table
-Content-Language: en-GB
-To: neil.armstrong@linaro.org, Vinod Koul <vkoul@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss
- <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-References: <20230108165656.136871-1-dmitry.baryshkov@linaro.org>
- <20230108165656.136871-13-dmitry.baryshkov@linaro.org>
- <c03235b1-85d1-1e55-b8c2-9a553887145f@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <c03235b1-85d1-1e55-b8c2-9a553887145f@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,103 +62,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org
+Cc: Alexander Deucher <Alexander.Deucher@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/01/2023 12:57, Neil Armstrong wrote:
-> On 08/01/2023 17:56, Dmitry Baryshkov wrote:
->> The lt9611 bridge can support different modes, it makes no sense to list
->> them in the table. Drop the table and check the number of interfaces
->> using the fixed value.
->>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   drivers/gpu/drm/bridge/lontium-lt9611.c | 41 +++----------------------
->>   1 file changed, 4 insertions(+), 37 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c 
->> b/drivers/gpu/drm/bridge/lontium-lt9611.c
->> index 82af1f954cc6..df9f015aa3a0 100644
->> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
->> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
->> @@ -84,24 +84,6 @@ static const struct regmap_config 
->> lt9611_regmap_config = {
->>       .num_ranges = ARRAY_SIZE(lt9611_ranges),
->>   };
->> -struct lt9611_mode {
->> -    u16 hdisplay;
->> -    u16 vdisplay;
->> -    u8 vrefresh;
->> -    u8 lanes;
->> -    u8 intfs;
->> -};
->> -
->> -static struct lt9611_mode lt9611_modes[] = {
->> -    { 3840, 2160, 30, 4, 2 }, /* 3840x2160 24bit 30Hz 4Lane 2ports */
->> -    { 1920, 1080, 60, 4, 1 }, /* 1080P 24bit 60Hz 4lane 1port */
->> -    { 1920, 1080, 30, 3, 1 }, /* 1080P 24bit 30Hz 3lane 1port */
->> -    { 1920, 1080, 24, 3, 1 },
->> -    { 720, 480, 60, 4, 1 },
->> -    { 720, 576, 50, 2, 1 },
->> -    { 640, 480, 60, 2, 1 },
->> -};
->> -
->>   static struct lt9611 *bridge_to_lt9611(struct drm_bridge *bridge)
->>   {
->>       return container_of(bridge, struct lt9611, bridge);
->> @@ -603,21 +585,6 @@ static int lt9611_regulator_enable(struct lt9611 
->> *lt9611)
->>       return 0;
->>   }
->> -static struct lt9611_mode *lt9611_find_mode(const struct 
->> drm_display_mode *mode)
->> -{
->> -    int i;
->> -
->> -    for (i = 0; i < ARRAY_SIZE(lt9611_modes); i++) {
->> -        if (lt9611_modes[i].hdisplay == mode->hdisplay &&
->> -            lt9611_modes[i].vdisplay == mode->vdisplay &&
->> -            lt9611_modes[i].vrefresh == drm_mode_vrefresh(mode)) {
->> -            return &lt9611_modes[i];
->> -        }
->> -    }
->> -
->> -    return NULL;
->> -}
->> -
->>   static enum drm_connector_status lt9611_bridge_detect(struct 
->> drm_bridge *bridge)
->>   {
->>       struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
->> @@ -832,12 +799,12 @@ static enum drm_mode_status 
->> lt9611_bridge_mode_valid(struct drm_bridge *bridge,
->>                                const struct drm_display_info *info,
->>                                const struct drm_display_mode *mode)
->>   {
->> -    struct lt9611_mode *lt9611_mode = lt9611_find_mode(mode);
->>       struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
->> -    if (!lt9611_mode)
->> -        return MODE_BAD;
->> -    else if (lt9611_mode->intfs > 1 && !lt9611->dsi1)
->> +    if (mode->hdisplay >= 3840 && drm_mode_vrefresh(mode) >= 31)
-> 
-> Isn't 31 a typo ?
+Set the framebuffer info for drivers that support VGA switcheroo. Only
+affects the amdgpu driver, which uses VGA switcheroo and generic fbdev
+emulation. For other drivers, this does nothing.
 
-Maybe I should change that to drm_mode_vrefresh(mode) > 30. The chip 
-supports 3840x2160-30, but doesn't promise to support anything above that.
+Amdgpu's lastclose helper called vga_switcheroo_process_delayed_switch().
+But as amdgpu uses generic fbdev emulation, it's better to call the helper
+from drm_lastclose(), after the kernel client's screen has been restored.
+So all drivers and clients can benefit. Radeon and nouveau with modernized
+fbdev code are possible candidates.
 
-> 
->> +        return MODE_CLOCK_HIGH;
->> +
->> +    if (mode->hdisplay > 2000 && !lt9611->dsi1_node)
->>           return MODE_PANEL;
->>       else
->>           return MODE_OK;
-> 
+There was an earlier patchset to do something similar. [1]
 
+Suggested-by: Alexander Deucher <Alexander.Deucher@amd.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://lore.kernel.org/amd-gfx/20221020143603.563929-1-alexander.deucher@amd.com/ # 1
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h     |  1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c |  1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 12 ------------
+ drivers/gpu/drm/drm_fb_helper.c         |  8 ++++++++
+ drivers/gpu/drm/drm_file.c              |  3 +++
+ 5 files changed, 11 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+index 63c921c55fb9..7120b9b6e580 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -1330,7 +1330,6 @@ extern const int amdgpu_max_kms_ioctl;
+ 
+ int amdgpu_driver_load_kms(struct amdgpu_device *adev, unsigned long flags);
+ void amdgpu_driver_unload_kms(struct drm_device *dev);
+-void amdgpu_driver_lastclose_kms(struct drm_device *dev);
+ int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv);
+ void amdgpu_driver_postclose_kms(struct drm_device *dev,
+ 				 struct drm_file *file_priv);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index ebc6e6cbe2ab..02d636f781a2 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -2784,7 +2784,6 @@ static const struct drm_driver amdgpu_kms_driver = {
+ 	    DRIVER_SYNCOBJ_TIMELINE,
+ 	.open = amdgpu_driver_open_kms,
+ 	.postclose = amdgpu_driver_postclose_kms,
+-	.lastclose = amdgpu_driver_lastclose_kms,
+ 	.ioctls = amdgpu_ioctls_kms,
+ 	.num_ioctls = ARRAY_SIZE(amdgpu_ioctls_kms),
+ 	.dumb_create = amdgpu_mode_dumb_create,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+index 7aa7e52ca784..886739576d3d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+@@ -1104,18 +1104,6 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
+ /*
+  * Outdated mess for old drm with Xorg being in charge (void function now).
+  */
+-/**
+- * amdgpu_driver_lastclose_kms - drm callback for last close
+- *
+- * @dev: drm dev pointer
+- *
+- * Switch vga_switcheroo state after last close (all asics).
+- */
+-void amdgpu_driver_lastclose_kms(struct drm_device *dev)
+-{
+-	drm_fb_helper_lastclose(dev);
+-	vga_switcheroo_process_delayed_switch();
+-}
+ 
+ /**
+  * amdgpu_driver_open_kms - drm callback for open
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 427631706128..5e445c61252d 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -30,7 +30,9 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
+ #include <linux/console.h>
++#include <linux/pci.h>
+ #include <linux/sysrq.h>
++#include <linux/vga_switcheroo.h>
+ 
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_drv.h>
+@@ -1940,6 +1942,7 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
+ 					 int preferred_bpp)
+ {
+ 	struct drm_client_dev *client = &fb_helper->client;
++	struct drm_device *dev = fb_helper->dev;
+ 	struct drm_fb_helper_surface_size sizes;
+ 	int ret;
+ 
+@@ -1961,6 +1964,11 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
+ 		return ret;
+ 
+ 	strcpy(fb_helper->fb->comm, "[fbcon]");
++
++	/* Set the fb info for vgaswitcheroo clients. Does nothing otherwise. */
++	if (dev_is_pci(dev->dev))
++		vga_switcheroo_client_fb_set(to_pci_dev(dev->dev), fb_helper->info);
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+index a51ff8cee049..314c309db9a3 100644
+--- a/drivers/gpu/drm/drm_file.c
++++ b/drivers/gpu/drm/drm_file.c
+@@ -38,6 +38,7 @@
+ #include <linux/pci.h>
+ #include <linux/poll.h>
+ #include <linux/slab.h>
++#include <linux/vga_switcheroo.h>
+ 
+ #include <drm/drm_client.h>
+ #include <drm/drm_drv.h>
+@@ -460,6 +461,8 @@ void drm_lastclose(struct drm_device * dev)
+ 		drm_legacy_dev_reinit(dev);
+ 
+ 	drm_client_dev_restore(dev);
++
++	vga_switcheroo_process_delayed_switch();
+ }
+ 
+ /**
 -- 
-With best wishes
-Dmitry
+2.39.0
 
