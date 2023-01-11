@@ -2,35 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8237F6665EF
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 23:03:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E8D666604
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 23:08:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C07510E086;
-	Wed, 11 Jan 2023 22:03:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 036A710E157;
+	Wed, 11 Jan 2023 22:08:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3C5C10E086;
- Wed, 11 Jan 2023 22:03:20 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 858903EF28;
- Wed, 11 Jan 2023 23:03:17 +0100 (CET)
-Date: Wed, 11 Jan 2023 23:03:14 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Kalyan Thota <quic_kalyant@quicinc.com>
-Subject: Re: [v11] drm/msm/disp/dpu1: add support for dspp sub block flush in
- sc7280
-Message-ID: <20230111220314.5dzipthz6juyqnfj@SoMainline.org>
-References: <1671542719-12655-1-git-send-email-quic_kalyant@quicinc.com>
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 223C810E157
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 22:08:53 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id e3so7188527wru.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 14:08:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=e8jbIWpDks817wZVZe3w7IeAdheSDmxtiCNDLU2yc/E=;
+ b=kd5VzRIcol9UrKMRsfR8dn4H6+86H8n9Hgg1PKNRqRXPtZYY7N0xxGgHjGcN+0TdPb
+ rCv9HTm5qI6zd+1qolrOQ1nDZAy/JNY1yR8xPSRqdOHSjxK3zMLe1TPPyqDg3B3UAtst
+ rmNvJNzC3jiekHaIV5TlN/7beegHdv5J8Lmfo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=e8jbIWpDks817wZVZe3w7IeAdheSDmxtiCNDLU2yc/E=;
+ b=dvQqnpybZl2Eq+HleP0g0hWXYGB668+NtveE0ci1nE+1nNcCSfpdFgCAthBF4OxCw4
+ tSoeNfm8vbc/C5RT3JCth/rSgwVAS0AvNhiZyHUQpxazfOxg+HQPuXiPhNPb60dvHikq
+ 66BSn1Xz0fHmTmKRNTrzJsiWIzJ9K6NAWvL2qgcXdbQpMkBkfkAxsh7rf+tc8VXKosxo
+ x9ONrFTi1lLH1YCnROxPB6N2Up16BPgoWcTyU4hf6VbZ7IqH0pCcntTek7chfCJaVT1w
+ Aog8Zp+vgVk9qOk1b3s8bX58EO0n4Q5tHNsWJHwJvTE/ml1r3DtXwS3H/+A53aqz6RnU
+ IfHw==
+X-Gm-Message-State: AFqh2krn4Z2QtuM7BHTfiyaQO0cDBSD0v2qSVFzr3FJfStApByO2P6Pu
+ DIGJoT8YqwAViyuf1/IgNsA3eA==
+X-Google-Smtp-Source: AMrXdXvtasjqIJElmS7fDawuRLxC0eQJU2WOMYSwbDOInJWwxReJH8NpH2yARToadFa5jgb0vBmjsQ==
+X-Received: by 2002:a5d:488b:0:b0:242:5563:c3b with SMTP id
+ g11-20020a5d488b000000b0024255630c3bmr45402315wrq.59.1673474931536; 
+ Wed, 11 Jan 2023 14:08:51 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ o15-20020a5d62cf000000b002bbedd60a9asm9125012wrv.77.2023.01.11.14.08.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Jan 2023 14:08:50 -0800 (PST)
+Date: Wed, 11 Jan 2023 23:08:48 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v1 2/2] drm/virtio: Add the hotplug_mode_update property
+ for rescanning of modes
+Message-ID: <Y78zcBZx1AKt1SgT@phenom.ffwll.local>
+References: <20221118013054.182304-1-vivek.kasireddy@intel.com>
+ <20221118013054.182304-3-vivek.kasireddy@intel.com>
+ <20230106085640.54hvmhblmh4o2jxb@sirius.home.kraxel.org>
+ <Y7frUw39xU70WQkD@phenom.ffwll.local>
+ <20230110092839.3mx7dcbhj2w7hm5q@sirius.home.kraxel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1671542719-12655-1-git-send-email-quic_kalyant@quicinc.com>
+In-Reply-To: <20230110092839.3mx7dcbhj2w7hm5q@sirius.home.kraxel.org>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,291 +73,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, devicetree@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dianders@chromium.org, dmitry.baryshkov@linaro.org, swboyd@chromium.org,
- freedreno@lists.freedesktop.org, quic_vpolimer@quicinc.com
+Cc: dri-devel@lists.freedesktop.org,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Dongwon Kim <dongwon.kim@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-12-20 05:25:19, Kalyan Thota wrote:
-> Flush mechanism for DSPP blocks has changed in sc7280 family, it
-> allows individual sub blocks to be flushed in coordination with
-> master flush control.
+On Tue, Jan 10, 2023 at 10:28:39AM +0100, Gerd Hoffmann wrote:
+> On Fri, Jan 06, 2023 at 10:35:15AM +0100, Daniel Vetter wrote:
+> > On Fri, Jan 06, 2023 at 09:56:40AM +0100, Gerd Hoffmann wrote:
+> > > On Thu, Nov 17, 2022 at 05:30:54PM -0800, Vivek Kasireddy wrote:
+> > > > Setting this property will allow the userspace to look for new modes or
+> > > > position info when a hotplug event occurs.
+> > > 
+> > > This works just fine for modes today.
+> > > 
+> > > I assume this is this need to have userspace also check for position
+> > > info updates added by patch #1)?
+> > 
+> > What does this thing even do? Quick grep says qxl and vmwgfx also use
+> > this, but it's not documented anywhere, and it's also not done with any
+> > piece of common code. Which all looks really fishy.
 > 
-> Representation: master_flush && (PCC_flush | IGC_flush .. etc )
-> 
-> This change adds necessary support for the above design.
-> 
-> Changes in v1:
-> - Few nits (Doug, Dmitry)
-> - Restrict sub-block flush programming to dpu_hw_ctl file (Dmitry)
-> 
-> Changes in v2:
-> - Move the address offset to flush macro (Dmitry)
-> - Separate ops for the sub block flush (Dmitry)
-> 
-> Changes in v3:
-> - Reuse the DPU_DSPP_xx enum instead of a new one (Dmitry)
-> 
-> Changes in v4:
-> - Use shorter version for unsigned int (Stephen)
-> 
-> Changes in v5:
-> - Spurious patch please ignore.
-> 
-> Changes in v6:
-> - Add SOB tag (Doug, Dmitry)
-> 
-> Changes in v7:
-> - Cache flush mask per dspp (Dmitry)
-> - Few nits (Marijn)
-> 
-> Changes in v8:
-> - Few nits (Marijn)
-> 
-> Changes in v9:
-> - Use DSPP enum while accessing flush mask to make it readable (Dmitry)
-> - Few nits (Dmitry)
-> 
-> Changes in v10:
-> - Fix white spaces in a separate patch (Dmitry)
-> 
-> Changes in v11:
-> - Define a macro for dspp flush selection (Marijn)
-> - Few nits (Marijn)
+> It's again a virtualization-specific thing.  On physical hardware you
+> typically have no idea which of your two monitors stands left and which
+> stands right.  On virtual hardware the host knows how the two windows
+> for the two heads are arranged and can pass on that information to the
+> guest.  suggested_x/y properties added by patch #1 do pass that
+> information to userspace so the display server can arrange things
+> correctly without manual invention.
 
-Please CC the reviewer when you send updated versions of your patches,
-so that they don't have to be alerted/requested by others to re-review
-the latest version, and scour the lists for where that latest version
-is.
+Yeah suggested_x/y I know about. Would still be good to fix the
+documentation situation for that.
 
-Looks much more understandable with the macro, thanks!
+> I have no clue though why this hotplug_mode_update property exists in
+> the first place and why mutter checks it.  IMHO mutter could just check
+> for suggested_x/y directly.
 
-I have a few more nits for you below, but beyond that you can have my:
-
-Marijn Suijten <marijn.suijten@somainline.org>
-
-> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c       |  2 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  5 ++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  4 +++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c     | 44 ++++++++++++++++++++++++--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h     |  5 ++-
->  5 files changed, 55 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 601d687..4170fbe 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -766,7 +766,7 @@ static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
->  
->  		/* stage config flush mask */
->  		ctl->ops.update_pending_flush_dspp(ctl,
-> -			mixer[i].hw_dspp->idx);
-> +			mixer[i].hw_dspp->idx, DPU_DSPP_PCC);
->  	}
->  }
->  
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index 27f029f..0eecb2f 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -65,7 +65,10 @@
->  	(PINGPONG_SDM845_MASK | BIT(DPU_PINGPONG_TE2))
->  
->  #define CTL_SC7280_MASK \
-> -	(BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE) | BIT(DPU_CTL_VM_CFG))
-> +	(BIT(DPU_CTL_ACTIVE_CFG) | \
-> +	 BIT(DPU_CTL_FETCH_ACTIVE) | \
-> +	 BIT(DPU_CTL_VM_CFG) | \
-> +	 BIT(DPU_CTL_DSPP_SUB_BLOCK_FLUSH))
->  
->  #define MERGE_3D_SM8150_MASK (0)
->  
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> index 38aa38a..0e70337 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> @@ -161,10 +161,12 @@ enum {
->   * DSPP sub-blocks
->   * @DPU_DSPP_PCC             Panel color correction block
->   * @DPU_DSPP_GC              Gamma correction block
-> + * @DPU_DSPP_IGC             Inverse gamma correction block
->   */
->  enum {
->  	DPU_DSPP_PCC = 0x1,
->  	DPU_DSPP_GC,
-> +	DPU_DSPP_IGC,
->  	DPU_DSPP_MAX
->  };
->  
-> @@ -191,6 +193,7 @@ enum {
->   * @DPU_CTL_SPLIT_DISPLAY:	CTL supports video mode split display
->   * @DPU_CTL_FETCH_ACTIVE:	Active CTL for fetch HW (SSPPs)
->   * @DPU_CTL_VM_CFG:		CTL config to support multiple VMs
-> + * @DPU_CTL_DSPP_BLOCK_FLUSH	CTL config to support dspp sub-block flush
-
-Missing colon?
-
->   * @DPU_CTL_MAX
->   */
->  enum {
-> @@ -198,6 +201,7 @@ enum {
->  	DPU_CTL_ACTIVE_CFG,
->  	DPU_CTL_FETCH_ACTIVE,
->  	DPU_CTL_VM_CFG,
-> +	DPU_CTL_DSPP_SUB_BLOCK_FLUSH,
->  	DPU_CTL_MAX
->  };
->  
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> index a35ecb6..fb2a115 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> @@ -33,6 +33,7 @@
->  #define   CTL_INTF_FLUSH                0x110
->  #define   CTL_INTF_MASTER               0x134
->  #define   CTL_FETCH_PIPE_ACTIVE         0x0FC
-> +#define   CTL_DSPP_n_FLUSH(n)           ((0x13C) + ((n) * 4))
-
-Ordering-wise this should've sat before CTL_FETCH_PIPE_ACTIVE, which in
-turn should have been in between CTL_INTF_ACTIVE and CTL_MERGE_3D_FLUSH
-:/
-
->  
->  #define CTL_MIXER_BORDER_OUT            BIT(24)
->  #define CTL_FLUSH_MASK_CTL              BIT(17)
-> @@ -42,6 +43,7 @@
->  #define  DSC_IDX        22
->  #define  INTF_IDX       31
->  #define WB_IDX          16
-> +#define  DSPP_IDX       29  /* From DPU hw rev 7.x.x */
->  #define CTL_INVALID_BIT                 0xffff
->  #define CTL_DEFAULT_GROUP_ID		0xf
->  
-> @@ -113,6 +115,9 @@ static inline void dpu_hw_ctl_clear_pending_flush(struct dpu_hw_ctl *ctx)
->  	trace_dpu_hw_ctl_clear_pending_flush(ctx->pending_flush_mask,
->  				     dpu_hw_ctl_get_flush_register(ctx));
->  	ctx->pending_flush_mask = 0x0;
-> +
-> +	memset(ctx->pending_dspp_flush_mask, 0,
-> +		sizeof(ctx->pending_dspp_flush_mask));
->  }
->  
->  static inline void dpu_hw_ctl_update_pending_flush(struct dpu_hw_ctl *ctx,
-> @@ -130,6 +135,8 @@ static u32 dpu_hw_ctl_get_pending_flush(struct dpu_hw_ctl *ctx)
->  
->  static inline void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
->  {
-> +	int dspp;
-> +
->  	if (ctx->pending_flush_mask & BIT(MERGE_3D_IDX))
->  		DPU_REG_WRITE(&ctx->hw, CTL_MERGE_3D_FLUSH,
->  				ctx->pending_merge_3d_flush_mask);
-> @@ -140,6 +147,12 @@ static inline void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
->  		DPU_REG_WRITE(&ctx->hw, CTL_WB_FLUSH,
->  				ctx->pending_wb_flush_mask);
->  
-> +	for (dspp = DSPP_0; dspp < DSPP_MAX; dspp++)
-> +		if (ctx->pending_flush_mask & BIT(DSPP_IDX) &&
-
-In earlier review I meant to have this top part of the conditional
-outside of the for loop, since it's independent of it (= the dspp
-variable).
-
-> +		    ctx->pending_dspp_flush_mask[dspp - DSPP_0])
-> +			DPU_REG_WRITE(&ctx->hw, CTL_DSPP_n_FLUSH(dspp - DSPP_0),
-> +				ctx->pending_dspp_flush_mask[dspp - DSPP_0]);
-> +
->  	DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, ctx->pending_flush_mask);
->  }
->  
-> @@ -287,7 +300,7 @@ static void dpu_hw_ctl_update_pending_flush_merge_3d_v1(struct dpu_hw_ctl *ctx,
->  }
->  
->  static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
-> -	enum dpu_dspp dspp)
-> +	enum dpu_dspp dspp, u32 dspp_sub_blk)
->  {
->  	switch (dspp) {
->  	case DSPP_0:
-> @@ -307,6 +320,29 @@ static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
->  	}
->  }
->  
-> +static void dpu_hw_ctl_update_pending_flush_dspp_subblocks(
-
-Nit: sub_blocks (to match the sub_blk style used across the rest of this
-patch...)
-
-- Marijn
-
-> +	struct dpu_hw_ctl *ctx,	enum dpu_dspp dspp, u32 dspp_sub_blk)
-> +{
-> +	if (dspp >= DSPP_MAX)
-> +		return;
-> +
-> +	switch (dspp_sub_blk) {
-> +	case DPU_DSPP_IGC:
-> +		ctx->pending_dspp_flush_mask[dspp - DSPP_0] |= BIT(2);
-> +		break;
-> +	case DPU_DSPP_PCC:
-> +		ctx->pending_dspp_flush_mask[dspp - DSPP_0] |= BIT(4);
-> +		break;
-> +	case DPU_DSPP_GC:
-> +		ctx->pending_dspp_flush_mask[dspp - DSPP_0] |= BIT(5);
-> +		break;
-> +	default:
-> +		return;
-> +	}
-> +
-> +	ctx->pending_flush_mask |= BIT(DSPP_IDX);
-> +}
-> +
->  static u32 dpu_hw_ctl_poll_reset_status(struct dpu_hw_ctl *ctx, u32 timeout_us)
->  {
->  	struct dpu_hw_blk_reg_map *c = &ctx->hw;
-> @@ -675,7 +711,11 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
->  	ops->setup_blendstage = dpu_hw_ctl_setup_blendstage;
->  	ops->update_pending_flush_sspp = dpu_hw_ctl_update_pending_flush_sspp;
->  	ops->update_pending_flush_mixer = dpu_hw_ctl_update_pending_flush_mixer;
-> -	ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp;
-> +	if (cap & BIT(DPU_CTL_DSPP_SUB_BLOCK_FLUSH))
-> +		ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp_subblocks;
-> +	else
-> +		ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp;
-> +
->  	if (cap & BIT(DPU_CTL_FETCH_ACTIVE))
->  		ops->set_active_pipes = dpu_hw_ctl_set_fetch_pipe_active;
->  };
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> index 96c012e..78611a8 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> @@ -152,9 +152,11 @@ struct dpu_hw_ctl_ops {
->  	 * No effect on hardware
->  	 * @ctx       : ctl path ctx pointer
->  	 * @blk       : DSPP block index
-> +	 * @dspp_sub_blk : DSPP sub-block index
->  	 */
->  	void (*update_pending_flush_dspp)(struct dpu_hw_ctl *ctx,
-> -		enum dpu_dspp blk);
-> +		enum dpu_dspp blk, u32 dspp_sub_blk);
-> +
->  	/**
->  	 * Write the value of the pending_flush_mask to hardware
->  	 * @ctx       : ctl path ctx pointer
-> @@ -242,6 +244,7 @@ struct dpu_hw_ctl {
->  	u32 pending_intf_flush_mask;
->  	u32 pending_wb_flush_mask;
->  	u32 pending_merge_3d_flush_mask;
-> +	u32 pending_dspp_flush_mask[DSPP_MAX - DSPP_0];
->  
->  	/* ops */
->  	struct dpu_hw_ctl_ops ops;
-> -- 
-> 2.7.4
-> 
+This one is the complete wtf here. I have no idea why this exists.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
