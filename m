@@ -1,119 +1,145 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC7D0665EEC
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 16:19:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B289D665F02
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 16:24:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BECB810E754;
-	Wed, 11 Jan 2023 15:19:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D849510E2AB;
+	Wed, 11 Jan 2023 15:24:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2083.outbound.protection.outlook.com [40.107.93.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 837E210E754;
- Wed, 11 Jan 2023 15:19:13 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB0E610E2AB;
+ Wed, 11 Jan 2023 15:24:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673450689; x=1704986689;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=UYAQLyTzyr4+hanG3m/DwwQ1JXrtbUB18Ltn11rXAnY=;
+ b=GwIIBgoMH0I3Rq7BlthFSTcVTUCosa9XDhQ3DBgfMaCH26Il+p31QyIH
+ jG4JAwIVg7IqgAW+RXDv4xptUxysN8QIlX5x7EXP07d73N8ACojhN1YSN
+ hmVHCUzlutUbYWAUFgQaDsvwGRa/OJZ+dO3ACePyoWNmqLU/qHhQ1+YZL
+ Ke1egAn0PjAZrnksbMZ4ZHNSk17eY8L4buwOYJcQDtZEC9S9DQKiew5OW
+ g6hB1XmKwrMszOyDaeR9cCTz5RW4Dt+SR9ZC6hopBP5MPM66IbVpSRHzV
+ Gl3NVqORrfBexQtmBluX0DNwPTuzDBq8W/5k8dXJnHoYVghhTpfjOFlEF g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="311251354"
+X-IronPort-AV: E=Sophos;i="5.96,317,1665471600"; d="scan'208";a="311251354"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2023 07:24:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="986191391"
+X-IronPort-AV: E=Sophos;i="5.96,317,1665471600"; d="scan'208";a="986191391"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga005.fm.intel.com with ESMTP; 11 Jan 2023 07:24:30 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 11 Jan 2023 07:24:30 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 11 Jan 2023 07:24:30 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Wed, 11 Jan 2023 07:24:30 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.45) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Wed, 11 Jan 2023 07:24:29 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dAIzUYqo5ZD0vQXonB1RZknWuBIEQKS8IFXpj+j1iXY4yVd+9bZQqOCvg7bVsWvEcX4cEDCfzcLh9WyRSWOvbfXmj4UPPNc5x3CyUsQ7ej6EUU1zg9hzrS4YCcLTdJmoq6EuKZPHT6p/u1+d4z4fxnj+Tm05GfXDyKUMW2Z97v3vO14w+vmyxav+D4k8vrGwyMRZLdycKB8NlhZeS2zu8hu53lPrEnonxjXfCpXmCdSOTXG1/X1yoIiAvXYztG9vZ43vZFoeLIlv7d5Lf1kKOu+XaKeMt1RzL+OwUPUTyIYwxdv+LKoKY4p2BYayfeCVuOGB9TH7PfaMNMwhrtMsnA==
+ b=IPf4mieXoB1L5u/tW+EvD8KdBXiY42HMNTna28LJQ1VB48wafqtVIF4mtp9h9kSXQzdZ0Ti3u0GNkv1WPFLKSVknZ3VGTz+d6Tbh/Zy0/RGWh4dwbMysa0LkOodu1JJ84sJ8RPWgRokU87ubk/DXRBWiNcwlSHmatiqAlbPudGVhZKxcPjGrHMKCE0Ym7LMEp0ot7wGBSqLGi77QOWyjDGo07XAlImAcSlp3vlkVLfk9+zg7cqgRj5Gyts/pr/Zi4w+GQBDPXFQsHAuA4UGZkdudWvZzHqWbbDDXDnprelbvUOvQpZhTXf6r4pGMqapSI/70oyGXLasTHXbj1j20aA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DsUdLjuI/UdrkuJZS0rK4ndpO7Dlevicr8Ixp7QP+Ws=;
- b=DJqQGjhvGroelpGRy2FSxS2g6UAG8S8EpvQ4M1AMYsu6ln/pDjDAoEokrYcQ1rS6BqPVtv1OXctkx+Ewy67m+Z49BCVVY8Mta2CVvNdTiyeYzsU6CdH4PqsZeRvzPscz+3itdINrqV+NyZKoiOIVCzQGAkOWx0PdCLMVCGE1k1LGu8NLuPSOFgbLmMho4DE3sf3MX/adl3OeBh3/V2+e69oCsj1VTDR/7ZEm7jidwSyn1LSN563RmDtaZyCKEKqyrIg3GH0w85zEX8jHAI/8iQiQpG7v7Avo9alR6iRwXqMqVJZFb/MJ3gIXsuyMYLnVsR22Wvf2iytdgEJbY9pyhQ==
+ bh=3a/izfeMlaIOgOwA/vigYGgbw57DC5jiJbgGwGDFXMA=;
+ b=Ppg4PVCEhYACq9Vrytfu5+lyud3Zse4OAp4ARsGaOvrJY8R2IvPrraw+diZJ5fCTnfAuFLVBkbAfYPMB0539Dae1odjxN1Eb46OKUFFrlcbZU8eqMs67zk53bU2OawkhmjsxyUByAJf+0cKiPYwg1cbJdHWWhwMVg0oPC4jsFOHntqkWTMkMl7OiNUn7J6R5GLqUAjQRO83YU7Hlpj/dMHGXPrIBvA603updLGht65LIV38JKqU5j5fIeXY4qGcXxJjnN/xETud9Ap26uMo8go50eRZCUIz795OsTKbUYzW/WMme9EYzpaaS8Wfwxb+1EDVh9l+txWJkyUCpE85mmw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DsUdLjuI/UdrkuJZS0rK4ndpO7Dlevicr8Ixp7QP+Ws=;
- b=PrmWq+2GEoTcId3APV27nXDbe1mrKtHy8SpyhMINTyQkASrvcLBo3mNe+QP9cT3/3aob6/FFskX8AXo/oLtcJDegRjCdJEfQMPZEpojSefvov9Bm2Sz/EOyfDkyf1mJmEkV2fRs9BP21mQDuP9iE+1N0cXOOiIqhbLkDDpqe9m8=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by SA1PR12MB7409.namprd12.prod.outlook.com (2603:10b6:806:29c::11) with
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by DM6PR11MB4705.namprd11.prod.outlook.com (2603:10b6:5:2a9::23) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Wed, 11 Jan
- 2023 15:19:11 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::152b:e615:3d60:2bf0]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::152b:e615:3d60:2bf0%5]) with mapi id 15.20.6002.013; Wed, 11 Jan 2023
- 15:19:11 +0000
-Message-ID: <aea4b937-351a-f036-61e5-790af633f5f2@amd.com>
-Date: Wed, 11 Jan 2023 10:19:06 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH] drm/amd/display: Fix set scaling doesn's work
-Content-Language: en-US
-To: Rodrigo Siqueira Jordao <Rodrigo.Siqueira@amd.com>,
- nicholas.kazlauskas@amd.com, hongao <hongao@uniontech.com>
-References: <20221122112034.30080-1-hongao@uniontech.com>
- <789c2c61-4959-c3c1-0916-d1cc7f659247@amd.com>
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <789c2c61-4959-c3c1-0916-d1cc7f659247@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YTBP288CA0029.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:b01:14::42) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+ 2023 15:24:27 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::1818:e39d:454d:a930]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::1818:e39d:454d:a930%4]) with mapi id 15.20.5986.018; Wed, 11 Jan 2023
+ 15:24:27 +0000
+Date: Wed, 11 Jan 2023 10:24:22 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Deepak R Varma <drv@mailo.com>
+Subject: Re: [PATCH 2/2] drm/i915/gvt: Avoid full proxy f_ops for vgpu_status
+ debug attributes
+Message-ID: <Y77UpjMG9t3SIkMo@intel.com>
+References: <cover.1673375066.git.drv@mailo.com>
+ <188df08e0feba0cda2c92145f513dd4e57c6e6cf.1673375066.git.drv@mailo.com>
+ <Y72zVXYLVHXuyK05@intel.com> <Y76JGj0cJpYr6/rv@intel.com>
+ <Y77NfeKbLL4s/Ibg@ubun2204.myguest.virtualbox.org>
+ <Y77O+0uGm1GRZnZd@intel.com>
+ <Y77SsDGaZ8+BjXel@ubun2204.myguest.virtualbox.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <Y77SsDGaZ8+BjXel@ubun2204.myguest.virtualbox.org>
+X-ClientProxiedBy: BYAPR02CA0030.namprd02.prod.outlook.com
+ (2603:10b6:a02:ee::43) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|SA1PR12MB7409:EE_
-X-MS-Office365-Filtering-Correlation-Id: 081897ea-6d9c-495a-6280-08daf3e730db
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|DM6PR11MB4705:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc848206-8e65-4a3f-2333-08daf3e7ece2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tyKc2pboCJkq//jXXL/7ouIVI85FwFz/xVVORSE960ildsRWb7EpQPz6nmtA4Yql00Hgs4bdO5hnuGp+XTJ94WuYobsuJKZuRPY7OEoGH9li/ESTEN3eQqum6Ehy4Oa3gf3zHOGTAiJAOQWkLGImX7sy/TqcWGdJ2Rnw9Fpw9zulolRrmZgxEeuygOt14ct+yzBlZtFUkTIbho3ZtHLlspwiEaUoYQTHsWh/D0DEEnv02waqEeUb2ovi0Aq1bt3FB1z2MrzBzFdnvBTaDA5FAr79J32/0uw94RPa8CiUORqXIgWN14/ndbhoEscdav0N7WZT2RnD3b24gv+bDqKqPR6qYXprxqJW4XM5gVMw4o+zyCtvvdkKysxatGb8Vq/7HveT3+mmYs2hHHRxtHf8cmuDa8JO3/YTL2NPcaWEIvB/IVb4JpPY9e8GRQdLLYydwzVvy+L534smcA+u/bULk/Ri/4dTx+XT666MYwh2bY2RUnjqY0444Rui3nQrA+pIYZLdnK9ti2IGjCHS+edu9Hrf5cqy0fpAAmJbt8xojBZwnhNeHeldyI1nhSl1WyScQ/y2+f+cK5+f9p4j4gAtJT9xMWV5HJKHZ3pBeCU2K0lwsVdb9L4qB9LcDjsUnVJAZO/rM+IgqN7CbxQa1flkaSzgqQ8pjFdZLLJ0oxkimtvMuLcQYtwneeioF/yBpWZGyTk7JgEyKHrwZlWVVd+NotkusqrJHnnzxFLiMOlCv0s=
+X-Microsoft-Antispam-Message-Info: Z8wrtJUY6NzKZItU2gnxdKU+LjLGNxXpbaV167VGWAzZrtigmpNxOblrS+wxO+FUu5/TgHlzMA6g3renQ/naOQIaQpp6KSf2ZL0hmbrGDe7EZn6PoU8g20bf/HMsrOsEMPBqabGSXdxcsrNXoPkTmhBl/jivJd2QZgFBYS+IvlvWlxB0OK0ruZHkfMGX4mj2xdYPRLi6kPjfYEZclnebv9Wde50wi43vOOIir+8MiWkhoWe83wvBukCUED/8j/GhlPi8nri+Hd3id16l82w/mLYGH0rYt+mbmfJRsCQIxb2f4wZbR1fMul9FMua/S9xsmyNI+LrA8AnDfVp0trBDWSC3CBtWeacC/YDOZRszeGDjifstIHP9GG2FbqMiXcvkrpPPKcSf469rvr2cW4sNSobXRbFZt85pNFK8+pSgEDPKIM8lmc8UUa8FTT7ArnCBVD8JklFBlfrdpdpvmLPCmCborVTJmG81D1YA/DrSKDYcbAdt32S7XSwBP6HCi0jIuzPRyO6t+37mXjTDXxmUkqadZnzuBxvNFQhR6aqhCRWbGBnKZGldZaFOIbkQGLkKlsdZt0QWwMz8XhExW1rQowvEhWv3XXPFBJnFt+XEwW6sAEHxkSmPUfQ3UaqO6UW1BoZ1yx7xbTgqxAyleWHb7g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(136003)(346002)(366004)(376002)(396003)(451199015)(31686004)(110136005)(2906002)(66946007)(5660300002)(6486002)(36756003)(31696002)(86362001)(44832011)(8936002)(66476007)(41300700001)(316002)(66556008)(4326008)(8676002)(38100700002)(53546011)(6506007)(83380400001)(2616005)(6666004)(6512007)(186003)(26005)(478600001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(136003)(39860400002)(396003)(366004)(376002)(346002)(451199015)(36756003)(26005)(186003)(6666004)(8936002)(6486002)(6512007)(6506007)(2616005)(66946007)(5660300002)(66476007)(66556008)(6916009)(316002)(4326008)(86362001)(38100700002)(82960400001)(478600001)(54906003)(8676002)(41300700001)(83380400001)(44832011)(2906002);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q3Vza2g1eHVWZi9KcTNNbUQwYWdHQzJUbWRjY2ZiQ2ViT1ZOWWtURXgzb2FW?=
- =?utf-8?B?bU9NcFY3YmxtOHZRSEFCcmZPL0RLdWRyWHdsWkwyOVpnVXJnVWFYZmZIdEVQ?=
- =?utf-8?B?enQ2dFpJMHVtRUhobTdyZnVhT2k5S1dCWk9rWC9lWjFTVUNYcHlnTjl4ZGdQ?=
- =?utf-8?B?QkZHM05ibzlCUmFncllYTlJidzhoMDFKd29TTnQ3b3lGWDFwUHIzZ09reXVS?=
- =?utf-8?B?V29nMGJTZXV0YlJSdXZoQnRmc0Z3Z0ZSSVpGU0h4TEtISmwybmF5cWdCalFR?=
- =?utf-8?B?L1VWV3hxS0htOWhPQnBJREpGNWJvV3lMYVVtVFNaa1gzaVNvLzR1amJnS2c1?=
- =?utf-8?B?N3BOWTJJOXN4UVdYeFJuak9wY0JhYTN3TU9rK3c1NC9yREhDSldJYVJ4NTVG?=
- =?utf-8?B?ajVuVys2WHV3YVFUaGVNeWNCMnoxK1g5MjZaSGRraVBnMVkwWk9tTHZhVDhm?=
- =?utf-8?B?eThvbnBSTnpTWFY5K0ticnBsNWZpRXp6NWtzeVdhNHZlcFEzOUR6dEFGYitT?=
- =?utf-8?B?RDF1Rml4Y2pxUnVOSnRjMDN0MmdtdGdwYkQxamMxWXdkMEFaTlN6b3pxb0dn?=
- =?utf-8?B?VTNLclJ4UXhaVUx2SWFYK0lyc2ZXVld6MlR6bUFjYUNMV3dwQU5UbmdJZStF?=
- =?utf-8?B?ekFKbFpvTzVMMDFSYno1LzA3bE9FNmEyUTA0Z0RoWm5VV3NrWktHYTB5cW1O?=
- =?utf-8?B?ZGFMNVNOUHlWQkxPUGoxTzVMRTVQOUVUa2hPTFB4L2RHWHdjaVFSa0dyVW54?=
- =?utf-8?B?c2l2d3JBM1c0ZzM5eXpJOVJVSUtzdVV2OXBYZDZyMkxEekh3OGV2eFQvbytv?=
- =?utf-8?B?dS9waUVnaGs1RWNyV2I2NkpsNnRJNHFOMXRYa3ZTZ2RxVmREU2lveFI4ZEZu?=
- =?utf-8?B?eURkaGJ2NzVXbUdCQ3lJRmNra2loYmtMeTN0KytaUUk5TFJ4Z0pQNUZqM3hP?=
- =?utf-8?B?RllzRlF5RlVmMmJ3ODE0NUU2eUpGbEJsaGdSdnNHREk2VmpxOG1tRWRGOXJU?=
- =?utf-8?B?Qy82aktZNFRHR2oxQnNMUWRmRUMycDZUcUpLS2lFT09WeWx0Ry80Q0dndU1G?=
- =?utf-8?B?NDFZSVB2anZmUEoxYy9POUJ2VUZqa210dm9yT1REOTNHejlUSkkwaTJBeEhW?=
- =?utf-8?B?S0NtM2dpZmljQWs5WW5hTFIzOFo2T1J5NEtMT3J0MFVBQTZsYWhzSEVhMHpv?=
- =?utf-8?B?SDBuWUtaeGh4NjA1dXVMdkpsZHZveW9jY3Fadm0vR0haWjROUHNrSmxoNE16?=
- =?utf-8?B?YlRZQU9YY01nOGF3aTE1dUJEbm1hNW1WajE1a3g2LzNaVUdSRjd4Z3pBNW9y?=
- =?utf-8?B?OHlkbWY0TmRZNnp6NnRSUllWbHlPTmQ2U1lackVKQlhEU2lxL2QzMWtIOGNZ?=
- =?utf-8?B?bjNSazVGaDdTZjVRUk01OEFtZUlpUW9kdVA1aDYxbWpjZzNPV29VOHAxcjNI?=
- =?utf-8?B?bEowQThkbnE3czlCYnVUUGlQREVNMUlMa014cGcwMTR5dTFCYVBmOGdhaG9r?=
- =?utf-8?B?dHVOdFBhVW9DalVNYVlLTElTNnJQY2dVcE53UER4eWxPVHhOejZOQkx0c2dX?=
- =?utf-8?B?ZzVuc1BEZkJoaUIyaVUrWkwvRnc5SEo4WFVTK0grRkplUmZzYi9UR3VFYTBM?=
- =?utf-8?B?dHRuN1pUMmxKM3VYUUxHWkpITEpqZWcrc3FwSysvcWNCSy9vbEFWV2ovNGl6?=
- =?utf-8?B?THdmNjNDcEJ3ZzFBWElmYTV5aTVIc1pvc21VMGQ2UkNLQW50cTBTeGFWUDlX?=
- =?utf-8?B?Ym5lSDlSaFdVa2w5VGlsb3VxMjRVVzRkQzFBVERldUNKVUdnMSt3ajc4REhF?=
- =?utf-8?B?c3dzNEpvZm9LeXd5c0RaZEZUZ3FWV0U0RVltUzJWL3hzR3ptbDZzSmxRRll4?=
- =?utf-8?B?bXV0aFNvMG8yVU5qSHhYWmZrWWZEVXNxZHBzM1ErM2Z0enU5bUFwbk5JSkNV?=
- =?utf-8?B?NEkrL05OVi9ZUGZybWhXY3dWdld3OW9VcktUelBIL2M3aE9aMVFPNDRqaFZU?=
- =?utf-8?B?aTF4N3hHTzVHRnoxUGNtckM4U3o0QTFMNmxOZWplS2lHYklSVXRha1owNU42?=
- =?utf-8?B?dlZWTFNqdFpIcDJiWHh0Rm4xMkh6UkxVL1NqcmttUnM2OEFmYWg3ZnN1UHk5?=
- =?utf-8?Q?k97vuJUBxMO49U31yJCUCb/J6?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 081897ea-6d9c-495a-6280-08daf3e730db
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1PsoCFlpjgbVFQ8DpsaEe4ebIDzrpKMGu8PI/AHO4jup9uWcN/3peQ1DPbGj?=
+ =?us-ascii?Q?Mn2I0EYpEYrfIJv2kXxMf3Cl+4/oz0jNiS6CJ/b8rRj/hLqPpRyykllQJttV?=
+ =?us-ascii?Q?0LYtS6TJ/ZvnirFZ/sZpJU9+/RJIE9bJ4C6FwK9dWu0x/P0WG69Q8ErS30Qk?=
+ =?us-ascii?Q?DVeIrVhn1GLCgbDLzSreFD5I2Fh6osBh4MteIXkXs3+2z+9EMVsy4smAtStE?=
+ =?us-ascii?Q?2c8DBJmFx6/KLiGEYKIG3fxTF+FPdRorr+9V32UblY29wKj1L+KWH3fSpDxO?=
+ =?us-ascii?Q?svBbi0dLzSSrUtF29KxxCP0veud4L5HRG6NPFUQpuQCdwYVRnGhyP3RQfWBo?=
+ =?us-ascii?Q?5V0JR+mbZitYuKbt2fNcBAYutOhLRkfzHcp9lUGiClKalS0JAWDcYKjTmXAE?=
+ =?us-ascii?Q?W2KDh3nRDr0l+b2Nsc1VTrlbPIoMBnnxq7V/uTL5i/4G5uX4kcVNy1ZTZQqN?=
+ =?us-ascii?Q?J3Z+U9IGnujGA2CGoVgmgz90M7OgPJg1n+fmB9xP3BCT5Hto1Ar+eV3K8++g?=
+ =?us-ascii?Q?iTnZ4FHi4ZxRCqogv+gfd4asNQo+fO5ptxKshTmOnhD4BOHH5iTEx7QSro+p?=
+ =?us-ascii?Q?W0ceUbhlE9NrGuHTPHS9d9OzlHZJlxTtfW8vTkQSQvPZIKNGrY0/p5CAYokr?=
+ =?us-ascii?Q?6pjAt2sz1A4fRmPvH2ei8+BJICJfZNEEUhU3h8r6TuAJpTJbHrLU8ruHfiyk?=
+ =?us-ascii?Q?UUVVO8dTtLCIzEnGyJFc8iyedEYxhCqW3KmmNFwq8ryEJnZTyBqzl8k2WDuj?=
+ =?us-ascii?Q?YZGe8zX9CPJpb10i5L0ZTT06Qozqe1gh93R+GbWmMnWk6tEexswiOX34o6RX?=
+ =?us-ascii?Q?8woBDGdKUVdXGhT17t89mH5khjaTArt5MXOO7od4Id8xf5BY8AaXgOeWAAbi?=
+ =?us-ascii?Q?ltBgwOD97Ivf9eYRg0n2croB6R7VmxAw4VVuQbIsS5OH6vGojUPjlog+bVq9?=
+ =?us-ascii?Q?mw3qdCxmWj5hX8lyXENUfa/T63RjciphX2eW96ZvD7YtDjMHk0o99lnhqtjb?=
+ =?us-ascii?Q?DGiLyMII/rzel1wMqUFLJIGuAfNRWS+jyf8rtHCQDypBVSEn60ziea0rJU42?=
+ =?us-ascii?Q?t7zTkkQpu57g2URfnlYO9DKM3tyqoGpab7H0pHNmGmfhaDjprGGvQzCND3Uo?=
+ =?us-ascii?Q?OpdotJAQCTuBd8Nkux5XElq4wm0WbvoQpbNh1L1q9P5ihWMIaW9R99CN2RXV?=
+ =?us-ascii?Q?pwess5bMmeyjkE8wSvsbSlpIJuIePz3j4jHpQdq+7LY23DJSOOlnYrUuxr+O?=
+ =?us-ascii?Q?MwVOwwRZ2IjLRGrovLZUJKOAwjnc5nrTbwpPLqozO6PBEAZs8ilCoJ8CldGM?=
+ =?us-ascii?Q?ZWyUCBWV6wzz/gRs3YEmXr3Phxn+NlSHKx3s4s12aN6sGxuHp04N/d4DgTxG?=
+ =?us-ascii?Q?OXT8OfbO0t3HjRDKFWwpVxLRuh/Z/afTCgEFZ6yH9S58kq77I9hSDrB97YSd?=
+ =?us-ascii?Q?4Uj9v6kJ74lNAjYpBo9xYKeel1cpUGcVVN7w/UuPiX6cZn35qGk+4AQD5GlA?=
+ =?us-ascii?Q?0OK2/aL2bS1v0/zsNsvWQ0SGB2P8UtwjOdfR3yb4wHMgB0P0wPFH0k75P81q?=
+ =?us-ascii?Q?OTNwBWgGVbloLMgBo0aZVFJqrvw+QjHg6y6mdtW45MFIAvYlW1R3XG9O1tRK?=
+ =?us-ascii?Q?1w=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc848206-8e65-4a3f-2333-08daf3e7ece2
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2023 15:19:11.2821 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2023 15:24:27.2336 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AiWUtaG9TmKpXF51+KJQQnxdkli+wA5Eh011v1H3jE1tXDlTTJB0MIrcolewXzo35Wg83XD1mz7pRtffhSjfGw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7409
+X-MS-Exchange-CrossTenant-UserPrincipalName: rSloRoZpximqVlu2EOqYhVs1LII4BM85va0x0J48m+V5qblrkP4PuSa2vo+tAzgTmtFyYhbYpk38U5828ZPkxw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4705
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,55 +152,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunpeng.li@amd.com, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, roman.li@amd.com, Jerry.Zuo@amd.com,
- aurabindo.pillai@amd.com, amd-gfx@lists.freedesktop.org,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ intel-gfx@lists.freedesktop.org, Saurabh Singh Sengar <ssengar@microsoft.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/10/23 10:58, Rodrigo Siqueira Jordao wrote:
+On Wed, Jan 11, 2023 at 08:46:00PM +0530, Deepak R Varma wrote:
+> On Wed, Jan 11, 2023 at 10:00:11AM -0500, Rodrigo Vivi wrote:
+> > > > Actually, could you please address the checkpatch issues before we can push?
+> > > > Sorry about that, but just noticed now when I was going to push the other ones.
+> > > 
+> > > Hello Rodrigo,
+> > > The checkpatch warning is associated with the long "make coccicheck ..." command
+> > > in the commit message. It is not part of the code, so is should not be carried
+> > > forward into the code base.
+> > > If you still want me to correct it, I will need to split it into two lines which
+> > > I think still violates the commit description guidelines.
+> > 
+> > This part I would just ignore or fix myself while merging. But the next one about
+> > the parenthesis alignment need to be fixed in the code so we need another version.
+> > Since we try to avoid touching the code between CI and merge.
 > 
+> I am sorry, but I am unable to locate the "second checkpatch complaint" you are
+> referring to. I have received only the following from the checkpatch robot:
 > 
-> On 11/22/22 06:20, hongao wrote:
->> [Why]
->> Setting scaling does not correctly update CRTC state. As a result
->> dc stream state's src (composition area) && dest (addressable area)
->> was not calculated as expected. This causes set scaling doesn's work.
->>
->> [How]
->> Correctly update CRTC state when setting scaling property.
->>
->> Signed-off-by: hongao <hongao@uniontech.com>
->>
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> index 3e1ecca72430..a88a6f758748 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> @@ -9386,8 +9386,8 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
->>               goto fail;
->>           }
->>   -        if (dm_old_con_state->abm_level !=
->> -            dm_new_con_state->abm_level)
->> +        if (dm_old_con_state->abm_level != dm_new_con_state->abm_level ||
->> +            dm_old_con_state->scaling != dm_new_con_state->scaling)
->>               new_crtc_state->connectors_changed = true;
->>       }
->>   
+> == Summary ==
 > 
-> Hi,
+> Error: dim checkpatch failed
+> 4c95e9b71212 drm/i915/gvt: Avoid full proxy f_ops for scan_nonprivbb debug attributes
+> -:21: WARNING:COMMIT_LOG_LONG_LINE: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+> #21:
+> make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
 > 
-> This change lgtm, and I also run it in our CI, and from IGT perspective, we are good.
+> total: 0 errors, 1 warnings, 0 checks, 22 lines checked
+> 33d68a01cad3 drm/i915/gvt: Avoid full proxy f_ops for vgpu_status debug attributes
+> -:21: WARNING:COMMIT_LOG_LONG_LINE: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+> #21:
+> make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
 > 
-> Harry, do you have any comment about this change?
+> total: 0 errors, 1 warnings, 0 checks, 18 lines checked
 > 
 
-LGTM
+doh, my bad! this gvt patch is indeed right. up to gvt folks to modify this line
+when merging or to ignore...
 
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+The problem I mentioned was in the other series. Sorry for the noise.
 
-Harry
+but for the record:
 
-> Thanks
-> Siqueira
+-:47: CHECK:PARENTHESIS_ALIGNMENT: Alignment should match open parenthesis
+#47: FILE: drivers/gpu/drm/i915/display/intel_drrs.c:386:
++	debugfs_create_file_unsafe("i915_drrs_ctl", 0644, crtc->base.debugfs_entry,
++				    crtc, &intel_drrs_debugfs_ctl_fops);
 
+
+> ===============================
+> 
+> > 
+> > Then, since you need to change that, while changing that, also please break
+> > the coccinelle line in the commit msg.
+> > 
+> > I'd appreciate to have the patch for the pxp as well :)
+> 
+> Sure. As mentioned in the other thread, I am looking into it and would submit a
+> patch accordingly.
+> 
+> Thank you,
+> ./drv
+> 
+> > 
+> > Thanks a lot,
+> > Rodrigo.
+> > 
+> > 
+> > > 
+> > > Let me know what you think.
+> > > 
+> > > Thank you,
+> > > ./drv
+> > > 
+> > > > 
+> > > > > 
+> > > > > > ---
+> > > > > >  drivers/gpu/drm/i915/gvt/debugfs.c | 6 +++---
+> > > > > >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/gpu/drm/i915/gvt/debugfs.c b/drivers/gpu/drm/i915/gvt/debugfs.c
+> > > > > > index 03f081c3d9a4..baccbf1761b7 100644
+> > > > > > --- a/drivers/gpu/drm/i915/gvt/debugfs.c
+> > > > > > +++ b/drivers/gpu/drm/i915/gvt/debugfs.c
+> > > > > > @@ -165,7 +165,7 @@ static int vgpu_status_get(void *data, u64 *val)
+> > > > > >  	return 0;
+> > > > > >  }
+> > > > > >  
+> > > > > > -DEFINE_SIMPLE_ATTRIBUTE(vgpu_status_fops, vgpu_status_get, NULL, "0x%llx\n");
+> > > > > > +DEFINE_DEBUGFS_ATTRIBUTE(vgpu_status_fops, vgpu_status_get, NULL, "0x%llx\n");
+> > > > > >  
+> > > > > >  /**
+> > > > > >   * intel_gvt_debugfs_add_vgpu - register debugfs entries for a vGPU
+> > > > > > @@ -182,8 +182,8 @@ void intel_gvt_debugfs_add_vgpu(struct intel_vgpu *vgpu)
+> > > > > >  			    &vgpu_mmio_diff_fops);
+> > > > > >  	debugfs_create_file_unsafe("scan_nonprivbb", 0644, vgpu->debugfs, vgpu,
+> > > > > >  				   &vgpu_scan_nonprivbb_fops);
+> > > > > > -	debugfs_create_file("status", 0644, vgpu->debugfs, vgpu,
+> > > > > > -			    &vgpu_status_fops);
+> > > > > > +	debugfs_create_file_unsafe("status", 0644, vgpu->debugfs, vgpu,
+> > > > > > +				   &vgpu_status_fops);
+> > > > > >  }
+> > > > > >  
+> > > > > >  /**
+> > > > > > -- 
+> > > > > > 2.34.1
+> > > > > > 
+> > > > > > 
+> > > > > > 
+> > > 
+> > > 
+> 
+> 
