@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA487666216
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 18:39:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC73666219
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 18:39:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CB1B10E7B8;
-	Wed, 11 Jan 2023 17:39:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E321D10E7B9;
+	Wed, 11 Jan 2023 17:39:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8D6810E7B7
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 17:39:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFC8B10E7B7
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 17:39:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,25 +19,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=saDsxy6VkRFo0MSUyGyDe1iXynIh/Kf/w3cWZNTzadk=; b=f4UXaNDAkwRuyIzLtvHmtrGK1r
- cZLu3Rq31rIAg+UxmhSJc7h8xZPw01RTKtd+DCte51cmRwUXwkWRFUuIzdOc1vXkIGM18NVqXBqUq
- LPe4/38PrTNwgJUAYt2n/N+e/cvCi3te4yENTa/wwoBAzFXkMYpoAPooKPhAPtUx573A4OiKVvZD5
- I+amIV4TNtoVbMwWwxa1k8CuCGc2fjxVWMIy0L8GYdPrtmlyzBwpPG539MfV3d6A9P5Nm9OsHzZLl
- srPFLJPSOktk53+fR9AEyc628zB+Ty8sQzsyLpmNoce8pnjZ0pXzrs3r7/rq2tAIMKn+QrhM+A96M
- XQPgF5RQ==;
+ bh=M6dLSSXWPTXHD495TvvFtj63ymqVq8XZJDcxHou6zuo=; b=TXxZsiFuTBymS1xiETYH9dTM3+
+ Yn29+8W/b2LZxab5ier8Jlx+O3iXHaqnZfB0pETWxXHpOskhgEIw0TSdXX8OzJywrWg0Z9zaqGaO3
+ VeW1noDkoD4dxYTwmHjRvgZixdpr9v7Jd6h/Dh+gpYu0Q6PYepaAhmPxiLvjmssoRzVn2Emhi91wh
+ +AXpjR7gd4f4ZcPpHBESANB+irTy44PxReUNNlA0bklOpKGTDjJhMtOeGfz52j+7BtdsMY2l7PDVj
+ eO2hfe5j2XmwUanC3MpTroAzCx6rh2Z5U1w39I6fQrZ5HznK4YZSZLPgKNzW3AdIJt3wis3JkFjNr
+ GCJxe5Gw==;
 Received: from [187.36.234.139] (helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pFf43-005Sku-NY; Wed, 11 Jan 2023 18:39:04 +0100
+ id 1pFf48-005Sku-9I; Wed, 11 Jan 2023 18:39:08 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
  Alain Volmat <alain.volmat@foss.st.com>
-Subject: [PATCH 09/13] drm/sti: Use the crtc's debugfs infrastructure
-Date: Wed, 11 Jan 2023 14:37:44 -0300
-Message-Id: <20230111173748.752659-10-mcanal@igalia.com>
+Subject: [PATCH 10/13] drm/sti: Use the connectors' debugfs infrastructure
+Date: Wed, 11 Jan 2023 14:37:45 -0300
+Message-Id: <20230111173748.752659-11-mcanal@igalia.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230111173748.752659-1-mcanal@igalia.com>
 References: <20230111173748.752659-1-mcanal@igalia.com>
@@ -64,193 +64,159 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Replace the use of drm_debugfs_add_files() with the new
-drm_debugfs_crtc_add_files() function, which centers the debugfs files
-management on the drm_crtc instead of drm_device. Using this function
+drm_debugfs_connector_add_files() function, which centers the debugfs files
+management on the drm_connector instead of drm_device. Using this function
 on late register callbacks is more adequate as the callback passes a
-drm_crtc as parameter.
+drm_connector as parameter.
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/sti/sti_compositor.c |  6 +++---
- drivers/gpu/drm/sti/sti_compositor.h |  2 +-
- drivers/gpu/drm/sti/sti_crtc.c       |  2 +-
- drivers/gpu/drm/sti/sti_mixer.c      | 31 +++++-----------------------
- drivers/gpu/drm/sti/sti_mixer.h      |  2 +-
- drivers/gpu/drm/sti/sti_vid.c        | 19 ++++-------------
- drivers/gpu/drm/sti/sti_vid.h        |  2 +-
- 7 files changed, 16 insertions(+), 48 deletions(-)
+ drivers/gpu/drm/sti/sti_dvo.c  | 21 +++++----------------
+ drivers/gpu/drm/sti/sti_hda.c  | 21 +++++----------------
+ drivers/gpu/drm/sti/sti_hdmi.c | 21 +++++----------------
+ 3 files changed, 15 insertions(+), 48 deletions(-)
 
-diff --git a/drivers/gpu/drm/sti/sti_compositor.c b/drivers/gpu/drm/sti/sti_compositor.c
-index 142a8e1b4436..822da9d2879c 100644
---- a/drivers/gpu/drm/sti/sti_compositor.c
-+++ b/drivers/gpu/drm/sti/sti_compositor.c
-@@ -44,17 +44,17 @@ static const struct sti_compositor_data stih407_compositor_data = {
- };
+diff --git a/drivers/gpu/drm/sti/sti_dvo.c b/drivers/gpu/drm/sti/sti_dvo.c
+index f3a5616b7daf..b617c288b893 100644
+--- a/drivers/gpu/drm/sti/sti_dvo.c
++++ b/drivers/gpu/drm/sti/sti_dvo.c
+@@ -178,8 +178,8 @@ static void dvo_dbg_awg_microcode(struct seq_file *s, void __iomem *reg)
  
- void sti_compositor_debugfs_init(struct sti_compositor *compo,
--				 struct drm_minor *minor)
-+				 struct drm_crtc *crtc)
- {
- 	unsigned int i;
- 
- 	for (i = 0; i < STI_MAX_VID; i++)
- 		if (compo->vid[i])
--			vid_debugfs_init(compo->vid[i], minor);
-+			vid_debugfs_init(compo->vid[i], crtc);
- 
- 	for (i = 0; i < STI_MAX_MIXER; i++)
- 		if (compo->mixer[i])
--			sti_mixer_debugfs_init(compo->mixer[i], minor);
-+			sti_mixer_debugfs_init(compo->mixer[i], crtc);
- }
- 
- static int sti_compositor_bind(struct device *dev,
-diff --git a/drivers/gpu/drm/sti/sti_compositor.h b/drivers/gpu/drm/sti/sti_compositor.h
-index 25bb01bdd013..f5e9a2e4b6b5 100644
---- a/drivers/gpu/drm/sti/sti_compositor.h
-+++ b/drivers/gpu/drm/sti/sti_compositor.h
-@@ -80,6 +80,6 @@ struct sti_compositor {
- };
- 
- void sti_compositor_debugfs_init(struct sti_compositor *compo,
--				 struct drm_minor *minor);
-+				 struct drm_crtc *crtc);
- 
- #endif
-diff --git a/drivers/gpu/drm/sti/sti_crtc.c b/drivers/gpu/drm/sti/sti_crtc.c
-index 3c7154f2d5f3..176c74db8bb7 100644
---- a/drivers/gpu/drm/sti/sti_crtc.c
-+++ b/drivers/gpu/drm/sti/sti_crtc.c
-@@ -318,7 +318,7 @@ static int sti_crtc_late_register(struct drm_crtc *crtc)
- 	struct sti_compositor *compo = dev_get_drvdata(mixer->dev);
- 
- 	if (drm_crtc_index(crtc) == 0)
--		sti_compositor_debugfs_init(compo, crtc->dev->primary);
-+		sti_compositor_debugfs_init(compo, crtc);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/sti/sti_mixer.c b/drivers/gpu/drm/sti/sti_mixer.c
-index 7e5f14646625..ce775c64db2e 100644
---- a/drivers/gpu/drm/sti/sti_mixer.c
-+++ b/drivers/gpu/drm/sti/sti_mixer.c
-@@ -147,8 +147,8 @@ static void mixer_dbg_mxn(struct seq_file *s, void *addr)
- 
- static int mixer_dbg_show(struct seq_file *s, void *arg)
+ static int dvo_dbg_show(struct seq_file *s, void *data)
  {
 -	struct drm_info_node *node = s->private;
--	struct sti_mixer *mixer = (struct sti_mixer *)node->info_ent->data;
-+	struct drm_debugfs_crtc_entry *entry = s->private;
-+	struct sti_mixer *mixer = (struct sti_mixer *)entry->file.data;
+-	struct sti_dvo *dvo = (struct sti_dvo *)node->info_ent->data;
++	struct drm_debugfs_connector_entry *entry = s->private;
++	struct sti_dvo *dvo = (struct sti_dvo *)entry->file.data;
  
- 	seq_printf(s, "%s: (vaddr = 0x%p)",
- 		   sti_mixer_to_str(mixer), mixer->regs);
-@@ -170,39 +170,18 @@ static int mixer_dbg_show(struct seq_file *s, void *arg)
+ 	seq_printf(s, "DVO: (vaddr = 0x%p)", dvo->regs);
+ 	DBGFS_DUMP(DVO_AWG_DIGSYNC_CTRL);
+@@ -192,20 +192,9 @@ static int dvo_dbg_show(struct seq_file *s, void *data)
  	return 0;
  }
  
--static struct drm_info_list mixer0_debugfs_files[] = {
--	{ "mixer_main", mixer_dbg_show, 0, NULL },
+-static struct drm_info_list dvo_debugfs_files[] = {
+-	{ "dvo", dvo_dbg_show, 0, NULL },
 -};
 -
--static struct drm_info_list mixer1_debugfs_files[] = {
--	{ "mixer_aux", mixer_dbg_show, 0, NULL },
--};
--
--void sti_mixer_debugfs_init(struct sti_mixer *mixer, struct drm_minor *minor)
-+void sti_mixer_debugfs_init(struct sti_mixer *mixer, struct drm_crtc *crtc)
- {
--	unsigned int i;
--	struct drm_info_list *mixer_debugfs_files;
--	int nb_files;
--
- 	switch (mixer->id) {
- 	case STI_MIXER_MAIN:
--		mixer_debugfs_files = mixer0_debugfs_files;
--		nb_files = ARRAY_SIZE(mixer0_debugfs_files);
-+		drm_debugfs_crtc_add_file(crtc, "mixer_main", mixer_dbg_show, mixer);
- 		break;
- 	case STI_MIXER_AUX:
--		mixer_debugfs_files = mixer1_debugfs_files;
--		nb_files = ARRAY_SIZE(mixer1_debugfs_files);
-+		drm_debugfs_crtc_add_file(crtc, "mixer_aux", mixer_dbg_show, mixer);
- 		break;
- 	default:
- 		return;
- 	}
--
--	for (i = 0; i < nb_files; i++)
--		mixer_debugfs_files[i].data = mixer;
--
--	drm_debugfs_create_files(mixer_debugfs_files,
--				 nb_files,
--				 minor->debugfs_root, minor);
- }
- 
- void sti_mixer_set_background_status(struct sti_mixer *mixer, bool enable)
-diff --git a/drivers/gpu/drm/sti/sti_mixer.h b/drivers/gpu/drm/sti/sti_mixer.h
-index ab06beb7b258..973f7058092b 100644
---- a/drivers/gpu/drm/sti/sti_mixer.h
-+++ b/drivers/gpu/drm/sti/sti_mixer.h
-@@ -58,7 +58,7 @@ int sti_mixer_active_video_area(struct sti_mixer *mixer,
- 
- void sti_mixer_set_background_status(struct sti_mixer *mixer, bool enable);
- 
--void sti_mixer_debugfs_init(struct sti_mixer *mixer, struct drm_minor *minor);
-+void sti_mixer_debugfs_init(struct sti_mixer *mixer, struct drm_crtc *crtc);
- 
- /* depth in Cross-bar control = z order */
- #define GAM_MIXER_NB_DEPTH_LEVEL 6
-diff --git a/drivers/gpu/drm/sti/sti_vid.c b/drivers/gpu/drm/sti/sti_vid.c
-index 2d818397918d..98f2f4c8c2db 100644
---- a/drivers/gpu/drm/sti/sti_vid.c
-+++ b/drivers/gpu/drm/sti/sti_vid.c
-@@ -92,8 +92,8 @@ static void vid_dbg_mst(struct seq_file *s, int val)
- 
- static int vid_dbg_show(struct seq_file *s, void *arg)
- {
--	struct drm_info_node *node = s->private;
--	struct sti_vid *vid = (struct sti_vid *)node->info_ent->data;
-+	struct drm_debugfs_crtc_entry *entry = s->private;
-+	struct sti_vid *vid = (struct sti_vid *)entry->file.data;
- 
- 	seq_printf(s, "VID: (vaddr= 0x%p)", vid->regs);
- 
-@@ -120,20 +120,9 @@ static int vid_dbg_show(struct seq_file *s, void *arg)
- 	return 0;
- }
- 
--static struct drm_info_list vid_debugfs_files[] = {
--	{ "vid", vid_dbg_show, 0, NULL },
--};
--
--void vid_debugfs_init(struct sti_vid *vid, struct drm_minor *minor)
-+void vid_debugfs_init(struct sti_vid *vid, struct drm_crtc *crtc)
+-static void dvo_debugfs_init(struct sti_dvo *dvo, struct drm_minor *minor)
++static void dvo_debugfs_init(struct sti_dvo *dvo, struct drm_connector *connector)
  {
 -	unsigned int i;
 -
--	for (i = 0; i < ARRAY_SIZE(vid_debugfs_files); i++)
--		vid_debugfs_files[i].data = vid;
+-	for (i = 0; i < ARRAY_SIZE(dvo_debugfs_files); i++)
+-		dvo_debugfs_files[i].data = dvo;
 -
--	drm_debugfs_create_files(vid_debugfs_files,
--				 ARRAY_SIZE(vid_debugfs_files),
+-	drm_debugfs_create_files(dvo_debugfs_files,
+-				 ARRAY_SIZE(dvo_debugfs_files),
 -				 minor->debugfs_root, minor);
-+	drm_debugfs_crtc_add_file(crtc, "vid", vid_dbg_show, vid);
++	drm_debugfs_connector_add_file(connector, "dvo", dvo_dbg_show, dvo);
  }
  
- void sti_vid_commit(struct sti_vid *vid,
-diff --git a/drivers/gpu/drm/sti/sti_vid.h b/drivers/gpu/drm/sti/sti_vid.h
-index 991849ba50b5..a14577a8df48 100644
---- a/drivers/gpu/drm/sti/sti_vid.h
-+++ b/drivers/gpu/drm/sti/sti_vid.h
-@@ -26,6 +26,6 @@ void sti_vid_disable(struct sti_vid *vid);
- struct sti_vid *sti_vid_create(struct device *dev, struct drm_device *drm_dev,
- 			       int id, void __iomem *baseaddr);
+ static void sti_dvo_disable(struct drm_bridge *bridge)
+@@ -403,7 +392,7 @@ static int sti_dvo_late_register(struct drm_connector *connector)
+ 		= to_sti_dvo_connector(connector);
+ 	struct sti_dvo *dvo = dvo_connector->dvo;
  
--void vid_debugfs_init(struct sti_vid *vid, struct drm_minor *minor);
-+void vid_debugfs_init(struct sti_vid *vid, struct drm_crtc *crtc);
+-	dvo_debugfs_init(dvo, dvo->drm_dev->primary);
++	dvo_debugfs_init(dvo, connector);
  
- #endif
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/sti/sti_hda.c b/drivers/gpu/drm/sti/sti_hda.c
+index ec6656b9ee7c..9560f29db6e1 100644
+--- a/drivers/gpu/drm/sti/sti_hda.c
++++ b/drivers/gpu/drm/sti/sti_hda.c
+@@ -345,8 +345,8 @@ static void hda_dbg_video_dacs_ctrl(struct seq_file *s, void __iomem *reg)
+ 
+ static int hda_dbg_show(struct seq_file *s, void *data)
+ {
+-	struct drm_info_node *node = s->private;
+-	struct sti_hda *hda = (struct sti_hda *)node->info_ent->data;
++	struct drm_debugfs_connector_entry *entry = s->private;
++	struct sti_hda *hda = (struct sti_hda *)entry->file.data;
+ 
+ 	seq_printf(s, "HD Analog: (vaddr = 0x%p)", hda->regs);
+ 	DBGFS_DUMP(HDA_ANA_CFG);
+@@ -364,20 +364,9 @@ static int hda_dbg_show(struct seq_file *s, void *data)
+ 	return 0;
+ }
+ 
+-static struct drm_info_list hda_debugfs_files[] = {
+-	{ "hda", hda_dbg_show, 0, NULL },
+-};
+-
+-static void hda_debugfs_init(struct sti_hda *hda, struct drm_minor *minor)
++static void hda_debugfs_init(struct sti_hda *hda, struct drm_connector *connector)
+ {
+-	unsigned int i;
+-
+-	for (i = 0; i < ARRAY_SIZE(hda_debugfs_files); i++)
+-		hda_debugfs_files[i].data = hda;
+-
+-	drm_debugfs_create_files(hda_debugfs_files,
+-				 ARRAY_SIZE(hda_debugfs_files),
+-				 minor->debugfs_root, minor);
++	drm_debugfs_connector_add_file(connector, "hda", hda_dbg_show, hda);
+ }
+ 
+ /**
+@@ -643,7 +632,7 @@ static int sti_hda_late_register(struct drm_connector *connector)
+ 		= to_sti_hda_connector(connector);
+ 	struct sti_hda *hda = hda_connector->hda;
+ 
+-	hda_debugfs_init(hda, hda->drm_dev->primary);
++	hda_debugfs_init(hda, connector);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
+index fcc2194869d6..9b82d9b7db6a 100644
+--- a/drivers/gpu/drm/sti/sti_hdmi.c
++++ b/drivers/gpu/drm/sti/sti_hdmi.c
+@@ -668,8 +668,8 @@ static void hdmi_dbg_sw_di_cfg(struct seq_file *s, int val)
+ 
+ static int hdmi_dbg_show(struct seq_file *s, void *data)
+ {
+-	struct drm_info_node *node = s->private;
+-	struct sti_hdmi *hdmi = (struct sti_hdmi *)node->info_ent->data;
++	struct drm_debugfs_connector_entry *entry = s->private;
++	struct sti_hdmi *hdmi = (struct sti_hdmi *)entry->file.data;
+ 
+ 	seq_printf(s, "HDMI: (vaddr = 0x%p)", hdmi->regs);
+ 	DBGFS_DUMP("\n", HDMI_CFG);
+@@ -730,20 +730,9 @@ static int hdmi_dbg_show(struct seq_file *s, void *data)
+ 	return 0;
+ }
+ 
+-static struct drm_info_list hdmi_debugfs_files[] = {
+-	{ "hdmi", hdmi_dbg_show, 0, NULL },
+-};
+-
+-static void hdmi_debugfs_init(struct sti_hdmi *hdmi, struct drm_minor *minor)
++static void hdmi_debugfs_init(struct sti_hdmi *hdmi, struct drm_connector *connector)
+ {
+-	unsigned int i;
+-
+-	for (i = 0; i < ARRAY_SIZE(hdmi_debugfs_files); i++)
+-		hdmi_debugfs_files[i].data = hdmi;
+-
+-	drm_debugfs_create_files(hdmi_debugfs_files,
+-				 ARRAY_SIZE(hdmi_debugfs_files),
+-				 minor->debugfs_root, minor);
++	drm_debugfs_connector_add_file(connector, "hdmi", hdmi_dbg_show, hdmi);
+ }
+ 
+ static void sti_hdmi_disable(struct drm_bridge *bridge)
+@@ -1120,7 +1109,7 @@ static int sti_hdmi_late_register(struct drm_connector *connector)
+ 		= to_sti_hdmi_connector(connector);
+ 	struct sti_hdmi *hdmi = hdmi_connector->hdmi;
+ 
+-	hdmi_debugfs_init(hdmi, hdmi->drm_dev->primary);
++	hdmi_debugfs_init(hdmi, connector);
+ 
+ 	return 0;
+ }
 -- 
 2.39.0
 
