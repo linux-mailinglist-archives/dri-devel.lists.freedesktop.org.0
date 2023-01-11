@@ -1,90 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 855EA666689
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 23:56:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3342E66668A
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 23:56:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B141110E830;
-	Wed, 11 Jan 2023 22:56:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F55B10E834;
+	Wed, 11 Jan 2023 22:56:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76F4D10E825
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 22:56:50 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id x10so21645718edd.10
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 14:56:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fYVYmrm8qRKhdfjNxir61IMwTDz9ljMKT2wwPAIP+WQ=;
- b=Xhqr3JG2Kex0yJQiWOcc0PM+7tyhQNxjCcJ7T8wz62d+5YQPT9Rtd4nC10zyoXLoMT
- 4/vmihyklfSrZDCiyctpeidBCrvuTcUZqgtWDQJyCNaXgm6+tkBSAvDANuhYpWOmJyom
- dC+q84M7rFuFBjEUHK9o1KYkMoO2Zcisjc0WI=
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB8E510E830
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 22:56:49 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id bq39so25844144lfb.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 14:56:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=VRHfe7+oqQo3PR0iB4Sq4HE88hbM8IdnEc2KIv4oSKA=;
+ b=B3nMlJ91BxxZKXIyJeRUpLJ6ssk7ksEk1VlX3JYJPEJ+PjwOdlu/b8aqYb64gsAdz2
+ StWoURYfQE2ZuSet9nx8rrjHqmFlHQ305FBHqrdhIV+UiF7zqP3Ypv64vfxxzcXVBPG+
+ LsMFk4DT5RLeQvTZlDcJWycTjj9L3818n7BmJTjw74GcjIm4/BO8TgcEntmRwwoxnw0y
+ jMSt4crwss3am3sLRcccXcMOIwD27TnI3ETIpRUKTjlUQa1nDYlocr9Bx4qOqzrzhRi+
+ +wawjnEEl3fGYSc3OdjfIjJdycLF2IICCxDmkOAMGA5qK6d2chd4X2euQx4pBAy2IjhX
+ guyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fYVYmrm8qRKhdfjNxir61IMwTDz9ljMKT2wwPAIP+WQ=;
- b=GWGjw1uFuPBg0fjkdq7SO+Ce1TgSY7rtiyJZoFchhYN8gkiPwbFgsV3Z9U4RyPTMKj
- +7vnCkeu2/C83x3UCqv/0FeZR2HYa6/O5kRHh3GVplV5kltbcp9XDMfTTcdJPsHGpCvp
- 211CDGyUxbxuOq63cKtihb/GhQG/l48v/L2u5OAZiXJkDFtaIzyuQVrw2KD7Dx/MSMC5
- 6eu8hxDC6M5VCdJN5ZA/ztlJjSnRXOstAh9T6KaM+0TfZgy3vBbwCxb40l2gcDaXeMs1
- xpiOsOFiWEVOYLiL062/FXIfb1hbgpF1KNYsvuzHdsQBR6GK/wXoTRPvn8e3owKBP9rl
- 8x4w==
-X-Gm-Message-State: AFqh2kpT9NT2mNlmhYfo84fljIU5tZbvNjZ24bnHi3J2U2kDou2oyXg6
- IpJT/F6txznsB37mupAbhoU5/Q==
-X-Google-Smtp-Source: AMrXdXvtJyhkyJcdGojea7328ZHYfQqEgGWt5WiLp900ZLPEIaZSTCU8Uhtlcr1KkDcOMzby5I7CqA==
-X-Received: by 2002:a05:6402:48c:b0:483:d49f:e26c with SMTP id
- k12-20020a056402048c00b00483d49fe26cmr54924068edv.15.1673477808940; 
+ bh=VRHfe7+oqQo3PR0iB4Sq4HE88hbM8IdnEc2KIv4oSKA=;
+ b=C2V54fqH8AH35ChiC7Ut1+6d8zEpdSTi5QYAPO6HIkdprDPnOI3dAgvWcnv+EVwmLZ
+ yCVQZSOCp4b/nlEFVXDiunAi0CUiqQR1KYRj1zq0Nusmcf/KsgCfPtFcoxsm2WuOIyyC
+ nzMgpUhX08DH4z5wpNX6Bq5RVvOWxG+BhlXROmrfBfI4ahjglaQlA5PPxcBd1x0MpYf3
+ Parql/SQjftA4mwOMHFE8V0bICPe7VxR8SLGcLAMMW05XCUnVi6746KzsDNZ54yrqP8/
+ KlNrXRugrX5gny80tpF5sb4vLh+MlhnaQcsdghg16EPojYfEGHtkvtBJ2qrIfOUuJERe
+ 0OXQ==
+X-Gm-Message-State: AFqh2kochAl8BU3CpkltlFE+bDT/tZIC2rv87efMkQafO7YRm2BsTB0g
+ 209RDyRR60XmOrOQCNdxMB3ZDK0LF1ZrJ+ie
+X-Google-Smtp-Source: AMrXdXsG4m5IHD45bBBL9zlsHY+CD2b1hJAsDpKlAk0RRJe4FJiaQuuTocxM1suhZYyspPDHNHN4ww==
+X-Received: by 2002:a05:6512:1104:b0:4af:5088:959c with SMTP id
+ l4-20020a056512110400b004af5088959cmr22826768lfg.2.1673477808028; 
  Wed, 11 Jan 2023 14:56:48 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- a3-20020aa7cf03000000b0049019b48373sm6549362edy.85.2023.01.11.14.56.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Jan 2023 14:56:48 -0800 (PST)
-Date: Wed, 11 Jan 2023 23:56:45 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Shakeel Butt <shakeelb@google.com>
-Subject: Re: [PATCH 0/4] Track exported dma-buffers with memcg
-Message-ID: <Y78+rfzXPq5XGs9O@phenom.ffwll.local>
-Mail-Followup-To: Shakeel Butt <shakeelb@google.com>,
- "T.J. Mercier" <tjmercier@google.com>, Tejun Heo <tj@kernel.org>,
- Zefan Li <lizefan.x@bytedance.com>,
- Johannes Weiner <hannes@cmpxchg.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
- Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
- Joel Fernandes <joel@joelfernandes.org>,
- Christian Brauner <brauner@kernel.org>,
- Carlos Llamas <cmllamas@google.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Michal Hocko <mhocko@kernel.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Muchun Song <muchun.song@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Eric Paris <eparis@parisplace.org>, android-mm@google.com,
- jstultz@google.com, cgroups@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
- linux-security-module@vger.kernel.org, selinux@vger.kernel.org
-References: <20230109213809.418135-1-tjmercier@google.com>
- <CALvZod4ru7F38tAO-gM9ZFKaEhS0w3KqFbPwhwcTvgJs4xMUow@mail.gmail.com>
+ q6-20020a056512210600b004b55c1b5c66sm2941927lfr.157.2023.01.11.14.56.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Jan 2023 14:56:47 -0800 (PST)
+Message-ID: <2304c252-354a-f214-3f89-7797110fc416@linaro.org>
+Date: Thu, 12 Jan 2023 00:56:46 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALvZod4ru7F38tAO-gM9ZFKaEhS0w3KqFbPwhwcTvgJs4xMUow@mail.gmail.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2 2/2] drm/msm/dsi: implement opp table based check for
+ dsi_mgr_bridge_mode_valid()
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
+References: <20230111225257.7510-1-quic_abhinavk@quicinc.com>
+ <20230111225257.7510-2-quic_abhinavk@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230111225257.7510-2-quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,105 +77,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, daniel.vetter@ffwll.ch,
- Roman Gushchin <roman.gushchin@linux.dev>, Carlos Llamas <cmllamas@google.com>,
- dri-devel@lists.freedesktop.org, Michal Hocko <mhocko@kernel.org>,
- linux-mm@kvack.org, jstultz@google.com, Zefan Li <lizefan.x@bytedance.com>,
- cgroups@vger.kernel.org, Joel Fernandes <joel@joelfernandes.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, android-mm@google.com,
- Paul Moore <paul@paul-moore.com>, Jonathan Corbet <corbet@lwn.net>,
- Martijn Coenen <maco@android.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>, Todd Kjos <tkjos@android.com>,
- selinux@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Eric Paris <eparis@parisplace.org>, Suren Baghdasaryan <surenb@google.com>,
- "T.J. Mercier" <tjmercier@google.com>, Christian Brauner <brauner@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Muchun Song <muchun.song@linux.dev>, linux-security-module@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-media@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ quic_jesszhan@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 09, 2023 at 04:18:12PM -0800, Shakeel Butt wrote:
-> Hi T.J.,
+On 12/01/2023 00:52, Abhinav Kumar wrote:
+> Currently there is no protection against a user trying to set
+> an unsupported mode on DSI. Implement a check based on the opp
+> table whether the byte clock for the mode can be supported by
+> validating whether an opp table entry exists.
 > 
-> On Mon, Jan 9, 2023 at 1:38 PM T.J. Mercier <tjmercier@google.com> wrote:
-> >
-> > Based on discussions at LPC, this series adds a memory.stat counter for
-> > exported dmabufs. This counter allows us to continue tracking
-> > system-wide total exported buffer sizes which there is no longer any
-> > way to get without DMABUF_SYSFS_STATS, and adds a new capability to
-> > track per-cgroup exported buffer sizes. The total (root counter) is
-> > helpful for accounting in-kernel dmabuf use (by comparing with the sum
-> > of child nodes or with the sum of sizes of mapped buffers or FD
-> > references in procfs) in addition to helping identify driver memory
-> > leaks when in-kernel use continually increases over time. With
-> > per-application cgroups, the per-cgroup counter allows us to quickly
-> > see how much dma-buf memory an application has caused to be allocated.
-> > This avoids the need to read through all of procfs which can be a
-> > lengthy process, and causes the charge to "stick" to the allocating
-> > process/cgroup as long as the buffer is alive, regardless of how the
-> > buffer is shared (unless the charge is transferred).
-> >
-> > The first patch adds the counter to memcg. The next two patches allow
-> > the charge for a buffer to be transferred across cgroups which is
-> > necessary because of the way most dmabufs are allocated from a central
-> > process on Android. The fourth patch adds a SELinux hook to binder in
-> > order to control who is allowed to transfer buffer charges.
-> >
-> > [1] https://lore.kernel.org/all/20220617085702.4298-1-christian.koenig@amd.com/
-> >
+> For devices which have not added opp table support yet, skip
+> this check otherwise it will break bootup on those devices.
 > 
-> I am a bit confused by the term "charge" used in this patch series.
-> From the patches, it seems like only a memcg stat is added and nothing
-> is charged to the memcg.
+> changes in v2:
+> 	- drop dev_pm_opp_get_opp_table() usage
 > 
-> This leads me to the question: Why add this stat in memcg if the
-> underlying memory is not charged to the memcg and if we don't really
-> want to limit the usage?
+> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/15
+> Reported-by: Rob Clark <robdclark@gmail.com>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/dsi/dsi_manager.c | 25 +++++++++++++++++++++++++
+>   1 file changed, 25 insertions(+)
 > 
-> I see two ways forward:
-> 
-> 1. Instead of memcg, use bpf-rstat [1] infra to implement the
-> per-cgroup stat for dmabuf. (You may need an additional hook for the
-> stat transfer).
-> 
-> 2. Charge the actual memory to the memcg. Since the size of dmabuf is
-> immutable across its lifetime, you will not need to do accounting at
-> page level and instead use something similar to the network memory
-> accounting interface/mechanism (or even more simple). However you
-> would need to handle the reclaim, OOM and charge context and failure
-> cases. However if you are not looking to limit the usage of dmabuf
-> then this option is an overkill.
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> index 3a1417397283..c4c24dabfd6f 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> @@ -450,6 +450,31 @@ static enum drm_mode_status dsi_mgr_bridge_mode_valid(struct drm_bridge *bridge,
+>   	int id = dsi_mgr_bridge_get_id(bridge);
+>   	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
+>   	struct mipi_dsi_host *host = msm_dsi->host;
+> +	struct platform_device *pdev = msm_dsi->pdev;
+> +	struct dev_pm_opp *opp;
+> +	unsigned long byte_clk_rate;
+> +
+> +	byte_clk_rate = dsi_byte_clk_get_rate(host, IS_BONDED_DSI(), mode);
+> +
+> +	/*
+> +	 * If dev_pm_opp_find_freq_ceil() returns -EINVAL, its a bad
+> +	 * pointer being passed, so treat as an error and return MODE_ERROR
+> +	 *
+> +	 * If dev_pm_opp_find_freq_ceil() returns -ERANGE, no clock
+> +	 * was found matching the byte_clk, so return MODE_CLOCK_RANGE
+> +	 *
+> +	 * If dev_pm_opp_find_freq_ceil() returns -ENODEV, don't treat
+> +	 * it as an error as it could mean opp table is not implemented
+> +	 */
 
-I think eventually, at least for other "account gpu stuff in cgroups" use
-case we do want to actually charge the memory.
+I'd say, too lengthy and verbose.
 
-The problem is a bit that with gpu allocations reclaim is essentially "we
-pass the error to userspace and they get to sort the mess out". There are
-some exceptions (some gpu drivers to have shrinkers) would we need to make
-sure these shrinkers are tied into the cgroup stuff before we could enable
-charging for them?
+> +	opp = dev_pm_opp_find_freq_ceil(&pdev->dev, &byte_clk_rate);
+> +	if (IS_ERR(opp)) {
+> +		if (PTR_ERR(opp) == -EINVAL)
+> +			return MODE_ERROR;
+> +		else if (PTR_ERR(opp) == -ERANGE)
+> +			return MODE_CLOCK_RANGE;
 
-Also note that at least from the gpu driver side this is all a huge
-endeavour, so if we can split up the steps as much as possible (and get
-something interim useable that doesn't break stuff ofc), that is
-practically need to make headway here. TJ has been trying out various
-approaches for quite some time now already :-/
--Daniel
+I think the logic should be quite opposite. Ignore -ENODEV, handle 
+-ERANGE and return MODE_ERROR for all other errors. In your code you are 
+ignoring not only -ENODEV, but all other possible errors which can be 
+added in future.
 
-> Please let me know if I misunderstood something.
-> 
-> [1] https://lore.kernel.org/all/20220824233117.1312810-1-haoluo@google.com/
-> 
-> thanks,
-> Shakeel
+> +	} else {
+> +		dev_pm_opp_put(opp);
+> +	}
+>   
+>   	return msm_dsi_host_check_dsc(host, mode);
+>   }
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+With best wishes
+Dmitry
+
