@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC7D6650C2
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 01:57:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B07F6650C3
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 01:57:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28ADE10E6BF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F03910E6C5;
 	Wed, 11 Jan 2023 00:57:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E656410E0F2;
- Wed, 11 Jan 2023 00:56:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98E6210E065;
+ Wed, 11 Jan 2023 00:56:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673398613; x=1704934613;
+ t=1673398614; x=1704934614;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=hie6UkFuZrRxe31GoCNLgt3fSghq5EjDkfOH9SLyXSM=;
- b=Rxibb632/LrFNkiXpwRuDUVXxtFyoo0HvAs+o/AIV2iCL1RtTXDFfNeC
- rj8zAx4rq4Uv+M2MkIa8ER2Iq3Ss2Q1oAZHLBmsBybKWouO5MaF6TH/RB
- 6FCe8Nxwr7rk7v6dKCMvWtH8aUYGRay90OeaJzzeJFvG6rt5lS8v8UE17
- UgdUuWbcC6C/0FuLHctUxJ5uOWOOM81/qiQ98+m2c0x6Goc+9bbRIq3C/
- 8rmpNQH+w+TYY3TNXJobDstDuXbXK5IBe/SZbds87PgjWx+80e4uvo69N
- v4ISEJK3maVm2oOVWpfJJZ9MF6bXutGJrtiUdcxTsAsRL2CRr4Yh5WIdj A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="325307097"
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="325307097"
+ bh=VeSuKaRtq2zgVvizWh1CKvh/fjXeVsukuAWfPM/SmXc=;
+ b=GLxX/tptnVsez4kgbAYqydDH0qk4dwasnf5uSVb1gYTmoAhz9yeo1oVc
+ mtBxgqFG0aQNVv+dMz5tGzAn6CGQooYivrQGAoH27V7QaYyBoCyEXoxGX
+ 0gx4P99WKTe/luHmQ+7dg72uW3DbO2UV+C1YfgTzenlY6rERpGdGPizgh
+ 8rs816RF2+BNGFri/Y24iuNUNlBIipoJDeEHgg5sKHRI48h8op3kYjhav
+ kNRfq6NY2kJADKBO9eAy3y6tUgJaWLl5fy0wCSRlLJ5KOPxfY40aICNn1
+ 98tc5C5kVRxDeM+hzytN024OqBT0fudsWqEhyehl55zhgVLy6UYIpUfJR g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="325307101"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="325307101"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2023 16:56:53 -0800
+ 10 Jan 2023 16:56:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="831175664"
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="831175664"
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="831175669"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; d="scan'208";a="831175669"
 Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
  by orsmga005.jf.intel.com with ESMTP; 10 Jan 2023 16:56:53 -0800
 From: Alan Previn <alan.previn.teres.alexis@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 7/9] drm/i915/pxp: MTL-KCR interrupt ctrl's are in GT-0
-Date: Tue, 10 Jan 2023 16:56:38 -0800
-Message-Id: <20230111005642.300761-9-alan.previn.teres.alexis@intel.com>
+Subject: [PATCH 7/9] drm/i915/pxp: MTL-KCR is in media-tile but IRQ-ctrl's in
+ root
+Date: Tue, 10 Jan 2023 16:56:39 -0800
+Message-Id: <20230111005642.300761-10-alan.previn.teres.alexis@intel.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230111005642.300761-1-alan.previn.teres.alexis@intel.com>
 References: <20230111005642.300761-1-alan.previn.teres.alexis@intel.com>
@@ -63,15 +64,10 @@ Cc: Juston Li <justonli@chromium.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Despite KCR subsystem being in the media-tile (close to the
-GSC-CS), the IRQ controls for it are on GT-0 with other global
-IRQ controls. Thus, add a helper for KCR hw interrupt
-enable/disable functions to get the correct gt structure (for
-uncore) for MTL.
-
-In the helper, we get GT-0's handle for uncore when touching
-IRQ registers despite the pxp->ctrl_gt being the media-tile.
-No difference for legacy of course.
+Add a helper for KCR hw interrupt enable/disable functions.
+For MTL onwards, it will get the GT-0's handle including the
+uncore fw bits and use that despite the pxp->ctrl_gt being
+the media-tile. No difference for legacy of course.
 
 Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 ---
