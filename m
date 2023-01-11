@@ -2,77 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 530576660C0
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 17:39:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E736660CC
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 17:41:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 930EA10E797;
-	Wed, 11 Jan 2023 16:39:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EB3110E798;
+	Wed, 11 Jan 2023 16:41:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF8E710E7A7
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 16:39:35 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id B7958320093B;
- Wed, 11 Jan 2023 11:39:30 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 11 Jan 2023 11:39:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1673455170; x=
- 1673541570; bh=9mqaxzOXYaICyiwGPPEV14FUD/Q48iBQQ4un3VSJvDk=; b=h
- t1LpWN/kSDuwXH+linOSRFR/khwR12nX73rU3oD+14h3OjZ8RrK+ZTAVDYHgH8dl
- pMbN+uyVixl6gRtss/M8NmGuNi2fBOscXJnyvEE24Bh4igbXHXKFI9uW5+uzLpkJ
- auv8RKiOZzq+RtGnZkt7wPPvFdvWMQSJctlIFe3peg/fPTm+YGfAlFuvt+r3oxtX
- uM0+sQVxX7+ZMjNFDRETC0fJDYKnDcWuKqzo4b/lHP0Q0KateGg7SVmx/SW8DLAh
- 4oUXWLacZK9FDL23ty9vykquQw8LvUtpW3tqhSLYIYhjGPcHMK4SmPs94AbNtIk8
- CjLE1p8NGeWPxWNhPRA0g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673455170; x=
- 1673541570; bh=9mqaxzOXYaICyiwGPPEV14FUD/Q48iBQQ4un3VSJvDk=; b=A
- s6kdqj68/tCyxkKvVQLyds7f1C81eVf2IYx3f8OO/UisEJ1VjY686rZ4cH6sJY/7
- HeMBeaRlIvwbWCqK3cEwMEX4b1o4kiweLjKoMRMxObCWRU7+S8XdJkWKxsYOa+Ds
- /GQn4lyHykaMBShpOabrF0MveNYjVuCxqrDaItiLDadh+olUmUyjhGjjbhPFAdqg
- bS+TtxmeaLZQ230e6i0qH9VCiAn/qtGD9v0bU1xwnH2qde6KpTwD6OO+QaSAg2Lm
- 1xXzTMhkN6xZTkeKIwafnKFgcySIUFl1jKEcvOWrx9H3LH7hcVpUuyKj8VlR3FVc
- 9muIl2MJ0V2ziuVxI62Bg==
-X-ME-Sender: <xms:Qea-Y4ZZ1yoeze5Q7okMmJQ1vXTpZxkpndGQtL7aIN48t-ekp3h49Q>
- <xme:Qea-YzaenbtY8Et5auUFnZq2hJKkqaoLNXhu0XE_HWvC2ADVWgMf7RtDKLJDAmafa
- cFqZU391UJxBWBMzpg>
-X-ME-Received: <xmr:Qea-Yy85aSP0SPHv4-wPhxp0OW1Obm7WCzcce_YPS3rLzVGNFvG0mk94AQ6BVnrJAOuENCZxAnEt0croCxFqD9RWd__jaM7VgecwBi4BLi39jw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrleeggdeltdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetgfelgefggeekkefggfeludeiudffjeffgeevveekjedukedtudeuteef
- teefgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Qea-Yyr_ZFtsfhf7sYWkygT6bxiSt0i4fMgqkcuOacbWIg-kFANsjQ>
- <xmx:Qea-YzolPIp-Ft3Jw_WnDwGQcxu6RuuqDL8xHMrvwUr3IZDZeQIn2g>
- <xmx:Qea-YwSSbAMEMjfdlRiG7bVWuqRFd8yyQ0bndCeJLqSLBsR1JZQX9Q>
- <xmx:Qua-Y618eBm1bfJ4AhjcpPMPoJA5bPfQ8sgi_tBErV-yhye0zNKn1w>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 11 Jan 2023 11:39:29 -0500 (EST)
-Date: Wed, 11 Jan 2023 17:39:26 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH v9 1/4] drm: of: Add drm_of_get_dsi_bus helper function
-Message-ID: <20230111163926.k3v32pdvq7o7wxwl@houat>
-References: <20230111163012.310945-1-macroalpha82@gmail.com>
- <20230111163012.310945-2-macroalpha82@gmail.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04A9A10E798;
+ Wed, 11 Jan 2023 16:41:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673455291; x=1704991291;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=4A4ao5L2r3TfP7WL9syRLryKpdWIe2f8//dXaLYFxYA=;
+ b=QhEfOu0MSEzkNibyDC1JEnN4p6EWn0wvh4cj7vHKPZNF8qW63i8aV27s
+ UFYt0PnaobuNjNDq5l84x2XnDdMw6THnQZG1gIAKX7SCZ3AgWW8PTKJEk
+ vKkwzCM4zPFPD7smGdVWoq69Xn9WE4CnxSRUBiCqALOuK1TTv4adrCezT
+ 7j248jmV+ZX8IkDvukMBm1yzV9nybRKqRZ9vNhYWOmNXe2g3mT7j9F3Nk
+ BK8ZOXoWPCM41yEJhE1DAOQsqXWBVZKi5TzdueQNfWya58IzTk+2WB+ix
+ Vo6ZwXXSIf0fUW5AsPIWGqw4191acRZYVlKmkb+4H6dlwwh3yTZkqhX9W Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="325478902"
+X-IronPort-AV: E=Sophos;i="5.96,317,1665471600"; d="scan'208";a="325478902"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2023 08:40:20 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="688008544"
+X-IronPort-AV: E=Sophos;i="5.96,317,1665471600"; d="scan'208";a="688008544"
+Received: from mmgriffi-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.11.225])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2023 08:40:15 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [PATCH] drm/i915/pcode: Wait 10 seconds for pcode to settle
+In-Reply-To: <Y77XmlzOCuOg8YVZ@ashyti-mobl2.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230111104447.338136-1-andi.shyti@linux.intel.com>
+ <87a62pi501.fsf@intel.com> <Y77XmlzOCuOg8YVZ@ashyti-mobl2.lan>
+Date: Wed, 11 Jan 2023 18:40:13 +0200
+Message-ID: <87pmblgh3m.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230111163012.310945-2-macroalpha82@gmail.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,123 +58,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
- krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- robh+dt@kernel.org, thierry.reding@gmail.com, tzimmermann@suse.de,
- maccraft123mc@gmail.com
+Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
+ intel-gfx@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ Andi Shyti <andi@etezian.org>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, 11 Jan 2023, Andi Shyti <andi.shyti@linux.intel.com> wrote:
+> On Wed, Jan 11, 2023 at 03:18:38PM +0200, Jani Nikula wrote:
+>> On Wed, 11 Jan 2023, Andi Shyti <andi.shyti@linux.intel.com> wrote:
+>> > From: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+>> >
+>> > During module load not all the punit transaction have completed
+>> > and we might end up timing out, as shown by the following
+>> > warning:
+>> 
+>> Root cause?
+>> 
+>> >
+>> >    i915 0000:4d:00.0: drm_WARN_ON_ONCE(timeout_base_ms > 3)
+>> >
+>> > Wait 10 seconds for the punit to settle and complete any
+>> > outstanding transactions upon module load.
+>> >
+>> > Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/7814
+>> >
+>> 
+>> No blank lines between the tag lines please.
+>
+> I don't consider "Closes:" to be a tag even if someone is using
+> it as such. AFAIK is not mentioned it in any of the kernel docs
+> (e.g. Documentation/process/maintainer-tip.rst).
 
-On Wed, Jan 11, 2023 at 10:30:09AM -0600, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
->=20
-> Add helper function to find DSI host for devices where DSI panel is not
-> a minor of a DSI bus (such as the Samsung AMS495QA01 panel or the
-> official Raspberry Pi touchscreen display).
->=20
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
-> ---
->  drivers/gpu/drm/drm_of.c | 70 ++++++++++++++++++++++++++++++++++++++++
->  include/drm/drm_of.h     | 10 ++++++
->  2 files changed, 80 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-> index 7bbcb999bb75..4ebb5bc4b595 100644
-> --- a/drivers/gpu/drm/drm_of.c
-> +++ b/drivers/gpu/drm/drm_of.c
-> @@ -10,6 +10,7 @@
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_device.h>
->  #include <drm/drm_encoder.h>
-> +#include <drm/drm_mipi_dsi.h>
->  #include <drm/drm_of.h>
->  #include <drm/drm_panel.h>
-> =20
-> @@ -493,3 +494,72 @@ int drm_of_get_data_lanes_count_ep(const struct devi=
-ce_node *port,
->  	return ret;
->  }
->  EXPORT_SYMBOL_GPL(drm_of_get_data_lanes_count_ep);
-> +
-> +/**
-> + * drm_of_get_dsi_bus - find the DSI bus for a given device
-> + * @dev: parent device of display (SPI, I2C)
-> + * @info: DSI device info to be updated with correct DSI node
-> + *
-> + * Gets parent DSI bus for a DSI device controlled through a bus other
-> + * than MIPI-DCS (SPI, I2C, etc.) using the Device Tree.
-> + *
-> + * Returns pointer to mipi_dsi_host if successful, -EINVAL if the
-> + * request is unsupported, -EPROBE_DEFER if the DSI host is found but
-> + * not available, or -ENODEV otherwise.
-> + */
-> +struct mipi_dsi_host *drm_of_get_dsi_bus(struct device *dev,
-> +					 struct mipi_dsi_device_info *info)
-> +{
-> +	struct mipi_dsi_host *dsi_host;
-> +	struct device_node *endpoint, *dsi_host_node;
-> +
-> +	/*
-> +	 * Exit immediately if we attempt to call this function when
-> +	 * DRM_MIPI_DSI is not enabled, in the event CONFIG_OF is
-> +	 * enabled.
-> +	 */
-> +	if (!IS_ENABLED(CONFIG_DRM_MIPI_DSI))
-> +		return ERR_PTR(-EINVAL);
+Basically all of the Something: lines should be bundled together.
 
-The commit log isn't super clear on why this is needed, but it would be
-more consistent to add an ifdef and only compile the entire function if
-DRM_MIPI_DSI is there, just like you did for OF already.
+BR,
+Jani.
 
-> +	/*
-> +	 * Get first endpoint child from device.
-> +	 */
-> +	endpoint =3D of_graph_get_next_endpoint(dev->of_node, NULL);
-> +	if (!endpoint)
-> +		return ERR_PTR(-ENODEV);
-> +
-> +	/*
-> +	 * Follow the first endpoint to get the DSI host node.
-> +	 */
-> +	dsi_host_node =3D of_graph_get_remote_port_parent(endpoint);
+>
+> Not to confuse it with a normal tag, I wanted to put it in
+> parenthesis or rephrase it.
+>
+>> > Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+>> > Co-developed-by: Chris Wilson <chris@chris-wilson.co.uk>
+>> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>> > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+>> > ---
+>> >  drivers/gpu/drm/i915/intel_pcode.c | 35 ++++++++++++++++++++++++++----
+>> >  1 file changed, 31 insertions(+), 4 deletions(-)
+>> >
+>> > diff --git a/drivers/gpu/drm/i915/intel_pcode.c b/drivers/gpu/drm/i915/intel_pcode.c
+>> > index a234d9b4ed14..3db2ba439bb5 100644
+>> > --- a/drivers/gpu/drm/i915/intel_pcode.c
+>> > +++ b/drivers/gpu/drm/i915/intel_pcode.c
+>> > @@ -204,15 +204,42 @@ int skl_pcode_request(struct intel_uncore *uncore, u32 mbox, u32 request,
+>> >  #undef COND
+>> >  }
+>> >  
+>> > +static int pcode_init_wait(struct intel_uncore *uncore, int timeout_ms)
+>> > +{
+>> > +	if (__intel_wait_for_register_fw(uncore,
+>> > +					 GEN6_PCODE_MAILBOX,
+>> > +					 GEN6_PCODE_READY, 0,
+>> > +					 500, timeout_ms,
+>> > +					 NULL))
+>> > +		return -EPROBE_DEFER;
+>> 
+>> This is already done within skl_pcode_request -> skl_pcode_try_request
+>> -> __snb_pcode_rw path, with waits in skl_pcode_request.
+>
+> the idea is to check for PCODE_READY even before checking if
+> data are sent/received by pcode. And this is only during boot
+> time. While skl_pcode_request is called in other contexts as
+> well.
+>
+> In other words here I want to start the communication when I
+> already know that the punit is ready. Otherwise I would hit an
+> -EAGAIN and fail.
+>
+>> Is there anyone who still understands what's being waited for, where,
+>> for how long, and why in the different code paths? I know I don't, and
+>> this isn't helping.
+>
+> I think it depends on hardware. There are some documents roaming
+> around with some boot time and reset time calculation.
+>
+>> There's also no explanation on the -EPROBE_DEFER return in the commit
+>> message or comments or anywhere.
+>
+> we haven't really failed, right? We just need some time for the
+> punit to be ready and try to probe again (remember we are here in
+> module probe).
+>
+> Thanks for the review,
+> Andi
+>
+>> Again, root cause?
+>> 
+>> BR,
+>> Jani.
+>> 
+>> 
+>> > +
+>> > +	return skl_pcode_request(uncore,
+>> > +				 DG1_PCODE_STATUS,
+>> > +				 DG1_UNCORE_GET_INIT_STATUS,
+>> > +				 DG1_UNCORE_INIT_STATUS_COMPLETE,
+>> > +				 DG1_UNCORE_INIT_STATUS_COMPLETE, timeout_ms);
+>> > +}
+>> > +
+>> >  int intel_pcode_init(struct intel_uncore *uncore)
+>> >  {
+>> > +	int err;
+>> > +
+>> >  	if (!IS_DGFX(uncore->i915))
+>> >  		return 0;
+>> >  
+>> > -	return skl_pcode_request(uncore, DG1_PCODE_STATUS,
+>> > -				 DG1_UNCORE_GET_INIT_STATUS,
+>> > -				 DG1_UNCORE_INIT_STATUS_COMPLETE,
+>> > -				 DG1_UNCORE_INIT_STATUS_COMPLETE, 180000);
+>> > +	/*
+>> > +	 * Wait 10 seconds so that the punit to settle and complete
+>> > +	 * any outstanding transactions upon module load
+>> > +	 */
+>> > +	err = pcode_init_wait(uncore, 10000);
+>> > +
+>> > +	if (err) {
+>> > +		drm_notice(&uncore->i915->drm,
+>> > +			   "Waiting for HW initialisation...\n");
+>> > +		err = pcode_init_wait(uncore, 180000);
+>> > +	}
+>> > +
+>> > +	return err;
+>> >  }
+>> >  
+>> >  int snb_pcode_read_p(struct intel_uncore *uncore, u32 mbcmd, u32 p1, u32 p2, u32 *val)
+>> 
+>> -- 
+>> Jani Nikula, Intel Open Source Graphics Center
 
-There's no need to hold the reference to endpoint after that call. call
-of_node_put(endpoint) here, and it will simplify the error path.
-
-> +	if (!dsi_host_node)
-> +		goto error;
-> +
-> +	/*
-> +	 * Get the DSI host from the DSI host node. If we get an error
-> +	 * or the return is null assume we're not ready to probe just
-> +	 * yet. Release the DSI host node since we're done with it.
-> +	 */
-> +	dsi_host =3D of_find_mipi_dsi_host_by_node(dsi_host_node);
-> +	of_node_put(dsi_host_node);
-> +	if (IS_ERR_OR_NULL(dsi_host)) {
-> +		of_node_put(endpoint);
-> +		return ERR_PTR(-EPROBE_DEFER);
-> +	}
-> +
-> +	/*
-> +	 * Set the node of the mipi_dsi_device_info to the correct node
-> +	 * and then release the endpoint node since we're done with it.
-> +	 */
-> +	info->node =3D of_graph_get_remote_port(endpoint);
-
-Ah, you're using it there.
-
-I think I'd rework the function to:
-
-- retrieve the endpoint
-- retrieve the remote port, give up the endpoint
-- retrieve the remote port parent
-
-Also, I'm not entirely sure what you had in mind, but info might not be
-there at all and it would be fine imho.
-
-Maxime
+-- 
+Jani Nikula, Intel Open Source Graphics Center
