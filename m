@@ -2,73 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75D01666156
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 18:05:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE72666173
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 18:10:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54EAA10E7A7;
-	Wed, 11 Jan 2023 17:05:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBB8410E7AA;
+	Wed, 11 Jan 2023 17:10:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
- [IPv6:2607:f8b0:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D240E10E7A7
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 17:05:10 +0000 (UTC)
-Received: by mail-pl1-x632.google.com with SMTP id c6so17439726pls.4
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 09:05:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=oDP9iHBz114gTPVon7+29iOp7H+9gVmvkP1sBBtZVDA=;
- b=fJF1iA21Eh2Ps4YUG5BTSRAlKr8ewtW0a/S0d61RuFJnx5BLNsRr7So6UdDtgMe5iG
- 9WBXJelltOenGOc6m7LAPpTpasCUh002+Mfoi87hGTXHAlo79u5Y2689VNmCUoB+ZNEq
- nXnke2ST7CeYJdq2c1cv0FMX5oao34vkAePIjWt/a8zU5K2gUR1hauI8esZEUaq2mB0H
- U3VrTTIgxzQp3MLFL+Z2FLi0rgquIKmfcqQ/FT8djk+IryiB6xlR2CAQLi4A6IAMGPnF
- mSczaPgLDxyVlW0K0mBBzgVzeTlYMuLmooheNK8bJaqkobZ1NkpWcuu43dnrCB9TiyeE
- es6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oDP9iHBz114gTPVon7+29iOp7H+9gVmvkP1sBBtZVDA=;
- b=38LCxzzmlaVrp5WXeVWM3+dXU6UIXHQdObYOCt3AT8dEe0quEGy99DXOk0nLSUQQOK
- Ut7vzJGm4AyJP3kjitn/KTpxMBQv41+6V8L8AAnnBoxP1Z3E4wmRSyDbSL8N8EKs5dxz
- 8kHZkqIMa5BXNM/9K2UfwrU95rJ/4qV+muKWa2+IP1neCPSmq6vQZjIcHyxo4x/Aqs0w
- /7iYIRsynSGkyxV5gD065APQ2PIbDk8d6Pn84oist/pjOvQ+69DQS8mgdPGtdMF/7YEE
- jyNO8pmlP1ySSxpbNx+C9yoDDVx+Iy7NKIIpsODKaqNbYsI+bIEVygFnm7VANQyiWXo6
- 4tQA==
-X-Gm-Message-State: AFqh2kovFrMjcjWp3YJxjaF4t18D8CDDVSXYje6vBauwN+NtLEJ1GoXK
- Lw2MJn1i/wivioyjGHH6fbNjEQ==
-X-Google-Smtp-Source: AMrXdXvW3zNVUD8bGcENqOAYjNvZPQigzdhvIDDoRaz3qi0HGFDLAJOGIn22pNrZ1lJH0/9OE/PhFQ==
-X-Received: by 2002:a17:90b:274b:b0:219:f970:5119 with SMTP id
- qi11-20020a17090b274b00b00219f9705119mr425092pjb.1.1673456710117; 
- Wed, 11 Jan 2023 09:05:10 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- l17-20020a170903245100b001890cbd1ff1sm10482685pls.149.2023.01.11.09.05.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Jan 2023 09:05:09 -0800 (PST)
-Date: Wed, 11 Jan 2023 17:05:05 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH v1] drm/ttm: Refcount allocated tail pages
-Message-ID: <Y77sQZI0IfFVx7Jo@google.com>
-References: <8f749cd0-9a04-7c72-6a4f-a42d501e1489@amd.com>
- <5340d876-62b8-8a64-aa6d-7736c2c8710f@collabora.com>
- <594f1013-b925-3c75-be61-2d649f5ca54e@amd.com>
- <6893d5e9-4b60-0efb-2a87-698b1bcda63e@collabora.com>
- <73e5ed8d-0d25-7d44-8fa2-e1d61b1f5a04@amd.com>
- <c9d89644-409e-0363-69f0-a3b8f2ef0ae4@collabora.com>
- <6effcd33-8cc3-a4e0-3608-b9cef7a76da7@collabora.com>
- <ff28e1b4-cda2-14b8-b9bf-10706ae52cac@collabora.com>
- <48b5dd12-b0df-3cc6-a72d-f35156679844@collabora.com>
- <b1963713-4df6-956f-c16f-81a0cf1a978b@amd.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63E2D10E7A8;
+ Wed, 11 Jan 2023 17:10:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673457037; x=1704993037;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=9M+1kgkGJrifnSGap63ZE49nduDtN7MY6KdNPaRENHs=;
+ b=FKNRNYvzSe/UBC969XonLoBuWYs89vO7BDRuobFXbznRbDxa/a9BTeSf
+ CHolG2nB1FDZXPQBw6k/1fB4+YtebsMNlYwLE0E4psJ4eJM5Rcx7R2l9B
+ 0Z+rSFJuQpBECZ7OoLxSUHi9ZtyiWKl5ouV8iUqFGPxpZMgrOtAFOZI6O
+ ei8dupezHRqYOqTazTGo0wJvQKhS2yi/JrhQotOyw65OUI2+PWyj1F294
+ LshkPHMOnilsHfxOkT8bwN9CSx3jpTj1D91t8C+8gFNz5WSWmz0peZ6tu
+ AU7+5ALiQMyXeAM7YLsCT4TscUYEG4BazHF1bsYY1Ry/px1Th92z6fxlq Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="311294757"
+X-IronPort-AV: E=Sophos;i="5.96,317,1665471600"; d="scan'208";a="311294757"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2023 09:06:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="765228965"
+X-IronPort-AV: E=Sophos;i="5.96,317,1665471600"; d="scan'208";a="765228965"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga002.fm.intel.com with ESMTP; 11 Jan 2023 09:06:30 -0800
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 11 Jan 2023 09:06:30 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Wed, 11 Jan 2023 09:06:30 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.107)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Wed, 11 Jan 2023 09:06:30 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mOg/R459jwnJ5N2P0TJV/43EZfftGqy3omcg39JQmg6/MfsgxscNeILIsXho5PBIeXIeOKUlU8YSYWc9NENSDS+zUhgLYI3j9gD3hmmhbx7H6Rh3IfHc0J53VyWp6m+4VUkDsYM4mXGohDdnLzdCy1ouVdny5GqvLIhFT5Od1apOr1f+7cfjjlblJjIeV5MIRE/ZohOirROmF9a1ARDJAmBS4wuY8ukzlLyvPdPyte8U+hRX+FyQf5JMTRJG3VYFIFq1yQafPl3HH+D6zoZWQ/4L3lUFALiARIRZGS5vC9SpMBh8nphLx0yb2ufMSA4xtGxUKX7nznDHegXFduZgZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J72nKiNkSY5xgojb691tB2b7Hg6wlsZ6xxIaTJfd+SU=;
+ b=C10qSXGNJXJf/QFwn5I14dCBF4dUuWWTwq9catqRROjwl9avQacc6c8VvZcwEsuw234wy7X7uqaHXy/cZgwTypWqL7INE/LP/Fk3KKBPT+E8pTD7MICulivPesdPMLvqoVpj17Lc48WS01bEKU8hVo4wV1OcxNfQnAss0Qzy10H7N+SK/SrP0laJAx48CGOwjwMiZefbyn3416JP3cYSx4a/OwCMIrKou0G/QUOCrScjqA/c6CZ1FMntXuMWJk9gZRXaNX4DKV5g3wZttORG6BblvI2fpaW2M58Th/VzJKbeCvKvpXlNZ/02BdDwpvzAOwuj5xnTnUyiMnopXi1iew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by CH0PR11MB5297.namprd11.prod.outlook.com (2603:10b6:610:bc::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Wed, 11 Jan
+ 2023 17:06:28 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::1818:e39d:454d:a930]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::1818:e39d:454d:a930%4]) with mapi id 15.20.5986.018; Wed, 11 Jan 2023
+ 17:06:28 +0000
+Date: Wed, 11 Jan 2023 12:06:24 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/pcode: Wait 10 seconds for pcode to
+ settle
+Message-ID: <Y77skCsA2rTouT7E@intel.com>
+References: <20230111104447.338136-1-andi.shyti@linux.intel.com>
+ <Y77VBNAgY161+QNM@intel.com> <Y77YOGLaTPiZ4Opr@ashyti-mobl2.lan>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b1963713-4df6-956f-c16f-81a0cf1a978b@amd.com>
+In-Reply-To: <Y77YOGLaTPiZ4Opr@ashyti-mobl2.lan>
+X-ClientProxiedBy: BYAPR07CA0023.namprd07.prod.outlook.com
+ (2603:10b6:a02:bc::36) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|CH0PR11MB5297:EE_
+X-MS-Office365-Filtering-Correlation-Id: 81d1edc3-a076-412a-e884-08daf3f62da0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: iXcdPZwbppRrXDlLSzyjM4WEv2LMO1fpakHZ0Sh5ZDSIBOB0zkm6q9us7A3vbUnyTfaHMaRENtG8UPqVzzfvrPXNRZVDxr1vauCF5boNnrmx58C+azrxKkLlIH2WC69aPEjBvp8NVIlvOKY+G7toOdSbDsPRdGvRc9ZM7wTkgX/dTnqF6bz/sOR10iCZIk06QEJ9Grib80P9hzdajUipFdXceOiqAvJSZtX92srgS9W8408/A6OSJ5fsohdMid60Wp9SEWwEiROADmMhIPqP0zAMFFM+kr9sNUqKSa49FMDRIZGRGT454/bc4S3I8I1UAh60GLubaplhHsau8927HPUURvtULw30zuQ8+j/XyP9yQzSos/Kv14pTc7Yq2ys2zhNl8/N1qVzAzfVbmCd0EMH2irdv/20O7bLnVxGvpv1nlp233KWS5IHvfhU3E5FV/CLU6iOiIv3wc8+8xti/fyJnr40l/O2vosu3C1aKY1AIeKXOy3oQErIV5Gw9zder71ShqM3rWx3SppHGTTDHCP9u73jBh/xwJYyFo30F/pdzRe7A967mdzTbPbQW3faT4oHhKVB9HO+mXQLWXX/379xy56gtdzS/wIyb1DL7+0/ajaQpEpeJ/A8seXdaTf/28RkCbpX+vuahMBOMOIXxQQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(366004)(39860400002)(136003)(396003)(376002)(346002)(451199015)(8676002)(44832011)(186003)(316002)(26005)(5660300002)(6512007)(966005)(478600001)(6486002)(86362001)(2616005)(41300700001)(54906003)(66946007)(66556008)(66476007)(6916009)(4326008)(8936002)(83380400001)(36756003)(6666004)(6506007)(38100700002)(82960400001)(2906002)(226643001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pkJn/H15owkVGSM6AZHXPGmgnUTCHXs++9CKgaqWj8OIudgo/0GmnBNekC7c?=
+ =?us-ascii?Q?/LBvlh2ciFp0lN/ZFCTj99S+TkDow3Frc0TY7GhqEaPJTlenofEE6NCsKdkX?=
+ =?us-ascii?Q?fyZfYkP2KvGMUfGUElqyOJiU/U2YLaUVqSOOuTrWZXt/efMYu6KUoGtrX5EP?=
+ =?us-ascii?Q?YNJ193DXgT6sOkD6gSymK+OpQ5bZls+Vv+5kHL13vp+ajcVyihTLZsirsfjx?=
+ =?us-ascii?Q?/9cqZx61mZ9/Gg9OCiUiFtdjTQ+VXChT4c4gj/9y2ZB/kAtgL+EuLtY6yn5v?=
+ =?us-ascii?Q?Tmn3h7BtLm/8uuAnVeWj+bWRkvBXMurFiHvZARfDvrjMptV7+O0AZrT8eJyi?=
+ =?us-ascii?Q?DWL8hnJI8V4bCb4VfU0nBzlq7A1efmBnNXtE/cpxDY2xvIP44qSB4SYfyS0d?=
+ =?us-ascii?Q?1F8qhq9Xo4yq0c7vdf8h0MPde0tlFrOG0Nm0Dclc0I2bPhG9olOgz9RS40BX?=
+ =?us-ascii?Q?YvaqVxit3OHqotQBCNM2X0G4P15mdCcQJ8dLuJ5tLNiUH3pDAAX+ajcO1JfJ?=
+ =?us-ascii?Q?64WJp0ig6DXL5TSM0ziMjq5FGrUX9ccgreOJGqXJx1iummnMrInkjG6h/mDF?=
+ =?us-ascii?Q?ihrY0LxMV6U1SN4decOq2YJOb/RITtA3+XLnpcAhvhTexd1Lkzc22obWnC6e?=
+ =?us-ascii?Q?dMNRw3BvltKVidC7Wc7KuHKILs+hqP+ShipG2e/vAW2n5uVOYoxvWj1H+E0y?=
+ =?us-ascii?Q?lrG8zSDBV5uMeNlowa/d9t7JJtwZQ+ToCBekBXTWpeh56QHZnIEWazmpp3Qp?=
+ =?us-ascii?Q?StH8gt2s3TMUXCCxuG64gPji+k7YxUzmtSAE+zv4OESr3ZMZAQp3UwFkHzMu?=
+ =?us-ascii?Q?xPqvUxwQzMIoisgQTXYfYAyZyHbYLA5tELyTuXHqkPTzURBRg+pCUAURhMMU?=
+ =?us-ascii?Q?HUZzlvg/2x1TUXjneodZtgGNQQvKJretvaSplP/jv1amJ0/D0yeXnh3qtOcB?=
+ =?us-ascii?Q?7xvjfQ78zR1Cle6tZr7PKZT4gyiWnotNeQ+Aaqhi5spl41ZDKaGLLpgoS5xY?=
+ =?us-ascii?Q?2YHnOlKz5ERUgL2rC912X14KTbZSqjmN148ZBsDjSMRt0EBHlIep27LyC99I?=
+ =?us-ascii?Q?9u0g0AxmMLBp4GtQP1mZ2gtlXsVPiIsegxahOEUJuvdBaGxBJpeN8UKdFQK5?=
+ =?us-ascii?Q?jFraQ5acxwPKXhXTB2NZTQDJmdidb3Q7PTlKdUACPyOEFVqTjwmDSplx/S3K?=
+ =?us-ascii?Q?LZtjqW0pbrP6AyKWfUvkRzkZ52bv84EWla53ZS8QakCfgktZkCxLZu8bzVGG?=
+ =?us-ascii?Q?Xzp0vfURwTvQMXiW74lR4bxTPHSlpYvP7JJjqppJFP2EtPm2rLGJVVCT5TAH?=
+ =?us-ascii?Q?4xyy6wjNMDS+UweUFTa7v4m2pHE8TgqTTOhaOYxJ+zeJ66xA9Nfj2BsI2LA2?=
+ =?us-ascii?Q?v+Wath5AtuOmTwPMYE7rjfcynw05ZHLJWH2O1D7XbWi5U1KpH9HN32k5Ko9f?=
+ =?us-ascii?Q?s/lNzM59RbigMj2x7DeD1iTMMHe2e7gmu7ShIoo8rTbRvUbs6XpN/zuXAJ6I?=
+ =?us-ascii?Q?ihYH9eoj0HSvgBTbEGr9Bjyfk3Ph0NWhiDXsCRVxQ7kbfkPTfyfqdx57wtb0?=
+ =?us-ascii?Q?81U0x6JNzZZEr/DAx5zQWWpNC9dwmF3r6G8u0dsdUeLXX16An4XA1hJW/rRk?=
+ =?us-ascii?Q?DA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81d1edc3-a076-412a-e884-08daf3f62da0
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2023 17:06:28.2651 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lShnFcZHYweywGIjG6rFqxYfKlM0zPFL/14ka+igvq9QoXdFcp3xIkc1GrveCkv/XFADPXgdcTpAt8/Or9n5fg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5297
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,115 +144,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>, kvm@vger.kernel.org,
- David Airlie <airlied@linux.ie>,
- Antonio Caggiano <antonio.caggiano@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Gert Wollny <gert.wollny@collabora.com>, Huang Rui <ray.huang@amd.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Dmitry Osipenko <digetx@gmail.com>,
- kernel@collabora.com, virtualization@lists.linux-foundation.org,
- Trigger Huang <Trigger.Huang@gmail.com>
+Cc: intel-gfx@lists.freedesktop.org,
+ Chris Wilson <chris.p.wilson@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 18, 2022, Christian König wrote:
-> Am 18.08.22 um 01:13 schrieb Dmitry Osipenko:
-> > On 8/18/22 01:57, Dmitry Osipenko wrote:
-> > > On 8/15/22 18:54, Dmitry Osipenko wrote:
-> > > > On 8/15/22 17:57, Dmitry Osipenko wrote:
-> > > > > On 8/15/22 16:53, Christian König wrote:
-> > > > > > Am 15.08.22 um 15:45 schrieb Dmitry Osipenko:
-> > > > > > > [SNIP]
-> > > > > > > > Well that comment sounds like KVM is doing the right thing, so I'm
-> > > > > > > > wondering what exactly is going on here.
-> > > > > > > KVM actually doesn't hold the page reference, it takes the temporal
-> > > > > > > reference during page fault and then drops the reference once page is
-> > > > > > > mapped, IIUC. Is it still illegal for TTM? Or there is a possibility for
-> > > > > > > a race condition here?
-> > > > > > > 
-> > > > > > Well the question is why does KVM grab the page reference in the first
-> > > > > > place?
-> > > > > > 
-> > > > > > If that is to prevent the mapping from changing then yes that's illegal
-> > > > > > and won't work. It can always happen that you grab the address, solve
-> > > > > > the fault and then immediately fault again because the address you just
-> > > > > > grabbed is invalidated.
-> > > > > > 
-> > > > > > If it's for some other reason than we should probably investigate if we
-> > > > > > shouldn't stop doing this.
-
-...
-
-> > > > If we need to bump the refcount only for VM_MIXEDMAP and not for
-> > > > VM_PFNMAP, then perhaps we could add a flag for that to the kvm_main
-> > > > code that will denote to kvm_release_page_clean whether it needs to put
-> > > > the page?
-> > > The other variant that kind of works is to mark TTM pages reserved using
-> > > SetPageReserved/ClearPageReserved, telling KVM not to mess with the page
-> > > struct. But the potential consequences of doing this are unclear to me.
+On Wed, Jan 11, 2023 at 04:39:36PM +0100, Andi Shyti wrote:
+> Hi Rodrigo,
+> 
+> On Wed, Jan 11, 2023 at 10:25:56AM -0500, Rodrigo Vivi wrote:
+> > On Wed, Jan 11, 2023 at 11:44:47AM +0100, Andi Shyti wrote:
+> > > From: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
 > > > 
-> > > Christian, do you think we can do it?
-> > Although, no. It also doesn't work with KVM without additional changes
-> > to KVM.
+> > > During module load not all the punit transaction have completed
+> > > and we might end up timing out, as shown by the following
+> > > warning:
+> > > 
+> > >    i915 0000:4d:00.0: drm_WARN_ON_ONCE(timeout_base_ms > 3)
+> > > 
+> > > Wait 10 seconds for the punit to settle and complete any
+> > > outstanding transactions upon module load.
+> > 
+> > 10 *SECONDS* ?!
 > 
-> Well my fundamental problem is that I can't fit together why KVM is grabing
-> a page reference in the first place.
-
-It's to workaround a deficiency in KVM.
-
-> See the idea of the page reference is that you have one reference is that
-> you count the reference so that the memory is not reused while you access
-> it, e.g. for I/O or mapping it into different address spaces etc...
+> Don't be alarmed :)
 > 
-> But none of those use cases seem to apply to KVM. If I'm not totally
-> mistaken in KVM you want to make sure that the address space mapping, e.g.
-> the translation between virtual and physical address, don't change while you
-> handle it, but grabbing a page reference is the completely wrong approach
-> for that.
+> It's up to 10 seconds, otherwise we would end up waiting up to 3
+> minutes.
+> 
+> And I've seen a version (and you did as well) where those 3
+> minutes were raised to 6 (for the PVC particular case).
 
-TL;DR: 100% agree, and we're working on fixing this in KVM, but were still months
-away from a full solution.
+Oh yeap! and that case is funny! Because the indication from PCODE
+is that 10 seconds is enough, but there are some rare cases where
+it gets stuck and end up taking a very long time. Then they multiplied
+the bad rare case to 3, and no idea why how that become 6.
 
-Yep.  KVM uses mmu_notifiers to react to mapping changes, with a few caveats that
-we are (slowly) fixing, though those caveats are only tangentially related.
+But anyway, thanks for refreshing my memory. When I first noticed this
+patch I thought it was in all the platforms, where this wouldn't make
+sense. But on discrete where the pcode needs to bring the memory and
+gt up before we can really use it, it makes sense.
 
-The deficiency in KVM is that KVM's internal APIs to translate a virtual address
-to a physical address spit out only the resulting host PFN.  The details of _how_
-that PFN was acquired are not captured.  Specifically, KVM loses track of whether
-or not a PFN was acquired via gup() or follow_pte() (KVM is very permissive when
-it comes to backing guest memory).
+And then I noticed that your patch is indeed for dgfx only, so it
+would be okay. And 10 seconds is okay.
 
-Because gup() gifts the caller a reference, that means KVM also loses track of
-whether or not KVM holds a page refcount.  To avoid pinning guest memory, KVM does
-quickly put the reference gifted by gup(), but because KVM doesn't _know_ if it
-holds a reference, KVM uses a heuristic, which is essentially "is the PFN associated
-with a 'normal' struct page?".
+However I also noticed that you do this before the other pcode_init
+check that we were told by pcode folks to use. So, I don't understand
+how your patch is helping now... you wait for 10 seconds and then you
+will wait more 10 seconds on the pcode_ready... why the pcode_ready
+check that we have in case already doesn't cover yours?
 
-   /*
-    * Returns a 'struct page' if the pfn is "valid" and backed by a refcounted
-    * page, NULL otherwise.  Note, the list of refcounted PG_reserved page types
-    * is likely incomplete, it has been compiled purely through people wanting to
-    * back guest with a certain type of memory and encountering issues.
-    */
-   struct page *kvm_pfn_to_refcounted_page(kvm_pfn_t pfn)
+And why that return?
 
-That heuristic also triggers if follow_pte() resolves to a PFN that is associated
-with a "struct page", and so to avoid putting a reference it doesn't own, KVM does
-the silly thing of manually getting a reference immediately after follow_pte().
-
-And that in turn gets tripped up non-refcounted tail pages because KVM sees a
-normal, valid "struct page" and assumes it's refcounted.  To fudge around that
-issue, KVM requires "struct page" memory to be refcounted.
-
-The long-term solution is to refactor KVM to precisely track whether or not KVM
-holds a reference.  Patches have been prosposed to do exactly that[1], but they
-were put on hold due to the aforementioned caveats with mmu_notifiers.  The
-caveats are that most flows where KVM plumbs a physical address into hardware
-structures aren't wired up to KVM's mmu_notifier.
-
-KVM could support non-refcounted struct page memory without first fixing the
-mmu_notifier issues, but I was (and still am) concerned that that would create an
-even larger hole in KVM until the mmu_notifier issues are sorted out[2].
- 
-[1] https://lore.kernel.org/all/20211129034317.2964790-1-stevensd@google.com
-[2] https://lore.kernel.org/all/Ydhq5aHW+JFo15UF@google.com
+> 
+> Thanks for checking this,
+> Andi
+> 
+> > > 
+> > > Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/7814
+> > > 
+> > > Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+> > > Co-developed-by: Chris Wilson <chris@chris-wilson.co.uk>
+> > > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> > > ---
+> > >  drivers/gpu/drm/i915/intel_pcode.c | 35 ++++++++++++++++++++++++++----
+> > >  1 file changed, 31 insertions(+), 4 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/intel_pcode.c b/drivers/gpu/drm/i915/intel_pcode.c
+> > > index a234d9b4ed14..3db2ba439bb5 100644
+> > > --- a/drivers/gpu/drm/i915/intel_pcode.c
+> > > +++ b/drivers/gpu/drm/i915/intel_pcode.c
+> > > @@ -204,15 +204,42 @@ int skl_pcode_request(struct intel_uncore *uncore, u32 mbox, u32 request,
+> > >  #undef COND
+> > >  }
+> > >  
+> > > +static int pcode_init_wait(struct intel_uncore *uncore, int timeout_ms)
+> > > +{
+> > > +	if (__intel_wait_for_register_fw(uncore,
+> > > +					 GEN6_PCODE_MAILBOX,
+> > > +					 GEN6_PCODE_READY, 0,
+> > > +					 500, timeout_ms,
+> > > +					 NULL))
+> > > +		return -EPROBE_DEFER;
+> > > +
+> > > +	return skl_pcode_request(uncore,
+> > > +				 DG1_PCODE_STATUS,
+> > > +				 DG1_UNCORE_GET_INIT_STATUS,
+> > > +				 DG1_UNCORE_INIT_STATUS_COMPLETE,
+> > > +				 DG1_UNCORE_INIT_STATUS_COMPLETE, timeout_ms);
+> > > +}
+> > > +
+> > >  int intel_pcode_init(struct intel_uncore *uncore)
+> > >  {
+> > > +	int err;
+> > > +
+> > >  	if (!IS_DGFX(uncore->i915))
+> > >  		return 0;
+> > >  
+> > > -	return skl_pcode_request(uncore, DG1_PCODE_STATUS,
+> > > -				 DG1_UNCORE_GET_INIT_STATUS,
+> > > -				 DG1_UNCORE_INIT_STATUS_COMPLETE,
+> > > -				 DG1_UNCORE_INIT_STATUS_COMPLETE, 180000);
+> > > +	/*
+> > > +	 * Wait 10 seconds so that the punit to settle and complete
+> > > +	 * any outstanding transactions upon module load
+> > > +	 */
+> > > +	err = pcode_init_wait(uncore, 10000);
+> > > +
+> > > +	if (err) {
+> > > +		drm_notice(&uncore->i915->drm,
+> > > +			   "Waiting for HW initialisation...\n");
+> > > +		err = pcode_init_wait(uncore, 180000);
+> > > +	}
+> > > +
+> > > +	return err;
+> > >  }
+> > >  
+> > >  int snb_pcode_read_p(struct intel_uncore *uncore, u32 mbcmd, u32 p1, u32 p2, u32 *val)
+> > > -- 
+> > > 2.34.1
+> > > 
