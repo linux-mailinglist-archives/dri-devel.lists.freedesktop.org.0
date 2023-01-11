@@ -1,49 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D71665B5A
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 13:29:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C045665B88
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 13:37:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 488BB10E298;
-	Wed, 11 Jan 2023 12:29:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3629410E00D;
+	Wed, 11 Jan 2023 12:37:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E392F10E298
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 12:29:05 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 49C6B61CC6;
- Wed, 11 Jan 2023 12:29:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7004FC433D2;
- Wed, 11 Jan 2023 12:29:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1673440144;
- bh=Zscbi5g8KaLoxtqKTYTy4v+bGIgrfP5nEZUwDmWu4fk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=q/JK1rDKHYHvhajygf8w2mRW7bMgVgUH371tQZ88bFcNbixMBZAxLFSALrT2UDs3U
- 6K8/8oxZLnMz3x7nh2jq3/MZ+CUaRUaFJYW7Q7lH0eSBnQdanynH3q02mFxJ4y/Xpx
- ddxMtPWrOJGgLsZ1UMh0wbHwaEKw69eDLBaHEDQ+X8jpgLHTK5qyboL8RW79Ymp+sV
- p3BzBmpCthJfVLY02wHyti3OQ7na5Y027dZ+vDHqN9gNq0te3IBkBl1g1bStQgJVCi
- j/NyxJqDNJm2CSXGEcHXG8wj7sWDGcPdnotZZkDNhNtg6vHzuhzisPWlGNUUFasEoj
- BAwxQQCCLgU9g==
-Date: Wed, 11 Jan 2023 12:28:58 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: next-20230110: arm64: defconfig+kselftest config boot failed -
- Unable to handle kernel paging request at virtual address fffffffffffffff8
-Message-ID: <Y76rijHJ3KAZ6D9C@sirena.org.uk>
-References: <CA+G9fYsns3krivbPSjQ1c1EQpVyd-bkW84MaUvqMTQr9c=iEaw@mail.gmail.com>
- <77342621-d67f-4d47-a33b-6f721576bf9d@app.fastmail.com>
- <19423616-79d4-9478-c6df-4f226f87a27f@linaro.org>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25FF810E00D
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 12:37:20 +0000 (UTC)
+X-UUID: ad6b88cc91ac11eda06fc9ecc4dadd91-20230111
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=Sr+PIg3JVKq3dP3YdqVRBlMxm/APW0FS9VzxDQ6sE/c=; 
+ b=jpknjceJY1Vw1iM8Z0GnyoonmRDDG/tDGGIzC7TZYuE08CCadIgLzbVrnZA3ClgcNgXDLIWUZYWibtQXP6Bhhk5tz/63Im9cgW2DjdFKwrerbAY5S+c48qjDYQJ53+8bx/88WhzUXJurQReH98sAlMkvhHuEjoSPOYW9nabSUBs=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.17, REQID:4e93d748-071d-49ac-b5a8-a11accca12ed, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:95
+X-CID-INFO: VERSION:1.1.17, REQID:4e93d748-071d-49ac-b5a8-a11accca12ed, IP:0,
+ URL
+ :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
+ :quarantine,TS:95
+X-CID-META: VersionHash:543e81c, CLOUDID:505b5b54-dd49-462e-a4be-2143a3ddc739,
+ B
+ ulkID:2301112037169N1MZ4T9,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48,TC:n
+ il,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
+ I:0,OSA:0
+X-CID-APTURL: Status:success,Category:nil,Trust:0,Unknown:0,Malicious:0
+X-CID-BVR: 0
+X-UUID: ad6b88cc91ac11eda06fc9ecc4dadd91-20230111
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <allen-kh.cheng@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 848764774; Wed, 11 Jan 2023 20:37:14 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Wed, 11 Jan 2023 20:37:13 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Wed, 11 Jan 2023 20:37:13 +0800
+From: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Stephen Boyd <sboyd@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 0/9] Add and update some driver nodes for MT8186 SoC
+Date: Wed, 11 Jan 2023 20:37:02 +0800
+Message-ID: <20230111123711.32020-1-allen-kh.cheng@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="OZN5I8D63BKoaTA7"
-Content-Disposition: inline
-In-Reply-To: <19423616-79d4-9478-c6df-4f226f87a27f@linaro.org>
-X-Cookie: Life is not for everyone.
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,61 +73,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Aishwarya TCV <aishwarya.tcv@arm.com>,
- Anders Roxell <anders.roxell@linaro.org>, regressions@lists.linux.dev,
- Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- linux-next <linux-next@vger.kernel.org>, lkft-triage@lists.linaro.org,
- linux-amlogic@lists.infradead.org, Will Deacon <will@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
+ linux-kernel@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series is based on matthias github, for-next.
 
---OZN5I8D63BKoaTA7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Allen-KH Cheng (9):
+  arm64: dts: mediatek: mt8186: Add MTU3 nodes
+  dt-bindings: spmi: spmi-mtk-pmif: Document mediatek,mt8195-spmi as
+    fallback of mediatek,mt8186-spmi
+  arm64: dts: mediatek: mt8186: Add SPMI node
+  arm64: dts: mediatek: mt8186: Add ADSP mailbox nodes
+  arm64: dts: mediatek: mt8186: Add ADSP node
+  arm64: dts: mediatek: mt8186: Add audio controller node
+  arm64: dts: mediatek: mt8186: Add DPI node
+  dt-bindings: display: mediatek: Fix the fallback for
+    mediatek,mt8186-disp-ccorr
+  arm64: dts: mediatek: mt8186: Add display nodes
 
-On Wed, Jan 11, 2023 at 11:34:41AM +0100, Neil Armstrong wrote:
+ .../display/mediatek/mediatek,ccorr.yaml      |   2 +-
+ .../bindings/spmi/mtk,spmi-mtk-pmif.yaml      |  11 +-
+ arch/arm64/boot/dts/mediatek/mt8186.dtsi      | 335 ++++++++++++++++++
+ 3 files changed, 344 insertions(+), 4 deletions(-)
 
-> I merged a fix that could be related: https://lore.kernel.org/all/20230109220033.31202-1-m.szyprowski@samsung.com/
+-- 
+2.18.0
 
-> This could make the driver to return from probe while not totally probed, and explain such error.
-
-We're seeing issues in all configs on meson-gxl-s905x-libretech-cc
-today, not just with the kselftest fragment.  The initial failuire seems
-to be:
-
-[   17.337253] WARNING: CPU: 3 PID: 123 at drivers/gpu/drm/drm_bridge.c:1257 drm_bridge_hpd_enable+0x8c/0x94 [drm]
-
-full log at:
-
-   https://storage.kernelci.org/next/master/next-20230111/arm64/defconfig/gcc-10/lab-broonie/baseline-meson-gxl-s905x-libretech-cc.txt
-
-and links to other logs at:
-
-  https://linux.kernelci.org/test/job/next/branch/master/kernel/next-20230111/plan/baseline/
-
-Today's -next does have that fix in it so it's not fixing whatever the
-original issue was, I suspect it might even be exposing other issues.
-We are however still seeing the stack filling up, even with a GCC 10
-defconfig build.
-
---OZN5I8D63BKoaTA7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmO+q4kACgkQJNaLcl1U
-h9Dk9ggAgiyNXp8FESi8ST8bCJzfxxMvylBdG+Z+1Q2//2usTBZ89jQ94M9CVgZr
-AHSsut/qzDLYBEQQ9VnLXutGV1MEWqwl+K0vILqKKTV2+uwAcbpWOENJwnbGzN7+
-fz8MtV05xlt9M1K7qtQnRb01xgt7zXr0lY1HVOpQyJzInoCypdlp9laV/nsQDYh+
-X5WPh12TqUbzc1LBqHBV1xpOZ8C+NNptsRuyLM3IJex6Am6xcNTnH4OcEL1vAuWp
-ASrh9a7w1rxfYBYVUMJIhdCNHZZmaj+NuB2hAEJNnQ7NNGPeaCYMvpe8S5DE4/Uz
-owLmp0WY+mpnbwzg6IPpQHjNeFiqJA==
-=gr7z
------END PGP SIGNATURE-----
-
---OZN5I8D63BKoaTA7--
