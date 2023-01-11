@@ -1,64 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45F566650C7
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 01:58:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 156CB6650CD
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 01:59:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EDC910E1B4;
-	Wed, 11 Jan 2023 00:58:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AFD510E065;
+	Wed, 11 Jan 2023 00:59:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com
- [IPv6:2607:f8b0:4864:20::e2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E630C10E1B4
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 00:58:10 +0000 (UTC)
-Received: by mail-vs1-xe2f.google.com with SMTP id s127so14168325vsb.5
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 16:58:10 -0800 (PST)
+Received: from mail-vk1-xa33.google.com (mail-vk1-xa33.google.com
+ [IPv6:2607:f8b0:4864:20::a33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C48E210E065
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 00:59:41 +0000 (UTC)
+Received: by mail-vk1-xa33.google.com with SMTP id l3so3401468vkk.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 16:59:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=w/qEOo5OjlMEeYZ96DtrLnhe1l/LTkC2EmBwM2R6NoU=;
- b=gWXF3XFSi77LlxoAifSeJIlQI/otUXaiKOn8F+MEloQOBblQOsl6UzQncoIHupQlt8
- ZDDhJB3W+HWLHHqRMlCrjYW1zaKLnfJov0tKHmRzgp3/L6WYLwmlbzkJDk/NaccrTmTU
- YeCmGHP1Q9SDZXwd6f/6jt1T2axqtByAUYftw=
+ bh=MpqKCIgPRMhpXTruKjB1OC0juXM/o08kG+iDAT9++eA=;
+ b=gGC3PH3VfglXadEagUBFXOQTZR/RqQMmcQ2lP9IhyxzoFetggN2vu1o0T04fU9rYYm
+ 3Ms7UToJO+NO2joHkS5Qr71wryywqwqyjhAqPxtKC9qoSjCM8Fk10fCqGTnxfl2LF3er
+ NVZA3sz7mHW23N/n6dGDFucJ2Tptzw0Ccr3u0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=w/qEOo5OjlMEeYZ96DtrLnhe1l/LTkC2EmBwM2R6NoU=;
- b=kdrBuNqKsm5q7N9kOuwFb8rJf6sQxJhrr+uNLxPQBJPD6njg51FRTk2D7wwPtP6Zts
- QEUbc6UAmt2AF5WzvOtCrqvklbatlrz6ellfHzXaNA66RPxjMmOBvY1WT1LJTVY21+ME
- OT8wPiYiU9r4UnIyWUM02raWb74KfwR9cMQPt7WY4zep88tldcw9asdyb1TT1YTR5k+E
- 9OKtHXz/gGk70KKtxEpBk5Cqn8ShG7TefKdWcY6a8FzLSfsj2A/QTQsmoePUvEyHubLC
- wozGxoqVznUnWdTANONdb4Zpcv54IxBhNF2cvAfdlVa3b2azaTiSzgW0lXbTuZZUyeM+
- iMJQ==
-X-Gm-Message-State: AFqh2kpvLfEIwSqk24kfcZmtCdORmMHQy1gw4ltQkyG/brZADip2kAZ+
- FzSV2bBkAqIm1brHDOdY4nllAwYN6fAocfVR
-X-Google-Smtp-Source: AMrXdXuPg16xDMGRMLGxLEz+BpPwMybIjqPshexeQHosqJFcCSV1xcsr6xgfEae08gK53R/qssYrrA==
-X-Received: by 2002:a05:6102:37a:b0:3cd:4e55:3d1a with SMTP id
- f26-20020a056102037a00b003cd4e553d1amr22410359vsa.11.1673398689666; 
- Tue, 10 Jan 2023 16:58:09 -0800 (PST)
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com.
- [209.85.221.170]) by smtp.gmail.com with ESMTPSA id
- i15-20020ab00d8f000000b00418ffa42948sm1565272uak.31.2023.01.10.16.58.07
+ bh=MpqKCIgPRMhpXTruKjB1OC0juXM/o08kG+iDAT9++eA=;
+ b=NOKlLNZCqrqIUiTAeSs7HU7e4IH5rR/lZ3yFnWcEUsC+E/pTRDNK5d7xjMqlsISGJE
+ 57CDXWyoM6w984iSCMuHLD0ZZfXhHOY9eb+c+1q5nPF7mTKSvE2hT1AXRZ+9r5Q82bIN
+ dUC9/rf87q1xZpc5RqUNAydsZtFpm6Gx+g5smEqRMsNzDtYrXJYY+NROciYvWvv12YLC
+ J1QpFibIm1d+JKvwIPKQcyuQ+r+XZS1Gbtn08coF7nXNiy2jfGZLEu351nQbTW2dqzq2
+ Z41/yIEZOlTISCkZnXcvAY5E4MIK1p/jThOvZy9TDzg/RLXcrDeuAOSMIJjMHNfkZGWd
+ rp5g==
+X-Gm-Message-State: AFqh2ko1fR2/YwCjkGZLRCyHXWUdODSw1lyJSrv4RwjGcLlhAcdUWGnZ
+ TNU3sg7Z9ieUHXmALbS6t3qtRT/vIfh3Pbd2
+X-Google-Smtp-Source: AMrXdXsbjXOsOl/cyxHkq+W+Gy3I6jTa6YYZ32VS6OFywc1bPKXJ82BOZKzNbwgiFyhjbfirtKkNyQ==
+X-Received: by 2002:a1f:a444:0:b0:3d5:e711:2342 with SMTP id
+ n65-20020a1fa444000000b003d5e7112342mr15133824vke.15.1673398780446; 
+ Tue, 10 Jan 2023 16:59:40 -0800 (PST)
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com.
+ [209.85.217.41]) by smtp.gmail.com with ESMTPSA id
+ b3-20020a1fe403000000b003bc3f5785a6sm1561705vkh.12.2023.01.10.16.59.39
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Jan 2023 16:58:07 -0800 (PST)
-Received: by mail-vk1-f170.google.com with SMTP id b81so6497628vkf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 16:58:07 -0800 (PST)
-X-Received: by 2002:a1f:430d:0:b0:3d5:bc7d:cacc with SMTP id
- q13-20020a1f430d000000b003d5bc7dcaccmr4785521vka.19.1673398687207; Tue, 10
- Jan 2023 16:58:07 -0800 (PST)
+ Tue, 10 Jan 2023 16:59:39 -0800 (PST)
+Received: by mail-vs1-f41.google.com with SMTP id d66so1738254vsd.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Jan 2023 16:59:39 -0800 (PST)
+X-Received: by 2002:a05:6102:3e06:b0:3b5:fd8:7948 with SMTP id
+ j6-20020a0561023e0600b003b50fd87948mr10845718vsv.85.1673398779099; Tue, 10
+ Jan 2023 16:59:39 -0800 (PST)
 MIME-Version: 1.0
 References: <20221231142721.338643-1-abel.vesa@linaro.org>
-In-Reply-To: <20221231142721.338643-1-abel.vesa@linaro.org>
+ <20221231142721.338643-2-abel.vesa@linaro.org>
+In-Reply-To: <20221231142721.338643-2-abel.vesa@linaro.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 10 Jan 2023 16:57:55 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=Xkz4CjF9VpC=H=wOuLNwoDfD1VXLQW2kd-hMb6QV8RcA@mail.gmail.com>
-Message-ID: <CAD=FV=Xkz4CjF9VpC=H=wOuLNwoDfD1VXLQW2kd-hMb6QV8RcA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/panel-edp: fix name for IVO product id 854b
+Date: Tue, 10 Jan 2023 16:59:26 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XdQfg3KVdVrQtVyHM_RBeP_4TZE07mr2KWpP8PxbAdmA@mail.gmail.com>
+Message-ID: <CAD=FV=XdQfg3KVdVrQtVyHM_RBeP_4TZE07mr2KWpP8PxbAdmA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/panel-edp: add IVO M133NW4J panel entry
 To: Abel Vesa <abel.vesa@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,39 +84,81 @@ Hi,
 
 On Sat, Dec 31, 2022 at 6:27 AM Abel Vesa <abel.vesa@linaro.org> wrote:
 >
-> The actual name is R133NW4K-R0.
+> Add an eDP panel entry for IVO M133NW4J.
 >
-> Fixes: 0f9fa5f58c784 ("drm/panel-edp: add IVO M133NW4J-R3 panel entry")
-
--:8: WARNING:BAD_FIXES_TAG: Please use correct Fixes: style 'Fixes:
-<12 chars of sha1> ("<title line>")' - ie: 'Fixes: 0f9fa5f58c78
-("drm/panel-edp: add IVO M133NW4J-R3 panel entry")'
-#8:
-Fixes: 0f9fa5f58c784 ("drm/panel-edp: add IVO M133NW4J-R3 panel entry")
-
-Essentially you have one too many hex digits. I'll fix it for you this
-time, but please remember for the future.
-
-
+> Due to lack of documentation, use the delay_200_500_p2e100 timings like
+> some other IVO entries for now.
+>
 > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
 > ---
 >
 > Assuming the information from here is correct:
 > https://raw.githubusercontent.com/linuxhw/EDID/master/DigitalDisplay.md
+>
+> This fixes the following WARN_ON on my X13s:
+>
+> [    2.194973] CPU: 5 PID: 186 Comm: kworker/u16:6 Not tainted 6.2.0-rc1-00075-g5136d9aa278f-dirty #26
+> [    2.195409] Hardware name: LENOVO 21BX000WRI/21BX000WRI, BIOS N3HET44W (1.16 ) 05/27/2022
+> [    2.195820] Workqueue: events_unbound deferred_probe_work_func
+> [    2.196234] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [    2.196639] pc : panel_edp_probe+0x3d4/0x520 [panel_edp]
+> [    2.197036] lr : panel_edp_probe+0x37c/0x520 [panel_edp]
+> [    2.197435] sp : ffff80000970b3b0
+> [    2.197833] x29: ffff80000970b3b0 x28: ffff0e0a80b7f760 x27: 0000000000000001
+> [    2.198231] x26: ffff0e11fe0e1b50 x25: ffffa8f9f585e0c8 x24: 0000000000000000
+> [    2.198630] x23: ffff0e0a81a39c80 x22: ffffa8f9f58c7638 x21: 0000000000000000
+> [    2.199032] x20: ffff0e0a8d1b0000 x19: ffff0e0a820fea80 x18: 0000000000000000
+> [    2.199576] x17: 0000000000000000 x16: ffffa8fa5e097080 x15: 0000000000000000
+> [    2.199969] x14: 0000000000000003 x13: 0000000000000059 x12: 0000000000000066
+> [    2.200360] x11: 0000000000000001 x10: 00000000000009e0 x9 : 0000000000000001
+> [    2.200748] x8 : ffff80000970b340 x7 : 0000000000000000 x6 : 0000000000000000
+> [    2.201132] x5 : 0000000000000049 x4 : 0000000000000056 x3 : 000000000000004f
+> [    2.201512] x2 : 0000000000000000 x1 : ffffa8f9f58c7a00 x0 : 000000000000854a
+> [    2.201888] Call trace:
+> [    2.202261]  panel_edp_probe+0x3d4/0x520 [panel_edp]
+> [    2.202636]  panel_edp_dp_aux_ep_probe+0x38/0x50 [panel_edp]
+> [    2.203009]  dp_aux_ep_probe+0x34/0xf4 [drm_dp_aux_bus]
+> [    2.203379]  really_probe+0xc0/0x3dc
+> [    2.203739]  __driver_probe_device+0x7c/0x190
+> [    2.204096]  driver_probe_device+0x3c/0x110
+> [    2.204448]  __device_attach_driver+0xbc/0x160
+> [    2.204795]  bus_for_each_drv+0x7c/0xd4
+> [    2.205136]  __device_attach+0x9c/0x1c0
+> [    2.205439]  device_initial_probe+0x14/0x20
+> [    2.205717]  bus_probe_device+0x9c/0xa4
+> [    2.205995]  device_add+0x3c4/0x8cc
+> [    2.206270]  device_register+0x20/0x30
+> [    2.206543]  of_dp_aux_populate_bus+0xe0/0x1bc [drm_dp_aux_bus]
+> [    2.206817]  msm_dp_modeset_init+0x1d8/0x274 [msm]
+> [    2.207096]  _dpu_kms_drm_obj_init+0x128/0x670 [msm]
+> [    2.207370]  dpu_kms_hw_init+0x540/0x640 [msm]
+> [    2.207645]  msm_drm_bind+0x18c/0x61c [msm]
+> [    2.207917]  try_to_bring_up_aggregate_device+0x1dc/0x2d0
+> [    2.208186]  __component_add+0xa4/0x190
+> [    2.208454]  component_add+0x14/0x20
+> [    2.208720]  dp_display_probe+0x29c/0x454 [msm]
+> [    2.208989]  platform_probe+0x68/0xc0
+> [    2.209252]  really_probe+0xc0/0x3dc
+> [    2.209511]  __driver_probe_device+0x7c/0x190
+> [    2.209767]  driver_probe_device+0x3c/0x110
+> [    2.210022]  __device_attach_driver+0xbc/0x160
+> [    2.210275]  bus_for_each_drv+0x7c/0xd4
+> [    2.210528]  __device_attach+0x9c/0x1c0
+> [    2.210781]  device_initial_probe+0x14/0x20
+> [    2.211032]  bus_probe_device+0x9c/0xa4
+> [    2.211280]  deferred_probe_work_func+0x9c/0xf0
+> [    2.211525]  process_one_work+0x1c4/0x320
+> [    2.211768]  worker_thread+0x6c/0x430
+> [    2.212012]  kthread+0x108/0x10c
+> [    2.212251]  ret_from_fork+0x10/0x20
+> [    2.212488] ---[ end trace 0000000000000000 ]---
+> [    2.212755] panel-simple-dp-aux aux-aea0000.displayport-controller: Unknown panel IVO 0x854a, using conservative timings
+>
+>  drivers/gpu/drm/panel/panel-edp.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-This is nifty--I wasn't aware of this database.
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
+Pushed to drm-misc-next:
 
->  drivers/gpu/drm/panel/panel-edp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-
-Fixes: 0f9fa5f58c78 ("drm/panel-edp: add IVO M133NW4J-R3 panel entry")
-
-Pushed to drm-misc-next. I didn't bother doing "drm-misc-fixes"
-because it didn't seem urgent and it would have caused a merge
-conflict with the next patch.
-
-9cce08cadc6c drm/panel-edp: fix name for IVO product id 854b
-
-
--Doug
+e22391454e3e drm/panel-edp: add IVO M133NW4J panel entry
