@@ -2,47 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8613F6650D7
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 02:02:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 694F66650EE
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 02:10:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B51E910E6B1;
-	Wed, 11 Jan 2023 01:02:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 949E610E6A4;
+	Wed, 11 Jan 2023 01:10:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8E4C810E6B1;
- Wed, 11 Jan 2023 01:02:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3DE0710E6A4;
+ Wed, 11 Jan 2023 01:10:43 +0000 (UTC)
 Received: from localhost.localdomain (unknown [124.16.138.125])
- by APP-05 (Coremail) with SMTP id zQCowABXd8yCCr5jPQwfDA--.49261S2;
- Wed, 11 Jan 2023 09:01:56 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowADn7+9wDL5jjEwfDA--.50119S2;
+ Wed, 11 Jan 2023 09:10:08 +0800 (CST)
 From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@gmail.com,
- daniel@ffwll.ch, ville.syrjala@linux.intel.com, manasi.d.navare@intel.com,
- stanislav.lisovskiy@intel.com, lucas.demarchi@intel.com
-Subject: [PATCH 2/2 v2] drm/i915: Replace alloc*workqueue with DRM helpers
-Date: Wed, 11 Jan 2023 09:01:53 +0800
-Message-Id: <20230111010153.5920-1-jiasheng@iscas.ac.cn>
+To: dianders@chromium.org
+Subject: [PATCH v2] drm/msm/dsi: Drop the redundant fail label
+Date: Wed, 11 Jan 2023 09:10:06 +0800
+Message-Id: <20230111011006.6238-1-jiasheng@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowABXd8yCCr5jPQwfDA--.49261S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zry5Zr48JF4UAFyrJryfXrb_yoW5Jr4UpF
- 45uFyYyFW5JFsagay3Aa1jvFy7CayrJ3WfCF17u3ZFv3W5Arn8AwsYvFy5KFyDCF45Xr45
- AF97KrWI9F1qkrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUv014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID: zQCowADn7+9wDL5jjEwfDA--.50119S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxGw4ktry8uFWxGw1xCrWrAFb_yoW5Gw18pr
+ yaqFsrtrW0yws2krW7JF17A3WrKF4fGa48G34UCwnrAw1ayw4UXF4Dua10ga48t3y8uw4U
+ Kanaya4rWF1Utr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
  rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
- 0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
- 8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
- 8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
- ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
- 0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
- Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUb
- XdbUUUUUU==
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+ 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02
+ 628vn2kIc2xKxwCY02Avz4vE14v_KwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
+ WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
+ 67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
+ IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF
+ 0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
+ VjvjDU0xZFpf9x0JUChFxUUUUU=
 X-Originating-IP: [124.16.138.125]
 X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,74 +54,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: marex@denx.de, vkoul@kernel.org, sean@poorly.run,
+ Jiasheng Jiang <jiasheng@iscas.ac.cn>, vladimir.lypak@gmail.com,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dmitry.baryshkov@linaro.org, marijn.suijten@somainline.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace alloc*workqueue with DRM helpers in order to avoid memory leak
-Because in `drivers/gpu/drm/i915/i915_driver.c`, if
-intel_modeset_init_noirq fails, its workqueues will not be destroyed.
-And drop the destroy_workqueue in intel_modeset_driver_remove_noirq to
-avoid double free.
-Moreover, check the return value since the workqueue may be NULL and
-cause NULL pointer dereference.
+Drop the redundant fail label and change the "goto fail" into "return ret"
+since they are the same.
 
-Fixes: c26a058680dc ("drm/i915: Use a high priority wq for nonblocking plane updates")
-Fixes: 757fffcfdffb ("drm/i915: Put all non-blocking modesets onto an ordered wq")
+Reviewed-by: Doug Anderson <dianders@chromium.org>
 Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 ---
 Changelog:
 
 v1 -> v2:
 
-1. Drop the destroy_workqueue in intel_modeset_driver_remove_noirq.
+1. No change of the error handling of the irq_of_parse_and_map.
 ---
- drivers/gpu/drm/i915/display/intel_display.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 24 ++++++++----------------
+ 1 file changed, 8 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 6c2686ecb62a..5cbec0af1773 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -41,6 +41,7 @@
- #include <drm/drm_damage_helper.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_fourcc.h>
-+#include <drm/drm_managed.h>
- #include <drm/drm_privacy_screen_consumer.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_rect.h>
-@@ -8654,9 +8655,16 @@ int intel_modeset_init_noirq(struct drm_i915_private *i915)
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index 89aadd3b3202..de615c505def 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -1883,8 +1883,7 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
  
- 	intel_dmc_ucode_init(i915);
+ 	msm_host = devm_kzalloc(&pdev->dev, sizeof(*msm_host), GFP_KERNEL);
+ 	if (!msm_host) {
+-		ret = -ENOMEM;
+-		goto fail;
++		return -ENOMEM;
+ 	}
  
--	i915->display.wq.modeset = alloc_ordered_workqueue("i915_modeset", 0);
--	i915->display.wq.flip = alloc_workqueue("i915_flip", WQ_HIGHPRI |
--						WQ_UNBOUND, WQ_UNBOUND_MAX_ACTIVE);
-+	ret = drmm_alloc_ordered_workqueue(&i915->drm,
-+					   i915->display.wq.modeset, "i915_modeset", 0);
-+	if (ret)
-+		goto cleanup_vga_client_pw_domain_dmc;
-+
-+	ret = drmm_alloc_workqueue(&i915->drm, i915->display.wq.flip,
-+				   "i915_flip", WQ_HIGHPRI | WQ_UNBOUND,
-+				   WQ_UNBOUND_MAX_ACTIVE);
-+	if (ret)
-+		goto cleanup_vga_client_pw_domain_dmc;
+ 	msm_host->pdev = pdev;
+@@ -1893,31 +1892,28 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
+ 	ret = dsi_host_parse_dt(msm_host);
+ 	if (ret) {
+ 		pr_err("%s: failed to parse dt\n", __func__);
+-		goto fail;
++		return ret;
+ 	}
  
- 	intel_mode_config_init(i915);
+ 	msm_host->ctrl_base = msm_ioremap_size(pdev, "dsi_ctrl", &msm_host->ctrl_size);
+ 	if (IS_ERR(msm_host->ctrl_base)) {
+ 		pr_err("%s: unable to map Dsi ctrl base\n", __func__);
+-		ret = PTR_ERR(msm_host->ctrl_base);
+-		goto fail;
++		return PTR_ERR(msm_host->ctrl_base);
+ 	}
  
-@@ -9004,9 +9012,6 @@ void intel_modeset_driver_remove_noirq(struct drm_i915_private *i915)
+ 	pm_runtime_enable(&pdev->dev);
  
- 	intel_gmbus_teardown(i915);
+ 	msm_host->cfg_hnd = dsi_get_config(msm_host);
+ 	if (!msm_host->cfg_hnd) {
+-		ret = -EINVAL;
+ 		pr_err("%s: get config failed\n", __func__);
+-		goto fail;
++		return -EINVAL;
+ 	}
+ 	cfg = msm_host->cfg_hnd->cfg;
  
--	destroy_workqueue(i915->display.wq.flip);
--	destroy_workqueue(i915->display.wq.modeset);
+ 	msm_host->id = dsi_host_get_id(msm_host);
+ 	if (msm_host->id < 0) {
+-		ret = msm_host->id;
+ 		pr_err("%s: unable to identify DSI host index\n", __func__);
+-		goto fail;
++		return msm_host->id;
+ 	}
+ 
+ 	/* fixup base address by io offset */
+@@ -1927,19 +1923,18 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
+ 					    cfg->regulator_data,
+ 					    &msm_host->supplies);
+ 	if (ret)
+-		goto fail;
++		return ret;
+ 
+ 	ret = dsi_clk_init(msm_host);
+ 	if (ret) {
+ 		pr_err("%s: unable to initialize dsi clks\n", __func__);
+-		goto fail;
++		return ret;
+ 	}
+ 
+ 	msm_host->rx_buf = devm_kzalloc(&pdev->dev, SZ_4K, GFP_KERNEL);
+ 	if (!msm_host->rx_buf) {
+-		ret = -ENOMEM;
+ 		pr_err("%s: alloc rx temp buf failed\n", __func__);
+-		goto fail;
++		return -ENOMEM;
+ 	}
+ 
+ 	ret = devm_pm_opp_set_clkname(&pdev->dev, "byte");
+@@ -1983,9 +1978,6 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
+ 
+ 	DBG("Dsi Host %d initialized", msm_host->id);
+ 	return 0;
 -
- 	intel_fbc_cleanup(i915);
+-fail:
+-	return ret;
  }
  
+ void msm_dsi_host_destroy(struct mipi_dsi_host *host)
 -- 
 2.25.1
 
