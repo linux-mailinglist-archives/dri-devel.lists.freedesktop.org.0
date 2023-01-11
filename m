@@ -2,66 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64AF766665F
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 23:47:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E108E666667
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Jan 2023 23:48:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3763010E143;
-	Wed, 11 Jan 2023 22:47:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3A5610E821;
+	Wed, 11 Jan 2023 22:48:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5C5E10E143
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 22:46:58 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- k22-20020a05600c1c9600b003d1ee3a6289so13780058wms.2
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 14:46:58 -0800 (PST)
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C779A10E821
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 22:48:22 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ ay12-20020a05600c1e0c00b003d9ea12bafcso9998764wmb.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 14:48:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=I7lSRoUQi9zwbLm3tt3t+L05kXON7rdqCLIGDJWUjp8=;
- b=JTFIuck673A9v/lIr5RWrbz79nUhslqVi7RLh/Rx613rfkdeBHXBxo2BVJtU820Oa7
- cL8kQJ6GYC+rF//ZXxPMSQxXWiXFputrkars54D4BDcF2CksFP6R7TnG+F70lLExvcuw
- cJBWlC1VRZjNyiEXHofVrnN01Oz4dnVSb04Lo=
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=MuTC1kfSsnFCGwUIql/f+JQxzi0KkC1wyB0xTJXr5Ts=;
+ b=Js2u6sL8FqhtZhjphxzIL3gaE86ebKYot48NXEIWQNENDb+Eb98MWjB7FNlXwXpoq/
+ BANyiPgyyWCJDTUcApuuxqUHQ+jpPOuNYdqJVCVu5fh5OfBocMEPOK2nvwrU8Mc3H3No
+ t/M7XVCRrkCWHF6m1AvZlPx0dCnN/3h+xIJFg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=I7lSRoUQi9zwbLm3tt3t+L05kXON7rdqCLIGDJWUjp8=;
- b=4xdhPpeJX7jl0A9iVvXh4Kpj70OYn6eVLZm3hsGXBFuXL0tOYv37LFep2/aBcV49p1
- FLRfX/AQx97Oa9iJgwJZ07EUiqHQ2O3R9sJZJZk+lUL5Mk1ecC7Bn0z31cALFoNHs1QX
- e96irmGJNt31naSsPwIQCSQ32KCXiaqcugiGwjCHHZ9E7fsABmoRocJ+NOSZnJvGQfir
- fcNM9NLuyQ5NTW9sHbZR/qw/MyIP/LEiqkgaQnK7QFZmSg2BkB+KolTVB4pOqyzR7gp1
- L3pAQE2zziDMMeu6RLQqya5ovhcU1u699nTJg2ueMBI8XPHXsKGK2Ew6B4557citCkzE
- jQvA==
-X-Gm-Message-State: AFqh2kqF2h4Xqu43Y08wXVyWyigibkBDbCw5OwbWR+jZbw30iJwpdxFX
- IpDI7GGoKc1jipMliVvKe+vliQ==
-X-Google-Smtp-Source: AMrXdXvWiVjv7Ucp9zp9AlaBE78nIFFHjHN1lu2iS7UomHHt06nVcd52/Cg6yV2Sq+HdlD1fVK5qQg==
-X-Received: by 2002:a05:600c:3589:b0:3d0:6c60:b4d1 with SMTP id
- p9-20020a05600c358900b003d06c60b4d1mr64400308wmq.6.1673477217426; 
- Wed, 11 Jan 2023 14:46:57 -0800 (PST)
+ bh=MuTC1kfSsnFCGwUIql/f+JQxzi0KkC1wyB0xTJXr5Ts=;
+ b=3rcOYc4EkSsEk0Ik/8KyrxlAyAZyjEhoDrnYmLe7NThkObh6xopQYy8f9xvPf/rg8Z
+ JSscMCv710WwYjEw7NzdVu9C+OP0BNT2DWB3yuHGIw/X+Bk2K5QTdEpPLg4w9rCn2ty8
+ W8g/hqJr9lh70CQwu8sz9L7ZLec8msGlNqw4DDlGL5NwDh5nTCsHQHafH5Zrw6OQe9Od
+ OCHKApsYPw5Mh1tNdYmO5U2FGwEllcQ88ezio8RICvhRxSsUNjQ3Oq7dw4Q5m4sirguB
+ ZQxPoet+lqxLmQpKR3StDdRAyzAFBU+MeMyYlW5RYsWAZ7vnm+1RpSG+/N+zuiy1bW7W
+ ivDw==
+X-Gm-Message-State: AFqh2kpBeG+n7jW+nu0CEYdk5INcuweQxNv756cVu0tWCQ48qlmlgd8e
+ pPf77cdM2K5WbDAVkRtSLn0Jhw==
+X-Google-Smtp-Source: AMrXdXvoDs7MQW5PQ7RzZespb/rcshZIoq997FGciTLRdcJkKhPXNXwGGbOLkwOcvkezldhUaExRuw==
+X-Received: by 2002:a05:600c:22d4:b0:3cf:82b9:2fe6 with SMTP id
+ 20-20020a05600c22d400b003cf82b92fe6mr63787861wmg.8.1673477301281; 
+ Wed, 11 Jan 2023 14:48:21 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- r10-20020a05600c458a00b003d35acb0fd7sm26134213wmo.34.2023.01.11.14.46.56
+ l36-20020a05600c1d2400b003d9fb59c16fsm7183671wms.11.2023.01.11.14.48.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Jan 2023 14:46:56 -0800 (PST)
-Date: Wed, 11 Jan 2023 23:46:54 +0100
+ Wed, 11 Jan 2023 14:48:20 -0800 (PST)
+Date: Wed, 11 Jan 2023 23:48:18 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: Re: [PATCH 1/2] drm: Add DRM-managed alloc_workqueue() and
- alloc_ordered_workqueue()
-Message-ID: <Y788XhCPXCJFA5gO@phenom.ffwll.local>
-Mail-Followup-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20230110152447.5611-1-jiasheng@iscas.ac.cn>
+To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
+Subject: Re: [PATCH 1/5] drm/framebuffer: Check for valid formats
+Message-ID: <Y788su0QVqdBz5bo@phenom.ffwll.local>
+References: <20230109105807.18172-1-mcanal@igalia.com>
+ <20230109105807.18172-2-mcanal@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230110152447.5611-1-jiasheng@iscas.ac.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230109105807.18172-2-mcanal@igalia.com>
 X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,141 +72,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
+ VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 10, 2023 at 11:24:47PM +0800, Jiasheng Jiang wrote:
-> Add drmm_alloc_workqueue() and drmm_alloc_ordered_workqueue(), the helpers
-> that provide managed workqueue cleanup. The workqueue will be destroyed
-> with the final reference of the DRM device.
+On Mon, Jan 09, 2023 at 07:58:04AM -0300, Maíra Canal wrote:
+> Currently, framebuffer_check() doesn't check if the pixel format is
+> supported, which can lead to the acceptance of invalid pixel formats
+> e.g. the acceptance of invalid modifiers. Therefore, add a check for
+> valid formats on framebuffer_check(), so that the ADDFB2 IOCTL rejects
+> calls with invalid formats.
 > 
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-
-Yeah I think this looks nice.
+> Moreover, note that this check is only valid for atomic drivers,
+> because, for non-atomic drivers, checking drm_any_plane_has_format() is
+> not possible since the format list for the primary plane is fake, and
+> we'd therefore reject valid formats.
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-I'm assuming driver maintainers will pick this up, if not please holler.
-
-Also the threading seems broken, it's not a patch series. The b4 tool or
-git send-email (of all the patches of the entire series at once, not each
-individually) should get this right.
-
-Unfortunately I did't find the right link in the kernel docs, or at least
-they're not as detailed as I hoped.
-
-Also your previous submission had iirc a bunch more patches, do you plan
-to include them all in the next patch set?
--Daniel
-
-
 > ---
->  drivers/gpu/drm/drm_managed.c | 66 +++++++++++++++++++++++++++++++++++
->  include/drm/drm_managed.h     |  8 +++++
->  2 files changed, 74 insertions(+)
+>  Documentation/gpu/todo.rst        | 9 ++++-----
+>  drivers/gpu/drm/drm_framebuffer.c | 8 ++++++++
+>  2 files changed, 12 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_managed.c
-> index 4cf214de50c4..d3bd6247eec9 100644
-> --- a/drivers/gpu/drm/drm_managed.c
-> +++ b/drivers/gpu/drm/drm_managed.c
-> @@ -271,6 +271,13 @@ static void drmm_mutex_release(struct drm_device *dev, void *res)
->  	mutex_destroy(lock);
+> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> index 1f8a5ebe188e..3a79c26c5cc7 100644
+> --- a/Documentation/gpu/todo.rst
+> +++ b/Documentation/gpu/todo.rst
+> @@ -276,11 +276,10 @@ Various hold-ups:
+>  - Need to switch to drm_fbdev_generic_setup(), otherwise a lot of the custom fb
+>    setup code can't be deleted.
+>  
+> -- Many drivers wrap drm_gem_fb_create() only to check for valid formats. For
+> -  atomic drivers we could check for valid formats by calling
+> -  drm_plane_check_pixel_format() against all planes, and pass if any plane
+> -  supports the format. For non-atomic that's not possible since like the format
+> -  list for the primary plane is fake and we'd therefor reject valid formats.
+> +- Need to switch to drm_gem_fb_create(), as now framebuffer_check() checks for
+> +  valid formats for atomic drivers.
+> +
+> +- Add an addfb format validation for non-atomic drivers.
+>  
+>  - Many drivers subclass drm_framebuffer, we'd need a embedding compatible
+>    version of the varios drm_gem_fb_create functions. Maybe called
+> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
+> index aff3746dedfb..605642bf3650 100644
+> --- a/drivers/gpu/drm/drm_framebuffer.c
+> +++ b/drivers/gpu/drm/drm_framebuffer.c
+> @@ -280,6 +280,14 @@ static int framebuffer_check(struct drm_device *dev,
+>  		}
+>  	}
+>  
+> +	/* Verify that the modifier is supported. */
+> +	if (drm_drv_uses_atomic_modeset(dev) &&
+> +	    !drm_any_plane_has_format(dev, r->pixel_format, r->modifier[0])) {
+> +		drm_dbg_kms(dev, "Unsupported pixel format %p4cc / modifier 0x%llx\n",
+> +			    &r->pixel_format, r->modifier[0]);
+> +		return -EINVAL;
+> +	}
+> +
+>  	return 0;
 >  }
 >  
-> +static void drmm_destroy_workqueue(struct drm_device *dev, void *res)
-> +{
-> +	struct workqueue_struct *wq = res;
-> +
-> +	destroy_workqueue(wq);
-> +}
-> +
->  /**
->   * drmm_mutex_init - &drm_device-managed mutex_init()
->   * @dev: DRM device
-> @@ -289,3 +296,62 @@ int drmm_mutex_init(struct drm_device *dev, struct mutex *lock)
->  	return drmm_add_action_or_reset(dev, drmm_mutex_release, lock);
->  }
->  EXPORT_SYMBOL(drmm_mutex_init);
-> +
-> +/**
-> + * drmm_alloc_workqueue - &drm_device-managed alloc_workqueue()
-> + * @dev: DRM device
-> + * @wq: workqueue to be allocated
-> + *
-> + * Returns:
-> + * 0 on success, or a negative errno code otherwise.
-> + *
-> + * This is a &drm_device-managed version of alloc_workqueue().
-> + * The initialized lock is automatically destroyed on the final
-> + * drm_dev_put().
-> + */
-> +int drmm_alloc_workqueue(struct drm_device *dev,
-> +			  struct workqueue_struct *wq, const char *fmt,
-> +			  unsigned int flags, int max_active, ...)
-> +{
-> +	va_list args;
-> +
-> +	va_start(args, max_active);
-> +	wq = alloc_workqueue(fmt, flags, max_active, args);
-> +	va_end(args);
-> +
-> +	if (!wq)
-> +		return -ENOMEM;
-> +
-> +	return drmm_add_action_or_reset(dev, drmm_destroy_workqueue, wq);
-> +}
-> +EXPORT_SYMBOL(drmm_alloc_workqueue);
-> +
-> +/**
-> + * drmm_alloc_ordered_workqueue - &drm_device-managed
-> + * alloc_ordered_workqueue()
-> + * @dev: DRM device
-> + * @wq: workqueue to be allocated
-> + *
-> + * Returns:
-> + * 0 on success, or a negative errno code otherwise.
-> + *
-> + * This is a &drm_device-managed version of alloc_ordered_workqueue().
-> + * The initialized lock is automatically destroyed on the final
-> + * drm_dev_put().
-> + */
-> +int drmm_alloc_ordered_workqueue(struct drm_device *dev,
-> +				  struct workqueue_struct *wq,
-> +				  const char *fmt, unsigned int flags, ...)
-> +{
-> +	va_list args;
-> +
-> +	va_start(args, flags);
-> +	wq = alloc_ordered_workqueue(fmt, flags, args);
-> +	va_end(args);
-> +
-> +	if (!wq)
-> +		return -ENOMEM;
-> +
-> +	return drmm_add_action_or_reset(dev, drmm_destroy_workqueue, wq);
-> +}
-> +EXPORT_SYMBOL(drmm_alloc_ordered_workqueue);
-> diff --git a/include/drm/drm_managed.h b/include/drm/drm_managed.h
-> index 359883942612..68cecc14e1af 100644
-> --- a/include/drm/drm_managed.h
-> +++ b/include/drm/drm_managed.h
-> @@ -107,4 +107,12 @@ void drmm_kfree(struct drm_device *dev, void *data);
->  
->  int drmm_mutex_init(struct drm_device *dev, struct mutex *lock);
->  
-> +int drmm_alloc_workqueue(struct drm_device *dev,
-> +			  struct workqueue_struct *wq, const char *fmt,
-> +			  unsigned int flags, int max_active, ...);
-> +
-> +int drmm_alloc_ordered_workqueue(struct drm_device *dev,
-> +				  struct workqueue_struct *wq,
-> +				  const char *fmt, unsigned int flags, ...);
-> +
->  #endif
 > -- 
-> 2.25.1
+> 2.39.0
 > 
 
 -- 
