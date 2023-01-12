@@ -1,52 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A159666899
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 02:55:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B1CD6668F2
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 03:36:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30E9F10E2E2;
-	Thu, 12 Jan 2023 01:55:25 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A961B10E2D6;
- Thu, 12 Jan 2023 01:55:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673488520; x=1705024520;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Vtc0I0sZXJ9kJ1CrYUiuyTQE/Uc9X9aZlY5+4fPTiEY=;
- b=ZqwNE+mwBLy4wNZ5P1Xd2ZEIywP2xsYPhxzI/zN0gxkfP2oAIxLFFNv3
- F0FZfi1PLlfzsalzU351q5wkUhbE6fhtGwVn1R2BBwMYkI4IIFPwIMkFF
- QrABmsBwwywVh8Y/i63ZvCRnBvbKM30HfC+RPQoGhyhwWtDGp1JI99s4d
- cDSp7qbPKdwcv5aefosxNgDpelIKTzoWb5LiemSZ2dvSADiLrFX57pQQJ
- ZVctZquQvl9QcQDFT3e2DI3rzZ6Gf71k35MjW5vwupiP2nlTMjUdrP1v7
- nOVDkM0k6afAOhBRBbfNX8aSBPODJcfZn+Zu/MWPZTrUARxgAVNv4DzOm g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="303961745"
-X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="303961745"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2023 17:55:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="635197351"
-X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="635197351"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by orsmga006.jf.intel.com with ESMTP; 11 Jan 2023 17:55:18 -0800
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 2/2] drm/i915/guc: Fix missing return code checks in
- submission init
-Date: Wed, 11 Jan 2023 17:54:47 -0800
-Message-Id: <20230112015447.2430224-3-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230112015447.2430224-1-John.C.Harrison@Intel.com>
-References: <20230112015447.2430224-1-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EAC210E082;
+	Thu, 12 Jan 2023 02:36:07 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 578 seconds by postgrey-1.36 at gabe;
+ Thu, 12 Jan 2023 02:36:04 UTC
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AE0610E082
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 02:36:04 +0000 (UTC)
+Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20230112022623epoutp010fbe0f95e5606f5d607e082207b1e47a~5bqMvhi5J1099510995epoutp01d
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 02:26:23 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20230112022623epoutp010fbe0f95e5606f5d607e082207b1e47a~5bqMvhi5J1099510995epoutp01d
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1673490383;
+ bh=C9JCoMCJFRlE1FRTJDTOm6ZjSbIhAtw1LFr6jJACP6U=;
+ h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+ b=odgwn0FqvHQdiAxpLlvdDmJrMBpbzv5NU4YbxYS3eOyeQb7wxITiXs8/zmVC1XNtk
+ al3nng7OR/FbqyqzV0HT+GlsPp7o7Yh3QbTZoMociKyGGLTI6YBmLSs+fzInNu7iMx
+ LpUMRuEjKjcjf/PdeOy4SxaFsBqgtkbaqaND92Kc=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+ epcas1p3.samsung.com (KnoxPortal) with ESMTP id
+ 20230112022623epcas1p3bdab95860467983f3b9900b55f2afcd2~5bqMPyR4H0298102981epcas1p3E;
+ Thu, 12 Jan 2023 02:26:23 +0000 (GMT)
+Received: from epsmges1p3.samsung.com (unknown [182.195.36.134]) by
+ epsnrtp4.localdomain (Postfix) with ESMTP id 4NspML2HKNz4x9QG; Thu, 12 Jan
+ 2023 02:26:22 +0000 (GMT)
+Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
+ epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
+ AB.F5.02461.ECF6FB36; Thu, 12 Jan 2023 11:26:22 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20230112022621epcas1p1c430de038d4afd28c46772ca9bfd0d2d~5bqLCWP--0365103651epcas1p1L;
+ Thu, 12 Jan 2023 02:26:21 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20230112022621epsmtrp1e15ee3ec69a7b2a2fdb345a989d30897~5bqLBcwpb0591005910epsmtrp11;
+ Thu, 12 Jan 2023 02:26:21 +0000 (GMT)
+X-AuditID: b6c32a37-873ff7000000099d-12-63bf6fcecca8
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 4B.89.10542.DCF6FB36; Thu, 12 Jan 2023 11:26:21 +0900 (KST)
+Received: from inkidae002 (unknown [10.113.221.213]) by epsmtip2.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20230112022621epsmtip2bdad0c3b43ca557b30109378004618f4~5bqK0VKcy2948629486epsmtip2C;
+ Thu, 12 Jan 2023 02:26:21 +0000 (GMT)
+From: =?utf-8?B?64yA7J246riwL1RpemVuIFBsYXRmb3JtIExhYihTUikv7IK87ISx7KCE7J6Q?=
+ <inki.dae@samsung.com>
+To: "'Jagan Teki'" <jagan@amarulasolutions.com>, "'Marek Szyprowski'"
+ <m.szyprowski@samsung.com>, "'Seung-Woo Kim'" <sw0312.kim@samsung.com>,
+ "'Kyungmin	Park'" <kyungmin.park@samsung.com>, "'Neil Armstrong'"
+ <narmstrong@linaro.org>, "'Robert Foss'" <robert.foss@linaro.org>, "'Andrzej
+ Hajda'" <andrzej.hajda@intel.com>, "'Sam Ravnborg'" <sam@ravnborg.org>,
+ <thierry.reding@gmail.com>
+In-Reply-To: <CAMty3ZDGu-acuZ9Bhp_=JcTYn5YWKVZnEUf3nC28Spm8v4+KQg@mail.gmail.com>
+Subject: RE: [PATCH v11 0/3] drm: exynos: dsi: Restore the bridge chain
+Date: Thu, 12 Jan 2023 11:26:21 +0900
+Message-ID: <000001d9262d$42bc49c0$c834dd40$@samsung.com>
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQIgyi8WHi+AM2s4a5bnyovkxHh4sgE7ee16AjPDcKOt70kPgA==
+Content-Language: ko
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrLJsWRmVeSWpSXmKPExsWy7bCmvu65/P3JBvN38VjcX/yZxeLK1/ds
+ Fl82TWCzONv0ht1i+YR9bBYzzu9jslh75C67xZu2RkaLS1MOs1l8mvWQ2WLFz62MFjMmv2Sz
+ +LlrHosDr8faj/dZPebNOsHisXPWXXaPxXteMnncubaHzeN+93EmjyXTrrJ59G1ZxejxeZNc
+ AGdUtk1GamJKapFCal5yfkpmXrqtkndwvHO8qZmBoa6hpYW5kkJeYm6qrZKLT4CuW2YO0OFK
+ CmWJOaVAoYDE4mIlfTubovzSklSFjPziElul1IKUnALTAr3ixNzi0rx0vbzUEitDAwMjU6DC
+ hOyMSacfMBas4qqYt2w5WwPjHo4uRk4OCQETiZ+T5jF1MXJxCAnsYJSYvfA/K4TziVHi3ooZ
+ LCBVQgKfGSXWvsyC6di08SZU0S5GieX7N7JAOC8ZJaYeuwXWwSaQLvGy6zJYQkSgk1ni3Z5G
+ sBZmgeWMEkvbHjCBVHEKBEr8+7WAGcQWFnCXWDptJiOIzSKgKjHt2BFWEJtXwFJizueFbBC2
+ oMTJmU/ANjALyEtsfzuHGeImBYmfT5eB1YsIOEm8nHmUDaJGRGJ2ZxszyGIJgRccEueuzWSF
+ aHCReNH8nh3CFpZ4dXwLlC0l8bK/jR2iYTKjxJ3rK1ggnBmMEod/XmeEqDKW2L90MtALHEAr
+ NCXW79KHCCtK7Pw9lxFiM5/Eu689rCAlEgK8Eh1tQhAlShLHLt6AmiIhcWHJRLYJjEqzkPw2
+ C8lvs5D8MAth2QJGllWMYqkFxbnpqcWGBcbwCE/Oz93ECE7XWuY7GKe9/aB3iJGJg/EQowQH
+ s5IIr4r//mQh3pTEyqrUovz4otKc1OJDjKbA0J7ILCWanA/MGHkl8YYmlgYmZkbGJhaGZoZK
+ 4rw2EeuShQTSE0tSs1NTC1KLYPqYODilGpi4lohu/c08JWnD1MUCXyJyF65o3u7L43WOYXrj
+ k/T5a/wMg44ev7i8a12ZzlPXsA0P3+nlefutuaAz8920Jr9jvdYfeJxX1PSdjpbs/bSs/IjB
+ Qr2uZZtXuttvcfC9edzvmZYsi+mhxpCf09s/z2xJTEhp0Xyx4V2EUL/I7a+nzC31th91e3a1
+ Ve/st97s+h73C/ePvnapubzm2TUV/XuXl37f6XVcI120sraAc3VAhbVG2uM9FVv4Fi8SfeNz
+ 1+zpIu7naySmnPr3fd+P3rPTNmQwlDtGXws0Xqp5JMikLlqX965G3Ou/miYKp2ocfb227bEW
+ +K41YcIEp+NHuximN1wPzL8quS98utDlbx9eK7EUZyQaajEXFScCAI0uMj9gBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKIsWRmVeSWpSXmKPExsWy7bCSvO7Z/P3JBhNnGVrcX/yZxeLK1/ds
+ Fl82TWCzONv0ht1i+YR9bBYzzu9jslh75C67xZu2RkaLS1MOs1l8mvWQ2WLFz62MFjMmv2Sz
+ +LlrHosDr8faj/dZPebNOsHisXPWXXaPxXteMnncubaHzeN+93EmjyXTrrJ59G1ZxejxeZNc
+ AGcUl01Kak5mWWqRvl0CV8ak0w8YC1ZxVcxbtpytgXEPRxcjJ4eEgInEpo03WbsYuTiEBHYw
+ Suz+OImli5EDKCEhsWUrB4QpLHH4cDFEyXNGiR37j4OVsAmkSrxeXQcSFxHoZ5bY9XAyM4jD
+ LLCSUWLd6q1MEB3XGCXuTFvBBLKNUyBQ4t+vBcwgtrCAu8TSaTMZQWwWAVWJaceOsILYvAKW
+ EnM+L2SDsAUlTs58wgJiMwtoSzy9+RTKlpfY/nYOM8QHChI/ny4D6xURcJJ4OfMoG0SNiMTs
+ zjbmCYzCs5CMmoVk1Cwko2YhaVnAyLKKUTK1oDg3PbfYsMAoL7Vcrzgxt7g0L10vOT93EyM4
+ ZrW0djDuWfVB7xAjEwfjIUYJDmYlEV4V//3JQrwpiZVVqUX58UWlOanFhxilOViUxHkvdJ2M
+ FxJITyxJzU5NLUgtgskycXBKNTBp5czPvsh8xP+M9dk/Xef03M1v/bu4zeRhjGSNlJx73D/W
+ W3dCwo30v58SmZJVKN+24vn0VOmTPJvnado4TPJgVdfYpxXFdilequYRw+ez0Xyp3d7F06w9
+ i9mTuJ2Ul07VkNx4VbCVx1Tn3uMas9dzVpVODf27O1IvSHvbvGXaV1f0VhkFP/ZYI+Uy5Xd9
+ drY2R/o50f+zV+/X0pl1QNlipyxHuPK78ov3kuJL3657FpPw0tRPcuI//3OaQseudf1cYKb9
+ tM/mcfFymwbDFQIZP9w9nOZdeMs93dezwXdZ2OLJEfuyLn3LWXOGO+fd/8MXdDzyXubu3pOZ
+ KPWK4dUnkSW/20JiD9dox0jsua/EUpyRaKjFXFScCACquJkxSAMAAA==
+X-CMS-MailID: 20230112022621epcas1p1c430de038d4afd28c46772ca9bfd0d2d
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230106175722epcas1p152dacb511ee08d563c51bb8a8deb0bfe
+References: <20221212182923.29155-1-jagan@amarulasolutions.com>
+ <CGME20230106175722epcas1p152dacb511ee08d563c51bb8a8deb0bfe@epcas1p1.samsung.com>
+ <CAMty3ZDGu-acuZ9Bhp_=JcTYn5YWKVZnEUf3nC28Spm8v4+KQg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,226 +127,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: 'Marek Vasut' <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
+ 'linux-amarula' <linux-amarula@amarulasolutions.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+Hi Jagan Teki,
 
-The CI results for the 'fast request' patch set (enables error return
-codes for fire-and-forget H2G messages) hit an issue with the KMD
-sending context submission requests on an invalid context. That was
-caused by a fault injection probe failing the context creation of a
-kernel context. However, there was no return code checking on any of
-the kernel context registration paths. So the driver kept going and
-tried to use the kernel context for the record defaults process.
+Sorry for late.
 
-This would not cause any actual problems. The invalid requests would
-be rejected by GuC and ultimately the start up sequence would
-correctly wedge due to the context creation failure. But fixing the
-issue correctly rather ignoring it means we won't get CI complaining
-when the fast request patch lands and enables the extra error checking.
+> -----Original Message-----
+> From: Jagan Teki <jagan@amarulasolutions.com>
+> Sent: Saturday, January 7, 2023 2:56 AM
+> To: Marek Szyprowski <m.szyprowski@samsung.com>; Inki Dae
+> <inki.dae@samsung.com>; Seung-Woo Kim <sw0312.kim@samsung.com>; Kyungmin Park
+> <kyungmin.park@samsung.com>; Neil Armstrong <narmstrong@linaro.org>; Robert
+> Foss <robert.foss@linaro.org>; Andrzej Hajda <andrzej.hajda@intel.com>; Sam
+> Ravnborg <sam@ravnborg.org>
+> Cc: Marek Vasut <marex@denx.de>; linux-samsung-soc@vger.kernel.org; dri-
+> devel@lists.freedesktop.org; linux-amarula <linux-
+> amarula@amarulasolutions.com>
+> Subject: Re: [PATCH v11 0/3] drm: exynos: dsi: Restore the bridge chain
+> 
+> On Mon, Dec 12, 2022 at 11:59 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> >
+> > Split the Exynos DSI bridge chain update patches from Samsung DSIM
+> > bridge driver for easy to apply.
+> >
+> > Changes for v11:
+> > - enable bridge.pre_enable_prev_first
+> > Changes for v10:
+> > - collect Marek.V Review tag
+> 
+> Any update on this?
+> 
 
-So fix it by checking for errors and aborting as appropriate when
-creating kernel contexts. While at it, clean up some other submission
-init related failure cleanup paths. Also, rename guc_init_lrc_mapping
-to guc_init_submission as the former name hasn't been valid in a long
-time.
+Added Thierry Reding who is a maintainer of DRM panel drivers.
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
----
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 91 ++++++++++++++-----
- .../gpu/drm/i915/gt/uc/intel_guc_submission.h |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  7 +-
- 3 files changed, 75 insertions(+), 25 deletions(-)
+I will pick this patch series - including panel and bride patches - up.
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 982364777d0c6..dd856fd92945b 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -1431,7 +1431,7 @@ static int guc_action_enable_usage_stats(struct intel_guc *guc)
- 	return intel_guc_send(guc, action, ARRAY_SIZE(action));
- }
- 
--static void guc_init_engine_stats(struct intel_guc *guc)
-+static int guc_init_engine_stats(struct intel_guc *guc)
- {
- 	struct intel_gt *gt = guc_to_gt(guc);
- 	intel_wakeref_t wakeref;
-@@ -1447,6 +1447,8 @@ static void guc_init_engine_stats(struct intel_guc *guc)
- 		cancel_delayed_work_sync(&guc->timestamp.work);
- 		drm_err(&gt->i915->drm, "Failed to enable usage stats: %d!\n", ret);
- 	}
-+
-+	return ret;
- }
- 
- static void guc_park_engine_stats(struct intel_guc *guc)
-@@ -4108,9 +4110,11 @@ static void guc_set_default_submission(struct intel_engine_cs *engine)
- 	engine->submit_request = guc_submit_request;
- }
- 
--static inline void guc_kernel_context_pin(struct intel_guc *guc,
--					  struct intel_context *ce)
-+static inline int guc_kernel_context_pin(struct intel_guc *guc,
-+					 struct intel_context *ce)
- {
-+	int ret;
-+
- 	/*
- 	 * Note: we purposefully do not check the returns below because
- 	 * the registration can only fail if a reset is just starting.
-@@ -4118,16 +4122,24 @@ static inline void guc_kernel_context_pin(struct intel_guc *guc,
- 	 * isn't happening and even it did this code would be run again.
- 	 */
- 
--	if (context_guc_id_invalid(ce))
--		pin_guc_id(guc, ce);
-+	if (context_guc_id_invalid(ce)) {
-+		int ret = pin_guc_id(guc, ce);
-+
-+		if (ret < 0)
-+			return ret;
-+	}
- 
- 	if (!test_bit(CONTEXT_GUC_INIT, &ce->flags))
- 		guc_context_init(ce);
- 
--	try_context_registration(ce, true);
-+	ret = try_context_registration(ce, true);
-+	if (ret)
-+		unpin_guc_id(guc, ce);
-+
-+	return ret;
- }
- 
--static inline void guc_init_lrc_mapping(struct intel_guc *guc)
-+static inline int guc_init_submission(struct intel_guc *guc)
- {
- 	struct intel_gt *gt = guc_to_gt(guc);
- 	struct intel_engine_cs *engine;
-@@ -4154,9 +4166,17 @@ static inline void guc_init_lrc_mapping(struct intel_guc *guc)
- 		struct intel_context *ce;
- 
- 		list_for_each_entry(ce, &engine->pinned_contexts_list,
--				    pinned_contexts_link)
--			guc_kernel_context_pin(guc, ce);
-+				    pinned_contexts_link) {
-+			int ret = guc_kernel_context_pin(guc, ce);
-+
-+			if (ret) {
-+				/* No point in trying to clean up as i915 will wedge on failure */
-+				return ret;
-+			}
-+		}
- 	}
-+
-+	return 0;
- }
- 
- static void guc_release(struct intel_engine_cs *engine)
-@@ -4400,30 +4420,57 @@ static int guc_init_global_schedule_policy(struct intel_guc *guc)
- 	return ret;
- }
- 
--void intel_guc_submission_enable(struct intel_guc *guc)
-+static void guc_route_semaphores(struct intel_guc *guc, bool to_guc)
- {
- 	struct intel_gt *gt = guc_to_gt(guc);
-+	u32 val;
- 
--	/* Enable and route to GuC */
--	if (GRAPHICS_VER(gt->i915) >= 12)
--		intel_uncore_write(gt->uncore, GEN12_GUC_SEM_INTR_ENABLES,
--				   GUC_SEM_INTR_ROUTE_TO_GUC |
--				   GUC_SEM_INTR_ENABLE_ALL);
-+	if (GRAPHICS_VER(gt->i915) < 12)
-+		return;
- 
--	guc_init_lrc_mapping(guc);
--	guc_init_engine_stats(guc);
--	guc_init_global_schedule_policy(guc);
-+	if (to_guc)
-+		val = GUC_SEM_INTR_ROUTE_TO_GUC | GUC_SEM_INTR_ENABLE_ALL;
-+	else
-+		val = 0;
-+
-+	intel_uncore_write(gt->uncore, GEN12_GUC_SEM_INTR_ENABLES, val);
-+}
-+
-+int intel_guc_submission_enable(struct intel_guc *guc)
-+{
-+	int ret;
-+
-+	/* Semaphore interrupt enable and route to GuC */
-+	guc_route_semaphores(guc, true);
-+
-+	ret = guc_init_submission(guc);
-+	if (ret)
-+		goto fail_sem;
-+
-+	ret = guc_init_engine_stats(guc);
-+	if (ret)
-+		goto fail_sem;
-+
-+	ret = guc_init_global_schedule_policy(guc);
-+	if (ret)
-+		goto fail_stats;
-+
-+	return 0;
-+
-+fail_stats:
-+	guc_park_engine_stats(guc);
-+fail_sem:
-+	guc_route_semaphores(guc, false);
-+	return ret;
- }
- 
- /* Note: By the time we're here, GuC may have already been reset */
- void intel_guc_submission_disable(struct intel_guc *guc)
- {
--	struct intel_gt *gt = guc_to_gt(guc);
- 	guc_park_engine_stats(guc);
- 
--	/* Disable and route to host */
--	if (GRAPHICS_VER(gt->i915) >= 12)
--		intel_uncore_write(gt->uncore, GEN12_GUC_SEM_INTR_ENABLES, 0x0);
-+	/* Semaphore interrupt disable and route to host */
-+	guc_route_semaphores(guc, false);
- }
- 
- static bool __guc_submission_supported(struct intel_guc *guc)
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-index 5a95a9f0a8e31..c57b29cdb1a64 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-@@ -15,7 +15,7 @@ struct intel_engine_cs;
- 
- void intel_guc_submission_init_early(struct intel_guc *guc);
- int intel_guc_submission_init(struct intel_guc *guc);
--void intel_guc_submission_enable(struct intel_guc *guc);
-+int intel_guc_submission_enable(struct intel_guc *guc);
- void intel_guc_submission_disable(struct intel_guc *guc);
- void intel_guc_submission_fini(struct intel_guc *guc);
- int intel_guc_preempt_work_create(struct intel_guc *guc);
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index 9a8a1abf71d7f..8e338b3321a93 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -537,8 +537,11 @@ static int __uc_init_hw(struct intel_uc *uc)
- 	else
- 		intel_huc_auth(huc);
- 
--	if (intel_uc_uses_guc_submission(uc))
--		intel_guc_submission_enable(guc);
-+	if (intel_uc_uses_guc_submission(uc)) {
-+		ret = intel_guc_submission_enable(guc);
-+		if (ret)
-+			goto err_log_capture;
-+	}
- 
- 	if (intel_uc_uses_guc_slpc(uc)) {
- 		ret = intel_guc_slpc_enable(&guc->slpc);
--- 
-2.39.0
+Thierry and Andrzej, please let me know if any problem.
+
+Thanks,
+Inki Dae
+
+> Jagan.
 
