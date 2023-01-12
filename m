@@ -2,45 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D673668161
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 21:01:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EA0566839C
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 21:12:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6972010E350;
-	Thu, 12 Jan 2023 20:01:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E48B10E1D9;
+	Thu, 12 Jan 2023 20:12:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B529710E350
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 20:01:34 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6276310E1D9;
+ Thu, 12 Jan 2023 20:12:01 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 4C397CE1F92;
- Thu, 12 Jan 2023 20:01:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28061C433D2;
- Thu, 12 Jan 2023 20:01:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1673553688;
- bh=DjplknG/Og42vIVzT/q7FbntQdQMbrnKJqFFsTyhjNM=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=EUafdQGi6kPVntwFcsX8dQ++eMfDpAt4hRufXGYp4rn3498p9O5an8Dtzb32f8VZO
- /0dwxqLx9EiZWyrofGYjXdGydKTREAjzdQvusJ0Ow7D4V0fv83WO6VIMOVK93JIW2S
- WKNFKVIBv7VwC+kTD5h1WgF5etFBp2YPn8S3ZXmT1Seav9nsmaQ1vhNBslaNNmcYRn
- zsCLB4TmasZgZxWFa1UpanGfaUnDdJStrP+pk1HardQUH3NiBxgoCCXTezH0ic2ZBw
- 6otuSPV9m9aONvZu3dzL7IfHqeZgMZCL4VALktP1HibdXNi78cOSWjN0jogQQsvptF
- 31XhLFJQie5QQ==
-From: Mark Brown <broonie@kernel.org>
-To: Robert Jarzmik <robert.jarzmik@free.fr>, Arnd Bergmann <arnd@kernel.org>
-In-Reply-To: <20230105134622.254560-1-arnd@kernel.org>
-References: <20230105134622.254560-1-arnd@kernel.org>
-Subject: Re: (subset) [PATCH v2 00/27] ARM: pxa: remove all unused
- boards&drivers
-Message-Id: <167355367885.2500964.3629822486060649314.b4-ty@kernel.org>
-Date: Thu, 12 Jan 2023 20:01:18 +0000
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A795022A10;
+ Thu, 12 Jan 2023 20:11:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1673554318; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rtrU1OUykO34xWHMi3G0sI22GeMOQtI4CaSGkZ/Gb64=;
+ b=u0lcxmvnsfJo7t1P1xH2Dxro87+YV/OBhAtKuEvjwPe+U2hl8NXy4xnT+aeGsD58bdhYTW
+ CqI9oS2oJoY6beiOWFoeOYP77+6SZARDm8z8nrGRkw2sV2tmFl+oe7IfLSCH0RDl9Q7SIQ
+ +7csj7Cu0OzDH4nYiGOzh0Ksqg0aDwE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1673554318;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rtrU1OUykO34xWHMi3G0sI22GeMOQtI4CaSGkZ/Gb64=;
+ b=PXClotV4TKstWXpGYQf19Rvh8ZhhnQrXYtLDSySKCek7/GrxXW0BacIjQF4gpYW08gOuhC
+ 0hsbG2MmGFPTgkCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 54F9713585;
+ Thu, 12 Jan 2023 20:11:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id jwn0E45pwGMGKgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 12 Jan 2023 20:11:58 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ tvrtko.ursulin@linux.intel.com, bskeggs@redhat.com, kherbst@redhat.com,
+ lyude@redhat.com, evan.quan@amd.com, jose.souza@intel.com
+Subject: [PATCH v2 0/3] drm: Generic fbdev and vga-switcheroo
+Date: Thu, 12 Jan 2023 21:11:53 +0100
+Message-Id: <20230112201156.26849-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12-dev-8b3d1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,67 +69,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, linux-usb@vger.kernel.org, vigneshr@ti.com,
- lgirdwood@gmail.com, viresh.kumar@linaro.org, ulf.hansson@linaro.org,
- linux@dominikbrodowski.net, perex@perex.cz, wsa+renesas@sang-engineering.com,
- patches@opensource.cirrus.com, linux-mtd@lists.infradead.org,
- philipp.zabel@gmail.com, miquel.raynal@bootlin.com,
- damien.lemoal@opensource.wdc.com, kernel@wantstofly.org,
- linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org, brgl@bgdev.pl,
- lee@kernel.org, linux@armlinux.org.uk, marek.vasut@gmail.com,
- stern@rowland.harvard.edu, lost.distance@yahoo.com, slapin@ossfans.org,
- Arnd Bergmann <arnd@arndb.de>, linux-pm@vger.kernel.org,
- linux-input@vger.kernel.org, Haojian Zhuang <haojian.zhuang@gmail.com>,
- linux-gpio@vger.kernel.org, sre@kernel.org, linux-fbdev@vger.kernel.org,
- tiwai@suse.com, linux-arm-kernel@lists.infradead.org, balbi@kernel.org,
- mkpetch@internode.on.net, s.shtylyov@omp.ru, linux-ide@vger.kernel.org,
- jingoohan1@gmail.com, dri-devel@lists.freedesktop.org,
- dmitry.torokhov@gmail.com, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org, sudipm.mukherjee@gmail.com,
- linux-renesas-soc@vger.kernel.org, gregkh@linuxfoundation.org,
- alsa-devel@alsa-project.org, deller@gmx.de, Daniel Mack <daniel@zonque.org>
+Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 05 Jan 2023 14:45:55 +0100, Arnd Bergmann wrote:
-> Most of the legacy PXA board files were marked as unused in linux-5.19 and
-> can get removed in linux-6.3. There is support for pxa250/pxa270/pxa300
-> using devicetree already, which supports a number of boards, but progress
-> on converting the remaining ones has stalled over the past few years.
-> 
-> The two boards that are left in the tree for now are the three 'sharpsl'
-> variants (spitz/akita/borzoi) and the 'gumstix' family of machines.
-> Both of these are supported by qemu, which can be helpful for completing
-> the DT conversion.
-> 
-> [...]
+(was: drm/fb-helper: Set framebuffer for vga-switcheroo clients)
 
-Applied to
+This patch has now turned into a little series. The first two patches
+are bug fixes for the existing code. The third patch cleans up the
+drivers.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Patch 1 fixes i915 to do the correct thing if the device has not been
+initialized yet. Switching to the device is only possible after the
+initialization, but switching away is always possible.
 
-Thanks!
+Patch 2 is the original patch without the amdgpu changes. Installs
+the fbdev framebuffer in vga-switcheroo for the PCI device. Does
+nothing for drivers without vga-switcheroo.
 
-[14/27] ASoC: PXA: make SND_PXA2XX_SOC_AC97 user-selectable
-        commit: 5eab9265759e2fb042aa452931c3d06ab7ab8dae
-[15/27] ASoC: pxa: remove unused board support
-        (no commit info)
+Patch 3 cleans up vga_switcheroo_process_delayed_switch() in amdgpu
+and the other related drivers (i.e., i915, nouveau and radeon). The
+call is now located at the end of drm_lastclose() and drivers do not
+need their own lastclose helpers any longer.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+I kept the r-bs from v1, but patch 1 is entirely new and patch 3 has
+significantly grown in size.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Thomas Zimmermann (3):
+  drm/i915: Allow switching away via vga-switcheroo if uninitialized
+  drm/fb-helper: Set framebuffer for vga-switcheroo clients
+  drm: Call vga_switcheroo_process_delayed_switch() in drm_lastclose
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h     |  1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c |  2 --
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 13 -------------
+ drivers/gpu/drm/drm_fb_helper.c         |  8 ++++++++
+ drivers/gpu/drm/drm_file.c              |  3 +++
+ drivers/gpu/drm/i915/i915_driver.c      | 26 ++-----------------------
+ drivers/gpu/drm/i915/i915_switcheroo.c  |  6 +++++-
+ drivers/gpu/drm/nouveau/nouveau_drm.c   |  1 -
+ drivers/gpu/drm/nouveau/nouveau_vga.c   |  7 -------
+ drivers/gpu/drm/nouveau/nouveau_vga.h   |  1 -
+ drivers/gpu/drm/radeon/radeon_drv.c     |  2 +-
+ drivers/gpu/drm/radeon/radeon_drv.h     |  1 -
+ drivers/gpu/drm/radeon/radeon_kms.c     | 18 -----------------
+ drivers/gpu/vga/vga_switcheroo.c        |  4 ++--
+ 14 files changed, 21 insertions(+), 72 deletions(-)
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
 
-Thanks,
-Mark
+base-commit: ac04152253dccfb02dcedfa0c57443122cf79314
+-- 
+2.39.0
+
