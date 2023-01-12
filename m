@@ -1,155 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C25A66842F
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 21:46:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 730686684CC
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 21:58:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E313D10E1C0;
-	Thu, 12 Jan 2023 20:46:38 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 145AB10E1C0;
- Thu, 12 Jan 2023 20:46:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673556396; x=1705092396;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=cJfick/Hi9qeZk3mkbLhhnmkp0gRngSjRkBwLm0E7Tk=;
- b=Tvm59oHMJIO97ZlPrWloAXaOJeilB9QER2n6eZi+LmMawaOp5zhV8Wyb
- dMPZS10O8GKgitvWSM/MI93njWKnVLKhoO9DzL7m15qma/iqoJeTgyopS
- Zk0hExmyowd4aIYiQ7YkDI7l8Zd542Led22WM5C7suL4tW77p+KClY03o
- 7p1IhwTqh2/7n+/l21N7Mx6sArw+kLzdHAZx7C/XXgSHXoch/4rpmIdox
- F3k581FesQfHVELPqIrN6UDpC/j56RhOHY6rhWStRV6HtlAGIxeSba8dz
- OVwXRUOcow58y1wIN4kGYJPkUGzOLRdkzDqlZSoNATWUCTsdDCBTxEopp A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="388314420"
-X-IronPort-AV: E=Sophos;i="5.97,212,1669104000"; d="scan'208";a="388314420"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2023 12:46:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="635525102"
-X-IronPort-AV: E=Sophos;i="5.97,212,1669104000"; d="scan'208";a="635525102"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orsmga006.jf.intel.com with ESMTP; 12 Jan 2023 12:46:33 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 12 Jan 2023 12:46:32 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 12 Jan 2023 12:46:32 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 12 Jan 2023 12:46:32 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 12 Jan 2023 12:46:31 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fU9VK+8wx+dVqLoAzsJvKwuhi4f49CoknRKHUZsoZYriEplPZaZph5ZVKZARrRvQEV5Vwqv/2fgOxW1D487E6RglzL9MeSfPmGXwohMwJ43JoxVb6RYwFNxaT+E0vgCfMg7Y30ts5xoDk6Q/LwKoSWz4O5WTXkqJYi1cX0DuzWNUVBF8gtHFuseID+1lgToLUdNKe9GmczNhL1aW1xGWx37R5O5Tc3aFByvnsgM1xgrK8zo457KAR7xtZAvtDwzVftqh98v4Xs+3y7+d1tfT8ulnXIjE+Jiychql2LT2Sz33VA0vEjcJ1B0coMsTvqSq4FBmoGhubO8SA17fACRsCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=28vHJmNzEBE3k0EgZRqbSfNf97UXJO+0jBSEJ2j4sEE=;
- b=J642zoaCaKh3IUfZFO547jrx7EJAskNhEJAXQed4o2u1kPx4WFoyDmIwYM72h90zmuYSQ8A8Zzs6lit+nZwyZyAj5dZPMp3CW8XZKNj7b9IUspwVasrAxc67SdwVi7lzp2sUnbsSg0OJBxFiR2svUMlY80YW1DTCxGSwBb8goM3pHWpBpWOkwiFm5LkgFvtApyt+Pp4kT75LC5YawGkzOjKP/ZPsGZ2MFj9PNxF2mV0ICRGQn7pRxGP8y5sEaWhO1Zr1Nc3raAQZ2IUXA/lySAyT6gf/z3nOy0Rt7cO0PUn9pR3kJyCxupWe0E8NFfVzaPuxkV9dfQpvTRSxXiIBuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
- by SN7PR11MB6899.namprd11.prod.outlook.com (2603:10b6:806:2a7::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Thu, 12 Jan
- 2023 20:46:29 +0000
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::ec2f:4a87:326b:2610]) by BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::ec2f:4a87:326b:2610%7]) with mapi id 15.20.5986.018; Thu, 12 Jan 2023
- 20:46:29 +0000
-Message-ID: <5a8be54d-9627-3d60-b6b0-22f3732e6962@intel.com>
-Date: Thu, 12 Jan 2023 12:46:27 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.6.1
-Subject: Re: [Intel-gfx] [PATCH 2/4] drm/i915: Allow error capture of a
- pending request
-Content-Language: en-GB
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- <Intel-GFX@Lists.FreeDesktop.Org>
-References: <20230112025311.2577084-1-John.C.Harrison@Intel.com>
- <20230112025311.2577084-3-John.C.Harrison@Intel.com>
- <dab002d8-75f7-d8b5-d0a0-a6a21ec724b0@linux.intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <dab002d8-75f7-d8b5-d0a0-a6a21ec724b0@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR03CA0335.namprd03.prod.outlook.com
- (2603:10b6:303:dc::10) To BY5PR11MB3911.namprd11.prod.outlook.com
- (2603:10b6:a03:18d::29)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B17C10E91B;
+	Thu, 12 Jan 2023 20:58:40 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6DE310E91B
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 20:58:37 +0000 (UTC)
+Received: from notapiano (unknown
+ [IPv6:2600:4041:5b1a:cd00:524d:e95d:1a9c:492a])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: nfraprado)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 4C7E06602D59;
+ Thu, 12 Jan 2023 20:58:33 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1673557116;
+ bh=wlus3ItbPJlKKgtyc4iIkSQkGdha2/qmSLhvIsGYOgE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=P1bC2BxC39SXJ66hdDZKauBr+s8XAfK/NxeGin7AZJrszz/zAD9M6t29DN6f5DjxT
+ 7INqYrfNiR+XRJNdNTHiANz08OLMOrc/xIoEnurfCcaoKydH9CLimMnRZixEz+1XgW
+ xxepSrerWFKxzOXKs7T9bRIw2CYR8BhT3CZVahS5jUYkbFR5+1sVMcsOgh6wmVeran
+ bvT71bJT5Hvan+yE9lRBkQF1GY6kM7I58pc3jA7bMZuibiC+nk/zyHTRCMMDVZEQIX
+ /OVvB9jkdmBbiVfpPAstqDddlNF4DFNazF3kZmias4W/HkcIj+Rs1FQIZzQi5FL00P
+ ArsSx0Cda7ILg==
+Date: Thu, 12 Jan 2023 15:58:25 -0500
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Subject: Re: [PATCH v7, 5/7] media: mediatek: vcodec: Different codec using
+ different capture format
+Message-ID: <20230112205825.wb5qcqhh5kwvyi3y@notapiano>
+References: <20220518123004.18286-1-yunfei.dong@mediatek.com>
+ <20220518123004.18286-6-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_|SN7PR11MB6899:EE_
-X-MS-Office365-Filtering-Correlation-Id: c1ee815a-70d9-45bb-a31a-08daf4de14ed
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: g7SHmfscoxRpCBvY5MfrOHDFFgpZ7Rke42fL+wq6WdrGMwfLNKrB9AlaRyy70YGS28jgtohwafgKxGcqoARlANYEqS4J5uQyyXLlBMKcx0wb8BVI3hwihe+jYn9oPfh+8DvYe9fTUKIoY4KXjfsQpNQdLQrspAMNkwn035PYQjI424yFPxsc4DSqpon44t99LAw1M3EBkk392jZKAhSqgcVDQQB8Mk3O0RtX0DVYvY/dOD3+SPBLw0nM/qlFC7Me38tA9OS9Yj2e+lTirWhH0DoMcxOpue+sxPqGthnR3rr7szy9KrrU5La7oIVxOiagnpujN5rvAw/PhqRlErP0oW2TMSofAgq4OUf8kOr4fpvI028dZiTi41CVDSgpDFwV/oyoo3XSxRwyn9t3g4Bh/bKj3vAGNgxJAlm7Mjr4aoP+4kNrOQULWjk4HgCq+nis7g4L1zVGgJaCQ/Mn4xZVg2pzr9IxZZ6CwcMx6Fn7sSwjYy2k8O4Uy3TQ5dEDuHqsl+sMPqspdpaZsbUPgGLTjEveGouju2stFO92sUS0xW9ZR3kbQNkAE/DXm06ftNEgjuQAIOlF4BFS7JxPBsH6vDFkN+3OVP7RjusdD0sIl6utcAnsqHyUPnDM14Os7Yjz1qlW7gVVcWyrSS22CYLU4ooE3N4ZSta99jN5C+Sdj9KLRK17P4F2PHuLo+yxefwLE0Wj6ckYpoXqpUEAGhhEDHsaitftn9/b1BDBo6mh5Hk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(346002)(136003)(39860400002)(366004)(396003)(376002)(451199015)(6486002)(53546011)(6506007)(478600001)(2616005)(316002)(26005)(31686004)(186003)(2906002)(66556008)(8676002)(66476007)(41300700001)(66946007)(4326008)(6512007)(5660300002)(8936002)(83380400001)(31696002)(86362001)(38100700002)(82960400001)(36756003)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MlBoRG91Si9xcmx4cnA5bUdWRDFUWk4vWTltdTgyVEwzREUxTlpjdnBJTHNY?=
- =?utf-8?B?RUlMTThsbzFwM1hST29Jb004T24zcVlKUVlrczllakl2bHduam56aUhCdk5Z?=
- =?utf-8?B?UEdiUEdyZFNDYUVmUjdJN0FYNWJ6aW1VTGtoOG9PWk9VL3d0SWRkaTVkNnZh?=
- =?utf-8?B?ancrZ1ZWVzh0MEhwdGU3WVh0OUw3dE9uQlI5M1ptQzlML244OFFVTUZkL0Ew?=
- =?utf-8?B?TWxJUXVoUWdOZXFpTThmT3NUTWhOaFpnbWF2VFFuVmY2VXVDRk5tUEJsNVN1?=
- =?utf-8?B?UkFhNzJMV1JDOG5JbEsraUNTUVZoVGxvQjJvWmdzbmZlZWozNzY0b3BVRVVS?=
- =?utf-8?B?a2ZGNGgwSE55cHRJU2REWGN2dWxkSnlHVEZRT1QzZlRhSXdNblNPKzU4bXM0?=
- =?utf-8?B?cmVrbVJ5TFRlT3g4bGs1Nk1HODVwT0FWcHpGbThQSW1kdi8zc1hzZ2kyQTFW?=
- =?utf-8?B?aHlvQitxaU9uTGdvWkFGcW1jZStYYzljNjhLanNhVmdjcTdqUUJxc2xLajd4?=
- =?utf-8?B?dHI3RHlPcDZqcmJSb1Z6bnJyYnhpQmF6T2dFVklsMlpJaDdEOUhQK1NVUk5o?=
- =?utf-8?B?NDJPeTVXTkQrYktzTzNGZTcvWVNxYk5NYjNoTnNDL0RZQy8vS2lsdzlJSDNl?=
- =?utf-8?B?NHpDSW1jZVBKdkdhbERscElmOUNwK3c4VGJIS3hKS1JLU0NraEZqSWg5Mkhn?=
- =?utf-8?B?YSsxSG1kZGhZc1Vvc3A2OFZkN1d4RUVWcjlObFZ5bHVmaklJVUh5bDRWdmty?=
- =?utf-8?B?SlFyTDhjVzZ3UnVqbm12d2pTYXZmYmozT0hHMjlDSjZVeFNSSE5rV256UElq?=
- =?utf-8?B?OUVEd0tHc2NUOTdPMjByOWtzLzRPVDNpVGFVMTd3L1NDcks3c21VL25Bem5y?=
- =?utf-8?B?VjZKUjFPOTIweVhqTGRtSU9kWS9tYlhncFQ3V0tyUjNqYmRaT2Y0aE90ZERz?=
- =?utf-8?B?anliZVlQcHpRZFh3WGorMjBCeXNTN3RTalppOTNkclN1M21VNTFXc0pFTFFL?=
- =?utf-8?B?eU9Wc0d0S3h3ZVRpc1dVMkZOcXp6eVJrdU1tL1Uzc3FaK3FPZG5DSHhodU5X?=
- =?utf-8?B?dGNxdWNobUx3WlVnRWplZHBzbE5YTFU4bDc5alFwdUUyVXJIQW1YWWJvSk9Z?=
- =?utf-8?B?SFJNenVLMHpoMFpNM3pYbDVqQUYwS2ZoeVN3U2xSR0ZtUlB5RGFCQmo3WUpT?=
- =?utf-8?B?UjhWdE1aZGhNNkFQR3RLQnYwdFNBK0R2TkZZN0ZiQ0ZtNTdVeDRkbWRpOENl?=
- =?utf-8?B?TUZiL2dtRlNWVmhGaG9DN0QrMFFQYWt4QXZRVFZQUXNWN1NaTCsxdjlXa1A2?=
- =?utf-8?B?T2NxQU0xR0tTUnF0NFVhampPelBvZW8wNWUrMlN0YkFuWkQ4cm5aSjBjODFm?=
- =?utf-8?B?K2Q1NmhEMTNJbnhWMXJKa2VRTVFMY0FMWUZoZzhkdVlKQjJ0c0ZYN3NlZ25j?=
- =?utf-8?B?L2FQS0YvK3JVRU0xMlFYK3V1U2xrV1NraURxRFhlM3dJT0NFL0d0YnJLdElX?=
- =?utf-8?B?NU1pYjI2eWZwWjgwcm9NMldDRFRpdWorRWRPb0JwRVNoaFJiOG1tUjBVOUdS?=
- =?utf-8?B?SUplY3lzb1N3UFA1aGJJeHhHMThYWThSWFhxSG5zL2JLUzlyQTEwa2FWRmJz?=
- =?utf-8?B?VFJBVUR0VmE3aHVoSXQ5VkpITE1mV1AzRG9MemduQzBlRFhFRDB2MWFJVU9v?=
- =?utf-8?B?MS9IQmVwSGhaUDc1dDQ5d2hYb1RqWnM4VS9VNHVSb0xlUHYyNk9iTkJXc1hl?=
- =?utf-8?B?RUp2bzdGNDJSQStxSWFrNnAvaVR5eUlLVXV0VkVSMGVtTDVmaVlrWjJ0NjZQ?=
- =?utf-8?B?NHk5VGJpcFJwQ1UwODMvbnNqKzJQR0pGK2pDT05SWWswaGYwbUJUUVhNd2or?=
- =?utf-8?B?ZWVUN3BWRlhFUnhhdlkzYWx6VTBuWlZ5QmpubTV0Vm5GVlZ0NkFYYk1qRmRy?=
- =?utf-8?B?Y3AzRVpoWWpzY241T1Rsb0VZTkJ4aGxFRWpqY3FRVE5ITDdJNUZNbEY2M3ZL?=
- =?utf-8?B?WDFrY0I3WVNIdWo4QVF6Y0FIVE5GSWlFbllkekhZeTRnZCtydForSEdWOWtw?=
- =?utf-8?B?TDJZSkRucWhHd1JpcUFvRm1aekZJZHM1a01CVXo5Z2J1U2pBc0QzdU14Nzl1?=
- =?utf-8?B?Mk5OY293Q2FGZThONDZTVHgvdVY3WFBqODN0UFNRS2RDbmp0T0ZMVlVtZ0ZN?=
- =?utf-8?B?Mnc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1ee815a-70d9-45bb-a31a-08daf4de14ed
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2023 20:46:29.8787 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7I5t8r7LGyDr2wsnzagOqIJSOupVMIZRU7268gdxMz+dBttsoj7pGcg0qqCi1w0TrVWQid8qKJBVQAgJsbHZrI9T920LeVNchZJD/tvVQdY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6899
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220518123004.18286-6-yunfei.dong@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,76 +56,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Steve Cho <stevecho@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, Irui Wang <irui.wang@mediatek.com>,
+ George Sun <george.sun@mediatek.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Tomasz Figa <tfiga@google.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Courbot <acourbot@chromium.org>, linux-kernel@vger.kernel.org,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/12/2023 02:06, Tvrtko Ursulin wrote:
-> On 12/01/2023 02:53, John.C.Harrison@Intel.com wrote:
->> From: John Harrison <John.C.Harrison@Intel.com>
->>
->> A hang situation has been observed where the only requests on the
->> context were either completed or not yet started according to the
->> breaadcrumbs. However, the register state claimed a batch was (maybe)
->> in progress. So, allow capture of the pending request on the grounds
->> that this might be better than nothing.
->>
->> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->> ---
->>   drivers/gpu/drm/i915/i915_gpu_error.c | 8 +++-----
->>   1 file changed, 3 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c 
->> b/drivers/gpu/drm/i915/i915_gpu_error.c
->> index bd2cf7d235df0..2e338a9667a4b 100644
->> --- a/drivers/gpu/drm/i915/i915_gpu_error.c
->> +++ b/drivers/gpu/drm/i915/i915_gpu_error.c
->> @@ -1628,11 +1628,9 @@ capture_engine(struct intel_engine_cs *engine,
->>       if (ce) {
->>           intel_engine_clear_hung_context(engine);
->>           rq = intel_context_find_active_request(ce);
->> -        if (rq && !i915_request_started(rq)) {
->> -            drm_info(&engine->gt->i915->drm, "Got hung context on %s 
->> with no active request!\n",
->> -                 engine->name);
->> -            rq = NULL;
->> -        }
->> +        if (rq && !i915_request_started(rq))
->> +            drm_info(&engine->gt->i915->drm, "Confused - active 
->> request not yet started: %lld:%lld, ce = 0x%04X/%s!\n",
->> +                 rq->fence.context, rq->fence.seqno, ce->guc_id.id, 
->> engine->name);
->
-> Ah you change active to started in this patch! :)
-Yeah, I'm wanting to keep these two patches separate. This one is a more 
-questionable change in actual behaviour. The previous patch just allows 
-capturing the context when the request has been rejected. Whereas this 
-one changes the request acceptance criteria. With the potential to start 
-blaming innocent requests. It seems plausible to me, especially with the 
-warning message. We know the context owning the request is guilty so why 
-wouldn't we blame that request just because the tracking is off (maybe 
-due to some driver bug). But I could see someone objecting on grounds of 
-being super strict about who/what gets blamed for a hang and either 
-nacks or maybe wants this change reverted some time later.
+On Wed, May 18, 2022 at 08:30:02PM +0800, Yunfei Dong wrote:
+> Vp8 need to use MM21, but vp9 and h264 need to use HyFbc mode
+> for mt8195. Vp8/vp9/h264 use the same MM21 format for mt8192.
 
->
-> I suggest no "ce" in user visible messages and maybe stick with the 
-> convention grep suggest is already established:
->
-> "Hung context with active request %lld:%lld [0x%04X] not started!"
->
-Are you also meaning to drop the engine name? I think it is important to 
-keep the '%s' in there somewhere.
+Hi Yunfei,
 
-John.
+why do VP9 and H264 need to use HyFbc (is this the same as MT21C?) mode on
+MT8195? The SCP firmware on linux-firmware for MT8195 [1] only has MM21
+available and based on my testing it works just fine. And contrary to what the
+commit message states this logic is also being applied to MT8192, preventing it
+to use MM21 when there are more than one format available.
 
+Thanks,
+N�colas
 
-> Regards,
->
-> Tvrtko
->
->>       } else {
->>           /*
->>            * Getting here with GuC enabled means it is a forced error 
->> capture
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/mediatek/mt8195/scp.img?id=375d4500d315ff20c59911d12d86b477d4979b1d
 
+> 
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  .../platform/mediatek/vcodec/mtk_vcodec_dec.c | 41 +++++++++++++++++++
+>  1 file changed, 41 insertions(+)
+> 
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> index 52e5d36aa912..254649240b34 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> @@ -35,6 +35,44 @@ mtk_vdec_find_format(struct v4l2_format *f,
+>  	return NULL;
+>  }
+>  
+> +static bool mtk_vdec_get_cap_fmt(struct mtk_vcodec_ctx *ctx, int format_index)
+> +{
+> +	const struct mtk_vcodec_dec_pdata *dec_pdata = ctx->dev->vdec_pdata;
+> +	const struct mtk_video_fmt *fmt;
+> +	struct mtk_q_data *q_data;
+> +	int num_frame_count = 0, i;
+> +	bool ret = true;
+> +
+> +	for (i = 0; i < *dec_pdata->num_formats; i++) {
+> +		if (dec_pdata->vdec_formats[i].type != MTK_FMT_FRAME)
+> +			continue;
+> +
+> +		num_frame_count++;
+> +	}
+> +
+> +	if (num_frame_count == 1)
+> +		return true;
+> +
+> +	fmt = &dec_pdata->vdec_formats[format_index];
+> +	q_data = &ctx->q_data[MTK_Q_DATA_SRC];
+> +	switch (q_data->fmt->fourcc) {
+> +	case V4L2_PIX_FMT_VP8_FRAME:
+> +		if (fmt->fourcc == V4L2_PIX_FMT_MM21)
+> +			ret = true;
+> +		break;
+> +	case V4L2_PIX_FMT_H264_SLICE:
+> +	case V4L2_PIX_FMT_VP9_FRAME:
+> +		if (fmt->fourcc == V4L2_PIX_FMT_MM21)
+> +			ret = false;
+> +		break;
+> +	default:
+> +		ret = true;
+> +		break;
+> +	};
+> +
+> +	return ret;
+> +}
+> +
+>  static struct mtk_q_data *mtk_vdec_get_q_data(struct mtk_vcodec_ctx *ctx,
+>  					      enum v4l2_buf_type type)
+>  {
+> @@ -566,6 +604,9 @@ static int vidioc_enum_fmt(struct v4l2_fmtdesc *f, void *priv,
+>  		    dec_pdata->vdec_formats[i].type != MTK_FMT_FRAME)
+>  			continue;
+>  
+> +		if (!output_queue && !mtk_vdec_get_cap_fmt(ctx, i))
+> +			continue;
+> +
+>  		if (j == f->index)
+>  			break;
+>  		++j;
+> -- 
+> 2.18.0
+> 
+> 
