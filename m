@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E60BB6686E2
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 23:25:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7406686FC
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 23:32:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C116510E93F;
-	Thu, 12 Jan 2023 22:25:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E59710E941;
+	Thu, 12 Jan 2023 22:32:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9208510E941
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 22:25:22 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id c6so21635733pls.4
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 14:25:22 -0800 (PST)
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
+ [IPv6:2607:f8b0:4864:20::b2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64DCB10E942
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 22:31:58 +0000 (UTC)
+Received: by mail-yb1-xb2b.google.com with SMTP id 188so20410003ybi.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 14:31:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-disposition:mime-version:message-id:subject:cc:to:date:from
- :from:to:cc:subject:date:message-id:reply-to;
- bh=bj8YNZYj773EODRUgqHFXApSaiD9KuR4jPUiwE8KcAo=;
- b=oL0l6AyEgEXf+sREiti4ml1oEbzpS6BUwIZVV1G63ij1HTMvCtqAu0LaknGOkfMsGH
- p/UviPcDu2CY4MdRx/VKTKArEYyiHa0vD6NvNJSk92L/L25OeCB3PrdqYpgwro0SHwhv
- +AJvCee9Q7DU6/iL9PyTpgzmxCgdJmDiuD5uA=
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=/C/ZRKjPzNTEZUCk+rnSkeE6htJTMyaRVi+BQ5BKJ+U=;
+ b=JUPY63vtT6QcwqD9Ws2QE/pf7jC1/0su4w2j3d9Xn0NTdACzrFBjxjuFHWgpThUZws
+ imdknTpaWEjV9uHtradW98A1u35lfMGg1dddhCwsBClQF94e0939KX7UTkXNgez4GIry
+ JxaKGHbkQ7QWJVTYQ0VQgYI43iHND9qXIlcZM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:date:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bj8YNZYj773EODRUgqHFXApSaiD9KuR4jPUiwE8KcAo=;
- b=wpZSTPONoAXg+AAZ7YbBG89gTvZBLPBNnesO145MRlfHRDaNAl+s2yC48YHn51GBga
- +JglsXC4HLWbet11DbCWPwssdN16WuqKaSkxp9ub9H+akc9IJzGuXwcIH7aLCECzcIk0
- pOwMUeer+GoQRYiofoGrhzbFme+7k9UM8CaZpwUc8BXRdk8pvVSQ+GFxlE15jrvfv8D0
- YTqNSBQl0Kl4kkikuMTd4xajQ6se2cxu8CIYWpoMoTbijhaQ3NZBBQQ1fmUnrxhsM16p
- Hy+DklqajIZ01MU9w+Bo/LOY6oyfPZLGCCQoygk29m5xo8SWRlfUK5wBuip3h9VCd4i2
- Vn8Q==
-X-Gm-Message-State: AFqh2koB/9whimiF3Ml2qUmRlFMFwUG2ZOBa3f+qhr5JNmCnnin0wndd
- Xs6xwuteZC/Fs9/AQIYNO6iBdQ==
-X-Google-Smtp-Source: AMrXdXtfGsX9cI/jSo6TyoHbQX+mIPNPV0+cKVX+LPemtsSZtxnLciLhyi8qD5itmK1Hq/uY8ur9Ug==
-X-Received: by 2002:a17:902:978f:b0:189:6f76:9b61 with SMTP id
- q15-20020a170902978f00b001896f769b61mr15951500plp.39.1673562322119; 
- Thu, 12 Jan 2023 14:25:22 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id
- d8-20020a170903230800b00189ac5a2340sm12710681plh.124.2023.01.12.14.25.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Jan 2023 14:25:21 -0800 (PST)
-From: coverity-bot <keescook@chromium.org>
-X-Google-Original-From: coverity-bot <keescook+coverity-bot@chromium.org>
-Date: Thu, 12 Jan 2023 14:25:21 -0800
-To: Mario Limonciello <mario.limonciello@amd.com>
-Subject: Coverity: dm_dmub_sw_init(): Incorrect expression
-Message-ID: <202301121425.FB249B61B4@keescook>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/C/ZRKjPzNTEZUCk+rnSkeE6htJTMyaRVi+BQ5BKJ+U=;
+ b=EFNjNniAiEvBTowgeomXiQBbsS20dwMIBibm37VFlAGaQBvy0LZXHVGQ3O+sPz7gN6
+ p/sx16ILa2N9herAmsfPJzIh/KB6th1F0x4qW3AtKnbTT+qJNgVK9oz8Y4hpnqr9yzMJ
+ RX2VoznIaMoBFeLbeBbYzOEcfD1CD09yhYOmeBAzp+66hiV9+eFXS+Gh3cLXbUDlQgDp
+ lNDjPPnis3LPXm5nSl7POwpDLGdRI7OMXULOjjQq9NX/P3eqCMm4owSe4kf6jcJpVMsc
+ I5yQsQwiAAV3HIPH3VfPWcqfoY7RAn20TtWDdHkW+1E4LjftUs6ucX0IIQF0CuFZKNgF
+ O4/w==
+X-Gm-Message-State: AFqh2kpKJ+JPZkznXQr86Fes0Vs1N5lM/3eZB+7htLI5al6ul09QsNwf
+ cILZvS2ALat6NdtllLHwnTneTuSxQHLNHTFSR0NuXw==
+X-Google-Smtp-Source: AMrXdXuznEwChU9VQQ72rYVGqmbsFrMqOVBPMbeBVwgDM2AWPc/3hytO7eUeE33HPvr9ax9Vk/LALEeTjlK/OvpNWf8=
+X-Received: by 2002:a25:1083:0:b0:7ae:5e48:383b with SMTP id
+ 125-20020a251083000000b007ae5e48383bmr2843942ybq.223.1673562717561; Thu, 12
+ Jan 2023 14:31:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230112042104.4107253-1-treapking@chromium.org>
+ <20230112042104.4107253-2-treapking@chromium.org>
+ <Y8AL8nTcNcl6zX7H@paasikivi.fi.intel.com>
+In-Reply-To: <Y8AL8nTcNcl6zX7H@paasikivi.fi.intel.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Thu, 12 Jan 2023 14:31:45 -0800
+Message-ID: <CACeCKaeN7KBi30M1fRWhTPgMbxF6=B+KuAS7Ny7+i9qCx+=49Q@mail.gmail.com>
+Subject: Re: [PATCH v10 1/9] device property: Add remote endpoint to devcon
+ matcher
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,60 +64,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>, Leo Li <sunpeng.li@amd.com>,
- Lijo Lazar <lijo.lazar@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Roman Li <roman.li@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
- linux-next@vger.kernel.org, Fangzhi Zuo <Jerry.Zuo@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, hersen wu <hersenxs.wu@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-hardening@vger.kernel.org
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
+ chrome-platform@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ Stephen Boyd <swboyd@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello!
+HI Sakari,
 
-This is an experimental semi-automated report about issues detected by
-Coverity from a scan of next-20230111 as part of the linux-next scan project:
-https://scan.coverity.com/projects/linux-next-weekly-scan
+On Thu, Jan 12, 2023 at 5:32 AM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Pin-yen,
+>
+> On Thu, Jan 12, 2023 at 12:20:56PM +0800, Pin-yen Lin wrote:
+> > From: Prashant Malani <pmalani@chromium.org>
+> > +             /*
+> > +              * Some drivers may register devices for endpoints. Check
+> > +              * the remote-endpoints for matches in addition to the remote
+> > +              * port parent.
+> > +              */
+> > +             node = fwnode_graph_get_remote_endpoint(ep);
+> > +             if (fwnode_device_is_available(node)) {
+> > +                     ret = match(node, con_id, data);
+> > +                     if (ret) {
+> > +                             if (matches)
+> > +                                     matches[count] = ret;
+> > +                             count++;
+> > +                     }
+> > +             }
+>
+> Aren't you missing fwnode_handle-put(node) here??
 
-You're getting this email because you were associated with the identified
-lines of code (noted below) that were touched by commits:
+It shouldn't be necessary. We aren't break-ing/continue-ing here,
+and fwnode_handle_put(node) is called latter in the loop [1][2]
 
-  Tue Jan 10 14:32:57 2023 -0500
-    a7ab345149b8 ("drm/amd/display: Load DMUB microcode during early_init")
+BR,
 
-Coverity reported the following:
-
-*** CID 1530544:  Incorrect expression  (IDENTICAL_BRANCHES)
-drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:1951 in dm_dmub_sw_init()
-1945
-1946     	switch (adev->ip_versions[DCE_HWIP][0]) {
-1947     	case IP_VERSION(2, 1, 0):
-1948     		dmub_asic = DMUB_ASIC_DCN21;
-1949     		break;
-1950     	case IP_VERSION(3, 0, 0):
-vvv     CID 1530544:  Incorrect expression  (IDENTICAL_BRANCHES)
-vvv     The same code is executed regardless of whether "adev->ip_versions[GC_HWIP][0] == 656128U" is true, because the 'then' and 'else' branches are identical. Should one of the branches be modified, or the entire 'if' statement replaced?
-1951     		if (adev->ip_versions[GC_HWIP][0] == IP_VERSION(10, 3, 0))
-1952     			dmub_asic = DMUB_ASIC_DCN30;
-1953     		else
-1954     			dmub_asic = DMUB_ASIC_DCN30;
-1955     		break;
-1956     	case IP_VERSION(3, 0, 1):
-
-If this is a false positive, please let us know so we can mark it as
-such, or teach the Coverity rules to be smarter. If not, please make
-sure fixes get into linux-next. :) For patches fixing this, please
-include these lines (but double-check the "Fixes" first):
-
-Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
-Addresses-Coverity-ID: 1530544 ("Incorrect expression")
-Fixes: a7ab345149b8 ("drm/amd/display: Load DMUB microcode during early_init")
-
-Thanks for your attention!
-
--- 
-Coverity-bot
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/base/property.c#n1256
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/base/property.c#n1261
