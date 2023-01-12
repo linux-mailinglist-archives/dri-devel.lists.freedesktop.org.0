@@ -2,54 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1CBC66735E
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 14:39:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED59E66736B
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 14:40:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD2610E8E4;
-	Thu, 12 Jan 2023 13:39:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04EE610E8F1;
+	Thu, 12 Jan 2023 13:40:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D7D410E8E4;
- Thu, 12 Jan 2023 13:39:01 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DDB810E8EC;
+ Thu, 12 Jan 2023 13:40:29 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B91442210B;
- Thu, 12 Jan 2023 13:38:59 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1A1F64D751;
+ Thu, 12 Jan 2023 13:40:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673530739; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Bz+TEZ5CGgKqgB1SMbVEVQAVMvTH9Ufcgu1xTO6CXqc=;
- b=BmgjcapjFIKwcdb3qrjjjF2qsM315gQ0QzQPqbke03U4kAZURF9rTGlVFfOvUgKI6VyYTi
- yhMD5ya021RHeFizjIaMlV3imY6ShPDKnIY2uhlb1a3DDQeD7M3OWJ9b8rHmcFyfVtQiuW
- L8lEcH7btur793r9KTX/Yiyc3i/CRJY=
+ t=1673530828; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=p7Q006bOdqxrl4RmtZbuRUQ6xuwS3bfx/2km4FHPDsA=;
+ b=arwnDXE6cbTyiHLC+9NSij/ehUZMrI4RCoR0Gkg4egyG/han62YZdyj71Rq4hXMgczA2GC
+ 48eoHGEGwqjX1X316vsDzJZ4dTEJ5+sJ0HDlt7zp5++PAhYom7gn2K94KLVIbJHQHVl2ha
+ hyHjprIsm4pLfHxzO5tqc6XoeFCGb9I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673530739;
+ s=susede2_ed25519; t=1673530828;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Bz+TEZ5CGgKqgB1SMbVEVQAVMvTH9Ufcgu1xTO6CXqc=;
- b=XkjsPboU+8ctEPituCUpyemp380lTwN8gaRJOi94H+pl6kxyJccSTX3OSmAJhVlnLRlN8a
- RUKP+TY1yVZuc9Dw==
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=p7Q006bOdqxrl4RmtZbuRUQ6xuwS3bfx/2km4FHPDsA=;
+ b=aZdkxXbB8sOrwxv/3d23zecEG/wjcwe8WOVa/XB2vjpC4VBmMSqprsZ6+q1gP1V579bv8H
+ vg/8XRbiFYDPeBCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 828B813585;
- Thu, 12 Jan 2023 13:38:59 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DF14D13585;
+ Thu, 12 Jan 2023 13:40:27 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id QDoAH3MNwGM4awAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 12 Jan 2023 13:38:59 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: kherbst@redhat.com, bskeggs@redhat.com, lyude@redhat.com, daniel@ffwll.ch,
- airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Subject: [PATCH] drm/nouveau: Remove support for legacy contexts/buffers
-Date: Thu, 12 Jan 2023 14:38:58 +0100
-Message-Id: <20230112133858.17087-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.39.0
+ by imap2.suse-dmz.suse.de with ESMTPSA id ubmZNcsNwGMmbAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 12 Jan 2023 13:40:27 +0000
+Message-ID: <2cf6b95f-fde7-c48e-4f89-12a359560d9a@suse.de>
+Date: Thu, 12 Jan 2023 14:40:27 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] drm/nouveau: Remove support for legacy contexts/buffers
+Content-Language: en-US
+To: kherbst@redhat.com, bskeggs@redhat.com, lyude@redhat.com,
+ daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com
+References: <20230112133858.17087-1-tzimmermann@suse.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230112133858.17087-1-tzimmermann@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------fi46kEE0unrugimsy0hI8x18"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,261 +71,243 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove nouveau's support for legacy contexts and buffers. It was
-required by libdrm earlier than 2.4.33, released in March 2012. A
-previous attempt in 2013 to remove the functionality [1] had to be
-reverted [2] as there were still users left. Libdrm 2.4.33 is now
-almost 11 years old and it is time for userspace to move on.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------fi46kEE0unrugimsy0hI8x18
+Content-Type: multipart/mixed; boundary="------------ODagDOmk820SHEHJzjMIl6dt";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: kherbst@redhat.com, bskeggs@redhat.com, lyude@redhat.com,
+ daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
+Message-ID: <2cf6b95f-fde7-c48e-4f89-12a359560d9a@suse.de>
+Subject: Re: [PATCH] drm/nouveau: Remove support for legacy contexts/buffers
+References: <20230112133858.17087-1-tzimmermann@suse.de>
+In-Reply-To: <20230112133858.17087-1-tzimmermann@suse.de>
 
-With the nouveau code gone, we can also remove the driver-feature
-bit DRIVER_KMS_LEGACY_CONTEXT.
+--------------ODagDOmk820SHEHJzjMIl6dt
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7c510133d93dd6f15ca040733ba7b2891ed61fd1 # 1
-Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c21eb21cb50d58e7cbdcb8b9e7ff68b85cfa5095 # 2
----
- drivers/gpu/drm/drm_bufs.c            | 12 +++------
- drivers/gpu/drm/drm_context.c         | 36 +++++++++------------------
- drivers/gpu/drm/nouveau/Kconfig       | 12 ---------
- drivers/gpu/drm/nouveau/nouveau_drm.c | 10 +++-----
- include/drm/drm_drv.h                 |  7 ------
- 5 files changed, 19 insertions(+), 58 deletions(-)
+SWYgdGhpcyBwYXRjaCBnZXRzIGFjY2VwdGVkLCBJJ2QgbGlrZSB0byBtZXJnZSBpdCB2aWEg
+ZHJtLW1pc2MtbmV4dCANCnRvZ2V0aGVyIHdpdGggdGhlIGxlZ2FjeS1kcml2ZXIgcmVtb3Zh
+bCBwYXRjaGVzLg0KDQpBbSAxMi4wMS4yMyB1bSAxNDozOCBzY2hyaWViIFRob21hcyBaaW1t
+ZXJtYW5uOg0KPiBSZW1vdmUgbm91dmVhdSdzIHN1cHBvcnQgZm9yIGxlZ2FjeSBjb250ZXh0
+cyBhbmQgYnVmZmVycy4gSXQgd2FzDQo+IHJlcXVpcmVkIGJ5IGxpYmRybSBlYXJsaWVyIHRo
+YW4gMi40LjMzLCByZWxlYXNlZCBpbiBNYXJjaCAyMDEyLiBBDQo+IHByZXZpb3VzIGF0dGVt
+cHQgaW4gMjAxMyB0byByZW1vdmUgdGhlIGZ1bmN0aW9uYWxpdHkgWzFdIGhhZCB0byBiZQ0K
+PiByZXZlcnRlZCBbMl0gYXMgdGhlcmUgd2VyZSBzdGlsbCB1c2VycyBsZWZ0LiBMaWJkcm0g
+Mi40LjMzIGlzIG5vdw0KPiBhbG1vc3QgMTEgeWVhcnMgb2xkIGFuZCBpdCBpcyB0aW1lIGZv
+ciB1c2Vyc3BhY2UgdG8gbW92ZSBvbi4NCj4gDQo+IFdpdGggdGhlIG5vdXZlYXUgY29kZSBn
+b25lLCB3ZSBjYW4gYWxzbyByZW1vdmUgdGhlIGRyaXZlci1mZWF0dXJlDQo+IGJpdCBEUklW
+RVJfS01TX0xFR0FDWV9DT05URVhULg0KPiANCj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFpp
+bW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+IExpbms6IGh0dHBzOi8vZ2l0Lmtl
+cm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdC9j
+b21taXQvP2lkPTdjNTEwMTMzZDkzZGQ2ZjE1Y2EwNDA3MzNiYTdiMjg5MWVkNjFmZDEgIyAx
+DQo+IExpbms6IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwv
+Z2l0L3RvcnZhbGRzL2xpbnV4LmdpdC9jb21taXQvP2lkPWMyMWViMjFjYjUwZDU4ZTdjYmRj
+YjhiOWU3ZmY2OGI4NWNmYTUwOTUgIyAyDQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9k
+cm1fYnVmcy5jICAgICAgICAgICAgfCAxMiArKystLS0tLS0NCj4gICBkcml2ZXJzL2dwdS9k
+cm0vZHJtX2NvbnRleHQuYyAgICAgICAgIHwgMzYgKysrKysrKysrLS0tLS0tLS0tLS0tLS0t
+LS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvS2NvbmZpZyAgICAgICB8IDEyIC0t
+LS0tLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZHJtLmMgfCAx
+MCArKystLS0tLQ0KPiAgIGluY2x1ZGUvZHJtL2RybV9kcnYuaCAgICAgICAgICAgICAgICAg
+fCAgNyAtLS0tLS0NCj4gICA1IGZpbGVzIGNoYW5nZWQsIDE5IGluc2VydGlvbnMoKyksIDU4
+IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+YnVmcy5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9idWZzLmMNCj4gaW5kZXggZmNjYTIxZThl
+ZmFjLi44NjcwMDU2MGZlYTIgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+YnVmcy5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fYnVmcy5jDQo+IEBAIC00MjMs
+OCArNDIzLDcgQEAgaW50IGRybV9sZWdhY3lfYWRkbWFwX2lvY3RsKHN0cnVjdCBkcm1fZGV2
+aWNlICpkZXYsIHZvaWQgKmRhdGEsDQo+ICAgCWlmICghKGNhcGFibGUoQ0FQX1NZU19BRE1J
+TikgfHwgbWFwLT50eXBlID09IF9EUk1fQUdQIHx8IG1hcC0+dHlwZSA9PSBfRFJNX1NITSkp
+DQo+ICAgCQlyZXR1cm4gLUVQRVJNOw0KPiAgIA0KPiAtCWlmICghZHJtX2NvcmVfY2hlY2tf
+ZmVhdHVyZShkZXYsIERSSVZFUl9LTVNfTEVHQUNZX0NPTlRFWFQpICYmDQo+IC0JICAgICFk
+cm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX0xFR0FDWSkpDQo+ICsJaWYgKCFk
+cm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX0xFR0FDWSkpDQo+ICAgCQlyZXR1
+cm4gLUVPUE5PVFNVUFA7DQo+ICAgDQo+ICAgCWVyciA9IGRybV9hZGRtYXBfY29yZShkZXYs
+IG1hcC0+b2Zmc2V0LCBtYXAtPnNpemUsIG1hcC0+dHlwZSwNCj4gQEAgLTQ2OSw4ICs0Njgs
+NyBAQCBpbnQgZHJtX2xlZ2FjeV9nZXRtYXBfaW9jdGwoc3RydWN0IGRybV9kZXZpY2UgKmRl
+diwgdm9pZCAqZGF0YSwNCj4gICAJaW50IGlkeDsNCj4gICAJaW50IGk7DQo+ICAgDQo+IC0J
+aWYgKCFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX0tNU19MRUdBQ1lfQ09O
+VEVYVCkgJiYNCj4gLQkgICAgIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJf
+TEVHQUNZKSkNCj4gKwlpZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJf
+TEVHQUNZKSkNCj4gICAJCXJldHVybiAtRU9QTk9UU1VQUDsNCj4gICANCj4gICAJaWR4ID0g
+bWFwLT5vZmZzZXQ7DQo+IEBAIC01NzAsOCArNTY4LDcgQEAgRVhQT1JUX1NZTUJPTChkcm1f
+bGVnYWN5X3JtbWFwX2xvY2tlZCk7DQo+ICAgDQo+ICAgdm9pZCBkcm1fbGVnYWN5X3JtbWFw
+KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHN0cnVjdCBkcm1fbG9jYWxfbWFwICptYXApDQo+
+ICAgew0KPiAtCWlmICghZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9LTVNf
+TEVHQUNZX0NPTlRFWFQpICYmDQo+IC0JICAgICFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRl
+diwgRFJJVkVSX0xFR0FDWSkpDQo+ICsJaWYgKCFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRl
+diwgRFJJVkVSX0xFR0FDWSkpDQo+ICAgCQlyZXR1cm47DQo+ICAgDQo+ICAgCW11dGV4X2xv
+Y2soJmRldi0+c3RydWN0X211dGV4KTsNCj4gQEAgLTYyOCw4ICs2MjUsNyBAQCBpbnQgZHJt
+X2xlZ2FjeV9ybW1hcF9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRh
+LA0KPiAgIAlzdHJ1Y3QgZHJtX21hcF9saXN0ICpyX2xpc3Q7DQo+ICAgCWludCByZXQ7DQo+
+ICAgDQo+IC0JaWYgKCFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX0tNU19M
+RUdBQ1lfQ09OVEVYVCkgJiYNCj4gLQkgICAgIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2
+LCBEUklWRVJfTEVHQUNZKSkNCj4gKwlpZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2
+LCBEUklWRVJfTEVHQUNZKSkNCj4gICAJCXJldHVybiAtRU9QTk9UU1VQUDsNCj4gICANCj4g
+ICAJbXV0ZXhfbG9jaygmZGV2LT5zdHJ1Y3RfbXV0ZXgpOw0KPiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL2RybV9jb250ZXh0LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2NvbnRl
+eHQuYw0KPiBpbmRleCBjNmU2YTNlNzIxOWEuLmEwZmM3NzllNWUxZSAxMDA2NDQNCj4gLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL2RybV9jb250ZXh0LmMNCj4gKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL2RybV9jb250ZXh0LmMNCj4gQEAgLTU5LDggKzU5LDcgQEAgc3RydWN0IGRybV9jdHhf
+bGlzdCB7DQo+ICAgICovDQo+ICAgdm9pZCBkcm1fbGVnYWN5X2N0eGJpdG1hcF9mcmVlKHN0
+cnVjdCBkcm1fZGV2aWNlICogZGV2LCBpbnQgY3R4X2hhbmRsZSkNCj4gICB7DQo+IC0JaWYg
+KCFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX0tNU19MRUdBQ1lfQ09OVEVY
+VCkgJiYNCj4gLQkgICAgIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfTEVH
+QUNZKSkNCj4gKwlpZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfTEVH
+QUNZKSkNCj4gICAJCXJldHVybjsNCj4gICANCj4gICAJbXV0ZXhfbG9jaygmZGV2LT5zdHJ1
+Y3RfbXV0ZXgpOw0KPiBAQCAtOTcsOCArOTYsNyBAQCBzdGF0aWMgaW50IGRybV9sZWdhY3lf
+Y3R4Yml0bWFwX25leHQoc3RydWN0IGRybV9kZXZpY2UgKiBkZXYpDQo+ICAgICovDQo+ICAg
+dm9pZCBkcm1fbGVnYWN5X2N0eGJpdG1hcF9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICogZGV2
+KQ0KPiAgIHsNCj4gLQlpZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJf
+S01TX0xFR0FDWV9DT05URVhUKSAmJg0KPiAtCSAgICAhZHJtX2NvcmVfY2hlY2tfZmVhdHVy
+ZShkZXYsIERSSVZFUl9MRUdBQ1kpKQ0KPiArCWlmICghZHJtX2NvcmVfY2hlY2tfZmVhdHVy
+ZShkZXYsIERSSVZFUl9MRUdBQ1kpKQ0KPiAgIAkJcmV0dXJuOw0KPiAgIA0KPiAgIAlpZHJf
+aW5pdCgmZGV2LT5jdHhfaWRyKTsNCj4gQEAgLTExNCw4ICsxMTIsNyBAQCB2b2lkIGRybV9s
+ZWdhY3lfY3R4Yml0bWFwX2luaXQoc3RydWN0IGRybV9kZXZpY2UgKiBkZXYpDQo+ICAgICov
+DQo+ICAgdm9pZCBkcm1fbGVnYWN5X2N0eGJpdG1hcF9jbGVhbnVwKHN0cnVjdCBkcm1fZGV2
+aWNlICogZGV2KQ0KPiAgIHsNCj4gLQlpZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2
+LCBEUklWRVJfS01TX0xFR0FDWV9DT05URVhUKSAmJg0KPiAtCSAgICAhZHJtX2NvcmVfY2hl
+Y2tfZmVhdHVyZShkZXYsIERSSVZFUl9MRUdBQ1kpKQ0KPiArCWlmICghZHJtX2NvcmVfY2hl
+Y2tfZmVhdHVyZShkZXYsIERSSVZFUl9MRUdBQ1kpKQ0KPiAgIAkJcmV0dXJuOw0KPiAgIA0K
+PiAgIAltdXRleF9sb2NrKCZkZXYtPnN0cnVjdF9tdXRleCk7DQo+IEBAIC0xMzYsOCArMTMz
+LDcgQEAgdm9pZCBkcm1fbGVnYWN5X2N0eGJpdG1hcF9mbHVzaChzdHJ1Y3QgZHJtX2Rldmlj
+ZSAqZGV2LCBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGUpDQo+ICAgew0KPiAgIAlzdHJ1Y3QgZHJt
+X2N0eF9saXN0ICpwb3MsICp0bXA7DQo+ICAgDQo+IC0JaWYgKCFkcm1fY29yZV9jaGVja19m
+ZWF0dXJlKGRldiwgRFJJVkVSX0tNU19MRUdBQ1lfQ09OVEVYVCkgJiYNCj4gLQkgICAgIWRy
+bV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfTEVHQUNZKSkNCj4gKwlpZiAoIWRy
+bV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfTEVHQUNZKSkNCj4gICAJCXJldHVy
+bjsNCj4gICANCj4gICAJbXV0ZXhfbG9jaygmZGV2LT5jdHhsaXN0X211dGV4KTsNCj4gQEAg
+LTE4Miw4ICsxNzgsNyBAQCBpbnQgZHJtX2xlZ2FjeV9nZXRzYXJlYWN0eChzdHJ1Y3QgZHJt
+X2RldmljZSAqZGV2LCB2b2lkICpkYXRhLA0KPiAgIAlzdHJ1Y3QgZHJtX2xvY2FsX21hcCAq
+bWFwOw0KPiAgIAlzdHJ1Y3QgZHJtX21hcF9saXN0ICpfZW50cnk7DQo+ICAgDQo+IC0JaWYg
+KCFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX0tNU19MRUdBQ1lfQ09OVEVY
+VCkgJiYNCj4gLQkgICAgIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfTEVH
+QUNZKSkNCj4gKwlpZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfTEVH
+QUNZKSkNCj4gICAJCXJldHVybiAtRU9QTk9UU1VQUDsNCj4gICANCj4gICAJbXV0ZXhfbG9j
+aygmZGV2LT5zdHJ1Y3RfbXV0ZXgpOw0KPiBAQCAtMjMwLDggKzIyNSw3IEBAIGludCBkcm1f
+bGVnYWN5X3NldHNhcmVhY3R4KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEs
+DQo+ICAgCXN0cnVjdCBkcm1fbG9jYWxfbWFwICptYXAgPSBOVUxMOw0KPiAgIAlzdHJ1Y3Qg
+ZHJtX21hcF9saXN0ICpyX2xpc3QgPSBOVUxMOw0KPiAgIA0KPiAtCWlmICghZHJtX2NvcmVf
+Y2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9LTVNfTEVHQUNZX0NPTlRFWFQpICYmDQo+IC0J
+ICAgICFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX0xFR0FDWSkpDQo+ICsJ
+aWYgKCFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX0xFR0FDWSkpDQo+ICAg
+CQlyZXR1cm4gLUVPUE5PVFNVUFA7DQo+ICAgDQo+ICAgCW11dGV4X2xvY2soJmRldi0+c3Ry
+dWN0X211dGV4KTsNCj4gQEAgLTMzNSw4ICszMjksNyBAQCBpbnQgZHJtX2xlZ2FjeV9yZXNj
+dHgoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwNCj4gICAJc3RydWN0IGRy
+bV9jdHggY3R4Ow0KPiAgIAlpbnQgaTsNCj4gICANCj4gLQlpZiAoIWRybV9jb3JlX2NoZWNr
+X2ZlYXR1cmUoZGV2LCBEUklWRVJfS01TX0xFR0FDWV9DT05URVhUKSAmJg0KPiAtCSAgICAh
+ZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9MRUdBQ1kpKQ0KPiArCWlmICgh
+ZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9MRUdBQ1kpKQ0KPiAgIAkJcmV0
+dXJuIC1FT1BOT1RTVVBQOw0KPiAgIA0KPiAgIAlpZiAocmVzLT5jb3VudCA+PSBEUk1fUkVT
+RVJWRURfQ09OVEVYVFMpIHsNCj4gQEAgLTM3MCw4ICszNjMsNyBAQCBpbnQgZHJtX2xlZ2Fj
+eV9hZGRjdHgoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwNCj4gICAJc3Ry
+dWN0IGRybV9jdHggKmN0eCA9IGRhdGE7DQo+ICAgCWludCB0bXBfaGFuZGxlOw0KPiAgIA0K
+PiAtCWlmICghZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9LTVNfTEVHQUNZ
+X0NPTlRFWFQpICYmDQo+IC0JICAgICFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJ
+VkVSX0xFR0FDWSkpDQo+ICsJaWYgKCFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJ
+VkVSX0xFR0FDWSkpDQo+ICAgCQlyZXR1cm4gLUVPUE5PVFNVUFA7DQo+ICAgDQo+ICAgCXRt
+cF9oYW5kbGUgPSBkcm1fbGVnYWN5X2N0eGJpdG1hcF9uZXh0KGRldik7DQo+IEBAIC00MTks
+OCArNDExLDcgQEAgaW50IGRybV9sZWdhY3lfZ2V0Y3R4KHN0cnVjdCBkcm1fZGV2aWNlICpk
+ZXYsIHZvaWQgKmRhdGEsDQo+ICAgew0KPiAgIAlzdHJ1Y3QgZHJtX2N0eCAqY3R4ID0gZGF0
+YTsNCj4gICANCj4gLQlpZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJf
+S01TX0xFR0FDWV9DT05URVhUKSAmJg0KPiAtCSAgICAhZHJtX2NvcmVfY2hlY2tfZmVhdHVy
+ZShkZXYsIERSSVZFUl9MRUdBQ1kpKQ0KPiArCWlmICghZHJtX2NvcmVfY2hlY2tfZmVhdHVy
+ZShkZXYsIERSSVZFUl9MRUdBQ1kpKQ0KPiAgIAkJcmV0dXJuIC1FT1BOT1RTVVBQOw0KPiAg
+IA0KPiAgIAkvKiBUaGlzIGlzIDAsIGJlY2F1c2Ugd2UgZG9uJ3QgaGFuZGxlIGFueSBjb250
+ZXh0IGZsYWdzICovDQo+IEBAIC00NDUsOCArNDM2LDcgQEAgaW50IGRybV9sZWdhY3lfc3dp
+dGNoY3R4KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsDQo+ICAgew0KPiAg
+IAlzdHJ1Y3QgZHJtX2N0eCAqY3R4ID0gZGF0YTsNCj4gICANCj4gLQlpZiAoIWRybV9jb3Jl
+X2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfS01TX0xFR0FDWV9DT05URVhUKSAmJg0KPiAt
+CSAgICAhZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9MRUdBQ1kpKQ0KPiAr
+CWlmICghZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9MRUdBQ1kpKQ0KPiAg
+IAkJcmV0dXJuIC1FT1BOT1RTVVBQOw0KPiAgIA0KPiAgIAlEUk1fREVCVUcoIiVkXG4iLCBj
+dHgtPmhhbmRsZSk7DQo+IEBAIC00NjksOCArNDU5LDcgQEAgaW50IGRybV9sZWdhY3lfbmV3
+Y3R4KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsDQo+ICAgew0KPiAgIAlz
+dHJ1Y3QgZHJtX2N0eCAqY3R4ID0gZGF0YTsNCj4gICANCj4gLQlpZiAoIWRybV9jb3JlX2No
+ZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfS01TX0xFR0FDWV9DT05URVhUKSAmJg0KPiAtCSAg
+ICAhZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9MRUdBQ1kpKQ0KPiArCWlm
+ICghZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9MRUdBQ1kpKQ0KPiAgIAkJ
+cmV0dXJuIC1FT1BOT1RTVVBQOw0KPiAgIA0KPiAgIAlEUk1fREVCVUcoIiVkXG4iLCBjdHgt
+PmhhbmRsZSk7DQo+IEBAIC00OTUsOCArNDg0LDcgQEAgaW50IGRybV9sZWdhY3lfcm1jdHgo
+c3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwNCj4gICB7DQo+ICAgCXN0cnVj
+dCBkcm1fY3R4ICpjdHggPSBkYXRhOw0KPiAgIA0KPiAtCWlmICghZHJtX2NvcmVfY2hlY2tf
+ZmVhdHVyZShkZXYsIERSSVZFUl9LTVNfTEVHQUNZX0NPTlRFWFQpICYmDQo+IC0JICAgICFk
+cm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX0xFR0FDWSkpDQo+ICsJaWYgKCFk
+cm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX0xFR0FDWSkpDQo+ICAgCQlyZXR1
+cm4gLUVPUE5PVFNVUFA7DQo+ICAgDQo+ICAgCURSTV9ERUJVRygiJWRcbiIsIGN0eC0+aGFu
+ZGxlKTsNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L0tjb25maWcg
+Yi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9LY29uZmlnDQo+IGluZGV4IDAzZDEyY2FmOWUy
+Ni4uZWU5Mjg5MGQzMjY2IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVh
+dS9LY29uZmlnDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L0tjb25maWcNCj4g
+QEAgLTI0LDE4ICsyNCw2IEBAIGNvbmZpZyBEUk1fTk9VVkVBVQ0KPiAgIAloZWxwDQo+ICAg
+CSAgQ2hvb3NlIHRoaXMgb3B0aW9uIGZvciBvcGVuLXNvdXJjZSBOVklESUEgc3VwcG9ydC4N
+Cj4gICANCj4gLWNvbmZpZyBOT1VWRUFVX0xFR0FDWV9DVFhfU1VQUE9SVA0KPiAtCWJvb2wg
+Ik5vdXZlYXUgbGVnYWN5IGNvbnRleHQgc3VwcG9ydCINCj4gLQlkZXBlbmRzIG9uIERSTV9O
+T1VWRUFVDQo+IC0Jc2VsZWN0IERSTV9MRUdBQ1kNCj4gLQlkZWZhdWx0IHkNCj4gLQloZWxw
+DQo+IC0JICBUaGVyZSB3YXMgYSB2ZXJzaW9uIG9mIHRoZSBub3V2ZWF1IEREWCB0aGF0IHJl
+bGllZCBvbiBsZWdhY3kNCj4gLQkgIGN0eCBpb2N0bHMgbm90IGVycm9yaW5nIG91dC4gQnV0
+IHRoYXQgd2FzIGJhY2sgaW4gdGltZSBhIGxvbmcNCj4gLQkgIHdheXMsIHNvIG9mZmVyIGEg
+d2F5IHRvIGRpc2FibGUgaXQgbm93LiBGb3IgdWFwaSBjb21wYXQgd2l0aA0KPiAtCSAgb2xk
+IG5vdXZlYXUgZGR4IHRoaXMgc2hvdWxkIGJlIG9uIGJ5IGRlZmF1bHQsIGJ1dCBtb2Rlcm4g
+ZGlzdHJvcw0KPiAtCSAgc2hvdWxkIGNvbnNpZGVyIHR1cm5pbmcgaXQgb2ZmLg0KPiAtDQo+
+ICAgY29uZmlnIE5PVVZFQVVfUExBVEZPUk1fRFJJVkVSDQo+ICAgCWJvb2wgIk5vdXZlYXUg
+KE5WSURJQSkgU29DIEdQVXMiDQo+ICAgCWRlcGVuZHMgb24gRFJNX05PVVZFQVUgJiYgQVJD
+SF9URUdSQQ0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVh
+dV9kcm0uYyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZHJtLmMNCj4gaW5k
+ZXggODBmMTU0YjZhZGFiLi44MDU2MjE3N2I1ODEgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZHJtLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L25vdXZlYXUvbm91dmVhdV9kcm0uYw0KPiBAQCAtMTIyMSwxMyArMTIyMSw5IEBAIG5vdXZl
+YXVfZHJpdmVyX2ZvcHMgPSB7DQo+ICAgDQo+ICAgc3RhdGljIHN0cnVjdCBkcm1fZHJpdmVy
+DQo+ICAgZHJpdmVyX3N0dWIgPSB7DQo+IC0JLmRyaXZlcl9mZWF0dXJlcyA9DQo+IC0JCURS
+SVZFUl9HRU0gfCBEUklWRVJfTU9ERVNFVCB8IERSSVZFUl9SRU5ERVINCj4gLSNpZiBkZWZp
+bmVkKENPTkZJR19OT1VWRUFVX0xFR0FDWV9DVFhfU1VQUE9SVCkNCj4gLQkJfCBEUklWRVJf
+S01TX0xFR0FDWV9DT05URVhUDQo+IC0jZW5kaWYNCj4gLQkJLA0KPiAtDQo+ICsJLmRyaXZl
+cl9mZWF0dXJlcyA9IERSSVZFUl9HRU0gfA0KPiArCQkJICAgRFJJVkVSX01PREVTRVQgfA0K
+PiArCQkJICAgRFJJVkVSX1JFTkRFUiwNCj4gICAJLm9wZW4gPSBub3V2ZWF1X2RybV9vcGVu
+LA0KPiAgIAkucG9zdGNsb3NlID0gbm91dmVhdV9kcm1fcG9zdGNsb3NlLA0KPiAgIAkubGFz
+dGNsb3NlID0gbm91dmVhdV92Z2FfbGFzdGNsb3NlLA0KPiBkaWZmIC0tZ2l0IGEvaW5jbHVk
+ZS9kcm0vZHJtX2Rydi5oIGIvaW5jbHVkZS9kcm0vZHJtX2Rydi5oDQo+IGluZGV4IGQ3YzUy
+MWU4ODYwZi4uMWQ3NmQwNjg2YjAzIDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1f
+ZHJ2LmgNCj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX2Rydi5oDQo+IEBAIC0xNDksMTMgKzE0
+OSw2IEBAIGVudW0gZHJtX2RyaXZlcl9mZWF0dXJlIHsNCj4gICAJICogTGVnYWN5IGlycSBz
+dXBwb3J0LiBPbmx5IGZvciBsZWdhY3kgZHJpdmVycy4gRG8gbm90IHVzZS4NCj4gICAJICov
+DQo+ICAgCURSSVZFUl9IQVZFX0lSUQkJCT0gQklUKDMwKSwNCj4gLQkvKioNCj4gLQkgKiBA
+RFJJVkVSX0tNU19MRUdBQ1lfQ09OVEVYVDoNCj4gLQkgKg0KPiAtCSAqIFVzZWQgb25seSBi
+eSBub3V2ZWF1IGZvciBiYWNrd2FyZHMgY29tcGF0aWJpbGl0eSB3aXRoIGV4aXN0aW5nDQo+
+IC0JICogdXNlcnNwYWNlLiAgRG8gbm90IHVzZS4NCj4gLQkgKi8NCj4gLQlEUklWRVJfS01T
+X0xFR0FDWV9DT05URVhUCT0gQklUKDMxKSwNCj4gICB9Ow0KPiAgIA0KPiAgIC8qKg0KDQot
+LSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNF
+IFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5
+IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jD
+pGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
-index fcca21e8efac..86700560fea2 100644
---- a/drivers/gpu/drm/drm_bufs.c
-+++ b/drivers/gpu/drm/drm_bufs.c
-@@ -423,8 +423,7 @@ int drm_legacy_addmap_ioctl(struct drm_device *dev, void *data,
- 	if (!(capable(CAP_SYS_ADMIN) || map->type == _DRM_AGP || map->type == _DRM_SHM))
- 		return -EPERM;
- 
--	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
--	    !drm_core_check_feature(dev, DRIVER_LEGACY))
-+	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
- 		return -EOPNOTSUPP;
- 
- 	err = drm_addmap_core(dev, map->offset, map->size, map->type,
-@@ -469,8 +468,7 @@ int drm_legacy_getmap_ioctl(struct drm_device *dev, void *data,
- 	int idx;
- 	int i;
- 
--	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
--	    !drm_core_check_feature(dev, DRIVER_LEGACY))
-+	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
- 		return -EOPNOTSUPP;
- 
- 	idx = map->offset;
-@@ -570,8 +568,7 @@ EXPORT_SYMBOL(drm_legacy_rmmap_locked);
- 
- void drm_legacy_rmmap(struct drm_device *dev, struct drm_local_map *map)
- {
--	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
--	    !drm_core_check_feature(dev, DRIVER_LEGACY))
-+	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
- 		return;
- 
- 	mutex_lock(&dev->struct_mutex);
-@@ -628,8 +625,7 @@ int drm_legacy_rmmap_ioctl(struct drm_device *dev, void *data,
- 	struct drm_map_list *r_list;
- 	int ret;
- 
--	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
--	    !drm_core_check_feature(dev, DRIVER_LEGACY))
-+	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
- 		return -EOPNOTSUPP;
- 
- 	mutex_lock(&dev->struct_mutex);
-diff --git a/drivers/gpu/drm/drm_context.c b/drivers/gpu/drm/drm_context.c
-index c6e6a3e7219a..a0fc779e5e1e 100644
---- a/drivers/gpu/drm/drm_context.c
-+++ b/drivers/gpu/drm/drm_context.c
-@@ -59,8 +59,7 @@ struct drm_ctx_list {
-  */
- void drm_legacy_ctxbitmap_free(struct drm_device * dev, int ctx_handle)
- {
--	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
--	    !drm_core_check_feature(dev, DRIVER_LEGACY))
-+	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
- 		return;
- 
- 	mutex_lock(&dev->struct_mutex);
-@@ -97,8 +96,7 @@ static int drm_legacy_ctxbitmap_next(struct drm_device * dev)
-  */
- void drm_legacy_ctxbitmap_init(struct drm_device * dev)
- {
--	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
--	    !drm_core_check_feature(dev, DRIVER_LEGACY))
-+	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
- 		return;
- 
- 	idr_init(&dev->ctx_idr);
-@@ -114,8 +112,7 @@ void drm_legacy_ctxbitmap_init(struct drm_device * dev)
-  */
- void drm_legacy_ctxbitmap_cleanup(struct drm_device * dev)
- {
--	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
--	    !drm_core_check_feature(dev, DRIVER_LEGACY))
-+	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
- 		return;
- 
- 	mutex_lock(&dev->struct_mutex);
-@@ -136,8 +133,7 @@ void drm_legacy_ctxbitmap_flush(struct drm_device *dev, struct drm_file *file)
- {
- 	struct drm_ctx_list *pos, *tmp;
- 
--	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
--	    !drm_core_check_feature(dev, DRIVER_LEGACY))
-+	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
- 		return;
- 
- 	mutex_lock(&dev->ctxlist_mutex);
-@@ -182,8 +178,7 @@ int drm_legacy_getsareactx(struct drm_device *dev, void *data,
- 	struct drm_local_map *map;
- 	struct drm_map_list *_entry;
- 
--	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
--	    !drm_core_check_feature(dev, DRIVER_LEGACY))
-+	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
- 		return -EOPNOTSUPP;
- 
- 	mutex_lock(&dev->struct_mutex);
-@@ -230,8 +225,7 @@ int drm_legacy_setsareactx(struct drm_device *dev, void *data,
- 	struct drm_local_map *map = NULL;
- 	struct drm_map_list *r_list = NULL;
- 
--	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
--	    !drm_core_check_feature(dev, DRIVER_LEGACY))
-+	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
- 		return -EOPNOTSUPP;
- 
- 	mutex_lock(&dev->struct_mutex);
-@@ -335,8 +329,7 @@ int drm_legacy_resctx(struct drm_device *dev, void *data,
- 	struct drm_ctx ctx;
- 	int i;
- 
--	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
--	    !drm_core_check_feature(dev, DRIVER_LEGACY))
-+	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
- 		return -EOPNOTSUPP;
- 
- 	if (res->count >= DRM_RESERVED_CONTEXTS) {
-@@ -370,8 +363,7 @@ int drm_legacy_addctx(struct drm_device *dev, void *data,
- 	struct drm_ctx *ctx = data;
- 	int tmp_handle;
- 
--	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
--	    !drm_core_check_feature(dev, DRIVER_LEGACY))
-+	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
- 		return -EOPNOTSUPP;
- 
- 	tmp_handle = drm_legacy_ctxbitmap_next(dev);
-@@ -419,8 +411,7 @@ int drm_legacy_getctx(struct drm_device *dev, void *data,
- {
- 	struct drm_ctx *ctx = data;
- 
--	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
--	    !drm_core_check_feature(dev, DRIVER_LEGACY))
-+	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
- 		return -EOPNOTSUPP;
- 
- 	/* This is 0, because we don't handle any context flags */
-@@ -445,8 +436,7 @@ int drm_legacy_switchctx(struct drm_device *dev, void *data,
- {
- 	struct drm_ctx *ctx = data;
- 
--	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
--	    !drm_core_check_feature(dev, DRIVER_LEGACY))
-+	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
- 		return -EOPNOTSUPP;
- 
- 	DRM_DEBUG("%d\n", ctx->handle);
-@@ -469,8 +459,7 @@ int drm_legacy_newctx(struct drm_device *dev, void *data,
- {
- 	struct drm_ctx *ctx = data;
- 
--	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
--	    !drm_core_check_feature(dev, DRIVER_LEGACY))
-+	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
- 		return -EOPNOTSUPP;
- 
- 	DRM_DEBUG("%d\n", ctx->handle);
-@@ -495,8 +484,7 @@ int drm_legacy_rmctx(struct drm_device *dev, void *data,
- {
- 	struct drm_ctx *ctx = data;
- 
--	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
--	    !drm_core_check_feature(dev, DRIVER_LEGACY))
-+	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
- 		return -EOPNOTSUPP;
- 
- 	DRM_DEBUG("%d\n", ctx->handle);
-diff --git a/drivers/gpu/drm/nouveau/Kconfig b/drivers/gpu/drm/nouveau/Kconfig
-index 03d12caf9e26..ee92890d3266 100644
---- a/drivers/gpu/drm/nouveau/Kconfig
-+++ b/drivers/gpu/drm/nouveau/Kconfig
-@@ -24,18 +24,6 @@ config DRM_NOUVEAU
- 	help
- 	  Choose this option for open-source NVIDIA support.
- 
--config NOUVEAU_LEGACY_CTX_SUPPORT
--	bool "Nouveau legacy context support"
--	depends on DRM_NOUVEAU
--	select DRM_LEGACY
--	default y
--	help
--	  There was a version of the nouveau DDX that relied on legacy
--	  ctx ioctls not erroring out. But that was back in time a long
--	  ways, so offer a way to disable it now. For uapi compat with
--	  old nouveau ddx this should be on by default, but modern distros
--	  should consider turning it off.
--
- config NOUVEAU_PLATFORM_DRIVER
- 	bool "Nouveau (NVIDIA) SoC GPUs"
- 	depends on DRM_NOUVEAU && ARCH_TEGRA
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index 80f154b6adab..80562177b581 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -1221,13 +1221,9 @@ nouveau_driver_fops = {
- 
- static struct drm_driver
- driver_stub = {
--	.driver_features =
--		DRIVER_GEM | DRIVER_MODESET | DRIVER_RENDER
--#if defined(CONFIG_NOUVEAU_LEGACY_CTX_SUPPORT)
--		| DRIVER_KMS_LEGACY_CONTEXT
--#endif
--		,
--
-+	.driver_features = DRIVER_GEM |
-+			   DRIVER_MODESET |
-+			   DRIVER_RENDER,
- 	.open = nouveau_drm_open,
- 	.postclose = nouveau_drm_postclose,
- 	.lastclose = nouveau_vga_lastclose,
-diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-index d7c521e8860f..1d76d0686b03 100644
---- a/include/drm/drm_drv.h
-+++ b/include/drm/drm_drv.h
-@@ -149,13 +149,6 @@ enum drm_driver_feature {
- 	 * Legacy irq support. Only for legacy drivers. Do not use.
- 	 */
- 	DRIVER_HAVE_IRQ			= BIT(30),
--	/**
--	 * @DRIVER_KMS_LEGACY_CONTEXT:
--	 *
--	 * Used only by nouveau for backwards compatibility with existing
--	 * userspace.  Do not use.
--	 */
--	DRIVER_KMS_LEGACY_CONTEXT	= BIT(31),
- };
- 
- /**
--- 
-2.39.0
+--------------ODagDOmk820SHEHJzjMIl6dt--
 
+--------------fi46kEE0unrugimsy0hI8x18
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPADcsFAwAAAAAACgkQlh/E3EQov+BJ
+WQ//cx/3WMj9dpmaq+gn28d3rMBbNLgdqcRWOUm27Cj6rQNhlaaIb5HTzzfFj19qrUY4ikC4jeuX
+MiaXAmqxwoRIMvB6ovE+bLS08vVwfxie0Dc8/VjLpa8oEjiHmeqSW4TdOuvrWNW46CLW/hxa//RR
+qBzo57fVX1Y/6TcsMt/DiU47x4xWT0FHSmnRqvUnBanv0kjCcytARMf4vrdw8B/TMcKahOSaX0kg
+CtennU0pfstTVvgrrj6vZYshGRO0d6PCc/Ry4gyQeKg8Mq7HxV4GXAKmyblbMot8wJgnvvP9q5MU
+Zu48trgmksKfxBjMZkKGrpUeoEO3HwHiTaop3No1WvnzGNqtopMe0q3XZB1jtTjMneA3WcVQNknr
+AKZHLxkC4weYKHYe5AaZXD+OwZcc1k4DkANQvg+Gqu/ghBB6Ibm7tcNzDTY6IybwXwP2TrGTOa+o
+xq1dTpTWxsHP1zjgaW2SaJ+4SMJP2VBfXavr0r4XkGWqdTRa6wVkJYRs/hd+nLhzx35C48LEKhBY
+DI7mtfHP5y9Jwuh1YWJqUMAkT9uDxm9hkp6mDhARatv1iPrCt01BivfzqlKApP8D3TdfJgdVMNB2
+urWEf7CS73FXSfR66jOW1Ezj8NSbZgNZ13KiU4KS+EzsebwiHlJUzzAmfC0mTtdwGmBBWCcdYaQN
+cgo=
+=MiY4
+-----END PGP SIGNATURE-----
+
+--------------fi46kEE0unrugimsy0hI8x18--
