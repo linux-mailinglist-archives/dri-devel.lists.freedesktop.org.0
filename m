@@ -1,78 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2057667CFD
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 18:52:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9104A667D05
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 18:54:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F419A10E1A9;
-	Thu, 12 Jan 2023 17:52:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8227110E31E;
+	Thu, 12 Jan 2023 17:54:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37C8210E1A9
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 17:52:07 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30CDS7Sa025737; Thu, 12 Jan 2023 17:52:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=IF9vB0iHF02x0eTm7lMGZfbIiMtgTWxEI9XKK1nk3r8=;
- b=Ft33ERv9GE+hNelMfoJxW9XUG+uX47kBpNXVIW3dCM93iAKxwuxU2YLX+wFp9Un1pSDK
- kVtbHiXKhdLCKNS4NAIEnYNNgblRaHl0Nx985aMuotDfXWj8IMV7ncjKMN/jU61yf6ZF
- MCfZEouC4orI8UJNQUKpSWe/BXUcE4L51+GDCYlh6cSg7V0LYs9kZE5uwKwZuaF5Meru
- j0u0vzGrDhsREQ9b+AKHPC2Dr3n+NmILwtkJBCWkPVsgCAEMeYpp/QW/CakCvODiDJ5K
- n0vUGqKonvPlqSL4ADwv2PcekKlfd+xSCN4rYaZvsi58FrwQw9mIEkLr1CxiY7Ia8yw5 pA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n2k47gmq2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Jan 2023 17:52:04 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30CHq4wQ000849
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Jan 2023 17:52:04 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 12 Jan
- 2023 09:52:03 -0800
-Message-ID: <bf47516e-861b-36f2-97a3-579c5fe30f67@quicinc.com>
-Date: Thu, 12 Jan 2023 10:52:02 -0700
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
+ [IPv6:2001:4860:4864:20::31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D54AE10E31B
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 17:54:04 +0000 (UTC)
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-1433ef3b61fso19660965fac.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 09:54:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=BU3kvftwMs6INtMUgzqd1f4M3QxV4J18BuRGXET1rSU=;
+ b=Dn68AytckgZ7+FPEqEDwQYnMDY+s4G1xQJSPT3IQ4RL6aocKkEiRqJoh/FRCVnAkPU
+ QmQWJECCTDlnu6hw+rzNl+YevmwKwu/rFWeYqz6beBkpxuDysnVLwPlfgYU7LJPuA0rx
+ 52cOz60NhYgTWsPuOU7ES7hBQWA+PV1RGyPQ3EDmglodBqjyV7X6/g+02zDy8pF6ijtz
+ XH5sEytuEFxd5ubjGlAcetAwXWAqHoaxEnZYit3nVJTURWpMbg+mZrYghscZqS7HiI56
+ lLd2DTkfpk+7zxhxSOvhZIloMMYq11L3xjQoyY+wct91WPocfU54WbW5Asn4yXl/USsk
+ UCwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=BU3kvftwMs6INtMUgzqd1f4M3QxV4J18BuRGXET1rSU=;
+ b=BDTRJEvuSmJ4NR4fm52F2Jd+NzIZjEBq7uPrjQkU3qkzNf2wG/fBX9MxZe+BV07NS+
+ ut4me3JIs6uFXSygfBIpGJhHW+Caq63aYhae4uA0wY/hH0vV/zvKsIqcCxXhC0aG3BpE
+ wrS3QAJy/lFcL0PvGaLlSHjftklOAAciOIRMSdE2vlT3Cp6lVnWaa22gL7W9TH6M/LVr
+ EPqVJZ2SYb33zVlc/ZCwWGzAHAOFWKiXlm5I8c2tuqD7bDH0c57fOVynMpQpUUh4c6ML
+ mYtLWEuWXVdgZWqAuJb5kjSUdEDkUpP4EKWfqg7Rbf7WhXqJLXZD2oNgPNcqes+GSJZN
+ U6VQ==
+X-Gm-Message-State: AFqh2kpscRR/UYpJwp6dpt0wrV/XsqdB3MLdIODQSiWgRxmsrxOotMiG
+ gZI7ZhQx6G+e/ywEwzSv55QgJw6XKlQ=
+X-Google-Smtp-Source: AMrXdXu7QWa0JZDKzKRsAcHFiqARAJXzgvzwpquK9O0+yrU2ZIMFBKsYzhmCYKIuxBXfVh4H0nj87g==
+X-Received: by 2002:a05:6870:f707:b0:14f:f223:faad with SMTP id
+ ej7-20020a056870f70700b0014ff223faadmr32092520oab.15.1673546043699; 
+ Thu, 12 Jan 2023 09:54:03 -0800 (PST)
+Received: from localhost.localdomain
+ (76-244-6-13.lightspeed.rcsntx.sbcglobal.net. [76.244.6.13])
+ by smtp.gmail.com with ESMTPSA id
+ v17-20020a05687105d100b0014866eb34cesm9317049oan.48.2023.01.12.09.54.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Jan 2023 09:54:03 -0800 (PST)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH V10 0/4] drm/panel: Add Magnachip D53E6EA8966 Panel Controller
+Date: Thu, 12 Jan 2023 11:53:54 -0600
+Message-Id: <20230112175358.421975-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v5 3/7] accel/ivpu: Add GEM buffer object management
-Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>, <oded.gabbay@gmail.com>,
- <airlied@gmail.com>, <daniel@ffwll.ch>, <tzimmermann@suse.de>
-References: <20230109122344.253994-1-jacek.lawrynowicz@linux.intel.com>
- <20230109122344.253994-4-jacek.lawrynowicz@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20230109122344.253994-4-jacek.lawrynowicz@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Z745hC58ma4-XKnYA_-xXG5hUk_Bh_-x
-X-Proofpoint-ORIG-GUID: Z745hC58ma4-XKnYA_-xXG5hUk_Bh_-x
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-12_08,2023-01-12_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 clxscore=1015 mlxscore=0 bulkscore=0 adultscore=0
- mlxlogscore=845 impostorscore=0 lowpriorityscore=0 spamscore=0
- suspectscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2301120129
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,35 +70,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.kacprowski@linux.intel.com, stanislaw.gruszka@linux.intel.com
+Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
+ krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
+ linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ thierry.reding@gmail.com, tzimmermann@suse.de, maccraft123mc@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/9/2023 5:23 AM, Jacek Lawrynowicz wrote:
-> Adds four types of GEM-based BOs for the VPU:
->    - shmem
->    - userptr
->    - internal
->    - prime
-> 
-> All types are implemented as struct ivpu_bo, based on
-> struct drm_gem_object. VPU address is allocated when buffer is created
-> except for imported prime buffers that allocate it in BO_INFO IOCTL due
-> to missing file_priv arg in gem_prime_import callback.
-> Internal buffers are pinned on creation, the rest of buffers types
-> can be pinned on demand (in SUBMIT IOCTL).
-> Buffer VPU address, allocated pages and mappings are released when the
-> buffer is destroyed.
-> Eviction mechism is planned for future versions.
+From: Chris Morgan <macromorgan@hotmail.com>
 
-mechism -> mechanism
+Add the Magnachip D53E6EA8966 panel IC controller for display panels
+such as the Samsung AMS495QA01 panel as found on the Anbernic RG503.
+This panel uses DSI to receive video signals, but 3-wire SPI to receive
+command signals using DBI.
 
-Hopefully whomever applies this can fix it up inline and this doesn't 
-require a new revision.
+Changes since V9:
+ - Set an ifdef to not add the drm_of_get_dsi_bus when MIPI_DSI is not
+   part of the current kernel config.
+ - Made "info" optional in the drm_of_get_dsi_bus() function.
 
-> 
-> Add three new IOCTLs: BO_CREATE, BO_INFO, BO_USERPTR
-> 
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Changes since V8:
+ - Set "placeholder" drm_of_get_dsi_bus in drm_of.h to static inline
+   to hopefully eliminate the reported errors once and for all. Tested
+   with 4 different kernel configurations provided by Intel's kernel
+   test robot and no new warnings or errors were introduced.
+   Reported-by: kernel test robot <lkp@intel.com>
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Changes since V7:
+ - Removed Linus Walleij review note due to substantial changes.
+ - Corrected documentation of drm_of_get_dsi_bus function.
+ - Updated the drm_of_get_dsi_bus function to return pointer to
+   mipi_dsi_host and use ERR_PTR macros.
+ - Refactored drm_panel_funcs so that the prepare function calls
+   panel specific function for init sequence and uses generic
+   functions otherwise.
+ - Renamed non-panel specific functions.
+ - Changed backlight value to int instead of u32.
+ - Corrected brightness function to use backlight_get_brightness().
+ - Fix an error reported when CONFIG_OF is selected but
+   CONFIG_DRM_MIPI_DSI is not. Add an if function to drm_of_get_dsi_bus
+   function to return -EINVAL in this instance.
+   Reported-by: kernel test robot <lkp@intel.com>
+
+Changes since V6:
+ - Fixed a trivial error with definition of drm_of_get_dsi_bus().
+   Reported-by: kernel test robot <lkp@intel.com>
+
+Changes since V5:
+ - Reverted dt binding documentation name back to
+   samsung,ams495qa01.yaml.
+ - Removed no longer needed of_graph.h header file.
+ - Added backlight as a dependency.
+
+Changes since V4:
+ - Renamed driver from the panel model to the panel IC controller per
+   DRM team.
+ - Added a drm_of helper function of drm_of_get_dsi_bus() to handle
+   finding and populating the DSI node when the DSI node is not the
+   parent of the DSI controlled display.
+ - Converted the documented commands to constants to make it more
+   readable.
+ - Reset GPIO is now required and documented as GPIO_ACTIVE_LOW.
+ - Removed "prepared" logic from panel.
+
+Changes since V3:
+ - Updated documentation to add spi-peripheral-props.yaml per updates
+   made for similar devices. Note that I removed a "Reviewed-by" tag
+   from Rob Herring since this change probably needs to be confirmed.
+ - Added binding for RG503, since this device is now accepted with this
+   request: https://lore.kernel.org/linux-rockchip/166274831283.21181.6861718157177507544.b4-ty@sntech.de/
+
+Changes since V2:
+ - Added 50hz mode at request of userspace devs.
+ - Renamed "dupa" to panel name. Good catch Maya.
+ - Added Maya's Signed-off-by.
+ - Removed check for max backlight, since it is already done by
+   backlight_device_set_brightness.
+ - Fixed minor formatting issues on devicetree binding documentation
+   and added port to provided example.
+
+Changes since V1:
+ - Removed errant reference to backlight in documentation. This is an
+   OLED panel.
+ - Made elvss regulator optional. In my case its hard wired and not
+   controllable.
+ - Added "prepared" enum to track panel status to prevent unbalanced
+   regulator enable/disable.
+
+Chris Morgan (4):
+  drm: of: Add drm_of_get_dsi_bus helper function
+  dt-bindings: display: panel: Add Samsung AMS495QA01
+  drm/panel: Add Magnachip D53E6EA8966 Panel Driver
+  arm64: dts: rockchip: add display to RG503
+
+ .../display/panel/samsung,ams495qa01.yaml     |  57 ++
+ .../dts/rockchip/rk3566-anbernic-rg503.dts    |  55 ++
+ drivers/gpu/drm/drm_of.c                      |  70 +++
+ drivers/gpu/drm/panel/Kconfig                 |  11 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../drm/panel/panel-magnachip-d53e6ea8966.c   | 522 ++++++++++++++++++
+ include/drm/drm_of.h                          |  10 +
+ 7 files changed, 726 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,ams495qa01.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c
+
+-- 
+2.34.1
+
