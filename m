@@ -2,58 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0246A667BDE
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 17:48:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CC5B667C09
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 17:57:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74BCA10E2FA;
-	Thu, 12 Jan 2023 16:48:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 770A610E2FB;
+	Thu, 12 Jan 2023 16:57:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89CA010E2F6;
- Thu, 12 Jan 2023 16:48:37 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id EA4446600010;
- Thu, 12 Jan 2023 16:48:35 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1673542116;
- bh=uz9pI1gvIEzhrb2m/Xm7YdISRgBmgk6rpjUdS7IrNpU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=gK0tai0IIxVf8XgBbpEOy4GXXsdbG/KTiVd7SQpge2WgCQjC8OyQcBiKF5B/nKTgH
- XwP7EGm24dIqaLEOabyADii00s23dA2GYs6kmjHQKREke3MRDlTIcPjQIUbgBMHkXo
- 6PUtmoWRTJKcR+5JSDSaiNrOCt+E/7cLkayFRpzO4iq91izLnWB4vy9qWLSlpBZv3F
- tjELmxj5DxfagSVAhDz03T1E28DrzZDyrkAH8R0zx2LEJCVxaDGgfhs2HEaWjH2hTV
- uibmhehWlHTBPtiAxecjF38oiTdv8N7bUgyxk73NLdX8qc96EZd9My2mWrXCmGstrh
- Ac7RK/+acdl5Q==
-Date: Thu, 12 Jan 2023 17:48:33 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [Intel-gfx] [RFC PATCH 04/20] drm/sched: Convert drm scheduler
- to use a work queue rather than kthread
-Message-ID: <20230112174833.71023805@collabora.com>
-In-Reply-To: <CAKMK7uGPFVjkugw-W+o6C514x8ZPJs3L1A_QCB69aF0WAfHZjw@mail.gmail.com>
-References: <Y7cns9bpfIslkCPu@DUT025-TGLU.fm.intel.com>
- <CAOFGe978gae1mN2W_rrgXQm4ioQm73Bkpr-ex2Oa4gtkNzDpcg@mail.gmail.com>
- <20230109181748.4d73b834@collabora.com>
- <Y7x7tSsdgQvZ+JD0@phenom.ffwll.local>
- <20230110094647.5897dbdd@collabora.com>
- <CAKMK7uHTGCoW1CEmfk6vTYG-=8FEQg2fUrcKMV80o=iQ6QhUdg@mail.gmail.com>
- <20230112101053.393e0717@collabora.com>
- <Y7/Tolh8SGLtybs0@phenom.ffwll.local>
- <20230112111103.324abb3c@collabora.com>
- <20230112112553.324ffa05@collabora.com>
- <Y7/kMa1Jz+4+YIvv@phenom.ffwll.local>
- <20230112130818.220edc62@collabora.com>
- <CAKMK7uGPFVjkugw-W+o6C514x8ZPJs3L1A_QCB69aF0WAfHZjw@mail.gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CE3D10E2F8;
+ Thu, 12 Jan 2023 16:57:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673542630; x=1705078630;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=V4SKDzmsS6x7U3N+8mtwUbu1ps9tCegCs00ZfkA9voQ=;
+ b=A9anar8ZuQvsAUm7jGHNm3X8/HrQSL2+ExzurIEqU4QvwMIkYDTEelRT
+ 2pgnp1jQb/CR1z6xfaYoxkM7F5+9PdVrfwN2LJoEMhfee6pEXU/lYgK6W
+ 25cR3EJfyZipKHhl58njYk5LzEN8gw52nS9YNL4DNThlp7X48Qpdr5PYU
+ orJ4BM3O5sthU/BpxWydlgfUSlX6SC9Y/7w54rjcCIx2A5cMIBQ9CX470
+ Is9PmWCyhDCBIH2eHJTvuvkFdlsjrFidnNpnx9Znuzn4CZN3JZAc5tKDX
+ 1DpSAwWF7UM5MEkKd+STuvJtyHAMDbq3F2fi4lxDqRyOd8lapPzKj0k+m w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="325016138"
+X-IronPort-AV: E=Sophos;i="5.97,211,1669104000"; d="scan'208";a="325016138"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2023 08:56:25 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="651232500"
+X-IronPort-AV: E=Sophos;i="5.97,211,1669104000"; d="scan'208";a="651232500"
+Received: from jacton-mobl.ger.corp.intel.com (HELO localhost.localdomain)
+ ([10.213.195.171])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2023 08:56:21 -0800
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [RFC v3 00/12] DRM scheduling cgroup controller
+Date: Thu, 12 Jan 2023 16:55:57 +0000
+Message-Id: <20230112165609.1083270-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,143 +57,247 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Jason Ekstrand <jason@jlekstrand.net>
+Cc: Rob Clark <robdclark@chromium.org>, Brian Welty <brian.welty@intel.com>,
+ Kenny.Ho@amd.com, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Johannes Weiner <hannes@cmpxchg.org>,
+ linux-kernel@vger.kernel.org,
+ =?UTF-8?q?St=C3=A9phane=20Marchesin?= <marcheu@chromium.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Zefan Li <lizefan.x@bytedance.com>, Dave Airlie <airlied@redhat.com>,
+ Tejun Heo <tj@kernel.org>, cgroups@vger.kernel.org,
+ "T . J . Mercier" <tjmercier@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 12 Jan 2023 16:38:18 +0100
-Daniel Vetter <daniel@ffwll.ch> wrote:
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-> > >
-> > > Also if you do the allocation in ->prepare_job with dma_fence and not
-> > > run_job, then I think can sort out fairness issues (if they do pop up) in
-> > > the drm/sched code instead of having to think about this in each driver.  
-> >
-> > By allocation, you mean assigning a FW slot ID? If we do this allocation
-> > in ->prepare_job(), couldn't we mess up ordering? Like,
-> > lower-prio/later-queuing entity being scheduled before its pairs,
-> > because there's no guarantee on the job completion order (and thus the
-> > queue idleness order). I mean, completion order depends on the kind of
-> > job being executed by the queues, the time the FW actually lets the
-> > queue execute things and probably other factors. You can use metrics
-> > like the position in the LRU list + the amount of jobs currently
-> > queued to a group to guess which one will be idle first, but that's
-> > just a guess. And I'm not sure I see what doing this slot selection in  
-> > ->prepare_job() would bring us compared to doing it in ->run_job(),  
-> > where we can just pick the least recently used slot.  
-> 
-> In ->prepare_job you can let the scheduler code do the stalling (and
-> ensure fairness), in ->run_job it's your job.
+This series contains a proposal for a DRM scheduling cgroup controller which
+implements a weight based hierarchical GPU usage budget based controller
+similar in concept to some of the existing controllers.
 
-Yeah returning a fence in ->prepare_job() to wait for a FW slot to
-become idle sounds good. This fence would be signaled when one of the
-slots becomes idle. But I'm wondering why we'd want to select the slot
-so early. Can't we just do the selection in ->run_job()? After all, if
-the fence has been signaled, that means we'll find at least one slot
-that's ready when we hit ->run_job(), and we can select it at that
-point.
+Motivation mostly comes from my earlier proposal where I identified that GPU
+scheduling lags significantly behind what is available for CPU and IO. Whereas
+back then I was proposing to somehow tie this with process nice, feedback mostly
+was that people wanted cgroups. So here it is - in the world of heterogenous
+computing pipelines I think it is time to do something about this gap.
 
-> The current RFC doesn't
-> really bother much with getting this very right, but if the scheduler
-> code tries to make sure it pushes higher-prio stuff in first before
-> others, you should get the right outcome.
+Code is not finished but should survive some light experimenting with. I am
+sharing it early since the topic has been controversial in the past. I hope to
+demonstrate there are gains to be had in real world usage(*), today, and that
+the concepts the proposal relies are well enough established and stable.
 
-Okay, so I'm confused again. We said we had a 1:1
-drm_gpu_scheduler:drm_sched_entity mapping, meaning that entities are
-isolated from each other. I can see how I could place the dma_fence
-returned by ->prepare_job() in a driver-specific per-priority list, so
-the driver can pick the highest-prio/first-inserted entry and signal the
-associated fence when a slot becomes idle. But I have a hard time
-seeing how common code could do that if it doesn't see the other
-entities. Right now, drm_gpu_scheduler only selects the best entity
-among the registered ones, and there's only one entity per
-drm_gpu_scheduler in this case.
+*) Specifically under ChromeOS which uses cgroups to control CPU bandwith for
+   VMs based on the window focused status. It can be demonstrated how GPU
+   scheduling control can easily be integrated into that setup.
 
-> 
-> The more important functional issue is that you must only allocate the
-> fw slot after all dependencies have signalled.
+*) Another real world example later in the cover letter.
 
-Sure, but it doesn't have to be a specific FW slot, it can be any FW
-slot, as long as we don't signal more fences than we have slots
-available, right?
+There should be no conflict with this proposal and any efforts to implement
+memory usage based controller. Skeleton DRM cgroup controller is deliberatly
+purely a skeleton patch where any further functionality can be added with no
+real conflicts. [In fact, perhaps scheduling is even easier to deal with than
+memory accounting.]
 
-> Otherwise you might get
-> a nice deadlock, where job A is waiting for the fw slot of B to become
-> free, and B is waiting for A to finish.
+Structure of the series is as follows:
 
-Got that part, and that's ensured by the fact we wait for all
-regular deps before returning the FW-slot-available dma_fence in
-->prepare_job(). This exact same fence will be signaled when a slot
-becomes idle.
+  1-2) Improve client ownership tracking in DRM core.
+    3) Adds a skeleton DRM cgroup controller with no functionality.
+  4-9) Laying down some infrastructure to enable the controller.
+   10) The controller itself.
+11-12) i915 support for the controller.
 
-> 
-> > > Few fw sched slots essentially just make fw scheduling unfairness more
-> > > prominent than with others, but I don't think it's fundamentally something
-> > > else really.
-> > >
-> > > If every ctx does that and the lru isn't too busted, they should then form
-> > > a nice orderly queue and cycle through the fw scheduler, while still being
-> > > able to get some work done. It's essentially the exact same thing that
-> > > happens with ttm vram eviction, when you have a total working set where
-> > > each process fits in vram individually, but in total they're too big and
-> > > you need to cycle things through.  
-> >
-> > I see.
-> >  
-> > >  
-> > > > > I'll need to make sure this still works with the concept of group (it's
-> > > > > not a single queue we schedule, it's a group of queues, meaning that we
-> > > > > have N fences to watch to determine if the slot is busy or not, but
-> > > > > that should be okay).  
-> > > >
-> > > > Oh, there's one other thing I forgot to mention: the FW scheduler is
-> > > > not entirely fair, it does take the slot priority (which has to be
-> > > > unique across all currently assigned slots) into account when
-> > > > scheduling groups. So, ideally, we'd want to rotate group priorities
-> > > > when they share the same drm_sched_priority (probably based on the
-> > > > position in the LRU).  
-> > >
-> > > Hm that will make things a bit more fun I guess, especially with your
-> > > constraint to not update this too often. How strict is that priority
-> > > difference? If it's a lot, we might need to treat this more like execlist
-> > > and less like a real fw scheduler ...  
-> >
-> > Strict as in, if two groups with same priority try to request an
-> > overlapping set of resources (cores or tilers), it can deadlock, so
-> > pretty strict I would say :-).  
-> 
-> So it first finishes all the higher priority tasks and only then it
-> runs the next one, so no round-robin? Or am I just confused what this
-> all is about. Or is it more that the order in the group determines how
-> it tries to schedule on the hw, and if the earlier job needs hw that
-> also the later one needs, then the earlier one has to finish first?
-> Which would still mean that for these overlapping cases there's just
-> no round-robin in the fw scheduler at all.
+The proposals defines a delegation of duties between the tree parties: cgroup
+controller, DRM core and individual drivers. Two way communication interfaces
+are then defined to enable the delegation to work.
 
-Okay, so my understanding is: FW scheduler always takes the highest
-priority when selecting between X groups requesting access to a
-resource, but if 2 groups want the same resource and have the same
-priority, there's no ordering guarantee. The deadlock happens when both
-group A and B claim resources X and Y. Group A might get resource X
-and group B might get resource Y, both waiting for the other resource
-they claimed. If they have different priorities one of them would back
-off and let the other run, if they have the same priority, none of them
-would, and that's where the deadlock comes from. Note that we don't
-control the order resources get acquired from the CS, so there's no way
-to avoid this deadlock without assigning different priorities.
+DRM scheduling soft limits
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-And you're right, if you pick different priorities, the only time lower
-priority groups get to run is when the highest priority group is
-waiting on an asynchronous operation to complete (can be a
-compute/frag/tiler job completion, some inter queue synchronization,
-waiting for an already acquired resource, ...), or when it's idle. I
-suspect queues from different groups can run concurrently if there's
-enough command-stream processing slots available, and those groups
-request resources that don't overlap, but I'm speculating here. So, no
-round-robin if slots are assigned unique priorities. Not even sure
-scheduling is time-slice based to be honest, it could be some
-cooperative scheduling where groups with the same priorities get to
-wait for the currently running group to be blocked to get access to
-the HW. In any case, there's no easy way to prevent deadlocks if we
-don't assign unique priorities.
+Because of the heterogenous hardware and driver DRM capabilities, soft limits
+are implemented as a loose co-operative (bi-directional) interface between the
+controller and DRM core.
+
+The controller configures the GPU time allowed per group and periodically scans
+the belonging tasks to detect the over budget condition, at which point it
+invokes a callback notifying the DRM core of the condition.
+
+DRM core provides an API to query per process GPU utilization and 2nd API to
+receive notification from the cgroup controller when the group enters or exits
+the over budget condition.
+
+Individual DRM drivers which implement the interface are expected to act on this
+in the best-effort manner only. There are no guarantees that the soft limits
+will be respected.
+
+DRM scheduling soft limits interface files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  drm.weight
+	Standard cgroup weight based control [1, 10000] used to configure the
+	relative distributing of GPU time between the sibling groups.
+
+  drm.period_us (Most probably only a debugging aid during RFC phase.)
+	An integer representing the period with which the controller should look
+	at the GPU usage by the group and potentially send the over/under budget
+	signal.
+	Value of zero (defaul) disables the soft limit checking.
+
+This builds upon the per client GPU utilisation work which landed recently for a
+few drivers. My thinking is that in principle, an intersect of drivers which
+support both that and some sort of scheduling control, like  priorities, could
+also in theory support this controller.
+
+Another really interesting angle for this controller is that it mimics the same
+control menthod used by the CPU scheduler. That is the proportional/weight based
+GPU time budgeting. Which makes it easy to configure and does not need a new
+mental model.
+
+However, as the introduction mentions, GPUs are much more heterogenous and
+therefore the controller uses very "soft" wording as to what it promises. The
+general statement is that it can define budgets, notify clients when they are
+over them, and let individual drivers implement best effort handling of those
+conditions.
+
+Delegation of duties in the implementation goes likes this:
+
+ * DRM cgroup controller implements the control files and the scanning loop.
+ * DRM core is required to track all DRM clients belonging to processes so it
+   can answer when asked how much GPU time is a process using.
+ * DRM core also provides a call back which the controller will call when a
+   certain process is over budget.
+ * Individual drivers need to implement two similar hooks, but which work for
+   a single DRM client. Over budget callback and GPU utilisation query.
+
+What I have demonstrated in practice is that when wired to i915, in a really
+primitive way where the over-budget condition simply lowers the scheduling
+priority, the concept can be almost equally effective as the static priority
+control. I say almost because the design where budget control depends on the
+periodic usage scanning has a fundamental delay, so responsiveness will depend
+on the scanning period, which may or may not be a problem for a particular use
+case.
+
+There are also interesting conversations to be had around mental models for what
+is GPU usage as a single number when faced with GPUs which have different
+execution engines. To an extent this is similar to the multi-core and cgroup
+CPU controller problems, but definitely goes further than that.
+
+I deliberately did not want to include any such complications in the controller
+itself and left the individual drivers to handle it. For instance in the i915
+over-budget callback it will not do anything unless client's GPU usage is on a
+physical engine which is oversubscribed. This enables multiple clients to be
+harmlessly over budget, as long as they are not competing for the same GPU
+resource.
+
+Example usage from within a Linux desktop
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Standard Linux distributions like Ubuntu already uses cgroups heavily for
+session management and that could easily be extended with the DRM controller.
+
+After logging into the system graphically we can enable the DRM controller
+throughout the cgroups hierarchy:
+
+echo +drm > /sys/fs/cgroup/cgroup.subtree_control
+echo +drm > /sys/fs/cgroup/user.slice/cgroup.subtree_control
+echo +drm > /sys/fs/cgroup/user.slice/user-$(id -u).slice/cgroup.subtree_control
+
+Next we will open two SSH sessions, just so separate cgroups are handily created
+by systemd for this experiment.
+
+Roughly simultaneously we run the following two benchmarks in each session
+respectively:
+
+1)
+./GpuTest /test=pixmark_julia_fp32 /width=1920 /height=1080 /fullscreen /no_scorebox /benchmark /benchmark_duration_ms=60000
+
+2)
+vblank_mode=0 bin/testfw_app --gl_api=desktop_core --width=1920 --height=1080 --fullscreen 1 --gfx=glfw -t gl_manhattan
+
+(The only reason for vsync off here is because I struggled to find an easily
+runnable and demanding enough benchmark, or to run on a screen large enough to
+make even a simpler ones demanding.)
+
+With this test we get 252fps from GpuTest and 96fps from GfxBenchmark.
+
+Premise here is that one of these GPU intensive benchmarks is intended to be ran
+by the user with lower priority. Imagine kicking off some background compute
+processing and continuing to use the UI for other tasks. Hence the user will now
+re-run the test by first lowering the weight control of the first session (DRM
+cgroup):
+
+1)
+echo 50 | sudo tee /sys/fs/cgroup/`cut -d':' -f3 /proc/self/cgroup`/drm.weight
+./GpuTest /test=pixmark_julia_fp32 /width=1920 /height=1080 /fullscreen /no_scorebox /benchmark /benchmark_duration_ms=60000
+
+2)
+vblank_mode=0 bin/testfw_app --gl_api=desktop_core --width=1920 --height=1080 --fullscreen 1 --gfx=glfw -t gl_manhattan
+
+In this case we will see that GpuTest has recorded 208fps (~18% down) and
+GfxBenchmark 114fps (18% up), demonstrating that even a very simple approach of
+wiring up i915 to the DRM cgroup controller can enable external GPU scheduling
+control.
+
+* Note here that default weight is 100, so setting 50 for the background session
+  is asking the controller to give it half as much GPU bandwidth.
+
+* Also note that in the RFC stage the DRM controller itself boots in a disabled
+  state and needs to be explicitly enabled by setting a scanning period such as:
+  echo 1000000 | sudo tee /sys/fs/cgroup/drm.period_us.
+
+v2:
+ * Prefaced the series with some core DRM work as suggested by Christian.
+ * Dropped the priority based controller for now.
+ * Dropped the introspection cgroup controller file.
+ * Implemented unused budget sharing/propagation.
+ * Some small fixes/tweak as per review feedback and in general.
+
+ v3:
+ * Dropped one upstreamed patch.
+ * Logging cleanup (use DRM macros where available).
+
+Tvrtko Ursulin (12):
+  drm: Track clients by tgid and not tid
+  drm: Update file owner during use
+  cgroup: Add the DRM cgroup controller
+  drm/cgroup: Track clients per owning process
+  drm/cgroup: Allow safe external access to file_priv
+  drm/cgroup: Add ability to query drm cgroup GPU time
+  drm/cgroup: Add over budget signalling callback
+  drm/cgroup: Only track clients which are providing drm_cgroup_ops
+  cgroup/drm: Client exit hook
+  cgroup/drm: Introduce weight based drm cgroup control
+  drm/i915: Wire up with drm controller GPU time query
+  drm/i915: Implement cgroup controller over budget throttling
+
+ Documentation/admin-guide/cgroup-v2.rst       |  37 ++
+ drivers/gpu/drm/Kconfig                       |   1 +
+ drivers/gpu/drm/Makefile                      |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c       |   6 +-
+ drivers/gpu/drm/drm_auth.c                    |   3 +-
+ drivers/gpu/drm/drm_cgroup.c                  | 203 +++++++
+ drivers/gpu/drm/drm_debugfs.c                 |  12 +-
+ drivers/gpu/drm/drm_file.c                    |  60 +-
+ drivers/gpu/drm/drm_ioctl.c                   |   3 +
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  38 +-
+ drivers/gpu/drm/i915/i915_driver.c            |  11 +
+ drivers/gpu/drm/i915/i915_drm_client.c        | 209 ++++++-
+ drivers/gpu/drm/i915/i915_drm_client.h        |  13 +
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |   5 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c           |   6 +-
+ include/drm/drm_clients.h                     |  47 ++
+ include/drm/drm_drv.h                         |  36 ++
+ include/drm/drm_file.h                        |  17 +-
+ include/linux/cgroup_drm.h                    |  13 +
+ include/linux/cgroup_subsys.h                 |   4 +
+ init/Kconfig                                  |   8 +
+ kernel/cgroup/Makefile                        |   1 +
+ kernel/cgroup/drm.c                           | 570 ++++++++++++++++++
+ 23 files changed, 1273 insertions(+), 31 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_cgroup.c
+ create mode 100644 include/drm/drm_clients.h
+ create mode 100644 include/linux/cgroup_drm.h
+ create mode 100644 kernel/cgroup/drm.c
+
+-- 
+2.34.1
+
