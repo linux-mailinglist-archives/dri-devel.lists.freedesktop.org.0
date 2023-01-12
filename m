@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A39F666D07
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 09:53:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02AA6666D49
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 10:01:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05B1210E89C;
-	Thu, 12 Jan 2023 08:53:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9AE510E8A1;
+	Thu, 12 Jan 2023 09:01:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6435810E89C
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 08:53:41 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3630110E8A1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 09:01:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673513621; x=1705049621;
+ t=1673514104; x=1705050104;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version:content-transfer-encoding;
- bh=GUK7AG0+HQfe2XKEFyZGgtqCHbDE2XWbTu+LfXD5oMU=;
- b=fgBQODJimDsEdDjNopuztnu1wqZ+OTKNf5zaQgchD5YVZTm5JYNz8Hp1
- 2QzK6wMuvK16CAyNhGJgvuB+omI7fcasXqqVJjQuYBXCzpH83POSBoiqF
- i4IShtEiNvNO39r6WVFNC2fCotv1LljIvQtZfH5mmvURbs/wgc/eeTJa8
- IT4B4ORGgJcGEroWP0gSOoUP2168ZM9SEprGSn0izjpNaao/5UiUZCGn7
- ScP56WXmimrg01WHVKYxflbH4ZlHZrq3KWGgrKD8gy6DtLdDZ/rfrwohn
- mZSkqJjOOzVpk3tJk7U6i5BenpwRb9P+wQCXL/biPJ/wzLA6qOzx5uq7d Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="321342501"
-X-IronPort-AV: E=Sophos;i="5.96,319,1665471600"; d="scan'208";a="321342501"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2023 00:53:38 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="800128545"
-X-IronPort-AV: E=Sophos;i="5.96,319,1665471600"; d="scan'208";a="800128545"
-Received: from tarynrox-mobl1.ger.corp.intel.com (HELO localhost)
+ bh=qVY1e9M0eEXiOmhEMTojVLWddTwpbxUusI4Ju4O7Fj8=;
+ b=AFFmq9Cm7RIOPIEkfg2jf1AJyu75chwoKzDj1F2u86CxaI5jUdwhMyCk
+ S6ZeR+lnD4c2CxBpj26Lrt8zfzLjlqBE7/GhgEjivQfSpcWPVJnnB/p/K
+ BUgvNLo4c/VPEbSvZIj+TXxqVl6izdSEZsGc1pFb8JvYZXtgKGwFUk0+d
+ ofMREAAINAefOBmqC4h6O7WL4e0W+WypDETRjRx2NSOn34bWijEe8IoDh
+ Wb7fNNcONZ4rw+TnecZBYJPAAq6E/h98bI5cEydZZEm32jbP/x9kONKMW
+ wEp/TjfYSpE0jT30r0nSh+XIcR95+BskAQxT4Xgg7M1EnR1MXubFx1c5s Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="303351655"
+X-IronPort-AV: E=Sophos;i="5.96,319,1665471600"; d="scan'208";a="303351655"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2023 01:01:16 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="607718986"
+X-IronPort-AV: E=Sophos;i="5.96,319,1665471600"; d="scan'208";a="607718986"
+Received: from lhazellx-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.27.83])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2023 00:53:35 -0800
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2023 01:01:07 -0800
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>, Maxime Ripard
  <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
  <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
  <daniel@ffwll.ch>, Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH 02/13] drm/debugfs: Create helper to create debugfs
- files from list
-In-Reply-To: <20230111173748.752659-3-mcanal@igalia.com>
+Subject: Re: [PATCH 04/13] drm/debugfs: Create a debugfs infrastructure for
+ encoders
+In-Reply-To: <20230111173748.752659-5-mcanal@igalia.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20230111173748.752659-1-mcanal@igalia.com>
- <20230111173748.752659-3-mcanal@igalia.com>
-Date: Thu, 12 Jan 2023 10:53:33 +0200
-Message-ID: <87h6wwgmlu.fsf@intel.com>
+ <20230111173748.752659-5-mcanal@igalia.com>
+Date: Thu, 12 Jan 2023 11:01:04 +0200
+Message-ID: <87eds0gm9b.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -72,75 +72,99 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed, 11 Jan 2023, Ma=C3=ADra Canal <mcanal@igalia.com> wrote:
-> Create a helper to encapsulate the code that creates a new debugfs file
-> from a linked list related to an object. Moreover, the helper also provid=
-es
-> more flexibily on the type of the object.
+> Introduce the ability to add DRM debugfs files to a list managed by the
+> encoder and, during drm_encoder_register_all(), all added files will be
+> created at once.
+>
+> Moreover, introduce some typesafety as struct drm_debugfs_encoder_entry
+> holds a drm_encoder instead of a drm_device. So, the drivers can get
+> a encoder object directly from the struct drm_debugfs_encoder_entry
+> in the show() callback.
 >
 > Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
 > ---
->  drivers/gpu/drm/drm_debugfs.c | 22 ++++++++++++----------
->  1 file changed, 12 insertions(+), 10 deletions(-)
+>  drivers/gpu/drm/drm_debugfs.c  | 36 ++++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/drm_encoder.c  |  6 ++++++
+>  drivers/gpu/drm/drm_internal.h |  5 +++++
+>  include/drm/drm_debugfs.h      | 26 ++++++++++++++++++++++++
+>  include/drm/drm_encoder.h      | 15 ++++++++++++++
+>  5 files changed, 88 insertions(+)
 >
 > diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-> index 255d2068ac16..23f6ed7b5d68 100644
+> index d9ec1ed5a7ec..6a763fe1b031 100644
 > --- a/drivers/gpu/drm/drm_debugfs.c
 > +++ b/drivers/gpu/drm/drm_debugfs.c
-> @@ -218,6 +218,16 @@ void drm_debugfs_create_files(const struct drm_info_=
-list *files, int count,
+> @@ -36,6 +36,7 @@
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_edid.h>
+> +#include <drm/drm_encoder.h>
+>  #include <drm/drm_file.h>
+>  #include <drm/drm_gem.h>
+>  #include <drm/drm_managed.h>
+> @@ -271,6 +272,17 @@ void drm_debugfs_connector_init(struct drm_connector=
+ *connector)
+>  	drm_create_file_from_list(connector);
 >  }
->  EXPORT_SYMBOL(drm_debugfs_create_files);
 >=20=20
-> +#define drm_create_file_from_list(component) do {					\
-> +		list_for_each_entry_safe(entry, tmp, &(component)->debugfs_list,	\
-> +					 list) {					\
-> +			debugfs_create_file(entry->file.name, 0444,			\
-> +					    minor->debugfs_root, entry,			\
-> +					    &drm_debugfs_entry_fops);			\
-> +			list_del(&entry->list);						\
-> +		}									\
-> +	} while (0)
+> +void drm_debugfs_encoder_init(struct drm_encoder *encoder)
+> +{
+> +	struct drm_minor *minor =3D encoder->dev->primary;
+> +	struct drm_debugfs_encoder_entry *entry, *tmp;
+> +
+> +	if (!minor)
+> +		return;
+> +
+> +	drm_create_file_from_list(encoder);
+> +}
+
+Because of the macro, this just looks like entry and tmp are unused
+local variables.
+
+> diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
+> index 3a09682af685..38b73f2a4e38 100644
+> --- a/include/drm/drm_encoder.h
+> +++ b/include/drm/drm_encoder.h
+> @@ -182,6 +182,21 @@ struct drm_encoder {
+>  	 */
+>  	struct list_head bridge_chain;
+>=20=20
+> +	/**
+> +	 * @debugfs_mutex:
+> +	 *
+> +	 * Protects &debugfs_list access.
+> +	 */
+> +	struct mutex debugfs_mutex;
+> +
+> +	/**
+> +	 * @debugfs_list:
+> +	 *
+> +	 * List of debugfs files to be created by the DRM encoder. The files
+> +	 * must be added during drm_encoder_register_all().
+> +	 */
+> +	struct list_head debugfs_list;
 > +
 
-Same here as in the previous patch. I really think you should try to
-figure out how to break this into useful functions, and avoid macros
-like this.
+If you added an additional struct wrapper for the above debugfs stuff
+(and actually defined it in a drm debugfs header where it belongs), and
+added that to encoder, connector, etc., you could pass a pointer to
+*that* to the drm_debugfs_add_file_to_list() and
+drm_create_file_from_list() proper functions.
+
+Less boilerplate, nicer functions, debugfs stuff grouped together and
+defined in the .[ch] they're used in.
+
+I think that would be much nicer.
+
 
 BR,
 Jani.
 
->  int drm_debugfs_init(struct drm_minor *minor, int minor_id,
->  		     struct dentry *root)
->  {
-> @@ -245,11 +255,7 @@ int drm_debugfs_init(struct drm_minor *minor, int mi=
-nor_id,
->  	if (dev->driver->debugfs_init)
->  		dev->driver->debugfs_init(minor);
->=20=20
-> -	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
-> -		debugfs_create_file(entry->file.name, 0444,
-> -				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
-> -		list_del(&entry->list);
-> -	}
-> +	drm_create_file_from_list(dev);
->=20=20
->  	return 0;
->  }
-> @@ -262,11 +268,7 @@ void drm_debugfs_late_register(struct drm_device *de=
-v)
->  	if (!minor)
->  		return;
->=20=20
-> -	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
-> -		debugfs_create_file(entry->file.name, 0444,
-> -				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
-> -		list_del(&entry->list);
-> -	}
-> +	drm_create_file_from_list(dev);
->  }
->=20=20
->  int drm_debugfs_remove_files(const struct drm_info_list *files, int coun=
-t,
+
+
+>  	const struct drm_encoder_funcs *funcs;
+>  	const struct drm_encoder_helper_funcs *helper_private;
+>  };
 
 --=20
 Jani Nikula, Intel Open Source Graphics Center
