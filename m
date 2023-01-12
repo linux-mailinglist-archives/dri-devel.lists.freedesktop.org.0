@@ -2,65 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06B3D667D08
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 18:54:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0557C667DC0
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 19:18:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BC9F10E31B;
-	Thu, 12 Jan 2023 17:54:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 411C810E324;
+	Thu, 12 Jan 2023 18:18:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
- [IPv6:2001:4860:4864:20::2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A76E410E320
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 17:54:07 +0000 (UTC)
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-12c8312131fso19721049fac.4
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 09:54:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xn0RWIp29/DDAGotFO+F2cDyIEYDf7WQu136TlHaqBY=;
- b=GgLQFSrI7wABrz24xPa8arTDkKmXWC4TAcKWtorlQQBKvTjCXNYQUfhqGbQ4C8vtdn
- KqE5SnutmCPdI7XDVjZW9QekOlPxRH8wQOsUQuThnYa07mj50tyDcgKYNLNB0me6gYry
- iL/1LNBsBeNCf0MGcyiTuCiLjq24UEUeF8LKgDm34uTMUXQmK+XEOaTn6L7eCh/Hhvqh
- kAI9J5i79+dLiWnKzXKNz1P7T93pif6yHD2e5I+tijWPIcNHfN5S5ip3ulybi28ENlrO
- ZwF35SYISkdDIN+wEHMbw00rdfERrly6zUItwvLOguKfXBB+PMg4lgeH5YaeJzjOUZon
- URVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xn0RWIp29/DDAGotFO+F2cDyIEYDf7WQu136TlHaqBY=;
- b=IPHBIUkZInSWpguSzCZWQcDEG7cOppL9owVDFuffoO5ax5C1NbaaCl9kVqIxstsd7j
- J+7MnKJS1ZvHM4xF62uh3nGH5EgqTMr+hc7WVbnvqYvWsXT1Y0vAaJThC1A8oMbTx/Cl
- AaEGhUhqJndN2jBgrxNOPvKDMbLDmZPadGmk6XqU5nU0PurvlS59ELRsCBn9eqGL5gmd
- vO2lajDRZlWG9LaGs28Y4JdFYKo6h/9V7/trpzG3ZDs9w0gFjV/otfruejiwFcaec6LV
- o4Fv33RrJqovQ70FPkySBBTcFdfxWJ4CAFGJqzNRNnmUVWivveBSziAqYlZaVaaKdynN
- zXkw==
-X-Gm-Message-State: AFqh2krkljBQ349X0jE9miDEgprLN+eBfNGDRV+kbsvXodwzL8AuJ6bZ
- l/BT2rEt+oyw7Sm2CPGkI52ec4jRZFA=
-X-Google-Smtp-Source: AMrXdXtBjQHgctO3UfpGjiQn/IsGHMNY/nqHWRHZ2huNChe7We+hR5oAMk6Qv4zseol2n95jfj1iMA==
-X-Received: by 2002:a05:6870:450a:b0:15e:dbe1:aee3 with SMTP id
- e10-20020a056870450a00b0015edbe1aee3mr34192oao.51.1673546046797; 
- Thu, 12 Jan 2023 09:54:06 -0800 (PST)
-Received: from localhost.localdomain
- (76-244-6-13.lightspeed.rcsntx.sbcglobal.net. [76.244.6.13])
- by smtp.gmail.com with ESMTPSA id
- v17-20020a05687105d100b0014866eb34cesm9317049oan.48.2023.01.12.09.54.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Jan 2023 09:54:06 -0800 (PST)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH V10 4/4] arm64: dts: rockchip: add display to RG503
-Date: Thu, 12 Jan 2023 11:53:58 -0600
-Message-Id: <20230112175358.421975-5-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230112175358.421975-1-macroalpha82@gmail.com>
-References: <20230112175358.421975-1-macroalpha82@gmail.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2639B10E324
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 18:18:32 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30CGtLD5027633; Thu, 12 Jan 2023 18:18:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=7rdIjZZKM3L7dXtniYmdiNpzi4/6uoUlz6kdnVktw+o=;
+ b=n2QgSk6POsa/iP64Q0QmqfbHEZ5+8lO0OUH3eAkc8E7Nez+qgKBWIO2zHQVsf6dtK9Qt
+ /1arvhfdsOhsryBfaTWqGBYSNNjGCZOOQWoN+k7owqrjAqGTAgGzsWClIEVvETxo3G4u
+ aB5QvshK07HD1P/UKH4E9dOTlD14MjcFDbzW8sDWmgqIzAp+8zupHCkpfU0F4nEAxRVc
+ Li2Tiql1AJA8/PMlf11R5udQtnpJAuAOHeeHLuZlg4UKmXR5mhPHyOdmStcL1HJyQdPk
+ oo2gmOx2x7mu0by9xms4f7A3zs448GljeTFKpxmmeYIkxDHK4mOW35A6gPPP9eSH8Tm4 Hg== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n1kh5vkfa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Jan 2023 18:18:28 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30CIIQC3009027
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Jan 2023 18:18:26 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 12 Jan
+ 2023 10:18:25 -0800
+Message-ID: <6811c853-aaa7-3bf1-c098-d6ca0e875e75@quicinc.com>
+Date: Thu, 12 Jan 2023 11:18:24 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v5 4/7] accel/ivpu: Add IPC driver and JSM messages
+Content-Language: en-US
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>, <oded.gabbay@gmail.com>,
+ <airlied@gmail.com>, <daniel@ffwll.ch>, <tzimmermann@suse.de>
+References: <20230109122344.253994-1-jacek.lawrynowicz@linux.intel.com>
+ <20230109122344.253994-5-jacek.lawrynowicz@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230109122344.253994-5-jacek.lawrynowicz@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: X0X427D0Fw45xRt4CQX9cG56TphfVNzK
+X-Proofpoint-ORIG-GUID: X0X427D0Fw45xRt4CQX9cG56TphfVNzK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-12_08,2023-01-12_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0
+ priorityscore=1501 adultscore=0 mlxscore=0 suspectscore=0 phishscore=0
+ mlxlogscore=513 impostorscore=0 spamscore=0 clxscore=1015 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301120132
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,107 +85,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
- krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
- linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
- thierry.reding@gmail.com, tzimmermann@suse.de, maccraft123mc@gmail.com
+Cc: andrzej.kacprowski@linux.intel.com,
+ Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
+ stanislaw.gruszka@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Morgan <macromorgan@hotmail.com>
+On 1/9/2023 5:23 AM, Jacek Lawrynowicz wrote:
+> The IPC driver is used to send and receive messages to/from firmware
+> running on the VPU.
+> 
+> The only supported IPC message format is Job Submission Model (JSM)
+> defined in vpu_jsm_api.h header.
+> 
+> Co-developed-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+> Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+> Co-developed-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+> Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
-Add Samsung AMS495QA01 panel to RG503.
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
----
- .../dts/rockchip/rk3566-anbernic-rg503.dts    | 55 +++++++++++++++++++
- 1 file changed, 55 insertions(+)
+> +int ivpu_ipc_irq_handler(struct ivpu_device *vdev)
+> +{
+> +	struct ivpu_ipc_info *ipc = vdev->ipc;
+> +	struct ivpu_ipc_consumer *cons;
+> +	struct ivpu_ipc_hdr *ipc_hdr;
+> +	struct vpu_jsm_msg *jsm_msg;
+> +	unsigned long flags;
+> +	bool dispatched;
+> +	u32 vpu_addr;
+> +
+> +	/* Driver needs to purge all messages from IPC FIFO to clear IPC interrupt.
+> +	 * Without purge IPC FIFO to 0 next IPC interrupts won't be generated.
+> +	 */
+> +	while (ivpu_hw_reg_ipc_rx_count_get(vdev)) {
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dts b/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dts
-index 5dafcc86296b..b4b2df821cba 100644
---- a/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dts
-@@ -47,6 +47,21 @@ gpio_spi: spi {
- 		mosi-gpios = <&gpio4 RK_PB0 GPIO_ACTIVE_HIGH>;
- 		cs-gpios = <&gpio4 RK_PA7 GPIO_ACTIVE_HIGH>;
- 		num-chipselects = <0>;
-+
-+		panel@0 {
-+			compatible = "samsung,ams495qa01";
-+			reg = <0>;
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&lcd_reset>;
-+			reset-gpios = <&gpio4 RK_PA0 GPIO_ACTIVE_LOW>;
-+			vdd-supply = <&vcc_3v3>;
-+
-+			port {
-+				mipi_in_panel: endpoint {
-+					remote-endpoint = <&mipi_out_panel>;
-+				};
-+			};
-+		};
- 	};
- 
- 	/* Channels reversed for both headphones and speakers. */
-@@ -94,6 +109,32 @@ &cru {
- 	assigned-clock-rates = <1200000000>, <200000000>, <500000000>;
- };
- 
-+&dsi_dphy0 {
-+	status = "okay";
-+};
-+
-+&dsi0 {
-+	status = "okay";
-+
-+	ports {
-+		dsi0_in: port@0 {
-+			reg = <0>;
-+
-+			dsi0_in_vp1: endpoint {
-+				remote-endpoint = <&vp1_out_dsi0>;
-+			};
-+		};
-+
-+		dsi0_out: port@1 {
-+			reg = <1>;
-+
-+			mipi_out_panel: endpoint {
-+				remote-endpoint = <&mipi_in_panel>;
-+			};
-+		};
-+	};
-+};
-+
- &gpio_keys_control {
- 	button-a {
- 		gpios = <&gpio3 RK_PC1 GPIO_ACTIVE_LOW>;
-@@ -146,6 +187,13 @@ spk_amp_enable_h: spk-amp-enable-h {
- 		};
- 	};
- 
-+	gpio-lcd {
-+		lcd_reset: lcd-reset {
-+			rockchip,pins =
-+				<4 RK_PA0 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+
- 	gpio-spi {
- 		spi_pins: spi-pins {
- 			rockchip,pins =
-@@ -164,3 +212,10 @@ rk817_charger: charger {
- 		rockchip,sleep-filter-current-microamp = <100000>;
- 	};
- };
-+
-+&vp1 {
-+	vp1_out_dsi0: endpoint@ROCKCHIP_VOP2_EP_MIPI0 {
-+		reg = <ROCKCHIP_VOP2_EP_MIPI0>;
-+		remote-endpoint = <&dsi0_in_vp1>;
-+	};
-+};
--- 
-2.34.1
+Ick.  Please no in the long term?
+
+This is an infinite loop.  In hard IRQ context.  Controlled by the 
+device, which you probably shouldn't trust.
+
+However the real fix for this is to move to threaded_irqs.  Which is 
+going to be a huge refactor for you.  Rate limiting doesn't appear viable.
+
+If I understand things correctly, the chances that the device will 
+generate a large count, or update the count as fast or faster than the 
+driver are low, but it should still be fixed.
+
+How about a high priority todo to convert to threaded irqs?  At the same 
+time you can update the return value for this function which seems to 
+not be checked anywhere, and also the comment here which is not proper 
+multi-line style.
 
