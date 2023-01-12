@@ -1,64 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EBC9667E66
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 19:49:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 657D7667E8F
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 20:03:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5916510E32F;
-	Thu, 12 Jan 2023 18:49:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8019410E341;
+	Thu, 12 Jan 2023 19:03:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6628C10E32F
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 18:49:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673549379; x=1705085379;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=9guobFNINFKzs85pMdO4XSWR2kQiBbfRMF9KDbcDOZM=;
- b=TlCs3twkQUCAikiMRPjQ8t3PjR6k+US6j1SPzybVhkaS/ewkXQXGOflI
- msDhcIWgI6N1DLwNR0DQS9wCK3szpMaj9idjM752YGvAxBBrftqqKcdnk
- q4o+To1zut8GIp6jzsRrZWQEYDTSV8Tknj9ROLqOzZFFoC9C6+NZqYVF3
- A7R4RnZBtfrGAQPKokc92T7ii/dmaL3gORYhip1D4fxw1yWkj/auVPNgV
- Ea3a+BNv34TLSdsr1V6nByZHHi1r1mmiT1qSIRoJoeme/2+DnYjSONDDZ
- 9OASzdBeA4ImOoaQdsDAFaLarJo0Yoy/6x/It/IYUVlbmnjTLXkF8TNbB A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="323854146"
-X-IronPort-AV: E=Sophos;i="5.97,211,1669104000"; d="scan'208";a="323854146"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2023 10:49:38 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="726429972"
-X-IronPort-AV: E=Sophos;i="5.97,211,1669104000"; d="scan'208";a="726429972"
-Received: from jacton-mobl.ger.corp.intel.com (HELO [10.213.195.171])
- ([10.213.195.171])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2023 10:49:37 -0800
-Message-ID: <c80fbf23-00db-3ba2-9af0-2b7fe440bc63@linux.intel.com>
-Date: Thu, 12 Jan 2023 18:49:35 +0000
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8986710E33E
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 19:03:47 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30CIt1uA012576; Thu, 12 Jan 2023 19:03:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=ZFP7n2KzmgAyV1HzOGWp64B0WrjlvCh4HzwqTP77FqE=;
+ b=NfXBFcTJKIqjlGNskDfOgZmuiwNangneb41kUVCr54bnL4G6gzBmX9HGqTqOH9aKu8LP
+ lhT2CVi5UTaUEGPBKuqwB/uIW5l+cugVDSuvKJh49ilcRPIwReC6elbGbBHdL+/jgvW1
+ I9c8dCYSx2PtiXoKdxpO03OCq8xHQ8tlnt4m3hoFBEiS/xCBfRyJ9R2QMcX/M7sy6/Hz
+ hdKrDXzNPTYIG7SilxwYIhYNiiv0N8Wn24IuYJ4jACuU+oBdDglFUbiCZVEOXMiOS8Ja
+ jQwiVmgew6NV0WkRBIDgxWl2/QRRW9CYC+PVHXFT+XLeZcjyFEmc+IIBFSkE3cDU3slP YA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n2eduse61-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Jan 2023 19:03:43 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30CJ3gDb022275
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Jan 2023 19:03:42 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 12 Jan
+ 2023 11:03:41 -0800
+Message-ID: <15b8a96a-7bf8-28a6-ba90-6afe7ee68321@quicinc.com>
+Date: Thu, 12 Jan 2023 12:03:40 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [RFC 3/3] drm: Update file owner during use
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v5 7/7] accel/ivpu: Add PM support
 Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20221130133407.2689864-4-tvrtko.ursulin@linux.intel.com>
- <Y4dmKgn8X4yPUnqk@phenom.ffwll.local>
- <157dcd11-ea4d-b22a-b10f-0934451d3c1d@linux.intel.com>
- <3eccd500-9e69-111d-54bd-90e6292b2b98@amd.com>
- <Y7bDdU0nZg+6GBZL@phenom.ffwll.local>
- <5a875e31-138e-7e11-3a47-b0b85fc1413f@amd.com>
- <Y7f9weWJc1c0XiG1@phenom.ffwll.local>
- <414e4217-4ba2-3bf2-1c75-b01f679cde54@amd.com>
- <Y7hhu9M1b1thMpVf@phenom.ffwll.local>
- <9a290f65-0cc3-8d32-5039-bb7412fe6c5d@linux.intel.com>
- <Y782AC5kl6+vVKHP@phenom.ffwll.local>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <Y782AC5kl6+vVKHP@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>, <oded.gabbay@gmail.com>,
+ <airlied@gmail.com>, <daniel@ffwll.ch>, <tzimmermann@suse.de>
+References: <20230109122344.253994-1-jacek.lawrynowicz@linux.intel.com>
+ <20230109122344.253994-8-jacek.lawrynowicz@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230109122344.253994-8-jacek.lawrynowicz@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: F1Ub7iKyutsg_8iBUF-g8jmgzjxqqRRD
+X-Proofpoint-ORIG-GUID: F1Ub7iKyutsg_8iBUF-g8jmgzjxqqRRD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-12_10,2023-01-12_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ mlxlogscore=927 mlxscore=0 phishscore=0 clxscore=1015 adultscore=0
+ bulkscore=0 impostorscore=0 spamscore=0 suspectscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301120136
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,85 +85,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: andrzej.kacprowski@linux.intel.com,
+ Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
+ stanislaw.gruszka@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 11/01/2023 22:19, Daniel Vetter wrote:
-> On Tue, Jan 10, 2023 at 01:14:51PM +0000, Tvrtko Ursulin wrote:
->>
->> On 06/01/2023 18:00, Daniel Vetter wrote:
->>> On Fri, Jan 06, 2023 at 03:53:13PM +0100, Christian König wrote:
->>>> Am 06.01.23 um 11:53 schrieb Daniel Vetter:
->>>>> On Fri, Jan 06, 2023 at 11:32:17AM +0100, Christian König wrote:
->>>>>> Am 05.01.23 um 13:32 schrieb Daniel Vetter:
->>>>>>> [SNIP]
->>>>>>>> For the case of an master fd I actually don't see the reason why we should
->>>>>>>> limit that? And fd can become master if it either was master before or has
->>>>>>>> CAP_SYS_ADMIN. Why would we want an extra check for the pid/tgid here?
->>>>>>> This is just info/debug printing, I don't see the connection to
->>>>>>> drm_auth/master stuff? Aside from the patch mixes up the master opener and
->>>>>>> the current user due to fd passing or something like that.
->>>>>> That's exactly why my comment meant as well.
->>>>>>
->>>>>> The connect is that the drm_auth/master code currently the pid/tgid as
->>>>>> indicator if the "owner" of the fd has changed and so if an access should be
->>>>>> allowed or not. I find that approach a bit questionable.
->>>>>>
->>>>>>> Note that we cannot do that (I think at least, after pondering this some
->>>>>>> more) because it would break the logind master fd passing scheme - there
->>>>>>> the receiving compositor is explicitly _not_ allowed to acquire master
->>>>>>> rights on its own. So the master priviledges must not move with the fd or
->>>>>>> things can go wrong.
->>>>>> That could be the rational behind that, but why doesn't logind then just
->>>>>> pass on a normal render node to the compositor?
->>>>> Because the compositor wants the kms node. We have 3 access levels in drm
->>>>>
->>>>> - render stuff
->>>>> - modeset stuff (needs a card* node and master rights for changing things)
->>>>> - set/drop master (needs root)
->>>>>
->>>>> logind wants to give the compositor modeset access, but not master
->>>>> drop/set access (because vt switching is controlled by logind).
->>>>>
->>>>> The pid check in drm_auth is for the use-case where you start your
->>>>> compositor on a root vt (or setuid-root), and then want to make sure
->>>>> that after cred dropping, set/drop master keeps working. Because in that
->>>>> case the vt switch dance is done by the compositor.
->>>>>
->>>>> Maybe we should document this stuff a bit better :-)
->>>>
->>>> Maybe add a friendly warning? E.g. like "Don't touch it, it works!" :)
->>>
->>> I think Tvrtko just volunteered for that :-) Maybe addition in the
->>> drm-uapi.rst section would be good that fills out the gaps we have.
->>
->> I can attempt to copy, paste and tidy what you wrote here, albeit with less
->> than full degree of authority. Assuming into the existing comment above
->> drm_master_check_perm?
+On 1/9/2023 5:23 AM, Jacek Lawrynowicz wrote:
+>    - Implement cold and warm firmware boot flows
+>    - Add hang recovery support
+>    - Add runtime power management support
 > 
-> I'd put it into the DOC: section in drm_auth.c so it shows up in the
-> drm-uapi.rst docs. Or do a new one if you want to split this out and then
-> include it in the drm-uapi.rst.
-> 
->> But in terms of where my series is going next I would need some
->> clarification in the other sub-thread.
-> 
-> Maybe I'm lost on what the leftover confusion is? This one seemed to be
-> it?
+> Co-developed-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+> Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
-The question of whether you are now okay with my approach to track 
-file_priv->pid if !was_master, or your counter-proposal to have 
-file_priv->pid and file_priv->"render_user_pid" is still relevant.
+I don't claim to be a PM expert, but I have had some experience with it. 
+  This looks sane to me.
 
-If the latter then what semantics have been settled at, one-shot 
-transition or not?
-
-I had an issue with one-shot and even didn't fully understand what you 
-did not like about my proposal.
-
-Regards,
-
-Tvrtko
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
