@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF980667EB1
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 20:07:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61FF6667F64
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 20:33:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09B5210E910;
-	Thu, 12 Jan 2023 19:07:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9126610E1BA;
+	Thu, 12 Jan 2023 19:33:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75AB210E90B;
- Thu, 12 Jan 2023 19:07:46 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id r132so5495348oif.10;
- Thu, 12 Jan 2023 11:07:46 -0800 (PST)
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 400BC10E1B5;
+ Thu, 12 Jan 2023 19:33:50 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id o66so16104340oia.6;
+ Thu, 12 Jan 2023 11:33:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=GiJEsLNpkHnW+GAQ0NBigzoD8JOv1F6wdXxOX2ruxq0=;
- b=Oheuo3BVTnqAZlN/6ElEIymARl5QOK1V5kY8iK6oj+KM7C4k7SjlcnaDljEFwlwcYm
- GOV8V0+Mkpgf72QV2JFVsrxOcUsWhwUS3c/JJofbAh0l+OwCr3i6Q02y/Eo342moqK+O
- oHs27IiX4biAXdNzZWFrp/RdzzirfxM8tDGjIJuIBOedKNJLOyVKYD0b4EN5NsNJ1PL7
- 3dvWW6s0MWS3LvEqwFxlRi5sjLB+xWggFjNnwepkvufPYVb1DFaRqHwvP+m1cmJUHAEr
- T9Z42IBFfdOCwii2BRkohu+ZeJQI4GQ/J2glQFmhrABacuWEwoC82rgueKv0Ss7rU0i7
- MLLg==
+ bh=aypgsOMzmGEhnMGY/eHKs1+jahN6svk47TXr3cbBLDY=;
+ b=XJIfIuVyF+2IeoN8v3sm8ShKWmRSQhjtD/VSFe40yy9oq/Bd/3BrFL/EiH/ND/xLtv
+ AoSNUskM/kLb/ByQl4tqDJ1BZT0ulle6DoHja4hqpFL9LBn0efdGnj9Zcpq56jHrl0E1
+ Kz5tZ64Lcx2JRTrsUNQjkVSo6sYM95eqe0b1cpt/8qvFTUkN3GHYe63eOAVQWY/0b7rz
+ 3nOpFcdKPJpHdAnTunPdlNZs4yMBAO+6uROA2EF/4GEbWv37fh3qA4L8h+GzuGMUG1gO
+ O+d+3F+8CBODT/B6OMZH+5ZDWX0UMV4/W83OcrbQUG0DQVpZwPzqPKHjAjbyWyZxj/VS
+ gayg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=GiJEsLNpkHnW+GAQ0NBigzoD8JOv1F6wdXxOX2ruxq0=;
- b=xQiz5hy9SKdp0hRcSA6Cx+G6DUVH09LKbWpREEe+O1sfnz/luL159Vc/0VODgT4A/b
- 2K5WMrFYP6phU1CCPIGE13U96R9hkdMKQjUciyAA+Meyj2oZkg3P3tElL4JWNVRsDqQV
- t9QtLvhSGpMewZIT6Ayym96757mvtLzYyuLSGSIxnr1NKOwmvED0kv7l+Ttj0PuRdVgd
- NnmEUqwpr6F6J3cWVW54DnNj7gEyV8+9CDHg5RmFLgfKIHDY8I4FH4z9zLQtHbUCD9dU
- cqteP5A+gjzblqJgh+RXoK04kXbDhM8VE5J3RZFexb+1Stjjs5IcnZIWueS9/f3l011f
- CNiA==
-X-Gm-Message-State: AFqh2kpwrBV70R7hJ9WgsQuK/vl+kM4/C9BTErsz0XVBa4ESw04V2wMw
- jIQd0PK5PMqqRS9/A5p4jphBg/37OsfyPO2DRz4=
-X-Google-Smtp-Source: AMrXdXusvS3C+v7xV1vK0cy5jdeabhFLWWpt3LVQ6eqjaO2XL1mtufA1+VPFCSBypjA5EBfJ0rsqKpNsWmFeOs8JYdE=
-X-Received: by 2002:a05:6808:2001:b0:35b:d93f:cbc4 with SMTP id
- q1-20020a056808200100b0035bd93fcbc4mr5087507oiw.96.1673550465717; Thu, 12 Jan
- 2023 11:07:45 -0800 (PST)
+ bh=aypgsOMzmGEhnMGY/eHKs1+jahN6svk47TXr3cbBLDY=;
+ b=ZvpyTt8iavqYqRJzE+bge8NmeESNc08Hx3AJpcliPhKxnhYNFqqxpLubtUjAARP0nZ
+ 9z5aMMLxAkJtQvk8MxUPheoxbv1yoLqOOuJZDCndCigUFtgrGWenCf4Aakc2ep3hz7lw
+ GnD81O/z8rZV0DFGV+iRTmLyT4a1BI7rXKsQCChnYBW1sxdh17aZnHVIzKsyZNMURFnd
+ 6Kp+CEUXOvkC4rSyRm1bkWmg5nsXJsA+SXoITYqnwpHG9VhYFC4rDoE0edLJCDSj6vJJ
+ bDBDKURqnya/lwo5NpRXl6ji6+IRXDQVPw9QtEdpkmlXNvZYpwklPHEHiRxCQjPM83NW
+ jiww==
+X-Gm-Message-State: AFqh2kpaKCSn/mHvo2WQ1bXtVD4+GMsvhGjdH8/UNT0zhohcCxcmYHRP
+ 0QK9aG8stW+hXfRSaFHwrekbi5/6oZOR8JXRnn4=
+X-Google-Smtp-Source: AMrXdXtyJjc6vkU/EGsBHOqdS2kLFiSshjKvc0JLtfUFk6F0VTt7UUKvuL5X6VXwN3sLCNU5UUTi3xMRk9SAdlEVp+s=
+X-Received: by 2002:a05:6808:2994:b0:35b:f5f7:3ed0 with SMTP id
+ ex20-20020a056808299400b0035bf5f73ed0mr5306345oib.46.1673552029252; Thu, 12
+ Jan 2023 11:33:49 -0800 (PST)
 MIME-Version: 1.0
-References: <20230112032049.128610-1-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20230112032049.128610-1-jiapeng.chong@linux.alibaba.com>
+References: <Y8AQYhVkJjV86VXV@ubun2204.myguest.virtualbox.org>
+In-Reply-To: <Y8AQYhVkJjV86VXV@ubun2204.myguest.virtualbox.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 12 Jan 2023 14:07:34 -0500
-Message-ID: <CADnq5_N=gp4KXxt6SCg31tRbOu66qp5NV2V9OKcMWP2fRntbhQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Remove useless else if
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Date: Thu, 12 Jan 2023 14:33:37 -0500
+Message-ID: <CADnq5_OttrDQ=nDQSg3OWj_aqwKSs1s3YpWRqnM1wmzJQ-F2RA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Conversion to bool not necessary
+To: Deepak R Varma <drv@mailo.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,46 +64,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, Xinhui.Pan@amd.com,
- Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: Saurabh Singh Sengar <ssengar@microsoft.com>, Leo Li <sunpeng.li@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org,
+ Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Wed, Jan 11, 2023 at 10:21 PM Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
+Alex
+
+On Thu, Jan 12, 2023 at 8:51 AM Deepak R Varma <drv@mailo.com> wrote:
 >
-> The assignment of the else and if branches is the same, so the if else
-> here is redundant, so we remove it.
+> A logical evaluation already results in bool. There is no need for using
+> a ternary operator based evaluation and bool conversion of the outcome.
+> Issue identified using boolconv.cocci Coccinelle semantic patch.
+> This was also reported by the Kernel Test Robot. Hence
 >
-> ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:1951:2-4: WARNING: possible condition with no effect (if == else).
+> Fixes: 473683a03495 ("drm/amd/display: Create a file dedicated for CRTC")
 >
-> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3719
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
 > ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 4300ce98ce8d..aa3024e58d12 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -1948,10 +1948,7 @@ static int dm_dmub_sw_init(struct amdgpu_device *adev)
->                 dmub_asic = DMUB_ASIC_DCN21;
->                 break;
->         case IP_VERSION(3, 0, 0):
-> -               if (adev->ip_versions[GC_HWIP][0] == IP_VERSION(10, 3, 0))
-> -                       dmub_asic = DMUB_ASIC_DCN30;
-> -               else
-> -                       dmub_asic = DMUB_ASIC_DCN30;
-> +               dmub_asic = DMUB_ASIC_DCN30;
->                 break;
->         case IP_VERSION(3, 0, 1):
->                 dmub_asic = DMUB_ASIC_DCN301;
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+> index 22125daf9dcf..1e39d0939700 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+> @@ -105,8 +105,7 @@ static void vblank_control_worker(struct work_struct *work)
+>         else if (dm->active_vblank_irq_count)
+>                 dm->active_vblank_irq_count--;
+>
+> -       dc_allow_idle_optimizations(
+> -               dm->dc, dm->active_vblank_irq_count == 0 ? true : false);
+> +       dc_allow_idle_optimizations(dm->dc, dm->active_vblank_irq_count == 0);
+>
+>         DRM_DEBUG_KMS("Allow idle optimizations (MALL): %d\n", dm->active_vblank_irq_count == 0);
+>
 > --
-> 2.20.1.7.g153144c
+> 2.34.1
+>
+>
 >
