@@ -1,78 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE0CB667CCF
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 18:42:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39949667CEC
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 18:47:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 591F010E321;
-	Thu, 12 Jan 2023 17:42:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCFB210E1A8;
+	Thu, 12 Jan 2023 17:47:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3999D10E1A8
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 17:41:59 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30CGKgBG000693; Thu, 12 Jan 2023 17:41:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=2gpNMbzb+AElwgJIfZ/Y6wQz3sjmUGe5+rVLzN5HrlE=;
- b=joBhJJox2MeiC0D+xsCqtu+DBEotQkkf8uSSJgUViWlMvqJShWKTacvqJ2mazXrQd+Yn
- mR3Pi15nsEmW7VdQZhDJfnLRhmx5YBqh6HyDpXKZv5/tp1Ec6Ft5/F+N2vfmsHED5XQI
- Y6bsI19Q5+68gDG5t35rBTksag+rba5j+2MMEX1S366jJl2y22EC2E6JZjxAm7oaFBAJ
- xgzPItFiwSPVHgyLf4kOmMyMlbs5URFEDEyjDgUNkGEl4WjMuvJ4i+4prcILyBKe+Adg
- /EyP+0hF+KjXd+u2/CPgo0JrvE1+qe8M32oyw/GN9fzmeu8s+1UBbI1L30cLLgmo4YZb xw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n2edus979-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Jan 2023 17:41:55 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30CHfrXf002150
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Jan 2023 17:41:53 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 12 Jan
- 2023 09:41:53 -0800
-Message-ID: <4961e348-e869-b05f-98ea-f972b7e581c6@quicinc.com>
-Date: Thu, 12 Jan 2023 10:41:52 -0700
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2715A10E1A9
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 17:47:37 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id D9FEDB81F02
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 17:47:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8F5F8C433F1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 17:47:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1673545654;
+ bh=hAaBKNBu8+ltg7P9ihEf01fx7P0s4my4OVV8vcWTobI=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=tgomTeDAm/QB9ZrrUI1AH/a0io7s2jqIIEmwm/ye7580F1BiepelXxHD/8KGhcjOF
+ a0KWVntD5mAuPhH1r2KZphUv6LE2VDhJ37at32hztfo2vm6+rx8kpDCVvUuHINu+D8
+ cS1luP13Kkh28J8duzReNyYz2fuTrXCcsKuSdZF9jRG4DAQvqgxhuj65mkBZNO5i7y
+ KD89slY1LZ2KmBXvUtT28SvOnaAiUNLHQo1zF/v3IS5YoVHimkjQBEUOudclo8bNIR
+ nRJXRIy01inBfkwDeqeNNPA0s1TJb+JIhk1SFNWCpF9/fnebEVRW/wsXU5nUB5qMFf
+ gtjthb9jmuF2g==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 76504C43144; Thu, 12 Jan 2023 17:47:34 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216917] hibernation regression since 6.0.18 (Ryzen-5650U incl.
+ Radeon GPU)
+Date: Thu, 12 Jan 2023 17:47:34 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mario.limonciello@amd.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: WILL_NOT_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-216917-2300-JnpBU1IM27@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216917-2300@https.bugzilla.kernel.org/>
+References: <bug-216917-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v5 2/7] accel/ivpu: Add Intel VPU MMU support
-Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>, <oded.gabbay@gmail.com>,
- <airlied@gmail.com>, <daniel@ffwll.ch>, <tzimmermann@suse.de>
-References: <20230109122344.253994-1-jacek.lawrynowicz@linux.intel.com>
- <20230109122344.253994-3-jacek.lawrynowicz@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20230109122344.253994-3-jacek.lawrynowicz@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: A-nwoc-tVoUhLZr2M49wEEtNuZs5Gb8L
-X-Proofpoint-ORIG-GUID: A-nwoc-tVoUhLZr2M49wEEtNuZs5Gb8L
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-12_08,2023-01-12_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- mlxlogscore=762 mlxscore=0 phishscore=0 clxscore=1011 adultscore=0
- bulkscore=0 impostorscore=0 spamscore=0 suspectscore=0 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301120126
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,39 +72,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.kacprowski@linux.intel.com,
- Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
- Karol Wachowski <karol.wachowski@linux.intel.com>,
- stanislaw.gruszka@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/9/2023 5:23 AM, Jacek Lawrynowicz wrote:
-> VPU Memory Management Unit is based on ARM MMU-600.
-> It allows the creation of multiple virtual address spaces for
-> the device and map noncontinuous host memory (there is no dedicated
-> memory on the VPU).
-> 
-> Address space is implemented as a struct ivpu_mmu_context, it has an ID,
-> drm_mm allocator for VPU addresses and struct ivpu_mmu_pgtable that
-> holds actual 3-level, 4KB page table.
-> Context with ID 0 (global context) is created upon driver initialization
-> and it's mainly used for mapping memory required to execute
-> the firmware.
-> Contexts with non-zero IDs are user contexts allocated each time
-> the devices is open()-ed and they map command buffers and other
-> workload-related memory.
-> Workloads executing in a given contexts have access only
-> to the memory mapped in this context.
-> 
-> This patch is has two main files:
->    - ivpu_mmu_context.c handles MMU page tables and memory mapping
->    - ivpu_mmu.c implements a driver that programs the MMU device
-> 
-> Co-developed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
-> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
-> Co-developed-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
-> Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216917
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Mario Limonciello (AMD) (mario.limonciello@amd.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|ASSIGNED                    |RESOLVED
+         Resolution|---                         |WILL_NOT_FIX
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
