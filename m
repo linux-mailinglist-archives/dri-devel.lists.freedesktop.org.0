@@ -1,49 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 726BE6667DE
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 01:37:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0918666818
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 01:49:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C027010E848;
-	Thu, 12 Jan 2023 00:37:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2C5F10E2C1;
+	Thu, 12 Jan 2023 00:49:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEE8710E840;
- Thu, 12 Jan 2023 00:37:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673483837; x=1705019837;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=03m4eo5WB+EzMhrE7x1UMNPHa77OJ7bPzpLExLpJ+yE=;
- b=Tyt+LT0DEu0FVcTE4PK+6FP/CiGqkK0jMuQ9KK70r7i6mId75XcYFVtR
- LASW7xD1rur0Gbwr1NxLCnUAmjFiRoOSAEEZntVrpXoEbBEMDOIMKPDHu
- k2LXtnoElsaUYEmZPNUl0UygfPtXht2X358v28kIExilwxs4yMo6hjZz/
- 1NHPGB+4W+2IevA8cJGrkXdihbVEibfwSdg0WJFSnTtH30TkdO7lsH2dk
- t1T8mURJ5FREpT23CWZVHwL4tjSy3iPNakauj9ZsPcXP26vFsnDJ4YHXB
- RFYjB2Rq2j8PFdy7qn+T2vNL5AFEADeGs9pF4AYq/IjNx/WfmA4bkcD8l Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="303271500"
-X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="303271500"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2023 16:37:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="635179915"
-X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="635179915"
-Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by orsmga006.jf.intel.com with ESMTP; 11 Jan 2023 16:37:16 -0800
-From: Alan Previn <alan.previn.teres.alexis@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 6/6] drm/i915/pxp: Pxp hw init should be in resume_complete
-Date: Wed, 11 Jan 2023 16:37:06 -0800
-Message-Id: <20230112003706.950931-7-alan.previn.teres.alexis@intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230112003706.950931-1-alan.previn.teres.alexis@intel.com>
-References: <20230112003706.950931-1-alan.previn.teres.alexis@intel.com>
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
+ [IPv6:2607:f8b0:4864:20::b31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0933410E2C1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 00:49:48 +0000 (UTC)
+Received: by mail-yb1-xb31.google.com with SMTP id a9so286961ybb.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 16:49:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=hDrqeCy2isEAcEZutQc18fIgv9oWhVupwebw91lgye4=;
+ b=qxxyHu+WDybsKdsOve3HdK7LpgzBN/3GZRqgrxvs9Q5W9Kzwd7Dzc9/jYzxkNuDrul
+ kQkTCY47Z2auo0ah8YGi8N0fYkfJOF7YxzNDRGT2TVVKTxh3xTGn5tExmfv9+PHBUfjc
+ yw/X/nMCu8FyYUb99VuG8LjTaud4O30po5zBH3LKaw5V6vBQRwOmH59u3sd47u/bsD8t
+ wqFwxSQZsBtZNU5U8hrEp3462X5hXd5zeVSkG1FDkuO9G+kbmGLsdETBG2DaHv5igzc1
+ rEShl5bXFHof6n5bFLnvY/qrSb9Wg1ns/Lu0eWyU8NcGpi2ojYMe7+hIT1ATndOFXF0A
+ cgSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hDrqeCy2isEAcEZutQc18fIgv9oWhVupwebw91lgye4=;
+ b=xzIWveDXW+xc0f03gKY+ezi6knPCjYGsM4FGs8dzOFYp5+oZmaB9NEYNTh37BsQFQ+
+ PFDpNA7U9DoLIEJ95hn4azu+VOFPQdWjuwWLWuz0PDYyZpeVmffuiz+NLG09+KiLC2WD
+ LghIx2JB1+AQLq6tYhTMDy253UnFBC/gAWw+MiENHn5ZFkkXJYkUbruIosM/G46rX4Fq
+ IojBFp2sKhg/3bNWSD0vMvLmHr4cglrOa+743dHVRnCxGElTHLv/ZIA3iPkhOcRob7aO
+ G0sI0lHemJsIHWZxkyedNUVhOoRDUGb0EiSlTJA/HXlLzx5keasra/fQqWHJZbZyOLyW
+ EsFA==
+X-Gm-Message-State: AFqh2kruEecrwTzqNILGmyH9OZvPNCSdIyelxFO/w7ykYwWgEiA6e10m
+ 2ZfFXJX5oeVAeblLmEPxc7HrOmkzNZom1IeOg4L93w==
+X-Google-Smtp-Source: AMrXdXu17IFbx26OPrHPKXjmemxAqNaMOD1OWegMg2ItX26DTAFbkKoo8CQ39aLybKhS2ukHUzL7EAGQYL9SN8e9NYA=
+X-Received: by 2002:a25:dd84:0:b0:756:35b9:e2de with SMTP id
+ u126-20020a25dd84000000b0075635b9e2demr8569422ybg.117.1673484587884; Wed, 11
+ Jan 2023 16:49:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230109213809.418135-1-tjmercier@google.com>
+ <CALvZod4ru7F38tAO-gM9ZFKaEhS0w3KqFbPwhwcTvgJs4xMUow@mail.gmail.com>
+ <Y78+rfzXPq5XGs9O@phenom.ffwll.local>
+In-Reply-To: <Y78+rfzXPq5XGs9O@phenom.ffwll.local>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Wed, 11 Jan 2023 16:49:36 -0800
+Message-ID: <CABdmKX0TAv=iRz0s+F6dVVX=xsK00BeUPkRM4bnsfemDAY9U4w@mail.gmail.com>
+Subject: Re: [PATCH 0/4] Track exported dma-buffers with memcg
+To: Shakeel Butt <shakeelb@google.com>, "T.J. Mercier" <tjmercier@google.com>,
+ Tejun Heo <tj@kernel.org>, 
+ Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
+ Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, 
+ Joel Fernandes <joel@joelfernandes.org>, Christian Brauner <brauner@kernel.org>,
+ Carlos Llamas <cmllamas@google.com>, Suren Baghdasaryan <surenb@google.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+ Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>,
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+ "Serge E. Hallyn" <serge@hallyn.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>, 
+ Eric Paris <eparis@parisplace.org>, android-mm@google.com, jstultz@google.com, 
+ cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-mm@kvack.org, linux-security-module@vger.kernel.org, 
+ selinux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,151 +87,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
-	Vivi@freedesktop.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rodrigo <rodrigo.vivi@intel.com>,
-	Alexander Usyskin <alexander.usyskin@intel.com>,
-	dri-devel@lists.freedesktop.org,
-	Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
-	Juston Li <justonli@chromium.org>,
-	Tomas Winkler <tomas.winkler@intel.com>
+Cc: daniel.vetter@ffwll.ch
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During suspend flow, i915 currently achors' on the pm_suspend_prepare
-callback as the location where we quiesce the entire GPU and perform
-all necessary cleanup in order to go into suspend. PXP is also called
-during this time to perform the arbitration session teardown (with
-the assurance no additional GEM IOCTLs will come after that could
-restart the session).
+On Wed, Jan 11, 2023 at 2:56 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Mon, Jan 09, 2023 at 04:18:12PM -0800, Shakeel Butt wrote:
+> > Hi T.J.,
+> >
+> > On Mon, Jan 9, 2023 at 1:38 PM T.J. Mercier <tjmercier@google.com> wrote:
+> > >
+> > > Based on discussions at LPC, this series adds a memory.stat counter for
+> > > exported dmabufs. This counter allows us to continue tracking
+> > > system-wide total exported buffer sizes which there is no longer any
+> > > way to get without DMABUF_SYSFS_STATS, and adds a new capability to
+> > > track per-cgroup exported buffer sizes. The total (root counter) is
+> > > helpful for accounting in-kernel dmabuf use (by comparing with the sum
+> > > of child nodes or with the sum of sizes of mapped buffers or FD
+> > > references in procfs) in addition to helping identify driver memory
+> > > leaks when in-kernel use continually increases over time. With
+> > > per-application cgroups, the per-cgroup counter allows us to quickly
+> > > see how much dma-buf memory an application has caused to be allocated.
+> > > This avoids the need to read through all of procfs which can be a
+> > > lengthy process, and causes the charge to "stick" to the allocating
+> > > process/cgroup as long as the buffer is alive, regardless of how the
+> > > buffer is shared (unless the charge is transferred).
+> > >
+> > > The first patch adds the counter to memcg. The next two patches allow
+> > > the charge for a buffer to be transferred across cgroups which is
+> > > necessary because of the way most dmabufs are allocated from a central
+> > > process on Android. The fourth patch adds a SELinux hook to binder in
+> > > order to control who is allowed to transfer buffer charges.
+> > >
+> > > [1] https://lore.kernel.org/all/20220617085702.4298-1-christian.koenig@amd.com/
+> > >
+> >
+> > I am a bit confused by the term "charge" used in this patch series.
+> > From the patches, it seems like only a memcg stat is added and nothing
+> > is charged to the memcg.
+> >
+> > This leads me to the question: Why add this stat in memcg if the
+> > underlying memory is not charged to the memcg and if we don't really
+> > want to limit the usage?
+> >
+> > I see two ways forward:
+> >
+> > 1. Instead of memcg, use bpf-rstat [1] infra to implement the
+> > per-cgroup stat for dmabuf. (You may need an additional hook for the
+> > stat transfer).
+> >
+> > 2. Charge the actual memory to the memcg. Since the size of dmabuf is
+> > immutable across its lifetime, you will not need to do accounting at
+> > page level and instead use something similar to the network memory
+> > accounting interface/mechanism (or even more simple). However you
+> > would need to handle the reclaim, OOM and charge context and failure
+> > cases. However if you are not looking to limit the usage of dmabuf
+> > then this option is an overkill.
+>
+> I think eventually, at least for other "account gpu stuff in cgroups" use
+> case we do want to actually charge the memory.
+>
+Yes, I've been looking at this today.
 
-However, if other devices or drivers fail their suspend_prepare, the
-system will not go into suspend and i915 will be expected to resume
-operation. In this case, we need to re-initialize the PXP hardware
-and this really should be done within the pm_resume_complete callback
-which is the correct opposing function in the resume sequence to
-match pm_suspend_prepare of the suspend sequence.
+> The problem is a bit that with gpu allocations reclaim is essentially "we
+> pass the error to userspace and they get to sort the mess out". There are
+> some exceptions (some gpu drivers to have shrinkers) would we need to make
+> sure these shrinkers are tied into the cgroup stuff before we could enable
+> charging for them?
+>
+I'm also not sure that we can depend on the dmabuf being backed at
+export time 100% of the time? (They are for dmabuf heaps.) If not,
+that'd make calling the existing memcg folio based functions a bit
+difficult.
 
-Because this callback is the last thing at the end of resuming
-we expect little to no impact to the rest of the i915 resume sequence
-with this change.
-
-Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt_pm.h   |  1 +
- drivers/gpu/drm/i915/i915_driver.c      | 20 ++++++++++++++++++--
- drivers/gpu/drm/i915/pxp/intel_pxp_pm.c |  2 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_pm.h |  6 +++---
- 4 files changed, 23 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.h b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
-index 6c9a46452364..fd1a23621222 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_pm.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
-@@ -77,6 +77,7 @@ void intel_gt_pm_fini(struct intel_gt *gt);
- 
- void intel_gt_suspend_prepare(struct intel_gt *gt);
- void intel_gt_suspend_late(struct intel_gt *gt);
-+
- int intel_gt_resume(struct intel_gt *gt);
- 
- void intel_gt_runtime_suspend(struct intel_gt *gt);
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index c1e427ba57ae..c3e7c40daaeb 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -1170,6 +1170,13 @@ static bool suspend_to_idle(struct drm_i915_private *dev_priv)
- 	return false;
- }
- 
-+static void i915_drm_complete(struct drm_device *dev)
-+{
-+	struct drm_i915_private *i915 = to_i915(dev);
-+
-+	intel_pxp_resume_complete(i915->pxp);
-+}
-+
- static int i915_drm_prepare(struct drm_device *dev)
- {
- 	struct drm_i915_private *i915 = to_i915(dev);
-@@ -1370,8 +1377,6 @@ static int i915_drm_resume(struct drm_device *dev)
- 
- 	i915_gem_resume(dev_priv);
- 
--	intel_pxp_resume(dev_priv->pxp);
--
- 	intel_modeset_init_hw(dev_priv);
- 	intel_init_clock_gating(dev_priv);
- 	intel_hpd_init(dev_priv);
-@@ -1484,6 +1489,16 @@ int i915_driver_resume_switcheroo(struct drm_i915_private *i915)
- 	return i915_drm_resume(&i915->drm);
- }
- 
-+static void i915_pm_complete(struct device *kdev)
-+{
-+	struct drm_i915_private *i915 = kdev_to_i915(kdev);
-+
-+	if (!i915)
-+		dev_err(kdev, "DRM not initialized, aborting suspend.\n");
-+
-+	i915_drm_complete(&i915->drm);
-+}
-+
- static int i915_pm_prepare(struct device *kdev)
- {
- 	struct drm_i915_private *i915 = kdev_to_i915(kdev);
-@@ -1779,6 +1794,7 @@ const struct dev_pm_ops i915_pm_ops = {
- 	 * PMSG_RESUME]
- 	 */
- 	.prepare = i915_pm_prepare,
-+	.complete = i915_pm_complete,
- 	.suspend = i915_pm_suspend,
- 	.suspend_late = i915_pm_suspend_late,
- 	.resume_early = i915_pm_resume_early,
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
-index e427464aa131..4f836b317424 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
-@@ -34,7 +34,7 @@ void intel_pxp_suspend(struct intel_pxp *pxp)
- 	}
- }
- 
--void intel_pxp_resume(struct intel_pxp *pxp)
-+void intel_pxp_resume_complete(struct intel_pxp *pxp)
- {
- 	if (!intel_pxp_is_enabled(pxp))
- 		return;
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
-index 586be769104f..06b46f535b42 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
-@@ -11,7 +11,7 @@ struct intel_pxp;
- #ifdef CONFIG_DRM_I915_PXP
- void intel_pxp_suspend_prepare(struct intel_pxp *pxp);
- void intel_pxp_suspend(struct intel_pxp *pxp);
--void intel_pxp_resume(struct intel_pxp *pxp);
-+void intel_pxp_resume_complete(struct intel_pxp *pxp);
- void intel_pxp_runtime_suspend(struct intel_pxp *pxp);
- #else
- static inline void intel_pxp_suspend_prepare(struct intel_pxp *pxp)
-@@ -22,7 +22,7 @@ static inline void intel_pxp_suspend(struct intel_pxp *pxp)
- {
- }
- 
--static inline void intel_pxp_resume(struct intel_pxp *pxp)
-+static inline void intel_pxp_resume_complete(struct intel_pxp *pxp)
- {
- }
- 
-@@ -32,6 +32,6 @@ static inline void intel_pxp_runtime_suspend(struct intel_pxp *pxp)
- #endif
- static inline void intel_pxp_runtime_resume(struct intel_pxp *pxp)
- {
--	intel_pxp_resume(pxp);
-+	intel_pxp_resume_complete(pxp);
- }
- #endif /* __INTEL_PXP_PM_H__ */
--- 
-2.39.0
-
+> Also note that at least from the gpu driver side this is all a huge
+> endeavour, so if we can split up the steps as much as possible (and get
+> something interim useable that doesn't break stuff ofc), that is
+> practically need to make headway here. TJ has been trying out various
+> approaches for quite some time now already :-/
+> -Daniel
+>
+> > Please let me know if I misunderstood something.
+> >
+> > [1] https://lore.kernel.org/all/20220824233117.1312810-1-haoluo@google.com/
+> >
+> > thanks,
+> > Shakeel
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
