@@ -1,75 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2893D666DFD
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 10:24:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AEAC666E00
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 10:25:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3E8310E8B3;
-	Thu, 12 Jan 2023 09:24:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C83C510E5B7;
+	Thu, 12 Jan 2023 09:25:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D90BD10E8B1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 09:24:32 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id bn26so17465691wrb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 01:24:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=8y93oKqpxvzE8rWdKpZl4lXsP+t5rguSGLhBVaBJc0g=;
- b=WThEKA9gNJkYP7HmfQRADIQADz/supXgAp8M0Ch0b6QgcTSLJkoTNqCmwTRX5X0SFi
- kWLSC9p7vL1U7COb9FN0upXxHQvW1YaHNZG0Rm/3K39kC1FmfT++a58cAQvSdEXcOz3l
- byKBbuHvDH/zGgVyrfqHwjMAtcMbF8MIWinhnfGRb2gx20+ScqjVIky1aQL1mQvrHKfk
- dFNmAr/uC27SuThkEmoqIE7eIvkZn1E8UBGpko8Y80IroOFuTCCC87rbaRDFOT/BvHoa
- 0rZIGLbPgWEAI6r3Uj7Y/KSbN5KKovXNJeU+KSlU6IYGe6Se5dvi9Il2t9xC8MMw+al1
- SFlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8y93oKqpxvzE8rWdKpZl4lXsP+t5rguSGLhBVaBJc0g=;
- b=pZLQ+CY5OYFtIzQUL5wgi22znAsoZdUVApn/B/5sIwtrl8mdKrFyuzm6KvASjE7PE0
- uJnHQRS/5wHo6MIYYSyfiNZ3/Gf0zjbzu9dGD/zqIlZvQL80nQDvz3zrdqJDbHbLwxma
- nyhU3OTomaZnu+T6mciDf0DWlQX39oZ/g8UxCahtQWvnyJOfc6MOeZZYuxV0e+5Sx5Vx
- r7SgOQR29bM5XttfPDD4icquzFiHSLXm7dnHdVDMtoihCUvXv7KNbrdnKnzFut2BDUr5
- WtjmWREc34J1awfUedcYUk6irJu3VnW2jCp/8r2Xfk8I9I6X6iAZ0zt1JVux95KkfehD
- dEFw==
-X-Gm-Message-State: AFqh2kozTD/hUk46gT30gm0D8W5/YqeDJECmCW8TRElPhJidyFsJpW52
- Ekmlm24kyXzKRyRkx+n6UqKonW+jhWLQ3bIT
-X-Google-Smtp-Source: AMrXdXuXd7dZBWw2m7FDxQZJt+AcbAClVVx1WZ3nCqqtcl5YstgfIvERZe4/zGu+w87qgXyMfElBYw==
-X-Received: by 2002:a05:6000:54a:b0:2bd:6490:8c5f with SMTP id
- b10-20020a056000054a00b002bd64908c5fmr6062877wrf.23.1673515471297; 
- Thu, 12 Jan 2023 01:24:31 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:3b9e:7554:4633:9a59?
- ([2a01:e0a:982:cbb0:3b9e:7554:4633:9a59])
- by smtp.gmail.com with ESMTPSA id
- x2-20020adff642000000b002a01e64f7a1sm16255730wrp.88.2023.01.12.01.24.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jan 2023 01:24:30 -0800 (PST)
-Message-ID: <ed9eb076-7a81-8892-a509-9105cbc3c128@linaro.org>
-Date: Thu, 12 Jan 2023 10:24:30 +0100
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D46D10E5B7
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 09:25:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673515554; x=1705051554;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=fi+GCPb5sASTv/7GZOUz/2OBhwJYd99Q9+xdvoJ9l/Y=;
+ b=ipBPnTiGArx0XyeffQVWIgDzt8I8rSGSI7J+uEAGz4AmKsowbkic1cDR
+ LUUzt9cgTV5NGchD4CR4AkbIUhFSRhoH98dVpwL23QKT/PJGjYY+COFqo
+ 9YBGZLc8y5SlgAETGA1877XCYLwSqHtr6s72YnwbP7nk8+y6E7lTPDM/F
+ nvrx4LpGQ64rQujcrnpShd29D8enZjIuhk/e6TQeKqGjcEfHOcujYJD/Y
+ YLaJM8GXerJ7ISFXutyBZKraAC3XSse3KCb2TSWetBYpAJUVs/xQyek6t
+ QP0uBWSlUV8AEW0yMHfgKLX/qMAkbsnFG2JdynC110Za9yRAwbEe3JEGn w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="323716248"
+X-IronPort-AV: E=Sophos;i="5.96,319,1665471600"; d="scan'208";a="323716248"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2023 01:25:53 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="800143415"
+X-IronPort-AV: E=Sophos;i="5.96,319,1665471600"; d="scan'208";a="800143415"
+Received: from tarynrox-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.27.83])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2023 01:25:50 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 01/13] drm/debugfs: Create helper to add debugfs files
+ to device's list
+In-Reply-To: <Y7/O3wqumKf8269i@phenom.ffwll.local>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230111173748.752659-1-mcanal@igalia.com>
+ <20230111173748.752659-2-mcanal@igalia.com> <87k01sgmqn.fsf@intel.com>
+ <Y7/O3wqumKf8269i@phenom.ffwll.local>
+Date: Thu, 12 Jan 2023 11:25:47 +0200
+Message-ID: <87358ggl44.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 02/13] drm/bridge: lt9611: fix HPD reenablement
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-References: <20230108165656.136871-1-dmitry.baryshkov@linaro.org>
- <20230108165656.136871-3-dmitry.baryshkov@linaro.org>
-Organization: Linaro Developer Services
-In-Reply-To: <20230108165656.136871-3-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,48 +61,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org
+Cc: =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@igalia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>,
+ Melissa Wen <mwen@igalia.com>, dri-devel@lists.freedesktop.org,
+ Alain Volmat <alain.volmat@foss.st.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/01/2023 17:56, Dmitry Baryshkov wrote:
-> The driver will reset the bridge in the atomic_pre_enable(). However
-> this will also drop the HPD interrupt state. Instead of resetting the
-> bridge, properly wake it up. This fixes the HPD interrupt delivery after
-> the disable/enable cycle.
-> 
-> Fixes: 23278bf54afe ("drm/bridge: Introduce LT9611 DSI to HDMI bridge")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/bridge/lontium-lt9611.c | 10 ++++++++--
->   1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> index 2714184cc53f..58f39b279217 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> @@ -856,12 +856,18 @@ static enum drm_mode_status lt9611_bridge_mode_valid(struct drm_bridge *bridge,
->   static void lt9611_bridge_pre_enable(struct drm_bridge *bridge)
->   {
->   	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
-> +	static const struct reg_sequence reg_cfg[] = {
-> +		{ 0x8102, 0x12 },
-> +		{ 0x8123, 0x40 },
-> +		{ 0x8130, 0xea },
-> +		{ 0x8011, 0xfa },
-> +	};
->   
->   	if (!lt9611->sleep)
->   		return;
->   
-> -	lt9611_reset(lt9611);
-> -	regmap_write(lt9611->regmap, 0x80ee, 0x01);
-> +	regmap_multi_reg_write(lt9611->regmap,
-> +			       reg_cfg, ARRAY_SIZE(reg_cfg));
->   
->   	lt9611->sleep = false;
->   }
+On Thu, 12 Jan 2023, Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Thu, Jan 12, 2023 at 10:50:40AM +0200, Jani Nikula wrote:
+>> On Wed, 11 Jan 2023, Ma=C3=ADra Canal <mcanal@igalia.com> wrote:
+>> > Create a helper to encapsulate the code that adds a new debugfs file to
+>> > a linked list related to a object. Moreover, the helper also provides
+>> > more flexibily on the type of the object, allowing to use the helper f=
+or
+>> > other types of drm_debugfs_entry.
+>> >
+>> > Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+>> > ---
+>> >  drivers/gpu/drm/drm_debugfs.c | 20 ++++++++++++--------
+>> >  1 file changed, 12 insertions(+), 8 deletions(-)
+>> >
+>> > diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debug=
+fs.c
+>> > index 4f643a490dc3..255d2068ac16 100644
+>> > --- a/drivers/gpu/drm/drm_debugfs.c
+>> > +++ b/drivers/gpu/drm/drm_debugfs.c
+>> > @@ -316,6 +316,17 @@ void drm_debugfs_cleanup(struct drm_minor *minor)
+>> >  	minor->debugfs_root =3D NULL;
+>> >  }
+>> >=20=20
+>> > +#define drm_debugfs_add_file_to_list(component) do {			\
+>> > +		entry->file.name =3D name;				\
+>> > +		entry->file.show =3D show;				\
+>> > +		entry->file.data =3D data;				\
+>> > +		entry->component =3D (component);				\
+>> > +									\
+>> > +		mutex_lock(&(component)->debugfs_mutex);		\
+>> > +		list_add(&entry->list, &(component)->debugfs_list);	\
+>> > +		mutex_unlock(&(component)->debugfs_mutex);		\
+>> > +	} while (0)
+>>=20
+>> In general, please don't add macros that implicitly depend on certain
+>> local variable names. In this case, "entry".
+>>=20
+>> But I'm also not convinced about the usefulness of adding this kind of
+>> "generics". Sure, it'll save you a few lines here and there, but I think
+>> overall it's just confusing more than it's useful.
+>
+> So the non-generics way I guess would be to
+> - pass the right pointer to the functions as an explicit parameter (struct
+>   drm_device|crtc|connector *, )
+> - make drm_debugfs_entry and implementation detail
+> - switch the pointer in there to void *, have glue show functions for each
+>   case which do nothing else than cast from void * to the right type
+>   (both for the parameter and the function pointer)
+> - have a single function which takes that void *entry list and a pointer
+>   to the debugfs director to add them all for code sharing
+>
+> I think this should work for ->show, but for ->fops it becomes a rather
+> big mess I fear. Maybe for ->fops (and also for ->show for now) we leave
+> the explicit parameter out and just rely on seq_file->private or whatever
+> it was.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Similar ideas in https://lore.kernel.org/r/878ri8glee.fsf@intel.com
+
+I think for the more general ->fops case, the question really becomes
+does drm need *all* the functionality of ->fops, or can we get away with
+providing just show/write functions pointers, and wrapping it all inside
+drm_debugfs.c? The question *now* is avoiding to paint ourselves in the
+corner and requiring a ton of *extra* work to make that happen.
+
+
+BR,
+Jani.
+
+
+
+
+>
+> Or just copypaste, it's not that much code really :-)
+> -Daniel
+>
+>>=20
+>>=20
+>> BR,
+>> Jani.
+>>=20
+>> > +
+>> >  /**
+>> >   * drm_debugfs_add_file - Add a given file to the DRM device debugfs =
+file list
+>> >   * @dev: drm device for the ioctl
+>> > @@ -334,14 +345,7 @@ void drm_debugfs_add_file(struct drm_device *dev,=
+ const char *name,
+>> >  	if (!entry)
+>> >  		return;
+>> >=20=20
+>> > -	entry->file.name =3D name;
+>> > -	entry->file.show =3D show;
+>> > -	entry->file.data =3D data;
+>> > -	entry->dev =3D dev;
+>> > -
+>> > -	mutex_lock(&dev->debugfs_mutex);
+>> > -	list_add(&entry->list, &dev->debugfs_list);
+>> > -	mutex_unlock(&dev->debugfs_mutex);
+>> > +	drm_debugfs_add_file_to_list(dev);
+>> >  }
+>> >  EXPORT_SYMBOL(drm_debugfs_add_file);
+>>=20
+>> --=20
+>> Jani Nikula, Intel Open Source Graphics Center
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
