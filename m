@@ -1,64 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D91666E22
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 10:28:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C90D666E2D
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 10:28:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0349A10E8B2;
-	Thu, 12 Jan 2023 09:28:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4747610E8AD;
+	Thu, 12 Jan 2023 09:28:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43FAF10E8B2
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 09:28:05 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- j34-20020a05600c1c2200b003da1b054057so395218wms.5
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 01:28:05 -0800 (PST)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D174410E8AD
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 09:28:21 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id ja17so12735896wmb.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 01:28:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=bE4oQCcZATgYswFNXjiN1PSYvEeSqVFFTUEgVcCHRqY=;
- b=WLFz0SjPniOmuuhOSq+y9zKQAgHClwh20BdVYXd2Umlja+eunpiFmc7s4kRtI42i+d
- zsnRwdmemcr0uWpc5ln/7xC4tvfHa9q8taCiKhXFHVGwldR/cvFgYqkpQC+ApK+xYW5X
- E9k27xRHWDgSmWUl32GFnSYvceHlHhBpZNR6o7Rd8Q65PgYJuwfFeK3RMUnm7AmrgE8B
- v3HPtaqezo5VwCsQXK//0JgmLTlKD4monuuDMLiDIbOesJcEXoITlXHhRdKVOokTROSp
- nP8o+IqDYx+qgbRkN4BXC1sP2+v7bkxfUFDUnCBicq8WafK5E9RrOulGiHlW60hvuUoj
- WSSA==
+ bh=JRZRjEu1pE5Y/wwtc5wTOz4itfr1PkmaVv37jbh6BkY=;
+ b=x9N/ee53MHq6HHAiVpzchn4/TqinDg5+T+T5vfMNYYMuYocrNk7ADcRb0epnDH9VF2
+ irz0MK6PE24lSUCYAYQAgVAVzlmukR/ZyFLwV/Vk6Cgd8nEAH0RDRkJ5ArbKS9tedzB8
+ mDa1r2EWZXR7ItoWpxk7X+7/F/GPR7Xz3+ar5VMrm4pNmwpRJoh54qAJWwss66BR5TxE
+ eSuZKGW3Mr7cAgC5GNS7AOJY8msXc5vDt+1H7u+1YhpGCiv+aVvNg6ap2p8+CpapBVl4
+ QhhOq//izWA5HE7N76vHxbFzgqefl2il7EI2nSPzOIm29RTuujZM0xBHQEZDoGxE75eB
+ 1sPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=bE4oQCcZATgYswFNXjiN1PSYvEeSqVFFTUEgVcCHRqY=;
- b=nVUTln6X6jsieyL34cQQmDWOiqOFGvl1lT3QSiSYIRvCQqf2i6RNjZyHJSMxOYEpk8
- li29bUFHFNNMa1ySMISS+qVV/4VLBJqRHBb4QNFMlk724WiInFXGJG/uUPdAicZN/IHt
- Vfj7UKblujdZO1DmlEkD1YWZo6Ss5xaQB6wyqT8XXWxgiNTgX7egjAsl3hvq7ivoYJga
- B0qyq4VXoICXG1Bt+Y3bZuhlnth5b+hzuF3WEicUDhBmvLTXGoFIM5nNljcGjv7vDdrT
- YUh1TDPlm6F5yFjZEKGdWzPvXJyY/kdzVzQ63YpCr19D11/Q7tW9VsG5kyuUAzLcxKMq
- 5RuA==
-X-Gm-Message-State: AFqh2koMdZg1VTI0wBTTHOunFhzmABdUD4DsYEDsrQOAE/8Z1K9alEnB
- 24/LFiBthymOAch/u9un+qQr3A==
-X-Google-Smtp-Source: AMrXdXuPWI+yg3atLG0k05sqkYIWUkReEqRYzDSBlD2E+8z9mFSN57rM5bbZX3yhPmwmm9H3tSGnDg==
-X-Received: by 2002:a05:600c:1e8c:b0:3d6:2952:679b with SMTP id
- be12-20020a05600c1e8c00b003d62952679bmr54348403wmb.34.1673515683704; 
- Thu, 12 Jan 2023 01:28:03 -0800 (PST)
+ bh=JRZRjEu1pE5Y/wwtc5wTOz4itfr1PkmaVv37jbh6BkY=;
+ b=0OhBHDbV0VOO5mHvyB5f6iGgAJUsnJkfNqZoylvUHD780FhsDo1IsZRsCPgUXHyqLF
+ uPPjWN8du1irJ905tarEW4mvu4KSH6raHAGDm8zBpY1cXdqIlt3zvdrXYr0qX2UHi5oR
+ RCrnJ0tztSExJa5HTszCSwAu78ZXG2h8qzZF1OjPjQdmFUHhTV5+YRAxrHgMktqcbpBf
+ e3OIzOy5Nc8//rbA07+m1OnS8/drwYBIHEZNbN5uD8/f0BNeREbmaJEzX87f4ohFu1TD
+ Ot7MoQPJop2WNSdbksWlLBCE0giuHloXjtjXuWAXs5+/CBNBLbtNV7kiluheY1Yy6aL9
+ JExA==
+X-Gm-Message-State: AFqh2krhOIVzc5bSSePenA9x+QW4BgJu2h00nc/s5GDKHvOQLs+3EWcM
+ BQL2ZXss7+G+GXGhG8GdpPvc8g==
+X-Google-Smtp-Source: AMrXdXs8uCORT1YVfkne28kP/fvij2VS4nzKgHDu8KNp0oXuc/UH9+8oJfbMwtBqJOpn3lS/ZO8T3g==
+X-Received: by 2002:a05:600c:8507:b0:3d9:6c7d:c9ee with SMTP id
+ gw7-20020a05600c850700b003d96c7dc9eemr50235886wmb.25.1673515700279; 
+ Thu, 12 Jan 2023 01:28:20 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:982:cbb0:3b9e:7554:4633:9a59?
  ([2a01:e0a:982:cbb0:3b9e:7554:4633:9a59])
  by smtp.gmail.com with ESMTPSA id
- p3-20020a05600c358300b003d1f2c3e571sm28585178wmq.33.2023.01.12.01.28.02
+ l14-20020a05600c4f0e00b003d96c811d6dsm28002826wmq.30.2023.01.12.01.28.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jan 2023 01:28:03 -0800 (PST)
-Message-ID: <1fc55e78-d5a2-c16d-0178-2195fe09d8ae@linaro.org>
-Date: Thu, 12 Jan 2023 10:28:02 +0100
+ Thu, 12 Jan 2023 01:28:19 -0800 (PST)
+Message-ID: <e86d7583-a6f7-7dbb-b6d4-091fc55ee599@linaro.org>
+Date: Thu, 12 Jan 2023 10:28:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 05/13] drm/bridge: lt9611: fix clock calculation
+Subject: Re: [PATCH v2 06/13] drm/bridge: lt9611: pass a pointer to the of node
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Vinod Koul <vkoul@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -66,9 +65,9 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
 References: <20230108165656.136871-1-dmitry.baryshkov@linaro.org>
- <20230108165656.136871-6-dmitry.baryshkov@linaro.org>
+ <20230108165656.136871-7-dmitry.baryshkov@linaro.org>
 Organization: Linaro Developer Services
-In-Reply-To: <20230108165656.136871-6-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230108165656.136871-7-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,96 +89,27 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 08/01/2023 17:56, Dmitry Baryshkov wrote:
-> Instead of having several fixed values for the pcr register, calculate
-> it before programming. This allows the bridge to support most of the
-> display modes.
+> Pass a pointer to the OF node while registering lt9611 MIPI device.
 > 
 > Fixes: 23278bf54afe ("drm/bridge: Introduce LT9611 DSI to HDMI bridge")
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   drivers/gpu/drm/bridge/lontium-lt9611.c | 32 +++++++++++--------------
->   1 file changed, 14 insertions(+), 18 deletions(-)
+>   drivers/gpu/drm/bridge/lontium-lt9611.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> index f377052a45a4..e2799a0df8f8 100644
+> index e2799a0df8f8..3b77238ca4af 100644
 > --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
 > +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> @@ -192,8 +192,9 @@ static void lt9611_mipi_video_setup(struct lt9611 *lt9611,
->   	regmap_write(lt9611->regmap, 0x831b, (u8)(hsync_porch % 256));
->   }
->   
-> -static void lt9611_pcr_setup(struct lt9611 *lt9611, const struct drm_display_mode *mode)
-> +static void lt9611_pcr_setup(struct lt9611 *lt9611, const struct drm_display_mode *mode, unsigned int postdiv)
+> @@ -769,7 +769,7 @@ static const struct drm_connector_funcs lt9611_bridge_connector_funcs = {
+>   static struct mipi_dsi_device *lt9611_attach_dsi(struct lt9611 *lt9611,
+>   						 struct device_node *dsi_node)
 >   {
-> +	unsigned int pcr_m = mode->clock * 5 * postdiv / 27000;
->   	const struct reg_sequence reg_cfg[] = {
->   		{ 0x830b, 0x01 },
->   		{ 0x830c, 0x10 },
-> @@ -236,24 +237,14 @@ static void lt9611_pcr_setup(struct lt9611 *lt9611, const struct drm_display_mod
->   	else
->   		regmap_multi_reg_write(lt9611->regmap, reg_cfg, ARRAY_SIZE(reg_cfg));
->   
-> -	switch (mode->hdisplay) {
-> -	case 640:
-> -		regmap_write(lt9611->regmap, 0x8326, 0x14);
-> -		break;
-> -	case 1920:
-> -		regmap_write(lt9611->regmap, 0x8326, 0x37);
-> -		break;
-> -	case 3840:
-> -		regmap_write(lt9611->regmap, 0x8326, 0x37);
-> -		break;
-> -	}
-> +	regmap_write(lt9611->regmap, 0x8326, pcr_m);
->   
->   	/* pcr rst */
->   	regmap_write(lt9611->regmap, 0x8011, 0x5a);
->   	regmap_write(lt9611->regmap, 0x8011, 0xfa);
->   }
->   
-> -static int lt9611_pll_setup(struct lt9611 *lt9611, const struct drm_display_mode *mode)
-> +static int lt9611_pll_setup(struct lt9611 *lt9611, const struct drm_display_mode *mode, unsigned int *postdiv)
->   {
->   	unsigned int pclk = mode->clock;
->   	const struct reg_sequence reg_cfg[] = {
-> @@ -271,12 +262,16 @@ static int lt9611_pll_setup(struct lt9611 *lt9611, const struct drm_display_mode
->   
->   	regmap_multi_reg_write(lt9611->regmap, reg_cfg, ARRAY_SIZE(reg_cfg));
->   
-> -	if (pclk > 150000)
-> +	if (pclk > 150000) {
->   		regmap_write(lt9611->regmap, 0x812d, 0x88);
-> -	else if (pclk > 70000)
-> +		*postdiv = 1;
-> +	} else if (pclk > 70000) {
->   		regmap_write(lt9611->regmap, 0x812d, 0x99);
-> -	else
-> +		*postdiv = 2;
-> +	} else {
->   		regmap_write(lt9611->regmap, 0x812d, 0xaa);
-> +		*postdiv = 4;
-> +	}
->   
->   	/*
->   	 * first divide pclk by 2 first
-> @@ -895,14 +890,15 @@ static void lt9611_bridge_mode_set(struct drm_bridge *bridge,
->   {
->   	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
->   	struct hdmi_avi_infoframe avi_frame;
-> +	unsigned int postdiv;
->   	int ret;
->   
->   	lt9611_bridge_pre_enable(bridge);
->   
->   	lt9611_mipi_input_digital(lt9611, mode);
-> -	lt9611_pll_setup(lt9611, mode);
-> +	lt9611_pll_setup(lt9611, mode, &postdiv);
->   	lt9611_mipi_video_setup(lt9611, mode);
-> -	lt9611_pcr_setup(lt9611, mode);
-> +	lt9611_pcr_setup(lt9611, mode, postdiv);
->   
->   	ret = drm_hdmi_avi_infoframe_from_display_mode(&avi_frame,
->   						       &lt9611->connector,
+> -	const struct mipi_dsi_device_info info = { "lt9611", 0, NULL };
+> +	const struct mipi_dsi_device_info info = { "lt9611", 0, lt9611->dev->of_node};
+>   	struct mipi_dsi_device *dsi;
+>   	struct mipi_dsi_host *host;
+>   	struct device *dev = lt9611->dev;
 
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
