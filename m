@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE340666A27
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 05:21:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAE69666A28
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 05:21:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E59C10E865;
-	Thu, 12 Jan 2023 04:21:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AC1010E866;
+	Thu, 12 Jan 2023 04:21:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
- [IPv6:2607:f8b0:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB1610E865
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 04:21:35 +0000 (UTC)
-Received: by mail-pf1-x436.google.com with SMTP id c9so12941393pfj.5
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 20:21:35 -0800 (PST)
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8146410E866
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 04:21:41 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id g20so12945545pfb.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 20:21:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aDVRGgfyVTS1/RVP67Y9O6IBzdS62PU0w4QAZOD5vEM=;
- b=W8Cs6H4xp7xC3wZAQSHHgf/sXztbttIRaHFwd29PmxMB7nVJ0/fVXijVYxrr8ggtkz
- WGTIqEkNz2bKDujKpmkosYJlDSH+lpeQRns3kLSX0tpJ7AhAFoecip97mUCim4Wgj+CJ
- BjaEqQUH1lna6l0GfwXtdZkuSsCe0vzB1tThg=
+ bh=zW4fdNu5opMQG/leQM62JltFy2Hko9Kx8atjzuDpU/M=;
+ b=nAoPdiN0Zh6Uo7VQgf0+Z1FS2m+U2rDsaqqNeN6eF65HYbOkAa9L9FRQl7yccvqpe+
+ QSAmO8ILdPvXiZQfoWlaxTRLVXpY4NQZTawtQqUM2C3BZPgwcXseSY4PcqEg4epT6L3v
+ ur2G2EbwQzREhFlJgCKbbeDZm8JG0HKIMzWPw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=aDVRGgfyVTS1/RVP67Y9O6IBzdS62PU0w4QAZOD5vEM=;
- b=2FZFBow3iamKcIbLnU7jayQC7rT7uuprRz5N5giLxstY/9EVsyf57w5BIAKzWPRUzo
- VPLUvjkbDuZYRZDbv/88VuVb9yx7POjwISnHWtMhV0RvDLSLk8u7yztW2mPkK3r2qcgF
- NA+xuDfrFN+5cFMb2La96ZbNhg9x2m6lTIcOxBZ4PV9KZtsWQMKeXRAob83BUQpBpmpD
- hd5gKGRTl9xw7av4yyQSZxJ3uhNcRgw7bFlBJiGeis/ziLXmbe3HpQUOPpZo8nptyZZO
- V+1AiAAq+ouvPmysM7AFgXmdceVNQ1/dS+70F94Czni6LTIWMK9BvYRdft4jgXU3Ze4L
- aISg==
-X-Gm-Message-State: AFqh2kpbyQZpEQZ5Vm1JFds+Xy3nxQkxok7hCfCzYfwO2e+I1zwChBoS
- zwxlpc5s7axN6llLOfqHBM+5mA==
-X-Google-Smtp-Source: AMrXdXslLk6u6LzFwcSobd54J7vLF6SKwbahN1DExISfrOqkF8Qo6y7tZ3K23mSyYGi24GqNYbfkGQ==
-X-Received: by 2002:a05:6a00:228d:b0:58b:9f4e:5a45 with SMTP id
- f13-20020a056a00228d00b0058b9f4e5a45mr2497352pfe.11.1673497294983; 
- Wed, 11 Jan 2023 20:21:34 -0800 (PST)
+ bh=zW4fdNu5opMQG/leQM62JltFy2Hko9Kx8atjzuDpU/M=;
+ b=efBFMbiVb7wAN0fLxBVeBCBR+dHZOo4HIM9t4AT2DBWwaXmm/9dcIOEb/U7S5smWbb
+ 1Rawl7zICAwlOMTaDInWT+Id79x+UqUu152kt2v67axpt6/tS9mFCYx1o6X5KIBQwuWe
+ sPj5vl9q6otNZZelcElrQEs65QMRJLQ2Y+QNIZHtnMSFIW3lrEAB/sD7AZOJ6hh0xq06
+ HAowvwDN20UGcrs9XPStzZm0VhKY999aoCbw3jVrrpFOELqWMzqgaE+47y0zR+VfCzSb
+ i1Bl1qfJ2YGkKGv3ZMILKBOr53Kckn6TJOcPaM268sW0BJKXyhcBfHiF19x+3o3wWQaz
+ KM4A==
+X-Gm-Message-State: AFqh2koKT5IiYE9I8Dx0m3Exyt5ZyOJoKQH6Izt6kQNRCDG/SzIfqx57
+ ULWRgyyscJryQLNN31UEeUMT6A==
+X-Google-Smtp-Source: AMrXdXs2aUInKWJRnVvNh0BSyVSD4ermUJjjNfqau9ZvyriS2ekMfh+JzvSSBaJgegsXpuEkVQ/XKw==
+X-Received: by 2002:a05:6a00:1da5:b0:577:9807:2db8 with SMTP id
+ z37-20020a056a001da500b0057798072db8mr78203712pfw.3.1673497301094; 
+ Wed, 11 Jan 2023 20:21:41 -0800 (PST)
 Received: from treapking.tpe.corp.google.com
  ([2401:fa00:1:10:594f:5484:7591:d074])
  by smtp.gmail.com with ESMTPSA id
- s8-20020aa78bc8000000b00582579cb0e0sm5519478pfd.129.2023.01.11.20.21.29
+ s8-20020aa78bc8000000b00582579cb0e0sm5519478pfd.129.2023.01.11.20.21.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Jan 2023 20:21:34 -0800 (PST)
+ Wed, 11 Jan 2023 20:21:40 -0800 (PST)
 From: Pin-yen Lin <treapking@chromium.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
@@ -64,9 +64,10 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  "Rafael J . Wysocki" <rafael@kernel.org>,
  Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>,
  Guenter Roeck <groeck@chromium.org>
-Subject: [PATCH v10 3/9] drm/display: Add Type-C switch helpers
-Date: Thu, 12 Jan 2023 12:20:58 +0800
-Message-Id: <20230112042104.4107253-4-treapking@chromium.org>
+Subject: [PATCH v10 4/9] dt-bindings: display: bridge: anx7625: Add
+ mode-switch support
+Date: Thu, 12 Jan 2023 12:20:59 +0800
+Message-Id: <20230112042104.4107253-5-treapking@chromium.org>
 X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
 In-Reply-To: <20230112042104.4107253-1-treapking@chromium.org>
 References: <20230112042104.4107253-1-treapking@chromium.org>
@@ -84,243 +85,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
- Javier Martinez Canillas <javierm@redhat.com>, linux-acpi@vger.kernel.org,
- Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
- Kees Cook <keescook@chromium.org>,
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ linux-acpi@vger.kernel.org,
  =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
- <nfraprado@collabora.com>, Jani Nikula <jani.nikula@intel.com>,
- Allen Chen <allen.chen@ite.com.tw>, Stephen Boyd <swboyd@chromium.org>,
- Pin-yen Lin <treapking@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- shaomin Deng <dengshaomin@cdjrlc.com>,
- Douglas Anderson <dianders@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+ <nfraprado@collabora.com>, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Allen Chen <allen.chen@ite.com.tw>,
+ Xin Ji <xji@analogixsemi.com>, Chen-Yu Tsai <wenst@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add helpers to register and unregister Type-C "switches" for bridges
-capable of switching their output between two downstream devices.
+Analogix 7625 can be used in systems to switch the DP traffic between
+two downstreams, which can be USB Type-C DisplayPort alternate mode
+lane or regular DisplayPort output ports.
 
-The helper registers USB Type-C mode switches when the "mode-switch"
-and the "data-lanes" properties are available in Device Tree.
+Update the binding to accommodate this usage by introducing a
+data-lanes and a mode-switch property on endpoints.
+
+Also include the link to the product brief in the bindings.
 
 Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+Tested-by: Chen-Yu Tsai <wenst@chromium.org>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 ---
 
 Changes in v10:
 - Collected Reviewed-by and Tested-by tags
-- Replaced "void *" with "typec_mux_set_fn_t" for mux_set callbacks
-- Print out the node name when errors on parsing DT
-- Use dev_dbg instead of dev_warn when no Type-C switch nodes available
-- Made the return path of drm_dp_register_mode_switch clearer
+
+Changes in v9:
+- Collected Reviewed-by tag
 
 Changes in v8:
-- Fixed the build issue when CONFIG_TYPEC=m
-- Fixed some style issues
+- Updated anx7625 bindings for data-lane property
+- Fixed the subject prefix
 
 Changes in v7:
-- Extracted the common codes to a helper function
-- New in v7
+- Fixed issues reported by dt_binding_check
+- Updated the schema and the example dts for data-lanes.
+- Changed to generic naming for the example dts node.
 
- drivers/gpu/drm/display/drm_dp_helper.c | 134 ++++++++++++++++++++++++
- include/drm/display/drm_dp_helper.h     |  17 +++
- 2 files changed, 151 insertions(+)
+Changes in v6:
+- Remove switches node and use endpoints and data-lanes property to
+  describe the connections.
 
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index 16565a0a5da6..a2ec40a621cb 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -30,11 +30,13 @@
- #include <linux/sched.h>
- #include <linux/seq_file.h>
- #include <linux/string_helpers.h>
-+#include <linux/usb/typec_mux.h>
- #include <linux/dynamic_debug.h>
+ .../display/bridge/analogix,anx7625.yaml      | 99 ++++++++++++++++++-
+ 1 file changed, 96 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+index 4590186c4a0b..b49a350c40e3 100644
+--- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+@@ -12,7 +12,8 @@ maintainers:
  
- #include <drm/display/drm_dp_helper.h>
- #include <drm/display/drm_dp_mst_helper.h>
- #include <drm/drm_edid.h>
-+#include <drm/drm_of.h>
- #include <drm/drm_print.h>
- #include <drm/drm_vblank.h>
- #include <drm/drm_panel.h>
-@@ -3891,3 +3893,135 @@ int drm_panel_dp_aux_backlight(struct drm_panel *panel, struct drm_dp_aux *aux)
- EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
+ description: |
+   The ANX7625 is an ultra-low power 4K Mobile HD Transmitter
+-  designed for portable devices.
++  designed for portable devices. Product brief is available at
++  https://www.analogix.com/en/system/files/AA-002291-PB-6-ANX7625_ProductBrief.pdf
  
- #endif
-+
-+#if IS_REACHABLE(CONFIG_TYPEC)
-+static int drm_dp_register_mode_switch(struct device *dev, struct device_node *node,
-+				       struct drm_dp_typec_switch_desc *switch_desc,
-+				       void *data, typec_mux_set_fn_t mux_set)
-+{
-+	struct drm_dp_typec_port_data *port_data;
-+	struct typec_mux_desc mux_desc = {};
-+	char name[32];
-+	u32 dp_lanes[2];
-+	int ret, num_lanes, port_num = -1;
-+
-+	num_lanes = drm_of_get_data_lanes_count(node, 0, 2);
-+	if (num_lanes <= 0) {
-+		dev_err(dev, "Error on getting data lanes count from %s: %d\n",
-+			node->name, num_lanes);
-+		return num_lanes;
-+	}
-+
-+	ret = of_property_read_u32_array(node, "data-lanes", dp_lanes, num_lanes);
-+	if (ret) {
-+		dev_err(dev, "Failed to read the data-lanes variable from %s: %d\n",
-+			node->name, ret);
-+		return ret;
-+	}
-+
-+	port_num = dp_lanes[0] / 2;
-+
-+	port_data = &switch_desc->typec_ports[port_num];
-+	port_data->data = data;
-+	mux_desc.fwnode = &node->fwnode;
-+	mux_desc.drvdata = port_data;
-+	snprintf(name, sizeof(name), "%s-%u", node->name, port_num);
-+	mux_desc.name = name;
-+	mux_desc.set = mux_set;
-+
-+	port_data->typec_mux = typec_mux_register(dev, &mux_desc);
-+	if (IS_ERR(port_data->typec_mux)) {
-+		ret = PTR_ERR(port_data->typec_mux);
-+		dev_err(dev, "Mode switch register for port %d failed: %d\n",
-+			port_num, ret);
-+
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * drm_dp_register_typec_switches() - register Type-C switches
-+ * @dev: Device that registers Type-C switches
-+ * @port: Device node for the switch
-+ * @switch_desc: A Type-C switch descriptor
-+ * @data: Private data for the switches
-+ * @mux_set: Callback function for typec_mux_set
-+ *
-+ * This function registers USB Type-C switches for DP bridges that can switch
-+ * the output signal between their output pins.
-+ *
-+ * Currently only mode switches are implemented, and the function assumes the
-+ * given @port device node has endpoints with "mode-switch" property.
-+ * Register the endpoint as port 0 if the "data-lanes" property falls in 0/1,
-+ * and register it as port 1 if "data-lanes" falls in 2/3.
-+ */
-+int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
-+				   struct drm_dp_typec_switch_desc *switch_desc,
-+				   void *data, typec_mux_set_fn_t mux_set)
-+{
-+	struct device_node *sw;
-+	int ret;
-+
-+	for_each_child_of_node(port, sw) {
-+		if (of_property_read_bool(sw, "mode-switch"))
-+			switch_desc->num_typec_switches++;
-+	}
-+
-+	if (!switch_desc->num_typec_switches) {
-+		dev_dbg(dev, "No Type-C switches node found\n");
-+		return 0;
-+	}
-+
-+	switch_desc->typec_ports = devm_kcalloc(
-+		dev, switch_desc->num_typec_switches,
-+		sizeof(struct drm_dp_typec_port_data), GFP_KERNEL);
-+
-+	if (!switch_desc->typec_ports)
-+		return -ENOMEM;
-+
-+	/* Register switches for each connector. */
-+	for_each_child_of_node(port, sw) {
-+		if (!of_property_read_bool(sw, "mode-switch"))
-+			continue;
-+		ret = drm_dp_register_mode_switch(dev, sw, switch_desc, data, mux_set);
-+		if (ret)
-+			goto err_unregister_typec_switches;
-+	}
-+
-+	return 0;
-+
-+err_unregister_typec_switches:
-+	of_node_put(sw);
-+	drm_dp_unregister_typec_switches(switch_desc);
-+	dev_err(dev, "Failed to register mode switch: %d\n", ret);
-+	return ret;
-+}
-+EXPORT_SYMBOL(drm_dp_register_typec_switches);
-+
-+/**
-+ * drm_dp_unregister_typec_switches() - unregister Type-C switches
-+ * @switch_desc: A Type-C switch descriptor
-+ */
-+void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
-+{
-+	int i;
-+
-+	for (i = 0; i < switch_desc->num_typec_switches; i++)
-+		typec_mux_unregister(switch_desc->typec_ports[i].typec_mux);
-+}
-+EXPORT_SYMBOL(drm_dp_unregister_typec_switches);
-+#else
-+void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
-+{
-+}
-+EXPORT_SYMBOL(drm_dp_register_typec_switches);
-+int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
-+				   struct drm_dp_typec_switch_desc *switch_desc,
-+				   void *data, typec_mux_set_fn_t mux_set)
-+{
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_dp_unregister_typec_switches);
-+#endif
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index ab55453f2d2c..5a3824f13b4e 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -25,6 +25,7 @@
+ properties:
+   compatible:
+@@ -112,10 +113,48 @@ properties:
+               data-lanes: true
  
- #include <linux/delay.h>
- #include <linux/i2c.h>
-+#include <linux/usb/typec_mux.h>
+       port@1:
+-        $ref: /schemas/graph.yaml#/properties/port
++        $ref: /schemas/graph.yaml#/$defs/port-base
+         description:
+           Video port for panel or connector.
  
- #include <drm/display/drm_dp.h>
- #include <drm/drm_connector.h>
-@@ -763,4 +764,20 @@ bool drm_dp_downstream_rgb_to_ycbcr_conversion(const u8 dpcd[DP_RECEIVER_CAP_SIZ
- 					       const u8 port_cap[4], u8 color_spc);
- int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc);
++        patternProperties:
++          "^endpoint@[01]$":
++            $ref: /schemas/graph.yaml#/$defs/endpoint-base
++            unevaluatedProperties: false
++
++            properties:
++              reg:
++                maxItems: 1
++
++              remote-endpoint: true
++
++              data-lanes:
++                oneOf:
++                  - items:
++                      - enum: [0, 1, 2, 3]
++
++                  - items:
++                      - const: 0
++                      - const: 1
++
++                  - items:
++                      - const: 2
++                      - const: 3
++
++                  - items:
++                      - const: 0
++                      - const: 1
++                      - const: 2
++                      - const: 3
++
++              mode-switch:
++                type: boolean
++                description: Register this node as a Type-C mode switch or not.
++
++            required:
++              - reg
++              - remote-endpoint
++
+     required:
+       - port@0
+       - port@1
+@@ -164,8 +203,12 @@ examples:
+                 };
  
-+struct drm_dp_typec_port_data {
-+	struct typec_mux_dev *typec_mux;
-+	void *data;
-+	bool dp_connected;
-+};
+                 mipi2dp_bridge_out: port@1 {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
 +
-+struct drm_dp_typec_switch_desc {
-+	int num_typec_switches;
-+	struct drm_dp_typec_port_data *typec_ports;
-+};
+                     reg = <1>;
+-                    anx7625_out: endpoint {
++                    anx7625_out: endpoint@0 {
++                        reg = <0>;
+                         remote-endpoint = <&panel_in>;
+                     };
+                 };
+@@ -186,3 +229,53 @@ examples:
+             };
+         };
+     };
++  - |
++    i2c3 {
++        #address-cells = <1>;
++        #size-cells = <0>;
 +
-+void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc);
-+int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
-+				   struct drm_dp_typec_switch_desc *switch_desc,
-+				   void *data, typec_mux_set_fn_t mux_set);
++        encoder@58 {
++            compatible = "analogix,anx7625";
++            reg = <0x58>;
++            pinctrl-names = "default";
++            pinctrl-0 = <&anx7625_dp_pins>;
++            enable-gpios = <&pio 176 GPIO_ACTIVE_HIGH>;
++            reset-gpios = <&pio 177 GPIO_ACTIVE_HIGH>;
++            vdd10-supply = <&pp1100_dpbrdg>;
++            vdd18-supply = <&pp1800_dpbrdg_dx>;
++            vdd33-supply = <&pp3300_dpbrdg_dx>;
++            analogix,audio-enable;
 +
- #endif /* _DRM_DP_HELPER_H_ */
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++                    anx7625_dp_in: endpoint {
++                        bus-type = <7>;
++                        remote-endpoint = <&dpi_out>;
++                    };
++                };
++
++                port@1 {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++
++                    reg = <1>;
++                    anx_typec0: endpoint@0 {
++                        reg = <0>;
++                        mode-switch;
++                        data-lanes = <0 1>;
++                        remote-endpoint = <&typec_port0>;
++                    };
++                    anx_typec1: endpoint@1 {
++                        reg = <1>;
++                        mode-switch;
++                        data-lanes = <2 3>;
++                        remote-endpoint = <&typec_port1>;
++                    };
++                };
++            };
++        };
++    };
 -- 
 2.39.0.314.g84b9a713c41-goog
 
