@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29D8666F24
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 11:11:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B051A666F38
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 11:15:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A76F10E8CA;
-	Thu, 12 Jan 2023 10:11:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2EE510E8C9;
+	Thu, 12 Jan 2023 10:15:19 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E967010E8C7;
- Thu, 12 Jan 2023 10:11:10 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5C6E10E8C9;
+ Thu, 12 Jan 2023 10:15:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673518270; x=1705054270;
+ t=1673518518; x=1705054518;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=yp6uz/B6mYsXoBwewg6ipiPx3L9acizQ5vtWpC3Qel8=;
- b=LSl/Rvk4h1nmuf69hXGFRPfZrDy137CcPmxViS2mqu39dPeVaVm973iJ
- qoGWbGh7BdoHq1CpuoSEKUOg2rSYN4xE61jsRhYX6Imtou8/Sse0TxBFr
- adp/YY3f2l1QbDDrXMSKQX3pkFPl/lcLA1XKiP3/zVFJrMFp4/tC2/jym
- ASjxOqxQpcTrpkP820gnJC/ZikbWuYgrmzUjEn6QLCJ3i1Mzujr/6MU5g
- uUAdA8+equpi6vA9Yv99Os8wuS5NL/eX9lo5Pm3qferyx7k4gp2Je7UBP
- dycTmiB2SJ0ce5gsuksd60U5/bmVV82BqebDh9oVdV0sZp2BuEpJR+opR A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="350891371"
-X-IronPort-AV: E=Sophos;i="5.96,319,1665471600"; d="scan'208";a="350891371"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2023 02:11:10 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="726245650"
-X-IronPort-AV: E=Sophos;i="5.96,319,1665471600"; d="scan'208";a="726245650"
+ bh=zfpW3+IBOl78Hp7sfA9wcTJTkNaFEa6G9yY0C59z/L0=;
+ b=QnH5LmnrcHuTIlyCVUS2O9l+/yhhhQsvIRvYPtVTg3ZKh4v0KyJSjScY
+ fRiEA+oypYiJDhH3AOcg9vm+4OhmOAieKQgc7Kr9tvsBsvmEBNXnMy9Z7
+ y/fQdAhXU8y7TW07DQFStMi33zYPgAAAKmH6n+jSf+gIe/3AwgOrx4d5t
+ UAWRiW6Rbn7hCSPlDQqsuXsfFoMNsoW38R7I5cVZbXkov10SbZdwyQ9yA
+ e+YQKwSZT2JgbJqlWdjhlvuvaQppG8+SKPVyYQJLttRuVMF2dUw9hx294
+ LS14OSiEmFLxLcl4K3JZurnI4ovTg5sebyL+Fj9RHFnBCI9k8AcpWDOV5 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="323724883"
+X-IronPort-AV: E=Sophos;i="5.96,319,1665471600"; d="scan'208";a="323724883"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2023 02:15:17 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="690070535"
+X-IronPort-AV: E=Sophos;i="5.96,319,1665471600"; d="scan'208";a="690070535"
 Received: from jacton-mobl.ger.corp.intel.com (HELO [10.213.195.171])
  ([10.213.195.171])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2023 02:11:09 -0800
-Message-ID: <674d7492-97fd-172a-4e7d-36092cd47177@linux.intel.com>
-Date: Thu, 12 Jan 2023 10:11:07 +0000
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2023 02:15:15 -0800
+Message-ID: <393edad8-fa78-4b28-46ac-86da56d03de0@linux.intel.com>
+Date: Thu, 12 Jan 2023 10:15:12 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [Intel-gfx] [PATCH 4/4] drm/i915/guc: Add a debug print on GuC
- triggered reset
+Subject: Re: [Intel-gfx] [PATCH 3/4] drm/i915/guc: Look for a guilty context
+ when an engine reset fails
 Content-Language: en-US
 To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
 References: <20230112025311.2577084-1-John.C.Harrison@Intel.com>
- <20230112025311.2577084-5-John.C.Harrison@Intel.com>
+ <20230112025311.2577084-4-John.C.Harrison@Intel.com>
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Organization: Intel Corporation UK Plc
-In-Reply-To: <20230112025311.2577084-5-John.C.Harrison@Intel.com>
+In-Reply-To: <20230112025311.2577084-4-John.C.Harrison@Intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,32 +71,56 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 12/01/2023 02:53, John.C.Harrison@Intel.com wrote:
 > From: John Harrison <John.C.Harrison@Intel.com>
 > 
-> For understanding bug reports, it can be useful to have an explicit
-> dmesg print when a reset notification is received from GuC. As opposed
-> to simply inferring that this happened from other messages.
+> Engine resets are supposed to never fail. But in the case when one
+> does (due to unknown reasons that normally come down to a missing
+> w/a), it is useful to get as much information out of the system as
+> possible. Given that the GuC effectively dies on such a situation, it
+> is not possible to get a guilty context notification back. So do a
+> manual search instead. Given that GuC is dead, this is safe because
+> GuC won't be changing the engine state asynchronously.
 > 
 > Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 > ---
->   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 4 ++++
->   1 file changed, 4 insertions(+)
+>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c   | 17 +++++++++++++++--
+>   1 file changed, 15 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index 99d09e3394597..0be7c27a436dd 100644
+> index b436dd7f12e42..99d09e3394597 100644
 > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -4665,6 +4665,10 @@ static void guc_handle_context_reset(struct intel_guc *guc,
->   {
->   	trace_intel_context_reset(ce);
+> @@ -4754,11 +4754,24 @@ static void reset_fail_worker_func(struct work_struct *w)
+>   	guc->submission_state.reset_fail_mask = 0;
+>   	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
 >   
-> +	drm_dbg(&guc_to_gt(guc)->i915->drm, "Got GuC reset of 0x%04X, exiting = %d, banned = %d\n",
-> +		ce->guc_id.id, test_bit(CONTEXT_EXITING, &ce->flags),
-> +		test_bit(CONTEXT_BANNED, &ce->flags));
+> -	if (likely(reset_fail_mask))
+> +	if (likely(reset_fail_mask)) {
+> +		struct intel_engine_cs *engine;
+> +		enum intel_engine_id id;
 > +
->   	if (likely(intel_context_is_schedulable(ce))) {
->   		capture_error_state(guc, ce);
->   		guc_context_replay(ce);
+> +		/*
+> +		 * GuC is toast at this point - it dead loops after sending the failed
+> +		 * reset notification. So need to manually determine the guilty context.
+> +		 * Note that it should be safe/reliable to do this here because the GuC
+> +		 * is toast and will not be scheduling behind the KMD's back.
+> +		 */
+> +		for_each_engine_masked(engine, gt, reset_fail_mask, id)
+> +			intel_guc_find_hung_context(engine);
+> +
+>   		intel_gt_handle_error(gt, reset_fail_mask,
+>   				      I915_ERROR_CAPTURE,
+> -				      "GuC failed to reset engine mask=0x%x\n",
+> +				      "GuC failed to reset engine mask=0x%x",
+>   				      reset_fail_mask);
+> +	}
+>   }
+>   
+>   int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+This one I don't feel "at home" enough to r-b. Just a question - can we 
+be sure at this point that GuC is 100% stuck and there isn't a chance it 
+somehow comes alive and starts running in parallel (being driven in 
+parallel by a different "thread" in i915), interfering with the 
+assumption made in the comment?
 
 Regards,
 
