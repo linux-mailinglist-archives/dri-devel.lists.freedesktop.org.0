@@ -1,126 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E771666C5D
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 09:26:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB54666B61
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 08:06:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2BE810E892;
-	Thu, 12 Jan 2023 08:26:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 100DE10E884;
+	Thu, 12 Jan 2023 07:06:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2072.outbound.protection.outlook.com [40.107.212.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB2FD10E7F1;
- Wed, 11 Jan 2023 19:21:22 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2058.outbound.protection.outlook.com [40.107.237.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEE5A10E884
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 07:06:13 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HAS4awEIi6u91q4Q1PZdkFicE+bPkHzSRoG+0qKGwt+9WOTtsFOVt6CF/6CapZHCmJzHrApcYCSTBkJeulM1Bbo+WQTYeOm3NLy/K5MaA9/sH0+N5Y9x+q+BpG16l9MxEXv+Je4Z/pdyZXD0CIoJ9vb6z5hzsEzlOICibUr55pFFBElWelormRqz9X6KSbUY19GXXGn6gI7tyRlweEMTqTnnERMyxOkU11OcHLGJpJBLc8G4EN/silmdYbz2kI/1BJIWRN9LbOzdLZED8coUtWLrLGwN9ZbSRKIkZrhLOvfVUJQVKH2yMrnWJy+8yU1yz5MmcmCWvCCrG4GlNeHpEA==
+ b=KzSOIQ8dx0cNRle6V5k6CQiUdA0kB8nZB/FIoPjL3bcAeGWaStOStBXokfI2YJj4bEjOaoEGEyKgpQ1R9/7XxgH9X2E6zsKzVirC0DnlFNokHWZjHD1zVaoT3s5v7ou3eyb+IuQih3H6rMWHpHBCTeqAI+8n5wr3n5lCmaT+4/8QrzwHB7Cq5IkyJRGW93t7ZhDyv5J93obYBCndWuvZYod9b2gJqQXNlYlAiOqJ3kxJm4pYVJFKYC6keDdmchqcOvuh4QCEdMVVGuFN4iU7WCNufdwx2AVqNPcimA5OcuWBjbtJT6jwKTmD9+PfBz/CVK8bCSl8RcSdguI2sjpL2g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DFMzcX5Wq22ECpbmlDpmFam1bJCRCI6ffWqKJme96h0=;
- b=gcq1gbvQSKhjb7vvyT5h9WPMSBJ6QQ2EWNukSKMugj/8PQq79aGa1c2Qt85u+D0/jd77Hx1jj1FegqdBbiiaGUriJ2wARbKFZUxkukhKN/AU2eu8rqi8vob0/O7s9PD1J5EPKNind5eRwm8RNfMNm+aOG7iEBjujWMGTvhJbnTJFhsDtQib7XdBoqY5Dj5tR9q2sRe7h8iSiXtNXvswU3En6tsDsXFy6yZlYKkG5rsVzCRnQZSLmFLy4+jzGkQTqEqYFDqeguULMDbPyhUWp2rXE6v2Ob7/bytFrps1w80GBnCvQI+cL8FUrR6FV4SdqIHtBybn+F1JIlZ/u5vqktQ==
+ bh=fc3mXUOzy7xT7Wy0SC+xjub6YbXFKdVzN/1h6SQs5uw=;
+ b=hHRc7d0BOoek439+qItoZGk6STbDQmMo7e1+CDNhn/OmdUuwxoaGLxq4labbLWAWih8uWW+iDQmbjAjBrG7iLE+UcvBN5rEK5MZW04Ye9uVHhV91uYbROabJ0tBKVBnffV3egLvOqrhM22fBPnjEhROngGgsQCrIdx3KDyy056mXNguHvrP4S5VcF59uvgT0CzXbObvqyuZljAh0zM9W0+v2Cy5SMaGnSKoTTHffmlZhGqOkKaRE6EbhpBJVwoRyDn2XljvDsos2OR0/hCLrBZsdc9VAYqHBpSYgtfybg9pqbb+GmZTBQftrwBRWU0X4kUSqXwBOBtVdtIF2Q9d+cw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DFMzcX5Wq22ECpbmlDpmFam1bJCRCI6ffWqKJme96h0=;
- b=ohy3W8CWq19sEQZr8wpvbPNzTY6+CIyplmOzuIYY2wHXPvzC9afSVDc3zPm8pOC1WPcQXBnUKVMUcn3Msa4l6mcki/WsX+RNjHlHhRpLcbpxJdl0KfjdTo+GKWIwu4Pt7T0Qw5vrplWvsn3InYIqBsTrYijR75bUXM7d6+FqjGIbrGAARR9Qnr+QRgQP560Jhg+4hlrusJQtPXJYwlRflUn/bvF/B+9kWsNuCcmo7PLgliM9vMD293oAUsvqdQAt/THTymv6w1G+OJ7QknT+oqL3ibJuLGipMniNR9QdJZWAnkM/XOEyjY4Xs+XC6zkyrZH+66kIo+2R7HzTlZPwcQ==
+ bh=fc3mXUOzy7xT7Wy0SC+xjub6YbXFKdVzN/1h6SQs5uw=;
+ b=T1xSHNaaGhnNZIPVQA9d1tHgrT4KGioyZMYeUaUCN6Ziy0e9dx0xUcN0NKmXzizlvgCGqjgQ9tsQRNEqFf/1+oghAKwsjpjK4wW8a4ol4kQafRtXXdRBR2jB4YSWyF2HhgTO6PuSaeRoqInNQMR6eIYsETN9cbZ08PhzKQdBgfg=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BYAPR12MB2981.namprd12.prod.outlook.com (2603:10b6:a03:de::26)
- by DM6PR12MB4202.namprd12.prod.outlook.com (2603:10b6:5:219::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Wed, 11 Jan
- 2023 19:21:20 +0000
-Received: from BYAPR12MB2981.namprd12.prod.outlook.com
- ([fe80::fb2:fc51:3d5f:a2f4]) by BYAPR12MB2981.namprd12.prod.outlook.com
- ([fe80::fb2:fc51:3d5f:a2f4%5]) with mapi id 15.20.5986.018; Wed, 11 Jan 2023
- 19:21:20 +0000
-Message-ID: <ad725823-f4ef-904f-c04c-90a6aad43323@nvidia.com>
-Date: Wed, 11 Jan 2023 11:21:18 -0800
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by MW4PR12MB7360.namprd12.prod.outlook.com (2603:10b6:303:22b::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Thu, 12 Jan
+ 2023 07:06:11 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::80d8:934f:caa7:67b0]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::80d8:934f:caa7:67b0%3]) with mapi id 15.20.5986.018; Thu, 12 Jan 2023
+ 07:06:11 +0000
+Message-ID: <e19ffaee-c31c-2959-f3c5-463c1a8e4aad@amd.com>
+Date: Thu, 12 Jan 2023 08:06:04 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 11/11] video/aperture: Only remove sysfb on the default
- vga pci device
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 1/1] drm/ttm: Fix of rework on ttm_resource to use size_t
+ type commit
 Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20230111154112.90575-1-daniel.vetter@ffwll.ch>
- <20230111154112.90575-11-daniel.vetter@ffwll.ch>
- <fb72e067-3f5f-1bac-dc9b-3abd9d7739a2@redhat.com>
-X-Nvconfidentiality: public
-From: Aaron Plattner <aplattner@nvidia.com>
-In-Reply-To: <fb72e067-3f5f-1bac-dc9b-3abd9d7739a2@redhat.com>
+To: Kevin Brace <kevinbrace@gmx.com>,
+ Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230111224544.4837-1-kevinbrace@gmx.com>
+ <20230111224544.4837-2-kevinbrace@gmx.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230111224544.4837-2-kevinbrace@gmx.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR03CA0254.namprd03.prod.outlook.com
- (2603:10b6:a03:3a0::19) To BYAPR12MB2981.namprd12.prod.outlook.com
- (2603:10b6:a03:de::26)
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0207.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a5::12) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2981:EE_|DM6PR12MB4202:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5cdf686e-c09a-4883-dd8c-08daf409052c
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MW4PR12MB7360:EE_
+X-MS-Office365-Filtering-Correlation-Id: a5e210fc-1db4-4f3c-8167-08daf46b7c41
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 82ibdznMss12vRo/TJtT7nBR9sym10GxBOMBQrXef9lU0xOrvsQ+wkkyJXiaCIMbxsVyMoSgtJMdn2I2nR7+kp56nKx+EP4TOaxGG4dF+ul/IzDmXwP2ZFcNFuRPsLCMvMCy5xS19ogfv2uiSU1lTe+IJK0vnXKzKdVkWMOanoBiMUaAGSz8wscR2uYkXhSdy5tU6PZqD+OtqG1I8hdH14cveEmm474yzYinzooWgj0WtZjoU0psXIDI2CpI0byTQPRVpOHZLtrwZUlFSCHuZuf1lUoEQb2L084fV3IRycZPPChsT/c7QGt7OywzxEy+DhKw2XwAkHpfqldBpYQQTgaXXBOK1bHIFwxGmZ/+DfwQJzxo8gVQrni5khIbP211swssJHsRcwF2jvLsBKtRDLRLOWvrWxiz0vq3ab17VpHGdLkMGFD7hPkk5J1wSwKXHwT+FA1au6Y6RVcnhe0HkKDV/aS8xJ585Is64molxqd+c6PnIwuOjhEXTKYjtzItzMtBy6Qb/92Whp2En6n3/bSbVvqMoiH8Rsyq+b9iRNU6NBBvvW3FAjFuM2DZgNguFoZZKWMLnrv5oldrK9m7rBPCZYcV+3wLFYmP04kC0eus/uhPkDVrxQNIPlkJMGVrBgKPGBJ8b1gRNLe3Rf5bZoDqwcRA1inaAgNL1nTNMafXiCSQvOB22SoQ/nL/OBECt34i23zlFDcVRRU0gI/w3zS6RBIC5kn/gGr9LPfbbPwZmcVRG21Xw4BC+c9hyb4qStos/NL2gfUrPtG36yLnX3APJKZ2v7B62q+X/Xd3xnKvqC9Rnuyo7w/JD++W/zlE
+X-Microsoft-Antispam-Message-Info: AOPRvn9Wvh+OFztLXWOBpAjxrkQuhfkAD132cSHVhxZ58v1kW1uPKjPKPRYr45x955fV8Eqy6qo/xi7Lgk+oxYsjfHID4wjLlGYRTspcGlR2vQX1mVM9QBX4ZTRv7/f9ryA+DfHsq9I0t+58t3ltsMYa9PSJI8xnB2eyIGz+Duwe/gTbckR6Cn8j38Dm+r/UA/v75DO0wZYGi6mAfavvHxO93iqF/P+3eTxRO9gzdnuxo1BJVzA4YOfq10s7eyJxpOPPXPVqSSpYh7f1lcexLl2KhZ6XND5rkmfPkkpDFSwSY6tMu+eqQtcmrNVxenNqiMf7QOunIZRBisYm9xcH/HmShMRhWXAiYoaThBSR/USRqiPbo0UFJOx7YFYHI6HCvYS/7laNnAO/cINvt2XVz/UfUJwyx6hTziCE/YF3xP/XU+yc0rUswmqu9KM3VQKkPrfmqpsMUEmDvnuInIkjYITGDBVo/7fUSqb9yOVh4/1v/H5A/J96KeGNSBNj7BgX32SJTzy+I7lbfkHDAhjlUw5pS2ibCKSo6ErAw3pscRmBB00Pq88SjBCBObeDLBBUortL3p1Ai0WbuSD4ClL5NtdbWwKHY+IJ6DeVydXmic7I3qBRj7wERzE2Pl2gHhXwracI2KkiBM1upM1fLHY1Y5T4FS35EhopSYGimfetQUfHQChdOONFgL6FzkAbtDn7/BgU8N2PHSqxlL1CBrQbqaXpEKkvW7EulN/E7GZ7Q80Kn9wwQvxUoIZuz0L5LQHCa/FK5BUvMq23wRLY40y5dC4gvW6ExCh3AikGtv80PA0=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB2981.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(39860400002)(136003)(396003)(376002)(346002)(451199015)(7416002)(316002)(186003)(5660300002)(6512007)(6486002)(966005)(478600001)(2616005)(41300700001)(31696002)(66556008)(66946007)(66476007)(4326008)(54906003)(8676002)(110136005)(83380400001)(8936002)(86362001)(36756003)(53546011)(31686004)(6506007)(38100700002)(2906002)(43740500002)(45980500001);
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(396003)(136003)(39860400002)(366004)(346002)(376002)(451199015)(66946007)(66476007)(4326008)(66556008)(8676002)(316002)(110136005)(5660300002)(2906002)(26005)(8936002)(41300700001)(36756003)(31696002)(83380400001)(6486002)(478600001)(6666004)(6506007)(38100700002)(2616005)(6512007)(186003)(31686004)(86362001)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R2xDWHFhc083MmxJdjM3bEFxQ3BGMC9xazJ5WGdZMStURFVuR1JmcTErVXla?=
- =?utf-8?B?V3pDa3NXdHk3RWZPYkVjZHhxYTFpaWZQb1hIMUlKNitkODV0MitEWUo2dEFT?=
- =?utf-8?B?c01keldieUlUQUE3Z21IRWNDV3kxUExpbzdZMFliT2MvVjlqbFpuVm41S0x0?=
- =?utf-8?B?RkU1TTErdGZJL1JTK3JHUWJlUDh2czd6YkZ3ZUVpc0pndVRJRzNMMkN5a3Z3?=
- =?utf-8?B?akNZME9OSll5bEx0VzQ1RUV5RUxqY012dmJoODU5cHBYYlFLQndpdmRMN2FQ?=
- =?utf-8?B?cEhOcmV5N1VpZ1JCRHNBVEZNTDNxdVUzMjNrL0lBMUFhWVVxVlhDVDA1VFF0?=
- =?utf-8?B?Uk5YcVNNajhZOGZPOURJWXh2cjdKZzAzamtjTXNsOVNjWVNBSnQ0ak5pZFAw?=
- =?utf-8?B?ZlpLanMzRUV2cmtNRHdNaFZ1dVgxTUM5TnpOMlU0RExZWHBieGlsOUMxYXpL?=
- =?utf-8?B?M09TTHRLN1dBK2NZQTBYbE5RdVg0anprckJndUhmd3RaR2xrY2RyMUNLZURu?=
- =?utf-8?B?RjNaMWV6cG01aTk3bldzZkQ3eE5SSFBmamhuUnVoRkxyQkVmU3dmSStWcENY?=
- =?utf-8?B?QUpZOFZmT0E0cnVMOXZpNm40R3hOUGppczZkNE9neU5ab2ZJOEpxdlBhTDh2?=
- =?utf-8?B?RTdjSUtmb2ZiRzJXZnJnRDhOZDNGa0xvbWpRa1hkSUVKY0FLUWtobmFhNUta?=
- =?utf-8?B?ZlBDNlZMOFdkeWx2ekJ1dHNnd2dBSkF4MkhOQmwyRDJMQ3NxNnAyMWhBczhD?=
- =?utf-8?B?K05NRVExUUdPMGE4ZjVwWFp0NWxZdnBIQ1U5VGR3bUw3Nmk3MDRDa2s1VDBI?=
- =?utf-8?B?ZFh3TCtKZnliam82WkZVOVVjZFRQSEJYTzZiT1hQc0FPNG05NE51cU9oRjhm?=
- =?utf-8?B?bm1ZelNEVVQvVGl2UXRVNm9hcGVTaU83S1JKWWFYUWZmNjlNQ3RMMC9vdGNC?=
- =?utf-8?B?c2JmSjVaazk5SnFGVGczRHcySWl5MFNxZ1ZWWHpKRkNjYUNPQW9lVnpNeG9K?=
- =?utf-8?B?eTNRa2RGaVBWNUVRSWhtZUFtTEgyREJhRVFJTTViSWU5TUxodURRd0llZXpy?=
- =?utf-8?B?RnNYc2UyR1BhRWVKZlVhUzNlR3hvczBTTXVUaURRTEIxWWRIL0lxWGVlOVJS?=
- =?utf-8?B?SytpWUVEc2p0bXJXckhSNFVwdGpxRHQrSjJrb1UvZzhYUXBBZ29jU01hRGRp?=
- =?utf-8?B?WlI0aW1iblpUeWc3WnpIOHNVbTJxcC9LMnRGVWQwdVZoSGMzUFFsNTJXUWtL?=
- =?utf-8?B?QlFWeUdESVNjd0RDK2NqV251a21ZWUN2bDl5d0hpbEdhWjNQMjRiMWpWU0ZZ?=
- =?utf-8?B?UnRLd29uczVwOWNyVC81ZzMxb1ZsVUVadDh0RnN6QTBWdlEzQzFndnNYYTNi?=
- =?utf-8?B?dmdGY2Zma2p3ZWV1R3pkS0l6ZGs5c0xIRlFBWExSMDMxd1VLb1pYT2s0c2l0?=
- =?utf-8?B?VjFGVnExc0ZWbEx5UFozTFI2U05DU1V4M3VTbVBVNGFQSis3N2krRlZ4eWlB?=
- =?utf-8?B?SHBhd0NNeFFXZTE4Yzk3YVI0WnJPMktBMVRUMVBySFFkSnF1K3F4cXFZckVX?=
- =?utf-8?B?eWgwL1M4QWhlTGJUTnFhaEVKc0ZESndURFgxTURkYlJNZEVwT28rM0RZWGdj?=
- =?utf-8?B?d2Z0ZDZod1h0Qzh0KzNHZmVrdFFTN3I4SGR4UlVLeGRXMDNKbDZxU1ZoOFJP?=
- =?utf-8?B?cldCeW9YRmxwS2FOQ0FwODB4VHhTMFBoKzRCSnhxL1dpdytIV21Kd2Rab01R?=
- =?utf-8?B?c0xoR04va1hLK25ORklmdzI2ZUVKa2FlZThPa3JXTGZpMVo5NnNqSUJmY0ZK?=
- =?utf-8?B?eUNxTTduSHo5QyttcHVnRm1CYzlReDBYYnJnWmo2Z2RDc09XcldMeElJZEVm?=
- =?utf-8?B?ajc4dzdmSzVXZ2F2SlVWQzZMQllhdnV1cnVSLzUwNzVtWXhxRjYxQzdiQTZn?=
- =?utf-8?B?NUs0TzRDVFJGTm84TExkNGRBT3BjYXhaSWNZcTBlS0JuNllweCtWbDdCVk1M?=
- =?utf-8?B?dUpRYUZVOEt1d3h0UmV6UVJIdHRQVXkyZDVTblhVc09uOVlYL0FpekFaQVVL?=
- =?utf-8?B?OFJ2TXc3VlBVbmpvZVRiMkEwR2toNTM5N2NBaGtvT25EQUszMW1Gd1VjMUpK?=
- =?utf-8?B?VVlVYUZ0cm1YenFuSHhOWm5BZFJwY3hqSmxyRkxORHhhcmRMZzZpVXBtcG5S?=
- =?utf-8?Q?V9zuCmgcBK4Fxri1uv37jIc=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5cdf686e-c09a-4883-dd8c-08daf409052c
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2981.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZGRLM1pnZHBrcW5JTDF2Um9XRTVjNGFIMkM2d3BNQUNvZHo5RmFjMml5ZVlF?=
+ =?utf-8?B?NVFIcGlGYWhCQll3QzlsV28rQmVsRi9ENXMzZ3VKakJtQmJxTUdRVUJGb3RB?=
+ =?utf-8?B?ZHc0alRYNnZmOUZiVlFWNkVVMTNJcXl2bmR0MWovVmVKcGgyRCtjZVg4NDc0?=
+ =?utf-8?B?UzNUYVhUTDlPSGo2ZnlIUzhqWHpzcDR0b3JKaHMybVdLc0lubmZ0Mm11K2Vi?=
+ =?utf-8?B?OFVvd3FGaFpTSWpJQWpmM3FWc0FOdWxCelU3RWttT2tiRDNIQjJwT1NEc1k1?=
+ =?utf-8?B?Ry8yRVJpZXJMbSthbldkbzhDVTAweWxneUIyTUllNTdjS2l3RDFsamtjcjl1?=
+ =?utf-8?B?QUJUQWhGczZTbUxtcGNXQ0R0WTZNaTVRZXV6WS9FYWpZVG1LcUl5cGxHVVB2?=
+ =?utf-8?B?dmt1bm5rWGIxc3l4YWg0eVF5RDFVdjdhcFRLbk0vdDh5V2RubFpKSVRsM1d3?=
+ =?utf-8?B?cE5QUy9WNGtWaWdlUVMya0h1ZUpWWUUzMUlncDNkRERsMG1tdUkrcWdFVEw5?=
+ =?utf-8?B?ZGRLT2l2RnVMVVBubjNMSExNUmxJWDFNK1k4OUloRnVSclZETVFNcFd3TzhU?=
+ =?utf-8?B?U2NVZXZrd1RsSm9kRFVwY3QxR1lFckd2Y2hDYndyeHZJMFJxYWcwRmZ5Uk9U?=
+ =?utf-8?B?YlFQeWYrbmxONitDb2VMYUl4bnN3MFZWTXlDSjBuVDNScFZ3MVZXcnNmMU9P?=
+ =?utf-8?B?Wkt4RmxLS3lmMWZsUDVlU1dUdU1GYmFtZXp6akZsTld5bFdVdnRUVmRaVHZr?=
+ =?utf-8?B?VnNvZGgvK0ZGTFl4cExGWm5DYmR1VVZ6T3pzRlpIYjZ5S2ZmV2dmdGhENkg2?=
+ =?utf-8?B?K0RuNmxkQzZIdE5kOFpXSGg3bzdoSWM5ZXNsajFQVFdmd1JsZjhYTEJoWS81?=
+ =?utf-8?B?TERONVZUTG1GTkNFdU1leitmcjhkQzY4T3NPZEtWSjJKT3lJRFh6ZUtkTEN2?=
+ =?utf-8?B?MVIrOC9BR2dFRnJRb2xpVzRpekUxa0x5QjB3NTArczRBanhVSHphMlZuS2ZW?=
+ =?utf-8?B?SFBHaFUzZXVIeXE2M1hnNUZhV1pMMEhQQ2J3TGdBUFF3aVZVeU0vU3ZhOGtr?=
+ =?utf-8?B?N1NJS0wweW5oeUhxeFVvdWNEOWFCSElQcDJxTndtbmR3eTc3d0UxcitxV0E1?=
+ =?utf-8?B?R0x6VHJ2TWZlcDdqa29hVnBJdkZRMFNiSVVSOU1BbWhNZlRKcTRhcmp6dnFw?=
+ =?utf-8?B?VEJHTkN5WFIwZUwvbnNIZTVlSlhwbUdPdlhyUnRjWlB4SndCdWl6ZEMyRldB?=
+ =?utf-8?B?ZzJESEJaYVlROXNpZXNrSjQzaTVDeUUyZmxVUGZ2S3VqVml4Tkh4aHhvbXpW?=
+ =?utf-8?B?YTFOdkpEc0ZOV24vZkEwRUN4WHVHUElGTkF4V00yRGt5UkJ2em4zUFE3RFQv?=
+ =?utf-8?B?bWdER0d6eWRmM3NjakZVMlVueUUvRi8wZEJid015L3RQZDNrT2ZuejZqV2VT?=
+ =?utf-8?B?R2dOZXpRdTNDV1FEellrMVh6N0pjMXQ4TjFneGpjUlQ3UjNHMGM4UG10ZWRB?=
+ =?utf-8?B?SmVxUnVwSjVWRE5MZ055dWZ1V0RGWnZjamJ0NGN4c256Vkl2OEJLdkNMcDhU?=
+ =?utf-8?B?Nm1acHA2OEM2VUtmczlWME52aFlybUcvWjF5K3VEeVovbjJ6WGc0clpqTG9o?=
+ =?utf-8?B?bm1kN0UvTVJHL0xsNktEV0Z5YVJnYm94RnMvOWMxaXNYb0lETGZxTUlUMlBy?=
+ =?utf-8?B?NTZmSHhKRmY4MjhlUDZWTEZyNkc0MXd6Ukg5cFVXeWNBT2xId0FuakhMcmp3?=
+ =?utf-8?B?NE4vWmRTTUFJbE0rcWMxV2hGRVFGWUN0aHEwdlhaNUlsMDFuRWJFM0hTZW54?=
+ =?utf-8?B?Qi8zVjVvMEVmRmZRejdQekJtamdsQUx3Ris0TFA3QWFDWnV2TnFBU2hGZE1C?=
+ =?utf-8?B?aWhqT3ZOWjYveHlwbnpRRiswSGdSWXBZSEJVUDNJdFZpcENucUtoR0tFbjFx?=
+ =?utf-8?B?aUxsVXB3Y083cU4rZEdTL2NnUU55N1RaeUN1Mlkwd2pnUDBuRHgwdWFwcWJX?=
+ =?utf-8?B?M0lUeFBVbFlmajJHaG5mK1V0dmNzc000cEFiMitpUlFva2o2Um12Tnd4cUY2?=
+ =?utf-8?B?b0xwYXVOTlNtUVQwOC83V2xvc0duWTNxT1p2WUc3OTRwLytCOUJWbGszUjBH?=
+ =?utf-8?Q?yahKEmPlRSOJHaQgdL/S/JwgF?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5e210fc-1db4-4f3c-8167-08daf46b7c41
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2023 19:21:20.6618 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2023 07:06:11.2192 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: F5e/LLbc6EZKa8V3K72kZFfUB7Uf+zhqgIFj3Ly0so5CjlLCyLTd5E8iQS4qdWPwoPAgsBAoJbaDnRq9blZB7w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4202
-X-Mailman-Approved-At: Thu, 12 Jan 2023 08:26:18 +0000
+X-MS-Exchange-CrossTenant-UserPrincipalName: T3xv/Pb9T+uldGnqzEi9IC4nn5Gl8qR+kSALpEDhG/4Dpo1C7rSdHv6DYYFq20k/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7360
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,107 +128,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Helge Deller <deller@gmx.de>
+Cc: Kevin Brace <kevinbrace@bracecomputerlab.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/11/23 8:58 AM, Javier Martinez Canillas wrote:
-> Hello Daniel,
-> 
-> On 1/11/23 16:41, Daniel Vetter wrote:
->> This fixes a regression introduced by ee7a69aa38d8 ("fbdev: Disable
->> sysfb device registration when removing conflicting FBs"), where we
->> remove the sysfb when loading a driver for an unrelated pci device,
->> resulting in the user loosing their efifb console or similar.
->>
->> Note that in practice this only is a problem with the nvidia blob,
->> because that's the only gpu driver people might install which does not
->> come with an fbdev driver of it's own. For everyone else the real gpu
->> driver will restor a working console.
-> 
-> restore
-> 
->>
->> Also note that in the referenced bug there's confusion that this same
->> bug also happens on amdgpu. But that was just another amdgpu specific
->> regression, which just happened to happen at roughly the same time and
->> with the same user-observable symptons. That bug is fixed now, see
-> 
-> symptoms
-> 
->> https://bugzilla.kernel.org/show_bug.cgi?id=216331#c15
->>
->> For the above reasons the cc: stable is just notionally, this patch
->> will need a backport and that's up to nvidia if they care enough.
->>
-> 
-> Maybe adding a Fixes: ee7a69aa38d8 tag here too ?
-> 
->> References: https://bugzilla.kernel.org/show_bug.cgi?id=216303#c28
->> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->> Cc: Aaron Plattner <aplattner@nvidia.com>
->> Cc: Javier Martinez Canillas <javierm@redhat.com>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Helge Deller <deller@gmx.de>
->> Cc: Sam Ravnborg <sam@ravnborg.org>
->> Cc: Alex Deucher <alexander.deucher@amd.com>
->> Cc: <stable@vger.kernel.org> # v5.19+ (if someone else does the backport)
->> ---
->>   drivers/video/aperture.c | 7 ++++---
->>   1 file changed, 4 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
->> index ba565515480d..a1821d369bb1 100644
->> --- a/drivers/video/aperture.c
->> +++ b/drivers/video/aperture.c
->> @@ -321,15 +321,16 @@ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *na
->>   
->>   	primary = pdev == vga_default_device();
->>   
->> +	if (primary)
->> +		sysfb_disable();
->> +
->>   	for (bar = 0; bar < PCI_STD_NUM_BARS; ++bar) {
->>   		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
->>   			continue;
->>   
->>   		base = pci_resource_start(pdev, bar);
->>   		size = pci_resource_len(pdev, bar);
->> -		ret = aperture_remove_conflicting_devices(base, size, name);
->> -		if (ret)
->> -			return ret;
->> +		aperture_detach_devices(base, size);
-> 
-> Maybe mention in the commit message that you are doing this change, something like:
-> 
-> "Instead of calling aperture_remove_conflicting_devices() to remove the conflicting
-> devices, just call to aperture_detach_devices() to detach the device that matches
-> the same PCI BAR / aperture range. Since the former is just a wrapper of the latter
-> plus a sysfb_disable() call, and now that's done in this function but only for the
-> primary devices"
-> 
-> Patch looks good to me:
-> 
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Am 11.01.23 um 23:45 schrieb Kevin Brace:
+> From: Kevin Brace <kevinbrace@bracecomputerlab.com>
+>
+> Commit e3c92eb4a84fb0f00442e6b5cabf4f11b0eaaf41 (drm/ttm: rework on
+> ttm_resource to use size_t type) reworked ttm_resource{} to use size_t
+> type size instead of unsigned long type num_pages.  In that commit,
+> when ttm_move_memcpy() is being called from ttm_bo_move_memcpy(),
+> the code was changed to specify the page size from ttm->num_pages
+> instead of the original code's dst_mem->num_pages.  Since the commit
+> is about reworking ttm_resource{} to use size_t type size instead of
+> unsigned long type num_pages, the commit should have specified page
+> size converted version of dst_mem->size.  Use PFN_UP macro to convert
+> dst_mem->size to page size.
 
-Thanks Daniel and Javier!
+Zack already came up with the same patch, please review that one instead.
 
-I wasn't able to reproduce the original problem on my hybrid laptop 
-since it refuses to boot with the console on an external display, but I 
-was able to reproduce it by switching the configuration around: booting 
-with i915.modeset=0 and with an experimental version of nvidia-drm that 
-registers a framebuffer console. I verified that loading nvidia-drm 
-breaks the efi-firmware framebuffer on Intel on Arch's 
-linux-6.1.4-arch1-1 kernel and that applying this patch series fixes it. So
+Thanks,
+Christian.
 
-Tested-by: Aaron Plattner <aplattner@nvidia.com>
+>
+> Signed-off-by: Kevin Brace <kevinbrace@bracecomputerlab.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo_util.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index ba3aa0a0fc43..da5493f789df 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -173,7 +173,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
+>   
+>   	clear = src_iter->ops->maps_tt && (!ttm || !ttm_tt_is_populated(ttm));
+>   	if (!(clear && ttm && !(ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC)))
+> -		ttm_move_memcpy(clear, ttm->num_pages, dst_iter, src_iter);
+> +		ttm_move_memcpy(clear, PFN_UP(dst_mem->size), dst_iter, src_iter);
+>   
+>   	if (!src_iter->ops->maps_tt)
+>   		ttm_kmap_iter_linear_io_fini(&_src_iter.io, bdev, src_mem);
 
-FWIW, the bug ought to be reproducible with i915.modeset=0 + any other 
-drm driver that registers a framebuffer.
-
--- Aaron
