@@ -2,65 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28DAA666DBD
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 10:12:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 674CB666DD5
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 10:12:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0ADDE10E8A5;
-	Thu, 12 Jan 2023 09:12:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7716410E8A9;
+	Thu, 12 Jan 2023 09:12:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DA9310E8A5
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 09:12:03 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id ss4so35882244ejb.11
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 01:12:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=EXyGJOjmj7qdAMlAzw/rEBpcAD9h7noX6p84V1bA/Bg=;
- b=VZSRod5RUaWGlgoiLtO4rp7Vv8rPfOlwiIYJA9xf06PM8E7bK15BN2a4ILvK7u56Qb
- +M80ioMOtBjz/m4CC+nO48Jkj/uct55O7SozEmSUI0eXc4z7bdDJcjSVftz5hOFqBHCh
- TNZg4saLmZi8OtMJDD/XN6Mkw74LiVHmhqXGM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EXyGJOjmj7qdAMlAzw/rEBpcAD9h7noX6p84V1bA/Bg=;
- b=CcZsW+LmpA9PnfrtLpIJ3Xod+mEXTA6HOb8rHmSnkikM89LW4Wj1oXKzIOqD0+kHgz
- ax47St3z4XJFIKpVRnF5I8GefYy+cNegD9ESoVKBpIl/rcw38D1Tx1ycojIcAWeIujVe
- vgXYTGqvg+cl6DFIK3MG5nZcDtGsrulK2F6CEdLpbwfvxxrlhdAMpw4tMR+xvd6Pp22t
- rFO8uoSkJiSHAaGUskRYpZh39rMRMnMrrPgredQ8bn/qxyZ4LRUjoizy9dvAn8ADkGzX
- cHxd3sFbgy293lWwTmuwKt1BNtGAgOMzINC/oCDXlO49OuFkikzxAtwuHl5WnlLZAPLt
- PFUQ==
-X-Gm-Message-State: AFqh2kowLyT7oBfpThmjn4Bw1NBirfF0WYAaQVdAgQjHgUO9UwMyg29n
- Ey767GnP/nRPL4AFbUFuytWPkg==
-X-Google-Smtp-Source: AMrXdXt5ItUPsOyPazRTu2n+0KnfB9pEDv7nf2fLQATiZXV0vYxOv0kxrOiKgXjY5aQI23aSgSsBVw==
-X-Received: by 2002:a17:907:d50a:b0:864:1902:704c with SMTP id
- wb10-20020a170907d50a00b008641902704cmr2744341ejc.38.1673514722082; 
- Thu, 12 Jan 2023 01:12:02 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- uj42-20020a170907c9aa00b0084d4e612a22sm4051804ejc.67.2023.01.12.01.12.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Jan 2023 01:12:01 -0800 (PST)
-Date: Thu, 12 Jan 2023 10:11:59 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH 01/13] drm/debugfs: Create helper to add debugfs files to
- device's list
-Message-ID: <Y7/O3wqumKf8269i@phenom.ffwll.local>
-References: <20230111173748.752659-1-mcanal@igalia.com>
- <20230111173748.752659-2-mcanal@igalia.com>
- <87k01sgmqn.fsf@intel.com>
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAB4910E8A9
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 09:12:50 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 7DDD95C0105;
+ Thu, 12 Jan 2023 04:12:47 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 12 Jan 2023 04:12:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm1; t=1673514767; x=1673601167; bh=Tri+DR+cVs/Auk8o+T2XwgOXI
+ oNZqmidUJrivwOD7n0=; b=s2CbTOS/YBQFqx7/22J/Nmrvqq1JxowlxuwwJwUeU
+ 7+tSSz6BtkvBTkeA1e6eTHFgOI9uSYdOTIAm8gL7CuKOKt7sj9ASMKlxLZ3ujIWD
+ 2h994zEts+5riysq/fDZxfDX+KT95Bk62IsDWx34Ido3/DXTcINo6/j3jkaY59Q3
+ gU2Q/IC9BZ8Vcq2sLuzg9Q8rNuuCbCujJlK1Nf2HwlxHCrZTixagCHKUWV69ib/f
+ kjyOr7Jsej+jpwSf1hjQAkLVaRVv59Hyl8JvBX9H3u+7tmkb+A9R+OxigpYo50Sx
+ KTcfdY06N6CgzBfD8QaBaNw34zandWyJ+ltTtxy+vZESw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+ 1673514767; x=1673601167; bh=Tri+DR+cVs/Auk8o+T2XwgOXIoNZqmidUJr
+ ivwOD7n0=; b=r5EDYnfEL6TKUF8vYevqpjQYApT2TzIGvB5mVmo59lHODBrEfd6
+ BpHSIOqR3LUkio9A4GPgOWDJoeij3k1AA+16wREc4h9yQ9s+RZixG2797AebAVdN
+ r/QZi2QiD2b+d2YjdOIA0Dj5+/wWGF6gbERw9pQfL2ihPubYpCnXKGjf3b/Tj+cC
+ Tt0SRs20XCELCPPfZw+5t+Wd3wrQgJzNu/kAc134YwUfn+5Ml2lfuyDJWcgGTkov
+ tvyinSgA/9k+Oj/p4Eeg+fLTK7ZgWhMFIjsJsxeV7qqfe6imUGiAWtzyw2KdhdOy
+ 9Odx7VA2XJIshpSbifwiNrszG9FOBpmQd4g==
+X-ME-Sender: <xms:D8-_Y1T10Pc91jdDJAsYOSRb_iJXu0rq8BC-A8eoQ4lZ2hABwKX1Ig>
+ <xme:D8-_Y-wIyIkkGljRjSyfT4RaTvp_5TN10ElBnfeSZTRuziSMGJwThn7VHTe68Sj8r
+ JFj29pKQRci4QVSDfM>
+X-ME-Received: <xmr:D8-_Y60sIDu7YYPM1ied1VmwdPyQ4B0L-G9tRmB6NLsVvBNYzAFqAyWf-xPwOHR5JPbUe600iZar1WANcYTRgbSMm2sp0nmwYnTDBg5PklVS6w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrleeiucetufdoteggodetrfdotffvucfrrh
+ hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
+ lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+ ephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucftihhp
+ rghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrhhnpe
+ ektedujeeijeefhfejuedtudegtdejffffvdettdeigeekffeileelgeevgfdvvdenucev
+ lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvg
+ estggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:D8-_Y9DfNY-cJx0P5ggMzPp4gLKQMTdA39Ylms5Y4dOdSSeQ4GbWYQ>
+ <xmx:D8-_Y-jvCFFbeaIZ9dolEedSzHUPmy9v3uaJ-7qIzzrGSWuRIu7XXw>
+ <xmx:D8-_YxoyH2M0zOFPGoEdtPV4cRd-QuqtnBZNXrJtqhbQFGBRfClZBQ>
+ <xmx:D8-_YzZMq-pk5vBXm2gP4-X0Gf29caWvi2lqKqwFcxgITbB9BmxYog>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 12 Jan 2023 04:12:46 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH] drm/vc4: bo: Fix drmm_mutex_init memory hog
+Date: Thu, 12 Jan 2023 10:12:43 +0100
+Message-Id: <20230112091243.490799-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87k01sgmqn.fsf@intel.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,99 +81,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Melissa Wen <mwen@igalia.com>, dri-devel@lists.freedesktop.org,
- Alain Volmat <alain.volmat@foss.st.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 12, 2023 at 10:50:40AM +0200, Jani Nikula wrote:
-> On Wed, 11 Jan 2023, Maíra Canal <mcanal@igalia.com> wrote:
-> > Create a helper to encapsulate the code that adds a new debugfs file to
-> > a linked list related to a object. Moreover, the helper also provides
-> > more flexibily on the type of the object, allowing to use the helper for
-> > other types of drm_debugfs_entry.
-> >
-> > Signed-off-by: Maíra Canal <mcanal@igalia.com>
-> > ---
-> >  drivers/gpu/drm/drm_debugfs.c | 20 ++++++++++++--------
-> >  1 file changed, 12 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-> > index 4f643a490dc3..255d2068ac16 100644
-> > --- a/drivers/gpu/drm/drm_debugfs.c
-> > +++ b/drivers/gpu/drm/drm_debugfs.c
-> > @@ -316,6 +316,17 @@ void drm_debugfs_cleanup(struct drm_minor *minor)
-> >  	minor->debugfs_root = NULL;
-> >  }
-> >  
-> > +#define drm_debugfs_add_file_to_list(component) do {			\
-> > +		entry->file.name = name;				\
-> > +		entry->file.show = show;				\
-> > +		entry->file.data = data;				\
-> > +		entry->component = (component);				\
-> > +									\
-> > +		mutex_lock(&(component)->debugfs_mutex);		\
-> > +		list_add(&entry->list, &(component)->debugfs_list);	\
-> > +		mutex_unlock(&(component)->debugfs_mutex);		\
-> > +	} while (0)
-> 
-> In general, please don't add macros that implicitly depend on certain
-> local variable names. In this case, "entry".
-> 
-> But I'm also not convinced about the usefulness of adding this kind of
-> "generics". Sure, it'll save you a few lines here and there, but I think
-> overall it's just confusing more than it's useful.
+Commit 374146cad469 ("drm/vc4: Switch to drmm_mutex_init") converted,
+among other functions, vc4_create_object() to use drmm_mutex_init().
 
-So the non-generics way I guess would be to
-- pass the right pointer to the functions as an explicit parameter (struct
-  drm_device|crtc|connector *, )
-- make drm_debugfs_entry and implementation detail
-- switch the pointer in there to void *, have glue show functions for each
-  case which do nothing else than cast from void * to the right type
-  (both for the parameter and the function pointer)
-- have a single function which takes that void *entry list and a pointer
-  to the debugfs director to add them all for code sharing
+However, that function is used to allocate a BO, and therefore the
+mutex needs to be freed much sooner than when the DRM device is removed
+from the system.
 
-I think this should work for ->show, but for ->fops it becomes a rather
-big mess I fear. Maybe for ->fops (and also for ->show for now) we leave
-the explicit parameter out and just rely on seq_file->private or whatever
-it was.
+For each buffer allocation we thus end up allocating a small structure
+as part of the DRM-managed mechanism that is never freed, eventually
+leading us to no longer having any free memory anymore.
 
-Or just copypaste, it's not that much code really :-)
--Daniel
+Let's switch back to mutex_init/mutex_destroy to deal with it properly.
 
-> 
-> 
-> BR,
-> Jani.
-> 
-> > +
-> >  /**
-> >   * drm_debugfs_add_file - Add a given file to the DRM device debugfs file list
-> >   * @dev: drm device for the ioctl
-> > @@ -334,14 +345,7 @@ void drm_debugfs_add_file(struct drm_device *dev, const char *name,
-> >  	if (!entry)
-> >  		return;
-> >  
-> > -	entry->file.name = name;
-> > -	entry->file.show = show;
-> > -	entry->file.data = data;
-> > -	entry->dev = dev;
-> > -
-> > -	mutex_lock(&dev->debugfs_mutex);
-> > -	list_add(&entry->list, &dev->debugfs_list);
-> > -	mutex_unlock(&dev->debugfs_mutex);
-> > +	drm_debugfs_add_file_to_list(dev);
-> >  }
-> >  EXPORT_SYMBOL(drm_debugfs_add_file);
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+Fixes: 374146cad469 ("drm/vc4: Switch to drmm_mutex_init")
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/vc4/vc4_bo.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
+index c2b7573bd92b..49320e4d595d 100644
+--- a/drivers/gpu/drm/vc4/vc4_bo.c
++++ b/drivers/gpu/drm/vc4/vc4_bo.c
+@@ -179,6 +179,7 @@ static void vc4_bo_destroy(struct vc4_bo *bo)
+ 		bo->validated_shader = NULL;
+ 	}
+ 
++	mutex_destroy(&bo->madv_lock);
+ 	drm_gem_dma_free(&bo->base);
+ }
+ 
+@@ -406,9 +407,7 @@ struct drm_gem_object *vc4_create_object(struct drm_device *dev, size_t size)
+ 	bo->madv = VC4_MADV_WILLNEED;
+ 	refcount_set(&bo->usecnt, 0);
+ 
+-	ret = drmm_mutex_init(dev, &bo->madv_lock);
+-	if (ret)
+-		return ERR_PTR(ret);
++	mutex_init(&bo->madv_lock);
+ 
+ 	mutex_lock(&vc4->bo_lock);
+ 	bo->label = VC4_BO_TYPE_KERNEL;
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.39.0
+
