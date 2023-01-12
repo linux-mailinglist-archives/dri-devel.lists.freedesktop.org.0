@@ -1,78 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0327667E2C
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 19:32:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ED77667E4D
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 19:44:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D93EC10E32C;
-	Thu, 12 Jan 2023 18:32:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1828610E32B;
+	Thu, 12 Jan 2023 18:43:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A76C710E32C
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 18:32:28 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30CGj2xQ012390; Thu, 12 Jan 2023 18:32:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=pnASPewPQ/9t1uODLyaFYQVMl3xAkLwZ9+Kk0+arix4=;
- b=D2iTbDjxZl+A6y0O0f/HJiUfT9GfeilUIe17QpnyoBdP3YMywJNYYhTfVvoIAvnBCIam
- R4xSshIaunXz4HHrYYTNtS4qKWG3EgkEUF7idusPRXfI+k6thrMLjVuOEZ/671S34X0Z
- xp0W4ISEVlN/P3lSuZJLtTu6kzgG2w9392ddwCw5+Is+u5ZExiCwIOerG7ROZ5wzEFXd
- FBolsYCanRD+BwIkj6AtAmaoQ+FyGW2Mibj9usfn/idiPORJomDrSFd55GAFGxCMDTp+
- hQnNzM8oMuaxOW6tP18W6GX59Dx/PlSOfnCgv+veMmjbh1G125/usaZTRQGRUt+pJ928 IQ== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n1kbqcuv3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Jan 2023 18:32:25 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30CIWOOk017980
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Jan 2023 18:32:24 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 12 Jan
- 2023 10:32:23 -0800
-Message-ID: <78b9f039-6612-e78c-231e-edeb092f2489@quicinc.com>
-Date: Thu, 12 Jan 2023 11:32:22 -0700
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCCF910E32B;
+ Thu, 12 Jan 2023 18:43:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673549034; x=1705085034;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=yUfwBo9hV7SPPWwPijkwqFrfYtGa43gZ0wEj/9bJrKo=;
+ b=F4bNskZTovfk5yiqbRD6QWIQaIhJT/fbibHdg5Uv5Jk5m3ITnB+xJmL/
+ 0X6MM/fOpBhij2BfMDwPuWDdB0J2OtaeBhe0Y1pWr3jtUFDGommm4xNSK
+ MIc6GD822jYJD3D0Q6SML0SCwpR1g2ZgVKSb0Ql5e6tSzeqf92fDowM5N
+ GBIUFCzajD1dm6MzHZZHZlMuY5cI5Ex4axYC5x1XPrS3kOtNKiUEcCwnb
+ Osjq2ZDgUvZMG48Pjqu4ulCfk69oNZXBtiMFtvuCC2Q0aD38plfhqeJwr
+ DFnNEFH0PDmFAJrZ2/kyCTQ8LvA1YGuDv1hpo/lB3utEIRNe48PUhdo/x A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="303490083"
+X-IronPort-AV: E=Sophos;i="5.97,211,1669104000"; d="scan'208";a="303490083"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2023 10:43:54 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="746644252"
+X-IronPort-AV: E=Sophos;i="5.97,211,1669104000"; d="scan'208";a="746644252"
+Received: from jacton-mobl.ger.corp.intel.com (HELO [10.213.195.171])
+ ([10.213.195.171])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2023 10:43:52 -0800
+Message-ID: <dea3a298-eb72-409f-7850-c871604824f9@linux.intel.com>
+Date: Thu, 12 Jan 2023 18:43:50 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v5 6/7] accel/ivpu: Add command buffer submission logic
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [Intel-gfx] [RFC PATCH 04/20] drm/sched: Convert drm scheduler to
+ use a work queue rather than kthread
 Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>, <oded.gabbay@gmail.com>,
- <airlied@gmail.com>, <daniel@ffwll.ch>, <tzimmermann@suse.de>
-References: <20230109122344.253994-1-jacek.lawrynowicz@linux.intel.com>
- <20230109122344.253994-7-jacek.lawrynowicz@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20230109122344.253994-7-jacek.lawrynowicz@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Matthew Brost <matthew.brost@intel.com>
+References: <20221230125508.57af8a14@collabora.com>
+ <20230102083019.24b99647@collabora.com>
+ <7d6df13c-6c2e-d713-edc8-128d6e19f187@linux.intel.com>
+ <Y7dEjcuc1arHBTGu@DUT025-TGLU.fm.intel.com>
+ <Y7i0J3uQ+izOJcEb@DUT025-TGLU.fm.intel.com>
+ <e8c301cb-c7d4-ed54-f3ab-61a5fcc7f940@linux.intel.com>
+ <CAOFGe96yeF4SWxvHC5pxyggf=655q7+ZrFS+Zab42F-RE7UK1w@mail.gmail.com>
+ <e6512993-5247-a577-abf4-97cdb21358a0@linux.intel.com>
+ <CAOFGe957uYdTFccQp36QRJRDkWQZDCB0ztMNDH0=SSf-RTgzLw@mail.gmail.com>
+ <705a0b3c-2fe5-0393-0fda-511f288007c7@linux.intel.com>
+ <Y78QkWXj6dF5ji7G@DUT025-TGLU.fm.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <Y78QkWXj6dF5ji7G@DUT025-TGLU.fm.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 3jzb8DTMy0NynSRx08qzj2MtStLD-_6u
-X-Proofpoint-ORIG-GUID: 3jzb8DTMy0NynSRx08qzj2MtStLD-_6u
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-12_10,2023-01-12_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- suspectscore=0 mlxlogscore=999 spamscore=0 malwarescore=0 adultscore=0
- mlxscore=0 impostorscore=0 phishscore=0 clxscore=1015 bulkscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301120133
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,29 +72,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.kacprowski@linux.intel.com, stanislaw.gruszka@linux.intel.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/9/2023 5:23 AM, Jacek Lawrynowicz wrote:
-> Each of the user contexts has two command queues, one for compute engine
-> and one for the copy engine. Command queues are allocated and registered
-> in the device when the first job (command buffer) is submitted from
-> the user space to the VPU device. The userspace provides a list of
-> GEM buffer object handles to submit to the VPU, the driver resolves
-> buffer handles, pins physical memory if needed, increments ref count
-> for each buffer and stores pointers to buffer objects in
-> the ivpu_job objects that track jobs submitted to the device.
-> The VPU signals job completion with an asynchronous message that
-> contains the job id passed to firmware when the job was submitted.
-> 
-> Currently, the driver supports simple scheduling logic
-> where jobs submitted from user space are immediately pushed
-> to the VPU device command queues. In the future, it will be
-> extended to use hardware base scheduling and/or drm_sched.
-> 
-> Co-developed-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
-> Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+
+On 11/01/2023 19:40, Matthew Brost wrote:
+> On Wed, Jan 11, 2023 at 08:50:37AM +0000, Tvrtko Ursulin wrote:
+
+[snip]
+
+>> This example is where it would hurt on large systems. Imagine only an even
+>> wider media transcode card...
+>>
+>> Second example is only a single engine class used (3d desktop?) but with a
+>> bunch of not-runnable jobs queued and waiting on a fence to signal. Implicit
+>> or explicit dependencies doesn't matter. Then the fence signals and call
+>> backs run. N work items get scheduled, but they all submit to the same HW
+>> engine. So we end up with:
+>>
+>>          /-- wi1 --\
+>>         / ..     .. \
+>>   cb --+---  wi.. ---+-- rq1 -- .. -- rqN
+>>         \ ..    ..  /
+>>          \-- wiN --/
+>>
+>>
+>> All that we have achieved is waking up N CPUs to contend on the same lock
+>> and effectively insert the job into the same single HW queue. I don't see
+>> any positives there.
+>>
+> 
+> I've said this before, the CT channel in practice isn't going to be full
+> so the section of code protected by the mutex is really, really small.
+> The mutex really shouldn't ever have contention. Also does a mutex spin
+> for small period of time before going to sleep? I seem to recall some
+> type of core lock did this, if we can use a lock that spins for short
+> period of time this argument falls apart.
+
+This argument already fell apart when we established it's the system_wq 
+and not the unbound one. So a digression only - it did not fall apart 
+because of the CT channel not being ever congested, there would still be 
+the question of what's the point to wake up N cpus when there is a 
+single work channel in the backend.
+
+You would have been able to bypass all that by inserting work items 
+directly, not via the scheduler workers. I thought that was what Jason 
+was implying when he mentioned that a better frontend/backend drm 
+scheduler split was considered at some point.
+
+Because for 1:1:1, where GuC is truly 1, it does seem it would work 
+better if that sort of a split would enable you to queue directly into 
+the backend bypassing the kthread/worker / wait_on wake_up dance.
+
+Would that work? From drm_sched_entity_push_job directly to the backend 
+- not waking up but *calling* the equivalent of drm_sched_main.
+
+>> Right, that's all solid I think. My takeaway is that frontend priority
+>> sorting and that stuff isn't needed and that is okay. And that there are
+>> multiple options to maybe improve drm scheduler, like the fore mentioned
+>> making it deal with out of order, or split into functional components, or
+>> split frontend/backend what you suggested. For most of them cost vs benefit
+>> is more or less not completely clear, neither how much effort was invested
+>> to look into them.
+>>
+>> One thing I missed from this explanation is how drm_scheduler per engine
+>> class interferes with the high level concepts. And I did not manage to pick
+>> up on what exactly is the TDR problem in that case. Maybe the two are one
+>> and the same.
+>>
+>> Bottom line is I still have the concern that conversion to kworkers has an
+>> opportunity to regress. Possibly more opportunity for some Xe use cases than
+>> to affect other vendors, since they would still be using per physical engine
+>> / queue scheduler instances.
+>>
+> 
+> We certainly don't want to affect other vendors but I haven't yet heard
+> any push back from other vendors. I don't think speculating about
+> potential problems is helpful.
+
+I haven't had any push back on the drm cgroup controller either. :D
+
+>> And to put my money where my mouth is I will try to put testing Xe inside
+>> the full blown ChromeOS environment in my team plans. It would probably also
+>> be beneficial if Xe team could take a look at real world behaviour of the
+>> extreme transcode use cases too. If the stack is ready for that and all. It
+>> would be better to know earlier rather than later if there is a fundamental
+>> issue.
+>>
+> 
+> We don't have a media UMD yet it will be tough to test at this point in
+> time. Also not sure when Xe is going to be POR for a Chrome product
+> either so porting Xe into ChromeOS likely isn't a top priority for your
+> team. I know from experience that porting things into ChromeOS isn't
+> trivial as I've support several of these efforts. Not saying don't do
+> this just mentioning the realities of what you are suggesting.
+
+I know, I only said I'd put it in the plans, not that it will happen 
+tomorrow.
+
+Regards,
+
+Tvrtko
