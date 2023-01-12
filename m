@@ -2,84 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3F10666CC6
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 09:44:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33965666CDC
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 09:51:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C661C10E894;
-	Thu, 12 Jan 2023 08:44:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B09810E149;
+	Thu, 12 Jan 2023 08:51:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A0F110E894
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 08:44:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673513093;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5a4BjVGA5+VS7280a0HZ27tLyRrI18llQE1bUBA8/1A=;
- b=DOgsRssGXCLt4JF9OAwjaCMhhcHQAgMk1Fyt1l3dOJjlcQ8tSLWE+WdVliAepuoO2ur+A7
- 4IFwgl28LpNqn9CYJP6peZBRoxcIdxEyxg2poTEwm51aSReDGbDH6vfgjgDHeMrdO70ZQz
- TIUlr4mliy4ghi5Q8uELXYufROrXuQQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-187-Q2EdmdvTMq2S41DGhCfXWA-1; Thu, 12 Jan 2023 03:44:50 -0500
-X-MC-Unique: Q2EdmdvTMq2S41DGhCfXWA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k38-20020a05600c1ca600b003da1c24f23cso147248wms.8
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 00:44:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5a4BjVGA5+VS7280a0HZ27tLyRrI18llQE1bUBA8/1A=;
- b=Na2+SSbIzOHTBCax7nik3b0aF+2vSQRAAZ59qVHT036zr1ZH340M2wpSVPzl1BTHAl
- k7VtVD8b7h9Dd0U6Gb3Z5eKgpda6ZS86ECatlD/5OWUqmepTxn+fbOJl8ksEJxuJKKVm
- 3iHxxNdpnEvaWQjCvLxhXVCoVJl/aBPjwlmuNzsO0IiJRCiKb3gqf5OcnlmaLIZF1OpQ
- 0kqhNVG0mAijjtyPKMHtRFl0HrlPbhINAITLvz5tpfSZNrpO/xVXlt1swaN5S8CwVuch
- T8fCSYo2/C6j0RSuUDbE7ZF6hZ738EMtu01zJRkVOAedfrGIb881qwyT5MD/tlh7tXoT
- uFnw==
-X-Gm-Message-State: AFqh2krkLwJhWoId4uqDl7+llWzOJ2uEU932hB/RinRCttCArvV9IZhz
- HUrazLttPxbid68uBb0b0MfthkkWa2g+kZJmleU3zz1PokuCKSUthlayZCHVi+YKVZxF+pL/CaC
- OHNXkl0NQPVFS/ukF9rzkIudU3gom
-X-Received: by 2002:a05:6000:705:b0:267:e918:d1e6 with SMTP id
- bs5-20020a056000070500b00267e918d1e6mr47978584wrb.51.1673513089192; 
- Thu, 12 Jan 2023 00:44:49 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsBcz+NOewCErJTagdikvQUga/n6zRME4ChBTvTDSkbfqsCpMEvFJRtoH3xbPIha9jKtsWTZw==
-X-Received: by 2002:a05:6000:705:b0:267:e918:d1e6 with SMTP id
- bs5-20020a056000070500b00267e918d1e6mr47978578wrb.51.1673513088989; 
- Thu, 12 Jan 2023 00:44:48 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- k9-20020a5d66c9000000b002bdd7ce63b2sm526804wrw.38.2023.01.12.00.44.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jan 2023 00:44:48 -0800 (PST)
-Message-ID: <733eb41e-a296-47bb-ce06-18dff755723c@redhat.com>
-Date: Thu, 12 Jan 2023 09:44:47 +0100
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E04A10E149
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 08:50:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673513458; x=1705049458;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=CAzCYnFbGjX2OYOk7NsdnSn10xrdH1c+tpBDigdvA2E=;
+ b=ZYGxNDvbQFw6qtst3xAi7ytv/fKrSQVKe25wIafW6OusZXih2ML/tMqU
+ TieRGpo6BCGXKaSdFOIZrQD1zDTS37eSRtZXlEsk1PBgqGRj3scHweBcA
+ N4DS/p7jfvYW6HleL93fBzdHwbdykwFPMp4AiKwn3FEamKElsjuezaATA
+ YW9rWp5TlWIXA3HaPYbf1BbfvEwgaexixR1ftWe2NBV/CMYp2wFiCx9rz
+ mO6hVcm2+TkECmLC10eRrrUrNJmR9Nlm40LB3RWXLqBqRON6jEtKfmwGy
+ jBMFepB6SdwvbvIUff2W3AXe+JxRWD6mgVvrritXFCiX8LlZpz0jMgenB A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="303348760"
+X-IronPort-AV: E=Sophos;i="5.96,319,1665471600"; d="scan'208";a="303348760"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2023 00:50:48 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="651057275"
+X-IronPort-AV: E=Sophos;i="5.96,319,1665471600"; d="scan'208";a="651057275"
+Received: from lhazellx-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.27.83])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2023 00:50:43 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>, Maxime Ripard
+ <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Alain Volmat <alain.volmat@foss.st.com>
+Subject: Re: [PATCH 01/13] drm/debugfs: Create helper to add debugfs files
+ to device's list
+In-Reply-To: <20230111173748.752659-2-mcanal@igalia.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230111173748.752659-1-mcanal@igalia.com>
+ <20230111173748.752659-2-mcanal@igalia.com>
+Date: Thu, 12 Jan 2023 10:50:40 +0200
+Message-ID: <87k01sgmqn.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 11/11] video/aperture: Only remove sysfb on the default
- vga pci device
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Aaron Plattner <aplattner@nvidia.com>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, DRI Development <dri-devel@lists.freedesktop.org>
-References: <20230111154112.90575-1-daniel.vetter@ffwll.ch>
- <20230111154112.90575-11-daniel.vetter@ffwll.ch>
- <fb72e067-3f5f-1bac-dc9b-3abd9d7739a2@redhat.com>
- <ad725823-f4ef-904f-c04c-90a6aad43323@nvidia.com>
- <7b00e592-345f-4dd5-3452-7f6f70fc608a@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <7b00e592-345f-4dd5-3452-7f6f70fc608a@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,44 +64,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Helge Deller <deller@gmx.de>
+Cc: Melissa Wen <mwen@igalia.com>,
+ =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>,
+ =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/12/23 08:55, Thomas Zimmermann wrote:
-
-[...]
-
->> Thanks Daniel and Javier!
->>
->> I wasn't able to reproduce the original problem on my hybrid laptop 
->> since it refuses to boot with the console on an external display, but I 
->> was able to reproduce it by switching the configuration around: booting 
->> with i915.modeset=0 and with an experimental version of nvidia-drm that 
->> registers a framebuffer console. I verified that loading nvidia-drm 
-> 
-> Thank you for testing.
-> 
-> One thing I'd like to note is that using DRM's fbdev emulation is the 
-> correct way to support a console. Nvidia-drm's current approach of 
-> utilizing efifb is fragile and requires workarounds from distributions 
-> (at least here at SUSE). Steps towards fbdev emulation are much appreciated.
+On Wed, 11 Jan 2023, Ma=C3=ADra Canal <mcanal@igalia.com> wrote:
+> Create a helper to encapsulate the code that adds a new debugfs file to
+> a linked list related to a object. Moreover, the helper also provides
+> more flexibily on the type of the object, allowing to use the helper for
+> other types of drm_debugfs_entry.
 >
- 
-I was meaning to mention the same. Fedora also is carrying a workaround just
-for the Nvidia proprietary driver since all other drivers provide a emulated
-fbdev device.
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> ---
+>  drivers/gpu/drm/drm_debugfs.c | 20 ++++++++++++--------
+>  1 file changed, 12 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+> index 4f643a490dc3..255d2068ac16 100644
+> --- a/drivers/gpu/drm/drm_debugfs.c
+> +++ b/drivers/gpu/drm/drm_debugfs.c
+> @@ -316,6 +316,17 @@ void drm_debugfs_cleanup(struct drm_minor *minor)
+>  	minor->debugfs_root =3D NULL;
+>  }
+>=20=20
+> +#define drm_debugfs_add_file_to_list(component) do {			\
+> +		entry->file.name =3D name;				\
+> +		entry->file.show =3D show;				\
+> +		entry->file.data =3D data;				\
+> +		entry->component =3D (component);				\
+> +									\
+> +		mutex_lock(&(component)->debugfs_mutex);		\
+> +		list_add(&entry->list, &(component)->debugfs_list);	\
+> +		mutex_unlock(&(component)->debugfs_mutex);		\
+> +	} while (0)
 
-So getting this finally fixed will be indeed highly appreciated.
+In general, please don't add macros that implicitly depend on certain
+local variable names. In this case, "entry".
 
--- 
-Best regards,
+But I'm also not convinced about the usefulness of adding this kind of
+"generics". Sure, it'll save you a few lines here and there, but I think
+overall it's just confusing more than it's useful.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
 
+BR,
+Jani.
+
+> +
+>  /**
+>   * drm_debugfs_add_file - Add a given file to the DRM device debugfs fil=
+e list
+>   * @dev: drm device for the ioctl
+> @@ -334,14 +345,7 @@ void drm_debugfs_add_file(struct drm_device *dev, co=
+nst char *name,
+>  	if (!entry)
+>  		return;
+>=20=20
+> -	entry->file.name =3D name;
+> -	entry->file.show =3D show;
+> -	entry->file.data =3D data;
+> -	entry->dev =3D dev;
+> -
+> -	mutex_lock(&dev->debugfs_mutex);
+> -	list_add(&entry->list, &dev->debugfs_list);
+> -	mutex_unlock(&dev->debugfs_mutex);
+> +	drm_debugfs_add_file_to_list(dev);
+>  }
+>  EXPORT_SYMBOL(drm_debugfs_add_file);
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
