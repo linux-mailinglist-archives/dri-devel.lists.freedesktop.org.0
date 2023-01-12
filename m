@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91EE2667240
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 13:33:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A898667275
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 13:43:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA7B210E8DB;
-	Thu, 12 Jan 2023 12:33:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D99010E0FC;
+	Thu, 12 Jan 2023 12:43:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com
- [IPv6:2607:f8b0:4864:20::e31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CE2E10E8DB
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 12:33:10 +0000 (UTC)
-Received: by mail-vs1-xe31.google.com with SMTP id n190so14979970vsc.11
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 04:33:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=lmMMKRN2mYFSKBWdfS4KEk8FcK8S7SAJEuBn9XGJN0Y=;
- b=gFe2+58oQUeTne9Zkfg/uZ9QWaIynLRPo7PQDJ5C/B/JiBw/x/ytir+8cc2ShEVEpM
- h1jAtFbbp7ClBkAXMOF0BppMfBNqixsIgnHhR3ykhKHeUymrnYCtxiYLGCoe2TjT9Bmt
- XMEDeAyOFogPrwD8JuhSHAK3nr+cnt+udZNp8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=lmMMKRN2mYFSKBWdfS4KEk8FcK8S7SAJEuBn9XGJN0Y=;
- b=8R54ULw9u6TM/+tV3ekB492kPGNqU3EmKCmqw+v/skb2l+kPu5B1aENEkB+TLC4u2U
- NuKG24j0na/Zo2GfeBXY12yzuGwXTdGzKix1aSxDJiHQ267q4OiAOZ7H2DVV9mo12Ztt
- WamA3L+3bzqZx6zHc4Br1EvLcZMsD0azjIytpUTLtExR8qaDZjcKKjOZFJwe7VF1zwlx
- oIJsh3URuQuEGou7hEqh87nSIsHobAIBZ34FTlygcu/VpgEWHPXSuAb0nW0gSBZ0UvyO
- K0ylFrDl9QD+YU6bkhUuHBcRlynMBnLJkJY2rIJNwXcrGmxi1eaI5+h5KNp6X5JVq+iB
- qvfg==
-X-Gm-Message-State: AFqh2kp5GtANB6OnIc38/8IMJvWhAJSVYM0EK9OIqRyGXHlDuvVGausn
- ZdrUQH0VN7rrVCt49/oUpjCziPvDF3KSej7hLi7xpQ==
-X-Google-Smtp-Source: AMrXdXtCB2FwlHoY21KCpYVwLL1xj0HeaIsLRbFONUmvlRokBMQ/nNZG1R0mfhDYTDrxpXmDZBtfE8Cd1Wy2420mG2Q=
-X-Received: by 2002:a05:6102:3d9f:b0:3c4:4918:80c with SMTP id
- h31-20020a0561023d9f00b003c44918080cmr9078574vsv.9.1673526789365; Thu, 12 Jan
- 2023 04:33:09 -0800 (PST)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A5BF10E8DF;
+ Thu, 12 Jan 2023 12:43:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673527431; x=1705063431;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=565LqgHJwdtdjfNIuRn4sNTe1GUbFexFOA2HzuIlTKY=;
+ b=IqwQxPVMN5lAabNcwcaq0KcCQg0XBTahGUYPPc1hF/5OGpFKeBhsSAft
+ 5ULQDgR4Pwo2HVoG82zrfzvleZ31Sg2AKNfNKDaR2EgJJXN4rKPGu/UOR
+ zj0KKuW8axtyLsXA5bs1Z2oMtpK/FszpkPig9EioKYJUdc0ghSGsQ47HM
+ RQdL2e1posA87SxUg6uG8UcBP6Yz28N+tsx5Okrqjs3Uc6Oso7j7buDFi
+ 1kjeBeF5OFNGVtXvZ3L+CTTZYXZ7n4l33KXWTZdrup56WhXFp4g+HWUWs
+ fx47xfwZ/Hgog9nxce2pI6r7unJ9U5o71u1Js0UrssmWqC4c9WAdcZgKz w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10587"; a="307216366"
+X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; d="scan'208";a="307216366"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2023 04:43:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10587"; a="746541278"
+X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; d="scan'208";a="746541278"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
+ by FMSMGA003.fm.intel.com with SMTP; 12 Jan 2023 04:43:34 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 12 Jan 2023 14:43:33 +0200
+Date: Thu, 12 Jan 2023 14:43:33 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
+Subject: Re: [PATCH 3/5] drm/i915: Remove redundant framebuffer format check
+Message-ID: <Y8AAdW2y7zN7DCUZ@intel.com>
+References: <20230109105807.18172-1-mcanal@igalia.com>
+ <20230109105807.18172-4-mcanal@igalia.com>
 MIME-Version: 1.0
-References: <20230112042104.4107253-1-treapking@chromium.org>
- <20230112042104.4107253-10-treapking@chromium.org>
-In-Reply-To: <20230112042104.4107253-10-treapking@chromium.org>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 12 Jan 2023 20:32:58 +0800
-Message-ID: <CAGXv+5ErwJFmu3tFX5RjB9jj-2YWH6mabnHFxnRWv+oAZud=1Q@mail.gmail.com>
-Subject: Re: [PATCH v10 9/9] drm/bridge: it6505: Register Type C mode switches
-To: Pin-yen Lin <treapking@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230109105807.18172-4-mcanal@igalia.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,38 +61,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
- chrome-platform@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
- Prashant Malani <pmalani@chromium.org>
+Cc: dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
+ Melissa Wen <mwen@igalia.com>,
+ VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 12, 2023 at 12:22 PM Pin-yen Lin <treapking@chromium.org> wrote:
->
-> Register USB Type-C mode switches when the "mode-switch" property and
-> relevant port are available in Device Tree. Configure the "lane_swap"
-> state based on the entered alternate mode for a specific Type-C
-> connector, which ends up updating the lane swap registers of the it6505
-> chip.
->
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+On Mon, Jan 09, 2023 at 07:58:06AM -0300, Maíra Canal wrote:
+> Now that framebuffer_check() verifies that the format is properly
+> supported, there is no need to check it again on i915's inside
+> helpers.
+> 
+> Therefore, remove the redundant framebuffer format check from the
+> intel_framebuffer_init() function, letting framebuffer_check()
+> perform the framebuffer validation.
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_fb.c | 9 ---------
+>  1 file changed, 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
+> index 63137ae5ab21..230b729e42d6 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fb.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fb.c
+> @@ -1914,15 +1914,6 @@ int intel_framebuffer_init(struct intel_framebuffer *intel_fb,
+>  		}
+>  	}
+>  
+> -	if (!drm_any_plane_has_format(&dev_priv->drm,
+> -				      mode_cmd->pixel_format,
+> -				      mode_cmd->modifier[0])) {
+> -		drm_dbg_kms(&dev_priv->drm,
+> -			    "unsupported pixel format %p4cc / modifier 0x%llx\n",
+> -			    &mode_cmd->pixel_format, mode_cmd->modifier[0]);
+> -		goto err;
+> -	}
+> -
 
-Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+This doesn't work for the legacy tiling->modifier path.
+
+>  	/*
+>  	 * gen2/3 display engine uses the fence if present,
+>  	 * so the tiling mode must match the fb modifier exactly.
+> -- 
+> 2.39.0
+
+-- 
+Ville Syrjälä
+Intel
