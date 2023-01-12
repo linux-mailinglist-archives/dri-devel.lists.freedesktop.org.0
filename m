@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDBE9666DFA
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 10:24:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2893D666DFD
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 10:24:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C4F110E8AF;
-	Thu, 12 Jan 2023 09:24:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3E8310E8B3;
+	Thu, 12 Jan 2023 09:24:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52E9510E8AF
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 09:24:09 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- bi26-20020a05600c3d9a00b003d3404a89faso3587529wmb.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 01:24:09 -0800 (PST)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D90BD10E8B1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 09:24:32 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id bn26so17465691wrb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 01:24:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=Inj/3PggdMPYPA24KawCfZfU7CmEHAqtZxRLX2hdoWI=;
- b=yi4dkWk/iAVpCRfAkllAvewefjlYU+JlQediFjEF8+Kw5VXjyYWDnDj1dri9dwjhXA
- DE69X1eoObMk+X9AHhKd6zRgCgupS4atLus+mQ1ADHQU4pESg9Aenzo1g39F8PBCTiH3
- yI/OBwTlIYyGsUj6GlXuZjjWE7+wJem/afFrYpKvhba840ylsbIwbKvG2n2MvIJTtq21
- qMlLYQRhXcKBcwTSpZDnljNwhrKs+FZBV5CqGVxn2qUGDnQkNU8VPLGGtmdAE6sX/4Ux
- hBplV2XMVaxikRg/SaoUKbWve+KccxPUgSo5vNegYtEHBW7y8q2l80RH0JUfJ9mU9/T9
- 8BJQ==
+ bh=8y93oKqpxvzE8rWdKpZl4lXsP+t5rguSGLhBVaBJc0g=;
+ b=WThEKA9gNJkYP7HmfQRADIQADz/supXgAp8M0Ch0b6QgcTSLJkoTNqCmwTRX5X0SFi
+ kWLSC9p7vL1U7COb9FN0upXxHQvW1YaHNZG0Rm/3K39kC1FmfT++a58cAQvSdEXcOz3l
+ byKBbuHvDH/zGgVyrfqHwjMAtcMbF8MIWinhnfGRb2gx20+ScqjVIky1aQL1mQvrHKfk
+ dFNmAr/uC27SuThkEmoqIE7eIvkZn1E8UBGpko8Y80IroOFuTCCC87rbaRDFOT/BvHoa
+ 0rZIGLbPgWEAI6r3Uj7Y/KSbN5KKovXNJeU+KSlU6IYGe6Se5dvi9Il2t9xC8MMw+al1
+ SFlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Inj/3PggdMPYPA24KawCfZfU7CmEHAqtZxRLX2hdoWI=;
- b=20TYWKy4FW8mdnuE6TcrQCjRIQrZ4MpoyBK93ER90LqroS708YiVwZGqWmvFmBu5ZW
- XtSeXDFOxb62OAmzM5rqcBF71TPxCCZgb/kZGUsYhMdQNiqWARaIs+XJc1yPzAHNZ0Tl
- Lfg/wOpUIwXeYRD+MqKnlJvhKRWht9kTKQ+A30/T0oI0t4JP+wAQCihOLQAJZj5Am/dr
- Z4itYmUS+2Tsv3BnNkjC1XlklvnC3PorVqAA3EHZvfBP69zmo/NDdusXOEa6lFeZrUXe
- Cby7v2OzsNtxTy0OcFV8AowGbFov3wvjcXc9hmo7q1kHdDjeTWZDa61x7Z44If8lL3d4
- zuoQ==
-X-Gm-Message-State: AFqh2krVDQn54pUXskUtjI8ARu+1F/J8rL7l6RhsVhFyiDBpweC8bdHh
- P/3NyXxpFM/GD+lMv5vNeUsjNA==
-X-Google-Smtp-Source: AMrXdXu4Cn2SfMYp75y3XbTCBX5viFqdISRSjsdfTQoV36ZSgWzi0CXykjz590HbUZMKW0YVNEZAqQ==
-X-Received: by 2002:a05:600c:4a9b:b0:3d1:dc6f:b1a4 with SMTP id
- b27-20020a05600c4a9b00b003d1dc6fb1a4mr65376450wmp.5.1673515447761; 
- Thu, 12 Jan 2023 01:24:07 -0800 (PST)
+ bh=8y93oKqpxvzE8rWdKpZl4lXsP+t5rguSGLhBVaBJc0g=;
+ b=pZLQ+CY5OYFtIzQUL5wgi22znAsoZdUVApn/B/5sIwtrl8mdKrFyuzm6KvASjE7PE0
+ uJnHQRS/5wHo6MIYYSyfiNZ3/Gf0zjbzu9dGD/zqIlZvQL80nQDvz3zrdqJDbHbLwxma
+ nyhU3OTomaZnu+T6mciDf0DWlQX39oZ/g8UxCahtQWvnyJOfc6MOeZZYuxV0e+5Sx5Vx
+ r7SgOQR29bM5XttfPDD4icquzFiHSLXm7dnHdVDMtoihCUvXv7KNbrdnKnzFut2BDUr5
+ WtjmWREc34J1awfUedcYUk6irJu3VnW2jCp/8r2Xfk8I9I6X6iAZ0zt1JVux95KkfehD
+ dEFw==
+X-Gm-Message-State: AFqh2kozTD/hUk46gT30gm0D8W5/YqeDJECmCW8TRElPhJidyFsJpW52
+ Ekmlm24kyXzKRyRkx+n6UqKonW+jhWLQ3bIT
+X-Google-Smtp-Source: AMrXdXuXd7dZBWw2m7FDxQZJt+AcbAClVVx1WZ3nCqqtcl5YstgfIvERZe4/zGu+w87qgXyMfElBYw==
+X-Received: by 2002:a05:6000:54a:b0:2bd:6490:8c5f with SMTP id
+ b10-20020a056000054a00b002bd64908c5fmr6062877wrf.23.1673515471297; 
+ Thu, 12 Jan 2023 01:24:31 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:982:cbb0:3b9e:7554:4633:9a59?
  ([2a01:e0a:982:cbb0:3b9e:7554:4633:9a59])
  by smtp.gmail.com with ESMTPSA id
- r7-20020a05600c458700b003d974076f13sm22549818wmo.3.2023.01.12.01.24.06
+ x2-20020adff642000000b002a01e64f7a1sm16255730wrp.88.2023.01.12.01.24.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jan 2023 01:24:07 -0800 (PST)
-Message-ID: <5e58a091-525b-7678-a0e8-1a7ab39d0d18@linaro.org>
-Date: Thu, 12 Jan 2023 10:24:06 +0100
+ Thu, 12 Jan 2023 01:24:30 -0800 (PST)
+Message-ID: <ed9eb076-7a81-8892-a509-9105cbc3c128@linaro.org>
+Date: Thu, 12 Jan 2023 10:24:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 01/13] drm/bridge: lt9611: fix sleep mode setup
+Subject: Re: [PATCH v2 02/13] drm/bridge: lt9611: fix HPD reenablement
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Vinod Koul <vkoul@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -66,9 +65,9 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
 References: <20230108165656.136871-1-dmitry.baryshkov@linaro.org>
- <20230108165656.136871-2-dmitry.baryshkov@linaro.org>
+ <20230108165656.136871-3-dmitry.baryshkov@linaro.org>
 Organization: Linaro Developer Services
-In-Reply-To: <20230108165656.136871-2-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230108165656.136871-3-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,35 +89,41 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 08/01/2023 17:56, Dmitry Baryshkov wrote:
-> On atomic_post_disable the bridge goes to the low power state. However
-> the code disables too much of the chip, so the HPD event is not being
-> detected and delivered to the host. Reduce the power saving in order to
-> get the HPD event.
+> The driver will reset the bridge in the atomic_pre_enable(). However
+> this will also drop the HPD interrupt state. Instead of resetting the
+> bridge, properly wake it up. This fixes the HPD interrupt delivery after
+> the disable/enable cycle.
 > 
 > Fixes: 23278bf54afe ("drm/bridge: Introduce LT9611 DSI to HDMI bridge")
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   drivers/gpu/drm/bridge/lontium-lt9611.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
+>   drivers/gpu/drm/bridge/lontium-lt9611.c | 10 ++++++++--
+>   1 file changed, 8 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> index 7c0a99173b39..2714184cc53f 100644
+> index 2714184cc53f..58f39b279217 100644
 > --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
 > +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> @@ -448,12 +448,11 @@ static void lt9611_sleep_setup(struct lt9611 *lt9611)
->   		{ 0x8023, 0x01 },
->   		{ 0x8157, 0x03 }, /* set addr pin as output */
->   		{ 0x8149, 0x0b },
-> -		{ 0x8151, 0x30 }, /* disable IRQ */
-> +
->   		{ 0x8102, 0x48 }, /* MIPI Rx power down */
->   		{ 0x8123, 0x80 },
->   		{ 0x8130, 0x00 },
-> -		{ 0x8100, 0x01 }, /* bandgap power down */
-> -		{ 0x8101, 0x00 }, /* system clk power down */
-> +		{ 0x8011, 0x0a },
->   	};
+> @@ -856,12 +856,18 @@ static enum drm_mode_status lt9611_bridge_mode_valid(struct drm_bridge *bridge,
+>   static void lt9611_bridge_pre_enable(struct drm_bridge *bridge)
+>   {
+>   	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+> +	static const struct reg_sequence reg_cfg[] = {
+> +		{ 0x8102, 0x12 },
+> +		{ 0x8123, 0x40 },
+> +		{ 0x8130, 0xea },
+> +		{ 0x8011, 0xfa },
+> +	};
 >   
->   	regmap_multi_reg_write(lt9611->regmap,
+>   	if (!lt9611->sleep)
+>   		return;
+>   
+> -	lt9611_reset(lt9611);
+> -	regmap_write(lt9611->regmap, 0x80ee, 0x01);
+> +	regmap_multi_reg_write(lt9611->regmap,
+> +			       reg_cfg, ARRAY_SIZE(reg_cfg));
+>   
+>   	lt9611->sleep = false;
+>   }
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
