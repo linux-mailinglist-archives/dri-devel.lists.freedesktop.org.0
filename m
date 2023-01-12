@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22EAF666F7D
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 11:26:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B33CE666FA8
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 11:31:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA15210E8CD;
-	Thu, 12 Jan 2023 10:25:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4064110E8CF;
+	Thu, 12 Jan 2023 10:31:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4D8C10E8CC;
- Thu, 12 Jan 2023 10:25:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4202F10E8D0;
+ Thu, 12 Jan 2023 10:31:01 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 4581A6602DAC;
- Thu, 12 Jan 2023 10:25:56 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id CF68B6602DAB;
+ Thu, 12 Jan 2023 10:30:59 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1673519156;
- bh=SsF/Ab3RjR7X7NgncYuA79brGXccaWY1wRBLrsXAyDs=;
+ s=mail; t=1673519460;
+ bh=ePjKaBoD/seSdTInEPvC9H532/1yM7x8mLNip0pH+sM=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=W1FfI91TV3+QU35I9NLOGDR3zvDaZwbT1r5L+VXCKUXBpEces+1/8EA2r7FIbx4zH
- qso5FqbHEZbgkZVSWiXV1c4y8DdOcxMDBUg3PkYnJLJ0pthtv+SqPb+nVO2aCduibt
- a9/rxJxM8P2lRRQxIadvscPKw+f9TObXGLds68RR3TavVKniYRTRh6cvaCJ6ARoI4N
- uqsbvATjYUdGX20eAJjr8dknl2I5m4zdYHLruNWn4tgUBWjutLbpgBvVeCLzHtN8/M
- 1PfFxGixmNMJQRjKXoCrYgdGpu50i4arzg84anwTc6M5JyB7CF9DwzEbbSvBwQNzcG
- tSK0W5ssgy2HQ==
-Date: Thu, 12 Jan 2023 11:25:53 +0100
+ b=C+Wk6AWXnpjoPURpYD5HfIvKMrCqCeDTvm8OGEDLaoKwTqhWu3aIADF9qFiKxahs/
+ eQLoJuwu0xsx1EaY/iZD8h2XJK4Ld9Ek/2jKTeKUTVrEXoK5xnqVTw3UuSGWQKgVKl
+ sJbYcnUUyO8sRM9fTIYVBWUc676XRuthyMBivgqhjTIe/ySWY01aHpE8s11VtjOQNC
+ SbHZGSTY7yVsWydh0iAZ5Z63Xz7+/5hYsnsKSg3l1yh10QRvDNJ5gzChh7zXaPBjh1
+ zDn+xUzLDjX3q+X1ChGsCzT0YMSBrwmzBnhz1PG1P3HGQOw1iwBA/TFraJeHm+/cZC
+ 4IcAeA73B9Nfg==
+Date: Thu, 12 Jan 2023 11:30:56 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Daniel Vetter <daniel@ffwll.ch>
 Subject: Re: [Intel-gfx] [RFC PATCH 04/20] drm/sched: Convert drm scheduler
  to use a work queue rather than kthread
-Message-ID: <20230112112553.324ffa05@collabora.com>
+Message-ID: <20230112113056.21eff5f3@collabora.com>
 In-Reply-To: <20230112111103.324abb3c@collabora.com>
 References: <20221230112042.2ddd1946@collabora.com>
  <20221230125508.57af8a14@collabora.com>
@@ -361,15 +361,15 @@ Boris Brezillon <boris.brezillon@collabora.com> wrote:
 >   * if no slots are available and all currently assigned slots
 >     contain busy entities, we queue the entity to a pending list
 >     (possibly one list per prio)
+
+Forgot:
+
+   * if the group is already resident, we just move the slot to the
+     LRU list head.
+
 > 
 > I'll need to make sure this still works with the concept of group (it's
 > not a single queue we schedule, it's a group of queues, meaning that we
 > have N fences to watch to determine if the slot is busy or not, but
 > that should be okay).
 
-Oh, there's one other thing I forgot to mention: the FW scheduler is
-not entirely fair, it does take the slot priority (which has to be
-unique across all currently assigned slots) into account when
-scheduling groups. So, ideally, we'd want to rotate group priorities
-when they share the same drm_sched_priority (probably based on the
-position in the LRU).
