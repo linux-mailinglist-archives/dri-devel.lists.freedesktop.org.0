@@ -1,68 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41976669C7
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 04:47:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5CE36669C9
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 04:47:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB3B510E850;
-	Thu, 12 Jan 2023 03:47:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90CAA10E85F;
+	Thu, 12 Jan 2023 03:47:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0701810E850
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 03:47:37 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id m6so26564565lfj.11
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 19:47:36 -0800 (PST)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9100F10E180
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 03:47:49 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id bt23so26537498lfb.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 19:47:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=iQYqYg9Pvj612oz2A6wstg+zTxm/640VEb1b8jFKzKY=;
- b=NG/a010yYgMe0V8bnns5bMOUITbfBeKe6BcaynN1/8l/akuR5B07hcKX7InJUVtk8P
- eLnix9w5n8EeCSYm0gysU7iAieHkRBv/npEsfi4iNWh9GooToNmZHp2PpxAc2854I+AB
- 3GOS0RtoksmdR0GUPNFgVZpdJ30qYBX4Zg+bm8ZH66iWvn/hrwFiAJxtftDl1iXYVn+7
- NygLfSgsFMKec6d3bxsevwz+xYh/6AF3Rj2mGuI9wMKR+AP/iALmpjKaImyNHjosusbf
- u6Ke5Mixb2jyjJmKuv8OqzBwoEmYzil/xT747f86jtBX3VO1qDM7vEf7A233c0OdVSyZ
- UIbw==
+ bh=7Fsl+XczVC3y4xjwVEHLq7wRpg+RhgoiNYUxqTCYb0k=;
+ b=jTrIlEPHQzVODaR9L4thDNELRop3PCxB2opiacEeP7ERfvm2au9eho36bUUGf6jgsb
+ ro3f6jyZ3hlXueqYVv9RA1cVV4DAEHllfBJbbHV8CnaMwnogc5DuSNs8H8UcU5dftBVX
+ gv77KCmxHHJ9XQDX9XdqSGYeR+EW1RPQdLlWf0y+LlZaH1frHTFyeVvxKZfZMh/4cYBG
+ 9wsYiHCAjzFghSnDmgaEGTzBKW4B0Ki+7Umq8R4pjmqt6EY5h/Ddqh2xs9YojNowi27z
+ hFf23qGeyHaiEhFfZ9xVrExVWRIgqj6Yj66++j9HVT52/IcNYbPdUhDlR2zDGHt5C9cY
+ DEhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iQYqYg9Pvj612oz2A6wstg+zTxm/640VEb1b8jFKzKY=;
- b=k5ub+UfWZcD29u5UmIASd+WRbllhdR87HJeAzCJqXoLI4Mkinfq6513Xa8HD966Zo2
- g7/q3YEQE5LS0+C5Fwi8OPrshRLzQ1lLiqmWh4dBmfsPb4y6JcABGEe/PubcwBbhET8u
- DOlWIqWr37LLe0oMOzIEm42wHBN5kO+pxGRbE3OYwfhrkY90Q/tHX4A+0EZg8EE2TAqf
- sO8JNnC+HEZvTy5xXyNYFRTk1v2VaAzIvTyNfK+j03/tq5Juw6TpxZHx0GQae+AzmTLr
- EWTFQGYmnAEAHaP5rnZXAlGwBpIYbEBdCQGv/StWFeBF5AVu0OvV6OUghX2Ch/QJff5T
- Ba8Q==
-X-Gm-Message-State: AFqh2kqb1GtGY3/Hx59Zj+CZRI4ewZfvuH8EMgbO4ZZvi6YzifK0pM/k
- xurUqYOYff7mH7fH+YNv/Wc/7w==
-X-Google-Smtp-Source: AMrXdXsi2xPyrWsA5gCYXCg4QTk727+HhHDcPNoB3o0tRZPxYvEOu7ldi0T60rLzg9X146OdEOYE9g==
-X-Received: by 2002:a05:6512:31cc:b0:4b0:1305:6ebf with SMTP id
- j12-20020a05651231cc00b004b013056ebfmr25444639lfe.53.1673495255305; 
- Wed, 11 Jan 2023 19:47:35 -0800 (PST)
+ bh=7Fsl+XczVC3y4xjwVEHLq7wRpg+RhgoiNYUxqTCYb0k=;
+ b=GrGKe2se0ItdV/Vzwv5z7Gl7/kM9f/E06MYjMF423/YeZSPD1P41qO5xukmDY/cqCY
+ eSUIGamkd2k29JBVk6cmAx96Rc6eLbdxPvnS2t5ypQ20WwLWTqSqIfeKBsHUT15x+dFb
+ Ce2hAsE6my5o0fdewuC0XK2Cj4ee12Zjbxcz9ho2axNbnOdqtSR6d+Vd/c4dns8Oc28G
+ 763tuPC0Ii+mmrsoZTRDpo2RUIX2hJVyG/FmB80viWk0qH0ruJi7oAmAmqJbHGfPxaMB
+ EQxns3H+MThpxPgn9ifODuup0bfs7xrhXXrdMo+Hg3MG7LF1aySm0iHxfGeozYCFz1SL
+ pkZQ==
+X-Gm-Message-State: AFqh2kpO6kquEkpF4FqQSiQUaPBERi4a/Zk2HyKwLJ0G5OZnfEQdk+01
+ 12rYwu9wFWcEZ2OVEiE+yjGzwQ==
+X-Google-Smtp-Source: AMrXdXuQG4UzES00pUNruIlJSGp0UifU8fTI13RVg7hyEjFVE0tWTAya3H82zSigyuo2lGZ6wlMEfA==
+X-Received: by 2002:ac2:5454:0:b0:4cc:8985:b565 with SMTP id
+ d20-20020ac25454000000b004cc8985b565mr2840726lfn.30.1673495267980; 
+ Wed, 11 Jan 2023 19:47:47 -0800 (PST)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- w6-20020a056512098600b004b4e67c3c00sm3053639lft.53.2023.01.11.19.47.34
+ t17-20020a056512209100b004a4754c5db5sm3041591lfr.244.2023.01.11.19.47.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 19:47:34 -0800 (PST)
-Message-ID: <2fea078c-c6fc-31bf-c02d-73cdc600d19c@linaro.org>
-Date: Thu, 12 Jan 2023 05:47:34 +0200
+ Wed, 11 Jan 2023 19:47:47 -0800 (PST)
+Message-ID: <a15da787-cdf4-464b-1d90-a413ac8c59ce@linaro.org>
+Date: Thu, 12 Jan 2023 05:47:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v3 2/2] drm/msm/dsi: implement opp table based check for
- dsi_mgr_bridge_mode_valid()
+Subject: Re: [PATCH v3 1/2] drm/msm/dsi: add a helper method to compute the
+ dsi byte clk
 Content-Language: en-GB
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
 References: <20230112001600.12791-1-quic_abhinavk@quicinc.com>
- <20230112001600.12791-2-quic_abhinavk@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230112001600.12791-2-quic_abhinavk@quicinc.com>
+In-Reply-To: <20230112001600.12791-1-quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,23 +81,21 @@ Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/01/2023 02:16, Abhinav Kumar wrote:
-> Currently there is no protection against a user trying to set
-> an unsupported mode on DSI. Implement a check based on the opp
-> table whether the byte clock for the mode can be supported by
-> validating whether an opp table entry exists.
+On 12/01/2023 02:15, Abhinav Kumar wrote:
+> Re-arrange the dsi_calc_pclk method to two helpers, one to
+> compute the DSI byte clk and the other to compute the pclk.
 > 
-> For devices which have not added opp table support yet, skip
-> this check otherwise it will break bootup on those devices.
+> This makes the separation of the two clean and also allows
+> clients to compute and use the dsi byte clk separately.
 > 
-> changes in v3:
-> 	- make the comment shorter
-> 	- handle all errors except ENODEV
+> changes in v2:
+> 	- move the assignments to definition lines
 > 
-> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/15
-> Reported-by: Rob Clark <robdclark@gmail.com>
 > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
+>   drivers/gpu/drm/msm/dsi/dsi.h      |  2 ++
+>   drivers/gpu/drm/msm/dsi/dsi_host.c | 21 ++++++++++++++-------
+>   2 files changed, 16 insertions(+), 7 deletions(-)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
