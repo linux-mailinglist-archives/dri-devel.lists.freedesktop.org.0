@@ -2,64 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46110666713
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 00:20:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A6A666783
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 01:16:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AFA410E83B;
-	Wed, 11 Jan 2023 23:20:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4F7610E176;
+	Thu, 12 Jan 2023 00:16:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FD6210E83A
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 23:19:59 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 53409B81D73
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 23:19:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0BB79C433F1
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 23:19:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1673479197;
- bh=V9i+1eY2PZVJ6U/McMRLwzM34+F2RTwTFGCz4Z4MjUY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=QD3WCH1R0i9lDOKrUH9aNvPo6yP5CsxVtJi5xrBRB8mwSt7K198c/gPB3dq/+JbuR
- v4q0ldzcxaEpEQgl0OGW6TVN1iQySGBpcVaAnOSLRy6zcReDZe6P5e6bwx2eIHaRLq
- wC3GqYKGWP66hUFbYq7PmPHZ24HmqkDPZAeEttt5kuin+MbnH1D/fHA5exB1OCOjEq
- euloeql10A8ZYlZ2gL+Gi41c6OoyTu8bhQysQFJm/NX6CslcyIFLOHoUnlFhzWrUU3
- NO8Aw9evqLqBunDbNLlzG2kwn5z2r4NztDsAIaWeloK3G4FgqFtVMk9jWy0pPQ3Zan
- Ury1uHRL45QhQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id E7264C43142; Wed, 11 Jan 2023 23:19:56 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216917] hibernation regression since 6.0.18 (Ryzen-5650U incl.
- Radeon GPU)
-Date: Wed, 11 Jan 2023 23:19:56 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kolAflash@kolahilft.de
-X-Bugzilla-Status: ASSIGNED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216917-2300-H0Ylyi8VCm@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216917-2300@https.bugzilla.kernel.org/>
-References: <bug-216917-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C08210E176;
+ Thu, 12 Jan 2023 00:16:18 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30C02CgL007608; Thu, 12 Jan 2023 00:16:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=JN/B4N8cmVkipSfz8rN0Pwrrp0Q6iMXwc2+8rg/bci4=;
+ b=SmgcdasMiEBk8MD3ilFt3h5XtP6iwFReDL/7YSQXrPnNCtOPvHHSFezKY6NUcagtzKmX
+ PC2UExky/hFAdP4kx20qOU6g9H8cNDuloidEQ+lZtMjGv0RB3c0Wgeiz20cQ+MGEmIL/
+ wWfDEN35MNqzw62SGXsWn6mYxklaqSiADzFSVcTCeGkSleViQueRSYJnz1I+V0bz/oPP
+ /pfCmKAXACzAxYnpLpqi4L0rWHScxzAvu5llyVD22FM9H6RLFljeaUBTZGRzg52uGQUI
+ 1k7wCzWrD1w/VHGVumcEslJMM4RwWdsJzuR5bn758t/JtNWXCnfNXtUoyosi41nIa6z9 4A== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n1k5k2fta-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Jan 2023 00:16:15 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30C0GEU9027293
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Jan 2023 00:16:14 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Wed, 11 Jan 2023 16:16:13 -0800
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+Subject: [PATCH v3 1/2] drm/msm/dsi: add a helper method to compute the dsi
+ byte clk
+Date: Wed, 11 Jan 2023 16:15:59 -0800
+Message-ID: <20230112001600.12791-1-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: P6F-iQS6kcyW6K9w4wOlnjMy0Xicaw6U
+X-Proofpoint-GUID: P6F-iQS6kcyW6K9w4wOlnjMy0Xicaw6U
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-11_10,2023-01-11_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0
+ priorityscore=1501 suspectscore=0 adultscore=0 mlxlogscore=999
+ clxscore=1015 bulkscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301110177
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,31 +79,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
+ quic_jesszhan@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216917
+Re-arrange the dsi_calc_pclk method to two helpers, one to
+compute the DSI byte clk and the other to compute the pclk.
 
---- Comment #8 from kolAflash (kolAflash@kolahilft.de) ---
-(In reply to Alex Deucher from comment #7)
-> do you still have the problem with:
-> CONFIG_DRM_FBDEV_EMULATION=3Dn
-> in your .config?
+This makes the separation of the two clean and also allows
+clients to compute and use the dsi byte clk separately.
 
-The problem unfortunately still exists with CONFIG_DRM_FBDEV_EMULATION=3Dn
-(and I get a black screen on the virtual console)
+changes in v2:
+	- move the assignments to definition lines
 
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+---
+ drivers/gpu/drm/msm/dsi/dsi.h      |  2 ++
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 21 ++++++++++++++-------
+ 2 files changed, 16 insertions(+), 7 deletions(-)
 
-> Does reverting a6250bdb6c4677ee77d699b338e077b900f94c0c fix it?
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
+index 2a96b4fe7839..1a551cc0e889 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.h
++++ b/drivers/gpu/drm/msm/dsi/dsi.h
+@@ -118,6 +118,8 @@ int dsi_link_clk_enable_6g(struct msm_dsi_host *msm_host);
+ int dsi_link_clk_enable_v2(struct msm_dsi_host *msm_host);
+ void dsi_link_clk_disable_6g(struct msm_dsi_host *msm_host);
+ void dsi_link_clk_disable_v2(struct msm_dsi_host *msm_host);
++unsigned long dsi_byte_clk_get_rate(struct mipi_dsi_host *host, bool is_bonded_dsi,
++				    const struct drm_display_mode *mode);
+ int dsi_tx_buf_alloc_6g(struct msm_dsi_host *msm_host, int size);
+ int dsi_tx_buf_alloc_v2(struct msm_dsi_host *msm_host, int size);
+ void *dsi_tx_buf_get_6g(struct msm_dsi_host *msm_host);
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index c3cd96de7f7d..c145fd359ed5 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -570,9 +570,8 @@ void dsi_link_clk_disable_v2(struct msm_dsi_host *msm_host)
+ 	clk_disable_unprepare(msm_host->byte_clk);
+ }
+ 
+-static unsigned long dsi_get_pclk_rate(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
++static unsigned long dsi_get_pclk_rate(const struct drm_display_mode *mode, bool is_bonded_dsi)
+ {
+-	struct drm_display_mode *mode = msm_host->mode;
+ 	unsigned long pclk_rate;
+ 
+ 	pclk_rate = mode->clock * 1000;
+@@ -589,11 +588,13 @@ static unsigned long dsi_get_pclk_rate(struct msm_dsi_host *msm_host, bool is_bo
+ 	return pclk_rate;
+ }
+ 
+-static void dsi_calc_pclk(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
++unsigned long dsi_byte_clk_get_rate(struct mipi_dsi_host *host, bool is_bonded_dsi,
++				    const struct drm_display_mode *mode)
+ {
++	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+ 	u8 lanes = msm_host->lanes;
+ 	u32 bpp = dsi_get_bpp(msm_host->format);
+-	unsigned long pclk_rate = dsi_get_pclk_rate(msm_host, is_bonded_dsi);
++	unsigned long pclk_rate = dsi_get_pclk_rate(mode, is_bonded_dsi);
+ 	u64 pclk_bpp = (u64)pclk_rate * bpp;
+ 
+ 	if (lanes == 0) {
+@@ -607,8 +608,14 @@ static void dsi_calc_pclk(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+ 	else
+ 		do_div(pclk_bpp, (8 * lanes));
+ 
+-	msm_host->pixel_clk_rate = pclk_rate;
+-	msm_host->byte_clk_rate = pclk_bpp;
++	return pclk_bpp;
++}
++
++static void dsi_calc_pclk(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
++{
++	msm_host->pixel_clk_rate = dsi_get_pclk_rate(msm_host->mode, is_bonded_dsi);
++	msm_host->byte_clk_rate = dsi_byte_clk_get_rate(&msm_host->base, is_bonded_dsi,
++							msm_host->mode);
+ 
+ 	DBG("pclk=%lu, bclk=%lu", msm_host->pixel_clk_rate,
+ 				msm_host->byte_clk_rate);
+@@ -636,7 +643,7 @@ int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+ 
+ 	dsi_calc_pclk(msm_host, is_bonded_dsi);
+ 
+-	pclk_bpp = (u64)dsi_get_pclk_rate(msm_host, is_bonded_dsi) * bpp;
++	pclk_bpp = (u64)dsi_get_pclk_rate(msm_host->mode, is_bonded_dsi) * bpp;
+ 	do_div(pclk_bpp, 8);
+ 	msm_host->src_clk_rate = pclk_bpp;
+ 
+-- 
+2.39.0
 
-No. That also doesn't help.
-
-
-I'm sorry.
-Anything else I can try?
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
