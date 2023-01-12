@@ -2,60 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432AA668744
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 23:49:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D581A668761
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 23:57:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1794210E955;
-	Thu, 12 Jan 2023 22:49:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29FB410E953;
+	Thu, 12 Jan 2023 22:57:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
- [IPv6:2607:f8b0:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F72510E953
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 22:49:36 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id s67so13802289pgs.3
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 14:49:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=SWHx2ArszmWOMvOmL9HMTqeLRyXml8x4aecIK4J1xfM=;
- b=T2d6xQChtkuCRaI870QbrNhFwwVCxfB/ltmBQERjU/+oJfBXhY/cz1RHeYyjIdraiI
- 0RZZ1XMlhfo7B3NY4rKRaaxKLRWCZVgiVPgtgr17CgwOgHSIpYEu4zv+lpmlbvU88r6e
- jK9fILTLJRz6ovtajskEvsL9o5FUM/PTks/iA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SWHx2ArszmWOMvOmL9HMTqeLRyXml8x4aecIK4J1xfM=;
- b=tpBsWhLvSb1hXS9ZlZHaVxJPpH2smZkju7HJ20eXHV0IIyRGRkRfOvbKP9sH9nYY4w
- NJRZyBZKojzAbHOXTF08ntQ2op33ANFxgYoqCuX1hWr3eUe5c7gsoQo7r0TuQUVZOsB5
- Y1JTjJaTcxzdD2J70rmnEy9ot2LXRWft54dnLk0VQxRTovaQ7QN74Pzn0Ys+HEJU36kk
- S01g7aWKd52S/9eDL0YD14js69/2jKfnOWZsJzOMXT2nDXAr6Ve8wLSWsqhajT6fUos3
- y3wX+uXMphZNIqyj89o5oNoEJtrlZBZKxqpesL0LThYdYHmajwjoWiV6WVEO6xw6Xr/Q
- h3kg==
-X-Gm-Message-State: AFqh2kqgaYm/PUitMQGq1kCjQMrHSAQ6hV8u+/nSYPLh5rHWzrYdhxpL
- oFALD8D/kap8htmIUF4Fm97/Bw==
-X-Google-Smtp-Source: AMrXdXtrkkqEGE9cFZZR5OGma23Ht+dZor8UGc1LpcFDNVZF1aHL808lC/1ioJhhRsAmf4y/+tUmZw==
-X-Received: by 2002:aa7:99c4:0:b0:589:69ec:c6bc with SMTP id
- v4-20020aa799c4000000b0058969ecc6bcmr8245382pfi.21.1673563775884; 
- Thu, 12 Jan 2023 14:49:35 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id
- x14-20020aa79a4e000000b005811c421e6csm12220412pfj.162.2023.01.12.14.49.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Jan 2023 14:49:35 -0800 (PST)
-Date: Thu, 12 Jan 2023 14:49:34 -0800
-From: Kees Cook <keescook@chromium.org>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH][next] drm/nouveau/nvkm: Replace zero-length array with
- flexible-array member
-Message-ID: <202301121449.EE489AA@keescook>
-References: <Y7zB0q2pr7lEpHGs@work>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B75A10E953
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 22:57:04 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id A4505B82036
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 22:57:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5766AC433EF
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 22:57:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1673564221;
+ bh=XJbAYFtKJrsiJkc3mYwPVbfBQAWFjyHsbxpFxsr7kv4=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ecH8E+bpJVchEE2eS/RESQzv4VtE+LZDzau2V9udBRpZBpyqYaQhBR/NhJHiDn/ld
+ VJizL7e0gDVZoxmsirE6EM9GcS36cX0eVzokhEwE5F49OyPgYJ+vFdHnSnAAjUC8Mm
+ xeoR7+TfM7WFMihxTjDQsfrgqumlMhVBC2fen+u6oXvsguYhW5cU6e9aTxG740TaAM
+ ISSUA4KsbAjRLCMOyMpGTfyy0Dz9hmdgW9nKVWJbAJH1MZgAQRkSQMqdkt4ATJPgZd
+ jo4Ibc6RPBRo7yYwPJ0Jbv5muBiGm7QsDTU50WgZdQWto7AkquztEXXWkMTMLFRuo+
+ Ts2/YwlqbH+zQ==
+Received: by mail-vk1-f170.google.com with SMTP id l3so6372102vkk.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 14:57:01 -0800 (PST)
+X-Gm-Message-State: AFqh2kpjCcUa/LyRtm3mJvnUDL9CKjNwYXXSgaGkqfCQB1+fL1mZMmw+
+ 4hpp1UixGxfDgnC9jewIRrN8ACd0UZ5oN10MzQ==
+X-Google-Smtp-Source: AMrXdXt8wHrRY2gdsYARqhiRw0HAx5328dSIv8af4ZbpRgdiVb5LWwG0uV+KGfpJFJ9+GQ11YNTxNRn1tFh83Da+frk=
+X-Received: by 2002:a05:6122:221e:b0:3da:f920:c0ef with SMTP id
+ bb30-20020a056122221e00b003daf920c0efmr981096vkb.26.1673564220164; Thu, 12
+ Jan 2023 14:57:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y7zB0q2pr7lEpHGs@work>
+References: <20230112042104.4107253-1-treapking@chromium.org>
+ <20230112042104.4107253-5-treapking@chromium.org>
+In-Reply-To: <20230112042104.4107253-5-treapking@chromium.org>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Thu, 12 Jan 2023 16:56:48 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJDGKskYoZvzCVWickpGpA5GtY6p9eY1tKia7cyd+umaA@mail.gmail.com>
+Message-ID: <CAL_JsqJDGKskYoZvzCVWickpGpA5GtY6p9eY1tKia7cyd+umaA@mail.gmail.com>
+Subject: Re: [PATCH v10 4/9] dt-bindings: display: bridge: anx7625: Add
+ mode-switch support
+To: Pin-yen Lin <treapking@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,28 +62,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, linux-hardening@vger.kernel.org
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
+ chrome-platform@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ Stephen Boyd <swboyd@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Prashant Malani <pmalani@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 09, 2023 at 07:39:30PM -0600, Gustavo A. R. Silva wrote:
-> Zero-length arrays are deprecated[1] and we are moving towards
-> adopting C99 flexible-array members instead. So, replace zero-length
-> array declaration in struct nvfw_hs_load_header_v2 with flex-array
-> member.
-> 
-> This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
-> routines on memcpy() and help us make progress towards globally
-> enabling -fstrict-flex-arrays=3 [2].
-> 
-> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays [1]
-> Link: https://gcc.gnu.org/pipermail/gcc-patches/2022-October/602902.html [2]
-> Link: https://github.com/KSPP/linux/issues/78
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+On Wed, Jan 11, 2023 at 10:21 PM Pin-yen Lin <treapking@chromium.org> wrote:
+>
+> Analogix 7625 can be used in systems to switch the DP traffic between
+> two downstreams, which can be USB Type-C DisplayPort alternate mode
+> lane or regular DisplayPort output ports.
+>
+> Update the binding to accommodate this usage by introducing a
+> data-lanes and a mode-switch property on endpoints.
+>
+> Also include the link to the product brief in the bindings.
+>
+> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+> Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>
+> ---
+>
+> Changes in v10:
+> - Collected Reviewed-by and Tested-by tags
+>
+> Changes in v9:
+> - Collected Reviewed-by tag
+>
+> Changes in v8:
+> - Updated anx7625 bindings for data-lane property
+> - Fixed the subject prefix
+>
+> Changes in v7:
+> - Fixed issues reported by dt_binding_check
+> - Updated the schema and the example dts for data-lanes.
+> - Changed to generic naming for the example dts node.
+>
+> Changes in v6:
+> - Remove switches node and use endpoints and data-lanes property to
+>   describe the connections.
+>
+>  .../display/bridge/analogix,anx7625.yaml      | 99 ++++++++++++++++++-
+>  1 file changed, 96 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> index 4590186c4a0b..b49a350c40e3 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> @@ -12,7 +12,8 @@ maintainers:
+>
+>  description: |
+>    The ANX7625 is an ultra-low power 4K Mobile HD Transmitter
+> -  designed for portable devices.
+> +  designed for portable devices. Product brief is available at
+> +  https://www.analogix.com/en/system/files/AA-002291-PB-6-ANX7625_ProductBrief.pdf
+>
+>  properties:
+>    compatible:
+> @@ -112,10 +113,48 @@ properties:
+>                data-lanes: true
+>
+>        port@1:
+> -        $ref: /schemas/graph.yaml#/properties/port
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+>          description:
+>            Video port for panel or connector.
+>
+> +        patternProperties:
+> +          "^endpoint@[01]$":
+> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+You are using a property from video-interfaces.yaml, so you need to
+reference that.
 
--- 
-Kees Cook
+Needs some description of what each endpoint is. IOW, how each
+endpoint corresponds to the h/w.
+
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              reg:
+> +                maxItems: 1
+> +
+> +              remote-endpoint: true
+> +
+> +              data-lanes:
+> +                oneOf:
+> +                  - items:
+> +                      - enum: [0, 1, 2, 3]
+> +
+> +                  - items:
+> +                      - const: 0
+> +                      - const: 1
+> +
+> +                  - items:
+> +                      - const: 2
+> +                      - const: 3
+> +
+> +                  - items:
+> +                      - const: 0
+> +                      - const: 1
+> +                      - const: 2
+> +                      - const: 3
+> +
+> +              mode-switch:
+> +                type: boolean
+> +                description: Register this node as a Type-C mode switch or not.
+> +
+> +            required:
+> +              - reg
+> +              - remote-endpoint
+> +
+>      required:
+>        - port@0
+>        - port@1
+> @@ -164,8 +203,12 @@ examples:
+>                  };
+>
+>                  mipi2dp_bridge_out: port@1 {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +
+>                      reg = <1>;
+> -                    anx7625_out: endpoint {
+> +                    anx7625_out: endpoint@0 {
+> +                        reg = <0>;
+>                          remote-endpoint = <&panel_in>;
+>                      };
+>                  };
+> @@ -186,3 +229,53 @@ examples:
+>              };
+>          };
+>      };
+> +  - |
+> +    i2c3 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        encoder@58 {
+> +            compatible = "analogix,anx7625";
+> +            reg = <0x58>;
+> +            pinctrl-names = "default";
+> +            pinctrl-0 = <&anx7625_dp_pins>;
+> +            enable-gpios = <&pio 176 GPIO_ACTIVE_HIGH>;
+> +            reset-gpios = <&pio 177 GPIO_ACTIVE_HIGH>;
+> +            vdd10-supply = <&pp1100_dpbrdg>;
+> +            vdd18-supply = <&pp1800_dpbrdg_dx>;
+> +            vdd33-supply = <&pp3300_dpbrdg_dx>;
+> +            analogix,audio-enable;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    anx7625_dp_in: endpoint {
+> +                        bus-type = <7>;
+> +                        remote-endpoint = <&dpi_out>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +
+> +                    reg = <1>;
+> +                    anx_typec0: endpoint@0 {
+> +                        reg = <0>;
+> +                        mode-switch;
+> +                        data-lanes = <0 1>;
+> +                        remote-endpoint = <&typec_port0>;
+> +                    };
+> +                    anx_typec1: endpoint@1 {
+> +                        reg = <1>;
+> +                        mode-switch;
+> +                        data-lanes = <2 3>;
+> +                        remote-endpoint = <&typec_port1>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> --
+> 2.39.0.314.g84b9a713c41-goog
+>
