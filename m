@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CE7166691F
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 03:53:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFB23666920
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 03:53:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D4AD10E851;
+	by gabe.freedesktop.org (Postfix) with ESMTP id F183A10E855;
 	Thu, 12 Jan 2023 02:53:52 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 247A710E2E0;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D9C610E2D8;
  Thu, 12 Jan 2023 02:53:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1673492023; x=1705028023;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=HUiwugwT28htyRQaLp8x+1m39Kl4vFD7KWtQkl+/+ac=;
- b=ki7LEnk7RBMsOnz4knhNNwsRvXpireLNDtjUBIuYGAO7vJZk8fsrCxb3
- uenJS/TNDT6mymYV/FFPbuyWnYyTCyRG6BNwZwSCItYPPGm0GdyjUxEHa
- 0wJNr/hWIrHfNgBlQGpbMxXi+eYkmQiP2CN1wXFSZoq/FBd5bJHFJHo0T
- aOyx7OonKiZ1TeU8//vO3czUK2NQpdiLvNl4Bj27bGXdDiZfuYI7j6fl0
- SAaVV8T4jB5NKSRNG21aDr0Et3h4Z/K2VsiYWEFKD68vsSYCDuS0ItQ46
- PG3RGTKILwzWJbEwiFpglOo7RACNLtwaFoo+NLYfwTt0dx00l2g/LIxsz g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="350823501"
-X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="350823501"
+ bh=oUM8+s9CaIlKBqtwPwCkB3+uqFgPbmwEogc4Rv9Zk/4=;
+ b=Z+G1UhB5ARPb9CbUikkWiONb5RsfUd5q1BVs3H5CDUc7Ot9B3m2QHf3S
+ dbuRJMMeX0Jb4WM0C7ybhwX+S8JYOXGjekfxM8SaqvrpuDx4I+WU9dnlu
+ NHL+wayaPWQRDl8PC0dLcWilaSnsdju8PROjXCcutQvcve+9un41ETjgO
+ Q8zQVkdEP4C4bvkU7J/c1okyoqjjUz6NKqTIWtKtGZlneJGYVNHmCqbt7
+ FMsgo+Igb1mX8X9ILCIosMZzhcaADmM0JE2J0BhLr9Tvajr02LLMM6AtR
+ JWvtPWmzy/+vTpLMlrbMJqpNB2C8/SARw86ElC5lVis1c3CU3m90/rG3m w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="350823503"
+X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="350823503"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  11 Jan 2023 18:53:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="986359632"
-X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="986359632"
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="986359635"
+X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="986359635"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
  by fmsmga005.fm.intel.com with ESMTP; 11 Jan 2023 18:53:42 -0800
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 3/4] drm/i915/guc: Look for a guilty context when an engine
- reset fails
-Date: Wed, 11 Jan 2023 18:53:10 -0800
-Message-Id: <20230112025311.2577084-4-John.C.Harrison@Intel.com>
+Subject: [PATCH 4/4] drm/i915/guc: Add a debug print on GuC triggered reset
+Date: Wed, 11 Jan 2023 18:53:11 -0800
+Message-Id: <20230112025311.2577084-5-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230112025311.2577084-1-John.C.Harrison@Intel.com>
 References: <20230112025311.2577084-1-John.C.Harrison@Intel.com>
@@ -65,50 +64,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-Engine resets are supposed to never fail. But in the case when one
-does (due to unknown reasons that normally come down to a missing
-w/a), it is useful to get as much information out of the system as
-possible. Given that the GuC effectively dies on such a situation, it
-is not possible to get a guilty context notification back. So do a
-manual search instead. Given that GuC is dead, this is safe because
-GuC won't be changing the engine state asynchronously.
+For understanding bug reports, it can be useful to have an explicit
+dmesg print when a reset notification is received from GuC. As opposed
+to simply inferring that this happened from other messages.
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 ---
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c   | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index b436dd7f12e42..99d09e3394597 100644
+index 99d09e3394597..0be7c27a436dd 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -4754,11 +4754,24 @@ static void reset_fail_worker_func(struct work_struct *w)
- 	guc->submission_state.reset_fail_mask = 0;
- 	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+@@ -4665,6 +4665,10 @@ static void guc_handle_context_reset(struct intel_guc *guc,
+ {
+ 	trace_intel_context_reset(ce);
  
--	if (likely(reset_fail_mask))
-+	if (likely(reset_fail_mask)) {
-+		struct intel_engine_cs *engine;
-+		enum intel_engine_id id;
++	drm_dbg(&guc_to_gt(guc)->i915->drm, "Got GuC reset of 0x%04X, exiting = %d, banned = %d\n",
++		ce->guc_id.id, test_bit(CONTEXT_EXITING, &ce->flags),
++		test_bit(CONTEXT_BANNED, &ce->flags));
 +
-+		/*
-+		 * GuC is toast at this point - it dead loops after sending the failed
-+		 * reset notification. So need to manually determine the guilty context.
-+		 * Note that it should be safe/reliable to do this here because the GuC
-+		 * is toast and will not be scheduling behind the KMD's back.
-+		 */
-+		for_each_engine_masked(engine, gt, reset_fail_mask, id)
-+			intel_guc_find_hung_context(engine);
-+
- 		intel_gt_handle_error(gt, reset_fail_mask,
- 				      I915_ERROR_CAPTURE,
--				      "GuC failed to reset engine mask=0x%x\n",
-+				      "GuC failed to reset engine mask=0x%x",
- 				      reset_fail_mask);
-+	}
- }
- 
- int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
+ 	if (likely(intel_context_is_schedulable(ce))) {
+ 		capture_error_state(guc, ce);
+ 		guc_context_replay(ce);
 -- 
 2.39.0
 
