@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5336667D3
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 01:37:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE0A6667D4
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 01:37:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 753CD10E841;
-	Thu, 12 Jan 2023 00:37:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DDAF10E83E;
+	Thu, 12 Jan 2023 00:37:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4588E10E2C1;
- Thu, 12 Jan 2023 00:37:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7FC710E2D0;
+ Thu, 12 Jan 2023 00:37:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673483830; x=1705019830;
+ t=1673483831; x=1705019831;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=5ALdp5m4zJK4j40J6RgfsW0Df3XImqncrm7b3PrJivg=;
- b=mA8IJMwS9bRpTr0eh1yZS27NDacpNls9YcCSQ5bBbzl19vNwSd6a3tll
- JU1giJXFqS7+GZJgT71/N1Li35GpEgzwSplL3auQFUW96YtC2oHmpmYgl
- DEJL2vXx6S4l7lrbEr4PGAyarrDJSETfF9eGb+yabYDj9cmfT4PCHMIVa
- HUsGPDBYdo1hRmUbuh6LlmYeEw/LnMj28Tiuaw3hVj5dON6nyfTLoK0kc
- n1dUeIiHyGZZwuCRO8SsJA9hGM70ffA306WtCHr0Rnnbmngvc4OQBXoXL
- VHewyzKHRo/aZYvKY2RsDNzSCDiq+6Ckj1ZJhRzDH9FNJAy8KlW6YHqfL w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="303271470"
-X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="303271470"
+ bh=j+mkL5K1cfdTcTY3q3jasf0ic8q8wUSIm4/DghnhMJ4=;
+ b=gqFSVcadvLY6lLgGWeMW8V8+zBptpdthkaJttPdaEGu0ppz7Ij0pDF18
+ WpXH7aVv0MP/IJTVP5xZ+py7Ogjig5DhfbMLvTI9thjfAX84Wu8ipDJRq
+ x+ZSRhEy4vFowk8LpgZT6nQJikUMJW9Wpun2XqLqBwHyOmikmI9DOoCbz
+ fjR//aqrpMySScAPW949wjRLYANnSuYbU8xvcWkSgQj6SC5l7xBKoTgNK
+ 0oWYpd6okmUtQddS1zW6uUxL995KKU7i/EXpR0pEo1lbeleRxDCdUN5fO
+ Z9Sz65pZccAJvAOzJ9J0E+t+E45KrIpG0482/H0F7h+DGbKk3pS94YRZ3 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="303271477"
+X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="303271477"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2023 16:37:09 -0800
+ 11 Jan 2023 16:37:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="635179834"
-X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="635179834"
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="635179855"
+X-IronPort-AV: E=Sophos;i="5.96,318,1665471600"; d="scan'208";a="635179855"
 Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by orsmga006.jf.intel.com with ESMTP; 11 Jan 2023 16:37:09 -0800
+ by orsmga006.jf.intel.com with ESMTP; 11 Jan 2023 16:37:10 -0800
 From: Alan Previn <alan.previn.teres.alexis@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 1/6] mei: mei-me: resume device in prepare
-Date: Wed, 11 Jan 2023 16:37:01 -0800
-Message-Id: <20230112003706.950931-2-alan.previn.teres.alexis@intel.com>
+Subject: [PATCH v4 2/6] drm/i915/pxp: add device link between i915 and mei_pxp
+Date: Wed, 11 Jan 2023 16:37:02 -0800
+Message-Id: <20230112003706.950931-3-alan.previn.teres.alexis@intel.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230112003706.950931-1-alan.previn.teres.alexis@intel.com>
 References: <20230112003706.950931-1-alan.previn.teres.alexis@intel.com>
@@ -70,64 +70,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alexander Usyskin <alexander.usyskin@intel.com>
 
-Asynchronous runtime resume is not possible while the system
-is suspending.
-The power management subsystem resumes the device only in the
-suspend phase, not in the prepare phase.
-Force resume device in prepare to allow drivers on mei bus
-to communicate in their prepare callbacks.
+Add device link with i915 as consumer and mei_pxp as supplier
+to ensure proper ordering of power flows.
+
+V2: condition on absence of heci_pxp to filter out DG
 
 Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
 Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 ---
- drivers/misc/mei/pci-me.c | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/misc/mei/pci-me.c b/drivers/misc/mei/pci-me.c
-index 704cd0caa172..4280759739f0 100644
---- a/drivers/misc/mei/pci-me.c
-+++ b/drivers/misc/mei/pci-me.c
-@@ -340,6 +340,12 @@ static void mei_me_remove(struct pci_dev *pdev)
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+index d50354bfb993..bef6d7f8ac55 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+@@ -127,6 +127,10 @@ static int i915_pxp_tee_component_bind(struct device *i915_kdev,
+ 	intel_wakeref_t wakeref;
+ 	int ret = 0;
+ 
++	if (!HAS_HECI_PXP(i915) &&
++	    drm_WARN_ON(&i915->drm, !device_link_add(i915_kdev, tee_kdev, DL_FLAG_STATELESS)))
++		return -ENOMEM;
++
+ 	mutex_lock(&pxp->tee_mutex);
+ 	pxp->pxp_component = data;
+ 	pxp->pxp_component->tee_dev = tee_kdev;
+@@ -169,6 +173,9 @@ static void i915_pxp_tee_component_unbind(struct device *i915_kdev,
+ 	mutex_lock(&pxp->tee_mutex);
+ 	pxp->pxp_component = NULL;
+ 	mutex_unlock(&pxp->tee_mutex);
++
++	if (!HAS_HECI_PXP(i915))
++		device_link_remove(i915_kdev, tee_kdev);
  }
  
- #ifdef CONFIG_PM_SLEEP
-+static int mei_me_pci_prepare(struct device *device)
-+{
-+	pm_runtime_resume(device);
-+	return 0;
-+}
-+
- static int mei_me_pci_suspend(struct device *device)
- {
- 	struct pci_dev *pdev = to_pci_dev(device);
-@@ -396,7 +402,17 @@ static int mei_me_pci_resume(struct device *device)
- 
- 	return 0;
- }
--#endif /* CONFIG_PM_SLEEP */
-+
-+static void mei_me_pci_complete(struct device *device)
-+{
-+	pm_runtime_suspend(device);
-+}
-+#else /* CONFIG_PM_SLEEP */
-+
-+#define mei_me_pci_prepare NULL
-+#define mei_me_pci_suspend NULL
-+
-+#endif /* !CONFIG_PM_SLEEP */
- 
- #ifdef CONFIG_PM
- static int mei_me_pm_runtime_idle(struct device *device)
-@@ -499,6 +515,8 @@ static inline void mei_me_unset_pm_domain(struct mei_device *dev)
- }
- 
- static const struct dev_pm_ops mei_me_pm_ops = {
-+	.prepare = mei_me_pci_prepare,
-+	.complete = mei_me_pci_complete,
- 	SET_SYSTEM_SLEEP_PM_OPS(mei_me_pci_suspend,
- 				mei_me_pci_resume)
- 	SET_RUNTIME_PM_OPS(
+ static const struct component_ops i915_pxp_tee_component_ops = {
 -- 
 2.39.0
 
