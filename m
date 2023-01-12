@@ -1,80 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C973E666BE4
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 08:56:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 720EC666C2D
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 09:13:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB38810E88B;
-	Thu, 12 Jan 2023 07:56:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79CE810E89B;
+	Thu, 12 Jan 2023 08:13:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com
- [IPv6:2607:f8b0:4864:20::549])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D83010E88B
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 07:56:35 +0000 (UTC)
-Received: by mail-pg1-x549.google.com with SMTP id
- g18-20020a63f412000000b004aef17e314cso6231413pgi.21
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 23:56:35 -0800 (PST)
+Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com
+ [IPv6:2607:f8b0:4864:20::104a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4258410E8AA
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 08:13:40 +0000 (UTC)
+Received: by mail-pj1-x104a.google.com with SMTP id
+ b16-20020a17090a551000b00225aa26f1dbso7678557pji.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 00:13:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=to:from:subject:message-id:references:mime-version:in-reply-to:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Vg6nAgYjZ4wYYlTqMF3jbo791ipG8SuFLzs8v41dmTI=;
- b=kL0UvQite/urbN7Yp3NlzfzFTECRjRM1K7T5g4ZxG3zHylBlslAyzr6qxrAi9aysJM
- RDeACOZIgRrgriXoR4Pb3FUm6siAnl76A15BakL+7xmzzyJYvBrIKvFGmqzOdrHuLyHw
- eLCWL5a84U7mTNiiuZkhyyW//9BsTntHFbTMWG3xqNxmoxumrT4tac24HiqQmCacQxb7
- hWUb45XPnPy09DrO6jQeVMIxbVjfhO/QXKCL83ehtKjjTMjBps8fFK6gPa75SmpeTyw8
- vcf4DzdsP5Yv5ETLXzCGGp7Lotol2entUVESDqjWMyWKfU3XQsKSss8PleO3BkZomuWi
- ioIg==
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=VWdRXf2+F3B6naWulQRoVncCtgT+T33N/C9h1MKyUek=;
+ b=RGhd7Gam36sQbHlynE0qAtHIsyX4aCLddPEY2Ot/Dgnedc14Puqc+N15BF4HB1+p/F
+ EyiFI8PkNHaolrVoe7QK5BM3CZp8vk6W4pTXG5t695yYCvf//btA1VGQaXM5Z9EWJrrS
+ xLHhPHGK7LgyKGGfWBnGBtXkZ8Wr4/C7eaUCkaE01oIFkojxBDOH6PCPZu8BNx5Djp6V
+ IfwRrmeF7rOuyASGIPSCTwqUXba95DqJIXmf+I/r32QKtPTm9Z4todzk318w55UFVqKx
+ +j/E0vEN9DOhznh8mKC4jQPd/KfjI32B1A83D6ZGmdcx152TXiUUGw3Pro8wO5zpPEJ8
+ n0bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=to:from:subject:message-id:references:mime-version:in-reply-to:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Vg6nAgYjZ4wYYlTqMF3jbo791ipG8SuFLzs8v41dmTI=;
- b=KBpE8aAkBAJpWUyXPwqD7hwX3BUt6L/6edbzwo271xZ/XmOPj7apkj5smekmkLBWUr
- oOPV1pVkd6aoHQGFux1Posc2NPbEPuNz9P/PuzwIOPoZOGOtDkXicHd/9ZTHugqCZUI3
- ftQiItDOpNBT5nPr1ilxI0uN3SQmfeTYUj/7Q6mjDGLpleKgZc7tK4HpWvt/xXw9PBGZ
- C0Cz4aVIm1+1KGLyES7QkXo8MRkS/H5wIJhNWdG5LSQAYRo+t65GGnx9XM/beY7Arsl4
- AHfJPfutBuK44k7MS6TLYIeGj7nfUE9WhE1D5DfbpH/sqQWrZpb5Wo4UL7SYElADo/KS
- u+HA==
-X-Gm-Message-State: AFqh2kqZx4c38nceyxXKdjxA/nF+HNA5aByEaTP+IFsBHky3jrby2Opt
- B0JmsyUjayS08HvBZ4joas0xkWDbR0+85Q==
-X-Google-Smtp-Source: AMrXdXv29WhmagcsXxW5VJTVWoRrJdV9U6Gev8NYUGOd+PwEKkvAbufkJGb0qU84S3rueo4liZ5Ei6F1OKpY1Q==
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VWdRXf2+F3B6naWulQRoVncCtgT+T33N/C9h1MKyUek=;
+ b=UAJXcI/4qi8/IQjjYGg1eLnpGFK/bzUwpcp5QUSIGb7VJ4gsTaETxD1bmPj1bRmpM4
+ rqAHsRpyXpk2tgFRnM+xlr/bnrnkVQlxKYRPvel9kr6gomdvr86id+/YPJciLS7GFl13
+ JeXxPPB7zX/yYQQ62miyIUqzJolmhFCeZ2EOEiEYk7EhlxIyk+Kn7M/lOu/hFXQshFIy
+ F2mjxQBFQIE49DbNk8oB0QQAKwrOpm7AXpXXXGTAwweZ2mUaaZko0iNdRldOatoxTzWM
+ cA1dGzYn7mG54DCWkFK4pAkG7ougiorf8gRdeWebpmiUx8O1Mli8/U+19KeJUDS0odiL
+ FqsQ==
+X-Gm-Message-State: AFqh2kq03kCbbqoKwA/RFGFjG2wkjMIip4ug/ACx007WoNn6qB0q//zh
+ BkpZoynXL1rx7z3QtFvlh2A5MfF52sOCPg==
+X-Google-Smtp-Source: AMrXdXsnUERgCx1wBY/PUV43pyxeJkOgHSEhh4R8ej3lO942bcK1tz6HE+NyNfEUpzC5WGguaBo2zTGHvm8JZA==
 X-Received: from shakeelb.c.googlers.com
  ([fda3:e722:ac3:cc00:7f:e700:c0a8:262e])
- (user=shakeelb job=sendgmr) by 2002:a62:1488:0:b0:581:85ab:16b3 with SMTP id
- 130-20020a621488000000b0058185ab16b3mr4558933pfu.67.1673510194669; Wed, 11
- Jan 2023 23:56:34 -0800 (PST)
-Date: Thu, 12 Jan 2023 07:56:31 +0000
-In-Reply-To: <Y78+rfzXPq5XGs9O@phenom.ffwll.local>
+ (user=shakeelb job=sendgmr) by 2002:a05:6a00:1244:b0:56b:8181:fe3e with SMTP
+ id u4-20020a056a00124400b0056b8181fe3emr5060573pfi.57.1673511219777; Thu, 12
+ Jan 2023 00:13:39 -0800 (PST)
+Date: Thu, 12 Jan 2023 08:13:37 +0000
+In-Reply-To: <CABdmKX0TAv=iRz0s+F6dVVX=xsK00BeUPkRM4bnsfemDAY9U4w@mail.gmail.com>
 Mime-Version: 1.0
 References: <20230109213809.418135-1-tjmercier@google.com>
  <CALvZod4ru7F38tAO-gM9ZFKaEhS0w3KqFbPwhwcTvgJs4xMUow@mail.gmail.com>
  <Y78+rfzXPq5XGs9O@phenom.ffwll.local>
-Message-ID: <20230112075631.wc6fd54ci55drhkp@google.com>
+ <CABdmKX0TAv=iRz0s+F6dVVX=xsK00BeUPkRM4bnsfemDAY9U4w@mail.gmail.com>
+Message-ID: <20230112081337.fxgnhdk44mxu26et@google.com>
 Subject: Re: [PATCH 0/4] Track exported dma-buffers with memcg
 From: Shakeel Butt <shakeelb@google.com>
-To: "T.J. Mercier" <tjmercier@google.com>, Tejun Heo <tj@kernel.org>, 
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Arve =?utf-8?B?SGrDuG5uZXbDpWc=?=" <arve@android.com>,
- Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, 
- Joel Fernandes <joel@joelfernandes.org>, Christian Brauner <brauner@kernel.org>,
- Carlos Llamas <cmllamas@google.com>, Suren Baghdasaryan <surenb@google.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- "Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>,
- Michal Hocko <mhocko@kernel.org>, 
- Roman Gushchin <roman.gushchin@linux.dev>, Muchun Song <muchun.song@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>, Paul Moore <paul@paul-moore.com>, 
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Eric Paris <eparis@parisplace.org>, 
- android-mm@google.com, jstultz@google.com, cgroups@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, 
- linux-security-module@vger.kernel.org, selinux@vger.kernel.org
+To: "T.J. Mercier" <tjmercier@google.com>
 Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,34 +69,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-doc@vger.kernel.org, daniel.vetter@ffwll.ch,
+ Roman Gushchin <roman.gushchin@linux.dev>, Carlos Llamas <cmllamas@google.com>,
+ dri-devel@lists.freedesktop.org, Michal Hocko <mhocko@kernel.org>,
+ linux-mm@kvack.org, jstultz@google.com, Zefan Li <lizefan.x@bytedance.com>,
+ cgroups@vger.kernel.org, Joel Fernandes <joel@joelfernandes.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, android-mm@google.com,
+ Paul Moore <paul@paul-moore.com>, Jonathan Corbet <corbet@lwn.net>,
+ Martijn Coenen <maco@android.com>, James Morris <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>, Todd Kjos <tkjos@android.com>,
+ selinux@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Eric Paris <eparis@parisplace.org>, Suren Baghdasaryan <surenb@google.com>,
+ Christian Brauner <brauner@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Muchun Song <muchun.song@linux.dev>, linux-security-module@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Arve =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-media@vger.kernel.org,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 11, 2023 at 11:56:45PM +0100, Daniel Vetter wrote:
+On Wed, Jan 11, 2023 at 04:49:36PM -0800, T.J. Mercier wrote:
 > 
 [...]
-> I think eventually, at least for other "account gpu stuff in cgroups" use
-> case we do want to actually charge the memory.
+> > The problem is a bit that with gpu allocations reclaim is essentially "we
+> > pass the error to userspace and they get to sort the mess out". There are
+> > some exceptions (some gpu drivers to have shrinkers) would we need to make
+> > sure these shrinkers are tied into the cgroup stuff before we could enable
+> > charging for them?
+> >
+> I'm also not sure that we can depend on the dmabuf being backed at
+> export time 100% of the time? (They are for dmabuf heaps.) If not,
+> that'd make calling the existing memcg folio based functions a bit
+> difficult.
 > 
-> The problem is a bit that with gpu allocations reclaim is essentially "we
-> pass the error to userspace and they get to sort the mess out". There are
-> some exceptions (some gpu drivers to have shrinkers) would we need to make
-> sure these shrinkers are tied into the cgroup stuff before we could enable
-> charging for them?
-> 
 
-No, there is no requirement to have shrinkers or making such memory
-reclaimable before charging it. Though existing shrinkers and the
-possible future shrinkers would need to be converted into memcg aware
-shrinkers.
-
-Though there will be a need to update user expectations that if they 
-use memcgs with hard limits, they may start seeing memcg OOMs after the
-charging of dmabuf.
-
-> Also note that at least from the gpu driver side this is all a huge
-> endeavour, so if we can split up the steps as much as possible (and get
-> something interim useable that doesn't break stuff ofc), that is
-> practically need to make headway here. 
-
-This sounds reasonable to me.
+Where does the actual memory get allocated? I see the first patch is
+updating the stat in dma_buf_export() and dma_buf_release(). Does the
+memory get allocated and freed in those code paths?
