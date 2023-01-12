@@ -2,45 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C8C667169
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 12:57:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC13667184
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 13:02:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C195710E1AE;
-	Thu, 12 Jan 2023 11:57:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B44A810E2E1;
+	Thu, 12 Jan 2023 12:02:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACF8110E1AE
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 11:57:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=Nn+6E23P6RNGiwUD+6hEYUMOp6Ufqytp79bVgU/+tww=; b=evv4CRX3obk0vRwYdlGVwkS3Gv
- aUZ0c215dgylANSYMNnn+vdaAQGbQb1aaT+ZIpaO+TwrXQOjAxpTrFs7YykZif4l5N+gEO8Zid4OS
- 0Yz7JL8BFvw+gI2BsWLO6egv0AG2VpdWCqGLhAuwUceqm3UkyfrSbQK2tvfGrUWWuGejLz/v5lTdT
- KpgOs1sKWIo3aEmGwxF+wWE+LKjeXikS+CgoEjDEEFK0LtE2oFZw4IjptfnanyTjMNNqTT4RjoYBx
- /JYqpvIYSkk5nQoU5RWwLl5mhB5NznHI9G71dQQJx4Q4GWLxzdw2lpxpw1EbW2Irw7ic4fqun97P2
- TtPg6ZHw==;
-Received: from [38.44.66.31] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pFwCq-006HcG-In; Thu, 12 Jan 2023 12:57:16 +0100
-Date: Thu, 12 Jan 2023 10:57:13 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH v3] drm/vkms: reintroduce prepare_fb and cleanup_fb
- functions
-Message-ID: <20230112115713.6wlw5pmvzrboviqj@mail.igalia.com>
-References: <20230111131304.106039-1-mcanal@igalia.com>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2055.outbound.protection.outlook.com [40.107.237.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19EA210E2DC;
+ Thu, 12 Jan 2023 12:02:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EGdiAHuYW538ujIVU915wYytFGabDAmPgXaasTtefL1iYZcev9d0trkaLNUKRkjeVDiXO3iEv9Pu2KWkXbDala3VbJKkWZGTd+7ZQqTUWggryPSOFvmzvtUXAwd3yjFKcu75M1YXRMrdsO8RyRS8FPWIKamy07a8jkoszBI14Kg34THUR/ZhGPLVwPCL1ca+mGkWmAJOUtw85oeoJl/J9nMjUYT9fUJUz9Aj2GAyLcHIHowQUBv9s67A3mKhUkf2kWFANKGN0oH2d0WjH1eLUE46osaXUilqbsn5PbMPxo/D9tNWZaTdUPNli8QeBH+QkW/CPzKf+c148UCxiqNt0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NdbUzn8q0xGKlgY0mobVpFoHgdmzv3lyen7jbdpyfC8=;
+ b=J2RHQ5mXayr6/RCtqmDV1OrgF74v4pzRNIODPqUjOfq51sG27JYXacTj4+aQijJs/qHyX06uDYiPbWnbdsKnfw7GrpL9SxEp+telQivM022CAdZZAvgK8HeSeiJfTxNP3RZUhU4O/Ek11PYnYT34WrCVNqRjZWzftw4Kgt48tZeel+B7NyJtxXGJ4bct/NPgJfT2a1o5Y/BP5NGiQOGKxLI753aIzjFea2oAukDLgdA11jceO9W2iYcFpU1wDJuMqKkug+OgO+9tyCTd6lV0TCb+/fq2HM0D8Vs+OtZGs8hmQOLphWJzqSu1hsYpmnG7ZqDDVwfMbPMtC/2gBZ9tUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NdbUzn8q0xGKlgY0mobVpFoHgdmzv3lyen7jbdpyfC8=;
+ b=fssBo51YX1LOijaubKiU4p2er+aSwoUdHs9YZ7Jrgv5y3p1yWi2gHqklP0sR9iXFC+mzAYU93F3UwXJdchiHcNQ7wXMdSPJK8RklUUuDtGuDukYOe34Ee7DfmHYBEbnjMWBAVgOmWVzwXgxA7e90r8hplODx0B83uGEcMu/5X0g=
+Received: from CY5PR04CA0018.namprd04.prod.outlook.com (2603:10b6:930:1e::31)
+ by BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.19; Thu, 12 Jan
+ 2023 12:02:06 +0000
+Received: from CY4PEPF0000C96F.namprd02.prod.outlook.com
+ (2603:10b6:930:1e:cafe::17) by CY5PR04CA0018.outlook.office365.com
+ (2603:10b6:930:1e::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13 via Frontend
+ Transport; Thu, 12 Jan 2023 12:02:06 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CY4PEPF0000C96F.mail.protection.outlook.com (10.167.242.7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6002.11 via Frontend Transport; Thu, 12 Jan 2023 12:02:06 +0000
+Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Thu, 12 Jan 2023 06:02:04 -0600
+From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <amd-gfx@lists.freedesktop.org>, <matthew.auld@intel.com>,
+ <christian.koenig@amd.com>, <alexander.deucher@amd.com>
+Subject: [PATCH v2] drm: Optimize drm buddy top-down allocation method
+Date: Thu, 12 Jan 2023 04:00:27 -0800
+Message-ID: <20230112120027.3072-1-Arunpravin.PaneerSelvam@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="qakfrsz2od7pjlea"
-Content-Disposition: inline
-In-Reply-To: <20230111131304.106039-1-mcanal@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000C96F:EE_|BL1PR12MB5874:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1dce6029-037f-4b75-ba66-08daf494d377
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: E8nC50UPsvZOxviT62v4vDPs7By2RAzXj9L/Y8nG9L2tE5zpGgpBuSZSOKrqSbwm64iHcpHKrk7ZntmJs6zHUn9TJxbIGbhnRS0vcLtD6tce9y4cFJwz+nS6/mtzyI1TBgzyX+LhKVmnOSUPOxoUNzef23UgLIRHTUQXrVMrl981Lfw2zJ5ekNYKszWH0GAktHroxdse5CrP9guRhLpM2TiNhvbR/mT76T45nb9araXf6ualhA4vuvPbxFqIxnD8zimaojZPQzrxeBDtwxyHNP3QTm/KVv9VFXVuvekwUIY1fu9JEpnIx+RJsVrbzjqyfx1EzSGxISIcu/JIinrEQ1tYIw7n9NYVZ870IeOo3TQ0KwQC5CHuPnTVNUgJbxdJZb9qa00cifc/aLcOQmer04o677URFu9gHUDywPcFtV3S2M+uFkhXABDKQXVGpBCe256liG4UjZftpKCc1oHIffAWnC3sHCpqbP15NojvyMeGXO2RnD/xqKpPG942U+/AvjGac2VHmEST3eCIHrsUWp+hLcihq1ADO7Qsb2/DxJaVdWeytlqmgtu3r16aYuRJy0WAEWCsVGzNBhas25XFSvn50ljLZfAB+dEyLugjRtd0q7jadQYxESQ2b4w4CJKEdK2ZX2IzPb3Kn3xib0W+wanleQdmdAidwOSN2F03eG+XWklx+WFDA5wDpZJN2DJN1gT7uMKfz3hlxoqOOh5Ivq6hs2yIGLpFiyYnCuwz81s=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(396003)(39860400002)(346002)(376002)(136003)(451199015)(46966006)(40470700004)(36840700001)(8936002)(5660300002)(83380400001)(41300700001)(426003)(47076005)(66574015)(81166007)(86362001)(82740400003)(82310400005)(356005)(36756003)(40460700003)(2906002)(40480700001)(36860700001)(478600001)(26005)(186003)(7696005)(16526019)(336012)(8676002)(4326008)(70586007)(70206006)(316002)(1076003)(110136005)(2616005)(6636002)(6666004)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2023 12:02:06.5428 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1dce6029-037f-4b75-ba66-08daf494d377
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000C96F.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5874
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,185 +100,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Melissa Wen <melissa.srw@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+We are observing performance drop in many usecases which include
+games, 3D benchmark applications,etc.. To solve this problem, We
+are strictly not allowing top down flag enabled allocations to
+steal the memory space from cpu visible region.
 
---qakfrsz2od7pjlea
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The idea is, we are sorting each order list entries in
+ascending order and compare the last entry of each order
+list in the freelist and return the max block.
 
-On 01/11, Ma=EDra Canal wrote:
-> With commit 359c6649cd9a ("drm/gem: Implement shadow-plane {begin,
-> end}_fb_access with vmap"), the behavior of the shadow-plane helpers
-> changed and the vunmap is now performed at the end of
-> the current pageflip, instead of the end of the following pageflip.
+This patch improves the 3D benchmark scores and solves
+fragmentation issues.
 
-Applied to drm-misc-next.
+All drm buddy selftests are verfied.
+drm_buddy: pass:6 fail:0 skip:0 total:6
 
-Thank you,
+Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Acked-by: Christian König <christian.koenig@amd.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+---
+ drivers/gpu/drm/drm_buddy.c | 81 ++++++++++++++++++++++++-------------
+ 1 file changed, 54 insertions(+), 27 deletions(-)
 
-Melissa
-
->=20
-> By performing the vunmap at the end of the current pageflip, invalid
-> memory is accessed by the vkms during the plane composition, as the data
-> is being unmapped before being used, as reported by the following
-> warning:
->=20
->  [  275.866047] BUG: unable to handle page fault for address: ffffb382814=
-e8002
->  [  275.866055] #PF: supervisor read access in kernel mode
->  [  275.866058] #PF: error_code(0x0000) - not-present page
->  [  275.866061] PGD 1000067 P4D 1000067 PUD 110a067 PMD 46e3067 PTE 0
->  [  275.866066] Oops: 0000 [#1] PREEMPT SMP PTI
->  [  275.866070] CPU: 2 PID: 49 Comm: kworker/u8:2 Not tainted 6.1.0-rc6-0=
-0018-gb357e7ac1b73-dirty #54
->  [  275.866074] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BI=
-OS 1.16.1-2.fc37 04/01/2014
->  [  275.866076] Workqueue: vkms_composer vkms_composer_worker [vkms]
->  [  275.866084] RIP: 0010:XRGB8888_to_argb_u16+0x5c/0xa0 [vkms]
->  [  275.866092] Code: bf 56 0a 0f af 56 70 48 8b 76 28 01 ca 49 83 f8 02
->  41 b9 01 00 00 00 4d 0f 43 c8 48 01 f2 48 83 c2 02 31 f6 66 c7 04 f0 ff
->  ff <0f> b6 0c b2 89 cf c1 e7 08 09 cf 66 89 7c f0 02 0f b6 4c b2 ff 89
->  [  275.866095] RSP: 0018:ffffb382801b7db0 EFLAGS: 00010246
->  [  275.866098] RAX: ffff896336ace000 RBX: ffff896310e293c0 RCX: 00000000=
-00000000
->  [  275.866101] RDX: ffffb382814e8002 RSI: 0000000000000000 RDI: ffffb382=
-801b7de8
->  [  275.866103] RBP: 0000000000001400 R08: 0000000000000280 R09: 00000000=
-00000280
->  [  275.866105] R10: 0000000000000010 R11: ffffffffc011d990 R12: ffff8963=
-02a1ece0
->  [  275.866107] R13: 0000000000000000 R14: 0000000000000000 R15: 00000000=
-80008001
->  [  275.866109] FS:  0000000000000000(0000) GS:ffff89637dd00000(0000) knl=
-GS:0000000000000000
->  [  275.866112] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->  [  275.866114] CR2: ffffb382814e8002 CR3: 0000000003bb4000 CR4: 00000000=
-000006e0
->  [  275.866120] Call Trace:
->  [  275.866123]  <TASK>
->  [  275.866124]  compose_active_planes+0x1c4/0x380 [vkms]
->  [  275.866132]  vkms_composer_worker+0x9f/0x130 [vkms]
->  [  275.866139]  process_one_work+0x1c0/0x370
->  [  275.866160]  worker_thread+0x221/0x410
->  [  275.866164]  ? worker_clr_flags+0x50/0x50
->  [  275.866167]  kthread+0xe1/0x100
->  [  275.866172]  ? kthread_blkcg+0x30/0x30
->  [  275.866176]  ret_from_fork+0x22/0x30
->  [  275.866181]  </TASK>
->  [  275.866182] Modules linked in: vkms
->  [  275.866186] CR2: ffffb382814e8002
->  [  275.866191] ---[ end trace 0000000000000000 ]---
->=20
-> Therefore, introduce again prepare_fb and cleanup_fb functions to the
-> vkms, which were previously removed on commit b43e2ec03b0d ("drm/vkms:
-> Let shadow-plane helpers prepare the plane's FB").
->=20
-> Fixes: 359c6649cd9a ("drm/gem: Implement shadow-plane {begin, end}_fb_acc=
-ess with vmap")
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Ma=EDra Canal <mcanal@igalia.com>
-> ---
-> v1 -> v2: https://lore.kernel.org/dri-devel/19951367-2ef0-0f26-ddf0-89325=
-9d9a5ef@igalia.com/T/
->=20
-> - Add kernel oops to the commit description (Melissa Wen).
-> - s/introduce/reintroduce/ in the title (Melissa Wen).
-> - Add Thomas's Acked-by.
->=20
-> v2 -> v3: https://lore.kernel.org/dri-devel/20230106115759.213710-1-mcana=
-l@igalia.com/T/
->=20
-> - Add Daniel's Reviewed-by.
-> - Resend patch due to corrupted mailbox.
-> ---
->  drivers/gpu/drm/vkms/vkms_plane.c | 36 ++++++++++++++++++++++++++++++-
->  1 file changed, 35 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkm=
-s_plane.c
-> index c3a845220e10..b3f8a115cc23 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -160,10 +160,44 @@ static int vkms_plane_atomic_check(struct drm_plane=
- *plane,
->  	return 0;
->  }
-> =20
-> +static int vkms_prepare_fb(struct drm_plane *plane,
-> +			   struct drm_plane_state *state)
-> +{
-> +	struct drm_shadow_plane_state *shadow_plane_state;
-> +	struct drm_framebuffer *fb =3D state->fb;
-> +	int ret;
-> +
-> +	if (!fb)
-> +		return 0;
-> +
-> +	shadow_plane_state =3D to_drm_shadow_plane_state(state);
-> +
-> +	ret =3D drm_gem_plane_helper_prepare_fb(plane, state);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return drm_gem_fb_vmap(fb, shadow_plane_state->map, shadow_plane_state-=
->data);
-> +}
-> +
-> +static void vkms_cleanup_fb(struct drm_plane *plane,
-> +			    struct drm_plane_state *state)
-> +{
-> +	struct drm_shadow_plane_state *shadow_plane_state;
-> +	struct drm_framebuffer *fb =3D state->fb;
-> +
-> +	if (!fb)
-> +		return;
-> +
-> +	shadow_plane_state =3D to_drm_shadow_plane_state(state);
-> +
-> +	drm_gem_fb_vunmap(fb, shadow_plane_state->map);
-> +}
-> +
->  static const struct drm_plane_helper_funcs vkms_primary_helper_funcs =3D=
+diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+index 11bb59399471..3d1f50f481cf 100644
+--- a/drivers/gpu/drm/drm_buddy.c
++++ b/drivers/gpu/drm/drm_buddy.c
+@@ -38,6 +38,25 @@ static void drm_block_free(struct drm_buddy *mm,
+ 	kmem_cache_free(slab_blocks, block);
+ }
+ 
++static void list_insert_sorted(struct drm_buddy *mm,
++			       struct drm_buddy_block *block)
++{
++	struct drm_buddy_block *node;
++	struct list_head *head;
++
++	head = &mm->free_list[drm_buddy_block_order(block)];
++	if (list_empty(head)) {
++		list_add(&block->link, head);
++		return;
++	}
++
++	list_for_each_entry(node, head, link)
++		if (drm_buddy_block_offset(block) < drm_buddy_block_offset(node))
++			break;
++
++	__list_add(&block->link, node->link.prev, &node->link);
++}
++
+ static void mark_allocated(struct drm_buddy_block *block)
  {
->  	.atomic_update		=3D vkms_plane_atomic_update,
->  	.atomic_check		=3D vkms_plane_atomic_check,
-> -	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
-> +	.prepare_fb		=3D vkms_prepare_fb,
-> +	.cleanup_fb		=3D vkms_cleanup_fb,
->  };
-> =20
->  struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
-> --=20
-> 2.39.0
->=20
+ 	block->header &= ~DRM_BUDDY_HEADER_STATE;
+@@ -52,8 +71,7 @@ static void mark_free(struct drm_buddy *mm,
+ 	block->header &= ~DRM_BUDDY_HEADER_STATE;
+ 	block->header |= DRM_BUDDY_FREE;
+ 
+-	list_add(&block->link,
+-		 &mm->free_list[drm_buddy_block_order(block)]);
++	list_insert_sorted(mm, block);
+ }
+ 
+ static void mark_split(struct drm_buddy_block *block)
+@@ -387,20 +405,26 @@ alloc_range_bias(struct drm_buddy *mm,
+ }
+ 
+ static struct drm_buddy_block *
+-get_maxblock(struct list_head *head)
++get_maxblock(struct drm_buddy *mm, unsigned int order)
+ {
+ 	struct drm_buddy_block *max_block = NULL, *node;
++	unsigned int i;
+ 
+-	max_block = list_first_entry_or_null(head,
+-					     struct drm_buddy_block,
+-					     link);
+-	if (!max_block)
+-		return NULL;
++	for (i = order; i <= mm->max_order; ++i) {
++		if (!list_empty(&mm->free_list[i])) {
++			node = list_last_entry(&mm->free_list[i],
++					       struct drm_buddy_block,
++					       link);
++			if (!max_block) {
++				max_block = node;
++				continue;
++			}
+ 
+-	list_for_each_entry(node, head, link) {
+-		if (drm_buddy_block_offset(node) >
+-		    drm_buddy_block_offset(max_block))
+-			max_block = node;
++			if (drm_buddy_block_offset(node) >
++			    drm_buddy_block_offset(max_block)) {
++				max_block = node;
++			}
++		}
+ 	}
+ 
+ 	return max_block;
+@@ -412,20 +436,23 @@ alloc_from_freelist(struct drm_buddy *mm,
+ 		    unsigned long flags)
+ {
+ 	struct drm_buddy_block *block = NULL;
+-	unsigned int i;
++	unsigned int tmp;
+ 	int err;
+ 
+-	for (i = order; i <= mm->max_order; ++i) {
+-		if (flags & DRM_BUDDY_TOPDOWN_ALLOCATION) {
+-			block = get_maxblock(&mm->free_list[i]);
+-			if (block)
+-				break;
+-		} else {
+-			block = list_first_entry_or_null(&mm->free_list[i],
+-							 struct drm_buddy_block,
+-							 link);
+-			if (block)
+-				break;
++	if (flags & DRM_BUDDY_TOPDOWN_ALLOCATION) {
++		block = get_maxblock(mm, order);
++		if (block)
++			/* Store the obtained block order */
++			tmp = drm_buddy_block_order(block);
++	} else {
++		for (tmp = order; tmp <= mm->max_order; ++tmp) {
++			if (!list_empty(&mm->free_list[tmp])) {
++				block = list_last_entry(&mm->free_list[tmp],
++							struct drm_buddy_block,
++							link);
++				if (block)
++					break;
++			}
+ 		}
+ 	}
+ 
+@@ -434,18 +461,18 @@ alloc_from_freelist(struct drm_buddy *mm,
+ 
+ 	BUG_ON(!drm_buddy_block_is_free(block));
+ 
+-	while (i != order) {
++	while (tmp != order) {
+ 		err = split_block(mm, block);
+ 		if (unlikely(err))
+ 			goto err_undo;
+ 
+ 		block = block->right;
+-		i--;
++		tmp--;
+ 	}
+ 	return block;
+ 
+ err_undo:
+-	if (i != order)
++	if (tmp != order)
+ 		__drm_buddy_free(mm, block);
+ 	return ERR_PTR(err);
+ }
+-- 
+2.25.1
 
---qakfrsz2od7pjlea
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmO/9Y8ACgkQwqF3j0dL
-ehzbZA//X6qONBL/3Uykb4gvSB8Y2ek+vohQqR0LtzQqBeepmgnxlFQnN/dMkmMe
-AIZEXw2dOs4Gm9SArbLAjihOwOImkXCeE4vGssBh+5Tr7mdkefG3qAsofxXLHiJB
-SKMcgGDO1ropC6Y9FJcdz6SLWkz8yqH2BI++li8uTHuNKE2EDuuL/NPvxm++u3nt
-7ei3Q+dMKMYRA+xAx1dg0CgmfBxsEk1vmN7zxEu2m3K6d6xQjF8uBh0ckS4HL2ta
-da7CAccK403aGKOI/5oEu1vS+gCqREG585VHLDR8elMKq3seAXBT+bwvLLnn+DFa
-QDud1awAcR52AzKmeyClU4b5wgO5RDmiwE5Wz9kZDWz0X6BzREXg7cyxzaHr/N7J
-/NYzMeJHisqi9622/fD8wHIQz2C+lae13qSgevR5oB4AL9A/4x5vRVp13J7HQ2+F
-bjlVCS/01tBhNHXvHs4dfvTVoiPaV3uDa2xLflJWZDsV/pmHrolvpGwgPX0onSO9
-E5K3LmmooNvmZHrT8EEC3UnB4Dxf92RWzOn3ENnRc/hbKNEGetGQ/aM8fUvPgcsN
-0oPSjXDbqM1i8AUBjbrq2r4vgarkVACCvmpmPyTsJaJbvQO4tOspAz0OSpHQO37R
-XXn7mzxpYkvBOdmOwZ1FSbY5HluNuQZDtoaDowxTnEwGbYWXcew=
-=uQj6
------END PGP SIGNATURE-----
-
---qakfrsz2od7pjlea--
