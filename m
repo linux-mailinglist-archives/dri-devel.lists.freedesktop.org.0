@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F371E6678DC
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 16:15:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7841566792E
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 16:27:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2276110E8FD;
-	Thu, 12 Jan 2023 15:15:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8C4A10E8FE;
+	Thu, 12 Jan 2023 15:26:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EC6C10E8FA;
- Thu, 12 Jan 2023 15:15:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673536545; x=1705072545;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=CaqwCJk0BxQLF8PV6fkvnGQ7MUPP8D7L+hjQRSEkPys=;
- b=lGdR43SlwUpjpD8XieB7z/eOW0MPFaJmWf5nPh47qe0zbNDq53gsflhb
- u4UYpYY3tnafPH373ZyDHPPfDlO0mybCa8I8pg+MFkkFQdQwZVKRd2CcR
- nRtp6Ng+xQorQ7eX/3OW+yZIB34Cn1zqLCB+IYkBhnUHK+/JPGjhe2UZg
- eDYvDwWX7JsguET1J279shzJXwJ0jciUvfwUsg8X9h9e3sp6MsK2gtTpB
- mZhJ0pgT7tS3p9qoon5aWhtCr2Ta5eK6HG8EtM/muSS5qJ66itbUXrXWD
- IzrLoGywZOq4va5e9g3DF5+NEVsLKPnQZ4Q8hJQPH+873YtvjzWMQLCJ+ w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="409964149"
-X-IronPort-AV: E=Sophos;i="5.97,211,1669104000"; d="scan'208";a="409964149"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2023 07:15:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="688354477"
-X-IronPort-AV: E=Sophos;i="5.97,211,1669104000"; d="scan'208";a="688354477"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
- by orsmga008.jf.intel.com with SMTP; 12 Jan 2023 07:15:37 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 12 Jan 2023 17:15:36 +0200
-Date: Thu, 12 Jan 2023 17:15:36 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH 3/5] drm/i915: Remove redundant framebuffer format check
-Message-ID: <Y8AkGO/N2z2/XsEz@intel.com>
-References: <20230109105807.18172-1-mcanal@igalia.com>
- <20230109105807.18172-4-mcanal@igalia.com>
- <Y8AAdW2y7zN7DCUZ@intel.com>
- <345279ff-680a-52ac-73ed-29e2ab84f0ae@igalia.com>
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CACD510E8FE
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 15:26:57 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id w3so20577113ply.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 07:26:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=WVlLxH2Rj+8QSEZoiILadbKJQqSAUcthH+jBOnJMZHA=;
+ b=JftHModyBQyWOf9IbcHgv+wM+wAMjzeIgqay2Sc8xYfkI5JHsWwEEaR0BrMLIrDI0F
+ yxykKOAvVOboJ8Q3inG5JiMM5zD9V4Wn648fS3KtICCIxD5uZqOMV4/KjWnV0Hk62u/K
+ 0g4zOe1NM3yXUlV8A36BJ7zUBJLOFJCN2pqMQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WVlLxH2Rj+8QSEZoiILadbKJQqSAUcthH+jBOnJMZHA=;
+ b=7HF2fzIpg6TX5Qg4yFh6Thm89mrFqRBT7jM8kXjLi9kTh3NH0U/5Lh83OY1JyeFkBu
+ yaoHcgae4UMkJ9ZxOQfZIjiLkp1L9vuo7cK/YK99mfYQ3RT4S2M0YU4EnGdBgS56THyV
+ fl0/P5ENMOGgl8Wot27a7SRr/Ly+LfA/bV3ONb7rjLs4HE63CQ5aBjpwU7YFfAmyTE+e
+ ngQLI8zjSfOuzGitPQkQ6AKXkWeaHUs5CdHNIcAmqfKyvaOH/7TQFIVZDOhQsEHl8qSO
+ yz6CxH/3ZjrXE1PKHyy4MbojFh4Gi9TKiNfglV45P62UHoVq9WSQNN+hixWon9Awy6t+
+ XuMw==
+X-Gm-Message-State: AFqh2koH6BENTbpsbldsjmPpCzWAn1sWhFyIuHI9pwxdFaULlf75ffy0
+ 58q8H1isy3WJkb3D6rkKLLd481Czv02DpUu3ry1V5g==
+X-Google-Smtp-Source: AMrXdXszpIuyfj/mHnCEnh6uhFgYKDm3M6iMpGAaIQNcUe0iGzTUPpaT/7EySwmrAqTumWdnNX0AssRqS0MYKX5qVxs=
+X-Received: by 2002:a17:902:bf45:b0:189:505b:73dd with SMTP id
+ u5-20020a170902bf4500b00189505b73ddmr5104347pls.143.1673537217363; Thu, 12
+ Jan 2023 07:26:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <345279ff-680a-52ac-73ed-29e2ab84f0ae@igalia.com>
-X-Patchwork-Hint: comment
+References: <20230104175633.1420151-1-dragos.panait@windriver.com>
+ <20230104175633.1420151-2-dragos.panait@windriver.com>
+ <Y8ABeXQLzWdoaGAY@kroah.com>
+In-Reply-To: <Y8ABeXQLzWdoaGAY@kroah.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 12 Jan 2023 16:26:45 +0100
+Message-ID: <CAKMK7uEgzJU8ukgR3sQtSUB5+wrD9VyMwCHOA-SReFWd0tKzzw@mail.gmail.com>
+Subject: Re: [PATCH 5.10 1/1] drm/amdkfd: Check for null pointer after calling
+ kmemdup
+To: Greg KH <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,66 +64,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
- Melissa Wen <mwen@igalia.com>,
- VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Dragos-Marian Panait <dragos.panait@windriver.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Kent Russell <kent.russell@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 12, 2023 at 11:07:59AM -0300, Maíra Canal wrote:
-> Hi,
-> 
-> On 1/12/23 09:43, Ville Syrjälä wrote:
-> > On Mon, Jan 09, 2023 at 07:58:06AM -0300, Maíra Canal wrote:
-> >> Now that framebuffer_check() verifies that the format is properly
-> >> supported, there is no need to check it again on i915's inside
-> >> helpers.
-> >>
-> >> Therefore, remove the redundant framebuffer format check from the
-> >> intel_framebuffer_init() function, letting framebuffer_check()
-> >> perform the framebuffer validation.
-> >>
-> >> Signed-off-by: Maíra Canal <mcanal@igalia.com>
-> >> ---
-> >>   drivers/gpu/drm/i915/display/intel_fb.c | 9 ---------
-> >>   1 file changed, 9 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
-> >> index 63137ae5ab21..230b729e42d6 100644
-> >> --- a/drivers/gpu/drm/i915/display/intel_fb.c
-> >> +++ b/drivers/gpu/drm/i915/display/intel_fb.c
-> >> @@ -1914,15 +1914,6 @@ int intel_framebuffer_init(struct intel_framebuffer *intel_fb,
-> >>   		}
-> >>   	}
-> >>   
-> >> -	if (!drm_any_plane_has_format(&dev_priv->drm,
-> >> -				      mode_cmd->pixel_format,
-> >> -				      mode_cmd->modifier[0])) {
-> >> -		drm_dbg_kms(&dev_priv->drm,
-> >> -			    "unsupported pixel format %p4cc / modifier 0x%llx\n",
-> >> -			    &mode_cmd->pixel_format, mode_cmd->modifier[0]);
-> >> -		goto err;
-> >> -	}
-> >> -
-> > 
-> > This doesn't work for the legacy tiling->modifier path.
-> 
-> Do you have any idea on how we could remove drm_any_plane_has_format() from
-> i915? Or is it strictly necessary to validate the modifier in the legacy
-> path?
+On Thu, 12 Jan 2023 at 13:47, Greg KH <gregkh@linuxfoundation.org> wrote:
+> On Wed, Jan 04, 2023 at 07:56:33PM +0200, Dragos-Marian Panait wrote:
+> > From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+> >
+> > [ Upstream commit abfaf0eee97925905e742aa3b0b72e04a918fa9e ]
+> >
+> > As the possible failure of the allocation, kmemdup() may return NULL
+> > pointer.
+> > Therefore, it should be better to check the 'props2' in order to prevent
+> > the dereference of NULL pointer.
+> >
+> > Fixes: 3a87177eb141 ("drm/amdkfd: Add topology support for dGPUs")
+> > Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+> > Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+> > Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+> > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> > Signed-off-by: Dragos-Marian Panait <dragos.panait@windriver.com>
+> > ---
+> >  drivers/gpu/drm/amd/amdkfd/kfd_crat.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
+> > index 86b4dadf772e..02e3c650ed1c 100644
+> > --- a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
+> > +++ b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
+> > @@ -408,6 +408,9 @@ static int kfd_parse_subtype_iolink(struct crat_subtype_iolink *iolink,
+> >                       return -ENODEV;
+> >               /* same everything but the other direction */
+> >               props2 = kmemdup(props, sizeof(*props2), GFP_KERNEL);
+> > +             if (!props2)
+> > +                     return -ENOMEM;
+>
+> Not going to queue this up as this is a bogus CVE.
 
-I guess techinically we could skip it by knowing that X-tile is always
-supported. However that may not hold in the future so not a soution I
-really like. Also the drm_any_plane_has_format() call from 
-framebuffer_check() is too early, so instead of checking X-tile
-vs. linear based on the tiling it's going to always assume linear.
+Are we at the point where CVE presence actually contraindicates
+backporting? At least I'm getting a bit the feeling there's a surge of
+automated (security) fixes that just don't hold up to any scrutiny.
+Last week I had to toss out an fbdev locking patch due to static
+checker that has no clue at all how refcounting works, and so
+complained that things need more locking ... (that was -fixes, but
+would probably have gone to stable too if I didn't catch it).
 
+Simple bugfixes from random people was nice when it was checkpatch
+stuff and I was fairly happy to take these aggressively in drm. But my
+gut feeling says things seem to be shifting towards more advanced
+tooling, but without more advanced understanding by submitters. Does
+that holder in other areas too?
+-Daniel
 -- 
-Ville Syrjälä
-Intel
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
