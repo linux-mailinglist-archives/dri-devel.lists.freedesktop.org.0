@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1427666A26
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 05:21:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE340666A27
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 05:21:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9601A10E83A;
-	Thu, 12 Jan 2023 04:21:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E59C10E865;
+	Thu, 12 Jan 2023 04:21:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C1E810E863
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 04:21:26 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id h7so8736468pfq.4
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 20:21:26 -0800 (PST)
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB1610E865
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 04:21:35 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id c9so12941393pfj.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 20:21:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=H1TkdCYd6ACDb822V5ymCJqJsoUWZt84bjeNRJjxiCU=;
- b=jdJO71CDHt8Fc8jxM5omcbFXpLk35O/tD3XpCg8d1m2smMqB62v74cke8eZw48ZwPG
- 22NL7DuFBjv0SkgEL2IMFOkU+iJ4QR+phjPOZKqJDGP8XkkfHFuZhL7jJgm8yFsgXAW5
- animO4QOKlwWfmaPFXh/tkYURQg5TaxD8tqas=
+ bh=aDVRGgfyVTS1/RVP67Y9O6IBzdS62PU0w4QAZOD5vEM=;
+ b=W8Cs6H4xp7xC3wZAQSHHgf/sXztbttIRaHFwd29PmxMB7nVJ0/fVXijVYxrr8ggtkz
+ WGTIqEkNz2bKDujKpmkosYJlDSH+lpeQRns3kLSX0tpJ7AhAFoecip97mUCim4Wgj+CJ
+ BjaEqQUH1lna6l0GfwXtdZkuSsCe0vzB1tThg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=H1TkdCYd6ACDb822V5ymCJqJsoUWZt84bjeNRJjxiCU=;
- b=wiZLD7I7YbMyctCyz8AilDo4kAL9HRg21VAyCfrHLGF/nb/q4K5xmR276OOyQJj1jB
- 3pR6W09uth/OiNl6HgwE79vpSzi3wThGPAtIu2Z5hh/AxG8g3rZl9KsA1GctPsvomXHJ
- 2wgMHQ81CxhlmOMEKglbqvyZLC3ACO6NhrJtcedVwSqozDlkTNFkotK9b2ZFR5GwHKCq
- 1C9/nK6hVbMtjH7Qd1pm/MaQgsW2qpu9JRVlC++v//tUgakIK9l6XA/+yaRjb6TgI0hS
- Z7Htxurn1vLNwft+W2OzEnv9ZDYkNvPJibdnIYUyEsqje/1OTV28ZY9e1PAeWS7OSAqC
- 93XQ==
-X-Gm-Message-State: AFqh2kruV4tdGbWPzzVDfkoGOZGdNClxCJ4Tdqbxz+WcA+VSQaslvqxq
- E9VOwABDit9JlEX+ZlhhUdbwPA==
-X-Google-Smtp-Source: AMrXdXunxxrhYRRDUDJHVwSXPtNUX4tq0z7jXhkdsSwjCxWMlm3FbrS/yJLgygcIslXcr8QNMuZ1Pw==
-X-Received: by 2002:a05:6a00:2997:b0:582:1f25:5b8 with SMTP id
- cj23-20020a056a00299700b005821f2505b8mr44070232pfb.19.1673497286002; 
- Wed, 11 Jan 2023 20:21:26 -0800 (PST)
+ bh=aDVRGgfyVTS1/RVP67Y9O6IBzdS62PU0w4QAZOD5vEM=;
+ b=2FZFBow3iamKcIbLnU7jayQC7rT7uuprRz5N5giLxstY/9EVsyf57w5BIAKzWPRUzo
+ VPLUvjkbDuZYRZDbv/88VuVb9yx7POjwISnHWtMhV0RvDLSLk8u7yztW2mPkK3r2qcgF
+ NA+xuDfrFN+5cFMb2La96ZbNhg9x2m6lTIcOxBZ4PV9KZtsWQMKeXRAob83BUQpBpmpD
+ hd5gKGRTl9xw7av4yyQSZxJ3uhNcRgw7bFlBJiGeis/ziLXmbe3HpQUOPpZo8nptyZZO
+ V+1AiAAq+ouvPmysM7AFgXmdceVNQ1/dS+70F94Czni6LTIWMK9BvYRdft4jgXU3Ze4L
+ aISg==
+X-Gm-Message-State: AFqh2kpbyQZpEQZ5Vm1JFds+Xy3nxQkxok7hCfCzYfwO2e+I1zwChBoS
+ zwxlpc5s7axN6llLOfqHBM+5mA==
+X-Google-Smtp-Source: AMrXdXslLk6u6LzFwcSobd54J7vLF6SKwbahN1DExISfrOqkF8Qo6y7tZ3K23mSyYGi24GqNYbfkGQ==
+X-Received: by 2002:a05:6a00:228d:b0:58b:9f4e:5a45 with SMTP id
+ f13-20020a056a00228d00b0058b9f4e5a45mr2497352pfe.11.1673497294983; 
+ Wed, 11 Jan 2023 20:21:34 -0800 (PST)
 Received: from treapking.tpe.corp.google.com
  ([2401:fa00:1:10:594f:5484:7591:d074])
  by smtp.gmail.com with ESMTPSA id
- s8-20020aa78bc8000000b00582579cb0e0sm5519478pfd.129.2023.01.11.20.21.20
+ s8-20020aa78bc8000000b00582579cb0e0sm5519478pfd.129.2023.01.11.20.21.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Jan 2023 20:21:25 -0800 (PST)
+ Wed, 11 Jan 2023 20:21:34 -0800 (PST)
 From: Pin-yen Lin <treapking@chromium.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
@@ -64,10 +64,9 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  "Rafael J . Wysocki" <rafael@kernel.org>,
  Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>,
  Guenter Roeck <groeck@chromium.org>
-Subject: [PATCH v10 2/9] platform/chrome: cros_ec_typec: Purge blocking switch
- devlinks
-Date: Thu, 12 Jan 2023 12:20:57 +0800
-Message-Id: <20230112042104.4107253-3-treapking@chromium.org>
+Subject: [PATCH v10 3/9] drm/display: Add Type-C switch helpers
+Date: Thu, 12 Jan 2023 12:20:58 +0800
+Message-Id: <20230112042104.4107253-4-treapking@chromium.org>
 X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
 In-Reply-To: <20230112042104.4107253-1-treapking@chromium.org>
 References: <20230112042104.4107253-1-treapking@chromium.org>
@@ -85,77 +84,243 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- linux-acpi@vger.kernel.org,
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-acpi@vger.kernel.org,
+ Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>,
  =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
- <nfraprado@collabora.com>, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Allen Chen <allen.chen@ite.com.tw>,
- Xin Ji <xji@analogixsemi.com>, Chen-Yu Tsai <wenst@chromium.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+ <nfraprado@collabora.com>, Jani Nikula <jani.nikula@intel.com>,
+ Allen Chen <allen.chen@ite.com.tw>, Stephen Boyd <swboyd@chromium.org>,
+ Pin-yen Lin <treapking@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ shaomin Deng <dengshaomin@cdjrlc.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Prashant Malani <pmalani@chromium.org>
+Add helpers to register and unregister Type-C "switches" for bridges
+capable of switching their output between two downstream devices.
 
-When using OF graph, the fw_devlink code will create links between the
-individual port driver (cros-ec-typec here) and the parent device for
-a Type-C switch (like mode-switch). Since the mode-switch will in turn
-have the usb-c-connector (i.e the child of the port driver) as a
-supplier, fw_devlink will not be able to resolve the cyclic dependency
-correctly.
+The helper registers USB Type-C mode switches when the "mode-switch"
+and the "data-lanes" properties are available in Device Tree.
 
-As a result, the mode-switch driver probe() never runs, so mode-switches
-are never registered. Because of that, the port driver probe constantly
-fails with -EPROBE_DEFER, because the Type-C connector class requires all
-switch devices to be registered prior to port registration.
-
-To break this deadlock and allow the mode-switch registration to occur,
-purge all the usb-c-connector nodes' absent suppliers. This eliminates
-the connector as a supplier for a switch and allows it to be probed.
-
-Signed-off-by: Prashant Malani <pmalani@chromium.org>
 Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 ---
 
 Changes in v10:
 - Collected Reviewed-by and Tested-by tags
+- Replaced "void *" with "typec_mux_set_fn_t" for mux_set callbacks
+- Print out the node name when errors on parsing DT
+- Use dev_dbg instead of dev_warn when no Type-C switch nodes available
+- Made the return path of drm_dp_register_mode_switch clearer
+
+Changes in v8:
+- Fixed the build issue when CONFIG_TYPEC=m
+- Fixed some style issues
 
 Changes in v7:
-- Fix the long comment lines
+- Extracted the common codes to a helper function
+- New in v7
 
-Changes in v6:
-- New in v6
+ drivers/gpu/drm/display/drm_dp_helper.c | 134 ++++++++++++++++++++++++
+ include/drm/display/drm_dp_helper.h     |  17 +++
+ 2 files changed, 151 insertions(+)
 
- drivers/platform/chrome/cros_ec_typec.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 2a7ff14dc37e..302474a647cc 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -382,6 +382,16 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
- 		return -EINVAL;
- 	}
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+index 16565a0a5da6..a2ec40a621cb 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -30,11 +30,13 @@
+ #include <linux/sched.h>
+ #include <linux/seq_file.h>
+ #include <linux/string_helpers.h>
++#include <linux/usb/typec_mux.h>
+ #include <linux/dynamic_debug.h>
  
-+	/*
-+	 * OF graph may have set up some device links with switches,
-+	 * since connectors have their own compatible. Purge these
-+	 * to avoid a deadlock in switch probe (the switch mistakenly
-+	 * assumes the connector is a supplier).
-+	 */
-+	if (dev_of_node(dev))
-+		device_for_each_child_node(dev, fwnode)
-+			fw_devlink_purge_absent_suppliers(fwnode);
+ #include <drm/display/drm_dp_helper.h>
+ #include <drm/display/drm_dp_mst_helper.h>
+ #include <drm/drm_edid.h>
++#include <drm/drm_of.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_vblank.h>
+ #include <drm/drm_panel.h>
+@@ -3891,3 +3893,135 @@ int drm_panel_dp_aux_backlight(struct drm_panel *panel, struct drm_dp_aux *aux)
+ EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
+ 
+ #endif
 +
- 	/* DT uses "reg" to specify port number. */
- 	port_prop = dev->of_node ? "reg" : "port-number";
- 	device_for_each_child_node(dev, fwnode) {
++#if IS_REACHABLE(CONFIG_TYPEC)
++static int drm_dp_register_mode_switch(struct device *dev, struct device_node *node,
++				       struct drm_dp_typec_switch_desc *switch_desc,
++				       void *data, typec_mux_set_fn_t mux_set)
++{
++	struct drm_dp_typec_port_data *port_data;
++	struct typec_mux_desc mux_desc = {};
++	char name[32];
++	u32 dp_lanes[2];
++	int ret, num_lanes, port_num = -1;
++
++	num_lanes = drm_of_get_data_lanes_count(node, 0, 2);
++	if (num_lanes <= 0) {
++		dev_err(dev, "Error on getting data lanes count from %s: %d\n",
++			node->name, num_lanes);
++		return num_lanes;
++	}
++
++	ret = of_property_read_u32_array(node, "data-lanes", dp_lanes, num_lanes);
++	if (ret) {
++		dev_err(dev, "Failed to read the data-lanes variable from %s: %d\n",
++			node->name, ret);
++		return ret;
++	}
++
++	port_num = dp_lanes[0] / 2;
++
++	port_data = &switch_desc->typec_ports[port_num];
++	port_data->data = data;
++	mux_desc.fwnode = &node->fwnode;
++	mux_desc.drvdata = port_data;
++	snprintf(name, sizeof(name), "%s-%u", node->name, port_num);
++	mux_desc.name = name;
++	mux_desc.set = mux_set;
++
++	port_data->typec_mux = typec_mux_register(dev, &mux_desc);
++	if (IS_ERR(port_data->typec_mux)) {
++		ret = PTR_ERR(port_data->typec_mux);
++		dev_err(dev, "Mode switch register for port %d failed: %d\n",
++			port_num, ret);
++
++		return ret;
++	}
++
++	return 0;
++}
++
++/**
++ * drm_dp_register_typec_switches() - register Type-C switches
++ * @dev: Device that registers Type-C switches
++ * @port: Device node for the switch
++ * @switch_desc: A Type-C switch descriptor
++ * @data: Private data for the switches
++ * @mux_set: Callback function for typec_mux_set
++ *
++ * This function registers USB Type-C switches for DP bridges that can switch
++ * the output signal between their output pins.
++ *
++ * Currently only mode switches are implemented, and the function assumes the
++ * given @port device node has endpoints with "mode-switch" property.
++ * Register the endpoint as port 0 if the "data-lanes" property falls in 0/1,
++ * and register it as port 1 if "data-lanes" falls in 2/3.
++ */
++int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
++				   struct drm_dp_typec_switch_desc *switch_desc,
++				   void *data, typec_mux_set_fn_t mux_set)
++{
++	struct device_node *sw;
++	int ret;
++
++	for_each_child_of_node(port, sw) {
++		if (of_property_read_bool(sw, "mode-switch"))
++			switch_desc->num_typec_switches++;
++	}
++
++	if (!switch_desc->num_typec_switches) {
++		dev_dbg(dev, "No Type-C switches node found\n");
++		return 0;
++	}
++
++	switch_desc->typec_ports = devm_kcalloc(
++		dev, switch_desc->num_typec_switches,
++		sizeof(struct drm_dp_typec_port_data), GFP_KERNEL);
++
++	if (!switch_desc->typec_ports)
++		return -ENOMEM;
++
++	/* Register switches for each connector. */
++	for_each_child_of_node(port, sw) {
++		if (!of_property_read_bool(sw, "mode-switch"))
++			continue;
++		ret = drm_dp_register_mode_switch(dev, sw, switch_desc, data, mux_set);
++		if (ret)
++			goto err_unregister_typec_switches;
++	}
++
++	return 0;
++
++err_unregister_typec_switches:
++	of_node_put(sw);
++	drm_dp_unregister_typec_switches(switch_desc);
++	dev_err(dev, "Failed to register mode switch: %d\n", ret);
++	return ret;
++}
++EXPORT_SYMBOL(drm_dp_register_typec_switches);
++
++/**
++ * drm_dp_unregister_typec_switches() - unregister Type-C switches
++ * @switch_desc: A Type-C switch descriptor
++ */
++void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
++{
++	int i;
++
++	for (i = 0; i < switch_desc->num_typec_switches; i++)
++		typec_mux_unregister(switch_desc->typec_ports[i].typec_mux);
++}
++EXPORT_SYMBOL(drm_dp_unregister_typec_switches);
++#else
++void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
++{
++}
++EXPORT_SYMBOL(drm_dp_register_typec_switches);
++int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
++				   struct drm_dp_typec_switch_desc *switch_desc,
++				   void *data, typec_mux_set_fn_t mux_set)
++{
++	return 0;
++}
++EXPORT_SYMBOL(drm_dp_unregister_typec_switches);
++#endif
+diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+index ab55453f2d2c..5a3824f13b4e 100644
+--- a/include/drm/display/drm_dp_helper.h
++++ b/include/drm/display/drm_dp_helper.h
+@@ -25,6 +25,7 @@
+ 
+ #include <linux/delay.h>
+ #include <linux/i2c.h>
++#include <linux/usb/typec_mux.h>
+ 
+ #include <drm/display/drm_dp.h>
+ #include <drm/drm_connector.h>
+@@ -763,4 +764,20 @@ bool drm_dp_downstream_rgb_to_ycbcr_conversion(const u8 dpcd[DP_RECEIVER_CAP_SIZ
+ 					       const u8 port_cap[4], u8 color_spc);
+ int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc);
+ 
++struct drm_dp_typec_port_data {
++	struct typec_mux_dev *typec_mux;
++	void *data;
++	bool dp_connected;
++};
++
++struct drm_dp_typec_switch_desc {
++	int num_typec_switches;
++	struct drm_dp_typec_port_data *typec_ports;
++};
++
++void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc);
++int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
++				   struct drm_dp_typec_switch_desc *switch_desc,
++				   void *data, typec_mux_set_fn_t mux_set);
++
+ #endif /* _DRM_DP_HELPER_H_ */
 -- 
 2.39.0.314.g84b9a713c41-goog
 
