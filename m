@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BFF3666A25
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 05:21:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1427666A26
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 05:21:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB41E10E861;
-	Thu, 12 Jan 2023 04:21:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9601A10E83A;
+	Thu, 12 Jan 2023 04:21:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F47310E861
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 04:21:20 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id i65so9480120pfc.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 20:21:20 -0800 (PST)
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
+ [IPv6:2607:f8b0:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C1E810E863
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 04:21:26 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id h7so8736468pfq.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 20:21:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=q03I2SqtfUHT+b3Yv/iRQSSryxJAUHsZ8NrVScVRxMI=;
- b=f2KQNOhtwineaLdPBaanYUTkfKpWAsRnLTpA0trox4XkuknVYCNctsxaTb9tGgNaKu
- BiPdVJaRaMWIfNSedsGVzbWEWFA4Oyfa54lxWC+pmDiQ7Wu/rMobAp8vivpq2qPeoyru
- JGwxDlf/wLaFD441dPBCsW1FecE5k3Uf5Jc5E=
+ bh=H1TkdCYd6ACDb822V5ymCJqJsoUWZt84bjeNRJjxiCU=;
+ b=jdJO71CDHt8Fc8jxM5omcbFXpLk35O/tD3XpCg8d1m2smMqB62v74cke8eZw48ZwPG
+ 22NL7DuFBjv0SkgEL2IMFOkU+iJ4QR+phjPOZKqJDGP8XkkfHFuZhL7jJgm8yFsgXAW5
+ animO4QOKlwWfmaPFXh/tkYURQg5TaxD8tqas=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=q03I2SqtfUHT+b3Yv/iRQSSryxJAUHsZ8NrVScVRxMI=;
- b=MBYA+87Uz0T5DT8jftaLgJ8lsafeEG4P/iH6N0UP+dm+qEI8vGJE7yk7HU+rpBeFBV
- 3iVfON+XPAEP/KIpTMgr3Gg8AoEox7Rsc2RZOgLML2tGfrKNFPkJG5W8b/EOmBGDqpLF
- IBw+DFXl0tWIXqEl45XRCwYjZmAEBDlJF8jbyCcNkj4jb6w8O+eGGxB2RB1eWUfQycJc
- AIEMjCwm5k+sGDj4sYrlq6aJ+3BxUaxBvnZsBFpYPbeM3aEq6mdH9h8CrOX0vyeHYkVL
- nnSVzPkk+zOEL9/pKN9xSwN9gssV3ET0zPSUEEhAdHQoptOchprML5p9Wy2QRuPpA+Ku
- RNtA==
-X-Gm-Message-State: AFqh2koYwtJ+croCQxzuwCFKskDRlIUZxsDW13OGBx4voNmhG2j2eOS9
- 1Trvr9wn78pAUG9pXlUvAnrAJQ==
-X-Google-Smtp-Source: AMrXdXswXbMeS9BT39H8sowcVIjkCoMbgp4IdQMCSlK3qQjJDGOScnXIeb7KOT5Cr83jpiG8FcP3dg==
-X-Received: by 2002:a62:e708:0:b0:583:2a2e:3465 with SMTP id
- s8-20020a62e708000000b005832a2e3465mr4830150pfh.1.1673497279634; 
- Wed, 11 Jan 2023 20:21:19 -0800 (PST)
+ bh=H1TkdCYd6ACDb822V5ymCJqJsoUWZt84bjeNRJjxiCU=;
+ b=wiZLD7I7YbMyctCyz8AilDo4kAL9HRg21VAyCfrHLGF/nb/q4K5xmR276OOyQJj1jB
+ 3pR6W09uth/OiNl6HgwE79vpSzi3wThGPAtIu2Z5hh/AxG8g3rZl9KsA1GctPsvomXHJ
+ 2wgMHQ81CxhlmOMEKglbqvyZLC3ACO6NhrJtcedVwSqozDlkTNFkotK9b2ZFR5GwHKCq
+ 1C9/nK6hVbMtjH7Qd1pm/MaQgsW2qpu9JRVlC++v//tUgakIK9l6XA/+yaRjb6TgI0hS
+ Z7Htxurn1vLNwft+W2OzEnv9ZDYkNvPJibdnIYUyEsqje/1OTV28ZY9e1PAeWS7OSAqC
+ 93XQ==
+X-Gm-Message-State: AFqh2kruV4tdGbWPzzVDfkoGOZGdNClxCJ4Tdqbxz+WcA+VSQaslvqxq
+ E9VOwABDit9JlEX+ZlhhUdbwPA==
+X-Google-Smtp-Source: AMrXdXunxxrhYRRDUDJHVwSXPtNUX4tq0z7jXhkdsSwjCxWMlm3FbrS/yJLgygcIslXcr8QNMuZ1Pw==
+X-Received: by 2002:a05:6a00:2997:b0:582:1f25:5b8 with SMTP id
+ cj23-20020a056a00299700b005821f2505b8mr44070232pfb.19.1673497286002; 
+ Wed, 11 Jan 2023 20:21:26 -0800 (PST)
 Received: from treapking.tpe.corp.google.com
  ([2401:fa00:1:10:594f:5484:7591:d074])
  by smtp.gmail.com with ESMTPSA id
- s8-20020aa78bc8000000b00582579cb0e0sm5519478pfd.129.2023.01.11.20.21.14
+ s8-20020aa78bc8000000b00582579cb0e0sm5519478pfd.129.2023.01.11.20.21.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Jan 2023 20:21:19 -0800 (PST)
+ Wed, 11 Jan 2023 20:21:25 -0800 (PST)
 From: Pin-yen Lin <treapking@chromium.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
@@ -64,9 +64,10 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  "Rafael J . Wysocki" <rafael@kernel.org>,
  Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>,
  Guenter Roeck <groeck@chromium.org>
-Subject: [PATCH v10 1/9] device property: Add remote endpoint to devcon matcher
-Date: Thu, 12 Jan 2023 12:20:56 +0800
-Message-Id: <20230112042104.4107253-2-treapking@chromium.org>
+Subject: [PATCH v10 2/9] platform/chrome: cros_ec_typec: Purge blocking switch
+ devlinks
+Date: Thu, 12 Jan 2023 12:20:57 +0800
+Message-Id: <20230112042104.4107253-3-treapking@chromium.org>
 X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
 In-Reply-To: <20230112042104.4107253-1-treapking@chromium.org>
 References: <20230112042104.4107253-1-treapking@chromium.org>
@@ -99,14 +100,21 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Prashant Malani <pmalani@chromium.org>
 
-When searching the device graph for device matches, check the
-remote-endpoint itself for a match.
+When using OF graph, the fw_devlink code will create links between the
+individual port driver (cros-ec-typec here) and the parent device for
+a Type-C switch (like mode-switch). Since the mode-switch will in turn
+have the usb-c-connector (i.e the child of the port driver) as a
+supplier, fw_devlink will not be able to resolve the cyclic dependency
+correctly.
 
-Some drivers register devices for individual endpoints. This allows
-the matcher code to evaluate those for a match too, instead
-of only looking at the remote parent devices. This is required when a
-device supports two mode switches in its endpoints, so we can't simply
-register the mode switch with the parent node.
+As a result, the mode-switch driver probe() never runs, so mode-switches
+are never registered. Because of that, the port driver probe constantly
+fails with -EPROBE_DEFER, because the Type-C connector class requires all
+switch devices to be registered prior to port registration.
+
+To break this deadlock and allow the mode-switch registration to occur,
+purge all the usb-c-connector nodes' absent suppliers. This eliminates
+the connector as a supplier for a switch and allows it to be probed.
 
 Signed-off-by: Prashant Malani <pmalani@chromium.org>
 Signed-off-by: Pin-yen Lin <treapking@chromium.org>
@@ -118,38 +126,36 @@ Tested-by: Chen-Yu Tsai <wenst@chromium.org>
 Changes in v10:
 - Collected Reviewed-by and Tested-by tags
 
+Changes in v7:
+- Fix the long comment lines
+
 Changes in v6:
 - New in v6
 
- drivers/base/property.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ drivers/platform/chrome/cros_ec_typec.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/base/property.c b/drivers/base/property.c
-index 2a5a37fcd998..48877af4e444 100644
---- a/drivers/base/property.c
-+++ b/drivers/base/property.c
-@@ -1223,6 +1223,21 @@ static unsigned int fwnode_graph_devcon_matches(struct fwnode_handle *fwnode,
- 			break;
- 		}
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index 2a7ff14dc37e..302474a647cc 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -382,6 +382,16 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
+ 		return -EINVAL;
+ 	}
  
-+		/*
-+		 * Some drivers may register devices for endpoints. Check
-+		 * the remote-endpoints for matches in addition to the remote
-+		 * port parent.
-+		 */
-+		node = fwnode_graph_get_remote_endpoint(ep);
-+		if (fwnode_device_is_available(node)) {
-+			ret = match(node, con_id, data);
-+			if (ret) {
-+				if (matches)
-+					matches[count] = ret;
-+				count++;
-+			}
-+		}
++	/*
++	 * OF graph may have set up some device links with switches,
++	 * since connectors have their own compatible. Purge these
++	 * to avoid a deadlock in switch probe (the switch mistakenly
++	 * assumes the connector is a supplier).
++	 */
++	if (dev_of_node(dev))
++		device_for_each_child_node(dev, fwnode)
++			fw_devlink_purge_absent_suppliers(fwnode);
 +
- 		node = fwnode_graph_get_remote_port_parent(ep);
- 		if (!fwnode_device_is_available(node)) {
- 			fwnode_handle_put(node);
+ 	/* DT uses "reg" to specify port number. */
+ 	port_prop = dev->of_node ? "reg" : "port-number";
+ 	device_for_each_child_node(dev, fwnode) {
 -- 
 2.39.0.314.g84b9a713c41-goog
 
