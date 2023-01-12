@@ -2,56 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61FF6667F64
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 20:33:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76E57667F69
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 20:36:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9126610E1BA;
-	Thu, 12 Jan 2023 19:33:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF70510E1C1;
+	Thu, 12 Jan 2023 19:36:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
- [IPv6:2607:f8b0:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 400BC10E1B5;
- Thu, 12 Jan 2023 19:33:50 +0000 (UTC)
-Received: by mail-oi1-x22d.google.com with SMTP id o66so16104340oia.6;
- Thu, 12 Jan 2023 11:33:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=aypgsOMzmGEhnMGY/eHKs1+jahN6svk47TXr3cbBLDY=;
- b=XJIfIuVyF+2IeoN8v3sm8ShKWmRSQhjtD/VSFe40yy9oq/Bd/3BrFL/EiH/ND/xLtv
- AoSNUskM/kLb/ByQl4tqDJ1BZT0ulle6DoHja4hqpFL9LBn0efdGnj9Zcpq56jHrl0E1
- Kz5tZ64Lcx2JRTrsUNQjkVSo6sYM95eqe0b1cpt/8qvFTUkN3GHYe63eOAVQWY/0b7rz
- 3nOpFcdKPJpHdAnTunPdlNZs4yMBAO+6uROA2EF/4GEbWv37fh3qA4L8h+GzuGMUG1gO
- O+d+3F+8CBODT/B6OMZH+5ZDWX0UMV4/W83OcrbQUG0DQVpZwPzqPKHjAjbyWyZxj/VS
- gayg==
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31D4710E1C1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 19:36:31 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id y25so29901776lfa.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 11:36:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=QP7ZDXy/vz6h2E8Aw8jzhMKk5b2tVMVMs8kkY7DjRxg=;
+ b=VRa1lYmLZwBt9u8EhEFY9jOztdyhUc0rbhIsKErJjegBmGKvqae+ioHuWXiDv8ojQs
+ VlENQvWkzosriREEEtozgXWWfl2TYj+fITtabr02X4YmTjsxazE8spp0ZSVPe17AF+0X
+ Kf++ghoP05TZk5uCbVqQ4pz8Ihs3X6acl8/V2BC9zwxAM7bcjHXKeSHrYOXCD3wmXeZX
+ L4vzc9sup3I3A+2RRNz29LyV3BXZWW9cdvn1IgEczE5Hsv/XyXDC0rNvAl0kQsgdRV8O
+ 2fpL+QlmoVN5qFyfEgD9on8glRvlVvMVbwnRpaFg9M06xeZiV+rObea1NNJzF+hKYPgZ
+ n4/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aypgsOMzmGEhnMGY/eHKs1+jahN6svk47TXr3cbBLDY=;
- b=ZvpyTt8iavqYqRJzE+bge8NmeESNc08Hx3AJpcliPhKxnhYNFqqxpLubtUjAARP0nZ
- 9z5aMMLxAkJtQvk8MxUPheoxbv1yoLqOOuJZDCndCigUFtgrGWenCf4Aakc2ep3hz7lw
- GnD81O/z8rZV0DFGV+iRTmLyT4a1BI7rXKsQCChnYBW1sxdh17aZnHVIzKsyZNMURFnd
- 6Kp+CEUXOvkC4rSyRm1bkWmg5nsXJsA+SXoITYqnwpHG9VhYFC4rDoE0edLJCDSj6vJJ
- bDBDKURqnya/lwo5NpRXl6ji6+IRXDQVPw9QtEdpkmlXNvZYpwklPHEHiRxCQjPM83NW
- jiww==
-X-Gm-Message-State: AFqh2kpaKCSn/mHvo2WQ1bXtVD4+GMsvhGjdH8/UNT0zhohcCxcmYHRP
- 0QK9aG8stW+hXfRSaFHwrekbi5/6oZOR8JXRnn4=
-X-Google-Smtp-Source: AMrXdXtyJjc6vkU/EGsBHOqdS2kLFiSshjKvc0JLtfUFk6F0VTt7UUKvuL5X6VXwN3sLCNU5UUTi3xMRk9SAdlEVp+s=
-X-Received: by 2002:a05:6808:2994:b0:35b:f5f7:3ed0 with SMTP id
- ex20-20020a056808299400b0035bf5f73ed0mr5306345oib.46.1673552029252; Thu, 12
- Jan 2023 11:33:49 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QP7ZDXy/vz6h2E8Aw8jzhMKk5b2tVMVMs8kkY7DjRxg=;
+ b=Z2fLKXdKZiW6bsPCmi5lWtR5OwxVXaQeb+wAjf0NSVdqFlIKTiaXCzYdkRcA3YIq0g
+ lLXZ2EUF6spr6LJ0pzQ/UuaIin0XltJRdq/U6OqewlFenhEN6AAEVA6R9ABOHgIm3ESh
+ GqOxHUiFUE7JuMQ3W2iOXDDuReiTQMT/DjDZAiqcL8Dx3stu415dBWsGt42hIQLzOmHD
+ FOrDB/HMD/zPXFWCEJX5uJxYIDQkVY9rwDXqbKEPhNwsVIaIN/TAbiO8qf+V/0cEx+An
+ iNIXZkugxRXMHm84c9D5he7qVs/8rxHSDzMK9DyO8mjTwNaMRhTrBYvf7GEnqgw3QpCw
+ BTfQ==
+X-Gm-Message-State: AFqh2kqMt9PBl/Fasl2pQZGNpYkGz3SW3A1VP7uKgyGDotkTew+GeMeo
+ z8NgBV39pjL62HR8jLfj272XuVijx8j0+VEo
+X-Google-Smtp-Source: AMrXdXuCP2iZ9ad22QlH8IWK4c8i8Rc8dMqOQZuciPiR9xdgK9SnFECFIPl7JvZMmqyyu5q35RCHjw==
+X-Received: by 2002:a05:6512:33c4:b0:4cc:53e2:5387 with SMTP id
+ d4-20020a05651233c400b004cc53e25387mr10413221lfg.50.1673552189189; 
+ Thu, 12 Jan 2023 11:36:29 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ k17-20020a05651210d100b004ab2cb8deb5sm3403247lfg.18.2023.01.12.11.36.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Jan 2023 11:36:28 -0800 (PST)
+Message-ID: <790207ad-9184-577a-ed0f-55e04b26aa09@linaro.org>
+Date: Thu, 12 Jan 2023 21:36:28 +0200
 MIME-Version: 1.0
-References: <Y8AQYhVkJjV86VXV@ubun2204.myguest.virtualbox.org>
-In-Reply-To: <Y8AQYhVkJjV86VXV@ubun2204.myguest.virtualbox.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 12 Jan 2023 14:33:37 -0500
-Message-ID: <CADnq5_OttrDQ=nDQSg3OWj_aqwKSs1s3YpWRqnM1wmzJQ-F2RA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Conversion to bool not necessary
-To: Deepak R Varma <drv@mailo.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v4 0/3] add color management support for the crtc
+Content-Language: en-GB
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Kalyan Thota <quic_kalyant@quicinc.com>
+References: <1669021695-4397-1-git-send-email-quic_kalyant@quicinc.com>
+ <167330408778.609993.9217470869804308069.b4-ty@linaro.org>
+In-Reply-To: <167330408778.609993.9217470869804308069.b4-ty@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,51 +78,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Saurabh Singh Sengar <ssengar@microsoft.com>, Leo Li <sunpeng.li@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org,
- Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: robdclark@chromium.org, dianders@chromium.org, quic_abhinavk@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_vpolimer@quicinc.com, swboyd@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On 10/01/2023 01:43, Dmitry Baryshkov wrote:
+> 
+> On Mon, 21 Nov 2022 01:08:12 -0800, Kalyan Thota wrote:
+>> Add color management support for the crtc provided there are
+>> enough dspps that can be allocated from the catalog
+>>
+>> Kalyan Thota (3):
+>>    drm/msm/disp/dpu1: pin 1 crtc to 1 encoder
+>>    drm/msm/disp/dpu1: add helper to know if display is builtin
+>>    drm/msm/disp/dpu1: add color management support for the crtc
+>>
+>> [...]
+> 
+> Applied, thanks!
+> 
+> [1/3] drm/msm/disp/dpu1: pin 1 crtc to 1 encoder
+>        https://gitlab.freedesktop.org/lumag/msm/-/commit/a4d6f8253645
+> [2/3] drm/msm/disp/dpu1: add helper to know if display is builtin
+>        https://gitlab.freedesktop.org/lumag/msm/-/commit/4cb6b1eebb92
+> [3/3] drm/msm/disp/dpu1: add color management support for the crtc
+>        https://gitlab.freedesktop.org/lumag/msm/-/commit/c48c475bd75a
 
-Alex
+These patches break sc7180 in a bad way, as the SoC is short on SSPP 
+units. I'm going to carve these patches out and wait for better solution 
+for the color management issue.
 
-On Thu, Jan 12, 2023 at 8:51 AM Deepak R Varma <drv@mailo.com> wrote:
->
-> A logical evaluation already results in bool. There is no need for using
-> a ternary operator based evaluation and bool conversion of the outcome.
-> Issue identified using boolconv.cocci Coccinelle semantic patch.
-> This was also reported by the Kernel Test Robot. Hence
->
-> Fixes: 473683a03495 ("drm/amd/display: Create a file dedicated for CRTC")
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-> index 22125daf9dcf..1e39d0939700 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-> @@ -105,8 +105,7 @@ static void vblank_control_worker(struct work_struct *work)
->         else if (dm->active_vblank_irq_count)
->                 dm->active_vblank_irq_count--;
->
-> -       dc_allow_idle_optimizations(
-> -               dm->dc, dm->active_vblank_irq_count == 0 ? true : false);
-> +       dc_allow_idle_optimizations(dm->dc, dm->active_vblank_irq_count == 0);
->
->         DRM_DEBUG_KMS("Allow idle optimizations (MALL): %d\n", dm->active_vblank_irq_count == 0);
->
-> --
-> 2.34.1
->
->
->
+> 
+> Best regards,
+
+-- 
+With best wishes
+Dmitry
+
