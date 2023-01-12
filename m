@@ -1,80 +1,91 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0918666818
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 01:49:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D715266686B
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Jan 2023 02:32:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2C5F10E2C1;
-	Thu, 12 Jan 2023 00:49:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA3E910E2D7;
+	Thu, 12 Jan 2023 01:32:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
- [IPv6:2607:f8b0:4864:20::b31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0933410E2C1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 00:49:48 +0000 (UTC)
-Received: by mail-yb1-xb31.google.com with SMTP id a9so286961ybb.3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Jan 2023 16:49:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=hDrqeCy2isEAcEZutQc18fIgv9oWhVupwebw91lgye4=;
- b=qxxyHu+WDybsKdsOve3HdK7LpgzBN/3GZRqgrxvs9Q5W9Kzwd7Dzc9/jYzxkNuDrul
- kQkTCY47Z2auo0ah8YGi8N0fYkfJOF7YxzNDRGT2TVVKTxh3xTGn5tExmfv9+PHBUfjc
- yw/X/nMCu8FyYUb99VuG8LjTaud4O30po5zBH3LKaw5V6vBQRwOmH59u3sd47u/bsD8t
- wqFwxSQZsBtZNU5U8hrEp3462X5hXd5zeVSkG1FDkuO9G+kbmGLsdETBG2DaHv5igzc1
- rEShl5bXFHof6n5bFLnvY/qrSb9Wg1ns/Lu0eWyU8NcGpi2ojYMe7+hIT1ATndOFXF0A
- cgSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hDrqeCy2isEAcEZutQc18fIgv9oWhVupwebw91lgye4=;
- b=xzIWveDXW+xc0f03gKY+ezi6knPCjYGsM4FGs8dzOFYp5+oZmaB9NEYNTh37BsQFQ+
- PFDpNA7U9DoLIEJ95hn4azu+VOFPQdWjuwWLWuz0PDYyZpeVmffuiz+NLG09+KiLC2WD
- LghIx2JB1+AQLq6tYhTMDy253UnFBC/gAWw+MiENHn5ZFkkXJYkUbruIosM/G46rX4Fq
- IojBFp2sKhg/3bNWSD0vMvLmHr4cglrOa+743dHVRnCxGElTHLv/ZIA3iPkhOcRob7aO
- G0sI0lHemJsIHWZxkyedNUVhOoRDUGb0EiSlTJA/HXlLzx5keasra/fQqWHJZbZyOLyW
- EsFA==
-X-Gm-Message-State: AFqh2kruEecrwTzqNILGmyH9OZvPNCSdIyelxFO/w7ykYwWgEiA6e10m
- 2ZfFXJX5oeVAeblLmEPxc7HrOmkzNZom1IeOg4L93w==
-X-Google-Smtp-Source: AMrXdXu17IFbx26OPrHPKXjmemxAqNaMOD1OWegMg2ItX26DTAFbkKoo8CQ39aLybKhS2ukHUzL7EAGQYL9SN8e9NYA=
-X-Received: by 2002:a25:dd84:0:b0:756:35b9:e2de with SMTP id
- u126-20020a25dd84000000b0075635b9e2demr8569422ybg.117.1673484587884; Wed, 11
- Jan 2023 16:49:47 -0800 (PST)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2083.outbound.protection.outlook.com [40.107.244.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40A0010E0D8;
+ Thu, 12 Jan 2023 01:32:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=V1VnR8WaPHN9aFT4hCaeP3TGdvVjO4waSLVk5PeoqYDKNlnuaIbrvY8t2phn/lD/oVjkmM1dst1zhHmZKWqJR4PGL+/gdKYf5oD5KBJ4jrilJibkZsPuGL4lxWJFoH0eoPUe6zH3gYbMmEYTc19jjtvsbrsR9KpmIHT2HaNUGMW/ySDTgAbVa/j5kxlpz7xu+IXfQ070W52OpngEU3LDniq2oUOjqcg5HvVrbppkNzCxOmkV7EvP717Xw4pOBU28R+D3MEUeqHds3HGR1yWG5W7ze4B7tUzIx4EnSCE1ZAcc0HwBerM2CrAl/aicjEn6rk+kkcTPd3Dbu/IQoM5z/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p/j00fQtzXuLQAONZ4rgjqYke3MyY/Lo8pQQmCtSztg=;
+ b=Gg371b8Y5RFj7T4rJKKoDfgxj4JwIljT5etHcKOvJZSbGPWQkI+oxSslCHR7+D7sSU5cMAzO/ClBfGZDB996XoHtLn+s6tjLqG5T3X1aPM3jIohrv1K+xVWDjEgyjM/Qf4PyxFwa1F7pypAMSNl/0iHrdlG7eDg37KkjS2lWPzOL+QPL38EKhmUQZS5PgjNeBRu23H2HHGimnU1hb2pHXsnl+W0I7nIk0oHC6YAI2TsOfb7M5eyqCyF3Pg96MDWPu3AnK41WiTfelVYYIG7wQX5sXzO1OMfSYBgz0t9BSxthyToDK1FE28RR8d67zf7SYCrq0RoJG7Gc8S/OwOCdrA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p/j00fQtzXuLQAONZ4rgjqYke3MyY/Lo8pQQmCtSztg=;
+ b=hZcG0zNz5O5PPAdOZW4VenaxqMWm/5CtAPZ3AdqawJFu6p3zo/SSyi1AvYOgrCAFgOGADaYslq/6eJfNGS7zplUFkPKA/Q9CF/ATg4YlxfttE3c0cqTophythl8JRiohCIT4cIlvVrDnG8Ley+Iau94rt0FE4CjAuNylIRI88L0=
+Received: from MW4PR04CA0165.namprd04.prod.outlook.com (2603:10b6:303:85::20)
+ by MN0PR12MB6197.namprd12.prod.outlook.com (2603:10b6:208:3c6::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Thu, 12 Jan
+ 2023 01:32:26 +0000
+Received: from CO1NAM11FT063.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:85:cafe::bb) by MW4PR04CA0165.outlook.office365.com
+ (2603:10b6:303:85::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13 via Frontend
+ Transport; Thu, 12 Jan 2023 01:32:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT063.mail.protection.outlook.com (10.13.175.37) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5986.18 via Frontend Transport; Thu, 12 Jan 2023 01:32:25 +0000
+Received: from Harpoon.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 11 Jan
+ 2023 19:32:24 -0600
+From: Felix Kuehling <Felix.Kuehling@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 0/6] Enable KFD to use render node BO mappings
+Date: Wed, 11 Jan 2023 20:31:51 -0500
+Message-ID: <20230112013157.750568-1-Felix.Kuehling@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230109213809.418135-1-tjmercier@google.com>
- <CALvZod4ru7F38tAO-gM9ZFKaEhS0w3KqFbPwhwcTvgJs4xMUow@mail.gmail.com>
- <Y78+rfzXPq5XGs9O@phenom.ffwll.local>
-In-Reply-To: <Y78+rfzXPq5XGs9O@phenom.ffwll.local>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Wed, 11 Jan 2023 16:49:36 -0800
-Message-ID: <CABdmKX0TAv=iRz0s+F6dVVX=xsK00BeUPkRM4bnsfemDAY9U4w@mail.gmail.com>
-Subject: Re: [PATCH 0/4] Track exported dma-buffers with memcg
-To: Shakeel Butt <shakeelb@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- Tejun Heo <tj@kernel.org>, 
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
- Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, 
- Joel Fernandes <joel@joelfernandes.org>, Christian Brauner <brauner@kernel.org>,
- Carlos Llamas <cmllamas@google.com>, Suren Baghdasaryan <surenb@google.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
- Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
- "Serge E. Hallyn" <serge@hallyn.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Eric Paris <eparis@parisplace.org>, android-mm@google.com, jstultz@google.com, 
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-mm@kvack.org, linux-security-module@vger.kernel.org, 
- selinux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT063:EE_|MN0PR12MB6197:EE_
+X-MS-Office365-Filtering-Correlation-Id: 22e4ff54-48f4-4260-de48-08daf43cdc5e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VdOLcesm7gpJDP7mA+h/0Ln6WU488UvsAUZ8PmHVtaOS9t3vzU6WHuodgLC2DaGXpcgS5tPI7M2iBKl4veu/EJFy0YTrqfEAeT5/2Jx1GqBhN6IEvAMhjeQJtXfMnM2k7HX1PRr+5T2DOw6HtorXCxY/UbrI13w1rKzOicU8/6xexdTxxXVnD1iG6zLRQIf23s5e0Gd4a2Cz66lTavqql3oMNObKtVcUAIXIRyCLgVOz/oOoVXlwD0/8dW4I2T3Fz+vLizELr8OB+jnRH1YkBXxQWHeba+LN6mIsif2v3YDJes4ZZ6OBroHU0XNJ+D86oJzN9UGbP4E+strnA/XiDbxlruj4x1hdWhGn9xI9RP6ssBqNQSKL1aFGyVUgHe4/0E5LsNqutd5w3TwK9UHs6uy1YL3+3g2aAZWyM2IlZ91ia8iTzdl4w7pyakzBXP0s0mSvNiNg4+xjUXNnjdUEGfqwFac5asGB4wkL3bh8QeWNevXkWiZ1++/7a9VSgvvVgGYo38bCwLpXoI1x62ZD3XubU+zz/hV/tEZlsO05xLN2/z+P/ZbPg5Ig0h140OtyQUms8xpCnjha8GiemZDz/oog3XBaP4XuTa3RevatJcVePJgaIA+nZf3B2UgGmbjzInjObJQhKfDgepmA3k6HvdoJmVYL6BEPHbymVNNygcQiJo6k2hyb17j7N9qPN5aZ7O7M+jm8zhjHmd30ekz83WdZGZm8jFHOz3SzYaAcoCqlqhMzfXi3NkIGAH87dz02/79BtLkFbkGV6YKzSi0Q1w==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(346002)(136003)(39860400002)(376002)(396003)(451199015)(46966006)(36840700001)(40470700004)(110136005)(66899015)(2906002)(54906003)(4326008)(336012)(5660300002)(40460700003)(36860700001)(426003)(47076005)(86362001)(36756003)(8936002)(41300700001)(8676002)(70206006)(40480700001)(70586007)(82740400003)(356005)(316002)(81166007)(450100002)(82310400005)(966005)(83380400001)(7696005)(16526019)(2616005)(6666004)(26005)(478600001)(1076003)(186003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2023 01:32:25.6579 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22e4ff54-48f4-4260-de48-08daf43cdc5e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT063.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6197
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,95 +98,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch
+Cc: xiaogang.chen@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 11, 2023 at 2:56 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Mon, Jan 09, 2023 at 04:18:12PM -0800, Shakeel Butt wrote:
-> > Hi T.J.,
-> >
-> > On Mon, Jan 9, 2023 at 1:38 PM T.J. Mercier <tjmercier@google.com> wrote:
-> > >
-> > > Based on discussions at LPC, this series adds a memory.stat counter for
-> > > exported dmabufs. This counter allows us to continue tracking
-> > > system-wide total exported buffer sizes which there is no longer any
-> > > way to get without DMABUF_SYSFS_STATS, and adds a new capability to
-> > > track per-cgroup exported buffer sizes. The total (root counter) is
-> > > helpful for accounting in-kernel dmabuf use (by comparing with the sum
-> > > of child nodes or with the sum of sizes of mapped buffers or FD
-> > > references in procfs) in addition to helping identify driver memory
-> > > leaks when in-kernel use continually increases over time. With
-> > > per-application cgroups, the per-cgroup counter allows us to quickly
-> > > see how much dma-buf memory an application has caused to be allocated.
-> > > This avoids the need to read through all of procfs which can be a
-> > > lengthy process, and causes the charge to "stick" to the allocating
-> > > process/cgroup as long as the buffer is alive, regardless of how the
-> > > buffer is shared (unless the charge is transferred).
-> > >
-> > > The first patch adds the counter to memcg. The next two patches allow
-> > > the charge for a buffer to be transferred across cgroups which is
-> > > necessary because of the way most dmabufs are allocated from a central
-> > > process on Android. The fourth patch adds a SELinux hook to binder in
-> > > order to control who is allowed to transfer buffer charges.
-> > >
-> > > [1] https://lore.kernel.org/all/20220617085702.4298-1-christian.koenig@amd.com/
-> > >
-> >
-> > I am a bit confused by the term "charge" used in this patch series.
-> > From the patches, it seems like only a memcg stat is added and nothing
-> > is charged to the memcg.
-> >
-> > This leads me to the question: Why add this stat in memcg if the
-> > underlying memory is not charged to the memcg and if we don't really
-> > want to limit the usage?
-> >
-> > I see two ways forward:
-> >
-> > 1. Instead of memcg, use bpf-rstat [1] infra to implement the
-> > per-cgroup stat for dmabuf. (You may need an additional hook for the
-> > stat transfer).
-> >
-> > 2. Charge the actual memory to the memcg. Since the size of dmabuf is
-> > immutable across its lifetime, you will not need to do accounting at
-> > page level and instead use something similar to the network memory
-> > accounting interface/mechanism (or even more simple). However you
-> > would need to handle the reclaim, OOM and charge context and failure
-> > cases. However if you are not looking to limit the usage of dmabuf
-> > then this option is an overkill.
->
-> I think eventually, at least for other "account gpu stuff in cgroups" use
-> case we do want to actually charge the memory.
->
-Yes, I've been looking at this today.
+Rebased on latest amd-staging-drm-next. This is meant to be the final
+review of this series, assuming no more issues are found.
 
-> The problem is a bit that with gpu allocations reclaim is essentially "we
-> pass the error to userspace and they get to sort the mess out". There are
-> some exceptions (some gpu drivers to have shrinkers) would we need to make
-> sure these shrinkers are tied into the cgroup stuff before we could enable
-> charging for them?
->
-I'm also not sure that we can depend on the dmabuf being backed at
-export time 100% of the time? (They are for dmabuf heaps.) If not,
-that'd make calling the existing memcg folio based functions a bit
-difficult.
+This patch series enables KFD to interoperate more closely with DRM render
+nodes. ROCm user mode already uses DRM render nodes to create its GPU VM
+contexts and to CPU-map its GEM buffer objects. This patch series adds an
+API to let KFD export its BOs as DMABufs, so they can be imported into
+the DRM render nodes. This enables more flexible virtual memory mappings
+using DRM_IOCTL_AMDGPU_GEM_VA.
 
-> Also note that at least from the gpu driver side this is all a huge
-> endeavour, so if we can split up the steps as much as possible (and get
-> something interim useable that doesn't break stuff ofc), that is
-> practically need to make headway here. TJ has been trying out various
-> approaches for quite some time now already :-/
-> -Daniel
->
-> > Please let me know if I misunderstood something.
-> >
-> > [1] https://lore.kernel.org/all/20220824233117.1312810-1-haoluo@google.com/
-> >
-> > thanks,
-> > Shakeel
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+Patches 1 and 2 deal with the exporting and importing of DMABufs.
+
+The remaining patches let KFD validate and update GPUVM mappings managed
+through render nodes.
+
+The user mode side of this patch series can be seen in libhsakmt and
+KFDTest where we improve integration with libdrm (initializing
+amdgpu_device instances) to enable DMABuf imports into the render nodes
+representing KFD GPU VM contexts. KFDTest is modified to test evictions
+and validations of BOs mapped through amdgpu_bo_va_op:
+https://github.com/fxkamd/ROCT-Thunk-Interface/commits/fxkamd/dmabuf
+
+As a consequence, applications using Mesa and ROCm in the same process on
+the same GPU will now share a single render node FD and GPUVM address
+space.
+
+The DMABuf export API will also be used later for upstream IPC and RDMA
+implementations.
+
+Felix Kuehling (6):
+  drm/amdgpu: Generalize KFD dmabuf import
+  drm/amdkfd: Implement DMA buf fd export from KFD
+  drm/amdkfd: Improve amdgpu_vm_handle_moved
+  drm/amdgpu: Attach eviction fence on alloc
+  drm/amdgpu: update mappings not managed by KFD
+  drm/amdgpu: Do bo_va ref counting for KFD BOs
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |   2 +
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 196 ++++++++++++------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c   |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |  18 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h        |   3 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      |  55 +++++
+ include/uapi/linux/kfd_ioctl.h                |  14 +-
+ 8 files changed, 219 insertions(+), 77 deletions(-)
+
+-- 
+2.34.1
+
