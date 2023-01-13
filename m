@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA40F66957E
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 12:30:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 623D5669581
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 12:30:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DDD710E9EA;
-	Fri, 13 Jan 2023 11:29:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B64010E9EC;
+	Fri, 13 Jan 2023 11:29:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9A3810E110;
- Fri, 13 Jan 2023 11:29:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5685610E9E2;
+ Fri, 13 Jan 2023 11:29:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,16 +19,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=yPOpBKvWfoH7CFpXJ2F6phP4MvRa3tFnvNQbd1BFm10=; b=VBAyQeSU4GLm9abxJGSBvi2+//
- TG03TK/zIL5XO25Y8up/kWqbshER9ItVH20bzmKpg73/zbwqMT/037v6neIgAUZTFwc4a5Ucm23dV
- itcDyy2/ebGLSDDwDcxNPVFQzUguFU6nxcleX1eAhkAdGp6ZE57F34R5gsAdmZZjCAcnDzssUs4jA
- s3ToWzs9SZ/K0ewuYtgnXuNn76Juvu4FG+FQDo9pop8W++iLlAtkv4VfG6CQHlAGlG1QATr22WcRW
- YuvDaYCx36AWTrIhdaTV0OMs8OJiG6d6nKfhvC4O6hi6JQedqzr52nMqHCYF/3dHVDEd+MuI0WYmm
- dkv4qlpw==;
+ bh=6XeSl7wi55EK/GcJ80AIBwpDhIHeyNAljXv8nYVrQ34=; b=Vn1gPqhAssT+krCMnZ0kO/Mj27
+ 2g2kUOC4kln2GsAf9MBfeBd6jaq4qvtjdRZaHkd/Lf3J++1pCSsQlEB/R84mSbGP36PwjrnU7EwMF
+ CfvYEy2WtDmPP4zE5Tjrakb2PCoFqLFIpwqatTzl/MQXVJqCbuhJSkN+c45BDv+sozXhIJA8eYady
+ mb8NfWTtItDWPqv6ItHUuRIlxtypz7O4gArWUH3jPp4TQFNVEP7V85ZfFWqSrxbULKDR2hBLHo8io
+ 0cCha12fL6M8C+XYzUhGArAOhpryvRWSwIrMgTKTiz5PNESljK4K2tKcsll9Wt5Tu062AtbLrWOVo
+ x1RrDNvA==;
 Received: from [187.36.234.139] (helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pGIFY-0075dF-2S; Fri, 13 Jan 2023 12:29:32 +0100
+ id 1pGIFe-0075dF-8p; Fri, 13 Jan 2023 12:29:38 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -37,9 +37,9 @@ To: Maxime Ripard <mripard@kernel.org>,
  Simon Ser <contact@emersion.fr>, Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Zack Rusin <zackr@vmware.com>
-Subject: [PATCH v2 1/3] drm/framebuffer: Check for valid formats
-Date: Fri, 13 Jan 2023 08:27:42 -0300
-Message-Id: <20230113112743.188486-2-mcanal@igalia.com>
+Subject: [PATCH v2 2/3] drm/amdgpu: Remove redundant framebuffer format check
+Date: Fri, 13 Jan 2023 08:27:43 -0300
+Message-Id: <20230113112743.188486-3-mcanal@igalia.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230113112743.188486-1-mcanal@igalia.com>
 References: <20230113112743.188486-1-mcanal@igalia.com>
@@ -59,7 +59,6 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
  =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
  amd-gfx@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
  VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
@@ -67,63 +66,41 @@ Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, framebuffer_check() doesn't check if the pixel format is
-supported, which can lead to the acceptance of invalid pixel formats
-e.g. the acceptance of invalid modifiers. Therefore, add a check for
-valid formats on framebuffer_check(), so that the ADDFB2 IOCTL rejects
-calls with invalid formats.
+Now that framebuffer_check() verifies that the format is properly
+supported, there is no need to check it again on amdgpu's inside
+helpers.
 
-Moreover, note that this check is only valid for atomic drivers,
-because, for non-atomic drivers, checking drm_any_plane_has_format() is
-not possible since the format list for the primary plane is fake, and
-we'd therefore reject valid formats.
+Therefore, remove the redundant framebuffer format check from the
+amdgpu_display_gem_fb_verify_and_init() function, letting
+framebuffer_check() perform the framebuffer validation.
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Reviewed-by: Simon Ser <contact@emersion.fr>
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- Documentation/gpu/todo.rst        | 9 ++++-----
- drivers/gpu/drm/drm_framebuffer.c | 8 ++++++++
- 2 files changed, 12 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 1f8a5ebe188e..3a79c26c5cc7 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -276,11 +276,10 @@ Various hold-ups:
- - Need to switch to drm_fbdev_generic_setup(), otherwise a lot of the custom fb
-   setup code can't be deleted.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+index b22471b3bd63..611b7a4b086c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+@@ -1120,16 +1120,6 @@ static int amdgpu_display_gem_fb_verify_and_init(struct drm_device *dev,
  
--- Many drivers wrap drm_gem_fb_create() only to check for valid formats. For
--  atomic drivers we could check for valid formats by calling
--  drm_plane_check_pixel_format() against all planes, and pass if any plane
--  supports the format. For non-atomic that's not possible since like the format
--  list for the primary plane is fake and we'd therefor reject valid formats.
-+- Need to switch to drm_gem_fb_create(), as now framebuffer_check() checks for
-+  valid formats for atomic drivers.
-+
-+- Add an addfb format validation for non-atomic drivers.
+ 	rfb->base.obj[0] = obj;
+ 	drm_helper_mode_fill_fb_struct(dev, &rfb->base, mode_cmd);
+-	/* Verify that the modifier is supported. */
+-	if (!drm_any_plane_has_format(dev, mode_cmd->pixel_format,
+-				      mode_cmd->modifier[0])) {
+-		drm_dbg_kms(dev,
+-			    "unsupported pixel format %p4cc / modifier 0x%llx\n",
+-			    &mode_cmd->pixel_format, mode_cmd->modifier[0]);
+-
+-		ret = -EINVAL;
+-		goto err;
+-	}
  
- - Many drivers subclass drm_framebuffer, we'd need a embedding compatible
-   version of the varios drm_gem_fb_create functions. Maybe called
-diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-index aff3746dedfb..605642bf3650 100644
---- a/drivers/gpu/drm/drm_framebuffer.c
-+++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -280,6 +280,14 @@ static int framebuffer_check(struct drm_device *dev,
- 		}
- 	}
- 
-+	/* Verify that the modifier is supported. */
-+	if (drm_drv_uses_atomic_modeset(dev) &&
-+	    !drm_any_plane_has_format(dev, r->pixel_format, r->modifier[0])) {
-+		drm_dbg_kms(dev, "Unsupported pixel format %p4cc / modifier 0x%llx\n",
-+			    &r->pixel_format, r->modifier[0]);
-+		return -EINVAL;
-+	}
-+
- 	return 0;
- }
- 
+ 	ret = amdgpu_display_framebuffer_init(dev, rfb, mode_cmd, obj);
+ 	if (ret)
 -- 
 2.39.0
 
