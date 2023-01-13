@@ -1,59 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2163B669109
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:33:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42AB1669115
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:36:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 728A110E038;
-	Fri, 13 Jan 2023 08:33:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDF6C10E9AD;
+	Fri, 13 Jan 2023 08:36:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2621410E038
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:33:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673598789; x=1705134789;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=GqQXcShQAs9q4QNJtlNIgO10i+JkYjX2I3+Dx7McTOg=;
- b=V+iYlAz2Za3TMPOSf9y9UV2eYvXxXc78rGIFzolApolBUaw5c5bN116f
- 0UJ3gieVU9CNzgpv5cnxwCBASTtBxAVWl+kC4COWthePbOKLSBmv+Z3tB
- 28J1zeUnOckPlyezrQfD8xao3WLQMV19GBOU4q4rEgUK+2XI9YPiAHaZe
- /JSWyZCk+bPu6tTbzYNBnmeQgNItAYFa0fI+XwycXVFUqOSvFC7eZuBc1
- WARnJ6IPm7ddLwcdGxqXcJnOrJXO4bo06YEGBV3XInODdd9PuY/RK+WN+
- uTEGeYMVB+G5Pti/KDP162RfodD1dupPCstxCjWTgnaSWG741R4O9TjUY g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="324007744"
-X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="324007744"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2023 00:33:08 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="782080139"
-X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="782080139"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.132.57])
- ([10.249.132.57])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2023 00:33:05 -0800
-Message-ID: <602fef65-f531-476c-def6-6ec89f2f04b8@linux.intel.com>
-Date: Fri, 13 Jan 2023 09:33:03 +0100
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55B2910E9AD
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:36:14 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id y25so32086739lfa.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:36:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=MbcF412+htBpP6c3Z0Q4p3qLBGDCwBxu74wvh/PMgNw=;
+ b=VpSslbPElfSFkioF2esjTVMWOD8pQfbbCeJ6uRoN7SwA/DpDfkNJg5YbMKDjOyQm58
+ Lref6nMkgaioreG3O9Kqk3MKFGbEuLb4YGcEbtI8+FxecrhtP5vogKIiQQd/BeDrIU7P
+ B5yaBqDCZbyuMlczVjJ8CCUwZXTvBC954sVEXQfxdbvLdx7tYmrvCvPJWtb2fMYKEZ4a
+ /Ji8PZljruID8qRbeX8XbMukIH+Q3qfRpdLg6DWzsLjrc9qYlr88xVRYrHpMSORoINoF
+ nDgPE7T9M9KYW8qRICOu5YW/OAo98RpWHb5ILPxNfgXsLbQLw3D+ICsSsfVuFiqSQve3
+ lEPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MbcF412+htBpP6c3Z0Q4p3qLBGDCwBxu74wvh/PMgNw=;
+ b=qbv30V8/kAhPfmtLImdUyEEcyYXfQfkTzIQYGxvMP3AEMhTXNSCc1FbQ8zH6zJuXYH
+ p41BZc3yAZVkzbXlJG2o8b5fzsNSc+thLcjvnbaMQmR4/eGUM/lrc6SdiLOEaGdHVlKw
+ FKKjYsz0HrnI2BA46roLEE+NXzMRp1oaQiBiKHW6057keaquVlO9aqV/od7McAX3KftV
+ w+ZXfYcoRJy1pbRqe7UJDrKzRLmg/rDk7uMAzxTRXqkQDZEJ59SfeCB7UmRcpYw1hwm/
+ bC9c8LCIsWqEv+yk0/wv9+QidjMj23G2+OR6z5Os2/bj9JXLIMhib6iKckF6IkUs5xOG
+ AfUQ==
+X-Gm-Message-State: AFqh2kpzjxXi70OZhROb5Hx/6yZiB+Ye2GudFqWrUsinPPzK7sX2YJ6h
+ QveB0Pp1GHs9vmtpaxMPOl9pAQ==
+X-Google-Smtp-Source: AMrXdXvWNzx7rgSBewTKrQ2TXk3lTNoL04kHq5ZP4XC25VP4PEcDLfWV9uvN9qcdP5fMa1q3Tiag1w==
+X-Received: by 2002:a05:6512:224f:b0:4cc:586b:1834 with SMTP id
+ i15-20020a056512224f00b004cc586b1834mr9610322lfu.45.1673598972387; 
+ Fri, 13 Jan 2023 00:36:12 -0800 (PST)
+Received: from [192.168.2.31] ([194.204.33.9])
+ by smtp.gmail.com with ESMTPSA id
+ v15-20020ac258ef000000b004b57a253deasm3739416lfo.162.2023.01.13.00.36.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Jan 2023 00:36:11 -0800 (PST)
+Message-ID: <81cf71ed-1daa-222d-d67a-efded42e70d2@linaro.org>
+Date: Fri, 13 Jan 2023 10:36:09 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v5 3/7] accel/ivpu: Add GEM buffer object management
-Content-Language: en-US
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, dri-devel@lists.freedesktop.org,
- oded.gabbay@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
- tzimmermann@suse.de
-References: <20230109122344.253994-1-jacek.lawrynowicz@linux.intel.com>
- <20230109122344.253994-4-jacek.lawrynowicz@linux.intel.com>
- <bf47516e-861b-36f2-97a3-579c5fe30f67@quicinc.com>
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <bf47516e-861b-36f2-97a3-579c5fe30f67@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 1/4] dt-bindings: display/msm: convert MDP5 schema to
+ YAML format
+Content-Language: en-GB
+To: Rob Herring <robh@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230109050152.316606-1-dmitry.baryshkov@linaro.org>
+ <20230109050152.316606-2-dmitry.baryshkov@linaro.org>
+ <20230109074947.5vnfrn6shzpm6iqi@SoMainline.org>
+ <997dbd09-03d6-d60d-1dce-db0bc6415582@linaro.org>
+ <20230111222903.otbur6yi4iv4mpgz@SoMainline.org>
+ <1d371e40-0639-16f8-abef-afcd05e72e22@linaro.org>
+ <20230111223553.e3xrxmdys5zxxleh@SoMainline.org>
+ <20230112215015.GA259261-robh@kernel.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230112215015.GA259261-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,37 +83,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.kacprowski@linux.intel.com, stanislaw.gruszka@linux.intel.com
+Cc: devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 12.01.2023 18:52, Jeffrey Hugo wrote:
-> On 1/9/2023 5:23 AM, Jacek Lawrynowicz wrote:
->> Adds four types of GEM-based BOs for the VPU:
->>    - shmem
->>    - userptr
->>    - internal
->>    - prime
->>
->> All types are implemented as struct ivpu_bo, based on
->> struct drm_gem_object. VPU address is allocated when buffer is created
->> except for imported prime buffers that allocate it in BO_INFO IOCTL due
->> to missing file_priv arg in gem_prime_import callback.
->> Internal buffers are pinned on creation, the rest of buffers types
->> can be pinned on demand (in SUBMIT IOCTL).
->> Buffer VPU address, allocated pages and mappings are released when the
->> buffer is destroyed.
->> Eviction mechism is planned for future versions.
+On 12/01/2023 23:50, Rob Herring wrote:
+> On Wed, Jan 11, 2023 at 11:35:53PM +0100, Marijn Suijten wrote:
+>> On 2023-01-12 00:31:33, Dmitry Baryshkov wrote:
+>>> On 12/01/2023 00:29, Marijn Suijten wrote:
+>>>> On 2023-01-10 06:40:27, Dmitry Baryshkov wrote:
+>>>>> On 09/01/2023 09:49, Marijn Suijten wrote:
+>>>>>> On 2023-01-09 07:01:49, Dmitry Baryshkov wrote:
+>>>> <snip>
+>>>>>>> +    description: |
+>>>>>>
+>>>>>> Should multiline descriptions be treated as a oneline string with `>`?
 > 
-> mechism -> mechanism
-> 
-> Hopefully whomever applies this can fix it up inline and this doesn't require a new revision.
-> 
+> Depends if you want to keep paragraphs. Generally, we use '|' or
+> nothing. If just a colon (or ???), then I think you want '>'.
 
-It's fine, I'm planning to send v6 early next week anyway to fix some other stuff as well.
+Ack, thanks for the explanation. I'll fix this for v6.
 
-Regards,
-Jacek
+> 
+> I get tired of saying to drop unnecessary '|' in reviews. It would be
+> nice to analyze the text to check what's needed automatically.
+> 
+> -- 
+With best wishes
+Dmitry
 
