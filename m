@@ -1,55 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D9F669088
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:19:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24EBB6690AB
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:23:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54CD110E1F5;
-	Fri, 13 Jan 2023 08:19:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C841810E238;
+	Fri, 13 Jan 2023 08:23:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
- [IPv6:2607:f8b0:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ADF610E1F5
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:19:52 +0000 (UTC)
-Received: by mail-il1-x132.google.com with SMTP id v6so992707ilq.3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:19:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=BKMSUmtvQTZR1Bx3nFgy9UiaF+pPDH7HXjpb5m0jErY=;
- b=Ksic6VC372xQWN9jfDMhwisA2M6mj48tLTHoGLbn+xdcflR+rMD3CtuznqAHCPTGnS
- oKjRaOr7TNvVq08GhcPBcUPY9uPLVVBKUBQrfTWVO7NkKBKIEC984s2fPSFXVrLcyKsw
- ezdHPDdJNMsTLEsmeNuB8YNCMgoOgHrl256To=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BKMSUmtvQTZR1Bx3nFgy9UiaF+pPDH7HXjpb5m0jErY=;
- b=yirjCRCDVdUT3LJrFsv1yqtCVecI0ur+3ADxaG315KoN0daw8pxXQewUnsefjZ3qnn
- 6u97nH38XX4jYMW5t8s7KJZF/TsAidsF8AfrSD6Ugaud8nfon1pzMQB/GZ06YYAfEnHY
- esPOzNSQp8i92tGf0E/uubcm8lHOeJQ78+dZqupTUV2as7EGy1y5FIqeNcD4dE3Gxgw5
- xHnI7n4RhtWjoDlet9G9d+CBqlOM1KoNeUHw/LbqsDNDkQamEqZO53SjwpQ5U6GZ+b73
- jZBWdB+6lOOhd9vca3wdhlTo3Jk4R5MDEqBp48YqrqT9Fjigc9ff4mtE1UJOQTgJwZ2D
- CxUw==
-X-Gm-Message-State: AFqh2kpq0JNZCC6z2NG+5wkAedUDeZ6Yhr6g6SuOVgXR14JjvlL7ddJ3
- 1KD59m1mWVC0SPLCyI2p8rVCv5OqbaP1qn7WBwjtWQ==
-X-Google-Smtp-Source: AMrXdXsDR5dhPIj26bySWnmo5RM8DNKlViIPKfZA1FUN9ZY90xGUdO4m1InJPkTHXxKZpel9gir4SHUCYlhZ9mzltLQ=
-X-Received: by 2002:a92:d0f:0:b0:303:96b3:c8a0 with SMTP id
- 15-20020a920d0f000000b0030396b3c8a0mr8028094iln.192.1673597991294; Fri, 13
- Jan 2023 00:19:51 -0800 (PST)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A510D10E238
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:23:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673598216; x=1705134216;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=lOlQW00JFUm3vGYgSvntzTwh9oj6owWcgfZMfApmYZ8=;
+ b=ENeUr+pv/vEtzQaxe4cdKYNZdiaYjYj39jxOSnGcqCSflzTtMjpef67o
+ WyrDYmMcJPIPiMcv1ZiYZ9WI79iXQ5E7li0maf3VkDOgRdkGV+nmww/si
+ iEKVoP3zCJ0pLQaGfhGr7nCRn/HTbwsbIfC83uEjoDvnpmbtYXlHi3o4K
+ 8HYGyVIraUbXMzd5JomGgDqItPA5lS5i6HwTqbpxWkKsNR3O53UndVvKW
+ dpr3HtkXHrH7UHH7gKW2kYdehbEhHZ7ca3OLLQjUUwrLDsX1iGMBVinYi
+ bRuiKp6Jf1YqvS8bhAntMJQz8l11yuT+EfYx/Tl2IOHAyh+R3r1DIXV/0 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="303642096"
+X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="303642096"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2023 00:23:36 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="800528703"
+X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="800528703"
+Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.132.57])
+ ([10.249.132.57])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2023 00:23:33 -0800
+Message-ID: <acbba7d4-1c38-a3b2-9d51-1a8cd51f15ab@linux.intel.com>
+Date: Fri, 13 Jan 2023 09:23:31 +0100
 MIME-Version: 1.0
-References: <20230112042104.4107253-1-treapking@chromium.org>
- <20230112042104.4107253-4-treapking@chromium.org> <87mt6ogndf.fsf@intel.com>
-In-Reply-To: <87mt6ogndf.fsf@intel.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Fri, 13 Jan 2023 16:19:40 +0800
-Message-ID: <CAEXTbpdjr1ZeOKPsPhKJoByXbwjEiVV8+sxvxjo9==YeQhi-kA@mail.gmail.com>
-Subject: Re: [PATCH v10 3/9] drm/display: Add Type-C switch helpers
-To: Jani Nikula <jani.nikula@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v5 1/7] accel/ivpu: Introduce a new DRM driver for Intel
+ VPU
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, dri-devel@lists.freedesktop.org,
+ oded.gabbay@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
+ tzimmermann@suse.de
+References: <20230109122344.253994-1-jacek.lawrynowicz@linux.intel.com>
+ <20230109122344.253994-2-jacek.lawrynowicz@linux.intel.com>
+ <2c8f58f3-1294-1c36-72c1-55349ff28309@quicinc.com>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <2c8f58f3-1294-1c36-72c1-55349ff28309@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,284 +67,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Kees Cook <keescook@chromium.org>,
- Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- shaomin Deng <dengshaomin@cdjrlc.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
- Prashant Malani <pmalani@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: andrzej.kacprowski@linux.intel.com,
+ Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
+ stanislaw.gruszka@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
+Hi,
 
-Thanks for the review.
+On 12.01.2023 18:34, Jeffrey Hugo wrote:
+> On 1/9/2023 5:23 AM, Jacek Lawrynowicz wrote:
+>> VPU stands for Versatile Processing Unit and it's a CPU-integrated
+>> inference accelerator for Computer Vision and Deep Learning
+>> applications.
+>>
+>> The VPU device consist of following components:
+>>    - Buttress - provides CPU to VPU integration, interrupt, frequency and
+>>      power management.
+>>    - Memory Management Unit (based on ARM MMU-600) - translates VPU to
+>>      host DMA addresses, isolates user workloads.
+>>    - RISC based microcontroller - executes firmware that provides job
+>>      execution API for the kernel-mode driver
+>>    - Neural Compute Subsystem (NCS) - does the actual work, provides
+>>      Compute and Copy engines.
+>>    - Network on Chip (NoC) - network fabric connecting all the components
+>>
+>> This driver supports VPU IP v2.7 integrated into Intel Meteor Lake
+>> client CPUs (14th generation).
+>>
+>> Module sources are at drivers/accel/ivpu and module name is
+>> "intel_vpu.ko".
+>>
+>> This patch includes only very besic functionality:
+>>    - module, PCI device and IRQ initialization
+>>    - register definitions and low level register manipulation functions
+>>    - SET/GET_PARAM ioctls
+>>    - power up without firmware
+>>
+>> Co-developed-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+>> Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+>> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> 
+> Reviewed-by: Jeffrey Hugo <quic_jhugo2quicinc.com>
+> 
+>> +static const struct file_operations ivpu_fops = {
+>> +    .owner        = THIS_MODULE,
+>> +    .open        = accel_open,
+>> +    .release    = drm_release,
+>> +    .unlocked_ioctl    = drm_ioctl,
+>> +    .compat_ioctl    = drm_compat_ioctl,
+>> +    .poll        = drm_poll,
+>> +    .read        = drm_read,
+>> +    .llseek        = noop_llseek,
+>> +    .mmap           = drm_gem_mmap
+>> +};
+> 
+> Hmm DEFINE_DRM_ACCEL_FOPS is not usable here because it doesn't define .mmap
+> Feels like we should fix that and then simplify this.  Seems like a good todo item.
 
-On Thu, Jan 12, 2023 at 4:37 PM Jani Nikula <jani.nikula@intel.com> wrote:
->
-> On Thu, 12 Jan 2023, Pin-yen Lin <treapking@chromium.org> wrote:
-> > Add helpers to register and unregister Type-C "switches" for bridges
-> > capable of switching their output between two downstream devices.
-> >
-> > The helper registers USB Type-C mode switches when the "mode-switch"
-> > and the "data-lanes" properties are available in Device Tree.
-> >
-> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> > Tested-by: Chen-Yu Tsai <wenst@chromium.org>
-> > Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
-> > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> >
-> > ---
-> >
-> > Changes in v10:
-> > - Collected Reviewed-by and Tested-by tags
-> > - Replaced "void *" with "typec_mux_set_fn_t" for mux_set callbacks
-> > - Print out the node name when errors on parsing DT
-> > - Use dev_dbg instead of dev_warn when no Type-C switch nodes available
-> > - Made the return path of drm_dp_register_mode_switch clearer
-> >
-> > Changes in v8:
-> > - Fixed the build issue when CONFIG_TYPEC=m
-> > - Fixed some style issues
-> >
-> > Changes in v7:
-> > - Extracted the common codes to a helper function
-> > - New in v7
-> >
-> >  drivers/gpu/drm/display/drm_dp_helper.c | 134 ++++++++++++++++++++++++
-> >  include/drm/display/drm_dp_helper.h     |  17 +++
-> >  2 files changed, 151 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> > index 16565a0a5da6..a2ec40a621cb 100644
-> > --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> > +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> > @@ -30,11 +30,13 @@
-> >  #include <linux/sched.h>
-> >  #include <linux/seq_file.h>
-> >  #include <linux/string_helpers.h>
-> > +#include <linux/usb/typec_mux.h>
-> >  #include <linux/dynamic_debug.h>
-> >
-> >  #include <drm/display/drm_dp_helper.h>
-> >  #include <drm/display/drm_dp_mst_helper.h>
-> >  #include <drm/drm_edid.h>
-> > +#include <drm/drm_of.h>
-> >  #include <drm/drm_print.h>
-> >  #include <drm/drm_vblank.h>
-> >  #include <drm/drm_panel.h>
-> > @@ -3891,3 +3893,135 @@ int drm_panel_dp_aux_backlight(struct drm_panel *panel, struct drm_dp_aux *aux)
-> >  EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
-> >
-> >  #endif
-> > +
-> > +#if IS_REACHABLE(CONFIG_TYPEC)
->
-> I think IS_REACHABLE() is a workaround for not getting the Kconfig
-> dependencies right. It allows configurations that silently just don't
-> work, instead of warning about it at config time. It fixes a build
-> issue, but trades it for an end user configuration issue that you don't
-> get any feedback about, and is hard to figure out. It's for people who
-> deal with build issues, but don't need to deal with user issues.
->
-> BR,
-> Jani.
->
-I've added "depends on TYPEC || TYPEC=n" on the Kconfigs of its users
-(i.e., anx7625 and it6505). I didn't do this on DRM_DISPLAY_DP_HELPER
-because that stops all users of DRM_DISPLAY_DP_HELPER, which is a
-quite generic helper file, from building TYPEC as a module.
+I think this should rather be on accel/drm TODO and not ivpu TODO list.
+For the moment I can simplify the code to this:
+static const struct file_operations ivpu_fops = {
+	.owner		= THIS_MODULE,
+	.mmap           = drm_gem_mmap,
+	DRM_ACCEL_FOPS,
+};
 
-Or, do you have any other suggestions on this? Move these functions to
-a separate file?
+Still not perfect but nicer.
 
->
->
-> > +static int drm_dp_register_mode_switch(struct device *dev, struct device_node *node,
-> > +                                    struct drm_dp_typec_switch_desc *switch_desc,
-> > +                                    void *data, typec_mux_set_fn_t mux_set)
-> > +{
-> > +     struct drm_dp_typec_port_data *port_data;
-> > +     struct typec_mux_desc mux_desc = {};
-> > +     char name[32];
-> > +     u32 dp_lanes[2];
-> > +     int ret, num_lanes, port_num = -1;
-> > +
-> > +     num_lanes = drm_of_get_data_lanes_count(node, 0, 2);
-> > +     if (num_lanes <= 0) {
-> > +             dev_err(dev, "Error on getting data lanes count from %s: %d\n",
-> > +                     node->name, num_lanes);
-> > +             return num_lanes;
-> > +     }
-> > +
-> > +     ret = of_property_read_u32_array(node, "data-lanes", dp_lanes, num_lanes);
-> > +     if (ret) {
-> > +             dev_err(dev, "Failed to read the data-lanes variable from %s: %d\n",
-> > +                     node->name, ret);
-> > +             return ret;
-> > +     }
-> > +
-> > +     port_num = dp_lanes[0] / 2;
-> > +
-> > +     port_data = &switch_desc->typec_ports[port_num];
-> > +     port_data->data = data;
-> > +     mux_desc.fwnode = &node->fwnode;
-> > +     mux_desc.drvdata = port_data;
-> > +     snprintf(name, sizeof(name), "%s-%u", node->name, port_num);
-> > +     mux_desc.name = name;
-> > +     mux_desc.set = mux_set;
-> > +
-> > +     port_data->typec_mux = typec_mux_register(dev, &mux_desc);
-> > +     if (IS_ERR(port_data->typec_mux)) {
-> > +             ret = PTR_ERR(port_data->typec_mux);
-> > +             dev_err(dev, "Mode switch register for port %d failed: %d\n",
-> > +                     port_num, ret);
-> > +
-> > +             return ret;
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +/**
-> > + * drm_dp_register_typec_switches() - register Type-C switches
-> > + * @dev: Device that registers Type-C switches
-> > + * @port: Device node for the switch
-> > + * @switch_desc: A Type-C switch descriptor
-> > + * @data: Private data for the switches
-> > + * @mux_set: Callback function for typec_mux_set
-> > + *
-> > + * This function registers USB Type-C switches for DP bridges that can switch
-> > + * the output signal between their output pins.
-> > + *
-> > + * Currently only mode switches are implemented, and the function assumes the
-> > + * given @port device node has endpoints with "mode-switch" property.
-> > + * Register the endpoint as port 0 if the "data-lanes" property falls in 0/1,
-> > + * and register it as port 1 if "data-lanes" falls in 2/3.
-> > + */
-> > +int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
-> > +                                struct drm_dp_typec_switch_desc *switch_desc,
-> > +                                void *data, typec_mux_set_fn_t mux_set)
-> > +{
-> > +     struct device_node *sw;
-> > +     int ret;
-> > +
-> > +     for_each_child_of_node(port, sw) {
-> > +             if (of_property_read_bool(sw, "mode-switch"))
-> > +                     switch_desc->num_typec_switches++;
-> > +     }
-> > +
-> > +     if (!switch_desc->num_typec_switches) {
-> > +             dev_dbg(dev, "No Type-C switches node found\n");
-> > +             return 0;
-> > +     }
-> > +
-> > +     switch_desc->typec_ports = devm_kcalloc(
-> > +             dev, switch_desc->num_typec_switches,
-> > +             sizeof(struct drm_dp_typec_port_data), GFP_KERNEL);
-> > +
-> > +     if (!switch_desc->typec_ports)
-> > +             return -ENOMEM;
-> > +
-> > +     /* Register switches for each connector. */
-> > +     for_each_child_of_node(port, sw) {
-> > +             if (!of_property_read_bool(sw, "mode-switch"))
-> > +                     continue;
-> > +             ret = drm_dp_register_mode_switch(dev, sw, switch_desc, data, mux_set);
-> > +             if (ret)
-> > +                     goto err_unregister_typec_switches;
-> > +     }
-> > +
-> > +     return 0;
-> > +
-> > +err_unregister_typec_switches:
-> > +     of_node_put(sw);
-> > +     drm_dp_unregister_typec_switches(switch_desc);
-> > +     dev_err(dev, "Failed to register mode switch: %d\n", ret);
-> > +     return ret;
-> > +}
-> > +EXPORT_SYMBOL(drm_dp_register_typec_switches);
-> > +
-> > +/**
-> > + * drm_dp_unregister_typec_switches() - unregister Type-C switches
-> > + * @switch_desc: A Type-C switch descriptor
-> > + */
-> > +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
-> > +{
-> > +     int i;
-> > +
-> > +     for (i = 0; i < switch_desc->num_typec_switches; i++)
-> > +             typec_mux_unregister(switch_desc->typec_ports[i].typec_mux);
-> > +}
-> > +EXPORT_SYMBOL(drm_dp_unregister_typec_switches);
-> > +#else
-> > +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
-> > +{
-> > +}
-> > +EXPORT_SYMBOL(drm_dp_register_typec_switches);
-> > +int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
-> > +                                struct drm_dp_typec_switch_desc *switch_desc,
-> > +                                void *data, typec_mux_set_fn_t mux_set)
-> > +{
-> > +     return 0;
-> > +}
-> > +EXPORT_SYMBOL(drm_dp_unregister_typec_switches);
-> > +#endif
-> > diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-> > index ab55453f2d2c..5a3824f13b4e 100644
-> > --- a/include/drm/display/drm_dp_helper.h
-> > +++ b/include/drm/display/drm_dp_helper.h
-> > @@ -25,6 +25,7 @@
-> >
-> >  #include <linux/delay.h>
-> >  #include <linux/i2c.h>
-> > +#include <linux/usb/typec_mux.h>
-> >
-> >  #include <drm/display/drm_dp.h>
-> >  #include <drm/drm_connector.h>
-> > @@ -763,4 +764,20 @@ bool drm_dp_downstream_rgb_to_ycbcr_conversion(const u8 dpcd[DP_RECEIVER_CAP_SIZ
-> >                                              const u8 port_cap[4], u8 color_spc);
-> >  int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc);
-> >
-> > +struct drm_dp_typec_port_data {
-> > +     struct typec_mux_dev *typec_mux;
-> > +     void *data;
-> > +     bool dp_connected;
-> > +};
-> > +
-> > +struct drm_dp_typec_switch_desc {
-> > +     int num_typec_switches;
-> > +     struct drm_dp_typec_port_data *typec_ports;
-> > +};
-> > +
-> > +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc);
-> > +int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
-> > +                                struct drm_dp_typec_switch_desc *switch_desc,
-> > +                                void *data, typec_mux_set_fn_t mux_set);
-> > +
-> >  #endif /* _DRM_DP_HELPER_H_ */
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
+Regards,
+Jacek
 
-Best regards,
-Pin-yen
