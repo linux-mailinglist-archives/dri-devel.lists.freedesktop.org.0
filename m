@@ -1,59 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 141E2669DFE
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 17:27:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9690669E01
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 17:28:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10CE410EA5B;
-	Fri, 13 Jan 2023 16:27:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE7D10EA67;
+	Fri, 13 Jan 2023 16:28:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa33.google.com (mail-vk1-xa33.google.com
- [IPv6:2607:f8b0:4864:20::a33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8C8010EA5B
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 16:27:46 +0000 (UTC)
-Received: by mail-vk1-xa33.google.com with SMTP id b81so10415174vkf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:27:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=8K/16wcw70g3853WB4bevqY45r4f6kMjEA+IYsdkDYY=;
- b=iGJOEt8ndx9S9t9mnzB3G2gCDTZNO1tXjhSiYvNzozMtXH/KeS6K3xEXo5Y6n0LSQX
- 2DgR8VBGHq7ZsloVs/sKaMKxiV47xE+PoyL/ffZ7zoLPkxjS1jtUnmXpP0y77WI70/BE
- U0s4dok1NhO5F1VBQRZihTY4nyT8PWMql/zNhM2pn4KpbDp/bhbLnvK9Wjz7vDHpOrXZ
- VABz8C5bMhkhhqnjRJzkB4jM3Bnyrk7yQvmMk/ONbBKBeTD7PIK/5k20wP4QvD85qcwo
- TgpuxLsEmJz0xnSwPWEu9i9KLHVC+1fR1yiLWyURT6iwhMqj4wwwsYuySwyG6Z+rwUVc
- A/7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8K/16wcw70g3853WB4bevqY45r4f6kMjEA+IYsdkDYY=;
- b=tJBtK0c/fnxXlCBrxmQrJ2RM4rqf2SXliiKUywMV4bNKEQAM+vr7OtsjlSLL/bXkiY
- tTx6bENR8JYCJNdzxfGKsO7OFNwMbOPyqcN76jiV2fDlhmGTjX2zzMkG0xzPPSroLw2Z
- IfU+3g8BTv9cPWGCeoem51a6fgFt/LK8SI8RcQ2ItBCshLk8Y13zx/eTM+KiDdV6/29a
- zEnBaHB0Zo8SdTiNW7rD/11bmXMHxeG3XA5f/m/R4KuhDhWvpGGgzW96RkrzrH5J7uFA
- i5vcApi7ATMtAHFFq60nAXL+1v6cL5pyAQ+OYrxqctmrC6nvJf7xKLpx+nvePYgk/Lr0
- WQBw==
-X-Gm-Message-State: AFqh2kraJnhl9LQ//eOfhUzmfGbs5hJs4TF4kfs4wpyUx/5cbsO5ZcxG
- 23CdUxEgAMDHec7ntVbYP5f3SXGuIp+H8chRnsr1lQ==
-X-Google-Smtp-Source: AMrXdXted3g6f9FMBDZMKLKDidfaUBO0lwDfRqcINCLqTHIg2JU6SKu+UJRIODTJ9PYp+yhkkqL1z4wgduGpqrneqV0=
-X-Received: by 2002:a1f:1243:0:b0:3da:e97f:4dd7 with SMTP id
- 64-20020a1f1243000000b003dae97f4dd7mr1741706vks.36.1673627265794; Fri, 13 Jan
- 2023 08:27:45 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51EEA10EA5F
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 16:28:16 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30DFU88s018607; Fri, 13 Jan 2023 16:28:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=jEfB/Tc1yJklN8Jg2267+4xJaoH0whasC/34rR3keNA=;
+ b=L8HfcrjqaVmTROi/ym4kdbHQzxr0s7hm5/f2Kzk3iOsi0axeG1TjgSlLmLjl3TDGIyOK
+ f51dirM+RBxe8DPIFH7HCKscW8pKs5hC8zkNkwwF70MWFnh6oQCEdKXuzo7UU6HDPw08
+ lildRnecxG5nqVIdWNP7xHLEvpUk0yGgaUEmEe6rI6uVgNNNvhwOYnCk5GOGm9fOehWJ
+ S5GDv0/Do6I6TNZWP/V6qJfAfw0GoGot6X7Fw5KMIkGmOEvbkehuV28RZNge+36zj5Ej
+ /B0ZgsiLqZraxtS2Ds9kdHDXft/JJi2HZTk5L/69B0CaoWKvKypRk7Fda7lBHwD/3tEe fQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n2wqw1t5s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Jan 2023 16:28:12 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30DGSBGo010131
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Jan 2023 16:28:11 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 13 Jan
+ 2023 08:28:10 -0800
+Message-ID: <f01c35cf-f5dc-407e-b205-6bff5991345f@quicinc.com>
+Date: Fri, 13 Jan 2023 09:28:09 -0700
 MIME-Version: 1.0
-References: <20230106030108.2542081-1-swboyd@chromium.org>
-In-Reply-To: <20230106030108.2542081-1-swboyd@chromium.org>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 13 Jan 2023 16:27:29 +0000
-Message-ID: <CAPY8ntA=Dq6GFQ3gEOm9PzPyOa9bHTr8JrpXLibnai7xKqRbpQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: boe-tv101wum-nl6: Ensure DSI writes succeed
- during disable
-To: Stephen Boyd <swboyd@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v5 1/7] accel/ivpu: Introduce a new DRM driver for Intel
+ VPU
+Content-Language: en-US
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>, <oded.gabbay@gmail.com>,
+ <airlied@gmail.com>, <daniel@ffwll.ch>, <tzimmermann@suse.de>
+References: <20230109122344.253994-1-jacek.lawrynowicz@linux.intel.com>
+ <20230109122344.253994-2-jacek.lawrynowicz@linux.intel.com>
+ <2c8f58f3-1294-1c36-72c1-55349ff28309@quicinc.com>
+ <acbba7d4-1c38-a3b2-9d51-1a8cd51f15ab@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <acbba7d4-1c38-a3b2-9d51-1a8cd51f15ab@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 6moavliqmbi5QAc42-Wvgs_1KLLSrk85
+X-Proofpoint-ORIG-GUID: 6moavliqmbi5QAc42-Wvgs_1KLLSrk85
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-13_07,2023-01-13_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ mlxlogscore=999 spamscore=0 malwarescore=0 adultscore=0 mlxscore=0
+ suspectscore=0 impostorscore=0 clxscore=1015 phishscore=0 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301130109
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,129 +88,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Jitao Shi <jitao.shi@mediatek.com>,
- yangcong <yangcong5@huaqin.corp-partner.google.com>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-mediatek@lists.infradead.org, patches@lists.linux.dev,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
+Cc: andrzej.kacprowski@linux.intel.com,
+ Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
+ stanislaw.gruszka@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stephen
+On 1/13/2023 1:23 AM, Jacek Lawrynowicz wrote:
+> Hi,
+> 
+> On 12.01.2023 18:34, Jeffrey Hugo wrote:
+>> On 1/9/2023 5:23 AM, Jacek Lawrynowicz wrote:
+>>> VPU stands for Versatile Processing Unit and it's a CPU-integrated
+>>> inference accelerator for Computer Vision and Deep Learning
+>>> applications.
+>>>
+>>> The VPU device consist of following components:
+>>>     - Buttress - provides CPU to VPU integration, interrupt, frequency and
+>>>       power management.
+>>>     - Memory Management Unit (based on ARM MMU-600) - translates VPU to
+>>>       host DMA addresses, isolates user workloads.
+>>>     - RISC based microcontroller - executes firmware that provides job
+>>>       execution API for the kernel-mode driver
+>>>     - Neural Compute Subsystem (NCS) - does the actual work, provides
+>>>       Compute and Copy engines.
+>>>     - Network on Chip (NoC) - network fabric connecting all the components
+>>>
+>>> This driver supports VPU IP v2.7 integrated into Intel Meteor Lake
+>>> client CPUs (14th generation).
+>>>
+>>> Module sources are at drivers/accel/ivpu and module name is
+>>> "intel_vpu.ko".
+>>>
+>>> This patch includes only very besic functionality:
+>>>     - module, PCI device and IRQ initialization
+>>>     - register definitions and low level register manipulation functions
+>>>     - SET/GET_PARAM ioctls
+>>>     - power up without firmware
+>>>
+>>> Co-developed-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+>>> Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+>>> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+>>
+>> Reviewed-by: Jeffrey Hugo <quic_jhugo2quicinc.com>
+>>
+>>> +static const struct file_operations ivpu_fops = {
+>>> +    .owner        = THIS_MODULE,
+>>> +    .open        = accel_open,
+>>> +    .release    = drm_release,
+>>> +    .unlocked_ioctl    = drm_ioctl,
+>>> +    .compat_ioctl    = drm_compat_ioctl,
+>>> +    .poll        = drm_poll,
+>>> +    .read        = drm_read,
+>>> +    .llseek        = noop_llseek,
+>>> +    .mmap           = drm_gem_mmap
+>>> +};
+>>
+>> Hmm DEFINE_DRM_ACCEL_FOPS is not usable here because it doesn't define .mmap
+>> Feels like we should fix that and then simplify this.  Seems like a good todo item.
+> 
+> I think this should rather be on accel/drm TODO and not ivpu TODO list.
+> For the moment I can simplify the code to this:
+> static const struct file_operations ivpu_fops = {
+> 	.owner		= THIS_MODULE,
+> 	.mmap           = drm_gem_mmap,
+> 	DRM_ACCEL_FOPS,
+> };
+> 
+> Still not perfect but nicer.
+> 
+> Regards,
+> Jacek
+> 
 
-On Fri, 6 Jan 2023 at 03:01, Stephen Boyd <swboyd@chromium.org> wrote:
->
-> The unprepare sequence has started to fail after moving to panel bridge
-> code in the msm drm driver (commit 007ac0262b0d ("drm/msm/dsi: switch to
-> DRM_PANEL_BRIDGE")). You'll see messages like this in the kernel logs:
->
->    panel-boe-tv101wum-nl6 ae94000.dsi.0: failed to set panel off: -22
->
-> This is because boe_panel_enter_sleep_mode() needs an operating DSI link
-> to set the panel into sleep mode. Performing those writes in the
-> unprepare phase of bridge ops is too late, because the link has already
-> been torn down by the DSI controller in post_disable, i.e. the PHY has
-> been disabled, etc. See dsi_mgr_bridge_post_disable() for more details
-> on the DSI .
->
-> Split the unprepare function into a disable part and an unprepare part.
-> For now, just the DSI writes to enter sleep mode are put in the disable
-> function. This fixes the panel off routine and keeps the panel happy.
+Yep, it looked like you could do that simplification but it didn't seem 
+worth it to spin a v6 for this.  However since you seem to be planning a 
+v6 anyways, rolling in this simplification would be nice.
 
-It is documented that the mipi_dsi_host_ops transfer function should
-be called with the host in any state [1], so the host driver is
-failing there.
+Also, I'm sorry, I didn't mean to imply that the DEFINE_DRM_ACCEL_FOPS 
+in on the ivpu todo.  I was thinking more in general terms.
 
-This sounds like the same issue I was addressing in adding the
-prepare_prev_first flag to drm_panel, and pre_enable_prev_first to
-drm_bridge via [2].
-Defining prepare_prev_first for your panel would result in the host
-pre_enable being called before the panel prepare, and therefore the
-transfer calls from boe_panel_init_dcs_cmd boe_panel_prepare won't be
-relying on the DSI host powering up early. It will also call the panel
-unprepare before the DSI host bridge post_disable is called, and
-therefore the DSI host will still be powered up and the transfer won't
-fail.
+Actually, I'll take that up and post a patch next week.  We'll see what 
+the reaction is.  I don't intend for it to be a dependency for you. 
+Feels like a quick thing to get done so it is not something the next 
+person trips over (probably me) and we can link up all the pieces when 
+both FOPS and ivpu are available.
 
-Actually I've just noted the comment at [3]. [2] is that framework fix
-that means that the magic workaround isn't required, but it will
-require this panel to opt in to the ordering change.
-
-Cheers.
-  Dave
-
-[1] https://www.kernel.org/doc/html/latest/gpu/drm-kms-helpers.html#c.mipi_dsi_host_ops
-[2] https://patchwork.freedesktop.org/series/100252/
-[3] https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/msm/dsi/dsi_manager.c#L47
-
-> My Wormdingler has an integrated touchscreen that stops responding to
-> touch if the panel is only half disabled too. This patch fixes it. And
-> finally, this saves power when the screen is off because without this
-> fix the regulators for the panel are left enabled when nothing is being
-> displayed on the screen.
->
-> Fixes: 007ac0262b0d ("drm/msm/dsi: switch to DRM_PANEL_BRIDGE")
-> Fixes: a869b9db7adf ("drm/panel: support for boe tv101wum-nl6 wuxga dsi video mode panel")
-> Cc: yangcong <yangcong5@huaqin.corp-partner.google.com>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Jitao Shi <jitao.shi@mediatek.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Rob Clark <robdclark@chromium.org>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-> index 857a2f0420d7..c924f1124ebc 100644
-> --- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-> +++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-> @@ -1193,14 +1193,11 @@ static int boe_panel_enter_sleep_mode(struct boe_panel *boe)
->         return 0;
->  }
->
-> -static int boe_panel_unprepare(struct drm_panel *panel)
-> +static int boe_panel_disable(struct drm_panel *panel)
->  {
->         struct boe_panel *boe = to_boe_panel(panel);
->         int ret;
->
-> -       if (!boe->prepared)
-> -               return 0;
-> -
->         ret = boe_panel_enter_sleep_mode(boe);
->         if (ret < 0) {
->                 dev_err(panel->dev, "failed to set panel off: %d\n", ret);
-> @@ -1209,6 +1206,16 @@ static int boe_panel_unprepare(struct drm_panel *panel)
->
->         msleep(150);
->
-> +       return 0;
-> +}
-> +
-> +static int boe_panel_unprepare(struct drm_panel *panel)
-> +{
-> +       struct boe_panel *boe = to_boe_panel(panel);
-> +
-> +       if (!boe->prepared)
-> +               return 0;
-> +
->         if (boe->desc->discharge_on_disable) {
->                 regulator_disable(boe->avee);
->                 regulator_disable(boe->avdd);
-> @@ -1528,6 +1535,7 @@ static enum drm_panel_orientation boe_panel_get_orientation(struct drm_panel *pa
->  }
->
->  static const struct drm_panel_funcs boe_panel_funcs = {
-> +       .disable = boe_panel_disable,
->         .unprepare = boe_panel_unprepare,
->         .prepare = boe_panel_prepare,
->         .enable = boe_panel_enable,
->
-> base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
-> --
-> https://chromeos.dev
->
+-Jeff
