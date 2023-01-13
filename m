@@ -1,57 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0DAE668B1E
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 06:15:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 274B5668B6C
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 06:35:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73B3F10E98B;
-	Fri, 13 Jan 2023 05:15:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A457F10E1DC;
+	Fri, 13 Jan 2023 05:35:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20FAC10E98B
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 05:15:32 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id ss4so42478351ejb.11
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 21:15:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=E5f8Tk8nG32JDX610wYSz4l32RwyWxZLZ7Rx+rniEqA=;
- b=TLQvpDF3lCjDWdDxkqOQ02L9FABV/4KXq3zJthoJTH85by0OVKDhpuKgjIVTxFbLAC
- u3DSU/7k1Hs4VjTle56xLH7kxbyHz6ra42KV0RlwpKcFBpYOzqcT9bo6HetfHpJWRMXx
- wzvxqVCM3uuAzc8GnnevWH1T7fEdHt+INm2GAtIiG4HEGMWgvg/RjF+J4WFagMvNnz9p
- tIJWPyxL+kK1Wi+cSyZqy1VqljXlCyLaYnFS0BuFVHy+jzLCbyrdSLrEeHHPTAXNoAak
- 6aOulsIR5vHUP5Egcv9BXAZsfyoSthG+i/D8qvr0SIS1iyIHyTGBozks+CWYFkpQ5His
- WI0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=E5f8Tk8nG32JDX610wYSz4l32RwyWxZLZ7Rx+rniEqA=;
- b=mnXvgUSJVIik3g3cENbDvsAad6pIf6x5PjkBsNQd07//5c/23VR6xAt9A/ywnMMWYY
- RJOlvoNqWChUBxHXi32XRgzuwdNZzzH4fQcdefa5ybhbt/hj7a0ULmw61BqDeV/xV/2e
- F9I8rrwnP5s/LJRuXRv16bD9duTdDAB37rAomsIu0TO+IlZmG5rS3cj+0nP0IygfnXFa
- ZT75y3Y9qhfGhvNUGQJ48MhC1nIqHOj9mnDP/rZUqw58TKiMieJ5iCDF3UoeYGJyaLfV
- JzDOcVRMDCjV92eky6Ygrxit6kM9vlbQ69jfZXcQ6vjZTk3F3Nd7L51QtxHEjqw+GmaM
- 2d1w==
-X-Gm-Message-State: AFqh2krJAAhSwaTs+nyYj/SXu/lKebgUICwfF0D5RNoFbegmVTnAEqoU
- naSapAUWaHQVvjUFuAIAZPzcKJHvK78E47RynCg=
-X-Google-Smtp-Source: AMrXdXsZPFafHKKzcRuKl1Qoz0pXHE05Yajy7PyIYglwFzawYiEszZadYupS0xiwrELowFDfh1UQ7IJE6V9+J9A24YA=
-X-Received: by 2002:a17:907:b610:b0:84d:1e4c:2e9 with SMTP id
- vl16-20020a170907b61000b0084d1e4c02e9mr1725692ejc.476.1673586930396; Thu, 12
- Jan 2023 21:15:30 -0800 (PST)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2080.outbound.protection.outlook.com [40.107.243.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D30A910E1DD;
+ Fri, 13 Jan 2023 05:35:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fQlqF9DrOE7LPaAwYKW9lOWahnXggJbziXkLLlUGxTykiz46cqas9seeygweZX+8isBJ8J4z/V+onhhuDL4HOwHGFcqbyqRWusd/4xawf40Tlj4YKBRKhKdLyGiTcr076iwq6du03706cQQhJvIXgHBJhJMQ/Jztk9js5H5zraVDD85BTWHHzMtrQpdUbpB6hn3txBXDY8e77Rde6w6h8r6J50yD/VbUANQvlmE9ekVjC148AsN/yvW2PgMoKBa/RWEVFYY4D8sBtrEkT3m5RgG7KIFdmhKffwyrA7Bud86l1c+0pOVHqZXUQ/EbDk2TomvHFcXYpBY6gF2CyL/5wA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=choGr10mv4Jw02lHsn+igcL9vrhWG6+64bQ7e/LvknY=;
+ b=eD//GMMnHIG8bdFsBgQ9141Dl3wx1gftj7EYGOI2xzz0dFd1s0ZJSmlp89AXSm6gqAjeHoNxWtDk/ZSyvFFhB47OUl7U5pZWZ04GnPu3B3WVoft/HTYn27Pg5cZFSXrOIdszwwlOLy7IYza4ZMrlo4NhI6xBfkrgYB4SXfqjaYAGsNZJDWQ2iMq7Gu8j05Tvt59/R/TjkDp5GSkUT+g1TR2qAqEA4IyrYQEAEDK8v398bgBTC3NrLkYFVa1WHtGfygPlZU3Lp16YvkjcPNy40PFa/tfWPHbhZaKhovLlhzXp+zXGzuSwBkxlbZAnwy6b923w1ZeKod9gflUHxXG7fA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=choGr10mv4Jw02lHsn+igcL9vrhWG6+64bQ7e/LvknY=;
+ b=RyJIAfgZ20DuEHo+0Kh31ZeXe59PWxt9btksl3lq2AnghYkchBRQxKz65AW2qb4aO7donO0JX+2M1H+gt5FHTWwHy11HvwNn20lUEcmGNk87fz3S4MK9Uu2bEI1q9f+L+E/C3iZYu20pR+IbeObwBG2VyHBUaZ58Uli+nqguDqw=
+Received: from BN9PR03CA0696.namprd03.prod.outlook.com (2603:10b6:408:ef::11)
+ by BN9PR12MB5097.namprd12.prod.outlook.com (2603:10b6:408:136::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13; Fri, 13 Jan
+ 2023 05:34:59 +0000
+Received: from BN8NAM11FT082.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:ef:cafe::fa) by BN9PR03CA0696.outlook.office365.com
+ (2603:10b6:408:ef::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.14 via Frontend
+ Transport; Fri, 13 Jan 2023 05:34:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT082.mail.protection.outlook.com (10.13.176.94) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6002.13 via Frontend Transport; Fri, 13 Jan 2023 05:34:59 +0000
+Received: from majun-mlse-vm.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 12 Jan
+ 2023 23:34:55 -0600
+From: Ma Jun <Jun.Ma2@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 1/2] drm/ttm: Check ttm_debugfs_root before creating files
+ under it
+Date: Fri, 13 Jan 2023 13:34:15 +0800
+Message-ID: <20230113053416.2175988-1-Jun.Ma2@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 13 Jan 2023 15:15:17 +1000
-Message-ID: <CAPM=9tyS7pXX12Ks+b=iSbUAdfLW=U-uGKo4SkKz6yGiCsusNg@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.2-rc4
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT082:EE_|BN9PR12MB5097:EE_
+X-MS-Office365-Filtering-Correlation-Id: e53fceba-495c-474c-0892-08daf527e962
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Q4rmgoAS0zFJNRlN6KRo9Mf2mcJ8Ygml28f4DTSGLizoa9wyAxRmhiqa70mINWbNGHml1uZ4vEGnSaixMnBXtmfSCnTMDtPF9iF3okf5yrcJx7iKKPmfRsg0chrHadxxKYGg5tEulJAJ9flm79fy//BjTRvq34NxyTqE6QaE0fHaTFYq+IrUXl7QfFC+0aN+KryRopw/j0Ytv2r3gajxpyK1U0CIWAVhbcwJ7aSTDqdpT+QJthpxocLGufD8GpqmIZXweEr36ajekKdCXJspqLl4F5C22Iueq9Dun7YKBcYEa6JKl7xRu6WLsiLDVRnR/MMZv7dnrX5ZliYE6ajq52ZmIYBkd+yLwiw8aZI8EigShGORgZHsYN1ke/fyFIPF5dpXnPC+MuRp4QkQ47MY8a7qTc10E1Ha9BALyvOpgBQ4rDibRHdINWqp0+3bb1+wGsopnRrbk9Ca/gNn1my7txen9QQjE+/W0qp6EaqOdTf27YF7Vs6U7PZCLlRqkR2cegiPwFhSqkir+N6zsdlHeZiMAW1iOQdvc1TNM+QJbYikrJu5nde88ND0S40N7xz07qZpvrRuqlsAqn1b/mCX9UJwm/OPblSKeT1R/kr6HxDMdfiPzPDixpFXe8O5gsL7XUpj4Wr+ySTV34ZC5UifEyoP6nvKYY9bm6Ab/wC7xXp9ua5xMytSr6Iu8KC+Zr5wk3slWBCqQGN3ixAmu8fVTh4O8pnynZ2lqQq+WE27MP8=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(396003)(136003)(346002)(39860400002)(376002)(451199015)(36840700001)(46966006)(40470700004)(36860700001)(6666004)(2906002)(70206006)(16526019)(36756003)(5660300002)(83380400001)(8936002)(4326008)(8676002)(47076005)(478600001)(82740400003)(81166007)(356005)(41300700001)(426003)(450100002)(26005)(336012)(70586007)(40480700001)(7696005)(82310400005)(186003)(1076003)(86362001)(40460700003)(2616005)(316002)(110136005)(54906003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2023 05:34:59.4079 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e53fceba-495c-474c-0892-08daf527e962
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT082.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5097
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,291 +99,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Ma Jun <Jun.Ma2@amd.com>, christian.koenig@amd.com, majun@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Check the ttm_debugfs_root before creating files under it.
+If the ttm_debugfs_root is NULL, all the files created for
+ttm/ will be placed in the /sys/kerne/debug/ but not
+/sys/kernel/debug/ttm/
 
-Back from a week off, managed to do a couple of dives (one with happy
-manta ray about 3-4m away for 5mins).
+Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
+---
+ drivers/gpu/drm/ttm/ttm_device.c |  3 ++-
+ drivers/gpu/drm/ttm/ttm_pool.c   | 10 ++++++----
+ drivers/gpu/drm/ttm/ttm_tt.c     |  5 +++--
+ 3 files changed, 11 insertions(+), 7 deletions(-)
 
-Thanks to Daniel for taking care of fixes last week.
+diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+index e7147e304637..967bc2244df3 100644
+--- a/drivers/gpu/drm/ttm/ttm_device.c
++++ b/drivers/gpu/drm/ttm/ttm_device.c
+@@ -105,7 +105,8 @@ static int ttm_global_init(void)
+ 	INIT_LIST_HEAD(&glob->device_list);
+ 	atomic_set(&glob->bo_count, 0);
+ 
+-	debugfs_create_atomic_t("buffer_objects", 0444, ttm_debugfs_root,
++	if(ttm_debugfs_root)
++		debugfs_create_atomic_t("buffer_objects", 0444, ttm_debugfs_root,
+ 				&glob->bo_count);
+ out:
+ 	if (ret && ttm_debugfs_root)
+diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+index 21b61631f73a..d95a65f759df 100644
+--- a/drivers/gpu/drm/ttm/ttm_pool.c
++++ b/drivers/gpu/drm/ttm/ttm_pool.c
+@@ -713,10 +713,12 @@ int ttm_pool_mgr_init(unsigned long num_pages)
+ 	}
+ 
+ #ifdef CONFIG_DEBUG_FS
+-	debugfs_create_file("page_pool", 0444, ttm_debugfs_root, NULL,
+-			    &ttm_pool_debugfs_globals_fops);
+-	debugfs_create_file("page_pool_shrink", 0400, ttm_debugfs_root, NULL,
+-			    &ttm_pool_debugfs_shrink_fops);
++	if(ttm_debugfs_root) {
++		debugfs_create_file("page_pool", 0444, ttm_debugfs_root, NULL,
++				    &ttm_pool_debugfs_globals_fops);
++		debugfs_create_file("page_pool_shrink", 0400, ttm_debugfs_root, NULL,
++				    &ttm_pool_debugfs_shrink_fops);
++	}
+ #endif
+ 
+ 	mm_shrinker.count_objects = ttm_pool_shrinker_count;
+diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+index d505603930a7..fec443494ef0 100644
+--- a/drivers/gpu/drm/ttm/ttm_tt.c
++++ b/drivers/gpu/drm/ttm/ttm_tt.c
+@@ -394,8 +394,9 @@ DEFINE_SHOW_ATTRIBUTE(ttm_tt_debugfs_shrink);
+ void ttm_tt_mgr_init(unsigned long num_pages, unsigned long num_dma32_pages)
+ {
+ #ifdef CONFIG_DEBUG_FS
+-	debugfs_create_file("tt_shrink", 0400, ttm_debugfs_root, NULL,
+-			    &ttm_tt_debugfs_shrink_fops);
++	if(ttm_debugfs_root)
++		debugfs_create_file("tt_shrink", 0400, ttm_debugfs_root, NULL,
++				    &ttm_tt_debugfs_shrink_fops);
+ #endif
+ 
+ 	if (!ttm_pages_limit)
+-- 
+2.25.1
 
-There is a bit of a post-holiday build up here I expect, small fixes
-across the board, amdgpu and msm being the main leaders, with others
-having a few. One code removal patch for nouveau.
-
-Regards,
-Dave.
-
-drm-fixes-2023-01-13:
-drm fixes for 6.2-rc4
-
-buddy:
-- benchmark regression fix for top-down buddy allocation
-
-panel:
-- add Lenovo panel orientation quirk
-
-ttm:
-- fix kernel oops regression
-
-amdgpu:
-- fix missing fence references
-- fix missing pipeline sync fencing
-- SMU13 fan speed fix
-- SMU13 fix power cap handling
-- SMU13 BACO fix
-- Fix a possible segfault in bo validation error case
-- Delay removal of firmware framebuffer
-- Fix error when unloading
-
-amdkfd:
-- SVM fix when clearing vram
-- GC11 fix for multi-GPU
-
-i915:
-- Reserve enough fence slot for i915_vma_unbind_vsync
-- Fix potential use after free
-- Reset engines twice in case of reset failure
-- Use multi-cast registers for SVG Unit registers
-
-msm:
-- display:
-- doc warning fixes
-- dt attribs cleanups
-- memory leak fix
-- error handling in hdmi probe fix
-- dp_aux_isr incorrect signalling fix
-- shutdown path fix
-- accel:
-- a5xx: fix quirks to be a bitmask
-- a6xx: fix gx halt to avoid 1s hang
-- kexec shutdown fix
-- fix potential double free
-
-vmwgfx:
-- drop rcu usage to make code more robust
-
-virtio:
-- fix use-after-free in gem handle code
-
-nouveau:
-- drop unused nouveau_fbcon.c
-The following changes since commit b7bfaa761d760e72a969d116517eaa12e404c262=
-:
-
-  Linux 6.2-rc3 (2023-01-08 11:49:43 -0600)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-01-13
-
-for you to fetch changes up to e695bc7e542358978434c8489a5a164d2bbefae8:
-
-  Merge tag 'drm-msm-fixes-2023-01-12' of
-https://gitlab.freedesktop.org/drm/msm into drm-fixes (2023-01-13
-13:01:22 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.2-rc4
-
-buddy:
-- benchmark regression fix for top-down buddy allocation
-
-panel:
-- add Lenovo panel orientation quirk
-
-ttm:
-- fix kernel oops regression
-
-amdgpu:
-- fix missing fence references
-- fix missing pipeline sync fencing
-- SMU13 fan speed fix
-- SMU13 fix power cap handling
-- SMU13 BACO fix
-- Fix a possible segfault in bo validation error case
-- Delay removal of firmware framebuffer
-- Fix error when unloading
-
-amdkfd:
-- SVM fix when clearing vram
-- GC11 fix for multi-GPU
-
-i915:
-- Reserve enough fence slot for i915_vma_unbind_vsync
-- Fix potential use after free
-- Reset engines twice in case of reset failure
-- Use multi-cast registers for SVG Unit registers
-
-msm:
-- display:
-- doc warning fixes
-- dt attribs cleanups
-- memory leak fix
-- error handing in hdmi probe fix
-- dp_aux_isr incorrect signalling fix
-- shutdown path fix
-- accel:
-- a5xx: fix quirks to be a bitmask
-- a6xx: fix gx halt to avoid 1s hang
-- kexec shutdown fix
-- fix potential double free
-
-vmwgfx:
-- drop rcu usage to make code more robust
-
-virtio:
-- fix use-after-free in gem handle code
-
-nouveau:
-- drop unused nouveau_fbcon.c
-
-----------------------------------------------------------------
-Adam Skladowski (1):
-      dt-bindings: display: msm: Rename mdss node name in example
-
-Akhil P Oommen (1):
-      drm/msm/a6xx: Avoid gx gbit halt during rpm suspend
-
-Arunpravin Paneer Selvam (1):
-      drm: Optimize drm buddy top-down allocation method
-
-Bryan O'Donoghue (4):
-      dt-bindings: msm: dsi-phy-28nm: Add missing qcom,
-dsi-phy-regulator-ldo-mode
-      dt-bindings: msm: dsi-controller-main: Fix operating-points-v2 constr=
-aint
-      dt-bindings: msm: dsi-controller-main: Fix power-domain constraint
-      dt-bindings: msm: dsi-controller-main: Fix description of core clock
-
-Chris Wilson (1):
-      drm/i915/gt: Reset twice
-
-Christian K=C3=B6nig (3):
-      drm/amdgpu: fix another missing fence reference in the CS code
-      drm/amdgpu: fix missing dma_fence_put in error path
-      drm/amdgpu: fix pipeline sync v2
-
-Christophe JAILLET (1):
-      drm/msm/hdmi: Fix the error handling path of msm_hdmi_dev_probe()
-
-Dave Airlie (4):
-      Merge tag 'drm-misc-fixes-2023-01-12' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-      Merge tag 'amd-drm-fixes-6.2-2023-01-11' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-intel-fixes-2023-01-12' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'drm-msm-fixes-2023-01-12' of
-https://gitlab.freedesktop.org/drm/msm into drm-fixes
-
-Dmitry Baryshkov (1):
-      drm/msm: another fix for the headless Adreno GPU
-
-Eric Huang (2):
-      drm/amdkfd: Add sync after creating vram bo
-      drm/amdkfd: Fix NULL pointer error for GC 11.0.1 on mGPU
-
-Evan Quan (2):
-      drm/amd/pm: correct the reference clock for fan speed(rpm) calculatio=
-n
-      drm/amd/pm: add the missing mapping for PPT feature on SMU13.0.0
-and 13.0.7
-
-Guchun Chen (1):
-      drm/amd/pm/smu13: BACO is supported when it's in BACO state
-
-Gustavo Sousa (1):
-      drm/i915/gt: Cover rest of SVG unit MCR registers
-
-Konrad Dybcio (3):
-      dt-bindings: msm/dsi: Don't require vcca-supply on 14nm PHY
-      dt-bindings: msm/dsi: Don't require vdds-supply on 10nm PHY
-      drm/msm/adreno: Make adreno quirks not overwrite each other
-
-Kuogee Hsieh (1):
-      drm/msm/dp: do not complete dp_aux_cmd_fifo_tx() if irq is not
-for aux transfer
-
-Luben Tuikov (1):
-      drm/amdgpu: Fix potential NULL dereference
-
-Mario Limonciello (1):
-      drm/amd: Delay removal of the firmware framebuffer
-
-Miaoqian Lin (1):
-      drm/msm/dpu: Fix memory leak in msm_mdss_parse_data_bus_icc_path
-
-Nirmoy Das (1):
-      drm/i915: Reserve enough fence slot for i915_vma_unbind_async
-
-Patrick Thompson (1):
-      drm: Add orientation quirk for Lenovo ideapad D330-10IGL
-
-Rob Clark (2):
-      drm/i915: Fix potential context UAFs
-      drm/virtio: Fix GEM handle creation UAF
-
-Thomas Zimmermann (1):
-      drm/nouveau: Remove file nouveau_fbcon.c
-
-Yang Li (1):
-      drm/msm/dpu: Fix some kernel-doc comments
-
-YiPeng Chai (1):
-      drm/amdgpu: Fixed bug on error when unloading amdgpu
-
-Zack Rusin (2):
-      drm/vmwgfx: Remove rcu locks from user resources
-      drm/ttm: Fix a regression causing kernel oops'es
-
- .../bindings/display/msm/dsi-controller-main.yaml  |   4 +-
- .../bindings/display/msm/dsi-phy-10nm.yaml         |   1 -
- .../bindings/display/msm/dsi-phy-14nm.yaml         |   1 -
- .../bindings/display/msm/dsi-phy-28nm.yaml         |   4 +
- .../bindings/display/msm/qcom,qcm2290-mdss.yaml    |   2 +-
- .../bindings/display/msm/qcom,sm6115-mdss.yaml     |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |  51 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |   8 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   6 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |   5 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c           |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       |   2 +-
- .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |   2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c               |   9 +
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     |   8 +-
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |   1 +
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   |   1 +
- drivers/gpu/drm/drm_buddy.c                        |  81 ++-
- drivers/gpu/drm/drm_panel_orientation_quirks.c     |   6 +
- drivers/gpu/drm/i915/gem/i915_gem_context.c        |  24 +-
- drivers/gpu/drm/i915/gt/intel_gt_regs.h            |   4 +-
- drivers/gpu/drm/i915/gt/intel_reset.c              |  34 +-
- drivers/gpu/drm/i915/gt/intel_workarounds.c        |   4 +-
- drivers/gpu/drm/i915/i915_vma.c                    |   2 +-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |  15 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |   7 +
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |   1 +
- drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  10 +-
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |   3 +-
- drivers/gpu/drm/msm/dp/dp_aux.c                    |   4 +
- drivers/gpu/drm/msm/hdmi/hdmi.c                    |  12 +-
- drivers/gpu/drm/msm/msm_drv.c                      |   2 +-
- drivers/gpu/drm/msm/msm_mdss.c                     |   6 +-
- drivers/gpu/drm/nouveau/nouveau_fbcon.c            | 613 -----------------=
-----
- drivers/gpu/drm/ttm/ttm_bo_util.c                  |   2 +-
- drivers/gpu/drm/virtio/virtgpu_ioctl.c             |  19 +-
- drivers/gpu/drm/vmwgfx/ttm_object.c                |  41 +-
- drivers/gpu/drm/vmwgfx/ttm_object.h                |  14 -
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c                 |  38 --
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |  18 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c            | 176 +++---
- drivers/gpu/drm/vmwgfx/vmwgfx_resource.c           |  33 --
- 43 files changed, 332 insertions(+), 950 deletions(-)
- delete mode 100644 drivers/gpu/drm/nouveau/nouveau_fbcon.c
