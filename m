@@ -2,54 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318E4669EDD
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 17:57:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC3A1669EF8
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 18:00:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 780FC10EA61;
-	Fri, 13 Jan 2023 16:57:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52E1110EA68;
+	Fri, 13 Jan 2023 17:00:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E66810EA65
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 16:57:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673629065; x=1705165065;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=93weZf/KV1XKc7pLT/H8eSFp0TBy5wZsPNjCGdWOgIg=;
- b=cy+ixoguk2R1lf3JwpOEuYJeu5nxS5xpvJp8i6Kzu2ivjvxmId03dYqF
- pfsIWJ8wgNalgbgjEr5vY8drofacBZH7BOkTEgKlZ5/+TZ4Dhb2cDSL7+
- FHbZRJHHZds1ZjtlFLPhxLZDahZa0B9rFTwV8QrjNNUwO1y7n2nEPFnPe
- NxbOrdp+NNjU82rfDGBe0KaVEM8F/6zlaGU9MNw4MOmzFYIvQSfhaqmIw
- QmGXwWoUFGaP0iY08HOMPp8bxlF93+s0mqgTb+BTDNXxhvIQUCvrFhjtC
- Jg4Kp09c+o+IxHu8SCYpZsoG9ld9qtr61srDmcb4fuFOwXuS2sbyq2z7v A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="304418921"
-X-IronPort-AV: E=Sophos;i="5.97,214,1669104000"; d="scan'208";a="304418921"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2023 08:57:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="800643053"
-X-IronPort-AV: E=Sophos;i="5.97,214,1669104000"; d="scan'208";a="800643053"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmsmga001.fm.intel.com with ESMTP; 13 Jan 2023 08:57:22 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1pGNMk-008iZv-1X; Fri, 13 Jan 2023 18:57:18 +0200
-Date: Fri, 13 Jan 2023 18:57:18 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: Re: [PATCH v10 3/9] drm/display: Add Type-C switch helpers
-Message-ID: <Y8GNbjTKGRg5WWCe@smile.fi.intel.com>
-References: <20230112042104.4107253-1-treapking@chromium.org>
- <20230112042104.4107253-4-treapking@chromium.org>
- <Y8EjIKEHqcj3htqC@kuha.fi.intel.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0319910EA70;
+ Fri, 13 Jan 2023 17:00:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=DrZc8MSzrHVHBgJa18wvhWOqlyQHor/Els1DuHpffTk=; b=AF1L9pxnYrH5CkcpGl1zPyEksX
+ XCW9YXyIfpo2mz0JvtbYlzmoPNiqmLXaxzrUUcsX+Niq4KDFG9Je/G6jhZhgcBYSISFoTCoTG9mDS
+ np+NKLS9PNX9B7JGd2LJ1VMl+mG4eDQIO5L1t1yy5C7obh/38htyYyOXhVp4DgEfUGrDgwtj/xB8T
+ 0BI7IN88jHVAW7SRfEIqq+GhapRbyY/XAUZ95Q5xByb8AK2xu4KGVENQx8Jg8/dPTNoh+IK/TLOGK
+ 96y93S+PkE1kEUjXL12FKQYWcG3dH7jFmkUIvUHaQvXBwK4qiCe7wxABJlOsM9axUmBK14Kj+3BNF
+ sksMsIhA==;
+Received: from [187.36.234.139] (helo=bowie..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pGNPg-007Hoz-Mk; Fri, 13 Jan 2023 18:00:21 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
+ Simon Ser <contact@emersion.fr>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Zack Rusin <zackr@vmware.com>
+Subject: [PATCH v3 0/3] Check for valid framebuffer's format
+Date: Fri, 13 Jan 2023 13:59:17 -0300
+Message-Id: <20230113165919.580210-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8EjIKEHqcj3htqC@kuha.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,54 +56,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Kees Cook <keescook@chromium.org>,
- Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jani Nikula <jani.nikula@intel.com>,
- Allen Chen <allen.chen@ite.com.tw>, Stephen Boyd <swboyd@chromium.org>,
- Pin-yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- shaomin Deng <dengshaomin@cdjrlc.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
- Prashant Malani <pmalani@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ amd-gfx@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
+ VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 13, 2023 at 11:23:44AM +0200, Heikki Krogerus wrote:
-> On Thu, Jan 12, 2023 at 12:20:58PM +0800, Pin-yen Lin wrote:
+This series is a follow-up of the [1] in which I introduced a check for valid
+formats on drm_gem_fb_create(). During the discussion, I realized that would be
+a better idea to put the check inside framebuffer_check() so that it wouldn't be
+needed to hit any driver-specific code path when the check fails.
 
-...
+Therefore, add the valid format check inside framebuffer_check() and remove the
+same check from the drivers, except from i915, because this doesn't work for the
+legacy tiling->modifier path. Adding the check to framebuffer_check() will
+guarantee that the igt@kms_addfb_basic@addfb25-bad-modifier IGT test passes,
+showing the correct behavior of the check.
 
-> > +		dev_err(dev, "Failed to read the data-lanes variable from %s: %d\n",
-> > +			node->name, ret);
-> 
-> 			fwnode_get_name(fwnode), ret);
+This patchset was tested on amdgpu and vc4 with the IGT tests.
 
-Or even %pfwP ?
+[1] https://lore.kernel.org/dri-devel/20230103125322.855089-1-mcanal@igalia.com/T/
 
-...
+---
 
-> > +	snprintf(name, sizeof(name), "%s-%u", node->name, port_num);
-> 
-> 	snprintf(name, sizeof(name), "%s-%u", fwnode_get_name(fwnode), port_num);
+v1 -> v2: https://lore.kernel.org/dri-devel/20230109105807.18172-1-mcanal@igalia.com/T/
 
-Ditto.
+- Don't remove check from i915 driver (Ville Syrjälä).
+- Don't unexport drm_any_plane_has_format().
+
+v2 -> v3: https://lore.kernel.org/dri-devel/20230113112743.188486-1-mcanal@igalia.com/T/
+
+- Check if r->modifier[0] != 0 (Ville Syrjälä).
+
+---
+
+Best Regards,
+- Maíra Canal
+
+Maíra Canal (3):
+  drm/framebuffer: Check for valid formats
+  drm/amdgpu: Remove redundant framebuffer format check
+  drm/vmwgfx: Remove redundant framebuffer format check
+
+ Documentation/gpu/todo.rst                  |  9 ++++-----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 10 ----------
+ drivers/gpu/drm/drm_framebuffer.c           |  8 ++++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c         | 18 ------------------
+ 4 files changed, 12 insertions(+), 33 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.39.0
 
