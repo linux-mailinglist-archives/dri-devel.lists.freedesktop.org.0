@@ -2,68 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7805166914C
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:38:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 850836691AB
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:50:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C35010E9B0;
-	Fri, 13 Jan 2023 08:38:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D94D10E9BD;
+	Fri, 13 Jan 2023 08:50:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ED9A10E9BD
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:37:41 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id d30so27194342lfv.8
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:37:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vfkoFa2aWXIMsvEye5R5adifXz0BMNct0gxornememI=;
- b=AoAqetfS3RLSABRWAprBoSvGGLyiZySm4fIcetmApEPKeEHb9Xb+CUSZd4monuRWN3
- cv5N99BpPaHPXosXS9WhmAbXBtgyIC6L7RyZhzV6M+GmZW+viutz8TDEsm65YTurvDJo
- Q6uVHe5eaP+gbVMRA5W9XCvMdh9kLaJGWR12rzYbN7AA/pZbg41VnQDe0DvG1qpaCK4q
- jhhzqL6HhHAOspmYHEvbaBJQO/WeV+a8y+Ho+fSMtN5uzgyl+opY4O5iHAnor+MOSWcv
- /1Fmj7mfg4DW3mnCq5K23O+r30+VvXB3t6KNbSSTYgyAO3bJpoIqKUnwbwiNeB8LU/eB
- Uuuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vfkoFa2aWXIMsvEye5R5adifXz0BMNct0gxornememI=;
- b=CqO802guc22zCQnD9T6VMRzkbo1tfWzmIUatcJFhNa3DuAA90Hc4OgWRAuByPznTxM
- CBhE9JTJV/cA3/s/qRft7DTj8pqO1Vp08o+1k/Z+IL9shr0Tw1iDgDxyQvDMJnxMgyxQ
- FBXmcS8MfhGJ0US7If83ZRw0W0s+KBCr+GD44AmYF4w4zNILQWBXGxjje8cb1pUb8xBA
- WDkR23trPtIQclrQnbQUptk0YVQilmZutbWwIR7CDdVoOWwHPeUb2nt4MiokFUHiAofa
- 71G3bJusGGvegEY9+zNlm2Bq4Mb6UDW+yKS9tijUhstCuT1PNpLKV6v1fum1JOB1SD0B
- 7R3A==
-X-Gm-Message-State: AFqh2koi9FZEsS9X57Bkyw2oKny+UZt6G5WWgoPEX5GhmK+hvRzWTI6J
- 7r3L/EtoCsleW+GCLo/DxQflMw==
-X-Google-Smtp-Source: AMrXdXv50Vl5IXHjr9MKDidF5CnW105R55HzZ4q3U0nm6Zs3daEjfdbXxBNi+8HL79VJDe0zZLBeJg==
-X-Received: by 2002:ac2:4bcb:0:b0:4bb:8d56:d859 with SMTP id
- o11-20020ac24bcb000000b004bb8d56d859mr23664966lfq.6.1673599061082; 
- Fri, 13 Jan 2023 00:37:41 -0800 (PST)
-Received: from eriador.lumag.spb.ru ([194.204.33.9])
- by smtp.gmail.com with ESMTPSA id
- o6-20020a05651205c600b004994117b0fdsm3748038lfo.281.2023.01.13.00.37.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 00:37:40 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v6 11/11] ARM: dts: qcom: rename mdp nodes to
- display-controller
-Date: Fri, 13 Jan 2023 10:37:20 +0200
-Message-Id: <20230113083720.39224-12-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230113083720.39224-1-dmitry.baryshkov@linaro.org>
-References: <20230113083720.39224-1-dmitry.baryshkov@linaro.org>
+X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
+ Fri, 13 Jan 2023 08:50:43 UTC
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C3F610E9BD
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:50:43 +0000 (UTC)
+Received: from ramsan.of.borg ([84.195.186.194])
+ by laurent.telenet-ops.be with bizsmtp
+ id 88lL2900C4C55Sk018lL8t; Fri, 13 Jan 2023 09:45:40 +0100
+Received: from geert (helo=localhost)
+ by ramsan.of.borg with local-esmtp (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1pGFgd-003qP4-W0;
+ Fri, 13 Jan 2023 09:45:19 +0100
+Date: Fri, 13 Jan 2023 09:45:19 +0100 (CET)
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 13/22] pinctrl: remove renesas sh controllers
+In-Reply-To: <20230113062339.1909087-14-hch@lst.de>
+Message-ID: <c480ecd6-166c-18b4-2230-418836ce3fb2@linux-m68k.org>
+References: <20230113062339.1909087-1-hch@lst.de>
+ <20230113062339.1909087-14-hch@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,47 +44,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
+ alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ linux-arch@vger.kernel.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ linux-gpio@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ netdev@vger.kernel.org, dmaengine@vger.kernel.org, linux-rtc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Follow the schema change and rename mdp nodes to generic name
-'display-controller'.
+ 	Hi Christoph,
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- arch/arm/boot/dts/qcom-apq8064.dtsi | 2 +-
- arch/arm/boot/dts/qcom-msm8974.dtsi | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On Fri, 13 Jan 2023, Christoph Hellwig wrote:
+> Now that arch/sh is removed these drivers are dead code.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-diff --git a/arch/arm/boot/dts/qcom-apq8064.dtsi b/arch/arm/boot/dts/qcom-apq8064.dtsi
-index e045edeb5736..95705703fe8f 100644
---- a/arch/arm/boot/dts/qcom-apq8064.dtsi
-+++ b/arch/arm/boot/dts/qcom-apq8064.dtsi
-@@ -1493,7 +1493,7 @@ hdmi_phy: phy@4a00400 {
- 			status = "disabled";
- 		};
- 
--		mdp: mdp@5100000 {
-+		mdp: display-controller@5100000 {
- 			compatible = "qcom,mdp4";
- 			reg = <0x05100000 0xf0000>;
- 			interrupts = <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>;
-diff --git a/arch/arm/boot/dts/qcom-msm8974.dtsi b/arch/arm/boot/dts/qcom-msm8974.dtsi
-index 2e46a8b6bb14..3c725ada52c0 100644
---- a/arch/arm/boot/dts/qcom-msm8974.dtsi
-+++ b/arch/arm/boot/dts/qcom-msm8974.dtsi
-@@ -1577,7 +1577,7 @@ mdss: display-subsystem@fd900000 {
- 			#size-cells = <1>;
- 			ranges;
- 
--			mdp: mdp@fd900000 {
-+			mdp: display-controller@fd900000 {
- 				compatible = "qcom,msm8974-mdp5", "qcom,mdp5";
- 				reg = <0xfd900100 0x22000>;
- 				reg-names = "mdp_phys";
--- 
-2.39.0
+Thanks for your patch!
 
+> --- a/drivers/pinctrl/renesas/Kconfig
+> +++ b/drivers/pinctrl/renesas/Kconfig
+> @@ -255,57 +243,10 @@ config PINCTRL_RZV2M
+> 	  This selects GPIO and pinctrl driver for Renesas RZ/V2M
+> 	  platforms.
+>
+> -config PINCTRL_PFC_SH7203
+> -	bool "pin control support for SH7203" if COMPILE_TEST
+> -	select PINCTRL_SH_FUNC_GPIO
+
+(If this is to be continued) the PINCTRL_SH_FUNC_GPIO symbol itself, and
+all its users, can be removed, too.
+
+> --- a/drivers/pinctrl/renesas/core.c
+> +++ b/drivers/pinctrl/renesas/core.c
+> @@ -753,562 +753,6 @@ static int sh_pfc_suspend_init(struct sh_pfc *pfc) { return 0; }
+> #define DEV_PM_OPS	NULL
+> #endif /* CONFIG_PM_SLEEP && CONFIG_ARM_PSCI_FW */
+>
+> -#ifdef DEBUG
+> -#define SH_PFC_MAX_REGS		300
+> -#define SH_PFC_MAX_ENUMS	5000
+> -
+
+This whole hunk should stay (except for the part protected by #ifdef
+CONFIG_PINCTRL_SH_FUNC_GPIO), as it is used for validating pin control
+tables on ARM SoCs, too.
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
