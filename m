@@ -2,120 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A724669316
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 10:38:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9DAA669339
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 10:47:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94DC410E9D8;
-	Fri, 13 Jan 2023 09:38:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67DDA10E9DC;
+	Fri, 13 Jan 2023 09:47:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2044.outbound.protection.outlook.com [40.107.94.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B03E510E9D7;
- Fri, 13 Jan 2023 09:38:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a9uJB8KmSAwmxdAm/NZCVQ1XJFzOi2vXsrpLkW8hp5vI9hwXq2XaUd9UVTKbje0CY78fJ2d4W4EFhVXKpyZkeMQaE9cUp1Ln8Zd6aejehV+TYzcAc3kjZUjeiZm4maygcV/wZ3on1Lz3MqXxWGynwpFuRmqmB9/921CI0Sq9/I4mxkDZv+HcIR5OQm5Mfgqzg6kcAaBfZrHX7SzF5YUpUIacXzg968y/hJqMQC1UB3eUhEGVkHG11w8HYxuTlYBRSn86BkqvhjOp/Ck/XjbHpRqk/XXFAbFaUxhExQUVTOrNPyudshEYb77X79WYCEYTmyeulHHQMUVnArGlTN+KZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ymRvYlYZEMYHWO4DSp6qP0kumojEZ0DYy6iHKCK4E7o=;
- b=NogwNLw2QpsjUA7Uhzj//brzOZDhgUVqDz7mHRd1Jw/Ye1O6qwPjon6rZnHm5ZlH59aQSMMNql3oa2uRNB/qm9vPvNHORfn8Wy5TDLdggOI2rkEdaP8NW6CUD9ghW75LcU3AbW5+w3Mz1CCB90dCs0fuoLBVs0EDgTs8BzMrwV2VWqD3EH9NZiKQJoht7OPd2yHpGX3EWGRSN/eZmik0JwM6N7KZg8GfR8Wo5jP2wJsYA1VMSDHD+kDDwyLu6GJAH3cX1yV39jFsFJ2kYM3afydBkq0SfiG6rnNurUmJbT0peeQss/ASpEJpTwaBA6TFCUx8UCfFeTuGOsro0+uFvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ymRvYlYZEMYHWO4DSp6qP0kumojEZ0DYy6iHKCK4E7o=;
- b=lWH3Izyb5WSzDHH7lHHA/+O944vGtlH42v4AWHshlt4jaOcKaTuqs5SVjP14HcIs73JhJw0NRtPMOIMNuRfGR22O9Gxv8kLwR5p2AV7BNS9avZ4UTouh8p3dbmhLIFlYhNo1f4Alszv0pM/MGzPmmxRe3W+VPZS+AGVBnIR7U4I=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by LV2PR12MB5752.namprd12.prod.outlook.com (2603:10b6:408:14d::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Fri, 13 Jan
- 2023 09:38:35 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::80d8:934f:caa7:67b0]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::80d8:934f:caa7:67b0%3]) with mapi id 15.20.5986.018; Fri, 13 Jan 2023
- 09:38:35 +0000
-Message-ID: <7cafcbb2-f2bf-b7f8-8627-acdcaea258c1@amd.com>
-Date: Fri, 13 Jan 2023 10:38:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 2/2] drm/ttm: Use debugfs_remove_recursive to remove ttm
- directory
-Content-Language: en-US
-To: Ma Jun <Jun.Ma2@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20230113053416.2175988-1-Jun.Ma2@amd.com>
- <20230113053416.2175988-2-Jun.Ma2@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230113053416.2175988-2-Jun.Ma2@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0016.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::26) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C032D10E15E;
+ Fri, 13 Jan 2023 09:47:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673603248; x=1705139248;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=/OJphNwmnuvzfQX7YY0/+gaBIELxqzO2J6GTnXIHD9E=;
+ b=cKBD1MEtTWMIBgQXS80oQZN5Y7nkjcwFN/1V9qsGBrr7QqvsBVEX1yy7
+ aD2SYA1hoxE6rUvXhjqQqrSY5SJakCwj4zQnwTL8w/qVAtZqWh6XilXyV
+ egRswtGr9spvaROLUetsEfN6vGsbrQuh7mbJJydWPKowTs2PM39myVFUf
+ yz8PsBzCnue37Zl1P2JFmw5SeNa8GWMdPOxIPe0gd1CUHarK8oUpQ1adW
+ /r9sUt5n8tienRDwapBFoCyhJJlyl4dJ1p3wyLG3n8VOg7CywQmpn0MtX
+ phecTSFDs0iBFa3ut4sHIbpoPRXCh99HVoRmjeriPLgBCubtSfY/YbpFa w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="388455018"
+X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="388455018"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2023 01:47:28 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="690451497"
+X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="690451497"
+Received: from cbyrne6-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.252.27.177])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2023 01:47:24 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Laurentiu Palcu
+ <laurentiu.palcu@oss.nxp.com>
+Subject: Re: [PATCH] drm/probe_helper: sort out poll_running vs poll_enabled
+In-Reply-To: <CAA8EJpr2QZTZdD7-qCmz8LmwVbPXfT09ZegOdQ8JEuYToYm45A@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230112154247.1532202-1-dmitry.baryshkov@linaro.org>
+ <20230113071218.kzlb5rdbdipopr2o@fsr-ub1664-121.ea.freescale.net>
+ <CAA8EJpr2QZTZdD7-qCmz8LmwVbPXfT09ZegOdQ8JEuYToYm45A@mail.gmail.com>
+Date: Fri, 13 Jan 2023 11:47:22 +0200
+Message-ID: <87a62mg40l.fsf@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|LV2PR12MB5752:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5b85b6b8-e3fb-4f49-c683-08daf549f0d1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: af0I6ywFF3Zp6FZJhCLv1YSODPWaJSUdhnyA1bvGJBRQpVBt7i1goSpYK/vT724jI8uGastT1iEwzWN01h3L6GQ5ENU5l4Nqf/zqWztvClMnqCBSwlINUQbDCfi9jpr+WBidyxNxs75oELe6+Mi7MPGhzQqtsPUsXvcTWJ0aWREL/o16OqO2bG5U7S7zJ1pzuVF9LsulhqL8DeS0Yr9sgMzfdCLGX9venJBezgfJPUGFZYTZJH2g7PcQ+XC+sUzA/27VCbCboYFplJd/io/kaM/5WNq3lE/ruogXdbeQAAnm1L7zhWOy4D+MX3E6VjLhMON1h7HKtTVNmoz+//7q9tjdFqHINOEht21+V229WPavOg4jxeb+CglcCmL3I8qmPOYBGUIXn2tkEBd7qO4zMvHGGL7ai3uWLBvGdGzoELhEWakZ2ZIv1PHm/C4OI7Yh6x5Uo5JOiRZC19Wm16OLzmSuKLhJeRpJRNTU/tCqsw4B686DQEaf9H8PyKAVNn2wZmU5nQcylcWwxuIbrOVrfJoXMOaJKh7Krbni8dpPF1vI3xWUEBlAZD1IjRCZYTUbrGbJJUHtkSfShamXxyH2Q1nbDGcwSB1XeF6fzU7Kx/nQ3YSyH8IUmWJeAq3joS8QzQRz1uKtXETMTpH4y+gVwBdBMbm0Cwn9z5NDMqjNMOLGsqJzS21jOdFxMdfzVEs+cNx+lHYzCEi22xioqPabBhqXMoQJPTTNX3hPIbS+Hz4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(39860400002)(366004)(136003)(346002)(396003)(451199015)(86362001)(31696002)(38100700002)(83380400001)(66476007)(4326008)(6486002)(4744005)(66946007)(5660300002)(2906002)(8676002)(8936002)(6512007)(186003)(450100002)(2616005)(6506007)(6666004)(316002)(41300700001)(478600001)(66556008)(36756003)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L3JLZm5YQVoyQU5Ld09VOWZWWkFLTmY3NTlmanFoQlRudG0xamxuUGtZWndG?=
- =?utf-8?B?bFVqaklDTlQrSEZvenJEbmxXMk9nT09va0dIQnB4V1AxY1RoWEtQMXcrT0Ju?=
- =?utf-8?B?UTdWZU12clNtYTZ2SGlIbTNjcGY5Q2RRNXlaT2pOQkduV3FkTHR6c3Y3VUFl?=
- =?utf-8?B?QVBHc3o0VmJkQTNHOGRhbXlkdGtCaXZGaEJ4OWdWem42VEhMR0JQRUY4YW82?=
- =?utf-8?B?dllCci96azV4di9HOUh2bDVvdE80QTRWdnRvQ1BWUWFSQVBSOENCVXpJNlVq?=
- =?utf-8?B?bHVWaHV5ZkpQTE1ZOG55aUU2WUlpN0k2dk9ka1htN2c3RVZBSUNJT1dsSnkw?=
- =?utf-8?B?U29LNlVuQzVkWUlhajQzejMrK0VpMGZ5R0dkbVJKMmNMV1l1bWR2YWxTY2Jj?=
- =?utf-8?B?TkhXZ3BpREFMa0ViQzRHRUZyQ3BndWxrN0l5amFTZmtBL3lLZ05FdWZ2bkpt?=
- =?utf-8?B?bnNJTFNvM1MyWm0yNXNhQ0E2bWFqb3ZUb0VxemZ6K0JIb3Ftc0pVNmR4Sjcr?=
- =?utf-8?B?azdyZnI1ejlaV1RmZnFGQTVHWmZLdmJTZ3Y0Y3FzVmY3ZkUzTVVKeWlTc3Zi?=
- =?utf-8?B?Y1NUcXRjdHJJRG9GM1ZDMkQvVWlIVUVFb3d1U2hyNllNSlNlellha2pBWVJQ?=
- =?utf-8?B?YTBJRzRhV242VkwyN1E2bC9YRHd6SmZnWmorSlR1RHV3K3NlS2Y2T2J1NkpY?=
- =?utf-8?B?OVFQSDNYWlhOSUFjU0MrRVljbkhpRjJOWmpKdmh2bjBPbGhNbnBXQkpESTNM?=
- =?utf-8?B?R0JGa08wdnRMV2dBVzE3WUV0NHV1cGdvVWVOVnAxUGhWaWFPMjlyMlQ1ckJS?=
- =?utf-8?B?d1JFc0JuU1VZbWIrK2o2UnYrQldESjhwUnpsSVNTSTIrc0ZrbTIwWXBOeFJS?=
- =?utf-8?B?cG42cE91SmJlUkxteUd6QUQzMEcvdGs4VTR3WmdnSldwMjQ5bWR6TDh4Mm15?=
- =?utf-8?B?dUIxNmllcDB0VW83OTZmNmdjL3Z1L09Tb1ZnYlFRUVliTDQzWWxoa25GSkxx?=
- =?utf-8?B?WTg1eWZhVXQ5UWN1WUp3Z2gxcjM0MENZUHoraUNMaVpYNC8vdmdoeVhyOTl4?=
- =?utf-8?B?bUxhb0pSMnAvQ0F5NDQ5aEVWWk9jc1RYQVArRUVQMGt3TmFSRWVvUmtTdmRK?=
- =?utf-8?B?Y2pSZjg0YkVxOVFCL3NMODhPb2lxZkRxd2hxYnN4bTk2YkxvcW8zb3VzeExT?=
- =?utf-8?B?WW9Pd1pMcTJ4OXBCSlZrS2ExTk5qVHRRMkdxSnNRN05MdUtTZG4rL05uaDdE?=
- =?utf-8?B?QmNxTHpqYkNMak56bUhqMTU3M0ltazRiTjJVdVdnYVBuWER5T21YazFZajZR?=
- =?utf-8?B?Y003Z01WaGFLdloyb0g2KzNwYm9RL0NsMzZKTHJyaWFoYzlsVEpTMkhCTWZR?=
- =?utf-8?B?cmRnV1FjNXVQMS9ZYkhBMEdBVTRjYzBVekZVK1lzOUZSUUZSLzdJdXg2WXFT?=
- =?utf-8?B?Q1lkOHgvVVBZRHMxWW85a2FjaGRaS0xpS0NlME5SZ2kyR0dqbitjQkRxVHFp?=
- =?utf-8?B?RExVQkhuaGpIbGtvYzIvdGVmd01sczJhdVI5b2J2aGpsclE2TFNoNm0xMXQ1?=
- =?utf-8?B?a01XdWlLWTQ1a25XV0psRnBQSE9kWFhmWUl6TFN0MXkwMEFHUUY5ZzY0NjdP?=
- =?utf-8?B?anVWZnpYS2g2Y29NdVIybHRUTHNSTmxJd0dGbmJ6M2VtT1UvNUpKOFFSWTBo?=
- =?utf-8?B?Skh6OC9kbG05MmRwcXVSNGthWEhicHNOcGJsNXZiU0I5bnZja3E2cjc0TE80?=
- =?utf-8?B?R215NTRjRURlREh0QkNUOEI2S3RqMUN4eEFHYnBwZXFSTUc3a3BTTmtJL1hS?=
- =?utf-8?B?NGxXYzB2c3dlcnFwcHladTFkR2RmTkJpdS9nclBBcWwyV1NHc2dnWWloSlZ4?=
- =?utf-8?B?ZVFrWUdjZmpLaWZyWEtKdE5zTVZBemhwbFE0TGRVNVIyR2lUL2FJTVhBSldS?=
- =?utf-8?B?VkVTWHZZdCtPSDltU0k4d21hYWFVUzlFWjZ4OW1xRWlkL08xVlNkdnpvUU1K?=
- =?utf-8?B?bzc1dEV1Nzd6cWxWVGJpM0p1Zk5Sa1BiZGx1R1JFRFN2bEFlYU11QkZSZHdI?=
- =?utf-8?B?dGFNRWpYVUVTWFF2aHFCeVdSUHNKend6eWt0SG02dW9naDBjS3AzaEUzQU9X?=
- =?utf-8?B?Q3dRb3JwRjI3VHd3eFBEUFhIR3BoOTFXOTNpOGlZNm5sWDI5SVkyL3JJbXdh?=
- =?utf-8?Q?e6NBRYSkXcDljBaOJJ2gd12qiZJ8Ok8bR2t1HHx7ySMN?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b85b6b8-e3fb-4f49-c683-08daf549f0d1
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2023 09:38:35.0231 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: slnCOYupaEa84zvoAHO5jwEmfIC3DCIrp4iZW9HyFPfIxVTIvLWJsFN6Ck8+pZmN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5752
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,39 +60,290 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: majun@amd.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, freedreno@lists.freedesktop.org,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+ Sean Paul <sean@poorly.run>, Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 13.01.23 um 06:34 schrieb Ma Jun:
-> Use debugfs_remove_recursive to remove the /sys/kernel/debug/ttm
-> directory for better compatibility. Becuase debugfs_remove fails
-> on older kernel.
+On Fri, 13 Jan 2023, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> On Fri, 13 Jan 2023 at 09:12, Laurentiu Palcu
+> <laurentiu.palcu@oss.nxp.com> wrote:
+>>
+>> Hi Dmitry,
+>>
+>> On Thu, Jan 12, 2023 at 05:42:47PM +0200, Dmitry Baryshkov wrote:
+>> > There are two flags attemting to guard connector polling:
+>> > poll_enabled and poll_running. While poll_enabled semantics is clearly
+>> > defined and fully adhered (mark that drm_kms_helper_poll_init() was
+>> > called and not finalized by the _fini() call), the poll_running flag
+>> > doesn't have such clearliness.
+>> >
+>> > This flag is used only in drm_helper_probe_single_connector_modes() to
+>> > guard calling of drm_kms_helper_poll_enable, it doesn't guard the
+>> > drm_kms_helper_poll_fini(), etc. Change it to only be set if the polling
+>> > is actually running. Tie HPD enablement to this flag.
+>> >
+>> > This fix the following warning reported after merging the HPD series:
+>>
+>> s/fix/fixes/
+>>
+>> >
+>> > Hot plug detection already enabled
+>> > WARNING: CPU: 2 PID: 9 at drivers/gpu/drm/drm_bridge.c:1257 drm_bridge_hpd_enable+0x94/0x9c [drm]
+>> > Modules linked in: videobuf2_memops snd_soc_simple_card snd_soc_simple_card_utils fsl_imx8_ddr_perf videobuf2_common snd_soc_imx_spdif adv7511 etnaviv imx8m_ddrc imx_dcss mc cec nwl_dsi gov
+>> > CPU: 2 PID: 9 Comm: kworker/u8:0 Not tainted 6.2.0-rc2-15208-g25b283acd578 #6
+>> > Hardware name: NXP i.MX8MQ EVK (DT)
+>> > Workqueue: events_unbound deferred_probe_work_func
+>> > pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+>> > pc : drm_bridge_hpd_enable+0x94/0x9c [drm]
+>> > lr : drm_bridge_hpd_enable+0x94/0x9c [drm]
+>> > sp : ffff800009ef3740
+>> > x29: ffff800009ef3740 x28: ffff000009331f00 x27: 0000000000001000
+>> > x26: 0000000000000020 x25: ffff800001148ed8 x24: ffff00000a8fe000
+>> > x23: 00000000fffffffd x22: ffff000005086348 x21: ffff800001133ee0
+>> > x20: ffff00000550d800 x19: ffff000005086288 x18: 0000000000000006
+>> > x17: 0000000000000000 x16: ffff8000096ef008 x15: 97ffff2891004260
+>> > x14: 2a1403e194000000 x13: 97ffff2891004260 x12: 2a1403e194000000
+>> > x11: 7100385f29400801 x10: 0000000000000aa0 x9 : ffff800008112744
+>> > x8 : ffff000000250b00 x7 : 0000000000000003 x6 : 0000000000000011
+>> > x5 : 0000000000000000 x4 : ffff0000bd986a48 x3 : 0000000000000001
+>> > x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff000000250000
+>> > Call trace:
+>> >  drm_bridge_hpd_enable+0x94/0x9c [drm]
+>> >  drm_bridge_connector_enable_hpd+0x2c/0x3c [drm_kms_helper]
+>> >  drm_kms_helper_poll_enable+0x94/0x10c [drm_kms_helper]
+>> >  drm_helper_probe_single_connector_modes+0x1a8/0x510 [drm_kms_helper]
+>> >  drm_client_modeset_probe+0x204/0x1190 [drm]
+>> >  __drm_fb_helper_initial_config_and_unlock+0x5c/0x4a4 [drm_kms_helper]
+>> >  drm_fb_helper_initial_config+0x54/0x6c [drm_kms_helper]
+>> >  drm_fbdev_client_hotplug+0xd0/0x140 [drm_kms_helper]
+>> >  drm_fbdev_generic_setup+0x90/0x154 [drm_kms_helper]
+>> >  dcss_kms_attach+0x1c8/0x254 [imx_dcss]
+>> >  dcss_drv_platform_probe+0x90/0xfc [imx_dcss]
+>> >  platform_probe+0x70/0xcc
+>> >  really_probe+0xc4/0x2e0
+>> >  __driver_probe_device+0x80/0xf0
+>> >  driver_probe_device+0xe0/0x164
+>> >  __device_attach_driver+0xc0/0x13c
+>> >  bus_for_each_drv+0x84/0xe0
+>> >  __device_attach+0xa4/0x1a0
+>> >  device_initial_probe+0x1c/0x30
+>> >  bus_probe_device+0xa4/0xb0
+>> >  deferred_probe_work_func+0x90/0xd0
+>> >  process_one_work+0x200/0x474
+>> >  worker_thread+0x74/0x43c
+>> >  kthread+0xfc/0x110
+>> >  ret_from_fork+0x10/0x20
+>> > ---[ end trace 0000000000000000 ]---
+>> >
+>> > Reported-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+>> > Fixes: c8268795c9a9 ("drm/probe-helper: enable and disable HPD on connectors")
+>> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> > ---
+>> >  drivers/gpu/drm/drm_probe_helper.c | 110 +++++++++++++++++------------
+>> >  1 file changed, 63 insertions(+), 47 deletions(-)
+>> >
+>> > diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+>> > index 7973f2589ced..ef919d95fea6 100644
+>> > --- a/drivers/gpu/drm/drm_probe_helper.c
+>> > +++ b/drivers/gpu/drm/drm_probe_helper.c
+>> > @@ -222,6 +222,45 @@ drm_connector_mode_valid(struct drm_connector *connector,
+>> >       return ret;
+>> >  }
+>> >
+>> > +static void drm_kms_helper_disable_hpd(struct drm_device *dev)
+>> > +{
+>> > +     struct drm_connector *connector;
+>> > +     struct drm_connector_list_iter conn_iter;
+>> > +
+>> > +     drm_connector_list_iter_begin(dev, &conn_iter);
+>> > +     drm_for_each_connector_iter(connector, &conn_iter) {
+>> > +             const struct drm_connector_helper_funcs *funcs =
+>> > +                     connector->helper_private;
+>> > +
+>> > +             if (funcs && funcs->disable_hpd)
+>> > +                     funcs->disable_hpd(connector);
+>> > +     }
+>> > +     drm_connector_list_iter_end(&conn_iter);
+>> > +}
+>> > +
+>> > +static bool drm_kms_helper_enable_hpd(struct drm_device *dev)
+>> > +{
+>> > +     bool poll = false;
+>> > +     struct drm_connector *connector;
+>> > +     struct drm_connector_list_iter conn_iter;
+>> > +
+>> > +     drm_connector_list_iter_begin(dev, &conn_iter);
+>> > +     drm_for_each_connector_iter(connector, &conn_iter) {
+>> > +             const struct drm_connector_helper_funcs *funcs =
+>> > +                     connector->helper_private;
+>> > +
+>> > +             if (funcs && funcs->disable_hpd)
+>> > +                     funcs->disable_hpd(connector);
+>>
+>> I believe this is not right. You probably wanted to use enable_hpd
+>> instead of disable_hpd on these two lines? Otherwise HPD would not work
+>> at all.
+>
+> Argh. Too many refactorings. I'll check that it works correctly and
+> respin.
 
-Again NAK for upstreaming.
+Please Cc: intel-gfx@lists.freedesktop.org on the respin to run this on
+our CI.
 
-The upstream kernel is made for the newest kernel version and should not 
-contain any compatibility handling for older kernels.
+Thanks,
+Jani.
 
-Christian.
 
 >
-> Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
-> ---
->   drivers/gpu/drm/ttm/ttm_device.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-> index 967bc2244df3..590297123bb2 100644
-> --- a/drivers/gpu/drm/ttm/ttm_device.c
-> +++ b/drivers/gpu/drm/ttm/ttm_device.c
-> @@ -55,7 +55,7 @@ static void ttm_global_release(void)
->   		goto out;
->   
->   	ttm_pool_mgr_fini();
-> -	debugfs_remove(ttm_debugfs_root);
-> +	debugfs_remove_recursive(ttm_debugfs_root);
->   
->   	__free_page(glob->dummy_read_page);
->   	memset(glob, 0, sizeof(*glob));
+>>
+>> Thanks,
+>> Laurentiu
+>>
+>> > +
+>> > +             if (connector->polled & (DRM_CONNECTOR_POLL_CONNECT |
+>> > +                                      DRM_CONNECTOR_POLL_DISCONNECT))
+>> > +                     poll = true;
+>> > +     }
+>> > +     drm_connector_list_iter_end(&conn_iter);
+>> > +
+>> > +     return poll;
+>> > +}
+>> > +
+>> >  #define DRM_OUTPUT_POLL_PERIOD (10*HZ)
+>> >  /**
+>> >   * drm_kms_helper_poll_enable - re-enable output polling.
+>> > @@ -241,26 +280,14 @@ drm_connector_mode_valid(struct drm_connector *connector,
+>> >  void drm_kms_helper_poll_enable(struct drm_device *dev)
+>> >  {
+>> >       bool poll = false;
+>> > -     struct drm_connector *connector;
+>> > -     struct drm_connector_list_iter conn_iter;
+>> >       unsigned long delay = DRM_OUTPUT_POLL_PERIOD;
+>> >
+>> > -     if (!dev->mode_config.poll_enabled || !drm_kms_helper_poll)
+>> > +     if (!dev->mode_config.poll_enabled ||
+>> > +         !drm_kms_helper_poll ||
+>> > +         dev->mode_config.poll_running)
+>> >               return;
+>> >
+>> > -     drm_connector_list_iter_begin(dev, &conn_iter);
+>> > -     drm_for_each_connector_iter(connector, &conn_iter) {
+>> > -             const struct drm_connector_helper_funcs *funcs =
+>> > -                     connector->helper_private;
+>> > -
+>> > -             if (funcs && funcs->enable_hpd)
+>> > -                     funcs->enable_hpd(connector);
+>> > -
+>> > -             if (connector->polled & (DRM_CONNECTOR_POLL_CONNECT |
+>> > -                                      DRM_CONNECTOR_POLL_DISCONNECT))
+>> > -                     poll = true;
+>> > -     }
+>> > -     drm_connector_list_iter_end(&conn_iter);
+>> > +     poll = drm_kms_helper_enable_hpd(dev);
+>> >
+>> >       if (dev->mode_config.delayed_event) {
+>> >               /*
+>> > @@ -279,6 +306,8 @@ void drm_kms_helper_poll_enable(struct drm_device *dev)
+>> >
+>> >       if (poll)
+>> >               schedule_delayed_work(&dev->mode_config.output_poll_work, delay);
+>> > +
+>> > +     dev->mode_config.poll_running = true;
+>> >  }
+>> >  EXPORT_SYMBOL(drm_kms_helper_poll_enable);
+>> >
+>> > @@ -567,10 +596,7 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
+>> >       }
+>> >
+>> >       /* Re-enable polling in case the global poll config changed. */
+>> > -     if (drm_kms_helper_poll != dev->mode_config.poll_running)
+>> > -             drm_kms_helper_poll_enable(dev);
+>> > -
+>> > -     dev->mode_config.poll_running = drm_kms_helper_poll;
+>> > +     drm_kms_helper_poll_enable(dev);
+>> >
+>> >       if (connector->status == connector_status_disconnected) {
+>> >               DRM_DEBUG_KMS("[CONNECTOR:%d:%s] disconnected\n",
+>> > @@ -710,8 +736,12 @@ static void output_poll_execute(struct work_struct *work)
+>> >       changed = dev->mode_config.delayed_event;
+>> >       dev->mode_config.delayed_event = false;
+>> >
+>> > -     if (!drm_kms_helper_poll)
+>> > +     if (!drm_kms_helper_poll &&
+>> > +         dev->mode_config.poll_running) {
+>> > +             drm_kms_helper_disable_hpd(dev);
+>> > +             dev->mode_config.poll_running = false;
+>> >               goto out;
+>> > +     }
+>> >
+>> >       if (!mutex_trylock(&dev->mode_config.mutex)) {
+>> >               repoll = true;
+>> > @@ -808,30 +838,6 @@ bool drm_kms_helper_is_poll_worker(void)
+>> >  }
+>> >  EXPORT_SYMBOL(drm_kms_helper_is_poll_worker);
+>> >
+>> > -static void drm_kms_helper_poll_disable_fini(struct drm_device *dev, bool fini)
+>> > -{
+>> > -     struct drm_connector *connector;
+>> > -     struct drm_connector_list_iter conn_iter;
+>> > -
+>> > -     if (!dev->mode_config.poll_enabled)
+>> > -             return;
+>> > -
+>> > -     if (fini)
+>> > -             dev->mode_config.poll_enabled = false;
+>> > -
+>> > -     drm_connector_list_iter_begin(dev, &conn_iter);
+>> > -     drm_for_each_connector_iter(connector, &conn_iter) {
+>> > -             const struct drm_connector_helper_funcs *funcs =
+>> > -                     connector->helper_private;
+>> > -
+>> > -             if (funcs && funcs->disable_hpd)
+>> > -                     funcs->disable_hpd(connector);
+>> > -     }
+>> > -     drm_connector_list_iter_end(&conn_iter);
+>> > -
+>> > -     cancel_delayed_work_sync(&dev->mode_config.output_poll_work);
+>> > -}
+>> > -
+>> >  /**
+>> >   * drm_kms_helper_poll_disable - disable output polling
+>> >   * @dev: drm_device
+>> > @@ -848,7 +854,12 @@ static void drm_kms_helper_poll_disable_fini(struct drm_device *dev, bool fini)
+>> >   */
+>> >  void drm_kms_helper_poll_disable(struct drm_device *dev)
+>> >  {
+>> > -     drm_kms_helper_poll_disable_fini(dev, false);
+>> > +     if (dev->mode_config.poll_running)
+>> > +             drm_kms_helper_disable_hpd(dev);
+>> > +
+>> > +     cancel_delayed_work_sync(&dev->mode_config.output_poll_work);
+>> > +
+>> > +     dev->mode_config.poll_running = false;
+>> >  }
+>> >  EXPORT_SYMBOL(drm_kms_helper_poll_disable);
+>> >
+>> > @@ -886,7 +897,12 @@ EXPORT_SYMBOL(drm_kms_helper_poll_init);
+>> >   */
+>> >  void drm_kms_helper_poll_fini(struct drm_device *dev)
+>> >  {
+>> > -     drm_kms_helper_poll_disable_fini(dev, true);
+>> > +     if (!dev->mode_config.poll_enabled)
+>> > +             return;
+>> > +
+>> > +     drm_kms_helper_poll_disable(dev);
+>> > +
+>> > +     dev->mode_config.poll_enabled = false;
+>> >  }
+>> >  EXPORT_SYMBOL(drm_kms_helper_poll_fini);
+>> >
+>> > --
+>> > 2.39.0
+>> >
 
+-- 
+Jani Nikula, Intel Open Source Graphics Center
