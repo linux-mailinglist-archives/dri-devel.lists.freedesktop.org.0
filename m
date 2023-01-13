@@ -1,51 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5DC669EFC
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 18:01:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CA7669EF3
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 18:00:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D1AF10EA70;
-	Fri, 13 Jan 2023 17:00:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A645A10E9B3;
+	Fri, 13 Jan 2023 17:00:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EBE210EA70;
- Fri, 13 Jan 2023 17:00:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=hMAR/fe4a+AqXAMEBm+JMkSSpKLeGsuHKZQINVwuouc=; b=peM/G9C7k2HUlD7jat6cOSPzU9
- 8uNMHGtngx06eV9F78Fti+qynhmhmz186Rc3Bu3nykmWf2vrQMogZeq7elnMxn0/6GeDMD8MJ5kOY
- 3Jal1x7vNxsbIxWKKfz0sikIMS7/n3HvbcaNOwdBoHw+ub5bGq5/vYsGh9maTJg6pj4J/mlWNyqoX
- PHfRNP1iPrJPCTSzknti/5bB9f75IiduN692EuMiEDyHFS6blY3I7h1lzdIa3I6wah4gm+ea+My4m
- qzHNOk5n20gvwQEeGBIzpopDq6t4JHuNxihqp90aNHdJcQEUSYLC04XskLOu0wcitRn0xihrw2P3a
- EjH/Dcxw==;
-Received: from [187.36.234.139] (helo=bowie..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pGNPx-007Hoz-Co; Fri, 13 Jan 2023 18:00:37 +0100
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Maxime Ripard <mripard@kernel.org>,
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D61B910EA65
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 17:00:29 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 086825C0178;
+ Fri, 13 Jan 2023 12:00:27 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Fri, 13 Jan 2023 12:00:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1673629227; x=
+ 1673715627; bh=vGrOBRThs0IjPAOvNG05ifp9pUpMVW2XpKJSwiRdLmE=; b=V
+ V7cafQMItog5R0bsq5xGD4F0PiTAnya1v3WH52dKJZPKg01M/OX7OxmKx+1sOEj2
+ /L5Yv9O2Nr9ktMLAStRuhwCPGnCYSUXUNJv4nLTGapOtaLGuR+cLzD8EVOMC+RXW
+ oDpYuYXZDIZspnrn88CC3pVKqeibEqaDlXyzgdix95bhx15evr1hV67b40OsQ5RC
+ HQjjsYTR6ikOUV5N6H7wMwV9cEdDNlnRDko0tISw04Fwa8yt9YVHtN3kj95UTKq3
+ sJnSHcHHderlGA4SZzCfq2WxAP7pMYxRVWb9g4WJOnbXCoWr9lAuF9q07+PRP+h0
+ gW00zyAc3CNs3n4EHA64g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673629227; x=
+ 1673715627; bh=vGrOBRThs0IjPAOvNG05ifp9pUpMVW2XpKJSwiRdLmE=; b=K
+ yiHSBShCxlCXFWwPQgj3BW0rdYoss40cQgwQ9sSteaOBuNGj7Y+6WspZyBz6+uwb
+ mrHFXMO16FZzNpGUA+PImflRuUvFvYtopk1xMy7iUHzAYQL2w/UKzaknQ9HPb+8j
+ Y+mAOL4xeS5uvsreJ5UQvfqiVFvplu+wmbzyBgs3a/SbQ7r7WhzubCGdXMJ9dGNG
+ qI34W0fbngpmU135EjSwJXpg2cU++srUhWNajpmaTbLH5Ko2bVdKXhSP+dJvi7Qz
+ 4U81QJV4x6DlXfX4Z/NcDdPdh4hp8/w4QKToYoRtC6K3y4QeCg94JnPiQZ6aqt4K
+ f3jbc3IHYBCtUSJtmOwRQ==
+X-ME-Sender: <xms:Ko7BYwp03T9HlklvaSf_NpzcnbVq_r6teCQmazrSkv7mLbmHinJlsA>
+ <xme:Ko7BY2qAuRRDeEmG2OR0GmUXkHbwxdPpt4jQlxjxtuvpLrVMY-qrBS6EPcQiwbf2g
+ 65dcZ_QvQ75pD57QLs>
+X-ME-Received: <xmr:Ko7BY1NBc8GkqlFDUlNFg59tWDLHeGBxkmRvZYNWTrvB3Rm_hoUJrtIuqV_-fgzn2UAatHhelkCNBTNPbTymM7QzqQRF3-qE6yF7dMBDFX7SHQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrleekgdeludcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvfevjghfuffkffggtgfgofesthejredtredtjeenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeelieffgfdvteejjeeujeeiheeuvdetieegheethffhieefgeelkedukeet
+ geeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:Ko7BY37OKmKBnW-5JVtc155MyTB3Gb41GI3bskMBYbCXPxP8iKwRCg>
+ <xmx:Ko7BY_7jKh5XFuX0suiGjLlrl67goJs8K99v1FSiMzbGCmZfH5niQg>
+ <xmx:Ko7BY3jjJ1QRMGlAwIZLGmkd-KwlXZN-G23b2yFBtaq71D90fHErNA>
+ <xmx:K47BY3xfIR_A-mlvlQfX1_POJULrTKA9WMJYw3QHWX2JzF13ws4tHA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 13 Jan 2023 12:00:25 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
- Simon Ser <contact@emersion.fr>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Zack Rusin <zackr@vmware.com>
-Subject: [PATCH v3 3/3] drm/vmwgfx: Remove redundant framebuffer format check
-Date: Fri, 13 Jan 2023 13:59:20 -0300
-Message-Id: <20230113165919.580210-4-mcanal@igalia.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230113165919.580210-1-mcanal@igalia.com>
-References: <20230113165919.580210-1-mcanal@igalia.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+In-Reply-To: <20230113154637.1704116-1-maxime@cerno.tech>
+References: <20230113154637.1704116-1-maxime@cerno.tech>
+Subject: Re: (subset) [PATCH] drm/vc4: bo: Fix unused variable warning
+Message-Id: <167362919127.1721383.12570206079155179123.b4-ty@cerno.tech>
+Date: Fri, 13 Jan 2023 17:59:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.11.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,65 +86,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- amd-gfx@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
- VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
- dri-devel@lists.freedesktop.org
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that framebuffer_check() verifies that the format is properly
-supported, there is no need to check it again on vmwgfx's inside
-helpers.
+On Fri, 13 Jan 2023 16:46:37 +0100, Maxime Ripard wrote:
+> Commit 07a2975c65f2 ("drm/vc4: bo: Fix drmm_mutex_init memory hog")
+> removed the only user of the ret variable, but didn't remove the
+> variable itself leading to a unused variable warning.
+> 
+> Remove that variable.
+> 
+> 
+> [...]
 
-Therefore, remove the redundant framebuffer format check from the
-vmw_kms_new_framebuffer_surface() and vmw_kms_new_framebuffer_bo()
-functions, letting framebuffer_check() perform the framebuffer
-validation.
+Applied to drm/drm-misc (drm-misc-fixes).
 
-Reviewed-by: Zack Rusin <zackr@vmware.com>
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 18 ------------------
- 1 file changed, 18 deletions(-)
-
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index 257f090071f1..05b8d8f912bf 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -1317,15 +1317,6 @@ static int vmw_kms_new_framebuffer_surface(struct vmw_private *dev_priv,
- 	 * Sanity checks.
- 	 */
- 
--	if (!drm_any_plane_has_format(&dev_priv->drm,
--				      mode_cmd->pixel_format,
--				      mode_cmd->modifier[0])) {
--		drm_dbg(&dev_priv->drm,
--			"unsupported pixel format %p4cc / modifier 0x%llx\n",
--			&mode_cmd->pixel_format, mode_cmd->modifier[0]);
--		return -EINVAL;
--	}
--
- 	/* Surface must be marked as a scanout. */
- 	if (unlikely(!surface->metadata.scanout))
- 		return -EINVAL;
-@@ -1648,15 +1639,6 @@ static int vmw_kms_new_framebuffer_bo(struct vmw_private *dev_priv,
- 		return -EINVAL;
- 	}
- 
--	if (!drm_any_plane_has_format(&dev_priv->drm,
--				      mode_cmd->pixel_format,
--				      mode_cmd->modifier[0])) {
--		drm_dbg(&dev_priv->drm,
--			"unsupported pixel format %p4cc / modifier 0x%llx\n",
--			&mode_cmd->pixel_format, mode_cmd->modifier[0]);
--		return -EINVAL;
--	}
--
- 	vfbd = kzalloc(sizeof(*vfbd), GFP_KERNEL);
- 	if (!vfbd) {
- 		ret = -ENOMEM;
--- 
-2.39.0
-
+Thanks!
+Maxime
