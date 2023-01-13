@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C3BA669650
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 13:03:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A866E66965B
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 13:05:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7592910E9F6;
-	Fri, 13 Jan 2023 12:02:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CFCB10E9F2;
+	Fri, 13 Jan 2023 12:05:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 289D810E9F2;
- Fri, 13 Jan 2023 12:02:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2CCE10E9F2;
+ Fri, 13 Jan 2023 12:05:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673611373; x=1705147373;
+ t=1673611529; x=1705147529;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=UlN2j1kIIyxREP9yQns7AFWR8A2uVDXgY1t5Tgi8t5g=;
- b=meYj2oGT9Kkx7xsEsyvelHLK30wVnWZwxlrc238iYhZwosLbHS6Ffz66
- 799dN6z2behDX1XAIs4xh3jtMaxG3PS0FWb4dkhcFMJ4cDQqBnkwDMYdB
- myvlJIF4KO6gfaPRnVP5zIR1m3PmuodxGi+LwSsMMzlxq2ZB5K5JNws8c
- ctmMryVNuPC8uroBhqK0bXuLGqlJZcSLMjghvLgHiWsa2ekNYT/27UYs1
- cJQqRq3gL3mcfHZ3s/FOiEfMQUmpB2DOcTguYmQ72QGxCgtuA7pRKeTnu
- 9LtUumAPsAMjDG/mV/Os9eHpLjGB4FntEjNc3eEX9kUxTgjLRHBHOK4fw A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="410213169"
-X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="410213169"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ bh=IJ/sdzhc2eeITgP3/UPdBD6zgvBTF1ZXWr21IV0FHds=;
+ b=at3lkguRdhOhVaSKKu3jJ704ASwnFopDu7Fcf9gJbzDtXXD0jdbBjqhs
+ w2WSMf5duGnJHJMp1ruO0HIJjctaERIjBvJYY3ogx5irQPQAEmyHotVx1
+ P8EvrqrmachwGzoS3RIQxrRyGEgI4srd6E1nk4QhMC6tLyo1dp7tG9tKv
+ dbzFKmeDahwkvZCAib4rfz1oSOEinXYVFs1xh8oqUsh5RJpDw3w2JQGAm
+ xuqjbtAg7HmIPLr/t2vlWn4WT7bZ+VjNvElKpqVjh0poVjBGbXPR6LdeK
+ NvpWhswRTt7+Bb8CNZt+IU1B29BTKU6HCu2pKe8zzML8obBvqyxSMAaHk Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="410213620"
+X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="410213620"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2023 04:02:52 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="782132713"
-X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="782132713"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.251.222.27])
- ([10.251.222.27])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2023 04:02:51 -0800
-Message-ID: <28a2aa02-b62c-9666-6b1f-11bd33b50c23@linux.intel.com>
-Date: Fri, 13 Jan 2023 13:02:48 +0100
+ 13 Jan 2023 04:05:24 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="800583028"
+X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="800583028"
+Received: from andreasg-mobl2.ger.corp.intel.com (HELO [10.252.13.101])
+ ([10.252.13.101])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2023 04:05:22 -0800
+Message-ID: <e2c3f194-8122-5fe1-c6e4-25d8af867f64@intel.com>
+Date: Fri, 13 Jan 2023 12:05:20 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.6.0
 Subject: Re: [PATCH] drm/i915/selftests: Unwind hugepages to drop wakeref on
  error
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, Nirmoy Das <nirmoy.das@intel.com>, 
- intel-gfx@lists.freedesktop.org
+Content-Language: en-GB
+To: "Das, Nirmoy" <nirmoy.das@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
 References: <20230113114903.7824-1-nirmoy.das@intel.com>
  <f691df00-a1b3-a6e1-3ed8-cdb4eb7a5a56@intel.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <f691df00-a1b3-a6e1-3ed8-cdb4eb7a5a56@intel.com>
+ <28a2aa02-b62c-9666-6b1f-11bd33b50c23@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <28a2aa02-b62c-9666-6b1f-11bd33b50c23@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,16 +69,21 @@ Cc: chris.p.wilson@linux.intel.com, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks Matt, I missed the Fixes tag so resent it with fixes and Cc to 
-stable.
+On 13/01/2023 12:02, Das, Nirmoy wrote:
+> Thanks Matt, I missed the Fixes tag so resent it with fixes and Cc to 
+> stable.
 
-On 1/13/2023 12:51 PM, Matthew Auld wrote:
-> On 13/01/2023 11:49, Nirmoy Das wrote:
->> From: Chris Wilson <chris.p.wilson@linux.intel.com>
->>
->> Make sure that upon error after we have acquired the wakeref we do
->> release it again.
->>
->> Signed-off-by: Chris Wilson <chris.p.wilson@linux.intel.com>
->> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+I don't think kernel selftests are really stable material. AFAIK it's 
+not something normal users care about.
+
+> 
+> On 1/13/2023 12:51 PM, Matthew Auld wrote:
+>> On 13/01/2023 11:49, Nirmoy Das wrote:
+>>> From: Chris Wilson <chris.p.wilson@linux.intel.com>
+>>>
+>>> Make sure that upon error after we have acquired the wakeref we do
+>>> release it again.
+>>>
+>>> Signed-off-by: Chris Wilson <chris.p.wilson@linux.intel.com>
+>>> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+>> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
