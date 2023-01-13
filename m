@@ -2,75 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42AB1669115
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:36:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F65666911F
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:37:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDF6C10E9AD;
-	Fri, 13 Jan 2023 08:36:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2220810E9AE;
+	Fri, 13 Jan 2023 08:37:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55B2910E9AD
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:36:14 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id y25so32086739lfa.9
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:36:14 -0800 (PST)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5809710E9AF
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:37:24 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id o20so154654lfk.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:37:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=MbcF412+htBpP6c3Z0Q4p3qLBGDCwBxu74wvh/PMgNw=;
- b=VpSslbPElfSFkioF2esjTVMWOD8pQfbbCeJ6uRoN7SwA/DpDfkNJg5YbMKDjOyQm58
- Lref6nMkgaioreG3O9Kqk3MKFGbEuLb4YGcEbtI8+FxecrhtP5vogKIiQQd/BeDrIU7P
- B5yaBqDCZbyuMlczVjJ8CCUwZXTvBC954sVEXQfxdbvLdx7tYmrvCvPJWtb2fMYKEZ4a
- /Ji8PZljruID8qRbeX8XbMukIH+Q3qfRpdLg6DWzsLjrc9qYlr88xVRYrHpMSORoINoF
- nDgPE7T9M9KYW8qRICOu5YW/OAo98RpWHb5ILPxNfgXsLbQLw3D+ICsSsfVuFiqSQve3
- lEPw==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=89Zd6mgRw6i6pS7UmAmLfKTihhoi7hZ3v4ZY4evNfNU=;
+ b=Md/c6o4xFP/rPyTe1JxNVDFfvvxKjrHwRmQThWtvoxAemn7Qw8PDih/X4Ij3SBmKTQ
+ oOorr2DP3DubEBXYQL/WtT7gBPCMt27Ux5W7KJ7ebUV+ZjMJjrPxLqsvRexkwvYM5qHR
+ Qjk+RbtTNyBgHucoN3BkReQ3KFIV7dbIgSJq+bn68jku+e5rcHuFPCkbPkNSou5OEMBT
+ NnlUBaudHvINOiesk1gOQmJrNcarT8ZYvUxASFNNrW7SQU/4PaJYx4uh0fkrMk1I+5Zo
+ ToBm8065LUIaLfVossiVto5Ljal1qU9nYZb0LhK0pqAgV+FYb5PT6uRRZnQ8/dGNZnke
+ qFZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MbcF412+htBpP6c3Z0Q4p3qLBGDCwBxu74wvh/PMgNw=;
- b=qbv30V8/kAhPfmtLImdUyEEcyYXfQfkTzIQYGxvMP3AEMhTXNSCc1FbQ8zH6zJuXYH
- p41BZc3yAZVkzbXlJG2o8b5fzsNSc+thLcjvnbaMQmR4/eGUM/lrc6SdiLOEaGdHVlKw
- FKKjYsz0HrnI2BA46roLEE+NXzMRp1oaQiBiKHW6057keaquVlO9aqV/od7McAX3KftV
- w+ZXfYcoRJy1pbRqe7UJDrKzRLmg/rDk7uMAzxTRXqkQDZEJ59SfeCB7UmRcpYw1hwm/
- bC9c8LCIsWqEv+yk0/wv9+QidjMj23G2+OR6z5Os2/bj9JXLIMhib6iKckF6IkUs5xOG
- AfUQ==
-X-Gm-Message-State: AFqh2kpzjxXi70OZhROb5Hx/6yZiB+Ye2GudFqWrUsinPPzK7sX2YJ6h
- QveB0Pp1GHs9vmtpaxMPOl9pAQ==
-X-Google-Smtp-Source: AMrXdXvWNzx7rgSBewTKrQ2TXk3lTNoL04kHq5ZP4XC25VP4PEcDLfWV9uvN9qcdP5fMa1q3Tiag1w==
-X-Received: by 2002:a05:6512:224f:b0:4cc:586b:1834 with SMTP id
- i15-20020a056512224f00b004cc586b1834mr9610322lfu.45.1673598972387; 
- Fri, 13 Jan 2023 00:36:12 -0800 (PST)
-Received: from [192.168.2.31] ([194.204.33.9])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=89Zd6mgRw6i6pS7UmAmLfKTihhoi7hZ3v4ZY4evNfNU=;
+ b=4YpK66/PuufICyVAuskUOITClETb4eUhMB6WlfRZkQF2RpTg18BxxMqpmR5EtEXSSm
+ v6sWcnR9EG1K5cySP82galaJSj+BcxXZrfABDk049fVoaV2rqJA3QBh/lbP7tk8i/BvW
+ vkEh/R/gtwJnW5b15Mbo+JiQ+U5AdbdAIAX9QyOBP4sNOjp7TraCGggrZ32ujo2KgHrI
+ 6QeS9EYUr421vfFrnCPM47bcG9agE+aggdg8aAGUgk2LsYSm82nPudwG/qZ1Gvf/V7nu
+ 1h1oodhrZl2VGEMLoLwtsebuF7XzyhiHumW1RAMzA5QiPopawsZN7XTlcDxWmOwZ9HtK
+ O+wQ==
+X-Gm-Message-State: AFqh2kohiUKFQlgzKbItWb4+mis/ngIS2fC5oqSqcHUh/DyRfgE6QLOC
+ yIB6zy+ZOdRgwoMEKhtZiFYO1Q==
+X-Google-Smtp-Source: AMrXdXsKRL8Wgn2I3YnZYNfAI4H1YVtupP4j3ohwao7d05G23ww7r7+efpyZW+XbzlG5m+TiV3Av2A==
+X-Received: by 2002:a05:6512:40f:b0:4ce:e95c:f2ff with SMTP id
+ u15-20020a056512040f00b004cee95cf2ffmr790411lfk.18.1673599042611; 
+ Fri, 13 Jan 2023 00:37:22 -0800 (PST)
+Received: from eriador.lumag.spb.ru ([194.204.33.9])
  by smtp.gmail.com with ESMTPSA id
- v15-20020ac258ef000000b004b57a253deasm3739416lfo.162.2023.01.13.00.36.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 00:36:11 -0800 (PST)
-Message-ID: <81cf71ed-1daa-222d-d67a-efded42e70d2@linaro.org>
-Date: Fri, 13 Jan 2023 10:36:09 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v5 1/4] dt-bindings: display/msm: convert MDP5 schema to
- YAML format
-Content-Language: en-GB
-To: Rob Herring <robh@kernel.org>,
- Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230109050152.316606-1-dmitry.baryshkov@linaro.org>
- <20230109050152.316606-2-dmitry.baryshkov@linaro.org>
- <20230109074947.5vnfrn6shzpm6iqi@SoMainline.org>
- <997dbd09-03d6-d60d-1dce-db0bc6415582@linaro.org>
- <20230111222903.otbur6yi4iv4mpgz@SoMainline.org>
- <1d371e40-0639-16f8-abef-afcd05e72e22@linaro.org>
- <20230111223553.e3xrxmdys5zxxleh@SoMainline.org>
- <20230112215015.GA259261-robh@kernel.org>
+ o6-20020a05651205c600b004994117b0fdsm3748038lfo.281.2023.01.13.00.37.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Jan 2023 00:37:22 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230112215015.GA259261-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: [PATCH v6 00/11] dt-bindings: display/msm: rework MDP5 and MDSS schema
+Date: Fri, 13 Jan 2023 10:37:09 +0200
+Message-Id: <20230113083720.39224-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,38 +72,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Andy Gross <agross@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/01/2023 23:50, Rob Herring wrote:
-> On Wed, Jan 11, 2023 at 11:35:53PM +0100, Marijn Suijten wrote:
->> On 2023-01-12 00:31:33, Dmitry Baryshkov wrote:
->>> On 12/01/2023 00:29, Marijn Suijten wrote:
->>>> On 2023-01-10 06:40:27, Dmitry Baryshkov wrote:
->>>>> On 09/01/2023 09:49, Marijn Suijten wrote:
->>>>>> On 2023-01-09 07:01:49, Dmitry Baryshkov wrote:
->>>> <snip>
->>>>>>> +    description: |
->>>>>>
->>>>>> Should multiline descriptions be treated as a oneline string with `>`?
-> 
-> Depends if you want to keep paragraphs. Generally, we use '|' or
-> nothing. If just a colon (or ???), then I think you want '>'.
+Krzysztof asked me to merge all pending MDSS/MDP5/DPU patches to a
+single series to ease review and to let one to see the whole picture.
 
-Ack, thanks for the explanation. I'll fix this for v6.
+This combines three series: MDP5 schema conversion, mdss/mdp renaming
+and addition of the "core" clock to the MDSS device node.
 
-> 
-> I get tired of saying to drop unnecessary '|' in reviews. It would be
-> nice to analyze the text to check what's needed automatically.
-> 
-> -- 
-With best wishes
-Dmitry
+Changes since v5:
+- Merged in the mdss/mdp node renaming and core clock series
+- Fixed the formatting of descriptions in qcom,mdp5 schema.
+
+Changes since v4:
+- Adjust qcom,mdss.yaml to follow the addition of per-SoC compatibles
+
+Changes since v3:
+- Drop MSM8998 completely, it conflicts with qcom,msm8998-dpu.yaml
+
+Changes since v2:
+- Fix MSM8998 compatible list: "qcom,msm8998-dpu", "msm,mdp5" to allow
+  handling this device by either of the drivers.
+
+Changes since v1:
+- Renamed mdp@ to display-controller@ in the example (Krzysztof)
+- Extended ports description to mention possible ports (Krzysztof)
+- Fixed ports@ regexp to limit to just four ports (Krzysztof)
+- Included patches adding per-SoC compat strings to the schema and to
+  dtsi files.
+
+
+Dmitry Baryshkov (11):
+  dt-bindings: display/msm: convert MDP5 schema to YAML format
+  dt-bindings: display/msm: add SoC-specific compats to qcom,mdp5.yaml
+  dt-bindings: display/msm: add core clock to the mdss bindings
+  dt-bindings: display/msm: rename mdss nodes to display-subsystem
+  dt-bindings: display/msm: rename mdp nodes to display-controller
+  ARM: dts: qcom-msm8974: add SoC specific compat string to mdp5 node
+  arm64: dts: qcom: add SoC specific compat strings to mdp5 nodes
+  arm64: dts: qcom: rename mdss nodes to display-subsystem
+  ARM: dts: qcom-msm8974: rename mdss node to display-subsystem
+  arm64: dts: qcom: rename mdp nodes to display-controller
+  ARM: dts: qcom: rename mdp nodes to display-controller
+
+ .../bindings/display/msm/dpu-common.yaml      |   8 +
+ .../devicetree/bindings/display/msm/mdp5.txt  | 132 ---------------
+ .../bindings/display/msm/mdss-common.yaml     |   8 +
+ .../bindings/display/msm/qcom,mdp5.yaml       | 156 ++++++++++++++++++
+ .../bindings/display/msm/qcom,mdss.yaml       |  51 ++++--
+ arch/arm/boot/dts/qcom-apq8064.dtsi           |   2 +-
+ arch/arm/boot/dts/qcom-msm8974.dtsi           |   6 +-
+ arch/arm64/boot/dts/qcom/msm8916.dtsi         |   6 +-
+ arch/arm64/boot/dts/qcom/msm8953.dtsi         |   4 +-
+ arch/arm64/boot/dts/qcom/msm8996.dtsi         |   6 +-
+ arch/arm64/boot/dts/qcom/sc7180.dtsi          |   2 +-
+ arch/arm64/boot/dts/qcom/sdm630.dtsi          |   6 +-
+ arch/arm64/boot/dts/qcom/sdm660.dtsi          |   2 +
+ arch/arm64/boot/dts/qcom/sdm845.dtsi          |   2 +-
+ arch/arm64/boot/dts/qcom/sm8250.dtsi          |   2 +-
+ 15 files changed, 230 insertions(+), 163 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/msm/mdp5.txt
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,mdp5.yaml
+
+-- 
+2.39.0
 
