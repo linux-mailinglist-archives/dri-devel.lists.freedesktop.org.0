@@ -1,70 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6094B669DC0
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 17:25:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D7BD669DE7
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 17:26:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBA5910EA36;
-	Fri, 13 Jan 2023 16:25:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01B0310EA45;
+	Fri, 13 Jan 2023 16:26:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2083.outbound.protection.outlook.com [40.107.94.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F56C10EA35;
- Fri, 13 Jan 2023 16:24:55 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5300610EA41;
+ Fri, 13 Jan 2023 16:26:43 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C1padJUBKfP2iAnMWli+Q6367XHQjW604q9nGnFmBU7ogj5ZaoJ91dl4l/PrZK/TT2bDnFcuDLIdqfHOE2xkjp4OXJowgoTXtG1alJLwBs7NgVznCXFbbzTZ/lrjJZ6DIBvl+GNEbo1IMwGr3hUgAdxn4ZJOnKsKEOW2GUKC6fRNLk5HAvphFWb3wbALWc/ODkaUUSnL/dc2mWIGv4JxfrVpOCXGJ0Hze/NecM8pxyXX6iKM0N0h+LYjwvvgJQoFcoVJP63ZFVbjFsF85QRXGiohCCNZVCTtQ2FIO4nCJWzp6O4fQkf+lzmbID/XDSMuAWCYUb3Pb9u4Nd/71SIIUA==
+ b=XaXxPH2PACECs1mDrSmQVOlXcKQv2RyxrR2YN+tqSh13IlgrRRyQPbmg5UtIvLxvZPtPH36wVD8kix7yhJ/AakdzOxtkkfjUJFuaJ2/ibdYsq4hn7X0jTpedTKKQM6LnTKwsl2x5AmYtNtM6d0HtIcuQwTi7qP3ZQhn+SxorOvLSYF0w9gCnkuye3G6/53G+oiy1RAt8yKc0VtPGErTx9d4Pb3XuSVWGVt614VfStMEJKkI/29+OYDoT2gtFRj7vKMSepz6Ix6IpZm6B/mtJ6trLcN1jnldhjIMjPCQv6PxpBocjApvGjAhX8PDhd7TmR8o/vYb9gqmKELa9IQDKOQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZXo7A0+bicfIrCQZ75MCDvc59Zdb8L0twMtTH/p0X7s=;
- b=doFCbEBGY9llI6lK0KUb/ZvY+mm68EA/ZeA+JeIqB7qvUC+wYU4tvMOjzGU5jo+V7vVQIrNI/cfNXVfqKbcnbKqzWyrZO35vwx/98MjTc/E1YAa1m/xH2e/Lar73+AzhntGqGT0a2KtmFFQfSfb972e4Q1MgOWFHxG+8fq/aFloFOGMnBb4N6eb5cBDgAi4LSi+jauOuJ5XHkaKXA19VbKZ1Voi1Htpu/QEiAgCqWTN5IrNk0KUL17mpiyt2q5S4Mn5//97y9Kvz/0G+Wc2FiP6txu6kogtUI2faz+jXVh/04q9cVcQZV+PcVGa/LbycxHtxiGIBut8phxlMFmYvKw==
+ bh=5UbE7PYOQjI8gsCXEp48tAoVUErD6R8wWQhilTvZIFw=;
+ b=a8qQPmAVKx01FQQ60XI2Q7yimWjWbU603nBDCdAjc0qK7S7zQ8S3KHlNxR6oqbDJpOCHUgjlpWEDHp4B3bN17OR8eMNyaesP7iyBAgZwkzieDYbQuuH2EGFsiSNfWJxNAa2W3cD+BYw8/6fTLMPEESLz4+4f56R6vBjCrzukSX86BuP/nzm6xBlXeMO1pxW5DzK+CqphOVTQP1m9YY15UX3Hv3Sz6mxVnW52DIgBJWQJ5qQAGXZ4R280Cg9t3r63fLtOLIGT+TNZrNQKVQdqw7jRZotCB8Gt3qB99lKH4PU74JfUlw7Rrbs53A7AWGQTzK0sd/pbMjkKA1oaf4j1pg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZXo7A0+bicfIrCQZ75MCDvc59Zdb8L0twMtTH/p0X7s=;
- b=W7Om78JRTIkHXQQZdiT0UV++xXbkJvlJLbLv6Hr7O/oD9tZfO/k0GVpKfqqxzUOU8Ld+yRoGVA0qyamYGESjH5Q9u4fTNNtRF+hgSvRAx3aNcRkGOJD6moj32h4ZIuzIRp7ZQOKYWE2ccPoTuv05ISM9lYsNvq8Lr3wQ4toDQOQ=
-Received: from MW4P220CA0028.NAMP220.PROD.OUTLOOK.COM (2603:10b6:303:115::33)
- by MN2PR12MB4487.namprd12.prod.outlook.com (2603:10b6:208:264::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.19; Fri, 13 Jan
- 2023 16:24:53 +0000
-Received: from CO1NAM11FT042.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:115:cafe::cb) by MW4P220CA0028.outlook.office365.com
- (2603:10b6:303:115::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13 via Frontend
- Transport; Fri, 13 Jan 2023 16:24:53 +0000
+ bh=5UbE7PYOQjI8gsCXEp48tAoVUErD6R8wWQhilTvZIFw=;
+ b=2yMG1J01IF2xBledSxTTz9M4W5Ni0+2DhsXki+IzkD6b0ozfBlZuZRdzMIBA+w9woy17RmxGaUK9/SZu4LQzc4OXF9YERg1Tu4uuBwQ1Q4oB+u0t0SP5sfl6OG8ju7a89yLjR/q+uooyrGCCeTII5CCyabCxboBsVfSkq2o3pqw=
+Received: from DM6PR08CA0040.namprd08.prod.outlook.com (2603:10b6:5:1e0::14)
+ by CH3PR12MB8211.namprd12.prod.outlook.com (2603:10b6:610:125::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Fri, 13 Jan
+ 2023 16:26:41 +0000
+Received: from DS1PEPF0000E630.namprd02.prod.outlook.com
+ (2603:10b6:5:1e0:cafe::8e) by DM6PR08CA0040.outlook.office365.com
+ (2603:10b6:5:1e0::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.16 via Frontend
+ Transport; Fri, 13 Jan 2023 16:26:40 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CO1NAM11FT042.mail.protection.outlook.com (10.13.174.250) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6002.13 via Frontend Transport; Fri, 13 Jan 2023 16:24:53 +0000
-Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS1PEPF0000E630.mail.protection.outlook.com (10.167.17.134) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6002.11 via Frontend Transport; Fri, 13 Jan 2023 16:26:40 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 13 Jan
  2023 10:24:52 -0600
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB08.amd.com
- (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 13 Jan
- 2023 08:24:51 -0800
 Received: from hwentlanryzen.amd.com (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Fri, 13 Jan 2023 10:24:51 -0600
+ Transport; Fri, 13 Jan 2023 10:24:52 -0600
 From: Harry Wentland <harry.wentland@amd.com>
 To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 02/21] drm/connector: print max_requested_bpc in state
- debugfs
-Date: Fri, 13 Jan 2023 11:24:09 -0500
-Message-ID: <20230113162428.33874-3-harry.wentland@amd.com>
+Subject: [PATCH v2 03/21] drm/connector: Drop COLORIMETRY_NO_DATA
+Date: Fri, 13 Jan 2023 11:24:10 -0500
+Message-ID: <20230113162428.33874-4-harry.wentland@amd.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230113162428.33874-1-harry.wentland@amd.com>
 References: <20230113162428.33874-1-harry.wentland@amd.com>
@@ -73,26 +68,26 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT042:EE_|MN2PR12MB4487:EE_
-X-MS-Office365-Filtering-Correlation-Id: c07e05ca-998f-47b9-cf72-08daf582b397
+X-MS-TrafficTypeDiagnostic: DS1PEPF0000E630:EE_|CH3PR12MB8211:EE_
+X-MS-Office365-Filtering-Correlation-Id: b01a918a-593a-42f7-4d4b-08daf582f3aa
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: itUhtY0kEnM5nbPBHa1GUS/idX7r31C+v3bTJ2XbpAellHmPpz/2COlwm3pEclSOZi8WhWTQbNxl5uvdF60lsCl9PB6t6H1lxIUaStcP/B2cOtwO5gjx3sEjdduvM/sbn7vkwPmeEyPW0bx2xLBB26fBOwLGHQ81B1jOW+rgyqJcl6T1sA+9JpgZMxr2552fLgb/ed1P6LuzVjPXtTYaCvbkuAfbz04QbL4U2Bsvmoex2qBcMlMSz+hrULh1zXb9ipup/rxx0Lrsa/fX2OsFNk4dESdBitlDw/yW9jA6jaTJbH4p+w8oRE2sfNuCYn0mb7K8sX2NkR6OpOUCE+nCjZ8kgvGleGSIBqRt+OW5aJ9TnbxDFOFGzLPyt+poqPUbDwDMYP1bRgny7VQAWgfH8SARyH/uJ8p3Bev66dlsPelBN9VI4L2WZwUUfpRDvUhoCrNKNPYpL7iBsLlc80CoeHWISpn2E0484G2WKsaw5oG4dE+7zF5l1/oHwRW3NNbLLhZohi2KdqcjtreHAcw3O7V/uUfGwQflQRaaUCqXl1Y0rTAYS5ZTY+gOuSbOmtHr4yQ/eFiK3hhe9sZY6srFo03HkkKS3JuZfCGNqYngVLBOR3D/v71oMSVjEUZzlBWU0GkMIMgwjUdR67a3fNvtJ3uHyDIJbsr6FGhm3NW+HXiL+wCFnyjbl0VyzLlQly3CKEhU+V3e3MifzTwDE43w5NQTu7PsywXZm3jJTel/aJA=
+X-Microsoft-Antispam-Message-Info: LWTyN63ZrsPaWlbod61gWaftELZyvrPrNWfTl4yoF0FJU5YI6WFARulM4kdufj8mn9AOJv/hhqIzXGYObE9pAi4g+jIMdesHt8uAdqtt3tyiVFMJIHMOAmuJc2a/UtoCNKpi3ErGWEVWY2Dt3062m6DIYcKfht60n/e3wLgt9sT46qNTcUFXlaXijh8W2ql9DUV3IwyG+pslh1FP4cU13t5mblabgNiAEHzucVknqIEcQDilgZ3mssXbOfEkcUd3wnFYqYpf6L85nuTrES3Xqd8cbUFyzIr1NLQVgntuUaToH7NwCjAiexmubgmeTyaCeYrg1ylUUnjnQttecMSyfa2V+33kEW3A0JuU4Lgqi3ezh0eemvsyGjr0OV1lZ1XPjdL9tnFdVRS58spBmh3lJH9XT9jEjIQGUIBgsJDOSYi5iT+Ff+YvAfDrhcXYC840TXBDf6I7MRhm3+GzbEL+R6ly74wiQv1YRND28Odcor1bakBQZiPzBHBX+/Jc45LfIMUL1ymjZkNla2Qs8St+Ep6xTwmwb5WPrK6PFnjTTB0NUHAS1Su4A6wWzo/R/2zo6ihiQJazugox8xLyR/8wL9zi4uQpR7lrYKPS/ecXOT/Qs3xJU5/ArIOMIfAGBnW4gLiwPdh+Ih/DbaiFYaA7G+I8v4YH+G0lzqiSapisFxP1yG0OibV2oJARqD91tzs+gkV8dT+RlSoOrAJ7Rso+qx0vfO1zLOq86IHUnV+fT6M=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(396003)(376002)(136003)(39860400002)(451199015)(40470700004)(46966006)(36840700001)(6666004)(36756003)(82310400005)(26005)(186003)(478600001)(7696005)(82740400003)(356005)(81166007)(40460700003)(86362001)(40480700001)(83380400001)(2616005)(426003)(66574015)(47076005)(1076003)(36860700001)(336012)(44832011)(8936002)(5660300002)(2906002)(316002)(4326008)(70206006)(70586007)(8676002)(110136005)(54906003)(41300700001)(36900700001);
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(376002)(346002)(396003)(136003)(39860400002)(451199015)(40470700004)(46966006)(36840700001)(8936002)(26005)(40480700001)(478600001)(186003)(1076003)(336012)(2616005)(70586007)(8676002)(6666004)(7696005)(41300700001)(110136005)(316002)(54906003)(4326008)(36860700001)(86362001)(83380400001)(82740400003)(40460700003)(47076005)(81166007)(356005)(426003)(66899015)(70206006)(82310400005)(36756003)(5660300002)(44832011)(2906002)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2023 16:24:53.2252 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c07e05ca-998f-47b9-cf72-08daf582b397
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2023 16:26:40.8299 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b01a918a-593a-42f7-4d4b-08daf582f3aa
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT042.eop-nam11.prod.protection.outlook.com
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E630.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4487
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8211
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,8 +106,10 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is useful to understand the bpc defaults and
-support of a driver.
+The value is the same as DEFAULT. The HDMI_COLORIMETRY_NO_DATA
+makes sense for the infopacket but it's meaningless for the
+connector colorspace. or, in otherwise, just means to go with
+driver default.
 
 Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 Cc: Pekka Paalanen <ppaalanen@gmail.com>
@@ -126,21 +123,35 @@ Cc: dri-devel@lists.freedesktop.org
 Cc: amd-gfx@lists.freedesktop.org
 Reviewed-By: Joshua Ashton <joshua@froggi.es>
 ---
- drivers/gpu/drm/drm_atomic.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/display/drm_hdmi_helper.c | 2 +-
+ include/drm/drm_connector.h               | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index f197f59f6d99..c0dc5858a723 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -1070,6 +1070,7 @@ static void drm_atomic_connector_print_state(struct drm_printer *p,
- 	drm_printf(p, "connector[%u]: %s\n", connector->base.id, connector->name);
- 	drm_printf(p, "\tcrtc=%s\n", state->crtc ? state->crtc->name : "(null)");
- 	drm_printf(p, "\tself_refresh_aware=%d\n", state->self_refresh_aware);
-+	drm_printf(p, "\tmax_requested_bpc=%d\n", state->max_requested_bpc);
+diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/drm/display/drm_hdmi_helper.c
+index faf5e9efa7d3..c1e6851b2606 100644
+--- a/drivers/gpu/drm/display/drm_hdmi_helper.c
++++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
+@@ -103,7 +103,7 @@ EXPORT_SYMBOL(drm_hdmi_infoframe_set_hdr_metadata);
+ #define HDMI_COLORIMETRY_DCI_P3_RGB_THEATER	(C(3) | EC(7) | ACE(1))
  
- 	if (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK)
- 		if (state->writeback_job && state->writeback_job->fb)
+ static const u32 hdmi_colorimetry_val[] = {
+-	[DRM_MODE_COLORIMETRY_NO_DATA] = HDMI_COLORIMETRY_NO_DATA,
++	[DRM_MODE_COLORIMETRY_DEFAULT] = HDMI_COLORIMETRY_NO_DATA,
+ 	[DRM_MODE_COLORIMETRY_SMPTE_170M_YCC] = HDMI_COLORIMETRY_SMPTE_170M_YCC,
+ 	[DRM_MODE_COLORIMETRY_BT709_YCC] = HDMI_COLORIMETRY_BT709_YCC,
+ 	[DRM_MODE_COLORIMETRY_XVYCC_601] = HDMI_COLORIMETRY_XVYCC_601,
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 4d830fc55a3d..62c814241828 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -375,7 +375,6 @@ enum drm_privacy_screen_status {
+ /* For Default case, driver will set the colorspace */
+ #define DRM_MODE_COLORIMETRY_DEFAULT			0
+ /* CEA 861 Normal Colorimetry options */
+-#define DRM_MODE_COLORIMETRY_NO_DATA			0
+ #define DRM_MODE_COLORIMETRY_SMPTE_170M_YCC		1
+ #define DRM_MODE_COLORIMETRY_BT709_YCC			2
+ /* CEA 861 Extended Colorimetry Options */
 -- 
 2.39.0
 
