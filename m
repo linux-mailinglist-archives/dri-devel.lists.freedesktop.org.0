@@ -1,52 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F79669F16
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 18:12:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32D5466A0DE
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 18:40:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 781E410EA76;
-	Fri, 13 Jan 2023 17:12:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C184D10E078;
+	Fri, 13 Jan 2023 17:40:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95ECC10EA76
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 17:12:05 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1F3910E05F
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 17:40:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673629925; x=1705165925;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=uaaXZV3sG79+TeMR+hrFRsa8RvzQpx4iYxOp0B1DqCM=;
- b=EHnwvVZ40mCDEOJZx1GHdm3H35Lf29ZYS1dZhFvgw9PQ8ZPBlY++KrEQ
- g/ThEgqsk2Ddi2Q0tSfzh0cAeM6TPvjj5NLCJ+hJWuFInEXTb8pHAuAI/
- C2UqTEuygBAqr7KK1Tr0IOTuS4GVYSVjzRvHvIwEVkMvuN331bQByGRad
- ghcc1g+ptKhqGDn868nC/k51W1IXDKRgexONVyMeyIhKWt2cusnh1G9ou
- 8RdLZX3MmOZ+/YaFLZICbcoSTW9Anu3AHzdrCtLHufMo1qFJbnPRcAePZ
- yq9nz79E7TQXjo0AbLhoU79C/03OooCUQugRsY020hjT3mfDAQhGVG0Oe w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="322742863"
-X-IronPort-AV: E=Sophos;i="5.97,214,1669104000"; d="scan'208";a="322742863"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2023 09:10:32 -0800
+ t=1673631636; x=1705167636;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=aOFHIYXUBrqr9+If/r9gCmOL5KeU2zlnO6suhhT47oc=;
+ b=DpbO396DdHI5HlgDvDqfPK2KI6a0g1pjjkwQmY2vZtu1xtGrY3XNw2mY
+ FtGXbtZ7FmFbZBB+wFWIeQ4JcNxNifrnGDRamfF9GO3pVLlgmWhoCL5Ar
+ jvRDb6ngIYznciZGW47OXDjovlX5GfCOzMuTbSUjMoO8ebag6VR/6MQ1j
+ bFkW/c9YZ1sfRcRuplcMZb7hba4iJUY+OmySx+sMUFarIZKLG+Kw+GYWk
+ 4Wa1Q7u4bdiOx31Auw2rcPFtFl33EAAkDuOafvv1ZQIbxDVZJ6Z3Sv2af
+ hPcivWUJE78Br7WLo/J5oKodHVELbMaonoi5BlqRIIvAtG5/7UWDso69f w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="386396077"
+X-IronPort-AV: E=Sophos;i="5.97,214,1669104000"; d="scan'208";a="386396077"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2023 09:40:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="660282846"
-X-IronPort-AV: E=Sophos;i="5.97,214,1669104000"; d="scan'208";a="660282846"
-Received: from lkp-server02.sh.intel.com (HELO f1920e93ebb5) ([10.239.97.151])
- by fmsmga007.fm.intel.com with ESMTP; 13 Jan 2023 09:10:30 -0800
-Received: from kbuild by f1920e93ebb5 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pGNZV-000BHg-2D;
- Fri, 13 Jan 2023 17:10:29 +0000
-Date: Sat, 14 Jan 2023 01:10:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 6b31ffe9c8b9947d6d3552d6e10752fd96d0f80f
-Message-ID: <63c19068.KJJoDMv4WFq0GgOm%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="658287535"
+X-IronPort-AV: E=Sophos;i="5.97,214,1669104000"; d="scan'208";a="658287535"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by orsmga002.jf.intel.com with ESMTP; 13 Jan 2023 09:40:26 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1pGO2R-008jqV-0f; Fri, 13 Jan 2023 19:40:23 +0200
+Date: Fri, 13 Jan 2023 19:40:22 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Prashant Malani <pmalani@chromium.org>
+Subject: Re: [PATCH v10 1/9] device property: Add remote endpoint to devcon
+ matcher
+Message-ID: <Y8GXhhYY9a7Z/t9H@smile.fi.intel.com>
+References: <20230112042104.4107253-1-treapking@chromium.org>
+ <20230112042104.4107253-2-treapking@chromium.org>
+ <Y8AL8nTcNcl6zX7H@paasikivi.fi.intel.com>
+ <CACeCKaeN7KBi30M1fRWhTPgMbxF6=B+KuAS7Ny7+i9qCx+=49Q@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <CACeCKaeN7KBi30M1fRWhTPgMbxF6=B+KuAS7Ny7+i9qCx+=49Q@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,126 +64,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Memory Management List <linux-mm@kvack.org>,
- dri-devel@lists.freedesktop.org, alsa-devel@alsa-project.org,
- linux-arm-kernel@lists.infradead.org, linux-scsi@vger.kernel.org
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
+ chrome-platform@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
+ =?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ Stephen Boyd <swboyd@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 6b31ffe9c8b9947d6d3552d6e10752fd96d0f80f  Add linux-next specific files for 20230113
+On Thu, Jan 12, 2023 at 02:31:45PM -0800, Prashant Malani wrote:
+> On Thu, Jan 12, 2023 at 5:32 AM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> > On Thu, Jan 12, 2023 at 12:20:56PM +0800, Pin-yen Lin wrote:
+> > > From: Prashant Malani <pmalani@chromium.org>
 
-Error/Warning: (recently discovered and may have been fixed)
+...
 
-aarch64-linux-ld: ID map text too big or misaligned
-arch/arm/kernel/entry-armv.S:485:5: warning: "CONFIG_ARM_THUMB" is not defined, evaluates to 0 [-Wundef]
-drivers/gpu/drm/ttm/ttm_bo_util.c:364:32: error: implicit declaration of function 'vmap'; did you mean 'kmap'? [-Werror=implicit-function-declaration]
-drivers/gpu/drm/ttm/ttm_bo_util.c:429:17: error: implicit declaration of function 'vunmap'; did you mean 'kunmap'? [-Werror=implicit-function-declaration]
+> > > +             /*
+> > > +              * Some drivers may register devices for endpoints. Check
+> > > +              * the remote-endpoints for matches in addition to the remote
+> > > +              * port parent.
+> > > +              */
+> > > +             node = fwnode_graph_get_remote_endpoint(ep);
+> > > +             if (fwnode_device_is_available(node)) {
+> > > +                     ret = match(node, con_id, data);
+> > > +                     if (ret) {
+> > > +                             if (matches)
+> > > +                                     matches[count] = ret;
+> > > +                             count++;
+> > > +                     }
+> > > +             }
+> >
+> > Aren't you missing fwnode_handle-put(node) here??
+> 
+> It shouldn't be necessary. We aren't break-ing/continue-ing here,
+> and fwnode_handle_put(node) is called latter in the loop [1][2]
+> 
+> BR,
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/base/property.c#n1256
+> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/base/property.c#n1261
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
+I'm really puzzled what do you mean by all this.
+Sakari is right, btw.
 
-drivers/nvmem/layouts/sl28vpd.c:143:21: sparse: sparse: symbol 'sl28vpd_layout' was not declared. Should it be static?
-drivers/scsi/qla2xxx/qla_mid.c:1189:6: sparse: sparse: symbol 'qla_trim_buf' was not declared. Should it be static?
-drivers/scsi/qla2xxx/qla_mid.c:1221:6: sparse: sparse: symbol '__qla_adjust_buf' was not declared. Should it be static?
-sound/ac97/bus.c:465:1: sparse: sparse: symbol 'dev_attr_vendor_id' was not declared. Should it be static?
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- arm-buildonly-randconfig-r003-20230113
-|   `-- arch-arm-kernel-entry-armv.S:warning:CONFIG_ARM_THUMB-is-not-defined-evaluates-to
-|-- arm64-allyesconfig
-|   `-- aarch64-linux-ld:ID-map-text-too-big-or-misaligned
-|-- microblaze-randconfig-s041-20230112
-|   |-- drivers-nvmem-layouts-sl28vpd.c:sparse:sparse:symbol-sl28vpd_layout-was-not-declared.-Should-it-be-static
-|   `-- sound-ac97-bus.c:sparse:sparse:symbol-dev_attr_vendor_id-was-not-declared.-Should-it-be-static
-|-- microblaze-randconfig-s043-20230112
-|   |-- drivers-scsi-qla2xxx-qla_mid.c:sparse:sparse:symbol-__qla_adjust_buf-was-not-declared.-Should-it-be-static
-|   `-- drivers-scsi-qla2xxx-qla_mid.c:sparse:sparse:symbol-qla_trim_buf-was-not-declared.-Should-it-be-static
-|-- mips-allyesconfig
-|   |-- drivers-gpu-drm-ttm-ttm_bo_util.c:error:implicit-declaration-of-function-vmap
-|   `-- drivers-gpu-drm-ttm-ttm_bo_util.c:error:implicit-declaration-of-function-vunmap
-`-- mips-randconfig-r012-20230113
-    |-- drivers-gpu-drm-ttm-ttm_bo_util.c:error:implicit-declaration-of-function-vmap
-    `-- drivers-gpu-drm-ttm-ttm_bo_util.c:error:implicit-declaration-of-function-vunmap
-
-elapsed time: 725m
-
-configs tested: 68
-configs skipped: 2
-
-gcc tested configs:
-x86_64                            allnoconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-powerpc                           allnoconfig
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-arc                                 defconfig
-s390                             allmodconfig
-alpha                               defconfig
-s390                                defconfig
-sh                               allmodconfig
-x86_64                              defconfig
-mips                             allyesconfig
-x86_64                               rhel-8.3
-s390                             allyesconfig
-powerpc                          allmodconfig
-arc                  randconfig-r043-20230112
-arm                                 defconfig
-x86_64                           allyesconfig
-i386                                defconfig
-ia64                             allmodconfig
-i386                          randconfig-a001
-x86_64                           rhel-8.3-bpf
-i386                          randconfig-a003
-riscv                randconfig-r042-20230112
-s390                 randconfig-r044-20230112
-x86_64                        randconfig-a013
-i386                          randconfig-a005
-arm64                            allyesconfig
-x86_64                        randconfig-a011
-i386                          randconfig-a014
-x86_64                        randconfig-a002
-arm                              allyesconfig
-i386                          randconfig-a012
-x86_64                        randconfig-a015
-i386                          randconfig-a016
-x86_64                        randconfig-a006
-i386                             allyesconfig
-x86_64                        randconfig-a004
-sh                          urquell_defconfig
-sh                     magicpanelr2_defconfig
-xtensa                       common_defconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-alpha                            allyesconfig
-arc                              allyesconfig
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-
-clang tested configs:
-x86_64                          rhel-8.3-rust
-arm                  randconfig-r046-20230112
-hexagon              randconfig-r041-20230112
-hexagon              randconfig-r045-20230112
-i386                          randconfig-a002
-x86_64                        randconfig-a014
-i386                          randconfig-a013
-i386                          randconfig-a006
-i386                          randconfig-a011
-x86_64                        randconfig-a012
-x86_64                        randconfig-a001
-i386                          randconfig-a015
-i386                          randconfig-a004
-x86_64                        randconfig-a016
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-mips                       rbtx49xx_defconfig
-s390                             alldefconfig
-powerpc                      walnut_defconfig
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+With Best Regards,
+Andy Shevchenko
+
+
