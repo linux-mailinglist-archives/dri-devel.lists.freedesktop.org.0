@@ -2,36 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 850836691AB
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:50:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4C95669184
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:46:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D94D10E9BD;
-	Fri, 13 Jan 2023 08:50:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD0410E9B6;
+	Fri, 13 Jan 2023 08:46:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
- Fri, 13 Jan 2023 08:50:43 UTC
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C3F610E9BD
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:50:43 +0000 (UTC)
-Received: from ramsan.of.borg ([84.195.186.194])
- by laurent.telenet-ops.be with bizsmtp
- id 88lL2900C4C55Sk018lL8t; Fri, 13 Jan 2023 09:45:40 +0100
-Received: from geert (helo=localhost)
- by ramsan.of.borg with local-esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1pGFgd-003qP4-W0;
- Fri, 13 Jan 2023 09:45:19 +0100
-Date: Fri, 13 Jan 2023 09:45:19 +0100 (CET)
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 13/22] pinctrl: remove renesas sh controllers
-In-Reply-To: <20230113062339.1909087-14-hch@lst.de>
-Message-ID: <c480ecd6-166c-18b4-2230-418836ce3fb2@linux-m68k.org>
-References: <20230113062339.1909087-1-hch@lst.de>
- <20230113062339.1909087-14-hch@lst.de>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F056110E9B6
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:46:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673599610; x=1705135610;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=3vN+dDWEQ062+4d1PiAsynv7VXvTvFbT9q8UcNY4RYQ=;
+ b=WQ8lM28Ed7E7WKdjJEiRJAlw4avEBiuyd8r/UXdYJdL9e1o0qUNjf3G/
+ r/rs2P0dbAj8BGi8eAt+CBLnby8qEr652UDDt8mH5xIVSDN0GfR+GDzek
+ +542EYXh0WcdOg1nYsKQYLj0AvIQDuL/5o/Ck2hMI3aa7RXihCDTULvUY
+ cRGUCtTbwRJMsURWx1I0MQB1TfOkTS8qSko0s4V0jVEEPTbWCZ3wMFvd8
+ 9V8QIQxx9h8gL2JrvDvd7VwGwOh3Rdc52YITxwhOYx1hzdxg/nRhkiLTd
+ WZDMQIOEXdZb6vQe/77kmrB9eacscfRNjr/Ryx9KFsABKj5qDvks3jrcQ Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="303645076"
+X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="303645076"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2023 00:46:49 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="800533319"
+X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="800533319"
+Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.132.57])
+ ([10.249.132.57])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2023 00:46:47 -0800
+Message-ID: <4a699fdd-cc9e-7a4e-b757-cb52552dc4f8@linux.intel.com>
+Date: Fri, 13 Jan 2023 09:46:44 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v5 4/7] accel/ivpu: Add IPC driver and JSM messages
+Content-Language: en-US
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, dri-devel@lists.freedesktop.org,
+ oded.gabbay@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
+ tzimmermann@suse.de
+References: <20230109122344.253994-1-jacek.lawrynowicz@linux.intel.com>
+ <20230109122344.253994-5-jacek.lawrynowicz@linux.intel.com>
+ <6811c853-aaa7-3bf1-c098-d6ca0e875e75@quicinc.com>
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <6811c853-aaa7-3bf1-c098-d6ca0e875e75@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,68 +66,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- linux-arch@vger.kernel.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-watchdog@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- linux-gpio@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- netdev@vger.kernel.org, dmaengine@vger.kernel.org, linux-rtc@vger.kernel.org
+Cc: andrzej.kacprowski@linux.intel.com,
+ Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
+ stanislaw.gruszka@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
- 	Hi Christoph,
+Hi,
 
-On Fri, 13 Jan 2023, Christoph Hellwig wrote:
-> Now that arch/sh is removed these drivers are dead code.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+On 12.01.2023 19:18, Jeffrey Hugo wrote:
+> On 1/9/2023 5:23 AM, Jacek Lawrynowicz wrote:
+>> The IPC driver is used to send and receive messages to/from firmware
+>> running on the VPU.
+>>
+>> The only supported IPC message format is Job Submission Model (JSM)
+>> defined in vpu_jsm_api.h header.
+>>
+>> Co-developed-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+>> Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+>> Co-developed-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+>> Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+>> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> 
+> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> 
+>> +int ivpu_ipc_irq_handler(struct ivpu_device *vdev)
+>> +{
+>> +    struct ivpu_ipc_info *ipc = vdev->ipc;
+>> +    struct ivpu_ipc_consumer *cons;
+>> +    struct ivpu_ipc_hdr *ipc_hdr;
+>> +    struct vpu_jsm_msg *jsm_msg;
+>> +    unsigned long flags;
+>> +    bool dispatched;
+>> +    u32 vpu_addr;
+>> +
+>> +    /* Driver needs to purge all messages from IPC FIFO to clear IPC interrupt.
+>> +     * Without purge IPC FIFO to 0 next IPC interrupts won't be generated.
+>> +     */
+>> +    while (ivpu_hw_reg_ipc_rx_count_get(vdev)) {
+> 
+> Ick.  Please no in the long term?
+> 
+> This is an infinite loop.  In hard IRQ context.  Controlled by the device, which you probably shouldn't trust.
+> 
+> However the real fix for this is to move to threaded_irqs.  Which is going to be a huge refactor for you.  Rate limiting doesn't appear viable.
+> 
+> If I understand things correctly, the chances that the device will generate a large count, or update the count as fast or faster than the driver are low, but it should still be fixed.
+> 
+> How about a high priority todo to convert to threaded irqs?  At the same time you can update the return value for this function which seems to not be checked anywhere, and also the comment here which is not proper multi-line style.
 
-Thanks for your patch!
+OK, I've added this at the top of the TODO and fixed the comment.
+Regarding the ivpu_ipc_irq_handler() return code it is checked in the next patch in ivpu_wait_for_ready().
 
-> --- a/drivers/pinctrl/renesas/Kconfig
-> +++ b/drivers/pinctrl/renesas/Kconfig
-> @@ -255,57 +243,10 @@ config PINCTRL_RZV2M
-> 	  This selects GPIO and pinctrl driver for Renesas RZ/V2M
-> 	  platforms.
->
-> -config PINCTRL_PFC_SH7203
-> -	bool "pin control support for SH7203" if COMPILE_TEST
-> -	select PINCTRL_SH_FUNC_GPIO
+Regards,
+Jacek
 
-(If this is to be continued) the PINCTRL_SH_FUNC_GPIO symbol itself, and
-all its users, can be removed, too.
 
-> --- a/drivers/pinctrl/renesas/core.c
-> +++ b/drivers/pinctrl/renesas/core.c
-> @@ -753,562 +753,6 @@ static int sh_pfc_suspend_init(struct sh_pfc *pfc) { return 0; }
-> #define DEV_PM_OPS	NULL
-> #endif /* CONFIG_PM_SLEEP && CONFIG_ARM_PSCI_FW */
->
-> -#ifdef DEBUG
-> -#define SH_PFC_MAX_REGS		300
-> -#define SH_PFC_MAX_ENUMS	5000
-> -
 
-This whole hunk should stay (except for the part protected by #ifdef
-CONFIG_PINCTRL_SH_FUNC_GPIO), as it is used for validating pin control
-tables on ARM SoCs, too.
-
-Gr{oetje,eeting}s,
-
- 						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
- 							    -- Linus Torvalds
