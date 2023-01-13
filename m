@@ -2,56 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50AAF6699F5
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 15:21:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC8F8669AF4
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 15:52:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 493C510EA01;
-	Fri, 13 Jan 2023 14:21:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0952010EA0E;
+	Fri, 13 Jan 2023 14:52:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A90F10E9FD;
- Fri, 13 Jan 2023 14:21:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673619681; x=1705155681;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=3okXM4x6oZMOlzLg+ynr2lGRZPjxPP8WQcjMssh0H2w=;
- b=mStp7Wn7HrZwdUTwuMVdVTHWotcITPse/yXf10NKzgxDO8x0lnvqyS61
- EztNEI/8MvZSBFb+Ro6Z7zvrTn8KoMEe5FB+U9ym3HEFagRmG+97GqRtx
- a4kv8wTn46/fPix0qSn8cw/NoMn6vADPNvD6lWrT7GYLGjEjTJ6dOr12L
- hlVJC6+MyRklbpTWK47GdpYTyhMCKbWDXb59M05tipflYT/7UfTr9oOBq
- c5QbncKamywGxP6rJzdMBUxoZUz8Y6CTZTC3u8aRPughwH+u/rFmfYo8y
- JMqLMrF/ha0roygmy3hIXjmHGNGvdMUavGJE3/Apq7ryas/o7iMCyWcQX Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="324058919"
-X-IronPort-AV: E=Sophos;i="5.97,214,1669104000"; d="scan'208";a="324058919"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2023 06:21:21 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="608180891"
-X-IronPort-AV: E=Sophos;i="5.97,214,1669104000"; d="scan'208";a="608180891"
-Received: from skenned1-mobl.ger.corp.intel.com (HELO [10.213.196.186])
- ([10.213.196.186])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2023 06:21:19 -0800
-Message-ID: <8cccd992-1e5d-7121-c4cb-fb845b33128e@linux.intel.com>
-Date: Fri, 13 Jan 2023 14:21:16 +0000
+Received: from mailrelay2-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay2-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:401::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04DF010EA0D
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 14:52:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=KwQ22b8Nr1nOkVeoMuuOuuiuzvEAnD1GlpwPb7e64as=;
+ b=NnbFIHNQsE4SGlyOpADh5QOibw62s4YIpk8BfSxLHZkosThjDfZasg47Xf95DMgstg4iLLH91bCyA
+ s0tGTA6wMUOCvS5ytmDUTq15usC/vdlh1CBYHZ7zAZDDQN5qt40GbQalL76aWwVxkhA5Ldl7F93HT1
+ sISdwEfCKZu4YhbeMF76SfoCYSofMnYx4j46O4NqXIu+aZN/dWMKx7WgOAFvVhXoG5y1cQwSlCu8nS
+ AibyXw8+/MSQNMhds2N9oNgNn6mgSiSv/CS8xGWLoEO3qwQPcm76FklvC2cHQu2wejHu9eoIt1kwS7
+ HubLJxSep0UrRwLYmuStCShFOnvm/3A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=KwQ22b8Nr1nOkVeoMuuOuuiuzvEAnD1GlpwPb7e64as=;
+ b=jXTnJnPbpPvp28lUNFIDX6bN9rE1EJYDsoziEwow3qmbI5T60a0vGRZAw8SefUhP005zyh4s8JP9S
+ MqfcaBdCw==
+X-HalOne-ID: dac2612b-9351-11ed-80f4-93f0a866dfbb
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay2 (Halon) with ESMTPSA
+ id dac2612b-9351-11ed-80f4-93f0a866dfbb;
+ Fri, 13 Jan 2023 14:52:11 +0000 (UTC)
+Date: Fri, 13 Jan 2023 15:52:09 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH] drm/panel: boe-tv101wum-nl6: Ensure DSI writes succeed
+ during disable
+Message-ID: <Y8FwGTWeYtX0j8MX@ravnborg.org>
+References: <20230106030108.2542081-1-swboyd@chromium.org>
+ <Y7nV+aeFiq5aD0xU@ravnborg.org>
+ <CAE-0n50QOv_+j1Pe19xKj4Cx2Y5_Ak5Kt68UBJuZt10D-jQ44g@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/mtl: Connect root sysfs entries to
- GT0
-Content-Language: en-US
-To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>,
- Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-References: <20230113022752.3151066-1-vinay.belgaumkar@intel.com>
- <874jsvazvi.wl-ashutosh.dixit@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <874jsvazvi.wl-ashutosh.dixit@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAE-0n50QOv_+j1Pe19xKj4Cx2Y5_Ak5Kt68UBJuZt10D-jQ44g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,51 +59,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Andi Shyti <andi.shyti@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>, Jitao Shi <jitao.shi@mediatek.com>,
+ yangcong <yangcong5@huaqin.corp-partner.google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ patches@lists.linux.dev, Thierry Reding <thierry.reding@gmail.com>,
+ linux-mediatek@lists.infradead.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 13/01/2023 03:15, Dixit, Ashutosh wrote:
-> On Thu, 12 Jan 2023 18:27:52 -0800, Vinay Belgaumkar wrote:
->>
->> Reading current root sysfs entries gives a min/max of all
->> GTs. Updating this so we return default (GT0) values when root
->> level sysfs entries are accessed, instead of min/max for the card.
->> Tests that are not multi GT capable will read incorrect sysfs
->> values without this change on multi-GT platforms like MTL.
->>
->> Fixes: a8a4f0467d70 ("drm/i915: Fix CFI violations in gt_sysfs")
+Hi Stephen,
+On Tue, Jan 10, 2023 at 11:29:41AM -0800, Stephen Boyd wrote:
+> Quoting Sam Ravnborg (2023-01-07 12:28:41)
 > 
-> We seem to be proposing to change the previous sysfs ABI with this patch?
-> But even then it doesn't seem correct to use gt0 values for device level
-> sysfs. Actually I received the following comment about using max freq
-> across gt's for device level freq's (gt_act_freq_mhz etc.) from one of our
-> users:
+> >
+> > For this case we could ask ourself if the display needs to enter sleep
+> > mode right before we disable the regulator. But if the regulator is
+> > fixed, so the disable has no effect, this seems OK.
 > 
-> -----
-> On Sun, 06 Nov 2022 08:54:04 -0800, Lawson, Lowren H wrote:
+> What do you mean by fixed?
+What I tried to say here is if we have a fixed regulator - or in others
+words a supply voltage we cannot turn off, then entering sleep mode is
+important to reduce power consumption.
+But any sane design where power consumption is a concern will have the
+possibility to turn off the power anyway.
+
 > 
-> Why show maximum? Wouldn’t average be more accurate to the user experience?
+> >
+> > Please fix the unprepare to not jump out early, on top of or together
+> > with the other fix.
 > 
-> As a user, I expect the ‘card’ frequency to be relatively accurate to the
-> entire card. If I see 1.6GHz, but the card is behaving as if it’s running a
-> 1.0 & 1.6GHz on the different compute tiles, I’m going to see a massive
-> decrease in compute workload performance while at ‘maximum’ frequency.
-> -----
-> 
-> So I am not sure why max/min were previously chosen. Why not the average?
+> After this patch the unprepare only bails out early if the bool
+> 'prepared' flag isn't set.
+OK, then everything is fine.
 
-I think we still have time to just either stop exposing the global files 
-on multi-tile platforms (all are under force probe), or return some 
-error from them.
-
-IMO it's not kernel's job to provide any representation here - be in 
-min, max, sum or average (different "blending" methods were discussed 
-for different files) - all of them have some potential to be misleading 
-from different angles.
-
-Regards,
-
-Tvrtko
+	Sam
