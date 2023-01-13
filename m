@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30CF366A46B
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 21:49:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F77166A4CC
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 22:08:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CC4510EAF0;
-	Fri, 13 Jan 2023 20:49:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F0E610E202;
+	Fri, 13 Jan 2023 21:08:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A08310EAF0
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 20:49:46 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id x40so658687lfu.12
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 12:49:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=fkHnDayGcMAohLKGEspej/e05EdmPSY3auvLO5nhKvg=;
- b=B1hyLm+idg00BzqYNZMLiXGprSAGG6i9IwN0XKFvJoTp+bbSmW2iNf+GJtXCutZOO3
- 8RgU6vVG5lOlOdS4Jh+/EFjzMIfNlQs2UESZqPIAVNO8K6uwqRQpbb6GfpuoMr4V1iJU
- C54ylt/YF1UuhIaYBPOGvyctdx3Rtziy4tGIc=
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
+ [209.85.210.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1587310E202;
+ Fri, 13 Jan 2023 21:08:10 +0000 (UTC)
+Received: by mail-ot1-f44.google.com with SMTP id
+ y18-20020a0568301d9200b0067082cd4679so12894110oti.4; 
+ Fri, 13 Jan 2023 13:08:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fkHnDayGcMAohLKGEspej/e05EdmPSY3auvLO5nhKvg=;
- b=BRGAFXCGGYMlKYVOexm940YuuoF55lPg9yQBdnSm2vIyJ0zxiQmN3j+rleR3E/MYZa
- 14OEvIDWNMn2lfwLKBxzneLsU1bgxFkGdkIbAml2yoOt/E2l/uimde0fso24vQZ6mdQQ
- IDbDLuOXcpQbjUmMpRfRiK2w33YyYUKLNZbv4BhoSEeJSkwYPVpQIrK8f0lW1bGvoiLr
- MTCDVur2KwyQOzvetVTiRspZUzpmi+KxOaxVJDvHo3saYlOZ5jAG0OUKYwmgYXRnzDEt
- 8F1wN5B96apEGBQZm56gS5ub+xle/jHGlgNfXhGOo92dQp2eSfTiyf+Yrd8TNbxFLgvK
- 04wg==
-X-Gm-Message-State: AFqh2ko+YlfWmXMBHNiQ/Nj4Bw+s4uCMu46oW81CGhPccugCZlvXWC2N
- ZNWVsA/mlBxFbQAniEZR3qAQ4vxAmiIOf+6rWI3OXQ==
-X-Google-Smtp-Source: AMrXdXsFLXpkYgLqPlD2aDMji/uNDYTLN9rr6vjDLKKJD82SrMUZ1JiyUGLTXyWhvAyNsS4E39x10UQlL6/nncEdZ5s=
-X-Received: by 2002:ac2:4e50:0:b0:4ca:e48d:2b4b with SMTP id
- f16-20020ac24e50000000b004cae48d2b4bmr8301849lfr.511.1673642984424; Fri, 13
- Jan 2023 12:49:44 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 13 Jan 2023 14:49:43 -0600
+ bh=/ACwV8GdlK5Pn0GPirboYIEragSvuKbdIfuMOvJXHSM=;
+ b=347kJxrzXTjEgMfLWrdy2kN1WiQzYF9e/yA3guuD2VS5NeYp3frGKgltvgCQEd9Kle
+ 0aJW1/8zitjOmghCiVeA4zYAcLV5PM7/wo5pbigftBnTWUaJBM8tfDSa5iiu0V3GkKsZ
+ EcH4ZPTfR26jeVrs4c2fUol/4GPjYCCOSIgdOuSpgFh7G+y4ZgGjWgCp9VVAEwT1yUlW
+ kpACed4Ukh0cjaY844uELkUut+f5TL8vudLfA7iEeYjafyC2J+w0cJzbOZTyAs6zzCkd
+ 7HhYjdYCoWi9gRST7SUt3bjimuxgHoiw4575HOjbbIdXueThfX/PXrKWUc+EbitykRXi
+ LNiA==
+X-Gm-Message-State: AFqh2koAa+Bj93R9oTX6i5Ajn0vB2weh7H8yXiQxwe0fJiVSwtahuBh6
+ F2aJgS5Yzd3KeJ5XZROkoA==
+X-Google-Smtp-Source: AMrXdXtOCyFNSTM7/jynGGVXcLk6sca17HjsYUlJ2g4cHUoMhCLJo9KZbNWVX4kBQpjW+02DAUFr1A==
+X-Received: by 2002:a9d:7416:0:b0:66c:37a2:d87d with SMTP id
+ n22-20020a9d7416000000b0066c37a2d87dmr5097303otk.26.1673644089136; 
+ Fri, 13 Jan 2023 13:08:09 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ c26-20020a9d481a000000b006849e3aff8dsm6381829otf.44.2023.01.13.13.08.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Jan 2023 13:08:08 -0800 (PST)
+Received: (nullmailer pid 2923605 invoked by uid 1000);
+ Fri, 13 Jan 2023 21:08:07 -0000
+Date: Fri, 13 Jan 2023 15:08:07 -0600
+From: Rob Herring <robh@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH] dt-bindings: display/msm/dsi-phy: drop unused allOf
+ clauses
+Message-ID: <20230113210807.GA2901424-robh@kernel.org>
+References: <20230113063351.24131-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <Y8FwGTWeYtX0j8MX@ravnborg.org>
-References: <20230106030108.2542081-1-swboyd@chromium.org>
- <Y7nV+aeFiq5aD0xU@ravnborg.org>
- <CAE-0n50QOv_+j1Pe19xKj4Cx2Y5_Ak5Kt68UBJuZt10D-jQ44g@mail.gmail.com>
- <Y8FwGTWeYtX0j8MX@ravnborg.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Fri, 13 Jan 2023 14:49:43 -0600
-Message-ID: <CAE-0n51XmyzSeKuGNn2BsJew3fK_cEHNoDpVVRqStNAF+Zzp1A@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: boe-tv101wum-nl6: Ensure DSI writes succeed
- during disable
-To: Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230113063351.24131-1-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,46 +64,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Douglas Anderson <dianders@chromium.org>, Jitao Shi <jitao.shi@mediatek.com>,
- yangcong <yangcong5@huaqin.corp-partner.google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- patches@lists.linux.dev, Thierry Reding <thierry.reding@gmail.com>,
- linux-mediatek@lists.infradead.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Sam Ravnborg (2023-01-13 06:52:09)
-> Hi Stephen,
-> On Tue, Jan 10, 2023 at 11:29:41AM -0800, Stephen Boyd wrote:
-> > Quoting Sam Ravnborg (2023-01-07 12:28:41)
-> >
-> > >
-> > > For this case we could ask ourself if the display needs to enter sleep
-> > > mode right before we disable the regulator. But if the regulator is
-> > > fixed, so the disable has no effect, this seems OK.
-> >
-> > What do you mean by fixed?
-> What I tried to say here is if we have a fixed regulator - or in others
-> words a supply voltage we cannot turn off, then entering sleep mode is
-> important to reduce power consumption.
-> But any sane design where power consumption is a concern will have the
-> possibility to turn off the power anyway.
+On Fri, Jan 13, 2023 at 08:33:51AM +0200, Dmitry Baryshkov wrote:
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  .../devicetree/bindings/display/msm/dsi-phy-10nm.yaml          | 3 +--
+>  .../devicetree/bindings/display/msm/dsi-phy-14nm.yaml          | 3 +--
+>  .../devicetree/bindings/display/msm/dsi-phy-20nm.yaml          | 3 +--
+>  .../devicetree/bindings/display/msm/dsi-phy-28nm.yaml          | 3 +--
+>  Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml | 3 +--
+>  5 files changed, 5 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+> index 3ec466c3ab38..71702151bafa 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+> @@ -9,8 +9,7 @@ title: Qualcomm Display DSI 10nm PHY
+>  maintainers:
+>    - Krishna Manikandan <quic_mkrishn@quicinc.com>
+>  
+> -allOf:
+> -  - $ref: dsi-phy-common.yaml#
+> +$ref: dsi-phy-common.yaml#
 
-Ok got it!
+Convention is how it was. Partly this is legacy because earlier versions 
+of json-schema required the 'allOf' form or everything in addition to 
+the $ref would be ignored. I left these thinking more than 1 $ref here 
+might be common. But probably more common is a $ref and if/then schemas 
+and I'd somewhat rather keep $ref at the top and if/then schemas at the 
+bottom. So maybe this is the right direction.
 
->
-> >
-> > >
-> > > Please fix the unprepare to not jump out early, on top of or together
-> > > with the other fix.
-> >
-> > After this patch the unprepare only bails out early if the bool
-> > 'prepared' flag isn't set.
-> OK, then everything is fine.
->
+I don't really care to define one way or the other if we can't enforce 
+it in the meta-schema. I don't need more nits to look for in reviews. 
+Adding a check (i.e. allOf must have 2 or more entries) would be quite 
+invasive and wouldn't allow having 1 entry when we expect a 2nd entry 
+soonish.
 
-Doug pointed out that enable isn't symmetric because it doesn't do the
-DSI writes. I've updated the patch and I'll send a v2.
+Rob
