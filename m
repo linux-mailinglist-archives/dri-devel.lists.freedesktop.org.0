@@ -2,57 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C3D86692CA
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 10:22:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D4FB6692D0
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 10:24:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B786210E9CD;
-	Fri, 13 Jan 2023 09:22:12 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F32BF10E9CD;
- Fri, 13 Jan 2023 09:22:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6780D10E9D0;
+	Fri, 13 Jan 2023 09:24:00 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 644C310E9D0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 09:23:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673601731; x=1705137731;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=5gWSxFpfAL+lScOpF9Y5rkNagHoRgwXHDzWEIKsfyrM=;
- b=Cn8PDp5r7eXjk4zD8Hay8fzDu+QgKPM6AVjN8+yR7ta7mhKWfLHapf3t
- xJ4lkBLXBCjtGNRxBjdDK1aB6SfDm9Qaci2oiDWjsm4enO7kQu6qw5BED
- lbUuThbMxucb6D8TzC90rR44AgsqXcwKCZhKyyUFR0c70uP6zb76A2BLh
- QoE48cXXWT5GDy4RCwJItL8wGFTUNKGeVwuZHhuEDsGyrTgTVfe8e5Sto
- 6LLqxHdoiM6BNWwPt/kSaSilvu+yNZtK+JwLtNfRdCZ7QMhZlV8WXKcPK
- 1bd9geV72DulGt0FK5OXQ1aiytjlMq9FsRdRbQsHmo3qq9o6Lh7xnY8ik Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="324014715"
-X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="324014715"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2023 01:22:08 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="658169394"
-X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="658169394"
-Received: from skenned1-mobl.ger.corp.intel.com (HELO [10.213.196.186])
- ([10.213.196.186])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2023 01:22:06 -0800
-Message-ID: <ed669153-0c07-dfdd-58c9-8146ed966366@linux.intel.com>
-Date: Fri, 13 Jan 2023 09:22:04 +0000
+ t=1673601837; x=1705137837;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=/Jt/SJgZBfDi5YiCSTowtw0y3MUjbXVipBqspyh2wUk=;
+ b=E7jb1yL7PN5gf7K6q7c81qjbvm/9U6kLr3whS9bEacM3f8pwnZvBpO5h
+ amuP+0tTMiAcc06SlKd7YqVeSeUD2NX1V6a8mbk5wkCMVMbORtra+PxVY
+ UNF5HsWezyKCmlpSefk/AFI59JTfW2iVhQ1VupbK/VyA/i/CSP4D/YDUu
+ iGKE/wq1ZNohATZ9Mja51aUBsW4Ir8NzjCvw3Q0WsqGIqeVoY9auYuGeN
+ wKHTamg/PmakaGUrHH0zPFTxmHR7W8Ofy8HqkZ+nllUilaMK9is4sjnws
+ gfczJd82TvFdgupCJsN2hajhORSFm2etaPsQ++0Ak4hj6s2x4+GcZ6BAI Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="311807792"
+X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="311807792"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2023 01:23:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="800544184"
+X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="800544184"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+ by fmsmga001.fm.intel.com with SMTP; 13 Jan 2023 01:23:45 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Fri, 13 Jan 2023 11:23:44 +0200
+Date: Fri, 13 Jan 2023 11:23:44 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Pin-yen Lin <treapking@chromium.org>
+Subject: Re: [PATCH v10 3/9] drm/display: Add Type-C switch helpers
+Message-ID: <Y8EjIKEHqcj3htqC@kuha.fi.intel.com>
+References: <20230112042104.4107253-1-treapking@chromium.org>
+ <20230112042104.4107253-4-treapking@chromium.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [Intel-gfx] [PATCH 3/4] drm/i915/guc: Look for a guilty context
- when an engine reset fails
-Content-Language: en-US
-To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
-References: <20230112025311.2577084-1-John.C.Harrison@Intel.com>
- <20230112025311.2577084-4-John.C.Harrison@Intel.com>
- <393edad8-fa78-4b28-46ac-86da56d03de0@linux.intel.com>
- <8531ce98-78af-d818-b5bb-0af753a026d3@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <8531ce98-78af-d818-b5bb-0af753a026d3@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230112042104.4107253-4-treapking@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,110 +59,300 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Guenter Roeck <groeck@chromium.org>, Kees Cook <keescook@chromium.org>,
+ Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ =?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jani Nikula <jani.nikula@intel.com>,
+ Allen Chen <allen.chen@ite.com.tw>, Stephen Boyd <swboyd@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ shaomin Deng <dengshaomin@cdjrlc.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
+ Prashant Malani <pmalani@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 12/01/2023 20:59, John Harrison wrote:
-> On 1/12/2023 02:15, Tvrtko Ursulin wrote:
->> On 12/01/2023 02:53, John.C.Harrison@Intel.com wrote:
->>> From: John Harrison <John.C.Harrison@Intel.com>
->>>
->>> Engine resets are supposed to never fail. But in the case when one
->>> does (due to unknown reasons that normally come down to a missing
->>> w/a), it is useful to get as much information out of the system as
->>> possible. Given that the GuC effectively dies on such a situation, it
->>> is not possible to get a guilty context notification back. So do a
->>> manual search instead. Given that GuC is dead, this is safe because
->>> GuC won't be changing the engine state asynchronously.
->>>
->>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->>> ---
->>>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c   | 17 +++++++++++++++--
->>>   1 file changed, 15 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
->>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> index b436dd7f12e42..99d09e3394597 100644
->>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> @@ -4754,11 +4754,24 @@ static void reset_fail_worker_func(struct 
->>> work_struct *w)
->>>       guc->submission_state.reset_fail_mask = 0;
->>>       spin_unlock_irqrestore(&guc->submission_state.lock, flags);
->>>   -    if (likely(reset_fail_mask))
->>> +    if (likely(reset_fail_mask)) {
->>> +        struct intel_engine_cs *engine;
->>> +        enum intel_engine_id id;
->>> +
->>> +        /*
->>> +         * GuC is toast at this point - it dead loops after sending 
->>> the failed
->>> +         * reset notification. So need to manually determine the 
->>> guilty context.
->>> +         * Note that it should be safe/reliable to do this here 
->>> because the GuC
->>> +         * is toast and will not be scheduling behind the KMD's back.
->>> +         */
->>> +        for_each_engine_masked(engine, gt, reset_fail_mask, id)
->>> +            intel_guc_find_hung_context(engine);
->>> +
->>>           intel_gt_handle_error(gt, reset_fail_mask,
->>>                         I915_ERROR_CAPTURE,
->>> -                      "GuC failed to reset engine mask=0x%x\n",
->>> +                      "GuC failed to reset engine mask=0x%x",
->>>                         reset_fail_mask);
->>> +    }
->>>   }
->>>     int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
->>
->> This one I don't feel "at home" enough to r-b. Just a question - can 
->> we be sure at this point that GuC is 100% stuck and there isn't a 
->> chance it somehow comes alive and starts running in parallel (being 
->> driven in parallel by a different "thread" in i915), interfering with 
->> the assumption made in the comment?
-> The GuC API definition for the engine reset failure notification is that 
-> GuC will dead loop itself after sending - to quote "This is a 
-> catastrophic failure that requires a full GT reset, or FLR to recover.". 
-> So yes, GuC is 100% stuck and is not going to self recover. Guaranteed. 
-> If that changes in the future then that would be a backwards breaking 
-> API change and would require a corresponding driver update to go with 
-> supporting the new GuC firmware version.
+On Thu, Jan 12, 2023 at 12:20:58PM +0800, Pin-yen Lin wrote:
+> Add helpers to register and unregister Type-C "switches" for bridges
+> capable of switching their output between two downstream devices.
 > 
-> There is the potential for a GT reset to maybe occur in parallel and 
-> resurrect the GuC that way. Not sure how that could happen though. The 
-> heartbeat timeout is significantly longer than the GuC's pre-emption 
-> timeout + engine reset timeout. That just leaves manual resets from the 
-> user or maybe from a selftest. If the user is manually poking reset 
-> debugfs files then it is already known that all bets are off in terms of 
-> getting an accurate error capture. And if a selftest is triggering GT 
-> resets in parallel with engine resets then either it is a broken test or 
-> it is attempting to test an evil corner case in which it is expected 
-> that error capture results will be unreliable. Having said all that, 
-> given that the submission_state lock is held here, such a GT reset would 
-> not get very far in bring the GuC back up anyway. Certainly, it would 
-> not be able to get as far as submitting new work and thus potentially 
-> changing the engine state.
+> The helper registers USB Type-C mode switches when the "mode-switch"
+> and the "data-lanes" properties are available in Device Tree.
+
+Let's not make this kind of helpers DT only, please. See below ...
+
+> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > 
-> So yes, if multiple impossible events occur back to back then the error 
-> capture may be wonky. Where wonky means a potentially innocent 
-> context/request gets blamed for breaking the hardware. Oh dear. I can 
-> live with that.
+> ---
+> 
+> Changes in v10:
+> - Collected Reviewed-by and Tested-by tags
+> - Replaced "void *" with "typec_mux_set_fn_t" for mux_set callbacks
+> - Print out the node name when errors on parsing DT
+> - Use dev_dbg instead of dev_warn when no Type-C switch nodes available
+> - Made the return path of drm_dp_register_mode_switch clearer
+> 
+> Changes in v8:
+> - Fixed the build issue when CONFIG_TYPEC=m
+> - Fixed some style issues
+> 
+> Changes in v7:
+> - Extracted the common codes to a helper function
+> - New in v7
+> 
+>  drivers/gpu/drm/display/drm_dp_helper.c | 134 ++++++++++++++++++++++++
+>  include/drm/display/drm_dp_helper.h     |  17 +++
+>  2 files changed, 151 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> index 16565a0a5da6..a2ec40a621cb 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -30,11 +30,13 @@
+>  #include <linux/sched.h>
+>  #include <linux/seq_file.h>
+>  #include <linux/string_helpers.h>
+> +#include <linux/usb/typec_mux.h>
+>  #include <linux/dynamic_debug.h>
+>  
+>  #include <drm/display/drm_dp_helper.h>
+>  #include <drm/display/drm_dp_mst_helper.h>
+>  #include <drm/drm_edid.h>
+> +#include <drm/drm_of.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_vblank.h>
+>  #include <drm/drm_panel.h>
+> @@ -3891,3 +3893,135 @@ int drm_panel_dp_aux_backlight(struct drm_panel *panel, struct drm_dp_aux *aux)
+>  EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
+>  
+>  #endif
+> +
+> +#if IS_REACHABLE(CONFIG_TYPEC)
 
-Okay, so I was triggered by the "safe/reliable" qualification from the 
-comment. I agree "reliable" does not have to be and was mostly worried 
-about the "safe" part.
+I think Jani already pointed out that that is wrong. Just move these
+into a separate file and enable them silently in the Makefile when
+TYPEC is enabled - so no separate Kconfig option.
 
- From what you explain if short heartbeat, or manual reset invocation, 
-could actually mess up any of the data structures which added 
-intel_guc_find_hung_context walks and so crash the kernel.
+> +static int drm_dp_register_mode_switch(struct device *dev, struct device_node *node,
 
-Looking inside, there is some lock dropping going on (and undocumented 
-irqsave games), and walking the list while unlocked. So whether or not 
-that can go bang if a full reset happens in parallel and re-activates 
-the normal driver flows.
+static int drm_dp_register_mode_switch(struct device *dev, struct fwnode_handle *fwnode,
 
-Regards,
+> +				       struct drm_dp_typec_switch_desc *switch_desc,
+> +				       void *data, typec_mux_set_fn_t mux_set)
+> +{
+> +	struct drm_dp_typec_port_data *port_data;
+> +	struct typec_mux_desc mux_desc = {};
+> +	char name[32];
+> +	u32 dp_lanes[2];
+> +	int ret, num_lanes, port_num = -1;
+> +
+> +	num_lanes = drm_of_get_data_lanes_count(node, 0, 2);
+> +	if (num_lanes <= 0) {
 
-Tvrtko
+        num_lanes = fwnode_property_read_u32_array(fwnode, "data-lanes", NULL, 0);
+        if (num_lanes <= 0 || num_lanes > 2)
+
+> +		dev_err(dev, "Error on getting data lanes count from %s: %d\n",
+> +			node->name, num_lanes);
+> +		return num_lanes;
+> +	}
+> +
+> +	ret = of_property_read_u32_array(node, "data-lanes", dp_lanes, num_lanes);
+
+        ret = fwnode_property_read_u32_array(fwnode, "data-lanes", dp_lanes, num_lanes);
+
+> +	if (ret) {
+> +		dev_err(dev, "Failed to read the data-lanes variable from %s: %d\n",
+> +			node->name, ret);
+
+			fwnode_get_name(fwnode), ret);
+
+> +		return ret;
+> +	}
+> +
+> +	port_num = dp_lanes[0] / 2;
+> +
+> +	port_data = &switch_desc->typec_ports[port_num];
+> +	port_data->data = data;
+> +	mux_desc.fwnode = &node->fwnode;
+
+        mux_desc.fwnode = fwnode;
+
+> +	mux_desc.drvdata = port_data;
+> +	snprintf(name, sizeof(name), "%s-%u", node->name, port_num);
+
+	snprintf(name, sizeof(name), "%s-%u", fwnode_get_name(fwnode), port_num);
+
+> +	mux_desc.name = name;
+> +	mux_desc.set = mux_set;
+> +
+> +	port_data->typec_mux = typec_mux_register(dev, &mux_desc);
+> +	if (IS_ERR(port_data->typec_mux)) {
+> +		ret = PTR_ERR(port_data->typec_mux);
+> +		dev_err(dev, "Mode switch register for port %d failed: %d\n",
+> +			port_num, ret);
+> +
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * drm_dp_register_typec_switches() - register Type-C switches
+> + * @dev: Device that registers Type-C switches
+> + * @port: Device node for the switch
+> + * @switch_desc: A Type-C switch descriptor
+> + * @data: Private data for the switches
+> + * @mux_set: Callback function for typec_mux_set
+> + *
+> + * This function registers USB Type-C switches for DP bridges that can switch
+> + * the output signal between their output pins.
+> + *
+> + * Currently only mode switches are implemented, and the function assumes the
+> + * given @port device node has endpoints with "mode-switch" property.
+> + * Register the endpoint as port 0 if the "data-lanes" property falls in 0/1,
+> + * and register it as port 1 if "data-lanes" falls in 2/3.
+> + */
+> +int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
+
+int drm_dp_register_typec_switches(struct device *dev, struct fwnode_handle *port,
+
+> +				   struct drm_dp_typec_switch_desc *switch_desc,
+> +				   void *data, typec_mux_set_fn_t mux_set)
+> +{
+> +	struct device_node *sw;
+
+        struct fwnode_handle *sw;
+
+> +	int ret;
+> +
+> +	for_each_child_of_node(port, sw) {
+> +		if (of_property_read_bool(sw, "mode-switch"))
+> +			switch_desc->num_typec_switches++;
+> +	}
+
+        fwnode_for_each_child_node(port, sw)
+                if (fwnode_property_present(sw, "mode-switch"))
+			switch_desc->num_typec_switches++;
+
+> +	if (!switch_desc->num_typec_switches) {
+> +		dev_dbg(dev, "No Type-C switches node found\n");
+> +		return 0;
+> +	}
+> +
+> +	switch_desc->typec_ports = devm_kcalloc(
+> +		dev, switch_desc->num_typec_switches,
+> +		sizeof(struct drm_dp_typec_port_data), GFP_KERNEL);
+> +
+> +	if (!switch_desc->typec_ports)
+> +		return -ENOMEM;
+> +
+> +	/* Register switches for each connector. */
+> +	for_each_child_of_node(port, sw) {
+> +		if (!of_property_read_bool(sw, "mode-switch"))
+
+        fwnode_for_each_child_node(port, sw) {
+                if (!fwnode_property_present(sw, "mode-switch"))
+
+> +			continue;
+> +		ret = drm_dp_register_mode_switch(dev, sw, switch_desc, data, mux_set);
+> +		if (ret)
+> +			goto err_unregister_typec_switches;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_unregister_typec_switches:
+> +	of_node_put(sw);
+> +	drm_dp_unregister_typec_switches(switch_desc);
+> +	dev_err(dev, "Failed to register mode switch: %d\n", ret);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(drm_dp_register_typec_switches);
+> +
+> +/**
+> + * drm_dp_unregister_typec_switches() - unregister Type-C switches
+> + * @switch_desc: A Type-C switch descriptor
+> + */
+> +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < switch_desc->num_typec_switches; i++)
+> +		typec_mux_unregister(switch_desc->typec_ports[i].typec_mux);
+> +}
+> +EXPORT_SYMBOL(drm_dp_unregister_typec_switches);
+> +#else
+> +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
+> +{
+> +}
+> +EXPORT_SYMBOL(drm_dp_register_typec_switches);
+> +int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
+> +				   struct drm_dp_typec_switch_desc *switch_desc,
+> +				   void *data, typec_mux_set_fn_t mux_set)
+> +{
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_dp_unregister_typec_switches);
+> +#endif
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> index ab55453f2d2c..5a3824f13b4e 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -25,6 +25,7 @@
+>  
+>  #include <linux/delay.h>
+>  #include <linux/i2c.h>
+> +#include <linux/usb/typec_mux.h>
+>  
+>  #include <drm/display/drm_dp.h>
+>  #include <drm/drm_connector.h>
+> @@ -763,4 +764,20 @@ bool drm_dp_downstream_rgb_to_ycbcr_conversion(const u8 dpcd[DP_RECEIVER_CAP_SIZ
+>  					       const u8 port_cap[4], u8 color_spc);
+>  int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc);
+>  
+> +struct drm_dp_typec_port_data {
+> +	struct typec_mux_dev *typec_mux;
+> +	void *data;
+> +	bool dp_connected;
+> +};
+> +
+> +struct drm_dp_typec_switch_desc {
+> +	int num_typec_switches;
+> +	struct drm_dp_typec_port_data *typec_ports;
+> +};
+> +
+> +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc);
+> +int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
+> +				   struct drm_dp_typec_switch_desc *switch_desc,
+> +				   void *data, typec_mux_set_fn_t mux_set);
+> +
+>  #endif /* _DRM_DP_HELPER_H_ */
+
+The function stubs go here if they are needed.
+
+
+thanks,
+
+-- 
+heikki
