@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9C966890A
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 02:19:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4719B668994
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 03:27:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F339410E979;
-	Fri, 13 Jan 2023 01:18:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE2310E974;
+	Fri, 13 Jan 2023 02:27:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBC4210E971;
- Fri, 13 Jan 2023 01:18:53 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A798D10E973;
+ Fri, 13 Jan 2023 02:27:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673572733; x=1705108733;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=8GdIhSQriGTOtBWIEXOEDy9Xggyv0+9Ofz23ziBHpIQ=;
- b=Z2dzEPiz8gmjl+1urr38+KWmWvEu4TFkiOWhtFrZ+jdA3w5S5ft9H0Da
- LqHGgx/YjGA35J9X82PHdP56NdJpQbtaPV4b/999Md+aIv0o0VODE6fHp
- uuSFJIuYcLgUHNdzOBQDTHX/6nTbzzAkRicXLWdS7hY7EsRUhF2XGxFOq
- A2AKiD+Pf3RakI0MZ6rN1M+VcjUpAIQTsT8mJSAp1D9w/lRBtP01JtxBU
- IvP08RhMxdrQhSHsvr4xorPZaS2vPWm6Pf2ktnEu95pOtnmp/QOcSejib
- GDkXXDUZaKX+bJzeex0wCvzeIDum6uw/F5JM2BLKPPCHs7kaG2K2RJPXe A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="323941590"
-X-IronPort-AV: E=Sophos;i="5.97,212,1669104000"; d="scan'208";a="323941590"
+ t=1673576844; x=1705112844;
+ h=from:to:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=PYgY6k1kTTStNwoUMDiYP1M83i0HrE0B+rIMCGib/b0=;
+ b=C8eLFbhMK5hDMAj6osfY6OoJOHda5UftINGMNELnpgfkdKb/QJH5cRaQ
+ yofGDest37Ml2kh/spS+VmT+igAHAE46ja/fihrmJlLKBC20n3js6xabA
+ +vDF17aK40yMEooYt2scB/Lgv8qxSkj6iKb7i5ccsJg/2WC4AjhWb4wOW
+ W7sJqeYSAmmHFYe9io+Khm08uR8dy3ueqdnLJjSuhdObmKvM6xAjO6kxv
+ IqROSyBEf7nKbWLAn/IqN4lJDWTfjAIwU3WA9hJTBjOfFfZ3h8MX1rbeF
+ RSteriCjGB/HS9OvlxknDcsS1cahzX/RD9+/uNABadivfuFSQtx7HHwBZ A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="322591934"
+X-IronPort-AV: E=Sophos;i="5.97,212,1669104000"; d="scan'208";a="322591934"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2023 17:18:53 -0800
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2023 18:27:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="746761040"
-X-IronPort-AV: E=Sophos;i="5.97,212,1669104000"; d="scan'208";a="746761040"
-Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by FMSMGA003.fm.intel.com with ESMTP; 12 Jan 2023 17:18:53 -0800
-From: Alan Previn <alan.previn.teres.alexis@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v5 6/6] drm/i915/pxp: Pxp hw init should be in resume_complete
-Date: Thu, 12 Jan 2023 17:18:50 -0800
-Message-Id: <20230113011850.1463965-7-alan.previn.teres.alexis@intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230113011850.1463965-1-alan.previn.teres.alexis@intel.com>
-References: <20230113011850.1463965-1-alan.previn.teres.alexis@intel.com>
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="746777726"
+X-IronPort-AV: E=Sophos;i="5.97,212,1669104000"; d="scan'208";a="746777726"
+Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
+ by FMSMGA003.fm.intel.com with ESMTP; 12 Jan 2023 18:27:23 -0800
+From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/mtl: Connect root sysfs entries to GT0
+Date: Thu, 12 Jan 2023 18:27:52 -0800
+Message-Id: <20230113022752.3151066-1-vinay.belgaumkar@intel.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,151 +55,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
-	Vivi@freedesktop.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rodrigo <rodrigo.vivi@intel.com>,
-	Alexander Usyskin <alexander.usyskin@intel.com>,
-	dri-devel@lists.freedesktop.org,
-	Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
-	Juston Li <justonli@chromium.org>,
-	Tomas Winkler <tomas.winkler@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During suspend flow, i915 currently achors' on the pm_suspend_prepare
-callback as the location where we quiesce the entire GPU and perform
-all necessary cleanup in order to go into suspend. PXP is also called
-during this time to perform the arbitration session teardown (with
-the assurance no additional GEM IOCTLs will come after that could
-restart the session).
+Reading current root sysfs entries gives a min/max of all
+GTs. Updating this so we return default (GT0) values when root
+level sysfs entries are accessed, instead of min/max for the card.
+Tests that are not multi GT capable will read incorrect sysfs
+values without this change on multi-GT platforms like MTL.
 
-However, if other devices or drivers fail their suspend_prepare, the
-system will not go into suspend and i915 will be expected to resume
-operation. In this case, we need to re-initialize the PXP hardware
-and this really should be done within the pm_resume_complete callback
-which is the correct opposing function in the resume sequence to
-match pm_suspend_prepare of the suspend sequence.
+Fixes: a8a4f0467d70 ("drm/i915: Fix CFI violations in gt_sysfs")
 
-Because this callback is the last thing at the end of resuming
-we expect little to no impact to the rest of the i915 resume sequence
-with this change.
-
-Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt_pm.h   |  1 +
- drivers/gpu/drm/i915/i915_driver.c      | 20 ++++++++++++++++++--
- drivers/gpu/drm/i915/pxp/intel_pxp_pm.c |  2 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_pm.h |  6 +++---
- 4 files changed, 23 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c | 47 +++------------------
+ 1 file changed, 6 insertions(+), 41 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.h b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
-index 6c9a46452364..fd1a23621222 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_pm.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
-@@ -77,6 +77,7 @@ void intel_gt_pm_fini(struct intel_gt *gt);
- 
- void intel_gt_suspend_prepare(struct intel_gt *gt);
- void intel_gt_suspend_late(struct intel_gt *gt);
-+
- int intel_gt_resume(struct intel_gt *gt);
- 
- void intel_gt_runtime_suspend(struct intel_gt *gt);
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index c1e427ba57ae..4c68a3f26e96 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -1170,6 +1170,13 @@ static bool suspend_to_idle(struct drm_i915_private *dev_priv)
- 	return false;
- }
- 
-+static void i915_drm_complete(struct drm_device *dev)
-+{
-+	struct drm_i915_private *i915 = to_i915(dev);
-+
-+	intel_pxp_resume_complete(i915->pxp);
-+}
-+
- static int i915_drm_prepare(struct drm_device *dev)
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+index cf71305ad586..395ae47483a7 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+@@ -28,77 +28,42 @@ sysfs_gt_attribute_w_func(struct kobject *kobj, struct attribute *attr,
+ 			  int (func)(struct intel_gt *gt, u32 val), u32 val)
  {
- 	struct drm_i915_private *i915 = to_i915(dev);
-@@ -1370,8 +1377,6 @@ static int i915_drm_resume(struct drm_device *dev)
+ 	struct intel_gt *gt;
+-	int ret;
  
- 	i915_gem_resume(dev_priv);
+ 	if (!is_object_gt(kobj)) {
+-		int i;
+ 		struct device *dev = kobj_to_dev(kobj);
+ 		struct drm_i915_private *i915 = kdev_minor_to_i915(dev);
  
--	intel_pxp_resume(dev_priv->pxp);
--
- 	intel_modeset_init_hw(dev_priv);
- 	intel_init_clock_gating(dev_priv);
- 	intel_hpd_init(dev_priv);
-@@ -1563,6 +1568,16 @@ static int i915_pm_resume(struct device *kdev)
- 	return i915_drm_resume(&i915->drm);
- }
- 
-+static void i915_pm_complete(struct device *kdev)
-+{
-+	struct drm_i915_private *i915 = kdev_to_i915(kdev);
-+
-+	if (i915->drm.switch_power_state == DRM_SWITCH_POWER_OFF)
-+		return;
-+
-+	i915_drm_complete(&i915->drm);
-+}
-+
- /* freeze: before creating the hibernation_image */
- static int i915_pm_freeze(struct device *kdev)
- {
-@@ -1783,6 +1798,7 @@ const struct dev_pm_ops i915_pm_ops = {
- 	.suspend_late = i915_pm_suspend_late,
- 	.resume_early = i915_pm_resume_early,
- 	.resume = i915_pm_resume,
-+	.complete = i915_pm_complete,
- 
- 	/*
- 	 * S4 event handlers
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
-index e427464aa131..4f836b317424 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
-@@ -34,7 +34,7 @@ void intel_pxp_suspend(struct intel_pxp *pxp)
+-		for_each_gt(gt, i915, i) {
+-			ret = func(gt, val);
+-			if (ret)
+-				break;
+-		}
++		gt = to_gt(i915);
+ 	} else {
+ 		gt = intel_gt_sysfs_get_drvdata(kobj, attr->name);
+-		ret = func(gt, val);
  	}
+ 
+-	return ret;
++	return func(gt, val);
  }
  
--void intel_pxp_resume(struct intel_pxp *pxp)
-+void intel_pxp_resume_complete(struct intel_pxp *pxp)
+ static u32
+ sysfs_gt_attribute_r_func(struct kobject *kobj, struct attribute *attr,
+-			  u32 (func)(struct intel_gt *gt),
+-			  enum intel_gt_sysfs_op op)
++			  u32 (func)(struct intel_gt *gt))
  {
- 	if (!intel_pxp_is_enabled(pxp))
- 		return;
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
-index 586be769104f..06b46f535b42 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
-@@ -11,7 +11,7 @@ struct intel_pxp;
- #ifdef CONFIG_DRM_I915_PXP
- void intel_pxp_suspend_prepare(struct intel_pxp *pxp);
- void intel_pxp_suspend(struct intel_pxp *pxp);
--void intel_pxp_resume(struct intel_pxp *pxp);
-+void intel_pxp_resume_complete(struct intel_pxp *pxp);
- void intel_pxp_runtime_suspend(struct intel_pxp *pxp);
- #else
- static inline void intel_pxp_suspend_prepare(struct intel_pxp *pxp)
-@@ -22,7 +22,7 @@ static inline void intel_pxp_suspend(struct intel_pxp *pxp)
- {
+ 	struct intel_gt *gt;
+-	u32 ret;
+-
+-	ret = (op == INTEL_GT_SYSFS_MAX) ? 0 : (u32) -1;
+ 
+ 	if (!is_object_gt(kobj)) {
+-		int i;
+ 		struct device *dev = kobj_to_dev(kobj);
+ 		struct drm_i915_private *i915 = kdev_minor_to_i915(dev);
+ 
+-		for_each_gt(gt, i915, i) {
+-			u32 val = func(gt);
+-
+-			switch (op) {
+-			case INTEL_GT_SYSFS_MIN:
+-				if (val < ret)
+-					ret = val;
+-				break;
+-
+-			case INTEL_GT_SYSFS_MAX:
+-				if (val > ret)
+-					ret = val;
+-				break;
+-			}
+-		}
++		gt = to_gt(i915);
+ 	} else {
+ 		gt = intel_gt_sysfs_get_drvdata(kobj, attr->name);
+-		ret = func(gt);
+ 	}
+ 
+-	return ret;
++	return func(gt);
  }
  
--static inline void intel_pxp_resume(struct intel_pxp *pxp)
-+static inline void intel_pxp_resume_complete(struct intel_pxp *pxp)
- {
- }
- 
-@@ -32,6 +32,6 @@ static inline void intel_pxp_runtime_suspend(struct intel_pxp *pxp)
- #endif
- static inline void intel_pxp_runtime_resume(struct intel_pxp *pxp)
- {
--	intel_pxp_resume(pxp);
-+	intel_pxp_resume_complete(pxp);
- }
- #endif /* __INTEL_PXP_PM_H__ */
+-/* RC6 interfaces will show the minimum RC6 residency value */
+-#define sysfs_gt_attribute_r_min_func(d, a, f) \
+-		sysfs_gt_attribute_r_func(d, a, f, INTEL_GT_SYSFS_MIN)
+-
+-/* Frequency interfaces will show the maximum frequency value */
+-#define sysfs_gt_attribute_r_max_func(d, a, f) \
+-		sysfs_gt_attribute_r_func(d, a, f, INTEL_GT_SYSFS_MAX)
+-
+ #define INTEL_GT_SYSFS_SHOW(_name, _attr_type)							\
+ 	static ssize_t _name##_show_common(struct kobject *kobj,				\
+ 					   struct attribute *attr, char *buff)			\
+ 	{											\
+-		u32 val = sysfs_gt_attribute_r_##_attr_type##_func(kobj, attr,			\
++		u32 val = sysfs_gt_attribute_r_func(kobj, attr,			\
+ 								   __##_name##_show);		\
+ 												\
+ 		return sysfs_emit(buff, "%u\n", val);						\
 -- 
-2.39.0
+2.38.1
 
