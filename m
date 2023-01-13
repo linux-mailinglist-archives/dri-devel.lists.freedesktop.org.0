@@ -1,63 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A3DB669300
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 10:31:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC58669301
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 10:32:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D5E110E9D2;
-	Fri, 13 Jan 2023 09:31:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 667A610E9D3;
+	Fri, 13 Jan 2023 09:32:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EE8910E9D2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 09:31:48 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 9023B4EE24;
- Fri, 13 Jan 2023 09:31:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673602306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tovvpvHeaV22GvURx3gvEqzAQ4TD9yfJURji8yDl97o=;
- b=0lc80+7EUA6D7uxhIZlEEl0jeu+l4dQ10E2Ta3uQR0990JUx5UvYUoUPvOSSU4Vlx2suVU
- czSoFFUdkb0bDQ1UO+8MqBvhStIVC6BvyAPkxhq+B3OGrhSvkJ8D10VvHChFf20i/yjbXE
- ToOaDkTA5NYzm/9I8snyVw6zI/Br8T4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673602306;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tovvpvHeaV22GvURx3gvEqzAQ4TD9yfJURji8yDl97o=;
- b=jjMM1CT8fsep7K+rpz2c2M04gZYltkmxzyh68mA4Gt+PxbLf37LVqRLoXSN/I2pHZhSoZC
- e2iC9e4WcbMabfDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 675AE1358A;
- Fri, 13 Jan 2023 09:31:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id U9tJGAIlwWNxdwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 13 Jan 2023 09:31:46 +0000
-Message-ID: <42450da5-eb1c-b093-daf7-67a4e64b9a22@suse.de>
-Date: Fri, 13 Jan 2023 10:31:45 +0100
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00ADD10E9D3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 09:32:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673602373; x=1705138373;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=ELtkvQrk3GGqwDyBVnvUGWyu2qZpQz0v1Xx7KlzHHAk=;
+ b=fjBHYipgKAwpNCdsPXksAGLExgwQ1cUw1GbSkPAHqrBp0GgM5M04ToOt
+ +zf48ONSlOxyOMBv3Ly/EfmjGjYSB0rWezMVyEmrUN5w3QDs9vPahHiAF
+ EqbKqWmsU9JZfY6CDxf56MmREMCyj191PPSSiYgDg3GI0oZUoetFwqybo
+ eZyz9A4JcawGXWvIN25j3QwORNwk8sRmSlzPw+eZBOahtOl3MuL1F88RH
+ EM4b+iadll8QL2U5jaU6l59mSR0++qPt7jqT98efbG9neDk2TsQQpFvXU
+ QuDfuKvoaZ6jEyFuJS2GEfrUdBdkoRQnzBhIKCZkfbEM+iiLDH999jnRy g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="351190515"
+X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="351190515"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2023 01:32:52 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="651467286"
+X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="651467286"
+Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.132.57])
+ ([10.249.132.57])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2023 01:32:49 -0800
+Message-ID: <e3a63388-eb58-46a8-72b0-d7af6b387275@linux.intel.com>
+Date: Fri, 13 Jan 2023 10:32:47 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [RESEND PATCH linux-next v2 00/10] drm: Remove some obsolete
- drivers(tdfx, mga, i810, savage, r128, sis, via)
+Subject: Re: [PATCH v5 0/7] New DRM accel driver for Intel VPU
 Content-Language: en-US
-To: Cai Huoqing <cai.huoqing@linux.dev>
-References: <20221203102502.3185-1-cai.huoqing@linux.dev>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20221203102502.3185-1-cai.huoqing@linux.dev>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Zyik608rO7UMP9x3Rjzvi0P9"
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, dri-devel@lists.freedesktop.org,
+ oded.gabbay@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
+ tzimmermann@suse.de
+References: <20230109122344.253994-1-jacek.lawrynowicz@linux.intel.com>
+ <17ea1dc9-dc47-fcd4-ee77-668128937d72@quicinc.com>
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <17ea1dc9-dc47-fcd4-ee77-668128937d72@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,172 +65,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
- Borislav Petkov <bp@suse.de>, Sam Ravnborg <sam@ravnborg.org>
+Cc: andrzej.kacprowski@linux.intel.com, stanislaw.gruszka@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Zyik608rO7UMP9x3Rjzvi0P9
-Content-Type: multipart/mixed; boundary="------------zlu00uMo0z04vFhvjkRGR10E";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Cai Huoqing <cai.huoqing@linux.dev>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Danilo Krummrich <dakr@redhat.com>, Borislav Petkov <bp@suse.de>
-Message-ID: <42450da5-eb1c-b093-daf7-67a4e64b9a22@suse.de>
-Subject: Re: [RESEND PATCH linux-next v2 00/10] drm: Remove some obsolete
- drivers(tdfx, mga, i810, savage, r128, sis, via)
-References: <20221203102502.3185-1-cai.huoqing@linux.dev>
-In-Reply-To: <20221203102502.3185-1-cai.huoqing@linux.dev>
+Hi,
 
---------------zlu00uMo0z04vFhvjkRGR10E
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 12.01.2023 18:10, Jeffrey Hugo wrote:
+> On 1/9/2023 5:23 AM, Jacek Lawrynowicz wrote:
+>> Hi,
+>>
+>> This patchset contains a new Linux* Kernel Driver for Intel® VPUs.
+>>
+>> VPU stands for Versatile Processing Unit and it is an AI inference accelerator
+>> integrated with Intel non-server CPUs starting from 14th generation.
+>> VPU enables efficient execution of Deep Learning applications
+>> like object detection, classification etc.
+>>
+>> The whole driver is licensed under GPL-2.0-only except for two headers imported
+>> from the firmware that are MIT licensed.
+>>
+>> User mode driver was open sourced in December 2022 and it is available at:
+>> https://github.com/intel/linux-vpu-driver
+> 
+> I feel like I forgot to mention this earlier because I can't find a reference to it in my mails.  I would like to see something in Documentation for this driver/device.  Would be nice to get an overview of how it works (system block diagram?), how it is intended to be used, etc.  Include relevant references.  This would be a great place to document the UMD and the compiler (I am positive you have mentioned the compiler before, but I am currently failing to find a reference to it).
+> 
+> I feel that traditional DRM gets away from not needing this since their stuff is pretty well established.  Everyone uses Mesa/igt and so how things are structured/used is fairly well implied.  Accel is brand new and doesn't have that yet so I suspect we'll be well situated if we take the extra effort to spell out these things which might be just assumed elsewhere.  Hopefully, over time, such documentation helps in identifying useful areas to build up the common code of the subsystem.
+> 
+> I can't justify holding up this series for this though.  Please put it on some todo list  :)
 
-TWVyZ2VkIGludG8gZHJtLW1pc2MtbmV4dC4gVGhhbmtzIGEgbG90Lg0KDQpBbSAwMy4xMi4y
-MiB1bSAxMToyMiBzY2hyaWViIENhaSBIdW9xaW5nOg0KPiBDb21taXQgMzk5NTE2YWIwZmVl
-ICgiTUFJTlRBSU5FUlM6IEFkZCBhIGJ1bmNoIG9mIGxlZ2FjeSAoVU1TKSBEUk0gZHJpdmVy
-cyIpDQo+IG1hcmtlZCB0aGVzZSBkcml2ZXJzIG9ic29sZXRlIDcgeWVhcnMgYWdvLg0KPiBB
-bmQgdGhlIG1lc2EgVU1EIG9mIHRoZXNlIGRybSBkcml2ZXJzIGFscmVhZHkgaW4gZGVwcmVj
-YXRlZCBsaXN0DQo+IGluIHRoZSBsaW5rOiBodHRwczovL2RvY3MubWVzYTNkLm9yZy9zeXN0
-ZW1zLmh0bWwNCj4gDQo+IDNkZnggR2xpZGUtLT5kcml2ZXIvZ3B1L2RybS90ZGZ4DQo+IE1h
-dHJveC0tPmRyaXZlci9ncHUvZHJtL21nYQ0KPiBJbnRlbCBpODEwLS0+ZHJpdmVyL2dwdS9k
-cm0vaTgxMA0KPiBTMyBTYXZhZ2UtLT5kcml2ZXJzL2dwdS9kcm0vc2F2YWdlDQo+IEFUSSBS
-YWdlIDEyOC0+ZHJpdmVycy9ncHUvZHJtL3IxMjgNCj4gU2lsaWNvbiBJbnRlZ3JhdGVkIFN5
-c3RlbXMtPmRyaXZlcnMvZ3B1L2RybS9zaXMNCj4gVklBIFVuaWNocm9tZS0+ZHJpdmVycy9n
-cHUvZHJtL3ZpYQ0KPiANCj4gdjEtPnYyOg0KPiAxLkFkZCBkcm0gdmlhIGRyaXZlciB0byB0
-aGUgcGF0Y2hzZXQuDQo+IDIuUmVtb3ZlIHJlbGF0ZWQgZHJtX3BjaWlkcy4NCj4gMy5SZW1v
-dmUgcmVsYXRlZCBkcm0gdWFwaSBoZWFkZXIgZmlsZXMuDQo+IDQuc3BsaXQgdG8gc2VyaWVz
-IGF2b2lkIGxhcmdlIHBhdGNoIGVtYWlsLg0KPiANCj4gQ2FpIEh1b3FpbmcgKDEwKToNCj4g
-ICAgZHJtOiBSZW1vdmUgdGhlIG9ic29sZXRlIGRyaXZlci1pODEwDQo+ICAgIGRybTogUmVt
-b3ZlIHRoZSBvYnNvbGV0ZSBkcml2ZXItbWdhDQo+ICAgIGRybTogUmVtb3ZlIHRoZSBvYnNv
-bGV0ZSBkcml2ZXItcjEyOA0KPiAgICBkcm06IFJlbW92ZSB0aGUgb2Jzb2xldGUgZHJpdmVy
-LXNhdmFnZQ0KPiAgICBkcm06IFJlbW92ZSB0aGUgb2Jzb2xldGUgZHJpdmVyLXNpcw0KPiAg
-ICBkcm06IFJlbW92ZSB0aGUgb2Jzb2xldGUgZHJpdmVyLXRkZngNCj4gICAgZHJtOiBSZW1v
-dmUgdGhlIG9ic29sZXRlIGRyaXZlci12aWENCj4gICAgZHJtOiBBZGQgY29tbWVudHMgdG8g
-S2NvbmZpZw0KPiAgICBkcm06IFJlbW92ZSBzb21lIG9ic29sZXRlIGRybSBwY2lpZHModGRm
-eCwgbWdhLCBpODEwLCBzYXZhZ2UsIHIxMjgsDQo+ICAgICAgc2lzLCB2aWEpDQo+ICAgIE1B
-SU5UQUlORVJTOiBSZW1vdmUgc29tZSBvYnNvbGV0ZSBkcml2ZXJzIGluZm8odGRmeCwgbWdh
-LCBpODEwLA0KPiAgICAgIHNhdmFnZSwgcjEyOCwgc2lzKQ0KPiANCj4gICBNQUlOVEFJTkVS
-UyAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAyOSAtDQo+ICAgZHJpdmVycy9ncHUv
-ZHJtL0tjb25maWcgICAgICAgICAgICAgICB8ICAgNTkgKy0NCj4gICBkcml2ZXJzL2dwdS9k
-cm0vTWFrZWZpbGUgICAgICAgICAgICAgIHwgICAgNyAtDQo+ICAgZHJpdmVycy9ncHUvZHJt
-L2k4MTAvTWFrZWZpbGUgICAgICAgICB8ICAgIDggLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9p
-ODEwL2k4MTBfZG1hLmMgICAgICAgfCAxMjY2IC0tLS0tLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1
-L2RybS9pODEwL2k4MTBfZHJ2LmMgICAgICAgfCAgMTAxIC0NCj4gICBkcml2ZXJzL2dwdS9k
-cm0vaTgxMC9pODEwX2Rydi5oICAgICAgIHwgIDI0NiAtLQ0KPiAgIGRyaXZlcnMvZ3B1L2Ry
-bS9tZ2EvTWFrZWZpbGUgICAgICAgICAgfCAgIDExIC0NCj4gICBkcml2ZXJzL2dwdS9kcm0v
-bWdhL21nYV9kbWEuYyAgICAgICAgIHwgMTE2OCAtLS0tLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1
-L2RybS9tZ2EvbWdhX2Rydi5jICAgICAgICAgfCAgMTA0IC0NCj4gICBkcml2ZXJzL2dwdS9k
-cm0vbWdhL21nYV9kcnYuaCAgICAgICAgIHwgIDY4NSAtLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1
-L2RybS9tZ2EvbWdhX2lvYzMyLmMgICAgICAgfCAgMTk3IC0tDQo+ICAgZHJpdmVycy9ncHUv
-ZHJtL21nYS9tZ2FfaXJxLmMgICAgICAgICB8ICAxNjkgLS0NCj4gICBkcml2ZXJzL2dwdS9k
-cm0vbWdhL21nYV9zdGF0ZS5jICAgICAgIHwgMTA5OSAtLS0tLS0tLQ0KPiAgIGRyaXZlcnMv
-Z3B1L2RybS9tZ2EvbWdhX3dhcnAuYyAgICAgICAgfCAgMTY3IC0tDQo+ICAgZHJpdmVycy9n
-cHUvZHJtL3IxMjgvTWFrZWZpbGUgICAgICAgICB8ICAgMTAgLQ0KPiAgIGRyaXZlcnMvZ3B1
-L2RybS9yMTI4L2F0aV9wY2lnYXJ0LmMgICAgfCAgMjI4IC0tDQo+ICAgZHJpdmVycy9ncHUv
-ZHJtL3IxMjgvYXRpX3BjaWdhcnQuaCAgICB8ICAgMzEgLQ0KPiAgIGRyaXZlcnMvZ3B1L2Ry
-bS9yMTI4L3IxMjhfY2NlLmMgICAgICAgfCAgOTQ0IC0tLS0tLS0NCj4gICBkcml2ZXJzL2dw
-dS9kcm0vcjEyOC9yMTI4X2Rydi5jICAgICAgIHwgIDExNiAtDQo+ICAgZHJpdmVycy9ncHUv
-ZHJtL3IxMjgvcjEyOF9kcnYuaCAgICAgICB8ICA1NDQgLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1
-L2RybS9yMTI4L3IxMjhfaW9jMzIuYyAgICAgfCAgMTk5IC0tDQo+ICAgZHJpdmVycy9ncHUv
-ZHJtL3IxMjgvcjEyOF9pcnEuYyAgICAgICB8ICAxMTggLQ0KPiAgIGRyaXZlcnMvZ3B1L2Ry
-bS9yMTI4L3IxMjhfc3RhdGUuYyAgICAgfCAxNjQxIC0tLS0tLS0tLS0tDQo+ICAgZHJpdmVy
-cy9ncHUvZHJtL3NhdmFnZS9NYWtlZmlsZSAgICAgICB8ICAgIDkgLQ0KPiAgIGRyaXZlcnMv
-Z3B1L2RybS9zYXZhZ2Uvc2F2YWdlX2JjaS5jICAgfCAxMDgyIC0tLS0tLS0tDQo+ICAgZHJp
-dmVycy9ncHUvZHJtL3NhdmFnZS9zYXZhZ2VfZHJ2LmMgICB8ICAgOTEgLQ0KPiAgIGRyaXZl
-cnMvZ3B1L2RybS9zYXZhZ2Uvc2F2YWdlX2Rydi5oICAgfCAgNTgwIC0tLS0NCj4gICBkcml2
-ZXJzL2dwdS9kcm0vc2F2YWdlL3NhdmFnZV9zdGF0ZS5jIHwgMTE2OSAtLS0tLS0tLQ0KPiAg
-IGRyaXZlcnMvZ3B1L2RybS9zaXMvTWFrZWZpbGUgICAgICAgICAgfCAgIDEwIC0NCj4gICBk
-cml2ZXJzL2dwdS9kcm0vc2lzL3Npc19kcnYuYyAgICAgICAgIHwgIDE0MyAtDQo+ICAgZHJp
-dmVycy9ncHUvZHJtL3Npcy9zaXNfZHJ2LmggICAgICAgICB8ICAgODAgLQ0KPiAgIGRyaXZl
-cnMvZ3B1L2RybS9zaXMvc2lzX21tLmMgICAgICAgICAgfCAgMzYzIC0tLQ0KPiAgIGRyaXZl
-cnMvZ3B1L2RybS90ZGZ4L01ha2VmaWxlICAgICAgICAgfCAgICA4IC0NCj4gICBkcml2ZXJz
-L2dwdS9kcm0vdGRmeC90ZGZ4X2Rydi5jICAgICAgIHwgICA5MCAtDQo+ICAgZHJpdmVycy9n
-cHUvZHJtL3RkZngvdGRmeF9kcnYuaCAgICAgICB8ICAgNDcgLQ0KPiAgIGRyaXZlcnMvZ3B1
-L2RybS92aWEvTWFrZWZpbGUgICAgICAgICAgfCAgICA4IC0NCj4gICBkcml2ZXJzL2dwdS9k
-cm0vdmlhL3ZpYV8zZF9yZWcuaCAgICAgIHwgMTc3MSAtLS0tLS0tLS0tLS0NCj4gICBkcml2
-ZXJzL2dwdS9kcm0vdmlhL3ZpYV9kcmkxLmMgICAgICAgIHwgMzYzMCAtLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tDQo+ICAgaW5jbHVkZS9kcm0vZHJtX3BjaWlkcy5oICAgICAgICAgICAg
-ICB8ICAxMTIgLQ0KPiAgIGluY2x1ZGUvdWFwaS9kcm0vaTgxMF9kcm0uaCAgICAgICAgICAg
-fCAgMjkyIC0tDQo+ICAgaW5jbHVkZS91YXBpL2RybS9tZ2FfZHJtLmggICAgICAgICAgICB8
-ICA0MjkgLS0tDQo+ICAgaW5jbHVkZS91YXBpL2RybS9yMTI4X2RybS5oICAgICAgICAgICB8
-ICAzMzYgLS0tDQo+ICAgaW5jbHVkZS91YXBpL2RybS9zYXZhZ2VfZHJtLmggICAgICAgICB8
-ICAyMjAgLS0NCj4gICBpbmNsdWRlL3VhcGkvZHJtL3Npc19kcm0uaCAgICAgICAgICAgIHwg
-ICA3NyAtDQo+ICAgaW5jbHVkZS91YXBpL2RybS92aWFfZHJtLmggICAgICAgICAgICB8ICAy
-ODIgLS0NCj4gICA0NiBmaWxlcyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMTk5NzUgZGVs
-ZXRpb25zKC0pDQo+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9pODEw
-L01ha2VmaWxlDQo+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9pODEw
-L2k4MTBfZG1hLmMNCj4gICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2k4
-MTAvaTgxMF9kcnYuYw0KPiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0v
-aTgxMC9pODEwX2Rydi5oDQo+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2Ry
-bS9tZ2EvTWFrZWZpbGUNCj4gICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJt
-L21nYS9tZ2FfZG1hLmMNCj4gICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJt
-L21nYS9tZ2FfZHJ2LmMNCj4gICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJt
-L21nYS9tZ2FfZHJ2LmgNCj4gICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJt
-L21nYS9tZ2FfaW9jMzIuYw0KPiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9k
-cm0vbWdhL21nYV9pcnEuYw0KPiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9k
-cm0vbWdhL21nYV9zdGF0ZS5jDQo+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1
-L2RybS9tZ2EvbWdhX3dhcnAuYw0KPiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dw
-dS9kcm0vcjEyOC9NYWtlZmlsZQ0KPiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dw
-dS9kcm0vcjEyOC9hdGlfcGNpZ2FydC5jDQo+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0IGRyaXZl
-cnMvZ3B1L2RybS9yMTI4L2F0aV9wY2lnYXJ0LmgNCj4gICBkZWxldGUgbW9kZSAxMDA2NDQg
-ZHJpdmVycy9ncHUvZHJtL3IxMjgvcjEyOF9jY2UuYw0KPiAgIGRlbGV0ZSBtb2RlIDEwMDY0
-NCBkcml2ZXJzL2dwdS9kcm0vcjEyOC9yMTI4X2Rydi5jDQo+ICAgZGVsZXRlIG1vZGUgMTAw
-NjQ0IGRyaXZlcnMvZ3B1L2RybS9yMTI4L3IxMjhfZHJ2LmgNCj4gICBkZWxldGUgbW9kZSAx
-MDA2NDQgZHJpdmVycy9ncHUvZHJtL3IxMjgvcjEyOF9pb2MzMi5jDQo+ICAgZGVsZXRlIG1v
-ZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9yMTI4L3IxMjhfaXJxLmMNCj4gICBkZWxldGUg
-bW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3IxMjgvcjEyOF9zdGF0ZS5jDQo+ICAgZGVs
-ZXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9zYXZhZ2UvTWFrZWZpbGUNCj4gICBk
-ZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3NhdmFnZS9zYXZhZ2VfYmNpLmMN
-Cj4gICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3NhdmFnZS9zYXZhZ2Vf
-ZHJ2LmMNCj4gICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3NhdmFnZS9z
-YXZhZ2VfZHJ2LmgNCj4gICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3Nh
-dmFnZS9zYXZhZ2Vfc3RhdGUuYw0KPiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dw
-dS9kcm0vc2lzL01ha2VmaWxlDQo+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1
-L2RybS9zaXMvc2lzX2Rydi5jDQo+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1
-L2RybS9zaXMvc2lzX2Rydi5oDQo+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1
-L2RybS9zaXMvc2lzX21tLmMNCj4gICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUv
-ZHJtL3RkZngvTWFrZWZpbGUNCj4gICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUv
-ZHJtL3RkZngvdGRmeF9kcnYuYw0KPiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dw
-dS9kcm0vdGRmeC90ZGZ4X2Rydi5oDQo+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMv
-Z3B1L2RybS92aWEvTWFrZWZpbGUNCj4gICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9n
-cHUvZHJtL3ZpYS92aWFfM2RfcmVnLmgNCj4gICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVy
-cy9ncHUvZHJtL3ZpYS92aWFfZHJpMS5jDQo+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0IGluY2x1
-ZGUvdWFwaS9kcm0vaTgxMF9kcm0uaA0KPiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBpbmNsdWRl
-L3VhcGkvZHJtL21nYV9kcm0uaA0KPiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL3Vh
-cGkvZHJtL3IxMjhfZHJtLmgNCj4gICBkZWxldGUgbW9kZSAxMDA2NDQgaW5jbHVkZS91YXBp
-L2RybS9zYXZhZ2VfZHJtLmgNCj4gICBkZWxldGUgbW9kZSAxMDA2NDQgaW5jbHVkZS91YXBp
-L2RybS9zaXNfZHJtLmgNCj4gICBkZWxldGUgbW9kZSAxMDA2NDQgaW5jbHVkZS91YXBpL2Ry
-bS92aWFfZHJtLmgNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERy
-aXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
-TWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBB
-RyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+OK, I've added the documentation to TODO.
+For now I will add info about the compiler to v6 cover letter.
+It is available at https://github.com/openvinotoolkit/vpux-plugin.
 
---------------zlu00uMo0z04vFhvjkRGR10E--
-
---------------Zyik608rO7UMP9x3Rjzvi0P9
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPBJQIFAwAAAAAACgkQlh/E3EQov+Be
-qg/+Pfl62kSUWrpI0VXaaqcXr5ro/ewN5YNfIWx7warNuXDUlYZZarvrFOa6XF5edpPq7UDwm6Un
-T3kqlEOr3rf3d6ZpG8LbM+G8Vfs0TzW0U4vkRd7UjD5qFmKQ3vQ7NZ/yFlX1aPXlyQTeSClCilfR
-V2Oz3gTTPLA/mSuhSdJnmsn28dcuCE+Q0JH4ENE9J37xL/pp5bCXWtfqvaXHl/Ibx8YoOMNZJXi+
-hOjmGWz5udPWBvp33HG4m/2aipHeAgQ9oQBNvQghmqPD+VOJWzKTlTu7efzXtqC166QcIFmY+aFr
-DbYHyR44d0ELU3RSOc0llU0c/3SZmV70HUIa7Q+bTfiD38kE/wOhmS+ckQlaj8sz39QkrtgzMiT3
-QJicaAtWXdeD6IYGqYkD8p95kV/OxAVPNfJlk6GVTdh7u66FGye7/zDPq6hUsqdCYy8SjXmDbnXP
-aoGNn5ZlXShhMIl/3U1gsyeDd+B84fizYE/nJW8IcCPJnydt5moJ3UuccUWsXJs6cjlubfL+iVvS
-Wo/Y3xZkFXinuhKhMhcmd8ph5ln0SyGRb+S9CUosNfTDRqFnsImbk7NSG6ZgVTMmmG0R1B6otNAa
-oPASpeKcFfysHTTgLJ6snqLcGJ1SgUJLJEbgZGt0yrvgvM9/txkGflBIi/iPUNoQebX6xTAu4pUF
-cSg=
-=GaRK
------END PGP SIGNATURE-----
-
---------------Zyik608rO7UMP9x3Rjzvi0P9--
+Regards,
+Jacek
