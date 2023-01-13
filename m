@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B67B66914A
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:37:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFCB8669149
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:37:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A62BF10E9C2;
-	Fri, 13 Jan 2023 08:37:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A63DA10E9BA;
+	Fri, 13 Jan 2023 08:37:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1655D10E9B7
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:37:38 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id b3so32113628lfv.2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:37:37 -0800 (PST)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 720D110E9BA
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:37:40 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id d30so27194219lfv.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:37:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FCTRKHtFgYaHbPtkSUZRRjr3CHS5tb40ajhOyrJkC74=;
- b=GV2IkpaEE5wINYClQCW8wkutrbrq7NWwCJlD7BoC/PxfOBqE9K2m5bFOMWmTXitF//
- p/iD4pacX1FpdFX0bEAtOI3WSpu96iQe4ksNWSQimCe5UeR4Xs5eW2TpVZXC1ssnESGv
- s91d/ZvAZ5eusLcE8pONCRsVFcL2Tqu8rbjogSjDMEQFHEdp/k+DwYP91J4TjTWhtPha
- 1u8+GZQyyP3e/UjaVZesHzlPOzcYCMfU8KNg2pDw/kSGrKsAnCCeZArFEy+gHtm1bUCg
- C26pXI6ZR/JfA5rgcSugaRu7prscELZONXVOVIfoaEyyakwdZywQIblvKErCjkduUhQE
- GuQg==
+ bh=Ygam0JtyGSNqoL4zyLZHudwzPBEZFe3ZjPaOEcOI9x8=;
+ b=InN2T44q2+2QlbqDPvQDP5dFLI3SPGsIZuCrAFLih5Mn10C/HPbykwwdX2TAuQQpI7
+ B3aWoPh+RyI5e5CHkfS64U6+sAZ9UdLCSleL8kumsDRmz1HM1i5Wf9n/j6z+tpTOkXnA
+ jD9erakVtIAzAJysuorCZ9R8d4DyHowvKUUBHRJndh+Iv+sArIU5TmYtQ79oqZLpZe0p
+ KKjAXjmVsMekZPCH8Lyrf7jPdqmsuGEHA9ypdkz1iE+6qCtuqG3tzCdLZj57oBrrrNkV
+ EhnRfu/tvujR3VBf2UGvbPR2MM9c76C206r5UKexFxsS1gttZnvV+DH4K921E99k8w3A
+ OeAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FCTRKHtFgYaHbPtkSUZRRjr3CHS5tb40ajhOyrJkC74=;
- b=g7vRh/Qn/Enz8IeAjh0qbBqRfye5mbcG4ycyGgCvrHXOIZ2fF8byTbkbYkPcfD3TF7
- bbtwKwJCOvb+v5m9cXRv78SVKw8MraHPB2GC8Pq8eS+ieuRJoafqMOOrYs/IJcrc6bZ0
- yYLq7gs/pvWHC6OrxrasRbY8oWVsq4Rj4LJfBe8VDk//MSezTniyXJvWCrsF6VudUJwQ
- Am1mqa/0KS5syLSEcvXoqzYLNvKKzYiAmfttywpH9oNsH2lQDARu28VJW+BGrw+fnxKL
- bWrvqpixMz0MiCfhUNECqSOs8RegARHJ4DZslSBP+PpSE05AjDrMsnjN/CMAq009bIlG
- M7Cg==
-X-Gm-Message-State: AFqh2kqmWokH8MUFxkGRINqWDJU9KuJvnfHm6vKFJ5tZcHNhshwFRS+w
- NjRjBbO7uJ1n/89hkPx4F4tNDg==
-X-Google-Smtp-Source: AMrXdXtGgF+DSrc/gjCX9/C/GYXrvH5S+P5vQLT16mtsr95X7PYDpdyjhraUcHtMLXiAl6j2Jj7rAw==
-X-Received: by 2002:a05:6512:3f1e:b0:4c0:91d0:e7ab with SMTP id
- y30-20020a0565123f1e00b004c091d0e7abmr25889004lfa.28.1673599056463; 
- Fri, 13 Jan 2023 00:37:36 -0800 (PST)
+ bh=Ygam0JtyGSNqoL4zyLZHudwzPBEZFe3ZjPaOEcOI9x8=;
+ b=CIbXiABTUHAdnsH0iP0k9IIRBhx3A4g1Qr4jGwzVbBy1CL95uSEjzp0QTqqldBzluX
+ FnBEX/iKne+sNustn/MOB1jmudg9dKP+o6vLtd5NAMP5xj61t5aA57+Pa41yKftu65lz
+ JumWNOIs7HnkGGrCxBe4IPvSGYTqpeXAr17kI3+Cqb3b4V11h0Ju/+MOyM+TmktYrmLx
+ jWk+SI1Ug1xK4eUbDu6of3edsbiEEHAyKqSpfuR/fjxhGTBmWlmK+vjY3mNfZHZ85w9/
+ gyGn3DlM7lt6VeWYZq4WagfpQSRm9oqqwB4w9TA9+/lirrgUwz4oxkhAPB0X+kDblhOW
+ 9pJA==
+X-Gm-Message-State: AFqh2kqZShqVLqrbH9wPRztvxzByqypni/bYW9tmKzM81XUxdDOp2/La
+ j4kdMrJo3v38woUcHqlxu3eVbg==
+X-Google-Smtp-Source: AMrXdXuf1vf2Ydl1TyNZ/2incZgzsnd0vwxj+MNY81XQB2uiaCvgUWIpD5RbZZYPnQZH0qiwzOPnGg==
+X-Received: by 2002:a05:6512:318d:b0:4b5:70e0:f2e6 with SMTP id
+ i13-20020a056512318d00b004b570e0f2e6mr5754158lfe.24.1673599058652; 
+ Fri, 13 Jan 2023 00:37:38 -0800 (PST)
 Received: from eriador.lumag.spb.ru ([194.204.33.9])
  by smtp.gmail.com with ESMTPSA id
- o6-20020a05651205c600b004994117b0fdsm3748038lfo.281.2023.01.13.00.37.34
+ o6-20020a05651205c600b004994117b0fdsm3748038lfo.281.2023.01.13.00.37.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 00:37:36 -0800 (PST)
+ Fri, 13 Jan 2023 00:37:38 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
  Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v6 09/11] ARM: dts: qcom-msm8974: rename mdss node to
- display-subsystem
-Date: Fri, 13 Jan 2023 10:37:18 +0200
-Message-Id: <20230113083720.39224-10-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v6 10/11] arm64: dts: qcom: rename mdp nodes to
+ display-controller
+Date: Fri, 13 Jan 2023 10:37:19 +0200
+Message-Id: <20230113083720.39224-11-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230113083720.39224-1-dmitry.baryshkov@linaro.org>
 References: <20230113083720.39224-1-dmitry.baryshkov@linaro.org>
@@ -82,27 +82,69 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Follow the schema change and rename mdss node to generic name
-'display-subsystem'.
+Follow the schema change and rename mdp nodes to generic name
+'display-controller'.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- arch/arm/boot/dts/qcom-msm8974.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/qcom/msm8916.dtsi | 2 +-
+ arch/arm64/boot/dts/qcom/msm8953.dtsi | 2 +-
+ arch/arm64/boot/dts/qcom/msm8996.dtsi | 2 +-
+ arch/arm64/boot/dts/qcom/sdm630.dtsi  | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm/boot/dts/qcom-msm8974.dtsi b/arch/arm/boot/dts/qcom-msm8974.dtsi
-index 1d8b8870b990..2e46a8b6bb14 100644
---- a/arch/arm/boot/dts/qcom-msm8974.dtsi
-+++ b/arch/arm/boot/dts/qcom-msm8974.dtsi
-@@ -1554,7 +1554,7 @@ mmcc: clock-controller@fd8c0000 {
- 				      "edp_vco_div";
- 		};
+diff --git a/arch/arm64/boot/dts/qcom/msm8916.dtsi b/arch/arm64/boot/dts/qcom/msm8916.dtsi
+index b688df272207..027eb99340e2 100644
+--- a/arch/arm64/boot/dts/qcom/msm8916.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8916.dtsi
+@@ -988,7 +988,7 @@ mdss: display-subsystem@1a00000 {
+ 			#size-cells = <1>;
+ 			ranges;
  
--		mdss: mdss@fd900000 {
-+		mdss: display-subsystem@fd900000 {
- 			compatible = "qcom,mdss";
- 			reg = <0xfd900000 0x100>, <0xfd924000 0x1000>;
- 			reg-names = "mdss_phys", "vbif_phys";
+-			mdp: mdp@1a01000 {
++			mdp: display-controller@1a01000 {
+ 				compatible = "qcom,msm8916-mdp5", "qcom,mdp5";
+ 				reg = <0x01a01000 0x89000>;
+ 				reg-names = "mdp_phys";
+diff --git a/arch/arm64/boot/dts/qcom/msm8953.dtsi b/arch/arm64/boot/dts/qcom/msm8953.dtsi
+index 9d4b785409b1..4e17bc9f8167 100644
+--- a/arch/arm64/boot/dts/qcom/msm8953.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8953.dtsi
+@@ -699,7 +699,7 @@ mdss: display-subsystem@1a00000 {
+ 
+ 			status = "disabled";
+ 
+-			mdp: mdp@1a01000 {
++			mdp: display-controller@1a01000 {
+ 				compatible = "qcom,msm8953-mdp5", "qcom,mdp5";
+ 				reg = <0x1a01000 0x89000>;
+ 				reg-names = "mdp_phys";
+diff --git a/arch/arm64/boot/dts/qcom/msm8996.dtsi b/arch/arm64/boot/dts/qcom/msm8996.dtsi
+index 1be9a92fc8c1..50cc6f125557 100644
+--- a/arch/arm64/boot/dts/qcom/msm8996.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8996.dtsi
+@@ -932,7 +932,7 @@ mdss: display-subsystem@900000 {
+ 
+ 			status = "disabled";
+ 
+-			mdp: mdp@901000 {
++			mdp: display-controller@901000 {
+ 				compatible = "qcom,msm8996-mdp5", "qcom,mdp5";
+ 				reg = <0x00901000 0x90000>;
+ 				reg-names = "mdp_phys";
+diff --git a/arch/arm64/boot/dts/qcom/sdm630.dtsi b/arch/arm64/boot/dts/qcom/sdm630.dtsi
+index 2ca2f75f2aa7..5827cda270a0 100644
+--- a/arch/arm64/boot/dts/qcom/sdm630.dtsi
++++ b/arch/arm64/boot/dts/qcom/sdm630.dtsi
+@@ -1497,7 +1497,7 @@ mdss: display-subsystem@c900000 {
+ 			ranges;
+ 			status = "disabled";
+ 
+-			mdp: mdp@c901000 {
++			mdp: display-controller@c901000 {
+ 				compatible = "qcom,sdm630-mdp5", "qcom,mdp5";
+ 				reg = <0x0c901000 0x89000>;
+ 				reg-names = "mdp_phys";
 -- 
 2.39.0
 
