@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80E7066A4D6
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 22:12:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0C4C66A4DB
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 22:12:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B00610E20A;
-	Fri, 13 Jan 2023 21:12:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3D1C10E204;
+	Fri, 13 Jan 2023 21:12:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
- [IPv6:2607:f8b0:4864:20::b2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF8BC10E206
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 21:11:58 +0000 (UTC)
-Received: by mail-yb1-xb2e.google.com with SMTP id d62so7733015ybh.8
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 13:11:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Nwi1WKddhAW8sPy/ujwfpc17G/Uaa3ESBQr8HYWaLxw=;
- b=ExxIeFvd2GIeHxK1e+u7KroQtACr/sH8/Ejm/zvlmXV5RBmEQVVZQCPlClFKUg+Y/Z
- Zu3o8WoEMu4BezFPqGnlQee8qPTqHyb/Dcj+xVOZfPj19hblI7bmW+jOWbDqCDasMjWd
- xlCM1bDHQegocMk5ELWQxR9whwDPRTfhJ98FzgZpUw+w9gY6cy7y0SKyyu3lNDOjzfbo
- h08KT8Qr8L7kgMW/RsyycO3QVrxrYu2BzJ+jpPjUf6P93rF1prGzohzz3uvWo0jByz+z
- 7T8OW/7o2lbGmpcMdVyFEsgfkf5ztFQWM+rQy+1zEnzLa26wp6G4RE/6eJKBdDLkhqG2
- Q/Fg==
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4566E10E204
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 21:12:10 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id g18so1948013lfh.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 13:12:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
+ :from:references:in-reply-to:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=r5E2jUOsmFLtdYppT5Vp0YBT45RVJ+ABe3kgqhVZhkI=;
+ b=IkJ+FOVocZ4ttJ4pEh+dqaYc1loiq1VzM4s8rw3sfw+1LDPtVXu3+QCzwNyI/P+Oz3
+ Q8GtrQlQFVgEw2AwhcdO9Y+lo70CcrUxOaUVv6K3tg9hOQIlRZure7tE16OwYGB+40y7
+ IkaTssjuMdbN49fZTK+WSj6EXgdB+69XdqZus=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Nwi1WKddhAW8sPy/ujwfpc17G/Uaa3ESBQr8HYWaLxw=;
- b=u6oSKDTLn1VKi3Cq4jrvSsSKnPOQ+HcA+RK6rh61+gNZLA7NIiYcbCg1BEVbU59akE
- ElqlZZ5nhxnuU5ULDa4YscrS8zR9oSgaTlHGZonyX5TlgwDXblqDc84fi/NcwT4Eu0gh
- K+rO3PyHpPSA+WI3qGzqspKv6kKZmPuHYPK6D0sp4e1+ZE+K/tb8dVS3BMhIWoJKHW5F
- gp0P56ZxHCf1jeNiph8lyCWMcyH4/VcjTStPfrQj6MsipgMfoDJUpaWMimIbi71xv1QZ
- 9POw9lMfy5Uy1WNpvQW9YymaVW5tgYyfWHv3EHUQyoZJdHFD1F56On2Csfc5Ql5bTpx/
- 9Blg==
-X-Gm-Message-State: AFqh2kot53qsaD+7XdyVY2Sg824/No9bjhg1ET3XIjh75UKKqAfpaoPK
- pQ6NnkqhujauFZJZQSdPkEsQXPrMFDUysL7i8AZVGg==
-X-Google-Smtp-Source: AMrXdXvcqjA0Ri5PB+/+im8+2opI/8QMNUqxjMQxunAmz1hTImGN3pCiltxTaFVZMZwXeDlQ8av4C7+HLdLGbnDwgn8=
-X-Received: by 2002:a25:cc7:0:b0:6e0:c7d3:f026 with SMTP id
- 190-20020a250cc7000000b006e0c7d3f026mr8961122ybm.275.1673644318081; Fri, 13
- Jan 2023 13:11:58 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
+ :from:references:in-reply-to:mime-version:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=r5E2jUOsmFLtdYppT5Vp0YBT45RVJ+ABe3kgqhVZhkI=;
+ b=oxPWMhl7uymZ0Accb5ErGKyrGJgE5nweYn8sJwCjURSALXSQiZRHt24m24sLe8tZDn
+ 25OV6wL//j3XwjiRJ1RGUZzVEpzcu8lmYRYyWISSAcTKf9fLrwQ8WS7676xMz8E9996e
+ gKQ35L6QAkRBbQLce2ev0b9NbAY9ps3sSrVDiCsqrl48AaPbbO4XlMhsiVUUdZ+GZx3b
+ 9dg11BEJaxtrN49puTEJiquvr3UVunYvqQXyImsRsGAOUWipzEdUjVJR+ThPwooIzJBf
+ DWUzaNEBqlvgiC1qtUXqzr+xgExS22CvMANdYSSN7K67v+EVk6w3Qnapb9i7d3ykjl4G
+ i52Q==
+X-Gm-Message-State: AFqh2ko7OeE+9y3bm537G1IbpW3IkhIAx+J9o+D7tjaUNwrOehCnhMmQ
+ NaQNWokdgpTeqO7gUumi/1tdoi5XedMP2BpD33TmKg==
+X-Google-Smtp-Source: AMrXdXsEHDMUikQ5Emug3xW/Z4eyYFdBuE++yVRLiUqBN6JN5+W+1CZEk4riH+MmzQZSNNRp1Leh8neGlYysREAjyE0=
+X-Received: by 2002:a05:6512:4017:b0:4bd:35fd:65b5 with SMTP id
+ br23-20020a056512401700b004bd35fd65b5mr8207466lfb.297.1673644328511; Fri, 13
+ Jan 2023 13:12:08 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 13 Jan 2023 15:12:07 -0600
 MIME-Version: 1.0
-References: <20230113083720.39224-1-dmitry.baryshkov@linaro.org>
- <20230113083720.39224-2-dmitry.baryshkov@linaro.org>
- <167362343145.2212490.16180994187587985655.robh@kernel.org>
-In-Reply-To: <167362343145.2212490.16180994187587985655.robh@kernel.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 13 Jan 2023 23:11:47 +0200
-Message-ID: <CAA8EJppdA_LZsbF9zbcF=bf-HqOyM=xSNoOX-_7ZA1w5WWExLA@mail.gmail.com>
-Subject: Re: [PATCH v6 01/11] dt-bindings: display/msm: convert MDP5 schema to
- YAML format
-To: Rob Herring <robh@kernel.org>
+In-Reply-To: <CAPY8ntA=Dq6GFQ3gEOm9PzPyOa9bHTr8JrpXLibnai7xKqRbpQ@mail.gmail.com>
+References: <20230106030108.2542081-1-swboyd@chromium.org>
+ <CAPY8ntA=Dq6GFQ3gEOm9PzPyOa9bHTr8JrpXLibnai7xKqRbpQ@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Fri, 13 Jan 2023 15:12:07 -0600
+Message-ID: <CAE-0n53UFuyYvjJUWViXy9Eex2mpBRJGtt4vGc2cbFZS9i8xFw@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: boe-tv101wum-nl6: Ensure DSI writes succeed
+ during disable
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,57 +68,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sean Paul <sean@poorly.run>
+Cc: Rob Clark <robdclark@chromium.org>, Jitao Shi <jitao.shi@mediatek.com>,
+ yangcong <yangcong5@huaqin.corp-partner.google.com>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-mediatek@lists.infradead.org, patches@lists.linux.dev,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 13 Jan 2023 at 17:26, Rob Herring <robh@kernel.org> wrote:
+Quoting Dave Stevenson (2023-01-13 08:27:29)
+> Hi Stephen
 >
->
-> On Fri, 13 Jan 2023 10:37:10 +0200, Dmitry Baryshkov wrote:
-> > Convert the mdp5.txt into the yaml format. Changes to the existing (txt) schema:
-> >  - MSM8996 has additional "iommu" clock, define it separately
-> >  - Add new properties used on some of platforms:
-> >    - interconnects, interconnect-names
-> >    - iommus
-> >    - power-domains
-> >    - operating-points-v2, opp-table
+> On Fri, 6 Jan 2023 at 03:01, Stephen Boyd <swboyd@chromium.org> wrote:
 > >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  .../devicetree/bindings/display/msm/mdp5.txt  | 132 -----------------
-> >  .../bindings/display/msm/qcom,mdp5.yaml       | 138 ++++++++++++++++++
-> >  2 files changed, 138 insertions(+), 132 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/display/msm/mdp5.txt
-> >  create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,mdp5.yaml
+> > The unprepare sequence has started to fail after moving to panel bridge
+> > code in the msm drm driver (commit 007ac0262b0d ("drm/msm/dsi: switch t=
+o
+> > DRM_PANEL_BRIDGE")). You'll see messages like this in the kernel logs:
 > >
+> >    panel-boe-tv101wum-nl6 ae94000.dsi.0: failed to set panel off: -22
+> >
+> > This is because boe_panel_enter_sleep_mode() needs an operating DSI lin=
+k
+> > to set the panel into sleep mode. Performing those writes in the
+> > unprepare phase of bridge ops is too late, because the link has already
+> > been torn down by the DSI controller in post_disable, i.e. the PHY has
+> > been disabled, etc. See dsi_mgr_bridge_post_disable() for more details
+> > on the DSI .
+> >
+> > Split the unprepare function into a disable part and an unprepare part.
+> > For now, just the DSI writes to enter sleep mode are put in the disable
+> > function. This fixes the panel off routine and keeps the panel happy.
 >
-> Running 'make dtbs_check' with the schema in this patch gives the
-> following warnings. Consider if they are expected or the schema is
-> incorrect. These may not be new warnings.
->
-> Note that it is not yet a requirement to have 0 warnings for dtbs_check.
-> This will change in the future.
->
-> Full log is available here: https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230113083720.39224-2-dmitry.baryshkov@linaro.org
->
->
-> mdp@1a01000: compatible:0: 'qcom,mdp5' was expected
->         arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dtb
->
-> mdp@1a01000: compatible: ['qcom,msm8953-mdp5', 'qcom,mdp5'] is too long
->         arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dtb
+> It is documented that the mipi_dsi_host_ops transfer function should
+> be called with the host in any state [1], so the host driver is
+> failing there.
 
-This is because we ended up in the middle of the conversion. msm8953
-ended up using a new style of bindings, while the rest used old ones.
-This is fixed by the patch 02 (which adds SoC-specific compatibles to
-the schema) and patches 6 and 7 that convert the rest of DT.
---
-With best wishes
-Dmitry
+Thanks for the info! It says "Drivers that need the underlying device to
+be powered to perform these operations will first need to make sure it=E2=
+=80=99s
+been properly enabled." Does that mean the panel driver needs to make
+sure the underlying dsi host device is powered? The sentence is too
+ambiguous for me to understand what 'drivers' and 'underlying device'
+are.
+
+>
+> This sounds like the same issue I was addressing in adding the
+> prepare_prev_first flag to drm_panel, and pre_enable_prev_first to
+> drm_bridge via [2].
+> Defining prepare_prev_first for your panel would result in the host
+> pre_enable being called before the panel prepare, and therefore the
+> transfer calls from boe_panel_init_dcs_cmd boe_panel_prepare won't be
+> relying on the DSI host powering up early. It will also call the panel
+> unprepare before the DSI host bridge post_disable is called, and
+> therefore the DSI host will still be powered up and the transfer won't
+> fail.
+>
+> Actually I've just noted the comment at [3]. [2] is that framework fix
+> that means that the magic workaround isn't required, but it will
+> require this panel to opt in to the ordering change.
+
+Cool. Glad that we can clean that up with your series.
+
+Is it wrong to split unprepare to a disable and unprepare phase? I'm not
+super keen on fixing 6.1 stable kernels by opting this driver into the
+ordering change. Splitting the phase into two is small and simple and
+works. I suspect changing the ordering may uncover more bugs, or be a
+larger task. I'd be glad to test that series[2] from you to get rid of
+[3].
+
+>
+>
+> [1] https://www.kernel.org/doc/html/latest/gpu/drm-kms-helpers.html#c.mip=
+i_dsi_host_ops
+> [2] https://patchwork.freedesktop.org/series/100252/
+> [3] https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/msm/dsi=
+/dsi_manager.c#L47
+>
