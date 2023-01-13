@@ -2,74 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A36F66A6E7
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Jan 2023 00:20:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E5C66A742
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Jan 2023 00:56:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58D9310E23A;
-	Fri, 13 Jan 2023 23:20:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E519D10E21B;
+	Fri, 13 Jan 2023 23:56:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
- [IPv6:2001:4860:4864:20::2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05E9A10E23A
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 23:20:12 +0000 (UTC)
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-15085b8a2f7so23945719fac.2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 15:20:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=landley-net.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=TQ9PrP3iNHpghVpkywhiMHcSFTwXN8kLEUSP7zNfGWk=;
- b=HEeiDnUeOlaMmzrHg6LtTWNe2KIF6Q5d6PASMOjvpBnFNwlXnpxtBoyLsjdUSiFic5
- Zy4GrupmECG1CN3m99XRInimzLkAyFlnAC1yFwr9ZV5WqZ8Mxia0axE41+SyDlpGZHOF
- b9/hPmk9ZzrDZTerjRuPw9aOBuwmuFZgGCgGCyi5DNv5BOgrp6hpzWbx8PiSSS3PCS6S
- UoJjpLq7r0mXx6nv8CL2PCVxH6W+Fc0fSdqCoguiOJxRwovXLajxMhMVOFQITRvWQd2L
- +x8hdq/wHJdMhQD25h3cEnBEwX4srdIbxyBywCRXQlXO+4KVbgaam+X20emmeoxJCckb
- 5wPw==
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F343310E048
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 23:56:34 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id f3so16018083pgc.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 15:56:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=5+evsYAc3b1lQ5lkyPBOLTAudAqBRHFoDkoyn9gzcWU=;
+ b=bglNrXXzl+zfB88DcX28XESqwrqWNa2PfHlGEAegGmswKUvIEGuclPlzAGHJAX4jCa
+ JS45SdnMg4dw/bRTbacQImuLolP2g4t6Xy/VSB3Vr6FXhf/nsHLl/zrsvI+YI1cS/bWg
+ 79LDXePloaL1xmygJa8gaMTVJUaxRy4BV/MC8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TQ9PrP3iNHpghVpkywhiMHcSFTwXN8kLEUSP7zNfGWk=;
- b=zKQArqGm8u2evB//smIUOpD3rJOWGWpLNp/rMr5BhUCzwGn13llNLQ0oGukIJ357ma
- tVS1h8EVYcV9Mtc27BkGxVUwZdiDd5CQZT36ypleLeQE2AzVPb5FC6trZphdNCjjfy4A
- 2u4OJU+JYUFLtTOh4SFPPIABqAiJhi7SEZjhSIITcY9haeg6EFQNIpOiwvkCgX9MTUy4
- C5mgreWAIJ6S0CdplYfCkUa3ipyXP1D4qCa7bQGJXtMVcm2RAr1JCG0Gcyx6/8GkakrB
- YVu/2jnVjrC/w+bVPkfbtyH4knPzYRW8U4fssFiZWr6b0BoV3HzLwmB13OBQFTiZIFaV
- fxCg==
-X-Gm-Message-State: AFqh2kol2xSd5RlLT2k4AJWVvjlIcAevECWCwUs8mKLyrlQnnykwxPKV
- YtzgLYhyTB/sf2Rynya5UZYe9w==
-X-Google-Smtp-Source: AMrXdXu9HHEo/oiUtz2RMFCVU9bzsQZjZJ6cJq7QQE+EgrBS53y1RWYqF/4GpGuzhXIiUysKwMTRjQ==
-X-Received: by 2002:a05:6871:4090:b0:155:cb39:7325 with SMTP id
- kz16-20020a056871409000b00155cb397325mr16579350oab.6.1673652012126; 
- Fri, 13 Jan 2023 15:20:12 -0800 (PST)
-Received: from [192.168.86.224] ([136.62.38.22])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5+evsYAc3b1lQ5lkyPBOLTAudAqBRHFoDkoyn9gzcWU=;
+ b=vx2fqNPGZjnt4Wa7iPVUT3SqWgCCjlVZzmvXRP93emjU11iFuSk+peai+/38izdzeR
+ TfTvA7tDc8oTtzq+rbkml/p7xhHPLzWcbqJNHIZs07F+uZ8p+mPueINofDo0KqTcX3W+
+ x+YVjcN+boD8F0TeVYru1+qH8jnFEbWChnbQq9WAvaVp7KEkx0AHNm8UBjgjCilDkcl6
+ Wi+7fbCffly2faRACgfPtsYQSxzj7F/PiUowpjJhJRLXr7/BP/xB3R7ZjkrOMWjqMIg+
+ jDnXBc0E8o8tOiHTV7PfztPcgwj1ciByDsAdqqQ902FO4Us4YNvWGS7oXYqNAXrWZtGz
+ XMLA==
+X-Gm-Message-State: AFqh2kqGq4Wy0JqpzRQ9xOEHBpVRjGly8e1pDc0ZOQWvQHS4ZBbkJAoN
+ OzPnYQkdb7xdBkd10P3r0HB/ZPBxBUQKbrng
+X-Google-Smtp-Source: AMrXdXsl5dwvIc5BLm75HVq3ofqQwGV0J7iamu0uFTfbZwquAyj1MTYTinzmzaIutoOWtOvYzd3dTg==
+X-Received: by 2002:a62:2746:0:b0:58b:af27:dcda with SMTP id
+ n67-20020a622746000000b0058baf27dcdamr5847832pfn.14.1673654194182; 
+ Fri, 13 Jan 2023 15:56:34 -0800 (PST)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:9d:2:b4ad:3c49:1195:a01e])
  by smtp.gmail.com with ESMTPSA id
- z13-20020a056870738d00b0013ae39d0575sm11411907oam.15.2023.01.13.15.20.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 15:20:11 -0800 (PST)
-Message-ID: <38200b53-c743-4396-6603-7274f4a29c86@landley.net>
-Date: Fri, 13 Jan 2023 17:32:20 -0600
+ f10-20020aa79d8a000000b005823b7da05asm10002737pfq.122.2023.01.13.15.56.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Jan 2023 15:56:33 -0800 (PST)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [RFT PATCH 1/2] drm/bridge: tc358762: Set pre_enable_prev_first
+Date: Fri, 13 Jan 2023 15:56:03 -0800
+Message-Id: <20230113155547.RFT.1.I723a3761d57ea60c5dd754c144aed6c3b2ea6f5a@changeid>
+X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: remove arch/sh
-Content-Language: en-US
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20230113062339.1909087-1-hch@lst.de>
- <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
- <CAMuHMdUcnP6a9Ch5=_CMPq-io-YWK5pshkOT2nZmP1hvNcwBAg@mail.gmail.com>
- <142532fb-5997-bdc1-0811-a80ae33f4ba4@physik.fu-berlin.de>
- <6891afb6-4190-6a52-0319-745b3f138d97@landley.net>
- <fe09d811-e290-821d-ec8b-75936b6583c2@physik.fu-berlin.de>
-From: Rob Landley <rob@landley.net>
-In-Reply-To: <fe09d811-e290-821d-ec8b-75936b6583c2@physik.fu-berlin.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,59 +68,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- linux-rtc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, linux-arch@vger.kernel.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>, linux-serial@vger.kernel.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- netdev@vger.kernel.org, dmaengine@vger.kernel.org, alsa-devel@alsa-project.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Douglas Anderson <dianders@chromium.org>, Robert Foss <robert.foss@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, Vinod Koul <vkoul@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-arm-msm@vger.kernel.org,
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/13/23 13:05, John Paul Adrian Glaubitz wrote:
-> Hi Rob!
-> 
-> On 1/13/23 20:11, Rob Landley wrote:
->> There is definitely interest in this architecture. I'm aware Rich hasn't been
->> the most responsive maintainer. (I'm told he's on vacation with his family at
->> the moment, according to the text I got about this issue from the J-core
->> hardware guys in Japan.)
-> 
-> Well, maybe we can just give it a try together ...
+Set the "pre_enable_prev_first" as provided by commit 4fb912e5e190
+("drm/bridge: Introduce pre_enable_prev_first to alter bridge init
+order"). This should allow us to revert commit ec7981e6c614
+("drm/msm/dsi: don't powerup at modeset time for parade-ps8640") and
+commit 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset
+time").
 
-Jeff Dionne said he'd make himself available to answer hardware questions. (He
-said he maintained some Linux ports 20 years ago, but isn't current with Linux
-plumbing. Last month he was digging through the guts of vxworks, and the project
-before that was some sort of BSD I think?)
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
 
-I _do_ maintain Linux patches, I just generally don't bother to repost them
-endlessly. Here's my "on top of 6.1" stack for example, each of which links to
-at least one time it was posted to linux-kernel:
+ drivers/gpu/drm/bridge/tc358762.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/linux-patches/
+diff --git a/drivers/gpu/drm/bridge/tc358762.c b/drivers/gpu/drm/bridge/tc358762.c
+index 0b6a28436885..77f7f7f54757 100644
+--- a/drivers/gpu/drm/bridge/tc358762.c
++++ b/drivers/gpu/drm/bridge/tc358762.c
+@@ -229,6 +229,7 @@ static int tc358762_probe(struct mipi_dsi_device *dsi)
+ 	ctx->bridge.funcs = &tc358762_bridge_funcs;
+ 	ctx->bridge.type = DRM_MODE_CONNECTOR_DPI;
+ 	ctx->bridge.of_node = dev->of_node;
++	ctx->bridge.pre_enable_prev_first = true;
+ 
+ 	drm_bridge_add(&ctx->bridge);
+ 
+-- 
+2.39.0.314.g84b9a713c41-goog
 
->> The main reason we haven't converted everything to device tree is we only have
->> access to test hardware for a subset of the boards. Pruning the list of
->> supported boards and converting the rest to device tree might make sense. We can
->> always add/convert boards back later...
-> 
-> There is a patch by Yoshinori Sato which adds device tree support to SH. Maybe we
-> can revive it.
-
-The turtle board is device tree and has been since it was merged. The
-infrastructure is there, the question is converting over boards and testing
-them, or deciding to prune them. Did Sato-san convert many boards? (I'm not
-finding his patch via google...)
-
-> Adrian
-
-Rob
