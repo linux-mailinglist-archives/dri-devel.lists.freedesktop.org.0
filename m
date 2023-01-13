@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 986CF66A335
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 20:31:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0651866A33F
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 20:31:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35D0610EAE6;
-	Fri, 13 Jan 2023 19:31:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0882710EAF9;
+	Fri, 13 Jan 2023 19:31:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com
- [IPv6:2607:f8b0:4864:20::d34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CBD410EAC6;
- Fri, 13 Jan 2023 19:30:51 +0000 (UTC)
-Received: by mail-io1-xd34.google.com with SMTP id j1so2654437iob.6;
- Fri, 13 Jan 2023 11:30:51 -0800 (PST)
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
+ [IPv6:2607:f8b0:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AE1010EAC2;
+ Fri, 13 Jan 2023 19:30:52 +0000 (UTC)
+Received: by mail-il1-x132.google.com with SMTP id o13so11219955ilc.7;
+ Fri, 13 Jan 2023 11:30:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5pKYcyxobqjkxw/cQW3qOcS+2FHDD+NQD5zTk5vyKT0=;
- b=kv1hHXeGS4Ae++h9FVHklLDkqQoIlKy2J/FnU2oFkPWRn5YRlU8UZcTs1RIDYWwwMO
- TBL4TmhQtrizT8dE0OVmt0zOTsf+k6Fva2BqdiHvacmnGEvy+iO06Q4Og8mLBeAe5QFl
- kuxpcjdby0PKyEBCSTTqCYgEPqqQgvUkZyytdXCsUgQIy6zX/aZ5G9Prr7L38uwY1Ijk
- 20d022OjY5k6l8B8c9ZFZ1KDQzGPvYabn8hhO+JAdSSCH8O7HvIxPwHLDaI4Jb8qJRMg
- oh/Qq1f07LPCOL9D0gNAF5QNsdyexH02UUdxytsJvwBSGbhUC5rGGWWu+1G1uJGPwAaV
- NMrg==
+ bh=+F9kl44jma+M7h1pP8h2A8ZnugnYlmyHf4a+VRYvO4M=;
+ b=nFsCAxBqzc8DAkq7Y0KR8/rtL94U2RDxMfUQBOss23pmYoJOp7id0p4gkP3JNRidrJ
+ t9i08P+3SiU8MspP5AFQVH3ZNwImZO+f4rGsZBF6YGkyhk9IlaXq6aE7D4aTOdoOmpz8
+ aAO+uzg+XjIcaGOLdEBy7s3XAI24dXhJb0FC/T3jr2K7Xa4EhCPhXsSwC4MzFSL3LLBT
+ olAbPIIL2DzDALUCW5asOYZP0JE7apBNs+hciXcYwtxkpgl3oJa2kjSm5FHnWp9IZoS1
+ OZGqDReT1Wh/D56NQ8dbol0ZsMm6XTl1nRNRGFpMc0YLoyxKs3kMttcI5CYcPP6U7VwV
+ c9Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5pKYcyxobqjkxw/cQW3qOcS+2FHDD+NQD5zTk5vyKT0=;
- b=32nl2e1MASlWr6ft3C3XSrCWlteoZQAFeTAOYm6FX3a7fWRaq+AonK5ozMTCeYo2R2
- lw8Rnfa7VpRVG3IZ+woyUJaRj6+/HUQ1xapK85wjkkUM/5sYsDqOXK541HcyntH8IQy+
- MT0BaFWlhI2D5cCM3uKtoSuh8eQz0GKz8BJs5UfxJj1VKQQKa+CaBNJpt/s1wV+IE4Yz
- 9FW0vcRH1En0z0SJmKavOqi20Mbyi3dyb5dUaZiAPnudM19W5tZauOvYEDE7A/1esT+P
- fLtnAHmOdoPB6FirZaXAq+d6sJ37i5JwG0w9HhK4/aYFzjMPeqc4VS5TIWz7r7GmpvBd
- mhtA==
-X-Gm-Message-State: AFqh2koXgH7CydgVmOhz07JcuY61k3R095sXK3LEt+JlNGAoFF02u6Q5
- TIso3UoHovOAUCjifS1jxOE=
-X-Google-Smtp-Source: AMrXdXunTbUvqnk+KDACxZ3sT1a4zW0ivzpLR0SZLpWQKg8LPzuEA6wE5v95Q3wtvppI9IfGoav9Gw==
-X-Received: by 2002:a05:6602:2083:b0:704:9ab4:ea1c with SMTP id
- a3-20020a056602208300b007049ab4ea1cmr507697ioa.6.1673638250500; 
- Fri, 13 Jan 2023 11:30:50 -0800 (PST)
+ bh=+F9kl44jma+M7h1pP8h2A8ZnugnYlmyHf4a+VRYvO4M=;
+ b=uVNHzuOxUNCEKSjU2fXfvNSFZ+eEMqdT6d2F367ISSME3qlbzYdTvZvCGS0uI62ywJ
+ TFgT2zJfKXNmcry4q/ni794YWjzlwmpeCREEpSe5oMQinlPuRWQAyj/4L9WQpNFE28Bw
+ iuXHvMc4TNn71OhRmpp8CUuYJb2h2+G0QgYbzYhGziAJtRN6PvRoEIOq8O6uuJzSpzHe
+ ZDIxeQlm+Y9FUt4HCPcaHbDT6gG82tByurDUiWYhTZvEF8Xv80e9C2cKOIT6lX7O5UWd
+ XhApyxX579xJp2IMtWOinfbNn+cxD7G3KJaCn6wXH+6BTxpP0FGV2ZRtLFjZa/1pT/Xc
+ 73/g==
+X-Gm-Message-State: AFqh2koKvJbXlBHXig5L1eeccWeoTw8We2IUG/L1nzBwVsW2hUa8D0OY
+ t5tpUTYJQAdw+1L6wLxO7hQ=
+X-Google-Smtp-Source: AMrXdXsdczYM5PwWfO4hwAbHHjf0U0cvqxRknpww2NlHevVo41RRx9YbsfFXEX5Txlr07b+gR8gCVQ==
+X-Received: by 2002:a92:ac06:0:b0:30c:2ed2:f8c4 with SMTP id
+ r6-20020a92ac06000000b0030c2ed2f8c4mr32991854ilh.2.1673638251495; 
+ Fri, 13 Jan 2023 11:30:51 -0800 (PST)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- e32-20020a026d60000000b0039e583abceasm6497289jaf.68.2023.01.13.11.30.49
+ e32-20020a026d60000000b0039e583abceasm6497289jaf.68.2023.01.13.11.30.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 11:30:49 -0800 (PST)
+ Fri, 13 Jan 2023 11:30:51 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 08/20] dyndbg: tighten ddebug_class_name() 1st arg
-Date: Fri, 13 Jan 2023 12:30:04 -0700
-Message-Id: <20230113193016.749791-9-jim.cromie@gmail.com>
+Subject: [PATCH v2 09/20] dyndbg: constify ddebug_apply_class_bitmap args
+Date: Fri, 13 Jan 2023 12:30:05 -0700
+Message-Id: <20230113193016.749791-10-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230113193016.749791-1-jim.cromie@gmail.com>
 References: <20230113193016.749791-1-jim.cromie@gmail.com>
@@ -78,46 +78,31 @@ Cc: jani.nikula@intel.com, daniel.vetter@ffwll.ch, jbaron@akamai.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change function's 1st arg-type, by derefing in the caller.
-The fn doesnt need any other fields in the old type.
+ddebug_apply_class_bitmap() does not alter its 2 bitmap args, make
+this guarantee in the interface.
 
-no functional change.
+NOTE: the bitmap is also available in the dcp arg, but the 2 vars
+serve a 2nd purpose; the CLASS_TYPE callers use them to translate
+levels into their underlying disjoint representation.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/dynamic_debug.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ lib/dynamic_debug.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 2d4640479e5b..10c29bc19901 100644
+index 10c29bc19901..b51f4bde6198 100644
 --- a/lib/dynamic_debug.c
 +++ b/lib/dynamic_debug.c
-@@ -1110,12 +1110,12 @@ static void *ddebug_proc_next(struct seq_file *m, void *p, loff_t *pos)
- #define class_in_range(class_id, map)					\
- 	(class_id >= map->base && class_id < map->base + map->length)
+@@ -592,7 +592,7 @@ static int ddebug_exec_queries(char *query, const char *modname)
  
--static const char *ddebug_class_name(struct ddebug_iter *iter, struct _ddebug *dp)
-+static const char *ddebug_class_name(struct ddebug_table *dt, struct _ddebug *dp)
+ /* apply a new bitmap to the sys-knob's current bit-state */
+ static int ddebug_apply_class_bitmap(const struct ddebug_class_param *dcp,
+-				     unsigned long *new_bits, unsigned long *old_bits,
++				     const unsigned long *new_bits, const unsigned long *old_bits,
+ 				     const char *query_modname)
  {
--	struct ddebug_class_map *map = iter->table->classes;
--	int i, nc = iter->table->num_classes;
-+	struct ddebug_class_map *map = dt->classes;
-+	int i;
- 
--	for (i = 0; i < nc; i++, map++)
-+	for (i = 0; i < dt->num_classes; i++, map++)
- 		if (class_in_range(dp->class_id, map))
- 			return map->class_names[dp->class_id - map->base];
- 
-@@ -1149,7 +1149,7 @@ static int ddebug_proc_show(struct seq_file *m, void *p)
- 	seq_puts(m, "\"");
- 
- 	if (dp->class_id != _DPRINTK_CLASS_DFLT) {
--		class = ddebug_class_name(iter, dp);
-+		class = ddebug_class_name(iter->table, dp);
- 		if (class)
- 			seq_printf(m, " class:%s", class);
- 		else
+ #define QUERY_SIZE 128
 -- 
 2.39.0
 
