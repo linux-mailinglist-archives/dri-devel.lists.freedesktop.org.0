@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE21D66919D
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:50:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ADD66691D3
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:54:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 558BB10E9B8;
-	Fri, 13 Jan 2023 08:50:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A668B10E9C5;
+	Fri, 13 Jan 2023 08:54:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
- [209.85.219.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6025B10E9B8
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:50:38 +0000 (UTC)
-Received: by mail-qv1-f47.google.com with SMTP id d13so14407691qvj.8
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:50:38 -0800 (PST)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
+ [209.85.219.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0AFD10E9C5
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:54:07 +0000 (UTC)
+Received: by mail-qv1-f54.google.com with SMTP id t7so14445951qvv.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:54:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=awQakUOIwVvp4xWgkhRGNM/c58rzqkM16qYt20+qNyU=;
- b=GEIBwnMONY2r3V7N5C2yTKGaGw0YCJQtd+VHhKRaHrZUqzPyK7OmBwmpHlwoaHx6vS
- jhF98L+z/36ndU8ecwF/29LajDbLFlbJXbhlQHyivjinKt4eGFZjgt4INEzi49bTaFGs
- 6LoCiefuhLVXAu/+JFIvWCIYqeb7ZZ/cJvwswIUPX1FtF1iPwGXKsfDqTMAZ16YiVkAi
- pW1r2ZjCIR1al2Gw9mgXAHrYrsJ+Qge9EQKSh0TIBHv77zmJVaTDHH8QoyNGHy8yaPBh
- OvYy5ZLFxJDV4j6VuvMozWe3We8345mQRVVvQQHh4oJ1uODovi6dBAETfYGhoL5UIJ2k
- 91Ow==
-X-Gm-Message-State: AFqh2kr0TswbbUBosiKgCow8cMvOpkYEFLJODl72jstZ54JNrM59pd9v
- QZFYcC4tiMad7BpHHVJNAVqKVxj7HxcUeA==
-X-Google-Smtp-Source: AMrXdXugPQJ6Rb7gLg6KsfdS5raZLK3IaUGY+G/aa61+0MthXpA6Q4mPHjigICb9/8DLBPNsLan82g==
-X-Received: by 2002:a0c:d792:0:b0:4c7:971e:3c05 with SMTP id
- z18-20020a0cd792000000b004c7971e3c05mr101515506qvi.36.1673599836922; 
- Fri, 13 Jan 2023 00:50:36 -0800 (PST)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com.
- [209.85.128.180]) by smtp.gmail.com with ESMTPSA id
- f9-20020a05620a280900b006fcaa1eab0esm12470788qkp.123.2023.01.13.00.50.36
+ bh=iHH87Wz4eqdDYk3yPRdInSdOf4/Qu/uaLfX4LZwjHtY=;
+ b=Pu9BnplqW+IlNQ8I4RNP5R6RkYY2Ivuh7/OzivsrUE71kOSCx+p2Ss1M8KcMvWJUxG
+ 0bASUQrYyb0Qt67lAWSJTapcNwPCLl0SGFp+o35/ucToYJvrENgd5S6FpENrttwoGETg
+ fFgdr4wiUwKiwZA3vxV/PH+vp+Ny1mFIQ5hii5Gj8CID/HkKkbYz8Qs8Jmom1K5m615t
+ a97asrBlZsWc7b8S5vTXX7r/KkL1pqA5pOSh5jZy7ilvvsrgr1E8ul6R3Q9+Z9hjLnkg
+ Ft7cWjHeJkOUGE5OQwKtWrVVZ4pVq9+SaZuFscQWc9WugCE0fJEYB+9L0G1Axomstml4
+ nmdg==
+X-Gm-Message-State: AFqh2kpwvL7FZM6GqWYCKcIYHpbFSpIBBURC7U3AdAo95tffU+iMfINS
+ TzgM9nd/Sspo67j5iN6B754tTAtnnSKm8A==
+X-Google-Smtp-Source: AMrXdXushjcPR3EKj9Bt3o3Ppa3BO4CnRGqVfTM/JR89L8s1gQHW02SNe3tUFsYMBxhpteUAVP683w==
+X-Received: by 2002:a05:6214:3d9e:b0:532:1518:2a66 with SMTP id
+ om30-20020a0562143d9e00b0053215182a66mr47868124qvb.0.1673600046747; 
+ Fri, 13 Jan 2023 00:54:06 -0800 (PST)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com.
+ [209.85.219.173]) by smtp.gmail.com with ESMTPSA id
+ m15-20020a05620a24cf00b007055dce4cecsm12546361qkn.97.2023.01.13.00.54.05
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 00:50:36 -0800 (PST)
-Received: by mail-yw1-f180.google.com with SMTP id
- 00721157ae682-4b6255ce5baso274712967b3.11
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:50:36 -0800 (PST)
-X-Received: by 2002:a81:578e:0:b0:4d9:3858:392 with SMTP id
- l136-20020a81578e000000b004d938580392mr551266ywb.502.1673599835999; Fri, 13
- Jan 2023 00:50:35 -0800 (PST)
+ Fri, 13 Jan 2023 00:54:06 -0800 (PST)
+Received: by mail-yb1-f173.google.com with SMTP id o75so21643935yba.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:54:05 -0800 (PST)
+X-Received: by 2002:a25:d095:0:b0:7b6:daae:ad50 with SMTP id
+ h143-20020a25d095000000b007b6daaead50mr3261996ybg.89.1673600045570; Fri, 13
+ Jan 2023 00:54:05 -0800 (PST)
 MIME-Version: 1.0
 References: <20230113062339.1909087-1-hch@lst.de>
- <20230113062339.1909087-17-hch@lst.de>
-In-Reply-To: <20230113062339.1909087-17-hch@lst.de>
+ <20230113062339.1909087-20-hch@lst.de>
+In-Reply-To: <20230113062339.1909087-20-hch@lst.de>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 13 Jan 2023 09:50:24 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU2vaVaCrcKom5YQYD9GLoeerX8HAQav36uFGUksOFc9w@mail.gmail.com>
-Message-ID: <CAMuHMdU2vaVaCrcKom5YQYD9GLoeerX8HAQav36uFGUksOFc9w@mail.gmail.com>
-Subject: Re: [PATCH 16/22] spi: remove spi-sh-sci
+Date: Fri, 13 Jan 2023 09:53:54 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWLZF3uF8+Bs8FL__x=MyZPPBUqX-Q6XVQS3B08re-vZw@mail.gmail.com>
+Message-ID: <CAMuHMdWLZF3uF8+Bs8FL__x=MyZPPBUqX-Q6XVQS3B08re-vZw@mail.gmail.com>
+Subject: Re: [PATCH 19/22] fbdev: remove sh7760fb
 To: Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,36 +85,25 @@ Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 13, 2023 at 7:24 AM Christoph Hellwig <hch@lst.de> wrote:
+Hi Christoph,
+
+On Fri, Jan 13, 2023 at 7:25 AM Christoph Hellwig <hch@lst.de> wrote:
 > Now that arch/sh is removed this driver is dead code.
 >
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  drivers/spi/Kconfig      |   7 --
->  drivers/spi/Makefile     |   1 -
->  drivers/spi/spi-sh-sci.c | 197 ---------------------------------------
->  3 files changed, 205 deletions(-)
->  delete mode 100644 drivers/spi/spi-sh-sci.c
->
-> diff --git a/drivers/spi/Kconfig b/drivers/spi/Kconfig
-> index 7508dcef909c78..76f3bc6f8c81fc 100644
-> --- a/drivers/spi/Kconfig
-> +++ b/drivers/spi/Kconfig
-> @@ -882,13 +882,6 @@ config SPI_SH_MSIOF
->         help
->           SPI driver for SuperH and SH Mobile MSIOF blocks.
->
-> -config SPI_SH_SCI
-> -       tristate "SuperH SCI SPI controller"
-> -       depends on SUPERH
-> -       select SPI_BITBANG
-> -       help
-> -         SPI driver for SuperH SCI blocks.
 
-This driver uses the Serial Communications Interface (SCI, cfr.
-drivers/tty/serial/sh-sci.c) in SPI mode. Hence in theory it could be
-used on a variety of Renesas ARM SoCs, and even on RZ/Five.
-Again, no DT support.
+Thanks for your patch!
+
+> --- a/drivers/video/fbdev/Kconfig
+> +++ b/drivers/video/fbdev/Kconfig
+> @@ -1861,7 +1861,7 @@ config FB_W100
+>  config FB_SH_MOBILE_LCDC
+>         tristate "SuperH Mobile LCDC framebuffer support"
+>         depends on FB && HAVE_CLK && HAS_IOMEM
+> -       depends on SUPERH || ARCH_RENESAS || COMPILE_TEST
+> +       depends on ARCH_RENESAS || COMPILE_TEST
+
+Nit: this part should be a separate patch.
 
 Gr{oetje,eeting}s,
 
