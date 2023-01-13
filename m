@@ -2,80 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB159668FF6
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:03:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E87668FF8
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:03:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49C0610E9A3;
-	Fri, 13 Jan 2023 08:03:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18A1510E9A7;
+	Fri, 13 Jan 2023 08:03:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1CEE10E9A3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:03:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673596989;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=11A68i/ujjvlvNOTfu4F5ZXcyPx1UEmLo0fXGnHQZCM=;
- b=WEXAubdRza+U3V8//TbE3DXvQoZN531m/wa29SEXt6vmUT/aOtDiZ4pr3sVrfVLNAlbC52
- iFqTArW+HSr32x6fA0IPFU/YaHiZzt24GQbq5v1Nw1ruQX1a12He3x9EzWrOgTMFFA3MqN
- Dud0e1z8mLqb8GvsVDzaOPejPavmjfM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-274-ooUYzSijOYqKUokMYVXVnA-1; Fri, 13 Jan 2023 03:03:08 -0500
-X-MC-Unique: ooUYzSijOYqKUokMYVXVnA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- fm25-20020a05600c0c1900b003d9702a11e5so10568808wmb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:03:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=11A68i/ujjvlvNOTfu4F5ZXcyPx1UEmLo0fXGnHQZCM=;
- b=7IpheAIW7VA/CGrd4N9xUPIbjgxXpA/WtZussiJLC9EL8f2pzEU5ntHUa6EsRnQB20
- O0BmU7axKBenwY8A51QAI7kNZ9GObuWIVNRfS9017zO1jqJS640bf9aJptB7rjdWRZvZ
- 4i3K6gfmiqF6sMPp94VBAP0dsZzzYndG3s+j1OajEGdXlSZyykQOseQmonxthLqbMsW4
- EhxlVl3Gn4Rtk5tbspgZbW49sEHm6MuiRNJqc40Z/C+m9+Ga5KeuCbJPqnjat7PVHEK0
- zkwulF1lXiM1iPW9JNCm1n4ZGzFQ7Y74HNnS5oOnea9wKT4tRix+D8wikPnjtMEfurLD
- zYKg==
-X-Gm-Message-State: AFqh2koilWx6o3JmJqL+UWgsOoHRKuE6wQxHvCXO3693fHh4Tm6mD6Rt
- fyIg/MNbrMNe1Esbu06KgbBXI1/LaEzsjqjIuYWwaR1X41qxZmovum1gDpHIYh621tzyWm8OC+V
- 6dXHH8G160dzjQxFAkggsLYuUksXG
-X-Received: by 2002:a05:600c:5128:b0:3c6:e62e:2e67 with SMTP id
- o40-20020a05600c512800b003c6e62e2e67mr58697258wms.2.1673596987540; 
- Fri, 13 Jan 2023 00:03:07 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvVwsf1Jjnk65GgTwR1x8Y5bh32fZraLo5RnjXtvxHHUeem4xVwqG2giy3CQPNe9luzSHMqkw==
-X-Received: by 2002:a05:600c:5128:b0:3c6:e62e:2e67 with SMTP id
- o40-20020a05600c512800b003c6e62e2e67mr58697233wms.2.1673596987293; 
- Fri, 13 Jan 2023 00:03:07 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
- ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
- by smtp.gmail.com with ESMTPSA id
- n7-20020a05600c4f8700b003c6bd12ac27sm27381636wmq.37.2023.01.13.00.03.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 00:03:06 -0800 (PST)
-Message-ID: <e54977a6-d767-7ea4-5259-d9735e5a68e9@redhat.com>
-Date: Fri, 13 Jan 2023 09:03:05 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2] drm/i915: Fix CFI violations in gt_sysfs
-To: Nathan Chancellor <nathan@kernel.org>
-References: <20221013205909.1282545-1-nathan@kernel.org>
- <4dcf830e-62a5-837b-7590-ac5395f84c14@redhat.com>
- <Y8Atycuni0bl8std@dev-arch.thelio-3990X>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <Y8Atycuni0bl8std@dev-arch.thelio-3990X>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2053.outbound.protection.outlook.com [40.107.244.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97C3210E9A7;
+ Fri, 13 Jan 2023 08:03:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QD4T134ZnLGFontWp7wbH9+Y1LXnAQ3z3KcnBYaOTKLJcWcIzsSLbPJQ0DYJN1cPhGHY1tfGojySIsG63+Mumhl2uPjnYK96jIMCIaJZkCG65x1d58aubRGsVm/y2OsmTQybLEiAmAdMxVNICPFaqaSVYdVSrcEaEcO75s10pzQKVVhVI+gVCFA8XQ+RgJX/W1g+9mKNgBuTRigo9bczn1sSYHBQYvLJpa0VkaeVF2YNh/hA1VOcrdice8tpvYA83I09dd1NplMALFP9DuLHN64a44N8SRpnLnJsw9BE5odOK7TqEyKI2+PTP5v0VgbCR+tLM8E0CfA42aBeS5AWwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4N2j1ANs4AsLDr+YIClWKK+HhpzNp+gDgYA+SztpbXo=;
+ b=LA1+7T63rsLpOLfy79ol8i0oR/G87qo7mwt62Qj7gYgE70wkc2PD55l1Yi0cmFIp1GtBXCn14aTfTa0RSQlMDx2vQhRDxp/NlL582jUtNVlrMFkt0N8Of90r7V2Xmq7YsTJlD13azbRzLAIjVxUtb0QB4mbfqOjc3AijhZuey9A/tkHZMXlNWkLD2dyczo9VEpVY0ocIECb2yYaLfrfRWvygtZwaFxao5Tau8cMFQ5m2zTlPopsChNPLZcNrWXQ85JwIeAAT+/uhKhlk4C6ph2RA9JlYN2r60Jxki9Uv03P27FgQ4gtSvDkJ37PTwNxI7jlYuUheNThOkOZGBMRqVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4N2j1ANs4AsLDr+YIClWKK+HhpzNp+gDgYA+SztpbXo=;
+ b=ndz4+spPRxJ54WQfxhxueh4CmWl6Lzi9fCnJaiF6ueeGAxix8h/XAlAuG53AGswtZ8rnfbGAZnXZJ3u9wePxXeWGZk0QHK98gQTAh0/z+zXxkvfl9wGAMC1sjZA+UdkYjK1felMP35ddPN2RY+POLGuRT9G+NhhlVnofeml91RU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB2602.namprd12.prod.outlook.com (2603:10b6:5:4a::11) by
+ PH7PR12MB8053.namprd12.prod.outlook.com (2603:10b6:510:279::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.19; Fri, 13 Jan
+ 2023 08:03:44 +0000
+Received: from DM6PR12MB2602.namprd12.prod.outlook.com
+ ([fe80::7418:855f:c703:f78b]) by DM6PR12MB2602.namprd12.prod.outlook.com
+ ([fe80::7418:855f:c703:f78b%4]) with mapi id 15.20.5986.018; Fri, 13 Jan 2023
+ 08:03:44 +0000
+Message-ID: <662d12e7-6031-1f13-8fc2-243f84408d7b@amd.com>
+Date: Fri, 13 Jan 2023 02:03:41 -0600
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH 2/6] drm/amdkfd: Implement DMA buf fd export from KFD
 Content-Language: en-US
+To: Felix Kuehling <Felix.Kuehling@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20230112013157.750568-1-Felix.Kuehling@amd.com>
+ <20230112013157.750568-3-Felix.Kuehling@amd.com>
+From: "Chen, Xiaogang" <xiaogang.chen@amd.com>
+In-Reply-To: <20230112013157.750568-3-Felix.Kuehling@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH0PR08CA0029.namprd08.prod.outlook.com
+ (2603:10b6:610:33::34) To DM6PR12MB2602.namprd12.prod.outlook.com
+ (2603:10b6:5:4a::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB2602:EE_|PH7PR12MB8053:EE_
+X-MS-Office365-Filtering-Correlation-Id: b3622b3e-c27b-4864-0e2a-08daf53cb0e8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LE7peYldhBYQur15NnOg9KvERCq6kP7g04TCyoQuKyCmsHCF0fLf8g1qkq61Wfu6/MHCXq9jpF5XQsccuQAl8wjZQAx83IxHh17j88LyDgfRdydWy38/b2vzhwf6tKdmh39PWzQtYP0dPf+YB9J73zO1duk4Z6SMs6LK4xrKz8Pi1togsrSTAMKypYE5lD4WSXP2OZWqZSEkooCqT4lsbOpPspX4c971sZdGq56WafDRX3j+55fFodCk/epscIWjdXo/Upm05oTM8JWCkwQBykP7je2Y/XKI/jR49BIqmA48eOB+1kyg6TOz/owXpgGohCWDYZvbIclOJmwwhp+UMkoOpSk6tdHLY9HQwd1zbX768VGubB2arQoLaviuGy+fAEGTavpyTsnpK7rCnVWoWOSdYU4d+3SLWXIOHT6SJ5Ogyvh/VQ2PvzHNyKy3bPyADf1cGJE0YqH+PCDBJ48utkl8Ug+7294ew0GsZ/mnMSM1phmGNbGxpjpy1548wtLlrXyKXaIE13KbQEgwPh+5sGqL0EHXE94G34wY8JomoYisTucz4J8NdJ/BfuuBLEcLboqxYx9qY8Z+0zeSl5S8o9HkR2eJ1xDMbUkgdrCgEiwG57AYTqAc6hyEwN1Jw6fkhmNHP+5mHhBSEvBzWAVUlgbn4U5e4pSrnVNKTe8t+IKdynp69Xve8XLD+m7SwgtJub/SaMJM594XFBuKYH8yWq8L2isUas2E93sViGtU/61iA6dfjxq0ZlNO3/EmRc3IE4s8iJkKHQh2QiosDsAiCA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB2602.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(136003)(376002)(396003)(366004)(346002)(451199015)(6512007)(966005)(31686004)(186003)(26005)(478600001)(53546011)(66946007)(66556008)(316002)(2616005)(6666004)(6506007)(8676002)(450100002)(66476007)(4326008)(6486002)(38100700002)(8936002)(5660300002)(41300700001)(86362001)(83380400001)(31696002)(36756003)(2906002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dzhXVVVEOXJkWjkvbDQ2dWZIbElqMStpWmR2UEJpWWxyZ2RyL3FNZVpDZVVW?=
+ =?utf-8?B?S2FwOHJBcW5BUVNCOHQ3cnNWVG5SUDFFQU56YzVKVEg3SDNVMHdRRWZ6V2ZP?=
+ =?utf-8?B?OUpOR252bGdrOExRVXZyWkRIa213MFZXcHFyejJpY29GS1hzWFhwZ1NQNjhi?=
+ =?utf-8?B?aXFteVRLeE8wRXhMcU9rMWxGYXo0c2FvN3NyaGxpRnV5VENTUDhlVEVCZm9R?=
+ =?utf-8?B?ZE1PQ0ZzWS93anJtR015RnJCYUtuUHlmaHRIRmZuM0xkUDFiaFFqNEZoRkln?=
+ =?utf-8?B?RERYTjZmZzJKb01jSVBLNDNYU0k3SXZQTmJrN3hZMWlZNFpqbVVEWm9oRGdm?=
+ =?utf-8?B?SjlkYUd1bE4rWXZBWVp2SFo0clVPRGFqVldXNmZvMENyNEt4Ynd2dG5WZkZP?=
+ =?utf-8?B?RFExL242MHJwTEhHbmZpb2xyR2RweDBFVytNTW9UNi9YRW1UUUtnYVdVc2tF?=
+ =?utf-8?B?K0dEMStrYTJBaGNMS05nL1N4UGpPN3BmTXo4d21UL3hDaUxEVTRraGZOTWwy?=
+ =?utf-8?B?UXRhTTJieWVTZldoV0FHNWxmS2d6b1RNc3gxK3oxRkQxUXhyVlRxZ3VoRlBs?=
+ =?utf-8?B?M1FWU2FBVDB5U3Q5b2pxKy9sNlhwR1ErNHRxeW5Fb20wZ2NGcDRQRmxRRE02?=
+ =?utf-8?B?MmN6cmZaMWw4ODRxU0owM3F5em5RVDd5ZFN0YlRSMVR1WVdlaXk2S0EwT0Y2?=
+ =?utf-8?B?SWFMQnZ5WnBmT0lMZ253OXpKWHpNeEVQOWhWUWNTb2NOTDVyTnlFaWxxcU1w?=
+ =?utf-8?B?SWVWUUJ5bmpJQ253QzEwb1JWOW5NZFBsdFZCLzhucXZ2alhmWjF3NkFMTk5x?=
+ =?utf-8?B?bmdXTGhES1JDTEt6QWhYdkJkT2NodG1BcmlWWVkydVUyWFRlbXpzVDh5YldY?=
+ =?utf-8?B?SUU1YWNHMnE4b2xjM2NnSUdVYUI4MEFTQjRWVEdLTHY0UFZtK3VRUEk0OUVX?=
+ =?utf-8?B?b3dxNW1QeGMrU2pDNFE2OElDSEZyeVAxV05WZVRKeWlLTXNlTXk5eThoTDJJ?=
+ =?utf-8?B?bUhWa1Q3VnIwS1hEajRCSmhFaFpZSWNPbDhoQzJScXcvTk5XZ2ozenAwUFdI?=
+ =?utf-8?B?RE1nbE1vODQyUkRtU1lFenpxYjNLblg3SzlJM3NLY2dOc2dqd1FPZXlUSkRW?=
+ =?utf-8?B?Q0hlaFJrbGFZN2Jwa01ReXI0K0NZYzN0SGlBRnFkalA1YlBlRjZLMGtpV2FT?=
+ =?utf-8?B?MmtLVTlJSmQ1OWRJcGRXQkZZLzRid3RTSVJoc1U5Y2JtTk53eDJ5dEpFb0Ix?=
+ =?utf-8?B?RUZqNE83dVJEZDhaUnBXcHduc1oyKzVCR1l0WExiNjh0dCtSMXAySnc2dEVL?=
+ =?utf-8?B?OXpXUzFlMi9vV0xZbFpQdVd4MFplbjYybW14VHczT1UydmRLVFYxSW9jNjl6?=
+ =?utf-8?B?M1NOZ0JTVW5kaTRrSkZSQ3BhUTRQTFJLQmdaNm9yYWwzNXZNN3dKWml1N2xB?=
+ =?utf-8?B?b3ZXanRXb2FsQldSZ1RQM0NtSHNGOGU1OTZZQ1NPMFhhMnNkbjhMTmtuZDJB?=
+ =?utf-8?B?MFdkdkRyVTFENTEvV2RwSWg2ZmEwMjBVcE9GL2FUVHVkR0ltNEhzT3BlQ1Fk?=
+ =?utf-8?B?TFVHaVJIdllKdTlETDlpOTJleUJibnc1OHVBcVVuSFA4S3FoK1dDT0hmc0FU?=
+ =?utf-8?B?LzllbjMzLzY0czB4SHZmTy9wa1BWRWhYZ2lNckxqZXFuZGE4VytPUElSS2E3?=
+ =?utf-8?B?YlU2VTVJTVQrQzc2VmpmaVI3Wm9uTEZLUG40b0ZZcTR6WWdCM2hYS1IwRU5L?=
+ =?utf-8?B?dVU4bjR5dW8rVU01WmRXSyszNHNEb1o4SjBRYUZYSnY1TUpHMmRiNkVpbGpq?=
+ =?utf-8?B?REpEWWVvSm1HbmJxVFo5S3JYaVdjOXVsdThHaHBjQ1oxQVJiMVlsMGZSZUVV?=
+ =?utf-8?B?d2lHWWkxWVIwM3NhaXc4dlZpRW1HaGtvcTZSMDFlemF1YTJJN21ZZERCbXU0?=
+ =?utf-8?B?R1V0MGlqUXozYjIxSExZTjVQd3h2S1hUdWt2aEM1SkQwRFh3MUpGa3N4aFRG?=
+ =?utf-8?B?NzM3NnpncHY1dm44ei9OZCtWYkQzUVNFMWxoSzFwNTJsY1NOZ1hMakZhQ0dP?=
+ =?utf-8?B?ZVp6QWJUd3pGYXl2V2t0Wmx1RVlyZWtqQ0NZRVAxUno2cWl2VUFPQi9LSHN0?=
+ =?utf-8?Q?U+vo=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3622b3e-c27b-4864-0e2a-08daf53cb0e8
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB2602.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2023 08:03:44.3062 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZTdfLRojFe75pJA3qWHiDk+y/faCkchLrjOqG/9WosuKlzJjb8FHaMqO1xWYRmwM
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8053
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,52 +126,229 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, llvm@lists.linux.dev,
- Kees Cook <keescook@chromium.org>, Andi Shyti <andi.shyti@linux.intel.com>,
- Tom Rix <trix@redhat.com>, intel-gfx@lists.freedesktop.org,
- Nick Desaulniers <ndesaulniers@google.com>, patches@lists.linux.dev,
- Sami Tolvanen <samitolvanen@google.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/01/2023 16:56, Nathan Chancellor wrote:
-> Hi Jocelyn,
-> 
-> On Thu, Jan 12, 2023 at 11:08:17AM +0100, Jocelyn Falempe wrote:
->> This patch does also solve a kernel crash when reading
->> /sys/class/drm/card1/gt/gt0/* on a skylake machine:
->> https://bugzilla.redhat.com/show_bug.cgi?id=2154880
-> 
-> Interesting, I wonder what aspect of this patch fixes this because I am
-> not sure that is an intended consequence of this change but that is
-> still good to hear!
 
-I wasn't able to find the root cause, but basically the kobj pointer 
-given in the sysfs callback, is not the good one on this machine, so it 
-either return garbage or crash.
-By chance I found this patch, tried it, and it solves the issue.
-> 
-> For the record, this is commit a8a4f0467d70 ("drm/i915: Fix CFI
-> violations in gt_sysfs") in mainline.
-> 
->> Do you think it can be backported to stable releases ?
->> Conflicts are trivial on top of v6.0 at least.
-> 
-> I had a report from another user of this crash affecting them with kCFI
-> so it is on my TODO to backport it to 6.1 (6.0 just went EOL) but I am
-> currently out of the office until next Wednesday so I won't be able to
-> get to it until then (as I would like to test the backport on affected
-> hardware). If someone wants to beat me to it, I won't complain ;)
+Reviewed-by: Xiaogang Chen <Xiaoganng.Chen@amd.com>
 
-Thanks for taking care of it, I will wait next week then.
+Regards
 
-> 
-> Cheers,
-> Nathan
-> 
+Xiaogang
 
--- 
-
-Jocelyn
-
+On 1/11/2023 7:31 PM, Felix Kuehling wrote:
+> Exports a DMA buf fd of a given KFD buffer handle. This is intended for
+> being able to import KFD BOs into GEM contexts to leverage the
+> amdgpu_bo_va API for more flexible virtual address mappings. It will
+> also be used for the new upstreamable RDMA solution coming to UCX and
+> RCCL.
+>
+> The corresponding user mode change (Thunk API and kfdtest) is here:
+> https://github.com/fxkamd/ROCT-Thunk-Interface/commits/fxkamd/dmabuf
+>
+> Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |  2 +
+>   .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 45 +++++++++++----
+>   drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      | 55 +++++++++++++++++++
+>   include/uapi/linux/kfd_ioctl.h                | 14 ++++-
+>   4 files changed, 104 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+> index 333780491867..01ba3589b60a 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+> @@ -308,6 +308,8 @@ int amdgpu_amdkfd_gpuvm_import_dmabuf(struct amdgpu_device *adev,
+>   				      uint64_t va, void *drm_priv,
+>   				      struct kgd_mem **mem, uint64_t *size,
+>   				      uint64_t *mmap_offset);
+> +int amdgpu_amdkfd_gpuvm_export_dmabuf(struct kgd_mem *mem,
+> +				      struct dma_buf **dmabuf);
+>   int amdgpu_amdkfd_get_tile_config(struct amdgpu_device *adev,
+>   				struct tile_config *config);
+>   void amdgpu_amdkfd_ras_poison_consumption_handler(struct amdgpu_device *adev,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> index e13c3493b786..5645103beed0 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> @@ -710,6 +710,21 @@ kfd_mem_dmaunmap_attachment(struct kgd_mem *mem,
+>   	}
+>   }
+>   
+> +static int kfd_mem_export_dmabuf(struct kgd_mem *mem)
+> +{
+> +	if (!mem->dmabuf) {
+> +		struct dma_buf *ret = amdgpu_gem_prime_export(
+> +			&mem->bo->tbo.base,
+> +			mem->alloc_flags & KFD_IOC_ALLOC_MEM_FLAGS_WRITABLE ?
+> +				DRM_RDWR : 0);
+> +		if (IS_ERR(ret))
+> +			return PTR_ERR(ret);
+> +		mem->dmabuf = ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>   static int
+>   kfd_mem_attach_dmabuf(struct amdgpu_device *adev, struct kgd_mem *mem,
+>   		      struct amdgpu_bo **bo)
+> @@ -717,16 +732,9 @@ kfd_mem_attach_dmabuf(struct amdgpu_device *adev, struct kgd_mem *mem,
+>   	struct drm_gem_object *gobj;
+>   	int ret;
+>   
+> -	if (!mem->dmabuf) {
+> -		mem->dmabuf = amdgpu_gem_prime_export(&mem->bo->tbo.base,
+> -			mem->alloc_flags & KFD_IOC_ALLOC_MEM_FLAGS_WRITABLE ?
+> -				DRM_RDWR : 0);
+> -		if (IS_ERR(mem->dmabuf)) {
+> -			ret = PTR_ERR(mem->dmabuf);
+> -			mem->dmabuf = NULL;
+> -			return ret;
+> -		}
+> -	}
+> +	ret = kfd_mem_export_dmabuf(mem);
+> +	if (ret)
+> +		return ret;
+>   
+>   	gobj = amdgpu_gem_prime_import(adev_to_drm(adev), mem->dmabuf);
+>   	if (IS_ERR(gobj))
+> @@ -2267,6 +2275,23 @@ int amdgpu_amdkfd_gpuvm_import_dmabuf(struct amdgpu_device *adev,
+>   	return ret;
+>   }
+>   
+> +int amdgpu_amdkfd_gpuvm_export_dmabuf(struct kgd_mem *mem,
+> +				      struct dma_buf **dma_buf)
+> +{
+> +	int ret;
+> +
+> +	mutex_lock(&mem->lock);
+> +	ret = kfd_mem_export_dmabuf(mem);
+> +	if (ret)
+> +		goto out;
+> +
+> +	get_dma_buf(mem->dmabuf);
+> +	*dma_buf = mem->dmabuf;
+> +out:
+> +	mutex_unlock(&mem->lock);
+> +	return ret;
+> +}
+> +
+>   /* Evict a userptr BO by stopping the queues if necessary
+>    *
+>    * Runs in MMU notifier, may be in RECLAIM_FS context. This means it
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> index f79b8e964140..bcf2263927d6 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> @@ -1572,6 +1572,58 @@ static int kfd_ioctl_import_dmabuf(struct file *filep,
+>   	return r;
+>   }
+>   
+> +static int kfd_ioctl_export_dmabuf(struct file *filep,
+> +				   struct kfd_process *p, void *data)
+> +{
+> +	struct kfd_ioctl_export_dmabuf_args *args = data;
+> +	struct kfd_process_device *pdd;
+> +	struct dma_buf *dmabuf;
+> +	struct kfd_dev *dev;
+> +	void *mem;
+> +	int ret = 0;
+> +
+> +	dev = kfd_device_by_id(GET_GPU_ID(args->handle));
+> +	if (!dev)
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&p->mutex);
+> +
+> +	pdd = kfd_get_process_device_data(dev, p);
+> +	if (!pdd) {
+> +		ret = -EINVAL;
+> +		goto err_unlock;
+> +	}
+> +
+> +	mem = kfd_process_device_translate_handle(pdd,
+> +						GET_IDR_HANDLE(args->handle));
+> +	if (!mem) {
+> +		ret = -EINVAL;
+> +		goto err_unlock;
+> +	}
+> +
+> +	ret = amdgpu_amdkfd_gpuvm_export_dmabuf(mem, &dmabuf);
+> +	mutex_unlock(&p->mutex);
+> +	if (ret)
+> +		goto err_out;
+> +
+> +	ret = dma_buf_fd(dmabuf, args->flags);
+> +	if (ret < 0) {
+> +		dma_buf_put(dmabuf);
+> +		goto err_out;
+> +	}
+> +	/* dma_buf_fd assigns the reference count to the fd, no need to
+> +	 * put the reference here.
+> +	 */
+> +	args->dmabuf_fd = ret;
+> +
+> +	return 0;
+> +
+> +err_unlock:
+> +	mutex_unlock(&p->mutex);
+> +err_out:
+> +	return ret;
+> +}
+> +
+>   /* Handle requests for watching SMI events */
+>   static int kfd_ioctl_smi_events(struct file *filep,
+>   				struct kfd_process *p, void *data)
+> @@ -2754,6 +2806,9 @@ static const struct amdkfd_ioctl_desc amdkfd_ioctls[] = {
+>   
+>   	AMDKFD_IOCTL_DEF(AMDKFD_IOC_AVAILABLE_MEMORY,
+>   			kfd_ioctl_get_available_memory, 0),
+> +
+> +	AMDKFD_IOCTL_DEF(AMDKFD_IOC_EXPORT_DMABUF,
+> +				kfd_ioctl_export_dmabuf, 0),
+>   };
+>   
+>   #define AMDKFD_CORE_IOCTL_COUNT	ARRAY_SIZE(amdkfd_ioctls)
+> diff --git a/include/uapi/linux/kfd_ioctl.h b/include/uapi/linux/kfd_ioctl.h
+> index 42b60198b6c5..2da5c3ad71bd 100644
+> --- a/include/uapi/linux/kfd_ioctl.h
+> +++ b/include/uapi/linux/kfd_ioctl.h
+> @@ -37,9 +37,10 @@
+>    * - 1.9 - Add available memory ioctl
+>    * - 1.10 - Add SMI profiler event log
+>    * - 1.11 - Add unified memory for ctx save/restore area
+> + * - 1.12 - Add DMA buf export ioctl
+>    */
+>   #define KFD_IOCTL_MAJOR_VERSION 1
+> -#define KFD_IOCTL_MINOR_VERSION 11
+> +#define KFD_IOCTL_MINOR_VERSION 12
+>   
+>   struct kfd_ioctl_get_version_args {
+>   	__u32 major_version;	/* from KFD */
+> @@ -463,6 +464,12 @@ struct kfd_ioctl_import_dmabuf_args {
+>   	__u32 dmabuf_fd;	/* to KFD */
+>   };
+>   
+> +struct kfd_ioctl_export_dmabuf_args {
+> +	__u64 handle;		/* to KFD */
+> +	__u32 flags;		/* to KFD */
+> +	__u32 dmabuf_fd;	/* from KFD */
+> +};
+> +
+>   /*
+>    * KFD SMI(System Management Interface) events
+>    */
+> @@ -877,7 +884,10 @@ struct kfd_ioctl_set_xnack_mode_args {
+>   #define AMDKFD_IOC_AVAILABLE_MEMORY		\
+>   		AMDKFD_IOWR(0x23, struct kfd_ioctl_get_available_memory_args)
+>   
+> +#define AMDKFD_IOC_EXPORT_DMABUF		\
+> +		AMDKFD_IOWR(0x24, struct kfd_ioctl_export_dmabuf_args)
+> +
+>   #define AMDKFD_COMMAND_START		0x01
+> -#define AMDKFD_COMMAND_END		0x24
+> +#define AMDKFD_COMMAND_END		0x25
+>   
+>   #endif
