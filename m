@@ -2,53 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49182669800
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 14:06:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 159B4669849
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 14:19:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7A4610E23D;
-	Fri, 13 Jan 2023 13:06:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B7AB10E1EE;
+	Fri, 13 Jan 2023 13:19:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 996BC10E1EE;
- Fri, 13 Jan 2023 13:06:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673615200; x=1705151200;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=LhbeKovqZSB+MvKETHc05L5lrhNB1IekiqbZZa6UlNY=;
- b=bN4jSjcAOx56AX1XX2BQvU2szARFC7+R1MeBJotulrTSuMKyikJO1R91
- Bf9qCQ0yQfZ94ML2Wn8jiHZVRCbHyBQ0y7bYrgWBfWAeK4zS8k1fMlaZQ
- SOKfm9EANi9ZrLRfnLQsqK3uFakuccIPl8jgnPoKojSjF4zJC3TliNYlL
- XHtHhzJrL9kCjZ3xmXaodSBVfZ/b+afXRmJ6CEDdWs2ns9bPMkTuH7VXh
- C9he0SfJNcq1WupDDq5w8eK7nbMZgqahTbQghhWwzVSswUAyG0SYY5oRs
- UDWQI+rJVbwdz3IyI36Q5MSMnndSwk/Q6/aYl0HyaKd4m/TIvMRTns195 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="303684266"
-X-IronPort-AV: E=Sophos;i="5.97,214,1669104000"; d="scan'208";a="303684266"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2023 05:06:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="660211887"
-X-IronPort-AV: E=Sophos;i="5.97,214,1669104000"; d="scan'208";a="660211887"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
- by fmsmga007.fm.intel.com with SMTP; 13 Jan 2023 05:06:34 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 13 Jan 2023 15:06:34 +0200
-Date: Fri, 13 Jan 2023 15:06:34 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH v2 1/3] drm/framebuffer: Check for valid formats
-Message-ID: <Y8FXWvEhO7GCRKVJ@intel.com>
-References: <20230113112743.188486-1-mcanal@igalia.com>
- <20230113112743.188486-2-mcanal@igalia.com>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C63D10E197;
+ Fri, 13 Jan 2023 13:19:10 +0000 (UTC)
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1pGJxb-0005Fy-Kp; Fri, 13 Jan 2023 14:19:07 +0100
+Message-ID: <481f19ba-da7e-6900-0bb2-64ba92d59ce6@leemhuis.info>
+Date: Fri, 13 Jan 2023 14:19:06 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230113112743.188486-2-mcanal@igalia.com>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [REGRESSION] GM20B probe fails after commit 2541626cfb79
+Content-Language: en-US, de-DE
+From: "Linux kernel regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+To: bskeggs@redhat.com, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>
+References: <20221228144914.z7t7a4fdwvbblnak@wslaptop>
+ <c32ea02c-d706-ea2f-aa13-660b8db958ef@leemhuis.info>
+In-Reply-To: <c32ea02c-d706-ea2f-aa13-660b8db958ef@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1673615950;
+ 3633a95f; 
+X-HE-SMSGID: 1pGJxb-0005Fy-Kp
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,80 +48,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Melissa Wen <mwen@igalia.com>,
- VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
- amd-gfx@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: regressions@lists.linux.dev, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
+ airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 13, 2023 at 08:27:42AM -0300, Maíra Canal wrote:
-> Currently, framebuffer_check() doesn't check if the pixel format is
-> supported, which can lead to the acceptance of invalid pixel formats
-> e.g. the acceptance of invalid modifiers. Therefore, add a check for
-> valid formats on framebuffer_check(), so that the ADDFB2 IOCTL rejects
-> calls with invalid formats.
-> 
-> Moreover, note that this check is only valid for atomic drivers,
-> because, for non-atomic drivers, checking drm_any_plane_has_format() is
-> not possible since the format list for the primary plane is fake, and
-> we'd therefore reject valid formats.
-> 
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
-> ---
->  Documentation/gpu/todo.rst        | 9 ++++-----
->  drivers/gpu/drm/drm_framebuffer.c | 8 ++++++++
->  2 files changed, 12 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 1f8a5ebe188e..3a79c26c5cc7 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -276,11 +276,10 @@ Various hold-ups:
->  - Need to switch to drm_fbdev_generic_setup(), otherwise a lot of the custom fb
->    setup code can't be deleted.
->  
-> -- Many drivers wrap drm_gem_fb_create() only to check for valid formats. For
-> -  atomic drivers we could check for valid formats by calling
-> -  drm_plane_check_pixel_format() against all planes, and pass if any plane
-> -  supports the format. For non-atomic that's not possible since like the format
-> -  list for the primary plane is fake and we'd therefor reject valid formats.
-> +- Need to switch to drm_gem_fb_create(), as now framebuffer_check() checks for
-> +  valid formats for atomic drivers.
-> +
-> +- Add an addfb format validation for non-atomic drivers.
->  
->  - Many drivers subclass drm_framebuffer, we'd need a embedding compatible
->    version of the varios drm_gem_fb_create functions. Maybe called
-> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-> index aff3746dedfb..605642bf3650 100644
-> --- a/drivers/gpu/drm/drm_framebuffer.c
-> +++ b/drivers/gpu/drm/drm_framebuffer.c
-> @@ -280,6 +280,14 @@ static int framebuffer_check(struct drm_device *dev,
->  		}
->  	}
->  
-> +	/* Verify that the modifier is supported. */
-> +	if (drm_drv_uses_atomic_modeset(dev) &&
-> +	    !drm_any_plane_has_format(dev, r->pixel_format, r->modifier[0])) {
-> +		drm_dbg_kms(dev, "Unsupported pixel format %p4cc / modifier 0x%llx\n",
-> +			    &r->pixel_format, r->modifier[0]);
-> +		return -EINVAL;
-> +	}
+[CCing Daniel]
 
-Like I said this is still wrong for the !modifiers case.
+On 05.01.23 13:28, Thorsten Leemhuis wrote:
+> [adding Karol and Lyude to the list of recipients]
+> 
+> On 28.12.22 15:49, Diogo Ivo wrote:
+>> Hello,
+>>
+>> Commit 2541626cfb79 breaks GM20B probe with
+>> the following kernel log:
+> Just wondering: is anyone looking on this? The report was posted more
+> than a week ago and didn't even get a single reply yet afaics. This of
+> course can happen at this time of the year, but I nevertheless thought a
+> quick status inquiry might be a good idea at this point.
 
-> +
->  	return 0;
->  }
->  
-> -- 
-> 2.39.0
+Hmmm, the report is now more that two weeks old and didn't get a single
+reply. My prodding about a week ago also didn't help. Then I guess I
+have to bring this to Linus attention, unless something happens in the
+next 2 days.
 
--- 
-Ville Syrjälä
-Intel
+Diogo, for that it would be really helpful to known: is the issue still
+happening with latest mainline? Is it possible to revert 2541626cfb79
+easily? And if so: do things work afterwards again?
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
+
+#regzbot poke
+
+>> [    2.153892] ------------[ cut here ]------------
+>> [    2.153897] WARNING: CPU: 1 PID: 36 at drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgf100.c:273 gf100_vmm_valid+0x2c4/0x390
+>> [    2.153916] Modules linked in:
+>> [    2.153922] CPU: 1 PID: 36 Comm: kworker/u8:1 Not tainted 6.1.0+ #1
+>> [    2.153929] Hardware name: Google Pixel C (DT)
+>> [    2.153933] Workqueue: events_unbound deferred_probe_work_func
+>> [    2.153943] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+>> [    2.153950] pc : gf100_vmm_valid+0x2c4/0x390
+>> [    2.153959] lr : gf100_vmm_valid+0xb4/0x390
+>> [    2.153966] sp : ffffffc009e134b0
+>> [    2.153969] x29: ffffffc009e134b0 x28: 0000000000000000 x27: ffffffc008fd44c8
+>> [    2.153979] x26: 00000000ffffffea x25: ffffffc0087b98d0 x24: ffffff8080f89038
+>> [    2.153987] x23: ffffff8081fadc08 x22: 0000000000000000 x21: 0000000000000000
+>> [    2.153995] x20: ffffff8080f8a000 x19: ffffffc009e13678 x18: 0000000000000000
+>> [    2.154003] x17: f37a8b93418958e6 x16: ffffffc009f0d000 x15: 0000000000000000
+>> [    2.154011] x14: 0000000000000002 x13: 000000000003a020 x12: ffffffc008000000
+>> [    2.154019] x11: 0000000102913000 x10: 0000000000000000 x9 : 0000000000000000
+>> [    2.154026] x8 : ffffffc009e136d8 x7 : ffffffc008fd44c8 x6 : ffffff80803d0f00
+>> [    2.154034] x5 : 0000000000000000 x4 : ffffff8080f88c00 x3 : 0000000000000010
+>> [    2.154041] x2 : 000000000000000c x1 : 00000000ffffffea x0 : 00000000ffffffea
+>> [    2.154050] Call trace:
+>> [    2.154053]  gf100_vmm_valid+0x2c4/0x390
+>> [    2.154061]  nvkm_vmm_map_valid+0xd4/0x204
+>> [    2.154069]  nvkm_vmm_map_locked+0xa4/0x344
+>> [    2.154076]  nvkm_vmm_map+0x50/0x84
+>> [    2.154083]  nvkm_firmware_mem_map+0x84/0xc4
+>> [    2.154094]  nvkm_falcon_fw_oneinit+0xc8/0x320
+>> [    2.154101]  nvkm_acr_oneinit+0x428/0x5b0
+>> [    2.154109]  nvkm_subdev_oneinit_+0x50/0x104
+>> [    2.154114]  nvkm_subdev_init_+0x3c/0x12c
+>> [    2.154119]  nvkm_subdev_init+0x60/0xa0
+>> [    2.154125]  nvkm_device_init+0x14c/0x2a0
+>> [    2.154133]  nvkm_udevice_init+0x60/0x9c
+>> [    2.154140]  nvkm_object_init+0x48/0x1b0
+>> [    2.154144]  nvkm_ioctl_new+0x168/0x254
+>> [    2.154149]  nvkm_ioctl+0xd0/0x220
+>> [    2.154153]  nvkm_client_ioctl+0x10/0x1c
+>> [    2.154162]  nvif_object_ctor+0xf4/0x22c
+>> [    2.154168]  nvif_device_ctor+0x28/0x70
+>> [    2.154174]  nouveau_cli_init+0x150/0x590
+>> [    2.154180]  nouveau_drm_device_init+0x60/0x2a0
+>> [    2.154187]  nouveau_platform_device_create+0x90/0xd0
+>> [    2.154193]  nouveau_platform_probe+0x3c/0x9c
+>> [    2.154200]  platform_probe+0x68/0xc0
+>> [    2.154207]  really_probe+0xbc/0x2dc
+>> [    2.154211]  __driver_probe_device+0x78/0xe0
+>> [    2.154216]  driver_probe_device+0xd8/0x160
+>> [    2.154221]  __device_attach_driver+0xb8/0x134
+>> [    2.154226]  bus_for_each_drv+0x78/0xd0
+>> [    2.154230]  __device_attach+0x9c/0x1a0
+>> [    2.154234]  device_initial_probe+0x14/0x20
+>> [    2.154239]  bus_probe_device+0x98/0xa0
+>> [    2.154243]  deferred_probe_work_func+0x88/0xc0
+>> [    2.154247]  process_one_work+0x204/0x40c
+>> [    2.154256]  worker_thread+0x230/0x450
+>> [    2.154261]  kthread+0xc8/0xcc
+>> [    2.154266]  ret_from_fork+0x10/0x20
+>> [    2.154273] ---[ end trace 0000000000000000 ]---
+>> [    2.154278] nouveau 57000000.gpu: pmu: map -22
+>> [    2.154285] nouveau 57000000.gpu: acr: one-time init failed, -22
+>> [    2.154559] nouveau 57000000.gpu: init failed with -22
+>> [    2.154564] nouveau: DRM-master:00000000:00000080: init failed with -22
+>> [    2.154574] nouveau 57000000.gpu: DRM-master: Device allocation failed: -22
+>> [    2.162905] nouveau: probe of 57000000.gpu failed with error -22
+>>
+>> #regzbot introduced: 2541626cfb79
+>>
+>> Thanks,
+>>
+>> Diogo Ivo
+>>
+>>
+> 
+> #regzbot poke
