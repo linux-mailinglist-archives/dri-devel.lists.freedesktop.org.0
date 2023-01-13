@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDA8C6695CF
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 12:41:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 682A16695DA
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 12:49:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 115D310E9F3;
-	Fri, 13 Jan 2023 11:41:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DFEC10E9F0;
+	Fri, 13 Jan 2023 11:49:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3113310E9F3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 11:41:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673610099;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=isVOZ9GRr18rPWGPzYgy4dJ/cFyoVZ1pgMHiAqQq1BA=;
- b=Cg26p/Es3OMrOVUD7Z1NGNynFzFkhYHu5pHw7NyKF51ypK2cftilLfJBlNwg/6g4u3YMYX
- QrmbSpio/vt1BNloQFydVTdt56YcKhx13NqOaOUcWGt67fcrhn7fadgSpBS87q3dXb3SWh
- /FohTrE4nwILfxtIwzPpIJaOPXGoNec=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-561-4ftcf2kwPuepngchr3KO3A-1; Fri, 13 Jan 2023 06:41:36 -0500
-X-MC-Unique: 4ftcf2kwPuepngchr3KO3A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A1C933813F34;
- Fri, 13 Jan 2023 11:41:35 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.194.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C09544078904;
- Fri, 13 Jan 2023 11:41:34 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: "Rafael J . Wysocki" <rafael@kernel.org>
-Subject: [PATCH] ACPI: video: Add backlight=native DMI quirk for Acer Aspire
- 4810T
-Date: Fri, 13 Jan 2023 12:41:26 +0100
-Message-Id: <20230113114126.172078-1-hdegoede@redhat.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3695B10E9F0;
+ Fri, 13 Jan 2023 11:49:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673610560; x=1705146560;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=iJ3BteWUUY/wPfUSG0fIzGSR5XJxDaCLpZqayQBBMIE=;
+ b=a9El6NQ0aMj7vg9otg/SP762Y6zL3GBEXuKwNglT7Ev+c94YWaC6HwfL
+ WG2OxNCf0LCfOLdG8JpoGc8mpNxtLllaF/FfVBkt3JlWV2ZHflq5holfK
+ RqKo4ejO7+MEeixzQnJn9oU5+aKCvBFULE+TX84Eu+yxILiI5iGTEbVZ0
+ GDcpSMH830LelFjdqNnlKCJWoHs3klzUa8n6C9zC3lVaq60I+O7kxEse+
+ 6FJCpSCokeTpljtKm3mz1mM9TgBIKIaJOqPM8D+3s7tMvO7zNbdZX2rjA
+ tzYQFF3fQKJYSptR2EO096PpB5JrRJkF+0h6oB44SoLUvXtpp3OiJMDJv w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="326031852"
+X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="326031852"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2023 03:49:19 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="726675325"
+X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="726675325"
+Received: from nirmoyda-desk.igk.intel.com ([10.102.42.231])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2023 03:49:17 -0800
+From: Nirmoy Das <nirmoy.das@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915/selftests: Unwind hugepages to drop wakeref on error
+Date: Fri, 13 Jan 2023 12:49:03 +0100
+Message-Id: <20230113114903.7824-1-nirmoy.das@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
+Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
+ 85579 Neubiberg, Germany,
+ Commercial Register: Amtsgericht Muenchen HRB 186928 
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,42 +57,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, linux-acpi@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Len Brown <lenb@kernel.org>
+Cc: Nirmoy Das <nirmoy.das@intel.com>, chris.p.wilson@linux.intel.com,
+ matthew.auld@intel.com, dri-devel@lists.freedesktop.org,
+ andi.shyti@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Acer Aspire 4810T predates Windows 8, so it defaults to using
-acpi_video# for backlight control, but this is non functional on
-this model.
+From: Chris Wilson <chris.p.wilson@linux.intel.com>
 
-Add a DMI quirk to use the native backlight interface which does
-work properly.
+Make sure that upon error after we have acquired the wakeref we do
+release it again.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Chris Wilson <chris.p.wilson@linux.intel.com>
+Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
 ---
- drivers/acpi/video_detect.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/gpu/drm/i915/gem/selftests/huge_pages.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
-index d4edd64dcc2f..fb526ba8825b 100644
---- a/drivers/acpi/video_detect.c
-+++ b/drivers/acpi/video_detect.c
-@@ -515,6 +515,14 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
- 		DMI_MATCH(DMI_PRODUCT_NAME, "Precision 7510"),
- 		},
- 	},
-+	{
-+	 .callback = video_detect_force_native,
-+	 /* Acer Aspire 4810T */
-+	 .matches = {
-+		DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
-+		DMI_MATCH(DMI_PRODUCT_NAME, "Aspire 4810T"),
-+		},
-+	},
- 	{
- 	 .callback = video_detect_force_native,
- 	 /* Acer Aspire 5738z */
+diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+index c281b0ec9e05..295d6f2cc4ff 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
++++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+@@ -1855,7 +1855,7 @@ static int igt_shrink_thp(void *arg)
+ 			I915_SHRINK_ACTIVE);
+ 	i915_vma_unpin(vma);
+ 	if (err)
+-		goto out_put;
++		goto out_wf;
+ 
+ 	/*
+ 	 * Now that the pages are *unpinned* shrinking should invoke
+@@ -1871,7 +1871,7 @@ static int igt_shrink_thp(void *arg)
+ 		pr_err("unexpected pages mismatch, should_swap=%s\n",
+ 		       str_yes_no(should_swap));
+ 		err = -EINVAL;
+-		goto out_put;
++		goto out_wf;
+ 	}
+ 
+ 	if (should_swap == (obj->mm.page_sizes.sg || obj->mm.page_sizes.phys)) {
+@@ -1883,7 +1883,7 @@ static int igt_shrink_thp(void *arg)
+ 
+ 	err = i915_vma_pin(vma, 0, 0, flags);
+ 	if (err)
+-		goto out_put;
++		goto out_wf;
+ 
+ 	while (n--) {
+ 		err = cpu_check(obj, n, 0xdeadbeaf);
 -- 
 2.39.0
 
