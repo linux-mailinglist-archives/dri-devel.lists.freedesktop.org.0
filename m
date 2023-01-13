@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322E166A4F5
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 22:15:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A45566A4F8
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 22:16:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EA0C10EAFB;
-	Fri, 13 Jan 2023 21:15:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BC0610EAFE;
+	Fri, 13 Jan 2023 21:16:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2819B10EAFB
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 21:15:04 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id 203so23871672yby.10
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 13:15:04 -0800 (PST)
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BEA810EAFA
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 21:16:42 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-4c15c4fc8ccso302495967b3.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 13:16:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=rE5GJmOWoLrmmtmr1ZiRc6lZFA32Ba8YbTIiq8KjYCU=;
- b=FbJNsENvCy8Q3dEkgzHZ2B+QydIyecG+w7hnVY1jI+O3K866Fs/TyVz+PSQeAFHS8P
- qkGTGdkeB/ttCAtTOlOTsmclCJMp4Rj5N2kLAQW9a5eE0aG3on81N1iy2XrjxwaBQA38
- PsqorpTvfS/snpkyxDBAVfZwrWqok7wrqwMOsfLLyOP1Er6LO8x82me0cvB4FdZFozmf
- CWunX4JJAYyF81qLTuy8WfqLZzX6tjjtXu+uA+3gxW7UQw68D5Z0e1rXn0FIj4y63QWl
- WLKPP/YuHMKq0CLBnR7N4a2eKQ6oKU4YOXLYR6kI8xNw+rTExeBtmFS3NObr2bYOvM6u
- oynQ==
+ bh=tKjknO1S6jYWVxSGQFzTMNbopxapdQjsltHlJg7v1PU=;
+ b=hkYPK9+j3r7+rTaq/4IW6XpKf+QsIeI+mRd9qZNFHqLCTqZ2NcwQfyzLwNanKbGsS5
+ QyX3keDoEselbsPPQTsHPJdw8L3CFbhcGpVIPuOkiE/vv8Ypgwtk2wC08pdGBbWNSKTg
+ 7vYl0dZ6gWYasTQOLHf8RlcfD1ySCO/V1sOpTArGzgE9F0qB+RqaeCyv5FYkawKs3sjb
+ lwhUmWfGcOCdAemX0+e5FjkAorRuQzR1k1f3F68uwcniz+sYhvLwcUDb+QcjCMWeWM+n
+ QUmWdx8Sbx7sAUk/T9Qs5yYqlwd5sHt6pA+8jQbSJfgUcboJMiims2YAhUScRlFve7gS
+ Ka/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=rE5GJmOWoLrmmtmr1ZiRc6lZFA32Ba8YbTIiq8KjYCU=;
- b=IsQEYmdIMDFPncEX1UDzneHPc4ew59l/0lDe6jhiF9jVlaXiBJn4dlhHcpfc6NTPor
- V4V1+V2VCwh2UDHp20ad9+RL7TMxSv03q01fOvZtWKhLE85dtKhBmnu3rpgX8HJHr4Ps
- 85R/LH9tZC1fzme7wXYXNJTcsZdo9QuoYnXr6sQAjpQsusfPS+q6COLOk+kosE2CvK8q
- mjFaI5KLg93LPl2f8nitfn0CL2th++kwmKwog46Ba4BPDhlJ1UUFyBHYVmZLM2q5En0d
- kwBUXiF34ZS9lk3HgPAEqh/pNKlgI7lc3YbSWu7TnicX7sadRG/t4KjcqOwKAm6NuJYl
- Xkxw==
-X-Gm-Message-State: AFqh2kp83N0K/CMo5TafOMxF6dk2RXHZncieScXb/LrigBlYToXAGasI
- 0nPOoqIcSXWxsVigGT8YzW0PbC4ZCMimPD0lQDtFvw==
-X-Google-Smtp-Source: AMrXdXufM+a0cNtAKwMruSwOhgbSmi5XuyfWOrdPyVuvRaWuv8J3cB39OBZ954HOwr1pSUGSX4+KqoQrdXapS/PccDg=
-X-Received: by 2002:a25:606:0:b0:709:9335:236e with SMTP id
- 6-20020a250606000000b007099335236emr7297951ybg.288.1673644503066; Fri, 13 Jan
- 2023 13:15:03 -0800 (PST)
+ bh=tKjknO1S6jYWVxSGQFzTMNbopxapdQjsltHlJg7v1PU=;
+ b=PNXzu4qC2g/Vut50SgHC+4fQ1CLYCygba2GUjj8vHwcF/dSxdRBBusgiqIuip5D+yH
+ xZxd7LhqYTpxU1SqjDHxxzCtPnRdtsciHGdtmiE0qds76dM7atY5QpwDn8anlqHmCnOo
+ TyLcUDUeWwX2p01C1xXYHWebGT59orY2BK7iIpOciPSvAn3rxQG3h8ZQi9lziHMg00qI
+ uOFFVyI758Ph8htouBoTl+rJBqOM6dPHBp6PHA9Y4LBLPaAq/pEp+1AW8jXcsY8LQDc7
+ lqq1Z7b/ZGTkhfybTxChXTedMVNH32AtDOH4WwjM51ceBrBVlcvpwPjc4H35tAHYYBRM
+ m9Eg==
+X-Gm-Message-State: AFqh2kpu11QA8J8otJyLifPfOVveta4LD1UgYshwQ8f++DGA+7co1noi
+ WgQMbyBkRBlyf+Y88pz/1ZOKH2ND08Bk5IeP6EadGQ==
+X-Google-Smtp-Source: AMrXdXvsHEnIy6VGFnj70dZWryEQgbOdRjanNoPmgQkBINp89rrbnDHuGYzo6EqaHzcoIKAU676ZVQ9agsfIJ1YQD3s=
+X-Received: by 2002:a81:f10e:0:b0:4c0:ab4f:6e2c with SMTP id
+ h14-20020a81f10e000000b004c0ab4f6e2cmr4190616ywm.485.1673644601362; Fri, 13
+ Jan 2023 13:16:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20230113063351.24131-1-dmitry.baryshkov@linaro.org>
- <20230113210807.GA2901424-robh@kernel.org>
-In-Reply-To: <20230113210807.GA2901424-robh@kernel.org>
+References: <20221208000850.312548-1-dmitry.baryshkov@linaro.org>
+ <20221208000850.312548-3-dmitry.baryshkov@linaro.org>
+ <eae9b5ee-3bf3-8fd4-6d8f-6ac265859ec6@quicinc.com>
+In-Reply-To: <eae9b5ee-3bf3-8fd4-6d8f-6ac265859ec6@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 13 Jan 2023 23:14:52 +0200
-Message-ID: <CAA8EJppi2254wTxMhC=M=Cfo3eA+K0aVqDVzbFAbYHCTnFF85w@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: display/msm/dsi-phy: drop unused allOf
- clauses
-To: Rob Herring <robh@kernel.org>
+Date: Fri, 13 Jan 2023 23:16:30 +0200
+Message-ID: <CAA8EJpopVvFfvrb0rPNhodichLSKsRWo=TOmfXLH38u32hYPoA@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/4] drm/msm/mdss: correct the ubwc version for sm6115
+ platform
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,54 +68,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Andy Gross <agross@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 13 Jan 2023 at 23:08, Rob Herring <robh@kernel.org> wrote:
+On Fri, 13 Jan 2023 at 21:47, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> On 12/7/2022 4:08 PM, Dmitry Baryshkov wrote:
+> > According to the vendor DT, sm6115 has UBWC 1.0, not 2.0.
+> >
 >
-> On Fri, Jan 13, 2023 at 08:33:51AM +0200, Dmitry Baryshkov wrote:
+> Can you please point me to which file you are referring to?
+>
+> The internal docs I have are still showing 2.0.
+
+If I understood correctly sm6115 = bengal, thus:
+
+https://android.googlesource.com/kernel/msm-extra/devicetree/+/refs/heads/android-msm-bramble-4.19-android11-qpr1/qcom/bengal-sde.dtsi#103
+
+>
 > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > > ---
-> >  .../devicetree/bindings/display/msm/dsi-phy-10nm.yaml          | 3 +--
-> >  .../devicetree/bindings/display/msm/dsi-phy-14nm.yaml          | 3 +--
-> >  .../devicetree/bindings/display/msm/dsi-phy-20nm.yaml          | 3 +--
-> >  .../devicetree/bindings/display/msm/dsi-phy-28nm.yaml          | 3 +--
-> >  Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml | 3 +--
-> >  5 files changed, 5 insertions(+), 10 deletions(-)
+> >   drivers/gpu/drm/msm/msm_mdss.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
 > >
-> > diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-> > index 3ec466c3ab38..71702151bafa 100644
-> > --- a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-> > +++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-> > @@ -9,8 +9,7 @@ title: Qualcomm Display DSI 10nm PHY
-> >  maintainers:
-> >    - Krishna Manikandan <quic_mkrishn@quicinc.com>
+> > diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+> > index 2219c1bd59a9..4401f945b966 100644
+> > --- a/drivers/gpu/drm/msm/msm_mdss.c
+> > +++ b/drivers/gpu/drm/msm/msm_mdss.c
+> > @@ -532,7 +532,7 @@ static const struct msm_mdss_data sm8150_data = {
+> >   };
 > >
-> > -allOf:
-> > -  - $ref: dsi-phy-common.yaml#
-> > +$ref: dsi-phy-common.yaml#
->
-> Convention is how it was. Partly this is legacy because earlier versions
-> of json-schema required the 'allOf' form or everything in addition to
-> the $ref would be ignored. I left these thinking more than 1 $ref here
-> might be common. But probably more common is a $ref and if/then schemas
-> and I'd somewhat rather keep $ref at the top and if/then schemas at the
-> bottom. So maybe this is the right direction.
->
-> I don't really care to define one way or the other if we can't enforce
-> it in the meta-schema. I don't need more nits to look for in reviews.
-> Adding a check (i.e. allOf must have 2 or more entries) would be quite
-> invasive and wouldn't allow having 1 entry when we expect a 2nd entry
-> soonish.
+> >   static const struct msm_mdss_data sm6115_data = {
+> > -     .ubwc_version = UBWC_2_0,
+> > +     .ubwc_version = UBWC_1_0,
+> >       .ubwc_swizzle = 7,
+> >       .ubwc_static = 0x11f,
+> >   };
 
-Ack, I'll drop the patch for now then, If I got your message correctly.
 
 
 -- 
