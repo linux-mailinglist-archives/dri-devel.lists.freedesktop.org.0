@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C95669184
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:46:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE21D66919D
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:50:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD0410E9B6;
-	Fri, 13 Jan 2023 08:46:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 558BB10E9B8;
+	Fri, 13 Jan 2023 08:50:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F056110E9B6
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:46:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673599610; x=1705135610;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=3vN+dDWEQ062+4d1PiAsynv7VXvTvFbT9q8UcNY4RYQ=;
- b=WQ8lM28Ed7E7WKdjJEiRJAlw4avEBiuyd8r/UXdYJdL9e1o0qUNjf3G/
- r/rs2P0dbAj8BGi8eAt+CBLnby8qEr652UDDt8mH5xIVSDN0GfR+GDzek
- +542EYXh0WcdOg1nYsKQYLj0AvIQDuL/5o/Ck2hMI3aa7RXihCDTULvUY
- cRGUCtTbwRJMsURWx1I0MQB1TfOkTS8qSko0s4V0jVEEPTbWCZ3wMFvd8
- 9V8QIQxx9h8gL2JrvDvd7VwGwOh3Rdc52YITxwhOYx1hzdxg/nRhkiLTd
- WZDMQIOEXdZb6vQe/77kmrB9eacscfRNjr/Ryx9KFsABKj5qDvks3jrcQ Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="303645076"
-X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="303645076"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2023 00:46:49 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="800533319"
-X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="800533319"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.132.57])
- ([10.249.132.57])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2023 00:46:47 -0800
-Message-ID: <4a699fdd-cc9e-7a4e-b757-cb52552dc4f8@linux.intel.com>
-Date: Fri, 13 Jan 2023 09:46:44 +0100
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
+ [209.85.219.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6025B10E9B8
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:50:38 +0000 (UTC)
+Received: by mail-qv1-f47.google.com with SMTP id d13so14407691qvj.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:50:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=awQakUOIwVvp4xWgkhRGNM/c58rzqkM16qYt20+qNyU=;
+ b=GEIBwnMONY2r3V7N5C2yTKGaGw0YCJQtd+VHhKRaHrZUqzPyK7OmBwmpHlwoaHx6vS
+ jhF98L+z/36ndU8ecwF/29LajDbLFlbJXbhlQHyivjinKt4eGFZjgt4INEzi49bTaFGs
+ 6LoCiefuhLVXAu/+JFIvWCIYqeb7ZZ/cJvwswIUPX1FtF1iPwGXKsfDqTMAZ16YiVkAi
+ pW1r2ZjCIR1al2Gw9mgXAHrYrsJ+Qge9EQKSh0TIBHv77zmJVaTDHH8QoyNGHy8yaPBh
+ OvYy5ZLFxJDV4j6VuvMozWe3We8345mQRVVvQQHh4oJ1uODovi6dBAETfYGhoL5UIJ2k
+ 91Ow==
+X-Gm-Message-State: AFqh2kr0TswbbUBosiKgCow8cMvOpkYEFLJODl72jstZ54JNrM59pd9v
+ QZFYcC4tiMad7BpHHVJNAVqKVxj7HxcUeA==
+X-Google-Smtp-Source: AMrXdXugPQJ6Rb7gLg6KsfdS5raZLK3IaUGY+G/aa61+0MthXpA6Q4mPHjigICb9/8DLBPNsLan82g==
+X-Received: by 2002:a0c:d792:0:b0:4c7:971e:3c05 with SMTP id
+ z18-20020a0cd792000000b004c7971e3c05mr101515506qvi.36.1673599836922; 
+ Fri, 13 Jan 2023 00:50:36 -0800 (PST)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com.
+ [209.85.128.180]) by smtp.gmail.com with ESMTPSA id
+ f9-20020a05620a280900b006fcaa1eab0esm12470788qkp.123.2023.01.13.00.50.36
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Jan 2023 00:50:36 -0800 (PST)
+Received: by mail-yw1-f180.google.com with SMTP id
+ 00721157ae682-4b6255ce5baso274712967b3.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:50:36 -0800 (PST)
+X-Received: by 2002:a81:578e:0:b0:4d9:3858:392 with SMTP id
+ l136-20020a81578e000000b004d938580392mr551266ywb.502.1673599835999; Fri, 13
+ Jan 2023 00:50:35 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v5 4/7] accel/ivpu: Add IPC driver and JSM messages
-Content-Language: en-US
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, dri-devel@lists.freedesktop.org,
- oded.gabbay@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
- tzimmermann@suse.de
-References: <20230109122344.253994-1-jacek.lawrynowicz@linux.intel.com>
- <20230109122344.253994-5-jacek.lawrynowicz@linux.intel.com>
- <6811c853-aaa7-3bf1-c098-d6ca0e875e75@quicinc.com>
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <6811c853-aaa7-3bf1-c098-d6ca0e875e75@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230113062339.1909087-1-hch@lst.de>
+ <20230113062339.1909087-17-hch@lst.de>
+In-Reply-To: <20230113062339.1909087-17-hch@lst.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 13 Jan 2023 09:50:24 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU2vaVaCrcKom5YQYD9GLoeerX8HAQav36uFGUksOFc9w@mail.gmail.com>
+Message-ID: <CAMuHMdU2vaVaCrcKom5YQYD9GLoeerX8HAQav36uFGUksOFc9w@mail.gmail.com>
+Subject: Re: [PATCH 16/22] spi: remove spi-sh-sci
+To: Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,60 +68,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.kacprowski@linux.intel.com,
- Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
- stanislaw.gruszka@linux.intel.com
+Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
+ alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ linux-arch@vger.kernel.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ linux-gpio@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ netdev@vger.kernel.org, dmaengine@vger.kernel.org, linux-rtc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, Jan 13, 2023 at 7:24 AM Christoph Hellwig <hch@lst.de> wrote:
+> Now that arch/sh is removed this driver is dead code.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/spi/Kconfig      |   7 --
+>  drivers/spi/Makefile     |   1 -
+>  drivers/spi/spi-sh-sci.c | 197 ---------------------------------------
+>  3 files changed, 205 deletions(-)
+>  delete mode 100644 drivers/spi/spi-sh-sci.c
+>
+> diff --git a/drivers/spi/Kconfig b/drivers/spi/Kconfig
+> index 7508dcef909c78..76f3bc6f8c81fc 100644
+> --- a/drivers/spi/Kconfig
+> +++ b/drivers/spi/Kconfig
+> @@ -882,13 +882,6 @@ config SPI_SH_MSIOF
+>         help
+>           SPI driver for SuperH and SH Mobile MSIOF blocks.
+>
+> -config SPI_SH_SCI
+> -       tristate "SuperH SCI SPI controller"
+> -       depends on SUPERH
+> -       select SPI_BITBANG
+> -       help
+> -         SPI driver for SuperH SCI blocks.
 
-On 12.01.2023 19:18, Jeffrey Hugo wrote:
-> On 1/9/2023 5:23 AM, Jacek Lawrynowicz wrote:
->> The IPC driver is used to send and receive messages to/from firmware
->> running on the VPU.
->>
->> The only supported IPC message format is Job Submission Model (JSM)
->> defined in vpu_jsm_api.h header.
->>
->> Co-developed-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
->> Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
->> Co-developed-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
->> Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
->> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> 
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> 
->> +int ivpu_ipc_irq_handler(struct ivpu_device *vdev)
->> +{
->> +    struct ivpu_ipc_info *ipc = vdev->ipc;
->> +    struct ivpu_ipc_consumer *cons;
->> +    struct ivpu_ipc_hdr *ipc_hdr;
->> +    struct vpu_jsm_msg *jsm_msg;
->> +    unsigned long flags;
->> +    bool dispatched;
->> +    u32 vpu_addr;
->> +
->> +    /* Driver needs to purge all messages from IPC FIFO to clear IPC interrupt.
->> +     * Without purge IPC FIFO to 0 next IPC interrupts won't be generated.
->> +     */
->> +    while (ivpu_hw_reg_ipc_rx_count_get(vdev)) {
-> 
-> Ick.  Please no in the long term?
-> 
-> This is an infinite loop.  In hard IRQ context.  Controlled by the device, which you probably shouldn't trust.
-> 
-> However the real fix for this is to move to threaded_irqs.  Which is going to be a huge refactor for you.  Rate limiting doesn't appear viable.
-> 
-> If I understand things correctly, the chances that the device will generate a large count, or update the count as fast or faster than the driver are low, but it should still be fixed.
-> 
-> How about a high priority todo to convert to threaded irqs?  At the same time you can update the return value for this function which seems to not be checked anywhere, and also the comment here which is not proper multi-line style.
+This driver uses the Serial Communications Interface (SCI, cfr.
+drivers/tty/serial/sh-sci.c) in SPI mode. Hence in theory it could be
+used on a variety of Renesas ARM SoCs, and even on RZ/Five.
+Again, no DT support.
 
-OK, I've added this at the top of the TODO and fixed the comment.
-Regarding the ivpu_ipc_irq_handler() return code it is checked in the next patch in ivpu_wait_for_ready().
+Gr{oetje,eeting}s,
 
-Regards,
-Jacek
+                        Geert
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
