@@ -2,51 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D4FB6692D0
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 10:24:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3F846692FF
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 10:31:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6780D10E9D0;
-	Fri, 13 Jan 2023 09:24:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82A5F10E9CF;
+	Fri, 13 Jan 2023 09:30:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 644C310E9D0
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 09:23:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673601837; x=1705137837;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=/Jt/SJgZBfDi5YiCSTowtw0y3MUjbXVipBqspyh2wUk=;
- b=E7jb1yL7PN5gf7K6q7c81qjbvm/9U6kLr3whS9bEacM3f8pwnZvBpO5h
- amuP+0tTMiAcc06SlKd7YqVeSeUD2NX1V6a8mbk5wkCMVMbORtra+PxVY
- UNF5HsWezyKCmlpSefk/AFI59JTfW2iVhQ1VupbK/VyA/i/CSP4D/YDUu
- iGKE/wq1ZNohATZ9Mja51aUBsW4Ir8NzjCvw3Q0WsqGIqeVoY9auYuGeN
- wKHTamg/PmakaGUrHH0zPFTxmHR7W8Ofy8HqkZ+nllUilaMK9is4sjnws
- gfczJd82TvFdgupCJsN2hajhORSFm2etaPsQ++0Ak4hj6s2x4+GcZ6BAI Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="311807792"
-X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="311807792"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2023 01:23:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="800544184"
-X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="800544184"
-Received: from kuha.fi.intel.com ([10.237.72.185])
- by fmsmga001.fm.intel.com with SMTP; 13 Jan 2023 01:23:45 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
- Fri, 13 Jan 2023 11:23:44 +0200
-Date: Fri, 13 Jan 2023 11:23:44 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Pin-yen Lin <treapking@chromium.org>
-Subject: Re: [PATCH v10 3/9] drm/display: Add Type-C switch helpers
-Message-ID: <Y8EjIKEHqcj3htqC@kuha.fi.intel.com>
-References: <20230112042104.4107253-1-treapking@chromium.org>
- <20230112042104.4107253-4-treapking@chromium.org>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4D4D10E9CE;
+ Fri, 13 Jan 2023 09:30:49 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2CEE225275;
+ Fri, 13 Jan 2023 09:30:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1673602248; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LlGoEvIWxJL/2x9HBl3HlROqnmXZnkDAdOwoF9jEq+I=;
+ b=WwoW/xVZNHmVbzFMPIfml934yjfhur+5JMiLoOX1pze91Uh2SWKZoNnSGKaGnQYc5yX28T
+ 6qVBfhFrALwbWaobrfak1vbuRpF4hgVky28oKGFnX/ArpCXnP46057DsZbrZYz6fZoteOg
+ nhzGHZ4RnEPcqyNsHCRLSSKojGVwKSc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1673602248;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LlGoEvIWxJL/2x9HBl3HlROqnmXZnkDAdOwoF9jEq+I=;
+ b=J4b7jyAlNTwV6S7frEAVW6kk8BdUznUUjyJON4ufhtMXZp4N+Pw2frKtVXIVvuA38qkzg6
+ d0ujFNZ6zKkba3AA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 101761358A;
+ Fri, 13 Jan 2023 09:30:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id adb7AsgkwWP4dgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 13 Jan 2023 09:30:48 +0000
+Message-ID: <7704ea9a-8138-d2bc-2c5f-39340d7cef06@suse.de>
+Date: Fri, 13 Jan 2023 10:30:47 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230112042104.4107253-4-treapking@chromium.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] drm/nouveau: Remove support for legacy contexts/buffers
+Content-Language: en-US
+To: Karol Herbst <kherbst@redhat.com>
+References: <20230112133858.17087-1-tzimmermann@suse.de>
+ <CACO55tvBPS9yYM_TdijN0EddsLW69FXgURpXo9_LBT3xh_4a9A@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CACO55tvBPS9yYM_TdijN0EddsLW69FXgURpXo9_LBT3xh_4a9A@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------okAaktg7OsMEj8qN0ya22G0I"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,300 +70,268 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Kees Cook <keescook@chromium.org>,
- Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jani Nikula <jani.nikula@intel.com>,
- Allen Chen <allen.chen@ite.com.tw>, Stephen Boyd <swboyd@chromium.org>,
- Rob Herring <robh+dt@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- shaomin Deng <dengshaomin@cdjrlc.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
- Prashant Malani <pmalani@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: nouveau@lists.freedesktop.org, bskeggs@redhat.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------okAaktg7OsMEj8qN0ya22G0I
+Content-Type: multipart/mixed; boundary="------------S1jk6JgOlKwemD0NZVPVm7mS";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Karol Herbst <kherbst@redhat.com>
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ bskeggs@redhat.com
+Message-ID: <7704ea9a-8138-d2bc-2c5f-39340d7cef06@suse.de>
+Subject: Re: [PATCH] drm/nouveau: Remove support for legacy contexts/buffers
+References: <20230112133858.17087-1-tzimmermann@suse.de>
+ <CACO55tvBPS9yYM_TdijN0EddsLW69FXgURpXo9_LBT3xh_4a9A@mail.gmail.com>
+In-Reply-To: <CACO55tvBPS9yYM_TdijN0EddsLW69FXgURpXo9_LBT3xh_4a9A@mail.gmail.com>
 
-On Thu, Jan 12, 2023 at 12:20:58PM +0800, Pin-yen Lin wrote:
-> Add helpers to register and unregister Type-C "switches" for bridges
-> capable of switching their output between two downstream devices.
-> 
-> The helper registers USB Type-C mode switches when the "mode-switch"
-> and the "data-lanes" properties are available in Device Tree.
+--------------S1jk6JgOlKwemD0NZVPVm7mS
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Let's not make this kind of helpers DT only, please. See below ...
+DQoNCkFtIDEzLjAxLjIzIHVtIDAxOjA3IHNjaHJpZWIgS2Fyb2wgSGVyYnN0Og0KPiBPbiBU
+aHUsIEphbiAxMiwgMjAyMyBhdCAyOjM5IFBNIFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVy
+bWFubkBzdXNlLmRlPiB3cm90ZToNCj4+DQo+PiBSZW1vdmUgbm91dmVhdSdzIHN1cHBvcnQg
+Zm9yIGxlZ2FjeSBjb250ZXh0cyBhbmQgYnVmZmVycy4gSXQgd2FzDQo+PiByZXF1aXJlZCBi
+eSBsaWJkcm0gZWFybGllciB0aGFuIDIuNC4zMywgcmVsZWFzZWQgaW4gTWFyY2ggMjAxMi4g
+QQ0KPj4gcHJldmlvdXMgYXR0ZW1wdCBpbiAyMDEzIHRvIHJlbW92ZSB0aGUgZnVuY3Rpb25h
+bGl0eSBbMV0gaGFkIHRvIGJlDQo+PiByZXZlcnRlZCBbMl0gYXMgdGhlcmUgd2VyZSBzdGls
+bCB1c2VycyBsZWZ0LiBMaWJkcm0gMi40LjMzIGlzIG5vdw0KPj4gYWxtb3N0IDExIHllYXJz
+IG9sZCBhbmQgaXQgaXMgdGltZSBmb3IgdXNlcnNwYWNlIHRvIG1vdmUgb24uDQo+Pg0KPj4g
+V2l0aCB0aGUgbm91dmVhdSBjb2RlIGdvbmUsIHdlIGNhbiBhbHNvIHJlbW92ZSB0aGUgZHJp
+dmVyLWZlYXR1cmUNCj4+IGJpdCBEUklWRVJfS01TX0xFR0FDWV9DT05URVhULg0KPj4NCj4+
+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRl
+Pg0KPj4gTGluazogaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5l
+bC9naXQvdG9ydmFsZHMvbGludXguZ2l0L2NvbW1pdC8/aWQ9N2M1MTAxMzNkOTNkZDZmMTVj
+YTA0MDczM2JhN2IyODkxZWQ2MWZkMSAjIDENCj4+IExpbms6IGh0dHBzOi8vZ2l0Lmtlcm5l
+bC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdC9jb21t
+aXQvP2lkPWMyMWViMjFjYjUwZDU4ZTdjYmRjYjhiOWU3ZmY2OGI4NWNmYTUwOTUgIyAyDQo+
+IA0KPiBSZXZpZXdlZC1ieTogS2Fyb2wgSGVyYnN0IDxraGVyYnN0QHJlZGhhdC5jb20+DQo+
+IA0KPiBsZXQncyBob3BlIHRoZXJlIGFyZSBubyB1c2VycyBsZWZ0IDopDQoNCk1lcmdlZCBp
+bnRvIGRybS1taXNjLW5leHQuIFRoYW5rcyENCg0KPiANCj4gDQo+PiAtLS0NCj4+ICAgZHJp
+dmVycy9ncHUvZHJtL2RybV9idWZzLmMgICAgICAgICAgICB8IDEyICsrKy0tLS0tLQ0KPj4g
+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2NvbnRleHQuYyAgICAgICAgIHwgMzYgKysrKysrKysr
+LS0tLS0tLS0tLS0tLS0tLS0tDQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L0tjb25m
+aWcgICAgICAgfCAxMiAtLS0tLS0tLS0NCj4+ICAgZHJpdmVycy9ncHUvZHJtL25vdXZlYXUv
+bm91dmVhdV9kcm0uYyB8IDEwICsrKy0tLS0tDQo+PiAgIGluY2x1ZGUvZHJtL2RybV9kcnYu
+aCAgICAgICAgICAgICAgICAgfCAgNyAtLS0tLS0NCj4+ICAgNSBmaWxlcyBjaGFuZ2VkLCAx
+OSBpbnNlcnRpb25zKCspLCA1OCBkZWxldGlvbnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL2RybV9idWZzLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2J1ZnMu
+Yw0KPj4gaW5kZXggZmNjYTIxZThlZmFjLi44NjcwMDU2MGZlYTIgMTAwNjQ0DQo+PiAtLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vZHJtX2J1ZnMuYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2RybV9idWZzLmMNCj4+IEBAIC00MjMsOCArNDIzLDcgQEAgaW50IGRybV9sZWdhY3lfYWRk
+bWFwX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsDQo+PiAgICAg
+ICAgICBpZiAoIShjYXBhYmxlKENBUF9TWVNfQURNSU4pIHx8IG1hcC0+dHlwZSA9PSBfRFJN
+X0FHUCB8fCBtYXAtPnR5cGUgPT0gX0RSTV9TSE0pKQ0KPj4gICAgICAgICAgICAgICAgICBy
+ZXR1cm4gLUVQRVJNOw0KPj4NCj4+IC0gICAgICAgaWYgKCFkcm1fY29yZV9jaGVja19mZWF0
+dXJlKGRldiwgRFJJVkVSX0tNU19MRUdBQ1lfQ09OVEVYVCkgJiYNCj4+IC0gICAgICAgICAg
+ICFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX0xFR0FDWSkpDQo+PiArICAg
+ICAgIGlmICghZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9MRUdBQ1kpKQ0K
+Pj4gICAgICAgICAgICAgICAgICByZXR1cm4gLUVPUE5PVFNVUFA7DQo+Pg0KPj4gICAgICAg
+ICAgZXJyID0gZHJtX2FkZG1hcF9jb3JlKGRldiwgbWFwLT5vZmZzZXQsIG1hcC0+c2l6ZSwg
+bWFwLT50eXBlLA0KPj4gQEAgLTQ2OSw4ICs0NjgsNyBAQCBpbnQgZHJtX2xlZ2FjeV9nZXRt
+YXBfaW9jdGwoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwNCj4+ICAgICAg
+ICAgIGludCBpZHg7DQo+PiAgICAgICAgICBpbnQgaTsNCj4+DQo+PiAtICAgICAgIGlmICgh
+ZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9LTVNfTEVHQUNZX0NPTlRFWFQp
+ICYmDQo+PiAtICAgICAgICAgICAhZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZF
+Ul9MRUdBQ1kpKQ0KPj4gKyAgICAgICBpZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2
+LCBEUklWRVJfTEVHQUNZKSkNCj4+ICAgICAgICAgICAgICAgICAgcmV0dXJuIC1FT1BOT1RT
+VVBQOw0KPj4NCj4+ICAgICAgICAgIGlkeCA9IG1hcC0+b2Zmc2V0Ow0KPj4gQEAgLTU3MCw4
+ICs1NjgsNyBAQCBFWFBPUlRfU1lNQk9MKGRybV9sZWdhY3lfcm1tYXBfbG9ja2VkKTsNCj4+
+DQo+PiAgIHZvaWQgZHJtX2xlZ2FjeV9ybW1hcChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBz
+dHJ1Y3QgZHJtX2xvY2FsX21hcCAqbWFwKQ0KPj4gICB7DQo+PiAtICAgICAgIGlmICghZHJt
+X2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9LTVNfTEVHQUNZX0NPTlRFWFQpICYm
+DQo+PiAtICAgICAgICAgICAhZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9M
+RUdBQ1kpKQ0KPj4gKyAgICAgICBpZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBE
+UklWRVJfTEVHQUNZKSkNCj4+ICAgICAgICAgICAgICAgICAgcmV0dXJuOw0KPj4NCj4+ICAg
+ICAgICAgIG11dGV4X2xvY2soJmRldi0+c3RydWN0X211dGV4KTsNCj4+IEBAIC02MjgsOCAr
+NjI1LDcgQEAgaW50IGRybV9sZWdhY3lfcm1tYXBfaW9jdGwoc3RydWN0IGRybV9kZXZpY2Ug
+KmRldiwgdm9pZCAqZGF0YSwNCj4+ICAgICAgICAgIHN0cnVjdCBkcm1fbWFwX2xpc3QgKnJf
+bGlzdDsNCj4+ICAgICAgICAgIGludCByZXQ7DQo+Pg0KPj4gLSAgICAgICBpZiAoIWRybV9j
+b3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfS01TX0xFR0FDWV9DT05URVhUKSAmJg0K
+Pj4gLSAgICAgICAgICAgIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfTEVH
+QUNZKSkNCj4+ICsgICAgICAgaWYgKCFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJ
+VkVSX0xFR0FDWSkpDQo+PiAgICAgICAgICAgICAgICAgIHJldHVybiAtRU9QTk9UU1VQUDsN
+Cj4+DQo+PiAgICAgICAgICBtdXRleF9sb2NrKCZkZXYtPnN0cnVjdF9tdXRleCk7DQo+PiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9jb250ZXh0LmMgYi9kcml2ZXJzL2dw
+dS9kcm0vZHJtX2NvbnRleHQuYw0KPj4gaW5kZXggYzZlNmEzZTcyMTlhLi5hMGZjNzc5ZTVl
+MWUgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2NvbnRleHQuYw0KPj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9jb250ZXh0LmMNCj4+IEBAIC01OSw4ICs1OSw3
+IEBAIHN0cnVjdCBkcm1fY3R4X2xpc3Qgew0KPj4gICAgKi8NCj4+ICAgdm9pZCBkcm1fbGVn
+YWN5X2N0eGJpdG1hcF9mcmVlKHN0cnVjdCBkcm1fZGV2aWNlICogZGV2LCBpbnQgY3R4X2hh
+bmRsZSkNCj4+ICAgew0KPj4gLSAgICAgICBpZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUo
+ZGV2LCBEUklWRVJfS01TX0xFR0FDWV9DT05URVhUKSAmJg0KPj4gLSAgICAgICAgICAgIWRy
+bV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfTEVHQUNZKSkNCj4+ICsgICAgICAg
+aWYgKCFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX0xFR0FDWSkpDQo+PiAg
+ICAgICAgICAgICAgICAgIHJldHVybjsNCj4+DQo+PiAgICAgICAgICBtdXRleF9sb2NrKCZk
+ZXYtPnN0cnVjdF9tdXRleCk7DQo+PiBAQCAtOTcsOCArOTYsNyBAQCBzdGF0aWMgaW50IGRy
+bV9sZWdhY3lfY3R4Yml0bWFwX25leHQoc3RydWN0IGRybV9kZXZpY2UgKiBkZXYpDQo+PiAg
+ICAqLw0KPj4gICB2b2lkIGRybV9sZWdhY3lfY3R4Yml0bWFwX2luaXQoc3RydWN0IGRybV9k
+ZXZpY2UgKiBkZXYpDQo+PiAgIHsNCj4+IC0gICAgICAgaWYgKCFkcm1fY29yZV9jaGVja19m
+ZWF0dXJlKGRldiwgRFJJVkVSX0tNU19MRUdBQ1lfQ09OVEVYVCkgJiYNCj4+IC0gICAgICAg
+ICAgICFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX0xFR0FDWSkpDQo+PiAr
+ICAgICAgIGlmICghZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9MRUdBQ1kp
+KQ0KPj4gICAgICAgICAgICAgICAgICByZXR1cm47DQo+Pg0KPj4gICAgICAgICAgaWRyX2lu
+aXQoJmRldi0+Y3R4X2lkcik7DQo+PiBAQCAtMTE0LDggKzExMiw3IEBAIHZvaWQgZHJtX2xl
+Z2FjeV9jdHhiaXRtYXBfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqIGRldikNCj4+ICAgICov
+DQo+PiAgIHZvaWQgZHJtX2xlZ2FjeV9jdHhiaXRtYXBfY2xlYW51cChzdHJ1Y3QgZHJtX2Rl
+dmljZSAqIGRldikNCj4+ICAgew0KPj4gLSAgICAgICBpZiAoIWRybV9jb3JlX2NoZWNrX2Zl
+YXR1cmUoZGV2LCBEUklWRVJfS01TX0xFR0FDWV9DT05URVhUKSAmJg0KPj4gLSAgICAgICAg
+ICAgIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfTEVHQUNZKSkNCj4+ICsg
+ICAgICAgaWYgKCFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX0xFR0FDWSkp
+DQo+PiAgICAgICAgICAgICAgICAgIHJldHVybjsNCj4+DQo+PiAgICAgICAgICBtdXRleF9s
+b2NrKCZkZXYtPnN0cnVjdF9tdXRleCk7DQo+PiBAQCAtMTM2LDggKzEzMyw3IEBAIHZvaWQg
+ZHJtX2xlZ2FjeV9jdHhiaXRtYXBfZmx1c2goc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc3Ry
+dWN0IGRybV9maWxlICpmaWxlKQ0KPj4gICB7DQo+PiAgICAgICAgICBzdHJ1Y3QgZHJtX2N0
+eF9saXN0ICpwb3MsICp0bXA7DQo+Pg0KPj4gLSAgICAgICBpZiAoIWRybV9jb3JlX2NoZWNr
+X2ZlYXR1cmUoZGV2LCBEUklWRVJfS01TX0xFR0FDWV9DT05URVhUKSAmJg0KPj4gLSAgICAg
+ICAgICAgIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfTEVHQUNZKSkNCj4+
+ICsgICAgICAgaWYgKCFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX0xFR0FD
+WSkpDQo+PiAgICAgICAgICAgICAgICAgIHJldHVybjsNCj4+DQo+PiAgICAgICAgICBtdXRl
+eF9sb2NrKCZkZXYtPmN0eGxpc3RfbXV0ZXgpOw0KPj4gQEAgLTE4Miw4ICsxNzgsNyBAQCBp
+bnQgZHJtX2xlZ2FjeV9nZXRzYXJlYWN0eChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lk
+ICpkYXRhLA0KPj4gICAgICAgICAgc3RydWN0IGRybV9sb2NhbF9tYXAgKm1hcDsNCj4+ICAg
+ICAgICAgIHN0cnVjdCBkcm1fbWFwX2xpc3QgKl9lbnRyeTsNCj4+DQo+PiAtICAgICAgIGlm
+ICghZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9LTVNfTEVHQUNZX0NPTlRF
+WFQpICYmDQo+PiAtICAgICAgICAgICAhZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERS
+SVZFUl9MRUdBQ1kpKQ0KPj4gKyAgICAgICBpZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUo
+ZGV2LCBEUklWRVJfTEVHQUNZKSkNCj4+ICAgICAgICAgICAgICAgICAgcmV0dXJuIC1FT1BO
+T1RTVVBQOw0KPj4NCj4+ICAgICAgICAgIG11dGV4X2xvY2soJmRldi0+c3RydWN0X211dGV4
+KTsNCj4+IEBAIC0yMzAsOCArMjI1LDcgQEAgaW50IGRybV9sZWdhY3lfc2V0c2FyZWFjdHgo
+c3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwNCj4+ICAgICAgICAgIHN0cnVj
+dCBkcm1fbG9jYWxfbWFwICptYXAgPSBOVUxMOw0KPj4gICAgICAgICAgc3RydWN0IGRybV9t
+YXBfbGlzdCAqcl9saXN0ID0gTlVMTDsNCj4+DQo+PiAtICAgICAgIGlmICghZHJtX2NvcmVf
+Y2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9LTVNfTEVHQUNZX0NPTlRFWFQpICYmDQo+PiAt
+ICAgICAgICAgICAhZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9MRUdBQ1kp
+KQ0KPj4gKyAgICAgICBpZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJf
+TEVHQUNZKSkNCj4+ICAgICAgICAgICAgICAgICAgcmV0dXJuIC1FT1BOT1RTVVBQOw0KPj4N
+Cj4+ICAgICAgICAgIG11dGV4X2xvY2soJmRldi0+c3RydWN0X211dGV4KTsNCj4+IEBAIC0z
+MzUsOCArMzI5LDcgQEAgaW50IGRybV9sZWdhY3lfcmVzY3R4KHN0cnVjdCBkcm1fZGV2aWNl
+ICpkZXYsIHZvaWQgKmRhdGEsDQo+PiAgICAgICAgICBzdHJ1Y3QgZHJtX2N0eCBjdHg7DQo+
+PiAgICAgICAgICBpbnQgaTsNCj4+DQo+PiAtICAgICAgIGlmICghZHJtX2NvcmVfY2hlY2tf
+ZmVhdHVyZShkZXYsIERSSVZFUl9LTVNfTEVHQUNZX0NPTlRFWFQpICYmDQo+PiAtICAgICAg
+ICAgICAhZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9MRUdBQ1kpKQ0KPj4g
+KyAgICAgICBpZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfTEVHQUNZ
+KSkNCj4+ICAgICAgICAgICAgICAgICAgcmV0dXJuIC1FT1BOT1RTVVBQOw0KPj4NCj4+ICAg
+ICAgICAgIGlmIChyZXMtPmNvdW50ID49IERSTV9SRVNFUlZFRF9DT05URVhUUykgew0KPj4g
+QEAgLTM3MCw4ICszNjMsNyBAQCBpbnQgZHJtX2xlZ2FjeV9hZGRjdHgoc3RydWN0IGRybV9k
+ZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwNCj4+ICAgICAgICAgIHN0cnVjdCBkcm1fY3R4ICpj
+dHggPSBkYXRhOw0KPj4gICAgICAgICAgaW50IHRtcF9oYW5kbGU7DQo+Pg0KPj4gLSAgICAg
+ICBpZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfS01TX0xFR0FDWV9D
+T05URVhUKSAmJg0KPj4gLSAgICAgICAgICAgIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2
+LCBEUklWRVJfTEVHQUNZKSkNCj4+ICsgICAgICAgaWYgKCFkcm1fY29yZV9jaGVja19mZWF0
+dXJlKGRldiwgRFJJVkVSX0xFR0FDWSkpDQo+PiAgICAgICAgICAgICAgICAgIHJldHVybiAt
+RU9QTk9UU1VQUDsNCj4+DQo+PiAgICAgICAgICB0bXBfaGFuZGxlID0gZHJtX2xlZ2FjeV9j
+dHhiaXRtYXBfbmV4dChkZXYpOw0KPj4gQEAgLTQxOSw4ICs0MTEsNyBAQCBpbnQgZHJtX2xl
+Z2FjeV9nZXRjdHgoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwNCj4+ICAg
+ew0KPj4gICAgICAgICAgc3RydWN0IGRybV9jdHggKmN0eCA9IGRhdGE7DQo+Pg0KPj4gLSAg
+ICAgICBpZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfS01TX0xFR0FD
+WV9DT05URVhUKSAmJg0KPj4gLSAgICAgICAgICAgIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUo
+ZGV2LCBEUklWRVJfTEVHQUNZKSkNCj4+ICsgICAgICAgaWYgKCFkcm1fY29yZV9jaGVja19m
+ZWF0dXJlKGRldiwgRFJJVkVSX0xFR0FDWSkpDQo+PiAgICAgICAgICAgICAgICAgIHJldHVy
+biAtRU9QTk9UU1VQUDsNCj4+DQo+PiAgICAgICAgICAvKiBUaGlzIGlzIDAsIGJlY2F1c2Ug
+d2UgZG9uJ3QgaGFuZGxlIGFueSBjb250ZXh0IGZsYWdzICovDQo+PiBAQCAtNDQ1LDggKzQz
+Niw3IEBAIGludCBkcm1fbGVnYWN5X3N3aXRjaGN0eChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2
+LCB2b2lkICpkYXRhLA0KPj4gICB7DQo+PiAgICAgICAgICBzdHJ1Y3QgZHJtX2N0eCAqY3R4
+ID0gZGF0YTsNCj4+DQo+PiAtICAgICAgIGlmICghZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShk
+ZXYsIERSSVZFUl9LTVNfTEVHQUNZX0NPTlRFWFQpICYmDQo+PiAtICAgICAgICAgICAhZHJt
+X2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9MRUdBQ1kpKQ0KPj4gKyAgICAgICBp
+ZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfTEVHQUNZKSkNCj4+ICAg
+ICAgICAgICAgICAgICAgcmV0dXJuIC1FT1BOT1RTVVBQOw0KPj4NCj4+ICAgICAgICAgIERS
+TV9ERUJVRygiJWRcbiIsIGN0eC0+aGFuZGxlKTsNCj4+IEBAIC00NjksOCArNDU5LDcgQEAg
+aW50IGRybV9sZWdhY3lfbmV3Y3R4KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRh
+dGEsDQo+PiAgIHsNCj4+ICAgICAgICAgIHN0cnVjdCBkcm1fY3R4ICpjdHggPSBkYXRhOw0K
+Pj4NCj4+IC0gICAgICAgaWYgKCFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVS
+X0tNU19MRUdBQ1lfQ09OVEVYVCkgJiYNCj4+IC0gICAgICAgICAgICFkcm1fY29yZV9jaGVj
+a19mZWF0dXJlKGRldiwgRFJJVkVSX0xFR0FDWSkpDQo+PiArICAgICAgIGlmICghZHJtX2Nv
+cmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9MRUdBQ1kpKQ0KPj4gICAgICAgICAgICAg
+ICAgICByZXR1cm4gLUVPUE5PVFNVUFA7DQo+Pg0KPj4gICAgICAgICAgRFJNX0RFQlVHKCIl
+ZFxuIiwgY3R4LT5oYW5kbGUpOw0KPj4gQEAgLTQ5NSw4ICs0ODQsNyBAQCBpbnQgZHJtX2xl
+Z2FjeV9ybWN0eChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLA0KPj4gICB7
+DQo+PiAgICAgICAgICBzdHJ1Y3QgZHJtX2N0eCAqY3R4ID0gZGF0YTsNCj4+DQo+PiAtICAg
+ICAgIGlmICghZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9LTVNfTEVHQUNZ
+X0NPTlRFWFQpICYmDQo+PiAtICAgICAgICAgICAhZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShk
+ZXYsIERSSVZFUl9MRUdBQ1kpKQ0KPj4gKyAgICAgICBpZiAoIWRybV9jb3JlX2NoZWNrX2Zl
+YXR1cmUoZGV2LCBEUklWRVJfTEVHQUNZKSkNCj4+ICAgICAgICAgICAgICAgICAgcmV0dXJu
+IC1FT1BOT1RTVVBQOw0KPj4NCj4+ICAgICAgICAgIERSTV9ERUJVRygiJWRcbiIsIGN0eC0+
+aGFuZGxlKTsNCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9LY29u
+ZmlnIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvS2NvbmZpZw0KPj4gaW5kZXggMDNkMTJj
+YWY5ZTI2Li5lZTkyODkwZDMyNjYgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+bm91dmVhdS9LY29uZmlnDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9LY29u
+ZmlnDQo+PiBAQCAtMjQsMTggKzI0LDYgQEAgY29uZmlnIERSTV9OT1VWRUFVDQo+PiAgICAg
+ICAgICBoZWxwDQo+PiAgICAgICAgICAgIENob29zZSB0aGlzIG9wdGlvbiBmb3Igb3Blbi1z
+b3VyY2UgTlZJRElBIHN1cHBvcnQuDQo+Pg0KPj4gLWNvbmZpZyBOT1VWRUFVX0xFR0FDWV9D
+VFhfU1VQUE9SVA0KPj4gLSAgICAgICBib29sICJOb3V2ZWF1IGxlZ2FjeSBjb250ZXh0IHN1
+cHBvcnQiDQo+PiAtICAgICAgIGRlcGVuZHMgb24gRFJNX05PVVZFQVUNCj4+IC0gICAgICAg
+c2VsZWN0IERSTV9MRUdBQ1kNCj4+IC0gICAgICAgZGVmYXVsdCB5DQo+PiAtICAgICAgIGhl
+bHANCj4+IC0gICAgICAgICBUaGVyZSB3YXMgYSB2ZXJzaW9uIG9mIHRoZSBub3V2ZWF1IERE
+WCB0aGF0IHJlbGllZCBvbiBsZWdhY3kNCj4+IC0gICAgICAgICBjdHggaW9jdGxzIG5vdCBl
+cnJvcmluZyBvdXQuIEJ1dCB0aGF0IHdhcyBiYWNrIGluIHRpbWUgYSBsb25nDQo+PiAtICAg
+ICAgICAgd2F5cywgc28gb2ZmZXIgYSB3YXkgdG8gZGlzYWJsZSBpdCBub3cuIEZvciB1YXBp
+IGNvbXBhdCB3aXRoDQo+PiAtICAgICAgICAgb2xkIG5vdXZlYXUgZGR4IHRoaXMgc2hvdWxk
+IGJlIG9uIGJ5IGRlZmF1bHQsIGJ1dCBtb2Rlcm4gZGlzdHJvcw0KPj4gLSAgICAgICAgIHNo
+b3VsZCBjb25zaWRlciB0dXJuaW5nIGl0IG9mZi4NCj4+IC0NCj4+ICAgY29uZmlnIE5PVVZF
+QVVfUExBVEZPUk1fRFJJVkVSDQo+PiAgICAgICAgICBib29sICJOb3V2ZWF1IChOVklESUEp
+IFNvQyBHUFVzIg0KPj4gICAgICAgICAgZGVwZW5kcyBvbiBEUk1fTk9VVkVBVSAmJiBBUkNI
+X1RFR1JBDQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVh
+dV9kcm0uYyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZHJtLmMNCj4+IGlu
+ZGV4IDgwZjE1NGI2YWRhYi4uODA1NjIxNzdiNTgxIDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcm0uYw0KPj4gKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL25vdXZlYXUvbm91dmVhdV9kcm0uYw0KPj4gQEAgLTEyMjEsMTMgKzEyMjEsOSBAQCBu
+b3V2ZWF1X2RyaXZlcl9mb3BzID0gew0KPj4NCj4+ICAgc3RhdGljIHN0cnVjdCBkcm1fZHJp
+dmVyDQo+PiAgIGRyaXZlcl9zdHViID0gew0KPj4gLSAgICAgICAuZHJpdmVyX2ZlYXR1cmVz
+ID0NCj4+IC0gICAgICAgICAgICAgICBEUklWRVJfR0VNIHwgRFJJVkVSX01PREVTRVQgfCBE
+UklWRVJfUkVOREVSDQo+PiAtI2lmIGRlZmluZWQoQ09ORklHX05PVVZFQVVfTEVHQUNZX0NU
+WF9TVVBQT1JUKQ0KPj4gLSAgICAgICAgICAgICAgIHwgRFJJVkVSX0tNU19MRUdBQ1lfQ09O
+VEVYVA0KPj4gLSNlbmRpZg0KPj4gLSAgICAgICAgICAgICAgICwNCj4+IC0NCj4+ICsgICAg
+ICAgLmRyaXZlcl9mZWF0dXJlcyA9IERSSVZFUl9HRU0gfA0KPj4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgRFJJVkVSX01PREVTRVQgfA0KPj4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgICAgRFJJVkVSX1JFTkRFUiwNCj4+ICAgICAgICAgIC5vcGVuID0gbm91dmVhdV9kcm1f
+b3BlbiwNCj4+ICAgICAgICAgIC5wb3N0Y2xvc2UgPSBub3V2ZWF1X2RybV9wb3N0Y2xvc2Us
+DQo+PiAgICAgICAgICAubGFzdGNsb3NlID0gbm91dmVhdV92Z2FfbGFzdGNsb3NlLA0KPj4g
+ZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9kcnYuaCBiL2luY2x1ZGUvZHJtL2RybV9k
+cnYuaA0KPj4gaW5kZXggZDdjNTIxZTg4NjBmLi4xZDc2ZDA2ODZiMDMgMTAwNjQ0DQo+PiAt
+LS0gYS9pbmNsdWRlL2RybS9kcm1fZHJ2LmgNCj4+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9k
+cnYuaA0KPj4gQEAgLTE0OSwxMyArMTQ5LDYgQEAgZW51bSBkcm1fZHJpdmVyX2ZlYXR1cmUg
+ew0KPj4gICAgICAgICAgICogTGVnYWN5IGlycSBzdXBwb3J0LiBPbmx5IGZvciBsZWdhY3kg
+ZHJpdmVycy4gRG8gbm90IHVzZS4NCj4+ICAgICAgICAgICAqLw0KPj4gICAgICAgICAgRFJJ
+VkVSX0hBVkVfSVJRICAgICAgICAgICAgICAgICA9IEJJVCgzMCksDQo+PiAtICAgICAgIC8q
+Kg0KPj4gLSAgICAgICAgKiBARFJJVkVSX0tNU19MRUdBQ1lfQ09OVEVYVDoNCj4+IC0gICAg
+ICAgICoNCj4+IC0gICAgICAgICogVXNlZCBvbmx5IGJ5IG5vdXZlYXUgZm9yIGJhY2t3YXJk
+cyBjb21wYXRpYmlsaXR5IHdpdGggZXhpc3RpbmcNCj4+IC0gICAgICAgICogdXNlcnNwYWNl
+LiAgRG8gbm90IHVzZS4NCj4+IC0gICAgICAgICovDQo+PiAtICAgICAgIERSSVZFUl9LTVNf
+TEVHQUNZX0NPTlRFWFQgICAgICAgPSBCSVQoMzEpLA0KPj4gICB9Ow0KPj4NCj4+ICAgLyoq
+DQo+PiAtLQ0KPj4gMi4zOS4wDQo+Pg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0K
+R3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2Vy
+bWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihI
+UkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYN
+Cg==
 
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> Tested-by: Chen-Yu Tsai <wenst@chromium.org>
-> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> 
-> ---
-> 
-> Changes in v10:
-> - Collected Reviewed-by and Tested-by tags
-> - Replaced "void *" with "typec_mux_set_fn_t" for mux_set callbacks
-> - Print out the node name when errors on parsing DT
-> - Use dev_dbg instead of dev_warn when no Type-C switch nodes available
-> - Made the return path of drm_dp_register_mode_switch clearer
-> 
-> Changes in v8:
-> - Fixed the build issue when CONFIG_TYPEC=m
-> - Fixed some style issues
-> 
-> Changes in v7:
-> - Extracted the common codes to a helper function
-> - New in v7
-> 
->  drivers/gpu/drm/display/drm_dp_helper.c | 134 ++++++++++++++++++++++++
->  include/drm/display/drm_dp_helper.h     |  17 +++
->  2 files changed, 151 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> index 16565a0a5da6..a2ec40a621cb 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -30,11 +30,13 @@
->  #include <linux/sched.h>
->  #include <linux/seq_file.h>
->  #include <linux/string_helpers.h>
-> +#include <linux/usb/typec_mux.h>
->  #include <linux/dynamic_debug.h>
->  
->  #include <drm/display/drm_dp_helper.h>
->  #include <drm/display/drm_dp_mst_helper.h>
->  #include <drm/drm_edid.h>
-> +#include <drm/drm_of.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_vblank.h>
->  #include <drm/drm_panel.h>
-> @@ -3891,3 +3893,135 @@ int drm_panel_dp_aux_backlight(struct drm_panel *panel, struct drm_dp_aux *aux)
->  EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
->  
->  #endif
-> +
-> +#if IS_REACHABLE(CONFIG_TYPEC)
+--------------S1jk6JgOlKwemD0NZVPVm7mS--
 
-I think Jani already pointed out that that is wrong. Just move these
-into a separate file and enable them silently in the Makefile when
-TYPEC is enabled - so no separate Kconfig option.
+--------------okAaktg7OsMEj8qN0ya22G0I
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> +static int drm_dp_register_mode_switch(struct device *dev, struct device_node *node,
+-----BEGIN PGP SIGNATURE-----
 
-static int drm_dp_register_mode_switch(struct device *dev, struct fwnode_handle *fwnode,
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPBJMcFAwAAAAAACgkQlh/E3EQov+CZ
+ihAAgZjOWTi3h5QSZlsvIK5Nzfw+gePl26Ekla2ZWVnG+bYanInch4f7SOY7+532gcFwmsGqSdrb
+1/4haIoozVqsFjakbxv4VdIeLQfLyetBHz+Bt04zX39lp41TzEPXPeIFQQUAHL/uac3m0hzgNMh3
+iDz97EaOxkfSRHUDyasj1TI7PdNPtJBQhWymiXtypiuLgh4LV0Om9iP7Sy/Xn05bQ/8d6uyh6izU
+obKXmp7heSVqSt6/mJhNwX5VzdvPGfIw9hhr1Kxzry8LKCbxKgSBzj+xcCsV69iK0AS/O6vjBkKU
+MTmPQugt4pRoMJiZqr0NrM8rQt7F/kKbRIpHpzBqbVbwbCjNgMEfneVXsK9Bi8pXoKn2nRx6ygul
+vdpEJU63mrO9Ie8oRoy9JGOESH+Ib62UsQ4UhDiT3wiSGkipNq59GZDRAH7nx74X37PxoHSCdi72
+FOZjAsF0JBGIJ6d/iH70HMDIFjKunWKI/drz9v8W1YhLN0cEhaDagNMBSCHoviXCaFAHEIH/MTIz
+AEnPYPcS+kHPkfYaRKqQqIAoLpBOunCDJofVChwpM1fi3S3APbaBthOF91qzpUXwhct5Z2KlhSD7
+SgY5vOG1IwTD+Crsg7TkyPTuzvQVDZM3valhROla8Hi7pJFvdpLDtsiuQWnr49QVe4X9MUkNZXiy
+X+8=
+=/N/N
+-----END PGP SIGNATURE-----
 
-> +				       struct drm_dp_typec_switch_desc *switch_desc,
-> +				       void *data, typec_mux_set_fn_t mux_set)
-> +{
-> +	struct drm_dp_typec_port_data *port_data;
-> +	struct typec_mux_desc mux_desc = {};
-> +	char name[32];
-> +	u32 dp_lanes[2];
-> +	int ret, num_lanes, port_num = -1;
-> +
-> +	num_lanes = drm_of_get_data_lanes_count(node, 0, 2);
-> +	if (num_lanes <= 0) {
-
-        num_lanes = fwnode_property_read_u32_array(fwnode, "data-lanes", NULL, 0);
-        if (num_lanes <= 0 || num_lanes > 2)
-
-> +		dev_err(dev, "Error on getting data lanes count from %s: %d\n",
-> +			node->name, num_lanes);
-> +		return num_lanes;
-> +	}
-> +
-> +	ret = of_property_read_u32_array(node, "data-lanes", dp_lanes, num_lanes);
-
-        ret = fwnode_property_read_u32_array(fwnode, "data-lanes", dp_lanes, num_lanes);
-
-> +	if (ret) {
-> +		dev_err(dev, "Failed to read the data-lanes variable from %s: %d\n",
-> +			node->name, ret);
-
-			fwnode_get_name(fwnode), ret);
-
-> +		return ret;
-> +	}
-> +
-> +	port_num = dp_lanes[0] / 2;
-> +
-> +	port_data = &switch_desc->typec_ports[port_num];
-> +	port_data->data = data;
-> +	mux_desc.fwnode = &node->fwnode;
-
-        mux_desc.fwnode = fwnode;
-
-> +	mux_desc.drvdata = port_data;
-> +	snprintf(name, sizeof(name), "%s-%u", node->name, port_num);
-
-	snprintf(name, sizeof(name), "%s-%u", fwnode_get_name(fwnode), port_num);
-
-> +	mux_desc.name = name;
-> +	mux_desc.set = mux_set;
-> +
-> +	port_data->typec_mux = typec_mux_register(dev, &mux_desc);
-> +	if (IS_ERR(port_data->typec_mux)) {
-> +		ret = PTR_ERR(port_data->typec_mux);
-> +		dev_err(dev, "Mode switch register for port %d failed: %d\n",
-> +			port_num, ret);
-> +
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * drm_dp_register_typec_switches() - register Type-C switches
-> + * @dev: Device that registers Type-C switches
-> + * @port: Device node for the switch
-> + * @switch_desc: A Type-C switch descriptor
-> + * @data: Private data for the switches
-> + * @mux_set: Callback function for typec_mux_set
-> + *
-> + * This function registers USB Type-C switches for DP bridges that can switch
-> + * the output signal between their output pins.
-> + *
-> + * Currently only mode switches are implemented, and the function assumes the
-> + * given @port device node has endpoints with "mode-switch" property.
-> + * Register the endpoint as port 0 if the "data-lanes" property falls in 0/1,
-> + * and register it as port 1 if "data-lanes" falls in 2/3.
-> + */
-> +int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
-
-int drm_dp_register_typec_switches(struct device *dev, struct fwnode_handle *port,
-
-> +				   struct drm_dp_typec_switch_desc *switch_desc,
-> +				   void *data, typec_mux_set_fn_t mux_set)
-> +{
-> +	struct device_node *sw;
-
-        struct fwnode_handle *sw;
-
-> +	int ret;
-> +
-> +	for_each_child_of_node(port, sw) {
-> +		if (of_property_read_bool(sw, "mode-switch"))
-> +			switch_desc->num_typec_switches++;
-> +	}
-
-        fwnode_for_each_child_node(port, sw)
-                if (fwnode_property_present(sw, "mode-switch"))
-			switch_desc->num_typec_switches++;
-
-> +	if (!switch_desc->num_typec_switches) {
-> +		dev_dbg(dev, "No Type-C switches node found\n");
-> +		return 0;
-> +	}
-> +
-> +	switch_desc->typec_ports = devm_kcalloc(
-> +		dev, switch_desc->num_typec_switches,
-> +		sizeof(struct drm_dp_typec_port_data), GFP_KERNEL);
-> +
-> +	if (!switch_desc->typec_ports)
-> +		return -ENOMEM;
-> +
-> +	/* Register switches for each connector. */
-> +	for_each_child_of_node(port, sw) {
-> +		if (!of_property_read_bool(sw, "mode-switch"))
-
-        fwnode_for_each_child_node(port, sw) {
-                if (!fwnode_property_present(sw, "mode-switch"))
-
-> +			continue;
-> +		ret = drm_dp_register_mode_switch(dev, sw, switch_desc, data, mux_set);
-> +		if (ret)
-> +			goto err_unregister_typec_switches;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_unregister_typec_switches:
-> +	of_node_put(sw);
-> +	drm_dp_unregister_typec_switches(switch_desc);
-> +	dev_err(dev, "Failed to register mode switch: %d\n", ret);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(drm_dp_register_typec_switches);
-> +
-> +/**
-> + * drm_dp_unregister_typec_switches() - unregister Type-C switches
-> + * @switch_desc: A Type-C switch descriptor
-> + */
-> +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < switch_desc->num_typec_switches; i++)
-> +		typec_mux_unregister(switch_desc->typec_ports[i].typec_mux);
-> +}
-> +EXPORT_SYMBOL(drm_dp_unregister_typec_switches);
-> +#else
-> +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
-> +{
-> +}
-> +EXPORT_SYMBOL(drm_dp_register_typec_switches);
-> +int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
-> +				   struct drm_dp_typec_switch_desc *switch_desc,
-> +				   void *data, typec_mux_set_fn_t mux_set)
-> +{
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_dp_unregister_typec_switches);
-> +#endif
-> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-> index ab55453f2d2c..5a3824f13b4e 100644
-> --- a/include/drm/display/drm_dp_helper.h
-> +++ b/include/drm/display/drm_dp_helper.h
-> @@ -25,6 +25,7 @@
->  
->  #include <linux/delay.h>
->  #include <linux/i2c.h>
-> +#include <linux/usb/typec_mux.h>
->  
->  #include <drm/display/drm_dp.h>
->  #include <drm/drm_connector.h>
-> @@ -763,4 +764,20 @@ bool drm_dp_downstream_rgb_to_ycbcr_conversion(const u8 dpcd[DP_RECEIVER_CAP_SIZ
->  					       const u8 port_cap[4], u8 color_spc);
->  int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc);
->  
-> +struct drm_dp_typec_port_data {
-> +	struct typec_mux_dev *typec_mux;
-> +	void *data;
-> +	bool dp_connected;
-> +};
-> +
-> +struct drm_dp_typec_switch_desc {
-> +	int num_typec_switches;
-> +	struct drm_dp_typec_port_data *typec_ports;
-> +};
-> +
-> +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc);
-> +int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
-> +				   struct drm_dp_typec_switch_desc *switch_desc,
-> +				   void *data, typec_mux_set_fn_t mux_set);
-> +
->  #endif /* _DRM_DP_HELPER_H_ */
-
-The function stubs go here if they are needed.
-
-
-thanks,
-
--- 
-heikki
+--------------okAaktg7OsMEj8qN0ya22G0I--
