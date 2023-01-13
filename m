@@ -1,50 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4520669B84
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 16:12:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28313669B9E
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 16:14:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7B2110EA16;
-	Fri, 13 Jan 2023 15:12:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4801410EA18;
+	Fri, 13 Jan 2023 15:14:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay6-1.pub.mailoutpod2-cph3.one.com
- (mailrelay6-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:405::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 755A310EA18
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 15:12:30 +0000 (UTC)
+Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay5-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:404::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5221910EA18
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 15:14:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=e8hzZHTdOaUXHevlKXZ3IT0ts6bvp7PdrlX7lQ0YIh4=;
- b=rsdQX1vUTt7C5uZ1dnwUQCIR497urrZ1wGmOJOBcQ+1isLc3puCFhp/AdvUHwASFBHMwY0nCYi8wq
- LngHlFI0dSdGYKrp1JpRCDMjc3GkI5GCWtmxfwqoWdpJRIFakt18ROrn4taVEzsWAekqjT43HPOPqi
- MixtxBZNy8BvU/n3uNa+u4OSTclF5i/rQ36p6M1WeUIPcgI+0JDclU/jDDG8FkOFEakQ30sMlgpTZB
- VluQKswjxJBv9K1O59jFch3MJxpW3DAXYAwyn6/ubZ6UZm7zGq4Y4iE6DC84n/ROfH5/rtlOUcx11R
- VsGGQRCPL1+iMstUbIV/Jg6e4Oo9XPw==
+ bh=nU6Umbs8xvssLaxiDid1viysD8CdNgNOb375wva8qTw=;
+ b=uaAdaM2ARupJKUPlVVFpwz2TEuIdfQfNoFnkArk2urZIbkVDnbiWaE5AXTWVx5DEMPrbnwpXCeITK
+ 6niDIDopKjoefaRLefStlm9x2luW0TIVH2Amf3Rtv/UcSDcUZMekm+4BHsmDWbQuELrgAa9Z43JOAd
+ nV+t97c3Ry8Y2FR+E5iYatW7OiyIjHfmR/IZI9Vlnjf/ssxY+9fpt1V9I5Bgw06PDECBz9ftnJyYBl
+ NQyJhCVBdqomeDYlcctS0sCrQ31xTwAqmLck5vh0T4UiyU+GX4TeVRZT4ePu87VJRwCktG4HAIIgVb
+ tV7MdJ4NgthEowpQ2FCkMCEItw5JXYg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed2;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=e8hzZHTdOaUXHevlKXZ3IT0ts6bvp7PdrlX7lQ0YIh4=;
- b=0OcP8BL1SYnQM6RmYxWEKWocIbKRz39fejWquqZmXYzsbjUrdXzNSgJ0oCkMepODXsv7DKpOKFxuS
- EN1BqJhCw==
-X-HalOne-ID: b02dc733-9354-11ed-b0c0-cde5ad41a1dd
+ bh=nU6Umbs8xvssLaxiDid1viysD8CdNgNOb375wva8qTw=;
+ b=b4ZPlwgR0sPJLfZZcM5eQU9vpvaSv4I77zFBtilkteLXeT+gcTKuaBs12FtQLbzBkGbm4Dgs9l5cA
+ 4NPMxamDg==
+X-HalOne-ID: ee2cf748-9354-11ed-a11c-7703b0afff57
 Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay6 (Halon) with ESMTPSA
- id b02dc733-9354-11ed-b0c0-cde5ad41a1dd;
- Fri, 13 Jan 2023 15:12:28 +0000 (UTC)
-Date: Fri, 13 Jan 2023 16:12:27 +0100
+ by mailrelay5 (Halon) with ESMTPSA
+ id ee2cf748-9354-11ed-a11c-7703b0afff57;
+ Fri, 13 Jan 2023 15:14:13 +0000 (UTC)
+Date: Fri, 13 Jan 2023 16:14:11 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 05/10] drm/panel: Do not include <linux/fb.h>
-Message-ID: <Y8F021QdBYD9IEvD@ravnborg.org>
+Subject: Re: [PATCH v2 00/10] drm: Do not include <linux/fb.h> unnecessarily
+Message-ID: <Y8F1Q+sXAOQIFD/n@ravnborg.org>
 References: <20230111130206.29974-1-tzimmermann@suse.de>
- <20230111130206.29974-6-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230111130206.29974-6-tzimmermann@suse.de>
+In-Reply-To: <20230111130206.29974-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,54 +64,26 @@ Cc: f.fainelli@gmail.com, amd-gfx@lists.freedesktop.org, liviu.dudau@arm.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 11, 2023 at 02:02:01PM +0100, Thomas Zimmermann wrote:
-> Remove unnecessary include statements for <linux/fb.h>. No functional
-> changes. Include <linux/of.h> where the driver got the header file via
-> <linux/fb.h>.
+Hi Thomas.
+On Wed, Jan 11, 2023 at 02:01:56PM +0100, Thomas Zimmermann wrote:
+> Remove unnecessary include statements for <linux/fb.h>. I recently
+> changed this header and had to rebuild a good part of DRM. So avoid
+> this by removing the dependency.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  drivers/gpu/drm/panel/panel-ilitek-ili9881c.c         | 1 -
->  drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c | 1 -
->  drivers/gpu/drm/panel/panel-ronbo-rb070d30.c          | 1 -
->  3 files changed, 3 deletions(-)
+> Several files include <linux/fb.h> via drm_fb_helper.h. So in v2 I
+> added additional patches that remove some of those include statements
+> as well.
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> index cbb68caa36f2..1ec696adf9de 100644
-> --- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> @@ -7,7 +7,6 @@
->  #include <linux/device.h>
->  #include <linux/err.h>
->  #include <linux/errno.h>
-> -#include <linux/fb.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/of_device.h>
-> diff --git a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-> index 79f852465a84..35d568da342f 100644
-> --- a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-> +++ b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-> @@ -43,7 +43,6 @@
->  
->  #include <linux/delay.h>
->  #include <linux/err.h>
-> -#include <linux/fb.h>
->  #include <linux/i2c.h>
->  #include <linux/media-bus-format.h>
->  #include <linux/module.h>
-> diff --git a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-> index 866d1bf5530e..2ef5ea5eaeeb 100644
-> --- a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-> +++ b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-> @@ -11,7 +11,6 @@
->  #include <linux/device.h>
->  #include <linux/err.h>
->  #include <linux/errno.h>
-> -#include <linux/fb.h>
->  #include <linux/kernel.h>
->  #include <linux/media-bus-format.h>
->  #include <linux/module.h>
-> -- 
-> 2.39.0
+> Some source files require the OF or backlight headers. Include those
+> instead.
+> 
+> v2:
+> 	* add more patches to handle drm_fb_helper.h includes
+> 	* fix komeda build (kernel test robot)
+
+Whole series are:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+Except for the patches where I added an explicit r-b.
+
+	Sam
