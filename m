@@ -1,41 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E43669242
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 10:06:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B760D669265
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 10:10:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F98A10E9C8;
-	Fri, 13 Jan 2023 09:06:03 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E08E10E9C7
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 09:06:01 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D38D76102A;
- Fri, 13 Jan 2023 09:06:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E4C4C433D2;
- Fri, 13 Jan 2023 09:05:55 +0000 (UTC)
-Message-ID: <649a45a5-1680-dd71-ed74-df16d4353638@xs4all.nl>
-Date: Fri, 13 Jan 2023 10:05:54 +0100
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A11710E9CA;
+	Fri, 13 Jan 2023 09:10:30 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47DA5892FD;
+ Fri, 13 Jan 2023 09:10:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673601028; x=1705137028;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=fOr/1I3YrmbIYI4Sfb7dAxCfX7zx4hRXlIEK9Ij1POQ=;
+ b=g6V7otvdRYSA0BjEUhK9fc5Ia83B+xFUvifCLRHHnzCYqFrLAbd5ycN1
+ OdyTvydldWfAPzwfjhAT1eBCCFwMrN70peoF30yh4CwUchC4XgG9e2XNi
+ gkZvfvloxyh8VmJ+EzySwIDd7kTpEMzojub3JIWPpfX6vhhmY3QnYocT5
+ ApkI5YkB5ZrNOiuyeq0eFzDasyAUnD0GH3NRia3ljS827LP7YCokE40S+
+ gORXS5vgFL9hIYxF7o0wEwvFq5DzdYx7FirbZyFhHSGyp3IKYcNw0NiYu
+ D+kZApdIG5jgzNg4BxkcSO5seo405glDHOyv+v4MMqx+OjlD6JJ5NUUxJ Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="321648311"
+X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="321648311"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2023 01:10:25 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="660144975"
+X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; d="scan'208";a="660144975"
+Received: from skenned1-mobl.ger.corp.intel.com (HELO [10.213.196.186])
+ ([10.213.196.186])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2023 01:10:24 -0800
+Message-ID: <e532ffc2-09a5-126d-f4e4-e5e2a503a5fa@linux.intel.com>
+Date: Fri, 13 Jan 2023 09:10:22 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 20/22] media: remove sh_vou
+ Thunderbird/102.6.1
+Subject: Re: [Intel-gfx] [PATCH 2/4] drm/i915: Allow error capture of a
+ pending request
 Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Christoph Hellwig <hch@lst.de>
-References: <20230113062339.1909087-1-hch@lst.de>
- <20230113062339.1909087-21-hch@lst.de>
- <Y8EPvllOwhODRUiP@pendragon.ideasonboard.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <Y8EPvllOwhODRUiP@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
+References: <20230112025311.2577084-1-John.C.Harrison@Intel.com>
+ <20230112025311.2577084-3-John.C.Harrison@Intel.com>
+ <dab002d8-75f7-d8b5-d0a0-a6a21ec724b0@linux.intel.com>
+ <5a8be54d-9627-3d60-b6b0-22f3732e6962@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <5a8be54d-9627-3d60-b6b0-22f3732e6962@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,52 +65,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- linux-arch@vger.kernel.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-watchdog@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- linux-gpio@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-usb@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- netdev@vger.kernel.org, dmaengine@vger.kernel.org, linux-rtc@vger.kernel.org
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/01/2023 09:01, Laurent Pinchart wrote:
-> Hi Christoph,
-> 
-> Thank you for the patch.
-> 
-> On Fri, Jan 13, 2023 at 07:23:37AM +0100, Christoph Hellwig wrote:
->> Now that arch/sh is removed this driver is dead code.
+
+On 12/01/2023 20:46, John Harrison wrote:
+> On 1/12/2023 02:06, Tvrtko Ursulin wrote:
+>> On 12/01/2023 02:53, John.C.Harrison@Intel.com wrote:
+>>> From: John Harrison <John.C.Harrison@Intel.com>
+>>>
+>>> A hang situation has been observed where the only requests on the
+>>> context were either completed or not yet started according to the
+>>> breaadcrumbs. However, the register state claimed a batch was (maybe)
+>>> in progress. So, allow capture of the pending request on the grounds
+>>> that this might be better than nothing.
+>>>
+>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/i915_gpu_error.c | 8 +++-----
+>>>   1 file changed, 3 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c 
+>>> b/drivers/gpu/drm/i915/i915_gpu_error.c
+>>> index bd2cf7d235df0..2e338a9667a4b 100644
+>>> --- a/drivers/gpu/drm/i915/i915_gpu_error.c
+>>> +++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+>>> @@ -1628,11 +1628,9 @@ capture_engine(struct intel_engine_cs *engine,
+>>>       if (ce) {
+>>>           intel_engine_clear_hung_context(engine);
+>>>           rq = intel_context_find_active_request(ce);
+>>> -        if (rq && !i915_request_started(rq)) {
+>>> -            drm_info(&engine->gt->i915->drm, "Got hung context on %s 
+>>> with no active request!\n",
+>>> -                 engine->name);
+>>> -            rq = NULL;
+>>> -        }
+>>> +        if (rq && !i915_request_started(rq))
+>>> +            drm_info(&engine->gt->i915->drm, "Confused - active 
+>>> request not yet started: %lld:%lld, ce = 0x%04X/%s!\n",
+>>> +                 rq->fence.context, rq->fence.seqno, ce->guc_id.id, 
+>>> engine->name);
 >>
->> Signed-off-by: Christoph Hellwig <hch@lst.de>
->> ---
->>  drivers/media/platform/renesas/Kconfig  |    9 -
->>  drivers/media/platform/renesas/Makefile |    1 -
->>  drivers/media/platform/renesas/sh_vou.c | 1375 -----------------------
+>> Ah you change active to started in this patch! :)
+> Yeah, I'm wanting to keep these two patches separate. This one is a more 
+> questionable change in actual behaviour. The previous patch just allows 
+> capturing the context when the request has been rejected. Whereas this 
+> one changes the request acceptance criteria. With the potential to start 
+> blaming innocent requests. It seems plausible to me, especially with the 
+> warning message. We know the context owning the request is guilty so why 
+> wouldn't we blame that request just because the tracking is off (maybe 
+> due to some driver bug). But I could see someone objecting on grounds of 
+> being super strict about who/what gets blamed for a hang and either 
+> nacks or maybe wants this change reverted some time later.
 > 
-> You can also emove include/media/drv-intf/sh_vou.sh. With that, and the
-> corresponding MAINTAINERS entry dropped,
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>
+>> I suggest no "ce" in user visible messages and maybe stick with the 
+>> convention grep suggest is already established:
+>>
+>> "Hung context with active request %lld:%lld [0x%04X] not started!"
+>>
+> Are you also meaning to drop the engine name? I think it is important to 
+> keep the '%s' in there somewhere.
 
-And with that you can also add my Ack:
+No sorry, just an oversight.
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+"Hung context on %s with active request %lld:%lld [0x%04X] not started!"
+
+Doesn't have to be exactly that, only trying to illustrate what style 
+looks better to me when user facing - not mentioning confusing and fewer 
+special characters.
 
 Regards,
 
-	Hans
+Tvrtko
 
 > 
->>  3 files changed, 1385 deletions(-)
->>  delete mode 100644 drivers/media/platform/renesas/sh_vou.c
+> John.
 > 
-
+> 
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>       } else {
+>>>           /*
+>>>            * Getting here with GuC enabled means it is a forced error 
+>>> capture
+> 
