@@ -1,123 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E6E66A6D3
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Jan 2023 00:15:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A36F66A6E7
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Jan 2023 00:20:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2EDD10E227;
-	Fri, 13 Jan 2023 23:15:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58D9310E23A;
+	Fri, 13 Jan 2023 23:20:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2065.outbound.protection.outlook.com [40.107.244.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20C8110E212;
- Fri, 13 Jan 2023 23:15:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GGNlQtiv3RKWW4S3t6jCVkArAr+ekp30lCdLODsxBbTyd9GeRmJHOlYwJNKhNkhr86HtyUyDnmhnym2EQFm3VkTnDvSDq8JfqLEfcqM/fZiY+OxPApAvrt6BFrTilcr+TvWQHwQFiBzoWxoVH/d553vIv4QhUy8BFKC9z+KVtofpFXDwYt52LXC9vq7Naaeh+jQf+LXhuY+pPmReATxQbDLEWJA2ORabv14Eur0oR94V6XPjIe8YjyasYrRXiadZ3BLw/KvHWxVR4zPcYelcnN7xT9uAtP50/PxyDDmNOL8a9EdTyhvMBt0dfwVoVkKyJIzdLaVBbwCUv+Fh0/NQ5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s0u+oC3zMekkR+FWbvFCG0Va6GLgoanEvR5kDVkUXlo=;
- b=eS7Z7/lhTf9g/qN/igmI4QxBk3U0Vq9/akGlMWxI3WE1IIBMPiSax87A62ETOmt0geNtlaS7hy/oBtk8w1f9KcwamkagRsbb0K4k9iARt09H4lekIWbW3PV6l0strnxrci6pAEPhAOw365pbSrmwo4hd3wU/VDj/50Md6vyrPHVJJMzOyUFUlX2lXY69o827NC2m78NjX/B0TuWWeoMPLCdVrvUrqXX3wC8fsnk6jEsr6VQw5TiHcs9gFcyS6FxoOs6nBtxu2r6kwzcThZIwq0BuMgtZRazIB4bPQ0xGpRxRYAeEuHdgaLt4X5Cfrz7Y5HICpp2yczJksiszwjoC1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s0u+oC3zMekkR+FWbvFCG0Va6GLgoanEvR5kDVkUXlo=;
- b=ATNYyLBVnSGH//Aq6kz78Wj2C8vW/d+bOk3E9tnqS8YFJjqkAiarnQEK596Ny10eSSNBf7sTDNZqSKsDFSMO6EvBJLNfB6wNS8cUJaIslOEvnCuUn6JwKp5D3YqVpc5bOt2aWYIkD+cjVD84U9Di8ki+b2a0u7Y039BX7cXM+8o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by PH7PR12MB7331.namprd12.prod.outlook.com (2603:10b6:510:20e::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Fri, 13 Jan
- 2023 23:15:37 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::c3f5:aede:fa4d:5411]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::c3f5:aede:fa4d:5411%5]) with mapi id 15.20.5986.019; Fri, 13 Jan 2023
- 23:15:37 +0000
-Message-ID: <19873c87-5d01-30dd-84d2-ced61b236fa0@amd.com>
-Date: Fri, 13 Jan 2023 18:15:35 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 1/6] drm/amdgpu: Generalize KFD dmabuf import
-Content-Language: en-US
-To: "Chen, Xiaogang" <xiaogang.chen@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20230112013157.750568-1-Felix.Kuehling@amd.com>
- <20230112013157.750568-2-Felix.Kuehling@amd.com>
- <cab37a40-9737-1b77-3a3f-87965d4c70b2@amd.com>
- <9b5b20e0-e04b-f7f6-9459-42d5a4bb44c7@amd.com>
- <1437874c-4b4b-191f-4486-de6ac69e99cc@amd.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Organization: AMD Inc.
-In-Reply-To: <1437874c-4b4b-191f-4486-de6ac69e99cc@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT3PR01CA0102.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:85::21) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
+ [IPv6:2001:4860:4864:20::2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05E9A10E23A
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 23:20:12 +0000 (UTC)
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-15085b8a2f7so23945719fac.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 15:20:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=landley-net.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=TQ9PrP3iNHpghVpkywhiMHcSFTwXN8kLEUSP7zNfGWk=;
+ b=HEeiDnUeOlaMmzrHg6LtTWNe2KIF6Q5d6PASMOjvpBnFNwlXnpxtBoyLsjdUSiFic5
+ Zy4GrupmECG1CN3m99XRInimzLkAyFlnAC1yFwr9ZV5WqZ8Mxia0axE41+SyDlpGZHOF
+ b9/hPmk9ZzrDZTerjRuPw9aOBuwmuFZgGCgGCyi5DNv5BOgrp6hpzWbx8PiSSS3PCS6S
+ UoJjpLq7r0mXx6nv8CL2PCVxH6W+Fc0fSdqCoguiOJxRwovXLajxMhMVOFQITRvWQd2L
+ +x8hdq/wHJdMhQD25h3cEnBEwX4srdIbxyBywCRXQlXO+4KVbgaam+X20emmeoxJCckb
+ 5wPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TQ9PrP3iNHpghVpkywhiMHcSFTwXN8kLEUSP7zNfGWk=;
+ b=zKQArqGm8u2evB//smIUOpD3rJOWGWpLNp/rMr5BhUCzwGn13llNLQ0oGukIJ357ma
+ tVS1h8EVYcV9Mtc27BkGxVUwZdiDd5CQZT36ypleLeQE2AzVPb5FC6trZphdNCjjfy4A
+ 2u4OJU+JYUFLtTOh4SFPPIABqAiJhi7SEZjhSIITcY9haeg6EFQNIpOiwvkCgX9MTUy4
+ C5mgreWAIJ6S0CdplYfCkUa3ipyXP1D4qCa7bQGJXtMVcm2RAr1JCG0Gcyx6/8GkakrB
+ YVu/2jnVjrC/w+bVPkfbtyH4knPzYRW8U4fssFiZWr6b0BoV3HzLwmB13OBQFTiZIFaV
+ fxCg==
+X-Gm-Message-State: AFqh2kol2xSd5RlLT2k4AJWVvjlIcAevECWCwUs8mKLyrlQnnykwxPKV
+ YtzgLYhyTB/sf2Rynya5UZYe9w==
+X-Google-Smtp-Source: AMrXdXu9HHEo/oiUtz2RMFCVU9bzsQZjZJ6cJq7QQE+EgrBS53y1RWYqF/4GpGuzhXIiUysKwMTRjQ==
+X-Received: by 2002:a05:6871:4090:b0:155:cb39:7325 with SMTP id
+ kz16-20020a056871409000b00155cb397325mr16579350oab.6.1673652012126; 
+ Fri, 13 Jan 2023 15:20:12 -0800 (PST)
+Received: from [192.168.86.224] ([136.62.38.22])
+ by smtp.gmail.com with ESMTPSA id
+ z13-20020a056870738d00b0013ae39d0575sm11411907oam.15.2023.01.13.15.20.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Jan 2023 15:20:11 -0800 (PST)
+Message-ID: <38200b53-c743-4396-6603-7274f4a29c86@landley.net>
+Date: Fri, 13 Jan 2023 17:32:20 -0600
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|PH7PR12MB7331:EE_
-X-MS-Office365-Filtering-Correlation-Id: 88a1d356-385f-47b0-d9e1-08daf5bc1454
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IXOxx2X5tqGm5oXOYi4Bsn8EtsKCArdpMFkJHigVGTQU6FzRBg6xapZfcdwz2U2RufCSTHX3nU3Za9ThPNNZtD/bUCWYOCxMQ+o3d/y565tKejKLU8WM4cSt0UaeJZICyCYESd4bCNTcNzeizzyPf4WwQ5vLS8F8/+OYIEaq+kGxBUwzJaAjEMu4ITw0SJNaftZ+jluNdnmshrNEefAp3fJxLNt/L0KdGp0/Fjban5HpP5YhIL9kyOHg1j9MuOWVayI7iU1U/xKHCGwyYN2RV5Vfdi+IiQgmF9HWdPpYHjiamQMj7EJuVrQO1Z5Wk8xMAIFPJ7AseaAMnU+KLaIasecgYMZMKEg5cl0oaYHgEWDtQ9UrvrANwi1KanPvJb8osJq/7WAKOb0B+7TKCzg7oORqQUP4sIY818xNcAMpLDPkmJ3Zwh6q0S2D2EtH18FPNWDZ2Gi/4HgqNEQcgibLedytRWfrbonUJkqKbXfrvDSBimKN4XhjW1kv73bY+J8WWWY3NZ8VYI9VzVS5zUoMU2zUC6p/8lMGji3tB7w0/d0AnG1cTM1sKmp13zHsrsvVVwuwhV0zKJZxxXwXZ1BRVt5B07+C6UCR0x+5nRmQG9D+g3bFw+4FYVxoOawP8CaHmB8RNpuiK+hqyA101WE3LAz6OgxSDhe7AZ9c4lW2LVWnqNorOkjde3YnlSL9IpjEIZFlLeQKGeE+kmiMPYyoeaz0vRkWAid68ebLGUULaxg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(396003)(366004)(136003)(346002)(39860400002)(376002)(451199015)(31686004)(66556008)(2906002)(44832011)(5660300002)(36756003)(450100002)(66476007)(2616005)(8676002)(316002)(36916002)(4326008)(53546011)(41300700001)(6486002)(478600001)(8936002)(26005)(6506007)(6512007)(186003)(31696002)(66946007)(86362001)(83380400001)(38100700002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dW42aXZKUlk1bzZHTzVUZ3J6MXBkVEZHd1pucmw3UjRRVlE4WlhMN1EzaUh0?=
- =?utf-8?B?bVpTRUtvOE15WjREQm1kUGVCMGtBTjZwQjJGemFpOHIxMUVnNHkxS0JwZWNz?=
- =?utf-8?B?S3dvdGhnU2xjbmwwRklLZHFScTg2TUVoVkdpU0U0bHBiQzlPS29yMGljWjFT?=
- =?utf-8?B?UjhITUZqT1kycGt4Y045eXU5R2YyVkkvYVpVcElYRmFmeldkNDhzZUYvekVV?=
- =?utf-8?B?cFZPSGFIZEZ3MkdtVDJ1UE9XOE1DQVBWRVFKYlFoU1VRTUhwbXJwQ25zTXV2?=
- =?utf-8?B?Q3h0UDEzem1MZTA1MnlCNWUyeHVUZmM2U2RaSUVIbUZTK0V0WUVsdVQ5RzBu?=
- =?utf-8?B?N3c3b0VEaG1YakYrNjVYUm90Y0JWMTMya05rMFJ0TEhjelk0SG9yMG9rYXJM?=
- =?utf-8?B?SkpCK2JGQTk3N2UxMjVkR3RlNFgyN1VOVnlKWjBVV1R0K2Y3SGNOWXJwZG9F?=
- =?utf-8?B?WFprNk00YnBTNWVnb1lyVmg3L1hVem53YjUyNUpWOWRBeXIwUnZPZEdLYS95?=
- =?utf-8?B?VkN1ejY5OGtpcWdSclpZQzFRaEFwTFFsR3BkdFFFZG50Y0V2M21RMUpvWDlW?=
- =?utf-8?B?SGV5aVpHVVhKeXV5WUVGUWlVbTFTc1hTdTQ3S1N0WVdqUXYreDZuMU9SOThm?=
- =?utf-8?B?YzlNd3VMQlprUWlVRXRKU21icFJkVjZSclZ6ejh4UDlRZEVUNXN6eDZvN05D?=
- =?utf-8?B?YjhlcnFLYnh0NU5zQ21PNTRib1pWbi9tYWZWQnZlOWhBVTFSS3g5MnZjdnJN?=
- =?utf-8?B?ckhJL25ZY2E3K3cyRU8xSElKVlJTdUpZVlpSSmlsa3FsdUNKZ0E2VTFZY2Jv?=
- =?utf-8?B?MTkwT3ZxOFJSeEs5UWlwclc3Tm9NYlA0dHN1dUp1Q21ZSlFKaVYvbGFNYXhN?=
- =?utf-8?B?U1huTUNwK05DNksyeGFXS2F0US9TaWNjaTNzeGZiU3RKMXlsUkRDVVBBMGJT?=
- =?utf-8?B?azM0eXhWM2ZQcTVxN3I4NVVMMlZPU2R0T1ZlZlpyS0F2Y0dBVEpvYmN2R0po?=
- =?utf-8?B?N0JhUmNHbXZiWnFMUHErMGsza1pqRjJqZTFQVHFBVjB4ZmRudUdZeG5zRVF3?=
- =?utf-8?B?Um5lSDNGRzRNSit5c1RiekpPdmthWUFIKzFNcGFxRnRVMXdxUGZpSm1KU2tE?=
- =?utf-8?B?bk41a1VxdVoyOVdESEwrVStrT0JpSlNhQzlOY084MVducGpSR3ZKT3hRcVgy?=
- =?utf-8?B?T3JSb0FOaFR3c01QU0R4eG95cGNNWGIrZTFEL3N1a1lBbytCZVFDajRoMmZO?=
- =?utf-8?B?OS83bDQvSE1uZi9JSUd0SFpyZmV3Q3RlT1FyVnBlS2ZaR0FnN1NlRExMNnhk?=
- =?utf-8?B?amdKdlpUc1FHRzl2a3lzRlk0WkVKWmsrNmJVVUQrNFNkNHBqTldPTUFHYlcz?=
- =?utf-8?B?T3YxbnorMUlGc1BKNUpmUmhJL2NrMnVXUVB3cXQ5N3dHWUpkM1c2VmdYMzB0?=
- =?utf-8?B?YWJPTHIyNFdNZDl5eW84R1NRVmdBeGdlVWVmRnhWeHFBYVo2Tmdsa3BKTzJE?=
- =?utf-8?B?MDR6ajE0QktGNHo3b3FhVERrNTNVTEhVcFR5YmZqNTJTNlI5Z1dLZUpXNC9w?=
- =?utf-8?B?QzdHRm1mZ2F2QzBWY0RWcGdxVHBnVkRPbGY2SGl3K0J6RHp3UFBMd0RzWkc1?=
- =?utf-8?B?VlcrOVJSRS85dVZzNXBmZlBZcE9JTHc0U3N1enlZek9TNERaOEVFOVNxY2lh?=
- =?utf-8?B?eXl4MVZMdEREODFTOWdCOTN5NzZObUxRa2FnWDIrZ0NSOC9hOUNVMUp1TXVJ?=
- =?utf-8?B?ZnBvc3I1a2NTSHF2Q0RyeFhYUXp4WENYQnJMU3FPaDBuajFwVGpLbFZXMWsw?=
- =?utf-8?B?b1Q5citsTyt3OFpzZlFHUjdLSHNHWXYxOE5sNFhtK3F2OHBWRE1qY2NjWnRr?=
- =?utf-8?B?dzBiM3ExeCttaDIrVjBPcnJXbndidlZrV28zTXhLNU1sb1ZvTkJuaSsweC9r?=
- =?utf-8?B?YnhIVEk1QU4rdURZZ3BLL0pEbTRuZm9ZRDV2aUQxQk5oUjJSem5GNHFpU0R3?=
- =?utf-8?B?VDZvZzhlbU9XU2VoVi9xWXhTTHA5TVVhSG03cHNWYnNaR3lWMk1WQjVCd1FX?=
- =?utf-8?B?Y3FUejZ5Q3VKVitnSEhLRExIRGZSUzhDS3F1bE55Z1BNUldqV090YzBHK3Ez?=
- =?utf-8?Q?Wdzpf6JYvUx7eBByoQgSonmit?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88a1d356-385f-47b0-d9e1-08daf5bc1454
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2023 23:15:37.2139 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IsIioU7Oso0zfTFbhJHi4IMZJg7t8tgOBrVaZ4LSOibzW8ziHXn9rQKcvtR6IR5K8bD9GBfXOhdgk9uiXB8GuQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7331
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: remove arch/sh
+Content-Language: en-US
+To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20230113062339.1909087-1-hch@lst.de>
+ <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
+ <CAMuHMdUcnP6a9Ch5=_CMPq-io-YWK5pshkOT2nZmP1hvNcwBAg@mail.gmail.com>
+ <142532fb-5997-bdc1-0811-a80ae33f4ba4@physik.fu-berlin.de>
+ <6891afb6-4190-6a52-0319-745b3f138d97@landley.net>
+ <fe09d811-e290-821d-ec8b-75936b6583c2@physik.fu-berlin.de>
+From: Rob Landley <rob@landley.net>
+In-Reply-To: <fe09d811-e290-821d-ec8b-75936b6583c2@physik.fu-berlin.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,145 +82,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: christian.koenig@amd.com
+Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
+ linux-rtc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>, linux-arch@vger.kernel.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, linux-serial@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ netdev@vger.kernel.org, dmaengine@vger.kernel.org, alsa-devel@alsa-project.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-01-13 18:00, Chen, Xiaogang wrote:
->
-> On 1/13/2023 4:26 PM, Felix Kuehling wrote:
->> On 2023-01-12 17:41, Chen, Xiaogang wrote:
->>>
->>> On 1/11/2023 7:31 PM, Felix Kuehling wrote:
->>>> Use proper amdgpu_gem_prime_import function to handle all kinds of
->>>> imports. Remember the dmabuf reference to enable proper multi-GPU
->>>> attachment to multiple VMs without erroneously re-exporting the
->>>> underlying BO multiple times.
->>>>
->>>> Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
->>>> ---
->>>>   .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 38 
->>>> ++++++++++---------
->>>>   1 file changed, 21 insertions(+), 17 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c 
->>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
->>>> index 6f236ded5f12..e13c3493b786 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
->>>> @@ -2209,30 +2209,27 @@ int 
->>>> amdgpu_amdkfd_gpuvm_import_dmabuf(struct amdgpu_device *adev,
->>>>       struct amdgpu_bo *bo;
->>>>       int ret;
->>>>   -    if (dma_buf->ops != &amdgpu_dmabuf_ops)
->>>> -        /* Can't handle non-graphics buffers */
->>>> -        return -EINVAL;
->>>> -
->>>> -    obj = dma_buf->priv;
->>>> -    if (drm_to_adev(obj->dev) != adev)
->>>> -        /* Can't handle buffers from other devices */
->>>> -        return -EINVAL;
->>>> +    obj = amdgpu_gem_prime_import(adev_to_drm(adev), dma_buf);
->>>> +    if (IS_ERR(obj))
->>>> +        return PTR_ERR(obj);
->>>>         bo = gem_to_amdgpu_bo(obj);
->>>>       if (!(bo->preferred_domains & (AMDGPU_GEM_DOMAIN_VRAM |
->>>> -                    AMDGPU_GEM_DOMAIN_GTT)))
->>>> +                    AMDGPU_GEM_DOMAIN_GTT))) {
->>>>           /* Only VRAM and GTT BOs are supported */
->>>> -        return -EINVAL;
->>>> +        ret = -EINVAL;
->>>> +        goto err_put_obj;
->>>> +    }
->>>>         *mem = kzalloc(sizeof(struct kgd_mem), GFP_KERNEL);
->>>> -    if (!*mem)
->>>> -        return -ENOMEM;
->>>> +    if (!*mem) {
->>>> +        ret = -ENOMEM;
->>>> +        goto err_put_obj;
->>>> +    }
->>>>         ret = drm_vma_node_allow(&obj->vma_node, drm_priv);
->>>> -    if (ret) {
->>>> -        kfree(*mem);
->>>> -        return ret;
->>>> -    }
->>>> +    if (ret)
->>>> +        goto err_free_mem;
->>>>         if (size)
->>>>           *size = amdgpu_bo_size(bo);
->>>
->>> Hi Felix:
->>>
->>> I have a question when using amdgpu_gem_prime_import. It will allow 
->>> importing a dmabuf to different gpus, then can we still call 
->>> amdgpu_bo_mmap_offset on the generated bo if 
->>> amdgpu_amdkfd_gpuvm_import_dmabuf also ask mmap_offset?
->>
->> The mmap  offset comes from drm_vma_node_offset_addr. The DRM VMA 
->> address is allocated when ttm_bo_init_reserved calls 
->> drm_vma_offset_add, so there should be no problem querying the 
->> mmap_offset. Whether mmapping of an imported BO is actually supported 
->> is a different question. As far as I can see, it should be possible. 
->> That said, currently ROCm (libhsakmt) uses only original BOs for CPU 
->> mappings, not imported BOs.
->>
->> Regards,
->>   Felix
->
-> The mmap_offset is actually not returned to user space. I just wonder 
-> if here we should get mmap_offset of imported vram buffer if allow bo 
-> be imported to difference gpus. If a vram buffer is imported to same 
-> gpu device amdgpu_bo_mmap_offset is ok, otherwise I think 
-> amdgpu_bo_mmap_offset would not give correct mmap_offset for the 
-> device that the buffer is  imported to.
+On 1/13/23 13:05, John Paul Adrian Glaubitz wrote:
+> Hi Rob!
+> 
+> On 1/13/23 20:11, Rob Landley wrote:
+>> There is definitely interest in this architecture. I'm aware Rich hasn't been
+>> the most responsive maintainer. (I'm told he's on vacation with his family at
+>> the moment, according to the text I got about this issue from the J-core
+>> hardware guys in Japan.)
+> 
+> Well, maybe we can just give it a try together ...
 
-When the BO is imported into the same GPU, you get a reference to the 
-same BO, so the imported BO has the same mmap_offset as the original BO.
+Jeff Dionne said he'd make himself available to answer hardware questions. (He
+said he maintained some Linux ports 20 years ago, but isn't current with Linux
+plumbing. Last month he was digging through the guts of vxworks, and the project
+before that was some sort of BSD I think?)
 
-When the BO is imported into a different GPU, it is a new BO with a new 
-mmap_offset. I don't think this is incorrect. mmapping the memory with 
-that new offset should still work. The imported BO is created with 
-ttm_bo_type_sg, and AFAICT ttm_bo_vm.c supports mapping of SG BOs.
+I _do_ maintain Linux patches, I just generally don't bother to repost them
+endlessly. Here's my "on top of 6.1" stack for example, each of which links to
+at least one time it was posted to linux-kernel:
 
-Regards,
-   Felix
+https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/linux-patches/
 
+>> The main reason we haven't converted everything to device tree is we only have
+>> access to test hardware for a subset of the boards. Pruning the list of
+>> supported boards and converting the rest to device tree might make sense. We can
+>> always add/convert boards back later...
+> 
+> There is a patch by Yoshinori Sato which adds device tree support to SH. Maybe we
+> can revive it.
 
->
-> Maybe we should remove mmap_offset parameter of 
-> amdgpu_amdkfd_gpuvm_import_dmabuf since we do not return it to user 
-> space anyway. With that:
->
-> Reviewed-by: Xiaogang Chen <Xiaoganng.Chen@amd.com>
->
-> Regards
->
-> Xiaogang
->
->
->>
->>
->>>
->>>> @@ -2249,7 +2246,8 @@ int amdgpu_amdkfd_gpuvm_import_dmabuf(struct 
->>>> amdgpu_device *adev,
->>>>           | KFD_IOC_ALLOC_MEM_FLAGS_WRITABLE
->>>>           | KFD_IOC_ALLOC_MEM_FLAGS_EXECUTABLE;
->>>>   -    drm_gem_object_get(&bo->tbo.base);
->>>> +    get_dma_buf(dma_buf);
->>>> +    (*mem)->dmabuf = dma_buf;
->>>>       (*mem)->bo = bo;
->>>>       (*mem)->va = va;
->>>>       (*mem)->domain = (bo->preferred_domains & 
->>>> AMDGPU_GEM_DOMAIN_VRAM) ?
->>>> @@ -2261,6 +2259,12 @@ int amdgpu_amdkfd_gpuvm_import_dmabuf(struct 
->>>> amdgpu_device *adev,
->>>>       (*mem)->is_imported = true;
->>>>         return 0;
->>>> +
->>>> +err_free_mem:
->>>> +    kfree(*mem);
->>>> +err_put_obj:
->>>> +    drm_gem_object_put(obj);
->>>> +    return ret;
->>>>   }
->>>>     /* Evict a userptr BO by stopping the queues if necessary
+The turtle board is device tree and has been since it was merged. The
+infrastructure is there, the question is converting over boards and testing
+them, or deciding to prune them. Did Sato-san convert many boards? (I'm not
+finding his patch via google...)
+
+> Adrian
+
+Rob
