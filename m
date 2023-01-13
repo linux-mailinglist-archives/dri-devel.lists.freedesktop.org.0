@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 268B86690BA
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:26:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D5606690D1
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:28:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80D5610E225;
-	Fri, 13 Jan 2023 08:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE1A210E369;
+	Fri, 13 Jan 2023 08:28:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
- [209.85.160.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A28F910E225
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:26:37 +0000 (UTC)
-Received: by mail-qt1-f173.google.com with SMTP id x7so8446211qtv.13
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:26:37 -0800 (PST)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+ [209.85.160.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1883110E369
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:28:22 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id g9so3903256qtu.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:28:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=IGwwX1FWc34aVprY9nV8lSjSaarIXrtB/QPl3dMA44o=;
- b=3yN23+/mFwpCpTSl3ICk8LEr0ZZC6wpQW+J6XBOzKtGUt/cfhWJJ1Qna1PLvPhyLaX
- cSNnDiTLzpDH8aoJDb2cMZoRy/sYqi8PvSqoB4n0aUvTelDuTTNssfHy0BI0NPAm9Pc9
- LOL8Bb1EZhtpXqaQ5k6ji+8m1p3njf19HdpYCGwLA+nDSAkcCilX87O2iINjaD3jJ/+T
- F/89g0JRuGQ8+uoyxuNl/SS/qtsWgPe/0Gbe3uRzqEUe2naKPBHma8msi7rcQdViHuyN
- wmp0QC3ugLV8znFoLIQMXtKd0jangzSyV9kSqw9Z/PaC7UDtEaa+OY041Ko5e3MA1+P8
- OWLg==
-X-Gm-Message-State: AFqh2kpxqxhqGsuMaMOmAs960F3L1p0bg6xL+GisvCA1Dgv8BGwvsTdG
- i2zyyjZKFoFUmKYj/sTgiYqj016dPTmTjw==
-X-Google-Smtp-Source: AMrXdXv4jaOa/bKWu5bIH+t6rFuhPHiLmJ1NT6RDzvbz4aKeAl9qjiF4IzXnsgssmh/xNlPdiSIAlA==
-X-Received: by 2002:ac8:6b84:0:b0:3a9:80bf:83c0 with SMTP id
- z4-20020ac86b84000000b003a980bf83c0mr19594125qts.2.1673598396242; 
- Fri, 13 Jan 2023 00:26:36 -0800 (PST)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
- [209.85.219.180]) by smtp.gmail.com with ESMTPSA id
- u15-20020a37ab0f000000b006f9c2be0b4bsm12002673qke.135.2023.01.13.00.26.35
+ bh=LXxq4tFDMaQ+gaSI4+XgAKyMbRpnWTuq4SxaohX01OI=;
+ b=MCqvZmzaDaQKM/0NQt4F66Zmd4Gd1T0xFJGBrlactb2g1+pQ8V7FblkjC3EXzTBQ1F
+ LfEitvznRwvet3389wb/YqWNnF3hX8eA2Smk+DwTxZsrNMZH6bPcdxiL8DDzPOu2T6Rp
+ bfqmr/ACSPNH4cFA4DFOfbwyvZJ2JyXrAC5SBUyAKHYUOL03BkcnWCptt8hCqssb007W
+ KNi0n1577tJSL3+cUqQAvc3T95/HXSZ6b6hbyStN9xyKGgEknc2aXJJPoT3pMERrjpl2
+ q1mtRK8V460fW1Rhg7+eEV6OHjmgwxFPX1CLwMQfpkV0BWlhjYqHEdP74zLHFwdiEbxp
+ psQg==
+X-Gm-Message-State: AFqh2kq6/hs/9YojSbH8OTEn4txUfmPkVJejShyJ6YVsDI1QGlUevLgp
+ WOZxN1+5dUeBVbl2efkQXZOUCtY/nsyBBA==
+X-Google-Smtp-Source: AMrXdXuhkQBnAcBikNKgJHC0+8sYRIHM1ddUtLCSMHUKx7MZrXalhaJSzWp+FJxXYuPG5eL8kTdC3Q==
+X-Received: by 2002:ac8:5185:0:b0:3a7:e548:5e89 with SMTP id
+ c5-20020ac85185000000b003a7e5485e89mr106347931qtn.49.1673598500969; 
+ Fri, 13 Jan 2023 00:28:20 -0800 (PST)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com.
+ [209.85.128.173]) by smtp.gmail.com with ESMTPSA id
+ x14-20020a05620a258e00b006e07228ed53sm12223374qko.18.2023.01.13.00.28.19
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 00:26:35 -0800 (PST)
-Received: by mail-yb1-f180.google.com with SMTP id a9so4876551ybb.3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:26:35 -0800 (PST)
-X-Received: by 2002:a25:7:0:b0:7c1:b2e9:7e71 with SMTP id
- 7-20020a250007000000b007c1b2e97e71mr830819yba.604.1673598394939; 
- Fri, 13 Jan 2023 00:26:34 -0800 (PST)
+ Fri, 13 Jan 2023 00:28:19 -0800 (PST)
+Received: by mail-yw1-f173.google.com with SMTP id
+ 00721157ae682-4b6255ce5baso274103467b3.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:28:19 -0800 (PST)
+X-Received: by 2002:a0d:fb81:0:b0:480:fa10:459e with SMTP id
+ l123-20020a0dfb81000000b00480fa10459emr889474ywf.283.1673598499239; Fri, 13
+ Jan 2023 00:28:19 -0800 (PST)
 MIME-Version: 1.0
 References: <20230113062339.1909087-1-hch@lst.de>
- <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
-In-Reply-To: <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
+ <20230113062339.1909087-11-hch@lst.de>
+In-Reply-To: <20230113062339.1909087-11-hch@lst.de>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 13 Jan 2023 09:26:23 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUcnP6a9Ch5=_CMPq-io-YWK5pshkOT2nZmP1hvNcwBAg@mail.gmail.com>
-Message-ID: <CAMuHMdUcnP6a9Ch5=_CMPq-io-YWK5pshkOT2nZmP1hvNcwBAg@mail.gmail.com>
-Subject: Re: remove arch/sh
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Date: Fri, 13 Jan 2023 09:28:07 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVLT5G7spdbkB=sx6ZZraXzNFgENxLwg1PMrFnVERn_Tw@mail.gmail.com>
+Message-ID: <CAMuHMdVLT5G7spdbkB=sx6ZZraXzNFgENxLwg1PMrFnVERn_Tw@mail.gmail.com>
+Subject: Re: [PATCH 10/22] input: remove sh_keysc
+To: Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,10 +69,9 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- linux-rtc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, linux-arch@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-rtc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mtd@lists.infradead.org,
+ linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
  Yoshinori Sato <ysato@users.sourceforge.jp>, linux-serial@vger.kernel.org,
  linux-input@vger.kernel.org, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
@@ -85,25 +85,35 @@ Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 13, 2023 at 9:10 AM John Paul Adrian Glaubitz
-<glaubitz@physik.fu-berlin.de> wrote:
-> On 1/13/23 07:23, Christoph Hellwig wrote:
-> > arch/sh has been a long drag because it supports a lot of SOCs, and most
-> > of them haven't even been converted to device tree infrastructure.  These
-> > SOCs are generally obsolete as well, and all of the support has been barely
-> > maintained for almost 10 years, and not at all for more than 1 year.
-> >
-> > Drop arch/sh and everything that depends on it.
+On Fri, Jan 13, 2023 at 7:24 AM Christoph Hellwig <hch@lst.de> wrote:
+> Now that arch/sh is removed this driver is dead code.
 >
-> I'm still maintaining and using this port in Debian.
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/input/keyboard/Kconfig    |  10 -
+>  drivers/input/keyboard/Makefile   |   1 -
+>  drivers/input/keyboard/sh_keysc.c | 334 ------------------------------
+>  3 files changed, 345 deletions(-)
+>  delete mode 100644 drivers/input/keyboard/sh_keysc.c
 >
-> It's a bit disappointing that people keep hammering on it. It works fine for me.
+> diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
+> index 84490915ae4d5a..882ec5fef214ac 100644
+> --- a/drivers/input/keyboard/Kconfig
+> +++ b/drivers/input/keyboard/Kconfig
+> @@ -625,16 +625,6 @@ config KEYBOARD_SUNKBD
+>           To compile this driver as a module, choose M here: the
+>           module will be called sunkbd.
+>
+> -config KEYBOARD_SH_KEYSC
+> -       tristate "SuperH KEYSC keypad support"
+> -       depends on ARCH_SHMOBILE || COMPILE_TEST
+> -       help
+> -         Say Y here if you want to use a keypad attached to the KEYSC block
+> -         on SuperH processors such as sh7722 and sh7343.
 
-Indeed.  The main issue is not the lack of people sending patches and
-fixes, but those patches never being applied by the maintainers.
-Perhaps someone is willing to stand up to take over maintainership?
-
-Thanks!
+FTR, this hardware block is also present on the ARM-based
+SH-Mobile AG5, and R-Mobile A1 and APE6 SoCs.
+Again, no DT support.
 
 Gr{oetje,eeting}s,
 
