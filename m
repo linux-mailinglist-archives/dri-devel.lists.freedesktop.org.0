@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B556466908A
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:20:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8E31669091
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:21:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B72F910E1E4;
-	Fri, 13 Jan 2023 08:20:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8014010E23B;
+	Fri, 13 Jan 2023 08:20:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
- [IPv6:2607:f8b0:4864:20::829])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D17E410E980;
- Fri, 13 Jan 2023 04:00:16 +0000 (UTC)
-Received: by mail-qt1-x829.google.com with SMTP id h21so18090243qta.12;
- Thu, 12 Jan 2023 20:00:16 -0800 (PST)
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
+ [IPv6:2607:f8b0:4864:20::833])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 574B310E1D5
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 04:19:10 +0000 (UTC)
+Received: by mail-qt1-x833.google.com with SMTP id e22so5769859qts.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Jan 2023 20:19:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=FDXhyDi7l1SPbqbcQCobScMfTSLVIuMdTxY+sas3Ig8=;
- b=S3tydDPU1O5M4gysKJENG4PKSqeeym1VIgiOr03ZRUI6T5xwPgCqGfqSykfd5pBeDp
- qc9+vrHjoGtte9NQyUkYdCpcKKG07GuPWYIIj6Nyg5lSA5ZNJQZTo3i8y70NYQNQdth2
- zOfL4KbzMWr3UyTfuajcNh09/zQ1f/1ul4rU0VEqsUF6Nk6l7Ls+GLjXqfj3YOC0Y68H
- W2Xxv+3jTajhKhEc0l2tLmcSOHgGWRTTWNHh1a1f3yuz9rPdw+l0B3xzo0ZcJmiWrQyf
- PJObPvZIipQOJ93lA8aB3EKsfqAyA4gvqhO9ZFHQQa3UklsCvJKcMd5okwtsA4raMk+z
- 6iVQ==
+ bh=lLkvPYf2Ke9zk2IwTXoOAkiIP7b8LjXjkqvGfmAjbT0=;
+ b=fy1lR4LcLNAnoCT1h5498TaEqy9pg2nkf5XJGVzuMQHn98hz5NcfADR6oRxfwLBYrv
+ 5DJtWZvdgknyDsVjeqNI3w3R+8SEpiz4Iha/4XKzuFr2tA9PMnTabuuCAsZuZ/29V+Os
+ FWczXjX8XrKX5zTQCqiAe/EWQ+/OwwcCYtef+bs9xGP19jqZ4nTy61j+hkvn0MbkJeBz
+ +vvlKNBvVKEZWYs9HO062W2TpE+VjrqT1RdWZwzn38HE3mTd46l9t+/ffFQaILrnIyZ7
+ OlO6oXgxb7mvTaVauu1sIGC/vWhg6hTfCRLiOI1OzHii7fAcjukCr96SSgWhMjRAnLw1
+ Pg7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=FDXhyDi7l1SPbqbcQCobScMfTSLVIuMdTxY+sas3Ig8=;
- b=YrMOlEdR6PR2QrAqsRREpctG3zofNWckCQjExZokzkaTSmTv0QiPxNxQ7Ek3JU8Bat
- UP+ZIK3TZOvHJ7CYuZHJUMMzj7QuhilxyeF8tANu+BPbQuSMUhUH1fTlO51AUpXpKSBO
- 805jH74KrKOhYMwshe6NFQ9wR0xYH2PXoqoeB03aFoCOKFBvkJ2uIQbidZX4GjyWuT42
- 0SwuSawhr7oEsKvF3lYHF//xwMb9/jH68x/aUbrbnlTA5yK9N23k/m/Vw+l6yOWkW+3d
- EsjBHEJXjrq+DdxPYlV455HoeSMKPKQTGH56fuA0Q6MUMGuSSktqkJvivf3nxNYFL0rD
- Qb2w==
-X-Gm-Message-State: AFqh2kqGWyER9I3QzCzXUVAFv8ymO6waB+rYVmgAsPGbzVVg8ZmEwULT
- 0Xbb+wufG9KiutgAh7zeNsY=
-X-Google-Smtp-Source: AMrXdXuNqq4RLKjEZJofrE4rEW+qAB1fta+8sE1ZnMo3QjWpazb91nfa2dD1v8go3/6bA1LYem33Sg==
-X-Received: by 2002:ac8:4d07:0:b0:3ab:5f5f:a0de with SMTP id
- w7-20020ac84d07000000b003ab5f5fa0demr109774930qtv.28.1673582415608; 
- Thu, 12 Jan 2023 20:00:15 -0800 (PST)
+ bh=lLkvPYf2Ke9zk2IwTXoOAkiIP7b8LjXjkqvGfmAjbT0=;
+ b=MysC1IsXUYqGsUExrALIohZEt3JebGjgfDkL8VxK6iXuuZVNvw1yMkhQ4hXEIhGCpW
+ V3caIockbn0EXhzZrEMFl7Mv/wX21ZXsvOudyLzrNtEcSQoDgHb3Wah2Jxr6aL9DFabj
+ Q+/UZgRDNuIghhoJO7/hSGDqPspctntJ3PsG59CzDINwhvVnuSU0Jxt9l2CZRh04T2cb
+ gLmpJmvU2+nKVujZwz4KgG/DaL+sp5RW6twOyfsLgtKzJOeT2RkNcAL4xs9aMl+Po/TO
+ kxgFmQEIJ9I5cUQHotJam7+B0JQ+6ysQQR04hEM+B611Zd3iEuFVLIcsQKKvPudOZkxa
+ mL3g==
+X-Gm-Message-State: AFqh2kqZx2d2aOw0RDnYwAlccHvLCtC4/wS1ZZgslmIwzBMTfklt7Q0r
+ b+Qvlt6HzB8sbaBGx+4YjdpMNEH8+k8=
+X-Google-Smtp-Source: AMrXdXt+U8O6YcZRkv+o8ah+yIuX/vhXN+6n2lpOW6Nq9XuaG6aodQLs32gkgaKnN+YvL4lAc2ADlw==
+X-Received: by 2002:a05:622a:5911:b0:3ac:c2b8:e with SMTP id
+ ga17-20020a05622a591100b003acc2b8000emr25684486qtb.19.1673583549236; 
+ Thu, 12 Jan 2023 20:19:09 -0800 (PST)
 Received: from localhost ([2607:fea8:a2df:3d00::e680])
  by smtp.gmail.com with ESMTPSA id
- j19-20020a05620a411300b00704c1f4e756sm11861052qko.14.2023.01.12.20.00.14
+ c8-20020ac80548000000b003972790deb9sm9996393qth.84.2023.01.12.20.19.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Jan 2023 20:00:15 -0800 (PST)
+ Thu, 12 Jan 2023 20:19:08 -0800 (PST)
 From: Richard Acayan <mailingradian@gmail.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Robert Foss <rfoss@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Subject: [PATCH v2] drm/msm/dpu: add hw revision 410
-Date: Thu, 12 Jan 2023 22:59:40 -0500
-Message-Id: <20230113035939.185064-1-mailingradian@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Joel Selvaraj <jo@jsfamily.in>,
+ Robert Chiras <robert.chiras@nxp.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Vinay Simha BN <simhavcs@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [RFC PATCH] drm/dsi-mipi: Fix byte order of DCS set/get brightness
+Date: Thu, 12 Jan 2023 23:18:48 -0500
+Message-Id: <20230113041848.200704-1-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -78,136 +77,304 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Richard Acayan <mailingradian@gmail.com>
+Cc: Richard Acayan <mailingradian@gmail.com>,
+ Daniel Mentz <danielmentz@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Snapdragon 670 uses similar clocks (with one frequency added) to the
-Snapdragon 845 but reports DPU revision 4.1.0. Add support for this DPU
-with configuration from the Pixel 3a downstream kernel.
+From: Daniel Mentz <danielmentz@google.com>
 
-Link: https://android.googlesource.com/kernel/msm/+/368478b0ae76566927a2769a2bf24dfe7f38bb78/arch/arm64/boot/dts/qcom/sdm670-sde.dtsi
+The MIPI DCS specification demands that brightness values are sent in
+big endian byte order. It also states that one parameter (i.e. one byte)
+shall be sent/received for 8 bit wide values, and two parameters shall
+be used for values that are between 9 and 16 bits wide.
+
+Fixes: 1a9d759331b8 ("drm/dsi: Implement DCS set/get display brightness")
+Signed-off-by: Daniel Mentz <danielmentz@google.com>
+Change-Id: I24306e21ec6a5ff48ea121d977419a81d5b44152
+Link: https://android.googlesource.com/kernel/msm/+/754affd62d0ee268c686c53169b1dbb7deac8550
+[richard: fix 16-bit brightness_get; change brightness call by all panels on the -next tree]
 Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 ---
-Changes since v1:
- - proper use of DSC_BLK()
+ drivers/gpu/drm/drm_mipi_dsi.c                | 44 ++++++++++++++++---
+ .../drm/panel/panel-asus-z00t-tm5p5-n35596.c  |  4 +-
+ .../gpu/drm/panel/panel-boe-bf060y8m-aj0.c    |  4 +-
+ drivers/gpu/drm/panel/panel-ebbg-ft8719.c     |  2 +-
+ drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c  |  2 +-
+ .../gpu/drm/panel/panel-jdi-lt070me05000.c    |  4 +-
+ drivers/gpu/drm/panel/panel-raydium-rm67191.c |  4 +-
+ .../gpu/drm/panel/panel-samsung-s6e63j0x03.c  |  2 +-
+ drivers/gpu/drm/panel/panel-samsung-sofef00.c |  4 +-
+ .../panel/panel-sony-tulip-truly-nt35521.c    |  4 +-
+ include/drm/drm_mipi_dsi.h                    |  4 +-
+ 11 files changed, 55 insertions(+), 23 deletions(-)
 
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 67 +++++++++++++++++++
- 1 file changed, 67 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 0f3da480b066..56709d508a6f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -504,6 +504,25 @@ static const struct dpu_mdp_cfg msm8998_mdp[] = {
- 	},
- };
+diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+index 497ef4b6a90a..1e6dbf986d97 100644
+--- a/drivers/gpu/drm/drm_mipi_dsi.c
++++ b/drivers/gpu/drm/drm_mipi_dsi.c
+@@ -1180,17 +1180,33 @@ EXPORT_SYMBOL(mipi_dsi_dcs_set_tear_scanline);
+  *    display
+  * @dsi: DSI peripheral device
+  * @brightness: brightness value
++ * @num_params: Number of parameters (bytes) to encode brightness value in. The
++ *              MIPI specification states that one parameter shall be sent for
++ *              devices that support 8-bit brightness levels. For devices that
++ *              support brightness levels wider than 8-bit, two parameters
++ *              shall be sent.
+  *
+  * Return: 0 on success or a negative error code on failure.
+  */
+ int mipi_dsi_dcs_set_display_brightness(struct mipi_dsi_device *dsi,
+-					u16 brightness)
++					u16 brightness, size_t num_params)
+ {
+-	u8 payload[2] = { brightness & 0xff, brightness >> 8 };
++	u8 payload[2];
+ 	ssize_t err;
  
-+static const struct dpu_mdp_cfg sdm670_mdp[] = {
-+	{
-+	.name = "top_0", .id = MDP_TOP,
-+	.base = 0x0, .len = 0x45C,
-+	.features = BIT(DPU_MDP_AUDIO_SELECT),
-+	.highest_bank_bit = 0x1,
-+	.clk_ctrls[DPU_CLK_CTRL_VIG0] = {
-+			.reg_off = 0x2AC, .bit_off = 0},
-+	.clk_ctrls[DPU_CLK_CTRL_VIG1] = {
-+			.reg_off = 0x2B4, .bit_off = 0},
-+	.clk_ctrls[DPU_CLK_CTRL_DMA0] = {
-+			.reg_off = 0x2AC, .bit_off = 8},
-+	.clk_ctrls[DPU_CLK_CTRL_CURSOR0] = {
-+			.reg_off = 0x2B4, .bit_off = 8},
-+	.clk_ctrls[DPU_CLK_CTRL_CURSOR1] = {
-+			.reg_off = 0x2BC, .bit_off = 8},
-+	},
-+};
-+
- static const struct dpu_mdp_cfg sdm845_mdp[] = {
- 	{
- 	.name = "top_0", .id = MDP_TOP,
-@@ -1154,6 +1173,11 @@ static const struct dpu_sspp_sub_blks sdm845_dma_sblk_1 = _DMA_SBLK("9", 2);
- static const struct dpu_sspp_sub_blks sdm845_dma_sblk_2 = _DMA_SBLK("10", 3);
- static const struct dpu_sspp_sub_blks sdm845_dma_sblk_3 = _DMA_SBLK("11", 4);
++	switch (num_params) {
++	case 1:
++		payload[0] = brightness & 0xff;
++		break;
++	case 2:
++		payload[0] = brightness >> 8;
++		payload[1] = brightness & 0xff;
++		break;
++	default:
++		return -EINVAL;
++	}
+ 	err = mipi_dsi_dcs_write(dsi, MIPI_DCS_SET_DISPLAY_BRIGHTNESS,
+-				 payload, sizeof(payload));
++				 payload, num_params);
+ 	if (err < 0)
+ 		return err;
  
-+static const struct dpu_sspp_sub_blks sdm670_vig_sblk_0 =
-+				_VIG_SBLK("0", 4, DPU_SSPP_SCALER_QSEED3);
-+static const struct dpu_sspp_sub_blks sdm670_vig_sblk_1 =
-+				_VIG_SBLK("1", 5, DPU_SSPP_SCALER_QSEED3);
-+
- #define SSPP_BLK(_name, _id, _base, _features, \
- 		_sblk, _xinid, _type, _clkctrl) \
- 	{ \
-@@ -1185,6 +1209,19 @@ static const struct dpu_sspp_cfg msm8998_sspp[] = {
- 		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
- };
+@@ -1203,16 +1219,25 @@ EXPORT_SYMBOL(mipi_dsi_dcs_set_display_brightness);
+  *    of the display
+  * @dsi: DSI peripheral device
+  * @brightness: brightness value
++ * @num_params: Number of parameters (i.e. bytes) the brightness value is
++ *              encoded in. The MIPI specification states that one parameter
++ *              shall be returned from devices that support 8-bit brightness
++ *              levels. Devices that support brightness levels wider than
++ *              8-bit return two parameters (i.e. bytes).
+  *
+  * Return: 0 on success or a negative error code on failure.
+  */
+ int mipi_dsi_dcs_get_display_brightness(struct mipi_dsi_device *dsi,
+-					u16 *brightness)
++					u16 *brightness, size_t num_params)
+ {
++	u8 payload[2];
+ 	ssize_t err;
  
-+static const struct dpu_sspp_cfg sdm670_sspp[] = {
-+	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SDM845_MASK,
-+		sdm670_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
-+	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SDM845_MASK,
-+		sdm670_vig_sblk_1, 4,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
-+	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
-+		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
-+	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_CURSOR_SDM845_MASK,
-+		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
-+	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK,
-+		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
-+};
++	if (!(num_params == 1 || num_params == 2))
++		return -EINVAL;
 +
- static const struct dpu_sspp_cfg sdm845_sspp[] = {
- 	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SDM845_MASK,
- 		sdm845_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
-@@ -1832,6 +1869,11 @@ static struct dpu_dsc_cfg sm8150_dsc[] = {
- 	DSC_BLK("dsc_3", DSC_3, 0x80c00, BIT(DPU_DSC_OUTPUT_CTRL)),
- };
+ 	err = mipi_dsi_dcs_read(dsi, MIPI_DCS_GET_DISPLAY_BRIGHTNESS,
+-				brightness, sizeof(*brightness));
++				payload, num_params);
+ 	if (err <= 0) {
+ 		if (err == 0)
+ 			err = -ENODATA;
+@@ -1220,6 +1245,15 @@ int mipi_dsi_dcs_get_display_brightness(struct mipi_dsi_device *dsi,
+ 		return err;
+ 	}
  
-+static struct dpu_dsc_cfg sdm670_dsc[] = {
-+	DSC_BLK("dsc_0", DSC_0, 0x80000, 0),
-+	DSC_BLK("dsc_1", DSC_1, 0x80400, 0),
-+};
++	switch (num_params) {
++	case 1:
++		*brightness = payload[0];
++		break;
++	case 2:
++		*brightness = (payload[0] << 8) | payload[1];
++		break;
++	}
 +
- /*************************************************************
-  * INTF sub blocks config
-  *************************************************************/
-@@ -2533,6 +2575,30 @@ static const struct dpu_mdss_cfg msm8998_dpu_cfg = {
- 	.mdss_irqs = IRQ_SM8250_MASK,
- };
+ 	return 0;
+ }
+ EXPORT_SYMBOL(mipi_dsi_dcs_get_display_brightness);
+diff --git a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
+index b3235781e6ba..9f849c68d57c 100644
+--- a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
++++ b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
+@@ -220,7 +220,7 @@ static int tm5p5_nt35596_bl_update_status(struct backlight_device *bl)
  
-+static const struct dpu_mdss_cfg sdm670_dpu_cfg = {
-+	.caps = &sdm845_dpu_caps,
-+	.mdp_count = ARRAY_SIZE(sdm670_mdp),
-+	.mdp = sdm670_mdp,
-+	.ctl_count = ARRAY_SIZE(sdm845_ctl),
-+	.ctl = sdm845_ctl,
-+	.sspp_count = ARRAY_SIZE(sdm670_sspp),
-+	.sspp = sdm670_sspp,
-+	.mixer_count = ARRAY_SIZE(sdm845_lm),
-+	.mixer = sdm845_lm,
-+	.pingpong_count = ARRAY_SIZE(sdm845_pp),
-+	.pingpong = sdm845_pp,
-+	.dsc_count = ARRAY_SIZE(sdm670_dsc),
-+	.dsc = sdm670_dsc,
-+	.intf_count = ARRAY_SIZE(sdm845_intf),
-+	.intf = sdm845_intf,
-+	.vbif_count = ARRAY_SIZE(sdm845_vbif),
-+	.vbif = sdm845_vbif,
-+	.reg_dma_count = 1,
-+	.dma_cfg = &sdm845_regdma,
-+	.perf = &sdm845_perf_data,
-+	.mdss_irqs = IRQ_SDM845_MASK,
-+};
-+
- static const struct dpu_mdss_cfg sdm845_dpu_cfg = {
- 	.caps = &sdm845_dpu_caps,
- 	.mdp_count = ARRAY_SIZE(sdm845_mdp),
-@@ -2840,6 +2906,7 @@ static const struct dpu_mdss_hw_cfg_handler cfg_handler[] = {
- 	{ .hw_rev = DPU_HW_VER_301, .dpu_cfg = &msm8998_dpu_cfg},
- 	{ .hw_rev = DPU_HW_VER_400, .dpu_cfg = &sdm845_dpu_cfg},
- 	{ .hw_rev = DPU_HW_VER_401, .dpu_cfg = &sdm845_dpu_cfg},
-+	{ .hw_rev = DPU_HW_VER_410, .dpu_cfg = &sdm670_dpu_cfg},
- 	{ .hw_rev = DPU_HW_VER_500, .dpu_cfg = &sm8150_dpu_cfg},
- 	{ .hw_rev = DPU_HW_VER_501, .dpu_cfg = &sm8150_dpu_cfg},
- 	{ .hw_rev = DPU_HW_VER_510, .dpu_cfg = &sc8180x_dpu_cfg},
+ 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+ 
+-	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
++	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -237,7 +237,7 @@ static int tm5p5_nt35596_bl_get_brightness(struct backlight_device *bl)
+ 
+ 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+ 
+-	ret = mipi_dsi_dcs_get_display_brightness(dsi, &brightness);
++	ret = mipi_dsi_dcs_get_display_brightness(dsi, &brightness, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
+index ad58840eda41..5a0366366055 100644
+--- a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
++++ b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
+@@ -253,7 +253,7 @@ static int boe_bf060y8m_aj0_bl_update_status(struct backlight_device *bl)
+ 	u16 brightness = backlight_get_brightness(bl);
+ 	int ret;
+ 
+-	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
++	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -266,7 +266,7 @@ static int boe_bf060y8m_aj0_bl_get_brightness(struct backlight_device *bl)
+ 	u16 brightness;
+ 	int ret;
+ 
+-	ret = mipi_dsi_dcs_get_display_brightness(dsi, &brightness);
++	ret = mipi_dsi_dcs_get_display_brightness(dsi, &brightness, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/panel/panel-ebbg-ft8719.c b/drivers/gpu/drm/panel/panel-ebbg-ft8719.c
+index e85d63a176d0..0666e0390c7c 100644
+--- a/drivers/gpu/drm/panel/panel-ebbg-ft8719.c
++++ b/drivers/gpu/drm/panel/panel-ebbg-ft8719.c
+@@ -62,7 +62,7 @@ static int ebbg_ft8719_on(struct ebbg_ft8719 *ctx)
+ 
+ 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+ 
+-	ret = mipi_dsi_dcs_set_display_brightness(dsi, 0x00ff);
++	ret = mipi_dsi_dcs_set_display_brightness(dsi, 0x00ff, 1);
+ 	if (ret < 0) {
+ 		dev_err(dev, "Failed to set display brightness: %d\n", ret);
+ 		return ret;
+diff --git a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
+index d8765b2294fb..47ebf7b7da4a 100644
+--- a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
++++ b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
+@@ -102,7 +102,7 @@ static int jdi_fhd_r63452_on(struct jdi_fhd_r63452 *ctx)
+ 		return ret;
+ 	}
+ 
+-	ret = mipi_dsi_dcs_set_display_brightness(dsi, 0x00ff);
++	ret = mipi_dsi_dcs_set_display_brightness(dsi, 0x00ff, 1);
+ 	if (ret < 0) {
+ 		dev_err(dev, "Failed to set display brightness: %d\n", ret);
+ 		return ret;
+diff --git a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
+index 8f4f137a2af6..7d2f147a2504 100644
+--- a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
++++ b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
+@@ -332,7 +332,7 @@ static int dsi_dcs_bl_get_brightness(struct backlight_device *bl)
+ 
+ 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+ 
+-	ret = mipi_dsi_dcs_get_display_brightness(dsi, &brightness);
++	ret = mipi_dsi_dcs_get_display_brightness(dsi, &brightness, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -348,7 +348,7 @@ static int dsi_dcs_bl_update_status(struct backlight_device *bl)
+ 
+ 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+ 
+-	ret = mipi_dsi_dcs_set_display_brightness(dsi, bl->props.brightness);
++	ret = mipi_dsi_dcs_set_display_brightness(dsi, bl->props.brightness, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/panel/panel-raydium-rm67191.c b/drivers/gpu/drm/panel/panel-raydium-rm67191.c
+index dbb1ed4efbed..00f6bd163af2 100644
+--- a/drivers/gpu/drm/panel/panel-raydium-rm67191.c
++++ b/drivers/gpu/drm/panel/panel-raydium-rm67191.c
+@@ -473,7 +473,7 @@ static int rad_bl_get_brightness(struct backlight_device *bl)
+ 
+ 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+ 
+-	ret = mipi_dsi_dcs_get_display_brightness(dsi, &brightness);
++	ret = mipi_dsi_dcs_get_display_brightness(dsi, &brightness, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -493,7 +493,7 @@ static int rad_bl_update_status(struct backlight_device *bl)
+ 
+ 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+ 
+-	ret = mipi_dsi_dcs_set_display_brightness(dsi, bl->props.brightness);
++	ret = mipi_dsi_dcs_set_display_brightness(dsi, bl->props.brightness, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c b/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c
+index e06fd35de814..f5e235db7ad2 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c
++++ b/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c
+@@ -365,7 +365,7 @@ static int s6e63j0x03_enable(struct drm_panel *panel)
+ 		return ret;
+ 
+ 	/* set default white brightness */
+-	ret = mipi_dsi_dcs_set_display_brightness(dsi, 0x00ff);
++	ret = mipi_dsi_dcs_set_display_brightness(dsi, 0x00ff, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef00.c b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
+index 1a0d24595faa..b481195c9b8f 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-sofef00.c
++++ b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
+@@ -224,10 +224,8 @@ static int sofef00_panel_bl_update_status(struct backlight_device *bl)
+ 	u16 brightness;
+ 
+ 	brightness = (u16)backlight_get_brightness(bl);
+-	// This panel needs the high and low bytes swapped for the brightness value
+-	brightness = __swab16(brightness);
+ 
+-	err = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
++	err = mipi_dsi_dcs_set_display_brightness(dsi, brightness, 2);
+ 	if (err < 0)
+ 		return err;
+ 
+diff --git a/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c b/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
+index fa9be3c299c0..dbf179fdda88 100644
+--- a/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
++++ b/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
+@@ -420,7 +420,7 @@ static int truly_nt35521_bl_update_status(struct backlight_device *bl)
+ 	u16 brightness = backlight_get_brightness(bl);
+ 	int ret;
+ 
+-	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
++	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -433,7 +433,7 @@ static int truly_nt35521_bl_get_brightness(struct backlight_device *bl)
+ 	u16 brightness;
+ 	int ret;
+ 
+-	ret = mipi_dsi_dcs_get_display_brightness(dsi, &brightness);
++	ret = mipi_dsi_dcs_get_display_brightness(dsi, &brightness, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index 4f503d99f668..da02f09f251b 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -293,9 +293,9 @@ int mipi_dsi_dcs_set_tear_on(struct mipi_dsi_device *dsi,
+ int mipi_dsi_dcs_set_pixel_format(struct mipi_dsi_device *dsi, u8 format);
+ int mipi_dsi_dcs_set_tear_scanline(struct mipi_dsi_device *dsi, u16 scanline);
+ int mipi_dsi_dcs_set_display_brightness(struct mipi_dsi_device *dsi,
+-					u16 brightness);
++					u16 brightness, size_t num_params);
+ int mipi_dsi_dcs_get_display_brightness(struct mipi_dsi_device *dsi,
+-					u16 *brightness);
++					u16 *brightness, size_t num_params);
+ 
+ /**
+  * mipi_dsi_generic_write_seq - transmit data using a generic write packet
 -- 
 2.39.0
 
