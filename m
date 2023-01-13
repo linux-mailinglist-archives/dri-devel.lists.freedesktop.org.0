@@ -2,61 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C67669087
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:19:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D9F669088
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 09:19:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45D7A10E1E9;
-	Fri, 13 Jan 2023 08:19:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54CD110E1F5;
+	Fri, 13 Jan 2023 08:19:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
- [209.85.219.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2513A10E1E9
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:19:48 +0000 (UTC)
-Received: by mail-qv1-f42.google.com with SMTP id o17so14384187qvn.4
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:19:48 -0800 (PST)
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
+ [IPv6:2607:f8b0:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ADF610E1F5
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 08:19:52 +0000 (UTC)
+Received: by mail-il1-x132.google.com with SMTP id v6so992707ilq.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:19:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=BKMSUmtvQTZR1Bx3nFgy9UiaF+pPDH7HXjpb5m0jErY=;
+ b=Ksic6VC372xQWN9jfDMhwisA2M6mj48tLTHoGLbn+xdcflR+rMD3CtuznqAHCPTGnS
+ oKjRaOr7TNvVq08GhcPBcUPY9uPLVVBKUBQrfTWVO7NkKBKIEC984s2fPSFXVrLcyKsw
+ ezdHPDdJNMsTLEsmeNuB8YNCMgoOgHrl256To=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=MowQaQp0G9uX2jhG1rQLtIGSPC7S+MJhKLN+g9WmpVM=;
- b=73pmHUQVw4K7NZOAhWXJ7sCM8wgifwoun6IaAmv9r20RekaDy5hC7FvD1jhCoGOULm
- RMfvHzYy09SoELO54N6UmlMD8nOHomoLDrEpAhMvmqye6l5tXTBcwZZIkdf/n0/5BwVg
- k4k1uywOZGIilzpI+HcQQ5QQ9/mLKK8/ks/QrxqyCidgSOAL9PROT0FRjBl3H1q7Jfag
- mNDyE6pYD2e85aPTZra6loK5LD9POq+9BhQ3TnkGvs3D+rMguU0/bEOzs8Lts/VYxtL3
- BNF8P1rVCjK/w1wrL6HNUgVlUjUrvaF9I9fi+j0/uAh59VGUAkFJckYXXM5x9+VAdXr1
- J6tQ==
-X-Gm-Message-State: AFqh2krNKIDrhm1IXO05FD2jiaapISeWh8mJTp77Nb6l0yC+EmoeI3fU
- zsdWJCqchbmcA2LEL5uf+hm4OAg/Y3+1Zg==
-X-Google-Smtp-Source: AMrXdXuMOqMZfXlKzfA8V1/7NPgvYpz0Eqd6VrsraXmH/khTZ5qyE7Fe41dLGAMsb/OlMuAVe1q5+g==
-X-Received: by 2002:a05:6214:1903:b0:532:2932:6205 with SMTP id
- er3-20020a056214190300b0053229326205mr27908496qvb.24.1673597986892; 
- Fri, 13 Jan 2023 00:19:46 -0800 (PST)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com.
- [209.85.128.182]) by smtp.gmail.com with ESMTPSA id
- w22-20020a05620a425600b006cbc00db595sm12362068qko.23.2023.01.13.00.19.46
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 00:19:46 -0800 (PST)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-4d19b2686a9so147115067b3.6
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Jan 2023 00:19:46 -0800 (PST)
-X-Received: by 2002:a05:690c:313:b0:37e:6806:a5f9 with SMTP id
- bg19-20020a05690c031300b0037e6806a5f9mr3489142ywb.47.1673597985912; Fri, 13
- Jan 2023 00:19:45 -0800 (PST)
+ bh=BKMSUmtvQTZR1Bx3nFgy9UiaF+pPDH7HXjpb5m0jErY=;
+ b=yirjCRCDVdUT3LJrFsv1yqtCVecI0ur+3ADxaG315KoN0daw8pxXQewUnsefjZ3qnn
+ 6u97nH38XX4jYMW5t8s7KJZF/TsAidsF8AfrSD6Ugaud8nfon1pzMQB/GZ06YYAfEnHY
+ esPOzNSQp8i92tGf0E/uubcm8lHOeJQ78+dZqupTUV2as7EGy1y5FIqeNcD4dE3Gxgw5
+ xHnI7n4RhtWjoDlet9G9d+CBqlOM1KoNeUHw/LbqsDNDkQamEqZO53SjwpQ5U6GZ+b73
+ jZBWdB+6lOOhd9vca3wdhlTo3Jk4R5MDEqBp48YqrqT9Fjigc9ff4mtE1UJOQTgJwZ2D
+ CxUw==
+X-Gm-Message-State: AFqh2kpq0JNZCC6z2NG+5wkAedUDeZ6Yhr6g6SuOVgXR14JjvlL7ddJ3
+ 1KD59m1mWVC0SPLCyI2p8rVCv5OqbaP1qn7WBwjtWQ==
+X-Google-Smtp-Source: AMrXdXsDR5dhPIj26bySWnmo5RM8DNKlViIPKfZA1FUN9ZY90xGUdO4m1InJPkTHXxKZpel9gir4SHUCYlhZ9mzltLQ=
+X-Received: by 2002:a92:d0f:0:b0:303:96b3:c8a0 with SMTP id
+ 15-20020a920d0f000000b0030396b3c8a0mr8028094iln.192.1673597991294; Fri, 13
+ Jan 2023 00:19:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20230113062339.1909087-1-hch@lst.de>
- <20230113062339.1909087-2-hch@lst.de>
- <Y8EMZ0GI5rtor9xr@pendragon.ideasonboard.com>
- <Y8EOWGVmwEElKGE4@pendragon.ideasonboard.com>
-In-Reply-To: <Y8EOWGVmwEElKGE4@pendragon.ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 13 Jan 2023 09:19:34 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXRkUu3AuLs7X30ki1votAQfBU3HWvWB6qMQJBSUEr6WA@mail.gmail.com>
-Message-ID: <CAMuHMdXRkUu3AuLs7X30ki1votAQfBU3HWvWB6qMQJBSUEr6WA@mail.gmail.com>
-Subject: Re: [PATCH 01/22] gpu/drm: remove the shmobile drm driver
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20230112042104.4107253-1-treapking@chromium.org>
+ <20230112042104.4107253-4-treapking@chromium.org> <87mt6ogndf.fsf@intel.com>
+In-Reply-To: <87mt6ogndf.fsf@intel.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Fri, 13 Jan 2023 16:19:40 +0800
+Message-ID: <CAEXTbpdjr1ZeOKPsPhKJoByXbwjEiVV8+sxvxjo9==YeQhi-kA@mail.gmail.com>
+Subject: Re: [PATCH v10 3/9] drm/display: Add Type-C switch helpers
+To: Jani Nikula <jani.nikula@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,76 +62,284 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- linux-sh@vger.kernel.org, alsa-devel@alsa-project.org,
- dri-devel@lists.freedesktop.org, linux-mtd@lists.infradead.org,
- linux-i2c@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
- linux-arch@vger.kernel.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-watchdog@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- linux-gpio@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-usb@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- netdev@vger.kernel.org, dmaengine@vger.kernel.org, linux-rtc@vger.kernel.org
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Guenter Roeck <groeck@chromium.org>, Kees Cook <keescook@chromium.org>,
+ Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ shaomin Deng <dengshaomin@cdjrlc.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
+ Prashant Malani <pmalani@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 13, 2023 at 8:55 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Fri, Jan 13, 2023 at 09:46:49AM +0200, Laurent Pinchart wrote:
-> > On Fri, Jan 13, 2023 at 07:23:18AM +0100, Christoph Hellwig wrote:
-> > > This driver depends on ARM && ARCH_SHMOBILE, but ARCH_SHMOBILE can only be
-> > > set for each/sh, making the driver dead code except for the COMPILE_TEST
-> > > case.
-> > >
-> > > Signed-off-by: Christoph Hellwig <hch@lst.de>
+Hi Jani,
+
+Thanks for the review.
+
+On Thu, Jan 12, 2023 at 4:37 PM Jani Nikula <jani.nikula@intel.com> wrote:
+>
+> On Thu, 12 Jan 2023, Pin-yen Lin <treapking@chromium.org> wrote:
+> > Add helpers to register and unregister Type-C "switches" for bridges
+> > capable of switching their output between two downstream devices.
 > >
-> > No objection from me.
+> > The helper registers USB Type-C mode switches when the "mode-switch"
+> > and the "data-lanes" properties are available in Device Tree.
 > >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> > Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+> > Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+> > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> >
+> > ---
+> >
+> > Changes in v10:
+> > - Collected Reviewed-by and Tested-by tags
+> > - Replaced "void *" with "typec_mux_set_fn_t" for mux_set callbacks
+> > - Print out the node name when errors on parsing DT
+> > - Use dev_dbg instead of dev_warn when no Type-C switch nodes available
+> > - Made the return path of drm_dp_register_mode_switch clearer
+> >
+> > Changes in v8:
+> > - Fixed the build issue when CONFIG_TYPEC=m
+> > - Fixed some style issues
+> >
+> > Changes in v7:
+> > - Extracted the common codes to a helper function
+> > - New in v7
+> >
+> >  drivers/gpu/drm/display/drm_dp_helper.c | 134 ++++++++++++++++++++++++
+> >  include/drm/display/drm_dp_helper.h     |  17 +++
+> >  2 files changed, 151 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> > index 16565a0a5da6..a2ec40a621cb 100644
+> > --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> > +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> > @@ -30,11 +30,13 @@
+> >  #include <linux/sched.h>
+> >  #include <linux/seq_file.h>
+> >  #include <linux/string_helpers.h>
+> > +#include <linux/usb/typec_mux.h>
+> >  #include <linux/dynamic_debug.h>
+> >
+> >  #include <drm/display/drm_dp_helper.h>
+> >  #include <drm/display/drm_dp_mst_helper.h>
+> >  #include <drm/drm_edid.h>
+> > +#include <drm/drm_of.h>
+> >  #include <drm/drm_print.h>
+> >  #include <drm/drm_vblank.h>
+> >  #include <drm/drm_panel.h>
+> > @@ -3891,3 +3893,135 @@ int drm_panel_dp_aux_backlight(struct drm_panel *panel, struct drm_dp_aux *aux)
+> >  EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
+> >
+> >  #endif
+> > +
+> > +#if IS_REACHABLE(CONFIG_TYPEC)
 >
-> To expand a little bit on this, ARCH_SHMOBILE used to be set for the
-> ARM-based shmobile SoCs too, until
+> I think IS_REACHABLE() is a workaround for not getting the Kconfig
+> dependencies right. It allows configurations that silently just don't
+> work, instead of warning about it at config time. It fixes a build
+> issue, but trades it for an end user configuration issue that you don't
+> get any feedback about, and is hard to figure out. It's for people who
+> deal with build issues, but don't need to deal with user issues.
 >
-> commit 08e735233ea29b17bfec8e4cb302e799d9f920b8
-> Author: Geert Uytterhoeven <geert+renesas@glider.be>
-> Date:   Tue Aug 28 17:10:10 2018 +0200
+> BR,
+> Jani.
 >
->     ARM: shmobile: Remove the ARCH_SHMOBILE Kconfig symbol
+I've added "depends on TYPEC || TYPEC=n" on the Kconfigs of its users
+(i.e., anx7625 and it6505). I didn't do this on DRM_DISPLAY_DP_HELPER
+because that stops all users of DRM_DISPLAY_DP_HELPER, which is a
+quite generic helper file, from building TYPEC as a module.
+
+Or, do you have any other suggestions on this? Move these functions to
+a separate file?
+
 >
->     All drivers for Renesas ARM SoCs have gained proper ARCH_RENESAS
->     platform dependencies.  Hence finish the conversion from ARCH_SHMOBILE
->     to ARCH_RENESAS for Renesas 32-bit ARM SoCs, as started by commit
->     9b5ba0df4ea4f940 ("ARM: shmobile: Introduce ARCH_RENESAS").
 >
->     Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->     Acked-by: Arnd Bergmann <arnd@arndb.de>
->     Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+> > +static int drm_dp_register_mode_switch(struct device *dev, struct device_node *node,
+> > +                                    struct drm_dp_typec_switch_desc *switch_desc,
+> > +                                    void *data, typec_mux_set_fn_t mux_set)
+> > +{
+> > +     struct drm_dp_typec_port_data *port_data;
+> > +     struct typec_mux_desc mux_desc = {};
+> > +     char name[32];
+> > +     u32 dp_lanes[2];
+> > +     int ret, num_lanes, port_num = -1;
+> > +
+> > +     num_lanes = drm_of_get_data_lanes_count(node, 0, 2);
+> > +     if (num_lanes <= 0) {
+> > +             dev_err(dev, "Error on getting data lanes count from %s: %d\n",
+> > +                     node->name, num_lanes);
+> > +             return num_lanes;
+> > +     }
+> > +
+> > +     ret = of_property_read_u32_array(node, "data-lanes", dp_lanes, num_lanes);
+> > +     if (ret) {
+> > +             dev_err(dev, "Failed to read the data-lanes variable from %s: %d\n",
+> > +                     node->name, ret);
+> > +             return ret;
+> > +     }
+> > +
+> > +     port_num = dp_lanes[0] / 2;
+> > +
+> > +     port_data = &switch_desc->typec_ports[port_num];
+> > +     port_data->data = data;
+> > +     mux_desc.fwnode = &node->fwnode;
+> > +     mux_desc.drvdata = port_data;
+> > +     snprintf(name, sizeof(name), "%s-%u", node->name, port_num);
+> > +     mux_desc.name = name;
+> > +     mux_desc.set = mux_set;
+> > +
+> > +     port_data->typec_mux = typec_mux_register(dev, &mux_desc);
+> > +     if (IS_ERR(port_data->typec_mux)) {
+> > +             ret = PTR_ERR(port_data->typec_mux);
+> > +             dev_err(dev, "Mode switch register for port %d failed: %d\n",
+> > +                     port_num, ret);
+> > +
+> > +             return ret;
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +/**
+> > + * drm_dp_register_typec_switches() - register Type-C switches
+> > + * @dev: Device that registers Type-C switches
+> > + * @port: Device node for the switch
+> > + * @switch_desc: A Type-C switch descriptor
+> > + * @data: Private data for the switches
+> > + * @mux_set: Callback function for typec_mux_set
+> > + *
+> > + * This function registers USB Type-C switches for DP bridges that can switch
+> > + * the output signal between their output pins.
+> > + *
+> > + * Currently only mode switches are implemented, and the function assumes the
+> > + * given @port device node has endpoints with "mode-switch" property.
+> > + * Register the endpoint as port 0 if the "data-lanes" property falls in 0/1,
+> > + * and register it as port 1 if "data-lanes" falls in 2/3.
+> > + */
+> > +int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
+> > +                                struct drm_dp_typec_switch_desc *switch_desc,
+> > +                                void *data, typec_mux_set_fn_t mux_set)
+> > +{
+> > +     struct device_node *sw;
+> > +     int ret;
+> > +
+> > +     for_each_child_of_node(port, sw) {
+> > +             if (of_property_read_bool(sw, "mode-switch"))
+> > +                     switch_desc->num_typec_switches++;
+> > +     }
+> > +
+> > +     if (!switch_desc->num_typec_switches) {
+> > +             dev_dbg(dev, "No Type-C switches node found\n");
+> > +             return 0;
+> > +     }
+> > +
+> > +     switch_desc->typec_ports = devm_kcalloc(
+> > +             dev, switch_desc->num_typec_switches,
+> > +             sizeof(struct drm_dp_typec_port_data), GFP_KERNEL);
+> > +
+> > +     if (!switch_desc->typec_ports)
+> > +             return -ENOMEM;
+> > +
+> > +     /* Register switches for each connector. */
+> > +     for_each_child_of_node(port, sw) {
+> > +             if (!of_property_read_bool(sw, "mode-switch"))
+> > +                     continue;
+> > +             ret = drm_dp_register_mode_switch(dev, sw, switch_desc, data, mux_set);
+> > +             if (ret)
+> > +                     goto err_unregister_typec_switches;
+> > +     }
+> > +
+> > +     return 0;
+> > +
+> > +err_unregister_typec_switches:
+> > +     of_node_put(sw);
+> > +     drm_dp_unregister_typec_switches(switch_desc);
+> > +     dev_err(dev, "Failed to register mode switch: %d\n", ret);
+> > +     return ret;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_register_typec_switches);
+> > +
+> > +/**
+> > + * drm_dp_unregister_typec_switches() - unregister Type-C switches
+> > + * @switch_desc: A Type-C switch descriptor
+> > + */
+> > +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
+> > +{
+> > +     int i;
+> > +
+> > +     for (i = 0; i < switch_desc->num_typec_switches; i++)
+> > +             typec_mux_unregister(switch_desc->typec_ports[i].typec_mux);
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_unregister_typec_switches);
+> > +#else
+> > +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
+> > +{
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_register_typec_switches);
+> > +int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
+> > +                                struct drm_dp_typec_switch_desc *switch_desc,
+> > +                                void *data, typec_mux_set_fn_t mux_set)
+> > +{
+> > +     return 0;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_unregister_typec_switches);
+> > +#endif
+> > diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> > index ab55453f2d2c..5a3824f13b4e 100644
+> > --- a/include/drm/display/drm_dp_helper.h
+> > +++ b/include/drm/display/drm_dp_helper.h
+> > @@ -25,6 +25,7 @@
+> >
+> >  #include <linux/delay.h>
+> >  #include <linux/i2c.h>
+> > +#include <linux/usb/typec_mux.h>
+> >
+> >  #include <drm/display/drm_dp.h>
+> >  #include <drm/drm_connector.h>
+> > @@ -763,4 +764,20 @@ bool drm_dp_downstream_rgb_to_ycbcr_conversion(const u8 dpcd[DP_RECEIVER_CAP_SIZ
+> >                                              const u8 port_cap[4], u8 color_spc);
+> >  int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc);
+> >
+> > +struct drm_dp_typec_port_data {
+> > +     struct typec_mux_dev *typec_mux;
+> > +     void *data;
+> > +     bool dp_connected;
+> > +};
+> > +
+> > +struct drm_dp_typec_switch_desc {
+> > +     int num_typec_switches;
+> > +     struct drm_dp_typec_port_data *typec_ports;
+> > +};
+> > +
+> > +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc);
+> > +int drm_dp_register_typec_switches(struct device *dev, struct device_node *port,
+> > +                                struct drm_dp_typec_switch_desc *switch_desc,
+> > +                                void *data, typec_mux_set_fn_t mux_set);
+> > +
+> >  #endif /* _DRM_DP_HELPER_H_ */
 >
-> merged in v4.20. The DRM shmobile driver's Kconfig entry wasn't updated,
-> making it dead code indeed.
+> --
+> Jani Nikula, Intel Open Source Graphics Center
 
-Note that it wasn't updated because this driver was not used on Renesas
-ARM platforms, due to the lack of DT bindings and DT support, so it
-didn't make sense to make it selectable.
-
-> I haven't tested this driver in ages, hence my lack of objection, but
-> someone may want to keep it for the pre-R-Car ARM SoCs.
-
-Indeed, this driver should work with the R-Mobile A1 (which made it
-into orbit, so we could call it the first member of R-Space ;-) and
-SH-Mobile AG5 SoCs.  The major blocker is the lack of DT bindings.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Pin-yen
