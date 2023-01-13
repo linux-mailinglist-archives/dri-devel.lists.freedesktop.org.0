@@ -1,135 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4697E66A2A6
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 20:06:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DD6D66A2AE
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Jan 2023 20:10:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C40910EA8C;
-	Fri, 13 Jan 2023 19:06:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBDD910EA9E;
+	Fri, 13 Jan 2023 19:10:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 020C210EA8C;
- Fri, 13 Jan 2023 19:06:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673636777; x=1705172777;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=DdQ5zokSAwL8W4i1A99tHqqLMzi7f2jW8ikEE196vTA=;
- b=fcM//dRbgUkAN0BUrt5XgmIQT6dNMi7AjXhVYMIuxDikw/7fzwMWulIW
- 7rs77iC7Fxv5I1zrFO5Mm6gz8Fb+lnHpmgxnAB9fLnEGg9juQ0EuchSEY
- JK3yHhWOxSLzE6sC+RgBmt4msqUcUD+IQjTIGSYEqoA3A0/uQHea0VTzR
- 9wyNPEVxjD+ygYSzjQpzLhGL5+DkrurQxXEtY/nUaky6ro7wQptxaLDRc
- kc7qdPK227adkiovTi0CVT7nsYO9A+N/6EdHppcHkD8v08rLNgeOzgY8c
- j6PI2AWj4dPC5kCvht+vD9dDorXLkxvD8A/AxVQ5bduBRSE+ZqwnT63Ws A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="325332666"
-X-IronPort-AV: E=Sophos;i="5.97,214,1669104000"; d="scan'208";a="325332666"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2023 11:06:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="635873566"
-X-IronPort-AV: E=Sophos;i="5.97,214,1669104000"; d="scan'208";a="635873566"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga006.jf.intel.com with ESMTP; 13 Jan 2023 11:06:11 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Fri, 13 Jan 2023 11:06:10 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Fri, 13 Jan 2023 11:06:10 -0800
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.170)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Fri, 13 Jan 2023 11:06:09 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Rl7sbi2bKVTOI1C+x55L09cp/GG2RLW93cEiSwTXbXMdv3zvk6E+Y9wiZk2HTulTVm0wWHsJyVr6Avp0rXZ+58CNEgZJze07OH4DJwfkmjR5krCmfplppbIemJIJVp7DR6BagJ4UsWHVlEhWWqDTInxn0mtH41U/7uBfEvMQO7qZyQ3uVWcDRIEFLqyYEJ1mTBnL8jPboGwoTDH03hAIvOqGvrI+EBxFo6uc48yYfXKmbJhcv7zSz6k2Ov/06ANyRB74pBLBo3ocoyJPgsTydfDObV3W4RMNsTqCOqf4y+QBE41jxtEi1xF+DP5IxMuBxxBvd47DSuPF/xJz8O5Lcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8LU0gbKENw8lX+X1hUowffIKjrJXB+TCMJGJWvA1Dc4=;
- b=e/d9Rn8IMcmrSC2Yrk8Q9Epi9VLzV+47wcXq1ZcsXS0Mt5Cm8A7XNMmS9eHVhtx7+0li5ZuvhKEAtC+Cdi/3phylDwH0wUMf3wj0BfKEMU4ONkRY0PJ6BtDgKRbQXoKA2noYZEHsmvAxInjAsNbTyyiVM53Iq5c8aeWP/aRimT4VzTUddjZZ981wkvhWoVMJiEjoM/n1xgfpj3W9Zf4Em1/ANNPKFZXTuSLVvrCgiPKG+Du5IvCqf9VL9EijJEWhJnI5l2bxIyqWBnoGZi+NssTjNMCgJjJoAIKxfJO29rL00oN35YklMrlJuYeprlyJwfwazNe7MN2LhtPqw6lgFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by PH7PR11MB6474.namprd11.prod.outlook.com (2603:10b6:510:1f2::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13; Fri, 13 Jan
- 2023 19:06:08 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::1818:e39d:454d:a930]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::1818:e39d:454d:a930%4]) with mapi id 15.20.5986.018; Fri, 13 Jan 2023
- 19:06:07 +0000
-Date: Fri, 13 Jan 2023 14:05:58 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Deepak R Varma <drv@mailo.com>
-Subject: Re: [PATCH v3 0/2] drm/i915: Avoid full proxy f_ops debug attributes
-Message-ID: <Y8Grli/Ie01RvDBR@intel.com>
-References: <cover.1673451705.git.drv@mailo.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <cover.1673451705.git.drv@mailo.com>
-X-ClientProxiedBy: BY5PR17CA0031.namprd17.prod.outlook.com
- (2603:10b6:a03:1b8::44) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2DC710EAA4;
+ Fri, 13 Jan 2023 19:10:05 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30DFHUo5019566; Fri, 13 Jan 2023 19:09:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=p7f1X50KLAAjSb4OhfpAwfcOd49ehxc6z2R2Qapmuiw=;
+ b=mChTRs7St6akC5TR/jgYn6akVWL/YsNY9zy0IYAXg9RljpffxkwzLRw2WWyBQz6IKxFr
+ 6fSmVuzt99v+Y9U/FtqTR5IenZlPrBllFLfkh046ckx1Dcgc/2vJB0uOFHjV2jzXcexQ
+ x52wq6Y8A1e0F6Azz1JKryp4Xzn+J06Z52OMVDOJaHNpj2Yq6mo3FM7UbfgDugcjbNUd
+ YwoZWywUKo8Hfk7+koLD6y103BD6f0s55VNMI2ogVgRXZ1NHWHEWSGFQP2U4Dy1Xbo3I
+ /q9vAILhWPhjnHVLUAxZWr7nDueD+/qFmdXx/y/SYEBWOZcLHhevcWy9HidWYsYtPzoF wQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n2wqw239b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Jan 2023 19:09:58 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30DJ9vLY021266
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Jan 2023 19:09:57 GMT
+Received: from [10.110.70.165] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 13 Jan
+ 2023 11:09:56 -0800
+Message-ID: <71f96910-e7b1-92f9-ae15-79bd1da40a0d@quicinc.com>
+Date: Fri, 13 Jan 2023 11:09:55 -0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|PH7PR11MB6474:EE_
-X-MS-Office365-Filtering-Correlation-Id: 805b76c2-9443-4961-0926-08daf59937ac
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +qqMsRfru7HHE6v6PvcQCEahX059RQ4gCqcEJ/YeiFzxC8zyIR9CmxZ/I8bgbyyzi/gj4mEo1gakKUpQvFkDS88llOKkbs6jKYUBdCQagzdzM3F2g4Nii3GVkSnYhynXWnRKoV60QiKG62bFfAGbjPAVfSiFsFpTfLJ2M4aNFEk1TVv8q0dBcXO/jubQ1gFmH1pH6/vp5g7rShacI7Y2VRTRGTFZbdID77n5lGi4LaI3fTLMC27Hwwf0bg4SYvlT/DeHfMTSMlRRdHFoOkqLkkmIS0pIeaUEFgLLeGxt6OrE0CVSeV239rImUkyjf346AbfR+qmwxh0M1aYSXgYMKKHqypfqj66n/CJCOBwc31EPqC6y//0S+zEuwLPMrKeVt56nIe9TCA6YOd9s2nCqrg/iJmQ7xjfwHEQoUp2sagB39JKCcsMK/sCZ9AE3D71QI5NKDY9KVg6yed5007ZeqLfvfRbSB0K+YQJGfUD4B2QQo9NsslpD+zsk3w/Jr3Mt5ewaYrFnuk5UKDM9/s0evAtYNL9GZ+KLZ6ZvPNhMje8gV4WYrhZM291EJC1QBPD0chkjxfMnX4oytJUJ7KhgEYpJpiXgFhctqTRFr+6kRlHdqk7xCIoMWyhB7IugjTBHTcM7/nAEdS2fyshHoB7OBA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(136003)(346002)(39860400002)(366004)(376002)(396003)(451199015)(6666004)(6506007)(66946007)(6916009)(66556008)(66476007)(6486002)(8676002)(186003)(26005)(6512007)(478600001)(41300700001)(2906002)(44832011)(4326008)(83380400001)(7416002)(5660300002)(8936002)(38100700002)(36756003)(82960400001)(86362001)(54906003)(316002)(2616005);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pBCfhI+p55xPy6Q+eaRbSOa+eSNn0I1IsMfNuW7BcFPa8k3AoLfRujUNiCv8?=
- =?us-ascii?Q?ndw3ot1yFtTWjMhpBA2u1nYDjgQnSEGU3x+431BxABM0qkBdTXOrO4x1+4mp?=
- =?us-ascii?Q?XpnsOT9/rDVldj0csngU71XbHUxnqYSr2XVKRcvr3af0pWEq9QR+lJaBiEqZ?=
- =?us-ascii?Q?M9NCZRlVLHnslgPKJJ9NjQai1ZnvlZB4SGVg8bU82wsQrRtddNgJkddDv5oq?=
- =?us-ascii?Q?PdIUqeuXFBpxbk2VoDhPw7KsTXg2m3JP1j1e8MOijn/1T4f622ir6NAc5yTF?=
- =?us-ascii?Q?ac+ej0aSPRWI/4vzMLjs54nieVwb7E69vsbOD0Ea90On121cr6fAwJXULmUo?=
- =?us-ascii?Q?cusKGentJuoi087LCNN3ZirKsrujQme+E0Kn487lOL16D+XRsixY1pKoUBJL?=
- =?us-ascii?Q?A5SY0uT2eE6lXvF0QCND1HwISymTiPkzwTO835JHnzaba/HXS7i+Tit/Iiqm?=
- =?us-ascii?Q?b7iBnpix5wdcLh0TS6WldAdlcomiR3gpsHVLV+ivyf1BY5pj6MbB0JDbh4xN?=
- =?us-ascii?Q?mjbHW1sEt/4WY3hff1p4PICm+24g4GYTN53QWa4sNBKCvTk5l5aIeUCI4FoS?=
- =?us-ascii?Q?n6GQ8YO8ld+smHLmVu50JPxZnTUoSIGexuEY6NGdQbGePIZaJpAL7LHfMMAh?=
- =?us-ascii?Q?WZXLLLg5mgwBLSczfrCDKfiAxUmBd3tUSWlCG4uJ8n1whdS4jd5nFSksJOEw?=
- =?us-ascii?Q?uSKjRghB1uQsqPob1yuNfmiKm+2AEKtr3SPeGa+yyLk529Osg6QgvnxNpw/M?=
- =?us-ascii?Q?VbJ4OpiMkBPcuxv2xYRSpjgf3cmYzmFcCu+Fo4e0F6sI27blkGA9enC1bc3l?=
- =?us-ascii?Q?7eI+ugw68uzFW+u1C+/e3yFdZ3Z15BfHIny1fdOJ6lcK0LmqWG9hhPY3MeHS?=
- =?us-ascii?Q?VvpVg99ZABQKwvmwUnMA3dEZ1oFoCqVwu/xpiayhcJC9F9jm0NlDb59WSg67?=
- =?us-ascii?Q?Le6RdIr372bxxMFm8xX2HzMfoTQqEtvNP4fneosWbUzgH7Vjm1cuAZRtimuk?=
- =?us-ascii?Q?plZplso+iLtJtLWuGGsA6Jd1x9PJgJ9VvObCCmGg5Vmv5NBK/3fpfp2u1zVz?=
- =?us-ascii?Q?Kdo737NOEbj7+c1GrbWQsanOFIl176IFWzVOrtnseB6NVDPjKIq+IRtrHH/E?=
- =?us-ascii?Q?gFOBEAHG85i8pQaCRazSIBnMYzOwe32VcKbaL5UFBlROozczWSIJeW60sFIo?=
- =?us-ascii?Q?aMZn2yLMw2KZxO4yyTitta0u/jURnRy8RCbmaiGNWWQSWwPdJJSGeNUaglPe?=
- =?us-ascii?Q?13GYLuPkq0Dpcmd1aQJWRfJcnALMZlVmKjEWbJc0b2BDM8mER//0MLbxurSd?=
- =?us-ascii?Q?3cuYMp5VARdQryFpT/n99j6RCA6raoFOOxRQgBbiz+ETbCGhYtH6nA+imwd5?=
- =?us-ascii?Q?V2pC1JN9cJ/Y+Gp+WgPiKndUBAXTaVAERNLF9cHTm9+54q7JMV8EmaMJp5kU?=
- =?us-ascii?Q?emh5b0tf15TKsNonFl7bblym0DZZZmztCXCBA0Lpz/HiX74UUIRkTRtbv//1?=
- =?us-ascii?Q?tqJagkEQXdQ/lBnTNmak2aSzAB4D6OI0/r03F/Rydixo4vOs3SkIU5Wv+Kq/?=
- =?us-ascii?Q?sCESy0tUiCohVOkteFESGbZoKfI5cGSZs6dglMgxKcVE4URVM1fqQG7/YowV?=
- =?us-ascii?Q?Gw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 805b76c2-9443-4961-0926-08daf59937ac
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2023 19:06:07.8699 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RPcgEKY+hefyqvjxWmCqdZdLN6Wfosi/lFS+azl+ds5k6znF5DYxXa1/pZrvpA0Dfb2+tYD/Ncr2wh4+1v9XWw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6474
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [RFC PATCH 1/4] drm/msm/mdss: convert UBWC setup to use match data
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+References: <20221208000850.312548-1-dmitry.baryshkov@linaro.org>
+ <20221208000850.312548-2-dmitry.baryshkov@linaro.org>
+ <047cd859-7141-d52f-4989-847fd2ada002@quicinc.com>
+ <b66de0ab-a31b-c86a-c1d0-c9a5f98c4f85@linaro.org>
+ <5aa47cf1-0589-4830-c1fb-22e15bac974a@quicinc.com>
+ <20230111084458.wcwzipew3ny7fpno@SoMainline.org>
+ <e1c49c07-8ae2-f82f-97e0-4bb03c5f5af6@linaro.org>
+ <20230111222159.rqsrtdfuop3tpllq@SoMainline.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230111222159.rqsrtdfuop3tpllq@SoMainline.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ISszoQvdo8zTrv7xhM6IgQHFsDPNzzt0
+X-Proofpoint-ORIG-GUID: ISszoQvdo8zTrv7xhM6IgQHFsDPNzzt0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-13_09,2023-01-13_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ mlxlogscore=999 spamscore=0 malwarescore=0 adultscore=0 mlxscore=0
+ suspectscore=0 impostorscore=0 clxscore=1015 phishscore=0 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301130130
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,47 +90,202 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Saurabh
- Singh Sengar <ssengar@microsoft.com>,
- Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 11, 2023 at 09:20:40PM +0530, Deepak R Varma wrote:
-> This patch series proposes to replace a combination of DEFINE_SIMPLE_ATTRIBUTE() +
-> debugfs_create_file() by a combination of DEFINE_DEBUGFS_ATTRIBUTE() +
-> debugfs_create_file_unsafe(). The change reduced overhead in terms of managing
-> the full proxy f_ops at runtime. The patches 1 & 2 covers for the DRRS and FBC
-> f_ops debugfs attributes respectively.
-> 
-> Following coccicheck make command helped identify this change:
-> 
-> make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
 
-pushed both patches to drm-intel-next. Thanks for the patches.
 
+On 1/11/2023 2:21 PM, Marijn Suijten wrote:
+> On 2023-01-11 17:11:03, Dmitry Baryshkov wrote:
+>> On 11/01/2023 10:44, Marijn Suijten wrote:
+>>> On 2023-01-09 12:32:18, Abhinav Kumar wrote:
+>>> <snip>
+>>>>>> On 12/7/2022 4:08 PM, Dmitry Baryshkov wrote:
+>>> <snip>
+>>>>>>> +struct msm_mdss_data {
+>>>>>>> +    u32 ubwc_version;
+>>>>>>> +    u32 ubwc_swizzle;
+>>>>>>> +    u32 ubwc_static;
+>>>>>>> +    u32 highest_bank_bit;
+>>>>>>> +    u32 macrotile_mode;
+>>>>>>> +};
+>>>
+>>> This magic struct could really use some documentation, otherwise users
+>>> will have no idea what fields to set (or omit) nor what values to use.
+>>> For example decoder 2.0 seems to only use ubwc_static as a sort of magic
+>>> "we don't know what the bits in UBWC_STATIC mean", whereas decoder 3.0
+>>> reconstructs this field entirely from the other parameters.  Decoder 4.0
+>>> however does the same, but _also_ embeds this uwbc_static magic value
+>>> back into the register value....?
+>>
+>> On the bright side these magic values correspond 1:1 to the vendor dtsi
+>> and to the part of DPU hw catalog. It would be nice to know the bit used
+>> by decoder 2.0, but I fear that we'd have to resort to wild guesses
+>> unless Qualcomm decides to disclose that information.
 > 
-> Changes in v3:
->    Patch 1/2: fix checkpatch function parameter alignment complaint
->    Patch 2/2: None
+> If downstream has these fields verbatim that makes it easier to
+> copy-paste, agreed.
 > 
-> Changes in v2:
->    - Individual patches clubbed in patch set
->    - Update patch log message to include coccicheck make command
+>> As for dec 4.0 and ubwc_static. I fear that it's just somebody (writing
+>> downstream DT parsing) reused the ubwc-static name for the bitfield
+>> which in reality has some sensible name.
 > 
+> Yes, ugh.
 > 
-> Deepak R Varma (2):
->   drm/i915/display: Avoid full proxy f_ops for DRRS debug attributes
->   drm/i915/fbc: Avoid full proxy f_ops for FBC debug attributes
+>>> Also read on below about checking "compatibility" between this struct
+>>> and the decoder version, and why I feel this struct (versus mandatory
+>>> function arguments) makes this struct less robust.
+>>>
+>>>>>>>     struct msm_mdss {
+>>>>>>>         struct device *dev;
+>>>>>>> @@ -40,6 +48,7 @@ struct msm_mdss {
+>>>>>>>             unsigned long enabled_mask;
+>>>>>>>             struct irq_domain *domain;
+>>>>>>>         } irq_controller;
+>>>>>>> +    const struct msm_mdss_data *mdss_data;
+>>>>>>>         struct icc_path *path[2];
+>>>>>>>         u32 num_paths;
+>>>>>>>     };
+>>>>>>> @@ -180,46 +189,40 @@ static int _msm_mdss_irq_domain_add(struct
+>>>>>>> msm_mdss *msm_mdss)
+>>>>>>>     #define UBWC_3_0 0x30000000
+>>>>>>>     #define UBWC_4_0 0x40000000
+>>>>>>> -static void msm_mdss_setup_ubwc_dec_20(struct msm_mdss *msm_mdss,
+>>>>>>> -                       u32 ubwc_static)
+>>>>>>> +static void msm_mdss_setup_ubwc_dec_20(struct msm_mdss *msm_mdss)
+>>>>>>>     {
+>>>>>>> -    writel_relaxed(ubwc_static, msm_mdss->mmio + UBWC_STATIC);
+>>>>>>> +    const struct msm_mdss_data *data = msm_mdss->mdss_data;
+>>>>>>> +
+>>>>>>> +    writel_relaxed(data->ubwc_static, msm_mdss->mmio + UBWC_STATIC);
+>>>>>>>     }
+>>>>>>> -static void msm_mdss_setup_ubwc_dec_30(struct msm_mdss *msm_mdss,
+>>>>>>> -                       unsigned int ubwc_version,
+>>>>>>> -                       u32 ubwc_swizzle,
+>>>>>>> -                       u32 highest_bank_bit,
+>>>>>>> -                       u32 macrotile_mode)
+>>>>>>> +static void msm_mdss_setup_ubwc_dec_30(struct msm_mdss *msm_mdss)
+>>>>>>>     {
+>>>>>>> -    u32 value = (ubwc_swizzle & 0x1) |
+>>>>>>> -            (highest_bank_bit & 0x3) << 4 |
+>>>>>>> -            (macrotile_mode & 0x1) << 12;
+>>>>>>> +    const struct msm_mdss_data *data = msm_mdss->mdss_data;
+>>>>>>> +    u32 value = (data->ubwc_swizzle & 0x1) |
+>>>>>>> +            (data->highest_bank_bit & 0x3) << 4 |
+>>>>>>> +            (data->macrotile_mode & 0x1) << 12;
+>>>>>>> -    if (ubwc_version == UBWC_3_0)
+>>>>>>> +    if (data->ubwc_version == UBWC_3_0)
+>>>>>>>             value |= BIT(10);
+>>>>>>> -    if (ubwc_version == UBWC_1_0)
+>>>>>>> +    if (data->ubwc_version == UBWC_1_0)
+>>>>>>>             value |= BIT(8);
+>>>>>>>         writel_relaxed(value, msm_mdss->mmio + UBWC_STATIC);
+>>>>>>>     }
+>>>>>>> -static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss *msm_mdss,
+>>>>>>> -                       unsigned int ubwc_version,
+>>>>>>> -                       u32 ubwc_swizzle,
+>>>>>>> -                       u32 ubwc_static,
+>>>>>>> -                       u32 highest_bank_bit,
+>>>>>>> -                       u32 macrotile_mode)
+>>>>>>> +static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss *msm_mdss)
+>>>>>>>     {
+>>>>>>> -    u32 value = (ubwc_swizzle & 0x7) |
+>>>>>>> -            (ubwc_static & 0x1) << 3 |
+>>>>>>> -            (highest_bank_bit & 0x7) << 4 |
+>>>>>>> -            (macrotile_mode & 0x1) << 12;
+>>>>>>> +    const struct msm_mdss_data *data = msm_mdss->mdss_data;
+>>>>>>> +    u32 value = (data->ubwc_swizzle & 0x7) |
+>>>>>>> +            (data->ubwc_static & 0x1) << 3 |
+>>>>>>> +            (data->highest_bank_bit & 0x7) << 4 |
+>>>>>>> +            (data->macrotile_mode & 0x1) << 12;
+>>>>>>>         writel_relaxed(value, msm_mdss->mmio + UBWC_STATIC);
+>>>>>>> -    if (ubwc_version == UBWC_3_0) {
+>>>>>>> +    if (data->ubwc_version == UBWC_3_0) {
+>>>>>>>             writel_relaxed(1, msm_mdss->mmio + UBWC_CTRL_2);
+>>>>>>>             writel_relaxed(0, msm_mdss->mmio + UBWC_PREDICTION_MODE);
+>>>>>>>         } else {
+>>>>>>> @@ -232,6 +235,7 @@ static int msm_mdss_enable(struct msm_mdss
+>>>>>>> *msm_mdss)
+>>>>>>>     {
+>>>>>>>         int ret;
+>>>>>>>         u32 hw_rev;
+>>>>>>> +    u32 ubwc_dec_hw_version;
+>>>>>>>         /*
+>>>>>>>          * Several components have AXI clocks that can only be turned
+>>>>>>> on if
+>>>>>>> @@ -250,53 +254,36 @@ static int msm_mdss_enable(struct msm_mdss
+>>>>>>> *msm_mdss)
+>>>>>>>          * HW_REV requires MDSS_MDP_CLK, which is not enabled by the
+>>>>>>> mdss on
+>>>>>>>          * mdp5 hardware. Skip reading it for now.
+>>>>>>>          */
+>>>>>>> -    if (msm_mdss->is_mdp5)
+>>>>>>> +    if (msm_mdss->is_mdp5 || !msm_mdss->mdss_data)
+>>>>>>>             return 0;
+>>>>>>>         hw_rev = readl_relaxed(msm_mdss->mmio + HW_REV);
+>>>>
+>>>> hw_rev is not used anymore now so why not just drop that reg read
+>>>> altogether.
+>>>>
+>>>>>>>         dev_dbg(msm_mdss->dev, "HW_REV: 0x%x\n", hw_rev);
+>>>>>>> +
+>>>>>>> +    ubwc_dec_hw_version = readl_relaxed(msm_mdss->mmio +
+>>>>>>> UBWC_DEC_HW_VERSION);
+>>>>
+>>>> If we are going to tie UBWC version to the HW compatible match, then
+>>>> even this register read can be skipped and instead you can add
+>>>> ubwc_dec_hw_version to your match data struct and skip this read as well.
+>>>
+>>> I have suggested in IRC to keep this register read, and utilize it to at
+>>> least sanity check the configuration.  You are right that the DPU HW
+>>> version already describes what UWBC decoder version is used, but we're
+>>> are already questioning whether it was ported correctly for SM6115.  A
+>>> WARN() that catches a mismatch between what was written in the "catalog"
+>>> (or this match table) versus what the hardware reports would have gone a
+>>> long way.
+>>
+>> Well... Sanity checking here means we do not trust the kernel. And whom
+>> we can trust then?
 > 
->  drivers/gpu/drm/i915/display/intel_drrs.c |  8 ++++----
->  drivers/gpu/drm/i915/display/intel_fbc.c  | 12 ++++++------
->  2 files changed, 10 insertions(+), 10 deletions(-)
+> I have no reason to trust the kernel here.  Knowing the read-back value
+> might even be necessary to decipher the "downstream" kernel, since it
+> doesn't specify the decoder /hardware/ version but only the data format?
 > 
-> -- 
-> 2.34.1
+
+Many values in the catalog are also working on the assumption that they 
+have been copied over correctly from downstream.
+
+So I dont think we need to rely on reading the revision from HW.
+
+The reason I would like to skip it is because its directly tied to the 
+DPU HW version.
+
+Having an extra register read just to make sure downstream values are 
+not incorrectly copied over seems like an overkill.
+
+>> Note, that for 6115 I had a question regarding the
+>> ubwc_version stated in the comment, not in the code. I asked for
+>> UBWC_DEC_HW_VERSION value just to be sure.
 > 
+> Right, that is some weird paraphrasing.  Is it the UBWC_2_0 data format
+> (because there's nothing in dec_20 performing a conditional based on
+> this) and only coincidentally being the same as the HW decoder version?
 > 
+>>> This is especially relevant with the new struct where fields are
+>>> (un)used depending on the UBWC HW decoder version, making for an extra
+>>> exercise to the developer to double-check whether their struct values
+>>> are taken into account or not (or if used ones are accidentally
+>>> omitted).
+>>
+>> Granted the overlay between DPU catalog and MDSS device data maybe we
+>> should make DPU ask MDSS for the ubwc settings.
 > 
+> Is DPU also holding on to these values?  I was more so referring to the
+> fact that the HW_DEC version determines what specific fields are read
+> and what are not, which may not be immediately obvious when adding a
+> struct instance unless reading the code.
+> 
+> - Marijn
