@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B666266AE21
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Jan 2023 22:20:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2FF66AE23
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Jan 2023 22:20:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C718310E27F;
-	Sat, 14 Jan 2023 21:20:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCE8210E281;
+	Sat, 14 Jan 2023 21:20:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FA3810E27F;
- Sat, 14 Jan 2023 21:20:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1355A10E281;
+ Sat, 14 Jan 2023 21:20:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1673731215; bh=owq0V8Z5J5JXHykzSdI48m2IFtIiUsNYU2CP5ngYPr0=;
+ t=1673731242; bh=4z9iFsp+DoxOPsRSJrEoIW+T8SbcfTIo02z3jd9D0wM=;
  h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
  MIME-Version:Content-Type:In-Reply-To;
- b=A3sl7bdOjcZqv6/dMNZdqqB5HykSBsZfnW1SBH/sg0DcUgFrd7LRGLXedDLyf26Ed
- rJx8xPFWovd4aGidkq6ev0TOk5HODUXQLwTo7FY0YCVAwMnJmQ3cAAtOoABGnfXYKh
- UOZ6xEPamQK6CQd6zdFXOWvev4ttGskj3PzTh1RU=
-Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
+ b=CmnvkdPl6rp+Kbmh0xBTbVHp2sV2BGpyAvubPOyhS5BQIaNp3pYHMKajTRf/bdFfV
+ zlySr32Jo+FnBoPPlKg31edrfRnLWY/aiAa/xKE7EiaysV1fmDnOSDzBhjtLTiTmiI
+ 9YyW5KE1CthR2zbwTvrI2qfoCriqGd93Wfz1W4Xs=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
  via ip-206.mailobj.net [213.182.55.206]
- Sat, 14 Jan 2023 22:20:15 +0100 (CET)
-X-EA-Auth: Gk7U1oU5YIpwDabO2Q8KWQ0UezeP9kSztRjBUwu5jSJBjOhRBDGBz3uA80uLYPP1KseRVuwVnhrOLtZ6cYFY7K5sSAbi+xFX
-Date: Sun, 15 Jan 2023 02:50:10 +0530
+ Sat, 14 Jan 2023 22:20:42 +0100 (CET)
+X-EA-Auth: cG/HSE5fIY7LcfmQRMBTYSk9qPaokkOPoCvufGol1mWz4fKAhqA0EQkemPxgt247sp/8c2u/07Yh6IU0+a9uvEVBusVi5/7j
+Date: Sun, 15 Jan 2023 02:50:37 +0530
 From: Deepak R Varma <drv@mailo.com>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
@@ -33,8 +33,8 @@ To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 1/4] drm/amd/display: Use min()/max() macros in dcn_calc_math
-Message-ID: <fd6e5bea063d2cfde8bde7d10a7309214acf9251.1673730293.git.drv@mailo.com>
+Subject: [PATCH 2/4] drm/amd/display: dcn20: Use min()/max() helper macros
+Message-ID: <fe281d361affb39b698211e3165af645089af92a.1673730293.git.drv@mailo.com>
 References: <cover.1673730293.git.drv@mailo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -63,52 +63,42 @@ using minmax.cocci Coccinelle semantic patch.
 
 Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
- .../gpu/drm/amd/display/dc/dml/calcs/dcn_calc_math.c   | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ .../gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c   | 5 +----
+ .../gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c | 5 +----
+ 2 files changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calc_math.c b/drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calc_math.c
-index cac72413a097..81629f3715d3 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calc_math.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calc_math.c
-@@ -52,12 +52,12 @@ float dcn_bw_min2(const float arg1, const float arg2)
- 		return arg2;
- 	if (isNaN(arg2))
- 		return arg1;
--	return arg1 < arg2 ? arg1 : arg2;
-+	return min(arg1, arg2);
- }
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
+index d3b5b6fedf04..850bb0f973d4 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
+@@ -626,10 +626,7 @@ static bool CalculatePrefetchSchedule(
  
- unsigned int dcn_bw_max(const unsigned int arg1, const unsigned int arg2)
- {
--	return arg1 > arg2 ? arg1 : arg2;
-+	return max(arg1, arg2);
- }
- float dcn_bw_max2(const float arg1, const float arg2)
- {
-@@ -65,7 +65,7 @@ float dcn_bw_max2(const float arg1, const float arg2)
- 		return arg2;
- 	if (isNaN(arg2))
- 		return arg1;
--	return arg1 > arg2 ? arg1 : arg2;
-+	return max(arg1, arg2);
- }
+ 	dst_y_prefetch_oto = Tpre_oto / LineTime;
  
- float dcn_bw_floor2(const float arg, const float significance)
-@@ -93,12 +93,12 @@ float dcn_bw_ceil2(const float arg, const float significance)
+-	if (dst_y_prefetch_oto < dst_y_prefetch_equ)
+-		*DestinationLinesForPrefetch = dst_y_prefetch_oto;
+-	else
+-		*DestinationLinesForPrefetch = dst_y_prefetch_equ;
++	*DestinationLinesForPrefetch = min(dst_y_prefetch_oto, dst_y_prefetch_equ);
  
- float dcn_bw_max3(float v1, float v2, float v3)
- {
--	return v3 > dcn_bw_max2(v1, v2) ? v3 : dcn_bw_max2(v1, v2);
-+	return max(v3, dcn_bw_max2(v1, v2));
- }
+ 	*DestinationLinesForPrefetch = dml_floor(4.0 * (*DestinationLinesForPrefetch + 0.125), 1)
+ 			/ 4;
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
+index edd098c7eb92..6f4903525acc 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
+@@ -686,10 +686,7 @@ static bool CalculatePrefetchSchedule(
  
- float dcn_bw_max5(float v1, float v2, float v3, float v4, float v5)
- {
--	return dcn_bw_max3(v1, v2, v3) > dcn_bw_max2(v4, v5) ? dcn_bw_max3(v1, v2, v3) : dcn_bw_max2(v4, v5);
-+	return max(dcn_bw_max3(v1, v2, v3), dcn_bw_max2(v4, v5));
- }
+ 	dst_y_prefetch_oto = Tpre_oto / LineTime;
  
- float dcn_bw_pow(float a, float exp)
+-	if (dst_y_prefetch_oto < dst_y_prefetch_equ)
+-		*DestinationLinesForPrefetch = dst_y_prefetch_oto;
+-	else
+-		*DestinationLinesForPrefetch = dst_y_prefetch_equ;
++	*DestinationLinesForPrefetch = min(dst_y_prefetch_oto, dst_y_prefetch_equ);
+ 
+ 	*DestinationLinesForPrefetch = dml_floor(4.0 * (*DestinationLinesForPrefetch + 0.125), 1)
+ 			/ 4;
 -- 
 2.34.1
 
