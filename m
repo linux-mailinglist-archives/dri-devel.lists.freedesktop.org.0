@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 285D466AC15
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Jan 2023 16:26:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6427D66AC19
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Jan 2023 16:30:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9880010E025;
-	Sat, 14 Jan 2023 15:26:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10D3210E0B8;
+	Sat, 14 Jan 2023 15:30:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 507D410E025
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Jan 2023 15:26:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DBFF10E097
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Jan 2023 15:30:09 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
  [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD605E68;
- Sat, 14 Jan 2023 16:26:07 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 78530E68;
+ Sat, 14 Jan 2023 16:30:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1673709968;
- bh=Mxk+7v37ul20DB6RqJ3fOS53oL7b3kMxZZSPi2z4RBA=;
+ s=mail; t=1673710207;
+ bh=tP6Hjycs1/g7PJIhsmoUXKIXkZCkiWBCs2PF9z9Q8+c=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=C2SP3wMVsX+K34TgKptdslEey9NaY5+qCYIXWEudJ6avqtu1DVtZW70QWqhAW+Efn
- 7NlTePlJnwgpkGDhDOOVPRXGZZQ15bbzrn+3C5wfglWiGynMNU4HjC+VtOmO9ezIiQ
- 4ZrC+UARMKdArI+7aBgK28ahETJHBu7QbkPpdJqI=
-Date: Sat, 14 Jan 2023 17:26:08 +0200
+ b=G/KAig60CfDCNjhAFp2mk//uX8j7Uy25ScKBwyxRRzt6O+Q4rmYT3rTpxACIDyRGD
+ OxbWGVLZZqpWRb/YuTpvaxMghcUaQIckbQYKTX0b2U+1IcJvjycw531PghWgwYyxOI
+ mblGwqd9ZDNEFv1Qj0nltVRnAqfUnOiwUOz7kKDM=
+Date: Sat, 14 Jan 2023 17:30:07 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v3 5/6] ARM: dts: renesas: Use new media bus type macros
-Message-ID: <Y8LJkPLghb/8Y+iQ@pendragon.ideasonboard.com>
+To: Shawn Guo <shawnguo@kernel.org>
+Subject: Re: [PATCH v3 3/6] ARM: dts: freescale: Use new media bus type macros
+Message-ID: <Y8LKf0ez1vM+a2YB@pendragon.ideasonboard.com>
 References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
- <20220615221410.27459-6-laurent.pinchart@ideasonboard.com>
+ <20220615221410.27459-4-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220615221410.27459-6-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20220615221410.27459-4-laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,120 +54,46 @@ Cc: devicetree@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
  dri-devel@lists.freedesktop.org,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Rob Herring <robh+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Eugen Hristev <eugen.hristev@microchip.com>, Shawn Guo <shawnguo@kernel.org>,
+ Eugen Hristev <eugen.hristev@microchip.com>,
  linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Geert, could you please take this in your tree for v6.3 ? The two
+Shawn, could you please take this in your tree for v6.3 ? The two
 patches that the DT changes depend on have been merged in v6.2.
 
-On Thu, Jun 16, 2022 at 01:14:09AM +0300, Laurent Pinchart wrote:
+On Thu, Jun 16, 2022 at 01:14:07AM +0300, Laurent Pinchart wrote:
 > Now that a header exists with macros for the media interface bus-type
 > values, replace hardcoding numerical constants with the corresponding
 > macros in the DT sources.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->  arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts       | 11 +++++++----
->  .../dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi     |  4 +++-
->  .../dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi     |  4 +++-
->  3 files changed, 13 insertions(+), 6 deletions(-)
+>  arch/arm/boot/dts/imx6ul-14x14-evk.dtsi | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-> index 4e58c54cde17..33ac4bd1e63b 100644
-> --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-> +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-> @@ -7,6 +7,9 @@
->   */
+> diff --git a/arch/arm/boot/dts/imx6ul-14x14-evk.dtsi b/arch/arm/boot/dts/imx6ul-14x14-evk.dtsi
+> index 1a18c41ce385..d98111f2100f 100644
+> --- a/arch/arm/boot/dts/imx6ul-14x14-evk.dtsi
+> +++ b/arch/arm/boot/dts/imx6ul-14x14-evk.dtsi
+> @@ -2,6 +2,8 @@
+>  //
+>  // Copyright (C) 2015 Freescale Semiconductor, Inc.
 >  
->  /dts-v1/;
-> +
 > +#include <dt-bindings/media/video-interfaces.h>
 > +
->  #include "r8a7742-iwg21d-q7.dts"
->  
 >  / {
-> @@ -242,7 +245,7 @@ port {
->  		vin0ep: endpoint {
->  			remote-endpoint = <&cam0ep>;
->  			bus-width = <8>;
-> -			bus-type = <6>;
-> +			bus-type = <MEDIA_BUS_TYPE_BT656>;
+>  	chosen {
+>  		stdout-path = &uart1;
+> @@ -170,7 +172,7 @@ &csi {
+>  	port {
+>  		parallel_from_ov5640: endpoint {
+>  			remote-endpoint = <&ov5640_to_parallel>;
+> -			bus-type = <5>; /* Parallel bus */
+> +			bus-type = <MEDIA_BUS_TYPE_PARALLEL>;
 >  		};
 >  	};
 >  };
-> @@ -273,7 +276,7 @@ port {
->  		vin1ep: endpoint {
->  			remote-endpoint = <&cam1ep>;
->  			bus-width = <8>;
-> -			bus-type = <6>;
-> +			bus-type = <MEDIA_BUS_TYPE_BT656>;
->  		};
->  	};
->  };
-> @@ -305,7 +308,7 @@ vin2ep: endpoint {
->  			remote-endpoint = <&cam2ep>;
->  			bus-width = <8>;
->  			data-shift = <8>;
-> -			bus-type = <6>;
-> +			bus-type = <MEDIA_BUS_TYPE_BT656>;
->  		};
->  	};
->  };
-> @@ -335,7 +338,7 @@ port {
->  		vin3ep: endpoint {
->  			remote-endpoint = <&cam3ep>;
->  			bus-width = <8>;
-> -			bus-type = <6>;
-> +			bus-type = <MEDIA_BUS_TYPE_BT656>;
->  		};
->  	};
->  };
-> diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-> index 40cef0b1d1e6..c73160df619d 100644
-> --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-> +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-> @@ -7,6 +7,8 @@
->   * Copyright (C) 2020 Renesas Electronics Corp.
->   */
->  
-> +#include <dt-bindings/media/video-interfaces.h>
-> +
->  #define CAM_ENABLED	1
->  
->  &CAM_PARENT_I2C {
-> @@ -26,7 +28,7 @@ port {
->  			CAM_EP: endpoint {
->  				bus-width = <8>;
->  				data-shift = <2>;
-> -				bus-type = <6>;
-> +				bus-type = <MEDIA_BUS_TYPE_BT656>;
->  				pclk-sample = <1>;
->  				remote-endpoint = <&VIN_EP>;
->  			};
-> diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi
-> index f5e77f024251..a7f5cfec64b8 100644
-> --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi
-> +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi
-> @@ -7,6 +7,8 @@
->   * Copyright (C) 2020 Renesas Electronics Corp.
->   */
->  
-> +#include <dt-bindings/media/video-interfaces.h>
-> +
->  #define CAM_ENABLED	1
->  
->  &CAM_PARENT_I2C {
-> @@ -21,7 +23,7 @@ ov7725@21 {
->  		port {
->  			CAM_EP: endpoint {
->  				bus-width = <8>;
-> -				bus-type = <6>;
-> +				bus-type = <MEDIA_BUS_TYPE_BT656>;
->  				remote-endpoint = <&VIN_EP>;
->  			};
->  		};
 
 -- 
 Regards,
