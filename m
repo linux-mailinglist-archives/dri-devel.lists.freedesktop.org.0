@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E376B66ABED
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Jan 2023 15:41:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 285D466AC15
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Jan 2023 16:26:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99CFD10E067;
-	Sat, 14 Jan 2023 14:40:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9880010E025;
+	Sat, 14 Jan 2023 15:26:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45E6410E067
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Jan 2023 14:40:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1673707251; bh=KawwwvIcAopLS+CUzfaq6FN0lch5RTPmyrMhaJt02v0=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
- Content-Type;
- b=DWoGChTmpx8Hi/MvtApluGi9U0dqxY3ffHnPILbm+q1GnR7v92R9rHCICpnryyDkH
- jFtRNYbEHSmjwqLSxSqBMYRbCbcxydOdpyrDx5uI9lXmLZgk11INjHQWVkZ7zbSkUY
- MN+pMEspXGbyIB6tifuURqG0eYgOvaBMyQ8oy+Xc=
-Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Sat, 14 Jan 2023 15:40:51 +0100 (CET)
-X-EA-Auth: cIwL7Ka0hJ+AGbeVlaowRBnhJqla2UVvoZQAoVUfAHAR2tdceZTOQcTouU8Ku1/wcCtCCVf10W/RRSSg8uSEN/NIgoADa2h8
-Date: Sat, 14 Jan 2023 20:10:43 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: nvkm_devinit_func.disable() to be made void
-Message-ID: <Y8K+61ZOag5fXu8M@ubun2204.myguest.virtualbox.org>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 507D410E025
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Jan 2023 15:26:10 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD605E68;
+ Sat, 14 Jan 2023 16:26:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1673709968;
+ bh=Mxk+7v37ul20DB6RqJ3fOS53oL7b3kMxZZSPi2z4RBA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=C2SP3wMVsX+K34TgKptdslEey9NaY5+qCYIXWEudJ6avqtu1DVtZW70QWqhAW+Efn
+ 7NlTePlJnwgpkGDhDOOVPRXGZZQ15bbzrn+3C5wfglWiGynMNU4HjC+VtOmO9ezIiQ
+ 4ZrC+UARMKdArI+7aBgK28ahETJHBu7QbkPpdJqI=
+Date: Sat, 14 Jan 2023 17:26:08 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v3 5/6] ARM: dts: renesas: Use new media bus type macros
+Message-ID: <Y8LJkPLghb/8Y+iQ@pendragon.ideasonboard.com>
+References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
+ <20220615221410.27459-6-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <20220615221410.27459-6-laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,37 +47,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- Saurabh Singh Sengar <ssengar@microsoft.com>
+Cc: devicetree@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Rob Herring <robh+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Eugen Hristev <eugen.hristev@microchip.com>, Shawn Guo <shawnguo@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
-It appears that the callback function disable() of struct nvkm_devinit_func does
-not need return U64 and can be transformed to be a void. This will impact a few
-drivers that have currently implementation of this callback since those always
-return 0ULL. So,
+Geert, could you please take this in your tree for v6.3 ? The two
+patches that the DT changes depend on have been merged in v6.2.
 
-Change from
-	  8 struct nvkm_devinit_func {
-		... ...
-	15          u64  (*disable)(struct nvkm_devinit *);
-	  1 };
+On Thu, Jun 16, 2022 at 01:14:09AM +0300, Laurent Pinchart wrote:
+> Now that a header exists with macros for the media interface bus-type
+> values, replace hardcoding numerical constants with the corresponding
+> macros in the DT sources.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts       | 11 +++++++----
+>  .../dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi     |  4 +++-
+>  .../dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi     |  4 +++-
+>  3 files changed, 13 insertions(+), 6 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> index 4e58c54cde17..33ac4bd1e63b 100644
+> --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> @@ -7,6 +7,9 @@
+>   */
+>  
+>  /dts-v1/;
+> +
+> +#include <dt-bindings/media/video-interfaces.h>
+> +
+>  #include "r8a7742-iwg21d-q7.dts"
+>  
+>  / {
+> @@ -242,7 +245,7 @@ port {
+>  		vin0ep: endpoint {
+>  			remote-endpoint = <&cam0ep>;
+>  			bus-width = <8>;
+> -			bus-type = <6>;
+> +			bus-type = <MEDIA_BUS_TYPE_BT656>;
+>  		};
+>  	};
+>  };
+> @@ -273,7 +276,7 @@ port {
+>  		vin1ep: endpoint {
+>  			remote-endpoint = <&cam1ep>;
+>  			bus-width = <8>;
+> -			bus-type = <6>;
+> +			bus-type = <MEDIA_BUS_TYPE_BT656>;
+>  		};
+>  	};
+>  };
+> @@ -305,7 +308,7 @@ vin2ep: endpoint {
+>  			remote-endpoint = <&cam2ep>;
+>  			bus-width = <8>;
+>  			data-shift = <8>;
+> -			bus-type = <6>;
+> +			bus-type = <MEDIA_BUS_TYPE_BT656>;
+>  		};
+>  	};
+>  };
+> @@ -335,7 +338,7 @@ port {
+>  		vin3ep: endpoint {
+>  			remote-endpoint = <&cam3ep>;
+>  			bus-width = <8>;
+> -			bus-type = <6>;
+> +			bus-type = <MEDIA_BUS_TYPE_BT656>;
+>  		};
+>  	};
+>  };
+> diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
+> index 40cef0b1d1e6..c73160df619d 100644
+> --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
+> +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
+> @@ -7,6 +7,8 @@
+>   * Copyright (C) 2020 Renesas Electronics Corp.
+>   */
+>  
+> +#include <dt-bindings/media/video-interfaces.h>
+> +
+>  #define CAM_ENABLED	1
+>  
+>  &CAM_PARENT_I2C {
+> @@ -26,7 +28,7 @@ port {
+>  			CAM_EP: endpoint {
+>  				bus-width = <8>;
+>  				data-shift = <2>;
+> -				bus-type = <6>;
+> +				bus-type = <MEDIA_BUS_TYPE_BT656>;
+>  				pclk-sample = <1>;
+>  				remote-endpoint = <&VIN_EP>;
+>  			};
+> diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi
+> index f5e77f024251..a7f5cfec64b8 100644
+> --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi
+> +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi
+> @@ -7,6 +7,8 @@
+>   * Copyright (C) 2020 Renesas Electronics Corp.
+>   */
+>  
+> +#include <dt-bindings/media/video-interfaces.h>
+> +
+>  #define CAM_ENABLED	1
+>  
+>  &CAM_PARENT_I2C {
+> @@ -21,7 +23,7 @@ ov7725@21 {
+>  		port {
+>  			CAM_EP: endpoint {
+>  				bus-width = <8>;
+> -				bus-type = <6>;
+> +				bus-type = <MEDIA_BUS_TYPE_BT656>;
+>  				remote-endpoint = <&VIN_EP>;
+>  			};
+>  		};
 
-Change to
-	  8 struct nvkm_devinit_func {
-		... ...
-	15          void  (*disable)(struct nvkm_devinit *);
-	  1 };
+-- 
+Regards,
 
-
-I am unsure if this change will have any UAPI impact. Hence wanted to confirm
-with you if you think this transformation is useful. If yes, I will be happy to
-submit a patch for your consideration.
-
-Please let me know.
-
-Thank you,
-./drv
-
-
+Laurent Pinchart
