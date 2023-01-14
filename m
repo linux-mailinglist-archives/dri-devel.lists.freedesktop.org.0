@@ -2,43 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 575B766AC36
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Jan 2023 16:42:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5173766AC61
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Jan 2023 17:01:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A81AB10E0A0;
-	Sat, 14 Jan 2023 15:42:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A874E10E0A1;
+	Sat, 14 Jan 2023 16:01:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C658110E0A0;
- Sat, 14 Jan 2023 15:42:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1673710964; bh=ORNyCb5WJcCJ386Y2aMBCsIP9XmvYS7HMY4LZl7AvBE=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
- Content-Type;
- b=DMnEB246cYxNdMBRlivcLoboug3PF90Av5UQr5uzr5bFN7DrHrM5lLsdzjbvYf2N2
- LFmvy5JNPss7oDFNAhmSeiZVEaKkjeavqgVn1cDDRxtt70pL9n0bM4mNKO6Vdzm5Cs
- MBEt9BZXpcEjKF8ndzeT4gvWsMbsm0gw1xqagvtg=
-Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Sat, 14 Jan 2023 16:42:44 +0100 (CET)
-X-EA-Auth: lCZgaRpk82ZE1WmXL1kkMLp6kytvUfDjX5ve9yX0w5ajO/CC4ZVEQF52zaZiHf/ZqKjV1TsWgUAdrHdLD8hmFUy0kyaoNRhJ
-Date: Sat, 14 Jan 2023 21:12:39 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/i915/gvt: Remove extra semicolon
-Message-ID: <Y8LNbzgTf/1kYJX/@ubun2204.myguest.virtualbox.org>
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
+ [193.136.128.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C01610E0A1;
+ Sat, 14 Jan 2023 16:01:01 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id E8468600086B;
+ Sat, 14 Jan 2023 16:00:55 +0000 (WET)
+X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
+ tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
+ with LMTP id xTKXyWXOQpbs; Sat, 14 Jan 2023 16:00:53 +0000 (WET)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt
+ [IPv6:2001:690:2100:1::b3dd:b9ac])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 77ED46000868;
+ Sat, 14 Jan 2023 16:00:53 +0000 (WET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
+ s=mail; t=1673712053;
+ bh=RZU58FeLyRmpVsu+m1wZmQJWulTa9BOooLU8AzAOYRQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=gxS1l7bAin500lDfFN68KnKCFACBeuW1O0mIxDiHof35CCJRwhMnWnR/B/udQJU1l
+ 56W9yezlyN7kzFLhDUJlTKCj/FzKKCzaopWAy9EILTsltcmDtNfn/cuH5nPKqwbynr
+ 8FtQsNA8StHxguSO7574xCJNvzrQB5MSqaeJbwe4=
+Received: from wslaptop (unknown [IPv6:2001:818:dcb5:dc00:d990:b664:f16:4cb2])
+ (Authenticated sender: ist187313)
+ by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id B5F1F36008B;
+ Sat, 14 Jan 2023 16:00:52 +0000 (WET)
+Date: Sat, 14 Jan 2023 15:58:37 +0000
+From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+To: Linux regressions mailing list <regressions@lists.linux.dev>
+Subject: Re: [REGRESSION] GM20B probe fails after commit 2541626cfb79
+Message-ID: <20230114155837.edqhigueohrkd3os@wslaptop>
+References: <20221228144914.z7t7a4fdwvbblnak@wslaptop>
+ <c32ea02c-d706-ea2f-aa13-660b8db958ef@leemhuis.info>
+ <481f19ba-da7e-6900-0bb2-64ba92d59ce6@leemhuis.info>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <481f19ba-da7e-6900-0bb2-64ba92d59ce6@leemhuis.info>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,34 +60,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- Saurabh Singh Sengar <ssengar@microsoft.com>
+Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, bskeggs@redhat.com, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the extra semicolon at end. Issue identified using
-semicolon.cocci Coccinelle semantic patch.
+On Fri, Jan 13, 2023 at 02:19:06PM +0100, Linux kernel regression tracking (Thorsten Leemhuis) wrote:
+> Diogo, for that it would be really helpful to known: is the issue still
+> happening with latest mainline? Is it possible to revert 2541626cfb79
+> easily? And if so: do things work afterwards again?
 
-Signed-off-by: Deepak R Varma <drv@mailo.com>
----
- drivers/gpu/drm/i915/gvt/vgpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hello,
 
-diff --git a/drivers/gpu/drm/i915/gvt/vgpu.c b/drivers/gpu/drm/i915/gvt/vgpu.c
-index a5497440484f..08ad1bd651f1 100644
---- a/drivers/gpu/drm/i915/gvt/vgpu.c
-+++ b/drivers/gpu/drm/i915/gvt/vgpu.c
-@@ -323,7 +323,7 @@ int intel_gvt_create_vgpu(struct intel_vgpu *vgpu,
- 	ret = idr_alloc(&gvt->vgpu_idr, vgpu, IDLE_VGPU_IDR + 1, GVT_MAX_VGPU,
- 		GFP_KERNEL);
- 	if (ret < 0)
--		goto out_unlock;;
-+		goto out_unlock;
- 
- 	vgpu->id = ret;
- 	vgpu->sched_ctl.weight = conf->weight;
--- 
-2.34.1
+Thank you for your attention to this! I have checked the latest mainline and
+it still occurs. As for reverting, I think it is complicated to do,
+since this commit is a part of a larger rework, but I'm afraid I don't know
+enough about the code to give a proper answer.
 
-
-
+Diogo
