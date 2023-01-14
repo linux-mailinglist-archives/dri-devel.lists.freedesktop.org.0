@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 039DB66AC22
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Jan 2023 16:36:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 278CE66AC25
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Jan 2023 16:37:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D3D510E097;
-	Sat, 14 Jan 2023 15:36:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC81410E09B;
+	Sat, 14 Jan 2023 15:37:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19C5310E097
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Jan 2023 15:36:23 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5862DE68;
- Sat, 14 Jan 2023 16:36:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1673710581;
- bh=oDrlfSPdTFyXZaTTXgrkv7YDc/MFOXiCVSywrVWuIMk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OaArFeaVkN77RcrzMMOuoAQhQcvzG1DBgHu+z2zNrwo3LP4zdiPFefB+/iAaMdojQ
- CpiPg2PCIGddun65fJWvWk4oN24SJaDy32AS5G/QHC3NtwwKG91xKFz8mQazIPCCYc
- sgWtC2YgEQ3CGUy3Hu/wBK0sxrbAoLYWMQaJEf5I=
-Date: Sat, 14 Jan 2023 17:36:21 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Subject: Re: [PATCH v3 6/6] ARM: dts: stm32: Use new media bus type macros
-Message-ID: <Y8LL9RuzIFTAbcvC@pendragon.ideasonboard.com>
-References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
- <20220615221410.27459-7-laurent.pinchart@ideasonboard.com>
+X-Greylist: delayed 3380 seconds by postgrey-1.36 at gabe;
+ Sat, 14 Jan 2023 15:37:17 UTC
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4532410E09B;
+ Sat, 14 Jan 2023 15:37:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+ t=1673710631; bh=KogKNHMpUirQdlYHqz97sT5yAlJfrB255+mRF0Ww8bI=;
+ h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
+ Content-Type;
+ b=WhKmH88QZuUcXFo3HjMde/zVzqwzEh6WGsCf/7ISc1EGoxqaMOmgrmR+/OnaW4yJ0
+ 2z5GrkNWKzEImw7QXnC6xHjdZVZIwcK4zFP3j3UGgfVK/C2gS1PnDimqodML6Gx0cS
+ R96SWyXIAGPLOITVdczzuqdNBWAu/hPH2Zg6NgrA=
+Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
+ via ip-206.mailobj.net [213.182.55.206]
+ Sat, 14 Jan 2023 16:37:11 +0100 (CET)
+X-EA-Auth: HAkDNYaf/Qoz2wAnWHZlY7hQmL3lfRcwGOu8m6pRUI7ykY2CduksijrXj7BPIlfeLG6NIMfyJljLygQ5BUWPXRD0c8d5V8P5
+Date: Sat, 14 Jan 2023 21:07:05 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/nouveau/gr/gf100-: remove unnecessary semicolon
+Message-ID: <Y8LMIWe2vbFTp1rf@ubun2204.myguest.virtualbox.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220615221410.27459-7-laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,75 +48,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
- Shawn Guo <shawnguo@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Eugen Hristev <eugen.hristev@microchip.com>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hugues, Maxime, Alexandre, could one of you take this patch in your tree
-for v6.3 ? The two patches that it depends on have both been merged in
-v6.2.
+Remove extra unnecessary semicolon. Issue identified using
+semcolon.cocci Coccinelle semantic patch.
 
-On Thu, Jun 16, 2022 at 01:14:10AM +0300, Laurent Pinchart wrote:
-> Now that a header exists with macros for the media interface bus-type
-> values, replace hardcoding numerical constants with the corresponding
-> macros in the DT sources.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  arch/arm/boot/dts/stm32429i-eval.dts  | 3 ++-
->  arch/arm/boot/dts/stm32mp157c-ev1.dts | 3 ++-
->  2 files changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm/boot/dts/stm32429i-eval.dts b/arch/arm/boot/dts/stm32429i-eval.dts
-> index 0d98aca01736..5fae11e6607b 100644
-> --- a/arch/arm/boot/dts/stm32429i-eval.dts
-> +++ b/arch/arm/boot/dts/stm32429i-eval.dts
-> @@ -50,6 +50,7 @@
->  #include "stm32f429-pinctrl.dtsi"
->  #include <dt-bindings/input/input.h>
->  #include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/media/video-interfaces.h>
->  
->  / {
->  	model = "STMicroelectronics STM32429i-EVAL board";
-> @@ -186,7 +187,7 @@ &dcmi {
->  	port {
->  		dcmi_0: endpoint {
->  			remote-endpoint = <&ov2640_0>;
-> -			bus-type = <5>;
-> +			bus-type = <MEDIA_BUS_TYPE_PARALLEL>;
->  			bus-width = <8>;
->  			hsync-active = <0>;
->  			vsync-active = <0>;
-> diff --git a/arch/arm/boot/dts/stm32mp157c-ev1.dts b/arch/arm/boot/dts/stm32mp157c-ev1.dts
-> index d142dd30e16b..306d41a6138f 100644
-> --- a/arch/arm/boot/dts/stm32mp157c-ev1.dts
-> +++ b/arch/arm/boot/dts/stm32mp157c-ev1.dts
-> @@ -8,6 +8,7 @@
->  #include "stm32mp157c-ed1.dts"
->  #include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/input/input.h>
-> +#include <dt-bindings/media/video-interfaces.h>
->  
->  / {
->  	model = "STMicroelectronics STM32MP157C eval daughter on eval mother";
-> @@ -90,7 +91,7 @@ &dcmi {
->  	port {
->  		dcmi_0: endpoint {
->  			remote-endpoint = <&ov5640_0>;
-> -			bus-type = <5>;
-> +			bus-type = <MEDIA_BUS_TYPE_PARALLEL>;
->  			bus-width = <8>;
->  			hsync-active = <0>;
->  			vsync-active = <0>;
+Signed-off-by: Deepak R Varma <drv@mailo.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+index 5f20079c3660..204516891ece 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+@@ -420,7 +420,7 @@ gf100_gr_chan_new(struct nvkm_gr *base, struct nvkm_fifo_chan *fifoch,
+ 			return ret;
+ 	} else {
+ 		ret = nvkm_memory_map(gr->attrib_cb, 0, chan->vmm, chan->attrib_cb,
+-				      &args, sizeof(args));;
++				      &args, sizeof(args));
+ 		if (ret)
+ 			return ret;
+ 	}
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
+
+
