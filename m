@@ -1,72 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB9E166AD53
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Jan 2023 19:56:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28CD166AD78
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Jan 2023 20:47:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94E8610E23E;
-	Sat, 14 Jan 2023 18:56:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05E1510E25D;
+	Sat, 14 Jan 2023 19:47:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7351210E235
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Jan 2023 18:56:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673722578;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AXHP4vmdSOTVVgF00Ub+U89drkXSQBR/JVMraYuO3x0=;
- b=Y6um8HballHZZLHgn7byIrHvtdQCidax4XUdKEC5ubqOmG9KcDthS11/VbjxAkHvthaBN0
- tujVVQ/uEl1+KN1stCvTIiUteYItehrG2/zqAM1IZWrcpbbip4UujOJNrDPutGTNujMjo0
- iAMU5t1eVMDOH7wlE1hcB3ZZCJLlVRY=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-359-DZLahyDwPYixGr3cecc8tQ-1; Sat, 14 Jan 2023 13:56:17 -0500
-X-MC-Unique: DZLahyDwPYixGr3cecc8tQ-1
-Received: by mail-lj1-f199.google.com with SMTP id
- a25-20020a05651c211900b0028b7a49f813so188640ljq.19
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Jan 2023 10:56:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=AXHP4vmdSOTVVgF00Ub+U89drkXSQBR/JVMraYuO3x0=;
- b=JNewVmnX7hWtVrgi/X8uRQQTzasQpIAChsr1xkqsHbcUnBmT2mZ3dvHjFiy9S4Srnl
- Lcd2v/DwN6TePPBdPiYtITPCpMYNcbCsFkTbzqdThiQ5oO7WvpEOCGzwE+s9KnWpF10p
- Frw6Lgo2ChC3bsNAicd3IoYXaAnJMHSTep6d8khKGIKFDtncb82U1N99chePkmPFRLzR
- XXXwSqvQE4jQ51rghx2NKR27lOB8bbQG/LTXAchsywQgAzwJW5wBMNTHo/5FcBuz4f8g
- 5aLFrnWQs1nZOLnrX8jDrsPvdfYbJqX2rq/xJoBlaCUm06xEvFW8HSknEZwP45Ninbkb
- x+EA==
-X-Gm-Message-State: AFqh2koWbyvOnsOG7Mh6JSVH1APRtfI44EPwhLZvNlAXeAdnCQmI1vb6
- CVFNKsglSEzUo6BuEjCVbH0XEWA+H3AA9iqIB1zbnfUkxtIZV7MqBAd7ddXEV961oIh5zRLZobb
- 1e4dkKMpYGKqXi7MVg2ATJMvQW0zznhdc8LAVO2VwJW0n
-X-Received: by 2002:a05:651c:149:b0:287:4eeb:53dc with SMTP id
- c9-20020a05651c014900b002874eeb53dcmr884884ljd.27.1673722575902; 
- Sat, 14 Jan 2023 10:56:15 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXt5Mu8PJf+/bXqZgwCzYqz6n0H/o6+lRjfPUJtA6rMdJkISya4bxJjhHdQkz4fgSum9S2xn4ipskm1xaWFTl4w=
-X-Received: by 2002:a05:651c:149:b0:287:4eeb:53dc with SMTP id
- c9-20020a05651c014900b002874eeb53dcmr884876ljd.27.1673722575480; Sat, 14 Jan
- 2023 10:56:15 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D18E210E25D
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Jan 2023 19:47:48 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CB48460C08;
+ Sat, 14 Jan 2023 19:47:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DA54C433D2;
+ Sat, 14 Jan 2023 19:47:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1673725667;
+ bh=gMU2qV2VgM+YENiKJhH+abvn4ddBqKL0P0RzB5p/M9M=;
+ h=From:To:Cc:Subject:Date:From;
+ b=J80B8qRk5QOTG8JqtnwvGlTRxhA2TlX3aGgUGykutFA28xkS1L79HoIMWUQtYDCTj
+ dCd/689zlAuf5mMLONRyOIcLBGJAawuKZj0GNZM0DDyfIiv63g6cOGVUdPbGjzGOeK
+ 43nrrY1DnPSIiCsMQ1mdGBgd09ZbU7hmOt/yvu59q2hP3l8M/NAyQ9o/F9B/CQK0on
+ fE3yWz8n685HzaXhQIOLWmaeEhVdi+exUo8YNDBbMl6cPP11Fb39GIRiU/kHrDNDvZ
+ HNsfKIJOXgJf6U3sjs1605a6/2LOgx2m45e2P4jaM8tXl63pcbaHE+AD8eIJbaVA1T
+ Q5DrM4P1UlMBg==
+From: SeongJae Park <sj@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 1/2] Docs/subsystem-apis: Remove '[The ]Linux' prefixes from
+ titles of listed documents
+Date: Sat, 14 Jan 2023 19:47:40 +0000
+Message-Id: <20230114194741.115855-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20221228144914.z7t7a4fdwvbblnak@wslaptop>
- <c32ea02c-d706-ea2f-aa13-660b8db958ef@leemhuis.info>
- <481f19ba-da7e-6900-0bb2-64ba92d59ce6@leemhuis.info>
- <CACO55tv3E7y31MgyhW22GdDkE=XCYJF+boMivc5AEmyQ-svMhA@mail.gmail.com>
- <20230114160336.2jsh3ztij6cpzcee@wslaptop>
-In-Reply-To: <20230114160336.2jsh3ztij6cpzcee@wslaptop>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Sat, 14 Jan 2023 19:56:03 +0100
-Message-ID: <CACO55tvm0wBiA4Oi-QKmi-Q09Y4FXsjb4+0=T9f0DKUXSGEErg@mail.gmail.com>
-Subject: Re: [REGRESSION] GM20B probe fails after commit 2541626cfb79
-To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,68 +51,254 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- bskeggs@redhat.com, airlied@redhat.com
+Cc: alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
+ Viresh Kumar <viresh.kumar@linaro.org>, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>, linux-watchdog@vger.kernel.org,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Iwona Winiarska <iwona.winiarska@intel.com>, openbmc@lists.ozlabs.org,
+ "Rafael J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org,
+ Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
+ linux-pm@vger.kernel.org, linux-input@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Wim Van Sebroeck <wim@linux-watchdog.org>,
+ linux-hwmon@vger.kernel.org, SeongJae Park <sj@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Takashi Iwai <tiwai@suse.com>,
+ linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 14, 2023 at 5:07 PM Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt> wrote:
->
-> On Sat, Jan 14, 2023 at 04:27:38AM +0100, Karol Herbst wrote:
-> > I tried to look into it, but my jetson nano, just constantly behaves
-> > in very strange ways. I tried to compile and install a 6.1 kernel onto
-> > it, but any kernel just refuses to boot and I have no idea what's up
-> > with that device. The kernel starts to boot and it just stops in the
-> > middle. From what I can tell is that most of the tegra devices never
-> > worked reliably in the first place and there are a couple of random
-> > and strange bugs around. I've attached my dmesg, so if anybody has any
-> > clues why the kernel just stops doing anything, it would really help
-> > me.
->
-> Hello,
->
-> Thank you for looking into this! I have seen this type of hang in
-> mainline on this SoC, and it was due to a reset not being deasserted.
-> Would you mind getting a log with initcall_debug enabled to pinpoint
-> where the hang occurs? I would be happy to help if I can.
->
+Some documents that listed on subsystem-apis have 'Linux' or 'The Linux'
+title prefixes.  It's duplicated information, and makes finding the
+document of interest with human eyes not easy.  Remove the prefixes from
+the titles.
 
-the last thing printed is:
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/PCI/index.rst        | 6 +++---
+ Documentation/cpu-freq/index.rst   | 6 +++---
+ Documentation/crypto/index.rst     | 6 +++---
+ Documentation/driver-api/index.rst | 6 +++---
+ Documentation/gpu/index.rst        | 6 +++---
+ Documentation/hwmon/index.rst      | 6 +++---
+ Documentation/input/index.rst      | 6 +++---
+ Documentation/mm/index.rst         | 6 +++---
+ Documentation/peci/index.rst       | 6 +++---
+ Documentation/scheduler/index.rst  | 6 +++---
+ Documentation/scsi/index.rst       | 6 +++---
+ Documentation/sound/index.rst      | 6 +++---
+ Documentation/virt/index.rst       | 6 +++---
+ Documentation/watchdog/index.rst   | 6 +++---
+ 14 files changed, 42 insertions(+), 42 deletions(-)
 
-[   20.517642] calling  clk_disable_unused+0x0/0xe0 @ 1
-
-> > But maybe it would be for the best to just pull tegra support out of
-> > nouveau, because in the current situation we really can't spare much
-> > time dealing with them and we are already busy enough just dealing
-> > with the desktop GPUs. And the firmware we got from Nvidia is so
-> > ancient and different from the desktop GPU ones, that without actually
-> > having all those boards available and properly tested, we can't be
-> > sure to not break them.
-> >
-> > And afaik there are almost no _actual_ users, just distribution folks
-> > wanting to claim "support" for those devices, but then ending up using
-> > Nvidia's out of tree Tegra driver in deployments anyway.
->
-> > If there are actual users using them for their daily life, I'd like to
-> > know, because I'm aware of none.
->
-> For what it's worth, I consider myself a user of nouveau. Granted, I'm
-> using it as a hobby project, but in its current state it is not far from
-> a usable desktop experience on the Pixel C.
->
-
-okay. I mean, I'm happy to keep fixing regressions and figuring out
-what's wrong with booting the devices and such if regular users come
-around and file bugs. And until today I wasn't really aware of anybody
-:)
-
-It's just not worth my time, if there are no users using them at all.
-Or rather.. if there would only be commercial users (like.. companies
-deploying those for money), then they could get involved and help us
-out, because I wouldn't be willing to spend my time on this, if that
-would be the case.
-
-> Diogo
->
+diff --git a/Documentation/PCI/index.rst b/Documentation/PCI/index.rst
+index c17c87af1968..e73f84aebde3 100644
+--- a/Documentation/PCI/index.rst
++++ b/Documentation/PCI/index.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-=======================
+-Linux PCI Bus Subsystem
+-=======================
++=================
++PCI Bus Subsystem
++=================
+ 
+ .. toctree::
+    :maxdepth: 2
+diff --git a/Documentation/cpu-freq/index.rst b/Documentation/cpu-freq/index.rst
+index 2fe32dad562a..de25740651f7 100644
+--- a/Documentation/cpu-freq/index.rst
++++ b/Documentation/cpu-freq/index.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-==============================================================================
+-Linux CPUFreq - CPU frequency and voltage scaling code in the Linux(TM) kernel
+-==============================================================================
++========================================================================
++CPUFreq - CPU frequency and voltage scaling code in the Linux(TM) kernel
++========================================================================
+ 
+ Author: Dominik Brodowski  <linux@brodo.de>
+ 
+diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
+index 21338fa92642..da5d5ad2bdf3 100644
+--- a/Documentation/crypto/index.rst
++++ b/Documentation/crypto/index.rst
+@@ -1,6 +1,6 @@
+-=======================
+-Linux Kernel Crypto API
+-=======================
++==========
++Crypto API
++==========
+ 
+ :Author: Stephan Mueller
+ :Author: Marek Vasut
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index d3a58f77328e..b208e0dac3a0 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -1,6 +1,6 @@
+-========================================
+-The Linux driver implementer's API guide
+-========================================
++==============================
++Driver implementer's API guide
++==============================
+ 
+ The kernel offers a wide variety of interfaces to support the development
+ of device drivers.  This document is an only somewhat organized collection
+diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
+index b99dede9a5b1..eee5996acf2c 100644
+--- a/Documentation/gpu/index.rst
++++ b/Documentation/gpu/index.rst
+@@ -1,6 +1,6 @@
+-==================================
+-Linux GPU Driver Developer's Guide
+-==================================
++============================
++GPU Driver Developer's Guide
++============================
+ 
+ .. toctree::
+ 
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index fe2cc6b73634..c2b3c1a822dd 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -1,6 +1,6 @@
+-=========================
+-Linux Hardware Monitoring
+-=========================
++===================
++Hardware Monitoring
++===================
+ 
+ .. toctree::
+    :maxdepth: 1
+diff --git a/Documentation/input/index.rst b/Documentation/input/index.rst
+index 9888f5cbf6d5..35581cd18e91 100644
+--- a/Documentation/input/index.rst
++++ b/Documentation/input/index.rst
+@@ -1,6 +1,6 @@
+-=============================
+-The Linux Input Documentation
+-=============================
++===================
++Input Documentation
++===================
+ 
+ Contents:
+ 
+diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
+index 4aa12b8be278..5a94a921ea40 100644
+--- a/Documentation/mm/index.rst
++++ b/Documentation/mm/index.rst
+@@ -1,6 +1,6 @@
+-=====================================
+-Linux Memory Management Documentation
+-=====================================
++===============================
++Memory Management Documentation
++===============================
+ 
+ Memory Management Guide
+ =======================
+diff --git a/Documentation/peci/index.rst b/Documentation/peci/index.rst
+index 989de10416e7..930e75217c33 100644
+--- a/Documentation/peci/index.rst
++++ b/Documentation/peci/index.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0-only
+ 
+-====================
+-Linux PECI Subsystem
+-====================
++==============
++PECI Subsystem
++==============
+ 
+ .. toctree::
+ 
+diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
+index b430d856056a..1aac972a652f 100644
+--- a/Documentation/scheduler/index.rst
++++ b/Documentation/scheduler/index.rst
+@@ -1,6 +1,6 @@
+-===============
+-Linux Scheduler
+-===============
++=========
++Scheduler
++=========
+ 
+ .. toctree::
+     :maxdepth: 1
+diff --git a/Documentation/scsi/index.rst b/Documentation/scsi/index.rst
+index 7c5f5f8f614e..919f3edfe1bf 100644
+--- a/Documentation/scsi/index.rst
++++ b/Documentation/scsi/index.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-====================
+-Linux SCSI Subsystem
+-====================
++==============
++SCSI Subsystem
++==============
+ 
+ .. toctree::
+    :maxdepth: 1
+diff --git a/Documentation/sound/index.rst b/Documentation/sound/index.rst
+index 4d7d42acf6df..5abed5fc6485 100644
+--- a/Documentation/sound/index.rst
++++ b/Documentation/sound/index.rst
+@@ -1,6 +1,6 @@
+-===================================
+-Linux Sound Subsystem Documentation
+-===================================
++=============================
++Sound Subsystem Documentation
++=============================
+ 
+ .. toctree::
+    :maxdepth: 2
+diff --git a/Documentation/virt/index.rst b/Documentation/virt/index.rst
+index 56e003ff28ff..7fb55ae08598 100644
+--- a/Documentation/virt/index.rst
++++ b/Documentation/virt/index.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-============================
+-Linux Virtualization Support
+-============================
++======================
++Virtualization Support
++======================
+ 
+ .. toctree::
+    :maxdepth: 2
+diff --git a/Documentation/watchdog/index.rst b/Documentation/watchdog/index.rst
+index c177645081d8..4603f2511f58 100644
+--- a/Documentation/watchdog/index.rst
++++ b/Documentation/watchdog/index.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-======================
+-Linux Watchdog Support
+-======================
++================
++Watchdog Support
++================
+ 
+ .. toctree::
+     :maxdepth: 1
+-- 
+2.25.1
 
