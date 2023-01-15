@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96DAE66AF9E
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Jan 2023 08:16:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7DE66AFA2
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Jan 2023 08:17:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8684A10E0C4;
-	Sun, 15 Jan 2023 07:16:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96DEF10E0C9;
+	Sun, 15 Jan 2023 07:17:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A5F810E0C4;
- Sun, 15 Jan 2023 07:16:51 +0000 (UTC)
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6777B10E0C9;
+ Sun, 15 Jan 2023 07:17:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1673767007; bh=+fQITG3zFSx+3AQZJEQdW3kgJY9FXR6AQ5P5BGfD2f0=;
+ t=1673767035; bh=I3+xbeejP+Mpq4K5m4TzJZrSIon4q38AOF3ZpdFrylo=;
  h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
  MIME-Version:Content-Type:In-Reply-To;
- b=LpJYY7WRGDZodMaM42Nvvqcb2MZktoqZz+wtt4XW7KBZiD1VUwc4IzgbJOvnTvcf/
- QPZfZcbt9uq3rLkD6qTMS7gSQHXGwfHl0ljBiDiUuRsqlHR8h0WZ19QOHRqt8Kj8gn
- TBlQHS+QRDAIKTJOd/VQCmKw1Z5fO2zlXm/gbk0A=
-Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
+ b=IsRjtVNsGDYx+WOWd6j4eCyEdIyigztK7dZmLZbcf8VEXIPNIre0Hid9UvnhbFR47
+ 95tkI7mlCLsYVn4EZxpB1fAfYzm2CgrrPHB6s3GJDuq3LWN4o4YXENvsuqqyp2W+6t
+ RYNc34aizemXPMpsMWbWhGBRZOP9rcCF++N7Q6to=
+Received: by b-4.in.mailobj.net [192.168.90.14] with ESMTP
  via ip-206.mailobj.net [213.182.55.206]
- Sun, 15 Jan 2023 08:16:47 +0100 (CET)
-X-EA-Auth: TgOkwxa4yz4MbR4/OVAaqXgSCIUEw7Eb+uea7TiQJukxZ6pfKqePsPmuSldH7seB5/nw1+KkWUkNpqZu4IcfmodnAMEIlYgN
-Date: Sun, 15 Jan 2023 12:46:43 +0530
+ Sun, 15 Jan 2023 08:17:15 +0100 (CET)
+X-EA-Auth: i0m5Yh1v59gse93tDhXj0+cVsXlEcluODqey9DktC0Ky9u6sczLwoOHPrya1/xH80c7qkR+ph0gDxQO0Ht4k4uok3OssLyDy
+Date: Sun, 15 Jan 2023 12:47:11 +0530
 From: Deepak R Varma <drv@mailo.com>
 To: Evan Quan <evan.quan@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
@@ -31,8 +31,9 @@ To: Evan Quan <evan.quan@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] drm/amd/pm/powerplay/smumgr: use bitwise or for addition
-Message-ID: <b1cceaacb32bd2a72ac4d8e12a04da3f78e8c41c.1673766696.git.drv@mailo.com>
+Subject: [PATCH 2/3] drm/amd/pm/powerplay/hwmgr: use bitwise or for bitmasks
+ addition
+Message-ID: <77f7e23c8a40cbaa72aa92b35e013f43f0952f45.1673766696.git.drv@mailo.com>
 References: <cover.1673766696.git.drv@mailo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -61,36 +62,49 @@ suggested by orplus.cocci Coccinelle semantic patch.
 
 Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
- drivers/gpu/drm/amd/pm/powerplay/smumgr/iceland_smumgr.c | 2 +-
- drivers/gpu/drm/amd/pm/powerplay/smumgr/tonga_smumgr.c   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/iceland_smumgr.c b/drivers/gpu/drm/amd/pm/powerplay/smumgr/iceland_smumgr.c
-index 03df35dee8ba..060fc140c574 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/iceland_smumgr.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/iceland_smumgr.c
-@@ -2165,7 +2165,7 @@ static int iceland_program_mem_timing_parameters(struct pp_hwmgr *hwmgr)
- 	struct smu7_hwmgr *data = (struct smu7_hwmgr *)(hwmgr->backend);
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
+index 7ef7e81525a3..bf9bcc4e5338 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
+@@ -4153,7 +4153,7 @@ static int smu7_freeze_sclk_mclk_dpm(struct pp_hwmgr *hwmgr)
+ 
+ 	if ((0 == data->sclk_dpm_key_disabled) &&
+ 		(data->need_update_smu7_dpm_table &
+-			(DPMTABLE_OD_UPDATE_SCLK + DPMTABLE_UPDATE_SCLK))) {
++			(DPMTABLE_OD_UPDATE_SCLK | DPMTABLE_UPDATE_SCLK))) {
+ 		PP_ASSERT_WITH_CODE(true == smum_is_dpm_running(hwmgr),
+ 				"Trying to freeze SCLK DPM when DPM is disabled",
+ 				);
+@@ -4210,7 +4210,7 @@ static int smu7_populate_and_upload_sclk_mclk_dpm_levels(
+ 	}
  
  	if (data->need_update_smu7_dpm_table &
--		(DPMTABLE_OD_UPDATE_SCLK + DPMTABLE_OD_UPDATE_MCLK))
-+		(DPMTABLE_OD_UPDATE_SCLK | DPMTABLE_OD_UPDATE_MCLK))
- 		return iceland_program_memory_timing_parameters(hwmgr);
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/tonga_smumgr.c b/drivers/gpu/drm/amd/pm/powerplay/smumgr/tonga_smumgr.c
-index 04b561f5d932..acbe41174d7e 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/tonga_smumgr.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/tonga_smumgr.c
-@@ -2554,7 +2554,7 @@ static int tonga_program_mem_timing_parameters(struct pp_hwmgr *hwmgr)
- 	struct smu7_hwmgr *data = (struct smu7_hwmgr *)(hwmgr->backend);
+-			(DPMTABLE_OD_UPDATE_SCLK + DPMTABLE_UPDATE_SCLK)) {
++			(DPMTABLE_OD_UPDATE_SCLK | DPMTABLE_UPDATE_SCLK)) {
+ 		result = smum_populate_all_graphic_levels(hwmgr);
+ 		PP_ASSERT_WITH_CODE((0 == result),
+ 				"Failed to populate SCLK during PopulateNewDPMClocksStates Function!",
+@@ -4218,7 +4218,7 @@ static int smu7_populate_and_upload_sclk_mclk_dpm_levels(
+ 	}
  
  	if (data->need_update_smu7_dpm_table &
--		(DPMTABLE_OD_UPDATE_SCLK + DPMTABLE_OD_UPDATE_MCLK))
-+		(DPMTABLE_OD_UPDATE_SCLK | DPMTABLE_OD_UPDATE_MCLK))
- 		return tonga_program_memory_timing_parameters(hwmgr);
+-			(DPMTABLE_OD_UPDATE_MCLK + DPMTABLE_UPDATE_MCLK)) {
++			(DPMTABLE_OD_UPDATE_MCLK | DPMTABLE_UPDATE_MCLK)) {
+ 		/*populate MCLK dpm table to SMU7 */
+ 		result = smum_populate_all_memory_levels(hwmgr);
+ 		PP_ASSERT_WITH_CODE((0 == result),
+@@ -4309,7 +4309,7 @@ static int smu7_unfreeze_sclk_mclk_dpm(struct pp_hwmgr *hwmgr)
  
- 	return 0;
+ 	if ((0 == data->sclk_dpm_key_disabled) &&
+ 		(data->need_update_smu7_dpm_table &
+-		(DPMTABLE_OD_UPDATE_SCLK + DPMTABLE_UPDATE_SCLK))) {
++		(DPMTABLE_OD_UPDATE_SCLK | DPMTABLE_UPDATE_SCLK))) {
+ 
+ 		PP_ASSERT_WITH_CODE(true == smum_is_dpm_running(hwmgr),
+ 				"Trying to Unfreeze SCLK DPM when DPM is disabled",
 -- 
 2.34.1
 
