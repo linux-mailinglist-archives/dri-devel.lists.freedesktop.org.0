@@ -2,68 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B42766B162
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Jan 2023 15:07:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB4066B222
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Jan 2023 16:36:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A756B10E114;
-	Sun, 15 Jan 2023 14:07:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FF5210E37E;
+	Sun, 15 Jan 2023 15:36:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A69C810E108
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Jan 2023 14:07:01 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id b3so39418414lfv.2
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Jan 2023 06:07:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Vbj3GLgt2Eau/H2g6sLMJ/RsUpAnT1WTIdvedMs2Q3k=;
- b=c50CO4vlGc+jJwwRFGpqZX2QF2RwD/6f5cLmM7EBRgg1jL2ffIOrNUCX+DOpwd78oa
- sv0ChXhegh+zJF1rc98yPY3MzNfzuWixMtamwhv9/JA4G18o9g0gPuKc+QWFws9czhBv
- NQzeBYcQtYZAGYrWrjUC7ZYLOhlJAOmfYLrq/6csDSSTHwLMsLSu1mjEfSMShaP1k4/5
- /eT6cWYYovOiqJsWxNzt298K3ZjYHu9X6m5YMrs229ILA3AlOmQ3HnSGxLp4zrbLr/aO
- ll7FEHMJO7XlMsyDvkuO33Cg//768j6KXx/Ys9Tt0db7CeKFJhTGfZXwWPLsrhMwhn2/
- a79w==
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C97910E37D
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Jan 2023 15:36:17 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ f5-20020a9d5f05000000b00684c0c2eb3fso5837596oti.10
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Jan 2023 07:36:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=pRCLnfO5D50aLUIqRH3Be5ElBGG7mevjFvkDgjByEkg=;
+ b=ESYN/lgtsCJz1vk5hIWF8P0XT3zE4HOkfbCef61dEh9nfpUszGpqaILDdbRYwRpBaS
+ Gq0n3cdms6iw0aRSFDJpioaByPmQbKCQP0DMmTGvyCsapfKPYKjs4KTwwNR87Zitspdn
+ tniK5INo56zs/GSaaJc39/v4ceiIJC1pB59guwU6dk/ST7wHrW1GsjBxDt0fMLpUe9Og
+ 1v9Whb4AApgIKVhjQbVH2MHL30mD29abfoMS+VPtLoheVkY7LhOupZe8UcHafZllZEmR
+ Q02XH5CuaiXHw9on84tyYVxbzt6ZWhdpxJ/RGI0Gk5dJ5RFTO2+nukuT+lKm/LaCi8GD
+ Tvcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Vbj3GLgt2Eau/H2g6sLMJ/RsUpAnT1WTIdvedMs2Q3k=;
- b=fNI8mEZUnis7J3qlvtKuEBGU6LZu4ODEzVbRmumhQK6Dbq5HCUbS8SikMIrNlK8MTN
- CbHh/t7ozL4exQoMLvxOYMbJlfJs2K0pT9XbLdraJ+8BX5qmqxbnSTDiolKBz1xTngRk
- Mk057TPc0AWHPIarrhMe+0AesHGMLusD5XrnkWq4Hi9kEqUVfv4GaOjL+ioUruXXQqAR
- fP5GiQjv+2RfBrkMh64XJDoItLN/W0Ts7AhBjE+vclEwm6IDtUkNV6pdxsiZQNQwWZc9
- ZbzV3qcwGPK8syW1yJSRQpU4IGGifFjiD9hNdGmdPoReK1RNRWi7vIcujfvIY3TsxT1I
- inBA==
-X-Gm-Message-State: AFqh2krYVddlNSLKNXMAalcM1P+8BsqWUjQbOlSDrDsOGPHjhBfN6rSY
- p0/2NOL9oagH/+27q19HSwvsEw==
-X-Google-Smtp-Source: AMrXdXs2NS+83UDo1o1DPe0ALx+qxTh0ckGNxS9ouhCBcRnwVCNRtvnz0JPN4rwKbDzZUf0VZCq/bg==
-X-Received: by 2002:a05:6512:3901:b0:4a4:68b7:e71c with SMTP id
- a1-20020a056512390100b004a468b7e71cmr23433544lfu.6.1673791619620; 
- Sun, 15 Jan 2023 06:06:59 -0800 (PST)
-Received: from [192.168.2.31] ([188.170.85.102])
- by smtp.gmail.com with ESMTPSA id
- k42-20020a0565123daa00b004b55da01d3csm4651042lfv.191.2023.01.15.06.06.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 15 Jan 2023 06:06:59 -0800 (PST)
-Message-ID: <d2a61ab4-49c2-1e8c-7913-98d8fb5b008b@linaro.org>
-Date: Sun, 15 Jan 2023 16:06:57 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pRCLnfO5D50aLUIqRH3Be5ElBGG7mevjFvkDgjByEkg=;
+ b=KgJuEFmatd+d2iUaH5qOzBNtmEgRqZQmqVNu8HWbhIKafnTZC0U6WP6yri+mozxxFk
+ HLtJdpEbi6KN3UuAtvFxWadQ/budS1eHPCkAyYRv72pqnMujUFiMvPHwBJ6Usj0ApYEN
+ IOZXraDe06yXCSRaHrBfiL8CelN5xuVI+6HPvaQAfmtGSKXwnCVfLbnNmGQfyoJZNObO
+ ta7S9mgYcK8mMjWTvUi5cxSQ+ryMT/gA7v2Q7xxOz/Qre+TwnpaTPM+r5eI26y6J/Pzl
+ CrRGgoiRMtKMPri7SFhO+lWcvZIysy2Bn5xMgtU57N7zQZRcxlTM02gMhekBYUnaBrY6
+ MqaQ==
+X-Gm-Message-State: AFqh2kolgpOU2Bo3BZl7Ispce7afpoc2K+sjvKZDUMJ5cv3dcavFwxJf
+ ACltXxx5kwTY2gF8BVuWkMllkKRBx5JVq/k74K0=
+X-Google-Smtp-Source: AMrXdXu/zET195jKhsFTVp5xxmwIScKWmACgEKUi1QrBdrbk6v28T2qMy0jJBHOkkSBc+MnjFZnNZuARMBSt9P0VdRA=
+X-Received: by 2002:a9d:489:0:b0:684:bedc:4f54 with SMTP id
+ 9-20020a9d0489000000b00684bedc4f54mr837621otm.233.1673796976794; Sun, 15 Jan
+ 2023 07:36:16 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 0/3] drm/msm/dpu: several fixes for UBWC setup
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20221207142833.204193-1-dmitry.baryshkov@linaro.org>
- <cb3e7dfd-1844-65f9-aafd-32187047b535@quicinc.com>
-Content-Language: en-GB
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <cb3e7dfd-1844-65f9-aafd-32187047b535@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230114194741.115855-1-sj@kernel.org>
+ <20230114194741.115855-2-sj@kernel.org>
+In-Reply-To: <20230114194741.115855-2-sj@kernel.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Sun, 15 Jan 2023 10:35:57 -0500
+Message-ID: <CADnq5_OUnkzoZcCdW0X-=gJsXSRgY=GLrbmfNj0geDCzL5a7eQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Docs: Add some missing SPDX license identifiers of
+ subsystem docs
+To: SeongJae Park <sj@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,40 +67,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: linux-hwmon@vger.kernel.org, alsa-devel@alsa-project.org,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Takashi Iwai <tiwai@suse.com>,
+ Jean Delvare <jdelvare@suse.com>, linux-crypto@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-input@vger.kernel.org,
+ Jaroslav Kysela <perex@perex.cz>, "David S. Miller" <davem@davemloft.net>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/01/2023 23:43, Abhinav Kumar wrote:
-> 
-> 
-> On 12/7/2022 6:28 AM, Dmitry Baryshkov wrote:
->> Several small corrections for the UBWC setup and related data.
->>
-> 
-> I am assuming this series will be dropped in favor of the RFC:
-> 
-> https://patchwork.freedesktop.org/series/111751/
-> 
-> Right?
+On Sat, Jan 14, 2023 at 2:48 PM SeongJae Park <sj@kernel.org> wrote:
+>
+> Some subsystem documents are missing SPDX license identifiers.  Add
+> those.
 
-No, they cover different topics. One covers the way the DPU handles UBWC 
-setup, another one reworks MDSS.
+It would be good to split this up per subsystem.
 
-> 
->> Dmitry Baryshkov (3):
->>    drm/msm/dpu: handle UBWC 1.0 in dpu_hw_sspp_setup_format
->>    drm/msm/dpu: correct the UBWC version on sm6115
->>    drm/msm/dpu: add missing ubwc_swizzle setting to catalog
->>
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 5 ++++-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c    | 6 +++++-
->>   2 files changed, 9 insertions(+), 2 deletions(-)
->>
+>
+> Signed-off-by: SeongJae Park <sj@kernel.org>
+> ---
+>  Documentation/crypto/index.rst     | 2 ++
+>  Documentation/driver-api/index.rst | 2 ++
+>  Documentation/gpu/index.rst        | 2 ++
+>  Documentation/hwmon/index.rst      | 2 ++
+>  Documentation/input/index.rst      | 2 ++
+>  Documentation/mm/index.rst         | 2 ++
+>  Documentation/scheduler/index.rst  | 2 ++
+>  Documentation/sound/index.rst      | 2 ++
+>  8 files changed, 16 insertions(+)
+>
+> diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
+> index da5d5ad2bdf3..95b0870e09b8 100644
+> --- a/Documentation/crypto/index.rst
+> +++ b/Documentation/crypto/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  ==========
+>  Crypto API
+>  ==========
+> diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+> index b208e0dac3a0..7a2584ab63c4 100644
+> --- a/Documentation/driver-api/index.rst
+> +++ b/Documentation/driver-api/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  ==============================
+>  Driver implementer's API guide
+>  ==============================
+> diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
+> index eee5996acf2c..ff06a6b12c5e 100644
+> --- a/Documentation/gpu/index.rst
+> +++ b/Documentation/gpu/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 
--- 
-With best wishes
-Dmitry
+Most of the DRM code is MIT.  I'd expect this would be MIT as well.
 
+Alex
+
+> +
+>  ============================
+>  GPU Driver Developer's Guide
+>  ============================
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index c2b3c1a822dd..2186d732654f 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  ===================
+>  Hardware Monitoring
+>  ===================
+> diff --git a/Documentation/input/index.rst b/Documentation/input/index.rst
+> index 35581cd18e91..d60bf9cfe005 100644
+> --- a/Documentation/input/index.rst
+> +++ b/Documentation/input/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  ===================
+>  Input Documentation
+>  ===================
+> diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
+> index 5a94a921ea40..c4e9fbacaf38 100644
+> --- a/Documentation/mm/index.rst
+> +++ b/Documentation/mm/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  ===============================
+>  Memory Management Documentation
+>  ===============================
+> diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
+> index 1aac972a652f..ae0229f5a9cf 100644
+> --- a/Documentation/scheduler/index.rst
+> +++ b/Documentation/scheduler/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  =========
+>  Scheduler
+>  =========
+> diff --git a/Documentation/sound/index.rst b/Documentation/sound/index.rst
+> index 5abed5fc6485..7e67e12730d3 100644
+> --- a/Documentation/sound/index.rst
+> +++ b/Documentation/sound/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  =============================
+>  Sound Subsystem Documentation
+>  =============================
+> --
+> 2.25.1
+>
