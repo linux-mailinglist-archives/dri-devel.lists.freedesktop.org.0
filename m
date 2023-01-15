@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3379566B024
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Jan 2023 10:32:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0899166B03C
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Jan 2023 11:01:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E077E10E0E7;
-	Sun, 15 Jan 2023 09:32:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B00510E0EA;
+	Sun, 15 Jan 2023 10:00:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55C9010E0E7;
- Sun, 15 Jan 2023 09:32:28 +0000 (UTC)
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D9CE10E0EA;
+ Sun, 15 Jan 2023 10:00:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1673775142; bh=h3BV35ExW4Qp8mSJAt5y1TYkCZQhRUQwk+nplpac6xs=;
+ t=1673776843; bh=/iD5FdGsACL4AeAQezA9XNB8C/O5bx6Q/X5pHtL9znk=;
  h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
  Content-Type;
- b=XRtOftUNorQbmCMcA54sJ3NrwQZVSNveuKgJbOSftQ3YhAniPLLuZd6n26IXyzBvP
- IdBHzt9gQ8rZfCuwx8McAyz0q2H+nOcVA26wP9Ap4z+eD/nstnLbVAdBeEhuEjwYMk
- Yn3IEohbNoTvKG/x3Sfn3FqUK71GNlLbyu9dxWok=
-Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
+ b=j/AHSimET66MvDWv+l8/PtEAWvnrhLtKagZQwJmMQZcGGc2STk00RUpyw8LALrtNM
+ ZnsIOPFDKQvAX/0CNhJx6g+LV5WxkZpCK/+5ao00eYs/low/H+qAJjJcLjhzpGnWfw
+ tEoHNhFdf3SdsMewyN0YhTKDmukAc7EcXt/C0cQo=
+Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
  via ip-206.mailobj.net [213.182.55.206]
- Sun, 15 Jan 2023 10:32:22 +0100 (CET)
-X-EA-Auth: DwObgLNILM2GtGPAI+00q8N5h+32tnvd/PwBaxq/eKJBAyAYbimivsEbXvC9hVqYG8F0mkVbytx8mh28znre75c7q2Kq5iw9
-Date: Sun, 15 Jan 2023 15:02:17 +0530
+ Sun, 15 Jan 2023 11:00:43 +0100 (CET)
+X-EA-Auth: QUVQkKdtaa3ThPmH0jN9hkKBEF3clhbPL9AScoOFF2o6Ipb8m9b2YiEd1CacQfHgw+lTtqJAFAhum5ZmXRrFw35fBU6TjDC8
+Date: Sun, 15 Jan 2023 15:30:38 +0530
 From: Deepak R Varma <drv@mailo.com>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
@@ -33,8 +33,8 @@ To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amd/display: avoid variable reinitialization
-Message-ID: <Y8PIId1k1TmIAo18@ubun2204.myguest.virtualbox.org>
+Subject: [PATCH] drm/amd/display: Simplify same effect if/else blocks
+Message-ID: <Y8POxreeC3EvOXhC@ubun2204.myguest.virtualbox.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -55,26 +55,42 @@ Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The member variable set_odm_combine is already initialized and hence the
-reinitialization instruction can be removed. Issue identified using the
-dubleinit.cocci Coccinelle semantic patch script.
+The if / else block code has same effect irrespective of the logical
+evaluation.  Hence, simply the implementation by removing the unnecessary
+conditional evaluation. While at it, also fix the long line checkpatch
+complaint. Issue identified using cond_no_effect.cocci Coccinelle
+semantic patch script.
 
 Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
- drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c | 1 -
- 1 file changed, 1 deletion(-)
+Please note: The proposed change is compile tested only. If there are any
+inbuilt test cases that I should run for further verification, I will appreciate
+guidance about it. Thank you.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
-index 41edbd64ea21..777d8efee977 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
-@@ -254,7 +254,6 @@ static struct timing_generator_funcs dcn314_tg_funcs = {
- 		.get_hw_timing = optc1_get_hw_timing,
- 		.init_odm = optc3_init_odm,
- 		.set_odm_bypass = optc314_set_odm_bypass,
--		.set_odm_combine = optc314_set_odm_combine,
- 		.set_h_timing_div_manual_mode = optc314_set_h_timing_div_manual_mode,
- };
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 0cb8d1f934d1..776209e5d21f 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -3470,14 +3470,9 @@ static void commit_planes_for_stream(struct dc *dc,
+ 		/* Since phantom pipe programming is moved to post_unlock_program_front_end,
+ 		 * move the SubVP lock to after the phantom pipes have been setup
+ 		 */
+-		if (should_lock_all_pipes && dc->hwss.interdependent_update_lock) {
+-			if (dc->hwss.subvp_pipe_control_lock)
+-				dc->hwss.subvp_pipe_control_lock(dc, context, false, should_lock_all_pipes, NULL, subvp_prev_use);
+-		} else {
+-			if (dc->hwss.subvp_pipe_control_lock)
+-				dc->hwss.subvp_pipe_control_lock(dc, context, false, should_lock_all_pipes, NULL, subvp_prev_use);
+-		}
+-
++		if (dc->hwss.subvp_pipe_control_lock)
++			dc->hwss.subvp_pipe_control_lock(dc, context, false, should_lock_all_pipes,
++							 NULL, subvp_prev_use);
+ 		return;
+ 	}
  
 -- 
 2.34.1
