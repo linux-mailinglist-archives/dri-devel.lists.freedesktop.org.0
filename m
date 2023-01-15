@@ -2,63 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C9CB66B402
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Jan 2023 21:57:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8736A66B440
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Jan 2023 22:45:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3840010E3B2;
-	Sun, 15 Jan 2023 20:57:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3619110E3B3;
+	Sun, 15 Jan 2023 21:45:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D9AB10E3B2
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Jan 2023 20:57:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1673816240; bh=iCHzrI3/Aj5kWtzk9CytDtglCVQ11xjtngzlljo+NhM=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=mQZiX84YBGlJE6qGlxkZJ6wHhQNjVe7JYb5V3YjMzB9jfFAuHlo3AqLX3tXTCkc6y
- spmplv3CjcqAtJgscvGCe3OoR4W3hq4sKMWwxNnJUr9+JaCre0XepOHCOXED/18GbD
- 29W3suX2iteLzbQrTM5NE/dnJzvlbur72AQfdvxeR1AKSDtCJbJwfCp+8ITxpvHC9T
- iMFHNtPiUJJ/cikqV3u6BvBgQswcqzx4IhLXajanGffjt9K55SZyVOy0DvxX7L+4cQ
- ggGHQ1mOSnj0jLjc9txUiob7JWmOc4ys0gTmhVoj5RC2zx7wapcwrFYLRmLa2M8QqV
- HFQYV4RozFApw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([92.116.161.25]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MLR1f-1p0K2N1GXD-00IVuK; Sun, 15
- Jan 2023 21:57:20 +0100
-Message-ID: <d892efab-39a8-02e4-5afb-3b33abdc58bc@gmx.de>
-Date: Sun, 15 Jan 2023 21:57:19 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CDBE10E3B3
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Jan 2023 21:45:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673819118;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=itG3ZF4MAETUDAKR3A/Ih1TMp9lYsHlIkkE2cbFYorM=;
+ b=Xm9TeOAkEGENtWJZJt+iGmpxgjSCc35JdYErlLxHzHQ5xvl3Q7YgrfRtDkOj82Ot+NWx6X
+ hl6FyeFYS8D+1r4PFbIDCjP8civPdzUMC7+41ZM+y1LqncccPwIlfSg46hfFeA8TUVlVMa
+ mj5hVp8JqNKUqL28HYS4noq2sqr/oOw=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-67-HRwMRnZcNzqXpsIPCgchIg-1; Sun, 15 Jan 2023 16:45:17 -0500
+X-MC-Unique: HRwMRnZcNzqXpsIPCgchIg-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ bi3-20020a05620a318300b00702545f73d5so19260590qkb.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Jan 2023 13:45:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=itG3ZF4MAETUDAKR3A/Ih1TMp9lYsHlIkkE2cbFYorM=;
+ b=3Xyka+HszLDFwyskuaFGJ/JBQzeFRIE3OhiIDaPCYhuC7CYs6vdvtwI3J8ApG11JRz
+ JBcYmoFS8AmpflgK5DkHKPS7gxYxfjv54zBSppFYSA6+Ir7OMtBgMTqWDBsOeuiG8SnK
+ K8vPdD0szeKN6T1c+mAmD2WoUlEMhzS+i6PP3Eb45MaPjTOnplCmQQN62HRroC6u68MD
+ XM4L8pUr56diwffX1Cje2Ouxwp4ZZRQ1UHl0WObZyoPoivo80Vl6MQThKBR/h6OXZWlP
+ nHkWGxzc6FeCTfY3IveYDGzFrtOyBzbH19Uh7ZNgcE+d22hANd2xKy+nH1Me18JCQcno
+ ycSA==
+X-Gm-Message-State: AFqh2krQhhD5ybZ74o1i6B4oY6vMfbqy4nZVOaiIc1ToYwwrxAGZDkou
+ nbCETU9UukI906EW7KbdQmH7HbDdNWwHOMaR9g8z+eqtdWcrM+IRGMhA/P3K2afuk3OnJD3HPE3
+ G0uF1gWmbA9W9I2u2LaC4fgEGmYCeacbEWp9lZIwcM9mx
+X-Received: by 2002:ad4:46c6:0:b0:531:bf0f:74e9 with SMTP id
+ pm6-20020ad446c6000000b00531bf0f74e9mr3851566qvb.16.1673819116989; 
+ Sun, 15 Jan 2023 13:45:16 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtfUw/WKxs1P5lWECd2XEfFTLxO8sx4RmRDJZvTFCEjlwRQcOTU3yuKkD11Yo130rqXWwfmlcP/EzkffuCj6aU=
+X-Received: by 2002:ad4:46c6:0:b0:531:bf0f:74e9 with SMTP id
+ pm6-20020ad446c6000000b00531bf0f74e9mr3851560qvb.16.1673819116738; Sun, 15
+ Jan 2023 13:45:16 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2] video: fbdev: omapfb: Use kstrtobool() instead of
- strtobool()
-Content-Language: en-US
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-References: <b475ed9827ccef2081b557330a224f5fd8e6c8f3.1673686433.git.christophe.jaillet@wanadoo.fr>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <b475ed9827ccef2081b557330a224f5fd8e6c8f3.1673686433.git.christophe.jaillet@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:9gbLCh5+D4eAvUf/NKqhI7QbjcQ6WT5LZS7UN7n4wftXAbpNmmp
- /S7NFKRzt+2Eg/A9Do4y/aY2CAwsXHF5+M+4k9UD3RJAJOvYKBictBl2sX13OG/lpg0FIyn
- L5so/Urn9H3ycsFAR4R35tmkH81DoU/XhnDbqOIAa74MFMRWqCj3Y+Q2wH644ThPWoI6c0k
- 05qFQdpvkrbC/itkxhjWQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:N4MIz6zWr3Q=;hJmGQLDQv3s1enQ4CbYyEvhbC6x
- zPJomF2ijGoTPS+8gchbBWCPpIHRKbxZYgMOJ5wTDjiFkdW7yq2PTjNNlOlOgYxC3XavAyDIE
- ygsRoOuzmEI4XXJWlzvCBrw1mVOSc89lZuGw6H9HbPaU9z4bK4F/OcoA+2BoGIt1YR5iuWjfs
- dFyddAqHWUw0nqJCeWXaOsjIaw/AZ4vNTCc6bOscqBCH0ThTxiHAmvKf34kqEJ4uNBGTKXmnI
- WyrkVqXfnzYQH33tzUkuDGSvemm7q/3vqhz6ga2FlaMgAaLScY0JwS3SyA737agnvryR+bMxs
- VOsqBQ7thMqJKn/JAutleC67ojMFJdcKpjMsncGPtZb/MXAGU+7r7l3srrTtv1jB1TkfVYhCA
- m5sWSG+kdbGw+8rTXWHLQqVuY4lHwgjL/MnZJwTKhZVLSbL77nMXignQeu3mW6pOQQqAbC3zT
- LD1ChrwesAhLOLsUE/Ym6M9sWKkT+fdzAb3vt5ykjVQDEnRkTItJMbl7XL3nZTAT9oEOCE0tn
- Ldyty4GCCoSgizmPLhyq4/3YDGVFo49zvylOK8BB4WkLja/O443BgmWKYaTdRQCAAws+TbsN5
- auOkq9FHDHsIULPH+1658Ud3cA2RJXuGlnESG52f97uoJTHAXy+BZEwf+2knhdfCOCc0j0K3C
- dLM9zODHUdKNN4oLerTqz2P21tayhwUAUxM6/pHk8rUoECdS2YZJTlCNZcFG+PdW2icTtdLQt
- 7w8HtvLNgFBBgGG7bYrf/0FJTGtklc7nfkPjOTlFjHESq3KjJxEImmYF74EVVciau6LuB82ZC
- 9aXkiTCLqeiigDwiJhGWSnYKWF5sck1mNhDwi5sToN0UyOgdC5VvdTOPPNBeB/u+n3RJC/T+J
- D7voijMu/UGV7WJuj3zq4TIt0JvYHCcKN4NKqsHGr2g0Py7Y0cV9sy1nmnkr4YqeR3RjnLyn/
- J1JaI+bkPT8y2jytxSz6N3BJpQ0=
+References: <20221228144914.z7t7a4fdwvbblnak@wslaptop>
+In-Reply-To: <20221228144914.z7t7a4fdwvbblnak@wslaptop>
+From: David Airlie <airlied@redhat.com>
+Date: Mon, 16 Jan 2023 07:45:05 +1000
+Message-ID: <CAMwc25rY4xpn0yvCScMr6Hk9pFSdvt=9QOypSQDfj1d5tWmtvA@mail.gmail.com>
+Subject: Re: [REGRESSION] GM20B probe fails after commit 2541626cfb79
+To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,180 +75,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org, regressions@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/14/23 09:54, Christophe JAILLET wrote:
-> strtobool() is the same as kstrtobool().
-> However, the latter is more used within the kernel.
+On Thu, Dec 29, 2022 at 12:58 AM Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt> wrote:
 >
-> In order to remove strtobool() and slightly simplify kstrtox.h, switch t=
-o
-> the other function name.
+> Hello,
 >
-> While at it, include the corresponding header file (<linux/kstrtox.h>)
+> Commit 2541626cfb79 breaks GM20B probe with
+> the following kernel log:
 >
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> [    2.153892] ------------[ cut here ]------------
+> [    2.153897] WARNING: CPU: 1 PID: 36 at drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgf100.c:273 gf100_vmm_valid+0x2c4/0x390
+> [    2.153916] Modules linked in:
+> [    2.153922] CPU: 1 PID: 36 Comm: kworker/u8:1 Not tainted 6.1.0+ #1
+> [    2.153929] Hardware name: Google Pixel C (DT)
+> [    2.153933] Workqueue: events_unbound deferred_probe_work_func
+> [    2.153943] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [    2.153950] pc : gf100_vmm_valid+0x2c4/0x390
+> [    2.153959] lr : gf100_vmm_valid+0xb4/0x390
+> [    2.153966] sp : ffffffc009e134b0
+> [    2.153969] x29: ffffffc009e134b0 x28: 0000000000000000 x27: ffffffc008fd44c8
+> [    2.153979] x26: 00000000ffffffea x25: ffffffc0087b98d0 x24: ffffff8080f89038
+> [    2.153987] x23: ffffff8081fadc08 x22: 0000000000000000 x21: 0000000000000000
+> [    2.153995] x20: ffffff8080f8a000 x19: ffffffc009e13678 x18: 0000000000000000
+> [    2.154003] x17: f37a8b93418958e6 x16: ffffffc009f0d000 x15: 0000000000000000
+> [    2.154011] x14: 0000000000000002 x13: 000000000003a020 x12: ffffffc008000000
+> [    2.154019] x11: 0000000102913000 x10: 0000000000000000 x9 : 0000000000000000
+> [    2.154026] x8 : ffffffc009e136d8 x7 : ffffffc008fd44c8 x6 : ffffff80803d0f00
+> [    2.154034] x5 : 0000000000000000 x4 : ffffff8080f88c00 x3 : 0000000000000010
+> [    2.154041] x2 : 000000000000000c x1 : 00000000ffffffea x0 : 00000000ffffffea
+> [    2.154050] Call trace:
+> [    2.154053]  gf100_vmm_valid+0x2c4/0x390
+> [    2.154061]  nvkm_vmm_map_valid+0xd4/0x204
+> [    2.154069]  nvkm_vmm_map_locked+0xa4/0x344
+> [    2.154076]  nvkm_vmm_map+0x50/0x84
+> [    2.154083]  nvkm_firmware_mem_map+0x84/0xc4
+> [    2.154094]  nvkm_falcon_fw_oneinit+0xc8/0x320
+> [    2.154101]  nvkm_acr_oneinit+0x428/0x5b0
+> [    2.154109]  nvkm_subdev_oneinit_+0x50/0x104
+> [    2.154114]  nvkm_subdev_init_+0x3c/0x12c
+> [    2.154119]  nvkm_subdev_init+0x60/0xa0
+> [    2.154125]  nvkm_device_init+0x14c/0x2a0
+> [    2.154133]  nvkm_udevice_init+0x60/0x9c
+> [    2.154140]  nvkm_object_init+0x48/0x1b0
+> [    2.154144]  nvkm_ioctl_new+0x168/0x254
+> [    2.154149]  nvkm_ioctl+0xd0/0x220
+> [    2.154153]  nvkm_client_ioctl+0x10/0x1c
+> [    2.154162]  nvif_object_ctor+0xf4/0x22c
+> [    2.154168]  nvif_device_ctor+0x28/0x70
+> [    2.154174]  nouveau_cli_init+0x150/0x590
+> [    2.154180]  nouveau_drm_device_init+0x60/0x2a0
+> [    2.154187]  nouveau_platform_device_create+0x90/0xd0
+> [    2.154193]  nouveau_platform_probe+0x3c/0x9c
+> [    2.154200]  platform_probe+0x68/0xc0
+> [    2.154207]  really_probe+0xbc/0x2dc
+> [    2.154211]  __driver_probe_device+0x78/0xe0
+> [    2.154216]  driver_probe_device+0xd8/0x160
+> [    2.154221]  __device_attach_driver+0xb8/0x134
+> [    2.154226]  bus_for_each_drv+0x78/0xd0
+> [    2.154230]  __device_attach+0x9c/0x1a0
+> [    2.154234]  device_initial_probe+0x14/0x20
+> [    2.154239]  bus_probe_device+0x98/0xa0
+> [    2.154243]  deferred_probe_work_func+0x88/0xc0
+> [    2.154247]  process_one_work+0x204/0x40c
+> [    2.154256]  worker_thread+0x230/0x450
+> [    2.154261]  kthread+0xc8/0xcc
+> [    2.154266]  ret_from_fork+0x10/0x20
+> [    2.154273] ---[ end trace 0000000000000000 ]---
+> [    2.154278] nouveau 57000000.gpu: pmu: map -22
+> [    2.154285] nouveau 57000000.gpu: acr: one-time init failed, -22
+> [    2.154559] nouveau 57000000.gpu: init failed with -22
+> [    2.154564] nouveau: DRM-master:00000000:00000080: init failed with -22
+> [    2.154574] nouveau 57000000.gpu: DRM-master: Device allocation failed: -22
+> [    2.162905] nouveau: probe of 57000000.gpu failed with error -22
+>
+> #regzbot introduced: 2541626cfb79
 
-applied.
+As a quick check can you try changing
 
-Thanks!
-Helge
+drivers/gpu/drm/nouveau/nvkm/core/firmware.c:nvkm_firmware_mem_target
+from NVKM_MEM_TARGET_HOST to NVKM_MEM_TARGET_NCOH ?
 
-
-> ---
-> This patch was already sent as a part of a serie ([1]) that axed all usa=
-ges
-> of strtobool().
-> Most of the patches have been merged in -next.
+Dave.
 >
-> I synch'ed with latest -next and re-send the remaining ones as individua=
-l
-> patches.
+> Thanks,
 >
-> Changes in v2:
->    - No change
->
-> [1]: https://lore.kernel.org/all/cover.1667336095.git.christophe.jaillet=
-@wanadoo.fr/
-> ---
->   drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c | 7 ++++---
->   drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c | 7 ++++---
->   drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c | 3 ++-
->   drivers/video/fbdev/omap2/omapfb/omapfb-sysfs.c      | 3 ++-
->   4 files changed, 12 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c b/driv=
-ers/video/fbdev/omap2/omapfb/dss/display-sysfs.c
-> index bc5a44c2a144..ae937854403b 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c
-> @@ -10,6 +10,7 @@
->   #define DSS_SUBSYS_NAME "DISPLAY"
->
->   #include <linux/kernel.h>
-> +#include <linux/kstrtox.h>
->   #include <linux/module.h>
->   #include <linux/platform_device.h>
->   #include <linux/sysfs.h>
-> @@ -36,7 +37,7 @@ static ssize_t display_enabled_store(struct omap_dss_d=
-evice *dssdev,
->   	int r;
->   	bool enable;
->
-> -	r =3D strtobool(buf, &enable);
-> +	r =3D kstrtobool(buf, &enable);
->   	if (r)
->   		return r;
->
-> @@ -73,7 +74,7 @@ static ssize_t display_tear_store(struct omap_dss_devi=
-ce *dssdev,
->   	if (!dssdev->driver->enable_te || !dssdev->driver->get_te)
->   		return -ENOENT;
->
-> -	r =3D strtobool(buf, &te);
-> +	r =3D kstrtobool(buf, &te);
->   	if (r)
->   		return r;
->
-> @@ -183,7 +184,7 @@ static ssize_t display_mirror_store(struct omap_dss_=
-device *dssdev,
->   	if (!dssdev->driver->set_mirror || !dssdev->driver->get_mirror)
->   		return -ENOENT;
->
-> -	r =3D strtobool(buf, &mirror);
-> +	r =3D kstrtobool(buf, &mirror);
->   	if (r)
->   		return r;
->
-> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c b/driv=
-ers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c
-> index ba21c4a2633d..1b644be5fe2e 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c
-> @@ -10,6 +10,7 @@
->   #define DSS_SUBSYS_NAME "MANAGER"
->
->   #include <linux/kernel.h>
-> +#include <linux/kstrtox.h>
->   #include <linux/slab.h>
->   #include <linux/module.h>
->   #include <linux/platform_device.h>
-> @@ -246,7 +247,7 @@ static ssize_t manager_trans_key_enabled_store(struc=
-t omap_overlay_manager *mgr,
->   	bool enable;
->   	int r;
->
-> -	r =3D strtobool(buf, &enable);
-> +	r =3D kstrtobool(buf, &enable);
->   	if (r)
->   		return r;
->
-> @@ -290,7 +291,7 @@ static ssize_t manager_alpha_blending_enabled_store(
->   	if(!dss_has_feature(FEAT_ALPHA_FIXED_ZORDER))
->   		return -ENODEV;
->
-> -	r =3D strtobool(buf, &enable);
-> +	r =3D kstrtobool(buf, &enable);
->   	if (r)
->   		return r;
->
-> @@ -329,7 +330,7 @@ static ssize_t manager_cpr_enable_store(struct omap_=
-overlay_manager *mgr,
->   	if (!dss_has_feature(FEAT_CPR))
->   		return -ENODEV;
->
-> -	r =3D strtobool(buf, &enable);
-> +	r =3D kstrtobool(buf, &enable);
->   	if (r)
->   		return r;
->
-> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c b/driv=
-ers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c
-> index 601c0beb6de9..1da4fb1c77b4 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c
-> @@ -13,6 +13,7 @@
->   #include <linux/err.h>
->   #include <linux/sysfs.h>
->   #include <linux/kobject.h>
-> +#include <linux/kstrtox.h>
->   #include <linux/platform_device.h>
->
->   #include <video/omapfb_dss.h>
-> @@ -210,7 +211,7 @@ static ssize_t overlay_enabled_store(struct omap_ove=
-rlay *ovl, const char *buf,
->   	int r;
->   	bool enable;
->
-> -	r =3D strtobool(buf, &enable);
-> +	r =3D kstrtobool(buf, &enable);
->   	if (r)
->   		return r;
->
-> diff --git a/drivers/video/fbdev/omap2/omapfb/omapfb-sysfs.c b/drivers/v=
-ideo/fbdev/omap2/omapfb/omapfb-sysfs.c
-> index 06dc41aa0354..831b2c2fbdf9 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/omapfb-sysfs.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/omapfb-sysfs.c
-> @@ -15,6 +15,7 @@
->   #include <linux/uaccess.h>
->   #include <linux/platform_device.h>
->   #include <linux/kernel.h>
-> +#include <linux/kstrtox.h>
->   #include <linux/mm.h>
->   #include <linux/omapfb.h>
->
-> @@ -96,7 +97,7 @@ static ssize_t store_mirror(struct device *dev,
->   	int r;
->   	struct fb_var_screeninfo new_var;
->
-> -	r =3D strtobool(buf, &mirror);
-> +	r =3D kstrtobool(buf, &mirror);
->   	if (r)
->   		return r;
+> Diogo Ivo
 >
 
