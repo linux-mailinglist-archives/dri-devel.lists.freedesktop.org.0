@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E3D66BBB6
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 11:30:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81A2166BBB7
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 11:30:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC8C510E2DD;
-	Mon, 16 Jan 2023 10:30:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D399E10E2E3;
+	Mon, 16 Jan 2023 10:30:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3110C10E2DD
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 10:30:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8608F10E2DD
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 10:30:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,16 +19,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=eUSEC2loK6JmCn4KYmfo6SNuJBTfIHXxRbVWdo/L9nQ=; b=CPXztSGvmnBvFbIbVD6y3D83U1
- VZ5mUlvi27F2iqkI8GXzjsYOMabpglA0H8a1lowDTKzDdNDbI7jC0+cf2DCxHFYPmXTt7viR3jv8Z
- IUgwYLYGwxBHyfDdz0T2xHy2XB95WfHntRs9woR+bKIrBbaaxTYjwiA/SeqRFROsBgXZ4GM/sdQIN
- rUI/CDEFhlqTMmapEKKIpOtD7RRezPL/XDbTQXcsQKF6YqwvE+S2sJoPSYBHj8H5USvf993dnUbOH
- 8wOVGNrj36AmdLAJYg18y32EmbncFg7PLZ8aSqE/NOv9BgDLMq6JTzuN486nug/d6KUlH1ExB/e91
- 1ZtyNGHA==;
+ bh=UpY5/+tv9fmUSHsfSoUPzhgX1OEPDrtOFzsGK1xGLKw=; b=kE9y+OvRoL0G6NyvQT6Z9gM+fd
+ EaYBrSR5UWSFa9npZo5Oij/IMajX+eKHfgEzGdZhIS6BCVcYmrTMJfUE37oeDwINEmUWpGvOLxYaU
+ D80ptgpPRpD0nHtSJBQ2KZ7bYlVShgikKr/1F4SurnMDW0xLm+JIN/okjNrAUIS4ui0Hw27K2hhM5
+ F3yc6xL0I6+KF1FU/LExK3ruEUWF6lUiwouVeyt7xtpWqKR2QE7MvxJ3dtpnCFD2yjtl0Em123HMO
+ TKnzIVNI3eSY0YLrE3Z38lZZOWI7GEq/nYhj7aZFRt+W2CbuediFnGZOp9QzhgDlwaoKU86S4uG8Z
+ 3Jxy2dGA==;
 Received: from [187.36.234.139] (helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pHMkX-009j44-TP; Mon, 16 Jan 2023 11:29:58 +0100
+ id 1pHMkd-009j44-9X; Mon, 16 Jan 2023 11:30:03 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -39,9 +39,9 @@ To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
  Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  Jani Nikula <jani.nikula@linux.intel.com>
-Subject: [PATCH 3/6] drm/debugfs: Create wrapper to add files to debugfs list
-Date: Mon, 16 Jan 2023 07:28:13 -0300
-Message-Id: <20230116102815.95063-4-mcanal@igalia.com>
+Subject: [PATCH 4/6] drm/debugfs: Create wrapper to register debugfs
+Date: Mon, 16 Jan 2023 07:28:14 -0300
+Message-Id: <20230116102815.95063-5-mcanal@igalia.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230116102815.95063-1-mcanal@igalia.com>
 References: <20230116102815.95063-1-mcanal@igalia.com>
@@ -66,44 +66,73 @@ Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create a helper to encapsulate the code that adds a new debugfs file to
-a linked list related to a object. Moreover, the helper also provides
-more flexibily, as the parameter is a struct drm_debugfs_list.
+Create a helper to encapsulate the code that creates a new debugfs files
+from a linked list related to an object. Moreover, the helper also
+provides more flexibily on the type of the object.
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/drm_debugfs.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_debugfs.c | 25 +++++++++++++------------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 176b0f8614e5..aca460fa5d23 100644
+index aca460fa5d23..2d1e3072065a 100644
 --- a/drivers/gpu/drm/drm_debugfs.c
 +++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -229,6 +229,13 @@ void drm_debugfs_list_destroy(struct drm_debugfs_list *debugfs_list)
- 	mutex_destroy(&debugfs_list->mutex);
+@@ -236,11 +236,21 @@ static void drm_debugfs_list_add(struct list_head *entry, struct drm_debugfs_lis
+ 	mutex_unlock(&debugfs_list->mutex);
  }
  
-+static void drm_debugfs_list_add(struct list_head *entry, struct drm_debugfs_list *debugfs_list)
++static void drm_debugfs_register(struct drm_minor *minor, struct drm_debugfs_list *debugfs_list)
 +{
-+	mutex_lock(&debugfs_list->mutex);
-+	list_add(entry, &debugfs_list->list);
-+	mutex_unlock(&debugfs_list->mutex);
++	struct drm_debugfs_entry *entry, *tmp;
++
++	list_for_each_entry_safe(entry, tmp, &debugfs_list->list, list) {
++		debugfs_create_file(entry->file.name, 0444,
++				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
++		list_del(&entry->list);
++	}
 +}
 +
  int drm_debugfs_init(struct drm_minor *minor, int minor_id,
  		     struct dentry *root)
  {
-@@ -350,9 +357,7 @@ void drm_debugfs_add_file(struct drm_device *dev, const char *name,
- 	entry->file.data = data;
- 	entry->dev = dev;
+ 	struct drm_device *dev = minor->dev;
+-	struct drm_debugfs_entry *entry, *tmp;
+ 	char name[64];
  
--	mutex_lock(&dev->debugfs_list.mutex);
--	list_add(&entry->list, &dev->debugfs_list.list);
--	mutex_unlock(&dev->debugfs_list.mutex);
-+	drm_debugfs_list_add(&entry->list, &dev->debugfs_list);
+ 	INIT_LIST_HEAD(&minor->debugfs_list);
+@@ -263,11 +273,7 @@ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+ 	if (dev->driver->debugfs_init)
+ 		dev->driver->debugfs_init(minor);
+ 
+-	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list.list, list) {
+-		debugfs_create_file(entry->file.name, 0444,
+-				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
+-		list_del(&entry->list);
+-	}
++	drm_debugfs_register(minor, &dev->debugfs_list);
+ 
+ 	return 0;
  }
- EXPORT_SYMBOL(drm_debugfs_add_file);
+@@ -275,16 +281,11 @@ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+ void drm_debugfs_late_register(struct drm_device *dev)
+ {
+ 	struct drm_minor *minor = dev->primary;
+-	struct drm_debugfs_entry *entry, *tmp;
  
+ 	if (!minor)
+ 		return;
+ 
+-	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list.list, list) {
+-		debugfs_create_file(entry->file.name, 0444,
+-				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
+-		list_del(&entry->list);
+-	}
++	drm_debugfs_register(minor, &dev->debugfs_list);
+ }
+ 
+ int drm_debugfs_remove_files(const struct drm_info_list *files, int count,
 -- 
 2.39.0
 
