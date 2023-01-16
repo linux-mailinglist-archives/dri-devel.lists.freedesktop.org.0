@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D840766BD42
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 12:54:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5753366BD4A
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 12:54:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4D9D10E3E1;
-	Mon, 16 Jan 2023 11:54:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 609BD10E3EA;
+	Mon, 16 Jan 2023 11:54:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CDC410E3DC;
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C31C210E3DC;
  Mon, 16 Jan 2023 11:54:29 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D6F0E67785;
- Mon, 16 Jan 2023 11:54:27 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7BB7A33A00;
+ Mon, 16 Jan 2023 11:54:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673870067; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1673870068; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=UL2Wi17iU8seebOA35uldzLzW5/uGi8Mr7lMpsrUdss=;
- b=jCDuHpY3mCEpGRYmHzwfa9eisGRXMDgiDra2g4bd3zMJjceB9kUGmedGgatuR0HSLlMlCl
- f3WFmZe6UoLRV8D3skNC46WzU6OZtZqMLQE5+Mtc6n7VxSRbdDrGiEfVdtdLOWBqOeZND/
- 2Hqw2X0/lgpcWW5IY8aIH1/iKsW3RFc=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sGmxwmLUhAbC3mg2UjIGg7BdcCt6B/pF9fkmcMljNRM=;
+ b=A/b46kcDcsW3NbnlB9Obbk+zoZlS8nvtPHrwbLSdnUiyn6OU3eQgpS8zPgWwxQV33IFdxB
+ 6qKg4/nxmXLJEwxVY2wYbGCIvcS0tLeOS1EU0d7NmsuXAAjnVGRLBGzvq0UWTQgROANQMG
+ iwJDvC+gsyidyGZDbK4ggc/DodvFydQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673870067;
+ s=susede2_ed25519; t=1673870068;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=UL2Wi17iU8seebOA35uldzLzW5/uGi8Mr7lMpsrUdss=;
- b=NlGwGvPDwI7MjPNJlnfSEllPeTlNeQnqBQnlX8AL73CrQdtuK/9bc5wlf6YwAzUOdAaxK3
- Y2SvJsWj1eFj0kBA==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sGmxwmLUhAbC3mg2UjIGg7BdcCt6B/pF9fkmcMljNRM=;
+ b=rVbQxLwOBcITkHrX/i/hcRPS6HkD8yKt4Kl/ANeBiVlg/wDLls3Z7W86MwEtA1XSPvZN3c
+ ioArKYdVxY8LeXAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 82CA7138FE;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E1006138FE;
  Mon, 16 Jan 2023 11:54:27 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id pYgiH/M6xWPLBAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id +NcrNvM6xWPLBAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 16 Jan 2023 11:54:27 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
@@ -50,11 +52,13 @@ To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
  joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
  tvrtko.ursulin@linux.intel.com, bskeggs@redhat.com, kherbst@redhat.com,
  lyude@redhat.com, evan.quan@amd.com, jose.souza@intel.com
-Subject: [PATCH v3 0/3] drm/{amdgpu, i915, nouveau,
- radeon}: Fix fbdev and vga-switcheroo
-Date: Mon, 16 Jan 2023 12:54:22 +0100
-Message-Id: <20230116115425.13484-1-tzimmermann@suse.de>
+Subject: [PATCH v3 1/3] drm/i915: Allow switching away via vga-switcheroo if
+ uninitialized
+Date: Mon, 16 Jan 2023 12:54:23 +0100
+Message-Id: <20230116115425.13484-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230116115425.13484-1-tzimmermann@suse.de>
+References: <20230116115425.13484-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -70,66 +74,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Julia Lawall <Julia.Lawall@inria.fr>, amd-gfx@lists.freedesktop.org,
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ Uma Shankar <uma.shankar@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Ramalingam C <ramalingam.c@intel.com>,
+ =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>,
+ Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Radhakrishna Sripada <radhakrishna.sripada@intel.com>, stable@vger.kernel.org,
+ Manasi Navare <manasi.d.navare@intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(was: drm: Generic fbdev and vga-switcheroo)
+Always allow switching away via vga-switcheroo if the display is
+uninitalized. Instead prevent switching to i915 if the device has
+not been initialized.
 
-This patchset fixes how fbdev helpers interact with vga-switcheroo. The
-first two patches are bug fixes for the existing code. The third patch
-cleans up the drivers.
+This issue was introduced by commit 5df7bd130818 ("drm/i915: skip
+display initialization when there is no display") protected, which
+protects code paths from being executed on uninitialized devices.
+In the case of vga-switcheroo, we want to allow a switch away from
+i915's device. So run vga_switcheroo_process_delayed_switch() and
+test in the switcheroo callbacks if the i915 device is available.
 
-Patch 1 fixes i915 to do the correct thing if the device has not been
-initialized yet. Switching to the device is only possible after the
-initialization, but switching away is always possible.
+Fixes: 5df7bd130818 ("drm/i915: skip display initialization when there is no display")
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: José Roberto de Souza <jose.souza@intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
+Cc: Manasi Navare <manasi.d.navare@intel.com>
+Cc: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+Cc: Imre Deak <imre.deak@intel.com>
+Cc: "Jouni Högander" <jouni.hogander@intel.com>
+Cc: Uma Shankar <uma.shankar@intel.com>
+Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: Ramalingam C <ramalingam.c@intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: "José Roberto de Souza" <jose.souza@intel.com>
+Cc: Julia Lawall <Julia.Lawall@inria.fr>
+Cc: intel-gfx@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.14+
+---
+ drivers/gpu/drm/i915/i915_driver.c     | 3 +--
+ drivers/gpu/drm/i915/i915_switcheroo.c | 6 +++++-
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-Patch 2 is the original patch without the amdgpu changes. Installs
-the fbdev framebuffer in vga-switcheroo for the PCI device. Does
-nothing for drivers without vga-switcheroo.
-
-Patch 3 cleans up vga_switcheroo_process_delayed_switch() in amdgpu
-and the other related drivers (i.e., i915, nouveau and radeon). The
-call is now located at the end of drm_lastclose() and drivers do not
-need their own lastclose helpers any longer.
-
-I kept the r-bs from v1, but patch 1 is entirely new and patch 3 has
-significantly grown in size.
-
-v3:
-	* include drm_fb_helper.h in radeon_drv.c
-v2:
-	* expand to patch series
-	* fix i915, nouveau and radeon
-
-Thomas Zimmermann (3):
-  drm/i915: Allow switching away via vga-switcheroo if uninitialized
-  drm/fb-helper: Set framebuffer for vga-switcheroo clients
-  drm: Call vga_switcheroo_process_delayed_switch() in drm_lastclose
-
- drivers/gpu/drm/amd/amdgpu/amdgpu.h     |  1 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c |  2 --
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 13 -------------
- drivers/gpu/drm/drm_fb_helper.c         |  8 ++++++++
- drivers/gpu/drm/drm_file.c              |  3 +++
- drivers/gpu/drm/i915/i915_driver.c      | 26 ++-----------------------
- drivers/gpu/drm/i915/i915_switcheroo.c  |  6 +++++-
- drivers/gpu/drm/nouveau/nouveau_drm.c   |  1 -
- drivers/gpu/drm/nouveau/nouveau_vga.c   |  7 -------
- drivers/gpu/drm/nouveau/nouveau_vga.h   |  1 -
- drivers/gpu/drm/radeon/radeon_drv.c     |  3 ++-
- drivers/gpu/drm/radeon/radeon_drv.h     |  1 -
- drivers/gpu/drm/radeon/radeon_kms.c     | 18 -----------------
- drivers/gpu/vga/vga_switcheroo.c        |  4 ++--
- 14 files changed, 22 insertions(+), 72 deletions(-)
-
-
-base-commit: 68d139b609a97a83e7c231189d4864aba4e1679b
-prerequisite-patch-id: 0aa359f6144c4015c140c8a6750be19099c676fb
-prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
-prerequisite-patch-id: 3f204510fcbf9530d6540bd8e6128cce598988b6
+diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+index c1e427ba57ae..33e231b120c1 100644
+--- a/drivers/gpu/drm/i915/i915_driver.c
++++ b/drivers/gpu/drm/i915/i915_driver.c
+@@ -1075,8 +1075,7 @@ static void i915_driver_lastclose(struct drm_device *dev)
+ 
+ 	intel_fbdev_restore_mode(dev);
+ 
+-	if (HAS_DISPLAY(i915))
+-		vga_switcheroo_process_delayed_switch();
++	vga_switcheroo_process_delayed_switch();
+ }
+ 
+ static void i915_driver_postclose(struct drm_device *dev, struct drm_file *file)
+diff --git a/drivers/gpu/drm/i915/i915_switcheroo.c b/drivers/gpu/drm/i915/i915_switcheroo.c
+index 23777d500cdf..f45bd6b6cede 100644
+--- a/drivers/gpu/drm/i915/i915_switcheroo.c
++++ b/drivers/gpu/drm/i915/i915_switcheroo.c
+@@ -19,6 +19,10 @@ static void i915_switcheroo_set_state(struct pci_dev *pdev,
+ 		dev_err(&pdev->dev, "DRM not initialized, aborting switch.\n");
+ 		return;
+ 	}
++	if (!HAS_DISPLAY(i915)) {
++		dev_err(&pdev->dev, "Device state not initialized, aborting switch.\n");
++		return;
++	}
+ 
+ 	if (state == VGA_SWITCHEROO_ON) {
+ 		drm_info(&i915->drm, "switched on\n");
+@@ -44,7 +48,7 @@ static bool i915_switcheroo_can_switch(struct pci_dev *pdev)
+ 	 * locking inversion with the driver load path. And the access here is
+ 	 * completely racy anyway. So don't bother with locking for now.
+ 	 */
+-	return i915 && atomic_read(&i915->drm.open_count) == 0;
++	return i915 && HAS_DISPLAY(i915) && atomic_read(&i915->drm.open_count) == 0;
+ }
+ 
+ static const struct vga_switcheroo_client_ops i915_switcheroo_ops = {
 -- 
 2.39.0
 
