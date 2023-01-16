@@ -1,66 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DEE866C389
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 16:21:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C69C66C3EF
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 16:32:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BC9410E459;
-	Mon, 16 Jan 2023 15:21:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1FAC10E1A7;
+	Mon, 16 Jan 2023 15:32:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A37510E084
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 15:21:37 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id b5so6636591wrn.0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 07:21:37 -0800 (PST)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D096A10E45D
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 15:32:41 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id
+ k22-20020a05600c1c9600b003d1ee3a6289so22423561wms.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 07:32:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bqKbnZ47SiC5UJD4UI1hpgRIV8/hQzL8IaTq+l5A3l8=;
- b=ZpHvKwuRhOAzmH79SmS5fPSo3tJkIDhQiHN6pDBQ2fGY1S3UFKyjld4P3TQ96AlCQD
- 8kwY6ys/6ZTVyf0gKhB1vqRy10EqGX9jsoS1t1yqNyLg90L/uep1C/n3WnYMUshcf6Hx
- cykq1xO+8jstJoXcSA7swi/QOSgzvrzJbtlSjfW2uWvWqZZnlITkkp6B1E1987uAZDOM
- CsMrKXb9v7lQJT4WfygzhdLbVWz+89Rzr/CWIHxFh7OjLKrk+xqeC8AJSkOcxI5S0zsg
- t18DxTlXbcGLxrwpXoSl7ymaOTypQ2SJC6ZGv+2Ks9MjFScbzciONT0ntkzfSNQovihG
- Ci8Q==
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=pLlU0//JOhI5+jFQeF0IemYPVNuiHGn4YNIK9CZFi1o=;
+ b=dNzg7x2JCWHeJ+YZYt5psR8dzwmn5PHIj3P9h14az/5o6i70bZFzAn/qmCh5gxsJuo
+ dnFKZJKkjldNXiUdbtTGmrYRz/z8U67GgMMrzKSvuOrrWpo5TTInKXrg+YYTLHjnXUey
+ agYu1eYwb/f+bJLnTwLJ5LPR6mmCSsgSV+MhmSfboNkBXARK1zd6oEXKTA7+Iagd93Ap
+ LBCvBKhonb3pB4tH2ADUuRNJp4Ui7cXnxrw9TzVReM/Dng9cA9QX63UmWqF1bhNJm+5s
+ h5W7rvzP8uB2LGLzkmlybJncFd02iu1sPaq+8t0uQE5icwLCZ/LhsdWPgV49xeS1xT9G
+ 3S7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bqKbnZ47SiC5UJD4UI1hpgRIV8/hQzL8IaTq+l5A3l8=;
- b=O04FBjqLjdws6k5BcYKl4Blfu8A2h/2kLrSs7IUklbD+PtW7rWpLDyOCJt7eC67WDS
- wwUkNk84j+1caI/VRfM9FMql0+OrYgtiWWUNl6QPZriJy0lmXxR1Eh8kw7LTwCJnMyD1
- 0DhHtKrm5A/YPoTeiSox/dJ0AhiXV9TgdC/XLJ4NtwUPkJIEAGJ3wxWPkfntHKOrYEq5
- kYbXmdEqYxEmXOEig1E2lwuuzVAvVW2OXdvopl42RxUIohQlEJwhgbMjIZxZpAVWAPKi
- lOoEMeE3egKq7WOXWCtPsdn7MTkZu7Em1YBYeaxWUIil4ZcaAJK957pavPPxT/ItyYTT
- ma0A==
-X-Gm-Message-State: AFqh2kofg56cLvp78lQWiqnxcd5LPZM4hOjrSj7zSTVkJU4JzItjeejs
- TPRqlmeLgdoEnVpPKWTSEX96Ag==
-X-Google-Smtp-Source: AMrXdXtRCkiY47M4P26u77M+hM6bQtDtpVdGrrJ1gNbcwBNqT+C5KcOdSmtOC0GVzW+APJvkWbwwvg==
-X-Received: by 2002:adf:dd87:0:b0:2bd:e395:584a with SMTP id
- x7-20020adfdd87000000b002bde395584amr9823686wrl.52.1673882496057; 
- Mon, 16 Jan 2023 07:21:36 -0800 (PST)
-Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie.
- [188.141.3.169]) by smtp.gmail.com with ESMTPSA id
- u18-20020adff892000000b002bded7da2b8sm6874686wrp.102.2023.01.16.07.21.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Jan 2023 07:21:35 -0800 (PST)
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Subject: [PATCH v7 4/4] dt-bindings: display/msm: Add list of mdss-dsi-ctrl
- compats
-Date: Mon, 16 Jan 2023 15:21:28 +0000
-Message-Id: <20230116152128.909646-5-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230116152128.909646-1-bryan.odonoghue@linaro.org>
-References: <20230116152128.909646-1-bryan.odonoghue@linaro.org>
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pLlU0//JOhI5+jFQeF0IemYPVNuiHGn4YNIK9CZFi1o=;
+ b=a3kyqmqZGmEoc5AXZPihCZ5o3Uy/qa1s3gf9PVfQQcrO6ptoa2w0OXK+CjVnKgJ4IT
+ +yPMnsaNP4ZVELYgj1Y+teAAlp4CMyg4jIMKm6DK5M3BjT7OqcCzV9akjRlcO7P99ntb
+ La3ldh7/bry6rXRoTn0Yfk3FBZcGpvGCujnCYIUvDcSJOD4jRzZaBn2EDesBPxa/ZcID
+ DQRhfbVwtXBKIz51t8WfZ1fuIHrXCiMkdhF1Ah9TmPqoHONYvwBbJfsE97I8BCBbIcT2
+ BgBm8yJygfHOx8xOe5s2XCkf2HE5Cn97IlQ/dAs3a0Js9ZrrwYHx9w5+VFtySeBHzmNM
+ 7ZmQ==
+X-Gm-Message-State: AFqh2kounULsOiGXgisvlV6JCBEn25nsBnKep6dynCdjfEs27tLzUjEx
+ JHID+SbBA4fqjSlGliQ64/TULA==
+X-Google-Smtp-Source: AMrXdXvs9gP/jcBE1isAaAR/uS/atYP6RslmqVbXkqxfhRweKVg/TqVSK0VuaSefMZDrTsjdNcI2Iw==
+X-Received: by 2002:a05:600c:1e1e:b0:3d2:3b4d:d619 with SMTP id
+ ay30-20020a05600c1e1e00b003d23b4dd619mr67847396wmb.15.1673883160165; 
+ Mon, 16 Jan 2023 07:32:40 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:ba0d:2f3a:c61d:3e0?
+ ([2a01:e0a:982:cbb0:ba0d:2f3a:c61d:3e0])
+ by smtp.gmail.com with ESMTPSA id
+ g12-20020a05600c310c00b003c70191f267sm42162660wmo.39.2023.01.16.07.32.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Jan 2023 07:32:39 -0800 (PST)
+Message-ID: <3f60e3c2-0f64-4845-da84-d9a047c5e854@linaro.org>
+Date: Mon, 16 Jan 2023 16:32:38 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 1/3] drm/msm/dpu: fix blend setup for DMA4 and DMA5 layers
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20230116063316.728496-1-dmitry.baryshkov@linaro.org>
+Organization: Linaro Developer Services
+In-Reply-To: <20230116063316.728496-1-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,266 +80,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
- sean@poorly.run, andersson@kernel.org, konrad.dybcio@somainline.org,
- quic_abhinavk@quicinc.com, david@ixit.cz, dianders@chromium.org,
- robh+dt@kernel.org, agross@kernel.org, dmitry.baryshkov@linaro.org,
- bryan.odonoghue@linaro.org, swboyd@chromium.org, linux-kernel@vger.kernel.org
+Reply-To: neil.armstrong@linaro.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the list of current compats absent the deprecated qcm2290 to the list
-of dsi compats listed here.
+On 16/01/2023 07:33, Dmitry Baryshkov wrote:
+> SM8550 uses new register to map SSPP_DMA4 and SSPP_DMA5 units to blend
+> stages. Add proper support for this register to allow using these two
+> planes for image processing.
+> 
+> Fixes: efcd0107727c ("drm/msm/dpu: add support for SM8550")
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 15 +++++++++------
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  2 ++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    | 19 +++++++++++++++++++
+>   3 files changed, 30 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index 835d6d2c4115..504a22c76412 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -67,6 +67,9 @@
+>   #define CTL_SC7280_MASK \
+>   	(BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE) | BIT(DPU_CTL_VM_CFG))
+>   
+> +#define CTL_SM8550_MASK \
+> +	(CTL_SC7280_MASK | BIT(DPU_CTL_HAS_LAYER_EXT4))
+> +
+>   #define MERGE_3D_SM8150_MASK (0)
+>   
+>   #define DSPP_MSM8998_MASK BIT(DPU_DSPP_PCC) | BIT(DPU_DSPP_GC)
+> @@ -999,37 +1002,37 @@ static const struct dpu_ctl_cfg sm8550_ctl[] = {
+>   	{
+>   	.name = "ctl_0", .id = CTL_0,
+>   	.base = 0x15000, .len = 0x290,
+> -	.features = CTL_SC7280_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
+> +	.features = CTL_SM8550_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
+>   	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
+>   	},
+>   	{
+>   	.name = "ctl_1", .id = CTL_1,
+>   	.base = 0x16000, .len = 0x290,
+> -	.features = CTL_SC7280_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
+> +	.features = CTL_SM8550_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
+>   	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
+>   	},
+>   	{
+>   	.name = "ctl_2", .id = CTL_2,
+>   	.base = 0x17000, .len = 0x290,
+> -	.features = CTL_SC7280_MASK,
+> +	.features = CTL_SM8550_MASK,
+>   	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 11),
+>   	},
+>   	{
+>   	.name = "ctl_3", .id = CTL_3,
+>   	.base = 0x18000, .len = 0x290,
+> -	.features = CTL_SC7280_MASK,
+> +	.features = CTL_SM8550_MASK,
+>   	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 12),
+>   	},
+>   	{
+>   	.name = "ctl_4", .id = CTL_4,
+>   	.base = 0x19000, .len = 0x290,
+> -	.features = CTL_SC7280_MASK,
+> +	.features = CTL_SM8550_MASK,
+>   	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 13),
+>   	},
+>   	{
+>   	.name = "ctl_5", .id = CTL_5,
+>   	.base = 0x1a000, .len = 0x290,
+> -	.features = CTL_SC7280_MASK,
+> +	.features = CTL_SM8550_MASK,
+>   	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 23),
+>   	},
+>   };
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index a1f18d53db6d..d152fef438f9 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -199,6 +199,7 @@ enum {
+>    * @DPU_CTL_SPLIT_DISPLAY:	CTL supports video mode split display
+>    * @DPU_CTL_FETCH_ACTIVE:	Active CTL for fetch HW (SSPPs)
+>    * @DPU_CTL_VM_CFG:		CTL config to support multiple VMs
+> + * @DPU_CTL_HAS_LAYER_EXT4:	CTL has the CTL_LAYER_EXT4 register
+>    * @DPU_CTL_MAX
+>    */
+>   enum {
+> @@ -206,6 +207,7 @@ enum {
+>   	DPU_CTL_ACTIVE_CFG,
+>   	DPU_CTL_FETCH_ACTIVE,
+>   	DPU_CTL_VM_CFG,
+> +	DPU_CTL_HAS_LAYER_EXT4,
+>   	DPU_CTL_MAX
+>   };
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> index a35ecb6676c8..f4fdf537616c 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> @@ -17,6 +17,8 @@
+>   	(0x70 + (((lm) - LM_0) * 0x004))
+>   #define   CTL_LAYER_EXT3(lm)             \
+>   	(0xA0 + (((lm) - LM_0) * 0x004))
+> +#define CTL_LAYER_EXT4(lm)             \
+> +        (0xB8 + (((lm) - LM_0) * 0x004))
+>   #define   CTL_TOP                       0x014
+>   #define   CTL_FLUSH                     0x018
+>   #define   CTL_START                     0x01C
+> @@ -383,6 +385,7 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
+>   	struct dpu_hw_blk_reg_map *c = &ctx->hw;
+>   	u32 mixercfg = 0, mixercfg_ext = 0, mix, ext;
+>   	u32 mixercfg_ext2 = 0, mixercfg_ext3 = 0;
+> +	u32 mixercfg_ext4 = 0;
+>   	int i, j;
+>   	int stages;
+>   	int pipes_per_stage;
+> @@ -492,6 +495,20 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
+>   					mixercfg_ext2 |= mix << 4;
+>   				}
+>   				break;
+> +			case SSPP_DMA4:
+> +				if (rect_index == DPU_SSPP_RECT_1) {
+> +					mixercfg_ext4 |= ((i + 1) & 0xF) << 8;
+> +				} else {
+> +					mixercfg_ext4 |= ((i + 1) & 0xF) << 0;
+> +				}
+> +				break;
+> +			case SSPP_DMA5:
+> +				if (rect_index == DPU_SSPP_RECT_1) {
+> +					mixercfg_ext4 |= ((i + 1) & 0xF) << 12;
+> +				} else {
+> +					mixercfg_ext4 |= ((i + 1) & 0xF) << 4;
+> +				}
+> +				break;
+>   			case SSPP_CURSOR0:
+>   				mixercfg_ext |= ((i + 1) & 0xF) << 20;
+>   				break;
+> @@ -509,6 +526,8 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
+>   	DPU_REG_WRITE(c, CTL_LAYER_EXT(lm), mixercfg_ext);
+>   	DPU_REG_WRITE(c, CTL_LAYER_EXT2(lm), mixercfg_ext2);
+>   	DPU_REG_WRITE(c, CTL_LAYER_EXT3(lm), mixercfg_ext3);
+> +	if ((test_bit(DPU_CTL_HAS_LAYER_EXT4, &ctx->caps->features)))
+> +		DPU_REG_WRITE(c, CTL_LAYER_EXT4(lm), mixercfg_ext4);
+>   }
+>   
+>   
 
-Several MDSS yaml files exist which document the dsi sub-node.
-For each existing SoC MDSS yaml, provide the right dsi compat string.
-
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- .../devicetree/bindings/display/msm/qcom,mdss.yaml        | 3 ++-
- .../bindings/display/msm/qcom,msm8998-mdss.yaml           | 8 +++++---
- .../devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml | 6 ++++--
- .../devicetree/bindings/display/msm/qcom,sc7280-mdss.yaml | 6 ++++--
- .../devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml | 8 +++++---
- .../devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml | 8 +++++---
- .../devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml | 8 +++++---
- .../devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml | 6 ++++--
- .../devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml | 4 +++-
- 9 files changed, 37 insertions(+), 20 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
-index ba0460268731b..c194bea46c72f 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
-@@ -94,7 +94,8 @@ patternProperties:
-     type: object
-     properties:
-       compatible:
--        const: qcom,mdss-dsi-ctrl
-+        contains:
-+          const: qcom,mdss-dsi-ctrl
- 
-   "^phy@[1-9a-f][0-9a-f]*$":
-     type: object
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,msm8998-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,msm8998-mdss.yaml
-index 8b82eef28162c..3c2b6ed98a568 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,msm8998-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,msm8998-mdss.yaml
-@@ -46,7 +46,9 @@ patternProperties:
-     type: object
-     properties:
-       compatible:
--        const: qcom,mdss-dsi-ctrl
-+        items:
-+          - const: qcom,msm8998-dsi-ctrl
-+          - const: qcom,mdss-dsi-ctrl
- 
-   "^phy@[0-9a-f]+$":
-     type: object
-@@ -128,7 +130,7 @@ examples:
-         };
- 
-         dsi@c994000 {
--            compatible = "qcom,mdss-dsi-ctrl";
-+            compatible = "qcom,msm8998-dsi-ctrl", "qcom,mdss-dsi-ctrl";
-             reg = <0x0c994000 0x400>;
-             reg-names = "dsi_ctrl";
- 
-@@ -198,7 +200,7 @@ examples:
-         };
- 
-         dsi@c996000 {
--            compatible = "qcom,mdss-dsi-ctrl";
-+            compatible = "qcom,msm8998-dsi-ctrl", "qcom,mdss-dsi-ctrl";
-             reg = <0x0c996000 0x400>;
-             reg-names = "dsi_ctrl";
- 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml
-index 5db9b3ab03c98..42ef06edddc42 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml
-@@ -58,7 +58,9 @@ patternProperties:
-     type: object
-     properties:
-       compatible:
--        const: qcom,mdss-dsi-ctrl
-+        items:
-+          - const: qcom,sc7180-dsi-ctrl
-+          - const: qcom,mdss-dsi-ctrl
- 
-   "^phy@[0-9a-f]+$":
-     type: object
-@@ -144,7 +146,7 @@ examples:
-         };
- 
-         dsi@ae94000 {
--            compatible = "qcom,mdss-dsi-ctrl";
-+            compatible = "qcom,sc7180-dsi-ctrl", "qcom,mdss-dsi-ctrl";
-             reg = <0x0ae94000 0x400>;
-             reg-names = "dsi_ctrl";
- 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.yaml
-index a4e3ada2affcf..078e1d1a7d2fc 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.yaml
-@@ -58,7 +58,9 @@ patternProperties:
-     type: object
-     properties:
-       compatible:
--        const: qcom,mdss-dsi-ctrl
-+        items:
-+          - const: qcom,sc7280-dsi-ctrl
-+          - const: qcom,mdss-dsi-ctrl
- 
-   "^edp@[0-9a-f]+$":
-     type: object
-@@ -165,7 +167,7 @@ examples:
-         };
- 
-         dsi@ae94000 {
--            compatible = "qcom,mdss-dsi-ctrl";
-+            compatible = "qcom,sc7280-dsi-ctrl", "qcom,mdss-dsi-ctrl";
-             reg = <0x0ae94000 0x400>;
-             reg-names = "dsi_ctrl";
- 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
-index 8f60be6147d88..6ecb00920d7f6 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
-@@ -56,7 +56,9 @@ patternProperties:
-     type: object
-     properties:
-       compatible:
--        const: qcom,mdss-dsi-ctrl
-+        items:
-+          - const: qcom,sdm845-dsi-ctrl
-+          - const: qcom,mdss-dsi-ctrl
- 
-   "^phy@[0-9a-f]+$":
-     type: object
-@@ -136,7 +138,7 @@ examples:
-         };
- 
-         dsi@ae94000 {
--            compatible = "qcom,mdss-dsi-ctrl";
-+            compatible = "qcom,sdm845-dsi-ctrl", "qcom,mdss-dsi-ctrl";
-             reg = <0x0ae94000 0x400>;
-             reg-names = "dsi_ctrl";
- 
-@@ -206,7 +208,7 @@ examples:
-         };
- 
-         dsi@ae96000 {
--            compatible = "qcom,mdss-dsi-ctrl";
-+            compatible = "qcom,sdm845-dsi-ctrl", "qcom,mdss-dsi-ctrl";
-             reg = <0x0ae96000 0x400>;
-             reg-names = "dsi_ctrl";
- 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml
-index 55b41e4573dc8..5182e958e0691 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml
-@@ -55,7 +55,9 @@ patternProperties:
-     type: object
-     properties:
-       compatible:
--        const: qcom,mdss-dsi-ctrl
-+        items:
-+          - const: qcom,sm8150-dsi-ctrl
-+          - const: qcom,mdss-dsi-ctrl
- 
-   "^phy@[0-9a-f]+$":
-     type: object
-@@ -167,7 +169,7 @@ examples:
-         };
- 
-         dsi@ae94000 {
--            compatible = "qcom,mdss-dsi-ctrl";
-+            compatible = "qcom,sm8150-dsi-ctrl", "qcom,mdss-dsi-ctrl";
-             reg = <0x0ae94000 0x400>;
-             reg-names = "dsi_ctrl";
- 
-@@ -257,7 +259,7 @@ examples:
-         };
- 
-         dsi@ae96000 {
--            compatible = "qcom,mdss-dsi-ctrl";
-+            compatible = "qcom,sm8150-dsi-ctrl", "qcom,mdss-dsi-ctrl";
-             reg = <0x0ae96000 0x400>;
-             reg-names = "dsi_ctrl";
- 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml
-index 571dc6560266c..368d3db0ce967 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml
-@@ -54,7 +54,9 @@ patternProperties:
-     type: object
-     properties:
-       compatible:
--        const: qcom,mdss-dsi-ctrl
-+        items:
-+          - const: qcom,sm8250-dsi-ctrl
-+          - const: qcom,mdss-dsi-ctrl
- 
-   "^phy@[0-9a-f]+$":
-     type: object
-@@ -169,7 +171,7 @@ examples:
-         };
- 
-         dsi@ae94000 {
--            compatible = "qcom,mdss-dsi-ctrl";
-+            compatible = "qcom,sm8250-dsi-ctrl", "qcom,mdss-dsi-ctrl";
-             reg = <0x0ae94000 0x400>;
-             reg-names = "dsi_ctrl";
- 
-@@ -259,7 +261,7 @@ examples:
-         };
- 
-         dsi@ae96000 {
--            compatible = "qcom,mdss-dsi-ctrl";
-+            compatible = "qcom,sm8250-dsi-ctrl", "qcom,mdss-dsi-ctrl";
-             reg = <0x0ae96000 0x400>;
-             reg-names = "dsi_ctrl";
- 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
-index 0d452f22f5569..4d94dbff30541 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
-@@ -56,7 +56,9 @@ patternProperties:
-     type: object
-     properties:
-       compatible:
--        const: qcom,mdss-dsi-ctrl
-+        items:
-+          - const: qcom,sm8350-dsi-ctrl
-+          - const: qcom,mdss-dsi-ctrl
- 
-   "^phy@[0-9a-f]+$":
-     type: object
-@@ -169,7 +171,7 @@ examples:
-         };
- 
-         dsi0: dsi@ae94000 {
--            compatible = "qcom,mdss-dsi-ctrl";
-+            compatible = "qcom,sm8350-dsi-ctrl", "qcom,mdss-dsi-ctrl";
-             reg = <0x0ae94000 0x400>;
-             reg-names = "dsi_ctrl";
- 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
-index c268e0b662cf9..599a6bad80f43 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
-@@ -46,7 +46,9 @@ patternProperties:
-     type: object
-     properties:
-       compatible:
--        const: qcom,mdss-dsi-ctrl
-+        items:
-+          - const: qcom,sm8450-dsi-ctrl
-+          - const: qcom,mdss-dsi-ctrl
- 
-   "^phy@[0-9a-f]+$":
-     type: object
--- 
-2.38.1
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550
