@@ -2,58 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC1F666BB30
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 11:06:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CBA066BB32
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 11:06:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED2D210E0FF;
-	Mon, 16 Jan 2023 10:06:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31E8010E2B0;
+	Mon, 16 Jan 2023 10:06:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
- [209.85.160.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D996810E0FF;
- Mon, 16 Jan 2023 10:06:04 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id o5so3223299qtr.11;
- Mon, 16 Jan 2023 02:06:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZcfbiaOtd0rIUu3J0LzMQ7r+7EcuQP5IsDRStK58JTY=;
- b=MRFq8jog6K+m3QygukJB6P9m+c7DNGO5Dc0KhaQ0hqsOFPwfCfp1GA15TCZCr9Qng2
- 2SwOvIJCWk9BRmmi3y7FLWSB//KapQ8rvOwKmh4WIXE5smEUnYIwNeUyG6uxPtg2PSLp
- 5VmmLpynPG9EaRZRgi4B+OelwOPepQs2gvT8rBsZtSBZIBg3yw2RwelPGPg9SkxUJzts
- jpFzt/RkhWb4p7CaGKIsGwTp1BGIKNXoEGkQr4s5mz7vY3R2OvXiW3vrE41wzVbxQCg4
- Wp5Bdmna/PcU3tkmeQgXtz/1UDOPLZyjpDjz0a20d0Ob1uHcmhP0CtEu9l1xWr5/UAyG
- YITw==
-X-Gm-Message-State: AFqh2kooV+4xlArH/dFQAd8K0cAhHpj0CdiJTNGCkwj6yk/xP7QjWQ17
- PmE2xYH/pt0p/KyRFBFUScZWslJRhjxMnA==
-X-Google-Smtp-Source: AMrXdXt5Lf3AfHmY3lXvdrJM3vtCiJIJ6ksC78StyWcKRjh93tcA8NATIFaXb90z4+h8s3x3CawEcQ==
-X-Received: by 2002:a05:622a:400e:b0:3ab:af8e:64e6 with SMTP id
- cf14-20020a05622a400e00b003abaf8e64e6mr80983152qtb.67.1673863563649; 
- Mon, 16 Jan 2023 02:06:03 -0800 (PST)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com.
- [209.85.219.178]) by smtp.gmail.com with ESMTPSA id
- d5-20020ac851c5000000b003afbf704c7csm8752472qtn.24.2023.01.16.02.06.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 02:06:03 -0800 (PST)
-Received: by mail-yb1-f178.google.com with SMTP id v19so23781317ybv.1;
- Mon, 16 Jan 2023 02:06:03 -0800 (PST)
-X-Received: by 2002:a25:46c6:0:b0:7b8:a0b8:f7ec with SMTP id
- t189-20020a2546c6000000b007b8a0b8f7ecmr4703291yba.36.1673863245804; Mon, 16
- Jan 2023 02:00:45 -0800 (PST)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FF8E10E2B0;
+ Mon, 16 Jan 2023 10:06:19 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 9AE3BB80D0A;
+ Mon, 16 Jan 2023 10:06:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03D5AC433EF;
+ Mon, 16 Jan 2023 10:06:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1673863576;
+ bh=12Oegiwv5+ajWab6JX3x49VzyjwNVu3L68Wu90nFrm4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=HlLE0xTLSiJ3rFQURgW6QqGArjnjfyVNbF42zQu/l+X+BmgA2QeIhrNX7GwNfLkNC
+ Zf0PwfV96ckvmRR8CbdV4Qj3hqlyu/j2LcYvdKBUBdhr4uWCT0Vo2iXLwGHJ+QByDq
+ STMrJb5cwe1XB0zy4sqbxF7sZecUVoi3/3+DgcXsOwFJ9jsvcIxjy4jmkHduJOhxX4
+ /sfB9h81XN4+MejqdqEL+2QMTiCf1hFA7zl/V0Vl/3mBibRA174bc8Uv+9ub5oklOW
+ FtgDqB3+g7B/dq1SW2stvPVrRI83UEKFapJthZ/LUnObclyp0bLfTk0DKAe90fOK7a
+ WOkLccOa0lWkg==
+From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+To: airlied@redhat.com
+Subject: [PATCH -resend] drm/nouveau/kms/nv50- (gcc13): fix nv50_wndw_new_
+ prototype
+Date: Mon, 16 Jan 2023 11:06:10 +0100
+Message-Id: <20230116100611.12712-1-jirislaby@kernel.org>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <Y7P9IcR7/jgYWMcq@osiris>
- <20230105095426.2163354-1-andrzej.hajda@intel.com>
-In-Reply-To: <20230105095426.2163354-1-andrzej.hajda@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 16 Jan 2023 11:00:33 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUhPjya8zWMxEN8U8pjf4M2u_+HOfxQ2NP1XOcX9EpAKg@mail.gmail.com>
-Message-ID: <CAMuHMdUhPjya8zWMxEN8U8pjf4M2u_+HOfxQ2NP1XOcX9EpAKg@mail.gmail.com>
-Subject: Re: [PATCH v4] arch: rename all internal names __xchg to __arch_xchg
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,44 +51,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
- linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Heiko Carstens <hca@linux.ibm.com>, sparclinux@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-hexagon@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- Boqun Feng <boqun.feng@gmail.com>, linux-xtensa@linux-xtensa.org,
- Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
- linux-m68k@lists.linux-m68k.org, openrisc@lists.librecores.org,
- loongarch@lists.linux.dev, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
+Cc: Karol Herbst <kherbst@redhat.com>,
+ "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
+ nouveau@lists.freedesktop.org, Martin Liska <mliska@suse.cz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 5, 2023 at 10:54 AM Andrzej Hajda <andrzej.hajda@intel.com> wrote:
-> __xchg will be used for non-atomic xchg macro.
->
-> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
-> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> v2: squashed all arch patches into one
-> v3: fixed alpha/xchg_local, thx to lkp@intel.com
-> v4: adjusted indentation (Heiko)
+gcc-13 warns about mismatching types for enums. That revealed switched
+arguments of nv50_wndw_new_():
+  drivers/gpu/drm/nouveau/dispnv50/wndw.c:696:1: error: conflicting types for 'nv50_wndw_new_' due to enum/integer mismatch; have 'int(const struct nv50_wndw_func *, struct drm_device *, enum drm_plane_type,  const char *, int,  const u32 *, u32,  enum nv50_disp_interlock_type,  u32,  struct nv50_wndw **)'
+  drivers/gpu/drm/nouveau/dispnv50/wndw.h:36:5: note: previous declaration of 'nv50_wndw_new_' with type 'int(const struct nv50_wndw_func *, struct drm_device *, enum drm_plane_type,  const char *, int,  const u32 *, enum nv50_disp_interlock_type,  u32,  u32,  struct nv50_wndw **)'
 
->  arch/m68k/include/asm/cmpxchg.h      |  6 +++---
+It can be barely visible, but the declaration says about the parameters
+in the middle:
+  enum nv50_disp_interlock_type,
+  u32 interlock_data,
+  u32 heads,
 
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> [m68k]
+While the definition states differently:
+  u32 heads,
+  enum nv50_disp_interlock_type interlock_type,
+  u32 interlock_data,
 
-Gr{oetje,eeting}s,
+Unify/fix the declaration to match the definition.
 
-                        Geert
+Cc: Martin Liska <mliska@suse.cz>
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: Karol Herbst <kherbst@redhat.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+---
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Notes:
+    [v2] switch to uint instead of to enum
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+ drivers/gpu/drm/nouveau/dispnv50/wndw.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.h b/drivers/gpu/drm/nouveau/dispnv50/wndw.h
+index 591c852f326b..76a6ae5d5652 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/wndw.h
++++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.h
+@@ -35,8 +35,9 @@ struct nv50_wndw {
+ 
+ int nv50_wndw_new_(const struct nv50_wndw_func *, struct drm_device *,
+ 		   enum drm_plane_type, const char *name, int index,
+-		   const u32 *format, enum nv50_disp_interlock_type,
+-		   u32 interlock_data, u32 heads, struct nv50_wndw **);
++		   const u32 *format, u32 heads,
++		   enum nv50_disp_interlock_type, u32 interlock_data,
++		   struct nv50_wndw **);
+ void nv50_wndw_flush_set(struct nv50_wndw *, u32 *interlock,
+ 			 struct nv50_wndw_atom *);
+ void nv50_wndw_flush_clr(struct nv50_wndw *, u32 *interlock, bool flush,
+-- 
+2.39.0
+
