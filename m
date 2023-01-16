@@ -2,43 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEF9E66BB36
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 11:07:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6E6066BBA2
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 11:24:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1222F10E2B4;
-	Mon, 16 Jan 2023 10:07:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4000610E2BC;
+	Mon, 16 Jan 2023 10:24:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18E5410E2B4;
- Mon, 16 Jan 2023 10:07:24 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7CCF460EEA;
- Mon, 16 Jan 2023 10:07:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99940C433EF;
- Mon, 16 Jan 2023 10:07:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1673863642;
- bh=12Oegiwv5+ajWab6JX3x49VzyjwNVu3L68Wu90nFrm4=;
- h=From:To:Cc:Subject:Date:From;
- b=YlsM9rM2TmtIsjX64tzh/6QANd83dOW6mXZziDxqSbpurh1sqPtj+amtf//Rk0dhQ
- H7g8TR34e7oVetIFbBoxwMmoSDxdOqqiXz1lO0P0GV9xF1kLb1HisYIA3u5kzQEr/1
- mxQT1K+A3jnbiJodmDup6qfFwVzaqbMLRWO72tP3b+7kgehYcsR6rknHkXNP0j8Xxk
- X4GsPp6lg/+hRtulVMBqD2eLZkTs49K1bCVPYDvUQ4sjAZ8QLIaSbYsCcNfE1UbVOO
- r+xzvZFAWlY6lpEoi3CJwWA+GA5H35ZNBN29hH4bzll1jN7TG85k9rA66E1kaBpYhJ
- 88Etd7cXeqnxg==
-From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-To: airlied@redhat.com
-Subject: [PATCH -resend] drm/nouveau/kms/nv50- (gcc13): fix nv50_wndw_new_
- prototype
-Date: Mon, 16 Jan 2023 11:07:18 +0100
-Message-Id: <20230116100718.12832-1-jirislaby@kernel.org>
-X-Mailer: git-send-email 2.39.0
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
+ [209.85.160.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEE1510E2BC
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 10:24:23 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id fd15so14295798qtb.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 02:24:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IYdsinSzk5zIWgJ0I9pYyCEIzflLz/cd6reL0ZUmYS0=;
+ b=FlF2aSovSbmPeh3UxrwrlJlW+mRKLG+J3mAHaG42n+De3T/GvHwk+aqvXqK31TTihp
+ T6r4zqkEiufV9xhhFJrO4EDsf1KzVOA8japWt9PnqUOpp3jzT299u8Slx/PgF68NUVlN
+ QaNLGKE4ZtqgQVGv1opEvf/2bUJKGpMYosM1Ez5gRe0abycgmHjzzlYtCQjBTQ4XlHwK
+ K45D7NqwM4MjBsTSJbCD96CGK05NSyhnyVEA16rr9S9L9mpQ7H8YDWIf3mIDyfJ983dj
+ cWuZTTLsmNP1CyIIK2ommo1V1UFN0LCcJ7rdLB+8B6UtxsMt0dvnwAHT+X/KepAHU6/x
+ LBDw==
+X-Gm-Message-State: AFqh2kqfjb+/ZPcPTBqZoaKhvSN8iCMc6MC4ePcD+WPbj0oIB0nXGhN6
+ zwdJcYNqju/Ucny9/JNcbISreNWhrKBJCQ==
+X-Google-Smtp-Source: AMrXdXvSlrtNXYq2u5mgae96x8O4v/bMlyW8LgGnHNxaBd4yT9I2AP0UoIa29vqD/ev8pwB33OpwJQ==
+X-Received: by 2002:ac8:7349:0:b0:3b6:36c2:8066 with SMTP id
+ q9-20020ac87349000000b003b636c28066mr1172821qtp.68.1673864662689; 
+ Mon, 16 Jan 2023 02:24:22 -0800 (PST)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com.
+ [209.85.128.179]) by smtp.gmail.com with ESMTPSA id
+ w22-20020ac87196000000b003b62deadddcsm2050407qto.42.2023.01.16.02.24.21
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Jan 2023 02:24:22 -0800 (PST)
+Received: by mail-yw1-f179.google.com with SMTP id
+ 00721157ae682-4d4303c9de6so223754697b3.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 02:24:21 -0800 (PST)
+X-Received: by 2002:a05:690c:313:b0:37e:6806:a5f9 with SMTP id
+ bg19-20020a05690c031300b0037e6806a5f9mr4742811ywb.47.1673864661520; Mon, 16
+ Jan 2023 02:24:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
+ <20220615221410.27459-6-laurent.pinchart@ideasonboard.com>
+ <Y8LJkPLghb/8Y+iQ@pendragon.ideasonboard.com>
+In-Reply-To: <Y8LJkPLghb/8Y+iQ@pendragon.ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 16 Jan 2023 11:24:10 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXnssq_tGbg+vL7BuLK5sa4Lg1xx0106uMFthRfUoq7=Q@mail.gmail.com>
+Message-ID: <CAMuHMdXnssq_tGbg+vL7BuLK5sa4Lg1xx0106uMFthRfUoq7=Q@mail.gmail.com>
+Subject: Re: [PATCH v3 5/6] ARM: dts: renesas: Use new media bus type macros
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,65 +69,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>,
- "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
- nouveau@lists.freedesktop.org, Martin Liska <mliska@suse.cz>
+Cc: devicetree@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Eugen Hristev <eugen.hristev@microchip.com>, Shawn Guo <shawnguo@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-gcc-13 warns about mismatching types for enums. That revealed switched
-arguments of nv50_wndw_new_():
-  drivers/gpu/drm/nouveau/dispnv50/wndw.c:696:1: error: conflicting types for 'nv50_wndw_new_' due to enum/integer mismatch; have 'int(const struct nv50_wndw_func *, struct drm_device *, enum drm_plane_type,  const char *, int,  const u32 *, u32,  enum nv50_disp_interlock_type,  u32,  struct nv50_wndw **)'
-  drivers/gpu/drm/nouveau/dispnv50/wndw.h:36:5: note: previous declaration of 'nv50_wndw_new_' with type 'int(const struct nv50_wndw_func *, struct drm_device *, enum drm_plane_type,  const char *, int,  const u32 *, enum nv50_disp_interlock_type,  u32,  u32,  struct nv50_wndw **)'
+Hi Laurent,
 
-It can be barely visible, but the declaration says about the parameters
-in the middle:
-  enum nv50_disp_interlock_type,
-  u32 interlock_data,
-  u32 heads,
+CC linux-renesas-soc
 
-While the definition states differently:
-  u32 heads,
-  enum nv50_disp_interlock_type interlock_type,
-  u32 interlock_data,
+On Sat, Jan 14, 2023 at 4:26 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> Geert, could you please take this in your tree for v6.3 ? The two
+> patches that the DT changes depend on have been merged in v6.2.
 
-Unify/fix the declaration to match the definition.
+Thank you, I had missed these.
 
-Cc: Martin Liska <mliska@suse.cz>
-Cc: Ben Skeggs <bskeggs@redhat.com>
-Cc: Karol Herbst <kherbst@redhat.com>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
----
+> On Thu, Jun 16, 2022 at 01:14:09AM +0300, Laurent Pinchart wrote:
+> > Now that a header exists with macros for the media interface bus-type
+> > values, replace hardcoding numerical constants with the corresponding
+> > macros in the DT sources.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Notes:
-    [v2] switch to uint instead of to enum
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
- drivers/gpu/drm/nouveau/dispnv50/wndw.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+> > ---
+> >  arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts       | 11 +++++++----
+> >  .../dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi     |  4 +++-
+> >  .../dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi     |  4 +++-
+> >  3 files changed, 13 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> > index 4e58c54cde17..33ac4bd1e63b 100644
+> > --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> > +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> > @@ -7,6 +7,9 @@
+> >   */
+> >
+> >  /dts-v1/;
+> > +
+> > +#include <dt-bindings/media/video-interfaces.h>
+> > +
+> >  #include "r8a7742-iwg21d-q7.dts"
+> >
+> >  / {
+> > @@ -242,7 +245,7 @@ port {
+> >               vin0ep: endpoint {
+> >                       remote-endpoint = <&cam0ep>;
+> >                       bus-width = <8>;
+> > -                     bus-type = <6>;
+> > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
+> >               };
+> >       };
+> >  };
+> > @@ -273,7 +276,7 @@ port {
+> >               vin1ep: endpoint {
+> >                       remote-endpoint = <&cam1ep>;
+> >                       bus-width = <8>;
+> > -                     bus-type = <6>;
+> > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
+> >               };
+> >       };
+> >  };
+> > @@ -305,7 +308,7 @@ vin2ep: endpoint {
+> >                       remote-endpoint = <&cam2ep>;
+> >                       bus-width = <8>;
+> >                       data-shift = <8>;
+> > -                     bus-type = <6>;
+> > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
+> >               };
+> >       };
+> >  };
+> > @@ -335,7 +338,7 @@ port {
+> >               vin3ep: endpoint {
+> >                       remote-endpoint = <&cam3ep>;
+> >                       bus-width = <8>;
+> > -                     bus-type = <6>;
+> > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
+> >               };
+> >       };
+> >  };
+> > diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
+> > index 40cef0b1d1e6..c73160df619d 100644
+> > --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
+> > +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
+> > @@ -7,6 +7,8 @@
+> >   * Copyright (C) 2020 Renesas Electronics Corp.
+> >   */
+> >
+> > +#include <dt-bindings/media/video-interfaces.h>
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.h b/drivers/gpu/drm/nouveau/dispnv50/wndw.h
-index 591c852f326b..76a6ae5d5652 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wndw.h
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.h
-@@ -35,8 +35,9 @@ struct nv50_wndw {
- 
- int nv50_wndw_new_(const struct nv50_wndw_func *, struct drm_device *,
- 		   enum drm_plane_type, const char *name, int index,
--		   const u32 *format, enum nv50_disp_interlock_type,
--		   u32 interlock_data, u32 heads, struct nv50_wndw **);
-+		   const u32 *format, u32 heads,
-+		   enum nv50_disp_interlock_type, u32 interlock_data,
-+		   struct nv50_wndw **);
- void nv50_wndw_flush_set(struct nv50_wndw *, u32 *interlock,
- 			 struct nv50_wndw_atom *);
- void nv50_wndw_flush_clr(struct nv50_wndw *, u32 *interlock, bool flush,
--- 
-2.39.0
+This .dtsi file is only intended to be included by
+arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts, which already has
+the include.  Hence if you don't mind, I would like to drop this part
+while applying  and queuing in renesas-devel for v6.3.
 
+> > +
+> >  #define CAM_ENABLED  1
+> >
+> >  &CAM_PARENT_I2C {
+> > @@ -26,7 +28,7 @@ port {
+> >                       CAM_EP: endpoint {
+> >                               bus-width = <8>;
+> >                               data-shift = <2>;
+> > -                             bus-type = <6>;
+> > +                             bus-type = <MEDIA_BUS_TYPE_BT656>;
+> >                               pclk-sample = <1>;
+> >                               remote-endpoint = <&VIN_EP>;
+> >                       };
+> > diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi
+> > index f5e77f024251..a7f5cfec64b8 100644
+> > --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi
+> > +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi
+> > @@ -7,6 +7,8 @@
+> >   * Copyright (C) 2020 Renesas Electronics Corp.
+> >   */
+> >
+> > +#include <dt-bindings/media/video-interfaces.h>
+
+Likewise
+
+> > +
+> >  #define CAM_ENABLED  1
+> >
+> >  &CAM_PARENT_I2C {
+> > @@ -21,7 +23,7 @@ ov7725@21 {
+> >               port {
+> >                       CAM_EP: endpoint {
+> >                               bus-width = <8>;
+> > -                             bus-type = <6>;
+> > +                             bus-type = <MEDIA_BUS_TYPE_BT656>;
+> >                               remote-endpoint = <&VIN_EP>;
+> >                       };
+> >               };
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
