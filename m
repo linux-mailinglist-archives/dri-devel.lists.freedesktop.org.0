@@ -2,43 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B538866BC24
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 11:49:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBEE166BC51
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 11:58:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E93DE10E3C0;
-	Mon, 16 Jan 2023 10:49:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7670510E3C1;
+	Mon, 16 Jan 2023 10:58:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87CD810E3C2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 10:49:22 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EBE04802;
- Mon, 16 Jan 2023 11:49:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1673866161;
- bh=QPKbaBg15FIAAfwmoECrnTKED2vhulpywKn1lrKXHwQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rsA5uz9qrZPSpxqp6TK4pQviMeiZZ0RpR5R1xNmbXmObdIByNf0plUQnAoTpzwGNj
- PSQE1Fh0fK1GjZ0oR+CAEnITmGOsbwrgs//zvN3ENei9t61JeVVqe5LDRgR0Lhi2q6
- 4Gf4QXelvSnd430RTAICZbhE6AiPNRTrr/9NhjDY=
-Date: Mon, 16 Jan 2023 12:49:21 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v3 5/6] ARM: dts: renesas: Use new media bus type macros
-Message-ID: <Y8UrsSnhGd7GQEIJ@pendragon.ideasonboard.com>
-References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
- <20220615221410.27459-6-laurent.pinchart@ideasonboard.com>
- <Y8LJkPLghb/8Y+iQ@pendragon.ideasonboard.com>
- <CAMuHMdXnssq_tGbg+vL7BuLK5sa4Lg1xx0106uMFthRfUoq7=Q@mail.gmail.com>
- <Y8UpDsTixfacduXl@pendragon.ideasonboard.com>
- <CAMuHMdVHnJ2Q1CCDUiTUPcESp2cExu6BynoscTGOiD6UA1u7_w@mail.gmail.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF7F610E3BF
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 10:58:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673866688; x=1705402688;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=f+nTMFeiCzau7Hf2aoO/4NFQXt9E0fPaVxeeKQ2iPEI=;
+ b=nyQcqhSLW0zdM4Hj9qEpzu5+mfCjqT1dDBdSNBhsYBeYeEo+3GXvRUzJ
+ TVTR6jMAb7hFOHoU/YyWrXRc/JUeR61xQwb/WlffGHAo2fa2ONHm8UDTT
+ v9gFteC8o77VmOGOEZHhUMQou/2w7+1oPdhENSHZ4TdHVgOexpRsw3ixo
+ p/TIS4zbh5a6TcJFpHTjdVR1YHUAE6S77a3xQJMoyMWT+dopOV6jaGfE5
+ 6J6RGGYMenmNXR2TbIcHP9msxC1N9orbptwT33lzh53tOZ99KDaMgb2ZW
+ 3BWF/Wj/tebaLPy4W+7vEDTgc+yYFjeutMLgwEzYdPkRC8xrIInGGOipA Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="325701927"
+X-IronPort-AV: E=Sophos;i="5.97,220,1669104000"; d="scan'208";a="325701927"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2023 02:58:08 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="766842824"
+X-IronPort-AV: E=Sophos;i="5.97,220,1669104000"; d="scan'208";a="766842824"
+Received: from amakarev-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.252.13.137])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2023 02:58:02 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>, Daniel Vetter
+ <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Liviu Dudau
+ <liviu.dudau@arm.com>, Brian Starkey <brian.starkey@arm.com>, Noralf
+ =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>, Emma Anholt
+ <emma@anholt.net>, Melissa Wen
+ <mwen@igalia.com>, Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Subject: Re: [PATCH 2/6] drm/debugfs: Make drm_device use the struct
+ drm_debugfs_list
+In-Reply-To: <20230116102815.95063-3-mcanal@igalia.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230116102815.95063-1-mcanal@igalia.com>
+ <20230116102815.95063-3-mcanal@igalia.com>
+Date: Mon, 16 Jan 2023 12:58:00 +0200
+Message-ID: <87tu0qeog7.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVHnJ2Q1CCDUiTUPcESp2cExu6BynoscTGOiD6UA1u7_w@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,120 +67,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Eugen Hristev <eugen.hristev@microchip.com>, Shawn Guo <shawnguo@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>,
+ =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 16, 2023 at 11:44:13AM +0100, Geert Uytterhoeven wrote:
-> On Mon, Jan 16, 2023 at 11:38 AM Laurent Pinchart wrote:
-> > On Mon, Jan 16, 2023 at 11:24:10AM +0100, Geert Uytterhoeven wrote:
-> > > On Sat, Jan 14, 2023 at 4:26 PM Laurent Pinchart wrote:
-> > > > Geert, could you please take this in your tree for v6.3 ? The two
-> > > > patches that the DT changes depend on have been merged in v6.2.
-> > >
-> > > Thank you, I had missed these.
-> > >
-> > > > On Thu, Jun 16, 2022 at 01:14:09AM +0300, Laurent Pinchart wrote:
-> > > > > Now that a header exists with macros for the media interface bus-type
-> > > > > values, replace hardcoding numerical constants with the corresponding
-> > > > > macros in the DT sources.
-> > > > >
-> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > >
-> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > >
-> > > > > ---
-> > > > >  arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts       | 11 +++++++----
-> > > > >  .../dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi     |  4 +++-
-> > > > >  .../dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi     |  4 +++-
-> > > > >  3 files changed, 13 insertions(+), 6 deletions(-)
-> > > > >
-> > > > > diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-> > > > > index 4e58c54cde17..33ac4bd1e63b 100644
-> > > > > --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-> > > > > +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-> > > > > @@ -7,6 +7,9 @@
-> > > > >   */
-> > > > >
-> > > > >  /dts-v1/;
-> > > > > +
-> > > > > +#include <dt-bindings/media/video-interfaces.h>
-> > > > > +
-> > > > >  #include "r8a7742-iwg21d-q7.dts"
-> > > > >
-> > > > >  / {
-> > > > > @@ -242,7 +245,7 @@ port {
-> > > > >               vin0ep: endpoint {
-> > > > >                       remote-endpoint = <&cam0ep>;
-> > > > >                       bus-width = <8>;
-> > > > > -                     bus-type = <6>;
-> > > > > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
-> > > > >               };
-> > > > >       };
-> > > > >  };
-> > > > > @@ -273,7 +276,7 @@ port {
-> > > > >               vin1ep: endpoint {
-> > > > >                       remote-endpoint = <&cam1ep>;
-> > > > >                       bus-width = <8>;
-> > > > > -                     bus-type = <6>;
-> > > > > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
-> > > > >               };
-> > > > >       };
-> > > > >  };
-> > > > > @@ -305,7 +308,7 @@ vin2ep: endpoint {
-> > > > >                       remote-endpoint = <&cam2ep>;
-> > > > >                       bus-width = <8>;
-> > > > >                       data-shift = <8>;
-> > > > > -                     bus-type = <6>;
-> > > > > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
-> > > > >               };
-> > > > >       };
-> > > > >  };
-> > > > > @@ -335,7 +338,7 @@ port {
-> > > > >               vin3ep: endpoint {
-> > > > >                       remote-endpoint = <&cam3ep>;
-> > > > >                       bus-width = <8>;
-> > > > > -                     bus-type = <6>;
-> > > > > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
-> > > > >               };
-> > > > >       };
-> > > > >  };
-> > > > > diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-> > > > > index 40cef0b1d1e6..c73160df619d 100644
-> > > > > --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-> > > > > +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-> > > > > @@ -7,6 +7,8 @@
-> > > > >   * Copyright (C) 2020 Renesas Electronics Corp.
-> > > > >   */
-> > > > >
-> > > > > +#include <dt-bindings/media/video-interfaces.h>
-> > >
-> > > This .dtsi file is only intended to be included by
-> > > arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts, which already has
-> > > the include.  Hence if you don't mind, I would like to drop this part
-> > > while applying  and queuing in renesas-devel for v6.3.
-> >
-> > Isn't it better to include headers as needed to avoid depending on
-> > indirect includes ?
-> 
-> In general, I agree.
-> In this particular case, (the multiple inclusions of) the
-> r8a7742-iwg21d-q7-dbcm-ov*-single.dtsi files are tied very intimately
-> to r8a7742-iwg21d-q7-dbcm-ca.dts.
+On Mon, 16 Jan 2023, Ma=C3=ADra Canal <mcanal@igalia.com> wrote:
+> The struct drm_debugfs_list encapsulates all the debugfs-related
+> objects, so that they can be initialized and destroyed with two helpers.
+> Therefore, make the struct drm_device use the struct drm_debugfs_list
+> instead of instantiating the debugfs list and mutex separated.
+>
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> ---
+>  drivers/gpu/drm/drm_debugfs.c | 10 +++++-----
+>  drivers/gpu/drm/drm_drv.c     |  7 ++++---
+>  include/drm/drm_debugfs.h     |  3 +++
+>  include/drm/drm_device.h      | 10 ++--------
+>  4 files changed, 14 insertions(+), 16 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+> index 2f104a9e4276..176b0f8614e5 100644
+> --- a/drivers/gpu/drm/drm_debugfs.c
+> +++ b/drivers/gpu/drm/drm_debugfs.c
+> @@ -256,7 +256,7 @@ int drm_debugfs_init(struct drm_minor *minor, int min=
+or_id,
+>  	if (dev->driver->debugfs_init)
+>  		dev->driver->debugfs_init(minor);
+>=20=20
+> -	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
+> +	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list.list, list) {
+>  		debugfs_create_file(entry->file.name, 0444,
+>  				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
+>  		list_del(&entry->list);
+> @@ -273,7 +273,7 @@ void drm_debugfs_late_register(struct drm_device *dev)
+>  	if (!minor)
+>  		return;
+>=20=20
+> -	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
+> +	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list.list, list) {
+>  		debugfs_create_file(entry->file.name, 0444,
+>  				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
+>  		list_del(&entry->list);
+> @@ -350,9 +350,9 @@ void drm_debugfs_add_file(struct drm_device *dev, con=
+st char *name,
+>  	entry->file.data =3D data;
+>  	entry->dev =3D dev;
+>=20=20
+> -	mutex_lock(&dev->debugfs_mutex);
+> -	list_add(&entry->list, &dev->debugfs_list);
+> -	mutex_unlock(&dev->debugfs_mutex);
+> +	mutex_lock(&dev->debugfs_list.mutex);
+> +	list_add(&entry->list, &dev->debugfs_list.list);
+> +	mutex_unlock(&dev->debugfs_list.mutex);
+>  }
+>  EXPORT_SYMBOL(drm_debugfs_add_file);
+>=20=20
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 11748dd513c3..89c63ead8653 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -38,6 +38,7 @@
+>  #include <drm/drm_cache.h>
+>  #include <drm/drm_client.h>
+>  #include <drm/drm_color_mgmt.h>
+> +#include <drm/drm_debugfs.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_file.h>
+>  #include <drm/drm_managed.h>
+> @@ -575,7 +576,7 @@ static void drm_dev_init_release(struct drm_device *d=
+ev, void *res)
+>  	mutex_destroy(&dev->clientlist_mutex);
+>  	mutex_destroy(&dev->filelist_mutex);
+>  	mutex_destroy(&dev->struct_mutex);
+> -	mutex_destroy(&dev->debugfs_mutex);
+> +	drm_debugfs_list_destroy(&dev->debugfs_list);
+>  	drm_legacy_destroy_members(dev);
+>  }
+>=20=20
+> @@ -609,14 +610,14 @@ static int drm_dev_init(struct drm_device *dev,
+>  	INIT_LIST_HEAD(&dev->filelist_internal);
+>  	INIT_LIST_HEAD(&dev->clientlist);
+>  	INIT_LIST_HEAD(&dev->vblank_event_list);
+> -	INIT_LIST_HEAD(&dev->debugfs_list);
+>=20=20
+>  	spin_lock_init(&dev->event_lock);
+>  	mutex_init(&dev->struct_mutex);
+>  	mutex_init(&dev->filelist_mutex);
+>  	mutex_init(&dev->clientlist_mutex);
+>  	mutex_init(&dev->master_mutex);
+> -	mutex_init(&dev->debugfs_mutex);
+> +
+> +	drm_debugfs_list_init(&dev->debugfs_list);
+>=20=20
+>  	ret =3D drmm_add_action_or_reset(dev, drm_dev_init_release, NULL);
+>  	if (ret)
+> diff --git a/include/drm/drm_debugfs.h b/include/drm/drm_debugfs.h
+> index 8658e97a88cf..b4e22e7d4016 100644
+> --- a/include/drm/drm_debugfs.h
+> +++ b/include/drm/drm_debugfs.h
+> @@ -36,6 +36,9 @@
+>  #include <linux/mutex.h>
+>  #include <linux/types.h>
+>  #include <linux/seq_file.h>
+> +
+> +struct drm_device;
+> +
 
-I'd still prefer keeping the #include here, but you're the maintainer
-:-)
+Seems unrelated to this commit.
 
--- 
-Regards,
+>  /**
+>   * struct drm_info_list - debugfs info list entry
+>   *
+> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+> index 282a171164ee..6ce10f9c7bae 100644
+> --- a/include/drm/drm_device.h
+> +++ b/include/drm/drm_device.h
+> @@ -6,6 +6,7 @@
+>  #include <linux/mutex.h>
+>  #include <linux/idr.h>
+>=20=20
+> +#include <drm/drm_debugfs.h>
+>  #include <drm/drm_legacy.h>
+>  #include <drm/drm_mode_config.h>
+>=20=20
+> @@ -308,20 +309,13 @@ struct drm_device {
+>  	 */
+>  	struct drm_fb_helper *fb_helper;
+>=20=20
+> -	/**
+> -	 * @debugfs_mutex:
+> -	 *
+> -	 * Protects &debugfs_list access.
+> -	 */
+> -	struct mutex debugfs_mutex;
+> -
+>  	/**
+>  	 * @debugfs_list:
+>  	 *
+>  	 * List of debugfs files to be created by the DRM device. The files
+>  	 * must be added during drm_dev_register().
+>  	 */
+> -	struct list_head debugfs_list;
+> +	struct drm_debugfs_list debugfs_list;
 
-Laurent Pinchart
+I was kind of thinking this would be a pointer, and struct
+drm_debugfs_list would be an opaque type, with the definition inside
+drm_debugfs.c. Nobody else needs to know the guts of it.
+
+Plus it helps fight the header dependency complexity by letting the type
+be a forward declaration here.
+
+I also think "list" in the name exposes an implementation detail for no
+good reason, when you have a chance to hide it. The users don't need to
+know it's a list. Also, if we end up adding more things to it later, do
+we want to rename everything then, or add things to a structure whose
+name no longer describes what it contains?
+
+Daniel, your thoughts?
+
+
+BR,
+Jani.
+
+
+
+>=20=20
+>  	/* Everything below here is for legacy driver, never use! */
+>  	/* private: */
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
