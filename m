@@ -2,121 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B812966D1C3
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 23:26:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9288766D1C7
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 23:28:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02BBE10E07E;
-	Mon, 16 Jan 2023 22:25:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B3DC10E086;
+	Mon, 16 Jan 2023 22:28:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2048.outbound.protection.outlook.com [40.107.237.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F62110E07E;
- Mon, 16 Jan 2023 22:25:54 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2062.outbound.protection.outlook.com [40.107.244.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F22B10E086;
+ Mon, 16 Jan 2023 22:28:00 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eNbt7JCMhaqqqoPmm/o/aE9W1zONtvw5AQq0q8hUA5T6gqQGuewrVgCLRu/XgntJbigv3XG8KNB+nbGFs348EdJ6AlcTJ4JBOm6vzpuCsBE6CfQvsV+rDTiaQu9Q6Xc6RatvzpfM12I8Inbij7XjgplNWyZadenA17cg0Ij5+f4yrGO5h8Kph1z7NzuouhKJ1Val+kOc92hImcmiUPEISnuA65rr335pnSCOJ4C1Xf+tL60EOZPkrkVuTEiQzqPAwcvZu1FzYCFzwQ0r34VCNcQM7UDh12HXWmZLAn3FkwlPWBnb+PhX9bk9hKR0rTiExyQNDK4HXvOy/QpcDisuqA==
+ b=bggwTvN5JklP/SWJg87DMc8ZlwAoshicAvpMcute27hKgPYSQigbfUQGFDT6DDsJP5EzdbpdtJHK28zbK6wUQvFUgiSdwpE3iJQuri2RrVzb0Sy5kYyA6tzFSNCCz6vzVIwPDnsx8LfMlzHlNaO7XZIuAowLYYtEuFU/oV1khMO0ByfwcMFDl79L0YmG24r+ESYjo3zrqCIQbit/UlArw9QrXMl9DcxCCUIxYr0iaW76UEgSYrtkmmBLGp/fqKHreE3FOJExoT1Q6BMr8QYPXKsvnaXQuRF2/+2uHUgN+OH9o5Vxb79QhIVIQkUqQOAI62R1EPinqYMeot4Jh8GwwQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=goCMNH1KJizCK1kwJ+EMMUvSrSUqoduHc0LvFoh+OGY=;
- b=jvGw33k/0OaXJf39o/sg3K6OnsXX5UKLdgbYHtZh/3B32KivCThSq0WNuDZCavvlTDFpdAPa0d3PIhJH45E45wLd/IMLXoLf4iQU+R6Mg1GnE/qVe4oki38iEOjQzAQFc4Hle0OCF0UQn+wz+7bVLbvHRQKtrrnlQc6gbarc2VaG3Oe13WRGihns88Z3rnJoQZBQzRUstRWv+2BVQZO6H+9OVU0jLGjqIHA6BH93SoVloIvIhKSZBi6oUlNqUlcACj30fNt5LuVcOXgyaBsxyGpTGi72XrC1xPgks3uKIgzzs1diNu6zKm2bLli7Hv14121AqeIlHzygXuSgU1pT1Q==
+ bh=dei129KLsXTabOu2mPToUJLUvKWiXoDxZBZF+65WEwk=;
+ b=airh3fCjaMlaMd/GQyOJbzsqlIeD0adzw/s3dGEDD9ej5ifsCpy2NZ6tniMRFwqZYNM8P7b3eK+RBYxdEwlvF17svr2AAwC75L6u76YA1tp9yoVYK61PsEnBoHcEivtVk9HLdp8qso+Fc5LAVHgdQbsB29/G2xBqCCAzxUos2FSXAamrgQikuSCoX7/sHHjeYfFA0+/Op15p4rOTWEWhKAaOQrJNQahYF6K5C7AS6PeM4t1PZXnU4CdxKM0vt3uP8gLZB4bs/rt+DNoDpqGTlYu+abqnVe2s+Lwt9t81bPCfqbAVTcoNUjtSc594WGaOKu4eYv546Xwry8sorY+IFA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=goCMNH1KJizCK1kwJ+EMMUvSrSUqoduHc0LvFoh+OGY=;
- b=yoZHIAiOrRsmDNnesIHL6OJXbg+3OCXUxAp65ty1S1D37rdMbEoXU4ihnEqEHtvfQ8KV5kdm235YUXtGqBXpkcCwOHZStpDSLI88eU+UZXZBNhf6eraI5ck/87iEOLIxxQskxpnh6/wpUJ/+zlu1m6VKaOB+QN1gDCmjaRS/yoA=
-Authentication-Results: dkim=none (message not signed)
+ bh=dei129KLsXTabOu2mPToUJLUvKWiXoDxZBZF+65WEwk=;
+ b=sWRrSq+txpPU6BXKZHeugtLiDyxPkKfUMt3QINMmdFgsyF93wjjvVDJQAbXx7jTHvd33HCjxrk9d/XCFdvv55R+wfmbJKP09pHEfyldkv9iJr0gCRXjj9DobnZmob/unOYbGhNSljnLs4RAcpfXega2HNsDkH8RvRxQMRLBoA9E=
+Received: from DM8PR12MB5399.namprd12.prod.outlook.com (2603:10b6:8:34::5) by
+ MW4PR12MB6778.namprd12.prod.outlook.com (2603:10b6:303:1e8::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.19; Mon, 16 Jan
+ 2023 22:27:58 +0000
+Received: from DM8PR12MB5399.namprd12.prod.outlook.com
+ ([fe80::3abd:f044:1e8e:4261]) by DM8PR12MB5399.namprd12.prod.outlook.com
+ ([fe80::3abd:f044:1e8e:4261%2]) with mapi id 15.20.5986.023; Mon, 16 Jan 2023
+ 22:27:57 +0000
+From: "Liu, Leo" <Leo.Liu@amd.com>
+To: Alex Deucher <alexdeucher@gmail.com>, "Guilherme G. Piccoli"
+ <gpiccoli@igalia.com>
+Subject: Re: [PATCH 3/3] drm/amdgpu/vcn: Add parameter to force (en/dis)abling
+ indirect SRAM mode
+Thread-Topic: [PATCH 3/3] drm/amdgpu/vcn: Add parameter to force
+ (en/dis)abling indirect SRAM mode
+Thread-Index: AQHZKfBs6Qbh+J8bA0+4SCKi2+9+2q6hlSyAgAAJ24M=
+Date: Mon, 16 Jan 2023 22:27:57 +0000
+Message-ID: <DM8PR12MB53991481A19B6AC8BA7A4E0AE5C19@DM8PR12MB5399.namprd12.prod.outlook.com>
+References: <20230116212004.860968-1-gpiccoli@igalia.com>
+ <20230116212004.860968-3-gpiccoli@igalia.com>
+ <CADnq5_Oh5Vdygo12evQKxw3w-ipRoQMvSNFHGcKtBNbSmtW7GQ@mail.gmail.com>
+In-Reply-To: <CADnq5_Oh5Vdygo12evQKxw3w-ipRoQMvSNFHGcKtBNbSmtW7GQ@mail.gmail.com>
+Accept-Language: en-CA, en-US
+Content-Language: en-CA
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by SA0PR12MB7003.namprd12.prod.outlook.com (2603:10b6:806:2c0::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13; Mon, 16 Jan
- 2023 22:25:52 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::c3f5:aede:fa4d:5411]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::c3f5:aede:fa4d:5411%4]) with mapi id 15.20.5986.023; Mon, 16 Jan 2023
- 22:25:52 +0000
-Message-ID: <a5dcfecc-dba5-262b-e0e8-fe0c0d905590@amd.com>
-Date: Mon, 16 Jan 2023 17:25:50 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 1/6] drm/amdgpu: Generalize KFD dmabuf import
-Content-Language: en-US
-To: "Errabolu, Ramesh" <Ramesh.Errabolu@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <20230112013157.750568-1-Felix.Kuehling@amd.com>
- <20230112013157.750568-2-Felix.Kuehling@amd.com>
- <SN1PR12MB2575C7B1393EBAE6D4DFF395E3C19@SN1PR12MB2575.namprd12.prod.outlook.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Organization: AMD Inc.
-In-Reply-To: <SN1PR12MB2575C7B1393EBAE6D4DFF395E3C19@SN1PR12MB2575.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH0PR03CA0238.namprd03.prod.outlook.com
- (2603:10b6:610:e7::33) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|SA0PR12MB7003:EE_
-X-MS-Office365-Filtering-Correlation-Id: 06855280-d40e-482e-03c1-08daf810a04d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: I4Z31H+fYwYIfDNfMGy5IN1AIfmiceiJyUhlyDUHs1C53LSn2XJJZKvCMCBIyqXUOmE11IdUSu08T0PMOIprjvTMIhVLR1JHw0SgK+sirM44BMekV8RXW/o3gVdEkiRN/EK+eAM8HNl7q5LgT+brvXHMmbg1xStuOLj7da5mduJimBl0fpOjWzr87JwmUUd3LFo9KSdpf9B8I97CpEZ5TCLQJ7lMxUIUmTVQIiloVEdRneit2NtZNnSHFPMPm1Y56rPG2YpcSAD2mMGufKSK1qlDs8v+fuvul3m7lhMuco9NK/LoT86xj1n2f5tNH6WzNV9ueEthEyZRiRHFi2ZJB6G/pPL5S1iBRb3x/s5/oO8JJEwdwc/lzRrpfFnvrKVTruLv4rcgJt/T59t4J8rqrL8yRTUKTLHv2iTIRrjwtq0gAxmf6gZsIBV+Q8WJEJmD+sAbhcJQKEHYvN8EC7GpsAd9B09B9z+U8MagUslxMT+mD9anEb3a9tWlqff/ppMPqGuN4ZCyktoNY/0HTTm+EM7SKdxhV6VSz7OP9Xm7Y6sd/Wz228I5AdsbfEyjkKJgON6hCikXQvJ5n/0RncdByMn+NVPqZnL3N1JSTqgfTqLDbnwZ8dFfk7fhLdYrmxHANYh7YKrsBWUjRbAn0E2TLbkszgTDDOAg3wOej4BRtvjVkJvt/U3FuRyldbHMuyO0ZKWOFneM0q3CmEG5CpuhrHE06LZEMsz6Ne1aC1fzL0I=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(366004)(396003)(39860400002)(346002)(136003)(451199015)(41300700001)(6512007)(478600001)(6486002)(38100700002)(31696002)(86362001)(316002)(110136005)(54906003)(2616005)(450100002)(36916002)(66476007)(66556008)(186003)(66946007)(26005)(4326008)(5660300002)(53546011)(6506007)(36756003)(2906002)(44832011)(8936002)(31686004)(83380400001)(8676002)(45980500001)(43740500002);
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR12MB5399:EE_|MW4PR12MB6778:EE_
+x-ms-office365-filtering-correlation-id: 29d5071c-0dfb-46f1-4838-08daf810eb5c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: rPMl+0ijnO2CVoUtKM1idhP9pvCwHxUPaZo0RfUtZoA6gvFsMSZgpNlvqv+32urPvwOfsuxN3CMxEk36QErPPEN8L4MbxzZhuCaa5p5O8hKM7WlODWufq6WqJgZgH+7E5tbGAzgYaDz1KgSAkZZHwPBqm0eOPJI190u2Z0+qaHW8guLgrsJbi4+qLAniTeA/mWmlgf16z4IsIRC78AHmV5KsERFXbXoITy9m0iJ6sxead2kSUe4lC7jmnyJYgNjkWSxC1kZoQqRAlVICploDvMkpAhcL9ufsYr+alyRIKxNbtPnoVanIFfRoU07gYvcmbhE81Yx2KfVTQqbrdFMhacnvWifKmWuFqiQmCJIWAifEx//d+sqtmRW5Af9+hDlEQL8o5gubx/cxcYT2FiXCW5p8GCTnbClh/Z6nbCG+2FAmRBDEPtro/0ixuS5dlzJJELPal5SoWPn7q1fsXCr7FVnUWuUTuxqejKeiBxRoXY935PH1zdCReJaunq5p4fr/jPcxSaTz/Lh3SJsD4JNFckAB+5Y7WGULP1CSZnNrinQbCvwcJW94jCk2kcWfg6sHdfaYeKVaM56obTtyK5ee8T9gvlIlkVgh5IEVnR4IoijXym+z/den6qN/KGZUXUFNZ9Rt5LlOTulzhak6H9MDtZhop9TFV498eIhA81R/AIfOusI926VuRfv10P24QpKl
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM8PR12MB5399.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(366004)(376002)(346002)(396003)(39860400002)(451199015)(33656002)(38070700005)(52536014)(122000001)(86362001)(5660300002)(38100700002)(8936002)(2906002)(83380400001)(55016003)(54906003)(110136005)(41300700001)(478600001)(53546011)(8676002)(6506007)(76116006)(7696005)(66946007)(4326008)(91956017)(66556008)(316002)(66476007)(66446008)(9686003)(71200400001)(64756008)(186003);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RXl1SUNzbysrTktHR2NjcEcxQUpVNFNqRmtTVDd0ampoeDkwemVHaHdlLzZY?=
- =?utf-8?B?R2xRUDJpVHBFblplRTlrN0lKRUphV1hSNmlWMzJ3anRtT1laaUFvTHptWDRY?=
- =?utf-8?B?QVpkRCs0SGdCN1kxVm9SODlyanhjZHdPV3VYZUNWRDVHSVBWdmR5TGIvTkNU?=
- =?utf-8?B?SksrTlUwNW80b3FBOHE1VGtEQjF6NHh6TWJlOFR5MXEwTFdSQVZPd0FFZFlz?=
- =?utf-8?B?TDRYZGxXNFcxdGNrekMrVmErdjNGaUlINzhuYVJUZERLdUFaTWVZT21KQ05m?=
- =?utf-8?B?a28wbXlDZDNSTDhpUmZkMGdMbFBWaTNkODZlSXBLeWZMS1JobjhsTnZMWXBO?=
- =?utf-8?B?a2NtZzFWTDFjTzl5ZFN5R1ZZd1Fhc0tCcXJSR045L2hjbjNGRmZuUVk0Mnd2?=
- =?utf-8?B?YU1RVUUrS1U1amw3eHVyb2czWHNlbnpXc2dkSUxTSTJ3U0Jkdmxtb1pFblg5?=
- =?utf-8?B?RHNmUCsxYWdjOHFoL3dEdm9uQnpOdFluR0Q3VWZOUHRGK2crbVpUeGFBaUJi?=
- =?utf-8?B?citBbmh1YXBVUmNVbHdvTUtza2RZRkVXdlBqNTNiMTlqc1kzUWM5RFpqbktj?=
- =?utf-8?B?dzAybm1qUEd6OGJ2aFB4QkFTVXFKbGg3dkhXZ1I0N3cxd3Y5MGpGc0Q5K3A2?=
- =?utf-8?B?ZnBacVhxbU8rbnlBVXRkUHd3S1Y0aERYUEc0Z1R0ZmlHY0pqeFMralFVZHdC?=
- =?utf-8?B?UzkrbzJHV2R3dGlHdDNVdmZEL2V4Y2FLdFlzSU4wSGNBM1E5YVlLRExRVkRT?=
- =?utf-8?B?MGREVXVoZFBSRXRuMGhySjdlbUlKWmFteXEza3ovWXlLOFhLb3h1YS9oRjNN?=
- =?utf-8?B?Y01PZGNTT0pOSS9naHdFNXptdWxNTHU5QXlHU2YxeUppRUx4NmV2Q01DMzZS?=
- =?utf-8?B?VzdVak5CZnpReEkwdDNDbWR3UUFBL3pKTkdRaEhtMGFqTlFzRTEyWlpqSWp6?=
- =?utf-8?B?Y3NFZHRWeCt6MTQ5bnF5dHdxRzVIbU9PaUFzOEI4YnphLzdHbDk1WUhraW9K?=
- =?utf-8?B?MVY2ZmdieUpMcGNOb1JjbHVmZHdnd3R5THFBQ2tGL0JOc1ovekFaeFZKYjdI?=
- =?utf-8?B?MFpFSDBtaXE5Q3Foa2pxRS84RkFXcFFrWkdZQitvckN1TkpXRHBTWjBsdnZO?=
- =?utf-8?B?bTIwbHk5NUoweUJFQlVCR1RRWVdXTDVxNENHY3FEbXNIVkRRcVVaTHJnaG9o?=
- =?utf-8?B?UlpjOS9BUDIyRzNyR3hWeWRtaFpWb2hZMHpwWE1nRWZ5MnlpcllZTGh6WTNq?=
- =?utf-8?B?V2hGY0ZXMThPSS9kMldNTFk4dzdnck9YSmNDWnh2UmpxaHIwZ1Z5Sm5la0RC?=
- =?utf-8?B?YjN0UmVhM1d4RVhFSXpUSHZ0T0s2TTgvRGdwUUd6RG1ERGw1bFVuU0J6cnhX?=
- =?utf-8?B?aWNIUmN1WjRsOUxCNlJNakxsMEZndlZUMnlpUlk0V2FVY1h4OWRLS21PYlhD?=
- =?utf-8?B?dDl2dlBPOVBsV002MGt2cjRiSFBEcUpweW1TTEhMUE5XV0gyQlM1Q2hiWlhz?=
- =?utf-8?B?Y0o2cUJsc3dDYjlSdm5MbTJiOVljdEdpUUhaUm85eEI2bTdWcDZiQ0d0QVRT?=
- =?utf-8?B?ZGlJd1VIYXExWlk0bnhvUjF1bGtMR1FSUmovTXVac1d6T3VFOERtby94bGhv?=
- =?utf-8?B?OHBaM0xpcXdRQmVmUW9DNDhOMlpTTlM1Ykw2Z0g5TTV5ajhYS0ZxYjJ3TEYw?=
- =?utf-8?B?U2FsdVVPb1MramREeEkrTTVwU3ViNnoveVFmaXhiQ3J3T0JWU0M5dS9uU0JU?=
- =?utf-8?B?WTdLdXZ0NFVkVlJCSWppaEF4eHRSUEs5ZG9xd0Fsd2pjdzZpZTFBV0lDNXIy?=
- =?utf-8?B?a1g2SlhnUU16dmdXckw1YWo3NjlKMkcvdUlHUHVMdytMb0VQbnBsS0IrbS95?=
- =?utf-8?B?WWd4V01jemhGazFzSG01L0ovbDhNM3VlTEl2UGUxL3JHZHQwcWc0dFQ3bkpT?=
- =?utf-8?B?akJiTllsU2d5ckVPS0dCSkVyckJoaUpDL2hFc09zZ1FaSVJyTjFTQTBxUUFB?=
- =?utf-8?B?VTFjSlFZZkNKM0tKUEh1cUxSUXpLbG43RmlISmpuOTg2dnlJTWZMTFIvekJY?=
- =?utf-8?B?bVVxQnM5WFQ4OWJ3V09hUXoveUNodFdQeHVTVEdrZFR5MzlZdkttSGVFTHF2?=
- =?utf-8?Q?k+L+sarjrO5IPKWVbBFsXAYEF?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?xl3/3nEiq6UeXbXr23hnrfQa62gwP1wId+2nyJYaT0Ka+RpDg54jlh39SM?=
+ =?iso-8859-1?Q?8PuegsxkvJ+WIY+2o+OAMRXejmsuJJNsFHF8uBPxpSYy1fHlVee6S1gEPT?=
+ =?iso-8859-1?Q?AmPOW/1xnn4pqAAYhNyd4dpSScKWquUbz/mu5fNUyQ/zZ46ZgN6gWhCTss?=
+ =?iso-8859-1?Q?8uTGwRTCgLx3SByj2wzjbsygcYLPC27067OYpSPKqGukGKFwHjRBwVat1G?=
+ =?iso-8859-1?Q?SfEYGgRP+QmkSEghuofa2pJ3KaEEQwu3r7K5lzcrOOG1nciBWoZgZyCg2m?=
+ =?iso-8859-1?Q?WsBL+XHPa25CctV9M1Si6Q5+ymuhQvtvxz5dKSwk2cPuqurNfMkrJCw6pV?=
+ =?iso-8859-1?Q?d4tMA8ZzdDy4nBdtDAurBBrl8irns5Mn1Qt+3DpvunXA7jDbBHlKb0Ab1S?=
+ =?iso-8859-1?Q?JfZxjRdLUJjnEqDaoVBtT5DohlcT8lUzdl4cnW9vz0aKWAzE1YHQidACs8?=
+ =?iso-8859-1?Q?QIgS8OML0rE+bFJvige5WmRdH5/cbiDbVxFwzPonuIMpk6rVMq0LK/Tgdf?=
+ =?iso-8859-1?Q?XUVdjLT2xgK9/XNRs+cypfiWvLexfG8OL+SBfrD+k4YQ32Wh4ViGX9N4fE?=
+ =?iso-8859-1?Q?hg2iXIjxccGlEHaXw7m4oGvdjzidSB8NStOE1Q3W4lEwXkUomvG6SQyXOM?=
+ =?iso-8859-1?Q?FCu6k6v49Y4kRunsRd7euoyqepKGxHYjliMD/w6NWuqM5NRFXNBJvIpEVk?=
+ =?iso-8859-1?Q?yaZhdiOTSIPEaF8wpftNTWEF+QB6WWaqozBYkZDadr0t2p5zohewAysOfO?=
+ =?iso-8859-1?Q?xvJd38Og4QyKdyQOwQ4PW/MfpcF20v6jNYamnjW8va/J0+/GZ6qrdyBKAt?=
+ =?iso-8859-1?Q?wq403IxreVbGi7glyOh6cz2omr7k39uy9wJTqjvrlqVo4TRfHitoufCMmK?=
+ =?iso-8859-1?Q?lpGoObVr4auzta7+Pm7uNMd0X/PTUKH9IQLhY4KLY+bO0cI1bPkd9tDGBO?=
+ =?iso-8859-1?Q?QAHCFyLsfMXK4I0HiBxPsYUbb0JNSMhyyxhow4NQuZ4J/2dbv4BywuZ64M?=
+ =?iso-8859-1?Q?OZjMIBAzrH6tGQUXt4+1N9nmoVDZYbhMau/h0SexvNZxcRxnYncsVFjjQW?=
+ =?iso-8859-1?Q?sMgsMmO4PjgmQcn5N5j7KbbjaRtMaQoYhGS/qZ966ZsFk64RjBgoxqfCVW?=
+ =?iso-8859-1?Q?hHylqWv9Kg/giDodb1pRY1ABRA7nwP6Oig7DzNgpsubat+hRCsWn4jUee3?=
+ =?iso-8859-1?Q?ddzvIWNHa3hsOkri2xdqCi7M3JTSsPlBijbBzSTEysleVWSBnxCl3QRm6Q?=
+ =?iso-8859-1?Q?CB5CaJR/ZVDP2v9us/RtHXem7xZ3VoKIkY8xw2Q+KEspw10PJf/t8TQSFV?=
+ =?iso-8859-1?Q?iIVeR/ind0xiDmNaZuBQVpMV9OXXyDZlnOGgbROBgQcxLeY3TUldETy8Lc?=
+ =?iso-8859-1?Q?XtIenY8ZGtK2cVcbkjBjvmt2o+InauI2miYrrXlr3phsOCG01pWFX5L84R?=
+ =?iso-8859-1?Q?miD6kOJuHs1Z/9CMNCUH/tVVoHVRPWYTvjEC6yVG5iOfkjkfSjQHF4HK+F?=
+ =?iso-8859-1?Q?TGsJ10MAIdhGOuOazAhw4izMaI6OxrpHe7hMSjuH9X6nKq5SPQV19D/5xp?=
+ =?iso-8859-1?Q?5uv7doSmh2tgSC0YJ5uQl0TTDccj3Ua+DF7+7ftFtHKzet2F0yTY9ZGWeP?=
+ =?iso-8859-1?Q?7GvjKew8xD7CVQBXy8FrlXOl7vJCOSRD0zkQ5MeYf5YkRFMZB9TG+bRYYD?=
+ =?iso-8859-1?Q?NMsSf6r2Wwowdx4AmW8=3D?=
+Content-Type: multipart/alternative;
+ boundary="_000_DM8PR12MB53991481A19B6AC8BA7A4E0AE5C19DM8PR12MB5399namp_"
+MIME-Version: 1.0
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06855280-d40e-482e-03c1-08daf810a04d
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2023 22:25:52.1100 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GdUppNKYuzBU0a+NZP0sDbK72rBZqC7CVRxlf6x5oEVLYzMYOglakIyvvWqx1MYZUvsNc10yQ0p7CFOoKZQefA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB7003
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR12MB5399.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 29d5071c-0dfb-46f1-4838-08daf810eb5c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jan 2023 22:27:57.7736 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vTf29p2U3n8yNvDau5tpbDmW+4HmMhpoMCQ4DwTLV36T+TuGunKxeOne1jQTmR+V
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6778
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,116 +122,346 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Chen, Xiaogang" <Xiaogang.Chen@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>
+Cc: "Lazar, Lijo" <Lijo.Lazar@amd.com>,
+ "kernel@gpiccoli.net" <kernel@gpiccoli.net>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Jiang, 
+ Sonny" <Sonny.Jiang@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "kernel-dev@igalia.com" <kernel-dev@igalia.com>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, "Zhu, James" <James.Zhu@amd.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>, "Limonciello,
+ Mario" <Mario.Limonciello@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-01-16 17:04, Errabolu, Ramesh wrote:
-> [AMD Official Use Only - General]
->
-> A minor comment, unrelated to the patch. The comments are inline.
->
-> Regards,
-> Ramesh
->
-> -----Original Message-----
-> From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of Felix Kuehling
-> Sent: Thursday, January 12, 2023 7:02 AM
-> To: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
-> Cc: Chen, Xiaogang <Xiaogang.Chen@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>
-> Subject: [PATCH 1/6] drm/amdgpu: Generalize KFD dmabuf import
->
-> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
->
->
-> Use proper amdgpu_gem_prime_import function to handle all kinds of imports. Remember the dmabuf reference to enable proper multi-GPU attachment to multiple VMs without erroneously re-exporting the underlying BO multiple times.
->
-> Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
-> ---
->   .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 38 ++++++++++---------
->   1 file changed, 21 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> index 6f236ded5f12..e13c3493b786 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> @@ -2209,30 +2209,27 @@ int amdgpu_amdkfd_gpuvm_import_dmabuf(struct amdgpu_device *adev,
->          struct amdgpu_bo *bo;
->          int ret;
->
-> -       if (dma_buf->ops != &amdgpu_dmabuf_ops)
-> -               /* Can't handle non-graphics buffers */
-> -               return -EINVAL;
-> -
-> -       obj = dma_buf->priv;
-> -       if (drm_to_adev(obj->dev) != adev)
-> -               /* Can't handle buffers from other devices */
-> -               return -EINVAL;
-> +       obj = amdgpu_gem_prime_import(adev_to_drm(adev), dma_buf);
-> +       if (IS_ERR(obj))
-> +               return PTR_ERR(obj);
->
->          bo = gem_to_amdgpu_bo(obj);
->          if (!(bo->preferred_domains & (AMDGPU_GEM_DOMAIN_VRAM |
-> -                                   AMDGPU_GEM_DOMAIN_GTT)))
-> +                                   AMDGPU_GEM_DOMAIN_GTT))) {
->                  /* Only VRAM and GTT BOs are supported */
-> -               return -EINVAL;
-> +               ret = -EINVAL;
-> +               goto err_put_obj;
-> +       }
->
->          *mem = kzalloc(sizeof(struct kgd_mem), GFP_KERNEL);
-> -       if (!*mem)
-> -               return -ENOMEM;
-> +       if (!*mem) {
-> +               ret = -ENOMEM;
-> +               goto err_put_obj;
-> +       }
->
->          ret = drm_vma_node_allow(&obj->vma_node, drm_priv);
-> -       if (ret) {
-> -               kfree(*mem);
-> -               return ret;
-> -       }
-> +       if (ret)
-> +               goto err_free_mem;
->
->          if (size)
->                  *size = amdgpu_bo_size(bo); @@ -2249,7 +2246,8 @@ int amdgpu_amdkfd_gpuvm_import_dmabuf(struct amdgpu_device *adev,
->                  | KFD_IOC_ALLOC_MEM_FLAGS_WRITABLE
->                  | KFD_IOC_ALLOC_MEM_FLAGS_EXECUTABLE;
-> Ramesh: Is it correct to assign WRITE & EXECUTABLE permissions to alloc_flags variable.
+--_000_DM8PR12MB53991481A19B6AC8BA7A4E0AE5C19DM8PR12MB5399namp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-These flags affect GPUVM mappings of the BO. If we didn't set these 
-flags, the imported BO would be read-only. The existing graphics-interop 
-API (struct kfd_ioctl_import_dmabuf_args) doesn't have a way for user 
-mode to provide these flags. Changing this would break the API.
+Secure part requires PSP load VCN boot sequence which is with indirect sram=
+ mode.
 
 Regards,
-   Felix
+Leo
+
+________________________________
+From: Alex Deucher <alexdeucher@gmail.com>
+Sent: January 16, 2023 4:50 PM
+To: Guilherme G. Piccoli <gpiccoli@igalia.com>
+Cc: amd-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>; Jiang, S=
+onny <Sonny.Jiang@amd.com>; kernel@gpiccoli.net <kernel@gpiccoli.net>; Pan,=
+ Xinhui <Xinhui.Pan@amd.com>; dri-devel@lists.freedesktop.org <dri-devel@li=
+sts.freedesktop.org>; Lazar, Lijo <Lijo.Lazar@amd.com>; Limonciello, Mario =
+<Mario.Limonciello@amd.com>; kernel-dev@igalia.com <kernel-dev@igalia.com>;=
+ Deucher, Alexander <Alexander.Deucher@amd.com>; Zhu, James <James.Zhu@amd.=
+com>; Liu, Leo <Leo.Liu@amd.com>; Koenig, Christian <Christian.Koenig@amd.c=
+om>
+Subject: Re: [PATCH 3/3] drm/amdgpu/vcn: Add parameter to force (en/dis)abl=
+ing indirect SRAM mode
+
+On Mon, Jan 16, 2023 at 4:21 PM Guilherme G. Piccoli
+<gpiccoli@igalia.com> wrote:
+>
+> Currently the FW loading path perform some checks based on IP model
+> and in case it is advertised as supported, the VCN indirect SRAM
+> mode is used.
+>
+> Happens that in case there's any issue on FW and this mode ends-up
+> not being properly supported, the driver probe fails [0]. Debugging
+> this requires driver rebuilding, so to allow fast debug and experiments,
+> add a parameter to force setting indirect SRAM mode to true/false from
+> the kernel command-line; parameter default is -1, which doesn't change
+> the current driver's behavior.
+
+Probably a question for Leo or James, but I was under the impression
+non-indirect mode didn't work on production silicon for most chips,
+but maybe I'm mis-remembering that.
+
+Alex
 
 
 >
-> -       drm_gem_object_get(&bo->tbo.base);
-> +       get_dma_buf(dma_buf);
-> +       (*mem)->dmabuf = dma_buf;
->          (*mem)->bo = bo;
->          (*mem)->va = va;
->          (*mem)->domain = (bo->preferred_domains & AMDGPU_GEM_DOMAIN_VRAM) ?
-> @@ -2261,6 +2259,12 @@ int amdgpu_amdkfd_gpuvm_import_dmabuf(struct amdgpu_device *adev,
->          (*mem)->is_imported = true;
+> [0] Example of this issue, observed on Steam Deck:
 >
->          return 0;
+> [drm] kiq ring mec 2 pipe 1 q 0
+> [drm] failed to load ucode VCN0_RAM(0x3A)
+> [drm] psp gfx command LOAD_IP_FW(0x6) failed and response status is (0xFF=
+FF0000)
+> amdgpu 0000:04:00.0: [drm:amdgpu_ring_test_helper [amdgpu]] *ERROR* ring =
+vcn_dec_0 test failed (-110)
+> [drm:amdgpu_device_init.cold [amdgpu]] *ERROR* hw_init of IP block <vcn_v=
+3_0> failed -110
+> amdgpu 0000:04:00.0: amdgpu: amdgpu_device_ip_init failed
+> amdgpu 0000:04:00.0: amdgpu: Fatal error during GPU init
+>
+> Cc: James Zhu <James.Zhu@amd.com>
+> Cc: Lazar Lijo <Lijo.Lazar@amd.com>
+> Cc: Leo Liu <leo.liu@amd.com>
+> Cc: Mario Limonciello <mario.limonciello@amd.com>
+> Cc: Sonny Jiang <sonny.jiang@amd.com>
+> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+> ---
+>
+>
+> This work is based on agd5f/amd-staging-drm-next branch.
+> Thanks in advance for reviews/comments!
+> Cheers,
+>
+> Guilherme
+>
+>
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h     | 1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 9 +++++++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c | 3 +++
+>  3 files changed, 13 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/am=
+dgpu/amdgpu.h
+> index 872450a3a164..5d3c92c94f18 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -215,6 +215,7 @@ extern int amdgpu_noretry;
+>  extern int amdgpu_force_asic_type;
+>  extern int amdgpu_smartshift_bias;
+>  extern int amdgpu_use_xgmi_p2p;
+> +extern int amdgpu_indirect_sram;
+>  #ifdef CONFIG_HSA_AMD
+>  extern int sched_policy;
+>  extern bool debug_evictions;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_drv.c
+> index 06aba201d4db..c7182c0bc841 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -187,6 +187,7 @@ int amdgpu_num_kcq =3D -1;
+>  int amdgpu_smartshift_bias;
+>  int amdgpu_use_xgmi_p2p =3D 1;
+>  int amdgpu_vcnfw_log;
+> +int amdgpu_indirect_sram =3D -1;
+>
+>  static void amdgpu_drv_delayed_reset_work_handler(struct work_struct *wo=
+rk);
+>
+> @@ -941,6 +942,14 @@ MODULE_PARM_DESC(smu_pptable_id,
+>         "specify pptable id to be used (-1 =3D auto(default) value, 0 =3D=
+ use pptable from vbios, > 0 =3D soft pptable id)");
+>  module_param_named(smu_pptable_id, amdgpu_smu_pptable_id, int, 0444);
+>
+> +/**
+> + * DOC: indirect_sram (int)
+> + * Allow users to force using (or not) the VCN indirect SRAM mode in the=
+ fw load
+> + * code. Default is -1, meaning auto (aka, don't mess with driver's beha=
+vior).
+> + */
+> +MODULE_PARM_DESC(indirect_sram, "Force VCN indirect SRAM (-1 =3D auto (d=
+efault), 0 =3D disabled, 1 =3D enabled)");
+> +module_param_named(indirect_sram, amdgpu_indirect_sram, int, 0444);
 > +
-> +err_free_mem:
-> +       kfree(*mem);
-> +err_put_obj:
-> +       drm_gem_object_put(obj);
-> +       return ret;
->   }
+>  /* These devices are not supported by amdgpu.
+>   * They are supported by the mach64, r128, radeon drivers
+>   */
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_vcn.c
+> index 1f880e162d9d..a2290087e01c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
+> @@ -137,6 +137,9 @@ int amdgpu_vcn_sw_init(struct amdgpu_device *adev)
+>                 return -EINVAL;
+>         }
 >
->   /* Evict a userptr BO by stopping the queues if necessary
+> +       if (amdgpu_indirect_sram >=3D 0)
+> +               adev->vcn.indirect_sram =3D (bool)amdgpu_indirect_sram;
+> +
+>         hdr =3D (const struct common_firmware_header *)adev->vcn.fw->data=
+;
+>         adev->vcn.fw_version =3D le32_to_cpu(hdr->ucode_version);
+>
 > --
-> 2.34.1
+> 2.39.0
+>
+
+--_000_DM8PR12MB53991481A19B6AC8BA7A4E0AE5C19DM8PR12MB5399namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+</head>
+<body>
+<div>Secure part requires PSP load VCN boot sequence which is with indirect=
+ sram mode.</div>
+<div><br>
+</div>
+<div>Regards,</div>
+<div>Leo</div>
+<div><br>
+</div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Alex Deucher &lt;alex=
+deucher@gmail.com&gt;<br>
+<b>Sent:</b> January 16, 2023 4:50 PM<br>
+<b>To:</b> Guilherme G. Piccoli &lt;gpiccoli@igalia.com&gt;<br>
+<b>Cc:</b> amd-gfx@lists.freedesktop.org &lt;amd-gfx@lists.freedesktop.org&=
+gt;; Jiang, Sonny &lt;Sonny.Jiang@amd.com&gt;; kernel@gpiccoli.net &lt;kern=
+el@gpiccoli.net&gt;; Pan, Xinhui &lt;Xinhui.Pan@amd.com&gt;; dri-devel@list=
+s.freedesktop.org &lt;dri-devel@lists.freedesktop.org&gt;; Lazar,
+ Lijo &lt;Lijo.Lazar@amd.com&gt;; Limonciello, Mario &lt;Mario.Limonciello@=
+amd.com&gt;; kernel-dev@igalia.com &lt;kernel-dev@igalia.com&gt;; Deucher, =
+Alexander &lt;Alexander.Deucher@amd.com&gt;; Zhu, James &lt;James.Zhu@amd.c=
+om&gt;; Liu, Leo &lt;Leo.Liu@amd.com&gt;; Koenig, Christian &lt;Christian.K=
+oenig@amd.com&gt;<br>
+<b>Subject:</b> Re: [PATCH 3/3] drm/amdgpu/vcn: Add parameter to force (en/=
+dis)abling indirect SRAM mode</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">On Mon, Jan 16, 2023 at 4:21 PM Guilherme G. Picco=
+li<br>
+&lt;gpiccoli@igalia.com&gt; wrote:<br>
+&gt;<br>
+&gt; Currently the FW loading path perform some checks based on IP model<br=
+>
+&gt; and in case it is advertised as supported, the VCN indirect SRAM<br>
+&gt; mode is used.<br>
+&gt;<br>
+&gt; Happens that in case there's any issue on FW and this mode ends-up<br>
+&gt; not being properly supported, the driver probe fails [0]. Debugging<br=
+>
+&gt; this requires driver rebuilding, so to allow fast debug and experiment=
+s,<br>
+&gt; add a parameter to force setting indirect SRAM mode to true/false from=
+<br>
+&gt; the kernel command-line; parameter default is -1, which doesn't change=
+<br>
+&gt; the current driver's behavior.<br>
+<br>
+Probably a question for Leo or James, but I was under the impression<br>
+non-indirect mode didn't work on production silicon for most chips,<br>
+but maybe I'm mis-remembering that.<br>
+<br>
+Alex<br>
+<br>
+<br>
+&gt;<br>
+&gt; [0] Example of this issue, observed on Steam Deck:<br>
+&gt;<br>
+&gt; [drm] kiq ring mec 2 pipe 1 q 0<br>
+&gt; [drm] failed to load ucode VCN0_RAM(0x3A)<br>
+&gt; [drm] psp gfx command LOAD_IP_FW(0x6) failed and response status is (0=
+xFFFF0000)<br>
+&gt; amdgpu 0000:04:00.0: [drm:amdgpu_ring_test_helper [amdgpu]] *ERROR* ri=
+ng vcn_dec_0 test failed (-110)<br>
+&gt; [drm:amdgpu_device_init.cold [amdgpu]] *ERROR* hw_init of IP block &lt=
+;vcn_v3_0&gt; failed -110<br>
+&gt; amdgpu 0000:04:00.0: amdgpu: amdgpu_device_ip_init failed<br>
+&gt; amdgpu 0000:04:00.0: amdgpu: Fatal error during GPU init<br>
+&gt;<br>
+&gt; Cc: James Zhu &lt;James.Zhu@amd.com&gt;<br>
+&gt; Cc: Lazar Lijo &lt;Lijo.Lazar@amd.com&gt;<br>
+&gt; Cc: Leo Liu &lt;leo.liu@amd.com&gt;<br>
+&gt; Cc: Mario Limonciello &lt;mario.limonciello@amd.com&gt;<br>
+&gt; Cc: Sonny Jiang &lt;sonny.jiang@amd.com&gt;<br>
+&gt; Signed-off-by: Guilherme G. Piccoli &lt;gpiccoli@igalia.com&gt;<br>
+&gt; ---<br>
+&gt;<br>
+&gt;<br>
+&gt; This work is based on agd5f/amd-staging-drm-next branch.<br>
+&gt; Thanks in advance for reviews/comments!<br>
+&gt; Cheers,<br>
+&gt;<br>
+&gt; Guilherme<br>
+&gt;<br>
+&gt;<br>
+&gt;&nbsp; drivers/gpu/drm/amd/amdgpu/amdgpu.h&nbsp;&nbsp;&nbsp;&nbsp; | 1 =
++<br>
+&gt;&nbsp; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 9 +++++++++<br>
+&gt;&nbsp; drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c | 3 +++<br>
+&gt;&nbsp; 3 files changed, 13 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd=
+/amdgpu/amdgpu.h<br>
+&gt; index 872450a3a164..5d3c92c94f18 100644<br>
+&gt; --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h<br>
+&gt; +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h<br>
+&gt; @@ -215,6 +215,7 @@ extern int amdgpu_noretry;<br>
+&gt;&nbsp; extern int amdgpu_force_asic_type;<br>
+&gt;&nbsp; extern int amdgpu_smartshift_bias;<br>
+&gt;&nbsp; extern int amdgpu_use_xgmi_p2p;<br>
+&gt; +extern int amdgpu_indirect_sram;<br>
+&gt;&nbsp; #ifdef CONFIG_HSA_AMD<br>
+&gt;&nbsp; extern int sched_policy;<br>
+&gt;&nbsp; extern bool debug_evictions;<br>
+&gt; diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm=
+/amd/amdgpu/amdgpu_drv.c<br>
+&gt; index 06aba201d4db..c7182c0bc841 100644<br>
+&gt; --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c<br>
+&gt; +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c<br>
+&gt; @@ -187,6 +187,7 @@ int amdgpu_num_kcq =3D -1;<br>
+&gt;&nbsp; int amdgpu_smartshift_bias;<br>
+&gt;&nbsp; int amdgpu_use_xgmi_p2p =3D 1;<br>
+&gt;&nbsp; int amdgpu_vcnfw_log;<br>
+&gt; +int amdgpu_indirect_sram =3D -1;<br>
+&gt;<br>
+&gt;&nbsp; static void amdgpu_drv_delayed_reset_work_handler(struct work_st=
+ruct *work);<br>
+&gt;<br>
+&gt; @@ -941,6 +942,14 @@ MODULE_PARM_DESC(smu_pptable_id,<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;specify pptable =
+id to be used (-1 =3D auto(default) value, 0 =3D use pptable from vbios, &g=
+t; 0 =3D soft pptable id)&quot;);<br>
+&gt;&nbsp; module_param_named(smu_pptable_id, amdgpu_smu_pptable_id, int, 0=
+444);<br>
+&gt;<br>
+&gt; +/**<br>
+&gt; + * DOC: indirect_sram (int)<br>
+&gt; + * Allow users to force using (or not) the VCN indirect SRAM mode in =
+the fw load<br>
+&gt; + * code. Default is -1, meaning auto (aka, don't mess with driver's b=
+ehavior).<br>
+&gt; + */<br>
+&gt; +MODULE_PARM_DESC(indirect_sram, &quot;Force VCN indirect SRAM (-1 =3D=
+ auto (default), 0 =3D disabled, 1 =3D enabled)&quot;);<br>
+&gt; +module_param_named(indirect_sram, amdgpu_indirect_sram, int, 0444);<b=
+r>
+&gt; +<br>
+&gt;&nbsp; /* These devices are not supported by amdgpu.<br>
+&gt;&nbsp;&nbsp; * They are supported by the mach64, r128, radeon drivers<b=
+r>
+&gt;&nbsp;&nbsp; */<br>
+&gt; diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c b/drivers/gpu/drm=
+/amd/amdgpu/amdgpu_vcn.c<br>
+&gt; index 1f880e162d9d..a2290087e01c 100644<br>
+&gt; --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c<br>
+&gt; +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c<br>
+&gt; @@ -137,6 +137,9 @@ int amdgpu_vcn_sw_init(struct amdgpu_device *adev)=
+<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp; return -EINVAL;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&gt;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (amdgpu_indirect_sram &gt;=3D=
+ 0)<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; adev-&gt;vcn.indirect_sram =3D (bool)amdgpu_indirect_sram;<=
+br>
+&gt; +<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hdr =3D (const struct =
+common_firmware_header *)adev-&gt;vcn.fw-&gt;data;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; adev-&gt;vcn.fw_versio=
+n =3D le32_to_cpu(hdr-&gt;ucode_version);<br>
+&gt;<br>
+&gt; --<br>
+&gt; 2.39.0<br>
+&gt;<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_DM8PR12MB53991481A19B6AC8BA7A4E0AE5C19DM8PR12MB5399namp_--
