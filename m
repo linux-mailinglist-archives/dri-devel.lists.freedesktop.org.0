@@ -1,66 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35D666BD4C
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 12:54:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9A6566BD52
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 12:56:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEBDB10E3EC;
-	Mon, 16 Jan 2023 11:54:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFF1E10E3D9;
+	Mon, 16 Jan 2023 11:56:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1738510E3D9;
- Mon, 16 Jan 2023 11:54:31 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B36F83426D;
- Mon, 16 Jan 2023 11:54:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673870069; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7RumSuBe2j+lE+aR0tKYvrwokf9lrt/UnbdzoWusNE0=;
- b=m1nvqq+HQ+aIwEluKyYjZ/xjr0MVVCRzgp029g/nGDJRWypmg1W1pDD7uRjgqB513T1BGK
- S3Nx5e4IFXsiujJ27ErrOPm/A+lyX6k1dFDjXFB6ItFhaRkXtj6tCBxFxz7kBgYZLqf4jK
- hfqGmPz1mfIH6XvKToVkYaz0HbWoFPw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673870069;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7RumSuBe2j+lE+aR0tKYvrwokf9lrt/UnbdzoWusNE0=;
- b=6/kuaqSudbRe5fRqkov4dgHazSxQkSRkRcFU95xR7Qy6BSLbj0Tt1hkAgGENgQ3olR9C2e
- g3Gl32vCDJycDbDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4F1AB138FE;
- Mon, 16 Jan 2023 11:54:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id wO5hEvU6xWPLBAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 16 Jan 2023 11:54:29 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- tvrtko.ursulin@linux.intel.com, bskeggs@redhat.com, kherbst@redhat.com,
- lyude@redhat.com, evan.quan@amd.com, jose.souza@intel.com
-Subject: [PATCH v3 3/3] drm: Call vga_switcheroo_process_delayed_switch() in
- drm_lastclose
-Date: Mon, 16 Jan 2023 12:54:25 +0100
-Message-Id: <20230116115425.13484-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230116115425.13484-1-tzimmermann@suse.de>
-References: <20230116115425.13484-1-tzimmermann@suse.de>
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A791610E3D9
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 11:56:11 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id tz11so3128798ejc.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 03:56:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=opc9QPH8t0rwYGBLZ/6s2ZS8vH/2JFxpHjhMhYhyR6c=;
+ b=KlD4i9oGhDhDd3KNbQdH9lF+HOJ/AgqpYZwD/CxAPxWpNrMus2+Dd2lWHHX3PACOVi
+ uSA9AT1Bv5i4od2dOHIZNXmidte7lLnV+aIivtunzTzfpwhhTm86p8W2vIYI0kAQhNGM
+ gp3i31Q6G1aYgAa4RgRmZwYD1sBAHTD0L3Z87z/nb8dbRcZkZPnopllFyhXV922NYUbO
+ ZwH+lB/4eNI4X/lX/Ndg4g3hsBTN1McmPXf4InhrdQib+HszshPdXhAKCkxl6vCKMyUm
+ rCz9TiCePsv7GDdMqwhwivB6bP8QvinljsQpYHaqKHwV2XgByrDS/u1LtIlbtWGi6pGq
+ tX3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=opc9QPH8t0rwYGBLZ/6s2ZS8vH/2JFxpHjhMhYhyR6c=;
+ b=y7nZkJFi0de11uj9o2E1WKn/14OefALMD54bkqO6scxEFD9Wn06u/N2EOZV74CCZ+O
+ TBLOTrfR2Ssh5YJ+B2JYyfQTYBzk6eAUuwvq1bxQQc9ZITf4VESlQOhvhotFnG2XAM0P
+ 6vBLI+Qmo4E3JtlD5pBTRH0NHT0QDRLhWsK0meeOTIcRtNr1Xsn/Yec2vXeio4XbUBvn
+ SH1LJOMpduZODmdSsGThDWlr85w+D4DC04NpUjMXg2aQ1gOcual/HQC9FZUKU9nv/4Gk
+ wFCPBYJneJRDrwAs4HRuZL08aX0S+fVTb++HgNvpPvuB47ilVbeF+HcOiURzEenwBTtb
+ boPg==
+X-Gm-Message-State: AFqh2kps6i9pstH4UgKyrnNFU/XIIwnst2lYMrieGwX7ms0LahObl9Ol
+ nAGMsP9S/g3A5rJCnm/VvoBvbw==
+X-Google-Smtp-Source: AMrXdXtPorQ/tIX0rgBIsJ9j1MJAYlH9dZoCXDU0vp+XdYqCRbho82nhjJOkeWYy5DpmT4mQb8oQCQ==
+X-Received: by 2002:a17:906:7193:b0:870:d9a:9ebb with SMTP id
+ h19-20020a170906719300b008700d9a9ebbmr4434354ejk.38.1673870170238; 
+ Mon, 16 Jan 2023 03:56:10 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+ by smtp.gmail.com with ESMTPSA id
+ ad7-20020a170907258700b0084bfd0a117bsm11906977ejc.16.2023.01.16.03.56.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Jan 2023 03:56:09 -0800 (PST)
+Message-ID: <6312bc6d-684b-1b01-411c-4c316e754edf@linaro.org>
+Date: Mon, 16 Jan 2023 12:56:07 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] dt-bindings: msm/dsi: Don't require vdds-supply on 7nm PHY
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ andersson@kernel.org, agross@kernel.org
+References: <20230116115132.348961-1-konrad.dybcio@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230116115132.348961-1-konrad.dybcio@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,314 +75,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Alexander Deucher <Alexander.Deucher@amd.com>
+Cc: freedreno@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonathan Marek <jonathan@marek.ca>, devicetree@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Several lastclose helpers call vga_switcheroo_process_delayed_switch().
-It's better to call the helper from drm_lastclose() after the kernel
-client's screen has been restored. This way, all drivers can benefit
-without having to implement their own lastclose helper. For drivers
-without vga-switcheroo, vga_switcheroo_process_delayed_switch() does
-nothing.
+On 16/01/2023 12:51, Konrad Dybcio wrote:
+> On some SoCs (hello SM6375) vdds-supply is not wired to any smd-rpm
+> or rpmh regulator, but instead powered by the VDD_MX/mx.lvl line,
+> which is voted for in the DSI ctrl node.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
 
-There was an earlier patchset to do something similar. [1]
 
-v3:
-	* include drm_fb_helper.h in radeon_drv.c
-v2:
-	* handle vga_switcheroo_client_fb_set() in a separate patch
-	* also update i915, nouveau and radeon
-	* remove unnecessary include statements
-	* update vga-switcheroo docs
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Suggested-by: Alexander Deucher <Alexander.Deucher@amd.com>
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-Link: https://lore.kernel.org/amd-gfx/20221020143603.563929-1-alexander.deucher@amd.com/ # 1
----
- drivers/gpu/drm/amd/amdgpu/amdgpu.h     |  1 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c |  2 --
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 13 -------------
- drivers/gpu/drm/drm_file.c              |  3 +++
- drivers/gpu/drm/i915/i915_driver.c      | 25 ++-----------------------
- drivers/gpu/drm/nouveau/nouveau_drm.c   |  1 -
- drivers/gpu/drm/nouveau/nouveau_vga.c   |  7 -------
- drivers/gpu/drm/nouveau/nouveau_vga.h   |  1 -
- drivers/gpu/drm/radeon/radeon_drv.c     |  3 ++-
- drivers/gpu/drm/radeon/radeon_drv.h     |  1 -
- drivers/gpu/drm/radeon/radeon_kms.c     | 18 ------------------
- drivers/gpu/vga/vga_switcheroo.c        |  4 ++--
- 12 files changed, 9 insertions(+), 70 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index 63c921c55fb9..7120b9b6e580 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -1330,7 +1330,6 @@ extern const int amdgpu_max_kms_ioctl;
- 
- int amdgpu_driver_load_kms(struct amdgpu_device *adev, unsigned long flags);
- void amdgpu_driver_unload_kms(struct drm_device *dev);
--void amdgpu_driver_lastclose_kms(struct drm_device *dev);
- int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv);
- void amdgpu_driver_postclose_kms(struct drm_device *dev,
- 				 struct drm_file *file_priv);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index c39245f737a7..b9b22a355cb0 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -33,7 +33,6 @@
- #include <drm/drm_pciids.h>
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
--#include <linux/vga_switcheroo.h>
- #include <drm/drm_probe_helper.h>
- #include <linux/mmu_notifier.h>
- #include <linux/suspend.h>
-@@ -2778,7 +2777,6 @@ static const struct drm_driver amdgpu_kms_driver = {
- 	    DRIVER_SYNCOBJ_TIMELINE,
- 	.open = amdgpu_driver_open_kms,
- 	.postclose = amdgpu_driver_postclose_kms,
--	.lastclose = amdgpu_driver_lastclose_kms,
- 	.ioctls = amdgpu_ioctls_kms,
- 	.num_ioctls = ARRAY_SIZE(amdgpu_ioctls_kms),
- 	.dumb_create = amdgpu_mode_dumb_create,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-index 7aa7e52ca784..a37be02fb2fc 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-@@ -34,7 +34,6 @@
- #include "amdgpu_vce.h"
- #include "atom.h"
- 
--#include <linux/vga_switcheroo.h>
- #include <linux/slab.h>
- #include <linux/uaccess.h>
- #include <linux/pci.h>
-@@ -1104,18 +1103,6 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
- /*
-  * Outdated mess for old drm with Xorg being in charge (void function now).
-  */
--/**
-- * amdgpu_driver_lastclose_kms - drm callback for last close
-- *
-- * @dev: drm dev pointer
-- *
-- * Switch vga_switcheroo state after last close (all asics).
-- */
--void amdgpu_driver_lastclose_kms(struct drm_device *dev)
--{
--	drm_fb_helper_lastclose(dev);
--	vga_switcheroo_process_delayed_switch();
--}
- 
- /**
-  * amdgpu_driver_open_kms - drm callback for open
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index a51ff8cee049..314c309db9a3 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -38,6 +38,7 @@
- #include <linux/pci.h>
- #include <linux/poll.h>
- #include <linux/slab.h>
-+#include <linux/vga_switcheroo.h>
- 
- #include <drm/drm_client.h>
- #include <drm/drm_drv.h>
-@@ -460,6 +461,8 @@ void drm_lastclose(struct drm_device * dev)
- 		drm_legacy_dev_reinit(dev);
- 
- 	drm_client_dev_restore(dev);
-+
-+	vga_switcheroo_process_delayed_switch();
- }
- 
- /**
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index 33e231b120c1..bf6ad8620970 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -29,6 +29,7 @@
- 
- #include <linux/acpi.h>
- #include <linux/device.h>
-+#include <linux/fb.h> /* for FBINFO_STATE_ */
- #include <linux/module.h>
- #include <linux/oom.h>
- #include <linux/pci.h>
-@@ -37,7 +38,6 @@
- #include <linux/pnp.h>
- #include <linux/slab.h>
- #include <linux/string_helpers.h>
--#include <linux/vga_switcheroo.h>
- #include <linux/vt.h>
- 
- #include <drm/drm_aperture.h>
-@@ -1057,27 +1057,6 @@ static int i915_driver_open(struct drm_device *dev, struct drm_file *file)
- 	return 0;
- }
- 
--/**
-- * i915_driver_lastclose - clean up after all DRM clients have exited
-- * @dev: DRM device
-- *
-- * Take care of cleaning up after all DRM clients have exited.  In the
-- * mode setting case, we want to restore the kernel's initial mode (just
-- * in case the last client left us in a bad state).
-- *
-- * Additionally, in the non-mode setting case, we'll tear down the GTT
-- * and DMA structures, since the kernel won't be using them, and clea
-- * up any GEM state.
-- */
--static void i915_driver_lastclose(struct drm_device *dev)
--{
--	struct drm_i915_private *i915 = to_i915(dev);
--
--	intel_fbdev_restore_mode(dev);
--
--	vga_switcheroo_process_delayed_switch();
--}
--
- static void i915_driver_postclose(struct drm_device *dev, struct drm_file *file)
- {
- 	struct drm_i915_file_private *file_priv = file->driver_priv;
-@@ -1921,7 +1900,7 @@ static const struct drm_driver i915_drm_driver = {
- 	    DRIVER_SYNCOBJ_TIMELINE,
- 	.release = i915_driver_release,
- 	.open = i915_driver_open,
--	.lastclose = i915_driver_lastclose,
-+	.lastclose = intel_fbdev_restore_mode,
- 	.postclose = i915_driver_postclose,
- 
- 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index 574a8abf6a1d..8cb9e939db2f 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -1225,7 +1225,6 @@ driver_stub = {
- 			   DRIVER_RENDER,
- 	.open = nouveau_drm_open,
- 	.postclose = nouveau_drm_postclose,
--	.lastclose = nouveau_vga_lastclose,
- 
- #if defined(CONFIG_DEBUG_FS)
- 	.debugfs_init = nouveau_drm_debugfs_init,
-diff --git a/drivers/gpu/drm/nouveau/nouveau_vga.c b/drivers/gpu/drm/nouveau/nouveau_vga.c
-index 789393b94291..fc125e2247f7 100644
---- a/drivers/gpu/drm/nouveau/nouveau_vga.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_vga.c
-@@ -126,10 +126,3 @@ nouveau_vga_fini(struct nouveau_drm *drm)
- 	if (runtime && nouveau_is_v1_dsm() && !nouveau_is_optimus())
- 		vga_switcheroo_fini_domain_pm_ops(drm->dev->dev);
- }
--
--
--void
--nouveau_vga_lastclose(struct drm_device *dev)
--{
--	vga_switcheroo_process_delayed_switch();
--}
-diff --git a/drivers/gpu/drm/nouveau/nouveau_vga.h b/drivers/gpu/drm/nouveau/nouveau_vga.h
-index 951a83f984dd..63be415d2a44 100644
---- a/drivers/gpu/drm/nouveau/nouveau_vga.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_vga.h
-@@ -4,6 +4,5 @@
- 
- void nouveau_vga_init(struct nouveau_drm *);
- void nouveau_vga_fini(struct nouveau_drm *);
--void nouveau_vga_lastclose(struct drm_device *dev);
- 
- #endif
-diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
-index 0e8148fca8b7..dbf85e1f0061 100644
---- a/drivers/gpu/drm/radeon/radeon_drv.c
-+++ b/drivers/gpu/drm/radeon/radeon_drv.c
-@@ -40,6 +40,7 @@
- #include <drm/drm_aperture.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_drv.h>
-+#include <drm/drm_fb_helper.h>
- #include <drm/drm_file.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_ioctl.h>
-@@ -596,7 +597,7 @@ static const struct drm_driver kms_driver = {
- 	.load = radeon_driver_load_kms,
- 	.open = radeon_driver_open_kms,
- 	.postclose = radeon_driver_postclose_kms,
--	.lastclose = radeon_driver_lastclose_kms,
-+	.lastclose = drm_fb_helper_lastclose,
- 	.unload = radeon_driver_unload_kms,
- 	.ioctls = radeon_ioctls_kms,
- 	.num_ioctls = ARRAY_SIZE(radeon_ioctls_kms),
-diff --git a/drivers/gpu/drm/radeon/radeon_drv.h b/drivers/gpu/drm/radeon/radeon_drv.h
-index ac7970919c4d..2ffe0975ee54 100644
---- a/drivers/gpu/drm/radeon/radeon_drv.h
-+++ b/drivers/gpu/drm/radeon/radeon_drv.h
-@@ -120,7 +120,6 @@ long radeon_drm_ioctl(struct file *filp,
- 
- int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags);
- void radeon_driver_unload_kms(struct drm_device *dev);
--void radeon_driver_lastclose_kms(struct drm_device *dev);
- int radeon_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv);
- void radeon_driver_postclose_kms(struct drm_device *dev,
- 				 struct drm_file *file_priv);
-diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon/radeon_kms.c
-index 965161b8565b..e0214cf1b43b 100644
---- a/drivers/gpu/drm/radeon/radeon_kms.c
-+++ b/drivers/gpu/drm/radeon/radeon_kms.c
-@@ -32,7 +32,6 @@
- #include <linux/uaccess.h>
- #include <linux/vga_switcheroo.h>
- 
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_file.h>
- #include <drm/drm_ioctl.h>
- #include <drm/radeon_drm.h>
-@@ -622,23 +621,6 @@ int radeon_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
- 	return 0;
- }
- 
--
--/*
-- * Outdated mess for old drm with Xorg being in charge (void function now).
-- */
--/**
-- * radeon_driver_lastclose_kms - drm callback for last close
-- *
-- * @dev: drm dev pointer
-- *
-- * Switch vga_switcheroo state after last close (all asics).
-- */
--void radeon_driver_lastclose_kms(struct drm_device *dev)
--{
--	drm_fb_helper_lastclose(dev);
--	vga_switcheroo_process_delayed_switch();
--}
--
- /**
-  * radeon_driver_open_kms - drm callback for open
-  *
-diff --git a/drivers/gpu/vga/vga_switcheroo.c b/drivers/gpu/vga/vga_switcheroo.c
-index 365e6ddbe90f..6a198cb80c12 100644
---- a/drivers/gpu/vga/vga_switcheroo.c
-+++ b/drivers/gpu/vga/vga_switcheroo.c
-@@ -926,8 +926,8 @@ static void vga_switcheroo_debugfs_init(struct vgasr_priv *priv)
- /**
-  * vga_switcheroo_process_delayed_switch() - helper for delayed switching
-  *
-- * Process a delayed switch if one is pending. DRM drivers should call this
-- * from their ->lastclose callback.
-+ * Process a delayed switch if one is pending. DRM automatically calls this
-+ * at the end of its lastclose function.
-  *
-  * Return: 0 on success. -EINVAL if no delayed switch is pending, if the client
-  * has unregistered in the meantime or if there are other clients blocking the
--- 
-2.39.0
+Best regards,
+Krzysztof
 
