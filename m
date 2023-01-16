@@ -2,54 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5630566CF3E
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 19:59:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 907FF66CF77
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 20:20:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45B8510E498;
-	Mon, 16 Jan 2023 18:58:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B29710E49D;
+	Mon, 16 Jan 2023 19:20:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E916610E498;
- Mon, 16 Jan 2023 18:58:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673895538; x=1705431538;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=aGU8qAGzQjOZSpd6NxfY+K2ZmcUOdfUk8yRqm1ggQyU=;
- b=VrExspb4OVw4kRsqiPzis9qQ8+4caaMFjf+yiFIQLD0EjAQa6oLdfBq3
- KtIDFULCP523Rep0Pq+rYNGs51yfO6ure67CZYchrClGe+C8YQlvRB71r
- gUHxPE0TuH32rM60ZOfs4soasdQ6zIOQtVbJ/QljuvktLegMUgoI+QUqi
- kZeGhFv4QgkBOk1OqVgH5TV6MVtnsmk/OrXdetaIKjLKgydNJFeIB1qqL
- zdvckzITLVBmzacmkgLBo9+RjdI6C9cV2AyvSaYrwZidfegQi0bOcanw7
- SpYANQE/bHcdhP7kRRjE/c2wfBv8Ik+QYZgnuX2V+jb6X2J7QCmE8oY3S w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="308093048"
-X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; d="scan'208";a="308093048"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2023 10:58:57 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="609016272"
-X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; d="scan'208";a="609016272"
-Received: from rhormila-mobl2.ger.corp.intel.com (HELO intel.com)
- ([10.251.222.100])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2023 10:58:54 -0800
-Date: Mon, 16 Jan 2023 19:58:51 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/mtl: Connect root sysfs entries to
- GT0
-Message-ID: <Y8Wea4b+mot7oVrB@ashyti-mobl2.lan>
-References: <20230113022752.3151066-1-vinay.belgaumkar@intel.com>
- <874jsvazvi.wl-ashutosh.dixit@intel.com>
- <db1160e1-cfc1-08d0-08b7-84909608b465@intel.com>
- <87358faw34.wl-ashutosh.dixit@intel.com>
- <82e45200-8a95-ec9a-6dba-766f6c23c7fd@intel.com>
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 679A410E49D
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 19:20:12 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id vm8so70257941ejc.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 11:20:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=eDJhl2JrEfjVRzKQvqBIMz7y/1765blM/Rj+5k8sN3A=;
+ b=dMuefG64FEW3xgijUTbpxZl/QVCMjI4rPW55P+7ETbewC1Lq0kcKsAZR8IcIKfPkli
+ 4HZQtF2DVAtRd6m/3w/i19ZQ49JQ4noTpmGnd7qEcuFXb9sDZEBIWy/r4H/jqTm8/EuO
+ e3/t7Aqkbxsw73YuTRkYMm0kM4AwWH+kV4JxkUakKQ3H/7FiNlzT7jyo/sxL2DtZuxSj
+ VVGchKDFTn+gv3I7hYjvCVP3nlnvf/TbNrPoN1PoxzAd7/HVIk34vNFE19ZS+GsqLw02
+ 4tdb3jDAVtNlF7juhkj0CquFde30fTi13j5rRzlgoGTXZEoS3npMQmmREoS+uTpHEPew
+ 6V9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eDJhl2JrEfjVRzKQvqBIMz7y/1765blM/Rj+5k8sN3A=;
+ b=uvoht3m3+a/jP/EiWkVp5PM6Hg6CnW5MXuDZrhv0YQ8iwaknz+3ik6mVOwNmKw2iFM
+ /az/66FhhsHbgK2/5uDY9LBfTp5G0aKoQ0IMHCSSo8i8GI0VLhZI1nB6xhNMdMECW1i1
+ UESh1F7RVvglkMNsNyGeLuDJeHDtMIKugLMGqiWz9khhl5McyaWMx6zrkBk1KY3xBlVl
+ 8XOomU4AJy5qcwRg/HM0ZyOVtW9IdLQ+JAzy5I2c9EfHPtc48mK5gY16d3lfNY4TQ9SY
+ VfFzsq/d2+3hxqr9KW22pW8iI4YAef+g8wtKtm5G++Xv6EIYTrKdLTCN/6/3CxnNJcPF
+ Gwuw==
+X-Gm-Message-State: AFqh2koCHJAR27vig5hgX38xMDq8B+AHNTPqNPtui8xpxsLBagBZp9X2
+ O+BdGs8npvbPzVeRpLsHJKqHAg==
+X-Google-Smtp-Source: AMrXdXvRp1jhXQmTSRUs0FqepxPK0fgrpXAf5m/8kczSCQMkAwnBPCYakTyiXOPRvyGSw0x4I9lc8Q==
+X-Received: by 2002:a17:906:4950:b0:870:5ed6:74af with SMTP id
+ f16-20020a170906495000b008705ed674afmr4624045ejt.77.1673896810745; 
+ Mon, 16 Jan 2023 11:20:10 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+ by smtp.gmail.com with ESMTPSA id
+ s24-20020a170906c31800b0086dee4e5555sm2891358ejz.87.2023.01.16.11.20.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Jan 2023 11:20:10 -0800 (PST)
+Message-ID: <ed199baf-a4e2-cbb5-d399-2387e538c466@linaro.org>
+Date: Mon, 16 Jan 2023 20:20:07 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <82e45200-8a95-ec9a-6dba-766f6c23c7fd@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 1/2] dt-bindings: display/msm: Add SM6375 DSI PHY
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ andersson@kernel.org, agross@kernel.org
+References: <20230116114059.346327-1-konrad.dybcio@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230116114059.346327-1-konrad.dybcio@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,41 +75,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonathan Marek <jonathan@marek.ca>, devicetree@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Thu, Jan 12, 2023 at 08:48:11PM -0800, Belgaumkar, Vinay wrote:
+On 16/01/2023 12:40, Konrad Dybcio wrote:
+> SM6375 has a single 7nm DSI PHY. Document it.
 > 
-> On 1/12/2023 8:37 PM, Dixit, Ashutosh wrote:
-> > On Thu, 12 Jan 2023 20:26:34 -0800, Belgaumkar, Vinay wrote:
-> > > I think the ABI was changed by the patch mentioned in the commit
-> > > (a8a4f0467d70).
-> > The ABI was originally changed in 80cf8af17af04 and 56a709cf77468.
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
 
-In theory the ABI has never changed, we just needed to agree once
-and for all what to do when reading the upper level interface.
-There has never been a previous multitile specification before
-this change.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-There have been long and exhaustive discussions on what to do and
-the decision is that in some cases we show the average, in others
-the maximum. Never the GT0, though.
+Best regards,
+Krzysztof
 
-> Yes, you are right. @Andi, did we have a plan to update the IGT tests that
-> use these interfaces to properly refer to the per GT entries as well? They
-> now receive average values instead of absolute, hence will fail on a
-> multi-GT device.
-
-I don't know what's the plan for igt's.
-
-Which tests are failing? I think we shouldn't be using the upper
-level interfaces at all in IGT's. Previously there has been an
-error printed on dmesg when this was happening. The error has
-been removed in order to set the ABI as agreed above.
-
-Andi
