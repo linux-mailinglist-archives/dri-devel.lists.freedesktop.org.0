@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF59E66BA69
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 10:33:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B16D766BA81
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 10:36:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DB1910E2A6;
-	Mon, 16 Jan 2023 09:33:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36DA210E2A5;
+	Mon, 16 Jan 2023 09:36:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01A3710E2A6
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 09:33:06 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 046E8B80D7F
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 09:33:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9AD9FC433F0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 09:33:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1673861583;
- bh=l4Qhgi2prHcUONaZpJNxjGn2aS00S2gkGjHnWifinvM=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=We4GaiFNvfB9+y9PrbxXUZozq/HNYGXAepCl8s0KhC3RQVoMYZJ7aOtdesB4l9IKk
- eiV7qxxhVyCdp81dzxm/qjACVCvNh3Nf4pyyr4oizr8a539GlzTsOAROFHF0K7kuVb
- rT9fS9eT9CMm7VYpFWrOi8DLC5Dfr8moJ1qVn/M8d2SpguAG093r86b8dDy/nopqYS
- JAHvSJW9B7R90J8o9MeZSk10E4nEaXP+b6bzIkIjpEEVO6svB31+0ip99kDurPsoEA
- KefBEOcZaohn9LwwT5Tm7vdNPGeJysTGOdP2uxyaFZfoM+S2qV8+TDMZo1Zh4O86AQ
- 2Wpt1/0EHaJYg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 8AEA2C43142; Mon, 16 Jan 2023 09:33:03 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216920] Running IDE eventually leads to BUG: kernel NULL
- pointer dereference
-Date: Mon, 16 Jan 2023 09:33:03 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216920-2300-jLJtlEhWml@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216920-2300@https.bugzilla.kernel.org/>
-References: <bug-216920-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3EC210E2A5;
+ Mon, 16 Jan 2023 09:36:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1673861767; bh=wnOHpBayjdNSjw+eUV3MCoIeItj+WtT29KKObbgNH18=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=NSfx8Dl/wEgIyRrR0lcjIoZ2+gQioo4GdYXZkaOt2SZ3INu5zv6Y/9o8PVdWYeZqR
+ QNGn2DEv3OmXbsz/w3tvJWMHONjbZHsP3G8pjogqQPAqlgq+LZCqqIyhJAN9vQxYi/
+ TTf1oXWyOJJg5Jtw4O/rysQc1v+GF13XVONMtp3Nua6R3avP0Qg5toxTZAmfmdXaX3
+ waz1MU7k/3oAEm4Y4i8lS0UfTcafirk3DTeS2iuo2/WnWwb79WkUFzb/ZBwtOosEZj
+ xMtgyLwB0YXxPfnekHlZ3Z9Kf8dhuyG2VjP2OCin+PHLchWkLTvLasF8ABFw4kX0g2
+ QEt3dzz2Bvlbw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.151.61] ([109.43.179.224]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N8XPn-1odhjS1vbV-014QUC; Mon, 16
+ Jan 2023 10:36:07 +0100
+Message-ID: <7c2d45e5-8f16-83b2-93ce-87b456c53b52@gmx.de>
+Date: Mon, 16 Jan 2023 10:36:05 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: linux-next: manual merge of the fbdev tree with the drm-misc tree
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20230116115440.3f1909cd@canb.auug.org.au>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20230116115440.3f1909cd@canb.auug.org.au>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:xA0svzfJeflX86rbfoatcczhHIIJk14fm6BDqRMBweC4tHBj+xI
+ rguCwLMLkg/Dti7PO2lt61M72WAmQkS1veipCs2sT2tXF50/j71RCda0GLxqM4RqNmq4rwt
+ onxH1WflPzvJkQm/GcvynAN21l0DPhdIo3ssqh+IzHHFPXoNyx3w3I2MjIJT/qeguil2NEz
+ hb1ToK3uFt5czFm5P26rw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:k89X/3EyuLs=;g1bkkxWspCpYG57AuM4VeRimN4z
+ ezB7wSI6jDg08BcB6gbCb7IFTL/5VQXLsoEc52FXl1CUtYylgCgQG6h0/fsgDaU+Mk7x6hvAM
+ h+hoKyfY5r9xDqV0vHXyrH5hvZppQ0e1W/1R11DNZivpMIutj+C1SRh/8Ck22cDutidkA4f4v
+ BU4QZIFVtgwBQ6OfEyernNiIJk1DZ3tbRpnHy7b9n9lZXB+L9CICCX9NWCOGraTxe5rl1Mnzu
+ LThv7ToYMMG1Pdft3L1FbsidYy12beDqw6tsZ/OYz1q+IZY2A9rhBIT8EJlCsgno1hKto/ICy
+ 63TAZfGVlcRbQ3dcZfKJfeU0vxY6dMXc5M8tMRGMCjB5sjtz/lkfJUSColVdLB8mG+mTouieH
+ 6NQpK2/OEmPJRYDJHihgtreIs/U6YUyyjyw3PahEJbAFhqAGWl8BZqF5EhqTMUn/7aac/7yMB
+ zgykOQegOPMj8zmB4Bkmz0hqMxjUkRN+IsVIR3Ug4HafcJILz0QAPcd5zJwn7SGAwMYTUgMBz
+ RG2W7pcLSak1Qx0NeoY9n4vmxc304QoQYzfn2PIK4QNRSa98lwzdIpJ3OOt8NUGtSqy5PBMIj
+ +PHeMimDGxhjtTeBkxWOX/9/TXbhuWJmn8SrxOP9IkdMDgTv05Ie02knvAvsCDjedtOwts6/C
+ LToJ99CyQqrBquHVmCrtoARUSopVrvNjgGuTbCzNIuXpLZFLDniRmSOXzaMpmBv0T3A46Ybkm
+ tHJBzjo9kuZW5HvAh88dct0WI22xmvo8yBp2Uf/yWuB9TbJ7Q3/yhwO87Ry3sjc+sNB9IPdcj
+ ICnUeNi9avC718Vb2cFp/1DCSiEn2eYLi/ACaBvJoRZneYM8/zUKKDGzzuTAt2k3wAwifQbtQ
+ WWDCuQ3S7Rnm/4y6lpQzevW1lrjM5O3iHtGstwg6vQwQvW1q9MBMpWSd3r6gbthn0+uQClPaf
+ bZBnczip6/lgZQog2ZUJZdFL7mA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,18 +71,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Kees Cook <keescook@chromium.org>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216920
+On 1/16/23 01:54, Stephen Rothwell wrote:
+> Hi all,
+>
+> Today's linux-next merge of the fbdev tree got a conflict in:
+>
+>    include/linux/fb.h
+>
+> between commit:
+>
+>    5b6373de4351 ("drm/fbdev: Remove aperture handling and FBINFO_MISC_FI=
+RMWARE")
+>
+> from the drm-misc tree and commit:
+>
+>    72ac3535c2c5 ("fbdev: fb.h: Replace 0-length array with flexible arra=
+y")
+>
+> from the fbdev tree.
 
---- Comment #2 from Artem S. Tashkinov (aros@gmx.com) ---
-Sorry, wrong URL,
+I've dropped the offending patch from the fbdev git tree, so it should
+be resolved now.
 
-https://gitlab.freedesktop.org/drm/amd/-/issues
+Thanks!
+Helge
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
