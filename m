@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340D066BF37
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 14:14:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8B966BF3E
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 14:14:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 433EA10E436;
-	Mon, 16 Jan 2023 13:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55EC010E44A;
+	Mon, 16 Jan 2023 13:13:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75CB610E409;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB12710E072;
  Mon, 16 Jan 2023 13:12:43 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 3A9426777E;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7B84B67832;
  Mon, 16 Jan 2023 13:12:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1673874762; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kJ/7xrLP5uwWcMX3PN81GVaMZX3B0DkAS43Dtz5uzYw=;
- b=aTzNlmo9z+ymdLwIq1sSKww7fRmnCdFiJLYN93Wa/oQ/hlf5wYjffFWZoLQA8s5tQP65bJ
- U/Zyu8lBU/GNt58tc+3pA7ZCYAmYA5XnFwvW/+8mUxTl7Yg65YnfoWRKSh7OhadMyOMAR4
- aVhBd7PSM7aNG659m65d4NxYv3CHWxM=
+ bh=sQCXLFTLt+wfi6KI5cdFPgyAVMHQnxpXhwmOeB7S9RQ=;
+ b=tEiTlOEy9ddvHnRqwXavA6g9R/aGsxvKPlR95AYyaWbYGJ+2h5J7iPDh10ZBWs+kDE7Tk4
+ 3z+DUhLt07j6NsxOqnI6lBYDOhkfLa19MfExIdTl4Cfni2BHkHFhVPDKRjV7XCmmybm9Du
+ mGfkcz6u1Hf/1EbiaeS6J8jjMY6FGS0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1673874762;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kJ/7xrLP5uwWcMX3PN81GVaMZX3B0DkAS43Dtz5uzYw=;
- b=7v5IVaymjuUO685jQmpDV8F1Lo7g091cuLdYqg42SxXejuSw0q8mf7OVFzbhqTZma+f9iq
- 4zS4OQqm27FoMFBw==
+ bh=sQCXLFTLt+wfi6KI5cdFPgyAVMHQnxpXhwmOeB7S9RQ=;
+ b=6GXx3nY5Dtfl/pDbH9nDpJyzouzH0m/gxZLKRlIe+cz987job/+7gl4ul8a7uMQmfEvUKd
+ CHZnIWDxpuSuT7DQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EDBF0138FA;
- Mon, 16 Jan 2023 13:12:41 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3CE08139C3;
+ Mon, 16 Jan 2023 13:12:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id +NIFOUlNxWNrNQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 16 Jan 2023 13:12:41 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id IMEBDkpNxWNrNQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 16 Jan 2023 13:12:42 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: sam@ravnborg.org,
 	daniel@ffwll.ch,
 	airlied@gmail.com
-Subject: [PATCH 16/22] drm/shmobile: Remove unnecessary include statements for
+Subject: [PATCH 17/22] drm/sprd: Remove unnecessary include statements for
  drm_crtc_helper.h
-Date: Mon, 16 Jan 2023 14:12:29 +0100
-Message-Id: <20230116131235.18917-17-tzimmermann@suse.de>
+Date: Mon, 16 Jan 2023 14:12:30 +0100
+Message-Id: <20230116131235.18917-18-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230116131235.18917-1-tzimmermann@suse.de>
 References: <20230116131235.18917-1-tzimmermann@suse.de>
@@ -87,48 +87,47 @@ possible.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/shmobile/shmob_drm_crtc.c  | 2 ++
- drivers/gpu/drm/shmobile/shmob_drm_drv.c   | 1 -
- drivers/gpu/drm/shmobile/shmob_drm_plane.c | 1 -
- 3 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/sprd/sprd_dpu.c | 1 -
+ drivers/gpu/drm/sprd/sprd_drm.c | 1 -
+ drivers/gpu/drm/sprd/sprd_dsi.c | 1 -
+ 3 files changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-index 4624c0aff51f..d354ab3077ce 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-@@ -16,6 +16,8 @@
- #include <drm/drm_fourcc.h>
+diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c b/drivers/gpu/drm/sprd/sprd_dpu.c
+index db0bcea1d9f4..b96fc6837b0d 100644
+--- a/drivers/gpu/drm/sprd/sprd_dpu.c
++++ b/drivers/gpu/drm/sprd/sprd_dpu.c
+@@ -18,7 +18,6 @@
+ 
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_blend.h>
+-#include <drm/drm_crtc_helper.h>
+ #include <drm/drm_fb_dma_helper.h>
  #include <drm/drm_framebuffer.h>
  #include <drm/drm_gem_dma_helper.h>
-+#include <drm/drm_modeset_helper.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
- #include <drm/drm_vblank.h>
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-index 337040fa6438..faacfee24763 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-@@ -15,7 +15,6 @@
- #include <linux/pm.h>
- #include <linux/slab.h>
+diff --git a/drivers/gpu/drm/sprd/sprd_drm.c b/drivers/gpu/drm/sprd/sprd_drm.c
+index 9d42f17a5734..be60c0d546a3 100644
+--- a/drivers/gpu/drm/sprd/sprd_drm.c
++++ b/drivers/gpu/drm/sprd/sprd_drm.c
+@@ -11,7 +11,6 @@
+ #include <linux/of_platform.h>
  
+ #include <drm/drm_atomic_helper.h>
 -#include <drm/drm_crtc_helper.h>
  #include <drm/drm_drv.h>
  #include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_module.h>
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/shmobile/shmob_drm_plane.c
-index 6c5f0cbe7d95..604ae23825da 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_plane.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_plane.c
-@@ -8,7 +8,6 @@
-  */
+ #include <drm/drm_gem_framebuffer_helper.h>
+diff --git a/drivers/gpu/drm/sprd/sprd_dsi.c b/drivers/gpu/drm/sprd/sprd_dsi.c
+index 12b67a5d5923..ab0e5cce7adb 100644
+--- a/drivers/gpu/drm/sprd/sprd_dsi.c
++++ b/drivers/gpu/drm/sprd/sprd_dsi.c
+@@ -13,7 +13,6 @@
  
- #include <drm/drm_crtc.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
 -#include <drm/drm_crtc_helper.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_probe_helper.h>
+ 
 -- 
 2.39.0
 
