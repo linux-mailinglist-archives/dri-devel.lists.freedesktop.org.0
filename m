@@ -1,41 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95D5466CC9A
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 18:27:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 014EC66CDCD
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 18:41:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66F2010E2C0;
-	Mon, 16 Jan 2023 17:27:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EC2B10E476;
+	Mon, 16 Jan 2023 17:41:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCD4710E2C0;
- Mon, 16 Jan 2023 17:27:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1673890063; bh=ZyzsRjTmVNU34HpfEFF3F1fi30gjsrT8NlXEoNiFzG4=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
- MIME-Version:Content-Type:In-Reply-To;
- b=PskIGupYHsGySGydCWwj1g6yvoe89GrVo1J6lUcbEdAlmlpXsiwKynoXxu0xygDCN
- 7ZDx0R5BUcYsPFq7324OzfOYBwUgo8G9w6lTeDrLzztQrao3EbplYErmkaCX0gDkMS
- DBiaJOY9aoHmlb4Bq+m91fkk5TGAlbx9iblybMGk=
-Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Mon, 16 Jan 2023 18:27:43 +0100 (CET)
-X-EA-Auth: IrlmOA9GkcWFjpgqVsRSCrnsr/BoN4diJ2pZJNgdxcByJCYAEs5/BOMSTUZ1YPxEeVEJcrhzwYjn3i/AIFr9btK1svqTmKBB
-Date: Mon, 16 Jan 2023 22:57:33 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: nvkm_devinit_func.disable() to be made void
-Message-ID: <Y8WJBc/tOyGDxe8b@ubun2204.myguest.virtualbox.org>
-References: <Y8K+61ZOag5fXu8M@ubun2204.myguest.virtualbox.org>
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
+ [IPv6:2001:4860:4864:20::2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C133310E475;
+ Mon, 16 Jan 2023 17:41:28 +0000 (UTC)
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-142b72a728fso29523249fac.9; 
+ Mon, 16 Jan 2023 09:41:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=32etmJGtnoqZs4BKYvAsZxgp4Z8S6ohTWuwi/XPlaIY=;
+ b=PvRXv20O6DvvrQohvHLThOVursOGZoHGCN2kKLOUEBl+JlR++v8pM94Rsdy+06TzUD
+ u3nljlp1FNHPwvXBcmTsJQwp5H1hGn8IPm856UZTRnbPtrFRl7W84tpUJXbZl1HzLC42
+ eqWloiTobk3CJkGgEEIyOLOP+ig3gjISbbDWsltJJk4dOFlrjgn9rWUN7Py8pr2Qw3ct
+ KKMwPo18GrWMGwi7ePfdIWFFhEKZo7AFWB8fi1obVJVVN0HXpg2T/0WKU0KzvEMCBPND
+ 1CxvpeA1K8zaqluCHxAwRBQsULmXXLB/zx0TCmeChCv8oPySCtsAbc6p6IUrW9xuzyDB
+ 5DNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=32etmJGtnoqZs4BKYvAsZxgp4Z8S6ohTWuwi/XPlaIY=;
+ b=CiJAsTotPZeteFQcvSlI1KTKiKFdKl7pQnFOTxrZ0Zz9+QTxpf+uGNQTHoKlTAI+NK
+ qnKSNzBovutAJVCh6PkFYkCHu8XrOHVqKz+YVO2UyLBnVVVuYN0huXg5GodveKCKeMCW
+ Do8GyjR1ntt5Uba5CZj4Mvyz8XbhxvbxDURP2LXhUKB7qey971hzFZ3SWiyMoIE1Rw+B
+ iHoi4DYKFldefDsu5NqofBIEWWfIKJRsTQdNcu3U9KRXsTOkVqCxD+JJGFpFFdy3GHEz
+ z4B/s1swtEauTlz06k/BP4D6bJ/YELiATlgzp4dwXCrrcBc7A7q/eOKtcaj1JSEFUCP4
+ AmPA==
+X-Gm-Message-State: AFqh2krOpWxs29Vt8YWUTIyk8flK8f0RdBH/+q4zlLpgwzXjZhqPlF5A
+ jR3jyx0sZswp0oGkIIvFBltz8llLtj5JShnRc7E=
+X-Google-Smtp-Source: AMrXdXv/fJdDosEVH5QdjcHknh+mizzHGjnQeD0B3IXf279r17ct66uUwAb+qk2pfx3Fq5drTaa1P/d+FtTgWTMAjOU=
+X-Received: by 2002:a05:6870:9a9b:b0:13d:51fe:3404 with SMTP id
+ hp27-20020a0568709a9b00b0013d51fe3404mr31029oab.183.1673890887961; Mon, 16
+ Jan 2023 09:41:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8K+61ZOag5fXu8M@ubun2204.myguest.virtualbox.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 16 Jan 2023 09:41:25 -0800
+Message-ID: <CAF6AEGskguoVsz2wqAK2k+f32LwcVY5JC6+e2RwLqZswz3RY2Q@mail.gmail.com>
+Subject: [pull] drm/msm: drm-msm-fixes-2023-01-16 for v6.3-rc5
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,48 +62,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- Deepak R Varma <drv@mailo.com>, Saurabh Singh Sengar <ssengar@microsoft.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 14, 2023 at 08:10:43PM +0530, Deepak R Varma wrote:
-> Hello,
-> It appears that the callback function disable() of struct nvkm_devinit_func does
-> not need return U64 and can be transformed to be a void. This will impact a few
-> drivers that have currently implementation of this callback since those always
-> return 0ULL. So,
-> 
-> Change from
-> 	  8 struct nvkm_devinit_func {
-> 		... ...
-> 	15          u64  (*disable)(struct nvkm_devinit *);
-> 	  1 };
-> 
-> Change to
-> 	  8 struct nvkm_devinit_func {
-> 		... ...
-> 	15          void  (*disable)(struct nvkm_devinit *);
-> 	  1 };
-> 
-> 
-> I am unsure if this change will have any UAPI impact. Hence wanted to confirm
-> with you if you think this transformation is useful. If yes, I will be happy to
-> submit a patch for your consideration.
+Hi Dave,
 
-Hello,
-May I request a response on my query? Shall I proceed with submitting a patch
-proposal for consideration?
+A couple more fixes for the v6.3 cycle, which were meant to be part of
+the previous fixes pull, but I fumbled at git when applying the tag.
 
-Thank you,
-./drv
+The following changes since commit f4a75b5933c998e60fd812a7680e0971eb1c7cee:
 
-> 
-> Please let me know.
-> 
-> Thank you,
-> ./drv
-> 
-> 
+  drm/msm/a6xx: Avoid gx gbit halt during rpm suspend (2023-01-05
+15:13:16 -0800)
 
+are available in the Git repository at:
 
+  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2023-01-16
+
+for you to fetch changes up to a66f1efcf748febea7758c4c3c8b5bc5294949ef:
+
+  drm/msm/gpu: Fix potential double-free (2023-01-11 09:00:14 -0800)
+
+----------------------------------------------------------------
+msm-fixes for v6.3-rc5
+
+Two GPU fixes which were meant to be part of the previous pull request,
+but I'd forgotten to fetch from gitlab after the MR was merged so that
+git tag was applied to the wrong commit.
+
+- kexec shutdown fix
+- fix potential double free
+
+----------------------------------------------------------------
+Joel Fernandes (Google) (1):
+      adreno: Shutdown the GPU properly
+
+Rob Clark (1):
+      drm/msm/gpu: Fix potential double-free
+
+ drivers/gpu/drm/msm/adreno/adreno_device.c |  5 +++--
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c    |  4 ++++
+ drivers/gpu/drm/msm/msm_gpu.c              |  2 ++
+ drivers/gpu/drm/msm/msm_gpu.h              | 12 ++++++++++--
+ 4 files changed, 19 insertions(+), 4 deletions(-)
