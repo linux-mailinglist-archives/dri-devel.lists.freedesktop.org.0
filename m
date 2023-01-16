@@ -2,54 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3400E66B71D
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 07:05:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB64F66B77F
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 07:33:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5670C10E1B4;
-	Mon, 16 Jan 2023 06:05:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29CF410E1CC;
+	Mon, 16 Jan 2023 06:33:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 575D810E16C;
- Mon, 16 Jan 2023 06:05:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673849141; x=1705385141;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=3DzfFkJlxyL6+WAZYtHcFZtPqjNL1ubLVlcCB3tZvjw=;
- b=R/cVY+IU6lJklO/4PtJYwQmRV1UO34ybI5J54vSq/Rvim2plgEd0vzVC
- OAQWpZ3/mAorqvIvzI6OyvNjv8LIr4mVptV+91M13MgR2Da9xKMKD2KaF
- 6+jp/8JtQaIzIaBVTVXC8cDEKssTZCNOpVtxwRINJ786w3ceC/nJ3N9AF
- ZifuofnJE93uBKtF6DOg5RZogtJC7ZsQjXEIh+zjnmC1Rod1z7fCqG6Yr
- FQQNmvChVKU7AFPU4B39EexveDRTLYR4AkFaAjYpNU8DpVBDEqFjyrEEd
- RdsooJywtxzmZtUeMqXWvMRD8R+xLGjWDrFC9Z3psX2Pv2dfVDJ/267ZQ A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="324451207"
-X-IronPort-AV: E=Sophos;i="5.97,220,1669104000"; 
- d="asc'?scan'208";a="324451207"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2023 22:05:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="722185818"
-X-IronPort-AV: E=Sophos;i="5.97,220,1669104000"; 
- d="asc'?scan'208";a="722185818"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.159.108])
- by fmsmga008.fm.intel.com with ESMTP; 15 Jan 2023 22:05:36 -0800
-Date: Mon, 16 Jan 2023 13:44:46 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH 2/2] drm/i915/gvt: Avoid full proxy f_ops for vgpu_status
- debug attributes
-Message-ID: <Y8TkTi+/GQwhiMvO@zhen-hp.sh.intel.com>
-References: <cover.1673375066.git.drv@mailo.com>
- <188df08e0feba0cda2c92145f513dd4e57c6e6cf.1673375066.git.drv@mailo.com>
- <Y72zVXYLVHXuyK05@intel.com>
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1A5D10E1CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 06:33:19 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id bp15so41308202lfb.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Jan 2023 22:33:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=qnc3VjmJt0l7uQ9FOV895mn3eK0O49EcwHK3zAPxAr8=;
+ b=dGn2vcisff3ilMyiCeXZLDbmeNPTLVX0iS7dmmUZxNOwziDeA2nRxN1GdW70i56/Kq
+ LK7LPCjoPT1+/vLEL/u2hDuanbgjvhVAZ88Bg2q5e1Ytz7FeA3zzTamoSfkb58SZ+ZIt
+ 58ODEGv6NPXrnnxjpj0upyIYew9K1RFNGiQqqXy3dP+EhrpfpS7OTE7FDqopo8NNpgUM
+ 4uVABampG8wn5YQVHUaLaS8TLF0LPKaFLQtzzSmiTAjxZ9LOrSw1UkhUXCg6bUUrvho5
+ 3UInh6A8RcbjUx8KdnJFUu+dRfHWvUl3sMXvmv/ilSz8Oi2M3UsPJnj0WFa7b1vl09MC
+ t4GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qnc3VjmJt0l7uQ9FOV895mn3eK0O49EcwHK3zAPxAr8=;
+ b=BNw8WUw8KIBqAWd04RwsIOl3V4fi4q9BlAr+moXAR4xrCAKUOelkFkNXRunLvn/qli
+ 55U6mcEXEFKRUHrj0MKIPoNbt/e0uddR7u9awXXdMbgibWMRW4zspsH2bQvizS30tLs9
+ YYTsX7w54M5n1kxOkxcCSMKe9TIO+WNMzpHGJxzgYvep3gV2UreLW/uIkdk7aYUGTQI3
+ +14pSoOSd60mIHjbb+4XYCtoglC2r6miYQrt7nkJjn7ChugIxAB1O2+ebE7X7opyyKlC
+ hlHSjtxMHArtg+k2VWkGIRTw5/RvjN9HkBWTVClNRC5n7gmbw0yznRP/+FFSsrhSX0ZK
+ 8NlA==
+X-Gm-Message-State: AFqh2koAwEop7lguSnfqW1LLFkQVg12ULSO3jQp7OVh/6m0TOcKmzk2m
+ Obp9I84sM/q7HKkME0XsziMsVg==
+X-Google-Smtp-Source: AMrXdXtCxGKbGTQQf9OHoTemFIhDvqqAlBNy2pzYBJVciLCpjCjY6JRzwZTEO9GWA6IuPyQOj+LCzA==
+X-Received: by 2002:ac2:5976:0:b0:4cc:84da:44bd with SMTP id
+ h22-20020ac25976000000b004cc84da44bdmr7507689lfp.39.1673850798108; 
+ Sun, 15 Jan 2023 22:33:18 -0800 (PST)
+Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
+ v2-20020a056512348200b004b572ad14b2sm4912304lfr.251.2023.01.15.22.33.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 15 Jan 2023 22:33:17 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH 1/3] drm/msm/dpu: fix blend setup for DMA4 and DMA5 layers
+Date: Mon, 16 Jan 2023 08:33:14 +0200
+Message-Id: <20230116063316.728496-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="MccZDuc/f2Etrv5V"
-Content-Disposition: inline
-In-Reply-To: <Y72zVXYLVHXuyK05@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,106 +69,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Saurabh Singh Sengar <ssengar@microsoft.com>, dri-devel@lists.freedesktop.org,
- Deepak R Varma <drv@mailo.com>, intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- Zhi Wang <zhi.a.wang@intel.com>
+Cc: freedreno@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+SM8550 uses new register to map SSPP_DMA4 and SSPP_DMA5 units to blend
+stages. Add proper support for this register to allow using these two
+planes for image processing.
 
---MccZDuc/f2Etrv5V
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: efcd0107727c ("drm/msm/dpu: add support for SM8550")
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 15 +++++++++------
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  2 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    | 19 +++++++++++++++++++
+ 3 files changed, 30 insertions(+), 6 deletions(-)
 
-On 2023.01.10 13:49:57 -0500, Rodrigo Vivi wrote:
-> On Wed, Jan 11, 2023 at 12:00:12AM +0530, Deepak R Varma wrote:
-> > Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
-> > function adds the overhead of introducing a proxy file operation
-> > functions to wrap the original read/write inside file removal protection
-> > functions. This adds significant overhead in terms of introducing and
-> > managing the proxy factory file operations structure and function
-> > wrapping at runtime.
-> > As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
-> > with debugfs_create_file_unsafe() is suggested to be used instead.  The
-> > DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
-> > debugfs_file_put() wrappers to protect the original read and write
-> > function calls for the debug attributes. There is no need for any
-> > runtime proxy file operations to be managed by the debugfs core.
-> > Following coccicheck make command helped identify this change:
-> >=20
-> > make coccicheck M=3Ddrivers/gpu/drm/i915/ MODE=3Dpatch COCCI=3D./script=
-s/coccinelle/api/debugfs/debugfs_simple_attr.cocci
-> >=20
-> > Signed-off-by: Deepak R Varma <drv@mailo.com>
->=20
-> I believe these 2 gvt cases could be done in one patch.
-> But anyways,
->=20
-> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
->=20
-> for both patches... and will leave these 2 patches for gvt folks
-> to apply. Unless they ack and I apply in the drm-intel along with the oth=
-er ones.
->
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 835d6d2c4115..504a22c76412 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -67,6 +67,9 @@
+ #define CTL_SC7280_MASK \
+ 	(BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE) | BIT(DPU_CTL_VM_CFG))
+ 
++#define CTL_SM8550_MASK \
++	(CTL_SC7280_MASK | BIT(DPU_CTL_HAS_LAYER_EXT4))
++
+ #define MERGE_3D_SM8150_MASK (0)
+ 
+ #define DSPP_MSM8998_MASK BIT(DPU_DSPP_PCC) | BIT(DPU_DSPP_GC)
+@@ -999,37 +1002,37 @@ static const struct dpu_ctl_cfg sm8550_ctl[] = {
+ 	{
+ 	.name = "ctl_0", .id = CTL_0,
+ 	.base = 0x15000, .len = 0x290,
+-	.features = CTL_SC7280_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
++	.features = CTL_SM8550_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
+ 	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
+ 	},
+ 	{
+ 	.name = "ctl_1", .id = CTL_1,
+ 	.base = 0x16000, .len = 0x290,
+-	.features = CTL_SC7280_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
++	.features = CTL_SM8550_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
+ 	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
+ 	},
+ 	{
+ 	.name = "ctl_2", .id = CTL_2,
+ 	.base = 0x17000, .len = 0x290,
+-	.features = CTL_SC7280_MASK,
++	.features = CTL_SM8550_MASK,
+ 	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 11),
+ 	},
+ 	{
+ 	.name = "ctl_3", .id = CTL_3,
+ 	.base = 0x18000, .len = 0x290,
+-	.features = CTL_SC7280_MASK,
++	.features = CTL_SM8550_MASK,
+ 	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 12),
+ 	},
+ 	{
+ 	.name = "ctl_4", .id = CTL_4,
+ 	.base = 0x19000, .len = 0x290,
+-	.features = CTL_SC7280_MASK,
++	.features = CTL_SM8550_MASK,
+ 	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 13),
+ 	},
+ 	{
+ 	.name = "ctl_5", .id = CTL_5,
+ 	.base = 0x1a000, .len = 0x290,
+-	.features = CTL_SC7280_MASK,
++	.features = CTL_SM8550_MASK,
+ 	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 23),
+ 	},
+ };
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index a1f18d53db6d..d152fef438f9 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -199,6 +199,7 @@ enum {
+  * @DPU_CTL_SPLIT_DISPLAY:	CTL supports video mode split display
+  * @DPU_CTL_FETCH_ACTIVE:	Active CTL for fetch HW (SSPPs)
+  * @DPU_CTL_VM_CFG:		CTL config to support multiple VMs
++ * @DPU_CTL_HAS_LAYER_EXT4:	CTL has the CTL_LAYER_EXT4 register
+  * @DPU_CTL_MAX
+  */
+ enum {
+@@ -206,6 +207,7 @@ enum {
+ 	DPU_CTL_ACTIVE_CFG,
+ 	DPU_CTL_FETCH_ACTIVE,
+ 	DPU_CTL_VM_CFG,
++	DPU_CTL_HAS_LAYER_EXT4,
+ 	DPU_CTL_MAX
+ };
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index a35ecb6676c8..f4fdf537616c 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -17,6 +17,8 @@
+ 	(0x70 + (((lm) - LM_0) * 0x004))
+ #define   CTL_LAYER_EXT3(lm)             \
+ 	(0xA0 + (((lm) - LM_0) * 0x004))
++#define CTL_LAYER_EXT4(lm)             \
++        (0xB8 + (((lm) - LM_0) * 0x004))
+ #define   CTL_TOP                       0x014
+ #define   CTL_FLUSH                     0x018
+ #define   CTL_START                     0x01C
+@@ -383,6 +385,7 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
+ 	struct dpu_hw_blk_reg_map *c = &ctx->hw;
+ 	u32 mixercfg = 0, mixercfg_ext = 0, mix, ext;
+ 	u32 mixercfg_ext2 = 0, mixercfg_ext3 = 0;
++	u32 mixercfg_ext4 = 0;
+ 	int i, j;
+ 	int stages;
+ 	int pipes_per_stage;
+@@ -492,6 +495,20 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
+ 					mixercfg_ext2 |= mix << 4;
+ 				}
+ 				break;
++			case SSPP_DMA4:
++				if (rect_index == DPU_SSPP_RECT_1) {
++					mixercfg_ext4 |= ((i + 1) & 0xF) << 8;
++				} else {
++					mixercfg_ext4 |= ((i + 1) & 0xF) << 0;
++				}
++				break;
++			case SSPP_DMA5:
++				if (rect_index == DPU_SSPP_RECT_1) {
++					mixercfg_ext4 |= ((i + 1) & 0xF) << 12;
++				} else {
++					mixercfg_ext4 |= ((i + 1) & 0xF) << 4;
++				}
++				break;
+ 			case SSPP_CURSOR0:
+ 				mixercfg_ext |= ((i + 1) & 0xF) << 20;
+ 				break;
+@@ -509,6 +526,8 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
+ 	DPU_REG_WRITE(c, CTL_LAYER_EXT(lm), mixercfg_ext);
+ 	DPU_REG_WRITE(c, CTL_LAYER_EXT2(lm), mixercfg_ext2);
+ 	DPU_REG_WRITE(c, CTL_LAYER_EXT3(lm), mixercfg_ext3);
++	if ((test_bit(DPU_CTL_HAS_LAYER_EXT4, &ctx->caps->features)))
++		DPU_REG_WRITE(c, CTL_LAYER_EXT4(lm), mixercfg_ext4);
+ }
+ 
+ 
+-- 
+2.39.0
 
-yeah, they're fine with me, feel free to apply them directly.
-
-Acked-by: Zhenyu Wang <zhenyuw@linux.intel.com>
-
-thanks!
-
-> > ---
-> >  drivers/gpu/drm/i915/gvt/debugfs.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/i915/gvt/debugfs.c b/drivers/gpu/drm/i915/=
-gvt/debugfs.c
-> > index 03f081c3d9a4..baccbf1761b7 100644
-> > --- a/drivers/gpu/drm/i915/gvt/debugfs.c
-> > +++ b/drivers/gpu/drm/i915/gvt/debugfs.c
-> > @@ -165,7 +165,7 @@ static int vgpu_status_get(void *data, u64 *val)
-> >  	return 0;
-> >  }
-> > =20
-> > -DEFINE_SIMPLE_ATTRIBUTE(vgpu_status_fops, vgpu_status_get, NULL, "0x%l=
-lx\n");
-> > +DEFINE_DEBUGFS_ATTRIBUTE(vgpu_status_fops, vgpu_status_get, NULL, "0x%=
-llx\n");
-> > =20
-> >  /**
-> >   * intel_gvt_debugfs_add_vgpu - register debugfs entries for a vGPU
-> > @@ -182,8 +182,8 @@ void intel_gvt_debugfs_add_vgpu(struct intel_vgpu *=
-vgpu)
-> >  			    &vgpu_mmio_diff_fops);
-> >  	debugfs_create_file_unsafe("scan_nonprivbb", 0644, vgpu->debugfs, vgp=
-u,
-> >  				   &vgpu_scan_nonprivbb_fops);
-> > -	debugfs_create_file("status", 0644, vgpu->debugfs, vgpu,
-> > -			    &vgpu_status_fops);
-> > +	debugfs_create_file_unsafe("status", 0644, vgpu->debugfs, vgpu,
-> > +				   &vgpu_status_fops);
-> >  }
-> > =20
-> >  /**
-> > --=20
-> > 2.34.1
-> >=20
-> >=20
-> >=20
-
---MccZDuc/f2Etrv5V
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCY8TkSQAKCRCxBBozTXgY
-J3FGAJ4wFe9wnMtxUPhaCOCDkSZhBAzzgQCglj/FAfmvPCFfTpHDMapaW6QFeTY=
-=AIVR
------END PGP SIGNATURE-----
-
---MccZDuc/f2Etrv5V--
