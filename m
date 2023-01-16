@@ -2,56 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2CF66CE22
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 18:58:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDDFD66CE5D
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 19:07:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 323C610E47F;
-	Mon, 16 Jan 2023 17:58:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 393B610E484;
+	Mon, 16 Jan 2023 18:07:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
- [IPv6:2001:4860:4864:20::36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7706210E47B;
- Mon, 16 Jan 2023 17:58:48 +0000 (UTC)
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-12c8312131fso29614822fac.4; 
- Mon, 16 Jan 2023 09:58:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com
+ [IPv6:2607:f8b0:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0307310E484
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 18:07:06 +0000 (UTC)
+Received: by mail-il1-x133.google.com with SMTP id u8so14321884ilg.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 10:07:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=vgfXRILltDL8S4th3YYjCyiGREYlV3Wzl8EokshqMNY=;
- b=FHCujPFf3hVg/9eX5RypYIWhrfc+BxPlhn0Ye/kcvv6zEBXYT9qt8hLZnv18d2mz8o
- EjEs6I1t45nZRfcAdAW/5wHuo9CCG4XtYfjm6EVDOnv7ySS7xNBlGvj4nDRefeCrVWxC
- 5gCI9/1E/+REHC+SBXVMzrj2PYK1nnoOAT4S526A3rIFsdWqw/zsBuG4Ba7UOVoi9IP9
- +QRB9ATxf5RVJPastXYGgVZZrfpnMt0sI16NFx6sxDlvYydCHpWyrxY4d6VFGu9a54TU
- PjmO5PhzDw3sJujpM9Vvom4PCkqp2mncX7o7LOpyH/twytvYH7HoHoZOhrDkU9XkdYRM
- F0og==
+ bh=vc4Nv1UCPS28NNVDYePaLaV2Wpsm+mIPEHiAzrTw9MM=;
+ b=hC8rifHiuHXCPgttcmOOf/xO+1ZeeDOeIZfW9Ym8Ory+CkzNJPkrfO/C3JXy2EE1LL
+ 2kTaAysayLbTpr+7RDLLrKq0FCECx/EKRPZa3mKY+K67nyLJZ8f7PA4gCRWG73mV4Yn4
+ 5cdNgXBpvhk8M9iRXw8+R8fW3tOu/c3Ashp10=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=vgfXRILltDL8S4th3YYjCyiGREYlV3Wzl8EokshqMNY=;
- b=Ep492uoJo8HCpmrlMJlJImz7IYI/fUcN/vEdiTvEjg6Wpy066nSfS/AGga3Lhffka2
- aBwxYiqc1MU+RSlWc9ZTiOpxf7UBdMNePvgoISxZNDIYQdX8SYe+XpmdolNChdZKr2w/
- cnNWaodO5XxaOR5lIXVvZQdRKOIWdptrwloOfb1FBnLW5mrrbypaGvpwW+tbq7YnX9z9
- Hxsr0vpNrfLZxRLcU3ZDb2UFXZDJlJgby99l5CjLw5ZFO9GxxdDKnuxC95WPCS5+iDUg
- B0z6IuVX8CcgpvEfiVOlHwREUAkWHWMRYRfo5eQ1E0woXXr3ZL+cTuTUY9tDqom70cKu
- hJLQ==
-X-Gm-Message-State: AFqh2kqCLpwLbmYIOfEJ0Eq++9tqe1HNXhrE+A8tioyS8OD77RmvgpRi
- O90cpaZ06iWpERAF2CJ36NBF8qq2HG2Ac/+ppog=
-X-Google-Smtp-Source: AMrXdXvxUWNEueQOsZDzqdCgqeJ4gzqa9d6KCdyrfPanU1F9Nty4mte0rlSM9c7THwdnA/vkAXlHCW5oZYmAohu9szg=
-X-Received: by 2002:a05:6870:7a18:b0:15f:5509:9a0d with SMTP id
- hf24-20020a0568707a1800b0015f55099a0dmr53155oab.46.1673891927813; Mon, 16 Jan
- 2023 09:58:47 -0800 (PST)
+ bh=vc4Nv1UCPS28NNVDYePaLaV2Wpsm+mIPEHiAzrTw9MM=;
+ b=4A/v0qcqQ+8nbu0yxc4cVU/nbPhtzCGPoBHOW2fMoScGN9FzghnW9RuJZzqo/DliK9
+ rP7Hdy4PVA5eCDppEG/Wl9cB52thjfHyzUwNmeqRq+OGs1bM7wQJAmDoJ/qqNbGn067+
+ ii1DNl/aT+cPCJa6UzOWZZkyejCPMI12dualmsqt6TY313lr2PNtKsSyfsA8Ohdyd0Wz
+ F07RrSvLG57z38SvDUAMJXCnRjhbsN6Exs0mFQ00Fwok1CRKXtMQtOIAp9wriU3zkcdm
+ cwAX5mi4Hn4OqIdC+jEWi6eQJZp9p3Eau2inAAe+QePJeW6VDvWPfmlqAa5phcxq0/BD
+ DPzA==
+X-Gm-Message-State: AFqh2krON8dOkZ8eKuO5s3V6PSZKEHWdde+wt39S9QX42XNh85tez3ob
+ BXlLDyrBhoJzk3J7WxCVKJqLX2w7ZDBjZX5A
+X-Google-Smtp-Source: AMrXdXvTabcZ+ueAqY2zROGYvAf6WshGvOzn/CEAEIF8Xrz1Zql4AmCnDWKzg8oPRVJqyaXtM8XHcQ==
+X-Received: by 2002:a92:c14b:0:b0:30d:9d9d:3068 with SMTP id
+ b11-20020a92c14b000000b0030d9d9d3068mr271707ilh.24.1673892425651; 
+ Mon, 16 Jan 2023 10:07:05 -0800 (PST)
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com.
+ [209.85.166.54]) by smtp.gmail.com with ESMTPSA id
+ w13-20020a92d2cd000000b00302a7165d9bsm8550624ilg.53.2023.01.16.10.07.05
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Jan 2023 10:07:05 -0800 (PST)
+Received: by mail-io1-f54.google.com with SMTP id p189so1908773iod.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 10:07:05 -0800 (PST)
+X-Received: by 2002:a05:622a:250f:b0:3b2:d164:a89b with SMTP id
+ cm15-20020a05622a250f00b003b2d164a89bmr364175qtb.452.1673892068650; Mon, 16
+ Jan 2023 10:01:08 -0800 (PST)
 MIME-Version: 1.0
-References: <Y8PIId1k1TmIAo18@ubun2204.myguest.virtualbox.org>
-In-Reply-To: <Y8PIId1k1TmIAo18@ubun2204.myguest.virtualbox.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 16 Jan 2023 12:58:36 -0500
-Message-ID: <CADnq5_OpLW77PqMi=-OYg=wam5FgFvB3CbFZHbPpotPo9G6Uiw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: avoid variable reinitialization
-To: Deepak R Varma <drv@mailo.com>
+References: <1673235231-30302-1-git-send-email-byungchul.park@lge.com>
+In-Reply-To: <1673235231-30302-1-git-send-email-byungchul.park@lge.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 16 Jan 2023 10:00:52 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whpkWbdeZE1zask8YPzVYevJU2xOXqOposBujxZsa2-tQ@mail.gmail.com>
+Message-ID: <CAHk-=whpkWbdeZE1zask8YPzVYevJU2xOXqOposBujxZsa2-tQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v7 00/23] DEPT(Dependency Tracker)
+To: Byungchul Park <byungchul.park@lge.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,47 +74,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Saurabh Singh Sengar <ssengar@microsoft.com>, Leo Li <sunpeng.li@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org,
- Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, mhocko@kernel.org, linux-mm@kvack.org,
+ kernel-team@lge.com, adilger.kernel@dilger.ca, chris.p.wilson@intel.com,
+ joel@joelfernandes.org, 42.hyeyoo@gmail.com, cl@linux.com, will@kernel.org,
+ duyuyang@gmail.com, sashal@kernel.org, paolo.valente@linaro.org,
+ damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
+ mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
+ rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
+ ngupta@vflare.org, johannes.berg@intel.com, dan.j.williams@intel.com,
+ josef@toxicpanda.com, rostedt@goodmis.org, gwan-gyeong.mun@intel.com,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
+ viro@zeniv.linux.org.uk, tglx@linutronix.de, vbabka@suse.cz,
+ melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
+ rodrigosiqueiramelo@gmail.com, linux-ide@vger.kernel.org,
+ gregkh@linuxfoundation.org, jlayton@kernel.org, linux-kernel@vger.kernel.org,
+ penberg@kernel.org, minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
+ akpm@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is already fixed.
+[ Back from travel, so trying to make sense of this series.. ]
 
-Thanks,
+On Sun, Jan 8, 2023 at 7:33 PM Byungchul Park <byungchul.park@lge.com> wrote:
+>
+> I've been developing a tool for detecting deadlock possibilities by
+> tracking wait/event rather than lock(?) acquisition order to try to
+> cover all synchonization machanisms. It's done on v6.2-rc2.
 
-Alex
+Ugh. I hate how this adds random patterns like
 
-On Sun, Jan 15, 2023 at 4:32 AM Deepak R Varma <drv@mailo.com> wrote:
->
-> The member variable set_odm_combine is already initialized and hence the
-> reinitialization instruction can be removed. Issue identified using the
-> dubleinit.cocci Coccinelle semantic patch script.
->
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
-> index 41edbd64ea21..777d8efee977 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
-> @@ -254,7 +254,6 @@ static struct timing_generator_funcs dcn314_tg_funcs = {
->                 .get_hw_timing = optc1_get_hw_timing,
->                 .init_odm = optc3_init_odm,
->                 .set_odm_bypass = optc314_set_odm_bypass,
-> -               .set_odm_combine = optc314_set_odm_combine,
->                 .set_h_timing_div_manual_mode = optc314_set_h_timing_div_manual_mode,
->  };
->
-> --
-> 2.34.1
->
->
->
+        if (timeout == MAX_SCHEDULE_TIMEOUT)
+                sdt_might_sleep_strong(NULL);
+        else
+                sdt_might_sleep_strong_timeout(NULL);
+   ...
+        sdt_might_sleep_finish();
+
+to various places, it seems so very odd and unmaintainable.
+
+I also recall this giving a fair amount of false positives, are they all fixed?
+
+Anyway, I'd really like the lockdep people to comment and be involved.
+We did have a fairly recent case of "lockdep doesn't track page lock
+dependencies because it fundamentally cannot" issue, so DEPT might fix
+those kinds of missing dependency analysis. See
+
+    https://lore.kernel.org/lkml/00000000000060d41f05f139aa44@google.com/
+
+for some context to that one, but at teh same time I would *really*
+want the lockdep people more involved and acking this work.
+
+Maybe I missed the email where you reported on things DEPT has found
+(and on the lack of false positives)?
+
+               Linus
