@@ -1,55 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F22E66D10A
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 22:41:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FBF066D10D
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 22:42:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D367B10E4DF;
-	Mon, 16 Jan 2023 21:41:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 374D810E4E0;
+	Mon, 16 Jan 2023 21:41:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3B0710E4DD;
- Mon, 16 Jan 2023 21:41:29 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id d188so13291896oia.3;
- Mon, 16 Jan 2023 13:41:29 -0800 (PST)
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
+ [IPv6:2607:f8b0:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EC7510E4E0;
+ Mon, 16 Jan 2023 21:41:54 +0000 (UTC)
+Received: by mail-oi1-x230.google.com with SMTP id j130so24441985oif.4;
+ Mon, 16 Jan 2023 13:41:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=MWUxRgg6mzt7MZcpAdkG0jAJTC6xEk0ZHUNCPT2wa5s=;
- b=NgPHN8Ifrqk7S/vWUhjE4yFAflvtB5C0DNPgrItiqMcECZjoP6P+5KV0HemQ0IxY3m
- VKlju372OLxkapZVKNKxcwlmt1m7ySYpICGcCzxY4yT2x9isJIO9untt/S8pnPbnhL5N
- QWyFp1QQ1RfYKDX6q5qdRVsAExybGEk6ObFAaxkhTXBVXb6ezMiGfrQ92//QwEmEPmiZ
- AGf3zNiQl1sx7bX5FFJJwDTKzti+lG2Bl4yriNVi9+kdD4yXQQqAK6Lhw5z1viRTHJy9
- z5Kt1EDNI83Vz7ozFz/3v4tzlUPRck382dC+xHQ5p9KmKztJoyy2YpF3U9pxfup4x9fn
- nQog==
+ bh=Ts30qW5ZibOfxhwbjhhYDy8BwJIkR/zbeou1xIzV0yU=;
+ b=ThvTPCU+rm5j79vBcoS69dfnJgk6W7Cm4fPK53cQfzQNwtXqDXTXjQZo6KMzMS7g2u
+ +L2W8FNhFRWrxr714hgPuaM9sGszSbTcr0TMOZX7CVNDvIeHaIovlzCWVuNnCdVorwlF
+ 0HwgBPRYtwzc6rB4RXelRByBKhUeQyaQ3KLK1vM7HN2Iu2UszjDH7Rk4/94RiCmDKnrK
+ tTAx480bEZLJ0fYZ5A9KaOkTxftOxlYqbIcLOOQ6l9qjJQDbZQLEBRC4O5Rrlnp4rq15
+ AsYCXP14k5fkhniGaIQaj/SLTScvyBa+BVHoK//Q+B90nXfGMhQHrYANaz0umhugt22M
+ KGVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=MWUxRgg6mzt7MZcpAdkG0jAJTC6xEk0ZHUNCPT2wa5s=;
- b=fL0nqC03uZfHrmFog3gbQIUcZ95sjJ0Ye82NsnG3m+3AoullYLtQHngmYF9AM9z0l9
- 1jUw1apzBsSlEBrvjWiSmrVjik2gsi8ERYVpkd8SUpciO2ZRtdjbYGTziNWSStwhnSlG
- 4PXaD/WgpFM1B8LfHepOYY5+DpF8J7OnLhNiYel8DM1NSEUq4ESvOzkzNCWli35f3Ph8
- n+r4Ck34wdWO0u916Jh39o8m/4UsOYusUXnXu07mN0b0oqyLbsTd3SwK8aF87+txnynk
- uTva776Fa6A8ghIsC6dFMFlKjORncIoQQZQlC64QoPFerQYhJgGpbbOLtNlLPZoCQFhs
- sdaw==
-X-Gm-Message-State: AFqh2kr8t73R8qQSxjp05t4IDzTYdwJ3Y9wNffsSeKZgq3veG6bHNeHU
- AmnQ5+7M83ZDh8TcttFWr8nB7Ot/w6s0xo+9VT8=
-X-Google-Smtp-Source: AMrXdXv6RlYYDYSHxY8m/i9T9SJqqosOy+f49bKw6UKFmhUhnvyNnQwkIue7RCocB/tJt+N7KiV6p7gPeCiOC5Xxj6k=
-X-Received: by 2002:aca:2807:0:b0:35b:f5f7:3ed0 with SMTP id
- 7-20020aca2807000000b0035bf5f73ed0mr50984oix.46.1673905289159; Mon, 16 Jan
- 2023 13:41:29 -0800 (PST)
+ bh=Ts30qW5ZibOfxhwbjhhYDy8BwJIkR/zbeou1xIzV0yU=;
+ b=X3LCj39I372MCRO3IN7PmfnQcGsawuBfqwzFyl59Mq3ujEomb7RmAlM/7B6bk/YXw6
+ 0PXVMF8wPIuXFdlnEa/koBFHK5vPtvrmii4OcXLRE6u2A95/Pt7otKCu7sxpAcGMN4zD
+ knUNP6+BcIw5xjVpQ5/lJXDTA6P1qdpgCgGghvxaB+m9yA1tJngAOqHN6qFTvwjHNNac
+ MK5RnjCQsHaSD5Ta47ApsGgSVs5Pb/pk2rQjAfdGPU//QCCRa0rMa0w8tOwYkyJeozNA
+ wo7OQdsE26T8VDbGGzjw1pGwipcg6RVEQfKMUIR5RMJ0UH03QY7jPYqu8MIZkRd41EvV
+ UADw==
+X-Gm-Message-State: AFqh2kq3/Va9ApdXmGIBBn2aRh/nAirfQ6kl9UV/ndCXY6mij9FPOstI
+ Omi5ZrJp+hvjLB6f+78eaMh58IF1x/9doElY+ok=
+X-Google-Smtp-Source: AMrXdXvWbNUk07JZFRsFYcBXDVF/9MwsN3MYlsE8PSykvVJ9f50JOyJEmYPWcVq2qlKzS0QeEigOGc4FdNxSBM1c2Is=
+X-Received: by 2002:a05:6808:4387:b0:35b:d93f:cbc4 with SMTP id
+ dz7-20020a056808438700b0035bd93fcbc4mr47320oib.96.1673905313271; Mon, 16 Jan
+ 2023 13:41:53 -0800 (PST)
 MIME-Version: 1.0
 References: <20230116212004.860968-1-gpiccoli@igalia.com>
-In-Reply-To: <20230116212004.860968-1-gpiccoli@igalia.com>
+ <20230116212004.860968-2-gpiccoli@igalia.com>
+In-Reply-To: <20230116212004.860968-2-gpiccoli@igalia.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 16 Jan 2023 16:41:17 -0500
-Message-ID: <CADnq5_MCUPYR2ei_NFeWmfuobJQw+JJ3bm=cNKuXG1e7HVrZpw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm/amdgpu/vcn: Adjust firmware names indentation
+Date: Mon, 16 Jan 2023 16:41:34 -0500
+Message-ID: <CADnq5_M6z=BTvcspVsC_5YmZCwEP48e=6nvcr4ck4Q7KR126MA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] drm/amdgpu/vcn: Deduplicate indirect SRAM checking
+ code
 To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,10 +78,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Mon, Jan 16, 2023 at 4:20 PM Guilherme G. Piccoli
 <gpiccoli@igalia.com> wrote:
 >
-> This is an incredibly trivial fix, just for the sake of
-> "aesthetical" organization of the defines. Some were space based,
-> most were tab based and there was a lack of "alignment", now it's
-> all the same and aligned.
+> Currently both conditionals checked to enable indirect SRAM are
+> repeated for all HW/IP models. Let's just simplify it a bit so
+> code is more compact and readable.
+>
+> While at it, add the legacy names as a comment per case block, to
+> help whoever is reading the code and doesn't have much experience
+> with the name/number mapping.
 >
 > Cc: James Zhu <James.Zhu@amd.com>
 > Cc: Lazar Lijo <Lijo.Lazar@amd.com>
@@ -87,63 +92,137 @@ On Mon, Jan 16, 2023 at 4:20 PM Guilherme G. Piccoli
 > Cc: Mario Limonciello <mario.limonciello@amd.com>
 > Cc: Sonny Jiang <sonny.jiang@amd.com>
 > Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
-
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c | 38 ++++++++++++-------------
->  1 file changed, 19 insertions(+), 19 deletions(-)
+>
+>
+> Hi folks, first of all thanks in advance for reviews/comments!
+>
+> This work is based on agd5f/amd-staging-drm-next branch - there is this
+> patch from Mario that refactored the amdgpu_vcn.c, and since it dropped
+> the legacy names from the switch cases, I've decided to also include them
+> here as comments.
+>
+> I'm not sure if that's a good idea, feels good for somebody not so
+> used to the code read the codenames instead of purely numbers, but
+> if you wanna move away from the legacy names for good, lemme know
+> and I can rework without these comments.
+>
+> Cheers,
+>
+>
+> Guilherme
+>
+>
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c | 84 +++++--------------------
+>  1 file changed, 16 insertions(+), 68 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
-> index f8397d993f23..1b1a3c9e1863 100644
+> index 1b1a3c9e1863..1f880e162d9d 100644
 > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
 > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
-> @@ -36,26 +36,26 @@
->  #include "soc15d.h"
+> @@ -111,78 +111,26 @@ int amdgpu_vcn_sw_init(struct amdgpu_device *adev)
+>                 atomic_set(&adev->vcn.inst[i].dpg_enc_submission_cnt, 0);
 >
->  /* Firmware Names */
-> -#define FIRMWARE_RAVEN         "amdgpu/raven_vcn.bin"
-> -#define FIRMWARE_PICASSO       "amdgpu/picasso_vcn.bin"
-> -#define FIRMWARE_RAVEN2                "amdgpu/raven2_vcn.bin"
-> -#define FIRMWARE_ARCTURUS      "amdgpu/arcturus_vcn.bin"
-> -#define FIRMWARE_RENOIR                "amdgpu/renoir_vcn.bin"
-> -#define FIRMWARE_GREEN_SARDINE "amdgpu/green_sardine_vcn.bin"
-> -#define FIRMWARE_NAVI10                "amdgpu/navi10_vcn.bin"
-> -#define FIRMWARE_NAVI14                "amdgpu/navi14_vcn.bin"
-> -#define FIRMWARE_NAVI12                "amdgpu/navi12_vcn.bin"
-> -#define FIRMWARE_SIENNA_CICHLID        "amdgpu/sienna_cichlid_vcn.bin"
-> -#define FIRMWARE_NAVY_FLOUNDER "amdgpu/navy_flounder_vcn.bin"
-> -#define FIRMWARE_VANGOGH       "amdgpu/vangogh_vcn.bin"
-> +#define FIRMWARE_RAVEN                 "amdgpu/raven_vcn.bin"
-> +#define FIRMWARE_PICASSO               "amdgpu/picasso_vcn.bin"
-> +#define FIRMWARE_RAVEN2                        "amdgpu/raven2_vcn.bin"
-> +#define FIRMWARE_ARCTURUS              "amdgpu/arcturus_vcn.bin"
-> +#define FIRMWARE_RENOIR                        "amdgpu/renoir_vcn.bin"
-> +#define FIRMWARE_GREEN_SARDINE         "amdgpu/green_sardine_vcn.bin"
-> +#define FIRMWARE_NAVI10                        "amdgpu/navi10_vcn.bin"
-> +#define FIRMWARE_NAVI14                        "amdgpu/navi14_vcn.bin"
-> +#define FIRMWARE_NAVI12                        "amdgpu/navi12_vcn.bin"
-> +#define FIRMWARE_SIENNA_CICHLID                "amdgpu/sienna_cichlid_vcn.bin"
-> +#define FIRMWARE_NAVY_FLOUNDER         "amdgpu/navy_flounder_vcn.bin"
-> +#define FIRMWARE_VANGOGH               "amdgpu/vangogh_vcn.bin"
->  #define FIRMWARE_DIMGREY_CAVEFISH      "amdgpu/dimgrey_cavefish_vcn.bin"
-> -#define FIRMWARE_ALDEBARAN     "amdgpu/aldebaran_vcn.bin"
-> -#define FIRMWARE_BEIGE_GOBY    "amdgpu/beige_goby_vcn.bin"
-> -#define FIRMWARE_YELLOW_CARP   "amdgpu/yellow_carp_vcn.bin"
-> -#define FIRMWARE_VCN_3_1_2     "amdgpu/vcn_3_1_2.bin"
-> -#define FIRMWARE_VCN4_0_0      "amdgpu/vcn_4_0_0.bin"
-> -#define FIRMWARE_VCN4_0_2      "amdgpu/vcn_4_0_2.bin"
-> -#define FIRMWARE_VCN4_0_4      "amdgpu/vcn_4_0_4.bin"
-> +#define FIRMWARE_ALDEBARAN             "amdgpu/aldebaran_vcn.bin"
-> +#define FIRMWARE_BEIGE_GOBY            "amdgpu/beige_goby_vcn.bin"
-> +#define FIRMWARE_YELLOW_CARP           "amdgpu/yellow_carp_vcn.bin"
-> +#define FIRMWARE_VCN_3_1_2             "amdgpu/vcn_3_1_2.bin"
-> +#define FIRMWARE_VCN4_0_0              "amdgpu/vcn_4_0_0.bin"
-> +#define FIRMWARE_VCN4_0_2              "amdgpu/vcn_4_0_2.bin"
-> +#define FIRMWARE_VCN4_0_4              "amdgpu/vcn_4_0_4.bin"
->
->  MODULE_FIRMWARE(FIRMWARE_RAVEN);
->  MODULE_FIRMWARE(FIRMWARE_PICASSO);
+>         switch (adev->ip_versions[UVD_HWIP][0]) {
+> -       case IP_VERSION(1, 0, 0):
+> -       case IP_VERSION(1, 0, 1):
+> -       case IP_VERSION(2, 5, 0):
+> -               if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
+> -                   (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
+> -                       adev->vcn.indirect_sram = true;
+> -               break;
+> -       case IP_VERSION(2, 2, 0):
+> -               if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
+> -                   (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
+> -                       adev->vcn.indirect_sram = true;
+> -               break;
+> -       case IP_VERSION(2, 6, 0):
+> -               if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
+> -                   (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
+> -                       adev->vcn.indirect_sram = true;
+> -               break;
+> -       case IP_VERSION(2, 0, 0):
+> -               if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
+> -                   (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
+> -                       adev->vcn.indirect_sram = true;
+> -               break;
+> -       case IP_VERSION(2, 0, 2):
+> -               if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
+> -                   (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
+> -                       adev->vcn.indirect_sram = true;
+> -               break;
+> -       case IP_VERSION(3, 0, 0):
+> -       case IP_VERSION(3, 0, 64):
+> -       case IP_VERSION(3, 0, 192):
+> -               if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
+> -                   (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
+> -                       adev->vcn.indirect_sram = true;
+> -               break;
+> -       case IP_VERSION(3, 0, 2):
+> -               if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
+> -                   (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
+> -                       adev->vcn.indirect_sram = true;
+> -               break;
+> -       case IP_VERSION(3, 0, 16):
+> -               if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
+> -                   (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
+> -                       adev->vcn.indirect_sram = true;
+> -               break;
+> -       case IP_VERSION(3, 0, 33):
+> -               if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
+> -                   (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
+> -                       adev->vcn.indirect_sram = true;
+> -               break;
+> -       case IP_VERSION(3, 1, 1):
+> -               if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
+> -                   (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
+> -                       adev->vcn.indirect_sram = true;
+> -               break;
+> +       case IP_VERSION(1, 0, 0):       /* Raven (1/2) / Picasso */
+> +       case IP_VERSION(1, 0, 1):       /* Raven (1/2) / Picasso */
+> +       case IP_VERSION(2, 0, 0):       /* Navi10 */
+> +       case IP_VERSION(2, 0, 2):       /* Navi12 / Navi14 */
+> +       case IP_VERSION(2, 2, 0):       /* Renoir / Green Sardine */
+> +       case IP_VERSION(2, 5, 0):       /* Arcturus */
+> +       case IP_VERSION(2, 6, 0):       /* Aldebaran */
+> +       case IP_VERSION(3, 0, 0):       /* Sienna Cichlid / Navy Flounder */
+> +       case IP_VERSION(3, 0, 2):       /* Vangogh */
+> +       case IP_VERSION(3, 0, 64):      /* Sienna Cichlid / Navy Flounder */
+> +       case IP_VERSION(3, 0, 16):      /* Dimgray Cavefish */
+> +       case IP_VERSION(3, 0, 33):      /* Beige Goby */
+> +       case IP_VERSION(3, 0, 192):     /* Sienna Cichlid / Navy Flounder */
+> +       case IP_VERSION(3, 1, 1):       /* Yellow Carp */
+>         case IP_VERSION(3, 1, 2):
+> -               if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
+> -                   (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
+> -                       adev->vcn.indirect_sram = true;
+> -               break;
+> -       case IP_VERSION(4, 0, 0):
+> -               if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
+> -                       (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
+> -                       adev->vcn.indirect_sram = true;
+> -               break;
+> +       case IP_VERSION(4, 0, 0):       /* Vega10 */
+
+This comment is incorrect.  Vega10 does not have VCN (it has UVD and VCE).
+
+Alex
+
+
+Alex
+
+>         case IP_VERSION(4, 0, 2):
+> -               if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
+> -                       (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
+> -                       adev->vcn.indirect_sram = true;
+> -               break;
+>         case IP_VERSION(4, 0, 4):
+>                 if ((adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) &&
+> -                       (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
+> +                   (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
+>                         adev->vcn.indirect_sram = true;
+>                 break;
+>         default:
 > --
 > 2.39.0
 >
