@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F2BB66CE1A
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 18:57:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC2CF66CE22
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 18:58:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA93810E47D;
-	Mon, 16 Jan 2023 17:57:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 323C610E47F;
+	Mon, 16 Jan 2023 17:58:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC93E10E47A;
- Mon, 16 Jan 2023 17:57:27 +0000 (UTC)
-Received: by mail-oi1-x22f.google.com with SMTP id d188so12824721oia.3;
- Mon, 16 Jan 2023 09:57:27 -0800 (PST)
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
+ [IPv6:2001:4860:4864:20::36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7706210E47B;
+ Mon, 16 Jan 2023 17:58:48 +0000 (UTC)
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-12c8312131fso29614822fac.4; 
+ Mon, 16 Jan 2023 09:58:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=n5OkHX/Az8Mry0UKCOlHqO4EM33fiMoag3d66F0Eejk=;
- b=Rg4+a73abcdpBd7XsB2vRpplYYdmV6iqGARh7CQiaUgMxWvIa6FGDtkhjgLjghUsHa
- P7ECrLgFof/sqwJuhBdQFUbSCMdNKTi2uPkRRUkSBBeznLpZwlXN3G3iRa5HTG8J7H5R
- l8isod3hoEH2DzBeYtuPcuOd0RcBJ2B0J+rejWzokA0rWnL6IWULCkfNJP4qQVMuYgYA
- y8K4WUmu/e6tS1rDRGKmT3dTk+0KG7TAap/vIAIrOb441oSeU8Hm4P+RTIXm/jOL7pjJ
- sW+00I/LkJVhzwWsrVIfhXuGR9BrH9pJH9Wd/R7u/51hcYq460jzDmUP6QAx2pQu/bg0
- nDWw==
+ bh=vgfXRILltDL8S4th3YYjCyiGREYlV3Wzl8EokshqMNY=;
+ b=FHCujPFf3hVg/9eX5RypYIWhrfc+BxPlhn0Ye/kcvv6zEBXYT9qt8hLZnv18d2mz8o
+ EjEs6I1t45nZRfcAdAW/5wHuo9CCG4XtYfjm6EVDOnv7ySS7xNBlGvj4nDRefeCrVWxC
+ 5gCI9/1E/+REHC+SBXVMzrj2PYK1nnoOAT4S526A3rIFsdWqw/zsBuG4Ba7UOVoi9IP9
+ +QRB9ATxf5RVJPastXYGgVZZrfpnMt0sI16NFx6sxDlvYydCHpWyrxY4d6VFGu9a54TU
+ PjmO5PhzDw3sJujpM9Vvom4PCkqp2mncX7o7LOpyH/twytvYH7HoHoZOhrDkU9XkdYRM
+ F0og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=n5OkHX/Az8Mry0UKCOlHqO4EM33fiMoag3d66F0Eejk=;
- b=p+uZFIvTknFMhwH6QPc3gCq1DACshQu0Oo2zg99cu8zkOxPVsla25mgKwOMKS/gl/A
- 6Mf7Pk07WJiffQN1GXSLQqT0UOBXg69pALbrZ4NVcwmb8Y3kCEJxpmq9zbnhSwIRniWW
- NZIAKqReCHnQOMAx6fkcRhm5zuMmStiiw0PPKTlwOOw4E3roJiz+DnEP9VUKiUT16jb8
- 5EZKRaKJvDcxdDZZl4KK0PT9ev7wCQrGpy50fVv8JEMnAH5uNCSIfWfOxYKAwS6f32eZ
- 0RUjvMbWm9Yi7Uw1yirY7hcGnB9u+0sq1YqDgz3RXKErAeXsJd/3rfcMhhxqSXzYF8Uw
- f4dQ==
-X-Gm-Message-State: AFqh2kqBlaF6/pqpeEBMAF7CblkhUIEplxsTI9dVbjqL+YTqvdHAbJX4
- 3Klg+CALs2hiFKESEhWYpaefdE9mbw8TntKdZIM=
-X-Google-Smtp-Source: AMrXdXvOkWc2rL8rHfWhUdEhHY8Dl8h0BCl4hvpl0NJmh4GENZy24NQOJn6EpWg7UL7gEpJOCkrHr4MDKELVJafTjtM=
-X-Received: by 2002:aca:2807:0:b0:35b:f5f7:3ed0 with SMTP id
- 7-20020aca2807000000b0035bf5f73ed0mr8864oix.46.1673891846851; Mon, 16 Jan
- 2023 09:57:26 -0800 (PST)
+ bh=vgfXRILltDL8S4th3YYjCyiGREYlV3Wzl8EokshqMNY=;
+ b=Ep492uoJo8HCpmrlMJlJImz7IYI/fUcN/vEdiTvEjg6Wpy066nSfS/AGga3Lhffka2
+ aBwxYiqc1MU+RSlWc9ZTiOpxf7UBdMNePvgoISxZNDIYQdX8SYe+XpmdolNChdZKr2w/
+ cnNWaodO5XxaOR5lIXVvZQdRKOIWdptrwloOfb1FBnLW5mrrbypaGvpwW+tbq7YnX9z9
+ Hxsr0vpNrfLZxRLcU3ZDb2UFXZDJlJgby99l5CjLw5ZFO9GxxdDKnuxC95WPCS5+iDUg
+ B0z6IuVX8CcgpvEfiVOlHwREUAkWHWMRYRfo5eQ1E0woXXr3ZL+cTuTUY9tDqom70cKu
+ hJLQ==
+X-Gm-Message-State: AFqh2kqCLpwLbmYIOfEJ0Eq++9tqe1HNXhrE+A8tioyS8OD77RmvgpRi
+ O90cpaZ06iWpERAF2CJ36NBF8qq2HG2Ac/+ppog=
+X-Google-Smtp-Source: AMrXdXvxUWNEueQOsZDzqdCgqeJ4gzqa9d6KCdyrfPanU1F9Nty4mte0rlSM9c7THwdnA/vkAXlHCW5oZYmAohu9szg=
+X-Received: by 2002:a05:6870:7a18:b0:15f:5509:9a0d with SMTP id
+ hf24-20020a0568707a1800b0015f55099a0dmr53155oab.46.1673891927813; Mon, 16 Jan
+ 2023 09:58:47 -0800 (PST)
 MIME-Version: 1.0
-References: <Y8PGts5Nku8OSlRN@ubun2204.myguest.virtualbox.org>
-In-Reply-To: <Y8PGts5Nku8OSlRN@ubun2204.myguest.virtualbox.org>
+References: <Y8PIId1k1TmIAo18@ubun2204.myguest.virtualbox.org>
+In-Reply-To: <Y8PIId1k1TmIAo18@ubun2204.myguest.virtualbox.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 16 Jan 2023 12:57:15 -0500
-Message-ID: <CADnq5_NyK_O=CypSz+WrAbM2MpsP_7D2RjB6JAu_qmyEnAVc6Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: use swap() helper macro in bios_parser
+Date: Mon, 16 Jan 2023 12:58:36 -0500
+Message-ID: <CADnq5_OpLW77PqMi=-OYg=wam5FgFvB3CbFZHbPpotPo9G6Uiw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: avoid variable reinitialization
 To: Deepak R Varma <drv@mailo.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,48 +75,34 @@ Cc: Saurabh Singh Sengar <ssengar@microsoft.com>, Leo Li <sunpeng.li@amd.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+This is already fixed.
 
-On Sun, Jan 15, 2023 at 4:26 AM Deepak R Varma <drv@mailo.com> wrote:
+Thanks,
+
+Alex
+
+On Sun, Jan 15, 2023 at 4:32 AM Deepak R Varma <drv@mailo.com> wrote:
 >
-> Use swap() helper macro instead of open coded swap instructions. The
-> change also facilitates code cleanup and realignment for improved
-> readability.  Issue identified using swap.cocci Coccinelle semantic
-> patch script.
+> The member variable set_odm_combine is already initialized and hence the
+> reinitialization instruction can be removed. Issue identified using the
+> dubleinit.cocci Coccinelle semantic patch script.
 >
 > Signed-off-by: Deepak R Varma <drv@mailo.com>
 > ---
->  drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c | 11 ++---------
->  1 file changed, 2 insertions(+), 9 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c | 1 -
+>  1 file changed, 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-> index 074e70a5c458..7b5894adbf51 100644
-> --- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-> +++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-> @@ -2929,7 +2929,6 @@ static enum bp_result construct_integrated_info(
->         struct atom_common_table_header *header;
->         struct atom_data_revision revision;
->
-> -       struct clock_voltage_caps temp = {0, 0};
->         uint32_t i;
->         uint32_t j;
->
-> @@ -3032,14 +3031,8 @@ static enum bp_result construct_integrated_info(
->         for (i = 1; i < NUMBER_OF_DISP_CLK_VOLTAGE; ++i) {
->                 for (j = i; j > 0; --j) {
->                         if (info->disp_clk_voltage[j].max_supported_clk <
-> -                               info->disp_clk_voltage[j-1].max_supported_clk
-> -                               ) {
-> -                               /* swap j and j - 1*/
-> -                               temp = info->disp_clk_voltage[j-1];
-> -                               info->disp_clk_voltage[j-1] =
-> -                                       info->disp_clk_voltage[j];
-> -                               info->disp_clk_voltage[j] = temp;
-> -                       }
-> +                           info->disp_clk_voltage[j-1].max_supported_clk)
-> +                               swap(info->disp_clk_voltage[j-1], info->disp_clk_voltage[j]);
->                 }
->         }
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
+> index 41edbd64ea21..777d8efee977 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
+> @@ -254,7 +254,6 @@ static struct timing_generator_funcs dcn314_tg_funcs = {
+>                 .get_hw_timing = optc1_get_hw_timing,
+>                 .init_odm = optc3_init_odm,
+>                 .set_odm_bypass = optc314_set_odm_bypass,
+> -               .set_odm_combine = optc314_set_odm_combine,
+>                 .set_h_timing_div_manual_mode = optc314_set_h_timing_div_manual_mode,
+>  };
 >
 > --
 > 2.34.1
