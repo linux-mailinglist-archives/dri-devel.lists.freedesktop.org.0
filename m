@@ -2,64 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDBD66C63F
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 17:17:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A34366C668
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 17:20:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74AA310E2B2;
-	Mon, 16 Jan 2023 16:17:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62CB810E2BB;
+	Mon, 16 Jan 2023 16:20:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C10A110E2BE
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 16:16:59 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 5A0E0B80E93
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 16:16:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1458EC433F2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 16:16:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1673885817;
- bh=SWHyzp1FKPN0SQRTkI3DcIhLOIc5AEgiHFQuiPTdlOc=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=u3zCNseVBZMarK+qsUYTdjbdfyZz/0v4aU1T6Ppc6zqy6A2L5ITJwpWFIWxyFLYFA
- 2XtYu6stdUmBxuwNPlypCDvHRS+eSN77WjfxfqpMtvgjzQBwmH69pmN24C7H27H42u
- CCO17SQB/7uaa+BnIbbqflN37WTG2FxAUhMRz80+qs+luDUMegMmOlp39/9T7wyXNX
- xpPRtIUUIffnnYw9wUx5hizVaZEg9as+MT0WNvqmy2+2ArQOJsvdTOyT3XPIC0JVjm
- 9MPNvQKDIJdabnB5ssKVFS39s0zJopOySSeuMYGgdiheZaU/6Z/tYTC5P2H6ApE0zX
- bo+1hL6eSZadA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 07165C43141; Mon, 16 Jan 2023 16:16:57 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216917] hibernation regression since 6.0.18 (Ryzen-5650U incl.
- Radeon GPU)
-Date: Mon, 16 Jan 2023 16:16:56 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mario.limonciello@amd.com
-X-Bugzilla-Status: NEEDINFO
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status
-Message-ID: <bug-216917-2300-qqAn7haE7F@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216917-2300@https.bugzilla.kernel.org/>
-References: <bug-216917-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF79D10E2BB;
+ Mon, 16 Jan 2023 16:20:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673886003; x=1705422003;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=3kP3+Z/fGb1HUUCGydhyc9dGWiwyXHQhkXAlft+qAzY=;
+ b=O+jGBDv1wkdgNz+iubPM+2zPPetH3eq+JCKtA89kuVZSJuBNoTN/VTAB
+ w0M9Irjn8Qj6fm+rfTSKrzhNxovvcwtRA/rfMDbV3Xqiz8IhoysYavdN1
+ rPG0FYwxRAMwYqFc6hg0QfRzbGHpRmoIlzJGp2ojb8klh4niZZbrAaNh9
+ HwfrbED7WTMnB2zoR8E+ccNx/Zx/fMCittugQ6CzagJWIasd0usmnUkIg
+ Kk8t0DeHjjItBhypIpqA/AWyFAPr9G7sRZT/YMIAEgQGKnl1wisp178t4
+ 5WKIuUqQdZwxnQXuqBpMj/YFWPW34Z1dCNnnWCclia1wU9yiT44eUWnQp w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="324558189"
+X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; d="scan'208";a="324558189"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2023 08:20:03 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="766952438"
+X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; d="scan'208";a="766952438"
+Received: from amakarev-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.252.13.137])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2023 08:19:59 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, sam@ravnborg.org,
+ daniel@ffwll.ch, airlied@gmail.com
+Subject: Re: [PATCH 00/22] drm: Remove includes for drm_crtc_helper.h
+In-Reply-To: <20230116131235.18917-1-tzimmermann@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230116131235.18917-1-tzimmermann@suse.de>
+Date: Mon, 16 Jan 2023 18:19:56 +0200
+Message-ID: <87k01me9jn.fsf@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,27 +58,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216917
+On Mon, 16 Jan 2023, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> A lot of source files include drm_crtc_helper.h for its contained
+> include statements. This leads to excessive compile-time dependencies.
+>
+> Where possible, remove the include statements for drm_crtc_helper.h
+> and include the required source files directly. Also remove the
+> include statements from drm_crtc_helper.h itself, which doesn't need
+> most of them.
+>
+> I built this patchset on x86-64, aarch64 and arm. Hopefully I found
+> all include dependencies.
 
-Mario Limonciello (AMD) (mario.limonciello@amd.com) changed:
+I think this is the right direction and I support this. Personally I
+think it's enough to build test and fix any fallout afterwards.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|REOPENED                    |NEEDINFO
+To that end, I did build test this myself with my config, and it was
+fine, though that probably doesn't add much coverage.
 
---- Comment #14 from Mario Limonciello (AMD) (mario.limonciello@amd.com) ---
-> and a hard reset (as in my case) may result
+FWIW,
 
-Sorry - specifically that reverting the backported commit fixes your case. =
- If
-so, yeah then we should see if there is anything else obvious to backport to
-help it.
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 
---=20
-You may reply to this email to add a comment.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+Jani Nikula, Intel Open Source Graphics Center
