@@ -1,51 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EACA866CF1E
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 19:49:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5630566CF3E
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 19:59:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7B5410E495;
-	Mon, 16 Jan 2023 18:49:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45B8510E498;
+	Mon, 16 Jan 2023 18:58:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EBB710E494;
- Mon, 16 Jan 2023 18:49:25 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E916610E498;
+ Mon, 16 Jan 2023 18:58:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673894965; x=1705430965;
+ t=1673895538; x=1705431538;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=Za0FwJWioIncEGLZgDJ6uyI89SXz79vv+zYD1PVU62I=;
- b=DXrFVO9wAge/pN8XP1aMrRTbhxLVRIUMVL9RAqA381fMAqR+OBnYoCh/
- uWFcN/wHdrjsoxredcORxym7FHhPbFVZlC/14UYyvzU8vXTf/KkLriI9p
- 7CoHuDm8C41NOxRZ6LT9R2BlEUuH2ziMbf0HzO6fZY2dYHlu1qTkVSgL7
- FXyga8fIpFUIar/Rc+IzEhvV/Uv8DfbrEHtgPwzGsBdVVEMwKAY4Siuld
- LhSQRQrRwhTiB5yb5YIeVTYOJl7/+YpBqQSU1hclDHPXal7bOQTpUNm2A
- YMvC1a8eySlkZoj9c5D4gMhtHxvDVfEGbPhGo25nIpcOAXd0vFiWnK158 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="312391889"
-X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; d="scan'208";a="312391889"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2023 10:49:24 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="767008144"
-X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; d="scan'208";a="767008144"
+ bh=aGU8qAGzQjOZSpd6NxfY+K2ZmcUOdfUk8yRqm1ggQyU=;
+ b=VrExspb4OVw4kRsqiPzis9qQ8+4caaMFjf+yiFIQLD0EjAQa6oLdfBq3
+ KtIDFULCP523Rep0Pq+rYNGs51yfO6ure67CZYchrClGe+C8YQlvRB71r
+ gUHxPE0TuH32rM60ZOfs4soasdQ6zIOQtVbJ/QljuvktLegMUgoI+QUqi
+ kZeGhFv4QgkBOk1OqVgH5TV6MVtnsmk/OrXdetaIKjLKgydNJFeIB1qqL
+ zdvckzITLVBmzacmkgLBo9+RjdI6C9cV2AyvSaYrwZidfegQi0bOcanw7
+ SpYANQE/bHcdhP7kRRjE/c2wfBv8Ik+QYZgnuX2V+jb6X2J7QCmE8oY3S w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="308093048"
+X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; d="scan'208";a="308093048"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2023 10:58:57 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="609016272"
+X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; d="scan'208";a="609016272"
 Received: from rhormila-mobl2.ger.corp.intel.com (HELO intel.com)
  ([10.251.222.100])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2023 10:49:21 -0800
-Date: Mon, 16 Jan 2023 19:49:18 +0100
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2023 10:58:54 -0800
+Date: Mon, 16 Jan 2023 19:58:51 +0100
 From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Nirmoy Das <nirmoy.das@intel.com>
-Subject: Re: [PATCH] drm/i915/selftests: Unwind hugepages to drop wakeref on
- error
-Message-ID: <Y8WcLtKY3/cSMjgw@ashyti-mobl2.lan>
-References: <20230113120053.29618-1-nirmoy.das@intel.com>
+To: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/mtl: Connect root sysfs entries to
+ GT0
+Message-ID: <Y8Wea4b+mot7oVrB@ashyti-mobl2.lan>
+References: <20230113022752.3151066-1-vinay.belgaumkar@intel.com>
+ <874jsvazvi.wl-ashutosh.dixit@intel.com>
+ <db1160e1-cfc1-08d0-08b7-84909608b465@intel.com>
+ <87358faw34.wl-ashutosh.dixit@intel.com>
+ <82e45200-8a95-ec9a-6dba-766f6c23c7fd@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230113120053.29618-1-nirmoy.das@intel.com>
+In-Reply-To: <82e45200-8a95-ec9a-6dba-766f6c23c7fd@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,76 +62,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- stable@vger.kernel.org, matthew.auld@intel.com, andi.shyti@linux.intel.com,
- chris.p.wilson@linux.intel.com
+Cc: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nirmoy,
+Hi,
 
-On Fri, Jan 13, 2023 at 01:00:53PM +0100, Nirmoy Das wrote:
-> From: Chris Wilson <chris.p.wilson@linux.intel.com>
+On Thu, Jan 12, 2023 at 08:48:11PM -0800, Belgaumkar, Vinay wrote:
 > 
-> Make sure that upon error after we have acquired the wakeref we do
-> release it again.
-> 
-> Fixes: 027c38b4121e ("drm/i915/selftests: Grab the runtime pm in shrink_thp")
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-> Signed-off-by: Chris Wilson <chris.p.wilson@linux.intel.com>
-> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-> Cc: <stable@vger.kernel.org> # v6.0+
-> ---
->  drivers/gpu/drm/i915/gem/selftests/huge_pages.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> index c281b0ec9e05..295d6f2cc4ff 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> @@ -1855,7 +1855,7 @@ static int igt_shrink_thp(void *arg)
->  			I915_SHRINK_ACTIVE);
->  	i915_vma_unpin(vma);
->  	if (err)
-> -		goto out_put;
-> +		goto out_wf;
->  
->  	/*
->  	 * Now that the pages are *unpinned* shrinking should invoke
-> @@ -1871,7 +1871,7 @@ static int igt_shrink_thp(void *arg)
->  		pr_err("unexpected pages mismatch, should_swap=%s\n",
->  		       str_yes_no(should_swap));
->  		err = -EINVAL;
-> -		goto out_put;
-> +		goto out_wf;
->  	}
+> On 1/12/2023 8:37 PM, Dixit, Ashutosh wrote:
+> > On Thu, 12 Jan 2023 20:26:34 -0800, Belgaumkar, Vinay wrote:
+> > > I think the ABI was changed by the patch mentioned in the commit
+> > > (a8a4f0467d70).
+> > The ABI was originally changed in 80cf8af17af04 and 56a709cf77468.
 
-aren't we missing here one out_put -> out_wf change?
+In theory the ABI has never changed, we just needed to agree once
+and for all what to do when reading the upper level interface.
+There has never been a previous multitile specification before
+this change.
 
-This one:
+There have been long and exhaustive discussions on what to do and
+the decision is that in some cases we show the average, in others
+the maximum. Never the GT0, though.
 
-@@ -1878,7 +1878,7 @@ static int igt_shrink_thp(void *arg)
-                pr_err("unexpected residual page-size bits, should_swap=%s\n",
-                       str_yes_no(should_swap));
-                err = -EINVAL;
--               goto out_put;
-+               goto out_wf;
-        }
- 
-        err = i915_vma_pin(vma, 0, 0, flags);
+> Yes, you are right. @Andi, did we have a plan to update the IGT tests that
+> use these interfaces to properly refer to the per GT entries as well? They
+> now receive average values instead of absolute, hence will fail on a
+> multi-GT device.
+
+I don't know what's the plan for igt's.
+
+Which tests are failing? I think we shouldn't be using the upper
+level interfaces at all in IGT's. Previously there has been an
+error printed on dmesg when this was happening. The error has
+been removed in order to set the ABI as agreed above.
 
 Andi
-
->  
->  	if (should_swap == (obj->mm.page_sizes.sg || obj->mm.page_sizes.phys)) {
-> @@ -1883,7 +1883,7 @@ static int igt_shrink_thp(void *arg)
->  
->  	err = i915_vma_pin(vma, 0, 0, flags);
->  	if (err)
-> -		goto out_put;
-> +		goto out_wf;
->  
->  	while (n--) {
->  		err = cpu_check(obj, n, 0xdeadbeaf);
-> -- 
-> 2.39.0
