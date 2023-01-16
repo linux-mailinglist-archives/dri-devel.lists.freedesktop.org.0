@@ -2,65 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDDFD66CE5D
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 19:07:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 806CE66CE53
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 19:06:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 393B610E484;
-	Mon, 16 Jan 2023 18:07:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C0DD10E47E;
+	Mon, 16 Jan 2023 18:06:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com
- [IPv6:2607:f8b0:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0307310E484
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 18:07:06 +0000 (UTC)
-Received: by mail-il1-x133.google.com with SMTP id u8so14321884ilg.0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 10:07:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D69DE10E47E;
+ Mon, 16 Jan 2023 18:06:00 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id o66so23988274oia.6;
+ Mon, 16 Jan 2023 10:06:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=vc4Nv1UCPS28NNVDYePaLaV2Wpsm+mIPEHiAzrTw9MM=;
- b=hC8rifHiuHXCPgttcmOOf/xO+1ZeeDOeIZfW9Ym8Ory+CkzNJPkrfO/C3JXy2EE1LL
- 2kTaAysayLbTpr+7RDLLrKq0FCECx/EKRPZa3mKY+K67nyLJZ8f7PA4gCRWG73mV4Yn4
- 5cdNgXBpvhk8M9iRXw8+R8fW3tOu/c3Ashp10=
+ bh=jS6lFIJFjFUtY3mw8cyMrgKm76WlKsu232wNoOu9BFI=;
+ b=pJUbclSZ3i6Jdg01liLqHc4w2CrtWVSvaOfhA/DUvmwvBfI9LV/fSr9f0+RsBvfbLx
+ mSuHpfqzVwUOvdgr8BT+nESWO/0QhJY7FYtEC48w4a2xddiPX+BPDav7qXMtorGbTXUq
+ hjQMR/WAaB4ryPMo9lf54fjFLNek6uWrPFOwM6l8Xd/xDdB6xaxgevUnUfNn/0eWYNTc
+ bKMw7E9OC5EgqTES2vcg5jM7PqToB0TgsIByf+obkVK3lyB6P/PcTiK4JkRpIAYBGTyB
+ 1Id0dsqzXGVrfVIItHtSGIEkdKnSeVlrgExRRUQaOVdZ/2a73hix4y96Jlu2eI2bS7Za
+ OBIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=vc4Nv1UCPS28NNVDYePaLaV2Wpsm+mIPEHiAzrTw9MM=;
- b=4A/v0qcqQ+8nbu0yxc4cVU/nbPhtzCGPoBHOW2fMoScGN9FzghnW9RuJZzqo/DliK9
- rP7Hdy4PVA5eCDppEG/Wl9cB52thjfHyzUwNmeqRq+OGs1bM7wQJAmDoJ/qqNbGn067+
- ii1DNl/aT+cPCJa6UzOWZZkyejCPMI12dualmsqt6TY313lr2PNtKsSyfsA8Ohdyd0Wz
- F07RrSvLG57z38SvDUAMJXCnRjhbsN6Exs0mFQ00Fwok1CRKXtMQtOIAp9wriU3zkcdm
- cwAX5mi4Hn4OqIdC+jEWi6eQJZp9p3Eau2inAAe+QePJeW6VDvWPfmlqAa5phcxq0/BD
- DPzA==
-X-Gm-Message-State: AFqh2krON8dOkZ8eKuO5s3V6PSZKEHWdde+wt39S9QX42XNh85tez3ob
- BXlLDyrBhoJzk3J7WxCVKJqLX2w7ZDBjZX5A
-X-Google-Smtp-Source: AMrXdXvTabcZ+ueAqY2zROGYvAf6WshGvOzn/CEAEIF8Xrz1Zql4AmCnDWKzg8oPRVJqyaXtM8XHcQ==
-X-Received: by 2002:a92:c14b:0:b0:30d:9d9d:3068 with SMTP id
- b11-20020a92c14b000000b0030d9d9d3068mr271707ilh.24.1673892425651; 
- Mon, 16 Jan 2023 10:07:05 -0800 (PST)
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com.
- [209.85.166.54]) by smtp.gmail.com with ESMTPSA id
- w13-20020a92d2cd000000b00302a7165d9bsm8550624ilg.53.2023.01.16.10.07.05
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 10:07:05 -0800 (PST)
-Received: by mail-io1-f54.google.com with SMTP id p189so1908773iod.0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 10:07:05 -0800 (PST)
-X-Received: by 2002:a05:622a:250f:b0:3b2:d164:a89b with SMTP id
- cm15-20020a05622a250f00b003b2d164a89bmr364175qtb.452.1673892068650; Mon, 16
- Jan 2023 10:01:08 -0800 (PST)
+ bh=jS6lFIJFjFUtY3mw8cyMrgKm76WlKsu232wNoOu9BFI=;
+ b=Oj9yd2reWsDbouWrahoPCJ/Elcgk6Tgt5UYsGwqbnzwOf2BCDnkmO8C3i+lqatNfDf
+ LRXptjlBx5GmExJ46rwREVosymaW0bgF5+OOL00osjcBB609ugq8CfAxYttACw+cqjMJ
+ AY4wGoiShuK71DFYQHccgqwkxxYe19ejdxa6dtzGqWTXvWiEIKhNJro85PyLhI0yUbiU
+ CCDVWc0WBPHN99nWXxtum1OqoEEkqYbHLhvH5EC1WasciEaHxB7o6xR7xv2pLlbgPqzf
+ tqCuuzh3SUiZjLUAHBk9G7gnBXuwhIICg9Ro1sb4KGQN3YOZMoylWH8uKBjxLDxGKJ3c
+ ywgQ==
+X-Gm-Message-State: AFqh2koLHt99v1Psi/ptibbJS4u5Pm0q07u4ohaxtp0EmL/rSSiseTxQ
+ 72RpHRTb1qpmQCEeW4eUK4ID4Bki6wFxaQkUvvw=
+X-Google-Smtp-Source: AMrXdXvrZGLO62Oo0eXSOIOLUZCvlkDtQzC8DtTWKD6P/g/Ade7N08+e9NEuxmouzOQHO07H0ArjVT5oqOGIBob8wbI=
+X-Received: by 2002:a05:6808:4387:b0:35b:d93f:cbc4 with SMTP id
+ dz7-20020a056808438700b0035bd93fcbc4mr8161oib.96.1673892358616; Mon, 16 Jan
+ 2023 10:05:58 -0800 (PST)
 MIME-Version: 1.0
-References: <1673235231-30302-1-git-send-email-byungchul.park@lge.com>
-In-Reply-To: <1673235231-30302-1-git-send-email-byungchul.park@lge.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 16 Jan 2023 10:00:52 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whpkWbdeZE1zask8YPzVYevJU2xOXqOposBujxZsa2-tQ@mail.gmail.com>
-Message-ID: <CAHk-=whpkWbdeZE1zask8YPzVYevJU2xOXqOposBujxZsa2-tQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v7 00/23] DEPT(Dependency Tracker)
-To: Byungchul Park <byungchul.park@lge.com>
+References: <20230116131235.18917-1-tzimmermann@suse.de>
+ <20230116131235.18917-2-tzimmermann@suse.de>
+In-Reply-To: <20230116131235.18917-2-tzimmermann@suse.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 16 Jan 2023 13:05:47 -0500
+Message-ID: <CADnq5_P4DgCi_JwXo2fJS=cCBmumsw5Og5ZYt+J4J_Lak74e0Q@mail.gmail.com>
+Subject: Re: [PATCH 01/22] drm/amdgpu: Fix coding style
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,59 +65,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, mhocko@kernel.org, linux-mm@kvack.org,
- kernel-team@lge.com, adilger.kernel@dilger.ca, chris.p.wilson@intel.com,
- joel@joelfernandes.org, 42.hyeyoo@gmail.com, cl@linux.com, will@kernel.org,
- duyuyang@gmail.com, sashal@kernel.org, paolo.valente@linaro.org,
- damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
- mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
- rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
- ngupta@vflare.org, johannes.berg@intel.com, dan.j.williams@intel.com,
- josef@toxicpanda.com, rostedt@goodmis.org, gwan-gyeong.mun@intel.com,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
- viro@zeniv.linux.org.uk, tglx@linutronix.de, vbabka@suse.cz,
- melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
- rodrigosiqueiramelo@gmail.com, linux-ide@vger.kernel.org,
- gregkh@linuxfoundation.org, jlayton@kernel.org, linux-kernel@vger.kernel.org,
- penberg@kernel.org, minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
- akpm@linux-foundation.org
+Cc: linux-aspeed@lists.ozlabs.org, sam@ravnborg.org, linux-mips@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[ Back from travel, so trying to make sense of this series.. ]
-
-On Sun, Jan 8, 2023 at 7:33 PM Byungchul Park <byungchul.park@lge.com> wrote:
+Applied.  Thanks!
+On Mon, Jan 16, 2023 at 8:13 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
 >
-> I've been developing a tool for detecting deadlock possibilities by
-> tracking wait/event rather than lock(?) acquisition order to try to
-> cover all synchonization machanisms. It's done on v6.2-rc2.
-
-Ugh. I hate how this adds random patterns like
-
-        if (timeout == MAX_SCHEDULE_TIMEOUT)
-                sdt_might_sleep_strong(NULL);
-        else
-                sdt_might_sleep_strong_timeout(NULL);
-   ...
-        sdt_might_sleep_finish();
-
-to various places, it seems so very odd and unmaintainable.
-
-I also recall this giving a fair amount of false positives, are they all fixed?
-
-Anyway, I'd really like the lockdep people to comment and be involved.
-We did have a fairly recent case of "lockdep doesn't track page lock
-dependencies because it fundamentally cannot" issue, so DEPT might fix
-those kinds of missing dependency analysis. See
-
-    https://lore.kernel.org/lkml/00000000000060d41f05f139aa44@google.com/
-
-for some context to that one, but at teh same time I would *really*
-want the lockdep people more involved and acking this work.
-
-Maybe I missed the email where you reported on things DEPT has found
-(and on the lack of false positives)?
-
-               Linus
+> Align a closing brace and remove trailing whitespaces. No functional
+> changes.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index e47058c2c294..0993ee91fe18 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -5871,8 +5871,8 @@ void amdgpu_device_invalidate_hdp(struct amdgpu_device *adev,
+>  int amdgpu_in_reset(struct amdgpu_device *adev)
+>  {
+>         return atomic_read(&adev->reset_domain->in_gpu_reset);
+> -       }
+> -
+> +}
+> +
+>  /**
+>   * amdgpu_device_halt() - bring hardware to some kind of halt state
+>   *
+> --
+> 2.39.0
+>
