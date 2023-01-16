@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BD4066BA62
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 10:31:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF59E66BA69
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 10:33:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BFD510E152;
-	Mon, 16 Jan 2023 09:31:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DB1910E2A6;
+	Mon, 16 Jan 2023 09:33:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0503610E152
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 09:31:54 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01A3710E2A6
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 09:33:06 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4B36460F06
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 09:31:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AB90AC433F0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 09:31:53 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 046E8B80D7F
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 09:33:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9AD9FC433F0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 09:33:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1673861513;
- bh=+zKDxzoV9pnTNaAevferl8AfS8vS071QjmtoDAgigiQ=;
+ s=k20201202; t=1673861583;
+ bh=l4Qhgi2prHcUONaZpJNxjGn2aS00S2gkGjHnWifinvM=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=uz77a4np1r9wPGBTGNWkxsnlBkAOMRod82LcxbpN9y9B2El+bRTgvuCCnq9udKoiC
- vFKcR/BN9/38+ko11qitIO81twkgg1/0w38Xp7MHg1RNM9rITf1xmSMFkbeQaD8Cku
- RL7Z32uGrNnjpoa7rP1tlb03y77U+ZrJ+QYLuTQLYRX6Yp4DIYdr21bTfltsMZppuy
- XI6miFhFPI8v+eXbdFIQ1q5Qk4YlMtGkFNTt9ZfD3LXm2Xj5GHEPFi4OAVkD5zsaDS
- NOW4nQPN62QYVI4DUp+ry24UIjWylCq633Gg15TDLGGSJ9VklDmqQ4bTFJqLtb+WRG
- XVxMzfty0BRUQ==
+ b=We4GaiFNvfB9+y9PrbxXUZozq/HNYGXAepCl8s0KhC3RQVoMYZJ7aOtdesB4l9IKk
+ eiV7qxxhVyCdp81dzxm/qjACVCvNh3Nf4pyyr4oizr8a539GlzTsOAROFHF0K7kuVb
+ rT9fS9eT9CMm7VYpFWrOi8DLC5Dfr8moJ1qVn/M8d2SpguAG093r86b8dDy/nopqYS
+ JAHvSJW9B7R90J8o9MeZSk10E4nEaXP+b6bzIkIjpEEVO6svB31+0ip99kDurPsoEA
+ KefBEOcZaohn9LwwT5Tm7vdNPGeJysTGOdP2uxyaFZfoM+S2qV8+TDMZo1Zh4O86AQ
+ 2Wpt1/0EHaJYg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 9BF83C43141; Mon, 16 Jan 2023 09:31:53 +0000 (UTC)
+ from userid 48) id 8AEA2C43142; Mon, 16 Jan 2023 09:33:03 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 216920] Running IDE eventually leads to BUG: kernel NULL
  pointer dereference
-Date: Mon, 16 Jan 2023 09:31:53 +0000
+Date: Mon, 16 Jan 2023 09:33:03 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -51,8 +50,8 @@ X-Bugzilla-Resolution: ANSWERED
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-216920-2300-FstX5nTVvf@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216920-2300-jLJtlEhWml@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-216920-2300@https.bugzilla.kernel.org/>
 References: <bug-216920-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -77,15 +76,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D216920
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+--- Comment #2 from Artem S. Tashkinov (aros@gmx.com) ---
+Sorry, wrong URL,
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |ANSWERED
-
---- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
-Please re-report here: https://gitlab.freedesktop.org/drm/intel/-/issues
+https://gitlab.freedesktop.org/drm/amd/-/issues
 
 --=20
 You may reply to this email to add a comment.
