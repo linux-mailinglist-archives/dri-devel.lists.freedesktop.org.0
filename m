@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88C7766D1EE
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 23:50:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A921F66D1EB
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 23:49:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F14C010E505;
-	Mon, 16 Jan 2023 22:49:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B9A010E503;
+	Mon, 16 Jan 2023 22:49:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
- [IPv6:2607:f8b0:4864:20::d2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C27E910E171
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 22:49:45 +0000 (UTC)
-Received: by mail-io1-xd2f.google.com with SMTP id z194so2355333iof.10
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 14:49:45 -0800 (PST)
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
+ [IPv6:2607:f8b0:4864:20::d35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 944A410E505
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 22:49:47 +0000 (UTC)
+Received: by mail-io1-xd35.google.com with SMTP id q130so1205418iod.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 14:49:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NlMIUi+YfP7k/BEEENzXAg+UYL09PWGfuqaTM6sQw0I=;
- b=o2yBg4ngM8TYFAdxDCcoNdj0A8A3NEvcsdFljaeoCH/3TCPHvUYh1gu/7rItW/mNi/
- nrJt9nQu+F4ylYtexOOy5kqJa+VTSfDL5I7aHHLE9aoo6LknK8CVP8hPtIZcWU02uWrO
- ANhW9KWBc7+t3XNble9Hr1pmThvtY78vyvDE5sm0XiGLtaOMn0xP0NPQDuwO+/M6kkgz
- OJRi+QE9jZ99DDMCjg0lS8v4dFuI1hWrAi+6JZ6hO0SmhfSKH34It7YmZ2HbTk5Ic6a+
- tQhJ3NM9UCbr6be3ndvoVTTKSeEjzJrvfpasn9E732OHIdUtPjW4MjYgSYdgsa/Thrgi
- VuPA==
+ bh=omKF2YX7pGIZQKEcRL/MvPMHB5a+dIUWO4cJUKQU+u0=;
+ b=CZ/0UTase2xAs8lxHI9UeqC/wdKvzNYmpbiDBVrjqyYZGIKUGnIUNlcy3Cwp+wmDeR
+ d3c6Pb98pr5Y/PoyKbSFMnaVb1YvbkpejVW6ZEyWUR648sqhTe5Y9lca6Qy8qA1wFTUO
+ 0d2hmxgAwMij76ziFQpzZomOFM0vUZtIBM6fuaKo1TEuXX7r5yd/8Tr5IrpR6xpJxYF9
+ GegZ+ZW1ybWZP2QuyhV7THjLgR8U3isBjeWRdx8ArOk6hPq7TLgc4YNxrttoTeRYqlQ0
+ KxYahUCJMpiI69XCFQwKHfjWo8DkCy+Zhf2TOr/W4are0BoAi4XuyBfpAfyk0pI6Tsl/
+ SFqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NlMIUi+YfP7k/BEEENzXAg+UYL09PWGfuqaTM6sQw0I=;
- b=WztvH+zTn83spT8dY8uCiRNlkk14rbSr0rpZK7C6WMGNPFShpwktJ0K2SuYcFH0wL7
- sgN/UllBK0yAorRfC47xoDQ/zgXXJwB9sFBS5h/Yv/aovg31bknKdkx6cIwJbCiGXjAg
- aXdiHRRG+pNJwkwsSmGJDiy99U40oiqyi5AyF71RWmfuXpy4Yu26DIWji8OgxFGX2A3K
- iocLMKBmPhx4HrA2I0qzNsoPo9h/JF0FlN8d9vY49VSuRK6eVyEC7IWwg6OsBH/PKfQl
- eDvGaHGhbCDEtxnUbAwxtr71Xi3+zQpAJEbwuEtDSpP/GqnbAfOwQQrKuEV6xlu1OPel
- JcFA==
-X-Gm-Message-State: AFqh2kqY4euHJOlN3MHceBpqQGqFiwu8y8bxJ3SX+v7JRC62iu1PQ4k7
- 3KRkqteIRCIeQErsLkWCEfs=
-X-Google-Smtp-Source: AMrXdXtBDkHSt71z5BDQjMOXx68uplVPX5cYkR0TUt+L/JWg3uuApC+ErwdrSBGTh2X02NhTpZy4/w==
-X-Received: by 2002:a5d:9905:0:b0:6e0:58c:fb32 with SMTP id
- x5-20020a5d9905000000b006e0058cfb32mr552719iol.2.1673909385080; 
- Mon, 16 Jan 2023 14:49:45 -0800 (PST)
+ bh=omKF2YX7pGIZQKEcRL/MvPMHB5a+dIUWO4cJUKQU+u0=;
+ b=6r9BAjs149xBHXCPcUJ0dJJoPXRboQnncKBFg1GEf5AhH6aEkDZ6jwiN4CnjgLiYGE
+ Jzd1mYOGccv4NwoL7eN8M06rAHSYhWEA4Fl/LSZ+fJkYl2HeE+SSzEP6u/FOhzmbGpSd
+ 3w3BeEi6guA9477Eu0iMSg1yjvjRM+Aqpzq2olRQf0lJY6on6mbzmHH5r8Zqe1ugd8nm
+ mGrLddRTREey0ulxiXFf5d0AeSmBPGhwlILZQ7GYs4hqie4j7MEhaRGNmDPgPfWezWjl
+ 8Maw6YAT0ZoL1VGWFjtKKQfgqgi1tRh6tWwrXdySlYxzoWYFhI3h9qONZwS8Tk9JvFHM
+ G+wQ==
+X-Gm-Message-State: AFqh2kpPQiDbkKIKqlac31N0Ql+w413LxvifwHu+AMOdNDnH7/ETsPFt
+ ahVW32FfKNdxOmW4CuiKlEM=
+X-Google-Smtp-Source: AMrXdXtPw+6hWBhNdeiLKTPCVjXcBFoNQ6gjAqaly6x0ETeYM27eNPMHuRAACMVCQo+sFcLbWTGtRg==
+X-Received: by 2002:a05:6602:378a:b0:6e0:10d3:9631 with SMTP id
+ be10-20020a056602378a00b006e010d39631mr695736iob.16.1673909386891; 
+ Mon, 16 Jan 2023 14:49:46 -0800 (PST)
 Received: from localhost ([2607:fea8:a2df:3d00::6be])
  by smtp.gmail.com with ESMTPSA id
- f14-20020a056638112e00b0038a346207cdsm9070777jar.84.2023.01.16.14.49.44
+ z25-20020a056638215900b003a3dd1c7be7sm1791841jaj.128.2023.01.16.14.49.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Jan 2023 14:49:44 -0800 (PST)
+ Mon, 16 Jan 2023 14:49:46 -0800 (PST)
 From: Richard Acayan <mailingradian@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -57,10 +57,9 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.l.velikov@gmail.com>,
  Vinay Simha BN <simhavcs@gmail.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v3 1/3] drm/mipi-dsi: Fix byte order of 16-bit DCS set/get
- brightness
-Date: Mon, 16 Jan 2023 17:49:07 -0500
-Message-Id: <20230116224909.23884-2-mailingradian@gmail.com>
+Subject: [RFC PATCH v3 2/3] drm/panel: sofef00: Use 16-bit brightness function
+Date: Mon, 16 Jan 2023 17:49:08 -0500
+Message-Id: <20230116224909.23884-3-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230116224909.23884-1-mailingradian@gmail.com>
 References: <20230116224909.23884-1-mailingradian@gmail.com>
@@ -84,107 +83,46 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Mentz <danielmentz@google.com>
+These panels communicate brightness in big endian. This is not a quirk
+of the panels themselves, but rather, a part of the MIPI standard. Use
+the new mipi_dsi_dcs_set_display_brightness_large() function that
+properly handles 16-bit brightness instead of doing special processing
+of the brightness values.
 
-The MIPI DCS specification demands that brightness values are sent in
-big endian byte order. It also states that one parameter (i.e. one byte)
-shall be sent/received for 8 bit wide values, and two parameters shall
-be used for values that are between 9 and 16 bits wide.
-
-Add new functions to properly handle 16-bit brightness in big endian,
-since the two 8- and 16-bit cases are distinct from each other.
-
-Fixes: 1a9d759331b8 ("drm/dsi: Implement DCS set/get display brightness")
-Signed-off-by: Daniel Mentz <danielmentz@google.com>
-Link: https://android.googlesource.com/kernel/msm/+/754affd62d0ee268c686c53169b1dbb7deac8550
-[richard: fix 16-bit brightness_get]
-[richard: use separate functions instead of switch/case]
-[richard: split into 16-bit component]
 Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 Tested-by: Caleb Connolly <caleb@connolly.tech>
 ---
- drivers/gpu/drm/drm_mipi_dsi.c | 52 ++++++++++++++++++++++++++++++++++
- include/drm/drm_mipi_dsi.h     |  4 +++
- 2 files changed, 56 insertions(+)
+ drivers/gpu/drm/panel/panel-samsung-sofef00.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index 497ef4b6a90a..4bc15fbd009d 100644
---- a/drivers/gpu/drm/drm_mipi_dsi.c
-+++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -1224,6 +1224,58 @@ int mipi_dsi_dcs_get_display_brightness(struct mipi_dsi_device *dsi,
- }
- EXPORT_SYMBOL(mipi_dsi_dcs_get_display_brightness);
+diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef00.c b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
+index 9db49a028930..1ebb79e3103c 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-sofef00.c
++++ b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
+@@ -10,7 +10,6 @@
+ #include <linux/of.h>
+ #include <linux/of_device.h>
+ #include <linux/regulator/consumer.h>
+-#include <linux/swab.h>
+ #include <linux/backlight.h>
  
-+/**
-+ * mipi_dsi_dcs_set_display_brightness_large() - sets the 16-bit brightness value
-+ *    of the display
-+ * @dsi: DSI peripheral device
-+ * @brightness: brightness value
-+ *
-+ * Return: 0 on success or a negative error code on failure.
-+ */
-+int mipi_dsi_dcs_set_display_brightness_large(struct mipi_dsi_device *dsi,
-+					     u16 brightness)
-+{
-+	u8 payload[2] = { brightness >> 8, brightness & 0xff };
-+	ssize_t err;
-+
-+	err = mipi_dsi_dcs_write(dsi, MIPI_DCS_SET_DISPLAY_BRIGHTNESS,
-+				 payload, sizeof(payload));
-+	if (err < 0)
-+		return err;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(mipi_dsi_dcs_set_display_brightness_large);
-+
-+/**
-+ * mipi_dsi_dcs_get_display_brightness_large() - gets the current 16-bit
-+ *    brightness value of the display
-+ * @dsi: DSI peripheral device
-+ * @brightness: brightness value
-+ *
-+ * Return: 0 on success or a negative error code on failure.
-+ */
-+int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
-+					     u16 *brightness)
-+{
-+	u8 brightness_be[2];
-+	ssize_t err;
-+
-+	err = mipi_dsi_dcs_read(dsi, MIPI_DCS_GET_DISPLAY_BRIGHTNESS,
-+				brightness_be, sizeof(brightness_be));
-+	if (err <= 0) {
-+		if (err == 0)
-+			err = -ENODATA;
-+
-+		return err;
-+	}
-+
-+	*brightness = (brightness_be[0] << 8) | brightness_be[1];
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(mipi_dsi_dcs_get_display_brightness_large);
-+
- static int mipi_dsi_drv_probe(struct device *dev)
+ #include <video/mipi_display.h>
+@@ -213,13 +212,9 @@ static int sofef00_panel_bl_update_status(struct backlight_device *bl)
  {
- 	struct mipi_dsi_driver *drv = to_mipi_dsi_driver(dev->driver);
-diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index 4f503d99f668..16f30975b22b 100644
---- a/include/drm/drm_mipi_dsi.h
-+++ b/include/drm/drm_mipi_dsi.h
-@@ -296,6 +296,10 @@ int mipi_dsi_dcs_set_display_brightness(struct mipi_dsi_device *dsi,
- 					u16 brightness);
- int mipi_dsi_dcs_get_display_brightness(struct mipi_dsi_device *dsi,
- 					u16 *brightness);
-+int mipi_dsi_dcs_set_display_brightness_large(struct mipi_dsi_device *dsi,
-+					     u16 brightness);
-+int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
-+					     u16 *brightness);
+ 	struct mipi_dsi_device *dsi = bl_get_data(bl);
+ 	int err;
+-	u16 brightness;
++	u16 brightness = (u16)backlight_get_brightness(bl);
  
- /**
-  * mipi_dsi_generic_write_seq - transmit data using a generic write packet
+-	brightness = (u16)backlight_get_brightness(bl);
+-	// This panel needs the high and low bytes swapped for the brightness value
+-	brightness = __swab16(brightness);
+-
+-	err = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
++	err = mipi_dsi_dcs_set_display_brightness_large(dsi, brightness);
+ 	if (err < 0)
+ 		return err;
+ 
 -- 
 2.39.0
 
