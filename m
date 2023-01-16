@@ -1,58 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 063DB66BDED
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 13:35:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BAD366BDF9
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 13:38:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF71F10E091;
-	Mon, 16 Jan 2023 12:35:29 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4189C89580
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 12:35:26 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id o75so30123536yba.2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 04:35:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/erdhCvJApG5+vMesdd42dNerta3+LyPUExayIGJPz0=;
- b=itZ+gDDTGwuqBx/tze1RvlEJN6u0EwoKQK0i1czQF/cl/UscOfz6YkJegbygVvnrMp
- tydo6HMMV5c7DobR3fHke+4bSyEgulQb0Ew+P7FzMYldQrV4/mZU4KB+y/8DCQzvuy7s
- MUhHh384PCVdpJ3iJPHcLbjwixsAx77cmLWOITqfCSi7LiLAsMmM8lLUqjn9pSBN61xI
- DOXsOIjgDXJkWQuxmXktlp/jOKVXc/MA8YsG3hX0qt328aaEpUEb2w6iE8J2AKtnxr1Q
- AhlcJa+r6B1r21bTWW0Vw0yIyTGxaOowB/tOLoCuveWnmUTZ2givnijP1r6RiIBvW8so
- ZKxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/erdhCvJApG5+vMesdd42dNerta3+LyPUExayIGJPz0=;
- b=K/flDrddgfnEfxW0xk38J5teWJ07nX8M9DzymobG+KhtZ+nZcbZuiZ0C353ozsyNvw
- EtyrAsPn28R+qOVjYGAERCtGGnsXxo89+YfuLu8In67TxAB4+TIcIRpFSnoqz2thgUrz
- wsaOATiekl96ts5T2oQ0oJzK+JtnaCMJUuSHRl5zgvRHHsl+DyaCKfchdQf3l1z/eBKx
- a8jtRPKPtiL1khHbtJRVDLEpiZ1EVkxKGOHlaKGucM7fFYLtccwLpSDjntMYOmQfJSWM
- oOMZHFVowLzat+qE6pcu0EEjHBc0u49XjcdLsZm+Nc3pnIp3foBnQZplEM2wPk+dvLBS
- 0GOA==
-X-Gm-Message-State: AFqh2kr8ma3Jr57TglumnQ3xKQSH50gFhwYUx5OlMYObvzTZ946jTCn8
- Sq8l3QAM2wVNLmPcldoM0M4jKUyHQUUKatNdUBcExA==
-X-Google-Smtp-Source: AMrXdXt1WAMrSMDgrFvzDatVwEnbHDFT16F4YV0aLDOnGxfs2CR1LL+5Qr5ImSLTYmxCautE2oqiS8pGzCGYY5jDKcQ=
-X-Received: by 2002:a25:d08d:0:b0:7ca:9b40:72a7 with SMTP id
- h135-20020a25d08d000000b007ca9b4072a7mr1821610ybg.130.1673872525317; Mon, 16
- Jan 2023 04:35:25 -0800 (PST)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C32BB10E3F6;
+	Mon, 16 Jan 2023 12:38:42 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16DDB10E3F2;
+ Mon, 16 Jan 2023 12:38:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673872721; x=1705408721;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=NrcygZZsujC2TB0z+H5TPQM7UwgaiqA+zDYiAye8r+o=;
+ b=jOOVEIHLBbBAhqKaFNummeJQ8aS9O02wu8PQ9nf4H09OvkLU6AnjYvPA
+ UnQ97+zybDishvmEJ3qSCAZyT5v/zUjjheunjtk9z46MjtLnvAHjI9OQr
+ kxIiyIyTEK+d5IuUpFjNKWeHn84Ciks7nTPA6KTByAfgWJ+9j5Fxt5AQW
+ XjLnvYAskNBTnJNxauPuXKgGBhFtnMhy6kPUpONmuqUEAwD594fcjqWXa
+ XoRBKhFNvDzqaga2lEgRqVSSPHpz0VwmbKE2cFhs7rhcDpYMyHtv0jmsq
+ EOMtK/91/EvVkXt2Fjue3DJSIgu/4u4yPrzo1f+rSscG9SocX2vCZ43XS w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="386797724"
+X-IronPort-AV: E=Sophos;i="5.97,220,1669104000"; d="scan'208";a="386797724"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2023 04:38:40 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="904317911"
+X-IronPort-AV: E=Sophos;i="5.97,220,1669104000"; d="scan'208";a="904317911"
+Received: from hgacquin-mobl1.ger.corp.intel.com (HELO [10.213.212.173])
+ ([10.213.212.173])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2023 04:38:39 -0800
+Message-ID: <75379a08-1a87-d3a3-01ee-781c73d40d6f@linux.intel.com>
+Date: Mon, 16 Jan 2023 12:38:37 +0000
 MIME-Version: 1.0
-References: <20230110200255.1218738-2-macroalpha82@gmail.com>
- <202301111039.dxBiLene-lkp@intel.com>
-In-Reply-To: <202301111039.dxBiLene-lkp@intel.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 16 Jan 2023 13:35:13 +0100
-Message-ID: <CACRpkdbvsFDDRt1otJcZ-mPdSBecL0cwDSW92YeBGmmyLXee0A@mail.gmail.com>
-Subject: Re: [PATCH v8 1/4] drm: of: Add drm_of_get_dsi_bus helper function
-To: kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [Intel-gfx] [PATCH 1/4] drm/i915: Allow error capture without a
+ request
+Content-Language: en-US
+To: John Harrison <john.c.harrison@intel.com>,
+ "Hellstrom, Thomas" <thomas.hellstrom@intel.com>,
+ "Intel-GFX@Lists.FreeDesktop.Org" <Intel-GFX@Lists.FreeDesktop.Org>
+References: <20230112025311.2577084-1-John.C.Harrison@Intel.com>
+ <20230112025311.2577084-2-John.C.Harrison@Intel.com>
+ <f5edb1fa-6aba-1e02-f238-518518337f11@linux.intel.com>
+ <79cd935a-5a7f-b709-ec05-c9cf5801f2dc@intel.com>
+ <4acf4db5-97e9-34dc-2b89-517296ce4c3c@linux.intel.com>
+ <7316954666eecb39aef79067bc590e58bee48389.camel@intel.com>
+ <0b0f59dc-d50f-f491-ad0c-9030b799830e@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <0b0f59dc-d50f-f491-ad0c-9030b799830e@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,33 +70,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
- krzysztof.kozlowski+dt@linaro.org, dri-devel@lists.freedesktop.org,
- Chris Morgan <macroalpha82@gmail.com>, linux-rockchip@lists.infradead.org,
- robh+dt@kernel.org, thierry.reding@gmail.com, tzimmermann@suse.de,
- oe-kbuild-all@lists.linux.dev, sam@ravnborg.org, maccraft123mc@gmail.com
+Cc: "Auld, Matthew" <matthew.auld@intel.com>,
+ "DRI-Devel@Lists.FreeDesktop.Org" <DRI-Devel@Lists.FreeDesktop.Org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 11, 2023 at 4:01 AM kernel test robot <lkp@intel.com> wrote:
 
->    126  static inline int
->    127  drm_of_get_data_lanes_count_ep(const struct device_node *port,
->    128                                 int port_reg, int reg,
->    129                                 const unsigned int min,
->    130                                 const unsigned int max)
->    131  {
->    132          return -EINVAL;
->    133  }
->  > 134  struct mipi_dsi_host *drm_of_get_dsi_bus(struct device *dev,
->    135                                           struct mipi_dsi_device_info *info)
->    136  {
->    137          return ERR_PTR(-EINVAL);
->    138  }
->    139  #endif
+On 13/01/2023 21:29, John Harrison wrote:
+> On 1/13/2023 09:46, Hellstrom, Thomas wrote:
+>> On Fri, 2023-01-13 at 09:51 +0000, Tvrtko Ursulin wrote:
+>>> On 12/01/2023 20:40, John Harrison wrote:
+>>>> On 1/12/2023 02:01, Tvrtko Ursulin wrote:
+>>>>> On 12/01/2023 02:53, John.C.Harrison@Intel.com wrote:
 
-This needs to be prefixed "static inline" like the function above, then
-I bet it works.
+[snip]
 
-Yours,
-Linus Walleij
+>>>>>> +                 engine->name);
+>>>>>> +            rq = NULL;
+>>>>>> +        }
+>>>>>>        } else {
+>>>>>>            /*
+>>>>>>             * Getting here with GuC enabled means it is a forced
+>>>>>> error
+>>>>>> capture
+>>>>>> @@ -1622,22 +1645,24 @@ capture_engine(struct intel_engine_cs
+>>>>>> *engine,
+>>>>>>                               flags);
+>>>>>>            }
+>>>>>>        }
+>>>>>> -    if (rq)
+>>>>>> +    if (rq) {
+>>>>>>            rq = i915_request_get_rcu(rq);
+>>>>>> +        capture = intel_engine_coredump_add_request(ee, rq,
+>>>>>> ATOMIC_MAYFAIL);
+>>>>>> +    } else if (ce) {
+>>>>>> +        capture = engine_coredump_add_context(ee, ce,
+>>>>>> ATOMIC_MAYFAIL);
+>>>>>> +    }
+>>>>>>    -    if (!rq)
+>>>>>> -        goto no_request_capture;
+>>>>>> -
+>>>>>> -    capture = intel_engine_coredump_add_request(ee, rq,
+>>>>>> ATOMIC_MAYFAIL);
+>>>>>>        if (!capture) {
+>>>>>> -        i915_request_put(rq);
+>>>>>> +        if (rq)
+>>>>>> +            i915_request_put(rq);
+>>>>>>            goto no_request_capture;
+>>>>>>        }
+>>>>>>        if (dump_flags & CORE_DUMP_FLAG_IS_GUC_CAPTURE)
+>>>>>>            intel_guc_capture_get_matching_node(engine->gt, ee,
+>>>>>> ce);
+>>>>> This step requires non-NULL ce, so if you move it under the "else
+>>>>> if
+>>>>> (ce)" above then I *think* exit from the function can be
+>>>>> consolidated
+>>>>> to just:
+>>>>>
+>>>>> if (capture) {
+>>>>>      intel_engine_coredump_add_vma(ee, capture, compress);
+>>>>>      if (rq)
+>>>>>          i915_request_put(rq);
+>>>> Is there any reason the rq ref needs to be held during the add_vma
+>>>> call?
+>>>> Can it now just be moved earlier to be:
+>>>>       if (rq) {
+>>>>           rq = i915_request_get_rcu(rq);
+>>>>           capture = intel_engine_coredump_add_request(ee, rq,
+>>>> ATOMIC_MAYFAIL);
+>>>>           i915_request_put(rq);
+>>>>       }
+>>>>
+>>>> The internals of the request object are only touched in the above
+>>>> _add_request() code. The later _add_vma() call fiddles around with
+>>>> vmas
+>>>> that pulled from the request but the capture_vma code inside
+>>>> _add_request() has already copied everything, hasn't it? Or rather,
+>>>> it
+>>>> has grabbed its own private vma resource locks. So there is no
+>>>> requirement to keep the request itself around still?
+>> That sounds correct. It was some time ago since I worked with this code
+>> but when i started IIRC KASAN told me the request along with the whole
+>> capture list could disappear under us due to a parallel capture.
+>>
+>> So the request reference added then might cover a bit too much now that
+>> we also hold references on vma resources, which it looks like we do in
+>> intel_engine_coredump_add_vma().
+> So that means we end up with:
+>      rq = intel_context_find_active_request(ce);
+>      ...
+>      [test stuff like i915_request_started(rq)]
+>      ...
+>       if (rq) {
+>          rq = i915_request_get_rcu(rq);
+>          capture = intel_engine_coredump_add_request(ee, rq, 
+> ATOMIC_MAYFAIL);
+>          i915_request_put(rq);
+>      }
+> 
+> What is special about coredump_add_request() that it needs the request 
+> to be extra locked for that call and only that call? If the request can 
+> magically vanish after being found then what protects the _started() 
+> query? For that matter, what stops the request_get_rcu() itself being 
+> called on a pointer that is no longer valid? And if we do actually have 
+> sufficient locking in place to prevent that, why doesn't that cover the 
+> coredump_add_request() usage?
+
+There is definitely a red flag there with the difference between the if 
+and else blocks at the top of capture_engine(). And funnily enough, the 
+first block appears to be GuC only. That is not obvious from the code 
+and should probably have a comment, or function names made self-documenting.
+
+I guess the special thing about intel_engine_coredump_add_request() is 
+that it dereferences the rq. So it is possibly 573ba126aef3 
+("drm/i915/guc: Capture error state on context reset") which added a bug 
+where rq can be dereferenced with a reference held. Or perhaps with the 
+GuC backend there is a guarantee request cannot be retired from 
+elsewhere while error capture is examining it.
+
+To unravel the error entry points into error capture, from execlists, 
+debugfs, ringbuffer, I don't have the time to remind myself how all that 
+works right now. Quite possibly at least some of those run async to the 
+GPU so must be safe against parallel request retirement. So I don't know 
+if the i915_request_get_rcu safe in all those cases without spending 
+some time to refresh my knowledge a bit.
+
+Sounds like the best plan is not to change this too much - just leave 
+the scope of reference held as is and ideally eliminate the necessary 
+goto labels. AFAIR that should be doable without changing anything real 
+and unblock these improvements.
+
+Regards,
+
+Tvrtko
