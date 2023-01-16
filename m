@@ -1,71 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C69C66C3EF
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 16:32:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED80066C3F4
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 16:32:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1FAC10E1A7;
-	Mon, 16 Jan 2023 15:32:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2AF610E45D;
+	Mon, 16 Jan 2023 15:32:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D096A10E45D
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 15:32:41 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- k22-20020a05600c1c9600b003d1ee3a6289so22423561wms.2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 07:32:41 -0800 (PST)
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3892910E45D
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 15:32:55 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ j16-20020a05600c1c1000b003d9ef8c274bso18076704wms.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 07:32:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=pLlU0//JOhI5+jFQeF0IemYPVNuiHGn4YNIK9CZFi1o=;
- b=dNzg7x2JCWHeJ+YZYt5psR8dzwmn5PHIj3P9h14az/5o6i70bZFzAn/qmCh5gxsJuo
- dnFKZJKkjldNXiUdbtTGmrYRz/z8U67GgMMrzKSvuOrrWpo5TTInKXrg+YYTLHjnXUey
- agYu1eYwb/f+bJLnTwLJ5LPR6mmCSsgSV+MhmSfboNkBXARK1zd6oEXKTA7+Iagd93Ap
- LBCvBKhonb3pB4tH2ADUuRNJp4Ui7cXnxrw9TzVReM/Dng9cA9QX63UmWqF1bhNJm+5s
- h5W7rvzP8uB2LGLzkmlybJncFd02iu1sPaq+8t0uQE5icwLCZ/LhsdWPgV49xeS1xT9G
- 3S7Q==
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:reply-to:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=8bpel7kGKLHQHn4OeNNyIbXCW+3n7mjhMCA5OdKUwCI=;
+ b=zTjgFSDTPfqa+bpVPJkM6+Y6Ms8SgFtWlHJx/RB4hlgC+KvvUnMJmYYLvQhQH6DjvA
+ YwDB9L7tBXAFss4wJf1EppnvJnLMvHeNkqLmvJf13HKX4K/2+2DdYLsR9ewxnr7wG027
+ L6KQuqZQktDdQw6/8GzZSbyNuq8QEKQBMBM2g1bdSvuRN5J6iA/isPD2r+WBvVEUzqib
+ yRDc1I/Ni65O0tu7LI0T/8vhKhYIl8WL4b2PhlR6yCkjeXWp+ys5BuNecJMy8etz/hzN
+ Za8hiNMWm4UtI8FVn93N7NVVZegpY0ms520Z/q31v+a53jNtgerdsxTNuxO0lF/0g/pv
+ ch/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pLlU0//JOhI5+jFQeF0IemYPVNuiHGn4YNIK9CZFi1o=;
- b=a3kyqmqZGmEoc5AXZPihCZ5o3Uy/qa1s3gf9PVfQQcrO6ptoa2w0OXK+CjVnKgJ4IT
- +yPMnsaNP4ZVELYgj1Y+teAAlp4CMyg4jIMKm6DK5M3BjT7OqcCzV9akjRlcO7P99ntb
- La3ldh7/bry6rXRoTn0Yfk3FBZcGpvGCujnCYIUvDcSJOD4jRzZaBn2EDesBPxa/ZcID
- DQRhfbVwtXBKIz51t8WfZ1fuIHrXCiMkdhF1Ah9TmPqoHONYvwBbJfsE97I8BCBbIcT2
- BgBm8yJygfHOx8xOe5s2XCkf2HE5Cn97IlQ/dAs3a0Js9ZrrwYHx9w5+VFtySeBHzmNM
- 7ZmQ==
-X-Gm-Message-State: AFqh2kounULsOiGXgisvlV6JCBEn25nsBnKep6dynCdjfEs27tLzUjEx
- JHID+SbBA4fqjSlGliQ64/TULA==
-X-Google-Smtp-Source: AMrXdXvs9gP/jcBE1isAaAR/uS/atYP6RslmqVbXkqxfhRweKVg/TqVSK0VuaSefMZDrTsjdNcI2Iw==
-X-Received: by 2002:a05:600c:1e1e:b0:3d2:3b4d:d619 with SMTP id
- ay30-20020a05600c1e1e00b003d23b4dd619mr67847396wmb.15.1673883160165; 
- Mon, 16 Jan 2023 07:32:40 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:reply-to:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8bpel7kGKLHQHn4OeNNyIbXCW+3n7mjhMCA5OdKUwCI=;
+ b=QX49q46623dcdbaY44wgqHWzJhkVOdbhTh/u1Ey14WeJ9yqrGG2d0B3cU1Dp0UKXpa
+ g3evT1QnBSfcomV1Gjmg5LBCHMPHrALDQ4/LGwcppozlOhInSf/rlySIQCoMXFnq3nok
+ 50l8Ovn8NB4WX6Mh8LW+M3fM2O9g9ILhPaTkyNr5f3f1H5s7ElCsJM3B+P5E+WAq0eZZ
+ V60xCsSbfAZ/gVfmqXAXa8FJOrr9LckhB5iM+SQhDw6kvSwBOa5T6XKajwCZwU/ML5mM
+ G4ATgvE8p0rAcjDRNigh1QZ2qXzaiRG4cVbDS3OgnrswndBgbXAoEXtn5r1GstgqyS4k
+ 5BYg==
+X-Gm-Message-State: AFqh2krRuBJlzLvNUheITc4rJ7JSjDTHQGBUikDH8Fou8hNrJY+KFctc
+ JglEi2fNxl2+GDl80OCZBXmHAg==
+X-Google-Smtp-Source: AMrXdXsmWA1xcburcX2LMZyVHZnLClsI7GWMPr1ccomYi4coWfoLFdlEn4h94ltBxSw97JOqJRmv/A==
+X-Received: by 2002:a05:600c:4fd5:b0:3da:1d24:e6bf with SMTP id
+ o21-20020a05600c4fd500b003da1d24e6bfmr13757890wmq.37.1673883173617; 
+ Mon, 16 Jan 2023 07:32:53 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:982:cbb0:ba0d:2f3a:c61d:3e0?
  ([2a01:e0a:982:cbb0:ba0d:2f3a:c61d:3e0])
  by smtp.gmail.com with ESMTPSA id
- g12-20020a05600c310c00b003c70191f267sm42162660wmo.39.2023.01.16.07.32.39
+ l3-20020a05600c4f0300b003a6125562e1sm36845822wmq.46.2023.01.16.07.32.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 07:32:39 -0800 (PST)
-Message-ID: <3f60e3c2-0f64-4845-da84-d9a047c5e854@linaro.org>
-Date: Mon, 16 Jan 2023 16:32:38 +0100
+ Mon, 16 Jan 2023 07:32:53 -0800 (PST)
+Message-ID: <a9421146-7993-0132-b3c5-1071ed8a5019@linaro.org>
+Date: Mon, 16 Jan 2023 16:32:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 1/3] drm/msm/dpu: fix blend setup for DMA4 and DMA5 layers
+Subject: Re: [PATCH 2/3] drm/msm/dpu: simplify ctl_setup_blendstage calculation
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
 References: <20230116063316.728496-1-dmitry.baryshkov@linaro.org>
+ <20230116063316.728496-2-dmitry.baryshkov@linaro.org>
+From: Neil Armstrong <neil.armstrong@linaro.org>
 Organization: Linaro Developer Services
-In-Reply-To: <20230116063316.728496-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230116063316.728496-2-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,148 +89,140 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 16/01/2023 07:33, Dmitry Baryshkov wrote:
-> SM8550 uses new register to map SSPP_DMA4 and SSPP_DMA5 units to blend
-> stages. Add proper support for this register to allow using these two
-> planes for image processing.
+> Extract the common expression in the dpu_hw_ctl_setup_blendstage()
+> function.
 > 
-> Fixes: efcd0107727c ("drm/msm/dpu: add support for SM8550")
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 15 +++++++++------
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  2 ++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    | 19 +++++++++++++++++++
->   3 files changed, 30 insertions(+), 6 deletions(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 38 +++++++++++-----------
+>   1 file changed, 19 insertions(+), 19 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index 835d6d2c4115..504a22c76412 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -67,6 +67,9 @@
->   #define CTL_SC7280_MASK \
->   	(BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE) | BIT(DPU_CTL_VM_CFG))
->   
-> +#define CTL_SM8550_MASK \
-> +	(CTL_SC7280_MASK | BIT(DPU_CTL_HAS_LAYER_EXT4))
-> +
->   #define MERGE_3D_SM8150_MASK (0)
->   
->   #define DSPP_MSM8998_MASK BIT(DPU_DSPP_PCC) | BIT(DPU_DSPP_GC)
-> @@ -999,37 +1002,37 @@ static const struct dpu_ctl_cfg sm8550_ctl[] = {
->   	{
->   	.name = "ctl_0", .id = CTL_0,
->   	.base = 0x15000, .len = 0x290,
-> -	.features = CTL_SC7280_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
-> +	.features = CTL_SM8550_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
->   	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
->   	},
->   	{
->   	.name = "ctl_1", .id = CTL_1,
->   	.base = 0x16000, .len = 0x290,
-> -	.features = CTL_SC7280_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
-> +	.features = CTL_SM8550_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
->   	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
->   	},
->   	{
->   	.name = "ctl_2", .id = CTL_2,
->   	.base = 0x17000, .len = 0x290,
-> -	.features = CTL_SC7280_MASK,
-> +	.features = CTL_SM8550_MASK,
->   	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 11),
->   	},
->   	{
->   	.name = "ctl_3", .id = CTL_3,
->   	.base = 0x18000, .len = 0x290,
-> -	.features = CTL_SC7280_MASK,
-> +	.features = CTL_SM8550_MASK,
->   	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 12),
->   	},
->   	{
->   	.name = "ctl_4", .id = CTL_4,
->   	.base = 0x19000, .len = 0x290,
-> -	.features = CTL_SC7280_MASK,
-> +	.features = CTL_SM8550_MASK,
->   	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 13),
->   	},
->   	{
->   	.name = "ctl_5", .id = CTL_5,
->   	.base = 0x1a000, .len = 0x290,
-> -	.features = CTL_SC7280_MASK,
-> +	.features = CTL_SM8550_MASK,
->   	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 23),
->   	},
->   };
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> index a1f18d53db6d..d152fef438f9 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> @@ -199,6 +199,7 @@ enum {
->    * @DPU_CTL_SPLIT_DISPLAY:	CTL supports video mode split display
->    * @DPU_CTL_FETCH_ACTIVE:	Active CTL for fetch HW (SSPPs)
->    * @DPU_CTL_VM_CFG:		CTL config to support multiple VMs
-> + * @DPU_CTL_HAS_LAYER_EXT4:	CTL has the CTL_LAYER_EXT4 register
->    * @DPU_CTL_MAX
->    */
->   enum {
-> @@ -206,6 +207,7 @@ enum {
->   	DPU_CTL_ACTIVE_CFG,
->   	DPU_CTL_FETCH_ACTIVE,
->   	DPU_CTL_VM_CFG,
-> +	DPU_CTL_HAS_LAYER_EXT4,
->   	DPU_CTL_MAX
->   };
->   
 > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> index a35ecb6676c8..f4fdf537616c 100644
+> index f4fdf537616c..4d70dcd46c9d 100644
 > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
 > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> @@ -17,6 +17,8 @@
->   	(0x70 + (((lm) - LM_0) * 0x004))
->   #define   CTL_LAYER_EXT3(lm)             \
->   	(0xA0 + (((lm) - LM_0) * 0x004))
-> +#define CTL_LAYER_EXT4(lm)             \
-> +        (0xB8 + (((lm) - LM_0) * 0x004))
->   #define   CTL_TOP                       0x014
->   #define   CTL_FLUSH                     0x018
->   #define   CTL_START                     0x01C
-> @@ -383,6 +385,7 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
+> @@ -383,7 +383,8 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
+>   	enum dpu_lm lm, struct dpu_hw_stage_cfg *stage_cfg)
+>   {
 >   	struct dpu_hw_blk_reg_map *c = &ctx->hw;
->   	u32 mixercfg = 0, mixercfg_ext = 0, mix, ext;
+> -	u32 mixercfg = 0, mixercfg_ext = 0, mix, ext;
+> +	u32 mix, ext, mix_ext;
+> +	u32 mixercfg = 0, mixercfg_ext = 0;
 >   	u32 mixercfg_ext2 = 0, mixercfg_ext3 = 0;
-> +	u32 mixercfg_ext4 = 0;
+>   	u32 mixercfg_ext4 = 0;
 >   	int i, j;
->   	int stages;
->   	int pipes_per_stage;
-> @@ -492,6 +495,20 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
->   					mixercfg_ext2 |= mix << 4;
+> @@ -409,6 +410,7 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
+>   		/* overflow to ext register if 'i + 1 > 7' */
+>   		mix = (i + 1) & 0x7;
+>   		ext = i >= 7;
+> +		mix_ext = (i + 1) & 0xf;
+>   
+>   		for (j = 0 ; j < pipes_per_stage; j++) {
+>   			enum dpu_sspp_multirect_index rect_index =
+> @@ -417,7 +419,7 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
+>   			switch (stage_cfg->stage[i][j]) {
+>   			case SSPP_VIG0:
+>   				if (rect_index == DPU_SSPP_RECT_1) {
+> -					mixercfg_ext3 |= ((i + 1) & 0xF) << 0;
+> +					mixercfg_ext3 |= mix_ext << 0;
+>   				} else {
+>   					mixercfg |= mix << 0;
+>   					mixercfg_ext |= ext << 0;
+> @@ -425,7 +427,7 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
+>   				break;
+>   			case SSPP_VIG1:
+>   				if (rect_index == DPU_SSPP_RECT_1) {
+> -					mixercfg_ext3 |= ((i + 1) & 0xF) << 4;
+> +					mixercfg_ext3 |= mix_ext << 4;
+>   				} else {
+>   					mixercfg |= mix << 3;
+>   					mixercfg_ext |= ext << 2;
+> @@ -433,7 +435,7 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
+>   				break;
+>   			case SSPP_VIG2:
+>   				if (rect_index == DPU_SSPP_RECT_1) {
+> -					mixercfg_ext3 |= ((i + 1) & 0xF) << 8;
+> +					mixercfg_ext3 |= mix_ext << 8;
+>   				} else {
+>   					mixercfg |= mix << 6;
+>   					mixercfg_ext |= ext << 4;
+> @@ -441,7 +443,7 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
+>   				break;
+>   			case SSPP_VIG3:
+>   				if (rect_index == DPU_SSPP_RECT_1) {
+> -					mixercfg_ext3 |= ((i + 1) & 0xF) << 12;
+> +					mixercfg_ext3 |= mix_ext << 12;
+>   				} else {
+>   					mixercfg |= mix << 26;
+>   					mixercfg_ext |= ext << 6;
+> @@ -465,7 +467,7 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
+>   				break;
+>   			case SSPP_DMA0:
+>   				if (rect_index == DPU_SSPP_RECT_1) {
+> -					mixercfg_ext2 |= ((i + 1) & 0xF) << 8;
+> +					mixercfg_ext2 |= mix_ext << 8;
+>   				} else {
+>   					mixercfg |= mix << 18;
+>   					mixercfg_ext |= ext << 16;
+> @@ -473,7 +475,7 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
+>   				break;
+>   			case SSPP_DMA1:
+>   				if (rect_index == DPU_SSPP_RECT_1) {
+> -					mixercfg_ext2 |= ((i + 1) & 0xF) << 12;
+> +					mixercfg_ext2 |= mix_ext << 12;
+>   				} else {
+>   					mixercfg |= mix << 21;
+>   					mixercfg_ext |= ext << 18;
+> @@ -481,39 +483,37 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
+>   				break;
+>   			case SSPP_DMA2:
+>   				if (rect_index == DPU_SSPP_RECT_1) {
+> -					mixercfg_ext2 |= ((i + 1) & 0xF) << 16;
+> +					mixercfg_ext2 |= mix_ext << 16;
+>   				} else {
+> -					mix |= (i + 1) & 0xF;
+> -					mixercfg_ext2 |= mix << 0;
+> +					mixercfg_ext2 |= mix_ext << 0;
 >   				}
 >   				break;
-> +			case SSPP_DMA4:
-> +				if (rect_index == DPU_SSPP_RECT_1) {
-> +					mixercfg_ext4 |= ((i + 1) & 0xF) << 8;
-> +				} else {
-> +					mixercfg_ext4 |= ((i + 1) & 0xF) << 0;
-> +				}
-> +				break;
-> +			case SSPP_DMA5:
-> +				if (rect_index == DPU_SSPP_RECT_1) {
-> +					mixercfg_ext4 |= ((i + 1) & 0xF) << 12;
-> +				} else {
-> +					mixercfg_ext4 |= ((i + 1) & 0xF) << 4;
-> +				}
-> +				break;
->   			case SSPP_CURSOR0:
->   				mixercfg_ext |= ((i + 1) & 0xF) << 20;
+>   			case SSPP_DMA3:
+>   				if (rect_index == DPU_SSPP_RECT_1) {
+> -					mixercfg_ext2 |= ((i + 1) & 0xF) << 20;
+> +					mixercfg_ext2 |= mix_ext << 20;
+>   				} else {
+> -					mix |= (i + 1) & 0xF;
+> -					mixercfg_ext2 |= mix << 4;
+> +					mixercfg_ext2 |= mix_ext << 4;
+>   				}
 >   				break;
-> @@ -509,6 +526,8 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
->   	DPU_REG_WRITE(c, CTL_LAYER_EXT(lm), mixercfg_ext);
->   	DPU_REG_WRITE(c, CTL_LAYER_EXT2(lm), mixercfg_ext2);
->   	DPU_REG_WRITE(c, CTL_LAYER_EXT3(lm), mixercfg_ext3);
-> +	if ((test_bit(DPU_CTL_HAS_LAYER_EXT4, &ctx->caps->features)))
-> +		DPU_REG_WRITE(c, CTL_LAYER_EXT4(lm), mixercfg_ext4);
->   }
->   
->   
+>   			case SSPP_DMA4:
+>   				if (rect_index == DPU_SSPP_RECT_1) {
+> -					mixercfg_ext4 |= ((i + 1) & 0xF) << 8;
+> +					mixercfg_ext4 |= mix_ext << 8;
+>   				} else {
+> -					mixercfg_ext4 |= ((i + 1) & 0xF) << 0;
+> +					mixercfg_ext4 |= mix_ext << 0;
+>   				}
+>   				break;
+>   			case SSPP_DMA5:
+>   				if (rect_index == DPU_SSPP_RECT_1) {
+> -					mixercfg_ext4 |= ((i + 1) & 0xF) << 12;
+> +					mixercfg_ext4 |= mix_ext << 12;
+>   				} else {
+> -					mixercfg_ext4 |= ((i + 1) & 0xF) << 4;
+> +					mixercfg_ext4 |= mix_ext << 4;
+>   				}
+>   				break;
+>   			case SSPP_CURSOR0:
+> -				mixercfg_ext |= ((i + 1) & 0xF) << 20;
+> +				mixercfg_ext |= mix_ext << 20;
+>   				break;
+>   			case SSPP_CURSOR1:
+> -				mixercfg_ext |= ((i + 1) & 0xF) << 26;
+> +				mixercfg_ext |= mix_ext << 26;
+>   				break;
+>   			default:
+>   				break;
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550
