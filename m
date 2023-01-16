@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2444B66C635
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 17:16:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DDBD66C63F
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jan 2023 17:17:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C27F10E2AF;
-	Mon, 16 Jan 2023 16:16:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74AA310E2B2;
+	Mon, 16 Jan 2023 16:17:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0A6710E2AF
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 16:16:20 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C10A110E2BE
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 16:16:59 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 1764BB81063
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 16:16:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 84FC7C4339C
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 16:16:17 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 5A0E0B80E93
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 16:16:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1458EC433F2
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jan 2023 16:16:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1673885777;
- bh=ywCtijm5yMlgSVYNPeFOYY8eAScr8lBT69dWUFovpms=;
+ s=k20201202; t=1673885817;
+ bh=SWHyzp1FKPN0SQRTkI3DcIhLOIc5AEgiHFQuiPTdlOc=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=WOHER/MsVWkr5koKwjB2KzvhgS5Bs3tCaZNayV0WHzPuO/AWoQKTX3looau+imTOU
- N5vGvC1YX+Dzpp7fG0s5snqls+ie/GEqz/rYOVvUiO8v8Zzyp2YQ5Lj+rd0onz5h0k
- tQ2xaGUrQRye0ePwWT3KJE2NrszTgFAWHYk1oa4Hoz+DW0nCTI/+1I+fU+cFpp7Ra3
- v1FU98/JyJhcq6Tcs2hAroV45OKoqXQq3E2Gv3M6bT0oryY5dktfLiu7ZIN+4sGXr6
- Sfj53t3tvfFjY440LTzxTrJm15jNhtobeFDM/al2Rwmf++H5ODm3uQeVQB5gB3+DuJ
- tF86+TtVMt1KQ==
+ b=u3zCNseVBZMarK+qsUYTdjbdfyZz/0v4aU1T6Ppc6zqy6A2L5ITJwpWFIWxyFLYFA
+ 2XtYu6stdUmBxuwNPlypCDvHRS+eSN77WjfxfqpMtvgjzQBwmH69pmN24C7H27H42u
+ CCO17SQB/7uaa+BnIbbqflN37WTG2FxAUhMRz80+qs+luDUMegMmOlp39/9T7wyXNX
+ xpPRtIUUIffnnYw9wUx5hizVaZEg9as+MT0WNvqmy2+2ArQOJsvdTOyT3XPIC0JVjm
+ 9MPNvQKDIJdabnB5ssKVFS39s0zJopOySSeuMYGgdiheZaU/6Z/tYTC5P2H6ApE0zX
+ bo+1hL6eSZadA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 71659C05FD6; Mon, 16 Jan 2023 16:16:17 +0000 (UTC)
+ from userid 48) id 07165C43141; Mon, 16 Jan 2023 16:16:57 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 216917] hibernation regression since 6.0.18 (Ryzen-5650U incl.
  Radeon GPU)
-Date: Mon, 16 Jan 2023 16:16:17 +0000
+Date: Mon, 16 Jan 2023 16:16:56 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,13 +46,13 @@ X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: mario.limonciello@amd.com
-X-Bugzilla-Status: REOPENED
+X-Bugzilla-Status: NEEDINFO
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-216917-2300-eLcS5CpuIG@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_status
+Message-ID: <bug-216917-2300-qqAn7haE7F@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-216917-2300@https.bugzilla.kernel.org/>
 References: <bug-216917-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -80,8 +81,15 @@ Mario Limonciello (AMD) (mario.limonciello@amd.com) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|RESOLVED                    |REOPENED
-         Resolution|WILL_NOT_FIX                |---
+             Status|REOPENED                    |NEEDINFO
+
+--- Comment #14 from Mario Limonciello (AMD) (mario.limonciello@amd.com) ---
+> and a hard reset (as in my case) may result
+
+Sorry - specifically that reverting the backported commit fixes your case. =
+ If
+so, yeah then we should see if there is anything else obvious to backport to
+help it.
 
 --=20
 You may reply to this email to add a comment.
