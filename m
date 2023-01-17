@@ -2,44 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7DF66E48E
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 18:12:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7E166E4EB
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 18:30:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF18410E595;
-	Tue, 17 Jan 2023 17:12:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 241F310E2F3;
+	Tue, 17 Jan 2023 17:30:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5410F10E595;
- Tue, 17 Jan 2023 17:12:50 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 053CFB81911;
- Tue, 17 Jan 2023 17:12:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89186C433D2;
- Tue, 17 Jan 2023 17:12:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1673975567;
- bh=WwkZdJTRH/e6oDjQt1JBj5r7Hxk3Sps4Rt8KnDt4/u0=;
- h=From:To:Cc:Subject:Date:From;
- b=ZNGm4dQXyPpdlm7+X9Q4CvkWy0n/zRxxC7Ir3C+TUbW7gC1qxMaaS5DvieEd5lipB
- enf5LpmFk7sumKBslDpDA4iwMbwtkaco2vtLfWHLz3agHqyEFmDjTuJvj0Hqv+zKSH
- xKKUwC0JlzGg23g4T8+MHo6zp64b1EiBKmdlrQG0n5hijI21iRv5HUdykcWJz24et2
- SW/Lk95wWovkMoSGbJ5uySheXx62h3p13bsj02eTXe08CERf4E7LKK8dhRZGcGyr2n
- 3dKH6wXinGH1vHVrOkN39F4fDBMA8ZoaeOBIb5POjI4UKDLtvWiRuAT28+zz6P5aUF
- xKt199peEHU4A==
-From: Arnd Bergmann <arnd@kernel.org>
-To: =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Subject: [PATCH] [v2] drm/amd/display: fix dp_retrieve_lttpr_cap return code
-Date: Tue, 17 Jan 2023 18:12:24 +0100
-Message-Id: <20230117171239.2714855-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.0
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAF6910E305;
+ Tue, 17 Jan 2023 17:30:03 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30HFwnVo006833; Tue, 17 Jan 2023 17:29:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=ghf5QjfvagPaFI53epsH4kOavDlkXLiG4G5OxHZ1B1w=;
+ b=XM6PiWpgCjQ74IEnJPmXn+h0JsMiuZ9Pf7sqEV7CpJlwWcoA1t14GakjDkMv8N20+5ff
+ UtTfDDO9mUX/BBiCv5XAAmXSW4nw32Wl4fq9O3Y2NSPJ3/QkR1ThFDF7U9eoq6D/bNhp
+ 4Od2FjBNXl9JKkpE9R1hn4Ooh5/g7qQumA2nThjM55xveA/viUx5y1xrpsy+oxRagw8l
+ 45FmiW5bOloioEBJNH0LIS2bfGgAzIaiXm5R4tLKUSfbHceIGUfTl5J/1hKnGlHbF6lq
+ 9jydt8u0U8hrsEMrFB9Ek+CeRaVvaKnXh9KR2k4MNnnJ2XEhbL6Yy1NEG/rUgx81V/dP dA== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n5nkq9cwq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Jan 2023 17:29:58 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30HHTvQQ024675
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Jan 2023 17:29:57 GMT
+Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Tue, 17 Jan 2023 09:29:56 -0800
+From: Bjorn Andersson <quic_bjorande@quicinc.com>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Johan Hovold <johan+linaro@kernel.org>, Sankeerth Billakanti
+ <quic_sbillaka@quicinc.com>
+Subject: [PATCH] drm/msm/dp: Remove INIT_SETUP delay
+Date: Tue, 17 Jan 2023 09:29:51 -0800
+Message-ID: <20230117172951.2748456-1-quic_bjorande@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: CTQZUj5Sj9fGSZ8d58zMmdjQRLVdlPti
+X-Proofpoint-ORIG-GUID: CTQZUj5Sj9fGSZ8d58zMmdjQRLVdlPti
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-17_08,2023-01-17_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 impostorscore=0
+ mlxscore=0 adultscore=0 mlxlogscore=999 bulkscore=0 lowpriorityscore=0
+ spamscore=0 priorityscore=1501 phishscore=0 malwarescore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301170139
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,63 +82,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lewis Huang <Lewis.Huang@amd.com>, Arnd Bergmann <arnd@arndb.de>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Michael Strauss <michael.strauss@amd.com>, dri-devel@lists.freedesktop.org,
- George Shen <george.shen@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Jun Lei <Jun.Lei@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Jimmy Kizito <Jimmy.Kizito@amd.com>
+Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+During initalization of the DisplayPort controller an EV_HPD_INIT_SETUP
+event is generated, but with a delay of 100 units. This delay existed to
+circumvent bug in the QMP combo PHY driver, where if the DP part was
+powered up before USB, the common properties would not be properly
+initialized - and USB wouldn't work.
 
-The dp_retrieve_lttpr_cap() return type changed from 'bool'
-to 'enum dc_status', so now the early 'return' uses the wrong
-type:
+This issue was resolved in the recent refactoring of the QMP driver,
+so it's now possible to remove this delay.
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c: In function 'dp_retrieve_lttpr_cap':
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:5075:24: error: implicit conversion from 'enum <anonymous>' to 'enum dc_status' [-Werror=enum-conversion]
- 5075 |                 return false;
-      |                        ^~~~~
+While there is still a timing dependency in the current implementation,
+test indicates that it's now possible to boot with an external display
+on USB Type-C and have the display power up, without disconnecting and
+reconnecting the cable.
 
-Convert it to return 'DC_ERROR_UNEXPECTED', which was apparently set
-as a default return code here but never used.
-
-Fixes: b473bd5fc333 ("drm/amd/display: refine wake up aux in retrieve link caps")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
 ---
-v2 changes:
- - use DC_ERROR_UNEXPECTED instead of DC_OK
- - remove bogus initializers
----
- drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_display.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-index 9edfcdf3db3b..cf512362b4f1 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-@@ -5088,14 +5088,14 @@ static bool dpcd_read_sink_ext_caps(struct dc_link *link)
- enum dc_status dp_retrieve_lttpr_cap(struct dc_link *link)
- {
- 	uint8_t lttpr_dpcd_data[8];
--	enum dc_status status = DC_ERROR_UNEXPECTED;
--	bool is_lttpr_present = false;
-+	enum dc_status status;
-+	bool is_lttpr_present;
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index db9783ffd5cf..bde1a7ce442f 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -1506,7 +1506,7 @@ void msm_dp_irq_postinstall(struct msm_dp *dp_display)
+ 	dp = container_of(dp_display, struct dp_display_private, dp_display);
  
- 	/* Logic to determine LTTPR support*/
- 	bool vbios_lttpr_interop = link->dc->caps.vbios_lttpr_aware;
+ 	if (!dp_display->is_edp)
+-		dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 100);
++		dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 0);
+ }
  
- 	if (!vbios_lttpr_interop || !link->dc->caps.extended_aux_timeout_support)
--		return false;
-+		return DC_ERROR_UNEXPECTED;
- 
- 	/* By reading LTTPR capability, RX assumes that we will enable
- 	 * LTTPR extended aux timeout if LTTPR is present.
+ bool msm_dp_wide_bus_available(const struct msm_dp *dp_display)
 -- 
-2.39.0
+2.37.3
 
