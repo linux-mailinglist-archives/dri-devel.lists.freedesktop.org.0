@@ -1,62 +1,91 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD6166E7AF
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 21:26:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9027966E803
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 21:55:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F11E10E5CA;
-	Tue, 17 Jan 2023 20:26:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 738F510E356;
+	Tue, 17 Jan 2023 20:54:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com
- [209.85.217.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A95110E5CA
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 20:26:42 +0000 (UTC)
-Received: by mail-vs1-f41.google.com with SMTP id q125so21777529vsb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 12:26:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7rC0mNjXax5vqLz2OAo+EH0y+cJfjyIAm7sm9u5PvgQ=;
- b=l8ScoHRzhdB1B8pI8Khp6ltrweNoS1hlpZiUDm7MseGmFV2WAIGRxHuhB7ePcXeCvt
- ioI41nMH18thAKCFMTf1A710J56lK8GBm/RU6iy2MdIiSqTLfWvuOnlrQQCtE33wY1eJ
- HOA4ZQLr6ebPrlrAWe67SuWmKcLwR8wYbNmbsWyQmZYxeOI0IbjqQHsT37bZhXSuKMQd
- pYtUuS9rIqgVPrKk2Hhd3o5QSADvDPNWmG2IPYfceEmwynTCIgquFVjbxNdCznm1PZdK
- G3EXfyjza6+kgwCSdeNiUWaxEP5fGdq1Y93kp8phlF8FOW84kYY41A6WuFvNx3NrzUKN
- KHCw==
-X-Gm-Message-State: AFqh2kqiS+CmIayFvZxb4SwBU+23KnyMPrhNfLRMS8S9p5qkSIDEdjw1
- HPhtD+6iBVKIcxw12ZjklbllDedNvJHIwg==
-X-Google-Smtp-Source: AMrXdXu+KG12FJMzkCu+IMzWtvulS93S2nInkrNF8t8B7MnBLewJ9DL9tjDaH0kXbJ94EeHAERLhOg==
-X-Received: by 2002:a67:f9cd:0:b0:3d3:caad:f74d with SMTP id
- c13-20020a67f9cd000000b003d3caadf74dmr2263609vsq.9.1673987200926; 
- Tue, 17 Jan 2023 12:26:40 -0800 (PST)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com.
- [209.85.219.171]) by smtp.gmail.com with ESMTPSA id
- h4-20020a05620a244400b00706adbdf8b8sm788596qkn.83.2023.01.17.12.26.39
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 12:26:40 -0800 (PST)
-Received: by mail-yb1-f171.google.com with SMTP id 188so35544741ybi.9
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 12:26:39 -0800 (PST)
-X-Received: by 2002:a25:9012:0:b0:7b8:a0b8:f7ec with SMTP id
- s18-20020a259012000000b007b8a0b8f7ecmr707665ybl.36.1673987199250; Tue, 17 Jan
- 2023 12:26:39 -0800 (PST)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2085.outbound.protection.outlook.com [40.107.244.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEB8810E356;
+ Tue, 17 Jan 2023 20:54:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C5rGtkvmtdII4ctZxqLo7bGId075bzYEQ/KJ232bwjZoSR5ukyXk8fpHqsSXNElTSHx77bvnXHuXXFkyJN5c5BeNoR3JpLhHWz2mDN1eREaPsyCyEMShUp2qCjsbwiyfVZCbJZ1ZFhXpr3kkdVGUeoaUlYll+tKOrc45SpSwStlQQkSKFNym6miC7Rf0gW/RfPdNItTXvl5TPQUg8wmzWWnYR78KRcfgzYHOx1PEncDKMVTrvVjD7YWAOzMsj9P/6G51agtOZdpc6rduAufk47Jk86eJ1VZ3SQM/RFzHchxapFgh07Bd2qJvCtS2Q7yauEYsHvbEGrU+hywCcvqCpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SjsEJxCIiNQrr3lC3kqt+LaH6vRabUEFOrfiLlZ39qQ=;
+ b=dXpQc1B/Vy6j7WjcYJUa7uvnDd0Td2yyidUX3FKKkFmxbNw0CCLnQjB6j7QGWPzA9ON4PPk8INA1trurDZ62elzpUkQpqbPqgwGUeEeC3zZsjyF7mPODjphwDjPdywDLuKbSrVVOxcxbg+eRuK55V01pKQIYxUgZnHrGyzuoR9bdUtm5UntAd2JvAh6pW1SiWdBnhcxZ8QSJWe3SkKhrldoDioY4jQ+Zb2ncxSEJhptAUmf1RGLLdH5YdjfJgIKL2fYWBp7F9XQJz/P4FUYDX7Nbx5yHp9oXfP8f235Muis5NoPYDDm6mDLzXvKR3aoPmbC5xKwdYw3GWdYY0dl8ZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SjsEJxCIiNQrr3lC3kqt+LaH6vRabUEFOrfiLlZ39qQ=;
+ b=m6eUFKfCCMc/2Dk4y9JKsGLZyBFmZjmn/CkP8YG0weVsddQVmt6fD2vNQ0ih+Z6b1yNL2XSDMc8a3Y6/1RvAxqEzgxPL6/AV6CKwXnJgDPCQdr5TL7pcBtXJXdMEe4i/77n0dVa4We7pQwMFikV/L/EGyQlkvW+/WSjoVkC/iIs=
+Received: from MW4P221CA0011.NAMP221.PROD.OUTLOOK.COM (2603:10b6:303:8b::16)
+ by DS7PR12MB5984.namprd12.prod.outlook.com (2603:10b6:8:7f::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13; Tue, 17 Jan
+ 2023 20:54:55 +0000
+Received: from CO1NAM11FT025.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:8b:cafe::dd) by MW4P221CA0011.outlook.office365.com
+ (2603:10b6:303:8b::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.19 via Frontend
+ Transport; Tue, 17 Jan 2023 20:54:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT025.mail.protection.outlook.com (10.13.175.232) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6002.13 via Frontend Transport; Tue, 17 Jan 2023 20:54:54 +0000
+Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 17 Jan
+ 2023 14:54:52 -0600
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+To: <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH] drm/amd/display: fix issues with driver unload
+Date: Tue, 17 Jan 2023 15:54:51 -0500
+Message-ID: <20230117205452.195298-1-hamza.mahfooz@amd.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <20230113062339.1909087-1-hch@lst.de>
- <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
- <20230116071306.GA15848@lst.de>
- <9325a949-8d19-435a-50bd-9ebe0a432012@landley.net>
-In-Reply-To: <9325a949-8d19-435a-50bd-9ebe0a432012@landley.net>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 17 Jan 2023 21:26:27 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUJm5QvzH8hvqwvn9O6qSbzNOapabjw5nh9DJd0F55Zdg@mail.gmail.com>
-Message-ID: <CAMuHMdUJm5QvzH8hvqwvn9O6qSbzNOapabjw5nh9DJd0F55Zdg@mail.gmail.com>
-Subject: Re: remove arch/sh
-To: Rob Landley <rob@landley.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT025:EE_|DS7PR12MB5984:EE_
+X-MS-Office365-Filtering-Correlation-Id: a774ee50-c2d3-4d9b-1e3c-08daf8cd15d2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IIJXRV0xL4/PuhjQQR2BETjTrEUgUQnFxJGvNplZMIVYU1jZV/cg7LmhYWVBjA1rfNywbuMg6EGHp15aE/pfO4lefHGcXgv1czktYhQP6ghPI3+3zYlBkPfMFWkMQZWRxvZNReo8nlSGc3uEiF2gq0MUCa22VcRfODxZAYjSUZhQagRYqA060ffpWhz5sOG4W8NDHeKderzdq8a3mjwCX3czTsu+88xBgBgMG2zGfn7YgFJUz4zrjeXOz8wQXwoabWt4P178xMkbATsug5jXEn7l5Z5qH9OE71g3jfmImCxYkgaStNjhozcb++lfc1DpKJ5NKxd+ZCYyYKMpEGGiUaBHuWZ8f74DoOKxI8cvj1MuI/Ua0ZTyVTDVtvI4OA1MohPU26YmIrHHoxs3VSKD6Tpq7afrRgP61jLR3wQcN3diMqD2Jx4nv5anj9rg07FGaGyoxAlyhQ47CQAMYjzGU/6Sj6JUCsot1vk/rfbKrX0ZwVa5IbEP6f5mUG49IQN+RN78Pp2BHaq5ow1I9XUc/L0mJPl9knoj6GJg3RHH5Q4cdcpIs+o9thJiR9hmkAW0rZzCfFcSTRhe/ZGsSuRNozHCBKHdMHOZnDRYs5FvfMK+T2CjYh5/N6mFIPGnCiyGCCovNFvRb6v0euiHY7wA9uB4k48FyYB/HCoqAoPiRQtstUxAT/I3gMVFjRI53M6yMV+Hje46z+0j9LVaN10is8/YjabL3yj19tXLiTmVehTRPC458Qw5a4kxTsqPpDLzTXBjYZnFivZkyJynnxwLpA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(376002)(346002)(136003)(396003)(451199015)(40470700004)(36840700001)(46966006)(36756003)(356005)(86362001)(6916009)(8936002)(8676002)(4326008)(44832011)(70586007)(70206006)(5660300002)(2906002)(36860700001)(82740400003)(81166007)(83380400001)(478600001)(316002)(54906003)(47076005)(40460700003)(40480700001)(41300700001)(82310400005)(1076003)(26005)(16526019)(336012)(426003)(2616005)(186003)(36900700001)(16060500005);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2023 20:54:54.2860 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a774ee50-c2d3-4d9b-1e3c-08daf8cd15d2
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT025.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5984
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,86 +98,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- linux-rtc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, linux-arch@vger.kernel.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>, linux-serial@vger.kernel.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- netdev@vger.kernel.org, dmaengine@vger.kernel.org, alsa-devel@alsa-project.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
+ dri-devel@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Fangzhi Zuo <Jerry.Zuo@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ hersen wu <hersenxs.wu@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
+Currently, we run into a number of WARN()s when attempting to unload the
+amdgpu driver (e.g. using "modprobe -r amdgpu"). These all stem from
+calling drm_encoder_cleanup() too early. So, to fix this we can stop
+calling drm_encoder_cleanup() in amdgpu_dm_fini() and instead have it be
+called from amdgpu_dm_encoder_destroy(). Also, we don't need to free in
+amdgpu_dm_encoder_destroy() since mst_encoders[] isn't explicitly
+allocated by the slab allocater.
 
-On Tue, Jan 17, 2023 at 8:01 PM Rob Landley <rob@landley.net> wrote:
-> On 1/16/23 01:13, Christoph Hellwig wrote:
-> > On Fri, Jan 13, 2023 at 09:09:52AM +0100, John Paul Adrian Glaubitz wrote:
-> >> I'm still maintaining and using this port in Debian.
-> >>
-> >> It's a bit disappointing that people keep hammering on it. It works fine for me.
-> >
-> > What platforms do you (or your users) use it on?
->
-> 3 j-core boards, two sh4 boards (the sh7760 one I patched the kernel of), and an
-> sh4 emulator.
->
-> I have multiple j-core systems (sh2 compatible with extensions, nommu, 3
-> different kinds of boards running it here). There's an existing mmu version of
-> j-core that's sh3 flavored but they want to redo it so it hasn't been publicly
-> released yet, I have yet to get that to run Linux because the mmu code would
-> need adapting, but the most recent customer projects were on the existing nommu
-> SOC, as was last year's ASIC work via sky130.
+Fixes: f74367e492ba ("drm/amdgpu/display: create fake mst encoders ahead of time (v4)")
+Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c           | 4 ----
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 1 -
+ 2 files changed, 5 deletions(-)
 
-J4 still vaporware?
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 9547037857b6..5cc14ed2e93e 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -1733,10 +1733,6 @@ static void amdgpu_dm_fini(struct amdgpu_device *adev)
+ 		adev->dm.vblank_control_workqueue = NULL;
+ 	}
+ 
+-	for (i = 0; i < adev->dm.display_indexes_num; i++) {
+-		drm_encoder_cleanup(&adev->dm.mst_encoders[i].base);
+-	}
+-
+ 	amdgpu_dm_destroy_drm_device(&adev->dm);
+ 
+ #if defined(CONFIG_DRM_AMD_SECURE_DISPLAY)
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+index bbeeee7c5d7c..5fa9bab95038 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+@@ -492,7 +492,6 @@ static const struct drm_connector_helper_funcs dm_dp_mst_connector_helper_funcs
+ static void amdgpu_dm_encoder_destroy(struct drm_encoder *encoder)
+ {
+ 	drm_encoder_cleanup(encoder);
+-	kfree(encoder);
+ }
+ 
+ static const struct drm_encoder_funcs amdgpu_dm_encoder_funcs = {
+-- 
+2.39.0
 
-> My physical sh4 boards are a Johnson Controls N40 (sh7760 chipset) and the
-> little blue one is... sh4a I think? (It can run the same userspace, I haven't
-> replaced that board's kernel since I got it, I think it's the type Glaubitz is
-> using? It's mostly in case he had an issue I couldn't reproduce on different
-> hardware, or if I spill something on my N40.)
->
-> I also have a physical sh2 board on the shelf which I haven't touched in years
-> (used to comparison test during j2 development, and then the j2 boards replaced it).
->
-> I'm lazy and mostly test each new sh4 build under qemu -M r2d because it's
-> really convenient: neither of my physical boards boot from SD card so replacing
-> the kernel requires reflashing soldered in flash. (They'll net mount userspace
-> but I haven't gotten either bootloader to net-boot a kernel.)
-
-On my landisk (with boots from CompactFLASH), I boot the original 2.6.22
-kernel, and use kexec to boot-test each and every renesas-drivers
-release.  Note that this requires both the original 2.6.22 kernel
-and matching kexec-tools.  Apparently both upstreamed kernel and
-kexec-tools support for SH are different, and incompatible with each
-other, so you cannot kexec from a contemporary kernel.
-I tried working my way up from 2.6.22, but gave up around 2.6.29.
-Probably I should do this with r2d and qemu instead ;-)
-
-Both r2d and landisk are SH7751.
-
-Probably SH7722/'23'24 (e.g. Migo-R and Ecovec boards) are also
-worth keeping.  Most on-SoC blocks have drivers with DT support,
-as they are shared with ARM.  So the hardest part is clock and
-interrupt-controller support.
-Unfortunately I no longer have access to the (remote) Migo-R.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
