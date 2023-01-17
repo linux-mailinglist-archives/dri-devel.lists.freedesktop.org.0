@@ -1,59 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97C0766E632
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 19:41:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEC3266E647
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 19:42:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E2E210E5AB;
-	Tue, 17 Jan 2023 18:41:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F14EC10E5BD;
+	Tue, 17 Jan 2023 18:42:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C97B10E5AB
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 18:41:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673980859;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iFiAegt8WNgL5MZXxVPS9mQqy9Ss59WQtK/8IB6U8eA=;
- b=CPh7ECQXMg1FIUIGAXLI8fuFQtQEmsmJE1pjZdGiTevBXEWb7VxRD0lYt1n9iiSR3Krm+a
- i6fvMqw5fQTPvhd0EfW28EAyEOIYwYkqQSDgC/Z0ZW8FxvihB16dEhDPzS9+gxCjHBteE3
- IPnkLrlO0gZ91xz72ba1OVC3mII7rzg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-260-lxBEaWcGM4C8NbHUfeyPBA-1; Tue, 17 Jan 2023 13:40:57 -0500
-X-MC-Unique: lxBEaWcGM4C8NbHUfeyPBA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B21F2811E6E;
- Tue, 17 Jan 2023 18:40:54 +0000 (UTC)
-Received: from [10.18.17.153] (dhcp-17-153.bos.redhat.com [10.18.17.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA68B2166B29;
- Tue, 17 Jan 2023 18:40:51 +0000 (UTC)
-Message-ID: <0110b1d1-17c4-49a3-64c0-ad7d7b8cbd29@redhat.com>
-Date: Tue, 17 Jan 2023 13:40:51 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH RFC v7 00/23] DEPT(Dependency Tracker)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02on2135.outbound.protection.outlook.com [40.107.96.135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C2C210E5BD;
+ Tue, 17 Jan 2023 18:42:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=f9RHnND0cKuNcCcnIpAAFO/GE+ouUVqTgXMLbXlw9JILw8eZSJMHJ/0TvFA39nzWpHEmsp6D0mB0dyN4BSg0VYi1AGlcr0v4B9HtMh3cx1lexaEYAD4PXcF4yBIahSRMWjRgU2YWAy2NbhOr8LjJ/guWHZG4COaNUUQvKbYZqXhLCbcmHs6sBt8NZUI70L1hBJPg65yeDdabNScnmvMpJTt8ebk+iZBZZ8s4DF3Okay3vQ58cZjtOOmTo4oTatkNKPwDnblARBoUEAx7VrQL4A5yJjvNrFmmPubvABIg9CGFGme204tMdVtMWlgjUKP85venPAZS2sTQeabe/LlXAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m9kVMQMG1zu3nd5gff2GWBp+3IeKd1XYMfQ6wu9RT3w=;
+ b=enL450koOtHH/N+aBIbPtBlasmfDvOJ2C1ozuFT3Ymls22Rr4cIT8+9Bbt/5Fc8hOiN6StKo/i0z1oiUAGA71wZ0DYn1Cl6mMN0djB0gLfVXVYybE0o8vMnvJ6wORXd5pUlsAmmZCzQU++hz2Blmm6b6sieIE21eYDzY4B4epk9Irxa0NNcMuY0nOGIGC72MrZ3+Cbc4aiq+iix1Ie8HWsJKjivcPz++B3EM+I8bdAxLtk0M/4BjzlBGiUPhrD72EGpWuZlkFaLh4SIp6wvdliI8MaVZ5nu2/NU0/NqjI93utsx0ZMexO5Jofdcd+9xm4gRRgcbwK91kP207VuxWGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m9kVMQMG1zu3nd5gff2GWBp+3IeKd1XYMfQ6wu9RT3w=;
+ b=UJmiKo9xP8L8g/NbIbtQuld1ZJYJ23/tbCZ8QcEdXobrX0dhBAU8qXZaLu9Ax5mSLMZr8GbPWSPh1+kfL9yEZad3sMDlSDz9/4SsOLHyPWl8+uU6oWZ0m4RqLoMqf1c6EiGv3hg8KDg3Ber1eyOII3MoKtXZjE8xFT7y+spYCCU=
+Received: from SA1PR21MB1335.namprd21.prod.outlook.com (2603:10b6:806:1f2::11)
+ by MW4PR21MB1940.namprd21.prod.outlook.com (2603:10b6:303:72::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.1; Tue, 17 Jan
+ 2023 18:42:51 +0000
+Received: from SA1PR21MB1335.namprd21.prod.outlook.com
+ ([fe80::c14e:c8f3:c27a:af3d]) by SA1PR21MB1335.namprd21.prod.outlook.com
+ ([fe80::c14e:c8f3:c27a:af3d%6]) with mapi id 15.20.6043.001; Tue, 17 Jan 2023
+ 18:42:51 +0000
+From: Dexuan Cui <decui@microsoft.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
+ <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH 08/11] fbdev/hyperv: use pci aperture helpers
+Thread-Topic: [PATCH 08/11] fbdev/hyperv: use pci aperture helpers
+Thread-Index: AQHZKqOAaFMkGqyk/kqf5eHKMVIb8A==
+Date: Tue, 17 Jan 2023 18:42:51 +0000
+Message-ID: <SA1PR21MB133555CDACA639F0029CE200BFC69@SA1PR21MB1335.namprd21.prod.outlook.com>
+References: <20230111154112.90575-1-daniel.vetter@ffwll.ch>
+ <20230111154112.90575-8-daniel.vetter@ffwll.ch>
+In-Reply-To: <20230111154112.90575-8-daniel.vetter@ffwll.ch>
+Accept-Language: en-US
 Content-Language: en-US
-To: Boqun Feng <boqun.feng@gmail.com>,
- Linus Torvalds <torvalds@linux-foundation.org>
-References: <1673235231-30302-1-git-send-email-byungchul.park@lge.com>
- <CAHk-=whpkWbdeZE1zask8YPzVYevJU2xOXqOposBujxZsa2-tQ@mail.gmail.com>
- <Y8bmeffIQ3iXU3Ux@boqun-archlinux>
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <Y8bmeffIQ3iXU3Ux@boqun-archlinux>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=a3232ce7-3f38-4bda-897e-18db645f349a;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2023-01-17T18:38:24Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR21MB1335:EE_|MW4PR21MB1940:EE_
+x-ms-office365-filtering-correlation-id: 74e9a4d1-d893-4974-495e-08daf8baa37f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: eYqGIIwZQmzNvzaNTUDdl8FeLKaqBcQ6cWQXaiXQYiaT77H2hcFFPg3ckNa5/yaujh+DwrS/NIaMeeO+VexnuVm7DgQiTyOqhlUaI67x1Lkm8tQqHrxP6mJlq/zCu6E5SfgPKIg/OS2/1RdofMailyzgIZ0LiYEz5WEVjwSgs11JEomhNUfIXyeWEkrk0X0WZVFzXZpcdCxW2RajFzY9I3BX+GvoT/cs2lY6o2H+HLYJ4CYsuFc11forDaLzhvImhiSH6iapclRvluDbXaBf6Iqubhm+1YQeDLIcB1VkUSytZKOagYpUpoy/7FBxBUXYMZtbm9+pP106dSDvFJcICzKtQYwCNJqPkcVRE3m0AlUJIJEZ/TQjLV7CLca18Q31vM8ZOADAv8gMyzsmtjSy3c+N5TTlzk3EfA6nkY00F2zlKsITHsMuqXitLuanNZzDclgcwcayDioGk9m8TzR8Ajllhqu7lCT/MXSZZH0KHycZ5mmYiU5wF9byNo/MG20OzxRqls+zKsyTL0D7Icavu086KaISorvsLxSiSNTFma9qjShlMW92/l9Zq0Uymn7dEGhuqVnhzN4IIupBBszfuQdz9l6FOLt6UKvma4DXFsR7RM1OtEyjnnJeS6ohCRxVDvrjKRhgYEDSVtRMnRve4OeqV0GAfASuNpQBiPR2/G1NtdsJ+DkBrIq+aMoLeiebHxFmw8o3i/i7RqSRi9AEKUjVH7pNHncBneg1EHXerOMhI7prLll3xdMHf0DiuJkS6p6VHAMEHsCcdWybLimRiOOW4kdSh86HjNtOgRdhcAQ=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR21MB1335.namprd21.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(136003)(346002)(396003)(366004)(376002)(451199015)(82960400001)(82950400001)(38100700002)(33656002)(122000001)(66476007)(2906002)(66946007)(86362001)(38070700005)(76116006)(8676002)(5660300002)(55016003)(66556008)(64756008)(8936002)(66446008)(52536014)(4326008)(41300700001)(8990500004)(186003)(6506007)(26005)(9686003)(110136005)(54906003)(966005)(316002)(10290500003)(7696005)(478600001)(71200400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?5DDrP4K3NGCYdOSDWmioZ2Mx21jk6nzrZVK/aDt1HUp72BtUR4stj0cB1k39?=
+ =?us-ascii?Q?CQuOsJBLM4upwcEWs22AtrrX1KPMOUvFrSdl1jZOeEmxdX6yQj4r17JmZyPs?=
+ =?us-ascii?Q?HTrF53PUbBgEDlPIptUuOGXv6lrSZkPoXgi7CijNVklbOKr/IN2ebGMOwQkX?=
+ =?us-ascii?Q?E2Mi+V3+3CL8D74ZbhZkXEPBI3+dhfQBzWL3torm1QXF+rAydz308obdHyPy?=
+ =?us-ascii?Q?c+7mM4B8SFTeLtIALIhZnD9K1TmQMBmYWdDfxogMGc+TyIhezm7u8EzmAh2W?=
+ =?us-ascii?Q?dU3WpTMDTr0GRQg2b+/UNPxTgpYEXoEzki1vwt2+SGv2cbHqIAha2o0KIdcb?=
+ =?us-ascii?Q?5iJ93hB1ZGeM1NP/2hnGXi18ezqbYJN2xPnACiTIJ8KGZc3K7m34xlmven8j?=
+ =?us-ascii?Q?JkD7BKNLi6TqAnXN/gh/ddDfALkDU6y7MvofnKDUrhOqVqpHgYigcdteMNGC?=
+ =?us-ascii?Q?l1jv8hUgn0xTFpJc3S5pD8mZ6jCokTBgUzc7KUemppSsrIV4LVlsbeFUZhWg?=
+ =?us-ascii?Q?5Ejn5tSt3nXTmbabPS2q99nZ0U6s5A9JD5pSy5e1gqLDNW2ZUe73BPiOzYFn?=
+ =?us-ascii?Q?uAOImQE5WUECQg6UjOc+6QAmN9pYMnZoEt/VD+J5PCzKLgiAuGbM/S3Khb7Y?=
+ =?us-ascii?Q?AaFX7BkJfFJqUVIm+HTYYMc5RtIIeau2+qn9gx/8XnaMzHl2i7H/IeeFPp1/?=
+ =?us-ascii?Q?cvzpvA/Q75updkwm8tl1E8ESljOzPY/iEb6VfU38uNa8UCFjtStdN+OUpRPN?=
+ =?us-ascii?Q?5UVkEhNoLypM68IkTqfQt34lnUJbz60PMUeUEoJbYAjmtdmYylYjgk2e88YY?=
+ =?us-ascii?Q?PXwSMaXrNZtc4Flve69AV3vhVUT9IJhyvUznNKRP5zG6yg1l5ZTD3xnOWalx?=
+ =?us-ascii?Q?1etWw8YfsIScr1YPi9zpz6lQAacwBniPIbgGhOUlWLew4+xaXQMTCfDaXcpS?=
+ =?us-ascii?Q?209eg0Yu8ZC/x/Xk2iggx3NTCnnt/DyxIRnrsEhy3F7ZLrOuh9OrhDNVIwKJ?=
+ =?us-ascii?Q?b6m8sKwJJr2ECtvzGO8ENy1KHasLnQqCa06T54tDPEG4ofKT4YnU27FiVBeK?=
+ =?us-ascii?Q?DqitMjFVQvaPLN1qA2fiZpOQoESvGl14Y0st+lIKlRO+QeNkCuo90faREhzI?=
+ =?us-ascii?Q?dRuMa5ZnbezAyaPD6KdtTgRRVB19hkCAZGI2Hi9vyk3XAejq7FeAtF5GBLz/?=
+ =?us-ascii?Q?MOFNXfjyoV3awKp3z5aUmxub5YXTkZHz5/KQ1vpMdp0LfH9EaOFz0ECvUXlw?=
+ =?us-ascii?Q?o+KJbqnIhdxUotl5ZivspCDnKkgAk/IMyOPmBNzkCgbzBjgMa8IClViHcgbJ?=
+ =?us-ascii?Q?grl+ru/VPpIMUD5ihnPAokaDdSgVX0zFlQ30QjgTe9rQ7I7ljo1NE9tyl9DZ?=
+ =?us-ascii?Q?zY+ZoygQ9zU1uJ+muIvw+Pl93paXbofXlqYXrWaPqtUq6iTAOhrHmC2EBi2k?=
+ =?us-ascii?Q?+u75mjeUk5WKQOonLl92rkolXtRPb3OVbbdUS69nF+NEnMeUarCMo+hX0rYE?=
+ =?us-ascii?Q?xn+953j3ScN8ZOsFhYw2+v7uoTrFNPXfRzxlL9wIFqz32o/0cbXPlKVOMgv2?=
+ =?us-ascii?Q?knSMLZa1PN4vrzv6I45fv1kYOJ2D7uv3SY+5fNib?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR21MB1335.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 74e9a4d1-d893-4974-495e-08daf8baa37f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jan 2023 18:42:51.6667 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2F0E6Wcvl+7GM9CTRa7PxM07tKXAFunPsQ6hEDg/FJOb7sbJAUYp0UsWRaXDV+lLobYOz1THYwA1sDhwzoFazg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR21MB1940
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,101 +125,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, mhocko@kernel.org, linux-mm@kvack.org,
- linux-ide@vger.kernel.org, adilger.kernel@dilger.ca, chris.p.wilson@intel.com,
- joel@joelfernandes.org, 42.hyeyoo@gmail.com, cl@linux.com, will@kernel.org,
- duyuyang@gmail.com, sashal@kernel.org, paolo.valente@linaro.org,
- damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
- mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
- rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
- ngupta@vflare.org, johannes.berg@intel.com, dan.j.williams@intel.com,
- josef@toxicpanda.com, rostedt@goodmis.org, gwan-gyeong.mun@intel.com,
- Byungchul Park <byungchul.park@lge.com>, linux-fsdevel@vger.kernel.org,
- jglisse@redhat.com, viro@zeniv.linux.org.uk, tglx@linutronix.de,
- vbabka@suse.cz, melissa.srw@gmail.com, linux-block@vger.kernel.org,
- sj@kernel.org, tytso@mit.edu, rodrigosiqueiramelo@gmail.com,
- kernel-team@lge.com, gregkh@linuxfoundation.org, jlayton@kernel.org,
- linux-kernel@vger.kernel.org, penberg@kernel.org, minchan@kernel.org,
- hannes@cmpxchg.org, tj@kernel.org, akpm@linux-foundation.org
+Cc: Wei Liu <wei.liu@kernel.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Daniel Vetter <daniel.vetter@intel.com>,
+ KY Srinivasan <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/17/23 13:18, Boqun Feng wrote:
-> [Cc Waiman]
->
-> On Mon, Jan 16, 2023 at 10:00:52AM -0800, Linus Torvalds wrote:
->> [ Back from travel, so trying to make sense of this series.. ]
->>
->> On Sun, Jan 8, 2023 at 7:33 PM Byungchul Park <byungchul.park@lge.com> wrote:
->>> I've been developing a tool for detecting deadlock possibilities by
->>> tracking wait/event rather than lock(?) acquisition order to try to
->>> cover all synchonization machanisms. It's done on v6.2-rc2.
->> Ugh. I hate how this adds random patterns like
->>
->>          if (timeout == MAX_SCHEDULE_TIMEOUT)
->>                  sdt_might_sleep_strong(NULL);
->>          else
->>                  sdt_might_sleep_strong_timeout(NULL);
->>     ...
->>          sdt_might_sleep_finish();
->>
->> to various places, it seems so very odd and unmaintainable.
->>
->> I also recall this giving a fair amount of false positives, are they all fixed?
->>
->  From the following part in the cover letter, I guess the answer is no?
->
-> 	...
->          6. Multiple reports are allowed.
->          7. Deduplication control on multiple reports.
->          8. Withstand false positives thanks to 6.
-> 	...
->
-> seems to me that the logic is since DEPT allows multiple reports so that
-> false positives are fitlerable by users?
->
->> Anyway, I'd really like the lockdep people to comment and be involved.
-> I never get Cced, so I'm unware of this for a long time...
->
-> A few comments after a quick look:
->
-> *	Looks like the DEPT dependency graph doesn't handle the
-> 	fair/unfair readers as lockdep current does. Which bring the
-> 	next question.
->
-> *	Can DEPT pass all the selftests of lockdep in
-> 	lib/locking-selftests.c?
->
-> *	Instead of introducing a brand new detector/dependency tracker,
-> 	could we first improve the lockdep's dependency tracker? I think
-> 	Byungchul also agrees that DEPT and lockdep should share the
-> 	same dependency tracker and the benefit of improving the
-> 	existing one is that we can always use the self test to catch
-> 	any regression. Thoughts?
->
-> Actually the above sugguest is just to revert revert cross-release
-> without exposing any annotation, which I think is more practical to
-> review and test.
->
-> I'd sugguest we 1) first improve the lockdep dependency tracker with
-> wait/event in mind and then 2) introduce wait related annotation so that
-> users can use, and then 3) look for practical ways to resolve false
-> positives/multi reports with the help of users, if all goes well,
-> 4) make it all operation annotated.
+> From: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Sent: Wednesday, January 11, 2023 7:41 AM
+> [...]
+> diff --git a/drivers/video/fbdev/hyperv_fb.c
+> b/drivers/video/fbdev/hyperv_fb.c
+> @@ -1076,9 +1076,7 @@ static int hvfb_getmem(struct hv_device *hdev,
+> struct fb_info *info)
+>         info->screen_size =3D dio_fb_size;
+>=20
+>  getmem_done:
+> -
+> aperture_remove_conflicting_devices(info->apertures->ranges[0].base,
+> -
+> info->apertures->ranges[0].size,
+> -                                           false,
+> KBUILD_MODNAME);
+> +       aperture_remove_conflicting_pci_devices(pdev,
+> KBUILD_MODNAME);
 
-I agree with your suggestions. In fact, the lockdep code itself is one 
-of major overheads when running a debug kernel. If we have another set 
-of parallel dependency tracker, we may slow down a debug kernel even 
-more. So I would rather prefer improving the existing lockdep code 
-instead creating a completely new one.
+NACK. I think the patch breaks Gen-2 VMs, because 'pdev' is NULL in a
+Gen-2 VM.
 
-I do agree that the lockdep code itself is now rather complex. A 
-separate dependency tracker, however, may undergo similar transformation 
-over time to become more and more complex due to the needs to meet 
-different requirement and constraints.
+A VM running on Hyper-V can be Gen-1 or Gen-2: see
+https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/pla=
+n/should-i-create-a-generation-1-or-2-virtual-machine-in-hyper-v
 
-Cheers,
-Longman
+A Gen-2 VM doesn't have the legacy PCI Bus, and doesn't have a legacy
+PCI VGA adapter device, so the 'pdev' is NULL here.
+
+>=20
+>         if (gen2vm) {
+>                 /* framebuffer is reallocated, clear screen_info to avoid
+> misuse from kexec */
+
+
 
