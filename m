@@ -2,47 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F6FB66E7AD
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 21:26:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CD6166E7AF
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 21:26:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBE1910E352;
-	Tue, 17 Jan 2023 20:26:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F11E10E5CA;
+	Tue, 17 Jan 2023 20:26:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7898910E352;
- Tue, 17 Jan 2023 20:26:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673987194; x=1705523194;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=dStcdiVsxKAZTBnk9p0DjSglhoSY17VcKtVooA+ln6w=;
- b=Wl+YOFNZNE4jxaTd9FLkHAWlE6zA+QEMKEpFMU2tEQLxYN+5+VFE6xQ6
- NgIlCAzf+ryVv5mzCIm2e4V0DhT39h/OOpwCi7xEVMIlBoQojZ6q6t1xz
- 7bGlny33lGV4LCLJSPxr4TeRjagNDPuCfJXOp8aVHq5JOqD3surNyAhYD
- Nqs7r+0ZKstp0I5vGXuhYOa1v0mgRHI5sOZ+q3BGU1fZIFjr5yzWEyIK1
- ePw9LmBQWb7JPgJLMdl5DV1iHr9MmL8b/g00eMA6tPmsS0WTxHwHpqQQA
- WMNfGjdnFm9DAKPJ9xefxlQ9aqbNGo8H9csulyLJTSb4xGG0a1aFFe51M A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="326883059"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="326883059"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2023 12:26:31 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="833300307"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="833300307"
-Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2023 12:26:30 -0800
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915: Move/adjust register definitions related to
- Wa_22011450934
-Date: Tue, 17 Jan 2023 12:26:27 -0800
-Message-Id: <20230117202627.4134579-1-matthew.d.roper@intel.com>
-X-Mailer: git-send-email 2.39.0
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com
+ [209.85.217.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A95110E5CA
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 20:26:42 +0000 (UTC)
+Received: by mail-vs1-f41.google.com with SMTP id q125so21777529vsb.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 12:26:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7rC0mNjXax5vqLz2OAo+EH0y+cJfjyIAm7sm9u5PvgQ=;
+ b=l8ScoHRzhdB1B8pI8Khp6ltrweNoS1hlpZiUDm7MseGmFV2WAIGRxHuhB7ePcXeCvt
+ ioI41nMH18thAKCFMTf1A710J56lK8GBm/RU6iy2MdIiSqTLfWvuOnlrQQCtE33wY1eJ
+ HOA4ZQLr6ebPrlrAWe67SuWmKcLwR8wYbNmbsWyQmZYxeOI0IbjqQHsT37bZhXSuKMQd
+ pYtUuS9rIqgVPrKk2Hhd3o5QSADvDPNWmG2IPYfceEmwynTCIgquFVjbxNdCznm1PZdK
+ G3EXfyjza6+kgwCSdeNiUWaxEP5fGdq1Y93kp8phlF8FOW84kYY41A6WuFvNx3NrzUKN
+ KHCw==
+X-Gm-Message-State: AFqh2kqiS+CmIayFvZxb4SwBU+23KnyMPrhNfLRMS8S9p5qkSIDEdjw1
+ HPhtD+6iBVKIcxw12ZjklbllDedNvJHIwg==
+X-Google-Smtp-Source: AMrXdXu+KG12FJMzkCu+IMzWtvulS93S2nInkrNF8t8B7MnBLewJ9DL9tjDaH0kXbJ94EeHAERLhOg==
+X-Received: by 2002:a67:f9cd:0:b0:3d3:caad:f74d with SMTP id
+ c13-20020a67f9cd000000b003d3caadf74dmr2263609vsq.9.1673987200926; 
+ Tue, 17 Jan 2023 12:26:40 -0800 (PST)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com.
+ [209.85.219.171]) by smtp.gmail.com with ESMTPSA id
+ h4-20020a05620a244400b00706adbdf8b8sm788596qkn.83.2023.01.17.12.26.39
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Jan 2023 12:26:40 -0800 (PST)
+Received: by mail-yb1-f171.google.com with SMTP id 188so35544741ybi.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 12:26:39 -0800 (PST)
+X-Received: by 2002:a25:9012:0:b0:7b8:a0b8:f7ec with SMTP id
+ s18-20020a259012000000b007b8a0b8f7ecmr707665ybl.36.1673987199250; Tue, 17 Jan
+ 2023 12:26:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230113062339.1909087-1-hch@lst.de>
+ <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
+ <20230116071306.GA15848@lst.de>
+ <9325a949-8d19-435a-50bd-9ebe0a432012@landley.net>
+In-Reply-To: <9325a949-8d19-435a-50bd-9ebe0a432012@landley.net>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 17 Jan 2023 21:26:27 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUJm5QvzH8hvqwvn9O6qSbzNOapabjw5nh9DJd0F55Zdg@mail.gmail.com>
+Message-ID: <CAMuHMdUJm5QvzH8hvqwvn9O6qSbzNOapabjw5nh9DJd0F55Zdg@mail.gmail.com>
+Subject: Re: remove arch/sh
+To: Rob Landley <rob@landley.net>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,118 +69,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
+ linux-rtc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>, linux-arch@vger.kernel.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, linux-serial@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ netdev@vger.kernel.org, dmaengine@vger.kernel.org, alsa-devel@alsa-project.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The implementation of Wa_22011450934 introduced three new register
-definitions in i915_reg.h that didn't get moved to the GT/engine
-register headers when all the other registers moved; let's move them to
-the appropriate headers and tidy up their definitions now for
-consistency:
+Hi Rob,
 
- - STATE_ACK_DEBUG is moved to the engine register header and converted
-   to a parameterized definition; the workaround only needs the RCS
-   instance to be programmed, but there are instances on other engines
-   that could be used by other workarounds in the future.
+On Tue, Jan 17, 2023 at 8:01 PM Rob Landley <rob@landley.net> wrote:
+> On 1/16/23 01:13, Christoph Hellwig wrote:
+> > On Fri, Jan 13, 2023 at 09:09:52AM +0100, John Paul Adrian Glaubitz wrote:
+> >> I'm still maintaining and using this port in Debian.
+> >>
+> >> It's a bit disappointing that people keep hammering on it. It works fine for me.
+> >
+> > What platforms do you (or your users) use it on?
+>
+> 3 j-core boards, two sh4 boards (the sh7760 one I patched the kernel of), and an
+> sh4 emulator.
+>
+> I have multiple j-core systems (sh2 compatible with extensions, nommu, 3
+> different kinds of boards running it here). There's an existing mmu version of
+> j-core that's sh3 flavored but they want to redo it so it hasn't been publicly
+> released yet, I have yet to get that to run Linux because the mmu code would
+> need adapting, but the most recent customer projects were on the existing nommu
+> SOC, as was last year's ASIC work via sky130.
 
- - The two CULLBIT registers move to the GT register header.  Since
-   they belong to MMIO ranges that became MCR starting with Xe_HP,
-   their definitions should be defined as MCR_REG() and use an Xe_HP
-   prefix to keep the register semantics clear.
+J4 still vaporware?
 
-Note that the MCR definition is just for consistency and to prevent
-accidental misuse if other workarounds related to these registers show
-up in the future.  There's no functional change to today's driver since
-the workaround that references these registers only accesses them via
-MI_LRR engine instructions.  Engine-initiated register accesses do not
-utilize the same same steering controls as CPU-initiated accesses; they
-use a different steering control register (0x20CC) which is initialized
-to a non-terminated DSS target by pre-OS firmware and never changed
-thereafter (i915 does not touch it and userspace does not have
-permission to change that register).
+> My physical sh4 boards are a Johnson Controls N40 (sh7760 chipset) and the
+> little blue one is... sh4a I think? (It can run the same userspace, I haven't
+> replaced that board's kernel since I got it, I think it's the type Glaubitz is
+> using? It's mostly in case he had an issue I couldn't reproduce on different
+> hardware, or if I spill something on my N40.)
+>
+> I also have a physical sh2 board on the shelf which I haven't touched in years
+> (used to comparison test during j2 development, and then the j2 boards replaced it).
+>
+> I'm lazy and mostly test each new sh4 build under qemu -M r2d because it's
+> really convenient: neither of my physical boards boot from SD card so replacing
+> the kernel requires reflashing soldered in flash. (They'll net mount userspace
+> but I haven't gotten either bootloader to net-boot a kernel.)
 
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_engine_regs.h | 1 +
- drivers/gpu/drm/i915/gt/intel_gt_regs.h     | 4 ++++
- drivers/gpu/drm/i915/gt/intel_lrc.c         | 6 +++---
- drivers/gpu/drm/i915/i915_reg.h             | 4 ----
- 4 files changed, 8 insertions(+), 7 deletions(-)
+On my landisk (with boots from CompactFLASH), I boot the original 2.6.22
+kernel, and use kexec to boot-test each and every renesas-drivers
+release.  Note that this requires both the original 2.6.22 kernel
+and matching kexec-tools.  Apparently both upstreamed kernel and
+kexec-tools support for SH are different, and incompatible with each
+other, so you cannot kexec from a contemporary kernel.
+I tried working my way up from 2.6.22, but gave up around 2.6.29.
+Probably I should do this with r2d and qemu instead ;-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_regs.h b/drivers/gpu/drm/i915/gt/intel_engine_regs.h
-index ee3efd06ee54..6b9d9f837669 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_regs.h
-@@ -81,6 +81,7 @@
- #define RING_EIR(base)				_MMIO((base) + 0xb0)
- #define RING_EMR(base)				_MMIO((base) + 0xb4)
- #define RING_ESR(base)				_MMIO((base) + 0xb8)
-+#define GEN12_STATE_ACK_DEBUG(base)		_MMIO((base) + 0xbc)
- #define RING_INSTPM(base)			_MMIO((base) + 0xc0)
- #define RING_CMD_CCTL(base)			_MMIO((base) + 0xc4)
- #define ACTHD(base)				_MMIO((base) + 0xc8)
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index 4f5c06d60bcd..4a4bab261e66 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -407,6 +407,8 @@
- #define GEN9_WM_CHICKEN3			_MMIO(0x5588)
- #define   GEN9_FACTOR_IN_CLR_VAL_HIZ		(1 << 9)
- 
-+#define XEHP_CULLBIT1				MCR_REG(0x6100)
-+
- #define CHICKEN_RASTER_1			MCR_REG(0x6204)
- #define   DIS_SF_ROUND_NEAREST_EVEN		REG_BIT(8)
- 
-@@ -457,6 +459,8 @@
- #define   HZ_DEPTH_TEST_LE_GE_OPT_DISABLE	REG_BIT(13)
- #define   BDW_HIZ_POWER_COMPILER_CLOCK_GATING_DISABLE	REG_BIT(3)
- 
-+#define XEHP_CULLBIT2				MCR_REG(0x7030)
-+
- #define GEN8_L3CNTLREG				_MMIO(0x7034)
- #define   GEN8_ERRDETBCTRL			(1 << 9)
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index 7771a19008c6..1dffe392b95c 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -1351,16 +1351,16 @@ static u32 *
- dg2_emit_rcs_hang_wabb(const struct intel_context *ce, u32 *cs)
- {
- 	*cs++ = MI_LOAD_REGISTER_IMM(1);
--	*cs++ = i915_mmio_reg_offset(GEN12_STATE_ACK_DEBUG);
-+	*cs++ = i915_mmio_reg_offset(GEN12_STATE_ACK_DEBUG(ce->engine->mmio_base));
- 	*cs++ = 0x21;
- 
- 	*cs++ = MI_LOAD_REGISTER_REG;
- 	*cs++ = i915_mmio_reg_offset(RING_NOPID(ce->engine->mmio_base));
--	*cs++ = i915_mmio_reg_offset(GEN12_CULLBIT1);
-+	*cs++ = i915_mmio_reg_offset(XEHP_CULLBIT1);
- 
- 	*cs++ = MI_LOAD_REGISTER_REG;
- 	*cs++ = i915_mmio_reg_offset(RING_NOPID(ce->engine->mmio_base));
--	*cs++ = i915_mmio_reg_offset(GEN12_CULLBIT2);
-+	*cs++ = i915_mmio_reg_offset(XEHP_CULLBIT2);
- 
- 	return cs;
- }
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 8b2cf980f323..d30443f06bdd 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -8113,10 +8113,6 @@ enum skl_power_gate {
- #define CLKGATE_DIS_MISC			_MMIO(0x46534)
- #define  CLKGATE_DIS_MISC_DMASC_GATING_DIS	REG_BIT(21)
- 
--#define GEN12_CULLBIT1			_MMIO(0x6100)
--#define GEN12_CULLBIT2			_MMIO(0x7030)
--#define GEN12_STATE_ACK_DEBUG		_MMIO(0x20BC)
--
- #define _MTL_CLKGATE_DIS_TRANS_A			0x604E8
- #define _MTL_CLKGATE_DIS_TRANS_B			0x614E8
- #define MTL_CLKGATE_DIS_TRANS(trans)			_MMIO_TRANS2(trans, _MTL_CLKGATE_DIS_TRANS_A)
--- 
-2.39.0
+Both r2d and landisk are SH7751.
 
+Probably SH7722/'23'24 (e.g. Migo-R and Ecovec boards) are also
+worth keeping.  Most on-SoC blocks have drivers with DT support,
+as they are shared with ARM.  So the hardest part is clock and
+interrupt-controller support.
+Unfortunately I no longer have access to the (remote) Migo-R.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
