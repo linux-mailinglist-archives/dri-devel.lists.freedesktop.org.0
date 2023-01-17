@@ -2,71 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AC0566E42A
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 17:56:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4553866E434
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 17:57:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A74F10E58F;
-	Tue, 17 Jan 2023 16:56:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00AF510E5A9;
+	Tue, 17 Jan 2023 16:57:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1245410E58F
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 16:56:28 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id w14so28625490edi.5
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 08:56:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=TGV4flLnQ5GTALrRq/Zcwkc6MngRMczwaKltVAPchZ8=;
- b=a5DsX7tGttZrH4i9+WGxNwwdcC38Os+LgctGMXaNIWQ6lsx7+RQQCj6D6DGFLwa3ci
- NU9Ml9vzTBe/cZvC1evO6Ws/L3FRq3H19/Eb0eFV0SZO8B+Gjlf+LHxN/IKtEzQ0zXLL
- Dft50Bc1v+WbI9N+CPA4dwxF6CU6OvEB7LRH80csnkfF9rK2WHms2Wenrvy1kJKsDCmJ
- as7B6zMi8wulD8YebY7yxcHBLv7jpbUZnOPxr50Cy8LT0w9+aUPc4zIEC3LROnv5B56+
- HBYZ5VugYbWKLum+4U1pbXY0R2fWqTzqnT56d6Tftfy0MatcnVv6KMZMHRnulyoyX6pS
- ADTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TGV4flLnQ5GTALrRq/Zcwkc6MngRMczwaKltVAPchZ8=;
- b=S3mcREEggSjzNhi/KwNF1L4E8rs5X0gDhX6QuB4YViW5CLhQh8ARAo3sBeAntce9UJ
- dycyGLo4McSMn2PjA/eGI1fX9a+jhW77yZnGXc85qmaRqWTbD9PAGt8kloO8qsXx/p6A
- JXjBqLOqQyuEu2/ib0eFyAzOpD0n6cOpMvQOy7u5csP4JzLxGMimzUQOvXPPs+bY2Sl1
- Tdx1tG1suhkuRniz2rEVmOfMohxyJ5qtJOQtkojPaqvlBKiqfTcWBX9Klww4TaE4+mdE
- d9eVTbzLAAdVQI6jSt4VvXEDIsZea/Ws0cxDrEy21qx82bW/LiBwFR/nQW+2V7PbqnpY
- aICQ==
-X-Gm-Message-State: AFqh2krY13KFJwUfrJWAcF9VN3YyJqPNfASXyMwShkUy23To9KfH9c2G
- OLyhOqqFRWGyOR1Cu2M54JNc0g==
-X-Google-Smtp-Source: AMrXdXs7lqL6ddQMdEKsHzt3CWm0CKMQZkMNBqrtckHmN2Nt39+LVmJHknh3eXfQpzq5Xw0++bZ/Gg==
-X-Received: by 2002:a05:6402:138b:b0:48e:a9a1:c584 with SMTP id
- b11-20020a056402138b00b0048ea9a1c584mr3764323edv.35.1673974586655; 
- Tue, 17 Jan 2023 08:56:26 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- m17-20020a50ef11000000b0049c4e3d4139sm5486233eds.89.2023.01.17.08.56.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 08:56:26 -0800 (PST)
-Message-ID: <24ef467e-24a6-fc8f-3859-95ec0ae109ae@linaro.org>
-Date: Tue, 17 Jan 2023 18:56:25 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81C1D10E590
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 16:57:20 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id F082661265
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 16:57:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 64CCCC433F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 16:57:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1673974639;
+ bh=YvUx6vbEExKk2a6kWxrM5MtUZLNRQv49//PCBU/f784=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=Lt7v1WTmhHY4KAdOtQppgI43Yuu8DOG2xLAVXcRiksdu35cbAT0xb+sYAJFtkVbSe
+ r5tnFqznsADzAtIpB574ELonIbpR3SSRE/SmZGhbSmiE3gvc3SxvjIRQHeowAuO43m
+ QLII2G0LXqceThjnv25N/d7wSqxr+aC9Zcunto1JFBeR2r+YmQbWkbCErvW1C3LZgr
+ irlCoo9k3wPLGEQPu2Z0xviY5LFD3UMUu6+itar+QkYSmwfI/X8PrRGO7ZgkPUMwfB
+ GflqH+6cor1yqZf5MYOiYHzt26qPaKtCYJHN0+TACHomO7b+JP8alH8zFCom7sNZx6
+ MgzmMy7hYeR/Q==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 4EE62C43143; Tue, 17 Jan 2023 16:57:19 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216917] hibernation regression since 6.0.18 (Ryzen-5650U incl.
+ Radeon GPU)
+Date: Tue, 17 Jan 2023 16:57:18 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: jrf@mailbox.org
+X-Bugzilla-Status: NEEDINFO
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216917-2300-3dsJGkXVB0@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216917-2300@https.bugzilla.kernel.org/>
+References: <bug-216917-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 2/3] drm/msm/disp/dpu1: allow dspp selection for all the
- interfaces
-Content-Language: en-GB
-To: Kalyan Thota <quic_kalyant@quicinc.com>, dri-devel@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org
-References: <1673972488-30140-1-git-send-email-quic_kalyant@quicinc.com>
- <1673972488-30140-3-git-send-email-quic_kalyant@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1673972488-30140-3-git-send-email-quic_kalyant@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,90 +71,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, dianders@chromium.org, quic_abhinavk@quicinc.com,
- linux-kernel@vger.kernel.org, quic_vpolimer@quicinc.com, swboyd@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/01/2023 18:21, Kalyan Thota wrote:
-> Allow dspps to be populated as a requirement for all the encoder
-> types it need not be just DSI. If for any encoder the dspp
-> allocation doesn't go through then there can be an option to
-> fallback for color features.
-> 
-> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 18 +++++++++---------
->   1 file changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 9c6817b..e39b345 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -545,7 +545,8 @@ bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc)
->   static struct msm_display_topology dpu_encoder_get_topology(
->   			struct dpu_encoder_virt *dpu_enc,
->   			struct dpu_kms *dpu_kms,
-> -			struct drm_display_mode *mode)
-> +			struct drm_display_mode *mode,
-> +			struct drm_crtc_state *crtc_state)
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216917
 
-Is this new argument used at all?
+--- Comment #27 from Rainer Fiebig (jrf@mailbox.org) ---
+(In reply to Alex Deucher from comment #26)
+> (In reply to Rainer Fiebig from comment #25)
+> > (In reply to Alex Deucher from comment #23)
+> > > I'll just revert it.  It is more important for kernels with the the
+> > > drm_buddy changes.
+> >=20
+> > Would the following be equivalent to what you intended with your commit?
+> > Looks a bit awkward but hibernate/resume work with it for 6.0.19 (and a
+> > Ryzen 5600G):
+> >=20
+> >=20
+> > uint32_t amdgpu_bo_get_preferred_domain(struct amdgpu_device *adev,
+> >                                           uint32_t domain)
+> > {
+> >       if (domain =3D=3D (AMDGPU_GEM_DOMAIN_VRAM | AMDGPU_GEM_DOMAIN_GTT=
+)) {
+> >               domain =3D AMDGPU_GEM_DOMAIN_VRAM;
+> >               if ((adev->asic_type =3D=3D CHIP_CARRIZO) || (adev->asic_=
+type =3D=3D
+> > CHIP_STONEY))
+> > {
+> >                       if (adev->gmc.real_vram_size <=3D AMDGPU_SG_THRES=
+HOLD)
+> >                               domain =3D AMDGPU_GEM_DOMAIN_GTT;
+> >               }
+> >       }
+> >       return domain;
+> > }
+> >=20
+> >=20
+> > Let me know whether this is worth persuing. I could then test it with
+> > 5.15.88 and 6.1.6.
+>=20
+> Nope.  What my patch does is allow display buffers to be in either system
+> memory (GTT) or carve out (VRAM) depending on what is available.  Without
+> the patch, the driver picks either VRAM or GTT depending on how much VRAM=
+ is
+> available on the system.  This can lead to memory exhaustion in some cases
+> with multiple large resolution monitors depending on memory fragmentation.
+>=20
+> What your patch does is just always use VRAM unless the chip is Carrizo or
+> Stoney.  So it is effectively just reverting the commit (depending on how
+> much VRAM your system has).
 
->   {
->   	struct msm_display_topology topology = {0};
->   	int i, intf_count = 0;
-> @@ -563,8 +564,9 @@ static struct msm_display_topology dpu_encoder_get_topology(
->   	 * 1 LM, 1 INTF
->   	 * 2 LM, 1 INTF (stream merge to support high resolution interfaces)
->   	 *
-> -	 * Adding color blocks only to primary interface if available in
-> -	 * sufficient number
-> +	 * dspp blocks are made optional. If RM manager cannot allocate
-> +	 * dspp blocks, then reservations will still go through with non dspp LM's
-> +	 * so as to allow color management support via composer fallbacks
->   	 */
+I see. Thanks a lot for the explanation!
 
-No, this is not the way to go.
+--=20
+You may reply to this email to add a comment.
 
-First, RM should prefer non-DSPP-enabled LMs if DSPP blocks are not 
-required.  Right now your patch makes it possible to allocate LMs, that 
-have DSPP attached, for non-CTM-enabled encoder and later fail 
-allocation of DSPP for the CRTC which has CTM blob attached.
-
-Second, the decision on using DSPPs should come from 
-dpu_crtc_atomic_check(). Pass 'bool need_dspp' to this function from 
-dpu_atomic_check(). Fail if the need_dspp constraint can't be fulfilled.
-
-
->   	if (intf_count == 2)
->   		topology.num_lm = 2;
-> @@ -573,11 +575,9 @@ static struct msm_display_topology dpu_encoder_get_topology(
->   	else
->   		topology.num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 : 1;
->   
-> -	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
-> -		if (dpu_kms->catalog->dspp &&
-> -			(dpu_kms->catalog->dspp_count >= topology.num_lm))
-> -			topology.num_dspp = topology.num_lm;
-> -	}
-> +	if (dpu_kms->catalog->dspp &&
-> +	    (dpu_kms->catalog->dspp_count >= topology.num_lm))
-> +		topology.num_dspp = topology.num_lm;
->   
->   	topology.num_enc = 0;
->   	topology.num_intf = intf_count;
-> @@ -643,7 +643,7 @@ static int dpu_encoder_virt_atomic_check(
->   		}
->   	}
->   
-> -	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode);
-> +	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode, crtc_state);
->   
->   	/* Reserve dynamic resources now. */
->   	if (!ret) {
-
--- 
-With best wishes
-Dmitry
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
