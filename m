@@ -2,141 +2,159 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F91A66E6F6
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 20:29:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 681D966E72A
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 20:41:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6997010E332;
-	Tue, 17 Jan 2023 19:29:49 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50D9010E32B;
- Tue, 17 Jan 2023 19:29:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2590610E32A;
+	Tue, 17 Jan 2023 19:41:05 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA6B110E32A;
+ Tue, 17 Jan 2023 19:41:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673983786; x=1705519786;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=FQS3185SpEKdEa+CroQgGAHPOTN/+eaWBWCiK2CiPDc=;
- b=guFpTUrMKcDRyOw2kVX5gYzEAuZcjEKD9q70A2qvyjkL1N4/31Jvcpb/
- VTtrExya4no0UBtThVAfAmvADgnqTOGjHntqF+nHCwSJD3CQwADy2lD4x
- 2ZDw5YyOOM3dkKQqW6189V1aC8xqSCG9y99XFbcL3kGlfkigIsYtA71Sn
- OrP6wwWIn+JX4n03tM77xfRVqrQSD+8dNadlz3pvKJz8Rn50BW2fvVnHJ
- vBF1LD1/JNEMyJXqhdERTfVJT/XQkqivYGYzO26L+HoS1fhHttWCQHFfg
- xdzHGwiwcVx/BOu7yp/bpkSX36STUDzJQ6X4/3EGA1u/+KnKa4r2zSoUc w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="326868740"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="326868740"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2023 11:29:45 -0800
+ t=1673984463; x=1705520463;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=+FS4+vxAA3x2SRxcqyFoLICRTF1t+HKyPXEthca56cs=;
+ b=YiEwSa9CgSw6XJyriPtWg4pIcnAJvpb7zqu/f9uHLfI+pIYTWg0ElltC
+ LHB1ndgFCV2JziwM6bT5961yjY1HwozGVGudPqb6ug7nwj2l2PQnDnpay
+ AmpesEzUn0K5snLVlJZaAir4Mqq047LA7kpZfyAffThmGE03kvAAm7wq6
+ lbv1RBGK0tLTScpy2X4hI00nNjIFiB01fB51nXNHgXRQB6q0p1mDNsX5c
+ AqcK8cVgJ961Sea+fw2yBm8Qy/OkUDARdtEBf/lwqz7D/yBKjEj8r6eF8
+ GXoHC0JdTuiVpT59A88wq5h8Vi9AK5G1o5x22lEbLI+lAx0mC79De9SGF Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="352039831"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="352039831"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2023 11:41:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="727889784"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="727889784"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga004.fm.intel.com with ESMTP; 17 Jan 2023 11:29:45 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="988257210"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="988257210"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga005.fm.intel.com with ESMTP; 17 Jan 2023 11:41:02 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 17 Jan 2023 11:29:44 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ 15.1.2507.16; Tue, 17 Jan 2023 11:41:02 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 17 Jan 2023 11:29:43 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ 15.1.2507.16; Tue, 17 Jan 2023 11:41:01 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Tue, 17 Jan 2023 11:29:43 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.106)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2507.16 via Frontend Transport; Tue, 17 Jan 2023 11:41:01 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.45) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Tue, 17 Jan 2023 11:29:43 -0800
+ 15.1.2507.16; Tue, 17 Jan 2023 11:41:01 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l5pNHaJQBmTLkbOw4+8v/+F1oc6qzPPv0KYSuhYfNp5GywpMYBUwfSYJEbeYRxBh4Uo9XE8yb3H2S2iMgfKUqZ7IvUcWuIzUdYLeg4gQsDLwKatGvcfvoBsB08WKxKgMDNQ5CxRTp9qobPzKlN7liXaUIS9UtE4fT3zjF7PNPCmdLxpGLMUsjT4ldjrlQL+pUX2ckjBwR4ShJ+grHZ8Tw7ZbbZxf+SHlLw52XCmwd+M+km7IVI6e6zyMKhjjNsv0bvCfhoPv2D1M8uxe8U1Ozf3fruiKR1at/11w97XzklLow9UQCGd/vlMl2UmDpvmpDrAhm87MKhQRVzK+WBN+Qg==
+ b=PMj+hqc86Qrs1tgKsfEtMDwBZBwm410PB2mT0HMBRkpTBJ5ue+SJXsWUYqQHsqOhehCfPCtM9B1qaczWh3j79jEtYyJw6htiR+g/2W3W0dWb7TV8H3meyyhLriLxC6zDhUxZ1N4zei4XSNfgZ8GCRkElagsR7yIJXKvoMl7WlJg75c5VuTCVFNLPNLuKYDO8Sjkfk8BXnyefCI7Ey3Mqe0w0uaAHzfwpnsQcPN31icovNZEp86zavaVEV3CYAxa4kY74SEI+MW0uftGslMw4GJvDSu0LmXKh4s89wDNIN3f/dc3E4pXKzq3lyL/6IK7L81Uu4XXhLecCC+BbDvRbkw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=za3smGz9hTD0pm0cZSB+4jK2Wz9UP3IoUP/LVLR92hI=;
- b=XB1rrQWGZO0Cqq3fn1qW947c8CIJvUd6wtiYoOtSqtZdQlpkmDIMCYVaQG+JehMIdwmx5mFVQx3aB9is9Iq50VMi/Q80wRisn8jUYmfGfPwvu1Spezd9v1HLgRAy0+g0w16CE+6osTvFN2v/ACb4CwNdbsvrC3xDROJxXY9V68N0A8kPd2TFyX0VMNUP6sjfYZb5JpWeJcXhm9kBqH7G2vOhQeCYEdIQG8bD+lNj5L5kGBFQMJl0Gt8aDjGSp68bzWg+0GrzqqgGSaSwt0KnXOM7gLOIcWv7t3Er4j459Un3r13D4c4CD8/wCFkzcxlItDBSvp6nnAyYhyN3m6PTtg==
+ bh=2pgZWV0IFD/ffHgScweMEhDQ+GGWSF9RiOnZlgZvZc0=;
+ b=TOLiCnG/RJwDTEMbMAWVJ91ZUeajhVAlBp6zjYOUKt1ZjLyDAwMO4xIGBatMYMmiigXLv+kqnHLf30u6o7LZROmFZDizS3dCFTenYcPJcyj7lA/L1jbnBU58IOfXhccZGJXRJkGQUGo1n/M088Dshy8EJCBwDf5SSgUCsNJsZONKC63rVI1IW1Re09AfPi1V+M9I0ktId0TyWLyBC74EDFZFbVXs26JIheXeTx8k+zaYhXcVPeASVWj1QND+GSOqblGp0EfbDtohnQdes9vnH7V4TCOmp2f41kKMJfdmgS8QbfdWXBYiCejBDXtKLqqZs+txkptk8hRQAo65/dyg6Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6053.namprd11.prod.outlook.com (2603:10b6:510:1d1::8)
- by DS0PR11MB6376.namprd11.prod.outlook.com (2603:10b6:8:c8::16) with
- Microsoft SMTP Server (version=TLS1_2,
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
+ by SJ0PR11MB4989.namprd11.prod.outlook.com (2603:10b6:a03:2d9::22)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.23; Tue, 17 Jan
- 2023 19:29:41 +0000
-Received: from PH7PR11MB6053.namprd11.prod.outlook.com
- ([fe80::9976:f25a:e9d3:2a0b]) by PH7PR11MB6053.namprd11.prod.outlook.com
- ([fe80::9976:f25a:e9d3:2a0b%5]) with mapi id 15.20.5986.018; Tue, 17 Jan 2023
- 19:29:41 +0000
-Date: Tue, 17 Jan 2023 14:29:37 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915/gvt: Avoid full proxy f_ops for
- vgpu_status debug attributes
-Message-ID: <Y8b3IRhx976Ke99X@intel.com>
-References: <cover.1673375066.git.drv@mailo.com>
- <188df08e0feba0cda2c92145f513dd4e57c6e6cf.1673375066.git.drv@mailo.com>
- <Y72zVXYLVHXuyK05@intel.com>
- <Y8TkTi+/GQwhiMvO@zhen-hp.sh.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <Y8TkTi+/GQwhiMvO@zhen-hp.sh.intel.com>
-X-ClientProxiedBy: SJ0PR13CA0014.namprd13.prod.outlook.com
- (2603:10b6:a03:2c0::19) To PH7PR11MB6053.namprd11.prod.outlook.com
- (2603:10b6:510:1d1::8)
+ 2023 19:41:00 +0000
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::81f2:9a76:638:28eb]) by BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::81f2:9a76:638:28eb%2]) with mapi id 15.20.5986.023; Tue, 17 Jan 2023
+ 19:41:00 +0000
+Message-ID: <4bec6af7-90f5-46de-1df0-9af034662475@intel.com>
+Date: Tue, 17 Jan 2023 11:40:57 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.6.1
+Subject: Re: [Intel-gfx] [PATCH 1/4] drm/i915: Allow error capture without a
+ request
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, "Hellstrom, Thomas"
+ <thomas.hellstrom@intel.com>, "Intel-GFX@Lists.FreeDesktop.Org"
+ <Intel-GFX@Lists.FreeDesktop.Org>
+References: <20230112025311.2577084-1-John.C.Harrison@Intel.com>
+ <20230112025311.2577084-2-John.C.Harrison@Intel.com>
+ <f5edb1fa-6aba-1e02-f238-518518337f11@linux.intel.com>
+ <79cd935a-5a7f-b709-ec05-c9cf5801f2dc@intel.com>
+ <4acf4db5-97e9-34dc-2b89-517296ce4c3c@linux.intel.com>
+ <7316954666eecb39aef79067bc590e58bee48389.camel@intel.com>
+ <0b0f59dc-d50f-f491-ad0c-9030b799830e@intel.com>
+ <75379a08-1a87-d3a3-01ee-781c73d40d6f@linux.intel.com>
+Content-Language: en-GB
+From: John Harrison <john.c.harrison@intel.com>
+In-Reply-To: <75379a08-1a87-d3a3-01ee-781c73d40d6f@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR03CA0225.namprd03.prod.outlook.com
+ (2603:10b6:a03:39f::20) To BY5PR11MB3911.namprd11.prod.outlook.com
+ (2603:10b6:a03:18d::29)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6053:EE_|DS0PR11MB6376:EE_
-X-MS-Office365-Filtering-Correlation-Id: adbfb7f5-d4d7-4fa8-2356-08daf8c12dee
+X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_|SJ0PR11MB4989:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4d30f7af-5ba9-4814-cbba-08daf8c2c28c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bI6yAnnTh86UuzmcL8yAq6YYmv3siy77KnV+yPYwCd4fNYwX/qKyGqSBtxk0vCkQ0IzuA8d9XjiV0ApS+BhNMH9DUKoZWL2bNiZfLOS7MFwEewYue4SmN0hft7AL/GTkNx2/phvJC5sVXfMKh7iR71lnj0t58EM4dpIZgAn8O0MYaSi/NW4BMiDN3zmY7nObkuKuM73XZGIQMoHTc8xsj45wcJJTomwH8pGlC10dlYIIzaXXZv3ispSyXv9EhhDnBJE/P/1EtgisxTG+uckZwRL3myIc4oPRNHcIQ8Te+X/rAzmHi/BWtzxgr6H3+Bku263ba3RVH1L0RKmW/0ZDOLj1VIvtNGe7oC37QLBSe1uWR79DYmhdJD/2LfowQRQhQnn/DHF0cDU1CMZjVXsNzmRjoamvZCfRneew/zT9PdqqkbmfWhcUD5+eyt7VsjALtrdZ/81B59gTifpbKznpyyq/gmQh9Lox+MMhbQCSHDGixxCTCdREh5UhpodWiTnyZowW3m0tT43OyPCaNOFbhc3Zb7dySElzejHAOxCI66HX+zR8I2kjrYd9wXH8ejbP9CC12J2uR1sV42wKDaatL4sQmOp5S45GBWhu19jb5jZjT5B+1sUk2Nf9+qNX5DAXLztYi1I5hUqTTvtiNV6XyQ==
+X-Microsoft-Antispam-Message-Info: 3UajWAh2KpqR9Gz1c5Lm91G89UJiyuDxHNU/KDVNYRFxnsEWYZwpKqyCUxXyjXtoPd6S+8NgpeY4f15n23TlL6/QPaRne5NRV2u6kUZoKEAljz8zpk4RJEgtSykpo1Bfl67DeaP44g+wNZujOvKjxYMXWRycbkZvmN8gaaMvN4yLJuMUFB7V1zlQMGn3Le0oG7BVQZukvw+bMGWOfc1j2dVWSECoQo0TpMq21WNYgwdA3+N46vLzQyUjy8nGsc8Q7jz8SMvdaVdwJnuYEjNUl89cwSxdMbwZ91vq1B0x/oy7JzBqVXyeD3uTlSEckDjrWTxS2gFrhBulqutODqY3BNGhSZZ4r8UpYBY9x+DHnst1Cr6//rnJ2L+v61+axWlGRJyw5TnHtTdyu4e2ZRwU0M0Odeq2wmASHhvV6W7YDc0koKVzYP8847+3qqIGhg5jHWVm/2R3l4FmNsv/cJT2kz8ehQW7xb0nCuBrWtWb8BiLaVKNi28S7atrI277XFVOeFCWTkpAtBL9nFwwpKfL6VhpxSbe+zpNrlsmyaLj5PN1Yi6ssn6u8DOZMArcOd2r2lhaWM0lZZ7dDsw3oKttGkfS3oxvfoyR2cl3hW16L/PfozCGDkEB6gZByYm4E+w9/k2JBmidjd5Gti6tLoWF/xDgcaC9M/ERu0YZWyqWQClFjB3Gi5X2kLqIg2oSXIjnXMRJre4dJ/iTyPrrB1W2KD6Qnyhy5PWBnScdpybaBNM=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6053.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(396003)(136003)(346002)(376002)(366004)(39860400002)(451199015)(82960400001)(83380400001)(38100700002)(8936002)(86362001)(8676002)(2906002)(7416002)(6916009)(4326008)(66476007)(44832011)(66946007)(5660300002)(66556008)(6666004)(41300700001)(26005)(6512007)(6506007)(186003)(53546011)(2616005)(54906003)(478600001)(316002)(6486002)(36756003);
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(39860400002)(376002)(346002)(396003)(366004)(136003)(451199015)(66899015)(31686004)(66946007)(6512007)(66476007)(66556008)(41300700001)(26005)(186003)(8676002)(4326008)(53546011)(2616005)(31696002)(36756003)(86362001)(5660300002)(82960400001)(8936002)(110136005)(478600001)(54906003)(6666004)(316002)(83380400001)(6506007)(38100700002)(6486002)(2906002)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2bGorMeAV1vpzJ+0NoERC/U/NcAl9Mfd2nUzQd5p7SJFa4oXKAAopXgyfSQY?=
- =?us-ascii?Q?jfyTcqPrO97j1emIY7i8qIWinBzzDtameBFinBtzM61STXnfJM+gqGDmjgXk?=
- =?us-ascii?Q?2A75zygPpe+fcdJuBrn4kaRKOoaXAdGJp2v1et0io1/9RunXVbpE+BvsMNQt?=
- =?us-ascii?Q?LrU7RlIwxEpISk2/P+5DuhEwPcCk7dZuGJU59IZc8Sz/pds2HwCOwqtgKAVC?=
- =?us-ascii?Q?Tf8t4BZ+60N7dtfupb/dBJx5vNazCgu/DIEqBHihzaY69tAFNSLgaMltB7f9?=
- =?us-ascii?Q?EjWelqzWut/SphOwVPPICneCQWJh11C6WU3lWbRyV0NyWJdI4H0X1nSWIrkN?=
- =?us-ascii?Q?RS+csMj9ll9YggzhM/yzXOXbIvA1paN40tMY4GYw26qwDgnptVMxsAqlVMET?=
- =?us-ascii?Q?4+rJoXJ6mTdsOZQsKgqztiW6V9NARlOlTgcN2a7IiC/FfAm5iZ5BNy6+wY/M?=
- =?us-ascii?Q?nEmzNH/pAZ1uDa0h+fnccGRZeXujcEGYi9XaDIkMGM92wexAGOIyYmTRa3pZ?=
- =?us-ascii?Q?AE4z+JwFMPlDbmvVFC582P4qpUGyXI9IWzoyANq4lCrFyspoZKZbfBRwtaib?=
- =?us-ascii?Q?/8JFyp29jfSsRy968Ks13L0ubv3Lg2o52SoDPij9HIq1ZyrD0o450yx/77Ej?=
- =?us-ascii?Q?aGw7Us1Kqj9SPp98q7f+zSxxhtOmUslWbetZiEuKTDJeYbhr1SOE/1LcxVf4?=
- =?us-ascii?Q?JB4FLAgkR3siiNZW55BOxc2ZB/iFxfaQn9DInQ2Zv9OeSt9FRGZEbuhAcw3b?=
- =?us-ascii?Q?GouGdsMkrjPNs0nJIAvsBcqI2sIXCnTRDc8wdgFOva7e0f1k35MK7Yto2l4f?=
- =?us-ascii?Q?fJwA0hWDr/1GkVHjODe7mQy/3v5LEIxtyyVlDwnVPeVHtuuYE+iVsw2fnzhh?=
- =?us-ascii?Q?pxV11t+hUv9foSWAiQrwfy7JhNR+OR3dTyneTCx1Dpq8fK3rdhWcFvkUmFN4?=
- =?us-ascii?Q?ZeLz8/0i0ggq11fjmsfDBfULJADb1h6mDOLBx2FPu1n2/P197f27vwf/6Qio?=
- =?us-ascii?Q?NaKArhvF1gB4Q7nmPkbAhhn34UfJghO5myZ5l80T9kObq5k4APSQCLGjX0Fv?=
- =?us-ascii?Q?HNMI1zzrF44+KyhDvc1kMhzR6bRaZd+TA4sWAxxk42Yrmenm6D38DjOgqAM2?=
- =?us-ascii?Q?GeN1bF+p5LxENJuwT5krLFb8Q7UX1nLpqfuUHjMafgiTimVxoKLBIsiuDe5X?=
- =?us-ascii?Q?OqfKbRuEvFqJtI+108vJOQpHricyBU5xH2sUeJJfR39uxn/EhclXyB4FuG2J?=
- =?us-ascii?Q?wyDcydxZ1PTTFIEbHMi95t47F5ha+n8fpZ1TkIbDiev4BZCS/prilWcxVHI5?=
- =?us-ascii?Q?hy1+077v8gVtcOhXCwow2IeawYhKK5GfItR2OFgUFlL99uve2AkCCkyOHQdA?=
- =?us-ascii?Q?LdXN0tXO5R3dolLgyXhT6CaCV4XD169wLXupxeKxAzCUhgfm1kiKUcY8Xw4z?=
- =?us-ascii?Q?31euFq/fh5+Vibk4IPvi3k5Q1E34QZLQscgddCwaFzZEd6vmOgFBoUMSKXAj?=
- =?us-ascii?Q?XdSNqNUq43VrPy6Pv6x0jTjwxwCgbaaK7vL9shQNAbBrKkVlXe3sy02CGMFA?=
- =?us-ascii?Q?gNkkNtN4nzKTCZ68DF09uLfGUyDhmtjypo6DJPoJh3vbtEe72z6bubXGUvYM?=
- =?us-ascii?Q?Og=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: adbfb7f5-d4d7-4fa8-2356-08daf8c12dee
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6053.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OU01S2R2YW52Vzg3bUJ2YkVSVVdpdUFFUjdsUGRpNUNkckRubStaRjhEUTlz?=
+ =?utf-8?B?ajFCQnRqOXd5SmNnVXEwbkkrQlUzOTVCL3RUYWpJbGlhUERmNUhkZTdVckhh?=
+ =?utf-8?B?MDNYU0U1MHF2UDM4akZjQVhiTU90d29ROFl4UUorUVl0ZjUvdklneTJ1N2lx?=
+ =?utf-8?B?ME9LeFkyRFNSTkptcSt3QTN0aUVpZi9ueVpnWjlLZ2NSTDdvWFhjbkJQNGth?=
+ =?utf-8?B?eW5tdWlvVnUwRXZIT3BJd1doTmJ6QUhJeFh1UEF6TWhrK1dKM002VGJzU2JQ?=
+ =?utf-8?B?MVJjSUxmMjhpb05RcXlHTUdqN3NQbXFNSDJoSjF5aFBKWktVa1dzSVkzb0ty?=
+ =?utf-8?B?TFJCNXN5SUZSM014UzNMTDJWTHNhNGZ5c2xPTk1IcUkrWm9JY2c5bndHL0VJ?=
+ =?utf-8?B?ZFBJWDhZa014L25VbXdEaFVoaHNRZzlSVThseldGanNwMy94QWpXNXBsZGk3?=
+ =?utf-8?B?UHRqcFo4eXBkT2hPN0IycU9KZ2RmODNSbERGcG5WTy9UME5qRmFJZ3BaNjdV?=
+ =?utf-8?B?aDJkK0dEQXl6SDVlbWpGamg1bk5BUlpYMGdCU1JvNzJvWEVBYkxlaHhNdmkz?=
+ =?utf-8?B?SzNvWFFPREhSOCtYZ05TdkdRV0tDeHZBZDB1U3BOcjIzekIwVzk4azVkNS9v?=
+ =?utf-8?B?OVlTN2RSeDY5YUNXU0hrSTVwbmN6bFYzczA5WVZ0RHk5cmhPdzlWdGVoSk91?=
+ =?utf-8?B?YVRNZTZyYzVIVEI3Qi83ZnB5RCtSZGcreW1wZUN5ckJBS2tTZFVObHdKcmhP?=
+ =?utf-8?B?UnJZSEVZcDd4RElla04xYkpXZ2JXZGNOakhNQWl4UFBnYm9FdjRsZlB6QVVY?=
+ =?utf-8?B?YzQxYlIxcDc4SWpZcDBmVVJsdlZhYlJybDZxbTRTRzJMaWNTM1JhM3lIeDhM?=
+ =?utf-8?B?OW05VXZqWmVwSi81VFhaR3g1Y3ZuS1YwNkVaT1RoM2lXblBXRlh6bGFsYWFZ?=
+ =?utf-8?B?UlBjbkljRlZBeUk2cUdJSDFqTFlscE1wcUprZDE0TE5UdUtKaGVna1k0Mk1i?=
+ =?utf-8?B?cXRYLzk2aFY2TDFuRWtIb3Nva0VNbWRIMm5DeHBzS2Y1VVl5NGlMbjdGTFVV?=
+ =?utf-8?B?aXRZaHVMajdIZy91cmMyUkFpNVNRVThVRnFEK1I4dkRJb2JuRXBjQXIwWWtU?=
+ =?utf-8?B?bW1qZi9GK0x3ekdzSVA1cTQ1QStkRnl4OWE1Q2NMK0s3dDc4UDZ4SC9GOWxm?=
+ =?utf-8?B?WW5YSyt1TXp5N3lJMWk0OXdJLytEVkI0M1hXNUFSeU5GQzVwcTE3K3MxVE1H?=
+ =?utf-8?B?bHhzY2RHQVV2aklsZ3pVM1NmYUhpU3dDaitUYU9kNkhrc3JpRmI4QjNHNGNN?=
+ =?utf-8?B?QVMydDN2UG9FNmxJbm9JclpOaE13aTR5bjdsK0J1RmxIVFFmN3UyUldxLys3?=
+ =?utf-8?B?NmQ5MHJEMVpRcWduZFhJM1ovTExSL0lVeHVlQVNvVUpGZWNlcE9kRy9IbC9O?=
+ =?utf-8?B?K1VVQzZ5eEtpRHplSThLUW9vNW5GY0FXREtXTnZOSWRJTktMaUF4NldmMXZS?=
+ =?utf-8?B?ZFB3ajlLTWZWSXNLd0JyVWpUYVEzc3NaKzZ0eCtrUFBtZ1U2ZEpLMHNIZlM4?=
+ =?utf-8?B?MFpjblJjdUNXVjNMMGdkT1FNRWtlYnY3Wi9sRU11MFU5ODZHQ09KVWxqcytn?=
+ =?utf-8?B?dU9STmdFby9FTjZFeDlHWitGREttbTJ1dWd4RFZEbzM2SVVXYXBaWU1vMUR0?=
+ =?utf-8?B?cjJNV0RGMGI5c01lWXJjTXVPUFJzUXVzK09SenZzdnVnMytQYlNVUEZuVS9O?=
+ =?utf-8?B?cVp0cDg3cHpRaHREV3RjVVhUenZCQ1BVVVYrTldZc21DM1NvWFMvSGdoUHdM?=
+ =?utf-8?B?VFhBSHZHS3dFNlJqZ2hqSVFhRTZIWTVrOENEN3d3R1plbFdIa1VKaTJiRkJB?=
+ =?utf-8?B?U1NEWXJHSWxjZGhra2t3ZG0rdDd2MFRrbjgxSkswelV5V0lKcVR1cGJPSXdl?=
+ =?utf-8?B?YkRmTWl4QXZVTmkvRFRURUprTElmWklVRVpOQnlZdXorUnQzVE9ZVnRQcDI2?=
+ =?utf-8?B?YlBtWmFQR0dmNGVUU2lJWWdxTmNJNkRxNmxlMWl1Zno1Ny8vWkoxSUo0VmtX?=
+ =?utf-8?B?aWd2QVFvQ0Fjb2N5ek9rYVM2b0ROQXgzbWpLTkp5ZEIvdkJKUGtTaEdOTTE4?=
+ =?utf-8?B?RDVRS01tUlpIT2tHODJ1ekRDdnFVVExNUTk3cU1IL3paZDQ5eE9jK0FQQkIv?=
+ =?utf-8?B?ZVE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d30f7af-5ba9-4814-cbba-08daf8c2c28c
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2023 19:29:41.2116 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2023 19:41:00.0353 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8qV25pRF7ru/nodOeo2eSaPs5B/rhxli5N/UClDViDhIuqo5aztWLCKrhhv7ELyF/3WPnAK8wYdr5f9NO3zANQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6376
+X-MS-Exchange-CrossTenant-UserPrincipalName: bovR9pa1odOpndx/spLj68JeOPChsvknqpTm+w9oNKtoDuR5tIG03t+WvvLNquPCPE4oppUjC52WvUf+ysjahMbDLeomHLDdel4a2rs4wG0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4989
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -150,88 +168,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Deepak R Varma <drv@mailo.com>, intel-gfx@lists.freedesktop.org,
- Saurabh Singh Sengar <ssengar@microsoft.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- intel-gvt-dev@lists.freedesktop.org
+Cc: "Auld, Matthew" <matthew.auld@intel.com>,
+ "DRI-Devel@Lists.FreeDesktop.Org" <DRI-Devel@Lists.FreeDesktop.Org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 16, 2023 at 01:44:46PM +0800, Zhenyu Wang wrote:
-> On 2023.01.10 13:49:57 -0500, Rodrigo Vivi wrote:
-> > On Wed, Jan 11, 2023 at 12:00:12AM +0530, Deepak R Varma wrote:
-> > > Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
-> > > function adds the overhead of introducing a proxy file operation
-> > > functions to wrap the original read/write inside file removal protection
-> > > functions. This adds significant overhead in terms of introducing and
-> > > managing the proxy factory file operations structure and function
-> > > wrapping at runtime.
-> > > As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
-> > > with debugfs_create_file_unsafe() is suggested to be used instead.  The
-> > > DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
-> > > debugfs_file_put() wrappers to protect the original read and write
-> > > function calls for the debug attributes. There is no need for any
-> > > runtime proxy file operations to be managed by the debugfs core.
-> > > Following coccicheck make command helped identify this change:
-> > > 
-> > > make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
-> > > 
-> > > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > 
-> > I believe these 2 gvt cases could be done in one patch.
-> > But anyways,
-> > 
-> > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > 
-> > for both patches... and will leave these 2 patches for gvt folks
-> > to apply. Unless they ack and I apply in the drm-intel along with the other ones.
-> >
-> 
-> yeah, they're fine with me, feel free to apply them directly.
-> 
-> Acked-by: Zhenyu Wang <zhenyuw@linux.intel.com>
+On 1/16/2023 04:38, Tvrtko Ursulin wrote:
+> On 13/01/2023 21:29, John Harrison wrote:
+>> On 1/13/2023 09:46, Hellstrom, Thomas wrote:
+>>> On Fri, 2023-01-13 at 09:51 +0000, Tvrtko Ursulin wrote:
+>>>> On 12/01/2023 20:40, John Harrison wrote:
+>>>>> On 1/12/2023 02:01, Tvrtko Ursulin wrote:
+>>>>>> On 12/01/2023 02:53, John.C.Harrison@Intel.com wrote:
+>
+> [snip]
+>
+>>>>>>> + engine->name);
+>>>>>>> +            rq = NULL;
+>>>>>>> +        }
+>>>>>>>        } else {
+>>>>>>>            /*
+>>>>>>>             * Getting here with GuC enabled means it is a forced
+>>>>>>> error
+>>>>>>> capture
+>>>>>>> @@ -1622,22 +1645,24 @@ capture_engine(struct intel_engine_cs
+>>>>>>> *engine,
+>>>>>>>                               flags);
+>>>>>>>            }
+>>>>>>>        }
+>>>>>>> -    if (rq)
+>>>>>>> +    if (rq) {
+>>>>>>>            rq = i915_request_get_rcu(rq);
+>>>>>>> +        capture = intel_engine_coredump_add_request(ee, rq,
+>>>>>>> ATOMIC_MAYFAIL);
+>>>>>>> +    } else if (ce) {
+>>>>>>> +        capture = engine_coredump_add_context(ee, ce,
+>>>>>>> ATOMIC_MAYFAIL);
+>>>>>>> +    }
+>>>>>>>    -    if (!rq)
+>>>>>>> -        goto no_request_capture;
+>>>>>>> -
+>>>>>>> -    capture = intel_engine_coredump_add_request(ee, rq,
+>>>>>>> ATOMIC_MAYFAIL);
+>>>>>>>        if (!capture) {
+>>>>>>> -        i915_request_put(rq);
+>>>>>>> +        if (rq)
+>>>>>>> +            i915_request_put(rq);
+>>>>>>>            goto no_request_capture;
+>>>>>>>        }
+>>>>>>>        if (dump_flags & CORE_DUMP_FLAG_IS_GUC_CAPTURE)
+>>>>>>> intel_guc_capture_get_matching_node(engine->gt, ee,
+>>>>>>> ce);
+>>>>>> This step requires non-NULL ce, so if you move it under the "else
+>>>>>> if
+>>>>>> (ce)" above then I *think* exit from the function can be
+>>>>>> consolidated
+>>>>>> to just:
+>>>>>>
+>>>>>> if (capture) {
+>>>>>>      intel_engine_coredump_add_vma(ee, capture, compress);
+>>>>>>      if (rq)
+>>>>>>          i915_request_put(rq);
+>>>>> Is there any reason the rq ref needs to be held during the add_vma
+>>>>> call?
+>>>>> Can it now just be moved earlier to be:
+>>>>>       if (rq) {
+>>>>>           rq = i915_request_get_rcu(rq);
+>>>>>           capture = intel_engine_coredump_add_request(ee, rq,
+>>>>> ATOMIC_MAYFAIL);
+>>>>>           i915_request_put(rq);
+>>>>>       }
+>>>>>
+>>>>> The internals of the request object are only touched in the above
+>>>>> _add_request() code. The later _add_vma() call fiddles around with
+>>>>> vmas
+>>>>> that pulled from the request but the capture_vma code inside
+>>>>> _add_request() has already copied everything, hasn't it? Or rather,
+>>>>> it
+>>>>> has grabbed its own private vma resource locks. So there is no
+>>>>> requirement to keep the request itself around still?
+>>> That sounds correct. It was some time ago since I worked with this code
+>>> but when i started IIRC KASAN told me the request along with the whole
+>>> capture list could disappear under us due to a parallel capture.
+>>>
+>>> So the request reference added then might cover a bit too much now that
+>>> we also hold references on vma resources, which it looks like we do in
+>>> intel_engine_coredump_add_vma().
+>> So that means we end up with:
+>>      rq = intel_context_find_active_request(ce);
+>>      ...
+>>      [test stuff like i915_request_started(rq)]
+>>      ...
+>>       if (rq) {
+>>          rq = i915_request_get_rcu(rq);
+>>          capture = intel_engine_coredump_add_request(ee, rq, 
+>> ATOMIC_MAYFAIL);
+>>          i915_request_put(rq);
+>>      }
+>>
+>> What is special about coredump_add_request() that it needs the 
+>> request to be extra locked for that call and only that call? If the 
+>> request can magically vanish after being found then what protects the 
+>> _started() query? For that matter, what stops the request_get_rcu() 
+>> itself being called on a pointer that is no longer valid? And if we 
+>> do actually have sufficient locking in place to prevent that, why 
+>> doesn't that cover the coredump_add_request() usage?
+>
+> There is definitely a red flag there with the difference between the 
+> if and else blocks at the top of capture_engine(). And funnily enough, 
+> the first block appears to be GuC only. That is not obvious from the 
+> code and should probably have a comment, or function names made 
+> self-documenting.
+In terms of 'red flag', you mean the apparent difference in locking in 
+this section?
+         ce = intel_engine_get_hung_context(engine);
+         if (ce) {
+                 intel_engine_clear_hung_context(engine);
+                 rq = intel_context_find_active_request(ce);
+                 if (!rq || !i915_request_started(rq))
+                         goto no_request_capture;
+         } else {
+                 /*
+                  * Getting here with GuC enabled means it is a forced 
+error capture
+                  * with no actual hang. So, no need to attempt the 
+execlist search.
+                  */
+                 if (!intel_uc_uses_guc_submission(&engine->gt->uc)) {
+spin_lock_irqsave(&engine->sched_engine->lock, flags);
+                         rq = 
+intel_engine_execlist_find_hung_request(engine);
+spin_unlock_irqrestore(&engine->sched_engine->lock,
+                                                flags);
+                 }
+         }
 
-Unfortunately I got some conflicts when trying to apply on drm-intel-next.
+There is no actual locking difference. The first thing 
+intel_context_find_active_request() does is to acquire the relevant 
+spinlock for the list it is about to traverse. I assume 
+intel_engine_execlist_find_hung_request() must be called from other 
+places that already have the appropriate lock and hence the lock must be 
+done externally for all callers.
 
-We probably need a new version, and probably through gvt branches it
-will be easier to handle conflicts if they appear.
+Technically, the first part does not have to be GuC only. It is entirely 
+possible that a future improvement to execlists would add support for 
+tagging the hanging context up front without requiring a fresh search 
+here (based on pre-emption timeouts, heartbeat timeouts, or whatever it 
+was that decided to call the error capture code in the first place). So 
+there is no reason to add unnecessary enforcement of backend 
+implementation details to this higher level by marking that as GuC only. 
+Whereas, the search for an individual request after the hang has 
+happened is an execlist only implementation detail. Hence the 
+enforcement that we don't do that for GuC (with comment to explain).
 
-> 
-> thanks!
-> 
-> > > ---
-> > >  drivers/gpu/drm/i915/gvt/debugfs.c | 6 +++---
-> > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/gvt/debugfs.c b/drivers/gpu/drm/i915/gvt/debugfs.c
-> > > index 03f081c3d9a4..baccbf1761b7 100644
-> > > --- a/drivers/gpu/drm/i915/gvt/debugfs.c
-> > > +++ b/drivers/gpu/drm/i915/gvt/debugfs.c
-> > > @@ -165,7 +165,7 @@ static int vgpu_status_get(void *data, u64 *val)
-> > >  	return 0;
-> > >  }
-> > >  
-> > > -DEFINE_SIMPLE_ATTRIBUTE(vgpu_status_fops, vgpu_status_get, NULL, "0x%llx\n");
-> > > +DEFINE_DEBUGFS_ATTRIBUTE(vgpu_status_fops, vgpu_status_get, NULL, "0x%llx\n");
-> > >  
-> > >  /**
-> > >   * intel_gvt_debugfs_add_vgpu - register debugfs entries for a vGPU
-> > > @@ -182,8 +182,8 @@ void intel_gvt_debugfs_add_vgpu(struct intel_vgpu *vgpu)
-> > >  			    &vgpu_mmio_diff_fops);
-> > >  	debugfs_create_file_unsafe("scan_nonprivbb", 0644, vgpu->debugfs, vgpu,
-> > >  				   &vgpu_scan_nonprivbb_fops);
-> > > -	debugfs_create_file("status", 0644, vgpu->debugfs, vgpu,
-> > > -			    &vgpu_status_fops);
-> > > +	debugfs_create_file_unsafe("status", 0644, vgpu->debugfs, vgpu,
-> > > +				   &vgpu_status_fops);
-> > >  }
-> > >  
-> > >  /**
-> > > -- 
-> > > 2.34.1
-> > > 
-> > > 
-> > > 
+>
+> I guess the special thing about intel_engine_coredump_add_request() is 
+> that it dereferences the rq. So it is possibly 573ba126aef3 
+> ("drm/i915/guc: Capture error state on context reset") which added a 
+> bug where rq can be dereferenced with a reference held. Or perhaps 
+> with the GuC backend there is a guarantee request cannot be retired 
+> from elsewhere while error capture is examining it.
+"added a bug where rq can be dereferenced with a reference held." <-- 
+did you mean 'with' or 'without'? Dereferencing with a reference held 
+sounds correct to me.
 
+You are meaning the loop in intel_context_find_active_request()? It gets 
+the lock on the list of requests that it is scanning through. Presumably 
+requests can't vanish which they are on that list, they must have been 
+reference counted when adding. So dereferencing within the list has to 
+be safe, yes? The issue is that there needs to be an extra get on the 
+reference that is returned before dropping the list lock. And that 
+reference would have to be released by the caller. Yes? And likewise, 
+the request_get that currently exists in capture_engine() needs to be 
+inside the execlist spinlock. Which is how it used to be before the GuC 
+support was added in the above patch. Or rather, there was no explicit 
+request_get at all but all the request processing was done inside the 
+execlist spinlock (which seems bad given that it would be allocating 
+memory and such within the spinlock?!).
+
+Presumably engine_dump_active_requests() is also broken. It asserts that 
+the execlist spinlock is held but does nothing about the GuC's 
+equivalent spinlock despite pulling a request of the GuC state's list 
+and then doing lots of dereferencing on that. It will also need to have 
+intel_context_find_active_request() return an extra reference count on 
+the request (before dropping the GuC lock as described above) and then 
+manually put the request iff it got it via the hung context route rather 
+than the hung request route! Or more simply, also get a local reference 
+in the hung request path and then just unconditionally put at the end.
+
+Sound plausible?
+
+>
+> To unravel the error entry points into error capture, from execlists, 
+> debugfs, ringbuffer, I don't have the time to remind myself how all 
+> that works right now. Quite possibly at least some of those run async 
+> to the GPU so must be safe against parallel request retirement. So I 
+> don't know if the i915_request_get_rcu safe in all those cases without 
+> spending some time to refresh my knowledge a bit.
+>
+> Sounds like the best plan is not to change this too much - just leave 
+> the scope of reference held as is and ideally eliminate the necessary 
+> goto labels. AFAIR that should be doable without changing anything 
+> real and unblock these improvements.
+Hmm. If you want it all left unchanged, I don't think you can eliminate 
+the goto. But it seems like the fix is to move the existing get into the 
+execlist only spinlock and add a new get to 
+intel_context_find_active_request(). Then everything should be 
+guaranteed protected at all times.
+
+John.
+
+>
+> Regards,
+>
+> Tvrtko
 
