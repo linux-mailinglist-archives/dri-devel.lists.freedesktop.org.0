@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14FE866E88B
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 22:37:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4973D66E888
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 22:37:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7425710E5E9;
-	Tue, 17 Jan 2023 21:37:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 567E110E5E2;
+	Tue, 17 Jan 2023 21:37:00 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB56C10E088;
- Tue, 17 Jan 2023 21:36:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46E9510E088;
+ Tue, 17 Jan 2023 21:36:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1673991414; x=1705527414;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=9zCLjq2fwuiIkrwTjl39OJ+CMLrbrn0iy5u/pvPh2sA=;
- b=nQwJd4xb9AkEZfLslL5KaW5vWNExaPzTZfjKlF5IY86lokUCUed7hPrC
- NT28nSsdcDHVA879Gc0pd/ekv2P+pFkanHYWAOhuxmXGKxSeDqnjA9xfJ
- oC3Y6483VYjQSR2AyMCykw0j/SQNAM5Bz6iDA7KXO7Y95gQlUNXfy7NbU
- sAt+amJD+UoZg/CYHDSew7lY9Nxn+h4mCKcg7GlabjTELMLafIDpdi8jZ
- CMgncPV01ECWqTgcvqabopvE0Qg7t79A1jQFIi8A9JO6jpxIsew+DORl/
- 5pNiUflj+03213493CDIvsJWzrlCAZh08jowiqOq7bD69+pRTqZiOa11g g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="312696224"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="312696224"
+ bh=6rKX0yXeVxyjWtrNQHbSm4KFl/Rn6MzlA8FP8hwjL9Y=;
+ b=KhNC6B2xzdnt3xm2pxJOv0SPZztH05hPjeONkX4Ect/xVOSa5cpnG/xx
+ NpEYNsdfTvDU0uaRfrtASrnTpaKYAeKx4RTyCLiRcznpTv96SD2U1/E5u
+ ZWROv858//OCz/bVtm4ZukyxHb/IqJKSdQg7RGX/XFNC0MpkAU+376B4S
+ BfJmagLtUyTiqLs/wtowVii8gNbv18dcIb0B/QMxKsqcqVqgYZH/Q5keE
+ uQ4AyM+bHHTw24cg/8lKPcZy+O9Com7mWvZ0Qq1m4hJkvn/Ml10yfDmc3
+ OkSwvya1BVwoFuBhk7hbRhVL1BHYbh69xD3OEqUEiPEXNKVtIEimU5aKC Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="312696226"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="312696226"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Jan 2023 13:36:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="988285020"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="988285020"
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="988285023"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="988285023"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by fmsmga005.fm.intel.com with ESMTP; 17 Jan 2023 13:36:52 -0800
+ by fmsmga005.fm.intel.com with ESMTP; 17 Jan 2023 13:36:53 -0800
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v2 1/5] drm/i915: Fix request locking during error capture &
- debugfs dump
-Date: Tue, 17 Jan 2023 13:36:26 -0800
-Message-Id: <20230117213630.2897570-2-John.C.Harrison@Intel.com>
+Subject: [PATCH v2 2/5] drm/i915: Allow error capture without a request
+Date: Tue, 17 Jan 2023 13:36:27 -0800
+Message-Id: <20230117213630.2897570-3-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230117213630.2897570-1-John.C.Harrison@Intel.com>
 References: <20230117213630.2897570-1-John.C.Harrison@Intel.com>
@@ -59,184 +58,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Michael Cheng <michael.cheng@intel.com>,
- Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Bruce Chang <yu.bruce.chang@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- DRI-Devel@Lists.FreeDesktop.Org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-When GuC support was added to error capture, the locking around the
-request object was broken. Fix it up.
+There was a report of error captures occurring without any hung
+context being indicated despite the capture being initiated by a 'hung
+context notification' from GuC. The problem was not reproducible.
+However, it is possible to happen if the context in question has no
+active requests. For example, if the hang was in the context switch
+itself then the breadcrumb write would have occurred and the KMD would
+see an idle context.
 
-The context based search manages the spinlocking around the search
-internally. So it needs to grab the reference count internally as
-well. The execlist only request based search relies on external
-locking, so it needs an external reference count. So no change to that
-code itself but the context version does change.
+In the interests of attempting to provide as much information as
+possible about a hang, it seems wise to include the engine info
+regardless of whether a request was found or not. As opposed to just
+prentending there was no hang at all.
 
-The only other caller is the code for dumping engine state to debugfs.
-That code wasn't previously getting an explicit reference at all as it
-does everything while holding the execlist specific spinlock. So that
-needs updaing as well as that spinlock doesn't help when using GuC
-submission. Rather than trying to conditionally get/put depending on
-submission model, just change it to always do the get/put.
+So update the error capture code to always record engine information
+if an engine is given. Which means updating record_context() to take a
+context instead of a request (which it only ever used to find the
+context anyway). And split the request agnostic parts of
+intel_engine_coredump_add_request() out into a seaprate function.
 
-In addition, intel_guc_find_hung_context() was not acquiring the
-correct spinlock before searching the request list. So fix that up too.
+v2: Remove a duplicate 'if' statement (Umesh) and fix a put of a null
+pointer.
+v3: Tidy up request locking code flow (Tvrtko)
 
-Fixes: dc0dad365c5e ("drm/i915/guc: Fix for error capture after full GPU reset
-with GuC")
-Fixes: 573ba126aef3 ("drm/i915/guc: Capture error state on context reset")
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Cc: Michael Cheng <michael.cheng@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-Cc: Bruce Chang <yu.bruce.chang@intel.com>
-Cc: intel-gfx@lists.freedesktop.org
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+Reviewed-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_context.c           |  1 +
- drivers/gpu/drm/i915/gt/intel_engine_cs.c         |  7 ++++++-
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 11 +++++++++++
- drivers/gpu/drm/i915/i915_gpu_error.c             |  5 ++---
- 4 files changed, 20 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/i915_gpu_error.c | 69 ++++++++++++++++++---------
+ 1 file changed, 46 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-index e94365b08f1ef..df64cf1954c1d 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.c
-+++ b/drivers/gpu/drm/i915/gt/intel_context.c
-@@ -552,6 +552,7 @@ struct i915_request *intel_context_find_active_request(struct intel_context *ce)
- 
- 		active = rq;
- 	}
-+	active = i915_request_get_rcu(active);
- 	spin_unlock_irqrestore(&parent->guc_state.lock, flags);
- 
- 	return active;
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index 922f1bb22dc68..517d1fb7ae333 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -2236,10 +2236,13 @@ static void engine_dump_active_requests(struct intel_engine_cs *engine, struct d
- 	guc = intel_uc_uses_guc_submission(&engine->gt->uc);
- 	if (guc) {
- 		ce = intel_engine_get_hung_context(engine);
--		if (ce)
-+		if (ce) {
-+			/* This will reference count the request (if found) */
- 			hung_rq = intel_context_find_active_request(ce);
-+		}
- 	} else {
- 		hung_rq = intel_engine_execlist_find_hung_request(engine);
-+		hung_rq = i915_request_get_rcu(hung_rq);
- 	}
- 
- 	if (hung_rq)
-@@ -2250,6 +2253,8 @@ static void engine_dump_active_requests(struct intel_engine_cs *engine, struct d
- 	else
- 		intel_engine_dump_active_requests(&engine->sched_engine->requests,
- 						  hung_rq, m);
-+	if (hung_rq)
-+		i915_request_put(hung_rq);
- }
- 
- void intel_engine_dump(struct intel_engine_cs *engine,
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index b436dd7f12e42..3b34a82d692be 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -4820,6 +4820,8 @@ void intel_guc_find_hung_context(struct intel_engine_cs *engine)
- 
- 	xa_lock_irqsave(&guc->context_lookup, flags);
- 	xa_for_each(&guc->context_lookup, index, ce) {
-+		bool found;
-+
- 		if (!kref_get_unless_zero(&ce->ref))
- 			continue;
- 
-@@ -4836,10 +4838,18 @@ void intel_guc_find_hung_context(struct intel_engine_cs *engine)
- 				goto next;
- 		}
- 
-+		found = false;
-+		spin_lock(&ce->guc_state.lock);
- 		list_for_each_entry(rq, &ce->guc_state.requests, sched.link) {
- 			if (i915_test_request_state(rq) != I915_REQUEST_ACTIVE)
- 				continue;
- 
-+			found = true;
-+			break;
-+		}
-+		spin_unlock(&ce->guc_state.lock);
-+
-+		if (found) {
- 			intel_engine_set_hung_context(engine, ce);
- 
- 			/* Can only cope with one hang at a time... */
-@@ -4847,6 +4857,7 @@ void intel_guc_find_hung_context(struct intel_engine_cs *engine)
- 			xa_lock(&guc->context_lookup);
- 			goto done;
- 		}
-+
- next:
- 		intel_context_put(ce);
- 		xa_lock(&guc->context_lookup);
 diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-index 9d5d5a397b64e..4107a0dfcca7d 100644
+index 4107a0dfcca7d..461489d599a7e 100644
 --- a/drivers/gpu/drm/i915/i915_gpu_error.c
 +++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-@@ -1607,6 +1607,7 @@ capture_engine(struct intel_engine_cs *engine,
- 	ce = intel_engine_get_hung_context(engine);
- 	if (ce) {
+@@ -1370,14 +1370,14 @@ static void engine_record_execlists(struct intel_engine_coredump *ee)
+ }
+ 
+ static bool record_context(struct i915_gem_context_coredump *e,
+-			   const struct i915_request *rq)
++			   struct intel_context *ce)
+ {
+ 	struct i915_gem_context *ctx;
+ 	struct task_struct *task;
+ 	bool simulated;
+ 
+ 	rcu_read_lock();
+-	ctx = rcu_dereference(rq->context->gem_context);
++	ctx = rcu_dereference(ce->gem_context);
+ 	if (ctx && !kref_get_unless_zero(&ctx->ref))
+ 		ctx = NULL;
+ 	rcu_read_unlock();
+@@ -1396,8 +1396,8 @@ static bool record_context(struct i915_gem_context_coredump *e,
+ 	e->guilty = atomic_read(&ctx->guilty_count);
+ 	e->active = atomic_read(&ctx->active_count);
+ 
+-	e->total_runtime = intel_context_get_total_runtime_ns(rq->context);
+-	e->avg_runtime = intel_context_get_avg_runtime_ns(rq->context);
++	e->total_runtime = intel_context_get_total_runtime_ns(ce);
++	e->avg_runtime = intel_context_get_avg_runtime_ns(ce);
+ 
+ 	simulated = i915_gem_context_no_error_capture(ctx);
+ 
+@@ -1532,15 +1532,37 @@ intel_engine_coredump_alloc(struct intel_engine_cs *engine, gfp_t gfp, u32 dump_
+ 	return ee;
+ }
+ 
++static struct intel_engine_capture_vma *
++engine_coredump_add_context(struct intel_engine_coredump *ee,
++			    struct intel_context *ce,
++			    gfp_t gfp)
++{
++	struct intel_engine_capture_vma *vma = NULL;
++
++	ee->simulated |= record_context(&ee->context, ce);
++	if (ee->simulated)
++		return NULL;
++
++	/*
++	 * We need to copy these to an anonymous buffer
++	 * as the simplest method to avoid being overwritten
++	 * by userspace.
++	 */
++	vma = capture_vma(vma, ce->ring->vma, "ring", gfp);
++	vma = capture_vma(vma, ce->state, "HW context", gfp);
++
++	return vma;
++}
++
+ struct intel_engine_capture_vma *
+ intel_engine_coredump_add_request(struct intel_engine_coredump *ee,
+ 				  struct i915_request *rq,
+ 				  gfp_t gfp)
+ {
+-	struct intel_engine_capture_vma *vma = NULL;
++	struct intel_engine_capture_vma *vma;
+ 
+-	ee->simulated |= record_context(&ee->context, rq);
+-	if (ee->simulated)
++	vma = engine_coredump_add_context(ee, rq->context, gfp);
++	if (!vma)
+ 		return NULL;
+ 
+ 	/*
+@@ -1550,8 +1572,6 @@ intel_engine_coredump_add_request(struct intel_engine_coredump *ee,
+ 	 */
+ 	vma = capture_vma_snapshot(vma, rq->batch_res, gfp, "batch");
+ 	vma = capture_user(vma, rq, gfp);
+-	vma = capture_vma(vma, rq->ring->vma, "ring", gfp);
+-	vma = capture_vma(vma, rq->context->state, "HW context", gfp);
+ 
+ 	ee->rq_head = rq->head;
+ 	ee->rq_post = rq->postfix;
+@@ -1609,8 +1629,12 @@ capture_engine(struct intel_engine_cs *engine,
  		intel_engine_clear_hung_context(engine);
-+		/* This will reference count the request (if found) */
+ 		/* This will reference count the request (if found) */
  		rq = intel_context_find_active_request(ce);
- 		if (!rq || !i915_request_started(rq))
- 			goto no_request_capture;
-@@ -1618,13 +1619,11 @@ capture_engine(struct intel_engine_cs *engine,
- 		if (!intel_uc_uses_guc_submission(&engine->gt->uc)) {
- 			spin_lock_irqsave(&engine->sched_engine->lock, flags);
- 			rq = intel_engine_execlist_find_hung_request(engine);
-+			rq = i915_request_get_rcu(rq);
- 			spin_unlock_irqrestore(&engine->sched_engine->lock,
+-		if (!rq || !i915_request_started(rq))
+-			goto no_request_capture;
++		if (rq && !i915_request_started(rq)) {
++			drm_info(&engine->gt->i915->drm, "Got hung context on %s with no active request!\n",
++				 engine->name);
++			i915_request_put(rq);
++			rq = NULL;
++		}
+ 	} else {
+ 		/*
+ 		 * Getting here with GuC enabled means it is a forced error capture
+@@ -1624,25 +1648,24 @@ capture_engine(struct intel_engine_cs *engine,
  					       flags);
  		}
  	}
--	if (rq)
--		rq = i915_request_get_rcu(rq);
+-	if (!rq)
+-		goto no_request_capture;
 -
- 	if (!rq)
- 		goto no_request_capture;
+-	capture = intel_engine_coredump_add_request(ee, rq, ATOMIC_MAYFAIL);
+-	if (!capture) {
++	if (rq) {
++		capture = intel_engine_coredump_add_request(ee, rq, ATOMIC_MAYFAIL);
+ 		i915_request_put(rq);
+-		goto no_request_capture;
++	} else if (ce) {
++		capture = engine_coredump_add_context(ee, ce, ATOMIC_MAYFAIL);
+ 	}
++
+ 	if (dump_flags & CORE_DUMP_FLAG_IS_GUC_CAPTURE)
+ 		intel_guc_capture_get_matching_node(engine->gt, ee, ce);
  
+-	intel_engine_coredump_add_vma(ee, capture, compress);
+-	i915_request_put(rq);
++	if (capture) {
++		intel_engine_coredump_add_vma(ee, capture, compress);
++	} else {
++		kfree(ee);
++		ee = NULL;
++	}
+ 
+ 	return ee;
+-
+-no_request_capture:
+-	kfree(ee);
+-	return NULL;
+ }
+ 
+ static void
 -- 
 2.39.0
 
