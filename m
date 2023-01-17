@@ -2,74 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C7E166E4EB
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 18:30:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7369E66E524
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 18:45:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 241F310E2F3;
-	Tue, 17 Jan 2023 17:30:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B02D10E2F0;
+	Tue, 17 Jan 2023 17:45:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAF6910E305;
- Tue, 17 Jan 2023 17:30:03 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30HFwnVo006833; Tue, 17 Jan 2023 17:29:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=ghf5QjfvagPaFI53epsH4kOavDlkXLiG4G5OxHZ1B1w=;
- b=XM6PiWpgCjQ74IEnJPmXn+h0JsMiuZ9Pf7sqEV7CpJlwWcoA1t14GakjDkMv8N20+5ff
- UtTfDDO9mUX/BBiCv5XAAmXSW4nw32Wl4fq9O3Y2NSPJ3/QkR1ThFDF7U9eoq6D/bNhp
- 4Od2FjBNXl9JKkpE9R1hn4Ooh5/g7qQumA2nThjM55xveA/viUx5y1xrpsy+oxRagw8l
- 45FmiW5bOloioEBJNH0LIS2bfGgAzIaiXm5R4tLKUSfbHceIGUfTl5J/1hKnGlHbF6lq
- 9jydt8u0U8hrsEMrFB9Ek+CeRaVvaKnXh9KR2k4MNnnJ2XEhbL6Yy1NEG/rUgx81V/dP dA== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n5nkq9cwq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 17 Jan 2023 17:29:58 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30HHTvQQ024675
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 17 Jan 2023 17:29:57 GMT
-Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Tue, 17 Jan 2023 09:29:56 -0800
-From: Bjorn Andersson <quic_bjorande@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Johan Hovold <johan+linaro@kernel.org>, Sankeerth Billakanti
- <quic_sbillaka@quicinc.com>
-Subject: [PATCH] drm/msm/dp: Remove INIT_SETUP delay
-Date: Tue, 17 Jan 2023 09:29:51 -0800
-Message-ID: <20230117172951.2748456-1-quic_bjorande@quicinc.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC82D10E2F0;
+ Tue, 17 Jan 2023 17:45:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673977521; x=1705513521;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=ubh/DFz9VR75xvB1bkoItkO1Y6HAmMWGYEXAyyGVRMI=;
+ b=KzxwbWkCeP1iy0J25ZxoU4/VWzj2LDiqLnMixL3E4MA9lOAgZ3kNlWl0
+ F6MuqTGjwy2g4Cn+TSD0xO9sAfvVTj9uQ3pGAPnVvpqZLCQm/IdawPIag
+ jPevmCUbyIjWm2h2dyDOvc8Wp6vdpvj9ZL0dwp2+H9wHsWNTLzUKjja6l
+ jiQPI8PuNZVrFOttiZxKC4SdxLbcpIhIaibQfoyM6sSOg/ePf0L4TxDFK
+ Rj/UMbtb/LhkuH2qHVh23v/R/qth4yDdhSvGDgalJ+Lef9IqMtYcC4wJU
+ X3nneTUPnklLwHOxNsqZuVbG1h8mOWRVHGhFLSNOpuBD/WRn6QlFogxMC w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="304447943"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="304447943"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2023 09:45:20 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="833250882"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="833250882"
+Received: from nirmoyda-desk.igk.intel.com ([10.102.42.231])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2023 09:45:19 -0800
+From: Nirmoy Das <nirmoy.das@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/radeon: Do not use deprecated drm log API
+Date: Tue, 17 Jan 2023 18:44:46 +0100
+Message-Id: <20230117174447.21870-1-nirmoy.das@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
+Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
+ 85579 Neubiberg, Germany,
+ Commercial Register: Amtsgericht Muenchen HRB 186928 
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: CTQZUj5Sj9fGSZ8d58zMmdjQRLVdlPti
-X-Proofpoint-ORIG-GUID: CTQZUj5Sj9fGSZ8d58zMmdjQRLVdlPti
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-17_08,2023-01-17_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 impostorscore=0
- mlxscore=0 adultscore=0 mlxlogscore=999 bulkscore=0 lowpriorityscore=0
- spamscore=0 priorityscore=1501 phishscore=0 malwarescore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2301170139
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,44 +58,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During initalization of the DisplayPort controller an EV_HPD_INIT_SETUP
-event is generated, but with a delay of 100 units. This delay existed to
-circumvent bug in the QMP combo PHY driver, where if the DP part was
-powered up before USB, the common properties would not be properly
-initialized - and USB wouldn't work.
+Replace deprecated DRM_DEBUG_KMS_RATELIMITED() and DRM_ERROR()
+with proper APIs.
 
-This issue was resolved in the recent refactoring of the QMP driver,
-so it's now possible to remove this delay.
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
 
-While there is still a timing dependency in the current implementation,
-test indicates that it's now possible to boot with an external display
-on USB Type-C and have the display power up, without disconnecting and
-reconnecting the cable.
-
-Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/radeon/radeon_dp_auxch.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index db9783ffd5cf..bde1a7ce442f 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -1506,7 +1506,7 @@ void msm_dp_irq_postinstall(struct msm_dp *dp_display)
- 	dp = container_of(dp_display, struct dp_display_private, dp_display);
+diff --git a/drivers/gpu/drm/radeon/radeon_dp_auxch.c b/drivers/gpu/drm/radeon/radeon_dp_auxch.c
+index 69379b95146e..76ce66efb5f8 100644
+--- a/drivers/gpu/drm/radeon/radeon_dp_auxch.c
++++ b/drivers/gpu/drm/radeon/radeon_dp_auxch.c
+@@ -158,7 +158,7 @@ radeon_dp_aux_transfer_native(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg
+ 	} while (retry_count++ < 1000);
  
- 	if (!dp_display->is_edp)
--		dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 100);
-+		dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 0);
- }
- 
- bool msm_dp_wide_bus_available(const struct msm_dp *dp_display)
+ 	if (retry_count >= 1000) {
+-		DRM_ERROR("auxch hw never signalled completion, error %08x\n", tmp);
++		pr_err("auxch hw never signalled completion, error %08x\n", tmp);
+ 		ret = -EIO;
+ 		goto done;
+ 	}
+@@ -168,8 +168,7 @@ radeon_dp_aux_transfer_native(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg
+ 		goto done;
+ 	}
+ 	if (tmp & AUX_RX_ERROR_FLAGS) {
+-		DRM_DEBUG_KMS_RATELIMITED("dp_aux_ch flags not zero: %08x\n",
+-					  tmp);
++		drm_dbg_kms_ratelimited(dev, "dp_aux_ch flags not zero: %08x\n", tmp);
+ 		ret = -EIO;
+ 		goto done;
+ 	}
 -- 
-2.37.3
+2.39.0
 
