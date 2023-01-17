@@ -2,43 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEE2366E80C
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 21:56:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 200A566E81A
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 22:03:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42A3810E1BF;
-	Tue, 17 Jan 2023 20:56:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54BF810E354;
+	Tue, 17 Jan 2023 21:03:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE74E10E1BF;
- Tue, 17 Jan 2023 20:56:28 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4NxLlp56Rcz4xMx;
- Wed, 18 Jan 2023 07:56:22 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1673988983;
- bh=JURaEdE8CMeLGxxVxQfYP3YHQFwTCFjuZtmFFKcP1SY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=HFmgvjCT4hnwui+3XW3WWuRB/ZIVIC+IvKxZIORl3JzW7D3Dm+e/f2BbxlzOit7dB
- aYa2A0tj4hieeB1cVpYvFKoi1ym6wqlZUF2HWC9ki0DiKX+S4jU3zgkfGTrZO/UJQF
- 0p3veyIeqJAofiIQ5NOl+UyqPKCfrNBaB7qMPitdxe6qQjN7XrF1z+B8GXWnHebQ0a
- WSXmBGIgSkmVJBThKSpi5pK8pMTkNyQM7xF52KYxs5hxI+J3lB1ODjitcrpwpVHEtj
- mXqJkhe0LPCrOU4kVHGLb6XY3V014E2Mk/8BTy3uY9/98xV3kXR0i3Ui1jyY9xgmxc
- vF6QTl2YiFpdw==
-Date: Wed, 18 Jan 2023 07:56:20 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Karol Herbst <kherbst@redhat.com>
-Subject: Re: linux-next: duplicate patch in the kspp tree
-Message-ID: <20230118075620.60250ca2@canb.auug.org.au>
-In-Reply-To: <CACO55ttvqwnmGS=4gig-AOy+67bDesdj2S9HDJ3hS=uyN0NGOQ@mail.gmail.com>
-References: <20230117150212.3d8ee843@canb.auug.org.au>
- <CACO55ttvqwnmGS=4gig-AOy+67bDesdj2S9HDJ3hS=uyN0NGOQ@mail.gmail.com>
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1F8F10E350;
+ Tue, 17 Jan 2023 21:03:14 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id r205so27019871oib.9;
+ Tue, 17 Jan 2023 13:03:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=zfEqVK+RYVz2dN9ZOupR4yHgB7WZQv3MJYztxeL+5Xc=;
+ b=LDfx9vc+Y38Mn1Rs0kcG0pXmB1UTfEU/iOvU7gmofIoKOya9iHq6VfoY1qU/kBB0k6
+ vlxeI9awjroyWOiws1Kj+ylDPMGff9OYplninlS7bWj20s3Iqrz+VFqv9YDDOnkIUhAG
+ pLyGgUT+2y+xCj6EAGD+Wosk/sh+sMqq1t0xOaZmikJsKMfxobPgIwPiPseY2nw5qXe+
+ 8Bn23e45g8OElQ6sBCbErDUAaoJSZKKiYg1XY+DmtfPO5NOHPk7bi1viLmweWPp8UX7T
+ PLHsVxe45pZPQ1xtEhBX/6yscP8QfaXu5y206tNE7jxIGeqiWvtmA4/QTuYWZylZIU7f
+ 0leA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=zfEqVK+RYVz2dN9ZOupR4yHgB7WZQv3MJYztxeL+5Xc=;
+ b=dKpMjxaApCWZ15YmW9Gd9OPEmgLXYhnw50LPHfHorcO4mBW19+NBtS7ABkHLLSssVr
+ TxuT5W0QhvgQCMT8ZZohngF9a+xYG5gpYrRegGnGf5V1pmfFS1X9QUPxkz2fglmQLRPt
+ e71qJO9epfv7vQq30MpRxQgS0fo01qqiP/i6A13FHttiQRTD7B8nhWz+QvlO2yIx54Vp
+ V644dZwr5o/0csmgN7DKTGIxAumb3YAFNASBiDD9HHzqivD5fkfVAffQwmKZk7ExZv7z
+ HGuUf3pEVdxCi3AoBc58L/I+9Z45ixxAakrXK1MJLJG9ngq4hS8l+b70cs6J8yD299ZF
+ O7AA==
+X-Gm-Message-State: AFqh2kpYtAq5ZxEa66lnSXwx19TXa45qPUCcfiXEz0llCxRQZRXD/tKm
+ 94D5O0L0WQZ6+7u8VJIH3vpJOvV3LxxW8id7eMw=
+X-Google-Smtp-Source: AMrXdXvDFWC8RH8P2THHJkEJ8U8eikLyA3GduhlkdGUC68h6pM+zXj1AXAk7a9ylP3xIx2YJx2ehvp/stRmWfBk9Uxs=
+X-Received: by 2002:aca:2807:0:b0:35b:f5f7:3ed0 with SMTP id
+ 7-20020aca2807000000b0035bf5f73ed0mr299595oix.46.1673989393929; Tue, 17 Jan
+ 2023 13:03:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/roh3be+LjwRG1po+YE_hoN2";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20230117205452.195298-1-hamza.mahfooz@amd.com>
+In-Reply-To: <20230117205452.195298-1-hamza.mahfooz@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 17 Jan 2023 16:03:01 -0500
+Message-ID: <CADnq5_Njw0uFYnB7--A=0Zv78ETLeXpNvH6Zc4znpTPLLQgwkA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: fix issues with driver unload
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,70 +64,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc: Leo Li <sunpeng.li@amd.com>, linux-kernel@vger.kernel.org, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Roman Li <roman.li@amd.com>, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Fangzhi Zuo <Jerry.Zuo@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ hersen wu <hersenxs.wu@amd.com>, amd-gfx@lists.freedesktop.org,
+ Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/roh3be+LjwRG1po+YE_hoN2
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi Karol,
-
-On Tue, 17 Jan 2023 14:52:12 +0100 Karol Herbst <kherbst@redhat.com> wrote:
+On Tue, Jan 17, 2023 at 3:55 PM Hamza Mahfooz <hamza.mahfooz@amd.com> wrote:
 >
-> On Tue, Jan 17, 2023 at 5:02 AM Stephen Rothwell <sfr@canb.auug.org.au> w=
-rote:
-> >
-> > The following commit is also in the drm-misc tree as a different commit
-> > (but the same patch):
-> >
-> >   06b19f46455c ("drm/nouveau/fb/ga102: Replace zero-length array of tra=
-iling structs with flex-array")
-> > =20
->=20
-> which branch? Because I just fetched the remote and don't have this
-> commit in my local repo
+> Currently, we run into a number of WARN()s when attempting to unload the
+> amdgpu driver (e.g. using "modprobe -r amdgpu"). These all stem from
+> calling drm_encoder_cleanup() too early. So, to fix this we can stop
+> calling drm_encoder_cleanup() in amdgpu_dm_fini() and instead have it be
+> called from amdgpu_dm_encoder_destroy(). Also, we don't need to free in
+> amdgpu_dm_encoder_destroy() since mst_encoders[] isn't explicitly
+> allocated by the slab allocater.
+>
+> Fixes: f74367e492ba ("drm/amdgpu/display: create fake mst encoders ahead of time (v4)")
+> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
 
-That was from
-git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git (branch
-for-next/kspp) yesterday.  It was the top commit in that branch.  It is
-still there today (I am not saying it should not be).
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
-> > This is commit
-> >
-> >   54d47689c6e3 ("drm/nouveau/fb/ga102: Replace zero-length array of tra=
-iling structs with flex-array")
-> >
-> > in the drm-misc tree.
-
-That was from git://anongit.freedesktop.org/drm/drm-misc (branch
-for-linux-next) yesterday.  It was the top commit in that branch.  It
-is still there today (again, I am not saying it should not be) but the
-branch has moved on.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/roh3be+LjwRG1po+YE_hoN2
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmPHC3QACgkQAVBC80lX
-0GzxyAf9FiQpvKWIWXkG5ENB8aCFwuWvd/MajLzDeMrtpfRzTMdkzo6kA5CM4Axq
-r1sYV2d/rY305uM6Wt3t32Fo/nzKZubPR1AjaGgXhXXqCgHjDmFDR/h2P1YR9Rxv
-6/kauy8dJ5HacdmR9mFvz9fSjWAzwKITyzCF/njYxnRiUGUGTYt0AQd0g+0Iuv8q
-4AlvdN/bue/gqHbrgLbg+crMxEZ/PVz/fJrL4eLi72Zst1lBomuoaOGzwyzd6sqt
-E63o5dyUu21n2ABGNgHKUi9mcKlI419DYWPxlR55O3dHnLLaISFJj9y1Rti9psT4
-ABukiUOMWYiUbODihnq6hhApP4aopQ==
-=pYPj
------END PGP SIGNATURE-----
-
---Sig_/roh3be+LjwRG1po+YE_hoN2--
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c           | 4 ----
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 1 -
+>  2 files changed, 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 9547037857b6..5cc14ed2e93e 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -1733,10 +1733,6 @@ static void amdgpu_dm_fini(struct amdgpu_device *adev)
+>                 adev->dm.vblank_control_workqueue = NULL;
+>         }
+>
+> -       for (i = 0; i < adev->dm.display_indexes_num; i++) {
+> -               drm_encoder_cleanup(&adev->dm.mst_encoders[i].base);
+> -       }
+> -
+>         amdgpu_dm_destroy_drm_device(&adev->dm);
+>
+>  #if defined(CONFIG_DRM_AMD_SECURE_DISPLAY)
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> index bbeeee7c5d7c..5fa9bab95038 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> @@ -492,7 +492,6 @@ static const struct drm_connector_helper_funcs dm_dp_mst_connector_helper_funcs
+>  static void amdgpu_dm_encoder_destroy(struct drm_encoder *encoder)
+>  {
+>         drm_encoder_cleanup(encoder);
+> -       kfree(encoder);
+>  }
+>
+>  static const struct drm_encoder_funcs amdgpu_dm_encoder_funcs = {
+> --
+> 2.39.0
+>
