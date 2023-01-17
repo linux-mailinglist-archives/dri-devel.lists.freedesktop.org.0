@@ -1,52 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 264E766DFAB
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 14:56:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11F9966DFB2
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 14:57:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5354010E181;
-	Tue, 17 Jan 2023 13:56:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91DB010E55A;
+	Tue, 17 Jan 2023 13:57:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4661410E181;
- Tue, 17 Jan 2023 13:56:12 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D22510E2FD;
+ Tue, 17 Jan 2023 13:57:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673963772; x=1705499772;
+ t=1673963838; x=1705499838;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=7XWjTsDMeS3tr1JAax+Np7DONdRK+jGt05VAd9+JJ90=;
- b=RkxarGZjUOOU00Tzu7VegkBGqVIA7bUyCcgr410FkKnl+uIhRvURJKww
- muHoX57mIfjbYJHwRkCghzKLlyx8bPLewcHhbSkVl/rgQT33qce9+RJ/8
- meMDmQJ5cysRr8H85qHA5lLRIOvMRG7MwUtOCTo37op6Fzt04HlDiTWOj
- Ba4lDLmn8ZHm0gMaOL4xBqSspXgVO4AXB4ZKXfbLtslbS1k0cwjTRhJs+
- Cgih3f61Oc6k/eP+i3+Q8TXgQk1PoaCnyGTEXvgjsnyo8BSq2kvOrLW7F
- dgUYIp65UckGtAMm0mIocLfmn7KCqkmasenC+/aq1o6ouPFnVjvQLFgE0 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="389197427"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="389197427"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2023 05:56:10 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="767294715"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="767294715"
+ bh=54CJ7Zt2a0MiIuLXJPIZZY3zINuv2XU8CIceWxKiRoE=;
+ b=iasFD1JDqUr055qB43YfsoFKr4LxmICd0x/VRJmtusfvqfTrUz5JCMEk
+ qUaiz1/15QFMe7IrHv8RVP+QS9CJ94eqZRuYg+uhdq96nn6/SVWMgTtjd
+ Qnq9v/pEOcQhjJoRo/Po4WURsM27ncZ5lbscY02eOcWPznrAzXu10BjAP
+ 758iLzNRvrzmNybfYT2k/UBse5kyvbOUsXLnO3u8iTIdpbkGHkXF2Kttt
+ XP21+eAPvcskbIsyRbjwZVTpCJFySs+SxLsPNS8MkMpV2dxpMTUsKG4K5
+ tkFC1VMD1QoHw0SsIXuY/Mna47XgtwmNGDU98QaHHZmGWVY0mz0IqOiyc g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="312564049"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="312564049"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2023 05:57:17 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="801746743"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="801746743"
 Received: from dmitriim-mobl.ger.corp.intel.com (HELO intel.com)
  ([10.249.45.175])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2023 05:56:08 -0800
-Date: Tue, 17 Jan 2023 14:56:04 +0100
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2023 05:57:14 -0800
+Date: Tue, 17 Jan 2023 14:57:11 +0100
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: Nirmoy Das <nirmoy.das@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915: Ratelimit debug log in
- vm_fault_ttm
-Message-ID: <Y8ao9HvRqBIEgHSj@ashyti-mobl2.lan>
-References: <20230117115350.1071-1-nirmoy.das@intel.com>
- <20230117115350.1071-2-nirmoy.das@intel.com>
+Subject: Re: [PATCH v2] drm/i915/selftests: Unwind hugepages to drop wakeref
+ on error
+Message-ID: <Y8apNwaM+/tZg+9r@ashyti-mobl2.lan>
+References: <20230117123234.26487-1-nirmoy.das@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230117115350.1071-2-nirmoy.das@intel.com>
+In-Reply-To: <20230117123234.26487-1-nirmoy.das@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,21 +58,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, chris.p.wilson@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Nirmoy,
 
-On Tue, Jan 17, 2023 at 12:53:50PM +0100, Nirmoy Das wrote:
-> Test like i915_gem_mman_live_selftests/igt_mmap_migrate can cause
-> dmesg spamming. Use ratelimit api to reduce log rate.
+On Tue, Jan 17, 2023 at 01:32:34PM +0100, Nirmoy Das wrote:
+> From: Chris Wilson <chris.p.wilson@linux.intel.com>
 > 
-> References: https://gitlab.freedesktop.org/drm/intel/-/issues/7038
-> Cc: Matthew Auld <matthew.auld@intel.com>
+> Make sure that upon error after we have acquired the wakeref we do
+> release it again.
 > 
+> v2: add another missing "goto out_wf"(Andi).
+> 
+> Fixes: 027c38b4121e ("drm/i915/selftests: Grab the runtime pm in shrink_thp")
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
 > Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Signed-off-by: Chris Wilson <chris.p.wilson@linux.intel.com>
 > Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
 
 Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
@@ -82,24 +87,44 @@ Thanks,
 Andi
 
 > ---
->  drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/i915/gem/selftests/huge_pages.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index 8cfed1bef629..25294ddbee46 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -1077,8 +1077,9 @@ static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
->  		}
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+> index c281b0ec9e05..defece0bcb81 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+> @@ -1855,7 +1855,7 @@ static int igt_shrink_thp(void *arg)
+>  			I915_SHRINK_ACTIVE);
+>  	i915_vma_unpin(vma);
+>  	if (err)
+> -		goto out_put;
+> +		goto out_wf;
 >  
->  		if (err) {
-> -			drm_dbg(dev, "Unable to make resource CPU accessible(err = %pe)\n",
-> -				ERR_PTR(err));
-> +			drm_dbg_ratelimited(dev,
-> +					    "Unable to make resource CPU accessible(err = %pe)\n",
-> +					    ERR_PTR(err));
->  			dma_resv_unlock(bo->base.resv);
->  			ret = VM_FAULT_SIGBUS;
->  			goto out_rpm;
+>  	/*
+>  	 * Now that the pages are *unpinned* shrinking should invoke
+> @@ -1871,19 +1871,19 @@ static int igt_shrink_thp(void *arg)
+>  		pr_err("unexpected pages mismatch, should_swap=%s\n",
+>  		       str_yes_no(should_swap));
+>  		err = -EINVAL;
+> -		goto out_put;
+> +		goto out_wf;
+>  	}
+>  
+>  	if (should_swap == (obj->mm.page_sizes.sg || obj->mm.page_sizes.phys)) {
+>  		pr_err("unexpected residual page-size bits, should_swap=%s\n",
+>  		       str_yes_no(should_swap));
+>  		err = -EINVAL;
+> -		goto out_put;
+> +		goto out_wf;
+>  	}
+>  
+>  	err = i915_vma_pin(vma, 0, 0, flags);
+>  	if (err)
+> -		goto out_put;
+> +		goto out_wf;
+>  
+>  	while (n--) {
+>  		err = cpu_check(obj, n, 0xdeadbeaf);
 > -- 
 > 2.39.0
