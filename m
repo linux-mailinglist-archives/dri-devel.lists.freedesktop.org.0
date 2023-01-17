@@ -2,54 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D76B66D8E9
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 09:57:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16D1F66D95B
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 10:11:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 834CE10E526;
-	Tue, 17 Jan 2023 08:57:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C74AB10E530;
+	Tue, 17 Jan 2023 09:10:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CBAF10E523;
- Tue, 17 Jan 2023 08:57:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673945863; x=1705481863;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=UGwC0F+2sTx0QDqsfwQrpl04CHc9lq1xYlAMZD/BwKA=;
- b=mhepK5qgTz1p5RmcYx097mpgzU4z4czqMbLJx8vaQ5wxMYx61PzObTSv
- KnuRSMFUCy7JTEchXJ8t1IzX2gc21wm+HkE2PcLLO+41WJXuESwMcC4cP
- 8kJPDBoWjMbgPhJJA4rBeqMjycv4cjBCSVcQ8aZmaBkuMb4Nvk6MWRE4k
- HeGd/npczmoO5Sv0I5dy5tsLSm9VYYe58qMYQHern29fehvOc+sYL3Tve
- brF374cv6qbwOGSoOBzX4uDKBMdqP0y/vZ5ZAYY2vaJMdVntJHLR6HspU
- /R8xSS6H11Jj3nsx5wm5JzBccBUiAJ2/nfCnLw6w9y8Vse1MYtb1CEd/Z w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="410883136"
-X-IronPort-AV: E=Sophos;i="5.97,222,1669104000"; d="scan'208";a="410883136"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2023 00:57:43 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="609184032"
-X-IronPort-AV: E=Sophos;i="5.97,222,1669104000"; d="scan'208";a="609184032"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.249.45.93])
- ([10.249.45.93])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2023 00:57:40 -0800
-Message-ID: <2d8c8af8-238a-a164-0224-88ac12acaf7d@linux.intel.com>
-Date: Tue, 17 Jan 2023 09:57:38 +0100
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E580910E521;
+ Tue, 17 Jan 2023 08:49:36 +0000 (UTC)
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30H7jBg2002153; Tue, 17 Jan 2023 08:49:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=H906UnaT+mKc1vvKmTCCEcWqGmxotatY633LkzBqxYU=;
+ b=A6BVq7HNMg+oOk9phju+5wb8NvQ5nhXgUGV4aDzrytllvMMkF1QwAASO805mzs95eZ2n
+ nFKcix/B9tP3yq5RutbLwr2yS0Abm57uKLmBtWu1LQCnzO68gBvKuRAubGf/f3lwbm/t
+ d7yQv+5f0SONkcFHHSaAcX07ZpD4eOvZsvKy1FKh8tdh0yhzrWgHCxFAGAnbCx2hVThN
+ Rond9aWSHw3YaiM/1OecQ05uP252qJXP3SYTDx0h1dBaObZJqgSUfIb/xpcCfRKWX9Px
+ JCMj5JyJGhH44nebnIBpCrl3064gZ9Rc08Ewv1HQn0ismQJBIsB7Inz4PAelp10g6+mT Qw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n5hky0gqv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Jan 2023 08:49:29 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30H8ftP6001523;
+ Tue, 17 Jan 2023 08:49:28 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n5hky0gq2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Jan 2023 08:49:28 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30GGKqhH025576;
+ Tue, 17 Jan 2023 08:49:26 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3n3m16ajt5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Jan 2023 08:49:26 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30H8nMXa14222046
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 17 Jan 2023 08:49:22 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CAED920049;
+ Tue, 17 Jan 2023 08:49:22 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 33E1620040;
+ Tue, 17 Jan 2023 08:49:22 +0000 (GMT)
+Received: from [9.155.211.163] (unknown [9.155.211.163])
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Tue, 17 Jan 2023 08:49:22 +0000 (GMT)
+Message-ID: <0bd438b3afa979b9f4d4d1e9c76451a93e7ef7eb.camel@linux.ibm.com>
+Subject: Re: [PATCH 8/8] iommu/s390: Push the gfp parameter to the
+ kmem_cache_alloc()'s
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Jason Gunthorpe <jgg@nvidia.com>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>, Matthew
+ Rosato <mjrosato@linux.ibm.com>, Robin Murphy <robin.murphy@arm.com>
+Date: Tue, 17 Jan 2023 09:49:22 +0100
+In-Reply-To: <8-v1-6e8b3997c46d+89e-iommu_map_gfp_jgg@nvidia.com>
+References: <8-v1-6e8b3997c46d+89e-iommu_map_gfp_jgg@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH] drm/i915/selftests: Unwind hugepages to drop wakeref on
- error
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>
-References: <20230113120053.29618-1-nirmoy.das@intel.com>
- <Y8WcLtKY3/cSMjgw@ashyti-mobl2.lan>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <Y8WcLtKY3/cSMjgw@ashyti-mobl2.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: MKx4-ANHPJUrZonOgwaEaY-EVKsDWzHU
+X-Proofpoint-GUID: SbFxmq8QKSSdWBsgb5noBKiad8Yo5FPz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-17_04,2023-01-13_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 mlxscore=0
+ phishscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=713 bulkscore=0
+ spamscore=0 impostorscore=0 clxscore=1011 suspectscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301170071
+X-Mailman-Approved-At: Tue, 17 Jan 2023 09:10:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,84 +99,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, chris.p.wilson@linux.intel.com,
- stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
- matthew.auld@intel.com
+Cc: linux-s390@vger.kernel.org, kvm@vger.kernel.org,
+ nouveau@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ iommu@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Alex Williamson <alex.williamson@redhat.com>, netdev@vger.kernel.org,
+ ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
+ linux-tegra@vger.kernel.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ virtualization@lists.linux-foundation.org, ath11k@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 2023-01-06 at 12:42 -0400, Jason Gunthorpe wrote:
+> dma_alloc_cpu_table() and dma_alloc_page_table() are eventually called by
+> iommufd through s390_iommu_map_pages() and it should not be forced to
+> atomic. Thread the gfp parameter through the call chain starting from
+> s390_iommu_map_pages().
+>=20
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  arch/s390/include/asm/pci_dma.h |  5 +++--
+>  arch/s390/pci/pci_dma.c         | 31 +++++++++++++++++--------------
+>  drivers/iommu/s390-iommu.c      | 15 +++++++++------
+>  3 files changed, 29 insertions(+), 22 deletions(-)
+>=20
+---8<---
+> =20
 
-On 1/16/2023 7:49 PM, Andi Shyti wrote:
-> Hi Nirmoy,
->
-> On Fri, Jan 13, 2023 at 01:00:53PM +0100, Nirmoy Das wrote:
->> From: Chris Wilson <chris.p.wilson@linux.intel.com>
->>
->> Make sure that upon error after we have acquired the wakeref we do
->> release it again.
->>
->> Fixes: 027c38b4121e ("drm/i915/selftests: Grab the runtime pm in shrink_thp")
->> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
->> Signed-off-by: Chris Wilson <chris.p.wilson@linux.intel.com>
->> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
->> Cc: <stable@vger.kernel.org> # v6.0+
->> ---
->>   drivers/gpu/drm/i915/gem/selftests/huge_pages.c | 6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
->> index c281b0ec9e05..295d6f2cc4ff 100644
->> --- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
->> +++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
->> @@ -1855,7 +1855,7 @@ static int igt_shrink_thp(void *arg)
->>   			I915_SHRINK_ACTIVE);
->>   	i915_vma_unpin(vma);
->>   	if (err)
->> -		goto out_put;
->> +		goto out_wf;
->>   
->>   	/*
->>   	 * Now that the pages are *unpinned* shrinking should invoke
->> @@ -1871,7 +1871,7 @@ static int igt_shrink_thp(void *arg)
->>   		pr_err("unexpected pages mismatch, should_swap=%s\n",
->>   		       str_yes_no(should_swap));
->>   		err = -EINVAL;
->> -		goto out_put;
->> +		goto out_wf;
->>   	}
-> aren't we missing here one out_put -> out_wf change?
->
-> This one:
->
-> @@ -1878,7 +1878,7 @@ static int igt_shrink_thp(void *arg)
->                  pr_err("unexpected residual page-size bits, should_swap=%s\n",
->                         str_yes_no(should_swap));
->                  err = -EINVAL;
-> -               goto out_put;
-> +               goto out_wf;
+Looks good to me and I have no objections.
 
+Reviewed-by: Niklas Schnelle <schnelle@linux.ibm.com>
 
-Thanks for catching this. Yes, we need this too. I will resend.
-
-
-Nirmoy
-
->          }
->   
->          err = i915_vma_pin(vma, 0, 0, flags);
->
-> Andi
->
->>   
->>   	if (should_swap == (obj->mm.page_sizes.sg || obj->mm.page_sizes.phys)) {
->> @@ -1883,7 +1883,7 @@ static int igt_shrink_thp(void *arg)
->>   
->>   	err = i915_vma_pin(vma, 0, 0, flags);
->>   	if (err)
->> -		goto out_put;
->> +		goto out_wf;
->>   
->>   	while (n--) {
->>   		err = cpu_check(obj, n, 0xdeadbeaf);
->> -- 
->> 2.39.0
