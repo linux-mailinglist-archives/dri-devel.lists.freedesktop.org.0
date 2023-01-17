@@ -1,50 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 509DF66E0F1
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 15:38:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EB5566E144
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 15:49:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C91B610E54A;
-	Tue, 17 Jan 2023 14:38:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C986110E547;
+	Tue, 17 Jan 2023 14:49:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B145E10E54A;
- Tue, 17 Jan 2023 14:38:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=jvCND7U5mCx/0/d5hUtwhsEg9nPGo+xA4gIoGMnASvA=; b=Rf5a2/Bao6+pYgfKcC/BJrUsxL
- Q9iZ1PS+LTP5VyIP6P8AIwNqBNdx3n3E/OZNHR93EllE65kPfrZbXOEX+Dyck0kkTlom0hhTlhBqS
- 8S0QhqEXz8Bih9CAeWdiLvlDtRQW5rtZlk23IVClKdd1ynl7qy/QtC7aWSFjLUALi4EswzozfOzF6
- 3N31/2qWXCXC89fybY4EEOQMA+dbyJz1qu9uSrbJsqQkFcSF1yfMFjGydqb9edN02pXB03YW9a2ff
- mCfKynIs/jHyhCSfdtMHY+NSr7n+Kn5AmPvnzKNK3+PCjY+fHxGmmIx2SnqHA/4uoAdd3UjhPBolv
- ZKI2bzPQ==;
-Received: from [187.36.234.139] (helo=[192.168.1.195])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1pHn67-00AgQV-JC; Tue, 17 Jan 2023 15:37:59 +0100
-Message-ID: <763513db-7d0d-5946-a9af-11db85aa0db6@igalia.com>
-Date: Tue, 17 Jan 2023 11:37:50 -0300
+Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay5-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:404::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C634410E547
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 14:49:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=PFUlLh98KQfIh3spS9gmqRf+MPIh1NqTR9WBTgIIHIo=;
+ b=KElbSFmR2by+yPr7z3jle5wmNClJ/zBxbKCHP0JejAJE3W1hympe4R4XZEKCg3a1jX3/paZzgawpe
+ 1VRQ3WH0n8vZa97WzzquVokbgo9/vZXWvCIFN3vJTCuoofxmXR10T2O3qE6yIhV74YcDBSUZtwK2OY
+ qqaS6lEJXj4OdORhV3NbujaGidg0lbLXUVoPwT/YwHOVcRqAz3jySVvpnU9f+rfzIE1zUCED15GF7f
+ X1++X2alAR+fb+oHjoZWLDTRniWCFrlYt+EOIQ4qZU7W+OMSb75P4bgImuD4sG7YexYoc0AmStBrgE
+ S9m15bvXyiReebc7tWGDhbRtLQpvFTA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=PFUlLh98KQfIh3spS9gmqRf+MPIh1NqTR9WBTgIIHIo=;
+ b=LrU1AHCpG9beXuxia2gP2XMhQewocJXCCDL9tr0boLGRdYEzAoEm3dPWpqSpPhMpRQJ/uIjEylkhN
+ w4Jl6NFDA==
+X-HalOne-ID: 2049ee29-9676-11ed-934e-7703b0afff57
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay5 (Halon) with ESMTPSA
+ id 2049ee29-9676-11ed-934e-7703b0afff57;
+ Tue, 17 Jan 2023 14:49:23 +0000 (UTC)
+Date: Tue, 17 Jan 2023 15:49:22 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Nirmoy Das <nirmoy.das@intel.com>
+Subject: Re: [PATCH 1/2] drm/print: Add drm_dbg_ratelimited
+Message-ID: <Y8a1ciLKt9uLZDh6@ravnborg.org>
+References: <20230117115350.1071-1-nirmoy.das@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v3 2/3] drm/amdgpu: Remove redundant framebuffer format
- check
-Content-Language: en-US
-To: Simon Ser <contact@emersion.fr>
-References: <20230113165919.580210-1-mcanal@igalia.com>
- <20230113165919.580210-3-mcanal@igalia.com>
- <feD8ifyiQQcVKESmwwRiyFCSBrXbRd6kGm8LGHgC0ympY2Qsc9Oi3UEqva2xVspk59CvZV4kpgCJUUKPJt9scwsIMAVBvDZrXMihMehs_WM=@emersion.fr>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <feD8ifyiQQcVKESmwwRiyFCSBrXbRd6kGm8LGHgC0ympY2Qsc9Oi3UEqva2xVspk59CvZV4kpgCJUUKPJt9scwsIMAVBvDZrXMihMehs_WM=@emersion.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230117115350.1071-1-nirmoy.das@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,32 +56,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org,
- =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Melissa Wen <mwen@igalia.com>,
- VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
+ Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Simon,
+Hi Nirmoy
 
-On 1/13/23 14:06, Simon Ser wrote:
-> Hm, unfortunately I think we need to keep the check in amdgpu for the
-> same reason as i915: amdgpu will pick a modifier if user-space didn't
-> supply one on GFX9+.
+On Tue, Jan 17, 2023 at 12:53:49PM +0100, Nirmoy Das wrote:
+> Add a function for ratelimitted debug print.
 > 
-> I wonder if that also applies to vmwgfx? Maybe that would be a reason
-> to have the check in framebuffer_init()? (Not sure!)
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
 
-I tried to move the check to framebuffer_init(), but it ended up causing
-problems in the i915 driver (the kernel was emitting warnings when running
-the IGT tests). I was thinking of going back to the drm_gem_fb_create()
-approach [1], as it would make the other drivers return EINVAL in the case of
-a bad modifier and it wouldn't change the current behavior of i915 and amdgpu.
+Thanks for adding this.
+The patch as-is is:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-[1] https://lore.kernel.org/dri-devel/20230103125322.855089-1-mcanal@igalia.com/T/
+It would have been nice to start adding kernel-doc to the
+non-deprecated logging functions. But as everyone else is missing this,
+it is OK that we miss it here.
 
-Best Regards,
-- Maíra Canal
+A couple of nice follow-up patches would be to introduce a KMS variant
+and replace the only user of DRM_DEBUG_KMS_RATELIMITED with the new
+variant and remove the old one.
+
+And maybe even update the remaining *ERROR_RATELIMITED users to a new
+variant - and drop the deprecated ones.
+
+	Sam
+
+> ---
+>  include/drm/drm_print.h | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index a44fb7ef257f..1d839f507319 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -602,6 +602,9 @@ void __drm_err(const char *format, ...);
+>  		drm_dev_printk(drm_ ? drm_->dev : NULL, KERN_DEBUG, fmt, ## __VA_ARGS__);	\
+>  })
+>  
+> +#define drm_dbg_ratelimited(drm, fmt, ...) \
+> +	__DRM_DEFINE_DBG_RATELIMITED(DRIVER, drm, fmt, ## __VA_ARGS__)
+> +
+>  #define drm_dbg_kms_ratelimited(drm, fmt, ...) \
+>  	__DRM_DEFINE_DBG_RATELIMITED(KMS, drm, fmt, ## __VA_ARGS__)
+>  
+> -- 
+> 2.39.0
