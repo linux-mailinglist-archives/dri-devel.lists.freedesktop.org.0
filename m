@@ -1,57 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E34A671954
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 11:42:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D82D7671952
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 11:42:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A585110E6FC;
-	Wed, 18 Jan 2023 10:42:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 216E210E6F8;
+	Wed, 18 Jan 2023 10:42:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED79010E1A4
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 12:39:02 +0000 (UTC)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
- [91.154.32.225])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B5E8310C;
- Tue, 17 Jan 2023 13:38:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1673959141;
- bh=0xanUWyMoxJnvXqqNZ5UOGy3oyg6sQdr/aJLg0bLmX0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lhXA6EOBtju3hz7RVGApa3gFkm8IjwyEevWIttJjwuSssA6tWWX3VMk4dP6KCwshf
- D1TXAw5l8b9t1Vd5W0sbVT1fBO26Skg59JiGVMd89TgWhDkXbpcp0S0PTFKKS9B67y
- fFirV+o2rzHN81rIAuhffeTrNvXXekunotwKsK54=
-Message-ID: <808e831f-4282-0e58-ebb2-2f556aaeaca4@ideasonboard.com>
-Date: Tue, 17 Jan 2023 14:38:57 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 3/4] dt-bindings: panel: Introduce dual-link LVDS panel
-Content-Language: en-US
-To: Aradhya Bhatia <a-bhatia1@ti.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BCA410E541
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 13:47:55 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id y1so33594617plb.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 05:47:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=oLaPVpyO8fEFfx+PftWktnY3K5s7zHqLAXxofLOrVZM=;
+ b=cDZSuJHo96k7zFrjzugnMFoMn6FgMcDq8/a/qgQyVnlI+y4N3bGCR2BdiWmwb6aRS+
+ WcC53Sj0ai4RzvZ1o7B6f8wernhBI3qMNNCVQnIF0AV4mlxmfJ4WOWi1H+6bMG8WY7Ft
+ wPscLcODOJoHWiH12KUflGHe8i1rGw/NobDeRXz8xDr214MNrJUZ6kFaIX3VYFNS/jWg
+ VkvfaN7/PuysHU2xYkkeskNQILTBcjdPd8mZ339mEk4wztWa5grciQHt1ykm6agQfB2w
+ X40/zIsKAYek/CaqbiR3Q3shSgqgz2f3apO+gGn+ZmK3XUg57fJ9FHp8F+b7mbhOmZMZ
+ hDlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oLaPVpyO8fEFfx+PftWktnY3K5s7zHqLAXxofLOrVZM=;
+ b=O8ttm7OTg2fKagtM6h1kkiTU52FP4w4WyiU1V46ucVDlRhJO+djANJdSoStkL0fgnu
+ xHOk4M0K42XNGKZOphs6rJv+r+k34aPayVdTYSjYdrVSqHlmOse6Xvb23Wp8Ij0/7wd7
+ pBuEOM3h5HU6oPmUXLCGHSOgWiAGM6OzD6Azl8cvfqlS4vW237SgX/azZ+ROC1NyZLK7
+ XlTLYRa1GK5mUwgtCcPGjetpdDOc3Ur8oLqfUD4JvNegyVDTvyQ/l//xnFlcBql4aYCE
+ 63mXAYNbNshE/lMHSy17AAwsxoQfIN719uSp3033F7EJ996HI2R3jIUPTC/GDdDIA+mq
+ /irw==
+X-Gm-Message-State: AFqh2kof6g2Z0EQV7EwaOEyeChdIgrrchSIwgGnTGbghXgroZCOFoasF
+ zPCigejS89hJtZy1KghzO7E=
+X-Google-Smtp-Source: AMrXdXsidr5CNwwh1pPByydIB0f87THs0xmzqbnwFi5HFXbfm1OwHOpjG9wE2t2/30lwEhpziRnfHg==
+X-Received: by 2002:a05:6a20:428b:b0:a5:7700:2a4a with SMTP id
+ o11-20020a056a20428b00b000a577002a4amr3369255pzj.51.1673963275058; 
+ Tue, 17 Jan 2023 05:47:55 -0800 (PST)
+Received: from localhost.localdomain (n220246252084.netvigator.com.
+ [220.246.252.84]) by smtp.gmail.com with ESMTPSA id
+ a3-20020a170902900300b00189393ab02csm3747958plp.99.2023.01.17.05.47.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Jan 2023 05:47:54 -0800 (PST)
+From: Jianhua Lu <lujianhua000@gmail.com>
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jyri Sarha <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime@cerno.tech>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Matthias Brugger <matthias.bgg@gmail.com>, Guo Ren <guoren@kernel.org>
-References: <20230103064615.5311-1-a-bhatia1@ti.com>
- <20230103064615.5311-4-a-bhatia1@ti.com>
- <09f1ca83-c7d5-a186-6fa6-09cdd7a0b9cc@collabora.com>
- <431ddd82-055b-2526-3d5e-f6563e48d264@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <431ddd82-055b-2526-3d5e-f6563e48d264@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Helge Deller <deller@gmx.de>
+Subject: [PATCH v4 1/2] backlight: ktz8866: Add support for Kinetic KTZ8866
+ backlight
+Date: Tue, 17 Jan 2023 21:47:41 +0800
+Message-Id: <20230117134742.23238-1-lujianhua000@gmail.com>
+X-Mailer: git-send-email 2.38.2
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Wed, 18 Jan 2023 10:42:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,158 +74,291 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Mediatek List <linux-mediatek@lists.infradead.org>,
- Linux C-SKY Arch List <linux-csky@vger.kernel.org>,
- Linux RISC-V List <linux-riscv@lists.infradead.org>,
- Linux ARM Kernel List <linux-arm-kernel@lists.infradead.org>,
- Rahul T R <r-ravikumar@ti.com>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jianhua Lu <lujianhua000@gmail.com>, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/01/2023 18:21, Aradhya Bhatia wrote:
-> Hi Angelo,
-> 
-> Thanks for taking a look at the patches!
-> 
-> On 03-Jan-23 17:21, AngeloGioacchino Del Regno wrote:
->> Il 03/01/23 07:46, Aradhya Bhatia ha scritto:
->>> Dual-link LVDS interfaces have 2 links, with even pixels traveling on
->>> one link, and odd pixels on the other. These panels are also generic in
->>> nature, with no documented constraints, much like their single-link
->>> counterparts, "panel-lvds".
->>>
->>> Add a new compatible, "panel-dual-lvds", and a dt-binding document for
->>> these panels.
->>>
->>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
->>> ---
->>>   .../display/panel/panel-dual-lvds.yaml        | 157 ++++++++++++++++++
->>>   MAINTAINERS                                   |   1 +
->>>   2 files changed, 158 insertions(+)
->>>   create mode 100644 
->>> Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
->>>
->>> diff --git 
->>> a/Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml b/Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
->>> new file mode 100644
->>> index 000000000000..88a7aa2410be
->>> --- /dev/null
->>> +++ 
->>> b/Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
->>> @@ -0,0 +1,157 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/display/panel/panel-dual-lvds.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Generic Dual-Link LVDS Display Panel
->>> +
->>> +maintainers:
->>> +  - Aradhya Bhatia <a-bhatia1@ti.com>
->>> +  - Thierry Reding <thierry.reding@gmail.com>
->>> +
->>> +description: |
->>> +  A dual-LVDS interface is a dual-link connection with the even pixels
->>> +  traveling on one link, and the odd pixels traveling on the other.
->>> +
->>> +allOf:
->>> +  - $ref: panel-common.yaml#
->>> +  - $ref: /schemas/display/lvds.yaml/#
->>> +
->>> +properties:
->>> +  compatible:
->>> +    oneOf:
->>> +      - items:
->>> +          - enum:
->>> +              - lincolntech,lcd185-101ct
->>> +              - microtips,13-101hieb0hf0-s
->>> +          - const: panel-dual-lvds
->>> +      - const: panel-dual-lvds
->>> +
->>> +  ports:
->>> +    $ref: /schemas/graph.yaml#/properties/ports
->>> +
->>> +    properties:
->>> +      port@0:
->>> +        $ref: /schemas/graph.yaml#/$defs/port-base
->>> +        unevaluatedProperties: false
->>> +        description: The sink for first set of LVDS pixels.
->>> +
->>> +        properties:
->>> +          dual-lvds-odd-pixels:
->>> +            type: boolean
->>> +
->>> +          dual-lvds-even-pixels:
->>> +            type: boolean
->>> +
->>> +        oneOf:
->>> +          - required: [dual-lvds-odd-pixels]
->>
->> One question: why do we need a "panel-dual-lvds" compatible?
->> A Dual-LVDS panel is a LVDS panel using two ports, hence still a 
->> panel-lvds.
->>
->> If you're doing this to clearly distinguish, for human readability 
->> purposes,
->> single-link vs dual-link panels, I think that this would still be 
->> clear even
->> if we use panel-lvds alone because dual-link panels, as you wrote in this
->> binding, does *require* two ports, with "dual-lvds-{odd,even}-pixels" 
->> properties.
-> 
-> Yes, while they are both LVDS based panels the extra LVDS sink in these
-> panels, and the capability to decode and display the 2 sets of signals
-> are enough hardware differences that warrant for an addition of a new
-> compatible.
-> 
->>
->> So... the devicetree node would look like this:
->>
->> panel {
->>      compatible = "vendor,panel", "panel-lvds";
->>      ....
->>      ports {
->>          port@0 {
->>              .....
->>              -> dual-lvds-odd-pixels <-
->>          }
->>
->>          port@1 {
->>              .....
->>              -> dual-lvds-even-pixels <-
->>          };
->>      };
->> };
->>
->>> +          - required: [dual-lvds-even-pixels]
->>
->> ...Though, if you expect dual-lvds panels to get other quirks in the 
->> future,
->> that's a whole different story and you may actually need the 
->> panel-dual-lvds
->> compatible.
-> 
-> Yes, exactly. Even while being non-smart, there are going to be more
-> quirks in future. And it would be better if they have their own
-> compatible/binding, and are not getting appended in an ever-growing
-> if-else ladder. :)
+Add support for Kinetic KTZ8866 backlight, which is used in
+Xiaomi tablet, Mi Pad 5 series. This driver lightly based on
+downstream implementation [1].
+[1] https://github.com/MiCode/Xiaomi_Kernel_OpenSource/blob/elish-r-oss/drivers/video/backlight/ktz8866.c
 
-I can imagine a panel which you can use with a single LVDS link if the 
-clock is high enough, or two LVDS links if the clock has to be lower. Is 
-that a dual-lvds panel? =)
+Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+---
+Changes in v2:
+  - Add missing staitc modifier to ktz8866_write function.
 
-But probably that situation is no different than a panel that can work 
-with DSI or DPI input.
+Changes in v3:
+  - Add 2022 to Copyright line.
+  - Sort headers.
+  - Remove meaningless comment.
+  - Use definitions instead of hardcoding.
+  - Add missing maintainer info.
 
-Still, I'm agree with Angelo in that a new compatible string for dual 
-link lvds feels a bit odd. That said, it's possible the panel-lvds 
-bindings might get rather confusing. So I don't have a strong feeling here.
+Changes in v4:
+  - Change 2022 to 2023.
+  - Remove useless macro and enum.
+  - Describe settings by devicetree.
+  - Move header file to C file.
 
-  Tomi
+ MAINTAINERS                       |   6 +
+ drivers/video/backlight/Kconfig   |   8 ++
+ drivers/video/backlight/Makefile  |   1 +
+ drivers/video/backlight/ktz8866.c | 195 ++++++++++++++++++++++++++++++
+ 4 files changed, 210 insertions(+)
+ create mode 100644 drivers/video/backlight/ktz8866.c
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 42fc47c6edfd..2084e74e1b58 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11674,6 +11674,12 @@ M:	John Hawley <warthog9@eaglescrag.net>
+ S:	Maintained
+ F:	tools/testing/ktest
+ 
++KTZ8866 BACKLIGHT DRIVER
++M:	Jianhua Lu <lujianhua000@gmail.com>
++S:	Maintained
++F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
++F:	drivers/video/backlight/ktz8866.c
++
+ L3MDEV
+ M:	David Ahern <dsahern@kernel.org>
+ L:	netdev@vger.kernel.org
+diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+index 936ba1e4d35e..2845fd7e33ad 100644
+--- a/drivers/video/backlight/Kconfig
++++ b/drivers/video/backlight/Kconfig
+@@ -190,6 +190,14 @@ config BACKLIGHT_KTD253
+ 	  which is a 1-wire GPIO-controlled backlight found in some mobile
+ 	  phones.
+ 
++config BACKLIGHT_KTZ8866
++	tristate "Backlight Driver for Kinetic KTZ8866"
++	depends on I2C
++	select REGMAP_I2C
++	help
++		Say Y to enabled the backlight driver for the Kinetic KTZ8866
++		found in Xiaomi Mi Pad 5 series.
++
+ config BACKLIGHT_LM3533
+ 	tristate "Backlight Driver for LM3533"
+ 	depends on MFD_LM3533
+diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+index e815f3f1deff..f70a819c304c 100644
+--- a/drivers/video/backlight/Makefile
++++ b/drivers/video/backlight/Makefile
+@@ -36,6 +36,7 @@ obj-$(CONFIG_BACKLIGHT_HP680)		+= hp680_bl.o
+ obj-$(CONFIG_BACKLIGHT_HP700)		+= jornada720_bl.o
+ obj-$(CONFIG_BACKLIGHT_IPAQ_MICRO)	+= ipaq_micro_bl.o
+ obj-$(CONFIG_BACKLIGHT_KTD253)		+= ktd253-backlight.o
++obj-$(CONFIG_BACKLIGHT_KTZ8866)		+= ktz8866.o
+ obj-$(CONFIG_BACKLIGHT_LM3533)		+= lm3533_bl.o
+ obj-$(CONFIG_BACKLIGHT_LM3630A)		+= lm3630a_bl.o
+ obj-$(CONFIG_BACKLIGHT_LM3639)		+= lm3639_bl.o
+diff --git a/drivers/video/backlight/ktz8866.c b/drivers/video/backlight/ktz8866.c
+new file mode 100644
+index 000000000000..98916f92d069
+--- /dev/null
++++ b/drivers/video/backlight/ktz8866.c
+@@ -0,0 +1,195 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Backlight driver for the Kinetic KTZ8866
++ *
++ * Copyright (C) 2023 Jianhua Lu <lujianhua000@gmail.com>
++ */
++
++#include <linux/backlight.h>
++#include <linux/delay.h>
++#include <linux/err.h>
++#include <linux/i2c.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/regmap.h>
++
++#define DEFAULT_BRIGHTNESS 1500
++#define MAX_BRIGHTNESS 2047
++#define REG_MAX 0x15
++
++/* reg */
++#define DEVICE_ID 0x01
++#define BL_CFG1 0x02
++#define BL_CFG2 0x03
++#define BL_BRT_LSB 0x04
++#define BL_BRT_MSB 0x05
++#define BL_EN 0x08
++#define LCD_BIAS_CFG1 0x09
++#define LCD_BIAS_CFG2 0x0A
++#define LCD_BIAS_CFG3 0x0B
++#define LCD_BOOST_CFG 0x0C
++#define OUTP_CFG 0x0D
++#define OUTN_CFG 0x0E
++#define FLAG 0x0F
++#define BL_OPTION1 0x10
++#define BL_OPTION2 0x11
++#define PWM2DIG_LSBs 0x12
++#define PWM2DIG_MSBs 0x13
++#define BL_DIMMING 0x14
++#define PWM_RAMP_TIME 0x15
++
++/* definition */
++#define BL_EN_BIT BIT(6)
++#define LCD_BIAS_EN 0x9F
++#define PWM_HYST 0x5
++
++struct ktz8866 {
++	struct i2c_client *client;
++	struct regmap *regmap;
++	bool led_on;
++};
++
++static const struct regmap_config ktz8866_regmap_config = {
++	.reg_bits = 8,
++	.val_bits = 8,
++	.max_register = REG_MAX,
++};
++
++static int ktz8866_write(struct ktz8866 *ktz, unsigned int reg,
++			 unsigned int val)
++{
++	return regmap_write(ktz->regmap, reg, val);
++}
++
++static int ktz8866_update_bits(struct ktz8866 *ktz, unsigned int reg,
++			       unsigned int mask, unsigned int val)
++{
++	return regmap_update_bits(ktz->regmap, reg, mask, val);
++}
++
++static int ktz8866_backlight_update_status(struct backlight_device *backlight_dev)
++{
++	struct ktz8866 *ktz = bl_get_data(backlight_dev);
++	unsigned int brightness = backlight_get_brightness(backlight_dev);
++
++	if (!ktz->led_on && brightness > 0) {
++		ktz8866_update_bits(ktz, BL_EN, BL_EN_BIT, BL_EN_BIT);
++		ktz->led_on = true;
++	} else if (brightness == 0) {
++		ktz8866_update_bits(ktz, BL_EN, BL_EN_BIT, 0);
++		ktz->led_on = false;
++		msleep(10);
++	}
++
++	/* Set brightness */
++	ktz8866_write(ktz, BL_BRT_LSB, brightness & 0x7);
++	ktz8866_write(ktz, BL_BRT_MSB, (brightness >> 3) & 0xFF);
++
++	return 0;
++}
++
++static const struct backlight_ops ktz8866_backlight_ops = {
++	.options = BL_CORE_SUSPENDRESUME,
++	.update_status = ktz8866_backlight_update_status,
++};
++
++static void ktz8866_init(struct ktz8866 *ktz)
++{
++	unsigned int val;
++
++	if(of_property_read_u32(ktz->client->dev.of_node, "current-num-sinks", &val))
++		ktz8866_write(ktz, BL_EN, BIT(val) - 1);
++	else
++		/* Enable all 6 current sinks if the number of current sinks isn't specifed. */
++		ktz8866_write(ktz, BL_EN, BIT(6) - 1);
++
++	if(of_property_read_u32(ktz->client->dev.of_node, "current-ramping-time", &val))
++		ktz8866_write(ktz, BL_CFG2, BIT(7) | (ilog2(val) << 3) | PWM_HYST);
++
++	if(of_property_read_u32(ktz->client->dev.of_node, "led-ramping-time", &val)) {
++		unsigned int ramp_off_time = ilog2(val) + 1;
++		unsigned int ramp_on_time = ramp_off_time << 4;
++		ktz8866_write(ktz, BL_DIMMING, ramp_on_time | ramp_off_time);
++	}
++
++	if(of_property_read_bool(ktz->client->dev.of_node, "enable-lcd-bias"))
++		ktz8866_write(ktz, LCD_BIAS_CFG1, LCD_BIAS_EN);
++}
++
++static int ktz8866_probe(struct i2c_client *client,
++			 const struct i2c_device_id *id)
++{
++	struct backlight_device *backlight_dev;
++	struct backlight_properties props;
++	struct ktz8866 *ktz;
++
++	ktz = devm_kzalloc(&client->dev, sizeof(*ktz), GFP_KERNEL);
++	if (!ktz)
++		return -ENOMEM;
++
++	ktz->client = client;
++	ktz->regmap = devm_regmap_init_i2c(client, &ktz8866_regmap_config);
++
++	if (IS_ERR(ktz->regmap)) {
++		dev_err(&client->dev, "failed to init regmap\n");
++		return PTR_ERR(ktz->regmap);
++	}
++
++	memset(&props, 0, sizeof(props));
++	props.type = BACKLIGHT_RAW;
++	props.max_brightness = MAX_BRIGHTNESS;
++	props.brightness = DEFAULT_BRIGHTNESS;
++
++	backlight_dev = devm_backlight_device_register(
++		&client->dev, "ktz8866-backlight", &client->dev, ktz,
++		&ktz8866_backlight_ops, &props);
++
++	if (IS_ERR(backlight_dev)) {
++		dev_err(&client->dev, "failed to register backlight device\n");
++		return PTR_ERR(backlight_dev);
++	}
++
++	ktz8866_init(ktz);
++
++	i2c_set_clientdata(client, backlight_dev);
++	backlight_update_status(backlight_dev);
++
++	return 0;
++}
++
++static void ktz8866_remove(struct i2c_client *client)
++{
++	struct backlight_device *backlight_dev = i2c_get_clientdata(client);
++
++	backlight_dev->props.brightness = 0;
++	backlight_update_status(backlight_dev);
++}
++
++static const struct i2c_device_id ktz8866_ids[] = {
++	{ "ktz8866", 0 },
++	{},
++};
++MODULE_DEVICE_TABLE(i2c, ktz8866_ids);
++
++static const struct of_device_id ktz8866_match_table[] = {
++	{
++		.compatible = "kinetic,ktz8866",
++	},
++	{},
++};
++
++static struct i2c_driver ktz8866_driver = {
++	.driver = {
++		.name = "ktz8866",
++		.of_match_table = ktz8866_match_table,
++	},
++	.probe = ktz8866_probe,
++	.remove = ktz8866_remove,
++	.id_table = ktz8866_ids,
++};
++
++module_i2c_driver(ktz8866_driver);
++
++MODULE_DESCRIPTION("Kinetic KTZ8866 Backlight Driver");
++MODULE_AUTHOR("Jianhua Lu <lujianhua000@gmail.com>");
++MODULE_LICENSE("GPL");
+-- 
+2.38.2
 
