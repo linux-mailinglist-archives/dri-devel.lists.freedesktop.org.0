@@ -2,71 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB4466E680
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 20:01:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B5966E6A1
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 20:12:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EA1310E329;
-	Tue, 17 Jan 2023 19:01:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB84410E326;
+	Tue, 17 Jan 2023 19:12:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
- [IPv6:2001:4860:4864:20::29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68A1E10E332
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 19:01:24 +0000 (UTC)
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-1442977d77dso32989365fac.6
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 11:01:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=landley-net.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=OgaymgAXi9Z6g6pYwBOzM02/P477EqWitgDVTE3LFbU=;
- b=7UFMvbpKkJyjWVLlq6ctk0nXiLL3RrLgvGqk+/g8pD0wAzMEFNodkoMNXxSPAzvJye
- T4nqVDpRCF5Pkw4fe0ROrd1BjE8DZbycDcUSRlgnihtqJaZkkqELJ7TzEZYyPHojRNxM
- MBh6YZCgcmJgLXwboxe3bvrjmez4qHhfCRIxGuc2G0+QOOJ/eKT38XBZ7MfSSmNLVm7z
- gDt6C3Ymsnj+eKLcMZ0dj5q2KFKnZutgcY/1C6+IgeLmT5DwAU4QsUhG6TCQdnlD6nEb
- fYtWfawIuB6wYahQA/cq89ISwAR2GZXbrrCFpCVxRJqHc9Mn337ID3jg/QgfKjbyHIu6
- BObQ==
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
+ [IPv6:2607:f8b0:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36DA710E326
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 19:12:43 +0000 (UTC)
+Received: by mail-ot1-x333.google.com with SMTP id
+ f5-20020a9d5f05000000b00684c0c2eb3fso9330230oti.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 11:12:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:subject:cc
+ :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=80bwH3PdcEqWS0i5bj0Uz5hjcHgKhjQVkRmxgcbVfhY=;
+ b=IBrVVbtOCUjC9hclLLfP4FFVNrV7UFzIGSIOKPU5y6paCxRPwVmewmHt29J+YEWuGe
+ MZf06d/xeUMOmHCqfKXDEkvYPAY9zZB++NbMb4THHASchpgLWYluVZZxEgoirIwRKXnR
+ k9SLK3vBmJK6q7mg0U/VaSrVuYvmOWU3M7BRyBhErBlGKuaClHxiMfI2cMR3WeuUZoPC
+ UwOq9Cz71vPR33N2WUivEMDer/lFtMyIQN5Vsm1OJmkJ5CQvBtbqJJM36DVdU5EDuflM
+ uCDRy/08l47+YGuCCl16wxs2t5G1gfyyQD09ujHZ+Nbw7UfemY0/DgX4YmIPn+uBzV2R
+ YiCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OgaymgAXi9Z6g6pYwBOzM02/P477EqWitgDVTE3LFbU=;
- b=FwgbYhVrve9TClF2Ox0ioMyVHbuMprVvAKNth7xNOsRwW9ZxqPgjsa8639JfFspbDj
- w+scWnno/TWzW8NwxGE4jmTgf2Gt3xJ+GqKljBJKHMy+ZGbSMSECONkN68zMUhCMfNOo
- OclacmDkS26SzOk+6f3dI5FsatvUAic/YJGsBDy61cY/erCvW7e3QSgv3B3C782TXKtc
- RhEP2VVsvK+pc/4y0eovFSqH65ftC8m+2Y9v0g284BwVhNfHpHGD70XCvxcI8skZJvLa
- wGAO1A94KXO7oqEZY/XJ8Sz7VLT++8vwKWqwibEAIzq8DveZ1RUADzLLywDeJTKClXOx
- xZEQ==
-X-Gm-Message-State: AFqh2krkXRDBxekb27WYSOaMzYLXiOoSUnIIn1BKuR2lARxPAUMM6Hte
- 7BmleAkqZNIR8lCY2PRM/0Hhdw==
-X-Google-Smtp-Source: AMrXdXsgzCxMhqm+bb3il7EsJjEv0NbGPCzT1qf9VREFYRxVllxrk/YEzaFAyrBdtefAaDgGfnk/UQ==
-X-Received: by 2002:a05:6870:c190:b0:15e:cfca:b312 with SMTP id
- h16-20020a056870c19000b0015ecfcab312mr2807015oad.52.1673982083592; 
- Tue, 17 Jan 2023 11:01:23 -0800 (PST)
-Received: from [192.168.86.224] ([136.62.38.22])
- by smtp.gmail.com with ESMTPSA id
- r18-20020a05687080d200b0012763819bcasm16664335oab.50.2023.01.17.11.01.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 11:01:22 -0800 (PST)
-Message-ID: <9325a949-8d19-435a-50bd-9ebe0a432012@landley.net>
-Date: Tue, 17 Jan 2023 13:13:38 -0600
+ h=in-reply-to:content-disposition:mime-version:references:subject:cc
+ :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=80bwH3PdcEqWS0i5bj0Uz5hjcHgKhjQVkRmxgcbVfhY=;
+ b=0tvSJkAyhE23VmPbwlIKPQIhlLZUba/vIJY3MS0sKzIqvmSGD1dG8Kwr7KVv0lyxgB
+ n8ycBoItvmHizdKvAUjElDuq4mvcvv2ZsQnV2gctXqF+DXBm1+rfRwLgwAs+9d0KyLXD
+ FYskfw47tTZ+6ZoLyFurwIbAtBOhbCDVI9abj9hXvAHZRna013NZz+Ln6PeinWxKppoV
+ TAVznt0Qskr+LZEJjmkJxxzoHsuE4HNX4kTipC85ngQpfAMZ1CVkpkdveIWpOQoFXKSC
+ 37wxCmVFm3TubZBB14O5sl7x+xw3JYtodXH+HbpojTvhGFovqoI98vxszZJvTsL38+ws
+ grwg==
+X-Gm-Message-State: AFqh2kq4JLbhn35t436b7SB+6daCOq1Wnq6CR/SpwgFw2QglmirO6WfJ
+ Py35b7gyA9jk+8UkkaiIbCw=
+X-Google-Smtp-Source: AMrXdXvcvuSbNFy7h8FLfriSySZqOtZ6eUDxi/hd1E30h1H0DeDFOeM9yGYwwCLn5UIeJjWCt3qDvQ==
+X-Received: by 2002:a9d:6742:0:b0:684:a1e5:4e with SMTP id
+ w2-20020a9d6742000000b00684a1e5004emr2170194otm.14.1673982762290; 
+ Tue, 17 Jan 2023 11:12:42 -0800 (PST)
+Received: from neuromancer. (76-244-6-13.lightspeed.rcsntx.sbcglobal.net.
+ [76.244.6.13]) by smtp.gmail.com with ESMTPSA id
+ r11-20020a056830134b00b0067781a9292asm2317141otq.2.2023.01.17.11.12.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Jan 2023 11:12:41 -0800 (PST)
+Message-ID: <63c6f329.050a0220.82479.85d4@mx.google.com>
+X-Google-Original-Message-ID: <Y8bzJwrWO/+z8sdh@neuromancer.>
+Date: Tue, 17 Jan 2023 13:12:39 -0600
+From: Chris Morgan <macroalpha82@gmail.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH V10 1/4] drm: of: Add drm_of_get_dsi_bus helper function
+References: <20230112175358.421975-1-macroalpha82@gmail.com>
+ <20230112175358.421975-2-macroalpha82@gmail.com>
+ <20230117165819.4rx7aucvyp5e2rj6@houat>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: remove arch/sh
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-References: <20230113062339.1909087-1-hch@lst.de>
- <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
- <20230116071306.GA15848@lst.de>
-From: Rob Landley <rob@landley.net>
-In-Reply-To: <20230116071306.GA15848@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230117165819.4rx7aucvyp5e2rj6@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,71 +74,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- linux-arch@vger.kernel.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-watchdog@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- linux-gpio@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- netdev@vger.kernel.org, dmaengine@vger.kernel.org, linux-rtc@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
+ krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, thierry.reding@gmail.com, tzimmermann@suse.de,
+ maccraft123mc@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/16/23 01:13, Christoph Hellwig wrote:
-> On Fri, Jan 13, 2023 at 09:09:52AM +0100, John Paul Adrian Glaubitz wrote:
->> I'm still maintaining and using this port in Debian.
->>
->> It's a bit disappointing that people keep hammering on it. It works fine for me.
+On Tue, Jan 17, 2023 at 05:58:19PM +0100, Maxime Ripard wrote:
+> Hi,
 > 
-> What platforms do you (or your users) use it on?
+> On Thu, Jan 12, 2023 at 11:53:55AM -0600, Chris Morgan wrote:
+> > From: Chris Morgan <macromorgan@hotmail.com>
+> > 
+> > Add helper function to find DSI host for devices where DSI panel is not
+> > a minor of a DSI bus (such as the Samsung AMS495QA01 panel or the
+> > official Raspberry Pi touchscreen display).
+> > 
+> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+> > ---
+> >  drivers/gpu/drm/drm_of.c | 70 ++++++++++++++++++++++++++++++++++++++++
+> >  include/drm/drm_of.h     | 10 ++++++
+> >  2 files changed, 80 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+> > index 7bbcb999bb75..6c2c97a716fe 100644
+> > --- a/drivers/gpu/drm/drm_of.c
+> > +++ b/drivers/gpu/drm/drm_of.c
+> > @@ -10,6 +10,7 @@
+> >  #include <drm/drm_crtc.h>
+> >  #include <drm/drm_device.h>
+> >  #include <drm/drm_encoder.h>
+> > +#include <drm/drm_mipi_dsi.h>
+> >  #include <drm/drm_of.h>
+> >  #include <drm/drm_panel.h>
+> >  
+> > @@ -493,3 +494,72 @@ int drm_of_get_data_lanes_count_ep(const struct device_node *port,
+> >  	return ret;
+> >  }
+> >  EXPORT_SYMBOL_GPL(drm_of_get_data_lanes_count_ep);
+> > +
+> > +#if IS_ENABLED(CONFIG_DRM_MIPI_DSI)
+> > +
+> > +/**
+> > + * drm_of_get_dsi_bus - find the DSI bus for a given device
+> > + * @dev: parent device of display (SPI, I2C)
+> > + * @info: DSI device info to be updated with DSI node. This is optional
+> > + * and if not needed can be NULL.
+> > + *
+> > + * Gets parent DSI bus for a DSI device controlled through a bus other
+> > + * than MIPI-DCS (SPI, I2C, etc.) using the Device Tree.
+> > + *
+> > + * Returns pointer to mipi_dsi_host if successful, -EINVAL if the
+> > + * request is unsupported, -EPROBE_DEFER if the DSI host is found but
+> > + * not available, or -ENODEV otherwise.
+> > + */
+> > +struct mipi_dsi_host *drm_of_get_dsi_bus(struct device *dev,
+> > +					 struct mipi_dsi_device_info *info)
+> > +{
+> > +	struct mipi_dsi_host *dsi_host;
+> > +	struct device_node *endpoint, *dsi_host_node;
+> > +
+> > +	/*
+> > +	 * Get first endpoint child from device.
+> > +	 */
+> > +	endpoint = of_graph_get_next_endpoint(dev->of_node, NULL);
+> > +	if (!endpoint)
+> > +		return ERR_PTR(-ENODEV);
+> > +
+> > +	/*
+> > +	 * Follow the first endpoint to get the DSI host node.
+> > +	 */
+> > +	dsi_host_node = of_graph_get_remote_port_parent(endpoint);
+> > +	if (!dsi_host_node)
+> > +		goto error;
+> > +
+> > +	/*
+> > +	 * Get the DSI host from the DSI host node. If we get an error
+> > +	 * or the return is null assume we're not ready to probe just
+> > +	 * yet. Release the DSI host node since we're done with it.
+> > +	 */
+> > +	dsi_host = of_find_mipi_dsi_host_by_node(dsi_host_node);
+> > +	of_node_put(dsi_host_node);
+> > +	if (IS_ERR_OR_NULL(dsi_host)) {
+> > +		of_node_put(endpoint);
+> > +		return ERR_PTR(-EPROBE_DEFER);
+> > +	}
+> > +
+> > +	/*
+> > +	 * Set the node of the mipi_dsi_device_info to the correct node
+> > +	 * and then release the endpoint node since we're done with it.
+> > +	 * since this is optional, check if the info is NULL first.
+> > +	 */
+> > +	if (info) {
+> > +		info->node = of_graph_get_remote_port(endpoint);
+> 
+> it looks to me that the info->node is actually the DSI device OF node,
+> not its host port. Which begs the question, why should we even return it
+> there, since there's a pretty big chance that dev->of.node ==
+> info->node, and you obviously don't care about the channel and type fields.
+> 
+> I've had a look and node of the current users of
+> mipi_dsi_device_register_full actually register a mipi_dsi_device_info
+> with a node pointer set to !NULL, including the driver in this series.
+> 
+> So, why do we care about the device info at all?
+> 
 
-3 j-core boards, two sh4 boards (the sh7760 one I patched the kernel of), and an
-sh4 emulator.
+I honestly thought it might be useful, but I can try without it.
 
-I have multiple j-core systems (sh2 compatible with extensions, nommu, 3
-different kinds of boards running it here). There's an existing mmu version of
-j-core that's sh3 flavored but they want to redo it so it hasn't been publicly
-released yet, I have yet to get that to run Linux because the mmu code would
-need adapting, but the most recent customer projects were on the existing nommu
-SOC, as was last year's ASIC work via sky130.
+> > +		if (IS_ERR_OR_NULL(info->node))
+> 
+> of_graph_get_remote_port doesn't return an error pointer.
+> 
+> > --- a/include/drm/drm_of.h
+> > +++ b/include/drm/drm_of.h
+> > @@ -15,6 +15,8 @@ struct drm_encoder;
+> >  struct drm_panel;
+> >  struct drm_bridge;
+> >  struct device_node;
+> > +struct mipi_dsi_device_info;
+> > +struct mipi_dsi_host;
+> >  
+> >  /**
+> >   * enum drm_lvds_dual_link_pixels - Pixel order of an LVDS dual-link connection
+> > @@ -56,6 +58,8 @@ int drm_of_get_data_lanes_count_ep(const struct device_node *port,
+> >  				   int port_reg, int reg,
+> >  				   const unsigned int min,
+> >  				   const unsigned int max);
+> > +struct mipi_dsi_host *drm_of_get_dsi_bus(struct device *dev,
+> > +					 struct mipi_dsi_device_info *info);
+> >  #else
+> >  static inline uint32_t drm_of_crtc_port_mask(struct drm_device *dev,
+> >  					  struct device_node *port)
+> > @@ -127,6 +131,12 @@ drm_of_get_data_lanes_count_ep(const struct device_node *port,
+> >  {
+> >  	return -EINVAL;
+> >  }
+> > +static inline struct
+> > +mipi_dsi_host *drm_of_get_dsi_bus(struct device *dev,
+> > +					 struct mipi_dsi_device_info *info)
+> > +{
+> > +	return ERR_PTR(-EINVAL);
+> > +}
+> >  #endif
+> 
+> So it looks to me that if CONFIG_OF is defined, we'll define an external
+> symbol declared for drm_of_get_dsi_bus, but that function will only be
+> compiled if CONFIG_DRM_MIPI_DSI is enabled.
+> 
+> What happens if we have CONFIG_OF but not CONFIG_DRM_MIPI_DSI?
+> 
 
-My physical sh4 boards are a Johnson Controls N40 (sh7760 chipset) and the
-little blue one is... sh4a I think? (It can run the same userspace, I haven't
-replaced that board's kernel since I got it, I think it's the type Glaubitz is
-using? It's mostly in case he had an issue I couldn't reproduce on different
-hardware, or if I spill something on my N40.)
+Will do, thank you.
 
-I also have a physical sh2 board on the shelf which I haven't touched in years
-(used to comparison test during j2 development, and then the j2 boards replaced it).
+> If think you need to have here something like:
+> 
+> #ifdef IS_ENABLED(CONFIG_OF) && IS_ENABLED(CONFIG_DRM_MIPI_DSI)
+> struct mipi_dsi_host *drm_of_get_dsi_bus(struct device *dev,
+>        					 struct mipi_dsi_device_info *info);
+> #else
+> static inline struct
+> mipi_dsi_host *drm_of_get_dsi_bus(struct device *dev,
+> 				  struct mipi_dsi_device_info *info)
+> {
+> 	return ERR_PTR(-EINVAL);
+> }
+> #endif
+> 
+> Maxime
 
-I'm lazy and mostly test each new sh4 build under qemu -M r2d because it's
-really convenient: neither of my physical boards boot from SD card so replacing
-the kernel requires reflashing soldered in flash. (They'll net mount userspace
-but I haven't gotten either bootloader to net-boot a kernel.)
 
-I include sh4 in the my mkroot builds each toybox release, I have a ~300 line
-bash script that builds bootable toybox systems for a dozen-ish architectures,
-including building a kernel configured to run under qemu:
-
-  https://github.com/landley/toybox/blob/master/scripts/mkroot.sh
-
-And I ship the resulting bootable system images, most recent release is at:
-
-  https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/
-
-As described at:
-
-  http://landley.net/toybox/faq.html#mkroot
-
-Various people in Japan have more hardware, but I haven't made it physically
-back there since 2020. (My residency card expired during the pandemic.)
-
-Rob
