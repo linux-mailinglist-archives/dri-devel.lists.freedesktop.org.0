@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B481F66E312
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 17:06:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98C7866E322
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 17:11:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 874B110E2EE;
-	Tue, 17 Jan 2023 16:06:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12C0310E582;
+	Tue, 17 Jan 2023 16:11:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57F8A10E2EE;
- Tue, 17 Jan 2023 16:06:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673971595; x=1705507595;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to;
- bh=wCGKjItQYcTzbCx034yZc62DBLBpIa//43sovUibnR8=;
- b=W8o6Zd0LBEQO7zd6btMloEZyw3YhOUPfi7FunTn9RqRztd0i1VoT7GLG
- 5CHlvjB/jjMWJ794DLhROD6Z/xBtuD3rPUNOQ1/ZnUFueGYR6AbuwLpXG
- zhbFSoKSQYzT2nLmgv14COvm7Dmcc4k/gOQjIVN0qbQJ+W4MBZc4koRHS
- QxZY259/Zf/etp2M0UlZbh7eLTK+qMJZEdzR5lti+GlQA0bWePZ9WyIY6
- NfTrYwzsESOyPegDL2b5k2wlWruaqjgt6CUnquGhLjtt8dRJ5RXXwUUEn
- 8ouHh7yMZRdgbZ/WOmxivaZpV/e/E8aD96JUBqUqiLdNNPvy3IeaIf2MF Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="322421691"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
- d="scan'208,217";a="322421691"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2023 08:06:00 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="833221153"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
- d="scan'208,217";a="833221153"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.251.222.166])
- ([10.251.222.166])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2023 08:05:58 -0800
-Content-Type: multipart/alternative;
- boundary="------------HhGYSLWyvs0zrVGzvNbFCAvy"
-Message-ID: <56b0492f-b0f4-54b3-a0b9-fb0d43198170@linux.intel.com>
-Date: Tue, 17 Jan 2023 17:05:56 +0100
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
+ [209.85.128.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26A5F10E594
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 16:11:22 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-4c131bede4bso428997777b3.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 08:11:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=p3UAyVMyM/yDHTatNEnR18gPOWu6z3DIA5bneSXBq48=;
+ b=sfNI3rlc3mRk4iO6yPTilXnw/MviJmlfMICRPSDsNmRpHKilNczSj66gK/AxC/lq2U
+ l0cccxliUOlDiKyzfLtuIBYtFyqDsBuVL5MDtaXhZ/E7uo2vSmE+ewUdE7O/v+xQid39
+ AVWZzgKvWXYu0CXeBDSJkTYYZL3lJY3V7nL+GCfPXQXK3sQDO1EUOsA+RbT/3FnQs9Rf
+ Qcs226jMB3X6qw928I5Kojgp4OwVNiddDWB6A+xNWrYJD04+dS+73t59rA/oWYtxht7/
+ 0HdEcvfx9Y4hFsp+t6UQ0S765X068lXfVj24Lsyzb6C+Dcwy/Rwerm6ca9VcxWZUbuym
+ dHVA==
+X-Gm-Message-State: AFqh2kpQmqpG2YPwf7RC3Der3MfyX9Ah9a7iRV6FBDe+Gw4sN1r2kGBr
+ jBDhzhjr2JPzj0IzcwsZXkAMAIhhvSJ2ZA==
+X-Google-Smtp-Source: AMrXdXuRUss278Uix/TuMqyOnyBJ1mMefHbyT20bZGZ527duMzxfJSvdyOBhQnc9QibN7g1mC5JlIw==
+X-Received: by 2002:a05:7500:c42:b0:ef:e73c:a26c with SMTP id
+ fz2-20020a0575000c4200b000efe73ca26cmr1447488gab.62.1673971881606; 
+ Tue, 17 Jan 2023 08:11:21 -0800 (PST)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com.
+ [209.85.219.177]) by smtp.gmail.com with ESMTPSA id
+ q44-20020a05620a2a6c00b006fc9fe67e34sm6299639qkp.81.2023.01.17.08.11.21
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Jan 2023 08:11:21 -0800 (PST)
+Received: by mail-yb1-f177.google.com with SMTP id t15so34639734ybq.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 08:11:21 -0800 (PST)
+X-Received: by 2002:a25:d88c:0:b0:77a:b5f3:d0ac with SMTP id
+ p134-20020a25d88c000000b0077ab5f3d0acmr398785ybg.202.1673971881009; Tue, 17
+ Jan 2023 08:11:21 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2] drm/i915/selftests: Unwind hugepages to drop wakeref
- on error
-Content-Language: en-US
-To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20230117123234.26487-1-nirmoy.das@intel.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <20230117123234.26487-1-nirmoy.das@intel.com>
+References: <20230117135154.387208-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20230117135154.387208-5-tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <20230117135154.387208-5-tomi.valkeinen+renesas@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 17 Jan 2023 17:11:10 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU+Zh3cDm4h8m7xYOee+6O7RLTdUSmR+gnL_ugGzsmTiQ@mail.gmail.com>
+Message-ID: <CAMuHMdU+Zh3cDm4h8m7xYOee+6O7RLTdUSmR+gnL_ugGzsmTiQ@mail.gmail.com>
+Subject: Re: [PATCH 4/6] drm: rcar-du: Add quirk for H3 ES1 pclk WA
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,144 +68,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, chris.p.wilson@linux.intel.com,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------HhGYSLWyvs0zrVGzvNbFCAvy
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Hi Tomi,
 
-|Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>|
-
-On 1/17/2023 1:32 PM, Nirmoy Das wrote:
-> From: Chris Wilson<chris.p.wilson@linux.intel.com>
+On Tue, Jan 17, 2023 at 2:54 PM Tomi Valkeinen
+<tomi.valkeinen+renesas@ideasonboard.com> wrote:
+> rcar_du_crtc.c does a soc_device_match() in
+> rcar_du_crtc_set_display_timing() to find out if the SoC is H3 ES1, and
+> if so, apply a WA.
 >
-> Make sure that upon error after we have acquired the wakeref we do
-> release it again.
+> We will need another H3 ES1 check in the following patch, so rather than
+> adding more soc_device_match() calls, let's add a rcar_du_device_info
+> entry for the ES1, and a quirk flag,
+> RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY, for the WA.
 >
-> v2: add another missing "goto out_wf"(Andi).
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+
+Thanks for your patch!
+
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+
+> @@ -681,7 +724,13 @@ static int rcar_du_probe(struct platform_device *pdev)
+>                 return PTR_ERR(rcdu);
 >
-> Fixes: 027c38b4121e ("drm/i915/selftests: Grab the runtime pm in shrink_thp")
-> Cc: Andi Shyti<andi.shyti@linux.intel.com>
-> Reviewed-by: Matthew Auld<matthew.auld@intel.com>
-> Reviewed-by: Andrzej Hajda<andrzej.hajda@intel.com>
-> Signed-off-by: Chris Wilson<chris.p.wilson@linux.intel.com>
-> Signed-off-by: Nirmoy Das<nirmoy.das@intel.com>
-> ---
->   drivers/gpu/drm/i915/gem/selftests/huge_pages.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> index c281b0ec9e05..defece0bcb81 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> @@ -1855,7 +1855,7 @@ static int igt_shrink_thp(void *arg)
->   			I915_SHRINK_ACTIVE);
->   	i915_vma_unpin(vma);
->   	if (err)
-> -		goto out_put;
-> +		goto out_wf;
->   
->   	/*
->   	 * Now that the pages are *unpinned* shrinking should invoke
-> @@ -1871,19 +1871,19 @@ static int igt_shrink_thp(void *arg)
->   		pr_err("unexpected pages mismatch, should_swap=%s\n",
->   		       str_yes_no(should_swap));
->   		err = -EINVAL;
-> -		goto out_put;
-> +		goto out_wf;
->   	}
->   
->   	if (should_swap == (obj->mm.page_sizes.sg || obj->mm.page_sizes.phys)) {
->   		pr_err("unexpected residual page-size bits, should_swap=%s\n",
->   		       str_yes_no(should_swap));
->   		err = -EINVAL;
-> -		goto out_put;
-> +		goto out_wf;
->   	}
->   
->   	err = i915_vma_pin(vma, 0, 0, flags);
->   	if (err)
-> -		goto out_put;
-> +		goto out_wf;
->   
->   	while (n--) {
->   		err = cpu_check(obj, n, 0xdeadbeaf);
---------------HhGYSLWyvs0zrVGzvNbFCAvy
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+>         rcdu->dev = &pdev->dev;
+> -       rcdu->info = of_device_get_match_data(rcdu->dev);
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <pre class="moz-quote-pre" wrap=""><code style="padding: 0px; tab-size: 8;" class="hljs diff language-diff">Reviewed-by: Nirmoy Das <a class="moz-txt-link-rfc2396E" href="mailto:nirmoy.das@intel.com">&lt;nirmoy.das@intel.com&gt;</a></code></pre>
-    <p></p>
-    <div class="moz-cite-prefix">On 1/17/2023 1:32 PM, Nirmoy Das wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20230117123234.26487-1-nirmoy.das@intel.com">
-      <pre class="moz-quote-pre" wrap="">From: Chris Wilson <a class="moz-txt-link-rfc2396E" href="mailto:chris.p.wilson@linux.intel.com">&lt;chris.p.wilson@linux.intel.com&gt;</a>
+No need to remove this line...
 
-Make sure that upon error after we have acquired the wakeref we do
-release it again.
+> +
+> +       soc_attr = soc_device_match(rcar_du_soc_table);
+> +       if (soc_attr)
+> +               rcdu->info = soc_attr->data;
+> +
+> +       if (!rcdu->info)
+> +               rcdu->info = of_device_get_match_data(rcdu->dev);
 
-v2: add another missing "goto out_wf"(Andi).
+... and no need to add these two lines.
+The idiom is to set rcdu->info based on of_device_get_match_data()
+first, and override based on of_device_get_match_data() when needed.
 
-Fixes: 027c38b4121e ("drm/i915/selftests: Grab the runtime pm in shrink_thp")
-Cc: Andi Shyti <a class="moz-txt-link-rfc2396E" href="mailto:andi.shyti@linux.intel.com">&lt;andi.shyti@linux.intel.com&gt;</a>
-Reviewed-by: Matthew Auld <a class="moz-txt-link-rfc2396E" href="mailto:matthew.auld@intel.com">&lt;matthew.auld@intel.com&gt;</a>
-Reviewed-by: Andrzej Hajda <a class="moz-txt-link-rfc2396E" href="mailto:andrzej.hajda@intel.com">&lt;andrzej.hajda@intel.com&gt;</a>
-Signed-off-by: Chris Wilson <a class="moz-txt-link-rfc2396E" href="mailto:chris.p.wilson@linux.intel.com">&lt;chris.p.wilson@linux.intel.com&gt;</a>
-Signed-off-by: Nirmoy Das <a class="moz-txt-link-rfc2396E" href="mailto:nirmoy.das@intel.com">&lt;nirmoy.das@intel.com&gt;</a>
----
- drivers/gpu/drm/i915/gem/selftests/huge_pages.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Gr{oetje,eeting}s,
 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-index c281b0ec9e05..defece0bcb81 100644
---- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-@@ -1855,7 +1855,7 @@ static int igt_shrink_thp(void *arg)
- 			I915_SHRINK_ACTIVE);
- 	i915_vma_unpin(vma);
- 	if (err)
--		goto out_put;
-+		goto out_wf;
- 
- 	/*
- 	 * Now that the pages are *unpinned* shrinking should invoke
-@@ -1871,19 +1871,19 @@ static int igt_shrink_thp(void *arg)
- 		pr_err("unexpected pages mismatch, should_swap=%s\n",
- 		       str_yes_no(should_swap));
- 		err = -EINVAL;
--		goto out_put;
-+		goto out_wf;
- 	}
- 
- 	if (should_swap == (obj-&gt;mm.page_sizes.sg || obj-&gt;mm.page_sizes.phys)) {
- 		pr_err("unexpected residual page-size bits, should_swap=%s\n",
- 		       str_yes_no(should_swap));
- 		err = -EINVAL;
--		goto out_put;
-+		goto out_wf;
- 	}
- 
- 	err = i915_vma_pin(vma, 0, 0, flags);
- 	if (err)
--		goto out_put;
-+		goto out_wf;
- 
- 	while (n--) {
- 		err = cpu_check(obj, n, 0xdeadbeaf);
-</pre>
-    </blockquote>
-  </body>
-</html>
+                        Geert
 
---------------HhGYSLWyvs0zrVGzvNbFCAvy--
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
