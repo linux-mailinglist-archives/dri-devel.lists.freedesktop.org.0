@@ -2,117 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B74F966DB3F
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 11:35:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D892266DB43
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 11:36:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C38A410E2D7;
-	Tue, 17 Jan 2023 10:35:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC95310E46B;
+	Tue, 17 Jan 2023 10:36:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com
- (mail-os0jpn01on2090.outbound.protection.outlook.com [40.107.113.90])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7099810E2D7
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 10:35:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZwNLtAT1injsA6eWmdzidbHptsSSsJcIWlj9g/FbveajJzZRMMmq1gg+qFLYRJOcVgkKePn8b1D0ExuLHupCBbm1UoCNCAINDSOc2PSqBhTWb3mkTStMCaz0K3gPdn3LtvdYPlrqQ5mZP4oUfZSs/jbNt3bwe4X0Jq/m60OLeJyJZ/6+mOwmEVEMtz6zgsCVqB/he529QXDcTepKBrlfHQxzxI82m5+BSoCcdMGb2ZD79XGxdRRjOgZJGWPLBFUfSbqLR6CphluPyuRrI5eJ8DrGpbkQ9iz3PfFif4ZXkG3KARIadttW+5xlHRsG5xsiNiUBn1SoveLrcHslCQO6Lw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Es662uYClP/IqbjnyBJPcIz9wc9c4nf6xIaHn7hC8U0=;
- b=mhhk/H6wV+0/DfYxeWnAq56Fy7XZPNqBfW1em24AlJfHe9mQbVp/Zs87JTaF8lqCBMFmDGuTWlATdW8WM7CqbpLL7oTaAFbEAvTFhIKnaFmIGSoV2UUlLJukgIqTDaR4l+AqonesJirVx0b/RcCLc+MZu7K/igbeuNZuBAvT47jcEOvFeedN+k88tgxUBTBjcMpe9HgyE+9eNsLr8Io/bRh+a6RZKdpk1z5AeC649t07wmTQnZCAVbmVioHX1T0mdq7em1EYUe9YfmZV3pds3C+hQek2054+gRIB6FLzgkgSpTsQBh3AYuQ9F9Brkqq79u6hd10iGthUjKy5g7+gsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Es662uYClP/IqbjnyBJPcIz9wc9c4nf6xIaHn7hC8U0=;
- b=nkXOJfY37pgHtLp7/KQ2ks4NlluvaOm6AgLzjDV/crKrQANjUVT9LmMMDRhVeN0lbbqzTN+WIRL9OIQmQ2hgYSTA/69NHOgcF/FBgPcpzp6BNcPoB9OsscgExz1boOInHkVfX39G6C1GNk5soXPMclqNP0UgeqgeHO3r5JJjm6c=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYTPR01MB10936.jpnprd01.prod.outlook.com (2603:1096:400:39f::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.23; Tue, 17 Jan
- 2023 10:35:34 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::343d:7339:78e5:a46e]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::343d:7339:78e5:a46e%6]) with mapi id 15.20.5986.023; Tue, 17 Jan 2023
- 10:35:34 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <robert.foss@linaro.org>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>
-Subject: RE: [PATCH] dt-bindings: display: bridge: renesas,rzg2l-mipi-dsi:
- Document RZ/V2L support
-Thread-Topic: [PATCH] dt-bindings: display: bridge: renesas,rzg2l-mipi-dsi:
- Document RZ/V2L support
-Thread-Index: AQHY/qw3aeqnK+DFtki/nIh8FGiGM66iwLSg
-Date: Tue, 17 Jan 2023 10:35:34 +0000
-Message-ID: <OS0PR01MB5922B51289D10994930F846A86C69@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20221122195413.1882486-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20221122195413.1882486-1-biju.das.jz@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYTPR01MB10936:EE_
-x-ms-office365-filtering-correlation-id: 4a67b251-2685-48db-4f4b-08daf87690e4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: uu9pbh5gr5SCMZPD8uJ9zqf325Oz0rQos8VNpqi9JrcMUyptOKEccYsXgBnWH0QJDA31OwTYxP4QaB+lpfrIghR+8uQh2Vxtyso3/gBsOziPqg+z7j7Z7rIRcGC/UThIbi+u5LJ7jNWgtk5DbhIrqCxiA0eAsPKlEhQRl70G/atY3gXg1OBb2lt2dNrb5aVyMKItUdN5pO6JO0rbGIUI6k/lG3sTk8JdXq1MLGJ1cb6c0YAqUmtQa9cez2q7jccNmHeghjrfcC8k5N6buCmVyDCRR7YKoVGBqZJTz0tbDF/TwaHnd3CRu4BST/S3bwQKX2wPcEjGCDxxd3y/r5glWISdrmoqHlR25KYlcVRtuJ9K1STK2YoBj2eURk1ZHVU589ZDS3ttWAZB7yue7eLleOadcxmpdNyGuXl899RmCnmdFonLjCGxm068Fi97u1HRP7iaA4zXD1OTsN2fTcYty9km+3ED0xbuFMRzthgAQeSzsnXzdl7zhC4IRjovtcXlAY2tdoDWw1LD7IIbXTcXWoK5cJPpfueAVg3MNtSaIEY0rhmj89g4zLYiEvPG+90KNxlWqp2IuFQylXIknPkGvusRBRSujjVuvLUCF9qPhzSqSXBx+d6Mqa4hADibFScPbID7j34eZoyliAXZry8SeVE2htDbG/2fPQ/vBPCbpCszF8P3FoB/fcZ3hBGtek5MV9oP2+Qoil4K8w8NmVhLwt6nFBcPOaCGKTs054M3flI=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(396003)(346002)(39860400002)(136003)(366004)(376002)(451199015)(83380400001)(54906003)(110136005)(966005)(9686003)(71200400001)(478600001)(7696005)(33656002)(55016003)(38100700002)(38070700005)(122000001)(52536014)(41300700001)(186003)(26005)(53546011)(6506007)(2906002)(8676002)(7416002)(64756008)(66556008)(66446008)(66476007)(86362001)(76116006)(4326008)(8936002)(5660300002)(66946007)(316002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Ji2eqAjlzT+CJDo5r3AA12x9GqfeqnX4y/xab5iMXCZPylLngrdiC0q0y5tG?=
- =?us-ascii?Q?ASJvsfLK4x38H+cCrJlvDnlNYa1NtoeQsSaPWfGPLmdDWfbb3GT4UCobUPh0?=
- =?us-ascii?Q?ZrFPFaZelg4BZi1A3WvQfr+uwOa2xMYKHAqJh2MWgaCytfFWrmVcWagpKSw0?=
- =?us-ascii?Q?/zFapLrcejByrfm+/eyrKvVIK3ewrtempp5W82dJpmvO5ilPyNcz9Kzn2NJp?=
- =?us-ascii?Q?h6t18YpXqphzckE9Ce4Bf19NNwnYS2Ei0/QSS5xy3yGOSg3BY3chSjgIdkjr?=
- =?us-ascii?Q?UzKYMAhtvSY5k0cLcQDOGdjlf4WlA7SfJotcErD4HI7LLdYfXzIHBeAL26+T?=
- =?us-ascii?Q?k8L16q8IqAyRK+ZhIMn+h+6vnjyfTPWTIJg7U8MivncVedLSSQXJZdQb0TbB?=
- =?us-ascii?Q?caYCj/VkG65/A9cD3HgbZlXx4d/Spi2+k/dBMamG/J67NwMPnQNVk52wlceN?=
- =?us-ascii?Q?AsS/RkMRVo7qS7XNxHIHs08kofMkWAFNOYS+LN+SaqJgqCcp1LKEI8kRqJal?=
- =?us-ascii?Q?vJQwi5yzB0P6OTt+zbtCtR4bw3djRJko5D5AofDd35EmItt7HxerAGYQhPbZ?=
- =?us-ascii?Q?oZ8HMCygzyzSfq6cDVT+JLt1ksNar1OZkoQDKT38HqBOiwLfY5St9KJYp4ZO?=
- =?us-ascii?Q?+D7oMhNFwqyYGOil+PEPHnn+ZG23UDzNs+gPUO3dT4SsvQbQPQJnD3Xoo/c7?=
- =?us-ascii?Q?QgX0kxonu0PSmlDariZdVrJAvY0sbngwTWsNxXwQGlEhqNoyo8Hgtih/HMyN?=
- =?us-ascii?Q?8DHh8uw4P/IbrXaNPfQrx0LDHCIwzyxonoxs8TjYop81F7de8wSnwdM/dFb5?=
- =?us-ascii?Q?HTakg0DHT9ClPY//SlMPuAhASDDT3IvmzbfYmxicPuGm5r38Om/JmcFiImY4?=
- =?us-ascii?Q?LwKEf0PyPmN5jnRjJ3ME6VagoFq4Y0VN8OQzkDRyV+OfmQ9i/urczU4fSWBh?=
- =?us-ascii?Q?LaD7iGivhXUtl/+M6wCOfI8znteL+Y0oOVh4PVTYmyGraJTNdXzQ+8+hEGfd?=
- =?us-ascii?Q?mkODBbez00ghUQ8yypbgfT1S/QQHdkfksIoyM26vH8IP0bFxy1r1KOcXH2J7?=
- =?us-ascii?Q?gkG0FcMBD4krczKNdj8jiTfcER20F8d6rYA3B5bxN/lXUAt6kraIWl0iWO0P?=
- =?us-ascii?Q?Hvxxq0ezEgmfQhj5UN3aD5EyTMud4EX0YX1bY3TmSbacMiAB0cdq52h6ZBbs?=
- =?us-ascii?Q?BhKQtnbC47tHUbtSNB6CAn/AOCVO2w8xxmVHIWXDYGbK0KXUcN56fq4Jejqr?=
- =?us-ascii?Q?HkA2Rmy9ugol1UJWHilAv2mxCFVKumH46TljQmnDiuKv3rwGNXMgVujPNjnk?=
- =?us-ascii?Q?FKAxwLaX63qRQ0R7Lw5Rc7JmdbGmAYBa190YW0ZZxlXW7yMKmG5XqEFkYYZU?=
- =?us-ascii?Q?C3FvhaL3Ur9JaRFbCXWeuLsqGH905Cc+qKZSsLJAnW7N9TxjWaQe2w32DLMH?=
- =?us-ascii?Q?dS0yBLiZQSuClAKm7r3SvtRRvYzbCTmmxMbfbdhO4Sz+xXb/HB+Y/wroFq29?=
- =?us-ascii?Q?BWZiocIzXRafaok2NSXoZqacSd1hMs1E981wRHzUb6v9e/AEj0GVUD1pUS7I?=
- =?us-ascii?Q?L8EuJ2NRoYBzzkdVnB44Uai3ttYswBujh1KnurAfcEHUhtERV3VN3kv1oYvl?=
- =?us-ascii?Q?jQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B976C10E06B;
+ Tue, 17 Jan 2023 10:36:04 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 55EE4684CF;
+ Tue, 17 Jan 2023 10:36:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1673951763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=m7FsluwkJu0yidaKtHiLwAfSD8O/evg3nH97MdSWSxI=;
+ b=McgLaBl8g8aerxwEJtKmeUNqZLlgOmw55wAeQB5hJ7wCfSxdWaquDRp36xhLhlvxlYO3hK
+ EKQa+Lx4c6V7T0bcVA7zXAjZNYm0YtvOojiqC1+8ZjSvk3NGT5wj0N47mwWpYd8QV69tze
+ qc28uHchGOr6ZPb1auL4W1bQV9eSpR8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1673951763;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=m7FsluwkJu0yidaKtHiLwAfSD8O/evg3nH97MdSWSxI=;
+ b=oyLjoKmxOb/0RrqoezZT0o7bM59EoqL1VjA99cueUJTKj3uQUO1yQd/hrEk74HE+FAL92U
+ 2yITtWi8NEQKFrCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E48EA1390C;
+ Tue, 17 Jan 2023 10:36:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id DzGCNhJ6xmOPIAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 17 Jan 2023 10:36:02 +0000
+Message-ID: <a714aa55-71b4-7f0b-c25a-23e3b9c14c09@suse.de>
+Date: Tue, 17 Jan 2023 11:36:02 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a67b251-2685-48db-4f4b-08daf87690e4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jan 2023 10:35:34.6901 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PIYohxnvH4vAmHERplHWmYNh4HJY6kl3L2XJD7IUlIQPeLVh+zuOd+IFA3+1tnfYcW3R3DYjzCkpa0fhTQDa83mkghfFP7AAJdbt5x5bqKg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYTPR01MB10936
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v2 3/3] drm: Call vga_switcheroo_process_delayed_switch()
+ in drm_lastclose
+Content-Language: en-US
+To: Lukas Wunner <lukas@wunner.de>
+References: <20230112201156.26849-1-tzimmermann@suse.de>
+ <20230112201156.26849-4-tzimmermann@suse.de>
+ <20230117094440.GA30914@wunner.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230117094440.GA30914@wunner.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------ppNCEqAK6nP4o1Y0NY3V832g"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,71 +72,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: tvrtko.ursulin@linux.intel.com, kherbst@redhat.com,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
+ rodrigo.vivi@intel.com, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, jose.souza@intel.com,
+ evan.quan@amd.com, christian.koenig@amd.com, bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi All,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------ppNCEqAK6nP4o1Y0NY3V832g
+Content-Type: multipart/mixed; boundary="------------RW3kpQ0nqBpwFFCPJvFxo8Ni";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: tvrtko.ursulin@linux.intel.com, dri-devel@lists.freedesktop.org,
+ kherbst@redhat.com, amd-gfx@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Xinhui.Pan@amd.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ jose.souza@intel.com, rodrigo.vivi@intel.com, alexander.deucher@amd.com,
+ evan.quan@amd.com, christian.koenig@amd.com, bskeggs@redhat.com
+Message-ID: <a714aa55-71b4-7f0b-c25a-23e3b9c14c09@suse.de>
+Subject: Re: [PATCH v2 3/3] drm: Call vga_switcheroo_process_delayed_switch()
+ in drm_lastclose
+References: <20230112201156.26849-1-tzimmermann@suse.de>
+ <20230112201156.26849-4-tzimmermann@suse.de>
+ <20230117094440.GA30914@wunner.de>
+In-Reply-To: <20230117094440.GA30914@wunner.de>
 
-Gentle ping.=20
+--------------RW3kpQ0nqBpwFFCPJvFxo8Ni
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-It is acked by Krzysztof Kozlowski and Reviewed by Geert.
+SGkNCg0KQW0gMTcuMDEuMjMgdW0gMTA6NDQgc2NocmllYiBMdWthcyBXdW5uZXI6DQo+IE9u
+IFRodSwgSmFuIDEyLCAyMDIzIGF0IDA5OjExOjU2UE0gKzAxMDAsIFRob21hcyBaaW1tZXJt
+YW5uIHdyb3RlOg0KPj4gU2V2ZXJhbCBsYXN0Y2xvc2UgaGVscGVycyBjYWxsIHZnYV9zd2l0
+Y2hlcm9vX3Byb2Nlc3NfZGVsYXllZF9zd2l0Y2goKS4NCj4+IEl0J3MgYmV0dGVyIHRvIGNh
+bGwgdGhlIGhlbHBlciBmcm9tIGRybV9sYXN0Y2xvc2UoKSBhZnRlciB0aGUga2VybmVsDQo+
+PiBjbGllbnQncyBzY3JlZW4gaGFzIGJlZW4gcmVzdG9yZWQuIFRoaXMgd2F5LCBhbGwgZHJp
+dmVycyBjYW4gYmVuZWZpdA0KPj4gd2l0aG91dCBoYXZpbmcgdG8gaW1wbGVtZW50IHRoZWly
+IG93biBsYXN0Y2xvc2UgaGVscGVyLiBGb3IgZHJpdmVycw0KPj4gd2l0aG91dCB2Z2Etc3dp
+dGNoZXJvbywgdmdhX3N3aXRjaGVyb29fcHJvY2Vzc19kZWxheWVkX3N3aXRjaCgpIGRvZXMN
+Cj4+IG5vdGhpbmcuDQo+IFsuLi5dDQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Zp
+bGUuYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9maWxlLmMNCj4+IEBAIC0zOCw2
+ICszOCw3IEBADQo+PiAgICNpbmNsdWRlIDxsaW51eC9wY2kuaD4NCj4+ICAgI2luY2x1ZGUg
+PGxpbnV4L3BvbGwuaD4NCj4+ICAgI2luY2x1ZGUgPGxpbnV4L3NsYWIuaD4NCj4+ICsjaW5j
+bHVkZSA8bGludXgvdmdhX3N3aXRjaGVyb28uaD4NCj4+ICAgDQo+PiAgICNpbmNsdWRlIDxk
+cm0vZHJtX2NsaWVudC5oPg0KPj4gICAjaW5jbHVkZSA8ZHJtL2RybV9kcnYuaD4NCj4+IEBA
+IC00NjAsNiArNDYxLDggQEAgdm9pZCBkcm1fbGFzdGNsb3NlKHN0cnVjdCBkcm1fZGV2aWNl
+ICogZGV2KQ0KPj4gICAJCWRybV9sZWdhY3lfZGV2X3JlaW5pdChkZXYpOw0KPj4gICANCj4+
+ICAgCWRybV9jbGllbnRfZGV2X3Jlc3RvcmUoZGV2KTsNCj4+ICsNCj4+ICsJdmdhX3N3aXRj
+aGVyb29fcHJvY2Vzc19kZWxheWVkX3N3aXRjaCgpOw0KPj4gICB9DQo+IA0KPiBIbSwgdGhp
+cyBsb29rcyBsaWtlIGEgY2FzZSBvZiBtaWRsYXllciBmYWxsYWN5Og0KPiANCj4gaHR0cHM6
+Ly9ibG9nLmZmd2xsLmNoLzIwMTYvMTIvbWlkbGF5ZXJzLW9uY2UtbW9yZS13aXRoLWZlZWxp
+bmcuaHRtbA0KPiANCj4gSXQgaXMgYSBkZXBhcnR1cmUgZnJvbSB0aGUgb3B0LWluIGxpYnJh
+cnkgYXBwcm9hY2ggd2UndmUgaGFkIHNvIGZhci4NCj4gDQo+IEZvciBzd2l0Y2hlcm9vLWF3
+YXJlIEVESUQgcmV0cmlldmFsLCB0aGVyZSdzIGEgZHJtX2dldF9lZGlkX3N3aXRjaGVyb28o
+KQ0KPiBoZWxwZXIuICBIb3cgYWJvdXQgaW50cm9kdWNpbmcgYSBzd2l0Y2hlcm9vLWF3YXJl
+IGxhc3RjbG9zZSBoZWxwZXIgd2hpY2gNCj4gZHJpdmVycyBjYW4gcmVmZXJlbmNlPw0KDQpD
+b25zb2xlIGVtdWxhdGlvbiBpcyBhIG1lc3MuIEknbSB3b3JraW5nIG9uIGl0LCBidXQgaXQg
+dGFrZXMgdGltZS4gDQpUaGVyZWZvcmUgYSBuaWNlIHNvbHV0aW9uIGlzIHByb2JhYmx5IG5v
+dCBwb3NzaWJsZSBBVE0uDQoNCldlIGNvdWxkIGhhdmUgc29tZXRoaW5nIGxpa2UgZHJtX2Zi
+X2hlbHBlcl9sYXN0Y2xvc2Vfc3dpdGNoZXJvbygpLCB3aGljaCANCmRvZXMgZHJtX2ZiX2hl
+bHBlcl9sYXN0Y2xvc2UoKSArIA0KdmdhX3N3aXRjaGVyb29fcHJvY2Vzc19kZWxheWVkX3N3
+aXRjaCgpLiBpOTE1IGFuZCByYWRlb24gY291bGQgdXNlIHRoYXQgDQphcy1pcy4gYW1kZ3B1
+IGFuZCBub3V2ZWF1IGhhdmUgYWxyZWFkeSBzd2l0Y2hlZCB0byBnZW5lcmljIGZiZGV2IA0K
+ZW11bGF0aW9uLiBXZSBjb3VsZCB1c2UgZHJtX2ZiX2hlbHBlcl9sYXN0Y2xvc2Vfc3dpdGNo
+ZXJvbygpIGZyb20gdGhlIA0KZ2VuZXJpYyBjb2RlIGFzIHdlbGwsIGJ1dCBpdCB3aWxsIHN0
+aWxsIGJlIHNvbWV3aGF0IG1pZGxheWVyaXNoLg0KDQpCdXQgd2l0aCBhbGwgdGhhdCwgaXQn
+cyBwcm9iYWJseSBiZXR0ZXIgdG8gbm90IGxhbmQgcGF0Y2ggMyBhdCBhbGwuIFRoZSANCmhv
+b2sgZHJtX2RyaXZlci5sYXN0Y2xvc2UgaXMganVzdCBmb3IgdGhlIG9sZCBmYmRldiBlbXVs
+YXRpb24uIEZvciB0aGUgDQpuZXcgZmJkZXYgZW11bGF0aW9uLCB3ZSBoYXZlIGJldHRlciBk
+YXRhIHN0cnVjdHVyZXMgKHNlZSBkcm1fY2xpZW50X2RldikuDQoNClRoZSBjb3JyZWN0IGRl
+c2lnbiB3b3VsZCBiZSB0byBzd2l0Y2ggYW1kZ3B1IGFuZCBub3V2ZWF1IGJhY2sgdG8gdGhl
+aXIgDQpvd24gZmJkZXYgZW11bGF0aW9uIGFuZCBoYW5kbGUgc3dpdGNoZXJvbyB0aGVyZS4g
+QnV0IHRoZWlyIG9sZCBmYmRldiANCmNvZGUgbmVlZGVkIGFuIG92ZXJoYXVsLCBzbyBqdXN0
+IHJldmVydGluZyBpc24ndCBhbiBvcHRpb24uDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoN
+Cj4gDQo+IFRoYW5rcywNCj4gDQo+IEx1a2FzDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4N
+CkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdl
+cm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQoo
+SFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2
+DQo=
 
-It is blocking for accepting SoC dtsi patches[1] through renesas-soc tree
+--------------RW3kpQ0nqBpwFFCPJvFxo8Ni--
 
-[1] https://lore.kernel.org/all/20221122213529.2103849-1-biju.das.jz@bp.ren=
-esas.com
+--------------ppNCEqAK6nP4o1Y0NY3V832g
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Cheers,
-Biju
+-----BEGIN PGP SIGNATURE-----
 
-> -----Original Message-----
-> From: Biju Das <biju.das.jz@bp.renesas.com>
-> Sent: 22 November 2022 19:54
-> To: Andrzej Hajda <andrzej.hajda@intel.com>; Neil Armstrong
-> <neil.armstrong@linaro.org>; Robert Foss <robert.foss@linaro.org>; David
-> Airlie <airlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>; Rob Herring
-> <robh+dt@kernel.org>; Krzysztof Kozlowski
-> <krzysztof.kozlowski+dt@linaro.org>
-> Cc: Biju Das <biju.das.jz@bp.renesas.com>; Laurent Pinchart
-> <Laurent.pinchart@ideasonboard.com>; Jonas Karlman <jonas@kwiboo.se>; Jer=
-nej
-> Skrabec <jernej.skrabec@gmail.com>; dri-devel@lists.freedesktop.org;
-> devicetree@vger.kernel.org; Geert Uytterhoeven <geert+renesas@glider.be>;
-> Fabrizio Castro <fabrizio.castro.jz@renesas.com>; linux-renesas-
-> soc@vger.kernel.org
-> Subject: [PATCH] dt-bindings: display: bridge: renesas,rzg2l-mipi-dsi:
-> Document RZ/V2L support
->=20
-> Document RZ/V2L DSI bindings. RZ/V2L MIPI DSI is identical to one found o=
-n
-> the RZ/G2L SoC. No driver changes are required as generic compatible stri=
-ng
-> "renesas,rzg2l-mipi-dsi" will be used as a fallback.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  .../devicetree/bindings/display/bridge/renesas,dsi.yaml          | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git
-> a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> index 131d5b63ec4f..e08c24633926 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> @@ -22,6 +22,7 @@ properties:
->      items:
->        - enum:
->            - renesas,r9a07g044-mipi-dsi # RZ/G2{L,LC}
-> +          - renesas,r9a07g054-mipi-dsi # RZ/V2L
->        - const: renesas,rzg2l-mipi-dsi
->=20
->    reg:
-> --
-> 2.25.1
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPGehIFAwAAAAAACgkQlh/E3EQov+DE
+eg/+KMd/ThFV+V1YGvh0Kd6a3BpmjG57gMQQXFiIHJW8xBfMKe3Foq0gouHk6XdvrRnx/jhftAwe
+ft1dcJe6r5Djl97zX7T2OpjymUE2m/vsC6vgutsHfXIZcbRI7hkhO+Tu5jGObvJSyg29EsIJ5C5O
+nYmkNr1M+m5ZU7J/qKxaquUu26zX3aFk+OmPwLpWBFiGsnZMs/v0E1sxJyqaaU4sy+PDacUug3vs
+DQhmc4kjZitIzM7YVCiHZqwzIPxsMUNTzy6OVLXpf0kxMwShylDUr8rraJIfUR233V/eo7VezJgd
+FDNhrtaeN7O9148AiXn9tRU8i46961VpTQmZ+/wVwHN2jVZweIOGNJM6E23woUSZ8dS0m2Xe9Fyx
+Se4l2YA5vXdoOAnrhXMD5Oo7/8lFhBm1lU0LMBEES1oHY19gCMoWWCJNOqxMP+DgcslNk5iV1Ryq
+cIKO8mWAeo9lnombAspyOyP4h7GXi3uLbeBOuK9RFoiw4UquVH6ffi+O0MaJNFyQC5Z4vucab8DF
+XyD6NiAC8BiPRjU616DS+zT+Y4RGMNqvABjTfeuwop5wjTYANQjoPxEiih/lf45lwlumEys5gbS2
+pFy9uVxscRgNbrche7imkHp4A7n65IARyhp5ZKD09wW8AnX0KrpxZdgrmZI2MLjKOvJVO03mEoF9
+h/k=
+=Dnmq
+-----END PGP SIGNATURE-----
 
+--------------ppNCEqAK6nP4o1Y0NY3V832g--
