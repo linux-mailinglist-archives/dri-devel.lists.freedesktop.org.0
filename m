@@ -1,50 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA4966DDA8
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 13:32:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A70E66DDAF
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 13:33:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A35F510E538;
-	Tue, 17 Jan 2023 12:32:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D21910E537;
+	Tue, 17 Jan 2023 12:33:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD18C10E543;
- Tue, 17 Jan 2023 12:32:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673958762; x=1705494762;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=MeMXKj5o+Ike3f9M4ooda+PrHav/S+5sUnjX4zwSNj4=;
- b=SO5JHfdvLU3h4k3nSytbZmhjBOhWh4DzYFNhIYwkH2wxDNv/YwbQChqU
- nUpKTuo8sAaLrTW+/lbwQdjwybmZHvpzaZlUdbBRolH5I0+AuCduMYzmx
- 5A7UN8D8q7tCFjqRd/3c8lFTpuG3yghel+vWGaIrhp8YUrhI6ZzWRAAWB
- TsC2NCz0wSBN/F9lUsxqMVWLIIxGRzmEPbxWwLmv6wP7qAs7+9qIgIgZi
- iLfWrqhiumDF1Q1ZOg4akLxI3u2zTDCZM2aOdKq1KIBocv398Cy7cosTk
- 3PQfv6tnb/3UDpi0hrNwZPZhQz/iYfq3CyDJj1Y2o0ny6OAPW2LfX3Xqu g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="387034033"
-X-IronPort-AV: E=Sophos;i="5.97,222,1669104000"; d="scan'208";a="387034033"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2023 04:32:42 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="636856858"
-X-IronPort-AV: E=Sophos;i="5.97,222,1669104000"; d="scan'208";a="636856858"
-Received: from nirmoyda-desk.igk.intel.com ([10.102.42.231])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2023 04:32:38 -0800
-From: Nirmoy Das <nirmoy.das@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2] drm/i915/selftests: Unwind hugepages to drop wakeref on
- error
-Date: Tue, 17 Jan 2023 13:32:34 +0100
-Message-Id: <20230117123234.26487-1-nirmoy.das@intel.com>
-X-Mailer: git-send-email 2.39.0
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD5D310E537
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 12:33:48 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id e3so21193506wru.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 04:33:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=GBXTZBzjFExwUsgMNbXMNmGYPR61v6tMr7PRj9eHQco=;
+ b=HiYrL7vQkco1p0rqoYtymENPSlWbu3NQV84i372y6elWXXaRd7ZnxWiBl7k/5dmxaj
+ 4BjG5Y63XzN8nikViZGiU8uwqxVpZsD2hnC4NyiMMzCiuGhJjb9FWBWJrjuix3azCHt8
+ lVubTroGx6/E6dhLfT63oLLGcoOrdSR9zUF/rR9C357O1SZnCOmX05D6G9v5A7rwoV4j
+ T5vIm9eqc3GoZkPuqBYIfta6d4R78aWdiOuzhs8M731yK3Sa+Mj7NZZewpTtcjIiV9cU
+ N9i7QaQ5PAyLwAB7Gd8a4n8Xz7bwVUjJTLaKR8Ze74nNsBMQ6TCRAxSfGHD9b3kSkfDO
+ 5Fqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GBXTZBzjFExwUsgMNbXMNmGYPR61v6tMr7PRj9eHQco=;
+ b=o+Ke0VVL4hTkrdHPnHrAUovLplHAJmB71lZhOfYMCvdl3hc1FGaVOI11qUzwRL+Vsl
+ 10fO81EL2kvgg/YIKEp7r+CPYnaJZaT9PqaUEEaITL5R30mhUH04hG6Z8eIutEMVVieD
+ PpIxDzZmMmVPn9cTuJ4e3b4R2IpkkdMC3f4XATQq9OmTnU2BgjakGccOHoDBxtrizxgz
+ BH0l8cipabNv8nDqaVLlrWVbme2SxhHudIYq/svB35abUk0cfFw0Ydj30P08OYyUZDgy
+ mNUG9Vk1J6h+8RsZEC2OGLu3U12+zTWgaYCv48ItQQDWbDBti+fNz/4rH0yqWZFjfwx6
+ FqXw==
+X-Gm-Message-State: AFqh2koNdWb/LaxbjiVDiHBzzI9Mn6Yto++9ORLmTmrgBEzCc3rgELTB
+ DsYD6Nph1o5RKl00YaMQqPy59tbG2BQ=
+X-Google-Smtp-Source: AMrXdXtTv38uIf8HgX4VU/INtdN6oimqah+xJzfUVU+IbnLa3AWiAjSVmSg4Ai4n/KxHe1bn0erlCA==
+X-Received: by 2002:adf:fc4c:0:b0:2bd:dbbb:e7e2 with SMTP id
+ e12-20020adffc4c000000b002bddbbbe7e2mr2520134wrs.60.1673958827287; 
+ Tue, 17 Jan 2023 04:33:47 -0800 (PST)
+Received: from able.fritz.box (p5b0ea2e7.dip0.t-ipconnect.de. [91.14.162.231])
+ by smtp.gmail.com with ESMTPSA id
+ n19-20020a05600c4f9300b003db08be84e3sm1891453wmq.32.2023.01.17.04.33.46
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Jan 2023 04:33:46 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ttm: fix some minor kerneldoc issues
+Date: Tue, 17 Jan 2023 13:33:45 +0100
+Message-Id: <20230117123345.387078-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
- 85579 Neubiberg, Germany,
- Commercial Register: Amtsgericht Muenchen HRB 186928 
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,65 +71,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>, dri-devel@lists.freedesktop.org,
- Matthew Auld <matthew.auld@intel.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- chris.p.wilson@linux.intel.com, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris.p.wilson@linux.intel.com>
+Pointed out by the kernel test robot while merging ttm_bo_api.h and
+ttm_bo_driver.h.
 
-Make sure that upon error after we have acquired the wakeref we do
-release it again.
-
-v2: add another missing "goto out_wf"(Andi).
-
-Fixes: 027c38b4121e ("drm/i915/selftests: Grab the runtime pm in shrink_thp")
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-Signed-off-by: Chris Wilson <chris.p.wilson@linux.intel.com>
-Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Reported-by: kernel test robot <lkp@intel.com>
 ---
- drivers/gpu/drm/i915/gem/selftests/huge_pages.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/ttm/ttm_bo_util.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-index c281b0ec9e05..defece0bcb81 100644
---- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-@@ -1855,7 +1855,7 @@ static int igt_shrink_thp(void *arg)
- 			I915_SHRINK_ACTIVE);
- 	i915_vma_unpin(vma);
- 	if (err)
--		goto out_put;
-+		goto out_wf;
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+index d33bff038d3a..77b50875b99f 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -127,9 +127,8 @@ EXPORT_SYMBOL(ttm_move_memcpy);
+  * ttm_bo_move_memcpy
+  *
+  * @bo: A pointer to a struct ttm_buffer_object.
+- * @interruptible: Sleep interruptible if waiting.
+- * @no_wait_gpu: Return immediately if the GPU is busy.
+- * @new_mem: struct ttm_resource indicating where to move.
++ * @ctx: operation context
++ * @dst_mem: struct ttm_resource indicating where to move.
+  *
+  * Fallback move function for a mappable buffer object in mappable memory.
+  * The function will, if successful,
+@@ -281,8 +280,8 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
+ /**
+  * ttm_io_prot
+  *
+- * bo: ttm buffer object
+- * res: ttm resource object
++ * @bo: ttm buffer object
++ * @res: ttm resource object
+  * @tmp: Page protection flag for a normal, cached mapping.
+  *
+  * Utility function that returns the pgprot_t that should be used for
+@@ -621,7 +620,7 @@ static void ttm_bo_move_pipeline_evict(struct ttm_buffer_object *bo,
+ }
  
- 	/*
- 	 * Now that the pages are *unpinned* shrinking should invoke
-@@ -1871,19 +1871,19 @@ static int igt_shrink_thp(void *arg)
- 		pr_err("unexpected pages mismatch, should_swap=%s\n",
- 		       str_yes_no(should_swap));
- 		err = -EINVAL;
--		goto out_put;
-+		goto out_wf;
- 	}
+ /**
+- * ttm_bo_move_accel_cleanup.
++ * ttm_bo_move_accel_cleanup - cleanup helper for hw copies
+  *
+  * @bo: A pointer to a struct ttm_buffer_object.
+  * @fence: A fence object that signals when moving is complete.
+@@ -665,7 +664,7 @@ int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
+ EXPORT_SYMBOL(ttm_bo_move_accel_cleanup);
  
- 	if (should_swap == (obj->mm.page_sizes.sg || obj->mm.page_sizes.phys)) {
- 		pr_err("unexpected residual page-size bits, should_swap=%s\n",
- 		       str_yes_no(should_swap));
- 		err = -EINVAL;
--		goto out_put;
-+		goto out_wf;
- 	}
- 
- 	err = i915_vma_pin(vma, 0, 0, flags);
- 	if (err)
--		goto out_put;
-+		goto out_wf;
- 
- 	while (n--) {
- 		err = cpu_check(obj, n, 0xdeadbeaf);
+ /**
+- * ttm_bo_move_sync_cleanup.
++ * ttm_bo_move_sync_cleanup - cleanup by waiting for the move to finish
+  *
+  * @bo: A pointer to a struct ttm_buffer_object.
+  * @new_mem: struct ttm_resource indicating where to move.
 -- 
-2.39.0
+2.34.1
 
