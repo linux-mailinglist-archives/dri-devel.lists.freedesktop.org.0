@@ -2,73 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87FDB670CA1
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 00:05:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C778670CD0
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 00:10:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7796410E1C0;
-	Tue, 17 Jan 2023 23:05:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0226810E5F2;
+	Tue, 17 Jan 2023 23:10:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
- [IPv6:2001:4860:4864:20::2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E5D110E1C0
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 23:05:18 +0000 (UTC)
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-15027746720so33669929fac.13
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 15:05:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date:message-id:reply-to;
- bh=4AE2HZs9Ij2bBJhhAjrwEjzLChQl9bR57MnvWzA7x6U=;
- b=DW8ifSPAga42dfR5FsmeN7ktP7xrF85FXw0C/+Pm5lDatitnt6M1CQj7M2iuNxfpn/
- 8Lqyqdz46gcYI65b7HEV2rZB0b9w18a0Vu2j5uxJKOihSIilp5BJI4J3to3fBGZBSOAg
- qKZTbOqyIEM6sy28abPqdGt+yArW2Z23B5BMGrPIlI9/cDODcnnJxtAxcNyDFXPVHMXf
- R48P+80RHdZ3pZH8azCzarSBYjkryNQm8JI66tMAqXqouswoKpLIWF/td2aT/9AEdW3K
- k98TjNYTCV9B45cWKs661R8TJB1gnbsipfyvYuHwtR9zJJna1byThoO89hC/942uN+q5
- JvyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4AE2HZs9Ij2bBJhhAjrwEjzLChQl9bR57MnvWzA7x6U=;
- b=YEv2+2goSX/M1uZ9vFK9F37QmqjwUcqf1g538sep3Ek7z87mZuqgWLkf+j/+lF3Aro
- tNCWE+xaJ9wfFWqNvi7a7t0sg8liRypmKWHBxnCi8iaFenpblwKwEAju0EP3Syiasjzf
- yZ64brQNi+9xHcMzNMim81TLwMf5BoTP6UeRw3dXP2h3eS22de+XOwTxxc+QomEk3fJo
- s1EcZobEJvfgeGbPjsUdS9W88tydH/pYAJ2DwIQekx/jE363a/U0+UUpVQWD3mVWPL/U
- E04tNyB+EJNji/IW9hlNFXowHLaynY3a6JG1NDUemKxLgK7P/WP2HWdoWR/uhmg6qfuX
- jYNQ==
-X-Gm-Message-State: AFqh2kqdOR8z6PZCKteFomJSrXFYd3uskL+OnyH+oZEuaqz1YDnPFXNE
- bsTHH30BgjcbgglkLFhPwkI=
-X-Google-Smtp-Source: AMrXdXtHuS2LexOqaSnPiZkh1ICiW0LO3fAy28p2lWPRYUg8JIB1z86k++pUvGweLF5SJ5SaQKIaNA==
-X-Received: by 2002:a05:6870:5386:b0:15f:385c:720c with SMTP id
- h6-20020a056870538600b0015f385c720cmr3233662oan.30.1673996717252; 
- Tue, 17 Jan 2023 15:05:17 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
- ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- cm18-20020a056870b61200b0012b298699dbsm17151555oab.1.2023.01.17.15.05.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 15:05:16 -0800 (PST)
-Message-ID: <c9ce648e-e63e-8a47-03c6-7c7e30d8dbc7@roeck-us.net>
-Date: Tue, 17 Jan 2023 15:05:12 -0800
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EEF68989C;
+ Tue, 17 Jan 2023 23:10:38 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30HKdR6J008685; Tue, 17 Jan 2023 23:10:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=Kq4QTOw6JsPonbbZhmW9Co89yNppmOZX9p8vxzArv/Y=;
+ b=Am9tMQHFbGXKntink20eUTTonIvqfaxmvcAhtKlZWhwRlLK2GG1anGZx0FmY1fXhiblh
+ ZkaWsPokEgdFJlZE4FFNkgbKJ/bEAtdu/evPpGSmadEH5vkOQtqqFGKOYWNfkznPRKwK
+ k185j9sQrgim+fJipBsihINDM/+bcNW73wZL3aCMqiF54DoWCodf8+T+bILCvr1hi2Qn
+ 9oZFYvIHFAzYf7gJF/WFdbVS8S888tww7YHq8VIDbRpZKalTU1FYwvVwyBogwE5iG8Oo
+ RNJtrxXyWba7e5c1P0WOEjxTz9UigI19XGYlTdXtsj/rFczVD/771sXwOSrZd/AETzQU GA== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n3mm9xkdx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Jan 2023 23:10:32 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30HNAV0J000861
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Jan 2023 23:10:31 GMT
+Received: from [10.110.108.90] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 17 Jan
+ 2023 15:10:30 -0800
+Message-ID: <9bf93afc-c54d-bd1d-2c85-548202e7d29f@quicinc.com>
+Date: Tue, 17 Jan 2023 15:10:21 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: remove arch/sh
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH] drm/msm/dpu: enable sourcesplit for sc7180/sc7280
 Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Rob Landley <rob@landley.net>
-References: <20230113062339.1909087-1-hch@lst.de>
- <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
- <20230116071306.GA15848@lst.de>
- <9325a949-8d19-435a-50bd-9ebe0a432012@landley.net>
- <CAMuHMdUJm5QvzH8hvqwvn9O6qSbzNOapabjw5nh9DJd0F55Zdg@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <CAMuHMdUJm5QvzH8hvqwvn9O6qSbzNOapabjw5nh9DJd0F55Zdg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20230116034435.569512-1-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230116034435.569512-1-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: RUDZ_zeBkrafzxgiV_q3x4rY4wrVpxev
+X-Proofpoint-ORIG-GUID: RUDZ_zeBkrafzxgiV_q3x4rY4wrVpxev
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-17_10,2023-01-17_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ spamscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
+ impostorscore=0 adultscore=0 bulkscore=0 lowpriorityscore=0 clxscore=1015
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301170185
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,86 +83,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- linux-rtc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, linux-arch@vger.kernel.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>, linux-serial@vger.kernel.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- netdev@vger.kernel.org, dmaengine@vger.kernel.org, alsa-devel@alsa-project.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/17/23 12:26, Geert Uytterhoeven wrote:
-> Hi Rob,
-> 
-> On Tue, Jan 17, 2023 at 8:01 PM Rob Landley <rob@landley.net> wrote:
->> On 1/16/23 01:13, Christoph Hellwig wrote:
->>> On Fri, Jan 13, 2023 at 09:09:52AM +0100, John Paul Adrian Glaubitz wrote:
->>>> I'm still maintaining and using this port in Debian.
->>>>
->>>> It's a bit disappointing that people keep hammering on it. It works fine for me.
->>>
->>> What platforms do you (or your users) use it on?
->>
->> 3 j-core boards, two sh4 boards (the sh7760 one I patched the kernel of), and an
->> sh4 emulator.
->>
->> I have multiple j-core systems (sh2 compatible with extensions, nommu, 3
->> different kinds of boards running it here). There's an existing mmu version of
->> j-core that's sh3 flavored but they want to redo it so it hasn't been publicly
->> released yet, I have yet to get that to run Linux because the mmu code would
->> need adapting, but the most recent customer projects were on the existing nommu
->> SOC, as was last year's ASIC work via sky130.
-> 
-> J4 still vaporware?
-> 
->> My physical sh4 boards are a Johnson Controls N40 (sh7760 chipset) and the
->> little blue one is... sh4a I think? (It can run the same userspace, I haven't
->> replaced that board's kernel since I got it, I think it's the type Glaubitz is
->> using? It's mostly in case he had an issue I couldn't reproduce on different
->> hardware, or if I spill something on my N40.)
->>
->> I also have a physical sh2 board on the shelf which I haven't touched in years
->> (used to comparison test during j2 development, and then the j2 boards replaced it).
->>
->> I'm lazy and mostly test each new sh4 build under qemu -M r2d because it's
->> really convenient: neither of my physical boards boot from SD card so replacing
->> the kernel requires reflashing soldered in flash. (They'll net mount userspace
->> but I haven't gotten either bootloader to net-boot a kernel.)
-> 
-> On my landisk (with boots from CompactFLASH), I boot the original 2.6.22
-> kernel, and use kexec to boot-test each and every renesas-drivers
-> release.  Note that this requires both the original 2.6.22 kernel
-> and matching kexec-tools.  Apparently both upstreamed kernel and
-> kexec-tools support for SH are different, and incompatible with each
-> other, so you cannot kexec from a contemporary kernel.
-> I tried working my way up from 2.6.22, but gave up around 2.6.29.
-> Probably I should do this with r2d and qemu instead ;-)
-> 
-> Both r2d and landisk are SH7751.
-> 
-> Probably SH7722/'23'24 (e.g. Migo-R and Ecovec boards) are also
-> worth keeping.  Most on-SoC blocks have drivers with DT support,
-> as they are shared with ARM.  So the hardest part is clock and
-> interrupt-controller support.
-> Unfortunately I no longer have access to the (remote) Migo-R.
-> 
 
-Since there are people around with real hardware .... is sh in big endian mode
-(sheb) real ? Its qemu support is quite limited; most PCI devices don't work
-due to endianness issues. It would be interesting to know if this works better
-with real hardware.
 
-Thanks,
-Guenter
+On 1/15/2023 7:44 PM, Dmitry Baryshkov wrote:
+> According to the vendor dts files, both sc7180 and sc7280 support the
+> source split mode (using two LMs for a single output). Change these two
+> platforms to use MIXER_SDM845_MASK, which includes
+> DPU_MIXER_SOURCESPLIT. Rename MIXER_SC7180_MASK to MIXER_QCM2290_MASK,
+> since this platform doesn't seem to support source split mode.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
+Names are getting confusing with mask name re-uses, till the hw catalog 
+split have to live with it I guess.
+
+I need to double-check about QCM 2290, but since this change is keeping 
+current masks for it and just renaming,
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 14 +++++++-------
+>   1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index 22ad996e9014..835d6d2c4115 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -56,7 +56,7 @@
+>   #define MIXER_SDM845_MASK \
+>   	(BIT(DPU_MIXER_SOURCESPLIT) | BIT(DPU_DIM_LAYER) | BIT(DPU_MIXER_COMBINED_ALPHA))
+>   
+> -#define MIXER_SC7180_MASK \
+> +#define MIXER_QCM2290_MASK \
+>   	(BIT(DPU_DIM_LAYER) | BIT(DPU_MIXER_COMBINED_ALPHA))
+>   
+>   #define PINGPONG_SDM845_MASK BIT(DPU_PINGPONG_DITHER)
+> @@ -1464,9 +1464,9 @@ static const struct dpu_lm_sub_blks sc7180_lm_sblk = {
+>   };
+>   
+>   static const struct dpu_lm_cfg sc7180_lm[] = {
+> -	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SC7180_MASK,
+> +	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SDM845_MASK,
+>   		&sc7180_lm_sblk, PINGPONG_0, LM_1, DSPP_0),
+> -	LM_BLK("lm_1", LM_1, 0x45000, MIXER_SC7180_MASK,
+> +	LM_BLK("lm_1", LM_1, 0x45000, MIXER_SDM845_MASK,
+>   		&sc7180_lm_sblk, PINGPONG_1, LM_0, 0),
+>   };
+>   
+> @@ -1499,11 +1499,11 @@ static const struct dpu_lm_cfg sm8150_lm[] = {
+>   };
+>   
+>   static const struct dpu_lm_cfg sc7280_lm[] = {
+> -	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SC7180_MASK,
+> +	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SDM845_MASK,
+>   		&sc7180_lm_sblk, PINGPONG_0, 0, DSPP_0),
+> -	LM_BLK("lm_2", LM_2, 0x46000, MIXER_SC7180_MASK,
+> +	LM_BLK("lm_2", LM_2, 0x46000, MIXER_SDM845_MASK,
+>   		&sc7180_lm_sblk, PINGPONG_2, LM_3, 0),
+> -	LM_BLK("lm_3", LM_3, 0x47000, MIXER_SC7180_MASK,
+> +	LM_BLK("lm_3", LM_3, 0x47000, MIXER_SDM845_MASK,
+>   		&sc7180_lm_sblk, PINGPONG_3, LM_2, 0),
+>   };
+>   
+> @@ -1518,7 +1518,7 @@ static const struct dpu_lm_sub_blks qcm2290_lm_sblk = {
+>   };
+>   
+>   static const struct dpu_lm_cfg qcm2290_lm[] = {
+> -	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SC7180_MASK,
+> +	LM_BLK("lm_0", LM_0, 0x44000, MIXER_QCM2290_MASK,
+>   		&qcm2290_lm_sblk, PINGPONG_0, 0, DSPP_0),
+>   };
+>   
