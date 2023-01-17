@@ -1,48 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4778766DDB2
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 13:34:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F7D866DDBA
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 13:35:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5280410E53E;
-	Tue, 17 Jan 2023 12:34:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A434810E2E4;
+	Tue, 17 Jan 2023 12:35:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 754B110E535
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 12:34:32 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id v6so44785363edd.6
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 04:34:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jdjH7apTcY9B0+5D5jb83+J30HHxoTwlJfxN/zgwRAU=;
- b=U8WKOMU9G5fdDaYIEwVmqMWjonn3RTgOXEKkmwKd92YSVBExK4XNTm2pmgmYQpLIJU
- Em4ywDWe+UoD5GShM38yMlu1GufZQCVe7678W21WH8HhxN6bjm6C91TnuqBTcO6WzXPh
- /IOldZu3wmsp/Ic2FQUQN+QOL7yRqgijyYKwtaeXTFksg4pB0yuVht/eOhb5ZVQLmQaN
- JWzgByfJfVth2aKjaoigIImFmMH5hG/Pl0PQomwtQHJGTP8jjaXj64e57oB+X65xU7yX
- VVN13UfLmO7kop74KxHCv64oNlRdAWezk6tlkjSRJx645xV538bq/YF3/xFbykfBAgnX
- rb4Q==
-X-Gm-Message-State: AFqh2kp7g+y/leu1uxYgwTNQ0wZwyQUFsXh5ASOBQsi5wlAY9mODQW7Q
- pLNivx6OqrmhGMxNkNyBW1M+hL6H1zVB1bm9UaY=
-X-Google-Smtp-Source: AMrXdXuFCOCNpoVmGyvFxctrN9qZgji19esmpfIQA+tLyPO9tyfRTurcKrMBVsO8XPIhkRuGqWM5x0uBdWAYIX+K37w=
-X-Received: by 2002:a05:6402:94a:b0:47f:7465:6e76 with SMTP id
- h10-20020a056402094a00b0047f74656e76mr294884edz.181.1673958870716; Tue, 17
- Jan 2023 04:34:30 -0800 (PST)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A502510E1A4
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 12:35:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673958954; x=1705494954;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=UrZQQxELZNb7lz2ZOTd2cqprvuDaxhW4x2Gu4xwEkuA=;
+ b=QH3MidZfIi0nIlCckl3Ab1BmTZL6AyT4uMccSAJrBb63odsaJuJOGJjl
+ gbIytSt1F55pBjggEx20M/kVeomqVaujsMk+FWof0KpGLsXmvQG4VkhUt
+ yejhQq6CoNUPUQvdFl1BFwBcnkiczyqTFvRbNkWULoD9qXjrYVNHAqSog
+ jCgWbgk4e9JWlVXWDcNxQ+nXWDZTDaUgSOTVGDr7eJBSce9ao2Vm97dJF
+ LzsuH65APFOr4qw+y2vgW3TbH0mBrEMAzVi1ao7VQafaTOb1QBSkv3L+d
+ wtheQsxO/5lcXa4hr4Fqt69EtAryx2a2+X47HndymmRB0QhOUFYFcDr7b A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="325958828"
+X-IronPort-AV: E=Sophos;i="5.97,222,1669104000"; d="scan'208";a="325958828"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2023 04:35:54 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="691570027"
+X-IronPort-AV: E=Sophos;i="5.97,222,1669104000"; d="scan'208";a="691570027"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.249.45.93])
+ ([10.249.45.93])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2023 04:35:53 -0800
+Message-ID: <bfe991fb-c457-a291-898a-cfbe7f1b4aa2@linux.intel.com>
+Date: Tue, 17 Jan 2023 13:35:50 +0100
 MIME-Version: 1.0
-References: <20230113114126.172078-1-hdegoede@redhat.com>
-In-Reply-To: <20230113114126.172078-1-hdegoede@redhat.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 17 Jan 2023 13:34:14 +0100
-Message-ID: <CAJZ5v0jt+AArS=QyuA0mi8c9_f=8mfWgp_kGHk_iR1m15QwHFw@mail.gmail.com>
-Subject: Re: [PATCH] ACPI: video: Add backlight=native DMI quirk for Acer
- Aspire 4810T
-To: Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] drm/ttm: fix some minor kerneldoc issues
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230117123345.387078-1-christian.koenig@amd.com>
+From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
+In-Reply-To: <20230117123345.387078-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,44 +61,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-acpi@vger.kernel.org, Len Brown <lenb@kernel.org>,
- dri-devel@lists.freedesktop.org, "Rafael J . Wysocki" <rafael@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 13, 2023 at 12:41 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> The Acer Aspire 4810T predates Windows 8, so it defaults to using
-> acpi_video# for backlight control, but this is non functional on
-> this model.
->
-> Add a DMI quirk to use the native backlight interface which does
-> work properly.
->
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/acpi/video_detect.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
-> index d4edd64dcc2f..fb526ba8825b 100644
-> --- a/drivers/acpi/video_detect.c
-> +++ b/drivers/acpi/video_detect.c
-> @@ -515,6 +515,14 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
->                 DMI_MATCH(DMI_PRODUCT_NAME, "Precision 7510"),
->                 },
->         },
-> +       {
-> +        .callback = video_detect_force_native,
-> +        /* Acer Aspire 4810T */
-> +        .matches = {
-> +               DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
-> +               DMI_MATCH(DMI_PRODUCT_NAME, "Aspire 4810T"),
-> +               },
-> +       },
->         {
->          .callback = video_detect_force_native,
->          /* Acer Aspire 5738z */
-> --
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
 
-Applied as 6.2-rc material, thanks!
+On 1/17/2023 1:33 PM, Christian König wrote:
+> Pointed out by the kernel test robot while merging ttm_bo_api.h and
+> ttm_bo_driver.h.
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo_util.c | 13 ++++++-------
+>   1 file changed, 6 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index d33bff038d3a..77b50875b99f 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -127,9 +127,8 @@ EXPORT_SYMBOL(ttm_move_memcpy);
+>    * ttm_bo_move_memcpy
+>    *
+>    * @bo: A pointer to a struct ttm_buffer_object.
+> - * @interruptible: Sleep interruptible if waiting.
+> - * @no_wait_gpu: Return immediately if the GPU is busy.
+> - * @new_mem: struct ttm_resource indicating where to move.
+> + * @ctx: operation context
+> + * @dst_mem: struct ttm_resource indicating where to move.
+>    *
+>    * Fallback move function for a mappable buffer object in mappable memory.
+>    * The function will, if successful,
+> @@ -281,8 +280,8 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
+>   /**
+>    * ttm_io_prot
+>    *
+> - * bo: ttm buffer object
+> - * res: ttm resource object
+> + * @bo: ttm buffer object
+> + * @res: ttm resource object
+>    * @tmp: Page protection flag for a normal, cached mapping.
+>    *
+>    * Utility function that returns the pgprot_t that should be used for
+> @@ -621,7 +620,7 @@ static void ttm_bo_move_pipeline_evict(struct ttm_buffer_object *bo,
+>   }
+>   
+>   /**
+> - * ttm_bo_move_accel_cleanup.
+> + * ttm_bo_move_accel_cleanup - cleanup helper for hw copies
+>    *
+>    * @bo: A pointer to a struct ttm_buffer_object.
+>    * @fence: A fence object that signals when moving is complete.
+> @@ -665,7 +664,7 @@ int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
+>   EXPORT_SYMBOL(ttm_bo_move_accel_cleanup);
+>   
+>   /**
+> - * ttm_bo_move_sync_cleanup.
+> + * ttm_bo_move_sync_cleanup - cleanup by waiting for the move to finish
+>    *
+>    * @bo: A pointer to a struct ttm_buffer_object.
+>    * @new_mem: struct ttm_resource indicating where to move.
