@@ -2,50 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2606C66E54A
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 18:53:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71EE366E578
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 18:59:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CDF410E309;
-	Tue, 17 Jan 2023 17:53:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 285D410E300;
+	Tue, 17 Jan 2023 17:59:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8506710E30D;
- Tue, 17 Jan 2023 17:52:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673977979; x=1705513979;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=DuMGS/G4LTVxHNIrzri/UqAockVZVc0JJsaHfXElEPY=;
- b=fvmHzG9F4ZP54rDiyf3OxMm8Y8LRSFne3YNl8j5/3i9A31PFYoT5Cdtb
- jXlRZfe5R7IwgfWkUwgntJkZNbaVZ+uA5b5ktoXNLj2UV43/1FRnRQvL3
- w9RxWhC80DDwZAaNBZV9uIC9jTwW9ICFRsyFE2aqNdRdvc1gizrNFFJrT
- FQXgeSMTVGEhG35ieMKfVKTX1+Airjvb8mob9IDPYf3XPVmRaOFI9rafp
- aI0jfPt5JYhJSYm99pqorQpAAF8R8xUGIYBEOcn9S/FKacqQ9FU887Ba6
- aDoVug8e0U504Iyu1y5R+Fa7O0HtCJVWRfQrA1bT/C+6Q/fG9xkUQxKDg Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="389263498"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="389263498"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2023 09:52:53 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="783326937"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="783326937"
-Received: from nirmoyda-desk.igk.intel.com ([10.102.42.231])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2023 09:52:51 -0800
-From: Nirmoy Das <nirmoy.das@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/i915: Fix a memory leak with reused mmap_offset
-Date: Tue, 17 Jan 2023 18:52:36 +0100
-Message-Id: <20230117175236.22317-2-nirmoy.das@intel.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BE8410E300;
+ Tue, 17 Jan 2023 17:59:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=wulx1i+YnfVXqlJt+RBnpDlK1qUt7qPJU6WMVdTl8ho=; b=PGNVzOhdtwDWb90uFVv8szwoXI
+ FxHpDmO31xSONhzguIUMY7ACCjOtoqE/DkHs1caYYCaM0vuPf0f2OSog6FeNRo3diA0hMAyYbGSXx
+ ChNBhbjkeBZ+F/6zDytGIwn7wpsheXG0p0lrB4Db5d7BW7xg/wQsGhVyIeHpP5hmWugDCTQJTKz1M
+ SUMWJ02QqiXQYoozO+H+l9c0jumT6OzeybTgVts76s7lczQm77g+4wBroa2rmcJXQn619Qd6TZck8
+ Y0Dmzs5C3z+4GhwoRMUovIxWMoN2T1NTXg9jhuHnFjcjcAr4e3kVqayl9ITwsx/Co3f0HlnpJ3heO
+ PDtl6fNQ==;
+Received: from [187.56.70.205] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pHqEb-00Aprf-Ft; Tue, 17 Jan 2023 18:58:58 +0100
+From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+To: amd-gfx@lists.freedesktop.org
+Subject: [PATCH v2 1/2] drm/amdgpu/vcn: Adjust firmware names indentation
+Date: Tue, 17 Jan 2023 14:58:35 -0300
+Message-Id: <20230117175836.914304-1-gpiccoli@igalia.com>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230117175236.22317-1-nirmoy.das@intel.com>
-References: <20230117175236.22317-1-nirmoy.das@intel.com>
 MIME-Version: 1.0
-Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
- 85579 Neubiberg, Germany,
- Commercial Register: Amtsgericht Muenchen HRB 186928 
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,41 +49,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, dri-devel@lists.freedesktop.org,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: Sonny Jiang <sonny.jiang@amd.com>, kernel@gpiccoli.net, Xinhui.Pan@amd.com,
+ dri-devel@lists.freedesktop.org, Lazar Lijo <Lijo.Lazar@amd.com>,
+ "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>, kernel-dev@igalia.com,
+ alexander.deucher@amd.com, James Zhu <James.Zhu@amd.com>,
+ Leo Liu <leo.liu@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_vma_node_allow() and drm_vma_node_revoke() should be called in
-balanced pairs. We call drm_vma_node_allow() once per-file everytime a
-user calls mmap_offset, but only call drm_vma_node_revoke once per-file
-on each mmap_offset. As the mmap_offset is reused by the client, the
-per-file vm_count may remain non-zero and the rbtree leaked.
+This is an incredibly trivial fix, just for the sake of
+"aesthetical" organization of the defines. Some were space based,
+most were tab based and there was a lack of "alignment", now it's
+all the same and aligned.
 
-Call drm_vma_node_allow_once() instead to prevent that memory leak.
-
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-
-Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+Cc: James Zhu <James.Zhu@amd.com>
+Cc: Lazar Lijo <Lijo.Lazar@amd.com>
+Cc: Leo Liu <leo.liu@amd.com>
+Cc: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Sonny Jiang <sonny.jiang@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_mman.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index 4f69bff63068..2aac6bf78740 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -697,7 +697,7 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
- 	GEM_BUG_ON(lookup_mmo(obj, mmap_type) != mmo);
- out:
- 	if (file)
--		drm_vma_node_allow(&mmo->vma_node, file);
-+		drm_vma_node_allow_once(&mmo->vma_node, file);
- 	return mmo;
+
+V2:
+* Added Alex's review tag - thanks!
+
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c | 38 ++++++++++++-------------
+ 1 file changed, 19 insertions(+), 19 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
+index f8397d993f23..1b1a3c9e1863 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
+@@ -36,26 +36,26 @@
+ #include "soc15d.h"
  
- err:
+ /* Firmware Names */
+-#define FIRMWARE_RAVEN		"amdgpu/raven_vcn.bin"
+-#define FIRMWARE_PICASSO	"amdgpu/picasso_vcn.bin"
+-#define FIRMWARE_RAVEN2		"amdgpu/raven2_vcn.bin"
+-#define FIRMWARE_ARCTURUS	"amdgpu/arcturus_vcn.bin"
+-#define FIRMWARE_RENOIR		"amdgpu/renoir_vcn.bin"
+-#define FIRMWARE_GREEN_SARDINE	"amdgpu/green_sardine_vcn.bin"
+-#define FIRMWARE_NAVI10		"amdgpu/navi10_vcn.bin"
+-#define FIRMWARE_NAVI14		"amdgpu/navi14_vcn.bin"
+-#define FIRMWARE_NAVI12		"amdgpu/navi12_vcn.bin"
+-#define FIRMWARE_SIENNA_CICHLID	"amdgpu/sienna_cichlid_vcn.bin"
+-#define FIRMWARE_NAVY_FLOUNDER	"amdgpu/navy_flounder_vcn.bin"
+-#define FIRMWARE_VANGOGH	"amdgpu/vangogh_vcn.bin"
++#define FIRMWARE_RAVEN			"amdgpu/raven_vcn.bin"
++#define FIRMWARE_PICASSO		"amdgpu/picasso_vcn.bin"
++#define FIRMWARE_RAVEN2			"amdgpu/raven2_vcn.bin"
++#define FIRMWARE_ARCTURUS		"amdgpu/arcturus_vcn.bin"
++#define FIRMWARE_RENOIR			"amdgpu/renoir_vcn.bin"
++#define FIRMWARE_GREEN_SARDINE		"amdgpu/green_sardine_vcn.bin"
++#define FIRMWARE_NAVI10			"amdgpu/navi10_vcn.bin"
++#define FIRMWARE_NAVI14			"amdgpu/navi14_vcn.bin"
++#define FIRMWARE_NAVI12			"amdgpu/navi12_vcn.bin"
++#define FIRMWARE_SIENNA_CICHLID		"amdgpu/sienna_cichlid_vcn.bin"
++#define FIRMWARE_NAVY_FLOUNDER		"amdgpu/navy_flounder_vcn.bin"
++#define FIRMWARE_VANGOGH		"amdgpu/vangogh_vcn.bin"
+ #define FIRMWARE_DIMGREY_CAVEFISH	"amdgpu/dimgrey_cavefish_vcn.bin"
+-#define FIRMWARE_ALDEBARAN	"amdgpu/aldebaran_vcn.bin"
+-#define FIRMWARE_BEIGE_GOBY	"amdgpu/beige_goby_vcn.bin"
+-#define FIRMWARE_YELLOW_CARP	"amdgpu/yellow_carp_vcn.bin"
+-#define FIRMWARE_VCN_3_1_2	"amdgpu/vcn_3_1_2.bin"
+-#define FIRMWARE_VCN4_0_0	"amdgpu/vcn_4_0_0.bin"
+-#define FIRMWARE_VCN4_0_2	"amdgpu/vcn_4_0_2.bin"
+-#define FIRMWARE_VCN4_0_4      "amdgpu/vcn_4_0_4.bin"
++#define FIRMWARE_ALDEBARAN		"amdgpu/aldebaran_vcn.bin"
++#define FIRMWARE_BEIGE_GOBY		"amdgpu/beige_goby_vcn.bin"
++#define FIRMWARE_YELLOW_CARP		"amdgpu/yellow_carp_vcn.bin"
++#define FIRMWARE_VCN_3_1_2		"amdgpu/vcn_3_1_2.bin"
++#define FIRMWARE_VCN4_0_0		"amdgpu/vcn_4_0_0.bin"
++#define FIRMWARE_VCN4_0_2		"amdgpu/vcn_4_0_2.bin"
++#define FIRMWARE_VCN4_0_4		"amdgpu/vcn_4_0_4.bin"
+ 
+ MODULE_FIRMWARE(FIRMWARE_RAVEN);
+ MODULE_FIRMWARE(FIRMWARE_PICASSO);
 -- 
 2.39.0
 
