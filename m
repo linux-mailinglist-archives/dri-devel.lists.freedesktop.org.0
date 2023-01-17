@@ -1,78 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F94D66E46C
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 18:07:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A7DF66E48E
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 18:12:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB7E010E2FA;
-	Tue, 17 Jan 2023 17:07:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF18410E595;
+	Tue, 17 Jan 2023 17:12:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBA3410E2FA
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 17:07:01 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id 3E3E3581CF6;
- Tue, 17 Jan 2023 12:07:00 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Tue, 17 Jan 2023 12:07:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1673975220; x=
- 1673982420; bh=OBgdXpJBXM8o0qloG5WjFFCtSTsxtIOycEpkPC9isio=; b=f
- NfbTJ5s4+EOpk6I2z8hIGqJtcR6GzivpJNNxhcIwkeBx8Qp7LfF3orN0ERntE9mU
- KmYzbkLS1wrTmSNGPPyLL+FDIjMlXKo36yAoo0I+9HgraAWW/J1mDsAd5C0bzl4v
- v6Jopc1Nu0QeroyFOW8Ji6Je8YWtgFQiWsLDJEbok6u8SIy3DGoUi3nm3ym1jTJP
- b2sVAK/35wSniidyxhyv5QHaNmiSzVNaFro3DvgzjlTgCXYCzNEHfDZU9mJgvQSU
- gamZeoGvlGqervqs9RCwejpsT5OqLwexnNayJmfhG4WS4ZJxFcVaG+escLAGHlSL
- Fa/QOLpv7rHxRYIprLU6Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673975220; x=
- 1673982420; bh=OBgdXpJBXM8o0qloG5WjFFCtSTsxtIOycEpkPC9isio=; b=k
- ZRRoyPjtgG86dS6URFKZnWY+VWgNuk8kSq8wwpFWVwhGBkotqSEv4N1nkPTr1Djd
- 4wMXlJyf8UJPsU7VITbKyzAJvNLH/LcN9ejR13AEb8rbjhNV5exytRrFICVRxkTi
- w/b5YFWxjo2X3yWuRfVvcSBdPbKBlRLoEGb/l4fKVpsL3GYchWPvjNtDhUc9hyXY
- VpetE0tHWRnp0fuSTGBnIBJ2ncOSjLUn00HVBlflNh7vf6k3rc6F25pYJwo9+2Hs
- xeR2FY6qhGu3tYclTS3/htU8vIuzpNKBQath5RyrNWJwupXQTAeEbUFi7eUmRl9a
- eKIPofpDiKLMPqHHlYj/A==
-X-ME-Sender: <xms:stXGY5RV2BB9622TowvBI0tsQ7TEo3LjMahnJl6jVlgIJ2JVOq-GQg>
- <xme:stXGYyyEZQ1M1sMc1eyRCpMJu-Kuv3c8wn7h_oJI2xyBmBOJ1e1MYa1gIfoBiBS7j
- IyvPnlla-E0dy-XagY>
-X-ME-Received: <xmr:stXGY-0m6eAGgmVwNcTwy5PyhudPJiMtlB5AmcPI_kn0G9bco6iKq3_k05j3RjsGXqxaBVew4D6LklU64TIGpsmgqjZPPVzo1vSsEOlPcWOmjg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtiedgleehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvegjfhfukfffgggtgffosehtjeertdertdejnecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnhepleeifffgvdetjeejueejieehuedvteeigeehtefhhfeifeegleekudek
- teegueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:stXGYxDtnen6LWxSsc2SiTR045WdZZZ0KrBtsusDJRxnc_SuRUa8Rw>
- <xmx:stXGYygUPgIS7ckQ_mMx1ySriSwla10nfqKW4pzfOxTi87UPBZI8gA>
- <xmx:stXGY1ohUYBCtGKxb4zWzAXxH6Mszy_Uwqz-_zRDsigp3QVh_tLqMg>
- <xmx:tNXGY9TJq_HbUCIk66GC3_FrRWMijjfbNOtKU1w_bhkC8faaYKC8yg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 17 Jan 2023 12:06:58 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
- Arnd Bergmann <arnd@kernel.org>
-In-Reply-To: <20230117165258.1979922-1-arnd@kernel.org>
-References: <20230117165258.1979922-1-arnd@kernel.org>
-Subject: Re: (subset) [PATCH] vc4: fix build failure in vc4_dsi_dev_probe()
-Message-Id: <167397520092.2619750.10136491549623905687.b4-ty@cerno.tech>
-Date: Tue, 17 Jan 2023 18:06:40 +0100
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5410F10E595;
+ Tue, 17 Jan 2023 17:12:50 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 053CFB81911;
+ Tue, 17 Jan 2023 17:12:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89186C433D2;
+ Tue, 17 Jan 2023 17:12:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1673975567;
+ bh=WwkZdJTRH/e6oDjQt1JBj5r7Hxk3Sps4Rt8KnDt4/u0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ZNGm4dQXyPpdlm7+X9Q4CvkWy0n/zRxxC7Ir3C+TUbW7gC1qxMaaS5DvieEd5lipB
+ enf5LpmFk7sumKBslDpDA4iwMbwtkaco2vtLfWHLz3agHqyEFmDjTuJvj0Hqv+zKSH
+ xKKUwC0JlzGg23g4T8+MHo6zp64b1EiBKmdlrQG0n5hijI21iRv5HUdykcWJz24et2
+ SW/Lk95wWovkMoSGbJ5uySheXx62h3p13bsj02eTXe08CERf4E7LKK8dhRZGcGyr2n
+ 3dKH6wXinGH1vHVrOkN39F4fDBMA8ZoaeOBIb5POjI4UKDLtvWiRuAT28+zz6P5aUF
+ xKt199peEHU4A==
+From: Arnd Bergmann <arnd@kernel.org>
+To: =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Subject: [PATCH] [v2] drm/amd/display: fix dp_retrieve_lttpr_cap return code
+Date: Tue, 17 Jan 2023 18:12:24 +0100
+Message-Id: <20230117171239.2714855-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.11.2
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,26 +52,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?q?Ma=C3=ADra?= Canal <mcanal@igalia.com>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Lewis Huang <Lewis.Huang@amd.com>, Arnd Bergmann <arnd@arndb.de>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Michael Strauss <michael.strauss@amd.com>, dri-devel@lists.freedesktop.org,
+ George Shen <george.shen@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Jun Lei <Jun.Lei@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jimmy Kizito <Jimmy.Kizito@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 17 Jan 2023 17:52:51 +0100, Arnd Bergmann wrote:
-> The bridge->of_node field is defined inside of an #ifdef, which
-> results in a build failure when compile-testing the vc4_dsi driver
-> without CONFIG_OF:
-> 
-> drivers/gpu/drm/vc4/vc4_dsi.c: In function 'vc4_dsi_dev_probe':
-> drivers/gpu/drm/vc4/vc4_dsi.c:1822:20: error: 'struct drm_bridge' has no member named 'of_node'
->  1822 |         dsi->bridge.of_node = dev->of_node;
-> 
-> [...]
+From: Arnd Bergmann <arnd@arndb.de>
 
-Applied to drm/drm-misc (drm-misc-next).
+The dp_retrieve_lttpr_cap() return type changed from 'bool'
+to 'enum dc_status', so now the early 'return' uses the wrong
+type:
 
-Thanks!
-Maxime
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c: In function 'dp_retrieve_lttpr_cap':
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:5075:24: error: implicit conversion from 'enum <anonymous>' to 'enum dc_status' [-Werror=enum-conversion]
+ 5075 |                 return false;
+      |                        ^~~~~
+
+Convert it to return 'DC_ERROR_UNEXPECTED', which was apparently set
+as a default return code here but never used.
+
+Fixes: b473bd5fc333 ("drm/amd/display: refine wake up aux in retrieve link caps")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+v2 changes:
+ - use DC_ERROR_UNEXPECTED instead of DC_OK
+ - remove bogus initializers
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+index 9edfcdf3db3b..cf512362b4f1 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+@@ -5088,14 +5088,14 @@ static bool dpcd_read_sink_ext_caps(struct dc_link *link)
+ enum dc_status dp_retrieve_lttpr_cap(struct dc_link *link)
+ {
+ 	uint8_t lttpr_dpcd_data[8];
+-	enum dc_status status = DC_ERROR_UNEXPECTED;
+-	bool is_lttpr_present = false;
++	enum dc_status status;
++	bool is_lttpr_present;
+ 
+ 	/* Logic to determine LTTPR support*/
+ 	bool vbios_lttpr_interop = link->dc->caps.vbios_lttpr_aware;
+ 
+ 	if (!vbios_lttpr_interop || !link->dc->caps.extended_aux_timeout_support)
+-		return false;
++		return DC_ERROR_UNEXPECTED;
+ 
+ 	/* By reading LTTPR capability, RX assumes that we will enable
+ 	 * LTTPR extended aux timeout if LTTPR is present.
+-- 
+2.39.0
+
