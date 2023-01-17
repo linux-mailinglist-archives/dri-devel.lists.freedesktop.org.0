@@ -1,54 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E7AD66E544
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 18:51:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB51C66E5A4
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 19:10:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE1C610E303;
-	Tue, 17 Jan 2023 17:51:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B56CE10E5A2;
+	Tue, 17 Jan 2023 18:10:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CC3910E305;
- Tue, 17 Jan 2023 17:51:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673977893; x=1705513893;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=n0FgE4J8em7zQXCwUH4vknV/VS6zROjS7xx2r3TK52k=;
- b=iHJyFU1e2aR6zsZkpz263q3Uo8Z02IYcmR8Kj9bwiIaOCYNPKXi0YHeN
- dsneEhanzer3/yNUDSUMOcyKVna5xhCt7cKShYgIMEIKPD6F4H1wBzb4+
- P+LED2e1kJFooMdppUVZA/dpQ+KeMhcup8ebjxjTzbPnkCgFTu7cze4CE
- 2kjx3N90G21eYQnM3/ZRl3Wez71FUp5QUR4yZBpsEQvcMMkzoAOtUW5Nw
- 4f/3Zgndflan1vEy76TVE7jlVjiaudtCciUZZO26Qr5x3VgFHYicesJdO
- 4haLoqSjzwYFUjaJjMb+3AvOFUKupwXliiTBOSOvcCzGjC0+7ia4T3Zpa Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="387111630"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="387111630"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2023 09:51:32 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="659463220"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="659463220"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.251.222.166])
- ([10.251.222.166])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2023 09:51:31 -0800
-Message-ID: <b1b8cc97-f102-8820-3b5d-1cce97fc398f@linux.intel.com>
-Date: Tue, 17 Jan 2023 18:51:28 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22C7110E5A3
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 18:10:23 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30HGZKhR015531; Tue, 17 Jan 2023 18:10:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=NcDDCrkTX4wtMuBqKMPjNce21bQxjTwahbcsqHHhL24=;
+ b=Cn6s8IfGmD794s1p6KbLW9kAne0+LdXrNa8Ss2Mwszt9FxTHg74ctHf+bV5jJrRoWUhu
+ HvMPJGaV3HomGonTqjpIt3cRl3EKtPZvfWoEu0yqmGvY1tIyt0z6bmBABQaPrFN4/ziK
+ EndRQw6hR9kp+z1wkWmxvWpCcJTyex4I6kQTwIvvD/JtvjQI6bmlqvcYJdbrxS/rIBQI
+ N4JiFZZEgUGdp0PYTs9RlmUdMD6fjQUk7OuQMT5Z77Zw1iLQHYPZv7rci4vbzDT0OLKQ
+ +7j4UzAVhGg5urfn8oMmBMOmabU+oYYnhSeHH5EJW3yWKkgXcC8/PNvDw+hmED3dPLt6 HQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n5nkq9fgh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Jan 2023 18:10:19 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30HIAIPm007665
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Jan 2023 18:10:18 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Tue, 17 Jan 2023 09:54:08 -0800
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <ogabbay@kernel.org>
+Subject: [PATCH] MAINTAINERS/ACCEL: Add include/drm/drm_accel.h to the accel
+ entry
+Date: Tue, 17 Jan 2023 10:52:05 -0700
+Message-ID: <1673977925-8250-1-git-send-email-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 1/2] drm/radeon: Do not use deprecated drm log API
-Content-Language: en-US
-To: Alex Deucher <alexdeucher@gmail.com>, Nirmoy Das <nirmoy.das@intel.com>
-References: <20230117174447.21870-1-nirmoy.das@intel.com>
- <CADnq5_P-vC9zfEPUk7LwPWuS1s+e4nqZtEqWf2mo0BfnVwYqJA@mail.gmail.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <CADnq5_P-vC9zfEPUk7LwPWuS1s+e4nqZtEqWf2mo0BfnVwYqJA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: KBPuh4XLw_ewJZvvbJaDSXcCbj8SdggC
+X-Proofpoint-ORIG-GUID: KBPuh4XLw_ewJZvvbJaDSXcCbj8SdggC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-17_08,2023-01-17_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0
+ mlxscore=0 adultscore=0 mlxlogscore=931 bulkscore=0 lowpriorityscore=0
+ spamscore=0 priorityscore=1501 phishscore=0 malwarescore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301170144
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,62 +79,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+get_maintainer.pl does not suggest Oded Gabbay, the DRM COMPUTE
+ACCELERATORS DRIVERS AND FRAMEWORK maintainer for changes that touch
+the Accel Subsystem header - drm_accel.h.  This is because that file is
+missing from the Accel Subsystem entry.  Fix this.
 
-On 1/17/2023 6:48 PM, Alex Deucher wrote:
-> On Tue, Jan 17, 2023 at 12:45 PM Nirmoy Das <nirmoy.das@intel.com> wrote:
->> Replace deprecated DRM_DEBUG_KMS_RATELIMITED() and DRM_ERROR()
->> with proper APIs.
->>
->> Cc: Alex Deucher <alexander.deucher@amd.com>
->> Cc: Christian König <christian.koenig@amd.com>
->>
->> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
->> ---
->>   drivers/gpu/drm/radeon/radeon_dp_auxch.c | 5 ++---
->>   1 file changed, 2 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/radeon/radeon_dp_auxch.c b/drivers/gpu/drm/radeon/radeon_dp_auxch.c
->> index 69379b95146e..76ce66efb5f8 100644
->> --- a/drivers/gpu/drm/radeon/radeon_dp_auxch.c
->> +++ b/drivers/gpu/drm/radeon/radeon_dp_auxch.c
->> @@ -158,7 +158,7 @@ radeon_dp_aux_transfer_native(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg
->>          } while (retry_count++ < 1000);
->>
->>          if (retry_count >= 1000) {
->> -               DRM_ERROR("auxch hw never signalled completion, error %08x\n", tmp);
->> +               pr_err("auxch hw never signalled completion, error %08x\n", tmp);
-> Please use dev_err() instead so we get device identification on error
-> messages.  Makes it much easier when you have multiple GPUs in a
-> system.
+Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 31ffd4b..7995ec7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6754,6 +6754,7 @@ C:	irc://irc.oftc.net/dri-devel
+ T:	git https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/accel.git
+ F:	Documentation/accel/
+ F:	drivers/accel/
++F:	include/drm/drm_accel.h
+ 
+ DRM DRIVERS FOR ALLWINNER A10
+ M:	Maxime Ripard <mripard@kernel.org>
+-- 
+2.7.4
 
-Thanks for your quick review, Alex. I will resend with dev_err().
-
-
-Nirmoy
-
->
-> Alex
->
->>                  ret = -EIO;
->>                  goto done;
->>          }
->> @@ -168,8 +168,7 @@ radeon_dp_aux_transfer_native(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg
->>                  goto done;
->>          }
->>          if (tmp & AUX_RX_ERROR_FLAGS) {
->> -               DRM_DEBUG_KMS_RATELIMITED("dp_aux_ch flags not zero: %08x\n",
->> -                                         tmp);
->> +               drm_dbg_kms_ratelimited(dev, "dp_aux_ch flags not zero: %08x\n", tmp);
->>                  ret = -EIO;
->>                  goto done;
->>          }
->> --
->> 2.39.0
->>
