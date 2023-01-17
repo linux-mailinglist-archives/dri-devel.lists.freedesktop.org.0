@@ -1,64 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF00666DFD9
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 15:04:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 564D666DFEA
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 15:05:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 924C410E193;
-	Tue, 17 Jan 2023 14:04:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E691810E545;
+	Tue, 17 Jan 2023 14:05:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4431F10E193
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 14:04:09 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id r30so6263328wrr.10
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 06:04:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=y4LXP+MvmQsKOsJ5hed0UZC24OVAbgZXP4avzgJImfo=;
- b=opFgH3H9FQHOvkzBbVCJtTAWCFhR4Gl5cpi5yVHXNLW4da+cPYgoa34+Yc5btwsON6
- wAFkWy9rpieA3cmX4wsInZCIhTwJyh4pf0ch+AlCuup/auiH2i2TrLh5sqb9j/Hod/Lz
- WFM9X0msAR+amngpn9QrYSrXPiEFSTRc6ek40te5liqS/P46vGr52CTA6lftavMtiHgY
- PPOdyZ/VhU/H812UoNX++Ky93zdzjsBhROMSZ+EgdH/K7S0UOuteh68xzTo2RX104+TW
- usKWw3EHHG1EXoAnUSZfbfjDh5z6fU8a1bp61o5K/dIGqEyCrgzJMPSwqrswaFBiw6Vt
- HeHg==
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1867B10E545
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 14:05:38 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ bg13-20020a05600c3c8d00b003d9712b29d2so25895116wmb.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 06:05:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=e5J02xE8mUBuOyTaMs1fpMdC/yBvddfmQvk7gILrt3k=;
+ b=pQcmKupVsvz9oZ0n0y09R2nHVtAIgQUc8W4jr3qXWwiJz2jhwpRhtJVYXU1SHqlwA/
+ fFz9ME8ZIRvsI3pB61C5s151g2Jl9oxSJNpftOPTqXBo9y2rQuip6o7R2rxqlVzPDxm6
+ bpaxmDOynmHjV2BzmsnYu8/2kdtLSHbRVOkD0NVrZHHVUon4nYA1wxKpvYtVwZ3qu7JI
+ vkdYU6TCD2A3FScmSh2iWzrO+zMBJxO276DD3l7zs3iIZPcR7o7tlYeN/6uU6x2Z9jJK
+ LHcXHUZ5TKeKeZXnaEB+PB/3W8kGCO4Jx//aPL+IcZjkbLqpk2+eSxkjetlfF/fYmDrd
+ XN0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=y4LXP+MvmQsKOsJ5hed0UZC24OVAbgZXP4avzgJImfo=;
- b=wMUsWWc/2mNfuaeS0x0BK08JFgHejPWWC8bzlANwiNBsfr1WY4vCBv9DQwZMvl/hdr
- fjUSwPXWFZTzxlBkGv1vEMmrwXpYWylnmP0OaoSmFn1tJob86p6O800ilNWncoh/d6dF
- yRtfL10JEu2v6ZuPTYQOenac9e3xEF3en6HiH/yBzGeHOqY2PmazyLNyyD8c0lbiU/Ee
- cYZkDDzMJ84wyFah7bL1JKgkoiHmmzwhuE6POoftk7l1WwVPCxvj9xYHPX8gWxjxmJ3c
- NnFwH7fy17FCoV/asHJv7ueuXbuniPxnldfUAxgU2kZS7C0h3rgH0YC1TitxQ2fHw1km
- IQlA==
-X-Gm-Message-State: AFqh2kpyyJHDBvDmX+xXIyHG1fYfpLeOyXQuk57WrPro5hkfB2pKLDQt
- twe4bE3CMTsgOM9JomIX/qWXEw==
-X-Google-Smtp-Source: AMrXdXvgQIsKAuGnrCo5SfyGi1kiUlgYMiOXbXCSkybN7DpkVs2OGedhHFnEkAHf5h4Swg1d0vCHsw==
-X-Received: by 2002:adf:e841:0:b0:2b9:d6ba:21f1 with SMTP id
- d1-20020adfe841000000b002b9d6ba21f1mr2885264wrn.21.1673964247673; 
- Tue, 17 Jan 2023 06:04:07 -0800 (PST)
-Received: from aspen.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- m15-20020adffe4f000000b002bdd155ca4dsm14561248wrs.48.2023.01.17.06.04.06
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=e5J02xE8mUBuOyTaMs1fpMdC/yBvddfmQvk7gILrt3k=;
+ b=NnTqgOW/C7hP0G0PQnTb+UQptdXP49i4TXutqaQGALzX+tmZ2Q6+DRsE81FZRzJBSs
+ y6sxCwzneTYzVa7vNK1u1k8Bf59GIWjm1MLUmRUEF5pBYY2oREIoH+0lFwFQrBvxI0Lp
+ NnAaDs1x1bnvF42BKBoyN9+LYEfCf2JzenA91qpk/UZ4Qkd5xor3mnmpJVS9y3Y4unrl
+ FNp17HicPHVmkQb5KDMNnN9E6lillQD8ZLkkonB4DwvIQ2dx0JQlw25DPDbgvq01Cjwa
+ 7PC5Kte7ybmzmd8Tig63Jh9ujwLOUAKsRJLMYcSpTf/CRtVDHzDopdzE+PbNEdh6wT/Z
+ Xxfw==
+X-Gm-Message-State: AFqh2krrxc+hKOwQiPHkpWFAKpaV6n9srhQPHp/sP9xH9hlkujs9nR7W
+ KGKn6tQINuL10AGEm0qUR7X5fgOxQ1s=
+X-Google-Smtp-Source: AMrXdXtW+J84+oFvHHLWzR0ooIydaGGB5ntOhq6BJALOKmiCgECB+wt4NNa0l0mZc3+MslEp3qwYnw==
+X-Received: by 2002:a05:600c:b90:b0:3d8:e0d3:ee24 with SMTP id
+ fl16-20020a05600c0b9000b003d8e0d3ee24mr3322792wmb.37.1673964336496; 
+ Tue, 17 Jan 2023 06:05:36 -0800 (PST)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ 24-20020a05600c231800b003db07420d14sm2035153wmo.39.2023.01.17.06.05.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 06:04:07 -0800 (PST)
-Date: Tue, 17 Jan 2023 14:04:05 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Jianhua Lu <lujianhua000@gmail.com>
-Subject: Re: [PATCH v4 1/2] backlight: ktz8866: Add support for Kinetic
- KTZ8866 backlight
-Message-ID: <Y8aq1aJd8QJCo3RU@aspen.lan>
-References: <20230117134742.23238-1-lujianhua000@gmail.com>
+ Tue, 17 Jan 2023 06:05:35 -0800 (PST)
+Date: Tue, 17 Jan 2023 17:05:26 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oded.gabbay@gmail.com
+Subject: [bug report] habanalabs: add debugfs support
+Message-ID: <Y8arJvmo7dLsAYlX@kili>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230117134742.23238-1-lujianhua000@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,141 +67,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Pavel Machek <pavel@ucw.cz>, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-leds@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 17, 2023 at 09:47:41PM +0800, Jianhua Lu wrote:
-> Add support for Kinetic KTZ8866 backlight, which is used in
-> Xiaomi tablet, Mi Pad 5 series. This driver lightly based on
-> downstream implementation [1].
-> [1] https://github.com/MiCode/Xiaomi_Kernel_OpenSource/blob/elish-r-oss/drivers/video/backlight/ktz8866.c
->
-> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
-> ---
-> Changes in v2:
->   - Add missing staitc modifier to ktz8866_write function.
->
-> Changes in v3:
->   - Add 2022 to Copyright line.
->   - Sort headers.
->   - Remove meaningless comment.
->   - Use definitions instead of hardcoding.
->   - Add missing maintainer info.
->
-> Changes in v4:
->   - Change 2022 to 2023.
->   - Remove useless macro and enum.
->   - Describe settings by devicetree.
->   - Move header file to C file.
->
->  MAINTAINERS                       |   6 +
->  drivers/video/backlight/Kconfig   |   8 ++
->  drivers/video/backlight/Makefile  |   1 +
->  drivers/video/backlight/ktz8866.c | 195 ++++++++++++++++++++++++++++++
->  4 files changed, 210 insertions(+)
->  create mode 100644 drivers/video/backlight/ktz8866.c
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 42fc47c6edfd..2084e74e1b58 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11674,6 +11674,12 @@ M:	John Hawley <warthog9@eaglescrag.net>
->  S:	Maintained
->  F:	tools/testing/ktest
->
-> +KTZ8866 BACKLIGHT DRIVER
-> +M:	Jianhua Lu <lujianhua000@gmail.com>
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-> +F:	drivers/video/backlight/ktz8866.c
-> +
->  L3MDEV
->  M:	David Ahern <dsahern@kernel.org>
->  L:	netdev@vger.kernel.org
-> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-> index 936ba1e4d35e..2845fd7e33ad 100644
-> --- a/drivers/video/backlight/Kconfig
-> +++ b/drivers/video/backlight/Kconfig
-> @@ -190,6 +190,14 @@ config BACKLIGHT_KTD253
->  	  which is a 1-wire GPIO-controlled backlight found in some mobile
->  	  phones.
->
-> +config BACKLIGHT_KTZ8866
-> +	tristate "Backlight Driver for Kinetic KTZ8866"
-> +	depends on I2C
-> +	select REGMAP_I2C
-> +	help
-> +		Say Y to enabled the backlight driver for the Kinetic KTZ8866
-> +		found in Xiaomi Mi Pad 5 series.
-> +
->  config BACKLIGHT_LM3533
->  	tristate "Backlight Driver for LM3533"
->  	depends on MFD_LM3533
-> diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
-> index e815f3f1deff..f70a819c304c 100644
-> --- a/drivers/video/backlight/Makefile
-> +++ b/drivers/video/backlight/Makefile
-> @@ -36,6 +36,7 @@ obj-$(CONFIG_BACKLIGHT_HP680)		+= hp680_bl.o
->  obj-$(CONFIG_BACKLIGHT_HP700)		+= jornada720_bl.o
->  obj-$(CONFIG_BACKLIGHT_IPAQ_MICRO)	+= ipaq_micro_bl.o
->  obj-$(CONFIG_BACKLIGHT_KTD253)		+= ktd253-backlight.o
-> +obj-$(CONFIG_BACKLIGHT_KTZ8866)		+= ktz8866.o
->  obj-$(CONFIG_BACKLIGHT_LM3533)		+= lm3533_bl.o
->  obj-$(CONFIG_BACKLIGHT_LM3630A)		+= lm3630a_bl.o
->  obj-$(CONFIG_BACKLIGHT_LM3639)		+= lm3639_bl.o
-> diff --git a/drivers/video/backlight/ktz8866.c b/drivers/video/backlight/ktz8866.c
-> new file mode 100644
-> index 000000000000..98916f92d069
-> --- /dev/null
-> +++ b/drivers/video/backlight/ktz8866.c
-> @@ -0,0 +1,195 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Backlight driver for the Kinetic KTZ8866
-> + *
-> + * Copyright (C) 2023 Jianhua Lu <lujianhua000@gmail.com>
+Hello Oded Gabbay,
 
-Shouldn't this be:
-Copyright (C) 2022, 2023 Jianhua Lu <lujianhua000@gmail.com>
+The patch c216477363a3: "habanalabs: add debugfs support" from Feb
+16, 2019, leads to the following Smatch static checker warning:
 
-> +static int ktz8866_probe(struct i2c_client *client,
-> +			 const struct i2c_device_id *id)
-> +{
-> +	struct backlight_device *backlight_dev;
-> +	struct backlight_properties props;
-> +	struct ktz8866 *ktz;
-> +
-> +	ktz = devm_kzalloc(&client->dev, sizeof(*ktz), GFP_KERNEL);
-> +	if (!ktz)
-> +		return -ENOMEM;
-> +
-> +	ktz->client = client;
-> +	ktz->regmap = devm_regmap_init_i2c(client, &ktz8866_regmap_config);
-> +
-> +	if (IS_ERR(ktz->regmap)) {
-> +		dev_err(&client->dev, "failed to init regmap\n");
-> +		return PTR_ERR(ktz->regmap);
-> +	}
-> +
-> +	memset(&props, 0, sizeof(props));
-> +	props.type = BACKLIGHT_RAW;
-> +	props.max_brightness = MAX_BRIGHTNESS;
-> +	props.brightness = DEFAULT_BRIGHTNESS;
+	drivers/accel/habanalabs/common/debugfs.c:272 vm_show()
+	warn: sleeping in atomic context
 
-There is still pending feedback from v3.
+drivers/accel/habanalabs/common/debugfs.c
+    241 static int vm_show(struct seq_file *s, void *data)
+    242 {
+    243         struct hl_debugfs_entry *entry = s->private;
+    244         struct hl_dbg_device_entry *dev_entry = entry->dev_entry;
+    245         struct hl_vm_hw_block_list_node *lnode;
+    246         struct hl_ctx *ctx;
+    247         struct hl_vm *vm;
+    248         struct hl_vm_hash_node *hnode;
+    249         struct hl_userptr *userptr;
+    250         struct hl_vm_phys_pg_pack *phys_pg_pack = NULL;
+    251         struct hl_va_range *va_range;
+    252         struct hl_vm_va_block *va_block;
+    253         enum vm_type *vm_type;
+    254         bool once = true;
+    255         u64 j;
+    256         int i;
+    257 
+    258         if (!dev_entry->hdev->mmu_enable)
+    259                 return 0;
+    260 
+    261         spin_lock(&dev_entry->ctx_mem_hash_spinlock);
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This is holding a spinlock.
 
-| Please set the scale property correctly. "Unknown" is never correct for
-| new drivers.
+    262 
+    263         list_for_each_entry(ctx, &dev_entry->ctx_mem_hash_list, debugfs_list) {
+    264                 once = false;
+    265                 seq_puts(s, "\n\n----------------------------------------------------");
+    266                 seq_puts(s, "\n----------------------------------------------------\n\n");
+    267                 seq_printf(s, "ctx asid: %u\n", ctx->asid);
+    268 
+    269                 seq_puts(s, "\nmappings:\n\n");
+    270                 seq_puts(s, "    virtual address        size          handle\n");
+    271                 seq_puts(s, "----------------------------------------------------\n");
+--> 272                 mutex_lock(&ctx->mem_hash_lock);
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+so it can't take a mutex or it leads to a sleeping in atomic bug.  These
+can be detected at runtime by enabling CONFIG_DEBUG_ATOMIC_SLEEP.
 
-Do not ignore feedback. You should either act on it or, if you disagree
-or need additional clarification then, reply on the mail thread.
-
-
-Daniel.
+regards,
+dan carpenter
