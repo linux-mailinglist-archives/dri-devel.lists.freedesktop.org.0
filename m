@@ -2,53 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7D866DDBA
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 13:35:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5E3966DECD
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 14:28:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A434810E2E4;
-	Tue, 17 Jan 2023 12:35:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C449510E2DC;
+	Tue, 17 Jan 2023 13:28:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A502510E1A4
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 12:35:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673958954; x=1705494954;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=UrZQQxELZNb7lz2ZOTd2cqprvuDaxhW4x2Gu4xwEkuA=;
- b=QH3MidZfIi0nIlCckl3Ab1BmTZL6AyT4uMccSAJrBb63odsaJuJOGJjl
- gbIytSt1F55pBjggEx20M/kVeomqVaujsMk+FWof0KpGLsXmvQG4VkhUt
- yejhQq6CoNUPUQvdFl1BFwBcnkiczyqTFvRbNkWULoD9qXjrYVNHAqSog
- jCgWbgk4e9JWlVXWDcNxQ+nXWDZTDaUgSOTVGDr7eJBSce9ao2Vm97dJF
- LzsuH65APFOr4qw+y2vgW3TbH0mBrEMAzVi1ao7VQafaTOb1QBSkv3L+d
- wtheQsxO/5lcXa4hr4Fqt69EtAryx2a2+X47HndymmRB0QhOUFYFcDr7b A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="325958828"
-X-IronPort-AV: E=Sophos;i="5.97,222,1669104000"; d="scan'208";a="325958828"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2023 04:35:54 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="691570027"
-X-IronPort-AV: E=Sophos;i="5.97,222,1669104000"; d="scan'208";a="691570027"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.249.45.93])
- ([10.249.45.93])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2023 04:35:53 -0800
-Message-ID: <bfe991fb-c457-a291-898a-cfbe7f1b4aa2@linux.intel.com>
-Date: Tue, 17 Jan 2023 13:35:50 +0100
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2062.outbound.protection.outlook.com [40.107.237.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9877410E2DC;
+ Tue, 17 Jan 2023 13:28:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WRM0f8EmSHj0eOMpjtpFSEJa/RCkzuXV9HH/n/gWfQjKJL9j7y1KDccHPA2GkFkiFjvsPQxYyyPb2SApDFgWG7yye5sOywE/Th6rZ/E8gIqFffPs0O46V07PcbfwXkLetRB0Ym6JaHCTeFm59WDKsBurcO6ha0DPHouG+FR830feNKD17E4AtXkJqyhZ6bEldfnlYlDXAGWRdhzI6tQwEvZ/j+un+JCJ4xNzP6iWsi9gsNJuuy5oIUEESzhSLBW5yREWlECARQGyxtojzOkXZZf18r8k6t/Nv5Vv70VdHhR9UMw/b6m3atTCmZd1O6zf/c9r6MrlHqSKJAa8Zgomgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=a7Ck6qvdO21rqNebg+H3Bf44feASnVz8+E7RHkeP5Iw=;
+ b=Atzv4VFcNM0NbnWPyM8TaKDfWLHCzA8GdsIzZiffXw5F6oXhMVaEPyVmgRsVoSF0GcLdZSpq3U9LRXdUlYweeY/9Ul+Fl+Z4IimqeP0I0kpUBTTjAg3CHXiL2gV0iNEUUjfiybSeaUOMMxW5G4KuMFIlJ3HZNG55TqhuiHd4zBH2cQmPa3YlZFo3zNT+xnQty44tDZ+kiR/YnH3F33Xsw8uQUPJZBkFfB/QlZVVn0xu3E41sjCMP+oAOfiU8E2n8uen59sGlPOoampfpGyIAlLnLLJGaWfa9yrf32DCZyGuy5i7rUKn9U/z54HtBdrPG/e9evDklPynAQ1NondsjAQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=a7Ck6qvdO21rqNebg+H3Bf44feASnVz8+E7RHkeP5Iw=;
+ b=diaa30gB3O0WnVPnzY14PbtakuoF/s2Kcg9IGQsPpifD0lBROucWTSa0RZIVwIwVp09wG8meyhqY/QVI+ktPbwyre4BuxmZKAktAvhLEgsxKZL0r7ZB0ba3knLEnhh3/Yoattv7KXBxSLHZ9v4jRQdCJzomJBns7CtX6bdIfpdgjbin843qJGD3eNbD8aMgg4Lp28pcJKv944+pymxaei7vG10P+x/7i+/CL3ErI4yMX/i0flRWRPaRJMtpQRXSWAbpjGYB323QgxhXuSHPTg8mRGBOLN6rjbltXrLv2kNBblWnm0x0qSKc30b0Ufi50hQm8KoXuZq9WXEEorHB1JA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by SJ0PR12MB8167.namprd12.prod.outlook.com (2603:10b6:a03:4e6::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.23; Tue, 17 Jan
+ 2023 13:28:48 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::f8b0:df13:5f8d:12a]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::f8b0:df13:5f8d:12a%9]) with mapi id 15.20.6002.013; Tue, 17 Jan 2023
+ 13:28:48 +0000
+Date: Tue, 17 Jan 2023 09:28:46 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Subject: Re: [PATCH 7/8] iommu/intel: Support the gfp argument to the
+ map_pages op
+Message-ID: <Y8aijhHjqqf6hjwL@nvidia.com>
+References: <0-v1-6e8b3997c46d+89e-iommu_map_gfp_jgg@nvidia.com>
+ <7-v1-6e8b3997c46d+89e-iommu_map_gfp_jgg@nvidia.com>
+ <BN9PR11MB52765EE38CA21BA27EEA06548CC69@BN9PR11MB5276.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BN9PR11MB52765EE38CA21BA27EEA06548CC69@BN9PR11MB5276.namprd11.prod.outlook.com>
+X-ClientProxiedBy: MN2PR03CA0001.namprd03.prod.outlook.com
+ (2603:10b6:208:23a::6) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH] drm/ttm: fix some minor kerneldoc issues
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org
-References: <20230117123345.387078-1-christian.koenig@amd.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <20230117123345.387078-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SJ0PR12MB8167:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8c08f32f-97d3-4e4a-fb3b-08daf88ec3b1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gGdOSydR+wezMWCKxNRQtb9kcvrWccNBt8OBVOW9Gu4CD///byx9zPqALmWUKmHV89iAdXHyco1eWdf0yNUg/UgomQLANZhNZBH04CnenAx+KJUtgmQ6DDoNtbnROo2GEeUvJHr1wYvPnGyyIDS7sHIOHZy14Byr+3RE5fZbuY3cUEBZL2HVos8Eur2hAySK0jdycqYgkZRB8Ejcg3yBUuG4Mp6PXdwD/UAxcxmRh09AbZeFTt0iQdqpJ1Px34uIh3ErWxGWrMXRxyZrLK/HCd3En0wcgLiQ8pE8hBCBk14im5JqOSoYry2zD+OZpLKnjoGuAzHf72wvtOwgGv+lO5d8cmliuOzHmdvzqZKox5Tkrs8MyxgmTlFt7ihM471yIa6JCyy/uSxEsfT32pKCIErSqeZ6QSkg75n49n8RxeTmQtqSHJhqjpCDGxax88tX2QZSjG8J1ckWWfXWVHtQXbCqk0P6DbSBCxnYlURj4XvirupahnIRh2l9qbasuqbGDDFo/QgvPxRG+rTvmz65dggfjTnmq94fjMZ0r2xEPvwRBbzhK8Xrlin0h8YtLGp4osSUeIBgwNizTjuGhXhnw2J28BMiYBHpylh0J6+tk1FH0Dp7Tb257Xq4OSoCVDNHruEiNUyqCn2WU2ESYFBdiQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(376002)(396003)(366004)(136003)(346002)(84040400005)(451199015)(6916009)(66946007)(66476007)(66556008)(26005)(41300700001)(186003)(6512007)(8676002)(4326008)(2616005)(86362001)(36756003)(5660300002)(8936002)(54906003)(478600001)(83380400001)(6506007)(316002)(38100700002)(7416002)(6486002)(2906002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?SGjPp+g+3tYicaqyVbQDXvnPfoJE8rpi13E2wqIQ3NVe1AnEKEP3FF/Fk/c9?=
+ =?us-ascii?Q?5iJJdGxrqLc0bhc3n+H4Us6lj/xbxJ4JVRX7A53SPGyJRgk1kEMkTqs2iaT8?=
+ =?us-ascii?Q?ywgZ6DB2odUNdKl4LFA7p8sV8WWuZMEukoEMHIzo50KSogJe/fcgLHEsbJrd?=
+ =?us-ascii?Q?VLVkXoijS6S6HRiqM1EmgV0Ds4Sp64uyaCNMSbFFHilQ1xzHQ0R7u7huXcsg?=
+ =?us-ascii?Q?cB1+JDvrQ2VF61IHNDjXHEHSmBaIrMSPo7ZZPVFW+5nXeoQBKkt0+TdoE1is?=
+ =?us-ascii?Q?25eU1B0ApbnUvZg2pnhpdhur5AHvS6Ix4de5GW/uOYHSTZt3Q2PVqql2W9pI?=
+ =?us-ascii?Q?IACx+hlvjsjnQmT/Tmy4heaAk6H2NyMlLMdNwtmZi99v0FQnCqCS1e45fSvV?=
+ =?us-ascii?Q?IQeU3xnrs0lyDR2jo1P74I+MCauVQQvAt7zA9KcE7TBvxt4T9FAmSwCOYn1H?=
+ =?us-ascii?Q?xBD35HIV8nPzP25yu8bpKlAubhUmzYsc63SleBVv3EE8/H65Nioa10qS1ulS?=
+ =?us-ascii?Q?tQolttI/x+rmfJor4VvtYjhxNWZz6doaHMCgdREPtPmGaVbH70ZQJvkwI6kK?=
+ =?us-ascii?Q?yGZI33J0rhKrfPsR7GXGOljts7QuP7ztEP64ZDhlHLp1h7xhQcHEuYbNjALO?=
+ =?us-ascii?Q?KKLJ0LuGkG3JLbfx7KTEGs3iQW1sfpZE1lbr+uLfTIJ+WiUaOZjqRR+C+Y2R?=
+ =?us-ascii?Q?E6mlUWY8/HjB9Em7va3anektNi9z2PvUp2Y0vGEowupNS7AdvY89x5EQXpDX?=
+ =?us-ascii?Q?gPKTW9dbT1gNA6T8PsHV9+7TrD1q8157BzBFJyFgn0yPL8Mk+qGcitWTcG9j?=
+ =?us-ascii?Q?Tvy0ijGGW5bv5xlVkPOOjwKFAUUM270sVLs1YZzRp+Q/weLUFjf6veMAuvvc?=
+ =?us-ascii?Q?5MHqn7VcP3ClJ+4rfBbq6d1OVJbcctehKTZ3YMFqPFC0G5H6qPLueDz4I+Ad?=
+ =?us-ascii?Q?xEqcJy2SAiVrme+Bfa/js7IRvnWvsjPoi4gcazPOq+4kB6fwPcItHvMgdUPL?=
+ =?us-ascii?Q?vcRo2LtTWkS2efFPxrm6H7wB6uerSR0McXpAoimZpXDXx6VlyKXDvsKQ1JV5?=
+ =?us-ascii?Q?hThtH4fHt3yejUJQ79TYUR9GrY08VrGMJDu8zhCw0TqswfZWZhW5UXclfEug?=
+ =?us-ascii?Q?5idM+5heWs1GQfoP9P/R2IIEglpYm2Cw56CDkclOLKTQ75aIYIxQKrMsWiHH?=
+ =?us-ascii?Q?28U7+GDFGpn+oNIZIxB0sp/ndOyutZIoGz81QtmNyktlOD0l7Y6NRVkLL5GQ?=
+ =?us-ascii?Q?QnjfANyEu3NTv99akz1gL2XV/tZIGmIA25WN25gNt3nLUPcELk0hucVCxAot?=
+ =?us-ascii?Q?Ljh5hxOprPKNIW3Qt+uRRWBd4uZoC0bGSieYb6qNYeh4DeLQS/69s9nyw/7s?=
+ =?us-ascii?Q?m2ZbnZ35dF1uvoGyNMEqP//RBm4MrFDY4oSG4uirnuh3h0tSzk1JRFZX1fm9?=
+ =?us-ascii?Q?r4bRBpC0cFcRAkZ5MT3hZokx9wKEYVHVRplGI4ohl9YvBkhTRrJXQwyG41TH?=
+ =?us-ascii?Q?F5oHqtmOVOgbd15hd5qxxqX4Sud0ag72LdYvkbuhkvNOjovZhfxCbIyrP+yn?=
+ =?us-ascii?Q?i9yDNGVF6QLtaHZ1E9fYc3KcPBQVQcUuNq+u2cDj?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c08f32f-97d3-4e4a-fb3b-08daf88ec3b1
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2023 13:28:48.0330 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: O1t9XnR4LrfHs2iOFsH6NoVgD4cLYVO6IShfpHChIMiiQJ2iyvQI1Vh0TLNT7kEl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB8167
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,63 +116,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+ Matthew Rosato <mjrosato@linux.ibm.com>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ Joerg Roedel <joro@8bytes.org>,
+ "ath10k@lists.infradead.org" <ath10k@lists.infradead.org>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ "ath11k@lists.infradead.org" <ath11k@lists.infradead.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Niklas Schnelle <schnelle@linux.ibm.com>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+On Tue, Jan 17, 2023 at 03:38:51AM +0000, Tian, Kevin wrote:
+> > From: Jason Gunthorpe <jgg@nvidia.com>
+> > Sent: Saturday, January 7, 2023 12:43 AM
+> > 
+> > @@ -2368,7 +2372,7 @@ static int iommu_domain_identity_map(struct
+> > dmar_domain *domain,
+> > 
+> >  	return __domain_mapping(domain, first_vpfn,
+> >  				first_vpfn, last_vpfn - first_vpfn + 1,
+> > -				DMA_PTE_READ|DMA_PTE_WRITE);
+> > +				DMA_PTE_READ|DMA_PTE_WRITE,
+> > GFP_KERNEL);
+> >  }
+> 
+> Baolu, can you help confirm whether switching from GFP_ATOMIC to
+> GFP_KERNEL is OK in this path? it looks fine to me in a quick glance
+> but want to be conservative here.
 
-On 1/17/2023 1:33 PM, Christian König wrote:
-> Pointed out by the kernel test robot while merging ttm_bo_api.h and
-> ttm_bo_driver.h.
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> ---
->   drivers/gpu/drm/ttm/ttm_bo_util.c | 13 ++++++-------
->   1 file changed, 6 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> index d33bff038d3a..77b50875b99f 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> @@ -127,9 +127,8 @@ EXPORT_SYMBOL(ttm_move_memcpy);
->    * ttm_bo_move_memcpy
->    *
->    * @bo: A pointer to a struct ttm_buffer_object.
-> - * @interruptible: Sleep interruptible if waiting.
-> - * @no_wait_gpu: Return immediately if the GPU is busy.
-> - * @new_mem: struct ttm_resource indicating where to move.
-> + * @ctx: operation context
-> + * @dst_mem: struct ttm_resource indicating where to move.
->    *
->    * Fallback move function for a mappable buffer object in mappable memory.
->    * The function will, if successful,
-> @@ -281,8 +280,8 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
->   /**
->    * ttm_io_prot
->    *
-> - * bo: ttm buffer object
-> - * res: ttm resource object
-> + * @bo: ttm buffer object
-> + * @res: ttm resource object
->    * @tmp: Page protection flag for a normal, cached mapping.
->    *
->    * Utility function that returns the pgprot_t that should be used for
-> @@ -621,7 +620,7 @@ static void ttm_bo_move_pipeline_evict(struct ttm_buffer_object *bo,
->   }
->   
->   /**
-> - * ttm_bo_move_accel_cleanup.
-> + * ttm_bo_move_accel_cleanup - cleanup helper for hw copies
->    *
->    * @bo: A pointer to a struct ttm_buffer_object.
->    * @fence: A fence object that signals when moving is complete.
-> @@ -665,7 +664,7 @@ int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
->   EXPORT_SYMBOL(ttm_bo_move_accel_cleanup);
->   
->   /**
-> - * ttm_bo_move_sync_cleanup.
-> + * ttm_bo_move_sync_cleanup - cleanup by waiting for the move to finish
->    *
->    * @bo: A pointer to a struct ttm_buffer_object.
->    * @new_mem: struct ttm_resource indicating where to move.
+I checked it carefully myself as well, good to check again.
+
+> > @@ -4333,7 +4337,8 @@ static size_t intel_iommu_unmap(struct
+> > iommu_domain *domain,
+> > 
+> >  	/* Cope with horrid API which requires us to unmap more than the
+> >  	   size argument if it happens to be a large-page mapping. */
+> > -	BUG_ON(!pfn_to_dma_pte(dmar_domain, iova >> VTD_PAGE_SHIFT,
+> > &level));
+> > +	BUG_ON(!pfn_to_dma_pte(dmar_domain, iova >> VTD_PAGE_SHIFT,
+> > &level,
+> > +			       GFP_ATOMIC));
+> 
+> with level==0 it implies it's only lookup w/o pgtable allocation. From this
+> angle it reads better to use a more relaxed gfp e.g. GFP_KERNEL here.
+
+We should only write GFP_KERNEL if it is actually a sleepable context
+because it will be mighty confusing if it isn't. I couldn't tell what
+the context is so I left it as ATOMIC.
+
+You are correct this is only just a lookup and so the value is never
+used / doesn't matter.
+
+Jason
