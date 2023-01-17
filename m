@@ -1,66 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A842A66DBAD
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 11:59:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1FA66DBDF
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 12:08:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D07210E491;
-	Tue, 17 Jan 2023 10:59:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0930E10E190;
+	Tue, 17 Jan 2023 11:08:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 179C910E491
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 10:59:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99E0D10E16A
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 11:08:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1673953151; x=1705489151;
+ t=1673953686; x=1705489686;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=Ozw0uC54/LYaa0bVtEywCyFj6gzjN7Xki0z4Y7/t+TY=;
- b=P4xYFv1wMim8jl1juYzfSPDsKvrS1lEONaSCpqKKBrbRS/Ex1o0IGDdt
- 57u5s4mv94TrBVOSk77OdEapTPIHrd/CdEIoVPVyNZDATybXw5UvqV6uY
- C1l68KfsE0TKLdXPVncSSSAXrS8kZrsG5k8K0wEmtmQoIP+lgic7pCfcP
- 9sPeQT/s5tS8U0y2J8i/BuuiY0iac1QWCMJUWTEsaM/V997e4DP37X+jW
- kDqJHb7102xPL4uR8TrXqYxx6a5db4TBpR2P+cCG8JDelPvDa/o6+wHY+
- Cr9SJx6kDqntmPETUU5PIR/KlhWkKSnQaOJJSkgsfT0vpVn01I8f+roxU w==;
-X-IronPort-AV: E=Sophos;i="5.97,222,1669071600"; d="scan'208";a="28473620"
+ bh=2hIaPllRjbcCpxzx+2PEZ2OUnrlceR6+TL3T2xzTYcg=;
+ b=ei01HZASKv8at8dTJ0jOHGAuuWosClP19dYknpgTdYfEA9hbT9fIGz5q
+ Bo6d7hFWKH1f0thCFPkZxhS97xHEGqR4+oQS1LaZpitrlVbyTBJ/Lt8Dr
+ bcwWi1PiDOFV/YzGRRHoaWtnorWixms2HgYWQnDHJ3wqN+Fod0feks7RK
+ bjDzmLyalo03RU+xSlLBBlNzuKtBi7hjND1htYjopyhnq4MpdZqEUb5I+
+ DMQa/ddZ4tel/Ig1nPAIT4b0lUFwbeUEMNcgMTx+5QhTSuigP7AawPaoD
+ jbKVBXEPdop00BbkTj9wmq33/duKDgjsyWAFznntz8lpRy5ulONcFXHh0 A==;
+X-IronPort-AV: E=Sophos;i="5.97,222,1669071600"; d="scan'208";a="28473967"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 17 Jan 2023 11:59:08 +0100
+ by mx1-pgp.tq-group.com with ESMTP; 17 Jan 2023 12:08:04 +0100
 Received: from mx1.tq-group.com ([192.168.6.7])
  by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Tue, 17 Jan 2023 11:59:08 +0100
+ Tue, 17 Jan 2023 12:08:04 +0100
 X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Tue, 17 Jan 2023 11:59:08 +0100
+ by tq-pgp-pr1.tq-net.de on Tue, 17 Jan 2023 12:08:04 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1673953148; x=1705489148;
+ t=1673953684; x=1705489684;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=Ozw0uC54/LYaa0bVtEywCyFj6gzjN7Xki0z4Y7/t+TY=;
- b=j5euxat7KT8dA8mjJ4kD0XqelruZQL2oNa3iPrHqeotItqAgO3vp5DDY
- tblXObD0VYZa2e8MSawc98tP5SQzqHOIZa1nXfb67esG8TgvKMTYodUdu
- Qhaxg+3W3cnnFJhw//fTHsds7WybKPZiv2XDsAwcPd5ymBveA6Zw+EDct
- AZ8K+8EAgg15MN0AlFwPH6VeZI0gq0CfByPls52Yi3L7hPtTa4zUf8iXV
- I9bvNi/fTPpn70qgIdDaVpW5s63kN1VayYT8ALCtHoxuBa0ZXmXBXToCQ
- 9xFMaBBdn/OExdHOYVTC2RXOgngtNgPGdkpG7TJU8CzlxSIQXze0but5k Q==;
-X-IronPort-AV: E=Sophos;i="5.97,222,1669071600"; d="scan'208";a="28473619"
+ bh=2hIaPllRjbcCpxzx+2PEZ2OUnrlceR6+TL3T2xzTYcg=;
+ b=dB4lX78kUVYgwMuJsXHagFAehjuWPbsRXJBeBPKLe23C4D6u2M887Xve
+ AlKBx9tCfS098eNu42/3y/gmroAt43aMfGiNOdBo831uDRrRhpYLUavTF
+ j+M9NIghW3HxuMr0yhj7Oc2X+SWZS/AxDfeBf2r0I9Tql3HaHhK5temLO
+ nW1w2ePInEkLKcjuo4vIFc+X+gFc7CJVuq49TuPgMTf1xDu9IwCo7+zfe
+ gHKd6B8bYNkjqi37/t3HvWhnBuK7NdfO2QIUHWcyvdjOtPaPwKnMWspF1
+ /stN+AnF4XDKkAxyFv8vc1Fviw/XH13SmL5498YbU50tvTuJYNJXp37/g g==;
+X-IronPort-AV: E=Sophos;i="5.97,222,1669071600"; d="scan'208";a="28473966"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 17 Jan 2023 11:59:08 +0100
+ by mx1.tq-group.com with ESMTP; 17 Jan 2023 12:08:04 +0100
 Received: from steina-w.tq-net.de (unknown [10.123.53.21])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 60594280056;
- Tue, 17 Jan 2023 11:59:08 +0100 (CET)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id A17E2280056;
+ Tue, 17 Jan 2023 12:08:04 +0100 (CET)
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+To: Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 1/1] drm/bridge: sii902x: Use dev_err_probe
-Date: Tue, 17 Jan 2023 11:59:03 +0100
-Message-Id: <20230117105903.2068235-1-alexander.stein@ew.tq-group.com>
+Subject: [PATCH 1/2] drm: fsl-dcu: Use dev_err_probe
+Date: Tue, 17 Jan 2023 12:08:00 +0100
+Message-Id: <20230117110801.2069761-1-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -81,27 +78,31 @@ Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This helps figuring out why the device probe is deferred.
+fsl_dcu_drm_modeset_init can return -EPROBE_DEFER, so use dev_err_probe
+to remove an invalid error message and add it to deferral description.
 
 Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
- drivers/gpu/drm/bridge/sii902x.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-index d212ff7f7a87..f4a8f227c41b 100644
---- a/drivers/gpu/drm/bridge/sii902x.c
-+++ b/drivers/gpu/drm/bridge/sii902x.c
-@@ -1116,7 +1116,8 @@ static int sii902x_probe(struct i2c_client *client)
- 		sii902x->next_bridge = of_drm_find_bridge(remote);
- 		of_node_put(remote);
- 		if (!sii902x->next_bridge)
--			return -EPROBE_DEFER;
-+			return dev_err_probe(dev, -EPROBE_DEFER,
-+					     "Failed to find remote bridge\n");
- 	}
+diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+index 8579c7629f5e..418887654bac 100644
+--- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
++++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+@@ -103,10 +103,8 @@ static int fsl_dcu_load(struct drm_device *dev, unsigned long flags)
+ 	int ret;
  
- 	mutex_init(&sii902x->mutex);
+ 	ret = fsl_dcu_drm_modeset_init(fsl_dev);
+-	if (ret < 0) {
+-		dev_err(dev->dev, "failed to initialize mode setting\n");
+-		return ret;
+-	}
++	if (ret < 0)
++		return dev_err_probe(dev->dev, ret, "failed to initialize mode setting\n");
+ 
+ 	ret = drm_vblank_init(dev, dev->mode_config.num_crtc);
+ 	if (ret < 0) {
 -- 
 2.34.1
 
