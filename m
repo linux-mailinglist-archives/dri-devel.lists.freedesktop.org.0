@@ -1,69 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD0D66DD36
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 13:09:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB8066DC5A
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 12:28:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1631E10E03E;
-	Tue, 17 Jan 2023 12:09:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBD3110E195;
+	Tue, 17 Jan 2023 11:28:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2679 seconds by postgrey-1.36 at gabe;
- Tue, 17 Jan 2023 12:09:39 UTC
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12E3610E03E
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 12:09:38 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30HACJMP000401; Tue, 17 Jan 2023 12:24:44 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=acU0cnZ3w2pKxKoWqTFB/CdxhadN2u2TMa8Y+vjXTA0=;
- b=utEtmcQm4rgeRIBIy2tau6SKNVtqWWwSVY23wcD7wJrvNWSWqjYADB3kEybU1eW6JqPq
- aXGGz+dWssoF9kBQKywLmSPXtFDOkGoi3h0yHQcvRx1os98JuWS4BSutCWYdVoqLnN/w
- Fo3jmjT0HB5CSFQzkmK8fW1EcqakhZf70Tr2kIuhCr5LtQ9lfKY25N5EPqwz2aQ/dy8w
- VhgwZXg5K/4SAr7rSD41nfCosnJBfM6cxE6KhXSty6YeiC8npeMyu2L1blEuOJjwQKch
- 9YGtwJWIAcIrdzfqS7VvYtpi+1l74Rt0+TBgIqJRZag68BJ8jIDa4k+uxP5ZVaLtM2E3 dQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3n3mm6fygx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 17 Jan 2023 12:24:44 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1AF7710002A;
- Tue, 17 Jan 2023 12:24:43 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id CDF61215BED;
- Tue, 17 Jan 2023 12:24:43 +0100 (CET)
-Received: from [10.201.21.93] (10.201.21.93) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.13; Tue, 17 Jan
- 2023 12:24:43 +0100
-Message-ID: <2bfd93b7-0419-a972-5a52-f0db0650b29e@foss.st.com>
-Date: Tue, 17 Jan 2023 12:24:42 +0100
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABEE710E195
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 11:28:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673954884; x=1705490884;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=QWWftZhd4SLLECtEcPjAU+Q3Hy5BGqJ3G3uT7xsr2iY=;
+ b=htTuL3t7sNE+QHauTqWw35uCAj3T5oBXTKTJuZ4GhdBbJZHEZIKyUVBL
+ Zo34Ucw+PuvuGNPU4+D2pzBwILUEWYwfHTAbRneuwMokmNRXcfawhDB6b
+ UtC3U8mgtg1fjgq/ratRbsH9cdao9j+GuI2Zth2LzQOjtlugHPnJ6kh6y
+ gp+fGL3W2PBMkhEvf91rhhxSKxhI2cGvqPiiid2oZyCfod5tYyiLDPVeO
+ lYAxHvmnTUxBW4eYaSqCJpnj+SSAxmDFwobbfG0Tp69SIwjvYC1WXD2Ln
+ 7hNphVeujagzuRHE0InwWcxE+923IlL7+QEvI1uO3nFLEBdazwBMBh8Gf A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="324725116"
+X-IronPort-AV: E=Sophos;i="5.97,222,1669104000"; d="scan'208";a="324725116"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2023 03:28:04 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="783209443"
+X-IronPort-AV: E=Sophos;i="5.97,222,1669104000"; d="scan'208";a="783209443"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.10.213])
+ ([10.213.10.213])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2023 03:28:01 -0800
+Message-ID: <57122f06-340e-5eea-1a1e-0b9017d25ed1@intel.com>
+Date: Tue, 17 Jan 2023 12:27:59 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 6/6] ARM: dts: stm32: Use new media bus type macros
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.6.1
+Subject: Re: [PATCH 1/1] drm/bridge: sii902x: Use dev_err_probe
 Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- <devicetree@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>
-References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
- <20220615221410.27459-7-laurent.pinchart@ideasonboard.com>
-From: Alexandre TORGUE <alexandre.torgue@foss.st.com>
-In-Reply-To: <20220615221410.27459-7-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230117105903.2068235-1-alexander.stein@ew.tq-group.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20230117105903.2068235-1-alexander.stein@ew.tq-group.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.201.21.93]
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-17_05,2023-01-17_01,2022-06-22_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,31 +66,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jacopo Mondi <jacopo@jmondi.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Shawn Guo <shawnguo@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Eugen Hristev <eugen.hristev@microchip.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent
-
-On 6/16/22 00:14, Laurent Pinchart wrote:
-> Now that a header exists with macros for the media interface bus-type
-> values, replace hardcoding numerical constants with the corresponding
-> macros in the DT sources.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 
-Applied on stm32-next.
+On 17.01.2023 11:59, Alexander Stein wrote:
+> This helps figuring out why the device probe is deferred.
+>
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> ---
+>   drivers/gpu/drm/bridge/sii902x.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
+> index d212ff7f7a87..f4a8f227c41b 100644
+> --- a/drivers/gpu/drm/bridge/sii902x.c
+> +++ b/drivers/gpu/drm/bridge/sii902x.c
+> @@ -1116,7 +1116,8 @@ static int sii902x_probe(struct i2c_client *client)
+>   		sii902x->next_bridge = of_drm_find_bridge(remote);
+>   		of_node_put(remote);
+>   		if (!sii902x->next_bridge)
+> -			return -EPROBE_DEFER;
+> +			return dev_err_probe(dev, -EPROBE_DEFER,
+> +					     "Failed to find remote bridge\n");
 
-Thanks.
-Alex
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
+Regards
+Andrzej
 
+>   	}
+>   
+>   	mutex_init(&sii902x->mutex);
 
