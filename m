@@ -2,40 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE1C66DEF6
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 14:38:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA0066DF65
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jan 2023 14:52:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BC0A10E53B;
-	Tue, 17 Jan 2023 13:38:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E58410E540;
+	Tue, 17 Jan 2023 13:52:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E52DB10E53B
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 13:38:26 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA43410C;
- Tue, 17 Jan 2023 14:38:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1673962705;
- bh=y4XQ2I+wNciwgwpuJ5Hqpsxoc0VJ3iJrbRCD6gQbPRA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=b7Nk4S+JUqTD1HhHRoKP3PS8RRK4HVMX9x6F9JZbDoKGTJpYvF1pk/hytyCRM9WJi
- bmyexqNR/X5TPD95jTmssQ9DFoTQjMbHlj5MGvPqbB2crEeCyodN4UN1uiaY4waiEl
- 2Y/V1ijSImP4PmxEKJ1FUzqW7lwjePaarii3JJuA=
-Date: Tue, 17 Jan 2023 15:38:25 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v3 0/7] media/drm: renesas: Add new pixel formats
-Message-ID: <Y8ak0SD1YLUZt0Pz@pendragon.ideasonboard.com>
-References: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
- <Y6m2AqlDdmcgCk8F@pendragon.ideasonboard.com>
- <479e1dca-8d9c-cc75-75d9-3148ccc54f68@ideasonboard.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65C9410E540
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 13:52:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673963547;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zCNIOWyp6BvkZ2wh9MfUHSp5MAA9j0ACgJb6RoOlUO0=;
+ b=RAzPTz2WXsIRDRK96l3OjVCRglq+2hqU+Isb4trMR6yVuDDhpAD1WOsS3R4si9W19LunoR
+ uG/0v9XcBKpJ/r9VYbJpR4pQIiseKJJy6I8zqqrI+x1ruYfrwX0M+KZ6xjBPR6KJACIVeS
+ jYmmzHtUKZ++RgE7FeLM3q+kyHHleOM=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-15-fKGYPON-NHK4VtunCi40qw-1; Tue, 17 Jan 2023 08:52:25 -0500
+X-MC-Unique: fKGYPON-NHK4VtunCi40qw-1
+Received: by mail-lj1-f198.google.com with SMTP id
+ y19-20020a05651c221300b00279958f353fso8081830ljq.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 05:52:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=zCNIOWyp6BvkZ2wh9MfUHSp5MAA9j0ACgJb6RoOlUO0=;
+ b=Ma/ne9wF4xxd2znT7VlV+eyLkZ9PZ8ltgy2bkO/d8or9hKYo2XMq6KZRUeSiruO+vQ
+ GUKRhN/Kv+L8pQ3XGj4px3yVWPy0i6ypuvF8VW4V8L2YO59wdY668B68MXhiW96FRBgN
+ kXWhsb0b8Co4MedZk8nAdHYYTsKYzeCh6Jo/0x0jQn4d6QP0VKWaWlL5uM+urzGLty8Z
+ 8kdh31tYeWdZM99b7HnyGEbDHsJSFS+IAylBViBO/FEK42Z7qDZiPh1NN7eqQ+sH7SRr
+ wxhNWYcl/WpBHwRcbxtnvtCNuJ2n9SHmtFPcg0Trh4a6BYgm4scjIWZv4cyA9qAtheGF
+ 0+mA==
+X-Gm-Message-State: AFqh2koucKkQfkYcQ1j1HruZM1HGTpPyZ3zMnpV3TZaokd9Ok1Q9pJyq
+ x0qDG6kMfz6W3RE57JWnD89kOpdLkjq/4Ko+j2Ajb1cCNY93/fnKoTquQis7pHYrSe5CJWnSjup
+ mhyHUl0H427zo7NjyZpnHij1izBIQhTZp9Yf4P9QnW7I/
+X-Received: by 2002:ac2:4ade:0:b0:4d0:7b7:65dc with SMTP id
+ m30-20020ac24ade000000b004d007b765dcmr133421lfp.122.1673963544434; 
+ Tue, 17 Jan 2023 05:52:24 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs9jCpstio+iSjdAor3NZ75bz+2Dnozw/p6Ykmo64gLJfiYXc3udp+wH4Z3eIPBKX1dEiSO07P7nXfvqprRwdo=
+X-Received: by 2002:ac2:4ade:0:b0:4d0:7b7:65dc with SMTP id
+ m30-20020ac24ade000000b004d007b765dcmr133416lfp.122.1673963544131; Tue, 17
+ Jan 2023 05:52:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <479e1dca-8d9c-cc75-75d9-3148ccc54f68@ideasonboard.com>
+References: <20230117150212.3d8ee843@canb.auug.org.au>
+In-Reply-To: <20230117150212.3d8ee843@canb.auug.org.au>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Tue, 17 Jan 2023 14:52:12 +0100
+Message-ID: <CACO55ttvqwnmGS=4gig-AOy+67bDesdj2S9HDJ3hS=uyN0NGOQ@mail.gmail.com>
+Subject: Re: linux-next: duplicate patch in the kspp tree
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,60 +75,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
- linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+Cc: Kees Cook <keescook@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+On Tue, Jan 17, 2023 at 5:02 AM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+>
+> Hi all,
+>
+> The following commit is also in the drm-misc tree as a different commit
+> (but the same patch):
+>
+>   06b19f46455c ("drm/nouveau/fb/ga102: Replace zero-length array of trailing structs with flex-array")
+>
 
-(CC'ing Mauro and Hans)
+which branch? Because I just fetched the remote and don't have this
+commit in my local repo
 
-On Tue, Jan 10, 2023 at 04:25:37PM +0200, Tomi Valkeinen wrote:
-> On 26/12/2022 16:56, Laurent Pinchart wrote:
-> > Hi Tomi,
-> > 
-> > (CC'ing Daniel and Dave)
-> > 
-> > On Wed, Dec 21, 2022 at 11:24:41AM +0200, Tomi Valkeinen wrote:
-> >> From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> >>
-> >> Hi,
-> >>
-> >> These add new pixel formats for Renesas V3U and V4H SoCs.
-> >>
-> >> As the display pipeline is split between DRM and V4L2 components, this
-> >> series touches both subsystems. I'm sending all these together to
-> >> simplify review. If needed, I can later split this to V4L2 and DRM
-> >> parts, of which the V4L2 part needs to be merged first.
-> > 
-> > As the changes on the DRM side are small and shouldn't conflict with
-> > anything else queued for v6.3, it would be easier to merge the whole
-> > series through the media tree. Daniel, Dave, would you be OK with that ?
-> > If so, could you please ack patches 6/7 and 7/7 ?
-> 
-> Note that these patches depend on the two DRM driver patches in "[PATCH 
-> v5 0/7] Renesas V4H DSI & DP output support", which are not very small 
-> (but still not big).
+> This is commit
+>
+>   54d47689c6e3 ("drm/nouveau/fb/ga102: Replace zero-length array of trailing structs with flex-array")
+>
+> in the drm-misc tree.
+>
+> --
+> Cheers,
+> Stephen Rothwell
 
-Good point. I'm thus leaning more towards merging this through the DRM
-tree then. Mauro, can we get your ack on the V4L2 part of this series ?
-We'll create a stable branch based on v6.2-rc1 in case it also need to
-be merged in the media tree due to last minute conflicts (I'm mainly
-thinking about the new formats).
-
-Hans, as there won't be a pull request through the media tree, if you
-want to review the new formats, now would be a good time.
-
-> I don't think there's a compile-time dependency between the DRM and V4L2 
-> parts, but there's a functional side dependency, so it would be nice to 
-> merge these via a single tree. I can't say if DRM or V4L2 tree is 
-> easier, but I don't expect conflicts either way.
-
--- 
-Regards,
-
-Laurent Pinchart
