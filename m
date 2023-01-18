@@ -1,70 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2826713A2
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 07:14:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A542167139F
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 07:13:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2195B10E691;
-	Wed, 18 Jan 2023 06:13:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8667410E692;
+	Wed, 18 Jan 2023 06:13:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DC6510E685
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 06:13:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 080AD10E691
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 06:13:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674022427;
+ s=mimecast20190719; t=1674022433;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v4Ui7nnL8WMOF/Rh/0KZxy27XuCjk5hBiGqbg/f/QL4=;
- b=Jl7QCXxxCcNShPOzW9Z9d34WZYlmabQEqIPOOws1/5tHrfWCi+B7aq786PdioQ8J7ak/hA
- yV0xWZguxxBvKOhsKt17tqvgevOm/YMdA5pZEA+v2Ug2xyA/Xjv846lzL5oEswEFQoW/Nm
- KnYicfC6u6WFleOXFmWQGEy2UADILZo=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=THkjWbjdTDoalDkhZzXhw8wgGXeOdJbZJd1kVOay+qU=;
+ b=hZnHKbnBIocGA5LIT+JQMmHuIoquQQSACwnwmMxYBHY327+iPCD6psEQGmQzp/Yj+xV7hp
+ W427btMUS+SgFFuh84LqucYO8TzyFwl/PRStSA9oB6SSW0i2/+QxLffI2vVn8PgNTaN9D8
+ t6W1QgH4PORqgSqi9cMph52t2dUaetM=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-155-cFMCmG-PM0WBW9WqmJ5QNw-1; Wed, 18 Jan 2023 01:13:46 -0500
-X-MC-Unique: cFMCmG-PM0WBW9WqmJ5QNw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- y21-20020a056402359500b0049e171c4ad0so5559488edc.6
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 22:13:45 -0800 (PST)
+ us-mta-517-NBpOFsSjMRW2sfZZfHtDDw-1; Wed, 18 Jan 2023 01:13:50 -0500
+X-MC-Unique: NBpOFsSjMRW2sfZZfHtDDw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ z20-20020a05640240d400b0049e1b5f6175so5161686edb.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 22:13:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=v4Ui7nnL8WMOF/Rh/0KZxy27XuCjk5hBiGqbg/f/QL4=;
- b=HSM9MPUGVR9jVabpqCohaogkL0rp8GzVU68/WCyKa4NS04rpyh37EUO62cq7dd0Rwx
- XAScy2TFaFI8k1aT7RGjcOHgHal99iGq7wbPOeig32A/JHajRmRzmr7s2Hy+ThD9ho20
- IlWerLMGmn0j67ytgJigoGdbJixS8R6OkHqwWcLfZtCR1lgpbKCHmZxJgMdRJu0785Tm
- TT8wGq0zG5LcMc0b16ejTdN817GEaOBh56rXwY9ukHP/Hz0YBpn9FZ3RKos+XHzrcz0E
- 2vLnf/wAEudL09Zu11XOOQFhu7rpkWrneKDkB4ctyo/sDhoXUWHODP/AY6VGWUlUqdxL
- erow==
-X-Gm-Message-State: AFqh2kooYj5LaZ1BJxXKMoW80+k+YuMfNN21TA9ysEO7fx5FlefpmmTT
- 6LqvNXYcg+Uma0uTbXszfHplt1gESPJjkO+qYkltftRa9gE46WO55cbijaACcNNqDdU9kOJSYgq
- +ywmSWxLkhJ724khJHxPudG6a3mGC
-X-Received: by 2002:a17:907:d10:b0:86e:df17:df94 with SMTP id
- gn16-20020a1709070d1000b0086edf17df94mr7855515ejc.14.1674022424849; 
- Tue, 17 Jan 2023 22:13:44 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtLalrKtABzKPZUUgEeBRrgtdOwhjVQiiPWy6/M2DQlmnO2bBCBuWKs9P/hFsOfwUbCyT3baQ==
-X-Received: by 2002:a17:907:d10:b0:86e:df17:df94 with SMTP id
- gn16-20020a1709070d1000b0086edf17df94mr7855498ejc.14.1674022424598; 
- Tue, 17 Jan 2023 22:13:44 -0800 (PST)
+ bh=THkjWbjdTDoalDkhZzXhw8wgGXeOdJbZJd1kVOay+qU=;
+ b=DBAQVudvzxMec3s2R5OKIP676+hw0FP2lJ0NFP5vVDITQpA9WkmI/K1QmGQ6QSZBu+
+ ZG2Ajbu9CrxuazV4PE55Rw6typ/spXeDAIvZNMUiQQV6YpGGepxsTrq8QGFZDx3JS0Xa
+ CbBZkW5cwI1GqrDi8IsHGnVeyDCKrFWqUNBvnUHCWmU5D/XXpDoct/veRzCXDSWavJ2X
+ ypkE2iC78f4B3Eqif1WycdixwCAM5Z7wi9t0uMtwhW4sKjxiES6L/baz1w7kmb2URIp4
+ Zl0giCUfG62Ffe7JoCyZjml1WwZEe5MSvmpPH1oyi84sHxyvOm1+mdXXUGUS68dAAXQ7
+ VoBw==
+X-Gm-Message-State: AFqh2kpqprj3cMKRXGcObr62bKCZf3Fq1S3AJdEOHKbQoK+eY7I7ajbY
+ QISm9zrZaWRY22OOqeSJI0pIHDyuGVR+gi5F9j7GiZvoQI4OY2QJFRwCgiWLKx+aDUNjnofwyLh
+ /UzHEa36KyFrrbajkzH6UHeXnJUO8
+X-Received: by 2002:a17:907:62a8:b0:86a:d385:81df with SMTP id
+ nd40-20020a17090762a800b0086ad38581dfmr8955224ejc.3.1674022428971; 
+ Tue, 17 Jan 2023 22:13:48 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXv8POTKI4k6olZcwo0e0gJ4B/NW0lciBAeJE2/KV3jsK0Dqe+uZfReADyqZ8IOCRKZS+M2fsg==
+X-Received: by 2002:a17:907:62a8:b0:86a:d385:81df with SMTP id
+ nd40-20020a17090762a800b0086ad38581dfmr8955202ejc.3.1674022428774; 
+ Tue, 17 Jan 2023 22:13:48 -0800 (PST)
 Received: from cassiopeiae.. ([2a02:810d:4b3f:de78:642:1aff:fe31:a19f])
  by smtp.gmail.com with ESMTPSA id
- wi19-20020a170906fd5300b00871075bfcfesm3128359ejb.133.2023.01.17.22.13.43
+ k2-20020a170906970200b0073dbaeb50f6sm13961020ejx.169.2023.01.17.22.13.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 22:13:44 -0800 (PST)
+ Tue, 17 Jan 2023 22:13:48 -0800 (PST)
 From: Danilo Krummrich <dakr@redhat.com>
 To: daniel@ffwll.ch, airlied@redhat.com, christian.koenig@amd.com,
  bskeggs@redhat.com, jason@jlekstrand.net, tzimmermann@suse.de,
  mripard@kernel.org, corbet@lwn.net
-Subject: [PATCH drm-next 05/14] drm/nouveau: new VM_BIND uapi interfaces
-Date: Wed, 18 Jan 2023 07:12:47 +0100
-Message-Id: <20230118061256.2689-6-dakr@redhat.com>
+Subject: [PATCH drm-next 06/14] drm/nouveau: get vmm via nouveau_cli_vmm()
+Date: Wed, 18 Jan 2023 07:12:48 +0100
+Message-Id: <20230118061256.2689-7-dakr@redhat.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230118061256.2689-1-dakr@redhat.com>
 References: <20230118061256.2689-1-dakr@redhat.com>
@@ -91,288 +91,95 @@ Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This commit provides the interfaces for the new UAPI motivated by the
-Vulkan API. It allows user mode drivers (UMDs) to:
+Provide a getter function for the client's current vmm context. Since
+we'll add a new (u)vmm context for UMD bindings in subsequent commits,
+this will keep the code clean.
 
-1) Initialize a GPU virtual address (VA) space via the new
-   DRM_IOCTL_NOUVEAU_VM_INIT ioctl. UMDs can provide a kernel reserved
-   VA area.
-
-2) Bind and unbind GPU VA space mappings via the new
-   DRM_IOCTL_NOUVEAU_VM_BIND ioctl.
-
-3) Execute push buffers with the new DRM_IOCTL_NOUVEAU_EXEC ioctl.
-
-Both, DRM_IOCTL_NOUVEAU_VM_BIND and DRM_IOCTL_NOUVEAU_EXEC support
-asynchronous processing with DRM syncobjs as synchronization mechanism.
-
-The default DRM_IOCTL_NOUVEAU_VM_BIND is synchronous processing,
-DRM_IOCTL_NOUVEAU_EXEC supports asynchronous processing only.
-
-Co-authored-by: Dave Airlie <airlied@redhat.com>
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- Documentation/gpu/driver-uapi.rst |   8 ++
- include/uapi/drm/nouveau_drm.h    | 216 ++++++++++++++++++++++++++++++
- 2 files changed, 224 insertions(+)
+ drivers/gpu/drm/nouveau/nouveau_bo.c   | 2 +-
+ drivers/gpu/drm/nouveau/nouveau_chan.c | 2 +-
+ drivers/gpu/drm/nouveau/nouveau_drv.h  | 9 +++++++++
+ drivers/gpu/drm/nouveau/nouveau_gem.c  | 6 +++---
+ 4 files changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/gpu/driver-uapi.rst b/Documentation/gpu/driver-uapi.rst
-index 4411e6919a3d..9c7ca6e33a68 100644
---- a/Documentation/gpu/driver-uapi.rst
-+++ b/Documentation/gpu/driver-uapi.rst
-@@ -6,3 +6,11 @@ drm/i915 uAPI
- =============
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index 335fa91ca4ad..d2b32a47e480 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -204,7 +204,7 @@ nouveau_bo_alloc(struct nouveau_cli *cli, u64 *size, int *align, u32 domain,
+ 	struct nouveau_drm *drm = cli->drm;
+ 	struct nouveau_bo *nvbo;
+ 	struct nvif_mmu *mmu = &cli->mmu;
+-	struct nvif_vmm *vmm = cli->svm.cli ? &cli->svm.vmm : &cli->vmm.vmm;
++	struct nvif_vmm *vmm = &nouveau_cli_vmm(cli)->vmm;
+ 	int i, pi = -1;
  
- .. kernel-doc:: include/uapi/drm/i915_drm.h
-+
-+drm/nouveau uAPI
-+================
-+
-+VM_BIND / EXEC uAPI
-+-------------------
-+
-+.. kernel-doc:: include/uapi/drm/nouveau_drm.h
-diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
-index 853a327433d3..f6e7d40201d4 100644
---- a/include/uapi/drm/nouveau_drm.h
-+++ b/include/uapi/drm/nouveau_drm.h
-@@ -126,6 +126,216 @@ struct drm_nouveau_gem_cpu_fini {
- 	__u32 handle;
+ 	if (!*size) {
+diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.c b/drivers/gpu/drm/nouveau/nouveau_chan.c
+index e648ecd0c1a0..1068abe41024 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_chan.c
++++ b/drivers/gpu/drm/nouveau/nouveau_chan.c
+@@ -148,7 +148,7 @@ nouveau_channel_prep(struct nouveau_drm *drm, struct nvif_device *device,
+ 
+ 	chan->device = device;
+ 	chan->drm = drm;
+-	chan->vmm = cli->svm.cli ? &cli->svm : &cli->vmm;
++	chan->vmm = nouveau_cli_vmm(cli);
+ 	atomic_set(&chan->killed, 0);
+ 
+ 	/* allocate memory for dma push buffer */
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
+index b5de312a523f..81350e685b50 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drv.h
++++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
+@@ -112,6 +112,15 @@ struct nouveau_cli_work {
+ 	struct dma_fence_cb cb;
  };
  
-+/**
-+ * struct drm_nouveau_sync - sync object
-+ *
-+ * This structure serves as synchronization mechanism for (potentially)
-+ * asynchronous operations such as EXEC or VM_BIND.
-+ */
-+struct drm_nouveau_sync {
-+	/**
-+	 * @flags: the flags for a sync object
-+	 *
-+	 * The first 8 bits are used to determine the type of the sync object.
-+	 */
-+	__u32 flags;
-+#define DRM_NOUVEAU_SYNC_SYNCOBJ 0x0
-+#define DRM_NOUVEAU_SYNC_TIMELINE_SYNCOBJ 0x1
-+#define DRM_NOUVEAU_SYNC_TYPE_MASK 0xf
-+	/**
-+	 * @handle: the handle of the sync object
-+	 */
-+	__u32 handle;
-+	/**
-+	 * @timeline_value:
-+	 *
-+	 * The timeline point of the sync object in case the syncobj is of
-+	 * type DRM_NOUVEAU_SYNC_TIMELINE_SYNCOBJ.
-+	 */
-+	__u64 timeline_value;
-+};
++static inline struct nouveau_vmm *
++nouveau_cli_vmm(struct nouveau_cli *cli)
++{
++	if (cli->svm.cli)
++		return &cli->svm;
 +
-+/**
-+ * struct drm_nouveau_vm_init - GPU VA space init structure
-+ *
-+ * Used to initialize the GPU's VA space for a user client, telling the kernel
-+ * which portion of the VA space is managed by the UMD and kernel respectively.
-+ */
-+struct drm_nouveau_vm_init {
-+	/**
-+	 * @unmanaged_addr: start address of the kernel managed VA space region
-+	 */
-+	__u64 unmanaged_addr;
-+	/**
-+	 * @unmanaged_size: size of the kernel managed VA space region in bytes
-+	 */
-+	__u64 unmanaged_size;
-+};
++	return &cli->vmm;
++}
 +
-+/**
-+ * struct drm_nouveau_vm_bind_op - VM_BIND operation
-+ *
-+ * This structure represents a single VM_BIND operation. UMDs should pass
-+ * an array of this structure via struct drm_nouveau_vm_bind's &op_ptr field.
-+ */
-+struct drm_nouveau_vm_bind_op {
-+	/**
-+	 * @op: the operation type
-+	 */
-+	__u32 op;
-+/**
-+ * @DRM_NOUVEAU_VM_BIND_OP_ALLOC:
-+ *
-+ * The alloc operation is used to reserve a VA space region within the GPU's VA
-+ * space. Optionally, the &DRM_NOUVEAU_VM_BIND_SPARSE flag can be passed to
-+ * instruct the kernel to create sparse mappings for the given region.
-+ */
-+#define DRM_NOUVEAU_VM_BIND_OP_ALLOC 0x0
-+/**
-+ * @DRM_NOUVEAU_VM_BIND_OP_FREE: Free a reserved VA space region.
-+ */
-+#define DRM_NOUVEAU_VM_BIND_OP_FREE 0x1
-+/**
-+ * @DRM_NOUVEAU_VM_BIND_OP_MAP:
-+ *
-+ * Map a GEM object to the GPU's VA space. The mapping must be fully enclosed by
-+ * a previously allocated VA space region. If the region is sparse, existing
-+ * sparse mappings are overwritten.
-+ */
-+#define DRM_NOUVEAU_VM_BIND_OP_MAP 0x2
-+/**
-+ * @DRM_NOUVEAU_VM_BIND_OP_UNMAP:
-+ *
-+ * Unmap an existing mapping in the GPU's VA space. If the region the mapping
-+ * is located in is a sparse region, new sparse mappings are created where the
-+ * unmapped (memory backed) mapping was mapped previously.
-+ */
-+#define DRM_NOUVEAU_VM_BIND_OP_UNMAP 0x3
-+	/**
-+	 * @flags: the flags for a &drm_nouveau_vm_bind_op
-+	 */
-+	__u32 flags;
-+/**
-+ * @DRM_NOUVEAU_VM_BIND_SPARSE:
-+ *
-+ * Indicates that an allocated VA space region should be sparse.
-+ */
-+#define DRM_NOUVEAU_VM_BIND_SPARSE (1 << 8)
-+	/**
-+	 * @handle: the handle of the DRM GEM object to map
-+	 */
-+	__u32 handle;
-+	/**
-+	 * @addr:
-+	 *
-+	 * the address the VA space region or (memory backed) mapping should be mapped to
-+	 */
-+	__u64 addr;
-+	/**
-+	 * @bo_offset: the offset within the BO backing the mapping
-+	 */
-+	__u64 bo_offset;
-+	/**
-+	 * @range: the size of the requested mapping in bytes
-+	 */
-+	__u64 range;
-+};
-+
-+/**
-+ * struct drm_nouveau_vm_bind - structure for DRM_IOCTL_NOUVEAU_VM_BIND
-+ */
-+struct drm_nouveau_vm_bind {
-+	/**
-+	 * @op_count: the number of &drm_nouveau_vm_bind_op
-+	 */
-+	__u32 op_count;
-+	/**
-+	 * @flags: the flags for a &drm_nouveau_vm_bind ioctl
-+	 */
-+	__u32 flags;
-+/**
-+ * @DRM_NOUVEAU_VM_BIND_RUN_ASYNC:
-+ *
-+ * Indicates that the given VM_BIND operation should be executed asynchronously
-+ * by the kernel.
-+ *
-+ * If this flag is not supplied the kernel executes the associated operations
-+ * synchronously and doesn't accept any &drm_nouveau_sync objects.
-+ */
-+#define DRM_NOUVEAU_VM_BIND_RUN_ASYNC 0x1
-+	/**
-+	 * @wait_count: the number of wait &drm_nouveau_syncs
-+	 */
-+	__u32 wait_count;
-+	/**
-+	 * @sig_count: the number of &drm_nouveau_syncs to signal when finished
-+	 */
-+	__u32 sig_count;
-+	/**
-+	 * @wait_ptr: pointer to &drm_nouveau_syncs to wait for
-+	 */
-+	__u64 wait_ptr;
-+	/**
-+	 * @sig_ptr: pointer to &drm_nouveau_syncs to signal when finished
-+	 */
-+	__u64 sig_ptr;
-+	/**
-+	 * @op_ptr: pointer to the &drm_nouveau_vm_bind_ops to execute
-+	 */
-+	__u64 op_ptr;
-+};
-+
-+/**
-+ * struct drm_nouveau_exec_push - EXEC push operation
-+ *
-+ * This structure represents a single EXEC push operation. UMDs should pass an
-+ * array of this structure via struct drm_nouveau_exec's &push_ptr field.
-+ */
-+struct drm_nouveau_exec_push {
-+	/**
-+	 * @va: the virtual address of the push buffer mapping
-+	 */
-+	__u64 va;
-+	/**
-+	 * @va_len: the length of the push buffer mapping
-+	 */
-+	__u64 va_len;
-+};
-+
-+/**
-+ * struct drm_nouveau_exec - structure for DRM_IOCTL_NOUVEAU_EXEC
-+ */
-+struct drm_nouveau_exec {
-+	/**
-+	 * @channel: the channel to execute the push buffer in
-+	 */
-+	__u32 channel;
-+	/**
-+	 * @push_count: the number of &drm_nouveau_exec_push ops
-+	 */
-+	__u32 push_count;
-+	/**
-+	 * @wait_count: the number of wait &drm_nouveau_syncs
-+	 */
-+	__u32 wait_count;
-+	/**
-+	 * @sig_count: the number of &drm_nouveau_syncs to signal when finished
-+	 */
-+	__u32 sig_count;
-+	/**
-+	 * @wait_ptr: pointer to &drm_nouveau_syncs to wait for
-+	 */
-+	__u64 wait_ptr;
-+	/**
-+	 * @sig_ptr: pointer to &drm_nouveau_syncs to signal when finished
-+	 */
-+	__u64 sig_ptr;
-+	/**
-+	 * @push_ptr: pointer to &drm_nouveau_exec_push ops
-+	 */
-+	__u64 push_ptr;
-+};
-+
- #define DRM_NOUVEAU_GETPARAM           0x00 /* deprecated */
- #define DRM_NOUVEAU_SETPARAM           0x01 /* deprecated */
- #define DRM_NOUVEAU_CHANNEL_ALLOC      0x02 /* deprecated */
-@@ -136,6 +346,9 @@ struct drm_nouveau_gem_cpu_fini {
- #define DRM_NOUVEAU_NVIF               0x07
- #define DRM_NOUVEAU_SVM_INIT           0x08
- #define DRM_NOUVEAU_SVM_BIND           0x09
-+#define DRM_NOUVEAU_VM_INIT            0x10
-+#define DRM_NOUVEAU_VM_BIND            0x11
-+#define DRM_NOUVEAU_EXEC               0x12
- #define DRM_NOUVEAU_GEM_NEW            0x40
- #define DRM_NOUVEAU_GEM_PUSHBUF        0x41
- #define DRM_NOUVEAU_GEM_CPU_PREP       0x42
-@@ -197,6 +410,9 @@ struct drm_nouveau_svm_bind {
- #define DRM_IOCTL_NOUVEAU_GEM_CPU_FINI       DRM_IOW (DRM_COMMAND_BASE + DRM_NOUVEAU_GEM_CPU_FINI, struct drm_nouveau_gem_cpu_fini)
- #define DRM_IOCTL_NOUVEAU_GEM_INFO           DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_GEM_INFO, struct drm_nouveau_gem_info)
+ void nouveau_cli_work_queue(struct nouveau_cli *, struct dma_fence *,
+ 			    struct nouveau_cli_work *);
  
-+#define DRM_IOCTL_NOUVEAU_VM_INIT            DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_VM_INIT, struct drm_nouveau_vm_init)
-+#define DRM_IOCTL_NOUVEAU_VM_BIND            DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_VM_BIND, struct drm_nouveau_vm_bind)
-+#define DRM_IOCTL_NOUVEAU_EXEC               DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_EXEC, struct drm_nouveau_exec)
- #if defined(__cplusplus)
- }
- #endif
+diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
+index ac5793c96957..48e6ba00ec27 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_gem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
+@@ -103,7 +103,7 @@ nouveau_gem_object_open(struct drm_gem_object *gem, struct drm_file *file_priv)
+ 	struct nouveau_bo *nvbo = nouveau_gem_object(gem);
+ 	struct nouveau_drm *drm = nouveau_bdev(nvbo->bo.bdev);
+ 	struct device *dev = drm->dev->dev;
+-	struct nouveau_vmm *vmm = cli->svm.cli ? &cli->svm : &cli->vmm;
++	struct nouveau_vmm *vmm = nouveau_cli_vmm(cli);
+ 	struct nouveau_vma *vma;
+ 	int ret;
+ 
+@@ -180,7 +180,7 @@ nouveau_gem_object_close(struct drm_gem_object *gem, struct drm_file *file_priv)
+ 	struct nouveau_bo *nvbo = nouveau_gem_object(gem);
+ 	struct nouveau_drm *drm = nouveau_bdev(nvbo->bo.bdev);
+ 	struct device *dev = drm->dev->dev;
+-	struct nouveau_vmm *vmm = cli->svm.cli ? &cli->svm : & cli->vmm;
++	struct nouveau_vmm *vmm = nouveau_cli_vmm(cli);
+ 	struct nouveau_vma *vma;
+ 	int ret;
+ 
+@@ -269,7 +269,7 @@ nouveau_gem_info(struct drm_file *file_priv, struct drm_gem_object *gem,
+ {
+ 	struct nouveau_cli *cli = nouveau_cli(file_priv);
+ 	struct nouveau_bo *nvbo = nouveau_gem_object(gem);
+-	struct nouveau_vmm *vmm = cli->svm.cli ? &cli->svm : &cli->vmm;
++	struct nouveau_vmm *vmm = nouveau_cli_vmm(cli);
+ 	struct nouveau_vma *vma;
+ 
+ 	if (is_power_of_2(nvbo->valid_domains))
 -- 
 2.39.0
 
