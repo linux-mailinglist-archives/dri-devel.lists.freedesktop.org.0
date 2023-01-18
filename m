@@ -2,71 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DAAB671405
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 07:27:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9467767148C
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 07:51:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BA9210E694;
-	Wed, 18 Jan 2023 06:27:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA97D10E68C;
+	Wed, 18 Jan 2023 06:51:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC7B710E1D8;
- Wed, 18 Jan 2023 06:27:33 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id mg12so8419286ejc.5;
- Tue, 17 Jan 2023 22:27:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=DFPBaw2GhHR2WYd0zk94IWQjOp2RprR7MZd4JApk9PM=;
- b=TlITOaIBr0kaWJ5qkhlMU7eGMIIi+AL5cfqzTfh7MUPhei6md1u/ccZtR3FYo2krjh
- CbGfoIjHvoMCfMu3I9PXgY93NIHAI0TeeWqJ8DQ2sIOScfMRCIy8vagQQdWvyuZdy0U4
- kqM36IMSVpftnSvTEyi+rMN+YhdALUzy5/j4cGxa2syrvFSLjSTm33LtWNSFS5hXMNRH
- 4snTYroRcZfxcZN+uH6ToZGen1C0+4geivtq9U+KfFFRltNKqyKq2v3hxikbdcIw/Fp6
- xU06qSB9T6Uo37X2SyGM78iUxxqOt10AGRIXI0bnHofWaCIahA7sb4ApDeep3Yff3Lkf
- KFxA==
+Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com
+ [IPv6:2607:f8b0:4864:20::e2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59D2D10E68C
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 06:51:18 +0000 (UTC)
+Received: by mail-vs1-xe2a.google.com with SMTP id i188so34731430vsi.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 22:51:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Kie7n9eyX2y+8J9SsgwusItXi1rTkJJNsJ1PDD++j0E=;
+ b=B3s3j3N0gG+bNvJM1kixcYCNP/GKIWVHPyV4lr3MVXl/p0N7BMpYjYlyLkA+JDNEwK
+ YPBayZkNvzY9TJMNbLdgwh74aQGMywjDnB+HgnS0sAYfB7rOXeKINkcC80Dq9Chxv1DM
+ 1Tew2QJlCzFdNmJd4aYvCOrI3jZfPsBDrEg+t6exzkc3wFZhl1TDhr3dj3POyWbweOYR
+ +7Npg6iCsUQcJq8UB4rK0rr2tOPePqrnq2X7W6XikqLyrIoHUkuWy0cFKeDRI/7G0kUt
+ bC9HiI6ACpwicvuUfC9hiCdSxpSHxHZNDelqvQnkWIAm1HWc1SKEmSTBl5163j53Jqb9
+ dDlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DFPBaw2GhHR2WYd0zk94IWQjOp2RprR7MZd4JApk9PM=;
- b=6UT8bl5ceVwqZcukqPRvsVns2bcdHAo0hWq2sZPTRRcwBME+lGOSSW89vig/Rw7C9o
- 7DK78/FPfdij/TQwjVYeSYC04M1RjIuK1Ri1oi7kSosqbI6GHfWJqDmQKWjkceLIDTAY
- 6zYDZAFaeZHSGH5bCb40sU0DCSsDdif/tBIMzYiOMvrlgRem34XFDvUHPuvtwRqXV6iH
- DKvOiyOO8O5C331r23G2Yu8pA+1WpUoHf//mGxNEyvJWRaDN0AZYHAStVMxCXgAZWsmq
- 9FR+jx1SywNPC29I2tCkI1Mfiuizv4Ayc/4r0tInluyQn0rWE36gg+H90olrJU+QBVCw
- iB6Q==
-X-Gm-Message-State: AFqh2kr6ZKJW5QkVizQB5SzT55Clnde8/IqXx4XC9bt9o4+rtDUldL5T
- HounVbdyqO5d7UfAvl+K1Jc=
-X-Google-Smtp-Source: AMrXdXuatJOZsjoYuJ5ZkpntjNuPQ3+xgQgxsyjiEvrd6Gi+C1lACxLAP3Q54iLOXIhgC17jfIESGw==
-X-Received: by 2002:a17:907:7e9c:b0:86e:2c11:9bca with SMTP id
- qb28-20020a1709077e9c00b0086e2c119bcamr7247015ejc.30.1674023252232; 
- Tue, 17 Jan 2023 22:27:32 -0800 (PST)
-Received: from ?IPV6:2a02:908:1256:79a0:d3a3:981b:3e23:8647?
- ([2a02:908:1256:79a0:d3a3:981b:3e23:8647])
- by smtp.gmail.com with ESMTPSA id
- kr12-20020a1709079a0c00b0084d44553af9sm12045740ejc.215.2023.01.17.22.27.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 22:27:31 -0800 (PST)
-Message-ID: <bf60d3dc-1d6b-4f74-79f2-878cd61ba3bd@gmail.com>
-Date: Wed, 18 Jan 2023 07:27:29 +0100
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Kie7n9eyX2y+8J9SsgwusItXi1rTkJJNsJ1PDD++j0E=;
+ b=4Hv4bETAYgBOcmrVfrZ+rHPpvpRqYNoSc5hyeMK3SJXZaRBcW7YgCbnTybZcmpy08X
+ M3DPZtfHhhun82con+NZ/ORl4N3SJUHntotguLvpHmGmT6EOXNgN9p5hfQf3V8qKf7YI
+ 6dSodh+iDxMXlmALkJALVvHCzDXJ9Eu3wSD40y6cDiNzyvJJvwV4nq/PBnHCWcdK/xKt
+ LOBUFPCfzojw7NvfZ+yn4uYIUAu6LBvWdyrUarmwt6+ZU/WfyXyzALgXkqtzMupmE2/W
+ IF4fRvSyXqrZ9cahMb7ebtVaF1f9q6fEP/CuMFuwLk4oPXoi/7hbIkSGu8h3zRtLNBkz
+ Ly9A==
+X-Gm-Message-State: AFqh2krdA30u2zGptn7CWze2BhhyEO3iXgYoc0u1xXU5eZ0sGQuW1bPy
+ J3IiZ3AD7y8lGVRiF8zKwsKTN8CA353Dn4olVpskgi/uzJM5iNT7
+X-Google-Smtp-Source: AMrXdXsAPqq2grhhH7dWv3ibNzidh83nP0UMQkpPzASvjBVgkLMqi0nHLe5BmrNOLAwh7gP3eyGxpJ7a7jWlLotqW3o=
+X-Received: by 2002:a05:6102:5587:b0:3b5:32d0:edcc with SMTP id
+ dc7-20020a056102558700b003b532d0edccmr779063vsb.24.1674024677099; Tue, 17 Jan
+ 2023 22:51:17 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 2/2] drm_print: Remove deprecated
- DRM_DEBUG_KMS_RATELIMITED()
-Content-Language: en-US
-To: "Das, Nirmoy" <nirmoy.das@intel.com>, Alex Deucher <alexdeucher@gmail.com>
-References: <20230117180417.21066-1-nirmoy.das@intel.com>
- <20230117180417.21066-2-nirmoy.das@intel.com>
- <CADnq5_NY9B4dtswNzowG_KrPuSSFdtpsonY_7wNhtzW0G7uJXQ@mail.gmail.com>
- <982599d1-2480-72ff-1515-425b2693e3b5@intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <982599d1-2480-72ff-1515-425b2693e3b5@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Wed, 18 Jan 2023 12:21:06 +0530
+Message-ID: <CA+G9fYs+ZDoW8Xm8M5quk7J3aE942D4c34oDWM2Xjg-DQFm+Bw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] drm/msm/gpu: Add devfreq tuning debugfs
+To: dri-devel@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>, 
+ lkft-triage@lists.linaro.org, 
+ Linux-Next Mailing List <linux-next@vger.kernel.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,72 +64,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>,
- amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Rob Clark <robdclark@chromium.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Arnd Bergmann <arnd@arndb.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Following build regression noticed on Linux next-20230118.
+
+Regressions found on arm:
+    - build/gcc-8-imx_v6_v7_defconfig
+    - build/gcc-12-imx_v6_v7_defconfig
+    - build/clang-15-imx_v6_v7_defconfig
+    - build/clang-nightly-imx_v6_v7_defconfig
+
+Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+
+WARNING: unmet direct dependencies detected for DEVFREQ_GOV_SIMPLE_ONDEMAND
+  Depends on [n]: PM_DEVFREQ [=n]
+  Selected by [y]:
+  - DRM_MSM [=y] && HAS_IOMEM [=y] && DRM [=y] && (ARCH_QCOM [=n] ||
+SOC_IMX5 [=y] || COMPILE_TEST [=n]) && COMMON_CLK [=y] &&
+IOMMU_SUPPORT [=y] && (QCOM_OCMEM [=n] || QCOM_OCMEM [=n]=n) &&
+(QCOM_LLCC [=n] || QCOM_LLCC [=n]=n) && (QCOM_COMMAND_DB [=n] ||
+QCOM_COMMAND_DB [=n]=n)
+
+WARNING: unmet direct dependencies detected for DEVFREQ_GOV_SIMPLE_ONDEMAND
+  Depends on [n]: PM_DEVFREQ [=n]
+  Selected by [y]:
+  - DRM_MSM [=y] && HAS_IOMEM [=y] && DRM [=y] && (ARCH_QCOM [=n] ||
+SOC_IMX5 [=y] || COMPILE_TEST [=n]) && COMMON_CLK [=y] &&
+IOMMU_SUPPORT [=y] && (QCOM_OCMEM [=n] || QCOM_OCMEM [=n]=n) &&
+(QCOM_LLCC [=n] || QCOM_LLCC [=n]=n) && (QCOM_COMMAND_DB [=n] ||
+QCOM_COMMAND_DB [=n]=n)
+make --silent --keep-going --jobs=8
+O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=arm
+CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache
+arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc'
+In file included from drivers/gpu/drm/msm/msm_gpu.h:18,
+                 from drivers/gpu/drm/msm/adreno/adreno_gpu.h:15,
+                 from drivers/gpu/drm/msm/adreno/adreno_device.c:9:
+drivers/gpu/drm/msm/msm_drv.h:237:45: error: field
+'gpu_devfreq_config' has incomplete type
+  237 |         struct devfreq_simple_ondemand_data gpu_devfreq_config;
+      |                                             ^~~~~~~~~~~~~~~~~~
+
+Build log:
+https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20230118/testrun/14250189/suite/build/test/gcc-12-imx_v6_v7_defconfig/log
+
+This was already reported a while back on lore,
+https://lore.kernel.org/all/202301130108.fslQjvJ8-lkp@intel.com/
 
 
-Am 17.01.23 um 19:12 schrieb Das, Nirmoy:
-> Hi Alex,
->
-> On 1/17/2023 7:06 PM, Alex Deucher wrote:
->> On Tue, Jan 17, 2023 at 1:05 PM Nirmoy Das <nirmoy.das@intel.com> wrote:
->>> There are no current users of DRM_DEBUG_KMS_RATELIMITED()
->>> so remove it.
->>>
->>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>> Cc: Maxime Ripard <mripard@kernel.org>
->>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>> Cc: David Airlie <airlied@gmail.com>
->>> Cc: Daniel Vetter <daniel@ffwll.ch>
->>> Cc: Sam Ravnborg <sam@ravnborg.org>
->>>
->>> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
->>> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
->> Series is:
->> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
->>
->> Feel free to take the patches through whatever tree you want.
->
->
-> Please help me with this, I don't have committer rights for any tree.
-
-Going to push that into drm-misc-next later today.
-
-Thanks,
-Christian.
-
->
->
-> Nirmoy
->
->
->>
->> Alex
->>
->>> ---
->>>   include/drm/drm_print.h | 3 ---
->>>   1 file changed, 3 deletions(-)
->>>
->>> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
->>> index a44fb7ef257f..c3753da97c4e 100644
->>> --- a/include/drm/drm_print.h
->>> +++ b/include/drm/drm_print.h
->>> @@ -605,9 +605,6 @@ void __drm_err(const char *format, ...);
->>>   #define drm_dbg_kms_ratelimited(drm, fmt, ...) \
->>>          __DRM_DEFINE_DBG_RATELIMITED(KMS, drm, fmt, ## __VA_ARGS__)
->>>
->>> -/* NOTE: this is deprecated in favor of 
->>> drm_dbg_kms_ratelimited(NULL, ...). */
->>> -#define DRM_DEBUG_KMS_RATELIMITED(fmt, ...) 
->>> drm_dbg_kms_ratelimited(NULL, fmt, ## __VA_ARGS__)
->>> -
->>>   /*
->>>    * struct drm_device based WARNs
->>>    *
->>> -- 
->>> 2.39.0
->>>
-
+--
+Linaro LKFT
+https://lkft.linaro.org
