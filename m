@@ -2,76 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E49670DD9
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 00:46:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCEE5670F06
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 01:51:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D354610E5EF;
-	Tue, 17 Jan 2023 23:46:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 431A610E0F0;
+	Wed, 18 Jan 2023 00:51:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFD6310E5EF
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 23:46:08 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id y19so13811936edc.2
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 15:46:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Ivxc3QWlvi/34NDoiDipvk7WlR095YUmLRSgpjmtuM8=;
- b=NCq8Uvo1feByLFtkheaQ4X66U1Cy1r8DReGTkf/ZbxL4bBXXZeRUBlUBFMN1HMPWOC
- ff/47e8FXesF6I7xllyFYJSv+xwvoN8GOGWP4ojENO/vXKsfAf89mcz9GIcMiBidAYVE
- pwkPgTgIZ0QLlDGymP0WcxrOvUyHYLHzCktZyfaZgoVryqFraoUhZceXtm+Bmdby1/Io
- hloKTrRqt1ohuPK+kQzRFKu5WerPj+0WVsDUyoxKJPNn3blyPkCaTb+mTCzZXtaZX616
- K4vT6At73yqqfo/eMV1YMIHC3c3crhNc2t1/OVc+Ao2eBNHb/xLwh22zTcSa6WbFuX4G
- jzpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ivxc3QWlvi/34NDoiDipvk7WlR095YUmLRSgpjmtuM8=;
- b=1Kgzq9d2tPnpvNdKOG2u90V95qQUZe6Ms8DkU9UQNKB5UXPrHYMzVtZ7Z9pdwPRFGm
- Kh1/adcXEOaQGr6ZxOYw+fGB0EAtVYdGn0UsHV/goTvNaA9JzaH4dW+Yb1BTr1x7Ra/P
- x8os9OlYqytz0zam7r+afgKwMKeIeP+u0+nZJ/YuMfdYQ4tLTNlTsITbx6czMywwuros
- kErXb3nDhyHRxkJGmcNCFRCHqi+JplIAlS+LaVQvxbdb8gGjc0n2/VEXWcTixxKPD/7d
- AHE4rx1FvgvICvTjeIiQ3cXFNl9Y5thRjf+IoGXX8rOyikbLNMHWWezeTSvGfCWp+I0/
- qxTA==
-X-Gm-Message-State: AFqh2kp9lYym+DNC8i8cKFmUVURUjxsWSDOpG6wrBAyU5zQ0zI6kXzOp
- Uj1pCBqOGdGSd7APeepYtP8fyA==
-X-Google-Smtp-Source: AMrXdXuObqZU0bK3Vnix8EIj/qDEwnB5l3rVT1F3Gd73CslZceRiVTz5x8/mQEjPSPrI8hpUYUSsAg==
-X-Received: by 2002:a05:6402:f20:b0:499:b672:ee3a with SMTP id
- i32-20020a0564020f2000b00499b672ee3amr5665776eda.12.1673999167255; 
- Tue, 17 Jan 2023 15:46:07 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- r14-20020aa7cb8e000000b00499b6b50419sm10380954edt.11.2023.01.17.15.46.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 15:46:06 -0800 (PST)
-Message-ID: <06291416-fb69-2f1d-2d46-9f30d2151ae5@linaro.org>
-Date: Wed, 18 Jan 2023 01:46:04 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D891C10E0F0;
+ Wed, 18 Jan 2023 00:51:18 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30I0DXvu021609; Wed, 18 Jan 2023 00:51:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=0oFNSgobXUUM9oCz8KRauApQw3OnJ2oFQ86MrqoAyjg=;
+ b=PLkGdo8rMtpYLSDNMIA/4doRTjwzZmQf8cDwR4KdTxtTL1JhDfpso5exUraZ/cuL7s3K
+ tIVvCPFhUKOUDZb1OTlIBMIgQCRsA5ULB1XHIFsH/M0s0xGnf0nADki8vo7fXfrDW/OC
+ VnJXtOHtNdmK0yrdtNGCpHTiFrJVUt9hWSsC//87+/lRJL16DM3hg6D1p6nwO+JxQr/a
+ C9P3XQzYwZWr+MqhDiEiifylT9XzJYsyk5dtMvSQiEykAZhpuRIH0FU7v7TP86kXjJDW
+ WTP2bXOF88iwnB/SregWRvl5x7zYXb/Bxgb5JGJqwlbzuKY0vu2kV6lG/wRDnp8Cu8h1 gQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n5ws6h534-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Jan 2023 00:51:05 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30I0p4QT026483
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Jan 2023 00:51:04 GMT
+Received: from [10.110.108.90] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 17 Jan
+ 2023 16:51:03 -0800
+Message-ID: <1f816962-6adf-f798-462a-5629e8eab47a@quicinc.com>
+Date: Tue, 17 Jan 2023 16:51:02 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 2/5] drm/msm: Fix IS_ERR() vs NULL check in
- a5xx_submit_in_rb()
-Content-Language: en-GB
-To: Gaosheng Cui <cuigaosheng1@huawei.com>, james.qian.wang@arm.com,
- liviu.dudau@arm.com, mihail.atanassov@arm.com, brian.starkey@arm.com,
- airlied@gmail.com, daniel@ffwll.ch, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, sean@poorly.run, thierry.reding@gmail.com,
- sam@ravnborg.org, emma@anholt.net, mripard@kernel.org,
- vladimir.lypak@gmail.com, quic_akhilpo@quicinc.com, dianders@chromium.org,
- olvaffe@gmail.com, angelogioacchino.delregno@somainline.org,
- marijn.suijten@somainline.org
-References: <20221110094445.2930509-1-cuigaosheng1@huawei.com>
- <20221110094445.2930509-3-cuigaosheng1@huawei.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20221110094445.2930509-3-cuigaosheng1@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH] drm/msm/dpu: merge two CRTC debugfs dirs
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20230112053659.1361298-1-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230112053659.1361298-1-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: LJI62U7f3SlCC2ZFd4xPyEEobQl29W5x
+X-Proofpoint-ORIG-GUID: LJI62U7f3SlCC2ZFd4xPyEEobQl29W5x
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-17_11,2023-01-17_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ suspectscore=0 mlxlogscore=999 clxscore=1015 lowpriorityscore=0 mlxscore=0
+ adultscore=0 spamscore=0 malwarescore=0 bulkscore=0 impostorscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301180003
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,38 +83,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/11/2022 11:44, Gaosheng Cui wrote:
-> The msm_gem_get_vaddr() returns an ERR_PTR() on failure, we should
-> use IS_ERR() to check the return value.
+
+
+On 1/11/2023 9:36 PM, Dmitry Baryshkov wrote:
+> For each CRTC we are creating two different debugfs directories one
+> using crtc index (created automatically for the CRC files) and another
+> one using CRTC name/object ID (for state and status files).
 > 
-> Fixes: 6a8bd08d0465 ("drm/msm: add sudo flag to submit ioctl")
-> Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
+> This can be confusing, so move our custom files to crtc->debugfs_entry,
+> effetively merging two debugfs dirs.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Makes sense to me and also verified it on my chromebook.
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Tested-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
+
 > ---
->   drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 8 ++------
+>   1 file changed, 2 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> index 3c537c0016fa..0abc802e8d5f 100644
-> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> @@ -89,7 +89,7 @@ static void a5xx_submit_in_rb(struct msm_gpu *gpu, struct msm_gem_submit *submit
->   			 * since we've already mapped it once in
->   			 * submit_reloc()
->   			 */
-> -			if (WARN_ON(!ptr))
-> +			if (WARN_ON(IS_ERR(ptr)))
->   				return;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 7f0f467dbabd..659fdfec5346 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -1380,16 +1380,12 @@ DEFINE_SHOW_ATTRIBUTE(dpu_crtc_debugfs_state);
+>   static int _dpu_crtc_init_debugfs(struct drm_crtc *crtc)
+>   {
+>   	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
+> -	struct dentry *debugfs_root;
+> -
+> -	debugfs_root = debugfs_create_dir(dpu_crtc->name,
+> -			crtc->dev->primary->debugfs_root);
 >   
->   			for (i = 0; i < dwords; i++) {
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
--- 
-With best wishes
-Dmitry
-
+>   	debugfs_create_file("status", 0400,
+> -			debugfs_root,
+> +			crtc->debugfs_entry,
+>   			dpu_crtc, &_dpu_debugfs_status_fops);
+>   	debugfs_create_file("state", 0600,
+> -			debugfs_root,
+> +			crtc->debugfs_entry,
+>   			&dpu_crtc->base,
+>   			&dpu_crtc_debugfs_state_fops);
+>   
