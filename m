@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E571A67283F
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 20:30:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B23EF672848
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 20:30:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DD5810E81D;
-	Wed, 18 Jan 2023 19:30:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84C3510E820;
+	Wed, 18 Jan 2023 19:30:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com
- [IPv6:2607:f8b0:4864:20::831])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2711C10E814
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 19:30:33 +0000 (UTC)
-Received: by mail-qt1-x831.google.com with SMTP id d16so17710913qtw.8
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 11:30:33 -0800 (PST)
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com
+ [IPv6:2607:f8b0:4864:20::835])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 559AC10E817
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 19:30:36 +0000 (UTC)
+Received: by mail-qt1-x835.google.com with SMTP id x5so7059221qti.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 11:30:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=m5dWctpXCBFMYgl532Q3MiGbvh8gB6Ly1fRkfstE0vk=;
- b=EOKk6O/69sW4M7bfR7Bjtxdy9axfuMxRbYczDAbKOAgFlxCGZFNHQzfaecsa9X1aC8
- okMj3L6ATTz6QT61g2h1eyPPJHA9FPue9Yd+Fco2ZsNHtbphvo3r5P1fdn/iDeWDhys7
- WVG+Ae/TmYaf/wn8m1i84vE2gzH3cuk9p9b5k=
+ bh=qy72HLragdKKsAlVqQe+Eds7xMX1u8GGBw8aEtaI0ZE=;
+ b=ChMcOZkWnhvIoGCvrWgE0kc5X3lFXKoI/3Ml+sCZSQnO1ueslzwK2y9S7t0O+eaqiI
+ Wu+33+yqnC7OfKacIwaQEfL7Lhnm53eiMMm/416nfvJbTJJOUUQCI/YgXCLcnTK4rQh4
+ Zpd6L48MGkDY4nVsZmfu35kHH571dA5dGNfo8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=m5dWctpXCBFMYgl532Q3MiGbvh8gB6Ly1fRkfstE0vk=;
- b=U/JFyM/xanjd6u29KPC4cMVxRVG70nG61wf+INkWkI6BtrczZeS0fETO/vHFuaVUcX
- O1gdFwC4udp7hSuO7q3UzLfzke4wjvONBELY9CDjiEwE9iDJfBBZu1FLUUXGPfkHrwz+
- JRLlwLuvHCUqj9ZO7djlCwTclNlEB7jR57j+ALCSqrwZV4NEZmtNv+ietwx0s/lgVfRy
- 5CVPiRnq1ctVZM6giAmQk1gWkWy1U8LdA+KOwst7EA7Ia+9tdUpSftsyDrrubBK7GXAZ
- XM8r22hUDbakKzGshr8HOZiFxyAsAipG5rbBV0w3ks76/dU2Vk4PK2t7wr2VxqBsN26C
- CYEw==
-X-Gm-Message-State: AFqh2ko3AoMxphZzGOqvp4/VpijNlvJTONOfslNtDWHh3F66g8kKj2la
- ZvYYgTn3HFsI2EdGQWqNVGt/mg==
-X-Google-Smtp-Source: AMrXdXtndBb0E8gZDRjYuGpBHi1LHc4kBoV4/8YoveySawhPGPE+EzzW7zT3+AyjUsKV2XUybmpAlw==
-X-Received: by 2002:ac8:75cd:0:b0:3a6:a7a2:57b with SMTP id
- z13-20020ac875cd000000b003a6a7a2057bmr11626751qtq.6.1674070232166; 
- Wed, 18 Jan 2023 11:30:32 -0800 (PST)
+ bh=qy72HLragdKKsAlVqQe+Eds7xMX1u8GGBw8aEtaI0ZE=;
+ b=NAStPxCAOEElXLosGJc9zeivTLOjAvyv+v6Z+54D4oLyzbnJSuQYGUQr0UlSKnbm+E
+ n3duxvozwPpgrtMa+njCpBjQWfCam37xsCoYPGDvYWVu7lzZnoQmHJZi5JrhG+zsiBGc
+ ccwla+MxcJZnHOYUGWHp6DD7jHTVYMuDLEYk4hv/BabVPSq4/Osi+fyQRtcue4Gr77Uy
+ jcnVf7l/pLUs28VCIfetWTfW8ZzmsiPGuMzxc0oDT8uWWnexbb7BEY/toaw3Fza57iti
+ oYF+hDKckgN1Licn7rsVfiZi6w7ysQrKK+q2EylarWQ/HRqZRPKBcwmrq21rsV5uDqz8
+ zWCQ==
+X-Gm-Message-State: AFqh2kqI3FCiIXkYuSzsHlEpODlm2PgzAVqKP49DhgqitqLnp7vc7i5v
+ x5dpDxyPoXwAMZAI2oKf3QgtXg==
+X-Google-Smtp-Source: AMrXdXu2vrUMP92aOea8CLzCaUWzDsB7wiMKTVTrm03BYSbZZ4QWqxxZxshSk3BE/duePBa1M/wXjQ==
+X-Received: by 2002:ac8:6650:0:b0:3b3:9d7f:1489 with SMTP id
+ j16-20020ac86650000000b003b39d7f1489mr11541209qtp.56.1674070235256; 
+ Wed, 18 Jan 2023 11:30:35 -0800 (PST)
 Received: from localhost (29.46.245.35.bc.googleusercontent.com.
  [35.245.46.29]) by smtp.gmail.com with UTF8SMTPSA id
- m20-20020ac866d4000000b003a6a7a20575sm17826693qtp.73.2023.01.18.11.30.30
+ bl3-20020a05620a1a8300b006fa9d101775sm17366qkb.33.2023.01.18.11.30.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 11:30:31 -0800 (PST)
+ Wed, 18 Jan 2023 11:30:34 -0800 (PST)
 From: Mark Yacoub <markyacoub@chromium.org>
 X-Google-Original-From: Mark Yacoub <markyacoub@google.com>
 To: quic_khsieh@quicinc.com, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  intel-gfx@lists.freedesktop.org
-Subject: [PATCH v6 02/10] drm/hdcp: Avoid changing crtc state in hdcp atomic
- check
-Date: Wed, 18 Jan 2023 19:30:07 +0000
-Message-Id: <20230118193015.911074-3-markyacoub@google.com>
+Subject: [PATCH v6 03/10] drm/hdcp: Update property value on content type and
+ user changes
+Date: Wed, 18 Jan 2023 19:30:08 +0000
+Message-Id: <20230118193015.911074-4-markyacoub@google.com>
 X-Mailer: git-send-email 2.39.0.246.g2a6d74b583-goog
 In-Reply-To: <20230118193015.911074-1-markyacoub@google.com>
 References: <20230118193015.911074-1-markyacoub@google.com>
@@ -92,145 +92,91 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sean Paul <seanpaul@chromium.org>
 
-Instead of forcing a modeset in the hdcp atomic check, simply return
-true if the content protection value is changing and let the driver
-decide whether a modeset is required or not.
+This patch updates the connector's property value in 2 cases which were
+previously missed:
+
+1- Content type changes. The value should revert back to DESIRED from
+   ENABLED in case the driver must re-authenticate the link due to the
+   new content type.
+
+2- Userspace sets value to DESIRED while ENABLED. In this case, the
+   value should be reset immediately to ENABLED since the link is
+   actively being encrypted.
+
+To accommodate these changes, I've split up the conditionals to make
+things a bit more clear (as much as one can with this mess of state).
 
 Acked-by: Jani Nikula <jani.nikula@intel.com>
 Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
 Signed-off-by: Sean Paul <seanpaul@chromium.org>
 Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-3-sean@poorly.run #v1
-Link: https://patchwork.freedesktop.org/patch/msgid/20210915203834.1439-3-sean@poorly.run #v2
-Link: https://patchwork.freedesktop.org/patch/msgid/20211001151145.55916-3-sean@poorly.run #v3
-Link: https://patchwork.freedesktop.org/patch/msgid/20211105030434.2828845-3-sean@poorly.run #v4
-Link: https://patchwork.freedesktop.org/patch/msgid/20220411204741.1074308-3-sean@poorly.run #v5
+Link: https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-4-sean@poorly.run #v1
+Link: https://patchwork.freedesktop.org/patch/msgid/20210915203834.1439-4-sean@poorly.run #v2
+Link: https://patchwork.freedesktop.org/patch/msgid/20211001151145.55916-4-sean@poorly.run #v3
+Link: https://patchwork.freedesktop.org/patch/msgid/20211105030434.2828845-4-sean@poorly.run #v4
+Link: https://patchwork.freedesktop.org/patch/msgid/20220411204741.1074308-4-sean@poorly.run
 
 Changes in v2:
 -None
 Changes in v3:
--None
+-Fixed indentation issue identified by 0-day
 Changes in v4:
 -None
 Changes in v5:
 -None
-Changes in V6:
--Rebase: modifications in drm_hdcp_helper.c instead of drm_hdcp.c
+Changes in v6:
+-Rebased: modifications in drm_hdcp_helper.c instead of drm_hdcp.c
 
 ---
- drivers/gpu/drm/display/drm_hdcp_helper.c   | 33 +++++++++++++++------
- drivers/gpu/drm/i915/display/intel_atomic.c |  6 ++--
- include/drm/display/drm_hdcp_helper.h       |  2 +-
- 3 files changed, 27 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/display/drm_hdcp_helper.c | 29 +++++++++++++++--------
+ 1 file changed, 19 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/display/drm_hdcp_helper.c b/drivers/gpu/drm/display/drm_hdcp_helper.c
-index 7d910523b05f..a3896b0904b5 100644
+index a3896b0904b5..ce92f1cac251 100644
 --- a/drivers/gpu/drm/display/drm_hdcp_helper.c
 +++ b/drivers/gpu/drm/display/drm_hdcp_helper.c
-@@ -428,11 +428,14 @@ EXPORT_SYMBOL(drm_hdcp_update_content_protection);
-  * @connector: drm_connector on which content protection state needs an update
-  *
-  * This function can be used by display drivers to perform an atomic check on the
-- * hdcp state elements. If hdcp state has changed, this function will set
-- * mode_changed on the crtc driving the connector so it can update its hardware
-- * to match the hdcp state.
-+ * hdcp state elements. If hdcp state has changed in a manner which requires the
-+ * driver to enable or disable content protection, this function will return
-+ * true.
-+ *
-+ * Returns:
-+ * true if the driver must enable/disable hdcp, false otherwise
-  */
--void drm_hdcp_atomic_check(struct drm_connector *connector,
-+bool drm_hdcp_atomic_check(struct drm_connector *connector,
- 			   struct drm_atomic_state *state)
- {
- 	struct drm_connector_state *new_conn_state, *old_conn_state;
-@@ -450,10 +453,12 @@ void drm_hdcp_atomic_check(struct drm_connector *connector,
- 		 * If the connector is being disabled with CP enabled, mark it
- 		 * desired so it's re-enabled when the connector is brought back
- 		 */
--		if (old_hdcp == DRM_MODE_CONTENT_PROTECTION_ENABLED)
-+		if (old_hdcp == DRM_MODE_CONTENT_PROTECTION_ENABLED) {
- 			new_conn_state->content_protection =
- 				DRM_MODE_CONTENT_PROTECTION_DESIRED;
--		return;
-+			return true;
-+		}
-+		return false;
- 	}
+@@ -485,21 +485,30 @@ bool drm_hdcp_atomic_check(struct drm_connector *connector,
+ 		return true;
  
- 	new_crtc_state =
-@@ -465,9 +470,19 @@ void drm_hdcp_atomic_check(struct drm_connector *connector,
- 	*/
- 	if (drm_atomic_crtc_needs_modeset(new_crtc_state) &&
- 	    (old_hdcp == DRM_MODE_CONTENT_PROTECTION_ENABLED &&
--	     new_hdcp != DRM_MODE_CONTENT_PROTECTION_UNDESIRED))
-+	     new_hdcp != DRM_MODE_CONTENT_PROTECTION_UNDESIRED)) {
- 		new_conn_state->content_protection =
- 			DRM_MODE_CONTENT_PROTECTION_DESIRED;
+ 	/*
+-	 * Nothing to do if content type is unchanged and one of:
+-	 *  - state didn't change
+-	 *  - HDCP was activated since the last commit
+-	 *  - attempting to set to desired while already enabled
++	 * Content type changes require an HDCP disable/enable cycle.
+ 	 */
+-	if (old_hdcp == new_hdcp ||
+-	    (old_hdcp == DRM_MODE_CONTENT_PROTECTION_DESIRED &&
++	if (new_conn_state->hdcp_content_type !=
++	    old_conn_state->hdcp_content_type) {
++		new_conn_state->content_protection =
++			DRM_MODE_CONTENT_PROTECTION_DESIRED;
 +		return true;
 +	}
 +
 +	/*
-+	 * Coming back from disable or changing CRTC with DESIRED state requires
-+	 * that the driver try CP enable.
-+	 */
-+	if (new_hdcp == DRM_MODE_CONTENT_PROTECTION_DESIRED &&
-+	    new_conn_state->crtc != old_conn_state->crtc)
-+		return true;
- 
- 	/*
- 	 * Nothing to do if content type is unchanged and one of:
-@@ -482,9 +497,9 @@ void drm_hdcp_atomic_check(struct drm_connector *connector,
++	 * Ignore meaningless state changes:
++ 	 *  - HDCP was activated since the last commit
++	 *  - Attempting to set to desired while already enabled
++ 	 */
++	if ((old_hdcp == DRM_MODE_CONTENT_PROTECTION_DESIRED &&
+ 	     new_hdcp == DRM_MODE_CONTENT_PROTECTION_ENABLED) ||
+ 	    (old_hdcp == DRM_MODE_CONTENT_PROTECTION_ENABLED &&
  	     new_hdcp == DRM_MODE_CONTENT_PROTECTION_DESIRED)) {
- 		if (old_conn_state->hdcp_content_type ==
- 		    new_conn_state->hdcp_content_type)
--			return;
-+			return false;
+-		if (old_conn_state->hdcp_content_type ==
+-		    new_conn_state->hdcp_content_type)
+-			return false;
++		new_conn_state->content_protection =
++			DRM_MODE_CONTENT_PROTECTION_ENABLED;
++		return false;
  	}
  
--	new_crtc_state->mode_changed = true;
-+	return true;
+-	return true;
++	/* Finally, if state changes, we need action */
++	return old_hdcp != new_hdcp;
  }
  EXPORT_SYMBOL(drm_hdcp_atomic_check);
-diff --git a/drivers/gpu/drm/i915/display/intel_atomic.c b/drivers/gpu/drm/i915/display/intel_atomic.c
-index 8a473199c4bf..a2067cbae2d5 100644
---- a/drivers/gpu/drm/i915/display/intel_atomic.c
-+++ b/drivers/gpu/drm/i915/display/intel_atomic.c
-@@ -123,8 +123,6 @@ int intel_digital_connector_atomic_check(struct drm_connector *conn,
- 		to_intel_digital_connector_state(old_state);
- 	struct drm_crtc_state *crtc_state;
- 
--	drm_hdcp_atomic_check(conn, state);
--
- 	if (!new_state->crtc)
- 		return 0;
- 
-@@ -140,8 +138,8 @@ int intel_digital_connector_atomic_check(struct drm_connector *conn,
- 	    new_conn_state->base.picture_aspect_ratio != old_conn_state->base.picture_aspect_ratio ||
- 	    new_conn_state->base.content_type != old_conn_state->base.content_type ||
- 	    new_conn_state->base.scaling_mode != old_conn_state->base.scaling_mode ||
--	    new_conn_state->base.privacy_screen_sw_state != old_conn_state->base.privacy_screen_sw_state ||
--	    !drm_connector_atomic_hdr_metadata_equal(old_state, new_state))
-+	    !drm_connector_atomic_hdr_metadata_equal(old_state, new_state) ||
-+	    drm_hdcp_atomic_check(conn, state))
- 		crtc_state->mode_changed = true;
- 
- 	return 0;
-diff --git a/include/drm/display/drm_hdcp_helper.h b/include/drm/display/drm_hdcp_helper.h
-index dd02b2e72a50..cb2cc5002f65 100644
---- a/include/drm/display/drm_hdcp_helper.h
-+++ b/include/drm/display/drm_hdcp_helper.h
-@@ -19,7 +19,7 @@ int drm_hdcp_check_ksvs_revoked(struct drm_device *dev, u8 *ksvs, u32 ksv_count)
- int drm_connector_attach_content_protection_property(struct drm_connector *connector,
- 						     bool hdcp_content_type);
- void drm_hdcp_update_content_protection(struct drm_connector *connector, u64 val);
--void drm_hdcp_atomic_check(struct drm_connector *connector,
-+bool drm_hdcp_atomic_check(struct drm_connector *connector,
- 			   struct drm_atomic_state *state);
- 
- #endif
 -- 
 2.39.0.246.g2a6d74b583-goog
 
