@@ -2,43 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD1D672936
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 21:23:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E0A4672941
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 21:27:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1779910E829;
-	Wed, 18 Jan 2023 20:23:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA6CF10E828;
+	Wed, 18 Jan 2023 20:27:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A37B210E029;
- Wed, 18 Jan 2023 20:23:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1674073393; bh=Q7RlEaXnEqFwS+6rzjpHzGGEkndrB2oRtxww9YVShds=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
- Content-Type;
- b=n4ZGttawAHvU+kKNEXJmVo4kpmwLy1iWS4BTcFlEPCl+hd0lPTOxGbbFKxrJQOhpa
- V2U8kWqW+c+Vc7u0MmR0RqwkXEvwQvr5iP6eAtGCuRELu8nLKOHGvfSI0kR7J7J0UD
- dPMSrwtWERQ72yGh6ET0fbHadmoYQtIrYrZcv714=
-Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Wed, 18 Jan 2023 21:23:13 +0100 (CET)
-X-EA-Auth: rt16gkipC8f0Y+X3/lLm2PRNoHDAozsEuaaEmgxjkK3S+royuqWHBe42Ov9MyTNsYUoydczrlMr84oArRF+WkOASpSQ3shXh
-Date: Thu, 19 Jan 2023 01:53:07 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/i915/gvt: Avoid full proxy f_ops for debugfs attributes
-Message-ID: <Y8hVK6wuqm50iADP@ubun2204.myguest.virtualbox.org>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48E8210E029;
+ Wed, 18 Jan 2023 20:27:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674073637; x=1705609637;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=6sPLbjLpRMrut6mkwWGe3o7oYxtT9A6KI8WUTNIxVsk=;
+ b=lPdzzuVK54MgYaDaXZaQ1Xg5kvC6aVpm8SoGqpQFb4V78l8MyP2H3z9t
+ lJEYZIwQm3gpS8heQ0a8q934BMSrTdeaq+aP54APmhfcHlwl7KtsEOvla
+ HCqitTfn4T1+dAWZcddPMdga4xhkePjTtAXcPAcLNk5TD7DEsufZZ/QH4
+ Kj1ujAHEni6vHslRq/Rgozi0D0wtEmy7Vcy19u9ge1L85aIpwbqgN6zNO
+ jzAWoH2Jn+ZcwsTTChEQj4lACw8euO/1vmzschpWiepfEVGUfFo9JCoiV
+ 1UHDMkyiwXxmM0EkNa5V4RKliK5ClN8uAKSD54lgkCkwPyb/wsm8uEp/T g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="308652984"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="308652984"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2023 12:27:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="767907627"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="767907627"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+ by fmsmga002.fm.intel.com with ESMTP; 18 Jan 2023 12:27:13 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pIF1c-0000gg-1U;
+ Wed, 18 Jan 2023 20:27:12 +0000
+Date: Thu, 19 Jan 2023 04:27:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH v10 23/23] drm/i915/vm_bind: Support capture
+ of persistent mappings
+Message-ID: <202301190440.EuujWDwh-lkp@intel.com>
+References: <20230118071609.17572-24-niranjana.vishwanathapura@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230118071609.17572-24-niranjana.vishwanathapura@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,83 +61,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- Saurabh Singh Sengar <ssengar@microsoft.com>
+Cc: paulo.r.zanoni@intel.com, jani.nikula@intel.com, llvm@lists.linux.dev,
+ thomas.hellstrom@intel.com, matthew.auld@intel.com,
+ oe-kbuild-all@lists.linux.dev, daniel.vetter@intel.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
-function adds the overhead of introducing a proxy file operation
-functions to wrap the original read/write inside file removal protection
-functions. This adds significant overhead in terms of introducing and
-managing the proxy factory file operations structure and function
-wrapping at runtime.
-As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
-with debugfs_create_file_unsafe() is suggested to be used instead.  The
-DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
-debugfs_file_put() wrappers to protect the original read and write
-function calls for the debug attributes. There is no need for any
-runtime proxy file operations to be managed by the debugfs core.
-Following coccicheck make command helped identify this change:
+Hi Niranjana,
 
-make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
+Thank you for the patch! Yet something to improve:
 
-Signed-off-by: Deepak R Varma <drv@mailo.com>
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Acked-by: Zhenyu Wang <zhenyuw@linux.intel.com>
----
-Changes in v2:
-   - Following changes as suggested by Rodrigo Vivi <rodrigo.vivi@intel.com>
-      - Combine 2 patch series in a single patch 
-      - Base the patch on the i915/gvt to avoid conflicts
+[auto build test ERROR on drm-intel/for-linux-next]
+[also build test ERROR on drm-intel/for-linux-next-fixes drm-tip/drm-tip drm/drm-next drm-exynos/exynos-drm-next drm-misc/drm-misc-next linus/master v6.2-rc4 next-20230118]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Niranjana-Vishwanathapura/drm-i915-vm_bind-Expose-vm-lookup-function/20230118-151845
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20230118071609.17572-24-niranjana.vishwanathapura%40intel.com
+patch subject: [Intel-gfx] [PATCH v10 23/23] drm/i915/vm_bind: Support capture of persistent mappings
+config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20230119/202301190440.EuujWDwh-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/251fbfd52586e3ff4677b44a136d08f9580d79e2
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Niranjana-Vishwanathapura/drm-i915-vm_bind-Expose-vm-lookup-function/20230118-151845
+        git checkout 251fbfd52586e3ff4677b44a136d08f9580d79e2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/i915/i915_gem.c:181:43: error: no member named 'vm_capture_lock' in 'struct i915_address_space'
+                   if (!mutex_lock_interruptible(&vma->vm->vm_capture_lock)) {
+                                                  ~~~~~~~  ^
+   include/linux/mutex.h:188:72: note: expanded from macro 'mutex_lock_interruptible'
+   #define mutex_lock_interruptible(lock) mutex_lock_interruptible_nested(lock, 0)
+                                                                          ^~~~
+>> drivers/gpu/drm/i915/i915_gem.c:182:36: error: no member named 'vm_capture_link' in 'struct i915_vma'
+                           sync_unbind = !list_empty(&vma->vm_capture_link);
+                                                      ~~~  ^
+   drivers/gpu/drm/i915/i915_gem.c:183:27: error: no member named 'vm_capture_lock' in 'struct i915_address_space'
+                           mutex_unlock(&vma->vm->vm_capture_lock);
+                                         ~~~~~~~  ^
+   3 errors generated.
 
 
- drivers/gpu/drm/i915/gvt/debugfs.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+vim +181 drivers/gpu/drm/i915/i915_gem.c
 
-diff --git a/drivers/gpu/drm/i915/gvt/debugfs.c b/drivers/gpu/drm/i915/gvt/debugfs.c
-index 0616b73175f3..baccbf1761b7 100644
---- a/drivers/gpu/drm/i915/gvt/debugfs.c
-+++ b/drivers/gpu/drm/i915/gvt/debugfs.c
-@@ -147,9 +147,9 @@ vgpu_scan_nonprivbb_set(void *data, u64 val)
- 	return 0;
- }
- 
--DEFINE_SIMPLE_ATTRIBUTE(vgpu_scan_nonprivbb_fops,
--			vgpu_scan_nonprivbb_get, vgpu_scan_nonprivbb_set,
--			"0x%llx\n");
-+DEFINE_DEBUGFS_ATTRIBUTE(vgpu_scan_nonprivbb_fops,
-+			 vgpu_scan_nonprivbb_get, vgpu_scan_nonprivbb_set,
-+			 "0x%llx\n");
- 
- static int vgpu_status_get(void *data, u64 *val)
- {
-@@ -165,7 +165,7 @@ static int vgpu_status_get(void *data, u64 *val)
- 	return 0;
- }
- 
--DEFINE_SIMPLE_ATTRIBUTE(vgpu_status_fops, vgpu_status_get, NULL, "0x%llx\n");
-+DEFINE_DEBUGFS_ATTRIBUTE(vgpu_status_fops, vgpu_status_get, NULL, "0x%llx\n");
- 
- /**
-  * intel_gvt_debugfs_add_vgpu - register debugfs entries for a vGPU
-@@ -180,10 +180,10 @@ void intel_gvt_debugfs_add_vgpu(struct intel_vgpu *vgpu)
- 
- 	debugfs_create_file("mmio_diff", 0444, vgpu->debugfs, vgpu,
- 			    &vgpu_mmio_diff_fops);
--	debugfs_create_file("scan_nonprivbb", 0644, vgpu->debugfs, vgpu,
--			    &vgpu_scan_nonprivbb_fops);
--	debugfs_create_file("status", 0644, vgpu->debugfs, vgpu,
--			    &vgpu_status_fops);
-+	debugfs_create_file_unsafe("scan_nonprivbb", 0644, vgpu->debugfs, vgpu,
-+				   &vgpu_scan_nonprivbb_fops);
-+	debugfs_create_file_unsafe("status", 0644, vgpu->debugfs, vgpu,
-+				   &vgpu_status_fops);
- }
- 
- /**
+   116	
+   117	int i915_gem_object_unbind(struct drm_i915_gem_object *obj,
+   118				   unsigned long flags)
+   119	{
+   120		struct intel_runtime_pm *rpm = &to_i915(obj->base.dev)->runtime_pm;
+   121		bool vm_trylock = !!(flags & I915_GEM_OBJECT_UNBIND_VM_TRYLOCK);
+   122		LIST_HEAD(still_in_list);
+   123		intel_wakeref_t wakeref;
+   124		struct i915_vma *vma;
+   125		int ret;
+   126	
+   127		assert_object_held(obj);
+   128	
+   129		if (list_empty(&obj->vma.list))
+   130			return 0;
+   131	
+   132		/*
+   133		 * As some machines use ACPI to handle runtime-resume callbacks, and
+   134		 * ACPI is quite kmalloc happy, we cannot resume beneath the vm->mutex
+   135		 * as they are required by the shrinker. Ergo, we wake the device up
+   136		 * first just in case.
+   137		 */
+   138		wakeref = intel_runtime_pm_get(rpm);
+   139	
+   140	try_again:
+   141		ret = 0;
+   142		spin_lock(&obj->vma.lock);
+   143		while (!ret && (vma = list_first_entry_or_null(&obj->vma.list,
+   144							       struct i915_vma,
+   145							       obj_link))) {
+   146			bool sync_unbind = true;
+   147	
+   148			list_move_tail(&vma->obj_link, &still_in_list);
+   149			if (!i915_vma_is_bound(vma, I915_VMA_BIND_MASK))
+   150				continue;
+   151	
+   152			if (flags & I915_GEM_OBJECT_UNBIND_TEST) {
+   153				ret = -EBUSY;
+   154				break;
+   155			}
+   156	
+   157			/*
+   158			 * Requiring the vm destructor to take the object lock
+   159			 * before destroying a vma would help us eliminate the
+   160			 * i915_vm_tryget() here, AND thus also the barrier stuff
+   161			 * at the end. That's an easy fix, but sleeping locks in
+   162			 * a kthread should generally be avoided.
+   163			 */
+   164			ret = -EAGAIN;
+   165			if (!i915_vm_tryget(vma->vm))
+   166				break;
+   167	
+   168			spin_unlock(&obj->vma.lock);
+   169	
+   170			/*
+   171			 * Since i915_vma_parked() takes the object lock
+   172			 * before vma destruction, it won't race us here,
+   173			 * and destroy the vma from under us.
+   174			 */
+   175	
+   176			/*
+   177			 * Synchronously unbind persistent mappings with capture
+   178			 * request so that vma->resource is valid in the error capture
+   179			 * path without needing extra reference taking in execbuf path.
+   180			 */
+ > 181			if (!mutex_lock_interruptible(&vma->vm->vm_capture_lock)) {
+ > 182				sync_unbind = !list_empty(&vma->vm_capture_link);
+   183				mutex_unlock(&vma->vm->vm_capture_lock);
+   184			}
+   185	
+   186			ret = -EBUSY;
+   187			if (!sync_unbind && (flags & I915_GEM_OBJECT_UNBIND_ASYNC)) {
+   188				assert_object_held(vma->obj);
+   189				ret = i915_vma_unbind_async(vma, vm_trylock);
+   190			}
+   191	
+   192			if (ret == -EBUSY && (flags & I915_GEM_OBJECT_UNBIND_ACTIVE ||
+   193					      !i915_vma_is_active(vma))) {
+   194				if (vm_trylock) {
+   195					if (mutex_trylock(&vma->vm->mutex)) {
+   196						ret = __i915_vma_unbind(vma);
+   197						mutex_unlock(&vma->vm->mutex);
+   198					}
+   199				} else {
+   200					ret = i915_vma_unbind(vma);
+   201				}
+   202			}
+   203	
+   204			i915_vm_put(vma->vm);
+   205			spin_lock(&obj->vma.lock);
+   206		}
+   207		list_splice_init(&still_in_list, &obj->vma.list);
+   208		spin_unlock(&obj->vma.lock);
+   209	
+   210		if (ret == -EAGAIN && flags & I915_GEM_OBJECT_UNBIND_BARRIER) {
+   211			rcu_barrier(); /* flush the i915_vm_release() */
+   212			goto try_again;
+   213		}
+   214	
+   215		intel_runtime_pm_put(rpm, wakeref);
+   216	
+   217		return ret;
+   218	}
+   219	
+
 -- 
-2.34.1
-
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
