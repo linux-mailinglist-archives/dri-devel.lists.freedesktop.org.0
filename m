@@ -2,46 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195216711CB
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 04:24:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A33F6711D1
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 04:24:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9900010E656;
-	Wed, 18 Jan 2023 03:24:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 228CE10E659;
+	Wed, 18 Jan 2023 03:24:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5011E10E1C4
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 03:24:24 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.138.125])
- by APP-05 (Coremail) with SMTP id zQCowACHjelgZsdjDF2pAA--.36255S2;
- Wed, 18 Jan 2023 11:24:17 +0800 (CST)
-From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: daniel@ffwll.ch
-Subject: Re: [PATCH 1/2] drm: Add DRM-managed alloc_workqueue() and
- alloc_ordered_workqueue()
-Date: Wed, 18 Jan 2023 11:24:13 +0800
-Message-Id: <20230118032413.6496-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F161310E658
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 03:24:35 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id m21so47848950edc.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 19:24:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=hfByT3XPIIBtEMphICjivjtBS1usb2S8m4PFSVMxjfk=;
+ b=PDM4ZC2iRec3CPN1tjGInxDAqgdmGQflGmlfq4HwSs75xGjghkQXnE///SrRlF8hMQ
+ Qo3JGMklyjaacq5UrP/4TLhogF+tDswRA+i9jtee5AzsLXZrmgej0d3j/KShszZwYCd7
+ C0Bpljm3dAQCxllPIZMIeNGZA7GOPBkzTs491DiJybMiBG6ifPj2GpwkEwQXWiHeYimm
+ I9YP278HdGRK+AP9k9kTl21qWRudauU3r3F6fbqfSTxeyidH3dD4jTF3T9/B5cEK3+fD
+ QfHxm3P8Ecv+cBl6k8wvbYIt+JUo4Jc3isfBHkFI41Ar3N1v6rPZe8jAhWMeZ1bKsQoT
+ Cu7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hfByT3XPIIBtEMphICjivjtBS1usb2S8m4PFSVMxjfk=;
+ b=UOz78WN3iV94JuOqu2zNhgc/C2Qy0DCjIcIcbPiwM6Fm1MqgSKjvMI+1UBZmZ64YN3
+ DlpVJj9ngwtyod695sOmGUyznx1Jg5IAaiDOs00KxF/c55JmRCLgvtvvgW52uO1d6bo2
+ TnyhsYULwlCEdNN3ARTm1hUHZtDtyu9Ad2ASMJVGn51eXQvXd3RgLJiRjjwgGTD6Cbpj
+ e7tzgqcGoZKFztj6UrVyZClg+febgL3nTzdBrFEt/HaF55u5YOOjl1OKsY0HolQxEaLu
+ ES36ZhqvjrQUBGR+/THgKhQZpWrvit/AGe1EcNmrdW2jrNDNylTj2CEIqrHUJYhJZS5K
+ 8rjg==
+X-Gm-Message-State: AFqh2kqtqGrRYOt4YoDvWTn9X4uTy+PeQANWLq4JAyfGpjHBn3bp70IV
+ ltyPhUd2ejitMfzSC5QpY7BkHw==
+X-Google-Smtp-Source: AMrXdXv5ySMa8omogU2DWfZzBFlpGddX6yt47sQUUg/eO5RJgAycTZNSEcC/IRMs9Fu2HFoh4SpaUA==
+X-Received: by 2002:a05:6402:5002:b0:49e:1d53:5e20 with SMTP id
+ p2-20020a056402500200b0049e1d535e20mr6130218eda.23.1674012274513; 
+ Tue, 17 Jan 2023 19:24:34 -0800 (PST)
+Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
+ f11-20020a056402194b00b0048eb0886b00sm4713829edz.42.2023.01.17.19.24.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Jan 2023 19:24:34 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: [PATCH 0/4] dt-bindings: display/msm: more dsi-controller fixes
+Date: Wed, 18 Jan 2023 05:24:28 +0200
+Message-Id: <20230118032432.1716616-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowACHjelgZsdjDF2pAA--.36255S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtw1DCF47Xr15GF1xZw4fXwb_yoWkZrb_GF
- 9YgrnrWw4UGr1093Z7Jr1jqa4Ivr48Ar1jgayrX3s3try2qFWrXanrCrsav34fWws5CFsx
- uFyqgayavr9FgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbz8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
- Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
- 0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAK
- I48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
- xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
- jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
- 0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
- 67AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
-X-Originating-IP: [124.16.138.125]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,39 +72,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiasheng Jiang <jiasheng@iscas.ac.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> On Tue, Jan 10, 2023 at 11:24:47PM +0800, Jiasheng Jiang wrote:
->> Add drmm_alloc_workqueue() and drmm_alloc_ordered_workqueue(), the helpers
->> that provide managed workqueue cleanup. The workqueue will be destroyed
->> with the final reference of the DRM device.
->> 
->> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> 
-> Yeah I think this looks nice.
-> 
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> 
-> I'm assuming driver maintainers will pick this up, if not please holler.
-> 
-> Also the threading seems broken, it's not a patch series. The b4 tool or
-> git send-email (of all the patches of the entire series at once, not each
-> individually) should get this right.
-> 
-> Unfortunately I did't find the right link in the kernel docs, or at least
-> they're not as detailed as I hoped.
-> 
-> Also your previous submission had iirc a bunch more patches, do you plan
-> to include them all in the next patch set?
+A small set of patches to go on top of Bryan's changes to fix a small
+number of remaining issues.
 
-I have found that some previous patches have already been applied.
-Need I just convert alloc*workqueue into drmm_alloc*workqueue and remove
-the destroy_workqueue?
-Or need I convert all the alloc*workqueue in the DRM?
+Dependencies: [1]
 
-Thanks,
-Jiang
+[1] https://lore.kernel.org/linux-arm-msm/20230116225217.1056258-1-bryan.odonoghue@linaro.org/
+
+Dmitry Baryshkov (4):
+  dt-bindings: display/msm: dsi-controller-main: remove
+    #address/#size-cells
+  dt-bindings: display/msm: dsi-controller-main: account for apq8064
+  dt-bindings: display/msm: dsi-controller-main: allow using fewer lanes
+  dt-binbings: display/msm: dsi-controller-main: add missing supplies
+
+ .../display/msm/dsi-controller-main.yaml      | 26 ++++++++++++-------
+ 1 file changed, 17 insertions(+), 9 deletions(-)
+
+-- 
+2.39.0
 
