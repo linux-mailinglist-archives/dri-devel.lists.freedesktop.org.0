@@ -2,39 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC836672A43
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 22:19:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7A82672A92
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 22:34:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B00C010E851;
-	Wed, 18 Jan 2023 21:19:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26EAD10E843;
+	Wed, 18 Jan 2023 21:34:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC4EF10E851
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 21:19:09 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 101EF1056;
- Wed, 18 Jan 2023 22:19:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1674076748;
- bh=CKU+The6tLAYOGeIVtEZbOH0l539dEuFhGszSj4Nt7Y=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vjbuVMK1H1ByzrYtixB+RMx8dqbPkhShk6hiKYTfGHTSPL+6azX6HUYDJb0syrni7
- yRIJb3SsMeEfERSjGPf9e2WbGxOXqwTeHDINK1CpUSJbW97l58dLMg2kb8AeHgQLie
- yHHUGzik97H8e9/092+eruKV/79R73L5KBj5hy6o=
-Date: Wed, 18 Jan 2023 23:19:06 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH 4/6] drm: rcar-du: Add quirk for H3 ES1 pclk WA
-Message-ID: <Y8hiStARYk1b2tdS@pendragon.ideasonboard.com>
-References: <20230117135154.387208-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20230117135154.387208-5-tomi.valkeinen+renesas@ideasonboard.com>
+Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com
+ [IPv6:2607:f8b0:4864:20::a2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E9A610E843
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 21:34:24 +0000 (UTC)
+Received: by mail-vk1-xa2c.google.com with SMTP id q141so14489421vkb.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 13:34:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=lVS/NpDaaL5u1HrOH58OmL5iaK3Ar8XB2wiyBVMcnhM=;
+ b=lOBqJ+xmUB4+8ymAKDe/h/gitreW9zu3XVQVPwxBGccDmm35qm0ekH8pIVbQ/SSCY2
+ 599IakA7d7M/OrTGZk63miTsWCEMTVWvjpzkQkss8MvBjGQF0yKDz12O7uLkr2gOQn2m
+ jAkZaqXlsGpbuQW6IMFzx90912tCY0IQvncT4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lVS/NpDaaL5u1HrOH58OmL5iaK3Ar8XB2wiyBVMcnhM=;
+ b=CYLefL74JzFe8d8l2V2UhmUSdaZmBoIE0Dn9Oew3WKh0L85NUpzJHpVKUuOhh5efh6
+ lkZ4wPI36QqzUbv4UzvTprmwbTbo3WfGBY9iT8FoOZrSHwZDbiVLxX3I1wjs/UcBu0aO
+ +b+lCaNzb49YaUIQaURFvc5rj3VKw6gLiUW3Wx5QwagkMzCJNnnwrf10/ycCE2PDE5He
+ jHcotjBkLjTu8WK++uzuj1dMAUZOQtx0uD5Nyap2I1kjKmmjkFPZhbPuUCA0lABJ2TkV
+ peBLq4DbeKeWyhfO4/oFTylJZMAQnSabfupUBp7hfmh03cijQ+4ZUkRXN5Ss0Kn+cjcn
+ P7TQ==
+X-Gm-Message-State: AFqh2ko6sQQHlo4ay1LboBDALlBJH4hMDvFwinISjriCkT/L1XwJ+UxX
+ 8gN6iHpTb4iv+f+ZWXCxoaiVQ0UDD4nH7fUC
+X-Google-Smtp-Source: AMrXdXuua/gdza11UKK6dIVVFr14UvubYctOdwaXVCuV4kl6KFktNJ+t1LXXqBBaV2RrO3I9Iwk8rg==
+X-Received: by 2002:a05:6122:985:b0:3e1:5763:3c49 with SMTP id
+ g5-20020a056122098500b003e157633c49mr9142636vkd.13.1674077663062; 
+ Wed, 18 Jan 2023 13:34:23 -0800 (PST)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com.
+ [209.85.217.53]) by smtp.gmail.com with ESMTPSA id
+ p64-20020a1fa643000000b003e1753368e0sm869913vke.27.2023.01.18.13.34.19
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Jan 2023 13:34:20 -0800 (PST)
+Received: by mail-vs1-f53.google.com with SMTP id i185so164527vsc.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 13:34:19 -0800 (PST)
+X-Received: by 2002:a67:e109:0:b0:3d0:dcbb:2004 with SMTP id
+ d9-20020a67e109000000b003d0dcbb2004mr1126577vsl.43.1674077659353; Wed, 18 Jan
+ 2023 13:34:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230117135154.387208-5-tomi.valkeinen+renesas@ideasonboard.com>
+References: <20230106030108.2542081-1-swboyd@chromium.org>
+In-Reply-To: <20230106030108.2542081-1-swboyd@chromium.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 18 Jan 2023 13:34:06 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=U0Bwx4HzCSL8EE-+ngGLZ-NqpbC+J9jby84FKBOB_ddQ@mail.gmail.com>
+Message-ID: <CAD=FV=U0Bwx4HzCSL8EE-+ngGLZ-NqpbC+J9jby84FKBOB_ddQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: boe-tv101wum-nl6: Ensure DSI writes succeed
+ during disable
+To: Stephen Boyd <swboyd@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,193 +74,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, Jitao Shi <jitao.shi@mediatek.com>,
+ yangcong <yangcong5@huaqin.corp-partner.google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ patches@lists.linux.dev, Thierry Reding <thierry.reding@gmail.com>,
+ linux-mediatek@lists.infradead.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+Hi,
 
-Thank you for the patch.
-
-On Tue, Jan 17, 2023 at 03:51:52PM +0200, Tomi Valkeinen wrote:
-> rcar_du_crtc.c does a soc_device_match() in
-> rcar_du_crtc_set_display_timing() to find out if the SoC is H3 ES1, and
-
-s/ES1/ES1.x/
-
-Same below.
-
-> if so, apply a WA.
-
-s/WA/workaround/
-
-Same below.
-
-> We will need another H3 ES1 check in the following patch, so rather than
-> adding more soc_device_match() calls, let's add a rcar_du_device_info
-> entry for the ES1, and a quirk flag,
-> RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY, for the WA.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+On Thu, Jan 5, 2023 at 7:01 PM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> The unprepare sequence has started to fail after moving to panel bridge
+> code in the msm drm driver (commit 007ac0262b0d ("drm/msm/dsi: switch to
+> DRM_PANEL_BRIDGE")). You'll see messages like this in the kernel logs:
+>
+>    panel-boe-tv101wum-nl6 ae94000.dsi.0: failed to set panel off: -22
+>
+> This is because boe_panel_enter_sleep_mode() needs an operating DSI link
+> to set the panel into sleep mode. Performing those writes in the
+> unprepare phase of bridge ops is too late, because the link has already
+> been torn down by the DSI controller in post_disable, i.e. the PHY has
+> been disabled, etc. See dsi_mgr_bridge_post_disable() for more details
+> on the DSI .
+>
+> Split the unprepare function into a disable part and an unprepare part.
+> For now, just the DSI writes to enter sleep mode are put in the disable
+> function. This fixes the panel off routine and keeps the panel happy.
+>
+> My Wormdingler has an integrated touchscreen that stops responding to
+> touch if the panel is only half disabled too. This patch fixes it. And
+> finally, this saves power when the screen is off because without this
+> fix the regulators for the panel are left enabled when nothing is being
+> displayed on the screen.
+>
+> Fixes: 007ac0262b0d ("drm/msm/dsi: switch to DRM_PANEL_BRIDGE")
+> Fixes: a869b9db7adf ("drm/panel: support for boe tv101wum-nl6 wuxga dsi video mode panel")
+> Cc: yangcong <yangcong5@huaqin.corp-partner.google.com>
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Jitao Shi <jitao.shi@mediatek.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Rob Clark <robdclark@chromium.org>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 > ---
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.c |  8 +---
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c  | 51 +++++++++++++++++++++++++-
->  drivers/gpu/drm/rcar-du/rcar_du_drv.h  |  1 +
->  3 files changed, 52 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> index 3619e1ddeb62..f2d3266509cc 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> @@ -10,7 +10,6 @@
->  #include <linux/clk.h>
->  #include <linux/mutex.h>
->  #include <linux/platform_device.h>
-> -#include <linux/sys_soc.h>
->  
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
-> @@ -204,11 +203,6 @@ static void rcar_du_escr_divider(struct clk *clk, unsigned long target,
->  	}
+>  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+> index 857a2f0420d7..c924f1124ebc 100644
+> --- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+> +++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+> @@ -1193,14 +1193,11 @@ static int boe_panel_enter_sleep_mode(struct boe_panel *boe)
+>         return 0;
 >  }
->  
-> -static const struct soc_device_attribute rcar_du_r8a7795_es1[] = {
-> -	{ .soc_id = "r8a7795", .revision = "ES1.*" },
-> -	{ /* sentinel */ }
-> -};
+>
+> -static int boe_panel_unprepare(struct drm_panel *panel)
+> +static int boe_panel_disable(struct drm_panel *panel)
+>  {
+>         struct boe_panel *boe = to_boe_panel(panel);
+>         int ret;
+>
+> -       if (!boe->prepared)
+> -               return 0;
 > -
->  static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
->  {
->  	const struct drm_display_mode *mode = &rcrtc->crtc.state->adjusted_mode;
-> @@ -238,7 +232,7 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
->  		 * no post-divider when a display PLL is present (as shown by
->  		 * the workaround breaking HDMI output on M3-W during testing).
->  		 */
-> -		if (soc_device_match(rcar_du_r8a7795_es1)) {
-> +		if (rcdu->info->quirks & RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY) {
->  			target *= 2;
->  			div = 1;
->  		}
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index c7c5217cfc1a..ba2e069fc0f7 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -16,6 +16,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/pm.h>
->  #include <linux/slab.h>
-> +#include <linux/sys_soc.h>
->  #include <linux/wait.h>
->  
->  #include <drm/drm_atomic_helper.h>
-> @@ -386,6 +387,42 @@ static const struct rcar_du_device_info rcar_du_r8a7795_info = {
->  	.dpll_mask =  BIT(2) | BIT(1),
->  };
->  
-> +static const struct rcar_du_device_info rcar_du_r8a7795_es1_info = {
-> +	.gen = 3,
-> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
-> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
-> +		  | RCAR_DU_FEATURE_VSP1_SOURCE
-> +		  | RCAR_DU_FEATURE_INTERLACED
-> +		  | RCAR_DU_FEATURE_TVM_SYNC,
-> +	.quirks = RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY,
-> +	.channels_mask = BIT(3) | BIT(2) | BIT(1) | BIT(0),
-> +	.routes = {
-> +		/*
-> +		 * R8A7795 has one RGB output, two HDMI outputs and one
-> +		 * LVDS output.
-> +		 */
-> +		[RCAR_DU_OUTPUT_DPAD0] = {
-> +			.possible_crtcs = BIT(3),
-> +			.port = 0,
-> +		},
-> +		[RCAR_DU_OUTPUT_HDMI0] = {
-> +			.possible_crtcs = BIT(1),
-> +			.port = 1,
-> +		},
-> +		[RCAR_DU_OUTPUT_HDMI1] = {
-> +			.possible_crtcs = BIT(2),
-> +			.port = 2,
-> +		},
-> +		[RCAR_DU_OUTPUT_LVDS0] = {
-> +			.possible_crtcs = BIT(0),
-> +			.port = 3,
-> +		},
-> +	},
-> +	.num_lvds = 1,
-> +	.num_rpf = 5,
-> +	.dpll_mask =  BIT(2) | BIT(1),
-> +};
+>         ret = boe_panel_enter_sleep_mode(boe);
+>         if (ret < 0) {
+>                 dev_err(panel->dev, "failed to set panel off: %d\n", ret);
+> @@ -1209,6 +1206,16 @@ static int boe_panel_unprepare(struct drm_panel *panel)
+>
+>         msleep(150);
+>
+> +       return 0;
+> +}
 > +
->  static const struct rcar_du_device_info rcar_du_r8a7796_info = {
->  	.gen = 3,
->  	.features = RCAR_DU_FEATURE_CRTC_IRQ
-> @@ -576,6 +613,11 @@ static const struct of_device_id rcar_du_of_table[] = {
->  
->  MODULE_DEVICE_TABLE(of, rcar_du_of_table);
->  
-> +static const struct soc_device_attribute rcar_du_soc_table[] = {
-> +	{ .soc_id = "r8a7795", .revision = "ES1.*", .data = &rcar_du_r8a7795_es1_info },
-> +	{ /* sentinel */ }
-> +};
+> +static int boe_panel_unprepare(struct drm_panel *panel)
+> +{
+> +       struct boe_panel *boe = to_boe_panel(panel);
 > +
->  const char *rcar_du_output_name(enum rcar_du_output output)
->  {
->  	static const char * const names[] = {
-> @@ -670,6 +712,7 @@ static int rcar_du_probe(struct platform_device *pdev)
->  	struct rcar_du_device *rcdu;
->  	unsigned int mask;
->  	int ret;
-> +	const struct soc_device_attribute *soc_attr;
-
-Please move this up before rcdu.
-
->  
->  	if (drm_firmware_drivers_only())
->  		return -ENODEV;
-> @@ -681,7 +724,13 @@ static int rcar_du_probe(struct platform_device *pdev)
->  		return PTR_ERR(rcdu);
->  
->  	rcdu->dev = &pdev->dev;
-> -	rcdu->info = of_device_get_match_data(rcdu->dev);
+> +       if (!boe->prepared)
+> +               return 0;
 > +
-> +	soc_attr = soc_device_match(rcar_du_soc_table);
-> +	if (soc_attr)
-> +		rcdu->info = soc_attr->data;
-> +
-> +	if (!rcdu->info)
-> +		rcdu->info = of_device_get_match_data(rcdu->dev);
+>         if (boe->desc->discharge_on_disable) {
+>                 regulator_disable(boe->avee);
+>                 regulator_disable(boe->avdd);
+> @@ -1528,6 +1535,7 @@ static enum drm_panel_orientation boe_panel_get_orientation(struct drm_panel *pa
+>  }
+>
+>  static const struct drm_panel_funcs boe_panel_funcs = {
+> +       .disable = boe_panel_disable,
+>         .unprepare = boe_panel_unprepare,
+>         .prepare = boe_panel_prepare,
+>         .enable = boe_panel_enable,
 
-As Geert mentioned,
+As mentioned by Stephen, my initial reaction was that this felt
+asymmetric. We were moving some stuff from unprepare() to disable()
+and it felt like that would mean we would also need to move something
+from prepare() to enable. Initially I thought maybe that "something"
+was all of boe_panel_init_dcs_cmd() but I guess that didn't work.
 
-	rcdu->info = of_device_get_match_data(rcdu->dev);
+I don't truly have a reason that this _has_ to be symmetric. I was
+initially worried that there might be some place where we call
+pre_enable(), then never call enable() / disable(), and then call
+post_disable(). That could have us in a bad state because we'd never
+enter sleep mode / turn the display off. However (as I think I've
+discovered before and just forgot), I don't think this is possible
+because we always call pre-enable() and enable() together. Also, as
+mentioned by Sam, we're about to fully shut the panel's power off so
+(unless it's on a shared rail) it probably doesn't really matter.
 
-	soc_attr = soc_device_match(rcar_du_soc_table);
-	if (soc_attr)
-		rcdu->info = soc_attr->data;
+Thus, I'd be OK with:
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
->  
->  	platform_set_drvdata(pdev, rcdu);
->  
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> index 5cfa2bb7ad93..df87ccab146f 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> @@ -34,6 +34,7 @@ struct rcar_du_device;
->  #define RCAR_DU_FEATURE_NO_BLENDING	BIT(5)	/* PnMR.SPIM does not have ALP nor EOR bits */
->  
->  #define RCAR_DU_QUIRK_ALIGN_128B	BIT(0)	/* Align pitches to 128 bytes */
-> +#define RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY BIT(1)	/* H3 ES1 has pclk stability issue */
->  
->  enum rcar_du_output {
->  	RCAR_DU_OUTPUT_DPAD0,
+I'm also happy to land this (adding Cc: stable) to drm-misc-fixes if
+nobody has any objections (also happy if someone else wants to land
+it). I guess the one worry I have is that somehow this could break
+something for one of the other 8 panels that this driver supports (or
+it could have bad interactions with the display controller used on a
+board with one of these panels?). Maybe we should have "Cc: stable"
+off just to give it extra bake time? ...and maybe even push to
+drm-misc-next instead of -fixes again to give extra bake time?
 
--- 
-Regards,
 
-Laurent Pinchart
+In any case, I still wanted to look closer. I'll repeat my constant
+refrain that I'm no expert here, so call me out if I say anything too
+stupid.
+
+As far as I can tell, boe_panel_enter_sleep_mode() does a bunch of
+things that have no true opposite in the driver. Let me paste it here
+for reference since Stephen's patch didn't touch it:
+
+> static int boe_panel_enter_sleep_mode(struct boe_panel *boe)
+> {
+>     struct mipi_dsi_device *dsi = boe->dsi;
+>     int ret;
+>
+>     dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+
+The above line is particularly concerning. Since there's no opposite
+anywhere, I'm going to assume that the panels in this file that use
+"LPM" end up not using LPM after the first suspend/resume cycle.
+Almost all other panel drivers that clear this flag only do so
+temporarily. Seems like maybe this was an oversight in the initial
+commit a869b9db7adf ("drm/panel: support for boe tv101wum-nl6 wuxga
+dsi video mode panel")? Nothing new, but maybe we should fix it?
+
+
+>     ret = mipi_dsi_dcs_set_display_off(dsi);
+>     if (ret < 0)
+>         return ret;
+>
+>     ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+>     if (ret < 0)
+>         return ret;
+
+The first of these two (set_display_off) seems quite safe and matches
+well with the concept of "disable". We're basically blacking the
+screen, I imagine. I then wondered: where do we turn the display on?
+It seems like there should be a call to mipi_dsi_dcs_set_display_on(),
+right?
+
+Digging a little, there actually is, at least for 3 of the 9 panels
+that this driver supports. It's hidden in the giant blob of "DCS"
+commands. Specifically, this magic sequence:
+
+_INIT_DELAY_CMD(...),
+_INIT_DCS_CMD(0x11),
+_INIT_DELAY_CMD(...),
+_INIT_DCS_CMD(0x29),
+_INIT_DELAY_CMD(...),
+
+The 0x11 there is mipi_dsi_dcs_exit_sleep_mode() and the 0x29 there is
+mipi_dsi_dcs_set_display_on()
+
+Now, I'd have to ask why the other 6 of 9 panels _don't_ have those
+commands and how the display gets turned on / pulled out of sleep
+mode. Maybe they just come up that way? It does feel likely that we
+could probably:
+
+a) Parameterize the delays
+
+b) Remove the hardcoded 0x11 and 0x29 from the dcs command blob and
+add calls to mipi_dsi_dcs_exit_sleep_mode() /
+mipi_dsi_dcs_set_display_on()
+
+c) At least add the mipi_dsi_dcs_set_display_on() to the "enable" call
+and then see if mipi_dsi_dcs_exit_sleep_mode() worked in enable() or
+if that was important to keep in prepare().
+
+Even if we eventually are able to revert Stephen's patch once we have
+the power sequence ordering series, it still might be nice to make the
+enable/exit of sleep mode explicit instead of hidden in the DCS
+command blob.
+
+-Doug
