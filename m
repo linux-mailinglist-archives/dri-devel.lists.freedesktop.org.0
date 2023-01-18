@@ -1,65 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB083670F5D
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 02:04:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE491670F7B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 02:06:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 503E110E622;
-	Wed, 18 Jan 2023 01:04:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D34DB10E61F;
+	Wed, 18 Jan 2023 01:06:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C56610E610
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 01:04:34 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id vw16so16454401ejc.12
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 17:04:34 -0800 (PST)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 142CB10E61B
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 01:06:32 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id qx13so21226108ejb.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 17:06:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=O2AT9KHC4pUGTo4hjZu7eOwD5Wo5qB72fPWxQDAYAOU=;
- b=AT1Pog3PcNorxTSf251HHthQzeLgINleh4Jm7oHRlPpYH46sS0Q9oNfI68pErWMRG6
- /q7+OS1uKFtcOdefn/Kjyolkv62aWR1x/RBGZCTuDeJzu4VJvnjwlnRhgs0q5SI8TJeO
- gmUCY1vVe+E0kJ8zmn4ZfS/xmDUew6CofUd9M9IrgmAsLSXznbzj0DyVDQFCYzY4koHH
- teGSYAXgu++y0E42dA6+39ASkg1ycXfRXfcLDKRNYPnYLm4u8fQDTyEp/qtOVI+Z0bDw
- qj7XJgi2NennnXnJhsLJCJUao89TzxZqSG1dXjX6mAopTlsURaVetzCrZ0eNuH/RDWJv
- zq5Q==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ShTmxSJXe9bG7EdfM5n7W4obQRT36vojvBzqe2LAzEY=;
+ b=pZshoTDIWonMzbts+iSk6eqAXIty/XSzGtUDl9PJeQ8XVUyN/eHTt2p93ttz9KQgTu
+ 9wfLh03a2Yb3RFXF3Sru73t0ORxZsuNA+p8nNqcl89jHRmba9Nt5u7K6/H0O2u8Dy6Qq
+ I5UHAGKvsW2h2rCWGoKhMd7Zbo7kvESJIZWJ8RX79n7YMMu1z7Nz1jxAKVxhutkTa5OL
+ 3lZJt4S31txk7HCAkWRoOz4c+86BN1b5X+30T1zblG8B/4T9LZDn6c8diFa/F/Fhl5r8
+ b5BLOL4Pz7VtVUp68bH80NkeocjPtgKEm4YLe8ons9LlWTl/LkY870OpXlxUItBZHYpG
+ qKug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=O2AT9KHC4pUGTo4hjZu7eOwD5Wo5qB72fPWxQDAYAOU=;
- b=h61CLpYmJMDHHnmC3niwItBOvf0cxKfjaxKeYDnO1Ne6UTc4APoHwaALL7qJmPkOC7
- M2AW1dObjHKisCFJA95ri/RMguoWtFYz+elPuvdQXqBqDAyCc6QMlJJQ0NLmAMTGd6XH
- hieB3qaavoJnEHPUghEh/KMtcZwAh3gKoa1JGEIyefCWDY4VEcAJp8wh3QbkOVQyIPX+
- Nc6nSy27DAOst21DfV+k6ERgtPQ54vz8W5IUlaUWeK2EdxyVZSaZvIS90wjxQSDh/kGh
- Doo5h3IM0R/kMimX/CFQw34rDBfiVnzodz0xKwyLfl/XNoLgOk5z4Hi2Sc+44I31BYnr
- MNMA==
-X-Gm-Message-State: AFqh2kodegXFolmG5om74kiSPXyz6XdEJNOlJWe1DnIw7wxTMU3B97Pv
- lAR/dJzTW8O7JZq66MPx+9htZQ==
-X-Google-Smtp-Source: AMrXdXv/DJl6VMwscZYu1N4Y0oWY34Lil+ABtbQJSPHsIb6SSMQ41aYxuz+VnhkOiNw6WUGvnwkCNA==
-X-Received: by 2002:a17:906:1911:b0:870:29fd:be41 with SMTP id
- a17-20020a170906191100b0087029fdbe41mr1043765eje.48.1674003872748; 
- Tue, 17 Jan 2023 17:04:32 -0800 (PST)
-Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
- [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- r1-20020a17090609c100b007e0e2e35205sm13988953eje.143.2023.01.17.17.04.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 17:04:32 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v2 3/3] drm/msm/mdss: add the sdm845 data for completeness
-Date: Wed, 18 Jan 2023 03:04:28 +0200
-Message-Id: <20230118010428.1671443-4-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230118010428.1671443-1-dmitry.baryshkov@linaro.org>
-References: <20230118010428.1671443-1-dmitry.baryshkov@linaro.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ShTmxSJXe9bG7EdfM5n7W4obQRT36vojvBzqe2LAzEY=;
+ b=4mgPi7LBFUwQB6duQba0fIHArqf9j84D+a2DVcQBzkxIsIS5WCGtS+nXrUqZxtkyFe
+ o8SNCUi/giz5LjI4AIKzNJ9SWF5gcgakzjp3Hvl3azjcy1uTq/HB5sgLFEyAev2IlTpb
+ jqLgbKKsic31Md3pSnUpg8kKIY8DC+T620RZTOWxAjiV4B7NAXy73YETmY9xkjsWgGTf
+ P1P1vis0Z5Da06GhZTDrVBkDOl+OYgFrrzRyv7YxYZOGQwz91QH1ecf1I1JxrJZQc974
+ +nXFXAmIkw1spqSnF1TGMt7TWMQl9R0B9Hhrk+6Hys2jWA64atOxoyjJWljgUdyhKJoc
+ h5Cw==
+X-Gm-Message-State: AFqh2krlVIIOfM/NEqePpujTnrJWD82KXxQMVKlgRLCYWITBNaRAWt/n
+ H1/KjOvK0KbtUebW2EJHk4UQQw==
+X-Google-Smtp-Source: AMrXdXtu4QsednS1nJEdQYpyn+WjmVTWu3VSvaUMOChD1AOs4/QnNcqLZuuyzhNt6LzroTs4JBrteQ==
+X-Received: by 2002:a17:906:6844:b0:86e:f478:f598 with SMTP id
+ a4-20020a170906684400b0086ef478f598mr4836197ejs.44.1674003990637; 
+ Tue, 17 Jan 2023 17:06:30 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ 10-20020a170906210a00b007c0f2d051f4sm13786939ejt.203.2023.01.17.17.06.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Jan 2023 17:06:30 -0800 (PST)
+Message-ID: <e14e929b-884c-4250-bce8-0c21fe4f1c8f@linaro.org>
+Date: Wed, 18 Jan 2023 03:06:29 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] drm/msm/gem: Add check for kmalloc
+Content-Language: en-GB
+To: Jiasheng Jiang <jiasheng@iscas.ac.cn>, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, sean@poorly.run, airlied@gmail.com,
+ daniel@ffwll.ch, sumit.semwal@linaro.org, christian.koenig@amd.com
+References: <20221212091117.43511-1-jiasheng@iscas.ac.cn>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20221212091117.43511-1-jiasheng@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,46 +77,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ freedreno@lists.freedesktop.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the platform data for sdm845 platform.
+On 12/12/2022 11:11, Jiasheng Jiang wrote:
+> Add the check for the return value of kmalloc in order to avoid
+> NULL pointer dereference in copy_from_user.
+> 
+> Fixes: 20224d715a88 ("drm/msm/submit: Move copy_from_user ahead of locking bos")
+> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+> ---
+>   drivers/gpu/drm/msm/msm_gem_submit.c | 4 ++++
+>   1 file changed, 4 insertions(+)
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/msm_mdss.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index 158d7850c4ba..c15d1e2dc718 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -532,6 +532,12 @@ static const struct msm_mdss_data sc8280xp_data = {
- 	.macrotile_mode = 1,
- };
- 
-+static const struct msm_mdss_data sdm845_data = {
-+	.ubwc_version = UBWC_2_0,
-+	.ubwc_dec_version = UBWC_2_0,
-+	.highest_bank_bit = 2,
-+};
-+
- static const struct msm_mdss_data sm8150_data = {
- 	.ubwc_version = UBWC_3_0,
- 	.ubwc_dec_version = UBWC_3_0,
-@@ -559,7 +565,7 @@ static const struct of_device_id mdss_dt_match[] = {
- 	{ .compatible = "qcom,mdss" },
- 	{ .compatible = "qcom,msm8998-mdss" },
- 	{ .compatible = "qcom,qcm2290-mdss" },
--	{ .compatible = "qcom,sdm845-mdss" },
-+	{ .compatible = "qcom,sdm845-mdss", .data = &sdm845_data },
- 	{ .compatible = "qcom,sc7180-mdss", .data = &sc7180_data },
- 	{ .compatible = "qcom,sc7280-mdss", .data = &sc7280_data },
- 	{ .compatible = "qcom,sc8180x-mdss", .data = &sc8180x_data },
 -- 
-2.39.0
+With best wishes
+Dmitry
 
