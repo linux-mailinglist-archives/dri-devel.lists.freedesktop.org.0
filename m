@@ -1,78 +1,122 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 735DA671686
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 09:51:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B08671689
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 09:52:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A93E610E038;
-	Wed, 18 Jan 2023 08:51:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CDFF10E1E5;
+	Wed, 18 Jan 2023 08:52:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3924910E00A
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 08:51:18 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 98CD5320029B;
- Wed, 18 Jan 2023 03:51:12 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 18 Jan 2023 03:51:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1674031872; x=1674118272; bh=9KUlsgI3dn
- S0cospHZM0OdIrpPKgU9PSIeNZux/mzes=; b=VHpuXgGRlkv5xc8SExS+dg31iB
- +Q+CYFjSv9ud6aswis1izSDAblf05ZPwclFetYjnu8f9MfsaYSxXhZmiXlvEQRk4
- 2ZYkw7NleykQ9es6UTxzMIFiCgtywrbKreB9QP9eLKmcKacjfKiGptdJiNq3/tQA
- Ap5ddP/R65lrHO29TZH7TX7F0swpIs7wogcyEivQnA2upeFwzqs3eyp97pdx3TND
- y8RvcNsiyLmbtq8h5dqltyilugYulmbpA1RprvzoQ2TFxTaxzVU94TkidxOQUQOP
- plreSci1FPoUwBbXEpJF6tomUxovNJ50vp0QyyJxWvdDzjLZvB+6KLC2E2SQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1674031872; x=1674118272; bh=9KUlsgI3dnS0cospHZM0OdIrpPKg
- U9PSIeNZux/mzes=; b=rjz5pqWyZcUB3WkTJowupxeNrhtn1dvu8BqR8VDJKlia
- /bxpnMP+NuFG40RzAxgYOI+GYH3EP8O2msetwFdQHV6hvkzeLDEOBL4b10d+H//+
- WgxWpuf1qSpoKmer3WFBjlUwgmWyyYJ7LRDKicEpvRc6qyPvpTfSHpL1vU9tMzeJ
- GvuIvISNbPeWKIUMEVsZYBO9+cJfMAiPTZKaWS61P2y+57NnGoJvC7EEH/E6nUkr
- 4LchYH0AEOhlBN3uZHHkJtkppQJXj2Qm1GtWDQjAGh+GEZkyTv9LDXFss2LURCfY
- 3hipnsWh+4oQPbgxPCt5RQGWxNT5PRDT6V7KLT1rfA==
-X-ME-Sender: <xms:_7LHYyUZ3W6_D0KDonQUvuqXT52av5tAtXbIb-IdyCRndIdlN953sw>
- <xme:_7LHY-kOzWReXpWtrWdMqsy5feqDqeRNu94yZS38dizVRGbo6IZ98FJQEf9Pxbxbm
- Hl9z9plykKvGDKoIDc>
-X-ME-Received: <xmr:_7LHY2YH4eqzPjJjuFr8iJsyFvPazhCNAly9u0GRWxsAA8Ck5m3hHtag647kf-Ahz5ipW_YUjkW0-Em4Oqx6ecI94t4vKMIuM6wjXQ3zcqHHvg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtjedguddvkecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheeh
- fffhvedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:_7LHY5U2Ybl6Oa0fGtX5eIMw9jzassbK-x78IIAttHDpoDDBlDeOFA>
- <xmx:_7LHY8nfDQkoggn6SyxTl4ryUQMgvZnlopw_ROiFy1XwjRoPSWGFXQ>
- <xmx:_7LHY-d6KW7OhfEBhpBRdCYPwofC_WAMgkKUWiHhzYAszG1Pb0I-1w>
- <xmx:ALPHY6wcHIrClecEzdSuS6AP4OF_h2lEUu5RYDdVIow0CBot5Y0DSQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 18 Jan 2023 03:51:10 -0500 (EST)
-Date: Wed, 18 Jan 2023 09:51:08 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH V10 1/4] drm: of: Add drm_of_get_dsi_bus helper function
-Message-ID: <20230118085108.huhhod43ixwe7pwk@houat>
-References: <20230112175358.421975-1-macroalpha82@gmail.com>
- <20230112175358.421975-2-macroalpha82@gmail.com>
- <20230117165819.4rx7aucvyp5e2rj6@houat>
- <63c6f329.050a0220.82479.85d4@mx.google.com>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2050.outbound.protection.outlook.com [40.107.244.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32D1F10E0CB;
+ Wed, 18 Jan 2023 08:52:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bi70F7SfUt7jE+rrB1+uJM/U3c3jKwcBn75j5hcKRpZprOZRSrFgcis+TgLWOMHhJ9xnWK32DPYLcu280YKq56WpgyXdqYeolXjjhnawRcFOb9pD1EKwivTg6c2EgiJHET1GeorQuQ9KGFnHNCD4zWyd+lEwi8ubLm+vW4C2gCOiSiqjfMfpSO4LobO3ZLwmYojTbrb8XaiGpsMywXqgQ3ehkERTKLlU0RbdL0d+JSjGNI9s5b0U4UAUFL2V5trfboYJ/NrrKDjm1JBbTw/MxVN2Fip7pCii4DmkWeGvXT8N+3UtM/jx8sNXa4pPSIHAGBtmClj2rOENcQ+Ssbgu/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=h1ECkoR+3/WDoEQ2FuO44DKpRaxHsDksYpGsGiduLVU=;
+ b=E7IvKkcjdwbbuUrzNQvHIc5+/nLlw3TlZDvJiUi9HX3bNfhRgEH5klUYNw6YEr5zjK4+EtWJ490OINRWJpKwHax0GdZbZb5G+zDGFriMmxU2IzBXC/UyyEeTbC4PRhAmjnppxYuqzm0MXy00sPUE11Xu/WuZnVvCAOPmX/Or4D1iRfdmxopIwUy+cy0kqx0EqtdjXl2aCrcD/cWmnvvtHvaxhtF6j6h55i7RUKq957RzpDwYjw/xpOFODT8Y4djnm7xAto31RyzSoIFlQZI80hvmHe3AZQIYnKpq2lNl+cDvJt7oVUv2qyjnW/zWT9UmL/+tt/2DSUhIJRvEjrlPOQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=h1ECkoR+3/WDoEQ2FuO44DKpRaxHsDksYpGsGiduLVU=;
+ b=t3Qyw1C1KSaWtBT05HiL3kJZPNSsWgFWc+SD7Up6y50i1EnT25qUiQbU5gZKLqC/Oqw1g42se8NAAsWTtTblHbkRzwtumwEj87VrYjedjOQUxgUxbaDF/A7wuO0/U/HzplzhJ+S0UQWq1Xy9ZSMsa/tSDiTAnUvfTPszbYoEwBs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29)
+ by BY5PR12MB4870.namprd12.prod.outlook.com (2603:10b6:a03:1de::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.24; Wed, 18 Jan
+ 2023 08:52:03 +0000
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::500a:d02f:5ceb:4221]) by BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::500a:d02f:5ceb:4221%7]) with mapi id 15.20.5986.023; Wed, 18 Jan 2023
+ 08:52:03 +0000
+Message-ID: <3c3bd64a-164b-7ff2-ebf0-c8f9c2f94b72@amd.com>
+Date: Wed, 18 Jan 2023 09:51:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH drm-next 02/14] drm/exec: fix memory leak in
+ drm_exec_prepare_obj()
+Content-Language: en-US
+To: Danilo Krummrich <dakr@redhat.com>, daniel@ffwll.ch, airlied@redhat.com,
+ bskeggs@redhat.com, jason@jlekstrand.net, tzimmermann@suse.de,
+ mripard@kernel.org, corbet@lwn.net
+References: <20230118061256.2689-1-dakr@redhat.com>
+ <20230118061256.2689-3-dakr@redhat.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230118061256.2689-3-dakr@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0070.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9a::9) To BYAPR12MB3589.namprd12.prod.outlook.com
+ (2603:10b6:a03:df::29)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="rybdiaw5plw7ten3"
-Content-Disposition: inline
-In-Reply-To: <63c6f329.050a0220.82479.85d4@mx.google.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3589:EE_|BY5PR12MB4870:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7886a82e-8e4e-4baa-df1a-08daf931448f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SEPJWkNN8Q7M/UMg9NbgyC3vLFLyo8zmNUSk4zvVXGgdOPLgXtwZI0o+tsg4KYihdywdXwnBhFbvuuGgvHDGWWNPeH78Xy0rGCqdtq/Zd2uAQye+5rg9jZ+AIOeI1TpwU13sCMbHc6YRcZb7bKkhi0AqTavaQQLNvTnks4roVKEcdz/uikOP6XMPOyxcCxTGaGlKi7A+TPnsbkCbsuKD93SYbPnqt9BD/OqDy7EyXffu+gsGvk1q0BqrLnLCSx2lbdlaWj9YOzXwC+ppQoSa9fFl7tHi9KMMQ8dyZzoNQQ9oCs0xig2PxiQkKfeBM2W+Ep8vJmdIFwy4868ia/IeXpqebUhGlCW4E5JJuhSxipX7vOeK6ptWngmWd9Yh+rZcrcS+D/NliGCr8ICYjG+Xdq6LzLJVSinH+889ijnz17dGITWUj+MDANX63CgEIjMcoTTqcfgkcRE7iS/K11Z+uL9SMtd43Z8A0uV0wPSArgklmO/Y2i/76fv1MZuAIje3md9DKLVpjpP7NoEFmumpzniDHv4pLPajgptwaHo3lG6EgMI+DjkK0dU+fyfi5AlHYy0RGZkPhDkT/uecwhIe7ZIZY8+e9HwM4O47WI9kZjjOlJ0WpSxQVYCRSd+J4+CjJySZO9edXS83a5r0f2Z7cHCzX2Ub0If5o+hj1Nb3R1xlD5OGw5iPCAcDMjZsmc1GU6n79s75JQB1TfCuuN3LS3JL2DTmt7tf8tLq6laCh1U=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3589.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(376002)(136003)(39860400002)(396003)(346002)(366004)(451199015)(31686004)(86362001)(2906002)(7416002)(66556008)(66476007)(66946007)(4744005)(8936002)(5660300002)(31696002)(38100700002)(316002)(6666004)(6486002)(6506007)(478600001)(36756003)(41300700001)(8676002)(4326008)(186003)(6512007)(83380400001)(2616005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZTFJYVpQRXo0VEpod1RiNXI2QllYOVlvY1k2RVJLc2tqQmxRTGtBVm9sRWZ0?=
+ =?utf-8?B?Sy96TkFxanh3ZkZQOW1JbWNWRzl5ZWFQai9ZNmtMaGN4a09DTitWcXNaVVNX?=
+ =?utf-8?B?RDI0czlRdFJDOW9qR1BJeC9Mc3k0Z25jK1pzYnpESjdJaWZnUzRadjlIdEpU?=
+ =?utf-8?B?Qzh5K2ErNldCQ0NpSjMrQ0hNdHY2T21YTmI0VC9VV1EyaUpYaHpQTzVIcGhL?=
+ =?utf-8?B?ZnhsUUV0T2xyek9qb3ZmUHNzeWdtaDcyNXc5SFpNMDFCNTdlaUxnVHNCZXRt?=
+ =?utf-8?B?Vmo4Q3o4eW1taVVJbG5EcU9WQit2ZG9YVnhvcCtiWWZ3a0dDQmtQR0t1U1hx?=
+ =?utf-8?B?QjBqbnNCOUhBemJmdmwrTzIrbmdySjMxcDVtTU43VDdFcC85VjJzb3h1bENH?=
+ =?utf-8?B?aXBnL1JRbFdJNGVpMndjNDIzNXJEQ2dTa3FxbllZcjdGdjNGNzdXRnJ6SkRQ?=
+ =?utf-8?B?cXFaaVM2S21wTEppeTA1aVl6SjFyNkxtQi9SbXhGTCtxN0JTV1F2RmZsVUNJ?=
+ =?utf-8?B?blUwUlVxTnMyalh1YzErV1ZTbW5Da1FJM2RYbWVsSUMyNDB6aG5ITWFQVkY0?=
+ =?utf-8?B?N3ZYTlh5Z01jZEg0SlorOXN3bFIrbXE3aEZzV1ZYMFJxUERGZFp4VGxtbnlU?=
+ =?utf-8?B?L0sxZUFjazdPbUhxVitldmdJamE5dlJZWWUzL1VMTFNMeUlhb1phdEZXTVBj?=
+ =?utf-8?B?aENzS3RDK0NkNVRRaERnYlpJbTVrVU41VDh6eS92cFlabkxHVyszUFZQWDdo?=
+ =?utf-8?B?RHFkTWthYk5LTmhvM3pORjdicG42Nnh0V1E4M242ajJDSFlCMklRYXlBNmJS?=
+ =?utf-8?B?MXNpZXZiRTdHMGZ5bHNEQ1ZFejIzVTQzWXoyT3pkYkZSY1hTRGIvZCtnOGF3?=
+ =?utf-8?B?MHB6TEh6TTM1YlJYZlJwK3M2Z0NlbUNvK3lOTXVrSFVwK3hZZGphejFxOE0w?=
+ =?utf-8?B?Y1FUeEg2a0JpbDhubko5WDlYR01rK3dsRUZNd24vQk1sWGpsZDl3bll3TmRP?=
+ =?utf-8?B?ME4vZENYYUtUdEpKVWl2WXJRdHpEVEthc1dDcUFiZkt1ckxDTVN2c2JIaXZJ?=
+ =?utf-8?B?TXRHZWE1bEFVVk1Gd3FOd0Rsc0tYcWlSQU1aRzF1RGxIL28vcisydEhiVXNT?=
+ =?utf-8?B?QXlNTEZEcUFOR1pUV0hHT01lN1VlSmxLQVRmbFY5OE8wb2hNYmVjTGJma0ZX?=
+ =?utf-8?B?MDVMZ3FMQ3JmWk5ySDlCU1hiVGJvVGpvdHRiMW5DVFdycVlETHNTZjN3WEhF?=
+ =?utf-8?B?MHRhTlVSaHR1bTVXV2l0NzZlMDNaMUw5RUhTLzdjUTVLVENPVzFnZEhvMTJa?=
+ =?utf-8?B?eDU0ZERjK0R0MVFMaE5YSDArdUVLdUtkZXRveHR4dXlzL2JublZORWZVUXZB?=
+ =?utf-8?B?UTJyNDBqcEFqamlUNFhHREVOSnFVVE5ZR0Y2eDcxTVZSbnhWRTdRVVpoN1g1?=
+ =?utf-8?B?SE81QXpzVDRva2F2QWxiTkpKNlQ4d2N5ZFcyZjh6WnQvUnZodXdqdzRDcFlE?=
+ =?utf-8?B?Yjl3UlFKelR4Uzg3VjlMbUZmYmRuczdlWmhLQnFFc0Q4U0VkV0huWWJqVDk4?=
+ =?utf-8?B?WTExRDNlQW05N1pvMmdCZWNwbVhCMWJicituRkhWZ3BtNE44NWFPc2x1eUdX?=
+ =?utf-8?B?ZlJncWUzMTJIdEVFTVdZa2dOdVdKaVl6bkpVMStZNUNwM0ZTUTIzc2VRd04x?=
+ =?utf-8?B?UWx4SVBIdTBnOWN3NEYzcW0vV0EvVEllNUtpVVJCR1FLRzRJSkpDeTUwNm9m?=
+ =?utf-8?B?QVIzdmtrc3BOZld1c1VVMjBqem5mK0greGtGZXByUVRHUmZSMkVVbk5ISTZK?=
+ =?utf-8?B?cVdUOXFMYnVVdVI4Q1VxbGlpTHFhZ3NDZjR0dld6UFppMEdxU1VJVUxVZStv?=
+ =?utf-8?B?NjB1cDJLMitqWEJxSHVYeklVOXNmcGduZkFrTGwvYWpvMTRGUlltTUpId1BX?=
+ =?utf-8?B?bldRQlowWmpRQmlSSWQ0Rm9vWE1EN0tkblJiZXE0K0dLZHBjOWMrcVZVNCtG?=
+ =?utf-8?B?NXc5QnB6UzJCU2lZMkxOUHZ4Q2xyRkhnTStYaW9HSUE1VUtNSlJscEpDcXZO?=
+ =?utf-8?B?bmpsQTBibUxFNC84ZU5qMHVpVEsydG1lRnZ4ajVCRjZ2ZkxKdnlvcGdGamxs?=
+ =?utf-8?B?a3dNUE40Z2hlRklHS1JlNlV2bXgrK1JTSS9qN3c2VmVsQzhvN0IxcDZybFlR?=
+ =?utf-8?Q?sXiqYQJcw0fWrRZxLJ48n1F6SDFfo9heCvn8Cq1F19tO?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7886a82e-8e4e-4baa-df1a-08daf931448f
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3589.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2023 08:52:02.8308 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9RVMhxuegYjd4hRk5bNnOcGR6v9SbwxP05r7rEOs2QRmQOvHZa4H2sqvW8L4c2De
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4870
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,180 +129,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
- krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- robh+dt@kernel.org, thierry.reding@gmail.com, tzimmermann@suse.de,
- maccraft123mc@gmail.com
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+That one should probably be squashed into the original patch.
 
---rybdiaw5plw7ten3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Christian.
 
-On Tue, Jan 17, 2023 at 01:12:39PM -0600, Chris Morgan wrote:
-> On Tue, Jan 17, 2023 at 05:58:19PM +0100, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Thu, Jan 12, 2023 at 11:53:55AM -0600, Chris Morgan wrote:
-> > > From: Chris Morgan <macromorgan@hotmail.com>
-> > >=20
-> > > Add helper function to find DSI host for devices where DSI panel is n=
-ot
-> > > a minor of a DSI bus (such as the Samsung AMS495QA01 panel or the
-> > > official Raspberry Pi touchscreen display).
-> > >=20
-> > > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> > > Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_of.c | 70 ++++++++++++++++++++++++++++++++++++++=
-++
-> > >  include/drm/drm_of.h     | 10 ++++++
-> > >  2 files changed, 80 insertions(+)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-> > > index 7bbcb999bb75..6c2c97a716fe 100644
-> > > --- a/drivers/gpu/drm/drm_of.c
-> > > +++ b/drivers/gpu/drm/drm_of.c
-> > > @@ -10,6 +10,7 @@
-> > >  #include <drm/drm_crtc.h>
-> > >  #include <drm/drm_device.h>
-> > >  #include <drm/drm_encoder.h>
-> > > +#include <drm/drm_mipi_dsi.h>
-> > >  #include <drm/drm_of.h>
-> > >  #include <drm/drm_panel.h>
-> > > =20
-> > > @@ -493,3 +494,72 @@ int drm_of_get_data_lanes_count_ep(const struct =
-device_node *port,
-> > >  	return ret;
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(drm_of_get_data_lanes_count_ep);
-> > > +
-> > > +#if IS_ENABLED(CONFIG_DRM_MIPI_DSI)
-> > > +
-> > > +/**
-> > > + * drm_of_get_dsi_bus - find the DSI bus for a given device
-> > > + * @dev: parent device of display (SPI, I2C)
-> > > + * @info: DSI device info to be updated with DSI node. This is optio=
-nal
-> > > + * and if not needed can be NULL.
-> > > + *
-> > > + * Gets parent DSI bus for a DSI device controlled through a bus oth=
-er
-> > > + * than MIPI-DCS (SPI, I2C, etc.) using the Device Tree.
-> > > + *
-> > > + * Returns pointer to mipi_dsi_host if successful, -EINVAL if the
-> > > + * request is unsupported, -EPROBE_DEFER if the DSI host is found but
-> > > + * not available, or -ENODEV otherwise.
-> > > + */
-> > > +struct mipi_dsi_host *drm_of_get_dsi_bus(struct device *dev,
-> > > +					 struct mipi_dsi_device_info *info)
-> > > +{
-> > > +	struct mipi_dsi_host *dsi_host;
-> > > +	struct device_node *endpoint, *dsi_host_node;
-> > > +
-> > > +	/*
-> > > +	 * Get first endpoint child from device.
-> > > +	 */
-> > > +	endpoint =3D of_graph_get_next_endpoint(dev->of_node, NULL);
-> > > +	if (!endpoint)
-> > > +		return ERR_PTR(-ENODEV);
-> > > +
-> > > +	/*
-> > > +	 * Follow the first endpoint to get the DSI host node.
-> > > +	 */
-> > > +	dsi_host_node =3D of_graph_get_remote_port_parent(endpoint);
-> > > +	if (!dsi_host_node)
-> > > +		goto error;
-> > > +
-> > > +	/*
-> > > +	 * Get the DSI host from the DSI host node. If we get an error
-> > > +	 * or the return is null assume we're not ready to probe just
-> > > +	 * yet. Release the DSI host node since we're done with it.
-> > > +	 */
-> > > +	dsi_host =3D of_find_mipi_dsi_host_by_node(dsi_host_node);
-> > > +	of_node_put(dsi_host_node);
-> > > +	if (IS_ERR_OR_NULL(dsi_host)) {
-> > > +		of_node_put(endpoint);
-> > > +		return ERR_PTR(-EPROBE_DEFER);
-> > > +	}
-> > > +
-> > > +	/*
-> > > +	 * Set the node of the mipi_dsi_device_info to the correct node
-> > > +	 * and then release the endpoint node since we're done with it.
-> > > +	 * since this is optional, check if the info is NULL first.
-> > > +	 */
-> > > +	if (info) {
-> > > +		info->node =3D of_graph_get_remote_port(endpoint);
-> >=20
-> > it looks to me that the info->node is actually the DSI device OF node,
-> > not its host port. Which begs the question, why should we even return it
-> > there, since there's a pretty big chance that dev->of.node =3D=3D
-> > info->node, and you obviously don't care about the channel and type fie=
-lds.
-> >=20
-> > I've had a look and node of the current users of
-> > mipi_dsi_device_register_full actually register a mipi_dsi_device_info
-> > with a node pointer set to !NULL, including the driver in this series.
-> >=20
-> > So, why do we care about the device info at all?
+Am 18.01.23 um 07:12 schrieb Danilo Krummrich:
+> Don't call drm_gem_object_get() unconditionally.
 >
-> I honestly thought it might be useful, but I can try without it.
+> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+> ---
+>   drivers/gpu/drm/drm_exec.c | 1 -
+>   1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
+> index ed2106c22786..5713a589a6a3 100644
+> --- a/drivers/gpu/drm/drm_exec.c
+> +++ b/drivers/gpu/drm/drm_exec.c
+> @@ -282,7 +282,6 @@ int drm_exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object *obj,
+>   			goto error_unlock;
+>   	}
+>   
+> -	drm_gem_object_get(obj);
+>   	return 0;
+>   
+>   error_unlock:
 
-It might tbh, but it doesn't look like you use it in your driver. You have:
-
-struct mipi_dsi_device_info info =3D {
-	.type =3D "d53e6ea8966",
-	.channel =3D 0,
-	.node =3D NULL,
-};
-
-=2E..
-
-// info.node is NULL so far
-dsi_host =3D drm_of_get_dsi_bus(dev, &info);
-
-=2E..
-
-// info.node has been filled to the port node by drm_of_get_dsi_bus()
-db->dsi_dev =3D devm_mipi_dsi_device_register_full(dev, dsi_host, &info);
-
-// db->dsi_dev.dev.of_node is now set to the port node
-
-But if we grep through drm_mipi_dsi.c, we can see that the of_node is
-only really useful if we're using of_find_mipi_dsi_device_by_node, and
-it looks like you don't.
-
-So nothing uses info->node, which also explains why not reporting the
-proper node has been working.
-
-Looking more into the code, it really looks to me that info->node should
-be equal to the your panel device tree node, that's what
-of_mipi_dsi_device_add does at least.
-
-if info->node =3D=3D dev->of_node, and if info->node is the only thing
-filled by drm_of_get_dsi_bus(), then it doesn't need to fill it at all
-because it's already accessible easily to the caller (and even more
-easily than to the callee).
-
-So yeah, until we have a real-world need to retrieve the info function I
-think we should leave it aside for now, and we can always change the API
-later if we need to.
-
-Maxime
-
---rybdiaw5plw7ten3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY8ey/AAKCRDj7w1vZxhR
-xVS/AQDUdnSGblEzWLEWmRten0nr00zGWqhrXBNcMiHWRnUERgD+JwQ2k5RXvHoW
-kEDhs0Tdt0wE9hYtSODBYAEGVjWMewo=
-=R/IG
------END PGP SIGNATURE-----
-
---rybdiaw5plw7ten3--
