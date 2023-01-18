@@ -2,53 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E0A4672941
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 21:27:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5AC467299B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 21:43:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA6CF10E828;
-	Wed, 18 Jan 2023 20:27:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39BCA10E052;
+	Wed, 18 Jan 2023 20:43:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48E8210E029;
- Wed, 18 Jan 2023 20:27:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674073637; x=1705609637;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=6sPLbjLpRMrut6mkwWGe3o7oYxtT9A6KI8WUTNIxVsk=;
- b=lPdzzuVK54MgYaDaXZaQ1Xg5kvC6aVpm8SoGqpQFb4V78l8MyP2H3z9t
- lJEYZIwQm3gpS8heQ0a8q934BMSrTdeaq+aP54APmhfcHlwl7KtsEOvla
- HCqitTfn4T1+dAWZcddPMdga4xhkePjTtAXcPAcLNk5TD7DEsufZZ/QH4
- Kj1ujAHEni6vHslRq/Rgozi0D0wtEmy7Vcy19u9ge1L85aIpwbqgN6zNO
- jzAWoH2Jn+ZcwsTTChEQj4lACw8euO/1vmzschpWiepfEVGUfFo9JCoiV
- 1UHDMkyiwXxmM0EkNa5V4RKliK5ClN8uAKSD54lgkCkwPyb/wsm8uEp/T g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="308652984"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="308652984"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2023 12:27:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="767907627"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="767907627"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
- by fmsmga002.fm.intel.com with ESMTP; 18 Jan 2023 12:27:13 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pIF1c-0000gg-1U;
- Wed, 18 Jan 2023 20:27:12 +0000
-Date: Thu, 19 Jan 2023 04:27:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH v10 23/23] drm/i915/vm_bind: Support capture
- of persistent mappings
-Message-ID: <202301190440.EuujWDwh-lkp@intel.com>
-References: <20230118071609.17572-24-niranjana.vishwanathapura@intel.com>
+X-Greylist: delayed 361 seconds by postgrey-1.36 at gabe;
+ Wed, 18 Jan 2023 20:43:30 UTC
+Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D9DC10E029;
+ Wed, 18 Jan 2023 20:43:30 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 585063F641;
+ Wed, 18 Jan 2023 21:37:27 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Authentication-Results: pio-pvt-msa1.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id eTdF60v-tFNf; Wed, 18 Jan 2023 21:37:25 +0100 (CET)
+Received: by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 371373F5EB;
+ Wed, 18 Jan 2023 21:37:24 +0100 (CET)
+Received: from [192.168.0.209] (h-155-4-205-35.A357.priv.bahnhof.se
+ [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 597FF363238;
+ Wed, 18 Jan 2023 21:37:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1674074243; bh=pXBoZgqIkq9ucMixPjebxLBn5S3X9YZ1204021o5n3s=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=qWdFt+cdXpQD51K3sminD4d6XVvcQCnE/F9GuQvvUxNiXmM+QVsTUV5gJSzQLcVE9
+ Jww8a3j7C6EDm3LCnwniSfsHFXhW/yiKtdJv4HUevhczhOqH0ybOzhEQvqxrWDzSn7
+ suHVVoOJKyErxlQiXnCQEsleNsr5nYGZJQv56FjI=
+Message-ID: <e371e8a1-88f8-1309-07ca-f48f4157fec8@shipmail.org>
+Date: Wed, 18 Jan 2023 21:37:22 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230118071609.17572-24-niranjana.vishwanathapura@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH drm-next 13/14] drm/nouveau: implement new VM_BIND UAPI
+Content-Language: en-US
+To: Danilo Krummrich <dakr@redhat.com>, daniel@ffwll.ch, airlied@redhat.com,
+ christian.koenig@amd.com, bskeggs@redhat.com, jason@jlekstrand.net,
+ tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net
+References: <20230118061256.2689-1-dakr@redhat.com>
+ <20230118061256.2689-14-dakr@redhat.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+In-Reply-To: <20230118061256.2689-14-dakr@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,168 +70,748 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: paulo.r.zanoni@intel.com, jani.nikula@intel.com, llvm@lists.linux.dev,
- thomas.hellstrom@intel.com, matthew.auld@intel.com,
- oe-kbuild-all@lists.linux.dev, daniel.vetter@intel.com,
- christian.koenig@amd.com
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Niranjana,
 
-Thank you for the patch! Yet something to improve:
+On 1/18/23 07:12, Danilo Krummrich wrote:
+> This commit provides the implementation for the new uapi motivated by the
+> Vulkan API. It allows user mode drivers (UMDs) to:
+>
+> 1) Initialize a GPU virtual address (VA) space via the new
+>     DRM_IOCTL_NOUVEAU_VM_INIT ioctl for UMDs to specify the portion of VA
+>     space managed by the kernel and userspace, respectively.
+>
+> 2) Allocate and free a VA space region as well as bind and unbind memory
+>     to the GPUs VA space via the new DRM_IOCTL_NOUVEAU_VM_BIND ioctl.
+>     UMDs can request the named operations to be processed either
+>     synchronously or asynchronously. It supports DRM syncobjs
+>     (incl. timelines) as synchronization mechanism. The management of the
+>     GPU VA mappings is implemented with the DRM GPU VA manager.
+>
+> 3) Execute push buffers with the new DRM_IOCTL_NOUVEAU_EXEC ioctl. The
+>     execution happens asynchronously. It supports DRM syncobj (incl.
+>     timelines) as synchronization mechanism. DRM GEM object locking is
+>     handled with drm_exec.
+>
+> Both, DRM_IOCTL_NOUVEAU_VM_BIND and DRM_IOCTL_NOUVEAU_EXEC, use the DRM
+> GPU scheduler for the asynchronous paths.
+>
+> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+> ---
+>   Documentation/gpu/driver-uapi.rst       |   3 +
+>   drivers/gpu/drm/nouveau/Kbuild          |   2 +
+>   drivers/gpu/drm/nouveau/Kconfig         |   2 +
+>   drivers/gpu/drm/nouveau/nouveau_abi16.c |  16 +
+>   drivers/gpu/drm/nouveau/nouveau_abi16.h |   1 +
+>   drivers/gpu/drm/nouveau/nouveau_drm.c   |  23 +-
+>   drivers/gpu/drm/nouveau/nouveau_drv.h   |   9 +-
+>   drivers/gpu/drm/nouveau/nouveau_exec.c  | 310 ++++++++++
+>   drivers/gpu/drm/nouveau/nouveau_exec.h  |  55 ++
+>   drivers/gpu/drm/nouveau/nouveau_sched.c | 780 ++++++++++++++++++++++++
+>   drivers/gpu/drm/nouveau/nouveau_sched.h |  98 +++
+>   11 files changed, 1295 insertions(+), 4 deletions(-)
+>   create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec.c
+>   create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec.h
+>   create mode 100644 drivers/gpu/drm/nouveau/nouveau_sched.c
+>   create mode 100644 drivers/gpu/drm/nouveau/nouveau_sched.h
+...
+>
+> +static struct dma_fence *
+> +nouveau_bind_job_run(struct nouveau_job *job)
+> +{
+> +	struct nouveau_bind_job *bind_job = to_nouveau_bind_job(job);
+> +	struct nouveau_uvmm *uvmm = nouveau_cli_uvmm(job->cli);
+> +	struct bind_job_op *op;
+> +	int ret = 0;
+> +
 
-[auto build test ERROR on drm-intel/for-linux-next]
-[also build test ERROR on drm-intel/for-linux-next-fixes drm-tip/drm-tip drm/drm-next drm-exynos/exynos-drm-next drm-misc/drm-misc-next linus/master v6.2-rc4 next-20230118]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I was looking at how nouveau does the async binding compared to how xe 
+does it.
+It looks to me that this function being a scheduler run_job callback is 
+the main part of the VM_BIND dma-fence signalling critical section for 
+the job's done_fence and if so, needs to be annotated as such?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Niranjana-Vishwanathapura/drm-i915-vm_bind-Expose-vm-lookup-function/20230118-151845
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20230118071609.17572-24-niranjana.vishwanathapura%40intel.com
-patch subject: [Intel-gfx] [PATCH v10 23/23] drm/i915/vm_bind: Support capture of persistent mappings
-config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20230119/202301190440.EuujWDwh-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/251fbfd52586e3ff4677b44a136d08f9580d79e2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Niranjana-Vishwanathapura/drm-i915-vm_bind-Expose-vm-lookup-function/20230118-151845
-        git checkout 251fbfd52586e3ff4677b44a136d08f9580d79e2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+For example nouveau_uvma_region_new allocates memory, which is not 
+allowed if in a dma_fence signalling critical section and the locking 
+also looks suspicious?
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+Thanks,
 
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/i915/i915_gem.c:181:43: error: no member named 'vm_capture_lock' in 'struct i915_address_space'
-                   if (!mutex_lock_interruptible(&vma->vm->vm_capture_lock)) {
-                                                  ~~~~~~~  ^
-   include/linux/mutex.h:188:72: note: expanded from macro 'mutex_lock_interruptible'
-   #define mutex_lock_interruptible(lock) mutex_lock_interruptible_nested(lock, 0)
-                                                                          ^~~~
->> drivers/gpu/drm/i915/i915_gem.c:182:36: error: no member named 'vm_capture_link' in 'struct i915_vma'
-                           sync_unbind = !list_empty(&vma->vm_capture_link);
-                                                      ~~~  ^
-   drivers/gpu/drm/i915/i915_gem.c:183:27: error: no member named 'vm_capture_lock' in 'struct i915_address_space'
-                           mutex_unlock(&vma->vm->vm_capture_lock);
-                                         ~~~~~~~  ^
-   3 errors generated.
+Thomas
 
 
-vim +181 drivers/gpu/drm/i915/i915_gem.c
-
-   116	
-   117	int i915_gem_object_unbind(struct drm_i915_gem_object *obj,
-   118				   unsigned long flags)
-   119	{
-   120		struct intel_runtime_pm *rpm = &to_i915(obj->base.dev)->runtime_pm;
-   121		bool vm_trylock = !!(flags & I915_GEM_OBJECT_UNBIND_VM_TRYLOCK);
-   122		LIST_HEAD(still_in_list);
-   123		intel_wakeref_t wakeref;
-   124		struct i915_vma *vma;
-   125		int ret;
-   126	
-   127		assert_object_held(obj);
-   128	
-   129		if (list_empty(&obj->vma.list))
-   130			return 0;
-   131	
-   132		/*
-   133		 * As some machines use ACPI to handle runtime-resume callbacks, and
-   134		 * ACPI is quite kmalloc happy, we cannot resume beneath the vm->mutex
-   135		 * as they are required by the shrinker. Ergo, we wake the device up
-   136		 * first just in case.
-   137		 */
-   138		wakeref = intel_runtime_pm_get(rpm);
-   139	
-   140	try_again:
-   141		ret = 0;
-   142		spin_lock(&obj->vma.lock);
-   143		while (!ret && (vma = list_first_entry_or_null(&obj->vma.list,
-   144							       struct i915_vma,
-   145							       obj_link))) {
-   146			bool sync_unbind = true;
-   147	
-   148			list_move_tail(&vma->obj_link, &still_in_list);
-   149			if (!i915_vma_is_bound(vma, I915_VMA_BIND_MASK))
-   150				continue;
-   151	
-   152			if (flags & I915_GEM_OBJECT_UNBIND_TEST) {
-   153				ret = -EBUSY;
-   154				break;
-   155			}
-   156	
-   157			/*
-   158			 * Requiring the vm destructor to take the object lock
-   159			 * before destroying a vma would help us eliminate the
-   160			 * i915_vm_tryget() here, AND thus also the barrier stuff
-   161			 * at the end. That's an easy fix, but sleeping locks in
-   162			 * a kthread should generally be avoided.
-   163			 */
-   164			ret = -EAGAIN;
-   165			if (!i915_vm_tryget(vma->vm))
-   166				break;
-   167	
-   168			spin_unlock(&obj->vma.lock);
-   169	
-   170			/*
-   171			 * Since i915_vma_parked() takes the object lock
-   172			 * before vma destruction, it won't race us here,
-   173			 * and destroy the vma from under us.
-   174			 */
-   175	
-   176			/*
-   177			 * Synchronously unbind persistent mappings with capture
-   178			 * request so that vma->resource is valid in the error capture
-   179			 * path without needing extra reference taking in execbuf path.
-   180			 */
- > 181			if (!mutex_lock_interruptible(&vma->vm->vm_capture_lock)) {
- > 182				sync_unbind = !list_empty(&vma->vm_capture_link);
-   183				mutex_unlock(&vma->vm->vm_capture_lock);
-   184			}
-   185	
-   186			ret = -EBUSY;
-   187			if (!sync_unbind && (flags & I915_GEM_OBJECT_UNBIND_ASYNC)) {
-   188				assert_object_held(vma->obj);
-   189				ret = i915_vma_unbind_async(vma, vm_trylock);
-   190			}
-   191	
-   192			if (ret == -EBUSY && (flags & I915_GEM_OBJECT_UNBIND_ACTIVE ||
-   193					      !i915_vma_is_active(vma))) {
-   194				if (vm_trylock) {
-   195					if (mutex_trylock(&vma->vm->mutex)) {
-   196						ret = __i915_vma_unbind(vma);
-   197						mutex_unlock(&vma->vm->mutex);
-   198					}
-   199				} else {
-   200					ret = i915_vma_unbind(vma);
-   201				}
-   202			}
-   203	
-   204			i915_vm_put(vma->vm);
-   205			spin_lock(&obj->vma.lock);
-   206		}
-   207		list_splice_init(&still_in_list, &obj->vma.list);
-   208		spin_unlock(&obj->vma.lock);
-   209	
-   210		if (ret == -EAGAIN && flags & I915_GEM_OBJECT_UNBIND_BARRIER) {
-   211			rcu_barrier(); /* flush the i915_vm_release() */
-   212			goto try_again;
-   213		}
-   214	
-   215		intel_runtime_pm_put(rpm, wakeref);
-   216	
-   217		return ret;
-   218	}
-   219	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> +	nouveau_uvmm_lock(uvmm);
+> +	list_for_each_op(op, &bind_job->ops) {
+> +		switch (op->op) {
+> +		case OP_ALLOC: {
+> +			bool sparse = op->flags & DRM_NOUVEAU_VM_BIND_SPARSE;
+> +
+> +			ret = nouveau_uvma_region_new(uvmm,
+> +						      op->va.addr,
+> +						      op->va.range,
+> +						      sparse);
+> +			if (ret)
+> +				goto out_unlock;
+> +			break;
+> +		}
+> +		case OP_FREE:
+> +			ret = nouveau_uvma_region_destroy(uvmm,
+> +							  op->va.addr,
+> +							  op->va.range);
+> +			if (ret)
+> +				goto out_unlock;
+> +			break;
+> +		case OP_MAP:
+> +			ret = nouveau_uvmm_sm_map(uvmm,
+> +						  op->va.addr, op->va.range,
+> +						  op->gem.obj, op->gem.offset,
+> +						  op->flags && 0xff);
+> +			if (ret)
+> +				goto out_unlock;
+> +			break;
+> +		case OP_UNMAP:
+> +			ret = nouveau_uvmm_sm_unmap(uvmm,
+> +						    op->va.addr,
+> +						    op->va.range);
+> +			if (ret)
+> +				goto out_unlock;
+> +			break;
+> +		}
+> +	}
+> +
+> +out_unlock:
+> +	nouveau_uvmm_unlock(uvmm);
+> +	if (ret)
+> +		NV_PRINTK(err, job->cli, "bind job failed: %d\n", ret);
+> +	return ERR_PTR(ret);
+> +}
+> +
+> +static void
+> +nouveau_bind_job_free(struct nouveau_job *job)
+> +{
+> +	struct nouveau_bind_job *bind_job = to_nouveau_bind_job(job);
+> +	struct bind_job_op *op, *next;
+> +
+> +	list_for_each_op_safe(op, next, &bind_job->ops) {
+> +		struct drm_gem_object *obj = op->gem.obj;
+> +
+> +		if (obj)
+> +			drm_gem_object_put(obj);
+> +
+> +		list_del(&op->entry);
+> +		kfree(op);
+> +	}
+> +
+> +	nouveau_base_job_free(job);
+> +	kfree(bind_job);
+> +}
+> +
+> +static struct nouveau_job_ops nouveau_bind_job_ops = {
+> +	.submit = nouveau_bind_job_submit,
+> +	.run = nouveau_bind_job_run,
+> +	.free = nouveau_bind_job_free,
+> +};
+> +
+> +static int
+> +bind_job_op_from_uop(struct bind_job_op **pop,
+> +		     struct drm_nouveau_vm_bind_op *uop)
+> +{
+> +	struct bind_job_op *op;
+> +
+> +	op = *pop = kzalloc(sizeof(*op), GFP_KERNEL);
+> +	if (!op)
+> +		return -ENOMEM;
+> +
+> +	op->op = uop->op;
+> +	op->flags = uop->flags;
+> +	op->va.addr = uop->addr;
+> +	op->va.range = uop->range;
+> +
+> +	if (op->op == DRM_NOUVEAU_VM_BIND_OP_MAP) {
+> +		op->gem.handle = uop->handle;
+> +		op->gem.offset = uop->bo_offset;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void
+> +bind_job_ops_free(struct list_head *ops)
+> +{
+> +	struct bind_job_op *op, *next;
+> +
+> +	list_for_each_op_safe(op, next, ops) {
+> +		list_del(&op->entry);
+> +		kfree(op);
+> +	}
+> +}
+> +
+> +int
+> +nouveau_bind_job_init(struct nouveau_bind_job **pjob,
+> +		      struct nouveau_exec_bind *bind)
+> +{
+> +	struct nouveau_bind_job *job;
+> +	struct bind_job_op *op;
+> +	int i, ret;
+> +
+> +	job = *pjob = kzalloc(sizeof(*job), GFP_KERNEL);
+> +	if (!job)
+> +		return -ENOMEM;
+> +
+> +	INIT_LIST_HEAD(&job->ops);
+> +
+> +	for (i = 0; i < bind->op.count; i++) {
+> +		ret = bind_job_op_from_uop(&op, &bind->op.s[i]);
+> +		if (ret)
+> +			goto err_free;
+> +
+> +		list_add_tail(&op->entry, &job->ops);
+> +	}
+> +
+> +	job->base.sync = !(bind->flags & DRM_NOUVEAU_VM_BIND_RUN_ASYNC);
+> +	job->base.ops = &nouveau_bind_job_ops;
+> +
+> +	ret = nouveau_base_job_init(&job->base, &bind->base);
+> +	if (ret)
+> +		goto err_free;
+> +
+> +	return 0;
+> +
+> +err_free:
+> +	bind_job_ops_free(&job->ops);
+> +	kfree(job);
+> +	*pjob = NULL;
+> +
+> +	return ret;
+> +}
+> +
+> +static int
+> +sync_find_fence(struct nouveau_job *job,
+> +		struct drm_nouveau_sync *sync,
+> +		struct dma_fence **fence)
+> +{
+> +	u32 stype = sync->flags & DRM_NOUVEAU_SYNC_TYPE_MASK;
+> +	u64 point = 0;
+> +	int ret;
+> +
+> +	if (stype != DRM_NOUVEAU_SYNC_SYNCOBJ &&
+> +	    stype != DRM_NOUVEAU_SYNC_TIMELINE_SYNCOBJ)
+> +		return -EOPNOTSUPP;
+> +
+> +	if (stype == DRM_NOUVEAU_SYNC_TIMELINE_SYNCOBJ)
+> +		point = sync->timeline_value;
+> +
+> +	ret = drm_syncobj_find_fence(job->file_priv,
+> +				     sync->handle, point,
+> +				     sync->flags, fence);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static int
+> +exec_job_binds_wait(struct nouveau_job *job)
+> +{
+> +	struct nouveau_exec_job *exec_job = to_nouveau_exec_job(job);
+> +	struct nouveau_cli *cli = exec_job->base.cli;
+> +	struct nouveau_sched_entity *bind_entity = &cli->sched_entity;
+> +	signed long ret;
+> +	int i;
+> +
+> +	for (i = 0; i < job->in_sync.count; i++) {
+> +		struct nouveau_job *it;
+> +		struct drm_nouveau_sync *sync = &job->in_sync.s[i];
+> +		struct dma_fence *fence;
+> +		bool found;
+> +
+> +		ret = sync_find_fence(job, sync, &fence);
+> +		if (ret)
+> +			return ret;
+> +
+> +		mutex_lock(&bind_entity->job.mutex);
+> +		found = false;
+> +		list_for_each_entry(it, &bind_entity->job.list, head) {
+> +			if (fence == it->done_fence) {
+> +				found = true;
+> +				break;
+> +			}
+> +		}
+> +		mutex_unlock(&bind_entity->job.mutex);
+> +
+> +		/* If the fence is not from a VM_BIND job, don't wait for it. */
+> +		if (!found)
+> +			continue;
+> +
+> +		ret = dma_fence_wait_timeout(fence, true,
+> +					     msecs_to_jiffies(500));
+> +		if (ret < 0)
+> +			return ret;
+> +		else if (ret == 0)
+> +			return -ETIMEDOUT;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +int
+> +nouveau_exec_job_submit(struct nouveau_job *job)
+> +{
+> +	struct nouveau_exec_job *exec_job = to_nouveau_exec_job(job);
+> +	struct nouveau_cli *cli = exec_job->base.cli;
+> +	struct nouveau_uvmm *uvmm = nouveau_cli_uvmm(cli);
+> +	struct drm_exec *exec = &job->exec;
+> +	struct drm_gem_object *obj;
+> +	unsigned long index;
+> +	int ret;
+> +
+> +	ret = exec_job_binds_wait(job);
+> +	if (ret)
+> +		return ret;
+> +
+> +	nouveau_uvmm_lock(uvmm);
+> +	drm_exec_while_not_all_locked(exec) {
+> +		struct drm_gpuva *va;
+> +
+> +		drm_gpuva_for_each_va(va, &uvmm->umgr) {
+> +			ret = drm_exec_prepare_obj(exec, va->gem.obj, 1);
+> +			drm_exec_break_on_contention(exec);
+> +			if (ret)
+> +				return ret;
+> +		}
+> +	}
+> +	nouveau_uvmm_unlock(uvmm);
+> +
+> +	drm_exec_for_each_locked_object(exec, index, obj) {
+> +		struct dma_resv *resv = obj->resv;
+> +		struct nouveau_bo *nvbo = nouveau_gem_object(obj);
+> +
+> +		ret = nouveau_bo_validate(nvbo, true, false);
+> +		if (ret)
+> +			return ret;
+> +
+> +		dma_resv_add_fence(resv, job->done_fence, DMA_RESV_USAGE_WRITE);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static struct dma_fence *
+> +nouveau_exec_job_run(struct nouveau_job *job)
+> +{
+> +	struct nouveau_exec_job *exec_job = to_nouveau_exec_job(job);
+> +	struct nouveau_fence *fence;
+> +	int i, ret;
+> +
+> +	ret = nouveau_dma_wait(job->chan, exec_job->push.count + 1, 16);
+> +	if (ret) {
+> +		NV_PRINTK(err, job->cli, "nv50cal_space: %d\n", ret);
+> +		return ERR_PTR(ret);
+> +	}
+> +
+> +	for (i = 0; i < exec_job->push.count; i++) {
+> +		nv50_dma_push(job->chan, exec_job->push.s[i].va,
+> +			      exec_job->push.s[i].va_len);
+> +	}
+> +
+> +	ret = nouveau_fence_new(job->chan, false, &fence);
+> +	if (ret) {
+> +		NV_PRINTK(err, job->cli, "error fencing pushbuf: %d\n", ret);
+> +		WIND_RING(job->chan);
+> +		return ERR_PTR(ret);
+> +	}
+> +
+> +	return &fence->base;
+> +}
+> +static void
+> +nouveau_exec_job_free(struct nouveau_job *job)
+> +{
+> +	struct nouveau_exec_job *exec_job = to_nouveau_exec_job(job);
+> +
+> +	nouveau_base_job_free(job);
+> +
+> +	kfree(exec_job->push.s);
+> +	kfree(exec_job);
+> +}
+> +
+> +static struct nouveau_job_ops nouveau_exec_job_ops = {
+> +	.submit = nouveau_exec_job_submit,
+> +	.run = nouveau_exec_job_run,
+> +	.free = nouveau_exec_job_free,
+> +};
+> +
+> +int
+> +nouveau_exec_job_init(struct nouveau_exec_job **pjob,
+> +		      struct nouveau_exec *exec)
+> +{
+> +	struct nouveau_exec_job *job;
+> +	int ret;
+> +
+> +	job = *pjob = kzalloc(sizeof(*job), GFP_KERNEL);
+> +	if (!job)
+> +		return -ENOMEM;
+> +
+> +	job->push.count = exec->push.count;
+> +	job->push.s = kmemdup(exec->push.s,
+> +			      sizeof(*exec->push.s) *
+> +			      exec->push.count,
+> +			      GFP_KERNEL);
+> +	if (!job->push.s) {
+> +		ret = -ENOMEM;
+> +		goto err_free_job;
+> +	}
+> +
+> +	job->base.ops = &nouveau_exec_job_ops;
+> +	ret = nouveau_base_job_init(&job->base, &exec->base);
+> +	if (ret)
+> +		goto err_free_pushs;
+> +
+> +	return 0;
+> +
+> +err_free_pushs:
+> +	kfree(job->push.s);
+> +err_free_job:
+> +	kfree(job);
+> +	*pjob = NULL;
+> +
+> +	return ret;
+> +}
+> +
+> +void nouveau_job_fini(struct nouveau_job *job)
+> +{
+> +	dma_fence_put(job->done_fence);
+> +	drm_sched_job_cleanup(&job->base);
+> +	job->ops->free(job);
+> +}
+> +
+> +static int
+> +nouveau_job_add_deps(struct nouveau_job *job)
+> +{
+> +	struct dma_fence *in_fence = NULL;
+> +	int ret, i;
+> +
+> +	for (i = 0; i < job->in_sync.count; i++) {
+> +		struct drm_nouveau_sync *sync = &job->in_sync.s[i];
+> +
+> +		ret = sync_find_fence(job, sync, &in_fence);
+> +		if (ret) {
+> +			NV_PRINTK(warn, job->cli,
+> +				  "Failed to find syncobj (-> in): handle=%d\n",
+> +				  sync->handle);
+> +			return ret;
+> +		}
+> +
+> +		ret = drm_sched_job_add_dependency(&job->base, in_fence);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int
+> +nouveau_job_fence_attach(struct nouveau_job *job, struct dma_fence *fence)
+> +{
+> +	struct drm_syncobj *out_sync;
+> +	int i;
+> +
+> +	for (i = 0; i < job->out_sync.count; i++) {
+> +		struct drm_nouveau_sync *sync = &job->out_sync.s[i];
+> +		u32 stype = sync->flags & DRM_NOUVEAU_SYNC_TYPE_MASK;
+> +
+> +		if (stype != DRM_NOUVEAU_SYNC_SYNCOBJ &&
+> +		    stype != DRM_NOUVEAU_SYNC_TIMELINE_SYNCOBJ)
+> +			return -EOPNOTSUPP;
+> +
+> +		out_sync = drm_syncobj_find(job->file_priv, sync->handle);
+> +		if (!out_sync) {
+> +			NV_PRINTK(warn, job->cli,
+> +				  "Failed to find syncobj (-> out): handle=%d\n",
+> +				  sync->handle);
+> +			return -ENOENT;
+> +		}
+> +
+> +		if (stype == DRM_NOUVEAU_SYNC_TIMELINE_SYNCOBJ) {
+> +			struct dma_fence_chain *chain;
+> +
+> +			chain = dma_fence_chain_alloc();
+> +			if (!chain) {
+> +				drm_syncobj_put(out_sync);
+> +				return -ENOMEM;
+> +			}
+> +
+> +			drm_syncobj_add_point(out_sync, chain, fence,
+> +					      sync->timeline_value);
+> +		} else {
+> +			drm_syncobj_replace_fence(out_sync, fence);
+> +		}
+> +
+> +		drm_syncobj_put(out_sync);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static struct dma_fence *
+> +nouveau_job_run(struct nouveau_job *job)
+> +{
+> +	return job->ops->run(job);
+> +}
+> +
+> +static int
+> +nouveau_job_run_sync(struct nouveau_job *job)
+> +{
+> +	struct dma_fence *fence;
+> +	int ret;
+> +
+> +	fence = nouveau_job_run(job);
+> +	if (IS_ERR(fence)) {
+> +		return PTR_ERR(fence);
+> +	} else if (fence) {
+> +		ret = dma_fence_wait(fence, true);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	dma_fence_signal(job->done_fence);
+> +
+> +	return 0;
+> +}
+> +
+> +int
+> +nouveau_job_submit(struct nouveau_job *job)
+> +{
+> +	struct nouveau_sched_entity *entity = to_nouveau_sched_entity(job->base.entity);
+> +	int ret;
+> +
+> +	drm_exec_init(&job->exec, true);
+> +
+> +	ret = nouveau_job_add_deps(job);
+> +	if (ret)
+> +		goto out;
+> +
+> +	drm_sched_job_arm(&job->base);
+> +	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
+> +
+> +	ret = nouveau_job_fence_attach(job, job->done_fence);
+> +	if (ret)
+> +		goto out;
+> +
+> +	if (job->ops->submit) {
+> +		ret = job->ops->submit(job);
+> +		if (ret)
+> +			goto out;
+> +	}
+> +
+> +	if (job->sync) {
+> +		drm_exec_fini(&job->exec);
+> +
+> +		/* We're requested to run a synchronous job, hence don't push
+> +		 * the job, bypassing the job scheduler, and execute the jobs
+> +		 * run() function right away.
+> +		 *
+> +		 * As a consequence of bypassing the job scheduler we need to
+> +		 * handle fencing and job cleanup ourselfes.
+> +		 */
+> +		ret = nouveau_job_run_sync(job);
+> +
+> +		/* If the job fails, the caller will do the cleanup for us. */
+> +		if (!ret)
+> +			nouveau_job_fini(job);
+> +
+> +		return ret;
+> +	} else {
+> +		mutex_lock(&entity->job.mutex);
+> +		drm_sched_entity_push_job(&job->base);
+> +		list_add_tail(&job->head, &entity->job.list);
+> +		mutex_unlock(&entity->job.mutex);
+> +	}
+> +
+> +out:
+> +	drm_exec_fini(&job->exec);
+> +	return ret;
+> +}
+> +
+> +static struct dma_fence *
+> +nouveau_sched_run_job(struct drm_sched_job *sched_job)
+> +{
+> +	struct nouveau_job *job = to_nouveau_job(sched_job);
+> +
+> +	return nouveau_job_run(job);
+> +}
+> +
+> +static enum drm_gpu_sched_stat
+> +nouveau_sched_timedout_job(struct drm_sched_job *sched_job)
+> +{
+> +	struct nouveau_job *job = to_nouveau_job(sched_job);
+> +	struct nouveau_channel *chan = job->chan;
+> +
+> +	if (unlikely(!atomic_read(&chan->killed)))
+> +		nouveau_channel_kill(chan);
+> +
+> +	NV_PRINTK(warn, job->cli, "job timeout, channel %d killed!\n",
+> +		  chan->chid);
+> +
+> +	nouveau_sched_entity_fini(job->entity);
+> +
+> +	return DRM_GPU_SCHED_STAT_ENODEV;
+> +}
+> +
+> +static void
+> +nouveau_sched_free_job(struct drm_sched_job *sched_job)
+> +{
+> +	struct nouveau_job *job = to_nouveau_job(sched_job);
+> +	struct nouveau_sched_entity *entity = job->entity;
+> +
+> +	mutex_lock(&entity->job.mutex);
+> +	list_del(&job->head);
+> +	mutex_unlock(&entity->job.mutex);
+> +
+> +	nouveau_job_fini(job);
+> +}
+> +
+> +int nouveau_sched_entity_init(struct nouveau_sched_entity *entity,
+> +			      struct drm_gpu_scheduler *sched)
+> +{
+> +
+> +	INIT_LIST_HEAD(&entity->job.list);
+> +	mutex_init(&entity->job.mutex);
+> +
+> +	return drm_sched_entity_init(&entity->base,
+> +				     DRM_SCHED_PRIORITY_NORMAL,
+> +				     &sched, 1, NULL);
+> +}
+> +
+> +void
+> +nouveau_sched_entity_fini(struct nouveau_sched_entity *entity)
+> +{
+> +	drm_sched_entity_destroy(&entity->base);
+> +}
+> +
+> +static const struct drm_sched_backend_ops nouveau_sched_ops = {
+> +	.run_job = nouveau_sched_run_job,
+> +	.timedout_job = nouveau_sched_timedout_job,
+> +	.free_job = nouveau_sched_free_job,
+> +};
+> +
+> +int nouveau_sched_init(struct drm_gpu_scheduler *sched,
+> +		       struct nouveau_drm *drm)
+> +{
+> +	long job_hang_limit = msecs_to_jiffies(NOUVEAU_SCHED_JOB_TIMEOUT_MS);
+> +
+> +	return drm_sched_init(sched, &nouveau_sched_ops,
+> +			      NOUVEAU_SCHED_HW_SUBMISSIONS, 0, job_hang_limit,
+> +			      NULL, NULL, "nouveau", drm->dev->dev);
+> +}
+> +
+> +void nouveau_sched_fini(struct drm_gpu_scheduler *sched)
+> +{
+> +	drm_sched_fini(sched);
+> +}
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.h b/drivers/gpu/drm/nouveau/nouveau_sched.h
+> new file mode 100644
+> index 000000000000..7fc5b7eea810
+> --- /dev/null
+> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.h
+> @@ -0,0 +1,98 @@
+> +// SPDX-License-Identifier: MIT
+> +
+> +#ifndef NOUVEAU_SCHED_H
+> +#define NOUVEAU_SCHED_H
+> +
+> +#include <linux/types.h>
+> +
+> +#include <drm/drm_exec.h>
+> +#include <drm/gpu_scheduler.h>
+> +
+> +#include "nouveau_drv.h"
+> +#include "nouveau_exec.h"
+> +
+> +#define to_nouveau_job(sched_job)		\
+> +		container_of((sched_job), struct nouveau_job, base)
+> +
+> +#define to_nouveau_exec_job(job)		\
+> +		container_of((job), struct nouveau_exec_job, base)
+> +
+> +#define to_nouveau_bind_job(job)		\
+> +		container_of((job), struct nouveau_bind_job, base)
+> +
+> +struct nouveau_job {
+> +	struct drm_sched_job base;
+> +	struct list_head head;
+> +
+> +	struct nouveau_sched_entity *entity;
+> +
+> +	struct drm_file *file_priv;
+> +	struct nouveau_cli *cli;
+> +	struct nouveau_channel *chan;
+> +
+> +	struct drm_exec exec;
+> +	struct dma_fence *done_fence;
+> +
+> +	bool sync;
+> +
+> +	struct {
+> +		struct drm_nouveau_sync *s;
+> +		u32 count;
+> +	} in_sync;
+> +
+> +	struct {
+> +		struct drm_nouveau_sync *s;
+> +		u32 count;
+> +	} out_sync;
+> +
+> +	struct nouveau_job_ops {
+> +		int (*submit)(struct nouveau_job *);
+> +		struct dma_fence *(*run)(struct nouveau_job *);
+> +		void (*free)(struct nouveau_job *);
+> +	} *ops;
+> +};
+> +
+> +struct nouveau_exec_job {
+> +	struct nouveau_job base;
+> +
+> +	struct {
+> +		struct drm_nouveau_exec_push *s;
+> +		u32 count;
+> +	} push;
+> +};
+> +
+> +struct nouveau_bind_job {
+> +	struct nouveau_job base;
+> +
+> +	/* struct bind_job_op */
+> +	struct list_head ops;
+> +};
+> +
+> +int nouveau_bind_job_init(struct nouveau_bind_job **job,
+> +			  struct nouveau_exec_bind *bind);
+> +int nouveau_exec_job_init(struct nouveau_exec_job **job,
+> +			  struct nouveau_exec *exec);
+> +
+> +int nouveau_job_submit(struct nouveau_job *job);
+> +void nouveau_job_fini(struct nouveau_job *job);
+> +
+> +#define to_nouveau_sched_entity(entity)		\
+> +		container_of((entity), struct nouveau_sched_entity, base)
+> +
+> +struct nouveau_sched_entity {
+> +	struct drm_sched_entity base;
+> +	struct {
+> +		struct list_head list;
+> +		struct mutex mutex;
+> +	} job;
+> +};
+> +
+> +int nouveau_sched_entity_init(struct nouveau_sched_entity *entity,
+> +			      struct drm_gpu_scheduler *sched);
+> +void nouveau_sched_entity_fini(struct nouveau_sched_entity *entity);
+> +
+> +int nouveau_sched_init(struct drm_gpu_scheduler *sched,
+> +		       struct nouveau_drm *drm);
+> +void nouveau_sched_fini(struct drm_gpu_scheduler *sched);
+> +
+> +#endif
