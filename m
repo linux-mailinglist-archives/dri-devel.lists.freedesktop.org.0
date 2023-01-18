@@ -2,33 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D7A6718D3
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 11:22:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC29E67191B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 11:40:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13FF410E669;
-	Wed, 18 Jan 2023 10:22:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9552C10E628;
+	Wed, 18 Jan 2023 10:40:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6622F10E655
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 10:22:07 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 17F9720123;
- Wed, 18 Jan 2023 11:22:04 +0100 (CET)
-Date: Wed, 18 Jan 2023 11:22:02 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Subject: Re: [PATCH v2] drm/msm/dpu: Remove some unused variables
-Message-ID: <20230118102202.3oaiv74oo2pi6uuu@SoMainline.org>
-References: <20230118091833.87708-1-jiapeng.chong@linux.alibaba.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02E4310E628;
+ Wed, 18 Jan 2023 10:40:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674038401; x=1705574401;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=+UHlhWBgAnUOYe7rChfAI6zr+d9ugvyTlid9Tq11pNk=;
+ b=M0yjlasbjoVws9BiolnmlXPxNkCeKOCC8ENKRkZ1NO+IID/Cdd6gMq61
+ u5h4L+36v5sxjnRKrwU+RxFN8KUReEbUlMwEHx7FTltEbTPdAKSoQ75L/
+ OxmZMT2OIVyoYEg1wQw+9YnxSvhpVHdcg/i+M1oy6KxXlVAarkvwEusYi
+ CbJz5INty2SezWwGAlVfqyKpbCtNVWxx5NQufdGo8wXiWZeiS6gBo9ank
+ Z/z0/3ks7vj05xO3sDsw5l2oO7wv8jjRzkq8+NEgsox32YMsT4mz/ner3
+ OoV78NMXaG9fo44HJNCZlZT2kVMb086CSW+X5ReUbwMJJNG6NRMeYSAJc g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="326223491"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="326223491"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2023 02:40:00 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="833516651"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="833516651"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.41.107])
+ ([10.252.41.107])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2023 02:39:59 -0800
+Message-ID: <48974dd7-1449-3f9f-24c1-5071e73dd807@linux.intel.com>
+Date: Wed, 18 Jan 2023 11:39:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230118091833.87708-1-jiapeng.chong@linux.alibaba.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915: Fix a memory leak with reused
+ mmap_offset
+Content-Language: en-US
+To: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20230117175236.22317-1-nirmoy.das@intel.com>
+ <20230117175236.22317-2-nirmoy.das@intel.com>
+ <8e517b87-b626-b488-0daa-88897c9ed90a@linux.intel.com>
+ <c7986b6f-f5f2-52a8-c109-6fb25762a30b@alu.unizg.hr>
+From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
+In-Reply-To: <c7986b6f-f5f2-52a8-c109-6fb25762a30b@alu.unizg.hr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,63 +66,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, sean@poorly.run,
- Abaci Robot <abaci@linux.alibaba.com>, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-01-18 17:18:33, Jiapeng Chong wrote:
-> Variables 'sc8280xp_regdma' and 'sm8350_regdma' are defined in the
-> dpu_hw_catalog.c file, but not used elsewhere, so remove these unused
-> variables.
-> 
-> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:2029:37: warning: unused
-> variable 'sc8280xp_regdma'.
-> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:2053:37: warning: unused
-> variable 'sm8350_regdma'.
-> 
-> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3722
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 
-Does this need a Fixes tag?
+On 1/18/2023 11:26 AM, Mirsad Todorovac wrote:
+> Hi,
+>
+> On 1/18/23 10:19, Tvrtko Ursulin wrote:
+>
+>> Thanks for working on this, it looks good to me and it aligns with 
+>> how i915 uses the facility.
+>>
+>> Copying Mirsad who reported the issue in case he is still happy to 
+>> give it a quick test. Mirsad, I don't know if you are subscribed to 
+>> one of the two mailing lists where series was posted. In case not, 
+>> you can grab both patches from 
+>> https://patchwork.freedesktop.org/series/112952/.
+>>
+>> Nirmoy - we also have an IGT written by Chuansheng - 
+>> https://patchwork.freedesktop.org/patch/515720/?series=101035&rev=4. 
+>> A more generic one could be placed in gem_mmap_offset test but this 
+>> one works too in my testing and is IMO better than nothing.
+>>
+>> Finally, let me add some tags below:
+>>
+>> On 17/01/2023 17:52, Nirmoy Das wrote:
+>>> drm_vma_node_allow() and drm_vma_node_revoke() should be called in
+>>> balanced pairs. We call drm_vma_node_allow() once per-file everytime a
+>>> user calls mmap_offset, but only call drm_vma_node_revoke once per-file
+>>> on each mmap_offset. As the mmap_offset is reused by the client, the
+>>> per-file vm_count may remain non-zero and the rbtree leaked.
+>>>
+>>> Call drm_vma_node_allow_once() instead to prevent that memory leak.
+>>>
+>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+>>> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+>>
+>> Fixes: 786555987207 ("drm/i915/gem: Store mmap_offsets in an rbtree 
+>> rather than a plain list")
+>> Reported-by: Chuansheng Liu <chuansheng.liu@intel.com>
+>> Reported-by: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
+>> Cc: <stable@vger.kernel.org> # v5.7+
+>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>
+>>> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/gem/i915_gem_mman.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c 
+>>> b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>>> index 4f69bff63068..2aac6bf78740 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>>> @@ -697,7 +697,7 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
+>>>       GEM_BUG_ON(lookup_mmo(obj, mmap_type) != mmo);
+>>>   out:
+>>>       if (file)
+>>> -        drm_vma_node_allow(&mmo->vma_node, file);
+>>> +        drm_vma_node_allow_once(&mmo->vma_node, file);
+>>>       return mmo;
+>>>   err:
+>
+> The drm/i915 patch seems OK and there are currently no memory leaks as of
+> reported by /sys/kernel/debug/kmemleak under the same Chrome load that 
+> triggered
+> the initial bug ...
 
-> ---
-> Changes in v2:
->   -Adding the regdma entries to .dma_cfg of these chipsets.
 
-Don't forget to change the title of this patch; now you're not removing
-unused variables anymore.
+Thanks, Mirsad for quickly checking this!
 
-- Marijn
 
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index 0f3da480b066..3318e1d18a0e 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -2677,6 +2677,8 @@ static const struct dpu_mdss_cfg sc8280xp_dpu_cfg = {
->  	.intf = sc8280xp_intf,
->  	.vbif_count = ARRAY_SIZE(sdm845_vbif),
->  	.vbif = sdm845_vbif,
-> +	.reg_dma_count = 1,
-> +	.dma_cfg = &sc8280xp_regdma,
->  	.perf = &sc8280xp_perf_data,
->  	.mdss_irqs = IRQ_SC8280XP_MASK,
->  };
-> @@ -2732,7 +2734,7 @@ static const struct dpu_mdss_cfg sm8350_dpu_cfg = {
->  	.vbif_count = ARRAY_SIZE(sdm845_vbif),
->  	.vbif = sdm845_vbif,
->  	.reg_dma_count = 1,
-> -	.dma_cfg = &sm8250_regdma,
-> +	.dma_cfg = &sm8350_regdma,
->  	.perf = &sm8350_perf_data,
->  	.mdss_irqs = IRQ_SM8350_MASK,
->  };
-> -- 
-> 2.20.1.7.g153144c
-> 
+Nirmoy
+
+>
+> Will post you if there are any changes.
+>
+> Regards,
+> Mirsad
+>
