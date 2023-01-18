@@ -1,64 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 181686710AB
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 03:06:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 518AF67109B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 03:06:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79C9E10E63A;
-	Wed, 18 Jan 2023 02:06:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A384910E636;
+	Wed, 18 Jan 2023 02:06:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A823510E632
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 02:06:29 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id bk15so22322679ejb.9
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 18:06:29 -0800 (PST)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CFBD10E632
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 02:06:30 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id qx13so21451160ejb.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 18:06:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0JiIW4jdJdESp+XWdfOpWNkOvZv4eYC/Zwku6YKYIAo=;
- b=uaVExwDWCIJ0xQwsFvsIky+V+xINrX9hCx2pfSTY5maDB97Q1+SHOgSWIOd9Y85DEu
- qivbNZNWA7oug2IwDwENI40xE5EoTcKsYxycv1UKezFBQCdgcpniTeZkwUt2IaT6elWU
- LE0oTGaq3h1+e8Wkv8/S9kWPkvczwIlN+4M17pv4geo6kMJteYsmveZp7DkvpLd/fajW
- Q2Aqv5CTIToBIV7Oud5LIdOuWFFPf7uHSqacKbyl6plbDDWp1E9S5mP/fB39tAB73kRb
- 5oRzR3TaZ2fIhzLyc8mfTuAFNTgRcCho5wfyj0dKTa07PFJHJ9lqu26vmk+lWum80WPm
- 3w+Q==
+ bh=EzS/zvWe4dE4qAlzyHEWNojqR1ZH/s6LTLUTq8cJCDs=;
+ b=x1UIMFzhhzmPp33rMJL9P9/UdyqBh0ezz8HdRiZ+FCVBLR2OShryDc+uG9Xvznt0vB
+ 5cCrPmQCV0teL8HGC5L/s4RV3HC8ChldGjXbGsiZwjPVrQe2smTtDRRf7iqYqqn86TTk
+ LVQbZrb/+9Zbg3bHkzZp0HPycouflZYRFZ5BApQc5fCqveUceFQQI8X4Q9TodF6H0E+L
+ PsV3n7mIYFa0vm7jF+alaBDlUtsWJcHIWlCpZuUQsUxXdr+eF8htRbeQoPbKWKoaWv1C
+ w3P3jvnRQvUG7MFjeFymVS6p0OJBFlCKHbVNzYuTwjmpB+1q1Q1MGH55JGmDjYtJbDaG
+ 2bgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0JiIW4jdJdESp+XWdfOpWNkOvZv4eYC/Zwku6YKYIAo=;
- b=dAAEC9mx+2uQXhSR13662f6IPAP+XhUjFbqC3klfLMqOW1Rl9724nnpNf3Z7Jwnosd
- 8e2rXGDXlTjsBamrJrPWNk54Irv/IWuKQfx/CbquLg+PtW/jBtzAMxDXxcmaJqX4qaEI
- eOlTdGsSgJ1BFJTrbRvSvu0SQUfP4zFhyIS86JJqeQZt0yVfQUBry7LI1EgqfdKoOQtD
- /9w9Q52ZCYnBbmK5sCjNt4bVoAR0lMAwb0HDUTdoN6qgkK7a9yq6NVCyljjRYFiPMK22
- 8s1mTvwb61AGXgZ8aCtnnqx+JRsqe5AbyhSJIlIVmyq+ZAqrbCLWDBiIoNuzt5fBnXUC
- uT1w==
-X-Gm-Message-State: AFqh2krSy+EIp8Pxf5aG9Ds695Bjef2Ohve+vZODHJv+oSK+msW6lshg
- 2CCsf7uKT9BOAHmCB4m1YN1Kxg==
-X-Google-Smtp-Source: AMrXdXuJIiZAj16VZgUuBRqA2k8+gGkvW5kulFivi6sXooiaAxXwgafM57hBk4Cu3ulhpAJuOQb6+Q==
-X-Received: by 2002:a17:906:ae86:b0:84d:3d88:dff3 with SMTP id
- md6-20020a170906ae8600b0084d3d88dff3mr5179129ejb.25.1674007587942; 
- Tue, 17 Jan 2023 18:06:27 -0800 (PST)
+ bh=EzS/zvWe4dE4qAlzyHEWNojqR1ZH/s6LTLUTq8cJCDs=;
+ b=DRFqEqDITkdTmPkoDU5XHpBtIiCwmwPy3I7DXVYScfqPzMnui1qBbYDtw/WFhsu7jj
+ 0l85Qznd2dWQHk8HIZmIwoGaopWpBH68ZDR8piV1Uzpvjr0NdCiYgm6usLgIvttfzCBV
+ tE976TKJacf1ATwGQlQziRm8ht7KIbGgjeHJ0na0QZ10JTRqYyOyOcrABZzRqPml6fsI
+ ssrupAyout+AeMydLdLo81kTaECkn5K1k/UQonxC4DtSwCECLngE6DyaVd51cc367EKJ
+ zSP7ocsY1NElUZPEhFnukZqUgCg525kTsOsWo5xD3VILgTdWV6ARUh7IXbywzopCkklJ
+ /cyQ==
+X-Gm-Message-State: AFqh2kpks1n27T4es+HASl32tg7m2IsKn9w+BQQ8nPUCcElJWR2gR/TD
+ 1YiENPDHgi8FaWAGQN+fNEz7cQ==
+X-Google-Smtp-Source: AMrXdXtPspMwAZbGwbr77eEM5eDgiYrt4RPaQoYwIAtRNNe3VLezx4/sosP5jnJFOjMOoW2VPQl9oQ==
+X-Received: by 2002:a17:906:ca59:b0:870:7e7d:97a3 with SMTP id
+ jx25-20020a170906ca5900b008707e7d97a3mr4427567ejb.59.1674007589171; 
+ Tue, 17 Jan 2023 18:06:29 -0800 (PST)
 Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- kx1-20020a170907774100b0084d368b1628sm12702694ejc.40.2023.01.17.18.06.27
+ kx1-20020a170907774100b0084d368b1628sm12702694ejc.40.2023.01.17.18.06.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 18:06:27 -0800 (PST)
+ Tue, 17 Jan 2023 18:06:28 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
+To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH] drm/msm/dpu: merge two CRTC debugfs dirs
-Date: Wed, 18 Jan 2023 04:06:10 +0200
-Message-Id: <167400670535.1683873.9301034219626704629.b4-ty@linaro.org>
+Subject: Re: [PATCH] dt-bindings: display/msm: qcom,
+ mdss: fix HDMI PHY node names
+Date: Wed, 18 Jan 2023 04:06:11 +0200
+Message-Id: <167400670545.1683873.1367688768865327080.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230112053659.1361298-1-dmitry.baryshkov@linaro.org>
-References: <20230112053659.1361298-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230109045453.316089-1-dmitry.baryshkov@linaro.org>
+References: <20230109045453.316089-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -74,27 +78,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Thu, 12 Jan 2023 07:36:59 +0200, Dmitry Baryshkov wrote:
-> For each CRTC we are creating two different debugfs directories one
-> using crtc index (created automatically for the CRC files) and another
-> one using CRTC name/object ID (for state and status files).
+On Mon, 09 Jan 2023 06:54:53 +0200, Dmitry Baryshkov wrote:
+> On Qualcomm devices HDMI PHY node names were changed from hdmi-phy to
+> phy. Follow this change.
 > 
-> This can be confusing, so move our custom files to crtc->debugfs_entry,
-> effetively merging two debugfs dirs.
 > 
-> [...]
 
 Applied, thanks!
 
-[1/1] drm/msm/dpu: merge two CRTC debugfs dirs
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/f377ea2c3c3a
+[1/1] dt-bindings: display/msm: qcom,mdss: fix HDMI PHY node names
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/759cc4914fb0
 
 Best regards,
 -- 
