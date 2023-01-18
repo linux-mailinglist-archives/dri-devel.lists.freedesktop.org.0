@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27236671CE0
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 14:03:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEABD671D13
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 14:08:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2298810E743;
-	Wed, 18 Jan 2023 13:03:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B055810E744;
+	Wed, 18 Jan 2023 13:08:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E97310E741
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 13:03:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3177310E742
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 13:08:49 +0000 (UTC)
 From: Thomas Gleixner <tglx@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1674046580;
+ s=2020; t=1674046774;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=c3JFb7ryDvxt6kfTas+EBXgdHnTgzdObc57Vw9ZeH+c=;
- b=Nodu27AXlLxNvR01o72/eGEydh9odKAZVZ5noVEBsdesLRCSYrjU9QuBSk4kb+5eWYsEyF
- 3UP0c8QaOXauXXAng5bhh6wBVMrN3ZWBa7FEBkWTIyfPsj8JaElneVtJwiaWD8kCCAJdOn
- wVkIsSrWh5/8rk6bslyWNgTqlVRVTqIPaTrwIakG3YkK+KvDUVe8Z2dtsJY5gQleaN1Ezc
- GtmZieQQI7ZVo2geZNqrONG0LW3RIWrZSNTMhzR0x6Ppt5degHmZNXdbyzAZYICI2/+SeF
- qZQd2YRvsoDnAVhupx8bvXGD/T8eUaQxeoq3FYUhVsJY5SdeQtOu4KQn7sFV9w==
+ bh=Ia5mcSSMCX645DNR37kXbpCtB0DOcgHMBUz20RFHfC4=;
+ b=PgZLyda/qk+zlwhzR6idZiNhlWjQ9dhxCmeT4rrrl2GneTevgb/CsxE+hZPT77/XxN/D3C
+ OdouussxQq3+fqW0hIcz/Ki25tMkMCvzzYDB8pBZcMQlLCpDT5VZb1pVYMSDA/j2hwWryO
+ XALXhf/W98qKDyrndcj1X2VDtSU3suaEkQMvFPFJNRpd3rP5YqRNavHx/iRYRfI3oGDLj7
+ Fyk2vEI66UfwY0KA5lZAxmspc7UiU9mKVU0asexmqh+7rGYFxRvu36Ar6cF1VNhzA334Kh
+ j+N92wF2QwyoojycoKuUH4XjJ9yjXMXivJ1ePjsam5T0B2hbJpAWejPbykJQrw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1674046580;
+ s=2020e; t=1674046774;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=c3JFb7ryDvxt6kfTas+EBXgdHnTgzdObc57Vw9ZeH+c=;
- b=btvVIsdUqZqOBINfPovUxKB+RcZR5WH9mtBeSgIMabnAfLl6E8+358Ha6x+uXFIfxh7GhQ
- hN8V+xeDi2kAdNBw==
+ bh=Ia5mcSSMCX645DNR37kXbpCtB0DOcgHMBUz20RFHfC4=;
+ b=twkPO4xqcEqK9BdeHGZeT7P1XO2VXaNzoSGOiyD8GCiyvcCMbRNK/TsG05ivxP6PlVlbsI
+ bMflMGBUtRJ91XBw==
 To: Byungchul Park <byungchul.park@lge.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC v7 06/23] dept: Add proc knobs to show stats and
- dependency graph
-In-Reply-To: <1673235231-30302-7-git-send-email-byungchul.park@lge.com>
+Subject: Re: [PATCH RFC v7 07/23] dept: Apply sdt_might_sleep_strong() to
+ wait_for_completion()/complete()
+In-Reply-To: <1673235231-30302-8-git-send-email-byungchul.park@lge.com>
 References: <1673235231-30302-1-git-send-email-byungchul.park@lge.com>
- <1673235231-30302-7-git-send-email-byungchul.park@lge.com>
-Date: Wed, 18 Jan 2023 13:56:19 +0100
-Message-ID: <87zgaghuh8.ffs@tglx>
+ <1673235231-30302-8-git-send-email-byungchul.park@lge.com>
+Date: Wed, 18 Jan 2023 13:59:34 +0100
+Message-ID: <87wn5khubt.ffs@tglx>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,9 +75,28 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Mon, Jan 09 2023 at 12:33, Byungchul Park wrote:
-> It'd be useful to show Dept internal stats and dependency graph on
-> runtime via proc for better information. Introduced the knobs.
+> Makes Dept able to track dependencies by
+> wait_for_completion()/complete().
+>
+> In order to obtain the meaningful caller points, replace all the
+> wait_for_completion*() declarations with macros in the header.
 
-proc?
+That's just wrong.
 
-That's what debugfs is for.
+> -extern void wait_for_completion(struct completion *);
+> +extern void raw_wait_for_completion(struct completion *);
+
+> +#define wait_for_completion(x)					\
+> +({								\
+> +	sdt_might_sleep_strong(NULL);				\
+> +	raw_wait_for_completion(x);				\
+> +	sdt_might_sleep_finish();				\
+> +})
+
+The very same can be achieved with a proper annotation which does not
+enforce THIS_IP but allows to use __builtin_return_address($N). That's
+what everything else uses too.
+
+Thanks,
+
+        tglx
