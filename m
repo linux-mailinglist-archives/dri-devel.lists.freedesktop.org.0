@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F6F672240
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 16:58:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00737672283
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 17:07:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FE5E10E77A;
-	Wed, 18 Jan 2023 15:58:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62C9510E77B;
+	Wed, 18 Jan 2023 16:07:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42E8610E775;
- Wed, 18 Jan 2023 15:58:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDD3010E77E;
+ Wed, 18 Jan 2023 16:07:31 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id E1671B81D7D;
- Wed, 18 Jan 2023 15:58:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB98CC433EF;
- Wed, 18 Jan 2023 15:58:27 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 4D945B81D7D;
+ Wed, 18 Jan 2023 16:07:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27895C433EF;
+ Wed, 18 Jan 2023 16:07:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1674057510;
- bh=pEEVf/Jora3k9fJs7MkNDz8h6qM3plpE8adDbzqBFOc=;
+ s=k20201202; t=1674058049;
+ bh=erza5wFZzZpKsQRpijn12Ne9oD+6s0EUVrxM9VxD0K8=;
  h=From:To:Cc:Subject:Date:From;
- b=oarDxp9l6MGmeqdtPPlPcdcbct7dpxUxhM4ZbO0nB/h5L1I/bWMWT+F4COW6gdFuG
- ka9uVRj0MBzO/PovATGhagFvnLVoGhVt9G3I1LO1xyY9kfG5IqOrjAJZP7Zl/qgYlv
- 6L0hvziRSN4jmqOJDOFRRFpiKNndCh0ggr0dntwoM1JG7GRQUGNE5FJo0JLoRvjF0y
- NKPqAvqHFVaXZHU1ccf/FYF52DgvTbWPikkg3D8T0KkzILemeh+co8C+tjw+5RkntU
- 0Qz8dKIMvdmpTHejRPydgnFn/g8+EZJ+cBDARMBwAPLowgmKyFS4N4ocHLdjGyh8sz
- qMSJkca+YFgqg==
+ b=sU3sjFUfD9qPsYWoFVqac92lNyW7s5zIZLNULDMetjK6srOOinZ/Whv3xtYKSEGbG
+ P66TD0OK/sWifzth9E5i7XqmapF+84ckRZlVDw6piDgLfi0rs7CGqVmRU1qJkV19Bs
+ mRbyO0OXexSnHcMsyUBr42YV2jYhy77KXvs7JrSdccbFZx/9TivXOXp4E+clBwjU00
+ Xi5tH73RcZNQhJjyve4H7PyA9jeWEmgu39meb6wMuyTbpYRaBIVEWYINn2S5CqvmtV
+ 8SFUaQwKSQsqrMhFfKw0IjkulweS4tKfmfJgh1dVNTqgOm7nYe4jmiJvzBmw/xd/6t
+ r2qeo9C0iNY+w==
 From: Arnd Bergmann <arnd@kernel.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH] drm/msm/gpu: Add proper DEVFREQ_GOV_SIMPLE_ONDEMAND dependency
-Date: Wed, 18 Jan 2023 16:58:05 +0100
-Message-Id: <20230118155825.4071424-1-arnd@kernel.org>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Subject: [PATCH] drm/amd/display: fix hdmi_encoded_link_bw definition
+Date: Wed, 18 Jan 2023 17:06:27 +0100
+Message-Id: <20230118160722.289840-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -50,65 +50,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Arnd Bergmann <arnd@arndb.de>,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- linux-arm-msm@vger.kernel.org
+Cc: Ian Chen <ian.chen@amd.com>, Wesley Chalmers <Wesley.Chalmers@amd.com>,
+ Arnd Bergmann <arnd@arndb.de>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Wenjing Liu <wenjing.liu@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Solomon Chiu <solomon.chiu@amd.com>,
+ Michael Strauss <michael.strauss@amd.com>, dri-devel@lists.freedesktop.org,
+ "Shen, George" <George.Shen@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Po Ting Chen <robin.chen@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-DRM_MSM can no longer be built when devfreq is disabled:
+Some of the data structures are hidden when CONFIG_DRM_AMD_DC_DCN is
+disabled, which leads to a link failure:
 
-WARNING: unmet direct dependencies detected for DEVFREQ_GOV_SIMPLE_ONDEMAND
-  Depends on [n]: PM_DEVFREQ [=n]
-  Selected by [y]:
-  - DRM_MSM [=y] && HAS_IOMEM [=y] && DRM [=y] && (ARCH_QCOM [=n] || SOC_IMX5 [=n] || COMPILE_TEST [=y]) && COMMON_CLK [=y] && IOMMU_SUPPORT [=y] && (QCOM_OCMEM [=n] || QCOM_OCMEM [=n]=n) && (QCOM_LLCC [=n] || QCOM_LLCC [=n]=n) && (QCOM_COMMAND_DB [=y] || QCOM_COMMAND_DB [=y]=n)
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_dp_capability.c:234:21: error: 'union hdmi_encoded_link_bw' declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+  234 |         const union hdmi_encoded_link_bw hdmi_encoded_link_bw)
+      |                     ^~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_dp_capability.c:234:42: error: parameter 2 ('hdmi_encoded_link_bw') has incomplete type
+  234 |         const union hdmi_encoded_link_bw hdmi_encoded_link_bw)
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_dp_capability.c:232:17: error: function declaration isn't a prototype [-Werror=strict-prototypes]
+  232 | static uint32_t intersect_frl_link_bw_support(
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_dp_capability.c: In function 'get_active_converter_info':
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_dp_capability.c:1126:76: error: storage size of 'hdmi_encoded_link_bw' isn't known
+ 1126 |                                                 union hdmi_encoded_link_bw hdmi_encoded_link_bw;
+      |                                                                            ^~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_dp_capability.c:1130:101: error: 'struct <anonymous>' has no member named 'MAX_ENCODED_LINK_BW_SUPPORT'
+ 1130 |                                                                                 hdmi_color_caps.bits.MAX_ENCODED_LINK_BW_SUPPORT);
 
-In file included from drivers/gpu/drm/msm/msm_gpu.h:18,
-                 from drivers/gpu/drm/msm/adreno/adreno_gpu.h:15,
-                 from drivers/gpu/drm/msm/adreno/adreno_device.c:9:
-drivers/gpu/drm/msm/msm_drv.h:238:45: error: field 'gpu_devfreq_config' has incomplete type
-  238 |         struct devfreq_simple_ondemand_data gpu_devfreq_config;
-      |                                             ^~~~~~~~~~~~~~~~~~
+There is probably no need to hide the data structure, and removing
+the #ifdef makes it build cleanly.
 
-Device drivers should never select user-visible options, especially
-in other subsystems. This one can simply be expressed as a Kconfig
-'depends on' statement, though a better approach would be to
-let the driver keep working even without devfreq.
-
-Note that the same symbol selects a bunch of other drivers that
-should probably be turned into 'depends on' as well, but doing so
-has the potential to introduce regressions, so I'm not touching
-that here.
-
-Fixes: 6563f60f14cb ("drm/msm/gpu: Add devfreq tuning debugfs")
+Fixes: d5a43956b73b ("drm/amd/display: move dp capability related logic to link_dp_capability")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/gpu/drm/msm/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/dc_dp_types.h | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
-index 871870ddf7ec..7f6f5202648a 100644
---- a/drivers/gpu/drm/msm/Kconfig
-+++ b/drivers/gpu/drm/msm/Kconfig
-@@ -9,6 +9,7 @@ config DRM_MSM
- 	depends on QCOM_OCMEM || QCOM_OCMEM=n
- 	depends on QCOM_LLCC || QCOM_LLCC=n
- 	depends on QCOM_COMMAND_DB || QCOM_COMMAND_DB=n
-+	depends on DEVFREQ_GOV_SIMPLE_ONDEMAND
- 	select IOMMU_IO_PGTABLE
- 	select QCOM_MDT_LOADER if ARCH_QCOM
- 	select REGULATOR
-@@ -23,7 +24,6 @@ config DRM_MSM
- 	select SHMEM
- 	select TMPFS
- 	select QCOM_SCM
--	select DEVFREQ_GOV_SIMPLE_ONDEMAND
- 	select WANT_DEV_COREDUMP
- 	select SND_SOC_HDMI_CODEC if SND_SOC
- 	select SYNC_FILE
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_dp_types.h b/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
+index b7e53b7dc4ed..84da54358922 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
+@@ -361,14 +361,10 @@ enum dpcd_downstream_port_detailed_type {
+ union dwnstream_port_caps_byte2 {
+ 	struct {
+ 		uint8_t MAX_BITS_PER_COLOR_COMPONENT:2;
+-#if defined(CONFIG_DRM_AMD_DC_DCN)
+ 		uint8_t MAX_ENCODED_LINK_BW_SUPPORT:3;
+ 		uint8_t SOURCE_CONTROL_MODE_SUPPORT:1;
+ 		uint8_t CONCURRENT_LINK_BRING_UP_SEQ_SUPPORT:1;
+ 		uint8_t RESERVED:1;
+-#else
+-		uint8_t RESERVED:6;
+-#endif
+ 	} bits;
+ 	uint8_t raw;
+ };
+@@ -406,7 +402,6 @@ union dwnstream_port_caps_byte3_hdmi {
+ 	uint8_t raw;
+ };
+ 
+-#if defined(CONFIG_DRM_AMD_DC_DCN)
+ union hdmi_sink_encoded_link_bw_support {
+ 	struct {
+ 		uint8_t HDMI_SINK_ENCODED_LINK_BW_SUPPORT:3;
+@@ -428,7 +423,6 @@ union hdmi_encoded_link_bw {
+ 	} bits;
+ 	uint8_t raw;
+ };
+-#endif
+ 
+ /*4-byte structure for detailed capabilities of a down-stream port
+ (DP-to-TMDS converter).*/
 -- 
 2.39.0
 
