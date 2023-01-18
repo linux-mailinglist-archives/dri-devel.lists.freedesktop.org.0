@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06C06714C8
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 08:17:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3BF6714CA
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 08:17:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CBEF10E6C1;
-	Wed, 18 Jan 2023 07:16:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F15D110E6BC;
+	Wed, 18 Jan 2023 07:16:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2674E10E68D;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 699DB10E1E2;
  Wed, 18 Jan 2023 07:16:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1674026175; x=1705562175;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=AF4DYUOyi5ODFOvZGVIS/rDN+jHdZGyUwuQ1rBSoTnc=;
- b=L4U7QVm/CAlBSMYwkEcPDd3WRoOw6+xvgvxb9OFCo3hzZ0avjqhovAWE
- iZuQfAL7rqkK4WWAIdFzsJxzalpizVJoDe+ygHVRxKaXViENeI0xssHzS
- L2PpiguCHMpX/mKQmXIlqHsx7+7Pfmx2gBaAy5QqO7gFoNpuNWW+6djA1
- nywXzravdNCfn4oGsR9fqinZPK5Ok0f6RX7ONTXiNvfqjBbgX5rSpn7E5
- RV1YyBFr5/xgQLqreHZy05WRPzqFe5WPl7Cn2UjWPPukyNI/SyKbtpQNm
- RlfsiddfLafMStMJzgUQI0NjTfKx0mxcOEruwo+rF4FWd12sQPI64fYe6 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="308482031"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="308482031"
+ bh=/VDyBUP2xXmg+UiRPuhQPHslO0IdZ/fMj9xHdT2OQMc=;
+ b=FtdOTgCc1ArJTuNO6591fsln0mcyekP6CptvZHZwFfS5m0Xrle6AQse2
+ y5POeXmCmxbLrpQnnS7y1IMDz4+TuJ8gYVuvxjdPG8YK7Lo/Co5TkZt08
+ 1lFCoUiqH85kYCgXlqKQg3836BpbvGAPnAowpI98KD/QISFbo2OjCel3W
+ PBdPVDdIK5HrWja9rUxNnIPVFKVmm/oCBOzpQl/EgdktFAdDNrIEmBYw0
+ Xt4D447gSnINjMNmpaLCz5q/ymaFX98BW2K5gwROnn97J0vkfKKeJ3b+C
+ Gzh9ygQNX+opBpKvk9jG4JN9m/wjnFGZ5iwPCloDSpCYZJ1k2NNIz2njP w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="308482034"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="308482034"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Jan 2023 23:16:14 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="661609967"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="661609967"
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="661609972"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="661609972"
 Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Jan 2023 23:16:13 -0800
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v10 03/23] drm/i915/vm_bind: Expose
- i915_gem_object_max_page_size()
-Date: Tue, 17 Jan 2023 23:15:49 -0800
-Message-Id: <20230118071609.17572-4-niranjana.vishwanathapura@intel.com>
+Subject: [PATCH v10 04/23] drm/i915/vm_bind: Support partially mapped vma
+ resource
+Date: Tue, 17 Jan 2023 23:15:50 -0800
+Message-Id: <20230118071609.17572-5-niranjana.vishwanathapura@intel.com>
 X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 In-Reply-To: <20230118071609.17572-1-niranjana.vishwanathapura@intel.com>
 References: <20230118071609.17572-1-niranjana.vishwanathapura@intel.com>
@@ -65,74 +65,30 @@ Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Expose i915_gem_object_max_page_size() function non-static
-which will be used by the vm_bind feature.
+As persistent vmas can be partialled mapped to an object,
+remove restriction which require vma resource sg table to
+be just pointer to object's sg table.
 
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_create.c | 18 +++++++++++++-----
- drivers/gpu/drm/i915/gem/i915_gem_object.h |  2 ++
- 2 files changed, 15 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/i915_vma.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-index 005a7f842784..86469710bd59 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-@@ -15,10 +15,18 @@
- #include "i915_trace.h"
- #include "i915_user_extensions.h"
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index 34f0e6c923c2..79b2e19a299f 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -2060,8 +2060,7 @@ static struct dma_fence *__i915_vma_unbind_async(struct i915_vma *vma)
+ 	if (!drm_mm_node_allocated(&vma->node))
+ 		return NULL;
  
--static u32 object_max_page_size(struct intel_memory_region **placements,
--				unsigned int n_placements)
-+/**
-+ * i915_gem_object_max_page_size() - max of min_page_size of the regions
-+ * @placements:  list of regions
-+ * @n_placements: number of the placements
-+ *
-+ * Returns the largest of min_page_size of the @placements,
-+ * or I915_GTT_PAGE_SIZE_4K if @n_placements is 0.
-+ */
-+u32 i915_gem_object_max_page_size(struct intel_memory_region **placements,
-+				  unsigned int n_placements)
- {
--	u32 max_page_size = 0;
-+	u32 max_page_size = I915_GTT_PAGE_SIZE_4K;
- 	int i;
+-	if (i915_vma_is_pinned(vma) ||
+-	    &vma->obj->mm.rsgt->table != vma->resource->bi.pages)
++	if (i915_vma_is_pinned(vma))
+ 		return ERR_PTR(-EAGAIN);
  
- 	for (i = 0; i < n_placements; i++) {
-@@ -28,7 +36,6 @@ static u32 object_max_page_size(struct intel_memory_region **placements,
- 		max_page_size = max_t(u32, max_page_size, mr->min_page_size);
- 	}
- 
--	GEM_BUG_ON(!max_page_size);
- 	return max_page_size;
- }
- 
-@@ -99,7 +106,8 @@ __i915_gem_object_create_user_ext(struct drm_i915_private *i915, u64 size,
- 
- 	i915_gem_flush_free_objects(i915);
- 
--	size = round_up(size, object_max_page_size(placements, n_placements));
-+	size = round_up(size, i915_gem_object_max_page_size(placements,
-+							    n_placements));
- 	if (size == 0)
- 		return ERR_PTR(-EINVAL);
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 3db53769864c..5455ca0eabe9 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -47,6 +47,8 @@ static inline bool i915_gem_object_size_2big(u64 size)
- }
- 
- void i915_gem_init__objects(struct drm_i915_private *i915);
-+u32 i915_gem_object_max_page_size(struct intel_memory_region **placements,
-+				  unsigned int n_placements);
- 
- void i915_objects_module_exit(void);
- int i915_objects_module_init(void);
+ 	/*
 -- 
 2.21.0.rc0.32.g243a4c7e27
 
