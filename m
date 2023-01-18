@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5573F672196
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 16:42:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3BCA67219D
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 16:43:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B6DC89A1F;
-	Wed, 18 Jan 2023 15:42:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1E6D10E15B;
+	Wed, 18 Jan 2023 15:43:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A02D89A1F;
- Wed, 18 Jan 2023 15:42:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674056573; x=1705592573;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=aPgeeJWQOnn/wjLQsky7MyljyMC9Wh8woJkejnByg+k=;
- b=U18BJT1jVmYtxAiJS3MyvyOR/9c5QfnnwI0SlwjIocxWI/s46bXLBIZR
- +vmfoUnxN7Kd4sKeOFO3YJNIhC8dWNdwyAcYJoRffGYn/haqVWKwJAAyc
- XffgM7NWtK/sTFvl/Mn3B/zd8ZKbJiYEmCeoWDHNxPDbh8wsckjM+7+Nz
- MmsxB5M01Mo6LBnALCOS79xhaGyZhYmTh3HRSqccT4yQhVOBWku9fPyC2
- iCsCLJP9PAnI3/6Y/o7l+IlGeAvDutA/ovdvZOLYyKNcBqQzCN0mL8mWl
- duzh5BHLuYQmDv2IAgqINYiqxxXHkz57AW+fUgIS4ns7+qc9/Cugw+3jm A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="325065054"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="325065054"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2023 07:42:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="690230915"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="690230915"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
- by orsmga008.jf.intel.com with SMTP; 18 Jan 2023 07:42:46 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 18 Jan 2023 17:42:46 +0200
-Date: Wed, 18 Jan 2023 17:42:46 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v7 10/22] drm/edid: add helper for HDMI VSDB audio
- latency field length
-Message-ID: <Y8gTdsLisZ5byN2d@intel.com>
-References: <cover.1672826282.git.jani.nikula@intel.com>
- <da4293203ef2ddeb0bf66a2bfdbc129ab609c543.1672826282.git.jani.nikula@intel.com>
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com
+ [209.85.160.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75E5410E15B;
+ Wed, 18 Jan 2023 15:43:49 +0000 (UTC)
+Received: by mail-oa1-f50.google.com with SMTP id
+ 586e51a60fabf-15eec491b40so14934410fac.12; 
+ Wed, 18 Jan 2023 07:43:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ukaT+V3Vb1FjUPkT6hZm3l611ylAlOtjFyDVedo3F+c=;
+ b=P6DzjkzmmYKzZ8uYqa1r6EoeU5qfwRfIyB3GsUT07fGrouHkXNr6H0D+RJu5zc0fY8
+ 78RAHkYwhe7qvvQH3aKp2JZQatgq0ZjhpYj4M/uUdA/0dehAMKgKBUTurPEDuLdC2vWE
+ JVCZde72Qkz0mw0PvceYHEUsfp28T5BJoVQoLwhk6zxemzCNPSXqTqckPzHpUsigyLYO
+ zx+mqGqXhR1RsHcnITlz3njwBblHM+Bx185hdhojrdrfo/St2xDUebiOw+t7wlwmv9/A
+ 6l9mNHZYZMIXPEYRWwk+VQ2+LD31YKd+mjTYVT0ELM3xB1iuvdbGSzylmx/tQlu7UOBd
+ kJDg==
+X-Gm-Message-State: AFqh2kpCNmxz8i10BIwsU9EQ0KeEOM5vTEh1avFinHhN4Yoa59T1yUC+
+ IkaVFxwScYn1bbMoCrXk2g==
+X-Google-Smtp-Source: AMrXdXslFOXnulpQe6RkBP46QyXxTX6HLS26sNC2/1L4zrMl2+ezht2EDmducLgMXaHjrnnLaD3ijg==
+X-Received: by 2002:a05:6871:1c9:b0:15b:96af:50ac with SMTP id
+ q9-20020a05687101c900b0015b96af50acmr3913424oad.29.1674056628728; 
+ Wed, 18 Jan 2023 07:43:48 -0800 (PST)
+Received: from robh_at_kernel.org ([4.31.143.193])
+ by smtp.gmail.com with ESMTPSA id
+ r10-20020a05687032ca00b0014ff15936casm18355779oac.40.2023.01.18.07.43.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Jan 2023 07:43:48 -0800 (PST)
+Received: (nullmailer pid 54719 invoked by uid 1000);
+ Wed, 18 Jan 2023 15:43:47 -0000
+Date: Wed, 18 Jan 2023 09:43:47 -0600
+From: Rob Herring <robh@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v7 04/11] dt-bindings: display/msm: rename mdss nodes to
+ display-subsystem
+Message-ID: <167405662664.54658.957028337731224500.robh@kernel.org>
+References: <20230118041243.1720520-1-dmitry.baryshkov@linaro.org>
+ <20230118041243.1720520-5-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <da4293203ef2ddeb0bf66a2bfdbc129ab609c543.1672826282.git.jani.nikula@intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <20230118041243.1720520-5-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,67 +65,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 04, 2023 at 12:05:25PM +0200, Jani Nikula wrote:
-> Add a helper for skipping the HDMI VSDB audio latency fields.
-> 
-> There's a functional change for HDMI VSDB blocks that do not respect the
-> spec: "I_Latency_Fields_Present shall be zero if Latency_Fields_Present
-> is zero". We assume this to hold when skipping the latency fields, and
-> ignore non-zero I_Latency_Fields_Present if Latency_Fields_Present is
-> zero.
-> 
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
+On Wed, 18 Jan 2023 06:12:36 +0200, Dmitry Baryshkov wrote:
+> Follow the 'generic names' rule and rename mdss nodes to
+> display-subsystem.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  drivers/gpu/drm/drm_edid.c | 18 +++++++++++-------
->  1 file changed, 11 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 847076b29594..93067b8dd9f6 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -4695,6 +4695,16 @@ static bool hdmi_vsdb_i_latency_present(const u8 *db)
->  	return hdmi_vsdb_latency_present(db) && db[8] & BIT(6);
->  }
->  
-> +static int hdmi_vsdb_latency_length(const u8 *db)
-> +{
-> +	if (hdmi_vsdb_i_latency_present(db))
-> +		return 4;
-> +	else if (hdmi_vsdb_latency_present(db))
-> +		return 2;
-> +	else
-> +		return 0;
-> +}
-> +
->  /*
->   * do_hdmi_vsdb_modes - Parse the HDMI Vendor Specific data block
->   * @connector: connector corresponding to the HDMI sink
-> @@ -4720,13 +4730,7 @@ do_hdmi_vsdb_modes(struct drm_connector *connector, const u8 *db, u8 len)
->  	if (!(db[8] & (1 << 5)))
->  		goto out;
->  
-> -	/* Latency_Fields_Present */
-> -	if (db[8] & (1 << 7))
-> -		offset += 2;
-> -
-> -	/* I_Latency_Fields_Present */
-> -	if (db[8] & (1 << 6))
-> -		offset += 2;
-> +	offset += hdmi_vsdb_latency_length(db);
->  
->  	/* the declared length is not long enough for the 2 first bytes
->  	 * of additional video format capabilities */
-> -- 
-> 2.34.1
+> Note, this patch might generate warnings in qcom,sm6115-mdss and
+> qcom,qcm2290-mdss examples, but they have been fixed by the commit
+> e5266ca38294 ("dt-bindings: display: msm: Rename mdss node name in
+> example")
+> 
+> See https://gitlab.freedesktop.org/drm/msm/-/commit/e5266ca38294
+> 
+> 
+> ---
+>  .../devicetree/bindings/display/msm/mdss-common.yaml      | 8 ++++++++
+>  .../devicetree/bindings/display/msm/qcom,mdss.yaml        | 5 ++++-
+>  2 files changed, 12 insertions(+), 1 deletion(-)
+> 
 
--- 
-Ville Syrjälä
-Intel
+Reviewed-by: Rob Herring <robh@kernel.org>
