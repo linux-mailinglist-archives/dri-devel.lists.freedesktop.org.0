@@ -2,65 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58824671BA4
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 13:13:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F19671A03
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 12:09:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6683310E721;
-	Wed, 18 Jan 2023 12:12:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05B5910E1B1;
+	Wed, 18 Jan 2023 11:09:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from domac.alu.hr (domac.alu.unizg.hr [161.53.235.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F28810E671;
- Wed, 18 Jan 2023 10:53:32 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by domac.alu.hr (Postfix) with ESMTP id F0B6F604E2;
- Wed, 18 Jan 2023 11:53:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
- t=1674039209; bh=Y8U46iHUlsWRZw/W7Ot7mfmizG2Wy/5dkEMbi5KBhAU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=GE1+lFYxNKVtVTBqqZD5Rci0ZaohtxgKWaORsqVNOEe1oFpMxjkZZC5GUZr9bV1oE
- qTc0/3TZd/oLGtz5wSXXKRpJRWKvtp5Z63wFQNbX/7UCs43HFgpo979KjfpDtDR9c2
- DeMJ6scCDAlRUl9aoCCeFsGpt+wKwUHnarwjdJNHoD5js8DbGeGXtCZjus9Cjajuvq
- /Zax8a90+TH6kIOd8vZU7oz6zmKHuGX3S40jHF+UlLiSmSxj7KuA5fLZ4CoY2OyZkZ
- 69smeTqFF1uf/7+oSIUBVpFLsMQ5t4yF7dTSUQNj/14mBNmYrAk93MICSD8EnQE9mP
- Q80Izv9q+1bLw==
-X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
-Received: from domac.alu.hr ([127.0.0.1])
- by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TfQhV-gTSoBx; Wed, 18 Jan 2023 11:53:27 +0100 (CET)
-Received: from [193.198.186.200] (pc-mtodorov.slava.alu.hr [193.198.186.200])
- by domac.alu.hr (Postfix) with ESMTPSA id 41391604E0;
- Wed, 18 Jan 2023 11:53:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
- t=1674039207; bh=Y8U46iHUlsWRZw/W7Ot7mfmizG2Wy/5dkEMbi5KBhAU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=zO8AnTEqgWVC/eGwoZ6IEs8yuoFh9uLbSLIdOOsLWZW/Rpk+7cguNQ21URsQXM8s9
- eRfHZ8O5hl8F8GihnEh7tQeuUyTed/I/vXov8FDFhTz+esVDkH1+pVtnhwxlLgmmJL
- DFcpD3n+DTxFQGoRsZsrRKlGGFcATgWynGGQRfvFUEabAyz5hdNk/wqTfltqzap2C0
- JxzX1jLXFY1aQa150/WQBrHo3PAmIeIjMWyQmkWKZGKPJ95PhJno0Hw5QQ9ZDXNfsl
- p2uaRwcmSDpKPjVG0WJOM+ncD10NHCuvGjUpH4NXj2lBhUqd0CA2hxJjLxjqmA+RUI
- YhptPlkLRo9Dg==
-Message-ID: <f1c7f3e5-8585-d8e2-a666-6e18d3f69ed5@alu.unizg.hr>
-Date: Wed, 18 Jan 2023 11:53:27 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0D83210E1B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 11:09:18 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9E81D1477;
+ Wed, 18 Jan 2023 03:10:00 -0800 (PST)
+Received: from [10.1.28.26] (e122027.cambridge.arm.com [10.1.28.26])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A60473F445;
+ Wed, 18 Jan 2023 03:09:16 -0800 (PST)
+Message-ID: <18260f9c-2e2e-1210-7203-ac3b79f7da2a@arm.com>
+Date: Wed, 18 Jan 2023 11:09:14 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915: Fix a memory leak with reused
- mmap_offset
-Content-Language: en-US, hr
-To: "Das, Nirmoy" <nirmoy.das@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20230117175236.22317-1-nirmoy.das@intel.com>
- <20230117175236.22317-2-nirmoy.das@intel.com>
- <8e517b87-b626-b488-0daa-88897c9ed90a@linux.intel.com>
- <c7986b6f-f5f2-52a8-c109-6fb25762a30b@alu.unizg.hr>
- <48974dd7-1449-3f9f-24c1-5071e73dd807@linux.intel.com>
-From: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
-In-Reply-To: <48974dd7-1449-3f9f-24c1-5071e73dd807@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 18 Jan 2023 12:12:42 +0000
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] drm/panfrost: fix GENERIC_ATOMIC64 dependency
+To: Arnd Bergmann <arnd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>
+References: <20230117164456.1591901-1-arnd@kernel.org>
+Content-Language: en-GB
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20230117164456.1591901-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,89 +44,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Arnd Bergmann <arnd@arndb.de>, Robin Murphy <robin.murphy@arm.com>,
+ =?UTF-8?Q?Adri=c3=a1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 1/18/23 11:39, Das, Nirmoy wrote:
+On 17/01/2023 16:44, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> On 1/18/2023 11:26 AM, Mirsad Todorovac wrote:
->> Hi,
->>
->> On 1/18/23 10:19, Tvrtko Ursulin wrote:
->>
->>> Thanks for working on this, it looks good to me and it aligns with how i915 uses the facility.
->>>
->>> Copying Mirsad who reported the issue in case he is still happy to give it a quick test. Mirsad, I don't know if you are 
->>> subscribed to one of the two mailing lists where series was posted. In case not, you can grab both patches from 
->>> https://patchwork.freedesktop.org/series/112952/.
->>>
->>> Nirmoy - we also have an IGT written by Chuansheng - https://patchwork.freedesktop.org/patch/515720/?series=101035&rev=4. A more 
->>> generic one could be placed in gem_mmap_offset test but this one works too in my testing and is IMO better than nothing.
->>>
->>> Finally, let me add some tags below:
->>>
->>> On 17/01/2023 17:52, Nirmoy Das wrote:
->>>> drm_vma_node_allow() and drm_vma_node_revoke() should be called in
->>>> balanced pairs. We call drm_vma_node_allow() once per-file everytime a
->>>> user calls mmap_offset, but only call drm_vma_node_revoke once per-file
->>>> on each mmap_offset. As the mmap_offset is reused by the client, the
->>>> per-file vm_count may remain non-zero and the rbtree leaked.
->>>>
->>>> Call drm_vma_node_allow_once() instead to prevent that memory leak.
->>>>
->>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->>>> Cc: Andi Shyti <andi.shyti@linux.intel.com>
->>>
->>> Fixes: 786555987207 ("drm/i915/gem: Store mmap_offsets in an rbtree rather than a plain list")
->>> Reported-by: Chuansheng Liu <chuansheng.liu@intel.com>
->>> Reported-by: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
->>> Cc: <stable@vger.kernel.org> # v5.7+
->>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>
->>> Regards,
->>>
->>> Tvrtko
->>>
->>>>
->>>> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
->>>> ---
->>>>   drivers/gpu/drm/i915/gem/i915_gem_mman.c | 2 +-
->>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
->>>> index 4f69bff63068..2aac6bf78740 100644
->>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
->>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
->>>> @@ -697,7 +697,7 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
->>>>       GEM_BUG_ON(lookup_mmo(obj, mmap_type) != mmo);
->>>>   out:
->>>>       if (file)
->>>> -        drm_vma_node_allow(&mmo->vma_node, file);
->>>> +        drm_vma_node_allow_once(&mmo->vma_node, file);
->>>>       return mmo;
->>>>   err:
->>
->> The drm/i915 patch seems OK and there are currently no memory leaks as of
->> reported by /sys/kernel/debug/kmemleak under the same Chrome load that triggered
->> the initial bug ...
+> On ARMv5 and earlier, a randconfig build can still run into
 > 
+> WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+>   Depends on [n]: IOMMU_SUPPORT [=y] && (ARM [=y] || ARM64 || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=y]
+>   Selected by [y]:
+>   - DRM_PANFROST [=y] && HAS_IOMEM [=y] && DRM [=y] && (ARM [=y] || ARM64 || COMPILE_TEST [=y] && !GENERIC_ATOMIC64 [=y]) && MMU [=y]
 > 
-> Thanks, Mirsad for quickly checking this!
+> Rework the dependencies to always require a working cmpxchg64.
+> 
+> Fixes: db594ba3fcf9 ("drm/panfrost: depend on !GENERIC_ATOMIC64 when using COMPILE_TEST")
 
-There was no problem, Nirmoy, everything applied neatly :)
+Looking at db594ba3fcf9 - it states:
 
-Regards,
-Mirsad
+>     Since panfrost has a 'select' on IOMMU_IO_PGTABLE_LPAE we must depend on
+>     the same set of flags. Otherwise IOMMU_IO_PGTABLE_LPAE will be forced on
+>     even though it cannot build (no support for cmpxchg64).
 
--- 
-Mirsad Goran Todorovac
-Sistem inženjer
-Grafički fakultet | Akademija likovnih umjetnosti
-Sveučilište u Zagrebu
+And at the time the dependencies on IOMMU_IO_PGTABLE_LPAE were exactly
+these.
 
-System engineer
-Faculty of Graphic Arts | Academy of Fine Arts
-University of Zagreb, Republic of Croatia
+However d286a58bc8f4 ("iommu: Tidy up io-pgtable dependencies")
+(currently in the iommu tree) changed the depends to split the
+!GENERIC_ATOMIC64 out. So we could argue that really that's the commit
+that should be blamed in the fixes line.
+
+However there's no harm in this being backported further than it
+strictly needs to be, and it's clearly better having the
+!GENERIC_ATOMIC64 split out. So I'll merge this to drm-misc-fixes.
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+Thanks!
+
+Steve
+
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/gpu/drm/panfrost/Kconfig | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/Kconfig b/drivers/gpu/drm/panfrost/Kconfig
+> index 079600328be1..e6403a9d66ad 100644
+> --- a/drivers/gpu/drm/panfrost/Kconfig
+> +++ b/drivers/gpu/drm/panfrost/Kconfig
+> @@ -3,7 +3,8 @@
+>  config DRM_PANFROST
+>  	tristate "Panfrost (DRM support for ARM Mali Midgard/Bifrost GPUs)"
+>  	depends on DRM
+> -	depends on ARM || ARM64 || (COMPILE_TEST && !GENERIC_ATOMIC64)
+> +	depends on ARM || ARM64 || COMPILE_TEST
+> +	depends on !GENERIC_ATOMIC64    # for IOMMU_IO_PGTABLE_LPAE
+>  	depends on MMU
+>  	select DRM_SCHED
+>  	select IOMMU_SUPPORT
+
