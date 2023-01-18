@@ -2,53 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65C33672154
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 16:32:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D76D867215C
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 16:35:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 629C210E191;
-	Wed, 18 Jan 2023 15:32:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97F8E10E76D;
+	Wed, 18 Jan 2023 15:35:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20D7710E191;
- Wed, 18 Jan 2023 15:32:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674055974; x=1705591974;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=QvVsZWj7d1SQmyC3akP+bn+90nFoRa1MDp9LhfhHLmw=;
- b=c1refoQQTYj+Ncz+pSuiJ7bmqQZllWjCEF1HwQeBmjnpokpniCylsK0p
- Yoc7BdqWcJ0SqXGV0y/f/c+zhAvMLUR51jZTlvbaJl4XU6T/ONX+QdQJw
- xFJNa/38H/h9J5mACA+gif7ldfnOmvCu8s6hg5aHLPacqDPU5hg0wIK2E
- iGy8TthEyNaUaZrmR0deihNyvSurwpVdRLxV/eYq9R/IpfKkpcSdc2wTC
- HJu2f15U2Wdra7rRvZviQOR+z0gNOIl9hljvHKbMo2QREQXVn454C1gZ9
- rKRF9n7M0rg3KlAb+BwvL2PlyDVxcB6FDGlfMpHWATWlCnKkZx4QpvPtv g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="387357465"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="387357465"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2023 07:32:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="690229569"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="690229569"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
- by orsmga008.jf.intel.com with SMTP; 18 Jan 2023 07:32:42 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 18 Jan 2023 17:32:42 +0200
-Date: Wed, 18 Jan 2023 17:32:42 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v7 08/22] drm/edid: split CTA Y420VDB info and mode parsing
-Message-ID: <Y8gRGmldy0Kh+LRK@intel.com>
-References: <cover.1672826282.git.jani.nikula@intel.com>
- <3bc5fe6650a6ce4249803f7192096764ea724e05.1672826282.git.jani.nikula@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2637F10E1ED
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 15:35:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674056102;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vpTQpjYNAk3XvtyK5ZGAiy3XmVPFLh4QlSlt0JHPp3g=;
+ b=GluTs5Bt8h1q3AW8kYShfGN21cc7xXeyhlMUSD2f6s0MtFahH1QwMrVYombJXtFt2lPgaz
+ Hk5GvgRPM2Yb6IuLx6uZFkqkDROatg2Ww+32TetWjXoQ3u+LVtwY6IOM+ED2NKZlaatDTz
+ THJFMEgiUsNIv0PBv1RVjEB/4GHFQ7g=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-128-m_YPTAtOMJa3fSN6z6b-sw-1; Wed, 18 Jan 2023 10:35:00 -0500
+X-MC-Unique: m_YPTAtOMJa3fSN6z6b-sw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ y21-20020a056402359500b0049e171c4ad0so6541892edc.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 07:35:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vpTQpjYNAk3XvtyK5ZGAiy3XmVPFLh4QlSlt0JHPp3g=;
+ b=gjBTN7BUHXpMivvn8rKkOZNQsJPL4uEMLiXN9+Ru5lnC9vNum7WcjHnoxKOCDs5l+Y
+ 9pzAHRHx64IGpg0qpPZVogzya6l8QgOvdqFCAjOURT2PnzwS1WralzEzL07hj8KheVoC
+ RmYcCGGtnrjcNro7oFC8yExsMdaeivMaTeV5QPwRRHllZ474hvyBSc95zsKBwbdCSOBC
+ 8bCt059iba6Eoj+Rr6nMxCiXpARy9TcwDsigl1H8CYfx46vZG4TybYwC1CZqBFjZCOil
+ one8zcK4FulRChxyeD94suOyFgj8w1y+bSfxqaUZr7hHLIp0moLfedCxZXhM+RmC2KsT
+ 4w7g==
+X-Gm-Message-State: AFqh2ko+X4frMh3E6+fdcswSiqooHdu/GaE5MuJ2dgwKF63JxHPAzDoK
+ ZlB8mQHvyFIeHmmLWQ3sSsUWPICcq1JkmKTusXIf3b8ZwjlqwIrGSEpOACXPN5uldixne4sn5R+
+ WG2TTd6G7mBGwP7vW86oYpUcUx2pA
+X-Received: by 2002:a17:906:5a5f:b0:86f:3c6b:f7c6 with SMTP id
+ my31-20020a1709065a5f00b0086f3c6bf7c6mr7664147ejc.64.1674056099536; 
+ Wed, 18 Jan 2023 07:34:59 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsOoo3EG20RFXrfylq7Pialuja03yLXGPDjL2I7nXl6iPhWeh7hkF/TG1FOi+8BpRpJa4tYww==
+X-Received: by 2002:a17:906:5a5f:b0:86f:3c6b:f7c6 with SMTP id
+ my31-20020a1709065a5f00b0086f3c6bf7c6mr7664127ejc.64.1674056099311; 
+ Wed, 18 Jan 2023 07:34:59 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ wb9-20020a170907d50900b0087045ae5935sm4465825ejc.1.2023.01.18.07.34.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Jan 2023 07:34:58 -0800 (PST)
+Message-ID: <02b0bcb8-f69f-93cf-1f56-ec883cb33965@redhat.com>
+Date: Wed, 18 Jan 2023 16:34:57 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH drm-next 00/14] [RFC] DRM GPUVA Manager & Nouveau VM_BIND
+ UAPI
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ daniel@ffwll.ch, airlied@redhat.com, bskeggs@redhat.com,
+ jason@jlekstrand.net, tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net
+References: <20230118061256.2689-1-dakr@redhat.com>
+ <db4fa0fc-c9a6-9a48-c45f-1d655b30aff9@amd.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <db4fa0fc-c9a6-9a48-c45f-1d655b30aff9@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3bc5fe6650a6ce4249803f7192096764ea724e05.1672826282.git.jani.nikula@intel.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,100 +92,199 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 04, 2023 at 12:05:23PM +0200, Jani Nikula wrote:
-> Separate the parsing of display info and modes from the CTA
-> Y420VDB. This is prerequisite work for overall better separation of the
-> two parsing steps.
+Hi Christian,
+
+On 1/18/23 09:53, Christian König wrote:
+> Am 18.01.23 um 07:12 schrieb Danilo Krummrich:
+>> This patch series provides a new UAPI for the Nouveau driver in order to
+>> support Vulkan features, such as sparse bindings and sparse residency.
+>>
+>> Furthermore, with the DRM GPUVA manager it provides a new DRM core 
+>> feature to
+>> keep track of GPU virtual address (VA) mappings in a more generic way.
+>>
+>> The DRM GPUVA manager is indented to help drivers implement 
+>> userspace-manageable
+>> GPU VA spaces in reference to the Vulkan API. In order to achieve this 
+>> goal it
+>> serves the following purposes in this context.
+>>
+>>      1) Provide a dedicated range allocator to track GPU VA 
+>> allocations and
+>>         mappings, making use of the drm_mm range allocator.
 > 
-> Cc: Ville Syrj�l� <ville.syrjala@linux.intel.com>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/drm_edid.c | 29 +++++++++++++++++++++++------
->  1 file changed, 23 insertions(+), 6 deletions(-)
+> This means that the ranges are allocated by the kernel? If yes that's a 
+> really really bad idea.
+
+No, it's just for keeping track of the ranges userspace has allocated.
+
+- Danilo
+
 > 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index ead7a4ce0422..076ba125c38d 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -4497,10 +4497,8 @@ drm_display_mode_from_vic_index(struct drm_connector *connector, int vic_index)
->  static int do_y420vdb_modes(struct drm_connector *connector,
->  			    const u8 *svds, u8 svds_len)
->  {
-> -	int modes = 0, i;
->  	struct drm_device *dev = connector->dev;
-> -	struct drm_display_info *info = &connector->display_info;
-> -	struct drm_hdmi_info *hdmi = &info->hdmi;
-> +	int modes = 0, i;
->  
->  	for (i = 0; i < svds_len; i++) {
->  		u8 vic = svd_to_vic(svds[i]);
-> @@ -4512,13 +4510,10 @@ static int do_y420vdb_modes(struct drm_connector *connector,
->  		newmode = drm_mode_duplicate(dev, cea_mode_for_vic(vic));
->  		if (!newmode)
->  			break;
-> -		bitmap_set(hdmi->y420_vdb_modes, vic, 1);
->  		drm_mode_probed_add(connector, newmode);
->  		modes++;
->  	}
->  
-> -	if (modes > 0)
-> -		info->color_formats |= DRM_COLOR_FORMAT_YCBCR420;
->  	return modes;
->  }
->  
-> @@ -5876,6 +5871,26 @@ static bool cta_vdb_has_vic(const struct drm_connector *connector, u8 vic)
->  	return false;
->  }
->  
-> +/* CTA-861-H YCbCr 4:2:0 Video Data Block (CTA Y420VDB) */
-> +static void parse_cta_y420vdb(struct drm_connector *connector,
-> +			      const struct cea_db *db)
-> +{
-> +	struct drm_display_info *info = &connector->display_info;
-> +	struct drm_hdmi_info *hdmi = &info->hdmi;
-> +	const u8 *svds = cea_db_data(db) + 1;
+> Regards,
+> Christian.
+> 
+>>
+>>      2) Generically connect GPU VA mappings to their backing buffers, in
+>>         particular DRM GEM objects.
+>>
+>>      3) Provide a common implementation to perform more complex mapping
+>>         operations on the GPU VA space. In particular splitting and 
+>> merging
+>>         of GPU VA mappings, e.g. for intersecting mapping requests or 
+>> partial
+>>         unmap requests.
+>>
+>> The new VM_BIND Nouveau UAPI build on top of the DRM GPUVA manager, 
+>> itself
+>> providing the following new interfaces.
+>>
+>>      1) Initialize a GPU VA space via the new 
+>> DRM_IOCTL_NOUVEAU_VM_INIT ioctl
+>>         for UMDs to specify the portion of VA space managed by the 
+>> kernel and
+>>         userspace, respectively.
+>>
+>>      2) Allocate and free a VA space region as well as bind and unbind 
+>> memory
+>>         to the GPUs VA space via the new DRM_IOCTL_NOUVEAU_VM_BIND ioctl.
+>>
+>>      3) Execute push buffers with the new DRM_IOCTL_NOUVEAU_EXEC ioctl.
+>>
+>> Both, DRM_IOCTL_NOUVEAU_VM_BIND and DRM_IOCTL_NOUVEAU_EXEC, make use 
+>> of the DRM
+>> scheduler to queue jobs and support asynchronous processing with DRM 
+>> syncobjs
+>> as synchronization mechanism.
+>>
+>> By default DRM_IOCTL_NOUVEAU_VM_BIND does synchronous processing,
+>> DRM_IOCTL_NOUVEAU_EXEC supports asynchronous processing only.
+>>
+>> The new VM_BIND UAPI for Nouveau makes also use of drm_exec (execution 
+>> context
+>> for GEM buffers) by Christian König. Since the patch implementing 
+>> drm_exec was
+>> not yet merged into drm-next it is part of this series, as well as a 
+>> small fix
+>> for this patch, which was found while testing this series.
+>>
+>> This patch series is also available at [1].
+>>
+>> There is a Mesa NVK merge request by Dave Airlie [2] implementing the
+>> corresponding userspace parts for this series.
+>>
+>> The Vulkan CTS test suite passes the sparse binding and sparse 
+>> residency test
+>> cases for the new UAPI together with Dave's Mesa work.
+>>
+>> There are also some test cases in the igt-gpu-tools project [3] for 
+>> the new UAPI
+>> and hence the DRM GPU VA manager. However, most of them are testing 
+>> the DRM GPU
+>> VA manager's logic through Nouveau's new UAPI and should be considered 
+>> just as
+>> helper for implementation.
+>>
+>> However, I absolutely intend to change those test cases to proper 
+>> kunit test
+>> cases for the DRM GPUVA manager, once and if we agree on it's 
+>> usefulness and
+>> design.
+>>
+>> [1] 
+>> https://gitlab.freedesktop.org/nouvelles/kernel/-/tree/new-uapi-drm-next /
+>>      https://gitlab.freedesktop.org/nouvelles/kernel/-/merge_requests/1
+>> [2] https://gitlab.freedesktop.org/nouveau/mesa/-/merge_requests/150/
+>> [3] 
+>> https://gitlab.freedesktop.org/dakr/igt-gpu-tools/-/tree/wip_nouveau_vm_bind
+>>
+>> I also want to give credit to Dave Airlie, who contributed a lot of 
+>> ideas to
+>> this patch series.
+>>
+>> Christian König (1):
+>>    drm: execution context for GEM buffers
+>>
+>> Danilo Krummrich (13):
+>>    drm/exec: fix memory leak in drm_exec_prepare_obj()
+>>    drm: manager to keep track of GPUs VA mappings
+>>    drm: debugfs: provide infrastructure to dump a DRM GPU VA space
+>>    drm/nouveau: new VM_BIND uapi interfaces
+>>    drm/nouveau: get vmm via nouveau_cli_vmm()
+>>    drm/nouveau: bo: initialize GEM GPU VA interface
+>>    drm/nouveau: move usercopy helpers to nouveau_drv.h
+>>    drm/nouveau: fence: fail to emit when fence context is killed
+>>    drm/nouveau: chan: provide nouveau_channel_kill()
+>>    drm/nouveau: nvkm/vmm: implement raw ops to manage uvmm
+>>    drm/nouveau: implement uvmm for user mode bindings
+>>    drm/nouveau: implement new VM_BIND UAPI
+>>    drm/nouveau: debugfs: implement DRM GPU VA debugfs
+>>
+>>   Documentation/gpu/driver-uapi.rst             |   11 +
+>>   Documentation/gpu/drm-mm.rst                  |   43 +
+>>   drivers/gpu/drm/Kconfig                       |    6 +
+>>   drivers/gpu/drm/Makefile                      |    3 +
+>>   drivers/gpu/drm/amd/amdgpu/Kconfig            |    1 +
+>>   drivers/gpu/drm/drm_debugfs.c                 |   56 +
+>>   drivers/gpu/drm/drm_exec.c                    |  294 ++++
+>>   drivers/gpu/drm/drm_gem.c                     |    3 +
+>>   drivers/gpu/drm/drm_gpuva_mgr.c               | 1323 +++++++++++++++++
+>>   drivers/gpu/drm/nouveau/Kbuild                |    3 +
+>>   drivers/gpu/drm/nouveau/Kconfig               |    2 +
+>>   drivers/gpu/drm/nouveau/include/nvif/if000c.h |   23 +-
+>>   drivers/gpu/drm/nouveau/include/nvif/vmm.h    |   17 +-
+>>   .../gpu/drm/nouveau/include/nvkm/subdev/mmu.h |   10 +
+>>   drivers/gpu/drm/nouveau/nouveau_abi16.c       |   23 +
+>>   drivers/gpu/drm/nouveau/nouveau_abi16.h       |    1 +
+>>   drivers/gpu/drm/nouveau/nouveau_bo.c          |  152 +-
+>>   drivers/gpu/drm/nouveau/nouveau_bo.h          |    2 +-
+>>   drivers/gpu/drm/nouveau/nouveau_chan.c        |   16 +-
+>>   drivers/gpu/drm/nouveau/nouveau_chan.h        |    1 +
+>>   drivers/gpu/drm/nouveau/nouveau_debugfs.c     |   24 +
+>>   drivers/gpu/drm/nouveau/nouveau_drm.c         |   25 +-
+>>   drivers/gpu/drm/nouveau/nouveau_drv.h         |   92 +-
+>>   drivers/gpu/drm/nouveau/nouveau_exec.c        |  310 ++++
+>>   drivers/gpu/drm/nouveau/nouveau_exec.h        |   55 +
+>>   drivers/gpu/drm/nouveau/nouveau_fence.c       |    7 +
+>>   drivers/gpu/drm/nouveau/nouveau_fence.h       |    2 +-
+>>   drivers/gpu/drm/nouveau/nouveau_gem.c         |   83 +-
+>>   drivers/gpu/drm/nouveau/nouveau_mem.h         |    5 +
+>>   drivers/gpu/drm/nouveau/nouveau_prime.c       |    2 +-
+>>   drivers/gpu/drm/nouveau/nouveau_sched.c       |  780 ++++++++++
+>>   drivers/gpu/drm/nouveau/nouveau_sched.h       |   98 ++
+>>   drivers/gpu/drm/nouveau/nouveau_svm.c         |    2 +-
+>>   drivers/gpu/drm/nouveau/nouveau_uvmm.c        |  575 +++++++
+>>   drivers/gpu/drm/nouveau/nouveau_uvmm.h        |   68 +
+>>   drivers/gpu/drm/nouveau/nouveau_vmm.c         |    4 +-
+>>   drivers/gpu/drm/nouveau/nvif/vmm.c            |   73 +-
+>>   .../gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c    |  168 ++-
+>>   .../gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.h    |    1 +
+>>   drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c |   32 +-
+>>   drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |    3 +
+>>   include/drm/drm_debugfs.h                     |   25 +
+>>   include/drm/drm_drv.h                         |    6 +
+>>   include/drm/drm_exec.h                        |  144 ++
+>>   include/drm/drm_gem.h                         |   75 +
+>>   include/drm/drm_gpuva_mgr.h                   |  527 +++++++
+>>   include/uapi/drm/nouveau_drm.h                |  216 +++
+>>   47 files changed, 5266 insertions(+), 126 deletions(-)
+>>   create mode 100644 drivers/gpu/drm/drm_exec.c
+>>   create mode 100644 drivers/gpu/drm/drm_gpuva_mgr.c
+>>   create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec.c
+>>   create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec.h
+>>   create mode 100644 drivers/gpu/drm/nouveau/nouveau_sched.c
+>>   create mode 100644 drivers/gpu/drm/nouveau/nouveau_sched.h
+>>   create mode 100644 drivers/gpu/drm/nouveau/nouveau_uvmm.c
+>>   create mode 100644 drivers/gpu/drm/nouveau/nouveau_uvmm.h
+>>   create mode 100644 include/drm/drm_exec.h
+>>   create mode 100644 include/drm/drm_gpuva_mgr.h
+>>
+>>
+>> base-commit: 0b45ac1170ea6416bc1d36798414c04870cd356d
+> 
 
-Sidenote: I wonder if we should abstract the payload handling
-better for blocks using extended tag codes...
-
-> +	int i;
-> +
-> +	for (i = 0; i < cea_db_payload_len(db) - 1; i++) {
-> +		u8 vic = svd_to_vic(svds[i]);
-> +
-> +		if (!drm_valid_cea_vic(vic))
-> +			continue;
-> +
-> +		bitmap_set(hdmi->y420_vdb_modes, vic, 1);
-
-I'm thinking we should probably also add these to the vic list.
-But I suppose we can take care of that with a separate patch.
-
-Reviewed-by: Ville Syrj�l� <ville.syrjala@linux.intel.com>
-
-> +		info->color_formats |= DRM_COLOR_FORMAT_YCBCR420;
-> +	}
-> +}
-> +
->  static void drm_parse_vcdb(struct drm_connector *connector, const u8 *db)
->  {
->  	struct drm_display_info *info = &connector->display_info;
-> @@ -6216,6 +6231,8 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
->  			drm_parse_microsoft_vsdb(connector, data);
->  		else if (cea_db_is_y420cmdb(db))
->  			parse_cta_y420cmdb(connector, db, &y420cmdb_map);
-> +		else if (cea_db_is_y420vdb(db))
-> +			parse_cta_y420vdb(connector, db);
->  		else if (cea_db_is_vcdb(db))
->  			drm_parse_vcdb(connector, data);
->  		else if (cea_db_is_hdmi_hdr_metadata_block(db))
-> -- 
-> 2.34.1
-
--- 
-Ville Syrj�l�
-Intel
