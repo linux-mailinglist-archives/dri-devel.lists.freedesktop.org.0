@@ -2,59 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A72B672B5B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 23:34:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57641672B66
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 23:42:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B2A710E202;
-	Wed, 18 Jan 2023 22:34:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD62D10E062;
+	Wed, 18 Jan 2023 22:42:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 145A210E202
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 22:34:28 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id bp15so477151lfb.13
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 14:34:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=5qIyF+TLh63sFETTbADGjZbXxzqLCPo1XlBKdL830OE=;
- b=OddL8xIsa85SIi+6/ASkZktVljH02QnK8RJTYbc/3pXq3fCaC7Rxqlhvbm7oMEC+FM
- BDkXwMUrvvNJkTU6D/xVpKnKJpz/7S2LzgD2bk0ag6hLgiddzDqaIWlK2JsCmbEzNelM
- I5elnDY85lSTRkfzBIvPTu0LbGHhoRkX0gZVg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5qIyF+TLh63sFETTbADGjZbXxzqLCPo1XlBKdL830OE=;
- b=jzrs6HLBfu6X0oJRd+qbklB4XyDn98JFsgcQfR1gi5UQ28LEV//N4n2O1Tms4206VL
- 1WSvTnjwsWV3JOvi6+ev6Zm+EK9/LiDGZN7uBwoevzvRUeCzkQvM3UWPNNKuq0nF1r0E
- bLV4wLbrJKu1iwcNxxkCzJFzJoYuYyxOPKnBOME4reLCxaF1FvQcTp/DMqc//0pmN6U+
- NYdra9xhhqtWSxVaD3N8NsjrU9TEZHhjHGhzmB4WpL3wElm5jkM0B1MmQtXwjppGTqlq
- CqG8rAHmeQ0hi6oXhiqXmINmestNOKb4zT0babG6rWGDLf3E9JXngATTUDtP1kKtGVPx
- gUYw==
-X-Gm-Message-State: AFqh2krtdn7y3JkHT6aM97jfuS/QrpHfGTU7Pz0OTCLUVO11rijK6qs4
- yPp90xeg5rV8owE9kuNlvj/CTNfuRCohDMyXjMSFbg==
-X-Google-Smtp-Source: AMrXdXumfMYoFquw57PbwkvIhJ708dlixL/3hhgXrqsOHBxhwFrsnTJTGXRN8LdynqDPxFxFcRzGJxy7pU6o/8/bf/E=
-X-Received: by 2002:ac2:55a1:0:b0:4b5:7374:90a9 with SMTP id
- y1-20020ac255a1000000b004b5737490a9mr374530lfg.145.1674081266151; Wed, 18 Jan
- 2023 14:34:26 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 18 Jan 2023 16:34:25 -0600
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D333F10E062
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 22:42:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674081740; x=1705617740;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=1seZwJJ5fjHzmEGGMsg+2W0Ii9vh1jkN8H3OpnOyVUk=;
+ b=b7+Q0MS2Q9iceApVpml0/Oc1aGApTUrACujWKbumvD0NRIOkIAlEJ1Bt
+ 5l95amdYtqtdqiJbj3ax9NREfyrqjq70qwuE/A1lbI/SvGb5np3KXxxkz
+ 0Eq73EisyknYD/KfchZj2a+3zXJzR5QnVbFcBS1To2dkuJ1tf1RZ+FBBm
+ uRBJL5biegJNfCvqqiGnEnQENPSDgz06xf6YkMHRBzR66H7xiUiIozZJj
+ yZkft9cdAIZxWeqiQVOI6k00ITbXExm/hsgaqKpGJPtMe94UK1jFafcq0
+ 6+O3mDHtJkaMNYfIBx54LhDW30wtKp8x1c7fB7t4qcytu4ll1V/23Sr/f A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="312998241"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="312998241"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2023 14:42:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="833766911"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="833766911"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+ by orsmga005.jf.intel.com with ESMTP; 18 Jan 2023 14:42:18 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pIH8L-0000mQ-11;
+ Wed, 18 Jan 2023 22:42:17 +0000
+Date: Thu, 19 Jan 2023 06:41:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [drm-misc:for-linux-next-fixes 1/2]
+ drivers/gpu/drm/i915/i915_driver.c:1072:34: error: unused variable 'i915'
+Message-ID: <202301190659.FxGwhJ82-lkp@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=VeBBFTZBjZNhMUBO1uTNKBwcgZM6ehnw3BGmervE7jXA@mail.gmail.com>
-References: <1672193785-11003-1-git-send-email-quic_khsieh@quicinc.com>
- <1672193785-11003-3-git-send-email-quic_khsieh@quicinc.com>
- <CAD=FV=VeBBFTZBjZNhMUBO1uTNKBwcgZM6ehnw3BGmervE7jXA@mail.gmail.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Wed, 18 Jan 2023 16:34:25 -0600
-Message-ID: <CAE-0n50JB211OhA7pqj6U3rfBeeS0ofzY_moE77REmY2awo7bA@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] drm/msm/dp: enhance dp controller isr
-To: Doug Anderson <dianders@chromium.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,100 +59,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com, sean@poorly.run,
- andersson@kernel.org, vkoul@kernel.org, dri-devel@lists.freedesktop.org,
- quic_abhinavk@quicinc.com, agross@kernel.org, linux-arm-msm@vger.kernel.org,
- dmitry.baryshkov@linaro.org, linux-kernel@vger.kernel.org
+Cc: Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Doug Anderson (2023-01-18 10:29:59)
-> Hi,
->
-> On Tue, Dec 27, 2022 at 6:16 PM Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
-> > +
-> >         if (isr & DP_INTR_AUX_ERROR) {
-> >                 aux->aux_error_num = DP_AUX_ERR_PHY;
-> >                 dp_catalog_aux_clear_hw_interrupts(aux->catalog);
-> > +               ret = IRQ_HANDLED;
-> >         }
->
-> The end result of the above is a weird mix of "if" and "else if" for
-> no apparent reason. All except one of them just updates the exact same
-> variable so doing more than one is mostly useless. If you made it
-> consistently with "else" then the whole thing could be much easier,
-> like this (untested):
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next-fixes
+head:   2293a73ad4f3b6c37c06713ff1b67659d92ef43d
+commit: a273e95721e96885971a05f1b34cb6d093904d9d [1/2] drm/i915: Allow switching away via vga-switcheroo if uninitialized
+config: x86_64-rhel-8.3-syz (https://download.01.org/0day-ci/archive/20230119/202301190659.FxGwhJ82-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        git remote add drm-misc git://anongit.freedesktop.org/drm/drm-misc
+        git fetch --no-tags drm-misc for-linux-next-fixes
+        git checkout a273e95721e96885971a05f1b34cb6d093904d9d
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
 
-Totally agreed. I even asked that when I posted the RFC[1]!
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-"Can we also simplify the aux handlers to be a big pile of
-if-else-if conditions that don't overwrite the 'aux_error_num'? That
-would simplify the patch below."
+Note: the drm-misc/for-linux-next-fixes HEAD 2293a73ad4f3b6c37c06713ff1b67659d92ef43d builds fine.
+      It only hurts bisectability.
 
-> > @@ -425,17 +464,15 @@ void dp_aux_isr(struct drm_dp_aux *dp_aux)
-> >
-> >         /* no interrupts pending, return immediately */
-> >         if (!isr)
-> > -               return;
-> > +               return IRQ_NONE;
-> >
-> >         if (!aux->cmd_busy)
-> > -               return;
-> > +               return IRQ_NONE;
-> >
-> >         if (aux->native)
-> > -               dp_aux_native_handler(aux, isr);
-> > +               return dp_aux_native_handler(aux, isr);
-> >         else
-> > -               dp_aux_i2c_handler(aux, isr);
-> > -
-> > -       complete(&aux->comp);
-> > +               return dp_aux_i2c_handler(aux, isr);
->
-> Personally, I wouldn't have done it this way. I guess that means I
-> disagree with Stephen. I'm not dead-set against this way and it's fine
-> if you want to continue with it. If I were doing it, though, then I
-> would always return IRQ_HANDLED IF dp_catalog_aux_get_irq() returned
-> anything non-zero. Why? Officially if dp_catalog_aux_get_irq() returns
-> something non-zero then you know for sure that there was an interrupt
-> for this device and officially you have "handled" it by acking it,
-> since dp_catalog_aux_get_irq() acks all the bits that it returns. That
-> means that even if dp_aux_native_handler() or dp_aux_i2c_handler()
-> didn't do anything with the interrupt you at least know that it was
-> for us (so if the IRQ is shared we properly report back to the IRQ
-> subsystem) and that it won't keep firing over and over (because we
-> acked it).
+All errors (new ones prefixed by >>):
 
-I'm primarily concerned with irq storms taking down the system. Can that
-happen here? If not, then returning IRQ_NONE is not really useful. The
-overall IRQ for DP looks to be level, because the driver requests the
-IRQ that way. The aux interrupt status bits look to be edge style
-interrupts though, because the driver acks them in the handler. I guess
-that means the edges come in and latch into the interrupt status
-register so the driver has to ack all of them to drop the IRQ level for
-the overall DP interrupt? If the driver only acked the bits it looked at
-instead of all interrupt bits in the register, then the level would
-never go down for the IRQ if an unhandled interrupt bit was present like
-'DP_INTR_PLL_UNLOCKED'. That would mean we would hit spurious IRQ
-handling very quickly if that interrupt bit was ever seen.
+   drivers/gpu/drm/i915/i915_driver.c: In function 'i915_driver_lastclose':
+>> drivers/gpu/drm/i915/i915_driver.c:1072:34: error: unused variable 'i915' [-Werror=unused-variable]
+    1072 |         struct drm_i915_private *i915 = to_i915(dev);
+         |                                  ^~~~
+   cc1: all warnings being treated as errors
 
-But the driver is acking all interrupts, so probably trying to work
-IRQ_NONE into this code is not very useful? The only thing it would
-catch is DP_INTR_PLL_UNLOCKED being set over and over again, which seems
-unlikely. Of course, why is this driver unmasking interrupt bits it
-doesn't care about? That may be leading to useless interrupt handling in
-this driver if some interrupt bit is unmasked but never looked at. Can
-that be fixed in another patch?
 
->
-> NOTE: I still like having the complete() call in
-> dp_aux_native_handler() and dp_aux_i2c_handler() and, to me, that part
-> of this patch is worthwhile. That makes it more obvious that the code
-> is truly expecting that complete to be called for all error cases as
-> well as transfer finished.
->
+vim +/i915 +1072 drivers/gpu/drm/i915/i915_driver.c
 
-I think it may be required. We don't want to allow DP_INTR_PLL_UNLOCKED
-to complete() the transfer.
+71386ef9008817f drivers/gpu/drm/i915/i915_drv.c Oscar Mateo           2014-07-24  1057  
+0673ad472b9849a drivers/gpu/drm/i915/i915_drv.c Chris Wilson          2016-06-24  1058  /**
+0673ad472b9849a drivers/gpu/drm/i915/i915_drv.c Chris Wilson          2016-06-24  1059   * i915_driver_lastclose - clean up after all DRM clients have exited
+0673ad472b9849a drivers/gpu/drm/i915/i915_drv.c Chris Wilson          2016-06-24  1060   * @dev: DRM device
+0673ad472b9849a drivers/gpu/drm/i915/i915_drv.c Chris Wilson          2016-06-24  1061   *
+0673ad472b9849a drivers/gpu/drm/i915/i915_drv.c Chris Wilson          2016-06-24  1062   * Take care of cleaning up after all DRM clients have exited.  In the
+0673ad472b9849a drivers/gpu/drm/i915/i915_drv.c Chris Wilson          2016-06-24  1063   * mode setting case, we want to restore the kernel's initial mode (just
+0673ad472b9849a drivers/gpu/drm/i915/i915_drv.c Chris Wilson          2016-06-24  1064   * in case the last client left us in a bad state).
+0673ad472b9849a drivers/gpu/drm/i915/i915_drv.c Chris Wilson          2016-06-24  1065   *
+0673ad472b9849a drivers/gpu/drm/i915/i915_drv.c Chris Wilson          2016-06-24  1066   * Additionally, in the non-mode setting case, we'll tear down the GTT
+0673ad472b9849a drivers/gpu/drm/i915/i915_drv.c Chris Wilson          2016-06-24  1067   * and DMA structures, since the kernel won't be using them, and clea
+0673ad472b9849a drivers/gpu/drm/i915/i915_drv.c Chris Wilson          2016-06-24  1068   * up any GEM state.
+0673ad472b9849a drivers/gpu/drm/i915/i915_drv.c Chris Wilson          2016-06-24  1069   */
+0673ad472b9849a drivers/gpu/drm/i915/i915_drv.c Chris Wilson          2016-06-24  1070  static void i915_driver_lastclose(struct drm_device *dev)
+0673ad472b9849a drivers/gpu/drm/i915/i915_drv.c Chris Wilson          2016-06-24  1071  {
+5df7bd130818dfd drivers/gpu/drm/i915/i915_drv.c José Roberto de Souza 2021-04-08 @1072  	struct drm_i915_private *i915 = to_i915(dev);
+5df7bd130818dfd drivers/gpu/drm/i915/i915_drv.c José Roberto de Souza 2021-04-08  1073  
+0673ad472b9849a drivers/gpu/drm/i915/i915_drv.c Chris Wilson          2016-06-24  1074  	intel_fbdev_restore_mode(dev);
+5df7bd130818dfd drivers/gpu/drm/i915/i915_drv.c José Roberto de Souza 2021-04-08  1075  
+0673ad472b9849a drivers/gpu/drm/i915/i915_drv.c Chris Wilson          2016-06-24  1076  	vga_switcheroo_process_delayed_switch();
+0673ad472b9849a drivers/gpu/drm/i915/i915_drv.c Chris Wilson          2016-06-24  1077  }
+2911a35b2e4eb87 drivers/gpu/drm/i915/i915_drv.c Ben Widawsky          2012-04-05  1078  
 
-[1] https://lore.kernel.org/all/CAE-0n5100eGC0c09oq4B3M=aHtKW5+wGLGsS1jM91SCyZ5wffQ@mail.gmail.com/
+:::::: The code at line 1072 was first introduced by commit
+:::::: 5df7bd130818dfdc9047c2a81b19737d66e55f9a drm/i915: skip display initialization when there is no display
+
+:::::: TO: José Roberto de Souza <jose.souza@intel.com>
+:::::: CC: José Roberto de Souza <jose.souza@intel.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
