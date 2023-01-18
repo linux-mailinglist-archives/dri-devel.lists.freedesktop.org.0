@@ -1,58 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 266506723AB
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 17:41:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4001B6723AD
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 17:41:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 081A310E7A1;
-	Wed, 18 Jan 2023 16:41:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 741DE10E79A;
+	Wed, 18 Jan 2023 16:41:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com
- [209.85.161.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8849410E79A;
- Wed, 18 Jan 2023 16:41:01 +0000 (UTC)
-Received: by mail-oo1-f44.google.com with SMTP id
- b10-20020a4a9fca000000b004e6f734c6b4so8901606oom.9; 
- Wed, 18 Jan 2023 08:41:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9wKMQGGFU1eDeX8/jjd9sz0V6MAyY1fPhZwcj43WxgQ=;
- b=L5fwTpWmpglC1ygf/lipSUBm4Ktxmgar/l2w53vbAJGPUzE7E8jkdUG0p8/oLyJL/F
- +c+iBcOHlxZy+0PQGT8MIGOY4GZBRuLCvWXtdLWu9KWu5tH9FuZjA0V5AM+UJH9QBDgp
- CREeA2toNaQ861UC4b+pJi332ERWTN1lpX3Y2378zLl51yzUcVt+MVnZ8+yAlpPqqvRX
- YksKjrPzqtm4TxuocIZmihmdJstIKSFdDb9cRVNvrjY0SVKmhTnDm6WnFH+ViGv/x5S8
- 0ggnQt8g69PEtJV9jjL29LOzn2v3Q/TDGMGVreAggIqOzusDOByWPhL3cMDvPrzKTrpS
- IeJg==
-X-Gm-Message-State: AFqh2kqZLJMn/s7PlML3pTGnyJDS896gIkZpgTND2tei/Elapz0EiNqg
- 39xdAeu+fDv9D8HsZhuyWg==
-X-Google-Smtp-Source: AMrXdXv21zuVYxlMQ03/7MY98M38etX9IZNwquD4snNv+52kcYs0MYyLe7bGSngYF2QI5Pp3Ghb1pA==
-X-Received: by 2002:a05:6820:171:b0:4f1:f5ae:6b5f with SMTP id
- k17-20020a056820017100b004f1f5ae6b5fmr3373188ood.2.1674060060828; 
- Wed, 18 Jan 2023 08:41:00 -0800 (PST)
-Received: from robh_at_kernel.org ([4.31.143.193])
- by smtp.gmail.com with ESMTPSA id
- s23-20020a4ae557000000b0049f5ce88583sm16728716oot.7.2023.01.18.08.41.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jan 2023 08:41:00 -0800 (PST)
-Received: (nullmailer pid 137661 invoked by uid 1000);
- Wed, 18 Jan 2023 16:40:59 -0000
-Date: Wed, 18 Jan 2023 10:40:59 -0600
-From: Rob Herring <robh@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 4/4] dt-binbings: display/msm: dsi-controller-main: add
- missing supplies
-Message-ID: <167406005824.137582.10336637561777246237.robh@kernel.org>
-References: <20230118032432.1716616-1-dmitry.baryshkov@linaro.org>
- <20230118032432.1716616-5-dmitry.baryshkov@linaro.org>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 035E410E79A;
+ Wed, 18 Jan 2023 16:41:22 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30IDXXfX010565; Wed, 18 Jan 2023 16:41:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=Y9XvVsgZtfiJU+TGMK6ayQeYUjzHqxFHiVG/iyk0BDk=;
+ b=T92gk4Xq/g10cpd+nuU0WRwUjIpy6H7qoyEmXcsJAU1kMglmdaYEO5REH/pCl4l49qk2
+ KJgcxg1rwxwuzkbeznluULU1dzQfZEJAayW1lJxAKKqqViTD/UCXh8sHu86tcMwTh3Xu
+ XdByUxGotLAENncFqizyM1f/PL7/AUJtOM7Ya8aSmXkboKkX/ooKnORNMKQCaxPuzqF+
+ DL360tGmzaUJjmT3LDUbhrc7vkhVbnR0Xm7F3xlE1j2Sd6c2iYWfXkLVdaVQi/q7HHsd
+ 1rKPfZd5qu3ZVEB799sZm8Juo+FwNJpKi+Z30OeP+DgxALAs7SxJq+DBZQx9TVLZHBH5 iQ== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n69uysbuw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Jan 2023 16:41:20 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30IGfJB8027270
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Jan 2023 16:41:19 GMT
+Received: from JESSZHAN.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Wed, 18 Jan 2023 08:41:19 -0800
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+Subject: [PATCH v2] drm/msm/dpu: Reapply CTM if modeset is needed
+Date: Wed, 18 Jan 2023 08:41:03 -0800
+Message-ID: <20230118164103.325-1-quic_jesszhan@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230118032432.1716616-5-dmitry.baryshkov@linaro.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: b9hdTQpZ-XAHFGB3c1Webb3DKE3iG95p
+X-Proofpoint-GUID: b9hdTQpZ-XAHFGB3c1Webb3DKE3iG95p
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-18_05,2023-01-18_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ impostorscore=0 adultscore=0 suspectscore=0 bulkscore=0 mlxlogscore=903
+ spamscore=0 mlxscore=0 phishscore=0 clxscore=1015 priorityscore=1501
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301180139
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,25 +78,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Andy Gross <agross@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Sean Paul <sean@poorly.run>
+Cc: quic_kalyant@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
+ Jessica Zhang <quic_jesszhan@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add a !drm_atomic_crtc_needs_modeset() check to
+_dpu_crtc_setup_cp_blocks() so that CTM is reapplied if the LM/DSPP
+blocks were reallocated during modeset.
 
-On Wed, 18 Jan 2023 05:24:32 +0200, Dmitry Baryshkov wrote:
-> Describe DSI supplies used on apq8064 (vdda-supply) and msm8994/96
-> (vcca-supply).
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  .../bindings/display/msm/dsi-controller-main.yaml         | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
+Changes in V2:
+- Fixed commit message
 
-Acked-by: Rob Herring <robh@kernel.org>
+Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/23
+Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 13ce321283ff..aa120a230222 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -748,7 +748,7 @@ static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
+ 	int i;
+ 
+ 
+-	if (!state->color_mgmt_changed)
++	if (!state->color_mgmt_changed && !drm_atomic_crtc_needs_modeset(state))
+ 		return;
+ 
+ 	for (i = 0; i < cstate->num_mixers; i++) {
+-- 
+2.39.0
+
