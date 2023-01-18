@@ -2,76 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11DB2671654
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 09:31:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 735DA671686
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 09:51:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E97110E10D;
-	Wed, 18 Jan 2023 08:31:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A93E610E038;
+	Wed, 18 Jan 2023 08:51:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A50B110E6AF
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 08:31:42 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- k22-20020a05600c1c9600b003d1ee3a6289so905485wms.2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 00:31:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=2FDgSbulMxqh8bJCVvaKW6jduWu4I6+VrLpKYgPu86A=;
- b=lldRZHujADSvC2AzvlNq0hQC5y9ycNBfDEJjxeEznE/3M2qN9Nej62QhA//wDdMT2O
- Q8ih3gKAHHMTa7iJ8CopXleFmX8NrkMNAJvnt37bGcp+siGLC9ZjAmhlrFONM/g9tojN
- pfyuWZ1+ul6XMqEpEMlzDFpvxgpjhEtbQ8AhQTe0/zwtHEA0i7cglGI9rHPR/2d2adVr
- lLW8PacGnIPVyDbXhwka4BjTqIo/3hTb4iXk15XNKtf2SHIEScDxb35zGgpv42mdat/j
- TppeWXtgEFpsZGFFWBeFRhCySyz7jQq5TBs8kPCGQdtsqrcnR28+hrDrYbQUcD1HnkA7
- S2ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2FDgSbulMxqh8bJCVvaKW6jduWu4I6+VrLpKYgPu86A=;
- b=ge0QN1FLJbJIYSbIv8RLJgJ2su/V2Fonkgzk18Z1Mpf+ZJWtzriUmPzCNil1heLlkX
- t0z4Oq9y0igD5V2KV6S4h/NU+wBwFlNMCYbmBGufODNUrhcXatxE6Nmko3ed48HPirCG
- vU10Rv4UpQ4C+7i6AcvECd32qXX2PkrlzYY0oKf36hEnxYSfbeNuKyd/rWq6muqGg7+N
- tbaLRkkvZbstKbmZ92N5ompYhdbo+UXPyXmyCSQVvS/eBwOx57CxqJNgsZbjqoC2h0aO
- ekygPLTwQ8ZBrmJLqzkIo+84HqWV9r6zW81dF5e0vBJ384dip2Mq7UcZ3/y7eFU1zeeh
- juQg==
-X-Gm-Message-State: AFqh2kqp5WkOfq1zatI9qKQ4AfDCn0x2DEy4pIWsxFh1iG4fijtkO+xz
- i2i71A8WxMj/vvNjveACf0TL5A==
-X-Google-Smtp-Source: AMrXdXsYZXZXzEMu4ruHeIipH+Z/JwznqeLXjYAqXwewSWN7F0LEUaDnAz3t1/0DCzIKdpuRrHHxog==
-X-Received: by 2002:a05:600c:d2:b0:3da:f475:6480 with SMTP id
- u18-20020a05600c00d200b003daf4756480mr5797426wmm.7.1674030701147; 
- Wed, 18 Jan 2023 00:31:41 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:37dc:5071:959c:93e4?
- ([2a01:e0a:982:cbb0:37dc:5071:959c:93e4])
- by smtp.gmail.com with ESMTPSA id
- f24-20020a05600c491800b003d9e74dd9b2sm1253741wmp.9.2023.01.18.00.31.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 00:31:40 -0800 (PST)
-Message-ID: <8058263f-28c1-d47d-9880-342e6f378980@linaro.org>
-Date: Wed, 18 Jan 2023 09:31:39 +0100
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3924910E00A
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 08:51:18 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 98CD5320029B;
+ Wed, 18 Jan 2023 03:51:12 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Wed, 18 Jan 2023 03:51:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1674031872; x=1674118272; bh=9KUlsgI3dn
+ S0cospHZM0OdIrpPKgU9PSIeNZux/mzes=; b=VHpuXgGRlkv5xc8SExS+dg31iB
+ +Q+CYFjSv9ud6aswis1izSDAblf05ZPwclFetYjnu8f9MfsaYSxXhZmiXlvEQRk4
+ 2ZYkw7NleykQ9es6UTxzMIFiCgtywrbKreB9QP9eLKmcKacjfKiGptdJiNq3/tQA
+ Ap5ddP/R65lrHO29TZH7TX7F0swpIs7wogcyEivQnA2upeFwzqs3eyp97pdx3TND
+ y8RvcNsiyLmbtq8h5dqltyilugYulmbpA1RprvzoQ2TFxTaxzVU94TkidxOQUQOP
+ plreSci1FPoUwBbXEpJF6tomUxovNJ50vp0QyyJxWvdDzjLZvB+6KLC2E2SQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1674031872; x=1674118272; bh=9KUlsgI3dnS0cospHZM0OdIrpPKg
+ U9PSIeNZux/mzes=; b=rjz5pqWyZcUB3WkTJowupxeNrhtn1dvu8BqR8VDJKlia
+ /bxpnMP+NuFG40RzAxgYOI+GYH3EP8O2msetwFdQHV6hvkzeLDEOBL4b10d+H//+
+ WgxWpuf1qSpoKmer3WFBjlUwgmWyyYJ7LRDKicEpvRc6qyPvpTfSHpL1vU9tMzeJ
+ GvuIvISNbPeWKIUMEVsZYBO9+cJfMAiPTZKaWS61P2y+57NnGoJvC7EEH/E6nUkr
+ 4LchYH0AEOhlBN3uZHHkJtkppQJXj2Qm1GtWDQjAGh+GEZkyTv9LDXFss2LURCfY
+ 3hipnsWh+4oQPbgxPCt5RQGWxNT5PRDT6V7KLT1rfA==
+X-ME-Sender: <xms:_7LHYyUZ3W6_D0KDonQUvuqXT52av5tAtXbIb-IdyCRndIdlN953sw>
+ <xme:_7LHY-kOzWReXpWtrWdMqsy5feqDqeRNu94yZS38dizVRGbo6IZ98FJQEf9Pxbxbm
+ Hl9z9plykKvGDKoIDc>
+X-ME-Received: <xmr:_7LHY2YH4eqzPjJjuFr8iJsyFvPazhCNAly9u0GRWxsAA8Ck5m3hHtag647kf-Ahz5ipW_YUjkW0-Em4Oqx6ecI94t4vKMIuM6wjXQ3zcqHHvg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtjedguddvkecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheeh
+ fffhvedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:_7LHY5U2Ybl6Oa0fGtX5eIMw9jzassbK-x78IIAttHDpoDDBlDeOFA>
+ <xmx:_7LHY8nfDQkoggn6SyxTl4ryUQMgvZnlopw_ROiFy1XwjRoPSWGFXQ>
+ <xmx:_7LHY-d6KW7OhfEBhpBRdCYPwofC_WAMgkKUWiHhzYAszG1Pb0I-1w>
+ <xmx:ALPHY6wcHIrClecEzdSuS6AP4OF_h2lEUu5RYDdVIow0CBot5Y0DSQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 18 Jan 2023 03:51:10 -0500 (EST)
+Date: Wed, 18 Jan 2023 09:51:08 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Chris Morgan <macroalpha82@gmail.com>
+Subject: Re: [PATCH V10 1/4] drm: of: Add drm_of_get_dsi_bus helper function
+Message-ID: <20230118085108.huhhod43ixwe7pwk@houat>
+References: <20230112175358.421975-1-macroalpha82@gmail.com>
+ <20230112175358.421975-2-macroalpha82@gmail.com>
+ <20230117165819.4rx7aucvyp5e2rj6@houat>
+ <63c6f329.050a0220.82479.85d4@mx.google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 12/13] drm/bridge: lt9611: stop filtering modes via the
- table
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-References: <20230118081658.2198520-1-dmitry.baryshkov@linaro.org>
- <20230118081658.2198520-13-dmitry.baryshkov@linaro.org>
-Organization: Linaro Developer Services
-In-Reply-To: <20230118081658.2198520-13-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="rybdiaw5plw7ten3"
+Content-Disposition: inline
+In-Reply-To: <63c6f329.050a0220.82479.85d4@mx.google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,97 +85,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
+ krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, thierry.reding@gmail.com, tzimmermann@suse.de,
+ maccraft123mc@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/01/2023 09:16, Dmitry Baryshkov wrote:
-> The lt9611 bridge can support different modes, it makes no sense to list
-> them in the table. Drop the table and check the number of interfaces
-> using the fixed value.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/bridge/lontium-lt9611.c | 49 ++++++-------------------
->   1 file changed, 12 insertions(+), 37 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> index 82af1f954cc6..c2cd36d926a0 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> @@ -84,24 +84,6 @@ static const struct regmap_config lt9611_regmap_config = {
->   	.num_ranges = ARRAY_SIZE(lt9611_ranges),
->   };
->   
-> -struct lt9611_mode {
-> -	u16 hdisplay;
-> -	u16 vdisplay;
-> -	u8 vrefresh;
-> -	u8 lanes;
-> -	u8 intfs;
-> -};
-> -
-> -static struct lt9611_mode lt9611_modes[] = {
-> -	{ 3840, 2160, 30, 4, 2 }, /* 3840x2160 24bit 30Hz 4Lane 2ports */
-> -	{ 1920, 1080, 60, 4, 1 }, /* 1080P 24bit 60Hz 4lane 1port */
-> -	{ 1920, 1080, 30, 3, 1 }, /* 1080P 24bit 30Hz 3lane 1port */
-> -	{ 1920, 1080, 24, 3, 1 },
-> -	{ 720, 480, 60, 4, 1 },
-> -	{ 720, 576, 50, 2, 1 },
-> -	{ 640, 480, 60, 2, 1 },
-> -};
-> -
->   static struct lt9611 *bridge_to_lt9611(struct drm_bridge *bridge)
->   {
->   	return container_of(bridge, struct lt9611, bridge);
-> @@ -603,21 +585,6 @@ static int lt9611_regulator_enable(struct lt9611 *lt9611)
->   	return 0;
->   }
->   
-> -static struct lt9611_mode *lt9611_find_mode(const struct drm_display_mode *mode)
-> -{
-> -	int i;
-> -
-> -	for (i = 0; i < ARRAY_SIZE(lt9611_modes); i++) {
-> -		if (lt9611_modes[i].hdisplay == mode->hdisplay &&
-> -		    lt9611_modes[i].vdisplay == mode->vdisplay &&
-> -		    lt9611_modes[i].vrefresh == drm_mode_vrefresh(mode)) {
-> -			return &lt9611_modes[i];
-> -		}
-> -	}
-> -
-> -	return NULL;
-> -}
-> -
->   static enum drm_connector_status lt9611_bridge_detect(struct drm_bridge *bridge)
->   {
->   	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
-> @@ -832,12 +799,20 @@ static enum drm_mode_status lt9611_bridge_mode_valid(struct drm_bridge *bridge,
->   						     const struct drm_display_info *info,
->   						     const struct drm_display_mode *mode)
->   {
-> -	struct lt9611_mode *lt9611_mode = lt9611_find_mode(mode);
->   	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
->   
-> -	if (!lt9611_mode)
-> -		return MODE_BAD;
-> -	else if (lt9611_mode->intfs > 1 && !lt9611->dsi1)
-> +	if (mode->hdisplay > 3840)
-> +		return MODE_BAD_HVALUE;
-> +
-> +	if (mode->vdisplay > 2160)
-> +		return MODE_BAD_VVALUE;
-> +
-> +	if (mode->hdisplay == 3840 &&
-> +	    mode->vdisplay == 2160 &&
-> +	    drm_mode_vrefresh(mode) > 30)
-> +		return MODE_CLOCK_HIGH;
-> +
-> +	if (mode->hdisplay > 2000 && !lt9611->dsi1_node)
->   		return MODE_PANEL;
->   	else
->   		return MODE_OK;
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+--rybdiaw5plw7ten3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jan 17, 2023 at 01:12:39PM -0600, Chris Morgan wrote:
+> On Tue, Jan 17, 2023 at 05:58:19PM +0100, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Thu, Jan 12, 2023 at 11:53:55AM -0600, Chris Morgan wrote:
+> > > From: Chris Morgan <macromorgan@hotmail.com>
+> > >=20
+> > > Add helper function to find DSI host for devices where DSI panel is n=
+ot
+> > > a minor of a DSI bus (such as the Samsung AMS495QA01 panel or the
+> > > official Raspberry Pi touchscreen display).
+> > >=20
+> > > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > > Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_of.c | 70 ++++++++++++++++++++++++++++++++++++++=
+++
+> > >  include/drm/drm_of.h     | 10 ++++++
+> > >  2 files changed, 80 insertions(+)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+> > > index 7bbcb999bb75..6c2c97a716fe 100644
+> > > --- a/drivers/gpu/drm/drm_of.c
+> > > +++ b/drivers/gpu/drm/drm_of.c
+> > > @@ -10,6 +10,7 @@
+> > >  #include <drm/drm_crtc.h>
+> > >  #include <drm/drm_device.h>
+> > >  #include <drm/drm_encoder.h>
+> > > +#include <drm/drm_mipi_dsi.h>
+> > >  #include <drm/drm_of.h>
+> > >  #include <drm/drm_panel.h>
+> > > =20
+> > > @@ -493,3 +494,72 @@ int drm_of_get_data_lanes_count_ep(const struct =
+device_node *port,
+> > >  	return ret;
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(drm_of_get_data_lanes_count_ep);
+> > > +
+> > > +#if IS_ENABLED(CONFIG_DRM_MIPI_DSI)
+> > > +
+> > > +/**
+> > > + * drm_of_get_dsi_bus - find the DSI bus for a given device
+> > > + * @dev: parent device of display (SPI, I2C)
+> > > + * @info: DSI device info to be updated with DSI node. This is optio=
+nal
+> > > + * and if not needed can be NULL.
+> > > + *
+> > > + * Gets parent DSI bus for a DSI device controlled through a bus oth=
+er
+> > > + * than MIPI-DCS (SPI, I2C, etc.) using the Device Tree.
+> > > + *
+> > > + * Returns pointer to mipi_dsi_host if successful, -EINVAL if the
+> > > + * request is unsupported, -EPROBE_DEFER if the DSI host is found but
+> > > + * not available, or -ENODEV otherwise.
+> > > + */
+> > > +struct mipi_dsi_host *drm_of_get_dsi_bus(struct device *dev,
+> > > +					 struct mipi_dsi_device_info *info)
+> > > +{
+> > > +	struct mipi_dsi_host *dsi_host;
+> > > +	struct device_node *endpoint, *dsi_host_node;
+> > > +
+> > > +	/*
+> > > +	 * Get first endpoint child from device.
+> > > +	 */
+> > > +	endpoint =3D of_graph_get_next_endpoint(dev->of_node, NULL);
+> > > +	if (!endpoint)
+> > > +		return ERR_PTR(-ENODEV);
+> > > +
+> > > +	/*
+> > > +	 * Follow the first endpoint to get the DSI host node.
+> > > +	 */
+> > > +	dsi_host_node =3D of_graph_get_remote_port_parent(endpoint);
+> > > +	if (!dsi_host_node)
+> > > +		goto error;
+> > > +
+> > > +	/*
+> > > +	 * Get the DSI host from the DSI host node. If we get an error
+> > > +	 * or the return is null assume we're not ready to probe just
+> > > +	 * yet. Release the DSI host node since we're done with it.
+> > > +	 */
+> > > +	dsi_host =3D of_find_mipi_dsi_host_by_node(dsi_host_node);
+> > > +	of_node_put(dsi_host_node);
+> > > +	if (IS_ERR_OR_NULL(dsi_host)) {
+> > > +		of_node_put(endpoint);
+> > > +		return ERR_PTR(-EPROBE_DEFER);
+> > > +	}
+> > > +
+> > > +	/*
+> > > +	 * Set the node of the mipi_dsi_device_info to the correct node
+> > > +	 * and then release the endpoint node since we're done with it.
+> > > +	 * since this is optional, check if the info is NULL first.
+> > > +	 */
+> > > +	if (info) {
+> > > +		info->node =3D of_graph_get_remote_port(endpoint);
+> >=20
+> > it looks to me that the info->node is actually the DSI device OF node,
+> > not its host port. Which begs the question, why should we even return it
+> > there, since there's a pretty big chance that dev->of.node =3D=3D
+> > info->node, and you obviously don't care about the channel and type fie=
+lds.
+> >=20
+> > I've had a look and node of the current users of
+> > mipi_dsi_device_register_full actually register a mipi_dsi_device_info
+> > with a node pointer set to !NULL, including the driver in this series.
+> >=20
+> > So, why do we care about the device info at all?
+>
+> I honestly thought it might be useful, but I can try without it.
+
+It might tbh, but it doesn't look like you use it in your driver. You have:
+
+struct mipi_dsi_device_info info =3D {
+	.type =3D "d53e6ea8966",
+	.channel =3D 0,
+	.node =3D NULL,
+};
+
+=2E..
+
+// info.node is NULL so far
+dsi_host =3D drm_of_get_dsi_bus(dev, &info);
+
+=2E..
+
+// info.node has been filled to the port node by drm_of_get_dsi_bus()
+db->dsi_dev =3D devm_mipi_dsi_device_register_full(dev, dsi_host, &info);
+
+// db->dsi_dev.dev.of_node is now set to the port node
+
+But if we grep through drm_mipi_dsi.c, we can see that the of_node is
+only really useful if we're using of_find_mipi_dsi_device_by_node, and
+it looks like you don't.
+
+So nothing uses info->node, which also explains why not reporting the
+proper node has been working.
+
+Looking more into the code, it really looks to me that info->node should
+be equal to the your panel device tree node, that's what
+of_mipi_dsi_device_add does at least.
+
+if info->node =3D=3D dev->of_node, and if info->node is the only thing
+filled by drm_of_get_dsi_bus(), then it doesn't need to fill it at all
+because it's already accessible easily to the caller (and even more
+easily than to the callee).
+
+So yeah, until we have a real-world need to retrieve the info function I
+think we should leave it aside for now, and we can always change the API
+later if we need to.
+
+Maxime
+
+--rybdiaw5plw7ten3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY8ey/AAKCRDj7w1vZxhR
+xVS/AQDUdnSGblEzWLEWmRten0nr00zGWqhrXBNcMiHWRnUERgD+JwQ2k5RXvHoW
+kEDhs0Tdt0wE9hYtSODBYAEGVjWMewo=
+=R/IG
+-----END PGP SIGNATURE-----
+
+--rybdiaw5plw7ten3--
