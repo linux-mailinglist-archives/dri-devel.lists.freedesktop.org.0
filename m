@@ -2,42 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 249056712C7
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 05:48:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F08F06712CA
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 05:50:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9485410E046;
-	Wed, 18 Jan 2023 04:48:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF56E10E67A;
+	Wed, 18 Jan 2023 04:50:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BEC810E046;
- Wed, 18 Jan 2023 04:48:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1674017295; bh=CrkLUeMtrNdwnxo7dSQaVwIRujSfMbGdt5IVuAFQz3k=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
- MIME-Version:Content-Type:In-Reply-To;
- b=DrUYygIy8N0vpXuxg5PaiBxDOdSmFRoXgm3FAnIuReaTrFLWDpDYq9pAtZHcwLkPR
- e/rWsAqZ1JT+sLxgQ7bBgx6yu7l36GrfPy1JEEXuHRrxFFYimGFFs508YtEmHzVyYm
- AaNGoO6EVCVifJK3yz9ZTHy2z1VThMG8BXsANbgI=
-Received: by b-4.in.mailobj.net [192.168.90.14] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Wed, 18 Jan 2023 05:48:15 +0100 (CET)
-X-EA-Auth: 0H2RaE5We5J7qEl4sTPdiDLLdShReSlIjm3JvD6yCBtdwCoUmnZ1e4mcFnjvlIWsg/cpckZCiDWRzndLuqYvZuXD0zsTIdt6
-Date: Wed, 18 Jan 2023 10:18:11 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915/gvt: Avoid full proxy f_ops for
- vgpu_status debug attributes
-Message-ID: <Y8d6CwD3dHLKOUZ5@ubun2204.myguest.virtualbox.org>
-References: <cover.1673375066.git.drv@mailo.com>
- <188df08e0feba0cda2c92145f513dd4e57c6e6cf.1673375066.git.drv@mailo.com>
- <Y72zVXYLVHXuyK05@intel.com>
- <Y8TkTi+/GQwhiMvO@zhen-hp.sh.intel.com>
- <Y8b3IRhx976Ke99X@intel.com>
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2AC610E67A
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 04:50:34 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id bn6so35369975ljb.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 20:50:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
+ :from:references:in-reply-to:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mxHmCLyxCtxqovft70l3YWZ7M9nPAwuaYmzKmP5Vdk8=;
+ b=QHN9KuLNwUOEpAQz7/9/npcURu9nh3xi4LJG8DdLa3vO3LQMZdIxS+2rNCBviCh3oA
+ bBD7qjE1rLw3m/tVpdzEqpdHYfx9xcVyvpnGDYHzb28AWUwtQHhqtULHg+i86JB0uOmY
+ mCH1MaCVxU+yaR0WqvnG3OE8OYw+4tQjE2DIk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
+ :from:references:in-reply-to:mime-version:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=mxHmCLyxCtxqovft70l3YWZ7M9nPAwuaYmzKmP5Vdk8=;
+ b=Ojow+9M+E2lxcaOEn19EYSEtO/GAnZfo+Jn7RqwCk7VC/PLVM6gX8kim8PQQpsr3yI
+ fg4yjkp8Cbe3fxHTo+BGDOogmWOx0fsWHU1KiWeWswyJkQkhX7JiyMMHXWsJ/w83NerH
+ +W4NNy1fbr8a+v+6mjEhAtXlisn7KwtsTLLBUPIvyt9flgmGu/Il3BpfLlznwi3D1uGA
+ ETSDp6/F5DjJm+vHsl1bmUSE8VvOvWwcWXWEDmImeaV3q6DNZfKxluQLOM+CfIWkYASt
+ H2rC8qv9vpmt6TF/B7zGLAEHtpgWq8wvJtdxMAviB0Jd17DaWzt+YKmHBoiJRRIDz3qh
+ Jelg==
+X-Gm-Message-State: AFqh2kpyOK211FGB5wV6HEUemG/Qdwy05GItQ3lBkR2kkY3qlCqgydI5
+ FMxyHcsvxMsmkpHPhFfyVEMjWqyOzu28PPYfqe6uKw==
+X-Google-Smtp-Source: AMrXdXs1wB3tC8P9IFtpxqdvJAiuejEDy4DNJkFrxMFxuFOT6senstkO3M6au8sdTnY8QF0yYjtgWQ2Ygcu8p6F9+3o=
+X-Received: by 2002:a2e:a49a:0:b0:28b:6abf:29ea with SMTP id
+ h26-20020a2ea49a000000b0028b6abf29eamr496414lji.359.1674017433221; Tue, 17
+ Jan 2023 20:50:33 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 17 Jan 2023 20:50:32 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8b3IRhx976Ke99X@intel.com>
+In-Reply-To: <CAPY8ntCcHG2A7LHT-jVa9SzvPggxBP8z-t_3rEy+YY8UVHNL9A@mail.gmail.com>
+References: <20230106030108.2542081-1-swboyd@chromium.org>
+ <CAPY8ntA=Dq6GFQ3gEOm9PzPyOa9bHTr8JrpXLibnai7xKqRbpQ@mail.gmail.com>
+ <CAE-0n53UFuyYvjJUWViXy9Eex2mpBRJGtt4vGc2cbFZS9i8xFw@mail.gmail.com>
+ <CAPY8ntCcHG2A7LHT-jVa9SzvPggxBP8z-t_3rEy+YY8UVHNL9A@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Tue, 17 Jan 2023 20:50:32 -0800
+Message-ID: <CAE-0n52fLBLG2dkCe7376TrfoGLcVrYTHYnULNvnbVEZAT-CNw@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: boe-tv101wum-nl6: Ensure DSI writes succeed
+ during disable
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,98 +70,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- intel-gfx@lists.freedesktop.org, Saurabh Singh Sengar <ssengar@microsoft.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, Jitao Shi <jitao.shi@mediatek.com>,
+ yangcong <yangcong5@huaqin.corp-partner.google.com>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-mediatek@lists.infradead.org, patches@lists.linux.dev,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 17, 2023 at 02:29:37PM -0500, Rodrigo Vivi wrote:
-> On Mon, Jan 16, 2023 at 01:44:46PM +0800, Zhenyu Wang wrote:
-> > On 2023.01.10 13:49:57 -0500, Rodrigo Vivi wrote:
-> > > On Wed, Jan 11, 2023 at 12:00:12AM +0530, Deepak R Varma wrote:
-> > > > Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
-> > > > function adds the overhead of introducing a proxy file operation
-> > > > functions to wrap the original read/write inside file removal protection
-> > > > functions. This adds significant overhead in terms of introducing and
-> > > > managing the proxy factory file operations structure and function
-> > > > wrapping at runtime.
-> > > > As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
-> > > > with debugfs_create_file_unsafe() is suggested to be used instead.  The
-> > > > DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
-> > > > debugfs_file_put() wrappers to protect the original read and write
-> > > > function calls for the debug attributes. There is no need for any
-> > > > runtime proxy file operations to be managed by the debugfs core.
-> > > > Following coccicheck make command helped identify this change:
-> > > > 
-> > > > make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
-> > > > 
-> > > > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > > 
-> > > I believe these 2 gvt cases could be done in one patch.
-> > > But anyways,
-> > > 
-> > > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > > 
-> > > for both patches... and will leave these 2 patches for gvt folks
-> > > to apply. Unless they ack and I apply in the drm-intel along with the other ones.
-> > >
-> > 
-> > yeah, they're fine with me, feel free to apply them directly.
-> > 
-> > Acked-by: Zhenyu Wang <zhenyuw@linux.intel.com>
-> 
-> Unfortunately I got some conflicts when trying to apply on drm-intel-next.
-> 
-> We probably need a new version, and probably through gvt branches it
-> will be easier to handle conflicts if they appear.
+Quoting Dave Stevenson (2023-01-16 06:11:02)
+> Hi Stephen
+>
+> On Fri, 13 Jan 2023 at 21:12, Stephen Boyd <swboyd@chromium.org> wrote:
+> >
+> >
+> > Thanks for the info! It says "Drivers that need the underlying device t=
+o
+> > be powered to perform these operations will first need to make sure it=
+=E2=80=99s
+> > been properly enabled." Does that mean the panel driver needs to make
+> > sure the underlying dsi host device is powered? The sentence is too
+> > ambiguous for me to understand what 'drivers' and 'underlying device'
+> > are.
+>
+> The DSI host driver (ie in your case something under
+> drivers/gpu/drm/msm/dsi) should ensure that a transfer can be made,
+> regardless of state.
+>
+> I must say that this has been documented as the case, but doesn't
+> necessarily reflect reality in a number of drivers.
 
-Hello Rodrigo,
-Sure. I will send in a new version. I am current using linux-next git repo as my
-remote origin [tag 20230113]. Are there any specific instruction/location from
-where I should access the gvt branch?
+Alright, thanks for the clarification.
 
-Thank you.
+> >
+> > Cool. Glad that we can clean that up with your series.
+> >
+> > Is it wrong to split unprepare to a disable and unprepare phase? I'm no=
+t
+> > super keen on fixing 6.1 stable kernels by opting this driver into the
+> > ordering change. Splitting the phase into two is small and simple and
+> > works. I suspect changing the ordering may uncover more bugs, or be a
+> > larger task. I'd be glad to test that series[2] from you to get rid of
+> > [3].
+>
+> Ah, I hadn't realised it was a regression in a released kernel :(
+>
+> Splitting into a disable and unprepare is totally fine. Normally
+> disable would normally disable the panel and backlight (probably by
+> drm_panel before the panel disable call), with unprepare disabling
+> power and clocks
+>
+> Do note that AIUI you will be telling the panel to enter sleep mode
+> whilst video is still being transmitted. That should be safe as the
+> panel has to still be partially active to handle an exit sleep mode
+> command, but actually powering hardware down at that point could cause
+> DSI bus arbitration errors as clock or data lanes could be pulled down
+> when the host is trying to adopt HS or LP11.
+>
 
-> 
-> > 
-> > thanks!
-> > 
-> > > > ---
-> > > >  drivers/gpu/drm/i915/gvt/debugfs.c | 6 +++---
-> > > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/i915/gvt/debugfs.c b/drivers/gpu/drm/i915/gvt/debugfs.c
-> > > > index 03f081c3d9a4..baccbf1761b7 100644
-> > > > --- a/drivers/gpu/drm/i915/gvt/debugfs.c
-> > > > +++ b/drivers/gpu/drm/i915/gvt/debugfs.c
-> > > > @@ -165,7 +165,7 @@ static int vgpu_status_get(void *data, u64 *val)
-> > > >  	return 0;
-> > > >  }
-> > > >  
-> > > > -DEFINE_SIMPLE_ATTRIBUTE(vgpu_status_fops, vgpu_status_get, NULL, "0x%llx\n");
-> > > > +DEFINE_DEBUGFS_ATTRIBUTE(vgpu_status_fops, vgpu_status_get, NULL, "0x%llx\n");
-> > > >  
-> > > >  /**
-> > > >   * intel_gvt_debugfs_add_vgpu - register debugfs entries for a vGPU
-> > > > @@ -182,8 +182,8 @@ void intel_gvt_debugfs_add_vgpu(struct intel_vgpu *vgpu)
-> > > >  			    &vgpu_mmio_diff_fops);
-> > > >  	debugfs_create_file_unsafe("scan_nonprivbb", 0644, vgpu->debugfs, vgpu,
-> > > >  				   &vgpu_scan_nonprivbb_fops);
-> > > > -	debugfs_create_file("status", 0644, vgpu->debugfs, vgpu,
-> > > > -			    &vgpu_status_fops);
-> > > > +	debugfs_create_file_unsafe("status", 0644, vgpu->debugfs, vgpu,
-> > > > +				   &vgpu_status_fops);
-> > > >  }
-> > > >  
-> > > >  /**
-> > > > -- 
-> > > > 2.34.1
-> > > > 
-> > > > 
-> > > > 
-> 
-> 
+Ok. I don't think I'm running into that issue, but I have run into a
+different issue. I tried to split the prepare phase into enable and
+prepare with the DSI writes in the enable to make things symmetric but
+that totally failed. Now I get lots of timeouts when enabling the panel.
 
-
+This patch is still the best fix I have. Maybe with your series we can
+combine the unprepare and disable ops together again (i.e. revert this)
+so that power is removed immediately after sending the DSI commands?  Or
+is that not enough to avoid the DSI bus arbitration problems you're
+talking about? When is the host adopting HS or LP11 with regards to the
+bridge ops?
