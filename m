@@ -1,79 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD22672A26
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 22:15:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC836672A43
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 22:19:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 869EF10E842;
-	Wed, 18 Jan 2023 21:15:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B00C010E851;
+	Wed, 18 Jan 2023 21:19:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4789C10E842
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 21:15:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674076515;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RhtAeT2esZ1BGmhaTzW/+LOxjLKC5QJx+oLGoid9/jY=;
- b=Ac8aktbuh89uXn2WHE3aN5vUqB46QCi+a3UFVKpM1VkjRzN9P0mQoXSxfYaZ1FENN9F0wC
- Au3ZFOoTdE+yVHo80Wnfh442rdEzlYrh91GG7wfRpMT/xlfMA03l27OeKvjKa/jebAlFnO
- QxXCzwOsbN2KLOg3NNdY7jC+HU3Jxvg=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-297-i46IaG-1M1CiWsfuUS56IA-1; Wed, 18 Jan 2023 16:15:14 -0500
-X-MC-Unique: i46IaG-1M1CiWsfuUS56IA-1
-Received: by mail-vk1-f199.google.com with SMTP id
- t6-20020a1faa06000000b003e17e0a18b8so2798318vke.23
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 13:15:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:user-agent:content-transfer-encoding:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kj6mRVygT6QUP/wvKSN21DvH9DAAlDmgJyA5Hyjx0vM=;
- b=aAUXBfpQ6YKeYwaoz9qBJE6Xie6SL2RSXViwFGjh2MnXg0w5pb/MMr2ML9PLULYdKi
- GP7QGO2P3lXj+AA1/4cDRm+bxie4z86gJ9U1AwVUS2TAyWXyIdz5bUcEzN0+A7x+fuxr
- g60zB+pkqiLvxoERvlGvYyRU0qlX6VpvEqO3JgwfWUXDIyss0sjFDYolA4OMpbUqoggS
- C3fE+faX30H8zoqM2GUQX1xAA5ochTsBVQjE/Oo7nUsSEKo5KbnQXQSc6UdlRfjUn4I9
- TgGq2VScNirrwPCPZkksFEGKlOvmbFbrXysY46nB3K/RjPaaULvIOjG8YRBvNxQRKtwR
- rOmQ==
-X-Gm-Message-State: AFqh2kqBzud/9mRcY6nUThiktHC3VMqzIuqk2DFRTFowI5kztfUGliBF
- 0z9YcB/0S7uV5g1myqN3cKHE9LcgCN95kgZQ2lmvd2uQ4Sg84lgmiebiVQ7I4k/tlS2jPCsPQeg
- Jn4+dVcUpKPtJCEkMLD71A/0xdRGL
-X-Received: by 2002:a05:6102:440d:b0:3d3:ef7b:811 with SMTP id
- df13-20020a056102440d00b003d3ef7b0811mr5834888vsb.3.1674076513659; 
- Wed, 18 Jan 2023 13:15:13 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvlvAYX7NMH3LENEC6NgBFUsaiWOj+2yarTbefQvzZCnX3XRyFmfyDZlj5ag9c4D8dDBW50qw==
-X-Received: by 2002:a05:6102:440d:b0:3d3:ef7b:811 with SMTP id
- df13-20020a056102440d00b003d3ef7b0811mr5834875vsb.3.1674076513438; 
- Wed, 18 Jan 2023 13:15:13 -0800 (PST)
-Received: from ?IPv6:2600:4040:5c68:6800::feb? ([2600:4040:5c68:6800::feb])
- by smtp.gmail.com with ESMTPSA id
- bj3-20020a05620a190300b00705975d0054sm23124440qkb.19.2023.01.18.13.15.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jan 2023 13:15:13 -0800 (PST)
-Message-ID: <c532ea34f7854217064e0fe1a2b6444f878e9c67.camel@redhat.com>
-Subject: Re: [RESEND][PATCH] drm/nouveau/fb/ga102: Replace zero-length array
- of trailing structs with flex-array
-From: Lyude Paul <lyude@redhat.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>, Kees Cook
- <keescook@chromium.org>
-Date: Wed, 18 Jan 2023 16:15:11 -0500
-In-Reply-To: <Y7TNtQqunHIW8her@work>
-References: <20230103234835.never.378-kees@kernel.org> <Y7TNtQqunHIW8her@work>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC4EF10E851
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 21:19:09 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 101EF1056;
+ Wed, 18 Jan 2023 22:19:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1674076748;
+ bh=CKU+The6tLAYOGeIVtEZbOH0l539dEuFhGszSj4Nt7Y=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=vjbuVMK1H1ByzrYtixB+RMx8dqbPkhShk6hiKYTfGHTSPL+6azX6HUYDJb0syrni7
+ yRIJb3SsMeEfERSjGPf9e2WbGxOXqwTeHDINK1CpUSJbW97l58dLMg2kb8AeHgQLie
+ yHHUGzik97H8e9/092+eruKV/79R73L5KBj5hy6o=
+Date: Wed, 18 Jan 2023 23:19:06 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: Re: [PATCH 4/6] drm: rcar-du: Add quirk for H3 ES1 pclk WA
+Message-ID: <Y8hiStARYk1b2tdS@pendragon.ideasonboard.com>
+References: <20230117135154.387208-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20230117135154.387208-5-tomi.valkeinen+renesas@ideasonboard.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230117135154.387208-5-tomi.valkeinen+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,81 +47,193 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-hardening@vger.kernel.org, Ben Skeggs <bskeggs@redhat.com>,
- Gourav Samaiya <gsamaiya@nvidia.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi! Sorry for the late response, I've had my head buried in some regression=
-s
-from AMD for a while now and am now just catching up on my email.
+Hi Tomi,
 
-Does this still need to be pushed upstream?
+Thank you for the patch.
 
-On Tue, 2023-01-03 at 18:52 -0600, Gustavo A. R. Silva wrote:
-> On Tue, Jan 03, 2023 at 03:48:36PM -0800, Kees Cook wrote:
-> > Zero-length arrays are deprecated[1] and are being replaced with
-> > flexible array members in support of the ongoing efforts to tighten the
-> > FORTIFY_SOURCE routines on memcpy(), correctly instrument array indexin=
-g
-> > with UBSAN_BOUNDS, and to globally enable -fstrict-flex-arrays=3D3.
-> >=20
-> > Replace zero-length array with flexible-array member.
-> >=20
-> > This results in no differences in binary output.
-> >=20
-> > [1] https://github.com/KSPP/linux/issues/78
-> >=20
-> > Cc: Ben Skeggs <bskeggs@redhat.com>
-> > Cc: Karol Herbst <kherbst@redhat.com>
-> > Cc: Lyude Paul <lyude@redhat.com>
-> > Cc: David Airlie <airlied@gmail.com>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Gourav Samaiya <gsamaiya@nvidia.com>
-> > Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: nouveau@lists.freedesktop.org
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
->=20
-> Here is my RB again:
->=20
-> Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
->=20
-> Thanks!
-> --
-> Gustavo
->=20
-> > ---
-> > Sent before as: https://lore.kernel.org/all/20221118211207.never.039-ke=
-es@kernel.org/
-> > ---
-> >  drivers/gpu/drm/nouveau/include/nvfw/hs.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/nouveau/include/nvfw/hs.h b/drivers/gpu/dr=
-m/nouveau/include/nvfw/hs.h
-> > index 8c4cd08a7b5f..8b58b668fc0c 100644
-> > --- a/drivers/gpu/drm/nouveau/include/nvfw/hs.h
-> > +++ b/drivers/gpu/drm/nouveau/include/nvfw/hs.h
-> > @@ -52,7 +52,7 @@ struct nvfw_hs_load_header_v2 {
-> >  =09struct {
-> >  =09=09u32 offset;
-> >  =09=09u32 size;
-> > -=09} app[0];
-> > +=09} app[];
-> >  };
-> > =20
-> >  const struct nvfw_hs_load_header_v2 *nvfw_hs_load_header_v2(struct nvk=
-m_subdev *, const void *);
-> > --=20
-> > 2.34.1
-> >=20
->=20
+On Tue, Jan 17, 2023 at 03:51:52PM +0200, Tomi Valkeinen wrote:
+> rcar_du_crtc.c does a soc_device_match() in
+> rcar_du_crtc_set_display_timing() to find out if the SoC is H3 ES1, and
 
---=20
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+s/ES1/ES1.x/
 
+Same below.
+
+> if so, apply a WA.
+
+s/WA/workaround/
+
+Same below.
+
+> We will need another H3 ES1 check in the following patch, so rather than
+> adding more soc_device_match() calls, let's add a rcar_du_device_info
+> entry for the ES1, and a quirk flag,
+> RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY, for the WA.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c |  8 +---
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c  | 51 +++++++++++++++++++++++++-
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.h  |  1 +
+>  3 files changed, 52 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> index 3619e1ddeb62..f2d3266509cc 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> @@ -10,7 +10,6 @@
+>  #include <linux/clk.h>
+>  #include <linux/mutex.h>
+>  #include <linux/platform_device.h>
+> -#include <linux/sys_soc.h>
+>  
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+> @@ -204,11 +203,6 @@ static void rcar_du_escr_divider(struct clk *clk, unsigned long target,
+>  	}
+>  }
+>  
+> -static const struct soc_device_attribute rcar_du_r8a7795_es1[] = {
+> -	{ .soc_id = "r8a7795", .revision = "ES1.*" },
+> -	{ /* sentinel */ }
+> -};
+> -
+>  static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
+>  {
+>  	const struct drm_display_mode *mode = &rcrtc->crtc.state->adjusted_mode;
+> @@ -238,7 +232,7 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
+>  		 * no post-divider when a display PLL is present (as shown by
+>  		 * the workaround breaking HDMI output on M3-W during testing).
+>  		 */
+> -		if (soc_device_match(rcar_du_r8a7795_es1)) {
+> +		if (rcdu->info->quirks & RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY) {
+>  			target *= 2;
+>  			div = 1;
+>  		}
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> index c7c5217cfc1a..ba2e069fc0f7 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/pm.h>
+>  #include <linux/slab.h>
+> +#include <linux/sys_soc.h>
+>  #include <linux/wait.h>
+>  
+>  #include <drm/drm_atomic_helper.h>
+> @@ -386,6 +387,42 @@ static const struct rcar_du_device_info rcar_du_r8a7795_info = {
+>  	.dpll_mask =  BIT(2) | BIT(1),
+>  };
+>  
+> +static const struct rcar_du_device_info rcar_du_r8a7795_es1_info = {
+> +	.gen = 3,
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
+> +		  | RCAR_DU_FEATURE_VSP1_SOURCE
+> +		  | RCAR_DU_FEATURE_INTERLACED
+> +		  | RCAR_DU_FEATURE_TVM_SYNC,
+> +	.quirks = RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY,
+> +	.channels_mask = BIT(3) | BIT(2) | BIT(1) | BIT(0),
+> +	.routes = {
+> +		/*
+> +		 * R8A7795 has one RGB output, two HDMI outputs and one
+> +		 * LVDS output.
+> +		 */
+> +		[RCAR_DU_OUTPUT_DPAD0] = {
+> +			.possible_crtcs = BIT(3),
+> +			.port = 0,
+> +		},
+> +		[RCAR_DU_OUTPUT_HDMI0] = {
+> +			.possible_crtcs = BIT(1),
+> +			.port = 1,
+> +		},
+> +		[RCAR_DU_OUTPUT_HDMI1] = {
+> +			.possible_crtcs = BIT(2),
+> +			.port = 2,
+> +		},
+> +		[RCAR_DU_OUTPUT_LVDS0] = {
+> +			.possible_crtcs = BIT(0),
+> +			.port = 3,
+> +		},
+> +	},
+> +	.num_lvds = 1,
+> +	.num_rpf = 5,
+> +	.dpll_mask =  BIT(2) | BIT(1),
+> +};
+> +
+>  static const struct rcar_du_device_info rcar_du_r8a7796_info = {
+>  	.gen = 3,
+>  	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> @@ -576,6 +613,11 @@ static const struct of_device_id rcar_du_of_table[] = {
+>  
+>  MODULE_DEVICE_TABLE(of, rcar_du_of_table);
+>  
+> +static const struct soc_device_attribute rcar_du_soc_table[] = {
+> +	{ .soc_id = "r8a7795", .revision = "ES1.*", .data = &rcar_du_r8a7795_es1_info },
+> +	{ /* sentinel */ }
+> +};
+> +
+>  const char *rcar_du_output_name(enum rcar_du_output output)
+>  {
+>  	static const char * const names[] = {
+> @@ -670,6 +712,7 @@ static int rcar_du_probe(struct platform_device *pdev)
+>  	struct rcar_du_device *rcdu;
+>  	unsigned int mask;
+>  	int ret;
+> +	const struct soc_device_attribute *soc_attr;
+
+Please move this up before rcdu.
+
+>  
+>  	if (drm_firmware_drivers_only())
+>  		return -ENODEV;
+> @@ -681,7 +724,13 @@ static int rcar_du_probe(struct platform_device *pdev)
+>  		return PTR_ERR(rcdu);
+>  
+>  	rcdu->dev = &pdev->dev;
+> -	rcdu->info = of_device_get_match_data(rcdu->dev);
+> +
+> +	soc_attr = soc_device_match(rcar_du_soc_table);
+> +	if (soc_attr)
+> +		rcdu->info = soc_attr->data;
+> +
+> +	if (!rcdu->info)
+> +		rcdu->info = of_device_get_match_data(rcdu->dev);
+
+As Geert mentioned,
+
+	rcdu->info = of_device_get_match_data(rcdu->dev);
+
+	soc_attr = soc_device_match(rcar_du_soc_table);
+	if (soc_attr)
+		rcdu->info = soc_attr->data;
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+>  
+>  	platform_set_drvdata(pdev, rcdu);
+>  
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> index 5cfa2bb7ad93..df87ccab146f 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> @@ -34,6 +34,7 @@ struct rcar_du_device;
+>  #define RCAR_DU_FEATURE_NO_BLENDING	BIT(5)	/* PnMR.SPIM does not have ALP nor EOR bits */
+>  
+>  #define RCAR_DU_QUIRK_ALIGN_128B	BIT(0)	/* Align pitches to 128 bytes */
+> +#define RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY BIT(1)	/* H3 ES1 has pclk stability issue */
+>  
+>  enum rcar_du_output {
+>  	RCAR_DU_OUTPUT_DPAD0,
+
+-- 
+Regards,
+
+Laurent Pinchart
