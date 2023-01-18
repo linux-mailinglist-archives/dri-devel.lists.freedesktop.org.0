@@ -2,83 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76D867215C
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 16:35:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA63A672162
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 16:35:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97F8E10E76D;
-	Wed, 18 Jan 2023 15:35:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DFC310E76C;
+	Wed, 18 Jan 2023 15:35:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2637F10E1ED
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 15:35:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674056102;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vpTQpjYNAk3XvtyK5ZGAiy3XmVPFLh4QlSlt0JHPp3g=;
- b=GluTs5Bt8h1q3AW8kYShfGN21cc7xXeyhlMUSD2f6s0MtFahH1QwMrVYombJXtFt2lPgaz
- Hk5GvgRPM2Yb6IuLx6uZFkqkDROatg2Ww+32TetWjXoQ3u+LVtwY6IOM+ED2NKZlaatDTz
- THJFMEgiUsNIv0PBv1RVjEB/4GHFQ7g=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-128-m_YPTAtOMJa3fSN6z6b-sw-1; Wed, 18 Jan 2023 10:35:00 -0500
-X-MC-Unique: m_YPTAtOMJa3fSN6z6b-sw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- y21-20020a056402359500b0049e171c4ad0so6541892edc.6
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 07:35:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vpTQpjYNAk3XvtyK5ZGAiy3XmVPFLh4QlSlt0JHPp3g=;
- b=gjBTN7BUHXpMivvn8rKkOZNQsJPL4uEMLiXN9+Ru5lnC9vNum7WcjHnoxKOCDs5l+Y
- 9pzAHRHx64IGpg0qpPZVogzya6l8QgOvdqFCAjOURT2PnzwS1WralzEzL07hj8KheVoC
- RmYcCGGtnrjcNro7oFC8yExsMdaeivMaTeV5QPwRRHllZ474hvyBSc95zsKBwbdCSOBC
- 8bCt059iba6Eoj+Rr6nMxCiXpARy9TcwDsigl1H8CYfx46vZG4TybYwC1CZqBFjZCOil
- one8zcK4FulRChxyeD94suOyFgj8w1y+bSfxqaUZr7hHLIp0moLfedCxZXhM+RmC2KsT
- 4w7g==
-X-Gm-Message-State: AFqh2ko+X4frMh3E6+fdcswSiqooHdu/GaE5MuJ2dgwKF63JxHPAzDoK
- ZlB8mQHvyFIeHmmLWQ3sSsUWPICcq1JkmKTusXIf3b8ZwjlqwIrGSEpOACXPN5uldixne4sn5R+
- WG2TTd6G7mBGwP7vW86oYpUcUx2pA
-X-Received: by 2002:a17:906:5a5f:b0:86f:3c6b:f7c6 with SMTP id
- my31-20020a1709065a5f00b0086f3c6bf7c6mr7664147ejc.64.1674056099536; 
- Wed, 18 Jan 2023 07:34:59 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsOoo3EG20RFXrfylq7Pialuja03yLXGPDjL2I7nXl6iPhWeh7hkF/TG1FOi+8BpRpJa4tYww==
-X-Received: by 2002:a17:906:5a5f:b0:86f:3c6b:f7c6 with SMTP id
- my31-20020a1709065a5f00b0086f3c6bf7c6mr7664127ejc.64.1674056099311; 
- Wed, 18 Jan 2023 07:34:59 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- wb9-20020a170907d50900b0087045ae5935sm4465825ejc.1.2023.01.18.07.34.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 07:34:58 -0800 (PST)
-Message-ID: <02b0bcb8-f69f-93cf-1f56-ec883cb33965@redhat.com>
-Date: Wed, 18 Jan 2023 16:34:57 +0100
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B89B210E76C;
+ Wed, 18 Jan 2023 15:35:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674056149; x=1705592149;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=V+7w/6DVh6oOTj/5Q6BI82PHATnPnRgB/JN4Ard83Dk=;
+ b=Gz57egnTY6YYvqlojEwpjGrMBhV4JoVeqKWN6u8gYUt037QbG2cfm5L4
+ GnscKpY2cJlEC+u0BFtiv5lTlyH05XcpZeIGFBtX3mWP5QgiAVrijE7H0
+ yBRkLQsBmy7y396IZuGRu0Qz/89PlSDT9PHKJDoYna47pdBzTi3aL6KQH
+ HdQPVFUsdVwDoKmTwZ/gHuwg55DllH6h8lTEFSJgyQIbrji8tBzrmVZEm
+ lVQ2QCb8uEJvcp1+GlGS5aOJzQ/OYg+65HXarOgZbUt92144zIdo6oq66
+ MsPYvODbjMjuNlfX8veHhn4BA77mS/+JPU13yj6/ufzu5hdD/ElZyMC83 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="305381645"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="305381645"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2023 07:35:47 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="833614590"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="833614590"
+Received: from lab-ah.igk.intel.com ([10.102.42.211])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2023 07:35:41 -0800
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+To: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-xtensa@linux-xtensa.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v5 0/7] Introduce __xchg, non-atomic xchg
+Date: Wed, 18 Jan 2023 16:35:22 +0100
+Message-Id: <20230118153529.57695-1-andrzej.hajda@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH drm-next 00/14] [RFC] DRM GPUVA Manager & Nouveau VM_BIND
- UAPI
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- daniel@ffwll.ch, airlied@redhat.com, bskeggs@redhat.com,
- jason@jlekstrand.net, tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net
-References: <20230118061256.2689-1-dakr@redhat.com>
- <db4fa0fc-c9a6-9a48-c45f-1d655b30aff9@amd.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <db4fa0fc-c9a6-9a48-c45f-1d655b30aff9@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,199 +65,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
+ Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+Hi all,
 
-On 1/18/23 09:53, Christian König wrote:
-> Am 18.01.23 um 07:12 schrieb Danilo Krummrich:
->> This patch series provides a new UAPI for the Nouveau driver in order to
->> support Vulkan features, such as sparse bindings and sparse residency.
->>
->> Furthermore, with the DRM GPUVA manager it provides a new DRM core 
->> feature to
->> keep track of GPU virtual address (VA) mappings in a more generic way.
->>
->> The DRM GPUVA manager is indented to help drivers implement 
->> userspace-manageable
->> GPU VA spaces in reference to the Vulkan API. In order to achieve this 
->> goal it
->> serves the following purposes in this context.
->>
->>      1) Provide a dedicated range allocator to track GPU VA 
->> allocations and
->>         mappings, making use of the drm_mm range allocator.
-> 
-> This means that the ranges are allocated by the kernel? If yes that's a 
-> really really bad idea.
+The helper is tiny and there are advices we can live without it, so
+I want to present few arguments why it would be good to have it:
 
-No, it's just for keeping track of the ranges userspace has allocated.
+1. Code readability/simplification/number of lines:
+  - decreases number of lines,
+  - it often eliminates local variables,
+  - for real examples see patches 3+.
 
-- Danilo
+2. Presence of similar helpers in other somehow related languages/libs:
 
-> 
-> Regards,
-> Christian.
-> 
->>
->>      2) Generically connect GPU VA mappings to their backing buffers, in
->>         particular DRM GEM objects.
->>
->>      3) Provide a common implementation to perform more complex mapping
->>         operations on the GPU VA space. In particular splitting and 
->> merging
->>         of GPU VA mappings, e.g. for intersecting mapping requests or 
->> partial
->>         unmap requests.
->>
->> The new VM_BIND Nouveau UAPI build on top of the DRM GPUVA manager, 
->> itself
->> providing the following new interfaces.
->>
->>      1) Initialize a GPU VA space via the new 
->> DRM_IOCTL_NOUVEAU_VM_INIT ioctl
->>         for UMDs to specify the portion of VA space managed by the 
->> kernel and
->>         userspace, respectively.
->>
->>      2) Allocate and free a VA space region as well as bind and unbind 
->> memory
->>         to the GPUs VA space via the new DRM_IOCTL_NOUVEAU_VM_BIND ioctl.
->>
->>      3) Execute push buffers with the new DRM_IOCTL_NOUVEAU_EXEC ioctl.
->>
->> Both, DRM_IOCTL_NOUVEAU_VM_BIND and DRM_IOCTL_NOUVEAU_EXEC, make use 
->> of the DRM
->> scheduler to queue jobs and support asynchronous processing with DRM 
->> syncobjs
->> as synchronization mechanism.
->>
->> By default DRM_IOCTL_NOUVEAU_VM_BIND does synchronous processing,
->> DRM_IOCTL_NOUVEAU_EXEC supports asynchronous processing only.
->>
->> The new VM_BIND UAPI for Nouveau makes also use of drm_exec (execution 
->> context
->> for GEM buffers) by Christian König. Since the patch implementing 
->> drm_exec was
->> not yet merged into drm-next it is part of this series, as well as a 
->> small fix
->> for this patch, which was found while testing this series.
->>
->> This patch series is also available at [1].
->>
->> There is a Mesa NVK merge request by Dave Airlie [2] implementing the
->> corresponding userspace parts for this series.
->>
->> The Vulkan CTS test suite passes the sparse binding and sparse 
->> residency test
->> cases for the new UAPI together with Dave's Mesa work.
->>
->> There are also some test cases in the igt-gpu-tools project [3] for 
->> the new UAPI
->> and hence the DRM GPU VA manager. However, most of them are testing 
->> the DRM GPU
->> VA manager's logic through Nouveau's new UAPI and should be considered 
->> just as
->> helper for implementation.
->>
->> However, I absolutely intend to change those test cases to proper 
->> kunit test
->> cases for the DRM GPUVA manager, once and if we agree on it's 
->> usefulness and
->> design.
->>
->> [1] 
->> https://gitlab.freedesktop.org/nouvelles/kernel/-/tree/new-uapi-drm-next /
->>      https://gitlab.freedesktop.org/nouvelles/kernel/-/merge_requests/1
->> [2] https://gitlab.freedesktop.org/nouveau/mesa/-/merge_requests/150/
->> [3] 
->> https://gitlab.freedesktop.org/dakr/igt-gpu-tools/-/tree/wip_nouveau_vm_bind
->>
->> I also want to give credit to Dave Airlie, who contributed a lot of 
->> ideas to
->> this patch series.
->>
->> Christian König (1):
->>    drm: execution context for GEM buffers
->>
->> Danilo Krummrich (13):
->>    drm/exec: fix memory leak in drm_exec_prepare_obj()
->>    drm: manager to keep track of GPUs VA mappings
->>    drm: debugfs: provide infrastructure to dump a DRM GPU VA space
->>    drm/nouveau: new VM_BIND uapi interfaces
->>    drm/nouveau: get vmm via nouveau_cli_vmm()
->>    drm/nouveau: bo: initialize GEM GPU VA interface
->>    drm/nouveau: move usercopy helpers to nouveau_drv.h
->>    drm/nouveau: fence: fail to emit when fence context is killed
->>    drm/nouveau: chan: provide nouveau_channel_kill()
->>    drm/nouveau: nvkm/vmm: implement raw ops to manage uvmm
->>    drm/nouveau: implement uvmm for user mode bindings
->>    drm/nouveau: implement new VM_BIND UAPI
->>    drm/nouveau: debugfs: implement DRM GPU VA debugfs
->>
->>   Documentation/gpu/driver-uapi.rst             |   11 +
->>   Documentation/gpu/drm-mm.rst                  |   43 +
->>   drivers/gpu/drm/Kconfig                       |    6 +
->>   drivers/gpu/drm/Makefile                      |    3 +
->>   drivers/gpu/drm/amd/amdgpu/Kconfig            |    1 +
->>   drivers/gpu/drm/drm_debugfs.c                 |   56 +
->>   drivers/gpu/drm/drm_exec.c                    |  294 ++++
->>   drivers/gpu/drm/drm_gem.c                     |    3 +
->>   drivers/gpu/drm/drm_gpuva_mgr.c               | 1323 +++++++++++++++++
->>   drivers/gpu/drm/nouveau/Kbuild                |    3 +
->>   drivers/gpu/drm/nouveau/Kconfig               |    2 +
->>   drivers/gpu/drm/nouveau/include/nvif/if000c.h |   23 +-
->>   drivers/gpu/drm/nouveau/include/nvif/vmm.h    |   17 +-
->>   .../gpu/drm/nouveau/include/nvkm/subdev/mmu.h |   10 +
->>   drivers/gpu/drm/nouveau/nouveau_abi16.c       |   23 +
->>   drivers/gpu/drm/nouveau/nouveau_abi16.h       |    1 +
->>   drivers/gpu/drm/nouveau/nouveau_bo.c          |  152 +-
->>   drivers/gpu/drm/nouveau/nouveau_bo.h          |    2 +-
->>   drivers/gpu/drm/nouveau/nouveau_chan.c        |   16 +-
->>   drivers/gpu/drm/nouveau/nouveau_chan.h        |    1 +
->>   drivers/gpu/drm/nouveau/nouveau_debugfs.c     |   24 +
->>   drivers/gpu/drm/nouveau/nouveau_drm.c         |   25 +-
->>   drivers/gpu/drm/nouveau/nouveau_drv.h         |   92 +-
->>   drivers/gpu/drm/nouveau/nouveau_exec.c        |  310 ++++
->>   drivers/gpu/drm/nouveau/nouveau_exec.h        |   55 +
->>   drivers/gpu/drm/nouveau/nouveau_fence.c       |    7 +
->>   drivers/gpu/drm/nouveau/nouveau_fence.h       |    2 +-
->>   drivers/gpu/drm/nouveau/nouveau_gem.c         |   83 +-
->>   drivers/gpu/drm/nouveau/nouveau_mem.h         |    5 +
->>   drivers/gpu/drm/nouveau/nouveau_prime.c       |    2 +-
->>   drivers/gpu/drm/nouveau/nouveau_sched.c       |  780 ++++++++++
->>   drivers/gpu/drm/nouveau/nouveau_sched.h       |   98 ++
->>   drivers/gpu/drm/nouveau/nouveau_svm.c         |    2 +-
->>   drivers/gpu/drm/nouveau/nouveau_uvmm.c        |  575 +++++++
->>   drivers/gpu/drm/nouveau/nouveau_uvmm.h        |   68 +
->>   drivers/gpu/drm/nouveau/nouveau_vmm.c         |    4 +-
->>   drivers/gpu/drm/nouveau/nvif/vmm.c            |   73 +-
->>   .../gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c    |  168 ++-
->>   .../gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.h    |    1 +
->>   drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c |   32 +-
->>   drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |    3 +
->>   include/drm/drm_debugfs.h                     |   25 +
->>   include/drm/drm_drv.h                         |    6 +
->>   include/drm/drm_exec.h                        |  144 ++
->>   include/drm/drm_gem.h                         |   75 +
->>   include/drm/drm_gpuva_mgr.h                   |  527 +++++++
->>   include/uapi/drm/nouveau_drm.h                |  216 +++
->>   47 files changed, 5266 insertions(+), 126 deletions(-)
->>   create mode 100644 drivers/gpu/drm/drm_exec.c
->>   create mode 100644 drivers/gpu/drm/drm_gpuva_mgr.c
->>   create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec.c
->>   create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec.h
->>   create mode 100644 drivers/gpu/drm/nouveau/nouveau_sched.c
->>   create mode 100644 drivers/gpu/drm/nouveau/nouveau_sched.h
->>   create mode 100644 drivers/gpu/drm/nouveau/nouveau_uvmm.c
->>   create mode 100644 drivers/gpu/drm/nouveau/nouveau_uvmm.h
->>   create mode 100644 include/drm/drm_exec.h
->>   create mode 100644 include/drm/drm_gpuva_mgr.h
->>
->>
->> base-commit: 0b45ac1170ea6416bc1d36798414c04870cd356d
-> 
+a) Rust[1]: 'replace' from std::mem module, there is also 'take'
+    helper (__xchg(&x, 0)), which is the same as private helper in
+    i915 - fetch_and_zero, see latest patch.
+b) C++ [2]: 'exchange' from utility header.
+
+If the idea is OK there are still 2 questions to answer:
+
+1. Name of the helper, __xchg follows kernel conventions,
+    but for me Rust names are also OK.
+2. Where to put the helper:
+a) as in this patchset include/linux/non-atomic/xchg.h,
+    proposed by Andy Shevchenko,
+b) include/linux/utils.h ? any better name? Some kind
+    of container for simple helpers.
+
+All __xchg conversions were performed using cocci script,
+then manually adjusted if necessary.
+
+There is lot of places it can be used in, I have just chosen
+some of them. I can provide cocci script to detect others (not all),
+if necessary.
+
+Changes:
+v2: squashed all __xchg -> __arch_xchg t one patch (Arnd)
+v3: fixed alpha/xchg_local (lkp@intel.com)
+v4: adjusted indentation (Heiko)
+v5: added more __xchg conversions - patches 3-6, added tags
+
+[1]: https://doc.rust-lang.org/std/mem/index.html
+[2]: https://en.cppreference.com/w/cpp/header/utility
+
+Regards
+Andrzej
+
+Andrzej Hajda (7):
+  arch: rename all internal names __xchg to __arch_xchg
+  linux/include: add non-atomic version of xchg
+  arch/*/uprobes: simplify arch_uretprobe_hijack_return_addr
+  llist: simplify __llist_del_all
+  io_uring: use __xchg if possible
+  qed: use __xchg if possible
+  drm/i915/gt: use __xchg instead of internal helper
+
+ arch/alpha/include/asm/cmpxchg.h              | 10 +++++-----
+ arch/arc/include/asm/cmpxchg.h                |  4 ++--
+ arch/arm/include/asm/cmpxchg.h                |  7 ++++---
+ arch/arm/probes/uprobes/core.c                |  8 ++------
+ arch/arm64/include/asm/cmpxchg.h              |  7 +++----
+ arch/arm64/kernel/probes/uprobes.c            |  9 ++-------
+ arch/csky/kernel/probes/uprobes.c             |  9 ++-------
+ arch/hexagon/include/asm/cmpxchg.h            | 10 +++++-----
+ arch/ia64/include/asm/cmpxchg.h               |  2 +-
+ arch/ia64/include/uapi/asm/cmpxchg.h          |  4 ++--
+ arch/loongarch/include/asm/cmpxchg.h          |  4 ++--
+ arch/m68k/include/asm/cmpxchg.h               |  6 +++---
+ arch/mips/include/asm/cmpxchg.h               |  4 ++--
+ arch/mips/kernel/uprobes.c                    | 10 ++--------
+ arch/openrisc/include/asm/cmpxchg.h           | 10 +++++-----
+ arch/parisc/include/asm/cmpxchg.h             |  4 ++--
+ arch/powerpc/include/asm/cmpxchg.h            |  4 ++--
+ arch/powerpc/kernel/uprobes.c                 | 10 ++--------
+ arch/riscv/include/asm/atomic.h               |  2 +-
+ arch/riscv/include/asm/cmpxchg.h              |  4 ++--
+ arch/riscv/kernel/probes/uprobes.c            |  9 ++-------
+ arch/s390/include/asm/cmpxchg.h               |  8 ++++----
+ arch/s390/kernel/uprobes.c                    |  7 ++-----
+ arch/sh/include/asm/cmpxchg.h                 |  4 ++--
+ arch/sparc/include/asm/cmpxchg_32.h           |  4 ++--
+ arch/sparc/include/asm/cmpxchg_64.h           |  6 +++---
+ arch/sparc/kernel/uprobes.c                   |  7 ++-----
+ arch/xtensa/include/asm/cmpxchg.h             |  4 ++--
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |  4 ++--
+ .../drm/i915/gt/intel_execlists_submission.c  |  4 ++--
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |  4 ++--
+ drivers/gpu/drm/i915/gt/intel_gsc.c           |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |  4 ++--
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  2 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.c           |  6 +++---
+ drivers/gpu/drm/i915/gt/intel_migrate.c       |  2 +-
+ drivers/gpu/drm/i915/gt/intel_rc6.c           |  2 +-
+ drivers/gpu/drm/i915/gt/intel_rps.c           |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_context.c    |  2 +-
+ .../drm/i915/gt/selftest_ring_submission.c    |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_timeline.c   |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c     |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  2 +-
+ drivers/gpu/drm/i915/i915_utils.h             |  1 +
+ include/linux/llist.h                         |  6 ++----
+ include/linux/non-atomic/xchg.h               | 19 +++++++++++++++++++
+ include/linux/qed/qed_chain.h                 | 19 +++++++------------
+ io_uring/io_uring.c                           |  7 ++-----
+ io_uring/slist.h                              |  6 ++----
+ 51 files changed, 126 insertions(+), 155 deletions(-)
+ create mode 100644 include/linux/non-atomic/xchg.h
+
+-- 
+2.34.1
 
