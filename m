@@ -1,141 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B37256723E5
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 17:45:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E887B67241B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 17:50:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D876B10E7AB;
-	Wed, 18 Jan 2023 16:45:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0456710E79F;
+	Wed, 18 Jan 2023 16:50:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BC0110E79F;
- Wed, 18 Jan 2023 16:45:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674060304; x=1705596304;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=TSAXrMq+LyoMOLWK9iDIk7VjWgggumRchf2pT1mlzN8=;
- b=F3re7Ql1fOTmRx0NiWsw8bAm8aIlMqHnfLFSZRAwX4GCI6xpww+hJ82P
- AWbtq+F1oKZBoEtl9hxtCd90fPP4K127nOcndcgi3IbCtwhjcfHsB44cj
- dMo0XYLKp1h4pUWse/o9lnztADCsWfWrvFqJoI5tmupyc8khEMoQX/EIx
- drDJQs72DU21NuwymqbLCfXN4BPo8WjqNKAhVzcxUJZWju0pD9/QN7UeN
- 1liWdvmyZ/kQt/VQbjZh2TnJkYLeKH2/U8JoRATvduMagwEvDb7ZrS7Yn
- L2IGzoiXkIBEMaTFLlSs50EfcOg74Ye6JybaHT5MHeUGnMckhHZOSdNnX Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="322722205"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="322722205"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2023 08:45:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="609714578"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="609714578"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orsmga003.jf.intel.com with ESMTP; 18 Jan 2023 08:45:03 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 18 Jan 2023 08:45:02 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Wed, 18 Jan 2023 08:45:02 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.107)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Wed, 18 Jan 2023 08:45:02 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lqKl89UtsHdVn02O1ENvH/fDXtfkUSEixpYsX7IVW51WFRV36hmEEczgb1xRHcGRxndk63Vv4Hx+blQTqR94yLfa0f3NuTS0F8ZFxhM4tMO/nGt/hV7n+b7zy6hkQtr0wCaz4cr45FknUos2ktzN/kjAsK7oZ+nVe+Q/AaxZFLRE9tk/dOQFFAGA4o0FznZBhxdmBKELhW28xYDzgj2qbFJfeHBWMwKYQ9dnD85y5nyb3cyvXLsyFDzbLCh2N9rwWm+a8dtHpV9s8uCB51nM3SXrGlWR1jXxYSaKEVr67sK4ZVBw7Q3xYZdfHroN8+9jwrDuzW6s74YtMu6H/Cew2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ItOJlyoyRzS1kmokJwRvFHl4Kry7KynGNXMbB02tybA=;
- b=a+B74ywaTwklj6qiL80nWbJ7YHNtvoi4BYzdrXjopAjTk8gjwUbmMZARiGRQ+SSg+biDEtxa/05WKJdi0Ksq8LCzk46hH98fodBMlucY1fIXhrKHyUnTxkpW5RK8SHaP+pjnT90h+6FZRsIR+/o7ueamhLBx2UnafVkEPQYEHpeXb0dg2gGdo1kRB+WBSbkgrSmE/pl7HqZ114jDYnfC0WAzOSvzuzc5j7UvnIQK/GnFQ7RAgEASqtr60Yi5doQ9VEoskZ3a/nrAZrXO0ngB50JvNaKg8qgyaOZCi+uvZ3LWQnTYziQbeloL9rd0StGtaMjz4YNabE4OlmQ0npHM9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by SA1PR11MB6943.namprd11.prod.outlook.com (2603:10b6:806:2bc::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13; Wed, 18 Jan
- 2023 16:45:00 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::1818:e39d:454d:a930]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::1818:e39d:454d:a930%4]) with mapi id 15.20.5986.018; Wed, 18 Jan 2023
- 16:45:00 +0000
-Date: Wed, 18 Jan 2023 11:44:55 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Deepak R Varma <drv@mailo.com>
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915/gvt: Avoid full proxy f_ops for
- vgpu_status debug attributes
-Message-ID: <Y8giB988U5cqsGdd@intel.com>
-References: <cover.1673375066.git.drv@mailo.com>
- <188df08e0feba0cda2c92145f513dd4e57c6e6cf.1673375066.git.drv@mailo.com>
- <Y72zVXYLVHXuyK05@intel.com>
- <Y8TkTi+/GQwhiMvO@zhen-hp.sh.intel.com>
- <Y8b3IRhx976Ke99X@intel.com>
- <Y8d6CwD3dHLKOUZ5@ubun2204.myguest.virtualbox.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <Y8d6CwD3dHLKOUZ5@ubun2204.myguest.virtualbox.org>
-X-ClientProxiedBy: SJ0PR13CA0092.namprd13.prod.outlook.com
- (2603:10b6:a03:2c5::7) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D03710E79F
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 16:50:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674060649;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dnuRtVqhYwqF0IRB7MWPfiez/2Jeq1k+RwAjLCEfyQ0=;
+ b=T6vMrHS0xbsBXaTO2Vn90RxvI1dvkuaEh19c3Yu4q9+iPXy+OviBS4r1kniH92I8xLPy4k
+ IW0SJMEuKFSenPDe3er8LCajjCfui5/3+VB2qRmOn6H1QM6ARAqhBA0NEuW3UyT/LGtWH9
+ mbvfjkrErHmFVvh7Nh8iWRdNNFXrGlI=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-28-_gcOU6vLMl6vYdvlFuE6yg-1; Wed, 18 Jan 2023 11:50:46 -0500
+X-MC-Unique: _gcOU6vLMl6vYdvlFuE6yg-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ qb2-20020a1709077e8200b00842b790008fso24693500ejc.21
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 08:50:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dnuRtVqhYwqF0IRB7MWPfiez/2Jeq1k+RwAjLCEfyQ0=;
+ b=6oKLFkz2DtuGY71Tf4ev5TRULe4hbrCec1aBzVHlAFzvnvf/08f+bDVPnM7a1yWRPL
+ UpgLmFnn++BF5twvGigKq6xfypG/YF+SE1EsoOpzDbwkh1spBLoVuzBwVbCsGVbCDB8G
+ WlXeM7bEQdzSB7JqVOBYSDk3co+FiXWT/HxT7Wa8WC9+m/f4EYcSXrsTHrYOw3ZIPiVS
+ PC61tA32im8zxgffzzXCZZDMC1xxtgR1UlU4JEzWP2RTfvUDMzb+ExJFAQMFNTd4QiT8
+ lv+rEat/IR753JRBdR0+WkWEdBIFt50V7Bsm65wKJu/8hEocfMM3+IFKJebcVVVgsR2p
+ 1DlQ==
+X-Gm-Message-State: AFqh2kp3xVOy94R/ciOsVY1LgoStqvGTPyooX0X7oZOTY/inlOGMp6aF
+ 2s3QiYMYmJOk+AdTZpPgA6PEenxnCSeE8wYgTX1Pb5bQQh+Yl/8U3mfgaocjLfrGB1auKlaLO66
+ F9fmqb8gPl8GGMkXtjDSFfQlqfAnd
+X-Received: by 2002:a17:907:bb92:b0:871:89d:75e with SMTP id
+ xo18-20020a170907bb9200b00871089d075emr8233932ejc.16.1674060645235; 
+ Wed, 18 Jan 2023 08:50:45 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvQVuhk7AsnKcK5XhVDb7PvkxCr58DdohCl/ERBLtf0Fw57khX/HAV1kD8s5W/FbaJL4QQiSg==
+X-Received: by 2002:a17:907:bb92:b0:871:89d:75e with SMTP id
+ xo18-20020a170907bb9200b00871089d075emr8233921ejc.16.1674060645031; 
+ Wed, 18 Jan 2023 08:50:45 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ g22-20020a170906595600b0087221268e49sm3096069ejr.186.2023.01.18.08.50.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Jan 2023 08:50:44 -0800 (PST)
+Message-ID: <0f2d6e1a-a3b5-f323-a29d-caade427292c@redhat.com>
+Date: Wed, 18 Jan 2023 17:50:43 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|SA1PR11MB6943:EE_
-X-MS-Office365-Filtering-Correlation-Id: 883d4d52-ac37-4007-8ced-08daf97356e0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: O3hArw0HyEP0EmJIufwueFbyFhKzEmRPGhopmZFQgUlb0b7M5YqiBuKOFPE68y8IjAwPrf3J4fODW+HyBgBhImHrCfKBCMQlMLf0wU0BOUHzLZMjF91DIXXX6ZznUL+Ex/vQcykMEj0zVo4MHnp6MARY6RyDLNUHy5vNM8p2aHQ5Jokjc5fHlX/c9J3+PQzbSAFAMKTLZF+e1QQDqL1YiAqWmAXozke4s3/F+ondvu/s39f1QktZAHwhD52i6KfEp7VrQaYyBrb3IF5Z+qI824OwimreGU749pMYabgpnVnQ1S81lJZdQ+k1a5f2vDJvAH5suv7ooR0QrI4MNPObx8xUuClTbxh7hbvgnaxxDzw9rHZTChtW6votPIdVzB3mufukBCcdsISjNCuTf9mlPuJyXF/vqMPUw527uN0YGID/wGm7XcB9X+x9Z+bd4aIFBLs8H0PFanw44uprd89DPavHP3F/ephMWQhYUpetUYOr+J6sk6/XUVQ5Y01pUq9vE4OyloVD1vV749/xNxwa6YPVIpNDsKzzAh/GP+QsMrrBzuq7KiLNamaUQVMforOeNLD/leFUNM9ezK4aZuajiFDnu+xmgtfWeGGZ6jW+FIRbC8H7OIVH9ipgJMocjyiSCrtD9s6mi66ohkNsjD+kodO3SzoZ/CgAwSPL4elEbxw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(396003)(39860400002)(346002)(136003)(376002)(366004)(451199015)(2616005)(6506007)(6666004)(38100700002)(6486002)(966005)(54906003)(186003)(26005)(6512007)(478600001)(53546011)(316002)(66476007)(8936002)(5660300002)(83380400001)(7416002)(4326008)(8676002)(6916009)(44832011)(41300700001)(66946007)(2906002)(82960400001)(66556008)(36756003)(86362001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xYdxfYNlmAI0tWXP/TIIxSGrcVBcDVkyRWba9SF38fixOVWBdRQ+qmoal2sY?=
- =?us-ascii?Q?76XAJKESbqr7wDRiMzs/YufEtpdX1Ne83AQM1cjSIMsDFeYCFH3doYYWo1iL?=
- =?us-ascii?Q?nVGbTiDvv42wEEThTu/i6bE8XOcwEfISrqqlaOjfnQyOyjRx30Mr1txXpdos?=
- =?us-ascii?Q?fzukIVNygT7RTwnbc8Pv3F0/Xz7+Fbjp7M7leGX/FREPNjoYe4aPR4IwwQsc?=
- =?us-ascii?Q?JsNxn7gGLyARjGN5WLLzxQsqQHtZN3WnOKLB6DT5jRWEoyTNdsSVkOLOtWal?=
- =?us-ascii?Q?oDVqR78jGpHvTdvL8r4YTRfeJm4qzHO98RjkEE8y5CA0j8ylFqFj8ekEoVNT?=
- =?us-ascii?Q?/kW+Dgqi811PetWNY0I7ReVxU2c8rLwT0kRJI5yT4RaeS6yQiygbUff78BUS?=
- =?us-ascii?Q?sOQedMSTZJTnTVT+9TP9fzyofGvmNjQFbtTDmViCxdA31oINOI57fC+VC43T?=
- =?us-ascii?Q?IqgPKTk3JwmVibAVV0opbecMGtwwI5p6SP+JdBiojGEY22p+i+OndaWQUxFZ?=
- =?us-ascii?Q?JGXPvorLSiaiMJP3luSfS7unBilXJo/B0DducvEJiwqLo18hLPc1VY/HxqEu?=
- =?us-ascii?Q?MNWzHYe8+WZOGmvdeTt0IuwQD4U1/ToaiXHW/473M3lEjOrIfUm3ivgrP/SX?=
- =?us-ascii?Q?unlVaRPapTQBBui4kBTFhjIpDedGcS0P9ugKdd2U46GY26Qv24AKg+kvscoS?=
- =?us-ascii?Q?EYN2hDZygmUiYshEkVhMN6xCwmdb7Jq7d8QioBc2soampVh7Q1TDLnQVaQCL?=
- =?us-ascii?Q?Ktwsa45fUh0xPrqVKBoesx8HX+w6tVxXYNIMnWjiLCrtzbVwavEHzuU2QqEe?=
- =?us-ascii?Q?60vx6IY8LxZ1KbdDd26xClJYexziK1cWlRqJJzkAiDgRkqL3LJP4ZbuhN8B2?=
- =?us-ascii?Q?P5uFYT7g5b2HazoZh/day6bPmm5LXyBHpwg3vxPcVisq83Vh97fhN/AsyDrN?=
- =?us-ascii?Q?gNIYhTt6D7GOomJGT7QhZRd4yoR0wucY06TPK2B5hNOSLIOa9mzf71MP6+Fs?=
- =?us-ascii?Q?lgNg1LiH/FvqEkDTAjRH+EH6cbWJjgLCpDL7NBJ9CedJlWvjL7m0WlzFx3kv?=
- =?us-ascii?Q?rcm7PPMtlSepZsl1YHbg8DgmKD2bChCQUi4+pH3PKfbgKYNIRm9EEvrE4qXE?=
- =?us-ascii?Q?G0Zjh9Di1DDeIQxkgXU5A+wqn7QqhrcwT+j66MRQwt+osP/Z3fsDA0gTI9Mp?=
- =?us-ascii?Q?yAE1HFcPkl2ByVRJ0LydYqJIo49qtJEVqGNgYhPRL0XfxYZj48cc29VRwDGD?=
- =?us-ascii?Q?v1DTVhTJLQCPY7yc9067TSsiy5GcEDiETUD6LLSe66L3JHpMA1/kaMQDDHUj?=
- =?us-ascii?Q?/Ci4dwVOHifbwGUdAmdSNhWjByRU+IM4O3aJpKNbVgEyxRb85efzWt87n3ZV?=
- =?us-ascii?Q?djG69Sqk51VH9l3I3c2S5DfXkFIMXNqXeA3u7r7KbSB89tYeyRjQSuaNzTcK?=
- =?us-ascii?Q?NRvNt4iSQy8lfYNtx2xXrIQ0va4aCdIFwdgj5cDQ8zbJ4I9nMl5cDUIJui9G?=
- =?us-ascii?Q?u+APiWbc29t1atEK5ONIgbe2+O1wmk7mzNqnBiQsO/JGXnkBwtYuqTVpS89c?=
- =?us-ascii?Q?Al1nr3FUNoL+6h1j4H+N11sHhwJsRjYOuP6NgYQ+GGBqjpL/yckQ6ypZje/1?=
- =?us-ascii?Q?PA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 883d4d52-ac37-4007-8ced-08daf97356e0
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2023 16:45:00.5457 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3H0ZvmTws/0m6mg30pfdwDGoy9M/PVh6jyh6YJeaIbRpZUGUWeHz119yIOq9daOUj4uLeOzq1xEpJj/V8xPJHA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6943
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH drm-next 00/14] [RFC] DRM GPUVA Manager & Nouveau VM_BIND
+ UAPI
+To: Alex Deucher <alexdeucher@gmail.com>
+References: <20230118061256.2689-1-dakr@redhat.com>
+ <db4fa0fc-c9a6-9a48-c45f-1d655b30aff9@amd.com>
+ <02b0bcb8-f69f-93cf-1f56-ec883cb33965@redhat.com>
+ <3602500f-05f5-10b8-5ec6-0a6246e2bb6b@amd.com>
+ <bcbef353-f579-4e90-1c77-be36bbe61c0f@redhat.com>
+ <CADnq5_PGaXFW-z3gt+R+W+vBVdeuL4wMuMOQh4muxU13Bemy3A@mail.gmail.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <CADnq5_PGaXFW-z3gt+R+W+vBVdeuL4wMuMOQh4muxU13Bemy3A@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,104 +94,252 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- intel-gfx@lists.freedesktop.org, Saurabh Singh Sengar <ssengar@microsoft.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org
+Cc: tzimmermann@suse.de, corbet@lwn.net, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bskeggs@redhat.com, jason@jlekstrand.net,
+ airlied@redhat.com,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 18, 2023 at 10:18:11AM +0530, Deepak R Varma wrote:
-> On Tue, Jan 17, 2023 at 02:29:37PM -0500, Rodrigo Vivi wrote:
-> > On Mon, Jan 16, 2023 at 01:44:46PM +0800, Zhenyu Wang wrote:
-> > > On 2023.01.10 13:49:57 -0500, Rodrigo Vivi wrote:
-> > > > On Wed, Jan 11, 2023 at 12:00:12AM +0530, Deepak R Varma wrote:
-> > > > > Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
-> > > > > function adds the overhead of introducing a proxy file operation
-> > > > > functions to wrap the original read/write inside file removal protection
-> > > > > functions. This adds significant overhead in terms of introducing and
-> > > > > managing the proxy factory file operations structure and function
-> > > > > wrapping at runtime.
-> > > > > As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
-> > > > > with debugfs_create_file_unsafe() is suggested to be used instead.  The
-> > > > > DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
-> > > > > debugfs_file_put() wrappers to protect the original read and write
-> > > > > function calls for the debug attributes. There is no need for any
-> > > > > runtime proxy file operations to be managed by the debugfs core.
-> > > > > Following coccicheck make command helped identify this change:
-> > > > > 
-> > > > > make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
-> > > > > 
-> > > > > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > > > 
-> > > > I believe these 2 gvt cases could be done in one patch.
-> > > > But anyways,
-> > > > 
-> > > > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > > > 
-> > > > for both patches... and will leave these 2 patches for gvt folks
-> > > > to apply. Unless they ack and I apply in the drm-intel along with the other ones.
-> > > >
-> > > 
-> > > yeah, they're fine with me, feel free to apply them directly.
-> > > 
-> > > Acked-by: Zhenyu Wang <zhenyuw@linux.intel.com>
-> > 
-> > Unfortunately I got some conflicts when trying to apply on drm-intel-next.
-> > 
-> > We probably need a new version, and probably through gvt branches it
-> > will be easier to handle conflicts if they appear.
-> 
-> Hello Rodrigo,
-> Sure. I will send in a new version. I am current using linux-next git repo as my
-> remote origin [tag 20230113]. Are there any specific instruction/location from
-> where I should access the gvt branch?
 
-https://github.com/intel/gvt-linux.git
 
-but with the linux-next your patch is probably right for them.
+On 1/18/23 17:30, Alex Deucher wrote:
+> On Wed, Jan 18, 2023 at 11:19 AM Danilo Krummrich <dakr@redhat.com> wrote:
+>>
+>> On 1/18/23 16:37, Christian König wrote:
+>>> Am 18.01.23 um 16:34 schrieb Danilo Krummrich:
+>>>> Hi Christian,
+>>>>
+>>>> On 1/18/23 09:53, Christian König wrote:
+>>>>> Am 18.01.23 um 07:12 schrieb Danilo Krummrich:
+>>>>>> This patch series provides a new UAPI for the Nouveau driver in
+>>>>>> order to
+>>>>>> support Vulkan features, such as sparse bindings and sparse residency.
+>>>>>>
+>>>>>> Furthermore, with the DRM GPUVA manager it provides a new DRM core
+>>>>>> feature to
+>>>>>> keep track of GPU virtual address (VA) mappings in a more generic way.
+>>>>>>
+>>>>>> The DRM GPUVA manager is indented to help drivers implement
+>>>>>> userspace-manageable
+>>>>>> GPU VA spaces in reference to the Vulkan API. In order to achieve
+>>>>>> this goal it
+>>>>>> serves the following purposes in this context.
+>>>>>>
+>>>>>>       1) Provide a dedicated range allocator to track GPU VA
+>>>>>> allocations and
+>>>>>>          mappings, making use of the drm_mm range allocator.
+>>>>>
+>>>>> This means that the ranges are allocated by the kernel? If yes that's
+>>>>> a really really bad idea.
+>>>>
+>>>> No, it's just for keeping track of the ranges userspace has allocated.
+>>>
+>>> Ok, that makes more sense.
+>>>
+>>> So basically you have an IOCTL which asks kernel for a free range? Or
+>>> what exactly is the drm_mm used for here?
+>>
+>> Not even that, userspace provides both the base address and the range,
+>> the kernel really just keeps track of things. Though, writing a UAPI on
+>> top of the GPUVA manager asking for a free range instead would be
+>> possible by just adding the corresponding wrapper functions to get a
+>> free hole.
+>>
+>> Currently, and that's what I think I read out of your question, the main
+>> benefit of using drm_mm over simply stuffing the entries into a list or
+>> something boils down to easier collision detection and iterating
+>> sub-ranges of the whole VA space.
+> 
+> Why not just do this in userspace?  We have a range manager in
+> libdrm_amdgpu that you could lift out into libdrm or some other
+> helper.
+
+The kernel still needs to keep track of the mappings within the various 
+VA spaces, e.g. it silently needs to unmap mappings that are backed by 
+BOs that get evicted and remap them once they're validated (or swapped 
+back in).
 
 > 
-> Thank you.
-> 
-> > 
-> > > 
-> > > thanks!
-> > > 
-> > > > > ---
-> > > > >  drivers/gpu/drm/i915/gvt/debugfs.c | 6 +++---
-> > > > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/gpu/drm/i915/gvt/debugfs.c b/drivers/gpu/drm/i915/gvt/debugfs.c
-> > > > > index 03f081c3d9a4..baccbf1761b7 100644
-> > > > > --- a/drivers/gpu/drm/i915/gvt/debugfs.c
-> > > > > +++ b/drivers/gpu/drm/i915/gvt/debugfs.c
-> > > > > @@ -165,7 +165,7 @@ static int vgpu_status_get(void *data, u64 *val)
-> > > > >  	return 0;
-> > > > >  }
-> > > > >  
-> > > > > -DEFINE_SIMPLE_ATTRIBUTE(vgpu_status_fops, vgpu_status_get, NULL, "0x%llx\n");
-> > > > > +DEFINE_DEBUGFS_ATTRIBUTE(vgpu_status_fops, vgpu_status_get, NULL, "0x%llx\n");
-> > > > >  
-> > > > >  /**
-> > > > >   * intel_gvt_debugfs_add_vgpu - register debugfs entries for a vGPU
-> > > > > @@ -182,8 +182,8 @@ void intel_gvt_debugfs_add_vgpu(struct intel_vgpu *vgpu)
-> > > > >  			    &vgpu_mmio_diff_fops);
-> > > > >  	debugfs_create_file_unsafe("scan_nonprivbb", 0644, vgpu->debugfs, vgpu,
-> > > > >  				   &vgpu_scan_nonprivbb_fops);
-> > > > > -	debugfs_create_file("status", 0644, vgpu->debugfs, vgpu,
-> > > > > -			    &vgpu_status_fops);
-> > > > > +	debugfs_create_file_unsafe("status", 0644, vgpu->debugfs, vgpu,
-> > > > > +				   &vgpu_status_fops);
-> > > > >  }
-> > > > >  
-> > > > >  /**
-> > > > > -- 
-> > > > > 2.34.1
-> > > > > 
-> > > > > 
-> > > > > 
-> > 
-> > 
+> Alex
 > 
 > 
+>>
+>>>
+>>> Regards,
+>>> Christian.
+>>>
+>>>>
+>>>> - Danilo
+>>>>
+>>>>>
+>>>>> Regards,
+>>>>> Christian.
+>>>>>
+>>>>>>
+>>>>>>       2) Generically connect GPU VA mappings to their backing
+>>>>>> buffers, in
+>>>>>>          particular DRM GEM objects.
+>>>>>>
+>>>>>>       3) Provide a common implementation to perform more complex mapping
+>>>>>>          operations on the GPU VA space. In particular splitting and
+>>>>>> merging
+>>>>>>          of GPU VA mappings, e.g. for intersecting mapping requests
+>>>>>> or partial
+>>>>>>          unmap requests.
+>>>>>>
+>>>>>> The new VM_BIND Nouveau UAPI build on top of the DRM GPUVA manager,
+>>>>>> itself
+>>>>>> providing the following new interfaces.
+>>>>>>
+>>>>>>       1) Initialize a GPU VA space via the new
+>>>>>> DRM_IOCTL_NOUVEAU_VM_INIT ioctl
+>>>>>>          for UMDs to specify the portion of VA space managed by the
+>>>>>> kernel and
+>>>>>>          userspace, respectively.
+>>>>>>
+>>>>>>       2) Allocate and free a VA space region as well as bind and
+>>>>>> unbind memory
+>>>>>>          to the GPUs VA space via the new DRM_IOCTL_NOUVEAU_VM_BIND
+>>>>>> ioctl.
+>>>>>>
+>>>>>>       3) Execute push buffers with the new DRM_IOCTL_NOUVEAU_EXEC ioctl.
+>>>>>>
+>>>>>> Both, DRM_IOCTL_NOUVEAU_VM_BIND and DRM_IOCTL_NOUVEAU_EXEC, make use
+>>>>>> of the DRM
+>>>>>> scheduler to queue jobs and support asynchronous processing with DRM
+>>>>>> syncobjs
+>>>>>> as synchronization mechanism.
+>>>>>>
+>>>>>> By default DRM_IOCTL_NOUVEAU_VM_BIND does synchronous processing,
+>>>>>> DRM_IOCTL_NOUVEAU_EXEC supports asynchronous processing only.
+>>>>>>
+>>>>>> The new VM_BIND UAPI for Nouveau makes also use of drm_exec
+>>>>>> (execution context
+>>>>>> for GEM buffers) by Christian König. Since the patch implementing
+>>>>>> drm_exec was
+>>>>>> not yet merged into drm-next it is part of this series, as well as a
+>>>>>> small fix
+>>>>>> for this patch, which was found while testing this series.
+>>>>>>
+>>>>>> This patch series is also available at [1].
+>>>>>>
+>>>>>> There is a Mesa NVK merge request by Dave Airlie [2] implementing the
+>>>>>> corresponding userspace parts for this series.
+>>>>>>
+>>>>>> The Vulkan CTS test suite passes the sparse binding and sparse
+>>>>>> residency test
+>>>>>> cases for the new UAPI together with Dave's Mesa work.
+>>>>>>
+>>>>>> There are also some test cases in the igt-gpu-tools project [3] for
+>>>>>> the new UAPI
+>>>>>> and hence the DRM GPU VA manager. However, most of them are testing
+>>>>>> the DRM GPU
+>>>>>> VA manager's logic through Nouveau's new UAPI and should be
+>>>>>> considered just as
+>>>>>> helper for implementation.
+>>>>>>
+>>>>>> However, I absolutely intend to change those test cases to proper
+>>>>>> kunit test
+>>>>>> cases for the DRM GPUVA manager, once and if we agree on it's
+>>>>>> usefulness and
+>>>>>> design.
+>>>>>>
+>>>>>> [1]
+>>>>>> https://gitlab.freedesktop.org/nouvelles/kernel/-/tree/new-uapi-drm-next /
+>>>>>> https://gitlab.freedesktop.org/nouvelles/kernel/-/merge_requests/1
+>>>>>> [2] https://gitlab.freedesktop.org/nouveau/mesa/-/merge_requests/150/
+>>>>>> [3]
+>>>>>> https://gitlab.freedesktop.org/dakr/igt-gpu-tools/-/tree/wip_nouveau_vm_bind
+>>>>>>
+>>>>>> I also want to give credit to Dave Airlie, who contributed a lot of
+>>>>>> ideas to
+>>>>>> this patch series.
+>>>>>>
+>>>>>> Christian König (1):
+>>>>>>     drm: execution context for GEM buffers
+>>>>>>
+>>>>>> Danilo Krummrich (13):
+>>>>>>     drm/exec: fix memory leak in drm_exec_prepare_obj()
+>>>>>>     drm: manager to keep track of GPUs VA mappings
+>>>>>>     drm: debugfs: provide infrastructure to dump a DRM GPU VA space
+>>>>>>     drm/nouveau: new VM_BIND uapi interfaces
+>>>>>>     drm/nouveau: get vmm via nouveau_cli_vmm()
+>>>>>>     drm/nouveau: bo: initialize GEM GPU VA interface
+>>>>>>     drm/nouveau: move usercopy helpers to nouveau_drv.h
+>>>>>>     drm/nouveau: fence: fail to emit when fence context is killed
+>>>>>>     drm/nouveau: chan: provide nouveau_channel_kill()
+>>>>>>     drm/nouveau: nvkm/vmm: implement raw ops to manage uvmm
+>>>>>>     drm/nouveau: implement uvmm for user mode bindings
+>>>>>>     drm/nouveau: implement new VM_BIND UAPI
+>>>>>>     drm/nouveau: debugfs: implement DRM GPU VA debugfs
+>>>>>>
+>>>>>>    Documentation/gpu/driver-uapi.rst             |   11 +
+>>>>>>    Documentation/gpu/drm-mm.rst                  |   43 +
+>>>>>>    drivers/gpu/drm/Kconfig                       |    6 +
+>>>>>>    drivers/gpu/drm/Makefile                      |    3 +
+>>>>>>    drivers/gpu/drm/amd/amdgpu/Kconfig            |    1 +
+>>>>>>    drivers/gpu/drm/drm_debugfs.c                 |   56 +
+>>>>>>    drivers/gpu/drm/drm_exec.c                    |  294 ++++
+>>>>>>    drivers/gpu/drm/drm_gem.c                     |    3 +
+>>>>>>    drivers/gpu/drm/drm_gpuva_mgr.c               | 1323
+>>>>>> +++++++++++++++++
+>>>>>>    drivers/gpu/drm/nouveau/Kbuild                |    3 +
+>>>>>>    drivers/gpu/drm/nouveau/Kconfig               |    2 +
+>>>>>>    drivers/gpu/drm/nouveau/include/nvif/if000c.h |   23 +-
+>>>>>>    drivers/gpu/drm/nouveau/include/nvif/vmm.h    |   17 +-
+>>>>>>    .../gpu/drm/nouveau/include/nvkm/subdev/mmu.h |   10 +
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_abi16.c       |   23 +
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_abi16.h       |    1 +
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_bo.c          |  152 +-
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_bo.h          |    2 +-
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_chan.c        |   16 +-
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_chan.h        |    1 +
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_debugfs.c     |   24 +
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_drm.c         |   25 +-
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_drv.h         |   92 +-
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_exec.c        |  310 ++++
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_exec.h        |   55 +
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_fence.c       |    7 +
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_fence.h       |    2 +-
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_gem.c         |   83 +-
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_mem.h         |    5 +
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_prime.c       |    2 +-
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_sched.c       |  780 ++++++++++
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_sched.h       |   98 ++
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_svm.c         |    2 +-
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_uvmm.c        |  575 +++++++
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_uvmm.h        |   68 +
+>>>>>>    drivers/gpu/drm/nouveau/nouveau_vmm.c         |    4 +-
+>>>>>>    drivers/gpu/drm/nouveau/nvif/vmm.c            |   73 +-
+>>>>>>    .../gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c    |  168 ++-
+>>>>>>    .../gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.h    |    1 +
+>>>>>>    drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c |   32 +-
+>>>>>>    drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |    3 +
+>>>>>>    include/drm/drm_debugfs.h                     |   25 +
+>>>>>>    include/drm/drm_drv.h                         |    6 +
+>>>>>>    include/drm/drm_exec.h                        |  144 ++
+>>>>>>    include/drm/drm_gem.h                         |   75 +
+>>>>>>    include/drm/drm_gpuva_mgr.h                   |  527 +++++++
+>>>>>>    include/uapi/drm/nouveau_drm.h                |  216 +++
+>>>>>>    47 files changed, 5266 insertions(+), 126 deletions(-)
+>>>>>>    create mode 100644 drivers/gpu/drm/drm_exec.c
+>>>>>>    create mode 100644 drivers/gpu/drm/drm_gpuva_mgr.c
+>>>>>>    create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec.c
+>>>>>>    create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec.h
+>>>>>>    create mode 100644 drivers/gpu/drm/nouveau/nouveau_sched.c
+>>>>>>    create mode 100644 drivers/gpu/drm/nouveau/nouveau_sched.h
+>>>>>>    create mode 100644 drivers/gpu/drm/nouveau/nouveau_uvmm.c
+>>>>>>    create mode 100644 drivers/gpu/drm/nouveau/nouveau_uvmm.h
+>>>>>>    create mode 100644 include/drm/drm_exec.h
+>>>>>>    create mode 100644 include/drm/drm_gpuva_mgr.h
+>>>>>>
+>>>>>>
+>>>>>> base-commit: 0b45ac1170ea6416bc1d36798414c04870cd356d
+>>>>>
+>>>>
+>>>
+>>
+> 
+
