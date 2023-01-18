@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66E8A67235D
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 17:32:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28483672371
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 17:35:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 729E210E047;
-	Wed, 18 Jan 2023 16:32:29 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
- [IPv6:2001:4860:4864:20::2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD66210E047;
- Wed, 18 Jan 2023 16:32:27 +0000 (UTC)
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-15b9c93848dso27754882fac.1; 
- Wed, 18 Jan 2023 08:32:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=FzGHdZnG38PUUso3BdMIxZ7feb7Goq8YWG54jrX7zvU=;
- b=GzemvJG3q98iiC1WOZ/vHs+0ci5tOEzqaW+djlTNc/h3csNqfHs8q3ah49wH69giFg
- Xd+vx1PvINMXJr9GDJ2t3YQ389aUfD5tKEO8m9EX7XorrooVPyqaC8MV0rd0DEESzKOp
- xBfHIxUjb7j5kk6DaGyyUmFbLg8Ly53BNGcVIVgll32oMGVW9NptEFEkTDjDShyTKlT2
- 0e/zPlwN1iCRWFNfpQEA2zAc4wlEnoyROiEP49m+ty63pY27BV4dTFwz2HKjfJUs6BfH
- RNbS8BB868nWBfPIa5dortHoUp2ymPSyXmoV84X/nO9njNScIdO2LeykUaAK0QARvbaM
- Vu1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=FzGHdZnG38PUUso3BdMIxZ7feb7Goq8YWG54jrX7zvU=;
- b=4//hkLn0Dx76AazLTIbf8KQJn/PEwdLOrSeK8JCfvujvhfWQKLLdN1YFxDbIiSXhrz
- 4i6SsSzctpQneIITbIfP7nf+LlgDWDv//K5qFFvjCCkD/sAH8nlfLDKLrUCVXrKhEkXb
- DkV3Thpxj3oCAPtq2Y+YkvdwtgaQXovgj65aLAGHA0kGPg4tUQgXxWyLCgxcOEutqN2y
- xDb4FcCMUSU9uQ0W5Qxqzc0SXt7fJUjqBlPkEzmuUOI05uecmtzOqex5uucm3QCZhAOX
- yL+ojh7sqD1DUB5W9Nm+t8coaAxutQnGCTKALXlh3oVmnLPBiEAz6Yw03YhZ15o05FzU
- ckTg==
-X-Gm-Message-State: AFqh2kpF7nOITUhWaO/X2Tg60YbCRgfgpQ/gtMhKysyEjJOjURMClCdG
- oFScFxJmQeWDRS6DXFdUXF2kzplKrVTt+rU2Y1g=
-X-Google-Smtp-Source: AMrXdXs3xaVHPfIEvEvlPCi6maxmp3xBY1Iji7ce+Clj8jRQDwb5a3yegddizqXtH7OPOAPAkq/8C0VDJbyVyAapx/k=
-X-Received: by 2002:a05:6870:7a18:b0:15f:5509:9a0d with SMTP id
- hf24-20020a0568707a1800b0015f55099a0dmr726423oab.46.1674059546916; Wed, 18
- Jan 2023 08:32:26 -0800 (PST)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BEE010E78F;
+	Wed, 18 Jan 2023 16:35:27 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8350310E78F;
+ Wed, 18 Jan 2023 16:35:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674059725; x=1705595725;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=p2wQkbtDZ3uexU8bpYHRFearpsXNIp9BjHLouSDQ5WM=;
+ b=YGyXIki6QZ+bHeuDMKYOCLzCOLeFmZF0/Jq3EtQZv96yiatYoDbsH0hy
+ U8AEuh0vVqqvXeODOsMwrRoz0OhD2yVrfb++d66hAzxL+kvOonVpX6bPd
+ 2cuYwsVkh6aHiSCT3wOrJpzNzXyN7+C1tWqu/XFQ9rYir/WWt3P59/0HT
+ Ye2Y31XKauRgLGX0vbjCu2Id/Upmho4b2ngL4uq95Pb4gozgtdksahd6n
+ EByAHJCSmvUKt7s6hk6GJSsxsJmKLL0r3eMH/5u+Bov1pV3YXkO9rwu7j
+ bo8iG+OREW3Q7PMaVztG7UR56wz7i0/365C4gOKBu+NYevhNsVqOnwINa Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="327099165"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="327099165"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2023 08:34:28 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="728267215"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="728267215"
+Received: from llvincen-mobl.ger.corp.intel.com (HELO [10.213.215.37])
+ ([10.213.215.37])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2023 08:34:27 -0800
+Message-ID: <548703fc-ebb4-b991-6b64-a4a378feb507@linux.intel.com>
+Date: Wed, 18 Jan 2023 16:34:25 +0000
 MIME-Version: 1.0
-References: <20230118160722.289840-1-arnd@kernel.org>
-In-Reply-To: <20230118160722.289840-1-arnd@kernel.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 18 Jan 2023 11:32:15 -0500
-Message-ID: <CADnq5_NPmDjmU+KpHU6z_pNDoASim7Hokq9XnHu8ONP6HqZZdw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: fix hdmi_encoded_link_bw definition
-To: Arnd Bergmann <arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [Intel-gfx] [PATCH v2 2/5] drm/i915: Allow error capture without
+ a request
+Content-Language: en-US
+To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
+References: <20230117213630.2897570-1-John.C.Harrison@Intel.com>
+ <20230117213630.2897570-3-John.C.Harrison@Intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20230117213630.2897570-3-John.C.Harrison@Intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,89 +63,182 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ian Chen <ian.chen@amd.com>, Wesley Chalmers <Wesley.Chalmers@amd.com>,
- Arnd Bergmann <arnd@arndb.de>, Leo Li <sunpeng.li@amd.com>,
- Wenjing Liu <wenjing.liu@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Solomon Chiu <solomon.chiu@amd.com>,
- Michael Strauss <michael.strauss@amd.com>, dri-devel@lists.freedesktop.org,
- "Shen, George" <George.Shen@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Po Ting Chen <robin.chen@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
 
-Alex
-
-On Wed, Jan 18, 2023 at 11:07 AM Arnd Bergmann <arnd@kernel.org> wrote:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> Some of the data structures are hidden when CONFIG_DRM_AMD_DC_DCN is
-> disabled, which leads to a link failure:
->
-> drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_dp_capability.c:234:21: error: 'union hdmi_encoded_link_bw' declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
->   234 |         const union hdmi_encoded_link_bw hdmi_encoded_link_bw)
->       |                     ^~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_dp_capability.c:234:42: error: parameter 2 ('hdmi_encoded_link_bw') has incomplete type
->   234 |         const union hdmi_encoded_link_bw hdmi_encoded_link_bw)
->       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_dp_capability.c:232:17: error: function declaration isn't a prototype [-Werror=strict-prototypes]
->   232 | static uint32_t intersect_frl_link_bw_support(
->       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_dp_capability.c: In function 'get_active_converter_info':
-> drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_dp_capability.c:1126:76: error: storage size of 'hdmi_encoded_link_bw' isn't known
->  1126 |                                                 union hdmi_encoded_link_bw hdmi_encoded_link_bw;
->       |                                                                            ^~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_dp_capability.c:1130:101: error: 'struct <anonymous>' has no member named 'MAX_ENCODED_LINK_BW_SUPPORT'
->  1130 |                                                                                 hdmi_color_caps.bits.MAX_ENCODED_LINK_BW_SUPPORT);
->
-> There is probably no need to hide the data structure, and removing
-> the #ifdef makes it build cleanly.
->
-> Fixes: d5a43956b73b ("drm/amd/display: move dp capability related logic to link_dp_capability")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On 17/01/2023 21:36, John.C.Harrison@Intel.com wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
+> 
+> There was a report of error captures occurring without any hung
+> context being indicated despite the capture being initiated by a 'hung
+> context notification' from GuC. The problem was not reproducible.
+> However, it is possible to happen if the context in question has no
+> active requests. For example, if the hang was in the context switch
+> itself then the breadcrumb write would have occurred and the KMD would
+> see an idle context.
+> 
+> In the interests of attempting to provide as much information as
+> possible about a hang, it seems wise to include the engine info
+> regardless of whether a request was found or not. As opposed to just
+> prentending there was no hang at all.
+> 
+> So update the error capture code to always record engine information
+> if an engine is given. Which means updating record_context() to take a
+> context instead of a request (which it only ever used to find the
+> context anyway). And split the request agnostic parts of
+> intel_engine_coredump_add_request() out into a seaprate function.
+> 
+> v2: Remove a duplicate 'if' statement (Umesh) and fix a put of a null
+> pointer.
+> v3: Tidy up request locking code flow (Tvrtko)
+> 
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> Reviewed-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
 > ---
->  drivers/gpu/drm/amd/display/dc/dc_dp_types.h | 6 ------
->  1 file changed, 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dc_dp_types.h b/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
-> index b7e53b7dc4ed..84da54358922 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
-> +++ b/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
-> @@ -361,14 +361,10 @@ enum dpcd_downstream_port_detailed_type {
->  union dwnstream_port_caps_byte2 {
->         struct {
->                 uint8_t MAX_BITS_PER_COLOR_COMPONENT:2;
-> -#if defined(CONFIG_DRM_AMD_DC_DCN)
->                 uint8_t MAX_ENCODED_LINK_BW_SUPPORT:3;
->                 uint8_t SOURCE_CONTROL_MODE_SUPPORT:1;
->                 uint8_t CONCURRENT_LINK_BRING_UP_SEQ_SUPPORT:1;
->                 uint8_t RESERVED:1;
-> -#else
-> -               uint8_t RESERVED:6;
-> -#endif
->         } bits;
->         uint8_t raw;
->  };
-> @@ -406,7 +402,6 @@ union dwnstream_port_caps_byte3_hdmi {
->         uint8_t raw;
->  };
->
-> -#if defined(CONFIG_DRM_AMD_DC_DCN)
->  union hdmi_sink_encoded_link_bw_support {
->         struct {
->                 uint8_t HDMI_SINK_ENCODED_LINK_BW_SUPPORT:3;
-> @@ -428,7 +423,6 @@ union hdmi_encoded_link_bw {
->         } bits;
->         uint8_t raw;
->  };
-> -#endif
->
->  /*4-byte structure for detailed capabilities of a down-stream port
->  (DP-to-TMDS converter).*/
-> --
-> 2.39.0
->
+>   drivers/gpu/drm/i915/i915_gpu_error.c | 69 ++++++++++++++++++---------
+>   1 file changed, 46 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+> index 4107a0dfcca7d..461489d599a7e 100644
+> --- a/drivers/gpu/drm/i915/i915_gpu_error.c
+> +++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+> @@ -1370,14 +1370,14 @@ static void engine_record_execlists(struct intel_engine_coredump *ee)
+>   }
+>   
+>   static bool record_context(struct i915_gem_context_coredump *e,
+> -			   const struct i915_request *rq)
+> +			   struct intel_context *ce)
+>   {
+>   	struct i915_gem_context *ctx;
+>   	struct task_struct *task;
+>   	bool simulated;
+>   
+>   	rcu_read_lock();
+> -	ctx = rcu_dereference(rq->context->gem_context);
+> +	ctx = rcu_dereference(ce->gem_context);
+>   	if (ctx && !kref_get_unless_zero(&ctx->ref))
+>   		ctx = NULL;
+>   	rcu_read_unlock();
+> @@ -1396,8 +1396,8 @@ static bool record_context(struct i915_gem_context_coredump *e,
+>   	e->guilty = atomic_read(&ctx->guilty_count);
+>   	e->active = atomic_read(&ctx->active_count);
+>   
+> -	e->total_runtime = intel_context_get_total_runtime_ns(rq->context);
+> -	e->avg_runtime = intel_context_get_avg_runtime_ns(rq->context);
+> +	e->total_runtime = intel_context_get_total_runtime_ns(ce);
+> +	e->avg_runtime = intel_context_get_avg_runtime_ns(ce);
+>   
+>   	simulated = i915_gem_context_no_error_capture(ctx);
+>   
+> @@ -1532,15 +1532,37 @@ intel_engine_coredump_alloc(struct intel_engine_cs *engine, gfp_t gfp, u32 dump_
+>   	return ee;
+>   }
+>   
+> +static struct intel_engine_capture_vma *
+> +engine_coredump_add_context(struct intel_engine_coredump *ee,
+> +			    struct intel_context *ce,
+> +			    gfp_t gfp)
+> +{
+> +	struct intel_engine_capture_vma *vma = NULL;
+> +
+> +	ee->simulated |= record_context(&ee->context, ce);
+> +	if (ee->simulated)
+> +		return NULL;
+> +
+> +	/*
+> +	 * We need to copy these to an anonymous buffer
+> +	 * as the simplest method to avoid being overwritten
+> +	 * by userspace.
+> +	 */
+> +	vma = capture_vma(vma, ce->ring->vma, "ring", gfp);
+> +	vma = capture_vma(vma, ce->state, "HW context", gfp);
+> +
+> +	return vma;
+> +}
+> +
+>   struct intel_engine_capture_vma *
+>   intel_engine_coredump_add_request(struct intel_engine_coredump *ee,
+>   				  struct i915_request *rq,
+>   				  gfp_t gfp)
+>   {
+> -	struct intel_engine_capture_vma *vma = NULL;
+> +	struct intel_engine_capture_vma *vma;
+>   
+> -	ee->simulated |= record_context(&ee->context, rq);
+> -	if (ee->simulated)
+> +	vma = engine_coredump_add_context(ee, rq->context, gfp);
+> +	if (!vma)
+>   		return NULL;
+>   
+>   	/*
+> @@ -1550,8 +1572,6 @@ intel_engine_coredump_add_request(struct intel_engine_coredump *ee,
+>   	 */
+>   	vma = capture_vma_snapshot(vma, rq->batch_res, gfp, "batch");
+>   	vma = capture_user(vma, rq, gfp);
+> -	vma = capture_vma(vma, rq->ring->vma, "ring", gfp);
+> -	vma = capture_vma(vma, rq->context->state, "HW context", gfp);
+>   
+>   	ee->rq_head = rq->head;
+>   	ee->rq_post = rq->postfix;
+> @@ -1609,8 +1629,12 @@ capture_engine(struct intel_engine_cs *engine,
+>   		intel_engine_clear_hung_context(engine);
+>   		/* This will reference count the request (if found) */
+>   		rq = intel_context_find_active_request(ce);
+> -		if (!rq || !i915_request_started(rq))
+> -			goto no_request_capture;
+> +		if (rq && !i915_request_started(rq)) {
+> +			drm_info(&engine->gt->i915->drm, "Got hung context on %s with no active request!\n",
+> +				 engine->name);
+> +			i915_request_put(rq);
+> +			rq = NULL;
+> +		}
+>   	} else {
+>   		/*
+>   		 * Getting here with GuC enabled means it is a forced error capture
+> @@ -1624,25 +1648,24 @@ capture_engine(struct intel_engine_cs *engine,
+>   					       flags);
+>   		}
+>   	}
+> -	if (!rq)
+> -		goto no_request_capture;
+> -
+> -	capture = intel_engine_coredump_add_request(ee, rq, ATOMIC_MAYFAIL);
+> -	if (!capture) {
+> +	if (rq) {
+> +		capture = intel_engine_coredump_add_request(ee, rq, ATOMIC_MAYFAIL);
+>   		i915_request_put(rq);
+> -		goto no_request_capture;
+> +	} else if (ce) {
+> +		capture = engine_coredump_add_context(ee, ce, ATOMIC_MAYFAIL);
+>   	}
+> +
+>   	if (dump_flags & CORE_DUMP_FLAG_IS_GUC_CAPTURE)
+>   		intel_guc_capture_get_matching_node(engine->gt, ee, ce);
+>   
+> -	intel_engine_coredump_add_vma(ee, capture, compress);
+> -	i915_request_put(rq);
+> +	if (capture) {
+> +		intel_engine_coredump_add_vma(ee, capture, compress);
+> +	} else {
+> +		kfree(ee);
+> +		ee = NULL;
+> +	}
+>   
+>   	return ee;
+> -
+> -no_request_capture:
+> -	kfree(ee);
+> -	return NULL;
+>   }
+>   
+>   static void
+
+LGTM - regardless of how i915_request_get_rcu flow ends up:
+
+Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+
+Regards,
+
+Tvrtko
