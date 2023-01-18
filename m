@@ -2,63 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41773672CA5
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 00:32:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 461BE672CB1
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 00:39:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4CD610E205;
-	Wed, 18 Jan 2023 23:31:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ED0D10E86B;
+	Wed, 18 Jan 2023 23:39:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC42B10E201
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 23:31:47 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id i5so338869oih.11
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 15:31:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xn0RWIp29/DDAGotFO+F2cDyIEYDf7WQu136TlHaqBY=;
- b=WvB1eC/P4oWjyyHt2Xiv+jJzi+YM15ktxv3wiWEsWtOpmEYHlKGvdqSPPwNm2WkOOK
- /bCKJ654C7OctT4+0I3/y+W4BgDDIeA8B8R5KqNvloLDf0ory7cG2icncxD4uu7Qp7cO
- esjHouqMyqwV0Gq9h30VCS35hrl+WAGxq7iIEa0ZZdBnUT272nI+2QuA8L4fdh65XOpG
- tT0K1qDSRUkjqpg3xwWIBPjm+/28KfDQaIaun2wdPxJ4ndeCuY9dV10YFyeTDtDcj5WT
- po/7v9h71s/8buQt0WHwuyU3GSjoZdxzcCM25/eM9WL5yEPkuWhMdu/Rb7X0AgJDEKvs
- Kf9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xn0RWIp29/DDAGotFO+F2cDyIEYDf7WQu136TlHaqBY=;
- b=YE/FENllQRYEohDEfw65qltLEhXe8cJwhHe9umkXXmBkoHBMGyTAFanvn6vUqYXE6X
- N7h4xM6UG2C9r3o9x/n6z08zuJ4dd0fuZdTsnbtdMULsY0rW4sLifHPkmrSosAkmVPXP
- XjRiPrW5vScJCc1ZiPiUIKhL6Te+5kLXwn6ujTfgG94fczla8pEMGQ4ZylG+SmCBrNwM
- 5kKZPvGBc3vSn6HwuzjIXqZETByyoQ8Cd2H/SPGHCYPTAIFhh+0Zy/HV1NwT5OJyiBrN
- 1ofsFuZUS6j9UMPSaq9Ex178wqFwC27rD7AFsHL4yY2wc+gKaS4l61J2rIUA4KGLDbuX
- doZQ==
-X-Gm-Message-State: AFqh2kpTZa59gOW3kFlGOCLrunirZj7QMVgZFmpG+lkQplN3jsEpmvKh
- 9x8YnLo479gK4Q4fMdtMEhngtzC4bMA=
-X-Google-Smtp-Source: AMrXdXtSTcEC2SF4tiWAFqMRl124wyleL7Bn9yOESTS8JR8iIMsWCMPS3GIN9xthV1gRZUrcMHsidA==
-X-Received: by 2002:a05:6808:14d6:b0:361:6ef:bf32 with SMTP id
- f22-20020a05680814d600b0036106efbf32mr5946154oiw.57.1674084707339; 
- Wed, 18 Jan 2023 15:31:47 -0800 (PST)
-Received: from localhost.localdomain ([76.244.6.13])
- by smtp.gmail.com with ESMTPSA id
- q10-20020acad90a000000b00354932bae03sm16966933oig.10.2023.01.18.15.31.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jan 2023 15:31:47 -0800 (PST)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH V11 4/4] arm64: dts: rockchip: add display to RG503
-Date: Wed, 18 Jan 2023 17:31:35 -0600
-Message-Id: <20230118233135.1174859-5-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230118233135.1174859-1-macroalpha82@gmail.com>
-References: <20230118233135.1174859-1-macroalpha82@gmail.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B00F110E86B;
+ Wed, 18 Jan 2023 23:39:07 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30INVdaU003088; Wed, 18 Jan 2023 23:39:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=xn0IoLYGkGNrFsEmPAlr5+5f1kkNCC84vRmgMEK0qyc=;
+ b=XXRtRJacSUqPzgK3MNvfoYKxT4sguQVhlOK/oF/lqto6qT0yaUg26j7rMikRHKSyyuYc
+ AaiIkf8iL2ToFgQEnvToz2tJA3nj5gVeycTYiirPrvCKk8gNBTUkEXCnZVjbjR0wByzu
+ 5+LIrzuGGE0g26qo+LU55hWQ1LDRKCRD8vkw5TBQ/lx3203yoSx4cXH2/CwsPt5K9VzV
+ t5seIP56GvsFs6StrYdYdXvJlHQ0U6tKU+Y+F/vt14a47bE7gUJqMTYtsplcJ4yfAhVD
+ CGpnCii4R5hr7pygM/FJkXtTSAQg6S5RvhXlF8HyOcV+d4SQi/lpA1tt8txlSVkJcw3O nw== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n6r5987ku-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Jan 2023 23:39:04 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30INd47x019382
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Jan 2023 23:39:04 GMT
+Received: from JESSZHAN.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Wed, 18 Jan 2023 15:39:03 -0800
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+Subject: [PATCH v3] drm/msm/dpu: Reapply CTM if modeset is needed
+Date: Wed, 18 Jan 2023 15:38:48 -0800
+Message-ID: <20230118233848.611-1-quic_jesszhan@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 4VjfkML8hKxStsPr2jPfLU5FNdB9WE6P
+X-Proofpoint-GUID: 4VjfkML8hKxStsPr2jPfLU5FNdB9WE6P
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-18_05,2023-01-18_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1015
+ mlxscore=0 mlxlogscore=833 malwarescore=0 priorityscore=1501 bulkscore=0
+ suspectscore=0 phishscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301180196
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,108 +78,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
- krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
- linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
- thierry.reding@gmail.com, tzimmermann@suse.de,
- Maya Matuszczyk <maccraft123mc@gmail.com>
+Cc: quic_kalyant@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
+ Jessica Zhang <quic_jesszhan@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Morgan <macromorgan@hotmail.com>
+Add a !drm_atomic_crtc_needs_modeset() check to
+_dpu_crtc_setup_cp_blocks() so that CTM is reapplied if the LM/DSPP
+blocks were reallocated during modeset or after a suspend/resume.
 
-Add Samsung AMS495QA01 panel to RG503.
+Changes in V2:
+- Fixed commit message
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+Changes in V3:
+- Added mention of suspend/resume case back to commit message
+
+Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/23
+Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 ---
- .../dts/rockchip/rk3566-anbernic-rg503.dts    | 55 +++++++++++++++++++
- 1 file changed, 55 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dts b/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dts
-index 5dafcc86296b..b4b2df821cba 100644
---- a/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dts
-@@ -47,6 +47,21 @@ gpio_spi: spi {
- 		mosi-gpios = <&gpio4 RK_PB0 GPIO_ACTIVE_HIGH>;
- 		cs-gpios = <&gpio4 RK_PA7 GPIO_ACTIVE_HIGH>;
- 		num-chipselects = <0>;
-+
-+		panel@0 {
-+			compatible = "samsung,ams495qa01";
-+			reg = <0>;
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&lcd_reset>;
-+			reset-gpios = <&gpio4 RK_PA0 GPIO_ACTIVE_LOW>;
-+			vdd-supply = <&vcc_3v3>;
-+
-+			port {
-+				mipi_in_panel: endpoint {
-+					remote-endpoint = <&mipi_out_panel>;
-+				};
-+			};
-+		};
- 	};
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 13ce321283ff..aa120a230222 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -748,7 +748,7 @@ static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
+ 	int i;
  
- 	/* Channels reversed for both headphones and speakers. */
-@@ -94,6 +109,32 @@ &cru {
- 	assigned-clock-rates = <1200000000>, <200000000>, <500000000>;
- };
  
-+&dsi_dphy0 {
-+	status = "okay";
-+};
-+
-+&dsi0 {
-+	status = "okay";
-+
-+	ports {
-+		dsi0_in: port@0 {
-+			reg = <0>;
-+
-+			dsi0_in_vp1: endpoint {
-+				remote-endpoint = <&vp1_out_dsi0>;
-+			};
-+		};
-+
-+		dsi0_out: port@1 {
-+			reg = <1>;
-+
-+			mipi_out_panel: endpoint {
-+				remote-endpoint = <&mipi_in_panel>;
-+			};
-+		};
-+	};
-+};
-+
- &gpio_keys_control {
- 	button-a {
- 		gpios = <&gpio3 RK_PC1 GPIO_ACTIVE_LOW>;
-@@ -146,6 +187,13 @@ spk_amp_enable_h: spk-amp-enable-h {
- 		};
- 	};
+-	if (!state->color_mgmt_changed)
++	if (!state->color_mgmt_changed && !drm_atomic_crtc_needs_modeset(state))
+ 		return;
  
-+	gpio-lcd {
-+		lcd_reset: lcd-reset {
-+			rockchip,pins =
-+				<4 RK_PA0 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+
- 	gpio-spi {
- 		spi_pins: spi-pins {
- 			rockchip,pins =
-@@ -164,3 +212,10 @@ rk817_charger: charger {
- 		rockchip,sleep-filter-current-microamp = <100000>;
- 	};
- };
-+
-+&vp1 {
-+	vp1_out_dsi0: endpoint@ROCKCHIP_VOP2_EP_MIPI0 {
-+		reg = <ROCKCHIP_VOP2_EP_MIPI0>;
-+		remote-endpoint = <&dsi0_in_vp1>;
-+	};
-+};
+ 	for (i = 0; i < cstate->num_mixers; i++) {
 -- 
-2.34.1
+2.39.0
 
