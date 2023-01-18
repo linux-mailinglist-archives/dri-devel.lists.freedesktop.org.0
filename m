@@ -1,71 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F86B6713A9
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 07:14:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8657D6713AD
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 07:14:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF12410E69B;
-	Wed, 18 Jan 2023 06:14:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2660D10E6A0;
+	Wed, 18 Jan 2023 06:14:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E426610E69C
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 06:14:13 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC58410E699
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 06:14:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674022453;
+ s=mimecast20190719; t=1674022456;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BjQT6ug5vGiLF/xBpRpA85/y/iklQ7iPHa1/Bh9Ff60=;
- b=WOL4QJg2X8p1BF1VdzmjU4c6u1RTKKC/040oVKLCJajqQzKif2yghPMAWr5AcXwz8mv3In
- Fk6U/2OpSw6zYd11EegJlHTuTWxrR7fbsQev4GGPTwCcXFunYrfOeB0fTEsDpM3o1ow97C
- 23nHrM1MyQYOMtBglubHMtBo9otCsBI=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=XMcBA2BxKR6mgzQVCp1bnTeEdyEKJQVuyTzd+hiIz80=;
+ b=BK0XI8ov+Rq1wLse8ykphltr+qg3Vr4CnA6yEbD3Oev7HzQCMkwMeCQvZeyZ3aUj6qHNYP
+ fJan2ND81ogfucOf7zXHmZLKckQdkRg9Ekuz+dCiVZeFMEcxGfkUp7rzL/QxpH9QDs/DMB
+ +ttABara8d8oGIqYKIozs61P0HX7JcU=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-38-uZvJPkdzPaa8GtZwmNW9gg-1; Wed, 18 Jan 2023 01:14:12 -0500
-X-MC-Unique: uZvJPkdzPaa8GtZwmNW9gg-1
-Received: by mail-ej1-f69.google.com with SMTP id
- xj11-20020a170906db0b00b0077b6ecb23fcso23191252ejb.5
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 22:14:11 -0800 (PST)
+ us-mta-589-VK0CRkInO56OxwnlMzQoKA-1; Wed, 18 Jan 2023 01:14:16 -0500
+X-MC-Unique: VK0CRkInO56OxwnlMzQoKA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ qa18-20020a170907869200b007df87611618so22906480ejc.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 22:14:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BjQT6ug5vGiLF/xBpRpA85/y/iklQ7iPHa1/Bh9Ff60=;
- b=C+gxSzRl7jtpzBoyUerzMRZZ4rZomSLw7puy2CaFQYy7VDSlQ/pTRzZT9eBX+HVPwk
- n72pols54sgOhAEDcOw/tfLelGLqLoSH8rnIFlNXcBNmXzFiOKaeUvnN/W2blwWXWws5
- rPreICCtQ7NL9MBNDpXVpP9a6gMHj0h7U+oFkHZeu766dixsQes/9E8B7R/DaIoUxxj7
- 5QYj5K7swWb0m9HDNWFo8yTetbWophZzaXpmx+3v8jfvCcG/H9L5sqEZwvYg+AbGhpM9
- A41KsWxk34DYJM83ZYQ1cShsmTxTSJlelsrp3IEf4oSyOBCfACsOl7S7oaJE8yXuA9F9
- UNkg==
-X-Gm-Message-State: AFqh2kp6Qu8vY8JABR3k393x+zzDS7TjTv2nLtaTmcTBeKdBCxmwA7MI
- z7+WGGxyle9/LqkB7Sffeos8h1Bs4CEIc7AK1g2hcF2QjiWJ9tKiFYwuj+RX3jL3XesJ3VQjKn4
- 7Z6LbZ9Yh9r3IDOOK5c4Cal0P9bUr
-X-Received: by 2002:a17:906:1918:b0:7ad:ca80:5669 with SMTP id
- a24-20020a170906191800b007adca805669mr5854857eje.64.1674022450089; 
- Tue, 17 Jan 2023 22:14:10 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuWfnz6ITxzZ8qF1vuQEIoNm1/OHOeVoK6+PSz1rRUJhncLMnOcYeslOLyw5ktqlUoCIEzD3A==
-X-Received: by 2002:a17:906:1918:b0:7ad:ca80:5669 with SMTP id
- a24-20020a170906191800b007adca805669mr5854845eje.64.1674022449837; 
- Tue, 17 Jan 2023 22:14:09 -0800 (PST)
+ bh=XMcBA2BxKR6mgzQVCp1bnTeEdyEKJQVuyTzd+hiIz80=;
+ b=0zbZjVg4X178JGpdFXnjH150mZzZQvJTHRteF72LWpfOe0twn0IlgbcjzYMZk2g8fN
+ Q0DngBtiiy4FwKBhQ0KeElaiGoQNBetDGUK7ndVln7LrFJJr96PlzWv0nx1/EvmPN22b
+ fW2vjT9ZRimxKniohb/BvWRuTGhlHAZ7J/Pro77+W+GsLSlVV+KONK/8DC0HHapSzJV4
+ i7GQ4uYDa+wBaoY/LZBfQG9eDsGYMlB4qgzpocwi8bQDlr+3LOhsNHOxXR8vCg+YvZHr
+ xwku7ztvHm50RurV/6po12SpWG1i4jTYNJe74r4mfCmFFX3Oi7Wyo9fsj7NrN92qm3Ox
+ PH3g==
+X-Gm-Message-State: AFqh2koh2qz0/3Z1WmBMndDvNPaakqxBvhMIUmfPcOr6GhqRAvnEhNTK
+ qtaQfzkK/XmKRbctn3Zhvvb+D2jyhlJ2cJmJ5D8o9spGX7DhjQZJc/Kj7JtMZlQXJ9+dsn3YVR+
+ 3rI2wrd1N0W3Co+THiwJN+DW/zsep
+X-Received: by 2002:a17:906:3c03:b0:7c1:79f5:9545 with SMTP id
+ h3-20020a1709063c0300b007c179f59545mr5524867ejg.42.1674022454421; 
+ Tue, 17 Jan 2023 22:14:14 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtuznNARQTduxkNFKD7cavVy8dqxCe5g+nOWp3iv028+GM793vBn+deG0+ZiXrWoUPL9dGsOg==
+X-Received: by 2002:a17:906:3c03:b0:7c1:79f5:9545 with SMTP id
+ h3-20020a1709063c0300b007c179f59545mr5524840ejg.42.1674022454059; 
+ Tue, 17 Jan 2023 22:14:14 -0800 (PST)
 Received: from cassiopeiae.. ([2a02:810d:4b3f:de78:642:1aff:fe31:a19f])
  by smtp.gmail.com with ESMTPSA id
- kz22-20020a17090777d600b007c1633cea13sm14338638ejc.12.2023.01.17.22.14.08
+ o16-20020a170906769000b0087758f5ecd1sm392404ejm.194.2023.01.17.22.14.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 22:14:09 -0800 (PST)
+ Tue, 17 Jan 2023 22:14:13 -0800 (PST)
 From: Danilo Krummrich <dakr@redhat.com>
 To: daniel@ffwll.ch, airlied@redhat.com, christian.koenig@amd.com,
  bskeggs@redhat.com, jason@jlekstrand.net, tzimmermann@suse.de,
  mripard@kernel.org, corbet@lwn.net
-Subject: [PATCH drm-next 11/14] drm/nouveau: nvkm/vmm: implement raw ops to
- manage uvmm
-Date: Wed, 18 Jan 2023 07:12:53 +0100
-Message-Id: <20230118061256.2689-12-dakr@redhat.com>
+Subject: [PATCH drm-next 12/14] drm/nouveau: implement uvmm for user mode
+ bindings
+Date: Wed, 18 Jan 2023 07:12:54 +0100
+Message-Id: <20230118061256.2689-13-dakr@redhat.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230118061256.2689-1-dakr@redhat.com>
 References: <20230118061256.2689-1-dakr@redhat.com>
@@ -92,610 +92,1163 @@ Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The new VM_BIND UAPI uses the DRM GPU VA manager to manage the VA space.
-Hence, we a need a way to manipulate the MMUs page tables without going
-through the internal range allocator implemented by nvkm/vmm.
+uvmm provides the driver abstraction around the DRM GPU VA manager
+connecting it to the nouveau infrastructure.
 
-This patch adds a raw interface for nvkm/vmm to pass the resposibility
-for managing the address space and the corresponding map/unmap/sparse
-operations to the upper layers.
+It handles the split and merge operations provided by the DRM GPU VA
+manager for map operations colliding with existent mappings and takes
+care of the driver specific locking around the DRM GPU VA manager.
 
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/nouveau/include/nvif/if000c.h |  23 ++-
- drivers/gpu/drm/nouveau/include/nvif/vmm.h    |  17 +-
- .../gpu/drm/nouveau/include/nvkm/subdev/mmu.h |  10 ++
- drivers/gpu/drm/nouveau/nouveau_svm.c         |   2 +-
- drivers/gpu/drm/nouveau/nouveau_vmm.c         |   4 +-
- drivers/gpu/drm/nouveau/nvif/vmm.c            |  73 +++++++-
- .../gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c    | 168 +++++++++++++++++-
- .../gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.h    |   1 +
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c |  32 +++-
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |   3 +
- 10 files changed, 319 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/nouveau/Kbuild          |   1 +
+ drivers/gpu/drm/nouveau/nouveau_abi16.c |   7 +
+ drivers/gpu/drm/nouveau/nouveau_bo.c    | 147 +++---
+ drivers/gpu/drm/nouveau/nouveau_bo.h    |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c   |   2 +
+ drivers/gpu/drm/nouveau/nouveau_drv.h   |  48 ++
+ drivers/gpu/drm/nouveau/nouveau_gem.c   |  51 ++-
+ drivers/gpu/drm/nouveau/nouveau_mem.h   |   5 +
+ drivers/gpu/drm/nouveau/nouveau_prime.c |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c  | 575 ++++++++++++++++++++++++
+ drivers/gpu/drm/nouveau/nouveau_uvmm.h  |  68 +++
+ 11 files changed, 835 insertions(+), 73 deletions(-)
+ create mode 100644 drivers/gpu/drm/nouveau/nouveau_uvmm.c
+ create mode 100644 drivers/gpu/drm/nouveau/nouveau_uvmm.h
 
-diff --git a/drivers/gpu/drm/nouveau/include/nvif/if000c.h b/drivers/gpu/drm/nouveau/include/nvif/if000c.h
-index 9c7ff56831c5..d30e32fb8628 100644
---- a/drivers/gpu/drm/nouveau/include/nvif/if000c.h
-+++ b/drivers/gpu/drm/nouveau/include/nvif/if000c.h
-@@ -3,7 +3,10 @@
- struct nvif_vmm_v0 {
- 	__u8  version;
- 	__u8  page_nr;
--	__u8  managed;
-+#define NVIF_VMM_V0_TYPE_UNMANAGED                                         0x00
-+#define NVIF_VMM_V0_TYPE_MANAGED                                           0x01
-+#define NVIF_VMM_V0_TYPE_RAW                                               0x02
-+	__u8  type;
- 	__u8  pad03[5];
- 	__u64 addr;
- 	__u64 size;
-@@ -17,6 +20,7 @@ struct nvif_vmm_v0 {
- #define NVIF_VMM_V0_UNMAP                                                  0x04
- #define NVIF_VMM_V0_PFNMAP                                                 0x05
- #define NVIF_VMM_V0_PFNCLR                                                 0x06
-+#define NVIF_VMM_V0_RAW                                                    0x07
- #define NVIF_VMM_V0_MTHD(i)                                         ((i) + 0x80)
+diff --git a/drivers/gpu/drm/nouveau/Kbuild b/drivers/gpu/drm/nouveau/Kbuild
+index 5e5617006da5..ee281bb76463 100644
+--- a/drivers/gpu/drm/nouveau/Kbuild
++++ b/drivers/gpu/drm/nouveau/Kbuild
+@@ -47,6 +47,7 @@ nouveau-y += nouveau_prime.o
+ nouveau-y += nouveau_sgdma.o
+ nouveau-y += nouveau_ttm.o
+ nouveau-y += nouveau_vmm.o
++nouveau-y += nouveau_uvmm.o
  
- struct nvif_vmm_page_v0 {
-@@ -66,6 +70,23 @@ struct nvif_vmm_unmap_v0 {
- 	__u64 addr;
+ # DRM - modesetting
+ nouveau-$(CONFIG_DRM_NOUVEAU_BACKLIGHT) += nouveau_backlight.o
+diff --git a/drivers/gpu/drm/nouveau/nouveau_abi16.c b/drivers/gpu/drm/nouveau/nouveau_abi16.c
+index 82dab51d8aeb..36cc80eb0e20 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_abi16.c
++++ b/drivers/gpu/drm/nouveau/nouveau_abi16.c
+@@ -261,6 +261,13 @@ nouveau_abi16_ioctl_channel_alloc(ABI16_IOCTL_ARGS)
+ 	if (!drm->channel)
+ 		return nouveau_abi16_put(abi16, -ENODEV);
+ 
++	/* If uvmm wasn't initialized until now disable it completely to prevent
++	 * userspace from mixing up UAPIs.
++	 *
++	 * The client lock is already acquired by nouveau_abi16_get().
++	 */
++	__nouveau_cli_uvmm_disable(cli);
++
+ 	device = &abi16->device;
+ 	engine = NV_DEVICE_HOST_RUNLIST_ENGINES_GR;
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index 4cdeda7fe2df..03bbee291fc9 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -199,7 +199,7 @@ nouveau_bo_fixup_align(struct nouveau_bo *nvbo, int *align, u64 *size)
+ 
+ struct nouveau_bo *
+ nouveau_bo_alloc(struct nouveau_cli *cli, u64 *size, int *align, u32 domain,
+-		 u32 tile_mode, u32 tile_flags)
++		 u32 tile_mode, u32 tile_flags, bool internal)
+ {
+ 	struct nouveau_drm *drm = cli->drm;
+ 	struct nouveau_bo *nvbo;
+@@ -235,68 +235,103 @@ nouveau_bo_alloc(struct nouveau_cli *cli, u64 *size, int *align, u32 domain,
+ 			nvbo->force_coherent = true;
+ 	}
+ 
+-	if (cli->device.info.family >= NV_DEVICE_INFO_V0_FERMI) {
+-		nvbo->kind = (tile_flags & 0x0000ff00) >> 8;
+-		if (!nvif_mmu_kind_valid(mmu, nvbo->kind)) {
+-			kfree(nvbo);
+-			return ERR_PTR(-EINVAL);
++	nvbo->contig = !(tile_flags & NOUVEAU_GEM_TILE_NONCONTIG);
++	if (!nouveau_cli_uvmm(cli) || internal) {
++		/* for BO noVM allocs, don't assign kinds */
++		if (cli->device.info.family >= NV_DEVICE_INFO_V0_FERMI) {
++			nvbo->kind = (tile_flags & 0x0000ff00) >> 8;
++			if (!nvif_mmu_kind_valid(mmu, nvbo->kind)) {
++				kfree(nvbo);
++				return ERR_PTR(-EINVAL);
++			}
++
++			nvbo->comp = mmu->kind[nvbo->kind] != nvbo->kind;
++		} else if (cli->device.info.family >= NV_DEVICE_INFO_V0_TESLA) {
++			nvbo->kind = (tile_flags & 0x00007f00) >> 8;
++			nvbo->comp = (tile_flags & 0x00030000) >> 16;
++			if (!nvif_mmu_kind_valid(mmu, nvbo->kind)) {
++				kfree(nvbo);
++				return ERR_PTR(-EINVAL);
++			}
++		} else {
++			nvbo->zeta = (tile_flags & 0x00000007);
+ 		}
++		nvbo->mode = tile_mode;
++
++		/* Determine the desirable target GPU page size for the buffer. */
++		for (i = 0; i < vmm->page_nr; i++) {
++			/* Because we cannot currently allow VMM maps to fail
++			 * during buffer migration, we need to determine page
++			 * size for the buffer up-front, and pre-allocate its
++			 * page tables.
++			 *
++			 * Skip page sizes that can't support needed domains.
++			 */
++			if (cli->device.info.family > NV_DEVICE_INFO_V0_CURIE &&
++			    (domain & NOUVEAU_GEM_DOMAIN_VRAM) && !vmm->page[i].vram)
++				continue;
++			if ((domain & NOUVEAU_GEM_DOMAIN_GART) &&
++			    (!vmm->page[i].host || vmm->page[i].shift > PAGE_SHIFT))
++				continue;
+ 
+-		nvbo->comp = mmu->kind[nvbo->kind] != nvbo->kind;
+-	} else
+-	if (cli->device.info.family >= NV_DEVICE_INFO_V0_TESLA) {
+-		nvbo->kind = (tile_flags & 0x00007f00) >> 8;
+-		nvbo->comp = (tile_flags & 0x00030000) >> 16;
+-		if (!nvif_mmu_kind_valid(mmu, nvbo->kind)) {
++			/* Select this page size if it's the first that supports
++			 * the potential memory domains, or when it's compatible
++			 * with the requested compression settings.
++			 */
++			if (pi < 0 || !nvbo->comp || vmm->page[i].comp)
++				pi = i;
++
++			/* Stop once the buffer is larger than the current page size. */
++			if (*size >= 1ULL << vmm->page[i].shift)
++				break;
++		}
++
++		if (WARN_ON(pi < 0)) {
+ 			kfree(nvbo);
+ 			return ERR_PTR(-EINVAL);
+ 		}
+-	} else {
+-		nvbo->zeta = (tile_flags & 0x00000007);
+-	}
+-	nvbo->mode = tile_mode;
+-	nvbo->contig = !(tile_flags & NOUVEAU_GEM_TILE_NONCONTIG);
+-
+-	/* Determine the desirable target GPU page size for the buffer. */
+-	for (i = 0; i < vmm->page_nr; i++) {
+-		/* Because we cannot currently allow VMM maps to fail
+-		 * during buffer migration, we need to determine page
+-		 * size for the buffer up-front, and pre-allocate its
+-		 * page tables.
+-		 *
+-		 * Skip page sizes that can't support needed domains.
+-		 */
+-		if (cli->device.info.family > NV_DEVICE_INFO_V0_CURIE &&
+-		    (domain & NOUVEAU_GEM_DOMAIN_VRAM) && !vmm->page[i].vram)
+-			continue;
+-		if ((domain & NOUVEAU_GEM_DOMAIN_GART) &&
+-		    (!vmm->page[i].host || vmm->page[i].shift > PAGE_SHIFT))
+-			continue;
+ 
+-		/* Select this page size if it's the first that supports
+-		 * the potential memory domains, or when it's compatible
+-		 * with the requested compression settings.
+-		 */
+-		if (pi < 0 || !nvbo->comp || vmm->page[i].comp)
+-			pi = i;
+-
+-		/* Stop once the buffer is larger than the current page size. */
+-		if (*size >= 1ULL << vmm->page[i].shift)
+-			break;
+-	}
++		/* Disable compression if suitable settings couldn't be found. */
++		if (nvbo->comp && !vmm->page[pi].comp) {
++			if (mmu->object.oclass >= NVIF_CLASS_MMU_GF100)
++				nvbo->kind = mmu->kind[nvbo->kind];
++			nvbo->comp = 0;
++		}
++		nvbo->page = vmm->page[pi].shift;
++	} else {
++		/* reject other tile flags when in VM mode. */
++		if (tile_mode)
++			return ERR_PTR(-EINVAL);
++		if (tile_flags & ~NOUVEAU_GEM_TILE_NONCONTIG)
++			return ERR_PTR(-EINVAL);
+ 
+-	if (WARN_ON(pi < 0)) {
+-		kfree(nvbo);
+-		return ERR_PTR(-EINVAL);
+-	}
++		/* Determine the desirable target GPU page size for the buffer. */
++		for (i = 0; i < vmm->page_nr; i++) {
++			/* Because we cannot currently allow VMM maps to fail
++			 * during buffer migration, we need to determine page
++			 * size for the buffer up-front, and pre-allocate its
++			 * page tables.
++			 *
++			 * Skip page sizes that can't support needed domains.
++			 */
++			if ((domain & NOUVEAU_GEM_DOMAIN_VRAM) && !vmm->page[i].vram)
++				continue;
++			if ((domain & NOUVEAU_GEM_DOMAIN_GART) &&
++			    (!vmm->page[i].host || vmm->page[i].shift > PAGE_SHIFT))
++				continue;
+ 
+-	/* Disable compression if suitable settings couldn't be found. */
+-	if (nvbo->comp && !vmm->page[pi].comp) {
+-		if (mmu->object.oclass >= NVIF_CLASS_MMU_GF100)
+-			nvbo->kind = mmu->kind[nvbo->kind];
+-		nvbo->comp = 0;
++			if (pi < 0)
++				pi = i;
++			/* Stop once the buffer is larger than the current page size. */
++			if (*size >= 1ULL << vmm->page[i].shift)
++				break;
++		}
++		if (WARN_ON(pi < 0)) {
++			kfree(nvbo);
++			return ERR_PTR(-EINVAL);
++		}
++		nvbo->page = vmm->page[pi].shift;
+ 	}
+-	nvbo->page = vmm->page[pi].shift;
+ 
+ 	nouveau_bo_fixup_align(nvbo, align, size);
+ 
+@@ -334,7 +369,7 @@ nouveau_bo_new(struct nouveau_cli *cli, u64 size, int align,
+ 	int ret;
+ 
+ 	nvbo = nouveau_bo_alloc(cli, &size, &align, domain, tile_mode,
+-				tile_flags);
++				tile_flags, true);
+ 	if (IS_ERR(nvbo))
+ 		return PTR_ERR(nvbo);
+ 
+@@ -937,11 +972,13 @@ static void nouveau_bo_move_ntfy(struct ttm_buffer_object *bo,
+ 		list_for_each_entry(vma, &nvbo->vma_list, head) {
+ 			nouveau_vma_map(vma, mem);
+ 		}
++		nouveau_uvmm_bo_map_all(nvbo, mem);
+ 	} else {
+ 		list_for_each_entry(vma, &nvbo->vma_list, head) {
+ 			WARN_ON(ttm_bo_wait(bo, false, false));
+ 			nouveau_vma_unmap(vma);
+ 		}
++		nouveau_uvmm_bo_unmap_all(nvbo);
+ 	}
+ 
+ 	if (new_reg)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.h b/drivers/gpu/drm/nouveau/nouveau_bo.h
+index 774dd93ca76b..cb85207d9e8f 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.h
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.h
+@@ -73,7 +73,7 @@ extern struct ttm_device_funcs nouveau_bo_driver;
+ 
+ void nouveau_bo_move_init(struct nouveau_drm *);
+ struct nouveau_bo *nouveau_bo_alloc(struct nouveau_cli *, u64 *size, int *align,
+-				    u32 domain, u32 tile_mode, u32 tile_flags);
++				    u32 domain, u32 tile_mode, u32 tile_flags, bool internal);
+ int  nouveau_bo_init(struct nouveau_bo *, u64 size, int align, u32 domain,
+ 		     struct sg_table *sg, struct dma_resv *robj);
+ int  nouveau_bo_new(struct nouveau_cli *, u64 size, int align, u32 domain,
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
+index 80f154b6adab..989f30a31ba9 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+@@ -70,6 +70,7 @@
+ #include "nouveau_platform.h"
+ #include "nouveau_svm.h"
+ #include "nouveau_dmem.h"
++#include "nouveau_uvmm.h"
+ 
+ DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+ 			"DRM_UT_CORE",
+@@ -192,6 +193,7 @@ nouveau_cli_fini(struct nouveau_cli *cli)
+ 	WARN_ON(!list_empty(&cli->worker));
+ 
+ 	usif_client_fini(cli);
++	nouveau_uvmm_fini(&cli->uvmm);
+ 	nouveau_vmm_fini(&cli->svm);
+ 	nouveau_vmm_fini(&cli->vmm);
+ 	nvif_mmu_dtor(&cli->mmu);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
+index 20a7f31b9082..d634f1054d65 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drv.h
++++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
+@@ -64,6 +64,7 @@ struct platform_device;
+ #include "nouveau_fence.h"
+ #include "nouveau_bios.h"
+ #include "nouveau_vmm.h"
++#include "nouveau_uvmm.h"
+ 
+ struct nouveau_drm_tile {
+ 	struct nouveau_fence *fence;
+@@ -91,6 +92,8 @@ struct nouveau_cli {
+ 	struct nvif_mmu mmu;
+ 	struct nouveau_vmm vmm;
+ 	struct nouveau_vmm svm;
++	struct nouveau_uvmm uvmm;
++
+ 	const struct nvif_mclass *mem;
+ 
+ 	struct list_head head;
+@@ -112,15 +115,60 @@ struct nouveau_cli_work {
+ 	struct dma_fence_cb cb;
  };
  
-+struct nvif_vmm_raw_v0 {
-+	__u8 version;
-+#define NVIF_VMM_RAW_V0_MAP	0x0
-+#define NVIF_VMM_RAW_V0_UNMAP	0x1
-+#define NVIF_VMM_RAW_V0_SPARSE	0x2
-+	__u8  op;
-+	__u8  sparse;
-+	__u8  ref;
-+	__u8  pad04[4];
-+	__u64 addr;
-+	__u64 size;
-+	__u64 offset;
-+	__u64 memory;
-+	__u64 handle;
-+	__u8  data[];
-+};
++static inline struct nouveau_uvmm *
++nouveau_cli_uvmm(struct nouveau_cli *cli)
++{
++	if (!cli || !cli->uvmm.vmm.cli)
++		return NULL;
 +
- struct nvif_vmm_pfnmap_v0 {
- 	__u8  version;
- 	__u8  page;
-diff --git a/drivers/gpu/drm/nouveau/include/nvif/vmm.h b/drivers/gpu/drm/nouveau/include/nvif/vmm.h
-index a2ee92201ace..4d0781740336 100644
---- a/drivers/gpu/drm/nouveau/include/nvif/vmm.h
-+++ b/drivers/gpu/drm/nouveau/include/nvif/vmm.h
-@@ -4,6 +4,12 @@
- struct nvif_mem;
- struct nvif_mmu;
- 
-+enum nvif_vmm_type {
-+	UNMANAGED,
-+	MANAGED,
-+	RAW,
-+};
++	return &cli->uvmm;
++}
 +
- enum nvif_vmm_get {
- 	ADDR,
- 	PTES,
-@@ -30,8 +36,9 @@ struct nvif_vmm {
- 	int page_nr;
- };
- 
--int nvif_vmm_ctor(struct nvif_mmu *, const char *name, s32 oclass, bool managed,
--		  u64 addr, u64 size, void *argv, u32 argc, struct nvif_vmm *);
-+int nvif_vmm_ctor(struct nvif_mmu *, const char *name, s32 oclass,
-+		  enum nvif_vmm_type, u64 addr, u64 size, void *argv, u32 argc,
-+		  struct nvif_vmm *);
- void nvif_vmm_dtor(struct nvif_vmm *);
- int nvif_vmm_get(struct nvif_vmm *, enum nvif_vmm_get, bool sparse,
- 		 u8 page, u8 align, u64 size, struct nvif_vma *);
-@@ -39,4 +46,10 @@ void nvif_vmm_put(struct nvif_vmm *, struct nvif_vma *);
- int nvif_vmm_map(struct nvif_vmm *, u64 addr, u64 size, void *argv, u32 argc,
- 		 struct nvif_mem *, u64 offset);
- int nvif_vmm_unmap(struct nvif_vmm *, u64);
-+int nvif_vmm_raw_unmap(struct nvif_vmm *vmm, u64 handle, bool sparse);
-+int nvif_vmm_raw_map(struct nvif_vmm *vmm, u64 addr, u64 size,
-+		     void *argv, u32 argc,
-+		     struct nvif_mem *mem, u64 offset,
-+		     u64 *handle);
-+int nvif_vmm_raw_sparse(struct nvif_vmm *vmm, u64 addr, u64 size, bool ref);
- #endif
-diff --git a/drivers/gpu/drm/nouveau/include/nvkm/subdev/mmu.h b/drivers/gpu/drm/nouveau/include/nvkm/subdev/mmu.h
-index 70e7887ef4b4..ec284c1792b3 100644
---- a/drivers/gpu/drm/nouveau/include/nvkm/subdev/mmu.h
-+++ b/drivers/gpu/drm/nouveau/include/nvkm/subdev/mmu.h
-@@ -31,6 +31,16 @@ struct nvkm_vmm {
- 
- 	u64 start;
- 	u64 limit;
-+	struct {
-+		struct {
-+			u64 addr;
-+			u64 size;
-+		} p;
-+		struct {
-+			u64 addr;
-+			u64 size;
-+		} n;
-+	} managed;
- 
- 	struct nvkm_vmm_pt *pd;
- 	struct list_head join;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
-index a74ba8d84ba7..186351ecf72f 100644
---- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-@@ -350,7 +350,7 @@ nouveau_svmm_init(struct drm_device *dev, void *data,
- 	 * VMM instead of the standard one.
- 	 */
- 	ret = nvif_vmm_ctor(&cli->mmu, "svmVmm",
--			    cli->vmm.vmm.object.oclass, true,
-+			    cli->vmm.vmm.object.oclass, MANAGED,
- 			    args->unmanaged_addr, args->unmanaged_size,
- 			    &(struct gp100_vmm_v0) {
- 				.fault_replay = true,
-diff --git a/drivers/gpu/drm/nouveau/nouveau_vmm.c b/drivers/gpu/drm/nouveau/nouveau_vmm.c
-index 67d6619fcd5e..a6602c012671 100644
---- a/drivers/gpu/drm/nouveau/nouveau_vmm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_vmm.c
-@@ -128,8 +128,8 @@ nouveau_vmm_fini(struct nouveau_vmm *vmm)
- int
- nouveau_vmm_init(struct nouveau_cli *cli, s32 oclass, struct nouveau_vmm *vmm)
++static inline struct nouveau_uvmm *
++nouveau_cli_uvmm_locked(struct nouveau_cli *cli)
++{
++	struct nouveau_uvmm *uvmm;
++
++	mutex_lock(&cli->mutex);
++	uvmm = nouveau_cli_uvmm(cli);
++	mutex_unlock(&cli->mutex);
++
++	return uvmm;
++}
++
+ static inline struct nouveau_vmm *
+ nouveau_cli_vmm(struct nouveau_cli *cli)
  {
--	int ret = nvif_vmm_ctor(&cli->mmu, "drmVmm", oclass, false, PAGE_SIZE,
--				0, NULL, 0, &vmm->vmm);
-+	int ret = nvif_vmm_ctor(&cli->mmu, "drmVmm", oclass, UNMANAGED,
-+				PAGE_SIZE, 0, NULL, 0, &vmm->vmm);
- 	if (ret)
- 		return ret;
++	struct nouveau_uvmm *uvmm;
++
++	uvmm = nouveau_cli_uvmm(cli);
++	if (uvmm)
++		return &uvmm->vmm;
++
+ 	if (cli->svm.cli)
+ 		return &cli->svm;
  
-diff --git a/drivers/gpu/drm/nouveau/nvif/vmm.c b/drivers/gpu/drm/nouveau/nvif/vmm.c
-index 6053d6dc2184..a0ca5329b3ef 100644
---- a/drivers/gpu/drm/nouveau/nvif/vmm.c
-+++ b/drivers/gpu/drm/nouveau/nvif/vmm.c
-@@ -104,6 +104,63 @@ nvif_vmm_get(struct nvif_vmm *vmm, enum nvif_vmm_get type, bool sparse,
- 	return ret;
+ 	return &cli->vmm;
  }
  
-+int
-+nvif_vmm_raw_unmap(struct nvif_vmm *vmm, u64 handle, bool sparse)
++static inline void
++__nouveau_cli_uvmm_disable(struct nouveau_cli *cli)
 +{
-+	struct nvif_vmm_raw_v0 args = {
-+		.version = 0,
-+		.op = NVIF_VMM_RAW_V0_UNMAP,
-+		.handle = handle,
-+		.sparse = sparse,
-+	};
++	struct nouveau_uvmm *uvmm;
 +
-+	return nvif_object_mthd(&vmm->object, NVIF_VMM_V0_RAW,
-+				&args, sizeof(args));
++	uvmm = nouveau_cli_uvmm(cli);
++	if (!uvmm)
++		cli->uvmm.disabled = true;
 +}
 +
-+int
-+nvif_vmm_raw_map(struct nvif_vmm *vmm, u64 addr, u64 size, void *argv, u32 argc,
-+		 struct nvif_mem *mem, u64 offset, u64 *handle)
++static inline void
++nouveau_cli_uvmm_disable(struct nouveau_cli *cli)
 +{
-+	struct nvif_vmm_raw_v0 *args;
-+	int ret;
-+
-+	if (!(args = kzalloc(sizeof(*args) + argc, GFP_KERNEL)))
-+		return -ENOMEM;
-+
-+	args->version = 0;
-+	args->op = NVIF_VMM_RAW_V0_MAP;
-+	args->addr = addr;
-+	args->size = size;
-+	args->memory = nvif_handle(&mem->object);
-+	args->offset = offset;
-+	memcpy(args->data, argv, argc);
-+
-+	ret = nvif_object_mthd(&vmm->object, NVIF_VMM_V0_RAW,
-+			       args, sizeof(*args) + argc);
-+
-+	if (likely(!ret))
-+		*handle = args->handle;
-+
-+	kfree(args);
-+	return ret;
++	mutex_lock(&cli->mutex);
++	__nouveau_cli_uvmm_disable(cli);
++	mutex_unlock(&cli->mutex);
 +}
 +
-+int
-+nvif_vmm_raw_sparse(struct nvif_vmm *vmm, u64 addr, u64 size, bool ref)
-+{
-+	struct nvif_vmm_raw_v0 args = {
-+		.version = 0,
-+		.op = NVIF_VMM_RAW_V0_SPARSE,
-+		.addr = addr,
-+		.size = size,
-+		.ref = ref,
-+	};
-+
-+	return nvif_object_mthd(&vmm->object, NVIF_VMM_V0_RAW,
-+				&args, sizeof(args));
-+}
-+
- void
- nvif_vmm_dtor(struct nvif_vmm *vmm)
- {
-@@ -112,8 +169,9 @@ nvif_vmm_dtor(struct nvif_vmm *vmm)
+ void nouveau_cli_work_queue(struct nouveau_cli *, struct dma_fence *,
+ 			    struct nouveau_cli_work *);
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
+index 5dad2d0dd5cb..3370a73e6a9b 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_gem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
+@@ -120,7 +120,11 @@ nouveau_gem_object_open(struct drm_gem_object *gem, struct drm_file *file_priv)
+ 		goto out;
+ 	}
+ 
+-	ret = nouveau_vma_new(nvbo, vmm, &vma);
++	/* only create a VMA on binding */
++	if (!nouveau_cli_uvmm(cli))
++		ret = nouveau_vma_new(nvbo, vmm, &vma);
++	else
++		ret = 0;
+ 	pm_runtime_mark_last_busy(dev);
+ 	pm_runtime_put_autosuspend(dev);
+ out:
+@@ -180,6 +184,7 @@ nouveau_gem_object_close(struct drm_gem_object *gem, struct drm_file *file_priv)
+ 	struct nouveau_bo *nvbo = nouveau_gem_object(gem);
+ 	struct nouveau_drm *drm = nouveau_bdev(nvbo->bo.bdev);
+ 	struct device *dev = drm->dev->dev;
++	struct nouveau_uvmm *uvmm = nouveau_cli_uvmm(cli);
+ 	struct nouveau_vmm *vmm = nouveau_cli_vmm(cli);
+ 	struct nouveau_vma *vma;
+ 	int ret;
+@@ -187,22 +192,26 @@ nouveau_gem_object_close(struct drm_gem_object *gem, struct drm_file *file_priv)
+ 	if (vmm->vmm.object.oclass < NVIF_CLASS_VMM_NV50)
+ 		return;
+ 
+-	ret = ttm_bo_reserve(&nvbo->bo, false, false, NULL);
+-	if (ret)
+-		return;
++	if (uvmm) {
++		nouveau_uvmm_cli_unmap_all(uvmm, gem);
++	} else {
++		ret = ttm_bo_reserve(&nvbo->bo, false, false, NULL);
++		if (ret)
++			return;
+ 
+-	vma = nouveau_vma_find(nvbo, vmm);
+-	if (vma) {
+-		if (--vma->refs == 0) {
+-			ret = pm_runtime_get_sync(dev);
+-			if (!WARN_ON(ret < 0 && ret != -EACCES)) {
+-				nouveau_gem_object_unmap(nvbo, vma);
+-				pm_runtime_mark_last_busy(dev);
++		vma = nouveau_vma_find(nvbo, vmm);
++		if (vma) {
++			if (--vma->refs == 0) {
++				ret = pm_runtime_get_sync(dev);
++				if (!WARN_ON(ret < 0 && ret != -EACCES)) {
++					nouveau_gem_object_unmap(nvbo, vma);
++					pm_runtime_mark_last_busy(dev);
++				}
++				pm_runtime_put_autosuspend(dev);
+ 			}
+-			pm_runtime_put_autosuspend(dev);
+ 		}
++		ttm_bo_unreserve(&nvbo->bo);
+ 	}
+-	ttm_bo_unreserve(&nvbo->bo);
  }
  
- int
--nvif_vmm_ctor(struct nvif_mmu *mmu, const char *name, s32 oclass, bool managed,
--	      u64 addr, u64 size, void *argv, u32 argc, struct nvif_vmm *vmm)
-+nvif_vmm_ctor(struct nvif_mmu *mmu, const char *name, s32 oclass,
-+	      enum nvif_vmm_type type, u64 addr, u64 size, void *argv, u32 argc,
-+	      struct nvif_vmm *vmm)
- {
- 	struct nvif_vmm_v0 *args;
- 	u32 argn = sizeof(*args) + argc;
-@@ -125,9 +183,18 @@ nvif_vmm_ctor(struct nvif_mmu *mmu, const char *name, s32 oclass, bool managed,
- 	if (!(args = kmalloc(argn, GFP_KERNEL)))
+ const struct drm_gem_object_funcs nouveau_gem_object_funcs = {
+@@ -231,7 +240,7 @@ nouveau_gem_new(struct nouveau_cli *cli, u64 size, int align, uint32_t domain,
+ 		domain |= NOUVEAU_GEM_DOMAIN_CPU;
+ 
+ 	nvbo = nouveau_bo_alloc(cli, &size, &align, domain, tile_mode,
+-				tile_flags);
++				tile_flags, false);
+ 	if (IS_ERR(nvbo))
+ 		return PTR_ERR(nvbo);
+ 
+@@ -279,13 +288,15 @@ nouveau_gem_info(struct drm_file *file_priv, struct drm_gem_object *gem,
+ 	else
+ 		rep->domain = NOUVEAU_GEM_DOMAIN_VRAM;
+ 	rep->offset = nvbo->offset;
+-	if (vmm->vmm.object.oclass >= NVIF_CLASS_VMM_NV50) {
++	if (vmm->vmm.object.oclass >= NVIF_CLASS_VMM_NV50 &&
++	    !nouveau_cli_uvmm(cli)) {
+ 		vma = nouveau_vma_find(nvbo, vmm);
+ 		if (!vma)
+ 			return -EINVAL;
+ 
+ 		rep->offset = vma->addr;
+-	}
++	} else
++		rep->offset = 0;
+ 
+ 	rep->size = nvbo->bo.base.size;
+ 	rep->map_handle = drm_vma_node_offset_addr(&nvbo->bo.base.vma_node);
+@@ -310,6 +321,11 @@ nouveau_gem_ioctl_new(struct drm_device *dev, void *data,
+ 	struct nouveau_bo *nvbo = NULL;
+ 	int ret = 0;
+ 
++	/* If uvmm wasn't initialized until now disable it completely to prevent
++	 * userspace from mixing up UAPIs.
++	 */
++	nouveau_cli_uvmm_disable(cli);
++
+ 	ret = nouveau_gem_new(cli, req->info.size, req->align,
+ 			      req->info.domain, req->info.tile_mode,
+ 			      req->info.tile_flags, &nvbo);
+@@ -710,6 +726,9 @@ nouveau_gem_ioctl_pushbuf(struct drm_device *dev, void *data,
+ 	if (unlikely(!abi16))
  		return -ENOMEM;
- 	args->version = 0;
--	args->managed = managed;
- 	args->addr = addr;
- 	args->size = size;
-+
-+	switch (type) {
-+	case UNMANAGED: args->type = NVIF_VMM_V0_TYPE_UNMANAGED; break;
-+	case MANAGED: args->type = NVIF_VMM_V0_TYPE_MANAGED; break;
-+	case RAW: args->type = NVIF_VMM_V0_TYPE_RAW; break;
-+	default:
-+		WARN_ON(1);
-+		return -EINVAL;
-+	}
-+
- 	memcpy(args->data, argv, argc);
  
- 	ret = nvif_object_ctor(&mmu->object, name ? name : "nvifVmm", 0,
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c
-index 524cd3c0e3fe..c9fac5654baf 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c
-@@ -42,6 +42,26 @@ nvkm_uvmm_search(struct nvkm_client *client, u64 handle)
- 	return nvkm_vmm_ref(nvkm_uvmm(object)->vmm);
- }
++	if (unlikely(nouveau_cli_uvmm(cli)))
++		return -ENOSYS;
++
+ 	list_for_each_entry(temp, &abi16->channels, head) {
+ 		if (temp->chan->chid == req->channel) {
+ 			chan = temp->chan;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_mem.h b/drivers/gpu/drm/nouveau/nouveau_mem.h
+index 76c86d8bb01e..5365a3d3a17f 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_mem.h
++++ b/drivers/gpu/drm/nouveau/nouveau_mem.h
+@@ -35,4 +35,9 @@ int nouveau_mem_vram(struct ttm_resource *, bool contig, u8 page);
+ int nouveau_mem_host(struct ttm_resource *, struct ttm_tt *);
+ void nouveau_mem_fini(struct nouveau_mem *);
+ int nouveau_mem_map(struct nouveau_mem *, struct nvif_vmm *, struct nvif_vma *);
++int
++nouveau_mem_map_fixed(struct nouveau_mem *mem,
++		      struct nvif_vmm *vmm,
++		      u8 kind, u64 addr,
++		      u64 offset, u64 range);
+ #endif
+diff --git a/drivers/gpu/drm/nouveau/nouveau_prime.c b/drivers/gpu/drm/nouveau/nouveau_prime.c
+index f42c2b1b0363..6a883b9a799a 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_prime.c
++++ b/drivers/gpu/drm/nouveau/nouveau_prime.c
+@@ -50,7 +50,7 @@ struct drm_gem_object *nouveau_gem_prime_import_sg_table(struct drm_device *dev,
  
-+static bool
-+nvkm_uvmm_in_managed_range(struct nvkm_uvmm *uvmm, u64 start, u64 size)
+ 	dma_resv_lock(robj, NULL);
+ 	nvbo = nouveau_bo_alloc(&drm->client, &size, &align,
+-				NOUVEAU_GEM_DOMAIN_GART, 0, 0);
++				NOUVEAU_GEM_DOMAIN_GART, 0, 0, true);
+ 	if (IS_ERR(nvbo)) {
+ 		obj = ERR_CAST(nvbo);
+ 		goto unlock;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+new file mode 100644
+index 000000000000..47a74e3ce882
+--- /dev/null
++++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+@@ -0,0 +1,575 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright (c) 2022 Red Hat.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
++ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
++ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ * OTHER DEALINGS IN THE SOFTWARE.
++ *
++ * Authors:
++ *     Danilo Krummrich <dakr@redhat.com>
++ *
++ */
++
++/*
++ * Locking:
++ *
++ * The uvmm mutex protects any operations on the GPU VA space provided by the
++ * DRM GPU VA manager.
++ *
++ * The DRM GEM GPUVA lock protects a GEM's GPUVA list. It also protects single
++ * map/unmap operations against a BO move, which itself walks the GEM's GPUVA
++ * list in order to map/unmap it's entries.
++ *
++ * We'd also need to protect the DRM_GPUVA_SWAPPED flag for each individual
++ * GPUVA, however this isn't necessary since any read or write to this flag
++ * happens when we already took the DRM GEM GPUVA lock of the backing GEM of
++ * the particular GPUVA.
++ */
++
++#include "nouveau_drv.h"
++#include "nouveau_gem.h"
++#include "nouveau_mem.h"
++#include "nouveau_uvmm.h"
++
++#include <nvif/vmm.h>
++#include <nvif/mem.h>
++
++#include <nvif/class.h>
++#include <nvif/if000c.h>
++#include <nvif/if900d.h>
++
++#define NOUVEAU_VA_SPACE_BITS		47 /* FIXME */
++#define NOUVEAU_VA_SPACE_START		0x0
++#define NOUVEAU_VA_SPACE_END		(1ULL << NOUVEAU_VA_SPACE_BITS)
++
++struct nouveau_uvmm_map_args {
++	u8 kind;
++	bool swapped;
++};
++
++int
++nouveau_uvmm_validate_range(struct nouveau_uvmm *uvmm, u64 addr, u64 range)
 +{
-+	struct nvkm_vmm *vmm = uvmm->vmm;
++	u64 end = addr + range;
++	u64 unmanaged_end = uvmm->unmanaged_addr +
++			    uvmm->unmanaged_size;
 +
-+	u64 p_start = vmm->managed.p.addr;
-+	u64 p_end = p_start + vmm->managed.p.size;
-+	u64 n_start = vmm->managed.n.addr;
-+	u64 n_end = n_start + vmm->managed.n.size;
-+	u64 end = start + size;
-+
-+	if (start >= p_start && end <= p_end)
-+		return true;
-+
-+	if (start >= n_start && end <= n_end)
-+		return true;
-+
-+	return false;
-+}
-+
- static int
- nvkm_uvmm_mthd_pfnclr(struct nvkm_uvmm *uvmm, void *argv, u32 argc)
- {
-@@ -58,6 +78,9 @@ nvkm_uvmm_mthd_pfnclr(struct nvkm_uvmm *uvmm, void *argv, u32 argc)
- 	} else
- 		return ret;
- 
-+	if (nvkm_uvmm_in_managed_range(uvmm, addr, size) && uvmm->raw)
++	if (addr & ~PAGE_MASK)
 +		return -EINVAL;
 +
- 	if (size) {
- 		mutex_lock(&vmm->mutex);
- 		ret = nvkm_vmm_pfn_unmap(vmm, addr, size);
-@@ -88,6 +111,9 @@ nvkm_uvmm_mthd_pfnmap(struct nvkm_uvmm *uvmm, void *argv, u32 argc)
- 	} else
- 		return ret;
- 
-+	if (nvkm_uvmm_in_managed_range(uvmm, addr, size) && uvmm->raw)
++	if (range & ~PAGE_MASK)
 +		return -EINVAL;
 +
- 	if (size) {
- 		mutex_lock(&vmm->mutex);
- 		ret = nvkm_vmm_pfn_map(vmm, page, addr, size, phys);
-@@ -113,6 +139,9 @@ nvkm_uvmm_mthd_unmap(struct nvkm_uvmm *uvmm, void *argv, u32 argc)
- 	} else
- 		return ret;
- 
-+	if (nvkm_uvmm_in_managed_range(uvmm, addr, 0) && uvmm->raw)
++	if (end <= addr)
 +		return -EINVAL;
 +
- 	mutex_lock(&vmm->mutex);
- 	vma = nvkm_vmm_node_search(vmm, addr);
- 	if (ret = -ENOENT, !vma || vma->addr != addr) {
-@@ -159,6 +188,9 @@ nvkm_uvmm_mthd_map(struct nvkm_uvmm *uvmm, void *argv, u32 argc)
- 	} else
- 		return ret;
- 
-+	if (nvkm_uvmm_in_managed_range(uvmm, addr, size) && uvmm->raw)
++	if (addr < NOUVEAU_VA_SPACE_START ||
++	    end > NOUVEAU_VA_SPACE_END)
 +		return -EINVAL;
 +
- 	memory = nvkm_umem_search(client, handle);
- 	if (IS_ERR(memory)) {
- 		VMM_DEBUG(vmm, "memory %016llx %ld\n", handle, PTR_ERR(memory));
-@@ -314,6 +346,131 @@ nvkm_uvmm_mthd_page(struct nvkm_uvmm *uvmm, void *argv, u32 argc)
- 	return 0;
- }
- 
-+static int
-+nvkm_uvmm_mthd_raw_map(struct nvkm_uvmm *uvmm, struct nvif_vmm_raw_v0 *args,
-+		       void *argv, u32 argc)
-+{
-+	struct nvkm_client *client = uvmm->object.client;
-+	u64 addr, size, handle, offset;
-+	struct nvkm_vmm *vmm = uvmm->vmm;
-+	struct nvkm_vma *vma;
-+	struct nvkm_memory *memory;
-+	int ret;
-+
-+	addr = args->addr;
-+	size = args->size;
-+	handle = args->memory;
-+	offset = args->offset;
-+
-+	if (!nvkm_uvmm_in_managed_range(uvmm, addr, size))
++	if (addr < unmanaged_end &&
++	    end > uvmm->unmanaged_addr)
 +		return -EINVAL;
 +
-+	memory = nvkm_umem_search(client, handle);
-+	if (IS_ERR(memory)) {
-+		VMM_DEBUG(vmm, "memory %016llx %ld\n", handle, PTR_ERR(memory));
-+		return PTR_ERR(memory);
-+	}
-+
-+	vma = nvkm_vma_new(addr, size);
-+	if (!vma)
-+		return -ENOMEM;
-+
-+	vma->mapref = true;
-+	vma->used = true;
-+
-+	mutex_lock(&vmm->mutex);
-+	if (ret = -ENOENT, vma->busy) {
-+		VMM_DEBUG(vmm, "denied %016llx: %d", addr, vma->busy);
-+		goto fail;
-+	}
-+	vma->busy = true;
-+	mutex_unlock(&vmm->mutex);
-+
-+	ret = nvkm_memory_map(memory, offset, vmm, vma, argv, argc);
-+	if (ret == 0) {
-+		/* Successful map will clear vma->busy. */
-+		args->handle = (u64)(uintptr_t)vma;
-+		nvkm_memory_unref(&memory);
-+		return 0;
-+	}
-+
-+	mutex_lock(&vmm->mutex);
-+	nvkm_memory_tags_put(vma->memory, vmm->mmu->subdev.device, &vma->tags);
-+	nvkm_memory_unref(&vma->memory);
-+	kfree(vma);
-+fail:
-+	mutex_unlock(&vmm->mutex);
-+	nvkm_memory_unref(&memory);
-+	return ret;
-+}
-+
-+static int
-+nvkm_uvmm_mthd_raw_unmap(struct nvkm_uvmm *uvmm, struct nvif_vmm_raw_v0 *args)
-+{
-+	struct nvkm_vmm *vmm = uvmm->vmm;
-+	struct nvkm_vma *vma;
-+
-+	vma = (struct nvkm_vma *)args->handle;
-+	if (!vma)
-+		return -EINVAL;
-+
-+	mutex_lock(&vmm->mutex);
-+	if (vma->busy) {
-+		VMM_DEBUG(vmm, "denied %016llx: %d", vma->addr, vma->busy);
-+		mutex_unlock(&vmm->mutex);
-+		return -ENOENT;
-+	}
-+	vma->sparse = args->sparse;
-+	nvkm_vmm_raw_unmap_locked(vmm, vma);
-+	mutex_unlock(&vmm->mutex);
-+
-+	args->handle = 0;
-+	kfree(vma);
 +	return 0;
 +}
 +
 +static int
-+nvkm_uvmm_mthd_raw_sparse(struct nvkm_uvmm *uvmm, struct nvif_vmm_raw_v0 *args)
++nouveau_uvma_map(struct nouveau_uvma *uvma,
++		 struct nouveau_mem *mem)
 +{
-+	struct nvkm_vmm *vmm = uvmm->vmm;
-+	int ret;
++	struct nvif_vmm *vmm = &uvma->uvmm->vmm.vmm;
++	u64 addr = uvma->va.node.start << PAGE_SHIFT;
++	u64 offset = uvma->va.gem.offset << PAGE_SHIFT;
++	u64 range = uvma->va.node.size << PAGE_SHIFT;
++	union {
++		struct gf100_vmm_map_v0 gf100;
++	} args;
++	u32 argc = 0;
 +
-+	if (!nvkm_uvmm_in_managed_range(uvmm, args->addr, args->size))
-+		return -EINVAL;
++	switch (vmm->object.oclass) {
++	case NVIF_CLASS_VMM_GF100:
++	case NVIF_CLASS_VMM_GM200:
++	case NVIF_CLASS_VMM_GP100:
++		args.gf100.version = 0;
++		if (mem->mem.type & NVIF_MEM_VRAM)
++			args.gf100.vol = 0;
++		else
++			args.gf100.vol = 1;
++		args.gf100.ro = 0;
++		args.gf100.priv = 0;
++		args.gf100.kind = uvma->kind;
++		argc = sizeof(args.gf100);
++		break;
++	default:
++		WARN_ON(1);
++		return -ENOSYS;
++	}
 +
-+	mutex_lock(&vmm->mutex);
-+	ret = nvkm_vmm_raw_sparse_locked(vmm, args->addr, args->size, args->ref);
-+	mutex_unlock(&vmm->mutex);
-+
-+	return ret;
++	return nvif_vmm_raw_map(vmm, addr, range,
++				&args, argc,
++				&mem->mem, offset,
++				&uvma->handle);
 +}
 +
 +static int
-+nvkm_uvmm_mthd_raw(struct nvkm_uvmm *uvmm, void *argv, u32 argc)
++nouveau_uvma_unmap(struct nouveau_uvma *uvma)
 +{
-+	union {
-+		struct nvif_vmm_raw_v0 v0;
-+	} *args = argv;
-+	int ret = -ENOSYS;
++	struct nvif_vmm *vmm = &uvma->uvmm->vmm.vmm;
++	bool sparse = uvma->va.region->sparse;
 +
-+	if (!uvmm->raw)
-+		return -EINVAL;
++	if (drm_gpuva_swapped(&uvma->va))
++		return 0;
 +
-+	if ((ret = nvif_unpack(ret, &argv, &argc, args->v0, 0, 0, true)))
-+		return ret;
-+
-+	switch (args->v0.op) {
-+	case NVIF_VMM_RAW_V0_MAP:
-+		return nvkm_uvmm_mthd_raw_map(uvmm, &args->v0, argv, argc);
-+	case NVIF_VMM_RAW_V0_UNMAP:
-+		return nvkm_uvmm_mthd_raw_unmap(uvmm, &args->v0);
-+	case NVIF_VMM_RAW_V0_SPARSE:
-+		return nvkm_uvmm_mthd_raw_sparse(uvmm, &args->v0);
-+	default:
-+		return -EINVAL;
-+	};
++	return nvif_vmm_raw_unmap(vmm, uvma->handle, sparse);
 +}
 +
- static int
- nvkm_uvmm_mthd(struct nvkm_object *object, u32 mthd, void *argv, u32 argc)
- {
-@@ -326,6 +483,7 @@ nvkm_uvmm_mthd(struct nvkm_object *object, u32 mthd, void *argv, u32 argc)
- 	case NVIF_VMM_V0_UNMAP : return nvkm_uvmm_mthd_unmap (uvmm, argv, argc);
- 	case NVIF_VMM_V0_PFNMAP: return nvkm_uvmm_mthd_pfnmap(uvmm, argv, argc);
- 	case NVIF_VMM_V0_PFNCLR: return nvkm_uvmm_mthd_pfnclr(uvmm, argv, argc);
-+	case NVIF_VMM_V0_RAW   : return nvkm_uvmm_mthd_raw   (uvmm, argv, argc);
- 	case NVIF_VMM_V0_MTHD(0x00) ... NVIF_VMM_V0_MTHD(0x7f):
- 		if (uvmm->vmm->func->mthd) {
- 			return uvmm->vmm->func->mthd(uvmm->vmm,
-@@ -366,10 +524,11 @@ nvkm_uvmm_new(const struct nvkm_oclass *oclass, void *argv, u32 argc,
- 	struct nvkm_uvmm *uvmm;
- 	int ret = -ENOSYS;
- 	u64 addr, size;
--	bool managed;
-+	bool managed, raw;
- 
- 	if (!(ret = nvif_unpack(ret, &argv, &argc, args->v0, 0, 0, more))) {
--		managed = args->v0.managed != 0;
-+		managed = args->v0.type == NVIF_VMM_V0_TYPE_MANAGED;
-+		raw = args->v0.type == NVIF_VMM_V0_TYPE_RAW;
- 		addr = args->v0.addr;
- 		size = args->v0.size;
- 	} else
-@@ -377,12 +536,13 @@ nvkm_uvmm_new(const struct nvkm_oclass *oclass, void *argv, u32 argc,
- 
- 	if (!(uvmm = kzalloc(sizeof(*uvmm), GFP_KERNEL)))
- 		return -ENOMEM;
-+	uvmm->raw = raw;
- 	nvkm_object_ctor(&nvkm_uvmm, oclass, &uvmm->object);
- 	*pobject = &uvmm->object;
- 
- 	if (!mmu->vmm) {
--		ret = mmu->func->vmm.ctor(mmu, managed, addr, size, argv, argc,
--					  NULL, "user", &uvmm->vmm);
-+		ret = mmu->func->vmm.ctor(mmu, managed || raw, addr, size,
-+					  argv, argc, NULL, "user", &uvmm->vmm);
- 		if (ret)
- 			return ret;
- 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.h b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.h
-index 71dab55e18a9..7f6fb1fb46bd 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.h
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.h
-@@ -7,6 +7,7 @@
- struct nvkm_uvmm {
- 	struct nvkm_object object;
- 	struct nvkm_vmm *vmm;
-+	bool raw;
- };
- 
- int nvkm_uvmm_new(const struct nvkm_oclass *, void *argv, u32 argc,
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
-index ae793f400ba1..255ab920cb15 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
-@@ -744,7 +744,7 @@ nvkm_vmm_ptes_get(struct nvkm_vmm *vmm, const struct nvkm_vmm_page *page,
- 	return 0;
- }
- 
--static inline struct nvkm_vma *
-+struct nvkm_vma *
- nvkm_vma_new(u64 addr, u64 size)
- {
- 	struct nvkm_vma *vma = kzalloc(sizeof(*vma), GFP_KERNEL);
-@@ -1101,6 +1101,9 @@ nvkm_vmm_ctor(const struct nvkm_vmm_func *func, struct nvkm_mmu *mmu,
- 		if (addr && (ret = nvkm_vmm_ctor_managed(vmm, 0, addr)))
- 			return ret;
- 
-+		vmm->managed.p.addr = 0;
-+		vmm->managed.p.size = addr;
++static void
++nouveau_uvma_destroy(struct nouveau_uvma *uvma)
++{
++	drm_gpuva_destroy_locked(&uvma->va);
++	kfree(uvma);
++}
 +
- 		/* NVKM-managed area. */
- 		if (size) {
- 			if (!(vma = nvkm_vma_new(addr, size)))
-@@ -1114,6 +1117,9 @@ nvkm_vmm_ctor(const struct nvkm_vmm_func *func, struct nvkm_mmu *mmu,
- 		size = vmm->limit - addr;
- 		if (size && (ret = nvkm_vmm_ctor_managed(vmm, addr, size)))
- 			return ret;
-+
-+		vmm->managed.n.addr = addr;
-+		vmm->managed.n.size = size;
- 	} else {
- 		/* Address-space fully managed by NVKM, requiring calls to
- 		 * nvkm_vmm_get()/nvkm_vmm_put() to allocate address-space.
-@@ -1326,6 +1332,19 @@ nvkm_vmm_pfn_map(struct nvkm_vmm *vmm, u8 shift, u64 addr, u64 size, u64 *pfn)
- 	return 0;
- }
- 
 +void
-+nvkm_vmm_raw_unmap_locked(struct nvkm_vmm *vmm, struct nvkm_vma *vma)
++nouveau_uvmm_bo_map_all(struct nouveau_bo *nvbo, struct nouveau_mem *mem)
 +{
-+	const struct nvkm_vmm_page *page = &vmm->func->page[vma->refd];
++	struct drm_gem_object *obj = &nvbo->bo.base;
++	struct drm_gpuva *va;
 +
-+	nvkm_vmm_ptes_unmap_put(vmm, page, vma->addr, vma->size, vma->sparse, false);
-+	vma->refd = NVKM_VMA_PAGE_NONE;
++	drm_gem_gpuva_lock(obj);
++	drm_gem_for_each_gpuva(va, obj) {
++		struct nouveau_uvma *uvma = uvma_from_va(va);
 +
-+	nvkm_memory_tags_put(vma->memory, vmm->mmu->subdev.device, &vma->tags);
-+	nvkm_memory_unref(&vma->memory);
-+	vma->mapped = false;
++		nouveau_uvma_map(uvma, mem);
++		drm_gpuva_swap(va, false);
++	}
++	drm_gem_gpuva_unlock(obj);
 +}
 +
- void
- nvkm_vmm_unmap_region(struct nvkm_vmm *vmm, struct nvkm_vma *vma)
- {
-@@ -1775,6 +1794,17 @@ nvkm_vmm_get(struct nvkm_vmm *vmm, u8 page, u64 size, struct nvkm_vma **pvma)
- 	return ret;
- }
- 
-+int nvkm_vmm_raw_sparse_locked(struct nvkm_vmm *vmm, u64 addr, u64 size, bool ref)
++void
++nouveau_uvmm_bo_unmap_all(struct nouveau_bo *nvbo)
 +{
++	struct drm_gem_object *obj = &nvbo->bo.base;
++	struct drm_gpuva *va;
++
++	drm_gem_gpuva_lock(obj);
++	drm_gem_for_each_gpuva(va, obj) {
++		struct nouveau_uvma *uvma = uvma_from_va(va);
++
++		nouveau_uvma_unmap(uvma);
++		drm_gpuva_swap(va, true);
++	}
++	drm_gem_gpuva_unlock(obj);
++}
++
++void
++nouveau_uvmm_cli_unmap_all(struct nouveau_uvmm *uvmm,
++			   struct drm_gem_object *obj)
++{
++	struct drm_gpuva *va, *tmp;
++
++	nouveau_uvmm_lock(uvmm);
++	drm_gem_gpuva_lock(obj);
++	drm_gem_for_each_gpuva_safe(va, tmp, obj) {
++		struct nouveau_uvma *uvma = uvma_from_va(va);
++
++		if (&uvmm->umgr == va->mgr) {
++			nouveau_uvma_unmap(uvma);
++			nouveau_uvma_destroy(uvma);
++		}
++	}
++	drm_gem_gpuva_unlock(obj);
++	nouveau_uvmm_unlock(uvmm);
++}
++
++static void
++nouveau_uvmm_unmap_range(struct nouveau_uvmm *uvmm,
++			 u64 addr, u64 range)
++{
++	struct drm_gpuva *va, *next;
++	u64 end = addr + range;
++
++	addr >>= PAGE_SHIFT;
++	range >>= PAGE_SHIFT;
++	end  >>= PAGE_SHIFT;
++
++	drm_gpuva_for_each_va_safe(va, next, &uvmm->umgr) {
++		if (addr >= va->node.start &&
++		    end <= va->node.start + va->node.size) {
++			struct nouveau_uvma *uvma = uvma_from_va(va);
++			struct drm_gem_object *obj = va->gem.obj;
++
++			drm_gem_gpuva_lock(obj);
++			nouveau_uvma_unmap(uvma);
++			nouveau_uvma_destroy(uvma);
++			drm_gem_gpuva_unlock(obj);
++		}
++	}
++}
++
++static int
++nouveau_uvma_new(struct nouveau_uvmm *uvmm,
++		 struct drm_gem_object *obj,
++		 u64 bo_offset, u64 addr,
++		 u64 range, u8 kind,
++		 struct nouveau_uvma **puvma)
++{
++	struct nouveau_uvma *uvma;
 +	int ret;
 +
-+	ret = nvkm_vmm_ptes_sparse(vmm, addr, size, ref);
++	addr >>= PAGE_SHIFT;
++	bo_offset >>= PAGE_SHIFT;
++	range >>= PAGE_SHIFT;
++
++	uvma = *puvma = kzalloc(sizeof(*uvma), GFP_KERNEL);
++	if (!uvma)
++		return -ENOMEM;
++
++	uvma->uvmm = uvmm;
++	uvma->kind = kind;
++	uvma->va.gem.offset = bo_offset;
++	uvma->va.gem.obj = obj;
++
++	ret = drm_gpuva_insert(&uvmm->umgr, &uvma->va, addr, range);
++	if (ret) {
++		kfree(uvma);
++		*puvma = NULL;
++		return ret;
++	}
++	drm_gpuva_link_locked(&uvma->va);
++
++	return 0;
++}
++
++int
++nouveau_uvma_region_new(struct nouveau_uvmm *uvmm,
++			u64 addr, u64 range,
++			bool sparse)
++{
++	struct nouveau_uvma_region *reg;
++	struct nvif_vmm *vmm = &uvmm->vmm.vmm;
++	int ret;
++
++	reg = kzalloc(sizeof(*reg), GFP_KERNEL);
++	if (!reg)
++		return -ENOMEM;
++
++	reg->uvmm = uvmm;
++	reg->region.sparse = sparse;
++
++	ret = drm_gpuva_region_insert(&uvmm->umgr, &reg->region,
++				      addr >> PAGE_SHIFT,
++				      range >> PAGE_SHIFT);
++	if (ret)
++		goto err_free_region;
++
++	if (sparse) {
++		ret = nvif_vmm_raw_sparse(vmm, addr, range, true);
++		if (ret)
++			goto err_destroy_region;
++	}
++
++	return 0;
++
++err_destroy_region:
++	drm_gpuva_region_destroy(&uvmm->umgr, &reg->region);
++err_free_region:
++	kfree(reg);
++	return ret;
++}
++
++static void
++__nouveau_uvma_region_destroy(struct nouveau_uvma_region *reg)
++{
++	struct nouveau_uvmm *uvmm = reg->uvmm;
++	struct nvif_vmm *vmm = &uvmm->vmm.vmm;
++	u64 addr = reg->region.node.start << PAGE_SHIFT;
++	u64 range = reg->region.node.size << PAGE_SHIFT;
++
++	nouveau_uvmm_unmap_range(uvmm, addr, range);
++
++	if (reg->region.sparse)
++		nvif_vmm_raw_sparse(vmm, addr, range, false);
++
++	drm_gpuva_region_destroy(&uvmm->umgr, &reg->region);
++	kfree(reg);
++}
++
++int
++nouveau_uvma_region_destroy(struct nouveau_uvmm *uvmm,
++			    u64 addr, u64 range)
++{
++	struct drm_gpuva_region *reg;
++
++	reg = drm_gpuva_region_find(&uvmm->umgr,
++				    addr >> PAGE_SHIFT,
++				    range >> PAGE_SHIFT);
++	if (!reg)
++		return -ENOENT;
++
++	__nouveau_uvma_region_destroy(uvma_region_from_va_region(reg));
++
++	return 0;
++}
++
++static int
++op_map(struct nouveau_uvmm *uvmm,
++       struct drm_gpuva_op_map *m,
++       struct nouveau_uvmm_map_args *args)
++{
++	struct nouveau_uvma *uvma;
++	struct nouveau_bo *nvbo = nouveau_gem_object(m->gem.obj);
++	int ret;
++
++	ret = nouveau_uvma_new(uvmm, m->gem.obj,
++			       m->gem.offset << PAGE_SHIFT,
++			       m->va.addr << PAGE_SHIFT,
++			       m->va.range << PAGE_SHIFT,
++			       args->kind, &uvma);
 +	if (ret)
 +		return ret;
 +
++	drm_gpuva_swap(&uvma->va, args->swapped);
++	if (!args->swapped) {
++		ret = nouveau_uvma_map(uvma, nouveau_mem(nvbo->bo.resource));
++		if (ret) {
++			nouveau_uvma_destroy(uvma);
++			return ret;
++		}
++	}
++
 +	return 0;
 +}
 +
- void
- nvkm_vmm_part(struct nvkm_vmm *vmm, struct nvkm_memory *inst)
- {
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
-index f6188aa9171c..7bb1905b70f2 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
-@@ -163,6 +163,7 @@ int nvkm_vmm_new_(const struct nvkm_vmm_func *, struct nvkm_mmu *,
- 		  u32 pd_header, bool managed, u64 addr, u64 size,
- 		  struct lock_class_key *, const char *name,
- 		  struct nvkm_vmm **);
-+struct nvkm_vma *nvkm_vma_new(u64 addr, u64 size);
- struct nvkm_vma *nvkm_vmm_node_search(struct nvkm_vmm *, u64 addr);
- struct nvkm_vma *nvkm_vmm_node_split(struct nvkm_vmm *, struct nvkm_vma *,
- 				     u64 addr, u64 size);
-@@ -172,6 +173,8 @@ int nvkm_vmm_get_locked(struct nvkm_vmm *, bool getref, bool mapref,
- void nvkm_vmm_put_locked(struct nvkm_vmm *, struct nvkm_vma *);
- void nvkm_vmm_unmap_locked(struct nvkm_vmm *, struct nvkm_vma *, bool pfn);
- void nvkm_vmm_unmap_region(struct nvkm_vmm *, struct nvkm_vma *);
-+void nvkm_vmm_raw_unmap_locked(struct nvkm_vmm *vmm, struct nvkm_vma *vma);
-+int nvkm_vmm_raw_sparse_locked(struct nvkm_vmm *, u64 addr, u64 size, bool ref);
- 
- #define NVKM_VMM_PFN_ADDR                                 0xfffffffffffff000ULL
- #define NVKM_VMM_PFN_ADDR_SHIFT                                              12
++static int
++op_unmap(struct nouveau_uvmm *uvmm,
++	 struct drm_gpuva_op_unmap *u)
++{
++	struct nouveau_uvma *uvma = uvma_from_va(u->va);
++	int ret;
++
++	ret = nouveau_uvma_unmap(uvma);
++	if (ret)
++		return ret;
++
++	nouveau_uvma_destroy(uvma);
++
++	return 0;
++}
++
++static struct drm_gem_object *
++op_gem_obj(struct drm_gpuva_op *op)
++{
++	switch (op->op) {
++	case DRM_GPUVA_OP_MAP:
++		return op->map.gem.obj;
++	case DRM_GPUVA_OP_REMAP:
++		return op->remap.unmap->va->gem.obj;
++	case DRM_GPUVA_OP_UNMAP:
++		return op->unmap.va->gem.obj;
++	default:
++		WARN(1, "unknown operation");
++		return NULL;
++	}
++}
++
++static int
++process_sm_ops(struct nouveau_uvmm *uvmm, struct drm_gpuva_ops *ops,
++	       struct nouveau_uvmm_map_args *args)
++{
++	struct drm_gpuva_op *op;
++	struct drm_gem_object *obj;
++	int ret = 0;
++
++	drm_gpuva_for_each_op(op, ops) {
++		obj = op_gem_obj(op);
++		if (!obj)
++			continue;
++
++		drm_gem_gpuva_lock(obj);
++
++		switch (op->op) {
++		case DRM_GPUVA_OP_MAP:
++			ret = op_map(uvmm, &op->map, args);
++			if (ret)
++				goto err_unlock;
++
++			break;
++		case DRM_GPUVA_OP_REMAP:
++		{
++			struct drm_gpuva_op_remap *r = &op->remap;
++			struct drm_gpuva *va = r->unmap->va;
++			struct nouveau_uvmm_map_args remap_args = {
++				.kind = uvma_from_va(r->unmap->va)->kind,
++				.swapped = drm_gpuva_swapped(va),
++			};
++
++			ret = op_unmap(uvmm, r->unmap);
++			if (ret)
++				goto err_unlock;
++
++			if (r->prev) {
++				ret = op_map(uvmm, r->prev, &remap_args);
++				if (ret)
++					goto err_unlock;
++			}
++
++			if (r->next) {
++				ret = op_map(uvmm, r->next, &remap_args);
++				if (ret)
++					goto err_unlock;
++			}
++
++			break;
++		}
++		case DRM_GPUVA_OP_UNMAP:
++			ret = op_unmap(uvmm, &op->unmap);
++			if (ret)
++				goto err_unlock;
++
++			break;
++		}
++
++		drm_gem_gpuva_unlock(obj);
++	}
++
++	return 0;
++
++err_unlock:
++	drm_gem_gpuva_unlock(obj);
++	return ret;
++}
++
++int
++nouveau_uvmm_sm_map(struct nouveau_uvmm *uvmm, u64 addr, u64 range,
++		    struct drm_gem_object *obj, u64 offset, u8 kind)
++{
++	struct drm_gpuva_ops *ops;
++	struct nouveau_uvmm_map_args args = {
++		.kind = kind,
++		.swapped = false,
++	};
++	int ret;
++
++	ops = drm_gpuva_sm_map_ops_create(&uvmm->umgr,
++					  addr >> PAGE_SHIFT,
++					  range >> PAGE_SHIFT,
++					  obj, offset >> PAGE_SHIFT);
++	if (IS_ERR(ops))
++		return PTR_ERR(ops);
++
++	ret = process_sm_ops(uvmm, ops, &args);
++	drm_gpuva_ops_free(ops);
++
++	return ret;
++}
++
++int
++nouveau_uvmm_sm_unmap(struct nouveau_uvmm *uvmm, u64 addr, u64 range)
++{
++	struct drm_gpuva_ops *ops;
++	int ret;
++
++	ops = drm_gpuva_sm_unmap_ops_create(&uvmm->umgr,
++					    addr >> PAGE_SHIFT,
++					    range >> PAGE_SHIFT);
++	if (IS_ERR(ops))
++		return PTR_ERR(ops);
++
++	ret = process_sm_ops(uvmm, ops, NULL);
++	drm_gpuva_ops_free(ops);
++
++	return ret;
++}
++
++int nouveau_uvmm_init(struct nouveau_uvmm *uvmm, struct nouveau_cli *cli,
++		      struct drm_nouveau_vm_init *init)
++{
++	int ret;
++	u64 unmanaged_end = init->unmanaged_addr + init->unmanaged_size;
++
++	mutex_lock(&cli->mutex);
++
++	if (unlikely(cli->uvmm.disabled)) {
++		ret = -ENOSYS;
++		goto out_unlock;
++	}
++
++	if (unmanaged_end <= init->unmanaged_addr) {
++		ret = -EINVAL;
++		goto out_unlock;
++	}
++
++	if (unmanaged_end > NOUVEAU_VA_SPACE_END) {
++		ret = -EINVAL;
++		goto out_unlock;
++	}
++
++	uvmm->unmanaged_addr = init->unmanaged_addr;
++	uvmm->unmanaged_size = init->unmanaged_size;
++
++	drm_gpuva_manager_init(&uvmm->umgr, cli->name,
++			       NOUVEAU_VA_SPACE_START >> PAGE_SHIFT,
++			       NOUVEAU_VA_SPACE_END >> PAGE_SHIFT,
++			       init->unmanaged_addr >> PAGE_SHIFT,
++			       init->unmanaged_size >> PAGE_SHIFT);
++
++	ret = nvif_vmm_ctor(&cli->mmu, "uvmm",
++			    cli->vmm.vmm.object.oclass, RAW,
++			    init->unmanaged_addr, init->unmanaged_size,
++			    NULL, 0, &cli->uvmm.vmm.vmm);
++	if (ret)
++		goto out_free_gpuva_mgr;
++
++	cli->uvmm.vmm.cli = cli;
++	mutex_unlock(&cli->mutex);
++
++	mutex_init(&uvmm->mutex);
++
++	return 0;
++
++out_free_gpuva_mgr:
++	drm_gpuva_manager_destroy(&uvmm->umgr);
++out_unlock:
++	mutex_unlock(&cli->mutex);
++	return ret;
++}
++
++void nouveau_uvmm_fini(struct nouveau_uvmm *uvmm)
++{
++	struct nouveau_cli *cli = uvmm->vmm.cli;
++	struct drm_gpuva_region *reg, *next;
++
++	if (!cli)
++		return;
++
++	/* Destroying a region implies destroying all mappings within the
++	 * region.
++	 */
++	nouveau_uvmm_lock(uvmm);
++	drm_gpuva_for_each_region_safe(reg, next, &uvmm->umgr)
++		if (&reg->node != &uvmm->umgr.kernel_alloc_node)
++			__nouveau_uvma_region_destroy(uvma_region_from_va_region(reg));
++	nouveau_uvmm_unlock(uvmm);
++
++	mutex_lock(&cli->mutex);
++	nouveau_vmm_fini(&uvmm->vmm);
++	drm_gpuva_manager_destroy(&uvmm->umgr);
++	mutex_unlock(&cli->mutex);
++}
+diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.h b/drivers/gpu/drm/nouveau/nouveau_uvmm.h
+new file mode 100644
+index 000000000000..b0ad57004aa6
+--- /dev/null
++++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.h
+@@ -0,0 +1,68 @@
++// SPDX-License-Identifier: MIT
++
++#ifndef __NOUVEAU_UVMM_H__
++#define __NOUVEAU_UVMM_H__
++
++#include <drm/drm_gpuva_mgr.h>
++
++#include "nouveau_drv.h"
++
++struct nouveau_uvmm {
++	struct nouveau_vmm vmm;
++	struct drm_gpuva_manager umgr;
++	struct mutex mutex;
++
++	u64 unmanaged_addr;
++	u64 unmanaged_size;
++
++	bool disabled;
++};
++
++struct nouveau_uvma_region {
++	struct drm_gpuva_region region;
++	struct nouveau_uvmm *uvmm;
++};
++
++struct nouveau_uvma {
++	struct drm_gpuva va;
++	struct nouveau_uvmm *uvmm;
++	u64 handle;
++	u8 kind;
++};
++
++#define uvmm_from_mgr(x) container_of((x), struct nouveau_uvmm, umgr)
++#define uvma_from_va(x) container_of((x), struct nouveau_uvma, va)
++#define uvma_region_from_va_region(x) container_of((x), struct nouveau_uvma_region, region)
++
++int nouveau_uvmm_init(struct nouveau_uvmm *uvmm, struct nouveau_cli *cli,
++		      struct drm_nouveau_vm_init *init);
++void nouveau_uvmm_fini(struct nouveau_uvmm *uvmm);
++
++int nouveau_uvma_region_new(struct nouveau_uvmm *uvmm,
++			    u64 addr, u64 range,
++			    bool sparse);
++int nouveau_uvma_region_destroy(struct nouveau_uvmm *uvmm,
++				u64 addr, u64 range);
++
++int nouveau_uvmm_sm_map(struct nouveau_uvmm *uvmm, u64 addr, u64 range,
++			struct drm_gem_object *obj, u64 offset, u8 kind);
++int nouveau_uvmm_sm_unmap(struct nouveau_uvmm *uvmm, u64 addr, u64 range);
++
++void nouveau_uvmm_cli_unmap_all(struct nouveau_uvmm *uvmm,
++				struct drm_gem_object *obj);
++void nouveau_uvmm_bo_map_all(struct nouveau_bo *nvbov, struct nouveau_mem *mem);
++void nouveau_uvmm_bo_unmap_all(struct nouveau_bo *nvbo);
++
++int nouveau_uvmm_validate_range(struct nouveau_uvmm *uvmm, u64 addr, u64 range);
++
++static inline void nouveau_uvmm_lock(struct nouveau_uvmm *uvmm)
++{
++	mutex_lock(&uvmm->mutex);
++}
++
++static inline void nouveau_uvmm_unlock(struct nouveau_uvmm *uvmm)
++{
++	mutex_unlock(&uvmm->mutex);
++}
++
++#endif
 -- 
 2.39.0
 
