@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF5B467228F
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 17:09:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D8E672294
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 17:10:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5179E10E784;
-	Wed, 18 Jan 2023 16:09:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A25EE10E788;
+	Wed, 18 Jan 2023 16:10:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ABDA10E775;
- Wed, 18 Jan 2023 16:09:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B0A410E775;
+ Wed, 18 Jan 2023 16:10:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674058175; x=1705594175;
+ t=1674058202; x=1705594202;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=DCnruQM6yNxK7tEtP85SnbPHlJ8SKSv60Myf10xDgvo=;
- b=V8RESWkxJuLFkAd0f+4NAg0dHEQ9KnQD2Tshx4gYGBw96EHbOW+6B/aN
- f6mU3VHnti9IlmoASI1tAFgOnuOxIg6fZO7WCSiZPhVYLzYcQ9pDvJrGz
- zMx3DjD6Jsy2+nT8+gV04uVyBbu7PtjF9EJD+L+mZDhnrUOjjU1si5l46
- 23sME3Mp8V/2sbZtZwXAZPqVFWfBJNVj5uFOVmphK5mvHcIctIaNtvs3g
- l+JFazfUvSfycOHIjiM+VgIBDIi2FQ0XqwUDmg7s1gWm1CxwCAh7/yTBe
- urlqvjvuvRUPZALpX5gGph7IAFuUMLFBdGE+NpR6fCH9tdE7TeYP/hHU9 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="326283410"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="326283410"
+ bh=MicbekSzAkKBKCmnJ+cRFegRDdC8djiNY0RBY+sThng=;
+ b=YAxdr44k3pijtPgJNqYV0dnrZWXzsSkHjfnsCHlkDiMz7hAH+EZEVR+0
+ ypzX/kzh9AeiOq9tloT18bvGpvXhIIknTvAeSKqya6DEwSZAhUyJE9BUh
+ mcM/MBnCSo3eSZ7AsNxLfLZzQjiOrWZdWbV81rtDVh/1QVTXLngXBkQz3
+ 3EjZeh7W2B/U2cn4W0XG89HhTh97T+jtivw5YBCGUyjeFgur5r4M7skwU
+ Eu/1amWOsD9UXgDNurGbcWbr8s2cueYYG9diWUj70DkvyB2KkZy9olp7s
+ BFaR8LaOtdeEFPChz/WB5QAFPsL5R0D1SEco3WxjPK1h4Bu9gT37MdcCB Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="326283544"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="326283544"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2023 08:09:34 -0800
+ 18 Jan 2023 08:10:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="692053868"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="692053868"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="692054092"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="692054092"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
- by orsmga001.jf.intel.com with SMTP; 18 Jan 2023 08:09:30 -0800
+ by orsmga001.jf.intel.com with SMTP; 18 Jan 2023 08:09:59 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 18 Jan 2023 18:09:29 +0200
-Date: Wed, 18 Jan 2023 18:09:29 +0200
+ Wed, 18 Jan 2023 18:09:58 +0200
+Date: Wed, 18 Jan 2023 18:09:58 +0200
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v7 12/22] drm/edid: store quirks in display info
-Message-ID: <Y8gZuW7MX1xlXlpm@intel.com>
+Subject: Re: [PATCH v7 13/22] drm/edid: stop passing quirks around
+Message-ID: <Y8gZ1pSWvVVEDwP7@intel.com>
 References: <cover.1672826282.git.jani.nikula@intel.com>
- <819b908f64ad2d158245917f436f24d33a65b95d.1672826282.git.jani.nikula@intel.com>
+ <d55049dd9b2e48e63103f2dfa49bc9b25dd57f82.1672826282.git.jani.nikula@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <819b908f64ad2d158245917f436f24d33a65b95d.1672826282.git.jani.nikula@intel.com>
+In-Reply-To: <d55049dd9b2e48e63103f2dfa49bc9b25dd57f82.1672826282.git.jani.nikula@intel.com>
 X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,12 +65,9 @@ Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 04, 2023 at 12:05:27PM +0200, Jani Nikula wrote:
-> Although the quirks are internal to EDID parsing, it'll be helpful to
-> store them in display info to avoid having to pass them around.
-> 
-> This will also help separate adding probed modes (which needs the
-> quirks) from updating display info.
+On Wed, Jan 04, 2023 at 12:05:28PM +0200, Jani Nikula wrote:
+> Now that quirks are stored in display info, we can just look them up
+> using the connector instead of having to pass them around.
 > 
 > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
@@ -78,134 +75,144 @@ On Wed, Jan 04, 2023 at 12:05:27PM +0200, Jani Nikula wrote:
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
 > ---
->  drivers/gpu/drm/drm_edid.c  | 42 ++++++++++++++++++-------------------
->  include/drm/drm_connector.h |  5 +++++
->  2 files changed, 26 insertions(+), 21 deletions(-)
+>  drivers/gpu/drm/drm_edid.c | 34 +++++++++++++++-------------------
+>  1 file changed, 15 insertions(+), 19 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 5cb1d36ce48a..fd8d056e38c1 100644
+> index fd8d056e38c1..6bc0432046c8 100644
 > --- a/drivers/gpu/drm/drm_edid.c
 > +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -6461,18 +6461,20 @@ static void drm_reset_display_info(struct drm_connector *connector)
->  	kfree(info->vics);
->  	info->vics = NULL;
->  	info->vics_len = 0;
-> +
-> +	info->quirks = 0;
->  }
+> @@ -96,7 +96,6 @@ struct detailed_mode_closure {
+>  	struct drm_connector *connector;
+>  	const struct drm_edid *drm_edid;
+>  	bool preferred;
+> -	u32 quirks;
+>  	int modes;
+>  };
 >  
-> -static u32 update_display_info(struct drm_connector *connector,
-> -			       const struct drm_edid *drm_edid)
-> +static void update_display_info(struct drm_connector *connector,
-> +				const struct drm_edid *drm_edid)
+> @@ -2887,9 +2886,9 @@ static u32 edid_get_quirks(const struct drm_edid *drm_edid)
+>   * Walk the mode list for connector, clearing the preferred status on existing
+>   * modes and setting it anew for the right mode ala quirks.
+>   */
+> -static void edid_fixup_preferred(struct drm_connector *connector,
+> -				 u32 quirks)
+> +static void edid_fixup_preferred(struct drm_connector *connector)
 >  {
->  	struct drm_display_info *info = &connector->display_info;
->  	const struct edid *edid = drm_edid->edid;
+> +	const struct drm_display_info *info = &connector->display_info;
+>  	struct drm_display_mode *t, *cur_mode, *preferred_mode;
+>  	int target_refresh = 0;
+>  	int cur_vrefresh, preferred_vrefresh;
+> @@ -2897,9 +2896,9 @@ static void edid_fixup_preferred(struct drm_connector *connector,
+>  	if (list_empty(&connector->probed_modes))
+>  		return;
 >  
-> -	u32 quirks = edid_get_quirks(drm_edid);
-> -
->  	drm_reset_display_info(connector);
+> -	if (quirks & EDID_QUIRK_PREFER_LARGE_60)
+> +	if (info->quirks & EDID_QUIRK_PREFER_LARGE_60)
+>  		target_refresh = 60;
+> -	if (quirks & EDID_QUIRK_PREFER_LARGE_75)
+> +	if (info->quirks & EDID_QUIRK_PREFER_LARGE_75)
+>  		target_refresh = 75;
 >  
-> +	info->quirks = edid_get_quirks(drm_edid);
-> +
->  	info->width_mm = edid->width_cm * 10;
->  	info->height_mm = edid->height_cm * 10;
->  
-> @@ -6543,17 +6545,15 @@ static u32 update_display_info(struct drm_connector *connector,
->  	drm_update_mso(connector, drm_edid);
->  
->  out:
-> -	if (quirks & EDID_QUIRK_NON_DESKTOP) {
-> +	if (info->quirks & EDID_QUIRK_NON_DESKTOP) {
->  		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Non-desktop display%s\n",
->  			    connector->base.id, connector->name,
->  			    info->non_desktop ? " (redundant quirk)" : "");
->  		info->non_desktop = true;
+>  	preferred_mode = list_first_entry(&connector->probed_modes,
+> @@ -3401,9 +3400,9 @@ drm_mode_do_interlace_quirk(struct drm_display_mode *mode,
+>   */
+>  static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connector,
+>  						  const struct drm_edid *drm_edid,
+> -						  const struct detailed_timing *timing,
+> -						  u32 quirks)
+> +						  const struct detailed_timing *timing)
+>  {
+> +	const struct drm_display_info *info = &connector->display_info;
+>  	struct drm_device *dev = connector->dev;
+>  	struct drm_display_mode *mode;
+>  	const struct detailed_pixel_timing *pt = &timing->data.pixel_data;
+> @@ -3437,7 +3436,7 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
+>  		return NULL;
 >  	}
 >  
-> -	if (quirks & EDID_QUIRK_CAP_DSC_15BPP)
-> +	if (info->quirks & EDID_QUIRK_CAP_DSC_15BPP)
->  		info->max_dsc_bpp = 15;
-> -
-> -	return quirks;
->  }
+> -	if (quirks & EDID_QUIRK_FORCE_REDUCED_BLANKING) {
+> +	if (info->quirks & EDID_QUIRK_FORCE_REDUCED_BLANKING) {
+>  		mode = drm_cvt_mode(dev, hactive, vactive, 60, true, false, false);
+>  		if (!mode)
+>  			return NULL;
+> @@ -3449,7 +3448,7 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
+>  	if (!mode)
+>  		return NULL;
 >  
->  static struct drm_display_mode *drm_mode_displayid_detailed(struct drm_device *dev,
-> @@ -6651,8 +6651,8 @@ static int add_displayid_detailed_modes(struct drm_connector *connector,
->  static int _drm_edid_connector_update(struct drm_connector *connector,
->  				      const struct drm_edid *drm_edid)
+> -	if (quirks & EDID_QUIRK_135_CLOCK_TOO_HIGH)
+> +	if (info->quirks & EDID_QUIRK_135_CLOCK_TOO_HIGH)
+>  		mode->clock = 1088 * 10;
+>  	else
+>  		mode->clock = le16_to_cpu(timing->pixel_clock) * 10;
+> @@ -3472,7 +3471,7 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
+>  
+>  	drm_mode_do_interlace_quirk(mode, pt);
+>  
+> -	if (quirks & EDID_QUIRK_DETAILED_SYNC_PP) {
+> +	if (info->quirks & EDID_QUIRK_DETAILED_SYNC_PP) {
+>  		mode->flags |= DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC;
+>  	} else {
+>  		mode->flags |= (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
+> @@ -3485,12 +3484,12 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
+>  	mode->width_mm = pt->width_mm_lo | (pt->width_height_mm_hi & 0xf0) << 4;
+>  	mode->height_mm = pt->height_mm_lo | (pt->width_height_mm_hi & 0xf) << 8;
+>  
+> -	if (quirks & EDID_QUIRK_DETAILED_IN_CM) {
+> +	if (info->quirks & EDID_QUIRK_DETAILED_IN_CM) {
+>  		mode->width_mm *= 10;
+>  		mode->height_mm *= 10;
+>  	}
+>  
+> -	if (quirks & EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE) {
+> +	if (info->quirks & EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE) {
+>  		mode->width_mm = drm_edid->edid->width_cm * 10;
+>  		mode->height_mm = drm_edid->edid->height_cm * 10;
+>  	}
+> @@ -4003,8 +4002,7 @@ do_detailed_mode(const struct detailed_timing *timing, void *c)
+>  		return;
+>  
+>  	newmode = drm_mode_detailed(closure->connector,
+> -				    closure->drm_edid, timing,
+> -				    closure->quirks);
+> +				    closure->drm_edid, timing);
+>  	if (!newmode)
+>  		return;
+>  
+> @@ -4027,15 +4025,13 @@ do_detailed_mode(const struct detailed_timing *timing, void *c)
+>   * add_detailed_modes - Add modes from detailed timings
+>   * @connector: attached connector
+>   * @drm_edid: EDID block to scan
+> - * @quirks: quirks to apply
+>   */
+>  static int add_detailed_modes(struct drm_connector *connector,
+> -			      const struct drm_edid *drm_edid, u32 quirks)
+> +			      const struct drm_edid *drm_edid)
 >  {
-> +	struct drm_display_info *info = &connector->display_info;
->  	int num_modes = 0;
-> -	u32 quirks;
+>  	struct detailed_mode_closure closure = {
+>  		.connector = connector,
+>  		.drm_edid = drm_edid,
+> -		.quirks = quirks,
+>  	};
 >  
->  	if (!drm_edid) {
->  		drm_reset_display_info(connector);
-> @@ -6665,7 +6665,7 @@ static int _drm_edid_connector_update(struct drm_connector *connector,
->  	 * To avoid multiple parsing of same block, lets parse that map
->  	 * from sink info, before parsing CEA modes.
->  	 */
-> -	quirks = update_display_info(connector, drm_edid);
-> +	update_display_info(connector, drm_edid);
->  
->  	/* Depends on info->cea_rev set by update_display_info() above */
->  	drm_edid_to_eld(connector, drm_edid);
-> @@ -6684,7 +6684,7 @@ static int _drm_edid_connector_update(struct drm_connector *connector,
+>  	if (drm_edid->edid->revision >= 4)
+> @@ -6684,7 +6680,7 @@ static int _drm_edid_connector_update(struct drm_connector *connector,
 >  	 *
 >  	 * XXX order for additional mode types in extension blocks?
 >  	 */
-> -	num_modes += add_detailed_modes(connector, drm_edid, quirks);
-> +	num_modes += add_detailed_modes(connector, drm_edid, info->quirks);
+> -	num_modes += add_detailed_modes(connector, drm_edid, info->quirks);
+> +	num_modes += add_detailed_modes(connector, drm_edid);
 >  	num_modes += add_cvt_modes(connector, drm_edid);
 >  	num_modes += add_standard_modes(connector, drm_edid);
 >  	num_modes += add_established_modes(connector, drm_edid);
-> @@ -6694,20 +6694,20 @@ static int _drm_edid_connector_update(struct drm_connector *connector,
->  	if (drm_edid->edid->features & DRM_EDID_FEATURE_CONTINUOUS_FREQ)
+> @@ -6695,7 +6691,7 @@ static int _drm_edid_connector_update(struct drm_connector *connector,
 >  		num_modes += add_inferred_modes(connector, drm_edid);
 >  
-> -	if (quirks & (EDID_QUIRK_PREFER_LARGE_60 | EDID_QUIRK_PREFER_LARGE_75))
-> -		edid_fixup_preferred(connector, quirks);
-> +	if (info->quirks & (EDID_QUIRK_PREFER_LARGE_60 | EDID_QUIRK_PREFER_LARGE_75))
-> +		edid_fixup_preferred(connector, info->quirks);
+>  	if (info->quirks & (EDID_QUIRK_PREFER_LARGE_60 | EDID_QUIRK_PREFER_LARGE_75))
+> -		edid_fixup_preferred(connector, info->quirks);
+> +		edid_fixup_preferred(connector);
 >  
-> -	if (quirks & EDID_QUIRK_FORCE_6BPC)
-> -		connector->display_info.bpc = 6;
-> +	if (info->quirks & EDID_QUIRK_FORCE_6BPC)
-> +		info->bpc = 6;
->  
-> -	if (quirks & EDID_QUIRK_FORCE_8BPC)
-> -		connector->display_info.bpc = 8;
-> +	if (info->quirks & EDID_QUIRK_FORCE_8BPC)
-> +		info->bpc = 8;
->  
-> -	if (quirks & EDID_QUIRK_FORCE_10BPC)
-> -		connector->display_info.bpc = 10;
-> +	if (info->quirks & EDID_QUIRK_FORCE_10BPC)
-> +		info->bpc = 10;
->  
-> -	if (quirks & EDID_QUIRK_FORCE_12BPC)
-> -		connector->display_info.bpc = 12;
-> +	if (info->quirks & EDID_QUIRK_FORCE_12BPC)
-> +		info->bpc = 12;
->  
->  	return num_modes;
->  }
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 1c26c4e72c62..7b5048516185 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -728,6 +728,11 @@ struct drm_display_info {
->  	 * @vics_len: Number of elements in vics. Internal to EDID parsing.
->  	 */
->  	int vics_len;
-> +
-> +	/**
-> +	 * @quirks: EDID based quirks. Internal to EDID parsing.
-> +	 */
-> +	u32 quirks;
->  };
->  
->  int drm_display_info_set_bus_formats(struct drm_display_info *info,
+>  	if (info->quirks & EDID_QUIRK_FORCE_6BPC)
+>  		info->bpc = 6;
 > -- 
 > 2.34.1
 
