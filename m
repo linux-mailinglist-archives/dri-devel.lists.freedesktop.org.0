@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E080067238A
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 17:38:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D488E67238E
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 17:39:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8B5110E79E;
-	Wed, 18 Jan 2023 16:38:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E28B910E79D;
+	Wed, 18 Jan 2023 16:39:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com
- [209.85.161.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0DC510E79E;
- Wed, 18 Jan 2023 16:38:44 +0000 (UTC)
-Received: by mail-oo1-f49.google.com with SMTP id
- h12-20020a4a940c000000b004fa81915b1cso973566ooi.4; 
- Wed, 18 Jan 2023 08:38:44 -0800 (PST)
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
+ [209.85.210.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 595A310E79C;
+ Wed, 18 Jan 2023 16:39:11 +0000 (UTC)
+Received: by mail-ot1-f45.google.com with SMTP id
+ f5-20020a9d5f05000000b00684c0c2eb3fso10905885oti.10; 
+ Wed, 18 Jan 2023 08:39:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0f4AajlKivLZzEuRli1ZnJsZtgypNSW0pfvgWosYbSg=;
- b=dLvLERASHp91SN/dxt7GQPB7mC5/ZUAPlqgSt8ppAdCrJIOFKyQJ8Vl5DdzIteriGe
- +S03PbgJikASw8knoHaOsRt3RWpTCtk2Ul3+tSBMFEvvwFfJXucH+P99UZG5cKPxiwH+
- 9xyIFldgSAo098UsuO4hpEtCxFkAjHCArAxjOKtItZpejrVVDU8gQzeTB1OplTBcvYLa
- /F3nvu8ZFDLH1/LMij4TMJln0p05ihTqvdHpKeNw+S/GfTqyn6+hZBGE/BWNxHUOM+3Y
- PKUfd9xhJRkPzjJGRd6zQm2CREP5Jgz1vJSzRFKaE66RjkB0cC8ROFZjqZebAnWtE59Z
- CNkA==
-X-Gm-Message-State: AFqh2koCOdWGqK33tQrCPXcYgPIEh7ZGPqC89asHNvGBaJrl9deaVC74
- QhBGK2DDnsNXO6eyr66pXEv3QppqyA==
-X-Google-Smtp-Source: AMrXdXuxkYOQs5Ku/hOsUiwkyRuQTRSetfG/ANmbqW9hvEZctLIMrBYb93DE+Crp+bmR/O1ZXrXd5A==
-X-Received: by 2002:a4a:3745:0:b0:4f2:cf1:36ee with SMTP id
- r66-20020a4a3745000000b004f20cf136eemr3662087oor.1.1674059924192; 
- Wed, 18 Jan 2023 08:38:44 -0800 (PST)
+ bh=1LIN2pCgiEqpzEppt5R/k/8ZARlzAK3/w8Uxd8kz5AY=;
+ b=3N0RijTQSVfVYZudjkhH9Siq5zA8aT0wXPvaqAgkKVn8qKUodfp3AtqzfEJ9Fm6Ahs
+ vzIe239mDGYPZwivjprgEIPeePrEaXTM7wIWKbYpF991VIxrmTdtw95HiRHTW+vYG5AF
+ LBFdXSD+vfKX6ErYHOLxn09PanYm5jpHlDb/n8WlyS949F3iBsW8HlA6WDzZAom6WTkU
+ q2cWfJhAStlAGPwkSSBRUqh1TBwQFAO0nz5aZAigAiZ4yyTFI93zq3ZN3KDv1qdhJmDa
+ 2g64sXHAeHBxMc/0phyFDby8Zw+o5SWvAltmhBJ2TE2ZRuKZocwnqwX3o5UsVfi8dlu+
+ n1hA==
+X-Gm-Message-State: AFqh2ko/vPQ21Vt1xz4jpAo7JmzZR581Ey/V9gu5Wy407yS4iqUnZRgy
+ pWKVH48X8twbSADRgmyMAQ==
+X-Google-Smtp-Source: AMrXdXsFPNs+/L2oeSD8CarId/6QwbzGw9mR31SKjD/iKEhEkuaMEZazpJZos257w2NMkXj2ZJ/ENA==
+X-Received: by 2002:a9d:5c10:0:b0:670:88fe:6613 with SMTP id
+ o16-20020a9d5c10000000b0067088fe6613mr3486011otk.0.1674059950561; 
+ Wed, 18 Jan 2023 08:39:10 -0800 (PST)
 Received: from robh_at_kernel.org ([4.31.143.193])
  by smtp.gmail.com with ESMTPSA id
- l4-20020a056820030400b004f73632d096sm2905262ooe.6.2023.01.18.08.38.43
+ r10-20020a9d5cca000000b0068657984c22sm1028510oti.32.2023.01.18.08.39.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jan 2023 08:38:43 -0800 (PST)
-Received: (nullmailer pid 134153 invoked by uid 1000);
- Wed, 18 Jan 2023 16:38:43 -0000
-Date: Wed, 18 Jan 2023 10:38:43 -0600
+ Wed, 18 Jan 2023 08:39:10 -0800 (PST)
+Received: (nullmailer pid 134856 invoked by uid 1000);
+ Wed, 18 Jan 2023 16:39:09 -0000
+Date: Wed, 18 Jan 2023 10:39:09 -0600
 From: Rob Herring <robh@kernel.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 1/4] dt-bindings: display/msm: add qcom,sc8280xp-edp to
- list of eDP devices
-Message-ID: <167405992255.134101.6407970989523760202.robh@kernel.org>
+Subject: Re: [PATCH 2/4] dt-bindings: display/msm: qcom, sc8280xp-mdss: add DP
+ / eDP child nodes
+Message-ID: <167405994883.134798.3210451257318456033.robh@kernel.org>
 References: <20230118031718.1714861-1-dmitry.baryshkov@linaro.org>
+ <20230118031718.1714861-2-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230118031718.1714861-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230118031718.1714861-2-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,29 +65,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
+Cc: Sean Paul <sean@poorly.run>, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Andy Gross <agross@kernel.org>, dri-devel@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Wed, 18 Jan 2023 05:17:15 +0200, Dmitry Baryshkov wrote:
-> Add qcom,sc8280xp-edp to the list of eDP devices, unblocking `aux-bus'
-> property and fobidding `#sound-dai-cells' property. Also since
-> sc8280xp-edp, overriding sc8280xp-dp, will contain 5 reg resources, drop
-> the reg contraint (as it will become equivalent to the top-level one,
-> requiring min 4 and max 5 reg entries).
+On Wed, 18 Jan 2023 05:17:16 +0200, Dmitry Baryshkov wrote:
+> Describe DP and eDP devices as subdevices to the MDSS on SC8280XP
+> platform.
 > 
-> Fixes: b6f8c4debc00 ("dt-bindings: msm/dp: Add SDM845 and SC8280XP compatibles")
+> Fixes: 45af56bf2d74 ("dt-bindings: display/msm: Add binding for SC8280XP MDSS")
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  .../devicetree/bindings/display/msm/dp-controller.yaml         | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  .../bindings/display/msm/qcom,sc8280xp-mdss.yaml          | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
 
 Acked-by: Rob Herring <robh@kernel.org>
