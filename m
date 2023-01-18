@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF1E7672055
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 15:56:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45FB1672063
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 16:00:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A23C610E761;
-	Wed, 18 Jan 2023 14:56:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A0B410E762;
+	Wed, 18 Jan 2023 15:00:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2184B10E761;
- Wed, 18 Jan 2023 14:56:30 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C25810E6F6;
+ Wed, 18 Jan 2023 15:00:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674053790; x=1705589790;
+ t=1674054047; x=1705590047;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=ppacL10B9CJfkWOwyfu1rpq320E1fOqJoAOs49v3lp4=;
- b=DZKHSRoPtk0rJfcmlc/sAHJVcMyLw18WlTgVgjOwvh4M1X2FVYhMdy8j
- EOJOOXfjAmKhwZBVxevoNtC5HkwwnB7lRvAkvFAIkZ7eMUwoF9i5zj14f
- g8M+46hzRd8PC1bMiQJDkci0HP6xp7tBHmnGHszSOKrXwAIMSp8JNdKKi
- yFFDdMBMrC+tWhgtoBIpMeKSwvbMaXvAz9sUbaGmAMWzFB8svx1D3zCQ5
- zKjMWZemBFqL7ocHC0ZBxLQbFFK5sRcRDjU8R4czV27QZB9erg2TShtcp
- JNjlz+M6zlExoZ+6J4etjG/f+aqCOes4z3F5f7W2uhkY+v/yG+oUazzUh g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="327072748"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="327072748"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2023 06:56:29 -0800
+ bh=68c325VjfL8aCYRg864MJ9CmsN2DN/rfduIGADfQYIk=;
+ b=jFJYSePtamA8WF9boDAvxxjRYBu+HCGe8M/bPEuTCxBbZn9WA/I6x01/
+ rMFpC9/1q8+qa3jQ3wlDXLDxiiNslhRcsUHp1srPSugfzMjtjRG4tJt6r
+ EvMh2YGi8218OQ7TJvBNlBCCih6rP8joGI2elkflSbejE35Wp+VGvYoBR
+ UnE3KoBBV8Qndeq5OZt/6kS5oBK7dSosGzV3H2LF+z7uv8KQvJ4cn+5Qs
+ ZMbcq6G4cPKCMNXBGd60hGaOQfppjtvG80XC20DRu2QKCuHWTDX3tjprE
+ /MIv2L0ttSaj5YOqEbhLe68fiKVmqVQMtocbs07Mq39KuvW/gx+2LLDOz w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="326264754"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="326264754"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2023 07:00:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="637318168"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="637318168"
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="833606590"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="833606590"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
- by orsmga006.jf.intel.com with SMTP; 18 Jan 2023 06:56:26 -0800
+ by orsmga005.jf.intel.com with SMTP; 18 Jan 2023 07:00:28 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 18 Jan 2023 16:56:26 +0200
-Date: Wed, 18 Jan 2023 16:56:26 +0200
+ Wed, 18 Jan 2023 17:00:27 +0200
+Date: Wed, 18 Jan 2023 17:00:27 +0200
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v7 01/22] drm/edid: fix AVI infoframe aspect ratio handling
-Message-ID: <Y8gImnTq8+e/Gt95@intel.com>
+Subject: Re: [PATCH v7 02/22] drm/edid: fix parsing of 3D modes from HDMI VSDB
+Message-ID: <Y8gJi2tNyP20fHO9@intel.com>
 References: <cover.1672826282.git.jani.nikula@intel.com>
- <c3e78cc6d01ed237f71ad0038826b08d83d75eef.1672826282.git.jani.nikula@intel.com>
+ <cf159b8816191ed595a3cb954acaf189c4528cc7.1672826282.git.jani.nikula@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <c3e78cc6d01ed237f71ad0038826b08d83d75eef.1672826282.git.jani.nikula@intel.com>
+In-Reply-To: <cf159b8816191ed595a3cb954acaf189c4528cc7.1672826282.git.jani.nikula@intel.com>
 X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,85 +61,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- William Tseng <william.tseng@intel.com>, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 04, 2023 at 12:05:16PM +0200, Jani Nikula wrote:
-> We try to avoid sending VICs defined in the later specs in AVI
-> infoframes to sinks that conform to the earlier specs, to not upset
-> them, and use 0 for the VIC instead. However, we do this detection and
-> conversion to 0 too early, as we'll need the actual VIC to figure out
-> the aspect ratio.
+On Wed, Jan 04, 2023 at 12:05:17PM +0200, Jani Nikula wrote:
+> Commit 537d9ed2f6c1 ("drm/edid: convert add_cea_modes() to use cea db
+> iter") inadvertently moved the do_hdmi_vsdb_modes() call within the db
+> iteration loop, always passing NULL as the CTA VDB to
+> do_hdmi_vsdb_modes(), skipping a lot of stereo modes.
 > 
-> In particular, for a mode with 64:27 aspect ratio, 0 for VIC fails the
-> AVI infoframe generation altogether with -EINVAL.
+> Move the call back outside of the loop.
 > 
-> Separate the VIC lookup from the "filtering", and postpone the
-> filtering, to use the proper VIC for aspect ratio handling, and the 0
-> VIC for the infoframe video code as needed.
+> This does mean only one CTA VDB and HDMI VSDB combination will be
+> handled, but it's an unlikely scenario to have more than one of either
+> block, and it was not accounted for before the regression either.
 > 
-> Reported-by: William Tseng <william.tseng@intel.com>
-> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/6153
-> References: https://lore.kernel.org/r/20220920062316.43162-1-william.tseng@intel.com
-> Cc: <stable@vger.kernel.org>
+> Fixes: 537d9ed2f6c1 ("drm/edid: convert add_cea_modes() to use cea db iter")
+> Cc: <stable@vger.kernel.org> # v6.0+
 > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/drm_edid.c | 22 ++++++++++------------
+>  1 file changed, 10 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 23f7146e6a9b..b94adb9bbefb 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -5249,13 +5249,12 @@ static int add_cea_modes(struct drm_connector *connector,
+>  {
+>  	const struct cea_db *db;
+>  	struct cea_db_iter iter;
+> +	const u8 *hdmi = NULL, *video = NULL;
+> +	u8 hdmi_len = 0, video_len = 0;
+>  	int modes = 0;
+>  
+>  	cea_db_iter_edid_begin(drm_edid, &iter);
+>  	cea_db_iter_for_each(db, &iter) {
+> -		const u8 *hdmi = NULL, *video = NULL;
+> -		u8 hdmi_len = 0, video_len = 0;
+> -
+>  		if (cea_db_tag(db) == CTA_DB_VIDEO) {
+>  			video = cea_db_data(db);
+>  			video_len = cea_db_payload_len(db);
+> @@ -5271,18 +5270,17 @@ static int add_cea_modes(struct drm_connector *connector,
+>  			modes += do_y420vdb_modes(connector, vdb420,
+>  						  cea_db_payload_len(db) - 1);
+>  		}
+> -
+> -		/*
+> -		 * We parse the HDMI VSDB after having added the cea modes as we
+> -		 * will be patching their flags when the sink supports stereo
+> -		 * 3D.
+> -		 */
+> -		if (hdmi)
+> -			modes += do_hdmi_vsdb_modes(connector, hdmi, hdmi_len,
+> -						    video, video_len);
+>  	}
+>  	cea_db_iter_end(&iter);
+>  
+> +	/*
+> +	 * We parse the HDMI VSDB after having added the cea modes as we will be
+> +	 * patching their flags when the sink supports stereo 3D.
+> +	 */
+> +	if (hdmi)
+> +		modes += do_hdmi_vsdb_modes(connector, hdmi, hdmi_len,
+> +					    video, video_len);
+
+I wonder if there are any EDIDs with multiple copies
+of either data block... But the original code couldn't
+deal with that either so not really a concern for this
+patch.
 
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-> ---
->  drivers/gpu/drm/drm_edid.c | 21 ++++++++++++---------
->  1 file changed, 12 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 3841aba17abd..23f7146e6a9b 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -6885,8 +6885,6 @@ static u8 drm_mode_hdmi_vic(const struct drm_connector *connector,
->  static u8 drm_mode_cea_vic(const struct drm_connector *connector,
->  			   const struct drm_display_mode *mode)
->  {
-> -	u8 vic;
-> -
->  	/*
->  	 * HDMI spec says if a mode is found in HDMI 1.4b 4K modes
->  	 * we should send its VIC in vendor infoframes, else send the
-> @@ -6896,13 +6894,18 @@ static u8 drm_mode_cea_vic(const struct drm_connector *connector,
->  	if (drm_mode_hdmi_vic(connector, mode))
->  		return 0;
+> +
+>  	return modes;
+>  }
 >  
-> -	vic = drm_match_cea_mode(mode);
-> +	return drm_match_cea_mode(mode);
-> +}
->  
-> -	/*
-> -	 * HDMI 1.4 VIC range: 1 <= VIC <= 64 (CEA-861-D) but
-> -	 * HDMI 2.0 VIC range: 1 <= VIC <= 107 (CEA-861-F). So we
-> -	 * have to make sure we dont break HDMI 1.4 sinks.
-> -	 */
-> +/*
-> + * Avoid sending VICs defined in HDMI 2.0 in AVI infoframes to sinks that
-> + * conform to HDMI 1.4.
-> + *
-> + * HDMI 1.4 (CTA-861-D) VIC range: [1..64]
-> + * HDMI 2.0 (CTA-861-F) VIC range: [1..107]
-> + */
-> +static u8 vic_for_avi_infoframe(const struct drm_connector *connector, u8 vic)
-> +{
->  	if (!is_hdmi2_sink(connector) && vic > 64)
->  		return 0;
->  
-> @@ -6978,7 +6981,7 @@ drm_hdmi_avi_infoframe_from_display_mode(struct hdmi_avi_infoframe *frame,
->  		picture_aspect = HDMI_PICTURE_ASPECT_NONE;
->  	}
->  
-> -	frame->video_code = vic;
-> +	frame->video_code = vic_for_avi_infoframe(connector, vic);
->  	frame->picture_aspect = picture_aspect;
->  	frame->active_aspect = HDMI_ACTIVE_ASPECT_PICTURE;
->  	frame->scan_mode = HDMI_SCAN_MODE_UNDERSCAN;
 > -- 
 > 2.34.1
 
