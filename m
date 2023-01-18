@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF9167139D
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 07:13:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC2826713A2
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 07:14:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7751210E68E;
-	Wed, 18 Jan 2023 06:13:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2195B10E691;
+	Wed, 18 Jan 2023 06:13:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D8C810E68A
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 06:13:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DC6510E685
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 06:13:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674022422;
+ s=mimecast20190719; t=1674022427;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LRj04i8kO8UNSuXsGqfC3ZL11EhFJ7RqZPr5BWcyY7o=;
- b=akS/RWfsMJ2a4IFBwAQ+buKBOD2ibGfZDbL8Rjdwb+i6XwnsPQ8I7Ge8fDXAQ5d3VOlWiH
- ZO3eiyUdr2lYsZQ5fNQ9stnwi50jM5oned3yUIt4pfkhrcYaWBJ/84LXY0SaNkRj9Oz8I5
- G7vIfKOPYxDg8BlYNgaYP9IdovRkM1M=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=v4Ui7nnL8WMOF/Rh/0KZxy27XuCjk5hBiGqbg/f/QL4=;
+ b=Jl7QCXxxCcNShPOzW9Z9d34WZYlmabQEqIPOOws1/5tHrfWCi+B7aq786PdioQ8J7ak/hA
+ yV0xWZguxxBvKOhsKt17tqvgevOm/YMdA5pZEA+v2Ug2xyA/Xjv846lzL5oEswEFQoW/Nm
+ KnYicfC6u6WFleOXFmWQGEy2UADILZo=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-145-y6vKpxonMvO-3Mt05JmStw-1; Wed, 18 Jan 2023 01:13:41 -0500
-X-MC-Unique: y6vKpxonMvO-3Mt05JmStw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- x13-20020a05640226cd00b0047ac11c9774so22936559edd.17
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 22:13:41 -0800 (PST)
+ us-mta-155-cFMCmG-PM0WBW9WqmJ5QNw-1; Wed, 18 Jan 2023 01:13:46 -0500
+X-MC-Unique: cFMCmG-PM0WBW9WqmJ5QNw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ y21-20020a056402359500b0049e171c4ad0so5559488edc.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 22:13:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LRj04i8kO8UNSuXsGqfC3ZL11EhFJ7RqZPr5BWcyY7o=;
- b=jm1XFnPSibGlgCaenEvFlNFbeuwY/0X51OUNUXU+MmQgF7+eO1PNvC7Hqdpx1Ly1v3
- dBPQ7XvSimA5f5ixJAISQV+ssYrdeMIIPSffF0DwCMUqmQZ8uE6wGD26XUfY142ICoz8
- MwFMQfLIvgwtllCaLG/OhK6IyAoGW+rWwm81XUUx9sw9bEKbWPMNa8auo92gA6AJrFyz
- MDKz3KxZqJxQVhaiE57rx6DZz365SWqOkj79bZOAXSyewWb2jqSKy8BKK5Ny8kL5kj6k
- LzImkTtkYwAk/QxHC1FcY5E7TH+ZIkkaLbG3R0Sn2DBzbjrCQtRhd+cN7r1BJ0U4ZnZc
- gMGQ==
-X-Gm-Message-State: AFqh2koewYi+BTjXmYG26QKGDrJFYaUvlQ/7jzmnR40CQOu8092+fW4M
- z65YTYiMhdouEzO8yBtXb+9wwEz1fciJ/NilW31VgKgTpqpJJRnZBdBsnlaSC62zVdlf05SVFcI
- IMqj9sxm85eSWa/fSEgsGj0UnmPah
-X-Received: by 2002:a05:6402:1f8c:b0:49c:77ba:fa4e with SMTP id
- c12-20020a0564021f8c00b0049c77bafa4emr6733975edc.28.1674022420597; 
- Tue, 17 Jan 2023 22:13:40 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuubl4Q+BrV9UaSYE4y1nIeSfLTxJuIFssdDOshvWY6gwkEiz1G6vykDvEF/pqTjsvuwJOBeg==
-X-Received: by 2002:a05:6402:1f8c:b0:49c:77ba:fa4e with SMTP id
- c12-20020a0564021f8c00b0049c77bafa4emr6733954edc.28.1674022420424; 
- Tue, 17 Jan 2023 22:13:40 -0800 (PST)
+ bh=v4Ui7nnL8WMOF/Rh/0KZxy27XuCjk5hBiGqbg/f/QL4=;
+ b=HSM9MPUGVR9jVabpqCohaogkL0rp8GzVU68/WCyKa4NS04rpyh37EUO62cq7dd0Rwx
+ XAScy2TFaFI8k1aT7RGjcOHgHal99iGq7wbPOeig32A/JHajRmRzmr7s2Hy+ThD9ho20
+ IlWerLMGmn0j67ytgJigoGdbJixS8R6OkHqwWcLfZtCR1lgpbKCHmZxJgMdRJu0785Tm
+ TT8wGq0zG5LcMc0b16ejTdN817GEaOBh56rXwY9ukHP/Hz0YBpn9FZ3RKos+XHzrcz0E
+ 2vLnf/wAEudL09Zu11XOOQFhu7rpkWrneKDkB4ctyo/sDhoXUWHODP/AY6VGWUlUqdxL
+ erow==
+X-Gm-Message-State: AFqh2kooYj5LaZ1BJxXKMoW80+k+YuMfNN21TA9ysEO7fx5FlefpmmTT
+ 6LqvNXYcg+Uma0uTbXszfHplt1gESPJjkO+qYkltftRa9gE46WO55cbijaACcNNqDdU9kOJSYgq
+ +ywmSWxLkhJ724khJHxPudG6a3mGC
+X-Received: by 2002:a17:907:d10:b0:86e:df17:df94 with SMTP id
+ gn16-20020a1709070d1000b0086edf17df94mr7855515ejc.14.1674022424849; 
+ Tue, 17 Jan 2023 22:13:44 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtLalrKtABzKPZUUgEeBRrgtdOwhjVQiiPWy6/M2DQlmnO2bBCBuWKs9P/hFsOfwUbCyT3baQ==
+X-Received: by 2002:a17:907:d10:b0:86e:df17:df94 with SMTP id
+ gn16-20020a1709070d1000b0086edf17df94mr7855498ejc.14.1674022424598; 
+ Tue, 17 Jan 2023 22:13:44 -0800 (PST)
 Received: from cassiopeiae.. ([2a02:810d:4b3f:de78:642:1aff:fe31:a19f])
  by smtp.gmail.com with ESMTPSA id
- f22-20020a17090631d600b00779cde476e4sm14066042ejf.62.2023.01.17.22.13.39
+ wi19-20020a170906fd5300b00871075bfcfesm3128359ejb.133.2023.01.17.22.13.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 22:13:40 -0800 (PST)
+ Tue, 17 Jan 2023 22:13:44 -0800 (PST)
 From: Danilo Krummrich <dakr@redhat.com>
 To: daniel@ffwll.ch, airlied@redhat.com, christian.koenig@amd.com,
  bskeggs@redhat.com, jason@jlekstrand.net, tzimmermann@suse.de,
  mripard@kernel.org, corbet@lwn.net
-Subject: [PATCH drm-next 04/14] drm: debugfs: provide infrastructure to dump a
- DRM GPU VA space
-Date: Wed, 18 Jan 2023 07:12:46 +0100
-Message-Id: <20230118061256.2689-5-dakr@redhat.com>
+Subject: [PATCH drm-next 05/14] drm/nouveau: new VM_BIND uapi interfaces
+Date: Wed, 18 Jan 2023 07:12:47 +0100
+Message-Id: <20230118061256.2689-6-dakr@redhat.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230118061256.2689-1-dakr@redhat.com>
 References: <20230118061256.2689-1-dakr@redhat.com>
@@ -92,144 +91,288 @@ Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This commit adds a function to dump a DRM GPU VA space and a macro for
-drivers to register the struct drm_info_list 'gpuvas' entry.
+This commit provides the interfaces for the new UAPI motivated by the
+Vulkan API. It allows user mode drivers (UMDs) to:
 
-Most likely, most drivers might maintain one DRM GPU VA space per struct
-drm_file, but there might also be drivers not having a fixed relation
-between DRM GPU VA spaces and a DRM core infrastructure, hence we need the
-indirection via the driver iterating it's maintained DRM GPU VA spaces.
+1) Initialize a GPU virtual address (VA) space via the new
+   DRM_IOCTL_NOUVEAU_VM_INIT ioctl. UMDs can provide a kernel reserved
+   VA area.
 
+2) Bind and unbind GPU VA space mappings via the new
+   DRM_IOCTL_NOUVEAU_VM_BIND ioctl.
+
+3) Execute push buffers with the new DRM_IOCTL_NOUVEAU_EXEC ioctl.
+
+Both, DRM_IOCTL_NOUVEAU_VM_BIND and DRM_IOCTL_NOUVEAU_EXEC support
+asynchronous processing with DRM syncobjs as synchronization mechanism.
+
+The default DRM_IOCTL_NOUVEAU_VM_BIND is synchronous processing,
+DRM_IOCTL_NOUVEAU_EXEC supports asynchronous processing only.
+
+Co-authored-by: Dave Airlie <airlied@redhat.com>
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/drm_debugfs.c | 56 +++++++++++++++++++++++++++++++++++
- include/drm/drm_debugfs.h     | 25 ++++++++++++++++
- 2 files changed, 81 insertions(+)
+ Documentation/gpu/driver-uapi.rst |   8 ++
+ include/uapi/drm/nouveau_drm.h    | 216 ++++++++++++++++++++++++++++++
+ 2 files changed, 224 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 4f643a490dc3..5389dd73c0fb 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -39,6 +39,7 @@
- #include <drm/drm_file.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_managed.h>
-+#include <drm/drm_gpuva_mgr.h>
+diff --git a/Documentation/gpu/driver-uapi.rst b/Documentation/gpu/driver-uapi.rst
+index 4411e6919a3d..9c7ca6e33a68 100644
+--- a/Documentation/gpu/driver-uapi.rst
++++ b/Documentation/gpu/driver-uapi.rst
+@@ -6,3 +6,11 @@ drm/i915 uAPI
+ =============
  
- #include "drm_crtc_internal.h"
- #include "drm_internal.h"
-@@ -175,6 +176,61 @@ static const struct file_operations drm_debugfs_fops = {
- 	.release = single_release,
+ .. kernel-doc:: include/uapi/drm/i915_drm.h
++
++drm/nouveau uAPI
++================
++
++VM_BIND / EXEC uAPI
++-------------------
++
++.. kernel-doc:: include/uapi/drm/nouveau_drm.h
+diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
+index 853a327433d3..f6e7d40201d4 100644
+--- a/include/uapi/drm/nouveau_drm.h
++++ b/include/uapi/drm/nouveau_drm.h
+@@ -126,6 +126,216 @@ struct drm_nouveau_gem_cpu_fini {
+ 	__u32 handle;
  };
  
 +/**
-+ * drm_debugfs_gpuva_info - dump the given DRM GPU VA space
-+ * @m: pointer to the &seq_file to write
-+ * @mgr: the &drm_gpuva_manager representing the GPU VA space
++ * struct drm_nouveau_sync - sync object
 + *
-+ * Dumps the GPU VA regions and mappings of a given DRM GPU VA manager.
-+ *
-+ * For each DRM GPU VA space drivers should call this function from their
-+ * &drm_info_list's show callback.
-+ *
-+ * Returns: 0 on success, -ENODEV if the &mgr is not initialized
++ * This structure serves as synchronization mechanism for (potentially)
++ * asynchronous operations such as EXEC or VM_BIND.
 + */
-+int drm_debugfs_gpuva_info(struct seq_file *m,
-+			   struct drm_gpuva_manager *mgr)
-+{
-+	struct drm_gpuva_region *reg;
-+	struct drm_gpuva *va;
-+
-+	if (!mgr->name)
-+		return -ENODEV;
-+
-+	seq_printf(m, "DRM GPU VA space (%s)\n", mgr->name);
-+	seq_puts  (m, "\n");
-+	seq_puts  (m, " VA regions  | start              | range              | end                | sparse\n");
-+	seq_puts  (m, "------------------------------------------------------------------------------------\n");
-+	seq_printf(m, " VA space    | 0x%016llx | 0x%016llx | 0x%016llx |   -\n",
-+		   mgr->mm_start, mgr->mm_range, mgr->mm_start + mgr->mm_range);
-+	seq_puts  (m, "-----------------------------------------------------------------------------------\n");
-+	drm_gpuva_for_each_region(reg, mgr) {
-+		struct drm_mm_node *node = &reg->node;
-+
-+		if (node == &mgr->kernel_alloc_node) {
-+			seq_printf(m, " kernel node | 0x%016llx | 0x%016llx | 0x%016llx |   -\n",
-+				   node->start, node->size, node->start + node->size);
-+			continue;
-+		}
-+
-+		seq_printf(m, "             | 0x%016llx | 0x%016llx | 0x%016llx | %s\n",
-+			   node->start, node->size, node->start + node->size,
-+			   reg->sparse ? "true" : "false");
-+	}
-+	seq_puts(m, "\n");
-+	seq_puts(m, " VAs | start              | range              | end                | object             | object offset\n");
-+	seq_puts(m, "-------------------------------------------------------------------------------------------------------------\n");
-+	drm_gpuva_for_each_va(va, mgr) {
-+		struct drm_mm_node *node = &va->node;
-+
-+		seq_printf(m, "     | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx\n",
-+			   node->start, node->size, node->start + node->size,
-+			   (u64)va->gem.obj, va->gem.offset);
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_debugfs_gpuva_info);
- 
- /**
-  * drm_debugfs_create_files - Initialize a given set of debugfs files for DRM
-diff --git a/include/drm/drm_debugfs.h b/include/drm/drm_debugfs.h
-index 7616f457ce70..cb2c1956a214 100644
---- a/include/drm/drm_debugfs.h
-+++ b/include/drm/drm_debugfs.h
-@@ -34,6 +34,22 @@
- 
- #include <linux/types.h>
- #include <linux/seq_file.h>
-+
-+#include <drm/drm_gpuva_mgr.h>
++struct drm_nouveau_sync {
++	/**
++	 * @flags: the flags for a sync object
++	 *
++	 * The first 8 bits are used to determine the type of the sync object.
++	 */
++	__u32 flags;
++#define DRM_NOUVEAU_SYNC_SYNCOBJ 0x0
++#define DRM_NOUVEAU_SYNC_TIMELINE_SYNCOBJ 0x1
++#define DRM_NOUVEAU_SYNC_TYPE_MASK 0xf
++	/**
++	 * @handle: the handle of the sync object
++	 */
++	__u32 handle;
++	/**
++	 * @timeline_value:
++	 *
++	 * The timeline point of the sync object in case the syncobj is of
++	 * type DRM_NOUVEAU_SYNC_TIMELINE_SYNCOBJ.
++	 */
++	__u64 timeline_value;
++};
 +
 +/**
-+ * DRM_DEBUGFS_GPUVA_INFO - &drm_info_list entry to dump a GPU VA space
-+ * @show: the &drm_info_list's show callback
-+ * @data: driver private data
++ * struct drm_nouveau_vm_init - GPU VA space init structure
 + *
-+ * Drivers should use this macro to define a &drm_info_list entry to provide a
-+ * debugfs file for dumping the GPU VA space regions and mappings.
-+ *
-+ * For each DRM GPU VA space drivers should call drm_debugfs_gpuva_info() from
-+ * their @show callback.
++ * Used to initialize the GPU's VA space for a user client, telling the kernel
++ * which portion of the VA space is managed by the UMD and kernel respectively.
 + */
-+#define DRM_DEBUGFS_GPUVA_INFO(show, data) {"gpuvas", show, DRIVER_GEM_GPUVA, data}
++struct drm_nouveau_vm_init {
++	/**
++	 * @unmanaged_addr: start address of the kernel managed VA space region
++	 */
++	__u64 unmanaged_addr;
++	/**
++	 * @unmanaged_size: size of the kernel managed VA space region in bytes
++	 */
++	__u64 unmanaged_size;
++};
 +
- /**
-  * struct drm_info_list - debugfs info list entry
-  *
-@@ -134,6 +150,9 @@ void drm_debugfs_add_file(struct drm_device *dev, const char *name,
++/**
++ * struct drm_nouveau_vm_bind_op - VM_BIND operation
++ *
++ * This structure represents a single VM_BIND operation. UMDs should pass
++ * an array of this structure via struct drm_nouveau_vm_bind's &op_ptr field.
++ */
++struct drm_nouveau_vm_bind_op {
++	/**
++	 * @op: the operation type
++	 */
++	__u32 op;
++/**
++ * @DRM_NOUVEAU_VM_BIND_OP_ALLOC:
++ *
++ * The alloc operation is used to reserve a VA space region within the GPU's VA
++ * space. Optionally, the &DRM_NOUVEAU_VM_BIND_SPARSE flag can be passed to
++ * instruct the kernel to create sparse mappings for the given region.
++ */
++#define DRM_NOUVEAU_VM_BIND_OP_ALLOC 0x0
++/**
++ * @DRM_NOUVEAU_VM_BIND_OP_FREE: Free a reserved VA space region.
++ */
++#define DRM_NOUVEAU_VM_BIND_OP_FREE 0x1
++/**
++ * @DRM_NOUVEAU_VM_BIND_OP_MAP:
++ *
++ * Map a GEM object to the GPU's VA space. The mapping must be fully enclosed by
++ * a previously allocated VA space region. If the region is sparse, existing
++ * sparse mappings are overwritten.
++ */
++#define DRM_NOUVEAU_VM_BIND_OP_MAP 0x2
++/**
++ * @DRM_NOUVEAU_VM_BIND_OP_UNMAP:
++ *
++ * Unmap an existing mapping in the GPU's VA space. If the region the mapping
++ * is located in is a sparse region, new sparse mappings are created where the
++ * unmapped (memory backed) mapping was mapped previously.
++ */
++#define DRM_NOUVEAU_VM_BIND_OP_UNMAP 0x3
++	/**
++	 * @flags: the flags for a &drm_nouveau_vm_bind_op
++	 */
++	__u32 flags;
++/**
++ * @DRM_NOUVEAU_VM_BIND_SPARSE:
++ *
++ * Indicates that an allocated VA space region should be sparse.
++ */
++#define DRM_NOUVEAU_VM_BIND_SPARSE (1 << 8)
++	/**
++	 * @handle: the handle of the DRM GEM object to map
++	 */
++	__u32 handle;
++	/**
++	 * @addr:
++	 *
++	 * the address the VA space region or (memory backed) mapping should be mapped to
++	 */
++	__u64 addr;
++	/**
++	 * @bo_offset: the offset within the BO backing the mapping
++	 */
++	__u64 bo_offset;
++	/**
++	 * @range: the size of the requested mapping in bytes
++	 */
++	__u64 range;
++};
++
++/**
++ * struct drm_nouveau_vm_bind - structure for DRM_IOCTL_NOUVEAU_VM_BIND
++ */
++struct drm_nouveau_vm_bind {
++	/**
++	 * @op_count: the number of &drm_nouveau_vm_bind_op
++	 */
++	__u32 op_count;
++	/**
++	 * @flags: the flags for a &drm_nouveau_vm_bind ioctl
++	 */
++	__u32 flags;
++/**
++ * @DRM_NOUVEAU_VM_BIND_RUN_ASYNC:
++ *
++ * Indicates that the given VM_BIND operation should be executed asynchronously
++ * by the kernel.
++ *
++ * If this flag is not supplied the kernel executes the associated operations
++ * synchronously and doesn't accept any &drm_nouveau_sync objects.
++ */
++#define DRM_NOUVEAU_VM_BIND_RUN_ASYNC 0x1
++	/**
++	 * @wait_count: the number of wait &drm_nouveau_syncs
++	 */
++	__u32 wait_count;
++	/**
++	 * @sig_count: the number of &drm_nouveau_syncs to signal when finished
++	 */
++	__u32 sig_count;
++	/**
++	 * @wait_ptr: pointer to &drm_nouveau_syncs to wait for
++	 */
++	__u64 wait_ptr;
++	/**
++	 * @sig_ptr: pointer to &drm_nouveau_syncs to signal when finished
++	 */
++	__u64 sig_ptr;
++	/**
++	 * @op_ptr: pointer to the &drm_nouveau_vm_bind_ops to execute
++	 */
++	__u64 op_ptr;
++};
++
++/**
++ * struct drm_nouveau_exec_push - EXEC push operation
++ *
++ * This structure represents a single EXEC push operation. UMDs should pass an
++ * array of this structure via struct drm_nouveau_exec's &push_ptr field.
++ */
++struct drm_nouveau_exec_push {
++	/**
++	 * @va: the virtual address of the push buffer mapping
++	 */
++	__u64 va;
++	/**
++	 * @va_len: the length of the push buffer mapping
++	 */
++	__u64 va_len;
++};
++
++/**
++ * struct drm_nouveau_exec - structure for DRM_IOCTL_NOUVEAU_EXEC
++ */
++struct drm_nouveau_exec {
++	/**
++	 * @channel: the channel to execute the push buffer in
++	 */
++	__u32 channel;
++	/**
++	 * @push_count: the number of &drm_nouveau_exec_push ops
++	 */
++	__u32 push_count;
++	/**
++	 * @wait_count: the number of wait &drm_nouveau_syncs
++	 */
++	__u32 wait_count;
++	/**
++	 * @sig_count: the number of &drm_nouveau_syncs to signal when finished
++	 */
++	__u32 sig_count;
++	/**
++	 * @wait_ptr: pointer to &drm_nouveau_syncs to wait for
++	 */
++	__u64 wait_ptr;
++	/**
++	 * @sig_ptr: pointer to &drm_nouveau_syncs to signal when finished
++	 */
++	__u64 sig_ptr;
++	/**
++	 * @push_ptr: pointer to &drm_nouveau_exec_push ops
++	 */
++	__u64 push_ptr;
++};
++
+ #define DRM_NOUVEAU_GETPARAM           0x00 /* deprecated */
+ #define DRM_NOUVEAU_SETPARAM           0x01 /* deprecated */
+ #define DRM_NOUVEAU_CHANNEL_ALLOC      0x02 /* deprecated */
+@@ -136,6 +346,9 @@ struct drm_nouveau_gem_cpu_fini {
+ #define DRM_NOUVEAU_NVIF               0x07
+ #define DRM_NOUVEAU_SVM_INIT           0x08
+ #define DRM_NOUVEAU_SVM_BIND           0x09
++#define DRM_NOUVEAU_VM_INIT            0x10
++#define DRM_NOUVEAU_VM_BIND            0x11
++#define DRM_NOUVEAU_EXEC               0x12
+ #define DRM_NOUVEAU_GEM_NEW            0x40
+ #define DRM_NOUVEAU_GEM_PUSHBUF        0x41
+ #define DRM_NOUVEAU_GEM_CPU_PREP       0x42
+@@ -197,6 +410,9 @@ struct drm_nouveau_svm_bind {
+ #define DRM_IOCTL_NOUVEAU_GEM_CPU_FINI       DRM_IOW (DRM_COMMAND_BASE + DRM_NOUVEAU_GEM_CPU_FINI, struct drm_nouveau_gem_cpu_fini)
+ #define DRM_IOCTL_NOUVEAU_GEM_INFO           DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_GEM_INFO, struct drm_nouveau_gem_info)
  
- void drm_debugfs_add_files(struct drm_device *dev,
- 			   const struct drm_debugfs_info *files, int count);
-+
-+int drm_debugfs_gpuva_info(struct seq_file *m,
-+			   struct drm_gpuva_manager *mgr);
- #else
- static inline void drm_debugfs_create_files(const struct drm_info_list *files,
- 					    int count, struct dentry *root,
-@@ -155,6 +174,12 @@ static inline void drm_debugfs_add_files(struct drm_device *dev,
- 					 const struct drm_debugfs_info *files,
- 					 int count)
- {}
-+
-+static inline int drm_debugfs_gpuva_info(struct seq_file *m,
-+					 struct drm_gpuva_manager *mgr)
-+{
-+	return 0;
-+}
++#define DRM_IOCTL_NOUVEAU_VM_INIT            DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_VM_INIT, struct drm_nouveau_vm_init)
++#define DRM_IOCTL_NOUVEAU_VM_BIND            DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_VM_BIND, struct drm_nouveau_vm_bind)
++#define DRM_IOCTL_NOUVEAU_EXEC               DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_EXEC, struct drm_nouveau_exec)
+ #if defined(__cplusplus)
+ }
  #endif
- 
- #endif /* _DRM_DEBUGFS_H_ */
 -- 
 2.39.0
 
