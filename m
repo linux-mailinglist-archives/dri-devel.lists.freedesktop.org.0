@@ -2,44 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E2C671F3C
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 15:17:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C66A6671F2E
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 15:15:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3805510E197;
-	Wed, 18 Jan 2023 14:17:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D5BD10E755;
+	Wed, 18 Jan 2023 14:15:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 359 seconds by postgrey-1.36 at gabe;
- Wed, 18 Jan 2023 14:17:00 UTC
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47FF110E197
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 14:17:00 +0000 (UTC)
-Message-ID: <f4ba9333-144a-c2c4-108f-71b2b4c9acd1@manjaro.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
- t=1674051057;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ilB7OTwIAX8N3WvG1TvNqQJkH9aWvuim71G4PHOXXrA=;
- b=EFBGsmmR6q243VF+wlXauMTBGMsILKrq7geT1pnQEieX6a0gPpkr1d/lb9KS1iBmF/0cma
- ycwKYXxM/GopSfdsCIZd/x8x0smN8dVjMZqY4NdDGM3IZk7m1jmejxR5DexcMRplskxRks
- Ib4/46hsfwNuaXnrbA653grzgIHwHiuCbq8Mcdq8C2/svExWyhpY31ADGDH7Rzpk7FwWOh
- d6UlufudOoNDQikO5V7emwxrKDc6cLmTx7PgplfBWqj+6gI5pQQ58gtmzdHSrIQnugEjmQ
- tR0Q5wKQcK/ZOMmzLuGBbcbMOttOtC/NNa93WNuthUgxO8v/rAhtnSEuUygJ2A==
-Date: Wed, 18 Jan 2023 15:10:56 +0100
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B50E10E752
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 14:15:44 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id ud5so83604893ejc.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 06:15:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=GdcrXBW2MtYoLFVY9wCMCVpizC+Njw3MsYjn9jDyc/o=;
+ b=RB/YGMXSb9wj8Og+DZdsXMUzp3Ir4wtmJ7x+U7HVoknku5DSE/DHjV9KOq6FuV/Uo4
+ 8mttHM06RNyisoQ8/Eb6esz3avzeaLM02yKoItQiidPOliAiEogLlVJVpphb3/L5LuMp
+ DnajvT+5huNOZK5wz8hvuKFEru250OgRYkXkdIGackFvV2hTEsDcg/BIlBqYHJ+ywkR7
+ 4pFNhijqfvdDJqQFB4zfPByKtibD3vn43SUDENxZbWdGwjV7zgJ7iKvgVIQuAQCU6TUD
+ Pf2QKxlee+QENlLtSDz4V0gibVjfCEfbEwbTZ0j8ItIFapnTUaR9qFEByvDoCWadxuug
+ dGqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GdcrXBW2MtYoLFVY9wCMCVpizC+Njw3MsYjn9jDyc/o=;
+ b=Qk8U5IcyMppaIco1sWvjoGHi9dsR07WYUL3rQE89IeEHpFl6uW70beFDtynVoBaAJM
+ CoDc+L7LIGPBp2ewvYclkAFAr9tSIOz1CYcEBjpX67n0H6YsefFOlhUosJeESEsxpMOx
+ eCTs3lBHP5k9PTDjoRHHViLPcyAgTyXGd9NfZeXXV7Sy9mL1GsQYUSnptl+8U3bMYdUm
+ BL55dtiWHQ5tBX2JdJ0YitS5rWczrWnnH5h1+URUcrJgWe7ESqfBwIuxjtyLOxPOP4zx
+ Ppil8HEbFNQxo/lPiJa0SLlvPFrg0NNRr8IwmM1oH7XNCAfc5Li6j7LsnoASzFNVqz35
+ /i0A==
+X-Gm-Message-State: AFqh2kpBKllc2UiSKNmhEb74RhDdBuTMHFfjyFjVv0HvEejLt6Gy02ka
+ 6soNBLiIIJ4PjpaVo31UCgUqEQ==
+X-Google-Smtp-Source: AMrXdXsIKT861wAEvSPGjUCBEBtzhIh9JueOVO76XSoFaU14eREu4Bux4PhbSbZOwXnl4aiLRBl3Zg==
+X-Received: by 2002:a17:906:348b:b0:84d:3a95:cdf9 with SMTP id
+ g11-20020a170906348b00b0084d3a95cdf9mr7190429ejb.50.1674051342794; 
+ Wed, 18 Jan 2023 06:15:42 -0800 (PST)
+Received: from [192.168.1.101] (abxh252.neoplus.adsl.tpnet.pl. [83.9.1.252])
+ by smtp.gmail.com with ESMTPSA id
+ 9-20020a170906318900b0080c433a9eeesm14695321ejy.182.2023.01.18.06.15.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Jan 2023 06:15:42 -0800 (PST)
+Message-ID: <9855fd94-d6a2-9a34-d6f7-e548e1a75550@linaro.org>
+Date: Wed, 18 Jan 2023 15:15:40 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 0/3] drm/rockchip: dw_hdmi: Add 4k@30 support
-To: Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org
-References: <20230118132213.2911418-1-s.hauer@pengutronix.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: drm/msm/dsi: correct byte intf clock rate for 14nm DSI PHY
 Content-Language: en-US
-From: Dan Johansen <strit@manjaro.org>
-Organization: Manjaro ARM
-In-Reply-To: <20230118132213.2911418-1-s.hauer@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20230118130027.2345719-1-dmitry.baryshkov@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230118130027.2345719-1-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
- auth=pass smtp.auth=strit@manjaro.org smtp.mailfrom=strit@manjaro.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,50 +76,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rockchip@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>,
- Sandy Huang <hjc@rock-chips.com>, kernel@pengutronix.de,
- Michael Riesch <michael.riesch@wolfvision.net>
+Cc: Loic Poulain <loic.poulain@linaro.org>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tested the whole series on my Rock 3A, with my 1440p monitor. Works wonders!
 
-Thank you.
 
-Tested-by: Dan Johansen <strit@manjaro.org>
+On 18.01.2023 14:00, Dmitry Baryshkov wrote:
+> According to the vendor kernel, byte intf clock rate should be a half of
+> the byte clock only when DSI PHY version is above 2.0 (in other words,
+> 10nm PHYs and later) and only if PHY is used in D-PHY mode. Currently
+> MSM DSI code handles only the second part of the clause (C-PHY vs
+> D-PHY), skipping DSI PHY version check, which causes issues on some of
+> 14nm DSI PHY platforms (e.g. qcm2290).
+> 
+> Move divisor selection to DSI PHY code, pass selected divisor through
+> shared timings and set byte intf clock rate accordingly.
+> 
+> Cc: Loic Poulain <loic.poulain@linaro.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+> 
+> This patch is a reimplementation of [1] in a slightly more flexible way.
+> 
+> [1] https://patchwork.kernel.org/project/linux-arm-msm/patch/1642586079-12472-1-git-send-email-loic.poulain@linaro.org/
+> 
+> ---
+Tested-by: Konrad Dybcio <konrad.dybcio@linaro.org> # SM6115P J606F
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-Den 18.01.2023 kl. 14.22 skrev Sascha Hauer:
-> It's been some time since I last sent this series. This version fixes
-> a regression Dan Johansen reported. The reason turned out to be simple,
-> I used the YUV420 register values instead of the RGB ones.
->
-> I realized that we cannot achieve several modes offered by my monitor
-> as these require pixelclocks that are slightly below the standard
-> pixelclocks. As these are lower than the standard clock rates the PLL
-> driver offers the clk driver falls back to a way lower frequency
-> which results in something the monitor can't display, so this series
-> now contains a patch to discard these unachievable modes.
->
-> Sascha
->
-> Changes since v2:
-> - Use correct register values for mpll_cfg
-> - Add patch to discard modes we cannot achieve
->
-> Changes since v1:
-> - Allow non standard clock rates only on Synopsys phy as suggested by
->    Robin Murphy
->
-> Sascha Hauer (3):
->    drm/rockchip: dw_hdmi: relax mode_valid hook
->    drm/rockchip: dw_hdmi: Add support for 4k@30 resolution
->    drm/rockchip: dw_hdmi: discard modes with unachievable pixelclocks
->
->   drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 40 ++++++++++++++++-----
->   1 file changed, 32 insertions(+), 8 deletions(-)
->
--- 
-Kind regards
-*Dan Johansen*
-Project lead of the *Manjaro ARM* project
-Manjaro-ARM <https://manjaro.org>
+Interestingly enough, this seems to somehow solve the issue
+where I had to manually set the brightness again after the
+first frame transfer or get a black screen otherwise.. 
+
+Konrad
+>  drivers/gpu/drm/msm/dsi/dsi.h         |  1 +
+>  drivers/gpu/drm/msm/dsi/dsi_host.c    | 14 ++++++--------
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c |  4 ++++
+>  3 files changed, 11 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
+> index 1a551cc0e889..bd3763a5d723 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi.h
+> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
+> @@ -141,6 +141,7 @@ struct msm_dsi_phy_shared_timings {
+>  	u32 clk_post;
+>  	u32 clk_pre;
+>  	bool clk_pre_inc_by_2;
+> +	bool byte_intf_clk_div_2;
+>  };
+>  
+>  struct msm_dsi_phy_clk_request {
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index 7c21f2fba520..18fa30e1e858 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -122,6 +122,7 @@ struct msm_dsi_host {
+>  	struct clk *byte_intf_clk;
+>  
+>  	unsigned long byte_clk_rate;
+> +	unsigned long byte_intf_clk_rate;
+>  	unsigned long pixel_clk_rate;
+>  	unsigned long esc_clk_rate;
+>  
+> @@ -398,7 +399,6 @@ int msm_dsi_runtime_resume(struct device *dev)
+>  
+>  int dsi_link_clk_set_rate_6g(struct msm_dsi_host *msm_host)
+>  {
+> -	unsigned long byte_intf_rate;
+>  	int ret;
+>  
+>  	DBG("Set clk rates: pclk=%d, byteclk=%lu",
+> @@ -418,13 +418,7 @@ int dsi_link_clk_set_rate_6g(struct msm_dsi_host *msm_host)
+>  	}
+>  
+>  	if (msm_host->byte_intf_clk) {
+> -		/* For CPHY, byte_intf_clk is same as byte_clk */
+> -		if (msm_host->cphy_mode)
+> -			byte_intf_rate = msm_host->byte_clk_rate;
+> -		else
+> -			byte_intf_rate = msm_host->byte_clk_rate / 2;
+> -
+> -		ret = clk_set_rate(msm_host->byte_intf_clk, byte_intf_rate);
+> +		ret = clk_set_rate(msm_host->byte_intf_clk, msm_host->byte_intf_clk_rate);
+>  		if (ret) {
+>  			pr_err("%s: Failed to set rate byte intf clk, %d\n",
+>  			       __func__, ret);
+> @@ -2394,6 +2388,10 @@ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+>  		goto unlock_ret;
+>  	}
+>  
+> +	msm_host->byte_intf_clk_rate = msm_host->byte_clk_rate;
+> +	if (phy_shared_timings->byte_intf_clk_div_2)
+> +		msm_host->byte_intf_clk_rate /= 2;
+> +
+>  	msm_dsi_sfpb_config(msm_host, true);
+>  
+>  	ret = regulator_bulk_enable(msm_host->cfg_hnd->cfg->num_regulators,
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> index 57445a5dc816..bb09cbe8ff86 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> @@ -350,6 +350,8 @@ int msm_dsi_dphy_timing_calc_v3(struct msm_dsi_dphy_timing *timing,
+>  		timing->shared_timings.clk_pre_inc_by_2 = 0;
+>  	}
+>  
+> +	timing->shared_timings.byte_intf_clk_div_2 = true;
+> +
+>  	timing->ta_go = 3;
+>  	timing->ta_sure = 0;
+>  	timing->ta_get = 4;
+> @@ -454,6 +456,8 @@ int msm_dsi_dphy_timing_calc_v4(struct msm_dsi_dphy_timing *timing,
+>  	tmax = 255;
+>  	timing->shared_timings.clk_pre = DIV_ROUND_UP((tmax - tmin) * 125, 10000) + tmin;
+>  
+> +	timing->shared_timings.byte_intf_clk_div_2 = true;
+> +
+>  	DBG("%d, %d, %d, %d, %d, %d, %d, %d, %d, %d",
+>  		timing->shared_timings.clk_pre, timing->shared_timings.clk_post,
+>  		timing->clk_zero, timing->clk_trail, timing->clk_prepare, timing->hs_exit,
+> 
