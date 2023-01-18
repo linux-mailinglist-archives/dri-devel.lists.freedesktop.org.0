@@ -1,66 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F182D6733CB
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 09:36:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0426733C8
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 09:36:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2D7F10E8E0;
-	Thu, 19 Jan 2023 08:36:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AEFA10E8DB;
+	Thu, 19 Jan 2023 08:35:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 813DD10E742
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 13:10:14 +0000 (UTC)
-Received: by mail-pg1-x533.google.com with SMTP id 141so24485737pgc.0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 05:10:14 -0800 (PST)
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
+ [IPv6:2607:f8b0:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DDA010E746
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 13:10:39 +0000 (UTC)
+Received: by mail-pg1-x52a.google.com with SMTP id g68so23361009pgc.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 05:10:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=d5iDPqq2wL1x5UVYS+LC8NuxcAKp2OxFDi96DZphNLQ=;
- b=bL0JpCqTuGGGtqXInCGKfaFZvmIgRwEvI7ZIhN5WHvTzz7QAufN9+18EFo1BE6d22z
- Ayk4ytDiShS5yJEUDkgXcBbPvWrej1L01bX2ZuQjtFEgdwT/PvFzOJ81f36VXGYURKDQ
- droDZSV6kpJF15ux9kOn/2uoM5Zen/ViU5/ezUDbwlx1wtTjxpT5G2KKv7qXkLCVz1C9
- 96xtyIw5gtBwRnR+f4bFSefhFvsS9zdU/L9P2ZwlFoOUVTT43R4yG34iHYjdPvVvMXDg
- 0FKMGD3xzTOfWJKXn0C+Z0+aq8HzZsp4xZAROLMtnf5Qfps6EZXpJASdbruCJmoc9yyM
- KA/A==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KZvYNNoDFImN8rRwIPbAJB00KkRxsjpk6nenHXFoTIE=;
+ b=G0XnUFuXR5A/9GcmrP84Rn6LRYj4PODMLeDnhCqr+69g14x9/jkVYkeEEDgvZKIVWs
+ 7EqZmYdjqsrcUwBKfIFJjaW53+bPvL0xGn9ylnwe5eV7o6nBrh8+Ibbe+eaD61RpWWd7
+ NojKmnHPKuw1DmNdIdECqlTGmr+ifA2zd3vdpk0gXnATLBLAZSlnyrGw4xEHD+fNoUmz
+ tXabLyNRvMMBTSbcjsnUgZD3JfSPYSh9RnnteLrbNEIahLcu0XBRGCdShZw5ect47IMd
+ lWlGD9KdeS6auDniabcS+/u0byJxUV4nYQdEp+SJFGgSrbd3FdvDnudFL0HWjyVsFXKR
+ N/rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=d5iDPqq2wL1x5UVYS+LC8NuxcAKp2OxFDi96DZphNLQ=;
- b=CCuOw9Jxovg9zZvJiJvLrT1W48yXj4JsodtwrkDJURneiy3C4dPJxOzg83SFEy0YX0
- qL0Yiua5WtnAMjTcxqWI0l8fdnHzzeBdnEJYmKUCyMpaQvjPifX3xN+6sMvGDBXKJn14
- yD3DJEo08qYj7rA1pgvCXpaA4Z4wvOWQrjo7vI8GzVw5GWdb82SlwX4w/kDGM1uMsF7z
- F8JdMwn2obRM0fkrIf4TgedMqFoCYJxESIMoUHzmMpW/QSLeOV81K6ua4NBDxUBx1lEj
- +H2Lgrj/8r1YcNUy1oNpLP+XezPnH2feH6csUu+eYNE/27v/6MkmFsisYaXh0e5N+vfi
- uwsQ==
-X-Gm-Message-State: AFqh2koHnrRghdV501Y5GKIpftO6wtYjlgraQu28Y7IppUgDMfZB82mf
- +kD1eFjajIzLocBzxSHN1FI=
-X-Google-Smtp-Source: AMrXdXu2yetaER0yc+qp8u9oWZL1aexMnTGa1KY3Tz1NL4YMJ3U5n7bI06w6myjw3yUh/5WCpowP2g==
-X-Received: by 2002:aa7:9182:0:b0:58d:987b:2e9 with SMTP id
- x2-20020aa79182000000b0058d987b02e9mr6643081pfa.24.1674047414000; 
- Wed, 18 Jan 2023 05:10:14 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KZvYNNoDFImN8rRwIPbAJB00KkRxsjpk6nenHXFoTIE=;
+ b=Csfi1pZLexuC/revK2Scl3Y++nfxZkeMqQv/XCtyXrZ071MlbvazyWd2dkpN20bLxZ
+ CrgbNzDt4uGbLDgujTTULguw+04JyF3+ooQpVK7+/quVmqkAjURrarUk/YBd6ABWRGXh
+ QNb8v+qJ5yUcYlHz8Kc8a5x+RyW+hVBGUrUmdxD8VttrCczD1BKr93MZ1epflUuXwByQ
+ L7TyHWtubdmZ/a8G5xzx5R7wpiwPmsbSPN5sQoNANvnp17S6hrhwsRANpJrVakspWixT
+ q4jHAwOlk7sVTHXqfP/3D1FPrAihc9VVlsbfDatEOV61J29d1L4IAAzSJLkgl12GzDU2
+ hu+Q==
+X-Gm-Message-State: AFqh2krPSFhLe/CN/62jjPURgsaddjHQICcvIQ5rTke5UrRLgJlCxBtP
+ GxJ4ZBcdb8ag2dzfOBP5hZk=
+X-Google-Smtp-Source: AMrXdXvx5I71SaaGOXWM0pgwQIOwdRrOs9yF33M/EQec30kPDep8DpRUmzaqtjJXFoftic23nCvpJg==
+X-Received: by 2002:aa7:9d92:0:b0:58a:aaa3:f72e with SMTP id
+ f18-20020aa79d92000000b0058aaaa3f72emr29044779pfq.6.1674047438891; 
+ Wed, 18 Jan 2023 05:10:38 -0800 (PST)
 Received: from localhost.localdomain (n220246252084.netvigator.com.
  [220.246.252.84]) by smtp.gmail.com with ESMTPSA id
- l123-20020a622581000000b005818d429d98sm21959880pfl.136.2023.01.18.05.10.09
+ l123-20020a622581000000b005818d429d98sm21959880pfl.136.2023.01.18.05.10.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jan 2023 05:10:13 -0800 (PST)
+ Wed, 18 Jan 2023 05:10:38 -0800 (PST)
 From: Jianhua Lu <lujianhua000@gmail.com>
 To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
  Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Helge Deller <deller@gmx.de>
-Subject: [PATCH v6 1/2] dt-bindings: leds: backlight: Add Kinetic KTZ8866
+Subject: [PATCH v6 2/2] backlight: ktz8866: Add support for Kinetic KTZ8866
  backlight
-Date: Wed, 18 Jan 2023 21:10:01 +0800
-Message-Id: <20230118131002.15453-1-lujianhua000@gmail.com>
+Date: Wed, 18 Jan 2023 21:10:02 +0800
+Message-Id: <20230118131002.15453-2-lujianhua000@gmail.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230118131002.15453-1-lujianhua000@gmail.com>
+References: <20230118131002.15453-1-lujianhua000@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Thu, 19 Jan 2023 08:35:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,97 +83,302 @@ Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Kinetic KTZ8866 backlight binding documentation.
+Add support for Kinetic KTZ8866 backlight, which is used in
+Xiaomi tablet, Mi Pad 5 series. This driver lightly based on
+downstream implementation [1].
+[1] https://github.com/MiCode/Xiaomi_Kernel_OpenSource/blob/elish-r-oss/drivers/video/backlight/ktz8866.c
 
 Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
 ---
 Changes in v2:
-  - Remove "items" between "compatible" and "const: kinetic,ktz8866"
-  - Change "additionalProperties" to "unevaluatedProperties"
+  - Add missing staitc modifier to ktz8866_write function.
 
 Changes in v3:
-  - Add Krzysztof's R-b
+  - Add 2022 to Copyright line.
+  - Sort headers.
+  - Remove meaningless comment.
+  - Use definitions instead of hardcoding.
+  - Add missing maintainer info.
 
 Changes in v4:
-  - Drop Krzysztof's R-b
-  - Add some new properties
+  - Change 2022 to 2023.
+  - Remove useless macro and enum.
+  - Describe settings by devicetree.
+  - Move header file to C file.
 
 Changes in v5:
-  - Add missing enum under property description.
-  - Rename uncorrect properties.
+  - Change "2023" to "2022, 2023" in Copyright line.
+  - Set scale property for backlight.
 
 Changes in v6:
-  - Correct wrong property suffix and description.
+  - Correct devicetree property name.
 
- .../leds/backlight/kinetic,ktz8866.yaml       | 59 +++++++++++++++++++
- 1 file changed, 59 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+ MAINTAINERS                       |   6 +
+ drivers/video/backlight/Kconfig   |   8 ++
+ drivers/video/backlight/Makefile  |   1 +
+ drivers/video/backlight/ktz8866.c | 205 ++++++++++++++++++++++++++++++
+ 4 files changed, 220 insertions(+)
+ create mode 100644 drivers/video/backlight/ktz8866.c
 
-diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 42fc47c6edfd..2084e74e1b58 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11674,6 +11674,12 @@ M:	John Hawley <warthog9@eaglescrag.net>
+ S:	Maintained
+ F:	tools/testing/ktest
+ 
++KTZ8866 BACKLIGHT DRIVER
++M:	Jianhua Lu <lujianhua000@gmail.com>
++S:	Maintained
++F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
++F:	drivers/video/backlight/ktz8866.c
++
+ L3MDEV
+ M:	David Ahern <dsahern@kernel.org>
+ L:	netdev@vger.kernel.org
+diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+index 936ba1e4d35e..f7113ceb264a 100644
+--- a/drivers/video/backlight/Kconfig
++++ b/drivers/video/backlight/Kconfig
+@@ -190,6 +190,14 @@ config BACKLIGHT_KTD253
+ 	  which is a 1-wire GPIO-controlled backlight found in some mobile
+ 	  phones.
+ 
++config BACKLIGHT_KTZ8866
++	tristate "Backlight Driver for Kinetic KTZ8866"
++	depends on I2C
++	select REGMAP_I2C
++	help
++		Say Y to enable the backlight driver for the Kinetic KTZ8866
++		found in Xiaomi Mi Pad 5 series.
++
+ config BACKLIGHT_LM3533
+ 	tristate "Backlight Driver for LM3533"
+ 	depends on MFD_LM3533
+diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+index e815f3f1deff..f70a819c304c 100644
+--- a/drivers/video/backlight/Makefile
++++ b/drivers/video/backlight/Makefile
+@@ -36,6 +36,7 @@ obj-$(CONFIG_BACKLIGHT_HP680)		+= hp680_bl.o
+ obj-$(CONFIG_BACKLIGHT_HP700)		+= jornada720_bl.o
+ obj-$(CONFIG_BACKLIGHT_IPAQ_MICRO)	+= ipaq_micro_bl.o
+ obj-$(CONFIG_BACKLIGHT_KTD253)		+= ktd253-backlight.o
++obj-$(CONFIG_BACKLIGHT_KTZ8866)		+= ktz8866.o
+ obj-$(CONFIG_BACKLIGHT_LM3533)		+= lm3533_bl.o
+ obj-$(CONFIG_BACKLIGHT_LM3630A)		+= lm3630a_bl.o
+ obj-$(CONFIG_BACKLIGHT_LM3639)		+= lm3639_bl.o
+diff --git a/drivers/video/backlight/ktz8866.c b/drivers/video/backlight/ktz8866.c
 new file mode 100644
-index 000000000000..ca0deba14523
+index 000000000000..ca3ac349cd10
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-@@ -0,0 +1,59 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/backlight/kinetic,ktz8866.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/video/backlight/ktz8866.c
+@@ -0,0 +1,205 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Backlight driver for the Kinetic KTZ8866
++ *
++ * Copyright (C) 2022, 2023 Jianhua Lu <lujianhua000@gmail.com>
++ */
 +
-+title: Kinetic Technologies KTZ8866 backlight
++#include <linux/backlight.h>
++#include <linux/delay.h>
++#include <linux/err.h>
++#include <linux/i2c.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/regmap.h>
 +
-+maintainers:
-+  - Jianhua Lu <lujianhua000@gmail.com>
++#define DEFAULT_BRIGHTNESS 1500
++#define MAX_BRIGHTNESS 2047
++#define REG_MAX 0x15
 +
-+description: |
-+  The Kinetic Technologies KTZ8866 is a high efficiency 6-sinks led backlight
-+  with dual lcd bias power.
-+  https://www.kinet-ic.com/ktz8866/
++/* reg */
++#define DEVICE_ID 0x01
++#define BL_CFG1 0x02
++#define BL_CFG2 0x03
++#define BL_BRT_LSB 0x04
++#define BL_BRT_MSB 0x05
++#define BL_EN 0x08
++#define LCD_BIAS_CFG1 0x09
++#define LCD_BIAS_CFG2 0x0A
++#define LCD_BIAS_CFG3 0x0B
++#define LCD_BOOST_CFG 0x0C
++#define OUTP_CFG 0x0D
++#define OUTN_CFG 0x0E
++#define FLAG 0x0F
++#define BL_OPTION1 0x10
++#define BL_OPTION2 0x11
++#define PWM2DIG_LSBs 0x12
++#define PWM2DIG_MSBs 0x13
++#define BL_DIMMING 0x14
++#define PWM_RAMP_TIME 0x15
 +
-+allOf:
-+  - $ref: common.yaml#
++/* definition */
++#define BL_EN_BIT BIT(6)
++#define LCD_BIAS_EN 0x9F
++#define PWM_HYST 0x5
 +
-+properties:
-+  compatible:
-+    const: kinetic,ktz8866
++struct ktz8866 {
++	struct i2c_client *client;
++	struct regmap *regmap;
++	bool led_on;
++};
 +
-+  current-num-sinks:
-+    description: Number of LED current sinks.
-+    enum: [1, 2, 3, 4, 5, 6]
++static const struct regmap_config ktz8866_regmap_config = {
++	.reg_bits = 8,
++	.val_bits = 8,
++	.max_register = REG_MAX,
++};
 +
-+  current-ramping-time-ms:
-+    description: LED current ramping time in milliseconds.
-+    enum: [2, 4, 8, 16, 32, 64, 128, 192, 256, 320, 384, 448, 512, 576, 640]
++static int ktz8866_write(struct ktz8866 *ktz, unsigned int reg,
++			 unsigned int val)
++{
++	return regmap_write(ktz->regmap, reg, val);
++}
 +
-+  led-ramping-time-ms:
-+    description: |
-+      LED on/off ramping time in milliseconds, note that the case 0 will be mapped
-+      to 512μs because ktz8866 can't ramp faster than it.
-+    enum: [0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384]
++static int ktz8866_update_bits(struct ktz8866 *ktz, unsigned int reg,
++			       unsigned int mask, unsigned int val)
++{
++	return regmap_update_bits(ktz->regmap, reg, mask, val);
++}
 +
-+  enable-lcd-bias:
-+    description: Set if we want to output bias power supply for LCD.
-+    type: boolean
++static int ktz8866_backlight_update_status(struct backlight_device *backlight_dev)
++{
++	struct ktz8866 *ktz = bl_get_data(backlight_dev);
++	unsigned int brightness = backlight_get_brightness(backlight_dev);
 +
-+required:
-+  - compatible
++	if (!ktz->led_on && brightness > 0) {
++		ktz8866_update_bits(ktz, BL_EN, BL_EN_BIT, BL_EN_BIT);
++		ktz->led_on = true;
++	} else if (brightness == 0) {
++		ktz8866_update_bits(ktz, BL_EN, BL_EN_BIT, 0);
++		ktz->led_on = false;
++		msleep(10);
++	}
 +
-+unevaluatedProperties: false
++	/* Set brightness */
++	ktz8866_write(ktz, BL_BRT_LSB, brightness & 0x7);
++	ktz8866_write(ktz, BL_BRT_MSB, (brightness >> 3) & 0xFF);
 +
-+examples:
-+  - |
-+    backlight {
-+        compatible = "kinetic,ktz8866";
++	return 0;
++}
 +
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&bl_en_default>;
++static const struct backlight_ops ktz8866_backlight_ops = {
++	.options = BL_CORE_SUSPENDRESUME,
++	.update_status = ktz8866_backlight_update_status,
++};
 +
-+        current-num-sinks = <5>;
-+        current-ramping-time-ms = <128>;
-+        led-ramping-time-ms = <1>;
-+        enable-lcd-bias;
-+    };
++static void ktz8866_init(struct ktz8866 *ktz)
++{
++	unsigned int val;
++
++	if(of_property_read_u32(ktz->client->dev.of_node, "current-num-sinks", &val))
++		ktz8866_write(ktz, BL_EN, BIT(val) - 1);
++	else
++		/* Enable all 6 current sinks if the number of current sinks isn't specifed. */
++		ktz8866_write(ktz, BL_EN, BIT(6) - 1);
++
++	if(of_property_read_u32(ktz->client->dev.of_node, "current-ramping-time-ms", &val)) {
++		if(val <= 128) {
++			ktz8866_write(ktz, BL_CFG2, BIT(7) | (ilog2(val) << 3) | PWM_HYST);
++		} else {
++			ktz8866_write(ktz, BL_CFG2, BIT(7) | ((5 + val / 64) << 3) | PWM_HYST);
++		}
++	}
++
++	if(of_property_read_u32(ktz->client->dev.of_node, "led-ramping-time-ms", &val)) {
++		if(val == 0) {
++			ktz8866_write(ktz, BL_DIMMING, 0);
++		} else {
++			unsigned int ramp_off_time = ilog2(val) + 1;
++			unsigned int ramp_on_time = ramp_off_time << 4;
++			ktz8866_write(ktz, BL_DIMMING, ramp_on_time | ramp_off_time);
++		}
++	}
++
++	if(of_property_read_bool(ktz->client->dev.of_node, "enable-lcd-bias"))
++		ktz8866_write(ktz, LCD_BIAS_CFG1, LCD_BIAS_EN);
++}
++
++static int ktz8866_probe(struct i2c_client *client,
++			 const struct i2c_device_id *id)
++{
++	struct backlight_device *backlight_dev;
++	struct backlight_properties props;
++	struct ktz8866 *ktz;
++
++	ktz = devm_kzalloc(&client->dev, sizeof(*ktz), GFP_KERNEL);
++	if (!ktz)
++		return -ENOMEM;
++
++	ktz->client = client;
++	ktz->regmap = devm_regmap_init_i2c(client, &ktz8866_regmap_config);
++
++	if (IS_ERR(ktz->regmap)) {
++		dev_err(&client->dev, "failed to init regmap\n");
++		return PTR_ERR(ktz->regmap);
++	}
++
++	memset(&props, 0, sizeof(props));
++	props.type = BACKLIGHT_RAW;
++	props.max_brightness = MAX_BRIGHTNESS;
++	props.brightness = DEFAULT_BRIGHTNESS;
++	props.scale = BACKLIGHT_SCALE_LINEAR;
++
++	backlight_dev = devm_backlight_device_register(
++		&client->dev, "ktz8866-backlight", &client->dev, ktz,
++		&ktz8866_backlight_ops, &props);
++
++	if (IS_ERR(backlight_dev)) {
++		dev_err(&client->dev, "failed to register backlight device\n");
++		return PTR_ERR(backlight_dev);
++	}
++
++	ktz8866_init(ktz);
++
++	i2c_set_clientdata(client, backlight_dev);
++	backlight_update_status(backlight_dev);
++
++	return 0;
++}
++
++static void ktz8866_remove(struct i2c_client *client)
++{
++	struct backlight_device *backlight_dev = i2c_get_clientdata(client);
++
++	backlight_dev->props.brightness = 0;
++	backlight_update_status(backlight_dev);
++}
++
++static const struct i2c_device_id ktz8866_ids[] = {
++	{ "ktz8866", 0 },
++	{},
++};
++MODULE_DEVICE_TABLE(i2c, ktz8866_ids);
++
++static const struct of_device_id ktz8866_match_table[] = {
++	{
++		.compatible = "kinetic,ktz8866",
++	},
++	{},
++};
++
++static struct i2c_driver ktz8866_driver = {
++	.driver = {
++		.name = "ktz8866",
++		.of_match_table = ktz8866_match_table,
++	},
++	.probe = ktz8866_probe,
++	.remove = ktz8866_remove,
++	.id_table = ktz8866_ids,
++};
++
++module_i2c_driver(ktz8866_driver);
++
++MODULE_DESCRIPTION("Kinetic KTZ8866 Backlight Driver");
++MODULE_AUTHOR("Jianhua Lu <lujianhua000@gmail.com>");
++MODULE_LICENSE("GPL");
 -- 
 2.39.1
 
