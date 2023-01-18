@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 919246711E1
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 04:24:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ED096711DD
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 04:24:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D713010E660;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA83E10E65D;
 	Wed, 18 Jan 2023 03:24:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E1E410E659
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 03:24:37 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id v6so47802874edd.6
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 19:24:37 -0800 (PST)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34B8510E659
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 03:24:38 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id u19so80048636ejm.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 19:24:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Ec+3vW1T9VybCypq+CSoRlgfeIlNrQ3oQZEGbJKYIC4=;
- b=zAHvllqq6rUVY5iYfOhH98ZC7MciV6bFnK+rqLYh4bRRJQXU97ZrWMQxORJMwyznPi
- BB35MM6SMhAXFT/BohQWOmDJyX6Wh0biF3vMkgekxW/oC/EdJP0EKlCsM0FJvBnqIUvr
- c8eVa3Ox4/7XWmuo3r8A63TuqKO8a+dApNkNlcfPDlMTtJsAwMLsGiarsiF2XfyqW4rZ
- 03znCWUFoih1cXMC1gYe9Eefmg2C5HEgcZQbRj1aiExFMRMblTkfDQqYcZHOERuX4gAs
- 7eKGdESU8FVWwxNLdsTWmOvS/XjtJDAQ382auxASuIWO33gyE7nCmlLPuVPceRAm544D
- p8vA==
+ bh=9yOjPuQ6CEkm3Nq/ELehGQzsBDNAjM68X5nkPgdMs5Q=;
+ b=g3c7+YQ1EJM8IKsNmfUYFSKpFtYbB6qR5Hz1eQVcCd1Mzr92XRCWFcVn5fABo0YWFd
+ EOaaXaYDC+2NCV/Vmy45wyOiliod8czwMG4riNyZYBsmk4fkZ9qUaMsNmoBiLzN/MTkD
+ edXihRbsu3i6mKV3f/R04TTMgXqsiiT329B06VKrhB44euEmQjGoqv+q48CVt1XOF/UI
+ cSKMUKtCut/znSfu24UF85I26jOEmvQ2cTGDzLv+/xNLJ8JOzYXHJAWBQsopR36lJ+Ep
+ MuYtUVMLBZGrXC3GV1rZCSRM7uqyvpgczZtSrFNT2rhWwEl5q5w06YJQTDOun7j/29F/
+ PH1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Ec+3vW1T9VybCypq+CSoRlgfeIlNrQ3oQZEGbJKYIC4=;
- b=IqG9XQFe5eR6LSKi699e1m0QO2trmWRO7qhfpT9Dl3MBokBQzsvdhz1wjEmga7PysE
- ugCVlx4V/O1KwoYXOcrYJj0u/N9yhAwBr3C4m/BDNz1BqN07I3czDxcRu6ym5Y078dx8
- 0JHG0NhB+fGrEL08CI1g0KcpGSOZZU6NYabkLYBunmy6UV6qGippc/wgBXixeeGEhaDX
- fD5D9+amdPDniHbMmwjrJeDBa5V4ngZImmX6RC579Bp4FXdhpH89dH3tITww75JbHTKB
- hBxr6pn6Hsmm+ZtqxzhKX7IwlgINxjKMi3wQwXjwGjlXlYPk4qwXFf717CkFZ/k8sDFw
- X6mw==
-X-Gm-Message-State: AFqh2kruyU5F1pzBaNHOMk3F1mAJkIw56euiTGD9ilT8yVrqSFpXt8df
- o9ziPTWqArUMuKLF6jBKj0ohI6zyDCOPcOG0
-X-Google-Smtp-Source: AMrXdXu5gi5ru//W/fWSwPRe4S1umaY4zHYGJpQmH9GsUo17e2O3IClFpdFWvpSftRfWxpfcmdKzuQ==
-X-Received: by 2002:a05:6402:2289:b0:498:f82c:7068 with SMTP id
- cw9-20020a056402228900b00498f82c7068mr4439994edb.35.1674012275649; 
- Tue, 17 Jan 2023 19:24:35 -0800 (PST)
+ bh=9yOjPuQ6CEkm3Nq/ELehGQzsBDNAjM68X5nkPgdMs5Q=;
+ b=E0b6UcPZwFDKiGQ4miceAlTyCVFxLzAYJfmaJGl/7MROIb+ZZgyU9QBqyagKUE+pDb
+ PYL/hx83GH8vlvMVbnIU5fRi/mCPweea2iuDzqhdNRzl1XKiAcdKJwtOrLf7+GXeKO9a
+ XWQOtH6w1Z6sVn03wGlnRwpCCC6JZk2Cl//SgkWEclS58AGsvrMSpVlS2EFxqfXotEiV
+ vBfbW7lOyiYXMNrZdJNO8+zCiIk8M16XoQRhp4KtiSK7Rsr9PsuRYQfQVggdjPAwZPZ5
+ MqZuhENoL10uiTA2vE8ZTw1RNNcEbVv2rWDEl11QS9WWRDwEcOjo4LBdy28ZITAq+ycK
+ QDDw==
+X-Gm-Message-State: AFqh2krTCOxXrnnU9FH1r+4ozdzzTgD7UIjUhvYX6KRvlJr5h8eIC4TV
+ v6C8lYDgJtNqCy3i8FAhKr2dvw==
+X-Google-Smtp-Source: AMrXdXssA/hakgWZgE4naeoB9z6EdLSKoJlaGcpYJydyzu2fjfgzgYxcL5zYzluE0+bh2eahd/J99g==
+X-Received: by 2002:a17:907:8d18:b0:7c0:d6b6:1ee9 with SMTP id
+ tc24-20020a1709078d1800b007c0d6b61ee9mr5948982ejc.11.1674012276788; 
+ Tue, 17 Jan 2023 19:24:36 -0800 (PST)
 Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- f11-20020a056402194b00b0048eb0886b00sm4713829edz.42.2023.01.17.19.24.34
+ f11-20020a056402194b00b0048eb0886b00sm4713829edz.42.2023.01.17.19.24.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 19:24:35 -0800 (PST)
+ Tue, 17 Jan 2023 19:24:36 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
  Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH 1/4] dt-bindings: display/msm: dsi-controller-main: remove
- #address/#size-cells
-Date: Wed, 18 Jan 2023 05:24:29 +0200
-Message-Id: <20230118032432.1716616-2-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 2/4] dt-bindings: display/msm: dsi-controller-main: account
+ for apq8064
+Date: Wed, 18 Jan 2023 05:24:30 +0200
+Message-Id: <20230118032432.1716616-3-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230118032432.1716616-1-dmitry.baryshkov@linaro.org>
 References: <20230118032432.1716616-1-dmitry.baryshkov@linaro.org>
@@ -82,40 +82,37 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Stop mentioning #address-cells/#size-cells which are defined in
-display/dsi-controller.yaml. Use unevaluatedProperties instead of
-additionalProperties to allow skipping properties defined in other
-schema files.
+APQ8064 requires listing four clocks in the assigned-clocks /
+assigned-clock-parents properties. Account for that.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../bindings/display/msm/dsi-controller-main.yaml           | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ .../bindings/display/msm/dsi-controller-main.yaml         | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-index 7c326f8927fc..b07bdddc1570 100644
+index b07bdddc1570..357036470b1f 100644
 --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
 +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-@@ -72,10 +72,6 @@ properties:
-     deprecated: true
-     const: dsi
+@@ -83,12 +83,16 @@ properties:
+       2 DSI links.
  
--  "#address-cells": true
--
--  "#size-cells": true
--
-   syscon-sfpb:
-     description: A phandle to mmss_sfpb syscon node (only for DSIv2).
-     $ref: "/schemas/types.yaml#/definitions/phandle"
-@@ -357,7 +353,7 @@ allOf:
-             - const: iface
-             - const: bus
+   assigned-clocks:
+-    maxItems: 2
++    minItems: 2
++    maxItems: 4
+     description: |
+       Parents of "byte" and "pixel" for the given platform.
++      For DSIv2 platforms this should contain "byte", "esc", "src" and
++      "pixel_src" clocks.
  
--additionalProperties: false
-+unevaluatedProperties: false
+   assigned-clock-parents:
+-    maxItems: 2
++    minItems: 2
++    maxItems: 4
+     description: |
+       The Byte clock and Pixel clock PLL outputs provided by a DSI PHY block.
  
- examples:
-   - |
 -- 
 2.39.0
 
