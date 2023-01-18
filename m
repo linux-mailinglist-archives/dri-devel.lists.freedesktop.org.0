@@ -2,73 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1021B671E1F
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 14:40:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18484671E94
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 14:56:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C405610E74E;
-	Wed, 18 Jan 2023 13:40:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B0AB10E1EC;
+	Wed, 18 Jan 2023 13:55:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1362810E74E
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 13:40:04 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- f12-20020a7bc8cc000000b003daf6b2f9b9so1419856wml.3
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 05:40:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Jjc4VCpZNQP556V0c7PmfHBKoB04p5vvZzElOaTdSEg=;
- b=XV8+LO/0KQENBbmt/brfX4pIAJEO8/CsQI3T5uXentjRlVKmeZ+Lez9yC3jGyXpH7S
- O98BAdGi3PF7LJ19YIl6AltWzzY6KDINRRbLEzyK+oXZ9peDaAEL8qewhOQ5TBIMLNvL
- cY17/rRQddElbgeeOmueS/vt+DJnU+0yT0Y5fJIBcsd4bmthmE91Bpa3asUxaI0H2P46
- Mp8gZ7WZCSG9TzLhYf8ZHbTkrYNPiMIBqWpdtq91zi70bdUI7YEzQTGCw3sLxg3/IIHp
- 8njKqiHGKyTlN53ZXhE0CBTE4zcsEllgVNwM4Se39fxtfRUxj6J3uOLbS0wsXRYXJSjH
- daRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Jjc4VCpZNQP556V0c7PmfHBKoB04p5vvZzElOaTdSEg=;
- b=NwCDzrz2CKJ30MerjbYQXPdZgKCqnzlrQGV/8JpNSPkm7CgLG+qGBMdr6cV3qhJfCG
- HuWzGIN2lmzyJbhzAtrEcgH9juXo6+qnJRXfyeG1m9tgHPoDBIMxD8N9vmHS1nrrY4hL
- pKGacX2TT/JmcuJDv7I+ivU32DRUgzv6uIYJyKzzDvToerwKQh76GdmTHmFULBZ4io7x
- 8/GDa8GH67tviHjulUsd6fmszI1B1dyLQvyQnSEiTpjR6RqlO/ywV6tLLwfuXqLdo3zL
- IE2Jai2tfoxOYJ9F94rcArtg9UBisLfqq2wY8BymBRwCsp0vypXO36sWURc5k4M0oRqU
- h8ag==
-X-Gm-Message-State: AFqh2kqWG0BNbr6a4axc/naJar3Gch50tYVlWFBnLaNctbBwI1ja88JV
- zFoQ9O4TW66pictxta1BSjhiJGHSrwx/+Z0I
-X-Google-Smtp-Source: AMrXdXsYqqOpahJDdUdyjMPCRZYkQl34osNeO69nPzrNQAGp4jHjFNBdqZh1Sg7dDQ6W3H8ez7AfOQ==
-X-Received: by 2002:a05:600c:181b:b0:3da:ff1f:e8d3 with SMTP id
- n27-20020a05600c181b00b003daff1fe8d3mr6684165wmp.15.1674049202461; 
- Wed, 18 Jan 2023 05:40:02 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
- by smtp.gmail.com with ESMTPSA id
- p15-20020a05600c468f00b003d9b87296a9sm2024751wmo.25.2023.01.18.05.40.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 05:40:02 -0800 (PST)
-Message-ID: <1a8c006d-c9b9-9fd0-147e-7e511cb236fe@linaro.org>
-Date: Wed, 18 Jan 2023 14:40:00 +0100
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADA8B10E1EF;
+ Wed, 18 Jan 2023 13:55:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674050153; x=1705586153;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=sCfZLcl+x3j/GrBFzuMLWae9nVeRi6rNSH79s5QCyuU=;
+ b=iR6PKHr4xmS0hTWBP4zPuZjkvEJcv0ZMMYqj1dC62LTimNFi2snMt1Da
+ DKK7scEuei+dFiTLlAwYLYyyDsby801Hz+jvITTjB2NgTpw4gKOjUSR9E
+ H7OvAmF9D1clWQime20rJ/6TrQOthSO20O8arZc8/bd5xR1DFm3iw3dyd
+ Nt8cf4DiGDx55zILaLnLYjCt9uviRmtDTjsmfeMReG09AcVcpm7pHwCCb
+ Ae9PdkqXwIfTcjv8Pw5MithCwSDagfDOTNs0tgPcQqUmYsPQ5BgdSc4ph
+ +Ku/ue26DajuKGc0aXOeZY+d1R/zpDPyegKCCUwMSXGPYPSyOUZpf0BnT Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="305358740"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="305358740"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2023 05:55:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="802202108"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="802202108"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+ by fmsmga001.fm.intel.com with ESMTP; 18 Jan 2023 05:55:49 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pI8uq-0000NG-2M;
+ Wed, 18 Jan 2023 13:55:48 +0000
+Date: Wed, 18 Jan 2023 21:55:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>, daniel@ffwll.ch, airlied@redhat.com,
+ christian.koenig@amd.com, bskeggs@redhat.com, jason@jlekstrand.net,
+ tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net
+Subject: Re: [PATCH drm-next 04/14] drm: debugfs: provide infrastructure to
+ dump a DRM GPU VA space
+Message-ID: <202301182112.RFiF6tDh-lkp@intel.com>
+References: <20230118061256.2689-5-dakr@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH v6 1/2] dt-bindings: leds: backlight: Add Kinetic KTZ8866
- backlight
-Content-Language: en-US
-To: Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Helge Deller <deller@gmx.de>
-References: <20230118131002.15453-1-lujianhua000@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230118131002.15453-1-lujianhua000@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230118061256.2689-5-dakr@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,115 +62,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Danilo Krummrich <dakr@redhat.com>, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/01/2023 14:10, Jianhua Lu wrote:
-> Add Kinetic KTZ8866 backlight binding documentation.
-> 
-> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
-> ---
-> Changes in v2:
->   - Remove "items" between "compatible" and "const: kinetic,ktz8866"
->   - Change "additionalProperties" to "unevaluatedProperties"
-> 
-> Changes in v3:
->   - Add Krzysztof's R-b
-> 
-> Changes in v4:
->   - Drop Krzysztof's R-b
->   - Add some new properties
-> 
-> Changes in v5:
->   - Add missing enum under property description.
->   - Rename uncorrect properties.
-> 
-> Changes in v6:
->   - Correct wrong property suffix and description.
-> 
->  .../leds/backlight/kinetic,ktz8866.yaml       | 59 +++++++++++++++++++
->  1 file changed, 59 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-> new file mode 100644
-> index 000000000000..ca0deba14523
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-> @@ -0,0 +1,59 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/kinetic,ktz8866.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Kinetic Technologies KTZ8866 backlight
-> +
-> +maintainers:
-> +  - Jianhua Lu <lujianhua000@gmail.com>
-> +
-> +description: |
-> +  The Kinetic Technologies KTZ8866 is a high efficiency 6-sinks led backlight
-> +  with dual lcd bias power.
-> +  https://www.kinet-ic.com/ktz8866/
-> +
-> +allOf:
-> +  - $ref: common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: kinetic,ktz8866
-> +
-> +  current-num-sinks:
-> +    description: Number of LED current sinks.
-> +    enum: [1, 2, 3, 4, 5, 6]
-> +
-> +  current-ramping-time-ms:
-> +    description: LED current ramping time in milliseconds.
-> +    enum: [2, 4, 8, 16, 32, 64, 128, 192, 256, 320, 384, 448, 512, 576, 640]
-> +
-> +  led-ramping-time-ms:
-> +    description: |
-> +      LED on/off ramping time in milliseconds, note that the case 0 will be mapped
-> +      to 512μs because ktz8866 can't ramp faster than it.
+Hi Danilo,
 
-Aren't you just missing supplies here and their ramp up time?
+Thank you for the patch! Perhaps something to improve:
 
-> +    enum: [0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384]
-> +
-> +  enable-lcd-bias:
-> +    description: Set if we want to output bias power supply for LCD.
+[auto build test WARNING on 0b45ac1170ea6416bc1d36798414c04870cd356d]
 
-Is it a generic property? I don't see any other users, so this looks
-device specific thus needs vendor prefix.
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers/20230118-141552
+base:   0b45ac1170ea6416bc1d36798414c04870cd356d
+patch link:    https://lore.kernel.org/r/20230118061256.2689-5-dakr%40redhat.com
+patch subject: [PATCH drm-next 04/14] drm: debugfs: provide infrastructure to dump a DRM GPU VA space
+config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20230118/202301182112.RFiF6tDh-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/e00f79934034ce7eb4e7fc0d722a3d28d75d44bf
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Danilo-Krummrich/drm-execution-context-for-GEM-buffers/20230118-141552
+        git checkout e00f79934034ce7eb4e7fc0d722a3d28d75d44bf
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/
 
-This applies to all of the properties. They might be generic or might
-not, I don't know the backlight hardware that much.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-> +    type: boolean
-> +
-> +required:
-> +  - compatible
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    backlight {
-> +        compatible = "kinetic,ktz8866";
-> +
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&bl_en_default>;
-> +
-> +        current-num-sinks = <5>;
-> +        current-ramping-time-ms = <128>;
-> +        led-ramping-time-ms = <1>;
-> +        enable-lcd-bias;
-> +    };
+All warnings (new ones prefixed by >>):
 
-Best regards,
-Krzysztof
+   drivers/gpu/drm/drm_debugfs.c: In function 'drm_debugfs_gpuva_info':
+>> drivers/gpu/drm/drm_debugfs.c:228:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     228 |                            (u64)va->gem.obj, va->gem.offset);
+         |                            ^
 
+
+vim +228 drivers/gpu/drm/drm_debugfs.c
+
+   178	
+   179	/**
+   180	 * drm_debugfs_gpuva_info - dump the given DRM GPU VA space
+   181	 * @m: pointer to the &seq_file to write
+   182	 * @mgr: the &drm_gpuva_manager representing the GPU VA space
+   183	 *
+   184	 * Dumps the GPU VA regions and mappings of a given DRM GPU VA manager.
+   185	 *
+   186	 * For each DRM GPU VA space drivers should call this function from their
+   187	 * &drm_info_list's show callback.
+   188	 *
+   189	 * Returns: 0 on success, -ENODEV if the &mgr is not initialized
+   190	 */
+   191	int drm_debugfs_gpuva_info(struct seq_file *m,
+   192				   struct drm_gpuva_manager *mgr)
+   193	{
+   194		struct drm_gpuva_region *reg;
+   195		struct drm_gpuva *va;
+   196	
+   197		if (!mgr->name)
+   198			return -ENODEV;
+   199	
+   200		seq_printf(m, "DRM GPU VA space (%s)\n", mgr->name);
+   201		seq_puts  (m, "\n");
+   202		seq_puts  (m, " VA regions  | start              | range              | end                | sparse\n");
+   203		seq_puts  (m, "------------------------------------------------------------------------------------\n");
+   204		seq_printf(m, " VA space    | 0x%016llx | 0x%016llx | 0x%016llx |   -\n",
+   205			   mgr->mm_start, mgr->mm_range, mgr->mm_start + mgr->mm_range);
+   206		seq_puts  (m, "-----------------------------------------------------------------------------------\n");
+   207		drm_gpuva_for_each_region(reg, mgr) {
+   208			struct drm_mm_node *node = &reg->node;
+   209	
+   210			if (node == &mgr->kernel_alloc_node) {
+   211				seq_printf(m, " kernel node | 0x%016llx | 0x%016llx | 0x%016llx |   -\n",
+   212					   node->start, node->size, node->start + node->size);
+   213				continue;
+   214			}
+   215	
+   216			seq_printf(m, "             | 0x%016llx | 0x%016llx | 0x%016llx | %s\n",
+   217				   node->start, node->size, node->start + node->size,
+   218				   reg->sparse ? "true" : "false");
+   219		}
+   220		seq_puts(m, "\n");
+   221		seq_puts(m, " VAs | start              | range              | end                | object             | object offset\n");
+   222		seq_puts(m, "-------------------------------------------------------------------------------------------------------------\n");
+   223		drm_gpuva_for_each_va(va, mgr) {
+   224			struct drm_mm_node *node = &va->node;
+   225	
+   226			seq_printf(m, "     | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx\n",
+   227				   node->start, node->size, node->start + node->size,
+ > 228				   (u64)va->gem.obj, va->gem.offset);
+   229		}
+   230	
+   231		return 0;
+   232	}
+   233	EXPORT_SYMBOL(drm_debugfs_gpuva_info);
+   234	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
