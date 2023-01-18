@@ -2,64 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1523672747
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 19:42:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D50DF672778
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 19:48:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBFB010E05E;
-	Wed, 18 Jan 2023 18:42:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C57D010E1F8;
+	Wed, 18 Jan 2023 18:48:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B01C10E05E
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 18:42:37 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- l41-20020a05600c1d2900b003daf986faaeso2270061wms.3
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 10:42:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=r0LA6cGaaxp3puXrMYIx3Plq7Ps/ZLbe9KrZC2IbOQA=;
- b=YExTC/Qap6Zd/r31YyFxFW2AAxAohGzM9iZbu1SpJxcRj+Rthc0uYF8EkM8SG2477I
- gUkXHvvA/BedGsHIzD/Aoars3OKUXniJhSIMbIkExCVD1IZOH0jGESqgvr5AO84s+IFI
- 7xHWlp3ZcnxvFeqL+2kDv72hdr5eBGPfqulV/eAdgnzEELH6PR71CVdPHV+L2Sfj2Xe0
- PwQfFMsG8l29SP9CeQ8yS6P3rOM0pmuICmCS9HfQm5Tp5yb/E9pzazwVJxFIIUWoTibj
- CGpdtvV88H7OCE+jhwibrOyPs1LY6nX+PRmwh0O7Alt5YVjWdN06ZcS9Epi8BMg5YaOA
- 679g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=r0LA6cGaaxp3puXrMYIx3Plq7Ps/ZLbe9KrZC2IbOQA=;
- b=7JNaMOClgxPRvEXXHupp35FHv0/jFEubCgpgo/a0/Ee1FVsindNcVxlZ29BHUg8Lsd
- YbSKst8Ud7FkzJrjhAW/5hBKCEmakfrh7dPiHmQ7dl6VvCXkLoQvRFV9Tu6ZSYbGBYx0
- dTQdeu2Wkb37CU7UF+s8N0jrPPvpvvWhjk4Mzz8rzNaAlXZz4KKbukjXW7u/wOJ6eo+F
- 0lLcNEUHGKElcUsPqTOO3ptPWXfNSlWLhBDhtWXaGyQSXS+vP76zXbl/Ks7VpHR9el+P
- l+xJh8vVC30I4x86CZpSFGjFatBSFxhxuZCUzRN96/Wny6h7PT1U1mQBg8vH69sTz0qi
- Nc6Q==
-X-Gm-Message-State: AFqh2konz5eLZZO3E2+dRmDGlGMWh9XfSvpg00kA1mFnH0i4IMp4XRHB
- de68gJ+CpxB4I+iSjeXSgy5vPNafuOI=
-X-Google-Smtp-Source: AMrXdXukmf9b8exM0b1FemrAVyfFt8TCuarQhQM/rUVlgYFNAbZeXExDbZYZ7Vu46FK65hS+UPLJdQ==
-X-Received: by 2002:a05:600c:b8a:b0:3d9:f806:2f89 with SMTP id
- fl10-20020a05600c0b8a00b003d9f8062f89mr7497630wmb.41.1674067355624; 
- Wed, 18 Jan 2023 10:42:35 -0800 (PST)
-Received: from archbox.localnet (84-72-105-84.dclient.hispeed.ch.
- [84.72.105.84]) by smtp.gmail.com with ESMTPSA id
- m31-20020a05600c3b1f00b003db0cab0844sm3149306wms.40.2023.01.18.10.42.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jan 2023 10:42:35 -0800 (PST)
-From: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-To: dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v3 0/3] drm/rockchip: dw_hdmi: Add 4k@30 support
-Date: Wed, 18 Jan 2023 19:42:33 +0100
-Message-ID: <5902537.lOV4Wx5bFT@archbox>
-In-Reply-To: <20230118132213.2911418-1-s.hauer@pengutronix.de>
-References: <20230118132213.2911418-1-s.hauer@pengutronix.de>
+Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB55210E1F8
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 18:48:33 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ansari.sh; s=key1;
+ t=1674067710;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=z83rSeniNFHS7zJ60IN7wkL4BhzNsSKsud/i88hiibE=;
+ b=jGtjR3tDpDLgkIXwpbeUAb575h46pQ2z5e51T7U93HFtA6L/t2gJ2lEBRdAqeOVJQTtATY
+ t5Ali9Zl4oCiQmBNUc75O84Z5iNt5+6K8kZ+gnfCVCCHNC0aIxn762x8w/eHnr4DPZE1Ap
+ qjOKSvk2XeqZssdaMBtfsweGGbT1bPg=
+From: Rayyan Ansari <rayyan@ansari.sh>
+To: dri-devel@lists.freedesktop.org
+Subject: [RFC PATCH] drm/simpledrm: Allow physical width and height
+ configuration via DT
+Date: Wed, 18 Jan 2023 18:48:17 +0000
+Message-Id: <20230118184817.608551-1-rayyan@ansari.sh>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,60 +44,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dan Johansen <strit@manjaro.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Robin Murphy <robin.murphy@arm.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Rayyan Ansari <rayyan@ansari.sh>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, 18 January 2023 14:22:10 CET Sascha Hauer wrote:
-> It's been some time since I last sent this series. This version fixes
-> a regression Dan Johansen reported. The reason turned out to be simple,
-> I used the YUV420 register values instead of the RGB ones.
-> 
-> I realized that we cannot achieve several modes offered by my monitor
-> as these require pixelclocks that are slightly below the standard
-> pixelclocks. As these are lower than the standard clock rates the PLL
-> driver offers the clk driver falls back to a way lower frequency
-> which results in something the monitor can't display, so this series
-> now contains a patch to discard these unachievable modes.
-> 
-> Sascha
-> 
-> Changes since v2:
-> - Use correct register values for mpll_cfg
-> - Add patch to discard modes we cannot achieve
-> 
-> Changes since v1:
-> - Allow non standard clock rates only on Synopsys phy as suggested by
->   Robin Murphy
-> 
-> Sascha Hauer (3):
->   drm/rockchip: dw_hdmi: relax mode_valid hook
->   drm/rockchip: dw_hdmi: Add support for 4k@30 resolution
->   drm/rockchip: dw_hdmi: discard modes with unachievable pixelclocks
-> 
->  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 40 ++++++++++++++++-----
->  1 file changed, 32 insertions(+), 8 deletions(-)
+Hello,
+The following draft patch adds support for configuring the
+height-mm and width-mm DRM properties in the simpledrm driver
+via devicetree.
+This is useful to get proper scaling in UIs such as Phosh.
+An example of using this property is this, taken from my local tree:
 
-For the whole series:
+		framebuffer0: framebuffer@3200000 {
+			compatible = "simple-framebuffer";
+			reg = <0x3200000 0x800000>;
+			format = "a8r8g8b8";
+			width = <720>;
+			height = <1280>;
+			stride = <(720 * 4)>;
+			width-mm = /bits/ 16 <58>;
+			height-mm = /bits/ 16 <103>;
 
-Tested-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+			clocks = <&mmcc MDSS_AHB_CLK>,
+				 <&mmcc MDSS_AXI_CLK>,
+				 <&mmcc MDSS_BYTE0_CLK>,
+				 <&mmcc MDSS_MDP_CLK>,
+				 <&mmcc MDSS_PCLK0_CLK>,
+				 <&mmcc MDSS_VSYNC_CLK>;
+			power-domains = <&mmcc MDSS_GDSC>;
+		};
 
-Tested on two monitors:
+I have tested this on my Lumia 735, and it does indeed
+allow Phosh to scale correctly on the screen.
 
-Monitor 1 was an Iiyama ProLite G2773HS, which only does 1080p60 over HDMI.
-Testing on it, I found no regressions; all the old modes still showed up
-and the 1080p60 mode worked as expected.
+However, I would like to get some feedback before I write the
+documentation.
+- What data type should be used?
+	The width_mm and height_mm properties of the drm_display_mode
+	struct are defined as u16. I have also made the devicetree
+	properties as the u16 type, but this requires specifying
+	"/bits/ 16" before the value. Should u32 be used instead to get
+	rid of this? If so, how could the conversion from u32->u16 be
+	handled?
+- Style?
+	I have split the arguments to the DRM_MODE_INIT macro across
+	multiple lines to increase readability. I'm not sure if this
+	is the correct style though.
+- Anything else?
+	This is my first time writing code for a Linux driver, so I
+	would be grateful if you have any suggestions for improvements.
+ 
+Thanks,
+Rayyan.
+---
+ drivers/gpu/drm/tiny/simpledrm.c | 49 +++++++++++++++++++++++++++-----
+ 1 file changed, 42 insertions(+), 7 deletions(-)
 
-Monitor 2 was a Philips 328P, which does 4K30 over HDMI. Without the patches,
-the 4K modes were absent. With the patchset, the 4K modes are present,
-functional and picked by default.
-
-Great work!
-
-Cheers,
-Nicolas Frattaroli
-
+diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+index 162eb44dcba8..92109f870b35 100644
+--- a/drivers/gpu/drm/tiny/simpledrm.c
++++ b/drivers/gpu/drm/tiny/simpledrm.c
+@@ -116,6 +116,15 @@ simplefb_get_format_pd(struct drm_device *dev,
+ 	return simplefb_get_validated_format(dev, pd->format);
+ }
+ 
++static void
++simplefb_read_u16_of_optional(struct drm_device *dev, struct device_node *of_node,
++		     const char *name, u16 *value)
++{
++	int ret = of_property_read_u16(of_node, name, value);
++	if (ret)
++		value = 0;
++}
++
+ static int
+ simplefb_read_u32_of(struct drm_device *dev, struct device_node *of_node,
+ 		     const char *name, u32 *value)
+@@ -184,6 +193,21 @@ simplefb_get_format_of(struct drm_device *dev, struct device_node *of_node)
+ 	return simplefb_get_validated_format(dev, format);
+ }
+ 
++static u16
++simplefb_get_width_mm_of(struct drm_device *dev, struct device_node *of_node)
++{
++	u16 width_mm;
++	simplefb_read_u16_of_optional(dev, of_node, "width-mm", &width_mm);
++	return width_mm;
++}
++
++static u16
++simplefb_get_height_mm_of(struct drm_device *dev, struct device_node *of_node)
++{
++	u16 height_mm;
++	simplefb_read_u16_of_optional(dev, of_node, "height-mm", &height_mm);
++	return height_mm;
++}
+ /*
+  * Simple Framebuffer device
+  */
+@@ -599,16 +623,24 @@ static const struct drm_mode_config_funcs simpledrm_mode_config_funcs = {
+  */
+ 
+ static struct drm_display_mode simpledrm_mode(unsigned int width,
+-					      unsigned int height)
++					      unsigned int height,
++					      u16 width_mm,
++					      u16 height_mm)
+ {
+ 	/*
+-	 * Assume a monitor resolution of 96 dpi to
+-	 * get a somewhat reasonable screen size.
++	 * Assume a monitor resolution of 96 dpi if physical
++	 * dimensions are not specified to get a somewhat reasonable
++	 * screen size.
+ 	 */
++
+ 	const struct drm_display_mode mode = {
+-		DRM_MODE_INIT(60, width, height,
+-			      DRM_MODE_RES_MM(width, 96ul),
+-			      DRM_MODE_RES_MM(height, 96ul))
++		DRM_MODE_INIT(
++			60,
++			width,
++			height,
++			(width_mm ? width_mm : DRM_MODE_RES_MM(width, 96ul)),
++			(height_mm ? height_mm : DRM_MODE_RES_MM(height, 96ul))
++			)
+ 	};
+ 
+ 	return mode;
+@@ -622,6 +654,7 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
+ 	struct simpledrm_device *sdev;
+ 	struct drm_device *dev;
+ 	int width, height, stride;
++	u16 width_mm, height_mm;
+ 	const struct drm_format_info *format;
+ 	struct resource *res, *mem;
+ 	void __iomem *screen_base;
+@@ -676,6 +709,8 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
+ 		format = simplefb_get_format_of(dev, of_node);
+ 		if (IS_ERR(format))
+ 			return ERR_CAST(format);
++		width_mm = simplefb_get_width_mm_of(dev, of_node);
++		height_mm = simplefb_get_height_mm_of(dev, of_node);
+ 	} else {
+ 		drm_err(dev, "no simplefb configuration found\n");
+ 		return ERR_PTR(-ENODEV);
+@@ -686,7 +721,7 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
+ 			return ERR_PTR(-EINVAL);
+ 	}
+ 
+-	sdev->mode = simpledrm_mode(width, height);
++	sdev->mode = simpledrm_mode(width, height, width_mm, height_mm);
+ 	sdev->format = format;
+ 	sdev->pitch = stride;
+ 
+-- 
+2.39.0
 
