@@ -1,77 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0620D672C98
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 00:30:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C25AD672CA2
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 00:31:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BB7D10E01F;
-	Wed, 18 Jan 2023 23:30:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED64C10E050;
+	Wed, 18 Jan 2023 23:31:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EAE210E00C;
- Wed, 18 Jan 2023 23:30:08 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30IMatu4008315; Wed, 18 Jan 2023 23:30:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=suT+BfuPsIxiBMLN9h/qNHf8aeCdZyBgoyNb44c9T7c=;
- b=eOulEh0YC50sK20oJaXAqiuohmH2co9La//DtXLBJ3jfuEVu5YpB+fIMq0rlrRINxtjU
- dSGb6+P5xd7f6+G5k0YblYLs9Mn3f4NsOsGLUnAMyogKeJl9LASeUlOBf1niIkO33Rtb
- Wr3Cq1sudN1BT9Bs6lg4oI2ME9LA1/hVW+HVOSUIau5tDiSr7L9PFa2Nrqj5EmzQnrEd
- 9L1SqKhlx6ViBTx/LqQUhvcD3WKUennG368WPuUAbFkPaZFXZ3SZqFuRE0LC9nWzY/qh
- kwfupNCjskrk2LXY7hOF+uL/2y99y9Uy86CnTHIXQfg+kXY8VCYPtu4mBx6Oc6w0F4Pb SQ== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n6debspk1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 23:30:06 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30INU5xq008268
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 23:30:05 GMT
-Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 18 Jan
- 2023 15:30:04 -0800
-Message-ID: <c4109940-b2a6-259a-ef27-aa0edb339d88@quicinc.com>
-Date: Wed, 18 Jan 2023 15:30:04 -0800
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39BAA10E050
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 23:31:45 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id i5so338742oih.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 15:31:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XH1y5rYKFViuRcNHtWtYtPcA4DgWz25CCTQfZyUbrnE=;
+ b=YtIE4pR1tODUTIgOvw1JqbI8004hDZmscHvqRVxzq9kZ73DHZ2Iqhf74G373R2UoRg
+ Ao19vel3ftF8PoHac3WfPeFHjue7PVHA33YljmzYQ9x3zKnkwulBltGdlY0//2y5HSGv
+ U2j/VP7Q0k3UDh8lPtUFjVDB0EUd2F1aZ6h5QPmQk9Be7gUAf956Awpbpa7tl2VrExNZ
+ PTD8UP7MWCqorIwserlHx+PG++PzEFGLznPtmui6PJ1vgHco3FpaF74lFcYO3Iqs4ogY
+ sRgquV8m6PBiL0lT004DrnmQ58rMo4RGjGNkJG3jTAydmduzM3z3w0r0bxddP0v2aEzr
+ tpwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XH1y5rYKFViuRcNHtWtYtPcA4DgWz25CCTQfZyUbrnE=;
+ b=U91eFV5rWn/z3wlmG2qmAFdawa2iUifFRLJRxFuVPWihQjFC6q2w1xdcx3Gds7wUwr
+ O0sCp7yE3KMfbCaIs9jbgo9kR0Pp1V6W+QiAqjIDHDzvJQnL0LanJZkUkIANwaZi8XW4
+ oWKSnCsdli0fr9lCrsTsamiyrLvAwVhRZmS+XG0nYxtVtg+LYHvUJMITBhuVT7Bhr7iG
+ WqYZureOOtCqOV4EA88VC2GRtkX6Xa6StPivydX2ZqTgYf6I0nGkXBt3UYJmaLsVjd22
+ 7RapJeEQtAmmRQWON3j5NA0UWQeQNkXUadUnRvL+K5Y2cpwoauHss3bW7unN2uxrRqYT
+ dYYg==
+X-Gm-Message-State: AFqh2kp3+fKL6v8YgJ+hChHOaYrJlVc8DweOX6X0ApYPDqIZjR3VfBPE
+ n5QRHPdwZOz7XPUkxMLW17qRo/IIusA=
+X-Google-Smtp-Source: AMrXdXvvelMHakqU4zG4NmZUORZePP0oEuYsi/sQ99//LN2eo/vCvuYpX+Z3uZeT11B6UXturv0iCg==
+X-Received: by 2002:a05:6808:300e:b0:364:f962:afd1 with SMTP id
+ ay14-20020a056808300e00b00364f962afd1mr4990268oib.56.1674084704012; 
+ Wed, 18 Jan 2023 15:31:44 -0800 (PST)
+Received: from localhost.localdomain ([76.244.6.13])
+ by smtp.gmail.com with ESMTPSA id
+ q10-20020acad90a000000b00354932bae03sm16966933oig.10.2023.01.18.15.31.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Jan 2023 15:31:43 -0800 (PST)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH V11 0/4] drm/panel: Add Magnachip D53E6EA8966 Panel Controller
+Date: Wed, 18 Jan 2023 17:31:31 -0600
+Message-Id: <20230118233135.1174859-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v2] drm/msm/dpu: Reapply CTM if modeset is needed
-Content-Language: en-US
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- <freedreno@lists.freedesktop.org>
-References: <20230118164103.325-1-quic_jesszhan@quicinc.com>
- <6f08ad96-8d55-2a46-e5fa-5f4c7f89ec88@quicinc.com>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <6f08ad96-8d55-2a46-e5fa-5f4c7f89ec88@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: bnWdmkcNgvRRVhxv57jU_8blYSpgK4xE
-X-Proofpoint-ORIG-GUID: bnWdmkcNgvRRVhxv57jU_8blYSpgK4xE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-18_05,2023-01-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 mlxlogscore=990 adultscore=0 bulkscore=0 spamscore=0
- lowpriorityscore=0 phishscore=0 suspectscore=0 impostorscore=0
- clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301180194
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,58 +68,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- dmitry.baryshkov@linaro.org
+Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
+ krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
+ linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ thierry.reding@gmail.com, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Chris Morgan <macromorgan@hotmail.com>
 
+Add the Magnachip D53E6EA8966 panel IC controller for display panels
+such as the Samsung AMS495QA01 panel as found on the Anbernic RG503.
+This panel uses DSI to receive video signals, but 3-wire SPI to receive
+command signals using DBI.
 
-On 1/18/2023 11:29 AM, Abhinav Kumar wrote:
-> 
-> 
-> On 1/18/2023 8:41 AM, Jessica Zhang wrote:
->> Add a !drm_atomic_crtc_needs_modeset() check to
->> _dpu_crtc_setup_cp_blocks() so that CTM is reapplied if the LM/DSPP
->> blocks were reallocated during modeset.
-> 
-> This was in addition to the suspend/resume case.
-> 
-> So CTM needs to be reapplied in case of suspend/resume OR LM/DSPP block 
-> reallocation.
-> 
-> To cover both of these we are adding the needs_modeset check
+Changes since V10:
+ - Guarded definition in drm_of.h with an additional #if statement.
+ - Narrowed focus of drm_of_get_dsi_bus() to only return dsi_host (no
+   longer populates node on the mipi_dsi_device_info struct).
 
-Hi Abhinav,
+Changes since V9:
+ - Set an ifdef to not add the drm_of_get_dsi_bus when MIPI_DSI is not
+   part of the current kernel config.
+ - Made "info" optional in the drm_of_get_dsi_bus() function.
 
-Acked. Will add back mention of suspend/resume case.
+Changes since V8:
+ - Set "placeholder" drm_of_get_dsi_bus in drm_of.h to static inline
+   to hopefully eliminate the reported errors once and for all. Tested
+   with 4 different kernel configurations provided by Intel's kernel
+   test robot and no new warnings or errors were introduced.
+   Reported-by: kernel test robot <lkp@intel.com>
 
-Thanks,
+Changes since V7:
+ - Removed Linus Walleij review note due to substantial changes.
+ - Corrected documentation of drm_of_get_dsi_bus function.
+ - Updated the drm_of_get_dsi_bus function to return pointer to
+   mipi_dsi_host and use ERR_PTR macros.
+ - Refactored drm_panel_funcs so that the prepare function calls
+   panel specific function for init sequence and uses generic
+   functions otherwise.
+ - Renamed non-panel specific functions.
+ - Changed backlight value to int instead of u32.
+ - Corrected brightness function to use backlight_get_brightness().
+ - Fix an error reported when CONFIG_OF is selected but
+   CONFIG_DRM_MIPI_DSI is not. Add an if function to drm_of_get_dsi_bus
+   function to return -EINVAL in this instance.
+   Reported-by: kernel test robot <lkp@intel.com>
 
-Jessica Zhang
+Changes since V6:
+ - Fixed a trivial error with definition of drm_of_get_dsi_bus().
+   Reported-by: kernel test robot <lkp@intel.com>
 
-> 
->>
->> Changes in V2:
->> - Fixed commit message
->>
->> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/23
->> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> index 13ce321283ff..aa120a230222 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> @@ -748,7 +748,7 @@ static void _dpu_crtc_setup_cp_blocks(struct 
->> drm_crtc *crtc)
->>       int i;
->> -    if (!state->color_mgmt_changed)
->> +    if (!state->color_mgmt_changed && 
->> !drm_atomic_crtc_needs_modeset(state))
->>           return;
->>       for (i = 0; i < cstate->num_mixers; i++) {
+Changes since V5:
+ - Reverted dt binding documentation name back to
+   samsung,ams495qa01.yaml.
+ - Removed no longer needed of_graph.h header file.
+ - Added backlight as a dependency.
+
+Changes since V4:
+ - Renamed driver from the panel model to the panel IC controller per
+   DRM team.
+ - Added a drm_of helper function of drm_of_get_dsi_bus() to handle
+   finding and populating the DSI node when the DSI node is not the
+   parent of the DSI controlled display.
+ - Converted the documented commands to constants to make it more
+   readable.
+ - Reset GPIO is now required and documented as GPIO_ACTIVE_LOW.
+ - Removed "prepared" logic from panel.
+
+Changes since V3:
+ - Updated documentation to add spi-peripheral-props.yaml per updates
+   made for similar devices. Note that I removed a "Reviewed-by" tag
+   from Rob Herring since this change probably needs to be confirmed.
+ - Added binding for RG503, since this device is now accepted with this
+   request: https://lore.kernel.org/linux-rockchip/166274831283.21181.6861718157177507544.b4-ty@sntech.de/
+
+Changes since V2:
+ - Added 50hz mode at request of userspace devs.
+ - Renamed "dupa" to panel name. Good catch Maya.
+ - Added Maya's Signed-off-by.
+ - Removed check for max backlight, since it is already done by
+   backlight_device_set_brightness.
+ - Fixed minor formatting issues on devicetree binding documentation
+   and added port to provided example.
+
+Changes since V1:
+ - Removed errant reference to backlight in documentation. This is an
+   OLED panel.
+ - Made elvss regulator optional. In my case its hard wired and not
+   controllable.
+ - Added "prepared" enum to track panel status to prevent unbalanced
+   regulator enable/disable.
+
+Chris Morgan (4):
+  drm: of: Add drm_of_get_dsi_bus helper function
+  dt-bindings: display: panel: Add Samsung AMS495QA01
+  drm/panel: Add Magnachip D53E6EA8966 Panel Driver
+  arm64: dts: rockchip: add display to RG503
+
+ .../display/panel/samsung,ams495qa01.yaml     |  57 ++
+ .../dts/rockchip/rk3566-anbernic-rg503.dts    |  55 ++
+ drivers/gpu/drm/drm_of.c                      |  51 ++
+ drivers/gpu/drm/panel/Kconfig                 |  11 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../drm/panel/panel-magnachip-d53e6ea8966.c   | 522 ++++++++++++++++++
+ include/drm/drm_of.h                          |  12 +
+ 7 files changed, 709 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,ams495qa01.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c
+
+-- 
+2.34.1
+
