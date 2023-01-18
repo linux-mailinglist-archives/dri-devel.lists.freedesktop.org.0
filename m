@@ -1,69 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61ED1670FF0
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 02:24:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3408670FFA
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 02:28:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3441610E627;
-	Wed, 18 Jan 2023 01:24:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DA6910E61E;
+	Wed, 18 Jan 2023 01:28:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 288BC10E627
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 01:24:37 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id vm8so79647140ejc.2
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 17:24:37 -0800 (PST)
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E22710E61E
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 01:28:26 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id v6so36679973ejg.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 17:28:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=hCw2/tRfMHxdziYE7u5XMHonH7hwIjkmwIJuVfBRNWc=;
- b=nkdE03+Z0aIn/+n7c1/I2F3pJkSHHVfoKP7G8X9gUuTEkxpuUwMEtVoc0Q+WUvSkvd
- A2H/THg65gzR0hZgMbt2oPoKf4nCe5i/l6BjLfuin4U01myYpCXjWorb+1mTTzkDuhk+
- mCiQUtSbLtdcOWtWJ+KRejJGi/NmzqWORt/S7l/3k66JUoNrsREYogsLyLY9EldEHZAd
- PsL1wjKb7nQ9OgsnYZGOBNaPZy9TIY5EbGcsIFJCz2t8kQSQcm9Uxy1IesuXV/QInnfa
- 1rUiZs41LNJEYzESPz3fByvOWWq3gxSP9vx82MfGgPxkgTfoUoXvKS+9zNGRrN+o9uHZ
- YGAg==
+ bh=o8QyhSnzbFdvQ5FvcP2X1YXz8UVWrJ0qZl/VLhR8k68=;
+ b=tJuJCTlME1+6oauOK4SU7qRrWBxXoClZTj+bEv/XGHdCWDNFmfF2CILtP+FS+gHRrn
+ pE3+Cm718Mwh0TLDGx6s1pocRQG2/MEBFi4Dq69xd0uH0fB5FCRQfdnvxomfaDvf4lOI
+ lUlGgatBgxyC0Pwc2l5+8GqAMiPRs+AD6BzqJamU4q4wNTY76o04AWshNdARyT2P70qY
+ JzoG323sgz88Jr5yYTplGh+EhRA4ZO9rznDHErfsXHDGGBHfX/+zxR4rL01bjNU6bHR8
+ yuHKki+HdciJ8a3ntBBC6Qb/6UxoWC0MIalK4RPTc0kykB0JBxGNVuxJQwSj72DsKlJF
+ Ga2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hCw2/tRfMHxdziYE7u5XMHonH7hwIjkmwIJuVfBRNWc=;
- b=cDMf6Ms6fbfh19kW3J3c++iQ6HM2Vv6jsWTkp7HoicNVK4lIL/swbcb88Nr4Hx/pYO
- YADwv3itjzbjIkPLkec8nxA8544qBcBanTpKREBlMlAbAQ6cZkb+neIJZ4uM78j24IX8
- S4spZ+ZQW9b1Cm1VqqsR2U3gM93ShB4uj/dHbbXSp9LQC1gPfrnV8rPEg6V7AaSEhnng
- BE0+tgO3AplG+fpEw8piqMORr9md7R1H7tgPMcSuV8jtusupFEJBXOYkSynzHGi3/dLS
- lF5kYHpgg0ItcSgM1Cp0ytGh/DV0gN8UjQcb8FF/q0ex/eGPFSk0UK7quGwcdpRWUtjM
- wiaA==
-X-Gm-Message-State: AFqh2kq/J9QcfooAKao52Px0bK2sbEUX+ktf/Y5rS7gi12/IyLrfzcNG
- qjFkNfOliuREF1JOmHlyEKKK2Q==
-X-Google-Smtp-Source: AMrXdXsas82xe4F5cGHedGjetCtbabIxMQUCoeuWsYdgrdP89CeJeAfXys09rvlr0gPpyI7oo6dygw==
-X-Received: by 2002:a17:907:6294:b0:86a:1afa:6dd8 with SMTP id
- nd20-20020a170907629400b0086a1afa6dd8mr26337861ejc.69.1674005075726; 
- Tue, 17 Jan 2023 17:24:35 -0800 (PST)
+ bh=o8QyhSnzbFdvQ5FvcP2X1YXz8UVWrJ0qZl/VLhR8k68=;
+ b=n6W0lUd9si10ChCbv5g6ALCHx0ekEG/jLdu6NtIOwIRfm45BPsM8SietCYSa1oJzAV
+ cVjJMX3yHBwxWQRUnz2AoHjpIpPfYrIGQTgmhFkgUBUyHgSv/pNiFrvjY/0m7ng2Rpxu
+ urvaiFxg1EkJzxV8lFsdQ6Tgwq12gqlrXtITW7l172FYDYmpg2EoNm6OCzg7an0Yn+qa
+ Fb/cWMezkSkweq2ClJUXQxUBe36cHfLoFJ4BN9eXanO3gToo+hi7Xr5yPFAqQu6qCXOW
+ ZrMxONXprf5J01YdliSGOG/djPBTeugS192vb+oF7N9rMnSC4lr6y8eenEuuf+6k8g8v
+ juEQ==
+X-Gm-Message-State: AFqh2kpxgvfvc1x7GxrRKSqS3DybNnwlPPFcAN0HZYlMKon+lvKVi7qp
+ lbiSLQdjiewKpAbNthOrC/6tyg==
+X-Google-Smtp-Source: AMrXdXt95F0POe56gcMKmWh647lKMiS0QfbK44kq6hQKEpNhP5zhV1YME0/5F4Nz9KPGga+FxIS3MQ==
+X-Received: by 2002:a17:906:6843:b0:86c:a3ed:1442 with SMTP id
+ a3-20020a170906684300b0086ca3ed1442mr5296523ejs.4.1674005304769; 
+ Tue, 17 Jan 2023 17:28:24 -0800 (PST)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- fn4-20020a1709069d0400b0084d4b907ff8sm10941430ejc.120.2023.01.17.17.24.34
+ bn11-20020a170906c0cb00b0087132e779b3sm2835803ejb.224.2023.01.17.17.28.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 17:24:35 -0800 (PST)
-Message-ID: <b9fa44e8-3387-df90-7997-cac74312cb3b@linaro.org>
-Date: Wed, 18 Jan 2023 03:24:34 +0200
+ Tue, 17 Jan 2023 17:28:24 -0800 (PST)
+Message-ID: <7f3a02a5-53d0-4374-6f9b-894b1140da06@linaro.org>
+Date: Wed, 18 Jan 2023 03:28:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v2] drm/msm: Add missing check and destroy for
- alloc_ordered_workqueue
+Subject: Re: [PATCH v6 2/2] drm/msm/dp: enhance dp controller isr
 Content-Language: en-GB
-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, sean@poorly.run, airlied@gmail.com,
- sumit.semwal@linaro.org, christian.koenig@amd.com
-References: <20230109022038.2163-1-jiasheng@iscas.ac.cn>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
+ agross@kernel.org, andersson@kernel.org
+References: <1672193785-11003-1-git-send-email-quic_khsieh@quicinc.com>
+ <1672193785-11003-3-git-send-email-quic_khsieh@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230109022038.2163-1-jiasheng@iscas.ac.cn>
+In-Reply-To: <1672193785-11003-3-git-send-email-quic_khsieh@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,31 +79,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- freedreno@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
+ freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/01/2023 04:20, Jiasheng Jiang wrote:
-> Add check for the return value of alloc_ordered_workqueue as it may return
-> NULL pointer.
-> Moreover, use the destroy_workqueue in the later fails in order to avoid
-> memory leak.
+On 28/12/2022 04:16, Kuogee Hsieh wrote:
+> dp_display_irq_handler() is the main isr handler with the helps
+> of two sub isr, dp_aux_isr and dp_ctrl_isr, to service all DP
+> interrupts on every irq triggered. Current all three isr does
+> not return IRQ_HANDLED if there are any interrupts it had
+> serviced. This patch fix this ambiguity by having all isr
+> return IRQ_HANDLED if there are interrupts had been serviced
+> or IRQ_NONE otherwise.
 > 
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+> Changes in v5:
+> -- move complete into dp_aux_native_handler()
+> -- move complete into dp_aux_i2c_handler()
+> -- restore null ctrl check at isr
+> -- return IRQ_NODE directly
+> 
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> Suggested-by: Stephen Boyd <swboyd@chromium.org>
 > ---
-> Changelog:
+>   drivers/gpu/drm/msm/dp/dp_aux.c     | 95 ++++++++++++++++++++++++++-----------
+>   drivers/gpu/drm/msm/dp/dp_aux.h     |  2 +-
+>   drivers/gpu/drm/msm/dp/dp_ctrl.c    | 12 ++++-
+>   drivers/gpu/drm/msm/dp/dp_ctrl.h    |  2 +-
+>   drivers/gpu/drm/msm/dp/dp_display.c | 16 +++++--
+>   5 files changed, 89 insertions(+), 38 deletions(-)
 > 
-> v1 -> v2:
-> 
-> 1. Convert "goto err_destroy_workqueue" into "goto err_msm_unit" and
-> remove "err_destroy_workqueue" label.
-> ---
->   drivers/gpu/drm/msm/msm_drv.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Stephen, Dough, do we still want this patch in?
 
 -- 
 With best wishes
