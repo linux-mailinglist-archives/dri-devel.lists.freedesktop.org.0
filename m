@@ -2,65 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BDD96726F4
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 19:30:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7E8672737
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 19:39:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 438B710E1F0;
-	Wed, 18 Jan 2023 18:30:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3140810E1F4;
+	Wed, 18 Jan 2023 18:39:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com
- [IPv6:2607:f8b0:4864:20::e35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFADF10E1F0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 18:30:15 +0000 (UTC)
-Received: by mail-vs1-xe35.google.com with SMTP id 187so5995456vsv.10
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 10:30:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com
+ [IPv6:2607:f8b0:4864:20::831])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3B5C10E1F3;
+ Wed, 18 Jan 2023 18:39:26 +0000 (UTC)
+Received: by mail-qt1-x831.google.com with SMTP id d16so17582342qtw.8;
+ Wed, 18 Jan 2023 10:39:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4A0YJvhO9mTBEXJWnUYkahEQbqNSuIjy4Bxdd13jBXc=;
- b=N0b4sz+3oAEofBJM6TYF9uNRBuNRzsOWafUK3eDGO6uglW6efzFagX2W1H9opUiQ0Q
- tE+VMgdMK3/Xq+TF4DE9ip7d9IBLRP2pi9lqCBtrTXZ1YfWsWdRnrPXOSbO+CejI4GnS
- G8pzQi2xc7tZnwhmU8eS4njonMSOIXnFoltfk=
+ bh=Hc8xSb6mvLFO0p8GBrdixp3f7/292PijsF4H07Tk3Kk=;
+ b=FgGaYS3X0YH5pioDZfOfuh3a+w776MxTWj9YtUoFHjt/aAg/5QsOr4dpI04uboDxji
+ MjEFzetNRBceikAp5GoXc/3nQswsW9YBdS0Q9IYpyZknurU/G2b1piJWe8JTwbP8dvmQ
+ sLVd880x08golUMFnUcB2rupEzW23INoJvcNc/3v8vfi9rykX4MtotqcGf7IDvSWnnPT
+ gkDTxnO8bNklkDof/SuQgQavS6/uFsFJD4N9rUQ2XFAgwaXc05h9WIH+E/XE/4shp4Oa
+ 9E7cSNjQR01J2OHHnq8LQhMbm7wd+ekbYhlSk8qbJU0GtAa3O+rswEb+I8aoWLEIF+b4
+ 5uCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=4A0YJvhO9mTBEXJWnUYkahEQbqNSuIjy4Bxdd13jBXc=;
- b=RMpexclrjdQMeqLMUjtYTRZ6IV4+R4zNoZFLagYJWKYgkcr+6Ijh8g9X4bZjrciJjf
- VpaROfOWICHuY1FiUL/UYDtP8mUqtHt/FVa5Gv7wIRQDDz7mV7vRKk5QCb0cQGWdZU8A
- TBAszivboWPKzI8ZzYKunkOa/fZl/bGv6DYgXuyU8X753EIK1mXMFekWo2IFsfUbSzcE
- nEJrNrRvsOPbu6YMAIDKQRx4DFEeXxanGavCauRAdTzJn8sZ1Qv6vU5asPEdGn0NFkEF
- UiEZ/PsXbZNkf3M2Ow93xKMrqY7JqL/OBDfwiIkO0vIgMTYDByiut0Voh0BJS9fZmevt
- YoNw==
-X-Gm-Message-State: AFqh2kqakNbsRGRvt48KZzX8VhmXJfEMw7Q0I5/eQhjGl/Ozg+Jj/q4p
- rAkfK2EW2hBCsisT3Big2r3WdfC9ypmdtIQk
-X-Google-Smtp-Source: AMrXdXuqPnXcF9jrO99qHbtfnH3mP3Ltq9oOdwpuGwaIbSkfrPq68L2cBeMIfY1vgLm5Oyt71ElNDQ==
-X-Received: by 2002:a05:6102:5109:b0:3d3:fdc0:fd11 with SMTP id
- bm9-20020a056102510900b003d3fdc0fd11mr5665470vsb.30.1674066614028; 
- Wed, 18 Jan 2023 10:30:14 -0800 (PST)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com.
- [209.85.222.47]) by smtp.gmail.com with ESMTPSA id
- bk16-20020a056102549000b003d3ceacabc1sm939626vsb.12.2023.01.18.10.30.12
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 10:30:12 -0800 (PST)
-Received: by mail-ua1-f47.google.com with SMTP id bx24so3905702uab.4
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 10:30:12 -0800 (PST)
-X-Received: by 2002:ab0:2550:0:b0:419:c79a:b921 with SMTP id
- l16-20020ab02550000000b00419c79ab921mr961197uan.100.1674066612023; Wed, 18
- Jan 2023 10:30:12 -0800 (PST)
+ bh=Hc8xSb6mvLFO0p8GBrdixp3f7/292PijsF4H07Tk3Kk=;
+ b=ntqa6s1hydo+31JTcBYVc6/pzB9GpecK3111rznM86njpiJrJEsVrUa9LY07O+sKEt
+ ybLdUZJiOQdtGo6V1CqgrZZxxt6a8l3jpZ5/mvqiqE0TSu9Y01UBbXQmhFrv30b5WRRF
+ nKKz5LUT8sK2Et1/JxvL7dHeVZ/CwfG6JMtRdWm2Sxjgd6S1dPT7NkEAZ0rxhYneCkKY
+ PDNRrtUtpXMYO8djae7LhwIN1v2HEwJRaraAoF6gGbIK+phwjXd72YdZLDfnwAwIF5gV
+ 9mSU476c+SgvTrgGSCB1eeJAUsNK9Y0314ymGfUaR70j7lzmnt9VqMC9XrsXemT0VHjw
+ ifpg==
+X-Gm-Message-State: AFqh2ko92Q4Ljl+WZIlgpkbHeO1fsMxnoMk3gIgJesXh0tVuGcg2wZkl
+ FkBqfa2Ti92t0Q14Tk7IJlW0O31db0FanTaLduvsslk13Qc=
+X-Google-Smtp-Source: AMrXdXtxyiwsWV5MU7fs9I4JfxCXt/gm2KY6oqDSdEl8priNKGwtzpSdpF1ztQEHRNo0WqhYgb8hSaGy6DlOEDf3pE8=
+X-Received: by 2002:ac8:725a:0:b0:3a7:eb35:d177 with SMTP id
+ l26-20020ac8725a000000b003a7eb35d177mr180217qtp.512.1674067165765; Wed, 18
+ Jan 2023 10:39:25 -0800 (PST)
 MIME-Version: 1.0
-References: <1672193785-11003-1-git-send-email-quic_khsieh@quicinc.com>
- <1672193785-11003-3-git-send-email-quic_khsieh@quicinc.com>
-In-Reply-To: <1672193785-11003-3-git-send-email-quic_khsieh@quicinc.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 18 Jan 2023 10:29:59 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=VeBBFTZBjZNhMUBO1uTNKBwcgZM6ehnw3BGmervE7jXA@mail.gmail.com>
-Message-ID: <CAD=FV=VeBBFTZBjZNhMUBO1uTNKBwcgZM6ehnw3BGmervE7jXA@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] drm/msm/dp: enhance dp controller isr
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+References: <20230118170624.9326-1-nirmoy.das@intel.com>
+ <Y8g7zhs8DXmMZbSA@intel.com>
+In-Reply-To: <Y8g7zhs8DXmMZbSA@intel.com>
+From: Rodrigo Vivi <rodrigo.vivi@gmail.com>
+Date: Wed, 18 Jan 2023 13:39:13 -0500
+Message-ID: <CABVU7+vgzhtgDQbnL-2=0F9ppTQJuOh0mtONJJb4+PV-1ofxJg@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Remove unused variable
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ DRI mailing list <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,281 +66,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- quic_abhinavk@quicinc.com, andersson@kernel.org, vkoul@kernel.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Tue, Dec 27, 2022 at 6:16 PM Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+On Wed, Jan 18, 2023 at 1:35 PM Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
 >
-> dp_display_irq_handler() is the main isr handler with the helps
-> of two sub isr, dp_aux_isr and dp_ctrl_isr, to service all DP
-> interrupts on every irq triggered. Current all three isr does
-> not return IRQ_HANDLED if there are any interrupts it had
-> serviced. This patch fix this ambiguity by having all isr
-> return IRQ_HANDLED if there are interrupts had been serviced
-> or IRQ_NONE otherwise.
+> On Wed, Jan 18, 2023 at 06:06:24PM +0100, Nirmoy Das wrote:
+> > Removed unused i915 var.
+> >
+> > Fixes: a273e95721e9 ("drm/i915: Allow switching away via vga-switcheroo if uninitialized")
+> > Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
 >
-> Changes in v5:
-> -- move complete into dp_aux_native_handler()
-> -- move complete into dp_aux_i2c_handler()
-> -- restore null ctrl check at isr
-> -- return IRQ_NODE directly
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 >
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> Suggested-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  drivers/gpu/drm/msm/dp/dp_aux.c     | 95 ++++++++++++++++++++++++++-----------
->  drivers/gpu/drm/msm/dp/dp_aux.h     |  2 +-
->  drivers/gpu/drm/msm/dp/dp_ctrl.c    | 12 ++++-
->  drivers/gpu/drm/msm/dp/dp_ctrl.h    |  2 +-
->  drivers/gpu/drm/msm/dp/dp_display.c | 16 +++++--
->  5 files changed, 89 insertions(+), 38 deletions(-)
+> and pushed to drm-misc-fixes.
 >
-> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
-> index cc3efed..d01ff45 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-> @@ -162,45 +162,84 @@ static ssize_t dp_aux_cmd_fifo_rx(struct dp_aux_private *aux,
->         return i;
->  }
+> Thanks for the patch.
+
++dri-devel ml which was forgotten on the patch and on my reply.
+
+sorry about that. just noticed after had hit sent in the email here...
+
 >
-> -static void dp_aux_native_handler(struct dp_aux_private *aux, u32 isr)
-> +static irqreturn_t dp_aux_native_handler(struct dp_aux_private *aux, u32 isr)
->  {
-> -       if (isr & DP_INTR_AUX_I2C_DONE)
-> +       irqreturn_t ret = IRQ_NONE;
-> +
-> +       if (isr & DP_INTR_AUX_I2C_DONE) {
->                 aux->aux_error_num = DP_AUX_ERR_NONE;
-> -       else if (isr & DP_INTR_WRONG_ADDR)
-> +               ret = IRQ_HANDLED;
-> +       } else if (isr & DP_INTR_WRONG_ADDR) {
->                 aux->aux_error_num = DP_AUX_ERR_ADDR;
-> -       else if (isr & DP_INTR_TIMEOUT)
-> +               ret = IRQ_HANDLED;
-> +       } else if (isr & DP_INTR_TIMEOUT) {
->                 aux->aux_error_num = DP_AUX_ERR_TOUT;
-> -       if (isr & DP_INTR_NACK_DEFER)
-> +               ret = IRQ_HANDLED;
-> +       }
-> +
-> +       if (isr & DP_INTR_NACK_DEFER) {
->                 aux->aux_error_num = DP_AUX_ERR_NACK;
-> +               ret = IRQ_HANDLED;
-> +       }
-> +
->         if (isr & DP_INTR_AUX_ERROR) {
->                 aux->aux_error_num = DP_AUX_ERR_PHY;
->                 dp_catalog_aux_clear_hw_interrupts(aux->catalog);
-> +               ret = IRQ_HANDLED;
->         }
-
-The end result of the above is a weird mix of "if" and "else if" for
-no apparent reason. All except one of them just updates the exact same
-variable so doing more than one is mostly useless. If you made it
-consistently with "else" then the whole thing could be much easier,
-like this (untested):
-
-static irqreturn_t dp_aux_native_handler(struct dp_aux_private *aux, u32 isr)
-{
-    if (isr & DP_INTR_AUX_ERROR) {
-        aux->aux_error_num = DP_AUX_ERR_PHY;
-        dp_catalog_aux_clear_hw_interrupts(aux->catalog);
-    } else if (isr & DP_INTR_NACK_DEFER) {
-        aux->aux_error_num = DP_AUX_ERR_NACK;
-    } else if (isr & DP_INTR_AUX_I2C_DONE) {
-        aux->aux_error_num = DP_AUX_ERR_NONE;
-    } else if (isr & DP_INTR_WRONG_ADDR) {
-        aux->aux_error_num = DP_AUX_ERR_ADDR;
-    } else if (isr & DP_INTR_TIMEOUT) {
-        aux->aux_error_num = DP_AUX_ERR_TOUT;
-    } else {
-        return IRQ_NONE;
-    }
-
-    complete(&aux->comp);
-
-    return IRQ_HANDLED;
-}
-
-Note that I changed the order to make sure that the behavior was
-exactly the same (previously later tests without the "if" would
-override "aux_error_num" so I moved them first. Also previously
-dp_catalog_aux_clear_hw_interrupts() would always be called for the
-PHY error even if other errors were present so my new proposal
-preserves this behavior.
-
-
-> +
-> +       if (ret == IRQ_HANDLED)
-> +               complete(&aux->comp);
-> +
-> +       return ret;
->  }
->
-> -static void dp_aux_i2c_handler(struct dp_aux_private *aux, u32 isr)
-> +static irqreturn_t dp_aux_i2c_handler(struct dp_aux_private *aux, u32 isr)
->  {
-> +       irqreturn_t ret = IRQ_NONE;
-> +
->         if (isr & DP_INTR_AUX_I2C_DONE) {
->                 if (isr & (DP_INTR_I2C_NACK | DP_INTR_I2C_DEFER))
->                         aux->aux_error_num = DP_AUX_ERR_NACK;
->                 else
->                         aux->aux_error_num = DP_AUX_ERR_NONE;
-> -       } else {
-> -               if (isr & DP_INTR_WRONG_ADDR)
-> -                       aux->aux_error_num = DP_AUX_ERR_ADDR;
-> -               else if (isr & DP_INTR_TIMEOUT)
-> -                       aux->aux_error_num = DP_AUX_ERR_TOUT;
-> -               if (isr & DP_INTR_NACK_DEFER)
-> -                       aux->aux_error_num = DP_AUX_ERR_NACK_DEFER;
-> -               if (isr & DP_INTR_I2C_NACK)
-> -                       aux->aux_error_num = DP_AUX_ERR_NACK;
-> -               if (isr & DP_INTR_I2C_DEFER)
-> -                       aux->aux_error_num = DP_AUX_ERR_DEFER;
-> -               if (isr & DP_INTR_AUX_ERROR) {
-> -                       aux->aux_error_num = DP_AUX_ERR_PHY;
-> -                       dp_catalog_aux_clear_hw_interrupts(aux->catalog);
-> -               }
-> +
-> +               return IRQ_HANDLED;
-
-It's hard to see in "diff" form, but if you apply your patch and check
-I think there's a bug. Specifically if DP_INTR_AUX_I2C_DONE is found
-then we'll return IRQ_HANDLED without completing.
-
-Also: same comment as with the above function, this is all cleaner if
-you just consistently use "else if". Untested:
-
-static irqreturn_t dp_aux_i2c_handler(struct dp_aux_private *aux, u32 isr)
-{
-    if (isr & DP_INTR_AUX_I2C_DONE) {
-        if (isr & (DP_INTR_I2C_NACK | DP_INTR_I2C_DEFER))
-            aux->aux_error_num = DP_AUX_ERR_NACK;
-        else
-            aux->aux_error_num = DP_AUX_ERR_NONE;
-    } else if (isr & DP_INTR_AUX_ERROR) {
-        aux->aux_error_num = DP_AUX_ERR_PHY;
-        dp_catalog_aux_clear_hw_interrupts(aux->catalog);
-    } else     if (isr & DP_INTR_I2C_DEFER) {
-        aux->aux_error_num = DP_AUX_ERR_DEFER;
-    } else if (isr & DP_INTR_I2C_NACK) {
-        aux->aux_error_num = DP_AUX_ERR_NACK;
-    } else if (isr & DP_INTR_NACK_DEFER) {
-        aux->aux_error_num = DP_AUX_ERR_NACK_DEFER;
-    } else if (isr & DP_INTR_WRONG_ADDR) {
-        aux->aux_error_num = DP_AUX_ERR_ADDR;
-    } else if (isr & DP_INTR_TIMEOUT) {
-        aux->aux_error_num = DP_AUX_ERR_TOUT;
-    } else {
-        return IRQ_NONE;
-    }
-
-    complete(&aux->comp);
-
-    return IRQ_HANDLED;
-}
-
->         }
-> +
-> +       if (isr & DP_INTR_WRONG_ADDR) {
-> +               aux->aux_error_num = DP_AUX_ERR_ADDR;
-> +               ret = IRQ_HANDLED;
-> +       } else if (isr & DP_INTR_TIMEOUT) {
-> +               aux->aux_error_num = DP_AUX_ERR_TOUT;
-> +               ret = IRQ_HANDLED;
-> +       }
-> +
-> +       if (isr & DP_INTR_NACK_DEFER) {
-> +               aux->aux_error_num = DP_AUX_ERR_NACK_DEFER;
-> +               ret = IRQ_HANDLED;
-> +       }
-> +
-> +       if (isr & DP_INTR_I2C_NACK) {
-> +               aux->aux_error_num = DP_AUX_ERR_NACK;
-> +               ret = IRQ_HANDLED;
-> +       }
-> +
-> +       if (isr & DP_INTR_I2C_DEFER) {
-> +               aux->aux_error_num = DP_AUX_ERR_DEFER;
-> +               ret = IRQ_HANDLED;
-> +       }
-> +
-> +       if (isr & DP_INTR_AUX_ERROR) {
-> +               aux->aux_error_num = DP_AUX_ERR_PHY;
-> +               dp_catalog_aux_clear_hw_interrupts(aux->catalog);
-> +               ret = IRQ_HANDLED;
-> +       }
-> +
-> +       if (ret == IRQ_HANDLED)
-> +               complete(&aux->comp);
-> +
-> +       return ret;
->  }
->
->  static void dp_aux_update_offset_and_segment(struct dp_aux_private *aux,
-> @@ -409,14 +448,14 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
->         return ret;
->  }
->
-> -void dp_aux_isr(struct drm_dp_aux *dp_aux)
-> +irqreturn_t dp_aux_isr(struct drm_dp_aux *dp_aux)
->  {
->         u32 isr;
->         struct dp_aux_private *aux;
->
->         if (!dp_aux) {
->                 DRM_ERROR("invalid input\n");
-> -               return;
-> +               return IRQ_NONE;
->         }
->
->         aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
-> @@ -425,17 +464,15 @@ void dp_aux_isr(struct drm_dp_aux *dp_aux)
->
->         /* no interrupts pending, return immediately */
->         if (!isr)
-> -               return;
-> +               return IRQ_NONE;
->
->         if (!aux->cmd_busy)
-> -               return;
-> +               return IRQ_NONE;
->
->         if (aux->native)
-> -               dp_aux_native_handler(aux, isr);
-> +               return dp_aux_native_handler(aux, isr);
->         else
-> -               dp_aux_i2c_handler(aux, isr);
-> -
-> -       complete(&aux->comp);
-> +               return dp_aux_i2c_handler(aux, isr);
-
-Personally, I wouldn't have done it this way. I guess that means I
-disagree with Stephen. I'm not dead-set against this way and it's fine
-if you want to continue with it. If I were doing it, though, then I
-would always return IRQ_HANDLED IF dp_catalog_aux_get_irq() returned
-anything non-zero. Why? Officially if dp_catalog_aux_get_irq() returns
-something non-zero then you know for sure that there was an interrupt
-for this device and officially you have "handled" it by acking it,
-since dp_catalog_aux_get_irq() acks all the bits that it returns. That
-means that even if dp_aux_native_handler() or dp_aux_i2c_handler()
-didn't do anything with the interrupt you at least know that it was
-for us (so if the IRQ is shared we properly report back to the IRQ
-subsystem) and that it won't keep firing over and over (because we
-acked it).
-
-NOTE: I still like having the complete() call in
-dp_aux_native_handler() and dp_aux_i2c_handler() and, to me, that part
-of this patch is worthwhile. That makes it more obvious that the code
-is truly expecting that complete to be called for all error cases as
-well as transfer finished.
-
--Doug
+> > ---
+> >  drivers/gpu/drm/i915/i915_driver.c | 2 --
+> >  1 file changed, 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+> > index 33e231b120c1..6469c7c1e154 100644
+> > --- a/drivers/gpu/drm/i915/i915_driver.c
+> > +++ b/drivers/gpu/drm/i915/i915_driver.c
+> > @@ -1071,8 +1071,6 @@ static int i915_driver_open(struct drm_device *dev, struct drm_file *file)
+> >   */
+> >  static void i915_driver_lastclose(struct drm_device *dev)
+> >  {
+> > -     struct drm_i915_private *i915 = to_i915(dev);
+> > -
+> >       intel_fbdev_restore_mode(dev);
+> >
+> >       vga_switcheroo_process_delayed_switch();
+> > --
+> > 2.39.0
+> >
