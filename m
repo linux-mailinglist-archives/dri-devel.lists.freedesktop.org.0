@@ -1,41 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EDCC672AE9
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 22:54:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E93672B42
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 23:27:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0439E10E028;
-	Wed, 18 Jan 2023 21:54:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1313610E203;
+	Wed, 18 Jan 2023 22:27:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E4C310E028
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 21:54:29 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B1F541056;
- Wed, 18 Jan 2023 22:54:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1674078867;
- bh=aIIUHwcD4BLSNMwq2dFNZ7gglRY0j6NCozUCZRgHvsw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ur5fAdJeS0B1xVAUdIwbnhsXsKCmsDhq4Ji9tmbGXq5kuNSD1kumrUMxJaaRDVRJr
- VdUq39E7LuVFNdxAAJsE3MWB+RZr+O7j3LUa7KKSDd4hCqU4kpT66wvWY6Jh2v1hnJ
- y7uCQ/Aqy+4ohtMeTjcVt1QoEpdOJPFixCNJMgus=
-Date: Wed, 18 Jan 2023 23:54:25 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH 6/6] drm: rcar-du: Stop accessing non-existant registers
- on gen4
-Message-ID: <Y8hqka17Sz8lK/Yq@pendragon.ideasonboard.com>
-References: <20230117135154.387208-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20230117135154.387208-7-tomi.valkeinen+renesas@ideasonboard.com>
+Received: from domac.alu.hr (domac.alu.unizg.hr [161.53.235.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 263C310E03C;
+ Wed, 18 Jan 2023 22:27:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by domac.alu.hr (Postfix) with ESMTP id 1D12D604E2;
+ Wed, 18 Jan 2023 23:27:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+ t=1674080830; bh=TCtw5W/otp9Lmo8VLF38/XRhIJ4N0Ocld000epm7IyU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=SgyCxLyr1t1FpZtoumaHW44P60jGMHILtLfMFOkA0bia6B5aAulX3s5v7/uZuxYlN
+ ngiTBA5U/46/LA/sgL/QLkfrtwmilPnORF6ycpQPYCIa5kSnlOIpOFlRacWQs9sPfI
+ XLh3EsxYlx1au72duWzFlwcQHfCaAY4KR02pV9koiIkYkbkTLC1kahlRzrBN+qoOi1
+ 92pbUaN9VfHJxHgwuS7eLnkoem5bxSudkUn+FigTHpyT01D21HAYhqWEwJunagMP8i
+ +qKtZYb7w0oNnqN3XgRKmhUF4tLC4gwZlHBCh/RK9FXhB8l9yELbDqwgK1j4dj11b5
+ skr+zTKip9vcw==
+X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
+Received: from domac.alu.hr ([127.0.0.1])
+ by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id pwj7WqEPtmn2; Wed, 18 Jan 2023 23:27:06 +0100 (CET)
+Received: from [192.168.0.12] (unknown [188.252.199.103])
+ by domac.alu.hr (Postfix) with ESMTPSA id 76FF2604E0;
+ Wed, 18 Jan 2023 23:27:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+ t=1674080826; bh=TCtw5W/otp9Lmo8VLF38/XRhIJ4N0Ocld000epm7IyU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=uXLWQP+/HQcc5S/qqBStbHdW6YxMoph76Rbv1eXTscfDWFZKFdz62kgRgEAFMToGg
+ Ah8yJctZaYhYHI9GpH+v54tnPIIlNmDeLzwrtCEiA0MYtUPBY7Xc6E5zIunkspyDfB
+ 5eCPLMmadEBcabDEf2HaDQYUxcTYBV3AVJunjprYW9EaQODdwpfrHjp2sTnNkvGvQb
+ yGdDOanEH/KGf8LPttykXvwuEuV9tuZvssywUyyqbcb1qIZeTeoFEoxA3qLTI+gKt7
+ 1+NwADoXPhmoCLrJj5+8Gk7uy9HG1Fj9txn+qRdc3nI39BT2y2Htri9q6jDx/8YQ+u
+ uUt59KsN9fRrQ==
+Message-ID: <1d0d994f-6f51-6a25-e850-0cf9740078c0@alu.unizg.hr>
+Date: Wed, 18 Jan 2023 23:27:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230117135154.387208-7-tomi.valkeinen+renesas@ideasonboard.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915: Fix a memory leak with reused
+ mmap_offset
+To: "Das, Nirmoy" <nirmoy.das@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20230117175236.22317-1-nirmoy.das@intel.com>
+ <20230117175236.22317-2-nirmoy.das@intel.com>
+ <8e517b87-b626-b488-0daa-88897c9ed90a@linux.intel.com>
+ <c7986b6f-f5f2-52a8-c109-6fb25762a30b@alu.unizg.hr>
+ <48974dd7-1449-3f9f-24c1-5071e73dd807@linux.intel.com>
+Content-Language: en-US, hr
+From: Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
+In-Reply-To: <48974dd7-1449-3f9f-24c1-5071e73dd807@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,76 +72,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
-
-Thank you for the patch.
-
-On Tue, Jan 17, 2023 at 03:51:54PM +0200, Tomi Valkeinen wrote:
-> The following registers do not exist on gen4, so we should not write
-> them: DEF6Rm, DEF8Rm, ESCRn, OTARn.
-
-I think DEF7Rm should also be skipped. With that,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.c  | 8 +++++---
->  drivers/gpu/drm/rcar-du/rcar_du_group.c | 6 ++++--
->  2 files changed, 9 insertions(+), 5 deletions(-)
+On 18. 01. 2023. 11:39, Das, Nirmoy wrote:
+>>>
+>>> Copying Mirsad who reported the issue in case he is still happy to give it a quick test. Mirsad, I don't know if you are subscribed to one of the two mailing lists where series was posted. In case not, you can grab both patches from https://patchwork.freedesktop.org/series/112952/.
+>>>
+>>> Nirmoy - we also have an IGT written by Chuansheng - https://patchwork.freedesktop.org/patch/515720/?series=101035&rev=4. A more generic one could be placed in gem_mmap_offset test but this one works too in my testing and is IMO better than nothing.
+>>>
+>>> Finally, let me add some tags below:
+>>>
+>>> On 17/01/2023 17:52, Nirmoy Das wrote:
+>>>> drm_vma_node_allow() and drm_vma_node_revoke() should be called in
+>>>> balanced pairs. We call drm_vma_node_allow() once per-file everytime a
+>>>> user calls mmap_offset, but only call drm_vma_node_revoke once per-file
+>>>> on each mmap_offset. As the mmap_offset is reused by the client, the
+>>>> per-file vm_count may remain non-zero and the rbtree leaked.
+>>>>
+>>>> Call drm_vma_node_allow_once() instead to prevent that memory leak.
+>>>>
+>>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+>>>> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+>>>
+>>> Fixes: 786555987207 ("drm/i915/gem: Store mmap_offsets in an rbtree rather than a plain list")
+>>> Reported-by: Chuansheng Liu <chuansheng.liu@intel.com>
+>>> Reported-by: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
+>>> Cc: <stable@vger.kernel.org> # v5.7+
+>>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>
+>>> Regards,
+>>>
+>>> Tvrtko
+>>>
+>>>>
+>>>> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+>>>> ---
+>>>>   drivers/gpu/drm/i915/gem/i915_gem_mman.c | 2 +-
+>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>>>> index 4f69bff63068..2aac6bf78740 100644
+>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>>>> @@ -697,7 +697,7 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
+>>>>       GEM_BUG_ON(lookup_mmo(obj, mmap_type) != mmo);
+>>>>   out:
+>>>>       if (file)
+>>>> -        drm_vma_node_allow(&mmo->vma_node, file);
+>>>> +        drm_vma_node_allow_once(&mmo->vma_node, file);
+>>>>       return mmo;
+>>>>   err:
+>>
+>> The drm/i915 patch seems OK and there are currently no memory leaks as of
+>> reported by /sys/kernel/debug/kmemleak under the same Chrome load that triggered
+>> the initial bug ...
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> index 8d660a6141bf..56b23333993c 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> @@ -289,10 +289,12 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
->  		escr = params.escr;
->  	}
->  
-> -	dev_dbg(rcrtc->dev->dev, "%s: ESCR 0x%08x\n", __func__, escr);
-> +	if (rcdu->info->gen < 4) {
-> +		dev_dbg(rcrtc->dev->dev, "%s: ESCR 0x%08x\n", __func__, escr);
->  
-> -	rcar_du_crtc_write(rcrtc, rcrtc->index % 2 ? ESCR13 : ESCR02, escr);
-> -	rcar_du_crtc_write(rcrtc, rcrtc->index % 2 ? OTAR13 : OTAR02, 0);
-> +		rcar_du_crtc_write(rcrtc, rcrtc->index % 2 ? ESCR13 : ESCR02, escr);
-> +		rcar_du_crtc_write(rcrtc, rcrtc->index % 2 ? OTAR13 : OTAR02, 0);
-> +	}
->  
->  	/* Signal polarities */
->  	dsmr = ((mode->flags & DRM_MODE_FLAG_PVSYNC) ? DSMR_VSL : 0)
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> index 6da01760ede5..c236e2aa8a01 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> @@ -148,7 +148,8 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
->  	}
->  	rcar_du_group_write(rgrp, DEFR5, DEFR5_CODE | DEFR5_DEFE5);
->  
-> -	rcar_du_group_setup_pins(rgrp);
-> +	if (rcdu->info->gen < 4)
-> +		rcar_du_group_setup_pins(rgrp);
->  
->  	/*
->  	 * TODO: Handle routing of the DU output to CMM dynamically, as we
-> @@ -160,7 +161,8 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
->  	rcar_du_group_write(rgrp, DEFR7, defr7);
->  
->  	if (rcdu->info->gen >= 2) {
-> -		rcar_du_group_setup_defr8(rgrp);
-> +		if (rcdu->info->gen < 4)
-> +			rcar_du_group_setup_defr8(rgrp);
->  		rcar_du_group_setup_didsr(rgrp);
->  	}
->  
+> 
+> Thanks, Mirsad for quickly checking this!
+
+P.S.
+
+Dear Nirmoy,
+
+To let me explain, as I work on the Academy of Fine Arts and the Faculty of Graphic Arts,
+video and multimedia drivers are of my special interest, so I kinda enjoyed this one.
+
+No need to thank. ;-)
+
+In case of more bugs discovered, I will be glad to test on my available platforms,
+considering it a part of my research. I can justify time spent on graphic and multimedia
+drivers, so it is not a big deal.
+
+Regards,
+Mirsad
 
 -- 
-Regards,
+Mirsad Goran Todorovac
+Sistem inženjer
+Grafički fakultet | Akademija likovnih umjetnosti
+Sveučilište u Zagrebu
+ 
+System engineer
+Faculty of Graphic Arts | Academy of Fine Arts
+University of Zagreb, Republic of Croatia
+The European Union
 
-Laurent Pinchart
