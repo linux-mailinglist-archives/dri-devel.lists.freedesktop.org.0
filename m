@@ -1,55 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E56FB67164E
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 09:30:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11DB2671654
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 09:31:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CFF410E184;
-	Wed, 18 Jan 2023 08:29:54 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF6F010E10D;
- Wed, 18 Jan 2023 08:29:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674030592; x=1705566592;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=hd+NYneLBIAY9f1rlyWmG8Fx5MU7PPQmxwtR9U8seHY=;
- b=nv6AyHwULcTHkHOHTzZlbfIiSRf2/2TCMGF5/G0tRchYoRqXRi/okhYN
- KymsTrhsLe/X7aqavQ9HH4boaIejZalGDIGkibHs3S7zQ9txMWd5+WY3y
- 12r02xtmNpscwoNwWRN4xfg+jW0f7uNnMRda6nrpVomJjKFtCBwT0pogP
- aNFPeczhG7aMDnAbzhyfhf45nbryTjMUoKDE4J4nXzxa2H9vBbwWTGLZk
- BPofUm0YJZpHUsu1StNwjUavtTgPKy+ODVGl8v/UZNsdX7Np8OPa9ncqN
- OX4pz3HwjBnExywMSIKscKzrAicRmnQS/+wfpk137wYKozWExbdGYSTtu A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="352177160"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="352177160"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2023 00:29:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="748378938"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="748378938"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by FMSMGA003.fm.intel.com with ESMTP; 18 Jan 2023 00:29:47 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1pI3pK-00B0sS-0S; Wed, 18 Jan 2023 10:29:46 +0200
-Date: Wed, 18 Jan 2023 10:29:45 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: John.C.Harrison@intel.com
-Subject: Re: [PATCH v2 1/5] drm/i915: Fix request locking during error
- capture & debugfs dump
-Message-ID: <Y8et+QikzQE88t1L@smile.fi.intel.com>
-References: <20230117213630.2897570-1-John.C.Harrison@Intel.com>
- <20230117213630.2897570-2-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E97110E10D;
+	Wed, 18 Jan 2023 08:31:44 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A50B110E6AF
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 08:31:42 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ k22-20020a05600c1c9600b003d1ee3a6289so905485wms.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 00:31:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=2FDgSbulMxqh8bJCVvaKW6jduWu4I6+VrLpKYgPu86A=;
+ b=lldRZHujADSvC2AzvlNq0hQC5y9ycNBfDEJjxeEznE/3M2qN9Nej62QhA//wDdMT2O
+ Q8ih3gKAHHMTa7iJ8CopXleFmX8NrkMNAJvnt37bGcp+siGLC9ZjAmhlrFONM/g9tojN
+ pfyuWZ1+ul6XMqEpEMlzDFpvxgpjhEtbQ8AhQTe0/zwtHEA0i7cglGI9rHPR/2d2adVr
+ lLW8PacGnIPVyDbXhwka4BjTqIo/3hTb4iXk15XNKtf2SHIEScDxb35zGgpv42mdat/j
+ TppeWXtgEFpsZGFFWBeFRhCySyz7jQq5TBs8kPCGQdtsqrcnR28+hrDrYbQUcD1HnkA7
+ S2ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2FDgSbulMxqh8bJCVvaKW6jduWu4I6+VrLpKYgPu86A=;
+ b=ge0QN1FLJbJIYSbIv8RLJgJ2su/V2Fonkgzk18Z1Mpf+ZJWtzriUmPzCNil1heLlkX
+ t0z4Oq9y0igD5V2KV6S4h/NU+wBwFlNMCYbmBGufODNUrhcXatxE6Nmko3ed48HPirCG
+ vU10Rv4UpQ4C+7i6AcvECd32qXX2PkrlzYY0oKf36hEnxYSfbeNuKyd/rWq6muqGg7+N
+ tbaLRkkvZbstKbmZ92N5ompYhdbo+UXPyXmyCSQVvS/eBwOx57CxqJNgsZbjqoC2h0aO
+ ekygPLTwQ8ZBrmJLqzkIo+84HqWV9r6zW81dF5e0vBJ384dip2Mq7UcZ3/y7eFU1zeeh
+ juQg==
+X-Gm-Message-State: AFqh2kqp5WkOfq1zatI9qKQ4AfDCn0x2DEy4pIWsxFh1iG4fijtkO+xz
+ i2i71A8WxMj/vvNjveACf0TL5A==
+X-Google-Smtp-Source: AMrXdXsYZXZXzEMu4ruHeIipH+Z/JwznqeLXjYAqXwewSWN7F0LEUaDnAz3t1/0DCzIKdpuRrHHxog==
+X-Received: by 2002:a05:600c:d2:b0:3da:f475:6480 with SMTP id
+ u18-20020a05600c00d200b003daf4756480mr5797426wmm.7.1674030701147; 
+ Wed, 18 Jan 2023 00:31:41 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:37dc:5071:959c:93e4?
+ ([2a01:e0a:982:cbb0:37dc:5071:959c:93e4])
+ by smtp.gmail.com with ESMTPSA id
+ f24-20020a05600c491800b003d9e74dd9b2sm1253741wmp.9.2023.01.18.00.31.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Jan 2023 00:31:40 -0800 (PST)
+Message-ID: <8058263f-28c1-d47d-9880-342e6f378980@linaro.org>
+Date: Wed, 18 Jan 2023 09:31:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230117213630.2897570-2-John.C.Harrison@Intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 12/13] drm/bridge: lt9611: stop filtering modes via the
+ table
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+References: <20230118081658.2198520-1-dmitry.baryshkov@linaro.org>
+ <20230118081658.2198520-13-dmitry.baryshkov@linaro.org>
+Organization: Linaro Developer Services
+In-Reply-To: <20230118081658.2198520-13-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,100 +84,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Bruce Chang <yu.bruce.chang@intel.com>,
- Michael Cheng <michael.cheng@intel.com>,
- Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- Intel-GFX@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- DRI-Devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
- Matthew Auld <matthew.auld@intel.com>
+Reply-To: neil.armstrong@linaro.org
+Cc: freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 17, 2023 at 01:36:26PM -0800, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
+On 18/01/2023 09:16, Dmitry Baryshkov wrote:
+> The lt9611 bridge can support different modes, it makes no sense to list
+> them in the table. Drop the table and check the number of interfaces
+> using the fixed value.
 > 
-> When GuC support was added to error capture, the locking around the
-> request object was broken. Fix it up.
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/bridge/lontium-lt9611.c | 49 ++++++-------------------
+>   1 file changed, 12 insertions(+), 37 deletions(-)
 > 
-> The context based search manages the spinlocking around the search
-> internally. So it needs to grab the reference count internally as
-> well. The execlist only request based search relies on external
-> locking, so it needs an external reference count. So no change to that
-> code itself but the context version does change.
-> 
-> The only other caller is the code for dumping engine state to debugfs.
-> That code wasn't previously getting an explicit reference at all as it
-> does everything while holding the execlist specific spinlock. So that
-> needs updaing as well as that spinlock doesn't help when using GuC
-> submission. Rather than trying to conditionally get/put depending on
-> submission model, just change it to always do the get/put.
-> 
-> In addition, intel_guc_find_hung_context() was not acquiring the
-> correct spinlock before searching the request list. So fix that up too.
-
-> Fixes: dc0dad365c5e ("drm/i915/guc: Fix for error capture after full GPU reset
-> with GuC")
-
-Must be one line.
-
-> Fixes: 573ba126aef3 ("drm/i915/guc: Capture error state on context reset")
-
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: John Harrison <John.C.Harrison@Intel.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-> Cc: Michael Cheng <michael.cheng@intel.com>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Cc: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
-> Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-> Cc: Bruce Chang <yu.bruce.chang@intel.com>
-> Cc: intel-gfx@lists.freedesktop.org
-
-Is it possible to utilize --to --cc parameters to git send-email instead of
-noisy Cc list?
-
-...
-
-> +	if (hung_rq)
-> +		i915_request_put(hung_rq);
-
-In Linux kernel the idiom is that freeing resources APIs should be NULL-aware
-(or ERR_PTR aware or both). Does i915 follows that? If so, the test should be
-inside i915_request_put() rather than in any of the callers.
-
-...
-
-> @@ -4847,6 +4857,7 @@ void intel_guc_find_hung_context(struct intel_engine_cs *engine)
->  			xa_lock(&guc->context_lookup);
->  			goto done;
->  		}
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> index 82af1f954cc6..c2cd36d926a0 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> @@ -84,24 +84,6 @@ static const struct regmap_config lt9611_regmap_config = {
+>   	.num_ranges = ARRAY_SIZE(lt9611_ranges),
+>   };
+>   
+> -struct lt9611_mode {
+> -	u16 hdisplay;
+> -	u16 vdisplay;
+> -	u8 vrefresh;
+> -	u8 lanes;
+> -	u8 intfs;
+> -};
+> -
+> -static struct lt9611_mode lt9611_modes[] = {
+> -	{ 3840, 2160, 30, 4, 2 }, /* 3840x2160 24bit 30Hz 4Lane 2ports */
+> -	{ 1920, 1080, 60, 4, 1 }, /* 1080P 24bit 60Hz 4lane 1port */
+> -	{ 1920, 1080, 30, 3, 1 }, /* 1080P 24bit 30Hz 3lane 1port */
+> -	{ 1920, 1080, 24, 3, 1 },
+> -	{ 720, 480, 60, 4, 1 },
+> -	{ 720, 576, 50, 2, 1 },
+> -	{ 640, 480, 60, 2, 1 },
+> -};
+> -
+>   static struct lt9611 *bridge_to_lt9611(struct drm_bridge *bridge)
+>   {
+>   	return container_of(bridge, struct lt9611, bridge);
+> @@ -603,21 +585,6 @@ static int lt9611_regulator_enable(struct lt9611 *lt9611)
+>   	return 0;
+>   }
+>   
+> -static struct lt9611_mode *lt9611_find_mode(const struct drm_display_mode *mode)
+> -{
+> -	int i;
+> -
+> -	for (i = 0; i < ARRAY_SIZE(lt9611_modes); i++) {
+> -		if (lt9611_modes[i].hdisplay == mode->hdisplay &&
+> -		    lt9611_modes[i].vdisplay == mode->vdisplay &&
+> -		    lt9611_modes[i].vrefresh == drm_mode_vrefresh(mode)) {
+> -			return &lt9611_modes[i];
+> -		}
+> -	}
+> -
+> -	return NULL;
+> -}
+> -
+>   static enum drm_connector_status lt9611_bridge_detect(struct drm_bridge *bridge)
+>   {
+>   	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+> @@ -832,12 +799,20 @@ static enum drm_mode_status lt9611_bridge_mode_valid(struct drm_bridge *bridge,
+>   						     const struct drm_display_info *info,
+>   						     const struct drm_display_mode *mode)
+>   {
+> -	struct lt9611_mode *lt9611_mode = lt9611_find_mode(mode);
+>   	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+>   
+> -	if (!lt9611_mode)
+> -		return MODE_BAD;
+> -	else if (lt9611_mode->intfs > 1 && !lt9611->dsi1)
+> +	if (mode->hdisplay > 3840)
+> +		return MODE_BAD_HVALUE;
 > +
->  next:
->  		intel_context_put(ce);
->  		xa_lock(&guc->context_lookup);
+> +	if (mode->vdisplay > 2160)
+> +		return MODE_BAD_VVALUE;
+> +
+> +	if (mode->hdisplay == 3840 &&
+> +	    mode->vdisplay == 2160 &&
+> +	    drm_mode_vrefresh(mode) > 30)
+> +		return MODE_CLOCK_HIGH;
+> +
+> +	if (mode->hdisplay > 2000 && !lt9611->dsi1_node)
+>   		return MODE_PANEL;
+>   	else
+>   		return MODE_OK;
 
-Stray change.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
