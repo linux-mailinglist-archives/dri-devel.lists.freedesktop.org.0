@@ -1,76 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5332D67282A
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 20:29:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E83CC67282C
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 20:30:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A72410E803;
-	Wed, 18 Jan 2023 19:29:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5DDC10E809;
+	Wed, 18 Jan 2023 19:30:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66D7110E803;
- Wed, 18 Jan 2023 19:29:47 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30IIQixX002604; Wed, 18 Jan 2023 19:29:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=lzqK9+41YLYWeEJtXjD/+30b24avX+QpR0jrHUi0nQM=;
- b=DCDFWFNfS0+K/6cITX91xYrVR4P0hItOl6W/otavAhUp8tkZWI8pFyJ8jFYBik/l1q3Z
- TpsgVh3+7CY2yVb/X7R+WnlHn6gToYM7oU+5KzQR5KH4edkT6dMw2cndhRo7CbL5+B3B
- nR4aMSWg6REjOknVefD3LFtY4VzxLsxJpgR5AazgO0RStjG1QDaa0JJAmO3PrhglssLo
- bPZfQMalBBs3PTBcOGe4QUWciUWokDiuKG/Ni2LFkEd8SZiZ+zMlRSFk/b+0QPrdkQK4
- qAUHtBJfvmI9/dCvcN3PnEQeubKhuHqphPW2OtBPVxo8Kwpedu75kUuAv5zmgZIJCzde rw== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n5r2qku65-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 19:29:45 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30IJTh10022783
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 19:29:44 GMT
-Received: from [10.110.108.90] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 18 Jan
- 2023 11:29:43 -0800
-Message-ID: <6f08ad96-8d55-2a46-e5fa-5f4c7f89ec88@quicinc.com>
-Date: Wed, 18 Jan 2023 11:29:42 -0800
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F89110E809
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 19:30:07 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id s25so37789602lji.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 11:30:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=UnILwVyNd7xmIZc2IMFLzY42VBVipQZo7g1Qav7SDag=;
+ b=ZbWuwZe3/miuIRNol6xbuMxnn2KqdPqG/kMD5o/wOm6hixX+LeIUn71ijzCdE8Fmav
+ Ov8JPc849HnaOs1e+O0OMGpRm5TdNBzwztvRGsjkn8zQnz8BgMVYsttizTvqlPsh0VHp
+ 6EWjuhxFYbl1qqEyur/FWjQFpsceqajzP+oftyRcWquvKwePDGlMKKEjz2li7irVdNGk
+ ttGd5UtUOq+RexdJxKyINOegNPb9IaVm5HkUAlgMmSQyT7pOgglCOJubW9hVmwuauBGo
+ YyjKfoL/qEhCY8gONwZRDzCxlXmxW3sUkB4j/NqOg6Voc93U4Z6U8/DCEtNvIQANk0g9
+ piKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UnILwVyNd7xmIZc2IMFLzY42VBVipQZo7g1Qav7SDag=;
+ b=ZHxdqYycb64GTWGwNGus7gN5Vh7g8n0O7iZCRIabPtNYcwYVr0yugI7I+0eRhB7cRR
+ 4a9t3WDtynYjfBZthwgRpDBizeP9TtB4ClFevcCDHdYKrijNURrZDB+siKcaPjeiRlwD
+ GtR/TfrQgPdY/xa+sooJPGkUcE0LRtchUDvfKw66rG/2T97f0uula7CwpoL4kWlwcOIp
+ e2JzG4YAqpma1wzzTBTITWH/uqVV8NOFeYmJxXbeLm4GXINpEmGuONyS4vPAtiwWIxht
+ Q3m//W8ijMjW6/CWU+gc6C0I0tTcDXj+bGrA87366UWBQt5mkLYDZCxa23cnUiHiHTD8
+ BOJQ==
+X-Gm-Message-State: AFqh2krmSP2EOBaxXdYs0iiqoucGcgoszOZ6B/7m0bhjLB0jPAtP/tIN
+ ryW5OJ2lXnleLHzEWh8KxM91tcpoCAz7Dj0+k9Y=
+X-Google-Smtp-Source: AMrXdXuY0QS3Tp1ei/71ka/uAgmv/R4GTdqfYumUyji7bn+iOotc99bi2/vp3H2DTLweO2TXaexuSCz37HwCPUuCzU4=
+X-Received: by 2002:a2e:9c57:0:b0:28b:7bbf:2892 with SMTP id
+ t23-20020a2e9c57000000b0028b7bbf2892mr736163ljj.433.1674070205750; Wed, 18
+ Jan 2023 11:30:05 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v2] drm/msm/dpu: Reapply CTM if modeset is needed
-Content-Language: en-US
-To: Jessica Zhang <quic_jesszhan@quicinc.com>,
- <freedreno@lists.freedesktop.org>
-References: <20230118164103.325-1-quic_jesszhan@quicinc.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230118164103.325-1-quic_jesszhan@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: ZQmcalhtZjSNC2qk6mkpiwJZmJCFZxrR
-X-Proofpoint-GUID: ZQmcalhtZjSNC2qk6mkpiwJZmJCFZxrR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-18_05,2023-01-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- priorityscore=1501 spamscore=0 bulkscore=0 mlxlogscore=942 mlxscore=0
- impostorscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301180164
+References: <20230108060401.391061-1-pbrobinson@gmail.com>
+ <Y8hFiZVPi8XCRPxa@pendragon.ideasonboard.com>
+In-Reply-To: <Y8hFiZVPi8XCRPxa@pendragon.ideasonboard.com>
+From: Peter Robinson <pbrobinson@gmail.com>
+Date: Wed, 18 Jan 2023 19:29:54 +0000
+Message-ID: <CALeDE9Nft3vbQAoaQYf6RO=NPWGeZs2Z-sgcWQNmWzjeLqYirQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm: rcar-du: depend on DRM_RCAR_DU for components on
+ that SoC
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,46 +66,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- dmitry.baryshkov@linaro.org
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Laurent,
 
+On Wed, Jan 18, 2023 at 7:16 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Peter,
+>
+> Thank you for the patch.
+>
+> On Sun, Jan 08, 2023 at 06:04:01AM +0000, Peter Robinson wrote:
+> > There's a few components in the rcar-du drm directory that
+> > don't make sense to be selectable if DRM_RCAR_DU isn't because
+> > they are part of the IP block so add a dependency and add
+> > compile check to ensure they're still tested.
+> >
+> > Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+> > ---
+> >
+> > v2:
+> > - typo fix in commit message
+> > - s/ARCH_RENESAS/DRM_RCAR_DU
+> >
+> >  drivers/gpu/drm/rcar-du/Kconfig | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+> > index b2bddbeca878..362fb6099e9f 100644
+> > --- a/drivers/gpu/drm/rcar-du/Kconfig
+> > +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> > @@ -25,6 +25,7 @@ config DRM_RCAR_CMM
+> >  config DRM_RCAR_DW_HDMI
+> >       tristate "R-Car Gen3 and RZ/G2 DU HDMI Encoder Support"
+> >       depends on DRM && OF
+> > +     depends on DRM_RCAR_DU || COMPILE_TEST
+>
+> How about dropping COMPILE_TEST ? DRM_RCAR_DU itself has
+>
+>         depends on ARCH_RENESAS || COMPILE_TEST
+>
+> so if COMPILE_TEST is set we'll be able to test these drivers when
+> DRM_RCAR_DU is enabled. Same below.
+>
+> I can update this when taking the patch in my tree, there's no need to
+> send a v3.
 
-On 1/18/2023 8:41 AM, Jessica Zhang wrote:
-> Add a !drm_atomic_crtc_needs_modeset() check to
-> _dpu_crtc_setup_cp_blocks() so that CTM is reapplied if the LM/DSPP
-> blocks were reallocated during modeset.
+Works for me! Thanks
 
-This was in addition to the suspend/resume case.
-
-So CTM needs to be reapplied in case of suspend/resume OR LM/DSPP block 
-reallocation.
-
-To cover both of these we are adding the needs_modeset check
-
-> 
-> Changes in V2:
-> - Fixed commit message
-> 
-> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/23
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 13ce321283ff..aa120a230222 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -748,7 +748,7 @@ static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
->   	int i;
->   
->   
-> -	if (!state->color_mgmt_changed)
-> +	if (!state->color_mgmt_changed && !drm_atomic_crtc_needs_modeset(state))
->   		return;
->   
->   	for (i = 0; i < cstate->num_mixers; i++) {
+> >       select DRM_DW_HDMI
+> >       help
+> >         Enable support for R-Car Gen3 or RZ/G2 internal HDMI encoder.
+> > @@ -32,6 +33,7 @@ config DRM_RCAR_DW_HDMI
+> >  config DRM_RCAR_USE_LVDS
+> >       bool "R-Car DU LVDS Encoder Support"
+> >       depends on DRM_BRIDGE && OF
+> > +     depends on DRM_RCAR_DU || COMPILE_TEST
+> >       default DRM_RCAR_DU
+> >       help
+> >         Enable support for the R-Car Display Unit embedded LVDS encoders.
+> > @@ -45,6 +47,7 @@ config DRM_RCAR_LVDS
+> >  config DRM_RCAR_USE_MIPI_DSI
+> >       bool "R-Car DU MIPI DSI Encoder Support"
+> >       depends on DRM_BRIDGE && OF
+> > +     depends on DRM_RCAR_DU || COMPILE_TEST
+> >       default DRM_RCAR_DU
+> >       help
+> >         Enable support for the R-Car Display Unit embedded MIPI DSI encoders.
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
