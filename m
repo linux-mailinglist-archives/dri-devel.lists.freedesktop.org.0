@@ -1,58 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE196710FC
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 03:16:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A54671126
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jan 2023 03:28:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C799010E64C;
-	Wed, 18 Jan 2023 02:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2933310E643;
+	Wed, 18 Jan 2023 02:28:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com
- [IPv6:2607:f8b0:4864:20::1135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1F0510E643
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 02:16:30 +0000 (UTC)
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-4bf16baa865so448563547b3.13
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 18:16:30 -0800 (PST)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0979210E643
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 02:28:26 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id bk15so22401216ejb.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jan 2023 18:28:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=WTelNd/87R5jSKpjxuTjQoM4TcDwXgDtZiccb4mI7os=;
- b=BeO1vd+nYNzaTVGL4K1aGbH1qHT/ypHg3FWdn5k/n535Ir1E6oVs1Qpusnqd1NEyl7
- qG6Iln1cIx7bzclj1mek4Tl+hQ3NYOIJLcc9K4rh8sorZnze9HVroRa9+MR8HM6VKqtv
- f/uCGQ2d5WcxHKix3eRqpGIFEVmIf69EBnMGSK4OcYtTAwvGjsN5UN7xAKpQE+n6v6Eu
- P88jEBhQFe+W2Rh8LA3P+zTdv0nf2hnx0NZlaXfj1B9RcBm9KlUsDk2o2z28fq7WYjR2
- soXM8iCiS0H7WGVpTlXuYKtOwYfSfT5C5jgFwBdEoDCk3dkPW7Xi0RhltF1ZENW9s3Qz
- wS+Q==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=N1TSyUdp4Jkds0cmJxddHX9zPn7SkqnsbQ6bC5wfOng=;
+ b=xrw2W7Kly2r6bTGksOwrn1vGjQhSuUBsKiTJSqeOXP50hfepW3Ib90dJRMoxtoyPlm
+ AdXZTdJibjsouWzBqXAq18GApiGJIojYiO3/5EtWvl8dpD3Fcwtt0PCkWsJhxNWkCbEr
+ IDcmicMVj8UXh0AP8OvrXnmvrbGmIIHvolBIa4+ZUbLbCbX+Uyrc6ruC7LmwlHOlYzaZ
+ ZJsIwQbUdmKAkjmyAKCEGHuEhlyMkGfCAWNZKliRzO1KFcENgngfEcZHgkhyY4Y/RUsV
+ gvuCmFox8WT8y8Fl/+vuIWqbPZ/OmKziGyD9rDYN9VBFPaeze/KRdTeghnVTSLgQGQac
+ 4sGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=WTelNd/87R5jSKpjxuTjQoM4TcDwXgDtZiccb4mI7os=;
- b=fiMp68wigDa0tfVcJwGLpMCVcLJF/4ENnpJOv/D//HP7XRSpWelnyOUxlSAIweFwdl
- I1SmiuwKDS8v/sA6q7K7Ety92c4c7K32Kcyo5kAy9VwSjoFL+pvA/BAwVdAwViVgsB6x
- Zv3LySQTCNB6xQwchomWaHdxZBURc6oNP8A5qZoaUNT35p6rzL7OVIwP10/l/ZAlpkY5
- N5ErkIXEwsyVuZDjexJlSt+vnZcCGYwTNN0yI5a9T2K+IgrzohDUXaaZSdonGKfrFPGg
- Pypp+PRxiLeanBLfSl2EdWQGip389XLeoz0NZas4rXxQjbwjNdeW1mqxn4KJimCZ4JWw
- VOuA==
-X-Gm-Message-State: AFqh2krIM7gji6TR3RjWuQAW/570vpVFJ9x05ib++jd6m4L+qy70pAjl
- RnnsUv+4TWJCaDb7qzPfwue2jQGRjbt3a1FVG0o4xQ==
-X-Google-Smtp-Source: AMrXdXsYNRgRsxLE4EskwQVMnKYVOCMhOKZaffiRjaF9y3tc78QjF1fxjwYPtPDXH1tdRSj/CdFg61Yg1LHRgs+zW0w=
-X-Received: by 2002:a0d:fd07:0:b0:3d6:2151:4038 with SMTP id
- n7-20020a0dfd07000000b003d621514038mr627610ywf.418.1674008189782; Tue, 17 Jan
- 2023 18:16:29 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=N1TSyUdp4Jkds0cmJxddHX9zPn7SkqnsbQ6bC5wfOng=;
+ b=UoWOBIaPbkp1w+8qojgsWlbaA8sK4uBcNfIS4OTpOs7GWay/MqE6k1daYWA89DCEcS
+ /PAYgiSMhz48dsXXGdCd8kw0SVzIkfmY72zSHKTqjeRo1I21zyChV2MA56S8gKzkynT6
+ MG5JR2CqVSfPHiBkH5K9KsRbt4medE9eOhhiRKMX4BP4XYdH27jNUWx5/wO8qtY+cAWo
+ V1ByhDfpZUtI5r8JRJn5WL8rj60N3AsLKyL+UOCu/0z+TyXv4qzFtA2zwXCLOzN/03ZR
+ VGoj/8KHcS2mAcSXdQmp7mSYAIYr86PXty7X+1QdPx7v2e0mAvP7lE/4eNJTKIIfDW7V
+ zhag==
+X-Gm-Message-State: AFqh2kqVvikCZKZfnu4DmuG5D9Fzi5Iqxkem3z9xllEhz9R0f3bpXLgS
+ blsmWKYVr+7g1GQZfhnrRX8idw==
+X-Google-Smtp-Source: AMrXdXvDc9I51HhY1IunUYtmSRVaUY3aNhtaCa9ZwYi9f/vzw6oGFSF1qdOoHWyFp2t2cE5Y+P1n2A==
+X-Received: by 2002:a17:907:ca85:b0:7c1:1e5a:ed10 with SMTP id
+ ul5-20020a170907ca8500b007c11e5aed10mr5648255ejc.8.1674008904506; 
+ Tue, 17 Jan 2023 18:28:24 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ fy5-20020a170906b7c500b0084d3bf4498csm12550657ejb.140.2023.01.17.18.28.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Jan 2023 18:28:24 -0800 (PST)
+Message-ID: <2ec13e85-6640-df02-3069-9e2e67fb0e79@linaro.org>
+Date: Wed, 18 Jan 2023 04:28:22 +0200
 MIME-Version: 1.0
-References: <20230118021441.161-1-quic_jesszhan@quicinc.com>
-In-Reply-To: <20230118021441.161-1-quic_jesszhan@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v6 04/11] dt-bindings: display/msm: rename mdss nodes to
+ display-subsystem
+Content-Language: en-GB
+To: Rob Herring <robh@kernel.org>
+References: <20230113083720.39224-1-dmitry.baryshkov@linaro.org>
+ <20230113083720.39224-5-dmitry.baryshkov@linaro.org>
+ <167362341911.2212079.15291287366051593468.robh@kernel.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 18 Jan 2023 04:16:18 +0200
-Message-ID: <CAA8EJpqP+JNXMoPqWrTOA9HT0wS22Uz807S1HndCnP7R4LZiHw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: Reapply CTM if modeset is needed
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <167362341911.2212079.15291287366051593468.robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,46 +78,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, seanpaul@chromium.org, freedreno@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 18 Jan 2023 at 04:14, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
->
-> Add a !drm_atomic_crtc_needs_modeset() check to
-> _dpu_crtc_setup_cp_blocks() so that CTM is reapplied after a
-> suspend/resume.
+On 13/01/2023 17:26, Rob Herring wrote:
+> 
+> On Fri, 13 Jan 2023 10:37:13 +0200, Dmitry Baryshkov wrote:
+>> Follow the 'generic names' rule and rename mdss nodes to
+>> display-subsystem.
+>>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   .../devicetree/bindings/display/msm/mdss-common.yaml      | 8 ++++++++
+>>   .../devicetree/bindings/display/msm/qcom,mdss.yaml        | 5 ++++-
+>>   2 files changed, 12 insertions(+), 1 deletion(-)
+>>
+> 
+> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> 
+> yamllint warnings/errors:
+> 
+> dtschema/dtc warnings/errors:
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.example.dtb: mdss@5e00000: $nodename:0: 'mdss@5e00000' does not match '^display-subsystem@[0-9a-f]+$'
+> 	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.example.dtb: mdss@5e00000: $nodename:0: 'mdss@5e00000' does not match '^display-subsystem@[0-9a-f]+$'
+> 	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
 
-.. or if the LM/DSPP blocks were reallocated by resource allocation
-during the modeset.
+This should be fixed already by the commit e5266ca38294 ("dt-bindings: 
+display: msm: Rename mdss node name in example")
 
->
-> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/23
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 13ce321283ff..aa120a230222 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -748,7 +748,7 @@ static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
->         int i;
->
->
-> -       if (!state->color_mgmt_changed)
-> +       if (!state->color_mgmt_changed && !drm_atomic_crtc_needs_modeset(state))
->                 return;
->
->         for (i = 0; i < cstate->num_mixers; i++) {
-> --
-> 2.39.0
->
-
+See https://gitlab.freedesktop.org/drm/msm/-/commit/e5266ca38294
 
 -- 
 With best wishes
 Dmitry
+
