@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7125673E7F
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 17:19:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A43673E81
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 17:19:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54F3C10E9A7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFAFE10E9AA;
 	Thu, 19 Jan 2023 16:19:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 474BB10E9A8;
- Thu, 19 Jan 2023 16:19:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35A4210E9A7;
+ Thu, 19 Jan 2023 16:19:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674145179; x=1705681179;
+ t=1674145184; x=1705681184;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=vZojKAv5KxL57NHXdayghlm+YJ6IBlD/AKFeOPyVzXw=;
- b=is9SeImZ7CxZX+rXE0f5A0fCJl7ik4JHTQe25zHmYP90sARs1li8uz6X
- vEI2f9+Z26jEFzHhCc2y491rZXmbTl32fQ4cWWFrvihgiWTdvANqV+0MG
- WuhXdzqQ/EtiMCO/WoBIsmFq/QM+gVWNLGmDEn9bnwDMKEjf1q7oI3fZ1
- IseMocxHovfGtt/LddtZk1opc3i4Wq5aJw4vZltDmxJJz2EKA83Bjrp7U
- i+/hlKwpCqz6cNbwS2ZKEcle0cjadzzTb47OxIX3eBtPGS55Zxl3t7HXA
- pTko4sn+2exsGGa72g5NfLdUoYMBA5FDubHMaMgbjzcd3MxJI6k3mu00d w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="305699307"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; d="scan'208";a="305699307"
+ bh=+s+bcptEbq+EcKZT5vZDc3N9NAuYBv4TWEdk3yVrOmw=;
+ b=g3lJqIqMw+I40RlcI6WcvCo1X2ddfAWlLoSJFA96visafDRG3UB/G0WJ
+ hYYVl4pHZdRXqvkZzlR4mOPdlRNqQJnZtSRXGI61rUn+c+10iXZKkR6hT
+ YTYvFqjTqYH00ODZDGJyZc5EoRZ4yX1Fh8h2xebsXTG3VAMCG/1nFGcHs
+ OeNO/QLC3L9u8ubSZu/PngJWh+h4jxnIwO+FUTHHwlgR9GDKRs1OGzcRC
+ K9jYi1xXojzBDYJeg6rIGo/xSg0TTHQubNPzZgd+XYT32J9Vq0SF5j2p7
+ y2CnGeuazJOpwkyaGGeH5FVt9TKTNoxDCuRyyU9L+FyXon7+fVC4uqbd0 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="305699332"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; d="scan'208";a="305699332"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2023 08:19:38 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="637756117"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; d="scan'208";a="637756117"
+ 19 Jan 2023 08:19:43 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="637756150"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; d="scan'208";a="637756150"
 Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.157])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2023 08:19:36 -0800
+ 19 Jan 2023 08:19:41 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 6/8] drm/i915/bios: convert intel_bios_init_panel() to
- drm_edid
-Date: Thu, 19 Jan 2023 18:18:59 +0200
-Message-Id: <dd0c819b12b8ec2a0ed8bb7ef4cb840bd4980bdf.1674144945.git.jani.nikula@intel.com>
+Subject: [PATCH v8 7/8] drm/i915/opregion: convert intel_opregion_get_edid()
+ to struct drm_edid
+Date: Thu, 19 Jan 2023 18:19:00 +0200
+Message-Id: <c21e8d9366709de47694e374b2e8b05c0bdbb72d.1674144945.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1674144945.git.jani.nikula@intel.com>
 References: <cover.1674144945.git.jani.nikula@intel.com>
@@ -64,169 +64,120 @@ Cc: jani.nikula@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Try to use struct drm_edid where possible, even if having to fall back
-to looking into struct edid down low via drm_edid_raw().
-
-v2: Rebase
+Simplify validation and use by converting to drm_edid.
 
 Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_bios.c | 23 ++++++++++++-----------
- drivers/gpu/drm/i915/display/intel_bios.h |  4 ++--
- drivers/gpu/drm/i915/display/intel_dp.c   |  2 +-
- drivers/gpu/drm/i915/display/intel_lvds.c |  2 +-
- 4 files changed, 16 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp.c       | 10 ++-----
+ drivers/gpu/drm/i915/display/intel_opregion.c | 29 +++++++------------
+ drivers/gpu/drm/i915/display/intel_opregion.h |  4 +--
+ 3 files changed, 15 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
-index 78abe34c7a42..e6ca51232dcf 100644
---- a/drivers/gpu/drm/i915/display/intel_bios.c
-+++ b/drivers/gpu/drm/i915/display/intel_bios.c
-@@ -619,14 +619,14 @@ static void dump_pnp_id(struct drm_i915_private *i915,
- 
- static int opregion_get_panel_type(struct drm_i915_private *i915,
- 				   const struct intel_bios_encoder_data *devdata,
--				   const struct edid *edid, bool use_fallback)
-+				   const struct drm_edid *drm_edid, bool use_fallback)
- {
- 	return intel_opregion_get_panel_type(i915);
- }
- 
- static int vbt_get_panel_type(struct drm_i915_private *i915,
- 			      const struct intel_bios_encoder_data *devdata,
--			      const struct edid *edid, bool use_fallback)
-+			      const struct drm_edid *drm_edid, bool use_fallback)
- {
- 	const struct bdb_lvds_options *lvds_options;
- 
-@@ -651,12 +651,13 @@ static int vbt_get_panel_type(struct drm_i915_private *i915,
- 
- static int pnpid_get_panel_type(struct drm_i915_private *i915,
- 				const struct intel_bios_encoder_data *devdata,
--				const struct edid *edid, bool use_fallback)
-+				const struct drm_edid *drm_edid, bool use_fallback)
- {
- 	const struct bdb_lvds_lfp_data *data;
- 	const struct bdb_lvds_lfp_data_ptrs *ptrs;
- 	const struct lvds_pnp_id *edid_id;
- 	struct lvds_pnp_id edid_id_nodate;
-+	const struct edid *edid = drm_edid_raw(drm_edid); /* FIXME */
- 	int i, best = -1;
- 
- 	if (!edid)
-@@ -700,7 +701,7 @@ static int pnpid_get_panel_type(struct drm_i915_private *i915,
- 
- static int fallback_get_panel_type(struct drm_i915_private *i915,
- 				   const struct intel_bios_encoder_data *devdata,
--				   const struct edid *edid, bool use_fallback)
-+				   const struct drm_edid *drm_edid, bool use_fallback)
- {
- 	return use_fallback ? 0 : -1;
- }
-@@ -714,13 +715,13 @@ enum panel_type {
- 
- static int get_panel_type(struct drm_i915_private *i915,
- 			  const struct intel_bios_encoder_data *devdata,
--			  const struct edid *edid, bool use_fallback)
-+			  const struct drm_edid *drm_edid, bool use_fallback)
- {
- 	struct {
- 		const char *name;
- 		int (*get_panel_type)(struct drm_i915_private *i915,
- 				      const struct intel_bios_encoder_data *devdata,
--				      const struct edid *edid, bool use_fallback);
-+				      const struct drm_edid *drm_edid, bool use_fallback);
- 		int panel_type;
- 	} panel_types[] = {
- 		[PANEL_TYPE_OPREGION] = {
-@@ -744,7 +745,7 @@ static int get_panel_type(struct drm_i915_private *i915,
- 
- 	for (i = 0; i < ARRAY_SIZE(panel_types); i++) {
- 		panel_types[i].panel_type = panel_types[i].get_panel_type(i915, devdata,
--									  edid, use_fallback);
-+									  drm_edid, use_fallback);
- 
- 		drm_WARN_ON(&i915->drm, panel_types[i].panel_type > 0xf &&
- 			    panel_types[i].panel_type != 0xff);
-@@ -3186,7 +3187,7 @@ void intel_bios_init(struct drm_i915_private *i915)
- static void intel_bios_init_panel(struct drm_i915_private *i915,
- 				  struct intel_panel *panel,
- 				  const struct intel_bios_encoder_data *devdata,
--				  const struct edid *edid,
-+				  const struct drm_edid *drm_edid,
- 				  bool use_fallback)
- {
- 	/* already have it? */
-@@ -3196,7 +3197,7 @@ static void intel_bios_init_panel(struct drm_i915_private *i915,
- 	}
- 
- 	panel->vbt.panel_type = get_panel_type(i915, devdata,
--					       edid, use_fallback);
-+					       drm_edid, use_fallback);
- 	if (panel->vbt.panel_type < 0) {
- 		drm_WARN_ON(&i915->drm, use_fallback);
- 		return;
-@@ -3227,9 +3228,9 @@ void intel_bios_init_panel_early(struct drm_i915_private *i915,
- void intel_bios_init_panel_late(struct drm_i915_private *i915,
- 				struct intel_panel *panel,
- 				const struct intel_bios_encoder_data *devdata,
--				const struct edid *edid)
-+				const struct drm_edid *drm_edid)
- {
--	intel_bios_init_panel(i915, panel, devdata, edid, true);
-+	intel_bios_init_panel(i915, panel, devdata, drm_edid, true);
- }
- 
- /**
-diff --git a/drivers/gpu/drm/i915/display/intel_bios.h b/drivers/gpu/drm/i915/display/intel_bios.h
-index ff1fdd2e0c1c..d221f784aa88 100644
---- a/drivers/gpu/drm/i915/display/intel_bios.h
-+++ b/drivers/gpu/drm/i915/display/intel_bios.h
-@@ -32,8 +32,8 @@
- 
- #include <linux/types.h>
- 
-+struct drm_edid;
- struct drm_i915_private;
--struct edid;
- struct intel_bios_encoder_data;
- struct intel_crtc_state;
- struct intel_encoder;
-@@ -238,7 +238,7 @@ void intel_bios_init_panel_early(struct drm_i915_private *dev_priv,
- void intel_bios_init_panel_late(struct drm_i915_private *dev_priv,
- 				struct intel_panel *panel,
- 				const struct intel_bios_encoder_data *devdata,
--				const struct edid *edid);
-+				const struct drm_edid *drm_edid);
- void intel_bios_fini_panel(struct intel_panel *panel);
- void intel_bios_driver_remove(struct drm_i915_private *dev_priv);
- bool intel_bios_is_valid_vbt(const void *buf, size_t size);
 diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index cd7fae1b7543..4cc7c04b9bda 100644
+index 4cc7c04b9bda..a44eefb97e8d 100644
 --- a/drivers/gpu/drm/i915/display/intel_dp.c
 +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -5322,7 +5322,7 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
- 	intel_connector->edid = drm_edid;
+@@ -5296,18 +5296,12 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
+ 	mutex_lock(&dev_priv->drm.mode_config.mutex);
+ 	drm_edid = drm_edid_read_ddc(connector, &intel_dp->aux.ddc);
+ 	if (!drm_edid) {
+-		const struct edid *edid;
+-
+ 		/* Fallback to EDID from ACPI OpRegion, if any */
+-		/* FIXME: Make intel_opregion_get_edid() return drm_edid */
+-		edid = intel_opregion_get_edid(intel_connector);
+-		if (edid) {
+-			drm_edid = drm_edid_alloc(edid, (edid->extensions + 1) * EDID_LENGTH);
++		drm_edid = intel_opregion_get_edid(intel_connector);
++		if (drm_edid)
+ 			drm_dbg_kms(&dev_priv->drm,
+ 				    "[CONNECTOR:%d:%s] Using OpRegion EDID\n",
+ 				    connector->base.id, connector->name);
+-			kfree(edid);
+-		}
+ 	}
+ 	if (drm_edid) {
+ 		if (drm_edid_connector_update(connector, drm_edid) ||
+diff --git a/drivers/gpu/drm/i915/display/intel_opregion.c b/drivers/gpu/drm/i915/display/intel_opregion.c
+index e0184745632c..b8dce0576512 100644
+--- a/drivers/gpu/drm/i915/display/intel_opregion.c
++++ b/drivers/gpu/drm/i915/display/intel_opregion.c
+@@ -1101,41 +1101,34 @@ intel_opregion_get_panel_type(struct drm_i915_private *dev_priv)
+  * The EDID in the OpRegion, or NULL if there is none or it's invalid.
+  *
+  */
+-struct edid *intel_opregion_get_edid(struct intel_connector *intel_connector)
++const struct drm_edid *intel_opregion_get_edid(struct intel_connector *intel_connector)
+ {
+ 	struct drm_connector *connector = &intel_connector->base;
+ 	struct drm_i915_private *i915 = to_i915(connector->dev);
+ 	struct intel_opregion *opregion = &i915->display.opregion;
+-	const void *in_edid;
+-	const struct edid *edid;
+-	struct edid *new_edid;
++	const struct drm_edid *drm_edid;
++	const void *edid;
+ 	int len;
  
- 	intel_bios_init_panel_late(dev_priv, &intel_connector->panel, encoder->devdata,
--				   IS_ERR_OR_NULL(drm_edid) ? NULL : drm_edid_raw(drm_edid));
-+				   IS_ERR(drm_edid) ? NULL : drm_edid);
+ 	if (!opregion->asle_ext)
+ 		return NULL;
  
- 	intel_panel_add_edid_fixed_modes(intel_connector, true);
+-	in_edid = opregion->asle_ext->bddc;
++	edid = opregion->asle_ext->bddc;
  
-diff --git a/drivers/gpu/drm/i915/display/intel_lvds.c b/drivers/gpu/drm/i915/display/intel_lvds.c
-index 6a98787edf48..9f6910bba2e9 100644
---- a/drivers/gpu/drm/i915/display/intel_lvds.c
-+++ b/drivers/gpu/drm/i915/display/intel_lvds.c
-@@ -977,7 +977,7 @@ void intel_lvds_init(struct drm_i915_private *dev_priv)
- 	intel_connector->edid = drm_edid;
+ 	/* Validity corresponds to number of 128-byte blocks */
+ 	len = (opregion->asle_ext->phed & ASLE_PHED_EDID_VALID_MASK) * 128;
+-	if (!len || !memchr_inv(in_edid, 0, len))
++	if (!len || !memchr_inv(edid, 0, len))
+ 		return NULL;
  
- 	intel_bios_init_panel_late(dev_priv, &intel_connector->panel, NULL,
--				   IS_ERR_OR_NULL(drm_edid) ? NULL : drm_edid_raw(drm_edid));
-+				   IS_ERR(drm_edid) ? NULL : drm_edid);
+-	edid = in_edid;
++	drm_edid = drm_edid_alloc(edid, len);
  
- 	/* Try EDID first */
- 	intel_panel_add_edid_fixed_modes(intel_connector, true);
+-	if (len < EDID_LENGTH * (1 + edid->extensions)) {
+-		drm_dbg_kms(&i915->drm, "Invalid EDID in ACPI OpRegion (Mailbox #5): too short\n");
+-		return NULL;
+-	}
+-	new_edid = drm_edid_duplicate(edid);
+-	if (!new_edid)
+-		return NULL;
+-	if (!drm_edid_is_valid(new_edid)) {
+-		kfree(new_edid);
++	if (!drm_edid_valid(drm_edid)) {
+ 		drm_dbg_kms(&i915->drm, "Invalid EDID in ACPI OpRegion (Mailbox #5)\n");
+-		return NULL;
++		drm_edid_free(drm_edid);
++		drm_edid = NULL;
+ 	}
+-	return new_edid;
++
++	return drm_edid;
+ }
+ 
+ bool intel_opregion_headless_sku(struct drm_i915_private *i915)
+diff --git a/drivers/gpu/drm/i915/display/intel_opregion.h b/drivers/gpu/drm/i915/display/intel_opregion.h
+index 2f261f985400..d02e6696a050 100644
+--- a/drivers/gpu/drm/i915/display/intel_opregion.h
++++ b/drivers/gpu/drm/i915/display/intel_opregion.h
+@@ -74,7 +74,7 @@ int intel_opregion_notify_encoder(struct intel_encoder *intel_encoder,
+ int intel_opregion_notify_adapter(struct drm_i915_private *dev_priv,
+ 				  pci_power_t state);
+ int intel_opregion_get_panel_type(struct drm_i915_private *dev_priv);
+-struct edid *intel_opregion_get_edid(struct intel_connector *connector);
++const struct drm_edid *intel_opregion_get_edid(struct intel_connector *connector);
+ 
+ bool intel_opregion_headless_sku(struct drm_i915_private *i915);
+ 
+@@ -123,7 +123,7 @@ static inline int intel_opregion_get_panel_type(struct drm_i915_private *dev)
+ 	return -ENODEV;
+ }
+ 
+-static inline struct edid *
++static inline const struct drm_edid *
+ intel_opregion_get_edid(struct intel_connector *connector)
+ {
+ 	return NULL;
 -- 
 2.34.1
 
